@@ -15,8 +15,8 @@
 
 
 ## Reference
-[Origami Example](http://origami.ft.com/docs/developer-guide/using-modules/)
-[General Best Practice](http://origami.ft.com/docs/developer-guide/general-best-practices/)
-[Under Standing Critical CSS](http://www.smashingmagazine.com/2015/08/understanding-critical-css/)
-[CSS and Critical Path](https://speakerdeck.com/patrickhamann/css-and-the-critical-path)
-[Google Web Fundamentals](https://developers.google.com/web/fundamentals/)
+* [Origami Example](http://origami.ft.com/docs/developer-guide/using-modules/)
+* [General Best Practice](http://origami.ft.com/docs/developer-guide/general-best-practices/)
+* [Under Standing Critical CSS](http://www.smashingmagazine.com/2015/08/understanding-critical-css/)
+* [CSS and Critical Path](https://speakerdeck.com/patrickhamann/css-and-the-critical-path)
+* [Google Web Fundamentals](https://developers.google.com/web/fundamentals/)
