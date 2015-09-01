@@ -1,5 +1,5 @@
 # High Performance Web Site
-## Check Points
+## Check List
 1. Get 100 points in Google's [Page Speed Insights](https://developers.google.com/speed/pagespeed/insights/). 
 2. Core experience is available in the first request, without any external CSS and JS. 
 3. First request request is smaller than 14k. 
