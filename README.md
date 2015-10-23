@@ -1,14 +1,21 @@
 # FTChinese Next Project
-## Teams
-### Design
+
+## Our Goal
+1. Redesign the www.ftchinese.com for best content display on all devices. 
+2. Upgrade the performance of the web site, especially mission-critical pages, to the highest standard. 
+3. Streamline editorial workflow so that our editors can update content and page as fast as possible. 
+4. Embrace HTML 5 in our advertisements to delivery high-quality ad display and maximize ad performance. 
+5. Promote our own growth and monetizing efforts. 
+
+## Design
 1. Content Design: Site Navigation, Channel Setup, Home Page Layout and Sections
 2. Visual Design: Layout, Color, Icon, Font, Styles, Components
 3. UI Design: Function, User Interaction, Login, Register, Comments, Sharing
 
-### Development
+## Development
 The development team will focus on achieving the highest possible performance, both on the front and back end. Special focus should be on three mission-critical pages. 
 
-##Mission-critical pages
+## Mission-critical pages
 The home page, story page and channel page contributes more than 90% of the site traffic. These pages will be developed from scratch and their performance will be evaluated every week by the following list. The code should be reviewed at least every month. 
 
 Here's the check list for mission-critical page performance: 
@@ -32,3 +39,54 @@ Here's the check list for mission-critical page performance:
 * [Under Standing Critical CSS](http://www.smashingmagazine.com/2015/08/understanding-critical-css/)
 * [CSS and Critical Path](https://speakerdeck.com/patrickhamann/css-and-the-critical-path)
 * [Google Web Fundamentals](https://developers.google.com/web/fundamentals/)
+
+
+## Projects
+The projects are prioritized based on importance and dependency. 
+
+### Story Page
+Over 40% of our traffic comes from story page. So it's at least as important as the home page. When users share our content on mobile, they share story page. So it's important to design and develop both for mobile and PC. Since the page is mostly static content, we must make sure it loads instantly by strictly following our performance principles. Special attention should be paid when users open the story page in an app, rather than a browser. 
+
+### Home Page
+We need to design both the home page and the editorial tools for updating the home page. The home page should be designed to be responsive. Editors should be able to focus on the content itself, rather than tinkering with the layout and style. It should also load instantly even on slow connection. It also need to be able to deliver more ad inventories without being noisy and cluttered. 
+
+### Channel
+We need to design both the navigation content and the channel pages. Channel pages should be have varying layout and content policy, which is configurable in CMS. 
+
+### Tag and Special Report
+Tag and Special Report pages should be configurable in the CMS so that we can instantly create new pages to bring in traffic and revenue. 
+
+### Column
+
+### Ad
+Ad units should be simple and backward compatible. I suggest that we should have two types of basic ad units: MPU and Banner. Then clients can pay extra money for enhanced display, like full page and expandable. The advertisement should be responsive, adapting to any environment. In order to show the clients how HTML 5 works, we should use our own house ad to showcase what's possible. We will also implement stricter security requirements to advertisements. 
+
+### Registration Page
+
+
+### Video
+
+### Interactive
+
+### Search
+
+### Photo Slides
+
+### User Profile
+
+### Marketing
+
+### Information
+
+### Error
+
+### User Comments
+
+### Jobs
+
+### Find Password
+
+### Events
+
+### Topic
+This page will not be used any more. 
