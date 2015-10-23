@@ -1,5 +1,18 @@
-# High Performance Web Site
-## Check List
+# FTChinese Next Project
+## Teams
+### Design
+1. Content Design: Site Navigation, Channel Setup, Home Page Layout and Sections
+2. Visual Design: Layout, Color, Icon, Font, Styles, Components
+3. UI Design: Function, User Interaction, Login, Register, Comments, Sharing
+
+### Development
+The development team will focus on achieving the highest possible performance, both on the front and back end. Special focus should be on three mission-critical pages. 
+
+##Mission-critical pages
+The home page, story page and channel page contributes more than 90% of the site traffic. These pages will be developed from scratch and their performance will be evaluated every week by the following list. The code should be reviewed at least every month. 
+
+Here's the check list for mission-critical page performance: 
+
 1. Get 100 points in Google's [Page Speed Insights](https://developers.google.com/speed/pagespeed/insights/). 
 2. Core experience, as defined in [General Best Practice](http://origami.ft.com/docs/developer-guide/general-best-practices/) is available in the first request, without any external CSS and JS. 
 3. First response is smaller than 14k. 
