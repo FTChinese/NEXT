@@ -31,7 +31,8 @@ Here's the check list for mission-critical page performance:
 8. Use placeholder, relative div and Responsive Image Service to load images and avoid reflow. 
 9. Lazy-load images that are not in the first view. 
 10. Check if CSS and JS is loaded successfully and fall back when CDN fails. 
-11. Use Preconnect and Prefetch to speed up asset loading. 
+11. Use Preconnect and Prefetch to speed up asset loading.
+
 	<link href="http://static.ftchinese.com/" rel="preconnect" crossorigin>
 
 
