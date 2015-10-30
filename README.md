@@ -6,6 +6,7 @@
 3. Streamline editorial workflow so that our editors can update content and page as fast as possible. 
 4. Embrace HTML 5 in our advertisements to delivery high-quality ad display and maximize ad performance. 
 5. Promote our own growth and monetizing efforts. 
+6. All pages, not just home, should be managed in CMS without any tech knowledge. 
 
 ## Design
 1. Content Design: Site Navigation, Channel Setup, Home Page Layout and Sections
@@ -30,7 +31,8 @@ Here's the check list for mission-critical page performance:
 8. Use placeholder, relative div and Responsive Image Service to load images and avoid reflow. 
 9. Lazy-load images that are not in the first view. 
 10. Check if CSS and JS is loaded successfully and fall back when CDN fails. 
-11. Use Preconnect to speed up asset loading. 
+11. Use Preconnect and Prefetch to speed up asset loading. 
+	<link href="http://static.ftchinese.com/" rel="preconnect" crossorigin>
 
 
 ## Reference
@@ -50,19 +52,34 @@ Over 40% of our traffic comes from story page. So it's at least as important as 
 ### Home Page
 We need to design both the home page and the editorial tools for updating the home page. The home page should be designed to be responsive. Editors should be able to focus on the content itself, rather than tinkering with the layout and style. It should also load instantly even on slow connection. It also need to be able to deliver more ad inventories without being noisy and cluttered. 
 
+Requirements from Feng: 
+1. Desktop and Mobile app should have different story lists on home page. 
+2. 
+
 ### Channel
 We need to design both the navigation content and the channel pages. Channel pages should be have varying layout and content policy, which is configurable in CMS. 
 
-### Tag and Special Report
+### Tag, Topic and Special Report
 Tag and Special Report pages should be configurable in the CMS so that we can instantly create new pages to bring in traffic and revenue. 
+1. All the pages should be managed in CMS. 
+
 
 ### Column
+Although traffic to these pages are quite low, columnists are very important to our site. The invidual columnist page is already configurable in CMS. We need to come up with a better design and better features. For example, some columnists might want to maintain their own column pages by syncing their social networks. However, the collection of all columnists page needs a totally new design. 
+
+### MyFT
+The user should be able to follow topics, tags, authors, columns, etc... They are already able to save an article. We also need to have a feature of "articles that I read". Users should be able to receive notification for topics that they followed, both on their mobile phones and chrome. 
+
+### APIs
+
+### Users
+1. Subscription
+
 
 ### Ad
 Ad units should be simple and backward compatible. I suggest that we should have two types of basic ad units: MPU and Banner. Then clients can pay extra money for enhanced display, like full page and expandable. The advertisement should be responsive, adapting to any environment. In order to show the clients how HTML 5 works, we should use our own house ad to showcase what's possible. We will also implement stricter security requirements to advertisements. 
 
 ### Registration Page
-
 
 ### Video
 
@@ -87,6 +104,3 @@ Ad units should be simple and backward compatible. I suggest that we should have
 ### Find Password
 
 ### Events
-
-### Topic
-This page will not be used any more. 
