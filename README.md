@@ -33,6 +33,7 @@ Here's the check list for mission-critical page performance:
 10. Check if CSS and JS is loaded successfully and fall back when CDN fails. 
 11. Use Preconnect or Prefetch to speed up asset loading. 
     <link href="http://static.ftchinese.com/" rel="preconnect" crossorigin>
+    <link href="http://static.ftchinese.com/" rel="preconnect" crossorigin>
 
 
 ## Reference
