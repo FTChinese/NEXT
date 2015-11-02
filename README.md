@@ -23,15 +23,15 @@ Here's the check list for mission-critical page performance:
 
 1. Get 100 points in Google's [Page Speed Insights](https://developers.google.com/speed/pagespeed/insights/). 
 2. Core experience, as defined in [General Best Practice](http://origami.ft.com/docs/developer-guide/general-best-practices/) is available in the first request, without any external CSS and JS. 
-3. First response is smaller than 14k. 
+3. First response is smaller than 14k (after GZIP?). 
 4. Use serviceworker correctly to cache assets and save time. 
-5. Don't load custom web font for web page. 
+5. Don't load custom Chinese web font for web page. 
 6. Ad codes don't block critical content. 
-7. Load as less as possible CSS and images on mobile (payment by traffic) by serving different mobile CSS and full CSS. 
-8. Use placeholder, relative div and Responsive Image Service to load images and avoid reflow. 
+7. Load as less as possible CSS and images on mobile (especially data which are paid by traffic) by serving different mobile CSS and full CSS. 
+8. Use skeleton screens, placeholders, relative divs and Responsive Image Service to load images and avoid reflow. 
 9. Lazy-load images that are not in the first view. 
 10. Check if CSS and JS is loaded successfully and fall back when CDN fails. 
-11. Use Preconnect or Prefetch to speed up asset loading. 
+11. Use Preconnect and Prefetch to speed up asset loading. 
     `<link href="http://static.ftchinese.com/" rel="preconnect" crossorigin>`
 
 
@@ -41,6 +41,7 @@ Here's the check list for mission-critical page performance:
 * [Under Standing Critical CSS](http://www.smashingmagazine.com/2015/08/understanding-critical-css/)
 * [CSS and Critical Path](https://speakerdeck.com/patrickhamann/css-and-the-critical-path)
 * [Google Web Fundamentals](https://developers.google.com/web/fundamentals/)
+* [Embracing the Network](https://speakerdeck.com/patrickhamann/embracing-the-network-smashing-conf)
 
 
 ## Projects
@@ -63,6 +64,8 @@ We need to design both the navigation content and the channel pages. Channel pag
 Tag and Special Report pages should be configurable in the CMS so that we can instantly create new pages to bring in traffic and revenue. 
 1. All the pages should be managed in CMS. 
 
+### iOS and Android App
+The iOS and Android app need to change the style into Next style, probably by removing the bottom bar and adding a fixed header bar. The home page layout will use data created in the upgraded CMS, rather than from the current API. Other than that, iOS and Android will be developed, upgraded and distributed seperately from the Next project. 
 
 ### Column
 Although traffic to these pages are quite low, columnists are very important to our site. The invidual columnist page is already configurable in CMS. We need to come up with a better design and better features. For example, some columnists might want to maintain their own column pages by syncing their social networks. However, the collection of all columnists page needs a totally new design. 
@@ -72,9 +75,16 @@ The user should be able to follow topics, tags, authors, columns, etc... They ar
 
 ### APIs
 
-### Users
-1. Subscription
 
+### CMS
+1. We need to change the way home page is created. The editors should be concerned with design or layout. They just manage stories and lists. Designers and developers just treat editors' work result as an API. 
+2. Stories should be upgraded in several ways. First, it should have a way to link to the English version by Unique ID. The way we treat images and media in the story should be streamlined. For example, there should be no need to upload several sizes of the same images. 
+3. Channel, tag, marketing, events, special reports pages should all be generalized as Stream Page, meaning a page that mainly contains links to content. The stream page should be fully configurable in the CMS. For example, when we need to create a special report called "Lunch", the editors can just do it without any developers or designers. In fact, home page should be just a specific stream page. 
+
+### Users
+1. Members and subscribers: 
+2. Individual Payment and Billing: 
+3. Corporate Subscription: 
 
 ### Ad
 Ad units should be simple and backward compatible. I suggest that we should have two types of basic ad units: MPU and Banner. Then clients can pay extra money for enhanced display, like full page and expandable. The advertisement should be responsive, adapting to any environment. In order to show the clients how HTML 5 works, we should use our own house ad to showcase what's possible. We will also implement stricter security requirements to advertisements. 
