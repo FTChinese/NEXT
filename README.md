@@ -2,7 +2,7 @@
 
 ## Our Goal
 1. Redesign the www.ftchinese.com for best content display on all devices. 
-2. Upgrade the performance of the web site, especially mission-critical pages, to the highest standard. 
+2. Upgrade the performance of the web site, especially mission-critical pages, to the highest standard. For example, even when 
 3. Streamline editorial workflow so that our editors can update content and page as fast as possible. All pages, not just home, should be managed in CMS without any tech knowledge. 
 4. Embrace HTML 5 in our advertisements to delivery high-quality ad display and maximize ad performance. 
 5. Promote our own growth and monetizing efforts. 
@@ -32,6 +32,7 @@ Here's the check list for mission-critical page performance:
 10. Check if CSS and JS is loaded successfully and fall back when CDN fails. 
 11. Use Preconnect and Prefetch to speed up asset loading. 
     `<link href="http://static.ftchinese.com/" rel="preconnect" crossorigin>`
+12. Core static pages (home, story and channel) should render regardless of database condition. 
 
 
 ## Reference
@@ -46,33 +47,8 @@ Here's the check list for mission-critical page performance:
 ## Projects
 The projects are prioritized based on importance and dependency. 
 
-### Story Page
-Over 40% of our traffic comes from story page. So it's at least as important as the home page. When users share our content on mobile, they share story page. So it's important to design and develop both for mobile and PC. Since the page is mostly static content, we must make sure it loads instantly by strictly following our performance principles. Special attention should be paid when users open the story page in an app, rather than a browser. 
-
-### Home Page
-We need to design both the home page and the editorial tools for updating the home page. The home page should be designed to be responsive. Editors should be able to focus on the content itself, rather than tinkering with the layout and style. It should also load instantly even on slow connection. It also need to be able to deliver more ad inventories without being noisy and cluttered. 
-
-Requirements from Feng: 
-1. Desktop and Mobile app should have different story lists on home page. 
-2. 
-
-### Channel
-We need to design both the navigation content and the channel pages. Channel pages should be have varying layout and content policy, which is configurable in CMS. 
-
-### Tag, Topic and Special Report
-Tag and Special Report pages should be configurable in the CMS so that we can instantly create new pages to bring in traffic and revenue. 
-1. All the pages should be managed in CMS. 
-
-### iOS and Android App
-The iOS and Android app need to change the style into Next style, probably by removing the bottom bar and adding a fixed header bar. The home page layout will use data created in the upgraded CMS, rather than from the current API. Other than that, iOS and Android will be developed, upgraded and distributed seperately from the Next project. 
-
-### Column
-Although traffic to these pages are quite low, columnists are very important to our site. The invidual columnist page is already configurable in CMS. We need to come up with a better design and better features. For example, some columnists might want to maintain their own column pages by syncing their social networks. However, the collection of all columnists page needs a totally new design. 
-
-### MyFT
-The user should be able to follow topics, tags, authors, columns, etc... They are already able to save an article. We also need to have a feature of "articles that I read". Users should be able to receive notification for topics that they followed, both on their mobile phones and chrome. 
-
-### APIs
+### Infrastructure
+Server-side set up of next.ftchinese.com, including database, API, cache, template engine(Smarty 3), etc... On the launch day of FTC Next, www.ftchinese.com and m.ftchinese.com will display the same thing as next.ftchinese.com. 
 
 
 ### CMS
@@ -80,13 +56,75 @@ The user should be able to follow topics, tags, authors, columns, etc... They ar
 2. Stories should be upgraded in several ways. First, it should have a way to link to the English version by Unique ID. The way we treat images and media in the story should be streamlined. For example, there should be no need to upload several sizes of the same images. 
 3. Channel, tag, marketing, events, special reports pages should all be generalized as Stream Page, meaning a page that mainly contains links to content. The stream page should be fully configurable in the CMS. For example, when we need to create a special report called "Lunch", the editors can just do it without any developers or designers. In fact, home page should be just a specific stream page. 
 
+
+### Story Page
+Over 40% of our traffic comes from story page. So it's at least as important as the home page. When users share our content on mobile, they share story page. So it's important to design and develop both for mobile and PC. Since the page is mostly static content, we must make sure it loads instantly by strictly following our performance principles. Special attention should be paid when users open the story page in an app, rather than a browser. 
+
+The core content of the story page includes story title, story body, page header, page navigation (without the part that displays only when hovered). Enhanced content includes ads, related content, hovered navigation, footer, inline media (picture, slide show, captions, quotes, recommendations, video, etc...), and sharing. The HTML file should render core content even if all other requests fail and be under 14k. 
+
+It is possible to display landscape or portrait (for example, Lunch with the FT) main image for the story page. All devices should consider this possibility. 
+
+The story page is mostly likely to be opened in an app's webview. So it's important to test how it renders in-app, for example, in WeChat.  
+
+
+### Stream Page
+Stream page are pages that aggregate content. Home page should be just one case of stream page. Although it may look different in the CMS menu, the Stream Page Management feature should be developed just once. 
+
+#### Home Page
+We need to design both the home page and the editorial tools for updating the home page. The home page should be designed to be responsive. Editors should be able to focus on the content itself, rather than tinkering with the layout and style. It should also load instantly even on slow connection. It also need to be able to deliver more ad inventories without being noisy and cluttered. 
+
+It is important to seperate content with style. Content should be considered data, which comes in the form of an object (json or PHP array). Style is controled by front end templates. 
+
+Requirements from Feng: 
+1. Desktop and Mobile app should have different story lists on home page. 
+
+Designer: focus on designing the fluid layout so that editors don't have to preview to be sure the page is good. 
+
+Back end Developer: focus on the CMS interface where editor 1) management lists (blocks) by creating, moving and deleting; 2) management content items (stories, vidoes, interactives, photo slides and manually created items like image, links, etc...) in the page; 3) enable lists and content items to be easily dragged and dropped; 4) create and update the final data object (JSON and PHP Object). 
+
+Front end Developer: Front end developer should not write any logic. He just focuses on performance, display and browser-side features. 
+
+#### Channel
+We need to design both the navigation content and the channel pages. Channel pages should have varying layout and content policy, which is configurable in CMS. 
+
+#### Tag, Topic and Special Report
+Tag and Special Report pages should be configurable in the CMS so that we can instantly create new pages to bring in traffic and revenue. 
+1. All the pages should be managed in CMS. 
+2. An email page can be created for every web page, using the same data or subset of data. 
+
+#### Column
+Although traffic to these pages are quite low, columnists are very important to our site. The invidual columnist page is already configurable in CMS. We need to come up with a better design and better features. For example, some columnists might want to maintain their own column pages by syncing their social networks. However, the collection of all columnists page needs a totally new design. 
+
+#### Marketing
+pages that are controled by marketing team. Including the FT Intelligence. 
+
+#### Events
+
+#### Information
+contacts, advertisements, and other links in the footer. 
+
+
+### Ad
+Ad units should be simple and backward compatible. I suggest that we should have two types of basic ad units: MPU and Banner. Then clients can pay extra money for enhanced display, like full page and expandable. The advertisement should be responsive, adapting to any environment. In order to show the clients how HTML 5 works, we should use our own house ad to showcase what's possible. We will also implement stricter security requirements to advertisements. 
+
+
+### iOS and Android App
+The iOS and Android app need to change into Next style, probably by removing the bottom bar and adding a fixed header bar. The home page layout will use data created in the upgraded CMS, rather than from the current API. Other than that, iOS and Android will be developed, upgraded and distributed seperately from the Next project. 
+
+
+### MyFT
+The user should be able to follow topics, tags, authors, columns, etc... They are already able to save an article. We also need to have a feature of "articles that I read". Users should be able to receive notification for topics that they followed, both on their mobile phones and chrome. 
+
+### APIs
+
+
 ### Users
 1. Members and subscribers: 
 2. Individual Payment and Billing: 
 3. Corporate Subscription: 
+4. No-Ad Feature: A user can pay to access FTC free of ads. 
 
-### Ad
-Ad units should be simple and backward compatible. I suggest that we should have two types of basic ad units: MPU and Banner. Then clients can pay extra money for enhanced display, like full page and expandable. The advertisement should be responsive, adapting to any environment. In order to show the clients how HTML 5 works, we should use our own house ad to showcase what's possible. We will also implement stricter security requirements to advertisements. 
+
 
 ### Registration Page
 
@@ -100,10 +138,6 @@ Ad units should be simple and backward compatible. I suggest that we should have
 
 ### User Profile
 
-### Marketing
-
-### Information
-
 ### Error
 
 ### User Comments
@@ -111,5 +145,3 @@ Ad units should be simple and backward compatible. I suggest that we should have
 ### Jobs
 
 ### Find Password
-
-### Events
