@@ -16,7 +16,7 @@
 | March 1st 2016      | Home page and stream pages complete                      |
 | April 1st 2016      | All pages and features on current site available on Next |
 | May 4th 2016        | Switch to Next                                           |
-| July 1st 2016       | MyFT on FTC                                              |
+| July 1st 2016       | MyFT                                              |
 | September 1st, 2016 | Corporate subscription complete                          |
 | December 1st, 2016  | FTC site converted to NodeJS                             |
 
