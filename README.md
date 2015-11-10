@@ -9,16 +9,16 @@
 
 ## Time Table
 
-| Date                | Mile Stone                                               |
-|---------------------|----------------------------------------------------------|
-| December 15th, 2015 | Infractures and development environment set up           |
-| February 1st, 2016  | Story page complete                                      |
-| March 1st 2016      | Home page and stream pages complete                      |
-| April 15st 2016     | All pages and features on current site available on Next |
-| May 4th 2016        | **Launch**                                               |
-| July 1st 2016       | FTC site converted to NodeJS                             |
-| September 1st, 2016 | MyFT                                                     |
-| December 1st, 2016  | **Corporate subscription complete**                      |
+| Date         | Mile Stone                                               |
+|--------------|----------------------------------------------------------|
+| Dec 15, 2015 | Infractures and development environment set up           |
+| Feb 01, 2016 | Story page complete                                      |
+| Mar 01, 2016 | Home page and stream pages complete                      |
+| Apr 15, 2016 | All pages and features on current site available on Next |
+| May 04, 2016 | **Launch**                                               |
+| Jul 01, 2016 | FTC site converted to NodeJS                             |
+| Sep 01, 2016 | MyFT                                                     |
+| Dec 01, 2016 | **Corporate subscription complete**                      |
 
 ## Roles and Responsibilities
 
