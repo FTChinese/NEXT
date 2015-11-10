@@ -18,7 +18,7 @@
 | May 4th 2016        | **Launch**                                               |
 | July 1st 2016       | FTC site converted to NodeJS                             |
 | September 1st, 2016 | MyFT                                                     |
-| December 1st, 2016  | Corporate subscription complete                          |
+| December 1st, 2016  | **Corporate subscription complete**                      |
 
 ## Roles and Responsibilities
 
