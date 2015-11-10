@@ -162,9 +162,6 @@ Ad units should be simple and backward compatible. I suggest that we should have
 The iOS and Android app need to change into Next style, probably by removing the bottom bar and adding a fixed header bar. The home page layout will use data created in the upgraded CMS, rather than from the current API. Other than that, iOS and Android will be developed, upgraded and distributed seperately from the Next project. 
 
 
-### MyFT
-The user should be able to follow topics, tags, authors, columns, etc... They are already able to save an article. We also need to have a feature of "articles that I read". Users should be able to receive notification for topics that they followed, both on their mobile phones and chrome. 
-
 ### APIs
 
 
@@ -193,9 +190,12 @@ Use Andrew Bett's new 404 page, which is both fun and useful.
 
 ### User Comments
 
-### Jobs
+### Job Site
 
 ### Find Password
+
+### MyFT
+The user should be able to follow topics, tags, authors, columns, etc... They are already able to save an article. We also need to have a feature of "articles that I read". Users should be able to receive notification for topics that they followed, both on their mobile phones and chrome. 
 
 ### Subscription
 Allow users or organizations to pay for: 
