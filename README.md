@@ -7,6 +7,17 @@
 4. Embrace HTML 5 in our advertisements to delivery high-quality ad display and maximize ad performance. 
 5. Promote our own growth and monetizing efforts. 
 
+## Time Table
+* December 15th, 2015: infractures and development environment for next.ftchinese.com set up.  
+* February 1st, 2015: story page complete.  
+* March 1st, 2016: home page and stream pages complete. 
+* April 1st, 2016: next.ftchinese.com has all pages and features that are on the current www.ftchinese.com. 
+* May 1st 2016: next.ftchinese.com pushed to www.ftchinese.com. 
+* June 1st 2016: Emergency plan ready in case FTC news site and apps are blocked. 
+* July 1st 2016: MyFT on FTC. 
+* September 1st, 2016: Corporate subscription function completed. Users can pay to 1) access premium content; 2) unlock features (for example, hide all ads or send to my kindle). 
+* November 1st, 2016: FTC site converted to NodeJS, which supports much larger audience with less resources. 
+
 ## Design
 1. Content Design: Site Navigation, Channel Setup, Home Page Layout and Sections
 2. Visual Design: Layout, Color, Icon, Font, Styles, Components
@@ -108,6 +119,8 @@ contacts, advertisements, and other links in the footer.
 ### Ad
 Ad units should be simple and backward compatible. I suggest that we should have two types of basic ad units: MPU and Banner. Then clients can pay extra money for enhanced display, like full page and expandable. The advertisement should be responsive, adapting to any environment. In order to show the clients how HTML 5 works, we should use our own house ad to showcase what's possible. We will also implement stricter security requirements to advertisements. 
 
+1. If a user pays to disable ad, all ads should be hidden. So we need to come up with a way to switch off ads on all platforms. 
+2. On the Dolphin system, if the client provide third party code, we need to control how and when to send third party impression track. And we'll monitor call back using GA, FA and our own trackign system. If we let client make the decision, the gap between Dolphin and client impression data will be huge. 
 
 ### iOS and Android App
 The iOS and Android app need to change into Next style, probably by removing the bottom bar and adding a fixed header bar. The home page layout will use data created in the upgraded CMS, rather than from the current API. Other than that, iOS and Android will be developed, upgraded and distributed seperately from the Next project. 
