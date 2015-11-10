@@ -7,9 +7,9 @@
 4. Embrace HTML 5 in our advertisements to delivery high-quality ad display and maximize ad performance. 
 5. Kickstart our own growth and monetizing efforts, especially subscription business. 
 
-## Time Table
+## Key Milestones
 
-| Date         | Mile Stone                                               |
+| Date         | Event                                                    |
 |--------------|----------------------------------------------------------|
 | Dec 15, 2015 | Infractures and development environment set up           |
 | Feb 01, 2016 | Story page complete                                      |
