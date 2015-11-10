@@ -42,12 +42,11 @@ When we launch the Next FTC, our front end code will be a total revamp. The serv
 Focus on android app, database and video. 
 
 ### Nextwork Engineers
-1. Set up server and development environment. 
+1. Set up and maintain server and development environment. 
 2. Switch the site to Next on the launch day. 
 3. Monitor performance. 
 4. Testing. 
 5. Handle traffic and database related issues. 
-
 
 ## **Support from London**
 The FTChinese current team will be able to launch the new Next site on its own, using existing technology. However, in order to switch to new technology and use technology developed by FT.com more effectively, we need developers from London to help us with the following tasks: 
