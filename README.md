@@ -8,6 +8,13 @@
 5. Promote our own growth and monetizing efforts. 
 
 ## Time Table
+
+| December 15th, 2015 | infractures and development environment for next.ftchinese.com set up. |
+|---------------------|------------------------------------------------------------------------|
+| February 1st, 2016  | story page complete                                                    |
+| March 1st, 2016     | home page and stream pages complete                                    |
+
+
 * December 15th, 2015: infractures and development environment for next.ftchinese.com set up.  
 * February 1st, 2015: story page complete.  
 * March 1st, 2016: home page and stream pages complete. 
