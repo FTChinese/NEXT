@@ -2,10 +2,10 @@
 
 ## Our Goal
 1. Redesign the www.ftchinese.com for best content display on all devices. 
-2. Upgrade the performance of the web site, especially mission-critical pages, to the highest standard. For example, even when 
+2. Upgrade the performance of the web site, especially mission-critical pages, to the highest standard. 
 3. Streamline editorial workflow so that our editors can update content and page as fast as possible. All pages, not just home, should be managed in CMS without any tech knowledge. 
 4. Embrace HTML 5 in our advertisements to delivery high-quality ad display and maximize ad performance. 
-5. Promote our own growth and monetizing efforts. 
+5. Promote our own growth and monetizing efforts, especially subscription business. 
 
 ## Time Table
 
