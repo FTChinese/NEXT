@@ -9,28 +9,17 @@
 
 ## Time Table
 
-| Date                | Mile Stone                                                                                                                                                  |
-|---------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| December 15th, 2015 | Infractures and development environment for next.ftchinese.com set up                                                                                       |
-| February 1st, 2016  | Story page complete                                                                                                                                         |
-| March 1st 2016      | Home page and stream pages complete                                                                                                                         |
-| April 1st 2016      | next.ftchinese.com has all pages and features that are on the current www.ftchinese.com                                                                     |
-| May 1st 2016        | next.ftchinese.com pushed to www.ftchinese.com                                                                                                              |
-| June 1st 2016       | Emergency plan ready in case FTC news site and apps are blocked                                                                                             |
-| July 1st 2016       | MyFT on FTC                                                                                                                                                 |
-| September 1st, 2016 | Corporate subscription function completed. Users can pay to 1) access premium content; 2) unlock features (for example, hide all ads or send to my kindle). |
-| November 1st, 2016  | FTC site converted to NodeJS, which supports much larger audience with less resources                                                                       |
+| Date                | Mile Stone                                               |
+|---------------------|----------------------------------------------------------|
+| December 15th, 2015 | Infractures and development environment set up           |
+| February 1st, 2016  | Story page complete                                      |
+| March 1st 2016      | Home page and stream pages complete                      |
+| April 1st 2016      | All pages and features on current site available on Next |
+| May 4th 2016        | Switch to Next                                           |
+| July 1st 2016       | MyFT on FTC                                              |
+| September 1st, 2016 | Corporate subscription completed                         |
+| December 1st, 2016  | FTC site converted to NodeJS                             |
 
-
-* December 15th, 2015: infractures and development environment for next.ftchinese.com set up.  
-* February 1st, 2015: story page complete.  
-* March 1st, 2016: home page and stream pages complete. 
-* April 1st, 2016: next.ftchinese.com has all pages and features that are on the current www.ftchinese.com. 
-* May 1st 2016: next.ftchinese.com pushed to www.ftchinese.com. 
-* June 1st 2016: Emergency plan ready in case FTC news site and apps are blocked. 
-* July 1st 2016: MyFT on FTC. 
-* September 1st, 2016: Corporate subscription function completed. Users can pay to 1) access premium content; 2) unlock features (for example, hide all ads or send to my kindle). 
-* November 1st, 2016: FTC site converted to NodeJS, which supports much larger audience with less resources. 
 
 ## Design
 1. Content Design: Site Navigation, Channel Setup, Home Page Layout and Sections
@@ -167,9 +156,16 @@ The user should be able to follow topics, tags, authors, columns, etc... They ar
 ### User Profile
 
 ### Error
+Use Andrew Bett's new 404 page, which is both fun and useful. 
 
 ### User Comments
 
 ### Jobs
 
 ### Find Password
+
+### Subscription
+Allow users or organizations to pay for: 
+1. Access premium content for a certain period. 
+2. Unlock features. For example, a user can pay 100RMB to hide all ads for a month. 
+3. Buy items. For example, a user can buy a special report and read on his phone and Kindle. 
