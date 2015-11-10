@@ -17,7 +17,7 @@
 | April 1st 2016      | All pages and features on current site available on Next |
 | May 4th 2016        | Switch to Next                                           |
 | July 1st 2016       | MyFT on FTC                                              |
-| September 1st, 2016 | Corporate subscription completed                         |
+| September 1st, 2016 | Corporate subscription complete                          |
 | December 1st, 2016  | FTC site converted to NodeJS                             |
 
 
