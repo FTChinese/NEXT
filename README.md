@@ -50,7 +50,7 @@ Focus on android app, database and video.
 
 
 ## **Support from London**
-The FTChinese current team will be able to launch the new Next site on its own. However, in order to switch to new technology, we need developers to help us with the following items: 
+The FTChinese current team will be able to launch the new Next site on its own, using existing technology. However, in order to switch to new technology and integrate with the FT.com, we need developers to help us with the following items: 
 1. Switch to NodeJS on the server side, so that our site can support more active users per day, with the same resources. 
 2. Develop MyFT and Subscription. 
 3. Streamline our development tools and workflows. 
