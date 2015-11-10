@@ -5,7 +5,7 @@
 2. Upgrade the performance of the web site, especially mission-critical pages, to the highest standard. 
 3. Streamline editorial workflow so that our editors can update content and page as fast as possible. All pages, not just home, should be managed in CMS without any tech knowledge. 
 4. Embrace HTML 5 in our advertisements to delivery high-quality ad display and maximize ad performance. 
-5. Promote our own growth and monetizing efforts, especially subscription business. 
+5. Kickstart our own growth and monetizing efforts, especially subscription business. 
 
 ## Time Table
 
@@ -49,7 +49,7 @@ Focus on android app, database and video.
 5. Handle traffic and database related issues. 
 
 
-## **Resources from London**
+## **Support from London**
 The FTChinese current team will be able to launch the new Next site on its own. However, in order to switch to new technology, we need developers to help us with the following items: 
 1. Switch to NodeJS on the server side, so that our site can support more active users per day, with the same resources. 
 2. Develop MyFT and Subscription. 
