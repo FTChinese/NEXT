@@ -9,10 +9,17 @@
 
 ## Time Table
 
-| December 15th, 2015 | infractures and development environment for next.ftchinese.com set up. |
-|---------------------|------------------------------------------------------------------------|
-| February 1st, 2016  | story page complete                                                    |
-| March 1st, 2016     | home page and stream pages complete                                    |
+| Date                | Mile Stone                                                                                                                                                  |
+|---------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| December 15th, 2015 | Infractures and development environment for next.ftchinese.com set up                                                                                       |
+| February 1st, 2016  | Story page complete                                                                                                                                         |
+| March 1st 2016      | Home page and stream pages complete                                                                                                                         |
+| April 1st 2016      | next.ftchinese.com has all pages and features that are on the current www.ftchinese.com                                                                     |
+| May 1st 2016        | next.ftchinese.com pushed to www.ftchinese.com                                                                                                              |
+| June 1st 2016       | Emergency plan ready in case FTC news site and apps are blocked                                                                                             |
+| July 1st 2016       | MyFT on FTC                                                                                                                                                 |
+| September 1st, 2016 | Corporate subscription function completed. Users can pay to 1) access premium content; 2) unlock features (for example, hide all ads or send to my kindle). |
+| November 1st, 2016  | FTC site converted to NodeJS, which supports much larger audience with less resources                                                                       |
 
 
 * December 15th, 2015: infractures and development environment for next.ftchinese.com set up.  
