@@ -16,18 +16,48 @@
 | March 1st 2016      | Home page and stream pages complete                      |
 | April 15st 2016     | All pages and features on current site available on Next |
 | May 4th 2016        | **Launch**                                               |
-| July 1st 2016       | MyFT on FTC                                              |
-| September 1st, 2016 | Corporate subscription complete                          |
-| December 1st, 2016  | FTC site converted to NodeJS                             |
+| July 1st 2016       | FTC site converted to NodeJS                             |
+| September 1st, 2016 | MyFT                                                     |
+| December 1st, 2016  | Corporate subscription complete                          |
+
+## Roles and Responsibilities
+
+### Designers
+1. Visual Design: Layout, Color, Icon, Font, Styles, Components
+2. UI Design: Function, User Interaction, Login, Register, Comments, Sharing
+
+### Developers
+The development team will focus on achieving the highest possible performance, both on the front and back end. Special focus should be on two mission-critical pages: story and stream. Home page is a stream page. 
+
+When we launch the Next FTC, our front end code will be a total revamp. The server side will continue to use PHP, mysql and smarty until we can have a London developer to help us convert to NodeJS. After converting to NodeJS, we'll be able to use server side code developed by the London team, which makes it possible for the FTChinese to launch new features in sync with London. 
+
+#### PHP Developers
+1. Provide APIs. 
+2. Handle traffi
+
+#### Frontend Developers
+1. The front end HTML, CSS and JavaScipt. 
+
+#### Java Developer
+Focus on android app, database and video. 
+
+### Nextwork Engineers
+1. Set up server and development environment. 
+2. Switch the site to Next on the launch day. 
+3. Monitor performance. 
+4. Testing. 
+5. Handle traffic and database related issues. 
 
 
-## Design
-1. Content Design: Site Navigation, Channel Setup, Home Page Layout and Sections
-2. Visual Design: Layout, Color, Icon, Font, Styles, Components
-3. UI Design: Function, User Interaction, Login, Register, Comments, Sharing
+## **Resources from London**
+The FTChinese current team will be able to launch the new Next site on its own. However, in order to switch to new technology, we need developers to help us with the following items: 
+1. Switch to NodeJS on the server side, so that our site can support more active users per day, with the same resources. 
+2. Develop MyFT and Subscription. 
+3. Streamline our development tools and workflows. 
+4. Integrate with London's developers and code base. 
+5. Train our developers. 
 
-## Development
-The development team will focus on achieving the highest possible performance, both on the front and back end. Special focus should be on two mission-critical pages: story and stream. Home page is a stream page.  
+As the FT London will finish the Next FT in summer of 2016, their technology and experience will be suitable for the FTChinese when we upgrade our site on the back end. Since we have very high standard both in terms of performance and code quality, outsourcing is not an option. 
 
 ## Mission-critical pages
 The home page, story page and channel page contributes more than 90% of the site traffic. These pages will be developed from scratch and their performance will be evaluated every week by the following list. The code should be reviewed at least every month. 
@@ -65,11 +95,12 @@ The projects are prioritized based on importance and dependency.
 Server-side set up of next.ftchinese.com, including database, API, cache, template engine(Smarty 3), etc... On the launch day of FTC Next, www.ftchinese.com and m.ftchinese.com will display the same thing as next.ftchinese.com. 
 
 
-### CMS
-1. We need to change the way home page is created. The editors should be concerned with design or layout. They just manage stories and lists. Designers and developers just treat editors' work result as an API. 
+### CMS and Development Environment
+1. We need to change the way stream pages, especially home page, are created. The editors should **NOT** be concerned with design or layout. They just manage stories and lists. Programs do the rest. 
 2. Stories should be upgraded in several ways. First, it should have a way to link to the English version by Unique ID. The way we treat images and media in the story should be streamlined. For example, there should be no need to upload several sizes of the same images. 
 3. Channel, tag, marketing, events, special reports pages should all be generalized as Stream Page, meaning a page that mainly contains links to content. The stream page should be fully configurable in the CMS. For example, when we need to create a special report called "Lunch", the editors can just do it without any developers or designers. In fact, home page should be just a specific stream page. 
-
+4. Our current cache system is problematic. Cache should be smart. When editors make a change, the change should be immediately on our site and app. When developers push a change on site, the change should also be immediately on. 
+5. We should use Git for version control in NEXT. 
 
 ### Story Page
 Over 40% of our traffic comes from story page. So it's at least as important as the home page. When users share our content on mobile, they share story page. So it's important to design and develop both for mobile and PC. Since the page is mostly static content, we must make sure it loads instantly by strictly following our performance principles. Special attention should be paid when users open the story page in an app, rather than a browser. 
@@ -83,6 +114,7 @@ The story page is mostly likely to be opened in an app's webview. So it's import
 
 ### Stream Pages
 Stream pages are pages that aggregate content. Home page should be just one case of stream page. Although it may look different in the CMS menu, the Stream Page Management feature should be developed just once. 
+
 
 #### Home Page
 We need to design both the home page and the editorial tools for updating the home page. The home page should be designed to be responsive. Editors should be able to focus on the content itself, rather than tinkering with the layout and style. It should also load instantly even on slow connection. It also need to be able to deliver more ad inventories without being noisy and cluttered. 
