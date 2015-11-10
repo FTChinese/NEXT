@@ -14,7 +14,7 @@
 | December 15th, 2015 | Infractures and development environment set up           |
 | February 1st, 2016  | Story page complete                                      |
 | March 1st 2016      | Home page and stream pages complete                      |
-| April 1st 2016      | All pages and features on current site available on Next |
+| April 15st 2016     | All pages and features on current site available on Next |
 | May 4th 2016        | **Launch**                                               |
 | July 1st 2016       | MyFT on FTC                                              |
 | September 1st, 2016 | Corporate subscription complete                          |
@@ -155,7 +155,7 @@ The user should be able to follow topics, tags, authors, columns, etc... They ar
 
 ### User Profile
 
-### Error
+### 404 Page
 Use Andrew Bett's new 404 page, which is both fun and useful. 
 
 ### User Comments
@@ -167,5 +167,6 @@ Use Andrew Bett's new 404 page, which is both fun and useful.
 ### Subscription
 Allow users or organizations to pay for: 
 1. Access premium content for a certain period. 
-2. Unlock features. For example, a user can pay 100RMB to hide all ads for a month. 
-3. Buy items. For example, a user can buy a special report and read on his phone and Kindle. 
+2. Access unlimited number of articles for a certain period. 
+3. Unlock features. For example, a user can pay 100RMB to hide all ads for a month. 
+4. Buy items. For example, a user can buy a special report and read on his phone and Kindle. 
