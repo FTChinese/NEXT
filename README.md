@@ -62,11 +62,11 @@ As the FT London will finish the Next FT in summer of 2016, their technology and
 ## Mission-critical pages
 The home page, story page and channel page contributes more than 90% of the site traffic. These pages will be developed from scratch and their performance will be evaluated every week by the following list. The code should be reviewed at least every month. 
 
-Here's the check list for mission-critical page performance: 
+### Performance check list 
 
 1. Get 100 points in Google's [Page Speed Insights](https://developers.google.com/speed/pagespeed/insights/). 
 2. Core experience, as defined in [General Best Practice](http://origami.ft.com/docs/developer-guide/general-best-practices/) is available in the first request, without any external CSS and JS. 
-3. First response is smaller than 14k (after GZIP?). 
+3. First response is smaller than 14k after GZIP. 
 4. Use serviceworker correctly to cache assets and save time. 
 5. Don't load custom Chinese web font for web page. 
 6. Ad codes don't block critical content. 
@@ -78,8 +78,9 @@ Here's the check list for mission-critical page performance:
     `<link href="http://static.ftchinese.com/" rel="preconnect" crossorigin>`
 12. Core static pages (home, story and channel) should render regardless of database condition. 
 
+None of the big web sites that we know of (Google, Baidu, FT, Guardian, etc...) has been able to achieve item 3. It requires us to be very clear of the priority order of every element on the page. But with our server in HK and main audience in mainland China, making sure critical content are rendered even on very unreliable internet connection is worth the extra effort. 
 
-## Reference
+### Reference
 * [Origami Example](http://origami.ft.com/docs/developer-guide/using-modules/)
 * [General Best Practice](http://origami.ft.com/docs/developer-guide/general-best-practices/)
 * [Under Standing Critical CSS](http://www.smashingmagazine.com/2015/08/understanding-critical-css/)
@@ -113,11 +114,11 @@ The story page is mostly likely to be opened in an app's webview. So it's import
 
 
 ### Stream Pages
-Stream pages are pages that aggregate content. Home page should be just one case of stream page. Although it may look different in the CMS menu, the Stream Page Management feature should be developed just once. 
+Stream pages are pages that aggregate content. Home page is a stream page. The Stream Page Management feature should be developed just once and assigned to seperate teams for operation. 
 
 
 #### Home Page
-We need to design both the home page and the editorial tools for updating the home page. The home page should be designed to be responsive. Editors should be able to focus on the content itself, rather than tinkering with the layout and style. It should also load instantly even on slow connection. It also need to be able to deliver more ad inventories without being noisy and cluttered. 
+We need to design both the home page and the editorial tools for updating the home page. The home page should be designed to be responsive. Editors should be able to focus on the content itself, rather than tinkering with the layout and style. It should load instantly even on slow and unreliable internet connection. It also needs to deliver more ad inventories without being noisy and cluttered. 
 
 It is important to seperate content with style. Content should be considered data, which comes in the form of an object (json or PHP array). Style is controled by front end templates. 
 
@@ -156,7 +157,7 @@ Ad units should be simple and backward compatible. I suggest that we should have
 
 1. If a user pays to disable ad, all ads should be hidden. So we need to come up with a way to switch off ads on all platforms. 
 2. On the Dolphin system, if the client provide third party code, we need to control how and when to send third party impression track. And we'll monitor call back using GA, FA and our own trackign system. If we let client make the decision, the gap between Dolphin and client impression data will be huge. 
-3. The current way of organizing ad channels on Dolphin is stupid. It'll spiral into a disaster some day. We need to come up with a better way. 
+3. The Dolphin system makes no distinction between ad channel and ad position. This will spiral into an unmanageable mess if we don't change. We need to address this when we develop advertising for Next. 
 
 ### iOS and Android App
 The iOS and Android app need to change into Next style, probably by removing the bottom bar and adding a fixed header bar. The home page layout will use data created in the upgraded CMS, rather than from the current API. Other than that, iOS and Android will be developed, upgraded and distributed seperately from the Next project. 
@@ -164,14 +165,11 @@ The iOS and Android app need to change into Next style, probably by removing the
 
 ### APIs
 
-
-### Users
-1. Members and subscribers: 
-2. Individual Payment and Billing: 
-3. Corporate Subscription: 
-4. No-Ad Feature: A user can pay to access FTC free of ads. 
-
-
+### Analytics
+1. Pages
+2. Events
+3. Custom Reports
+4. Experiments (A/B Tests)
 
 ### Registration Page
 
@@ -186,7 +184,7 @@ The iOS and Android app need to change into Next style, probably by removing the
 ### User Profile
 
 ### 404 Page
-Use Andrew Bett's new 404 page, which is both fun and useful. 
+Use FT.com's new 404 page, which is both fun and useful. 
 
 ### User Comments
 
