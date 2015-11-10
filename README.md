@@ -13,7 +13,7 @@
 3. UI Design: Function, User Interaction, Login, Register, Comments, Sharing
 
 ## Development
-The development team will focus on achieving the highest possible performance, both on the front and back end. Special focus should be on three mission-critical pages. 
+The development team will focus on achieving the highest possible performance, both on the front and back end. Special focus should be on two mission-critical pages: story and stream. Home page is a stream page.  
 
 ## Mission-critical pages
 The home page, story page and channel page contributes more than 90% of the site traffic. These pages will be developed from scratch and their performance will be evaluated every week by the following list. The code should be reviewed at least every month. 
@@ -67,16 +67,15 @@ It is possible to display landscape or portrait (for example, Lunch with the FT)
 The story page is mostly likely to be opened in an app's webview. So it's important to test how it renders in-app, for example, in WeChat.  
 
 
-### Stream Page
-Stream page are pages that aggregate content. Home page should be just one case of stream page. Although it may look different in the CMS menu, the Stream Page Management feature should be developed just once. 
+### Stream Pages
+Stream pages are pages that aggregate content. Home page should be just one case of stream page. Although it may look different in the CMS menu, the Stream Page Management feature should be developed just once. 
 
 #### Home Page
 We need to design both the home page and the editorial tools for updating the home page. The home page should be designed to be responsive. Editors should be able to focus on the content itself, rather than tinkering with the layout and style. It should also load instantly even on slow connection. It also need to be able to deliver more ad inventories without being noisy and cluttered. 
 
 It is important to seperate content with style. Content should be considered data, which comes in the form of an object (json or PHP array). Style is controled by front end templates. 
 
-Requirements from Feng: 
-1. Desktop and Mobile app should have different story lists on home page. 
+Requirements from Feng: Desktop and Mobile app should have different story lists on home page. 
 
 Designer: focus on designing the fluid layout so that editors don't have to preview to be sure the page is good. 
 
@@ -86,17 +85,19 @@ Front end Developer: Front end developer should not write any logic. He just foc
 
 #### Channel
 We need to design both the navigation content and the channel pages. Channel pages should have varying layout and content policy, which is configurable in CMS. 
+1. Channel pages can be taken off from the navigation, but the url should still be valid with updated content, as search engines have stored these pages. 
+2. Channel pages should continue to be paginated. 
 
 #### Tag, Topic and Special Report
 Tag and Special Report pages should be configurable in the CMS so that we can instantly create new pages to bring in traffic and revenue. 
 1. All the pages should be managed in CMS. 
-2. An email page can be created for every web page, using the same data or subset of data. 
+2. An email page can be created for every web page, using the same content data. 
 
 #### Column
 Although traffic to these pages are quite low, columnists are very important to our site. The invidual columnist page is already configurable in CMS. We need to come up with a better design and better features. For example, some columnists might want to maintain their own column pages by syncing their social networks. However, the collection of all columnists page needs a totally new design. 
 
 #### Marketing
-pages that are controled by marketing team. Including the FT Intelligence. 
+Pages that are controled by marketing team, including the FT Intelligence. We use a hack which combined PHP with Smarty to create so call "universal template". This should be upgraded to stream page. 
 
 #### Events
 
