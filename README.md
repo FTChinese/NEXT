@@ -1,30 +1,30 @@
 # FTChinese Next Project
 
-## Our Goal
-1. Redesign the www.ftchinese.com for best content display on all devices. 
-2. Upgrade the performance of the web site, especially mission-critical pages, to the highest standard. 
-3. Streamline editorial workflow so that our editors can update content and page as fast as possible. All pages, not just home, should be managed in CMS without any tech knowledge. 
-4. Embrace HTML 5 in our advertisements to delivery high-quality ad display and maximize ad performance. 
-5. Kickstart our own growth and monetizing efforts, especially subscription business. 
+## Goals
+* Redesign the www.ftchinese.com for best content display on all devices. 
+* Upgrade the performance of the web site, especially mission-critical pages, to the highest standard. 
+* Streamline editorial workflow so that our editors can update content and page as fast as possible. All pages, not just home, should be managed in CMS without any tech knowledge. 
+* Embrace HTML 5 in our advertisements to delivery high-quality ad display and maximize ad performance. 
+* Kickstart our own growth and monetizing efforts, especially subscription business. 
 
-## Key Milestones
+## Milestones
 
-| Date         | Event                                                    |
-|--------------|----------------------------------------------------------|
-| Dec 15, 2015 | Infractures and development environment set up           |
-| Feb 01, 2016 | Story page complete                                      |
-| Mar 01, 2016 | Home page and stream pages complete                      |
-| Apr 15, 2016 | All pages and features on current site available on Next |
-| May 04, 2016 | **Launch**                                               |
-| Jul 01, 2016 | FTC site converted to NodeJS                             |
-| Sep 01, 2016 | MyFT                                                     |
-| Dec 01, 2016 | **Corporate subscription complete**                      |
+| Date             | Event                                                    |
+|------------------|----------------------------------------------------------|
+| Dec 15, 2015     | Infractures and development environment set up           |
+| Feb 01, 2016     | Story page complete                                      |
+| Mar 01, 2016     | Home page and stream pages complete                      |
+| Apr 15, 2016     | All pages and features on current site available on Next |
+| **May 04, 2016** | **Launch**                                               |
+| Jul 01, 2016     | Server-side converted to NodeJS                          |
+| Sep 01, 2016     | MyFT                                                     |
+| **Dec 01, 2016** | **Corporate subscription complete**                      |
 
-## Roles and Responsibilities
+## Roles
 
 ### Designers
-1. Visual Design: Layout, Color, Icon, Font, Styles, Components
-2. UI Design: Function, User Interaction, Login, Register, Comments, Sharing
+* Visual Design: Layout, Color, Icon, Font, Styles, Components
+* UI Design: Function, User Interaction, Login, Register, Comments, Sharing
 
 ### Developers
 The development team will focus on achieving the highest possible performance, both on the front and back end. Special focus should be on two mission-critical pages: story and stream. Home page is a stream page. 
@@ -32,37 +32,42 @@ The development team will focus on achieving the highest possible performance, b
 When we launch the Next FTC, our front end code will be a total revamp. The server side will continue to use PHP, mysql and smarty until we can have a London developer to help us convert to NodeJS. After converting to NodeJS, we'll be able to use server side code developed by the London team, which makes it possible for the FTChinese to launch new features in sync with London. 
 
 #### PHP Developers
-1. Provide APIs. 
-2. Handle traffi
+* API 
+* Data
+* Logic
+* Security
+* Performance
 
 #### Frontend Developers
-1. The front end HTML, CSS and JavaScipt. 
+* HTML, CSS and JavaScipt
+* Components
 
 #### Java Developer
 Focus on android app, database and video. 
 
 ### Nextwork Engineers
-1. Set up and maintain server and development environment. 
-2. Switch the site to Next on the launch day. 
-3. Monitor performance. 
-4. Testing. 
-5. Handle traffic and database related issues. 
+* Set up and maintain server
+* Development and Deploy environment
+* Switch the site to Next on the launch day. 
+* Monitor performance. 
+* Testing. 
+* Handle traffic and database related issues. 
 
-## **Support from London**
+## **Support**
 The FTChinese current team will be able to launch the new Next site on its own, using existing technology. However, in order to upgrade beyond the launch, we need developers from London to help us with the following tasks: 
 
-1. Switch to NodeJS on the server side, so that our site can support more active users per day, with the same resources. 
-2. Develop MyFT and Subscription. 
-3. Streamline our development tools and workflows. 
-4. Integrate with London's developement team, code base and APIs. 
-5. Train our developers. 
+* Switch to NodeJS on the server side, so that our site can support more active users per day, with the same resources. 
+* Develop MyFT and Subscription. 
+* Streamline our development tools and workflows. 
+* Integrate with London's developement team, code base and APIs. 
+* Train our developers. 
 
 As the FT London will finish the Next FT in summer of 2016, their technology and experience will be suitable for the FTChinese when we upgrade our server side technology. Since we have very high standard both in terms of performance and code quality, outsourcing is not an option. 
 
-## Mission-critical pages
-The home page, story page and channel page contributes more than 90% of the site traffic. These pages will be developed from scratch and their performance will be evaluated every week by the following list. The code should be reviewed at least every month. 
+## Quality
+The home page, story page and channel page contributes more than 90% of the site traffic. These pages will be developed from scratch and their performance will be evaluated every week by the following list. Code should be reviewed at least every month. 
 
-### Performance check list 
+### Performance check list
 
 1. Get 100 points in Google's [Page Speed Insights](https://developers.google.com/speed/pagespeed/insights/). 
 2. Core experience, as defined in [General Best Practice](http://origami.ft.com/docs/developer-guide/general-best-practices/) is available in the first request, without any external CSS and JS. 
@@ -80,7 +85,7 @@ The home page, story page and channel page contributes more than 90% of the site
 
 None of the big web sites that we know of (Google, Baidu, FT, Guardian, etc...) has been able to achieve item 3. It requires us to be very clear of the priority order of every element on the page. But with our server in HK and main audience in mainland China, making sure critical content are rendered even on very unreliable internet connection is worth the extra effort. 
 
-### Reference
+### References
 * [Origami Example](http://origami.ft.com/docs/developer-guide/using-modules/)
 * [General Best Practice](http://origami.ft.com/docs/developer-guide/general-best-practices/)
 * [Under Standing Critical CSS](http://www.smashingmagazine.com/2015/08/understanding-critical-css/)
@@ -93,15 +98,21 @@ None of the big web sites that we know of (Google, Baidu, FT, Guardian, etc...) 
 The projects are prioritized based on importance and dependency. 
 
 ### Infrastructure
-Server-side set up of next.ftchinese.com, including database, API, cache, template engine(Smarty 3), etc... On the launch day of FTC Next, www.ftchinese.com and m.ftchinese.com will display the same thing as next.ftchinese.com. 
+Server-side set up of next.ftchinese.com, including database, API, cache, template engine(Smarty 3), etc... 
 
+The next.ftchinese.com site will be the equivalent of next.ft.com, allowing stake holders to see what we have built any time. On the launch day of FTC Next, www.ftchinese.com and m.ftchinese.com will display the same thing as next.ftchinese.com. 
 
-### CMS and Development Environment
-1. We need to change the way stream pages, especially home page, are created. The editors should **NOT** be concerned with design or layout. They just manage stories and lists. Programs do the rest. 
-2. Stories should be upgraded in several ways. First, it should have a way to link to the English version by Unique ID. The way we treat images and media in the story should be streamlined. For example, there should be no need to upload several sizes of the same images. 
-3. Channel, tag, marketing, events, special reports pages should all be generalized as Stream Page, meaning a page that mainly contains links to content. The stream page should be fully configurable in the CMS. For example, when we need to create a special report called "Lunch", the editors can just do it without any developers or designers. In fact, home page should be just a specific stream page. 
-4. Our current cache system is problematic. Cache should be smart. When editors make a change, the change should be immediately on our site and app. When developers push a change on site, the change should also be immediately on. 
-5. We should use Git for version control in NEXT. 
+We should use Git for version control in NEXT. 
+
+Our current cache system is problematic. Cache should be smart. When editors make a change, the change should be immediately on our site and app. When developers push a change on site, the change should also be immediately on. 
+
+### CMS
+* Home Page
+  We need to change the way pages, especially home page, are created. The editors should not be concerned with design or layout. They just manage stories and lists. Programs do the rest. 
+* Story Edit
+  Stories should be upgraded in several ways. First, it should have a way to link to the English version by Unique ID. The way we treat images and media in the story should be streamlined. For example, there should be no need to upload several sizes of the same images. 
+* Stream Pages
+  Channel, tag, marketing, events, special reports pages should all be generalized as Stream Page, meaning a page that mainly contains links to content. The stream page should be fully configurable in the CMS. For example, when we need to create a special report called "Lunch", the editors can just do it without any developers or designers. In fact, home page should be just a specific stream page. 
 
 ### Story Page
 Over 40% of our traffic comes from story page. So it's at least as important as the home page. When users share our content on mobile, they share story page. So it's important to design and develop both for mobile and PC. Since the page is mostly static content, we must make sure it loads instantly by strictly following our performance principles. Special attention should be paid when users open the story page in an app, rather than a browser. 
@@ -112,6 +123,10 @@ It is possible to display landscape or portrait (for example, Lunch with the FT)
 
 The story page is mostly likely to be opened in an app's webview. So it's important to test how it renders in-app, for example, in WeChat.  
 
+For stories translated from FT.com, there's an API that provides: 
+* FT.com unique ID. 
+* Media sets including images, video and links. 
+* Meta tags. 
 
 ### Stream Pages
 Stream pages are pages that aggregate content. Home page is a stream page. The Stream Page Management feature should be developed just once and assigned to seperate teams for operation. 
@@ -147,17 +162,29 @@ Although traffic to these pages are quite low, columnists are very important to 
 Pages that are controled by marketing team, including the FT Intelligence. We use a hack which combined PHP with Smarty to create so call "universal template". This should be upgraded to stream page. 
 
 #### Events
+The events site used a lot of "hacks" when built, under the assumption that this part of the site will not need to be upgraded. It has a seperate design and style sheets, which makes upgrading it more tedious. There are two options for the event site: migrate to Next Stream Page system or stay put. 
 
 #### Information
-contacts, advertisements, and other links in the footer. 
+Contacts, advertisements, and other links in the footer. The information in these pages usually don't change frequently. But it should be delegated to marketing team in the CMS system so that it can change any time. 
 
+<div style="width:100%;height:90px;background-color:#92288f;text-align:center;line-height:90px;font-size:25px;color:white;">
+	Reponsive Banner
+</div>
 
 ### Advertising
 Ad units should be simple and backward compatible. I suggest that we should have two types of basic ad units: MPU and Banner. Then clients can pay extra money for enhanced display, like full page and expandable. The advertisement should be responsive, adapting to any environment. In order to show the clients how HTML 5 works, we should use our own house ad to showcase what's possible. We will also implement stricter security requirements to advertisements. 
 
+<div class="mpu" style="width:300px;height:250px;background-color:#cc0033;text-align:center;line-height:250px;font-size:32px;color:white;margin:5px 0 14px 14px;float:right;">
+	MPU
+</div>
 1. If a user pays to disable ad, all ads should be hidden. So we need to come up with a way to switch off ads on all platforms. 
 2. On the Dolphin system, if the client provide third party code, we need to control how and when to send third party impression track. And we'll monitor call back using GA, FA and our own trackign system. If we let client make the decision, the gap between Dolphin and client impression data will be huge. 
-3. The Dolphin system makes no distinction between ad channel and ad position. This will spiral into an unmanageable mess if we don't change. We need to address this when we develop advertising for Next. 
+3. The Dolphin system makes no distinction between ad channel and ad position. This will spiral into an unmanageable mess in two years. We need to address this when we develop advertising for Next. 
+
+
+### Partials
+Partials are short snippets of HTML templates that are included in pages or other partials. They should all be placed in a new folder called partials. All the partials should switch from using models to APIs. 
+
 
 ### iOS and Android App
 The iOS and Android app need to change into Next style, probably by removing the bottom bar and adding a fixed header bar. The home page layout will use data created in the upgraded CMS, rather than from the current API. Other than that, iOS and Android will be developed, upgraded and distributed seperately from the Next project. 
@@ -201,3 +228,17 @@ Allow users or organizations to pay for:
 2. Access unlimited number of articles for a certain period. 
 3. Unlock features. For example, a user can pay 100RMB to hide all ads for a month. 
 4. Buy items. For example, a user can buy a special report and read on his phone and Kindle. 
+
+## Discussions
+### Should we use Markdown in the Next project? 
+**Pros**
+- The story, information, events and marketing pages are typical places where Markdown might be useful. 
+- We can also give users a Markdown editor so that they don't have to learn the Markdown language. 
+- Clean text in the database. 
+[Why Markdown? A two-minute explanation](http://brettterpstra.com/2011/08/31/why-markdown-a-two-minute-explanation/)
+
+**Cons**
+- Need to learn
+- May not do all the tricks needed (videos, slide shows, etc...)
+- Rely on third-party interpreter, which means less control from our own developers. 
+
