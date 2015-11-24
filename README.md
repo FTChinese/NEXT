@@ -77,6 +77,7 @@ As the FT London will finish the Next FT in summer of 2016, their technology and
 * New Servers: we will be needing 10 new servers for the new site, replacing our current servers. 
 * Software License: we need to pay software license to tools that we'll using in the design and development of the Next FTC, including Github Private Account (Coordination), Sublime (Developer), Get Sentry (Bug Capturing), Testing Services, Schetch (Designer), Invision (Designer), etc...
 * Bandwidth: we'll be needing 5M more bandwidth for the new site. 
+* Developers: wages and accomodation for developers from FT London. 
 
 ## Performance
 The home page, story page and channel page contributes more than 90% of the site traffic. These pages will be developed from scratch and their performance will be evaluated every week by the following list. Code should be reviewed at least every month. 
