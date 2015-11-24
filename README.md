@@ -1,11 +1,20 @@
 # FTChinese Next Project
 
 ## Goals
-* **Design:** Redesign the www.ftchinese.com for best content display on all devices. 
-* **Performance:** Upgrade the performance of the web site, especially mission-critical pages, to the highest standard. 
-* **Efficiency:** Streamline editorial workflow so that our editors can update content and page as fast as possible. All pages, not just home, should be managed in CMS without any tech knowledge. 
-* **Advertising:** Embrace HTML 5 in our advertisements to delivery high-quality ad display and maximize ad performance. 
-* **Monetization:** Kickstart our own growth and monetizing efforts, especially subscription business. 
+### Design
+Redesign the www.ftchinese.com for best content display on all devices. 
+
+### Performance
+Upgrade the performance of the web site, especially mission-critical pages, to the highest standard. 
+
+### Efficiency
+Streamline editorial workflow so that our editors can update content and page as fast as possible. All pages, not just home, should be managed in CMS without any tech knowledge. 
+
+### Advertising
+Embrace HTML 5 in our advertisements to delivery high-quality ad display and maximize ad performance. 
+
+### Monetization
+Kickstart our own growth and monetizing efforts, especially subscription business. 
 
 ## Milestones
 
@@ -72,7 +81,7 @@ As the FT London will finish the Next FT in summer of 2016, their technology and
 ## Performance
 The home page, story page and channel page contributes more than 90% of the site traffic. These pages will be developed from scratch and their performance will be evaluated every week by the following list. Code should be reviewed at least every month. 
 
-### Performance check list
+### Performance Checklist
 
 * Get 100 points in Google's [Page Speed Insights](https://developers.google.com/speed/pagespeed/insights/). 
 * Core experience, as defined in [General Best Practice](http://origami.ft.com/docs/developer-guide/general-best-practices/) is available in the first request, without any external CSS and JS. 
