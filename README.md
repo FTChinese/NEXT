@@ -1,11 +1,11 @@
 # FTChinese Next Project
 
 ## Goals
-* Redesign the www.ftchinese.com for best content display on all devices. 
-* Upgrade the performance of the web site, especially mission-critical pages, to the highest standard. 
-* Streamline editorial workflow so that our editors can update content and page as fast as possible. All pages, not just home, should be managed in CMS without any tech knowledge. 
-* Embrace HTML 5 in our advertisements to delivery high-quality ad display and maximize ad performance. 
-* Kickstart our own growth and monetizing efforts, especially subscription business. 
+* **Design:** Redesign the www.ftchinese.com for best content display on all devices. 
+* **Performance:** Upgrade the performance of the web site, especially mission-critical pages, to the highest standard. 
+* **Efficiency:** Streamline editorial workflow so that our editors can update content and page as fast as possible. All pages, not just home, should be managed in CMS without any tech knowledge. 
+* **Advertising:** Embrace HTML 5 in our advertisements to delivery high-quality ad display and maximize ad performance. 
+* **Monetization:** Kickstart our own growth and monetizing efforts, especially subscription business. 
 
 ## Milestones
 
@@ -45,16 +45,16 @@ When we launch the Next FTC, our front end code will be a total revamp. The serv
 #### Java Developer
 Focus on android app, database and video. 
 
-### Nextwork Engineers
+### Network Engineers
 * Set up and maintain server
 * Development and Deploy environment
-* Switch the site to Next on the launch day. 
-* Monitor performance. 
-* Testing. 
-* Handle traffic and database related issues. 
+* Switch the site to Next on the launch day
+* Monitor performance
+* Testing
+* Handle traffic and database related issues
 
 ## **Support**
-The FTChinese current team will be able to launch the new Next site on its own, using existing technology. However, in order to upgrade beyond the launch, we need developers from London to help us with the following tasks: 
+The FTChinese current team will be able to launch the new Next site on its own, using existing technology. However, in order to upgrade beyond the launch, we need these developers from London to help us with the following tasks: 
 
 * Switch to NodeJS on the server side, so that our site can support more active users per day, with the same resources. 
 * Develop MyFT and Subscription. 
@@ -64,24 +64,29 @@ The FTChinese current team will be able to launch the new Next site on its own, 
 
 As the FT London will finish the Next FT in summer of 2016, their technology and experience will be suitable for the FTChinese when we upgrade our server side technology. Since we have very high standard both in terms of performance and code quality, outsourcing is not an option. 
 
-## Quality
+## Cost
+* New Servers: we will be needing 10 new servers for the new site, replacing our current servers. 
+* Software License: we need to pay software license to tools that we'll using in the design and development of the Next FTC, including Github Private Account (Coordination), Sublime (Developer), Get Sentry (Bug Capturing), Testing Services, Schetch (Designer), Invision (Designer), etc...
+* Bandwidth: we'll be needing 5M more bandwidth for the new site. 
+
+## Performance
 The home page, story page and channel page contributes more than 90% of the site traffic. These pages will be developed from scratch and their performance will be evaluated every week by the following list. Code should be reviewed at least every month. 
 
 ### Performance check list
 
-1. Get 100 points in Google's [Page Speed Insights](https://developers.google.com/speed/pagespeed/insights/). 
-2. Core experience, as defined in [General Best Practice](http://origami.ft.com/docs/developer-guide/general-best-practices/) is available in the first request, without any external CSS and JS. 
-3. First response is smaller than 14k after GZIP. 
-4. Use serviceworker correctly to cache assets and save time. 
-5. Don't load custom Chinese web font for web page. 
-6. Ad codes don't block critical content. 
-7. Load as less as possible CSS and images on mobile (especially data which are paid by traffic) by serving different mobile CSS and full CSS. 
-8. Use skeleton screens, placeholders, relative divs and Responsive Image Service to load images and avoid reflow. 
-9. Lazy-load images that are not in the first view. 
-10. Check if CSS and JS is loaded successfully and fall back when CDN fails. 
-11. Use Preconnect and Prefetch to speed up asset loading. 
+* Get 100 points in Google's [Page Speed Insights](https://developers.google.com/speed/pagespeed/insights/). 
+* Core experience, as defined in [General Best Practice](http://origami.ft.com/docs/developer-guide/general-best-practices/) is available in the first request, without any external CSS and JS. 
+* First response is smaller than 14k after GZIP. 
+* Use serviceworker, when supported, to cache assets and save time. 
+* Don't load custom Chinese web font for web page. 
+* Ad codes don't block critical content. 
+* Load as less as possible CSS and images on mobile (especially data which are paid by traffic) by serving different mobile CSS and full CSS. 
+* Use skeleton screens, placeholders, relative divs and Responsive Image Service to load images and avoid reflow. 
+* Lazy-load images that are not in the first view. 
+* Check if CSS and JS is loaded successfully and fall back when CDN fails. 
+* Use Preconnect and Prefetch to speed up asset loading. 
     `<link href="http://static.ftchinese.com/" rel="preconnect" crossorigin>`
-12. Core static pages (home, story and channel) should render regardless of database condition. 
+* Core static pages (home, story and channel) should render regardless of database condition. 
 
 None of the big web sites that we know of (Google, Baidu, FT, Guardian, etc...) has been able to achieve item 3. It requires us to be very clear of the priority order of every element on the page. But with our server in HK and main audience in mainland China, making sure critical content are rendered even on very unreliable internet connection is worth the extra effort. 
 
@@ -92,7 +97,6 @@ None of the big web sites that we know of (Google, Baidu, FT, Guardian, etc...) 
 * [CSS and Critical Path](https://speakerdeck.com/patrickhamann/css-and-the-critical-path)
 * [Google Web Fundamentals](https://developers.google.com/web/fundamentals/)
 * [Embracing the Network](https://speakerdeck.com/patrickhamann/embracing-the-network-smashing-conf)
-
 
 ## Projects
 The projects are prioritized based on importance and dependency. 
@@ -107,12 +111,14 @@ We should use Git for version control in NEXT.
 Our current cache system is problematic. Cache should be smart. When editors make a change, the change should be immediately on our site and app. When developers push a change on site, the change should also be immediately on. 
 
 ### CMS
+Before June, we will focus on three most important upgrades with our CMS. 
 * Home Page
   We need to change the way pages, especially home page, are created. The editors should not be concerned with design or layout. They just manage stories and lists. Programs do the rest. 
 * Story Edit
-  Stories should be upgraded in several ways. First, it should have a way to link to the English version by Unique ID. The way we treat images and media in the story should be streamlined. For example, there should be no need to upload several sizes of the same images. 
+  Stories should be upgraded in several ways. First, it should have a way to link to the English version by Unique ID. The way we treat images in the story should be streamlined. For example, there should be no need to upload several sizes of the same images. And it should be easy to insert all kinds of inline media, including video, image, caption, aside box, quotes, social codes, subtitle etc...
 * Stream Pages
   Channel, tag, marketing, events, special reports pages should all be generalized as Stream Page, meaning a page that mainly contains links to content. The stream page should be fully configurable in the CMS. For example, when we need to create a special report called "Lunch", the editors can just do it without any developers or designers. In fact, home page should be just a specific stream page. 
+After June, we'll review our current CMS system as a whole and decide to replace it with a new one. 
 
 ### Story Page
 Over 40% of our traffic comes from story page. So it's at least as important as the home page. When users share our content on mobile, they share story page. So it's important to design and develop both for mobile and PC. Since the page is mostly static content, we must make sure it loads instantly by strictly following our performance principles. Special attention should be paid when users open the story page in an app, rather than a browser. 
@@ -229,16 +235,16 @@ Allow users or organizations to pay for:
 3. Unlock features. For example, a user can pay 100RMB to hide all ads for a month. 
 4. Buy items. For example, a user can buy a special report and read on his phone and Kindle. 
 
-## Discussions
-### Should we use Markdown in the Next project? 
-**Pros**
-- The story, information, events and marketing pages are typical places where Markdown might be useful. 
-- We can also give users a Markdown editor so that they don't have to learn the Markdown language. 
-- Clean text in the database. 
-[Why Markdown? A two-minute explanation](http://brettterpstra.com/2011/08/31/why-markdown-a-two-minute-explanation/)
-
-**Cons**
-- Need to learn
-- May not do all the tricks needed (videos, slide shows, etc...)
+## FAQ
+### Why not use Markdown in the Next project? 
+- Need to learn. No editor has heard of it. Editors hate learning new language. 
+- May not do all the tricks needed (videos, slide shows, aside, quotes etc...). 
 - Rely on third-party interpreter, which means less control from our own developers. 
+- Our past stories are in HTML format. 
+- Not really open standard like HTML. 
+- Editors will rely on visual interface anyway. 
+
+### What are new requirements for subscription business? 
+- Accessibility: once users pay for a service, they become very picky in terms of service. For example, if an article is blocked by the government, we need to find a way to deliver it to the end user. 
+- Customer Service: when there's a problem, users will need to get a solution immediately. Sometimes this means speaking to a person. 
 
