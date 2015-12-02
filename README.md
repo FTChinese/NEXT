@@ -122,12 +122,13 @@ Our current cache system is problematic. Cache should be smart. When editors mak
 
 ### CMS
 Before June, we will focus on three most important upgrades with our CMS. 
-* Home Page
-  We need to change the way pages, especially home page, are created. The editors should not be concerned with design or layout. They just manage stories and lists. Programs do the rest. 
-* Story Edit
-  Stories should be upgraded in several ways. First, it should have a way to link to the English version by Unique ID. The way we treat images in the story should be streamlined. For example, there should be no need to upload several sizes of the same images. And it should be easy to insert all kinds of inline media, including video, image, caption, aside box, quotes, social codes, subtitle etc...
-* Stream Pages
-  Channel, tag, marketing, events, special reports pages should all be generalized as Stream Page, meaning a page that mainly contains links to content. The stream page should be fully configurable in the CMS. For example, when we need to create a special report called "Lunch", the editors can just do it without any developers or designers. In fact, home page should be just a specific stream page. 
+#### Home Page
+We need to change the way pages, especially home page, are created. The editors should not be concerned with design or layout. They just manage stories and lists. Programs do the rest. 
+#### Story Edit
+Stories should be upgraded in several ways. First, it should have a way to link to the English version by Unique ID. The way we treat images in the story should be streamlined. For example, there should be no need to upload several sizes of the same images. And it should be easy to insert all kinds of inline media, including video, image, caption, aside box, quotes, social codes, subtitle etc...
+#### Stream Pages
+Channel, tag, marketing, events, special reports pages should all be generalized as Stream Page, meaning a page that mainly contains links to content. The stream page should be fully configurable in the CMS. For example, when we need to create a special report called "Lunch", the editors can just do it without any developers or designers. In fact, home page should be just a specific stream page. 
+
 After June, we'll review our current CMS system as a whole and decide to replace it with a new one. 
 
 ### Story Page
@@ -138,6 +139,15 @@ The core content of the story page includes story title, story body, page header
 It is possible to display landscape or portrait (for example, Lunch with the FT) main image for the story page. All devices should consider this possibility. 
 
 The story page is mostly likely to be opened in an app's webview. So it's important to test how it renders in-app, for example, in WeChat.  
+
+The story should also support these inline media types: 
+* Photo Slides
+* Images (it would be better to have the width and height data in the image)
+* Promotion Box (Related Topics, Reports, Urls, Downloads, etc...)
+* Videos
+* Charts (either in SVG or JavaScript, but needs to be dynamic)
+* Polling
+* Seamless iFrames (interactive features, etc...)
 
 For stories translated from FT.com, there's an API that provides: 
 * FT.com unique ID. 
@@ -188,6 +198,7 @@ Contacts, advertisements, and other links in the footer. The information in thes
 </div>
 
 ### Advertising
+#### Regular
 Ad units should be simple and backward compatible. I suggest that we should have two types of basic ad units: MPU and Banner. Then clients can pay extra money for enhanced display, like full page and expandable. The advertisement should be responsive, adapting to any environment. In order to show the clients how HTML 5 works, we should use our own house ad to showcase what's possible. We will also implement stricter security requirements to advertisements. 
 
 <div class="mpu" style="width:300px;height:250px;background-color:#cc0033;text-align:center;line-height:250px;font-size:32px;color:white;margin:5px 0 14px 14px;float:right;">
@@ -196,6 +207,9 @@ Ad units should be simple and backward compatible. I suggest that we should have
 1. If a user pays to disable ad, all ads should be hidden. So we need to come up with a way to switch off ads on all platforms. 
 2. On the Dolphin system, if the client provide third party code, we need to control how and when to send third party impression track. And we'll monitor call back using GA, FA and our own trackign system. If we let client make the decision, the gap between Dolphin and client impression data will be huge. 
 3. The Dolphin system makes no distinction between ad channel and ad position. This will spiral into an unmanageable mess in two years. We need to address this when we develop advertising for Next. 
+
+#### Sponsorship
+For sponsored special reports, we should have a block on home page. The block should have title, ad unite banner, headline and lead. This way, we will have enough inventory for each campaign. 
 
 
 ### Partials
