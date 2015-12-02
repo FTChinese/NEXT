@@ -122,10 +122,13 @@ Our current cache system is problematic. Cache should be smart. When editors mak
 
 ### CMS
 Before June, we will focus on three most important upgrades with our CMS. 
+
 #### Home Page
-We need to change the way pages, especially home page, are created. The editors should not be concerned with design or layout. They just manage stories and lists. Programs do the rest. 
+We need to change the way pages, especially home page, are created. The editors should not be burdened with design or layout. They just manage stories and lists. Programs do the rest. 
+
 #### Story Edit
 Stories should be upgraded in several ways. First, it should have a way to link to the English version by Unique ID. The way we treat images in the story should be streamlined. For example, there should be no need to upload several sizes of the same images. And it should be easy to insert all kinds of inline media, including video, image, caption, aside box, quotes, social codes, subtitle etc...
+
 #### Stream Pages
 Channel, tag, marketing, events, special reports pages should all be generalized as Stream Page, meaning a page that mainly contains links to content. The stream page should be fully configurable in the CMS. For example, when we need to create a special report called "Lunch", the editors can just do it without any developers or designers. In fact, home page should be just a specific stream page. 
 
@@ -142,11 +145,13 @@ The story page is mostly likely to be opened in an app's webview. So it's import
 
 The story should also support these inline media types: 
 * Photo Slides
-* Images (it would be better to have the width and height data in the image)
+* Images (it would be better to have the width and height data in the image; it should support captions)
 * Promotion Box (Related Topics, Reports, Urls, Downloads, etc...)
 * Videos
 * Charts (either in SVG or JavaScript, but needs to be dynamic)
 * Polling
+* Quotes
+* Social box (icons, links, QR codes, etc...)
 * Seamless iFrames (interactive features, etc...)
 
 For stories translated from FT.com, there's an API that provides: 
