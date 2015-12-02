@@ -132,7 +132,7 @@ Stories should be upgraded in several ways. First, it should have a way to link 
 #### Stream Pages
 Channel, tag, marketing, events, special reports pages should all be generalized as Stream Page, meaning a page that mainly contains links to content. The stream page should be fully configurable in the CMS. For example, when we need to create a special report called "Lunch", the editors can just do it without any developers or designers. In fact, home page should be just a specific stream page. 
 
-After June, we'll review our current CMS system as a whole and decide to replace it with a new one. 
+After June, we'll review our current CMS system as a whole and decide whether to replace it with a new one. 
 
 ### Story Page
 Over 40% of our traffic comes from story page. So it's at least as important as the home page. When users share our content on mobile, they share story page. So it's important to design and develop both for mobile and PC. Since the page is mostly static content, we must make sure it loads instantly by strictly following our performance principles. Special attention should be paid when users open the story page in an app, rather than a browser. 
