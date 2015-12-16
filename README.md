@@ -249,6 +249,7 @@ The iOS and Android app need to change into Next style, probably by removing the
 Use FT.com's new 404 page, which is both fun and useful. 
 
 ### User Comments
+After discussing with Feng Wang, we decided that user comments should use Sina Weibo API rather than our own. This way we don't have to spend time censoring user comments and users can see their post immediately after submiting. 
 
 ### Job Site
 
@@ -277,3 +278,4 @@ Allow users or organizations to pay for:
 - Accessibility: once users pay for a service, they become very picky in terms of service. For example, if an article is blocked by the government, we need to find a way to deliver it to the end user. 
 - Customer Service: when there's a problem, users will need to get a solution immediately. Sometimes this means speaking to a person. 
 
+### How should we manage our user comments? 
