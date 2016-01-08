@@ -126,6 +126,13 @@ Before June, we will focus on three most important upgrades with our CMS.
 #### Home Page
 We need to change the way pages, especially home page, are created. The editors should not be burdened with design or layout. They just manage stories and lists. Programs do the rest. 
 
+The list and story system should: 
+
+1. Generate a API, which can be output into JSON, for developer to layout the pages. 
+2. Be easy for editor to add, edit, and delete both lists and items (story, video, interactive features, text, url etc...) without any technical knowledge. 
+3. Delegate control to the right person/team. For example, the marketing/event block should fall under their control, rather than bothering editorial team. 
+4. Leave the robotic work to robots. 
+
 #### Story Edit
 Stories should be upgraded in several ways. First, it should have a way to link to the English version by Unique ID. The way we treat images in the story should be streamlined. For example, there should be no need to upload several sizes of the same images. And it should be easy to insert all kinds of inline media, including video, image, caption, aside box, quotes, social codes, subtitle etc...
 
@@ -211,7 +218,10 @@ Ad units should be simple and backward compatible. I suggest that we should have
 </div>
 1. If a user pays to disable ad, all ads should be hidden. So we need to come up with a way to switch off ads on all platforms. 
 2. On the Dolphin system, if the client provide third party code, we need to control how and when to send third party impression track. And we'll monitor call back using GA, FA and our own trackign system. If we let client make the decision, the gap between Dolphin and client impression data will be huge. 
-3. The Dolphin system makes no distinction between ad channel and ad position. This will spiral into an unmanageable mess in two years. We need to address this when we develop advertising for Next. 
+3. The Dolphin system makes no distinction between ad channel and ad position. This will spiral into an unmanageable mess in two years. We need to discuss this when we develop advertising for Next. 
+4. In the new design, we should avoid expanding MPU into halfpage, as it might break the layout and lowers viewability. Instead, the reponsive banners can be expanded vertically if clients want to buy high-impact ads. 
+5. All the ad positions should be delivered through friendly iframes or ajax. The "document.write" way should be avoided as it is blocking not only to content, but also other advertisement. In our current web site, if IBM loads its top banner ad assets in one minute, Accenture have to wait for one minute before its MPU unit is rendered. So making ads non-blocking is beneficial to both readers and advertisers. It is also easy to do creative advertisement such as expandable on friendly iframe. 
+
 
 #### Sponsorship
 For sponsored special reports, we should have a block on home page. The block should have title, ad unite banner, headline and lead. This way, we will have enough inventory for each campaign. 
@@ -224,6 +234,7 @@ Partials are short snippets of HTML templates that are included in pages or othe
 ### iOS and Android App
 The iOS and Android app need to change into Next style, probably by removing the bottom bar and adding a fixed header bar. The home page layout will use data created in the upgraded CMS, rather than from the current API. Other than that, iOS and Android will be developed, upgraded and distributed seperately from the Next project. 
 
+We will also enable iOS to receive both remote notification. Notification will be used along with customization, retention, awakening and segmentation. 
 
 ### APIs
 
