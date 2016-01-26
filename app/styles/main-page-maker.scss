@@ -1,0 +1,405 @@
+// bower:scss
+// endbower
+
+
+// colors
+$defaultBG: #FFF1E0;
+$sectionsBorder: #cec6b9;
+$dragOverBorder: #777777;
+$rightBG: #F6E9D8;
+$itemBG: #E9DECF;
+$listsHeaderBG: #9E2F50;
+
+// width, height
+$headerHeight: 44px;
+$itemBottom: 5px;
+$maxWidth: 1024px;
+
+// mixins
+
+@mixin tabInnerOn {
+    background-color: $defaultBG;
+    color: #333;
+    font-weight: bold;
+}
+
+html, body {
+  background: #FFF1E0;
+  font: 16px 'Helvetica Neue',Helvetica,Arial,"Hiragino Sans GB","WenQuanYi Micro Hei","Heiti SC",STHeiti,SimSun,sans-serif;
+  color: #333;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+::-webkit-scrollbar {
+      width: 8px;
+}
+::-webkit-scrollbar-track {
+      background-color: $defaultBG;
+} /* the new scrollbar will have a flat appearance with the set background color */
+ 
+::-webkit-scrollbar-thumb {
+      background-color: $sectionsBorder; 
+} /* this will style the thumb, ignoring the track */
+ 
+::-webkit-scrollbar-button {
+
+} /* optionally, you can style the top and the bottom buttons (left and right for horizontal bars) */
+ 
+::-webkit-scrollbar-corner {
+
+}
+
+
+.browsehappy {
+  margin: 0.2em 0;
+  background: #ccc;
+  color: #000;
+  padding: 0.2em 0;
+}
+
+.fullbody {
+  max-width: $maxWidth;
+  margin: auto;
+  height: 100%;
+  padding-top: $headerHeight;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.fullbody-inner {
+  height: 100%;
+}
+
+.header {
+  font-size: 32px;
+  color: white;
+  background-color: #333;
+  height: $headerHeight;
+  line-height: 44px;
+  text-align: center;
+  margin: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+.header-inner {
+  width: 100%;
+  height: 100%;
+  max-width: $maxWidth;
+  margin: auto;
+}
+.tab {
+  font-weight: bold;
+  font-size: 16px;
+  padding: 0 $itemBottom;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+.tab-inner {
+  padding: 0 2*$itemBottom;
+}
+.tab.on .tab-inner {
+
+}
+.show-all {
+  .tab.all .tab-inner {
+    @include tabInnerOn;
+  }
+}
+
+.show-sections {
+  .tab.sections .tab-inner {
+    @include tabInnerOn;
+  }
+  .meta-table, .lists-container .item{
+    display: none;
+  }
+  .section-header {
+    margin-bottom: 0;
+  }
+  .lists-header {
+    border-bottom: 0;
+  }
+  .lists-item {
+    margin-top: $itemBottom;
+  }
+}
+
+.show-items {
+  .tab.items .tab-inner {
+    @include tabInnerOn;
+  }
+  .meta-table{
+    display: none;
+  }
+  .section-header {
+    //margin-bottom: 0;
+  }
+  .lists-header {
+    //border-bottom: 0;
+  }
+  .lists-item {
+    margin-top: $itemBottom;
+  }
+  .section-container {
+    display:none;
+    &.type-block {
+      display: block;
+    }
+  }
+}
+
+.button {
+  width: $headerHeight;
+  height: $headerHeight;
+  background-size: 30px;
+  background-position: center center;
+  background-repeat: no-repeat;  
+}
+.left {
+  float: left;
+}
+.right {
+  float: right;
+}
+.less {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M0 0h24v24h-24z" fill="none"/><path d="M7.41 18.59l1.42 1.41 3.17-3.17 3.17 3.17 1.41-1.41-4.58-4.59-4.59 4.59zm9.18-13.18l-1.42-1.41-3.17 3.17-3.17-3.17-1.42 1.41 4.59 4.59 4.59-4.59z"/></svg>');
+}
+.more {
+  display: none;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M0 0h24v24h-24z" fill="none"/><path d="M12 5.83l3.17 3.17 1.41-1.41-4.58-4.59-4.59 4.59 1.42 1.41 3.17-3.17zm0 12.34l-3.17-3.17-1.41 1.41 4.58 4.59 4.59-4.59-1.42-1.41-3.17 3.17z"/></svg>');
+}
+.hide-info {
+  .less, .meta-table, .lists-container .item{
+    display: none;
+  }
+  .section-header {
+    margin-bottom: 0;
+  }
+  .lists-header {
+    border-bottom: 0;
+  }
+  .lists-item {
+    margin-top: $itemBottom;
+  }
+  .more {
+    display: block;
+  }
+}
+
+.content-left {
+  float:left;
+  width: 50%;
+  height: 100%;
+  overflow-y: scroll;
+}
+.content-left-inner {
+  padding-top: 10px;
+}
+.content-right {
+  float:right;
+  width: 50%;
+  background-color: $rightBG;
+  height: 100%;
+  overflow-y: scroll;
+  .item {
+    border-color: $rightBG;
+  }
+  .item.over {
+    border-color: $dragOverBorder;
+  }
+}
+.content-right-inner {
+  padding: 10px 0 10px 0;
+}
+
+.meta-table {
+  width: 100%;
+  border-bottom: $itemBottom solid $defaultBG;
+  td {
+    padding: 0 $itemBottom;
+  }
+  td:first-child {
+      width: 33%;
+  }
+}
+
+.sections {
+  padding: 0 10px 10px 10px;
+}
+.section-container {
+  border-width: $itemBottom 0 $itemBottom 0;
+  border-style: solid;
+  border-color: $defaultBG;
+  //margin-bottom: 10px;
+  //border-radius: 5px;
+}
+.section-inner {
+  border: 1px solid $sectionsBorder;
+  margin-bottom: 5px;
+}
+.section-header {
+  background-color: $sectionsBorder;
+  padding: $itemBottom $itemBottom 0 $itemBottom;
+  border-bottom: $itemBottom solid $sectionsBorder;
+  //margin-bottom: 10px;
+  font-weight: bold;
+  font-size: 1.2em;
+  cursor: move;
+}
+
+.lists-item {
+  border-width: $itemBottom 1px 1px 1px;
+  border-style: solid;
+  border-color: $sectionsBorder;
+  margin: 0 $itemBottom $itemBottom $itemBottom;
+  // border: 1px solid $sectionsBorder;
+  // margin: 0 $itemBottom $itemBottom $itemBottom;
+}
+
+.item {
+  background-color: $itemBG;
+  padding:10px;
+  margin:0 10px;
+  border-bottom: $itemBottom solid $defaultBG;
+  background-repeat: no-repeat;
+  background-size: 20px;
+  background-position: 10px center;
+  &.video, &.photo, &.interactive {
+    padding-left: 40px;
+  }
+  &.video {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="grey"><path d="M0 0h24v24H0z" fill="none"/><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>');
+  }
+  &.photo {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="grey"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>');
+  }
+  &.interactive {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="grey"><path d="M0 0h24v24h-24z" fill="none"/><path d="M12 2c-5.52 0-10 4.48-10 10s4.48 10 10 10 10-4.48 10-10-4.48-10-10-10zm1 15h-2v-6h2v6zm0-8h-2v-2h2v2z"/></svg>');
+  }
+}
+
+.lists-header {
+  font-weight: bold;
+  background-color: $sectionsBorder;
+  border-bottom: 10px solid $defaultBG;
+  padding: 10px 0 10px 10px;
+  //color: white;
+}
+
+
+.o-input-text, .o-textarea {
+  background-color: $defaultBG;
+  border: 1px solid $defaultBG;
+  width: 100%;
+  box-sizing: border-box;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  margin: 0;
+  height: 36px;
+  border-radius: 5px;
+  padding: 7px 5px 8px;
+  width: 100%;
+  color: #333;
+  font-family: BentonSans,sans-serif;
+  font-size: 16px;
+  outline: 0;
+  -webkit-transition: .15s box-shadow ease-in;
+  transition: .15s box-shadow ease-in;
+  background-clip: padding-box;
+}
+
+.o-textarea {
+  height: 100px;
+}
+.o-forms-select {
+  cursor: pointer;
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zd…kgMS4xNjktLjMyNiAxLjc0OGwyLjUzNiAzLjU1NnoiIGZpbGw9IiM1MDUwNTAiLz48L3N2Zz4=);
+  background-position: right center;
+  background-position: right 5px center;
+  background-repeat: no-repeat;
+  background-origin: border-box;
+  background-size: 19px;
+  padding-right: 24px;
+  padding-top: 6px;
+  line-height: 110%;
+  padding-bottom: 6px\9;
+  padding-right: 5px\9;
+  background-image: none\9;
+  text-indent: .01px;
+  text-overflow: '';
+  width: 100%;
+  font-size: 18px;
+}
+.o-buttons {
+  display: inline-block;
+  box-sizing: border-box;
+  vertical-align: middle;
+  margin: 0;
+  outline: 0;
+  border-style: solid;
+  border-radius: 5px;
+  text-align: center;
+  text-decoration: none;
+  font-family: BentonSans,sans-serif;
+  cursor: pointer;
+  -webkit-transition: .3s background-color,.15s box-shadow ease-in;
+  transition: .3s background-color,.15s box-shadow ease-in;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-clip: padding-box;
+  padding: 3px 14px 3px 14px;
+  font-size: 14px;
+  line-height: 16px;
+  border-width: 1px;
+  color: #2e6e9e;
+  background: 0 0;
+  border-color: #2e6e9e;
+  color: #fff;
+  background: #2e6e9e;
+  border-color: #2e6e9e;
+  padding: 8px 18px 8px 18px;
+  font-size: 16px;
+  line-height: 18px;
+  border-width: 1px;
+}
+.o-buttons-container {
+  text-align: center;
+}
+.o-group {
+  margin-bottom: 14px;
+}
+.o-hidden {
+  display: none;
+}
+
+// drag and drop
+[draggable] {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  /* Required to make elements draggable in old WebKit */
+  -khtml-user-drag: element;
+  -webkit-user-drag: element;
+  cursor: move;
+  div {
+    cursor: move;
+  }
+}
+.over{
+  border-color: $dragOverBorder !important;
+}
+.over-drag-down {
+  border-bottom-color: $dragOverBorder !important;
+  border-bottom-width: $itemBottom;
+}
+.over-drag-up {
+  border-top-color: $dragOverBorder !important;
+}

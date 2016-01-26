@@ -20,9 +20,9 @@ Kickstart our own growth and monetizing efforts, especially subscription busines
 
 | Date             | Event                                                    |
 |------------------|----------------------------------------------------------|
-| Dec 15, 2015     | Infractures and development environment set up           |
-| Feb 01, 2016     | Story page complete                                      |
-| Mar 01, 2016     | Home page and stream pages complete                      |
+| Dec 15, 2015     | Infractures and development environment (Done)           |
+| Feb 01, 2016     | Story page complete (Working)                            |
+| Mar 01, 2016     | Home page and stream pages complete (Working)            |
 | Apr 15, 2016     | All pages and features on current site available on Next |
 | **May 04, 2016** | **Launch**                                               |
 | Jul 01, 2016     | Server-side converted to NodeJS                          |
