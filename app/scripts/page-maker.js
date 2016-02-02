@@ -67,11 +67,11 @@
 	    dayChar = dayArray[thisday.getDay()];
 	    todaystamp += dayChar;
     	thehour = thisday.getHours();
-        thehour = ("0" + thehour).slice(-2);      
+        thehour = ('0' + thehour).slice(-2);      
         theminute = thisday.getMinutes();
-        theminute = ("0" + theminute).slice(-2);
+        theminute = ('0' + theminute).slice(-2);
         ampm = (thehour < 12) ? 'AM' : 'PM';
-	    if (datetype == 1) {
+	    if (datetype === 1) {
 	        todaystamp = ' ' + thehour + ':' + theminute + ' ' + ampm;
 	    } else if (datetype === 2) {
 	    	//console.log (currentDateStamp);
@@ -129,7 +129,7 @@
 		if (timeStamp !== '') {
 			timeStamp = unixtochinese(timeStamp, timeStampType);
 		} else {
-			timeStamp = '<div class="new-item"></div>'
+			timeStamp = '<div class="new-item"></div>';
 		}
 		dataHTML = '<div draggable=true data-type="' + type + '" class="item ' + type + '" data-id="' + id + '"><div class="remove-item"></div><div class="timestamp">' + timeStamp + '</div><div class="item-title">' + headline + '</div><div class="item-info"><div class="item-links"><a href="http://www7.ftchinese.com/' + type + '/' + id + '" target=_blank>Preview</a><a href="' + editLink + '" target=_blank>Edit</a></div><div class="item-info-item"><input title="headline" name="headline" class="o-input-text" value="' + headline + '"></div><div class="item-info-item"><input title="image" name="image" class="o-input-text" value="' + image + '"></div><div class="item-info-item"><div class="item-info-title">longlead</div><textarea title="image" name="longlead" class="o-input-text">' + longlead + '</textarea></div><div class="item-info-item"><div class="item-info-title">shortlead</div><textarea title="image" name="shortlead" class="o-input-text">' + shortlead + '</textarea></div><div class="item-info-item"><input title="image" name="timeStamp" class="o-input-text" value="' + oTimeStamp + '" readonly><input title="image" name="type" class="o-input-text" value="' + type + '" readonly></div></div></div>';
 		return dataHTML;
@@ -324,8 +324,8 @@
 	function loadTools() {
 		var sections = '';
 		var lists = '';
-		$.each(toolkits.section, function(key, value){
-			sections += '<div class="toolkit toolkit-section toolkit-' + key + '" draggable=true>'+key+'</div>'
+		$.each(toolkits.section, function(key, value){ // jshint ignore:line
+			sections += '<div class="toolkit toolkit-section toolkit-' + key + '" draggable=true>'+key+'</div>';
 		});
 		lists = '<div class="toolkit toolkit-list" draggable=true>list</div>';
 		$('#tool-sec-inner').html(sections);
@@ -583,7 +583,7 @@
 		dragSrcEl = $(this);
 	});
 
-	$('body').on('dragend', '.item, .section-header, .lists-header, .toolkit, .group-header' ,function(e){
+	$('body').on('dragend', '.item, .section-header, .lists-header, .toolkit, .group-header' ,function(){
 		if ($(this).is('.item, .toolkit')) {
 			$('.item, .toolkit').css('opacity','1');
 		} else if ($(this).hasClass('group-header')) {
@@ -599,7 +599,7 @@
 		$('.over-drag-up').removeClass('over-drag-up');
 	});
 
-	$('body').on('dragenter', '.item, .lists-item>.meta-table, .lists-item>.lists-header, .section-container, .lists-item, .section-inner>.meta-table, .section-header, .content-left-inner',function(e){
+	$('body').on('dragenter', '.item, .lists-item>.meta-table, .lists-item>.lists-header, .section-container, .lists-item, .section-inner>.meta-table, .section-header, .content-left-inner',function(){
 		if (dragSrcEl.is('.item, .group-header') && $(this).is('.item, .lists-item>.meta-table, .lists-item>.lists-header')) {
 			$(this).addClass('over');
 		} else if (dragSrcEl.hasClass('section-header') && $(this).hasClass('section-container')) {
@@ -691,11 +691,8 @@
 		var newSectionObject;
 		var sectionType;
 		var sectionJSON;
-		var newSectionObject;
 		var newListJSON;
 		var newListObject;
-		var blockTypesHTML;
-		var listsContainer;
 		var groupItems;
 		if (e.stopPropagation) {
 			e.stopPropagation(); // stops the browser from redirecting.
@@ -705,7 +702,7 @@
 		}
 		// Don't do anything if dropping the same column we're dragging.
 		if (dragSrcEl.hasClass('item')) {		
-			if ($(this).hasClass('item') === true && dragSrcEl != this) {
+			if ($(this).hasClass('item') === true && dragSrcEl !== this) {
 				dragSrcEl.insertAfter($(this)).addClass('animated zoomIn');
 			} else if ($(this).is('.lists-item>.meta-table, .lists-item>.lists-header')){
 				$(this).parent().find('.lists-container').eq(0).prepend(dragSrcEl);
@@ -758,20 +755,20 @@
 					$('.section-container').eq(dragIndex).insertBefore($('.section-container').eq(dragOverIndex)).addClass('animated zoomIn');
 				}
 			} else {
-				console.log ("drag section header: other situation");
+				console.log ('drag section header: other situation');
 				console.log (this.classList);
 			}
 		} else if (dragSrcEl.hasClass('toolkit-section')) {
 			sectionType = dragSrcEl.html();
 			sectionJSON = {
-		      "type": sectionType
+		      'type': sectionType
 		    };
 		    if (sectionType === 'block') {
-			    sectionJSON['lists'] = [
+			    sectionJSON.lists = [
 					{
-	          		"name": "New List",
-	          		"title": "",
-	          		"items": []
+	          		'name': 'New List',
+	          		'title': '',
+	          		'items': []
 	        		}
 		    	];
 		    }
@@ -791,7 +788,7 @@
 				$(this).find('.sections').append(newSectionObject);
 				newSectionObject.addClass('animated zoomIn');
 			} else {
-				console.log ("create new section: other situation");
+				console.log ('create new section: other situation');
 				console.log (this.classList);
 			}
 		} else if (dragSrcEl.hasClass('lists-header')) {
@@ -829,9 +826,9 @@
 		} else if (dragSrcEl.hasClass('toolkit-list')) {
 			// drop a list. The drop point could be a container or any inner elements
 			newListJSON = {
-	  			"name": "New List",
-	  			"title": "",
-	  			"items": []
+	  			'name': 'New List',
+	  			'title': '',
+	  			'items': []
 			};
 			newList = '<div class="lists-item"><div class="remove-lists"></div><div class="lists-header" draggable="true">New List</div>' + renderMeta(newListJSON) + '</div>';
 			newListObject = $($.parseHTML(newList));
