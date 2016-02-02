@@ -6,14 +6,18 @@
 $defaultBG: #FFF1E0;
 $sectionsBorder: #cec6b9;
 $dragOverBorder: #777777;
+$defaultBorderColor: #E9DECF;
 $rightBG: #F6E9D8;
 $itemBG: #E9DECF;
-$listsHeaderBG: #9E2F50;
+$defaultRed: #9E2F50;
+$blueLink: #2e6e9e;
 
 // width, height
 $headerHeight: 44px;
 $itemBottom: 5px;
 $maxWidth: 1024px;
+$defaultLineHeight: 161.8%;
+
 
 // mixins
 
@@ -73,12 +77,11 @@ html, body {
 }
 
 .header {
-  font-size: 32px;
+  font-size: 16px;
   color: white;
   background-color: #333;
   height: $headerHeight;
   line-height: 44px;
-  text-align: center;
   margin: 0;
   position: fixed;
   top: 0;
@@ -89,10 +92,13 @@ html, body {
   height: 100%;
   max-width: $maxWidth;
   margin: auto;
+  a {
+    color: white;
+    text-decoration: none;
+  }
 }
 .tab {
   font-weight: bold;
-  font-size: 16px;
   padding: 0 $itemBottom;
   box-sizing: border-box;
   cursor: pointer;
@@ -113,7 +119,7 @@ html, body {
   .tab.sections .tab-inner {
     @include tabInnerOn;
   }
-  .meta-table, .lists-container .item{
+  .meta-table, .item, .group-header {
     display: none;
   }
   .section-header {
@@ -131,7 +137,7 @@ html, body {
   .tab.items .tab-inner {
     @include tabInnerOn;
   }
-  .meta-table{
+  .meta-table, .toolkit-header, .toolkit-footer, .toolkit-banner {
     display: none;
   }
   .section-header {
@@ -151,12 +157,38 @@ html, body {
   }
 }
 
+.source-json {
+  display: none;
+  width: 100%;
+  height: 100%;
+  padding: $itemBottom;
+  box-sizing: border-box;
+  border: medium none;
+  background-color: $defaultBG;
+  font-size: 16px;
+}
+.link-json-editor {
+  display: none;
+}
+.show-json {
+  .tab.json .tab-inner {
+    @include tabInnerOn;
+  }
+  .content-left, .content-right {
+    display: none;
+  }
+  .source-json, .link-json-editor {
+    display: block;
+  }
+}
+
 .button {
-  width: $headerHeight;
+  padding: 0 $itemBottom;
   height: $headerHeight;
   background-size: 30px;
   background-position: center center;
-  background-repeat: no-repeat;  
+  background-repeat: no-repeat;
+  cursor: pointer;
 }
 .left {
   float: left;
@@ -170,23 +202,6 @@ html, body {
 .more {
   display: none;
   background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M0 0h24v24h-24z" fill="none"/><path d="M12 5.83l3.17 3.17 1.41-1.41-4.58-4.59-4.59 4.59 1.42 1.41 3.17-3.17zm0 12.34l-3.17-3.17-1.41 1.41 4.58 4.59 4.59-4.59-1.42-1.41-3.17 3.17z"/></svg>');
-}
-.hide-info {
-  .less, .meta-table, .lists-container .item{
-    display: none;
-  }
-  .section-header {
-    margin-bottom: 0;
-  }
-  .lists-header {
-    border-bottom: 0;
-  }
-  .lists-item {
-    margin-top: $itemBottom;
-  }
-  .more {
-    display: block;
-  }
 }
 
 .content-left {
@@ -204,7 +219,7 @@ html, body {
   background-color: $rightBG;
   height: 100%;
   overflow-y: scroll;
-  .item {
+  .item, .toolkit {
     border-color: $rightBG;
   }
   .item.over {
@@ -214,7 +229,11 @@ html, body {
 .content-right-inner {
   padding: 10px 0 10px 0;
 }
-
+// deal with Chrome's bug with overflow scroll
+.content-left-inner, .content-right-inner {
+  height: 101%;
+  overflow: visible;
+}
 .meta-table {
   width: 100%;
   border-bottom: $itemBottom solid $defaultBG;
@@ -259,56 +278,167 @@ html, body {
   // margin: 0 $itemBottom $itemBottom $itemBottom;
 }
 
-.item {
+.item, .toolkit {
   background-color: $itemBG;
   padding:10px;
   margin:0 10px;
   border-bottom: $itemBottom solid $defaultBG;
-  background-repeat: no-repeat;
-  background-size: 20px;
-  background-position: 10px center;
+
   &.video, &.photo, &.interactive {
-    padding-left: 40px;
+    .item-title {
+      padding-left: 25px;
+      background-repeat: no-repeat;
+      background-size: 20px;
+      background-position: 0 center;
+    }
   }
-  &.video {
+  &.video .item-title {
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="grey"><path d="M0 0h24v24H0z" fill="none"/><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>');
   }
-  &.photo {
+  &.photo .item-title {
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="grey"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>');
   }
-  &.interactive {
+  &.interactive .item-title {
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="grey"><path d="M0 0h24v24h-24z" fill="none"/><path d="M12 2c-5.52 0-10 4.48-10 10s4.48 10 10 10 10-4.48 10-10-4.48-10-10-10zm1 15h-2v-6h2v6zm0-8h-2v-2h2v2z"/></svg>');
   }
+}
+
+.item-info {
+  display: none;
+}
+.item-info-item {
+  padding: $itemBottom 0;
+  input, textarea {
+    background-color: white;
+    font-size: 14px;
+  }
+  textarea {
+    height: 80px;
+    line-height: $defaultLineHeight;
+  }
+  border: medium none;
+}
+.item-info-title {
+  padding-bottom: $itemBottom;
+  color: #333;
+}
+.item-links {
+  padding: $itemBottom 0;
+  a {
+    color: $blueLink;
+    text-decoration: none;
+    display: block;
+    float: left;
+    padding: $itemBottom 2 * $itemBottom 2 * $itemBottom 0;
+  }
+}
+.group-header {
+  padding: 0 0 $itemBottom 2*$itemBottom;
+}
+.item.expanded .item-info {
+  display: block !important;
+}
+.section-container.expanded {
+  .section-inner>.meta-table {
+    display: table;
+  }
+}
+.lists-item.expanded {
+  .meta-table {
+    display: table;
+  }
+  .item {
+    display: block;
+  }
+}
+.item:hover {
+  .timestamp {
+    display: none;
+  }
+  .remove-item {
+    display: block;
+  }
+}
+.section-container:hover {
+  .remove-section {
+    display: block;
+  }
+}
+.lists-item:hover {
+  .remove-lists {
+    display: block;
+  }
+}
+.timestamp {
+  float: right; 
+  font-size: 14px;
+  color: #777;
+  .new-item {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="red"><path d="M0 0h24v24H0z" fill="none"/><path d="M23 12l-2.44-2.78.34-3.68-3.61-.82-1.89-3.18L12 3 8.6 1.54 6.71 4.72l-3.61.81.34 3.68L1 12l2.44 2.78-.34 3.69 3.61.82 1.89 3.18L12 21l3.4 1.46 1.89-3.18 3.61-.82-.34-3.68L23 12zm-10 5h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>');
+    height: 24px;
+    width: 24px;
+    background-size: 100%;
+    background-repeat: no-repeat;
+  }
+}
+.remove-item, .remove-section, .remove-lists {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="grey"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2v-12h-12v12zm13-15h-3.5l-1-1h-5l-1 1h-3.5v2h14v-2z"/><path d="M0 0h24v24h-24z" fill="none"/></svg>');
+  float: right;
+  height: 24px;
+  width: 24px;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  display: none;
+}
+
+
+
+
+.remove-section {
+  margin: $itemBottom $itemBottom 0 0;
+}
+
+.remove-lists {
+  margin: 3px $itemBottom 0 0;
+}
+
+.toolkit {
+  background-color: $sectionsBorder;
 }
 
 .lists-header {
   font-weight: bold;
   background-color: $sectionsBorder;
   border-bottom: 10px solid $defaultBG;
-  padding: 10px 0 10px 10px;
+  padding: 0 0 $itemBottom $itemBottom;
+  height: 30px;
+  line-height: 30px;
   //color: white;
 }
 
-
 .o-input-text, .o-textarea {
-  background-color: $defaultBG;
+  background-color: $itemBG;
   border: 1px solid $defaultBG;
   width: 100%;
   box-sizing: border-box;
   -moz-appearance: none;
   -webkit-appearance: none;
   margin: 0;
-  height: 36px;
+  height: 26px;
   border-radius: 5px;
-  padding: 7px 5px 8px;
+  padding: 2px $itemBottom;
   width: 100%;
   color: #333;
   font-family: BentonSans,sans-serif;
-  font-size: 16px;
+  font-size: 14px;
   outline: 0;
   -webkit-transition: .15s box-shadow ease-in;
   transition: .15s box-shadow ease-in;
   background-clip: padding-box;
+  &[readonly] {
+    background-color: $defaultBG;
+  }
 }
 
 .o-textarea {
@@ -396,10 +526,115 @@ html, body {
 .over{
   border-color: $dragOverBorder !important;
 }
+.content-left-inner.over {
+  background-color: grey;
+}
 .over-drag-down {
   border-bottom-color: $dragOverBorder !important;
   border-bottom-width: $itemBottom;
 }
 .over-drag-up {
   border-top-color: $dragOverBorder !important;
+}
+
+
+//pop up box
+#preview-overlay {
+  position: relative;
+  overflow: visible;
+}
+#preview-box {
+  right:5px;
+  top:13px;
+  bottom:auto;
+  left:auto;
+  width:300px;
+  overflow:visible;
+  position:absolute;
+  z-index:9999;
+}
+.o-overlay__arrow-top:before, .o-overlay__arrow-top:after {
+bottom: 100%;
+border-top-width: 0;
+right: 20px;
+content: "";
+position: absolute;
+border: solid transparent;
+}
+.o-overlay__arrow-top:before {
+margin-right: -13px;
+border-width: 13px;
+}
+.o-overlay__arrow-top:after {
+margin-right: -10px;
+border-bottom-color: $sectionsBorder;
+border-width: 10px;
+}
+.o-overlay__close {
+cursor: pointer;
+margin: 0;
+border: 0;
+background: 0 0;
+float: right;
+outline: none;
+}
+.o-overlay__close-icon {
+font-family: "ft-icons";
+display: inline-block;
+vertical-align: middle;
+font-weight: 400!important;
+font-style: normal!important;
+speak: none;
+text-decoration: inherit;
+text-transform: none;
+text-rendering: optimizeLegibility;
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+width: 18px;
+height: 18px;
+font-size: 10px;
+line-height: 19px;
+color: #74736c;
+}
+.o-overlay-shadow {
+position: fixed;
+z-index: 10;
+opacity: 1;
+-webkit-transition: opacity .3s ease-in-out;
+-moz-transition: opacity .3s ease-in-out;
+-ms-transition: opacity .3s ease-in-out;
+-o-transition: opacity .3s ease-in-out;
+transition: opacity .3s ease-in-out;
+background: rgba(0,0,0,.7);
+height: 150%;
+width: 100%;
+top: 0;
+left: 0;
+}
+.o-overlay__close-icon:before {
+content: "×";
+font-family: 'Arial';
+font-size:26px;
+text-align: center;
+width: 100%;
+display: block;
+}
+.explain-body {
+  background:$defaultBG;
+  padding:$itemBottom;
+  color: #333;
+  line-height: $defaultLineHeight;
+}
+.preview-on-device {
+  padding: $itemBottom;
+  cursor: pointer;
+  border-top: 1px solid $defaultBorderColor;
+  &:first-child {
+    border-top-width: 0;
+  }
+}
+.preview-header {
+  background-color: $sectionsBorder;
+  padding: 0 2*$itemBottom;
+  color: #333;
 }

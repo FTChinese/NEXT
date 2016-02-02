@@ -14,6 +14,7 @@
 
     <!-- build:css styles/page-maker.css -->
     <link rel="stylesheet" href="styles/main-page-maker.css">
+    <link rel="stylesheet" href="../bower_components/animate.css/animate.min.css">
     <!-- endbuild -->
 
 
@@ -27,11 +28,14 @@
 
 <div class="header">
   <div class="header-inner">
-    <div class='tab all left' title='Show All Details'><div class="tab-inner">All</div></div>
-    <div class='tab sections left' title='Change Page Layout'><div class="tab-inner">Layout</div></div>
-    <div class='tab items left' title='Manage Content'><div class="tab-inner">Content</div></div>
-    <div class='button less left' title='Show Page Structure'></div>
-    <div class='button more left' title='Show More Details'></div>
+    <div class="tab all left" title="Show All Details"><div class="tab-inner">All</div></div>
+    <div class="tab sections left" title="Change Page Layout"><div class="tab-inner">Layout</div></div>
+    <div class="tab items left" title="Manage Content"><div class="tab-inner">Content</div></div>
+    <div class="tab json left" title="View JSON"><div class="tab-inner">JSON</div></div>
+    <div class="button right" id="button-submit">Submit</div>
+    <div class="button right" id="button-save">Save</div>
+    <div class="button right" id="button-preview"><div id='button-preview-main'>Preview</div><div id="preview-overlay"></div></div>
+    <div class="button link-json-editor right"><a href="http://www.jsoneditoronline.org/" target=_blank>JSON Editor</a></div>
   </div>
 </div>
 <div class="fullbody">
@@ -46,8 +50,15 @@
         <div class="stories-container">
           <div class="stories-inner" id="stories-inner"></div>
         </div>
+        <div class="tool-sec-container">
+          <div class="tool-sec-inner" id="tool-sec-inner"></div>
+        </div>
+        <div class="tool-list-container">
+          <div class="tool-list-inner" id="tool-list-inner"></div>
+        </div>
       </div>
     </div>
+    <textarea class="source-json" id="source-json"></textarea>
   </div>
 </div>
 
