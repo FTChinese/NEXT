@@ -131,7 +131,7 @@
 		} else {
 			timeStamp = '<div class="new-item"></div>';
 		}
-		dataHTML = '<div draggable=true data-type="' + type + '" class="item ' + type + '" data-id="' + id + '"><div class="remove-item"></div><div class="timestamp">' + timeStamp + '</div><div class="item-title">' + headline + '</div><div class="item-info"><div class="item-links"><a href="http://www7.ftchinese.com/' + type + '/' + id + '" target=_blank>Preview</a><a href="' + editLink + '" target=_blank>Edit</a></div><div class="item-info-item"><input title="headline" name="headline" class="o-input-text" value="' + headline + '"></div><div class="item-info-item"><input title="image" name="image" class="o-input-text" value="' + image + '"></div><div class="item-info-item"><div class="item-info-title">longlead</div><textarea title="image" name="longlead" class="o-input-text">' + longlead + '</textarea></div><div class="item-info-item"><div class="item-info-title">shortlead</div><textarea title="image" name="shortlead" class="o-input-text">' + shortlead + '</textarea></div><div class="item-info-item"><input title="image" name="timeStamp" class="o-input-text" value="' + oTimeStamp + '" readonly><input title="image" name="type" class="o-input-text" value="' + type + '" readonly></div></div></div>';
+		dataHTML = '<div draggable=true data-type="' + type + '" class="item ' + type + '" data-id="' + id + '"><div class="remove-item"></div><div class="timestamp">' + timeStamp + '</div><div class="item-title">' + headline + '</div><div class="item-info"><div class="item-links"><a href="http://www7.ftchinese.com/' + type + '/' + id + '" target=_blank>Preview</a><a href="' + editLink + '" target=_blank>Edit</a></div><div class="item-info-item"><input title="headline" name="headline" class="o-input-text" value="' + headline + '"></div><div class="item-info-item"><input title="image" name="image" class="o-input-text" value="' + image + '"></div><div class="item-info-item"><div class="item-info-title">longlead</div><textarea title="image" name="longlead" class="o-input-text">' + longlead + '</textarea></div><div class="item-info-item"><div class="item-info-title">shortlead</div><textarea title="image" name="shortlead" class="o-input-text">' + shortlead + '</textarea></div><div class="item-info-item"><input name="timeStamp" type="hidden" class="o-input-text" value="' + oTimeStamp + '" readonly><input type="hidden" name="type" class="o-input-text" value="' + type + '" readonly><input type="hidden" name="id" class="o-input-text" value="' + id + '" readonly></div></div></div>';
 		return dataHTML;
 	}
 
@@ -201,6 +201,8 @@
 		    dataType: 'json', 
 		    success: function (data) { 
 		        renderJson(data);
+		        loadStories();
+				loadTools();
 		        $('#source-json').val(JSON.stringify(data));
 		    }, 
 		    error: function (XMLHttpRequest, textStatus, errorThrown) { 
@@ -214,6 +216,10 @@
 		return '<div class="group-container"><div class="group-header" draggable=true>' + groupTitle + '</div><div class="group-inner">' + htmlCode + '</div></div>';
 		}
 		return ''; 
+	}
+
+	function tidyup() {
+		$('.animated').removeClass('animated');
 	}
 
 	function loadStories() {
@@ -255,14 +261,18 @@
 		        		image = entry.story_pic.other || entry.story_pic.smallbutton || entry.story_pic.cover || entry.story_pic.bigbutton || '';
 		        		type = 'story';
 		        		priority = entry.priority;
-						if (priority > 0 && priority <= 9) {
-						    coverHTML += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type);
-						} else if (priority >= 20 && priority <= 49) {
-						    newsHTML += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type);
-						} else if ((priority >= 49 && priority <= 69) || (priority >= 10 && priority <= 19)) {
-						    commentsHTML += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type);
+		        		if ($('.content-left-inner .item[data-id='+id+'][data-type='+type+']').length === 0) {
+							if (priority > 0 && priority <= 9) {
+							    coverHTML += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type);
+							} else if (priority >= 20 && priority <= 49) {
+							    newsHTML += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type);
+							} else if ((priority >= 49 && priority <= 69) || (priority >= 10 && priority <= 19)) {
+							    commentsHTML += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type);
+							} else {
+							    otherHTML += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type);
+							}
 						} else {
-						    otherHTML += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type);
+							//console.log (headline + ' already exists');
 						}
 		        	} else if (entryIndex === 'photonews'){
 		        		$.each(entry, function (photoIndex, photo) {
@@ -276,7 +286,9 @@
 			        		image = photo.illustration || photo.cover || photo.thumb_url || '';
 			        		image = 'http://i.ftimg.net/' + image;
 			        		type = 'photo';
-			        		photosInner += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type);
+			        		if ($('.content-left-inner .item[data-id='+id+'][data-type='+type+']').length === 0) {
+			        			photosInner += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type);
+			        		}
 		        		});
 		        	} else if (entryIndex === 'interactive'){
 		        		$.each(entry, function (interactiveIndex, interactive) {
@@ -288,7 +300,9 @@
 			        		shortlead = interactive.cshortleadbody || '';
 			        		image = interactive.story_pic.other || interactive.story_pic.smallbutton || interactive.story_pic.cover || interactive.story_pic.bigbutton || '';
 			        		type = 'interactive';
-			        		interactivesInner += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type);
+			        		if ($('.content-left-inner .item[data-id='+id+'][data-type='+type+']').length === 0) {
+			        			interactivesInner += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type);
+			        		}
 		        		});
 		        	} else if (entryIndex === 'video'){
 		        		$.each(entry, function (videoIndex, video) {
@@ -301,7 +315,9 @@
 			        		shortlead = JSON.stringify(video);
 			        		image = video.story_pic.other || video.story_pic.smallbutton || video.story_pic.cover || video.story_pic.bigbutton || '';
 			        		type = 'video';
-			        		videosInner += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type);
+			        		if ($('.content-left-inner .item[data-id='+id+'][data-type='+type+']').length === 0) {
+			        			videosInner += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type);
+			        		}
 		        		});
 		        	}
 		        });
@@ -562,21 +578,22 @@
 
 		}
 		if ($(this).is('.item, .toolkit')) {
-			$(this).css('opacity','0.4');
+			//$(this).css('opacity','0.4');
+			$(this).addClass('fade');
 		} else if ($(this).hasClass('group-header')) {
-			$(this).parent().css('opacity','0.4');
+			$(this).parent().addClass('fade');
 		} else if ($(this).hasClass('section-header')) {
 			$('.sections .section-container').each(function(index){
 				$(this).attr('data-order', index);
 			});
-			$(this).parentsUntil($('.sections'), '.section-container').css('opacity', '0.4');
+			$(this).parentsUntil($('.sections'), '.section-container').addClass('fade');
 			dragIndex = $(this).parentsUntil($('.sections'), '.section-container').attr('data-order');
 			dragIndex = parseInt(dragIndex, 10); 
 		} else if ($(this).hasClass('lists-header')) {
 			$('.lists-item').each(function(index){
 				$(this).attr('data-order', index);
 			});
-			$(this).parent().css('opacity', '0.4');
+			$(this).parent().addClass('fade');
 			dragIndex = $(this).parent().attr('data-order');
 			dragIndex = parseInt(dragIndex, 10);
 		}
@@ -585,18 +602,19 @@
 
 	$('body').on('dragend', '.item, .section-header, .lists-header, .toolkit, .group-header' ,function(){
 		if ($(this).is('.item, .toolkit')) {
-			$('.item, .toolkit').css('opacity','1');
+			$('.item, .toolkit').removeClass('fade');
 		} else if ($(this).hasClass('group-header')) {
-			$(this).parent().css('opacity','1');
+			$(this).parent().removeClass('fade');
 		} else if ($(this).hasClass('section-header')) {
-			$(this).parentsUntil($('.sections'), '.section-container').css('opacity', '1');
+			$(this).parentsUntil($('.sections'), '.section-container').removeClass('fade');
 		} else if ($(this).hasClass('lists-header')) {
-			$(this).parent().css('opacity', '1');
+			$(this).parent().removeClass('fade');
 		}
 		// remove visual feedbacks
 		$('.over').removeClass('over');
 		$('.over-drag-down').removeClass('over-drag-down');
 		$('.over-drag-up').removeClass('over-drag-up');
+		$('.fade').removeClass('fade');
 	});
 
 	$('body').on('dragenter', '.item, .lists-item>.meta-table, .lists-item>.lists-header, .section-container, .lists-item, .section-inner>.meta-table, .section-header, .content-left-inner',function(){
@@ -874,6 +892,7 @@
 			});
 			var previewHTML = '<div id="preview-shadow" class="o-overlay-shadow animated fadeIn"></div><div id="preview-box" class="rightanswer show o-overlay__arrow-top animated fadeInRight"><div class="preview-header">Simulate on the following devices: </div><div class="explain-body"><div class="explain-answer">' + devicesHTML + '</div></div>';
 			$('#preview-overlay').html(previewHTML);
+			tidyup();
 	});
 
 	$('body').on('click', '#preview-shadow', function () {
@@ -940,7 +959,5 @@
 		jsonToDom(gApiUrls.blank);
 		$('.tab.all').click();
 	}
-	loadStories();
-	loadTools();
 
 })(); 
