@@ -214,68 +214,10 @@ html, body {
 }
 .content-left-inner {
   padding-top: 10px;
-  .lists-container>.item:nth-of-type(1) .item-title:before {
-    content: "1. ";
-  }
-  .lists-container>.item:nth-of-type(2) .item-title:before {
-    content: "2. ";
-  }
-  .lists-container>.item:nth-of-type(3) .item-title:before {
-    content: "3. ";
-  }
-  .lists-container>.item:nth-of-type(4) .item-title:before {
-    content: "4. ";
-  }
-  .lists-container>.item:nth-of-type(5) .item-title:before {
-    content: "5. ";
-  }
-  .lists-container>.item:nth-of-type(6) .item-title:before {
-    content: "6. ";
-  }
-  .lists-container>.item:nth-of-type(7) .item-title:before {
-    content: "7. ";
-  }
-  .lists-container>.item:nth-of-type(8) .item-title:before {
-    content: "8. ";
-  }
-  .lists-container>.item:nth-of-type(9) .item-title:before {
-    content: "9. ";
-  }
-  .lists-container>.item:nth-of-type(10) .item-title:before {
-    content: "10. ";
-  }
-  .lists-container>.item:nth-of-type(11) .item-title:before {
-    content: "11. ";
-  }
-  .lists-container>.item:nth-of-type(12) .item-title:before {
-    content: "12. ";
-  }
-  .lists-container>.item:nth-of-type(13) .item-title:before {
-    content: "13. ";
-  }
-  .lists-container>.item:nth-of-type(14) .item-title:before {
-    content: "14. ";
-  }
-  .lists-container>.item:nth-of-type(15) .item-title:before {
-    content: "15. ";
-  }
-  .lists-container>.item:nth-of-type(16) .item-title:before {
-    content: "16. ";
-  }
-  .lists-container>.item:nth-of-type(17) .item-title:before {
-    content: "17. ";
-  }
-  .lists-container>.item:nth-of-type(18) .item-title:before {
-    content: "18. ";
-  }
-  .lists-container>.item:nth-of-type(19) .item-title:before {
-    content: "19. ";
-  }
-  .lists-container>.item:nth-of-type(20) .item-title:before {
-    content: "20. ";
-  }
-  .lists-container>.item:nth-of-type(21) .item-title:before {
-    content: "21. ";
+  @for $i from 1 through 20 {
+    .lists-container>.item:nth-of-type(#{$i}) .item-title:before {
+      content: $i + ". ";
+    }
   }
 }
 .content-right {
@@ -438,6 +380,7 @@ html, body {
   float: right; 
   font-size: 14px;
   color: #777;
+  margin-top: $itemBottom;
   .new-item {
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="red"><path d="M0 0h24v24H0z" fill="none"/><path d="M23 12l-2.44-2.78.34-3.68-3.61-.82-1.89-3.18L12 3 8.6 1.54 6.71 4.72l-3.61.81.34 3.68L1 12l2.44 2.78-.34 3.69 3.61.82 1.89 3.18L12 21l3.4 1.46 1.89-3.18 3.61-.82-.34-3.68L23 12zm-10 5h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>');
     height: 24px;
