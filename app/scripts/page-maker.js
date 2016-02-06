@@ -108,11 +108,12 @@
 		return renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type);
 	}
 
-	function renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type) {
+	function renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, relativestory) {
 		var editLink = '';
 		var previewLink = '';
 		var dataHTML = '';
 		var oTimeStamp = timeStamp;
+		var relativestoryHTML = '';
 		if (type === 'story') {
 			editLink = 'https://backyard.ftchinese.com/falcon.php/story/edit/' + id;
 			previewLink = 'http://www7.ftchinese.com/story/' + id;
@@ -131,7 +132,25 @@
 		} else {
 			timeStamp = '<div class="new-item"></div>';
 		}
-		dataHTML = '<div draggable=true data-type="' + type + '" class="item ' + type + '" data-id="' + id + '"><div class="remove-item"></div><div class="timestamp">' + timeStamp + '</div><div class="item-title">' + headline + '</div><div class="item-info"><div class="item-links"><a href="http://www7.ftchinese.com/' + type + '/' + id + '" target=_blank>Preview</a><a href="' + editLink + '" target=_blank>Edit</a></div><div class="item-info-item"><input title="headline" name="headline" class="o-input-text" value="' + headline + '"></div><div class="item-info-item"><input title="image" name="image" class="o-input-text" value="' + image + '"></div><div class="item-info-item"><div class="item-info-title">longlead</div><textarea title="image" name="longlead" class="o-input-text">' + longlead + '</textarea></div><div class="item-info-item"><div class="item-info-title">shortlead</div><textarea title="image" name="shortlead" class="o-input-text">' + shortlead + '</textarea></div><div class="item-info-item"><input name="timeStamp" type="hidden" class="o-input-text" value="' + oTimeStamp + '" readonly><input type="hidden" name="type" class="o-input-text" value="' + type + '" readonly><input type="hidden" name="id" class="o-input-text" value="' + id + '" readonly></div></div></div>';
+
+		
+		if (typeof relativestory === 'object') {
+			$.each(relativestory, function(key, value){
+				var cheadline = value.cheadline || '';
+				var id = value.id || '';
+				var type = '';
+				if (value.type === '0') {
+					type = 'story';
+				} else {
+					type = 'video';
+				}
+				relativestoryHTML += '<div class="relative-item" draggable=true><div class="relative-title">'+ value.cheadline +'</div><div class="relative-info"><input title="headline" name="headline" class="o-input-text" value="' + cheadline + '"></div><input type="hidden" readonly name="id" class="o-input-text" value="' + id + '"><input type="hidden" readonly name="type" class="o-input-text" value="' + type + '"></div>'
+			});
+			relativestoryHTML = '<div class="item-info-title relative-container-title">Related Content: </div><div class="relative-container">' + relativestoryHTML + '</div>';
+		}
+		//console.log (relativestoryHTML);
+		//relativestoryHTML = '';
+		dataHTML = '<div draggable=true data-type="' + type + '" class="item ' + type + '" data-id="' + id + '"><div class="remove-item"></div><div class="timestamp">' + timeStamp + '</div><div class="item-title">' + headline + '</div><div class="item-info"><div class="item-links"><a href="http://www7.ftchinese.com/' + type + '/' + id + '" target=_blank>Preview</a><a href="' + editLink + '" target=_blank>Edit</a></div><div class="item-info-item"><input title="headline" name="headline" class="o-input-text" value="' + headline + '"></div><div class="item-info-item"><input title="image" name="image" class="o-input-text" value="' + image + '"></div><div class="item-info-item"><div class="item-info-title">Long Lead: </div><textarea title="image" name="longlead" class="o-input-text">' + longlead + '</textarea></div><div class="item-info-item"><div class="item-info-title">Short Lead: </div><textarea title="image" name="shortlead" class="o-input-text">' + shortlead + '</textarea></div><div class="item-info-item"><input name="timeStamp" type="hidden" class="o-input-text" value="' + oTimeStamp + '" readonly><input type="hidden" name="type" class="o-input-text" value="' + type + '" readonly><input type="hidden" name="id" class="o-input-text" value="' + id + '" readonly>'+relativestoryHTML+'</div></div></div>';
 		return dataHTML;
 	}
 
@@ -246,6 +265,7 @@
 		        	var image = '';
 		        	var type = '';
 		        	var priority = 0;
+		        	var relativestory = [];
 		        	if (entry.id) {
 		        		//console.log (entry.last_publish_time);
 		        		timeStamp = entry.last_publish_time || '';
@@ -261,15 +281,17 @@
 		        		image = entry.story_pic.other || entry.story_pic.smallbutton || entry.story_pic.cover || entry.story_pic.bigbutton || '';
 		        		type = 'story';
 		        		priority = entry.priority;
+		        		relativestory = entry.relativestory || [];
+		        		//shortlead = JSON.stringify(relativestory);
 		        		if ($('.content-left-inner .item[data-id='+id+'][data-type='+type+']').length === 0) {
 							if (priority > 0 && priority <= 9) {
-							    coverHTML += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type);
+							    coverHTML += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, relativestory);
 							} else if (priority >= 20 && priority <= 49) {
-							    newsHTML += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type);
+							    newsHTML += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, relativestory);
 							} else if ((priority >= 49 && priority <= 69) || (priority >= 10 && priority <= 19)) {
-							    commentsHTML += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type);
+							    commentsHTML += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, relativestory);
 							} else {
-							    otherHTML += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type);
+							    otherHTML += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, relativestory);
 							}
 						} else {
 							//console.log (headline + ' already exists');
@@ -411,173 +433,16 @@
 		return JSON.stringify(J);
 	}
 
-/*
-
-	function searchstory(thedate, ro) {
-    var ro;
-    $("#runningorder").attr("href", "http://www7.ftchinese.com/m/corp/runningorder.html?thedate=" + thedate);
-    $("#stories div").empty();
-    var thisday1 = new Date();
-    var thenow1 = thisday1.getHours() * 10000 + thisday1.getMinutes() * 100 + thisday1.getSeconds();
-    $.getJSON("/falcon.php/homepage/getstoryapi/" + thedate + "/" + thenow1, function (data) {
-        $("#stories div").empty();
-        var existingstories = "";
-        $.each($("#thecodes textarea"), function () {
-            if ($(this).attr("id") != "codeechostoryid") {
-                existingstories += this.value;
-            }
-        });
-
-        $.each(data, function (entryIndex, entry) {
-            if (entry['id']) {
-                eval("myStories[\"" + entry['id'] + "\"]=entry");
-                var grey;
-
-                if (existingstories.indexOf(entry['id']) > 0) {
-                    grey = " style=\"color:#ccc\"";
-                }
-                var html = '<div class=hc>';
-                html += '<a title=\"插入文章但不添加相关新闻\" class=hl priority=' + entry['priority'] + ' ' + grey + ' id=' + entry['id'] + ' onclick=\"insertstory(\'' + entry['id'] + '\')\"> ';
-                html += entry['priority'] + '. '
-            html += entry['cheadline'] + '</a>';
-        html += '<span> <a target=_blank href=/falcon.php/story/edit/' + entry['id'] + '>edit</a>|<a target=_blank href=/create_story.php?id=' + entry['id'] + '>old</a>|<a target=_blank href=http://www7.ftchinese.com/story/' + entry['id'] + '?preview=1>view</a>';
-        html += '| <a title=\"插入文章并添加一条相关新闻\" class=tail onclick=\"insertstory(\'' + entry['id'] + '\',1)\"> 1 </a> ';
-        html += '<a title=\"插入文章并添加两条相关新闻\" class=tail onclick=\"insertstory(\'' + entry['id'] + '\',2)\"> 2 </a> ';
-        html += '<a title=\"插入文章并添加三条相关新闻\" class=tail onclick=\"insertstory(\'' + entry['id'] + '\',3)\"> 3 </a> ';
-        html += '<a title=\"插入文章并添加所有相关新闻\" class=tail onclick=\"insertstory(\'' + entry['id'] + '\',10)\"> N </a>';
-        html += '</span></div>';
-
-        if (entry['priority'] > 0 && entry['priority'] <= 9) {
-            $('#thecover').append(html);
-        } else if (entry['priority'] >= 10 && entry['priority'] <= 19) {
-            $('#theskyline').append(html);
-        } else if (entry['priority'] >= 20 && entry['priority'] <= 49) {
-            $('#theleft').append(html);
-        } else if (entry['priority'] >= 49 && entry['priority'] <= 69) {
-            $('#theright').append(html);
-        } else if (entry['genre'].toLowerCase().indexOf("news") >= 0 && entry['area'].toLowerCase().indexOf("china") >= 0) {
-            $('#thechina_news').append(html);
-        } else if (entry['genre'].toLowerCase().indexOf("news") >= 0) {
-            $('#theworld_news').append(html);
-        } else if (entry['cheadline'].toLowerCase().indexOf("lex") >= 0) {
-            $('#thelex').append(html);
-        } else if (entry['genre'].toLowerCase().indexOf("column") >= 0) {
-            $('#thecolumn').append(html);
-        } else if (entry['genre'].toLowerCase().indexOf("analysis") >= 0) {
-            $('#theanalysis').append(html);
-        } else if (entry['topic'].toLowerCase().indexOf("lifestyle") >= 0) {
-            $('#thelifestyle').append(html);
-        } else if (entry['genre'] == "feature") {
-            $('#thefeature').append(html);
-        } else if (entry['genre'] == "editorial") {
-            $('#theeditorial').append(html);
-        } else if (entry['genre'] == "comment") {
-            $('#thecomment').append(html);
-        } else if (entry['genre'] == "sod") {
-            $('#thesod').append(html);
-        } else {
-            $('#theother').append(html);
-        }
-            } else if (entryIndex == "video") {
-                $.each(entry, function (ek, ev) {
-                    //alert (ev['id']);
-                    eval("myStories[\"" + ev['id'] + "\"]=ev");
-                    var grey;
-
-                    if (existingstories.indexOf(ev['id']) > 0) {
-                        grey = " style=\"color:#ccc\"";
-                    }
-                    var html = '<div class=hc>';
-                    html += '<a ' + grey + ' id=' + ev['id'] + ' onclick=\"insertstory(\'' + ev['id'] + '\')\"> ';
-                    html += ev['cheadline'] + '</a>';
-                    html += '<span> <a target=_blank href=/create_videostory.php?id=' + ev['id'] + '>edit</a>|<a target=_blank href=http://www.ftchinese.com/video/' + ev['id'] + '>view</a>';
-                    html += '</span></div>';
-
-
-                    $('#thevideo').append(html);
-
-
-                });
-
-
-            } else if (entryIndex == "interactive") {
-                $.each(entry, function (ik, iv) {
-                    //alert (iv['id']);
-                    eval("myStories[\"" + iv['id'] + "\"]=iv");
-                    var grey = "";
-                    if (existingstories.indexOf("interactive/"+iv['id']) > 0) {
-                        grey = " style=\"color:#ccc\"";
-                    }
-
-
-                    var html = '<div class=hc>';
-                    html += '<a ' + grey + ' id=' + iv['id'] + ' onclick=\"insertstory(\'' + iv['id'] + '\')\"> ';
-                    html += iv['cheadline'] + '</a>';
-                    html += '<span> <a target=_blank href=/falcon.php/ia/edit/' + iv['id'] + '>edit</a>|<a target=_blank href=http://www.ftchinese.com/interactive/' + iv['id'] + '>view</a>';
-                    html += '<span></div>';
-
-
-                    $('#theinteractive').append(html);
-
-
-                });
-
-
-            } else if (entryIndex == "photonews") {
-                $.each(entry, function (ik, iv) {
-                    //alert (iv['id']);
-                    eval("myStories[\"" + iv['photonewsid'] + "\"]=iv");
-                    var grey = "";
-                    if (existingstories.indexOf("photonews/"+iv['en_title']) > 0) {
-                        grey = " style=\"color:#ccc\"";
-                    }
-
-
-                    var html = '<div class=hc>';
-                    html += '<a ' + grey + ' id=' + iv['photonewsid'] + ' onclick=\"insertphoto(\'' + iv['photonewsid'] + '\')\"> ';
-                    html += iv['cn_title'] + '</a>';
-                    html += ' <span><a target=_blank href=/falcon.php/pics/edit_photonews/' + iv['photonewsid'] + '>edit</a>|<a target=_blank href=http://www.ftchinese.com/photonews/' + iv['cn_title'] + '>view</a>';
-                    html += '</span></div>';
-
-
-                    $('#thephotonews').append(html);
-
-
-                });
-
-
-            }
-
-
-        });
-
-        $("#stories div[id^='the']").each(function () {
-            $(this).prepend("<b>" + $(this).attr("id").replace(/the/, "").toUpperCase() + ":</b>");
-        });
-
-
-        if (ro == 1) {
-            runthomas();
-        }
-
-        $(".hc span").hide();
-        $(".hc").hover(
-                function(){$(this).find("span").show();},
-                function(){$(this).find("span").hide();}
-                )
-
-            //alert (myStories["001026878"].cheadline + myStories["001026878"].id);
-    });
-}
-
-*/
-	$('body').on('dragstart', '.item, .section-header, .lists-header, .toolkit, .group-header' ,function(e){
+	$('body').on('dragstart', '.item, .relative-item, .section-header, .lists-header, .toolkit, .group-header' ,function(e){
 		try {
 			e.originalEvent.dataTransfer.setData('text/plain', 'anything');
 		} catch (ignore) {
 
 		}
-		if ($(this).is('.item, .toolkit')) {
+		if (e.stopPropagation) {
+			e.stopPropagation(); // stops the browser from redirecting.
+		}
+		if ($(this).is('.item, .toolkit, .relative-item')) {
 			//$(this).css('opacity','0.4');
 			$(this).addClass('fade');
 		} else if ($(this).hasClass('group-header')) {
@@ -600,8 +465,11 @@
 		dragSrcEl = $(this);
 	});
 
-	$('body').on('dragend', '.item, .section-header, .lists-header, .toolkit, .group-header' ,function(){
-		if ($(this).is('.item, .toolkit')) {
+	$('body').on('dragend', '.item, .relative-item, .section-header, .lists-header, .toolkit, .group-header' ,function(e){
+		if (e.stopPropagation) {
+			e.stopPropagation(); // stops the browser from redirecting.
+		}
+		if ($(this).is('.item, .relative-item, .toolkit')) {
 			$('.item, .toolkit').removeClass('fade');
 		} else if ($(this).hasClass('group-header')) {
 			$(this).parent().removeClass('fade');
@@ -617,8 +485,12 @@
 		$('.fade').removeClass('fade');
 	});
 
-	$('body').on('dragenter', '.item, .lists-item>.meta-table, .lists-item>.lists-header, .section-container, .lists-item, .section-inner>.meta-table, .section-header, .content-left-inner',function(){
+	$('body').on('dragenter', '.item, .relative-item, .relative-container-title, .lists-item>.meta-table, .lists-item>.lists-header, .section-container, .lists-item, .section-inner>.meta-table, .section-header, .content-left-inner',function(){
+		//console.log (dragSrcEl);
+
 		if (dragSrcEl.is('.item, .group-header') && $(this).is('.item, .lists-item>.meta-table, .lists-item>.lists-header')) {
+			$(this).addClass('over');
+		} else if (dragSrcEl.hasClass('relative-item') && $(this).is('.relative-item, .relative-container-title')) {
 			$(this).addClass('over');
 		} else if (dragSrcEl.hasClass('section-header') && $(this).hasClass('section-container')) {
 			dragOverIndex = $(this).attr('data-order');
@@ -655,11 +527,14 @@
 		}
 	});
 
-	$('body').on('dragover', '.item, .lists-item>.meta-table, .lists-item>.lists-header, .section-container, .lists-item, .section-inner>.meta-table, .section-header, .content-left-inner' ,function(e){
+	$('body').on('dragover', '.item, .relative-item, .relative-container-title, .lists-item>.meta-table, .lists-item>.lists-header, .section-container, .lists-item, .section-inner>.meta-table, .section-header, .content-left-inner' ,function(e){
 		if (e.preventDefault) {
 			e.preventDefault(); // Necessary. Allows us to drop.
 		}
+		//console.log (this.classList);
 		if (dragSrcEl.is('.item, .group-header') && $(this).is('.item, .lists-item>.meta-table, .lists-item>.lists-header')) {
+			$(this).addClass('over');
+		} else if (dragSrcEl.hasClass('relative-item') && $(this).is('.relative-item, .relative-container-title')) {
 			$(this).addClass('over');
 		} else if (dragSrcEl.hasClass('section-header') && $(this).hasClass('section-container')) {
 			dragOverIndex = $(this).attr('data-order');
@@ -696,14 +571,14 @@
 		}
 	});
 
-	$('body').on('dragleave', '.item, .lists-item>.meta-table, .lists-item>.lists-header, .section-container, .lists-item, .section-inner>.meta-table, .section-header, .content-left-inner' ,function(e){
+	$('body').on('dragleave', '.item, .relative-item, .relative-container-title, .lists-item>.meta-table, .lists-item>.lists-header, .section-container, .lists-item, .section-inner>.meta-table, .section-header, .content-left-inner' ,function(e){
 		if (e.preventDefault) {
 			e.preventDefault(); // Necessary. Allows us to drop.
 		}
 		$(this).removeClass('over').removeClass('over-drag-up').removeClass('over-drag-down');
 	});
 
-	$('body').on('drop', '.item, .lists-item>.meta-table, .lists-item>.lists-header, .section-container, .lists-item, .section-inner>.meta-table, .section-header, .content-left-inner' ,function(e){
+	$('body').on('drop', '.item, .relative-item, .relative-container-title, .lists-item>.meta-table, .lists-item>.lists-header, .section-container, .lists-item, .section-inner>.meta-table, .section-header, .content-left-inner' ,function(e){
 		var newSection = '';
 		var newList = '';
 		var newSectionObject;
@@ -724,6 +599,23 @@
 				dragSrcEl.insertAfter($(this)).addClass('animated zoomIn');
 			} else if ($(this).is('.lists-item>.meta-table, .lists-item>.lists-header')){
 				$(this).parent().find('.lists-container').eq(0).prepend(dragSrcEl);
+				dragSrcEl.addClass('animated zoomIn');
+			} /*else if ($(this).is('.type-block .section-header, .type-block .section-inner>meta-table')) {
+				listsContainer = $(this).parentsUntil($('.section-container'), '.section-inner').find('.lists-item .lists-container');
+				if (listsContainer.length>0) {
+					listsContainer.eq(0).prepend(dragSrcEl);
+					dragSrcEl.addClass('animated zoomIn');
+				} else {
+					alert ('Trying to drop an item to a block without list? You need to create at least one list first. Just drag a list here. ');
+				}
+			} */else if ($(this).is('.section-header, .section-inner>meta-table')) {
+				//console.log (this.classList);
+			}
+		} else if (dragSrcEl.hasClass('relative-item')) {		
+			if ($(this).hasClass('relative-item') === true && dragSrcEl !== this) {
+				dragSrcEl.insertAfter($(this)).addClass('animated zoomIn');
+			} else if ($(this).hasClass('relative-container-title')){
+				$(this).parent().find('.relative-container').eq(0).prepend(dragSrcEl);
 				dragSrcEl.addClass('animated zoomIn');
 			} /*else if ($(this).is('.type-block .section-header, .type-block .section-inner>meta-table')) {
 				listsContainer = $(this).parentsUntil($('.section-container'), '.section-inner').find('.lists-item .lists-container');
@@ -906,13 +798,14 @@
 		window.open (url,'newwindow','height=' + h + ',width='+ w +',top=0,left=0,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no');
 	});
 
-	$('body').on('click', '.item .item-title, .lists-header', function () {
+	$('body').on('click', '.item .item-title, .relative-item .relative-title, .lists-header', function () {
 		if ($(this).parent().hasClass('expanded')) {
 			$(this).parent().removeClass('expanded');
 		} else {
 			$(this).parent().addClass('expanded');
 		}
 	});
+
 
 	$('body').on('click', '.section-header', function () {
 		var sectionContainer = $(this).parentsUntil($('.sections'), '.section-container');
@@ -951,6 +844,24 @@
 		var title = obj.find('[data-key=title]').val() || obj.find('[data-key=name]').val() || obj.find('[data-key=type]').val() || 'New List';
 		//console.log (title);
 		$(this).parentsUntil($('.lists-container'), '.lists-item').find('.lists-header').html(title);
+	});
+
+	// change related story title
+	$('body').on('change', '.item-info .o-input-text', function () {
+		var obj = $(this).parentsUntil($('.lists-item .lists-container'), '.item');
+		//console.log (obj);
+		var title = obj.find('[name=headline]').val() || '';
+		//console.log (title);
+		obj.find('.item-title').html(title);
+	});
+
+	// change item title
+	$('body').on('change', '.relative-info .o-input-text', function () {
+		var obj = $(this).parentsUntil($('.relative-container'), '.relative-item');
+		//console.log (obj);
+		var title = obj.find('[name=headline]').val() || '';
+		//console.log (title);
+		obj.find('.relative-title').html(title);
 	});
 
 	if (actionType === 'edit') {

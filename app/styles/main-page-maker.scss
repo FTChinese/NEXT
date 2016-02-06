@@ -328,6 +328,13 @@ html, body {
 .item-info-title {
   padding-bottom: $itemBottom;
   color: #333;
+  &.relative-container-title {
+    padding-bottom: 0;
+    border-bottom: $itemBottom solid $itemBG;
+    &.over {
+      border-color: $dragOverBorder;
+    }
+  }
 }
 .item-links {
   padding: $itemBottom 0;
@@ -339,6 +346,25 @@ html, body {
     padding: $itemBottom 2 * $itemBottom 2 * $itemBottom 0;
   }
 }
+
+.relative-item {
+  border-bottom: $itemBottom solid transparent;
+  font-size: 0.9em;
+}
+.relative-info {
+  display: none;
+}
+.relative-title {
+  &:before {
+    content: '- ';
+  }
+}
+.relative-item.expanded {
+  .relative-info {
+    display: block;
+  }
+}
+
 .group-header {
   padding: 0 0 $itemBottom 2*$itemBottom;
 }
@@ -399,8 +425,6 @@ html, body {
   cursor: pointer;
   display: none;
 }
-
-
 
 
 .remove-section {
