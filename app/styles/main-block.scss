@@ -162,17 +162,11 @@
 		margin: auto;
 		display: block;
 	}
-
 	.list-title {
 		@include itemTitleMobile;
 	}
 }
 
-
-	iframe {
-		margin: auto!important;
-		display: block!important;
-	}
 
 .no-side {
 	.block-inner {
@@ -217,7 +211,7 @@
 	color: white;
 	background-color: black;
 	padding: $defaultPadding/2;
-	margin-bottom: 5px;
+	margin-bottom: $defaultPadding;
 	a {
 		color: white;
 	}
@@ -226,8 +220,13 @@
 	overflow: hidden;
 	li {
 		width: 33.333333%;
-		display: inline-block;
-		display: none;
+		display: block;
+		float: left;
+		padding: 0 5px $defaultPadding 5px;
+		font-size: 0.8em;
+		line-height: 120%;
+
+		//display: none;
 	}
 }
 
