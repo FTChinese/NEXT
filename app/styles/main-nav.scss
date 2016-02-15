@@ -1,0 +1,84 @@
+@import "variables.scss";
+@import "maxins.scss";
+.nav-container {
+	background: $darkGrey;
+	margin-bottom: $defaultPadding;
+	a {
+		color: white;
+	}
+}
+.nav-inner {
+	position: relative;
+	max-width: $maxWidth;
+	padding: 0 $defaultPadding;
+	margin: auto;
+}
+.nav-content {
+	display: block;
+	margin: auto;
+	position: relative;
+}
+.nav {
+	display: inline-block;
+	>a {
+		line-height: $navHeight;
+		display: inline-block;
+		padding: 0 $defaultPadding/2;
+		border-width: 0;
+	}
+	&.on>a, >a:hover, >a:active {
+		background: $lightGrey;
+	}
+}
+.subnav {
+	//display: none;
+	position: absolute;
+	top: $navHeight;
+	width: 100%;
+	font-size: 14px;
+	height: $subNavHeight;
+	>li {
+		display: inline-block;
+
+		>a {
+			display: inline-block;
+			line-height: $subNavHeight;
+			padding: 0 $defaultPadding/2;
+			border-width: 0;
+			&:hover, &:active {
+				background: $darkGreen;
+			}
+		}
+
+	}
+	ul {
+		display: none;
+	}
+}
+.nav-right {
+	position: absolute;
+	margin: auto;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	height: $defaultPadding;
+	width: $headerHeight;
+    cursor: pointer;
+    div {
+    	width: 20px;
+    	height: 20px;
+    	margin: auto;
+		background-image: url('http://static.ftchinese.com/images/search.svg');
+	    background-repeat: no-repeat;
+	    background-size: 20px 20px;
+	    background-position: right 50%;
+	    background-color: transparent;
+    }
+}
+.nav-bottom {
+	height: $subNavHeight;
+	background: $lightGrey;
+}
+.tools, .rss {
+	float: right;
+}

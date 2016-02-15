@@ -1,0 +1,84 @@
+@import "variables.scss";
+@import "maxins.scss";
+.header-container {
+	background-color: $darkGrey;
+	color: white;
+	//height: 57px;
+}
+.header-inner {
+	padding: $defaultPadding;
+	position: relative;
+	max-width: $maxWidth;
+	margin: auto;
+}
+.masthead {
+	text-align: center;
+	margin: auto;
+	height: $mastheadHeight;
+	font-size: 20px;
+	line-height: 27px;
+	width: 336px;
+	max-width: 100%;
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-image: url(http://static.ftchinese.com/images/masthead.png);
+	//background-image: url(https://next-geebee.ft.com/image/v1/images/raw/http%3A%2F%2Fnext-geebee.ft.com%2Fassets%2Ficons%2Fbrand-ft-masthead.svg?source=next&tint=%23FFFFFF,%23FFFFFF&format=svg);
+}
+.header-side {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	height: 100%;
+	//line-height: 20px;
+	margin: auto;
+	font-size: 14px;
+	a {
+		color: white;
+		height: 100%;
+		line-height: $headerHeight;
+		&:hover, &:active {
+			text-decoration: underline;
+		}
+	}
+}
+.header-left {
+	left: $defaultPadding;
+	width: 120px;
+}
+.current-edition {
+	height: 100%;
+	line-height: $headerHeight;
+	cursor: pointer;
+	&:after {
+	    content: '';
+	    display: inline-block;
+	    margin-left: 10px;
+	    border-top: 8px solid #fff;
+	    border-left: 6px solid transparent;
+	    border-right: 6px solid transparent;
+	}
+}
+.header-right {
+	right: $defaultPadding;
+	text-align: right;
+	a {
+		display: inline-block;
+		padding: 0 $textPadding;
+		position: relative;
+		border-width: 0;
+		&.more:before {
+			content: ' ';
+			position: absolute;
+			width: 2px;
+			height: 14px;
+			top: 50%;
+			left: -3px;
+			margin-top: -7px;
+			background-color: #fdf8f2;
+		}
+		&.last {
+			padding-right: 0;
+		}
+	}
+}

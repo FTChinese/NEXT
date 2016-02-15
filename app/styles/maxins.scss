@@ -1,0 +1,43 @@
+@mixin coverImageLeft {
+    float: left;
+    width: 50%;
+    padding-right: $defaultPadding/2;
+}
+@mixin coverRight {
+	float: right;
+	width: 50%;
+	padding-left: $defaultPadding/2;
+}
+@mixin coverRightSingle {
+	float: none;
+	width: 100%;
+	padding-left: 0;
+}
+@mixin itemTop {
+	clear: both;
+	border-top: 1px dotted $borderColor;
+	padding-top: $defaultPadding;
+}
+@mixin itemTitleMobile {
+	position: static;
+    padding: 7px 14px;
+    background: #E9DECF;
+    border-style: solid;
+    border-color: #A7A59B;
+    border-width: 1px 0;
+    clear: both;
+    display: block;
+    height: auto;
+    margin: 0 0 15px 0;
+    font-weight: normal;
+	//padding: 5px 0;
+	a {
+		color: #000;
+		position: static;
+		background-color: transparent;
+		display: block;
+	}
+	&:before {
+		display: none;
+	}
+}

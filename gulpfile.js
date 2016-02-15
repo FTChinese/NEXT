@@ -4,6 +4,85 @@
 var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();
 
+
+function getBodyFromUrl (urlSource, fileName) {
+  var http = require('http');
+  var url = require('url');
+  var options = {
+      host: url.parse(urlSource).hostname,
+      path: url.parse(urlSource).pathname + unescape(url.parse(urlSource).search || '')
+  }
+  console.log (options.path);
+  var request = http.request(options, function (res) {
+      var data = '';
+      res.on('data', function (chunk) {
+          data += chunk;
+      });
+      //console.log (data);
+      res.on('end', function () {
+        //data = data.replace(/^[.\r\n]*<body.*\/>([.\r\n]*)<\/body>[.\r\n]*$/g,'$1');
+        var pattern = /<body[^>]*>((.|[\n\r])*)<\/body>/im;
+        var array_matches = pattern.exec(data);
+
+        //console.log(array_matches[0]);
+        var fs = require('fs');
+        var fileContent = fs.readFileSync('app/index.html', 'utf8');
+        fileContent = fileContent.replace(pattern, array_matches[0]);
+        //console.log(fileContent);
+
+
+       
+        fs.writeFile(fileName, fileContent, function(err) {
+            if(err) {
+                return console.log(err);
+            }
+            console.log(urlSource);
+            console.log('writen to');
+            console.log(fileName);
+        });
+
+        //return data;
+      });
+  });
+  request.on('error', function (e) {
+      console.log(e.message);
+  });
+  request.end();
+}
+
+gulp.task('home', function () {
+  var thedatestamp = new Date().getTime();
+  getBodyFromUrl('http://www.ftchinese.com/m/corp/p0.html?' + thedatestamp, 'index.html');
+});
+
+gulp.task('copy', ['build'], function () {
+  var replace = require('gulp-replace');
+  var rename = require("gulp-rename");
+  var thedatestamp = new Date().getTime();
+
+  gulp.src('dist/styles/partials/*.css')
+    .pipe(gulp.dest('../dev_www/frontend/tpl/next/styles'));
+
+  gulp.src('dist/m/marketing/*')
+    .pipe(gulp.dest('../dev_www/frontend/tpl/marketing'));
+
+/*
+  var fileName = '../dev_www/frontend/tpl/include/timestamp.html';
+  var fs = require('fs');
+  fs.writeFile(fileName, thedatestamp, function(err) {
+      if(err) {
+          return console.log(err);
+      }
+      console.log(thedatestamp);
+      console.log('writen to');
+      console.log(fileName);
+  });
+*/
+
+});
+
+
+
 gulp.task('styles', function () {
   return gulp.src('app/styles/main*.scss')
     .pipe($.plumber())
@@ -13,6 +92,11 @@ gulp.task('styles', function () {
     }))
     .pipe($.autoprefixer({browsers: ['last 1 version']}))
     .pipe(gulp.dest('.tmp/styles'));
+});
+
+gulp.task('ad', function () {
+  return gulp.src('app/m/marketing/*')
+    .pipe(gulp.dest('dist/m/marketing'));
 });
 
 gulp.task('jshint', function () {
@@ -114,7 +198,7 @@ gulp.task('watch', ['connect'], function () {
   gulp.watch('bower.json', ['wiredep']);
 });
 
-gulp.task('build', ['jshint', 'html', 'images', 'fonts', 'extras'], function () {
+gulp.task('build', ['jshint', 'html', 'images', 'fonts', 'extras', 'ad'], function () {
   return gulp.src('dist/**/*').pipe($.size({title: 'build', gzip: true}));
 });
 
