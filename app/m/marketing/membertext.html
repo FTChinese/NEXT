@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Language" content="zh-CN"/>
+  </head>
+<body>
+<script type="text/javascript" src="http://dolphin.ftimg.net/s?z=ft&c=10000016" charset="gbk" ></script>
+<script type="text/javascript" src="http://dolphin.ftimg.net/s?z=ft&c=10000017" charset="gbk" ></script>
+<script type="text/javascript" src="http://dolphin.ftimg.net/s?z=ft&c=10000018" charset="gbk" ></script>
+</body>
+<script>
+var k = document.body.innerHTML;
+var pattern = /<script[^>]*><\/script>/g;
+var pattern2 = /<script[^>]*>((.|[\n\r])*)<\/script>/gi;
+k = k.replace(pattern, '').replace(pattern2, '');
+k = '<span style="display: inline-block; ">' + k + '</span>';
+//k = k + k + k;
+parent.document.getElementById('belt-content').innerHTML = k;
+</script>
+</html>

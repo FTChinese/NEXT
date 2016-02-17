@@ -1,11 +1,33 @@
 @mixin coverImageLeft {
+	position: static;
     float: left;
     width: 50%;
-    padding-right: $defaultPadding/2;
+    padding: 0 $defaultPadding/2 0 0;
 }
 @mixin coverRight {
 	float: right;
 	width: 50%;
+	padding-left: $defaultPadding/2;
+}
+@mixin doubleWidth {
+	.item-inner {
+		padding-top: 0;		
+	}
+	.image {
+		@include coverImageLeft;
+	}
+	.item-headline, .item-lead, .relatives {
+		@include coverRight;
+	}
+}
+@mixin coverImageLeftBig {
+    float: left;
+    width: 66.66666666%;
+    padding-right: $defaultPadding/2;
+}
+@mixin coverRightSmall {
+	float: right;
+	width: 33.33333333%;
 	padding-left: $defaultPadding/2;
 }
 @mixin coverRightSingle {
@@ -16,7 +38,8 @@
 @mixin itemTop {
 	clear: both;
 	border-top: 1px dotted $borderColor;
-	padding-top: $defaultPadding;
+	padding: $defaultPadding 0 0 0;
+	margin: 0 $defaultPadding/2;
 }
 @mixin itemTitleMobile {
 	position: static;
@@ -39,5 +62,32 @@
 	}
 	&:before {
 		display: none;
+	}
+}
+@mixin figure {
+    position: relative;
+    padding-bottom: $figureHeight;
+    background-color: $lightPink;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    transition: opacity 1s ease-in;
+    overflow: hidden;
+    img {
+    	position: absolute;
+    	width: 100%;
+    }
+}
+@mixin headerContainer {
+	background-color: $darkGrey;
+	color: white;
+}
+@mixin headerInner {
+	padding: $defaultPadding;
+	position: relative;
+	max-width: $maxWidth;
+	margin: auto;
+	a {
+		color: white;
 	}
 }

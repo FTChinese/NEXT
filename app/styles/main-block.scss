@@ -41,18 +41,7 @@
 	padding-bottom: $defaultPadding;
 	position: relative;
 	figure {
-	    position: relative;
-	    padding-bottom: 56.25%;
-	    background-color: $lightPink;
-	    background-size: cover;
-	    background-repeat: no-repeat;
-	    background-position: center center;
-	    transition: opacity 1s ease-in;
-	    overflow: hidden;
-	    img {
-	    	position: absolute;
-	    	width: 100%;
-	    }
+	    @include figure;
 	}
 }
 
@@ -170,12 +159,15 @@
 
 .no-side {
 	.block-inner {
-		max-width: $maxWidth + $defaultPadding;
+		padding: 0 $defaultPadding/2;
+		max-width: $maxWidth;
 	}
 	.list-title {
 		//max-width: $maxWidth - 2*$defaultPadding;
 		margin: 0 $defaultPadding/2 5px $defaultPadding/2;
 	}
+
+	/*
 	.item-container {
 		float: left;
 		width: 33.3333%;
@@ -190,6 +182,7 @@
 		@include itemTop;
 		margin: 0 $defaultPadding/2;
 	}
+	*/
 }
 
 .video-container {
@@ -212,6 +205,7 @@
 	background-color: black;
 	padding: $defaultPadding/2;
 	margin-bottom: $defaultPadding;
+	font-size: 14px;
 	a {
 		color: white;
 	}
@@ -225,12 +219,93 @@
 		padding: 0 5px $defaultPadding 5px;
 		font-size: 0.8em;
 		line-height: 120%;
-
-		//display: none;
+		figure {
+			@include figure;
+			margin-bottom: 5px;
+			border: 2px solid transparent;
+		}
+		&.on, &:hover, &:active {
+			figure {
+				border-color: $blue;
+			}
+		}
 	}
 }
 
-@media only screen and (max-width: 900px) {
+
+//grid system
+.item-container {
+	float: left;
+}
+.item-inner {
+	padding: $figureHeight $defaultPadding/2 $defaultPadding $defaultPadding/2;
+}
+.image {
+	position: absolute;
+	top: 0;
+	left: $defaultPadding/2;
+	right: $defaultPadding/2;
+	padding-bottom: 5px;
+}
+
+//XL related styles
+.XL3 {
+	width: 25%;
+}
+.XL-half {
+	font-size: 0.9em;
+	.item-inner {
+		padding-top: 0;		
+	}
+	.image {
+		position: static;
+		float:left;
+		width: 50%;
+		padding: 0 $defaultPadding/2 $defaultPadding/2 0;
+	}
+	.item-headline, .item-lead, .relative-container {
+		//@include coverRight;
+	}
+}
+.XL-lower {
+	.item-headline {
+		border-top: 1px dotted $borderColor;
+		padding-top: $defaultPadding;
+	}
+}
+.XL6 {
+	width: 50%;
+	@include doubleWidth;
+}
+.XLT {
+	@include itemTop;
+}
+
+
+//L: large screen devices like pc and iPad landscape
+@media only screen and (max-width: 1220px) {
+	.L4 {
+		width: 33.33333333%;
+	}
+	.XLT {
+		display: none;
+	}
+	.LT {
+		@include itemTop;
+	}
+}
+
+//M: middle screen devices like iPad portrait
+@media only screen and (max-width: 980px) {
+	.M4 {
+		width: 33.33333333%;
+	}
+	.LT {
+		display: none;
+	}
+	.MT {
+		@include itemTop;
+	}
 	.has-side {
 		.image {
 			@include coverImageLeft;	
@@ -273,9 +348,6 @@
 		}
 	}
 	.no-side {
-		.block-inner {
-			padding: 0 $defaultPadding/2;
-		}
 		.item-container {
 			width: 50%;
 		}
@@ -302,7 +374,17 @@
 	}
 }
 
-@media only screen and (max-width: 620px) {
+//S smaller screens like iPhone 6s landscape
+@media only screen and (max-width: 740px) {
+	.S6 {
+		width: 50%;
+	}
+	.MT {
+		display: none;
+	}
+	.ST {
+		@include itemTop;
+	}
 	.has-side {
 		.content-container {
 		    float: none;
@@ -329,7 +411,15 @@
 	}
 }
 
-@media only screen and (max-width: 450px) {
+//mobile phones portrait
+@media only screen and (max-width: 490px) {
+	.item-container {
+		float: none;
+		width: 100%;
+	}
+	.ST {
+		display: none;
+	}
 	.no-side, .has-side {
 		.stand-alone {
 			.image {

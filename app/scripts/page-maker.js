@@ -10,14 +10,16 @@
 		'type': 'readonly',
 		'theme': ['default', 'luxury'],
 		//'type': ['block', 'banner', 'header', 'footer'],
-		'side': ['none', 'marketsdata', 'videos']
+		'side': ['none', 'marketsdata', 'videos'],
+		'belt': ['member', 'marketsdata']
 	};
 	var toolkits = {
 		'section': {
 			'block': ['title', 'name', 'side'],
 			'header': [],
 			'banner': ['position'],
-			'footer': []
+			'footer': [],
+			'topbelt': ['belt']
 		},
 		'list': ['name', 'title', 'style']
 	};
