@@ -1,5 +1,5 @@
 @import "variables.scss";
-@import "maxins.scss";
+@import "mixins.scss";
 
 .block-container {
 	margin-bottom: $defaultPadding/2;
@@ -9,14 +9,17 @@
 }
 .block-inner {
 	max-width: $maxWidth;
-	padding: 0 $defaultPadding;
+	padding: 0 $defaultPadding/2;
 	margin: auto;
 }
+
 .list-title {
-	font-size: 0.9em;
+	font-size: 1.2em;
 	position: relative;
 	height: $listTitleHeight;
-	margin: 0 auto 5px auto;
+	margin: 0 $defaultPadding/2 $defaultPadding/2 $defaultPadding/2;
+
+	clear: both;
 	//border-top: 1px solid #cec6b9;
 	//padding: 5px 0;
 	a {
@@ -26,20 +29,37 @@
 		left: 0;
 		padding-right: 5px;
 		background-color: $defaultPink;
+		//color: $red;
 	}
 	&:before {
 	    content: '';
 	    position: absolute;
-	    height: 1px;
-	    border-top: 1px solid $borderColor;
-	    top: 50%;
+	    height: 3px;
+	    background-color: $borderColor;
+	    //border-top: 1px dotted $borderColor;
+	    //border-bottom: 1px dotted $borderColor;
+	    top: 0;
+	    bottom: 0;
 	    width: 100%;
+	    margin:auto;
 	}
 }
 
+.item-container {
+	float: left;
+}
 .item-inner {
-	padding-bottom: $defaultPadding;
+	padding: $figureHeight $defaultPadding/2 $defaultPadding $defaultPadding/2;
 	position: relative;
+}
+
+//grid system
+.image {
+	position: absolute;
+	top: 0;
+	left: $defaultPadding/2;
+	right: $defaultPadding/2;
+	padding-bottom: 5px;
 	figure {
 	    @include figure;
 	}
@@ -56,9 +76,9 @@
 
 .item-headline {
 	font-weight: bold;
-	font-size: 1.25em;
+	font-size: 1.15em;
 	line-height: 120%;
-	margin-bottom: 5px;
+	margin-bottom: $defaultPadding/3;
 }
 .item-lead {
 	color: $lightGrey;
@@ -82,70 +102,32 @@
 	    color: $lightGrey;
 	}
 }
-
+.no-image {
+	.item-inner {
+		padding-top: 0;
+	}
+	.image {
+		display: none;
+	}
+}
 .has-side {
+	.block-inner {
+		padding-right: $defaultPadding;
+	}
 	.content-container {
 	    float: left;
 	    width: 100%;
 	}
 	.content-inner {
     	border-right: $sideWidth solid $bannerBG;
-    	padding-right: $defaultPadding;
-	}
-
-
-	//single cover style
-	.stand-alone .image, .first .image {
-		@include coverImageLeft;
-	}
-	.stand-alone .item-headline, .stand-alone .item-lead, .stand-alone .relative-container, .first .item-headline, .first .item-lead, .first .relative-container {
-		@include coverRight;
-	}
-
-	.item-container {
-		&.left {
-			float: left;
-			.item-headline, .item-lead, .relative {
-				padding-right: $defaultPadding/2;
-			}
-			.image {
-				width: 50;
-				float: left;
-			}
-		}
-		&.right {
-			float: right;
-			.item-headline, .item-lead, .relative {
-				padding-left: $defaultPadding/2;
-			}
-			.image {
-				float: left;
-				padding-left: $defaultPadding/2;
-			}
-		}
-		&.left, &.right {
-			width: 50%;
-			.item-headline {
-				font-size: 1.1em;
-			}
-			.image {
-				width: 50%;
-				min-width: 100px;
-				margin-top: 3px;
-				padding-right: $defaultPadding/2;
-			}
-		}
-		
-	}
-	.item-top-left {
-		@include itemTop;
+    	padding-right: $defaultPadding/2;
 	}
 }
 
 .side-container {
 	float: right;
     width: $sideWidth;
-    margin-left: -$sideWidth;
+    margin-left: - $sideWidth;
     //background-color: #f6e9d8;
 	iframe {
 		margin: auto;
@@ -157,33 +139,8 @@
 }
 
 
-.no-side {
-	.block-inner {
-		padding: 0 $defaultPadding/2;
-		max-width: $maxWidth;
-	}
-	.list-title {
-		//max-width: $maxWidth - 2*$defaultPadding;
-		margin: 0 $defaultPadding/2 5px $defaultPadding/2;
-	}
 
-	/*
-	.item-container {
-		float: left;
-		width: 33.3333%;
-	}
-	.item-inner {
-		padding: 0 $defaultPadding/2 $defaultPadding $defaultPadding/2;
-	}
-	.image {
-		margin-bottom: 5px;
-	}
-	.item-top-three {
-		@include itemTop;
-		margin: 0 $defaultPadding/2;
-	}
-	*/
-}
+
 
 .video-container {
 	width: auto;
@@ -233,57 +190,84 @@
 }
 
 
-//grid system
-.item-container {
-	float: left;
-}
-.item-inner {
-	padding: $figureHeight $defaultPadding/2 $defaultPadding $defaultPadding/2;
-}
-.image {
-	position: absolute;
-	top: 0;
-	left: $defaultPadding/2;
-	right: $defaultPadding/2;
-	padding-bottom: 5px;
-}
+
 
 //XL related styles
-.XL3 {
-	width: 25%;
-}
-.XL-half {
-	font-size: 0.9em;
-	.item-inner {
-		padding-top: 0;		
+@media only screen and (min-width: 1221px) {
+	.XL3 {
+		width: 25%;
 	}
-	.image {
-		position: static;
-		float:left;
+	.XL4 {
+		width: 33.333333333%;
+	}
+	.XL6 {
 		width: 50%;
-		padding: 0 $defaultPadding/2 $defaultPadding/2 0;
+		.item-headline {
+			font-size: 1.4em;
+		}
 	}
-	.item-headline, .item-lead, .relative-container {
-		//@include coverRight;
+	.XL8 {
+		width: 66.666666667%;
+		.item-headline {
+			font-size: 1.4em;
+		}
+	}
+	.XL12 {
+		width: 100%;
+		//@include doubleWidth;
+		.item-headline {
+			font-size: 1.4em;
+		}
+	}
+	.XL12 {
+		@include doubleWidth;
+		//font-size: 1.1em;
+	}
+	.XL-half {
+		font-size: 0.9em;
+		.item-inner {
+			padding-top: 0;		
+		}
+		.image {
+			position: static;
+			float:left;
+			width: 50%;
+			padding: 0 $defaultPadding/2 0 0;
+		}
+		&.no-image .image {
+			display: none;
+		}
+	}
+	.XL-lower {
+		.item-headline {
+			border-top: 1px dotted $borderColor;
+			padding-top: $defaultPadding;
+		}
+	}
+	.XL-right {
+		clear:right;
+		float: right;
+	}
+	.XLT {
+		@include itemTop;
+	}
+	.XLT-clear-right {
+		clear: right;
+		width: 66.6666667%;
+		float:left;
+	}
+	.XL-double-width {
+		@include doubleWidth;
+	}
+	.no-side {
+		.XL6 {
+			@include doubleWidth;
+		}
 	}
 }
-.XL-lower {
-	.item-headline {
-		border-top: 1px dotted $borderColor;
-		padding-top: $defaultPadding;
-	}
-}
-.XL6 {
-	width: 50%;
-	@include doubleWidth;
-}
-.XLT {
-	@include itemTop;
-}
-
 
 //L: large screen devices like pc and iPad landscape
-@media only screen and (max-width: 1220px) {
+@media only screen and (max-width: 1220px) and (min-width: 981px) {
 	.L4 {
 		width: 33.33333333%;
 	}
@@ -296,7 +280,7 @@
 }
 
 //M: middle screen devices like iPad portrait
-@media only screen and (max-width: 980px) {
+@media only screen and (max-width: 980px) and (min-width: 741px) {
 	.M4 {
 		width: 33.33333333%;
 	}
@@ -375,7 +359,7 @@
 }
 
 //S smaller screens like iPhone 6s landscape
-@media only screen and (max-width: 740px) {
+@media only screen and (max-width: 740px) and (min-width: 491px) {
 	.S6 {
 		width: 50%;
 	}

@@ -1,5 +1,5 @@
 @import "variables.scss";
-@import "maxins.scss";
+@import "mixins.scss";
 .header-container {
 	@include headerContainer;
 	//height: 57px;
@@ -8,14 +8,15 @@
 	@include headerInner;
 }
 .masthead {
+	display: block;
 	text-align: center;
 	margin: auto;
-	height: $mastheadHeight;
+	height: $headerHeight;
 	font-size: 20px;
-	line-height: 27px;
+	line-height: $headerHeight;
 	width: 336px;
 	max-width: 100%;
-	background-size: contain;
+	background-size: auto $mastheadHeight;
 	background-repeat: no-repeat;
 	background-position: center;
 	background-image: url(http://static.ftchinese.com/images/masthead.png);

@@ -11,7 +11,8 @@
 		'theme': ['default', 'luxury'],
 		//'type': ['block', 'banner', 'header', 'footer'],
 		'side': ['none', 'marketsdata', 'videos'],
-		'belt': ['member', 'marketsdata']
+		'belt': ['member', 'marketsdata'],
+		'float': ['none', 'left', 'right']
 	};
 	var toolkits = {
 		'section': {
@@ -21,7 +22,7 @@
 			'footer': [],
 			'topbelt': ['belt']
 		},
-		'list': ['name', 'title', 'style']
+		'list': ['name', 'title', 'style', 'float']
 	};
 	var devices = [
 		{'name': 'PC or Mac', 'width': '', 'height': ''},
@@ -104,15 +105,16 @@
 		var type = data.type || '';
 		var timeStamp = data.timeStamp || '';
 		var timeStampType = 2;
+		var tag = data.tag || '';
 		var relatives = data.relatives || [];
 		var showRelativeStoryItems = data.showRelativeStoryItems || 0;
 		if (type !== 'story') {
 			timeStampType = 3; 
 		}
-		return renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, relatives, showRelativeStoryItems);
+		return renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, relatives, showRelativeStoryItems);
 	}
 
-	function renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, relativestory, showRelativeStoryItems) {
+	function renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, relativestory, showRelativeStoryItems) {
 		var editLink = '';
 		var previewLink = '';
 		var dataHTML = '';
@@ -160,7 +162,7 @@
 		}
 		//console.log (relativestoryHTML);
 		//relativestoryHTML = '';
-		dataHTML = '<div draggable=true data-type="' + type + '" class="item ' + type + '" data-id="' + id + '"><div class="remove-item"></div><div class="timestamp">' + timeStamp + '</div><div class="item-title">' + headline + '</div><div class="item-info"><div class="item-links"><a href="http://www7.ftchinese.com/' + type + '/' + id + '" target=_blank>Preview</a><a href="' + editLink + '" target=_blank>Edit</a></div><div class="item-info-item"><input title="headline" name="headline" class="o-input-text" value="' + headline + '"></div><div class="item-info-item"><input title="image" name="image" class="o-input-text" value="' + image + '"></div><div class="item-info-item"><div class="item-info-title">Long Lead: </div><textarea title="image" name="longlead" class="o-input-text">' + longlead + '</textarea></div><div class="item-info-item"><div class="item-info-title">Short Lead: </div><textarea title="image" name="shortlead" class="o-input-text">' + shortlead + '</textarea></div>' + showRelativeStoryItems + '<div class="item-info-item"><input name="timeStamp" type="hidden" class="o-input-text" value="' + oTimeStamp + '" readonly><input type="hidden" name="type" class="o-input-text" value="' + type + '" readonly><input type="hidden" name="id" class="o-input-text" value="' + id + '" readonly></div>'+relativestoryHTML+'</div></div>';
+		dataHTML = '<div draggable=true data-type="' + type + '" class="item ' + type + '" data-id="' + id + '"><div class="remove-item"></div><div class="timestamp">' + timeStamp + '</div><div class="item-title">' + headline + '</div><div class="item-info"><div class="item-links"><a href="http://www7.ftchinese.com/' + type + '/' + id + '" target=_blank>Preview</a><a href="' + editLink + '" target=_blank>Edit</a></div><div class="item-info-item"><input title="headline" name="headline" class="o-input-text" value="' + headline + '"></div><div class="item-info-item"><input title="image" name="image" class="o-input-text" value="' + image + '"></div><div class="item-info-item"><div class="item-info-title">Long Lead: </div><textarea title="image" name="longlead" class="o-input-text">' + longlead + '</textarea></div><div class="item-info-item"><div class="item-info-title">Short Lead: </div><textarea title="image" name="shortlead" class="o-input-text">' + shortlead + '</textarea></div><div class="item-info-item"><input title="tag" name="tag" class="o-input-text" value="' + tag + '"></div>' + showRelativeStoryItems + '<div class="item-info-item"><input name="timeStamp" type="hidden" class="o-input-text" value="' + oTimeStamp + '" readonly><input type="hidden" name="type" class="o-input-text" value="' + type + '" readonly><input type="hidden" name="id" class="o-input-text" value="' + id + '" readonly></div>'+relativestoryHTML+'</div></div>';
 		return dataHTML;
 	}
 
@@ -275,6 +277,7 @@
 		        	var image = '';
 		        	var type = '';
 		        	var priority = 0;
+		        	var tag='';
 		        	var relativestory = [];
 		        	var showRelativeStoryItems = 0;
 		        	if (entry.id) {
@@ -288,6 +291,7 @@
 		        		headline = entry.cheadline;
 		        		longlead = entry.clongleadbody || '';
 		        		shortlead = entry.cshortleadbody || '';
+		        		tag = entry.tag || '';
 		        		//shortlead = JSON.stringify(entry);
 		        		image = entry.story_pic.other || entry.story_pic.smallbutton || entry.story_pic.cover || entry.story_pic.bigbutton || '';
 		        		type = 'story';
@@ -296,13 +300,13 @@
 		        		//shortlead = JSON.stringify(relativestory);
 		        		if ($('.content-left-inner .item[data-id='+id+'][data-type='+type+']').length === 0) {
 							if (priority > 0 && priority <= 9) {
-							    coverHTML += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, relativestory, showRelativeStoryItems);
+							    coverHTML += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, relativestory, showRelativeStoryItems);
 							} else if (priority >= 20 && priority <= 49) {
-							    newsHTML += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, relativestory, showRelativeStoryItems);
+							    newsHTML += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, relativestory, showRelativeStoryItems);
 							} else if ((priority >= 49 && priority <= 69) || (priority >= 10 && priority <= 19)) {
-							    commentsHTML += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, relativestory, showRelativeStoryItems);
+							    commentsHTML += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, relativestory, showRelativeStoryItems);
 							} else {
-							    otherHTML += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, relativestory, showRelativeStoryItems);
+							    otherHTML += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, relativestory, showRelativeStoryItems);
 							}
 						} else {
 							//console.log (headline + ' already exists');
@@ -315,12 +319,15 @@
 			        		headline = photo.cn_title;
 			        		longlead = photo.leadbody || '';
 			        		shortlead = photo.shortlead || '';
+			        		tag = entry.tag || '';
 			        		//shortlead = JSON.stringify(photo);
 			        		image = photo.illustration || photo.cover || photo.thumb_url || '';
-			        		image = 'http://i.ftimg.net/' + image;
+			        		if (image !== '') {
+			        			image = 'http://i.ftimg.net/' + image;
+			        		}
 			        		type = 'photo';
 			        		if ($('.content-left-inner .item[data-id='+id+'][data-type='+type+']').length === 0) {
-			        			photosInner += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type);
+			        			photosInner += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag);
 			        		}
 		        		});
 		        	} else if (entryIndex === 'interactive'){
@@ -331,13 +338,14 @@
 			        		headline = interactive.cheadline;
 			        		longlead = interactive.clongleadbody || '';
 			        		shortlead = interactive.cshortleadbody || '';
+			        		tag = entry.tag || '';
 			        		if (longlead.indexOf('|') > 0 && shortlead !== '') {
 			        			longlead = shortlead;
 			        		} 
 			        		image = interactive.story_pic.other || interactive.story_pic.smallbutton || interactive.story_pic.cover || interactive.story_pic.bigbutton || '';
 			        		type = 'interactive';
 			        		if ($('.content-left-inner .item[data-id='+id+'][data-type='+type+']').length === 0) {
-			        			interactivesInner += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type);
+			        			interactivesInner += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag);
 			        		}
 		        		});
 		        	} else if (entryIndex === 'video'){
@@ -349,10 +357,11 @@
 			        		longlead = video.clongleadbody || '';
 			        		shortlead = video.cshortleadbody || '';
 			        		shortlead = JSON.stringify(video);
+			        		tag = entry.tag || '';
 			        		image = video.story_pic.other || video.story_pic.smallbutton || video.story_pic.cover || video.story_pic.bigbutton || '';
 			        		type = 'video';
 			        		if ($('.content-left-inner .item[data-id='+id+'][data-type='+type+']').length === 0) {
-			        			videosInner += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type);
+			        			videosInner += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag);
 			        		}
 		        		});
 		        	}
@@ -768,6 +777,7 @@
 			newListJSON = {
 	  			'name': 'New List',
 	  			'title': '',
+	  			'float': [],
 	  			'items': []
 			};
 			newList = '<div class="lists-item"><div class="remove-lists"></div><div class="lists-header" draggable="true">New List</div>' + renderMeta(newListJSON) + '</div>';
