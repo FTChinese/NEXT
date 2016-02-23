@@ -76,13 +76,33 @@
 
 .item-headline {
 	font-weight: bold;
-	font-size: 1.15em;
+	font-size: 1.05em;
 	line-height: 120%;
 	margin-bottom: $defaultPadding/3;
 }
 .item-lead {
 	color: $lightGrey;
 	font-size: 0.9em;
+}
+.item-tag {
+	color: $red;
+	font-size: 14px;
+	padding-bottom: 5px;
+	//background-color: rgba(0,0,0,0.7);
+	font-weight: bold;
+	padding-bottom: $defaultPadding/2;
+	a {
+		color: $red;
+	}
+}
+.item-time {
+	color: $lightGrey;
+	font-weight: normal;
+	font-size: 12px;
+	padding-top: $defaultPadding/2;
+	&.highlight {
+		color: $red;
+	}
 }
 .item-bottom {
 	clear: both;
@@ -113,6 +133,7 @@
 .has-side {
 	.block-inner {
 		padding-right: $defaultPadding;
+		position: relative;
 	}
 	.content-container {
 	    float: left;
@@ -122,6 +143,11 @@
     	border-right: $sideWidth solid $bannerBG;
     	padding-right: $defaultPadding/2;
 	}
+	.bottom-ad {
+		position: absolute;
+		right: $defaultPadding * 2;
+		bottom: 0;
+	}
 }
 
 .side-container {
@@ -130,11 +156,27 @@
     margin-left: - $sideWidth;
     //background-color: #f6e9d8;
 	iframe {
-		margin: auto;
+		margin: 0 auto $defaultPadding auto;
 		display: block;
 	}
 	.list-title {
 		@include itemTitleMobile;
+	}
+	.item-container {
+		float: none;
+		width: 100%;
+	}
+	.item-inner {
+		padding: 0 0 $defaultPadding/2 0;
+		position: static;
+		border-top: 1px dotted $borderColor;
+	}
+	.item-headline {
+		padding: $defaultPadding/2 $defaultPadding/2 0 $defaultPadding/2;
+		margin-bottom: 0;
+	}
+	.image {
+		position: static;
 	}
 }
 
@@ -258,6 +300,61 @@
 	}
 	.XL-double-width {
 		@include doubleWidth;
+	}
+	.XL-no-image {
+		.image {
+			display: none;
+		}
+		.item-inner {
+			padding-top: 0;
+		}
+	}
+	.XL-main {
+		width: 66.66666667%;
+		.item-inner {
+			//padding-bottom: $defaultPadding/2;
+		}
+		.XLT {
+			//padding-top: $defaultPadding/2;
+			//margin-right: 0;
+		}
+		.list-title {
+			//margin-right: 0;
+		}
+		.XL6 .item-headline {
+			font-size: 1.15em;
+		}
+		.XL-cover .item-headline {
+			font-size: 1.4em;
+		}
+	}
+	.XL-side {
+		width: 33.3333333%;
+		.list-inner {
+			border-right: 1px solid $borderColor;
+			padding-right: $defaultPadding/2;
+			margin-right: $defaultPadding/2;
+			//background-color: $bannerBG;
+		}
+		.item-inner {
+			padding-bottom: $defaultPadding/2;
+		}
+		.XLT {
+			padding-top: $defaultPadding/2;
+		}
+	}
+	.XL-list-left {
+		float: left;
+		//clear: right;
+	}
+	.XL-list-right {
+		float: right;
+		.item-inner {
+			//padding-right: 0;
+			.image {
+				//right: 0;
+			}
+		}
 	}
 	.no-side {
 		.XL6 {

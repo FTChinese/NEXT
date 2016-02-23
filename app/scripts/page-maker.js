@@ -12,7 +12,10 @@
 		//'type': ['block', 'banner', 'header', 'footer'],
 		'side': ['none', 'marketsdata', 'videos'],
 		'belt': ['member', 'marketsdata'],
-		'float': ['none', 'left', 'right']
+		'float': ['none', 'left', 'right'],
+		'showTag': ['no', 'yes'],
+		'showTimeStamp': ['no', 'yes'],
+		'preferLead': ['longlead', 'shortlead']
 	};
 	var toolkits = {
 		'section': {
@@ -22,7 +25,7 @@
 			'footer': [],
 			'topbelt': ['belt']
 		},
-		'list': ['name', 'title', 'style', 'float']
+		'list': ['name', 'title', 'style', 'float', 'showTag', 'showTimeStamp', 'preferLead']
 	};
 	var devices = [
 		{'name': 'PC or Mac', 'width': '', 'height': ''},
@@ -315,11 +318,12 @@
 		        		$.each(entry, function (photoIndex, photo) {
 							id = photo.photonewsid;
 							timeStamp = photo.add_times || '';
-							timeStampType = 3; 
+							timeStampType = 3;
 			        		headline = photo.cn_title;
 			        		longlead = photo.leadbody || '';
 			        		shortlead = photo.shortlead || '';
-			        		tag = entry.tag || '';
+			        		tag = photo.tags || '';
+			        		tag = '图辑,' + tag;
 			        		//shortlead = JSON.stringify(photo);
 			        		image = photo.illustration || photo.cover || photo.thumb_url || '';
 			        		if (image !== '') {
@@ -332,13 +336,23 @@
 		        		});
 		        	} else if (entryIndex === 'interactive'){
 		        		$.each(entry, function (interactiveIndex, interactive) {
+		        			var mainTag = '';
 			        		id = interactive.id;
 			        		timeStamp = interactive.pubdate || '';
 			        		timeStampType = 3; 
 			        		headline = interactive.cheadline;
 			        		longlead = interactive.clongleadbody || '';
 			        		shortlead = interactive.cshortleadbody || '';
-			        		tag = entry.tag || '';
+			        		tag = interactive.tag || '';
+			        		if (tag.indexOf('速读')>=0) {
+			        			mainTag = '速读';
+			        		} else if (/一周新闻|QuizPlus|速读|音频|SurveyPlus/i.test(tag)) {
+			        			mainTag = 'FT商学院';
+			        		}
+			        		if (mainTag !== '') {
+			        			tag = mainTag + ',' + tag.replace(mainTag,'');
+			        			tag = tag.replace(/[,,]+/g,',');
+			        		}
 			        		if (longlead.indexOf('|') > 0 && shortlead !== '') {
 			        			longlead = shortlead;
 			        		} 
@@ -357,7 +371,8 @@
 			        		longlead = video.clongleadbody || '';
 			        		shortlead = video.cshortleadbody || '';
 			        		shortlead = JSON.stringify(video);
-			        		tag = entry.tag || '';
+			        		tag = video.tag || '';
+			        		tag = '视频,' + tag;
 			        		image = video.story_pic.other || video.story_pic.smallbutton || video.story_pic.cover || video.story_pic.bigbutton || '';
 			        		type = 'video';
 			        		if ($('.content-left-inner .item[data-id='+id+'][data-type='+type+']').length === 0) {
@@ -778,6 +793,9 @@
 	  			'name': 'New List',
 	  			'title': '',
 	  			'float': [],
+	  			'showTag': [],
+	  			'showTimeStamp': [],
+	  			'preferLead': [],
 	  			'items': []
 			};
 			newList = '<div class="lists-item"><div class="remove-lists"></div><div class="lists-header" draggable="true">New List</div>' + renderMeta(newListJSON) + '</div>';

@@ -98,6 +98,9 @@ gulp.task('copy', ['build'], function () {
   gulp.src('dist/m/marketing/*')
     .pipe(gulp.dest('../dev_www/frontend/tpl/marketing'));
 
+  gulp.src('app/api/page/*')
+    .pipe(gulp.dest('../dev_www/frontend/tpl/next/api/page'));
+
 /*
   var fileName = '../dev_www/frontend/tpl/include/timestamp.html';
   var fs = require('fs');
