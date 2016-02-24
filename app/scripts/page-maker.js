@@ -25,7 +25,7 @@
 			'footer': [],
 			'topbelt': ['belt']
 		},
-		'list': ['name', 'title', 'style', 'float', 'showTag', 'showTimeStamp', 'preferLead']
+		'list': ['name', 'title', 'url', 'style', 'float', 'showTag', 'showTimeStamp', 'preferLead']
 	};
 	var devices = [
 		{'name': 'PC or Mac', 'width': '', 'height': ''},
@@ -792,6 +792,7 @@
 			newListJSON = {
 	  			'name': 'New List',
 	  			'title': '',
+	  			'url': '',
 	  			'float': [],
 	  			'showTag': [],
 	  			'showTimeStamp': [],

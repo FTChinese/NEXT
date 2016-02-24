@@ -1,8 +1,11 @@
 @import "variables.scss";
 @import "mixins.scss";
+.nav-place-holder {
+	height: $navHeight + $subNavHeight + $defaultPadding;
+}
 .nav-container {
 	background: $darkGrey;
-	margin-bottom: $defaultPadding;
+	//margin-bottom: $defaultPadding;
 	a {
 		color: white;
 	}
@@ -26,6 +29,9 @@
 		padding: 0 $defaultPadding/2;
 		border-width: 0;
 		border-radius: 5px 5px 0 0;
+		transition: all 0.3s linear;
+		-webkit-transition: all 0.3s linear;
+		-moz-transition: all 0.3s linear;
 	}
 	&.on>a, >a:hover, >a:active {
 		background: $lightGrey;
@@ -82,4 +88,46 @@
 }
 .tools, .rss {
 	float: right;
+}
+.subnav, .nav-bottom {
+	transition: all 0.3s linear;
+	-webkit-transition: all 0.3s linear;
+	-moz-transition: all 0.3s linear;
+	overflow: hidden;
+}
+.is-sticky {
+	.nav-container {
+		position: fixed;
+		top: 0;
+		left:0;
+		right: 0;
+		z-index:2;
+		height: $navHeight;
+	}
+	.subnav, .nav-bottom {
+		//opacity: 0;
+		//display: none;
+		height: 0;
+	}
+	.nav {
+		>a {
+			border-radius: 0;
+		}
+		&.on>a, >a:hover, >a:active {
+			border-radius: 0;
+			/*
+			background: transparent;
+			position: relative;
+			&:after {
+				content: "";
+				position: absolute;
+				bottom:0;
+				left: 0;
+				right: 0;
+				display: block;
+				border-top: 3px solid $red;
+			}
+			*/
+		}
+	}
 }

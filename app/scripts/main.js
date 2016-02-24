@@ -1,4 +1,45 @@
 /* jshint devel:true */
+(function(){
+  'use strict';
+
+  var gNavOffsetY = document.getElementById('nav-place-holder').offsetTop || 0;
+
+  function stickyScroll() {
+    var scrollTop = window.scrollY;
+    var htmlClass = document.documentElement.className;
+    
+    console.log ('scroll ' + scrollTop + 'px. Nav offsetSet is ' + gNavOffsetY + 'px. ');
+    if (scrollTop >=gNavOffsetY) {
+      if (htmlClass.indexOf(' is-sticky')<0) {
+        document.documentElement.className = htmlClass + ' is-sticky';
+        console.log ('going sticky! ');
+      }
+    } else {
+      if (htmlClass.indexOf(' is-sticky')>=0) {
+        document.documentElement.className = htmlClass.replace(/ is-sticky/g, '');
+        console.log ('remove sticky! ');
+      }
+    }
+  }
+
+  // listent to scrolling events
+  if (gNavOffsetY > 30) {
+    try {
+      window.addEventListener('scroll', stickyScroll);
+    } catch (ignore) {
+
+    }
+  }
+
+})(); 
+
+
+
+
+
+
+
+/* jshint devel:true */
 /****dolphin广告****/
 //参数依次为
 //位置ID

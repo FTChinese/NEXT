@@ -95,6 +95,9 @@ gulp.task('copy', ['build'], function () {
   gulp.src('dist/styles/partials/*.css')
     .pipe(gulp.dest('../dev_www/frontend/tpl/next/styles'));
 
+  gulp.src('dist/scripts/*.js')
+    .pipe(gulp.dest('../dev_www/frontend/tpl/next/scripts'));
+
   gulp.src('dist/m/marketing/*')
     .pipe(gulp.dest('../dev_www/frontend/tpl/marketing'));
 
