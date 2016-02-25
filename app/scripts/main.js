@@ -3,28 +3,91 @@
   'use strict';
 
   var gNavOffsetY = document.getElementById('nav-place-holder').offsetTop || 0;
+  var stickyTopMargin = -60;
+  var stickyBottomMargin = -360;
+  var sectionsWithSide = document.querySelectorAll('.block-container.has-side');
+  var placeHolder = [];
+  var adContainer = [];
+  var sectionBottom = [];
+  var placeHolderTop = [];
+  var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+  
 
-  function stickyScroll() {
-    var scrollTop = window.scrollY;
-    var htmlClass = document.documentElement.className;
-    
-    console.log ('scroll ' + scrollTop + 'px. Nav offsetSet is ' + gNavOffsetY + 'px. ');
-    if (scrollTop >=gNavOffsetY) {
-      if (htmlClass.indexOf(' is-sticky')<0) {
-        document.documentElement.className = htmlClass + ' is-sticky';
-        console.log ('going sticky! ');
-      }
-    } else {
-      if (htmlClass.indexOf(' is-sticky')>=0) {
-        document.documentElement.className = htmlClass.replace(/ is-sticky/g, '');
-        console.log ('remove sticky! ');
+
+  function findTop(obj) {
+    var curtop = 0;
+    if (obj.offsetParent) {
+      do {
+        curtop += obj.offsetTop;
+      } while ((obj = obj.offsetParent));
+      return curtop;
+    }
+  }
+
+  function stickyScrollPrepare() {
+    if (sectionsWithSide.length > 0) {
+      for (var i=0; i<sectionsWithSide.length && i===0; i++) {
+        placeHolder[i] = sectionsWithSide[i].querySelector('.ad-holder');
+        adContainer[i] = sectionsWithSide[i].querySelector('.bottom-ad');
+        sectionBottom[i] = findTop(sectionsWithSide[i].querySelector('.block-bottom'));
+        if (placeHolder[i] !== null && adContainer[i] !== null && sectionBottom[i] !== null) {
+          placeHolderTop[i] = findTop(placeHolder[i]);
+        }
       }
     }
   }
 
+
+  function stickyScroll() {
+
+    var scrollTop = window.scrollY;
+    var htmlClass = document.documentElement.className;
+
+    if (scrollTop >=gNavOffsetY) {
+      if (htmlClass.indexOf(' is-sticky')<0) {
+        document.documentElement.className = htmlClass + ' is-sticky';
+      }
+    } else {
+      if (htmlClass.indexOf(' is-sticky')>=0) {
+        document.documentElement.className = htmlClass.replace(/ is-sticky/g, '');
+      }
+    }
+
+
+
+    if (sectionsWithSide.length > 0) {
+      for (var i=0; i<sectionsWithSide.length && i===0; i++) {
+        if (placeHolder[i] !== null && adContainer[i] !== null && sectionBottom[i] !== null) {
+          var adClassName = adContainer.className;
+          var adClassNameNew = '';
+          console.log ('place holder top');
+          console.log (placeHolder[i].offsetTop);
+          console.log (sectionsWithSide[i].querySelector('.vidoes').offsetTop);
+          console.log (scrollTop - sectionBottom[i]);
+          if (scrollTop - placeHolderTop[i] < stickyTopMargin) {
+            adClassNameNew = 'bottom-ad';
+          } else if (scrollTop - sectionBottom[i] > stickyBottomMargin) {
+            adClassNameNew = 'bottom-ad sticky-bottom';
+          } else {
+            adClassNameNew = 'bottom-ad sticky-top';
+          }
+          if (adClassName !== adClassNameNew) {
+            adContainer[i].className = adClassNameNew;
+          }
+        }
+      }
+    }
+
+
+
+ 
+
+  }
+
   // listent to scrolling events
-  if (gNavOffsetY > 30) {
+  if (gNavOffsetY > 30 && w > 490) {
     try {
+      stickyScrollPrepare();
       window.addEventListener('scroll', stickyScroll);
     } catch (ignore) {
 

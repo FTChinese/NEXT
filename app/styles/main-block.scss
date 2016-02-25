@@ -97,9 +97,12 @@
 }
 .item-time {
 	color: $lightGrey;
+	color: $timeGrey;
 	font-weight: normal;
 	font-size: 12px;
 	padding-top: $defaultPadding/2;
+	//padding-right: $defaultPadding/2;
+	//text-align: right;
 	&.highlight {
 		color: $red;
 	}
@@ -143,11 +146,6 @@
     	border-right: $sideWidth solid $bannerBG;
     	padding-right: $defaultPadding/2;
 	}
-	.bottom-ad {
-		position: absolute;
-		right: $defaultPadding * 2;
-		bottom: 0;
-	}
 }
 
 .side-container {
@@ -174,9 +172,60 @@
 	.item-headline {
 		padding: $defaultPadding/2 $defaultPadding/2 0 $defaultPadding/2;
 		margin-bottom: 0;
+		font-size: 1em;
 	}
 	.image {
 		position: static;
+		float:right;
+		width: 80px;
+		padding-top: 2px;
+		clear: right;
+	}
+	.item-container.first {
+		position: relative;
+		margin-bottom: $defaultPadding/2;
+		.item-inner {
+			padding: 0;
+			border: 0;
+		}
+		.image {
+			float:none;
+			width: 100%;
+			padding-bottom: 0;
+		}
+		.item-headline {
+			font-size:1.1em;
+			position: absolute;
+			bottom: 0;
+			background-color: $opaque;
+			color: white;
+			padding-bottom: $defaultPadding/2;
+			a {
+				color: white;
+				font-weight: normal;
+			}
+		}
+	}
+	.bottom-ad {
+		width: 300 + 2*$defaultPadding;
+		iframe {
+			margin: 0 auto;
+		}
+		&.sticky-top {
+			position: fixed;
+			top: $navHeight + $defaultPadding;
+		}
+		&.sticky-bottom {
+			position: absolute;
+			right: $defaultPadding;
+			bottom: $defaultPadding;
+		}
+
+	}
+	.ad-holder {
+		width: 100%;
+		padding-top: $defaultPadding/2;
+		//background-color: grey;
 	}
 }
 
@@ -454,6 +503,7 @@
 		}
 	}
 }
+
 
 //S smaller screens like iPhone 6s landscape
 @media only screen and (max-width: 740px) and (min-width: 491px) {

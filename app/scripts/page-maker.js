@@ -14,7 +14,7 @@
 		'belt': ['member', 'marketsdata'],
 		'float': ['none', 'left', 'right'],
 		'showTag': ['no', 'yes'],
-		'showTimeStamp': ['no', 'yes'],
+		'showTimeStamp': ['no', 'new stories', 'all'],
 		'preferLead': ['longlead', 'shortlead']
 	};
 	var toolkits = {
