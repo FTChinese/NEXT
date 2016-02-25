@@ -30,6 +30,18 @@ document.documentElement.className = document.documentElement.className.replace(
 }
 </script>
 
+<!--[if lte IE 8]>
+    <script>
+        document.documentElement.className += ' is-ie-8';
+        document.createElement('figure');
+        document.createElement('header');
+        document.createElement('nav');
+        document.createElement('section');
+        document.createElement('article');
+        document.createElement('aside');
+        document.createElement('footer');
+    </script>
+<![endif]-->
  <!-- build:css styles/partials/main-common.css -->
  <link rel="stylesheet" href="styles/main-common.css">
  <!-- endbuild -->
@@ -60,6 +72,10 @@ document.documentElement.className = document.documentElement.className.replace(
 
  <!-- build:css styles/partials/main-footer.css -->
  <link rel="stylesheet" href="styles/main-footer.css">
+ <!-- endbuild -->
+
+ <!-- build:css styles/partials/main-ie.css -->
+ <link rel="stylesheet" href="styles/main-ie.css">
  <!-- endbuild -->
 
  <link rel="icon" type="image/png" href="https://next-geebee.ft.com/assets/brand-alpha/icons/favicon-32x32.png" sizes="32x32">
@@ -101,7 +117,7 @@ document.documentElement.className = document.documentElement.className.replace(
 <div class="belt-frame">
     <iframe width="0" height="0" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="/m/marketing/membertext.html"></iframe>
 </div>  </div>
-</div>                <header class="header-container">
+</div>                <header><div class="header-container">
   <div class="header-inner">
     <div class="masthead"></div>
     <div class="header-side header-left">
@@ -112,7 +128,7 @@ document.documentElement.className = document.documentElement.className.replace(
       <a class="more last" href="http://user.ftchinese.com/register">免费注册</a>
     </div>
   </div>
-</header>      <div class="nav-place-holder" id="nav-place-holder"><nav class="nav-container" id="nav-container">
+</div></header>      <nav><div class="nav-place-holder" id="nav-place-holder"><div class="nav-container" id="nav-container">
 <div class="nav-inner">
   <ul class="nav-content">
     <li class="home on nav">
@@ -233,7 +249,7 @@ document.documentElement.className = document.documentElement.className.replace(
   <div class="nav-right"><div></div></div>
 </div>
 <div class="nav-bottom"></div>
-</nav></div>                <div class="banner-container">
+</div></div></nav>                <div class="banner-container">
 <div class="banner-inner">
   <iframe id="mpu3Frame" name="mpu3Frame" width="100%" height="90" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="/m/marketing/a.html#adid=10000001&slot=986723212"></iframe>
 </div>
@@ -1177,7 +1193,7 @@ document.documentElement.className = document.documentElement.className.replace(
         <span class="copyright"><b>© The Financial Times Ltd 2016</b></span> 
         <span><acronym title="Financial Times">FT</acronym> and 'Financial Times' are trademarks of The Financial Times Ltd.</span>
     </p>
-</div></div>    
+</div></div>  
  </body>
 
 <!-- build:js scripts/main.js -->

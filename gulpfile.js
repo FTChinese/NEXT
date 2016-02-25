@@ -280,7 +280,8 @@ gulp.task('connect', ['styles'], function () {
     .use(serveIndex('app'));
 
   require('http').createServer(app)
-    .listen(9000)
+    //.listen(9000)
+    .listen(9000, '0.0.0.0')
     .on('listening', function () {
       console.log('Started connect web server on http://localhost:9000');
     });
