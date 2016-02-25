@@ -1,19 +1,6 @@
 /* jshint devel:true */
 (function(){
   'use strict';
-
-  var gNavOffsetY = document.getElementById('nav-place-holder').offsetTop || 0;
-  var stickyTopMargin = -60;
-  var stickyBottomMargin = -360;
-  var sectionsWithSide = document.querySelectorAll('.block-container.has-side');
-  var placeHolder = [];
-  var adContainer = [];
-  var sectionBottom = [];
-  var placeHolderTop = [];
-  var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-  
-
-
   function findTop(obj) {
     var curtop = 0;
     if (obj.offsetParent) {
@@ -40,9 +27,10 @@
 
   function stickyScroll() {
 
-    var scrollTop = window.scrollY;
+    var scrollTop = window.scrollY || document.documentElement.scrollTop;
     var htmlClass = document.documentElement.className;
 
+    //alert (scrollTop);
     if (scrollTop >=gNavOffsetY) {
       if (htmlClass.indexOf(' is-sticky')<0) {
         document.documentElement.className = htmlClass + ' is-sticky';
@@ -52,18 +40,15 @@
         document.documentElement.className = htmlClass.replace(/ is-sticky/g, '');
       }
     }
-
-
-
     if (sectionsWithSide.length > 0) {
       for (var i=0; i<sectionsWithSide.length && i===0; i++) {
         if (placeHolder[i] !== null && adContainer[i] !== null && sectionBottom[i] !== null) {
           var adClassName = adContainer.className;
           var adClassNameNew = '';
-          console.log ('place holder top');
-          console.log (placeHolder[i].offsetTop);
-          console.log (sectionsWithSide[i].querySelector('.vidoes').offsetTop);
-          console.log (scrollTop - sectionBottom[i]);
+          // console.log ('place holder top');
+          // console.log (placeHolder[i].offsetTop);
+          // console.log (sectionsWithSide[i].querySelector('.vidoes').offsetTop);
+          // console.log (scrollTop - sectionBottom[i]);
           if (scrollTop - placeHolderTop[i] < stickyTopMargin) {
             adClassNameNew = 'bottom-ad';
           } else if (scrollTop - sectionBottom[i] > stickyBottomMargin) {
@@ -77,21 +62,38 @@
         }
       }
     }
-
-
-
- 
-
   }
+
+  //global variables
+  var gNavOffsetY = findTop(document.getElementById('nav-place-holder'));
+  var stickyTopMargin = -60;
+  var stickyBottomMargin = -360;
+  var sectionsWithSide = document.querySelectorAll('.block-container.has-side');
+  var placeHolder = [];
+  var adContainer = [];
+  var sectionBottom = [];
+  var placeHolderTop = [];
+  var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+
 
   // listent to scrolling events
   if (gNavOffsetY > 30 && w > 490) {
     try {
       stickyScrollPrepare();
-      window.addEventListener('scroll', stickyScroll);
+      var addEvent =  window.attachEvent||window.addEventListener;
+      var event = window.attachEvent ? 'onscroll' : 'scroll';
+      addEvent(event, function(){
+          stickyScroll();
+      });
     } catch (ignore) {
 
     }
+  }
+
+  // check svg support
+  // SVG is default, no-svg is exception
+  if (typeof SVGRect === 'undefined') {
+    document.documentElement.className += ' no-svg';
   }
 
 })(); 

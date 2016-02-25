@@ -14,7 +14,7 @@
 }
 
 .list-title {
-	font-size: 1.2em;
+	font-size: 1.1em;
 	position: relative;
 	height: $listTitleHeight;
 	margin: 0 $defaultPadding/2 $defaultPadding/2 $defaultPadding/2;
@@ -170,15 +170,16 @@
 		border-top: 1px dotted $borderColor;
 	}
 	.item-headline {
-		padding: $defaultPadding/2 $defaultPadding/2 0 $defaultPadding/2;
+		padding: $defaultPadding/2 $defaultPadding/2 0 0;
 		margin-bottom: 0;
-		font-size: 1em;
+		font-size: 0.9em;
+		font-weight: normal;
 	}
 	.image {
 		position: static;
 		float:right;
-		width: 80px;
-		padding-top: 2px;
+		width: 85px;
+		padding: 2px 0 0 5px;
 		clear: right;
 	}
 	.item-container.first {
@@ -191,10 +192,10 @@
 		.image {
 			float:none;
 			width: 100%;
-			padding-bottom: 0;
+			padding: 0;
 		}
 		.item-headline {
-			font-size:1.1em;
+			font-size:1em;
 			position: absolute;
 			bottom: 0;
 			background-color: $opaque;
@@ -467,6 +468,6 @@
 	}
 	.list-title, .no-side .list-title, .side-inner .list-title {
 		@include itemTitleMobile;
-		font-size: 1.2em;
+		font-size: 1.1em;
 	}
 }
