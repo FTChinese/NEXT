@@ -11,12 +11,17 @@ $rightBG: #F6E9D8;
 $itemBG: #E9DECF;
 $defaultRed: #9E2F50;
 $blueLink: #2e6e9e;
+$bannerBG: #F6E9D8;
+$lightPink: $bannerBG;
 
 // width, height
 $headerHeight: 44px;
 $itemBottom: 5px;
-$maxWidth: 1024px;
+$maxWidth: 1200px;
 $defaultLineHeight: 161.8%;
+$figureHeight: 56.25%;
+
+
 
 
 // mixins
@@ -309,6 +314,14 @@ html, body {
   &.interactive .item-title {
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="grey"><path d="M0 0h24v24h-24z" fill="none"/><path d="M12 2c-5.52 0-10 4.48-10 10s4.48 10 10 10 10-4.48 10-10-4.48-10-10-10zm1 15h-2v-6h2v6zm0-8h-2v-2h2v2z"/></svg>');
   }
+  &.has-image {
+    background-repeat: no-repeat;
+    background-size: 80px auto;
+    padding-left: 90px;
+    // text-overflow: ellipsis;
+    // overflow: hidden;
+    // white-space: nowrap;
+  }
 }
 
 .item-info {
@@ -337,6 +350,7 @@ html, body {
     }
   }
 }
+
 .item-links {
   padding: $itemBottom 0;
   a {

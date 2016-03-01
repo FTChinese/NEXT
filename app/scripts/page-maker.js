@@ -10,16 +10,19 @@
 		'type': 'readonly',
 		'theme': ['default', 'luxury'],
 		//'type': ['block', 'banner', 'header', 'footer'],
-		'side': ['none', 'marketsdata', 'videos'],
-		'belt': ['member', 'marketsdata'],
-		'float': ['none', 'left', 'right'],
+		'side': ['none', 'MarketsData', 'videos', 'MostPopular', 'MostCommented'],
+		'sideAlign': ['right', 'left'],
+		'belt': ['member'],
+		'float': ['none', 'left', 'right', 'SideBySide'],
 		'showTag': ['no', 'yes'],
 		'showTimeStamp': ['no', 'new stories', 'all'],
+		'from': ['', 'SpecialReports', 'Columns', 'Channels', 'Events', 'Marketing'],
 		'preferLead': ['longlead', 'shortlead']
 	};
 	var toolkits = {
 		'section': {
-			'block': ['title', 'name', 'side'],
+			'block': ['title', 'name', 'side', 'sideAlign'],
+			'include': ['from', 'side', 'sideAlign'],
 			'header': [],
 			'banner': ['position'],
 			'footer': [],
@@ -50,13 +53,22 @@
 		'blank': 'api/page/blank.json',
 		'stories': 'api/page/stories.json'
 	};
-	if (window.location.hostname === 'localhost' || window.location.hostname.indexOf('192.168') === 0 || window.location.hostname.indexOf('10.113') === 0 || window.location.hostname.indexOf('127.0') === 0) {
-		gApiUrls = gApiUrlsLocal;
-	}
+
 	//drag and drop
 	var dragSrcEl = null;
 	var dragIndex;
 	var dragOverIndex;
+
+	var customPageJSON;
+
+	// get parameter value from url
+
+	/* jshint ignore:start */
+	function getURLParameter(name) {
+	  return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
+	}
+	/* jshint ignore:end */
+
 
 	//将Unix时间戳转换为中文日期和星期
 	function unixtochinese(thetime,datetype) {
@@ -123,6 +135,8 @@
 		var dataHTML = '';
 		var oTimeStamp = timeStamp;
 		var relativestoryHTML = '';
+		var hasImageClass = '';
+		var imageBG = '';
 		if (typeof showRelativeStoryItems !== 'undefined') {
 			showRelativeStoryItems = '<div class="item-info-item"><div class="item-info-title">Show Related Items: </div><input type="number" title="How Many Related Content Would You Like to Show in This Page? " name="showRelativeStoryItems" class="o-input-text" value="' + showRelativeStoryItems + '"></div>';
 		} else {
@@ -147,6 +161,13 @@
 			timeStamp = '<div class="new-item"></div>';
 		}
 
+		if (image !== '') {
+			hasImageClass = ' has-image';
+      		imageBG = image.replace('i.ftimg.net', 'i.ftmailbox.com').replace('/upload/', '/');
+      		imageBG = encodeURIComponent(imageBG);
+		    imageBG = 'https://image.webservices.ft.com/v1/images/raw/' + imageBG + '?source=ftchinese&height=49&fit=scale-down';
+			imageBG = ' style="background-image: url('+ imageBG +')"';
+		}
 		
 		if (typeof relativestory === 'object') {
 			$.each(relativestory, function(key, value){
@@ -165,7 +186,7 @@
 		}
 		//console.log (relativestoryHTML);
 		//relativestoryHTML = '';
-		dataHTML = '<div draggable=true data-type="' + type + '" class="item ' + type + '" data-id="' + id + '"><div class="remove-item"></div><div class="timestamp">' + timeStamp + '</div><div class="item-title">' + headline + '</div><div class="item-info"><div class="item-links"><a href="http://www7.ftchinese.com/' + type + '/' + id + '" target=_blank>Preview</a><a href="' + editLink + '" target=_blank>Edit</a></div><div class="item-info-item"><input title="headline" name="headline" class="o-input-text" value="' + headline + '"></div><div class="item-info-item"><input title="image" name="image" class="o-input-text" value="' + image + '"></div><div class="item-info-item"><div class="item-info-title">Long Lead: </div><textarea title="image" name="longlead" class="o-input-text">' + longlead + '</textarea></div><div class="item-info-item"><div class="item-info-title">Short Lead: </div><textarea title="image" name="shortlead" class="o-input-text">' + shortlead + '</textarea></div><div class="item-info-item"><input title="tag" name="tag" class="o-input-text" value="' + tag + '"></div>' + showRelativeStoryItems + '<div class="item-info-item"><input name="timeStamp" type="hidden" class="o-input-text" value="' + oTimeStamp + '" readonly><input type="hidden" name="type" class="o-input-text" value="' + type + '" readonly><input type="hidden" name="id" class="o-input-text" value="' + id + '" readonly></div>'+relativestoryHTML+'</div></div>';
+		dataHTML = '<div draggable=true data-type="' + type + '" class="item ' + type + hasImageClass +'"'+ imageBG +' data-id="' + id + '"><div class="remove-item"></div><div class="timestamp">' + timeStamp + '</div><div class="item-title">' + headline + '</div><div class="item-info"><div class="item-links"><a href="http://www7.ftchinese.com/' + type + '/' + id + '" target=_blank>Preview</a><a href="' + editLink + '" target=_blank>Edit</a></div><div class="item-info-item"><input title="headline" name="headline" class="o-input-text" value="' + headline + '"></div><div class="item-info-item"><input title="image" name="image" class="o-input-text" value="' + image + '"></div><div class="item-info-item"><div class="item-info-title">Long Lead: </div><textarea title="image" name="longlead" class="o-input-text">' + longlead + '</textarea></div><div class="item-info-item"><div class="item-info-title">Short Lead: </div><textarea title="image" name="shortlead" class="o-input-text">' + shortlead + '</textarea></div><div class="item-info-item"><input title="tag" name="tag" class="o-input-text" value="' + tag + '"></div>' + showRelativeStoryItems + '<div class="item-info-item"><input name="timeStamp" type="hidden" class="o-input-text" value="' + oTimeStamp + '" readonly><input type="hidden" name="type" class="o-input-text" value="' + type + '" readonly><input type="hidden" name="id" class="o-input-text" value="' + id + '" readonly></div>'+relativestoryHTML+'</div></div>';
 		return dataHTML;
 	}
 
@@ -217,7 +238,7 @@
 		var sectionsHTML = '';
 		$.each(jsonData.sections, function(key, value){
 			var sectionMeta = renderMeta(value);
-			var title = value.title || value.name || value.type || 'Section';
+			var title = value.title || value.name || value.from || value.type || 'Section';
 			var sectionType = value.type || '';
 			sectionType = (sectionType !== '') ? 'type-' + sectionType: '';
 			sectionsHTML += '<div class="section-container '+ sectionType + '"><div class="section-inner"><div class="remove-section"></div><div class="section-header" draggable=true>' + title + '</div>' + sectionMeta + '</div></div>';
@@ -729,11 +750,15 @@
 		    };
 		    if (sectionType === 'block') {
 			    sectionJSON.lists = [
-					{
-	          		'name': 'New List',
-	          		'title': '',
-	          		'items': []
-	        		}
+			        {
+			          'name': 'New List',
+			          'title': '',
+			          'url': '',
+			          'float': 'none',
+			          'showTag': 'no',
+			          'showTimeStamp': 'no',
+			          'preferLead': 'longlead'
+			        }
 		    	];
 		    }
 		    $.each(toolkits.section[sectionType], function(key, value){
@@ -891,7 +916,7 @@
 	$('body').on('change', '.section-inner>.meta-table .o-input-text', function () {
 		var obj = $(this).parentsUntil($('.sections'), '.section-inner>.meta-table');
 		//console.log (obj);
-		var title = obj.find('[data-key=title]').val() || obj.find('[data-key=name]').val() || obj.find('[data-key=type]').val() || 'New List';
+		var title = obj.find('[data-key=title]').val() || obj.find('[data-key=name]').val() || obj.find('[data-key=from]').val()|| obj.find('[data-key=type]').val() || 'New List';
 		//console.log (title);
 		$(this).parentsUntil($('.sections'), '.section-container').find('.section-header').html(title);
 	});
@@ -922,6 +947,17 @@
 		//console.log (title);
 		obj.find('.relative-title').html(title);
 	});
+
+	// loading actions
+
+	customPageJSON = getURLParameter('page');
+	if (customPageJSON !== null && customPageJSON !== '') {
+		gApiUrlsLocal.home = 'api/page/' + customPageJSON + '.json';
+	}
+
+	if (window.location.hostname === 'localhost' || window.location.hostname.indexOf('192.168') === 0 || window.location.hostname.indexOf('10.113') === 0 || window.location.hostname.indexOf('127.0') === 0) {
+		gApiUrls = gApiUrlsLocal;
+	}
 
 	if (actionType === 'edit') {
 		jsonToDom(gApiUrls.home);

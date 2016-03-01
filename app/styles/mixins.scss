@@ -1,13 +1,14 @@
 @mixin coverImageLeft {
-	position: static;
-    float: left;
+	//position: static;
+    //float: left;
     width: 50%;
-    padding: 0 $defaultPadding/2 0 0;
+    padding: 0 $defaultPadding 0 0;
 }
 @mixin coverRight {
 	float: right;
 	width: 50%;
 	padding-left: $defaultPadding/2;
+	clear: right;
 }
 @mixin doubleWidth {
 	.item-inner {
@@ -16,7 +17,7 @@
 	.image {
 		@include coverImageLeft;
 	}
-	.item-headline, .item-lead, .relatives {
+	.item-headline, .item-lead, .relatives, .item-tag, .item-time {
 		@include coverRight;
 	}
 }
@@ -104,7 +105,23 @@
 		color: white;
 	}
 }
+@mixin headlineOnBG {
+	font-size:1em;
+	position: absolute;
+	bottom: 0;
+	background-color: $opaque;
+	color: white;
+	padding-bottom: $defaultPadding/2;
+	width: 100%;
+	a {
+		color: white;
+		font-weight: normal;
+	}
+}
 @mixin XL {
+	.XL2 {
+		width: 16.6666666667%;
+	}
 	.XL3 {
 		width: 25%;
 	}
@@ -162,6 +179,10 @@
 	.XLT {
 		@include itemTop;
 	}
+	.XLC {
+		clear: both;
+		padding-top: $defaultPadding/2;
+	}
 	.XLT-clear-right {
 		clear: right;
 		width: 66.6666667%;
@@ -212,6 +233,11 @@
 			padding-top: $defaultPadding/2;
 		}
 	}
+	.XL-oneline {
+		width: 100%;
+		float: left;
+	}
+
 	.XL-list-left {
 		float: left;
 		//clear: right;

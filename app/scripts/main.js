@@ -13,9 +13,10 @@
 
   function stickyScrollPrepare() {
     if (sectionsWithSide.length > 0) {
-      for (var i=0; i<sectionsWithSide.length && i===0; i++) {
+      for (var i=0; i<sectionsWithSide.length; i++) {
         placeHolder[i] = sectionsWithSide[i].querySelector('.ad-holder');
         adContainer[i] = sectionsWithSide[i].querySelector('.bottom-ad');
+        //console.log (adContainer[i]);
         sectionBottom[i] = findTop(sectionsWithSide[i].querySelector('.block-bottom'));
         if (placeHolder[i] !== null && adContainer[i] !== null && sectionBottom[i] !== null) {
           placeHolderTop[i] = findTop(placeHolder[i]);
@@ -26,7 +27,6 @@
 
 
   function stickyScroll() {
-
     var scrollTop = window.scrollY || document.documentElement.scrollTop;
     var htmlClass = document.documentElement.className;
 
@@ -41,14 +41,18 @@
       }
     }
     if (sectionsWithSide.length > 0) {
-      for (var i=0; i<sectionsWithSide.length && i===0; i++) {
-        if (placeHolder[i] !== null && adContainer[i] !== null && sectionBottom[i] !== null) {
-          var adClassName = adContainer.className;
+      for (var i=0; i<sectionsWithSide.length; i++) {
+        //console.log (i);
+        if (placeHolder[i] !== null && adContainer[i] !== undefined && sectionBottom[i] !== null) {
+          
+          //console.log (adContainer[i]);
+          var adClassName = adContainer[i].className;
           var adClassNameNew = '';
           // console.log ('place holder top');
           // console.log (placeHolder[i].offsetTop);
           // console.log (sectionsWithSide[i].querySelector('.vidoes').offsetTop);
           // console.log (scrollTop - sectionBottom[i]);
+          //console.log (scrollTop - placeHolderTop[i]);
           if (scrollTop - placeHolderTop[i] < stickyTopMargin) {
             adClassNameNew = 'bottom-ad';
           } else if (scrollTop - sectionBottom[i] > stickyBottomMargin) {
@@ -57,16 +61,23 @@
             adClassNameNew = 'bottom-ad sticky-top';
           }
           if (adClassName !== adClassNameNew) {
+            try {
             adContainer[i].className = adClassNameNew;
+            } catch (err) {
+              console.log (i);
+            }
           }
         }
       }
     }
   }
 
+
+
+
   //global variables
   var gNavOffsetY = findTop(document.getElementById('nav-place-holder'));
-  var stickyTopMargin = -60;
+  var stickyTopMargin = -44;
   var stickyBottomMargin = -360;
   var sectionsWithSide = document.querySelectorAll('.block-container.has-side');
   var placeHolder = [];
@@ -74,7 +85,13 @@
   var sectionBottom = [];
   var placeHolderTop = [];
   var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+  var delegate;
 
+  try {
+    delegate = new Delegate(document.body);
+  } catch (ignore) {
+
+  }
 
   // listent to scrolling events
   if (gNavOffsetY > 30 && w > 490) {
@@ -95,6 +112,40 @@
   if (typeof SVGRect === 'undefined') {
     document.documentElement.className += ' no-svg';
   }
+
+  // load responsive images
+  var figures = document.querySelectorAll('figure.loading');
+  for (var i=0; i<figures.length; i++) {
+    var thisFigure = figures[i];
+    var imageWidth = thisFigure.offsetWidth;
+    var imageUrl = thisFigure.getAttribute('data-url');
+    if (imageWidth > 0) {
+      imageUrl = imageUrl.replace('i.ftimg.net', 'i.ftmailbox.com');
+      imageUrl = encodeURIComponent(imageUrl);
+      imageUrl = 'https://image.webservices.ft.com/v1/images/raw/' + imageUrl + '?source=ftchinese&width=' + imageWidth + '&fit=scale-down';
+      thisFigure.innerHTML = '<img src="' + imageUrl + '">';
+      thisFigure.className = '';
+    }
+
+    //A cool trick to handle images that fail to load:
+    try {
+      delegate.on('error', 'img', function(){
+        this.style.display = 'none';
+      });
+    } catch (ignore) {
+
+    }
+  }
+
+  // click events
+  try {
+    delegate.on('click', 'a', function(){
+      //alert (this.innerHTML);
+    });
+  } catch (ignore) {
+
+  }
+
 
 })(); 
 
