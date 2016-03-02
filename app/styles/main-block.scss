@@ -6,6 +6,41 @@
 	a {
 		color: $darkGrey;
 	}
+	&.fixside {
+		.side-inner {
+			position: fixed;
+			bottom: $defaultPadding;
+			width: $sideWidth;
+		}
+	}
+	&.bottomside {
+		.side-inner {
+			position: absolute;
+			bottom: $defaultPadding;
+			width: $sideWidth;
+		}
+	}
+	&.fixmain {
+		.content-container {
+			position: fixed;
+			bottom: 0;
+			max-width: $maxWidth - 1.5 * $defaultPadding - $sideWidth;
+			//right: 360px;
+		}
+		.content-inner {
+			border-width: 0;
+		}
+	}
+	&.bottommain {
+		.content-container {
+			position: absolute;
+			bottom: 0;
+			max-width: $maxWidth - 1.5 * $defaultPadding - $sideWidth;
+		}
+		.content-inner {
+			border-width: 0;
+		}
+	}
 }
 .block-inner {
 	max-width: $maxWidth;
@@ -219,6 +254,8 @@
 .side-container {
 	float: right;
     width: $sideWidth;
+    background-color: $bannerBG;
+    //padding-bottom: $defaultPadding;
     margin-left: - $sideWidth;
 	iframe {
 		margin: 0 auto $defaultPadding auto;
@@ -299,7 +336,9 @@
 	}
 }
 
-
+.side-inner {
+	//padding-bottom: $defaultPadding;
+}
 
 
 

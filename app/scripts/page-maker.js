@@ -165,7 +165,7 @@
 			hasImageClass = ' has-image';
       		imageBG = image.replace('i.ftimg.net', 'i.ftmailbox.com').replace('/upload/', '/');
       		imageBG = encodeURIComponent(imageBG);
-		    imageBG = 'https://image.webservices.ft.com/v1/images/raw/' + imageBG + '?source=ftchinese&height=49&fit=scale-down';
+		    imageBG = 'https://image.webservices.ft.com/v1/images/raw/' + imageBG + '?source=ftchinese&width=80&fit=scale-down';
 			imageBG = ' style="background-image: url('+ imageBG +')"';
 		}
 		
@@ -198,9 +198,16 @@
 			if (dataRules[key] === 'array' || dataRules[key] === 'item' ) {
 				$.each(value, function(k, v){
 					var title = v.title || v.name || v.type || 'List';
+					var itemLength = 0;
+					if (v.items !== undefined && v.items.length>0) {
+						itemLength = ' <span>(' + v.items.length + ')</span>';
+					} else {
+						itemLength = '';
+					}
+					//console.log (v.items.length);
 					if (dataRules[key] === 'array') {
 						arrayMeta = renderMeta(v);
-						dataHTML += '<div class="'+ key +'-item"><div class="remove-' + key + '"></div><div class="'+ key +'-header" draggable=true>' + title + '</div>' + arrayMeta + '</div>';
+						dataHTML += '<div class="'+ key +'-item"><div class="remove-' + key + '"></div><div class="'+ key +'-header" draggable=true>' + title + itemLength + '</div>' + arrayMeta + '</div>';
 					} else {
 						arrayMeta = renderItem(v);
 						dataHTML += arrayMeta;
@@ -240,8 +247,14 @@
 			var sectionMeta = renderMeta(value);
 			var title = value.title || value.name || value.from || value.type || 'Section';
 			var sectionType = value.type || '';
+			var sectionLength;
+			if (value.lists !== undefined && value.lists.length>0) {
+				sectionLength = ' <span>('+ value.lists.length +')</span>';
+			} else {
+				sectionLength = '';
+			}
 			sectionType = (sectionType !== '') ? 'type-' + sectionType: '';
-			sectionsHTML += '<div class="section-container '+ sectionType + '"><div class="section-inner"><div class="remove-section"></div><div class="section-header" draggable=true>' + title + '</div>' + sectionMeta + '</div></div>';
+			sectionsHTML += '<div class="section-container '+ sectionType + '"><div class="section-inner"><div class="remove-section"></div><div class="section-header" draggable=true>' + title + sectionLength + '</div>' + sectionMeta + '</div></div>';
 		});
 		sectionsHTML = '<div class="sections">' + sectionsHTML + '</div>';
 
@@ -506,6 +519,54 @@
 			}
 		});
 		return JSON.stringify(J);
+	}
+
+
+	function updateSectionTitle(ele) {
+		var obj = ele.parentsUntil($('.sections'), '.section-inner>.meta-table');
+		var objContainer = ele.parentsUntil($('.sections'), '.section-container');
+		//console.log (obj);
+		var title = obj.find('[data-key=title]').val() || obj.find('[data-key=name]').val() || obj.find('[data-key=from]').val()|| obj.find('[data-key=type]').val() || 'New List';
+		var listsLength;
+		//console.log (objContainer.html());
+		if (objContainer.find('.lists-item') && objContainer.find('.lists-item').length > 0) {
+			listsLength = ' <span>(' + objContainer.find('.lists-item').length + ')</span>';
+		} else {
+			listsLength = '';
+		}
+		//console.log (title);
+		objContainer.find('.section-header').html(title + listsLength);
+	}
+
+	function updateListTitle(ele) {
+		var obj = ele.parentsUntil($('.lists-container'), '.lists-item>.meta-table');
+		var objContainer = ele.parentsUntil($('.lists-container'), '.lists-item');
+		//console.log (obj);
+		var title = obj.find('[data-key=title]').val() || obj.find('[data-key=name]').val() || obj.find('[data-key=type]').val() || 'New List';
+		//console.log (title);
+		var listsLength;
+		if (objContainer.find('.item') && objContainer.find('.item').length>0) {
+			listsLength = ' <span>(' + objContainer.find('.item').length + ')</span>';
+		} else {
+			listsLength = '';
+		}
+		objContainer.find('.lists-header').html(title + listsLength);
+	}
+
+	function updateAllTitles() {
+		$('.section-container').each(function(){
+			var obj = $(this).find('.section-inner>.meta-table .o-input-text');
+			if (obj.length > 0) {
+				updateSectionTitle(obj.eq(0));
+			}
+		});
+
+		$('.lists-item').each(function(){
+			var obj = $(this).find('>.meta-table .o-input-text');
+			if (obj.length > 0) {
+				updateListTitle(obj.eq(0));
+			}
+		});
 	}
 
 	$('body').on('dragstart', '.item, .relative-item, .section-header, .lists-header, .toolkit, .group-header' ,function(e){
@@ -842,6 +903,10 @@
 				console.log (this.classList);
 			}
 		}
+
+		//after a drop, update all the section titles and list titles
+		updateAllTitles();
+
 		dragSrcEl = null;
 		return false;
 	});
@@ -903,31 +968,26 @@
 	$('body').on('click', '.remove-item, .remove-relative, .remove-lists', function () {
 		$(this).parent().slideUp(500, function(){
 			$(this).remove();
+			updateAllTitles();
 		});
 	});
 
 	$('body').on('click', '.remove-section', function () {
 		$(this).parentsUntil($('.sections'), '.section-container').slideUp(500, function(){
 			$(this).remove();
+			updateAllTitles();
 		});
 	});
 
+
 	// change section meta property
 	$('body').on('change', '.section-inner>.meta-table .o-input-text', function () {
-		var obj = $(this).parentsUntil($('.sections'), '.section-inner>.meta-table');
-		//console.log (obj);
-		var title = obj.find('[data-key=title]').val() || obj.find('[data-key=name]').val() || obj.find('[data-key=from]').val()|| obj.find('[data-key=type]').val() || 'New List';
-		//console.log (title);
-		$(this).parentsUntil($('.sections'), '.section-container').find('.section-header').html(title);
+		updateSectionTitle($(this));
 	});
 
 	// change list meta
 	$('body').on('change', '.lists-item>.meta-table .o-input-text', function () {
-		var obj = $(this).parentsUntil($('.lists-container'), '.lists-item>.meta-table');
-		//console.log (obj);
-		var title = obj.find('[data-key=title]').val() || obj.find('[data-key=name]').val() || obj.find('[data-key=type]').val() || 'New List';
-		//console.log (title);
-		$(this).parentsUntil($('.lists-container'), '.lists-item').find('.lists-header').html(title);
+		updateListTitle($(this));
 	});
 
 	// change related story title

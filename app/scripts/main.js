@@ -26,6 +26,7 @@
   }
 
 
+
   function stickyScroll() {
     var scrollTop = window.scrollY || document.documentElement.scrollTop;
     var htmlClass = document.documentElement.className;
@@ -73,12 +74,144 @@
   }
 
 
+  function getBodyHeight() {
+    var w = window,
+    d = document,
+    e = d.documentElement,
+    g = d.getElementsByTagName('body')[0],
+    x = w.innerWidth || e.clientWidth || g.clientWidth,
+    y = w.innerHeight|| e.clientHeight|| g.clientHeight;
+    return y;
+  }
 
+
+var containerTop = [];
+var mainHeight = [];
+var sideHeight = [];
+var bodyHeight;
+
+  function stickyBottomPrepare() {
+    bodyHeight = getBodyHeight();
+    if (sectionsWithSide.length > 0) {
+      for (var i=0; i<sectionsWithSide.length; i++) {
+        // set the width of main and side content for sticky effect. 
+
+        /*
+        var sectionWidth = sectionsWithSide[i].querySelector('.block-inner').offsetWidth;
+        var sectionSideWidth = sectionsWithSide[i].querySelector('.side-container').offsetWidth;
+        var sectionMainDom =  sectionsWithSide[i].querySelector('.content-container');
+        var sectionMainWidth = sectionWidth - sectionSideWidth - (defaultPadding * 1.5);
+
+        sectionMainDom.style.width = sectionMainWidth + 'px';
+        sectionMainDom.querySelector('.content-inner').style.borderWidth = 0;
+        sectionMainDom.querySelector('.content-inner').style.width = sectionMainWidth + 'px';
+        sectionsWithSide[i].querySelector('.side-inner').style.backgroundColor = bannerBG;
+        sectionsWithSide[i].querySelector('.side-container').style.backgroundColor = bannerBG;
+
+
+        var contentInnerWidth = sectionsWithSide[i].querySelector('.content-inner').offsetWidth;
+        console.log (sectionWidth);
+        console.log (sectionSideWidth);
+
+        */
+        //sectionsWithSide[i].querySelector('.content-inner').style.width = contentInnerWidth + 'px';
+        containerTop[i] = findTop(sectionsWithSide[i]);
+        mainHeight[i] = sectionsWithSide[i].querySelector('.content-inner').offsetHeight;
+        //console.log (adContainer[i]);
+        sideHeight[i] = sectionsWithSide[i].querySelector('.side-inner').offsetHeight + defaultPadding;
+      }
+    }
+  }
+
+
+  function stickyBottom() {
+    var scrollTop = window.scrollY || document.documentElement.scrollTop;
+    var htmlClass = document.documentElement.className;
+
+    //alert (scrollTop);
+    if (scrollTop >=gNavOffsetY) {
+      if (htmlClass.indexOf(' is-sticky')<0) {
+        document.documentElement.className = htmlClass + ' is-sticky';
+      }
+    } else {
+      if (htmlClass.indexOf(' is-sticky')>=0) {
+        document.documentElement.className = htmlClass.replace(/ is-sticky/g, '');
+      }
+    }
+    if (sectionsWithSide.length > 0) {
+      for (var i=0; i<sectionsWithSide.length; i++) {
+          
+        //console.log (adContainer[i]);
+        var sectionClassName = sectionsWithSide[i].className;
+        var sectionClassNameNew = sectionClassName.replace(/fixmain|fixside|bottommain|bottomside/g,'');
+        var minHeight = Math.min(mainHeight[i], sideHeight[i]);
+        var maxHeight = Math.max(mainHeight[i], sideHeight[i]);
+
+        var maxScroll = containerTop[i] + maxHeight - bodyHeight - scrollTop;
+        var minScroll = containerTop[i] + minHeight - bodyHeight - scrollTop;
+
+        //console.log ('container: '+ i + ', scrollTop: ' + scrollTop + ': minScroll: ' + minScroll + ': maxScroll: ' + maxScroll +', containerTop: ' + containerTop[i] + ', mainHeight: ' + mainHeight[i] + ', sideHeight: ' + sideHeight[i] + ', bodyHeight: ' + bodyHeight);
+        // if (maxScroll<0) {
+        //   if (mainHeight[i]>sideHeight[i]) {
+        //     sectionClassNameNew += ' bottomside';
+        //   } else if (mainHeight[i]<sideHeight[i]) {
+        //     sectionClassNameNew += ' bottommain';
+        //   }
+        // } else if (minScroll<0) {
+        //   if (mainHeight[i]>sideHeight[i]) {
+        //     sectionClassNameNew += ' fixside';
+        //   } else if (mainHeight[i]<sideHeight[i]) {
+        //     sectionClassNameNew += ' fixmain';
+        //   }
+        // }
+
+
+        if (mainHeight[i]>sideHeight[i]) {
+          if (maxScroll<0) {
+            sectionClassNameNew += ' bottomside';
+          } else if (minScroll<0 ) {
+            sectionClassNameNew += ' fixside';
+          }
+        } else if (mainHeight[i]<sideHeight[i]) {
+          if (maxScroll<30) {
+            sectionClassNameNew += ' bottommain';
+          } else if (minScroll<0){
+            sectionClassNameNew += ' fixmain';
+          }
+        }
+
+
+        sectionClassNameNew = sectionClassNameNew.replace(/[\s]+/g,' ');
+        if (sectionClassNameNew !== sectionClassName) {
+          sectionsWithSide[i].className = sectionClassNameNew;
+        }
+
+/*
+        if (scrollTop - placeHolderTop[i] < stickyTopMargin) {
+          adClassNameNew = 'bottom-ad';
+        } else if (scrollTop - sectionBottom[i] > stickyBottomMargin) {
+          adClassNameNew = 'bottom-ad sticky-bottom';
+        } else {
+          adClassNameNew = 'bottom-ad sticky-top';
+        }
+        if (adClassName !== adClassNameNew) {
+          try {
+          adContainer[i].className = adClassNameNew;
+          } catch (err) {
+            console.log (i);
+          }
+        }
+*/
+      }
+    }
+  }
 
   //global variables
   var gNavOffsetY = findTop(document.getElementById('nav-place-holder'));
   var stickyTopMargin = -44;
   var stickyBottomMargin = -360;
+  var defaultPadding = 30;
+  var bannerBG = '#F6E9D8';
   var sectionsWithSide = document.querySelectorAll('.block-container.has-side');
   var placeHolder = [];
   var adContainer = [];
@@ -96,16 +229,22 @@
   // listent to scrolling events
   if (gNavOffsetY > 30 && w > 490) {
     try {
-      stickyScrollPrepare();
+      //stickyScrollPrepare();
+
+      stickyBottomPrepare();
+
       var addEvent =  window.attachEvent||window.addEventListener;
       var event = window.attachEvent ? 'onscroll' : 'scroll';
       addEvent(event, function(){
-          stickyScroll();
+          //stickyScroll();
+          stickyBottom();
       });
-    } catch (ignore) {
 
+    } catch (ignore) {
+      console.log (ignore);
     }
   }
+
 
   // check svg support
   // SVG is default, no-svg is exception
