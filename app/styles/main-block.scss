@@ -274,10 +274,16 @@
 		border-top: 1px dotted $borderColor;
 	}
 	.item-headline {
-		padding: $defaultPadding/2 $defaultPadding/2 0 0;
+		padding: $defaultPadding/2 $defaultPadding/2 0 $defaultPadding/2;
 		margin-bottom: 0;
 		font-size: 0.9em;
 		font-weight: normal;
+	}
+	.interactives {
+		padding-bottom: $defaultPadding;
+		.item-headline {
+			padding: $defaultPadding/2 $defaultPadding/2 0 0;
+		}
 	}
 	.image {
 		position: static;
@@ -373,7 +379,7 @@
 		width: 33.333333%;
 		display: block;
 		float: left;
-		padding: 0 5px $defaultPadding 5px;
+		padding: 0 5px;
 		font-size: 0.8em;
 		line-height: 120%;
 		figure {
@@ -389,6 +395,31 @@
 	}
 }
 
+
+
+.links {
+	padding: 0 $defaultPadding;
+	font-size: 0.75em;
+	a {
+		display: block;
+		padding-top: $defaultPadding/2;
+		margin-top: $defaultPadding/2;
+		border-top: 1px dotted $borderColor;
+		overflow: hidden;
+		width: 100%;
+		max-width: 100%;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		&:first-child {
+			border: 0;
+			margin-top: 0;
+			padding-top: 0;
+		}
+		&:hover, &:active {
+			text-decoration: underline;
+		}
+	}
+}
 
 .top10 {
 	padding: 0 $defaultPadding/2;

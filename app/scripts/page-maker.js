@@ -10,7 +10,7 @@
 		'type': 'readonly',
 		'theme': ['default', 'luxury'],
 		//'type': ['block', 'banner', 'header', 'footer'],
-		'side': ['none', 'MarketsData', 'videos', 'MostPopular', 'MostCommented'],
+		'side': ['none', 'HomeRightRail', 'MostPopular', 'MarketsData', 'videos', 'MostCommented'],
 		'sideAlign': ['right', 'left'],
 		'belt': ['member'],
 		'float': ['none', 'left', 'right', 'SideBySide'],
