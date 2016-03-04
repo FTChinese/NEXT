@@ -10,7 +10,7 @@
 <script type="text/javascript" src="http://dolphin.ftimg.net/s?z=ft&c=10000017" charset="gbk" ></script>
 <script type="text/javascript" src="http://dolphin.ftimg.net/s?z=ft&c=10000018" charset="gbk" ></script>
 </body>
-<script>
+<script type="text/javascript">
 var k = document.body.innerHTML;
 
 var pattern = /<script[^>]*><\/script>/gi;
@@ -19,6 +19,6 @@ k = k.replace(pattern, '').replace(pattern2, '');
 //k = '<span style="display: inline-block; ">' + k + '</span>';
 //k = k + k + k;
 parent.document.getElementById('member-info').innerHTML = k;
-parent.stickyBottomPrepare();
+window.parent.stickyBottomPrepare();
 </script>
 </html>

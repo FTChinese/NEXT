@@ -1,8 +1,13 @@
 @import "variables.scss";
 @import "mixins.scss";
-
+.content-inner {
+	//background-color: red;
+}
 .block-container {
 	margin-bottom: $defaultPadding/2;
+	&.side-video {
+		margin-bottom: $defaultPadding;
+	}
 	a {
 		color: $darkGrey;
 	}
@@ -30,6 +35,27 @@
 		.content-inner {
 			border-width: 0;
 		}
+		&.side-left {
+			.content-container {
+				position: static;
+				float: right;
+			}
+			.content-inner {
+				position: fixed;
+				max-width: $maxWidth - $sideWidth - 2 * $defaultPadding;
+				border-width: 0;
+				bottom: 0;
+				padding-left: 0;
+				padding-right: 0;
+				//background-color: $red;
+			}
+			.side-container {
+				float: left;
+				//float: none;
+				margin-right: 0;
+				margin-left:0;
+			}
+		}
 	}
 	&.bottommain {
 		.content-container {
@@ -39,6 +65,27 @@
 		}
 		.content-inner {
 			border-width: 0;
+		}
+		&.side-left {
+			.content-container {
+				position: static;
+				float: right;
+			}
+			.content-inner {
+				position: absolute;
+				max-width: $maxWidth - $sideWidth - 2 * $defaultPadding;
+				border-width: 0;
+				bottom: 0;
+				padding-left: 0;
+				padding-right: 0;
+				//background-color: $red;
+			}
+			.side-container {
+				float: left;
+				//float: none;
+				margin-right: 0;
+				margin-left:0;
+			}
 		}
 	}
 }
@@ -86,6 +133,58 @@
 .item-inner {
 	padding: $figureHeight $defaultPadding/2 $defaultPadding $defaultPadding/2;
 	position: relative;
+}
+.video-package {
+	.items {
+		padding: 0 $defaultPadding/4;		
+	}
+
+	.item-inner {
+		padding: $figureHeight $defaultPadding/4 0 $defaultPadding/4;
+		padding-bottom: 0;
+	}
+	.item-headline {
+		font-size: 0.75em;
+		font-weight: normal;
+	}
+	.image {
+		left: $defaultPadding/4;
+		right: $defaultPadding/4;
+		border: 2px solid transparent;
+		padding-bottom: 0;
+		&:hover, &.active {
+			border-color: $blue;
+		}
+	}
+	.on .image {
+		border-color: $blue;
+		//background-color: $blue;
+	}
+}
+.video-package-inner {
+	&.item-inner {
+		position: relative;
+		padding: 0 $defaultPadding/4 $defaultPadding/2 $defaultPadding/4;
+	}
+	.image {
+		position: static;
+		border-width: 0;
+		margin-bottom: 0;
+		figure {
+			background-color: black;
+			color: white;
+		}
+	}
+}
+.video-package-title {
+	background-color: black;
+	padding: $defaultPadding/4;
+	a {
+		color: white;
+		&:hover, &:active {
+			text-decoration: underline;
+		}
+	}
 }
 
 //grid system
@@ -201,10 +300,8 @@
 			padding-left: $defaultPadding/2;
 		}
 		.side-container {
-			float: none;
-			margin-left: 0;
-			position: absolute;
-			height: 100%;
+			float: right;
+			margin-right: -$sideWidth;
 		}
 		.ad-holder {
 			//padding-top: $defaultPadding/2;

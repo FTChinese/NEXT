@@ -8,6 +8,12 @@
   var sectionsWithSide = document.querySelectorAll('.block-container.has-side');
   var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
   var delegate;
+  var htmlClass = document.documentElement.className;
+  var sectionsWithSideLength = sectionsWithSide.length;
+  var sectionClassName = [];
+  var sectionClassNameNew = [];
+  var minHeight = [];
+  var maxHeight = [];
 
   function findTop(obj) {
     var curtop = 0;
@@ -35,50 +41,53 @@
         containerTop[i] = findTop(sectionsWithSide[i]);
         mainHeight[i] = sectionsWithSide[i].querySelector('.content-inner').offsetHeight;
         sideHeight[i] = sectionsWithSide[i].querySelector('.side-inner').offsetHeight + defaultPadding;
+        sectionClassName[i] = sectionsWithSide[i].className;
+        minHeight[i] = Math.min(mainHeight[i], sideHeight[i]);
+        maxHeight[i] = Math.max(mainHeight[i], sideHeight[i]);
         //sectionsWithSide[i].querySelector('.side-inner').style.backgroundColor = 'grey';
       }
     }
   }
 
-
   function stickyBottom() {
     var scrollTop = window.scrollY || document.documentElement.scrollTop;
-    var htmlClass = document.documentElement.className;
-    if (scrollTop >=gNavOffsetY) {
+    if (scrollTop >= gNavOffsetY) {
       if (htmlClass.indexOf(' is-sticky')<0) {
-        document.documentElement.className = htmlClass + ' is-sticky';
+        htmlClass += ' is-sticky';
+        document.documentElement.className = htmlClass;
       }
     } else {
       if (htmlClass.indexOf(' is-sticky')>=0) {
-        document.documentElement.className = htmlClass.replace(/ is-sticky/g, '');
+        htmlClass = htmlClass.replace(/ is-sticky/g, '');
+        document.documentElement.className = htmlClass;
       }
     }
-    if (sectionsWithSide.length > 0) {
-      for (var i=0; i<sectionsWithSide.length; i++) {
-        var sectionClassName = sectionsWithSide[i].className;
-        var sectionClassNameNew = sectionClassName.replace(/fixmain|fixside|bottommain|bottomside/g,'');
-        var minHeight = Math.min(mainHeight[i], sideHeight[i]);
-        var maxHeight = Math.max(mainHeight[i], sideHeight[i]);
-        var maxScroll = containerTop[i] + maxHeight - bodyHeight - scrollTop;
-        var minScroll = containerTop[i] + minHeight - bodyHeight - scrollTop;
+    if (sectionsWithSideLength > 0) {
+      for (var i=0; i<sectionsWithSideLength; i++) {
+        sectionClassNameNew[i] = sectionClassName[i].replace(/fixmain|fixside|bottommain|bottomside/g,'');
+        var maxScroll = containerTop[i] + maxHeight[i] - bodyHeight - scrollTop;
+        var minScroll = containerTop[i] + minHeight[i] - bodyHeight - scrollTop;
         //console.log (i + ': ' + maxScroll + '/' + minScroll);
-        if (mainHeight[i]>sideHeight[i]) {
+        if (maxHeight[i] < bodyHeight || maxHeight[i] - minHeight[i] < 100) {
+          // do nothing
+        } else if (mainHeight[i]>sideHeight[i]) {
           if (maxScroll<=0) {
-            sectionClassNameNew += ' bottomside';
+            sectionClassNameNew[i] += ' bottomside';
           } else if (minScroll<=0 ) {
-            sectionClassNameNew += ' fixside';
+            sectionClassNameNew[i] += ' fixside';
           }
         } else if (mainHeight[i]<sideHeight[i]) {
           if (maxScroll<30) {
-            sectionClassNameNew += ' bottommain';
+            sectionClassNameNew[i] += ' bottommain';
           } else if (minScroll<0){
-            sectionClassNameNew += ' fixmain';
+            sectionClassNameNew[i] += ' fixmain';
           }
         }
-        sectionClassNameNew = sectionClassNameNew.replace(/[\s]+/g,' ');
-        if (sectionClassNameNew !== sectionClassName) {
-          sectionsWithSide[i].className = sectionClassNameNew;
-          //console.log (sectionClassNameNew);
+        sectionClassNameNew[i] = sectionClassNameNew[i].replace(/[\s]+/g,' ');
+        if (sectionClassNameNew[i] !== sectionClassName[i]) {
+          sectionClassName[i] = sectionClassNameNew[i];
+          sectionsWithSide[i].className = sectionClassNameNew[i];
+          //console.log (sectionClassName[i]);
         }
       }
     }
@@ -130,21 +139,54 @@
       thisFigure.innerHTML = '<img src="' + imageUrl + '">';
       thisFigure.className = '';
     }
+  }
 
-    //A cool trick to handle images that fail to load:
-    try {
-      delegate.on('error', 'img', function(){
-        this.style.display = 'none';
-      });
-    } catch (ignore) {
-
+  // load responsive videos
+  var videos = document.querySelectorAll('figure.loading-video');
+  for (var i=0; i<videos.length; i++) {
+    var thisVideo = videos[i];
+    var videoWidth = thisVideo.offsetWidth;
+    var videoHeight = thisVideo.offsetHeight;
+    var videoId = thisVideo.getAttribute('data-vid');
+    if (videoWidth > 0 && videoHeight > 0) {
+      //console.log (videoId + ' Height: ' + videoHeight + ' Width: ' + videoWidth);
+      thisVideo.innerHTML = '<iframe name="video-frame" id="video-frame" style="width:100%;height:100%;position:absolute;" src="/video/'+ videoId +'?i=1&w='+videoWidth+'&h='+videoHeight+'&autostart=false" scrolling="no" frameborder="0" allowfullscreen=true></iframe>';
+      thisFigure.className = '';
     }
+  }
+
+  //A cool trick to handle images that fail to load:
+  try {
+    delegate.on('error', 'img', function(){
+      this.style.display = 'none';
+    });
+  } catch (ignore) {
+
   }
 
   // click events
   try {
-    delegate.on('click', 'a', function(){
-      //alert (this.innerHTML);
+    delegate.on('click', '.video-package .XL2 a.image', function(){
+      var link = this.getAttribute('href');
+      var videoPackage = this.parentNode.parentNode.parentNode;
+      var videoEle = videoPackage.querySelector('#video-package-play');
+      var videoWidth = videoEle.offsetWidth;
+      var videoHeight = videoEle.offsetHeight;
+      var thisItemEle = this.parentNode.parentNode;
+      var thisHeadline = thisItemEle.querySelector('.item-headline a').innerHTML;
+      var allVideos = this.parentNode.parentNode.parentNode.querySelectorAll('.video-package .XL2');
+      for (var i=0; i<allVideos.length; i++) {
+        var thisClassName = allVideos[i].className;
+        if (thisClassName.indexOf(' on')>=0) {
+          thisClassName = thisClassName.replace(' on', '');
+          allVideos[i].className = thisClassName; 
+        }
+      }
+      this.parentNode.parentNode.className += ' on';
+      videoEle.querySelector('iframe').src = link  +'?i=1&w='+videoWidth+'&h='+videoHeight+'&autostart=true';
+      videoPackage.querySelector('.video-package-title a').innerHTML = thisHeadline;
+      videoPackage.querySelector('.video-package-title a').href = link;
+      return false;
     });
   } catch (ignore) {
 

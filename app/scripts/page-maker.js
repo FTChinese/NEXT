@@ -10,14 +10,14 @@
 		'type': 'readonly',
 		'theme': ['default', 'luxury'],
 		//'type': ['block', 'banner', 'header', 'footer'],
-		'side': ['none', 'HomeRightRail', 'MostPopular', 'MarketsData', 'videos', 'MostCommented'],
+		'side': ['none', 'HomeRightRail', 'MostPopular', 'HotVideos', 'MarketsData', 'videos', 'MostCommented'],
 		'sideAlign': ['right', 'left'],
 		'belt': ['member'],
 		'float': ['none', 'left', 'right', 'SideBySide'],
 		'showTag': ['no', 'yes'],
 		'showTimeStamp': ['no', 'new stories', 'all'],
 		'from': ['', 'SpecialReports', 'Columns', 'Channels', 'Events', 'Marketing'],
-		'preferLead': ['longlead', 'shortlead']
+		'preferLead': ['longlead', 'shortlead', 'none']
 	};
 	var toolkits = {
 		'section': {
