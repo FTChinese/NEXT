@@ -54,11 +54,28 @@ try {
 } catch (ignore) {
 
 }
+</script>
 
-document.write ('<scr'+'ipt src="http://dolphin.ftimg.net/s?z=ft&c=' + c + '&' + slotStr + adP + '" charset="gbk" ></scr'+'ipt>');
+<div class="top-left">
+<script>
+    document.write ('<scr'+'ipt src="http://dolphin.ftimg.net/s?z=ft&c=' + c + '&' + slotStr + adP + '" charset="gbk" ></scr'+'ipt>');
+</script>
+</div>
 
-
-//var adBGColor = 'white';
+<script>
+if (d !== '') {
+    if (document.querySelector('.top-left') && (window.topbutton === 'hide' || document.querySelector('.top-left').offsetWidth >= 969)) {
+        console.log (document.querySelector('.top-left').offsetWidth);
+        //document.querySelector('.top-right').style.display='none';
+        document.querySelector('.top-left').style.width='969px';
+        document.querySelector('.top-left').style.float='none';
+        document.querySelector('.top-left').style.backgroundColor="transparent";
+    } else {
+        document.write('<div class="top-right">');
+        document.write('<scr'+'ipt src="http://dolphin.ftimg.net/s?z=ft&c=' + d + '&' + slotStr + adP + '" charset="gbk" ></scr'+'ipt>');
+        document.write('</div>');
+    }
+}
 </script>
 </div></div>
 <div id="ad-bottom"></div>
@@ -83,21 +100,11 @@ var adHeight = findTop(adBottom)
 
 //change bg color manually for demo purpose
 
-//http://creatives.ftchinese.com/ads/beijing/201601/20160121icbc72890.jpg
+//Justerini
 var adText = document.querySelector('.ad>div').innerHTML;
-if (adText.indexOf('icbc')>=0) {
-    window.adBGColor = 'white';
-}
-
 if (/icbc|Justerini/.test(adText)) {
     window.adBGColor = 'white';
-} else if (/201602\/590\-90\.gif/.test(adText)) {
-    window.adBGColor = '#F6E9D8';
-} else if (/000058905_piclink\.jpg/.test(adText)){
-    window.adBGColor = '#F6E9D8';
 }
-
-
 
 
 if (typeof adBGColor === 'string' && adBGColor !== '') {

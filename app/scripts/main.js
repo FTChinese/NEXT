@@ -35,6 +35,7 @@
   }
 
   function stickyBottomPrepare() {
+    gNavOffsetY = findTop(document.getElementById('nav-place-holder'));
     bodyHeight = getBodyHeight();
     if (sectionsWithSide.length > 0) {
       for (var i=0; i<sectionsWithSide.length; i++) {
@@ -93,8 +94,6 @@
     }
   }
 
-  gNavOffsetY = findTop(document.getElementById('nav-place-holder'));
-
   try {
     delegate = new Delegate(document.body);
   } catch (ignore) {
@@ -102,6 +101,7 @@
   }
 
   // listent to scrolling events
+  gNavOffsetY = findTop(document.getElementById('nav-place-holder'));
   if (gNavOffsetY > 30 && w > 490) {
     try {
       stickyBottomPrepare();
