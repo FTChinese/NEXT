@@ -28,7 +28,7 @@
 			'footer': [],
 			'topbelt': ['belt']
 		},
-		'list': ['name', 'title', 'url', 'style', 'float', 'showTag', 'showTimeStamp', 'preferLead']
+		'list': ['name', 'title', 'url', 'style', 'float', 'showTag', 'showTimeStamp', 'preferLead', 'sponsorAdId', 'sponsorLogoUrl', 'sponsorLink']
 	};
 	var devices = [
 		{'name': 'PC or Mac', 'width': '', 'height': ''},
@@ -818,7 +818,10 @@
 			          'float': 'none',
 			          'showTag': 'no',
 			          'showTimeStamp': 'no',
-			          'preferLead': 'longlead'
+			          'preferLead': 'longlead',
+			          'sponsorAdId': '',
+			          'sponsorLogoUrl': '',
+			          'sponsorLink': ''
 			        }
 		    	];
 		    }
@@ -883,6 +886,9 @@
 	  			'showTag': [],
 	  			'showTimeStamp': [],
 	  			'preferLead': [],
+	  			'sponsorAdId': '',
+	  			'sponsorLogoUrl': '',
+	  			'sponsorLink': '',
 	  			'items': []
 			};
 			newList = '<div class="lists-item"><div class="remove-lists"></div><div class="lists-header" draggable="true">New List</div>' + renderMeta(newListJSON) + '</div>';

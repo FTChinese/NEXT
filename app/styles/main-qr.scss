@@ -1,0 +1,48 @@
+@import "variables.scss";
+@import "mixins.scss";
+
+.app-download-container {
+	display: none;
+	width: 110px;
+	top: 160px;
+	_top: expression(documentElement.scrollTop + 160);
+	left: 49%;
+	margin: 0 0 0 $maxWidth/2;
+	position: fixed;
+	_position: absolute;
+	z-index: 100;
+	overflow: hidden;
+	font: 12px/22px Arial;
+	color: $darkGrey;
+	&.wechat {
+		top: 330px;
+		_top: expression(documentElement.scrollTop + 330);
+	}
+	a {
+		display: block;
+		width: 110px;
+		background: #F6E9D8;
+		line-height: 0;
+		text-align: center;
+		position: relative;
+		zoom: 1;
+		color: $darkGrey;
+	}
+	figure {
+		display: block;
+		margin: auto;
+		width: 90px;
+		height: 90px;
+	}
+	div {
+		display: block;
+		text-align: center;
+		line-height: 25px;
+	}
+}
+
+@media only screen and (min-width: 1480px) {
+	.app-download-container {
+		display: block;
+	}
+}

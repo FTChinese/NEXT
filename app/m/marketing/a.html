@@ -93,7 +93,7 @@ if (/icbc|Justerini/.test(adText)) {
     window.adBGColor = 'white';
 } else if (/201602\/590\-90\.gif/.test(adText)) {
     window.adBGColor = '#F6E9D8';
-} else if (/000058905_piclink\.jpg/.test(adText)){
+} else if (/000058905_piclink\.jpg|201602\/336\-60\-ribbonAD\.gif/.test(adText)){
     window.adBGColor = '#F6E9D8';
 }
 
@@ -105,15 +105,31 @@ if (typeof adBGColor === 'string' && adBGColor !== '') {
 }
 
 if ( window.parent.document.getElementById(parentId)) {
-    //console.log (adEle.offsetHeight);
     parentIframe = window.parent.document.getElementById(parentId)
-    adContainerHeight = parentIframe.offsetHeight || adHeight;
+    adContainerHeight = parentIframe.offsetHeight || 0;
     //adHeight = 600;
-    if (adHeight > 0 && adContainerHeight < adHeight) {
+    if (adHeight > 0 && adHeight - adContainerHeight > 30) {
         parentIframe.style.height = adHeight + 'px';
+        if (parentIframe.className.indexOf('ad-hidden')>=0) {
+            parentIframe.className = parentIframe.className.replace('ad-hidden', '');
+        }
         window.parent.stickyBottomPrepare();
     }
+}
 
+if (parentId === 'banner2') {
+var stickyHeight = 500;
+}
+
+if (window.parent && parentId !== '' && typeof stickyHeight === 'number' && stickyHeight > 0) {
+    if (typeof window.parent.stickyAds !== 'object') {
+        window.parent.stickyAds = [];
+    }
+    window.parent.stickyAds.push({
+        'BannerId': parentId,
+        'stickyHeight': stickyHeight
+    });
+    window.parent.stickyAdsPrepare();
 }
 
 </script>

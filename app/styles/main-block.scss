@@ -104,14 +104,21 @@
 	clear: both;
 	//border-top: 1px solid #cec6b9;
 	//padding: 5px 0;
-	a {
+	a.list-link {
 		line-height: $listTitleHeight;
 		position: absolute;
 		height: 100%;
 		left: 0;
 		padding-right: 5px;
 		background-color: $defaultPink;
-		//color: $red;
+	}
+	a.sponsor-link figure {
+		height: $defaultPadding;
+		background-color: $defaultPink;
+		position: absolute;
+		right: 0;
+		top: ($listTitleHeight - $defaultPadding)/2;
+		padding-left: 5px;
 	}
 	&:before {
 	    content: '';
@@ -357,6 +364,9 @@
 	iframe {
 		margin: 0 auto $defaultPadding auto;
 		display: block;
+		&.ad-hidden {
+			margin: 0 auto;
+		}
 	}
 	.list-title {
 		@include itemTitleMobile;

@@ -1,13 +1,29 @@
 @import "variables.scss";
 @import "mixins.scss";
+.banner-placeholder {
+	position: relative;
+	height: 90px;
+	margin-bottom: $defaultPadding;
+	//width: 100%;
+}
 .banner-container {
-	margin: 0 auto $defaultPadding auto;
-	max-width: $maxAdWidth;
+	//width: 100%;
 	iframe {
 		margin: auto;
 	}
+	&.is-fix {
+		position: fixed;
+		top: $navHeight;
+		width: 100%;
+		z-index: 5;
+	}
 }
 .banner-inner {
+	max-width: $maxAdWidth;
 	background: $bannerBG;
 	height: $bannerHeight;
+	margin: 0 auto;
+}
+.sponsor-container {
+	padding: 0 $defaultPadding/2;
 }

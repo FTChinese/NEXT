@@ -4,6 +4,7 @@
   var sideHeight = [];
   var bodyHeight;
   var gNavOffsetY;
+  var gNavHeight = 44;
   var defaultPadding = 30;
   var sectionsWithSide = document.querySelectorAll('.block-container.has-side');
   var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
@@ -33,6 +34,23 @@
     y = w.innerHeight|| e.clientHeight|| g.clientHeight;
     return y;
   }
+
+  function stickyAdsPrepare() {
+    if (typeof stickyAds === 'object' && stickyAds.length>0) {
+      for(var i=0; i<stickyAds.length; i++) {
+        var thePlaceHolder = document.getElementById(stickyAds[i].BannerId).parentNode.parentNode.parentNode;
+        var theContainer = document.getElementById(stickyAds[i].BannerId).parentNode.parentNode;
+        stickyAds[i].oTop = findTop(thePlaceHolder);
+        stickyAds[i].currentClass = theContainer.className;
+      }
+      //console.log (stickyAds);
+    }
+  }
+
+  // {
+  //       'BannerId': parentId,
+  //       'stickyHeight': stickyHeight
+  //   }
 
   function stickyBottomPrepare() {
     gNavOffsetY = findTop(document.getElementById('nav-place-holder'));
@@ -92,6 +110,28 @@
         }
       }
     }
+    if (typeof stickyAds === 'object' && stickyAds.length >0) {
+      for (var j=0; j<stickyAds.length; j++) {
+        var oTop = stickyAds[j].oTop - scrollTop - gNavHeight;
+        var oTop2 = oTop + stickyAds[j].stickyHeight;
+        var newClass = '';
+        if (oTop <= 0 && oTop2 >0) {
+          newClass = ' is-fix';
+        } else {
+          newClass = '';
+        }
+        newClass = 'banner-container' + newClass;
+        //console.log (newClass + '/' + stickyAds[i].currentClass + '/' + document.getElementById(stickyAds[i].BannerId).parentNode.parentNode.className);
+
+        if (newClass !== stickyAds[j].currentClass) {
+          stickyAds[j].currentClass = newClass;
+          document.getElementById(stickyAds[j].BannerId).parentNode.parentNode.className = newClass;
+        }
+
+      }
+      
+    }
+
   }
 
   try {
@@ -105,6 +145,7 @@
   if (gNavOffsetY > 30 && w > 490) {
     try {
       stickyBottomPrepare();
+      stickyAdsPrepare();
       var addEvent =  window.attachEvent||window.addEventListener;
       var eventScroll = window.attachEvent ? 'onscroll' : 'scroll';
       var eventResize = window.attachEvent ? 'onresize' : 'resize';
@@ -113,6 +154,7 @@
       });
       addEvent(eventResize, function(){
           stickyBottomPrepare();
+          stickyAdsPrepare();
       });
     } catch (ignore) {
 
@@ -132,7 +174,14 @@
     var imageWidth = thisFigure.offsetWidth;
     var imageHeight = thisFigure.offsetHeight;
     var imageUrl = thisFigure.getAttribute('data-url');
-    if (imageWidth > 0 && imageHeight > 0) {
+    var figureClass = thisFigure.className || '';
+    if (figureClass.indexOf('sponsor')>=0) {
+      imageUrl = imageUrl.replace('i.ftimg.net', 'i.ftmailbox.com');
+      imageUrl = encodeURIComponent(imageUrl);
+      imageUrl = 'https://image.webservices.ft.com/v1/images/raw/' + imageUrl + '?source=ftchinese&height=' + imageHeight + '&fit=cover';
+      thisFigure.innerHTML = '<img src="' + imageUrl + '">';
+      thisFigure.className = '';
+    } else if (imageWidth > 0 && imageHeight > 0) {
       imageUrl = imageUrl.replace('i.ftimg.net', 'i.ftmailbox.com');
       imageUrl = encodeURIComponent(imageUrl);
       imageUrl = 'https://image.webservices.ft.com/v1/images/raw/' + imageUrl + '?source=ftchinese&width=' + imageWidth + '&height=' + imageHeight + '&fit=cover';

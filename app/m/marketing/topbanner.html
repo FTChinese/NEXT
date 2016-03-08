@@ -65,7 +65,7 @@ try {
 <script>
 if (d !== '') {
     if (document.querySelector('.top-left') && (window.topbutton === 'hide' || document.querySelector('.top-left').offsetWidth >= 969)) {
-        console.log (document.querySelector('.top-left').offsetWidth);
+        //console.log (document.querySelector('.top-left').offsetWidth);
         //document.querySelector('.top-right').style.display='none';
         document.querySelector('.top-left').style.width='969px';
         document.querySelector('.top-left').style.float='none';
@@ -114,13 +114,27 @@ if (typeof adBGColor === 'string' && adBGColor !== '') {
 if ( window.parent.document.getElementById(parentId)) {
     //console.log (adEle.offsetHeight);
     parentIframe = window.parent.document.getElementById(parentId)
-    adContainerHeight = parentIframe.offsetHeight || adHeight;
+    adContainerHeight = parentIframe.offsetHeight || 0;
     //adHeight = 600;
-    if (adHeight > 0 && adContainerHeight < adHeight) {
+    //console.log (adHeight);
+    if (adHeight > 0 &&  adHeight - adContainerHeight > 30) {
         parentIframe.style.height = adHeight + 'px';
         window.parent.stickyBottomPrepare();
     }
 
+}
+
+
+var stickyHeight = 400;
+if (window.parent && parentId !== '' && typeof stickyHeight === 'number' && stickyHeight > 0) {
+    if (typeof window.parent.stickyAds !== 'object') {
+        window.parent.stickyAds = [];
+    }
+    window.parent.stickyAds.push({
+        'BannerId': parentId,
+        'stickyHeight': stickyHeight
+    });
+    window.parent.stickyAdsPrepare();
 }
 
 </script>
