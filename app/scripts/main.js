@@ -192,6 +192,10 @@
 
   // load responsive videos
   var videos = document.querySelectorAll('figure.loading-video');
+  var hostForVideo = '';
+  if (window.location.hostname === 'localhost' || window.location.hostname.indexOf('192.168') === 0 || window.location.hostname.indexOf('10.113') === 0 || window.location.hostname.indexOf('127.0') === 0) {
+    hostForVideo = 'http://www.ftchinese.com';
+  }
   for (var i=0; i<videos.length; i++) {
     var thisVideo = videos[i];
     var videoWidth = thisVideo.offsetWidth;
@@ -199,7 +203,7 @@
     var videoId = thisVideo.getAttribute('data-vid');
     if (videoWidth > 0 && videoHeight > 0) {
       //console.log (videoId + ' Height: ' + videoHeight + ' Width: ' + videoWidth);
-      thisVideo.innerHTML = '<iframe name="video-frame" id="video-frame" style="width:100%;height:100%;position:absolute;" src="/video/'+ videoId +'?i=1&w='+videoWidth+'&h='+videoHeight+'&autostart=false" scrolling="no" frameborder="0" allowfullscreen=true></iframe>';
+      thisVideo.innerHTML = '<iframe name="video-frame" id="video-frame" style="width:100%;height:100%;position:absolute;" src="' + hostForVideo + '/video/'+ videoId +'?i=1&w='+videoWidth+'&h='+videoHeight+'&autostart=false" scrolling="no" frameborder="0" allowfullscreen=true></iframe>';
       thisFigure.className = '';
     }
   }
@@ -216,7 +220,7 @@
   // click events
   try {
     delegate.on('click', '.video-package .XL2 a.image', function(){
-      var link = this.getAttribute('href');
+      var link = hostForVideo + this.getAttribute('href');
       var videoPackage = this.parentNode.parentNode.parentNode;
       var videoEle = videoPackage.querySelector('#video-package-play');
       var videoWidth = videoEle.offsetWidth;
