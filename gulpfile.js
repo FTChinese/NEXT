@@ -107,6 +107,9 @@ gulp.task('copy', ['build'], function () {
   gulp.src('dist/**/*')
     .pipe(gulp.dest('../dev_cms/pagemaker'));
 
+  gulp.src('app/api/**/*')
+    .pipe(gulp.dest('../dev_cms/pagemaker/api'));
+
 /*
   var fileName = '../dev_www/frontend/tpl/include/timestamp.html';
   var fs = require('fs');
