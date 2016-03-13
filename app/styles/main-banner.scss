@@ -2,28 +2,35 @@
 @import "mixins.scss";
 .banner-placeholder {
 	position: relative;
-	height: 90px;
+	height: $bannerHeight;
 	margin-bottom: $defaultPadding;
 	//width: 100%;
 }
 .banner-container {
-	//width: 100%;
+	width: 100%;
 	iframe {
 		margin: auto;
 	}
 	&.is-fix {
 		position: fixed;
 		top: $navHeight;
-		width: 100%;
 		z-index: 5;
 	}
 }
 .banner-inner {
-	max-width: $maxAdWidth;
+	max-width: $maxAdWidth + 2*$defaultPadding;
+	margin: 0 auto;
+}
+.banner-content {
+	margin: 0 $defaultPadding;
 	background: $bannerBG;
 	height: $bannerHeight;
-	margin: 0 auto;
 }
 .sponsor-container {
 	padding: 0 $defaultPadding/2;
+}
+@media only screen and (max-width: 490px) {
+	.banner-placeholder, .banner-container {
+		display: none;
+	}
 }

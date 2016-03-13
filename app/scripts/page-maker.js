@@ -3,6 +3,7 @@
 	'use strict';
 	//var actionType = 'create';
 	var actionType = 'edit';
+	var pageId = '';
 	var domId = 'content-left-inner';
 	var dataRules = {
 		'lists': 'array',
@@ -13,7 +14,7 @@
 		'side': ['none', 'HomeRightRail', 'MostPopular', 'HotVideos', 'MarketsData', 'videos', 'MostCommented'],
 		'sideAlign': ['right', 'left'],
 		'belt': ['member'],
-		'float': ['none', 'left', 'right', 'SideBySide'],
+		'float': ['none', 'left', 'right', 'oneline', 'SideBySide'],
 		'showTag': ['no', 'yes'],
 		'showTimeStamp': ['no', 'new stories', 'all'],
 		'from': ['', 'SpecialReports', 'Columns', 'Channels', 'Events', 'Marketing'],
@@ -43,10 +44,11 @@
 	var thisday = new Date();
 	var thenow = thisday.getHours() * 10000 + thisday.getMinutes() * 100 + thisday.getSeconds();
 	var todaydate = thisday.getFullYear() + '-' + (thisday.getMonth() + 1) + '-' + thisday.getDate();
+	var storyAPIRoot = '/falcon.php/homepage/getstoryapi/';
 	var gApiUrls = {
 		'home': 'api/page/home.json',
 		'blank': 'api/page/blank.json',
-		'stories': '/falcon.php/homepage/getstoryapi/' + todaydate + '?' + thenow
+		'stories': storyAPIRoot + todaydate + '?' + thenow
 	};
 	var gApiUrlsLocal = {
 		'home': 'api/page/home.json',
@@ -985,6 +987,16 @@
 		});
 	});
 
+	$('body').on('click', '#refresh-button', function () {
+		thisday = new Date();
+		thenow = thisday.getHours() * 10000 + thisday.getMinutes() * 100 + thisday.getSeconds();
+		gApiUrls.stories = storyAPIRoot + $('#keywords-input').val() + '?' + thenow;
+		$('#stories-inner').empty();
+		loadStories();
+	});
+
+	
+
 
 	// change section meta property
 	$('body').on('change', '.section-inner>.meta-table .o-input-text', function () {
@@ -1017,13 +1029,21 @@
 	// loading actions
 
 	customPageJSON = getURLParameter('page');
+	pageId = getURLParameter('id');
 	if (customPageJSON !== null && customPageJSON !== '') {
+		actionType = 'edit';
+	} else if (customPageJSON !== null && customPageJSON !== '') {
 		gApiUrlsLocal.home = 'api/page/' + customPageJSON + '.json';
+		actionType = 'edit';
+	} else {
+		actionType = 'create';
 	}
 
 	if (window.location.hostname === 'localhost' || window.location.hostname.indexOf('192.168') === 0 || window.location.hostname.indexOf('10.113') === 0 || window.location.hostname.indexOf('127.0') === 0) {
 		gApiUrls = gApiUrlsLocal;
 	}
+
+	$('#keywords-input').val(todaydate);
 
 	if (actionType === 'edit') {
 		jsonToDom(gApiUrls.home);

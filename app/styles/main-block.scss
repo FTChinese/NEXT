@@ -1,8 +1,5 @@
 @import "variables.scss";
 @import "mixins.scss";
-.content-inner {
-	//background-color: red;
-}
 .block-container {
 	margin-bottom: $defaultPadding/2;
 	&.side-video {
@@ -17,6 +14,11 @@
 			bottom: $defaultPadding;
 			width: $sideWidth;
 		}
+		&.side-left {
+			.side-inner {
+				bottom: 0;
+			}
+		}
 	}
 	&.bottomside {
 		.side-inner {
@@ -24,13 +26,18 @@
 			bottom: $defaultPadding;
 			width: $sideWidth;
 		}
+		&.side-left {
+			.side-inner {
+				bottom: 0;				
+			}
+
+		}
 	}
 	&.fixmain {
 		.content-container {
 			position: fixed;
 			bottom: 0;
 			max-width: $maxWidth - 1.5 * $defaultPadding - $sideWidth;
-			//right: 360px;
 		}
 		.content-inner {
 			border-width: 0;
@@ -47,11 +54,9 @@
 				bottom: 0;
 				padding-left: 0;
 				padding-right: 0;
-				//background-color: $red;
 			}
 			.side-container {
 				float: left;
-				//float: none;
 				margin-right: 0;
 				margin-left:0;
 			}
@@ -78,11 +83,9 @@
 				bottom: 0;
 				padding-left: 0;
 				padding-right: 0;
-				//background-color: $red;
 			}
 			.side-container {
 				float: left;
-				//float: none;
 				margin-right: 0;
 				margin-left:0;
 			}
@@ -100,10 +103,7 @@
 	position: relative;
 	height: $listTitleHeight;
 	margin: 0 $defaultPadding/2 $defaultPadding/2 $defaultPadding/2;
-
 	clear: both;
-	//border-top: 1px solid #cec6b9;
-	//padding: 5px 0;
 	a.list-link {
 		line-height: $listTitleHeight;
 		position: absolute;
@@ -119,14 +119,15 @@
 		right: 0;
 		top: ($listTitleHeight - $defaultPadding)/2;
 		padding-left: 5px;
+		img {
+			height: $defaultPadding;
+		}
 	}
 	&:before {
 	    content: '';
 	    position: absolute;
 	    height: 3px;
 	    background-color: $borderColor;
-	    //border-top: 1px dotted $borderColor;
-	    //border-bottom: 1px dotted $borderColor;
 	    top: 0;
 	    bottom: 0;
 	    width: 100%;
@@ -165,7 +166,6 @@
 	}
 	.on .image {
 		border-color: $blue;
-		//background-color: $blue;
 	}
 }
 .video-package-inner {
@@ -194,7 +194,6 @@
 	}
 }
 
-//grid system
 .image {
 	position: absolute;
 	top: 0;
@@ -210,7 +209,8 @@
 	a {
 		border-bottom: 1px dotted transparent;
 		&:hover, &:active {
-		border-bottom-color: $darkGreen;
+			border-bottom-color: $darkGreen;
+			color: $darkGreen;
 		}
 	}
 }
@@ -233,12 +233,13 @@
 .item-tag {
 	color: $red;
 	font-size: 14px;
-	padding-bottom: 5px;
-	//background-color: rgba(0,0,0,0.7);
 	font-weight: bold;
 	padding-bottom: $defaultPadding/2;
 	a {
 		color: $red;
+		&:hover, &:active {
+			color: $darkGreen;
+		}
 	}
 }
 .item-time {
@@ -247,8 +248,6 @@
 	font-weight: normal;
 	font-size: 12px;
 	padding-top: $defaultPadding/2;
-	//padding-right: $defaultPadding/2;
-	//text-align: right;
 	&.highlight {
 		color: $red;
 	}
@@ -310,20 +309,16 @@
 			float: right;
 			margin-right: -$sideWidth;
 		}
-		.ad-holder {
-			//padding-top: $defaultPadding/2;
-		}
 		.bottom-ad {
 			&.sticky-bottom {
 				right: auto;
 			}
-
 		}
 
 	}
 }
 
-.XL-side-by-side {
+.side-by-side {
 	float: left;
 	.item-container {
 		float: none;
@@ -332,7 +327,6 @@
 		&.first {
 			.item-inner {
 				padding: $figureHeight $defaultPadding/2 $defaultPadding/2 $defaultPadding/2;
-				//padding: 0 $defaultPadding/2;
 				border: 0;
 			}
 			.item-headline {
@@ -359,7 +353,6 @@
 	float: right;
     width: $sideWidth;
     background-color: $bannerBG;
-    //padding-bottom: $defaultPadding;
     margin-left: - $sideWidth;
 	iframe {
 		margin: 0 auto $defaultPadding auto;
@@ -425,35 +418,7 @@
 			}
 		}
 	}
-	.bottom-ad {
-		width: 300 + 2*$defaultPadding;
-		iframe {
-			margin: 0 auto;
-		}
-		&.sticky-top {
-			position: fixed;
-			top: $navHeight + $defaultPadding;
-		}
-		&.sticky-bottom {
-			position: absolute;
-			right: $defaultPadding;
-			bottom: $defaultPadding;
-		}
-
-	}
-	.ad-holder {
-		width: 100%;
-		padding-top: $defaultPadding;
-		clear: both;
-		//background-color: grey;
-	}
 }
-
-.side-inner {
-	//padding-bottom: $defaultPadding;
-}
-
-
 
 .video-container {
 	width: auto;
@@ -529,23 +494,27 @@
 }
 
 .top10 {
-	padding: 0 $defaultPadding/2;
+	padding: 0 $defaultPadding/2 $defaultPadding/2 $defaultPadding/2;
 	li {
 		padding: $defaultPadding/2 0 $defaultPadding/2 0;
 		border-top: 1px dotted $borderColor;
-		font-weight: bold;
+		//font-weight: bold;
 		&.mp1 {
 			padding-top: 0;
 			border: 0;
 		}
 		span {
 			color: $red;
-			padding-right: $defaultPadding/2;
-			text-align: right;
-			display: inline-block;
-			width: $defaultPadding;
+			//padding-right: $defaultPadding/2;
+			//text-align: right;
+			//display: inline-block;
+			//width: $defaultPadding;
 		}
 	}
+}
+
+.P-only {
+	display: none;
 }
 
 //XL related styles
@@ -555,183 +524,174 @@
 
 //L: large screen devices like pc and iPad landscape
 @media only screen and (max-width: 1220px) and (min-width: 981px) {
-	.L4 {
-		width: 33.33333333%;
-	}
-	.XLT {
-		display: none;
-	}
-	.LT {
-		@include itemTop;
-	}
+	@include L;
 }
 
 //M: middle screen devices like iPad portrait
-@media only screen and (max-width: 980px) and (min-width: 741px) {
-	.M4 {
-		width: 33.33333333%;
-	}
-	.LT {
-		display: none;
-	}
-	.MT {
-		@include itemTop;
+@media only screen and (max-width: 980px) and (min-width: 691px) {
+	@include M;
+}
+
+//M2: when side width is wider than main
+@media only screen and (max-width: 810px) and (min-width: 691px) {
+	.side-container {
+	    width: $sideInnerWidth;
+	    margin-left: - $sideInnerWidth;
 	}
 	.has-side {
-		.image {
-			@include coverImageLeft;	
+		.content-inner {
+	    	border-right: $sideInnerWidth solid $bannerBG;
 		}
-		.stand-alone, .first {
-			.item-headline, .item-lead, .relative-container {
-				@include coverRightSingle;
+		&.side-left {
+			.content-inner {
+				border-left: $sideInnerWidth solid $bannerBG;
 			}
-		}
-		.item-container {
-			&.left, &.right {
-				float: none;
-				width: 100%;
-				//padding: 0 $defaultPadding/2;
-				@include itemTop;
-				// &.first, &:nth-of-type(1), &:first-child {
-				// 	border-width: 0;
-				// 	padding-top: 0;
-				// }
-				.item-headline, .item-lead, .relative-container {
-					padding-left: 0;
-					padding-right: 0;
-				}
-				.image {
-					padding-left: 0;
-				}
-			}
-			&:first-child, &.first, &:nth-of-type(1) {
-				border-width: 0;
-				padding-top: 0;
-			}
-		}
-		.item-top-left {
-			display: none;
-		}
-		.lists-inner {
-			.item-container:nth-of-type(1) {
-
+			.side-container {
+				margin-right: -$sideInnerWidth;
 			}
 		}
 	}
-	.no-side {
-		.item-container {
-			width: 50%;
+	.block-container {
+		&.fixside {
+			.side-inner {
+				width: $sideInnerWidth;
+			}
 		}
-		.item-inner {
-//			padding: 0 $defaultPadding/2 $defaultPadding $defaultPadding/2;
+		&.bottomside {
+			.side-inner {
+				width: $sideInnerWidth;
+			}
 		}
-		.item-top-three {
-			display: none;
+		&.fixmain {
+			.content-container {
+				max-width: $maxWidth - 1.5 * $defaultPadding - $sideInnerWidth;
+			}
+			&.side-left {
+				.content-inner {
+					max-width: $maxWidth - $sideInnerWidth - 2 * $defaultPadding;
+				}
+			}
 		}
-		.item-top-two {
-			display: block;
-			@include itemTop;
-			margin: 0 $defaultPadding/2;
-		}
-		.odd-items .first .image {
-			@include coverImageLeft;
-		}
-		.odd-items .first {
-			width: 100%;
-			.item-headline, .item-lead, .relative-container {
-				@include coverRight;
+		&.bottommain {
+			.content-container {
+				max-width: $maxWidth - 1.5 * $defaultPadding - $sideInnerWidth;
+			}
+			&.side-left {
+				.content-inner {
+					max-width: $maxWidth - $sideInnerWidth - 2 * $defaultPadding;
+				}
 			}
 		}
 	}
 }
 
-
 //S smaller screens like iPhone 6s landscape
-@media only screen and (max-width: 740px) and (min-width: 491px) {
-	.S6 {
-		width: 50%;
-	}
-	.MT {
-		display: none;
-	}
-	.ST {
-		@include itemTop;
-	}
+@media only screen and (max-width: 690px) and (min-width: 491px) {
+	@include S;
+}
+
+//S1 smaller screens like iPhone 6s landscape
+@media only screen and (max-width: 690px) {
 	.has-side {
+		.block-inner {
+			padding: 0;
+		}
 		.content-container {
 		    float: none;
 		}
 		.content-inner {
-	    	border-right-width: 0;
+	    	border-right: 0;
 	    	padding-right: 0;
 		}
-		.side-container {
-			float: none;
-		    width: 100%;
-		    margin-left: 0;
-		    //background-color: #f6e9d8;
+		&.side-left {
+			.block-inner {
+				padding: 0;		
+			}
+			.content-container {
+				float: none;
+				padding: 0 $defaultPadding/2;
+			}
+			.content-inner {
+				border-left: 0;
+				padding-right: 0;
+				padding-left: 0;
+			}
+			.side-container {
+				float: none;
+				margin-right: 0;
+			}
 		}
-		/*
-		.block-inner {
-			padding-left: 0;
-			padding-right: 0;
-		}
+	}
+	.side-container {
+		float: none;
+	    width: auto;
+	    background-color: transparent;
+	    margin-left: 0;
+	    padding: 0 0 $defaultPadding/2 0;
 		.item-inner {
-			padding-left: $defaultPadding;
-			padding-right: $defaultPadding;
-		}*/
+			padding: 0 $defaultPadding/2 $defaultPadding/2 $defaultPadding/2;
+			.item-headline {
+				font-size: 1em;
+			}
+		}
+	}
+	.block-inner {
+		padding: 0;
+	}
+	.item-inner {
+		padding-left: $defaultPadding/2;
+		padding-right: $defaultPadding/2;
+	}
+	.list-title {
+		@include itemTitleMobile;
+		font-size: 1.1em;
+		clear: both;
+		position: relative;
+		a.list-link {
+			line-height: $listTitleHeight;
+			position: static;
+			height: auto;
+			left: auto;
+			padding-right: 5px;
+			background-color: transparent;
+		}
+		a.sponsor-link figure {
+			height: $defaultPadding;
+			background-color: transparent;
+			position: absolute;
+			right: $defaultPadding/2;
+			top: 0;
+			bottom: 0;
+			margin: auto;
+			padding-left: 0;
+		}
+		&:before {
+			display: none;
+		}
+	}
+	.items {
+		padding: 0 $defaultPadding/2;
+	}
+	.links {
+    	padding: 0 $defaultPadding/2;
+    	font-size: 1em;
+	}
+	.side-by-side {
+		.items {
+			padding: 0;
+		}
+		.list-title {
+			margin: 0 $defaultPadding/2 $defaultPadding/2 $defaultPadding/2;
+		}
+	}
+	.video-package {
+		.items {
+			padding: 0 0.75*$defaultPadding;
+		}
 	}
 }
 
 //mobile phones portrait
 @media only screen and (max-width: 490px) {
-	.item-container {
-		float: none;
-		width: 100%;
-	}
-	.ST {
-		display: none;
-	}
-	.no-side, .has-side {
-		.stand-alone {
-			.image {
-				width: 100%;
-				padding: 0 0 5px 0;
-			}
-		}
-		.block-inner {
-			padding: 0;
-		}
-		.item-top-two {
-			display: none;
-		}
-		.item-container {
-			float: none;
-			width: 100%;
-			//padding: 0 $defaultPadding/2;
-			@include itemTop;
-			&.first, &:first-child {
-				border-width: 0;
-				padding-top: 0;
-			}
-		}
-		.item-inner {
-			padding: 0 0 $defaultPadding 0;
-		}
-		.items {
-			padding: 0 $defaultPadding;
-		}
-		.image {
-			@include coverImageLeft;	
-		}
-		.odd-items .first {
-			.item-headline, .item-lead, .relative-container {
-				@include coverRightSingle;
-			}
-		}
-	}
-	.list-title, .no-side .list-title, .side-inner .list-title {
-		@include itemTitleMobile;
-		font-size: 1.1em;
-	}
+	@include P;
 }

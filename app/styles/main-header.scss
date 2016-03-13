@@ -2,7 +2,6 @@
 @import "mixins.scss";
 .header-container {
 	@include headerContainer;
-	//background: black;
 	height: 57px;
 }
 .header-inner {
@@ -20,7 +19,7 @@
 	background-size: auto $mastheadHeight;
 	background-repeat: no-repeat;
 	background-position: center;
-	background-image: url(http://static.ftchinese.com/images/masthead.png);
+	background-image: url(http://static.ftchinese.com/images/masthead1.png);
 	//background-image: url(https://next-geebee.ft.com/image/v1/images/raw/http%3A%2F%2Fnext-geebee.ft.com%2Fassets%2Ficons%2Fbrand-ft-masthead.svg?source=next&tint=%23FFFFFF,%23FFFFFF&format=svg);
 }
 .header-side {
@@ -78,5 +77,28 @@
 		&.last {
 			padding-right: 0;
 		}
+	}
+}
+
+@media only screen and (max-width: 490px) {
+	.header-side {
+		display: none;
+	}
+	.header-container {
+		height: $navHeight;
+	}
+	.header-inner {
+		position: fixed;
+		top: 0;
+		height: $navHeight;
+		z-index: 999999999;
+		width: 100%;
+		background-color: $darkGrey;
+	}
+}
+
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) { 
+	.masthead {
+		background-image: url(http://static.ftchinese.com/images/masthead2.png);
 	}
 }

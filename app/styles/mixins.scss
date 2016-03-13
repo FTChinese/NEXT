@@ -1,8 +1,9 @@
 @mixin coverImageLeft {
-	//position: static;
-    //float: left;
+	position: static;
+    float: left;
     width: 50%;
-    padding: 0 $defaultPadding 0 0;
+    padding: 0 $defaultPadding/2 0 0;
+    //clear: left;
 }
 @mixin coverRight {
 	float: right;
@@ -17,7 +18,7 @@
 	.image {
 		@include coverImageLeft;
 	}
-	.item-headline, .item-lead, .relatives, .item-tag, .item-time {
+	.item-headline, .item-lead, .relatives, .item-time {
 		@include coverRight;
 	}
 }
@@ -41,6 +42,12 @@
 	border-top: 1px dotted $borderColor;
 	padding: $defaultPadding 0 0 0;
 	margin: 0 $defaultPadding/2;
+}
+@mixin itemTopPhone {
+	clear: both;
+	border-top: 1px dotted $borderColor;
+	padding: $defaultPadding 0 0 0;
+	margin: 0 $defaultPadding/4;
 }
 @mixin itemTitleMobile {
 	position: static;
@@ -119,6 +126,50 @@
 		font-weight: normal;
 	}
 }
+@mixin half {
+	font-size: 0.9em;
+	.item-inner {
+		padding-top: 0;		
+	}
+	.image {
+		position: static;
+		float:left;
+		width: 115px;
+		padding: 3px 6px 3px 0;
+	}
+	&.no-image .image {
+		display: none;
+	}
+}
+@mixin halfPhone {
+	font-size: 0.9em;
+	.item-inner {
+		padding-top: 0;		
+	}
+	.image {
+		position: static;
+		float:left;
+		width: 135px;
+		padding: 3px 6px 3px 0;
+	}
+	&.no-image .image {
+		display: none;
+	}
+}
+@mixin lower {
+	.item-headline {
+		border-top: 1px dotted $borderColor;
+		padding-top: $defaultPadding;
+	}
+}
+@mixin noImage {
+	.image {
+		display: none;
+	}
+	.item-inner {
+		padding-top: 0;
+	}
+}
 @mixin XL {
 	.XL2 {
 		width: 16.6666666667%;
@@ -142,36 +193,18 @@
 		}
 	}
 	.XL12 {
+		@include doubleWidth;
+		float: none;
 		width: 100%;
-		//@include doubleWidth;
 		.item-headline {
 			font-size: 1.4em;
 		}
 	}
-	.XL12 {
-		@include doubleWidth;
-		//font-size: 1.1em;
-	}
 	.XL-half {
-		font-size: 0.9em;
-		.item-inner {
-			padding-top: 0;		
-		}
-		.image {
-			position: static;
-			float:left;
-			width: 115px;
-			padding: 3px 6px 3px 0;
-		}
-		&.no-image .image {
-			display: none;
-		}
+		@include half;
 	}
 	.XL-lower {
-		.item-headline {
-			border-top: 1px dotted $borderColor;
-			padding-top: $defaultPadding;
-		}
+		@include lower;
 	}
 	.XL-right {
 		clear:right;
@@ -193,12 +226,7 @@
 		@include doubleWidth;
 	}
 	.XL-no-image {
-		.image {
-			display: none;
-		}
-		.item-inner {
-			padding-top: 0;
-		}
+		@include noImage;
 	}
 	.XL-main {
 		width: 66.66666667%;
@@ -234,7 +262,7 @@
 			padding-top: $defaultPadding/2;
 		}
 	}
-	.XL-oneline {
+	.XL-list-oneline {
 		width: 100%;
 		float: left;
 	}
@@ -255,6 +283,328 @@
 	.no-side {
 		.XL6 {
 			@include doubleWidth;
+		}
+	}
+}
+@mixin L {
+	.L2 {
+		width: 16.6666666667%;
+	}
+	.L3 {
+		width: 25%;
+	}
+	.L4 {
+		width: 33.33333333%;
+	}
+	.L6 {
+		width: 50%;
+		//@include doubleWidth;
+	}
+	.L8 {
+		width: 66.66666667%;
+		.item-headline {
+			font-size: 1.4em;
+		}
+	}
+	.L12 {
+		width: 100%;
+		float: none;
+		@include doubleWidth;
+	}
+	.LT {
+		@include itemTop;
+	}
+	.L-half {
+		@include half;
+	}
+	.L-lower {
+		@include lower;
+	}
+	.L-double-width {
+		@include doubleWidth;
+	}
+	.LC {
+		clear: both;
+		padding-top: $defaultPadding/2;
+	}
+	.L-right {
+		clear:right;
+		float: right;
+		.item-headline {
+			font-size: 1em;
+		}
+	}
+	.L-no-image {
+		@include noImage;
+	}
+	.L-no-lead {
+		.item-headline {
+			margin-bottom: 0;
+		}
+		.item-lead {
+			display: none;
+		}
+	}
+	.L-cover {
+		.item-headline {
+			font-size: 1.4em;
+		}
+	}
+	.video-package {
+		.LT {
+			padding-top: $defaultPadding/3;
+		}
+	}
+}
+@mixin M {
+	.M3 {
+		width: 25%;
+	}
+	.M4 {
+		width: 33.33333333%;
+	}
+	.M6 {
+		width: 50%;
+		//@include doubleWidth;
+	}
+	.M8 {
+		width: 66.66666667%;
+		.item-headline {
+			font-size: 1.4em;
+		}
+	}
+	.M12 {
+		width: 100%;
+		float: none;
+	}
+	.MT {
+		@include itemTop;
+	}
+	.M-half {
+		@include half;
+		.item-tag, .item-time {
+			display: none;
+		}
+	}
+	.M-lower {
+		@include lower;
+	}
+	.M-double-width {
+		@include doubleWidth;
+	}
+	.MC {
+		clear: both;
+		padding-top: $defaultPadding/2;
+	}
+	.M-right {
+		clear:right;
+		float: right;
+		.item-headline {
+			font-size: 1em;
+		}
+	}
+	.M-no-image {
+		@include noImage;
+	}
+	.M-no-lead {
+		.item-headline {
+			margin-bottom: 0;
+		}
+		.item-lead {
+			display: none;
+		}
+	}
+	.M-cover {
+		.item-headline {
+			font-size: 1.4em;
+		}
+	}
+	.video-package {
+		.MT {
+			padding-top: $defaultPadding/3;
+		}
+	}
+}
+
+@mixin S {
+	.S3 {
+		width: 25%;
+	}
+	.S4 {
+		width: 33.33333333%;
+	}
+	.S6 {
+		width: 50%;
+	}
+	.S12 {
+		width: 100%;
+		float: none;
+	}
+	.ST {
+		@include itemTop;
+	}
+	.S-half {
+		@include half;
+	}
+	.S-double-width {
+		@include doubleWidth;
+	}
+	.SC {
+		clear: both;
+		padding-top: $defaultPadding/2;
+	}
+	.S-no-image {
+		@include noImage;
+	}
+	.S-no-lead {
+		.item-headline {
+			margin-bottom: 0;
+		}
+		.item-lead {
+			display: none;
+		}
+	}
+	.S-cover {
+		.item-headline {
+			font-size: 1.4em;
+		}
+	}
+	.video-package {
+		.ST {
+			padding-top: $defaultPadding/3;
+		}
+	}
+}
+
+@mixin P {
+	body {
+		font-size: 18px;
+	}
+
+	.P3 {
+		width: 25%;
+	}
+	.P4 {
+		width: 33.33333333%;
+	}
+	.P6 {
+		width: 50%;
+		.item-headline {
+			font-size: 0.8em;
+			margin-bottom: 0;
+		}
+	}
+	.P12 {
+		width: 100%;
+		float: none;
+	}
+	.PT {
+		@include itemTopPhone;
+		padding-top: $defaultPadding/2;
+	}
+	.P-half {
+		@include halfPhone;
+	}
+	.PC {
+		clear: both;
+		padding-top: $defaultPadding/2;
+	}
+	.P-no-image {
+		@include noImage;
+	}
+	.P-no-lead {
+		.item-headline {
+			margin-bottom: 0;
+		}
+		.item-lead {
+			display: none;
+		}
+	}
+	.P-cover {
+		.item-headline {
+			font-size: 1.4em;
+		}
+	}
+	.P-hide {
+		display: none;
+	}
+	.P-only {
+		display: block;
+	}
+	.video-package {
+		.PT {
+			padding-top: $defaultPadding/3;
+		}
+		.items {
+			padding: 0 $defaultPadding/4 $defaultPadding/2 $defaultPadding/4;
+		}
+	}
+	.items {
+		padding: 0 $defaultPadding/4;
+	}
+	.item-inner {
+		padding-bottom: $defaultPadding/2;
+		padding-left: $defaultPadding/4;
+		padding-right: $defaultPadding/4;
+	}
+	.image {
+		left: $defaultPadding/4;
+		right: $defaultPadding/4;
+	}
+	.item-tag {
+		padding-bottom: $defaultPadding/4;
+	}
+	.item-time {
+		padding-top: $defaultPadding/4;
+	}
+	.list-title{
+		font-size: 0.9em;
+	}
+	.top10 {
+		font-size: 0.9em;
+	}
+
+	.triplet-container {
+		padding: 0 $defaultPadding * 0.25;
+	}
+
+	.has-side {
+		&.side-left {
+			.content-container {
+				padding: 0;
+			}
+		}
+	}
+	.side-by-side {
+		.list-title {
+			margin-left: 0;
+			margin-right: 0;
+		}
+		&.first.item-container {
+			@include halfPhone;
+		}
+		.item-headline {
+			font-size: 0.85em;
+		}
+	}
+
+	.side-container {
+		.item-container {
+			&.first {
+				padding: 0 $defaultPadding/2;
+				.item-headline {
+					width: auto;
+					left: $defaultPadding/2;
+					right: $defaultPadding/2;
+					font-size: 0.9em;
+				}
+			}
+			.item-headline {
+				font-size: 0.9em;
+			}
+		}
+		iframe {
+			display: none;
 		}
 	}
 }

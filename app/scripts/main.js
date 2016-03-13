@@ -6,6 +6,7 @@
   var gNavOffsetY;
   var gNavHeight = 44;
   var defaultPadding = 30;
+  var hasSideWidth = 690;
   var sectionsWithSide = document.querySelectorAll('.block-container.has-side');
   var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
   var delegate;
@@ -15,6 +16,8 @@
   var sectionClassNameNew = [];
   var minHeight = [];
   var maxHeight = [];
+  var isRetinaDevice = (window.devicePixelRatio > 1);
+
 
   function findTop(obj) {
     var curtop = 0;
@@ -38,8 +41,8 @@
   function stickyAdsPrepare() {
     if (typeof stickyAds === 'object' && stickyAds.length>0) {
       for(var i=0; i<stickyAds.length; i++) {
-        var thePlaceHolder = document.getElementById(stickyAds[i].BannerId).parentNode.parentNode.parentNode;
-        var theContainer = document.getElementById(stickyAds[i].BannerId).parentNode.parentNode;
+        var thePlaceHolder = document.getElementById(stickyAds[i].BannerId).parentNode.parentNode.parentNode.parentNode;
+        var theContainer = document.getElementById(stickyAds[i].BannerId).parentNode.parentNode.parentNode;
         stickyAds[i].oTop = findTop(thePlaceHolder);
         stickyAds[i].currentClass = theContainer.className;
       }
@@ -55,6 +58,7 @@
   function stickyBottomPrepare() {
     gNavOffsetY = findTop(document.getElementById('nav-place-holder'));
     bodyHeight = getBodyHeight();
+    w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
     if (sectionsWithSide.length > 0) {
       for (var i=0; i<sectionsWithSide.length; i++) {
         containerTop[i] = findTop(sectionsWithSide[i]);
@@ -81,7 +85,7 @@
         document.documentElement.className = htmlClass;
       }
     }
-    if (sectionsWithSideLength > 0) {
+    if (sectionsWithSideLength > 0 && w > hasSideWidth) {
       for (var i=0; i<sectionsWithSideLength; i++) {
         sectionClassNameNew[i] = sectionClassName[i].replace(/fixmain|fixside|bottommain|bottomside/g,'');
         var maxScroll = containerTop[i] + maxHeight[i] - bodyHeight - scrollTop;
@@ -125,7 +129,7 @@
 
         if (newClass !== stickyAds[j].currentClass) {
           stickyAds[j].currentClass = newClass;
-          document.getElementById(stickyAds[j].BannerId).parentNode.parentNode.className = newClass;
+          document.getElementById(stickyAds[j].BannerId).parentNode.parentNode.parentNode.className = newClass;
         }
 
       }
@@ -175,6 +179,10 @@
     var imageHeight = thisFigure.offsetHeight;
     var imageUrl = thisFigure.getAttribute('data-url');
     var figureClass = thisFigure.className || '';
+    if (isRetinaDevice === true) {
+      imageWidth = imageWidth * 2;
+      imageHeight = imageHeight * 2;
+    }
     if (figureClass.indexOf('sponsor')>=0) {
       imageUrl = imageUrl.replace('i.ftimg.net', 'i.ftmailbox.com');
       imageUrl = encodeURIComponent(imageUrl);
