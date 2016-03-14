@@ -111,6 +111,9 @@
 		left: 0;
 		padding-right: 5px;
 		background-color: $defaultPink;
+		&:hover, &:active {
+			color: $red;
+		}
 	}
 	a.sponsor-link figure {
 		height: $defaultPadding;
@@ -203,14 +206,23 @@
 	figure {
 	    @include figure;
 	}
+	img {
+		transition: transform 0.5s ease;
+	}
+	&:hover, &:active {
+		img {
+			
+			transform: scale(1.05);
+		}
+	}
 }
 
 .item-headline, .relative-container {
 	a {
 		border-bottom: 1px dotted transparent;
 		&:hover, &:active {
-			border-bottom-color: $darkGreen;
-			color: $darkGreen;
+			border-bottom-color: $blue;
+			color: $blue;
 		}
 	}
 }
@@ -238,7 +250,8 @@
 	a {
 		color: $red;
 		&:hover, &:active {
-			color: $darkGreen;
+			border-bottom-color: $darkGrey;
+			color: $darkGrey;
 		}
 	}
 }
@@ -314,7 +327,6 @@
 				right: auto;
 			}
 		}
-
 	}
 }
 
