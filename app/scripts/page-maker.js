@@ -113,24 +113,6 @@
 	    return todaystamp;
 	}
 
-	function renderItem(data) {
-		var id = data.id;
-		var headline = data.headline;
-		var longlead = data.longlead || '';
-		var shortlead = data.shortlead || '';
-		var image = data.image || '';
-		var type = data.type || '';
-		var timeStamp = data.timeStamp || '';
-		var timeStampType = 2;
-		var tag = data.tag || '';
-		var relatives = data.relatives || [];
-		var showRelativeStoryItems = data.showRelativeStoryItems || 0;
-		if (type !== 'story') {
-			timeStampType = 3; 
-		}
-		return renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, relatives, showRelativeStoryItems);
-	}
-
 	function renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, relativestory, showRelativeStoryItems) {
 		var editLink = '';
 		var previewLink = '';
@@ -190,6 +172,24 @@
 		//relativestoryHTML = '';
 		dataHTML = '<div draggable=true data-type="' + type + '" class="item ' + type + hasImageClass +'"'+ imageBG +' data-id="' + id + '"><div class="remove-item"></div><div class="timestamp">' + timeStamp + '</div><div class="item-title">' + headline + '</div><div class="item-info"><div class="item-links"><a href="http://www7.ftchinese.com/' + type + '/' + id + '" target=_blank>Preview</a><a href="' + editLink + '" target=_blank>Edit</a></div><div class="item-info-item"><input title="headline" name="headline" class="o-input-text" value="' + headline + '"></div><div class="item-info-item"><input title="image" name="image" class="o-input-text" value="' + image + '"></div><div class="item-info-item"><div class="item-info-title">Long Lead: </div><textarea title="image" name="longlead" class="o-input-text">' + longlead + '</textarea></div><div class="item-info-item"><div class="item-info-title">Short Lead: </div><textarea title="image" name="shortlead" class="o-input-text">' + shortlead + '</textarea></div><div class="item-info-item"><input title="tag" name="tag" class="o-input-text" value="' + tag + '"></div>' + showRelativeStoryItems + '<div class="item-info-item"><input name="timeStamp" type="hidden" class="o-input-text" value="' + oTimeStamp + '" readonly><input type="hidden" name="type" class="o-input-text" value="' + type + '" readonly><input type="hidden" name="id" class="o-input-text" value="' + id + '" readonly></div>'+relativestoryHTML+'</div></div>';
 		return dataHTML;
+	}
+
+function renderItem(data) {
+		var id = data.id;
+		var headline = data.headline;
+		var longlead = data.longlead || '';
+		var shortlead = data.shortlead || '';
+		var image = data.image || '';
+		var type = data.type || '';
+		var timeStamp = data.timeStamp || '';
+		var timeStampType = 2;
+		var tag = data.tag || '';
+		var relatives = data.relatives || [];
+		var showRelativeStoryItems = data.showRelativeStoryItems || 0;
+		if (type !== 'story') {
+			timeStampType = 3; 
+		}
+		return renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, relatives, showRelativeStoryItems);
 	}
 
 	function renderMeta(data) {
@@ -262,23 +262,6 @@
 
 
 		$('#'+domId).html(metaHTML + sectionsHTML);
-	}
-
-	function jsonToDom(jsonUrl) {
-		$.ajax({ 
-		    type: 'get', 
-		    url: jsonUrl, 
-		    dataType: 'json', 
-		    success: function (data) { 
-		        renderJson(data);
-		        loadStories();
-				loadTools();
-		        $('#source-json').val(JSON.stringify(data));
-		    }, 
-		    error: function (XMLHttpRequest, textStatus, errorThrown) { 
-		            alert(errorThrown); 
-		    } 
-		});
 	}
 
 	function wrapItemHTML (htmlCode, groupTitle) {
@@ -432,7 +415,7 @@
 		    }
 		});
 	}
-
+    
 	function loadTools() {
 		var sections = '';
 		var lists = '';
@@ -442,6 +425,23 @@
 		lists = '<div class="toolkit toolkit-list" draggable=true>list</div>';
 		$('#tool-sec-inner').html(sections);
 		$('#tool-list-inner').html(lists);
+	}
+    
+    function jsonToDom(jsonUrl) {
+		$.ajax({ 
+		    type: 'get', 
+		    url: jsonUrl, 
+		    dataType: 'json', 
+		    success: function (data) { 
+		        renderJson(data);
+		        loadStories();
+				loadTools();
+		        $('#source-json').val(JSON.stringify(data));
+		    }, 
+		    error: function (XMLHttpRequest, textStatus, errorThrown) { 
+		            alert(errorThrown); 
+		    } 
+		});
 	}
 
 	function renderHTML(ele) {
