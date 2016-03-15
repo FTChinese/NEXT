@@ -104,7 +104,8 @@ gulp.task('copy', ['build'], function () {
   });
 
   gulp.src('dist/styles/*.css')
-    .pipe(gulp.dest('../dev_www/frontend/static/n'));
+    .pipe(gulp.dest('../dev_www/frontend/static/n'))
+    .pipe(gulp.dest('../dev_www/frontend/tpl/next/styles'));
 
   gulp.src('dist/styles/partials/*.css')
     .pipe(gulp.dest('../dev_www/frontend/tpl/next/styles'));
@@ -126,11 +127,11 @@ gulp.task('copy', ['build'], function () {
     .pipe(gulp.dest('../dev_cms/pagemaker/api'));
 
   gulp.src('app/templates/p0.html')
-    .pipe($.if('*.html', $.minifyHtml({conditionals: true, loose: true})))
+    .pipe(replace(/[\s]+/g, ' '))
     .pipe(gulp.dest('../dev_www/frontend/tpl/corp'));
 
   gulp.src('app/templates/partials/**/*')
-    .pipe($.if('*.html', $.minifyHtml({conditionals: true, loose: true})))
+    .pipe(replace(/[\s]+/g, ' '))
     .pipe(gulp.dest('../dev_www/frontend/tpl/next/partials'));
 
 /*

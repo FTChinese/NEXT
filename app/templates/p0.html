@@ -46,7 +46,9 @@ $this->assign("p", $page);
     document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/, 'js').replace(/\bcore\b/, 'enhanced');
     }
     </script>
-    <link rel="stylesheet" href="http://static.ftchinese.com/n/main.css?<%include file="next/partials/timestamp.html"%>">
+    <style>
+    <%include file="next/styles/main.css"%>
+    </style>
     <link rel="icon" type="image/png" href="https://next-geebee.ft.com/assets/brand-alpha/icons/favicon-32x32.png" sizes="32x32">
     <link rel="icon" type="image/png" href="https://next-geebee.ft.com/assets/brand-alpha/icons/favicon-194x194.png" sizes="194x194">
     <link rel="apple-touch-icon" sizes="180x180" href="https://next-geebee.ft.com/assets/brand-alpha/icons/apple-touch-icon-180x180.png" />
@@ -64,7 +66,7 @@ $this->assign("p", $page);
         document.createElement('aside');
         document.createElement('footer');
     </script>
-    <link rel="stylesheet" href="https://next-geebee.ft.com/hashed-assets/front-page/35cf21f8/ie8.css" />
+    <link rel="stylesheet" href="http://static.ftchinese.com/n/main-ie-XL.css" />
 <![endif]-->
 
     <script>var startTime = new Date().getTime();</script>
@@ -111,5 +113,7 @@ $this->assign("p", $page);
 <!--[if lte IE 8]>
 <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
 <![endif]-->
-<script type="text/javascript" src="http://static.ftchinese.com/n/main.js?<%include file="next/partials/timestamp.html"%>"></script>
+<script type="text/javascript">
+  <%include file="next/scripts/main.js"%>
+</script>
 </html>
