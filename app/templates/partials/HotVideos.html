@@ -1,0 +1,18 @@
+<div class="side-container"><div class="side-inner">
+	<div class="mps">
+		<h2 class="list-title"><a href="/channel/stream.html">热门视频</a></h2>
+		<ul class="top10">
+			<%assign var="i" value=0%>
+			<%assign var="mp" value=$videomodel->get_hot_video(30,5) %>
+			<%foreach item=sc from=$mp%>
+			<%if $i<10%>
+				<%assign var="i" value=$i+1%>
+				<li class="mp<%$i%>"><span><%$i%>. </span><a target="_blank" href="/video/<%$sc.storyid%>"><%$sc.cheadline|regex_replace:"/^【(.*)】(.*)$/":"\\2"%></a></li>
+			<%/if%>
+			<%/foreach%>
+		</ul>
+	</div>
+    <div class="ad-holder"><div class="bottom-ad">
+        <iframe id="mpu3" width="300" height="250" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="/m/marketing/a.html#adid=10000005&slot=986723212&pid=mpu3"></iframe>
+    </div></div>
+</div></div>

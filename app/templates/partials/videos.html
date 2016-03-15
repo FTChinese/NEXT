@@ -1,0 +1,119 @@
+<%*<!--
+
+<%assign var="topvideoid" value = $publishednew.v1|escape:javascript|regex_replace:"/^([0-9]+).*$/":"\\1"%>
+
+<%if !preg_match("/^[0-9]+$/is",$topvideoid)%>
+<%assign var="topvideo" value=$videomodel->get_video_by_field_search("(elongleadbody='' or eheadline!='')",0,1,10000,10800)%>
+<%assign var="topvideoid" value = $topvideo[0].id%>
+<%/if%>
+<%assign var="topvideo" value=$videomodel->get_video_by_field_search("id='$topvideoid'",0,1,10000,10800)%>
+<%if !$topvideo[0] || $topvideo[0].id==""%>
+<%$topvideoid%><%$topvideo[0].id%>
+<%assign var="topvideo" value=$videomodel->get_video_by_field_search("(elongleadbody='' or eheadline!='')",0,1,10000,10800)%>
+<%assign var="topvideoid" value = $topvideo[0].id%>
+<%/if%>
+<%assign var="video" value=$videomodel->get_video_by_field_search("(`elongleadbody`='' OR `eheadline`!='') AND `id` != '{$topvideoid}' AND (`id` NOT IN (SELECT `video_id` FROM `video_catalog_rel` WHERE `catalog_id`=31))",0,3,80,10800,0)%>
+
+
+-->*%>
+
+
+
+
+<div class="side-container"><div class="side-inner">
+
+	<%*<!--
+	<div class="vidoes">
+		<h2 class="list-title"><a href="/channel/stream.html">视频</a></h2>
+		<div class="video-container">
+			<div class="video-inner">
+				<iframe name="video-frame" id="video-frame" style="width:100%;height:100%;" src="/video/<%$topvideo[0].id%>?i=1&w=328&h=185&autostart=false" scrolling="no" frameborder="0" allowfullscreen=true></iframe>
+			</div>
+		</div>
+		<div class="video-title"><a href="/video/<%$topvideo[0].id%>" target=_blank><%$topvideo[0].cheadline%></a></div>
+		<div id="three-video-part">
+			<div id="video-prevbtn" class="prevbtn-disabled" onclick="video_slide().left()"></div>
+			<div id="video-nextbtn" class="nextbtn-available" onclick="video_slide().right()"></div>
+			<div id="three-video-content">
+				<ul>
+					<li class="on"><a target="video-frame" href="/video/<%$topvideo[0].id%>"><figure class="loading" data-url="<%$topvideo[0].story_pic.bigbutton%>"></figure><p><%$topvideo[0].cheadline%></p></a></li>
+					<%foreach from=$video item=vc name=homepagevideo%>
+					<%if $vc.id != $topvideo[0].id%>
+					<li><a target="video-frame" href="/video/<%$vc.id%>"><figure class="loading" data-url="<%$vc.story_pic.bigbutton%>"></figure><p><%$vc.cheadline%></p></a></li>
+					<%/if%>
+					<%/foreach%>
+				</ul>
+			</div>
+		</div>
+	</div>
+	-->*%>
+
+	<div class="links-container">
+		<h2 class="list-title"><a href="/channel/stream.html">会员信息中心</a></h2>
+		<div class="links" id="member-info">
+		<a>...</a><a>...</a><a>...</a>
+		</div>
+		<div class="hide">
+		<iframe width="0" height="0" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="/m/marketing/membertext.html"></iframe>
+		</div>
+	</div>
+
+
+	<iframe id="mpu1" width="300" height="250" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="/m/marketing/a.html#adid=10000003&slot=986723212&pid=mpu1"></iframe>
+
+
+	<div class="interactives">
+		<h2 class="list-title"><a href="/channel/stream.html">互动与图辑</a></h2>
+
+
+
+
+		<%assign var="storyall" value=$interactivemodel->get_interactive_by_field_search("(find_in_set('测试',tag) or find_in_set('教程',tag) or find_in_set('QuizPlus',tag) or find_in_set('速读',tag) or find_in_set('数据新闻',tag)) and !find_in_set('广告互动教程',tag) and pubdate <= unix_timestamp(now())",0,5,30,10800)%>
+		<%assign var="photoall" value=$photonewsmodel->get_new_photonews(6)%>
+		<%assign var="storycount" value=$storyall|@count%>
+		<%assign var="photocount" value=$photoall|@count%>
+		<%assign var="allcount" value=$photocount+$storycount%>
+		<%assign var="cs" value=0%>
+		<%assign var="cp" value=0%>
+		<%assign var="i" value=0%>
+		<!--<%*两组数据进行合并，重新排序 Start*%>-->
+		<%section name=bothdata loop=$allcount%>
+		<%if $cs<$storycount && $i<4 && ($storyall[$cs].pubdate>=$photoall[$cp].add_times || $ps>=$photocount)%>
+		<%if !in_array($storyall[$cs].id , explode(',',$echostoryid)) && $storyall[$cs].story_pic.bigbutton%>
+		<%if preg_match("/速读/is",$storyall[$cs].tag)%>
+		<%assign var="iTag" value="【速读】"%>
+		<%elseif preg_match("/测试|QuizPlus/is",$storyall[$cs].tag)%>
+		<%assign var="iTag" value="【小测】"%>
+		<%elseif preg_match("/数据新闻/is",$storyall[$cs].tag)%>
+		<%assign var="iTag" value="【数据】"%>
+		<%else%>
+		<%assign var="iTag" value=""%>
+		<%/if%>
+		<div class="item-container<%if $i===0%> first<%/if%>"><div class="item-inner">
+		<a class="image" href="/interactive/<%$storyall[$cs].id%>" target=_blank><figure class="loading" data-url="<%$storyall[$cs].story_pic.cover|default:$storyall[$cs].story_pic.bigbutton%>"></figure></a>
+		<h2 class="item-headline"><a href="/interactive/<%$storyall[$cs].id%>" target=_blank><%$iTag%><%$storyall[$cs].cheadline%></a></h2>
+		</div></div>
+		<%assign var="echostoryid" value=`$storyall[$cs].id`,$echostoryid%>
+		<%assign var="i" value=$i+1%>
+		<%/if%>
+		<%assign var="cs" value=$cs+1%>
+		<%elseif $ps<$photocount && ($storyall[$cs].pubdate<$photoall[$cp].add_times || $cs>=$storycount)%>
+		<%if !in_array($photoall[$cp].en_title , explode(',',$echostoryid)) && $photoall[$cp].thumb_url %>
+		<div class="item-container<%if $i===0%> first<%/if%>"><div class="item-inner">
+		<a class="image" href="/photonews/<%$photoall[$cp].photonewsid%>" target=_blank><figure class="loading" data-url="http://i.ftimg.net/<%$photoall[$cp].thumb_url%>"></figure></a>
+		<h2 class="item-headline"><a href="/photonews/<%$photoall[$cp].photonewsid%>" target=_blank>【图辑】<%$photoall[$cp].cn_title%></a></h2>
+		</div></div>
+		<%assign var="echostoryid" value=`$photoall[$cp].en_title`,$echostoryid%>
+		<%assign var="i" value=$i+1%>
+		<%/if%>
+		<%assign var="cp" value=$cp+1%>
+		<%/if%>
+		<%/section%>
+		<!--<%*两组数据进行合并，重新排序 End*%>-->
+
+	</div>
+
+    <div class="ad-holder"><div class="bottom-ad">
+        <iframe id="mpu2" width="300" height="250" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="/m/marketing/a.html#adid=10000004&slot=986723212&pid=mpu2"></iframe>
+    </div></div>
+</div></div>

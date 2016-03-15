@@ -1,0 +1,115 @@
+<%php%>
+if ($_GET['page'] != "") {
+  $filename = $_GET['page']; 
+} else {
+  $filename = 'home';
+}
+
+$filename = "../frontend/tpl/next/api/page/{$filename}.json";
+
+$handle = fopen($filename, "r");
+$json = fread($handle, filesize ($filename));
+fclose($handle);
+
+$page = json_decode($json, true);
+$this->assign("p", $page);
+
+<%/php%>
+
+<!DOCTYPE html>
+<html class="no-js core" data-next-app="front-page">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title><%$p.meta.title%></title>
+    <meta http-equiv="Content-Language" content="zh-CN"/>
+    <meta content="<%$p.meta.description%>" name="description"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <link rel="apple-touch-icon-precomposed" href="http://static.ftchinese.com/img/ipad_icon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="http://static.ftchinese.com" />
+    <link rel="preconnect" href="http://i.ftimg.net" />
+    <script>
+      window.errorBuffer = window.errorBuffer || [];
+      function beaconCssError(e) {
+        window.errorBuffer.push({
+          error: e ? e : new Error('CSS failed to load.'),
+          context: {
+            isMobileNetork: document.cookie.replace(/(?:(?:^|.*;\s*)h2_isMobile\s*\=\s*([^;]*).*$)|^.*$/, "$1") === '' ? false : true
+          }
+        });
+      }
+    </script>
+    <script>
+    window.cutsTheMustard = (typeof Function.prototype.bind !== 'undefined');
+    if (window.cutsTheMustard) {
+    document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/, 'js').replace(/\bcore\b/, 'enhanced');
+    }
+    </script>
+    <link rel="stylesheet" href="http://static.ftchinese.com/n/main.css?<%include file="next/partials/timestamp.html"%>">
+    <link rel="icon" type="image/png" href="https://next-geebee.ft.com/assets/brand-alpha/icons/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://next-geebee.ft.com/assets/brand-alpha/icons/favicon-194x194.png" sizes="194x194">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://next-geebee.ft.com/assets/brand-alpha/icons/apple-touch-icon-180x180.png" />
+    <link rel="manifest" href="/assets/manifest/manifest-v2.json" />
+    <meta name="msapplication-TileColor" content="#fff1e0" />
+    <meta name="msapplication-TileImage" content="https://next-geebee.ft.com/assets/brand-alpha/icons/mstile-144x144.png" />
+<!--[if lte IE 8]>
+    <script>
+        document.documentElement.className += ' is-ie-8';
+        document.createElement('figure');
+        document.createElement('header');
+        document.createElement('nav');
+        document.createElement('section');
+        document.createElement('article');
+        document.createElement('aside');
+        document.createElement('footer');
+    </script>
+    <link rel="stylesheet" href="https://next-geebee.ft.com/hashed-assets/front-page/35cf21f8/ie8.css" />
+<![endif]-->
+
+    <script>var startTime = new Date().getTime();</script>
+    <script>
+    if ( screen.width<=480) {
+        document.write('<meta content="FT中文网" name="application-name" /><meta content="app-id=443870811" name="apple-itunes-app" />');
+    } else {
+        document.write('<meta content="FT中文网" name="application-name" /><meta content="app-id=396124008" name="apple-itunes-app" />');
+    }
+    </script>
+    <link rel="alternate" type="application/rss+xml" title="FT中文网 - 每日更新" href="/rss/feed" />
+    <link rel="alternate" type="application/rss+xml" title="FT中文网 - 双语阅读" href="/rss/diglossia" />
+    <link rel="alternate" type="application/rss+xml" title="FT中文网 - 今日焦点" href="/rss/news" />
+    <link rel="alternate" type="application/rss+xml" title="FT中文网 - 生活时尚" href="/rss/lifestyle" />
+    <link rel="alternate" type="application/rss+xml" title="FT中文网 - 一周十大热门文章" href="/rss/hotstoryby7day" />
+    <link rel="alternate" type="application/rss+xml" title="FT中文网 - 热门用户评论" href="/rss/hotusercomment" />
+    <link rel="search" type="application/opensearchdescription+xml" title="FT中文网财经搜索" href="/opensearch.xml">
+  </head>
+  <body>
+  <%assign var="bannerCount" value=0%>
+  <%assign var="mpuCount" value=0%>
+  <%foreach from=$p.sections item=section%>
+    <%if $section.type == "header"%>
+      <%include file="next/partials/header.html"%>
+      <%include file="next/partials/nav.html"%>
+    <%elseif $section.type == "banner"%>
+      <%include file="next/partials/banner.html"%>
+      <%assign var="bannerCount" value=$bannerCount+1%>
+    <%elseif $section.type == "block"%>
+      <%include file="next/partials/block.html"%>
+      <%if $section.side != "" && $section.side != "none"%>
+        <%assign var="mpuCount" value=$mpuCount+1%>
+      <%/if%>
+    <%elseif $section.type == "footer"%>
+      <%include file="next/partials/footer.html"%>
+    <%elseif $section.type == "topbelt"%>
+      <%include file="next/partials/topbelt.html"%>
+    <%elseif $section.type == "include" && $section.from != ""%>
+      <%include file="next/partials/`$section.from`.html"%>
+    <%/if%>
+  <%/foreach%>
+  <%include file="next/partials/QrCode.html"%>
+  </body>
+<!--[if lte IE 8]>
+<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+<![endif]-->
+<script type="text/javascript" src="http://static.ftchinese.com/n/main.js?<%include file="next/partials/timestamp.html"%>"></script>
+</html>

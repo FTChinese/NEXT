@@ -125,9 +125,14 @@ if ( window.parent.document.getElementById(parentId)) {
     //console.log (adHeight);
     if (adHeight > 0 &&  adHeight - adContainerHeight > 30) {
         parentIframe.style.height = adHeight + 'px';
-        window.parent.stickyBottomPrepare();
+        try {
+            window.parent.stickyBottomPrepare();            
+        } catch (err) {
+            setTimeout (function(){
+                window.parent.stickyBottomPrepare(); 
+            }, 3000);
+        }
     }
-
 }
 
 

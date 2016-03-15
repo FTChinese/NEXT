@@ -113,7 +113,13 @@ if ( window.parent.document.getElementById(parentId)) {
         if (parentIframe.className.indexOf('ad-hidden')>=0) {
             parentIframe.className = parentIframe.className.replace('ad-hidden', '');
         }
-        window.parent.stickyBottomPrepare();
+        try {
+            window.parent.stickyBottomPrepare();            
+        } catch (err) {
+            setTimeout (function(){
+                window.parent.stickyBottomPrepare(); 
+            }, 3000);
+        }
     }
 }
 

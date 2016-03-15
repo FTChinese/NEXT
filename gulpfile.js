@@ -92,10 +92,25 @@ gulp.task('copy', ['build'], function () {
   var rename = require("gulp-rename");
   var thedatestamp = new Date().getTime();
 
+  var fileName = '../dev_www/frontend/tpl/next/partials/timestamp.html';
+  var fs = require('fs');
+  fs.writeFile(fileName, thedatestamp, function(err) {
+      if(err) {
+          return console.log(err);
+      }
+      console.log(thedatestamp);
+      console.log('writen to');
+      console.log(fileName);
+  });
+
+  gulp.src('dist/styles/*.css')
+    .pipe(gulp.dest('../dev_www/frontend/static/n'));
+
   gulp.src('dist/styles/partials/*.css')
     .pipe(gulp.dest('../dev_www/frontend/tpl/next/styles'));
 
   gulp.src('dist/scripts/*.js')
+    .pipe(gulp.dest('../dev_www/frontend/static/n'))
     .pipe(gulp.dest('../dev_www/frontend/tpl/next/scripts'));
 
   gulp.src('dist/m/marketing/*')
@@ -109,6 +124,14 @@ gulp.task('copy', ['build'], function () {
 
   gulp.src('app/api/**/*')
     .pipe(gulp.dest('../dev_cms/pagemaker/api'));
+
+  gulp.src('app/templates/p0.html')
+    .pipe($.if('*.html', $.minifyHtml({conditionals: true, loose: true})))
+    .pipe(gulp.dest('../dev_www/frontend/tpl/corp'));
+
+  gulp.src('app/templates/partials/**/*')
+    .pipe($.if('*.html', $.minifyHtml({conditionals: true, loose: true})))
+    .pipe(gulp.dest('../dev_www/frontend/tpl/next/partials'));
 
 /*
   var fileName = '../dev_www/frontend/tpl/include/timestamp.html';

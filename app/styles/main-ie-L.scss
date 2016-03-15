@@ -1,0 +1,28 @@
+@import "variables.scss";
+@import "mixins.scss";
+.is-ie-8 {
+	@include L;
+	.masthead {
+		background-image: url(https://image.webservices.ft.com/v1/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimages%2Fmasthead.png?source=ftchinese&height=27);
+	}
+	header, nav, section, article, aside, footer {
+		display:block;
+	}
+	.side-container {
+		.item-container.first {
+			.item-headline {
+				width: 100%;
+				filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#cc000000', endColorstr='#cc000000');
+			}
+		}
+	}
+	.block-inner, .header-inner, .nav-inner, .footer-inner, .banner-inner {
+		width: $maxWidthL;
+	}
+
+	.sponsor-container {
+		.banner-inner {
+			width: 100%;
+		}
+	}
+}
