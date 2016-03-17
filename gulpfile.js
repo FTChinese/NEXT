@@ -118,15 +118,21 @@ gulp.task('copy', ['build'], function () {
     .pipe(gulp.dest('../dev_cms/pagemaker/api'));
 
   gulp.src('app/templates/p0.html')
-    .pipe(replace(/[\s]+/g, ' '))
+    .pipe(replace(/([\r\n])[ \t]+/g, '$1'))
+    .pipe(replace(/(\r\n)+/g, '\r\n'))
+    .pipe(replace(/(\n)+/g, '\n'))
     .pipe(gulp.dest('../dev_www/frontend/tpl/corp'));
 
   gulp.src('app/templates/partials/**/*')
-    .pipe(replace(/[\s]+/g, ' '))
+    .pipe(replace(/([\r\n])[ \t]+/g, '$1'))
+    .pipe(replace(/(\r\n)+/g, '\r\n'))
+    .pipe(replace(/(\n)+/g, '\n'))
     .pipe(gulp.dest('../dev_www/frontend/tpl/next/partials'));
 
   gulp.src('app/templates/html/**/*')
-    .pipe(replace(/[\s]+/g, ' '))
+    .pipe(replace(/([\r\n])[ \t]+/g, '$1'))
+    .pipe(replace(/(\r\n)+/g, '\r\n'))
+    .pipe(replace(/(\n)+/g, '\n'))
     .pipe(gulp.dest('../dev_www/frontend/tpl/next/html'));
 
 

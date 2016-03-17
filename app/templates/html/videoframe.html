@@ -130,7 +130,7 @@ function getVideoUrl() {
             if (document.getElementsByTagName('video').length > 0) {
                 videoUrl = document.getElementsByTagName('video')[0].src;
                 window.parent.document.getElementById('story-vid-' + id).parentNode.setAttribute('video-url',videoUrl);
-            } else if (gEfforts < gEffortsLimit) {//try in two seconds;
+            } else if (gEfforts < gEffortsLimit) {
                 gEfforts = gEfforts + 1;
                 setTimeout(function(){
                     getVideoUrl();
@@ -148,7 +148,5 @@ window.onload = function (){
 
 getVideoUrl();
 </script>
-
-<%include file="include/trackerBottom.html"%>
 </body>
 </html>
