@@ -211,7 +211,7 @@
     var videoId = thisVideo.getAttribute('data-vid');
     if (videoWidth > 0 && videoHeight > 0) {
       //console.log (videoId + ' Height: ' + videoHeight + ' Width: ' + videoWidth);
-      thisVideo.innerHTML = '<iframe name="video-frame" id="video-frame" style="width:100%;height:100%;position:absolute;" src="' + hostForVideo + '/video/'+ videoId +'?i=1&w='+videoWidth+'&h='+videoHeight+'&autostart=false" scrolling="no" frameborder="0" allowfullscreen=true></iframe>';
+      thisVideo.innerHTML = '<iframe name="video-frame" id="video-frame" style="width:100%;height:100%;position:absolute;" src="' + hostForVideo + '/video/'+ videoId +'?i=2&w='+videoWidth+'&h='+videoHeight+'&autostart=false" scrolling="no" frameborder="0" allowfullscreen=true></iframe>';
       thisFigure.className = '';
     }
   }
@@ -244,7 +244,7 @@
         }
       }
       this.parentNode.parentNode.className += ' on';
-      videoEle.querySelector('iframe').src = link  +'?i=1&w='+videoWidth+'&h='+videoHeight+'&autostart=true';
+      videoEle.querySelector('iframe').src = link  +'?i=2&w='+videoWidth+'&h='+videoHeight+'&autostart=true';
       videoPackage.querySelector('.video-package-title a').innerHTML = thisHeadline;
       videoPackage.querySelector('.video-package-title a').href = link;
       return false;

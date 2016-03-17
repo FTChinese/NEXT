@@ -49,7 +49,7 @@
 	</div>
 	-->*%>
 
-	<%if in_array(date("Ymd"),explode(",",$ad.Ribbon))%>
+	<%if in_array(date("Ymd"),explode(",",$ad.Ribbon)) && $smarty.get.ad != "no"%>
 	<iframe id="ribbon" class="ad-hidden" width="100%" height="0" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="/m/marketing/a.html#adid=10000009&slot=986723212&pid=ribbon"></iframe>
 	<%/if%>
 
@@ -63,9 +63,9 @@
 		</div>
 	</div>
 
-
-	<iframe id="mpu1" width="300" height="250" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="/m/marketing/a.html#adid=10000003&slot=986723212&pid=mpu1"></iframe>
-
+	<%if $smarty.get.ad != "no"%>
+		<iframe id="mpu1" width="300" height="250" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="/m/marketing/a.html#adid=10000003&slot=986723212&pid=mpu1"></iframe>
+	<%/if%>
 
 	<div class="interactives">
 		<h2 class="list-title"><a href="/channel/stream.html">互动与图辑</a></h2>
@@ -118,8 +118,9 @@
 
 	</div>
 
-    <iframe id="mpu2" width="300" height="250" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="/m/marketing/a.html#adid=10000004&slot=986723212&pid=mpu2"></iframe>
-
+	<%if $smarty.get.ad != "no"%>
+	    <iframe id="mpu2" width="300" height="250" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="/m/marketing/a.html#adid=10000004&slot=986723212&pid=mpu2"></iframe>
+	<%/if%>
 
 	<%assign var="ftintelligence" value=$interactivemodel->get_interactive_by_field_search("find_in_set('FT研究院',tag) and find_in_set('报告',tag)",0,4,1000,10800)%>
 	<div class="vidoes P-hide">

@@ -49,6 +49,9 @@ $this->assign("p", $page);
     <style>
     <%include file="next/styles/main.css"%>
     </style>
+    <script type="text/javascript">
+    <%include file="next/scripts/key.js"%>
+    </script>
     <link rel="icon" type="image/png" href="https://next-geebee.ft.com/assets/brand-alpha/icons/favicon-32x32.png" sizes="32x32">
     <link rel="icon" type="image/png" href="https://next-geebee.ft.com/assets/brand-alpha/icons/favicon-194x194.png" sizes="194x194">
     <link rel="apple-touch-icon" sizes="180x180" href="https://next-geebee.ft.com/assets/brand-alpha/icons/apple-touch-icon-180x180.png" />
@@ -84,8 +87,28 @@ $this->assign("p", $page);
     <link rel="alternate" type="application/rss+xml" title="FT中文网 - 一周十大热门文章" href="/rss/hotstoryby7day" />
     <link rel="alternate" type="application/rss+xml" title="FT中文网 - 热门用户评论" href="/rss/hotusercomment" />
     <link rel="search" type="application/opensearchdescription+xml" title="FT中文网财经搜索" href="/opensearch.xml">
+    <%include file="next/partials/head.html"%>
   </head>
   <body>
+
+<%if $smarty.get.ad != 'no'%>
+<%assign var="ad" value=$publishhtml->get_publish_html("ad")%>
+<div id=roadblock style="margin:0 auto;position:relative;width:700px;text-align:center;">
+<script>
+var thisday1=new Date();
+var todaydate1=thisday1.getFullYear() + "-" + (thisday1.getMonth()+1) + "-" + thisday1.getDate();
+var fullsc=GetCookie ("rb2");
+if (fullsc == null && (todaydate1=="<%$ad.fullscreen1%>" || todaydate1=="<%$ad.fullscreen2%>" || todaydate1=="<%$ad.fullscreen3%>" || todaydate1=="<%$ad.fullscreen4%>" || todaydate1=="<%$ad.fullscreen5%>")) {
+document.write ('<scr' + 'ipt type="text/jav' + 'ascript" src="http://dolphin.ftimg.net/s?z=ft&amp;c=10000014&amp;slot=645072137&amp;_sex=101&amp;_trip=1&amp;_lux=1&amp;_dc=2&amp;_mm=2&amp;_sz=2&amp;_am=2" charset="gbk"></scr' + 'ipt>');
+}
+setTimeout(function(){
+  stickyBottomPrepare(); 
+  stickyAdsPrepare();
+}, 9000);
+</script>
+</div>
+<%/if%>
+
   <%assign var="bannerCount" value=0%>
   <%assign var="mpuCount" value=0%>
   <%foreach from=$p.sections item=section%>

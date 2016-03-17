@@ -1,0 +1,57 @@
+<%if !isset($adchannelID)||$adchannelID==""%>
+<%assign var="adchannelID" value="1100"%>
+<%/if%>
+
+<script type="javascript/text">
+if(typeof startTime === "undefined"){
+    var startTime=new Date().getTime();
+}
+var FTAdchID="<%$adchannelID%>";
+var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现联动互斥功能 
+var ADPO={Leaderboard:"0001",Button:"0002",MPU1:"0003",MPU2:"0004",MPU3:"0005",Banner1:"0006",Banner2:"0007",Banner3:"0008",Ribbon:"0009",Section_Leaderboard:"0010",Section_Button:"0011",Section_MPU1:"0012",Section_MPU2:"0013",FullScreen:"0014",Test:"0015",ROS_Float:"0016",text1:"0016",text2:"0017",text3:"0018",member1:"0019",member2:"0020",member3:"0021",InRead:"0112"};
+<%if $autostart=="false"%>
+var gAutoStart = false;
+<%/if%>
+</script>
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','/index.php/jsapi/analytics','ga');
+ga('create', 'UA-1608715-1');
+ga('require', 'displayfeatures');
+try {
+trackerNew();
+trackAdClick();
+}catch(err){
+ga('send', 'pageview');
+}
+</script>
+<!-- End Google Analytics -->
+
+<!-- link click -->
+<script>
+	function linkClickGa(e){
+		ga('send','event','AdClick', $(e).attr("href"), "An");
+	}
+</script>
+<!-- End link click -->
+
+<!-- FTC Analytics -->
+<script>
+    (function (i, s, o, g, r, a, m) {
+        i['FtcAnalyticsObject'] = r;
+        i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
+        a = s.createElement(o), m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '/log/analytics.js', 'fa');
+    fa('create', 'UA-XXXX-Y', { 'alwaysSendReferrer': true });   // Replace with your property ID.
+    if (window.gAutoStart === undefined) {fa('send', 'pageview');}
+</script>
+<!-- End FTC Analytics -->

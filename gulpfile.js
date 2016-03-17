@@ -92,16 +92,7 @@ gulp.task('copy', ['build'], function () {
   var rename = require("gulp-rename");
   var thedatestamp = new Date().getTime();
 
-  var fileName = '../dev_www/frontend/tpl/next/partials/timestamp.html';
-  var fs = require('fs');
-  fs.writeFile(fileName, thedatestamp, function(err) {
-      if(err) {
-          return console.log(err);
-      }
-      console.log(thedatestamp);
-      console.log('writen to');
-      console.log(fileName);
-  });
+
 
   gulp.src('dist/styles/*.css')
     .pipe(gulp.dest('../dev_www/frontend/static/n'))
@@ -134,8 +125,12 @@ gulp.task('copy', ['build'], function () {
     .pipe(replace(/[\s]+/g, ' '))
     .pipe(gulp.dest('../dev_www/frontend/tpl/next/partials'));
 
-/*
-  var fileName = '../dev_www/frontend/tpl/include/timestamp.html';
+  gulp.src('app/templates/html/**/*')
+    .pipe(replace(/[\s]+/g, ' '))
+    .pipe(gulp.dest('../dev_www/frontend/tpl/next/html'));
+
+
+  var fileName = '../dev_www/frontend/tpl/next/timestamp/timestamp.html';
   var fs = require('fs');
   fs.writeFile(fileName, thedatestamp, function(err) {
       if(err) {
@@ -145,7 +140,6 @@ gulp.task('copy', ['build'], function () {
       console.log('writen to');
       console.log(fileName);
   });
-*/
 
 });
 
