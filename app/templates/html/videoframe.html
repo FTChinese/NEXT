@@ -72,6 +72,14 @@ var vid = "<%$cc_vaddress%>", id = "<%$id%>", w = "<%$w%>" || 347, h="<%$h%>" ||
 var gEffortsLimit = 10;
 var gEfforts = 0;
 
+
+function nextElementSibling( elem ) {
+    do {
+        elem = elem.nextSibling;
+    } while( elem && elem.nodeType !== 1 );
+    return elem;
+}
+
 function onPlayStart() {
     try {
         gAutoStart = undefined;
@@ -88,16 +96,7 @@ function onPlayStart() {
 }
 
 function onPlayStop() {
-    var thisVideo = $('#video-id-' +id, window.parent.document),nextVideo = thisVideo.next(),nextVideoId;
-    if (nextVideo !== null) {
-        nextVideoId = nextVideo.attr("id");
-        if (/^video\-id\-[0-9]+$/i.test(nextVideoId)) {
-            nextVideoId = nextVideoId.replace(/video-id-/g,"");
-            nextVideoTitle = nextVideo.find("p").html();
-            window.location.href = "/video/" + nextVideoId + "?i=1&w="+w+"&h="+h;
-            $('#single-video-title a', window.parent.document).html(nextVideoTitle).attr("href","/video/"+nextVideoId);
-        }
-    }
+
 }
 
 function on_cc_player_init( vid, objectID ){
@@ -116,10 +115,13 @@ function getSWF( swfID ) {
 }
 
 function ccVideoAPI(){
-var objectID = $("object").eq(0).attr("id") || "";
-if (objectID !== "") {
-on_cc_player_init( vid, objectID );
-}
+    var objectID = '';
+    if (document.getElementsByTagName('object')[0]) {
+        objectID = document.getElementsByTagName('object')[0].getAttribute('id') || '';
+    }
+    if (objectID !== "") {
+    on_cc_player_init( vid, objectID );
+    }
 }
 
 
