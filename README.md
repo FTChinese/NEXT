@@ -1,13 +1,13 @@
 # FTChinese Next Project
 
-## Tasks to Change. 2016.03.20
-- We use `gulp-sass` rather than `gulp-ruby-sass`. `gulp-sass` is node's binding to lib sass which is written in C, therefore much faster and compatible with Node.
+## Todo. 2016.03.21
+- Use `gulp-sass` to replace `gulp-ruby-sass`. `gulp-sass` is node's binding to lib sass which is written in C, therefore much faster and compatible with Node.
 
-- Write sourcemap for build css and js.
+- Upgrade to `gulp 4.0` which is backward compatible with `gulp 3`
 
-- It is strongly recommended to upgrade to gulp 4.0 which has a superb sequencial task management. Gulp 3 is quite terribel at managing tasks executed in sequence.
+- Upgrade node modules of this project. `npm update --save-dev`.
 
-- It is suggested to upgrade node modules of this project since the modules in use are quite outdated. `npm update --save-dev`.
+- Use `browser-sync` as static server.
 
 ## Install gulp 4.0
 
