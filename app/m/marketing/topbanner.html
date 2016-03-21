@@ -134,9 +134,7 @@ if ( window.parent.document.getElementById(parentId)) {
         }
     }
 }
-
-
-var stickyHeight = 400;
+var stickyHeight = 200;
 if (window.parent && parentId !== '' && typeof stickyHeight === 'number' && stickyHeight > 0) {
     if (typeof window.parent.stickyAds !== 'object') {
         window.parent.stickyAds = [];
@@ -145,9 +143,12 @@ if (window.parent && parentId !== '' && typeof stickyHeight === 'number' && stic
         'BannerId': parentId,
         'stickyHeight': stickyHeight
     });
-    window.parent.stickyAdsPrepare();
-}
+    try {
+        window.parent.stickyAdsPrepare();
+    } catch (ignore) {
 
+    }
+}
 </script>
 </body>
 </html>

@@ -160,6 +160,10 @@
           stickyBottomPrepare();
           stickyAdsPrepare();
       });
+      setInterval(function(){
+          stickyBottomPrepare();
+          stickyAdsPrepare();
+      }, 10000);
     } catch (ignore) {
 
     }

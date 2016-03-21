@@ -64,7 +64,9 @@
 	</div>
 
 	<%if $smarty.get.ad != "no"%>
-		<iframe id="mpu1" width="300" height="250" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="/m/marketing/a.html#adid=10000003&slot=986723212&pid=mpu1"></iframe>
+		<div class="mpu-container">
+			<iframe id="mpu1" width="300" height="250" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="/m/marketing/a.html#adid=10000003&slot=986723212&pid=mpu1"></iframe>
+		</div>
 	<%/if%>
 
 	<div class="interactives">
@@ -115,11 +117,12 @@
 		<%/if%>
 		<%/section%>
 		<!--<%*两组数据进行合并，重新排序 End*%>-->
-
 	</div>
 
 	<%if $smarty.get.ad != "no"%>
-	    <iframe id="mpu2" width="300" height="250" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="/m/marketing/a.html#adid=10000004&slot=986723212&pid=mpu2"></iframe>
+		<div class="mpu-container">
+		    <iframe id="mpu2" width="300" height="250" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="/m/marketing/a.html#adid=10000004&slot=986723212&pid=mpu2"></iframe>
+		</div>
 	<%/if%>
 
 	<%assign var="ftintelligence" value=$interactivemodel->get_interactive_by_field_search("find_in_set('FT研究院',tag) and find_in_set('报告',tag)",0,4,1000,10800)%>

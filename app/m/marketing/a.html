@@ -38,6 +38,15 @@ img {
 <body>
 <div class="ad"><div>
 <script>
+
+function removeAd() {
+    alert ('removeAd');
+}
+
+function loaded() {
+    alert ('loaded');
+}
+
 var k=window.location.href;
 var c = k.replace(/^.*adid=([0-9A-Za-z\-]+).*$/,"$1");
 var d;
@@ -55,7 +64,7 @@ try {
 
 }
 
-document.write ('<scr'+'ipt src="http://dolphin.ftimg.net/s?z=ft&c=' + c + '&' + slotStr + adP + '" charset="gbk" ></scr'+'ipt>');
+document.write ('<scr'+'ipt src="http://dolphin.ftimg.net/s?z=ft&c=' + c + '&' + slotStr + adP + '" charset="gbk" onerror="removeAd()" onload="loaded()"></scr'+'ipt>');
 
 
 //var adBGColor = 'white';
@@ -73,7 +82,6 @@ if (obj.offsetParent) {
   return curtop;
 }
 }
-
 
 var adContainerHeight;
 var parentIframe;
@@ -135,7 +143,12 @@ if (window.parent && parentId !== '' && typeof stickyHeight === 'number' && stic
         'BannerId': parentId,
         'stickyHeight': stickyHeight
     });
-    window.parent.stickyAdsPrepare();
+    try {
+        window.parent.stickyAdsPrepare();
+        window.parent.stickyBottomPrepare();
+    } catch (ignore) {
+        
+    }
 }
 
 </script>

@@ -58,19 +58,7 @@ $this->assign("p", $page);
     <link rel="manifest" href="/assets/manifest/manifest-v2.json" />
     <meta name="msapplication-TileColor" content="#fff1e0" />
     <meta name="msapplication-TileImage" content="https://next-geebee.ft.com/assets/brand-alpha/icons/mstile-144x144.png" />
-<!--[if lte IE 8]>
-    <script>
-        document.documentElement.className += ' is-ie-8';
-        document.createElement('figure');
-        document.createElement('header');
-        document.createElement('nav');
-        document.createElement('section');
-        document.createElement('article');
-        document.createElement('aside');
-        document.createElement('footer');
-    </script>
-    <link rel="stylesheet" href="http://static.ftchinese.com/n/main-ie-XL.css" />
-<![endif]-->
+
 
     <script>var startTime = new Date().getTime();</script>
     <script>
@@ -88,6 +76,33 @@ $this->assign("p", $page);
     <link rel="alternate" type="application/rss+xml" title="FT中文网 - 热门用户评论" href="/rss/hotusercomment" />
     <link rel="search" type="application/opensearchdescription+xml" title="FT中文网财经搜索" href="/opensearch.xml">
     <%include file="next/partials/head.html"%>
+
+    <!--[if lte IE 8]>
+        <script>
+            document.documentElement.className += ' is-ie-8';
+            document.createElement('figure');
+            document.createElement('header');
+            document.createElement('nav');
+            document.createElement('section');
+            document.createElement('article');
+            document.createElement('aside');
+            document.createElement('footer');
+            var wIE = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+            var cssId = 'ie-css';
+            var cssFile = '';
+            if (!document.getElementById(cssId)) {
+                var head  = document.getElementsByTagName('head')[0];
+                var link  = document.createElement('link');
+                link.id   = cssId;
+                link.rel  = 'stylesheet';
+                link.type = 'text/css';
+                cssFile = (wIE>=1200)?'XL':'L';
+                link.href = 'http://static.ftchinese.com/n/main-ie-'+ cssFile +'.css?<%include file="next/timestamp/timestamp.html"%>';
+                link.media = 'all';
+                head.appendChild(link);
+            }
+        </script>
+    <![endif]-->
   </head>
   <body>
 
