@@ -4,6 +4,20 @@
 var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();
 
+// To be added.
+/*const fs = require('fs');
+const browserSync = require('browser-sync').create();
+const del = require('del');
+const source = require('vinyl-source-stream');
+const buffer = require('vinyl-buffer');
+const browserify = require('browserify');
+const watchify = require('watchify');
+const debowerify = require('debowerify');
+const babelify = require('babelify');
+const cssnext = require('postcss-cssnext');
+const minify = require('html-minifier').minify;*/
+
+
 function getUrltoFile (urlSource, fileName) {
   var http = require('http');
   var url = require('url');
@@ -233,6 +247,32 @@ request.post({
   
 });
 
+// Use template file to generate static html
+/*gulp.task(function mustache() {
+  const DEST = '.tmp';
+
+  const headerData = JSON.parse(fs.readFileSync('src/model/header-data2.json'));
+
+  return gulp.src('src/index.mustache')
+
+    .pipe($.changed(DEST))
+    .pipe($.mustache(headerData, {
+      extension: '.html'
+    }))
+    .pipe($.sizereport({
+      gzip: true,
+      minifier: function(contents, filepath) {
+        return minify(contents, {
+          removeComments: true,
+          collapseWhitespace: true,
+          removeAttributeQuotes: true
+        });
+      }
+    }))
+    .pipe(gulp.dest(DEST))
+    .pipe(browserSync.stream({once: true}));
+});*/
+
 gulp.task('styles', function () {
   return gulp.src('app/styles/main*.scss')
     .pipe($.plumber())
@@ -243,6 +283,67 @@ gulp.task('styles', function () {
     .pipe($.autoprefixer({browsers: ['last 1 version']}))
     .pipe(gulp.dest('.tmp/styles'));
 });
+
+/*gulp.task('styles', function styles() {
+  const DEST = '.tmp/styles';
+
+  return gulp.src('demo/main.scss')
+    .pipe($.changed(DEST)) // only pass through changed files
+    .pipe($.plumber()) // do not break on error
+    .pipe($.sourcemaps.init({loadMaps:true})) // write sourcemap to let browsers know the original file and line number
+    .pipe($.sass({ // use node-sass rather than ruby sass
+      outputStyle: 'expanded',
+      precision: 10,
+      includePaths: ['bower_components'] // in which path do you want sass to search your scss files.
+    }).on('error', $.sass.logError))
+    .pipe($.postcss([
+      cssnext({ // css next autmatically add vendor prefix.
+        features: {
+          colorRgba: false
+        }
+      })
+    ]))
+    .pipe($.sourcemaps.write('./'))
+    .pipe(gulp.dest(DEST))
+    .pipe(browserSync.stream({once:true})); // after rebuild, let browser-sync reload browser.
+});*/
+
+/* Bundle js with watchify + browserify + debowerify + babelify*/
+// browerify has ite own workflow. It does not follow the gulp way.
+/*gulp.task('scripts', function scripts() {
+  var b = browserify({
+    entries: 'demo/main.js',
+    debug: true,
+    cache: {},
+    packageCache: {},
+    transform: [babelify, debowerify],
+    plugin: [watchify]
+  });
+
+  b.on('update', bundle);
+  b.on('log', $.util.log);
+
+  bundle();
+
+  function bundle(ids) {
+    $.util.log('Compiling JS...');
+    if (ids) {
+      console.log('Changed Files:\n' + ids);
+    }   
+    return b.bundle()
+      .on('error', function(err) {
+        $.util.log(err.message);
+        browserSync.notify('Browerify Error!')
+        this.emit('end')
+      })
+      .pipe(source('bundle.js'))
+      .pipe(buffer())
+      .pipe($.sourcemaps.init({loadMaps: true}))
+      .pipe($.sourcemaps.write('./'))
+      .pipe(gulp.dest('.tmp/scripts'))
+      .pipe(browserSync.stream({once:true}));
+  }
+});*/
 
 gulp.task('ad', function () {
   return gulp.src('app/m/marketing/*')
@@ -256,6 +357,27 @@ gulp.task('jshint', function () {
     .pipe($.jshint.reporter('fail'));
 });
 
+// eslint is much flexible than jshint.
+// gulp.task('lint', function() {
+//   return gulp.src('client/**/*.js')
+//     .pipe($.eslint({
+//         extends: 'eslint:recommended',
+//         globals: {
+//           'd3': true,
+//           'ga': true,
+//           'fa': true
+//         },
+//         rules: {
+//           semi: [2, "always"]
+//         },
+//         envs: [
+//           'browser'
+//         ]
+//     }))
+//     .pipe($.eslint.format())
+//     .pipe($.eslint.failAfterError());  
+// });
+
 gulp.task('html', ['styles'], function () {
   var assets = $.useref.assets({searchPath: '{.tmp,app}'});
 
@@ -268,6 +390,21 @@ gulp.task('html', ['styles'], function () {
     .pipe($.if('*.html', $.minifyHtml({conditionals: true, loose: true})))
     .pipe(gulp.dest('dist'));
 });
+
+/*gulp.task('html', function() {
+  return gulp.src('.tmp/index.html')
+    .pipe($.useref({searchPath: ['.', '.tmp', 'client']})) // latest version of useref has a much simpler API.
+    .pipe($.if('*.js', $.uglify()))
+    .pipe($.if('*.css', $.cssnano())) 
+    .pipe($.if('*.html', $.htmlmin({ // gulp-minify-html has long been deprecated. So use gulp-htmlmin instead.
+      removeComments: true,
+      collapseWhitespace: true,
+      removeAttributeQuotes: true,
+      minifyJS: true,
+      minifyCSS: true
+    })))
+    .pipe(gulp.dest('dist'));
+});*/
 
 gulp.task('images', function () {
   return gulp.src('app/images/**/*')
@@ -320,6 +457,28 @@ gulp.task('connect', ['styles'], function () {
 gulp.task('serve', ['connect', 'watch'], function () {
   require('opn')('http://localhost:9000');
 });
+
+// Browser-sync starts a static server for all devices to connect.
+// It automatically load index.html. But you can speicfy which file should be loaded initially.
+// gulp.task('serve', 
+//   gulp.parallel(
+//     'mustache', 'styles', 'scripts', 'data',
+//     function serve() {
+//     browserSync.init({
+//       server: {
+//         baseDir: ['.tmp'], // specify which directories should be served in the server
+//         routes: { // whichever static directory you want to access in the server.
+//           '/bower_components': 'bower_components'
+//         }
+//       }
+//     });
+// We do not bundle js and reload browser here since browerify could handle.
+
+//     gulp.watch(['src/**/*.mustache', 'src/**/*.json'], gulp.parallel('mustache'));
+
+//     gulp.watch(['demo/*.scss', '*.scss', 'src/**/*.scss'], gulp.parallel('styles'));
+//   })
+// );
 
 // inject bower components
 gulp.task('wiredep', function () {
