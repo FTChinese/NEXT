@@ -28,4 +28,3 @@ function DeleteCookie (name) {
     document.cookie = name + "=" + cval + "; expires=" + exp.toGMTString();
 }
 /* jshint ignore:end */
-

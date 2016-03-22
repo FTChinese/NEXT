@@ -55,7 +55,8 @@ if (/^[0-9]{4}0001$/.test(c)) {
 } else {
     d='';
 }
-var slotStr = k.replace(/^.*(slot=.*)$/,"$1");
+var slotStr = window.parent.slotStr;
+console.log (slotStr);
 var parentId = k.replace(/^.*pid=([0-9A-Za-z\-]+).*$/,"$1");
 var adP = '';
 try {
@@ -63,10 +64,7 @@ try {
 } catch (ignore) {
 
 }
-
-document.write ('<scr'+'ipt src="http://dolphin.ftimg.net/s?z=ft&c=' + c + '&' + slotStr + adP + '" charset="gbk" onerror="removeAd()" onload="loaded()"></scr'+'ipt>');
-
-
+document.write ('<scr'+'ipt src="http://dolphin.ftimg.net/s?z=ft&c=' + c + slotStr + adP + '" charset="gbk" onerror="removeAd()" onload="loaded()"></scr'+'ipt>');
 //var adBGColor = 'white';
 </script>
 </div></div>
@@ -103,7 +101,14 @@ if (/icbc|Justerini/.test(adText)) {
     window.adBGColor = '#F6E9D8';
 } else if (/20160308housead969901\.gif/.test(adText)) {
     window.adBGColor = '#333';
+} else if (/201603\/590-90.gif/.test(adText)) {
+    window.adBGColor = '#e3dfca';
+} else {
+    window.adBGColor = '#000000';
 }
+
+
+
 
 
 
@@ -115,6 +120,9 @@ if (typeof adBGColor === 'string' && adBGColor !== '') {
 if ( window.parent.document.getElementById(parentId)) {
     parentIframe = window.parent.document.getElementById(parentId)
     adContainerHeight = parentIframe.offsetHeight || 0;
+    if (parentIframe.parentNode && parentIframe.parentNode.className==='banner-content') {
+        parentIframe.parentNode.style.backgroundColor = adBGColor;
+    }
     //adHeight = 600;
     if (adHeight > 0 && adHeight - adContainerHeight > 30) {
         parentIframe.style.height = adHeight + 'px';
