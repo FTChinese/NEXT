@@ -260,18 +260,19 @@ function writeAd(adType) {
   var adWidth;
   var adHeight;
   var iframeHTML;
+  var adch = adchID;
 
-  if (/iPad/i.test(uaString) && (adType === 'mpu' || adType === 'storympu')) {
+  if (/iPad/i.test(uaString) && /mpu/.test(adType)) {
     //if iPad, mpu ads change to iPad apps
-    adchID = '2021';
+    adch = '2021';
     adType = (adType === 'mpu') ? 'ipadhomempu' : 'ipadstorympu';
   } else if (/OS [0-9]+\_/i.test(uaString) && (/iPhone/i.test(uaString) || /iPod/i.test(uaString))) {
-    adchID = '2022';
+    adch = '2022';
   } else if (w1 <= 490){
-    adchID = '2023';
+    adch = '2023';
   }
 
-  if (adchID === '2022' || adchID === '2023') {
+  if (adch === '2022' || adch === '2023') {
     if (adType === 'banner') {
       adType = 'phonebanner';
     } else if (adType === 'mpu') {
@@ -283,7 +284,7 @@ function writeAd(adType) {
   currentAdCount = adCount[adType];
   if (currentAdCount < adMax[adType]) {
     adPosition = adPositions[adType][currentAdCount];
-    iframeSrc = '/m/marketing/'+adFileName+'.html?v=2#adid='+ adchID + adPosition + '&pid='+adType+adCount[adType];
+    iframeSrc = '/m/marketing/'+adFileName+'.html?v=2#adid='+ adch + adPosition + '&pid='+adType+adCount[adType];
     if (/mpu/.test(adType)) {
       adWidth = '300';
       adHeight = '250';
