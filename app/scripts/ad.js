@@ -252,7 +252,6 @@ for(var x in adPositions){
 //<iframe id="banner<%$bannerCount%>" width="100%" height="90" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="/m/marketing/<%$adFileName%>.html#adid=<%$p.meta.adid%><%$banners[$bannerCount]%>&slot=986723212&pid=banner<%$bannerCount%>"></iframe>
 
 function writeAd(adType) {
-
   var adFileName;
   var currentAdCount;
   var adPosition;
@@ -277,6 +276,10 @@ function writeAd(adType) {
       adType = 'phonebanner';
     } else if (adType === 'mpu') {
       adType = 'phonempu';
+    } else if (adType === 'storybanner') {
+      adType = 'phonestorybanner';
+    } else if (adType === 'storympu') {
+      adType = 'phonestorympu';
     }
   }
 
@@ -296,16 +299,18 @@ function writeAd(adType) {
       adHeight = '90';
     }
     iframeHTML = '<iframe id="' + adType + adCount[adType] + '" width="'+ adWidth +'" height="'+ adHeight + '" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="'+ iframeSrc +'"></iframe>';
-    adCount[adType] = adCount[adType] + 1;
-    return iframeHTML;
+    
+    
 
   } else {
     if (/banner/.test(adType)) {
       document.querySelectorAll('.banner-placeholder')[currentAdCount].style.display = 'none';
     }
-    return '';
+    iframeHTML = '';
   }
 
+  adCount[adType] = adCount[adType] + 1;
+  return iframeHTML;
   // console.log (adType + ': ' + currentAdCount);
   // console.log (adPosition);
   /*

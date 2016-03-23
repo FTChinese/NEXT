@@ -1,21 +1,11 @@
 <%if $smarty.get.ad != "no"%>
-<%if $bannerCount === 0%>
-	<%assign var="adFileName" value="topbanner"%>
-<%else%>
-	<%assign var="adFileName" value="a"%>
-<%/if%>
-<%assign var="banners" value=','|explode:"0001,0006,0007,0008"%>
-<%assign var="bannerMax" value=$banners|@count%>
-<%if $bannerCount < $bannerMax%>
 <div class="banner-placeholder">
 <div class="banner-container">
 <div class="banner-inner">
 <div class="banner-content">
-  <%*<iframe id="banner<%$bannerCount%>" name="mpu3Frame" width="100%" height="90" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="/m/marketing/<%$adFileName%>.html#adid=<%$p.meta.adid%><%$banners[$bannerCount]%>&slot=986723212&pid=banner<%$bannerCount%>"></iframe>*%>
   <script type="text/javascript">document.write (writeAd('banner'));</script>
 </div>
 </div>
 </div>
 </div>
-<%/if%>
 <%/if%>
