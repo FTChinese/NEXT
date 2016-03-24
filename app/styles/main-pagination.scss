@@ -1,0 +1,21 @@
+@import "variables.scss";
+@import "mixins.scss";
+.pagination-container {
+	@include headerContainer;
+	//height: $headerHeight;
+}
+.pagination-inner {
+	@include headerInner;
+	height: $mastheadHeight;
+	line-height: $mastheadHeight;
+	span, a {
+		padding-right: $defaultPadding;
+		font-weight: bold;
+	}
+	a {
+		color: $darkGreen;
+		&:hover, &:active {
+			color: white;
+		}
+	}
+}

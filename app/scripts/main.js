@@ -183,20 +183,25 @@
     var imageHeight = thisFigure.offsetHeight;
     var imageUrl = thisFigure.getAttribute('data-url');
     var figureClass = thisFigure.className || '';
+    var fitType = 'cover';
+    var figureParentClass = thisFigure.parentNode.className || '';
     if (isRetinaDevice === true) {
       imageWidth = imageWidth * 2;
       imageHeight = imageHeight * 2;
     }
-    if (figureClass.indexOf('sponsor')>=0) {
+    if (/brand/.test(figureParentClass)) {
+      fitType = 'contain';
+    }
+    if (/sponsor/.test(figureClass)) {
       imageUrl = imageUrl.replace('i.ftimg.net', 'i.ftmailbox.com');
       imageUrl = encodeURIComponent(imageUrl);
-      imageUrl = 'https://image.webservices.ft.com/v1/images/raw/' + imageUrl + '?source=ftchinese&height=' + imageHeight + '&fit=cover';
+      imageUrl = 'https://image.webservices.ft.com/v1/images/raw/' + imageUrl + '?source=ftchinese&height=' + imageHeight + '&fit=' + fitType;
       thisFigure.innerHTML = '<img src="' + imageUrl + '">';
       thisFigure.className = '';
     } else if (imageWidth > 0 && imageHeight > 0) {
       imageUrl = imageUrl.replace('i.ftimg.net', 'i.ftmailbox.com');
       imageUrl = encodeURIComponent(imageUrl);
-      imageUrl = 'https://image.webservices.ft.com/v1/images/raw/' + imageUrl + '?source=ftchinese&width=' + imageWidth + '&height=' + imageHeight + '&fit=cover';
+      imageUrl = 'https://image.webservices.ft.com/v1/images/raw/' + imageUrl + '?source=ftchinese&width=' + imageWidth + '&height=' + imageHeight + '&fit=' + fitType;
       thisFigure.innerHTML = '<img src="' + imageUrl + '">';
       thisFigure.className = '';
     }

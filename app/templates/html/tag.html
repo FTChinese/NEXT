@@ -1,0 +1,129 @@
+<%assign var=taginfo value=$storymodel->get_tag_describes($tag_name)%>
+<%assign var=tagtitle value=$taginfo.tag_title%>
+<%assign var=tagabout value=$taginfo.tag_desc%>
+
+<%if $tagtitle=="" || $breadcrumb!=""%>
+<%if $breadcrumb!=""%>
+<%assign var="tagtitle" value=$breadcrumb%>
+<%else%>
+<%assign var="tagtitle" value=$tag_name%>
+<%/if%>
+<%/if%>
+<%if $allstory|@count==0 && $storyCust|@count==0 && $tagstory2|@count==0 && $adchannelID=="" %>
+<%assign var="tagtitle" value="无效的标签"%>
+<%/if%>
+
+<%assign var="channelname" value=" <span>`$tagtitle`</span>"%>
+<%if !isset($adchannelID)||$adchannelID ==""%>
+<%assign var="adchannelID" value="2000"%>
+<%/if%>
+
+<%assign var="gettime" value=$storymodel->get_story_by_tag($tag_name,0,20)%>
+
+<!DOCTYPE html>
+<html class="no-js core" data-next-app="tag-page">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Language" content="zh-CN"/>
+    <title><%$tagtitle%> - FT中文网</title>
+    <%if $tagtitle=="无效的标签"%><META NAME="robots" CONTENT="noindex"><%/if%>
+    <META name=keywords content="<%$tagtitle%>">
+    <meta content="<%$p.meta.description%>" name="description"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <link rel="apple-touch-icon-precomposed" href="http://static.ftchinese.com/img/ipad_icon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="http://static.ftchinese.com" />
+    <link rel="preconnect" href="http://i.ftimg.net" />
+    <script>
+      window.errorBuffer = window.errorBuffer || [];
+      function beaconCssError(e) {
+        window.errorBuffer.push({
+          error: e ? e : new Error('CSS failed to load.'),
+          context: {
+            isMobileNetork: document.cookie.replace(/(?:(?:^|.*;\s*)h2_isMobile\s*\=\s*([^;]*).*$)|^.*$/, "$1") === '' ? false : true
+          }
+        });
+      }
+    </script>
+    <script>
+    window.cutsTheMustard = (typeof Function.prototype.bind !== 'undefined');
+    if (window.cutsTheMustard) {
+    document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/, 'js').replace(/\bcore\b/, 'enhanced');
+    }
+    </script>
+    <style>
+    <%include file="next/styles/main-tag.css"%>
+    </style>
+    <link rel="icon" type="image/png" href="https://next-geebee.ft.com/assets/brand-alpha/icons/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://next-geebee.ft.com/assets/brand-alpha/icons/favicon-194x194.png" sizes="194x194">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://next-geebee.ft.com/assets/brand-alpha/icons/apple-touch-icon-180x180.png" />
+    <link rel="manifest" href="/assets/manifest/manifest-v2.json" />
+    <meta name="msapplication-TileColor" content="#fff1e0" />
+    <meta name="msapplication-TileImage" content="https://next-geebee.ft.com/assets/brand-alpha/icons/mstile-144x144.png" />
+
+
+    <script>var startTime = new Date().getTime();</script>
+    <script>
+    if ( screen.width<=480) {
+        document.write('<meta content="FT中文网" name="application-name" /><meta content="app-id=443870811" name="apple-itunes-app" />');
+    } else {
+        document.write('<meta content="FT中文网" name="application-name" /><meta content="app-id=396124008" name="apple-itunes-app" />');
+    }
+    </script>
+    <link rel="alternate" type="application/rss+xml" title="FT中文网 - 每日更新" href="/rss/feed" />
+    <link rel="alternate" type="application/rss+xml" title="FT中文网 - 双语阅读" href="/rss/diglossia" />
+    <link rel="alternate" type="application/rss+xml" title="FT中文网 - 今日焦点" href="/rss/news" />
+    <link rel="alternate" type="application/rss+xml" title="FT中文网 - 生活时尚" href="/rss/lifestyle" />
+    <link rel="alternate" type="application/rss+xml" title="FT中文网 - 一周十大热门文章" href="/rss/hotstoryby7day" />
+    <link rel="alternate" type="application/rss+xml" title="FT中文网 - 热门用户评论" href="/rss/hotusercomment" />
+    <link rel="search" type="application/opensearchdescription+xml" title="FT中文网财经搜索" href="/opensearch.xml">
+    <%include file="next/partials/head.html"%>
+    <script type="text/javascript">
+    <%include file="next/scripts/key.js"%>
+    </script>
+    <!--[if lte IE 8]>
+        <script>
+            document.documentElement.className += ' is-ie-8';
+            document.createElement('figure');
+            document.createElement('header');
+            document.createElement('nav');
+            document.createElement('section');
+            document.createElement('article');
+            document.createElement('aside');
+            document.createElement('footer');
+            var wIE = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+            var cssId = 'ie-css';
+            var cssFile = '';
+            if (!document.getElementById(cssId)) {
+                var head  = document.getElementsByTagName('head')[0];
+                var link  = document.createElement('link');
+                link.id   = cssId;
+                link.rel  = 'stylesheet';
+                link.type = 'text/css';
+                cssFile = (wIE>=1200)?'XL':'L';
+                link.href = 'http://static.ftchinese.com/n/main-ie-'+ cssFile +'.css?<%include file="next/timestamp/timestamp.html"%>';
+                link.media = 'all';
+                head.appendChild(link);
+            }
+        </script>
+    <![endif]-->
+  </head>
+  <%assign var="bannerCount" value=0%>
+  <body class="<%$hideDate%>">
+      <%include file="next/partials/tag-header.html"%>
+      <%include file="next/partials/nav.html"%>
+      <%include file="next/partials/banner.html"%>
+      <%assign var="bannerCount" value=$bannerCount+1%>
+      <%include file="next/partials/tag-block.html"%>
+      <%include file="next/partials/pagination.html"%>
+      <%include file="next/partials/footer.html"%>
+      <%include file="next/partials/QrCode.html"%>
+  </body>
+<!--[if lte IE 8]>
+<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+<![endif]-->
+<script type="text/javascript">
+  <%include file="next/scripts/main.js"%>
+</script>
+</html>
