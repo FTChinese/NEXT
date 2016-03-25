@@ -298,6 +298,14 @@ Allow users or organizations to pay for:
 4. Buy items. For example, a user can buy a special report and read on his phone and Kindle. 
 
 ## FAQ
+### How important is it to keep the first request (the HTML file) under 14k? 
+- It is to make sure the page renders as soon as the first request is back
+- Core CSS and JS should be embeded to make this meaningful
+- If the file is over 14k, consider seperate HTML into Critical and Enhanced
+- Critical includes anything until the second content block (in our design)
+- Enhanced includes content blocks under critical (usually the second screen)
+- If we load enhanced content async, search engines won't grab these links. It would affect the weight of the links. 
+
 ### Why not use Markdown in the Next project? 
 - Need to learn. No editor has heard of it. Editors hate learning new language. 
 - May not do all the tricks needed (videos, slide shows, aside, quotes etc...). 
