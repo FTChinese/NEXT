@@ -608,3 +608,55 @@
 		}
 	}
 }
+
+@mixin narrowSide {
+	.side-container {
+	    width: $sideInnerWidth;
+	    margin-left: - $sideInnerWidth;
+	}
+	.has-side {
+		.content-inner {
+	    	border-right: $sideInnerWidth solid $bannerBG;
+		}
+		&.side-left {
+			.content-inner {
+				border-left: $sideInnerWidth solid $bannerBG;
+			}
+			.side-container {
+				margin-right: -$sideInnerWidth;
+			}
+		}
+	}
+	.block-container {
+		&.fixside {
+			.side-inner {
+				width: $sideInnerWidth;
+			}
+		}
+		&.bottomside {
+			.side-inner {
+				width: $sideInnerWidth;
+			}
+		}
+		&.fixmain {
+			.content-container {
+				max-width: $maxWidth - 1.5 * $defaultPadding - $sideInnerWidth;
+			}
+			&.side-left {
+				.content-inner {
+					max-width: $maxWidth - $sideInnerWidth - 2 * $defaultPadding;
+				}
+			}
+		}
+		&.bottommain {
+			.content-container {
+				max-width: $maxWidth - 1.5 * $defaultPadding - $sideInnerWidth;
+			}
+			&.side-left {
+				.content-inner {
+					max-width: $maxWidth - $sideInnerWidth - 2 * $defaultPadding;
+				}
+			}
+		}
+	}
+}

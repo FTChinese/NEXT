@@ -36,17 +36,6 @@
     <link rel="preconnect" href="http://static.ftchinese.com" />
     <link rel="preconnect" href="http://i.ftimg.net" />
     <script>
-      window.errorBuffer = window.errorBuffer || [];
-      function beaconCssError(e) {
-        window.errorBuffer.push({
-          error: e ? e : new Error('CSS failed to load.'),
-          context: {
-            isMobileNetork: document.cookie.replace(/(?:(?:^|.*;\s*)h2_isMobile\s*\=\s*([^;]*).*$)|^.*$/, "$1") === '' ? false : true
-          }
-        });
-      }
-    </script>
-    <script>
     window.cutsTheMustard = (typeof Function.prototype.bind !== 'undefined');
     if (window.cutsTheMustard) {
     document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/, 'js').replace(/\bcore\b/, 'enhanced');

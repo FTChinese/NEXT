@@ -17,7 +17,8 @@
   var minHeight = [];
   var maxHeight = [];
   var isRetinaDevice = (window.devicePixelRatio > 1);
-
+  var scrollTop = window.scrollY || document.documentElement.scrollTop;
+  var ticking = false;
 
   function findTop(obj) {
     var curtop = 0;
@@ -72,8 +73,8 @@
     }
   }
 
-  function stickyBottom() {
-    var scrollTop = window.scrollY || document.documentElement.scrollTop;
+  function stickyBottomUpdate() {
+    requestAnimationFrame(stickyBottomUpdate);
     if (scrollTop >= gNavOffsetY) {
       if (htmlClass.indexOf(' is-sticky')<0) {
         htmlClass += ' is-sticky';
@@ -135,8 +136,23 @@
       }
       
     }
-
   }
+  
+  function requestTick() {
+    if(!ticking) {
+      requestAnimationFrame(stickyBottomUpdate);
+    }
+    ticking = true;
+  }
+
+  function stickyBottom() {
+    scrollTop = window.scrollY || document.documentElement.scrollTop;
+    requestTick();
+  }
+
+
+
+
 
   try {
     delegate = new Delegate(document.body);

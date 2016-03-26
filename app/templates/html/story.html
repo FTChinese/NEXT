@@ -1,0 +1,628 @@
+<%if $story.column!=""%>
+<%assign var="columninfo" value=$storymodel->get_column_info($story.column)%>
+<%/if%>
+<%if preg_match("/letter/is",$story.cheadline)%>
+<%assign var=breadcrum value="<a href=/channel/letter.html>读者有话说</a>"%>
+<%assign var=autoadchannel value="NP_Opinion"%>
+<%assign var="autoadchannelID" value="1600"%>
+<%assign var="topnav" value="opinion"%>
+<%assign var="subnav" value="letter"%>
+<%assign var="thirdnav" value=""%>
+<%elseif preg_match("/career/is",$story.topic)%>
+<%assign var=breadcrum value="<a href=/channel/career.html>职场</a>"%>
+<%assign var=autoadchannel value="NP_Career"%>
+<%assign var="autoadchannelID" value="1702"%>
+<%assign var="topnav" value="management"%>
+<%assign var="subnav" value="career"%>
+<%assign var="thirdnav" value=""%>
+<%elseif preg_match("/mba/is",$story.topic)%>
+<%assign var=breadcrum value="<a href=/channel/mba.html>FT商学院</a>"%>
+<%assign var=autoadchannel value="NP_FT_Business_School"%>
+<%assign var="autoadchannelID" value="1701"%>
+<%assign var="topnav" value="management"%>
+<%assign var="subnav" value="mba"%>
+<%assign var="thirdnav" value=""%>
+<%elseif preg_match("/leadership/is",$story.topic)%>
+<%assign var=breadcrum value="<a href=/channel/leadership.html>领导力</a>"%>
+<%assign var=autoadchannel value="NP_leadership"%>
+<%assign var="autoadchannelID" value="1703"%>
+<%assign var="topnav" value="management"%>
+<%assign var="subnav" value="leadership"%>
+<%assign var="thirdnav" value=""%>
+<%elseif preg_match("/technology/is",$story.topic)%>
+<%assign var=breadcrum value="<a href=/channel/technology.html>科技</a>"%>
+<%assign var=autoadchannel value="NP_Biz_Technology"%>
+<%assign var="autoadchannelID" value="1502"%>
+<%assign var="topnav" value="business"%>
+<%assign var="subnav" value="technology"%>
+<%assign var="thirdnav" value=""%>
+<%elseif preg_match("/travel/is",$story.topic)%>
+<%assign var=breadcrum value="<a href=/channel/travel.html>旅行</a>"%>
+<%assign var=autoadchannel value="NP_Travel"%>
+<%assign var="autoadchannelID" value="1802"%>
+<%assign var="topnav" value="lifestyle"%>
+<%assign var="subnav" value="travel"%>
+<%assign var="thirdnav" value=""%>
+<%elseif preg_match("/money/is",$story.topic)%>
+<%assign var=breadcrum value="<a href=/channel/money.html>理财</a>"%>
+<%assign var=autoadchannel value="NP_Life_Style"%>
+<%assign var="autoadchannelID" value="2047"%>
+<%assign var="topnav" value="lifestyle"%>
+<%assign var="subnav" value="money"%>
+<%assign var="thirdnav" value=""%>
+<%elseif preg_match("/lifestory/is",$story.topic)%>
+<%assign var=breadcrum value="<a href=/channel/life.html>生活</a>"%>
+<%assign var=autoadchannel value="NP_Life_Style"%>
+<%assign var="autoadchannelID" value="2045"%>
+<%assign var="topnav" value="lifestyle"%>
+<%assign var="subnav" value="life"%>
+<%assign var="thirdnav" value=""%>
+<%elseif preg_match("/artstory/is",$story.topic)%>
+<%assign var=breadcrum value="<a href=/channel/art.html>艺术与娱乐</a>"%>
+<%assign var=autoadchannel value="NP_Life_Style"%>
+<%assign var="autoadchannelID" value="2043"%>
+<%assign var="topnav" value="lifestyle"%>
+<%assign var="subnav" value="art"%>
+<%assign var="thirdnav" value=""%>
+<%assign var="hide590" value="no"%>
+<%elseif preg_match("/taste/is",$story.topic)%>
+<%assign var=breadcrum value="<a href=/channel/taste.html>品味</a>"%>
+<%assign var=autoadchannel value="NP_Life_Style"%>
+<%assign var="autoadchannelID" value="2044"%>
+<%assign var="topnav" value="lifestyle"%>
+<%assign var="subnav" value="taste"%>
+<%assign var="thirdnav" value=""%>
+<%elseif preg_match("/spend/is",$story.topic)%>
+<%assign var=breadcrum value="<a href=/channel/spend.html>消费经</a>"%>
+<%assign var=autoadchannel value="NP_Life_Style"%>
+<%assign var="autoadchannelID" value="2046"%>
+<%assign var="topnav" value="lifestyle"%>
+<%assign var="subnav" value="spend"%>
+<%assign var="thirdnav" value=""%>
+<%elseif preg_match("/trade/is",$story.topic)%>
+<%assign var=breadcrum value="<a href=/channel/trade.html>贸易</a>"%>
+<%assign var=autoadchannel value="NP_Economy"%>
+<%assign var="autoadchannelID" value="1300"%>
+<%assign var="topnav" value="economy"%>
+<%assign var="subnav" value="trade"%>
+<%assign var="thirdnav" value=""%>
+<%elseif preg_match("/environment/is",$story.topic)%>
+<%assign var=breadcrum value="<a href=/channel/environment.html>环境</a>"%>
+<%assign var=autoadchannel value="NP_Economy_Environment"%>
+<%assign var="autoadchannelID" value="1304"%>
+<%assign var="topnav" value="economy"%>
+<%assign var="subnav" value="environment"%>
+<%assign var="thirdnav" value=""%>
+<%elseif preg_match("/stock/is",$story.topic) && preg_match("/china/is",$story.area)%>
+<%assign var=breadcrum value="<a href=/channel/chinastock.html>中国股市</a>"%>
+<%assign var=autoadchannel value="NP_Market_Stock"%>
+<%assign var="autoadchannelID" value="1401"%>
+<%assign var="topnav" value="markets"%>
+<%assign var="subnav" value="stock"%>
+<%assign var="thirdnav" value=""%>
+<%elseif preg_match("/stock/is",$story.topic)%>
+<%assign var=breadcrum value="<a href=/channel/stock.html>全球股市</a>"%>
+<%assign var=autoadchannel value="NP_Market_Stock"%>
+<%assign var="autoadchannelID" value="1401"%>
+<%assign var="topnav" value="markets"%>
+<%assign var="subnav" value="stock"%>
+<%assign var="thirdnav" value=""%>
+<%elseif preg_match("/china/is",$story.area) && preg_match("/economy/is",$story.topic)%>
+<%assign var=breadcrum value="<a href=/channel/chinaeconomy.html>中国经济</a>"%>
+<%assign var=autoadchannel value="NP_Economy"%>
+<%assign var="autoadchannelID" value="1300"%>
+<%assign var="topnav" value="economy"%>
+<%assign var="subnav" value="chinaeconomy"%>
+<%assign var="thirdnav" value=""%>
+<%elseif preg_match("/china/is",$story.area) && preg_match("/politics/is",$story.topic)%>
+<%assign var=breadcrum value="<a href=/channel/chinareport.html>中国政经</a>"%>
+<%assign var=autoadchannel value="NP_China_Chinareport"%>
+<%assign var="autoadchannelID" value="1101"%>
+<%assign var="topnav" value="china"%>
+<%assign var="subnav" value="chinareport"%>
+<%assign var="thirdnav" value=""%>
+<%elseif preg_match("/china/is",$story.area) && (preg_match("/culture/is",$story.topic) || preg_match("/society/is",$story.topic))%>
+<%assign var=breadcrum value="<a href=/channel/culture.html>社会与文化</a>"%>
+<%assign var=autoadchannel value="NP_China_Society_Culture"%>
+<%assign var="autoadchannelID" value="1102"%>
+<%assign var="topnav" value="china"%>
+<%assign var="subnav" value="culture"%>
+<%assign var="thirdnav" value=""%>
+<%elseif preg_match("/culture/is",$story.topic) || preg_match("/society/is",$story.topic)%>
+<%assign var=breadcrum value="<a href=/channel/culture.html>社会与文化</a>"%>
+<%assign var=autoadchannel value="NP_China_Society_Culture"%>
+<%assign var="autoadchannelID" value="1102"%>
+<%assign var="topnav" value="china"%>
+<%assign var="subnav" value="culture"%>
+<%elseif preg_match("/economy/is",$story.topic)%>
+<%assign var=breadcrum value="<a href=/channel/globaleconomy.html>全球经济</a>"%>
+<%assign var=autoadchannel value="NP_Economy"%>
+<%assign var="autoadchannelID" value="1300"%>
+<%assign var="topnav" value="economy"%>
+<%assign var="subnav" value="globaleconomy"%>
+<%elseif preg_match("/finance/is",$story.industry)%>
+<%assign var=breadcrum value="<a href=/channel/finance.html>金融</a>"%>
+<%assign var=autoadchannel value="NP_Biz_Finance"%>
+<%assign var="autoadchannelID" value="1501"%>
+<%assign var="topnav" value="business"%>
+<%assign var="subnav" value="finance"%>
+<%elseif preg_match("/technology/is",$story.industry)%>
+<%assign var=breadcrum value="<a href=/channel/technology.html>科技</a>"%>
+<%assign var=autoadchannel value="NP_Biz_Technology"%>
+<%assign var="autoadchannelID" value="1502"%>
+<%assign var="topnav" value="business"%>
+<%assign var="subnav" value="technology"%>
+<%elseif preg_match("/auto/is",$story.industry)%>
+<%assign var=breadcrum value="<a href=/channel/auto.html>汽车</a>"%>
+<%assign var=autoadchannel value="NP_Biz_Auto"%>
+<%assign var="autoadchannelID" value="1503"%>
+<%assign var="topnav" value="business"%>
+<%assign var="subnav" value="auto"%>
+<%elseif preg_match("/property/is",$story.industry)%>
+<%assign var=breadcrum value="<a href=/channel/property.html>房地产</a>"%>
+<%assign var=autoadchannel value="NP_Biz_Real_Estate"%>
+<%assign var="autoadchannelID" value="1504"%>
+<%assign var="topnav" value="business"%>
+<%assign var="subnav" value="property"%>
+<%elseif preg_match("/energy/is",$story.industry)%>
+<%assign var=breadcrum value="<a href=/channel/finance.html>能源</a>"%>
+<%assign var=autoadchannel value="NP_Biz_Energy"%>
+<%assign var="autoadchannelID" value="1506"%>
+<%assign var="topnav" value="business"%>
+<%assign var="subnav" value="energy"%>
+<%elseif preg_match("/industrials/is",$story.industry)%>
+<%assign var=breadcrum value="<a href=/channel/finance.html>工业与采矿</a>"%>
+<%assign var=autoadchannel value="NP_Biz_Industry_Mining"%>
+<%assign var="autoadchannelID" value="1507"%>
+<%assign var="topnav" value="business"%>
+<%assign var="subnav" value="industrials"%>
+<%elseif preg_match("/airline/is",$story.industry)%>
+<%assign var=breadcrum value="<a href=/channel/airline.html>航空与运输</a>"%>
+<%assign var=autoadchannel value="NP_Biz_Aviation_Transport"%>
+<%assign var="autoadchannelID" value="1508"%>
+<%assign var="topnav" value="business"%>
+<%assign var="subnav" value="airline"%>
+<%elseif preg_match("/pharma/is",$story.industry)%>
+<%assign var=breadcrum value="<a href=/channel/pharma.html>医疗保健</a>"%>
+<%assign var=autoadchannel value="NP_Biz_Medication"%>
+<%assign var="autoadchannelID" value="1509"%>
+<%assign var="topnav" value="business"%>
+<%assign var="subnav" value="pharma"%>
+<%elseif preg_match("/agriculture/is",$story.industry)%>
+<%assign var=breadcrum value="<a href=/channel/agriculture.html>农林</a>"%>
+<%assign var=autoadchannel value="NP_Biz_Medication"%>
+<%assign var="autoadchannelID" value="1509"%>
+<%assign var="topnav" value="business"%>
+<%assign var="subnav" value="agriculture"%>
+<%elseif preg_match("/entertainment/is",$story.industry)%>
+<%assign var=breadcrum value="<a href=/channel/entertainment.html>娱乐</a>"%>
+<%assign var=autoadchannel value="NP_Biz_Medication"%>
+<%assign var="autoadchannelID" value="1509"%>
+<%assign var="topnav" value="business"%>
+<%assign var="subnav" value="entertainment"%>
+<%elseif preg_match("/consumer/is",$story.industry)%>
+<%assign var=breadcrum value="<a href=/channel/consumer.html>消费品</a>"%>
+<%assign var=autoadchannel value="NP_Biz_Consuming"%>
+<%assign var="autoadchannelID" value="1511"%>
+<%assign var="topnav" value="business"%>
+<%assign var="subnav" value="consumer"%>
+<%elseif preg_match("/media/is",$story.industry)%>
+<%assign var=breadcrum value="<a href=/channel/media.html>传媒与文化</a>"%>
+<%assign var=autoadchannel value="NP_Biz_Media_Culture"%>
+<%assign var="autoadchannelID" value="1512"%>
+<%assign var="topnav" value="business"%>
+<%assign var="subnav" value="media"%>
+<%elseif preg_match("/forex/is",$story.topic)%>
+<%assign var=breadcrum value="<a href=/channel/forex.html>外汇</a>"%>
+<%assign var=autoadchannel value="NP_Market_Forex"%>
+<%assign var="autoadchannelID" value="1402"%>
+<%assign var="topnav" value="markets"%>
+<%assign var="subnav" value="forex"%>
+<%elseif preg_match("/bond/is",$story.topic)%>
+<%assign var=breadcrum value="<a href=/channel/bond.html>债券</a>"%>
+<%assign var=autoadchannel value="NP_Markets"%>
+<%assign var="autoadchannelID" value="1400"%>
+<%assign var="topnav" value="markets"%>
+<%assign var="subnav" value="bond"%>
+<%elseif preg_match("/commodity/is",$story.topic)%>
+<%assign var=breadcrum value="<a href=/channel/commodity.html>大宗商品</a>"%>
+<%assign var=autoadchannel value="NP_Markets"%>
+<%assign var="autoadchannelID" value="1400"%>
+<%assign var="topnav" value="markets"%>
+<%assign var="subnav" value="commodity"%>
+<%elseif preg_match("/editorial/is",$story.genre)%>
+<%assign var=breadcrum value="<a href=/channel/editorial.html>社评</a>"%>
+<%assign var=autoadchannel value="NP_Opinion"%>
+<%assign var="autoadchannelID" value="1600"%>
+<%assign var="topnav" value="opinion"%>
+<%assign var="subnav" value="editorial"%>
+<%elseif preg_match("/Lex/is",$story.cheadline)%>
+<%assign var=breadcrum value="<a href=/channel/lex.html>Lex</a>"%>
+<%assign var=autoadchannel value="NP_Opinion"%>
+<%assign var="autoadchannelID" value="1600"%>
+<%assign var="topnav" value="opinion"%>
+<%assign var="subnav" value="lex"%>
+<%elseif preg_match("/analysis/is",$story.genre)%>
+<%assign var=breadcrum value="<a href=/channel/analysis.html>分析</a>"%>
+<%assign var=autoadchannel value="NP_Opinion"%>
+<%assign var="autoadchannelID" value="1600"%>
+<%assign var="topnav" value="opinion"%>
+<%assign var="subnav" value="analysis"%>
+<%elseif preg_match("/comment/is",$story.genre)%>
+<%assign var=breadcrum value="<a href=/channel/comment.html>评论</a>"%>
+<%assign var=autoadchannel value="NP_Opinion"%>
+<%assign var="autoadchannelID" value="1600"%>
+<%assign var="topnav" value="opinion"%>
+<%assign var="subnav" value="comment"%>
+<%elseif preg_match("/book/is",$story.topic)%>
+<%assign var=breadcrum value="<a href=/channel/book.html>书评</a>"%>
+<%assign var=autoadchannel value="NP_Opinion"%>
+<%assign var="autoadchannelID" value="1600"%>
+<%assign var="topnav" value="opinion"%>
+<%assign var="subnav" value="book"%>
+<%elseif preg_match("/management/is",$story.topic)%>
+<%assign var=breadcrum value="<a href=/channel/management.html>管理</a>"%>
+<%assign var=autoadchannel value="NP_Management"%>
+<%assign var="autoadchannelID" value="1700"%>
+<%assign var="topnav" value="management"%>
+<%elseif preg_match("/lifestyle/is",$story.topic)%>
+<%assign var=breadcrum value="<a href=/channel/lifestyle.html>生活时尚</a>"%>
+<%assign var=autoadchannel value="NP_Life_Style"%>
+<%assign var="autoadchannelID" value="1800"%>
+<%assign var="topnav" value="lifestyle"%>
+<%elseif preg_match("/business/is",$story.topic)%>
+<%assign var=breadcrum value="<a href=/channel/business.html>商业</a>"%>
+<%assign var=autoadchannel value=""%>
+<%elseif preg_match("/markets/is",$story.topic)%>
+<%assign var=breadcrum value="<a href=/channel/business.html>金融市场</a>"%>
+<%assign var=autoadchannel value="NP_Business"%>
+<%assign var="autoadchannelID" value="1500"%>
+<%assign var="topnav" value="business"%>
+<%elseif preg_match("/africa/is",$story.area)%>
+<%assign var=breadcrum value="<a href=/channel/africa.html>非洲</a>"%>
+<%assign var=autoadchannel value="NP_Global_Africa"%>
+<%assign var="autoadchannelID" value="1206"%>
+<%assign var="topnav" value="world"%>
+<%assign var="subnav" value="africa"%>
+<%elseif preg_match("/uk/is",$story.area)%>
+<%assign var=breadcrum value="<a href=/channel/uk.html>英国</a>"%>
+<%assign var=autoadchannel value="NP_Global_UK"%>
+<%assign var="autoadchannelID" value="1202"%>
+<%assign var="topnav" value="world"%>
+<%assign var="subnav" value="uk"%>
+<%elseif preg_match("/america/is",$story.area)%>
+<%assign var=breadcrum value="<a href=/channel/america.html>美洲</a>"%>
+<%assign var=autoadchannel value="NP_Global_America"%>
+<%assign var="autoadchannelID" value="1205"%>
+<%elseif preg_match("/usa/is",$story.area)%>
+<%assign var=breadcrum value="<a href=/channel/usa.html>美国</a>"%>
+<%assign var=autoadchannel value="NP_Global_US"%>
+<%assign var="autoadchannelID" value="1201"%>
+<%assign var="topnav" value="world"%>
+<%assign var="subnav" value="usa"%>
+<%elseif preg_match("/asia/is",$story.area)%>
+<%assign var=breadcrum value="<a href=/channel/asia.html>亚太</a>"%>
+<%assign var=autoadchannel value="NP_Global_Asia"%>
+<%assign var="autoadchannelID" value="1203"%>
+<%assign var="topnav" value="world"%>
+<%assign var="subnav" value="asia"%>
+<%elseif preg_match("/europe/is",$story.area)%>
+<%assign var=breadcrum value="<a href=/channel/europe.html>欧洲</a>"%>
+<%assign var=autoadchannel value="NP_Global_Europe"%>
+<%assign var="autoadchannelID" value="1204"%>
+<%assign var="topnav" value="world"%>
+<%assign var="subnav" value="europe"%>
+<%/if%>
+
+
+<%if $story.column!=""%>
+<%assign var=breadcrum value="<a href=/column/`$story.column`>`$columninfo.headline`</a>"%>
+<%assign var="topnav" value="opinion"%>
+<%assign var="subnav" value="column"%>
+<%*assign var=adchannelname value="NP_Opinion"*%>
+<%/if%>
+
+
+<%assign var=breadcrum value=$breadcrum|replace:"》":""|replace:"《":""%>
+
+
+<%assign var=taginfo value=$storymodel->get_tag_describes($story.cauthor)%>
+
+
+
+
+<%if preg_match("/能源未来/is",implode(",", $story.tag))%>
+<%assign var=adchannelname value="NP_Audi_FutureEnergy"%>
+<%assign var="adchannelID" value="2014"%>
+<%assign var=breadcrum value="<a href=\"/tag/能源未来/\">能源未来</a>"%>
+<%assign var="topnav" value="economy"%>
+<%assign var="subnav" value="environment"%>
+<%assign var="thirdnav" value="futureofenergy"%>
+<%elseif (preg_match("/2015年度报告/is",implode(",", $story.tag))||preg_match("/年度报告/is",implode(",", $story.tag))) && date("Ymd",$smarty.now) >= 20131216 && date("Ymd",$smarty.now) <= 20151231%>
+  <%assign var="adchannelID" value="2002"%>
+  <%assign var=breadcrum value="<a href=\"/tag/2015年度报告/\">2015年度报告</a>"%>
+    <%if date("Ymd",$smarty.now) < 20151216%>
+    <%assign var="hideMPU2" value="yes"%>
+    <%assign var="hideMPU3" value="yes"%>
+    <%assign var="hide590" value="yes"%>
+    <%/if%>
+
+<%elseif (preg_match("/珠宝与腕表/is",implode(",", $story.tag)) || in_array("珠宝与腕表",$story.tag)) && date("Ymd",$smarty.now) <= 20160101%>
+<%assign var=breadcrum value="<a href=\"/tag/珠宝与腕表/\">珠宝与腕表</a>"%>
+<%assign var="adchannelID" value="2029"%>
+<%assign var="hide590" value="no"%>
+<%elseif preg_match("/礼待天下/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20151105 && date("Ymd",$smarty.now) <= 20160131%>
+<%assign var=breadcrum value="<a href=\"/tag/礼待天下\">礼待天下</a>"%>
+<%assign var="adchannelID" value="2049"%>
+<%assign var="hideMPU2" value="no"%>
+<%assign var="hide590" value="no"%>
+<%assign var="hideInReadAd" value="yes"%>
+<%elseif preg_match("/VFTT/is",implode(",", $story.tag))%>
+<%assign var=breadcrum value="<a href=\"/tag/VFTT\">高端视点</a>"%>
+<%assign var="adchannelID" value="2033"%>
+<%assign var="hideMPU2" value="no"%>
+<%assign var="hide590" value="no"%>
+
+<%elseif preg_match("/2016博鳌论坛/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20160301 && date("Ymd",$smarty.now) <= 20160431%>
+<%assign var=breadcrum value="<a href=\"/tag/2016博鳌论坛\">2016博鳌论坛</a>"%>
+<%assign var="adchannelID" value="2003"%>
+<%assign var="hideMPU2" value="yes"%>
+<%assign var="hideMPU3" value="yes"%>
+<%assign var="hide590" value="yes"%>
+
+
+<%elseif preg_match("/2015博鳌论坛/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20150326 && date("Ymd",$smarty.now) <= 20150331%>
+<%assign var=breadcrum value="<a href=\"/tag/2015博鳌论坛\">2015博鳌论坛</a>"%>
+<%assign var="adchannelID" value="2033"%>
+<%assign var="hideMPU2" value="no"%>
+<%assign var="hide590" value="no"%>
+
+<%elseif $story.column == "007000050"%>
+<%assign var="adchannelID" value="2039"%>
+<%assign var="hideMPU2" value="no"%>
+<%assign var="hide590" value="no"%>
+
+<%elseif preg_match("/奢华水上/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20151120 && date("Ymd",$smarty.now) <= 20160215%>
+<%assign var=breadcrum value="<a href=\"/tag/奢华水上\">奢华水上</a>"%>
+<%assign var="adchannelID" value="2048"%>
+<%assign var="hide590" value="no"%>
+<%assign var="hideInReadAd" value="yes"%>
+
+<%elseif preg_match("/新中坚力量/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20140701 && date("Ymd",$smarty.now) <= 20150701%>
+<%assign var=breadcrum value="<a href=\"/tag/新中坚力量\">新中坚力量</a>"%>
+<%assign var="adchannelID" value="2031"%>
+<%assign var="hide590" value="no"%>
+<%assign var="hideInReadAd" value="yes"%>
+<%elseif preg_match("/G7/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) <= 20140630%>
+<%assign var=breadcrum value="<a href=\"/tag/G7\">七国集团峰会</a>"%>
+<%assign var="adchannelID" value="2030"%>
+<%elseif preg_match("/2016中国两会/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) <= 20160331%>
+<%assign var="adchannelID" value="2028"%>
+<%assign var="hide590" value="no"%>
+<%assign var="hideMPU2" value="no"%>
+<%assign var="hideMPU3" value="no"%>
+<%assign var=breadcrum value="<a href=\"/tag/2016中国两会/\">2016中国两会</a>"%>
+<%elseif preg_match("/2015中国两会/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) <= 20150331%>
+<%assign var="adchannelID" value="2028"%>
+<%assign var="hide590" value="yes"%>
+<%assign var="hideMPU2" value="yes"%>
+<%assign var="hideMPU3" value="yes"%>
+<%assign var=breadcrum value="<a href=\"/tag/2015中国两会/\">2015中国两会</a>"%>
+<%elseif preg_match("/2014中国两会/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) <= 20140331%>
+<%assign var=breadcrum value="<a href=\"/tag/2014中国两会/\">2014中国两会</a>"%>
+<%elseif preg_match("/2016达沃斯/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20140122 && date("Ymd",$smarty.now) <= 20160228%>
+<%assign var=adchannelname value="NP_Davos"%>
+<%assign var="adchannelID" value="2008"%>
+<%assign var=breadcrum value="<a href=\"/tag/2016达沃斯/\">2016达沃斯</a>"%>
+<%assign var="hide590" value="yes"%>
+<%assign var="hideMPU2" value="yes"%>
+<%assign var="hideMPU3" value="yes"%>
+<%elseif preg_match("/2015达沃斯/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20140122 && date("Ymd",$smarty.now) <= 20150228%>
+<%assign var=adchannelname value="NP_Davos"%>
+<%assign var="adchannelID" value="2008"%>
+<%assign var=breadcrum value="<a href=\"/tag/2015达沃斯/\">2015达沃斯</a>"%>
+<%assign var="hide590" value="yes"%>
+<%assign var="hideMPU2" value="yes"%>
+<%assign var="hideMPU3" value="yes"%>
+<%elseif preg_match("/2014年经济展望/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20140102 && date("Ymd",$smarty.now) <= 20140130%>
+<%assign var=adchannelname value="NP_Economy_Economyforecast"%>
+<%assign var="adchannelID" value="1305"%>
+<%assign var=breadcrum value="<a href=\"/tag/2014年经济展望/\">2014年经济展望</a>"%>
+<%elseif (preg_match("/与FT共进午餐/is",$story.eheadline)||preg_match("/与FT共进午餐/is",$story.cheadline)||preg_match("/与FT共进午餐/is",implode(",", $story.tag))) && date("Ymd",$smarty.now) <= 20151115%>
+<%assign var=adchannelname value="NP_Lunch_with_FT"%>
+<%assign var="adchannelID" value="2013"%>
+<%assign var="hideInReadAd" value="yes"%>
+<%assign var=breadcrum value="<a href=\"/tag/与FT共进午餐/\">与FT共进午餐</a>"%>
+<%elseif preg_match("/焦点女性/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20131126 && date("Ymd",$smarty.now) <= 20140101%>
+<%assign var=adchannelname value="NP_WomenintheNews"%>
+<%assign var="adchannelID" value="2016"%>
+<%assign var=breadcrum value="<a href=\"/tag/焦点女性/\">焦点女性</a>"%>
+<%assign var="hide590" value="yes"%>
+<%assign var="topnav" value="management"%>
+<%assign var="subnav" value="people"%>
+<%elseif preg_match("/50ideas/is",implode(",", $story.tag))%>
+<%assign var=adchannelname value="NP_50ideas"%>
+<%assign var="adchannelID" value="2017"%>
+<%assign var=breadcrum value="<a href=\"/tag/50ideas/\">50个塑造今日商业世界的观念</a>"%>
+<%assign var="topnav" value="management"%>
+<%assign var="subnav" value="leadership"%>
+<%assign var="thirdnav" value="50ideas"%>
+<%assign var="myTag" value="50ideas"%>
+<%elseif preg_match("/property/is",$story.industry)%>
+<%assign var=adchannelname value="NP_Biz_Real_Estate"%>
+<%assign var="adchannelID" value="1504"%>
+<%assign var="topnav" value="business"%>
+<%assign var="subnav" value="property"%>
+<%elseif preg_match("/商务体育/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) <= 20131231%>
+<%assign var=adchannelname value="NP_BusinessSport"%>
+<%assign var="adchannelID" value="2015"%>
+<%assign var=breadcrum value="<a href=\"/tag/商务体育/\">商务体育</a>"%>
+<%assign var="topnav" value="business"%>
+<%assign var="subnav" value="entertainment"%>
+<%elseif preg_match("/影响世界的人物/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) <= 20131131%>
+<%assign var=adchannelname value="NP_Personinthenews"%>
+<%assign var="adchannelID" value="2006"%>
+<%assign var=breadcrum value="<a href=\"/tag/影响世界的人物/\">影响世界的人物</a>"%>
+<%assign var="hide590" value="yes"%>
+<%assign var="topnav" value="management"%>
+<%assign var="subnav" value="people"%>
+<%elseif preg_match("/城市未来/is",implode(",", $story.tag))%>
+<%assign var=adchannelname value="NP_Economy_Environment"%>
+<%assign var="adchannelID" value="1304"%>
+<%assign var=breadcrum value="<a href=\"/tag/城市未来/\">城市未来</a>"%>
+<%assign var="topnav" value="economy"%>
+<%assign var="subnav" value="environment"%>
+<%assign var="thirdnav" value="futureofcity"%>
+<%elseif (date("Ymd",$smarty.now) <= 20130426 || $adchannelname=="") && (preg_match("/comment/is",$story.genre)) %>
+    <%assign var=adchannelname value="NP_Opinion"%>
+<%assign var="adchannelID" value="1600"%>
+<%elseif preg_match("/达沃斯/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20120910 && date("Ymd",$smarty.now) <= 20150301%>
+<%assign var=adchannelname value="NP_Davos"%>
+<%assign var="adchannelID" value="2008"%>
+<%assign var=breadcrum value="<a href=\"/tag/2015达沃斯/\">2015达沃斯</a>"%>
+<%elseif preg_match("/management/is",$story.topic) && date("Ymd",$smarty.now) <= 20130113%>
+<%assign var=adchannelname value="NP_Management"%>
+<%assign var="adchannelID" value="1700"%>
+<%elseif preg_match("/商务互联/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20131202 && date("Ymd",$smarty.now) <= 20131231%>
+<%assign var=adchannelname value="NP_CommerenceInter"%>
+<%assign var="adchannelID" value="1705"%>
+<%assign var=breadcrum value="<a href=\"/tag/商务互联/\">商务互联</a>"%>
+<%assign var="hide590" value="yes"%>
+
+
+<%elseif (preg_match("/一周新闻人物/is",implode(",", $story.tag))||preg_match("/in the News/is",$story.eheadline)|| in_array($story.id,explode(",","001039753,001039753,001039813,001038818,001038889,001037955"))) && date("Ymd",$smarty.now) >= 20111107 && date("Ymd",$smarty.now) <= 20120401%>
+<%assign var=adchannelname value="NP_Watch_Talent"%>
+<%assign var="adchannelID" value=""%>
+<%assign var=breadcrum value="<a href=\"/topic/maninthenews.html/\">一周新闻人物</a>"%>
+<%elseif preg_match("/艺术品投资/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20120903 && date("Ymd",$smarty.now) <= 20120930%>
+<%assign var=adchannelname value="NP_Art_Investment"%>
+<%assign var="adchannelID" value="2004"%>
+<%assign var=breadcrum value="<a href=\"/tag/艺术品投资/\">艺术品投资特刊</a>"%>
+<%elseif preg_match("/财富管理/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20120901 && date("Ymd",$smarty.now) < 20130801%>
+<%assign var=adchannelname value="NP_BankComm_WealthForecast"%>
+<%assign var="adchannelID" value=""%>
+<%assign var=breadcrum value="<a href=\"/m/marketing/bankcomm.html\">交通银行财富景气指数</a>"%>
+
+<%elseif preg_match("/高品质生活/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20120903 && date("Ymd",$smarty.now) <= 20140930%>
+<%assign var="adchannelID" value="2034"%>
+<%assign var=breadcrum value="<a href=\"/tag/高品质生活/\">高品质生活</a>"%>
+
+<%elseif (preg_match("/2011年中国年度报告/is",implode(",", $story.tag))||preg_match("/年度报告/is",implode(",", $story.tag))) && date("Ymd",$smarty.now) >= 20111121 && date("Ymd",$smarty.now) <= 20120203%>
+<%assign var=adchannelname value="NP_2010_Annual_Report"%>
+<%assign var="adchannelID" value=""%>
+<%assign var=breadcrum value="<a href=\"/topic/2011annualreport.html/\">2011年中国年度报告</a>"%>
+<%elseif (preg_match("/2012年度报告/is",implode(",", $story.tag))||preg_match("/年度报告/is",implode(",", $story.tag))) && date("Ymd",$smarty.now) >= 20121130 && date("Ymd",$smarty.now) <= 20130101%>
+<%assign var=adchannelname value="NP_2012_Annual_Report"%>
+<%assign var="adchannelID" value=""%>
+<%assign var=breadcrum value="<a href=\"/topic/2012annualreport.html/\">2012年中国年度报告</a>"%>
+
+<%elseif (preg_match("/物流中国/is",implode(",", $story.tag))) && date("Ymd",$smarty.now) >= 20121115 && date("Ymd",$smarty.now) <= 20121215%>
+<%assign var=adchannelname value="NP_Advertorial"%>
+<%assign var="adchannelID" value=""%>
+<%assign var=breadcrum value="<a href=\"/tag/%E7%89%A9%E6%B5%81%E4%B8%AD%E5%9B%BD\">物流中国</a>"%>
+
+<%/if%>
+
+
+
+
+<%assign var="channelname" value="<span class=channel id=storybread> `$breadcrum`</span>"%>
+
+<%assign var="storyContent" value=$story_content%>
+<%assign var="storyHeadline" value=`$story.cheadline`%>
+
+<!DOCTYPE html>
+<html class="no-js core" data-next-app="tag-page">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Language" content="zh-CN"/>
+    <title><%$storyHeadline%> - FT中文网</title>
+    <META name=keywords content="<%$tagtitle%>">
+    <meta content="<%$p.meta.description%>" name="description"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <link rel="apple-touch-icon-precomposed" href="http://static.ftchinese.com/img/ipad_icon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="http://static.ftchinese.com" />
+    <link rel="preconnect" href="http://i.ftimg.net" />
+    <script>
+    window.cutsTheMustard = (typeof Function.prototype.bind !== 'undefined');
+    if (window.cutsTheMustard) {
+    document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/, 'js').replace(/\bcore\b/, 'enhanced');
+    }
+    </script>
+    <style>
+    <%include file="next/styles/main-story.css"%>
+    </style>
+    <link rel="icon" type="image/png" href="https://next-geebee.ft.com/assets/brand-alpha/icons/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://next-geebee.ft.com/assets/brand-alpha/icons/favicon-194x194.png" sizes="194x194">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://next-geebee.ft.com/assets/brand-alpha/icons/apple-touch-icon-180x180.png" />
+    <link rel="manifest" href="/assets/manifest/manifest-v2.json" />
+    <meta name="msapplication-TileColor" content="#fff1e0" />
+    <meta name="msapplication-TileImage" content="https://next-geebee.ft.com/assets/brand-alpha/icons/mstile-144x144.png" />
+
+
+    <script>var startTime = new Date().getTime();</script>
+    <script>
+    if ( screen.width<=480) {
+        document.write('<meta content="FT中文网" name="application-name" /><meta content="app-id=443870811" name="apple-itunes-app" />');
+    } else {
+        document.write('<meta content="FT中文网" name="application-name" /><meta content="app-id=396124008" name="apple-itunes-app" />');
+    }
+    </script>
+    <link rel="alternate" type="application/rss+xml" title="FT中文网 - 每日更新" href="/rss/feed" />
+    <link rel="alternate" type="application/rss+xml" title="FT中文网 - 双语阅读" href="/rss/diglossia" />
+    <link rel="alternate" type="application/rss+xml" title="FT中文网 - 今日焦点" href="/rss/news" />
+    <link rel="alternate" type="application/rss+xml" title="FT中文网 - 生活时尚" href="/rss/lifestyle" />
+    <link rel="alternate" type="application/rss+xml" title="FT中文网 - 一周十大热门文章" href="/rss/hotstoryby7day" />
+    <link rel="alternate" type="application/rss+xml" title="FT中文网 - 热门用户评论" href="/rss/hotusercomment" />
+    <link rel="search" type="application/opensearchdescription+xml" title="FT中文网财经搜索" href="/opensearch.xml">
+    <%include file="next/partials/head.html"%>
+    <script type="text/javascript">
+    <%include file="next/scripts/key.js"%>
+    </script>
+    <!--[if lte IE 8]>
+        <script>
+            document.documentElement.className += ' is-ie-8';
+            document.createElement('figure');
+            document.createElement('header');
+            document.createElement('nav');
+            document.createElement('section');
+            document.createElement('article');
+            document.createElement('aside');
+            document.createElement('footer');
+            var wIE = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+            var cssId = 'ie-css';
+            var cssFile = '';
+            if (!document.getElementById(cssId)) {
+                var head  = document.getElementsByTagName('head')[0];
+                var link  = document.createElement('link');
+                link.id   = cssId;
+                link.rel  = 'stylesheet';
+                link.type = 'text/css';
+                cssFile = (wIE>=1200)?'XL':'L';
+                link.href = 'http://static.ftchinese.com/n/main-ie-'+ cssFile +'.css?<%include file="next/timestamp/timestamp.html"%>';
+                link.media = 'all';
+                head.appendChild(link);
+            }
+        </script>
+    <![endif]-->
+  </head>
+  <%assign var="bannerCount" value=0%>
+  <body class="<%$hideDate%>">
+      <%include file="next/partials/header.html"%>
+      <%include file="next/partials/nav.html"%>
+      <%include file="next/partials/banner.html"%>
+      <%assign var="bannerCount" value=$bannerCount+1%>
+      <%include file="next/partials/story-block.html"%>
+      <%include file="next/partials/pagination.html"%>
+      <%include file="next/partials/footer.html"%>
+      <%include file="next/partials/QrCode.html"%>
+  </body>
+<!--[if lte IE 8]>
+<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+<![endif]-->
+<script type="text/javascript">
+  <%include file="next/scripts/main.js"%>
+</script>
+</html>
