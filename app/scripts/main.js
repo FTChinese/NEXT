@@ -74,7 +74,9 @@
   }
 
   function stickyBottomUpdate() {
-    requestAnimationFrame(stickyBottomUpdate);
+    if (typeof requestAnimationFrame === 'function') {
+      requestAnimationFrame(stickyBottomUpdate);
+    }
     if (scrollTop >= gNavOffsetY) {
       if (htmlClass.indexOf(' is-sticky')<0) {
         htmlClass += ' is-sticky';
@@ -137,7 +139,7 @@
       
     }
   }
-  
+
   function requestTick() {
     if(!ticking) {
       requestAnimationFrame(stickyBottomUpdate);
@@ -147,7 +149,11 @@
 
   function stickyBottom() {
     scrollTop = window.scrollY || document.documentElement.scrollTop;
-    requestTick();
+    if (typeof requestAnimationFrame === 'function') {
+      requestTick();
+    } else {
+      stickyBottomUpdate();
+    }
   }
 
 
