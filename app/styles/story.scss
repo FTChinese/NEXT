@@ -5,7 +5,7 @@
 }
 .story-headline {
 	font-size: 1.6em;
-	padding-bottom: 1em;
+	padding-bottom: $defaultPadding/2;
 }
 .story-body {
 	font-size: 1.1em;
@@ -41,4 +41,74 @@
 }
 .story-page .mpu-container.first-child {
 	padding-top: 0;
+}
+.story-theme {
+	font-weight: bold;
+	color: $red;
+	padding-bottom: $defaultPadding/2;
+	a {
+		color: $red;
+	}
+}
+.story-byline {
+	padding-bottom: $defaultPadding/2;
+}
+.story-time {
+	color: $timeGrey;
+	font-size: 0.8em;
+}
+.story-author {
+	font-size: 0.8em;
+	a {
+		color: $red;
+		font-weight: bold;
+	}
+}
+.image {
+	&.story-image {
+		position: static;
+		margin: 0 auto $defaultPadding/2 auto;
+		padding-bottom: 0;
+	}
+	&:hover, &:active {
+		img {		
+			transform: none;
+		}
+	}
+	&.right-image {
+		float: right;
+		width: 50%;
+		margin: 0 0 0 $defaultPadding/2;
+		figure {
+			padding-bottom: $portraitRatio;
+		}
+	}
+}
+.story-box {
+	border: 1px solid $borderColor;
+	margin-bottom: $defaultPadding;
+}
+.box-title {
+	margin: -10px 0 $defaultPadding/2 $defaultPadding/3;
+	font-size: 16px;
+//	font-weight: normal;
+	a {
+		background-color: $defaultPink;
+		padding: 0 $defaultPadding/3;
+	}
+}
+.pagination-inner {
+	text-align: right;
+	height: $mastheadHeight;
+	line-height: $mastheadHeight;
+	span, a {
+		padding-left: $defaultPadding;
+		font-weight: bold;
+	}
+	a {
+		color: $darkGreen;
+		&:hover, &:active {
+			color: black;
+		}
+	}
 }

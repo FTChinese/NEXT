@@ -1,5 +1,8 @@
 # FTChinese Next Project
 
+## Need API Support
+* related stories for bottom, with images
+
 ## Tasks to Change. 2016.03.20
 - We use `gulp-sass` rather than `gulp-ruby-sass`. `gulp-sass` is node's binding to lib sass which is written in C, therefore much faster and compatible with Node.
 
@@ -170,6 +173,23 @@ The core content of the story page includes story title, story body, page header
 It is possible to display landscape or portrait (for example, Lunch with the FT) main image for the story page. All devices should consider this possibility. 
 
 The story page is mostly likely to be opened in an app's webview. So it's important to test how it renders in-app, for example, in WeChat.  
+
+Basic Elements: 
+* main tag in red
+* publish time
+* cover image in both landscape and portrait
+* inline images: three types
+* related stories in the right rail
+
+* share
+* comments
+* print
+* save
+
+
+Need API Support
+* related stories at the bottom, with images
+
 
 The story should also support these inline media types: 
 * Photo Slides
