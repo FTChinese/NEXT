@@ -3,6 +3,7 @@
 // generated on 2015-09-01 using generator-gulp-webapp 0.2.0
 var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();
+var useref = require('gulp-useref');
 
 // To be added.
 /*const fs = require('fs');
@@ -378,18 +379,59 @@ gulp.task('jshint', function () {
 //     .pipe($.eslint.failAfterError());  
 // });
 
-gulp.task('html', ['styles'], function () {
-  var assets = $.useref.assets({searchPath: '{.tmp,app}'});
 
+/*
+
+var gulp = require('gulp'),
+    useref = require('gulp-useref');
+ 
+gulp.task('default', function () {
+    var assets = useref.assets();
+ 
+    return gulp.src('app/*.html')
+        .pipe(assets)
+        .pipe(assets.restore())
+        .pipe(useref())
+        .pipe(gulp.dest('dist'));
+});
+
+
+
+
+
+var gulp = require('gulp'),
+    useref = require('gulp-useref');
+ 
+gulp.task('default', function () {
+    return gulp.src('app/*.html')
+        .pipe(useref())
+        .pipe(gulp.dest('dist'));
+});
+
+*/
+
+
+
+gulp.task('html', ['styles'], function () {
   return gulp.src('app/*.html')
-    .pipe(assets)
+    .pipe($.useref({searchPath: ['.tmp', 'app', '.']}))
     .pipe($.if('*.js', $.uglify()))
-    .pipe($.if('*.css', $.csso()))
-    .pipe(assets.restore())
-    .pipe($.useref())
-    .pipe($.if('*.html', $.minifyHtml({conditionals: true, loose: true})))
+    .pipe($.if('*.css', $.cssnano()))
+    .pipe($.if('*.html', $.htmlmin({collapseWhitespace: true})))
     .pipe(gulp.dest('dist'));
 });
+
+
+
+// gulp.task('html', ['styles', 'scripts'], () => {
+//   return gulp.src('app/*.html')
+//     .pipe($.useref({searchPath: ['.tmp', 'app', '.']}))
+//     .pipe($.if('*.js', $.uglify()))
+//     .pipe($.if('*.css', $.cssnano()))
+//     .pipe($.if('*.html', $.htmlmin({collapseWhitespace: true})))
+//     .pipe(gulp.dest('dist'));
+// });
+
 
 /*gulp.task('html', function() {
   return gulp.src('.tmp/index.html')
