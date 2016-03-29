@@ -19,6 +19,7 @@
   var isRetinaDevice = (window.devicePixelRatio > 1);
   var scrollTop = window.scrollY || document.documentElement.scrollTop;
   var ticking = false;
+  var hostForVideo = '';
 
   function findTop(obj) {
     var curtop = 0;
@@ -157,7 +158,58 @@
   }
 
 
+  // load responsive images
+  function loadImages() {
+    var figures = document.querySelectorAll('figure.loading');
+    var i;
+    for (i=0; i<figures.length; i++) {
+      var thisFigure = figures[i];
+      var imageWidth = thisFigure.offsetWidth;
+      var imageHeight = thisFigure.offsetHeight;
+      var imageUrl = thisFigure.getAttribute('data-url');
+      var figureClass = thisFigure.className || '';
+      var fitType = 'cover';
+      var figureParentClass = thisFigure.parentNode.className || '';
+      if (isRetinaDevice === true) {
+        imageWidth = imageWidth * 2;
+        imageHeight = imageHeight * 2;
+      }
+      if (/brand/.test(figureParentClass)) {
+        fitType = 'contain';
+      }
+      if (/sponsor/.test(figureClass)) {
+        imageUrl = imageUrl.replace('i.ftimg.net', 'i.ftmailbox.com');
+        imageUrl = encodeURIComponent(imageUrl);
+        imageUrl = 'https://image.webservices.ft.com/v1/images/raw/' + imageUrl + '?source=ftchinese&height=' + imageHeight + '&fit=' + fitType;
+        thisFigure.innerHTML = '<img src="' + imageUrl + '">';
+        thisFigure.className = '';
+      } else if (imageWidth > 0 && imageHeight > 0) {
+        imageUrl = imageUrl.replace('i.ftimg.net', 'i.ftmailbox.com');
+        imageUrl = encodeURIComponent(imageUrl);
+        imageUrl = 'https://image.webservices.ft.com/v1/images/raw/' + imageUrl + '?source=ftchinese&width=' + imageWidth + '&height=' + imageHeight + '&fit=' + fitType;
+        thisFigure.innerHTML = '<img src="' + imageUrl + '">';
+        thisFigure.className = '';
+      }
+    }
 
+    // load responsive videos
+    var videos = document.querySelectorAll('figure.loading-video');
+    hostForVideo = '';
+    if (window.location.hostname === 'localhost' || window.location.hostname.indexOf('192.168') === 0 || window.location.hostname.indexOf('10.113') === 0 || window.location.hostname.indexOf('127.0') === 0) {
+      hostForVideo = 'http://www.ftchinese.com';
+    }
+    for (i=0; i<videos.length; i++) {
+      var thisVideo = videos[i];
+      var videoWidth = thisVideo.offsetWidth;
+      var videoHeight = thisVideo.offsetHeight;
+      var videoId = thisVideo.getAttribute('data-vid');
+      if (videoWidth > 0 && videoHeight > 0) {
+        //console.log (videoId + ' Height: ' + videoHeight + ' Width: ' + videoWidth);
+        thisVideo.innerHTML = '<iframe name="video-frame" id="video-frame" style="width:100%;height:100%;position:absolute;" src="' + hostForVideo + '/video/'+ videoId +'?i=2&k=1&w='+videoWidth+'&h='+videoHeight+'&autostart=false" scrolling="no" frameborder="0" allowfullscreen=true></iframe>';
+        thisVideo.className = '';
+      }
+    }
+  }
 
 
   try {
@@ -197,55 +249,9 @@
     document.documentElement.className += ' no-svg';
   }
 
-  // load responsive images
-  var figures = document.querySelectorAll('figure.loading');
-  for (var i=0; i<figures.length; i++) {
-    var thisFigure = figures[i];
-    var imageWidth = thisFigure.offsetWidth;
-    var imageHeight = thisFigure.offsetHeight;
-    var imageUrl = thisFigure.getAttribute('data-url');
-    var figureClass = thisFigure.className || '';
-    var fitType = 'cover';
-    var figureParentClass = thisFigure.parentNode.className || '';
-    if (isRetinaDevice === true) {
-      imageWidth = imageWidth * 2;
-      imageHeight = imageHeight * 2;
-    }
-    if (/brand/.test(figureParentClass)) {
-      fitType = 'contain';
-    }
-    if (/sponsor/.test(figureClass)) {
-      imageUrl = imageUrl.replace('i.ftimg.net', 'i.ftmailbox.com');
-      imageUrl = encodeURIComponent(imageUrl);
-      imageUrl = 'https://image.webservices.ft.com/v1/images/raw/' + imageUrl + '?source=ftchinese&height=' + imageHeight + '&fit=' + fitType;
-      thisFigure.innerHTML = '<img src="' + imageUrl + '">';
-      thisFigure.className = '';
-    } else if (imageWidth > 0 && imageHeight > 0) {
-      imageUrl = imageUrl.replace('i.ftimg.net', 'i.ftmailbox.com');
-      imageUrl = encodeURIComponent(imageUrl);
-      imageUrl = 'https://image.webservices.ft.com/v1/images/raw/' + imageUrl + '?source=ftchinese&width=' + imageWidth + '&height=' + imageHeight + '&fit=' + fitType;
-      thisFigure.innerHTML = '<img src="' + imageUrl + '">';
-      thisFigure.className = '';
-    }
-  }
+  loadImages();
 
-  // load responsive videos
-  var videos = document.querySelectorAll('figure.loading-video');
-  var hostForVideo = '';
-  if (window.location.hostname === 'localhost' || window.location.hostname.indexOf('192.168') === 0 || window.location.hostname.indexOf('10.113') === 0 || window.location.hostname.indexOf('127.0') === 0) {
-    hostForVideo = 'http://www.ftchinese.com';
-  }
-  for (var i=0; i<videos.length; i++) {
-    var thisVideo = videos[i];
-    var videoWidth = thisVideo.offsetWidth;
-    var videoHeight = thisVideo.offsetHeight;
-    var videoId = thisVideo.getAttribute('data-vid');
-    if (videoWidth > 0 && videoHeight > 0) {
-      //console.log (videoId + ' Height: ' + videoHeight + ' Width: ' + videoWidth);
-      thisVideo.innerHTML = '<iframe name="video-frame" id="video-frame" style="width:100%;height:100%;position:absolute;" src="' + hostForVideo + '/video/'+ videoId +'?i=2&k=1&w='+videoWidth+'&h='+videoHeight+'&autostart=false" scrolling="no" frameborder="0" allowfullscreen=true></iframe>';
-      thisFigure.className = '';
-    }
-  }
+
 
   //A cool trick to handle images that fail to load:
   try {
