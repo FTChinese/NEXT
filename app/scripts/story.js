@@ -25,9 +25,8 @@ xhr.onload = function() {
         var maxItem = 8;
         var itemCount = 0;
         var itemHTML = '';
-        if (data.body.oelement.errorcode === 0) {
+        if (data.body.oelement.errorcode === '0') {
         	if (data.body.odatalist && data.body.odatalist.length > 0) {
-        		//console.log (data.body.odatalist.length);
         		for (var i=0; i<data.body.odatalist.length; i++) {
         			var itemClass = 'XL3 L3 M6 S6 P12';
         			var itemHeadline = data.body.odatalist[i].cheadline;
@@ -52,17 +51,11 @@ xhr.onload = function() {
         		}
         	}
         }
+
         document.getElementById('story-recommend').innerHTML = itemHTML;
         loadImages();
-        //console.log (itemHTML);
     } else if (xhr.status !== 200) {
         //alert('Request failed.  Returned status of ' + xhr.status);
     }
 };
 xhr.send(JSON.stringify(message));
-
-
-
-/*
-
-*/
