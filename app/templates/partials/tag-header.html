@@ -1,10 +1,6 @@
 <header class="header-container">
   <div class="header-inner">
-    <%if $allstory|@count==0 && $storyCust|@count==0 && $tagstory2|@count==0 && $adchannelID=="" %>
-      <div class="masthead"></div>
-    <%else%>
-      <div class="header-title"><%$tagtitle%></div>
-    <%/if%>
+    <div class="header-title"><%$tagtitle|default:$channelname|default:"FT中文网"%></div>
     <div class="header-side header-left">
       <div class="header-brand"><figure class="loading" data-url="http://static.ftchinese.com/images/masthead36.png"></figure></div>
     </div>
