@@ -995,7 +995,7 @@
     });
 
     $('body').on('click', '.preview-on-device', function () {
-        var url = 'http://www7.ftchinese.com/';
+        var url = 'http://www7.ftchinese.com/m/corp/p0.html';
         var w = $(this).attr('data-width') || $(window).width();
         var h = $(this).attr('data-height') || $(window).height();
         window.open(url, 'newwindow', 'height=' + h + ',width=' + w + ',top=0,left=0,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no');
