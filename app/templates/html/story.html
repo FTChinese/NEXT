@@ -538,6 +538,17 @@
 	<%assign var="storyHeadline" value=`$story.cheadline`%>
 <%/if%>
 
+<%if $story.cshortleadbody%>
+	<%assign var="storyLead" value=$story.cshortleadbody%>
+<%elseif $story.cshortleadbody%>
+	<%assign var="storyLead" value=$story.cshortleadbody%>
+<%elseif $story.cskylinetext%>
+	<%assign var="storyLead" value=$story.cskylinetext%>
+<%/if%>
+
+<%if $storyLead != ""%>
+	<%assign var="storyLead" value="<div class=\"story-lead\">`$storyLead`</div>"%>
+<%/if%>
 
 <%math assign="timeDiff" equation="x-y" x=$smarty.now y=$story.last_publish_time%>
 <%if $timeDiff < 0%>
@@ -580,30 +591,47 @@
 <%/if%>
 
 <%if $storyImage != ""%>
-	<%assign var="storyImage" value="<div class=\"`$storyImageClass` story-image image\"><figure data-url=`$storyImage` class=\"loading\"></figure></div>"%>
+	<%if in_array("插图",$story.tag)%>
+		<%assign var="storyImageInline" value="<div class=\"rightPic\"><img src=`$storyImage`></div>"%>
+	<%else%>
+		<%assign var="storyImageTop" value="<div class=\"`$storyImageClass` story-image image\"><figure data-url=`$storyImage` class=\"loading\"></figure></div>"%>
+	<%/if%>
 <%/if%>
 
 <%assign var="storyBody" value=$story.cbody|regex_replace:"/@ftchinese.com/":"@ftmail.com"|regex_replace:"/<p>[_-]+<\/p>/":"<hr/><br/>"%>
 
-<%assign var="story_content" value=$story_content|regex_replace:"/<div class=[\"]*inlinevideo[\"]* id=[\"]*([A-Za-z0-9]+)[\"]* auto[sS]tart=[\"]*([a-zA-Z]+)[\"]* title=\"(.*)\" image=\"(.*)\" vid=\"(.*)\"><\/div>/":"<div class='o-responsive-video-container'><div class='o-responsive-video-wrapper-outer'><div class='o-responsive-video-wrapper-inner'><script src='http://union.bokecc.com/player?vid=\\1&siteid=922662811F1A49E9&autoStart=\\2&width=100%&height=100%&playerid=3571A3BF2AEC8829&playertype=1'></script></div></div><a class='o-responsive-video-caption' href='/video/\\5' target='_blank'>\\3</a></div>"%>
-<%assign var="storyBody" value=$storyBody|regex_replace:"/<div class=[\"]*inlinevideo[\"]* id=[\"]*([A-Za-z0-9]+)[\"]* auto[sS]tart=[\"]*([a-zA-Z]+)[\"]* title=\"(.*)\" image=\"(.*)\" vid=\"(.*)\"><\/div>/":"<div class='o-responsive-video-container'><div class='o-responsive-video-wrapper-outer'><div class='o-responsive-video-wrapper-inner'><script src='http://union.bokecc.com/player?vid=\\1&siteid=922662811F1A49E9&autoStart=\\2&width=100%&height=100%&playerid=3571A3BF2AEC8829&playertype=1'></script></div></div><a class='o-responsive-video-caption' href='/video/\\5' target='_blank'>\\3</a></div>"%>
+<%if $page_action=="ce"%>
+<%assign var="storyLanguage" value=" ce"%>
+<%elseif $page_action=="en"%>
+<%assign var="storyLanguage" value=" en"%>
+<%/if%>
 
-<%assign var="story_content" value=$story_content|regex_replace:"/<div class=[\"]*inlinevideo[\"]* id=[\"]*[\"]* auto[sS]tart=[\"]*([a-zA-Z]+)[\"]* title=\"(.*)\" image=\"(.*)\" vid=\"(.*)\" vsource=\"(.*)\"><\/div>/":"<div class='o-responsive-video-container'><div class='o-responsive-video-wrapper-outer'><div class='o-responsive-video-wrapper-inner'><object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' width='100%' height='100%' id='osmfPlayer'><param name='movie' value='http://static.ftchinese.com/player111014/osmfPlayer_3.swf?videoid=\\4&autoplay=false' /><param name='quality' value='high' /><param name='bgcolor' value='#000000' /><param name='allowScriptAccess' value='always' /><param name='allowFullScreen' value='true' /><!--[if !IE]>--><object type='application/x-shockwave-flash' data='http://static.ftchinese.com/player111014/osmfPlayer_3.swf?videoid=\\4&autoplay=false' width='100%' height='100%'><param name='quality' value='high' /><param name='bgcolor' value='#000000' /><param name='allowFullScreen' value='true' /><param name='allowScriptAccess' value='always' /><!--<![endif]--><!--[if gte IE 6]>--><video id='nowvideo' src='http://v.ftimg.net/\\5' controls='' width='100%' height='100%'><p>Either scripts and active content are not permitted to run or Adobe Flash Player version10.0.0 or greater is not installed.</p></video><!--<![endif]--><!--[if !IE]>--></object><!--<![endif]--></object></div></div><a class='o-responsive-video-caption' href='/video/\\4' target='_blank'>\\2</a></div>"%>
-<%assign var="storyBody" value=$storyBody|regex_replace:"/<div class=[\"]*inlinevideo[\"]* id=[\"]*[\"]* auto[sS]tart=[\"]*([a-zA-Z]+)[\"]* title=\"(.*)\" image=\"(.*)\" vid=\"(.*)\" vsource=\"(.*)\"><\/div>/":"<div class='o-responsive-video-container'><div class='o-responsive-video-wrapper-outer'><div class='o-responsive-video-wrapper-inner'><object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' width='100%' height='100%' id='osmfPlayer'><param name='movie' value='http://static.ftchinese.com/player111014/osmfPlayer_3.swf?videoid=\\4&autoplay=false' /><param name='quality' value='high' /><param name='bgcolor' value='#000000' /><param name='allowScriptAccess' value='always' /><param name='allowFullScreen' value='true' /><!--[if !IE]>--><object type='application/x-shockwave-flash' data='http://static.ftchinese.com/player111014/osmfPlayer_3.swf?videoid=\\4&autoplay=false' width='100%' height='100%'><param name='quality' value='high' /><param name='bgcolor' value='#000000' /><param name='allowFullScreen' value='true' /><param name='allowScriptAccess' value='always' /><!--<![endif]--><!--[if gte IE 6]>--><video id='nowvideo' src='http://v.ftimg.net/\\5' controls='' width='100%' height='100%'><p>Either scripts and active content are not permitted to run or Adobe Flash Player version10.0.0 or greater is not installed.</p></video><!--<![endif]--><!--[if !IE]>--></object><!--<![endif]--></object></div></div><a class='o-responsive-video-caption' href='/video/\\4' target='_blank'>\\2</a></div>"%>
-
-<%if (in_array("单页",$story.tag) || $smarty.get.full=="y") && $page_action=="en"%>
-	<%assign var="story_content" value=$story.ebody%>
-<%elseif (!in_array("单页",$story.tag) && $smarty.get.full!="y") || $page_action=="en"%>
-	<%if $hideMPU3 == "yes"%>
-	    <%assign var="story_content" value=$story_content|replace:"<div id=\"story_main_mpu\"></div>":""%>
-	<%else%>
-		<%assign var="story_content" value=$story_content|replace:"<div id=\"story_main_mpu\"></div>":"<div id=\"story_main_mpu\"><script type=\"text/javascript\">document.write (writeAd('storympu'));</script></div>"%>
-	<%/if%>
-<%elseif !preg_match("/highcharts/is",$storyBody) && !preg_match("/img/is",$storyBody) && !preg_match("/iframe/is",$storyBody) && !preg_match("/video/is",$storyBody) && hideMPU3!="yes"%>
-<%*<!--在单页的情况下，如果文章没有插图，没有iframe，没有video，没有highcharts, 也没有被强制设为不显示MPU 3，则将MPU_3广告位插入到第五段开头。-->*%>
-	 <%assign var="story_content" value=$storyBody|regex_replace:"/[\r\t\n]/":""|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1<div id=story_main_mpu><script type=\"text/javascript\">document.write (writeAd('storympu'));</script></div><p>"%>
+<%if $page_action=="ce"%>
+	<%assign var="story_content" value=""%>
+	<%foreach item=body from=$storyce%>
+	<%assign var="story_content" value="`$story_content`<div class=leftp>`$body.l`</div><div class=rightp>`$body.r`</div><div class=clearfloat></div>"%>
+	<%/foreach%>
 <%else%>
-	<%assign var="story_content" value=$storyBody%>
+	<%assign var="story_content" value=$story_content|regex_replace:"/<div class=[\"]*inlinevideo[\"]* id=[\"]*([A-Za-z0-9]+)[\"]* auto[sS]tart=[\"]*([a-zA-Z]+)[\"]* title=\"(.*)\" image=\"(.*)\" vid=\"(.*)\"><\/div>/":"<div class='o-responsive-video-container'><div class='o-responsive-video-wrapper-outer'><div class='o-responsive-video-wrapper-inner'><script src='http://union.bokecc.com/player?vid=\\1&siteid=922662811F1A49E9&autoStart=\\2&width=100%&height=100%&playerid=3571A3BF2AEC8829&playertype=1'></script></div></div><a class='o-responsive-video-caption' href='/video/\\5' target='_blank'>\\3</a></div>"%>
+	<%assign var="storyBody" value=$storyBody|regex_replace:"/<div class=[\"]*inlinevideo[\"]* id=[\"]*([A-Za-z0-9]+)[\"]* auto[sS]tart=[\"]*([a-zA-Z]+)[\"]* title=\"(.*)\" image=\"(.*)\" vid=\"(.*)\"><\/div>/":"<div class='o-responsive-video-container'><div class='o-responsive-video-wrapper-outer'><div class='o-responsive-video-wrapper-inner'><script src='http://union.bokecc.com/player?vid=\\1&siteid=922662811F1A49E9&autoStart=\\2&width=100%&height=100%&playerid=3571A3BF2AEC8829&playertype=1'></script></div></div><a class='o-responsive-video-caption' href='/video/\\5' target='_blank'>\\3</a></div>"%>
+
+	<%assign var="story_content" value=$story_content|regex_replace:"/<div class=[\"]*inlinevideo[\"]* id=[\"]*[\"]* auto[sS]tart=[\"]*([a-zA-Z]+)[\"]* title=\"(.*)\" image=\"(.*)\" vid=\"(.*)\" vsource=\"(.*)\"><\/div>/":"<div class='o-responsive-video-container'><div class='o-responsive-video-wrapper-outer'><div class='o-responsive-video-wrapper-inner'><object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' width='100%' height='100%' id='osmfPlayer'><param name='movie' value='http://static.ftchinese.com/player111014/osmfPlayer_3.swf?videoid=\\4&autoplay=false' /><param name='quality' value='high' /><param name='bgcolor' value='#000000' /><param name='allowScriptAccess' value='always' /><param name='allowFullScreen' value='true' /><!--[if !IE]>--><object type='application/x-shockwave-flash' data='http://static.ftchinese.com/player111014/osmfPlayer_3.swf?videoid=\\4&autoplay=false' width='100%' height='100%'><param name='quality' value='high' /><param name='bgcolor' value='#000000' /><param name='allowFullScreen' value='true' /><param name='allowScriptAccess' value='always' /><!--<![endif]--><!--[if gte IE 6]>--><video id='nowvideo' src='http://v.ftimg.net/\\5' controls='' width='100%' height='100%'><p>Either scripts and active content are not permitted to run or Adobe Flash Player version10.0.0 or greater is not installed.</p></video><!--<![endif]--><!--[if !IE]>--></object><!--<![endif]--></object></div></div><a class='o-responsive-video-caption' href='/video/\\4' target='_blank'>\\2</a></div>"%>
+	<%assign var="storyBody" value=$storyBody|regex_replace:"/<div class=[\"]*inlinevideo[\"]* id=[\"]*[\"]* auto[sS]tart=[\"]*([a-zA-Z]+)[\"]* title=\"(.*)\" image=\"(.*)\" vid=\"(.*)\" vsource=\"(.*)\"><\/div>/":"<div class='o-responsive-video-container'><div class='o-responsive-video-wrapper-outer'><div class='o-responsive-video-wrapper-inner'><object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' width='100%' height='100%' id='osmfPlayer'><param name='movie' value='http://static.ftchinese.com/player111014/osmfPlayer_3.swf?videoid=\\4&autoplay=false' /><param name='quality' value='high' /><param name='bgcolor' value='#000000' /><param name='allowScriptAccess' value='always' /><param name='allowFullScreen' value='true' /><!--[if !IE]>--><object type='application/x-shockwave-flash' data='http://static.ftchinese.com/player111014/osmfPlayer_3.swf?videoid=\\4&autoplay=false' width='100%' height='100%'><param name='quality' value='high' /><param name='bgcolor' value='#000000' /><param name='allowFullScreen' value='true' /><param name='allowScriptAccess' value='always' /><!--<![endif]--><!--[if gte IE 6]>--><video id='nowvideo' src='http://v.ftimg.net/\\5' controls='' width='100%' height='100%'><p>Either scripts and active content are not permitted to run or Adobe Flash Player version10.0.0 or greater is not installed.</p></video><!--<![endif]--><!--[if !IE]>--></object><!--<![endif]--></object></div></div><a class='o-responsive-video-caption' href='/video/\\4' target='_blank'>\\2</a></div>"%>
+
+	<%if (in_array("单页",$story.tag) || $smarty.get.full=="y") && $page_action=="en"%>
+		<%assign var="story_content" value=$story.ebody%>
+	<%elseif (!in_array("单页",$story.tag) && $smarty.get.full!="y") || $page_action=="en"%>
+		<%if $hideMPU3 == "yes"%>
+		    <%assign var="story_content" value=$story_content|replace:"<div id=\"story_main_mpu\"></div>":""%>
+		<%else%>
+			<%assign var="story_content" value=$story_content|replace:"<div id=\"story_main_mpu\"></div>":"<div id=\"story_main_mpu\"><script type=\"text/javascript\">document.write (writeAd('storympu'));</script></div>"%>
+		<%/if%>
+	<%elseif !preg_match("/highcharts/is",$storyBody) && !preg_match("/img/is",$storyBody) && !preg_match("/iframe/is",$storyBody) && !preg_match("/video/is",$storyBody) && hideMPU3!="yes"%>
+	<%*<!--在单页的情况下，如果文章没有插图，没有iframe，没有video，没有highcharts, 也没有被强制设为不显示MPU 3，则将MPU_3广告位插入到第五段开头。-->*%>
+		 <%assign var="story_content" value=$storyBody|regex_replace:"/[\r\t\n]/":""|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1<div id=story_main_mpu><script type=\"text/javascript\">document.write (writeAd('storympu'));</script></div><p>"%>
+	<%else%>
+		<%assign var="story_content" value=$storyBody%>
+	<%/if%>
 <%/if%>
 
 <!DOCTYPE html>

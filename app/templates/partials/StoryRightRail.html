@@ -12,13 +12,14 @@
 		</div>
 	<%/if%>
 
+
 	<div class="story-box">
-		<h2 class="box-title"><a href="/channel/weekly.html">十大热门文章</a></h2>
+		<h2 class="box-title"><a href="/channel/weekly.html">热门文章</a></h2>
 		<ul class="top10">
 			<%assign var="i" value=0%>
-			<%assign var="mp" value=$storymodel->get_hot_story(1,15) %>
+			<%assign var="mp" value=$storymodel->get_hot_story(1,10) %>
 			<%foreach item=sc from=$mp%>
-			<%if $sc.storyid!="001033136" && $i<10%>
+			<%if $i<10%>
 				<%assign var="i" value=$i+1%>
 				<li class="mp<%$i%>"><span><%$i%>. </span><a target="_blank" href="/story/<%$sc.storyid%>?dailypop"><%$sc.cheadline%></a></li>
 			<%/if%>
@@ -26,10 +27,37 @@
 		</ul>
 	</div>
 
+
+
 	<%if $smarty.get.ad != "no"%>
-		<div class="mpu-container last-child">
+		<div class="mpu-container">
 		    <script type="text/javascript">document.write (writeAd('mpu'));</script>
 		</div>
 	<%/if%>
+
+
+
+	<%easyapi command="10008" storyid=$story.id debug=false %>
+	<%if $data.odatalist|@count>1%>
+		<div class="story-box last-child">
+			<h2 class="box-title"><a href="/channel/weekly.html">相关文章</a></h2>
+			<ul class="top10">
+				<%foreach from=$data.odatalist item=sc%>
+					<li class="mp<%$i%>"><a target="_blank" href="/story/<%$sc.storyid%>"><%$sc.cheadline%></a></li>
+				<%/foreach%>
+			</ul>
+		</div>
+	<%elseif $relative_story|@count>=1%>
+		<%assign var="i" value=0%>
+		<div class="story-box last-child">
+			<h2 class="box-title"><a href="/channel/weekly.html">相关文章2</a></h2>
+			<ul class="top10">
+				<%foreach from=$relative_story item=sc%>
+					<li class="mp<%$i%>"><a target="_blank" href="/story/<%$sc.storyid%>"><%$sc.cheadline%></a></li>
+				<%/foreach%>
+			</ul>
+		</div>
+	<%/if%>
+
 
 </div></div>

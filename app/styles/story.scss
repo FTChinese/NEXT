@@ -2,10 +2,19 @@
 	padding: 0 $defaultPadding/2;
 	max-width: 680px;
 	margin: auto;
+	&.ce {
+		max-width: 100%;
+	}
 }
 .story-headline {
 	font-size: 1.6em;
 	padding-bottom: $defaultPadding/2;
+	line-height: $goldenRatio;
+}
+.story-lead {
+	font-size: 1.1em;
+	padding-bottom: $defaultPadding/2;
+	line-height: $goldenRatio;
 }
 .story-body {
 	font-size: 1.1em;
@@ -17,16 +26,169 @@
 		&:first-child {
 			text-indent: 0;
 			&:first-letter {
-			display: block;
-		    float: left;
-		    margin: 3px 4px -14px 0;
-		    font-size: 3.285714em;
-		    line-height: 100%;
-		    text-transform: uppercase;
-		    font-weight: 400;
-		    font-style: normal;
-		    text-decoration: none;
-				}
+				display: block;
+			    float: left;
+			    margin: 3px 4px -14px 0;
+			    font-size: 3.285714em;
+			    line-height: 100%;
+			    text-transform: uppercase;
+			    font-weight: 400;
+			    font-style: normal;
+			    text-decoration: none;
+			}
+		}
+
+	}
+}
+
+.story-share-placeholder {
+	height: 38px;
+}
+.story-share {
+    overflow: hidden;
+    //margin: $defaultPadding/2 0;
+    padding: 5px 0;
+    border-top: 1px solid $borderColor;
+    border-bottom: 1px solid $borderColor;
+}
+.share-sticky {
+	.story-share {
+		position: fixed;
+	    top: 0;
+	    width: 100%;
+	    height: $navHeight;
+	    left: 0;
+	    right: 0;
+	    background-color: $darkGrey;
+	    border:0;
+	    z-index: 9999999;
+	}
+	.share-inner {
+		max-width: $maxWidth;
+		padding: 0 $defaultPadding;
+		margin: 5px auto 0 auto;
+	}
+	.icon-right {
+		button {
+			background-color: $blue;
+			color: white;
+			&:hover, &:active {
+				background-color: $red;
+			}
+		}
+	}
+	.icon-comments {
+	    background-image: url(http://static.ftchinese.com/img/svg/comments-white.svg);
+	    background-image: url(http://static.ftchinese.com/img/png/comments-white.png)\9;
+	}
+	.icon-print {
+	    background-image: url(http://static.ftchinese.com/img/svg/print-white.svg);
+	    background-image: url(http://static.ftchinese.com/img/png/print-white.png)\9;
+	}
+}
+.share-icon {
+	float: left;
+    background-size: 100% 100%;
+    width: 24px;
+    height: 24px;
+    overflow: hidden;
+    display: block;
+    margin-right: 12px;
+}
+.icon-twitter {
+    background-image: url(//image.webservices.ft.com/v1/images/raw/ftsocial:twitter?source=o-share&format=png&width=24);
+    background: rgba(0,0,0,.0001) url(//image.webservices.ft.com/v1/images/raw/ftsocial:twitter?source=o-share&format=svg) center/100% no-repeat;
+}
+.icon-facebook {
+    background-image: url(//image.webservices.ft.com/v1/images/raw/ftsocial:facebook?source=o-share&format=png&width=24);
+    background: rgba(0,0,0,.0001) url(//image.webservices.ft.com/v1/images/raw/ftsocial:facebook?source=o-share&format=svg) center/100% no-repeat;
+}
+.icon-linkedin {
+    background-image: url(//image.webservices.ft.com/v1/images/raw/ftsocial:linkedin?source=o-share&format=png&width=24);
+    background: rgba(0,0,0,.0001) url(//image.webservices.ft.com/v1/images/raw/ftsocial:linkedin?source=o-share&format=svg) center/100% no-repeat;
+}
+.icon-wechat {
+    background-image: url(http://static.ftchinese.com/img/png/social-wechat.png);
+    background: rgba(0,0,0,.0001) url(http://static.ftchinese.com/img/svg/social-wechat.svg) center/100% no-repeat;
+}
+.icon-weibo {
+    background-image: url(http://static.ftchinese.com/img/png/social-weibo.png);
+    background: rgba(0,0,0,.0001) url(http://static.ftchinese.com/img/svg/social-weibo.svg) center/100% no-repeat;
+}
+.icon-right {
+	float: right;
+	margin-left: 12px;
+	display: block;
+	button {
+	    display: inline-block;
+	    -webkit-box-sizing: border-box;
+	    box-sizing: border-box;
+	    vertical-align: middle;
+	    margin: 0;
+	    outline: 0;
+	    border-style: solid;
+	    text-align: center;
+	    text-decoration: none;
+	    //font-family: MetricWeb,sans-serif;
+	    font-weight: 600;
+	    border-radius: 3px;
+	    cursor: pointer;
+	    -webkit-transition: .3s background-color,.15s color ease-out,.15s border-color ease-out;
+	    transition: .3s background-color,.15s color ease-out,.15s border-color ease-out;
+	    -moz-appearance: none;
+	    -webkit-appearance: none;
+	    -webkit-user-select: none;
+	    -moz-user-select: none;
+	    -ms-user-select: none;
+	    user-select: none;
+	    background-clip: padding-box;
+	    -webkit-font-smoothing: antialiased;
+	    -moz-osx-font-smoothing: grayscale;
+	    background-size: 16px;
+	    min-height: 26px;
+	    min-width: 26px;
+	    padding: 5px 8px 5px 8px;
+	    font-size: 14px;
+	    line-height: 14px;
+	    border-width: 1px;
+	    color: #27757b;
+	    background-color: rgba(255,255,255,.4);
+	    border-color: rgba(39,117,123,.15);
+	    &:hover, &:active {
+	    	background-color: rgba(39,117,123,.08);
+    		border-color: rgba(39,117,123,.3);
+	    }
+	}
+}
+.icon-action {
+    width: 25px;
+    height: 25px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: 50%;
+    background-color: transparent;
+}
+.icon-comments {
+	background-size: 20px 20px;
+    background-image: url(http://static.ftchinese.com/img/svg/comments.svg);
+    background-image: url(http://static.ftchinese.com/img/png/comments.png)\9;
+}
+.icon-print {
+    background-image: url(http://static.ftchinese.com/img/svg/print.svg);
+    background-image: url(http://static.ftchinese.com/img/png/print.png)\9;
+}
+.ce .story-body {
+	p {
+		text-indent: 0;
+		&:first-child {
+			&:first-letter {
+				display: inline;
+			    float: none;
+			    margin: 0;
+			    font-size: 1em;
+			    line-height: 100%;
+			    font-weight: normal;
+			}
 		}
 
 	}
@@ -54,7 +216,7 @@
 	}
 }
 .story-byline {
-	padding-bottom: $defaultPadding/2;
+	padding: $defaultPadding/2 0;
 }
 .story-time {
 	color: $timeGrey;
@@ -121,6 +283,7 @@
 #story_main_mpu {
 	width: 100%;
 	padding: $defaultPadding/2 0;
+	margin-bottom: $defaultPadding/2;
 	background-color: $bannerBG;
 	clear: both;
 	iframe {
@@ -158,6 +321,20 @@
 		width:300px;
 		margin:0 auto 10px auto;
 	}
+}
+
+.leftp, .rightp {
+	width: 48%;
+}
+.leftp {
+	float: left;
+	font-family: Georgia,serif;
+}
+.rightp {
+	float: right;
+}
+.en {
+	font-family: Georgia,serif;
 }
 
 @media only screen and (max-width: 490px) {

@@ -5,6 +5,8 @@
   var bodyHeight;
   var gNavOffsetY;
   var gNavHeight = 44;
+  var gShareOffsetY;
+//  var gShareHeight = 38;
   var defaultPadding = 30;
   var hasSideWidth = 690;
   var sectionsWithSide = document.querySelectorAll('.block-container.has-side');
@@ -60,6 +62,9 @@
   function stickyBottomPrepare() {
     gNavOffsetY = findTop(document.getElementById('nav-place-holder'));
     bodyHeight = getBodyHeight();
+    if (document.getElementById('story-share-placeholder')) {
+      gShareOffsetY = findTop(document.getElementById('story-share-placeholder'));
+    }
     w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
     if (sectionsWithSide.length > 0) {
       for (var i=0; i<sectionsWithSide.length; i++) {
@@ -75,18 +80,31 @@
   }
 
   function stickyBottomUpdate() {
+    var htmlClassNew = htmlClass.replace(/ is-sticky/g, '').replace(/ share-sticky/g, '');
     if (typeof requestAnimationFrame === 'function') {
       requestAnimationFrame(stickyBottomUpdate);
     }
-    if (scrollTop >= gNavOffsetY) {
-      if (htmlClass.indexOf(' is-sticky')<0) {
-        htmlClass += ' is-sticky';
+    if (typeof gShareOffsetY === 'number' && gShareOffsetY > gNavOffsetY) {
+      if (scrollTop >= gShareOffsetY) {
+        htmlClassNew += ' share-sticky';
+      } else if (scrollTop >= gNavHeight) {
+        htmlClassNew += ' is-sticky'; 
+      }
+      if (htmlClassNew !== htmlClass) {
+        htmlClass = htmlClassNew;
         document.documentElement.className = htmlClass;
       }
     } else {
-      if (htmlClass.indexOf(' is-sticky')>=0) {
-        htmlClass = htmlClass.replace(/ is-sticky/g, '');
-        document.documentElement.className = htmlClass;
+      if (scrollTop >= gNavOffsetY) {
+        if (htmlClass.indexOf(' is-sticky')<0) {
+          htmlClass += ' is-sticky';
+          document.documentElement.className = htmlClass;
+        }
+      } else {
+        if (htmlClass.indexOf(' is-sticky')>=0) {
+          htmlClass = htmlClass.replace(/ is-sticky/g, '');
+          document.documentElement.className = htmlClass;
+        }
       }
     }
     if (sectionsWithSideLength > 0 && w > hasSideWidth) {

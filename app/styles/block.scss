@@ -36,9 +36,11 @@
 			position: fixed;
 			bottom: 0;
 			max-width: $maxWidth - 1.5 * $defaultPadding - $sideWidth;
+			//right: $sideWidth + $defaultPadding;
 		}
 		.content-inner {
 			border-width: 0;
+			//margin-left: $sideWidth + $defaultPadding * 1.5;
 		}
 		&.side-left {
 			.content-container {
@@ -96,8 +98,11 @@
 	margin: auto;
 }
 
+.block-title {
+	display: none;
+}
 .list-title {
-	font-size: 1.1em;
+	font-size: 1.2em;
 	position: relative;
 	height: $listTitleHeight;
 	margin: 0 $defaultPadding/2 $defaultPadding/2 $defaultPadding/2;
@@ -107,7 +112,7 @@
 		position: absolute;
 		height: 100%;
 		left: 0;
-		padding-right: 5px;
+		padding-right: $defaultPadding/3;
 		background-color: $defaultPink;
 		&:hover, &:active {
 			color: $red;
@@ -127,12 +132,13 @@
 	&:before {
 	    content: '';
 	    position: absolute;
-	    height: 3px;
-	    background-color: $borderColor;
+	    height: 18px;
+	    //background-color: $borderColor;
 	    top: 0;
 	    bottom: 0;
 	    width: 100%;
 	    margin:auto;
+	    background: url("http://static.ftchinese.com/img/front-page-section-header.png") repeat transparent;
 	}
 }
 

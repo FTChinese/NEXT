@@ -111,47 +111,58 @@ gulp.task('copy', ['build'], function () {
 
   gulp.src('dist/styles/*.css')
     .pipe(gulp.dest('../dev_www/frontend/static/n'))
-    .pipe(gulp.dest('../dev_www/frontend/tpl/next/styles'));
+    .pipe(gulp.dest('../dev_www/frontend/tpl/next/styles'))
+    .pipe(gulp.dest('../testing/dev_www/frontend/tpl/next/styles'));
 
   gulp.src('dist/styles/partials/*.css')
-    .pipe(gulp.dest('../dev_www/frontend/tpl/next/styles'));
+    .pipe(gulp.dest('../dev_www/frontend/tpl/next/styles'))
+    .pipe(gulp.dest('../testing/dev_www/frontend/tpl/next/styles'));
 
   gulp.src('dist/scripts/*.js')
     .pipe(gulp.dest('../dev_www/frontend/static/n'))
-    .pipe(gulp.dest('../dev_www/frontend/tpl/next/scripts'));
+    .pipe(gulp.dest('../dev_www/frontend/tpl/next/scripts'))
+    .pipe(gulp.dest('../testing/dev_www/frontend/tpl/next/scripts'));
 
   gulp.src('dist/m/marketing/*')
-    .pipe(gulp.dest('../dev_www/frontend/tpl/marketing'));
+    .pipe(gulp.dest('../dev_www/frontend/tpl/marketing'))
+    .pipe(gulp.dest('../testing/dev_www/frontend/tpl/marketing'));
 
   gulp.src('app/api/page/*')
-    .pipe(gulp.dest('../dev_www/frontend/tpl/next/api/page'));
+    .pipe(gulp.dest('../dev_www/frontend/tpl/next/api/page'))
+    .pipe(gulp.dest('../testing/dev_www/frontend/tpl/next/api/page'));
 
   gulp.src('dist/**/*')
-    .pipe(gulp.dest('../dev_cms/pagemaker'));
+    .pipe(gulp.dest('../dev_cms/pagemaker'))
+    .pipe(gulp.dest('../testing/dev_cms/pagemaker'));
 
   gulp.src('app/api/**/*')
-    .pipe(gulp.dest('../dev_cms/pagemaker/api'));
+    .pipe(gulp.dest('../dev_cms/pagemaker/api'))
+    .pipe(gulp.dest('..testing/dev_cms/pagemaker/api'));
 
   gulp.src('app/templates/p0.html')
     .pipe(replace(/([\r\n])[ \t]+/g, '$1'))
     .pipe(replace(/(\r\n)+/g, '\r\n'))
     .pipe(replace(/(\n)+/g, '\n'))
-    .pipe(gulp.dest('../dev_www/frontend/tpl/corp'));
+    .pipe(gulp.dest('../dev_www/frontend/tpl/corp'))
+    .pipe(gulp.dest('../testing/dev_www/frontend/tpl/corp'));
 
   gulp.src('app/templates/partials/**/*')
     .pipe(replace(/([\r\n])[ \t]+/g, '$1'))
     .pipe(replace(/(\r\n)+/g, '\r\n'))
     .pipe(replace(/(\n)+/g, '\n'))
-    .pipe(gulp.dest('../dev_www/frontend/tpl/next/partials'));
+    .pipe(gulp.dest('../dev_www/frontend/tpl/next/partials'))
+    .pipe(gulp.dest('../testing/dev_www/frontend/tpl/next/partials'));
 
   gulp.src('app/templates/html/**/*')
     .pipe(replace(/([\r\n])[ \t]+/g, '$1'))
     .pipe(replace(/(\r\n)+/g, '\r\n'))
     .pipe(replace(/(\n)+/g, '\n'))
-    .pipe(gulp.dest('../dev_www/frontend/tpl/next/html'));
+    .pipe(gulp.dest('../dev_www/frontend/tpl/next/html'))
+    .pipe(gulp.dest('../testing/dev_www/frontend/tpl/next/html'));
 
 
   var fileName = '../dev_www/frontend/tpl/next/timestamp/timestamp.html';
+  var fileName2 = '../testing/dev_www/frontend/tpl/next/timestamp/timestamp.html';
   var fs = require('fs');
   fs.writeFile(fileName, thedatestamp, function(err) {
       if(err) {
@@ -160,6 +171,14 @@ gulp.task('copy', ['build'], function () {
       console.log(thedatestamp);
       console.log('writen to');
       console.log(fileName);
+  });
+  fs.writeFile(fileName2, thedatestamp, function(err) {
+      if(err) {
+          return console.log(err);
+      }
+      console.log(thedatestamp);
+      console.log('writen to');
+      console.log(fileName2);
   });
 
 });

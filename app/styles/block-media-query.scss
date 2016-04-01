@@ -125,3 +125,17 @@
 @media only screen and (max-width: 490px) {
 	@include P;
 }
+
+@media only screen and (max-width: 1220px) {
+	.block-container {
+		&.fixmain, &.bottommain {
+			.content-container {
+				right: $sideWidth + $defaultPadding;
+				max-width: 100%;
+			}
+			.content-inner {
+				margin-left: $sideWidth + $defaultPadding * 1.5;
+			}
+		}
+	}
+}
