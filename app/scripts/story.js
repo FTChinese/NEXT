@@ -53,6 +53,7 @@ xhr.onload = function() {
         }
 
         document.getElementById('story-recommend').innerHTML = itemHTML;
+        document.getElementById('story-recommend-container').style = 'block';
         loadImages();
     } else if (xhr.status !== 200) {
         //alert('Request failed.  Returned status of ' + xhr.status);

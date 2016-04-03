@@ -538,14 +538,14 @@
 	<%assign var="storyHeadline" value=`$story.cheadline`%>
 <%/if%>
 
-<%if $story.cshortleadbody%>
+<%if $story.cshortleadbody && $story.cshortleadbody != ""%>
 	<%assign var="storyLead" value=$story.cshortleadbody%>
-<%elseif $story.cshortleadbody%>
-	<%assign var="storyLead" value=$story.cshortleadbody%>
-<%elseif $story.cskylinetext%>
+<%elseif $story.clongleadbody && $story.clongleadbody != ""%>
+	<%assign var="storyLead" value=$story.clongleadbody%>
+<%elseif $story.cskylinetext && $story.cskylinetext != ""%>
 	<%assign var="storyLead" value=$story.cskylinetext%>
 <%/if%>
-
+<%assign var="shareLead" value=$storyLead%>
 <%if $storyLead != ""%>
 	<%assign var="storyLead" value="<div class=\"story-lead\">`$storyLead`</div>"%>
 <%/if%>
@@ -592,7 +592,7 @@
 
 <%if $storyImage != ""%>
 	<%if in_array("插图",$story.tag)%>
-		<%assign var="storyImageInline" value="<div class=\"rightPic\"><img src=`$storyImage`></div>"%>
+		<%assign var="storyImageInline" value="<div class=\"leftPic\"><img src=`$storyImage`></div>"%>
 	<%else%>
 		<%assign var="storyImageTop" value="<div class=\"`$storyImageClass` story-image image\"><figure data-url=`$storyImage` class=\"loading\"></figure></div>"%>
 	<%/if%>
@@ -632,6 +632,23 @@
 	<%else%>
 		<%assign var="story_content" value=$storyBody%>
 	<%/if%>
+<%/if%>
+
+<%assign var="shareTitle" value="`$storyHeadline` - FT中文网"%>
+<%assign var="shareUrl" value="http://www.ftchinese.com/story/`$story.id`?full=y"%>
+<%assign var="shareUrl" value=$shareUrl|escape:'url'%>
+<%assign var="shareText" value="【`$storyHeadline`】`$shareLead`（分享自 @FT中文网）"%>
+
+<%assign var="wechatUrl" value="/m/corp/qrshare.html?url=`$shareUrl`&title=`$shareTitle`"%>
+<%assign var="sinaUrl" value="http://service.weibo.com/share/share.php?appkey=4221537403&url=`$shareUrl`?ccode=2G169001&title=`$shareText`&ralateUid=1698233740&source=&sourceUrl=&content=utf-8&pic="%>
+<%assign var="linkedInUrl" value="https://www.linkedin.com/cws/share?url=`$shareUrl`%3Fccode%3D2G169003&original_referer=https%3A%2F%2Fdeveloper.linkedin.com%2Fsites%2Fall%2Fthemes%2Fdlc%2Fsandbox.php%3F&token=&isFramed=true&lang=zh_CN&_ts=1422502780259.2795"%>
+<%assign var="twitterUrl" value="http://twitter.com/home?status=`$shareText`...%20`$shareUrl`"%>
+<%assign var="facebookUrl" value="http://www.facebook.com/sharer.php?u=`$shareUrl`&t=`$shareText`"%>
+
+<%if $page_action=="en" || $page_action=="ce"%>
+<%assign var="languageOptions" value="<a class=\"icon-right icon-ch\" href=\"/story/`$story.id`\"><button>中文</button></a>"%>
+<%elseif $story.show_english == "yes"%>
+<%assign var="languageOptions" value="<a class=\"icon-right icon-ch\" href=\"/story/`$story.id`/ch\"><button>对照</button></a><a class=\"icon-right icon-ch\" href=\"/story/`$story.id`/en\"><button>英文</button></a>"%>
 <%/if%>
 
 <!DOCTYPE html>
