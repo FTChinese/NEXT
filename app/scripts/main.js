@@ -81,6 +81,7 @@
 
   function stickyBottomUpdate() {
     var htmlClassNew = htmlClass.replace(/ is-sticky/g, '').replace(/ share-sticky/g, '');
+
     if (typeof requestAnimationFrame === 'function') {
       requestAnimationFrame(stickyBottomUpdate);
     }
@@ -210,6 +211,7 @@
       }
     }
 
+
     // load responsive videos
     var videos = document.querySelectorAll('figure.loading-video');
     hostForVideo = '';
@@ -229,6 +231,16 @@
     }
   }
 
+  function isTouchDevice() {
+      var el = document.createElement('div');
+      el.setAttribute('ongesturestart', 'return;');
+      if (typeof el.ongesturestart == "function") {
+          return true;
+      } else {
+          return false
+      }
+  }
+
 
   try {
     delegate = new Delegate(document.body);
@@ -238,13 +250,23 @@
 
   // listent to scrolling events
   gNavOffsetY = findTop(document.getElementById('nav-place-holder'));
-  if (gNavOffsetY > 30 && w > 490) {
+
+  // disable sticky scroll on touch devices
+  if (gNavOffsetY > 30 && w > 490 && isTouchDevice === false) {
     try {
       stickyBottomPrepare();
       stickyAdsPrepare();
       var addEvent =  window.attachEvent||window.addEventListener;
       var eventScroll = window.attachEvent ? 'onscroll' : 'scroll';
       var eventResize = window.attachEvent ? 'onresize' : 'resize';
+      // if (isTouchDevice() === true) {
+      //   addEvent('touchmove', function() {
+      //     stickyBottom();
+      //   });
+      //   addEvent('touchend', function() {
+      //     stickyBottom();
+      //   });
+      // }
       addEvent(eventScroll, function(){
           stickyBottom();
       });
