@@ -234,10 +234,10 @@
   function isTouchDevice() {
       var el = document.createElement('div');
       el.setAttribute('ongesturestart', 'return;');
-      if (typeof el.ongesturestart == "function") {
+      if (typeof el.ongesturestart === 'function') {
           return true;
       } else {
-          return false
+          return false;
       }
   }
 
