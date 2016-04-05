@@ -252,7 +252,7 @@
   gNavOffsetY = findTop(document.getElementById('nav-place-holder'));
 
   // disable sticky scroll on touch devices
-  if (gNavOffsetY > 30 && w > 490 && isTouchDevice === false) {
+  if (gNavOffsetY > 30 && w > 490 && isTouchDevice() === false) {
     try {
       stickyBottomPrepare();
       stickyAdsPrepare();
