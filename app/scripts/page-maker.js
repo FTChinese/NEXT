@@ -48,8 +48,8 @@
     var storyAPIRoot = '/falcon.php/homepage/getstoryapi/';
     var gApiUrls = {
         //'home': 'api/page/home.json',
-        'home': pagemakerAPIRoot + 'get/home/' + todaydate,
-        'homePOST': pagemakerAPIRoot + 'post/home/' + todaydate,
+        'home': pagemakerAPIRoot + 'get/'+ getURLParameter('page') +'/' + todaydate,
+        'homePOST': pagemakerAPIRoot + 'post/'+ getURLParameter('page') +'/' + todaydate,
         'blank': 'api/page/blank.json',
         'stories': storyAPIRoot + todaydate + '?' + thenow
     };
