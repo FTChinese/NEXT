@@ -20,13 +20,17 @@
 
 <%assign var="gettime" value=$storymodel->get_story_by_tag($tag_name,0,20)%>
 
+<%if $tagstory%>
+<%assign var="allstory" value=$tagstory%>
+<%/if%>
+
 <!DOCTYPE html>
 <html class="no-js core" data-next-app="tag-page">
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta http-equiv="Content-Language" content="zh-CN"/>
-    <title><%$tagtitle%> - FT中文网</title>
+    <title><%$tagtitle|default:$PageTitle%> - FT中文网</title>
     <%if $tagtitle=="无效的标签"%><META NAME="robots" CONTENT="noindex"><%/if%>
     <META name=keywords content="<%$tagtitle%>">
     <meta content="<%$p.meta.description%>" name="description"/>

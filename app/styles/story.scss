@@ -1,8 +1,8 @@
 .story-container {
 	padding: 0 $defaultPadding/2;
-	max-width: 680px;
+	max-width: 700px;
 	margin: auto;
-	&.ce {
+	&.ce, &.biggest, &.bigger {
 		max-width: 100%;
 	}
 }
@@ -25,6 +25,7 @@
 		text-indent: 2em;
 		&:first-child {
 			text-indent: 0;
+			/*
 			&:first-letter {
 				display: block;
 			    float: left;
@@ -36,6 +37,7 @@
 			    font-style: normal;
 			    text-decoration: none;
 			}
+			*/
 		}
 
 	}
@@ -113,17 +115,19 @@
     background: rgba(0,0,0,.0001) url(//image.webservices.ft.com/v1/images/raw/ftsocial:linkedin?source=o-share&format=svg) center/100% no-repeat;
 }
 .icon-wechat {
-    background-image: url(http://static.ftchinese.com/img/png/social-wechat.png);
+    background-image: url(https://image.webservices.ft.com/v1/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Fpng%2Fsocial-wechat.png?source=ftchinese&width=24);
     background: rgba(0,0,0,.0001) url(http://static.ftchinese.com/img/svg/social-wechat.svg) center/100% no-repeat;
 }
 .icon-weibo {
-    background-image: url(http://static.ftchinese.com/img/png/social-weibo.png);
+    background-image: url(https://image.webservices.ft.com/v1/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Fpng%2Fsocial-weibo.png?source=ftchinese&width=24);
     background: rgba(0,0,0,.0001) url(http://static.ftchinese.com/img/svg/social-weibo.svg) center/100% no-repeat;
 }
 .icon-right {
 	float: right;
 	margin-left: 12px;
 	display: block;
+    font-size: 14px;
+    line-height: 140%;
 	button {
 	    display: inline-block;
 	    -webkit-box-sizing: border-box;
@@ -152,9 +156,9 @@
 	    background-size: 16px;
 	    min-height: 26px;
 	    min-width: 26px;
-	    padding: 5px 8px 5px 8px;
+	    padding: 0 8px;
 	    font-size: 14px;
-	    line-height: 14px;
+	    line-height: 26px;
 	    border-width: 1px;
 	    color: #27757b;
 	    background-color: rgba(255,255,255,.4);
@@ -291,9 +295,12 @@
 }
 #story_main_mpu {
 	width: 100%;
-	padding: $defaultPadding/2 0;
-	margin-bottom: $defaultPadding/2;
-	background-color: $bannerBG;
+	padding: $defaultPadding 0;
+	margin-bottom: $defaultPadding;
+	//background-color: $bannerBG;
+	border-width: 1px 0;
+	border-color: $borderColor;
+	border-style: solid;
 	clear: both;
 	iframe {
 		margin: auto;

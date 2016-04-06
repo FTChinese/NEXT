@@ -1,3 +1,14 @@
+/* exported showOverlay*/
+function showOverlay(overlayId) {
+    document.getElementById(overlayId).className = 'overlay-container on';
+}
+
+function closeOverlay(overlayId) {
+    document.getElementById(overlayId).className = 'overlay-container';
+}
+
+var fontOptionsEle;
+var fs;
 var xhr = new XMLHttpRequest();
 var ajaxMethod;
 var ajaxUrl;
@@ -51,12 +62,51 @@ xhr.onload = function() {
         		}
         	}
         }
-
         document.getElementById('story-recommend').innerHTML = itemHTML;
-        document.getElementById('story-recommend-container').style = 'block';
+        document.getElementById('story-recommend-container').style.display = 'block';
         loadImages();
     } else if (xhr.status !== 200) {
         //alert('Request failed.  Returned status of ' + xhr.status);
     }
 };
 xhr.send(JSON.stringify(message));
+
+//click to close
+delegate.on('click', '.overlay-close, .overlay-bg', function(){
+    var parentId = this.getAttribute('data-parentid');
+    closeOverlay(parentId);
+});
+
+//set font
+fontOptionsEle = document.getElementById('font-options');
+//click to change font size and set cookie (fs)
+delegate.on('click', '#font-options div', function(){
+    var currentClass = this.className || '';
+    var selectedClass;
+    if (currentClass.indexOf('selected') <0) {
+        selectedClass = fontOptionsEle.querySelector('.selected').className;
+        selectedClass = selectedClass.replace(/ selected/g, '');
+        fontOptionsEle.querySelector('.selected').className = selectedClass;
+        this.className = currentClass + ' selected';
+        /* jshint ignore:start */
+        SetCookie('fs',currentClass,'','/');
+        /* jshint ignore:end */
+        document.querySelector('.story-container').className = 'story-container ' + currentClass;
+        stickyBottomPrepare();
+        stickyAdsPrepare();
+    }
+});
+
+//set font by getting user cookie (fs)
+/* jshint ignore:start */
+fs = GetCookie('fs');
+/* jshint ignore:end */
+if (typeof fs === 'string' && fs !== null && fs !== '') {
+    document.getElementById('font-options').querySelector('.' + fs.replace(/ /g, '.')).className = fs + ' selected';
+    document.querySelector('.story-container').className = 'story-container ' + fs;
+} else {
+    document.getElementById('font-setting').querySelector('.normal').className = 'normal selected';
+}
+
+//document.getElementById('font-options').querySelectorAll('div');
+
