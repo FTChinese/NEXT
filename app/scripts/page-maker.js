@@ -48,7 +48,7 @@
     var storyAPIRoot = '/falcon.php/homepage/getstoryapi/';
     var gApiUrls = {
         //'home': 'api/page/home.json',
-        'home': pagemakerAPIRoot + 'get/'+ getURLParameter('page') +'/' + todaydate,
+        'home': pagemakerAPIRoot + 'get/'+ getURLParameter('page') +'/' + todaydate + '?' + thenow,
         'homePOST': pagemakerAPIRoot + 'post/'+ getURLParameter('page') +'/' + todaydate,
         'blank': 'api/page/blank.json',
         'stories': storyAPIRoot + todaydate + '?' + thenow
@@ -943,7 +943,7 @@
         $.ajax({
             type: 'POST',
             url: gApiUrls.homePOST,
-            data: {action: 'save', publish_type: 'home', publish_html: renderHTML($('#content-left-inner'))},
+            data: {action: 'save', publish_type: getURLParameter('page'), publish_html: renderHTML($('#content-left-inner'))},
             dataType: 'text',
             success: function (msg) {
                 if (msg === 'save') {
@@ -963,7 +963,7 @@
         $.ajax({
             type: 'POST',
             url: gApiUrls.homePOST,
-            data: {action: 'submit', publish_type: 'home', publish_html: renderHTML($('#content-left-inner'))},
+            data: {action: 'submit', publish_type: getURLParameter('page'), publish_html: renderHTML($('#content-left-inner'))},
             dataType: 'text',
             success: function (msg) {
                 if (msg === 'submit') {
@@ -998,14 +998,16 @@
         var url = 'http://www7.ftchinese.com/m/corp/p0.html';
         var w = $(this).attr('data-width') || $(window).width();
         var h = $(this).attr('data-height') || $(window).height();
-        window.open(url, 'newwindow', 'height=' + h + ',width=' + w + ',top=0,left=0,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no');
+        window.open(url, 'newwindow', 'height=' + h + ',width=' + w + ',top=0,left=0,toolbar=no,menubar=no,resizable=no,location=no, status=no');
     });
 
     $('body').on('click', '.item .item-title, .relative-item .relative-title, .lists-header', function () {
         if ($(this).parent().hasClass('expanded')) {
             $(this).parent().removeClass('expanded');
+            $(this).parent().attr('draggable', true);
         } else {
             $(this).parent().addClass('expanded');
+            $(this).parent().removeAttr('draggable');
         }
     });
 

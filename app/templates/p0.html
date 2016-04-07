@@ -1,4 +1,7 @@
-<%assign var="p" value=$nextmodel->getPublishJson("home")|json_decode:true%>
+<%if $pageId == ""%>
+    <%assign var="pageId" value="home"%>
+<%/if%>
+<%assign var="p" value=$nextmodel->getPublishJson($pageId)|json_decode:true%>
 <!DOCTYPE html>
 <html class="no-js core" data-next-app="front-page">
     <head>
