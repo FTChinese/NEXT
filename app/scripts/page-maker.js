@@ -1036,9 +1036,16 @@
     });
 
     $('body').on('click', '#refresh-button', function () {
+        var k = $('#keywords-input').val();
+        k=k.replace(/\//g,'-');
         thisday = new Date();
         thenow = thisday.getHours() * 10000 + thisday.getMinutes() * 100 + thisday.getSeconds();
-        gApiUrls.stories = storyAPIRoot + $('#keywords-input').val() + '?' + thenow;
+        if (/[0-9]{4}\-[0-9]+\-[0-9]+/.test(k)) {
+            gApiUrls.stories = storyAPIRoot + k + '?' + thenow;
+        } else {
+            gApiUrls.stories = storyAPIRoot + k + '?' + thenow;
+        }
+
         $('#stories-inner').empty();
         loadStories();
     });
