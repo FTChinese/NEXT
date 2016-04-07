@@ -83,6 +83,7 @@ fontOptionsEle = document.getElementById('font-options');
 delegate.on('click', '#font-options div', function(){
     var currentClass = this.className || '';
     var selectedClass;
+    var storyContainerClass = document.querySelector('.story-container').className;
     if (currentClass.indexOf('selected') <0) {
         selectedClass = fontOptionsEle.querySelector('.selected').className;
         selectedClass = selectedClass.replace(/ selected/g, '');
@@ -91,7 +92,7 @@ delegate.on('click', '#font-options div', function(){
         /* jshint ignore:start */
         SetCookie('fs',currentClass,'','/');
         /* jshint ignore:end */
-        document.querySelector('.story-container').className = 'story-container ' + currentClass;
+        document.querySelector('.story-container').className = storyContainerClass + ' ' + currentClass;
         stickyBottomPrepare();
         stickyAdsPrepare();
     }

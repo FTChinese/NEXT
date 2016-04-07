@@ -998,7 +998,7 @@
         var url = 'http://www7.ftchinese.com/m/corp/p0.html';
         var w = $(this).attr('data-width') || $(window).width();
         var h = $(this).attr('data-height') || $(window).height();
-        window.open(url, 'newwindow', 'height=' + h + ',width=' + w + ',top=0,left=0,toolbar=no,menubar=no,resizable=no,location=no, status=no');
+        window.open(url, 'newwindow', 'height=' + h + ',width=' + w + ',top=0,left=0,toolbar=no,menubar=no,resizable=no,scrollbars=yes,location=no, status=no');
     });
 
     $('body').on('click', '.item .item-title, .relative-item .relative-title, .lists-header', function () {
