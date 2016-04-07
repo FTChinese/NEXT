@@ -579,13 +579,13 @@
 <%/if%>
 
 
-<%if $page==1 && $story_pic.smallbutton && in_array("插图",$story.tag)%>
+<%if ($page==1 || $page =="") && $story_pic.smallbutton && in_array("插图",$story.tag)%>
 	<%assign var="storyImage" value=$story_pic.smallbutton%>
 	<%assign var="storyImageClass" value="right-image"%>
-<%elseif $page==1 && $story_pic.smallbutton%>
+<%elseif ($page==1 || $page =="") && $story_pic.smallbutton%>
 	<%assign var="storyImage" value=$story_pic.smallbutton%>
 	<%assign var="storyImageClass" value=""%>
-<%elseif $page==1 && $story.story_pic.cover%>
+<%elseif ($page==1 || $page =="") && $story.story_pic.cover%>
 	<%assign var="storyImage" value=$story_pic.cover%>
 	<%assign var="storyImageClass" value=""%>
 <%/if%>
