@@ -331,7 +331,11 @@
   }
 
 
-
+//click to close
+delegate.on('click', '.overlay-close, .overlay-bg', function(){
+    var parentId = this.getAttribute('data-parentid');
+    closeOverlay(parentId);
+});
 
 
 

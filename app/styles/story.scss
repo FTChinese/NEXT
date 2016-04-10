@@ -92,6 +92,10 @@
 		background-image: url(http://static.ftchinese.com/img/svg/font-size-white.svg);
 	    background-image: url(http://static.ftchinese.com/img/png/font-size-white.png)\9;		
 	}
+	.icon-share {
+	    background-image: url(http://static.ftchinese.com/img/svg/share-white-1.svg);
+	    background-image: url(http://static.ftchinese.com/img/png/share-white.png)\9;
+	}
 }
 .share-icon {
 	float: left;
@@ -190,6 +194,10 @@
     background-image: url(http://static.ftchinese.com/img/svg/font-size.svg);
     background-image: url(http://static.ftchinese.com/img/png/font-size.png)\9;
 }
+.icon-share {
+    background-image: url(http://static.ftchinese.com/img/svg/share-grey-1.svg);
+    background-image: url(http://static.ftchinese.com/img/png/share-grey.png)\9;
+}
 .ce .story-body {
 	p {
 		text-indent: 0;
@@ -208,10 +216,18 @@
 }
 
 //legacy share
-#sharelinks{font-size:14px;margin:15px;}
-#sharelinks div{float:left;width:117px;height:25px;}
-#sharelinks div img{margin-right:3px;}
-
+#sharelinks{
+	font-size:14px;
+	display: block;
+	//padding:$defaultPadding/2;
+	height: 300px;
+	overflow: scroll;
+	div{
+		img{
+			margin-right:$defaultPadding/2;
+		}
+	}
+}
 
 @include narrowSide;
 .has-side .content-inner {
@@ -376,9 +392,4 @@
     		margin: auto;
     	}
     }
-}
-
-@media only screen and (max-width: 1024px) {
-    #sharelinks div {width: 50%;height:30px;font-size:1.1em;}
-    #sharelinks div a {color:#333;}
 }

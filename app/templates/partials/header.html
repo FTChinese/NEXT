@@ -5,8 +5,36 @@
       <div class="current-edition">简体中文版</div>
     </div>
     <div class="header-side header-right">
-      <a href="">登录</a>
-      <a class="more last" href="http://user.ftchinese.com/register">免费注册</a>
+        <span class="visitor-box">
+            <a onclick="showOverlay('overlay-login')">登录</a>
+            <a class="more last" href="http://user.ftchinese.com/register">免费注册</a>
+        </span>
+        <span class="member-box">
+            <a id="ft-login-your-account" href="/users/cp">设置</a>
+            <a id="ft-login-logout" href="http://user.ftchinese.com/logout">登出</a>
+        </span>
     </div>
   </div>
 </header>
+
+<div class="overlay-container" id="overlay-login">
+    <div class="overlay-inner">
+        <div class="overlay-bg" data-parentid="overlay-login"></div>
+        <div class="overlay-content-outer">
+            <div class="overlay-content-inner">
+                <div class="overlay-content">
+                    <div class="overlay-title">登录<i class="overlay-close" data-parentid="overlay-login">×</i></div>
+                    <form method="post" action="/users/login">
+                    <div class="input-title">电子邮件/用户名</div>
+                    <div class="input-container"><input type="text" class="input-oneline" name="username" id="ft-login-input-username"></div>
+                    <div class="input-title">密码</div>
+                    <div class="input-container"><input type="password" class="input-oneline" name="password"></div>
+                    <div class="input-title input-submit-container"><input type="checkbox" class="checkbox" value="1" checked="checked" name="saveme" id="ft-login-input-remember">记住我
+                    <input class="input-submit" type="submit" value="提交"></div>
+                    <div class="input-title"><a href="/users/findpassword" class="blue-link">找回密码</a></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

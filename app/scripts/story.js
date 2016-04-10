@@ -1,12 +1,3 @@
-/* exported showOverlay*/
-function showOverlay(overlayId) {
-    document.getElementById(overlayId).className = 'overlay-container on';
-}
-
-function closeOverlay(overlayId) {
-    document.getElementById(overlayId).className = 'overlay-container';
-}
-
 var fontOptionsEle;
 var fs;
 var xhr = new XMLHttpRequest();
@@ -70,12 +61,6 @@ xhr.onload = function() {
     }
 };
 xhr.send(JSON.stringify(message));
-
-//click to close
-delegate.on('click', '.overlay-close, .overlay-bg', function(){
-    var parentId = this.getAttribute('data-parentid');
-    closeOverlay(parentId);
-});
 
 //set font
 fontOptionsEle = document.getElementById('font-options');

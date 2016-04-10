@@ -74,10 +74,10 @@
 		}
 
 
-		var sl="<p id=shareprompt style='margin-bottom:10px;line-height:140%;'></p>";
+		var sl="";
 
 
-		sl += "<div><a id=qqweixin href=\""+mft+"#ccode="+t4+"\" target=_blank title=\"分享到微信\"><IMG src=\"http:\/\/s.ftimg.net\/img\/wechatnew.png\" border=0>微信<\/a><\/div>";
+		sl += "<div class=\"first-child\"><a id=qqweixin href=\""+mft+"#ccode="+t4+"\" target=_blank title=\"分享到微信\"><IMG src=\"http:\/\/s.ftimg.net\/img\/wechatnew.png\" border=0>微信<\/a><\/div>";
 
 
 		sl += "<div><a id=sina href=\"javascript:void((function(s,d,e,r,l,p,t,z,c){var%20f=\'http:\/\/v.t.sina.com.cn\/share\/share.php?appkey=4221537403\',u=z||d.location,p=[\'&url=\',e(u),\'?ccode="+t5+"&title=\',e(t||d.title),\'&ralateUid=1698233740&source=\',e(r),\'&sourceUrl=\',e(l),\'&content=\',c||\'gb2312\',\'&pic=\',e(p||\'\')].join(\'\');function%20a(){if(!window.open([f,p].join(\'\'),\'mb\',[\'toolbar=0,status=0,resizable=1,width=600,height=430,left=\',(s.width-600)\/2,\',top=\',(s.height-430)\/2].join(\'\')))u.href=[f,p].join(\'\');};if(\/Firefox\/.test(navigator.userAgent))setTimeout(a,0);else%20a();})(screen,document,encodeURIComponent,\'\',\'\',\'\',\'"+sinten+"\',\'\',\'utf-8\'));\" title=\"分享到新浪微博\"><IMG src=\"http:\/\/s.ftimg.net\/img\/weibo.gif\" border=0>新浪微博<\/a><\/div>";
@@ -111,7 +111,7 @@
 		sl += "<div><a id=facebook href=\"http://www.facebook.com/sharer.php?u="+encodeURIComponent(location.href)+"&amp;t="+encodeURIComponent(document.title.substring(0,76))+"\" title=\"分享到Facebook\" target=\"new\"><img src=\"http://s.ftimg.net/img/facebook.gif\">Facebook<\/a><\/div>";
 		sl += "<div><a id=delicious href=\"http://del.icio.us/post?v=4&amp;noui&amp;jump=close&amp;url="+encodeURIComponent(location.href)+"&amp;title="+encodeURIComponent(document.title.substring(0,76))+"\" title=\"分享到Delicious\" target=\"new\"><img src=\"http://s.ftimg.net/img/delicious.gif\">Delicious<\/a><\/div>";
 
-		sl += "<div class=clearfloat style='width:1024px;height:1px;float:none;'></div>";
+		//sl += "<div class=clearfloat style='width:1024px;height:1px;float:none;'></div>";
 		document.getElementById('sharelinks').innerHTML = sl;
 	}
 	sharelinks();

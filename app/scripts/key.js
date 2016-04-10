@@ -1,4 +1,4 @@
-/* exported addstoryfav*/
+/* exported addstoryfav, showOverlay, closeOverlay*/
 /* jshint ignore:start */
 function GetCookie(name){
     var start = document.cookie.indexOf(name+"="),
@@ -65,4 +65,12 @@ function addstoryfav(storyid){
         storyid: storyid
     }));
 
+}
+
+function showOverlay(overlayId) {
+    document.getElementById(overlayId).className = 'overlay-container on';
+}
+
+function closeOverlay(overlayId) {
+    document.getElementById(overlayId).className = 'overlay-container';
 }
