@@ -638,7 +638,10 @@
 				<%assign var="i" value=$i+1%>
 			<%/foreach%>
 			<div class="clearfloat"></div>
-			</div>
+		</div>
+		<%if $list.sponsorNote != ""%>
+			<div class="item-container no-image"><div class="item-inner"><%$list.sponsorNote|regex_replace:"/([A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6})/i":"<a class=\"blue-link\" href=\"mailto: \\1\">\\1</a>"%></div></div>
+		<%/if%>
 		<%assign var="next" value=$l+1%>
 		<%*<!--combine side lists-->*%>
 		<%if $listHasFloat === "none" || $listHasFloat === "SideBySide" || $l === $section.lists|@count-1 || ($next < $section.lists|@count && $list.float != $section.lists[$next].float)%></div></div><%/if%>

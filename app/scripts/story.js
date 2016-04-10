@@ -60,11 +60,11 @@ xhr.onload = function() {
 	        			itemCount += 1;
         			}
         		}
+                document.getElementById('story-recommend').innerHTML = itemHTML;
+                document.getElementById('story-recommend-container').style.display = 'block';
+                loadImages();
         	}
         }
-        document.getElementById('story-recommend').innerHTML = itemHTML;
-        document.getElementById('story-recommend-container').style.display = 'block';
-        loadImages();
     } else if (xhr.status !== 200) {
         //alert('Request failed.  Returned status of ' + xhr.status);
     }

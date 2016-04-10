@@ -11,7 +11,7 @@
         'type': 'readonly',
         'theme': ['default', 'luxury'],
         //'type': ['block', 'banner', 'header', 'footer'],
-        'side': ['none', 'HomeRightRail', 'MostPopular', 'HotVideos', 'MarketsData', 'videos', 'MostCommented'],
+        'side': ['none', 'HomeRightRail','TagRightRail', 'MostPopular', 'HotVideos', 'MarketsData', 'videos', 'MostCommented'],
         'sideAlign': ['right', 'left'],
         'belt': ['member'],
         'float': ['none', 'left', 'right', 'oneline', 'SideBySide'],
@@ -29,7 +29,7 @@
             'footer': [],
             'topbelt': ['belt']
         },
-        'list': ['name', 'title', 'url', 'style', 'float', 'showTag', 'showTimeStamp', 'preferLead', 'sponsorAdId', 'sponsorLogoUrl', 'sponsorLink']
+        'list': ['name', 'title', 'url', 'style', 'float', 'showTag', 'showTimeStamp', 'preferLead', 'sponsorAdId', 'sponsorLogoUrl', 'sponsorLink', 'sponsorNote']
     };
     var devices = [
         {'name': 'PC or Mac', 'width': '', 'height': ''},
@@ -829,7 +829,8 @@
                         'preferLead': 'longlead',
                         'sponsorAdId': '',
                         'sponsorLogoUrl': '',
-                        'sponsorLink': ''
+                        'sponsorLink': '',
+                        'sponsorNote': ''
                     }
                 ];
             }
@@ -897,6 +898,7 @@
                 'sponsorAdId': '',
                 'sponsorLogoUrl': '',
                 'sponsorLink': '',
+                'sponsorNote': '',
                 'items': []
             };
             newList = '<div class="lists-item"><div class="remove-lists"></div><div class="lists-header" draggable="true">New List</div>' + renderMeta(newListJSON) + '</div>';
@@ -1043,7 +1045,9 @@
         if (/[0-9]{4}\-[0-9]+\-[0-9]+/.test(k)) {
             gApiUrls.stories = storyAPIRoot + k + '?' + thenow;
         } else {
-            gApiUrls.stories = storyAPIRoot + k + '?' + thenow;
+            gApiUrls.stories = '/falcon.php/homepage/gettagstoryapi?tag=' + k + '&' + thenow;
+            //alert (gApiUrls.stories);
+            //http://backyard.ftchinese.com/falcon.php/homepage/gettagstoryapi?tag=%E4%B8%AD%E5%9B%BD%E7%BB%8F%E6%B5%8E
         }
 
         $('#stories-inner').empty();

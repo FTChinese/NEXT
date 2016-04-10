@@ -1,9 +1,18 @@
 <%if $smarty.get.ad != "no"%>
+	<%if $pageId == "home"%>
+		<%assign var="bannerType" value="banner"%>
+	<%elseif $pageId != ""%>
+		<%assign var="bannerType" value="tagbanner"%>
+	<%elseif !preg_match("/story|interactive/is",$smarty.server.REQUEST_URI)%>
+		<%assign var="bannerType" value="tagbanner"%>
+	<%else%>
+		<%assign var="bannerType" value="banner"%>
+	<%/if%>
 <div class="banner-placeholder">
 <div class="banner-container">
 <div class="banner-inner">
 <div class="banner-content">
-  <script type="text/javascript">document.write (writeAd('banner'));</script>
+  <script type="text/javascript">document.write (writeAd('<%$bannerType%>'));</script>
 </div>
 </div>
 </div>
