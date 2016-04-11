@@ -1,16 +1,22 @@
 /* jshint node:true */
 'use strict';
 // generated on 2015-09-01 using generator-gulp-webapp 0.2.0
-var gulp = require('gulp');
-var $ = require('gulp-load-plugins')();
-var useref = require('gulp-useref');
+const fs = require('fs');
+const http = require('http');
+const url = require('url');
+const request = require('request');
+const cheerio = require('cheerio');
+
+const gulp = require('gulp');
+const $ = require('gulp-load-plugins')();
+const useref = require('gulp-useref');
 
 const browserSync = require('browser-sync').create();
 const cssnext = require('postcss-cssnext');
 
 function getUrltoFile (urlSource, fileName) {
-  var http = require('http');
-  var url = require('url');
+  // var http = require('http');
+  // var url = require('url');
   var options = {
       host: url.parse(urlSource).hostname,
       path: url.parse(urlSource).pathname + unescape(url.parse(urlSource).search || '')
@@ -42,14 +48,14 @@ function getUrltoFile (urlSource, fileName) {
 
 
 function getBodyFromUrl (urlSource, fileName) {
-  var http = require('http');
-  var url = require('url');
+  // var http = require('http');
+  // var url = require('url');
   var options = {
       host: url.parse(urlSource).hostname,
       path: url.parse(urlSource).pathname + unescape(url.parse(urlSource).search || '')
   }
   console.log (options.path);
-  var request = http.request(options, function (res) {
+  var req = http.request(options, function (res) {
       var data = '';
       res.on('data', function (chunk) {
           data += chunk;
@@ -61,7 +67,7 @@ function getBodyFromUrl (urlSource, fileName) {
         var array_matches = pattern.exec(data);
 
         //console.log(array_matches[0]);
-        var fs = require('fs');
+        //var fs = require('fs');
         var fileContent = fs.readFileSync('app/index.html', 'utf8');
         fileContent = fileContent.replace(pattern, array_matches[0]);
         //console.log(fileContent);
@@ -80,10 +86,10 @@ function getBodyFromUrl (urlSource, fileName) {
         //return data;
       });
   });
-  request.on('error', function (e) {
+  req.on('error', function (e) {
       console.log(e.message);
   });
-  request.end();
+  req.end();
 }
 
 gulp.task('home', function () {
@@ -92,11 +98,9 @@ gulp.task('home', function () {
 });
 
 gulp.task('copy', ['build'], function () {
-  var replace = require('gulp-replace');
-  var rename = require("gulp-rename");
+  //var replace = require('gulp-replace');
+  //var rename = require("gulp-rename");
   var thedatestamp = new Date().getTime();
-
-
 
   gulp.src('dist/styles/*.css')
     .pipe(gulp.dest('../dev_www/frontend/static/n'))
@@ -129,30 +133,30 @@ gulp.task('copy', ['build'], function () {
     .pipe(gulp.dest('..testing/dev_cms/pagemaker/api'));
 
   gulp.src('app/templates/p0.html')
-    .pipe(replace(/([\r\n])[ \t]+/g, '$1'))
-    .pipe(replace(/(\r\n)+/g, '\r\n'))
-    .pipe(replace(/(\n)+/g, '\n'))
+    .pipe($.replace(/([\r\n])[ \t]+/g, '$1'))
+    .pipe($.replace(/(\r\n)+/g, '\r\n'))
+    .pipe($.replace(/(\n)+/g, '\n'))
     .pipe(gulp.dest('../dev_www/frontend/tpl/corp'))
     .pipe(gulp.dest('../testing/dev_www/frontend/tpl/corp'));
 
   gulp.src('app/templates/partials/**/*')
-    .pipe(replace(/([\r\n])[ \t]+/g, '$1'))
-    .pipe(replace(/(\r\n)+/g, '\r\n'))
-    .pipe(replace(/(\n)+/g, '\n'))
+    .pipe($.replace(/([\r\n])[ \t]+/g, '$1'))
+    .pipe($.replace(/(\r\n)+/g, '\r\n'))
+    .pipe($.replace(/(\n)+/g, '\n'))
     .pipe(gulp.dest('../dev_www/frontend/tpl/next/partials'))
     .pipe(gulp.dest('../testing/dev_www/frontend/tpl/next/partials'));
 
   gulp.src('app/templates/html/**/*')
-    .pipe(replace(/([\r\n])[ \t]+/g, '$1'))
-    .pipe(replace(/(\r\n)+/g, '\r\n'))
-    .pipe(replace(/(\n)+/g, '\n'))
+    .pipe($.replace(/([\r\n])[ \t]+/g, '$1'))
+    .pipe($.replace(/(\r\n)+/g, '\r\n'))
+    .pipe($.replace(/(\n)+/g, '\n'))
     .pipe(gulp.dest('../dev_www/frontend/tpl/next/html'))
     .pipe(gulp.dest('../testing/dev_www/frontend/tpl/next/html'));
 
 
   var fileName = '../dev_www/frontend/tpl/next/timestamp/timestamp.html';
   var fileName2 = '../testing/dev_www/frontend/tpl/next/timestamp/timestamp.html';
-  var fs = require('fs');
+  //var fs = require('fs');
   fs.writeFile(fileName, thedatestamp, function(err) {
       if(err) {
           return console.log(err);
@@ -181,15 +185,15 @@ gulp.task('story', function () {
 
 
   var urlSource = 'https://backyard.ftchinese.com/falcon.php/cmsusers/login';
-  var http = require('http');
-  var url = require('url');
+  //var http = require('http');
+  //var url = require('url');
   var options = {
       host: url.parse(urlSource).hostname,
       path: url.parse(urlSource).pathname + unescape(url.parse(urlSource).search || '')
   }
 
 
-var request = require('request');
+//var request = require('request');
 
 
 request.post({
@@ -280,10 +284,6 @@ gulp.task('jshint', function () {
     .pipe($.jshint.reporter('jshint-stylish'))
     .pipe($.jshint.reporter('fail'));
 });
-
-
-
-
 
 gulp.task('html', ['styles'], function () {
   return gulp.src('app/*.html')
@@ -399,8 +399,13 @@ gulp.task('headercss', function () {
     .pipe(browserSync.stream({once:true})); 
 });
 
-gulp.task('headerjs', function() {
-  return gulp.src('header/js/*.js')
+gulp.task('copym', function() {
+  return gulp.src('app/m/**')
+    .pipe(gulp.dest('.tmp/m'));
+});
+
+gulp.task('copyjs', function() {
+  return gulp.src(['header/js/*.js', 'app/scripts/*.js'])
   .pipe(gulp.dest('.tmp/scripts'))
   .pipe(browserSync.stream({once:true}));
 });
@@ -408,17 +413,17 @@ gulp.task('headerjs', function() {
 gulp.task('php', function() {
   $.connectPhp.server({
     base: 'server',
-    port: '8010',
+    port: '8011',
     keepalive: true
   });
 });
 
 gulp.task('serve', 
-  ['headercss', 'headerjs', 'php'],
+  ['headercss', 'copym', 'headerjs', 'php'],
   function() {
   browserSync.init({
-    proxy: 'localhost:8010',
-    port: 8080,
+    proxy: 'localhost:8011',
+    port: 8081,
     open: true,
     notify: true,
     serveStatic: ['bower_components', '.tmp']
@@ -434,4 +439,29 @@ gulp.task('build', ['jshint', 'html', 'images', 'fonts', 'extras', 'ad'], functi
 
 gulp.task('default', ['clean'], function () {
   gulp.start('build');
+});
+
+gulp.task('requestdata', function(done) {
+  const dateStamp = new Date().getTime();
+  const url = 'http://www.ftchinese.com/m/corp/p0.html?' + dateStamp;
+
+  request(url, function(error, response, body) {
+    if (!error && response.statusCode == 200) {
+      const $ = cheerio.load(body, {
+        decodeEntities: false
+      });
+      $('#roadblock').remove();
+      $('.header-container').remove();
+      $('.nav-place-holder').remove();
+      $('.footer-container').remove();
+      $('#overlay-login').remove();
+      $('.app-download-container').remove();
+      const data = $('body').html();
+
+      fs.writeFile('views/body.html', data, function(err) {
+        if (err) {return done(err)}
+        done();
+      });
+    }
+  });
 });

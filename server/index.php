@@ -1197,4 +1197,4 @@ $smarty->assign('datass1', $data);
 $smarty->assign('topnav', 'china');
 $smarty->assign('subnav', 'chinabusiness');
 
-$smarty->display('../views/home.tpl');
+$smarty->display('../app/index.tpl');

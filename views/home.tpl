@@ -88,14 +88,8 @@ svg4everybody();
 
 <%include file="./frontpage/o-header.tpl"%>
 
+<%include file="../app/templates/partials/nav.html"%>
 
-
-
-
-
-<!--[if lte IE 8]>
-<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
-<![endif]-->
 
 <!-- build:js scripts/main.js -->
 <script src="scripts/dom-delegate.js"></script>
