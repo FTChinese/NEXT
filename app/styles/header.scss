@@ -46,7 +46,7 @@
 	height: 100%;
 	line-height: $headerHeight;
 	cursor: pointer;
-	&:after {
+	span:after {
 	    content: '';
 	    display: inline-block;
 	    margin-left: 10px;
@@ -55,6 +55,34 @@
 	    border-right: 6px solid transparent;
 	}
 }
+.expandable.header-left {
+	//position: relative;
+	overflow: visible;
+	a {
+		display: none;
+	}
+	&:hover, &:active {
+		.current-edition {
+			position: absolute;
+			background-color: $lightGrey;
+			height: auto;
+			//line-height: 140%;
+			left: -$defaultPadding/3;
+			padding-left: $defaultPadding/3;
+			padding-right: $defaultPadding/3;
+			a {
+				display: block;
+				height: auto;
+				line-height: 140%;
+				border-top: 1px dotted white;
+				padding: $defaultPadding/2 0;
+			}
+			z-index: 9999999999999;
+		}
+	}
+}
+
+
 .header-right {
 	right: $defaultPadding;
 	text-align: right;

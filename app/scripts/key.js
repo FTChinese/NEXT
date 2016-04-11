@@ -76,10 +76,6 @@ function closeOverlay(overlayId) {
 }
 
 /* jshint ignore:start */
-function logout() {
-    DeleteCookie ("USER_NAME");
-    window.location.href += "?logout=y";
-}
 var user_name=GetCookie ("USER_NAME");
 if (user_name !== null) {
     document.documentElement.className += ' is-member';

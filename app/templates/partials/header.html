@@ -1,8 +1,12 @@
 <header class="header-container">
   <div class="header-inner">
     <div class="masthead"></div>
-    <div class="header-side header-left">
-      <div class="current-edition">简体中文版</div>
+    <div class="header-side header-left expandable">
+      <div class="current-edition">
+        <span>简体中文版</span>
+        <a href="http://big5.ftchinese.com/">繁体中文版</a>
+        <a href="http://www.ft.com/">英文版</a>
+      </div>
     </div>
     <div class="header-side header-right">
         <span class="visitor-box">
@@ -17,24 +21,4 @@
   </div>
 </header>
 
-<div class="overlay-container" id="overlay-login">
-    <div class="overlay-inner">
-        <div class="overlay-bg" data-parentid="overlay-login"></div>
-        <div class="overlay-content-outer">
-            <div class="overlay-content-inner">
-                <div class="overlay-content">
-                    <div class="overlay-title">登录<i class="overlay-close" data-parentid="overlay-login">×</i></div>
-                    <form method="post" action="/users/login">
-                    <div class="input-title">电子邮件/用户名</div>
-                    <div class="input-container"><input type="text" class="input-oneline" name="username" id="ft-login-input-username"></div>
-                    <div class="input-title">密码</div>
-                    <div class="input-container"><input type="password" class="input-oneline" name="password"></div>
-                    <div class="input-title input-submit-container"><input type="checkbox" class="checkbox" value="1" checked="checked" name="saveme" id="ft-login-input-remember">记住我
-                    <input class="input-submit" type="submit" value="提交"></div>
-                    <div class="input-title"><a href="/users/findpassword" class="blue-link">找回密码</a></div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<%include file="next/partials/login-overlay.html"%>
