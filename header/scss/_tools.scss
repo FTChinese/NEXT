@@ -1,0 +1,44 @@
+.o-header__tools {
+	position: absolute;;
+	top: 0;
+	right: 0;
+
+	@include oGridRespondTo($until: M) {
+		display: none;
+	}
+}
+
+.tools-items {
+	margin: 0;
+	padding: 0;
+}
+
+.tools-item {
+	display: inline-block;
+	position: relative;
+
+	&:before {
+		@include oColorsFor(o-header-tools-separator, background);
+		content: '';
+		position: absolute;
+		width: 2px;
+		height: 14px;
+		top: 50%;
+		left: -3px;
+		margin-top: -7px;
+	}
+
+	&:first-child:before {
+		display: none;
+	}
+}
+
+.tools-link {
+	@include oHeaderNavItem;
+	@include oColorsFor(o-header, text);
+
+	&:hover,
+	&:focus {
+		text-decoration: underline;
+	}
+}

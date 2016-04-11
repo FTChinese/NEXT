@@ -1,0 +1,37 @@
+.o-header__masthead {
+	text-align: center;
+	padding: ($o-header-top-height - $o-header-logo-height)/2 0;
+	margin: 0;
+	> a {
+/* 		display: block;
+		margin: 0 auto;
+		padding: 0;
+		@include oHeaderLogoDimension(36);
+		span {
+			display: none;
+		} */
+		@include oHeaderLogo(36);
+	}
+}
+
+.o-header__masthead-mobile {
+// This makes the o-header__bottom 12 * 2 + 21 = 45px;
+	padding: ($o-header-bottom-height - $o-header-logo-mobile-height)/2 0;
+	margin: 0;
+
+	@include oGridRespondTo(M) {
+		display: none;
+	}
+	> a {
+/* 		display: block;
+
+		margin: 0 auto;
+		padding: 0;
+
+		@include oHeaderLogoDimension($o-header-logo-mobile-height);
+		span {
+			display: none;
+		} */
+		@include oHeaderLogo($o-header-logo-mobile-height);
+	}
+}

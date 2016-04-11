@@ -1,0 +1,84 @@
+.o-header__edition {
+	@include oColorsFor(o-header-edition-switch, text);
+	font-size: 13px;
+	line-height: 1em;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 10;
+	padding: 10px;
+	display: none;	
+
+	@include oGridRespondTo(M) {
+		display: block;
+	}
+
+	@include oGridRespondTo(L) {
+		font-size: 16px;
+	}
+	&:hover {
+		@include oColorsFor(o-header-edition-switch, background);
+	}
+}
+
+.switch-button {
+	color: inherit;
+	background-color: transparent;
+	border: 0;
+	padding: 0;
+	margin: 0;
+	outline: none;
+	font: inherit;
+	cursor: pointer;
+
+	&:after {
+		content: '';
+		display: inline-block;
+		margin-left: 10px;
+		border-top: 8px solid oColorsGetColorFor(o-header-edition-switch, border);
+		border-left: 6px solid transparent;
+		border-right: 6px solid transparent;
+// set the triangle arrow.
+ 		.o-header__edition:hover & {
+			border-top: 0;
+			border-bottom: 8px solid oColorsGetColorFor(o-header-edition-switch, border);
+		}
+	}
+
+
+	border-bottom: 1px solid transparent;
+
+	&:hover/* ,
+	&:focus */ {
+		&:after {
+		border-top: 0;
+		border-bottom: 8px solid oColorsGetColorFor(o-header-edition-switch, border);
+		}
+	}
+}
+
+.editions {
+	margin: 10px 0 0;
+	padding: 0;
+	list-style: none;
+	display: none;
+	border-top: 1px solid oColorsGetColorFor(o-header-edition-switch, border);
+	
+	.o-header__edition:hover &,
+	.switch-button:hover + & {
+		display: block;
+	} 
+}
+
+.edition-link {
+	display: inline-block;
+	margin-top: 10px;
+	@include oColorsFor(o-header, text);
+	text-decoration: none;
+	
+	border-bottom: 1px solid transparent;
+	&:hover,
+	&:focus {
+		border-bottom: 1px solid oColorsGetColorFor(o-header-edition-switch, border);
+	}
+}

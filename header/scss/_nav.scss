@@ -1,0 +1,385 @@
+.o-header--nav-open {
+	@include oGridRespondTo($until: M) {
+		overflow-y: hidden;
+		height: 100%;
+	}
+}
+
+.o-header__nav-container {
+	position: absolute;
+	top: 0;
+	height: $o-header-bottom-height;
+
+	@include oGridRespondTo(M) {
+		position: relative;
+	}
+
+	@include oGridTargetIE8 {
+		position: relative;
+	}
+}
+
+.o-header__nav {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+// color set here will inherited by descendant `<a>`
+	@include oGridRespondTo(M) {
+		@include oColorsFor(o-header, text background);
+		white-space: nowrap;
+		overflow-x: hidden;
+	}
+	
+	@include oGridRespondTo($until:M) {
+
+		@include oColorsFor(o-header-mega-nav);
+
+		position: absolute;
+		display: none;
+		
+		.nav-toggle[aria-pressed=true] + & {
+			display: block;
+			position: fixed;
+			top: $o-header-bottom-height;
+			bottom: 0;
+			right: 0;
+			left: 0;
+			z-index: 1;
+			overflow-y: scroll;
+			width: 100%;
+			display: block;
+		}
+	}
+}
+
+// use `display:block` with caution here. It is not the same as `display:list-item`.
+.nav-section{
+	@include oGridRespondTo(M) {
+		display: inline-block;
+
+
+// .nav-items will inherit the `background-color` set here so that under whatever state, .nav-items always has the same color as .nav-section.
+
+		&:hover {
+			@include oColorsFor(o-header-sub-nav, background);
+		}
+		&[aria-selected=true] {
+			@include oColorsFor(o-header-sub-nav, background);
+		}
+	}
+
+	&.mobile {
+		@include oGridRespondTo(M) {
+			display: none;
+		}
+	}
+// Did not set color for .nav-section on default state. Transparent to show color underneath.
+}
+
+// left part of navigation on small screen
+.nav-section-head {
+	box-sizing: border-box;
+// reset button's style. Refer to `o-buttons` reset mixin.
+	border: 0;
+	padding: 0;
+	outline: none;
+	padding: 0 15px;
+	margin: 0;
+	line-height: $o-header-bottom-height;
+	display: block;
+	text-decoration: none;
+ 	@include oColorsFor(o-header, text);
+	background-color: inherit;
+
+	@include oGridRespondTo($until:M) {
+		padding-left: oGridGutter();
+		min-width: $o-header-mobile-left-width;
+		max-width: $o-header-mobile-left-width;
+		width: $o-header-mobile-left-width;
+		text-align: right;
+//add background and color on .nav-section-head to fake two column on small screen;
+		@include oColorsFor(o-header);
+		font-size: 14px;
+
+		&:after {
+			@include oIconsSvgSassIcon(arrow-right, oColorsGetColorFor(o-header, text), 10);
+			content: '';
+			padding-left: 1em;
+			margin-right: -15px;
+		}
+
+		&[aria-selected=true] {
+// When button.nav-section-head was clicked
+			@include oColorsFor(o-header-mega-nav);
+			font-weight: bold;
+
+			&:after {
+				@include oIconsSvgSassIcon(arrow-right, oColorsGetPaletteColor('grey-tint5'), 10);
+			}
+		}
+	}
+// Must put after the previous rules. Otherwise it will be overitten by the previous `display:block`.
+	&.desktop {
+		display: none;
+		@include oGridRespondTo(M) {
+			display: block;
+			transition: $o-header-background-transition;
+
+			&:hover {
+				@include oColorsFor(o-header-sub-nav, background);
+			}
+		}
+	}
+
+	&.mobile {
+		display: block;
+		@include oGridRespondTo(M) {
+			display: none;
+		}
+	}
+}
+
+// right part of navigation on small screen
+.nav-items {
+	box-sizing: border-box;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+
+	@include oGridRespondTo(M) {
+		position: absolute;
+		left: 0;
+		display: block;
+		width: 100%;
+		height: 0;
+		z-index: 1;
+// set color explicitly to enable transition.
+		@include oColorsFor(o-header-sub-nav, background);
+
+		transition: $o-header-height-transition;
+// hide overflow so that contents inside it could be transitioned.
+		overflow: hidden;
+// make sub menu visible
+		&:hover {
+			overflow: visible;
+		}
+
+		.nav-section[aria-selected=true] &{
+			height: $o-header-sub-nav-height;
+		}
+
+		.nav-section:hover &,
+		.nav-section-head.desktop:hover ~ &{
+			height: $o-header-sub-nav-height;
+			z-index: 5; // make sure it is always on top when hovered.
+		}
+
+// hide when scrolled. To keep transiton effect, do no use  display, visibility.	
+		.o-header__secondary[aria-sticky=true] &,
+		.o-header__secondary[aria-sticky=true] .nav-section[aria-selected=true] &,
+		.o-header__secondary[aria-sticky=true] .nav-section-head.desktop ~ & {
+			height: 0;
+		}
+	}
+
+	@include oGridRespondTo($until:M) {
+		padding-left: oGridGutter();
+		min-width: $o-header-mobile-right-width;
+		max-width: $o-header-mobile-right-width;
+		width: $o-header-mobile-right-width;
+			
+		position: absolute;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		padding: 0 0 0 15px;
+		min-height: 340px;
+
+		.nav-section-head ~ &{
+			display: none;
+		}
+		.nav-section-head[aria-selected=true] ~ &{
+			display: block;
+		}
+		@include oColorsFor(o-header-mega-nav);
+	}
+}
+
+.nav-item {
+	@include oGridRespondTo(M) {
+		&.mobile{
+			display: none;
+		}
+		position: relative;
+		display: inline-block;
+		
+		&[aria-haspopup=true] {
+			.nav-link {
+				&:after {
+					content: '';
+					display: inline-block;
+					margin-left: 10px;
+					@include oHeaderArrowDown;
+				}
+
+				&:hover/* ,
+				&:focus */ {
+					&:after {
+					@include oHeaderArrowUp;
+					}
+				}
+			}
+
+		 	&:hover {
+		 		.nav-link:after {
+					@include oHeaderArrowUp;
+		 		}
+			}
+		}
+	}
+}
+
+// set links' style
+.nav-link {
+	box-sizing: border-box;	
+	text-decoration: none;
+
+	@include oGridRespondTo($until:M) {
+		padding-left: oGridGutter();
+		min-width: $o-header-mobile-left-width;
+		max-width: $o-header-mobile-left-width;
+		width: $o-header-mobile-left-width;
+
+		display: block;
+		text-align: right;
+
+		line-height: 32px;
+		min-height: 32px;
+		padding-right: 15px;
+		margin: 0;
+		font-size: 14px;
+// set color and background-color that same as `.nav-section-head` for links on the left.
+		@include oColorsFor(o-header);
+
+		.nav-items & {
+// reset styles to default for links under `.nav-items`.
+			display: block;
+			padding-left: 0;
+			padding-right: 0;
+			min-width: 0;
+			max-width: none;
+			width: auto;
+			text-align: left;
+// reset color and background-colors under `.nav-items`.
+			@include oColorsFor(o-header-mega-nav);
+			font-size: 16px;	
+			&:hover,
+			&:focus {
+				text-decoration: underline;
+			}
+		}
+	}
+
+	@include oGridRespondTo(M) {
+
+		padding: 14px 20px;
+		margin: 0;
+		display: block;
+		word-break: keep-all;
+		white-space: nowrap;
+		line-height: $o-header-sub-nav-height;
+		height: $o-header-sub-nav-height;
+		padding: 0 10px;
+		@include oColorsFor(o-header, text);
+		
+		cursor: pointer;
+
+		&:hover,
+		.nav-item[aria-selected=true] & {
+			@include oColorsFor(o-header-nav-link-hover, background);
+		}		
+	}
+}
+
+.nav-sub-items {
+
+	display: none;
+
+	@include oGridRespondTo(M) {
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+		position: absolute;
+		left: 0;
+		min-width: 100%;
+
+		display: none;
+
+		@include oColorsFor(o-header-sub-nav, background);
+		li {
+			border-top: 1px solid #666;
+		}
+
+		a{
+			@include oColorsFor(o-header, text);
+			padding: 10px 20px;
+			display: block;
+			text-decoration: none;
+			white-space: nowrap;
+
+			&:hover {
+				@include oColorsFor(o-header-nav-link-hover, background);
+			}
+		}
+
+		.nav-item:hover &,
+		.nav-link:hover ~ & {
+			display: block;
+		}		
+	}
+}
+
+
+/* =====toggler==== */
+
+.nav-toggle {
+	@include oGridRespondTo(M) {
+		display: none;
+	}
+	@include oColorsFor(o-header, text background);
+
+	box-sizing: border-box;
+	border: 0;
+	padding: 0;
+	margin: 0;
+	outline: none;
+	cursor: pointer;
+	text-align: left;
+	display: inline-block;
+	background: none;
+	line-height: $o-header-bottom-height;
+	height: 100%;
+	width: $o-header-bottom-height;
+	text-align: left;
+	vertical-align: middle;
+
+	span {
+		display: none;
+	}
+
+	@include oGridRespondTo($until:M) {
+		&:before {
+			content: '';
+			vertical-align: middle;
+			@include oIconsSvgSassIcon(hamburger, oColorsGetColorFor(o-header, text), 20);
+		}
+
+		&[aria-pressed=true]{
+			&:before {
+				@include oIconsSvgSassIcon(cross, oColorsGetColorFor(o-header, text), 20);
+			}
+
+		}		
+	}
+}
+

@@ -1,0 +1,115 @@
+.o-header {
+	padding: 0;
+	margin: 0;
+	border: 0;
+
+	@include oGridRespondTo($until: M) {
+// placeholder to keep document height intact when `.o-header__secondary` becomes fixed and moved out of document flow.
+		&:after {
+			content: '';
+			display: block;
+			height: $o-header-bottom-height;
+			background-color: transparent;
+		}
+	}
+
+	@include oGridRespondTo(M) {
+		position: relative;
+		z-index: 1;
+
+		& {
+			border-bottom: 32px solid transparent;
+		}
+// a placeholder to keep document height.
+// since .o-header__bottom is moved out of document flow, its height should be compensated to keep document height.
+		.o-header--nav-sticky &:after {
+			content: '';
+			display: block;
+			height: 45px;
+			background-color: transparent;
+		}
+	}
+
+	@include oGridTargetIE8 {
+		position: relative;
+		z-index: 1;
+	}
+}
+
+.o-header__primary, .o-header__secondary {
+	@include oColorsFor(o-header);
+}
+.o-header__primary {
+	display: none;
+	@include oGridRespondTo(M) {
+		display: block;
+	}
+	@include oGridTargetIE8 {
+		display: block;
+	}
+}
+.o-header__secondary {
+	@include oGridRespondTo($until: M) {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		z-index: 1;
+		height: $o-header-bottom-height;
+	}
+	@include oGridRespondTo(M) {
+		position: relative;
+// add background placeholder for .nav-items. Move it out of normal flow.
+		&:after {
+			content: '';
+			position: absolute;
+			left: 0;
+			right: 0;
+			height: $o-header-sub-nav-height;
+			transition: $o-header-height-transition;
+			@include oColorsFor(o-header-sub-nav, background);
+		}
+		&[aria-sticky=true] {
+			position: fixed;
+			top: 0;
+			left: 0;
+			right: 0;
+ 			&:after {
+				height: 0;
+			}
+		}
+	}
+}
+
+.o-header__container {
+	position: relative;
+	box-sizing: border-box;
+	margin-left: auto;
+	margin-right: auto;
+	min-width: $o-grid-min-width;
+	max-width: $_o-grid-max-width;
+	padding-left: oGridGutter();
+	padding-right: oGridGutter();
+
+
+	@include oGridRespondTo(M) {
+		padding-left: oGridGutter(M);
+		padding-right: oGridGutter(M);
+	}
+
+	@include oGridTargetIE8 {
+		padding-left: oGridGutter($o-grid-fixed-layout);
+		padding-right: oGridGutter($o-grid-fixed-layout);
+		width: oGridGetMaxWidthForLayout($o-grid-fixed-layout, $grid-mode: 'fixed');
+	}
+}
+
+.o-header__top,
+.o-header__bottom {
+	position: relative;
+	box-sizing: border-box;
+	display: block;
+	min-width: 100%;
+	max-width: 100%;
+	width: 100%;
+}
