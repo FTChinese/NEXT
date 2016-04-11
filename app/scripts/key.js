@@ -74,3 +74,14 @@ function showOverlay(overlayId) {
 function closeOverlay(overlayId) {
     document.getElementById(overlayId).className = 'overlay-container';
 }
+
+/* jshint ignore:start */
+function logout() {
+    DeleteCookie ("USER_NAME");
+    window.location.href += "?logout=y";
+}
+var user_name=GetCookie ("USER_NAME");
+if (user_name !== null) {
+    document.documentElement.className += ' is-member';
+}
+/* jshint ignore:end */
