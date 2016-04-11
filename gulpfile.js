@@ -375,10 +375,10 @@ gulp.task('watch', ['connect'], function () {
   gulp.watch('bower.json', ['wiredep']);
 });
 
-gulp.task('headercss', function () {
+gulp.task('css', function () {
   const DEST = '.tmp/styles';
 
-  return gulp.src('header/o-header.scss')
+  return gulp.src(['header/o-header.scss', 'app/styles/main*.scss'])
     .pipe($.changed(DEST)) 
     .pipe($.plumber()) 
     .pipe($.sourcemaps.init({loadMaps:true})) 
@@ -419,7 +419,7 @@ gulp.task('php', function() {
 });
 
 gulp.task('serve', 
-  ['headercss', 'copym', 'headerjs', 'php'],
+  ['css', 'copym', 'headerjs', 'php'],
   function() {
   browserSync.init({
     proxy: 'localhost:8011',
@@ -430,7 +430,7 @@ gulp.task('serve',
   });
 
   gulp.watch(['header/**/*.js'], ['headerjs']);
-  gulp.watch('header/**/*.scss', ['headercss']);
+  gulp.watch(['header/**/*.scss', 'app/styles/main*.scss'], ['css']);
 });
 
 gulp.task('build', ['jshint', 'html', 'images', 'fonts', 'extras', 'ad'], function () {
