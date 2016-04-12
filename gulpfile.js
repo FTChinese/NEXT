@@ -383,6 +383,13 @@ gulp.task('watch', ['connect'], function () {
   gulp.watch('bower.json', ['wiredep']);
 });
 
+/*
+* Task to lauch local PHP server.
+* It first starts a local PHP server with task `php` on port 8011
+* Then browser-sync start a proxy server on port 8081 connecting to port 8011.
+* You need to has PHP 5.4 or above to lauch a local server.
+* You also need to install PHP package manager `composer` to install dependencies needed.
+*/
 gulp.task('css', function () {
   const DEST = '.tmp/styles';
 
@@ -437,9 +444,20 @@ gulp.task('serve',
     serveStatic: ['bower_components', '.tmp']
   });
 
+  gulp.watch(['views/**/*', 'app/templates/partials/*.html', 'server/*'], browserSync.reload);
   gulp.watch(['app/**/*.js'], ['copyjs']);
   gulp.watch(['app/styles/**/*.scss'], ['css']);
 });
+
+gulp.task('testserver', function() {
+  return gulp.src(['app/templates/partials/nav.html'])
+    .pipe($.replace('<!-- easyapi -->', '<%easyapi command="11001" assign="datass1" debug=false%><%*$datass1.odatalist|var_dump*%>'))
+    .pipe($.smoosher({
+      base: '.tmp'
+    }))
+    .pipe(gulp.dest('../www/frontend/tpl/next/partials'));
+});
+/*************/
 
 gulp.task('build', ['jshint', 'html', 'images', 'fonts', 'extras', 'ad'], function () {
   return gulp.src('dist/**/*').pipe($.size({title: 'build', gzip: true}));
