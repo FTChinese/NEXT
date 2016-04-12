@@ -43,8 +43,6 @@ document.documentElement.className = document.documentElement.className.replace(
     </script>
 <![endif]-->
 
-<link rel="stylesheet" type="text/css" href="styles/o-header.css">
-
 <!-- build:css styles/main-header.css -->
 <link rel="stylesheet" href="styles/main-header.css">
 <!-- endbuild -->
@@ -111,13 +109,14 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
  </head>
  <body>
 
-<%include file="./templates/partials/o-header.tpl"%>
+<%include file="partials/header.html"%>
+<%include file="partials/nav.html"%>
 
-<%include file="../views/body.html"%>
+<%include file="next/body.html"%>
 
-<%include file="./templates/partials/footer.html"%>
+<%include file="partials/footer.html"%>
 
-<%include file="./templates/partials/QrCode.html"%>
+<%include file="partials/QrCode.html"%>
 
 </body>
 
@@ -128,7 +127,7 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 <!-- build:js scripts/main.js -->
 <script src="scripts/dom-delegate.js"></script>
 <script src="scripts/main.js"></script>
-<script src="scripts/o-header.js"></script>
+<script src="scripts/o-nav.js"></script>
 <!-- endbuild -->
 
 </html>

@@ -1,11 +1,11 @@
-.o-header--nav-open {
+.o-nav--open {
 	@include oGridRespondTo($until: M) {
 		overflow-y: hidden;
 		height: 100%;
 	}
 }
 
-.o-header__nav-container {
+.o-nav__container {
 	position: absolute;
 	top: 0;
 	height: $o-header-bottom-height;
@@ -19,7 +19,7 @@
 	}
 }
 
-.o-header__nav {
+.o-nav__level-1 {
 	list-style: none;
 	margin: 0;
 	padding: 0;
@@ -56,9 +56,6 @@
 .nav-section{
 	@include oGridRespondTo(M) {
 		display: inline-block;
-
-
-// .nav-items will inherit the `background-color` set here so that under whatever state, .nav-items always has the same color as .nav-section.
 
 		&:hover {
 			@include oColorsFor(o-header-sub-nav, background);
@@ -175,9 +172,9 @@
 		}
 
 // hide when scrolled. To keep transiton effect, do no use  display, visibility.	
-		.o-header__secondary[aria-sticky=true] &,
-		.o-header__secondary[aria-sticky=true] .nav-section[aria-selected=true] &,
-		.o-header__secondary[aria-sticky=true] .nav-section-head.desktop ~ & {
+		.o-nav[aria-sticky=true] &,
+		.o-nav[aria-sticky=true] .nav-section[aria-selected=true] &,
+		.o-nav[aria-sticky=true] .nav-section-head.desktop ~ & {
 			height: 0;
 		}
 	}

@@ -6,6 +6,7 @@ const http = require('http');
 const url = require('url');
 const request = require('request');
 const cheerio = require('cheerio');
+const del = require('del');
 
 const gulp = require('gulp');
 const $ = require('gulp-load-plugins')();
@@ -266,7 +267,8 @@ gulp.task('styles', function () {
     .pipe($.plumber())
     .pipe($.rubySass({
       style: 'expanded',
-      precision: 10
+      precision: 10,
+      loadPath: ['bower_components']
     }))
     .pipe($.autoprefixer({browsers: ['last 1 version']}))
     .pipe(gulp.dest('.tmp/styles'));
@@ -320,7 +322,13 @@ gulp.task('extras', function () {
   }).pipe(gulp.dest('dist'));
 });
 
-gulp.task('clean', require('del').bind(null, ['.tmp', 'dist']));
+/*gulp.task('clean', require('del').bind(null, ['.tmp', 'dist']));*/
+
+gulp.task('clean', function() {
+  return del(['.tmp/**', 'dist']).then(()=>{
+    console.log('dir .tmp and dist deleted');
+  });
+});
 
 gulp.task('connect', ['styles'], function () {
   var serveStatic = require('serve-static');
@@ -378,7 +386,7 @@ gulp.task('watch', ['connect'], function () {
 gulp.task('css', function () {
   const DEST = '.tmp/styles';
 
-  return gulp.src(['header/o-header.scss', 'app/styles/main*.scss'])
+  return gulp.src(['app/styles/main*.scss'])
     .pipe($.changed(DEST)) 
     .pipe($.plumber()) 
     .pipe($.sourcemaps.init({loadMaps:true})) 
@@ -419,7 +427,7 @@ gulp.task('php', function() {
 });
 
 gulp.task('serve', 
-  ['css', 'copym', 'headerjs', 'php'],
+  ['css', 'copym', 'copyjs', 'php'],
   function() {
   browserSync.init({
     proxy: 'localhost:8011',
@@ -429,8 +437,8 @@ gulp.task('serve',
     serveStatic: ['bower_components', '.tmp']
   });
 
-  gulp.watch(['header/**/*.js'], ['headerjs']);
-  gulp.watch(['header/**/*.scss', 'app/styles/main*.scss'], ['css']);
+  gulp.watch(['app/**/*.js'], ['copyjs']);
+  gulp.watch(['app/styles/**/*.scss'], ['css']);
 });
 
 gulp.task('build', ['jshint', 'html', 'images', 'fonts', 'extras', 'ad'], function () {
@@ -458,7 +466,7 @@ gulp.task('requestdata', function(done) {
       $('.app-download-container').remove();
       const data = $('body').html();
 
-      fs.writeFile('views/body.html', data, function(err) {
+      fs.writeFile('views/next/body.html', data, function(err) {
         if (err) {return done(err)}
         done();
       });

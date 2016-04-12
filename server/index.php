@@ -8,6 +8,8 @@ $smarty->right_delimiter = "%>";
 
 $smarty->setCaching(Smarty::CACHING_OFF);
 
+$smarty->setTemplateDir(['../views', '../app/templates']);
+
 $home = array (
   "id"=>"1",
   "haschildren"=>"1",

@@ -1,5 +1,5 @@
-function Header(rootEl, config = {headerClassName: 'o-header'}) {
-	var oHeader = this;
+function Nav(rootEl, config = {navClassName: 'o-nav'}) {
+	var oNav = this;
 
 	function init() {
 		if (!rootEl) {
@@ -10,8 +10,8 @@ function Header(rootEl, config = {headerClassName: 'o-header'}) {
 		var Delegate = domDelegate.Delegate
 		var rootDelegate = new Delegate(rootEl);
 
-		oHeader.delegate = rootDelegate;
-		oHeader.rootEl = rootEl;
+		oNav.delegate = rootDelegate;
+		oNav.rootEl = rootEl;
 
 		preventScroll();
 		toggle();
@@ -19,10 +19,9 @@ function Header(rootEl, config = {headerClassName: 'o-header'}) {
 	}
 
 	function selected() {
-		var selectAttribute = '[data-o-header-selectable]';
-		var selectableEls = oHeader.rootEl.querySelectorAll(selectAttribute);
-
-		oHeader.delegate.on('click', selectAttribute, (e, selectable) => {
+		var selectAttribute = '[data-o-nav-selectable]';
+		var selectableEls = oNav.rootEl.querySelectorAll(selectAttribute);
+		oNav.delegate.on('click', selectAttribute, (e, selectable) => {
 			for (let i = 0; i < selectableEls.length; i++) {
 				selectableEls[i].setAttribute('aria-selected', 'false');
 			}
@@ -31,9 +30,9 @@ function Header(rootEl, config = {headerClassName: 'o-header'}) {
 	}
 
 	function preventScroll() {
-		var navToggle = oHeader.rootEl.querySelector('[data-o-header-togglable-nav]');
+		var navToggle = oNav.rootEl.querySelector('[data-o-nav-togglable]');
 // add class name on body when pressed.
-		var navOpenClass = config.headerClassName + '--nav-open';
+		var navOpenClass = config.navClassName + '--open';
 
 		if (navToggle) {
 			navToggle.addEventListener('click', function(e) {
@@ -44,10 +43,11 @@ function Header(rootEl, config = {headerClassName: 'o-header'}) {
 	}
 
 	function toggle() {
-		var toggleAttribute = '[data-o-header-togglable]';
+		var toggleAttribute = '[data-o-nav-togglable]';
 
-		oHeader.delegate.on('click', toggleAttribute, (e, togglerEl) => {
+		oNav.delegate.on('click', toggleAttribute, function (e, togglerEl) {
 			var togglerElState = togglerEl.getAttribute('aria-pressed');
+
 			if (togglerElState === 'true') {
 				togglerEl.setAttribute('aria-pressed', 'false');
 			} else if (togglerElState === 'false' || !togglerElState) {
@@ -92,10 +92,8 @@ function Sticky(fixedEl, startDistance, endDistance) {
 
 	    if (withinRange) {
 	    	oSticky.fixedEl.setAttribute('aria-sticky', 'true');
-	    	document.body.classList.add('o-header--nav-sticky');
 	    } else {
 	    	oSticky.fixedEl.removeAttribute('aria-sticky', 'false');
-	    	document.body.classList.remove('o-header--nav-sticky');
 	    }
 
 	    rAF( loop );
@@ -125,11 +123,15 @@ function getElementOffset(e) {
 }
 
 var headerEl = document.querySelector('.o-header');
-var headerNavEl = headerEl.querySelector('.o-header__nav');
-var headerSecondaryEl = headerEl.querySelector('.o-header__secondary');
-var headerSecondaryElOffset = getElementOffset(headerSecondaryEl);
-console.log(headerSecondaryElOffset);
 
-new Header(headerEl);
-new Sticky(headerSecondaryEl, headerSecondaryElOffset.y);
+var navEl = document.querySelector('.o-nav');
+
+var navElOffset = getElementOffset(navEl);
+
+console.log(navElOffset);
+
+new Nav(navEl);
+new Sticky(navEl, navElOffset.y);
+
+
 

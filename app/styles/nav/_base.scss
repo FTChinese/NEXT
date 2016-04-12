@@ -1,33 +1,23 @@
-.o-header {
+.header-container {
+	@include oGridRespondTo($until:M) {
+		display: none;
+	}
+}
+.o-nav__placeholder {
 	padding: 0;
 	margin: 0;
 	border: 0;
-
 	@include oGridRespondTo($until: M) {
-// placeholder to keep document height intact when `.o-header__secondary` becomes fixed and moved out of document flow.
-		&:after {
-			content: '';
-			display: block;
-			height: $o-header-bottom-height;
-			background-color: transparent;
-		}
+// placeholder to keep document height intact when `.o-nav` becomes fixed and moved out of document flow.
+		height: $o-header-bottom-height + 30px;
+		background-color: transparent;
 	}
 
 	@include oGridRespondTo(M) {
 		position: relative;
 		z-index: 1;
-
-		& {
-			border-bottom: 32px solid transparent;
-		}
-// a placeholder to keep document height.
-// since .o-header__bottom is moved out of document flow, its height should be compensated to keep document height.
-		.o-header--nav-sticky &:after {
-			content: '';
-			display: block;
-			height: 45px;
-			background-color: transparent;
-		}
+		height: $o-header-bottom-height + $o-header-sub-nav-height + 30px;
+		background-color: transparent;
 	}
 
 	@include oGridTargetIE8 {
@@ -36,19 +26,9 @@
 	}
 }
 
-.o-header__primary, .o-header__secondary {
+.o-nav {
 	@include oColorsFor(o-header);
-}
-.o-header__primary {
-	display: none;
-	@include oGridRespondTo(M) {
-		display: block;
-	}
-	@include oGridTargetIE8 {
-		display: block;
-	}
-}
-.o-header__secondary {
+
 	@include oGridRespondTo($until: M) {
 		position: fixed;
 		top: 0;
@@ -81,20 +61,19 @@
 	}
 }
 
-.o-header__container {
+.o-nav__outer {
 	position: relative;
 	box-sizing: border-box;
 	margin-left: auto;
 	margin-right: auto;
 	min-width: $o-grid-min-width;
-	max-width: $_o-grid-max-width;
+	max-width: 1260px;
 	padding-left: oGridGutter();
 	padding-right: oGridGutter();
 
 
 	@include oGridRespondTo(M) {
-		padding-left: oGridGutter(M);
-		padding-right: oGridGutter(M);
+		padding: 0 30px;
 	}
 
 	@include oGridTargetIE8 {
@@ -104,8 +83,7 @@
 	}
 }
 
-.o-header__top,
-.o-header__bottom {
+.o-nav__inner {
 	position: relative;
 	box-sizing: border-box;
 	display: block;
