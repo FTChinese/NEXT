@@ -1,3 +1,5 @@
+<!-- easyapi -->
+
 <div class="o-nav__placeholder">
   <div class="o-nav">
     <div class="o-nav__outer">
@@ -51,9 +53,10 @@
                   <%/if%></a>
                 </li>
 
+            <%if $topnav==$level_1.code%>
 
                 <%foreach from=$level_1.children item="level_2"%>
-                
+
                 <li class="nav-item"
                 <%if $subnav==$level_2.code%>
                 aria-selected="true"
@@ -76,6 +79,9 @@
 
                 </li>
                 <%/foreach%>
+                
+            <%/if%>
+
               </ol>
 
             </li>
