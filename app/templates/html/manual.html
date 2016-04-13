@@ -2,6 +2,10 @@
     <%assign var="pageId" value="home"%>
 <%/if%>
 <%assign var="p" value=$nextmodel->getPublishJson($pageId)|json_decode:true%>
+<%assign var="adchannelID" value="`$p.meta.adid`"%>
+<%if !isset($adchannelID)||$adchannelID==""%>
+    <%assign var="adchannelID" value="1100"%>
+<%/if%>
 <!DOCTYPE html>
 <html class="no-js core" data-next-app="front-page">
     <head>
@@ -100,11 +104,14 @@
                 <%assign var="ad" value=$publishhtml->get_publish_html("ad")%>
                 <div id=roadblock style="margin:0 auto;position:relative;width:700px;text-align:center;">
                     <script>
-                                var thisday1 = new Date();
+                        var thisday1 = new Date();
                         var todaydate1 = thisday1.getFullYear() + "-" + (thisday1.getMonth() + 1) + "-" + thisday1.getDate();
                         var fullsc = GetCookie("rb2");
+                        var loadFullAtEnd = false;
                         if (fullsc == null && (todaydate1 == "<%$ad.fullscreen1%>" || todaydate1 == "<%$ad.fullscreen2%>" || todaydate1 == "<%$ad.fullscreen3%>" || todaydate1 == "<%$ad.fullscreen4%>" || todaydate1 == "<%$ad.fullscreen5%>")) {
                             document.write('<scr' + 'ipt type="text/jav' + 'ascript" src="http://dolphin.ftimg.net/s?z=ft&amp;c=10000014&amp;slot=645072137&amp;_sex=101&amp;_trip=1&amp;_lux=1&amp;_dc=2&amp;_mm=2&amp;_sz=2&amp;_am=2" charset="gbk"></scr' + 'ipt>');
+                        } else if (fullsc == null) {
+                            loadFullAtEnd = true;
                         }
                         setTimeout(function () {
                             stickyBottomPrepare();
@@ -149,4 +156,16 @@
     <script type="text/javascript">
         <%include file = "next/scripts/main.js"%>
     </script>
+    <%if $pageId == "home"%>
+        <%if $smarty.get.ad != 'no'%>
+            <div class="hide">
+                <script>
+                    if (fullsc == null && loadFullAtEnd === true) {
+                        document.write('<scr' + 'ipt type="text/jav' + 'ascript" src="http://dolphin.ftimg.net/s?z=ft&amp;c=10000014&amp;slot=645072137&amp;_sex=101&amp;_trip=1&amp;_lux=1&amp;_dc=2&amp;_mm=2&amp;_sz=2&amp;_am=2" charset="gbk"></scr' + 'ipt>');
+                        SetCookie("rb2",1,cookiesecond,"/");
+                    }
+                </script>
+            </div>
+        <%/if%>
+    <%/if%>
 </html>

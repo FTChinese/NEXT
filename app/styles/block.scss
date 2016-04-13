@@ -297,6 +297,9 @@
 		&.ad-hidden {
 			margin: 0 auto;
 		}
+		&#ribbon {
+			margin: 15px auto;
+		}
 	}
 	.list-title {
 		@include itemTitleMobile;
@@ -355,89 +358,6 @@
 			}
 		}
 	}
-}
-
-//overlay
-.overlay-container {
-	position: fixed;
-	top:0;
-	left:0;
-	bottom:0;
-	right:0;
-	display: none;
-	z-index:999999999999;
-	&.on {
-		display: block;
-	}
-}
-.overlay-inner {
-	position: relative;
-	width: 100%;
-	height: 100%;
-}
-.overlay-bg {
-	position: absolute;
-	left:0;
-	right:0;
-	top:0;
-	bottom:0;
-	background-color: rgba(0,0,0,0.7);
-	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#ee000000', endColorstr='#ee000000');
-	z-index:9999999;
-}
-.overlay-content-outer {
-	position: absolute;
-	z-index:99999999;
-	left:0;
-	right:0;
-	top:0;
-	bottom:0;
-	width:300px;
-	display: table;
-	margin: auto;
-}
-
-.overlay-content-inner {
-	display: table-cell;
-	vertical-align: middle;
-}
-.overlay-content {
-	background-color: $defaultPink;
-	width: 300px;
-	margin: auto;
-	//padding: $defaultPadding;
-	div {
-		padding: $defaultPadding/2;
-		border-top: 1px dotted $borderColor;
-		&.first-child, &.overlay-title {
-			border-top: 0; 
-		}
-		&.input-title {
-			border-top: 0;
-			padding: $defaultPadding/2 $defaultPadding/2 $defaultPadding/4 $defaultPadding/2;
-		}
-		&.input-container {
-			border-top: 0;
-			padding: 0 $defaultPadding/2;
-		}
-	}
-
-}
-.overlay-title {
-	background-color: $overlayTitleColor;
-	color: white;
-	position: relative;
-}
-.overlay-close {
-	display: block;
-	position: absolute;
-	padding:0;
-	top: $defaultPadding/2;
-	right: $defaultPadding/2;
-    font-size: 43px;
-    font-family: 'Arial';
-    font-weight: 400;
-    cursor: pointer;
 }
 .smallest {
 	font-size: 0.8em;
