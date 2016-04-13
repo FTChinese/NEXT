@@ -1,0 +1,123 @@
+$o-header-is-silent: true !default;
+
+$o-header-top-height: 70px;
+$o-header-logo-height: 36px;
+
+$o-header-bottom-height: 45px;
+$o-header-logo-mobile-height: 21px;
+
+$o-header-sub-nav-height: 32px;
+
+$o-header-background-transition: 0.3s background-color;
+$o-header-height-transition: 0.3s height;
+
+$o-header-height: $o-header-top-height + $o-header-bottom-height + $o-header-sub-nav-height;
+
+$o-header-mobile-width: 5;
+
+$o-header-mobile-left-width: percentage($o-header-mobile-width / $o-grid-columns);
+$o-header-mobile-right-width: percentage(($o-grid-columns - $o-header-mobile-width) / $o-grid-columns);
+
+
+@mixin oHeaderLogoDimension($height, $color: oColorsGetPaletteColor('white')) {
+	@if unitless($height) {
+		$height: $height * 1px;
+	}
+	height: $height;
+	width: 4.7 * $height;
+	svg {
+		width: 100%;
+		height: 100%;
+		fill: $color;
+	}
+}
+
+@mixin oHeaderLogo($height) {
+	@if unitless($height) {
+		$height: $height * 1px;
+	}
+	display: block;
+	margin: 0 auto;
+	padding: 0;
+	
+	height: $height;
+	width: 4.7 * $height;
+
+	background-image: url('http://s.ftimg.net/img/png/brand-ftc-masthead-white.png');
+	background-image: url('http://s.ftimg.net/img/svg/brand-ftc-masthead-white.svg');
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: contain;
+
+	span {
+		display: none;
+	}
+}
+
+@mixin oHeaderSearchExpanded {
+	cursor: text;
+	width: 100%;
+	@include oColorsFor(o-header, background);
+	border: 1px solid oColorsGetPaletteColor('pink-tint4');
+	padding-right: $o-header-bottom-height + 5px;
+	padding-left: 5px;
+}
+
+@mixin oHeaderArrowUp {
+	border-top: 0;
+	border-left: 6px solid transparent;
+	border-right: 6px solid transparent;	
+	border-bottom: 8px solid oColorsGetColorFor(o-header-edition-switch, border);	
+}
+
+@mixin oHeaderArrowDown {
+	border-top: 8px solid oColorsGetColorFor(o-header-edition-switch, border);
+	border-left: 6px solid transparent;
+	border-right: 6px solid transparent;
+	border-bottom: 0;
+}
+
+// FT's mixin. It seems we do not need them.
+@mixin oHeaderNavItem() {
+	display: block;
+	padding: 0 4px;
+	border: 0;
+	background: none;
+	color: inherit;
+	font-size: 14px;
+	line-height: $o-header-bottom-height;
+	text-decoration: none;
+	cursor: pointer;
+
+	@include oGridRespondTo(M) {
+		padding: 0 6px;
+		font-size: 13px;
+	}
+
+	@include oGridRespondTo(L) {
+		padding: 0 7px;
+		font-size: 16px;
+	}
+
+	*:last-child > & {
+		padding-right: 0;
+	}
+}
+
+@mixin _oHeaderButtonReset {
+	color: inherit;
+	background-color: transparent;
+	border: 0;
+	padding: 0;
+}
+
+@mixin _oHeaderHideVisually {
+	position: absolute;
+	clip: rect(0 0 0 0);
+	margin: -1px;
+	border: 0;
+	overflow: hidden;
+	padding: 0;
+	width: 1px;
+	height: 1px;
+}
