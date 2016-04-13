@@ -8,7 +8,7 @@ function Nav(rootEl, config = {navClassName: 'o-nav'}) {
 		} else if (!(rootEl instanceof HTMLElement)) {
 			rootEl = document.querySelector(rootEl);
 		}
-		var Delegate = domDelegate.Delegate;
+		//var Delegate = domDelegate.Delegate;
 		var rootDelegate = new Delegate(rootEl);
 
 		oNav.delegate = rootDelegate;
@@ -62,7 +62,7 @@ function Nav(rootEl, config = {navClassName: 'o-nav'}) {
 
 function Sticky(fixedEl, startDistance, endDistance) {
 	var oSticky = this;
-	var rAF = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.msRequestAnimationFrame || window.oRequestAnimationFrame || function(callback){ window.setTimeout(callback, 1000/60) };
+	var rAF = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.msRequestAnimationFrame || window.oRequestAnimationFrame || function(callback){ window.setTimeout(callback, 1000/60); };
 
 
 	function init() {	
@@ -123,20 +123,13 @@ function getElementOffset(e) {
 	return {x: x, y: y};
 }
 
-var navEl = document.querySelector('.o-nav');
-
-var navElOffset = getElementOffset(navEl);
-
-console.log(navElOffset);
-
-
 var ajax = {
 	getData: function (url, callback) {
 	  var xhr = new XMLHttpRequest();  
 
 	  xhr.onreadystatechange = function() {
 	    if (xhr.readyState === 4) {
-	      if (xhr.status >= 200 && xhr.status < 300 || xhr.status == 304) {
+	      if (xhr.status >= 200 && xhr.status < 300 || xhr.status === 304) {
 	        var type = xhr.getResponseHeader('Content-Type');
 	        if (type.indexOf('xml') !== -1 && xhr.responseXML) {
 	          callback(xhr.responseXML);
@@ -152,20 +145,25 @@ var ajax = {
 	    } else {
 	      console.log('readyState: ' + xhr.readyState);
 	    }
-	  }
+	  };
 
 	  xhr.onprogress = function(event) {
 	    console.log('Request Progress: Received ' + event.loaded / 1000 + 'kb, Total' + event.total / 1000 + 'kb');
-	  }
+	  };
 	  xhr.open('GET', url);
 	  xhr.send(null);
 	}
-}
+};
 
+var navEl = document.querySelector('.o-nav');
+
+var navElOffset = getElementOffset(navEl);
+
+console.log(navElOffset);
 
 new Nav(navEl);
 new Sticky(navEl, navElOffset.y);
 
-ajax.getData('/ajax.php', function(data) {
+/*ajax.getData('/ajax.php', function(data) {
 	console.log(data);
-});
+});*/
