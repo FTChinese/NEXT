@@ -3,7 +3,7 @@
   var mainHeight = [];
   var sideHeight = [];
   var bodyHeight;
-  var gNavOffsetY;
+  var gNavOffsetY=0;
   var gNavHeight = 44;
   var gShareOffsetY;
 //  var gShareHeight = 38;
@@ -60,7 +60,7 @@
   //   }
 
   function stickyBottomPrepare() {
-    gNavOffsetY = findTop(document.getElementById('nav-place-holder'));
+    gNavOffsetY = findTop(document.querySelector('.o-nav__placeholder'));
     bodyHeight = getBodyHeight();
     if (document.getElementById('story-share-placeholder')) {
       gShareOffsetY = findTop(document.getElementById('story-share-placeholder'));
@@ -81,6 +81,8 @@
 
   function stickyBottomUpdate() {
     var htmlClassNew = htmlClass.replace(/ is-sticky/g, '').replace(/ share-sticky/g, '');
+
+    //console.log ('yes');
 
     if (typeof requestAnimationFrame === 'function') {
       requestAnimationFrame(stickyBottomUpdate);
@@ -249,7 +251,7 @@
   }
 
   // listent to scrolling events
-  gNavOffsetY = findTop(document.getElementById('nav-place-holder'));
+  gNavOffsetY = findTop(document.querySelector('.o-nav__placeholder'));
 
   // disable sticky scroll on touch devices
   if (gNavOffsetY > 30 && w > 490 && isTouchDevice() === false) {
