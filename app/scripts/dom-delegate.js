@@ -1,9 +1,9 @@
-!function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.domDelegate=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+/* jshint ignore:start */
 /*jshint browser:true, node:true*/
 
 'use strict';
 
-module.exports = Delegate;
+//module.exports = Delegate;
 
 /**
  * DOM event delegator
@@ -397,7 +397,6 @@ function matchesTag(tagName, element) {
  * @returns boolean
  */
 function matchesRoot(selector, element) {
-  /*jshint validthis:true*/
   if (this.rootElement === window) return element === document;
   return this.rootElement === element;
 }
@@ -428,27 +427,4 @@ Delegate.prototype.destroy = function() {
   this.off();
   this.root();
 };
-
-},{}],2:[function(require,module,exports){
-/*jshint browser:true, node:true*/
-
-'use strict';
-
-/**
- * @preserve Create and manage a DOM event delegator.
- *
- * @version 0.3.0
- * @codingstandard ftlabs-jsv2
- * @copyright The Financial Times Limited [All Rights Reserved]
- * @license MIT License (see LICENSE.txt)
- */
-var Delegate = require('./delegate');
-
-module.exports = function(root) {
-  return new Delegate(root);
-};
-
-module.exports.Delegate = Delegate;
-
-},{"./delegate":1}]},{},[2])(2)
-});
+/* jshint ignore:end */

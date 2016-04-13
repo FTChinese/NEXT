@@ -1,13 +1,13 @@
 .banner-placeholder {
 	position: relative;
 	height: $bannerHeight;
-	margin-bottom: $defaultPadding;
+	margin-bottom: $defaultPadding + $defaultPadding;
 	//width: 100%;
 }
 .banner-container {
 	width: 100%;
 	iframe {
-		margin: auto;
+		margin: $defaultPadding/2 auto 0 auto;
 	}
 	&.is-fix {
 		position: fixed;
@@ -22,7 +22,7 @@
 .banner-content {
 	margin: 0 $defaultPadding;
 	background: $bannerBG;
-	height: $bannerHeight;
+	height: $bannerHeight + $defaultPadding;
 }
 .sponsor-container {
 	padding: 0 $defaultPadding/2;

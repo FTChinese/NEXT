@@ -102,20 +102,47 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 
 <header class="header-container">
 <div class="header-inner">
-<div class="header-title">奢华水上</div>
+<div class="header-title">全球商业的未来</div>
 <div class="header-side header-left">
 <div class="header-brand"><figure class="loading" data-url="http://static.ftchinese.com/images/masthead36.png"></figure></div>
 </div>
 <div class="header-side header-right">
-<a href="">登录</a>
+<span class="visitor-box">
+<a onclick="showOverlay('overlay-login')">登录</a>
 <a class="more last" href="http://user.ftchinese.com/register">免费注册</a>
+</span>
+<span class="member-box">
+<a id="ft-login-your-account" href="/users/cp">设置</a>
+<a id="ft-login-logout" href="http://user.ftchinese.com/logout">登出</a>
+</span>
 </div>
 </div>
-</header><div class="nav-place-holder" id="nav-place-holder"><nav class="nav-container" id="nav-container">
+</header>
+<div class="overlay-container" id="overlay-login">
+<div class="overlay-inner">
+<div class="overlay-bg" data-parentid="overlay-login"></div>
+<div class="overlay-content-outer">
+<div class="overlay-content-inner">
+<div class="overlay-content">
+<div class="overlay-title">登录<i class="overlay-close" data-parentid="overlay-login">×</i></div>
+<form method="post" action="/users/login">
+<div class="input-title">电子邮件/用户名</div>
+<div class="input-container"><input type="text" class="input-oneline" name="username" id="ft-login-input-username"></div>
+<div class="input-title">密码</div>
+<div class="input-container"><input type="password" class="input-oneline" name="password"></div>
+<div class="input-title input-submit-container"><input type="checkbox" class="checkbox" value="1" checked="checked" name="saveme" id="ft-login-input-remember">记住我
+<input class="input-submit" type="submit" value="提交"></div>
+<div class="input-title"><a href="/users/findpassword" class="blue-link">找回密码</a></div>
+</form>
+</div>
+</div>
+</div>
+</div>
+</div><div class="nav-place-holder" id="nav-place-holder"><nav class="nav-container" id="nav-container">
 <div class="nav-inner">
 <ul class="nav-content">
 <li class="home on nav">
-<a href="">首页</a>
+<a href="/">首页</a>
 <ul class="subnav">
 <li class="first-child ">
 <a href="/channel/special.html">专题报道</a>
@@ -188,8 +215,8 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 <li class="last-child nosub ">
 <a href="/channel/ebook.html">电子书</a>
 </li>
-<li class="rss last-child"><a href="/channel/rss.html"><img src="http://static.ftchinese.com/img/rss_link_nav.gif" alt="RSS" style="border:none;"/></a></li>
-<li class="tools"><a>工具</a>
+<li class="subnav-right last-child"><a href="/channel/rss.html"><img src="http://static.ftchinese.com/img/rss_link_nav.gif" alt="RSS" style="border:none;"/></a></li>
+<li class="subnav-right"><a>工具</a>
 <ul class="subnav">
 <li class="dummy-child"><a>工具</a></li>
 <li class="nosub first-child"><a href="http://app.ftchinese.com">移动应用大全</a></li>
@@ -201,7 +228,7 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 <li class="nosub last-child"><a href="/users/favstorylist">管理收藏</a></li>
 </ul>
 </li>
-<li class="tools long"><a href="/m/corp/follow.html">关注我们</a>
+<li class="subnav-right long"><a href="/m/corp/follow.html">关注我们</a>
 <ul class="subnav">
 <li class="dummy-child"><a href="/m/corp/follow.html">关注我们</a></li>
 <li class="first-child sns"><a target=_blank href="http://weibo.com/ftchinese" style="background-image:url(http://i.ftimg.net/picture/8/000031298_piclink_24_24.jpg)">新浪微博</a></li>
@@ -219,15 +246,15 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 </ul>
 </li></ul>
 </li>
-<li class="china nav"><a href="">中国</a></li>
-<li class="world nav"><a href="">全球</a></li>
-<li class="economy nav"><a href="">经济</a></li>
-<li class="markets nav"><a href="">金融市场</a></li>
-<li class="business nav"><a href="">商业</a></li>
-<li class="opinion nav"><a href="">观点</a></li>
-<li class="management nav"><a href="">管理</a></li>
-<li class="lifestyle nav"><a href="">生活时尚</a></li>
-<li class="video nav"><a href="">视频</a></li>
+<li class="china nav"><a href="/channel/china.html">中国</a></li>
+<li class="world nav"><a href="/channel/world.html">全球</a></li>
+<li class="economy nav"><a href="/channel/economy.html">经济</a></li>
+<li class="markets nav"><a href="/channel/markets.html">金融市场</a></li>
+<li class="business nav"><a href="/channel/business.html">商业</a></li>
+<li class="opinion nav"><a href="/channel/opinion.html">观点</a></li>
+<li class="management nav"><a href="/channel/management.html">管理</a></li>
+<li class="lifestyle nav"><a href="/channel/lifestyle.html">生活时尚</a></li>
+<li class="stream nav"><a href="/channel/stream.html">视频</a></li>
 </ul>
 <div class="nav-right"><div></div></div>
 </div>
@@ -236,194 +263,257 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 <div class="banner-container">
 <div class="banner-inner">
 <div class="banner-content">
-<script type="text/javascript">document.write (writeAd('banner'));</script>
+<script type="text/javascript">document.write (writeAd('tagbanner'));</script>
 </div>
 </div>
 </div>
 </div>
-<div class="block-container has-side"><div class="block-inner">
+<div class="block-container has-side side-right"><div class="block-inner">
 <div class="content-container"><div class="content-inner">
-<div class="list-container"><div class="list-inner">
-<div class="items">
 
-<div class="item-container XL8 L8 M12 S6 P12 has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001065897#adchannelID=2000">超级游艇催生“码头升级战”</a></h2>
-<a class="image" target="_blank" href="/story/001065897#adchannelID=2000"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000058157_piclink.jpg"></figure></a><div class="item-lead">随着超级游艇的规格不断升级，游艇所有者和使用者对配套服务的期望值也水涨船高。为满足这一需求，开发商和运营商开始了一场“岸上的战争”。</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class=" MT PT"></div>
-<div class="item-container XL4 XL-half XL-right L4 L-half L-right M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001065707#adchannelID=2000">如何购买游艇？</a></h2>
-<a class="image" target="_blank" href="/story/001065707#adchannelID=2000"><figure class="loading" data-url="http://i.ftimg.net/picture/5/000038855_piclink_550_407.jpg"></figure></a><div class="item-lead">你打造了自己的商业帝国，该享受一下了。有位朋友邀请你去他的游艇，而如今你也想要一艘游艇。可你对如何购买游艇一无所知。怎么办？</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class=" MT PT ST"></div>
-<div class="item-container XL4 XL-half XL-right XL-lower L4 L-half L-right L-lower M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001065014#adchannelID=2000">乘木游艇畅游印尼岛</a></h2>
-<a class="image" target="_blank" href="/story/001065014#adchannelID=2000"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000056614_piclink.jpg"></figure></a><div class="item-lead">阿曼公司运营的Amandira游艇最多容纳十人，往来于印尼岛屿间。5晚旅程，既可停靠小岛欣赏稀有藻礁，在荒岛上享用烤龙虾，还能在大海中潜泳潜水。
-</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class="XLT LT MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001064907#adchannelID=2000">西方游艇玩家的新需求</a></h2>
-<a class="image" target="_blank" href="/story/001064907#adchannelID=2000"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000056427_piclink.jpg"></figure></a><div class="item-lead">他们希望游艇有更强的“越野”功能，能适应复杂水域；他们想把游艇停在人迹罕至的公海里潜水。与在南极洲港湾划独木舟相比，去摩纳哥用餐不值一提。
-</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class=" MT PT ST"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001064437#adchannelID=2000">驶往东方的大邮轮</a></h2>
-<a class="image" target="_blank" href="/story/001064437#adchannelID=2000"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000055633_piclink.jpg"></figure></a><div class="item-lead">今年将有100万以上中国人乘坐邮轮度假，数量较三年前猛增四倍。国际邮轮公司难再保持淡定，纷纷派出最豪华的巨轮驶向东方。然而，诸多问题却接踵而来。</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class=" MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001063132#adchannelID=2000">去加勒比海岛度个假</a></h2>
-<a class="image" target="_blank" href="/story/001063132#adchannelID=2000"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000053670_piclink.jpg"></figure></a><div class="item-lead">加勒比的圣基茨岛，旅游业占GDP24%。投资40万美元房产，就能成为该国公民，且无需付个人所得税和遗产税，也没有居住期限。各类海鲜更可以大快朵颐。</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class="XLT LT MT PT ST"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001059552#adchannelID=2000">南极漂流记</a></h2>
-<a class="image" target="_blank" href="/story/001059552#adchannelID=2000"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000048579_piclink.jpg"></figure></a><div class="item-lead">作家狄马：我在南极海上漂了11天。在故乡陕北，冬天雪也很大，但雪质绵软而细薄，而南极的雪则坚硬而呈颗粒状，好像冻住了的白砂糖。
-</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class=" MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001059108#adchannelID=2000">巴厘岛邂逅“好声音”</a></h2>
-<a class="image" target="_blank" href="/story/001059108#adchannelID=2000"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000048060_piclink.jpg"></figure></a><div class="item-lead">电台主持人阿健：旅行途中偶遇的有意思的人和他们的故事对我而言就是“好声音”。一旦遇到，就好似做了一档高收听率的访谈节目一般。</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class=" MT PT ST"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001058287#adchannelID=2000">加州海岸的特色酒店</a></h2>
-<a class="image" target="_blank" href="/story/001058287#adchannelID=2000"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000047073_piclink.jpg"></figure></a><div class="item-lead">美国加州中部海岸是世界上最著名的公路旅行目的地之一。这里的酒店，有的因受好莱坞影星青睐而闻名，有的则因悬崖房间的奇景而传世。</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class="XLT LT MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001056828#adchannelID=2000">巴西的瑰宝：安哥拉</a></h2>
-<a class="image" target="_blank" href="/story/001056828#adchannelID=2000"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000045152_piclink.jpg"></figure></a><div class="item-lead">巴西人都说上帝是巴西人，把最美的土地给了巴西。而安哥拉更像是在上帝的怀抱里。它是里约人和圣保罗人最喜爱的地方，周边有300个小岛。</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class=" MT PT ST"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001052650#adchannelID=2000">造个水下别墅？</a></h2>
-<a class="image" target="_blank" href="/story/001052650#adchannelID=2000"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000039238_piclink_550_310.jpg"></figure></a><div class="item-lead">建300平米的水下别墅需1000万美元，比奢华游艇还便宜。如今的技术已经可以使水下别墅的气压与陆地一致。水下建筑的老化也比地面建筑慢。</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class=" MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001052379#adchannelID=2000">高端旅行：租游艇出海</a></h2>
-<a class="image" target="_blank" href="/story/001052379#adchannelID=2000"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000038884_piclink_972_296.jpg"></figure></a><div class="item-lead">西方游艇一族开始租游艇，前往汤加、婆罗洲、南极洲这些充满挑战的海域，南太平洋上的小岛也很热门。游艇里有奢华酒店的所有配置。</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class="XLT LT MT PT ST"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001051658#adchannelID=2000">体验中国第一艘豪华邮轮</a></h2>
-<a class="image" target="_blank" href="/story/001051658#adchannelID=2000"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000037806_piclink_566_319.jpg"></figure></a><div class="item-lead">豪华邮轮游如今来到中国，将中国人在郑和下西洋之后中断多年的探险精神再次释放。许多中国游客开始站在本国邮轮上，第一次看外面的世界。</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class=" MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001049724#adchannelID=2000">自驾帆船：全新度假方式</a></h2>
-<a class="image" target="_blank" href="/story/001049724#adchannelID=2000"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000035053_piclink_300_452.jpg"></figure></a><div class="item-lead">西班牙加那利群岛是著名度假天堂。我们可不是来晒太阳的，而是自驾帆船进行历险式的旅游。一周内我们学会操控船舵，还钓了巨大的金枪鱼。
-</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class=" MT PT ST"></div>
-<div class="item-container XL4 XL-half L4 L-half M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001047775#adchannelID=2000">婆罗洲：西方人的异域天堂</a></h2>
-<a class="image" target="_blank" href="/story/001047775#adchannelID=2000"><figure class="loading" data-url="http://i.ftimg.net/picture/5/000032575_piclink_972_296.jpg"></figure></a><div class="item-lead">马来群岛的婆罗洲是西方人心目中的“异域天堂”。如今这里是奢华度假胜地，有原始雨林木屋，不容错过的野生探险，还有美味的香槟酒。
-</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class=" MT PT"></div>
-<div class="item-container XL4 XL-half XL-lower L4 L-half L-lower M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001044496#adchannelID=2000">游艇：中国富豪的新玩具</a></h2>
-<a class="image" target="_blank" href="/story/001044496#adchannelID=2000"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000056359_piclink.jpg"></figure></a><div class="item-lead">中国消费者已在全球范围内成为刺激奢侈品市场发展的新兴力量。中国富豪买游艇的规律是，第一个人买了后，小圈子的其他朋友会买更大的。</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class="XLT LT MT ST PT"></div>
-<div class="item-container XL6 L6 M12 S6 P12 no-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001061880#adchannelID=2000">我的发明改变了飞钓</a></h2>
-<div class="item-lead">儿时的一次经历给了我灵感，让我发明出了著名的“疯狂查理”北梭鱼假饵，这个发明让咸水飞钓运动发生了革命性的变化，也创造出数百万美元的财富。</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class=" MT PT"></div>
-<div class="item-container XL6 L6 M12 M-half S6 P12 P-half no-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001057858#adchannelID=2000">在单舱帆船上度蜜月？</a></h2>
-<div class="item-lead">在管家及船员的陪伴下，情侣两人自由巡游海上群岛，晚上睡在荒岛宿营地。神情尴尬的服务员站在按摩浴缸前倒香槟的那种蜜月，过时了。
+<div class="list-container"><div class="list-inner"><div class="items">
 
-</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class="XLT LT MT PT ST"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half no-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001057093#adchannelID=2000">潜水：水波下的专注</a></h2>
-<div class="item-lead">水下是一个完全不同的世界。潜水能给人带来从日复一日的平凡生活中逃离的感觉，还能促人冥想。水下是一个神秘的世界，可以令人着迷。</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class=" MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half no-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001046302#adchannelID=2000">中国市场喜欢大游艇</a></h2>
-<div class="item-lead">FT中文网特约撰稿人艾米：游艇设计从注重娱乐性，变为重视家庭聚会等使用，容量越来越大，更像一个可移动的建筑，很合中国富豪口味。
-
-</div>
+<div class="item-container XL8 L8 M12 S12 S-double-width P12 has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067029#adchannelID=2051">机器人将淘汰哪些工作？</a></h2>
+<a class="image" target="_blank" href="/story/001067029#adchannelID=2051"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000060543_piclink.jpg"></figure></a><div class="item-lead">戴尔公司创始人年轻时曾在餐馆洗盘子，未来创业家们第一份糊口工作肯定不是洗盘子。自动化消灭了大量低端岗位，但新技术也可能创造更多就业职位。</div>
 <div class="item-bottom"></div>
 </div></div>
 <div class=" MT PT ST"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half no-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001044215#adchannelID=2000">体验不一般的海上垂钓</a></h2>
-<div class="item-lead">地中海的酒店推出的出海垂钓旅游项目温情十足，一边可以目睹收鱼网时的丰收景象，一边可以享受现烹制的鲜鱼。
-</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class="XLT LT MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half no-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001043807#adchannelID=2000">玩过水箭背包吗？</a></h2>
-<div class="item-lead">水箭背包(JetLev)是受007电影启发而研制的水上飞行工具。你可以背上它，在海面上享受遨翔的感觉。</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class=" MT PT ST"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half no-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001021642#adchannelID=2000">浙江出现“游艇热”</a></h2>
-<div class="item-lead">FT中文网特约撰稿人单燕蓉：自2004年第一艘豪华游艇在千岛湖开元度假村下水以来，千岛湖、宁波、台州、温州等地的游艇及码头建造项目不断升温。</div>
+<div class="item-container XL4 XL-right L4 L-right M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066889#adchannelID=2051">中国新一代家族理财室崛起</a></h2>
+<a class="image" target="_blank" href="/story/001066889#adchannelID=2051"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000060263_piclink.jpg"></figure></a><div class="item-lead">目前中国仍存在大量的可用资金，其中来自新一代家族理财室的比例越来越高。这些资金在科技和电商领域创造并支撑了新增就业，助推了中国经济。</div>
 <div class="item-bottom"></div>
 </div></div>
 <div class=" MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half no-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001028237#adchannelID=2000">邮轮度假的中国特色</a></h2>
-<div class="item-lead">FT中文网特约撰稿人艾米：有国际邮轮公司增设“麻将室”来迎合中国客人的需要；中国客人也还不习惯根据Dress Code穿衣。起步阶段的中国邮轮度假业任重而道远。</div>
+<div class="item-container XL4 XL-right XL-no-image L4 L-right L-no-image M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067010#adchannelID=2051">绩效考核如何跟上时代？</a></h2>
+<a class="image" target="_blank" href="/story/001067010#adchannelID=2051"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000060514_piclink.jpg"></figure></a><div class="item-lead">FT管理专栏作家希尔：传统的年度绩效评估和考核消耗大量人力，而且成效令人怀疑。改革者相信，年轻员工更乐意定期使用移动APP来衡量和更新绩效。</div>
 <div class="item-bottom"></div>
 </div></div>
 <div class="clearfloat"></div>
 </div>
 </div></div>
-<div class="clearfloat block-bottom"></div>
+<div class="list-container"><div class="list-inner"><h2 class="list-title">
+<a class="list-link" href="#">产业的未来</a>
+</h2>
+<div class="items">
+
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066762#adchannelID=2051">传统媒体是否真的将死？</a></h2>
+<a class="image" target="_blank" href="/story/001066762#adchannelID=2051"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000059366_piclink.jpg"></figure></a><div class="item-lead">纸媒将死争论未息，papi酱又获投资。未来的天下果然是新媒体的吗？传统媒体的挑战并非能否利用互联网工具，而是能否真正挑起做合格新闻这个重担。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066862#adchannelID=2051">“亿级翻译需求”存在吗？</a></h2>
+<a class="image" target="_blank" href="/story/001066862#adchannelID=2051"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000059329_piclink.jpg"></figure></a><div class="item-lead">邹剑宇：可预见的时间里，机器翻译一直都会不完美。这并非坏消息，它给人类留了尊严和安全感，保留了翻译职业，甚至为译员提供了更多的商业需求和工作岗位。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066602#adchannelID=2051">证交所的消亡与重生</a></h2>
+<a class="image" target="_blank" href="/story/001066602#adchannelID=2051"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000059523_piclink.jpg"></figure></a><div class="item-lead">FT专栏作家加普：对于伦敦证交所近年为何身价飙升，在其名称中是找不到线索的。真正的关键在于转型。如今，该交易所的主营业务已不再是股票交易。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="XLT LT MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066915#adchannelID=2051">“算法投资”靠谱吗？</a></h2>
+<a class="image" target="_blank" href="/story/001066915#adchannelID=2051"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000060314_piclink.jpg"></figure></a><div class="item-lead">投资算法将给资产管理行业带来一场革命的预期令许多人兴奋。但一些量化金融人士认为，离算法真正运用于金融市场并取得盈利的那一天还比较遥远。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066347#adchannelID=2051">“中国制造2025”走向成功的关键</a></h2>
+<a class="image" target="_blank" href="/story/001066347#adchannelID=2051"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000043977_piclink.jpg"></figure></a><div class="item-lead">德国驻华大使柯慕贤：中国的工业竞争力取决于开放且更加安全的数据空间。中国关于企业数据本地化、以及向官方提供技术“后门”的规定，很可能让中国错失搭上第四次工业革命快车的机遇。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066943#adchannelID=2051">台湾电子产业转型面临考验</a></h2>
+<a class="image" target="_blank" href="/story/001066943#adchannelID=2051"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000060354_piclink.jpg"></figure></a><div class="item-lead">台湾电子企业在中国大陆设厂、将台湾制造业的效率与大陆的低劳动力成本结合起来的模式正在瓦解。台湾电子产业的自主创新转型将面临多重考验。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="XLT LT MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066491#adchannelID=2051">二手车市场是中国有待挖掘的富矿</a></h2>
+<a class="image" target="_blank" href="/story/001066491#adchannelID=2051"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000059303_piclink.jpg"></figure></a><div class="item-lead">在担忧中国增速的同时，人们或许忽略了拥有巨大潜力的中国二手车市场。这个尚未形成规模的市场的兴起，将助力支撑“新常态”下的中国经济。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066878#adchannelID=2051">WeWork来袭，办公共享格局大变动</a></h2>
+<a class="image" target="_blank" href="/story/001066878#adchannelID=2051"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000059450_piclink.jpg"></figure></a><div class="item-lead">刘旷：WeWork扩张中国市场，对于提升同行信心，促进整个行业的快速发展具有积极作用，尽管冲击着国内的同行，但更是在冲击传统、封闭、落后的业态。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066852#adchannelID=2051">张亚勤：互联网的未来有三个维度</a></h2>
+<a class="image" target="_blank" href="/story/001066852#adchannelID=2051"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000059482_piclink.jpg"></figure></a><div class="item-lead">百度总裁认为，过去30年，我们做的是确保物理世界能够成为虚拟世界，把所有东西数字化，所有工作量电子化。未来30年，我们则要把所有的虚拟世界再转化为物理世界。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="XLT LT MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066653#adchannelID=2051">虚拟现实将开辟巨大市场</a></h2>
+<a class="image" target="_blank" href="/story/001066653#adchannelID=2051"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000059649_piclink.jpg"></figure></a><div class="item-lead">FT创新主编桑希尔：高盛分析师提出，VR可能像个人电脑那样成为改变游戏规则的重要产品，而高德纳的研究似乎表明，VR有望在未来5至10年大规模普及。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066603#adchannelID=2051">“硅脑”战胜人脑？</a></h2>
+<a class="image" target="_blank" href="/story/001066603#adchannelID=2051"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000059522_piclink.jpg"></figure></a><div class="item-lead">FT美国西海岸编辑沃特斯： AlphaGo程序采取了“强化学习”技术，电脑甚至会生成从未学过的策略，专家称这代表机器学习演化过程中的某种新东西。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066849#adchannelID=2051">让机器人开车有何不好？</a></h2>
+<a class="image" target="_blank" href="/story/001066849#adchannelID=2051"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000060103_piclink.jpg"></figure></a><div class="item-lead">FT专栏作家加普：虽然汽车业有能力开发出完全自动驾驶的汽车，但它仍想让科技辅助人类驾驶，而不是代替人类驾驶。这种思维方式必须改变。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="clearfloat"></div>
+</div>
+</div></div>
+<div class="list-container"><div class="list-inner"><h2 class="list-title">
+<a class="list-link" href="#">哈佛商学院对全球商业未来的前瞻</a>
+</h2>
+<div class="items">
+
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/interactive/6593#adchannelID=2051">在新兴市场中乱世求生</a></h2>
+<a class="image" target="_blank" href="/interactive/6593#adchannelID=2051"><figure class="loading" data-url="http://i.ftimg.net//picture/6/000057196_piclink.jpg"></figure></a><div class="item-lead">资料也揭示了许多成功的领导者如何逐渐克服贫穷的过去为他们带来的各种负面影响，并开始建立起对其所在社会的福祉强烈的责任意识。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/interactive/6595#adchannelID=2051">全球化浪潮已至，制造业集群未死</a></h2>
+<a class="image" target="_blank" href="/interactive/6595#adchannelID=2051"><figure class="loading" data-url="http://i.ftimg.net//picture/2/000052182_piclink.jpg"></figure></a><div class="item-lead">集群并不是一个新概念。早在20世纪初期，阿尔弗雷德·马歇尔（Alfred Marshall）便开始在英国研究这一概念，并将其称为工业区。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/interactive/6588#adchannelID=2051">改写服务业竞争规则</a></h2>
+<a class="image" target="_blank" href="/interactive/6588#adchannelID=2051"><figure class="loading" data-url="http://i.ftimg.net//picture/7/000060497_piclink.jpg"></figure></a><div class="item-lead">引领一种能够改变整个行业竞争基本面的突破性服务是非同寻常的。凡成事者，均能领悟到竞争对手无法参透或不可复制的东西。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="XLT LT MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/interactive/6596#adchannelID=2051">获得监管首肯的“新型核能”将如何拯救地球？</a></h2>
+<a class="image" target="_blank" href="/interactive/6596#adchannelID=2051"><figure class="loading" data-url="http://i.ftimg.net//picture/9/000055659_piclink.jpg"></figure></a><div class="item-lead">截至本世纪末，不断累积的温室气体，尤其是二氧化碳，将持续增加，气候变化所带来的影响也将继续加剧，同时威胁到我们所生活的地球。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 XL-half L4 L-half M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/interactive/6590#adchannelID=2051">私募股权投资的未来如何？——对话哈佛商学院高层管理教育“私募股权与风险投资”课程主任乔希·勒纳</a></h2>
+<a class="image" target="_blank" href="/interactive/6590#adchannelID=2051"><figure class="loading" data-url="http://i.ftimg.net//picture/4/000060494_piclink.jpg"></figure></a><div class="item-lead">此对话中，哈佛商学院高层管理教育“私募股权与风险投资”课程主任、雅各布·亨利·希夫投资银行教席教授乔希·勒纳纵论投资产业前景</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 XL-half L4 L-half M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/interactive/6594#adchannelID=2051">个人创业金融以及其它风险投资趋势的兴起</a></h2>
+<a class="image" target="_blank" href="/interactive/6594#adchannelID=2051"><figure class="loading" data-url="http://i.ftimg.net//picture/9/000038819_piclink_334_192.jpg"></figure></a><div class="item-lead">如今越来越多的个人投资者通过使用技术和数据手段将资本直接注入他们关心且信赖的企业。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="XLT-clear-right LT-clear-right MT PT ST"></div>
+<div class="item-container XL4 XL-half XL-lower L4 L-half L-lower M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/interactive/6592#adchannelID=2051">重新理解真诚领导力</a></h2>
+<a class="image" target="_blank" href="/interactive/6592#adchannelID=2051"><figure class="loading" data-url="http://i.ftimg.net//picture/2/000038952_piclink_334_192.jpg"></figure></a><div class="item-lead">尽管真诚领导力被广泛接受，或者说因为其被广泛接受，一些学者最近对“真诚”这一价值取向提出质疑。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 XL-half XL-lower L4 L-half L-lower M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/interactive/6589#adchannelID=2051">公司有必要设立首席可持续发展官（CSO）吗？</a></h2>
+<a class="image" target="_blank" href="/interactive/6589#adchannelID=2051"><figure class="loading" data-url="http://i.ftimg.net//picture/6/000060496_piclink.jpg"></figure></a><div class="item-lead">什么是首席可持续发展官？设立这一职位的初衷是什么？他们又在企业中发挥着怎样的作用？</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="clearfloat"></div>
+</div>
+</div></div>
+<div class="list-container"><div class="list-inner"><h2 class="list-title">
+<a class="list-link" href="#">商业管理的未来</a>
+</h2>
+<div class="items">
+
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066378#adchannelID=2051">企业必须寻找独特智慧</a></h2>
+<a class="image" target="_blank" href="/story/001066378#adchannelID=2051"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000059068_piclink.jpg"></figure></a><div class="item-lead">FT创新主编桑希尔：作为资本主义的推动力，竞争赋予企业目标、使命和方向感。但企业在当今日新月异的环境下往往连竞争局面都看不清楚，它们该怎么竞争？</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066557#adchannelID=2051">现有企业与创新天生是冤家？</a></h2>
+<a class="image" target="_blank" href="/story/001066557#adchannelID=2051"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000059424_piclink.jpg"></figure></a><div class="item-lead">FT专栏作家希尔：现有企业中的“官僚硬化症”很容易催生惰性，但它们会想尽各种办法维护现状、抵制创新。这种自我保护不仅会令其误入歧途，还会阻碍社会的进步。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001064834#adchannelID=2051">让设计为领导力带来启迪</a></h2>
+<a class="image" target="_blank" href="/story/001064834#adchannelID=2051"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000056291_piclink.jpg"></figure></a><div class="item-lead">Airbnb联合创始人杰比亚：在Airbnb，我们设计的是一种提供体验的服务，是我们社区的成员在现实世界中如何体验并彼此分享的方式。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="XLT LT MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001065787#adchannelID=2051">全球化时代的海外工作</a></h2>
+<a class="image" target="_blank" href="/story/001065787#adchannelID=2051"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000044784_piclink.jpg"></figure></a><div class="item-lead">随着各国贸易日益增多，海外工作对于企业和个人的重要性日益彰显。一项研究显示，将近三分之二的雇主认为，海外经历提高了员工的适应能力。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001063445#adchannelID=2051">带着宝宝去上班</a></h2>
+<a class="image" target="_blank" href="/story/001063445#adchannelID=2051"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000053979_piclink.jpg"></figure></a><div class="item-lead">允许员工带宝宝来上班，不仅弥补了法定带薪产假或陪产假不够长的不足，提高了员工忠诚度，促进了团队合作，也为办公室带来一抹温情。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066715#adchannelID=2051">修炼数字时代的MBA内功</a></h2>
+<a class="image" target="_blank" href="/story/001066715#adchannelID=2051"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000058843_piclink.jpg"></figure></a><div class="item-lead">在年轻人创办企业盛行的数字经济时代，MBA还有多少相关性？对此，商学院人士表示，并非每个人都是乔布斯或盖茨；对多数人来说，在投身数字经济之前掌握管理基础知识非常重要。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="clearfloat"></div>
+</div>
+</div></div>
+<div class="list-container"><div class="list-inner"><h2 class="list-title">
+<a class="list-link" href="#">了解更多</a>
+</h2>
+<div class="items">
+
+<div class="item-container XL4 L4 M12 M-half S12 S-double-width P12 P-half no-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/interactive/6613#adchannelID=2051">问：哈佛商学院高层管理教育提供哪些课程？</a></h2>
+<div class="item-lead">我们在全球开设80多门公开课程，以及60多门专为领先企业设计的定制课程。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half no-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/interactive/6614#adchannelID=2051">问：哈佛商学院高层管理教育如何授课？</a></h2>
+<div class="item-lead">精心挑选最具代表性的案例，为学员创造思考和探讨全球商业和管理挑战的课堂。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half no-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/interactive/6615#adchannelID=2051">问：哈佛商学院高层管理教育的录取标准是什么？</a></h2>
+<div class="item-lead">我们会根据申请人的专业成就和工作职责决定是否录取。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="clearfloat"></div>
+</div>
+<div class="item-container no-image"><div class="item-inner">更多问题，欢迎透过邮箱<a class="blue-link" href="mailto: harvardchina@hbs.edu">harvardchina@hbs.edu</a>联系我们，我们将及时给予解答。</div></div>
+</div></div><div class="clearfloat block-bottom"></div>
 </div></div>
 <div class="side-container"><div class="side-inner">
-<div class="tag-about">
-水上运动优雅刺激，海上体验浪漫惬意，中国高端消费者如今越来越热衷在水世界中驰聘与享受。英国《金融时报》中文网为你报道最权威的世界高端水上休闲项目。
-</div>
-<div class="mpu-container">
+<div class="mpu-container first-child">
 <script type="text/javascript">document.write (writeAd('mpu'));</script>
 </div>
 <div class="mps">
 <h2 class="list-title"><a href="/channel/weekly.html">十大热门文章</a></h2>
 <ul class="top10">
-<li class="mp1"><span>1. </span><a target="_blank" href="/story/001066793?dailypop">中国“新常态”面临四大挑战</a></li>
-<li class="mp2"><span>2. </span><a target="_blank" href="/story/001066776?dailypop">中国GDP增长数据可靠吗？</a></li>
-<li class="mp3"><span>3. </span><a target="_blank" href="/story/001066783?dailypop">疫苗之争：勿做愤怒的“情绪派”</a></li>
-<li class="mp4"><span>4. </span><a target="_blank" href="/story/001066781?dailypop">山东疫苗案应如何问责？</a></li>
-<li class="mp5"><span>5. </span><a target="_blank" href="/story/001066740?dailypop">《疯狂动物城》征服中国观众</a></li>
-<li class="mp6"><span>6. </span><a target="_blank" href="/story/001066795?dailypop">FT社评：共和党的选择绝境</a></li>
-<li class="mp7"><span>7. </span><a target="_blank" href="/story/001066780?dailypop">冷漠的村人</a></li>
-<li class="mp8"><span>8. </span><a target="_blank" href="/story/001066796?dailypop">一中国商人在美就网络间谍案认罪</a></li>
-<li class="mp9"><span>9. </span><a target="_blank" href="/story/001066785?dailypop">“中美投资协定”将带来何种不同？</a></li>
-<li class="mp10"><span>10. </span><a target="_blank" href="/story/001066737?dailypop">要有理想，但别被理想遮住了眼睛</a></li>
+<li class="mp1"><span>1. </span><a target="_blank" href="/story/001067006?dailypop">普京如何改变了世界秩序？</a></li>
+<li class="mp2"><span>2. </span><a target="_blank" href="/story/001066934?dailypop">我们要感谢“文革”的五条理由</a></li>
+<li class="mp3"><span>3. </span><a target="_blank" href="/story/001067019?dailypop">卡梅伦承认从巴拿马离岸基金获益</a></li>
+<li class="mp4"><span>4. </span><a target="_blank" href="/story/001067012?dailypop">人工智能时代该教孩子学什么？</a></li>
+<li class="mp5"><span>5. </span><a target="_blank" href="/story/001066998?dailypop">中国白酒挺进西方市场</a></li>
+<li class="mp6"><span>6. </span><a target="_blank" href="/story/001067021?dailypop">评估中国经济形势需做实地考察</a></li>
+<li class="mp7"><span>7. </span><a target="_blank" href="/story/001066958?dailypop">禁摩限电：国家权力“内卷化”之弊</a></li>
+<li class="mp8"><span>8. </span><a target="_blank" href="/story/001066979?dailypop">安邦为何没能拿下喜达屋？</a></li>
+<li class="mp9"><span>9. </span><a target="_blank" href="/story/001067004?dailypop">酒店遇袭事件中的舆论偏离</a></li>
+<li class="mp10"><span>10. </span><a target="_blank" href="/story/001066938?dailypop">A股的“中国式”投资策略</a></li>
 </ul>
 </div>
 <div class="mpu-container last-child">

@@ -1,0 +1,105 @@
+<div class="block-container has-side"><div class="block-inner">
+	<div class="content-container"><div class="content-inner">
+		<div class="list-container">
+		    <div class="list-inner">
+		        <div class="items">
+		            <div class="item-container XL12 L12 M12 S12 P12">
+		                <div class="item-inner">
+		                    <div class="image video-player" target="_blank" id="video-player">
+		                        <%if $cc_vaddress && $cc_vaddress!=""%>
+		                            <script type="text/javascript">
+		                            var thisVideo = document.getElementById('video-player');
+		                            var video_width = thisVideo.offsetWidth;
+		                            var video_height = Math.round(video_width*9/16);
+		                            document.write('<scr' + 'ipt src="http://union.bokecc.com/player?vid=<%$cc_vaddress%>&siteid=922662811F1A49E9&autoStart=true&width=' + video_width + '&height=' + video_height + '&playerid=3571A3BF2AEC8829&playertype=1" type="text/javascript"></sc' + 'ript>');
+		                            </script>
+		                        <%else%>
+		                            <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" id="osmfPlayer">
+		                                <param name="movie" value="http://static.ftchinese.com/player111014/osmfPlayer_3.swf?videoid=<%$id%>&autoplay=true" />
+		                                <param name="quality" value="high" />
+		                                <param name="bgcolor" value="#000000" />
+		                                <param name="allowScriptAccess" value="always" />
+		                                <param name="allowFullScreen" value="true" />
+		                                <!--[if !IE]>-->
+		                                <object type="application/x-shockwave-flash" data="http://static.ftchinese.com/player111014/osmfPlayer_3.swf?videoid=<%$id%>&autoplay=true" id="osmf-video">
+		                                    <param name="quality" value="high" />
+		                                    <param name="bgcolor" value="#000000" />
+		                                    <param name="allowFullScreen" value="true" />
+		                                    <param name="allowScriptAccess" value="always" />
+		                                    <!--<![endif]-->
+		                                    <!--[if gte IE 6]>-->
+		                                    <script type="text/javascript">
+		                                    video_initialize().osmfPlayer();
+		                                    </script>
+		                                    <video id="nowvideo" src="http://v.ftimg.net/<%$videoname%>" controls="" width="592" height="333">
+		                                        <p>
+		                                            Either scripts and active content are not permitted to run or Adobe Flash Player version 10.0.0 or greater is not installed.
+		                                        </p>
+		                                    </video>
+		                                    <!--<![endif]-->
+		                                    <!--[if !IE]>-->
+		                                </object>
+		                                <!--<![endif]-->
+		                            </object>
+		                        <%/if%>
+		                    </div>
+		                    <h1 class="story-headline"><%$cheadline%></h1>
+		                    <div class="story-lead"><%$cbody%></div>
+							<div class="story-share-placeholder" id="story-share-placeholder">
+							    <div class="story-share">
+							        <div class="share-inner">
+							            <a class="share-icon icon-wechat" href="<%$wechatUrl%>" target="_blank"></a>
+							            <a class="share-icon icon-weibo" href="<%$sinaUrl%>" target="_blank"></a>
+							            <a class="share-icon icon-linkedin" href="<%$linkedInUrl%>" target="_blank"></a>
+							            <a class="share-icon icon-twitter" href="<%$twitterUrl%>" target="_blank"></a>
+							            <a class="share-icon icon-facebook" href="<%$facebookUrl%>" target="_blank"></a>
+							            <a class="icon-right icon-action icon-share" onclick="showOverlay('share-legacy')"></a>
+							        </div>
+							    </div>
+							</div>
+							<div class="story-byline">
+								<span class="story-time"><%$pubdate|date_format:"%Y年%m月%d日"%></span>
+								<span class="story-author">
+									<%$cdescribe%> <a href="/search/?keys=<%$cbyline%>&type=relative_byline&category=video"><%$cbyline%></a> 
+				                    <%if $eshortleadbody && $eshortleadbody!="" && $eshortleadbody!=null%> [<a href=<%$eshortleadbody%> target=_blank>作者微博</a>]
+				                    <%elseif preg_match("/盛立宇/is",$cbyline)%> 【<a href=http://weibo.com/u/1773028931 target=_blank>作者微博</a>】
+				                    <%/if%>
+				                </span>
+							</div>
+
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+		<div class="clearfloat block-bottom"></div>
+	</div></div>
+	<div class="side-container"><div class="side-inner">
+		<%if $smarty.get.ad != "no"%>
+	    <div class="mpu-container">
+	        <script type="text/javascript">document.write (writeAd('mpu'));</script>
+	    </div>
+	    <%/if%>
+
+		<div class="mps">
+			<h2 class="list-title"><a href="/channel/stream.html">热门视频</a></h2>
+			<ul class="top10">
+				<%assign var="i" value=0%>
+				<%assign var="mp" value=$videomodel->get_hot_video(30,10) %>
+				<%foreach item=sc from=$mp%>
+				<%if $i<10%>
+					<%assign var="i" value=$i+1%>
+					<li class="mp<%$i%>"><span><%$i%>. </span><a target="_blank" href="/video/<%$sc.storyid%>"><%$sc.cheadline|regex_replace:"/^【(.*)】(.*)$/":"\\2"%></a></li>
+				<%/if%>
+				<%/foreach%>
+			</ul>
+		</div>
+
+		<%if $smarty.get.ad != "no"%>
+	    <div class="mpu-container">
+	        <script type="text/javascript">document.write (writeAd('mpu'));</script>
+	    </div>
+	    <%/if%>
+	</div></div>
+	<div class="clearfloat"></div>
+</div></div>

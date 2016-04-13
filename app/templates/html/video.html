@@ -1,32 +1,18 @@
-<%assign var=taginfo value=$storymodel->get_tag_describes($tag_name)%>
-<%assign var=tagtitle value=$taginfo.tag_title%>
-<%assign var=tagabout value=$taginfo.tag_desc%>
-
-<%if $tagtitle=="" || $breadcrumb!=""%>
-<%if $breadcrumb!=""%>
-<%assign var="tagtitle" value=$breadcrumb%>
-<%else%>
-<%assign var="tagtitle" value=$tag_name%>
-<%/if%>
-<%/if%>
-<%if $allstory|@count==0 && $storyCust|@count==0 && $tagstory2|@count==0 && $adchannelID=="" %>
-<%assign var="tagtitle" value="无效的标签"%>
+<%if !isset($adchId) || $adchId==""%>
+    <%assign var=adchId value="1900"%>
 <%/if%>
 
-<%assign var="channelname" value=" <span>`$tagtitle`</span>"%>
-<%if !isset($adchannelID)||$adchannelID ==""%>
-<%assign var="adchannelID" value="2000"%>
-<%/if%>
-<%if !isset($adchannelID)||$adchannelID==""%>
-    <%assign var="adchannelID" value="1100"%>
-<%/if%>
-<%assign var="gettime" value=$storymodel->get_story_by_tag($tag_name,0,20)%>
+<%assign var="shareLead" value=$clongleadbody|default:$cbody%>
+<%assign var="shareTitle" value="`$cheadline` - FT中文网"%>
+<%assign var="shareUrl" value="http://www.ftchinese.com/video/`$id`"%>
+<%assign var="shareUrl" value=$shareUrl|escape:'url'%>
+<%assign var="shareText" value="【`$cheadline`】`$shareLead`（分享自 @FT中文网）"%>
 
-<%if $tagstory%>
-<%assign var="allstory" value=$tagstory%>
-<%/if%>
-
-
+<%assign var="wechatUrl" value="/m/corp/qrshare.html?url=`$shareUrl`&title=`$shareTitle`"%>
+<%assign var="sinaUrl" value="http://service.weibo.com/share/share.php?appkey=4221537403&url=`$shareUrl`?ccode=2G169001&title=`$shareText`&ralateUid=1698233740&source=&sourceUrl=&content=utf-8&pic="%>
+<%assign var="linkedInUrl" value="https://www.linkedin.com/cws/share?url=`$shareUrl`%3Fccode%3D2G169003&original_referer=https%3A%2F%2Fdeveloper.linkedin.com%2Fsites%2Fall%2Fthemes%2Fdlc%2Fsandbox.php%3F&token=&isFramed=true&lang=zh_CN&_ts=1422502780259.2795"%>
+<%assign var="twitterUrl" value="http://twitter.com/home?status=`$shareText`...%20`$shareUrl`"%>
+<%assign var="facebookUrl" value="http://www.facebook.com/sharer.php?u=`$shareUrl`&t=`$shareText`"%>
 
 <!DOCTYPE html>
 <html class="no-js core" data-next-app="tag-page">
@@ -34,10 +20,9 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta http-equiv="Content-Language" content="zh-CN"/>
-    <title><%$tagtitle|default:$PageTitle%> - FT中文网</title>
-    <%if $tagtitle=="无效的标签"%><META NAME="robots" CONTENT="noindex"><%/if%>
-    <META name=keywords content="<%$tagtitle%>">
-    <meta content="<%$p.meta.description%>" name="description"/>
+    <title><%$cheadline|strip_tags%> - FT中文网</title>
+    <META name=keywords content="<%foreach item=t from=$tag%><%$t.tag%> <%/foreach%>">
+    <meta content="<%$clongleadbody%>" name="description"/>
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     <link rel="apple-touch-icon-precomposed" href="http://static.ftchinese.com/img/ipad_icon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -50,7 +35,7 @@
     }
     </script>
     <style>
-    <%include file="next/styles/main-tag.css"%>
+    <%include file="next/styles/main-video.css"%>
     </style>
     <link rel="icon" type="image/png" href="https://next-geebee.ft.com/assets/brand-alpha/icons/favicon-32x32.png" sizes="32x32">
     <link rel="icon" type="image/png" href="https://next-geebee.ft.com/assets/brand-alpha/icons/favicon-194x194.png" sizes="194x194">
@@ -107,20 +92,21 @@
     <![endif]-->
   </head>
   <%assign var="bannerCount" value=0%>
-  <body class="<%$hideDate%>">
-      <%include file="next/partials/tag-header.html"%>
+  <body>
+      <%include file="next/partials/header.html"%>
       <%include file="next/partials/nav.html"%>
       <%include file="next/partials/banner.html"%>
       <%assign var="bannerCount" value=$bannerCount+1%>
-      <%include file="next/partials/tag-block.html"%>
-      <%include file="next/partials/pagination.html"%>
+      <%include file="next/partials/video-block.html"%>
       <%include file="next/partials/footer.html"%>
       <%include file="next/partials/QrCode.html"%>
+      <%include file="next/partials/story-share.html"%>
   </body>
 <!--[if lte IE 8]>
 <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
 <![endif]-->
 <script type="text/javascript">
-  <%include file="next/scripts/main.js"%>
+  <%include file="next/scripts/main-story.js"%>
 </script>
+<script type="text/javascript" src="http://static.ftchinese.com/n/main-sharelinks.js?<%include file="next/timestamp/timestamp.html"%>"></script>
 </html>

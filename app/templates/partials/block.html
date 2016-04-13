@@ -1,3 +1,6 @@
+<%if $adchannelID != "1000"%>
+    <%assign var="adForceString" value="#adchannelID=$adchannelID"%>
+<%/if%>
 <div class="block-container <%if $section.side != "" && $section.side != "none"%>has-side<%if $section.sideAlign !== ""%> side-<%$section.sideAlign|default:"right"%><%/if%><%else%>no-side<%/if%><%if $section.side == "HotVideos"%> side-video<%/if%>"><div class="block-inner">
 	<div class="content-container"><div class="content-inner">
 	<%if $section.title != ""%>
@@ -617,8 +620,8 @@
 
 				<%$itemTop%>
 				<div class="item-container <%$itemClass%> <%$hasImage%>"><div class="item-inner">
-					<h2 class="item-headline"><%$itemTag%><a target="_blank" href="/<%$item.type%>/<%$item.id%>"><%$item.headline%></a></h2>
-					<%if $item.relatives|@count > 0 && $item.relatives[0].type === 'video'%><div class="image"><figure class="loading-video" data-vid="<%$item.relatives[0].id%>"></figure></div><%elseif $item.type === "video" && $listType !== "videos"%><div class="image"><figure class="loading-video" data-vid="<%$item.id%>"></figure></div><%elseif $item.image != "" && $hasImage === "has-image"%><a class="image" target="_blank" href="/<%$item.type%>/<%$item.id%>"><figure class="loading" data-url="<%$item.image|replace:"/upload/":"/"%>"></figure></a><%/if%>
+					<h2 class="item-headline"><%$itemTag%><a target="_blank" href="/<%$item.type%>/<%$item.id%><%$adForceString%>"><%$item.headline%></a></h2>
+					<%if $item.relatives|@count > 0 && $item.relatives[0].type === 'video'%><div class="image"><figure class="loading-video" data-vid="<%$item.relatives[0].id%>"></figure></div><%elseif $item.type === "video" && $listType !== "videos"%><div class="image"><figure class="loading-video" data-vid="<%$item.id%>"></figure></div><%elseif $item.image != "" && $hasImage === "has-image"%><a class="image" target="_blank" href="/<%$item.type%>/<%$item.id%><%$adForceString%>"><figure class="loading" data-url="<%$item.image|replace:"/upload/":"/"%>"></figure></a><%/if%>
 					<%if $hideLead === "no"%><div class="item-lead"><%$itemLead%></div><%/if%>
 					<%$itemTimeStamp%>
 					<%if $item.relatives|@count > 0 && $item.showRelativeStoryItems > 0%>
