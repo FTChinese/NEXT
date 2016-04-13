@@ -10,7 +10,7 @@ $smarty->right_delimiter = "%>";
 
 $smarty->setCaching(Smarty::CACHING_OFF);
 
-$smarty->setTemplateDir(['../views', '../app/templates']);
+$smarty->setTemplateDir(['../views/emulator', '../app/templates']);
 
 require 'nav-data.php';
 
@@ -34,4 +34,4 @@ $smarty->assign('datass1', $data);
 $smarty->assign('topnav', 'china');
 $smarty->assign('subnav', 'chinabusiness');
 
-$smarty->display('partials/ajax-nav.html');
+$smarty->display('../views/ajax-nav.html');

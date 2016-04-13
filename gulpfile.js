@@ -480,14 +480,25 @@ gulp.task('serve',
   gulp.watch(['app/styles/**/*.scss'], ['css']);
 });
 
-gulp.task('testserver', function() {
-  return gulp.src(['app/templates/partials/nav.html'])
+gulp.task('testtpl', function() {
+  return gulp.src(['views/nav.html', 'views/ajax-nav.html'])
     .pipe($.replace('<!-- easyapi -->', '<%easyapi command="11001" assign="datass1" debug=false%><%*$datass1.odatalist|var_dump*%>'))
     .pipe($.smoosher({
       base: '.tmp'
     }))
     .pipe(gulp.dest('../www/frontend/tpl/next/partials'));
 });
+
+gulp.task('testcss', ['styles'], function() {
+  return gulp.src('.tmp/styles/main.css')
+    .pipe(gulp.dest('../www/frontend/tpl/next/styles/'));
+});
+
+gulp.task('tpl', function() {
+  return gulp.src(['views/nav.html', 'views/ajax-nav.html'])
+    .pipe($.replace('<!-- easyapi -->', '<%if empty($global_nav)%><%easyapi command="11001" assign="datass1" debug=false%><%assign var="navData" value=$datass1.odatalist%><%else%><%assign var="navData" value="$global_nav"%><%/if%>'))
+    .pipe(gulp.dest('app/templates/partials'));
+})
 /*************/
 
 gulp.task('build', ['jshint', 'html', 'images', 'fonts', 'extras', 'ad'], function () {

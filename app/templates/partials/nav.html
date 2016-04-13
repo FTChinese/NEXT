@@ -1,5 +1,4 @@
-<%*<!--
-<!-- easyapi -->
+<%if empty($global_nav)%><%easyapi command="11001" assign="datass1" debug=false%><%assign var="navData" value=$datass1.odatalist%><%else%><%assign var="navData" value="$global_nav"%><%/if%>
 
 <div class="o-nav__placeholder">
   <div class="o-nav">
@@ -138,7 +137,9 @@
     </div><!-- o-header__container -->    
   </div><!-- o-header-secondary -->  
 </div><!-- o-nav__placeholder -->
--->*%>
+
+
+<%*
 <div class="nav-place-holder" id="nav-place-holder"><nav class="nav-container" id="nav-container">
 <div class="nav-inner">
   <ul class="nav-content">
@@ -261,3 +262,4 @@
 </div>
 <div class="nav-bottom"></div>
 </nav></div>
+*%>

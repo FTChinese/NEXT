@@ -8,7 +8,7 @@ $smarty->right_delimiter = "%>";
 
 $smarty->setCaching(Smarty::CACHING_OFF);
 
-$smarty->setTemplateDir(['../views', '../app/templates']);
+$smarty->setTemplateDir(['../views/emulator', '../app/templates']);
 
 require 'nav-data.php';
 
@@ -32,4 +32,4 @@ $smarty->assign('datass1', $data);
 $smarty->assign('topnav', 'china');
 $smarty->assign('subnav', 'chinabusiness');
 
-$smarty->display('../app/index.tpl');
+$smarty->display('../views/index.tpl');
