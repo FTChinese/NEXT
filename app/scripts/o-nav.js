@@ -1,5 +1,6 @@
-/* exported e, ajax*/
-function Nav(rootEl, config = {navClassName: 'o-nav'}) {
+/*exported e, ajax*/
+function Nav(rootEl) {
+	var config = {navClassName: 'o-nav'}
 	var oNav = this;
 
 	function init() {
@@ -8,22 +9,17 @@ function Nav(rootEl, config = {navClassName: 'o-nav'}) {
 		} else if (!(rootEl instanceof HTMLElement)) {
 			rootEl = document.querySelector(rootEl);
 		}
-		//var Delegate = domDelegate.Delegate;
 		var rootDelegate = new Delegate(rootEl);
 
 		oNav.delegate = rootDelegate;
 		oNav.rootEl = rootEl;
-
-		preventScroll();
-		toggle();
-		selected();
 	}
 
 	function selected() {
 		var selectAttribute = '[data-o-nav-selectable]';
 		var selectableEls = oNav.rootEl.querySelectorAll(selectAttribute);
-		oNav.delegate.on('click', selectAttribute, (e, selectable) => {
-			for (let i = 0; i < selectableEls.length; i++) {
+		oNav.delegate.on('click', selectAttribute, function (e, selectable) {
+			for (var i = 0; i < selectableEls.length; i++) {
 				selectableEls[i].setAttribute('aria-selected', 'false');
 			}
 			selectable.setAttribute('aria-selected', 'true');
@@ -32,7 +28,6 @@ function Nav(rootEl, config = {navClassName: 'o-nav'}) {
 
 	function preventScroll() {
 		var navToggle = oNav.rootEl.querySelector('[data-o-nav-togglable]');
-// add class name on body when pressed.
 		var navOpenClass = config.navClassName + '--open';
 
 		if (navToggle) {
@@ -58,6 +53,9 @@ function Nav(rootEl, config = {navClassName: 'o-nav'}) {
 	}
 	
 	init();
+	preventScroll();
+	toggle();
+	selected();
 }
 
 function Sticky(fixedEl, startDistance, endDistance) {
