@@ -17,8 +17,14 @@ function Nav(rootEl) {
 
 	function selected() {
 		var selectAttribute = '[data-o-nav-selectable]';
-		var selectableEls = oNav.rootEl.querySelectorAll(selectAttribute);
 		oNav.delegate.on('click', selectAttribute, function (e, selectable) {
+// This line must be put here, inside the click event.
+// Since we use ajax to establish new nav element, `button.nav-section-head`s will be completely different ones when clicked.
+// But this way might consume more memory.
+			var selectableEls = oNav.rootEl.querySelectorAll(selectAttribute);
+
+			console.log(e.target == selectableEls[0]);
+
 			for (var i = 0; i < selectableEls.length; i++) {
 				selectableEls[i].setAttribute('aria-selected', 'false');
 			}
@@ -129,7 +135,7 @@ var ajax = {
 	    if (xhr.readyState === 4) {
 	      if (xhr.status >= 200 && xhr.status < 300 || xhr.status === 304) {
 	        var type = xhr.getResponseHeader('Content-Type');
-	        if (type.indexOf('xml') !== -1 && xhr.responseXML) {
+	        if (type.indexOf('html') !== -1 && xhr.responseXML) {
 	          callback(xhr.responseXML);
 	        } else if (type === 'application/json') {
 	          callback(JSON.parse(xhr.responseText));
@@ -154,7 +160,11 @@ var ajax = {
 };
 
 var navEl = document.querySelector('.o-nav');
+var navContainerEl = navEl.querySelector('.o-nav__container');
+var navItemsContainerEl = navContainerEl.querySelector('.o-nav__level-1');
 
+console.log(navContainerEl);
+console.log(navItemsContainerEl);
 
 var navElOffset = getElementOffset(navEl);
 
@@ -164,7 +174,14 @@ new Nav(navEl);
 new Sticky(navEl, navElOffset.y);
 
 ajax.getData('/ajax.php', function(data) {
-	console.log(data);
-
+// data is text, not DOM! 
+// You need to parse data into DOM before appending it.
+// But string to DOM conversion is hard in browser.
+	var div = document.createElement('div');
+	div.innerHTML = data;
+// Then we can use DOM to manipulate
+	var newNavItems = div.querySelector('.o-nav__level-1');
+	navContainerEl.replaceChild(newNavItems, navItemsContainerEl);
+	//new Nav(navEl);
 });
 

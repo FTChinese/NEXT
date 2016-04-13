@@ -1,5 +1,7 @@
 <?php
 
+header('Content-type: text/html');
+
 require '../vendor/autoload.php';
 
 $smarty = new Smarty;
