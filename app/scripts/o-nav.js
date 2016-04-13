@@ -1,4 +1,4 @@
-/* exported e*/
+/* exported e, ajax*/
 function Nav(rootEl, config = {navClassName: 'o-nav'}) {
 	var oNav = this;
 
@@ -36,7 +36,7 @@ function Nav(rootEl, config = {navClassName: 'o-nav'}) {
 		var navOpenClass = config.navClassName + '--open';
 
 		if (navToggle) {
-			navToggle.addEventListener('click', function(e) {
+			navToggle.addEventListener('click', function() {
 				document.documentElement.classList.toggle(navOpenClass);
 				document.body.classList.toggle(navOpenClass);
 			});
