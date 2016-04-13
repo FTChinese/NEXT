@@ -111,7 +111,6 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 
 <%include file="partials/header.html"%>
 <%include file="partials/nav.html"%>
-
 <%include file="next/body.html"%>
 
 <%include file="partials/footer.html"%>

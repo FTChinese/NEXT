@@ -43,6 +43,8 @@
 
               <a class="nav-section-head desktop" href="<%$level_1.link%>"><%$level_1.name%></a>
 
+<%if $topnav==$level_1.code%>
+
               <ol class="nav-items level-2">
 
                 <li class="nav-item mobile">
@@ -52,8 +54,6 @@
                   频道首页
                   <%/if%></a>
                 </li>
-
-            <%if $topnav==$level_1.code%>
 
                 <%foreach from=$level_1.children item="level_2"%>
 
@@ -79,11 +79,9 @@
 
                 </li>
                 <%/foreach%>
-                
-            <%/if%>
 
               </ol>
-
+<%/if%>
             </li>
             <%/foreach%>
 
