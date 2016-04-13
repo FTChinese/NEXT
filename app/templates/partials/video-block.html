@@ -5,7 +5,7 @@
 		        <div class="items">
 		            <div class="item-container XL12 L12 M12 S12 P12">
 		                <div class="item-inner">
-		                    <div class="image video-player" target="_blank" id="video-player">
+		                    <div class="image" target="_blank" id="video-player">
 		                        <%if $cc_vaddress && $cc_vaddress!=""%>
 		                            <script type="text/javascript">
 		                            var thisVideo = document.getElementById('video-player');
@@ -75,6 +75,24 @@
 		<div class="clearfloat block-bottom"></div>
 	</div></div>
 	<div class="side-container"><div class="side-inner">
+		<%if $relative_vstory|@count >0%>
+		<div class="interactives related-videos">
+			<h2 class="list-title"><a href="/channel/stream.html">相关视频</a></h2>
+			<%assign var="i" value=0%>
+			<%foreach from=$relative_vstory item=rstory%>
+			<%if $rstory.id != $id %>
+				<div class="item-container<%if $i===0%> first<%/if%>">
+					<div class="item-inner">
+						<a class="image" href="/video/<%$rstory.id%>" target=_blank><figure class="loading" data-url="<%$rstory.story_pic.cover|default:$rstory.story_pic.bigbutton%>"></figure></a>
+						<h2 class="item-headline"><a href="/video/<%$rstory.id%>" target=_blank><%$rstory.cheadline|regex_replace:"/^(【.*】)(.*)$/":"\\2"%></a></h2>
+					</div>
+					</div>
+				<%assign var="i" value=$i+1%>
+			<%/if%>
+			<%/foreach%>
+		</div>
+		<%/if%>
+
 		<%if $smarty.get.ad != "no"%>
 	    <div class="mpu-container">
 	        <script type="text/javascript">document.write (writeAd('mpu'));</script>
@@ -94,12 +112,6 @@
 				<%/foreach%>
 			</ul>
 		</div>
-
-		<%if $smarty.get.ad != "no"%>
-	    <div class="mpu-container">
-	        <script type="text/javascript">document.write (writeAd('mpu'));</script>
-	    </div>
-	    <%/if%>
 	</div></div>
 	<div class="clearfloat"></div>
 </div></div>
