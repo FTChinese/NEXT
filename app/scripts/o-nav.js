@@ -1,3 +1,4 @@
+/* exported e*/
 function Nav(rootEl, config = {navClassName: 'o-nav'}) {
 	var oNav = this;
 
