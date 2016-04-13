@@ -262,7 +262,7 @@ request.post({
 });
 
 
-gulp.task('styles', function () {
+/*gulp.task('styles', function () {
   return gulp.src('app/styles/main*.scss')
     .pipe($.plumber())
     .pipe($.rubySass({
@@ -272,6 +272,29 @@ gulp.task('styles', function () {
     }))
     .pipe($.autoprefixer({browsers: ['last 1 version']}))
     .pipe(gulp.dest('.tmp/styles'));
+});*/
+
+gulp.task('styles', function () {
+  const DEST = '.tmp/styles';
+
+  return gulp.src(['app/styles/main*.scss'])
+    .pipe($.changed(DEST)) 
+    .pipe($.plumber()) 
+    .pipe($.sourcemaps.init({loadMaps:true})) 
+    .pipe($.sass({ 
+      outputStyle: 'expanded',
+      precision: 10,
+      includePaths: ['bower_components']
+    }).on('error', $.sass.logError))
+    .pipe($.postcss([
+      cssnext({ 
+        features: {
+          colorRgba: false
+        }
+      })
+    ]))
+    .pipe($.sourcemaps.write('./'))
+    .pipe(gulp.dest(DEST)); 
 });
 
 
@@ -291,10 +314,18 @@ gulp.task('html', ['styles'], function () {
   return gulp.src('app/*.html')
     .pipe($.useref({searchPath: ['.tmp', 'app', '.']}))
     .pipe($.if('*.js', $.uglify()))
+    .on('error', $.util.log)
     .pipe($.if('*.css', $.cssnano()))
     .pipe($.if('*.html', $.htmlmin({collapseWhitespace: true})))
     .pipe(gulp.dest('dist'));
 });
+
+/*gulp.task('uglify', function() {
+  return gulp.src('app/scripts/o-nav.js')
+    .pipe($.uglify())
+    .on('error', $.util.log)
+    .pipe(gulp.dest('.tmp'));
+});*/
 
 gulp.task('images', function () {
   return gulp.src('app/images/**/*')

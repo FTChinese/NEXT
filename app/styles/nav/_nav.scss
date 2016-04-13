@@ -37,7 +37,7 @@
 		position: absolute;
 		display: none;
 		
-		.nav-toggle[aria-pressed=true] + & {
+		.nav-toggle[aria-pressed=true] ~ & {
 			display: block;
 			position: fixed;
 			top: $o-header-bottom-height;
@@ -259,6 +259,9 @@
 		font-size: 14px;
 // set color and background-color that same as `.nav-section-head` for links on the left.
 		@include oColorsFor(o-header);
+		&:hover {
+			@include oColorsFor(o-header, text);
+		}
 
 		.nav-items & {
 // reset styles to default for links under `.nav-items`.
@@ -382,4 +385,3 @@
 		}		
 	}
 }
-

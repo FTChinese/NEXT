@@ -1,5 +1,7 @@
 <?php
 
+header('Content-type: text/html');
+
 require '../vendor/autoload.php';
 
 $smarty = new Smarty;
@@ -32,4 +34,4 @@ $smarty->assign('datass1', $data);
 $smarty->assign('topnav', 'china');
 $smarty->assign('subnav', 'chinabusiness');
 
-$smarty->display('../app/ajax.tpl');
+$smarty->display('partials/ajax-nav.html');
