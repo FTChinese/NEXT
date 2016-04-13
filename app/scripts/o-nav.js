@@ -36,7 +36,7 @@ function Nav(rootEl, config = {navClassName: 'o-nav'}) {
 		var navOpenClass = config.navClassName + '--open';
 
 		if (navToggle) {
-			navToggle.addEventListener('click', function(e) {
+			navToggle.addEventListener('click', function() {
 				document.documentElement.classList.toggle(navOpenClass);
 				document.body.classList.toggle(navOpenClass);
 			});
@@ -157,6 +157,7 @@ var ajax = {
 
 var navEl = document.querySelector('.o-nav');
 
+
 var navElOffset = getElementOffset(navEl);
 
 console.log(navElOffset);
@@ -164,6 +165,8 @@ console.log(navElOffset);
 new Nav(navEl);
 new Sticky(navEl, navElOffset.y);
 
-/*ajax.getData('/ajax.php', function(data) {
+ajax.getData('/ajax.php', function(data) {
 	console.log(data);
-});*/
+
+});
+

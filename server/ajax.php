@@ -32,4 +32,4 @@ $smarty->assign('datass1', $data);
 $smarty->assign('topnav', 'china');
 $smarty->assign('subnav', 'chinabusiness');
 
-$smarty->display('../app/ajax.tpl');
+$smarty->display('partials/ajax-nav.html');

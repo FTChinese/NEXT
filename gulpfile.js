@@ -288,7 +288,7 @@ gulp.task('jshint', function () {
 });
 
 gulp.task('html', ['styles'], function () {
-  return gulp.src('app/*.html')
+  return gulp.src('app/index.html')
     .pipe($.useref({searchPath: ['.tmp', 'app', '.']}))
     .pipe($.if('*.js', $.uglify()))
     .pipe($.if('*.css', $.cssnano()))
