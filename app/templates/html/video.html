@@ -14,6 +14,37 @@
 <%assign var="twitterUrl" value="http://twitter.com/home?status=`$shareText`...%20`$shareUrl`"%>
 <%assign var="facebookUrl" value="http://www.facebook.com/sharer.php?u=`$shareUrl`&t=`$shareText`"%>
 
+
+<%assign var="PageTitle" value=$catalogname%>
+<%if preg_match("/有色眼镜/is",$videotag)%>    
+    <%assign var="channelcatename" value="有色眼镜"%>
+    <%assign var="allstory" value=$videomodel->get_video_by_channel(29,0,50)%> 
+    <%assign var="channelLink" value="/channel/videotinted.html"%>
+<%elseif preg_match("/高端视点/",$PageTitle)%>
+    <%assign var="allstory" value=$videomodel->get_video_by_channel(30,0,50)%>
+    <%assign var="channelcatename" value="高端视点"%>
+    <%assign var="channelLink" value="/channel/viewtopvideo.html"%>
+<%elseif preg_match("/政经/",$PageTitle)%>
+    <%assign var="allstory" value=$videomodel->get_video_by_channel(25,0,50)%>
+    <%assign var="channelcatename" value="政经"%>
+    <%assign var="channelLink" value="/channel/vpolitics.html"%>
+<%elseif preg_match("/文化/",$PageTitle)%>
+    <%assign var="allstory" value=$videomodel->get_video_by_channel(28,0,50)%>
+    <%assign var="channelcatename" value="文化"%>
+    <%assign var="channelLink" value="/channel/vculture.html"%>
+<%elseif preg_match("/产经/",$PageTitle)%>
+    <%assign var="allstory" value=$videomodel->get_video_by_channel(27,0,50)%>
+    <%assign var="channelcatename" value="产经"%>
+    <%assign var="channelLink" value="/channel/vbusiness.html"%>
+<%elseif preg_match("/金融/",$PageTitle)%>
+    <%assign var="allstory" value=$videomodel->get_video_by_channel(26,0,50)%> 
+    <%assign var="channelcatename" value="金融"%>
+    <%assign var="channelLink" value="/channel/vfinance.html"%>
+<%/if%>
+
+<%assign var="topnav" value="stream"%>
+
+
 <!DOCTYPE html>
 <html class="no-js core" data-next-app="tag-page">
   <head>
