@@ -156,7 +156,6 @@
 // set color explicitly to enable transition.
 		@include oColorsFor(o-header-sub-nav, background);
 
-		transition: $o-header-height-transition;
 // hide overflow so that contents inside it could be transitioned.
 		overflow: hidden;
 // make sub menu visible
@@ -164,17 +163,21 @@
 			overflow: visible;
 		}
 
-		.nav-section[aria-selected=true] &{
-			height: $o-header-sub-nav-height;
-		}
-
 		.nav-section:hover &,
 		.nav-section-head.desktop:hover ~ &{
 			height: $o-header-sub-nav-height;
 			z-index: 5; // make sure it is always on top when hovered.
 		}
+		
+		.nav-section[aria-selected=true] & {
+			transition: $o-header-height-transition;
+		}
 
-// hide when scrolled. To keep transiton effect, do no use  display, visibility.	
+		.nav-section[aria-selected=true] &{
+			height: $o-header-sub-nav-height;
+		}
+
+// hide when scrolled. To keep transiton effect, do no use  display, visibility.
 		.o-nav[aria-sticky=true] &,
 		.o-nav[aria-sticky=true] .nav-section[aria-selected=true] &,
 		.o-nav[aria-sticky=true] .nav-section-head.desktop ~ & {
