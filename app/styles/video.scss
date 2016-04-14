@@ -13,6 +13,35 @@
 
 // }
 
-.side-container .related-videos.interactives .item-headline {
-	padding: $defaultPadding/2;
+.side-container {
+    .related-videos{
+    	&.interactives {
+    		.item-inner {
+    			padding-bottom: 0;
+    		}
+	        .item-headline {
+	            padding: $defaultPadding/2;
+	        }
+    	}
+    }
+}
+
+.item-lead {
+	p {
+		margin-bottom: 1em;
+	}
+}
+
+.mps {
+	&.last-child {
+		margin-bottom: 0;
+	}
+}
+.last-child {
+	.top10 {
+		padding-bottom: 0;
+		li:last-child {
+			padding-bottom: 0;
+		}
+	}
 }
