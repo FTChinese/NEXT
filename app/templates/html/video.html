@@ -40,6 +40,10 @@
     <%assign var="allstory" value=$videomodel->get_video_by_channel(26,0,50)%> 
     <%assign var="channelcatename" value="金融"%>
     <%assign var="channelLink" value="/channel/vfinance.html"%>
+<%elseif preg_match("/秒懂/",$PageTitle)%>
+    <%assign var="allstory" value=$videomodel->get_video_by_channel(33,0,50)%> 
+    <%assign var="channelcatename" value="秒懂"%>
+    <%assign var="channelLink" value="/channel/explainer.html"%>
 <%/if%>
 
 <%assign var="topnav" value="stream"%>
@@ -137,7 +141,7 @@
 <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
 <![endif]-->
 <script type="text/javascript">
-  <%include file="next/scripts/main-story.js"%>
+  <%include file="next/scripts/main-video.js"%>
 </script>
 <script type="text/javascript" src="http://static.ftchinese.com/n/main-sharelinks.js?<%include file="next/timestamp/timestamp.html"%>"></script>
 </html>

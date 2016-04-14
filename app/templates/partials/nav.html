@@ -1,4 +1,9 @@
-<%if empty($global_nav)%><%easyapi command="11001" assign="datass1" debug=false%><%assign var="navData" value=$datass1.odatalist%><%else%><%assign var="navData" value="$global_nav"%><%/if%>
+<%easyapi command="11001" assign="datass1" debug=false%>
+<%assign var="navData" value=$datass1.odatalist%>
+<%if $topnav == ""%>
+  <%assign var="topnav" value="home"%>
+<%/if%>
+
 <div class="o-nav__placeholder">
   <div class="o-nav">
     <div class="o-nav__outer">
