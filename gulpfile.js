@@ -480,35 +480,45 @@ gulp.task('serve',
   gulp.watch(['app/styles/**/*.scss'], ['css']);
 });
 
+/* deploy to test server */
 gulp.task('testtpl', function() {
   return gulp.src(['views/nav.html', 'views/ajax-nav.html'])
     .pipe($.replace('<!-- easyapi -->', '<%easyapi command="11001" assign="datass1" debug=false%><%*$datass1.odatalist|var_dump*%>'))
-    .pipe($.smoosher({
-      base: '.tmp'
-    }))
     .pipe(gulp.dest('../www/frontend/tpl/next/partials'));
 });
 
-gulp.task('testcss', ['styles'], function() {
-  return gulp.src('.tmp/styles/main.css')
+gulp.task('testajax', function() {
+  return gulp.src('views/ajax-nav.html')
+    .pipe($.replace('<!-- easyapi -->', '<%easyapi command="11001" assign="datass1" debug=false%><%*$datass1.odatalist|var_dump*%>'))
+    .pipe(gulp.dest('../www/frontend/tpl/corp'));
+});
+
+gulp.task('testcss', function() {
+  return gulp.src('dist/styles/main.css')
+    .pipe($.size({
+      title: 'main.css',
+      gzip: true
+    }))  
     .pipe(gulp.dest('../www/frontend/tpl/next/styles/'));
 });
 
-gulp.task('testhtml', function() {
-  return gulp.src('app/*.html')
-    .pipe($.useref({searchPath: ['.tmp', 'app', '.']}))
-    .pipe($.if('*.js', $.uglify()))
-    .on('error', $.util.log)
-    .pipe($.if('*.css', $.cssnano()))
-    .pipe($.if('*.html', $.htmlmin({collapseWhitespace: true})))
-    .pipe(gulp.dest('dist'));
+gulp.task('testjs', function() {
+  return gulp.src('dist/scripts/main.js')
+    .pipe($.replace('ajax.php', 'http://www.corp.ftchinese.com/m/corp/ajax-nav.html'))
+    .pipe($.size({
+      title: 'main.js',
+      gzip: true
+    }))
+    .pipe(gulp.dest('../www/frontend/tpl/next/scripts/'));
 });
 
 gulp.task('tpl', function() {
   return gulp.src(['views/nav.html', 'views/ajax-nav.html'])
     .pipe($.replace('<!-- easyapi -->', '<%if empty($global_nav)%><%easyapi command="11001" assign="datass1" debug=false%><%assign var="navData" value=$datass1.odatalist%><%else%><%assign var="navData" value="$global_nav"%><%/if%>'))
     .pipe(gulp.dest('app/templates/partials'));
-})
+});
+
+gulp.task('testbuild', ['testcss', 'testjs', 'testtpl', 'testajax', 'tpl']);
 /*************/
 
 gulp.task('build', ['jshint', 'html', 'images', 'fonts', 'extras', 'ad'], function () {

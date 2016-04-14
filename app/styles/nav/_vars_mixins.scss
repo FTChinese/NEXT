@@ -3,10 +3,10 @@ $o-header-is-silent: true !default;
 $o-header-top-height: 70px;
 $o-header-logo-height: 36px;
 
-$o-header-bottom-height: 45px;
+$o-header-bottom-height: 44px;
 $o-header-logo-mobile-height: 21px;
 
-$o-header-sub-nav-height: 32px;
+$o-header-sub-nav-height: 30px;
 
 $o-header-background-transition: 0.3s background-color;
 $o-header-height-transition: 0.3s height;
@@ -52,6 +52,17 @@ $o-header-mobile-right-width: percentage(($o-grid-columns - $o-header-mobile-wid
 	span {
 		display: none;
 	}
+}
+
+@mixin oHeaderIcon($name, $size) {
+	background-image: url('http://s.ftimg.net/img/png/#{$name}.png');
+	background-image: url('http://s.ftimg.net/img/svg/#{$name}.svg');
+	display: inline-block;
+	width: $size + 0px;
+	height: $size + 0px;
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: 50%;
 }
 
 @mixin oHeaderSearchExpanded {
