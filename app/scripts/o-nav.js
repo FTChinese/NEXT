@@ -16,7 +16,7 @@ function Nav(rootEl) {
 	}
 
 	function selected() {
-		var selectAttribute = '[data-o-nav-selectable]';
+		var selectAttribute = '.nav-section-head.mobile';
 		var selectableEls = oNav.rootEl.querySelectorAll(selectAttribute);
 
 		oNav.delegate.on('click', selectAttribute, function (e, selectable) {

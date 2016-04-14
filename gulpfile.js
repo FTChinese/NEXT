@@ -313,6 +313,7 @@ gulp.task('jshint', function () {
 gulp.task('html', ['styles'], function () {
   return gulp.src('app/*.html')
     .pipe($.useref({searchPath: ['.tmp', 'app', '.']}))
+    .pipe($.if('*.js', $.replace('ajax.php', 'http://www.corp.ftchinese.com/m/corp/ajax-nav.html')))
     .pipe($.if('*.js', $.uglify()))
     .on('error', $.util.log)
     .pipe($.if('*.css', $.cssnano()))
