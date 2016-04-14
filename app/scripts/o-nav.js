@@ -1,6 +1,6 @@
 /*exported e, ajax*/
 function Nav(rootEl) {
-	var config = {navClassName: 'o-nav'}
+	var config = {navClassName: 'o-nav'};
 	var oNav = this;
 
 	function init() {
@@ -23,7 +23,7 @@ function Nav(rootEl) {
 // But this way might consume more memory.
 			var selectableEls = oNav.rootEl.querySelectorAll(selectAttribute);
 
-			console.log(e.target == selectableEls[0]);
+			//console.log(e.target == selectableEls[0]);
 
 			for (var i = 0; i < selectableEls.length; i++) {
 				selectableEls[i].setAttribute('aria-selected', 'false');
