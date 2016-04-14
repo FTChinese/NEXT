@@ -494,6 +494,16 @@ gulp.task('testcss', ['styles'], function() {
     .pipe(gulp.dest('../www/frontend/tpl/next/styles/'));
 });
 
+gulp.task('testhtml', function() {
+  return gulp.src('app/*.html')
+    .pipe($.useref({searchPath: ['.tmp', 'app', '.']}))
+    .pipe($.if('*.js', $.uglify()))
+    .on('error', $.util.log)
+    .pipe($.if('*.css', $.cssnano()))
+    .pipe($.if('*.html', $.htmlmin({collapseWhitespace: true})))
+    .pipe(gulp.dest('dist'));
+});
+
 gulp.task('tpl', function() {
   return gulp.src(['views/nav.html', 'views/ajax-nav.html'])
     .pipe($.replace('<!-- easyapi -->', '<%if empty($global_nav)%><%easyapi command="11001" assign="datass1" debug=false%><%assign var="navData" value=$datass1.odatalist%><%else%><%assign var="navData" value="$global_nav"%><%/if%>'))

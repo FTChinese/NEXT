@@ -173,7 +173,7 @@ console.log(navElOffset);
 new Nav(navEl);
 new Sticky(navEl, navElOffset.y);
 
-ajax.getData('/ajax.php', function(data) {
+ajax.getData('http://www.corp.ftchinese.com/m/corp/ajax-nav.html', function(data) {
 // data is text, not DOM! 
 // You need to parse data into DOM before appending it.
 // But string to DOM conversion is hard in browser.
