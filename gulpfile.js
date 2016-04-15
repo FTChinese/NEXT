@@ -482,15 +482,16 @@ gulp.task('serve',
 });
 
 /* deploy to test server */
-gulp.task('testtpl', function() {
-  return gulp.src(['views/nav.html', 'views/ajax-nav.html'])
-    .pipe($.replace('<!-- easyapi -->', '<%easyapi command="11001" assign="datass1" debug=false%><%*$datass1.odatalist|var_dump*%>'))
+gulp.task('testnav', function() {
+  return gulp.src('views/nav.html')
+    .pipe($.replace('<!-- easyapi -->', '<%easyapi command="11001" assign="datass1" debug=false%><%assign var="navData" value=$datass1.odatalist%><%if $topnav == ""%><%assign var="topnav" value="home"%><%/if%>'))
     .pipe(gulp.dest('../www/frontend/tpl/next/partials'));
 });
 
 gulp.task('testajax', function() {
   return gulp.src('views/ajax-nav.html')
-    .pipe($.replace('<!-- easyapi -->', '<%easyapi command="11001" assign="datass1" debug=false%><%*$datass1.odatalist|var_dump*%>'))
+    .pipe($.replace('<!-- easyapi -->', '<%easyapi command="11001" assign="datass1" debug=false%><%assign var="navData" value=$datass1.odatalist%>'))
+    .pipe(gulp.dest('app/templates/partials'))
     .pipe(gulp.dest('../www/frontend/tpl/corp'));
 });
 
@@ -513,13 +514,13 @@ gulp.task('testjs', function() {
     .pipe(gulp.dest('../www/frontend/tpl/next/scripts/'));
 });
 
-gulp.task('tpl', function() {
-  return gulp.src(['views/nav.html', 'views/ajax-nav.html'])
-    .pipe($.replace('<!-- easyapi -->', '<%easyapi command="11001" assign="datass1" debug=false%><%*$datass1.odatalist|var_dump*%>'))
+gulp.task('navtpl', function() {
+  return gulp.src('views/nav.html')
+    .pipe($.replace('<!-- easyapi -->', '<%easyapi command="11001" assign="datass1" debug=false%><%assign var="navData" value=$datass1.odatalist%><%if $topnav == ""%><%assign var="topnav" value="home"%><%/if%>'))
     .pipe(gulp.dest('app/templates/partials'));
 });
 
-gulp.task('testbuild', ['testcss', 'testjs', 'testtpl', 'testajax', 'tpl']);
+gulp.task('testbuild', ['testcss', 'testjs', 'testtpl', 'testajax']);
 /*************/
 
 gulp.task('build', ['jshint', 'html', 'images', 'fonts', 'extras', 'ad'], function () {
