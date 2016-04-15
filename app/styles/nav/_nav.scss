@@ -19,11 +19,10 @@
 	}
 }
 
-.o-nav__level-1 {
+.o-nav__meganav {
 	list-style: none;
 	margin: 0;
 	padding: 0;
-// color set here will inherited by descendant `<a>`
 	@include oGridRespondTo(M) {
 		@include oColorsFor(o-header, text background);
 		white-space: nowrap;
@@ -36,6 +35,19 @@
 
 		position: absolute;
 		display: none;
+// psuedo left column background.
+		&:before {
+			content: '';
+			display: block;
+			box-sizing: border-box;
+			position: absolute;
+			top: 0;
+			left: 0;
+			bottom: 0;
+			width: $o-header-mobile-left-width;
+			@include oColorsFor(o-header);
+			z-index: -1;
+		}
 		
 		.nav-toggle[aria-pressed=true] ~ & {
 			display: block;
@@ -63,14 +75,21 @@
 		&[aria-selected=true] {
 			@include oColorsFor(o-header-sub-nav, background);
 		}
-	}
-
-	&.mobile {
-		@include oGridRespondTo(M) {
+		&.mobile {		
 			display: none;
 		}
 	}
-// Did not set color for .nav-section on default state. Transparent to show color underneath.
+	@include oGridRespondTo($until: M) {
+		&.logout {
+			display: none;
+		}
+		.is-member &.login{
+			display: none;
+		}
+		.is-member &.logout {
+			display: block;
+		}
+	}
 }
 
 // left part of navigation on small screen
@@ -175,9 +194,7 @@
 		}
 
 // hide when scrolled. To keep transiton effect, do no use  display, visibility.
-		.o-nav[aria-sticky=true] &,
-		.o-nav[aria-sticky=true] .nav-section[aria-selected=true] &,
-		.o-nav[aria-sticky=true] .nav-section-head.desktop ~ & {
+		.o-nav[aria-sticky=true] .nav-section[aria-selected=true] & {
 			height: 0;
 		}
 	}
@@ -207,7 +224,7 @@
 
 .nav-item {
 	@include oGridRespondTo(M) {
-		&.mobile{
+		&.mobile {
 			display: none;
 		}
 		position: relative;
@@ -222,8 +239,7 @@
 					@include oHeaderArrowDown;
 				}
 
-				&:hover/* ,
-				&:focus */ {
+				&:hover {
 					&:after {
 					@include oHeaderArrowUp;
 					}
@@ -265,7 +281,7 @@
 		}
 
 		.nav-items & {
-// reset styles to default for links under `.nav-items`.
+// reset styles to default for links of level-2 nav.
 			display: block;
 			padding-left: 0;
 			padding-right: 0;
