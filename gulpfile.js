@@ -313,7 +313,6 @@ gulp.task('jshint', function () {
 gulp.task('html', ['styles'], function () {
   return gulp.src('app/*.html')
     .pipe($.useref({searchPath: ['.tmp', 'app', '.']}))
-    .pipe($.if('*.js', $.replace('ajax.php', 'http://www.corp.ftchinese.com/m/corp/ajax-nav.html')))
     .pipe($.if('*.js', $.uglify()))
     .on('error', $.util.log)
     .pipe($.if('*.css', $.cssnano()))
@@ -452,7 +451,7 @@ gulp.task('copym', function() {
 });
 
 gulp.task('copyjs', function() {
-  return gulp.src(['header/js/*.js', 'app/scripts/*.js'])
+  return gulp.src(['views/scripts/o-nav.js', 'app/scripts/*.js'])
   .pipe(gulp.dest('.tmp/scripts'))
   .pipe(browserSync.stream({once:true}));
 });
@@ -506,7 +505,7 @@ gulp.task('testcss', function() {
 
 gulp.task('testjs', function() {
   return gulp.src('dist/scripts/main.js')
-    .pipe($.replace('ajax.php', 'http://www.corp.ftchinese.com/m/corp/ajax-nav.html'))
+    .pipe($.replace('ajax.php', '/m/corp/ajax-nav.html'))
     .pipe($.size({
       title: 'main.js',
       gzip: true
@@ -518,6 +517,12 @@ gulp.task('navtpl', function() {
   return gulp.src('views/nav.html')
     .pipe($.replace('<!-- easyapi -->', '<%easyapi command="11001" assign="datass1" debug=false%><%assign var="navData" value=$datass1.odatalist%><%if $topnav == ""%><%assign var="topnav" value="home"%><%/if%>'))
     .pipe(gulp.dest('app/templates/partials'));
+});
+
+gulp.task('navjs', function() {
+  return gulp.src('views/scripts/o-nav.js')
+    .pipe($.if('*.js', $.replace('ajax.php', '/m/corp/ajax-nav.html')))
+    .pipe(gulp.dest('app/scripts'));
 });
 
 gulp.task('testbuild', ['testcss', 'testjs', 'testnav', 'testajax']);

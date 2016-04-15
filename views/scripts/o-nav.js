@@ -186,7 +186,7 @@ function zipObject(objA, objB) {
 
 var initialNavSections = oNavSections(navEl);
 
-ajax.getData('/m/corp/ajax-nav.html', function(data) {
+ajax.getData('ajax.php', function(data) {
 // `data` is text, not DOM! 
 // You need to parse data into DOM before appending it.
 	var wrapperEl = document.createElement('ol');
