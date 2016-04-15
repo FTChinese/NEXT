@@ -1,0 +1,93 @@
+.header-container {
+	@include oGridRespondTo($until:L) {
+		display: none;
+	}
+}
+.o-nav__placeholder {
+	padding: 0;
+	margin: 0;
+	border: 0;
+	@include oGridRespondTo($until: L) {
+// placeholder to keep document height intact when `.o-nav` becomes fixed and moved out of document flow.
+		height: $o-header-bottom-height + 15px;
+		background-color: transparent;
+	}
+
+	@include oGridRespondTo(L) {
+		position: relative;
+		z-index: 1;
+		height: $o-header-bottom-height + $o-header-sub-nav-height + 30px;
+		background-color: transparent;
+	}
+
+	@include oGridTargetIE8 {
+		position: relative;
+		z-index: 1;
+	}
+}
+
+.o-nav {
+	@include oColorsFor(o-header);
+
+	@include oGridRespondTo($until: L) {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		z-index: 1;
+		height: $o-header-bottom-height;
+	}
+	@include oGridRespondTo(L) {
+		position: relative;
+// add background placeholder for .nav-items. Move it out of normal flow.
+		&:after {
+			content: '';
+			position: absolute;
+			left: 0;
+			right: 0;
+			height: $o-header-sub-nav-height;
+			transition: $o-header-height-transition;
+			@include oColorsFor(o-header-sub-nav, background);
+		}
+		&[aria-sticky=true] {
+			position: fixed;
+			top: 0;
+			left: 0;
+			right: 0;
+ 			&:after {
+				height: 0;
+			}
+		}
+	}
+}
+
+.o-nav__outer {
+	position: relative;
+	box-sizing: border-box;
+	margin-left: auto;
+	margin-right: auto;
+	min-width: $o-grid-min-width;
+	max-width: 1260px;
+	padding-left: oGridGutter();
+	padding-right: oGridGutter();
+
+
+	@include oGridRespondTo(L) {
+		padding: 0 30px;
+	}
+
+	@include oGridTargetIE8 {
+		padding-left: oGridGutter($o-grid-fixed-layout);
+		padding-right: oGridGutter($o-grid-fixed-layout);
+		width: oGridGetMaxWidthForLayout($o-grid-fixed-layout, $grid-mode: 'fixed');
+	}
+}
+
+.o-nav__inner {
+	position: relative;
+	box-sizing: border-box;
+	display: block;
+	min-width: 100%;
+	max-width: 100%;
+	width: 100%;
+}

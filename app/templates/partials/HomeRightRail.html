@@ -65,7 +65,7 @@
 
 	<%if $smarty.get.ad != "no"%>
 		<div class="mpu-container">
-			<iframe id="mpu1" width="300" height="250" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="/m/marketing/a.html#adid=10000003&slot=986723212&pid=mpu1"></iframe>
+			<script type="text/javascript">document.write (writeAd('mpu'));</script>
 		</div>
 	<%/if%>
 
@@ -93,6 +93,8 @@
 		<%assign var="iTag" value="【小测】"%>
 		<%elseif preg_match("/数据新闻/is",$storyall[$cs].tag)%>
 		<%assign var="iTag" value="【数据】"%>
+		<%elseif preg_match("/教程/is",$storyall[$cs].tag)%>
+		<%assign var="iTag" value="【教程】"%>
 		<%else%>
 		<%assign var="iTag" value=""%>
 		<%/if%>
@@ -121,7 +123,7 @@
 
 	<%if $smarty.get.ad != "no"%>
 		<div class="mpu-container">
-		    <iframe id="mpu2" width="300" height="250" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="/m/marketing/a.html#adid=10000004&slot=986723212&pid=mpu2"></iframe>
+		    <script type="text/javascript">document.write (writeAd('mpu'));</script>
 		</div>
 	<%/if%>
 

@@ -1,0 +1,57 @@
+.footer-container {
+	font-size: 16px;
+	@include headerContainer;
+	border-top: 5px solid #777;
+}
+.footer-inner {
+	@include footerInner;
+	a {
+		display: inline-block;
+		padding: 0 $defaultPadding $defaultPadding/2 0;
+		&:hover, &:active {
+			text-decoration: underline;
+		}
+	}
+	p {
+		font-size: 14px;
+		clear: both;
+		//padding-top: $defaultPadding;
+	}
+	.copyright {
+		padding-right: $defaultPadding;
+	}
+}
+
+@media only screen and (max-width: 900px) {
+	.footer-inner {
+		a {
+			width: 33.3333%;
+		}
+	}
+
+}
+
+
+@media only screen and (max-width: 600px) {
+	.footer-inner {
+		a {
+			float: left;
+			padding-right: 0;
+			display: block;
+			width: 20%;
+
+		}
+		p span{
+			display: block;
+		}
+	}
+}
+
+@media only screen and (max-width: 490px) {
+	.footer-inner {
+		a {
+			width: 50%;
+		}
+	}
+
+}

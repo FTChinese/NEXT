@@ -1,0 +1,42 @@
+<div class="block-container has-side story-page"><div class="block-inner">
+	<div class="content-container"><div class="content-inner">
+		<div class="story-container<%$storyLanguage%>">
+			<div class="story-theme"><%$breadcrum%></div>
+			<h1 class="story-headline"><%$storyHeadline%></h1>
+			<%$storyLead%>
+			<%$storyImageTop%>
+			<div class="story-share-placeholder" id="story-share-placeholder">
+			    <div class="story-share">
+			        <div class="share-inner">
+			            <a class="share-icon icon-wechat" href="<%$wechatUrl%>" target="_blank"></a>
+			            <a class="share-icon icon-weibo" href="<%$sinaUrl%>" target="_blank"></a>
+			            <a class="share-icon icon-linkedin" href="<%$linkedInUrl%>" target="_blank"></a>
+			            <a class="share-icon icon-twitter" href="<%$twitterUrl%>" target="_blank"></a>
+			            <a class="share-icon icon-facebook" href="<%$facebookUrl%>" target="_blank"></a>
+			            <%$languageOptions%>
+			            <div class="icon-right icon-save">
+			                <button id="addfavlink" onclick="addstoryfav('<%$story.id%>')">收藏</button>
+			            </div>
+			            <a class="icon-right icon-action icon-comments" href="/comments/index/<%$story.id%>" target="_blank"></a>
+			            <a class="icon-right icon-action icon-print" href="/story/<%$story.id%>?print=y" target="_blank"></a>
+			            <a class="icon-right icon-action icon-font-size" onclick="showOverlay('font-setting')"></a>
+			            <a class="icon-right icon-action icon-share" onclick="showOverlay('share-legacy')"></a>
+			        </div>
+			    </div>
+			</div>
+			<div class="story-byline">
+				<span class="story-time"><%$storyTime%></span>
+				<span class="story-author"><%$storyAuthor%></span>
+			</div>
+			<div class="story-body">
+				<%$storyImageInline%>
+				<%$story_content%>
+			</div>
+			<%include file="next/partials/pagination.html"%>
+			<div class="clearfloat"></div>
+		</div>
+	<div class="clearfloat block-bottom"></div>
+	</div></div>
+	<%include file="next/partials/StoryRightRail.html"%>
+	<div class="clearfloat"></div>
+</div></div>

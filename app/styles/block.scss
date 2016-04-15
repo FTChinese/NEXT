@@ -1,0 +1,412 @@
+.block-container {
+	margin-bottom: $defaultPadding/2;
+	&.side-video {
+		margin-bottom: $defaultPadding;
+	}
+	a {
+		color: $darkGrey;
+	}
+	&.fixside {
+		.side-inner {
+			position: fixed;
+			bottom: $defaultPadding;
+			width: $sideWidth;
+		}
+		&.side-left {
+			.side-inner {
+				bottom: 0;
+			}
+		}
+	}
+	&.bottomside {
+		.side-inner {
+			position: absolute;
+			bottom: $defaultPadding;
+			width: $sideWidth;
+		}
+		&.side-left {
+			.side-inner {
+				bottom: 0;				
+			}
+
+		}
+	}
+	&.fixmain {
+		.content-container {
+			position: fixed;
+			bottom: 0;
+			max-width: $maxWidth - 1.5 * $defaultPadding - $sideWidth;
+			//right: $sideWidth + $defaultPadding;
+		}
+		.content-inner {
+			border-width: 0;
+			//margin-left: $sideWidth + $defaultPadding * 1.5;
+		}
+		&.side-left {
+			.content-container {
+				position: static;
+				float: right;
+			}
+			.content-inner {
+				position: fixed;
+				max-width: $maxWidth - $sideWidth - 2 * $defaultPadding;
+				border-width: 0;
+				bottom: 0;
+				padding-left: 0;
+				padding-right: 0;
+			}
+			.side-container {
+				float: left;
+				margin-right: 0;
+				margin-left:0;
+			}
+		}
+	}
+	&.bottommain {
+		.content-container {
+			position: absolute;
+			bottom: 0;
+			max-width: $maxWidth - 1.5 * $defaultPadding - $sideWidth;
+		}
+		.content-inner {
+			border-width: 0;
+		}
+		&.side-left {
+			.content-container {
+				position: static;
+				float: right;
+			}
+			.content-inner {
+				position: absolute;
+				max-width: $maxWidth - $sideWidth - 2 * $defaultPadding;
+				border-width: 0;
+				bottom: 0;
+				padding-left: 0;
+				padding-right: 0;
+			}
+			.side-container {
+				float: left;
+				margin-right: 0;
+				margin-left:0;
+			}
+		}
+	}
+}
+.block-inner {
+	max-width: $maxWidth;
+	padding: 0 $defaultPadding/2;
+	margin: auto;
+}
+
+.block-title {
+	display: none;
+}
+.list-title {
+	font-size: 1.2em;
+	position: relative;
+	height: $listTitleHeight;
+	margin: 0 $defaultPadding/2 $defaultPadding $defaultPadding/2;
+	clear: both;
+	a.list-link {
+		line-height: $listTitleHeight;
+		position: absolute;
+		height: 100%;
+		left: 0;
+		padding-right: $defaultPadding/3;
+		background-color: $defaultPink;
+		&:hover, &:active {
+			color: $red;
+		}
+	}
+	a.sponsor-link figure {
+		height: $defaultPadding;
+		background-color: $defaultPink;
+		position: absolute;
+		right: 0;
+		top: ($listTitleHeight - $defaultPadding)/2;
+		padding-left: 5px;
+		img {
+			height: $defaultPadding;
+		}
+	}
+	&:before {
+	    content: '';
+	    position: absolute;
+	    height: 18px;
+	    //background-color: $borderColor;
+	    top: 0;
+	    bottom: 0;
+	    width: 100%;
+	    margin:auto;
+	    background: url("http://static.ftchinese.com/img/front-page-section-header.png") repeat transparent;
+	}
+}
+
+.item-container {
+	float: left;
+}
+.item-inner {
+	padding: $figureHeight $defaultPadding/2 $defaultPadding $defaultPadding/2;
+	position: relative;
+}
+
+.item-headline, .relative-container {
+	a {
+		border-bottom: 1px dotted transparent;
+		&:hover, &:active {
+			border-bottom-color: $blue;
+			color: $blue;
+		}
+	}
+}
+
+.item-headline {
+	font-weight: bold;
+	font-size: 1.05em;
+	line-height: 120%;
+	margin-bottom: $defaultPadding/3;
+}
+.headline-only {
+	.item-headline {
+		margin-bottom: 0;
+	}
+}
+.item-lead {
+	color: $lightGrey;
+	font-size: 0.9em;
+}
+.item-tag {
+	color: $red;
+	font-size: 14px;
+	font-weight: bold;
+	padding-bottom: $defaultPadding/2;
+	a {
+		color: $red;
+		&:hover, &:active {
+			border-bottom-color: $darkGrey;
+			color: $darkGrey;
+		}
+	}
+}
+.item-time {
+	color: $lightGrey;
+	color: $timeGrey;
+	font-weight: normal;
+	font-size: 12px;
+	padding-top: $defaultPadding/2;
+	&.highlight {
+		color: $red;
+	}
+}
+.item-bottom {
+	clear: both;
+}
+.image {
+	display: block;
+}
+.relative-container {
+	margin-top: 5px;
+}
+.relative {
+	font-size: 0.9em;
+	font-weight: normal;
+	&:before {
+	    content: '•';
+	    padding-right: 5px;
+	    color: $lightGrey;
+	}
+}
+.no-image {
+	.item-inner {
+		padding-top: 0;
+	}
+	.image {
+		display: none;
+	}
+}
+.no-lead {
+	.item-headline {
+		margin-bottom: 0;
+	}
+}
+.image {
+	position: absolute;
+	top: 0;
+	left: $defaultPadding/2;
+	right: $defaultPadding/2;
+	padding-bottom: 5px;
+	figure {
+	    @include figure;
+	}
+	img {
+		transition: transform 0.5s ease;
+	}
+	&:hover, &:active {
+		img {
+			
+			transform: scale(1.05);
+		}
+	}
+}
+
+
+.has-side {
+	.block-inner {
+		padding-right: $defaultPadding;
+		position: relative;
+	}
+	.content-container {
+	    float: left;
+	    width: 100%;
+	}
+	.content-inner {
+    	border-right: $sideWidth solid $bannerBG;
+    	padding-right: $defaultPadding/2;
+	}
+	&.side-left {
+		.block-inner {
+			padding-right: 0;
+			padding-left: $defaultPadding;			
+		}
+		.content-container {
+			float: right;
+		}
+		.content-inner {
+			border-right: 0;
+			border-left: $sideWidth solid $bannerBG;
+			padding-right: $defaultPadding/2;
+			padding-left: $defaultPadding/2;
+		}
+		.side-container {
+			float: right;
+			margin-right: -$sideWidth;
+		}
+	}
+}
+
+
+
+.side-container {
+	float: right;
+    width: $sideWidth;
+    background-color: $bannerBG;
+    margin-left: - $sideWidth;
+	iframe {
+		margin: 0 auto $defaultPadding auto;
+		display: block;
+		&.ad-hidden {
+			margin: 0 auto;
+		}
+		&#ribbon {
+			margin: 15px auto;
+		}
+	}
+	.list-title {
+		@include itemTitleMobile;
+	}
+	.item-container {
+		float: none;
+		width: 100%;
+	}
+	.item-inner {
+		padding: 0 0 $defaultPadding/2 0;
+		position: static;
+		border-top: 1px dotted $borderColor;
+	}
+	.item-headline {
+		padding: $defaultPadding/2 $defaultPadding/2 0 $defaultPadding/2;
+		margin-bottom: 0;
+		font-size: 0.9em;
+		font-weight: normal;
+	}
+	.interactives {
+		padding-bottom: $defaultPadding;
+		.item-headline {
+			padding: $defaultPadding/2 $defaultPadding/2 0 0;
+		}
+	}
+	.image {
+		position: static;
+		float:right;
+		width: 82px;
+		padding: 2px 0 0 5px;
+		clear: right;
+	}
+	.item-container.first {
+		position: relative;
+		margin-bottom: $defaultPadding/2;
+		.item-inner {
+			padding: 0;
+			border: 0;
+		}
+		.image {
+			float:none;
+			width: 100%;
+			padding: 0;
+		}
+		.item-headline {
+			font-size:1em;
+			position: absolute;
+			bottom: 0;
+			background-color: $opaque;
+			color: white;
+			padding-bottom: $defaultPadding/2;
+			width: 100%;
+			a {
+				color: white;
+				font-weight: normal;
+			}
+		}
+	}
+}
+.smallest {
+	font-size: 0.8em;
+}
+.smaller {
+	font-size: 0.9em;
+}
+.bigger {
+	font-size: 1.2em;
+}
+.biggest {
+	font-size: 1.6em;
+}
+.selected {
+	position: relative;
+	&:before {
+		content: '';
+		display: block;
+		position: absolute;
+		right: $defaultPadding/2;
+		top: 0;
+		bottom: 0;
+		width: 44px;
+		background-size: 20px;
+		background-position: right center;
+		background-repeat: no-repeat;
+		background-image: url(http://static.ftchinese.com/icons/svg/tick.svg);
+		background-image: url(http://static.ftchinese.com/img/png/tick.png)\9;
+	}
+}
+.top10 {
+	padding: 0 $defaultPadding/2 $defaultPadding/2 $defaultPadding/2;
+	li {
+		padding: $defaultPadding/2 0 $defaultPadding/2 0;
+		border-top: 1px dotted $borderColor;
+		//font-weight: bold;
+		&.mp1 {
+			padding-top: 0;
+			border: 0;
+		}
+		span {
+			color: $red;
+			//padding-right: $defaultPadding/2;
+			//text-align: right;
+			//display: inline-block;
+			//width: $defaultPadding;
+		}
+	}
+}
+.P-only {
+	display: none;
+}

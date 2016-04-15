@@ -1,0 +1,23 @@
+<!-- easyapi -->
+<%foreach from=$datass1.odatalist item="level_1"%>
+<li class="nav-section" data-section="<%$level_1.code%>">
+  <ol class="nav-items level-2">
+    <li class="nav-item mobile">
+      <a class="nav-link" href="<%$level_1.link%>"><%if $level_1.code=='home'%>FT中文网首页<%else%>频道首页<%/if%></a>
+    </li>
+    <%foreach from=$level_1.children item="level_2"%>
+    <li class="nav-item"<%if $level_2.haschildren%> aria-haspopup="true"<%/if%> data-channel="<%$level_2.code%>">
+      <a class="nav-link" href="<%$level_2.link%>"><%$level_2.name %></a>     
+      <%if $level_2.haschildren%>
+      <ol class="nav-sub-items level-3">     
+        <%foreach from=$level_2.children item="level_3"%>
+        <li><a href="<%$level_3.link%>"><%$level_3.name%></a></li>
+        <%/foreach%>
+      </ol>
+      <%/if%>
+    </li>
+    <%/foreach%>
+  </ol>
+</li>
+<%/foreach%>
+

@@ -1,0 +1,45 @@
+.banner-placeholder {
+	position: relative;
+	height: $bannerHeight;
+	margin-bottom: $defaultPadding + $defaultPadding;
+	//width: 100%;
+}
+.banner-container {
+	width: 100%;
+	iframe {
+		margin: $defaultPadding/2 auto 0 auto;
+	}
+	&.is-fix {
+		position: fixed;
+		top: $navHeight;
+		z-index: 5;
+	}
+}
+.banner-inner {
+	max-width: $maxAdWidth + 2*$defaultPadding;
+	margin: 0 auto;
+}
+.banner-content {
+	margin: 0 $defaultPadding;
+	background: $bannerBG;
+	height: $bannerHeight + $defaultPadding;
+}
+.sponsor-container {
+	padding: 0 $defaultPadding/2;
+}
+.mpu-container {
+	width: 300px;
+	margin: 0 auto;
+}
+@media only screen and (max-width: 490px) {
+	.banner-placeholder, .banner-content {
+		//display: none;
+		height: 50px + $defaultPadding;
+	}
+	.banner-content {
+		margin: 0 $defaultPadding/2;
+	}
+	.banner-placeholder {
+		margin-bottom: $defaultPadding/2;
+	}
+}

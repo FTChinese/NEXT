@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html class="no-js core" data-next-app="front-page">
+ <head>
+ <meta charset="utf-8" />
+ <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+ <title>FT中文网</title>
+ <meta http-equiv="Content-Language" content="zh-CN"/>
+ <meta content="<%$p.meta.description%>" name="description"/>
+ <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+ <link rel="apple-touch-icon-precomposed" href="http://static.ftchinese.com/img/ipad_icon.png" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <link rel="preconnect" href="http://static.ftchinese.com" />
+ <link rel="preconnect" href="http://i.ftimg.net" />
+ <script>
+ window.errorBuffer = window.errorBuffer || [];
+ function beaconCssError(e) {
+ window.errorBuffer.push({
+ error: e ? e : new Error('CSS failed to load.'),
+ context: {
+ isMobileNetork: document.cookie.replace(/(?:(?:^|.*;\s*)h2_isMobile\s*\=\s*([^;]*).*$)|^.*$/, "$1") === '' ? false : true
+ }
+ });
+ }
+ </script>
+
+<script>
+window.cutsTheMustard = (typeof Function.prototype.bind !== 'undefined');
+if (window.cutsTheMustard) {
+document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/, 'js').replace(/\bcore\b/, 'enhanced');
+}
+</script>
+
+<!--[if lte IE 8]>
+    <script>
+        document.documentElement.className += ' is-ie-8';
+        document.createElement('figure');
+        document.createElement('header');
+        document.createElement('nav');
+        document.createElement('section');
+        document.createElement('article');
+        document.createElement('aside');
+        document.createElement('footer');
+    </script>
+<![endif]-->
+
+<!-- build:css styles/main-tag.css -->
+<link rel="stylesheet" href="styles/main-tag.css">
+<!-- endbuild -->
+
+
+<script type="text/javascript">
+if(typeof startTime === "undefined"){
+var startTime=new Date().getTime();
+}
+var adchID = '1000';
+var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现联动互斥功能
+</script>
+
+
+<script type="text/javascript" src="scripts/key.js"></script>
+<script type="text/javascript" src="scripts/ad.js"></script>
+
+
+
+ <link rel="icon" type="image/png" href="https://next-geebee.ft.com/assets/brand-alpha/icons/favicon-32x32.png" sizes="32x32">
+ <link rel="icon" type="image/png" href="https://next-geebee.ft.com/assets/brand-alpha/icons/favicon-194x194.png" sizes="194x194">
+ <link rel="apple-touch-icon" sizes="180x180" href="https://next-geebee.ft.com/assets/brand-alpha/icons/apple-touch-icon-180x180.png" />
+ <meta name="msapplication-TileColor" content="#fff1e0" />
+ <meta name="msapplication-TileImage" content="https://next-geebee.ft.com/assets/brand-alpha/icons/mstile-144x144.png" />
+ <script>
+ window.cutsTheMustard = (typeof Function.prototype.bind !== 'undefined');
+ if (window.cutsTheMustard) {
+ document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/, 'js').replace(/\bcore\b/, 'enhanced');
+ }
+ </script>
+ 
+ <!--[if lte IE 8]>
+ <link rel="stylesheet" href="https://next-geebee.ft.com/hashed-assets/front-page/35cf21f8/ie8.css" />
+ <![endif]-->
+ <script>var startTime = new Date().getTime();</script>
+ <script>
+ if ( screen.width<=480) {
+ document.write('<meta content="FT中文网" name="application-name" /><meta content="app-id=443870811" name="apple-itunes-app" />');
+ } else {
+ document.write('<meta content="FT中文网" name="application-name" /><meta content="app-id=396124008" name="apple-itunes-app" />');
+ }
+ </script>
+ <link rel="alternate" type="application/rss+xml" title="FT中文网 - 每日更新" href="/rss/feed" />
+ <link rel="alternate" type="application/rss+xml" title="FT中文网 - 双语阅读" href="/rss/diglossia" />
+ <link rel="alternate" type="application/rss+xml" title="FT中文网 - 今日焦点" href="/rss/news" />
+ <link rel="alternate" type="application/rss+xml" title="FT中文网 - 生活时尚" href="/rss/lifestyle" />
+ <link rel="alternate" type="application/rss+xml" title="FT中文网 - 一周十大热门文章" href="/rss/hotstoryby7day" />
+ <link rel="alternate" type="application/rss+xml" title="FT中文网 - 热门用户评论" href="/rss/hotusercomment" />
+ <link rel="search" type="application/opensearchdescription+xml" title="FT中文网财经搜索" href="/opensearch.xml">
+
+ </head>
+ <body>
+
+
+
+
+
+<header class="header-container">
+<div class="header-inner">
+<div class="header-title">全球商业的未来</div>
+<div class="header-side header-left">
+<div class="header-brand"><figure class="loading" data-url="http://static.ftchinese.com/images/masthead36.png"></figure></div>
+</div>
+<div class="header-side header-right">
+<span class="visitor-box">
+<a onclick="showOverlay('overlay-login')">登录</a>
+<a class="more last" href="http://user.ftchinese.com/register">免费注册</a>
+</span>
+<span class="member-box">
+<a id="ft-login-your-account" href="/users/cp">设置</a>
+<a id="ft-login-logout" href="http://user.ftchinese.com/logout">登出</a>
+</span>
+</div>
+</div>
+</header>
+<div class="overlay-container" id="overlay-login">
+<div class="overlay-inner">
+<div class="overlay-bg" data-parentid="overlay-login"></div>
+<div class="overlay-content-outer">
+<div class="overlay-content-inner">
+<div class="overlay-content">
+<div class="overlay-title">登录<i class="overlay-close" data-parentid="overlay-login">×</i></div>
+<form method="post" action="/users/login">
+<div class="input-title">电子邮件/用户名</div>
+<div class="input-container"><input type="text" class="input-oneline" name="username" id="ft-login-input-username"></div>
+<div class="input-title">密码</div>
+<div class="input-container"><input type="password" class="input-oneline" name="password"></div>
+<div class="input-title input-submit-container"><input type="checkbox" class="checkbox" value="1" checked="checked" name="saveme" id="ft-login-input-remember">记住我
+<input class="input-submit" type="submit" value="提交"></div>
+<div class="input-title"><a href="/users/findpassword" class="blue-link">找回密码</a></div>
+</form>
+</div>
+</div>
+</div>
+</div>
+</div><div class="nav-place-holder" id="nav-place-holder"><nav class="nav-container" id="nav-container">
+<div class="nav-inner">
+<ul class="nav-content">
+<li class="home on nav">
+<a href="/">首页</a>
+<ul class="subnav">
+<li class="first-child ">
+<a href="/channel/special.html">专题报道</a>
+<ul class="subnav">
+<li class="dummy-child"><a href="/channel/special.html">专题报道</a></li>
+<li class="first-child nosub"><a href="/channel/datanews.html">数据新闻</a></li>
+<li class="nosub"><a href="/tag/2015%E8%BE%BE%E6%B2%83%E6%96%AF">2015达沃斯</a></li>
+<li class="last-child nosub"><a href="/tag/与FT共进午餐">与FT共进午餐</a></li>
+</ul>
+</li>
+<li class="">
+<a href="/channel/weekly.html">热门文章</a>
+<ul class="subnav">
+<li class="dummy-child"><a href="/channel/weekly.html">热门文章</a></li>
+<li class="first-child nosub"><a href="/channel/weekly.html">一周</a></li>
+<li class="nosub"><a href="/channel/monthly.html">一月</a></li>
+<li class="nosub"><a href="/channel/quarterly.html">季度</a></li>
+<li class="last-child nosub"><a href="/channel/year.html">一年</a></li>
+</ul>
+</li>
+<li class="">
+<a href="/m/events/event.html">会议活动</a>
+<ul class="subnav">
+<li class="dummy-child"><a href="/m/events/event.html">会议活动</a></li>
+<li class="first-child nosub"><a href="/m/events/recent.html">近期活动</a></li>
+<li class="nosub"><a href="/index.php/events/previous">往期活动</a></li>
+<li class="nosub"><a href="/m/events/sponsorship.html">赞助活动</a></li>
+<li class="last-child nosub"><a href="/m/events/aboutus.html">关于我们</a></li>
+</ul>
+</li>
+<li class="nosub ">
+<a href="/marketing/home">会员信息中心</a>
+<ul class="subnav">
+<li class="dummy-child"><a href="/marketing/home">会员信息中心</a></li>
+</ul>
+</li>
+<li class="nosub ">
+<a href="http://www.ftchinese.com/m/marketing/intelligence.html">FT研究院</a>
+<ul class="subnav">
+<li class="dummy-child"><a href="http://www.ftchinese.com/m/marketing/intelligence.html">FT研究院</a></li>
+</ul>
+</li>
+<li class="nosub ">
+<a href="/channel/mba.html">FT商学院</a>
+<ul class="subnav">
+<li class="dummy-child"><a href="/channel/mba.html">FT商学院</a></li>
+</ul>
+</li>
+<li class="nosub ">
+<a href="/channel/english.html">英语学习</a>
+<ul class="subnav">
+<li class="dummy-child"><a href="/channel/english.html">英语学习</a></li>
+</ul>
+</li>
+<li class="nosub ">
+<a href="/channel/slides.html">图辑</a>
+<ul class="subnav">
+<li class="dummy-child"><a href="/channel/slides.html">图辑</a></li>
+</ul>
+</li>
+<li class="nosub ">
+<a href="/jobs/">职业机会</a>
+<ul class="subnav">
+<li class="dummy-child"><a href="/jobs/">职业机会</a></li>
+</ul>
+</li>
+<li class="last-child nosub ">
+<a href="/channel/datanews.html">数据新闻</a>
+</li>
+<li class="last-child nosub ">
+<a href="/channel/ebook.html">电子书</a>
+</li>
+<li class="subnav-right last-child"><a href="/channel/rss.html"><img src="http://static.ftchinese.com/img/rss_link_nav.gif" alt="RSS" style="border:none;"/></a></li>
+<li class="subnav-right"><a>工具</a>
+<ul class="subnav">
+<li class="dummy-child"><a>工具</a></li>
+<li class="nosub first-child"><a href="http://app.ftchinese.com">移动应用大全</a></li>
+<li class="nosub"><a href="/users/setting/index">基本设置</a></li>
+<li class="nosub"><a href="/users/setting/changeicon">修改头像</a></li>
+<li class="nosub"><a href="/users/setting/maillist">邮件订阅</a></li>
+<li class="nosub"><a href="/index.php/snsapi/index">同步微博</a></li>
+<li class="nosub"><a href="/users/commentstory">我的评论</a></li>
+<li class="nosub last-child"><a href="/users/favstorylist">管理收藏</a></li>
+</ul>
+</li>
+<li class="subnav-right long"><a href="/m/corp/follow.html">关注我们</a>
+<ul class="subnav">
+<li class="dummy-child"><a href="/m/corp/follow.html">关注我们</a></li>
+<li class="first-child sns"><a target=_blank href="http://weibo.com/ftchinese" style="background-image:url(http://i.ftimg.net/picture/8/000031298_piclink_24_24.jpg)">新浪微博</a></li>
+<li class="sns"><a target=_blank href="http://e.t.qq.com/ftchinese" style="background-image:url(http://i.ftimg.net/picture/6/000031296_piclink_24_24.jpg)">腾讯微博</a></li>
+<li class="sns"><a target=_blank href="http://t.163.com/ftchinese" style="background-image:url(http://i.ftimg.net/picture/0/000031330_piclink_24_24.jpg)">网易微博</a></li>
+<li class="sns"><a target=_blank href="http://t.sohu.com/new_index" style="background-image:url(http://i.ftimg.net/picture/7/000031327_piclink_24_24.jpg)">搜狐微博</a></li>
+<li class="sns"><a target=_blank href="http://user.qzone.qq.com/622006290" style="background-image:url(http://i.ftimg.net/picture/2/000031292_piclink_24_24.jpg)">QQ空间</a></li>
+<li class="sns"><a target=_blank href="http://blog.sina.com.cn/u/1233314994" style="background-image:url(http://i.ftimg.net/picture/5/000031325_piclink_24_24.jpg)">新浪博客</a></li>
+<li class="sns"><a target=_blank href="http://ftchinese.blog.sohu.com" style="background-image:url(http://i.ftimg.net/picture/6/000031326_piclink_24_24.jpg)">搜狐博客</a></li>
+<li class="sns"><a target=_blank href="http://blog.163.com/ft_chinese" style="background-image:url(http://i.ftimg.net/picture/9/000031329_piclink_24_24.jpg)">网易博客</a></li>
+<li class="sns"><a target=_blank href="http://page.renren.com/600099109?checked=true" style="background-image:url(http://i.ftimg.net/picture/3/000031293_piclink_24_24.jpg)">人人网</a></li>
+<li class="sns"><a target=_blank href="https://www.facebook.com/ft.chinese" style="background-image:url(http://i.ftimg.net/picture/1/000031321_piclink_24_24.jpg)">FaceBook</a></li>
+<li class="sns"><a target=_blank href="https://twitter.com/FTChinese" style="background-image:url(http://i.ftimg.net/picture/7/000031297_piclink_24_24.jpg)">Twitter</a></li>
+<li class="sns last-child"><a target=_blank href="http://plus.google.com/106789556715679180983" style="background-image:url(http://i.ftimg.net/picture/2/000031322_piclink_24_24.jpg)">Google+</a></li>
+</ul>
+</li></ul>
+</li>
+<li class="china nav"><a href="/channel/china.html">中国</a></li>
+<li class="world nav"><a href="/channel/world.html">全球</a></li>
+<li class="economy nav"><a href="/channel/economy.html">经济</a></li>
+<li class="markets nav"><a href="/channel/markets.html">金融市场</a></li>
+<li class="business nav"><a href="/channel/business.html">商业</a></li>
+<li class="opinion nav"><a href="/channel/opinion.html">观点</a></li>
+<li class="management nav"><a href="/channel/management.html">管理</a></li>
+<li class="lifestyle nav"><a href="/channel/lifestyle.html">生活时尚</a></li>
+<li class="stream nav"><a href="/channel/stream.html">视频</a></li>
+</ul>
+<div class="nav-right"><div></div></div>
+</div>
+<div class="nav-bottom"></div>
+</nav></div><div class="banner-placeholder">
+<div class="banner-container">
+<div class="banner-inner">
+<div class="banner-content">
+<script type="text/javascript">document.write (writeAd('tagbanner'));</script>
+</div>
+</div>
+</div>
+</div>
+<div class="block-container has-side side-right"><div class="block-inner">
+<div class="content-container"><div class="content-inner">
+
+<div class="list-container"><div class="list-inner"><div class="items">
+
+<div class="item-container XL8 L8 M12 S12 S-double-width P12 has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067029#adchannelID=2051">机器人将淘汰哪些工作？</a></h2>
+<a class="image" target="_blank" href="/story/001067029#adchannelID=2051"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000060543_piclink.jpg"></figure></a><div class="item-lead">戴尔公司创始人年轻时曾在餐馆洗盘子，未来创业家们第一份糊口工作肯定不是洗盘子。自动化消灭了大量低端岗位，但新技术也可能创造更多就业职位。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 XL-right L4 L-right M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066889#adchannelID=2051">中国新一代家族理财室崛起</a></h2>
+<a class="image" target="_blank" href="/story/001066889#adchannelID=2051"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000060263_piclink.jpg"></figure></a><div class="item-lead">目前中国仍存在大量的可用资金，其中来自新一代家族理财室的比例越来越高。这些资金在科技和电商领域创造并支撑了新增就业，助推了中国经济。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 XL-right XL-no-image L4 L-right L-no-image M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067010#adchannelID=2051">绩效考核如何跟上时代？</a></h2>
+<a class="image" target="_blank" href="/story/001067010#adchannelID=2051"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000060514_piclink.jpg"></figure></a><div class="item-lead">FT管理专栏作家希尔：传统的年度绩效评估和考核消耗大量人力，而且成效令人怀疑。改革者相信，年轻员工更乐意定期使用移动APP来衡量和更新绩效。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="clearfloat"></div>
+</div>
+</div></div>
+<div class="list-container"><div class="list-inner"><h2 class="list-title">
+<a class="list-link" href="#">产业的未来</a>
+</h2>
+<div class="items">
+
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066762#adchannelID=2051">传统媒体是否真的将死？</a></h2>
+<a class="image" target="_blank" href="/story/001066762#adchannelID=2051"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000059366_piclink.jpg"></figure></a><div class="item-lead">纸媒将死争论未息，papi酱又获投资。未来的天下果然是新媒体的吗？传统媒体的挑战并非能否利用互联网工具，而是能否真正挑起做合格新闻这个重担。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066862#adchannelID=2051">“亿级翻译需求”存在吗？</a></h2>
+<a class="image" target="_blank" href="/story/001066862#adchannelID=2051"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000059329_piclink.jpg"></figure></a><div class="item-lead">邹剑宇：可预见的时间里，机器翻译一直都会不完美。这并非坏消息，它给人类留了尊严和安全感，保留了翻译职业，甚至为译员提供了更多的商业需求和工作岗位。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066602#adchannelID=2051">证交所的消亡与重生</a></h2>
+<a class="image" target="_blank" href="/story/001066602#adchannelID=2051"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000059523_piclink.jpg"></figure></a><div class="item-lead">FT专栏作家加普：对于伦敦证交所近年为何身价飙升，在其名称中是找不到线索的。真正的关键在于转型。如今，该交易所的主营业务已不再是股票交易。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="XLT LT MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066915#adchannelID=2051">“算法投资”靠谱吗？</a></h2>
+<a class="image" target="_blank" href="/story/001066915#adchannelID=2051"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000060314_piclink.jpg"></figure></a><div class="item-lead">投资算法将给资产管理行业带来一场革命的预期令许多人兴奋。但一些量化金融人士认为，离算法真正运用于金融市场并取得盈利的那一天还比较遥远。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066347#adchannelID=2051">“中国制造2025”走向成功的关键</a></h2>
+<a class="image" target="_blank" href="/story/001066347#adchannelID=2051"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000043977_piclink.jpg"></figure></a><div class="item-lead">德国驻华大使柯慕贤：中国的工业竞争力取决于开放且更加安全的数据空间。中国关于企业数据本地化、以及向官方提供技术“后门”的规定，很可能让中国错失搭上第四次工业革命快车的机遇。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066943#adchannelID=2051">台湾电子产业转型面临考验</a></h2>
+<a class="image" target="_blank" href="/story/001066943#adchannelID=2051"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000060354_piclink.jpg"></figure></a><div class="item-lead">台湾电子企业在中国大陆设厂、将台湾制造业的效率与大陆的低劳动力成本结合起来的模式正在瓦解。台湾电子产业的自主创新转型将面临多重考验。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="XLT LT MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066491#adchannelID=2051">二手车市场是中国有待挖掘的富矿</a></h2>
+<a class="image" target="_blank" href="/story/001066491#adchannelID=2051"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000059303_piclink.jpg"></figure></a><div class="item-lead">在担忧中国增速的同时，人们或许忽略了拥有巨大潜力的中国二手车市场。这个尚未形成规模的市场的兴起，将助力支撑“新常态”下的中国经济。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066878#adchannelID=2051">WeWork来袭，办公共享格局大变动</a></h2>
+<a class="image" target="_blank" href="/story/001066878#adchannelID=2051"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000059450_piclink.jpg"></figure></a><div class="item-lead">刘旷：WeWork扩张中国市场，对于提升同行信心，促进整个行业的快速发展具有积极作用，尽管冲击着国内的同行，但更是在冲击传统、封闭、落后的业态。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066852#adchannelID=2051">张亚勤：互联网的未来有三个维度</a></h2>
+<a class="image" target="_blank" href="/story/001066852#adchannelID=2051"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000059482_piclink.jpg"></figure></a><div class="item-lead">百度总裁认为，过去30年，我们做的是确保物理世界能够成为虚拟世界，把所有东西数字化，所有工作量电子化。未来30年，我们则要把所有的虚拟世界再转化为物理世界。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="XLT LT MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066653#adchannelID=2051">虚拟现实将开辟巨大市场</a></h2>
+<a class="image" target="_blank" href="/story/001066653#adchannelID=2051"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000059649_piclink.jpg"></figure></a><div class="item-lead">FT创新主编桑希尔：高盛分析师提出，VR可能像个人电脑那样成为改变游戏规则的重要产品，而高德纳的研究似乎表明，VR有望在未来5至10年大规模普及。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066603#adchannelID=2051">“硅脑”战胜人脑？</a></h2>
+<a class="image" target="_blank" href="/story/001066603#adchannelID=2051"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000059522_piclink.jpg"></figure></a><div class="item-lead">FT美国西海岸编辑沃特斯： AlphaGo程序采取了“强化学习”技术，电脑甚至会生成从未学过的策略，专家称这代表机器学习演化过程中的某种新东西。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066849#adchannelID=2051">让机器人开车有何不好？</a></h2>
+<a class="image" target="_blank" href="/story/001066849#adchannelID=2051"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000060103_piclink.jpg"></figure></a><div class="item-lead">FT专栏作家加普：虽然汽车业有能力开发出完全自动驾驶的汽车，但它仍想让科技辅助人类驾驶，而不是代替人类驾驶。这种思维方式必须改变。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="clearfloat"></div>
+</div>
+</div></div>
+<div class="list-container"><div class="list-inner"><h2 class="list-title">
+<a class="list-link" href="#">哈佛商学院对全球商业未来的前瞻</a>
+</h2>
+<div class="items">
+
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/interactive/6593#adchannelID=2051">在新兴市场中乱世求生</a></h2>
+<a class="image" target="_blank" href="/interactive/6593#adchannelID=2051"><figure class="loading" data-url="http://i.ftimg.net//picture/6/000057196_piclink.jpg"></figure></a><div class="item-lead">资料也揭示了许多成功的领导者如何逐渐克服贫穷的过去为他们带来的各种负面影响，并开始建立起对其所在社会的福祉强烈的责任意识。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/interactive/6595#adchannelID=2051">全球化浪潮已至，制造业集群未死</a></h2>
+<a class="image" target="_blank" href="/interactive/6595#adchannelID=2051"><figure class="loading" data-url="http://i.ftimg.net//picture/2/000052182_piclink.jpg"></figure></a><div class="item-lead">集群并不是一个新概念。早在20世纪初期，阿尔弗雷德·马歇尔（Alfred Marshall）便开始在英国研究这一概念，并将其称为工业区。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/interactive/6588#adchannelID=2051">改写服务业竞争规则</a></h2>
+<a class="image" target="_blank" href="/interactive/6588#adchannelID=2051"><figure class="loading" data-url="http://i.ftimg.net//picture/7/000060497_piclink.jpg"></figure></a><div class="item-lead">引领一种能够改变整个行业竞争基本面的突破性服务是非同寻常的。凡成事者，均能领悟到竞争对手无法参透或不可复制的东西。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="XLT LT MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/interactive/6596#adchannelID=2051">获得监管首肯的“新型核能”将如何拯救地球？</a></h2>
+<a class="image" target="_blank" href="/interactive/6596#adchannelID=2051"><figure class="loading" data-url="http://i.ftimg.net//picture/9/000055659_piclink.jpg"></figure></a><div class="item-lead">截至本世纪末，不断累积的温室气体，尤其是二氧化碳，将持续增加，气候变化所带来的影响也将继续加剧，同时威胁到我们所生活的地球。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 XL-half L4 L-half M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/interactive/6590#adchannelID=2051">私募股权投资的未来如何？——对话哈佛商学院高层管理教育“私募股权与风险投资”课程主任乔希·勒纳</a></h2>
+<a class="image" target="_blank" href="/interactive/6590#adchannelID=2051"><figure class="loading" data-url="http://i.ftimg.net//picture/4/000060494_piclink.jpg"></figure></a><div class="item-lead">此对话中，哈佛商学院高层管理教育“私募股权与风险投资”课程主任、雅各布·亨利·希夫投资银行教席教授乔希·勒纳纵论投资产业前景</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 XL-half L4 L-half M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/interactive/6594#adchannelID=2051">个人创业金融以及其它风险投资趋势的兴起</a></h2>
+<a class="image" target="_blank" href="/interactive/6594#adchannelID=2051"><figure class="loading" data-url="http://i.ftimg.net//picture/9/000038819_piclink_334_192.jpg"></figure></a><div class="item-lead">如今越来越多的个人投资者通过使用技术和数据手段将资本直接注入他们关心且信赖的企业。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="XLT-clear-right LT-clear-right MT PT ST"></div>
+<div class="item-container XL4 XL-half XL-lower L4 L-half L-lower M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/interactive/6592#adchannelID=2051">重新理解真诚领导力</a></h2>
+<a class="image" target="_blank" href="/interactive/6592#adchannelID=2051"><figure class="loading" data-url="http://i.ftimg.net//picture/2/000038952_piclink_334_192.jpg"></figure></a><div class="item-lead">尽管真诚领导力被广泛接受，或者说因为其被广泛接受，一些学者最近对“真诚”这一价值取向提出质疑。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 XL-half XL-lower L4 L-half L-lower M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/interactive/6589#adchannelID=2051">公司有必要设立首席可持续发展官（CSO）吗？</a></h2>
+<a class="image" target="_blank" href="/interactive/6589#adchannelID=2051"><figure class="loading" data-url="http://i.ftimg.net//picture/6/000060496_piclink.jpg"></figure></a><div class="item-lead">什么是首席可持续发展官？设立这一职位的初衷是什么？他们又在企业中发挥着怎样的作用？</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="clearfloat"></div>
+</div>
+</div></div>
+<div class="list-container"><div class="list-inner"><h2 class="list-title">
+<a class="list-link" href="#">商业管理的未来</a>
+</h2>
+<div class="items">
+
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066378#adchannelID=2051">企业必须寻找独特智慧</a></h2>
+<a class="image" target="_blank" href="/story/001066378#adchannelID=2051"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000059068_piclink.jpg"></figure></a><div class="item-lead">FT创新主编桑希尔：作为资本主义的推动力，竞争赋予企业目标、使命和方向感。但企业在当今日新月异的环境下往往连竞争局面都看不清楚，它们该怎么竞争？</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066557#adchannelID=2051">现有企业与创新天生是冤家？</a></h2>
+<a class="image" target="_blank" href="/story/001066557#adchannelID=2051"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000059424_piclink.jpg"></figure></a><div class="item-lead">FT专栏作家希尔：现有企业中的“官僚硬化症”很容易催生惰性，但它们会想尽各种办法维护现状、抵制创新。这种自我保护不仅会令其误入歧途，还会阻碍社会的进步。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001064834#adchannelID=2051">让设计为领导力带来启迪</a></h2>
+<a class="image" target="_blank" href="/story/001064834#adchannelID=2051"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000056291_piclink.jpg"></figure></a><div class="item-lead">Airbnb联合创始人杰比亚：在Airbnb，我们设计的是一种提供体验的服务，是我们社区的成员在现实世界中如何体验并彼此分享的方式。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="XLT LT MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001065787#adchannelID=2051">全球化时代的海外工作</a></h2>
+<a class="image" target="_blank" href="/story/001065787#adchannelID=2051"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000044784_piclink.jpg"></figure></a><div class="item-lead">随着各国贸易日益增多，海外工作对于企业和个人的重要性日益彰显。一项研究显示，将近三分之二的雇主认为，海外经历提高了员工的适应能力。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001063445#adchannelID=2051">带着宝宝去上班</a></h2>
+<a class="image" target="_blank" href="/story/001063445#adchannelID=2051"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000053979_piclink.jpg"></figure></a><div class="item-lead">允许员工带宝宝来上班，不仅弥补了法定带薪产假或陪产假不够长的不足，提高了员工忠诚度，促进了团队合作，也为办公室带来一抹温情。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066715#adchannelID=2051">修炼数字时代的MBA内功</a></h2>
+<a class="image" target="_blank" href="/story/001066715#adchannelID=2051"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000058843_piclink.jpg"></figure></a><div class="item-lead">在年轻人创办企业盛行的数字经济时代，MBA还有多少相关性？对此，商学院人士表示，并非每个人都是乔布斯或盖茨；对多数人来说，在投身数字经济之前掌握管理基础知识非常重要。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="clearfloat"></div>
+</div>
+</div></div>
+<div class="list-container"><div class="list-inner"><h2 class="list-title">
+<a class="list-link" href="#">了解更多</a>
+</h2>
+<div class="items">
+
+<div class="item-container XL4 L4 M12 M-half S12 S-double-width P12 P-half no-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/interactive/6613#adchannelID=2051">问：哈佛商学院高层管理教育提供哪些课程？</a></h2>
+<div class="item-lead">我们在全球开设80多门公开课程，以及60多门专为领先企业设计的定制课程。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half no-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/interactive/6614#adchannelID=2051">问：哈佛商学院高层管理教育如何授课？</a></h2>
+<div class="item-lead">精心挑选最具代表性的案例，为学员创造思考和探讨全球商业和管理挑战的课堂。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half no-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/interactive/6615#adchannelID=2051">问：哈佛商学院高层管理教育的录取标准是什么？</a></h2>
+<div class="item-lead">我们会根据申请人的专业成就和工作职责决定是否录取。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="clearfloat"></div>
+</div>
+<div class="item-container no-image"><div class="item-inner">更多问题，欢迎透过邮箱<a class="blue-link" href="mailto: harvardchina@hbs.edu">harvardchina@hbs.edu</a>联系我们，我们将及时给予解答。</div></div>
+</div></div><div class="clearfloat block-bottom"></div>
+</div></div>
+<div class="side-container"><div class="side-inner">
+<div class="mpu-container first-child">
+<script type="text/javascript">document.write (writeAd('mpu'));</script>
+</div>
+<div class="mps">
+<h2 class="list-title"><a href="/channel/weekly.html">十大热门文章</a></h2>
+<ul class="top10">
+<li class="mp1"><span>1. </span><a target="_blank" href="/story/001067006?dailypop">普京如何改变了世界秩序？</a></li>
+<li class="mp2"><span>2. </span><a target="_blank" href="/story/001066934?dailypop">我们要感谢“文革”的五条理由</a></li>
+<li class="mp3"><span>3. </span><a target="_blank" href="/story/001067019?dailypop">卡梅伦承认从巴拿马离岸基金获益</a></li>
+<li class="mp4"><span>4. </span><a target="_blank" href="/story/001067012?dailypop">人工智能时代该教孩子学什么？</a></li>
+<li class="mp5"><span>5. </span><a target="_blank" href="/story/001066998?dailypop">中国白酒挺进西方市场</a></li>
+<li class="mp6"><span>6. </span><a target="_blank" href="/story/001067021?dailypop">评估中国经济形势需做实地考察</a></li>
+<li class="mp7"><span>7. </span><a target="_blank" href="/story/001066958?dailypop">禁摩限电：国家权力“内卷化”之弊</a></li>
+<li class="mp8"><span>8. </span><a target="_blank" href="/story/001066979?dailypop">安邦为何没能拿下喜达屋？</a></li>
+<li class="mp9"><span>9. </span><a target="_blank" href="/story/001067004?dailypop">酒店遇袭事件中的舆论偏离</a></li>
+<li class="mp10"><span>10. </span><a target="_blank" href="/story/001066938?dailypop">A股的“中国式”投资策略</a></li>
+</ul>
+</div>
+<div class="mpu-container last-child">
+<script type="text/javascript">document.write (writeAd('mpu'));</script>
+</div>
+</div></div><div class="clearfloat"></div>
+</div></div><div class="footer-container"><div class="footer-inner">
+<div>
+<a href="/m/corp/aboutus.html">关于我们</a>
+<a href="/jobs/?from=ft">加入我们</a>
+<a href="/m/corp/faq.html">问题回馈</a>
+<a href="/m/corp/contact.html">联系方式</a>
+<a href="/m/corp/partner.html">合作伙伴</a>
+<a href="/m/corp/service.html">服务条款</a>
+<a href="/m/corp/sales.html">广告业务 </a>
+<a href="/m/corp/copyright.html">版权声明</a>
+<a href="/m/marketing/ftc.html">最新动态</a>
+</div>
+<p>
+<span class="copyright"><b>© The Financial Times Ltd 2016</b></span> 
+<span><acronym title="Financial Times">FT</acronym> and 'Financial Times' are trademarks of The Financial Times Ltd.</span>
+</p>
+</div></div><div class="app-download-container">
+<a href="http://app.ftchinese.com/download.html?utm_source=marketing&utm_medium=campaign&utm_campaign=QRCODE02" target="_blank">
+<div>FT中文网客户端</div>
+<figure class="loading" data-url="http://s.ftimg.net/img/qr/qr90-2.png"></figure>
+<div>点击或扫描下载</div>
+</a>
+</div>
+<div class="app-download-container wechat">
+<a href="#" target="_blank">
+<div>FT中文网微信</div>
+<figure class="loading" data-url="http://i.ftimg.net/picture/4/000059334_piclink.jpg"></figure>
+<div>扫描关注</div>
+</a>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ </body>
+
+<!--[if lte IE 8]>
+<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+<![endif]-->
+
+
+<script type="text/javascript" src="scripts/dom-delegate.js"></script>
+<script type="text/javascript" src="scripts/o-nav.js"></script>
+<script type="text/javascript" src="scripts/main.js"></script>
+
+</html>
+

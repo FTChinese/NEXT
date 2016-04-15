@@ -43,15 +43,17 @@ document.documentElement.className = document.documentElement.className.replace(
     </script>
 <![endif]-->
 
-<!-- build:css styles/main.css -->
-<link rel="stylesheet" href="styles/main-common.css">
+
+<!-- build:css styles/main-header.css -->
 <link rel="stylesheet" href="styles/main-header.css">
-<link rel="stylesheet" href="styles/main-nav.css">
-<link rel="stylesheet" href="styles/main-banner.css">
-<link rel="stylesheet" href="styles/main-block.css">
-<link rel="stylesheet" href="styles/main-section-apple.css">
+<!-- endbuild -->
+
+<!-- build:css styles/main-footer.css -->
 <link rel="stylesheet" href="styles/main-footer.css">
-<link rel="stylesheet" href="styles/main-qr.css">
+<!-- endbuild -->
+
+<!-- build:css styles/main.css -->
+<link rel="stylesheet" href="styles/main.css">
 <!-- endbuild -->
 
 <!-- build:css styles/main-ie-XL.css -->
@@ -59,8 +61,18 @@ document.documentElement.className = document.documentElement.className.replace(
 <!-- endbuild -->
 
 
+
+<script type="text/javascript">
+if(typeof startTime === "undefined"){
+var startTime=new Date().getTime();
+}
+var adchID = '1000';
+var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现联动互斥功能
+</script>
+
 <!-- build:js scripts/key.js -->
 <script type="text/javascript" src="scripts/key.js"></script>
+<script type="text/javascript" src="scripts/ad.js"></script>
 <!-- endbuild -->
 
 
@@ -94,1810 +106,949 @@ document.documentElement.className = document.documentElement.className.replace(
  <link rel="alternate" type="application/rss+xml" title="FT中文网 - 一周十大热门文章" href="/rss/hotstoryby7day" />
  <link rel="alternate" type="application/rss+xml" title="FT中文网 - 热门用户评论" href="/rss/hotusercomment" />
  <link rel="search" type="application/opensearchdescription+xml" title="FT中文网财经搜索" href="/opensearch.xml">
+
  </head>
  <body>
 
 
-<div id=roadblock style="margin:0 auto;position:relative;width:700px;text-align:center;">
 
-<script>
-//document.write ('<scr' + 'ipt type="text/jav' + 'ascript" src="http://dolphin.ftimg.net/s?z=ft&c=10000014" charset="gbk"></scr' + 'ipt>');
-//DeleteCookie('rb2');
-document.write ('<scr' + 'ipt type="text/jav' + 'ascript" src="http://dolphin.ftimg.net/s?z=ft&amp;c=10000014&amp;slot=645072137&amp;_sex=101&amp;_trip=1&amp;_lux=1&amp;_dc=2&amp;_mm=2&amp;_sz=2&amp;_am=2" charset="gbk"></scr' + 'ipt>');
-
-</script>
-
-</div>
 
 
 
 
 <header class="header-container">
-  <div class="header-inner">
-    <div class="masthead"></div>
-    <div class="header-side header-left">
-      <div class="current-edition">简体中文版</div>
-    </div>
-    <div class="header-side header-right">
-      <a href="">登录</a>
-      <a class="more last" href="http://user.ftchinese.com/register">免费注册</a>
-    </div>
-  </div>
-</header>      <div class="nav-place-holder" id="nav-place-holder"><nav class="nav-container" id="nav-container">
-<div class="nav-inner">
-  <ul class="nav-content">
-    <li class="home on nav">
-      <a href="">首页</a>
-        <ul class="subnav">
-        <li class="first-child ">
-        <a href="/channel/special.html">专题报道</a>
-        <ul class="subnav">
-        <li class="dummy-child"><a href="/channel/special.html">专题报道</a></li>
-        <li class="first-child nosub"><a href="/channel/datanews.html">数据新闻</a></li>
-        <li class="nosub"><a href="/tag/2015%E8%BE%BE%E6%B2%83%E6%96%AF">2015达沃斯</a></li>
-        <li class="last-child nosub"><a href="/tag/与FT共进午餐">与FT共进午餐</a></li>
-        </ul>
-        </li>
-        <li class="">
-        <a href="/channel/weekly.html">热门文章</a>
-        <ul class="subnav">
-        <li class="dummy-child"><a href="/channel/weekly.html">热门文章</a></li>
-        <li class="first-child nosub"><a href="/channel/weekly.html">一周</a></li>
-        <li class="nosub"><a href="/channel/monthly.html">一月</a></li>
-        <li class="nosub"><a href="/channel/quarterly.html">季度</a></li>
-        <li class="last-child nosub"><a href="/channel/year.html">一年</a></li>
-        </ul>
-        </li>
-        <li class="">
-        <a href="/m/events/event.html">会议活动</a>
-        <ul class="subnav">
-        <li class="dummy-child"><a href="/m/events/event.html">会议活动</a></li>
-        <li class="first-child nosub"><a href="/m/events/recent.html">近期活动</a></li>
-        <li class="nosub"><a href="/index.php/events/previous">往期活动</a></li>
-        <li class="nosub"><a href="/m/events/sponsorship.html">赞助活动</a></li>
-        <li class="last-child nosub"><a href="/m/events/aboutus.html">关于我们</a></li>
-        </ul>
-        </li>
-        <li class="nosub ">
-        <a href="/marketing/home">会员信息中心</a>
-        <ul class="subnav">
-        <li class="dummy-child"><a href="/marketing/home">会员信息中心</a></li>
-        </ul>
-        </li>
-        <li class="nosub ">
-        <a href="http://www.ftchinese.com/m/marketing/intelligence.html">FT研究院</a>
-        <ul class="subnav">
-        <li class="dummy-child"><a href="http://www.ftchinese.com/m/marketing/intelligence.html">FT研究院</a></li>
-        </ul>
-        </li>
-        <li class="nosub ">
-        <a href="/channel/mba.html">FT商学院</a>
-        <ul class="subnav">
-        <li class="dummy-child"><a href="/channel/mba.html">FT商学院</a></li>
-        </ul>
-        </li>
-        <li class="nosub ">
-        <a href="/channel/english.html">英语学习</a>
-        <ul class="subnav">
-        <li class="dummy-child"><a href="/channel/english.html">英语学习</a></li>
-        </ul>
-        </li>
-        <li class="nosub ">
-        <a href="/channel/slides.html">图辑</a>
-        <ul class="subnav">
-        <li class="dummy-child"><a href="/channel/slides.html">图辑</a></li>
-        </ul>
-        </li>
-        <li class="nosub ">
-        <a href="/jobs/">职业机会</a>
-        <ul class="subnav">
-        <li class="dummy-child"><a href="/jobs/">职业机会</a></li>
-        </ul>
-        </li>
-        <li class="last-child nosub ">
-        <a href="/channel/datanews.html">数据新闻</a>
-        </li>
-        <li class="last-child nosub ">
-        <a href="/channel/ebook.html">电子书</a>
-        </li>
-        <li class="rss last-child"><a href="/channel/rss.html"><img src="http://static.ftchinese.com/img/rss_link_nav.gif" alt="RSS" style="border:none;"/></a></li>
-        <li class="tools"><a>工具</a>
-        <ul class="subnav">
-        <li class="dummy-child"><a>工具</a></li>
-        <li class="nosub first-child"><a href="http://app.ftchinese.com">移动应用大全</a></li>
-        <li class="nosub"><a href="/users/setting/index">基本设置</a></li>
-        <li class="nosub"><a href="/users/setting/changeicon">修改头像</a></li>
-        <li class="nosub"><a href="/users/setting/maillist">邮件订阅</a></li>
-        <li class="nosub"><a href="/index.php/snsapi/index">同步微博</a></li>
-        <li class="nosub"><a href="/users/commentstory">我的评论</a></li>
-        <li class="nosub last-child"><a href="/users/favstorylist">管理收藏</a></li>
-        </ul>
-        </li>
-        <li class="tools long"><a href="/m/corp/follow.html">关注我们</a>
-        <ul class="subnav">
-        <li class="dummy-child"><a href="/m/corp/follow.html">关注我们</a></li>
-        <li class="first-child sns"><a target=_blank href="http://weibo.com/ftchinese" style="background-image:url(http://i.ftimg.net/picture/8/000031298_piclink_24_24.jpg)">新浪微博</a></li>
-        <li class="sns"><a target=_blank href="http://e.t.qq.com/ftchinese" style="background-image:url(http://i.ftimg.net/picture/6/000031296_piclink_24_24.jpg)">腾讯微博</a></li>
-        <li class="sns"><a target=_blank href="http://t.163.com/ftchinese" style="background-image:url(http://i.ftimg.net/picture/0/000031330_piclink_24_24.jpg)">网易微博</a></li>
-        <li class="sns"><a target=_blank href="http://t.sohu.com/new_index" style="background-image:url(http://i.ftimg.net/picture/7/000031327_piclink_24_24.jpg)">搜狐微博</a></li>
-        <li class="sns"><a target=_blank href="http://user.qzone.qq.com/622006290" style="background-image:url(http://i.ftimg.net/picture/2/000031292_piclink_24_24.jpg)">QQ空间</a></li>
-        <li class="sns"><a target=_blank href="http://blog.sina.com.cn/u/1233314994" style="background-image:url(http://i.ftimg.net/picture/5/000031325_piclink_24_24.jpg)">新浪博客</a></li>
-        <li class="sns"><a target=_blank href="http://ftchinese.blog.sohu.com" style="background-image:url(http://i.ftimg.net/picture/6/000031326_piclink_24_24.jpg)">搜狐博客</a></li>
-        <li class="sns"><a target=_blank href="http://blog.163.com/ft_chinese" style="background-image:url(http://i.ftimg.net/picture/9/000031329_piclink_24_24.jpg)">网易博客</a></li>
-        <li class="sns"><a target=_blank href="http://page.renren.com/600099109?checked=true" style="background-image:url(http://i.ftimg.net/picture/3/000031293_piclink_24_24.jpg)">人人网</a></li>
-        <li class="sns"><a target=_blank href="https://www.facebook.com/ft.chinese" style="background-image:url(http://i.ftimg.net/picture/1/000031321_piclink_24_24.jpg)">FaceBook</a></li>
-        <li class="sns"><a target=_blank href="https://twitter.com/FTChinese" style="background-image:url(http://i.ftimg.net/picture/7/000031297_piclink_24_24.jpg)">Twitter</a></li>
-        <li class="sns last-child"><a target=_blank href="http://plus.google.com/106789556715679180983" style="background-image:url(http://i.ftimg.net/picture/2/000031322_piclink_24_24.jpg)">Google+</a></li>
-        </ul>
-        </li></ul>
-    </li>
-    <li class="china nav"><a href="">中国</a></li>
-    <li class="world nav"><a href="">全球</a></li>
-    <li class="economy nav"><a href="">经济</a></li>
-    <li class="markets nav"><a href="">金融市场</a></li>
-    <li class="business nav"><a href="">商业</a></li>
-    <li class="opinion nav"><a href="">观点</a></li>
-    <li class="management nav"><a href="">管理</a></li>
-    <li class="lifestyle nav"><a href="">生活时尚</a></li>
-    <li class="video nav"><a href="">视频</a></li>
-  </ul>
-  <div class="nav-right"><div></div></div>
+<div class="header-inner">
+<div class="masthead"></div>
+<div class="header-side header-left expandable">
+<div class="current-edition">
+<span>简体中文版</span>
+<a href="http://big5.ftchinese.com/">繁体中文版</a>
+<a href="http://www.ft.com/">英文版</a>
 </div>
-<div class="nav-bottom"></div>
-</nav></div>                    <div class="banner-placeholder">
+</div>
+<div class="header-side header-right">
+<span class="visitor-box">
+<a onclick="showOverlay('overlay-login')">登录</a>
+<a class="more last" href="http://user.ftchinese.com/register">免费注册</a>
+</span>
+<span class="member-box">
+<a id="ft-login-your-account" href="/users/cp">设置</a>
+<a id="ft-login-logout" href="http://user.ftchinese.com/logout">登出</a>
+</span>
+</div>
+</div>
+</header>
+<div class="overlay-container" id="overlay-login">
+<div class="overlay-inner">
+<div class="overlay-bg" data-parentid="overlay-login"></div>
+<div class="overlay-content-outer">
+<div class="overlay-content-inner">
+<div class="overlay-content">
+<div class="overlay-title">登录<i class="overlay-close" data-parentid="overlay-login">×</i></div>
+<form method="post" action="/users/login">
+<div class="input-title">电子邮件/用户名</div>
+<div class="input-container"><input type="text" class="input-oneline" name="username" id="ft-login-input-username"></div>
+<div class="input-title">密码</div>
+<div class="input-container"><input type="password" class="input-oneline" name="password"></div>
+<div class="input-title input-submit-container"><input type="checkbox" class="checkbox" value="1" checked="checked" name="saveme" id="ft-login-input-remember">记住我
+<input class="input-submit" type="submit" value="提交"></div>
+<div class="input-title"><a href="/users/findpassword" class="blue-link">找回密码</a></div>
+</form>
+</div>
+</div>
+</div>
+</div>
+</div><div class="o-nav__placeholder">
+<div class="o-nav">
+<div class="o-nav__outer">
+<div class="o-nav__inner">
+<form action="/search/" id="search-form" class="o-header__search-form" role="search">
+<button class="search-button" tabindex="1"><span>搜索</span></button> 
+<input id="search-term" type="search" name="keys" class="search-input" placeholder="搜索FT中文网" />
+<input id="type_news" type="hidden" value="type_news" name="ftsearchType" checked />
+</form>
+<div class="o-header__masthead-mobile">
+<a href="/" title="前往FT中文网首页"><span>FT中文网</span></a>
+</div>
+<nav class="o-nav__container" role="navigation">
+<button class="nav-toggle" data-o-nav-togglable><span>Menu</span></button>
+<ol class="o-nav__meganav">
+<li class="nav-section mobile">
+<button class="nav-section-head mobile" aria-selected="true">切换版本</button>
+<ol class="nav-items">
+<li class="nav-item">
+<a class="nav-link" href="">繁体中文版</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="">英文版</a>
+</li>
+</ol>
+</li>
+<li class="nav-section"
+aria-selected="true"
+data-section="home">
+<button class="nav-section-head mobile">首页</button>
+<a class="nav-section-head desktop" href="/">首页</a>
+<ol class="nav-items">
+<li class="nav-item mobile">
+<a class="nav-link" href="/">
+FT中文网首页
+</a>
+</li>
+<li class="nav-item"
+aria-haspopup="true"
+data-channel="special">
+<a class="nav-link" href="/channel/special.html">专题报道</a>
+<ol class="nav-sub-items">
+<li><a href="/channel/datanews.html">数据新闻</a></li>
+<li><a href="/tag/2015%E8%BE%BE%E6%B2%83%E6%96%AF">2015达沃斯</a></li>
+<li><a href="/tag/与FT共进午餐">与FT共进午餐</a></li>
+</ol>
+</li>
+<li class="nav-item"
+data-channel="weekly">
+<a class="nav-link" href="/channel/weekly.html">热门文章</a>
+</li>
+<li class="nav-item"
+data-channel="event">
+<a class="nav-link" href="/m/events/event.html">会议活动</a>
+</li>
+<li class="nav-item"
+data-channel="member">
+<a class="nav-link" href="/marketing/home">会员信息中心</a>
+</li>
+<li class="nav-item"
+data-channel="intelligence">
+<a class="nav-link" href="http://www.ftchinese.com/m/marketing/intelligence.html">FT研究院</a>
+</li>
+<li class="nav-item"
+data-channel="mba">
+<a class="nav-link" href="/channel/mba.html">FT商学院</a>
+</li>
+<li class="nav-item"
+data-channel="english">
+<a class="nav-link" href="/channel/english.html">英语学习</a>
+</li>
+<li class="nav-item"
+data-channel="photo">
+<a class="nav-link" href="/channel/slides.html">图辑</a>
+</li>
+<li class="nav-item"
+data-channel="job">
+<a class="nav-link" href="/jobs/">职业机会</a>
+</li>
+<li class="nav-item"
+data-channel="datanews">
+<a class="nav-link" href="/channel/datanews.html">数据新闻</a>
+</li>
+</ol>
+</li>
+<li class="nav-section"
+data-section="china">
+<button class="nav-section-head mobile">中国</button>
+<a class="nav-section-head desktop" href="/channel/china.html">中国</a>
+</li>
+<li class="nav-section"
+data-section="world">
+<button class="nav-section-head mobile">全球</button>
+<a class="nav-section-head desktop" href="/channel/world.html">全球</a>
+</li>
+<li class="nav-section"
+data-section="economy">
+<button class="nav-section-head mobile">经济</button>
+<a class="nav-section-head desktop" href="/channel/economy.html">经济</a>
+</li>
+<li class="nav-section"
+data-section="markets">
+<button class="nav-section-head mobile">金融市场</button>
+<a class="nav-section-head desktop" href="/channel/markets.html">金融市场</a>
+</li>
+<li class="nav-section"
+data-section="business">
+<button class="nav-section-head mobile">商业</button>
+<a class="nav-section-head desktop" href="/channel/business.html">商业</a>
+</li>
+<li class="nav-section"
+data-section="opinion">
+<button class="nav-section-head mobile">观点</button>
+<a class="nav-section-head desktop" href="/channel/opinion.html">观点</a>
+</li>
+<li class="nav-section"
+data-section="management">
+<button class="nav-section-head mobile">管理</button>
+<a class="nav-section-head desktop" href="/channel/management.html">管理</a>
+</li>
+<li class="nav-section"
+data-section="lifestyle">
+<button class="nav-section-head mobile">生活时尚</button>
+<a class="nav-section-head desktop" href="/channel/lifestyle.html">生活时尚</a>
+</li>
+<li class="nav-section"
+data-section="stream">
+<button class="nav-section-head mobile">视频</button>
+<a class="nav-section-head desktop" href="/channel/stream.html">视频</a>
+</li>
+<li class="nav-section mobile login">
+<ul>
+<li class="nav-item">
+<a class="nav-link" href="http://user.ftchinese.com/login">登陆</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="http://user.ftchinese.com/register">注册</a>
+</li>    
+</ul>
+</li>
+<li class="nav-section mobile logout">
+<ul>
+<li class="nav-item">
+<a class="nav-link" href="http://user.ftchinese.com/logout">退出</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="/users/setting/index">账户设置</a>
+</li>    
+</ul>
+</li>
+</ol>
+</nav>
+<ul class="o-nav__extra-tools nav-items">
+<li class="nav-item" aria-haspopup="true">
+<a class="nav-link" href="http://www.ftchinese.com/m/corp/follow.html">关注我们</a>
+<ol class="nav-sub-items follow-us">
+<li><a href="http://www.ftchinese.com/m/corp/follow.html" target="_blank">微信公众号</a></li>
+<li><a href="http://weibo.com/ftchinese" target="_blank">新浪微博</a></li>
+<li><a href="http://user.qzone.qq.com/622006290" target="_blank">QQ空间</a></li>
+<li><a href="http://www.ftchinese.com/m/corp/follow.html" target="_blank">读读日报</a></li>
+<li><a href="http://www.ftchinese.com/m/corp/follow.html" target="_blank">Flipboard</a></li>
+<li><a href="https://twitter.com/FTChinese" target="_blank">Twitter</a></li>
+<li><a href="https://www.facebook.com/financialtimeschinese" target="_blank">Facebook</a></li>
+<li><a href="https://www.linkedin.com/company/4865254?trk=hp-feed-company-name" target="_blank">LinkedIn</a></li>
+</ol>
+</li>
+<li class="nav-item" aria-haspopup="true">
+<span class="nav-link">工具</span>
+<ol class="nav-sub-items">
+<li><a href="http://app.ftchinese.com/">移动应用大全</a></li>
+<li><a href="/users/setting/index">基本设置</a></li>
+<li><a href="/users/setting/changeicon">修改头像</a></li>
+<li><a href="/users/setting/maillist">邮件订阅</a></li>
+<li><a href="/index.php/snsapi/index">同步微博</a></li>
+<li><a href="/users/commentstory">我的评论</a></li>
+<li><a href="/users/favstorylist">管理收藏</a></li>
+</ol>
+</li>
+<li class="nav-item">
+<a class="nav-link follow__rss" href="http://www.ftchinese.com/channel/rss.html"><span>RSS</span></a>
+</li>
+</ul>
+</div><!-- * o-header__bottom -->
+</div><!-- o-header__container -->    
+</div><!-- o-header-secondary -->  
+</div><!-- o-nav__placeholder --><div class="banner-placeholder">
 <div class="banner-container">
 <div class="banner-inner">
 <div class="banner-content">
-  <iframe id="banner0" name="mpu3Frame" width="100%" height="90" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="/m/marketing/topbanner.html#adid=10000001&slot=986723212&pid=banner0"></iframe>
+<script type="text/javascript">document.write (writeAd('banner'));</script>
 </div>
 </div>
 </div>
 </div>
-                      <div class="block-container has-side side-right"><div class="block-inner">
-    <div class="content-container"><div class="content-inner">
-                                                                                                
-        
-                <div class="list-container"><div class="list-inner">            
-            
-            <div class="items">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                
-                                                                                                                                                                                        
-                                                                                                                                                        
-                                                                                                                            
-                    
-
-                
-                                                                                                    
-                                
-
-
-                                
-                                                    
-                
-
-                
-                <div class="item-container XL8 L8 M12 S12 S-double-width P12 has-image"><div class="item-inner">
-                    <h2 class="item-headline"><a target="_blank" href="/story/001066601">中国国企模式值得西方借鉴</a></h2>
-                    <a class="image" target="_blank" href="/story/001066601"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000059533_piclink.jpg"></figure></a>                    <div class="item-lead">支付通董事长张化桥：西方在全球金融危机后采取了大量的非常规货币政策，它们为何不愿设立国有企业？国有企业真的比量化宽松或者负利率糟糕得多吗？</div>                  
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                                                                                                                                                                                                                                                                                                                                                                                                                        
-                                                                                                                                                                                        
-                                                                                                                                                                                    
-                                                                                                                                                                                                                    
-                    
-
-                
-                                                                                                
-                                
-
-
-                                
-                                                    
-                
-
-                <div class=" MT PT ST"></div>
-                <div class="item-container XL4 XL-right L4 L-right L-no-lead M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-                    <h2 class="item-headline"><a target="_blank" href="/story/001066603">“硅脑”战胜人脑？</a></h2>
-                    <a class="image" target="_blank" href="/story/001066603"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000059522_piclink.jpg"></figure></a>                    <div class="item-lead">FT美国西海岸编辑沃特斯： AlphaGo程序采取了“强化学习”技术，电脑甚至会生成从未学过的策略，专家称这代表机器学习演化过程中的某种新东西。</div>                   
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                                                                                                                                                                                                                                                                                                                                                                                                                        
-                                                                                                                                                                                        
-                                                                                                                                                                                    
-                                                                                                                                                        
-                    
-
-                
-                                                                                                
-                                
-
-
-                                
-                                                    
-                
-
-                <div class=" MT PT"></div>
-                <div class="item-container XL4 XL-right XL-no-image L4 L-half L-right L-lower L-no-image M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-                    <h2 class="item-headline"><a target="_blank" href="/story/001066608">警惕中国房地产的泡沫</a></h2>
-                    <a class="image" target="_blank" href="/story/001066608"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000059532_piclink.jpg"></figure></a>                    <div class="item-lead">FT中文网专栏作家叶檀：以往中国内地一线城市防止上涨，总是以香港作为比较的标准。去年终于有的一线城市房价超过香港了，泡沫之声不绝于耳。</div>                    
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                        <div class="clearfloat"></div>
-            </div>
-                        </div></div>                                                    
-        
-                <div class="list-container"><div class="list-inner">                            <h2 class="list-title">
-                    <a class="list-link" href="/tag/2016中国两会">2016中国两会</a>
-                                            <a class="sponsor-link" target=_blank href="http://www.ibm.com/"><figure class="loading sponsor" data-url="http://i.ftimg.net/picture/8/000059318_piclink.jpg"></figure></a>
-                                    </h2>
-            
-            
-            <div class="items">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
-                                                                                                                                                                                                                    
-                                                                                                                                                                                    
-                                                                                                                            
-                    
-
-                
-                                                                                                                                    
-                                
-
-
-                                
-                                                    
-                
-
-                
-                <div class="item-container XL4 L4 M12 M-half S12 S-double-width P12 P-half has-image"><div class="item-inner">
-                    <h2 class="item-headline"><a target="_blank" href="/story/001066615">中国官员驳斥唱衰中国经济者</a></h2>
-                    <a class="image" target="_blank" href="/story/001066615"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000059536_piclink.jpg"></figure></a>                    <div class="item-lead">中国高官周末密集露面，回应坏账、“僵尸企业”和人民币贬值问题，坚称唱衰者低估了中国经济弹性以及政府平衡增长与改革的能力。</div>                   
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                                                                                                                                                                                                                                                                                                                                                                                        
-                                                                                                                                                        
-                                                                                                                                                                                    
-                                                                                                                                                                                                                    
-                    
-
-                
-                                                                                                
-                                
-
-
-                                
-                                                    
-                
-
-                <div class=" MT PT ST"></div>
-                <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-                    <h2 class="item-headline"><a target="_blank" href="/story/001066611">从中国央行负责人谈话看未来政策尺度</a></h2>
-                    <a class="image" target="_blank" href="/story/001066611"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000048320_piclink.jpg"></figure></a>                    <div class="item-lead">安邦咨询：从中国央行“两会”记者会传出的信号来看，短期内，央行将维持目前的利率水平，但在未来经济增长受到较大冲击时，货币宽松力度可能会加大。</div>                 
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                                                                                                                                                                                                                                                                                                                                                                                        
-                                                                                                                                                        
-                                                                                                                                                                                    
-                                                                                                                                                        
-                    
-
-                
-                                                                                                
-                                
-
-
-                                
-                                                    
-                
-
-                <div class=" MT PT"></div>
-                <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-                    <h2 class="item-headline"><a target="_blank" href="/story/001066609">慈善法，请不要给腐败送去枪支弹药</a></h2>
-                    <a class="image" target="_blank" href="/story/001066609"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000059344_piclink.jpg"></figure></a>                    <div class="item-lead">中国公益人才让多吉：《慈善法》草案中“管理费”和“合作公开募捐”的规定，可能为政府和官办慈善公益组织留下腐败空间。慈善组织行业约束和信息公开才是重点。</div>                    
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                        <div class="clearfloat"></div>
-            </div>
-                        </div></div>                                                    
-        
-                <div class="list-container"><div class="list-inner">                            <h2 class="list-title">
-                    <a class="list-link" href="/channel/news.html">新闻</a>
-                                    </h2>
-            
-            
-            <div class="items">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
-                                                                                                                                                                                                                    
-                                                                                                                                                                                    
-                                                                                                                                                                                                                    
-                    
-
-                
-                                                                                                                                    
-                                
-
-
-                                                                        
-                                                                                                                                                                                                
-                                                    
-                
-
-                
-                <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-                    <h2 class="item-headline"><a target="_blank" href="/story/001066614">安邦65亿美元收购美国酒店资产</a></h2>
-                    <a class="image" target="_blank" href="/story/001066614"><figure class="loading" data-url="http://i.ftimg.net/picture/5/000059535_piclink.jpg"></figure></a>                    <div class="item-lead">这是中国大规模收购海外资产的最新标志</div>                 <div class="item-time">14小时前</div>
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                                                                                                                                                                                                                                                                                                                                                                                        
-                                                                                                                                                        
-                                                                                                                                                                                    
-                                                                                                                                                        
-                    
-
-                
-                                                                                                
-                                
-
-
-                                                                        
-                                                                                                                                                                                                
-                                                    
-                
-
-                <div class=" MT PT"></div>
-                <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-                    <h2 class="item-headline"><a target="_blank" href="/story/001066616">安卡拉再遭炸弹袭击至少34人死亡</a></h2>
-                    <a class="image" target="_blank" href="/story/001066616"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000059537_piclink.jpg"></figure></a>                    <div class="item-lead">这是土耳其首都在不到1个月内第二次遭受严重爆炸袭击</div>                  <div class="item-time">14小时前</div>
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                                                                                                                                                                                                                                                                                                                                                                                        
-                                                                                                                                                        
-                                                                                                                                                                                    
-                                                                                                                                                                                                                    
-                    
-
-                
-                                                                                                
-                                
-
-
-                                                                        
-                                                                                                                                                                                                
-                                                    
-                
-
-                <div class=" MT PT ST"></div>
-                <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-                    <h2 class="item-headline"><a target="_blank" href="/story/001066612">李世石对弈AlphaGo扳回一局</a></h2>
-                    <a class="image" target="_blank" href="/story/001066612"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000059534_piclink.jpg"></figure></a>                    <div class="item-lead">世界围棋冠军承认此前低估AlphaGo，但表示该软件并不完美</div>                 <div class="item-time">14小时前</div>
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
-                                                                                                                                                                                                                    
-                                                                                                                                                                                    
-                                                                                                                                                        
-                    
-
-                
-                                                                                                
-                                
-
-
-                                                                        
-                                                                                                                                                                                                
-                                                    
-                
-
-                <div class="XLT LT MT PT"></div>
-                <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-                    <h2 class="item-headline"><a target="_blank" href="/story/001066613">双鸭山煤矿工人抗议拖欠工资</a></h2>
-                    <a class="image" target="_blank" href="/story/001066613"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000059538_piclink.jpg"></figure></a>                    <div class="item-lead">黑龙江省长陆昊表示在龙煤集团欠薪问题上受到了“误导”</div>                 <div class="item-time">14小时前</div>
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                                                                                                                                                                                                                                                                                                                                                                                        
-                                                                                                                                                        
-                                                                                                                                                                                    
-                                                                                                                                                                                                                    
-                    
-
-                
-                                                                                                
-                                
-
-
-                                                                        
-                                                                                                                                                                                                
-                                                    
-                
-
-                <div class=" MT PT ST"></div>
-                <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-                    <h2 class="item-headline"><a target="_blank" href="/story/001066605">中国投资可能转变美国选民情绪</a></h2>
-                    <a class="image" target="_blank" href="/story/001066605"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000059513_piclink.jpg"></figure></a>                    <div class="item-lead">在美国工业腹地的政界人士继续应对2008年金融危机的后遗症之际，中国企业赴美投资设厂、雇用美国工人开始成为他们敢于在竞选活动中宣传贸易好处的依据。</div>                  <div class="item-time">14小时前</div>
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                                                                                                                                                                                                                                                                                                                                                                                        
-                                                                                                                                                        
-                                                                                                                                                                                    
-                                                                                                                                                        
-                    
-
-                
-                                                                                                
-                                
-
-
-                                                                        
-                                                                                                                                                                                                
-                                                    
-                
-
-                <div class=" MT PT"></div>
-                <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-                    <h2 class="item-headline"><a target="_blank" href="/story/001066604">硅谷青睐MBA毕业生</a></h2>
-                    <a class="image" target="_blank" href="/story/001066604"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000059520_piclink.jpg"></figure></a>                    <div class="item-lead">业内人士称，科技行业大举招聘MBA毕业生是因为很多快速成长的企业意识到：它们如今十分需要MBA毕业生带来的战略性思维和领导能力。</div>                   <div class="item-time">14小时前</div>
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
-                                                                                                                                                                                                                    
-                                                                                                                                                                                    
-                                                                                                                                                                                                                    
-                    
-
-                
-                                                                                                
-                                
-
-
-                                                                        
-                                                                                                                                                                                                
-                                                    
-                
-
-                <div class="XLT LT MT PT ST"></div>
-                <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-                    <h2 class="item-headline"><a target="_blank" href="/story/001066588">人机围棋对弈第二回合 AlphaGo再次胜出</a></h2>
-                    <a class="image" target="_blank" href="/story/001066588"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000059481_piclink.jpg"></figure></a>                    <div class="item-lead">韩国九段棋手李世石表示，首场对弈败在机器手下使他震惊。在输掉第二局后，他坦承：“我自始至终不觉得自己占上风，我认为AlphaGo走出了近乎完美的棋局。”</div>                   <div class="item-time">3天前</div>
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                                                                                                                                                                                                                                                                                                                                                                                        
-                                                                                                                                                        
-                                                                                                                                                                                    
-                                                                                                                                                        
-                    
-
-                
-                                                                                                
-                                
-
-
-                                                                        
-                                                                                                                                                                                                
-                                                    
-                
-
-                <div class=" MT PT"></div>
-                <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-                    <h2 class="item-headline"><a target="_blank" href="/story/001066590">欧洲央行加大量化宽松力度</a></h2>
-                    <a class="image" target="_blank" href="/story/001066590"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000041591_piclink.jpg"></figure></a>                    <div class="item-lead">在将存款利率下调至-0.4%后，德拉吉称，并不会在利率负值区域推进更深</div>                    <div class="item-time">3天前</div>
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                                                                                                                                                                                                                                                                                                                                                                                        
-                                                                                                                                                        
-                                                                                                                                                                                    
-                                                                                                                                                                                                                    
-                    
-
-                
-                                                                                                
-                                
-
-
-                                                                        
-                                                                                                                                                                                                
-                                                    
-                
-
-                <div class=" MT PT ST"></div>
-                <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-                    <h2 class="item-headline"><a target="_blank" href="/story/001066589">ICANN提议美国交出互联网域名管理权</a></h2>
-                    <a class="image" target="_blank" href="/story/001066589"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000059482_piclink.jpg"></figure></a>                    <div class="item-lead">互联网名称与数字地址分配机构的这一建议可能在华盛顿引发激烈政治辩论</div>                  <div class="item-time">3天前</div>
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
-                                                                                                                                                                                                                    
-                                                                                                                                                                                    
-                                                                                                                                                        
-                    
-
-                
-                                                                                                
-                                
-
-
-                                                                        
-                                                                                                                                                                                                
-                                                    
-                
-
-                <div class="XLT LT MT PT"></div>
-                <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-                    <h2 class="item-headline"><a target="_blank" href="/story/001066591">孟加拉央行被黑客盗转1.01亿美元</a></h2>
-                    <a class="image" target="_blank" href="/story/001066591"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000059483_piclink.jpg"></figure></a>                    <div class="item-lead">据悉，黑客入侵该国央行安全系统后，伪装成孟加拉官员，要求纽约联储转账</div>                 <div class="item-time">3天前</div>
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                                                                                                                                                                                                                                                                                                                                                                                        
-                                                                                                                                                        
-                                                                                                                                                                                    
-                                                                                                                                                                                                                    
-                    
-
-                
-                                                                                                
-                                
-
-
-                                                                        
-                                                                                                                                                                                                
-                                                    
-                
-
-                <div class=" MT PT ST"></div>
-                <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-                    <h2 class="item-headline"><a target="_blank" href="/story/001066598">佛首造像回归大陆帮助缓和两岸关系</a></h2>
-                    <a class="image" target="_blank" href="/story/001066598"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000059501_piclink.jpg"></figure></a>                    <div class="item-lead">北京方面一直在向台湾新当选的总统蔡英文施压，要其明确表述是否支持“九二共识”。在此之际，台湾星云大师将中国北方失窃的一尊佛首护送回大陆，是否会令两岸关系有所缓和？</div>                  <div class="item-time">3天前</div>
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                                                                                                                                                                                                                                                                                                                                                                                        
-                                                                                                                                                        
-                                                                                                                                                                                    
-                                                                                                                                                        
-                    
-
-                
-                                                                                                
-                                
-
-
-                                                                        
-                                                                                                                                                                                                
-                                                    
-                
-
-                <div class=" MT PT"></div>
-                <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-                    <h2 class="item-headline"><a target="_blank" href="/story/001066593">高盛被曝曾聘用马来西亚总理密友之女</a></h2>
-                    <a class="image" target="_blank" href="/story/001066593"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000059490_piclink.jpg"></figure></a>                    <div class="item-lead">此举后来帮助该行拉来了马来西亚政府投资基金1MDB的宝贵生意</div>                 <div class="item-time">3天前</div>
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                        <div class="clearfloat"></div>
-            </div>
-                        </div></div>                <div class="clearfloat block-bottom"></div>
-    </div></div>
-            
-
-
-
+<div class="block-container has-side side-right"><div class="block-inner">
+<div class="content-container"><div class="content-inner">
+
+<div class="list-container"><div class="list-inner"><div class="items">
+
+<div class="item-container XL8 L8 M12 S12 S-double-width P12 has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067049">如何重塑全球一体化？</a></h2>
+<div class="image"><figure class="loading-video" data-vid="1888"></figure></div><div class="item-lead">美国前财长萨默斯：如今全球一体化进程遭到抵制的核心原因，并非是无知。从美国总统竞选和英国退欧辩论的迹象看，由精英为全球化保驾护航的策略已经难以为继。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 XL-right L4 L-right M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067053">李克强敦促加大稳增长力度</a></h2>
+<a class="image" target="_blank" href="/story/001067053"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000060578_piclink.jpg"></figure></a><div class="item-lead">最新数据显示，中国仍未摆脱通缩风险。中国总理称，前期采取的一系列政策措施效应不断显现，但“稳增长促改革调结构还需加码发力”。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 XL-right XL-no-image L4 L-right L-no-image M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067116">低增长：后危机时代的现实</a></h2>
+<a class="image" target="_blank" href="/story/001067116"><figure class="loading" data-url="http://i.ftimg.net/picture/5/000057635_piclink.jpg"></figure></a><div class="item-lead">彼得森国际经济研究所布兰查德：金融危机造成的创伤已基本痊愈，但在低利率环境下经济增长依然缓慢。我认为原因一定出在不太好的中期经济增长前景，后者反过来影响了当前的需求和增长。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="XLT LT MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067125">中国取消七大行业出口补贴</a></h2>
+<a class="image" target="_blank" href="/story/001067125"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000056863_piclink.jpg"></figure></a><div class="item-lead">中美两国政府为此达成一项双边协议，以结束持续一年多的贸易纠纷</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067127">中国追责疫苗丑闻责任人</a></h2>
+<a class="image" target="_blank" href="/story/001067127"><figure class="loading" data-url="http://i.ftimg.net/picture/5/000060185_piclink.jpg"></figure></a><div class="item-lead">各地已有刑事立案192起，刑事拘留202人，357名公职人员面临撤职、降级等处分</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067126">中国放弃玉米价格支持政策</a></h2>
+<a class="image" target="_blank" href="/story/001067126"><figure class="loading" data-url="http://i.ftimg.net/picture/5/000060705_piclink.jpg"></figure></a><div class="item-lead">旨在削减玉米库存，但也将使国有玉米储备面临逾100亿美元的账面损失</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="XLT LT MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067124">挪威石油基金大举撤出过于依赖煤炭的公司</a></h2>
+<a class="image" target="_blank" href="/story/001067124"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000060704_piclink.jpg"></figure></a><div class="item-lead">全球最大主权财富基金宣布撤资的公司包括许多中国公司</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067120">奢侈品牌难以再做“中国梦”</a></h2>
+<a class="image" target="_blank" href="/story/001067120"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000035451_piclink_594_387.jpg"></figure></a><div class="item-lead">调查显示，较为精明的中国消费者不再愿意不计代价地购买奢侈品牌。送礼活动减少以及“海淘”的兴起意味着，中国消费者溢价购买奢侈品的日子屈指可数了。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067128">微软起诉美国司法部滥用保密命令</a></h2>
+<a class="image" target="_blank" href="/story/001067128"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000041871_piclink.jpg"></figure></a><div class="item-lead">诉状称，美国政府获取微软客户数据，还禁止微软告知客户，侵犯了客户的知情权</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="XLT LT MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067114">IMF官员：应警惕“新平庸”增长</a></h2>
+<a class="image" target="_blank" href="/story/001067114"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000058970_piclink.jpg"></figure></a><div class="item-lead">IMF发布的《全球金融稳定报告》勾勒出增长放缓、大宗商品价格低迷等一系列风险，但IMF官员认为金融危机不会重演，需要警惕的是新平庸增长。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067123">特斯拉轰动预售的如意算盘</a></h2>
+<a class="image" target="_blank" href="/story/001067123"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000060702_piclink.jpg"></figure></a><div class="item-lead">特斯拉最新发布的Model3电动车收获了32.5万份订单，但这些预订合同不仅随时可以取消，而且预订金也不会带来可观的现金流。如此为之，埃隆•马斯克到底在盘算什么？</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067117">中国抗击“韩流”？</a></h2>
+<a class="image" target="_blank" href="/story/001067117"><figure class="loading" data-url="http://i.ftimg.net/picture/5/000060695_piclink.jpg"></figure></a><div class="item-lead">“韩流”现象正在超越电视剧、电影和流行音乐的范围，延伸至包括时尚、食物以及美容品在内的诸多领域，而中国也在尝试韩国模式，大举进军创意经济。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="XLT LT MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067121">解决朝核危机是全球的责任</a></h2>
+<a class="image" target="_blank" href="/story/001067121"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000060267_piclink.jpg"></figure></a><div class="item-lead">韩国学者李成贤：一旦朝鲜进行第五次核试验，中韩美等国都必须意识到这是“我们”的问题，应主动会面、倾心沟通、多提建设性意见，共同面对挑战。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067111">洪秀柱能否改造国民党？</a></h2>
+<a class="image" target="_blank" href="/story/001067111"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000060682_piclink.jpg"></figure></a><div class="item-lead">资深台湾媒体人杨艾俐：失去党魂和信仰是国民党衰败的根本原由。新任国民党主席洪秀柱，能否在一年多的任期内，重新打造已经满目疮痍的国民党？</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067122">重塑文明秩序与执政党转型</a></h2>
+<a class="image" target="_blank" href="/story/001067122"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000060690_piclink.jpg"></figure></a><div class="item-lead">凤凰卫视评论员邱震海：中国崛起对西方构成经济秩序、安全秩序、政治秩序、心理秩序和文明秩序的挑战，中国需要通过合适的路径塑造现代文明。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="clearfloat"></div>
+</div>
+</div></div><div class="clearfloat block-bottom"></div>
+</div></div>
 <div class="side-container"><div class="side-inner">
-
-    
-    <iframe id="ribbon" class="ad-hidden" width="100%" height="0" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="/m/marketing/a.html#adid=10000009&slot=986723212&pid=ribbon"></iframe>
-
-
-    <div class="links-container P-hide">
-        <h2 class="list-title"><a href="/channel/stream.html">会员信息中心</a></h2>
-        <div class="links" id="member-info">
-        <a>...</a><a>...</a><a>...</a>
-        </div>
-        <div class="hide">
-        <iframe width="0" height="0" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="/m/marketing/membertext.html"></iframe>
-        </div>
-    </div>
-
-    <div class="mpu-container">
-    <iframe id="mpu1" width="300" height="250" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="/m/marketing/a.html#adid=10000003&slot=986723212&pid=mpu1"></iframe>
-    </div>
-
-
-    <div class="interactives">
-        <h2 class="list-title"><a href="/channel/stream.html">互动与图辑</a></h2>
-
-
-
-
-                                                                        <!---->
-                                                        <div class="item-container first"><div class="item-inner">
-        <a class="image" href="/interactive/6374" target=_blank><figure class="loading" data-url="http://i.ftimg.net/picture/4/000059554_piclink.jpg"></figure></a>
-        <h2 class="item-headline"><a href="/interactive/6374" target=_blank>【速读】Uber对手出新招：让司机人人持股</a></h2>
-        </div></div>
-                                                                                                <div class="item-container"><div class="item-inner">
-        <a class="image" href="/interactive/4438" target=_blank><figure class="loading" data-url="http://i.ftimg.net/picture/4/000058414_piclink.jpg"></figure></a>
-        <h2 class="item-headline"><a href="/interactive/4438" target=_blank>【小测】测测你的新闻IQ</a></h2>
-        </div></div>
-                                                                        <div class="item-container"><div class="item-inner">
-        <a class="image" href="/photonews/987" target=_blank><figure class="loading" data-url="http://i.ftimg.net/photonews/2016/03/56e64e4cdc4db4.20780937.jpg"></figure></a>
-        <h2 class="item-headline"><a href="/photonews/987" target=_blank>【图辑】土耳其安卡拉爆炸</a></h2>
-        </div></div>
-                                                                                                <div class="item-container"><div class="item-inner">
-        <a class="image" href="/interactive/6365" target=_blank><figure class="loading" data-url="http://i.ftimg.net/picture/8/000059508_piclink.jpg"></figure></a>
-        <h2 class="item-headline"><a href="/interactive/6365" target=_blank>【速读】喝酒就要喝到“挂”？</a></h2>
-        </div></div>
-                                                                                                                                                                        <!---->
-
-    </div>
-
-    <iframe id="mpu2" width="300" height="250" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="/m/marketing/a.html#adid=10000004&slot=986723212&pid=mpu2"></iframe>
-
-
-        <div class="vidoes P-hide">
-        <h2 class="list-title"><a href="/m/marketing/intelligence.html">FT研究院</a></h2>
-        <div class="item-container first"><div class="item-inner">
-        <a class="image" href="/interactive/4998" target=_blank><figure class="loading" data-url="http://i.ftimg.net/picture/5/000053895_piclink.jpg"></figure></a>
-        <h2 class="item-headline"><a href="/interactive/4998" target=_blank>2015年年中个人投资策略报告</a></h2>
-        </div></div>
-        <div id="three-video-part" class="triplet-container">
-            <div id="three-video-content">
-                <ul>
-                                                                                                    <li><a target="video-frame" href="/interactive/4479"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000053210_piclink.jpg"></figure><p>2015年奢侈品行业发展及品牌竞争报告</p></a></li>
-                                                                                <li><a target="video-frame" href="/interactive/4482"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000053211_piclink.jpg"></figure><p>2015年互联网金融需求及品牌发展研究报告</p></a></li>
-                                                                                <li><a target="video-frame" href="/interactive/4481"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000052873_piclink.jpg"></figure><p>2014年航空客运业发展研究报告</p></a></li>
-                                                            <div class="clearfloat"></div>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-</div></div>        <div class="clearfloat"></div>
-</div></div>                                        <div class="banner-placeholder">
+<div class="links-container P-hide">
+<h2 class="list-title"><a href="/channel/stream.html">会员信息中心</a></h2>
+<div class="links" id="member-info">
+<a>...</a><a>...</a><a>...</a>
+</div>
+<div class="hide">
+<iframe width="0" height="0" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="/m/marketing/membertext.html"></iframe>
+</div>
+</div>
+<div class="mpu-container">
+<script type="text/javascript">document.write (writeAd('mpu'));</script>
+</div>
+<div class="interactives">
+<h2 class="list-title"><a href="/channel/stream.html">互动与图辑</a></h2>
+<!---->
+<div class="item-container first"><div class="item-inner">
+<a class="image" href="/photonews/1006" target=_blank><figure class="loading" data-url="http://i.ftimg.net/photonews/2016/04/57106f1fd74063.56033699.jpg"></figure></a>
+<h2 class="item-headline"><a href="/photonews/1006" target=_blank>【图辑】日本熊本县发生6.5级地震</a></h2>
+</div></div>
+<div class="item-container"><div class="item-inner">
+<a class="image" href="/interactive/6656" target=_blank><figure class="loading" data-url="http://i.ftimg.net/picture/1/000060681_piclink.jpg"></figure></a>
+<h2 class="item-headline"><a href="/interactive/6656" target=_blank>【速读】体格强壮是领导优势吗？ </a></h2>
+</div></div>
+<div class="item-container"><div class="item-inner">
+<a class="image" href="/interactive/6646" target=_blank><figure class="loading" data-url="http://i.ftimg.net/picture/4/000060634_piclink.jpg"></figure></a>
+<h2 class="item-headline"><a href="/interactive/6646" target=_blank>【教程】5G带给我们的无限可能</a></h2>
+</div></div>
+<div class="item-container"><div class="item-inner">
+<a class="image" href="/interactive/4438" target=_blank><figure class="loading" data-url="http://i.ftimg.net/picture/4/000058414_piclink.jpg"></figure></a>
+<h2 class="item-headline"><a href="/interactive/4438" target=_blank>【小测】测测你的新闻IQ</a></h2>
+</div></div>
+<!---->
+</div>
+<div class="mpu-container">
+<script type="text/javascript">document.write (writeAd('mpu'));</script>
+</div>
+<div class="vidoes P-hide">
+<h2 class="list-title"><a href="/m/marketing/intelligence.html">FT研究院</a></h2>
+<div class="item-container first"><div class="item-inner">
+<a class="image" href="/interactive/6587" target=_blank><figure class="loading" data-url="http://i.ftimg.net/picture/0/000060490_piclink.jpg"></figure></a>
+<h2 class="item-headline"><a href="/interactive/6587" target=_blank>数据告诉你：香港旅游，为什么不再有吸引力？</a></h2>
+</div></div>
+<div id="three-video-part" class="triplet-container">
+<div id="three-video-content">
+<ul>
+<li><a target="video-frame" href="/interactive/6586"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000060488_piclink.jpg"></figure><p>后调控时代，北京房价向何处去？</p></a></li>
+<li><a target="video-frame" href="/interactive/6460"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000060240_piclink.jpg"></figure><p>2016年黄金投资机会，值得关注！</p></a></li>
+<li><a target="video-frame" href="/interactive/6440"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000059897_piclink.jpg"></figure><p>一、二线房产市场又有新变化！</p></a></li>
+<div class="clearfloat"></div>
+</ul>
+</div>
+</div>
+</div>
+</div></div><div class="clearfloat"></div>
+</div></div><div class="banner-placeholder">
 <div class="banner-container">
 <div class="banner-inner">
 <div class="banner-content">
-  <iframe id="banner1" name="mpu3Frame" width="100%" height="90" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="/m/marketing/a.html#adid=10000006&slot=986723212&pid=banner1"></iframe>
+<script type="text/javascript">document.write (writeAd('banner'));</script>
 </div>
 </div>
 </div>
 </div>
-                      <div class="block-container no-side"><div class="block-inner">
-    <div class="content-container"><div class="content-inner">
-                                                                        
-        
-                <div class="list-container"><div class="list-inner">                            <h2 class="list-title">
-                    <a class="list-link" href="/channel/opinion.html">评论</a>
-                                    </h2>
-            
-            
-            <div class="items">
-                                                                                                                                                                                                                                                                                                                                                                                                                        
-                                                                                                                                                                                                            
-                                                                                                                                                                                    
-                                                                                                        
-                
-                                                                                                                                    
-                                                                                                                                                                                                                    
+<div class="block-container no-side"><div class="block-inner">
+<div class="content-container"><div class="content-inner">
 
+<div class="list-container"><div class="list-inner"><h2 class="list-title">
+<a class="list-link" href="/channel/opinion.html">评论</a>
+</h2>
+<div class="items">
 
-                                
-                                                    
-                
-
-                
-                <div class="item-container XL3 L4 M4 S6 P12 has-image"><div class="item-inner">
-                    <h2 class="item-headline"><div class=item-tag><a href="/tag/职场">职场</a></div><a target="_blank" href="/story/001066600">别想靠一封邮件留住人才</a></h2>
-                    <a class="image" target="_blank" href="/story/001066600"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000059528_piclink.jpg"></figure></a>                    <div class="item-lead">FT专栏作家凯拉韦：想要劝说年轻下属放弃跳槽，不能指望一封群发邮件就能起效。老板们应该单独找到看好的下属，喝杯咖啡，加薪留住他们。</div>                  
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                                                                                                                                                                                                                                                                                                                                            
-                                                                                                                                                        
-                                                                                                                                
-                                                                                                                                
-                
-                                                                                                
-                                                                                                                                                                                                                    
-
-
-                                
-                                                    
-                
-
-                <div class=" PT"></div>
-                <div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
-                    <h2 class="item-headline"><div class=item-tag><a href="/tag/证券交易所">证券交易所</a></div><a target="_blank" href="/story/001066602">证交所的消亡与重生</a></h2>
-                    <a class="image" target="_blank" href="/story/001066602"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000059523_piclink.jpg"></figure></a>                    <div class="item-lead">FT专栏作家加普：对于伦敦证交所近年为何身价飙升，在其名称中是找不到线索的。真正的关键在于转型。如今，该交易所的主营业务已不再是股票交易。</div>                  
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                                                                                                                                                                                                                                                                                                                                            
-                                                                                                                                                        
-                                                                                                                                                                                    
-                                                                                                                                
-                
-                                                                                                
-                                                                                                                                                                                                                    
-
-
-                                
-                                                    
-                
-
-                <div class=" ST PT"></div>
-                <div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
-                    <h2 class="item-headline"><div class=item-tag><a href="/tag/科技">科技</a></div><a target="_blank" href="/story/001066610">数字时代的“双城记”</a></h2>
-                    <a class="image" target="_blank" href="/story/001066610"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000059530_piclink.jpg"></figure></a>                    <div class="item-lead">FT创新主编桑希尔：如今，美国西海岸企业家的乐观与东海岸政客的悲观形成鲜明对比。从隐喻意义上说，这种反差在其他许多国家也同样存在。</div>                  
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                                                                                                                                                                                                                                                                                                                                            
-                                                                                                                                                                                                            
-                                                                                                                                
-                                                                                                                                
-                
-                                                                                                
-                                                                                                                                                                                                                    
-
-
-                                
-                                                    
-                
-
-                <div class=" LT MT PT"></div>
-                <div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
-                    <h2 class="item-headline"><div class=item-tag><a href="/tag/职场">职场</a></div><a target="_blank" href="/story/001066606">退休？退什么休？</a></h2>
-                    <a class="image" target="_blank" href="/story/001066606"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000059531_piclink.jpg"></figure></a>                    <div class="item-lead">FT专栏作家斯卡平克：英国左翼政党委托进行的研究得出结论称，很多劳动者将一直工作到做不动为止。的确，传统职业轨迹不再适用。</div>                  
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                                                                                                                                                                                                                                                                                                                                                                                                
-                                                                                                                                                        
-                                                                                                                                                                                    
-                                                                                                                                
-                
-                                                                                                
-                                                                                                                                                                                                                    
-
-
-                                
-                                                    
-                
-
-                <div class="XLT ST PT"></div>
-                <div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
-                    <h2 class="item-headline"><div class=item-tag><a href="/tag/职场">职场</a></div><a target="_blank" href="/story/001066599">不玩命工作还能干啥？</a></h2>
-                    <a class="image" target="_blank" href="/story/001066599"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000059539_piclink.jpg"></figure></a>                    <div class="item-lead">FT专栏作家哈福德：凯恩斯曾预测人们收入增长，工作时间减少，但当今经济精英们在收入大幅增长的同时，工作时间倒退回19世纪水平。</div>                    
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                                                                                                                                                                                                                                                                                                                                            
-                                                                                                                                                        
-                                                                                                                                
-                                                                                                                                
-                
-                                                                                                
-                                                                                                                                                                                                                    
-
-
-                                
-                                                    
-                
-
-                <div class=" PT"></div>
-                <div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
-                    <h2 class="item-headline"><div class=item-tag><a href="/tag/第一时间解读">第一时间解读</a></div><a target="_blank" href="/story/001066597">中国必要时可对朝鲜半岛施压</a></h2>
-                    <a class="image" target="_blank" href="/story/001066597"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000059018_piclink.jpg"></figure></a>                    <div class="item-lead">中国亚非发展交流协会理事曹辛：如果金正恩走得过了，美韩就可能有借口对朝鲜进行外科手术式打击，使局势变得无法控制。因此，中国当前需要同时给半岛南北双方施加压力。</div>                    
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                                                                                                                                                                                                                                                                                                                                            
-                                                                                                                                                                                                            
-                                                                                                                                                                                    
-                                                                                                                                
-                
-                                                                                                
-                                                                                                                                                                                                                    
-
-
-                                
-                                                    
-                
-
-                <div class=" LT MT ST PT"></div>
-                <div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
-                    <h2 class="item-headline"><div class=item-tag><a href="/tag/海归">海归</a></div><a target="_blank" href="/story/001066581">在中国生物科技业打拼的海归</a></h2>
-                    <a class="image" target="_blank" href="/story/001066581"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000059471_piclink.jpg"></figure></a>                    <div class="item-lead">随着中国政府持续投入资源、努力让经济更具创新性和高附加值，中国生命科学领域的机遇持续上升，这也吸引了一群怀揣文凭和经验的专业人才加入归国大军。</div>                    
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                                                                                                                                                                                                                                                                                                                                            
-                                                                                                                                                        
-                                                                                                                                
-                                                                                                                                
-                
-                                                                                                
-                                                                                                                                                                                                                    
-
-
-                                
-                                                    
-                
-
-                <div class=" PT"></div>
-                <div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
-                    <h2 class="item-headline"><div class=item-tag><a href="/tag/互联网">互联网</a></div><a target="_blank" href="/story/001066526">互联网终结，人机智能崛起</a></h2>
-                    <a class="image" target="_blank" href="/story/001066526"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000058652_piclink.jpg"></figure></a>                    <div class="item-lead">FT中文网专栏作家周掌柜：互联网巨头们似乎已经意识到“互联网”时代正在终结，伴随着交通工具、虚拟现实、人工智能以及机器人技术的飞速发展，人机智能竞争的“战国时代”已经不再限于科幻层面。</div>                   
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                                                                                                                                                                                                                                                                                                                                                                                                
-                                                                                                                                                        
-                                                                                                                                                                                    
-                                                                                                                                
-                
-                                                                                                
-                                                                                                                                                                                                                    
-
-
-                                
-                                                    
-                
-
-                <div class="XLT ST PT"></div>
-                <div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
-                    <h2 class="item-headline"><div class=item-tag><a href="/tag/计算机">计算机</a></div><a target="_blank" href="/story/001066566">FT社评：一场发人深省的棋局</a></h2>
-                    <a class="image" target="_blank" href="/story/001066566"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000059493_piclink.jpg"></figure></a>                    <div class="item-lead">AlphaGo在与李世石的围棋对垒中告捷，不仅在电脑荣誉史中又增添了一笔，也提醒世人，应更加谦卑和审慎地思考与科技发展相伴的伦理与威胁。</div>                   
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                                                                                                                                                                                                                                                                                                                                            
-                                                                                                                                                                                                            
-                                                                                                                                
-                                                                                                                                
-                
-                                                                                                
-                                                                                                                                                                                                                    
-
-
-                                
-                                                    
-                
-
-                <div class=" LT MT PT"></div>
-                <div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
-                    <h2 class="item-headline"><div class=item-tag><a href="/tag/人工智能">人工智能</a></div><a target="_blank" href="/story/001066580">机器赢了，人类输了？</a></h2>
-                    <div class="image"><figure class="loading-video" data-vid="1853"></figure></div>                    <div class="item-lead">FT中文网专栏作家徐瑾：人机对战无论胜负如何，AlphaGo已经证明了自己；未来充满不确定性，但未必需要末日恐慌。在规则不确定之下如何应对，可能正是人类的优势所在。</div>                 
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                                                                                                                                                                                                                                                                                                                                            
-                                                                                                                                                        
-                                                                                                                                                                                    
-                                                                                                                                
-                
-                                                                                                
-                                                                                                                                                                                                                    
-
-
-                                
-                                                    
-                
-
-                <div class=" ST PT"></div>
-                <div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
-                    <h2 class="item-headline"><div class=item-tag><a href="/tag/插图">插图</a></div><a target="_blank" href="/story/001066583">与FT共进午餐：王薇</a></h2>
-                    <a class="image" target="_blank" href="/story/001066583"><figure class="loading" data-url="http://i.ftimg.net/picture/5/000059475_piclink.jpg"></figure></a>                    <div class="item-lead">王薇与丈夫刘益谦因豪掷1.7亿美元拍下莫迪利亚尼的画作，而引发全世界收藏家的关注。她认为购买西方艺术品展示给国人，是一种表达爱国情怀的方式。</div>                 
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                                                                                                                                                                                                                                                                                                                                            
-                                                                                                                                                        
-                                                                                                                                
-                                                                                                                                
-                
-                                                                                                
-                                                                                                                                                                                                                    
-
-
-                                
-                                                    
-                
-
-                <div class=" PT"></div>
-                <div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
-                    <h2 class="item-headline"><div class=item-tag><a href="/tag/生活时尚">生活时尚</a></div><a target="_blank" href="/story/001066507">我经历过的房产中介们</a></h2>
-                    <a class="image" target="_blank" href="/story/001066507"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000022937_piclink_0_0.jpg"></figure></a>                    <div class="item-lead">白天：和中国某些房产中介过招需要小心提防，即使同一中介集团门下的不同连锁门店之间，有时都有着灰色竞争手段，让人防不胜防。</div>                   
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                        <div class="clearfloat"></div>
-            </div>
-                        </div></div>                <div class="clearfloat block-bottom"></div>
-    </div></div>
-        <div class="clearfloat"></div>
-</div></div>                        <div class="banner-placeholder">
+<div class="item-container XL3 L4 M4 S6 P12 has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/中国南海">中国南海</a></div><a target="_blank" href="/story/001067094">应重估美国在南海问题上的对华政策</a></h2>
+<a class="image" target="_blank" href="/story/001067094"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000058618_piclink.jpg"></figure></a><div class="item-lead">美国参议院军事委员会主席麦凯恩：奥巴马政府提出在南中国海不填海造岛、不搞军事化和不胁迫，但这一政策不仅未能遏制中国，同时也令美国的盟友感到困惑。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" PT"></div>
+<div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/负利率">负利率</a></div><a target="_blank" href="/story/001067119">负利率是经济痼疾的表征而非病因</a></h2>
+<a class="image" target="_blank" href="/story/001067119"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000060697_piclink.jpg"></figure></a><div class="item-lead">FT首席经济评论员沃尔夫：世界经济正遭遇储蓄过剩、投资不足的困扰，负利率政策符合这一事实。但是，货币政策变得越极端，对其进行校准就越困难。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" ST PT"></div>
+<div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/货币政策">货币政策</a></div><a target="_blank" href="/story/001067115">为什么会有人买负收益率债券？</a></h2>
+<a class="image" target="_blank" href="/story/001067115"><figure class="loading" data-url="http://i.ftimg.net/picture/5/000060175_piclink.jpg"></figure></a><div class="item-lead">购买收益率为负的债券然后持有到期，是板上钉钉的亏本交易。FT记者为你揭开其中“奥妙”：如果其它资产价格大跌，负收益率债券将带来“超常表现”。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" LT MT PT"></div>
+<div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/乐尚街">乐尚街</a></div><a target="_blank" href="/story/001067105">国际艺术界的“韩国风”</a></h2>
+<a class="image" target="_blank" href="/story/001067105"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000060673_piclink.jpg"></figure></a><div class="item-lead">韩国艺术近年屡获国际认可。韩国单色画在拍卖中屡创佳绩，艺术家摘得威尼斯双年展大奖。90年代韩国艺术家更是赢得了西方主流社会认可，并成时尚。
+</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="XLT ST PT"></div>
+<div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/乐尚街">乐尚街</a></div><a target="_blank" href="/story/001067106">卡地亚助力中国博物馆热潮</a></h2>
+<a class="image" target="_blank" href="/story/001067106"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000060676_piclink.jpg"></figure></a><div class="item-lead">卡地亚与中国政府签署框架协议，就艺术与文化交流项目展开合作。此举将助力中国博物馆建设热潮。卡地亚旗下的当代艺术基金会有丰富的艺术经营经验。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" PT"></div>
+<div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/乐尚街">乐尚街</a></div><a target="_blank" href="/story/001067108">今年的腕表：好货不贵</a></h2>
+<a class="image" target="_blank" href="/story/001067108"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000060679_piclink.jpg"></figure></a><div class="item-lead">丁之方：面对着不足20%的手腕戴表率，今年的中高端新品手表功能外型俱佳而价格不贵，与电子智能表一起争夺消费者宝贵的“手腕”资源。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" LT MT ST PT"></div>
+<div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/社交网站">社交网站</a></div><a target="_blank" href="/story/001067005">领英“十诫”</a></h2>
+<a class="image" target="_blank" href="/story/001067005"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000060570_piclink.jpg"></figure></a><div class="item-lead">FT专栏作家凯拉韦：看了一些名人的领英个人页面后，我发现没人知道该怎么写。篇幅写多长？第一人称还是第三人称？要不要幽默点？对于诸多疑问，我总结了10条教训。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" PT"></div>
+<div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/创业">创业</a></div><a target="_blank" href="/story/001067025">创业者需善用杠杆</a></h2>
+<a class="image" target="_blank" href="/story/001067025"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000060496_piclink.jpg"></figure></a><div class="item-lead">贺嘉：创业者多做高杠杆率的事，才能够更多释放自己的时间，去思考公司的战略发展方向，做资源和人力的整合，让正确的事相继发生。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="XLT ST PT"></div>
+<div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/中国经济">中国经济</a></div><a target="_blank" href="/story/001067045">如何抵御经济刺激政策诱惑？</a></h2>
+<a class="image" target="_blank" href="/story/001067045"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000058489_piclink.jpg"></figure></a><div class="item-lead">加拿大菲莎河谷大学教授陆丁：从中国基本面来看，“新常态”已经是学界的共识。在“三期叠加”尚未解决理清的情况下，发生如此大规模的财政货币扩张，显然令人担忧。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" LT MT PT"></div>
+<div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/台湾">台湾</a></div><a target="_blank" href="/story/001067046">两岸关系无法回避宪制建构</a></h2>
+<a class="image" target="_blank" href="/story/001067046"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000056084_piclink.jpg"></figure></a><div class="item-lead">北航高研院田飞龙：两岸关系若要朝“和平统一”方向前进，就必须设法对“九二共识”的抽象政治原则加以宪制性转化。两岸法律学者需要聚焦此议题，寻找妥切方案。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" ST PT"></div>
+<div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/5g">5g</a></div><a target="_blank" href="/story/001067023">5G时代：智慧城市革命和中国机会</a></h2>
+<a class="image" target="_blank" href="/story/001067023"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000060362_piclink.jpg"></figure></a><div class="item-lead">师北宸：各个国家和企业对5G都有着空前的热情和期待，不仅由于“万物互联”所开启的想象空间，更是因为这代表着下一代世界通讯技术的话语权将落于谁手。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" PT"></div>
+<div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/FT社评">FT社评</a></div><a target="_blank" href="/story/001067048">FT社评：美联储推迟加息牵连了谁？</a></h2>
+<a class="image" target="_blank" href="/story/001067048"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000060572_piclink.jpg"></figure></a><div class="item-lead">有助于缓和美元走强的政策立场目前最符合美国乃至全球经济的利益。如果可以从变化莫测的短期汇率波动得出任何结论的话，那就是欧元区和日本正在承受连带损害。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="clearfloat"></div>
+</div>
+</div></div><div class="clearfloat block-bottom"></div>
+</div></div>
+<div class="clearfloat"></div>
+</div></div><div class="banner-placeholder">
 <div class="banner-container">
 <div class="banner-inner">
 <div class="banner-content">
-  <iframe id="banner2" name="mpu3Frame" width="100%" height="90" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="/m/marketing/a.html#adid=10000007&slot=986723212&pid=banner2"></iframe>
+<script type="text/javascript">document.write (writeAd('banner'));</script>
 </div>
 </div>
 </div>
 </div>
-                      <div class="block-container has-side side-right side-video"><div class="block-inner">
-    <div class="content-container"><div class="content-inner">
-                                                                                                        
-        
-                <div class="list-container video-package"><div class="list-inner">                          <h2 class="list-title">
-                    <a class="list-link" href="/channel/stream.html">视频</a>
-                                    </h2>
-            
-            
-            <div class="items">
-                            <div class="item-inner video-package-inner"><div class="image"><figure id="video-package-play" class="loading-video" data-vid="1844"></figure></div><div class="video-package-title"><a href="/video/1844" target=_blank>特朗普的崛起为何让人害怕？</a></div></div>
-                                                                                                                                                                                                                                                                                                                                                                            
-                                                                                                    
-                                
+<div class="block-container has-side side-right side-video"><div class="block-inner">
+<div class="content-container"><div class="content-inner">
 
+<div class="list-container video-package"><div class="list-inner"><h2 class="list-title">
+<a class="list-link" href="/channel/stream.html">视频</a>
+</h2>
+<div class="items">
+<div class="item-inner video-package-inner"><div class="image"><figure id="video-package-play" class="loading-video" data-vid="1891"></figure></div><div class="video-package-title"><a href="/video/1891" target=_blank>“金砖银行”喜欢投什么？</a></div></div>
 
-                                
-                                                    
-                
+<div class="item-container XL2 L4 M4 S4 P4 on     has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1891">“金砖银行”喜欢投什么？</a></h2>
+<a class="image" target="_blank" href="/video/1891"><figure class="loading" data-url="http://i.ftimg.net//picture/8/000060708_piclink.jpg"></figure></a>
+<div class="item-bottom"></div>
+</div></div>
 
-                
-                <div class="item-container XL2 L4 M4 S4 P4 on     has-image"><div class="item-inner">
-                    <h2 class="item-headline"><a target="_blank" href="/video/1844">特朗普的崛起为何让人害怕？</a></h2>
-                    <a class="image" target="_blank" href="/video/1844"><figure class="loading" data-url="http://i.ftimg.net//picture/6/000059176_piclink.jpg"></figure></a>                                        
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                                                                                                                                                                                                                                                                                                                                                    
-                                                                
-                                
+<div class="item-container XL2 L4 M4 S4 P4     has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1890">“避税天堂”之辩</a></h2>
+<a class="image" target="_blank" href="/video/1890"><figure class="loading" data-url="http://i.ftimg.net//picture/4/000060684_piclink.jpg"></figure></a>
+<div class="item-bottom"></div>
+</div></div>
 
+<div class="item-container XL2 L4 M4 S4 P4     has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1888">纪录片：中国移民奇迹终结（上）</a></h2>
+<a class="image" target="_blank" href="/video/1888"><figure class="loading" data-url="http://i.ftimg.net//picture/3/000060563_piclink.jpg"></figure></a>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" LT MT ST"></div>
+<div class="item-container XL2 L4 M4 S4 P4    P-hide has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1889">纪录片：中国移民奇迹终结（下）</a></h2>
+<a class="image" target="_blank" href="/video/1889"><figure class="loading" data-url="http://i.ftimg.net//picture/6/000060566_piclink.jpg"></figure></a>
+<div class="item-bottom"></div>
+</div></div>
 
-                                
-                                                    
-                
+<div class="item-container XL2 L4 M4 S4 P4    P-hide has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1887">对话德国药企：从疫苗风波到昂贵药价</a></h2>
+<a class="image" target="_blank" href="/video/1887"><figure class="loading" data-url="http://i.ftimg.net//picture/7/000060557_piclink.jpg"></figure></a>
+<div class="item-bottom"></div>
+</div></div>
 
-                
-                <div class="item-container XL2 L4 M4 S4 P4     has-image"><div class="item-inner">
-                    <h2 class="item-headline"><a target="_blank" href="/video/1853">AlphaGo：超越人性的人工智能</a></h2>
-                    <a class="image" target="_blank" href="/video/1853"><figure class="loading" data-url="http://i.ftimg.net//picture/1/000059451_piclink.jpg"></figure></a>                                        
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                                                                                                                                                                                                                                                                                                                                                    
-                                                                
-                                
+<div class="item-container XL2 L4 M4 S4 P4    P-hide has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1879">为何图片中的职场女性都年轻貌美？</a></h2>
+<a class="image" target="_blank" href="/video/1879"><figure class="loading" data-url="http://i.ftimg.net//picture/2/000060292_piclink.jpg"></figure></a>
+<div class="item-bottom"></div>
+</div></div>
+<div class="clearfloat"></div>
+</div>
+</div></div><div class="clearfloat block-bottom"></div>
+</div></div>
+<div class="side-container"><div class="side-inner">
+<div class="mps">
+<h2 class="list-title"><a href="/channel/stream.html">热门视频</a></h2>
+<ul class="top10">
+<li class="mp1"><span>1. </span><a target="_blank" href="/video/">90秒了解巴拿马绝密文件泄露事件</a></li>
+<li class="mp2"><span>2. </span><a target="_blank" href="/video/">纪录片：中国移民奇迹终结（上）</a></li>
+<li class="mp3"><span>3. </span><a target="_blank" href="/video/">为何图片中的职场女性都年轻貌美？</a></li>
+<li class="mp4"><span>4. </span><a target="_blank" href="/video/">纪录片：中国移民奇迹终结（下）</a></li>
+<li class="mp5"><span>5. </span><a target="_blank" href="/video/">从“十三五”看中国转型之难</a></li>
+</ul>
+</div>
+<div class="mpu-container">
+<script type="text/javascript">document.write (writeAd('mpu'));</script>
+</div>
+</div></div><div class="clearfloat"></div>
+</div></div><div class="block-container has-side side-left"><div class="block-inner">
+<div class="content-container"><div class="content-inner">
 
+<div class="list-container XL4 L6 M12 S6 P12 side-by-side"><div class="list-inner"><h2 class="list-title">
+<a class="list-link" href="#">管理</a>
+</h2>
+<div class="items">
 
-                                
-                                                    
-                
+<div class="item-container side-by-side first     has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066272">刘士余能带来“牛市雨”？</a></h2>
+<a class="image" target="_blank" href="/story/001066272"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000058860_piclink.jpg"></figure></a><div class="item-lead">获得任命不到48小时后，中国证券监管部门的新领导刘士余已经感受到投资者对A股市场反弹的期许。人们在网上给他取了一个同他的名字谐音的外号：“牛市雨”。</div>
+<div class="item-bottom"></div>
+</div></div>
 
-                
-                <div class="item-container XL2 L4 M4 S4 P4     has-image"><div class="item-inner">
-                    <h2 class="item-headline"><a target="_blank" href="/video/1854">欧洲央行再次“大开印钞机”【英文原声】</a></h2>
-                    <a class="image" target="_blank" href="/video/1854"><figure class="loading" data-url="http://i.ftimg.net//picture/8/000059498_piclink.jpg"></figure></a>                                        
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                            
-                                                                                                
-                                
+<div class="item-container side-by-side     no-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066274">“高情商”的中国证监会新主席</a></h2>
 
+<div class="item-bottom"></div>
+</div></div>
 
-                                
-                                                    
-                
+<div class="item-container side-by-side     no-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066278">2月份中国企业产量降至两年低点</a></h2>
 
-                <div class=" LT MT ST"></div>
-                <div class="item-container XL2 L4 M4 S4 P4    P-hide has-image"><div class="item-inner">
-                    <h2 class="item-headline"><a target="_blank" href="/video/1839">比尔·盖茨如何看“独角兽”公司？</a></h2>
-                    <a class="image" target="_blank" href="/video/1839"><figure class="loading" data-url="http://i.ftimg.net//picture/3/000059073_piclink.jpg"></figure></a>                                        
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                                                                                                                                                                                                                                                                                                                                                                                                
-                                                                
-                                
+<div class="item-bottom"></div>
+</div></div>
 
+<div class="item-container side-by-side     no-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066300">美国智库称中国在华阳礁建雷达塔</a></h2>
 
-                                
-                                                    
-                
+<div class="item-bottom"></div>
+</div></div>
+<div class="clearfloat"></div>
+</div>
+</div></div><div class=" MC PC"></div>
+<div class="list-container XL4 L6 M12 S6 P12 side-by-side"><div class="list-inner"><h2 class="list-title">
+<a class="list-link" href="#">商业</a>
+</h2>
+<div class="items">
 
-                
-                <div class="item-container XL2 L4 M4 S4 P4    P-hide has-image"><div class="item-inner">
-                    <h2 class="item-headline"><a target="_blank" href="/video/1828">【秒懂】一招教你认识股票估值</a></h2>
-                    <a class="image" target="_blank" href="/video/1828"><figure class="loading" data-url="http://i.ftimg.net//picture/5/000058835_piclink.jpg"></figure></a>                                        
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                                                                                                                                                                                                                                                                                                                                                                                                
-                                                                
-                                
+<div class="item-container side-by-side first     has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066271">英国商界领袖支持卡梅伦“留欧”</a></h2>
+<a class="image" target="_blank" href="/story/001066271"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000058859_piclink.jpg"></figure></a><div class="item-lead">但伦敦市长约翰逊加入退欧阵营，成为保守党最高调背叛者</div>
+<div class="item-bottom"></div>
+</div></div>
 
+<div class="item-container side-by-side     no-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066279">SEC调查汇丰银行亚洲雇佣行为</a></h2>
 
-                                
-                                                    
-                
+<div class="item-bottom"></div>
+</div></div>
 
-                
-                <div class="item-container XL2 L4 M4 S4 P4    P-hide has-image"><div class="item-inner">
-                    <h2 class="item-headline"><a target="_blank" href="/video/1806">【秒懂】即将全国试点的中国法院改革</a></h2>
-                    <a class="image" target="_blank" href="/video/1806"><figure class="loading" data-url="http://i.ftimg.net//picture/0/000058470_piclink.jpg"></figure></a>                                        
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                        <div class="clearfloat"></div>
-            </div>
-                        </div></div>                <div class="clearfloat block-bottom"></div>
-    </div></div>
-            <div class="side-container"><div class="side-inner">
-    <div class="mps">
-        <h2 class="list-title"><a href="/channel/stream.html">热门视频</a></h2>
-        <ul class="top10">
-                                                                                <li class="mp1"><span>1. </span><a target="_blank" href="/video/">中国房价：末日疯狂还是重获新生？</a></li>
-                                                                    <li class="mp2"><span>2. </span><a target="_blank" href="/video/">林洸耀：集权是为了改革</a></li>
-                                                                    <li class="mp3"><span>3. </span><a target="_blank" href="/video/">特朗普的崛起为何让人害怕？</a></li>
-                                                                    <li class="mp4"><span>4. </span><a target="_blank" href="/video/">一招教你认识股票估值</a></li>
-                                                                    <li class="mp5"><span>5. </span><a target="_blank" href="/video/">如果特朗普当选美国总统？</a></li>
-                                </ul>
-    </div>
-    <div class="ad-holder"><div class="bottom-ad">
-        <iframe id="mpu3" width="300" height="250" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="/m/marketing/a.html#adid=10000005&slot=986723212&pid=mpu3"></iframe>
-    </div></div>
-</div></div>        <div class="clearfloat"></div>
-</div></div>                                        <div class="banner-placeholder">
+<div class="item-container side-by-side     no-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066277">Facebook创建“虚拟现实社交”团队</a></h2>
+
+<div class="item-bottom"></div>
+</div></div>
+
+<div class="item-container side-by-side     no-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066275">杰布•布什宣布退出美国总统竞选</a></h2>
+
+<div class="item-bottom"></div>
+</div></div>
+<div class="clearfloat"></div>
+</div>
+</div></div><div class=" LC SC MC PC"></div>
+<div class="list-container XL4 L6 M12 S6 P12 side-by-side"><div class="list-inner"><h2 class="list-title">
+<a class="list-link" href="#">经济</a>
+</h2>
+<div class="items">
+
+<div class="item-container side-by-side first     has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066269">从肖钢去职谈起</a></h2>
+<a class="image" target="_blank" href="/story/001066269"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000057537_piclink.jpg"></figure></a><div class="item-lead">安邦咨询：肖钢下岗，对中国证券市场来说是一件意料之中的“大事”。今后中国证监会的工作重心，是要搞好基础建设，定好规矩，不要着急“创新”。</div>
+<div class="item-bottom"></div>
+</div></div>
+
+<div class="item-container side-by-side     no-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001065946">人类操盘手如何胜过电脑？</a></h2>
+
+<div class="item-bottom"></div>
+</div></div>
+
+<div class="item-container side-by-side     no-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001065964">下一代的巴菲特会是一种超级算法吗？</a></h2>
+
+<div class="item-bottom"></div>
+</div></div>
+
+<div class="item-container side-by-side     no-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066273">三星发布新款智能手机S7</a></h2>
+
+<div class="item-bottom"></div>
+</div></div>
+<div class="clearfloat"></div>
+</div>
+</div></div><div class="XLC MC PC"></div>
+<div class="list-container XL4 L6 M12 S6 P12 side-by-side"><div class="list-inner"><h2 class="list-title">
+<a class="list-link" href="#">科技</a>
+</h2>
+<div class="items">
+
+<div class="item-container side-by-side first     has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066264">纽约如何提升访客体验？</a></h2>
+<a class="image" target="_blank" href="/story/001066264"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000044576_piclink.jpg"></figure></a><div class="item-lead">FT专栏作家斯卡平克：无论多少次来到纽约，这座城市依然让我惊叹。我的友情建议：纽约应该改善三个方面，即酒店、早餐和复杂的地铁指示标。</div>
+<div class="item-bottom"></div>
+</div></div>
+
+<div class="item-container side-by-side     no-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066260">FT社评：英国退欧对伦敦金融城不利</a></h2>
+
+<div class="item-bottom"></div>
+</div></div>
+
+<div class="item-container side-by-side     no-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066280">中国武器出口继续激增</a></h2>
+
+<div class="item-bottom"></div>
+</div></div>
+
+<div class="item-container side-by-side     no-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066270">咨询业仍是MBA首要选择</a></h2>
+
+<div class="item-bottom"></div>
+</div></div>
+<div class="clearfloat"></div>
+</div>
+</div></div><div class=" LC SC MC PC"></div>
+<div class="list-container XL4 L6 M12 S6 P12 side-by-side"><div class="list-inner"><h2 class="list-title">
+<a class="list-link" href="#">中国</a>
+</h2>
+<div class="items">
+
+<div class="item-container side-by-side first     has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066261">中国医药创新何时赶上美欧？</a></h2>
+<a class="image" target="_blank" href="/story/001066261"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000058850_piclink.jpg"></figure></a><div class="item-lead">自上世纪70年代青蒿素问世以来，中国还没有为全球市场研制出过一款新药。但新一代生物科技集团正争相研发下一款“中国制造”药物。这个新兴行业最近掀起了融资热。</div>
+<div class="item-bottom"></div>
+</div></div>
+
+<div class="item-container side-by-side     no-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066268">中国的智库：智枯和智源</a></h2>
+
+<div class="item-bottom"></div>
+</div></div>
+
+<div class="item-container side-by-side     no-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066267">回乡过年变成一种中国仪式</a></h2>
+
+<div class="item-bottom"></div>
+</div></div>
+
+<div class="item-container side-by-side     no-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066281">世界移动大会凸显电信企业的新挑战</a></h2>
+
+<div class="item-bottom"></div>
+</div></div>
+<div class="clearfloat"></div>
+</div>
+</div></div><div class=" MC PC"></div>
+<div class="list-container XL4 L6 M12 S6 P12 side-by-side"><div class="list-inner"><h2 class="list-title">
+<a class="list-link" href="#">全球</a>
+</h2>
+<div class="items">
+
+<div class="item-container side-by-side first     has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066265">希拉里面临关键考验</a></h2>
+<a class="image" target="_blank" href="/story/001066265"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000058842_piclink.jpg"></figure></a><div class="item-lead">FT专栏作家卢斯：无论你怎么看待希拉里，她在外交政策上的经验无人能及。问题是：她能证明对手们外交判断力不佳吗？世界在等待答案揭晓。</div>
+<div class="item-bottom"></div>
+</div></div>
+
+<div class="item-container side-by-side     no-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066263">美国孤立主义复活</a></h2>
+
+<div class="item-bottom"></div>
+</div></div>
+
+<div class="item-container side-by-side     no-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066293">我们为何如此爱《老友记》？</a></h2>
+
+<div class="item-bottom"></div>
+</div></div>
+
+<div class="item-container side-by-side     no-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066262">如何当好倾听者？</a></h2>
+
+<div class="item-bottom"></div>
+</div></div>
+<div class="clearfloat"></div>
+</div>
+</div></div><div class="clearfloat block-bottom"></div>
+</div></div>
+<div class="side-container"><div class="side-inner">
+<div class="mps">
+<h2 class="list-title"><a href="/channel/weekly.html">十大热门文章</a></h2>
+<ul class="top10">
+<li class="mp1"><span>1. </span><a target="_blank" href="/story/001067047?dailypop">谁将成为印尼版阿里巴巴？</a></li>
+<li class="mp2"><span>2. </span><a target="_blank" href="/story/001067097?dailypop">阿拉伯青年如何看待ISIS？</a></li>
+<li class="mp3"><span>3. </span><a target="_blank" href="/story/001067089?dailypop">人民币是否还会继续贬值？</a></li>
+<li class="mp4"><span>4. </span><a target="_blank" href="/story/001067092?dailypop">智能手机靠噱头还能走多远？</a></li>
+<li class="mp5"><span>5. </span><a target="_blank" href="/story/001067095?dailypop">中国同性婚姻维权案被法院驳回</a></li>
+<li class="mp6"><span>6. </span><a target="_blank" href="/story/001067096?dailypop">子女该不该“依法”尽孝？</a></li>
+<li class="mp7"><span>7. </span><a target="_blank" href="/story/001067102?dailypop">IMF：各国公共财政恶化影响全球复苏</a></li>
+<li class="mp8"><span>8. </span><a target="_blank" href="/story/001067100?dailypop">世行承诺为发展中国家女孩教育投入25亿美元</a></li>
+<li class="mp9"><span>9. </span><a target="_blank" href="/story/001067099?dailypop">尼日利亚与中国签署贷款和货币互换协议</a></li>
+<li class="mp10"><span>10. </span><a target="_blank" href="/story/001067101?dailypop">中国国企债券违约数量上升引发忧虑</a></li>
+</ul>
+</div>
+<div class="mpu-container">
+<script type="text/javascript">document.write (writeAd('mpu'));</script>
+</div>
+</div></div><div class="clearfloat"></div>
+</div></div><div class="banner-placeholder">
 <div class="banner-container">
 <div class="banner-inner">
 <div class="banner-content">
-  <iframe id="banner3" name="mpu3Frame" width="100%" height="90" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="/m/marketing/a.html#adid=10000008&slot=986723212&pid=banner3"></iframe>
+<script type="text/javascript">document.write (writeAd('banner'));</script>
 </div>
 </div>
 </div>
 </div>
-                      <div class="block-container has-side side-left"><div class="block-inner">
-    <div class="content-container"><div class="content-inner">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
-        
-                <div class="list-container XL4 L6 M12 S6 P12 side-by-side"><div class="list-inner">                         <h2 class="list-title">
-                    <a class="list-link" href="#">管理</a>
-                                    </h2>
-            
-            
-            <div class="items">
-                                                                                                                                                                                                                                                                                                                                                        
-
-                
-                                                                                                    
-                                
-
-
-                                
-                                                    
-                
-
-                
-                <div class="item-container side-by-side first     has-image"><div class="item-inner">
-                    <h2 class="item-headline"><a target="_blank" href="/story/001066272">刘士余能带来“牛市雨”？</a></h2>
-                    <a class="image" target="_blank" href="/story/001066272"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000058860_piclink.jpg"></figure></a>                    <div class="item-lead">获得任命不到48小时后，中国证券监管部门的新领导刘士余已经感受到投资者对A股市场反弹的期许。人们在网上给他取了一个同他的名字谐音的外号：“牛市雨”。</div>                 
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                                                                                                                                                                                                                                                                                                                                                                                        
-
-                
-                                                                
-                                
-
-
-                                
-                                                    
-                                                    
-
-                
-                <div class="item-container side-by-side     no-image"><div class="item-inner">
-                    <h2 class="item-headline"><a target="_blank" href="/story/001066274">“高情商”的中国证监会新主席</a></h2>
-                                                            
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                                                                                                                                                                                                                                                                                                                                                                                        
-
-                
-                                                                                                    
-                                
-
-
-                                
-                                                    
-                                                    
-
-                
-                <div class="item-container side-by-side     no-image"><div class="item-inner">
-                    <h2 class="item-headline"><a target="_blank" href="/story/001066278">2月份中国企业产量降至两年低点</a></h2>
-                                                            
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                                                                                                                                                                                                                                                                                                                                                                                        
-
-                
-                                                                
-                                
-
-
-                                
-                                                    
-                                                    
-
-                
-                <div class="item-container side-by-side     no-image"><div class="item-inner">
-                    <h2 class="item-headline"><a target="_blank" href="/story/001066300">美国智库称中国在华阳礁建雷达塔</a></h2>
-                                                            
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                        <div class="clearfloat"></div>
-            </div>
-                        </div></div>                                                                                                                                                                                                                                    
-        <div class=" MC PC"></div>
-                <div class="list-container XL4 L6 M12 S6 P12 side-by-side"><div class="list-inner">                         <h2 class="list-title">
-                    <a class="list-link" href="#">商业</a>
-                                    </h2>
-            
-            
-            <div class="items">
-                                                                                                                                                                                                                                                                                                                                                        
-
-                
-                                                                                                    
-                                
-
-
-                                
-                                                    
-                
-
-                
-                <div class="item-container side-by-side first     has-image"><div class="item-inner">
-                    <h2 class="item-headline"><a target="_blank" href="/story/001066271">英国商界领袖支持卡梅伦“留欧”</a></h2>
-                    <a class="image" target="_blank" href="/story/001066271"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000058859_piclink.jpg"></figure></a>                    <div class="item-lead">但伦敦市长约翰逊加入退欧阵营，成为保守党最高调背叛者</div>                 
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                                                                                                                                                                                                                                                                                                                                                                                        
-
-                
-                                                                                                    
-                                
-
-
-                                
-                                                    
-                                                    
-
-                
-                <div class="item-container side-by-side     no-image"><div class="item-inner">
-                    <h2 class="item-headline"><a target="_blank" href="/story/001066279">SEC调查汇丰银行亚洲雇佣行为</a></h2>
-                                                            
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                                                                                                                                                                                                                                                                                                                                                                                        
-
-                
-                                                                                                    
-                                
-
-
-                                
-                                                    
-                                                    
-
-                
-                <div class="item-container side-by-side     no-image"><div class="item-inner">
-                    <h2 class="item-headline"><a target="_blank" href="/story/001066277">Facebook创建“虚拟现实社交”团队</a></h2>
-                                                            
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                                                                                                                                                                                                                                                                                                                                                                                        
-
-                
-                                                                
-                                
-
-
-                                
-                                                    
-                                                    
-
-                
-                <div class="item-container side-by-side     no-image"><div class="item-inner">
-                    <h2 class="item-headline"><a target="_blank" href="/story/001066275">杰布•布什宣布退出美国总统竞选</a></h2>
-                                                            
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                        <div class="clearfloat"></div>
-            </div>
-                        </div></div>                                                                                                                                                                                                                                                                                
-        <div class=" LC SC MC PC"></div>
-                <div class="list-container XL4 L6 M12 S6 P12 side-by-side"><div class="list-inner">                         <h2 class="list-title">
-                    <a class="list-link" href="#">经济</a>
-                                    </h2>
-            
-            
-            <div class="items">
-                                                                                                                                                                                                                                                                                                                                                        
-
-                
-                                                                                                    
-                                
-
-
-                                
-                                                    
-                
-
-                
-                <div class="item-container side-by-side first     has-image"><div class="item-inner">
-                    <h2 class="item-headline"><a target="_blank" href="/story/001066269">从肖钢去职谈起</a></h2>
-                    <a class="image" target="_blank" href="/story/001066269"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000057537_piclink.jpg"></figure></a>                    <div class="item-lead">安邦咨询：肖钢下岗，对中国证券市场来说是一件意料之中的“大事”。今后中国证监会的工作重心，是要搞好基础建设，定好规矩，不要着急“创新”。</div>                   
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                                                                                                                                                                                                                                                                                                                                                                                        
-
-                
-                                                                
-                                
-
-
-                                
-                                                    
-                                                    
-
-                
-                <div class="item-container side-by-side     no-image"><div class="item-inner">
-                    <h2 class="item-headline"><a target="_blank" href="/story/001065946">人类操盘手如何胜过电脑？</a></h2>
-                                                            
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                                                                                                                                                                                                                                                                                                                                                                                        
-
-                
-                                                                
-                                
-
-
-                                
-                                                    
-                                                    
-
-                
-                <div class="item-container side-by-side     no-image"><div class="item-inner">
-                    <h2 class="item-headline"><a target="_blank" href="/story/001065964">下一代的巴菲特会是一种超级算法吗？</a></h2>
-                                                            
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                                                                                                                                                                                                                                                                                                                                                                                        
-
-                
-                                                                
-                                
-
-
-                                
-                                                    
-                                                    
-
-                
-                <div class="item-container side-by-side     no-image"><div class="item-inner">
-                    <h2 class="item-headline"><a target="_blank" href="/story/001066273">三星发布新款智能手机S7</a></h2>
-                                                            
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                        <div class="clearfloat"></div>
-            </div>
-                        </div></div>                                                                                                                                                                                                                                                                                
-        <div class="XLC MC PC"></div>
-                <div class="list-container XL4 L6 M12 S6 P12 side-by-side"><div class="list-inner">                         <h2 class="list-title">
-                    <a class="list-link" href="#">科技</a>
-                                    </h2>
-            
-            
-            <div class="items">
-                                                                                                                                                                                                                                                                                                                                                        
-
-                
-                                                                                                    
-                                
-
-
-                                
-                                                    
-                
-
-                
-                <div class="item-container side-by-side first     has-image"><div class="item-inner">
-                    <h2 class="item-headline"><a target="_blank" href="/story/001066264">纽约如何提升访客体验？</a></h2>
-                    <a class="image" target="_blank" href="/story/001066264"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000044576_piclink.jpg"></figure></a>                    <div class="item-lead">FT专栏作家斯卡平克：无论多少次来到纽约，这座城市依然让我惊叹。我的友情建议：纽约应该改善三个方面，即酒店、早餐和复杂的地铁指示标。</div>                 
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                                                                                                                                                                                                                                                                                                                                                                                        
-
-                
-                                                                
-                                
-
-
-                                
-                                                    
-                                                    
-
-                
-                <div class="item-container side-by-side     no-image"><div class="item-inner">
-                    <h2 class="item-headline"><a target="_blank" href="/story/001066260">FT社评：英国退欧对伦敦金融城不利</a></h2>
-                                                            
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                                                                                                                                                                                                                                                                                                                                                                                        
-
-                
-                                                                                                    
-                                
-
-
-                                
-                                                    
-                                                    
-
-                
-                <div class="item-container side-by-side     no-image"><div class="item-inner">
-                    <h2 class="item-headline"><a target="_blank" href="/story/001066280">中国武器出口继续激增</a></h2>
-                                                            
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                                                                                                                                                                                                                                                                                                                                                                                        
-
-                
-                                                                
-                                
-
-
-                                
-                                                    
-                                                    
-
-                
-                <div class="item-container side-by-side     no-image"><div class="item-inner">
-                    <h2 class="item-headline"><a target="_blank" href="/story/001066270">咨询业仍是MBA首要选择</a></h2>
-                                                            
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                        <div class="clearfloat"></div>
-            </div>
-                        </div></div>                                                                                                                                                                                                                                                                                
-        <div class=" LC SC MC PC"></div>
-                <div class="list-container XL4 L6 M12 S6 P12 side-by-side"><div class="list-inner">                         <h2 class="list-title">
-                    <a class="list-link" href="#">中国</a>
-                                    </h2>
-            
-            
-            <div class="items">
-                                                                                                                                                                                                                                                                                                                                                        
-
-                
-                                                                                                    
-                                
-
-
-                                
-                                                    
-                
-
-                
-                <div class="item-container side-by-side first     has-image"><div class="item-inner">
-                    <h2 class="item-headline"><a target="_blank" href="/story/001066261">中国医药创新何时赶上美欧？</a></h2>
-                    <a class="image" target="_blank" href="/story/001066261"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000058850_piclink.jpg"></figure></a>                    <div class="item-lead">自上世纪70年代青蒿素问世以来，中国还没有为全球市场研制出过一款新药。但新一代生物科技集团正争相研发下一款“中国制造”药物。这个新兴行业最近掀起了融资热。</div>                  
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                                                                                                                                                                                                                                                                                                                                                                                        
-
-                
-                                                                
-                                
-
-
-                                
-                                                    
-                                                    
-
-                
-                <div class="item-container side-by-side     no-image"><div class="item-inner">
-                    <h2 class="item-headline"><a target="_blank" href="/story/001066268">中国的智库：智枯和智源</a></h2>
-                                                            
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                                                                                                                                                                                                                                                                                                                                                                                        
-
-                
-                                                                
-                                
-
-
-                                
-                                                    
-                                                    
-
-                
-                <div class="item-container side-by-side     no-image"><div class="item-inner">
-                    <h2 class="item-headline"><a target="_blank" href="/story/001066267">回乡过年变成一种中国仪式</a></h2>
-                                                            
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                                                                                                                                                                                                                                                                                                                                                                                        
-
-                
-                                                                                                    
-                                
-
-
-                                
-                                                    
-                                                    
-
-                
-                <div class="item-container side-by-side     no-image"><div class="item-inner">
-                    <h2 class="item-headline"><a target="_blank" href="/story/001066281">世界移动大会凸显电信企业的新挑战</a></h2>
-                                                            
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                        <div class="clearfloat"></div>
-            </div>
-                        </div></div>                                                                                                                                                                                                                                    
-        <div class=" MC PC"></div>
-                <div class="list-container XL4 L6 M12 S6 P12 side-by-side"><div class="list-inner">                         <h2 class="list-title">
-                    <a class="list-link" href="#">全球</a>
-                                    </h2>
-            
-            
-            <div class="items">
-                                                                                                                                                                                                                                                                                                                                                        
-
-                
-                                                                                                    
-                                
-
-
-                                
-                                                    
-                
-
-                
-                <div class="item-container side-by-side first     has-image"><div class="item-inner">
-                    <h2 class="item-headline"><a target="_blank" href="/story/001066265">希拉里面临关键考验</a></h2>
-                    <a class="image" target="_blank" href="/story/001066265"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000058842_piclink.jpg"></figure></a>                    <div class="item-lead">FT专栏作家卢斯：无论你怎么看待希拉里，她在外交政策上的经验无人能及。问题是：她能证明对手们外交判断力不佳吗？世界在等待答案揭晓。</div>                  
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                                                                                                                                                                                                                                                                                                                                                                                        
-
-                
-                                                                
-                                
-
-
-                                
-                                                    
-                                                    
-
-                
-                <div class="item-container side-by-side     no-image"><div class="item-inner">
-                    <h2 class="item-headline"><a target="_blank" href="/story/001066263">美国孤立主义复活</a></h2>
-                                                            
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                                                                                                                                                                                                                                                                                                                                                                                        
-
-                
-                                                                
-                                
-
-
-                                
-                                                    
-                                                    
-
-                
-                <div class="item-container side-by-side     no-image"><div class="item-inner">
-                    <h2 class="item-headline"><a target="_blank" href="/story/001066293">我们为何如此爱《老友记》？</a></h2>
-                                                            
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                                                                                                                                                                                                                                                                                                                                                                                        
-
-                
-                                                                                                    
-                                
-
-
-                                
-                                                    
-                                                    
-
-                
-                <div class="item-container side-by-side     no-image"><div class="item-inner">
-                    <h2 class="item-headline"><a target="_blank" href="/story/001066262">如何当好倾听者？</a></h2>
-                                                            
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                        <div class="clearfloat"></div>
-            </div>
-                        </div></div>                <div class="clearfloat block-bottom"></div>
-    </div></div>
-            <div class="side-container"><div class="side-inner">
-    <div class="mps">
-        <h2 class="list-title"><a href="/channel/weekly.html">十大热门文章</a></h2>
-        <ul class="top10">
-                                                                                <li class="mp1"><span>1. </span><a target="_blank" href="/story/001066580?dailypop">机器赢了，人类输了？</a></li>
-                                                                    <li class="mp2"><span>2. </span><a target="_blank" href="/story/001066587?dailypop">楼继伟批评劳动合同法弊端引争议</a></li>
-                                                                    <li class="mp3"><span>3. </span><a target="_blank" href="/story/001066544?dailypop">亚裔在美国的尴尬处境</a></li>
-                                                                    <li class="mp4"><span>4. </span><a target="_blank" href="/story/001066514?dailypop">体格强壮是领导优势吗？</a></li>
-                                                                    <li class="mp5"><span>5. </span><a target="_blank" href="/story/001066595?dailypop">中国“去产能”到底该由谁来买单？</a></li>
-                                                                    <li class="mp6"><span>6. </span><a target="_blank" href="/story/001066507?dailypop">我经历过的房产中介们</a></li>
-                                                                    <li class="mp7"><span>7. </span><a target="_blank" href="/story/001066594?dailypop">女生节：被美化的歧视，不存在的“特权”</a></li>
-                                                                    <li class="mp8"><span>8. </span><a target="_blank" href="/story/001066582?dailypop">数据：中国外储下降并非资本外逃所致</a></li>
-                                                                    <li class="mp9"><span>9. </span><a target="_blank" href="/story/001066526?dailypop">互联网终结，人机智能崛起</a></li>
-                                                                    <li class="mp10"><span>10. </span><a target="_blank" href="/story/001066597?dailypop">中国必要时可对朝鲜半岛施压</a></li>
-                                                                                                                                                        </ul>
-    </div>
-    <div class="ad-holder"><div class="bottom-ad">
-        <iframe id="mpu3" width="300" height="250" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="/m/marketing/a.html#adid=10000005&slot=986723212&pid=mpu3"></iframe>
-    </div></div>
-</div></div>        <div class="clearfloat"></div>
-</div></div>                                                              <div class="block-container no-side"><div class="block-inner">
-    <div class="content-container"><div class="content-inner">
-                                                                        
-        
-                <div class="list-container"><div class="list-inner">                            <h2 class="list-title">
-                    <a class="list-link" href="#">FT研究院</a>
-                                    </h2>
-            
-            
-            <div class="items">
-                                                                                                                                                                                                                                                                                                                                                                                                                        
-                                                                                                                                
-                                                                                                                                
-                                                                                                                                
-                
-                                                                                                                                    
-                                
-
-
-                                
-                                                                        
-                
-
-                
-                <div class="item-container XL3 L3 M3 S6 P6 has-image"><div class="item-inner">
-                    <h2 class="item-headline"><a target="_blank" href="/story/001066371">从美国页岩油成本看油价走势</a></h2>
-                    <a class="image" target="_blank" href="/story/001066371"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000043240_piclink.jpg"></figure></a>                                        
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                                                                                                                                                                                                                                                                                                                                            
-                                                                                                                                
-                                                                                                                                
-                                                                                                                                
-                
-                                                                
-                                
-
-
-                                
-                                                                        
-                
-
-                
-                <div class="item-container XL3 L3 M3 S6 P6 has-image"><div class="item-inner">
-                    <h2 class="item-headline"><a target="_blank" href="/story/001066374">低油价是经济增长的福音吗？</a></h2>
-                    <a class="image" target="_blank" href="/story/001066374"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000059063_piclink.jpg"></figure></a>                                        
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                                                                                                                                                                                                                                                                                                                                            
-                                                                                                                                
-                                                                                                                                                                                    
-                                                                                                                                                                                    
-                
-                                                                                                
-                                
-
-
-                                
-                                                                        
-                
-
-                <div class=" ST PT"></div>
-                <div class="item-container XL3 L3 M3 S6 P6 has-image"><div class="item-inner">
-                    <h2 class="item-headline"><a target="_blank" href="/story/001066381">美国企业首季盈利预测遭下调</a></h2>
-                    <a class="image" target="_blank" href="/story/001066381"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000057192_piclink.jpg"></figure></a>                                        
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                                                                                                                                                                                                                                                                                                                                            
-                                                                                                                                
-                                                                                                                                
-                                                                                                                                
-                
-                                                                
-                                
-
-
-                                
-                                                                        
-                
-
-                
-                <div class="item-container XL3 L3 M3 S6 P6 has-image"><div class="item-inner">
-                    <h2 class="item-headline"><a target="_blank" href="/story/001066352">房价下跌加剧新兴市场困境</a></h2>
-                    <a class="image" target="_blank" href="/story/001066352"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000059000_piclink.jpg"></figure></a>                                        
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                        <div class="clearfloat"></div>
-            </div>
-                        </div></div>                <div class="clearfloat block-bottom"></div>
-    </div></div>
-        <div class="clearfloat"></div>
-</div></div>                      <div class="block-container  no-side">
-    <div class="block-inner">
-        <div class="content-container">
-            <div class="content-inner">
-                <div class="list-container">
-                    <div class="list-inner">
-                        <h2 class="list-title"><a class="list-link" href="/channel/special.html">特别报导</a></h2>
-                        <div class="items">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
-                                
-                                <div class="item-container XL3 L3 M3 S6 P6 headline-only">
-                                    <div class="item-inner">
-                                        <a class="image" href="/tag/与FT共进午餐" target=_blank><figure class="loading" data-url="http://i.ftimg.net/picture/7/000059087_piclink.jpg"></figure></a>
-                                        <h2 class="item-headline"><a href="/tag/与FT共进午餐" target=_blank>与FT共进午餐</a></h2>
-                                    </div>
-                                </div>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
-                                
-                                <div class="item-container XL3 L3 M3 S6 P6 headline-only">
-                                    <div class="item-inner">
-                                        <a class="image" href="/tag/2016达沃斯" target=_blank><figure class="loading" data-url="http://i.ftimg.net/picture/3/000059083_piclink.jpg"></figure></a>
-                                        <h2 class="item-headline"><a href="/tag/2016达沃斯" target=_blank>2016达沃斯</a></h2>
-                                    </div>
-                                </div>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
-                                <div class=" ST PT"></div>
-                                <div class="item-container XL3 L3 M3 S6 P6 headline-only">
-                                    <div class="item-inner">
-                                        <a class="image" href="/tag/奢华水上" target=_blank><figure class="loading" data-url="http://i.ftimg.net/picture/4/000059084_piclink.jpg"></figure></a>
-                                        <h2 class="item-headline"><a href="/tag/奢华水上" target=_blank>奢华水上</a></h2>
-                                    </div>
-                                </div>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
-                                
-                                <div class="item-container XL3 L3 M3 S6 P6 headline-only">
-                                    <div class="item-inner">
-                                        <a class="image" href="/tag/礼待天下" target=_blank><figure class="loading" data-url="http://i.ftimg.net/picture/5/000059085_piclink.jpg"></figure></a>
-                                        <h2 class="item-headline"><a href="/tag/礼待天下" target=_blank>礼待天下</a></h2>
-                                    </div>
-                                </div>
-                                                                                        <div class="clearfloat"></div>
-                        </div>
-                    </div>
-                </div>
-
-
-                
-
-
-                <div class="clearfloat block-bottom"></div>
-            </div>
-        </div>
-                <div class="clearfloat"></div>
-    </div>
-</div>                                        <div class="block-container no-side"><div class="block-inner">
-    <div class="content-container"><div class="content-inner">
-                                                                        
-        
-                <div class="list-container"><div class="list-inner">                            <h2 class="list-title">
-                    <a class="list-link" href="/m/marketing/member.html">会员活动</a>
-                                    </h2>
-            
-            
-            <div class="items">
-                                                                                                                                                                                                                                                                                                                                                                                                                        
-                                                                                                                                
-                                                                                                                                
-                                                                                                                                
-                
-                                                                                                                                    
-                                
-
-
-                                
-                                                                        
-                
-
-                
-                <div class="item-container XL3 L3 M3 S6 P6 has-image"><div class="item-inner">
-                    <h2 class="item-headline"><a target="_blank" href="/photo/964">走进C/O柏林展览馆</a></h2>
-                    <a class="image" target="_blank" href="/photo/964"><figure class="loading" data-url="http://i.ftimg.net/photonews/2016/02/56c57e2585bbf8.20040246.jpg"></figure></a>                                        
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                                                                                                                                                                                                                                                                                                                                            
-                                                                                                                                
-                                                                                                                                
-                                                                                                                                
-                
-                                                                
-                                
-
-
-                                
-                                                                        
-                
-
-                
-                <div class="item-container XL3 L3 M3 S6 P6 has-image"><div class="item-inner">
-                    <h2 class="item-headline"><a target="_blank" href="/photo/979">MBA调研关键数据</a></h2>
-                    <a class="image" target="_blank" href="/photo/979"><figure class="loading" data-url="http://i.ftimg.net/photonews/2016/03/56d7f0744f06d9.13303265.jpg"></figure></a>                                        
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                                                                                                                                                                                                                                                                                                                                            
-                                                                                                                                
-                                                                                                                                                                                    
-                                                                                                                                                                                    
-                
-                                                                                                
-                                
-
-
-                                
-                                                                        
-                
-
-                <div class=" ST PT"></div>
-                <div class="item-container XL3 L3 M3 S6 P6 has-image"><div class="item-inner">
-                    <h2 class="item-headline"><a target="_blank" href="/story/001066255">FT社评：苹果抵制FBI大错特错</a></h2>
-                    <a class="image" target="_blank" href="/story/001066255"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000058831_piclink.jpg"></figure></a>                                        
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                                                                                                                                                                                                                                                                                                                                            
-                                                                                                                                
-                                                                                                                                
-                                                                                                                                
-                
-                                                                
-                                
-
-
-                                
-                                                                        
-                
-
-                
-                <div class="item-container XL3 L3 M3 S6 P6 has-image"><div class="item-inner">
-                    <h2 class="item-headline"><a target="_blank" href="/story/001066235">穿衣服得“流性”！</a></h2>
-                    <a class="image" target="_blank" href="/story/001066235"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000058802_piclink.jpg"></figure></a>                                        
-                                        <div class="item-bottom"></div>
-                </div></div>
-                                        <div class="clearfloat"></div>
-            </div>
-                        </div></div>                <div class="clearfloat block-bottom"></div>
-    </div></div>
-        <div class="clearfloat"></div>
-</div></div>                      <div class="footer-container"><div class="footer-inner">
-    <div>
-        <a href="/m/corp/aboutus.html">关于我们</a>
-        <a href="/jobs/?from=ft">加入我们</a>
-        <a href="/m/corp/faq.html">问题回馈</a>
-        <a href="/m/corp/contact.html">联系方式</a>
-        <a href="/m/corp/partner.html">合作伙伴</a>
-        <a href="/m/corp/service.html">服务条款</a>
-        <a href="/m/corp/sales.html">广告业务 </a>
-        <a href="/m/corp/copyright.html">版权声明</a>
-        <a href="/m/marketing/ftc.html">最新动态</a>
-    </div>
-    <p>
-        <span class="copyright"><b>© The Financial Times Ltd 2016</b></span> 
-        <span><acronym title="Financial Times">FT</acronym> and 'Financial Times' are trademarks of The Financial Times Ltd.</span>
-    </p>
-</div></div>        <div class="app-download-container">
-    <a href="http://app.ftchinese.com/download.html?utm_source=marketing&utm_medium=campaign&utm_campaign=QRCODE02" target="_blank">
-        <div>FT中文网客户端</div>
-        <figure class="loading" data-url="http://s.ftimg.net/img/qr/qr90-2.png"></figure>
-        <div>点击或扫描下载</div>
-    </a>
+<div class="block-container no-side"><div class="block-inner">
+<div class="content-container"><div class="content-inner">
+
+<div class="list-container"><div class="list-inner"><h2 class="list-title">
+<a class="list-link" href="#">FT研究院</a>
+</h2>
+<div class="items">
+
+<div class="item-container XL3 L3 M3 S6 P6 has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066371">从美国页岩油成本看油价走势</a></h2>
+<a class="image" target="_blank" href="/story/001066371"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000043240_piclink.jpg"></figure></a><div class="item-lead">中债资信评估公司黎轲：此轮油价下跌是三大因素合力结果，技术进步是美国页岩油成本下降主要原因；今年油价难有起色， 27-42美元为OPEC对油价的合意运行区间。
+</div>
+<div class="item-bottom"></div>
+</div></div>
+
+<div class="item-container XL3 L3 M3 S6 P6 has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066374">低油价是经济增长的福音吗？</a></h2>
+<a class="image" target="_blank" href="/story/001066374"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000059063_piclink.jpg"></figure></a><div class="item-lead">FT专栏作家哈福德：目前的低油价未必会带来期待的经济刺激效果，因为美国消费者把省下的钱用来偿还债务，而俄罗斯、沙特则在大幅削减投资及公共支出。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" ST PT"></div>
+<div class="item-container XL3 L3 M3 S6 P6 has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066381">美国企业首季盈利预测遭下调</a></h2>
+<a class="image" target="_blank" href="/story/001066381"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000057192_piclink.jpg"></figure></a><div class="item-lead">今年初分析师们预计首季每股盈利会恢复增长，但现在他们估计盈利降低7.4%</div>
+<div class="item-bottom"></div>
+</div></div>
+
+<div class="item-container XL3 L3 M3 S6 P6 has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066352">房价下跌加剧新兴市场困境</a></h2>
+<a class="image" target="_blank" href="/story/001066352"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000059000_piclink.jpg"></figure></a><div class="item-lead">过去一年亚洲及新兴市场经济体房价下降约2%，这是2002年以来头一回。分析人士称，房价下跌可能造成信贷环境总体收紧，拖累当地经济增长。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="clearfloat"></div>
+</div>
+</div></div><div class="clearfloat block-bottom"></div>
+</div></div>
+<div class="clearfloat"></div>
+</div></div><div class="block-container  no-side">
+<div class="block-inner">
+<div class="content-container">
+<div class="content-inner">
+<div class="list-container">
+<div class="list-inner">
+<h2 class="list-title"><a class="list-link" href="/channel/special.html">特别报导</a></h2>
+<div class="items">
+
+<div class="item-container XL3 L3 M3 S6 P6 headline-only">
+<div class="item-inner">
+<a class="image" href="/tag/与FT共进午餐" target=_blank><figure class="loading" data-url="http://i.ftimg.net/picture/7/000059087_piclink.jpg"></figure></a>
+<h2 class="item-headline"><a href="/tag/与FT共进午餐" target=_blank>与FT共进午餐</a></h2>
+</div>
 </div>
 
+<div class="item-container XL3 L3 M3 S6 P6 headline-only">
+<div class="item-inner">
+<a class="image" href="/tag/2016达沃斯" target=_blank><figure class="loading" data-url="http://i.ftimg.net/picture/3/000059083_piclink.jpg"></figure></a>
+<h2 class="item-headline"><a href="/tag/2016达沃斯" target=_blank>2016达沃斯</a></h2>
+</div>
+</div>
+<div class=" ST PT"></div>
+<div class="item-container XL3 L3 M3 S6 P6 headline-only">
+<div class="item-inner">
+<a class="image" href="/tag/奢华水上" target=_blank><figure class="loading" data-url="http://i.ftimg.net/picture/4/000059084_piclink.jpg"></figure></a>
+<h2 class="item-headline"><a href="/tag/奢华水上" target=_blank>奢华水上</a></h2>
+</div>
+</div>
+
+<div class="item-container XL3 L3 M3 S6 P6 headline-only">
+<div class="item-inner">
+<a class="image" href="/tag/礼待天下" target=_blank><figure class="loading" data-url="http://i.ftimg.net/picture/5/000059085_piclink.jpg"></figure></a>
+<h2 class="item-headline"><a href="/tag/礼待天下" target=_blank>礼待天下</a></h2>
+</div>
+</div>
+<div class="clearfloat"></div>
+</div>
+</div>
+</div>
+<div class="clearfloat block-bottom"></div>
+</div>
+</div>
+<div class="clearfloat"></div>
+</div>
+</div><div class="banner-placeholder">
+<div class="banner-container">
+<div class="banner-inner">
+<div class="banner-content">
+<script type="text/javascript">document.write (writeAd('banner'));</script>
+</div>
+</div>
+</div>
+</div>
+<div class="block-container no-side"><div class="block-inner">
+<div class="content-container"><div class="content-inner">
+
+<div class="list-container"><div class="list-inner"><h2 class="list-title">
+<a class="list-link" href="/m/marketing/member.html">会员活动</a>
+</h2>
+<div class="items">
+
+<div class="item-container XL3 L3 M3 S6 P6 has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/photo/964">走进C/O柏林展览馆</a></h2>
+<a class="image" target="_blank" href="/photo/964"><figure class="loading" data-url="http://i.ftimg.net/photonews/2016/02/56c57e2585bbf8.20040246.jpg"></figure></a>
+<div class="item-bottom"></div>
+</div></div>
+
+<div class="item-container XL3 L3 M3 S6 P6 has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/photo/979">MBA调研关键数据</a></h2>
+<a class="image" target="_blank" href="/photo/979"><figure class="loading" data-url="http://i.ftimg.net/photonews/2016/03/56d7f0744f06d9.13303265.jpg"></figure></a>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" ST PT"></div>
+<div class="item-container XL3 L3 M3 S6 P6 has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066255">FT社评：苹果抵制FBI大错特错</a></h2>
+<a class="image" target="_blank" href="/story/001066255"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000058831_piclink.jpg"></figure></a>
+<div class="item-bottom"></div>
+</div></div>
+
+<div class="item-container XL3 L3 M3 S6 P6 has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066235">穿衣服得“流性”！</a></h2>
+<a class="image" target="_blank" href="/story/001066235"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000058802_piclink.jpg"></figure></a>
+<div class="item-bottom"></div>
+</div></div>
+<div class="clearfloat"></div>
+</div>
+</div></div><div class="clearfloat block-bottom"></div>
+</div></div>
+<div class="clearfloat"></div>
+</div></div><div class="footer-container"><div class="footer-inner">
+<div>
+<a href="/m/corp/aboutus.html">关于我们</a>
+<a href="/jobs/?from=ft">加入我们</a>
+<a href="/m/corp/faq.html">问题回馈</a>
+<a href="/m/corp/contact.html">联系方式</a>
+<a href="/m/corp/partner.html">合作伙伴</a>
+<a href="/m/corp/service.html">服务条款</a>
+<a href="/m/corp/sales.html">广告业务 </a>
+<a href="/m/corp/copyright.html">版权声明</a>
+<a href="/m/marketing/ftc.html">最新动态</a>
+</div>
+<p>
+<span class="copyright"><b>© The Financial Times Ltd 2016</b></span> 
+<span><acronym title="Financial Times">FT</acronym> and 'Financial Times' are trademarks of The Financial Times Ltd.</span>
+</p>
+</div></div><div class="app-download-container">
+<a href="http://app.ftchinese.com/download.html?utm_source=marketing&utm_medium=campaign&utm_campaign=QRCODE02" target="_blank">
+<div>FT中文网客户端</div>
+<figure class="loading" data-url="http://s.ftimg.net/img/qr/qr90-2.png"></figure>
+<div>点击或扫描下载</div>
+</a>
+</div>
 <div class="app-download-container wechat">
-    <a href="#" target="_blank">
-        <div>FT中文网微信</div>
-        <figure class="loading" data-url="http://i.ftimg.net/picture/4/000059334_piclink.jpg"></figure>
-        <div>扫描关注</div>
-    </a>
+<a href="#" target="_blank">
+<div>FT中文网微信</div>
+<figure class="loading" data-url="http://i.ftimg.net/picture/6/000060716_piclink.jpg"></figure>
+<div>扫描关注</div>
+</a>
 </div>
+
+
  </body>
 
 <!--[if lte IE 8]>
@@ -1905,7 +1056,8 @@ document.write ('<scr' + 'ipt type="text/jav' + 'ascript" src="http://dolphin.ft
 <![endif]-->
 
 <!-- build:js scripts/main.js -->
-<script type="text/javascript" src="../bower_components/dom-delegate/lib/delegate.js"></script>
+<script type="text/javascript" src="scripts/dom-delegate.js"></script>
+<script type="text/javascript" src="scripts/o-nav.js"></script>
 <script type="text/javascript" src="scripts/main.js"></script>
 <!-- endbuild -->
 

@@ -1,13 +1,12 @@
 # FTChinese Next Project
 
-## Todo. 2016.03.21
-- Use `gulp-sass` to replace `gulp-ruby-sass`. `gulp-sass` is node's binding to lib sass which is written in C, therefore much faster and compatible with Node.
+## Previews
+On www.ftchinese.com, if you add ?n=1 at the end of the url, the page will be displayed in Next style. For example: 
+* [Home Page](http://www.ftchinese.com/?n=1)
+* [China](http://www.ftchinese.com/channel/china.html?n=1)
+* [Lunch with the FT](http://www.ftchinese.com/tag/与FT共进午餐?n=1)
+* [Story Page](http://www.ftchinese.com/story/001066965?n=1)
 
-- Upgrade to `gulp 4.0` which is backward compatible with `gulp 3`
-
-- Upgrade node modules of this project. `npm update --save-dev`.
-
-- Use `browser-sync` as static server.
 
 ## Install gulp 4.0
 
@@ -42,9 +41,9 @@ Kickstart our own growth and monetizing efforts, especially subscription busines
 | Date             | Event                                                    |
 |------------------|----------------------------------------------------------|
 | Dec 15, 2015     | Infractures and development environment (Done)           |
-| Feb 01, 2016     | Story page complete (Working)                            |
-| Mar 01, 2016     | Home page and stream pages complete (Working)            |
-| Apr 15, 2016     | All pages and features on current site available on Next |
+| Feb 01, 2016     | Story page complete (Done)                               |
+| Mar 01, 2016     | Home page and stream pages complete (Done)               |
+| Apr 15, 2016     | All relavant pages on current site has a Next version    |
 | **May 04, 2016** | **Launch**                                               |
 | Jul 01, 2016     | Server-side converted to NodeJS                          |
 | Sep 01, 2016     | MyFT                                                     |
@@ -170,6 +169,23 @@ The core content of the story page includes story title, story body, page header
 It is possible to display landscape or portrait (for example, Lunch with the FT) main image for the story page. All devices should consider this possibility. 
 
 The story page is mostly likely to be opened in an app's webview. So it's important to test how it renders in-app, for example, in WeChat.  
+
+Basic Elements: 
+* main tag in red
+* publish time
+* cover image in both landscape and portrait
+* inline images: three types
+* related stories in the right rail
+
+* share
+* comments
+* print
+* save
+
+
+Need API Support
+* related stories at the bottom, with images
+
 
 The story should also support these inline media types: 
 * Photo Slides
@@ -298,6 +314,14 @@ Allow users or organizations to pay for:
 4. Buy items. For example, a user can buy a special report and read on his phone and Kindle. 
 
 ## FAQ
+### How important is it to keep the first request (the HTML file) under 14k? 
+- It is to make sure the page renders as soon as the first request is back
+- Core CSS and JS should be embeded to make this meaningful
+- If the file is over 14k, consider seperate HTML into Critical and Enhanced
+- Critical includes anything until the second content block (in our design)
+- Enhanced includes content blocks under critical (usually the second screen)
+- If we load enhanced content async, search engines won't grab these links. It would affect the weight of the links. 
+
 ### Why not use Markdown in the Next project? 
 - Need to learn. No editor has heard of it. Editors hate learning new language. 
 - May not do all the tricks needed (videos, slide shows, aside, quotes etc...). 

@@ -1,0 +1,160 @@
+.video-package {
+	.items {
+		padding: 0 $defaultPadding/4;		
+	}
+
+	.item-inner {
+		padding: $figureHeight $defaultPadding/4 0 $defaultPadding/4;
+		padding-bottom: 0;
+	}
+	.item-headline {
+		font-size: 0.75em;
+		font-weight: normal;
+	}
+	.image {
+		left: $defaultPadding/4;
+		right: $defaultPadding/4;
+		border: 2px solid transparent;
+		padding-bottom: 0;
+		&:hover, &.active {
+			border-color: $blue;
+		}
+	}
+	.on .image {
+		border-color: $blue;
+	}
+}
+.video-package-inner {
+	&.item-inner {
+		position: relative;
+		padding: 0 $defaultPadding/4 $defaultPadding/2 $defaultPadding/4;
+	}
+	.image {
+		position: static;
+		border-width: 0;
+		margin-bottom: 0;
+		figure {
+			background-color: black;
+			color: white;
+		}
+	}
+}
+.video-package-title {
+	background-color: black;
+	padding: $defaultPadding/4;
+	a {
+		color: white;
+		&:hover, &:active {
+			text-decoration: underline;
+		}
+	}
+}
+
+
+.side-by-side {
+	float: left;
+	.item-container {
+		float: none;
+		width: 100%;
+		position: relative;
+		&.first {
+			.item-inner {
+				padding: $figureHeight $defaultPadding/2 $defaultPadding/2 $defaultPadding/2;
+				border: 0;
+			}
+			.item-headline {
+				font-size:1em;
+				border: 0;
+				padding-top: 0;
+				margin-bottom: $defaultPadding/2;
+			}
+		}
+	}
+	.item-inner {
+		padding: 0 $defaultPadding/2 $defaultPadding/2 $defaultPadding/2;
+		position: static;
+	}
+	.item-headline {
+		padding: $defaultPadding/2 $defaultPadding/2 0 0;
+		margin-bottom: 0;
+		border-top: 1px dotted $borderColor;
+		font-size: 0.9em;
+	}
+}
+
+.video-container {
+	width: auto;
+	padding-top: 100% * 9 / 16;
+	position: relative;
+	background-color: black;
+}
+.video-inner {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+.video-title {
+	color: white;
+	background-color: black;
+	padding: $defaultPadding/2;
+	margin-bottom: $defaultPadding;
+	font-size: 14px;
+	a {
+		color: white;
+	}
+}
+#three-video-content {
+	overflow: hidden;
+	li {
+		width: 33.333333%;
+		display: block;
+		float: left;
+		padding: 0 5px;
+		font-size: 0.8em;
+		line-height: 120%;
+		figure {
+			@include figure;
+			margin-bottom: 5px;
+			border: 2px solid transparent;
+		}
+		&.on, &:hover, &:active {
+			figure {
+				border-color: $blue;
+			}
+		}
+	}
+}
+
+
+
+.links {
+	padding: 0 $defaultPadding $defaultPadding $defaultPadding;
+	font-size: 0.75em;
+	a {
+		display: block;
+		padding-top: $defaultPadding/2;
+		margin-top: $defaultPadding/2;
+		border-top: 1px dotted $borderColor;
+		overflow: hidden;
+		width: 100%;
+		max-width: 100%;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		&:first-child {
+			border: 0;
+			margin-top: 0;
+			padding-top: 0;
+		}
+		&:hover, &:active {
+			text-decoration: underline;
+		}
+	}
+}
+//M2: when side width is wider than main
+@media only screen and (max-width: 810px) and (min-width: 691px) {
+	@include narrowSide;
+}

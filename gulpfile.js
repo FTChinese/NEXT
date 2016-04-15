@@ -1,26 +1,23 @@
 /* jshint node:true */
 'use strict';
 // generated on 2015-09-01 using generator-gulp-webapp 0.2.0
-var gulp = require('gulp');
-var $ = require('gulp-load-plugins')();
-
-// To be added.
-/*const fs = require('fs');
-const browserSync = require('browser-sync').create();
+const fs = require('fs');
+const http = require('http');
+const url = require('url');
+const request = require('request');
+const cheerio = require('cheerio');
 const del = require('del');
-const source = require('vinyl-source-stream');
-const buffer = require('vinyl-buffer');
-const browserify = require('browserify');
-const watchify = require('watchify');
-const debowerify = require('debowerify');
-const babelify = require('babelify');
-const cssnext = require('postcss-cssnext');
-const minify = require('html-minifier').minify;*/
 
+const gulp = require('gulp');
+const $ = require('gulp-load-plugins')();
+const useref = require('gulp-useref');
+
+const browserSync = require('browser-sync').create();
+const cssnext = require('postcss-cssnext');
 
 function getUrltoFile (urlSource, fileName) {
-  var http = require('http');
-  var url = require('url');
+  // var http = require('http');
+  // var url = require('url');
   var options = {
       host: url.parse(urlSource).hostname,
       path: url.parse(urlSource).pathname + unescape(url.parse(urlSource).search || '')
@@ -52,14 +49,14 @@ function getUrltoFile (urlSource, fileName) {
 
 
 function getBodyFromUrl (urlSource, fileName) {
-  var http = require('http');
-  var url = require('url');
+  // var http = require('http');
+  // var url = require('url');
   var options = {
       host: url.parse(urlSource).hostname,
       path: url.parse(urlSource).pathname + unescape(url.parse(urlSource).search || '')
   }
   console.log (options.path);
-  var request = http.request(options, function (res) {
+  var req = http.request(options, function (res) {
       var data = '';
       res.on('data', function (chunk) {
           data += chunk;
@@ -71,7 +68,7 @@ function getBodyFromUrl (urlSource, fileName) {
         var array_matches = pattern.exec(data);
 
         //console.log(array_matches[0]);
-        var fs = require('fs');
+        //var fs = require('fs');
         var fileContent = fs.readFileSync('app/index.html', 'utf8');
         fileContent = fileContent.replace(pattern, array_matches[0]);
         //console.log(fileContent);
@@ -90,10 +87,10 @@ function getBodyFromUrl (urlSource, fileName) {
         //return data;
       });
   });
-  request.on('error', function (e) {
+  req.on('error', function (e) {
       console.log(e.message);
   });
-  request.end();
+  req.end();
 }
 
 gulp.task('home', function () {
@@ -102,56 +99,65 @@ gulp.task('home', function () {
 });
 
 gulp.task('copy', ['build'], function () {
-  var replace = require('gulp-replace');
-  var rename = require("gulp-rename");
+  //var replace = require('gulp-replace');
+  //var rename = require("gulp-rename");
   var thedatestamp = new Date().getTime();
-
-
 
   gulp.src('dist/styles/*.css')
     .pipe(gulp.dest('../dev_www/frontend/static/n'))
-    .pipe(gulp.dest('../dev_www/frontend/tpl/next/styles'));
+    .pipe(gulp.dest('../dev_www/frontend/tpl/next/styles'))
+    .pipe(gulp.dest('../testing/dev_www/frontend/tpl/next/styles'));
 
   gulp.src('dist/styles/partials/*.css')
-    .pipe(gulp.dest('../dev_www/frontend/tpl/next/styles'));
+    .pipe(gulp.dest('../dev_www/frontend/tpl/next/styles'))
+    .pipe(gulp.dest('../testing/dev_www/frontend/tpl/next/styles'));
 
   gulp.src('dist/scripts/*.js')
     .pipe(gulp.dest('../dev_www/frontend/static/n'))
-    .pipe(gulp.dest('../dev_www/frontend/tpl/next/scripts'));
+    .pipe(gulp.dest('../dev_www/frontend/tpl/next/scripts'))
+    .pipe(gulp.dest('../testing/dev_www/frontend/tpl/next/scripts'));
 
   gulp.src('dist/m/marketing/*')
-    .pipe(gulp.dest('../dev_www/frontend/tpl/marketing'));
+    .pipe(gulp.dest('../dev_www/frontend/tpl/marketing'))
+    .pipe(gulp.dest('../testing/dev_www/frontend/tpl/marketing'));
 
   gulp.src('app/api/page/*')
-    .pipe(gulp.dest('../dev_www/frontend/tpl/next/api/page'));
+    .pipe(gulp.dest('../dev_www/frontend/tpl/next/api/page'))
+    .pipe(gulp.dest('../testing/dev_www/frontend/tpl/next/api/page'));
 
   gulp.src('dist/**/*')
-    .pipe(gulp.dest('../dev_cms/pagemaker'));
+    .pipe(gulp.dest('../dev_cms/pagemaker'))
+    .pipe(gulp.dest('../testing/dev_cms/pagemaker'));
 
   gulp.src('app/api/**/*')
-    .pipe(gulp.dest('../dev_cms/pagemaker/api'));
+    .pipe(gulp.dest('../dev_cms/pagemaker/api'))
+    .pipe(gulp.dest('..testing/dev_cms/pagemaker/api'));
 
   gulp.src('app/templates/p0.html')
-    .pipe(replace(/([\r\n])[ \t]+/g, '$1'))
-    .pipe(replace(/(\r\n)+/g, '\r\n'))
-    .pipe(replace(/(\n)+/g, '\n'))
-    .pipe(gulp.dest('../dev_www/frontend/tpl/corp'));
+    .pipe($.replace(/([\r\n])[ \t]+/g, '$1'))
+    .pipe($.replace(/(\r\n)+/g, '\r\n'))
+    .pipe($.replace(/(\n)+/g, '\n'))
+    .pipe(gulp.dest('../dev_www/frontend/tpl/corp'))
+    .pipe(gulp.dest('../testing/dev_www/frontend/tpl/corp'));
 
   gulp.src('app/templates/partials/**/*')
-    .pipe(replace(/([\r\n])[ \t]+/g, '$1'))
-    .pipe(replace(/(\r\n)+/g, '\r\n'))
-    .pipe(replace(/(\n)+/g, '\n'))
-    .pipe(gulp.dest('../dev_www/frontend/tpl/next/partials'));
+    .pipe($.replace(/([\r\n])[ \t]+/g, '$1'))
+    .pipe($.replace(/(\r\n)+/g, '\r\n'))
+    .pipe($.replace(/(\n)+/g, '\n'))
+    .pipe(gulp.dest('../dev_www/frontend/tpl/next/partials'))
+    .pipe(gulp.dest('../testing/dev_www/frontend/tpl/next/partials'));
 
   gulp.src('app/templates/html/**/*')
-    .pipe(replace(/([\r\n])[ \t]+/g, '$1'))
-    .pipe(replace(/(\r\n)+/g, '\r\n'))
-    .pipe(replace(/(\n)+/g, '\n'))
-    .pipe(gulp.dest('../dev_www/frontend/tpl/next/html'));
+    .pipe($.replace(/([\r\n])[ \t]+/g, '$1'))
+    .pipe($.replace(/(\r\n)+/g, '\r\n'))
+    .pipe($.replace(/(\n)+/g, '\n'))
+    .pipe(gulp.dest('../dev_www/frontend/tpl/next/html'))
+    .pipe(gulp.dest('../testing/dev_www/frontend/tpl/next/html'));
 
 
   var fileName = '../dev_www/frontend/tpl/next/timestamp/timestamp.html';
-  var fs = require('fs');
+  var fileName2 = '../testing/dev_www/frontend/tpl/next/timestamp/timestamp.html';
+  //var fs = require('fs');
   fs.writeFile(fileName, thedatestamp, function(err) {
       if(err) {
           return console.log(err);
@@ -159,6 +165,14 @@ gulp.task('copy', ['build'], function () {
       console.log(thedatestamp);
       console.log('writen to');
       console.log(fileName);
+  });
+  fs.writeFile(fileName2, thedatestamp, function(err) {
+      if(err) {
+          return console.log(err);
+      }
+      console.log(thedatestamp);
+      console.log('writen to');
+      console.log(fileName2);
   });
 
 });
@@ -172,15 +186,15 @@ gulp.task('story', function () {
 
 
   var urlSource = 'https://backyard.ftchinese.com/falcon.php/cmsusers/login';
-  var http = require('http');
-  var url = require('url');
+  //var http = require('http');
+  //var url = require('url');
   var options = {
       host: url.parse(urlSource).hostname,
       path: url.parse(urlSource).pathname + unescape(url.parse(urlSource).search || '')
   }
 
 
-var request = require('request');
+//var request = require('request');
 
 
 request.post({
@@ -247,103 +261,42 @@ request.post({
   
 });
 
-// Use template file to generate static html
-/*gulp.task(function mustache() {
-  const DEST = '.tmp';
 
-  const headerData = JSON.parse(fs.readFileSync('src/model/header-data2.json'));
-
-  return gulp.src('src/index.mustache')
-
-    .pipe($.changed(DEST))
-    .pipe($.mustache(headerData, {
-      extension: '.html'
-    }))
-    .pipe($.sizereport({
-      gzip: true,
-      minifier: function(contents, filepath) {
-        return minify(contents, {
-          removeComments: true,
-          collapseWhitespace: true,
-          removeAttributeQuotes: true
-        });
-      }
-    }))
-    .pipe(gulp.dest(DEST))
-    .pipe(browserSync.stream({once: true}));
-});*/
-
-gulp.task('styles', function () {
+/*gulp.task('styles', function () {
   return gulp.src('app/styles/main*.scss')
     .pipe($.plumber())
     .pipe($.rubySass({
       style: 'expanded',
-      precision: 10
+      precision: 10,
+      loadPath: ['bower_components']
     }))
     .pipe($.autoprefixer({browsers: ['last 1 version']}))
     .pipe(gulp.dest('.tmp/styles'));
-});
+});*/
 
-/*gulp.task('styles', function styles() {
+gulp.task('styles', function () {
   const DEST = '.tmp/styles';
 
-  return gulp.src('demo/main.scss')
-    .pipe($.changed(DEST)) // only pass through changed files
-    .pipe($.plumber()) // do not break on error
-    .pipe($.sourcemaps.init({loadMaps:true})) // write sourcemap to let browsers know the original file and line number
-    .pipe($.sass({ // use node-sass rather than ruby sass
+  return gulp.src(['app/styles/main*.scss'])
+    .pipe($.changed(DEST)) 
+    .pipe($.plumber()) 
+    .pipe($.sourcemaps.init({loadMaps:true})) 
+    .pipe($.sass({ 
       outputStyle: 'expanded',
       precision: 10,
-      includePaths: ['bower_components'] // in which path do you want sass to search your scss files.
+      includePaths: ['bower_components']
     }).on('error', $.sass.logError))
     .pipe($.postcss([
-      cssnext({ // css next autmatically add vendor prefix.
+      cssnext({ 
         features: {
           colorRgba: false
         }
       })
     ]))
     .pipe($.sourcemaps.write('./'))
-    .pipe(gulp.dest(DEST))
-    .pipe(browserSync.stream({once:true})); // after rebuild, let browser-sync reload browser.
-});*/
+    .pipe(gulp.dest(DEST)); 
+});
 
-/* Bundle js with watchify + browserify + debowerify + babelify*/
-// browerify has ite own workflow. It does not follow the gulp way.
-/*gulp.task('scripts', function scripts() {
-  var b = browserify({
-    entries: 'demo/main.js',
-    debug: true,
-    cache: {},
-    packageCache: {},
-    transform: [babelify, debowerify],
-    plugin: [watchify]
-  });
-
-  b.on('update', bundle);
-  b.on('log', $.util.log);
-
-  bundle();
-
-  function bundle(ids) {
-    $.util.log('Compiling JS...');
-    if (ids) {
-      console.log('Changed Files:\n' + ids);
-    }   
-    return b.bundle()
-      .on('error', function(err) {
-        $.util.log(err.message);
-        browserSync.notify('Browerify Error!')
-        this.emit('end')
-      })
-      .pipe(source('bundle.js'))
-      .pipe(buffer())
-      .pipe($.sourcemaps.init({loadMaps: true}))
-      .pipe($.sourcemaps.write('./'))
-      .pipe(gulp.dest('.tmp/scripts'))
-      .pipe(browserSync.stream({once:true}));
-  }
-});*/
 
 gulp.task('ad', function () {
   return gulp.src('app/m/marketing/*')
@@ -357,54 +310,15 @@ gulp.task('jshint', function () {
     .pipe($.jshint.reporter('fail'));
 });
 
-// eslint is much flexible than jshint.
-// gulp.task('lint', function() {
-//   return gulp.src('client/**/*.js')
-//     .pipe($.eslint({
-//         extends: 'eslint:recommended',
-//         globals: {
-//           'd3': true,
-//           'ga': true,
-//           'fa': true
-//         },
-//         rules: {
-//           semi: [2, "always"]
-//         },
-//         envs: [
-//           'browser'
-//         ]
-//     }))
-//     .pipe($.eslint.format())
-//     .pipe($.eslint.failAfterError());  
-// });
-
-gulp.task('html', ['styles'], function () {
-  var assets = $.useref.assets({searchPath: '{.tmp,app}'});
-
+gulp.task('html', ['navjs', 'styles'], function () {
   return gulp.src('app/*.html')
-    .pipe(assets)
+    .pipe($.useref({searchPath: ['.tmp', 'app', '.']}))
     .pipe($.if('*.js', $.uglify()))
-    .pipe($.if('*.css', $.csso()))
-    .pipe(assets.restore())
-    .pipe($.useref())
-    .pipe($.if('*.html', $.minifyHtml({conditionals: true, loose: true})))
+    .on('error', $.util.log)
+    .pipe($.if('*.css', $.cssnano()))
+    .pipe($.if('*.html', $.htmlmin({collapseWhitespace: true})))
     .pipe(gulp.dest('dist'));
 });
-
-/*gulp.task('html', function() {
-  return gulp.src('.tmp/index.html')
-    .pipe($.useref({searchPath: ['.', '.tmp', 'client']})) // latest version of useref has a much simpler API.
-    .pipe($.if('*.js', $.uglify()))
-    .pipe($.if('*.css', $.cssnano())) 
-    .pipe($.if('*.html', $.htmlmin({ // gulp-minify-html has long been deprecated. So use gulp-htmlmin instead.
-      removeComments: true,
-      collapseWhitespace: true,
-      removeAttributeQuotes: true,
-      minifyJS: true,
-      minifyCSS: true
-    })))
-    .pipe(gulp.dest('dist'));
-});*/
 
 gulp.task('images', function () {
   return gulp.src('app/images/**/*')
@@ -432,7 +346,13 @@ gulp.task('extras', function () {
   }).pipe(gulp.dest('dist'));
 });
 
-gulp.task('clean', require('del').bind(null, ['.tmp', 'dist']));
+/*gulp.task('clean', require('del').bind(null, ['.tmp', 'dist']));*/
+
+gulp.task('clean', function() {
+  return del(['.tmp/**', 'dist']).then(()=>{
+    console.log('dir .tmp and dist deleted');
+  });
+});
 
 gulp.task('connect', ['styles'], function () {
   var serveStatic = require('serve-static');
@@ -458,27 +378,6 @@ gulp.task('serve', ['connect', 'watch'], function () {
   require('opn')('http://localhost:9000');
 });
 
-// Browser-sync starts a static server for all devices to connect.
-// It automatically load index.html. But you can speicfy which file should be loaded initially.
-// gulp.task('serve', 
-//   gulp.parallel(
-//     'mustache', 'styles', 'scripts', 'data',
-//     function serve() {
-//     browserSync.init({
-//       server: {
-//         baseDir: ['.tmp'], // specify which directories should be served in the server
-//         routes: { // whichever static directory you want to access in the server.
-//           '/bower_components': 'bower_components'
-//         }
-//       }
-//     });
-// We do not bundle js and reload browser here since browerify could handle.
-
-//     gulp.watch(['src/**/*.mustache', 'src/**/*.json'], gulp.parallel('mustache'));
-
-//     gulp.watch(['demo/*.scss', '*.scss', 'src/**/*.scss'], gulp.parallel('styles'));
-//   })
-// );
 
 // inject bower components
 gulp.task('wiredep', function () {
@@ -508,10 +407,149 @@ gulp.task('watch', ['connect'], function () {
   gulp.watch('bower.json', ['wiredep']);
 });
 
+/*
+* Task to lauch local PHP server.
+* It first starts a local PHP server with task `php` on port 8011
+* Then browser-sync start a proxy server on port 8081 connecting to port 8011.
+* You need to has PHP 5.4 or above to lauch a local server.
+* You also need to install PHP package manager `composer` to install dependencies needed.
+*/
+gulp.task('css', function () {
+  const DEST = '.tmp/styles';
+
+  return gulp.src(['app/styles/main*.scss'])
+    .pipe($.changed(DEST)) 
+    .pipe($.plumber()) 
+    .pipe($.sourcemaps.init({loadMaps:true})) 
+    .pipe($.sass({ 
+      outputStyle: 'expanded',
+      precision: 10,
+      includePaths: ['bower_components']
+    }).on('error', $.sass.logError))
+    .pipe($.postcss([
+      cssnext({ 
+        features: {
+          colorRgba: false
+        }
+      })
+    ]))
+    .pipe($.sourcemaps.write('./'))
+    .pipe(gulp.dest(DEST))
+    .pipe(browserSync.stream({once:true})); 
+});
+
+gulp.task('copym', function() {
+  return gulp.src('app/m/**')
+    .pipe(gulp.dest('.tmp/m'));
+});
+
+gulp.task('copyjs', function() {
+  return gulp.src(['views/scripts/o-nav.js', 'app/scripts/*.js', '!app/scripts/o-nav.js'])
+  .pipe(gulp.dest('.tmp/scripts'))
+  .pipe(browserSync.stream({once:true}));
+});
+
+gulp.task('php', function() {
+  $.connectPhp.server({
+    base: 'server',
+    port: '8011',
+    keepalive: true
+  });
+});
+
+gulp.task('serve', 
+  ['css', 'copym', 'copyjs', 'php'],
+  function() {
+  browserSync.init({
+    proxy: 'localhost:8011',
+    port: 8081,
+    open: true,
+    notify: true,
+    serveStatic: ['bower_components', '.tmp']
+  });
+
+  gulp.watch(['views/**/*', 'app/templates/partials/*.html', 'server/*'], browserSync.reload);
+  gulp.watch(['views/**/*.js'], ['copyjs']);
+  gulp.watch(['app/styles/**/*.scss'], ['css']);
+});
+
+/* deploy to test server */
+gulp.task('testnav', function() {
+  return gulp.src('views/nav.html')
+    .pipe($.replace('<!-- easyapi -->', '<%easyapi command="11001" assign="datass1" debug=false%><%assign var="navData" value=$datass1.odatalist%><%if $topnav == ""%><%assign var="topnav" value="home"%><%/if%>'))
+    .pipe(gulp.dest('../www/frontend/tpl/next/partials'));
+});
+
+gulp.task('testajax', function() {
+  return gulp.src('views/ajax-nav.html')
+    .pipe($.replace('<!-- easyapi -->', '<%easyapi command="11001" assign="datass1" debug=false%><%assign var="navData" value=$datass1.odatalist%>'))
+    .pipe(gulp.dest('app/templates/partials'))
+    .pipe(gulp.dest('../www/frontend/tpl/corp'));
+});
+
+gulp.task('testcss', function() {
+  return gulp.src('dist/styles/main.css')
+    .pipe($.size({
+      title: 'main.css',
+      gzip: true
+    }))  
+    .pipe(gulp.dest('../www/frontend/tpl/next/styles/'));
+});
+
+gulp.task('testjs', function() {
+  return gulp.src('dist/scripts/main.js')
+    .pipe($.replace('ajax.php', '/m/corp/ajax-nav.html'))
+    .pipe($.size({
+      title: 'main.js',
+      gzip: true
+    }))
+    .pipe(gulp.dest('../www/frontend/tpl/next/scripts/'));
+});
+
+gulp.task('navtpl', function() {
+  return gulp.src('views/nav.html')
+    .pipe($.replace('<!-- easyapi -->', '<%easyapi command="11001" assign="datass1" debug=false%><%assign var="navData" value=$datass1.odatalist%><%if $topnav == ""%><%assign var="topnav" value="home"%><%/if%>'))
+    .pipe(gulp.dest('app/templates/partials'));
+});
+
+gulp.task('navjs', function() {
+  return gulp.src('views/scripts/o-nav.js')
+    .pipe($.if('*.js', $.replace('ajax.php', '/m/corp/ajax-nav.html')))
+    .pipe(gulp.dest('app/scripts'));
+});
+
+gulp.task('testbuild', ['testcss', 'testjs', 'testnav', 'testajax']);
+/*************/
+
 gulp.task('build', ['jshint', 'html', 'images', 'fonts', 'extras', 'ad'], function () {
   return gulp.src('dist/**/*').pipe($.size({title: 'build', gzip: true}));
 });
 
 gulp.task('default', ['clean'], function () {
   gulp.start('build');
+});
+
+gulp.task('requestdata', function(done) {
+  const dateStamp = new Date().getTime();
+  const url = 'http://www.ftchinese.com/m/corp/p0.html?' + dateStamp;
+
+  request(url, function(error, response, body) {
+    if (!error && response.statusCode == 200) {
+      const $ = cheerio.load(body, {
+        decodeEntities: false
+      });
+      $('#roadblock').remove();
+      $('.header-container').remove();
+      $('.nav-place-holder').remove();
+      $('.footer-container').remove();
+      $('#overlay-login').remove();
+      $('.app-download-container').remove();
+      const data = $('body').html();
+
+      fs.writeFile('views/next/body.html', data, function(err) {
+        if (err) {return done(err)}
+        done();
+      });
+    }
+  });
 });

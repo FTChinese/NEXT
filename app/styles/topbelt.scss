@@ -1,0 +1,73 @@
+.belt-container {
+	@include headerContainer;
+	background-image: url(http://static.ftchinese.com/images/header-top-bg.png);
+	background-color: black;
+	//height: 57px;
+}
+.belt-inner {
+	@include headerInner;
+	padding: 0 $defaultPadding;
+	height: $beltHeight;
+	.belt-content {
+		line-height: $beltHeight;
+	    display: inline-block;
+	    //animation: marquee 30s 5s linear infinite;
+	    //-webkit-transform: translate3d(0, 0, 0);
+	    //-moz-transform: translate3d(0, 0, 0);
+	    //transform: translate3d(0, 0, 0);
+	    &:hover {
+	    	animation-play-state: paused
+		}
+	}
+	a {
+		color: white;
+		display: inline-block;
+		padding-right: $defaultPadding * 2;
+		font-size: 12px;
+	}
+}
+.belt-right {
+	float:right;
+	//padding: $defaultPadding/2 0 0 0;
+	text-align: right;
+	line-height: $beltHeight;
+}
+.belt-frame{
+	display: none;
+}
+
+/* Make it move */
+/*
+@-webkit-keyframes marquee {
+    0%   { -webkit-transform: translate(0, 0); }
+    50% { -webkit-transform: translate(-100%, 0); }
+    50.0001% { -webkit-transform: translate(-100%, -100%); }
+    50.0002% { -webkit-transform: translate(100%, -100%); }
+    50.0003% { -webkit-transform: translate(100%, 0); }
+    100% { -webkit-transform: translate(0, 0); }
+}
+
+@-moz-keyframes marquee {
+    0%   { -moz-transform: translate(0, 0); }
+    50% { -moz-transform: translate(-100%, 0); }
+    50.0001% { -moz-transform: translate(-100%, -100%); }
+    50.0002% { -moz-transform: translate(100%, -100%); }
+    50.0003% { -moz-transform: translate(100%, 0); }
+    100% { -moz-transform: translate(0, 0); }
+}
+
+@keyframes marquee {
+    0%   { transform: translate(0, 0); }
+    50% { transform: translate(-100%, 0); }
+    50.0001% { transform: translate(-100%, -100%); }
+    50.0002% { transform: translate(100%, -100%); }
+    50.0003% { transform: translate(100%, 0); }
+    100% { transform: translate(0, 0); }
+}
+*/
+
+@media only screen and (max-width: 1023px) {
+	.belt-container {
+		display: none;
+	}
+}

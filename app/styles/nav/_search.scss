@@ -1,0 +1,72 @@
+.o-header__search-form {	
+	background-color: transparent;
+	overflow: hidden;
+	box-sizing: border-box;	
+	padding: 0;
+	margin: 0;
+	width: 45px;
+
+	float: right;
+}
+
+.search-input {
+	box-sizing: border-box;
+	color: white;
+	background-color: transparent;
+	border: 1px solid transparent;
+	border-radius: 0;
+	margin: 0;
+	padding: 0 $o-header-bottom-height 0 0;
+	outline: none;
+	-moz-appearance: none;
+	-webkit-appearance: none;
+	cursor: pointer;
+// canel iOS safari auto zoom.
+	font-size: inherit;
+	display: block;
+
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	top: 0;
+	width: 0;
+// above button
+	z-index: 3;
+	
+	transition: 0.2s width;
+
+	&:focus {
+// below button
+		z-index: 1;
+		@include oHeaderSearchExpanded;
+	}
+
+	.search-button:focus + & {
+		z-index: 1;
+		@include oHeaderSearchExpanded;
+	}
+}
+.search-button {
+	box-sizing: border-box;
+ 	padding: 0;
+	margin: 0;
+	border: none;
+	outline: none;
+	cursor: pointer;
+	text-align: center;
+
+	width: $o-header-bottom-height;
+	height: $o-header-bottom-height;	
+	background-color: transparent;	
+	display: inline-block;	
+	position: relative;
+	z-index: 2;
+
+	&:after {
+		content: '';
+		@include oHeaderIcon(search, 20);
+	}
+ 	span {
+		display: none;
+	}
+}

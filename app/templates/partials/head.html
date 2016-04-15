@@ -1,14 +1,9 @@
-<%if !isset($adchannelID)||$adchannelID==""%>
-<%assign var="adchannelID" value="1100"%>
-<%/if%>
-
-<script type="javascript/text">
+<script type="text/javascript">
 if(typeof startTime === "undefined"){
     var startTime=new Date().getTime();
 }
-var FTAdchID="<%$adchannelID%>";
+var adchID = '<%$adchannelID|default:$adchId%>';
 var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现联动互斥功能 
-var ADPO={Leaderboard:"0001",Button:"0002",MPU1:"0003",MPU2:"0004",MPU3:"0005",Banner1:"0006",Banner2:"0007",Banner3:"0008",Ribbon:"0009",Section_Leaderboard:"0010",Section_Button:"0011",Section_MPU1:"0012",Section_MPU2:"0013",FullScreen:"0014",Test:"0015",ROS_Float:"0016",text1:"0016",text2:"0017",text3:"0018",member1:"0019",member2:"0020",member3:"0021",InRead:"0112"};
 <%if $autostart=="false"%>
 var gAutoStart = false;
 <%/if%>

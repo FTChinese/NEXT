@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html class="no-js core" data-next-app="front-page">
+ <head>
+ <meta charset="utf-8" />
+ <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+ <title>视频页</title>
+ <meta http-equiv="Content-Language" content="zh-CN"/>
+ <meta content="<%$p.meta.description%>" name="description"/>
+ <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+ <link rel="apple-touch-icon-precomposed" href="http://static.ftchinese.com/img/ipad_icon.png" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <link rel="preconnect" href="http://static.ftchinese.com" />
+ <link rel="preconnect" href="http://i.ftimg.net" />
+ <script>
+ window.errorBuffer = window.errorBuffer || [];
+ function beaconCssError(e) {
+ window.errorBuffer.push({
+ error: e ? e : new Error('CSS failed to load.'),
+ context: {
+ isMobileNetork: document.cookie.replace(/(?:(?:^|.*;\s*)h2_isMobile\s*\=\s*([^;]*).*$)|^.*$/, "$1") === '' ? false : true
+ }
+ });
+ }
+ </script>
+
+<script>
+window.cutsTheMustard = (typeof Function.prototype.bind !== 'undefined');
+if (window.cutsTheMustard) {
+document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/, 'js').replace(/\bcore\b/, 'enhanced');
+}
+</script>
+
+<!--[if lte IE 8]>
+    <script>
+        document.documentElement.className += ' is-ie-8';
+        document.createElement('figure');
+        document.createElement('header');
+        document.createElement('nav');
+        document.createElement('section');
+        document.createElement('article');
+        document.createElement('aside');
+        document.createElement('footer');
+    </script>
+<![endif]-->
+
+<!-- build:css styles/main-video.css -->
+<link rel="stylesheet" href="styles/main-video.css">
+<!-- endbuild -->
+
+
+<link rel="stylesheet" href="styles/main-ie-XL.css">
+
+
+<script type="text/javascript">
+if(typeof startTime === "undefined"){
+var startTime=new Date().getTime();
+}
+var adchID = '1100';
+var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现联动互斥功能
+</script>
+
+
+<script type="text/javascript" src="scripts/key.js"></script>
+<script type="text/javascript" src="scripts/ad.js"></script>
+
+
+
+ <link rel="icon" type="image/png" href="https://next-geebee.ft.com/assets/brand-alpha/icons/favicon-32x32.png" sizes="32x32">
+ <link rel="icon" type="image/png" href="https://next-geebee.ft.com/assets/brand-alpha/icons/favicon-194x194.png" sizes="194x194">
+ <link rel="apple-touch-icon" sizes="180x180" href="https://next-geebee.ft.com/assets/brand-alpha/icons/apple-touch-icon-180x180.png" />
+ <meta name="msapplication-TileColor" content="#fff1e0" />
+ <meta name="msapplication-TileImage" content="https://next-geebee.ft.com/assets/brand-alpha/icons/mstile-144x144.png" />
+ <script>
+ window.cutsTheMustard = (typeof Function.prototype.bind !== 'undefined');
+ if (window.cutsTheMustard) {
+ document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/, 'js').replace(/\bcore\b/, 'enhanced');
+ }
+ </script>
+ 
+ <!--[if lte IE 8]>
+ <link rel="stylesheet" href="https://next-geebee.ft.com/hashed-assets/front-page/35cf21f8/ie8.css" />
+ <![endif]-->
+ <script>var startTime = new Date().getTime();</script>
+ <script>
+ if ( screen.width<=480) {
+ document.write('<meta content="FT中文网" name="application-name" /><meta content="app-id=443870811" name="apple-itunes-app" />');
+ } else {
+ document.write('<meta content="FT中文网" name="application-name" /><meta content="app-id=396124008" name="apple-itunes-app" />');
+ }
+ </script>
+ <link rel="alternate" type="application/rss+xml" title="FT中文网 - 每日更新" href="/rss/feed" />
+ <link rel="alternate" type="application/rss+xml" title="FT中文网 - 双语阅读" href="/rss/diglossia" />
+ <link rel="alternate" type="application/rss+xml" title="FT中文网 - 今日焦点" href="/rss/news" />
+ <link rel="alternate" type="application/rss+xml" title="FT中文网 - 生活时尚" href="/rss/lifestyle" />
+ <link rel="alternate" type="application/rss+xml" title="FT中文网 - 一周十大热门文章" href="/rss/hotstoryby7day" />
+ <link rel="alternate" type="application/rss+xml" title="FT中文网 - 热门用户评论" href="/rss/hotusercomment" />
+ <link rel="search" type="application/opensearchdescription+xml" title="FT中文网财经搜索" href="/opensearch.xml">
+
+ </head>
+ <body>
+
+
+
+
+
+<header class="header-container">
+<div class="header-inner">
+<div class="masthead"></div>
+<div class="header-side header-left expandable">
+<div class="current-edition">
+<span>简体中文版</span>
+<a href="http://big5.ftchinese.com/">繁体中文版</a>
+<a href="http://www.ft.com/">英文版</a>
+</div>
+</div>
+<div class="header-side header-right">
+<span class="visitor-box">
+<a onclick="showOverlay('overlay-login')">登录</a>
+<a class="more last" href="http://user.ftchinese.com/register">免费注册</a>
+</span>
+<span class="member-box">
+<a id="ft-login-your-account" href="/users/cp">设置</a>
+<a id="ft-login-logout" href="http://user.ftchinese.com/logout">登出</a>
+</span>
+</div>
+</div>
+</header>
+<div class="overlay-container" id="overlay-login">
+<div class="overlay-inner">
+<div class="overlay-bg" data-parentid="overlay-login"></div>
+<div class="overlay-content-outer">
+<div class="overlay-content-inner">
+<div class="overlay-content">
+<div class="overlay-title">登录<i class="overlay-close" data-parentid="overlay-login">×</i></div>
+<form method="post" action="/users/login">
+<div class="input-title">电子邮件/用户名</div>
+<div class="input-container"><input type="text" class="input-oneline" name="username" id="ft-login-input-username"></div>
+<div class="input-title">密码</div>
+<div class="input-container"><input type="password" class="input-oneline" name="password"></div>
+<div class="input-title input-submit-container"><input type="checkbox" class="checkbox" value="1" checked="checked" name="saveme" id="ft-login-input-remember">记住我
+<input class="input-submit" type="submit" value="提交"></div>
+<div class="input-title"><a href="/users/findpassword" class="blue-link">找回密码</a></div>
+</form>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="o-nav__placeholder">
+<div class="o-nav">
+<div class="o-nav__outer">
+<div class="o-nav__inner">
+<form action="/search" id="search-form" class="o-header__search-form" role="search">
+<button class="search-button" tabindex="1"><span>搜索</span></button> 
+<input id="search-term" type="search" name="q" class="search-input" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="搜索FT中文网" />
+</form>
+<div class="o-header__masthead-mobile">
+<a href="/" title="前往FT中文网首页"><span>FT中文网</span></a>
+</div>
+<nav class="o-nav__container" role="navigation">
+<button class="nav-toggle" data-o-nav-togglable><span>Menu</span></button>
+<ol class="o-nav__level-1">
+<li class="nav-section mobile">
+<button class="nav-section-head mobile" data-o-nav-selectable aria-selected="true">切换版本</button>
+<ol class="nav-items">
+<li class="nav-item">
+<a class="nav-link" href="">繁体中文版</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="">英文版</a>
+</li>
+</ol>
+</li>
+<li class="nav-section"
+data-section="home">
+<button class="nav-section-head mobile">首页</button>
+<a class="nav-section-head desktop" href="/">首页</a>
+</li>
+<li class="nav-section"
+data-section="china">
+<button class="nav-section-head mobile">中国</button>
+<a class="nav-section-head desktop" href="/channel/china.html">中国</a>
+</li>
+<li class="nav-section"
+data-section="world">
+<button class="nav-section-head mobile">全球</button>
+<a class="nav-section-head desktop" href="/channel/world.html">全球</a>
+</li>
+<li class="nav-section"
+data-section="economy">
+<button class="nav-section-head mobile">经济</button>
+<a class="nav-section-head desktop" href="/channel/economy.html">经济</a>
+</li>
+<li class="nav-section"
+data-section="markets">
+<button class="nav-section-head mobile">金融市场</button>
+<a class="nav-section-head desktop" href="/channel/markets.html">金融市场</a>
+</li>
+<li class="nav-section"
+data-section="business">
+<button class="nav-section-head mobile">商业</button>
+<a class="nav-section-head desktop" href="/channel/business.html">商业</a>
+</li>
+<li class="nav-section"
+data-section="opinion">
+<button class="nav-section-head mobile">观点</button>
+<a class="nav-section-head desktop" href="/channel/opinion.html">观点</a>
+</li>
+<li class="nav-section"
+data-section="management">
+<button class="nav-section-head mobile">管理</button>
+<a class="nav-section-head desktop" href="/channel/management.html">管理</a>
+</li>
+<li class="nav-section"
+data-section="lifestyle">
+<button class="nav-section-head mobile">生活时尚</button>
+<a class="nav-section-head desktop" href="/channel/lifestyle.html">生活时尚</a>
+</li>
+<li class="nav-section"
+aria-selected="true"
+data-section="stream">
+<button class="nav-section-head mobile">视频</button>
+<a class="nav-section-head desktop" href="/channel/stream.html">视频</a>
+<ol class="nav-items level-2">
+<li class="nav-item mobile">
+<a class="nav-link" href="/channel/stream.html">
+频道首页
+</a>
+</li>
+<li class="nav-item"
+data-channel="vpolitics">
+<a class="nav-link" href="/channel/vpolitics.html">政经</a>
+</li>
+<li class="nav-item"
+data-channel="vbusiness">
+<a class="nav-link" href="/channel/vbusiness.html">产经</a>
+</li>
+<li class="nav-item"
+data-channel="vfinance">
+<a class="nav-link" href="/channel/vfinance.html">金融</a>
+</li>
+<li class="nav-item"
+data-channel="vculture">
+<a class="nav-link" href="/channel/vculture.html">文化</a>
+</li>
+<li class="nav-item"
+data-channel="videotinted">
+<a class="nav-link" href="/channel/videotinted.html">有色眼镜</a>
+</li>
+<li class="nav-item"
+data-channel="explainer">
+<a class="nav-link" href="/channel/explainer.html">秒懂</a>
+</li>
+<li class="nav-item"
+data-channel="viewtop">
+<a class="nav-link" href="/channel/viewtop.html">高端视点</a>
+</li>
+</ol>
+</li>
+<li class="nav-item mobile">
+<a class="nav-link" href="">myFT</a>
+</li>
+<li class="nav-item mobile">
+<a class="nav-link" href="">退出</a>
+</li>
+<li class="nav-item mobile">
+<a class="nav-link" href="">账户设置</a>
+</li>
+</ol>
+</nav>
+<ul class="o-nav__extra-tools nav-items">
+<li class="nav-item" aria-haspopup="true">
+<a class="nav-link" href="http://www.ftchinese.com/m/corp/follow.html">关注我们</a>
+<ol class="nav-sub-items follow-us">
+<li><a href="" class="follow-sina-weibo">新浪微博</a></li>
+<li><a href="" class="follow-tencent-weibo">腾讯微博</a></li>
+<li><a href="" class="follow-netease-weibo">网易微博</a></li>
+<li><a href="" class="follow-sohu-weibo">搜狐微博</a></li>
+<li><a href="" class="follow-qzone">QQ空间</a></li>
+<li><a href="" class="follow-sina-blog">新浪博客</a></li>
+<li><a href="" class="follow-sohu-blog">搜狐博客</a></li>
+<li><a href="" class="follow-netease-lofter">网易博客</a></li>
+<li><a href="" class="follow-renren">人人网</a></li>
+<li><a href="" class="follow-facebook">FaceBook</a></li>
+<li><a href="" class="follow-twitter">Twitter</a></li>
+<li><a href="" class="follow-google-plus">Google+</a></li>
+</ol>
+</li>
+<li class="nav-item" aria-haspopup="true">
+<span class="nav-link">工具</span>
+<ol class="nav-sub-items">
+<li><a href="http://app.ftchinese.com/">移动应用大全</a></li>
+<li><a href="">基本设置</a></li>
+<li><a href="">修改头像</a></li>
+<li><a href="">邮件订阅</a></li>
+<li><a href="">同步微博</a></li>
+<li><a href="">我的评论</a></li>
+<li><a href="">管理收藏</a></li>
+</ol>
+</li>
+<li class="nav-item">
+<a class="nav-link follow__rss" href="http://www.ftchinese.com/channel/rss.html"><span>RSS</span></a>
+</li>
+</ul>
+</div><!-- * o-header__bottom -->
+</div><!-- o-header__container -->    
+</div><!-- o-header-secondary -->  
+</div><!-- o-nav__placeholder --><div class="banner-placeholder">
+<div class="banner-container">
+<div class="banner-inner">
+<div class="banner-content">
+<script type="text/javascript">document.write (writeAd('tagbanner'));</script>
+</div>
+</div>
+</div>
+</div>
+<div class="block-container has-side"><div class="block-inner">
+<div class="content-container"><div class="content-inner">
+<div class="list-container">
+<div class="list-inner">
+<div class="items">
+<div class="item-container XL12 L12 M12 S12 P12">
+<div class="item-inner">
+<div class="image" target="_blank" id="video-player">
+<script type="text/javascript">
+var thisVideo = document.getElementById('video-player');
+var video_width = thisVideo.offsetWidth;
+var video_height = Math.round(video_width*9/16);
+document.write('<scr' + 'ipt src="http://union.bokecc.com/player?vid=F82A887F2BAF0DBC9C33DC5901307461&siteid=922662811F1A49E9&autoStart=true&width=' + video_width + '&height=' + video_height + '&playerid=3571A3BF2AEC8829&playertype=1" type="text/javascript"></sc' + 'ript>');
+</script>
+</div>
+<h1 class="story-headline">哈迪德：让空间流动的女魔头</h1>
+<div class="story-share-placeholder" id="story-share-placeholder">
+<div class="story-share">
+<div class="share-inner">
+<a class="share-icon icon-wechat" href="/m/corp/qrshare.html?url=http%3A%2F%2Fwww.ftchinese.com%2Fvideo%2F1884&title=哈迪德：让空间流动的女魔头 - FT中文网" target="_blank"></a>
+<a class="share-icon icon-weibo" href="http://service.weibo.com/share/share.php?appkey=4221537403&url=http%3A%2F%2Fwww.ftchinese.com%2Fvideo%2F1884?ccode=2G169001&title=【哈迪德：让空间流动的女魔头】伊拉克出生、英国成名的当代最优秀建筑师之一扎哈•哈迪德突然辞世，震惊国际建筑设计界。她一生成就非凡，设计风格极其鲜明前卫。她的个性为人也极富争议性，因强势和坏脾气被称作建筑设计业的“女魔头”。而在FT建筑和设计评论人希思科特的回忆中，哈迪德是位热情风趣、热爱八卦的好朋友。（分享自 @FT中文网）&ralateUid=1698233740&source=&sourceUrl=&content=utf-8&pic=" target="_blank"></a>
+<a class="share-icon icon-linkedin" href="https://www.linkedin.com/cws/share?url=http%3A%2F%2Fwww.ftchinese.com%2Fvideo%2F1884%3Fccode%3D2G169003&original_referer=https%3A%2F%2Fdeveloper.linkedin.com%2Fsites%2Fall%2Fthemes%2Fdlc%2Fsandbox.php%3F&token=&isFramed=true&lang=zh_CN&_ts=1422502780259.2795" target="_blank"></a>
+<a class="share-icon icon-twitter" href="http://twitter.com/home?status=【哈迪德：让空间流动的女魔头】伊拉克出生、英国成名的当代最优秀建筑师之一扎哈•哈迪德突然辞世，震惊国际建筑设计界。她一生成就非凡，设计风格极其鲜明前卫。她的个性为人也极富争议性，因强势和坏脾气被称作建筑设计业的“女魔头”。而在FT建筑和设计评论人希思科特的回忆中，哈迪德是位热情风趣、热爱八卦的好朋友。（分享自 @FT中文网）...%20http%3A%2F%2Fwww.ftchinese.com%2Fvideo%2F1884" target="_blank"></a>
+<a class="share-icon icon-facebook" href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.ftchinese.com%2Fvideo%2F1884&t=【哈迪德：让空间流动的女魔头】伊拉克出生、英国成名的当代最优秀建筑师之一扎哈•哈迪德突然辞世，震惊国际建筑设计界。她一生成就非凡，设计风格极其鲜明前卫。她的个性为人也极富争议性，因强势和坏脾气被称作建筑设计业的“女魔头”。而在FT建筑和设计评论人希思科特的回忆中，哈迪德是位热情风趣、热爱八卦的好朋友。（分享自 @FT中文网）" target="_blank"></a>
+<a class="icon-right icon-action icon-share" onclick="showOverlay('share-legacy')"></a>
+</div>
+</div>
+</div>
+<div class="story-byline">
+<span class="story-time">2016年04月06日</span>
+<span class="story-author">
+译者： <a href="/search/?keys=王蓝&type=relative_byline&category=video">王蓝</a> 
+</span>
+</div>
+<div class="story-lead">伊拉克出生、英国成名的当代最优秀建筑师之一扎哈•哈迪德突然辞世，震惊国际建筑设计界。她一生成就非凡，设计风格极其鲜明前卫。她的个性为人也极富争议性，因强势和坏脾气被称作建筑设计业的“女魔头”。而在FT建筑和设计评论人希思科特的回忆中，哈迪德是位热情风趣、热爱八卦的好朋友。</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="list-container"><div class="list-inner">
+<h2 class="list-title"><a class="list-link" href="/channel/vculture.html">文化</a></h2>
+<div class="items">
+
+<div class="item-container XL4 L4 M12 S6 P12 has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1886#adchannelID=">皮力：着重寻找中国艺术和外部世界的关系</a></h2>
+<a class="image" target="_blank" href="/video/1886#adchannelID="><figure class="loading" data-url="http://i.ftimg.net/picture/0/000060500_piclink.jpg"></figure></a><div class="item-lead">如何在一个开放的平台和开放的体系里面解释中国艺术，成为M+未来涉及并需要解决的问题。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1883#adchannelID=">原研哉：四合院式的家居最理想</a></h2>
+<a class="image" target="_blank" href="/video/1883#adchannelID="><figure class="loading" data-url="http://i.ftimg.net/picture/1/000060391_piclink.jpg"></figure></a><div class="item-lead">日本平面设计大师原研哉把他在日本取得巨大成功的House Vision项目带到中国，起名“China House Vision 理想家”，希望探讨“家”正如何被新的技术力量和社会趋势重新定义。在他看来，高楼大厦里的家是廉价的，能住在平面的、与四邻有着亲密关系的家里，才是真正的富足。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1880#adchannelID=">M+希克展：梳理中国当代艺术史</a></h2>
+<a class="image" target="_blank" href="/video/1880#adchannelID="><figure class="loading" data-url="http://i.ftimg.net/picture/6/000060306_piclink.jpg"></figure></a><div class="item-lead">香港M+视觉文化博物馆展出了由瑞士藏家希克捐赠的1500多件中国当代艺术品，藏品涵盖时间跨度近40年。策展人皮力希望通过这次展览，打造中国当代艺术编年史，涉及文化、政治和生活的方方面面。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="XLT LT MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1879#adchannelID=">为何图片中的职场女性都年轻貌美？</a></h2>
+<a class="image" target="_blank" href="/video/1879#adchannelID="><figure class="loading" data-url="http://i.ftimg.net/picture/2/000060292_piclink.jpg"></figure></a><div class="item-lead">在各种出版物和企业网站上，职业女性的形象通常都年轻貌美，展露欢欣笑容。FT专栏作家凯拉韦却认为，这是有关办公室生活的最大谎言。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1859#adchannelID=">看TEFAF如何鉴别艺术品真伪</a></h2>
+<a class="image" target="_blank" href="/video/1859#adchannelID="><figure class="loading" data-url="http://i.ftimg.net/picture/4/000059784_piclink.jpg"></figure></a><div class="item-lead">欧洲艺术和古董博览会（TEFAF）每年3月份在荷兰召开，被喻为艺术界的达沃斯。TEFAF著名的艺术品鉴定程序是其为何如此特殊的原因所在。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1838#adchannelID=">剧院因科技而变【英文原声】</a></h2>
+<a class="image" target="_blank" href="/video/1838#adchannelID="><figure class="loading" data-url="http://i.ftimg.net/picture/6/000059056_piclink.jpg"></figure></a><div class="item-lead">从视频投影、直播，到双声道麦克风，再到电脑生成的音乐，艺术评论家马特·特鲁曼带你领略科技给传统剧院带来的改变。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="XLT LT MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1823#adchannelID=">美国“千禧世代”买房难</a></h2>
+<a class="image" target="_blank" href="/video/1823#adchannelID="><figure class="loading" data-url="http://i.ftimg.net/picture/2/000058522_piclink.jpg"></figure></a><div class="item-lead">三分之一的美国“千禧世代”（生于1980至2000年间的人）仍在与父母同住，这个比例甚至高于2009年金融危机时。尽管美国经济正在复苏，就业也在好转，但买房甚至租房带来的经济压力仍然过大。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1822#adchannelID=">英国办公室有点酷：CBI</a></h2>
+<a class="image" target="_blank" href="/video/1822#adchannelID="><figure class="loading" data-url="http://i.ftimg.net/picture/5/000057725_piclink.jpg"></figure></a><div class="item-lead">尽管现在有很多人创业，但更多的人还是在办公室里给别人打工，因此办公室的环境就非常重要。为英国《金融时报》写了20年职场专栏的露西•凯拉韦(Lucy Kellaway)决定亲自走进几家英国公司，了解他们的办公环境，透视他们的公司文化。这一站是给人留下传统、呆板印象的英国工商业联合会(CBI)。她有哪些发现呢？</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1820#adchannelID=">来自一名城市快递员的独白</a></h2>
+<a class="image" target="_blank" href="/video/1820#adchannelID="><figure class="loading" data-url="http://i.ftimg.net/picture/0/000054900_piclink.jpg"></figure></a><div class="item-lead">电动三轮快递车每天频繁穿梭在城区各处，已然成为了街道上独特的风景线。他们递送的包裹是中国电子商务行业蓬勃发展的真实写照。快递员小吴接受了FT驻北京记者的采访，他表示趁年轻在北京多赚点钱，希望以后回老家能过上好日子。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="XLT LT MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1819#adchannelID=">打包一个家去大陆【台湾留守家庭系列】</a></h2>
+<a class="image" target="_blank" href="/video/1819#adchannelID="><figure class="loading" data-url="http://i.ftimg.net/picture/6/000058556_piclink.jpg"></figure></a><div class="item-lead">台湾外派雇员已超过百万，但能够真正照顾好这类员工的企业并不多。台湾友达就是其中一家。它在苏州为外派员工建造了酒店公寓式宿舍，提供各类生活服务和子女教育支持，以解外派员工的后顾之忧。这是台湾《天下》杂志制作的“台湾留守家庭系列”第五集。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1818#adchannelID=">向菊回家的内心戏</a></h2>
+<a class="image" target="_blank" href="/video/1818#adchannelID="><figure class="loading" data-url="http://i.ftimg.net/picture/2/000051432_piclink.jpg"></figure></a><div class="item-lead">故事发生在2015年春节，保姆向菊下决心离开北京，返回位于湖北老家的向家湾。可就当假期结束时，向菊却再次踏上了重返北京的火车。一方面因为需要复查病情，另一方面也因为自己已再次淹没在了无尽的迷茫之中。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1817#adchannelID=">女人不在家【台湾留守家庭系列】</a></h2>
+<a class="image" target="_blank" href="/video/1817#adchannelID="><figure class="loading" data-url="http://i.ftimg.net/picture/0/000058560_piclink.jpg"></figure></a><div class="item-lead">不少优秀的台湾女性也选择离家打拼，但往往要比男性面对更多的艰辛和愧疚。本期视频采访的两位在上海工作的台湾女性，需要在事业和家庭之间作出艰难的权衡。这是台湾《天下》杂志制作的“台湾留守家庭系列”第四集。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="XLT LT MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1816#adchannelID=">留守儿童：中国经济发展的情感负债</a></h2>
+<a class="image" target="_blank" href="/video/1816#adchannelID="><figure class="loading" data-url="http://i.ftimg.net/picture/2/000057402_piclink.jpg"></figure></a><div class="item-lead">中国有2.7亿来自农村的城市务工者，但并非所有人都能把孩子带在身边。6100万儿童被留守在了农村，他们要么与祖父母生活，要么就是一个人。留守儿童长大后会给中国社会带来何种影响令人担心，官方也意识到了“让农民工在城市安家”的重要性。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1815#adchannelID=">那个男人又回来了【台湾留守家庭系列】</a></h2>
+<a class="image" target="_blank" href="/video/1815#adchannelID="><figure class="loading" data-url="http://i.ftimg.net/picture/0/000058550_piclink.jpg"></figure></a><div class="item-lead">很多在中国大陆工作的台湾爸爸，在孩子口中，都慢慢都变成了“那个男人”。本期视频主人公许沛菘在一次次归来又离去后，终于决定回到台湾，不再与家人分离。这是台湾《天下》杂志制作的“台湾留守家庭系列”第三集。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1814#adchannelID=">三个留守男孩的寄宿生活【台湾留守家庭系列】</a></h2>
+<a class="image" target="_blank" href="/video/1814#adchannelID="><figure class="loading" data-url="http://i.ftimg.net/picture/7/000058547_piclink.jpg"></figure></a><div class="item-lead">台湾华兴中学的六百多位住宿生中，有一成是留守子女。本期视频采访的三位国一年级寄宿男生，分别讲述没有父母陪伴的成长经历中的酸甜苦辣。这是台湾《天下》杂志制作的“台湾留守家庭系列”第二集。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="XLT LT MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1813#adchannelID=">亲爱的，请听我说【台湾留守家庭系列】</a></h2>
+<a class="image" target="_blank" href="/video/1813#adchannelID="><figure class="loading" data-url="http://i.ftimg.net/picture/4/000058544_piclink.jpg"></figure></a><div class="item-lead">春节又至。在数亿中国人背起行囊、踏上返乡路之时，我们将目光投向台湾。全球化和本地市场的局限，让前往中国大陆或其他地区工作生活的台湾人越来越多。台湾已超过百万的留守家庭，各有各的故事，却都经历着外界难以体会的挣扎。本期视频主人公邓慧升的家庭就是其中一员。这一系列由台湾《天下》杂志制作，FT中文网获得授权，将于春节期间陆续发布。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1811#adchannelID=">中国藏家专利：跳跃式出价</a></h2>
+<a class="image" target="_blank" href="/video/1811#adchannelID="><figure class="loading" data-url="http://i.ftimg.net/picture/9/000058529_piclink.jpg"></figure></a><div class="item-lead">苏富比欧洲暨美洲亚洲艺术主席司徒河伟分享了如何做一名成功的拍卖师经验。同时在他眼中，中国藏家是天生的艺术收藏家，不但熟悉拍卖流程，同时拥有“跳跃式出价”的竞争技巧。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1802#adchannelID=">日本：理应更火的旅游目的地【英文原声】</a></h2>
+<a class="image" target="_blank" href="/video/1802#adchannelID="><figure class="loading" data-url="http://i.ftimg.net/picture/4/000058364_piclink.jpg"></figure></a><div class="item-lead">在中国人的帮助下，日本旅游火了，但热度仍不够。2015年访问日本的外国游客数量首次超过1900万，其中来自中国大陆的游客最多，为499.38万人次，中国游客人均消费数额也最高，为约合1.6万元人民币。尽管如此，英国去年的国际游客量为3540万，几乎是日本的两倍，而法国在频繁遭受恐怖袭击后，依然是接待外国游客最多的国家。近日，FT编辑罗伯特•施里姆斯利(Robert Shrimsley)受邀游览了日本，看看他将得出何种感悟。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="XLT LT MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1780#adchannelID=">英国办公室有点酷：联合利华【英文原声】</a></h2>
+<a class="image" target="_blank" href="/video/1780#adchannelID="><figure class="loading" data-url="http://i.ftimg.net/picture/9/000057949_piclink.jpg"></figure></a><div class="item-lead">露西•凯拉韦(Lucy Kellaway)继续走访英国公司的办公室，这次的目的地是联合利华(Unilever)伦敦总部。早在15年前她就拜访过这座1920年代风格的办公楼，当年里面就像个兔子窝，如今故地重游却发现大楼内部早已别有洞天。不仅处处都装饰得非常现代，免费提供水果给员工，联合利华还免费提供冰激凌，崇尚弹性劳作，每个员工一周可有两天在家办公。遗憾的是，尽管从餐厅都健身房应有尽有，这座由无数透明玻璃组成的办公室却让露西感觉“冰冷到没灵魂”。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1775#adchannelID=">徐冰：文字是艺术创作的核心</a></h2>
+<a class="image" target="_blank" href="/video/1775#adchannelID="><figure class="loading" data-url="http://i.ftimg.net/picture/8/000057868_piclink.jpg"></figure></a><div class="item-lead">徐冰认为中国文化中很核心的东西，最后都和文字的视觉性是有关系的。在艺术创作的同时，他也关注中国新一代青年艺术家的动态以及他们的思维方式，因为他们代表了未来。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1772#adchannelID=">大卫·鲍伊：以摇滚预告自己的死亡【英文原声】</a></h2>
+<a class="image" target="_blank" href="/video/1772#adchannelID="><figure class="loading" data-url="http://i.ftimg.net/picture/7/000057797_piclink.jpg"></figure></a><div class="item-lead">有“摇滚变色龙”之称的英国摇滚巨星大卫·鲍伊本周逝世，享年69岁。就在三天前，他发布生前最后一支MV、死亡主题的《拉撒路》，在向世界隐瞒自己的癌症病情18个月后，预告了自己的死亡。鲍伊与披头士、皇后乐队并列为英国20世纪最重要的摇滚明星。他70年代就已成名，此后一直以极其多变的音乐风格、装扮甚至身份，不断重塑人们对摇滚和音乐的认知。他甚至推动了金融创新，在1997年售出5500万美元的“鲍伊债券”，担保自己25张唱片的未来收入。他影响了众多西方乐坛歌手，他的逝世让一代音乐传奇落幕。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="XLT LT MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1769#adchannelID=">英国办公室有点酷：CBI</a></h2>
+<a class="image" target="_blank" href="/video/1769#adchannelID="><figure class="loading" data-url="http://i.ftimg.net/picture/5/000057725_piclink.jpg"></figure></a><div class="item-lead">尽管现在有很多人创业，但更多的人还是在办公室里给别人打工，因此办公室的环境就非常重要。为英国《金融时报》写了20年职场专栏的露西•凯拉韦(Lucy Kellaway)决定亲自走进几家英国公司，了解他们的办公环境，透视他们的公司文化。这一站是给人留下传统、呆板印象的英国工商业联合会(CBI)。她有哪些发现呢？</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1767#adchannelID=">徐冰：中国是一个制造能量的地方</a></h2>
+<a class="image" target="_blank" href="/video/1767#adchannelID="><figure class="loading" data-url="http://i.ftimg.net/picture/7/000057687_piclink.jpg"></figure></a><div class="item-lead">2015年， 徐冰获得由美国国务院颁发的艺术勋章，成为获得此荣誉的第二名中国艺术家。 在采访中他回忆了之前创作的三件艺术品，《凤凰》、《天书》和《鬼打墙》。由于这三件震撼的作品先后都是在中国创作的，徐冰也不禁感慨道： 中国真是一个制造能量的地方。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1759#adchannelID=">跟露西•凯拉韦一起回顾2015年【英文原声】</a></h2>
+<a class="image" target="_blank" href="/video/1759#adchannelID="><figure class="loading" data-url="http://i.ftimg.net/picture/3/000057453_piclink.jpg"></figure></a><div class="item-lead">从公司管理角度来看，2015年最值得纪念的事情是通用电器、埃森哲和德勤都承认，年终绩效考核制度不仅没用，而且浪费巨大。他们或许能为跨国公司采取更为有效的管理制度做出表率。其次值得注意的趋势是，全球民众都开始对退休生活表现出了向往；第三是，大众汽车事件极大地消耗了人们对公司的信任。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="XLT LT MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1758#adchannelID=">留守儿童：中国经济发展的情感负债</a></h2>
+<a class="image" target="_blank" href="/video/1758#adchannelID="><figure class="loading" data-url="http://i.ftimg.net/picture/2/000057402_piclink.jpg"></figure></a><div class="item-lead">中国有2.7亿来自农村的城市务工者，但并非所有人都能把孩子带在身边。6100万儿童被留守在了农村，他们要么与祖父母生活，要么就是一个人。留守儿童长大后会给中国社会带来何种影响令人担心，官方也意识到了“让农民工在城市安家”的重要性。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1756#adchannelID=">2015年FT圣诞颂歌</a></h2>
+<a class="image" target="_blank" href="/video/1756#adchannelID="><figure class="loading" data-url="http://i.ftimg.net/picture/1/000057351_piclink.jpg"></figure></a><div class="item-lead">作为英国《金融时报》的一项传统，我们每年会邀请作曲家谱写一首圣诞颂歌。与传统颂歌相比，今年的颂歌旋律更加优美。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1755#adchannelID=">英国皇家设计师如何装饰圣诞节？【英文原声】</a></h2>
+<a class="image" target="_blank" href="/video/1755#adchannelID="><figure class="loading" data-url="http://i.ftimg.net/picture/3/000057343_piclink.jpg"></figure></a><div class="item-lead">每到圣诞节，很多西方家庭都会为如何装扮自己的房子而苦恼。英国《金融时报》家居版主编简·欧文带你拜访一位皇家设计师的宅邸，他专为英国富豪和名流做室内设计。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="XLT LT MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1752#adchannelID=">艺术品不应该成为投资工具</a></h2>
+<a class="image" target="_blank" href="/video/1752#adchannelID="><figure class="loading" data-url="http://i.ftimg.net/picture/1/000057241_piclink.jpg"></figure></a><div class="item-lead">纽约佩斯画廊行政副总裁彼得·伯瑞斯对中国藏家热衷收藏西方艺术品的现象大加称赞。他认为艺术品应该用来回馈社会，让更多的艺术爱好者看到更多优秀的作品，而不是因为它日后会增值。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1747#adchannelID=">佩斯画廊：力推中国当代艺术家</a></h2>
+<a class="image" target="_blank" href="/video/1747#adchannelID="><figure class="loading" data-url="http://i.ftimg.net/picture/6/000057176_piclink.jpg"></figure></a><div class="item-lead">近几年，佩斯画廊举办过多名中国当代艺术家的个展，成为中国当代艺术在美国的“代言人”。纽约佩斯画廊行政副总裁彼得·伯瑞斯表示，他充分相信这批中国艺术家的原创性和作品质量，因此投入大量精力推广他们。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1743#adchannelID=">在中国经商不可不知的五大风水原则</a></h2>
+<a class="image" target="_blank" href="/video/1743#adchannelID="><figure class="loading" data-url="http://i.ftimg.net/picture/9/000057079_piclink.jpg"></figure></a><div class="item-lead">金是白虎，木是青龙，水是玄武，火是朱雀，土是黄龙。中国传统文化中根深蒂固的五行，对共产党统治下的全球第二大经济体依然适用。香港风水大师卢恒立向FT记者介绍了在中国做生意，你不可不知的五件事。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="XLT LT MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1741#adchannelID=">消灭“北京霾”才是中国减排棘手要务</a></h2>
+<a class="image" target="_blank" href="/video/1741#adchannelID="><figure class="loading" data-url="http://i.ftimg.net/picture/1/000056941_piclink.jpg"></figure></a><div class="item-lead">今年的巴黎联合国气候变化大会刚开没几天，北京就被近两年来最为严重的雾霾所笼罩。生活在中国首都的人们根本不关心全球变暖，他们最担心的是自家孩子每天呼吸什么样的空气。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1736#adchannelID=">中国与欧美私人博物馆有哪些不同？</a></h2>
+<a class="image" target="_blank" href="/video/1736#adchannelID="><figure class="loading" data-url="http://i.ftimg.net/picture/3/000056773_piclink.jpg"></figure></a><div class="item-lead">在中国，私人博物馆是一个新的趋势，其往往与藏家个人结合比较紧密。而欧美私人博物馆是公立的，且管理理念是向社会进行回馈。现在中国很多的私人博物馆都在担忧这个问题，如果有一天创办人没钱了，这些博物馆今后怎么办？</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1734#adchannelID=">亚洲当代艺术呈现井喷式发展</a></h2>
+<a class="image" target="_blank" href="/video/1734#adchannelID="><figure class="loading" data-url="http://i.ftimg.net/picture/0/000056610_piclink.jpg"></figure></a><div class="item-lead">担任芝加哥艺术博物馆亚洲艺术部主管汪涛博士在积极筹备各种亚洲藏品展览的同时，也在规划亚洲部的扩建。他表示近五年来，发展最快的是当代艺术，从多样性和深入的程度而言，已经达到了空前的地步。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="XLT LT MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1726#adchannelID=">《我只认识你》：让老人活得有尊严</a></h2>
+<a class="image" target="_blank" href="/video/1726#adchannelID="><figure class="loading" data-url="http://i.ftimg.net/picture/9/000056259_piclink.jpg"></figure></a><div class="item-lead">制片人冯都欲通过最新制作的纪录片《我只认识你》，让大家共同关注阿尔茨海默症家庭，关注中国养老问题。希望通过这部影片的传递，让中国的老人们能够拥有一个真正快乐而有尊严的晚年。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1721#adchannelID=">为何巴黎画派作品价值突然飙升？</a></h2>
+<a class="image" target="_blank" href="/video/1721#adchannelID="><figure class="loading" data-url="http://i.ftimg.net/picture/8/000056048_piclink.jpg"></figure></a><div class="item-lead">近年来，以莫迪利安尼、苏丁、夏加尔等代表的巴黎画派作品价格大幅飙升，在拍卖场上屡创新高。今年11月，佳士得宣布即将拍卖一幅估价为一亿美元的莫迪利安尼的作品《沙发上的祼女》。这件作品背后有怎样的故事？为何大众忽然热衷于他的作品？</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1715#adchannelID=">艺术品买家都是些什么人？</a></h2>
+<a class="image" target="_blank" href="/video/1715#adchannelID="><figure class="loading" data-url="http://i.ftimg.net/picture/9/000055749_piclink.jpg"></figure></a><div class="item-lead">一旦市场上有高品质的画作出现，就会催生无尽的需求。目前世界上最昂贵的两幅画作分别以2.5亿和3亿美金售出。那么这些艺术品藏家来自哪里？到底是什么人在关注并逐渐进入艺术品市场？苏富比全球印象派及现代艺术主席大卫·诺曼为您解答。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="XLT LT MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1712#adchannelID=">为何中国藏家钟爱西方艺术品卖场？</a></h2>
+<a class="image" target="_blank" href="/video/1712#adchannelID="><figure class="loading" data-url="http://i.ftimg.net/picture/5/000055465_piclink.jpg"></figure></a><div class="item-lead">FT中文网新专栏——《谈艺录》，作者吴可佳是苏富比艺术学院艺术商业硕士课程教授，也是纽约素描、绘画与雕塑学院的董事会成员。此次她采访了苏富比全球印象派及现代艺术主席David Norman，探讨中国藏家与全球现代艺术品的市场动态。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1705#adchannelID=">中美之间：善良的天使</a></h2>
+<a class="image" target="_blank" href="/video/1705#adchannelID="><figure class="loading" data-url="http://i.ftimg.net/picture/7/000055027_piclink.jpg"></figure></a><div class="item-lead">世界前两大经济体之间的心理距离，决定了全球政治经济格局能否趋于稳定。一部暂定名《善良的天使》的好莱坞纪录片，意在打破双方心理层面的隔阂。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1702#adchannelID=">来自快递员的内心独白</a></h2>
+<a class="image" target="_blank" href="/video/1702#adchannelID="><figure class="loading" data-url="http://i.ftimg.net/picture/0/000054900_piclink.jpg"></figure></a><div class="item-lead">电动三轮快递车每天频繁穿梭在城区各处，已然成为了街道上独特的风景线。他们递送的包裹是中国电子商务行业蓬勃发展的真实写照。邮递员小吴接受了FT驻北京记者的采访，表示趁着年轻，想在北京多赚点钱，希望回故乡后能过上好日子。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="XLT LT MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1693#adchannelID=">中共开始认可“敌人的贡献”</a></h2>
+<a class="image" target="_blank" href="/video/1693#adchannelID="><figure class="loading" data-url="http://i.ftimg.net/picture/1/000054521_piclink.jpg"></figure></a><div class="item-lead">9月3日的中国抗战胜利70周年阅兵活动进行在即，这是中国共产党对历史的传承。如今，有越来越多的迹象表明，中共已逐渐开始认可自己当年的敌人——中国国民党军队在抗日战争中发挥的作用，那些“国军”抗战老兵也有望与历史达成和解。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1685#adchannelID=">重建21世纪的华沙【英文原声】</a></h2>
+<a class="image" target="_blank" href="/video/1685#adchannelID="><figure class="loading" data-url="http://i.ftimg.net/picture/5/000054125_piclink.jpg"></figure></a><div class="item-lead">70年前，苏联红军抵达华沙，消灭了这里的希特勒部队。战争让这座波兰城市满目疮痍，85%的建筑被毁，这对于新接管的共产党来说是个巨大的挑战，但也造就了一批象征斯大林权力的建筑。如今，在华沙人看来，1989年以前的建筑并非一无是处，1989年以后的建筑也不都代表着先进。关于如何重建华沙的争论，仍在继续。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1679#adchannelID=">印度的新型城市设计实验【英文原声】</a></h2>
+<a class="image" target="_blank" href="/video/1679#adchannelID="><figure class="loading" data-url="http://i.ftimg.net/picture/5/000053835_piclink.jpg"></figure></a><div class="item-lead">杂乱的街道，穿行的人流，一片混乱，这也许是不少人对印度城市的印象。但若以为所有印度城市都如此，那你一定没去过昌迪加尔(Chandigarh)。20世纪中叶，在首任印度总理的委托下，法国建筑大师勒·柯布西耶(Le Corbusier)主导了这项打造新型城市的实验。这里空旷、干净、有序，完全不受历史传统的影响，也不允许街头流浪生活的存在。通常，人们移民到那里生活都不是为了出人头地。印度首相莫迪正计划打造100座智慧城市，来解决人口从农村向城市的迁移。柯布西耶的遗产，能成为未来印度的模板吗？</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="XLT LT MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1667#adchannelID=">中国反腐改变商学院学生构成</a></h2>
+<a class="image" target="_blank" href="/video/1667#adchannelID="><figure class="loading" data-url="http://i.ftimg.net/picture/8/000053428_piclink.jpg"></figure></a><div class="item-lead">上海交大安泰商学院院长周林在“FT商学院”栏目中表示，自去年反腐运动伸向商学院教育以来，EMBA学员构成已从政府官员和国企高管为主，变成了民营企业家居多。不过，民企学员也有“身份红利”，他们可自由出境，如今的课程设置显得更国际化。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1653#adchannelID=">拯救大堡礁【英文原声】</a></h2>
+<a class="image" target="_blank" href="/video/1653#adchannelID="><figure class="loading" data-url="http://i.ftimg.net/picture/2/000052722_piclink.jpg"></figure></a><div class="item-lead">位于澳大利亚海岸附近的自然遗迹——大堡礁，正因为人类活动而缓慢消失。当地旅游业想尽一切办法让它保持原始风貌，但政府支持下的煤矿工业却想在昆士兰岸边新建矿场和港口。FT记者发自大堡礁。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1640#adchannelID=">中国老人开始乐于休闲消费</a></h2>
+<a class="image" target="_blank" href="/video/1640#adchannelID="><figure class="loading" data-url="http://i.ftimg.net/picture/9/000052319_piclink.jpg"></figure></a><div class="item-lead">刻板的传统印象认为中国老年人都是紧紧攥着存钱罐，为大额医疗支出或者为买一块儿风景不错的墓地而攒钱。然而，这种观点可能需要被颠覆，因为如今许多城市老人开始选择享受生活，换句话说，就是学会积极在自己身上花钱了。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="XLT LT MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1634#adchannelID=">露西•凯拉韦的量子级游轮体验【英文原声】</a></h2>
+<a class="image" target="_blank" href="/video/1634#adchannelID="><figure class="loading" data-url="http://i.ftimg.net/picture/6/000052126_piclink.jpg"></figure></a><div class="item-lead">FT专栏作家露西•凯拉韦和她首次在镜头前露面的儿子，应邀登上了皇家加勒比最新的价值数十亿美元的“海洋圣歌号”豪华游轮，在英吉利海峡度过两天家庭娱乐时光。游轮之旅正试图打破“老年人度假天堂”的刻板印象，船上的模拟跳伞尤其让露西激动不已。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1633#adchannelID=">国际学生欲留美国就业有多难？</a></h2>
+<a class="image" target="_blank" href="/video/1633#adchannelID="><figure class="loading" data-url="http://i.ftimg.net/picture/4/000052084_piclink.jpg"></figure></a><div class="item-lead">跟许多在美国求学的国际学生一样，李熙然（音译）是哥伦比亚大学电子工程专业的学生，他正为在美国找到一份全职工作而烦恼。他说，要拿到H-1B签证，不是看能力，而是看抽签的运气。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1609#adchannelID=">向菊回家的内心戏</a></h2>
+<a class="image" target="_blank" href="/video/1609#adchannelID="><figure class="loading" data-url="http://i.ftimg.net/picture/2/000051432_piclink.jpg"></figure></a><div class="item-lead">故事发生在2015年春节，保姆向菊下决心离开北京，返回位于湖北老家的向家湾。可就当假期结束时，向菊却再次踏上了重返北京的火车。一方面因为需要复查病情，另一方面也因为自己已再次淹没在了无尽的迷茫之中。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="clearfloat"></div>
+</div>
+</div></div>
+<div class="clearfloat block-bottom"></div><div class="list-container">
+<div class="list-inner">
+<h2 class="list-title"><a class="list-link" href="#">版权声明</a></h2>
+<div class="items">
+<div class="item-container no-image">
+<div class="item-inner">
+<div class="item-lead">
+<p>未经英国《金融时报》书面许可，对于英国《金融时报》拥有版权和/或其他知识产权的任何内容，任何人不得复制、转载、摘编或在非FT中文网（或：英国《金融时报》中文网）所属的服务器上做镜像或以其他任何方式进行使用。已经英国《金融时报》授权使用作品的，应在授权范围内使用。</p>
+<p>本网络视频的使用必须遵循英国《金融时报》网站(www.FT.com)的条款，我们建议您阅读条款的全部内容。您所接受的服务仅限于个人和非商业的用途。英国《金融时报》不承诺此项服务是无误差或是连续的，同时也不给予您在任何使用（权利）方面的承诺。网络视频中非英国《金融时报》人员所陈述的观点仅代表他们本人而非英国《金融时报》的观点立场，英国《金融时报》不承担由他们所表达之观点产生的任何责任。观看需Adobe Flash Player 8.0或以上版本的视频播放器。请查看与英国《金融时报》网站兼容的<a href="http://www.ft.com/servicestools/help/terms/browsers" target=_blank>浏览器清单</a>。</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="clearfloat block-bottom"></div>
+</div></div>
+<div class="side-container"><div class="side-inner">
+<div class="mpu-container first-child">
+<script type="text/javascript">document.write (writeAd('mpu'));</script>
+</div>
+<div class="mps last-child">
+<h2 class="list-title"><a href="/channel/stream.html">热门视频</a></h2>
+<ul class="top10">
+<li class="mp1"><span>1. </span><a target="_blank" href="/video/">90秒了解巴拿马绝密文件泄露事件</a></li>
+<li class="mp2"><span>2. </span><a target="_blank" href="/video/">纪录片：中国移民奇迹终结（上）</a></li>
+<li class="mp3"><span>3. </span><a target="_blank" href="/video/">为何图片中的职场女性都年轻貌美？</a></li>
+<li class="mp4"><span>4. </span><a target="_blank" href="/video/">纪录片：中国移民奇迹终结（下）</a></li>
+<li class="mp5"><span>5. </span><a target="_blank" href="/video/">从“十三五”看中国转型之难</a></li>
+<li class="mp6"><span>6. </span><a target="_blank" href="/video/">假如日本机器人被用于军事</a></li>
+<li class="mp7"><span>7. </span><a target="_blank" href="/video/">纪录片：中国移民奇迹终结</a></li>
+<li class="mp8"><span>8. </span><a target="_blank" href="/video/">柯慕贤：德国民众为何担心中国国企</a></li>
+<li class="mp9"><span>9. </span><a target="_blank" href="/video/">台湾维权太平岛：是岛不是礁</a></li>
+<li class="mp10"><span>10. </span><a target="_blank" href="/video/">机器人崛起：这次会不一样吗？</a></li>
+</ul>
+</div>
+</div></div>
+<div class="clearfloat"></div>
+</div></div><div class="footer-container"><div class="footer-inner">
+<div>
+<a href="/m/corp/aboutus.html">关于我们</a>
+<a href="/jobs/?from=ft">加入我们</a>
+<a href="/m/corp/faq.html">问题回馈</a>
+<a href="/m/corp/contact.html">联系方式</a>
+<a href="/m/corp/partner.html">合作伙伴</a>
+<a href="/m/corp/service.html">服务条款</a>
+<a href="/m/corp/sales.html">广告业务 </a>
+<a href="/m/corp/copyright.html">版权声明</a>
+<a href="/m/marketing/ftc.html">最新动态</a>
+</div>
+<p>
+<span class="copyright"><b>© The Financial Times Ltd 2016</b></span> 
+<span><acronym title="Financial Times">FT</acronym> and 'Financial Times' are trademarks of The Financial Times Ltd.</span>
+</p>
+</div></div><div class="app-download-container">
+<a href="http://app.ftchinese.com/download.html?utm_source=marketing&utm_medium=campaign&utm_campaign=QRCODE02" target="_blank">
+<div>FT中文网客户端</div>
+<figure class="loading" data-url="http://s.ftimg.net/img/qr/qr90-2.png"></figure>
+<div>点击或扫描下载</div>
+</a>
+</div>
+<div class="app-download-container wechat">
+<a href="#" target="_blank">
+<div>FT中文网微信</div>
+<figure class="loading" data-url="http://i.ftimg.net/picture/4/000059334_piclink.jpg"></figure>
+<div>扫描关注</div>
+</a>
+</div><div class="overlay-container" id="share-legacy">
+<div class="overlay-inner">
+<div class="overlay-bg" data-parentid="share-legacy"></div>
+<div class="overlay-content-outer">
+<div class="overlay-content-inner">
+<div class="overlay-content">
+<div class="overlay-title">分享<i class="overlay-close" data-parentid="share-legacy">×</i></div>
+<span id="sharelinks"></span>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+            
+
+
+ </body>
+
+<!--[if lte IE 8]>
+<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+<![endif]-->
+
+<!-- build:js scripts/main-video.js -->
+<script type="text/javascript" src="scripts/dom-delegate.js"></script>
+<script type="text/javascript" src="scripts/main.js"></script>
+<script type="text/javascript" src="scripts/o-nav.js"></script>
+<script type="text/javascript" src="scripts/video.js"></script>
+<!-- endbuild -->
+
+<script type="text/javascript" src="scripts/sharelinks.js"></script>
+
+</html>
+

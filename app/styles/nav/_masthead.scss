@@ -1,0 +1,12 @@
+.o-header__masthead-mobile {
+// This makes the o-header__bottom 12 * 2 + 21 = 45px;
+	padding: ($o-header-bottom-height - $o-header-logo-mobile-height)/2 0;
+	margin: 0;
+
+	@include oGridRespondTo(L) {
+		display: none;
+	}
+	> a {
+		@include oHeaderLogo($o-header-logo-mobile-height);
+	}
+}

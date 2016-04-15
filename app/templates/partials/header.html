@@ -1,12 +1,24 @@
 <header class="header-container">
   <div class="header-inner">
     <div class="masthead"></div>
-    <div class="header-side header-left">
-      <div class="current-edition">简体中文版</div>
+    <div class="header-side header-left expandable">
+      <div class="current-edition">
+        <span>简体中文版</span>
+        <a href="http://big5.ftchinese.com/">繁体中文版</a>
+        <a href="http://www.ft.com/">英文版</a>
+      </div>
     </div>
     <div class="header-side header-right">
-      <a href="">登录</a>
-      <a class="more last" href="http://user.ftchinese.com/register">免费注册</a>
+        <span class="visitor-box">
+            <a onclick="showOverlay('overlay-login')">登录</a>
+            <a class="more last" href="http://user.ftchinese.com/register">免费注册</a>
+        </span>
+        <span class="member-box">
+            <a id="ft-login-your-account" href="/users/cp">设置</a>
+            <a id="ft-login-logout" href="http://user.ftchinese.com/logout">登出</a>
+        </span>
     </div>
   </div>
 </header>
+
+<%include file="next/partials/login-overlay.html"%>
