@@ -29,7 +29,7 @@ $data = [
 
 $smarty->assign('datass1', $data);
 
-$smarty->assign('topnav', 'china');
+$smarty->assign('topnav', 'home');
 $smarty->assign('subnav', 'chinabusiness');
 
 $smarty->display('../views/index.tpl');
