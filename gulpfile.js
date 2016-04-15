@@ -310,7 +310,7 @@ gulp.task('jshint', function () {
     .pipe($.jshint.reporter('fail'));
 });
 
-gulp.task('html', ['styles'], function () {
+gulp.task('html', ['navjs', 'styles'], function () {
   return gulp.src('app/*.html')
     .pipe($.useref({searchPath: ['.tmp', 'app', '.']}))
     .pipe($.if('*.js', $.uglify()))
@@ -451,7 +451,7 @@ gulp.task('copym', function() {
 });
 
 gulp.task('copyjs', function() {
-  return gulp.src(['views/scripts/o-nav.js', 'app/scripts/*.js'])
+  return gulp.src(['views/scripts/o-nav.js', 'app/scripts/*.js', '!app/scripts/o-nav.js'])
   .pipe(gulp.dest('.tmp/scripts'))
   .pipe(browserSync.stream({once:true}));
 });
