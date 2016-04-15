@@ -617,12 +617,11 @@
 					<%assign var="hasImage" value="no-image"%>
 				<%/if%>
 
-
-				<%$itemTop%>
-
-				<%if $listType === "video" && $i>5%>
+				
+				<%if $listType == "videos" && $i>5%>
 					<%*<!--Only display first 6 in video package-->*%>
 				<%else%>
+					<%$itemTop%>
 					<div class="item-container <%$itemClass%> <%$hasImage%>"><div class="item-inner">
 						<h2 class="item-headline"><%$itemTag%><a target="_blank" href="/<%$item.type%>/<%$item.id%><%$adForceString%>"><%$item.headline%></a></h2>
 						<%if $item.relatives|@count > 0 && $item.relatives[0].type === 'video'%><div class="image"><figure class="loading-video" data-vid="<%$item.relatives[0].id%>"></figure></div><%elseif $item.type === "video" && $listType !== "videos"%><div class="image"><figure class="loading-video" data-vid="<%$item.id%>"></figure></div><%elseif $item.image != "" && $hasImage === "has-image"%><a class="image" target="_blank" href="/<%$item.type%>/<%$item.id%><%$adForceString%>"><figure class="loading" data-url="<%$item.image|replace:"/upload/":"/"%>"></figure></a><%/if%>
