@@ -5,7 +5,7 @@
       <div class="o-nav__inner">
         <form action="/search/" id="search-form" class="o-header__search-form" role="search">
           <button class="search-button" tabindex="1"><span>搜索</span></button> 
-          <input id="search-term" type="search" name="keys" class="search-input" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="搜索FT中文网" />
+          <input id="search-term" type="search" name="keys" class="search-input" placeholder="搜索FT中文网" />
           <input id="type_news" type="hidden" value="type_news" name="ftsearchType" checked />
         </form>
 
@@ -17,10 +17,10 @@
           
           <button class="nav-toggle" data-o-nav-togglable><span>Menu</span></button>
 
-          <ol class="o-nav__level-1">
+          <ol class="o-nav__meganav">
 
             <li class="nav-section mobile">
-              <button class="nav-section-head mobile" data-o-nav-selectable aria-selected="true">切换版本</button>
+              <button class="nav-section-head mobile" aria-selected="true">切换版本</button>
                                         
               <ol class="nav-items">
                 <li class="nav-item">
@@ -45,7 +45,7 @@
 
 <%if $topnav==$level_1.code%>
 
-              <ol class="nav-items level-2">
+              <ol class="nav-items">
 
                 <li class="nav-item mobile">
                   <a class="nav-link" href="<%$level_1.link%>">
@@ -68,7 +68,7 @@
                   <a class="nav-link" href="<%$level_2.link%>"><%$level_2.name %></a>
                   
                   <%if $level_2.haschildren%>
-                  <ol class="nav-sub-items level-3">
+                  <ol class="nav-sub-items">
                   
                     <%foreach from=$level_2.children item="level_3"%>
                     <li><a href="<%$level_3.link%>"><%$level_3.name%></a></li>
@@ -84,15 +84,25 @@
 <%/if%>
             </li>
             <%/foreach%>
-
-            <li class="nav-item mobile">
-              <a class="nav-link" href="">myFT</a>
+            <li class="nav-section mobile login">
+              <ul>
+                <li class="nav-item">
+                  <a class="nav-link" href="http://user.ftchinese.com/login">登陆</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="http://user.ftchinese.com/register">注册</a>
+                </li>    
+              </ul>
             </li>
-            <li class="nav-item mobile">
-              <a class="nav-link" href="">退出</a>
-            </li>
-            <li class="nav-item mobile">
-              <a class="nav-link" href="">账户设置</a>
+            <li class="nav-section mobile logout">
+              <ul>
+                <li class="nav-item">
+                  <a class="nav-link" href="http://user.ftchinese.com/logout">退出</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/users/setting/index">账户设置</a>
+                </li>    
+              </ul>
             </li>
           </ol>
         </nav>

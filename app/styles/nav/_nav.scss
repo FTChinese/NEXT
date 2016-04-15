@@ -10,7 +10,7 @@
 	top: 0;
 	height: $o-header-bottom-height;
 
-	@include oGridRespondTo(M) {
+	@include oGridRespondTo(L) {
 		position: relative;
 	}
 
@@ -19,23 +19,35 @@
 	}
 }
 
-.o-nav__level-1 {
+.o-nav__meganav {
 	list-style: none;
 	margin: 0;
 	padding: 0;
-// color set here will inherited by descendant `<a>`
-	@include oGridRespondTo(M) {
+	@include oGridRespondTo(L) {
 		@include oColorsFor(o-header, text background);
 		white-space: nowrap;
 		overflow-x: hidden;
 	}
 	
-	@include oGridRespondTo($until:M) {
+	@include oGridRespondTo($until:L) {
 
 		@include oColorsFor(o-header-mega-nav);
 
 		position: absolute;
 		display: none;
+// psuedo left column background.
+		&:before {
+			content: '';
+			display: block;
+			box-sizing: border-box;
+			position: absolute;
+			top: 0;
+			left: 0;
+			bottom: 0;
+			width: $o-header-mobile-left-width;
+			@include oColorsFor(o-header);
+			z-index: -1;
+		}
 		
 		.nav-toggle[aria-pressed=true] ~ & {
 			display: block;
@@ -54,7 +66,7 @@
 
 // use `display:block` with caution here. It is not the same as `display:list-item`.
 .nav-section{
-	@include oGridRespondTo(M) {
+	@include oGridRespondTo(L) {
 		display: inline-block;
 
 		&:hover {
@@ -63,14 +75,21 @@
 		&[aria-selected=true] {
 			@include oColorsFor(o-header-sub-nav, background);
 		}
-	}
-
-	&.mobile {
-		@include oGridRespondTo(M) {
+		&.mobile {		
 			display: none;
 		}
 	}
-// Did not set color for .nav-section on default state. Transparent to show color underneath.
+	@include oGridRespondTo($until: L) {
+		&.logout {
+			display: none;
+		}
+		.is-member &.login{
+			display: none;
+		}
+		.is-member &.logout {
+			display: block;
+		}
+	}
 }
 
 // left part of navigation on small screen
@@ -88,7 +107,7 @@
  	@include oColorsFor(o-header, text);
 	background-color: inherit;
 
-	@include oGridRespondTo($until:M) {
+	@include oGridRespondTo($until:L) {
 		padding-left: oGridGutter();
 		min-width: $o-header-mobile-left-width;
 		max-width: $o-header-mobile-left-width;
@@ -118,7 +137,7 @@
 // Must put after the previous rules. Otherwise it will be overitten by the previous `display:block`.
 	&.desktop {
 		display: none;
-		@include oGridRespondTo(M) {
+		@include oGridRespondTo(L) {
 			display: block;
 			font-size: 17px;
 			transition: $o-header-background-transition;
@@ -133,7 +152,7 @@
 
 	&.mobile {
 		display: block;
-		@include oGridRespondTo(M) {
+		@include oGridRespondTo(L) {
 			display: none;
 		}
 	}
@@ -146,7 +165,7 @@
 	margin: 0;
 	padding: 0;
 
-	@include oGridRespondTo(M) {
+	@include oGridRespondTo(L) {
 		position: absolute;
 		left: 0;
 		display: block;
@@ -175,14 +194,12 @@
 		}
 
 // hide when scrolled. To keep transiton effect, do no use  display, visibility.
-		.o-nav[aria-sticky=true] &,
-		.o-nav[aria-sticky=true] .nav-section[aria-selected=true] &,
-		.o-nav[aria-sticky=true] .nav-section-head.desktop ~ & {
+		.o-nav[aria-sticky=true] .nav-section[aria-selected=true] & {
 			height: 0;
 		}
 	}
 
-	@include oGridRespondTo($until:M) {
+	@include oGridRespondTo($until:L) {
 		padding-left: oGridGutter();
 		min-width: $o-header-mobile-right-width;
 		max-width: $o-header-mobile-right-width;
@@ -206,8 +223,8 @@
 }
 
 .nav-item {
-	@include oGridRespondTo(M) {
-		&.mobile{
+	@include oGridRespondTo(L) {
+		&.mobile {
 			display: none;
 		}
 		position: relative;
@@ -222,8 +239,7 @@
 					@include oHeaderArrowDown;
 				}
 
-				&:hover/* ,
-				&:focus */ {
+				&:hover {
 					&:after {
 					@include oHeaderArrowUp;
 					}
@@ -244,7 +260,7 @@
 	box-sizing: border-box;	
 	text-decoration: none;
 
-	@include oGridRespondTo($until:M) {
+	@include oGridRespondTo($until:L) {
 		padding-left: oGridGutter();
 		min-width: $o-header-mobile-left-width;
 		max-width: $o-header-mobile-left-width;
@@ -265,7 +281,7 @@
 		}
 
 		.nav-items & {
-// reset styles to default for links under `.nav-items`.
+// reset styles to default for links of level-2 nav.
 			display: block;
 			padding-left: 0;
 			padding-right: 0;
@@ -283,7 +299,7 @@
 		}
 	}
 
-	@include oGridRespondTo(M) {
+	@include oGridRespondTo(L) {
 		margin: 0;
 		display: block;
 		word-break: keep-all;
@@ -308,7 +324,7 @@
 
 	display: none;
 
-	@include oGridRespondTo(M) {
+	@include oGridRespondTo(L) {
 		list-style-type: none;
 		margin: 0;
 		padding: 0;
@@ -349,7 +365,7 @@
 /* =====toggler==== */
 
 .nav-toggle {
-	@include oGridRespondTo(M) {
+	@include oGridRespondTo(L) {
 		display: none;
 	}
 	@include oColorsFor(o-header, text background);
@@ -373,7 +389,7 @@
 		display: none;
 	}
 
-	@include oGridRespondTo($until:M) {
+	@include oGridRespondTo($until:L) {
 		&:before {
 			content: '';
 			vertical-align: middle;

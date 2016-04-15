@@ -1,5 +1,5 @@
 .header-container {
-	@include oGridRespondTo($until:M) {
+	@include oGridRespondTo($until:L) {
 		display: none;
 	}
 }
@@ -7,13 +7,13 @@
 	padding: 0;
 	margin: 0;
 	border: 0;
-	@include oGridRespondTo($until: M) {
+	@include oGridRespondTo($until: L) {
 // placeholder to keep document height intact when `.o-nav` becomes fixed and moved out of document flow.
-		height: $o-header-bottom-height + 30px;
+		height: $o-header-bottom-height + 15px;
 		background-color: transparent;
 	}
 
-	@include oGridRespondTo(M) {
+	@include oGridRespondTo(L) {
 		position: relative;
 		z-index: 1;
 		height: $o-header-bottom-height + $o-header-sub-nav-height + 30px;
@@ -29,7 +29,7 @@
 .o-nav {
 	@include oColorsFor(o-header);
 
-	@include oGridRespondTo($until: M) {
+	@include oGridRespondTo($until: L) {
 		position: fixed;
 		top: 0;
 		left: 0;
@@ -37,7 +37,7 @@
 		z-index: 1;
 		height: $o-header-bottom-height;
 	}
-	@include oGridRespondTo(M) {
+	@include oGridRespondTo(L) {
 		position: relative;
 // add background placeholder for .nav-items. Move it out of normal flow.
 		&:after {
@@ -72,7 +72,7 @@
 	padding-right: oGridGutter();
 
 
-	@include oGridRespondTo(M) {
+	@include oGridRespondTo(L) {
 		padding: 0 30px;
 	}
 
