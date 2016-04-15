@@ -320,13 +320,6 @@ gulp.task('html', ['navjs', 'styles'], function () {
     .pipe(gulp.dest('dist'));
 });
 
-/*gulp.task('uglify', function() {
-  return gulp.src('app/scripts/o-nav.js')
-    .pipe($.uglify())
-    .on('error', $.util.log)
-    .pipe(gulp.dest('.tmp'));
-});*/
-
 gulp.task('images', function () {
   return gulp.src('app/images/**/*')
     .pipe($.cache($.imagemin({
@@ -476,7 +469,7 @@ gulp.task('serve',
   });
 
   gulp.watch(['views/**/*', 'app/templates/partials/*.html', 'server/*'], browserSync.reload);
-  gulp.watch(['app/**/*.js'], ['copyjs']);
+  gulp.watch(['views/**/*.js'], ['copyjs']);
   gulp.watch(['app/styles/**/*.scss'], ['css']);
 });
 
