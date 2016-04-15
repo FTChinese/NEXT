@@ -520,7 +520,7 @@ gulp.task('navtpl', function() {
     .pipe(gulp.dest('app/templates/partials'));
 });
 
-gulp.task('testbuild', ['testcss', 'testjs', 'testtpl', 'testajax']);
+gulp.task('testbuild', ['testcss', 'testjs', 'testnav', 'testajax']);
 /*************/
 
 gulp.task('build', ['jshint', 'html', 'images', 'fonts', 'extras', 'ad'], function () {

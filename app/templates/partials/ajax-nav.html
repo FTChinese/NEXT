@@ -1,4 +1,4 @@
-<%if empty($global_nav)%><%easyapi command="11001" assign="datass1" debug=false%><%assign var="navData" value=$datass1.odatalist%><%else%><%assign var="navData" value="$global_nav"%><%/if%>
+<%easyapi command="11001" assign="datass1" debug=false%><%assign var="navData" value=$datass1.odatalist%>
 <%foreach from=$datass1.odatalist item="level_1"%>
 <li class="nav-section" data-section="<%$level_1.code%>">
   <ol class="nav-items level-2">
