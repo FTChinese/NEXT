@@ -7,14 +7,6 @@ On www.ftchinese.com, if you add ?n=1 at the end of the url, the page will be di
 * [Lunch with the FT](http://www.ftchinese.com/tag/与FT共进午餐?n=1)
 * [Story Page](http://www.ftchinese.com/story/001066965?n=1)
 
-## Tasks to Change. 2016.03.20
-- We use `gulp-sass` rather than `gulp-ruby-sass`. `gulp-sass` is node's binding to lib sass which is written in C, therefore much faster and compatible with Node.
-
-- Write sourcemap for build css and js.
-
-- It is strongly recommended to upgrade to gulp 4.0 which has a superb sequencial task management. Gulp 3 is quite terribel at managing tasks executed in sequence.
-
-- It is suggested to upgrade node modules of this project since the modules in use are quite outdated. `npm update --save-dev`.
 
 ## Install gulp 4.0
 

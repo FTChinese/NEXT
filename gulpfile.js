@@ -310,23 +310,15 @@ gulp.task('jshint', function () {
     .pipe($.jshint.reporter('fail'));
 });
 
-gulp.task('html', ['styles'], function () {
+gulp.task('html', ['navjs', 'styles'], function () {
   return gulp.src('app/*.html')
     .pipe($.useref({searchPath: ['.tmp', 'app', '.']}))
-    .pipe($.if('*.js', $.replace('ajax.php', 'http://www.corp.ftchinese.com/m/corp/ajax-nav.html')))
     .pipe($.if('*.js', $.uglify()))
     .on('error', $.util.log)
     .pipe($.if('*.css', $.cssnano()))
     .pipe($.if('*.html', $.htmlmin({collapseWhitespace: true})))
     .pipe(gulp.dest('dist'));
 });
-
-/*gulp.task('uglify', function() {
-  return gulp.src('app/scripts/o-nav.js')
-    .pipe($.uglify())
-    .on('error', $.util.log)
-    .pipe(gulp.dest('.tmp'));
-});*/
 
 gulp.task('images', function () {
   return gulp.src('app/images/**/*')
@@ -452,7 +444,7 @@ gulp.task('copym', function() {
 });
 
 gulp.task('copyjs', function() {
-  return gulp.src(['header/js/*.js', 'app/scripts/*.js'])
+  return gulp.src(['views/scripts/o-nav.js', 'app/scripts/*.js', '!app/scripts/o-nav.js'])
   .pipe(gulp.dest('.tmp/scripts'))
   .pipe(browserSync.stream({once:true}));
 });
@@ -477,7 +469,7 @@ gulp.task('serve',
   });
 
   gulp.watch(['views/**/*', 'app/templates/partials/*.html', 'server/*'], browserSync.reload);
-  gulp.watch(['app/**/*.js'], ['copyjs']);
+  gulp.watch(['views/**/*.js'], ['copyjs']);
   gulp.watch(['app/styles/**/*.scss'], ['css']);
 });
 
@@ -506,7 +498,7 @@ gulp.task('testcss', function() {
 
 gulp.task('testjs', function() {
   return gulp.src('dist/scripts/main.js')
-    .pipe($.replace('ajax.php', 'http://www.corp.ftchinese.com/m/corp/ajax-nav.html'))
+    .pipe($.replace('ajax.php', '/m/corp/ajax-nav.html'))
     .pipe($.size({
       title: 'main.js',
       gzip: true
@@ -518,6 +510,12 @@ gulp.task('navtpl', function() {
   return gulp.src('views/nav.html')
     .pipe($.replace('<!-- easyapi -->', '<%easyapi command="11001" assign="datass1" debug=false%><%assign var="navData" value=$datass1.odatalist%><%if $topnav == ""%><%assign var="topnav" value="home"%><%/if%>'))
     .pipe(gulp.dest('app/templates/partials'));
+});
+
+gulp.task('navjs', function() {
+  return gulp.src('views/scripts/o-nav.js')
+    .pipe($.if('*.js', $.replace('ajax.php', '/m/corp/ajax-nav.html')))
+    .pipe(gulp.dest('app/scripts'));
 });
 
 gulp.task('testbuild', ['testcss', 'testjs', 'testnav', 'testajax']);
