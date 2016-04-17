@@ -14,8 +14,9 @@
 <%assign var="twitterUrl" value="http://twitter.com/home?status=`$shareText`...%20`$shareUrl`"%>
 <%assign var="facebookUrl" value="http://www.facebook.com/sharer.php?u=`$shareUrl`&t=`$shareText`"%>
 
-
-<%assign var="PageTitle" value=$catalogname%>
+<%if $PageTitle == ""%>
+    <%assign var="PageTitle" value=$catalogname%>
+<%/if%>
 <%if preg_match("/有色眼镜/is",$videotag)%>    
     <%assign var="channelcatename" value="有色眼镜"%>
     <%assign var="allstory" value=$videomodel->get_video_by_channel(29,0,50)%> 
