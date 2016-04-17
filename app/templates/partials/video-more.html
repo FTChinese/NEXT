@@ -3,7 +3,9 @@
 
 
 <div class="list-container"><div class="list-inner">
-	<h2 class="list-title"><a class="list-link" href="<%$channelLink%>"><%$channelcatename%></a></h2>
+	<%if $channelcatename != ""%>
+		<h2 class="list-title"><a class="list-link" href="<%$channelLink%>"><%$channelcatename%></a></h2>
+	<%/if%>
 	<div class="items">
 	<%assign var="i" value=0%>
 	<%assign var="hasImageCount" value=0%>
