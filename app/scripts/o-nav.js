@@ -122,6 +122,37 @@ function getElementOffset(e) {
 	return {x: x, y: y};
 }
 
+var isIE8 = (function() {
+	var b = document.createElement('B');
+	var docElem = document.documentElement;
+	var isIE;
+
+	b.innerHTML = '<!--[if IE 8]><b id="ie8test"></b><![endif]-->';
+	docElem.appendChild(b);
+	isIE = !!document.getElementById('ie8test');
+	docElem.removeChild(b);
+	return isIE;
+}());
+
+function getGridProperties() {
+	try {
+		var gridProperties = window.getComputedStyle(document.documentElement, ':after').getPropertyValue('content');
+		// Firefox computes: "{\"foo\": \"bar\"}"
+		// We want readable JSON: {"foo": "bar"}
+		gridProperties = gridProperties.replace(/'/g, '').replace(/\\/g, '').replace(/^"/, '').replace(/"$/, '');
+		return JSON.parse(gridProperties);
+	} catch (e) {
+		return {};
+	}
+}
+
+function getCurrentLayout() {
+	if (isIE8) {
+		return 'L';
+	}
+	return getGridProperties().layout;
+}
+
 var ajax = {
 	getData: function (url, callback) {
 	  var xhr = new XMLHttpRequest();  
@@ -156,9 +187,13 @@ var ajax = {
 
 var navEl = document.querySelector('.o-nav');
 var navElOffset = getElementOffset(navEl);
+var currentLayout = getCurrentLayout();
 
 new Nav(navEl);
-new Sticky(navEl, navElOffset.y);
+
+if (!currentLayout || currentLayout === 'L' || currentLayout === 'XL') {
+	new Sticky(navEl, navElOffset.y);
+}
 
 function oNavSections(container) {
 	var navSectionClassname = '.nav-section';
