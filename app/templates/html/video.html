@@ -85,7 +85,11 @@ document.documentElement.className = document.documentElement.className.replace(
 }
 </script>
 <style>
-<%include file="next/styles/main-video.css"%>
+<%if $pageType=="channel"%>
+    <%include file="next/styles/main-video-channel.css"%>
+<%else%>
+    <%include file="next/styles/main-video.css"%>
+<%/if%>
 </style>
 <link rel="icon" type="image/png" href="https://image.webservices.ft.com/v1/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=32&height=32" sizes="32x32">
 <link rel="icon" type="image/png" href="https://image.webservices.ft.com/v1/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=194&height=194" sizes="194x194">
