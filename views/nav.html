@@ -149,12 +149,12 @@
   </div><!-- o-nav -->  
 </div><!-- o-nav__placeholder -->
 
-<%if ($topnav!='home') || empty($subnav)%>
+<%if ($topnav!='home') || isset($subnav)%>
 <div class="site-map">
   <div class="site-map__container">
     <ul class="site-map__items">
       <li><a href="<%$current_link%>"><%$current_page%></a></li>
-    <%if $subnav%>  
+    <%if isset($subnav)%>  
       <li><a href="<%$current_sub_link%>"><%$current_sub_page%></a></li>
     <%/if%>
     </ul>
