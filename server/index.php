@@ -30,6 +30,6 @@ $data = [
 $smarty->assign('datass1', $data);
 
 $smarty->assign('topnav', 'home');
-$smarty->assign('subnav', 'chinabusiness');
+$smarty->assign('subnav', 'special');
 
 $smarty->display('../views/index.tpl');

@@ -36,6 +36,8 @@
             <li class="nav-section"
             <%if $topnav==$level_1.code%>
             aria-selected="true"
+<%assign var=current_page value=$level_1.name%>
+<%assign var=current_link value=$level_1.link%>
             <%/if%>
             data-section="<%$level_1.code%>">
 
@@ -60,6 +62,8 @@
                 <li class="nav-item"
                 <%if $subnav==$level_2.code%>
                 aria-selected="true"
+<%assign var=current_sub_page value=$level_2.name%>
+<%assign var=current_sub_link value=$level_2.link%>
                 <%/if%>
                 <%if $level_2.haschildren%>
                 aria-haspopup="true"
@@ -139,10 +143,22 @@
             <a class="nav-link follow__rss" href="http://www.ftchinese.com/channel/rss.html"><span>RSS</span></a>
           </li>
         </ul>
-      </div><!-- * o-header__bottom -->
-    </div><!-- o-header__container -->    
-  </div><!-- o-header-secondary -->  
+
+      </div><!-- o-nav__inner -->
+    </div><!-- o-nav__outer -->    
+  </div><!-- o-nav -->  
 </div><!-- o-nav__placeholder -->
+
+<div class="site-map">
+  <div class="site-map__container">
+    <ul class="site-map__items">
+      <li><a href="<%$current_link%>"><%$current_page%></a></li>
+    <%if $subnav%>  
+      <li><a href="<%$current_sub_link%>"><%$current_sub_page%></a></li>
+    <%/if%>
+    </ul>
+  </div>
+</div>
 
 
 <%*

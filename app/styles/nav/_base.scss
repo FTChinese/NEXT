@@ -9,7 +9,7 @@
 	border: 0;
 	@include oGridRespondTo($until: L) {
 // placeholder to keep document height intact when `.o-nav` becomes fixed and moved out of document flow.
-		height: $o-header-bottom-height + 15px;
+		height: $o-header-bottom-height/*  + 15px */;
 		background-color: transparent;
 	}
 
@@ -90,4 +90,48 @@
 	min-width: 100%;
 	max-width: 100%;
 	width: 100%;
+}
+
+.site-map {
+	box-sizing: border-box;
+	margin-left: auto;
+	margin-right: auto;
+	min-width: $o-grid-min-width;
+	max-width: 1260px;
+	padding: 5px oGridGutter();
+
+	@include oGridRespondTo(L) {
+		display: none;
+	}
+}
+.site-map__container {
+	box-sizing: border-box;
+	display: block;
+	min-width: 100%;
+	max-width: 100%;
+	width: 100%;
+}
+.site-map__items {
+	li {
+		display: inline-block;
+		margin-right: 5px;
+		&:before {
+			content: '';
+			display: inline-block;
+			border-top: 6px solid transparent;
+			border-bottom: 6px solid transparent;
+			border-left: 8px solid;
+			margin-right: 5px;
+		}
+		a {
+			color: #2e6e9e;
+			border-bottom: 1px dotted #2e6e9e;
+		}
+	}
+	li:first-child {
+		&:before {
+			border: 0;
+			margin-right: 0;
+		}
+	}
 }
