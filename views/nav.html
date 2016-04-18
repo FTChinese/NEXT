@@ -60,7 +60,7 @@
                 <%foreach from=$level_1.children item="level_2"%>
 
                 <li class="nav-item"
-                <%if $subnav==$level_2.code%>
+                <%if isset($subnav) && ($subnav==$level_2.code)%>
                 aria-selected="true"
 <%assign var=current_sub_page value=$level_2.name%>
 <%assign var=current_sub_link value=$level_2.link%>
@@ -149,6 +149,7 @@
   </div><!-- o-nav -->  
 </div><!-- o-nav__placeholder -->
 
+<%if ($topnav!='home') || empty($subnav)%>
 <div class="site-map">
   <div class="site-map__container">
     <ul class="site-map__items">
@@ -159,7 +160,7 @@
     </ul>
   </div>
 </div>
-
+<%/if%>
 
 <%*
 <div class="nav-place-holder" id="nav-place-holder"><nav class="nav-container" id="nav-container">

@@ -187,7 +187,7 @@
 			height: $o-header-sub-nav-height;
 			z-index: 5; // make sure it is always on top when hovered.
 		}
-
+// Only add transition on currently visible sub-nav
 		.nav-section[aria-selected=true] &{
 			transition: $o-header-height-transition;
 			height: $o-header-sub-nav-height;
@@ -196,6 +196,10 @@
 // hide when scrolled. To keep transiton effect, do no use  display, visibility.
 		.o-nav[aria-sticky=true] .nav-section[aria-selected=true] & {
 			height: 0;
+		}
+		.o-nav[aria-sticky=true] .nav-section:hover &,
+		.o-nav[aria-sticky=true] .nav-section-head.desktop:hover ~ & {
+			display: none;
 		}
 	}
 

@@ -98,7 +98,7 @@
 	margin-right: auto;
 	min-width: $o-grid-min-width;
 	max-width: 1260px;
-	padding: 5px oGridGutter();
+	padding: 10px oGridGutter();
 
 	@include oGridRespondTo(L) {
 		display: none;
@@ -114,24 +114,19 @@
 .site-map__items {
 	li {
 		display: inline-block;
-		margin-right: 5px;
-		&:before {
-			content: '';
-			display: inline-block;
-			border-top: 6px solid transparent;
-			border-bottom: 6px solid transparent;
-			border-left: 8px solid;
-			margin-right: 5px;
-		}
+		background-image: url('http://s.ftimg.net/img/png/arrow-right.png');
+		background-image: url('http://s.ftimg.net/img/svg/arrow-right.svg');
+		background-repeat: no-repeat;
+		background-position: left center;
+		background-size: 15px;
+		padding-left: 15px;
 		a {
-			color: #2e6e9e;
-			border-bottom: 1px dotted #2e6e9e;
+			font-size: 1.05em;
+			line-height: 120%;
 		}
 	}
 	li:first-child {
-		&:before {
-			border: 0;
-			margin-right: 0;
-		}
+		background-image: none;
+		padding-left: 0;
 	}
 }
