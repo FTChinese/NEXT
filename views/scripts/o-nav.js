@@ -121,7 +121,7 @@ function getElementOffset(e) {
 
 	return {x: x, y: y};
 }
-
+// callback(error, data)
 var ajax = {
 	getData: function (url, callback) {
 	  var xhr = new XMLHttpRequest();  
@@ -131,24 +131,25 @@ var ajax = {
 	      if (xhr.status >= 200 && xhr.status < 300 || xhr.status === 304) {
 	        var type = xhr.getResponseHeader('Content-Type');
 	        if (type.indexOf('html') !== -1 && xhr.responseXML) {
-	          callback(xhr.responseXML);
+	          callback(null, xhr.responseXML);
 	        } else if (type === 'application/json') {
-	          callback(JSON.parse(xhr.responseText));
+	          callback(null, JSON.parse(xhr.responseText));
 	        } else {
-	          callback(xhr.responseText);
+	          callback(null, xhr.responseText);
 	        }
 	      } else {
-	        console.log('Request was unsuccessful: ' + xhr.status);
+	        //console.log('Request was unsuccessful: ' + xhr.status);
+	        callback(xhr.status);
 	      }
 
 	    } else {
-	      console.log('readyState: ' + xhr.readyState);
+	      //console.log('readyState: ' + xhr.readyState);
 	    }
 	  };
 
-	  xhr.onprogress = function(event) {
-	    console.log('Request Progress: Received ' + event.loaded / 1000 + 'kb, Total' + event.total / 1000 + 'kb');
-	  };
+	  // xhr.onprogress = function(event) {
+	  //   console.log('Request Progress: Received ' + event.loaded / 1000 + 'kb, Total' + event.total / 1000 + 'kb');
+	  // };
 	  xhr.open('GET', url);
 	  xhr.send(null);
 	}
@@ -189,9 +190,10 @@ new Sticky(navEl, navElOffset.y);
 
 var initialNavSections = oNavSections(navEl);
 
-ajax.getData('ajax.php', function(data) {
+ajax.getData('ajax.php', function(error, data) {
 // `data` is text, not DOM! 
 // You need to parse data into DOM before appending it.
+	if (error) {return;}
 	var wrapperEl = document.createElement('ol');
 	wrapperEl.innerHTML = data;
 
