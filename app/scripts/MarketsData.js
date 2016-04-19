@@ -1,29 +1,27 @@
+var marketsDataEle = document.getElementById('markets-data');
+
 function getftdata(s) {
     s=s.replace(/:/g,'%3A').replace(/\s/g,'').replace(/\%E2\%80\%8E/g,'');
-    // $.ajax({
-    //     type: 'GET',
-    //     url: 'http://markets.ft.com/markets/data/getSymbolHover.asp?s=' + s + '&callback=updateContent&..contentType..=text%2Fjavascript&context=window._wsodSymbolHover&',
-    //     dataType: 'script'
-    // });
     var scriptEl = document.createElement('script');
     scriptEl.setAttribute('src', 'http://markets.ft.com/markets/data/getSymbolHover.asp?s=' + s + '&callback=updateContent&..contentType..=text%2Fjavascript&context=window._wsodSymbolHover&');
     document.body.appendChild(scriptEl);
 }
 
 function wtd(thesymbol,chinese,evenodd) {
-    var
-	evenoddclass='',
-	trstart='',
-	trend='',
-	thesymbol1=thesymbol.substring(1,20).replace(/\-mh\-/g,':').replace(/\-dot\-/g,'.').replace(/\-at\-/g,'@'),
-		thesymbol2='p' + thesymbol;
+    var evenoddclass='';
+	var trstart='';
+	var trend='';
+	var thesymbol1=thesymbol.substring(1,20).replace(/\-mh\-/g,':').replace(/\-dot\-/g,'.').replace(/\-at\-/g,'@');
+    var thesymbol2='p' + thesymbol;
+    var placeHolderTd = '';
     if (evenodd===1) {
+        placeHolderTd = '<td class="placeholder-td">&nbsp;</td>';
         evenoddclass=' secondary-column';
         trend='</tr>';
     } else {
         trstart='<tr>';
     }
-    return trstart + '<td class="text' + evenoddclass + '"><a target="_blank"  href="http://markets.ft.com/tearsheets/performance.asp?s=' + thesymbol1 + '">' + chinese + '</a></td><td class="last' + evenoddclass + '"><span class="dataValue" id=' + thesymbol + '>...</span></td><td class="pct-change' + evenoddclass + '"><span class="dataValue" id=' + thesymbol2 + '>...</span></td>' + trend;
+    return trstart + placeHolderTd + '<td class="text' + evenoddclass + '"><a target="_blank"  href="http://markets.ft.com/tearsheets/performance.asp?s=' + thesymbol1 + '">' + chinese + '</a></td><td class="last' + evenoddclass + '"><span class="dataValue" id=' + thesymbol + '>...</span></td><td class="pct-change' + evenoddclass + '"><span class="dataValue" id=' + thesymbol2 + '>...</span></td>' + trend;
 }
 
 function tab1() {
@@ -38,7 +36,7 @@ function tab1() {
     tabHTML += wtd('iIXTA-mh-TAI','台湾加权',1);
     tabHTML += wtd('in225-mh-NIK','日经225',0);
     tabHTML += wtd('iDAXX-mh-GER','DAX',1);
-    return '<div class="list-container XL4 L6 M12 S6 P12 side-by-side"><div class="list-inner"><h2 class="list-title"><a class="list-link" href="'+listLink+'">'+listTitle+'</a></h2><div class="items"><div class="item-container side-by-side no-image"><div class="item-inner" id="markets-stock"><table class="markets-data">' + tabHTML + '</table></div></div></div></div></div>';
+    return '<div class="list-container XL4 L12 M12 S12 P12 side-by-side"><div class="list-inner"><h2 class="list-title"><a class="list-link" href="'+listLink+'">'+listTitle+'</a></h2><div class="items"><div class="item-container side-by-side no-image"><div class="item-inner" id="markets-stock"><table class="markets-data">' + tabHTML + '</table></div></div></div></div></div>';
 }
 
 function tab2() {
@@ -53,7 +51,7 @@ function tab2() {
     tabHTML += wtd('iUSDHKD','美元/港元',1);
     tabHTML += wtd('iAUDUSD','澳元/美元',0);
     tabHTML += wtd('iUSDCAD','美元/加元',1);
-    return '<div class="list-container XL4 L6 M12 S6 P12 side-by-side"><div class="list-inner"><h2 class="list-title"><a class="list-link" href="'+listLink+'">'+listTitle+'</a></h2><div class="items"><div class="item-container side-by-side no-image"><div class="item-inner" id="markets-stock"><table class="markets-data">' + tabHTML + '</table></div></div></div></div></div>';
+    return '<div class="list-container XL4 L12 M12 S12 P12 side-by-side"><div class="list-inner"><h2 class="list-title"><a class="list-link" href="'+listLink+'">'+listTitle+'</a></h2><div class="items"><div class="item-container side-by-side no-image"><div class="item-inner" id="markets-stock"><table class="markets-data">' + tabHTML + '</table></div></div></div></div></div>';
 }
 
 function tab3() {
@@ -68,7 +66,7 @@ function tab3() {
     tabHTML += wtd('iUS-at-HG-dot-1-mh-CMX','铜',1);
     tabHTML += wtd('iSC1-mh-CBT','大豆',0);
     tabHTML += wtd('iWC1-mh-CBT','小麦',1);
-    return '<div class="list-container XL4 L6 M12 S6 P12 side-by-side"><div class="list-inner"><h2 class="list-title"><a class="list-link" href="'+listLink+'">'+listTitle+'</a></h2><div class="items"><div class="item-container side-by-side no-image"><div class="item-inner" id="markets-stock"><table class="markets-data">' + tabHTML + '</table></div></div></div></div></div>';
+    return '<div class="list-container XL4 L12 M12 S12 P12 side-by-side"><div class="list-inner"><h2 class="list-title"><a class="list-link" href="'+listLink+'">'+listTitle+'</a></h2><div class="items"><div class="item-container side-by-side no-image"><div class="item-inner" id="markets-stock"><table class="markets-data">' + tabHTML + '</table></div></div></div></div></div>';
 }
 
 
@@ -105,8 +103,17 @@ function updatetab3() {
     getftdata('WC1:CBT');
 }
 
-
-
+function refreshData() {
+    var marketsDataTop = findTop(marketsDataEle);
+    var marketsDataHeight = marketsDataEle.offsetHeight;
+    if (scrollTop + bodyHeight - marketsDataTop > -900 && scrollTop - marketsDataHeight - marketsDataTop < 0) {
+        updatetab1();
+        updatetab2();
+        updatetab3();
+    // console.log (scrollTop + bodyHeight - marketsDataTop);
+    // console.log (scrollTop - marketsDataHeight - marketsDataTop);
+    }
+}
 
 window._wsodSymbolHover = {};
 window._wsodSymbolHover.updateContent = function(str1, str2) {
@@ -134,7 +141,8 @@ window._wsodSymbolHover.updateContent = function(str1, str2) {
 
 
 
-document.getElementById('markets-data').innerHTML = tab1() + tab2() +tab3() + '<div class="clearfloat"></div>';
-updatetab1();
-updatetab2();
-updatetab3();
+marketsDataEle.innerHTML = tab1() + tab2() +tab3() + '<div class="clearfloat"></div>';
+refreshData();
+setInterval(function(){
+    refreshData();
+}, 30000);

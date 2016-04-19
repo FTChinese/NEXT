@@ -149,24 +149,24 @@
         <%/if%>
         <%/foreach%>
         <%include file="next/partials/QrCode.html"%>
-    </body>
-    <!--[if lte IE 8]>
-    <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
-    <![endif]-->
-    <script type="text/javascript">
-        <%include file = "next/scripts/main.js"%>
-    </script>
-    <%if $pageId == "home"%>
-        <%if $smarty.get.ad != 'no'%>
-            <div class="hide">
-                <script>
-                    if (fullsc == null && loadFullAtEnd === true) {
-                        document.write('<scr' + 'ipt type="text/jav' + 'ascript" src="http://dolphin.ftimg.net/s?z=ft&amp;c=10000014&amp;slot=645072137&amp;_sex=101&amp;_trip=1&amp;_lux=1&amp;_dc=2&amp;_mm=2&amp;_sz=2&amp;_am=2" charset="gbk"></scr' + 'ipt>');
-                        SetCookie("rb2",1,cookiesecond,"/");
-                    }
-                </script>
-            </div>
-            <script type="text/javascript" src="http://static.ftchinese.com/n/main-home.css">
+        <!--[if lte IE 8]>
+        <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+        <![endif]-->
+        <script type="text/javascript">
+            <%include file = "next/scripts/main.js"%>
+        </script>
+        <%if $pageId == "home"%>
+            <%if $smarty.get.ad != 'no'%>
+                <script type="text/javascript" src="http://static.ftchinese.com/n/main-home.js?<%include file="next/timestamp/timestamp.html"%>"></script>
+                <div class="hide">
+                    <script>
+                        if (fullsc == null && loadFullAtEnd === true) {
+                            document.write('<scr' + 'ipt type="text/jav' + 'ascript" src="http://dolphin.ftimg.net/s?z=ft&amp;c=10000014&amp;slot=645072137&amp;_sex=101&amp;_trip=1&amp;_lux=1&amp;_dc=2&amp;_mm=2&amp;_sz=2&amp;_am=2" charset="gbk"></scr' + 'ipt>');
+                            SetCookie("rb2",1,cookiesecond,"/");
+                        }
+                    </script>
+                </div>
+            <%/if%>
         <%/if%>
-    <%/if%>
+    </body>
 </html>
