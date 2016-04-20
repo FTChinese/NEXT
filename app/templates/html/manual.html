@@ -125,28 +125,28 @@
         <%assign var="bannerCount" value=0%>
         <%assign var="mpuCount" value=0%>
         <%foreach from=$p.sections item=section%>
-        <%if $section.type == "header"%>
-        <%if $pageId != "" && $pageId != "home"%>
-            <%include file="next/partials/tag-header.html"%>
-        <%else%>
-            <%include file="next/partials/header.html"%>
-        <%/if%>
-        <%include file="next/partials/nav.html"%>
-        <%elseif $section.type == "banner"%>
-        <%include file="next/partials/banner.html"%>
-        <%assign var="bannerCount" value=$bannerCount+1%>
-        <%elseif $section.type == "block"%>
-        <%include file="next/partials/block.html"%>
-        <%if $section.side != "" && $section.side != "none"%>
-        <%assign var="mpuCount" value=$mpuCount+1%>
-        <%/if%>
-        <%elseif $section.type == "footer"%>
-        <%include file="next/partials/footer.html"%>
-        <%elseif $section.type == "topbelt"%>
-        <%include file="next/partials/topbelt.html"%>
-        <%elseif $section.type == "include" && $section.from != ""%>
-        <%include file="next/partials/`$section.from`.html"%>
-        <%/if%>
+            <%if $section.type == "header"%>
+                <%if $pageId != "" && $pageId != "home"%>
+                    <%include file="next/partials/tag-header.html"%>
+                <%else%>
+                    <%include file="next/partials/header.html"%>
+                <%/if%>
+                <%include file="next/partials/nav.html"%>
+            <%elseif $section.type == "banner"%>
+                <%include file="next/partials/banner.html"%>
+                <%assign var="bannerCount" value=$bannerCount+1%>
+            <%elseif $section.type == "block"%>
+                <%include file="next/partials/block.html"%>
+                <%if $section.side != "" && $section.side != "none"%>
+                <%assign var="mpuCount" value=$mpuCount+1%>
+                <%/if%>
+            <%elseif $section.type == "footer"%>
+                <%include file="next/partials/footer.html"%>
+            <%elseif $section.type == "topbelt"%>
+                <%include file="next/partials/topbelt.html"%>
+            <%elseif $section.type == "include" && $section.from != ""%>
+                <%include file="next/partials/`$section.from`.html"%>
+            <%/if%>
         <%/foreach%>
         <%include file="next/partials/QrCode.html"%>
         <!--[if lte IE 8]>

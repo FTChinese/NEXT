@@ -1,0 +1,303 @@
+<%assign var="itemIds" value="\"0000\""%>
+<%foreach from=$p.sections item=section%>
+	<%if $section.type == "block"%>
+	    <%foreach from=$section.lists item=list%>
+	        <%foreach from=$list.items item=item%>
+	            <%assign var="itemIds" value="`$itemIds`,\"`$item.id`\""%>
+	        <%/foreach%>
+	    <%/foreach%>
+	<%/if%>
+<%/foreach%>
+
+<%assign var=$itemIds value=','|explode:$itemIds%>
+<%assign var="allstories" value=$storymodel->get_story_collection($itemIds,100)%>
+
+
+<div class="block-container has-side side-left">
+    <div class="block-inner">
+        <div class="content-container">
+            <div class="content-inner">
+            	<%assign var="echostoryid" value=`$sc.id`,$echostoryid%>
+
+
+
+				<%assign var="channelTitle" value="新闻"%>
+				<%assign var="channelURL" value="news"%>
+				<%assign var="channelType" value="channel"%>
+				<%assign var="insertId" value="newsanchor"%>
+				<%assign var="adId" value=""%>
+				<%assign var="leadtype" value="short"%>
+				<%assign var="filterInclude" value="news"%>
+				<%assign var="filterExclude" value="analysis|comment|feature|letter"%>
+				<%assign var="i" value=0%>
+				<%include file="phone/partials/onestory.html" scope="parent"%>
+				<%foreach from=$allstories item=sc%>
+				<%assign var="keywords" value="`$sc.genre`,`$sc.topic`,`$sc.area`,`$sc.industry`,`$sc.tag`,`$sc.cheadline`"%>
+				<%if (preg_match("/`$filterInclude`/is",$keywords) || $filterInclude == "") && (!preg_match("/`$filterExclude`/is",$keywords) || $filterExclude == "") && !in_array($sc.id , explode(',',$echostoryid)) && ($smarty.now-$sc.last_publish_time<=79200 || $i<6 || $smarty.get.date != "")%>
+				<%assign var="echostoryid" value=`$sc.id`,$echostoryid%>
+				<%/if%>
+				<%/foreach%>
+
+                <div class="list-container XL4 L6 M12 S6 P12 side-by-side">
+                    <div class="list-inner">
+                        <h2 class="list-title">
+<a class="list-link" href="#">管理</a>
+</h2>
+                        <div class="items">
+                            <div class="item-container side-by-side first     has-image">
+                                <div class="item-inner">
+                                    <h2 class="item-headline"><a target="_blank" href="/story/001066272">刘士余能带来“牛市雨”？</a></h2>
+                                    <a class="image" target="_blank" href="/story/001066272">
+                                        <figure class="loading" data-url="http://i.ftimg.net/picture/0/000058860_piclink.jpg"></figure>
+                                    </a>
+                                    <div class="item-lead">获得任命不到48小时后，中国证券监管部门的新领导刘士余已经感受到投资者对A股市场反弹的期许。人们在网上给他取了一个同他的名字谐音的外号：“牛市雨”。</div>
+                                    <div class="item-bottom"></div>
+                                </div>
+                            </div>
+                            <div class="item-container side-by-side     no-image">
+                                <div class="item-inner">
+                                    <h2 class="item-headline"><a target="_blank" href="/story/001066274">“高情商”的中国证监会新主席</a></h2>
+                                    <div class="item-bottom"></div>
+                                </div>
+                            </div>
+                            <div class="item-container side-by-side     no-image">
+                                <div class="item-inner">
+                                    <h2 class="item-headline"><a target="_blank" href="/story/001066278">2月份中国企业产量降至两年低点</a></h2>
+                                    <div class="item-bottom"></div>
+                                </div>
+                            </div>
+                            <div class="item-container side-by-side     no-image">
+                                <div class="item-inner">
+                                    <h2 class="item-headline"><a target="_blank" href="/story/001066300">美国智库称中国在华阳礁建雷达塔</a></h2>
+                                    <div class="item-bottom"></div>
+                                </div>
+                            </div>
+                            <div class="clearfloat"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class=" MC PC"></div>
+                <div class="list-container XL4 L6 M12 S6 P12 side-by-side">
+                    <div class="list-inner">
+                        <h2 class="list-title">
+<a class="list-link" href="#">商业</a>
+</h2>
+                        <div class="items">
+                            <div class="item-container side-by-side first     has-image">
+                                <div class="item-inner">
+                                    <h2 class="item-headline"><a target="_blank" href="/story/001066271">英国商界领袖支持卡梅伦“留欧”</a></h2>
+                                    <a class="image" target="_blank" href="/story/001066271">
+                                        <figure class="loading" data-url="http://i.ftimg.net/picture/9/000058859_piclink.jpg"></figure>
+                                    </a>
+                                    <div class="item-lead">但伦敦市长约翰逊加入退欧阵营，成为保守党最高调背叛者</div>
+                                    <div class="item-bottom"></div>
+                                </div>
+                            </div>
+                            <div class="item-container side-by-side     no-image">
+                                <div class="item-inner">
+                                    <h2 class="item-headline"><a target="_blank" href="/story/001066279">SEC调查汇丰银行亚洲雇佣行为</a></h2>
+                                    <div class="item-bottom"></div>
+                                </div>
+                            </div>
+                            <div class="item-container side-by-side     no-image">
+                                <div class="item-inner">
+                                    <h2 class="item-headline"><a target="_blank" href="/story/001066277">Facebook创建“虚拟现实社交”团队</a></h2>
+                                    <div class="item-bottom"></div>
+                                </div>
+                            </div>
+                            <div class="item-container side-by-side     no-image">
+                                <div class="item-inner">
+                                    <h2 class="item-headline"><a target="_blank" href="/story/001066275">杰布•布什宣布退出美国总统竞选</a></h2>
+                                    <div class="item-bottom"></div>
+                                </div>
+                            </div>
+                            <div class="clearfloat"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class=" LC SC MC PC"></div>
+                <div class="list-container XL4 L6 M12 S6 P12 side-by-side">
+                    <div class="list-inner">
+                        <h2 class="list-title">
+<a class="list-link" href="#">经济</a>
+</h2>
+                        <div class="items">
+                            <div class="item-container side-by-side first     has-image">
+                                <div class="item-inner">
+                                    <h2 class="item-headline"><a target="_blank" href="/story/001066269">从肖钢去职谈起</a></h2>
+                                    <a class="image" target="_blank" href="/story/001066269">
+                                        <figure class="loading" data-url="http://i.ftimg.net/picture/7/000057537_piclink.jpg"></figure>
+                                    </a>
+                                    <div class="item-lead">安邦咨询：肖钢下岗，对中国证券市场来说是一件意料之中的“大事”。今后中国证监会的工作重心，是要搞好基础建设，定好规矩，不要着急“创新”。</div>
+                                    <div class="item-bottom"></div>
+                                </div>
+                            </div>
+                            <div class="item-container side-by-side     no-image">
+                                <div class="item-inner">
+                                    <h2 class="item-headline"><a target="_blank" href="/story/001065946">人类操盘手如何胜过电脑？</a></h2>
+                                    <div class="item-bottom"></div>
+                                </div>
+                            </div>
+                            <div class="item-container side-by-side     no-image">
+                                <div class="item-inner">
+                                    <h2 class="item-headline"><a target="_blank" href="/story/001065964">下一代的巴菲特会是一种超级算法吗？</a></h2>
+                                    <div class="item-bottom"></div>
+                                </div>
+                            </div>
+                            <div class="item-container side-by-side     no-image">
+                                <div class="item-inner">
+                                    <h2 class="item-headline"><a target="_blank" href="/story/001066273">三星发布新款智能手机S7</a></h2>
+                                    <div class="item-bottom"></div>
+                                </div>
+                            </div>
+                            <div class="clearfloat"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="XLC MC PC"></div>
+                <div class="list-container XL4 L6 M12 S6 P12 side-by-side">
+                    <div class="list-inner">
+                        <h2 class="list-title">
+<a class="list-link" href="#">科技</a>
+</h2>
+                        <div class="items">
+                            <div class="item-container side-by-side first     has-image">
+                                <div class="item-inner">
+                                    <h2 class="item-headline"><a target="_blank" href="/story/001066264">纽约如何提升访客体验？</a></h2>
+                                    <a class="image" target="_blank" href="/story/001066264">
+                                        <figure class="loading" data-url="http://i.ftimg.net/picture/6/000044576_piclink.jpg"></figure>
+                                    </a>
+                                    <div class="item-lead">FT专栏作家斯卡平克：无论多少次来到纽约，这座城市依然让我惊叹。我的友情建议：纽约应该改善三个方面，即酒店、早餐和复杂的地铁指示标。</div>
+                                    <div class="item-bottom"></div>
+                                </div>
+                            </div>
+                            <div class="item-container side-by-side     no-image">
+                                <div class="item-inner">
+                                    <h2 class="item-headline"><a target="_blank" href="/story/001066260">FT社评：英国退欧对伦敦金融城不利</a></h2>
+                                    <div class="item-bottom"></div>
+                                </div>
+                            </div>
+                            <div class="item-container side-by-side     no-image">
+                                <div class="item-inner">
+                                    <h2 class="item-headline"><a target="_blank" href="/story/001066280">中国武器出口继续激增</a></h2>
+                                    <div class="item-bottom"></div>
+                                </div>
+                            </div>
+                            <div class="item-container side-by-side     no-image">
+                                <div class="item-inner">
+                                    <h2 class="item-headline"><a target="_blank" href="/story/001066270">咨询业仍是MBA首要选择</a></h2>
+                                    <div class="item-bottom"></div>
+                                </div>
+                            </div>
+                            <div class="clearfloat"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class=" LC SC MC PC"></div>
+                <div class="list-container XL4 L6 M12 S6 P12 side-by-side">
+                    <div class="list-inner">
+                        <h2 class="list-title">
+<a class="list-link" href="#">中国</a>
+</h2>
+                        <div class="items">
+                            <div class="item-container side-by-side first     has-image">
+                                <div class="item-inner">
+                                    <h2 class="item-headline"><a target="_blank" href="/story/001066261">中国医药创新何时赶上美欧？</a></h2>
+                                    <a class="image" target="_blank" href="/story/001066261">
+                                        <figure class="loading" data-url="http://i.ftimg.net/picture/0/000058850_piclink.jpg"></figure>
+                                    </a>
+                                    <div class="item-lead">自上世纪70年代青蒿素问世以来，中国还没有为全球市场研制出过一款新药。但新一代生物科技集团正争相研发下一款“中国制造”药物。这个新兴行业最近掀起了融资热。</div>
+                                    <div class="item-bottom"></div>
+                                </div>
+                            </div>
+                            <div class="item-container side-by-side     no-image">
+                                <div class="item-inner">
+                                    <h2 class="item-headline"><a target="_blank" href="/story/001066268">中国的智库：智枯和智源</a></h2>
+                                    <div class="item-bottom"></div>
+                                </div>
+                            </div>
+                            <div class="item-container side-by-side     no-image">
+                                <div class="item-inner">
+                                    <h2 class="item-headline"><a target="_blank" href="/story/001066267">回乡过年变成一种中国仪式</a></h2>
+                                    <div class="item-bottom"></div>
+                                </div>
+                            </div>
+                            <div class="item-container side-by-side     no-image">
+                                <div class="item-inner">
+                                    <h2 class="item-headline"><a target="_blank" href="/story/001066281">世界移动大会凸显电信企业的新挑战</a></h2>
+                                    <div class="item-bottom"></div>
+                                </div>
+                            </div>
+                            <div class="clearfloat"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class=" MC PC"></div>
+                <div class="list-container XL4 L6 M12 S6 P12 side-by-side">
+                    <div class="list-inner">
+                        <h2 class="list-title">
+<a class="list-link" href="#">全球</a>
+</h2>
+                        <div class="items">
+                            <div class="item-container side-by-side first     has-image">
+                                <div class="item-inner">
+                                    <h2 class="item-headline"><a target="_blank" href="/story/001066265">希拉里面临关键考验</a></h2>
+                                    <a class="image" target="_blank" href="/story/001066265">
+                                        <figure class="loading" data-url="http://i.ftimg.net/picture/2/000058842_piclink.jpg"></figure>
+                                    </a>
+                                    <div class="item-lead">FT专栏作家卢斯：无论你怎么看待希拉里，她在外交政策上的经验无人能及。问题是：她能证明对手们外交判断力不佳吗？世界在等待答案揭晓。</div>
+                                    <div class="item-bottom"></div>
+                                </div>
+                            </div>
+                            <div class="item-container side-by-side     no-image">
+                                <div class="item-inner">
+                                    <h2 class="item-headline"><a target="_blank" href="/story/001066263">美国孤立主义复活</a></h2>
+                                    <div class="item-bottom"></div>
+                                </div>
+                            </div>
+                            <div class="item-container side-by-side     no-image">
+                                <div class="item-inner">
+                                    <h2 class="item-headline"><a target="_blank" href="/story/001066293">我们为何如此爱《老友记》？</a></h2>
+                                    <div class="item-bottom"></div>
+                                </div>
+                            </div>
+                            <div class="item-container side-by-side     no-image">
+                                <div class="item-inner">
+                                    <h2 class="item-headline"><a target="_blank" href="/story/001066262">如何当好倾听者？</a></h2>
+                                    <div class="item-bottom"></div>
+                                </div>
+                            </div>
+                            <div class="clearfloat"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfloat block-bottom"></div>
+            </div>
+        </div>
+        <div class="side-container">
+            <div class="side-inner">
+                <div class="mps">
+                    <h2 class="list-title"><a href="/channel/weekly.html">十大热门文章</a></h2>
+                    <ul class="top10">
+                        <li class="mp1"><span>1. </span><a target="_blank" href="/story/001067157?dailypop">“东亚奇迹”能否持续？</a></li>
+                        <li class="mp2"><span>2. </span><a target="_blank" href="/story/001067153?dailypop">现在应该投资买房吗？</a></li>
+                        <li class="mp3"><span>3. </span><a target="_blank" href="/story/001067163?dailypop">土地使用年限到期怎么办？</a></li>
+                        <li class="mp4"><span>4. </span><a target="_blank" href="/story/001067158?dailypop">美国研发无人潜艇以威慑中国</a></li>
+                        <li class="mp5"><span>5. </span><a target="_blank" href="/story/001067155?dailypop">从求富到安全：中国需要的目标大转移</a></li>
+                        <li class="mp6"><span>6. </span><a target="_blank" href="/story/001067171?dailypop">常州污染事件暴露中国棕地隐患</a></li>
+                        <li class="mp7"><span>7. </span><a target="_blank" href="/story/001067165?dailypop">腾讯董事长马化腾捐1亿腾讯股做慈善</a></li>
+                        <li class="mp8"><span>8. </span><a target="_blank" href="/story/001067159?dailypop">分析：中国经济企稳探因</a></li>
+                        <li class="mp9"><span>9. </span><a target="_blank" href="/story/001067152?dailypop">西方人钟爱明式家具</a></li>
+                        <li class="mp10"><span>10. </span><a target="_blank" href="/story/001067161?dailypop">iPad Pro为何取代不了PC？</a></li>
+                    </ul>
+                </div>
+                <div class="mpu-container">
+                    <script type="text/javascript">
+                    document.write(writeAd('mpu'));
+                    </script>
+                </div>
+            </div>
+        </div>
+        <div class="clearfloat"></div>
+    </div>
+</div>
