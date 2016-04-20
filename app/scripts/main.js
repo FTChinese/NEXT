@@ -80,7 +80,7 @@
   }
 
   function stickyBottomUpdate() {
-    var htmlClassNew = htmlClass.replace(/ is-sticky/g, '').replace(/ share-sticky/g, '');
+    var htmlClassNew = htmlClass.replace(/ o-nav-sticky/g, '').replace(/ share-sticky/g, '');
     if (typeof requestAnimationFrame === 'function') {
       requestAnimationFrame(stickyBottomUpdate);
     }
