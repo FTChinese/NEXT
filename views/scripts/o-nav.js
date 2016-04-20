@@ -203,7 +203,7 @@ function zipObject(objA, objB) {
 }
 
 var navEl = document.querySelector('.o-nav');
-var navElOffset = getElementOffset(navEl);
+//var navElOffset = getElementOffset(navEl);
 
 new Nav(navEl);
 // new Sticky(navEl, navElOffset.yTop);
