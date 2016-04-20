@@ -1,4 +1,5 @@
 var marketsDataEle = document.getElementById('markets-data');
+var marketsDataDelivered = false;
 
 function getftdata(s) {
     s=s.replace(/:/g,'%3A').replace(/\s/g,'').replace(/\%E2\%80\%8E/g,'');
@@ -106,10 +107,11 @@ function updatetab3() {
 function refreshData() {
     var marketsDataTop = findTop(marketsDataEle);
     var marketsDataHeight = marketsDataEle.offsetHeight;
-    if (scrollTop + bodyHeight - marketsDataTop > -900 && scrollTop - marketsDataHeight - marketsDataTop < 0) {
+    if ((scrollTop + bodyHeight - marketsDataTop > -900 && scrollTop - marketsDataHeight - marketsDataTop < 0) || marketsDataDelivered === false) {
         updatetab1();
         updatetab2();
         updatetab3();
+        marketsDataDelivered = true;
     // console.log (scrollTop + bodyHeight - marketsDataTop);
     // console.log (scrollTop - marketsDataHeight - marketsDataTop);
     }
