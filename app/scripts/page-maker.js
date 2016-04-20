@@ -17,7 +17,7 @@
         'float': ['none', 'left', 'right', 'oneline', 'SideBySide'],
         'showTag': ['no', 'yes'],
         'showTimeStamp': ['no', 'new stories', 'all'],
-        'from': ['', 'SpecialReports', 'Columns', 'Channels', 'Events', 'Marketing'],
+        'from': ['', 'MarketsData', 'SpecialReports', 'Columns', 'Channels', 'Events', 'Marketing'],
         'preferLead': ['longlead', 'shortlead', 'none']
     };
     var toolkits = {

@@ -41,7 +41,7 @@ if ( screen.width<=480) {
 
 
 <script language=javascript>
-var FTAdch = "NP_test_hompepage",FTAdchID="2035";
+var FTAdch = "NP_test_hompepage",FTAdchID="1100";
 var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现联动互斥功能 
 var sDay=new Date();
 sDay.setFullYear(2014,0,1);//设定切换时间 
@@ -123,70 +123,11 @@ ga('send', 'pageview');
 var thisday=new Date();
 var todaydate=thisday.getFullYear() + "-" + (thisday.getMonth()+1) + "-" + thisday.getDate();
 var fullsc=GetCookie ("rb3");
-
-
-
+if (true) { 
+var dolFullScreen=dolphinAD(ADPO.FullScreen,FTAdchID);
+}
 var pagetype="home";
 </SCRIPT>
-
-
-
-
-
-<style>
-.hideQR .app-download-container {
-	display:none;
-}
-</style>
-<script language="javascript">
-var link='dfafa';
-var thefile='dafdasfa';
-var third_impression='dfafa';
-var theurl="[ASCLICK]&u="+link+"";
-var thewidth='700px';
-var theheight='520px';
-var cookiesecond=24*60*60;
-var rb2=GetCookie ("rb2");
-function closeFullPageAd(){
-	document.getElementById("roadblock").style.display="none";
-	document.body.className = document.body.className.replace(/ hideQR/g, '');
-	try {
-		stickyAdsPrepare();
-		stickyBottomPrepare();
-	} catch (ignore) {
-
-	}
-}
-if (rb2 == null || 1<2) {
-document.write ('<div style="margin-bottom:1000px;" id=rbimg><div style="font-weight:bold;color:#666;margin-bottom:15px;text-align:center;cursor:pointer" onclick=\'javascript:closeFullPageAd();\'>跳过广告</div>');
-
-var ebRand = Math.random()+'';
-ebRand = ebRand * 1000000;
-document.write('<scr'+'ipt src="http://bsch.serving-sys.com/BurstingPipe/adServer.bs?cn=rsb&c=28&pli=17423396&PluID=56&w=700&h=520&dlm=3&ucm=true&ord=' + ebRand + '"></scr' + 'ipt>');
-
-document.write ('</div>');
-
-
-var h=window.screen.availHeight;
-var topm=(h-520-300)/2;
-if (topm>0) {
-document.getElementById("rbimg").style.marginTop = topm + "px";
-} else {
-document.getElementById("rbimg").style.marginTop = 0;
-}
-document.body.className = document.body.className + ' hideQR';
-setTimeout(function(){
-	closeFullPageAd();
-},8000);
-SetCookie("rb2",1,cookiesecond,"/");
-}
-</script>
-
-
-
-
-
-
 </div>
 
 
@@ -202,7 +143,7 @@ SetCookie("rb2",1,cookiesecond,"/");
 
 
 <div id="pageheader" class="pagediv home-header">
-<div id="page-title"><div class="bar">2016年04月15日 周五</a> 出版
+<div id="page-title"><div class="bar">2016年04月18日 周一</a> 出版
 <font id=datetab></font></div><h1><a href="http://www.ftchinese.com/"><img src=http://static.ftchinese.com/img/logoHD.gif width="172" height="36" alt="FT中文网"></a><span class=channel> 首页</span></h1></div>
 
 
@@ -319,9 +260,9 @@ SetCookie("rb2",1,cookiesecond,"/");
 </ul>
 </li>
 <li class="nosub ">
-<a href="http://www.ftchinese.com/m/marketing/intelligence.html">FT研究院</a>
+<a href="/m/marketing/intelligence.html">FT研究院</a>
 <ul class="subnav">
-<li class="dummy-child"><a href="http://www.ftchinese.com/m/marketing/intelligence.html">FT研究院</a></li>
+<li class="dummy-child"><a href="/m/marketing/intelligence.html">FT研究院</a></li>
 </ul>
 </li>
 <li class="nosub ">
@@ -835,7 +776,7 @@ SetCookie("rb2",1,cookiesecond,"/");
 <div id=flexible-links class="pagediv">
 
 
-<a href="/channel/english.html" target=_blank class="feedback english"><span>每日英语> </span>挪威石油基金大举撤出过于依赖煤炭的公司</a>
+<a href="/channel/english.html" target=_blank class="feedback english"><span>每日英语> </span>东南亚将成中资企业投资新热点</a>
 
 
 <h3>编辑推荐>></h3>
@@ -853,10 +794,10 @@ SetCookie("rb2",1,cookiesecond,"/");
 
 <div class=datetab id=archive>
  
+ | <a href="/archiver/2016-04-17">周日</a>
+ | <a href="/archiver/2016-04-15">周五</a>
  | <a href="/archiver/2016-04-14">周四</a>
  | <a href="/archiver/2016-04-13">周三</a>
- | <a href="/archiver/2016-04-12">周二</a>
- | <a href="/archiver/2016-04-11">周一</a>
 </div>
 
 <script language="javascript" type="text/javascript">flexlinks();</script>
@@ -1040,7 +981,7 @@ if (window.location.href.indexOf("source=email")>=0) {internallinks("ecover");in
     var showTime = new Date().getTime();
     var timeSpent = showTime - startTime;
     var homeFlag = false;
-    if(""==="home"&&("NP_test_hompepage"==="NP_Homepage"||"2035"==="1000")){    	homeFlag = true;
+    if(""==="home"&&("NP_test_hompepage"==="NP_Homepage"||"1100"==="1000")){    	homeFlag = true;
     	ga('send', 'timing', 'Home', 'Render Time', timeSpent, 'Cover, News, Comments and Videos');
     }else{
     	if (window.location.href.indexOf("story")>=0 ){
@@ -1058,42 +999,173 @@ if (window.location.href.indexOf("source=email")>=0) {internallinks("ecover");in
 </script>
 <div id=topad style="position:absolute;top:-110px;left:15px;right:15px;width:969px;margin:0 auto;">
 <div id="top728x90">
-<script>
-//根据页面fullbody的宽度尺寸，修改topad left定位
-//更好的方式是采用topad相对body定位，margin居中
-if(document.getElementById("fullbody")){
-	var cWidth = $("#fullbody").width() || 0;
-	var l=0;
-	if(cWidth<969){
-		l=-(969-cWidth)/2;
-		$("#topad").css("left",l+"px");
-	}
+
+<style>
+.aia-banner {
+	width: 969px;
+	height: 90px;
+	background: url(http://i.ftimg.net/picture/9/000060789_piclink.jpg) no-repeat;
+	position: relative;
+
+	transition: all 0.5s cubic-bezier(0, 0.5, 0.5, 1);
+	-webkit-transition: all 0.5s cubic-bezier(0, 0.5, 0.5, 1);
+	-moz-transition: all 0.5s cubic-bezier(0, 0.5, 0.5, 1);
+
+}
+.aia-logo {
+	position: absolute;
+	top: 17px;
+	left: 37px;
+	width: 77px;
+	height: 55px;
+	margin: auto;
+	background: url(http://i.ftimg.net/picture/3/000060793_piclink.jpg) no-repeat;
+}
+.aia-text {
+	position: absolute;
+	top:30px;
+	left: 134px;
+	width: 390px;
+	height: 29px;
+	margin: auto;
+	background: url(http://i.ftimg.net/picture/4/000060794_piclink.jpg) no-repeat;
+}
+.aia-button {
+	position: absolute;
+	top:17px;
+	left: 545px;
+	width: 121px;
+	height: 55px;
+	margin: auto;
+	background: url(http://i.ftimg.net/picture/5/000060795_piclink.jpg) no-repeat;
+}
+.aia-link:hover .aia-banner, .aia-link:active .aia-banner {
+	background-image: url(http://i.ftimg.net/picture/1/000060791_piclink.jpg);
+	height: 400px;
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn;
+} 
+.aia-link:hover .aia-overlay, .aia-link:active .aia-overlay {
+	display: none;
+}
+.animated {
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
 }
 
-var LeaderboardName = (homeFlag)?"hp_Leaderboard":"Leaderboard";
-var sectionFlag=(new RegExp(/.com\/tag\//).test(location.href) || new RegExp(/.com\/photonews\//).test(location.href) || new RegExp(/.com\/channel\//).test(location.href));//排除使用sectionxxx广告位的模板
-if(sectionFlag){
-	LeaderboardName = "Section_leaderboard";
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
-if($(window).width()>=969){
-    if(sectionFlag){
-        var dolLeaderboard=dolphinAD(ADPO.Section_Leaderboard,FTAdchID);
-    }else{
-        var dolLeaderboard=dolphinAD(ADPO.Leaderboard,FTAdchID);
-    }
-    $("#topad").addClass("desktop-screen");
-} else if ($(window).width()<969) {
-    var uaString=navigator.userAgent || navigator.vendor || "",adchannelId;
-    if (/OS [0-9]+\_/i.test(uaString) && (/iPhone/i.test(uaString) || /iPad/i.test(uaString) || /iPod/i.test(uaString))) {
-    adchannelId = "2022";
-    } else if (/Android/i.test(uaString)) {
-    adchannelId = "2023";
-    } else {
-    adchannelId = "2024";
-    }    
-    document.writeln('<div id="ad-content" class="phone-screen"><scr'+'ipt type="text/javascript" src="http://dolphin.ftimg.net/s?z=ft&c=' + adchannelId + '0101" charset="gbk" ></scr'+'ipt></div>');
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
+
+.fadeIn {
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn;
+}
+
+
+@-webkit-keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(-100%, 0, 0);
+    transform: translate3d(-100%, 0, 0);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(-100%, 0, 0);
+    transform: translate3d(-100%, 0, 0);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+
+.fadeInLeft {
+  -webkit-animation-name: fadeInLeft;
+  animation-name: fadeInLeft;
+}
+
+
+.animated.delay-300 {
+  -webkit-animation-delay: 0.3s;
+          animation-delay: 0.3s;
+}
+.animated.delay-1 {
+  -webkit-animation-delay: 1s;
+          animation-delay: 1s;
+}
+.animated.delay-1-5 {
+  -webkit-animation-delay: 1.5s;
+          animation-delay: 1.5s;
+}
+.animated.delay-2 {
+  -webkit-animation-delay: 2s;
+          animation-delay: 2s;
+}
+.animated.delay-2-5 {
+  -webkit-animation-delay: 2.5s;
+          animation-delay: 2.5s;
+}
+.animated.delay-3 {
+  -webkit-animation-delay: 3s;
+          animation-delay: 3s;
+}
+.animated.delay-3-5 {
+  -webkit-animation-delay: 3.5s;
+          animation-delay: 3.5s;
+}
+.animated.delay-4 {
+  -webkit-animation-delay: 4s;
+          animation-delay: 4s;
+}
+</style>
+
+<a class="aia-link" href="[ASCLICK]&u=http://www.ft.com/" target=_blank>
+<div class="aia-banner">
+ <div class="aia-logo aia-overlay animated fadeInLeft delay-300"></div>
+ <div class="aia-text aia-overlay animated fadeIn delay-1"></div>
+ <div class="aia-button aia-overlay animated fadeInLeft delay-1-5"></div>
+</div>
+</a>
+<script>
+	new Image().src = 'http://i.ftimg.net/picture/1/000060791_piclink.jpg';
 </script>
+
+<script>
+	new Image().src = 'http://i.ftimg.net/picture/1/000060791_piclink.jpg';
+</script>
+
+
+
 </div>
 <div id="top235x90">
 <SCRIPT language=javascript>
@@ -1137,12 +1209,12 @@ var dolFloat=dolphinAD(ADPO.ROS_Float,FTAdchID);
 
 <span id=regulars>
 
+<div><h4><a href="/column/007000027">《智库》</a></h4><a href="/story/001067122" target=_blank><img src1="http://i.ftimg.net/picture/3/000015913_piclink_0_0.jpg" alt=""/></a>
+<p><a href="/story/001067122" target=_blank>重塑文明秩序与执政党转型</a></p><p>凤凰卫视评论员邱震海：中国崛起对西方构成经济秩序、安全秩序、政治秩序、心理秩序和文明秩序的挑战，中国需要通过合适的路径塑造现代文明。</p></div>
 <div><h4><a href="/column/007000012">马丁·沃尔夫</a></h4><a href="/story/001067119" target=_blank><img src1="http://i.ftimg.net/picture/1/000033651_piclink_208_168.jpg" alt=""/></a>
 <p><a href="/story/001067119" target=_blank>负利率是经济痼疾的表征而非病因</a></p><p>FT首席经济评论员沃尔夫：世界经济正遭遇储蓄过剩、投资不足的困扰，负利率政策符合这一事实。但是，货币政策变得越极端，对其进行校准就越困难。</p></div>
 <div><h4><a href="/column/007000013">露西•凯拉韦</a></h4><a href="/story/001067118" target=_blank><img src1="http://i.ftimg.net/picture/2/000033582_piclink_189_168.jpg" alt=""/></a>
 <p><a href="/story/001067118" target=_blank>企业留不住年轻人现象探源</a></p><p>FT专栏作家凯拉韦：为什么会有这么多年轻人辞去好好的工作？他们是被宠坏了吗？还是工作真的很无聊？我觉得，这两种原因都有。</p></div>
-<div><h4><a href="/column/007000027">《智库》</a></h4><a href="/story/001067122" target=_blank><img src1="http://i.ftimg.net/picture/3/000015913_piclink_0_0.jpg" alt=""/></a>
-<p><a href="/story/001067122" target=_blank>重塑文明秩序与执政党转型</a></p><p>凤凰卫视评论员邱震海：中国崛起对西方构成经济秩序、安全秩序、政治秩序、心理秩序和文明秩序的挑战，中国需要通过合适的路径塑造现代文明。</p></div>
 <div><h4><a href="/column/007000024">吉莲•邰蒂</a></h4><a href="/story/001067074" target=_blank><img src1="http://i.ftimg.net/picture/9/000033579_piclink_169_168.jpg" alt=""/></a>
 <p><a href="/story/001067074" target=_blank>来一场真正的“睡眠革命”</a></p><p>FT专栏作家邰蒂：对一个人们普遍睡不足的世界来说，睡眠是新的奢侈品。在我的乌托邦梦想里，睡眠舱应该遍布每个城市的街头巷尾。</p></div>
 <div><h4><a href="/column/007000056">《投资者的敌人》</a></h4><a href="/story/001067002" target=_blank><img src1="http://i.ftimg.net/picture/3/000041653_piclink.jpg" alt=""/></a>
@@ -1206,10 +1278,11 @@ var dolFloat=dolphinAD(ADPO.ROS_Float,FTAdchID);
 <div class=column3content>
 <div class="newtitle"><div><b class=t><a href="/channel/opinion.html">观点</a></b></div></div>
 <div class="featurecolumn">
-<h3><a target="_blank" href="/story/001067111">洪秀柱能否改造国民党？</a> <span><a target="_blank" href="/story/001067111"><img src="http://i.ftimg.net/picture/3/000060683_piclink.jpg" class=leftimage></a>资深台湾媒体人杨艾俐：失去党魂和信仰是国民党衰败的根本原由。新任国民党主席洪秀柱，能否在一年多的任期内，重新打造已经满目疮痍的国民党？</span>
+<h3><a target="_blank" href="/story/001067136">暴涨楼市并非中国经济风向标</a> <span><a target="_blank" href="/story/001067136"><img src="http://i.ftimg.net/picture/4/000053964_piclink.jpg" class=leftimage></a>德国商业银行周浩：一个存在严重供给过剩的国家，却在局部地区出现房价暴涨，难免令人困惑。然而中国经济的整体表现并不会因为房地产市场的升温而出现实质性改变，房价也不会因为整体货币政策的宽松，延续上涨势头。
+</span>
 </h3><div class=clearfloat></div>
-<li class=storytail><a target="_blank" href="/story/001067094">应重估美国在南海问题上的对华政策</a></li>
-<li class=storytail><a target="_blank" href="/story/001067116">低增长：后危机时代的现实</a></li>
+<li class=storytail><a target="_blank" href="/story/001067135">从“肯尼亚事件”看两岸关系的难处</a></li>
+<li class=storytail><a target="_blank" href="/story/001067110">“企二代”与中国企业的未来</a></li>
 </div>
 
 </div>
@@ -1253,10 +1326,10 @@ var dolFloat=dolphinAD(ADPO.ROS_Float,FTAdchID);
 <div class=column4content>
 <div class="newtitle"><div><b class=t><a href="/channel/lifestyle.html">生活时尚</a></b></div></div>
 <div class="featurecolumn">
-<h3><a target="_blank" href="/story/001067108">今年的腕表：好货不贵</a> <span><a target="_blank" href="/story/001067108"><img src="http://i.ftimg.net/picture/4/000043524_piclink.jpg" class=leftimage></a>丁之方：面对着不足20%的手腕戴表率，今年的中高端新品手表功能外型俱佳而价格不贵，与电子智能表一起争夺消费者宝贵的“手腕”资源。</span>
+<h3><a target="_blank" href="/story/001067044">名模凯特•莫斯忽悠我纹身</a> <span><a target="_blank" href="/story/001067044"><img src="http://i.ftimg.net/picture/9/000030479_piclink_0_0.jpg" class=leftimage></a>邓永铿：纹身通常会给高颜值者锦上添花，让他们更显时尚，却会让长相难看的人变本加厉，时尚感也大打折扣。我被忽悠纹了个黑正方形图案。</span>
 </h3><div class=clearfloat></div>
+<li class=storytail><a target="_blank" href="/story/001067108">今年的腕表：好货不贵</a></li>
 <li class=storytail><a target="_blank" href="/story/001067106">卡地亚助力中国博物馆热潮</a></li>
-<li class=storytail><a target="_blank" href="/story/001067105">国际艺术界的“韩国风”</a></li>
 </div>
 
 
@@ -1277,8 +1350,7 @@ var dolFloat=dolphinAD(ADPO.ROS_Float,FTAdchID);
 <div class=column3content>
 <div class="newtitle"><div><b class=t><a href="/channel/economy.html">经济</a></b></div></div>
 <div class="featurecolumn">
-<li class=storytail><a target="_blank" href="/story/001067115">为什么会有人买负收益率债券？</a></li>
-<li class=storytail><a target="_blank" href="/story/001067129">一季度中国GDP同比增长6.7%</a></li>
+<li class=storytail><a target="_blank" href="/story/001067149">日本地震引发供应链中断担忧</a></li>
 </div>
 
 </div>
@@ -1290,10 +1362,9 @@ var dolFloat=dolphinAD(ADPO.ROS_Float,FTAdchID);
 <div class=column4content>
 <div class="newtitle"><div><b class=t><a href="/channel/business.html">商业</a></b></div></div>
 <div class="featurecolumn">
-<h3><a target="_blank" href="/story/001067130">宇通客车：中企海外扩张的成功者</a> <span><a target="_blank" href="/story/001067130"><img src="http://i.ftimg.net/picture/1/000024541_piclink_0_0.jpg" class=leftimage></a>借中国市场经济的大潮，宇通客车已发展为全球最大客车制造商，销量占全球10%，在130个国家和地区运营。如今随着中国经济放缓，它加大了拓展海外市场的力度。</span>
+<h3><a target="_blank" href="/story/001067071">“钓鱼邮件”防御指南</a> <span><a target="_blank" href="/story/001067071"><img src="http://i.ftimg.net/picture/3/000060733_piclink.jpg" class=leftimage></a>冒充首席执行官的犯罪分子发出精心措辞的邮件，很容易蒙骗下级员工，造成公司损失。本文列出一些避免上当的建议，但最简单的还是鼓起勇气打电话给CEO核实情况。</span>
 </h3><div class=clearfloat></div>
-<li class=storytail><a target="_blank" href="/story/001067128">微软起诉美国司法部滥用保密命令</a></li>
-<li class=storytail><a target="_blank" href="/story/001067127">中国追责疫苗丑闻责任人</a></li>
+<li class=storytail><a target="_blank" href="/story/001067147">3月份中国大城市房价继续上涨</a></li>
 </div>
 
 </div>
@@ -1325,7 +1396,7 @@ var dolFloat=dolphinAD(ADPO.ROS_Float,FTAdchID);
 <div class=column4content>
 <div class="newtitle"><div><b class=t><a href="/channel/world.html">全球</a></b></div></div>
 <div class="featurecolumn">
-<li class=storytail><a target="_blank" href="/story/001067132">日本九州岛6.5级地震致多人死亡</a></li>
+<li class=storytail><a target="_blank" href="/story/001067150">巴西众议院通过弹劾总统罗塞夫动议</a></li>
 </div>
 
 </div>
@@ -1898,16 +1969,16 @@ http://media.ftchinese.com/picture/3/000019453_piclink_0_0.jpg" alt=""/></a>
 
 <span>
 <ul>
-<li><a target="_blank" href="/story/001067093?dailypop">中国互联网的“烧钱之战”</a></li>
-<li><a target="_blank" href="/story/001067091?dailypop">“复杂中国”更须看清复杂世界</a></li>
+<li><a target="_blank" href="/story/001067116?dailypop">低增长：后危机时代的现实</a></li>
+<li><a target="_blank" href="/story/001067117?dailypop">中国抗击“韩流”？</a></li>
+<li><a target="_blank" href="/story/001067130?dailypop">宇通客车：中企海外扩张的成功者</a></li>
+<li><a target="_blank" href="/story/001067125?dailypop">中国取消七大行业出口补贴</a></li>
+<li><a target="_blank" href="/story/001067111?dailypop">洪秀柱能否改造国民党？</a></li>
+<li><a target="_blank" href="/story/001067122?dailypop">重塑文明秩序与执政党转型</a></li>
 <li><a target="_blank" href="/story/001067089?dailypop">人民币是否还会继续贬值？</a></li>
-<li><a target="_blank" href="/story/001067101?dailypop">中国国企债券违约数量上升引发忧虑</a></li>
-<li><a target="_blank" href="/story/001067069?dailypop">相亲中的博弈</a></li>
-<li><a target="_blank" href="/story/001067097?dailypop">阿拉伯青年如何看待ISIS？</a></li>
-<li><a target="_blank" href="/story/001067095?dailypop">中国同性婚姻维权案被法院驳回</a></li>
-<li><a target="_blank" href="/story/001067047?dailypop">谁将成为印尼版阿里巴巴？</a></li>
-<li><a target="_blank" href="/story/001067092?dailypop">智能手机靠噱头还能走多远？</a></li>
-<li><a target="_blank" href="/story/001067107?dailypop">分析：周五中国季度数据的五大看点</a></li>
+<li><a target="_blank" href="/story/001067131?dailypop">美国披露两起对华泄密案件</a></li>
+<li><a target="_blank" href="/story/001067094?dailypop">应重估美国在南海问题上的对华政策</a></li>
+<li><a target="_blank" href="/story/001067093?dailypop">中国互联网的“烧钱之战”</a></li>
 </ul>
 </span>
 
@@ -1917,13 +1988,14 @@ http://media.ftchinese.com/picture/3/000019453_piclink_0_0.jpg" alt=""/></a>
 <ul>
 
 <li><a target="_blank" href="/story/001067038?weeklypop">看不见的中国</a></li>
-<li><a target="_blank" href="/story/001067002?weeklypop">中国产能过剩背后的思考</a></li>
-<li><a target="_blank" href="/story/001067073?weeklypop">历史走向终结还是回归起点？</a></li>
-<li><a target="_blank" href="/story/001066934?weeklypop">我们要感谢“文革”的五条理由</a></li>
 <li><a target="_blank" href="/story/001067093?weeklypop">中国互联网的“烧钱之战”</a></li>
-<li><a target="_blank" href="/story/001067006?weeklypop">普京如何改变了世界秩序？</a></li>
+<li><a target="_blank" href="/story/001067073?weeklypop">历史走向终结还是回归起点？</a></li>
+<li><a target="_blank" href="/story/001067002?weeklypop">中国产能过剩背后的思考</a></li>
+<li><a target="_blank" href="/story/001067116?weeklypop">低增长：后危机时代的现实</a></li>
 <li><a target="_blank" href="/story/001067030?weeklypop">禁摩限电：懒政与腐败的变奏？</a></li>
+<li><a target="_blank" href="/story/001067130?weeklypop">宇通客车：中企海外扩张的成功者</a></li>
 <li><a target="_blank" href="/story/001067062?weeklypop">中国经济增长率到底有多少？</a></li>
+<li><a target="_blank" href="/story/001067117?weeklypop">中国抗击“韩流”？</a></li>
 <li><a target="_blank" href="/story/001067059?weeklypop">请给王石一点时间</a></li>
 
 </ul>
@@ -1935,14 +2007,14 @@ http://media.ftchinese.com/picture/3/000019453_piclink_0_0.jpg" alt=""/></a>
 <ul>
 <li><a target="_blank" href="/story/001066934?monthlypop">我们要感谢“文革”的五条理由</a></li>
 <li><a target="_blank" href="/story/001066844?monthlypop">为什么没有“德国梦”？</a></li>
-<li><a target="_blank" href="/story/001066668?monthlypop">中国在南海是好战还是强硬？</a></li>
 <li><a target="_blank" href="/story/001066933?monthlypop">对丑陋的婚俗，请勇敢说不</a></li>
 <li><a target="_blank" href="/story/001066823?monthlypop">上海最严楼市调控背后的“资产荒”</a></li>
 <li><a target="_blank" href="/story/001066793?monthlypop">中国“新常态”面临四大挑战</a></li>
 <li><a target="_blank" href="/story/001066914?monthlypop">中国何时变成“足球大国”？</a></li>
 <li><a target="_blank" href="/story/001066938?monthlypop">A股的“中国式”投资策略</a></li>
 <li><a target="_blank" href="/story/001066935?monthlypop">中国经济调整的两难困境</a></li>
-<li><a target="_blank" href="/story/001066642?monthlypop">中国警方平息双鸭山抗议活动</a></li>
+<li><a target="_blank" href="/story/001066814?monthlypop">中国人消费习惯发生深远变化</a></li>
+<li><a target="_blank" href="/story/001067038?monthlypop">看不见的中国</a></li>
 </ul>
 </span>
 
@@ -1952,14 +2024,14 @@ http://media.ftchinese.com/picture/3/000019453_piclink_0_0.jpg" alt=""/></a>
 <ul>
 <li><a target="_blank" href="/video/1882?videopop">【秒懂】90秒了解巴拿马绝密文件泄露事件</a></li>
 <li><a target="_blank" href="/video/1888?videopop">纪录片：中国移民奇迹终结（上）</a></li>
-<li><a target="_blank" href="/video/1879?videopop">为何图片中的职场女性都年轻貌美？</a></li>
 <li><a target="_blank" href="/video/1889?videopop">纪录片：中国移民奇迹终结（下）</a></li>
-<li><a target="_blank" href="/video/1858?videopop">从“十三五”看中国转型之难</a></li>
-<li><a target="_blank" href="/video/1856?videopop">假如日本机器人被用于军事</a></li>
+<li><a target="_blank" href="/video/1879?videopop">为何图片中的职场女性都年轻貌美？</a></li>
 <li><a target="_blank" href="/video/1885?videopop">【预告】纪录片：中国移民奇迹终结</a></li>
 <li><a target="_blank" href="/video/1862?videopop">柯慕贤：德国民众为何担心中国国企</a></li>
 <li><a target="_blank" href="/video/1875?videopop">台湾维权太平岛：是岛不是礁</a></li>
-<li><a target="_blank" href="/video/1857?videopop">机器人崛起：这次会不一样吗？</a></li>
+<li><a target="_blank" href="/video/1867?videopop">【秒懂】李克强开出的经济药方</a></li>
+<li><a target="_blank" href="/video/1863?videopop">【秒懂】一招看清股票回购那些噱头</a></li>
+<li><a target="_blank" href="/video/1861?videopop">柯慕贤：中国制造业升级的最大障碍</a></li>
 </ul>
 </span>
 
@@ -2082,7 +2154,49 @@ displayslide('mostpopulars',0,'thismostpopular','allmostpopulars', 'span', 1);
 <h3 id=columntitle><a href=/channel/column.html>FT中文网专栏</a></h3>
 <ul>
 
-
+					<li><a target='_blank' href='/column/007000005'>《第一时间解读》</a></li>
+										<li><a target='_blank' href='/column/007000058'>《中西两半录》</a></li>
+							<li><a target='_blank' href='/column/007000002'>《朝九晚五》</a></li>
+										<li><a target='_blank' href='/column/007000007'>《中国纪事》</a></li>
+													<li><a target='_blank' href='/column/007000054'>《一知半解》</a></li>
+							<li><a target='_blank' href='/column/007000006'>《媒体札记》</a></li>
+																<li><a target='_blank' href='/column/007000044'>《天则横议》</a></li>
+							<li><a target='_blank' href='/column/007000001'>《钱体育》</a></li>
+										<li><a target='_blank' href='/column/007000009'>《第三眼》</a></li>
+										<li><a target='_blank' href='/column/007000036'>《市场的边界》</a></li>
+													<li><a target='_blank' href='/column/007000040'>《CMRC朗润经济评论》</a></li>
+							<li><a target='_blank' href='/column/007000020'>《剃刀边缘》</a></li>
+										<li><a target='_blank' href='/column/007000049'>《经济人》</a></li>
+										<li><a target='_blank' href='/column/007000043'>《中国股事钩沉》</a></li>
+							<li><a target='_blank' href='/column/007000004'>《远观中国》</a></li>
+													<li><a target='_blank' href='/column/007000042'>《我是书虫》</a></li>
+										<li><a target='_blank' href='/column/007000041'>《经济观察者》</a></li>
+													<li><a target='_blank' href='/column/007000027'>《智库》</a></li>
+							<li><a target='_blank' href='/column/007000047'>《沈时度势》</a></li>
+													<li><a target='_blank' href='/column/007000038'>《中外对话》</a></li>
+							<li><a target='_blank' href='/column/007000051'>《简化字不讲理》</a></li>
+										<li><a target='_blank' href='/column/007000048'>《新百家》</a></li>
+							<li><a target='_blank' href='/column/007000052'>《切问近思录》</a></li>
+							<li><a target='_blank' href='/column/007000053'>《纽约范儿》</a></li>
+							<li><a target='_blank' href='/column/007000008'>《中国公司观察》</a></li>
+							<li><a target='_blank' href='/column/007000056'>《投资者的敌人》</a></li>
+							<li><a target='_blank' href='/column/007000035'>《生活经济学》</a></li>
+							<li><a target='_blank' href='/column/007000039'>《法与商道》</a></li>
+							<li><a target='_blank' href='/column/007000011'>《职言不讳》</a></li>
+							<li><a target='_blank' href='/column/007000010'>《中间论坛》</a></li>
+							<li><a target='_blank' href='/column/007000019'>《琐碎的冲突》</a></li>
+							<li><a target='_blank' href='/column/007000037'>《碳之道》</a></li>
+							<li><a target='_blank' href='/column/007000046'>《杏林守望者》</a></li>
+							<li><a target='_blank' href='/column/007000028'>《网络江湖》</a></li>
+							<li><a target='_blank' href='/column/007000003'>《重读近代史》</a></li>
+							<li><a target='_blank' href='/column/007000018'>《杂志PK》</a></li>
+							<li><a target='_blank' href='/column/007000055'>《名利场》</a></li>
+							<li><a target='_blank' href='/column/007000059'>《时代的噪音》</a></li>
+							<li><a target='_blank' href='/column/007000060'>《谈艺录》</a></li>
+							<li><a target='_blank' href='/column/007000061'>《寻食记》</a></li>
+							<li><a target='_blank' href='/column/007000062'>《市值管理评论》</a></li>
+							<li><a target='_blank' href='/column/007000063'>《艺述东西》</a></li>
+			
 
 
 </ul>
@@ -2099,7 +2213,28 @@ displayslide('mostpopulars',0,'thismostpopular','allmostpopulars', 'span', 1);
 <div class="tools tools-right">
 <h3 id=ftauthertitle><a href=/channel/column.html>FT专栏作家</a></h3>
 <ul>
-	
+								<li><a target='_blank' href='/column/007000012'>马丁·沃尔夫</a></li>
+													<li><a target='_blank' href='/column/007000013'>露西•凯拉韦</a></li>
+										<li><a target='_blank' href='/column/007000021'>约翰•奥瑟兹</a></li>
+							<li><a target='_blank' href='/column/007000023'>戴维•皮林</a></li>
+													<li><a target='_blank' href='/column/007000022'>卧底经济学家</a></li>
+							<li><a target='_blank' href='/column/007000064'>爱德华•卢斯</a></li>
+							<li><a target='_blank' href='/column/007000024'>吉莲•邰蒂</a></li>
+													<li><a target='_blank' href='/column/007000025'>吉迪恩•拉赫曼</a></li>
+										<li><a target='_blank' href='/column/007000015'>约翰•加普</a></li>
+										<li><a target='_blank' href='/column/007000032'>菲利普•斯蒂芬斯</a></li>
+							<li><a target='_blank' href='/column/007000014'>斯特凡•斯特恩</a></li>
+													<li><a target='_blank' href='/column/007000030'>约翰•凯</a></li>
+										<li><a target='_blank' href='/column/007000026'>克莱夫•克鲁克</a></li>
+													<li><a target='_blank' href='/column/007000033'>塞缪尔•布里坦</a></li>
+							<li><a target='_blank' href='/column/007000031'>约翰•普伦德</a></li>
+										<li><a target='_blank' href='/column/007000029'>亲爱的经济学家</a></li>
+										<li><a target='_blank' href='/column/007000034'>卢克•约翰逊</a></li>
+							<li><a target='_blank' href='/column/007000017'>钱眼太太</a></li>
+													<li><a target='_blank' href='/column/007000050'>简氏酒庄</a></li>
+							<li><a target='_blank' href='/column/007000016'>居伊•德•容凯尔</a></li>
+													<li><a target='_blank' href='/column/007000065'>安德鲁•希尔</a></li>
+																																																																			
 </ul>
 
 <h3 id=linkstitle><a href="/">相关链接</a></h3>

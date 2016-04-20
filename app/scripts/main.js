@@ -120,7 +120,7 @@
         var maxScroll = containerTop[i] + maxHeight[i] - bodyHeight - scrollTop;
         var minScroll = containerTop[i] + minHeight[i] - bodyHeight - scrollTop;
         //console.log (i + ': ' + maxScroll + '/' + minScroll);
-        if (maxHeight[i] < bodyHeight || maxHeight[i] - minHeight[i] < 100) {
+        if (minHeight[i] < bodyHeight || maxHeight[i] - minHeight[i] < 100) {
           // do nothing
         } else if (mainHeight[i]>sideHeight[i]) {
           if (maxScroll<=0) {
