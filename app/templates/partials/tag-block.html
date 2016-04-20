@@ -1,4 +1,3 @@
-<%assign var="itemType" value="story"%>
 <%if $adchannelID != "1000"%>
     <%assign var="adForceString" value="#adchannelID=$adchannelID"%>
 <%/if%>
@@ -23,6 +22,29 @@
 			<%assign var="i" value=0%>
 			<%assign var="allStoiesCount" value=$hasImageCount%>
 			<%foreach from=$allstory item=item%>
+
+				<%*<!--
+
+				story专有字段是——priority
+				video专有字段是——video_name 和 cc_vaddress
+				photonews专有字段是——photonewsid
+				interactive专有字段是——template（但有的有值，有的为空值和Null）
+
+				-->*%>
+
+
+				
+				<%if $item.photonewsid && $item.photonewsid != ""%>
+					<%assign var="itemType" value="photonews"%>
+				<%elseif $item.priority && $item.priority != ""%>
+					<%assign var="itemType" value="story"%>
+				<%elseif ($item.video_name && $item.video_name != "") || ($item.cc_vaddress && $item.cc_vaddress != "")%>
+					<%assign var="itemType" value="video"%>
+				<%else%>
+					<%assign var="itemType" value="interactive"%>
+				<%/if%>
+
+
 				<%assign var="itemImage" value=$item.story_pic.cover|default:$item.story_pic.other|default:$item.story_pic.smallbutton%>
 
 				<%if $itemImage != ""%>
@@ -276,6 +298,7 @@
 					<%/if%>
 
 
+
 					<%$itemTop%>
 					<div class="item-container <%$itemClass%> <%$hasImage%>"><div class="item-inner">
 						<h2 class="item-headline"><%$itemTag%><a target="_blank" href="/<%$itemType%>/<%$item.id%>#adchannelID=<%$adchannelID%>"><%$item.cheadline%></a></h2>
@@ -308,6 +331,18 @@
 			<%assign var="i" value=0%>
 			<%assign var="allStoiesCount" value=$noImageCount%>
 			<%foreach from=$allstory item=item%>
+
+
+				<%if $item.photonewsid && $item.photonewsid != ""%>
+					<%assign var="itemType" value="photonews"%>
+				<%elseif $item.priority && $item.priority != ""%>
+					<%assign var="itemType" value="story"%>
+				<%elseif ($item.video_name && $item.video_name != "") || ($item.cc_vaddress && $item.cc_vaddress != "")%>
+					<%assign var="itemType" value="video"%>
+				<%else%>
+					<%assign var="itemType" value="interactive"%>
+				<%/if%>
+
 				<%assign var="itemImage" value=$item.story_pic.cover|default:$item.story_pic.other|default:$item.story_pic.smallbutton%>
 
 				<%if $itemImage == ""%>
