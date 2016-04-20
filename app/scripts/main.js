@@ -81,9 +81,6 @@
 
   function stickyBottomUpdate() {
     var htmlClassNew = htmlClass.replace(/ is-sticky/g, '').replace(/ share-sticky/g, '');
-
-    //console.log ('yes');
-
     if (typeof requestAnimationFrame === 'function') {
       requestAnimationFrame(stickyBottomUpdate);
     }
@@ -116,25 +113,40 @@
     // sticky sides
     if (sectionsWithSideLength > 0 && w > hasSideWidth) {
       for (var i=0; i<sectionsWithSideLength; i++) {
-        sectionClassNameNew[i] = sectionClassName[i].replace(/fixmain|fixside|bottommain|bottomside/g,'');
-        var maxScroll = containerTop[i] + maxHeight[i] - bodyHeight - scrollTop;
-        var minScroll = containerTop[i] + minHeight[i] - bodyHeight - scrollTop;
+        sectionClassNameNew[i] = sectionClassName[i].replace(/fixmain|fixside|bottommain|bottomside|sticktop/g,'');
+        var maxScroll = 0;
+        var minScroll = 0;
+        var stickTopClass = '';
         //console.log (i + ': ' + maxScroll + '/' + minScroll);
-        if (minHeight[i] < bodyHeight || maxHeight[i] - minHeight[i] < 100) {
-          // do nothing
-        } else if (mainHeight[i]>sideHeight[i]) {
-          if (maxScroll<=0) {
-            sectionClassNameNew[i] += ' bottomside';
-          } else if (minScroll<=0 ) {
-            sectionClassNameNew[i] += ' fixside';
+
+        if (maxHeight[i] >= bodyHeight && maxHeight[i] - minHeight[i] >= 100) {
+
+          if (minHeight[i] < bodyHeight) {
+            // when min height is less than bodyheight
+            // stick to top
+            stickTopClass = ' sticktop';
+            maxScroll = containerTop[i] + maxHeight[i] - minHeight[i] - scrollTop - gNavHeight - defaultPadding;
+            minScroll = containerTop[i] - gNavHeight - scrollTop - defaultPadding;
+          } else {
+            // otherwise stick to bottom
+            maxScroll = containerTop[i] + maxHeight[i] - bodyHeight - scrollTop;
+            minScroll = containerTop[i] + minHeight[i] - bodyHeight - scrollTop;
           }
-        } else if (mainHeight[i]<sideHeight[i]) {
-          if (maxScroll<30) {
-            sectionClassNameNew[i] += ' bottommain';
-          } else if (minScroll<0){
-            sectionClassNameNew[i] += ' fixmain';
+          if (mainHeight[i]>sideHeight[i]) {
+            if (maxScroll<=0) {
+              sectionClassNameNew[i] += ' bottomside';
+            } else if (minScroll<=0 ) {
+              sectionClassNameNew[i] += ' fixside' + stickTopClass;
+            }
+          } else if (mainHeight[i]<sideHeight[i]) {
+            if (maxScroll<30) {
+              sectionClassNameNew[i] += ' bottommain';
+            } else if (minScroll<0){
+              sectionClassNameNew[i] += ' fixmain' + stickTopClass;
+            }
           }
         }
+
         sectionClassNameNew[i] = sectionClassNameNew[i].replace(/[\s]+/g,' ');
         if (sectionClassNameNew[i] !== sectionClassName[i]) {
           sectionClassName[i] = sectionClassNameNew[i];

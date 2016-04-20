@@ -12,6 +12,12 @@
 			bottom: $defaultPadding;
 			width: $sideWidth;
 		}
+		&.sticktop {
+			.side-inner {
+				bottom: auto;
+				top: $defaultPadding + $navHeight;
+			}
+		}
 		&.side-left {
 			.side-inner {
 				bottom: 0;
@@ -37,6 +43,12 @@
 			bottom: 0;
 			max-width: $maxWidth - 1.5 * $defaultPadding - $sideWidth;
 			//right: $sideWidth + $defaultPadding;
+		}
+		&.sticktop {
+			.content-container {
+				bottom: auto;
+				top: $defaultPadding + $navHeight;
+			}
 		}
 		.content-inner {
 			border-width: 0;
