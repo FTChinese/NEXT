@@ -60,8 +60,8 @@ function Nav(rootEl) {
 }
 
 function Sticky(fixedEl, startDistance, endDistance) {
-	var oSticky = this;
-	var rAF = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.msRequestAnimationFrame || window.oRequestAnimationFrame || function(callback){ window.setTimeout(callback, 1000/60); };
+	const oSticky = this;
+	const rAF = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.msRequestAnimationFrame || window.oRequestAnimationFrame || function(callback){ window.setTimeout(callback, 1000/60) }
 
 
 	function init() {	
@@ -81,19 +81,36 @@ function Sticky(fixedEl, startDistance, endDistance) {
 	    // Avoid calculations if not needed
 	    var scrollY = (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
 
-	    if (oSticky.lastPosition === scrollY) {
+	    if (oSticky.lastPosition == scrollY) {
 	        rAF(loop);
 	        return false;
 	    } else {
 	    	oSticky.lastPosition = scrollY;
 	    }
 
-	    var withinRange = oSticky.end ? ((oSticky.lastPosition > oSticky.start) && (oSticky.lastPosition < oSticky.end)) : (oSticky.lastPosition > oSticky.start);
+	    var abovePeak = oSticky.lastPosition < oSticky.start;
 
-	    if (withinRange) {
+	    var underTrough = oSticky.lastPosition > oSticky.end;
+
+	    var between = !abovePeak && !underTrough;
+
+	    console.log('abovePeak: ' + abovePeak + ', between: ' + between + ', underTrough: ' + underTrough);
+
+	    //var withinRange = oSticky.end ? ((oSticky.lastPosition > oSticky.start) && (oSticky.lastPosition < oSticky.end)) : (oSticky.lastPosition > oSticky.start);
+
+	    var sticked = oSticky.fixedEl.getAttribute('aria-sticky');
+	    var troughed = oSticky.fixedEl.getAttribute('aria-troughed');
+
+	    if (between && !sticked) {
 	    	oSticky.fixedEl.setAttribute('aria-sticky', 'true');
-	    } else {
-	    	oSticky.fixedEl.removeAttribute('aria-sticky', 'false');
+	    } else if (!between && sticked) {
+	    	oSticky.fixedEl.removeAttribute('aria-sticky');
+	    }
+
+	    if (underTrough && !troughed) {
+	    	oSticky.fixedEl.setAttribute('aria-troughed', 'true');
+	    } else if (!underTrough && troughed) {
+	    	oSticky.fixedEl.removeAttribute('aria-troughed');
 	    }
 
 	    rAF( loop );
@@ -116,11 +133,14 @@ function getElementOffset(e) {
 	}
 	var box = e.getBoundingClientRect();
 	var offset = getPageOffset();
-	var x = box.left + offset.x;
-	var y = box.top + offset.y;
+	var x1 = box.left + offset.x;
+	var x2 = box.right + offset.x;
+	var y1 = box.top + offset.y;
+	var y2 = box.bottom + offset.y;
 
-	return {x: x, y: y};
+	return {xLeft: x1,  xRight: x2, yTop: y1,yBottom: y2};
 }
+
 // callback(error, data)
 var ajax = {
 	getData: function (url, callback) {
@@ -186,7 +206,7 @@ var navEl = document.querySelector('.o-nav');
 var navElOffset = getElementOffset(navEl);
 
 new Nav(navEl);
-new Sticky(navEl, navElOffset.y);
+new Sticky(navEl, navElOffset.yTop);
 
 var initialNavSections = oNavSections(navEl);
 
