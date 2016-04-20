@@ -12,7 +12,7 @@
   var sectionsWithSide = document.querySelectorAll('.block-container.has-side');
   var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
   var delegate;
-  //var htmlClass = document.documentElement.className;
+  var htmlClass = document.documentElement.className;
   var sectionsWithSideLength = sectionsWithSide.length;
   var sectionClassName = [];
   var sectionClassNameNew = [];
@@ -80,7 +80,7 @@
   }
 
   function stickyBottomUpdate() {
-    //var htmlClassNew = htmlClass.replace(/ is-sticky/g, '').replace(/ share-sticky/g, '');
+    var htmlClassNew = htmlClass.replace(/ is-sticky/g, '').replace(/ share-sticky/g, '');
 
     //console.log ('yes');
 
@@ -88,30 +88,30 @@
       requestAnimationFrame(stickyBottomUpdate);
     }
 
-    // sticky navigation
-    // if (typeof gShareOffsetY === 'number' && gShareOffsetY > gNavOffsetY) {
-    //   if (scrollTop >= gShareOffsetY) {
-    //     htmlClassNew += ' share-sticky';
-    //   } else if (scrollTop >= gNavHeight) {
-    //     htmlClassNew += ' is-sticky'; 
-    //   }
-    //   if (htmlClassNew !== htmlClass) {
-    //     htmlClass = htmlClassNew;
-    //     document.documentElement.className = htmlClass;
-    //   }
-    // } else {
-    //   if (scrollTop >= gNavOffsetY) {
-    //     if (htmlClass.indexOf(' is-sticky')<0) {
-    //       htmlClass += ' is-sticky';
-    //       document.documentElement.className = htmlClass;
-    //     }
-    //   } else {
-    //     if (htmlClass.indexOf(' is-sticky')>=0) {
-    //       htmlClass = htmlClass.replace(/ is-sticky/g, '');
-    //       document.documentElement.className = htmlClass;
-    //     }
-    //   }
-    // }
+    //sticky navigation
+    if (typeof gShareOffsetY === 'number' && gShareOffsetY > gNavOffsetY) {
+      if (scrollTop >= gShareOffsetY) {
+        htmlClassNew += ' share-sticky';
+      } else if (scrollTop >= gNavHeight) {
+        htmlClassNew += ' o-nav-sticky'; 
+      }
+      if (htmlClassNew !== htmlClass) {
+        htmlClass = htmlClassNew;
+        document.documentElement.className = htmlClass;
+      }
+    } else {
+      if (scrollTop >= gNavOffsetY) {
+        if (htmlClass.indexOf(' o-nav-sticky')<0) {
+          htmlClass += ' o-nav-sticky';
+          document.documentElement.className = htmlClass;
+        }
+      } else {
+        if (htmlClass.indexOf(' o-nav-sticky')>=0) {
+          htmlClass = htmlClass.replace(/ o-nav-sticky/g, '');
+          document.documentElement.className = htmlClass;
+        }
+      }
+    }
 
     // sticky sides
     if (sectionsWithSideLength > 0 && w > hasSideWidth) {

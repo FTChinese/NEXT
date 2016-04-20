@@ -59,87 +59,87 @@ function Nav(rootEl) {
 	selected();
 }
 
-function Sticky(fixedEl, startDistance, endDistance) {
-	const oSticky = this;
-	const rAF = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.msRequestAnimationFrame || window.oRequestAnimationFrame || function(callback){ window.setTimeout(callback, 1000/60) }
+// function Sticky(fixedEl, startDistance, endDistance) {
+// 	const oSticky = this;
+// 	const rAF = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.msRequestAnimationFrame || window.oRequestAnimationFrame || function(callback){ window.setTimeout(callback, 1000/60) }
 
 
-	function init() {	
-		oSticky.lastPosition = -1;
-		if (!startDistance) {
-			startDistance = 0;
-		}
-		oSticky.start = startDistance;
-		oSticky.end = endDistance;
-		if (!(fixedEl instanceof HTMLElement)) {
-			fixedEl = document.querySelector(fixedEl);
-		}
-		oSticky.fixedEl = fixedEl;
-	}
+// 	function init() {	
+// 		oSticky.lastPosition = -1;
+// 		if (!startDistance) {
+// 			startDistance = 0;
+// 		}
+// 		oSticky.start = startDistance;
+// 		oSticky.end = endDistance;
+// 		if (!(fixedEl instanceof HTMLElement)) {
+// 			fixedEl = document.querySelector(fixedEl);
+// 		}
+// 		oSticky.fixedEl = fixedEl;
+// 	}
 
-	function loop(){
-	    // Avoid calculations if not needed
-	    var scrollY = (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
+// 	function loop(){
+// 	    // Avoid calculations if not needed
+// 	    var scrollY = (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
 
-	    if (oSticky.lastPosition == scrollY) {
-	        rAF(loop);
-	        return false;
-	    } else {
-	    	oSticky.lastPosition = scrollY;
-	    }
+// 	    if (oSticky.lastPosition == scrollY) {
+// 	        rAF(loop);
+// 	        return false;
+// 	    } else {
+// 	    	oSticky.lastPosition = scrollY;
+// 	    }
 
-	    var abovePeak = oSticky.lastPosition < oSticky.start;
+// 	    var abovePeak = oSticky.lastPosition < oSticky.start;
 
-	    var underTrough = oSticky.lastPosition > oSticky.end;
+// 	    var underTrough = oSticky.lastPosition > oSticky.end;
 
-	    var between = !abovePeak && !underTrough;
+// 	    var between = !abovePeak && !underTrough;
 
-	    console.log('abovePeak: ' + abovePeak + ', between: ' + between + ', underTrough: ' + underTrough);
+// 	    console.log('abovePeak: ' + abovePeak + ', between: ' + between + ', underTrough: ' + underTrough);
 
-	    //var withinRange = oSticky.end ? ((oSticky.lastPosition > oSticky.start) && (oSticky.lastPosition < oSticky.end)) : (oSticky.lastPosition > oSticky.start);
+// 	    //var withinRange = oSticky.end ? ((oSticky.lastPosition > oSticky.start) && (oSticky.lastPosition < oSticky.end)) : (oSticky.lastPosition > oSticky.start);
 
-	    var sticked = oSticky.fixedEl.getAttribute('aria-sticky');
-	    var troughed = oSticky.fixedEl.getAttribute('aria-troughed');
+// 	    var sticked = oSticky.fixedEl.getAttribute('aria-sticky');
+// 	    var troughed = oSticky.fixedEl.getAttribute('aria-troughed');
 
-	    if (between && !sticked) {
-	    	oSticky.fixedEl.setAttribute('aria-sticky', 'true');
-	    } else if (!between && sticked) {
-	    	oSticky.fixedEl.removeAttribute('aria-sticky');
-	    }
+// 	    if (between && !sticked) {
+// 	    	oSticky.fixedEl.setAttribute('aria-sticky', 'true');
+// 	    } else if (!between && sticked) {
+// 	    	oSticky.fixedEl.removeAttribute('aria-sticky');
+// 	    }
 
-	    if (underTrough && !troughed) {
-	    	oSticky.fixedEl.setAttribute('aria-troughed', 'true');
-	    } else if (!underTrough && troughed) {
-	    	oSticky.fixedEl.removeAttribute('aria-troughed');
-	    }
+// 	    if (underTrough && !troughed) {
+// 	    	oSticky.fixedEl.setAttribute('aria-troughed', 'true');
+// 	    } else if (!underTrough && troughed) {
+// 	    	oSticky.fixedEl.removeAttribute('aria-troughed');
+// 	    }
 
-	    rAF( loop );
-	}
-	init();
-	loop();
-}
+// 	    rAF( loop );
+// 	}
+// 	init();
+// 	loop();
+// }
 
-function getElementOffset(e) {
+// function getElementOffset(e) {
 
-	function getPageOffset(w) {
-		w = w || window;
-		var x = (w.pageXOffset !== undefined) ? w.pageXOffset : (document.documentElement || document.body.parentNode || document.body).scrollLeft;
-		var y = (w.pageYOffset !== undefined) ? w.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
-		return {x: x, y: y};
-	}
+// 	function getPageOffset(w) {
+// 		w = w || window;
+// 		var x = (w.pageXOffset !== undefined) ? w.pageXOffset : (document.documentElement || document.body.parentNode || document.body).scrollLeft;
+// 		var y = (w.pageYOffset !== undefined) ? w.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
+// 		return {x: x, y: y};
+// 	}
 
-	if (!(e instanceof HTMLElement)) {
-		e = document.querySelector(e);
-	}
-	var box = e.getBoundingClientRect();
-	var offset = getPageOffset();
-	var x1 = box.left + offset.x;
-	var x2 = box.right + offset.x;
-	var y1 = box.top + offset.y;
-	var y2 = box.bottom + offset.y;
+// 	if (!(e instanceof HTMLElement)) {
+// 		e = document.querySelector(e);
+// 	}
+// 	var box = e.getBoundingClientRect();
+// 	var offset = getPageOffset();
+// 	var x1 = box.left + offset.x;
+// 	var x2 = box.right + offset.x;
+// 	var y1 = box.top + offset.y;
+// 	var y2 = box.bottom + offset.y;
 
-	return {xLeft: x1,  xRight: x2, yTop: y1,yBottom: y2};
-}
+// 	return {xLeft: x1,  xRight: x2, yTop: y1,yBottom: y2};
+// }
 
 // callback(error, data)
 var ajax = {
@@ -203,10 +203,10 @@ function zipObject(objA, objB) {
 }
 
 var navEl = document.querySelector('.o-nav');
-var navElOffset = getElementOffset(navEl);
+//var navElOffset = getElementOffset(navEl);
 
 new Nav(navEl);
-new Sticky(navEl, navElOffset.yTop);
+// new Sticky(navEl, navElOffset.yTop);
 
 var initialNavSections = oNavSections(navEl);
 
