@@ -68,12 +68,15 @@
     w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
     if (sectionsWithSide.length > 0) {
       for (var i=0; i<sectionsWithSide.length; i++) {
-        containerTop[i] = findTop(sectionsWithSide[i]);
-        mainHeight[i] = sectionsWithSide[i].querySelector('.content-inner').offsetHeight;
-        sideHeight[i] = sectionsWithSide[i].querySelector('.side-inner').offsetHeight + defaultPadding;
-        sectionClassName[i] = sectionsWithSide[i].className;
-        minHeight[i] = Math.min(mainHeight[i], sideHeight[i]);
-        maxHeight[i] = Math.max(mainHeight[i], sideHeight[i]);
+        sectionClassName[i] = sectionsWithSide[i].className;        
+        if (!/fixmain|fixside|bottommain|bottomside|sticktop/.test(sectionClassName[i])) {
+          //calculate heights only when the sticky classes are not present
+          containerTop[i] = findTop(sectionsWithSide[i]);
+          mainHeight[i] = sectionsWithSide[i].querySelector('.content-inner').offsetHeight;
+          sideHeight[i] = sectionsWithSide[i].querySelector('.side-inner').offsetHeight + defaultPadding;
+          minHeight[i] = Math.min(mainHeight[i], sideHeight[i]);
+          maxHeight[i] = Math.max(mainHeight[i], sideHeight[i]);
+        }
         //sectionsWithSide[i].querySelector('.side-inner').style.backgroundColor = 'grey';
       }
     }
@@ -117,20 +120,27 @@
         var maxScroll = 0;
         var minScroll = 0;
         var stickTopClass = '';
-        //console.log (i + ': ' + maxScroll + '/' + minScroll);
+        
 
-        if (maxHeight[i] >= bodyHeight && maxHeight[i] - minHeight[i] >= 100) {
-
-          if (minHeight[i] < bodyHeight) {
+        if (maxHeight[i] + gNavHeight + defaultPadding >= bodyHeight && maxHeight[i] - minHeight[i] >= 100) {
+          if (minHeight[i] + gNavHeight + defaultPadding < bodyHeight) {
             // when min height is less than bodyheight
             // stick to top
             stickTopClass = ' sticktop';
             maxScroll = containerTop[i] + maxHeight[i] - minHeight[i] - scrollTop - gNavHeight - defaultPadding;
             minScroll = containerTop[i] - gNavHeight - scrollTop - defaultPadding;
+
+            if (/side-left/.test(sectionClassName[i])) {
+              maxScroll = maxScroll + defaultPadding;
+            }
+
           } else {
             // otherwise stick to bottom
             maxScroll = containerTop[i] + maxHeight[i] - bodyHeight - scrollTop;
             minScroll = containerTop[i] + minHeight[i] - bodyHeight - scrollTop;
+            if (/side-left/.test(sectionClassName[i])) {
+              maxScroll = maxScroll + defaultPadding/2;
+            }
           }
           if (mainHeight[i]>sideHeight[i]) {
             if (maxScroll<=0) {

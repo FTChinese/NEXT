@@ -18,6 +18,7 @@
 			<%/foreach%>
 
 
+
 			<%*<!--Display Stories With Image-->*%>
 			<%assign var="i" value=0%>
 			<%assign var="allStoiesCount" value=$hasImageCount%>
@@ -36,10 +37,10 @@
 				
 				<%if $item.photonewsid && $item.photonewsid != ""%>
 					<%assign var="itemType" value="photonews"%>
-				<%elseif $item.priority && $item.priority != ""%>
-					<%assign var="itemType" value="story"%>
 				<%elseif ($item.video_name && $item.video_name != "") || ($item.cc_vaddress && $item.cc_vaddress != "")%>
 					<%assign var="itemType" value="video"%>
+				<%elseif preg_match("/^[0-9]{9}$/is",$item.id)%>
+					<%assign var="itemType" value="story"%>
 				<%else%>
 					<%assign var="itemType" value="interactive"%>
 				<%/if%>
@@ -335,10 +336,10 @@
 
 				<%if $item.photonewsid && $item.photonewsid != ""%>
 					<%assign var="itemType" value="photonews"%>
-				<%elseif $item.priority && $item.priority != ""%>
-					<%assign var="itemType" value="story"%>
 				<%elseif ($item.video_name && $item.video_name != "") || ($item.cc_vaddress && $item.cc_vaddress != "")%>
 					<%assign var="itemType" value="video"%>
+				<%elseif preg_match("/^[0-9]{9}$/is",$item.id)%>
+					<%assign var="itemType" value="story"%>
 				<%else%>
 					<%assign var="itemType" value="interactive"%>
 				<%/if%>

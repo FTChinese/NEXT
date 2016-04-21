@@ -11,16 +11,130 @@
 
 <%assign var=$itemIds value=','|explode:$itemIds%>
 <%assign var="allstories" value=$storymodel->get_story_collection($itemIds,100)%>
+<%php%>
+    $channels = '[{"title":"经济","link":"/channel/economy.html","type":"channel","include":"china","exclude":"letter","cover":1,"headline":3},{"title":"金融市场","link":"/channel/markets.html","type":"channel","include":"markets","exclude":"letter","cover":1,"headline":3},{"title":"科技","link":"/channel/technology.html","type":"channel","include":"technology","exclude":"letter","cover":1,"headline":3},{"title":"生活时尚","link":"/channel/lifestyle.html","type":"channel","include":"lifestyle","exclude":"letter","cover":1,"headline":3},{"title":"商业与管理","link":"/channel/management.html","type":"channel","include":"management|business","exclude":"letter","cover":1,"headline":3},{"title":"中国","link":"/channel/china.html","type":"channel","include":"china","exclude":"letter","cover":1,"headline":3}]';
+    $channelsArray = json_decode($channels, true);
+    $this->assign("c", $channelsArray);
+<%/php%>
+
+<%if $includeSide != "" && $includeSide != "none"%>
+	<%assign var="hasSide" value=" has-side"%>
+<%else%>
+	<%assign var="hasSide" value=""%>
+<%/if%>
+
+<div class="block-container<%$hasSide%> side-<%$includeSideAlign%>">
+    <div class="block-inner">
+        <div class="content-container">
+            <div class="content-inner">
+            	<%assign var="echostoryid" value=""%>
+            	<%assign var="l" value=0%>
+				<%foreach from=$c item=list%>
+					<%assign var="listTop" value=""%>
+					<%assign var="listTopClass" value=""%>
+					<%if $hasSide != ""%>
+						<%assign var="listClass" value=" XL4 L6 M12 S6 P12 side-by-side"%>
+						<%if $l%3 === 0 %>
+							<%assign var="listTopClass" value="XLC"%>
+						<%/if%>
+						<%if $l%2 === 0 %>
+							<%assign var="listTopClass" value="`$listTopClass` LC SC"%>
+						<%/if%>
+						<%assign var="listTopClass" value="`$listTopClass` MC PC"%>
+					<%else%>
+						<%assign var="listClass" value=" XL3 L4 M6 S6 P12 side-by-side"%>
+						<%if $l%4 === 0 %>
+							<%assign var="listTopClass" value="XLC"%>
+						<%/if%>
+						<%if $l%3 === 0 %>
+							<%assign var="listTopClass" value="`$listTopClass` LC"%>
+						<%/if%>
+						<%if $l%2 === 0 %>
+							<%assign var="listTopClass" value="`$listTopClass` MC SC"%>
+						<%/if%>
+						<%assign var="listTopClass" value="`$listTopClass` PC"%>
+					<%/if%>
+					<%if $listTopClass !== "" && $l > 0%>
+						<%assign var="listTop" value="<div class=\"`$listTopClass`\"></div>"%>
+					<%/if%>
+					<%assign var="l" value=$l+1%>
+
+					<%$listTop%>
+					<div class="list-container <%$listClass%>">
+					    <div class="list-inner">
+					        <h2 class="list-title"><a class="list-link" href="<%$list.link%>"><%$list.title%></a></h2>
+					        <%assign var="i" value=0%>
+					        <%foreach from=$allstories item=item%>
+								<%if $item.photonewsid && $item.photonewsid != ""%>
+									<%assign var="itemType" value="photonews"%>
+								<%elseif ($item.video_name && $item.video_name != "") || ($item.cc_vaddress && $item.cc_vaddress != "")%>
+									<%assign var="itemType" value="video"%>
+								<%elseif preg_match("/^[0-9]{9}$/is",$item.id)%>
+									<%assign var="itemType" value="story"%>
+								<%else%>
+									<%assign var="itemType" value="interactive"%>
+								<%/if%>
+					        	<%assign var="itemClass" value=""%>
+					        	<%assign var="itemTop" value=""%>
+							    <%if $i>0%>
+									<%assign var="XL" value="side-by-side"%>
+									<%assign var="hideImage" value="yes"%>
+									<%assign var="hideLead" value="yes"%>
+								<%else%>
+									<%assign var="XL" value="side-by-side first"%>
+									<%assign var="hideImage" value="no"%>
+									<%assign var="hideLead" value="no"%>
+								<%/if%>
+								<%assign var="itemClass" value=$XL%>
+								<%if $itemTopClass != ""%>
+									<%assign var="itemTop" value="<div class=\"`$itemTopClass`\"></div>"%>
+								<%/if%>
+								<%assign var="itemHeadline" value=$item.cheadline%>
+								<%assign var="itemLead" value=$item.clongleadbody|default:$item.cshortleadbody%>
+								<%assign var="itemImage" value=$item.story_pic.cover|default:$item.story_pic.smallbutton|default:$item.story_pic.other|default:$item.story_pic.bigbutton%>
+								<%if $itemImage != "" && $hideImage != "yes"%>
+									<%assign var="hasImage" value="has-image"%>
+								<%else%>
+									<%assign var="hasImage" value=""%>
+								<%/if%>
+
+								<%assign var="filterInclude" value=$list.include%>
+								<%assign var="filterExclude" value=$list.exclude%>
+								<%assign var="keywords" value="`$item.genre`,`$item.topic`,`$item.area`,`$item.industry`,`$item.tag`,`$item.cheadline`"%>
+
+								<%*<!--If there's no image, assume it's not worth displaying-->*%>
+								<%if $i<4 && $itemImage != "" && !in_array($item.id, explode(',',$echostoryid)) && (preg_match("/`$filterInclude`/is",$keywords) || $filterInclude == "") && (!preg_match("/`$filterExclude`/is",$keywords) || $filterExclude == "") %>
+									<%$itemTop%>
+									<div class="item-container <%$itemClass%> <%$hasImage%>"><div class="item-inner">
+										<h2 class="item-headline"><a target="_blank" href="/<%$itemType%>/<%$item.id%>"><%$itemHeadline%></a></h2>
+										<%if $itemImage != "" && $hasImage === "has-image"%><a class="image" target="_blank" href="/<%$itemType%>/<%$item.id%>"><figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure></a><%/if%>
+										<%if $hideLead === "no"%><div class="item-lead"><%$itemLead%></div><%/if%>
+										<div class="item-bottom"></div>
+									</div></div>
+									<%assign var="i" value=$i+1%>
+									<%assign var="echostoryid" value=`$item.id`,$echostoryid%>
+								<%/if%>
+					        <%/foreach%>
+					    </div>
+					</div>
+				<%/foreach%>
+				<div class="clearfloat block-bottom"></div>
+            </div>
+        </div>
+        <%if $hasSide != ""%>
+        	<%include file="next/partials/`$includeSide`.html"%>
+        <%/if%>
+        <div class="clearfloat"></div>
+    </div>
+</div>
 
 
+<%*
 <div class="block-container has-side side-left">
     <div class="block-inner">
         <div class="content-container">
             <div class="content-inner">
             	<%assign var="echostoryid" value=`$sc.id`,$echostoryid%>
-
-
-
 				<%assign var="channelTitle" value="新闻"%>
 				<%assign var="channelURL" value="news"%>
 				<%assign var="channelType" value="channel"%>
@@ -301,3 +415,4 @@
         <div class="clearfloat"></div>
     </div>
 </div>
+*%>

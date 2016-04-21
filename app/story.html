@@ -104,136 +104,223 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 <header class="header-container">
 <div class="header-inner">
 <div class="masthead"></div>
-<div class="header-side header-left">
-<div class="current-edition">简体中文版</div>
+<div class="header-side header-left expandable">
+<div class="current-edition">
+<span>简体中文版</span>
+<a href="http://big5.ftchinese.com/">繁体中文版</a>
+<a href="http://www.ft.com/">英文版</a>
+</div>
 </div>
 <div class="header-side header-right">
-<a href="">登录</a>
+<span class="visitor-box">
+<a onclick="showOverlay('overlay-login')">登录</a>
 <a class="more last" href="http://user.ftchinese.com/register">免费注册</a>
+</span>
+<span class="member-box">
+<a id="ft-login-your-account" href="/users/cp">设置</a>
+<a id="ft-login-logout" href="http://user.ftchinese.com/logout">登出</a>
+</span>
 </div>
 </div>
-</header><div class="nav-place-holder" id="nav-place-holder"><nav class="nav-container" id="nav-container">
-<div class="nav-inner">
-<ul class="nav-content">
-<li class="home on nav">
-<a href="/">首页</a>
-<ul class="subnav">
-<li class="first-child ">
-<a href="/channel/special.html">专题报道</a>
-<ul class="subnav">
-<li class="dummy-child"><a href="/channel/special.html">专题报道</a></li>
-<li class="first-child nosub"><a href="/channel/datanews.html">数据新闻</a></li>
-<li class="nosub"><a href="/tag/2015%E8%BE%BE%E6%B2%83%E6%96%AF">2015达沃斯</a></li>
-<li class="last-child nosub"><a href="/tag/与FT共进午餐">与FT共进午餐</a></li>
-</ul>
-</li>
-<li class="">
-<a href="/channel/weekly.html">热门文章</a>
-<ul class="subnav">
-<li class="dummy-child"><a href="/channel/weekly.html">热门文章</a></li>
-<li class="first-child nosub"><a href="/channel/weekly.html">一周</a></li>
-<li class="nosub"><a href="/channel/monthly.html">一月</a></li>
-<li class="nosub"><a href="/channel/quarterly.html">季度</a></li>
-<li class="last-child nosub"><a href="/channel/year.html">一年</a></li>
-</ul>
-</li>
-<li class="">
-<a href="/m/events/event.html">会议活动</a>
-<ul class="subnav">
-<li class="dummy-child"><a href="/m/events/event.html">会议活动</a></li>
-<li class="first-child nosub"><a href="/m/events/recent.html">近期活动</a></li>
-<li class="nosub"><a href="/index.php/events/previous">往期活动</a></li>
-<li class="nosub"><a href="/m/events/sponsorship.html">赞助活动</a></li>
-<li class="last-child nosub"><a href="/m/events/aboutus.html">关于我们</a></li>
-</ul>
-</li>
-<li class="nosub ">
-<a href="/marketing/home">会员信息中心</a>
-<ul class="subnav">
-<li class="dummy-child"><a href="/marketing/home">会员信息中心</a></li>
-</ul>
-</li>
-<li class="nosub ">
-<a href="http://www.ftchinese.com/m/marketing/intelligence.html">FT研究院</a>
-<ul class="subnav">
-<li class="dummy-child"><a href="http://www.ftchinese.com/m/marketing/intelligence.html">FT研究院</a></li>
-</ul>
-</li>
-<li class="nosub ">
-<a href="/channel/mba.html">FT商学院</a>
-<ul class="subnav">
-<li class="dummy-child"><a href="/channel/mba.html">FT商学院</a></li>
-</ul>
-</li>
-<li class="nosub ">
-<a href="/channel/english.html">英语学习</a>
-<ul class="subnav">
-<li class="dummy-child"><a href="/channel/english.html">英语学习</a></li>
-</ul>
-</li>
-<li class="nosub ">
-<a href="/channel/slides.html">图辑</a>
-<ul class="subnav">
-<li class="dummy-child"><a href="/channel/slides.html">图辑</a></li>
-</ul>
-</li>
-<li class="nosub ">
-<a href="/jobs/">职业机会</a>
-<ul class="subnav">
-<li class="dummy-child"><a href="/jobs/">职业机会</a></li>
-</ul>
-</li>
-<li class="last-child nosub ">
-<a href="/channel/datanews.html">数据新闻</a>
-</li>
-<li class="last-child nosub ">
-<a href="/channel/ebook.html">电子书</a>
-</li>
-<li class="subnav-right last-child"><a href="/channel/rss.html"><img src="http://static.ftchinese.com/img/rss_link_nav.gif" alt="RSS" style="border:none;"/></a></li>
-<li class="subnav-right"><a>工具</a>
-<ul class="subnav">
-<li class="dummy-child"><a>工具</a></li>
-<li class="nosub first-child"><a href="http://app.ftchinese.com">移动应用大全</a></li>
-<li class="nosub"><a href="/users/setting/index">基本设置</a></li>
-<li class="nosub"><a href="/users/setting/changeicon">修改头像</a></li>
-<li class="nosub"><a href="/users/setting/maillist">邮件订阅</a></li>
-<li class="nosub"><a href="/index.php/snsapi/index">同步微博</a></li>
-<li class="nosub"><a href="/users/commentstory">我的评论</a></li>
-<li class="nosub last-child"><a href="/users/favstorylist">管理收藏</a></li>
-</ul>
-</li>
-<li class="subnav-right long"><a href="/m/corp/follow.html">关注我们</a>
-<ul class="subnav">
-<li class="dummy-child"><a href="/m/corp/follow.html">关注我们</a></li>
-<li class="first-child sns"><a target=_blank href="http://weibo.com/ftchinese" style="background-image:url(http://i.ftimg.net/picture/8/000031298_piclink_24_24.jpg)">新浪微博</a></li>
-<li class="sns"><a target=_blank href="http://e.t.qq.com/ftchinese" style="background-image:url(http://i.ftimg.net/picture/6/000031296_piclink_24_24.jpg)">腾讯微博</a></li>
-<li class="sns"><a target=_blank href="http://t.163.com/ftchinese" style="background-image:url(http://i.ftimg.net/picture/0/000031330_piclink_24_24.jpg)">网易微博</a></li>
-<li class="sns"><a target=_blank href="http://t.sohu.com/new_index" style="background-image:url(http://i.ftimg.net/picture/7/000031327_piclink_24_24.jpg)">搜狐微博</a></li>
-<li class="sns"><a target=_blank href="http://user.qzone.qq.com/622006290" style="background-image:url(http://i.ftimg.net/picture/2/000031292_piclink_24_24.jpg)">QQ空间</a></li>
-<li class="sns"><a target=_blank href="http://blog.sina.com.cn/u/1233314994" style="background-image:url(http://i.ftimg.net/picture/5/000031325_piclink_24_24.jpg)">新浪博客</a></li>
-<li class="sns"><a target=_blank href="http://ftchinese.blog.sohu.com" style="background-image:url(http://i.ftimg.net/picture/6/000031326_piclink_24_24.jpg)">搜狐博客</a></li>
-<li class="sns"><a target=_blank href="http://blog.163.com/ft_chinese" style="background-image:url(http://i.ftimg.net/picture/9/000031329_piclink_24_24.jpg)">网易博客</a></li>
-<li class="sns"><a target=_blank href="http://page.renren.com/600099109?checked=true" style="background-image:url(http://i.ftimg.net/picture/3/000031293_piclink_24_24.jpg)">人人网</a></li>
-<li class="sns"><a target=_blank href="https://www.facebook.com/ft.chinese" style="background-image:url(http://i.ftimg.net/picture/1/000031321_piclink_24_24.jpg)">FaceBook</a></li>
-<li class="sns"><a target=_blank href="https://twitter.com/FTChinese" style="background-image:url(http://i.ftimg.net/picture/7/000031297_piclink_24_24.jpg)">Twitter</a></li>
-<li class="sns last-child"><a target=_blank href="http://plus.google.com/106789556715679180983" style="background-image:url(http://i.ftimg.net/picture/2/000031322_piclink_24_24.jpg)">Google+</a></li>
-</ul>
-</li></ul>
-</li>
-<li class="china nav"><a href="/channle/china.html">中国</a></li>
-<li class="world nav"><a href="/channle/world.html">全球</a></li>
-<li class="economy nav"><a href="/channle/economy.html">经济</a></li>
-<li class="markets nav"><a href="/channle/markets.html">金融市场</a></li>
-<li class="business nav"><a href="/channle/business.html">商业</a></li>
-<li class="opinion nav"><a href="/channle/opinion.html">观点</a></li>
-<li class="management nav"><a href="/channle/management.html">管理</a></li>
-<li class="lifestyle nav"><a href="/channle/lifestyle.html">生活时尚</a></li>
-<li class="stream nav"><a href="/channle/stream.html">视频</a></li>
-</ul>
-<div class="nav-right"><div></div></div>
+</header>
+<div class="overlay-container" id="overlay-login">
+<div class="overlay-inner">
+<div class="overlay-bg" data-parentid="overlay-login"></div>
+<div class="overlay-content-outer">
+<div class="overlay-content-inner">
+<div class="overlay-content">
+<div class="overlay-title">登录<i class="overlay-close" data-parentid="overlay-login">×</i></div>
+<form method="post" action="/users/login">
+<div class="input-title">电子邮件/用户名</div>
+<div class="input-container"><input type="text" class="input-oneline" name="username" id="ft-login-input-username"></div>
+<div class="input-title">密码</div>
+<div class="input-container"><input type="password" class="input-oneline" name="password"></div>
+<div class="input-title input-submit-container"><input type="checkbox" class="checkbox" value="1" checked="checked" name="saveme" id="ft-login-input-remember">记住我
+<input class="input-submit" type="submit" value="提交"></div>
+<div class="input-title"><a href="/users/findpassword" class="blue-link">找回密码</a></div>
+</form>
 </div>
-<div class="nav-bottom"></div>
-</nav></div><div class="banner-placeholder">
+</div>
+</div>
+</div>
+</div><div class="o-nav__placeholder">
+<div class="o-nav">
+<div class="o-nav__outer">
+<div class="o-nav__inner">
+<form action="/search/" id="search-form" class="o-header__search-form" role="search">
+<button class="search-button" tabindex="1"><span>搜索</span></button> 
+<input id="search-term" type="search" name="keys" class="search-input" placeholder="搜索FT中文网" />
+<input id="type_news" type="hidden" value="type_news" name="ftsearchType" checked />
+</form>
+<div class="o-header__masthead-mobile">
+<a href="/" title="前往FT中文网首页"><span>FT中文网</span></a>
+</div>
+<nav class="o-nav__container" role="navigation">
+<button class="nav-toggle" data-o-nav-togglable><span>Menu</span></button>
+<ol class="o-nav__meganav">
+<li class="nav-section mobile">
+<button class="nav-section-head mobile" aria-selected="true">切换版本</button>
+<ol class="nav-items">
+<li class="nav-item">
+<a class="nav-link" href="http://big5.ftchinese.com/">繁体中文版</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="http://www.ft.com/">英文版</a>
+</li>
+</ol>
+</li>
+<li class="nav-section"
+data-section="home">
+<button class="nav-section-head mobile">首页</button>
+<a class="nav-section-head desktop" href="/">首页</a>
+</li>
+<li class="nav-section"
+data-section="china">
+<button class="nav-section-head mobile">中国</button>
+<a class="nav-section-head desktop" href="/channel/china.html">中国</a>
+</li>
+<li class="nav-section"
+data-section="world">
+<button class="nav-section-head mobile">全球</button>
+<a class="nav-section-head desktop" href="/channel/world.html">全球</a>
+</li>
+<li class="nav-section"
+data-section="economy">
+<button class="nav-section-head mobile">经济</button>
+<a class="nav-section-head desktop" href="/channel/economy.html">经济</a>
+</li>
+<li class="nav-section"
+data-section="markets">
+<button class="nav-section-head mobile">金融市场</button>
+<a class="nav-section-head desktop" href="/channel/markets.html">金融市场</a>
+</li>
+<li class="nav-section"
+data-section="business">
+<button class="nav-section-head mobile">商业</button>
+<a class="nav-section-head desktop" href="/channel/business.html">商业</a>
+</li>
+<li class="nav-section"
+data-section="opinion">
+<button class="nav-section-head mobile">观点</button>
+<a class="nav-section-head desktop" href="/channel/opinion.html">观点</a>
+</li>
+<li class="nav-section"
+data-section="management">
+<button class="nav-section-head mobile">管理</button>
+<a class="nav-section-head desktop" href="/channel/management.html">管理</a>
+</li>
+<li class="nav-section"
+aria-selected="true"
+data-section="lifestyle">
+<button class="nav-section-head mobile">生活时尚</button>
+<a class="nav-section-head desktop" href="/channel/lifestyle.html">生活时尚</a>
+<ol class="nav-items">
+<li class="nav-item mobile">
+<a class="nav-link" href="/channel/lifestyle.html">
+频道首页
+</a>
+</li>
+<li class="nav-item"
+data-channel="pursuit">
+<a class="nav-link" href="/channel/pursuit.html">乐尚街</a>
+</li>
+<li class="nav-item"
+data-channel="taste">
+<a class="nav-link" href="/channel/taste.html">品味</a>
+</li>
+<li class="nav-item"
+data-channel="travel">
+<a class="nav-link" href="/channel/travel.html">旅行</a>
+</li>
+<li class="nav-item"
+data-channel="life">
+<a class="nav-link" href="/channel/life.html">生活话题</a>
+</li>
+<li class="nav-item"
+aria-selected="true"
+data-channel="art">
+<a class="nav-link" href="/channel/art.html">艺术与娱乐</a>
+</li>
+<li class="nav-item"
+data-channel="spend">
+<a class="nav-link" href="/channel/spend.html">消费经</a>
+</li>
+<li class="nav-item"
+data-channel="money">
+<a class="nav-link" href="/channel/money.html">理财</a>
+</li>
+</ol>
+</li>
+<li class="nav-section"
+data-section="stream">
+<button class="nav-section-head mobile">视频</button>
+<a class="nav-section-head desktop" href="/channel/stream.html">视频</a>
+</li>
+<li class="nav-section mobile login">
+<ul>
+<li class="nav-item">
+<a class="nav-link" href="http://user.ftchinese.com/login">登陆</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="http://user.ftchinese.com/register">注册</a>
+</li>    
+</ul>
+</li>
+<li class="nav-section mobile logout">
+<ul>
+<li class="nav-item">
+<a class="nav-link" href="http://user.ftchinese.com/logout">退出</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="/users/setting/index">账户设置</a>
+</li>    
+</ul>
+</li>
+</ol>
+</nav>
+<ul class="o-nav__extra-tools nav-items">
+<li class="nav-item" aria-haspopup="true">
+<a class="nav-link" href="http://www.ftchinese.com/m/corp/follow.html">关注我们</a>
+<ol class="nav-sub-items follow-us">
+<li><a href="http://www.ftchinese.com/m/corp/follow.html" target="_blank">微信公众号</a></li>
+<li><a href="http://weibo.com/ftchinese" target="_blank">新浪微博</a></li>
+<li><a href="http://user.qzone.qq.com/622006290" target="_blank">QQ空间</a></li>
+<li><a href="http://www.ftchinese.com/m/corp/follow.html" target="_blank">读读日报</a></li>
+<li><a href="http://www.ftchinese.com/m/corp/follow.html" target="_blank">Flipboard</a></li>
+<li><a href="https://twitter.com/FTChinese" target="_blank">Twitter</a></li>
+<li><a href="https://www.facebook.com/financialtimeschinese" target="_blank">Facebook</a></li>
+<li><a href="https://www.linkedin.com/company/4865254?trk=hp-feed-company-name" target="_blank">LinkedIn</a></li>
+</ol>
+</li>
+<li class="nav-item" aria-haspopup="true">
+<span class="nav-link">工具</span>
+<ol class="nav-sub-items">
+<li><a href="http://app.ftchinese.com/">移动应用大全</a></li>
+<li><a href="/users/setting/index">基本设置</a></li>
+<li><a href="/users/setting/changeicon">修改头像</a></li>
+<li><a href="/users/setting/maillist">邮件订阅</a></li>
+<li><a href="/index.php/snsapi/index">同步微博</a></li>
+<li><a href="/users/commentstory">我的评论</a></li>
+<li><a href="/users/favstorylist">管理收藏</a></li>
+</ol>
+</li>
+<li class="nav-item">
+<a class="nav-link follow__rss" href="http://www.ftchinese.com/channel/rss.html"><span>RSS</span></a>
+</li>
+</ul>
+</div><!-- o-nav__inner -->
+</div><!-- o-nav__outer -->    
+</div><!-- o-nav -->  
+</div><!-- o-nav__placeholder -->
+<div class="site-map">
+<div class="site-map__container">
+<ul class="site-map__items">
+<li><a href="/channel/lifestyle.html">生活时尚</a></li>
+  
+<li><a href="/channel/art.html">艺术与娱乐</a></li>
+</ul>
+</div>
+</div><div class="banner-placeholder">
 <div class="banner-container">
 <div class="banner-inner">
 <div class="banner-content">
@@ -245,49 +332,52 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 <div class="block-container has-side story-page"><div class="block-inner">
 <div class="content-container"><div class="content-inner">
 <div class="story-container">
-<div class="story-theme"><a href=/channel/finance.html>金融</a></div>
-<h1 class="story-headline">中国新一代家族理财室崛起</h1>
-<div class="story-lead">目前中国仍存在大量的可用资金，其中来自新一代家族理财室的比例越来越高。这些资金在科技和电商领域创造并支撑了新增就业，助推了中国经济。</div>
-<div class=" story-image image"><figure data-url=http://i.ftimg.net/picture/3/000060263_piclink.jpg class="loading"></figure></div>
+<div class="story-theme"><a href=/channel/art.html>艺术与娱乐</a></div>
+<h1 class="story-headline">卡地亚助力中国博物馆热潮</h1>
+<div class="story-lead">卡地亚与中国政府就艺术与文化交流项目展开合作。此举将助力中国博物馆建设热潮。</div>
+<div class=" story-image image"><figure data-url=http://i.ftimg.net/picture/6/000060676_piclink.jpg class="loading"></figure></div>
 <div class="story-share-placeholder" id="story-share-placeholder">
 <div class="story-share">
 <div class="share-inner">
-<a class="share-icon icon-wechat" href="/m/corp/qrshare.html?url=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001066889%3Ffull%3Dy&title=中国新一代家族理财室崛起 - FT中文网" target="_blank"></a>
-<a class="share-icon icon-weibo" href="http://service.weibo.com/share/share.php?appkey=4221537403&url=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001066889%3Ffull%3Dy?ccode=2G169001&title=【中国新一代家族理财室崛起】目前中国仍存在大量的可用资金，其中来自新一代家族理财室的比例越来越高。这些资金在科技和电商领域创造并支撑了新增就业，助推了中国经济。（分享自 @FT中文网）&ralateUid=1698233740&source=&sourceUrl=&content=utf-8&pic=" target="_blank"></a>
-<a class="share-icon icon-linkedin" href="https://www.linkedin.com/cws/share?url=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001066889%3Ffull%3Dy%3Fccode%3D2G169003&original_referer=https%3A%2F%2Fdeveloper.linkedin.com%2Fsites%2Fall%2Fthemes%2Fdlc%2Fsandbox.php%3F&token=&isFramed=true&lang=zh_CN&_ts=1422502780259.2795" target="_blank"></a>
-<a class="share-icon icon-twitter" href="http://twitter.com/home?status=【中国新一代家族理财室崛起】目前中国仍存在大量的可用资金，其中来自新一代家族理财室的比例越来越高。这些资金在科技和电商领域创造并支撑了新增就业，助推了中国经济。（分享自 @FT中文网）...%20http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001066889%3Ffull%3Dy" target="_blank"></a>
-<a class="share-icon icon-facebook" href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001066889%3Ffull%3Dy&t=【中国新一代家族理财室崛起】目前中国仍存在大量的可用资金，其中来自新一代家族理财室的比例越来越高。这些资金在科技和电商领域创造并支撑了新增就业，助推了中国经济。（分享自 @FT中文网）" target="_blank"></a>
+<a class="share-icon icon-wechat" href="/m/corp/qrshare.html?url=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001067106%3Ffull%3Dy&title=卡地亚助力中国博物馆热潮 - FT中文网" target="_blank"></a>
+<a class="share-icon icon-weibo" href="http://service.weibo.com/share/share.php?appkey=4221537403&url=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001067106%3Ffull%3Dy?ccode=2G169001&title=【卡地亚助力中国博物馆热潮】卡地亚与中国政府就艺术与文化交流项目展开合作。此举将助力中国博物馆建设热潮。（分享自 @FT中文网）&ralateUid=1698233740&source=&sourceUrl=&content=utf-8&pic=" target="_blank"></a>
+<a class="share-icon icon-linkedin" href="https://www.linkedin.com/cws/share?url=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001067106%3Ffull%3Dy%3Fccode%3D2G169003&original_referer=https%3A%2F%2Fdeveloper.linkedin.com%2Fsites%2Fall%2Fthemes%2Fdlc%2Fsandbox.php%3F&token=&isFramed=true&lang=zh_CN&_ts=1422502780259.2795" target="_blank"></a>
+<a class="share-icon icon-twitter" href="http://twitter.com/home?status=【卡地亚助力中国博物馆热潮】卡地亚与中国政府就艺术与文化交流项目展开合作。此举将助力中国博物馆建设热潮。（分享自 @FT中文网）...%20http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001067106%3Ffull%3Dy" target="_blank"></a>
+<a class="share-icon icon-facebook" href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001067106%3Ffull%3Dy&t=【卡地亚助力中国博物馆热潮】卡地亚与中国政府就艺术与文化交流项目展开合作。此举将助力中国博物馆建设热潮。（分享自 @FT中文网）" target="_blank"></a>
 
 <div class="icon-right icon-save">
-<button id="addfavlink" onclick="addstoryfav('001066889')">收藏</button>
+<button id="addfavlink" onclick="addstoryfav('001067106')">收藏</button>
 </div>
-<a class="icon-right icon-action icon-comments" href="/comments/index/001066889" target="_blank"></a>
-<a class="icon-right icon-action icon-print" href="/story/001066889?print=y" target="_blank"></a>
+<a class="icon-right icon-action icon-comments" href="/comments/index/001067106" target="_blank"></a>
+<a class="icon-right icon-action icon-print" href="/story/001067106?print=y" target="_blank"></a>
 <a class="icon-right icon-action icon-font-size" onclick="showOverlay('font-setting')"></a>
 <a class="icon-right icon-action icon-share" onclick="showOverlay('share-legacy')"></a>
 </div>
 </div>
 </div>
 <div class="story-byline">
-<span class="story-time">2016年3月31日</span>
-<span class="story-author">英国《金融时报》 <a href='/search/%E6%A1%91%E6%99%93%E9%9C%93/relative_byline' target=_blank>桑晓霓</a>  报道</span>
+<span class="story-time">6天前</span>
+<span class="story-author">英国《金融时报》 <a href='/search/Ming+Liu+/relative_byline' target=_blank>Ming Liu </a>  </span>
 </div>
 <div class="story-body">
 
-<p>上月，香港的经纪商和私人银行开始接触当地客户，看他们有多少兴趣参与硅谷公司Palantir Technologies的私募融资活动。这家人工智能(AI)集团正在寻求250亿美元的目标估值。</p>
-<p>不久前，中国互联网企业奇虎360科技有限公司(Qihoo 360 Technology)宣布将从美国退市，以93亿美元的高额估值进行私有化。同样，中国电商集团京东(JD.com)旗下的京东金融发现，其融资10亿美元所用时间远远低于国内那些蓝筹投资者所预计的时间。</p>
-<p>“离岸市场和公开市场都感到担心，”一位参与了上述两起中国企业交易的投资者表示，“但我们发现，融资完成得毫不吃力。这一地区仍有大量资本。”</p>
-<p>看起来，尽管看空中国者有各种担心，但目前中国仍存在大量的可用资金——其中来自新一代家族理财室的比例越来越高。由马云(Jack Ma)、腾讯(Tencent)创始人和其他科技界亿万富翁所拥有的这些家族理财室，已成为一个重要的资本来源，是风险资本家、对冲基金和私人股本公司早期融资的必到之处。</p>
-<div id="story_main_mpu"><script type="text/javascript">document.write (writeAd('storympu'));</script></div><p>中国家族资金的金融实力之所以具有突出重要性，还因为许多主权财富基金发挥的作用正在减弱。在2008年的金融危机期间，主权财富基金是主要的纾困资金来源。如今，主权财富基金所能调动的资金比以往少得多——油价暴跌冲击了产油国，而外汇收入的减少削弱了其他国家（包括中国）的主权财富基金。</p>
-<p>此外，在美国的科技投资者因潜在泡沫引发担心而变得更谨慎之际，中国的大量新资金却在私募市场上变得尤为积极。家族理财室的热情不但帮助支撑了奇虎和京东金融的估值，也支撑了其他互联网集团的估值。这些资金对整个中国经济也很重要。当传统行业产能过剩导致许多工人丢掉工作或薪水降低之际，在科技和电商领域创造并支撑新增就业，具有至关重要的作用。</p>
-<p>这些中国科技界富豪拥有的家族理财室仍处于早期发展阶段。但是，他们控制着数百亿美元的资金，并且往往比那些希望帮助他们把日益增加的财富投出去的基金管理公司更复杂。在某些情况下，他们就像一个多世纪之前的美国“强盗贵族”(robber baron)，一方面积极地以垄断手法追求金钱上的成功，另一方面又希望从事慈善事业，让世界变得更美好。</p>
-<p>毫无疑问，家族理财室一直是亚洲商业格局中的组成部分，尤其是在海外华人家族网络当中。但在过去，他们的大部分财富是在房地产和航运领域赚到的。家族理财室的资金所来自的家族，有恒基兆业地产(Henderson Land)的李氏家族、创立九龙仓(Wharf)的包氏家族、以及从制造业起家然后进入房地产业的南丰(Nan Fung)创始人家族，等等。老一代家族理财室的业务包罗万象，从帮助客户融资到在客户子女遭绑架与索要赎金的绑匪谈判，再到挑选赛马。它们也在购买游艇方面提供咨询意见，并帮助客户把财富藏到避税地去，直到后来监管机构让这种操作的实现难度大大增加。</p>
-<p>在新一代家族理财室当中，资产管理规模最为可观的是香港的Blue Pool Capital——马云将部分财富投了进去，马云的合伙人蔡崇信(Joe Tsai)也将其近70亿美元身家的一大部分投了进去。马云还使用了其他工具，包括他旗下的云峰基金(Yunfeng Capital)以及在香港一处写字楼占据整整一层的一家新的家族理财室。</p>
-<p>对于部分科技亿万富翁而言，把哪些业务放进了家族理财室，又把哪些业务放入了旗下公众公司，并非总是一目了然的。两者之间的利益冲突可能会非常激烈，因为家族理财室经常是公众公司的延伸，而非旨在实现核心业务以外的多元化拓展。</p>
-<p>美国科技企业估值降低的局面是否将最终传导至太平洋这一端的亚洲，目前也是个未知数。但是，事实很可能会证明，亚洲新出现的巨额财富拥有者，愿意为代表新经济的公司支付比硅谷同行的出价更高的价格。这将表明他们对于亚洲有更大增长潜力的信心。</p>
-<p>译者/邢嵬</p>
+<p>去年四月，中国政府与珠宝手表制造商卡地亚(Cartier)在北京签署了一份框架性协议——由此建立起的伙伴关系将受到中国手表生产商和艺术界的密切关注。</p>
+<p>根据该协议，中国文物交流中心(Art Exhibitions China)，一家国家文物局(State Administration of Cultural Heritage)的下属机构，将与卡地亚旗下的非盈利当代艺术机构卡地亚当代艺术基金会(Fondation Cartier pour l’Art Contemporain)就一系列艺术与文化交流项目展开合作。双方合作的领域包括展览推介，人员培训和艺术产业开发。去年举行的两场活动，一场在中国，另一场在欧洲，标志着双方的合作已正式开始运作。</p>
+<p>这项合作关系从很多方面来说都是适时而有远见的。中国正在经历博物馆建设的热潮，新建成开放的博物馆既有公立性质的，也有私立的。过去几年中，上海新开馆的私立博物馆多达十余家。业内人士称，未来五年中国政府将在全国范围内新建400家公立博物馆和1200家私立博物馆。而在计划新建的私立博物馆中，预计有600家将以当代艺术与设计为主题。</p>
+<p>菲利蒲•多德(Philip Dodd)表示：“中国正在经历博物馆时代。”他曾在位于伦敦的英国当代艺术中心（ICA）担任主管，目前是全球私立博物馆峰会(Global Private Museum Summit)和总部设在英国的创意机构中国制造（Made In China）的创始人。</p>
+<div id="story_main_mpu"><script type="text/javascript">document.write (writeAd('storympu'));</script></div><p>中国或许擅长建设基础设施，但缺少多德所说的“软实力”：例如策展经验、教育方面的专业技能、市场营销、品牌塑造等——而这正是像卡地亚这样的机构所具备的专业能力。卡地亚的基金会成立于1984年，目前总部设在巴黎第十四区一座由让•努维尔(Jean Nouvel)设计的博物馆里。该基金会已经主办了超过100场展览，并委托创作了超过1000件当代艺术作品。</p>
+<p>此外还有环球巡回展出的卡地亚典藏系列，该系列由卡地亚邀请世界各地博物馆参与展示的1500件精品杰作组成。</p>
+<p>在此之前卡地亚已与中国建立起了联系：蔡国强、黄永平、岳敏君都是卡地亚当代艺术基金会曾经推介过的中国艺术家，此外目前还有五家中国博物馆曾经主办过卡地亚典藏系列展览。</p>
+<p>卡地亚是在中国认知度最高的外国手表和珠宝品牌之一，于1992年首次进入中国市场，并在上海设立了首家专柜，如今已有超过35家精品店。卡地亚所取得的商业成功对于中国文物交流中心来说也尤为重要。在中国，商业与文化简直可以说得上是共枕而眠——例如，博物馆设在购物中心内部司空见惯。</p>
+<p>多德称，卡地亚行走在“奢侈品与文化的交汇点”。他表示，“选择卡地亚作为合作伙伴是非常明智的，因为政府也明白商业与文化之间存在着复杂的关系。”</p>
+<p>据中国文物交流中心透露，该机构与卡地亚之间的合作始于2014年6月，卡地亚是其唯一签署过此类合作协议的奢侈品牌。</p>
+<p>中国文物交流中心成立于1971年，旨在作为中国与外国的文化交流平台，该机构目前共有40名员工，并已经在中国国内及海外组织了200余场展览和交流项目。其中有一场展览是2014至2015年在巴黎的集美亚洲艺术博物馆(Musée Guimet for Asian Art)举办的，共汇聚了27家中国博物馆，展出了一系列中国汉朝时期的文物。作为中法建交50周年的纪念活动，此次展览共迎来了83500名参观者，并举办了讲座、研讨会、电影放映等活动。</p>
 
 </div>
+<div class="pagination-container"><div class="pagination-inner">
+<span class="current">1</span><a href="/story/001067106?page=2">2</a><a href="/story/001067106?page=2">&rsaquo;&rsaquo;</a><a href="/story/001067106?page=2">下一页</a><a href="/story/001067106?page=rest">余下全文</a>
+<a href="/story/001067106?full=y">全文</a>
+</div></div>
 <div class="clearfloat"></div>
 </div>
 <div class="clearfloat block-bottom"></div>
@@ -299,31 +389,22 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 <div class="story-box">
 <h2 class="box-title"><a href="/channel/weekly.html">热门文章</a></h2>
 <ul class="top10">
-<li class="mp1"><span>1. </span><a target="_blank" href="/story/001067006?dailypop">普京如何改变了世界秩序？</a></li>
-<li class="mp2"><span>2. </span><a target="_blank" href="/story/001066934?dailypop">我们要感谢“文革”的五条理由</a></li>
-<li class="mp3"><span>3. </span><a target="_blank" href="/story/001067019?dailypop">卡梅伦承认从巴拿马离岸基金获益</a></li>
-<li class="mp4"><span>4. </span><a target="_blank" href="/story/001066979?dailypop">安邦为何没能拿下喜达屋？</a></li>
-<li class="mp5"><span>5. </span><a target="_blank" href="/story/001066998?dailypop">中国白酒挺进西方市场</a></li>
-<li class="mp6"><span>6. </span><a target="_blank" href="/story/001067021?dailypop">评估中国经济形势需做实地考察</a></li>
-<li class="mp7"><span>7. </span><a target="_blank" href="/story/001067012?dailypop">人工智能时代该教孩子学什么？</a></li>
-<li class="mp8"><span>8. </span><a target="_blank" href="/story/001066958?dailypop">禁摩限电：国家权力“内卷化”之弊</a></li>
-<li class="mp9"><span>9. </span><a target="_blank" href="/story/001066938?dailypop">A股的“中国式”投资策略</a></li>
+<li class="mp1"><span>1. </span><a target="_blank" href="/story/001067176?dailypop">“普京时代”走向没落？</a></li>
+<li class="mp2"><span>2. </span><a target="_blank" href="/story/001067178?dailypop">微信的“大”烦恼</a></li>
+<li class="mp3"><span>3. </span><a target="_blank" href="/story/001067180?dailypop">中国外交政策的新调整</a></li>
+<li class="mp4"><span>4. </span><a target="_blank" href="/story/001067175?dailypop">“看衰中国”的评级机构是否靠谱？</a></li>
+<li class="mp5"><span>5. </span><a target="_blank" href="/story/001067172?dailypop">崔健：从代言时代到不合时宜</a></li>
+<li class="mp6"><span>6. </span><a target="_blank" href="/story/001067188?dailypop">苹果曾拒绝向中国政府交出其源代码</a></li>
+<li class="mp7"><span>7. </span><a target="_blank" href="/story/001067148?dailypop">站在人生的雪道顶端</a></li>
+<li class="mp8"><span>8. </span><a target="_blank" href="/story/001067186?dailypop">中国推出“上海金”基准价</a></li>
+<li class="mp9"><span>9. </span><a target="_blank" href="/story/001067183?dailypop">亚投行将资助中亚公路项目</a></li>
+<li class="mp10"><span>10. </span><a target="_blank" href="/story/001067177?dailypop">什么是国力强大的关键？</a></li>
 </ul>
 </div>
 <div class="mpu-container">
 <script type="text/javascript">document.write (writeAd('storympu'));</script>
 </div>
 
-<div class="story-box last-child">
-<h2 class="box-title"><a href="/channel/weekly.html">相关文章</a></h2>
-<ul class="top10">
-<li class="mp1"><a target="_blank" href="/story/001066880">中国“新经济”动能更佳</a></li>
-<li class="mp2"><a target="_blank" href="/story/001066863">中国互联网数字有无水分？</a></li>
-<li class="mp3"><a target="_blank" href="/story/001062724">亚洲特色的家族理财室</a></li>
-<li class="mp4"><a target="_blank" href="/story/001053575">“家族理财室”走向国际化</a></li>
-<li class="mp5"><a target="_blank" href="/story/001053550">家族理财室的“东行记”</a></li>
-</ul>
-</div>
 </div></div><div class="clearfloat"></div>
 </div></div><div class="block-container no-side" id="story-recommend-container"><div class="block-inner">
 <div class="content-container"><div class="content-inner">
@@ -368,12 +449,10 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 <div class="app-download-container wechat">
 <a href="#" target="_blank">
 <div>FT中文网微信</div>
-<figure class="loading" data-url="http://i.ftimg.net/picture/4/000059334_piclink.jpg"></figure>
+<figure class="loading" data-url="http://i.ftimg.net/picture/6/000060716_piclink.jpg"></figure>
 <div>扫描关注</div>
 </a>
-</div>
-
-<div class="overlay-container" id="font-setting">
+</div><div class="overlay-container" id="font-setting">
 <div class="overlay-inner">
 <div class="overlay-bg" data-parentid="font-setting"></div>
 <div class="overlay-content-outer">
@@ -391,11 +470,7 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 </div>
 </div>
 </div>
-</div>
-
-
-
-<div class="overlay-container" id="share-legacy">
+</div><div class="overlay-container" id="share-legacy">
 <div class="overlay-inner">
 <div class="overlay-bg" data-parentid="share-legacy"></div>
 <div class="overlay-content-outer">

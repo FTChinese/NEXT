@@ -145,6 +145,8 @@
             <%elseif $section.type == "topbelt"%>
                 <%include file="next/partials/topbelt.html"%>
             <%elseif $section.type == "include" && $section.from != ""%>
+                <%assign var="includeSide" value=$section.side%>
+                <%assign var="includeSideAlign" value=$section.sideAlign%>
                 <%include file="next/partials/`$section.from`.html"%>
             <%/if%>
         <%/foreach%>
