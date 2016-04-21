@@ -143,7 +143,7 @@ window._wsodSymbolHover.updateContent = function(str1, str2) {
 
 
 
-marketsDataEle.innerHTML = tab1() + tab2() +tab3() + '<div class="clearfloat"></div>';
+marketsDataEle.innerHTML = tab1() + tab2() +tab3() + '<div class="clearfloat"></div><div class="item-lead item-note">以上数据由巨灵财经和FT.com提供</div>';
 refreshData();
 setInterval(function(){
     refreshData();
