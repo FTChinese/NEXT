@@ -321,7 +321,7 @@
                         shortlead = entry.cshortleadbody || '';
                         tag = entry.tag || '';
                         //shortlead = JSON.stringify(entry);
-                        image = entry.story_pic.other || entry.story_pic.smallbutton || entry.story_pic.cover || entry.story_pic.bigbutton || '';
+                        image = entry.story_pic.cover || entry.story_pic.other || entry.story_pic.smallbutton || entry.story_pic.bigbutton || '';
                         type = 'story';
                         priority = entry.priority;
                         relativestory = entry.relativestory || [];
