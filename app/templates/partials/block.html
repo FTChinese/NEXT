@@ -95,8 +95,66 @@
 			<%if $listType === "videos"%>
 				<div class="item-inner video-package-inner"><div class="image"><figure id="video-package-play" class="loading-video" data-vid="<%$list.items[0].id%>"></figure></div><div class="video-package-title"><a href="/video/<%$list.items[0].id%>" target=_blank><%$list.items[0].headline%></a></div></div>
 			<%/if%>
+
+
+			<%if $list.items|@count==0 && $list.feedItems != "" && $list.feedItems != "0"%>
+				<%if preg_match("/like|find_in_set|=|\(| in /is",$list.feedTag)%>
+					<%if $list.feedType == "story"%>
+						<%assign var="feedType" value=$list.feedType%>
+						<%assign var="itemsArray" value=$storymodel->get_story_by_field_search($list.feedTag,0,$list.feedItems,999999999,10800)%>
+					<%elseif $list.feedType == "interactive"%>
+						<%assign var="feedType" value=$list.feedType%>
+						<%assign var="itemsArray" value=$interactivemodel->get_interactive_by_field_search($list.feedTag,0,$list.feedItems,999999999,10800)%>
+					<%elseif $list.feedType == "video"%>
+						<%assign var="feedType" value=$list.feedType%>
+						<%assign var="itemsArray" value=$videomodel->get_video_by_field_search($list.feedTag,0,$list.feedItems,9999999999999,10800)%>
+					<%elseif $list.feedType == "photo"%>
+						<%assign var="feedType" value="photonews"%>
+						<%assign var="itemsArray" value=$photonewsmodel->get_photonews_by_field_search($list.feedTag,"ORDER BY photonewsid DESC",$list.feedItems)%>
+					<%/if%>
+				<%else%>
+					<%if $list.feedType == "story"%>
+						<%assign var="feedType" value=$list.feedType%>
+						<%assign var="itemsArray" value=$storymodel->get_story_by_tag($list.feedTag,0,$list.feedItems)%>
+					<%elseif $list.feedType == "interactive"%>
+						<%assign var="feedType" value=$list.feedType%>
+						<%assign var="itemsArray" value=$interactivemodel->get_interactive_by_tag($list.feedTag, $list.feedItems)%>
+					<%elseif $list.feedType == "video"%>
+						<%assign var="feedType" value=$list.feedType%>
+						<%assign var="itemsArray" value=$videomodel->get_video_by_tag($list.feedTag,0,$list.feedItems)%>
+					<%elseif $list.feedType == "photo"%>
+						<%assign var="feedType" value="photonews"%>
+						<%assign var="itemsArray" value=$photonewsmodel->get_photonews_by_tag($list.feedTag,0,$list.feedItems)%>
+					<%else%>
+						<%assign var="feedType" value=$list.feedType%>
+						<%assign var="itemsArray" value=$storymodel->getContentByTag($list.feedTag,$list.feedItems)%>
+					<%/if%>
+				<%/if%>
+			<%else%>
+				<%assign var="feedType" value="manual"%>
+				<%assign var="itemsArray" value=$list.items%>
+			<%/if%>
+
+
 			<%assign var="i" value=0%>
-			<%foreach from=$list.items item=item%>
+			<%foreach from=$itemsArray item=item%>
+				<%assign var="itemHeadline" value=$item.headline|default:$item.cheadline|default:$item.cn_title%>
+				<%if $feedType == "all"%>
+					<%assign var="itemImage" value=$item.image.cover|default:$item.image.smallbutton|default:$item.image.other|default:$item.image.bigbutton%>
+				<%elseif $feedType == "photonews"%>
+					<%assign var="itemImage" value=$item.illustration|default:$item.cover|default:$item.thumb_url%>
+					<%if $itemImage != ""%>
+						<%assign var="itemImage" value="http://i.ftimg.net/`$itemImage`"%>
+					<%/if%>
+				<%else%>
+					<%assign var="itemImage" value=$item.image|default:$item.story_pic.cover|default:$item.story_pic.smallbutton|default:$item.story_pic.other|default:$item.story_pic.bigbutton%>
+				<%/if%>
+				<%assign var="itemType" value=$item.type|default:$feedType%>
+				<%if $itemType == "photo"%>
+					<%assign var="itemType" value="photonews"%>
+				<%/if%>
+				<%assign var="itemId" value=$item.id|default:$item.photonewsid%>
+
 				<%assign var="itemClass" value=""%>
 				<%assign var="itemTop" value=""%>
 				<%assign var="itemTopClass" value=""%>
@@ -536,14 +594,15 @@
 				<%if $i === 0%>
 					<%assign var="itemTop" value=""%>
 				<%/if%>
-				<%if $item.image == ""%>
+				<%if $itemImage == "" && $itemType != "video"%>
 					<%assign var="hasImage" value="no-image"%>
 				<%/if%>
 
 				<%assign var="itemTag" value=""%>
 				<%if $list.showTag === "yes"%>
 					<%*<!--Sometimes Editors Use Space in Tags-->*%>
-					<%assign var="itemTagsString" value=$item.tag|replace:" ":","%>
+					<%assign var="itemTagsString" value=$item.tag|default:$item.tags%>
+					<%assign var="itemTagsString" value=$itemTagsString|replace:" ":","%>
 					<%assign var="itemTags" value=","|explode:$itemTagsString%>
 					<%assign var="itemTag" value=$itemTags[0]%>
 					<%if $itemTag === "视频"%>
@@ -567,12 +626,13 @@
 
 
 				<%assign var="itemTimeStamp" value=""%>
+				<%assign var="itemT" value=$item.timeStamp|default:$item.pubdate|default:$item.add_times%>
 				<%if $list.showTimeStamp === "all" || $lists.showTimeStamp === "new stories"%>
 					<%assign var="highlightTime" value=""%>
-					<%math assign="timeDiff" equation="x-y" x=$smarty.now y=$item.timeStamp%>
+					<%math assign="timeDiff" equation="x-y" x=$smarty.now y=$itemT%>
 					<%if $item.type === "video"%>
 						<%assign var="highlightTime" value=""%>
-						<%assign var="timeDiff" value=$item.timeStamp%>
+						<%assign var="timeDiff" value=$item.timeStamp|default:$item.pubdate%>
 					<%elseif $timeDiff < 0%>
 						<%assign var="highlightTime" value=" highlight"%>
 						<%assign var="timeDiff" value="刚刚发布"%>
@@ -594,10 +654,10 @@
 						<%assign var="timeDiff" value="`$timeDiff`天前"%>
 					<%elseif date("Y",$smarty.now) == date("Y",$item.timeStamp)%>
 						<%assign var="highlightTime" value=""%>
-						<%assign var="timeDiff" value=$item.timeStamp|date_format:"%-m月%-d日"%>
+						<%assign var="timeDiff" value=$itemT|date_format:"%-m月%-d日"%>
 					<%else%>
 						<%assign var="highlightTime" value=""%>
-						<%assign var="timeDiff" value=$item.timeStamp|date_format:"%Y年%-m月%-d日"%>
+						<%assign var="timeDiff" value=$itemT|date_format:"%Y年%-m月%-d日"%>
 					<%/if%>
 					<%if $list.showTimeStamp === "all" || $timeDiff < 60*60*4%>
 						<%assign var="itemTimeStamp" value="<div class=\"item-time`$highlightTime`\">`$timeDiff`</div>"%>
@@ -608,14 +668,16 @@
 					<%assign var="hideLead" value="yes"%>
 					<%assign var="itemLead" value=""%>
 				<%elseif $list.preferLead === "shortlead"%>
-					<%assign var="itemLead" value=$item.shortlead|default:$item.longlead%>
+					<%assign var="itemLead" value=$item.shortlead|default:$item.longlead|default:$item.cshortleadbody|default:$item.clongleadbody%>
 				<%else%>
-					<%assign var="itemLead" value=$item.longlead|default:$item.shortlead%>
+					<%assign var="itemLead" value=$item.longlead|default:$item.shortlead|default:$item.clongleadbody|default:$item.cshortleadbody%>
 				<%/if%>
 
 				<%if $hideImage === "yes"%>
 					<%assign var="hasImage" value="no-image"%>
 				<%/if%>
+
+
 
 				
 				<%if $listType == "videos" && $i>5%>
@@ -623,8 +685,8 @@
 				<%else%>
 					<%$itemTop%>
 					<div class="item-container <%$itemClass%> <%$hasImage%>"><div class="item-inner">
-						<h2 class="item-headline"><%$itemTag%><a target="_blank" href="/<%$item.type%>/<%$item.id%><%$adForceString%>"><%$item.headline%></a></h2>
-						<%if $item.relatives|@count > 0 && $item.relatives[0].type === 'video'%><div class="image"><figure class="loading-video" data-vid="<%$item.relatives[0].id%>"></figure></div><%elseif $item.type === "video" && $listType !== "videos"%><div class="image"><figure class="loading-video" data-vid="<%$item.id%>"></figure></div><%elseif $item.image != "" && $hasImage === "has-image"%><a class="image" target="_blank" href="/<%$item.type%>/<%$item.id%><%$adForceString%>"><figure class="loading" data-url="<%$item.image|replace:"/upload/":"/"%>"></figure></a><%/if%>
+						<h2 class="item-headline"><%$itemTag%><a target="_blank" href="/<%$itemType%>/<%$itemId%><%$adForceString%>"><%$itemHeadline%></a></h2>
+						<%if $item.relatives|@count > 0 && $item.relatives[0].type === 'video'%><div class="image"><figure class="loading-video" data-vid="<%$item.relatives[0].id%>"></figure></div><%elseif $itemType === "video" && $listType !== "videos"%><div class="image"><figure class="loading-video" data-vid="<%$itemId%>"></figure></div><%elseif $itemImage != "" && $hasImage === "has-image"%><a class="image" target="_blank" href="/<%$itemType%>/<%$itemId%><%$adForceString%>"><figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure></a><%/if%>
 						<%if $hideLead === "no"%><div class="item-lead"><%$itemLead%></div><%/if%>
 						<%$itemTimeStamp%>
 						<%if $item.relatives|@count > 0 && $item.showRelativeStoryItems > 0%>

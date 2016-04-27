@@ -13,12 +13,15 @@
         //'type': ['block', 'banner', 'header', 'footer'],
         'side': ['none', 'HomeRightRail','TagRightRail', 'MostPopular', 'HotVideos', 'MarketsData', 'videos', 'MostCommented'],
         'sideAlign': ['right', 'left'],
+        'isSide': ['', 'MPU', 'Headlines', 'Images', 'Ranking'],
         'belt': ['member'],
         'float': ['none', 'left', 'right', 'oneline', 'SideBySide'],
         'showTag': ['no', 'yes'],
         'showTimeStamp': ['no', 'new stories', 'all'],
         'from': ['', 'MarketsData', 'SpecialReports', 'Columns', 'Channels', 'Events', 'Marketing'],
-        'preferLead': ['longlead', 'shortlead', 'none']
+        'preferLead': ['longlead', 'shortlead', 'none'],
+        'feedType': ['all','story','video','interactive','photo'],
+        'feedItems': 'number'
     };
     var toolkits = {
         'section': {
@@ -29,7 +32,7 @@
             'footer': [],
             'topbelt': ['belt']
         },
-        'list': ['name', 'title', 'url', 'style', 'float', 'showTag', 'showTimeStamp', 'preferLead', 'sponsorAdId', 'sponsorLogoUrl', 'sponsorLink', 'sponsorNote']
+        'list': ['name', 'title', 'url', 'style', 'isSide', 'float', 'showTag', 'showTimeStamp', 'preferLead', 'sponsorAdId', 'sponsorLogoUrl', 'sponsorLink', 'sponsorNote', 'feedItems', 'feedTag', 'feedType']
     };
     var devices = [
         {'name': 'PC or Mac', 'width': '', 'height': ''},
@@ -223,6 +226,8 @@
                 });
             } else if (dataRules[key] === 'readonly') {
                 metaHTML += '<tr class="meta-item"><td class="first-row"><input type="text" class="o-input-text" value="' + key + '" readonly></td><td><input data-key="' + key + '" type="text" class="o-input-text" value="' + value + '" readonly></td></tr>';
+            } else if (dataRules[key] === 'number') {
+                metaHTML += '<tr class="meta-item"><td class="first-row"><input type="text" class="o-input-text" value="' + key + '" readonly></td><td><input data-key="' + key + '" type="number" class="o-input-text" value=' + (value || 0) + '></td></tr>';
             } else if (typeof dataRules[key] === 'string') {
                 metaHTML += '<tr class="meta-item"><td class="first-row"><input type="text" class="o-input-text" value="' + key + '"></td><td><input data-key="' + key + '" type="text" class="o-input-text" value="' + value + '"></td></tr>';
             } else if (typeof dataRules[key] === 'object') {
@@ -553,12 +558,16 @@
         var title = obj.find('[data-key=title]').val() || obj.find('[data-key=name]').val() || obj.find('[data-key=type]').val() || 'New List';
         //console.log (title);
         var listsLength;
+        var isSide = obj.find('[data-key=isSide]').val() || '';
+        if (isSide !== '') {
+            isSide = 'Side ' + isSide + ': ';
+        }
         if (objContainer.find('.item') && objContainer.find('.item').length > 0) {
             listsLength = ' <span>(' + objContainer.find('.item').length + ')</span>';
         } else {
             listsLength = '';
         }
-        objContainer.find('.lists-header').html(title + listsLength);
+        objContainer.find('.lists-header').html(isSide + title + listsLength);
     }
 
     function updateAllTitles() {
@@ -575,6 +584,23 @@
                 updateListTitle(obj.eq(0));
             }
         });
+    }
+
+    function searchAPI() {
+        var k = $('#keywords-input').val();
+        k=k.replace(/\//g,'-');
+        thisday = new Date();
+        thenow = thisday.getHours() * 10000 + thisday.getMinutes() * 100 + thisday.getSeconds();
+        if (/[0-9]{4}\-[0-9]+\-[0-9]+/.test(k)) {
+            gApiUrls.stories = storyAPIRoot + k + '?' + thenow;
+        } else {
+            gApiUrls.stories = '/falcon.php/homepage/gettagstoryapi?tag=' + k + '&' + thenow;
+            //alert (gApiUrls.stories);
+            //http://backyard.ftchinese.com/falcon.php/homepage/gettagstoryapi?tag=%E4%B8%AD%E5%9B%BD%E7%BB%8F%E6%B5%8E
+        }
+
+        $('#stories-inner').empty();
+        loadStories();
     }
 
     $('body').on('dragstart', '.item, .relative-item, .section-header, .lists-header, .toolkit, .group-header', function (e) {
@@ -823,6 +849,7 @@
                         'name': 'New List',
                         'title': '',
                         'url': '',
+                        'isSide':'',
                         'float': 'none',
                         'showTag': 'no',
                         'showTimeStamp': 'no',
@@ -830,7 +857,10 @@
                         'sponsorAdId': '',
                         'sponsorLogoUrl': '',
                         'sponsorLink': '',
-                        'sponsorNote': ''
+                        'sponsorNote': '',
+                        'feedItems': '',
+                        'feedTag': '',
+                        'feedType': ''
                     }
                 ];
             }
@@ -891,6 +921,7 @@
                 'name': 'New List',
                 'title': '',
                 'url': '',
+                'isSide': '',
                 'float': [],
                 'showTag': [],
                 'showTimeStamp': [],
@@ -899,6 +930,9 @@
                 'sponsorLogoUrl': '',
                 'sponsorLink': '',
                 'sponsorNote': '',
+                'feedItems': '',
+                'feedTag': '',
+                'feedType': '',
                 'items': []
             };
             newList = '<div class="lists-item"><div class="remove-lists"></div><div class="lists-header" draggable="true">New List</div>' + renderMeta(newListJSON) + '</div>';
@@ -1038,23 +1072,14 @@
     });
 
     $('body').on('click', '#refresh-button', function () {
-        var k = $('#keywords-input').val();
-        k=k.replace(/\//g,'-');
-        thisday = new Date();
-        thenow = thisday.getHours() * 10000 + thisday.getMinutes() * 100 + thisday.getSeconds();
-        if (/[0-9]{4}\-[0-9]+\-[0-9]+/.test(k)) {
-            gApiUrls.stories = storyAPIRoot + k + '?' + thenow;
-        } else {
-            gApiUrls.stories = '/falcon.php/homepage/gettagstoryapi?tag=' + k + '&' + thenow;
-            //alert (gApiUrls.stories);
-            //http://backyard.ftchinese.com/falcon.php/homepage/gettagstoryapi?tag=%E4%B8%AD%E5%9B%BD%E7%BB%8F%E6%B5%8E
-        }
-
-        $('#stories-inner').empty();
-        loadStories();
+        searchAPI();
     });
 
-
+    $('body').on('keyup', '#keywords-input', function(e){
+        if(e.keyCode === 13) {
+            searchAPI();
+        }
+    });
 
 
     // change section meta property
