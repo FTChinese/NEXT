@@ -13,7 +13,6 @@
         //'type': ['block', 'banner', 'header', 'footer'],
         'side': ['none', 'HomeRightRail','TagRightRail', 'MostPopular', 'HotVideos', 'MarketsData', 'videos', 'MostCommented'],
         'sideAlign': ['right', 'left'],
-        'isSide': ['', 'MPU', 'Headlines', 'Images', 'Ranking'],
         'belt': ['member'],
         'float': ['none', 'left', 'right', 'oneline', 'SideBySide'],
         'showTag': ['no', 'yes'],
@@ -32,7 +31,13 @@
             'footer': [],
             'topbelt': ['belt']
         },
-        'list': ['name', 'title', 'url', 'style', 'isSide', 'float', 'showTag', 'showTimeStamp', 'preferLead', 'sponsorAdId', 'sponsorLogoUrl', 'sponsorLink', 'sponsorNote', 'feedItems', 'feedTag', 'feedType']
+        'list': {
+            'list': ['name', 'title', 'url', 'style', 'float', 'showTag', 'showTimeStamp', 'preferLead', 'sponsorAdId', 'sponsorLogoUrl', 'sponsorLink', 'sponsorNote', 'feedItems', 'feedTag', 'feedType'],
+            'SideMPU': ['name'],
+            'SideHeadlines':['name', 'title', 'url', 'feedItems', 'feedTag', 'feedType'],
+            'SideImageText': ['name', 'title', 'url', 'feedItems', 'feedTag', 'feedType'],
+            'SideRanking': ['name', 'title', 'url', 'feedItems', 'feedTag', 'feedType']
+        }
     };
     var devices = [
         {'name': 'PC or Mac', 'width': '', 'height': ''},
@@ -433,7 +438,10 @@
         $.each(toolkits.section, function (key, value) { // jshint ignore:line
             sections += '<div class="toolkit toolkit-section toolkit-' + key + '" draggable=true>' + key + '</div>';
         });
-        lists = '<div class="toolkit toolkit-list" draggable=true>list</div>';
+        $.each(toolkits.list, function (key, value) { // jshint ignore:line
+            lists += '<div class="toolkit toolkit-list toolkit-' + key + '" draggable=true>' + key + '</div>';
+        });
+        //lists = '<div class="toolkit toolkit-list" draggable=true>list</div>';
         $('#tool-sec-inner').html(sections);
         $('#tool-list-inner').html(lists);
     }
@@ -558,16 +566,12 @@
         var title = obj.find('[data-key=title]').val() || obj.find('[data-key=name]').val() || obj.find('[data-key=type]').val() || 'New List';
         //console.log (title);
         var listsLength;
-        var isSide = obj.find('[data-key=isSide]').val() || '';
-        if (isSide !== '') {
-            isSide = 'Side ' + isSide + ': ';
-        }
         if (objContainer.find('.item') && objContainer.find('.item').length > 0) {
             listsLength = ' <span>(' + objContainer.find('.item').length + ')</span>';
         } else {
             listsLength = '';
         }
-        objContainer.find('.lists-header').html(isSide + title + listsLength);
+        objContainer.find('.lists-header').html(title + listsLength);
     }
 
     function updateAllTitles() {
@@ -754,6 +758,7 @@
         var newSectionObject;
         var sectionType;
         var sectionJSON;
+        var listType;
         var newListJSON;
         var newListObject;
         var groupItems;
@@ -849,7 +854,6 @@
                         'name': 'New List',
                         'title': '',
                         'url': '',
-                        'isSide':'',
                         'float': 'none',
                         'showTag': 'no',
                         'showTimeStamp': 'no',
@@ -917,24 +921,13 @@
             }
         } else if (dragSrcEl.hasClass('toolkit-list')) {
             // drop a list. The drop point could be a container or any inner elements
-            newListJSON = {
-                'name': 'New List',
-                'title': '',
-                'url': '',
-                'isSide': '',
-                'float': [],
-                'showTag': [],
-                'showTimeStamp': [],
-                'preferLead': [],
-                'sponsorAdId': '',
-                'sponsorLogoUrl': '',
-                'sponsorLink': '',
-                'sponsorNote': '',
-                'feedItems': '',
-                'feedTag': '',
-                'feedType': '',
-                'items': []
-            };
+            listType = dragSrcEl.html();
+            newListJSON = {};
+            $.each(toolkits.list[listType], function (key, value) {
+                newListJSON[value] = '';
+                //newListJSON.name = '';
+                newListJSON.type = listType;
+            });
             newList = '<div class="lists-item"><div class="remove-lists"></div><div class="lists-header" draggable="true">New List</div>' + renderMeta(newListJSON) + '</div>';
             newListObject = $($.parseHTML(newList));
             if ($(this).is('.item, .lists-item>.meta-table, .lists-item>.lists-header')) {
