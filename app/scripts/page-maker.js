@@ -18,9 +18,24 @@
         'showTag': ['no', 'yes'],
         'showTimeStamp': ['no', 'new stories', 'all'],
         'from': ['', 'MarketsData', 'SpecialReports', 'Columns', 'Channels', 'Events', 'Marketing'],
+        'sideOption': ['headlineOnly', 'leadOnly', 'imageAndText'],
         'preferLead': ['longlead', 'shortlead', 'none'],
         'feedType': ['all','story','video','interactive','photo'],
         'feedItems': 'number'
+    };
+    var dataRulesTitle = {
+        'theme': 'Luxury是指乐尚街的配色风格，主要特点是Title和分割线为金色',
+        'side': '采用事先写好的模版',
+        'sideAlign': ' 这个Block的侧边栏放在右边还是左边',
+        'float': '如果某个list有文章没有配图，可以采用float到左边的方式来展示这个List，同时其余的list自动float到右边；如果想要某个list，如cover占据全部宽度，则设定其为oneline',
+        'showTag': '程序会抓取tag字段中第一个tag做为primary tag来显示',
+        'showTimeStamp': 'new stories代表只在文章发布的一个小时内显示时间，all代表在所有情况下都显示时间',
+        'from': '选取事先写好的模版',
+        'sideOption': 'headlineOnly表示只显示标题；leadOnly表示只显示lead，这个功能可以用来展示联系方式一类的文字信息；imageAndText显示方式类似微信公众号的图文信息，第一条出大图',
+        'preferLead': '优先显示的lead类型',
+        'feedType': '自动抓取的内容类型，如果选择all则四种类型都抓取，最新的先显示',
+        'feedItems': '自动抓取内容的条数上限，如果这个list中有手动拖入的内容，则不显示自动抓取的内容',
+        'feedTag': '自动抓取内容依据的标签，如果抓取条件复杂，也可以请技术帮助你输入mysql的查询语句'
     };
     var toolkits = {
         'section': {
@@ -34,8 +49,7 @@
         'list': {
             'list': ['name', 'title', 'url', 'style', 'float', 'showTag', 'showTimeStamp', 'preferLead', 'sponsorAdId', 'sponsorLogoUrl', 'sponsorLink', 'sponsorNote', 'feedItems', 'feedTag', 'feedType'],
             'SideMPU': ['name'],
-            'SideHeadlines':['name', 'title', 'url', 'feedItems', 'feedTag', 'feedType'],
-            'SideImageText': ['name', 'title', 'url', 'feedItems', 'feedTag', 'feedType'],
+            'SideWithItems':['name', 'title', 'url', 'sideOption', 'feedItems', 'feedTag', 'feedType'],
             'SideRanking': ['name', 'title', 'url', 'feedItems', 'feedTag', 'feedType']
         }
     };
@@ -72,7 +86,6 @@
     var dragSrcEl = null;
     var dragIndex;
     var dragOverIndex;
-
     var customPageJSON;
 
     // get parameter value from url
@@ -211,6 +224,10 @@
         var dataHTML = '';
         $.each(data, function (key, value) {
             var arrayMeta = '';
+            var description = dataRulesTitle[key] || '';
+            if (description !== '') {
+                description = ' title="' + description + '"';
+            }
             if (dataRules[key] === 'array' || dataRules[key] === 'item') {
                 $.each(value, function (k, v) {
                     var title = v.title || v.name || v.type || 'List';
@@ -230,11 +247,11 @@
                     }
                 });
             } else if (dataRules[key] === 'readonly') {
-                metaHTML += '<tr class="meta-item"><td class="first-row"><input type="text" class="o-input-text" value="' + key + '" readonly></td><td><input data-key="' + key + '" type="text" class="o-input-text" value="' + value + '" readonly></td></tr>';
+                metaHTML += '<tr class="meta-item"><td class="first-row"><input type="text" class="o-input-text" value="' + key + '" readonly'+description+'></td><td><input data-key="' + key + '" type="text" class="o-input-text" value="' + value + '" readonly></td></tr>';
             } else if (dataRules[key] === 'number') {
-                metaHTML += '<tr class="meta-item"><td class="first-row"><input type="text" class="o-input-text" value="' + key + '" readonly></td><td><input data-key="' + key + '" type="number" class="o-input-text" value=' + (value || 0) + '></td></tr>';
+                metaHTML += '<tr class="meta-item"><td class="first-row"><input type="text" class="o-input-text" value="' + key + '" readonly'+description+'></td><td><input data-key="' + key + '" type="number" class="o-input-text" value=' + (value || 0) + '></td></tr>';
             } else if (typeof dataRules[key] === 'string') {
-                metaHTML += '<tr class="meta-item"><td class="first-row"><input type="text" class="o-input-text" value="' + key + '"></td><td><input data-key="' + key + '" type="text" class="o-input-text" value="' + value + '"></td></tr>';
+                metaHTML += '<tr class="meta-item"><td class="first-row"><input type="text" class="o-input-text" value="' + key + '"'+description+'></td><td><input data-key="' + key + '" type="text" class="o-input-text" value="' + value + '"></td></tr>';
             } else if (typeof dataRules[key] === 'object') {
                 var options = '';
                 $.each(dataRules[key], function (k1, v1) {
@@ -244,9 +261,9 @@
                     }
                     options += '<option value="' + v1 + '"' + selected + '>' + v1 + '</option>';
                 });
-                metaHTML += '<tr class="meta-item"><td class="first-row"><input class="o-input-text" value="' + key + '" type="text" readonly></td><td><select data-key="' + key + '" class="o-input-text">' + options + '</select></td></tr>';
+                metaHTML += '<tr class="meta-item"><td class="first-row"><input class="o-input-text" value="' + key + '" type="text" readonly'+description+'></td><td><select data-key="' + key + '" class="o-input-text">' + options + '</select></td></tr>';
             } else {
-                metaHTML += '<tr class="meta-item"><td class="first-row"><input class="o-input-text" value="' + key + '" type="text" readonly></td><td><input type="text" data-key="' + key + '" class="o-input-text" value="' + value + '"></td></tr>';
+                metaHTML += '<tr class="meta-item"><td class="first-row"><input class="o-input-text" value="' + key + '" type="text" readonly'+description+'></td><td><input type="text" data-key="' + key + '" class="o-input-text" value="' + value + '"></td></tr>';
             }
         });
         dataHTML = '<div class="lists-container">' + dataHTML + '</div>';
