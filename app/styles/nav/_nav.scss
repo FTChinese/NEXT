@@ -106,7 +106,7 @@
 	text-decoration: none;
  	@include oColorsFor(o-header, text);
 	background-color: inherit;
-
+	color: $whiteColor;
 	@include oGridRespondTo($until:L) {
 		padding-left: oGridGutter();
 		min-width: $o-header-mobile-left-width;
@@ -116,6 +116,7 @@
 //add background and color on .nav-section-head to fake two column on small screen;
 		@include oColorsFor(o-header);
 		font-size: 14px;
+		// override link color for luxury page
 
 		&:after {
 			content: '';
@@ -175,6 +176,7 @@
 // set color explicitly to enable transition.
 		@include oColorsFor(o-header-sub-nav, background);
 
+
 // hide overflow so that contents inside it could be transitioned.
 		overflow: hidden;
 // make sub menu visible
@@ -224,6 +226,7 @@
 		}
 		@include oColorsFor(o-header-mega-nav);
 	}
+	color: $whiteColor!important;
 }
 
 .nav-item {
@@ -301,6 +304,7 @@
 				text-decoration: underline;
 			}
 		}
+		color: $whiteColor;
 	}
 
 	@include oGridRespondTo(L) {
@@ -321,7 +325,9 @@
 			@include oColorsFor(o-header-nav-link-hover, background);
 			@include oColorsFor(o-header, text);
 		}		
+		color: $whiteColor;
 	}
+	color: $whiteColor;
 }
 
 .nav-sub-items {

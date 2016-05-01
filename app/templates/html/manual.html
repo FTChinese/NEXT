@@ -11,7 +11,7 @@
     <head>
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title><%$p.meta.title%></title>
+        <title><%$p.meta.title%><%if $pageId != "home"%> - FT中文网<%/if%></title>
         <meta http-equiv="Content-Language" content="zh-CN"/>
         <meta content="<%$p.meta.description%>" name="description"/>
         <meta name="apple-mobile-web-app-status-bar-style" content="black" />
@@ -39,6 +39,8 @@
         <style>
             <%if $pageId == "home"%>
                 <%include file="next/styles/main.css"%>
+            <%elseif $p.meta.theme == "luxury"%>
+                <%include file="next/styles/main-luxury.css"%>
             <%else%>
                 <%include file="next/styles/main-tag.css"%>
             <%/if%>
