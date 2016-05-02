@@ -41,6 +41,9 @@
 				<%if $itemImage == ""%>
 					<%assign var="itemImage" value=$item.image.cover|default:$item.image.smallbutton|default:$item.image.other|default:$item.image.bigbutton%>
 				<%/if%>
+				<%if $itemImage != "" && !preg_match("/^http/is",$itemImage)%>
+					<%assign var="itemImage" value="http://i.ftimg.net/`$itemImage`"%>
+				<%/if%>
 
 				<%if $itemImage != ""%>
 					<%assign var="itemClass" value=""%>
@@ -283,21 +286,26 @@
 						<%assign var="hideLead" value="yes"%>
 						<%assign var="itemLead" value=""%>
 					<%elseif $preferLead === "shortlead"%>
-						<%assign var="itemLead" value=$item.cshortleadbody|default:$item.clongleadbody%>
+						<%assign var="itemLead" value=$item.cshortleadbody|default:$item.shortlead|default:$item.clongleadbody|default:$item.longlead%>
 					<%else%>
-						<%assign var="itemLead" value=$item.clongleadbody|default:$item.cshortleadbody%>
+						<%assign var="itemLead" value=$item.clongleadbody|default:$item.longlead|default:$item.cshortleadbody|default:$item.shortlead%>
 					<%/if%>
+
+					<%assign var="itemHeadline" value=$item.cheadline|default:$item.headline|default:$item.cn_title%>
+
+					<%assign var="itemId" value=$item.id|default:$item.photonewsid%>
 
 					<%if $hideImage === "yes"%>
 						<%assign var="hasImage" value="no-image"%>
 					<%/if%>
 
+					
 
 
 					<%$itemTop%>
 					<div class="item-container <%$itemClass%> <%$hasImage%>"><div class="item-inner">
-						<h2 class="item-headline"><%$itemTag%><a target="_blank" href="/<%$itemType%>/<%$item.id%>#adchannelID=<%$adchannelID%>"><%$item.cheadline%></a></h2>
-						<%if $item.relatives|@count > 0 && $item.relatives[0].type === 'video'%><div class="image"><figure class="loading-video" data-vid="<%$item.relatives[0].id%>"></figure></div><%elseif $itemType === "video" && $listType !== "videos"%><div class="image"><figure class="loading-video" data-vid="<%$item.id%>"></figure></div><%elseif $itemImage != "" && $hasImage === "has-image"%><a class="image" target="_blank" href="/<%$itemType%>/<%$item.id%>#adchannelID=<%$adchannelID%>"><figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure></a><%/if%>
+						<h2 class="item-headline"><%$itemTag%><a target="_blank" href="/<%$itemType%>/<%$itemId%>#adchannelID=<%$adchannelID%>"><%$itemHeadline%></a></h2>
+						<%if $item.relatives|@count > 0 && $item.relatives[0].type === 'video'%><div class="image"><figure class="loading-video" data-vid="<%$item.relatives[0].id%>"></figure></div><%elseif $itemType === "video" && $listType !== "videos"%><div class="image"><figure class="loading-video" data-vid="<%$itemId%>"></figure></div><%elseif $itemImage != "" && $hasImage === "has-image"%><a class="image" target="_blank" href="/<%$itemType%>/<%$itemId%>#adchannelID=<%$adchannelID%>"><figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure></a><%/if%>
 						<%if $hideLead === "no"%><div class="item-lead"><%$itemLead%></div><%/if%>
 						<%$itemTimeStamp%>
 						<%if $item.relatives|@count > 0 && $item.showRelativeStoryItems > 0%>
@@ -520,10 +528,14 @@
 						<%assign var="hideLead" value="yes"%>
 						<%assign var="itemLead" value=""%>
 					<%elseif $preferLead === "shortlead"%>
-						<%assign var="itemLead" value=$item.cshortleadbody|default:$item.clongleadbody%>
+						<%assign var="itemLead" value=$item.cshortleadbody|default:$item.shortlead|default:$item.clongleadbody|default:$item.longlead%>
 					<%else%>
-						<%assign var="itemLead" value=$item.clongleadbody|default:$item.cshortleadbody%>
+						<%assign var="itemLead" value=$item.clongleadbody|default:$item.longlead|default:$item.cshortleadbody|default:$item.shortlead%>
 					<%/if%>
+
+					<%assign var="itemHeadline" value=$item.cheadline|default:$item.headline|default:$item.cn_title%>
+
+					<%assign var="itemId" value=$item.id|default:$item.photonewsid%>
 
 					<%if $hideImage === "yes"%>
 						<%assign var="hasImage" value="no-image"%>
@@ -532,8 +544,8 @@
 
 					<%$itemTop%>
 					<div class="item-container <%$itemClass%> <%$hasImage%>"><div class="item-inner">
-						<h2 class="item-headline"><%$itemTag%><a target="_blank" href="/<%$itemType%>/<%$item.id%><%$adForceString%>"><%$item.cheadline%></a></h2>
-						<%if $item.relatives|@count > 0 && $item.relatives[0].type === 'video'%><div class="image"><figure class="loading-video" data-vid="<%$item.relatives[0].id%>"></figure></div><%elseif $itemType === "video" && $listType !== "videos"%><div class="image"><figure class="loading-video" data-vid="<%$item.id%>"></figure></div><%elseif $itemImage != "" && $hasImage === "has-image"%><a class="image" target="_blank" href="/<%$itemType%>/<%$item.id%><%$adForceString%>"><figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure></a><%/if%>
+						<h2 class="item-headline"><%$itemTag%><a target="_blank" href="/<%$itemType%>/<%$itemId%><%$adForceString%>"><%$itemHeadline%></a></h2>
+						<%if $item.relatives|@count > 0 && $item.relatives[0].type === 'video'%><div class="image"><figure class="loading-video" data-vid="<%$item.relatives[0].id%>"></figure></div><%elseif $itemType === "video" && $listType !== "videos"%><div class="image"><figure class="loading-video" data-vid="<%$itemId%>"></figure></div><%elseif $itemImage != "" && $hasImage === "has-image"%><a class="image" target="_blank" href="/<%$itemType%>/<%$itemId%><%$adForceString%>"><figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure></a><%/if%>
 						<%if $hideLead === "no"%><div class="item-lead"><%$itemLead%></div><%/if%>
 						<%$itemTimeStamp%>
 						<%if $item.relatives|@count > 0 && $item.showRelativeStoryItems > 0%>

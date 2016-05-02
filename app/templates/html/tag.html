@@ -1,6 +1,6 @@
 <%assign var=taginfo value=$storymodel->get_tag_describes($tag_name)%>
 <%assign var=tagtitle value=$taginfo.tag_title%>
-<%assign var=tagabout value=$taginfo.tag_desc%>
+<%assign var=tagabout value=$taginfo.tag_desc|default:$PageIntro%>
 
 <%if $tagtitle=="" || $breadcrumb!=""%>
 <%if $breadcrumb!=""%>
@@ -37,7 +37,7 @@
     <title><%$tagtitle|default:$PageTitle%> - FT中文网</title>
     <%if $tagtitle=="无效的标签"%><META NAME="robots" CONTENT="noindex"><%/if%>
     <META name=keywords content="<%$tagtitle%>">
-    <meta content="<%$p.meta.description%>" name="description"/>
+    <meta content="<%$p.meta.description|default:$PageIntro%>" name="description"/>
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     <link rel="apple-touch-icon-precomposed" href="http://static.ftchinese.com/img/ipad_icon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
