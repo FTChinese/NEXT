@@ -9,7 +9,10 @@
 			<%assign var="hasImageCount" value=0%>
 			<%assign var="noImageCount" value=0%>
 			<%foreach from=$allstory item=item%>
-				<%assign var="itemImage" value=$item.story_pic.cover|default:$item.story_pic.other|default:$item.story_pic.smallbutton%>
+				<%assign var="itemImage" value=$item.story_pic.cover|default:$item.story_pic.other|default:$item.story_pic.smallbutton|default:$item.illustration|default:$item.cover|default:$item.thumb_url%>
+				<%if $itemImage == ""%>
+					<%assign var="itemImage" value=$item.image.cover|default:$item.image.smallbutton|default:$item.image.other|default:$item.image.bigbutton%>
+				<%/if%>
 				<%if $itemImage == ""%>
 					<%assign var="noImageCount" value=$noImageCount+1%>
 				<%else%>
@@ -23,18 +26,6 @@
 			<%assign var="i" value=0%>
 			<%assign var="allStoiesCount" value=$hasImageCount%>
 			<%foreach from=$allstory item=item%>
-
-				<%*<!--
-
-				story专有字段是——priority
-				video专有字段是——video_name 和 cc_vaddress
-				photonews专有字段是——photonewsid
-				interactive专有字段是——template（但有的有值，有的为空值和Null）
-
-				-->*%>
-
-
-				
 				<%if $item.photonewsid && $item.photonewsid != ""%>
 					<%assign var="itemType" value="photonews"%>
 				<%elseif ($item.video_name && $item.video_name != "") || ($item.cc_vaddress && $item.cc_vaddress != "")%>
@@ -46,7 +37,10 @@
 				<%/if%>
 
 
-				<%assign var="itemImage" value=$item.story_pic.cover|default:$item.story_pic.other|default:$item.story_pic.smallbutton%>
+				<%assign var="itemImage" value=$item.story_pic.cover|default:$item.story_pic.other|default:$item.story_pic.smallbutton|default:$item.illustration|default:$item.cover|default:$item.thumb_url%>
+				<%if $itemImage == ""%>
+					<%assign var="itemImage" value=$item.image.cover|default:$item.image.smallbutton|default:$item.image.other|default:$item.image.bigbutton%>
+				<%/if%>
 
 				<%if $itemImage != ""%>
 					<%assign var="itemClass" value=""%>
@@ -344,7 +338,10 @@
 					<%assign var="itemType" value="interactive"%>
 				<%/if%>
 
-				<%assign var="itemImage" value=$item.story_pic.cover|default:$item.story_pic.other|default:$item.story_pic.smallbutton%>
+				<%assign var="itemImage" value=$item.story_pic.cover|default:$item.story_pic.other|default:$item.story_pic.smallbutton|default:$item.illustration|default:$item.cover|default:$item.thumb_url%>
+				<%if $itemImage == ""%>
+					<%assign var="itemImage" value=$item.image.cover|default:$item.image.smallbutton|default:$item.image.other|default:$item.image.bigbutton%>
+				<%/if%>
 
 				<%if $itemImage == ""%>
 					<%assign var="itemClass" value=""%>

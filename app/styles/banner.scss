@@ -6,9 +6,6 @@
 }
 .banner-container {
 	width: 100%;
-	iframe {
-		margin: $defaultPadding/2 auto 0 auto;
-	}
 	&.is-fix {
 		position: fixed;
 		top: $navHeight;
@@ -24,6 +21,13 @@
 	padding: 0 $defaultPadding/2;
 	background: $bannerBG;
 	height: $bannerHeight + $defaultPadding;
+	>iframe {
+		margin: $defaultPadding/2 auto 0 auto;
+	}
+	>div {
+		margin: $defaultPadding/2 auto 0 auto!important;
+		display: block!important;
+	}
 }
 .sponsor-container {
 	padding: 0 $defaultPadding/2;

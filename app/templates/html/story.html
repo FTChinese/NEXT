@@ -318,8 +318,13 @@
 <%assign var="subnav" value="europe"%>
 <%/if%>
 
-
-<%if $story.column!=""%>
+<%if in_array("艺术品投资",$story.tag) || in_array("乐尚街",$story.tag)%>
+<%assign var=breadcrum value="<a href=/channel/pursuit.html>乐尚街</a>"%>
+<%assign var="autoadchannelID" value="1801"%>
+<%assign var="topnav" value="lifestyle"%>
+<%assign var="subnav" value="pursuit"%>
+<%assign var="thirdnav" value=""%>
+<%elseif $story.column!=""%>
 <%assign var=breadcrum value="<a href=/column/`$story.column`>`$columninfo.headline`</a>"%>
 <%assign var="topnav" value="opinion"%>
 <%assign var="subnav" value="column"%>
@@ -676,7 +681,11 @@
     }
     </script>
     <style>
-    <%include file="next/styles/main-story.css"%>
+    <%if in_array("艺术品投资",$story.tag) || in_array("乐尚街",$story.tag)%>
+    	<%include file="next/styles/main-story-luxury.css"%>
+    <%else%>
+    	<%include file="next/styles/main-story.css"%>
+    <%/if%>
     </style>
     <link rel="icon" type="image/png" href="https://image.webservices.ft.com/v1/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=32&height=32" sizes="32x32">
     <link rel="icon" type="image/png" href="https://image.webservices.ft.com/v1/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=194&height=194" sizes="194x194">
@@ -736,11 +745,15 @@
   <body class="<%$hideDate%>">
       <%include file="next/partials/header.html"%>
       <%include file="next/partials/nav.html"%>
-      <%include file="next/partials/banner.html"%>
+	  <%if !in_array("艺术品投资",$story.tag) && !in_array("乐尚街",$story.tag)%>
+		<%include file="next/partials/banner.html"%>
+	  <%/if%>
       <%assign var="bannerCount" value=$bannerCount+1%>
       <%include file="next/partials/story-block.html"%>
       <%include file="next/partials/story-recommend.html%>
-      <%include file="next/partials/banner.html"%>
+	  <%if !in_array("艺术品投资",$story.tag) && !in_array("乐尚街",$story.tag)%>
+		<%include file="next/partials/banner.html"%>
+	  <%/if%>
       <%include file="next/partials/footer.html"%>
       <%include file="next/partials/QrCode.html"%>
       <%include file="next/partials/story-font.html"%>

@@ -27,18 +27,16 @@
 		</ul>
 	</div>
 
-
+	<%easyapi command="10008" storyid=$story.id debug=false %>
 
 	<%if $smarty.get.ad != "no"%>
-		<div class="mpu-container">
+		<div class="mpu-container<%if $data.odatalist|@count==0 && $relative_story|@count==0%> last-child<%/if%>">
 		    <script type="text/javascript">document.write (writeAd('storympu'));</script>
 		</div>
 	<%/if%>
 
 
-
-	<%easyapi command="10008" storyid=$story.id debug=false %>
-	<%if $data.odatalist|@count>1%>
+	<%if $data.odatalist|@count>0%>
 		<%assign var="i" value=0%>
 		<div class="story-box last-child">
 			<h2 class="box-title"><a href="/channel/weekly.html">相关文章</a></h2>
@@ -49,10 +47,10 @@
 				<%/foreach%>
 			</ul>
 		</div>
-	<%elseif $relative_story|@count>=1%>
+	<%elseif $relative_story|@count>0%>
 		<%assign var="i" value=0%>
 		<div class="story-box last-child">
-			<h2 class="box-title"><a href="/channel/weekly.html">相关文章2</a></h2>
+			<h2 class="box-title"><a href="/channel/weekly.html">相关文章</a></h2>
 			<ul class="top10">
 				<%foreach from=$relative_story item=sc%>
 					<%assign var="i" value=$i+1%>
