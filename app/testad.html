@@ -119,16 +119,70 @@ ga('send', 'pageview');
 
 
 <div id=roadblock style="margin:0 auto;position:relative;width:700px;text-align:center;">
-<SCRIPT language=javascript>
-var thisday=new Date();
-var todaydate=thisday.getFullYear() + "-" + (thisday.getMonth()+1) + "-" + thisday.getDate();
-var fullsc=GetCookie ("rb3");
-if (true) { 
-var dolFullScreen=dolphinAD(ADPO.FullScreen,FTAdchID);
+
+
+
+
+
+<style>
+.hideQR .app-download-container {
+	display:none;
 }
-var pagetype="home";
-</SCRIPT>
+</style>
+
+<script language="javascript">
+var link='dfafa';
+var thefile='dafdasfa';
+var third_impression='dfafa';
+var theurl="[ASCLICK]&u="+link+"";
+var thewidth='700px';
+var theheight='520px';
+var cookiesecond=24*60*60;
+var rb2=GetCookie ("rb2");
+function closeFullPageAd(){
+	document.getElementById("roadblock").style.display="none";
+	document.body.className = document.body.className.replace(/ hideQR/g, '');
+	try {
+		stickyAdsPrepare();
+		stickyBottomPrepare();
+	} catch (ignore) {
+
+	}
+}
+if (rb2 == null || 1==1) {
+var ebRand = Math.random()+'';
+ebRand = ebRand * 1000000;
+document.write('<scr'+'ipt src="http://bsch.serving-sys.com/BurstingPipe/adServer.bs?cn=rsb&c=28&pli=17423396&PluID=56&w=700&h=520&dlm=3&ucm=true&ord=' + ebRand + '"></scr' + 'ipt>');
+var oTest = document.getElementById('roadblock');
+var newNode = document.createElement('div'); 
+newNode.innerHTML = '<div style="font-weight:bold;color:#666;margin-bottom:15px;margin-top:15px;text-align:center;cursor:pointer" onclick="closeFullPageAd();">跳过广告</div>'; 
+oTest.insertBefore(newNode,oTest.childNodes[0]);
+oTest.style.height = '2000px';
+//console.log (document.getElementById('roadblock').childNodes[0]);
+document.body.className = document.body.className + ' hideQR';
+setTimeout(function(){
+	closeFullPageAd();
+},8000);
+SetCookie("rb2",1,cookiesecond,"/");
+}
+</script>
+
+
+
+
+
+
+
+
+
+
 </div>
+
+
+
+<script>
+//alert (document.getElementById('roadblock').innerHTML);
+</script>
 
 
 

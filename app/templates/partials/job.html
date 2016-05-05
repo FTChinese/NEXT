@@ -1,0 +1,84 @@
+<%if $list.feedTag != ""%>
+<%assign var="ftjobs" value=$jobmodel->job_search($list.feedTag,0,$list.feedItems)%>
+  <%assign var="jobData" value=$ftjobs[0]%>
+<%else%>
+  <%assign var="jobData" value=$jobresult%>
+<%/if%>
+
+<div class="list-container">
+  <div class="list-inner">
+    <%if $list.title != ""%>
+      <h2 class="list-title">
+        <a class="list-link" href="<%$list.url|default:"#"%>"><%$list.title%></a>
+      </h2>
+    <%/if%>
+    <div class="no-image">
+      <div class="item-inner">
+        <div>
+            <form id="form1" name="form1" method="get" action="/jobs/" class="filter">
+              <div class="select-container">
+                <div class="select-item">
+                  <div class="select-label">行业</div>
+                  <select name="workfield" id="workfield">
+                    <option value="">所有</option>
+                    <%html_options values=$all_workfield output=$all_workfield selected=$workfield%>
+                  </select>
+                </div>
+                <div class="select-item">
+                  <div class="select-label">地区</div>
+                    <select name="workaddr" id="workaddr">
+                    <option value="">所有</option>
+                    <%html_options values=$all_workaddr output=$all_workaddr selected=$workaddr%>
+                  </select>
+                </div>
+                <div class="select-item">
+                  <div class="select-label">职位</div>
+                  <select name="position" id="position">
+                    <option value="">所有</option>
+                    <%html_options values=$all_position output=$all_position selected=$position%>
+                  </select>
+                </div>
+              </div>
+              <div class="submit-container">
+                <input name="search" type="submit" id="search" value="搜索" class="filter-submit">
+              </div>
+            </form>
+        </div>
+        <div class="row-container row-header">
+            <div class="row-tag">公司名称</div>
+            <div class="row-title">职位名称</div>
+            <div class="row-support">行业</div>
+            <div class="row-support">地区</div>
+            <div class="row-time">发布时间</div>
+        </div>
+        <%foreach from=$jobData item=sc name=jobs%>
+            <div class="row-container">
+                <div class="row-tag">
+                    <div class="row-name">公司名称</div>
+                    <div class="row-content"><%$sc.company%></div>
+                </div>
+                <div class="row-title">
+                    <div class="row-name">职位名称</div>
+                    <div class="row-content"><a target=_blank href="/jobshow/<%$sc.num%>"><%$sc.position_name%></a></div>
+                </div>
+                <div class="row-support">
+                    <div class="row-name">行业</div>
+                    <div class="row-content"><%$sc.workfield%></div>
+                </div>
+                <div class="row-support">
+                    <div class="row-name">地区</div>
+                    <div class="row-content"><%$sc.workaddr%></div>
+                </div>
+                <div class="row-time">
+                    <div class="row-name">发布时间</div>
+                    <div class="row-content"><%$sc.pubtime%></div>
+                </div>
+            </div>
+        <%/foreach%>
+        <div class="pagination">
+            <%$pagination%>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

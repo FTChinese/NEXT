@@ -43,8 +43,8 @@ document.documentElement.className = document.documentElement.className.replace(
     </script>
 <![endif]-->
 
-<!-- build:css styles/main-tag.css -->
-<link rel="stylesheet" href="styles/main-tag.css">
+<!-- build:css styles/main-job.css -->
+<link rel="stylesheet" href="styles/main-job.css">
 <!-- endbuild -->
 
 
@@ -344,12 +344,13 @@ data-section="stream">
 </div>
 <div class="block-container has-side side-right"><div class="block-inner">
 <div class="content-container"><div class="content-inner">
-next/partials/job.html
-<div class="item-container no-image">
+<div class="no-image">
 <div class="item-inner">
 <div>
 <form id="form1" name="form1" method="get" action="/jobs/" class="filter">
-行业
+<div class="select-container">
+<div class="select-item">
+<div class="select-label">行业</div>
 <select name="workfield" id="workfield">
 <option value="">所有</option>
 <option label="机械" value="机械">机械</option>
@@ -441,7 +442,9 @@ next/partials/job.html
 <option label="媒体/调研/经济研究" value="媒体/调研/经济研究">媒体/调研/经济研究</option>
 
 </select>
-地区
+</div>
+<div class="select-item">
+<div class="select-label">地区</div>
 <select name="workaddr" id="workaddr">
 <option value="">所有</option>
 <option label="四川省" value="四川省">四川省</option>
@@ -655,7 +658,9 @@ next/partials/job.html
 <option label="北京、上海、香港、伦敦" value="北京、上海、香港、伦敦">北京、上海、香港、伦敦</option>
 
 </select>
-职位
+</div>
+<div class="select-item">
+<div class="select-label">职位</div>
 <select name="position" id="position">
 <option value="">所有</option>
 <option label="编辑" value="编辑">编辑</option>
@@ -756,7 +761,11 @@ next/partials/job.html
 <option label="前端开发" value="前端开发">前端开发</option>
 
 </select>
+</div>
+</div>
+<div class="submit-container">
 <input name="search" type="submit" id="search" value="搜索" class="filter-submit">
+</div>
 </form>
 </div>
 <div class="row-container row-header">

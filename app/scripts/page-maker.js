@@ -20,8 +20,9 @@
         'from': ['', 'MarketsData', 'SpecialReports', 'Columns', 'Channels', 'Events', 'Marketing'],
         'sideOption': ['headlineOnly', 'leadOnly', 'imageAndText'],
         'preferLead': ['longlead', 'shortlead', 'none'],
-        'feedType': ['all','story','video','interactive','photo'],
-        'feedItems': 'number'
+        'feedType': ['all','story','video','interactive','photo','job'],
+        'feedItems': 'number',
+        'language': ['', 'en', 'ce']
     };
     var dataRulesTitle = {
         'theme': 'Luxury是指乐尚街的配色风格，主要特点是Title和分割线为金色',
@@ -35,7 +36,8 @@
         'preferLead': '优先显示的lead类型',
         'feedType': '自动抓取的内容类型，如果选择all则四种类型都抓取，最新的先显示',
         'feedItems': '自动抓取内容的条数上限，如果这个list中有手动拖入的内容，则不显示自动抓取的内容',
-        'feedTag': '自动抓取内容依据的标签，如果抓取条件复杂，也可以请技术帮助你输入mysql的查询语句'
+        'feedTag': '自动抓取内容依据的标签，如果抓取条件复杂，也可以请技术帮助你输入mysql的查询语句',
+        'language': '中文、英文或者中英文对照，只适用于story'
     };
     var toolkits = {
         'section': {
@@ -47,7 +49,7 @@
             'topbelt': ['belt']
         },
         'list': {
-            'list': ['name', 'title', 'url', 'style', 'float', 'showTag', 'showTimeStamp', 'preferLead', 'sponsorAdId', 'sponsorLogoUrl', 'sponsorLink', 'sponsorNote', 'feedItems', 'feedTag', 'feedType'],
+            'list': ['name', 'title', 'url', 'language', 'description', 'style', 'float', 'showTag', 'showTimeStamp', 'preferLead', 'sponsorAdId', 'sponsorLogoUrl', 'sponsorLink', 'sponsorNote', 'feedItems', 'feedTag', 'feedType'],
             'SideMPU': ['name'],
             'SideWithItems':['name', 'title', 'url', 'sideOption', 'feedItems', 'feedTag', 'feedType'],
             'SideRanking': ['name', 'title', 'url', 'feedItems', 'feedTag', 'feedType']

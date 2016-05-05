@@ -18,7 +18,9 @@
 	<%/if%>
 	<%assign var="l" value=0%>
 	<%foreach from=$section.lists item=list%>
-		<%if $list.type == "" || $list.type == "list"%>
+		<%if $list.feedType == "job"%>
+			<%include file="next/partials/job.html"%>
+		<%elseif $list.type == "" || $list.type == "list"%>
 			<%assign var="listTop" value=""%>
 			<%assign var="listTopClass" value=""%>
 			<%if $list.items|@count >= 6 && $list.items[0].type === 'video' && $list.items[1].type === 'video' && $list.items[2].type === 'video' && $list.items[3].type === 'video' && $list.items[4].type === 'video' && $list.items[5].type === 'video'%>
@@ -84,6 +86,15 @@
 						<%/if%>
 					</h2>
 				<%/if%>
+
+				<%if $list.description != ""%>
+					<div class="no-image">
+						<div class="item-inner">
+							<div class="item-lead"><%$list.description%></div>
+						</div>
+					</div>
+				<%/if%>
+
 
 				<%if $list.sponsorAdId != ""%>
 				<div class="sponsor-container"><div class="banner-placeholder"><div class="banner-container">
@@ -690,6 +701,12 @@
 					<%if $hideImage === "yes"%>
 						<%assign var="hasImage" value="no-image"%>
 					<%/if%>
+					<%assign var="listLanguage" value=$list.language%>
+					<%if $listLanguage != "" && $itemType == "story"%>
+						<%assign var="listLanguage" value="/`$listLanguage`"%>
+					<%else%>
+						<%assign var="listLanguage" value=""%>
+					<%/if%>
 
 
 
@@ -699,8 +716,8 @@
 					<%else%>
 						<%$itemTop%>
 						<div class="item-container <%$itemClass%> <%$hasImage%>"><div class="item-inner">
-							<h2 class="item-headline"><%$itemTag%><a target="_blank" href="/<%$itemType%>/<%$itemId%><%$adForceString%>"><%$itemHeadline%></a></h2>
-							<%if $item.relatives|@count > 0 && $item.relatives[0].type === 'video'%><div class="image"><figure class="loading-video" data-vid="<%$item.relatives[0].id%>"></figure></div><%elseif $itemType === "video" && $listType !== "videos"%><div class="image"><figure class="loading-video" data-vid="<%$itemId%>"></figure></div><%elseif $itemImage != "" && $hasImage === "has-image"%><a class="image" target="_blank" href="/<%$itemType%>/<%$itemId%><%$adForceString%>"><figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure></a><%/if%>
+							<h2 class="item-headline"><%$itemTag%><a target="_blank" href="/<%$itemType%>/<%$itemId%><%$listLanguage%><%$adForceString%>"><%$itemHeadline%></a></h2>
+							<%if $item.relatives|@count > 0 && $item.relatives[0].type === 'video'%><div class="image"><figure class="loading-video" data-vid="<%$item.relatives[0].id%>"></figure></div><%elseif $itemType === "video" && $listType !== "videos"%><div class="image"><figure class="loading-video" data-vid="<%$itemId%>"></figure></div><%elseif $itemImage != "" && $hasImage === "has-image"%><a class="image" target="_blank" href="/<%$itemType%>/<%$itemId%><%$listLanguage%><%$adForceString%>"><figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure></a><%/if%>
 							<%if $hideLead === "no"%><div class="item-lead"><%$itemLead%></div><%/if%>
 							<%$itemTimeStamp%>
 							<%if $item.relatives|@count > 0 && $item.showRelativeStoryItems > 0%>
@@ -754,7 +771,7 @@
 					<%/if%>
 				<%elseif $list.type == "SideRanking"%>
 					<div class="mps<%$firstChildClass%><%$lastChildClass%>">
-						<h2 class="list-title"><a href="/channel/weekly.html">十大热门文章</a></h2>
+						<h2 class="list-title"><a href="/channel/weekly.html"><%$list.title|default:"热门文章"%></a></h2>
 						<ul class="top10">
 							<%assign var="i" value=0%>
 							<%assign var="mp" value=$storymodel->get_hot_story(1,15) %>

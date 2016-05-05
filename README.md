@@ -1,24 +1,35 @@
 # FTChinese Next Project
 
-## Previews
-On www.ftchinese.com, if you add ?n=1 at the end of the url, the page will be displayed in Next style. For example: 
-* [Home Page](http://www.ftchinese.com/?n=1)
-* [China](http://www.ftchinese.com/channel/china.html?n=1)
-* [Lunch with the FT](http://www.ftchinese.com/tag/与FT共进午餐?n=1)
-* [Story Page](http://www.ftchinese.com/story/001066965?n=1)
+## FT中文网改版要点
+### 设计
+全新的[首页](http://next.ftchinese.com/)、[频道页](http://next.ftchinese.com/channel/china.html)和[文章页](http://next.ftchinese.com/story/001067390)设计，令读者可以更加方便地浏览内容和阅读文章。新的页面不但支持电脑，还支持移动设备，令您可以随时随地阅读FT中文网的精彩内容。
+
+### 页面性能
+使用最新的优化技术，令大多数页面可以在1秒钟之内呈现。智能加载刚好适合您的设备的大小的图片，为您节约带宽。
+
+### 我的FT
+新推出我的FT，为您量身打造只属于您自己的英国《金融时报》。您可以设置关注特定的话题，只看自己想看的内容；基于大数据的内容推荐系统会为你带来惊喜，帮你发现你可能会忽略的好文章。
+
+### [英语学习](http://next.ftchinese.com/channel/english.html)
+我们将广受读者喜爱的英语学习频道提升为主频道，在原有的双语阅读和金融英语速读的基础上增加了原声视频和FT英文电台。您现在不但可以用FT来提升自己的英文阅读能力，还可以提高自己的英语听力。
+
+### [FT商学院](http://next.ftchinese.com/channel/mba.html)
+FT商学院在原有的新闻小测、热点观察和全球商学院排行的基础上，增加了MBA训练营，帮助您利用碎片时间学习金融、管理和商业中的重要概念。
+
+### 创业频道
+我们为科技创业者推出了全新的创业频道，将全球最新的科技潮流和创业实践带给中国的创业者。
+
+### [中国经济晴雨表](https://ig.ft.com/sites/numbers/economies/china)
+一张图胜过千言万语，定期更新的中国经济晴雨表把中国经济的所有关键数据放在一起，助您及时把握经济的转折点。
 
 
-## Install gulp 4.0
+## 广告和商业
+### 广告支持HTML 5
+随着Flash逐渐退出市场，HTML 5成为广告的新标准。FT中文网全面支持HTML 5技术，令广告客户可以投放制作精良、效果上佳的HTML 5广告。
 
-- Global gulp:
+### High Impact广告
+广告位更加大气醒目，支持滑动、扩展等更多的特效。
 
-	npm uninstall -g gulp 
-	npm install -g "gulpjs/gulp-cli#4.0"
-
-- Local gulp:
-
-	npm uninstall gulp --save-dev 
-	npm install "gulpjs/gulp#4.0" --save-dev
 
 ## Goals
 ### Design
@@ -36,6 +47,16 @@ Embrace HTML 5 in our advertisements to delivery high-quality ad display and max
 ### Monetization
 Kickstart our own growth and monetizing efforts, especially subscription business. 
 
+
+
+## Previews
+On www.ftchinese.com, if you add ?n=1 at the end of the url, the page will be displayed in Next style. For example: 
+* [Home Page](http://www.ftchinese.com/?n=1)
+* [China](http://www.ftchinese.com/channel/china.html?n=1)
+* [Lunch with the FT](http://www.ftchinese.com/tag/与FT共进午餐?n=1)
+* [Story Page](http://www.ftchinese.com/story/001066965?n=1)
+
+
 ## Milestones
 
 | Date             | Event                                                    |
@@ -44,9 +65,9 @@ Kickstart our own growth and monetizing efforts, especially subscription busines
 | Feb 01, 2016     | Story page complete (Done)                               |
 | Mar 01, 2016     | Home page and stream pages complete (Done)               |
 | Apr 15, 2016     | All relavant pages on current site has a Next version    |
-| **May 04, 2016** | **Launch**                                               |
+| June 10th, 2016  | MyFT                                                     |
+| **June 15, 2016**| **Launch**                                               |
 | Jul 01, 2016     | Server-side converted to NodeJS                          |
-| Sep 01, 2016     | MyFT                                                     |
 | **Dec 01, 2016** | **Corporate subscription complete**                      |
 
 ## Roles
@@ -335,3 +356,16 @@ Allow users or organizations to pay for:
 - Customer Service: when there's a problem, users will need to get a solution immediately. Sometimes this means speaking to a person. 
 
 ### How should we manage our user comments? 
+
+
+## Install gulp 4.0
+
+- Global gulp:
+
+	npm uninstall -g gulp 
+	npm install -g "gulpjs/gulp-cli#4.0"
+
+- Local gulp:
+
+	npm uninstall gulp --save-dev 
+	npm install "gulpjs/gulp#4.0" --save-dev
