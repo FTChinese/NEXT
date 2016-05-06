@@ -660,7 +660,21 @@
 <%assign var="languageOptions" value="<a class=\"icon-right icon-ch\" href=\"/story/`$story.id`/ch\"><button>对照</button></a><a class=\"icon-right icon-ch\" href=\"/story/`$story.id`/en\"><button>英文</button></a>"%>
 <%/if%>
 
-
+<%if $pageType=="job"%>
+	<%assign var="storyHeadline" value="`$jobinfo.company`招聘`$jobinfo.position_name`"%>
+	<%assign var="storyTime" value=$jobinfo.pubtime%>
+	<%assign var="storyAuthor" value=$jobinfo.provider%>
+	<%assign var="story_content" value="<b>工作地点：</b>`$jobinfo.workaddr`<br><b>职位类型：</b>`$jobinfo.position`<br><b>所属行业：</b>`$jobinfo.workfield`<br><b>职位描述及要求：</b><br>`$jobinfo.detail`<br>"%>
+	
+    <%if $source=='1002' %>
+    	<%assign var="jobApply" value="<br>招聘方的Email：<a onclick=\"ga('send','event','Jobsite', 'Send Email', 'Resume')\" href=\"mailto:`$jobinfo.email`?\">`$jobinfo.email`</a>（邮件标题请以“姓名+研究人才来源（境内或境外）”命名，注明来源于FT中文网）<br><a onclick=\"ga('send','event','Jobsite', 'Send Email', 'Resume');\" href=\"mailto:`$jobinfo.email｀?\" class=\"rejob\">发送简历</a><br><form action=\"/index.php/marketing/send_recommend_jobsite_email2/`$jobinfo.num`\" method=\"post\"><b>推荐给朋友：</b><br>朋友电子邮件：<input type=\"text\" class=\"myemail\" name=\"email2\"><br>我的电子邮件：<input type=\"text\" class=\"myemail\" name=\"email1\"><br><input onclick=\"ga('send','event','Jobsite', 'Send Email', 'Recommend');\" type=\"submit\" value=\"发送邮件\" class=\"sendemail\"></form>"%>
+    <%else%>
+    	<%assign var="jobApply" value="<br>招聘方的Email：<a onclick=\"ga('send','event','Jobsite', 'Send Email', 'Resume');\" href=\"mailto:`$jobinfo.email`?subject=Resume from FTChinese.com&body=To whom it concerns,%0a%0dHere's my resume for the position on FTChinese.com as below: %0a%0dhttp://www.ftchinese.com/jobshow/`$jobinfo.num`%0a%0dbest regards,%0a%0d\">`$jobinfo.email`</a>(请在您的邮件中注明来源于FT中文网)<br><a onclick=\"ga('send','event','Jobsite', 'Send Email', 'Resume');\" href=\"mailto:`$jobinfo.email`?subject=Resume from FTChinese.com&body=To whom it concerns,%0a%0dHere's my resume for the position on FTChinese.com as below: %0a%0dhttp://www.ftchinese.com/jobshow/`$jobinfo.num`%0a%0dbest regards,%0a%0d\" class=\"rejob\">发送简历</a><br><form action=\"/index.php/marketing/send_recommend_jobsite_email/`$jobinfo.num`\" method=\"post\"><b>推荐给朋友：</b><br>朋友电子邮件：<input type=\"text\" class=\"myemail\" name=\"email2\"><br>我的电子邮件：<input type=\"text\" class=\"myemail\" name=\"email1\"><br><input onclick=\"ga('send','event','Jobsite', 'Send Email', 'Recommend');\" type=\"submit\" value=\"发送邮件\" class=\"sendemail\"></form>"%>
+    <%/if%>
+    <%assign var="story_content" value=$story_content|regex_replace:"/[\n]/":"<br>"%>
+    <%assign var="story_content" value="`$story_content``$jobApply`"%>
+    
+<%/if%>
 
 
 <!DOCTYPE html>
@@ -684,7 +698,9 @@
     }
     </script>
     <style>
-    <%if in_array("艺术品投资",$story.tag) || in_array("乐尚街",$story.tag)%>
+    <%if $pageType == "job"%>
+    	<%include file="next/styles/main-story-job.css"%>
+    <%elseif in_array("艺术品投资",$story.tag) || in_array("乐尚街",$story.tag)%>
     	<%include file="next/styles/main-story-luxury.css"%>
     <%else%>
     	<%include file="next/styles/main-story.css"%>
