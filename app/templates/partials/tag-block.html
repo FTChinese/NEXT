@@ -79,11 +79,11 @@
 							<%assign var="XL" value="XL4 XL-half XL-right XL-lower"%>
 						<%/if%>
 					<%elseif $allStoiesCount % 3 == 0%>
-						<%if $i === 0 %>
+						<%if $i === 0 && $preferLead != "none"%>
 							<%assign var="XL" value="XL8"%>
-						<%elseif $i === 1%>
+						<%elseif $i === 1 && $preferLead != "none"%>
 							<%assign var="XL" value="XL4 XL-half XL-right"%>
-						<%elseif $i === 2%>
+						<%elseif $i === 2 && $preferLead != "none"%>
 							<%assign var="XL" value="XL4 XL-half XL-right XL-lower"%>
 						<%else%>
 							<%assign var="XL" value="XL4"%>
@@ -92,11 +92,11 @@
 							<%assign var="itemTopClass" value="XLT"%>
 						<%/if%>
 					<%elseif $allStoiesCount % 3 == 1%>
-						<%if $i === 0 %>
+						<%if $i === 0  && $preferLead != "none"%>
 							<%assign var="XL" value="XL8"%>
-						<%elseif $i === 1%>
+						<%elseif $i === 1 && $preferLead != "none"%>
 							<%assign var="XL" value="XL4 XL-half XL-right"%>
-						<%elseif $i === 2%>
+						<%elseif $i === 2 && $preferLead != "none"%>
 							<%assign var="XL" value="XL4 XL-half XL-right XL-lower"%>
 						<%elseif $i == ($allStoiesCount - 2)%>
 							<%assign var="XL" value="XL4 XL-half"%>
@@ -109,7 +109,13 @@
 							<%assign var="itemTopClass" value="XLT"%>
 						<%/if%>
 					<%elseif $allStoiesCount % 3 == 2%>
-						<%if $i >= ($allStoiesCount - 2)%>
+						<%if $i === 0  && $preferLead != "none"%>
+							<%assign var="XL" value="XL8"%>
+						<%elseif $i === 1 && $preferLead != "none"%>
+							<%assign var="XL" value="XL4 XL-half XL-right"%>
+						<%elseif $i === 2 && $preferLead != "none"%>
+							<%assign var="XL" value="XL4 XL-half XL-right XL-lower"%>
+						<%elseif $i >= ($allStoiesCount - 2)%>
 							<%assign var="XL" value="XL4 XL-half XL-lower"%>
 						<%elseif $i >= ($allStoiesCount - 4)%>
 							<%assign var="XL" value="XL4 XL-half"%>
@@ -138,11 +144,11 @@
 							<%assign var="L" value="L4 L-half L-right L-lower L-no-image"%>
 						<%/if%>
 					<%elseif $allStoiesCount % 3 == 0%>
-						<%if $i === 0 %>
+						<%if $i === 0  && $preferLead != "none"%>
 							<%assign var="L" value="L8"%>
-						<%elseif $i === 1%>
+						<%elseif $i === 1 && $preferLead != "none"%>
 							<%assign var="L" value="L4 L-half L-right"%>
-						<%elseif $i === 2%>
+						<%elseif $i === 2 && $preferLead != "none"%>
 							<%assign var="L" value="L4 L-half L-right L-lower"%>
 						<%else%>
 							<%assign var="L" value="L4"%>
@@ -151,11 +157,11 @@
 							<%assign var="itemTopClass" value="`$itemTopClass` LT"%>
 						<%/if%>
 					<%elseif $allStoiesCount % 3 == 1%>
-						<%if $i === 0 %>
+						<%if $i === 0  && $preferLead != "none"%>
 							<%assign var="L" value="L8"%>
-						<%elseif $i === 1%>
+						<%elseif $i === 1 && $preferLead != "none"%>
 							<%assign var="L" value="L4 L-half L-right"%>
-						<%elseif $i === 2%>
+						<%elseif $i === 2 && $preferLead != "none"%>
 							<%assign var="L" value="L4 L-half L-right L-lower"%>
 						<%elseif $i === ($allStoiesCount - 1) %>
 							<%assign var="L" value="L4 L-half L-lower"%>
@@ -299,13 +305,17 @@
 						<%assign var="hasImage" value="no-image"%>
 					<%/if%>
 
-					
+					<%if $pageType="special"%>
+						<%assign var="itemLink" value="/tag/`$item.cshortleadbody`"%>
+					<%else%>
+						<%assign var="itemLink" value="/`$itemType`/`$itemId`#adchannelID=`$adchannelID`"%>
+					<%/if%>
 
 
 					<%$itemTop%>
 					<div class="item-container <%$itemClass%> <%$hasImage%>"><div class="item-inner">
-						<h2 class="item-headline"><%$itemTag%><a target="_blank" href="/<%$itemType%>/<%$itemId%>#adchannelID=<%$adchannelID%>"><%$itemHeadline%></a></h2>
-						<%if $item.relatives|@count > 0 && $item.relatives[0].type === 'video'%><div class="image"><figure class="loading-video" data-vid="<%$item.relatives[0].id%>"></figure></div><%elseif $itemType === "video" && $listType !== "videos"%><div class="image"><figure class="loading-video" data-vid="<%$itemId%>"></figure></div><%elseif $itemImage != "" && $hasImage === "has-image"%><a class="image" target="_blank" href="/<%$itemType%>/<%$itemId%>#adchannelID=<%$adchannelID%>"><figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure></a><%/if%>
+						<h2 class="item-headline"><%$itemTag%><a target="_blank" href="<%$itemLink%>"><%$itemHeadline%></a></h2>
+						<%if $item.relatives|@count > 0 && $item.relatives[0].type === 'video'%><div class="image"><figure class="loading-video" data-vid="<%$item.relatives[0].id%>"></figure></div><%elseif $itemType === "video" && $listType !== "videos"%><div class="image"><figure class="loading-video" data-vid="<%$itemId%>"></figure></div><%elseif $itemImage != "" && $hasImage === "has-image"%><a class="image" target="_blank" href="<%$itemLink%>"><figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure></a><%/if%>
 						<%if $hideLead === "no"%><div class="item-lead"><%$itemLead%></div><%/if%>
 						<%$itemTimeStamp%>
 						<%if $item.relatives|@count > 0 && $item.showRelativeStoryItems > 0%>
@@ -542,10 +552,17 @@
 					<%/if%>
 
 
+					<%if $pageType="special"%>
+						<%assign var="itemLink" value="/tag/`$item.cshortleadbody`"%>
+					<%else%>
+						<%assign var="itemLink" value="/`$itemType`/`$itemId`#adchannelID=`$adchannelID`"%>
+					<%/if%>
+
+
 					<%$itemTop%>
 					<div class="item-container <%$itemClass%> <%$hasImage%>"><div class="item-inner">
-						<h2 class="item-headline"><%$itemTag%><a target="_blank" href="/<%$itemType%>/<%$itemId%><%$adForceString%>"><%$itemHeadline%></a></h2>
-						<%if $item.relatives|@count > 0 && $item.relatives[0].type === 'video'%><div class="image"><figure class="loading-video" data-vid="<%$item.relatives[0].id%>"></figure></div><%elseif $itemType === "video" && $listType !== "videos"%><div class="image"><figure class="loading-video" data-vid="<%$itemId%>"></figure></div><%elseif $itemImage != "" && $hasImage === "has-image"%><a class="image" target="_blank" href="/<%$itemType%>/<%$itemId%><%$adForceString%>"><figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure></a><%/if%>
+						<h2 class="item-headline"><%$itemTag%><a target="_blank" href="<%$itemLink%>"><%$itemHeadline%></a></h2>
+						<%if $item.relatives|@count > 0 && $item.relatives[0].type === 'video'%><div class="image"><figure class="loading-video" data-vid="<%$item.relatives[0].id%>"></figure></div><%elseif $itemType === "video" && $listType !== "videos"%><div class="image"><figure class="loading-video" data-vid="<%$itemId%>"></figure></div><%elseif $itemImage != "" && $hasImage === "has-image"%><a class="image" target="_blank" href="<%$itemLink%>"><figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure></a><%/if%>
 						<%if $hideLead === "no"%><div class="item-lead"><%$itemLead%></div><%/if%>
 						<%$itemTimeStamp%>
 						<%if $item.relatives|@count > 0 && $item.showRelativeStoryItems > 0%>

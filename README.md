@@ -17,7 +17,7 @@
 FT商学院在原有的新闻小测、热点观察和全球商学院排行的基础上，增加了MBA训练营，帮助您利用碎片时间学习金融、管理和商业中的重要概念。
 
 ### [创业频道](http://next.ftchinese.com/index.php/ft/channel/startup.html)
-我们为科技创业者推出了全新的创业频道，将全球最新的科技潮流和创业实践带给中国的创业者。
+我们为科技创业者推出了全新的创业频道。这个频道专注于创业、创新和投资，致力于将全球最新的科技潮流和创业实践带给中国的创业者、创新者和投资者。
 
 ### [中国经济晴雨表](https://ig.ft.com/sites/numbers/economies/china)
 一张图胜过千言万语，定期更新的中国经济晴雨表把中国经济的所有关键数据放在一起，助您及时把握经济的转折点。
@@ -50,7 +50,7 @@ English learning, a favorite among our users, is promoted to be a main channel. 
 We have a new MBA GYM section in our FT Academy channel, alongside our News Quiz, Explainer and Global MBA Ranking. You can use your spare time to learn important concepts in finance, management and business. 
 
 ### [New Startup Channel](http://next.ftchinese.com/index.php/ft/channel/startup.html)
-The new startup channel focus on technology entrepreneurship, bring the latest technology trends and best practice to Chinese entrepreneurs. 
+The new startup channel focus on technology entrepreneurship, innovation and investment. We aim to bring the latest technology trends and best practice to Chinese entrepreneurs, innovators and investors. 
 
 
 ### [China Economy Dashboard](https://ig.ft.com/sites/numbers/economies/china)
