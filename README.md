@@ -43,23 +43,23 @@ Using cutting-edge optimization technology, most pages can render in just one se
 The new MyFT section is a Financial Times only for you. You follow topics of your interest and read only what you want; our big data recommendation is a source of serendipity, helping you find good articles that you might have missed; you can also save your articles for future rereading. 
 
 ### [English Learning](http://next.ftchinese.com/index.php/ft/channel/english.html)
-English learning, a favorite among our users, is promoted to be a main channel. In addition to biligual stories and speedread, we now have videos and audios. You can now use FT to improve your reading and listening skills.  
+English learning, a favorite among our users, is promoted to be a main channel. In addition to bilingual stories and speed-read, we now have videos and audios. You can now use FT to improve your reading and listening skills.  
 
 
 ### [FT Academy](http://next.ftchinese.com/index.php/ft/channel/mba.html)
 We have a new MBA GYM section in our FT Academy channel, alongside our News Quiz, Explainer and Global MBA Ranking. You can use your spare time to learn important concepts in finance, management and business. 
 
 ### [New Startup Channel](http://next.ftchinese.com/index.php/ft/channel/startup.html)
-The new startup channel focus on technology entreprenureship, bring the latest technology trends and best practice to Chinese entrepreneurs. 
+The new startup channel focus on technology entrepreneurship, bring the latest technology trends and best practice to Chinese entrepreneurs. 
 
 
-### [China Enonomy Dashboard](https://ig.ft.com/sites/numbers/economies/china)
-A piture is worth a thousand words. We present all the important Chinese economic data in one page and update constantly, helping you keep ahead of the turning point. 
+### [China Economy Dashboard](https://ig.ft.com/sites/numbers/economies/china)
+A picture is worth a thousand words. We present all the important Chinese economic data in one page and update constantly, helping you keep ahead of the turning point. 
 
 
 ## Advertising and Commercial Updates
-### Enbracing HTML 5
-As Flash fades out of the market, HTML 5 is the new standard for online advertsing. FTChinese supports HTML 5 fully, making it easy for clients to deliver slick advertising with smooth animation and great effectiveness. 
+### Embracing HTML 5
+As Flash fades out of the market, HTML 5 is the new standard for online advertising. FTChinese supports HTML 5 fully, making it easy for clients to deliver slick advertising with smooth animation and great effectiveness. 
 
 ### High Impact Advertising
 In our new version, advertising unit can be enhanced to high impact, which is bigger in size and supports advanced features like sticky and expanding. 
