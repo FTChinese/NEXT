@@ -65,6 +65,10 @@ As Flash fades out of the market, HTML 5 is the new standard for online advertis
 In our new version, advertising unit can be enhanced to high impact, which is bigger in size and supports advanced features like sticky and expanding. 
 
 
+
+# Detailed Information about the Project
+
+
 ## Goals
 ### Design
 Redesign the www.ftchinese.com for best content display on all devices. 
