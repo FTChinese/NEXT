@@ -1,6 +1,6 @@
 # FTChinese Next Project
 
-## FT中文网改版要点
+## 用户体验改版要点
 ### 设计
 全新的[首页](http://next.ftchinese.com/)、[频道页](http://next.ftchinese.com/channel/china.html)和[文章页](http://next.ftchinese.com/story/001067390)设计，令读者可以更加方便地浏览内容和阅读文章。新的页面不但支持电脑，还支持移动设备，令您可以随时随地阅读FT中文网的精彩内容。
 
@@ -25,10 +25,44 @@ FT商学院在原有的新闻小测、热点观察和全球商学院排行的基
 
 ## 广告和商业要点
 ### 广告支持HTML 5
-随着Flash逐渐退出市场，HTML 5成为广告的新标准。FT中文网全面支持HTML 5技术，令广告客户可以投放制作精良、效果上佳的HTML 5广告。
+随着Flash逐渐退出市场，HTML 5成为广告的新标准。FT中文网全面支持HTML 5技术，令广告客户可以投放制作精良、动画流畅、效果上佳的HTML 5广告。
 
 ### High Impact广告
 广告位更加大气醒目，支持滑动、扩展等更多的特效。
+
+
+
+## User Experience Updates
+### Design
+New [home](http://next.ftchinese.com/)、[channel](http://next.ftchinese.com/channel/china.html) and [story](http://next.ftchinese.com/story/001067390) pages makes it much easier to browse and read. The new responsive design supports both desktop and mobile devices. You can enjoy FTChinese' high-quality content any time, any where. 
+
+### Performance
+Using cutting-edge optimization technology, most pages can render in just one second. You only need to load the images that just enough for your device, saving bandwidth. 
+
+### MyFT
+The new MyFT section is a Financial Times only for you. You follow topics of your interest and read only what you want; our big data recommendation is a source of serendipity, helping you find good articles that you might have missed; you can also save your articles for future rereading. 
+
+### [English Learning](http://next.ftchinese.com/index.php/ft/channel/english.html)
+English learning, a favorite among our users, is promoted to be a main channel. In addition to biligual stories and speedread, we now have videos and audios. You can now use FT to improve your reading and listening skills.  
+
+
+### [FT Academy](http://next.ftchinese.com/index.php/ft/channel/mba.html)
+We have a new MBA GYM section in our FT Academy channel, alongside our News Quiz, Explainer and Global MBA Ranking. You can use your spare time to learn important concepts in finance, management and business. 
+
+### [New Startup Channel](http://next.ftchinese.com/index.php/ft/channel/startup.html)
+The new startup channel focus on technology entreprenureship, bring the latest technology trends and best practice to Chinese entrepreneurs. 
+
+
+### [China Enonomy Dashboard](https://ig.ft.com/sites/numbers/economies/china)
+A piture is worth a thousand words. We present all the important Chinese economic data in one page and update constantly, helping you keep ahead of the turning point. 
+
+
+## Advertising and Commercial Updates
+### Enbracing HTML 5
+As Flash fades out of the market, HTML 5 is the new standard for online advertsing. FTChinese supports HTML 5 fully, making it easy for clients to deliver slick advertising with smooth animation and great effectiveness. 
+
+### High Impact Advertising
+In our new version, advertising unit can be enhanced to high impact, which is bigger in size and supports advanced features like sticky and expanding. 
 
 
 ## Goals
