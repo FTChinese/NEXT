@@ -70,13 +70,22 @@
 						<%else%>
 							<%assign var="XL" value="XL4 XL-right"%>
 						<%/if%>
-					<%elseif $allStoiesCount <= 5%>
+					<%elseif $allStoiesCount == 4%>
 						<%if $i === 0 %>
 							<%assign var="XL" value="XL8"%>
 						<%elseif $i === 1 %>
 							<%assign var="XL" value="XL4 XL-half XL-right"%>
 						<%else%>
 							<%assign var="XL" value="XL4 XL-half XL-right XL-lower"%>
+						<%/if%>
+					<%elseif $allStoiesCount == 5%>
+						<%if $i < 2 %>
+							<%assign var="XL" value="XL6"%>
+						<%else%>
+							<%assign var="XL" value="XL4"%>
+						<%/if%>
+						<%if $i === 2%>
+							<%assign var="itemTopClass" value="XLT"%>
 						<%/if%>
 					<%elseif $allStoiesCount % 3 == 0%>
 						<%if $i === 0 && $preferLead != "none"%>
@@ -249,11 +258,11 @@
 					<%/if%>
 
 
-
+					<%assign var="itemPubDate" value=$item.pubdate|default:$item.timeStamp%>
 					<%assign var="itemTimeStamp" value=""%>
 					<%if $showTimeStamp === "all" || $showTimeStamp === "new stories"%>
 						<%assign var="highlightTime" value=""%>
-						<%math assign="timeDiff" equation="x-y" x=$smarty.now y=$item.timeStamp%>
+						<%math assign="timeDiff" equation="x-y" x=$smarty.now y=$itemPubDate%>
 						<%if $itemType === "video"%>
 							<%assign var="highlightTime" value=""%>
 							<%assign var="timeDiff" value=$item.timeStamp%>
@@ -278,10 +287,10 @@
 							<%assign var="timeDiff" value="`$timeDiff`天前"%>
 						<%elseif date("Y",$smarty.now) == date("Y",$item.timeStamp)%>
 							<%assign var="highlightTime" value=""%>
-							<%assign var="timeDiff" value=$item.timeStamp|date_format:"%-m月%-d日"%>
+							<%assign var="timeDiff" value=$itemPubDate|date_format:"%-m月%-d日"%>
 						<%else%>
 							<%assign var="highlightTime" value=""%>
-							<%assign var="timeDiff" value=$item.timeStamp|date_format:"%Y年%-m月%-d日"%>
+							<%assign var="timeDiff" value=$itemPubDate|date_format:"%Y年%-m月%-d日"%>
 						<%/if%>
 						<%if $showTimeStamp === "all" || $timeDiff < 60*60*4%>
 							<%assign var="itemTimeStamp" value="<div class=\"item-time`$highlightTime`\">`$timeDiff`</div>"%>
@@ -305,7 +314,7 @@
 						<%assign var="hasImage" value="no-image"%>
 					<%/if%>
 
-					<%if $pageType="special"%>
+					<%if $pageType=="special"%>
 						<%assign var="itemLink" value="/tag/`$item.cshortleadbody`"%>
 					<%else%>
 						<%assign var="itemLink" value="/`$itemType`/`$itemId`#adchannelID=`$adchannelID`"%>
@@ -316,7 +325,7 @@
 					<div class="item-container <%$itemClass%> <%$hasImage%>"><div class="item-inner">
 						<h2 class="item-headline"><%$itemTag%><a target="_blank" href="<%$itemLink%>"><%$itemHeadline%></a></h2>
 						<%if $item.relatives|@count > 0 && $item.relatives[0].type === 'video'%><div class="image"><figure class="loading-video" data-vid="<%$item.relatives[0].id%>"></figure></div><%elseif $itemType === "video" && $listType !== "videos"%><div class="image"><figure class="loading-video" data-vid="<%$itemId%>"></figure></div><%elseif $itemImage != "" && $hasImage === "has-image"%><a class="image" target="_blank" href="<%$itemLink%>"><figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure></a><%/if%>
-						<%if $hideLead === "no"%><div class="item-lead"><%$itemLead%></div><%/if%>
+						<%if $hideLead === "no"%><div class="item-lead"><%$itemLead|strip_tags%></div><%/if%>
 						<%$itemTimeStamp%>
 						<%if $item.relatives|@count > 0 && $item.showRelativeStoryItems > 0%>
 							<%assign var="r" value=0%>
@@ -496,10 +505,11 @@
 
 
 
+					<%assign var="itemPubDate" value=$item.pubdate|default:$item.timeStamp%>
 					<%assign var="itemTimeStamp" value=""%>
 					<%if $showTimeStamp === "all" || $showTimeStamp === "new stories"%>
 						<%assign var="highlightTime" value=""%>
-						<%math assign="timeDiff" equation="x-y" x=$smarty.now y=$item.timeStamp%>
+						<%math assign="timeDiff" equation="x-y" x=$smarty.now y=$itemPubDate%>
 						<%if $itemType === "video"%>
 							<%assign var="highlightTime" value=""%>
 							<%assign var="timeDiff" value=$item.timeStamp%>
@@ -524,10 +534,10 @@
 							<%assign var="timeDiff" value="`$timeDiff`天前"%>
 						<%elseif date("Y",$smarty.now) == date("Y",$item.timeStamp)%>
 							<%assign var="highlightTime" value=""%>
-							<%assign var="timeDiff" value=$item.timeStamp|date_format:"%-m月%-d日"%>
+							<%assign var="timeDiff" value=$itemPubDate|date_format:"%-m月%-d日"%>
 						<%else%>
 							<%assign var="highlightTime" value=""%>
-							<%assign var="timeDiff" value=$item.timeStamp|date_format:"%Y年%-m月%-d日"%>
+							<%assign var="timeDiff" value=$itemPubDate|date_format:"%Y年%-m月%-d日"%>
 						<%/if%>
 						<%if $showTimeStamp === "all" || $timeDiff < 60*60*4%>
 							<%assign var="itemTimeStamp" value="<div class=\"item-time`$highlightTime`\">`$timeDiff`</div>"%>

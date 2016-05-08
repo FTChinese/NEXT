@@ -460,6 +460,18 @@
         $.each(toolkits.list, function (key, value) { // jshint ignore:line
             lists += '<div class="toolkit toolkit-list toolkit-' + key + '" draggable=true>' + key + '</div>';
         });
+        lists += renderAPI('', 'Empty Item 1', '', '', '', '', '', '', '');
+        lists += renderAPI('', 'Empty Item 2', '', '', '', '', '', '', '');
+        lists += renderAPI('', 'Empty Item 3', '', '', '', '', '', '', '');
+        lists += renderAPI('', 'Empty Item 4', '', '', '', '', '', '', '');
+        lists += renderAPI('', 'Empty Item 5', '', '', '', '', '', '', '');
+        lists += renderAPI('', 'Empty Item 6', '', '', '', '', '', '', '');
+        lists += renderAPI('', 'Empty Item 7', '', '', '', '', '', '', '');
+        lists += renderAPI('', 'Empty Item 8', '', '', '', '', '', '', '');
+        lists += renderAPI('', 'Empty Item 9', '', '', '', '', '', '', '');
+        lists += renderAPI('', 'Empty Item 10', '', '', '', '', '', '', '');
+        lists += renderAPI('', 'Empty Item 11', '', '', '', '', '', '', '');
+        lists += renderAPI('', 'Empty Item 12', '', '', '', '', '', '', '');
         //lists = '<div class="toolkit toolkit-list" draggable=true>list</div>';
         $('#tool-sec-inner').html(sections);
         $('#tool-list-inner').html(lists);
@@ -873,6 +885,8 @@
                         'name': 'New List',
                         'title': '',
                         'url': '',
+                        'description': '',
+                        'language': '',
                         'float': 'none',
                         'showTag': 'no',
                         'showTimeStamp': 'no',
