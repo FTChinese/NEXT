@@ -294,7 +294,7 @@ function writeAd(adType) {
   currentAdCount = adCount[adType];
   if (currentAdCount < adMax[adType]) {
     adPosition = adPositions[adType][currentAdCount];
-    iframeSrc = '/m/marketing/'+adFileName+'.html?v=2#adid='+ adch + adPosition + '&pid='+adType+adCount[adType];
+    iframeSrc = '/m/marketing/'+adFileName+'.html?v=2' + bannerBG + '#adid='+ adch + adPosition + '&pid='+adType+adCount[adType];
     if (/mpu/.test(adType)) {
       adWidth = '300';
       adHeight = '250';

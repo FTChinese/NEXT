@@ -19,7 +19,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="preconnect" href="http://static.ftchinese.com" />
         <link rel="preconnect" href="http://i.ftimg.net" />
-        <script>
+        <script type="text/javascript">
             window.errorBuffer = window.errorBuffer || [];
             function beaconCssError(e) {
                 window.errorBuffer.push({
@@ -30,24 +30,24 @@
                 });
             }
         </script>
-        <script>
+        <script type="text/javascript">
             window.cutsTheMustard = (typeof Function.prototype.bind !== 'undefined');
             if (window.cutsTheMustard) {
                 document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/, 'js').replace(/\bcore\b/, 'enhanced');
             }
         </script>
-        <style>
-            <%if $pageId == "home"%>
-                <%include file="next/styles/main.css"%>
-            <%elseif $pageType == "job"%>
-                <%include file="next/styles/main-job.css"%>
-            <%elseif $p.meta.theme == "luxury"%>
-                <%include file="next/styles/main-luxury.css"%>
-                <script>var pageTheme = 'luxury';</script>
-            <%else%>
-                <%include file="next/styles/main-tag.css"%>
-            <%/if%>
-        </style>
+        
+        <%if $pageId == "home"%>
+            <style><%include file="next/styles/main.css"%></style>
+        <%elseif $pageType == "job"%>
+            <%include file="next/styles/main-job.css"%></style>
+        <%elseif $p.meta.theme == "luxury"%>
+            <style><%include file="next/styles/main-luxury.css"%></style>
+            <script type="text/javascript">var pageTheme = 'luxury';</script>
+        <%else%>
+            <style><%include file="next/styles/main-tag.css"%></style>
+        <%/if%>
+        
         <link rel="icon" type="image/png" href="https://image.webservices.ft.com/v1/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=32&height=32" sizes="32x32">
         <link rel="icon" type="image/png" href="https://image.webservices.ft.com/v1/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=194&height=194" sizes="194x194">
         <link rel="apple-touch-icon" sizes="180x180" href="https://image.webservices.ft.com/v1/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=180&height=180" />
@@ -56,8 +56,8 @@
         <meta name="msapplication-TileImage" content="https://image.webservices.ft.com/v1/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=144&height=144" />
 
 
-        <script>var startTime = new Date().getTime();</script>
-        <script>
+        <script type="text/javascript">var startTime = new Date().getTime();</script>
+        <script type="text/javascript">
             if (screen.width <= 480) {
                 document.write('<meta content="FT中文网" name="application-name" /><meta content="app-id=443870811" name="apple-itunes-app" />');
             } else {
@@ -76,7 +76,7 @@
             <%include file = "next/scripts/key.js"%>
         </script>
         <!--[if lte IE 8]>
-            <script>
+            <script type="text/javascript">
                 document.documentElement.className += ' is-ie-8';
                 document.createElement('figure');
                 document.createElement('header');
@@ -108,7 +108,7 @@
             <%if $smarty.get.ad != 'no'%>
                 <%assign var="ad" value=$publishhtml->get_publish_html("ad")%>
                 <div id=roadblock style="margin:0 auto;position:relative;width:700px;text-align:center;">
-                    <script>
+                    <script type="text/javascript">
                         var thisday1 = new Date();
                         var todaydate1 = thisday1.getFullYear() + "-" + (thisday1.getMonth() + 1) + "-" + thisday1.getDate();
                         var fullsc = GetCookie("rb2");
@@ -166,7 +166,7 @@
             <%if $smarty.get.ad != 'no'%>
                 <script type="text/javascript" src="http://static.ftchinese.com/n/main-home.js?<%include file="next/timestamp/timestamp.html"%>"></script>
                 <div class="hide">
-                    <script>
+                    <script type="text/javascript">
                         if (fullsc == null && loadFullAtEnd === true) {
                             document.write('<scr' + 'ipt type="text/jav' + 'ascript" src="http://dolphin.ftimg.net/s?z=ft&amp;c=10000014&amp;slot=645072137&amp;_sex=101&amp;_trip=1&amp;_lux=1&amp;_dc=2&amp;_mm=2&amp;_sz=2&amp;_am=2" charset="gbk"></scr' + 'ipt>');
                             SetCookie("rb2",1,cookiesecond,"/");

@@ -49,13 +49,15 @@
     document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/, 'js').replace(/\bcore\b/, 'enhanced');
     }
     </script>
-    <style>
+    
     <%if $pageStyle == "luxury"%>
-        <%include file="next/styles/main-luxury.css"%>
+        <style><%include file="next/styles/main-luxury.css"%></style>
+        <script type="text/javascript">var pageTheme = 'luxury';</script>
     <%else%>
-        <%include file="next/styles/main-tag.css"%>
+        <style><%include file="next/styles/main-tag.css"%></style>
     <%/if%>
-    </style>
+    
+
     <link rel="icon" type="image/png" href="https://image.webservices.ft.com/v1/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=32&height=32" sizes="32x32">
     <link rel="icon" type="image/png" href="https://image.webservices.ft.com/v1/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=194&height=194" sizes="194x194">
     <link rel="apple-touch-icon" sizes="180x180" href="https://image.webservices.ft.com/v1/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=180&height=180" />
