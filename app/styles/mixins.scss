@@ -684,31 +684,31 @@
 	.o-nav {
 		@include oColorsFor(o-header);
 		position: relative;
-		content: '';
-		position: absolute;
-		left: 0;
-		right: 0;
-		height: $o-header-sub-nav-height;
-		transition: $o-header-height-transition;
-		@include oColorsFor(o-header-sub-nav, background);
-		.o-nav-sticky & {
-			position: fixed;
-			top: 0;
+		&:after {
+			content: '';
+			position: absolute;
 			left: 0;
 			right: 0;
- 			&:after {
-				height: 0;
-			}
-			z-index: 999999;
+			height: $o-header-sub-nav-height;
+			@include oColorsFor(o-header-sub-nav, background);
 		}
 	}
+	&.o-nav-sticky .o-nav {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		&:after {
+			display: none;
+		}
+		z-index: 999999;
+	}
+
 	.o-nav__outer {
 		position: relative;
 		box-sizing: border-box;
 		margin-left: auto;
 		margin-right: auto;
-		min-width: $o-grid-min-width;
-		max-width: 1260px;
 		padding-left: oGridGutter();
 		padding-right: oGridGutter();
 		padding: 0 30px;
@@ -790,9 +790,9 @@
 
 		position: absolute;
 		left: 0;
-		display: block;
+		display: none;
 		width: 100%;
-		height: 0;
+		//height: 0;
 		z-index: 1;
 
 		@include oColorsFor(o-header-sub-nav, background);
@@ -803,26 +803,27 @@
 			overflow: visible;
 		}
 
-		.nav-section:hover &,
-		.nav-section-head.desktop:hover ~ &{
-			height: $o-header-sub-nav-height;
-			z-index: 5; 
-		}
-
-		.nav-section[aria-selected=true] &{
-			transition: $o-header-height-transition;
-			height: $o-header-sub-nav-height;
-		}
-
-		.o-nav-sticky .nav-section[aria-selected=true] & {
-			height: 0;
-		}
-		.o-nav-sticky .nav-section:hover &,
-		.o-nav-sticky .nav-section-head.desktop:hover ~ & {
-			display: none;
-		}
-
 		color: $whiteColor!important;
+	}
+
+	.nav-section:hover,
+	.nav-section-head.desktop:hover ~,
+	.nav-section[aria-selected=true]{
+		.nav-items {
+			z-index: 5;
+			display: block;
+		}		
+	}
+
+
+	&.o-nav-sticky {
+		.nav-section,
+		.nav-section:hover,
+		.nav-section-head.desktop:hover ~ {
+			.nav-items {
+					display: none;
+				}
+			}
 	}
 
 	.nav-item {
@@ -906,12 +907,14 @@
 				@include oColorsFor(o-header-nav-link-hover, background);
 			}
 		}
+	}
 
-		.nav-item:hover &,
-		.nav-link:hover ~ & {
+	.nav-item:hover,
+	.nav-link:hover ~  {
+		.nav-sub-items {
 			display: block;
 		}		
-	}
+	}	
 
 	.nav-toggle {
 		display: none;
@@ -921,8 +924,6 @@
 		display: inline-block;
 		height: $o-header-sub-nav-height;
 		overflow: hidden;
-
-		transition: $o-header-height-transition;
 
 		position: absolute;
 		right: 0;
@@ -934,23 +935,22 @@
 			overflow: visible;
 		}
 
-		/* .o-nav[aria-sticky=true] */
-		.o-nav-sticky & {
-			height: 0;
-			overflow: hidden;
-		}
-
 		.nav-sub-items {
 			left: auto;
 			right: 0;
 			&.follow-us a {
-				//padding-left: 40px;
 				background-repeat: no-repeat;
 				background-position: left center;
 				background-size: contain;
 			}
 		}		
 	}
+
+	&.o-nav-sticky .o-nav__extra-tools {
+		display: none;
+		overflow: hidden;
+	}
+
 	.follow__rss {
 		padding: 0;
 		&:after {
@@ -971,7 +971,7 @@
 		left: 0;
 		bottom: 0;
 	}
-	
+
 	.o-header__search-form {	
 		background-color: transparent;
 		overflow: hidden;

@@ -457,7 +457,7 @@ gulp.task('php', function() {
   });
 });
 
-gulp.task('serve', 
+gulp.task('serve:test', 
   ['css', 'copym', 'copyjs', 'php'],
   function() {
   browserSync.init({
