@@ -397,6 +397,14 @@
 <%assign var="hide590" value="no"%>
 <%assign var="hideInReadAd" value="yes"%>
 
+
+<%elseif preg_match("/品味|乐尚街|艺术投资|腕表|游艇|极致人生/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20150525 && date("Ymd",$smarty.now) <= 20160625%>
+<%assign var=breadcrum value="<a href=\"/tag/极致人生\">极致人生</a>"%>
+<%assign var="adchannelID" value="2048"%>
+<%assign var="hide590" value="no"%>
+<%assign var="hideInReadAd" value="yes"%>
+
+
 <%elseif preg_match("/新中坚力量/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20140701 && date("Ymd",$smarty.now) <= 20150701%>
 <%assign var=breadcrum value="<a href=\"/tag/新中坚力量\">新中坚力量</a>"%>
 <%assign var="adchannelID" value="2031"%>
@@ -538,6 +546,14 @@
 	<%assign var=breadcrum value="<a target=\"_blank\" href=\"/tag/`$story.tag[0]`\">`$story.tag[0]`</a><button class=\"myft-follow plus\" data-tag=\"`$story.tag[0]`\" data-type=\"tag\">关注</button>"%>
 <%/if%>
 
+<%*<!--override tag for sponsored special reports start-->*%>
+<%if preg_match("/品味|乐尚街|艺术投资|腕表|游艇|极致人生/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20150525 && date("Ymd",$smarty.now) <= 20160625%>
+<%assign var=breadcrum value="<a href=\"/tag/极致人生\">极致人生</a><button class=\"myft-follow plus\" data-tag=\"极致人生\" data-type=\"tag\">关注</button>"%>
+<%assign var="adchannelID" value="2052"%>
+<%assign var="hide590" value="no"%>
+<%assign var="hideInReadAd" value="yes"%>
+<%/if%>
+<%*<!--override tag for sponsored special reports end-->*%>
 
 <%assign var="storyContent" value=$story_content%>
 

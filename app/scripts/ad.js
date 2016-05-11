@@ -294,7 +294,7 @@ function writeAd(adType) {
   currentAdCount = adCount[adType];
   if (currentAdCount < adMax[adType]) {
     adPosition = adPositions[adType][currentAdCount];
-    iframeSrc = '/m/marketing/'+adFileName+'.html?v=2' + bannerBG + '#adid='+ adch + adPosition + '&pid='+adType+adCount[adType];
+    iframeSrc = '/m/marketing/'+adFileName+'.html?v=4' + bannerBG + '#adid='+ adch + adPosition + '&pid='+adType+adCount[adType];
     if (/mpu/.test(adType)) {
       adWidth = '300';
       adHeight = '250';
@@ -302,7 +302,7 @@ function writeAd(adType) {
       adWidth = '100%';
       adHeight = '50';
     } else {
-      adWidth = '100%';
+      adWidth = '969';
       adHeight = '90';
     }
     iframeHTML = '<iframe id="' + adType + adCount[adType] + '" width="'+ adWidth +'" height="'+ adHeight + '" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="'+ iframeSrc +'"></iframe>';

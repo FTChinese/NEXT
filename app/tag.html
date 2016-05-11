@@ -102,7 +102,7 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 
 <header class="header-container">
 <div class="header-inner">
-<div class="header-title">职业机会</div>
+<div class="header-title">极致人生</div>
 <div class="header-side header-left">
 <div class="header-brand"><figure class="loading" data-url="http://static.ftchinese.com/images/masthead36.png"></figure></div>
 </div>
@@ -126,6 +126,7 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 <div class="overlay-content">
 <div class="overlay-title">登录<i class="overlay-close" data-parentid="overlay-login">×</i></div>
 <form method="post" action="/users/login">
+<div class="input-title" id="login-reason"></div>
 <div class="input-title">电子邮件/用户名</div>
 <div class="input-container"><input type="text" class="input-oneline" name="username" id="ft-login-input-username"></div>
 <div class="input-title">密码</div>
@@ -133,6 +134,7 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 <div class="input-title input-submit-container"><input type="checkbox" class="checkbox" value="1" checked="checked" name="saveme" id="ft-login-input-remember">记住我
 <input class="input-submit" type="submit" value="提交"></div>
 <div class="input-title"><a href="/users/findpassword" class="blue-link">找回密码</a></div>
+<div class="input-title"><a href="http://user.ftchinese.com/register" class="blue-link">免费注册</a></div>
 </form>
 </div>
 </div>
@@ -165,64 +167,9 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 </ol>
 </li>
 <li class="nav-section"
-aria-selected="true"
 data-section="home">
 <button class="nav-section-head mobile">首页</button>
 <a class="nav-section-head desktop" href="/">首页</a>
-<ol class="nav-items">
-<li class="nav-item mobile">
-<a class="nav-link" href="/">
-FT中文网首页
-</a>
-</li>
-<li class="nav-item"
-aria-haspopup="true"
-data-channel="special">
-<a class="nav-link" href="/channel/special.html">专题报道</a>
-<ol class="nav-sub-items">
-<li><a href="/tag/全球商业的未来">全球商业的未来</a></li>
-<li><a href="/tag/2016%E8%BE%BE%E6%B2%83%E6%96%AF">2016达沃斯</a></li>
-<li><a href="/tag/与FT共进午餐">与FT共进午餐</a></li>
-</ol>
-</li>
-<li class="nav-item"
-data-channel="weekly">
-<a class="nav-link" href="/channel/weekly.html">热门文章</a>
-</li>
-<li class="nav-item"
-data-channel="event">
-<a class="nav-link" href="/m/events/event.html">会议活动</a>
-</li>
-<li class="nav-item"
-data-channel="member">
-<a class="nav-link" href="/m/marketing/home.html">会员信息中心</a>
-</li>
-<li class="nav-item"
-data-channel="intelligence">
-<a class="nav-link" href="/m/marketing/intelligence.html">FT研究院</a>
-</li>
-<li class="nav-item"
-data-channel="mba">
-<a class="nav-link" href="/channel/mba.html">FT商学院</a>
-</li>
-<li class="nav-item"
-data-channel="english">
-<a class="nav-link" href="/channel/english.html">英语学习</a>
-</li>
-<li class="nav-item"
-data-channel="photo">
-<a class="nav-link" href="/channel/slides.html">图辑</a>
-</li>
-<li class="nav-item"
-aria-selected="true"
-data-channel="job">
-<a class="nav-link" href="/jobs/">职业机会</a>
-</li>
-<li class="nav-item"
-data-channel="datanews">
-<a class="nav-link" href="/channel/datanews.html">数据新闻</a>
-</li>
-</ol>
 </li>
 <li class="nav-section"
 data-section="china">
@@ -260,9 +207,45 @@ data-section="management">
 <a class="nav-section-head desktop" href="/channel/management.html">管理</a>
 </li>
 <li class="nav-section"
+aria-selected="true"
 data-section="lifestyle">
 <button class="nav-section-head mobile">生活时尚</button>
 <a class="nav-section-head desktop" href="/channel/lifestyle.html">生活时尚</a>
+<ol class="nav-items">
+<li class="nav-item mobile">
+<a class="nav-link" href="/channel/lifestyle.html">
+频道首页
+</a>
+</li>
+<li class="nav-item"
+data-channel="pursuit">
+<a class="nav-link" href="/channel/pursuit.html">乐尚街</a>
+</li>
+<li class="nav-item"
+data-channel="taste">
+<a class="nav-link" href="/channel/taste.html">品味</a>
+</li>
+<li class="nav-item"
+data-channel="travel">
+<a class="nav-link" href="/channel/travel.html">旅行</a>
+</li>
+<li class="nav-item"
+data-channel="life">
+<a class="nav-link" href="/channel/life.html">生活话题</a>
+</li>
+<li class="nav-item"
+data-channel="art">
+<a class="nav-link" href="/channel/art.html">艺术与娱乐</a>
+</li>
+<li class="nav-item"
+data-channel="spend">
+<a class="nav-link" href="/channel/spend.html">消费经</a>
+</li>
+<li class="nav-item"
+data-channel="money">
+<a class="nav-link" href="/channel/money.html">理财</a>
+</li>
+</ol>
 </li>
 <li class="nav-section"
 data-section="stream">
@@ -328,9 +311,9 @@ data-section="stream">
 <div class="site-map">
 <div class="site-map__container">
 <ul class="site-map__items">
-<li><a href="/">首页</a></li>
+<li><a href="/channel/lifestyle.html">生活时尚</a></li>
   
-<li><a href="/jobs/">职业机会</a></li>
+<li><a href=""></a></li>
 </ul>
 </div>
 </div><div class="banner-placeholder">
@@ -342,551 +325,268 @@ data-section="stream">
 </div>
 </div>
 </div>
-<div class="block-container has-side side-right"><div class="block-inner">
+<div class="block-container has-side"><div class="block-inner">
 <div class="content-container"><div class="content-inner">
-next/partials/job.html
-<div class="item-container no-image">
-<div class="item-inner">
-<div>
-<form id="form1" name="form1" method="get" action="/jobs/" class="filter">
-行业
-<select name="workfield" id="workfield">
-<option value="">所有</option>
-<option label="机械" value="机械">机械</option>
-<option label="磁性电子元件" value="磁性电子元件">磁性电子元件</option>
-<option label="信息技术" value="信息技术">信息技术</option>
-<option label="物业" value="物业">物业</option>
-<option label="资产管理" value="资产管理">资产管理</option>
-<option label="Consumer" value="Consumer">Consumer</option>
-<option label="数字产品" value="数字产品">数字产品</option>
-<option label="航天和航空" value="航天和航空">航天和航空</option>
-<option label="质检" value="质检">质检</option>
-<option label="旅游/酒店/餐饮" value="旅游/酒店/餐饮">旅游/酒店/餐饮</option>
-<option label="fashion goods" value="fashion goods">fashion goods</option>
-<option label="农/林/牧/渔" value="农/林/牧/渔">农/林/牧/渔</option>
-<option label="汽车" value="汽车">汽车</option>
-<option label="Office service" value="Office service">Office service</option>
-<option label="广告/公关" value="广告/公关">广告/公关</option>
-<option label="照明业" value="照明业">照明业</option>
-<option label="consumer goods industry" value="consumer goods industry">consumer goods industry</option>
-<option label="medical equipment, consumer electronics, lighting" value="medical equipment, consumer electronics, lighting">medical equipment, consumer electronics, lighting</option>
-<option label="electronic manufacture industry" value="electronic manufacture industry">electronic manufacture industry</option>
-<option label="船舶和海洋" value="船舶和海洋">船舶和海洋</option>
-<option label="工业" value="工业">工业</option>
-<option label="采购" value="采购">采购</option>
-<option label="政府/公共事业" value="政府/公共事业">政府/公共事业</option>
-<option label="销售" value="销售">销售</option>
-<option label="自动化" value="自动化">自动化</option>
-<option label="Precision Machining" value="Precision Machining">Precision Machining</option>
-<option label="Manufacturing" value="Manufacturing">Manufacturing</option>
-<option label="资产管理公司" value="资产管理公司">资产管理公司</option>
-<option label="学术/科研" value="学术/科研">学术/科研</option>
-<option label="FMCGl" value="FMCGl">FMCGl</option>
-<option label="the chemical and packaging sectors" value="the chemical and packaging sectors">the chemical and packaging sectors</option>
-<option label="环保" value="环保">环保</option>
-<option label="Electric" value="Electric">Electric</option>
-<option label="工业制造" value="工业制造">工业制造</option>
-<option label="Mechanical Engineering" value="Mechanical Engineering">Mechanical Engineering</option>
-<option label="仪器仪表及工业自动化" value="仪器仪表及工业自动化">仪器仪表及工业自动化</option>
-<option label="电力" value="电力">电力</option>
-<option label="制造业" value="制造业">制造业</option>
-<option label="Legal" value="Legal">Legal</option>
-<option label="娱乐/体育/休闲" value="娱乐/体育/休闲">娱乐/体育/休闲</option>
-<option label="计算机软件" value="计算机软件">计算机软件</option>
-<option label="IT服务/多领域经营" value="IT服务/多领域经营">IT服务/多领域经营</option>
-<option label="电子技术/半导体" value="电子技术/半导体">电子技术/半导体</option>
-<option label="咨询/管理产业/法律/财会" value="咨询/管理产业/法律/财会">咨询/管理产业/法律/财会</option>
-<option label="互联网/电子商务" value="互联网/电子商务">互联网/电子商务</option>
-<option label="医药/保健/生物工程" value="医药/保健/生物工程">医药/保健/生物工程</option>
-<option label="加工制造" value="加工制造">加工制造</option>
-<option label="教育/培训" value="教育/培训">教育/培训</option>
-<option label="Human Resource" value="Human Resource">Human Resource</option>
-<option label="Lighting Industry" value="Lighting Industry">Lighting Industry</option>
-<option label="贸易/进出口" value="贸易/进出口">贸易/进出口</option>
-<option label="IT" value="IT">IT</option>
-<option label="IT Service" value="IT Service">IT Service</option>
-<option label="金融/银行/保险/证券" value="金融/银行/保险/证券">金融/银行/保险/证券</option>
-<option label="通讯（设备/运营/增值服务）" value="通讯（设备/运营/增值服务）">通讯（设备/运营/增值服务）</option>
-<option label="房地产/建筑/装潢" value="房地产/建筑/装潢">房地产/建筑/装潢</option>
-<option label="其它" value="其它">其它</option>
-<option label="快速消费品（食品/饮料/烟草/化妆品）" value="快速消费品（食品/饮料/烟草/化妆品）">快速消费品（食品/饮料/烟草/化妆品）</option>
-<option label="计算机硬件及网络设备" value="计算机硬件及网络设备">计算机硬件及网络设备</option>
-<option label="能源/矿产" value="能源/矿产">能源/矿产</option>
-<option label="保险" value="保险">保险</option>
-<option label="旅游地产" value="旅游地产">旅游地产</option>
-<option label="交通/运输/物流" value="交通/运输/物流">交通/运输/物流</option>
-<option label="耐用消费品（服装服饰/纺织/家具/家电）" value="耐用消费品（服装服饰/纺织/家具/家电）">耐用消费品（服装服饰/纺织/家具/家电）</option>
-<option label="主营行业：紧固件、连接件;其他紧固件、连接件" value="主营行业：紧固件、连接件;其他紧固件、连接件">主营行业：紧固件、连接件;其他紧固件、连接件</option>
-<option label="传媒/出版/印刷/包装" value="传媒/出版/印刷/包装">传媒/出版/印刷/包装</option>
-<option label="Industry" value="Industry">Industry</option>
-<option label="HR Consulting" value="HR Consulting">HR Consulting</option>
-<option label="零售/批发" value="零售/批发">零售/批发</option>
-<option label="奢侈品" value="奢侈品">奢侈品</option>
-<option label="化工/石化" value="化工/石化">化工/石化</option>
-<option label="Acoustics science and technology" value="Acoustics science and technology">Acoustics science and technology</option>
-<option label="Business Solution Services" value="Business Solution Services">Business Solution Services</option>
-<option label="Private Equity" value="Private Equity">Private Equity</option>
-<option label="Medical Equipment Manufacture" value="Medical Equipment Manufacture">Medical Equipment Manufacture</option>
-<option label="Researcher Firm" value="Researcher Firm">Researcher Firm</option>
-<option label="大型设备/机电设备/重工业" value="大型设备/机电设备/重工业">大型设备/机电设备/重工业</option>
-<option label="heavy manufactory" value="heavy manufactory">heavy manufactory</option>
-<option label="power, transportation, and envioronment" value="power, transportation, and envioronment">power, transportation, and envioronment</option>
-<option label="Property Development" value="Property Development">Property Development</option>
-<option label="经济研究" value="经济研究">经济研究</option>
-<option label="经济研究" value="经济研究">经济研究</option>
-<option label="经济/金融/证券/财务/法务" value="经济/金融/证券/财务/法务">经济/金融/证券/财务/法务</option>
-<option label="经济/金融/证券/财务/　法务" value="经济/金融/证券/财务/　法务">经济/金融/证券/财务/　法务</option>
-<option label="经济/金融/证券/财务/法务" value="经济/金融/证券/财务/法务">经济/金融/证券/财务/法务</option>
-<option label="经济/金融/证券/财务/法律" value="经济/金融/证券/财务/法律">经济/金融/证券/财务/法律</option>
-<option label="媒体/调研/经济研究" value="媒体/调研/经济研究">媒体/调研/经济研究</option>
+<div class="list-container"><div class="list-inner">
+<div class="items">
 
-</select>
-地区
-<select name="workaddr" id="workaddr">
-<option value="">所有</option>
-<option label="四川省" value="四川省">四川省</option>
-<option label="成都" value="成都">成都</option>
-<option label="成都市" value="成都市">成都市</option>
-<option label="扬州" value="扬州">扬州</option>
-<option label="新加坡" value="新加坡">新加坡</option>
-<option label="新加坡或其它东南亚地区" value="新加坡或其它东南亚地区">新加坡或其它东南亚地区</option>
-<option label="新疆维吾尔自治区" value="新疆维吾尔自治区">新疆维吾尔自治区</option>
-<option label="无锡" value="无锡">无锡</option>
-<option label="无锡、香港" value="无锡、香港">无锡、香港</option>
-<option label="日本" value="日本">日本</option>
-<option label="杭州" value="杭州">杭州</option>
-<option label="杭州/西安" value="杭州/西安">杭州/西安</option>
-<option label="武汉" value="武汉">武汉</option>
-<option label="毛里求斯" value="毛里求斯">毛里求斯</option>
-<option label="毛里求斯、沙特阿拉伯" value="毛里求斯、沙特阿拉伯">毛里求斯、沙特阿拉伯</option>
-<option label="意大利" value="意大利">意大利</option>
-<option label="德国" value="德国">德国</option>
-<option label="张家港" value="张家港">张家港</option>
-<option label="国外(新加坡、菲律宾、印度、泰国等东南亚地区)" value="国外(新加坡、菲律宾、印度、泰国等东南亚地区)">国外(新加坡、菲律宾、印度、泰国等东南亚地区)</option>
-<option label="大连" value="大连">大连</option>
-<option label="大连/沈阳" value="大连/沈阳">大连/沈阳</option>
-<option label="天津" value="天津">天津</option>
-<option label="太仓" value="太仓">太仓</option>
-<option label="宁夏" value="宁夏">宁夏</option>
-<option label="宁波" value="宁波">宁波</option>
-<option label="安徽省" value="安徽省">安徽省</option>
-<option label="山东省" value="山东省">山东省</option>
-<option label="常州" value="常州">常州</option>
-<option label="广东" value="广东">广东</option>
-<option label="广东省" value="广东省">广东省</option>
-<option label="广州" value="广州">广州</option>
-<option label="广州市/深圳市" value="广州市/深圳市">广州市/深圳市</option>
-<option label="毛里求斯、马来西亚、阿联酋、沙特阿拉伯、安哥拉" value="毛里求斯、马来西亚、阿联酋、沙特阿拉伯、安哥拉">毛里求斯、马来西亚、阿联酋、沙特阿拉伯、安哥拉</option>
-<option label="江苏、浙江、河南" value="江苏、浙江、河南">江苏、浙江、河南</option>
-<option label="江苏省" value="江苏省">江苏省</option>
-<option label="福建" value="福建">福建</option>
-<option label="福建省" value="福建省">福建省</option>
-<option label="肇庆" value="肇庆">肇庆</option>
-<option label="苏州" value="苏州">苏州</option>
-<option label="西安" value="西安">西安</option>
-<option label="贵州省" value="贵州省">贵州省</option>
-<option label="越南" value="越南">越南</option>
-<option label="郑州" value="郑州">郑州</option>
-<option label="重庆" value="重庆">重庆</option>
-<option label="长沙" value="长沙">长沙</option>
-<option label="陕西省" value="陕西省">陕西省</option>
-<option label="青岛" value="青岛">青岛</option>
-<option label="香港特别行政区" value="香港特别行政区">香港特别行政区</option>
-<option label="鹤山市" value="鹤山市">鹤山市</option>
-<option label="石家庄/太原" value="石家庄/太原">石家庄/太原</option>
-<option label="番禺市" value="番禺市">番禺市</option>
-<option label="珠海" value="珠海">珠海</option>
-<option label="江门" value="江门">江门</option>
-<option label="沈阳，南京，深圳" value="沈阳，南京，深圳">沈阳，南京，深圳</option>
-<option label="河北省" value="河北省">河北省</option>
-<option label="泉州" value="泉州">泉州</option>
-<option label="浙江省" value="浙江省">浙江省</option>
-<option label="深圳" value="深圳">深圳</option>
-<option label="深圳/海外" value="深圳/海外">深圳/海外</option>
-<option label="湖北 武汉" value="湖北 武汉">湖北 武汉</option>
-<option label="湖北省" value="湖北省">湖北省</option>
-<option label="湖南省" value="湖南省">湖南省</option>
-<option label="潍坊" value="潍坊">潍坊</option>
-<option label="澳门特别行政区" value="澳门特别行政区">澳门特别行政区</option>
-<option label="烟台" value="烟台">烟台</option>
-<option label="珠三角" value="珠三角">珠三角</option>
-<option label="黑龙江省" value="黑龙江省">黑龙江省</option>
-<option label="四川 泸州" value="四川 泸州">四川 泸州</option>
-<option label="Greater China" value="Greater China">Greater China</option>
-<option label="Kunming" value="Kunming">Kunming</option>
-<option label="LangFang (Hebei)-Beijing" value="LangFang (Hebei)-Beijing">LangFang (Hebei)-Beijing</option>
-<option label="location according to the candidate willing" value="location according to the candidate willing">location according to the candidate willing</option>
-<option label="Macau" value="Macau">Macau</option>
-<option label="Shanghai" value="Shanghai">Shanghai</option>
-<option label="Shanghai or Beijing or Dalian or Xiamen" value="Shanghai or Beijing or Dalian or Xiamen">Shanghai or Beijing or Dalian or Xiamen</option>
-<option label="Shanghai/Beijing" value="Shanghai/Beijing">Shanghai/Beijing</option>
-<option label="Shenzhen/Guangdong" value="Shenzhen/Guangdong">Shenzhen/Guangdong</option>
-<option label="Singapore" value="Singapore">Singapore</option>
-<option label="SuZhou/ChangZhou" value="SuZhou/ChangZhou">SuZhou/ChangZhou</option>
-<option label="Taipei" value="Taipei">Taipei</option>
-<option label="Taiwan" value="Taiwan">Taiwan</option>
-<option label="Tokyo" value="Tokyo">Tokyo</option>
-<option label="Wuhan" value="Wuhan">Wuhan</option>
-<option label="Japan" value="Japan">Japan</option>
-<option label="Hong Kong" value="Hong Kong">Hong Kong</option>
-<option label="Hangzhou" value="Hangzhou">Hangzhou</option>
-<option label="Hong Kong" value="Hong Kong">Hong Kong</option>
-<option label="Hong Kong &amp; Taiwan" value="Hong Kong &amp; Taiwan">Hong Kong &amp; Taiwan</option>
-<option label="Singapore" value="Singapore">Singapore</option>
-<option label="beiijing" value="beiijing">beiijing</option>
-<option label="Beijing" value="Beijing">Beijing</option>
-<option label="Beijing or Guangzhou" value="Beijing or Guangzhou">Beijing or Guangzhou</option>
-<option label="Beijing, Shanghai , Shenzhen" value="Beijing, Shanghai , Shenzhen">Beijing, Shanghai , Shenzhen</option>
-<option label="Beijing/Jiangsu" value="Beijing/Jiangsu">Beijing/Jiangsu</option>
-<option label="Beijing/Tianjin/Jiangsu" value="Beijing/Tianjin/Jiangsu">Beijing/Tianjin/Jiangsu</option>
-<option label="Beijing， Shanghai, Xian" value="Beijing， Shanghai, Xian">Beijing， Shanghai, Xian</option>
-<option label="China" value="China">China</option>
-<option label="Dongguan" value="Dongguan">Dongguan</option>
-<option label="Greater China" value="Greater China">Greater China</option>
-<option label="Hang Zhou" value="Hang Zhou">Hang Zhou</option>
-<option label="XiaMen" value="XiaMen">XiaMen</option>
-<option label="Zhengzhou, Henan Province" value="Zhengzhou, Henan Province">Zhengzhou, Henan Province</option>
-<option label="Zhuhai" value="Zhuhai">Zhuhai</option>
-<option label="北京/上海" value="北京/上海">北京/上海</option>
-<option label="北京/大连" value="北京/大连">北京/大连</option>
-<option label="北京/广州" value="北京/广州">北京/广州</option>
-<option label="北京/新加坡" value="北京/新加坡">北京/新加坡</option>
-<option label="北京/沈阳" value="北京/沈阳">北京/沈阳</option>
-<option label="北京、上海、深圳、广州或全国其他大中城市" value="北京、上海、深圳、广州或全国其他大中城市">北京、上海、深圳、广州或全国其他大中城市</option>
-<option label="北京、天津" value="北京、天津">北京、天津</option>
-<option label="北京或上海" value="北京或上海">北京或上海</option>
-<option label="南京" value="南京">南京</option>
-<option label="南京/欧洲（需要驻欧洲三个月）" value="南京/欧洲（需要驻欧洲三个月）">南京/欧洲（需要驻欧洲三个月）</option>
-<option label="印度" value="印度">印度</option>
-<option label="印度 斯里兰卡" value="印度 斯里兰卡">印度 斯里兰卡</option>
-<option label="厦门" value="厦门">厦门</option>
-<option label="台湾省" value="台湾省">台湾省</option>
-<option label="哈尔滨/长春" value="哈尔滨/长春">哈尔滨/长春</option>
-<option label="北京 广州" value="北京 广州">北京 广州</option>
-<option label="北京" value="北京">北京</option>
-<option label="上海" value="上海">上海</option>
-<option label="上海/广州" value="上海/广州">上海/广州</option>
-<option label="上海/西安" value="上海/西安">上海/西安</option>
-<option label="上海、香港" value="上海、香港">上海、香港</option>
-<option label="上海或成都" value="上海或成都">上海或成都</option>
-<option label="东莞" value="东莞">东莞</option>
-<option label="东莞市" value="东莞市">东莞市</option>
-<option label="中山" value="中山">中山</option>
-<option label="云南省" value="云南省">云南省</option>
-<option label="内蒙古自治区" value="内蒙古自治区">内蒙古自治区</option>
-<option label="其他" value="其他">其他</option>
-<option label="全国各省会城市各一人" value="全国各省会城市各一人">全国各省会城市各一人</option>
-<option label="全国各省会城市" value="全国各省会城市">全国各省会城市</option>
-<option label="全国" value="全国">全国</option>
-<option label="佛山" value="佛山">佛山</option>
-<option label="北京/上海" value="北京/上海">北京/上海</option>
-<option label="北京/上海" value="北京/上海">北京/上海</option>
-<option label="北京/上海" value="北京/上海">北京/上海</option>
-<option label="北京" value="北京">北京</option>
-<option label="北京" value="北京">北京</option>
-<option label="上海" value="上海">上海</option>
-<option label="北京" value="北京">北京</option>
-<option label="北京" value="北京">北京</option>
-<option label="北京" value="北京">北京</option>
-<option label="北京" value="北京">北京</option>
-<option label="北京" value="北京">北京</option>
-<option label="北京" value="北京">北京</option>
-<option label="北京" value="北京">北京</option>
-<option label="北京" value="北京">北京</option>
-<option label="北京" value="北京">北京</option>
-<option label="成都/武汉" value="成都/武汉">成都/武汉</option>
-<option label="英国伦敦" value="英国伦敦">英国伦敦</option>
-<option label="北京/上海" value="北京/上海">北京/上海</option>
-<option label="北京" value="北京">北京</option>
-<option label="北京" value="北京">北京</option>
-<option label="北京" value="北京">北京</option>
-<option label="北京" value="北京">北京</option>
-<option label="上海" value="上海">上海</option>
-<option label="北京" value="北京">北京</option>
-<option label="北京" value="北京">北京</option>
-<option label="北京" value="北京">北京</option>
-<option label="北京" value="北京">北京</option>
-<option label="北京" value="北京">北京</option>
-<option label="北京" value="北京">北京</option>
-<option label="北京/上海" value="北京/上海">北京/上海</option>
-<option label="北京" value="北京">北京</option>
-<option label="北京" value="北京">北京</option>
-<option label="北京" value="北京">北京</option>
-<option label="北京" value="北京">北京</option>
-<option label="北京" value="北京">北京</option>
-<option label="上海" value="上海">上海</option>
-<option label="北京" value="北京">北京</option>
-<option label="北京" value="北京">北京</option>
-<option label="北京" value="北京">北京</option>
-<option label="北京" value="北京">北京</option>
-<option label="北京" value="北京">北京</option>
-<option label="北京" value="北京">北京</option>
-<option label="北京" value="北京">北京</option>
-<option label="北京" value="北京">北京</option>
-<option label="北京" value="北京">北京</option>
-<option label="上海 &amp; 北京" value="上海 &amp; 北京">上海 &amp; 北京</option>
-<option label="上海，北京（各一名）" value="上海，北京（各一名）">上海，北京（各一名）</option>
-<option label="上海北京（各一名）" value="上海北京（各一名）">上海北京（各一名）</option>
-<option label="北京" value="北京">北京</option>
-<option label="北京" value="北京">北京</option>
-<option label="北京" value="北京">北京</option>
-<option label="北京" value="北京">北京</option>
-<option label="北京" value="北京">北京</option>
-<option label="北京" value="北京">北京</option>
-<option label="北京" value="北京">北京</option>
-<option label="北京" value="北京">北京</option>
-<option label="北京" value="北京">北京</option>
-<option label="北京" value="北京">北京</option>
-<option label="广州/深圳/东莞" value="广州/深圳/东莞">广州/深圳/东莞</option>
-<option label="北京市朝阳区" value="北京市朝阳区">北京市朝阳区</option>
-<option label="北京市朝阳区" value="北京市朝阳区">北京市朝阳区</option>
-<option label="北京市朝阳区" value="北京市朝阳区">北京市朝阳区</option>
-<option label="北京市朝阳区" value="北京市朝阳区">北京市朝阳区</option>
-<option label="北京市朝阳区" value="北京市朝阳区">北京市朝阳区</option>
-<option label="北京市朝阳区" value="北京市朝阳区">北京市朝阳区</option>
-<option label="北京市朝阳区" value="北京市朝阳区">北京市朝阳区</option>
-<option label="朝阳区东三环" value="朝阳区东三环">朝阳区东三环</option>
-<option label="北京或上海" value="北京或上海">北京或上海</option>
-<option label="上海市" value="上海市">上海市</option>
-<option label="北京市东三环" value="北京市东三环">北京市东三环</option>
-<option label="香港" value="香港">香港</option>
-<option label="北京、上海、香港" value="北京、上海、香港">北京、上海、香港</option>
-<option label="Hong Kong, Beijing, Shanghai, London" value="Hong Kong, Beijing, Shanghai, London">Hong Kong, Beijing, Shanghai, London</option>
-<option label="北京、上海、香港、伦敦" value="北京、上海、香港、伦敦">北京、上海、香港、伦敦</option>
-
-</select>
-职位
-<select name="position" id="position">
-<option value="">所有</option>
-<option label="编辑" value="编辑">编辑</option>
-<option label="能源/矿产/地质勘查" value="能源/矿产/地质勘查">能源/矿产/地质勘查</option>
-<option label="助理" value="助理">助理</option>
-<option label="Management" value="Management">Management</option>
-<option label="Technique" value="Technique">Technique</option>
-<option label="采购" value="采购">采购</option>
-<option label="Risk Mission" value="Risk Mission">Risk Mission</option>
-<option label="Risk &amp; Control" value="Risk &amp; Control">Risk &amp; Control</option>
-<option label="教育/培训" value="教育/培训">教育/培训</option>
-<option label="电子/半导体/仪表仪器" value="电子/半导体/仪表仪器">电子/半导体/仪表仪器</option>
-<option label="GR" value="GR">GR</option>
-<option label="工程机械" value="工程机械">工程机械</option>
-<option label="美术/设计/创意" value="美术/设计/创意">美术/设计/创意</option>
-<option label="交通/仓储/物流" value="交通/仓储/物流">交通/仓储/物流</option>
-<option label="Compliance" value="Compliance">Compliance</option>
-<option label="化工" value="化工">化工</option>
-<option label="酒店/餐饮/旅游/娱乐" value="酒店/餐饮/旅游/娱乐">酒店/餐饮/旅游/娱乐</option>
-<option label="实习生" value="实习生">实习生</option>
-<option label="质控" value="质控">质控</option>
-<option label="财务总监" value="财务总监">财务总监</option>
-<option label="Director" value="Director">Director</option>
-<option label="零售业" value="零售业">零售业</option>
-<option label="sourcing/engineering" value="sourcing/engineering">sourcing/engineering</option>
-<option label="Legal/Compliance" value="Legal/Compliance">Legal/Compliance</option>
-<option label="Technology" value="Technology">Technology</option>
-<option label="Internal Communications" value="Internal Communications">Internal Communications</option>
-<option label="翻译（口译与笔译）" value="翻译（口译与笔译）">翻译（口译与笔译）</option>
-<option label="资本营运" value="资本营运">资本营运</option>
-<option label="医疗/护理/保健/美容" value="医疗/护理/保健/美容">医疗/护理/保健/美容</option>
-<option label="电气" value="电气">电气</option>
-<option label="其它" value="其它">其它</option>
-<option label="区域管理" value="区域管理">区域管理</option>
-<option label="Product" value="Product">Product</option>
-<option label="销售" value="销售">销售</option>
-<option label="咨询/顾问" value="咨询/顾问">咨询/顾问</option>
-<option label="生产/加工/制造" value="生产/加工/制造">生产/加工/制造</option>
-<option label="质控/安检" value="质控/安检">质控/安检</option>
-<option label="项目管理" value="项目管理">项目管理</option>
-<option label="客户服务/技术支持" value="客户服务/技术支持">客户服务/技术支持</option>
-<option label="人力资源" value="人力资源">人力资源</option>
-<option label="高级管理" value="高级管理">高级管理</option>
-<option label="通信技术" value="通信技术">通信技术</option>
-<option label="财会/审计/统计" value="财会/审计/统计">财会/审计/统计</option>
-<option label="计算机软、硬件/互联网/IT" value="计算机软、硬件/互联网/IT">计算机软、硬件/互联网/IT</option>
-<option label="COO" value="COO">COO</option>
-<option label="Techinical" value="Techinical">Techinical</option>
-<option label="GM" value="GM">GM</option>
-<option label="产品开发" value="产品开发">产品开发</option>
-<option label="生物/制药/医疗器械" value="生物/制药/医疗器械">生物/制药/医疗器械</option>
-<option label="营销" value="营销">营销</option>
-<option label="法律" value="法律">法律</option>
-<option label="Equity" value="Equity">Equity</option>
-<option label="BD" value="BD">BD</option>
-<option label="金融/银行/保险/证券/投资" value="金融/银行/保险/证券/投资">金融/银行/保险/证券/投资</option>
-<option label="其他" value="其他">其他</option>
-<option label="建筑/房地产/装修/物业" value="建筑/房地产/装修/物业">建筑/房地产/装修/物业</option>
-<option label="学术/科研" value="学术/科研">学术/科研</option>
-<option label="编辑/文案/传媒/影视/新闻" value="编辑/文案/传媒/影视/新闻">编辑/文案/传媒/影视/新闻</option>
-<option label="Analyst" value="Analyst">Analyst</option>
-<option label="Risk Analyst" value="Risk Analyst">Risk Analyst</option>
-<option label="Operations" value="Operations">Operations</option>
-<option label="行政/后勤" value="行政/后勤">行政/后勤</option>
-<option label="商务/采购/贸易" value="商务/采购/贸易">商务/采购/贸易</option>
-<option label="市场/市场拓展/公关" value="市场/市场拓展/公关">市场/市场拓展/公关</option>
-<option label="研究员" value="研究员">研究员</option>
-<option label="研究员" value="研究员">研究员</option>
-<option label="市场调研" value="市场调研">市场调研</option>
-<option label="实习生" value="实习生">实习生</option>
-<option label="翻译" value="翻译">翻译</option>
-<option label="Research" value="Research">Research</option>
-<option label="实习生" value="实习生">实习生</option>
-<option label="Programmer" value="Programmer">Programmer</option>
-<option label="助理研究员" value="助理研究员">助理研究员</option>
-<option label="研究" value="研究">研究</option>
-<option label="研究员" value="研究员">研究员</option>
-<option label="Marketing Research &amp; Data Analysis" value="Marketing Research &amp; Data Analysis">Marketing Research &amp; Data Analysis</option>
-<option label="Product" value="Product">Product</option>
-<option label="经济研究员" value="经济研究员">经济研究员</option>
-<option label="软件开发工程师" value="软件开发工程师">软件开发工程师</option>
-<option label="iOS程序开发" value="iOS程序开发">iOS程序开发</option>
-<option label="Marketing Analyst 市场分析员" value="Marketing Analyst 市场分析员">Marketing Analyst 市场分析员</option>
-<option label="Event Editor 活动编辑 " value="Event Editor 活动编辑 ">Event Editor 活动编辑 </option>
-<option label="Marketing Analyst 市场分析员 " value="Marketing Analyst 市场分析员 ">Marketing Analyst 市场分析员 </option>
-<option label="Marketing Analyst 市场分析员 " value="Marketing Analyst 市场分析员 ">Marketing Analyst 市场分析员 </option>
-<option label="Event Editor 活动编辑 " value="Event Editor 活动编辑 ">Event Editor 活动编辑 </option>
-<option label="Event Editor 策划编辑" value="Event Editor 策划编辑">Event Editor 策划编辑</option>
-<option label="PHP开发工程师" value="PHP开发工程师">PHP开发工程师</option>
-<option label="开发网站和应用" value="开发网站和应用">开发网站和应用</option>
-<option label="Video Producer 视频制作" value="Video Producer 视频制作">Video Producer 视频制作</option>
-<option label="人力资源" value="人力资源">人力资源</option>
-<option label="笔译" value="笔译">笔译</option>
-<option label=" 笔译" value=" 笔译"> 笔译</option>
-<option label="Sales" value="Sales">Sales</option>
-<option label="Sales" value="Sales">Sales</option>
-<option label="Legal" value="Legal">Legal</option>
-<option label="前端开发" value="前端开发">前端开发</option>
-
-</select>
-<input name="search" type="submit" id="search" value="搜索" class="filter-submit">
-</form>
+<div class="item-container XL8 L8 M12 S6 P12 has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067409#adchannelID=2052">时装秀到底在兜售什么？</a></h2>
+<a class="image" target="_blank" href="/story/001067409#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000061363_piclink.jpg"></figure></a><div class="item-lead">品牌时装门店里热卖的爆款，绝大多数并没有在T台上展示过，但消费者却是通过T台时装秀的表演而接受并认可品牌的定位与内涵的。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 XL-half XL-right L4 L-half L-right M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067414#adchannelID=2052">品牌该以什么姿势植入艺术？</a></h2>
+<a class="image" target="_blank" href="/story/001067414#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000061356_piclink.jpg"></figure></a><div class="item-lead">宝马集团15年起设立“宝马艺术之旅”，赞助香港巴塞尔艺术展新艺术家，宝马的角度是“旅程”。大卫杜夫、瑞银、古驰、路易威登赞助艺术也各有创意。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 XL-half XL-right XL-lower L4 L-half L-right L-lower M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067317#adchannelID=2052">国王的早餐</a></h2>
+<a class="image" target="_blank" href="/story/001067317#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000061198_piclink.jpg"></figure></a><div class="item-lead">FT中文网专栏作家陈楠：在巴塞罗那大市场小吃摊，我们的早餐包括香草烩鹰嘴豆、小扁豆烩墨鱼、沙丁鱼、炖小牛脸和牛蹄、龙虾及生蚝。
 </div>
-<div class="row-container row-header">
-<div class="row-tag">公司名称</div>
-<div class="row-title">职位名称</div>
-<div class="row-support">行业</div>
-<div class="row-support">地区</div>
-<div class="row-time">发布时间</div>
-</div>
-<div class="row-container">
-<div class="row-tag">
-<div class="row-name">公司名称</div>
-<div class="row-content">FT中文网</div>
-</div>
-<div class="row-title">
-<div class="row-name">职位名称</div>
-<div class="row-content"><a target=_blank href="/jobshow/ft_20160412145005">网络运维工程师 </a></div>
-</div>
-<div class="row-support">
-<div class="row-name">行业</div>
-<div class="row-content">传媒/出版/印刷/包装</div>
-</div>
-<div class="row-support">
-<div class="row-name">地区</div>
-<div class="row-content">北京市朝阳区</div>
-</div>
-<div class="row-time">
-<div class="row-name">发布时间</div>
-<div class="row-content">2016-04-12</div>
-</div>
-</div>
-<div class="row-container">
-<div class="row-tag">
-<div class="row-name">公司名称</div>
-<div class="row-content">FT中文网</div>
-</div>
-<div class="row-title">
-<div class="row-name">职位名称</div>
-<div class="row-content"><a target=_blank href="/jobshow/ft_20160412144736">前端开发工程师 </a></div>
-</div>
-<div class="row-support">
-<div class="row-name">行业</div>
-<div class="row-content">传媒/出版/印刷/包装</div>
-</div>
-<div class="row-support">
-<div class="row-name">地区</div>
-<div class="row-content">北京市朝阳区</div>
-</div>
-<div class="row-time">
-<div class="row-name">发布时间</div>
-<div class="row-content">2016-04-12</div>
-</div>
-</div>
-<div class="row-container">
-<div class="row-tag">
-<div class="row-name">公司名称</div>
-<div class="row-content">FT中文网</div>
-</div>
-<div class="row-title">
-<div class="row-name">职位名称</div>
-<div class="row-content"><a target=_blank href="/jobshow/ft_20160330153600">华南区广告销售总监 Sales Director of South China</a></div>
-</div>
-<div class="row-support">
-<div class="row-name">行业</div>
-<div class="row-content">传媒/出版/印刷/包装</div>
-</div>
-<div class="row-support">
-<div class="row-name">地区</div>
-<div class="row-content">上海市</div>
-</div>
-<div class="row-time">
-<div class="row-name">发布时间</div>
-<div class="row-content">2016-04-06</div>
-</div>
-</div>
-<div class="row-container">
-<div class="row-tag">
-<div class="row-name">公司名称</div>
-<div class="row-content">FT中文网</div>
-</div>
-<div class="row-title">
-<div class="row-name">职位名称</div>
-<div class="row-content"><a target=_blank href="/jobshow/ft_20160217145046">法务专员 Legal Counsel</a></div>
-</div>
-<div class="row-support">
-<div class="row-name">行业</div>
-<div class="row-content">传媒/出版/印刷/包装</div>
-</div>
-<div class="row-support">
-<div class="row-name">地区</div>
-<div class="row-content">北京市朝阳区</div>
-</div>
-<div class="row-time">
-<div class="row-name">发布时间</div>
-<div class="row-content">2016-02-17</div>
-</div>
-</div>
-<div class="pagination">
+<div class="item-bottom"></div>
+</div></div>
+<div class="XLT LT MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067320#adchannelID=2052">衬衣成了女人的华丽时装</a></h2>
+<a class="image" target="_blank" href="/story/001067320#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000061201_piclink.jpg"></figure></a><div class="item-lead">这一季的女式衬衣已被提升到全新高度：有晚装款，宽松露肩款，系丝带的雕花图案款，成为高调华丽的服装款式，而且不分季节、不分场合，完全百搭。
 
 </div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067322#adchannelID=2052">老爷车维修成了赚钱生意</a></h2>
+<a class="image" target="_blank" href="/story/001067322#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000061191_piclink.jpg"></figure></a><div class="item-lead">阿斯顿马丁公司几十年前就建立了闻名遐迩的老爷车“维修处理中心”，如今捷豹、保时捷、法拉利纷纷跟进。老爷车不断升值，维修认证服务也成赚钱生意。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067213#adchannelID=2052">专访Graff珠宝主席Graff先生</a></h2>
+<a class="image" target="_blank" href="/story/001067213#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000061002_piclink.jpg"></figure></a><div class="item-lead">他创立了“从矿区到市场”的模式，让矿主、切割师、交易商、工艺师和银行集中起来，砍掉了中间商。黄钻，是Graff品牌的主打之一。
 </div>
-</div><div class="clearfloat block-bottom"></div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="XLT LT MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067209#adchannelID=2052">王亚彬为英国芭蕾编舞</a></h2>
+<a class="image" target="_blank" href="/story/001067209#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000061013_piclink.jpg"></figure></a><div class="item-lead">宋佩芬：这是中国舞者第一次为英国国家芭蕾舞团编舞。英方制作人计划邀请更多中国编舞家及舞者前来演出。和中国相比，西方舞者更强调个性。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067214#adchannelID=2052">你知道怎么穿袜子吗？</a></h2>
+<a class="image" target="_blank" href="/story/001067214#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/5/000061015_piclink.jpg"></figure></a><div class="item-lead">过去两年，时尚人士都不穿袜子。但对商务人士来说，把袜子穿出时尚是门学问。尤其是商务男士，不戴领带时，裤角下面露出的那截袜子，尤显品味。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067108#adchannelID=2052">今年的腕表：好货不贵</a></h2>
+<a class="image" target="_blank" href="/story/001067108#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000060679_piclink.jpg"></figure></a><div class="item-lead">丁之方：面对着不足20%的手腕戴表率，今年的中高端新品手表功能外型俱佳而价格不贵，与电子智能表一起争夺消费者宝贵的“手腕”资源。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="XLT LT MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067106#adchannelID=2052">卡地亚助力中国博物馆热潮</a></h2>
+<a class="image" target="_blank" href="/story/001067106#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000060676_piclink.jpg"></figure></a><div class="item-lead">卡地亚与中国政府签署框架协议，就艺术与文化交流项目展开合作。此举将助力中国博物馆建设热潮。卡地亚旗下的当代艺术基金会有丰富的艺术经营经验。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067105#adchannelID=2052">国际艺术界的“韩国风”</a></h2>
+<a class="image" target="_blank" href="/story/001067105#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000060672_piclink.jpg"></figure></a><div class="item-lead">韩国艺术近年屡获国际认可。韩国单色画在拍卖中屡创佳绩，艺术家摘得威尼斯双年展大奖。90年代韩国艺术家更是赢得了西方主流社会认可，并成时尚。
+</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066999#adchannelID=2052">圣罗兰任命新任创意总监</a></h2>
+<a class="image" target="_blank" href="/story/001066999#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000060474_piclink.jpg"></figure></a><div class="item-lead">前任创意总监斯理曼离职4天后，圣罗兰宣布比利时设计师安东尼•瓦卡莱洛继任，他以极简主义和当代性感的平衡著称。他的首场圣罗兰秀将于10月举行。
+</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="XLT LT MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066998#adchannelID=2052">中国白酒挺进西方市场</a></h2>
+<a class="image" target="_blank" href="/story/001066998#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000060478_piclink.jpg"></figure></a><div class="item-lead">中国白酒开始走向国际市场。五粮液赞助了伦敦交响乐团，为观众提供免费品尝的白酒。但白酒的气味，过高的酒精量和豪饮文化，是海外推广的障碍。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066997#adchannelID=2052">腕表“好货”的标准正在变化</a></h2>
+<a class="image" target="_blank" href="/story/001066997#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000060481_piclink.jpg"></figure></a><div class="item-lead">丁之方：今年的巴塞尔钟表展，复刻版之多，产品之精美，价格之实惠都远在往年之上。复古与经典成卖点，让人眼前一亮的新技术乏善可陈。 </div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066904#adchannelID=2052">中国艺术家在多哈说艺术</a></h2>
+<a class="image" target="_blank" href="/story/001066904#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000060281_piclink.jpg"></figure></a><div class="item-lead">宋佩芬：卡塔尔与中国共同举办文化年，艺术家蔡国强策展了“说说艺术怎么样”，挑选15+1位中国艺术家去多哈对谈艺术。
+</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="XLT LT MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066906#adchannelID=2052">西方设计师家居中国遇冷</a></h2>
+<a class="image" target="_blank" href="/story/001066906#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000060288_piclink.jpg"></figure></a><div class="item-lead">郑静：曾经轰动一时的“设计上海”展吸引了不少西方设计大师来中国淘金，但今年第三届“设计上海”展上，西方设计师家居品牌越来越少。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066905#adchannelID=2052">品尝上海福和慧素食餐厅</a></h2>
+<a class="image" target="_blank" href="/story/001066905#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/5/000060285_piclink.jpg"></figure></a><div class="item-lead">福和慧素食餐厅和姐妹餐厅福1015同时入选圣培露评选的“亚洲50家最佳餐厅”名录，位列第19位。餐厅包间为日式极简风格，主厨为上海大厨卢怿明。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066800#adchannelID=2052">当欧莱雅遇到中国90后</a></h2>
+<a class="image" target="_blank" href="/story/001066800#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000059994_piclink.jpg"></figure></a><div class="item-lead">FT中文网生活时尚版主编薛莉：欧莱雅集团2015年在中国的发展增速已相对放缓，通过在线销售向三四五线城市渗透，成为他们的新增长机遇。
+</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="XLT LT MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066799#adchannelID=2052">香港艺术周，怎么逛？</a></h2>
+<a class="image" target="_blank" href="/story/001066799#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000059990_piclink.jpg"></figure></a><div class="item-lead">宋佩芬：3月21-27是香港疯狂艺术周，会展中心的巴塞尔艺术展有两百家画廊、近250亿港币的艺术品，商场内、街道边也成了免费艺术秀场。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066801#adchannelID=2052">瑞士独立制表人寻找金主</a></h2>
+<a class="image" target="_blank" href="/story/001066801#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000059997_piclink.jpg"></figure></a><div class="item-lead">丁之方：钟表业大公司的扩张步伐明显变缓，为它们服务的小企业利润不足，步履维艰。不少瑞士独立钟表企业有意出让一些股权寻找金主。
+</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066682#adchannelID=2052">巴黎时装周五大潮流</a></h2>
+<a class="image" target="_blank" href="/story/001066682#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000059209_piclink.jpg"></figure></a><div class="item-lead">在刚结束的巴黎时装周上，FT时装编辑总结出2016年秋冬时装的五大潮流，从蓬蓬夹克到金属风衣，结合各品牌最新发布的时装，与读者分享。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="XLT LT MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066687#adchannelID=2052">Lanvin换帅</a></h2>
+<a class="image" target="_blank" href="/story/001066687#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000059704_piclink.jpg"></figure></a><div class="item-lead">Lanvin任命布什哈•加拉尔为新设计总监。2015年Lanvin利润下滑250万欧元，前任设计总监Alber Elbaz被台湾女商人王效兰解约。加拉尔设计以简约闻名。
+</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066686#adchannelID=2052">英国流行喝中国白茶</a></h2>
+<a class="image" target="_blank" href="/story/001066686#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000059708_piclink.jpg"></figure></a><div class="item-lead">张璐诗：中国白茶“白毫银针”和“白牡丹”成为伦敦优雅下午茶室里备受青睐的茶种。摄政街上的茶餐馆和咖啡室里，这两款白茶是菜单中最昂贵的茶品。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066571#adchannelID=2052">唐卡：价值的逻辑</a></h2>
+<a class="image" target="_blank" href="/story/001066571#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000059464_piclink.jpg"></figure></a><div class="item-lead">盛立宇：唐卡兼具艺术品和宗教法物的双重属性，市场价格极其不透明。西藏唐卡一线大师的亲笔作品不过触及百万门槛，应该说市场价值被低估了。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="XLT LT MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066569#adchannelID=2052">街拍：时尚界的热门生意</a></h2>
+<a class="image" target="_blank" href="/story/001066569#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000059442_piclink.jpg"></figure></a><div class="item-lead">以前时装爱好者去时装周看秀是为了欣赏时装，现在则为秀自己的时装，在社交媒体上获利。时装“大V”秀的时装只比T台上刚亮相的晚几个小时。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066573#adchannelID=2052">“时装电影”崛起</a></h2>
+<a class="image" target="_blank" href="/story/001066573#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/5/000059445_piclink.jpg"></figure></a><div class="item-lead">2015年许多时装设计师跨界导演电影。汤姆•福特之前导演的《单身男子》曾获奥斯卡提名和英国BAFTA奖，新片《Nocturnal Animals》也被看好。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066457#adchannelID=2052">时装周过气了吗？</a></h2>
+<a class="image" target="_blank" href="/story/001066457#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000059209_piclink.jpg"></figure></a><div class="item-lead">通常时装周上展示的服装要数月后才能在专柜买到，但今年的纽约时装周上出现了“现看现买”、“秀场直通卖场”的新现象。时装界的的新变局诞生了。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="XLT LT MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066460#adchannelID=2052">为奥斯卡配乐的古典音乐家</a></h2>
+<a class="image" target="_blank" href="/story/001066460#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000059202_piclink.jpg"></figure></a><div class="item-lead">左驰：许多为好莱坞电影配乐的都是古典音乐家，包括为宫崎骏电影配乐的久石让、为《星球大战》配乐的约翰·威廉姆斯等。他们之间并没有鸿沟。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066453#adchannelID=2052">中式火锅为何欧洲蒙冤？</a></h2>
+<a class="image" target="_blank" href="/story/001066453#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000059206_piclink.jpg"></figure></a><div class="item-lead">FT中文网专栏作家陈楠：英国知名食评家杰·瑞纳最近将中式自助回转火锅称为“一顿侮辱饭”，对食物持开放心态的巴黎人也不会享受中式火锅。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066344#adchannelID=2052">钟表界萌动着新玩家</a></h2>
+<a class="image" target="_blank" href="/story/001066344#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000058981_piclink.jpg"></figure></a><div class="item-lead">丁之方：2016年日内瓦钟表珠宝沙龙展的大品牌依旧中规中矩，倒是MB&F、Urwerk、Greubel Forsey等独立品牌的设计新品在引领潮流。
+</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="XLT LT MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066343#adchannelID=2052">时装设计师跨界手工艺品</a></h2>
+<a class="image" target="_blank" href="/story/001066343#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000058984_piclink.jpg"></figure></a><div class="item-lead">伦敦新锐时装品牌Bruta，设计师阿瑟•叶芝配合时装推出了手绘陶缸。Gucci设计总监亚历桑德罗•米歇尔是这股潮流的推手，他本人是狂热的陶瓷藏家。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066342#adchannelID=2052">新西兰式的奢侈游</a></h2>
+<a class="image" target="_blank" href="/story/001066342#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000058988_piclink.jpg"></figure></a><div class="item-lead">在新西兰，游客不会血拼普拉达与路易维登，而是享用鲍鱼、看海景公寓、享受原生态环境。新西兰的高端旅游战略旨在吸引全球40-60岁富豪。
+</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066234#adchannelID=2052">伦敦莎翁400周年祭精彩纷呈</a></h2>
+<a class="image" target="_blank" href="/story/001066234#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000058799_piclink.jpg"></figure></a><div class="item-lead">2016年，伦敦各大小剧场、音乐厅、展厅将有数不尽的莎翁剧作和与莎翁剧作相关的音乐作品演出次第展开。其中不少演出创意新颖，惊世骇俗。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="XLT LT MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066236#adchannelID=2052">再游缅甸</a></h2>
+<a class="image" target="_blank" href="/story/001066236#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/5/000058795_piclink.jpg"></figure></a><div class="item-lead">李小龙：在仰光，我似乎回到了中国八九十年代，但仰光的变化比那时的北京还要迅疾。纪念品商店里昂山素季的像章触动了我的某根敏感神经。
+
+</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066235#adchannelID=2052">穿衣服得“流性”！</a></h2>
+<a class="image" target="_blank" href="/story/001066235#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000058802_piclink.jpg"></figure></a><div class="item-lead">“流性”风(Gender fluidity)既包括男装女穿也包括女装男穿。路易维登女装新代言人竟是影星威尔•史密斯(Will Smith) 17岁的儿子杰登•史密斯。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066070#adchannelID=2052">我收藏的食谱奇书</a></h2>
+<a class="image" target="_blank" href="/story/001066070#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000058458_piclink.jpg"></figure></a><div class="item-lead">陈楠：我收藏的食谱不仅包括三本欧美著名历史食谱奇书，也包括朋友们送的《我们的家传菜谱》。今天特奉上我家春节家宴祖传菜谱。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="clearfloat"></div>
+</div>
+</div></div>
+<div class="clearfloat block-bottom"></div>
 </div></div>
 <div class="side-container"><div class="side-inner">
-    
 <div class="mpu-container first-child">
 <script type="text/javascript">document.write (writeAd('mpu'));</script>
 </div>
-<div class="side-list last-child">
-<h2 class="list-title">
-<a href="/channel/stream.html">管理类文章</a>
-</h2>
-<div class="item-container first-headline no-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067304#adchannelID=1100">与同事发生冲突怎么办？</a></h2>
-</div></div>
-<div class="item-container  no-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067242#adchannelID=1100">一次晕厥引发的“睡眠颂”</a></h2>
-</div></div>
-<div class="item-container  no-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067222#adchannelID=1100">让CEO天文数字薪酬回到地面</a></h2>
-</div></div>
-<div class="item-container  no-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067189#adchannelID=1100">EMBA教育不宜整齐划一</a></h2>
-</div></div>
-<div class="item-container  no-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067179#adchannelID=1100">胳膊摔断后工作效率反而高了？</a></h2>
-</div></div>
+<div class="mps">
+<h2 class="list-title"><a href="/channel/weekly.html">十大热门文章</a></h2>
+<ul class="top10">
+<li class="mp1"><span>1. </span><a target="_blank" href="/story/001067457?dailypop">中国的“机器人革命”</a></li>
+<li class="mp2"><span>2. </span><a target="_blank" href="/story/001067458?dailypop">“权威人士”定调L型，经济驶入何方？</a></li>
+<li class="mp3"><span>3. </span><a target="_blank" href="/story/001067463?dailypop">希拉里与特朗普：保守派该选谁？</a></li>
+<li class="mp4"><span>4. </span><a target="_blank" href="/story/001067434?dailypop">《枝繁叶茂》聚焦中国农村</a></li>
+<li class="mp5"><span>5. </span><a target="_blank" href="/story/001067465?dailypop">“菲律宾特朗普”即将当选菲律宾下届总统</a></li>
+<li class="mp6"><span>6. </span><a target="_blank" href="/story/001067462?dailypop">谁在制造南海紧张局势？</a></li>
+<li class="mp7"><span>7. </span><a target="_blank" href="/story/001067450?dailypop">中国国企改革：从改什么到怎么改</a></li>
+<li class="mp8"><span>8. </span><a target="_blank" href="/story/001067453?dailypop">中国网络直播的“战国时代”</a></li>
+<li class="mp9"><span>9. </span><a target="_blank" href="/story/001067470?dailypop">分析：中国仍有资本外流压力</a></li>
+<li class="mp10"><span>10. </span><a target="_blank" href="/story/001067475?dailypop">美军舰驶至南中国海永暑礁附近</a></li>
+</ul>
 </div>
-</div></div>
-<div class="clearfloat"></div>
+<div class="mpu-container last-child">
+<script type="text/javascript">document.write (writeAd('mpu'));</script>
+</div>
+</div></div><div class="clearfloat"></div>
 </div></div><div class="footer-container"><div class="footer-inner">
 <div>
 <a href="/m/corp/aboutus.html">关于我们</a>

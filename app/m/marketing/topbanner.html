@@ -12,21 +12,21 @@ html, body{background: #<%if $smarty.get.bg !=""%><%$smarty.get.bg%><%else%>F6E9
     width:100%;
     overflow:visible;
     position: relative;
+    margin: auto;
 }
 .ad>div {
-    margin: auto!important;
+    margin: auto !important;
     overflow:visible;
-    max-width: 100%!important;
-    display:block!important;
+    max-width: 100% !important;
+    display:block !important;
     width:100%;
 }
 .ad>div div {
-    margin: auto!important;
-    display:block!important;
+    margin: auto !important;
+    display:block !important;
 }
-
 img {
-	max-width: 100%!important;
+	max-width: 100% !important;
 }
 .top-left {
     float: left;
@@ -70,6 +70,7 @@ if (d !== '') {
         //console.log (document.querySelector('.top-left').offsetWidth);
         //document.querySelector('.top-right').style.display='none';
         document.querySelector('.top-left').style.width='969px';
+        document.querySelector('.top-left').style.margin='auto';
         document.querySelector('.top-left').style.float='none';
         document.querySelector('.top-left').style.backgroundColor="transparent";
     } else {
@@ -149,7 +150,7 @@ if ( window.parent.document.getElementById(parentId)) {
         }
     }
 }
-var stickyHeight = 0;
+//var stickyHeight = 0;
 if (window.parent && parentId !== '' && typeof stickyHeight === 'number' && stickyHeight > 0) {
     if (typeof window.parent.stickyAds !== 'object') {
         window.parent.stickyAds = [];
