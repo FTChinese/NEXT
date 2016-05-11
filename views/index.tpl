@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="no-js core" data-next-app="front-page">
+<html class="no-js core is-ie-8" data-next-app="front-page">
  <head>
  <meta charset="utf-8" />
  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -52,7 +52,7 @@ document.documentElement.className = document.documentElement.className.replace(
 <!-- endbuild -->
 
 <!-- build:css styles/main.css -->
-<link rel="stylesheet" href="styles/main.css">
+<!--link rel="stylesheet" href="styles/main.css"-->
 <!-- endbuild -->
 
 <!-- build:css styles/main-ie-XL.css -->
