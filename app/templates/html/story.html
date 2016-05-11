@@ -532,10 +532,12 @@
 
 <%/if%>
 
-
-
-
 <%assign var="channelname" value="<span class=channel id=storybread> `$breadcrum`</span>"%>
+
+<%if $story.tag|@count > 0%>
+	<%assign var=breadcrum value="<a target=\"_blank\" href=\"/tag/`$story.tag[0]`\">`$story.tag[0]`</a><button class=\"myft-follow plus\" data-tag=\"`$story.tag[0]`\" data-type=\"tag\">关注</button>"%>
+<%/if%>
+
 
 <%assign var="storyContent" value=$story_content%>
 

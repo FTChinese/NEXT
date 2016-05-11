@@ -549,7 +549,7 @@
 
                             var relatives = $(this).find('.relative-item');
                             if (relatives.length > 0) {
-                                console.log(relatives.length + ' related items');
+                                //console.log(relatives.length + ' related items');
                                 J.sections[sectionIndex].lists[listIndex].items[itemIndex].relatives = [];
                                 $.each(relatives, function (relativeIndex) {
                                     J.sections[sectionIndex].lists[listIndex].items[itemIndex].relatives.push({});

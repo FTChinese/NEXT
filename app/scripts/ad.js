@@ -262,6 +262,7 @@ function writeAd(adType) {
   var adHeight;
   var iframeHTML;
   var adch = adchID;
+  var bannerBG = '';
 
   if (/iPad/i.test(uaString) && /mpu/.test(adType)) {
     //if iPad, mpu ads change to iPad apps
@@ -283,6 +284,10 @@ function writeAd(adType) {
     } else if (adType === 'storympu') {
       adType = 'phonestorympu';
     }
+  }
+
+  if (window.pageTheme === 'luxury') {
+    bannerBG = '&bg=e0cdac';
   }
 
   adFileName = (adType === 'banner' &&  adCount[adType] === 0) ? 'topbanner' : 'a';

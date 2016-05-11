@@ -12,7 +12,7 @@
 		</div>
 	<%/if%>
 
-
+<%*<!--
 	<div class="story-box">
 		<h2 class="box-title"><a href="/channel/weekly.html">热门文章</a></h2>
 		<ul class="top10">
@@ -26,19 +26,12 @@
 			<%/foreach%>
 		</ul>
 	</div>
+-->*%>
 
 	<%easyapi command="10008" storyid=$story.id debug=false %>
-
-	<%if $smarty.get.ad != "no"%>
-		<div class="mpu-container<%if $data.odatalist|@count==0 && $relative_story|@count==0%> last-child<%/if%>">
-		    <script type="text/javascript">document.write (writeAd('storympu'));</script>
-		</div>
-	<%/if%>
-
-
 	<%if $data.odatalist|@count>0%>
 		<%assign var="i" value=0%>
-		<div class="story-box last-child">
+		<div class="story-box">
 			<h2 class="box-title"><a href="/channel/weekly.html">相关文章</a></h2>
 			<ul class="top10">
 				<%foreach from=$data.odatalist item=sc%>
@@ -49,7 +42,7 @@
 		</div>
 	<%elseif $relative_story|@count>0%>
 		<%assign var="i" value=0%>
-		<div class="story-box last-child">
+		<div class="story-box">
 			<h2 class="box-title"><a href="/channel/weekly.html">相关文章</a></h2>
 			<ul class="top10">
 				<%foreach from=$relative_story item=sc%>
@@ -58,7 +51,49 @@
 				<%/foreach%>
 			</ul>
 		</div>
+	<%else%>
+		<div class="story-box">
+			<h2 class="box-title"><a href="/channel/weekly.html">热门文章</a></h2>
+			<ul class="top10">
+				<%assign var="i" value=0%>
+				<%assign var="mp" value=$storymodel->get_hot_story(1,10) %>
+				<%foreach item=sc from=$mp%>
+				<%if $i<10%>
+					<%assign var="i" value=$i+1%>
+					<li class="mp<%$i%>"><span><%$i%>. </span><a target="_blank" href="/story/<%$sc.storyid%>?dailypop"><%$sc.cheadline%></a></li>
+				<%/if%>
+				<%/foreach%>
+			</ul>
+		</div>
 	<%/if%>
+
+
+	<%if $smarty.get.ad != "no"%>
+		<div class="mpu-container<%if $story.tag|@count==0%> last-child<%/if%>">
+		    <script type="text/javascript">document.write (writeAd('storympu'));</script>
+		</div>
+	<%/if%>
+
+	<%if $story.tag|@count>=1%>
+		<div class="story-box last-child">
+			<h2 class="box-title"><a>相关话题</a></h2>
+			<ul class="top10">
+				<%assign var="i" value=0%>
+				<%foreach from=$story.tag item=sc%>
+					<%assign var="i" value=$i+1%>
+					<%if $sc != "白底" && $sc != "置顶" && $sc != "靠右" && $sc != "单页" && $sc != "沉底" && $sc != "资料" && $sc != "突发" && $sc != "插图" && $sc != "透明" && $sc != "高清"%>
+						<li class="story-theme<%if $i==1%> mp1<%/if%>">
+							<a target="_blank" href="/tag/<%$sc%>"><%$sc%></a>
+							<div class="icon-right">
+								<button class="myft-follow plus" data-tag="<%$sc%>" data-type="tag">关注</button>
+							</div>
+						</li>
+					<%/if%>
+				<%/foreach%>
+			</ul>
+		</div>
+	<%/if%>
+
 
 
 </div></div>
