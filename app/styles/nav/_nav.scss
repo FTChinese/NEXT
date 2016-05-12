@@ -24,15 +24,19 @@
 	margin: 0;
 	padding: 0;
 	@include oGridRespondTo(L) {
-		@include oColorsFor(o-header, text background);
+		// @include oColorsFor(o-header, text background);
+		background-color: $headerTint;
+		color: $whiteColor;
 		white-space: nowrap;
 		overflow-x: hidden;
 	}
 	
 	@include oGridRespondTo($until:L) {
 
-		@include oColorsFor(o-header-mega-nav);
-
+		// @include oColorsFor(o-header-mega-nav);
+		background-color: $o-nav-pink-mobile;
+		color: $headerTint;
+		
 		position: absolute;
 		display: none;
 // psuedo left column background.
@@ -45,7 +49,9 @@
 			left: 0;
 			bottom: 0;
 			width: $o-header-mobile-left-width;
-			@include oColorsFor(o-header);
+			// @include oColorsFor(o-header);
+			background-color: $headerTint;
+			color: $whiteColor;
 			z-index: -1;
 		}
 		
@@ -70,10 +76,12 @@
 		display: inline-block;
 
 		&:hover {
-			@include oColorsFor(o-header-sub-nav, background);
+			// @include oColorsFor(o-header-sub-nav, background);
+			background-color: $headerTintLight;
 		}
 		&[aria-selected=true] {
-			@include oColorsFor(o-header-sub-nav, background);
+			// @include oColorsFor(o-header-sub-nav, background);
+			background-color: $headerTintLight;
 		}
 		&.mobile {		
 			display: none;
@@ -104,7 +112,7 @@
 	line-height: $o-header-bottom-height;
 	display: block;
 	text-decoration: none;
- 	@include oColorsFor(o-header, text);
+ 	// @include oColorsFor(o-header, text);
 	background-color: inherit;
 	color: $whiteColor;
 	@include oGridRespondTo($until:L) {
@@ -114,7 +122,9 @@
 		width: $o-header-mobile-left-width;
 		text-align: right;
 //add background and color on .nav-section-head to fake two column on small screen;
-		@include oColorsFor(o-header);
+		// @include oColorsFor(o-header);
+		background-color: $headerTint;
+		color: $whiteColor;
 		font-size: 14px;
 		// override link color for luxury page
 
@@ -127,7 +137,9 @@
 
 		&[aria-selected=true] {
 // When button.nav-section-head was clicked
-			@include oColorsFor(o-header-mega-nav);
+			// @include oColorsFor(o-header-mega-nav);
+			background-color: $o-nav-pink-mobile;
+			color: $headerTint;
 			font-weight: bold;
 
 			&:after {
@@ -144,9 +156,10 @@
 			transition: $o-header-background-transition;
 
 			&:hover {
-				@include oColorsFor(o-header-sub-nav, background);
-				@include oColorsFor(o-header, text);
-
+				// @include oColorsFor(o-header-sub-nav, background);
+				// @include oColorsFor(o-header, text);
+				background-color: $headerTint;
+				color: $whiteColor;
 			}
 		}
 	}
@@ -174,8 +187,9 @@
 		height: 0;
 		z-index: 1;
 // set color explicitly to enable transition.
-		@include oColorsFor(o-header-sub-nav, background);
-
+		// @include oColorsFor(o-header-sub-nav, background);
+		background-color: $headerTintLight;
+		color: $whiteColor;
 
 // hide overflow so that contents inside it could be transitioned.
 		overflow: hidden;
@@ -196,11 +210,11 @@
 		}
 
 // hide when scrolled. To keep transiton effect, do no use  display, visibility.
-		/* .o-nav[aria-sticky=true] */.o-nav-sticky .nav-section[aria-selected=true] & {
+		.o-nav-sticky .nav-section[aria-selected=true] & {
 			height: 0;
 		}
-		/* .o-nav[aria-sticky=true] */.o-nav-sticky .nav-section:hover &,
-		/* .o-nav[aria-sticky=true] */.o-nav-sticky .nav-section-head.desktop:hover ~ & {
+		.o-nav-sticky .nav-section:hover &,
+		.o-nav-sticky .nav-section-head.desktop:hover ~ & {
 			display: none;
 		}
 	}
@@ -224,9 +238,10 @@
 		.nav-section-head[aria-selected=true] ~ &{
 			display: block;
 		}
-		@include oColorsFor(o-header-mega-nav);
+		// @include oColorsFor(o-header-mega-nav);
+		background-color: $o-nav-pink-mobile;
+		color: $headerTint;
 	}
-	color: $whiteColor!important;
 }
 
 .nav-item {
@@ -282,9 +297,13 @@
 		margin: 0;
 		font-size: 14px;
 // set color and background-color that same as `.nav-section-head` for links on the left.
-		@include oColorsFor(o-header);
+		// @include oColorsFor(o-header);
+		background-color: $headerTint;
+		color: $whiteColor;
+
 		&:hover {
-			@include oColorsFor(o-header, text);
+			// @include oColorsFor(o-header, text);
+			color: $whiteColor;
 		}
 
 		.nav-items & {
@@ -297,14 +316,16 @@
 			width: auto;
 			text-align: left;
 // reset color and background-colors under `.nav-items`.
-			@include oColorsFor(o-header-mega-nav);
+			// @include oColorsFor(o-header-mega-nav);
+			background-color: $o-nav-pink-mobile;
+			color: $headerTint;
+
 			font-size: 16px;	
 			&:hover,
 			&:focus {
 				text-decoration: underline;
 			}
 		}
-		color: $whiteColor;
 	}
 
 	@include oGridRespondTo(L) {
@@ -316,17 +337,18 @@
 		height: $o-header-sub-nav-height;
 		padding: 0 10px;
 		font-size: 14px;
-		@include oColorsFor(o-header, text);
+		// @include oColorsFor(o-header, text);
+		color: $whiteColor;
+
 		cursor: pointer;
 		&:hover,
 		.nav-item[aria-selected=true] & {
-			@include oColorsFor(o-header-nav-link-hover, background);
-			@include oColorsFor(o-header, text);
+			// @include oColorsFor(o-header-nav-link-hover, background);
+			// @include oColorsFor(o-header, text);
 			background-color: $darkGreen;
+			color: $whiteColor;
 		}		
-		color: $whiteColor;
 	}
-	color: $whiteColor;
 }
 
 .nav-sub-items {
@@ -343,13 +365,16 @@
 
 		display: none;
 
-		@include oColorsFor(o-header-sub-nav, background);
+		// @include oColorsFor(o-header-sub-nav, background);
+		background-color: $headerTintLight;
+
 		li {
 			border-top: 1px solid #666;
 		}
 
 		a{
-			@include oColorsFor(o-header, text);
+			// @include oColorsFor(o-header, text);
+			color: $whiteColor;
 			padding: 0 20px;
 			height: $o-header-sub-nav-height;
 			line-height: $o-header-sub-nav-height;
@@ -359,7 +384,8 @@
 			white-space: nowrap;
 
 			&:hover {
-				@include oColorsFor(o-header-nav-link-hover, background);
+				// @include oColorsFor(o-header-nav-link-hover, background);
+				background-color: $darkGreen;
 			}
 		}
 
@@ -377,7 +403,9 @@
 	@include oGridRespondTo(L) {
 		display: none;
 	}
-	@include oColorsFor(o-header, text background);
+	// @include oColorsFor(o-header, text background);
+	background-color: $headerTint;
+	color: $whiteColor;
 
 	box-sizing: border-box;
 	border: 0;
@@ -387,7 +415,7 @@
 	cursor: pointer;
 	text-align: left;
 	display: inline-block;
-	background: none;
+	// background: none;
 	line-height: $o-header-bottom-height;
 	height: 100%;
 	width: $o-header-bottom-height;

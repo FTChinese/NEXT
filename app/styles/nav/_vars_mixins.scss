@@ -68,8 +68,9 @@ $o-header-mobile-right-width: percentage(($o-grid-columns - $o-header-mobile-wid
 @mixin oHeaderSearchExpanded {
 	cursor: text;
 	width: 100%;
-	@include oColorsFor(o-header, background);
-	border: 1px solid oColorsGetPaletteColor('pink-tint4');
+	// @include oColorsFor(o-header, background);
+	background-color: $headerTint;
+	border: 1px solid #a7a59b;
 	padding-right: $o-header-bottom-height + 5px;
 	padding-left: 5px;
 }
@@ -78,11 +79,11 @@ $o-header-mobile-right-width: percentage(($o-grid-columns - $o-header-mobile-wid
 	border-top: 0;
 	border-left: 6px solid transparent;
 	border-right: 6px solid transparent;	
-	border-bottom: 8px solid oColorsGetColorFor(o-header-edition-switch, border);	
+	border-bottom: 8px solid $whiteColor;	
 }
 
 @mixin oHeaderArrowDown {
-	border-top: 8px solid oColorsGetColorFor(o-header-edition-switch, border);
+	border-top: 8px solid $whiteColor;
 	border-left: 6px solid transparent;
 	border-right: 6px solid transparent;
 	border-bottom: 0;
