@@ -27,7 +27,9 @@
 }
 
 .o-nav {
-	@include oColorsFor(o-header);
+	// @include oColorsFor(o-header);
+	background-color: $headerTint;
+	color: $whiteColor;
 
 	@include oGridRespondTo($until: L) {
 		position: fixed;
@@ -47,9 +49,9 @@
 			right: 0;
 			height: $o-header-sub-nav-height;
 			transition: $o-header-height-transition;
-			@include oColorsFor(o-header-sub-nav, background);
+			// @include oColorsFor(o-header-sub-nav, background);
+			background-color: $headerTintLight;
 		}
-		/* &[aria-sticky=true] */
 		.o-nav-sticky & {
 			position: fixed;
 			top: 0;

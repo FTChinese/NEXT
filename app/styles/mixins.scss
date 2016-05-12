@@ -661,10 +661,8 @@
 	}
 }
 
-@import "o-colors/main";
-@import "o-grid/main";
 
-@import "nav/colors";
+@import "o-grid/main";
 @import "nav/vars_mixins";
 
 @mixin navL {
@@ -682,7 +680,9 @@
 		background-color: transparent;	
 	}
 	.o-nav {
-		@include oColorsFor(o-header);
+		// @include oColorsFor(o-header);
+		background-color: $headerTint;
+		color: $whiteColor;
 		position: relative;
 		&:after {
 			content: '';
@@ -690,7 +690,8 @@
 			left: 0;
 			right: 0;
 			height: $o-header-sub-nav-height;
-			@include oColorsFor(o-header-sub-nav, background);
+			// @include oColorsFor(o-header-sub-nav, background);
+			background-color: $headerTintLight;
 		}
 	}
 	&.o-nav-sticky .o-nav {
@@ -737,21 +738,25 @@
 		position: relative;
 	}
 	.o-nav__meganav {
-	list-style: none;
-	margin: 0;
-	padding: 0;
-	@include oColorsFor(o-header, text background);
-	white-space: nowrap;
-	overflow-x: hidden;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		// @include oColorsFor(o-header, text background);
+		background-color: $headerTint;
+		color: $whiteColor;
+		white-space: nowrap;
+		overflow-x: hidden;
 	}
 
 	.nav-section{
 		display: inline-block;
 		&:hover {
-			@include oColorsFor(o-header-sub-nav, background);
+			// @include oColorsFor(o-header-sub-nav, background);
+			background-color: $headerTintLight;
 		}
 		&[aria-selected=true] {
-			@include oColorsFor(o-header-sub-nav, background);
+			// @include oColorsFor(o-header-sub-nav, background);
+			background-color: $headerTintLight;
 		}
 		&.mobile {		
 			display: none;
@@ -768,7 +773,7 @@
 		line-height: $o-header-bottom-height;
 		display: block;
 		text-decoration: none;
-	 	@include oColorsFor(o-header, text);
+	 	// @include oColorsFor(o-header, text);
 		background-color: inherit;
 		color: $whiteColor;
 		&.desktop {
@@ -777,8 +782,10 @@
 			transition: $o-header-background-transition;
 
 			&:hover {
-				@include oColorsFor(o-header-sub-nav, background);
-				@include oColorsFor(o-header, text);
+				// @include oColorsFor(o-header-sub-nav, background);
+				// @include oColorsFor(o-header, text);
+				background-color: $headerTint;
+				color: $whiteColor;
 			}
 		}
 		&.mobile {
@@ -798,15 +805,15 @@
 		//height: 0;
 		z-index: 1;
 
-		@include oColorsFor(o-header-sub-nav, background);
+		// @include oColorsFor(o-header-sub-nav, background);
+		background-color: $headerTintLight;
+		color: $whiteColor;
 
 		overflow: hidden;
 
 		&:hover {
 			overflow: visible;
 		}
-
-		color: $whiteColor!important;
 	}
 
 	.nav-section:hover,
@@ -870,15 +877,16 @@
 		height: $o-header-sub-nav-height;
 		padding: 0 10px;
 		font-size: 14px;
-		@include oColorsFor(o-header, text);
+		// @include oColorsFor(o-header, text);
+		color: $whiteColor;
 		cursor: pointer;
 		&:hover,
 		.nav-item[aria-selected=true] & {
-			@include oColorsFor(o-header-nav-link-hover, background);
-			@include oColorsFor(o-header, text);
+			// @include oColorsFor(o-header-nav-link-hover, background);
+			// @include oColorsFor(o-header, text);
 			background-color: $darkGreen;
+			color: $whiteColor;
 		}		
-		color: $whiteColor;
 	}
 
 	.nav-sub-items {
@@ -891,13 +899,15 @@
 
 		display: none;
 
-		@include oColorsFor(o-header-sub-nav, background);
+		// @include oColorsFor(o-header-sub-nav, background);
+		background-color: $headerTint;
 		li {
 			border-top: 1px solid #666;
 		}
 
 		a{
-			@include oColorsFor(o-header, text);
+			// @include oColorsFor(o-header, text);
+			color: $whiteColor;
 			padding: 0 20px;
 			height: $o-header-sub-nav-height;
 			line-height: $o-header-sub-nav-height;
@@ -907,7 +917,8 @@
 			white-space: nowrap;
 
 			&:hover {
-				@include oColorsFor(o-header-nav-link-hover, background);
+				// @include oColorsFor(o-header-nav-link-hover, background);
+				background-color: $darkGreen;
 			}
 		}
 	}
@@ -1046,6 +1057,5 @@
 	 	span {
 			display: none;
 		}
-	}
-	
+	}	
 }
