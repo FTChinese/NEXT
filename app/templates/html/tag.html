@@ -1,6 +1,9 @@
+<%if $storymodel != ""%>
 <%assign var=taginfo value=$storymodel->get_tag_describes($tag_name)%>
 <%assign var=tagtitle value=$taginfo.tag_title%>
 <%assign var=tagabout value=$taginfo.tag_desc|default:$PageIntro%>
+<%/if%>
+
 
 <%if $tagtitle=="" || $breadcrumb!=""%>
 <%if $breadcrumb!=""%>
@@ -20,7 +23,10 @@
 <%if !isset($adchannelID)||$adchannelID==""%>
     <%assign var="adchannelID" value="1100"%>
 <%/if%>
+
+<%if $storymodel != ""%>
 <%assign var="gettime" value=$storymodel->get_story_by_tag($tag_name,0,20)%>
+<%/if%>
 
 <%if $tagstory%>
 <%assign var="allstory" value=$tagstory%>
@@ -53,6 +59,8 @@
     <%if $pageTheme == "luxury"%>
         <style><%include file="next/styles/main-luxury.css"%></style>
         <script type="text/javascript">var pageTheme = 'luxury';</script>
+    <%elseif $pageTheme == "myft"%>
+        <style><%include file="next/styles/main-myft.css"%></style>
     <%else%>
         <style><%include file="next/styles/main-tag.css"%></style>
     <%/if%>

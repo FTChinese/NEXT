@@ -20,7 +20,7 @@
         'from': ['', 'MarketsData', 'SpecialReports', 'Columns', 'Channels', 'Events', 'Marketing'],
         'sideOption': ['headlineOnly', 'leadOnly', 'imageAndText'],
         'preferLead': ['longlead', 'shortlead', 'none'],
-        'feedType': ['all','story','video','interactive','photo','job', 'myFT'],
+        'feedType': ['all','story','video','interactive','photo','job', 'myFT', 'fav'],
         'feedItems': 'number',
         'language': ['', 'en', 'ce']
     };

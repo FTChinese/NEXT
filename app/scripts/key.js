@@ -33,39 +33,6 @@ var userId = GetCookie('USER_ID') || '';
 var ccodeCookie=GetCookie('ccode') || '';
 /* jshint ignore:end */
 
-function addstoryfav(storyid){
-    if(username===''||username===null){
-        alert('您必须登录后能才能收藏文章!');
-        return;
-    }
-    document.getElementById('addfavlink').innerHTML = '保存...';
-    /*
-    $.post('/users/addfavstory/'+storyid, {
-        storyid: storyid
-    }, function(data){
-        if(data === 'ok') {
-            document.getElementById('addfavlink').innerHTML = '已收藏';
-        }
-    });
-    */
-    var xhr1 = new XMLHttpRequest();
-    xhr1.open('POST', '/users/addfavstory/'+storyid);
-    xhr1.setRequestHeader('Content-Type', 'application/text');
-    xhr1.onload = function() {
-        if (xhr1.status === 200) {
-            var data = xhr1.responseText;
-            if (data === 'ok') {
-                document.getElementById('addfavlink').innerHTML = '已收藏';
-            }
-        } else if (xhr1.status !== 200) {
-            //alert('Request failed.  Returned status of ' + xhr.status);
-        }
-    };
-    xhr1.send(JSON.stringify({
-        storyid: storyid
-    }));
-
-}
 
 function showOverlay(overlayId) {
     document.getElementById(overlayId).className = 'overlay-container on';

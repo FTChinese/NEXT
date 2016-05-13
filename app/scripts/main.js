@@ -22,6 +22,7 @@
   var scrollTop = window.scrollY || document.documentElement.scrollTop;
   var ticking = false;
   var hostForVideo = '';
+  var currentFavButton;
 
   function findTop(obj) {
     var curtop = 0;
@@ -363,4 +364,42 @@
 delegate.on('click', '.overlay-close, .overlay-bg', function(){
     var parentId = this.getAttribute('data-parentid');
     closeOverlay(parentId);
+});
+
+//click to close
+delegate.on('click', '.icon-save button', function(){
+    if(username===''||username===null){
+        alert('您必须登录后能才能收藏文章!');
+        return;
+    }
+    var storyid = this.id.replace(/addfavlink/g,'');
+    var favAction;
+    //console.log (this.innerHTML);
+    if (this.innerHTML === '收藏') {
+      favAction = 'add';
+    } else if (this.innerHTML === '删除') {
+      favAction = 'remove';
+    } else {
+      return;
+    }
+    //console.log ('2: ' + this.innerHTML);
+    currentFavButton = document.getElementById('addfavlink'+storyid) || document.getElementById('addfavlink');
+    currentFavButton.innerHTML = (favAction === 'add') ? '保存...': '删除...';
+    // /index.php/users/removefavstory/"+s
+    var xhr1 = new XMLHttpRequest();
+    xhr1.open('POST', '/users/' + favAction + 'favstory/' + storyid);
+    xhr1.setRequestHeader('Content-Type', 'application/text');
+    xhr1.onload = function() {
+        if (xhr1.status === 200) {
+            var data = xhr1.responseText;
+            if (data === 'ok' || data === '') {
+                currentFavButton.innerHTML = (favAction === 'add') ? '删除': '收藏';
+            }
+        } else if (xhr1.status !== 200) {
+            //alert('Request failed.  Returned status of ' + xhr.status);
+        }
+    };
+    xhr1.send(JSON.stringify({
+        storyid: storyid
+    }));
 });

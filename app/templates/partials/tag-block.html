@@ -45,7 +45,7 @@
 					<%assign var="itemImage" value="http://i.ftimg.net/`$itemImage`"%>
 				<%/if%>
 
-				<%if $itemImage != ""%>
+				<%if $itemImage != "" && $pageTheme != "myft"%>
 					<%assign var="itemClass" value=""%>
 					<%assign var="itemTop" value=""%>
 					<%assign var="itemTopClass" value=""%>
@@ -347,7 +347,7 @@
 			<%*<!--Display Stories With Image End-->*%>
 
 
-			<%if $noImageCount > 0%><div class="XLT LT MT ST PT"></div><%/if%>
+			<%if $noImageCount > 0 && $pageTheme != "myft"%><div class="XLT LT MT ST PT"></div><%/if%>
 
 			<%*<!--Display Stories Without Image-->*%>
 			<%assign var="i" value=0%>
@@ -370,7 +370,7 @@
 					<%assign var="itemImage" value=$item.image.cover|default:$item.image.smallbutton|default:$item.image.other|default:$item.image.bigbutton%>
 				<%/if%>
 
-				<%if $itemImage == ""%>
+				<%if $itemImage == "" || $pageTheme == "myft"%>
 					<%assign var="itemClass" value=""%>
 					<%assign var="itemTop" value=""%>
 					<%assign var="itemTopClass" value=""%>
@@ -383,7 +383,11 @@
 					<%assign var="hideImage" value="no"%>
 					<%assign var="hideLead" value="no"%>
 					<%*<!--Has Side: XL Styles-->*%>
-					<%if $allStoiesCount === 1%>
+					<%if $pageTheme === "myft"%>
+						<%assign var="hideImage" value="yes"%>
+						<%assign var="XL" value="one-row"%>
+						<%assign var="itemTopClass" value="XLT LT ST MT PT"%>
+					<%elseif $allStoiesCount === 1%>
 						<%assign var="XL" value="XL12"%>
 					<%elseif $allStoiesCount === 2%>
 						<%assign var="XL" value="XL6"%>
@@ -562,34 +566,49 @@
 					<%/if%>
 
 
-					<%if $pageType="special"%>
+					<%if $pageType=="special"%>
 						<%assign var="itemLink" value="/tag/`$item.cshortleadbody`"%>
 					<%else%>
 						<%assign var="itemLink" value="/`$itemType`/`$itemId`#adchannelID=`$adchannelID`"%>
 					<%/if%>
 
 
-					<%$itemTop%>
-					<div class="item-container <%$itemClass%> <%$hasImage%>"><div class="item-inner">
-						<h2 class="item-headline"><%$itemTag%><a target="_blank" href="<%$itemLink%>"><%$itemHeadline%></a></h2>
-						<%if $item.relatives|@count > 0 && $item.relatives[0].type === 'video'%><div class="image"><figure class="loading-video" data-vid="<%$item.relatives[0].id%>"></figure></div><%elseif $itemType === "video" && $listType !== "videos"%><div class="image"><figure class="loading-video" data-vid="<%$itemId%>"></figure></div><%elseif $itemImage != "" && $hasImage === "has-image"%><a class="image" target="_blank" href="<%$itemLink%>"><figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure></a><%/if%>
-						<%if $hideLead === "no"%><div class="item-lead"><%$itemLead%></div><%/if%>
-						<%$itemTimeStamp%>
-						<%if $item.relatives|@count > 0 && $item.showRelativeStoryItems > 0%>
-							<%assign var="r" value=0%>
-							<div class="relative-container">
-								<%foreach from=$item.relatives item=relative%>
-									<%if $r<$item.showRelativeStoryItems%>
-									<h3 class="relative"><a href="/<%$relative.type%>/<%$relative.id%>" target="_blank"><%$relative.headline%></a></h3>
-									<%assign var="r" value=$r+1%>
-									<%/if%>
-								<%/foreach%>
-								<div class="clearfloat"></div>
+					<%if $pageTheme === "myft"%>
+						<%$itemTop%>
+						<div class="item-container <%$itemClass%> <%$hasImage%>"><div class="item-inner">
+							<%$itemTag%>
+							<h2 class="item-headline"><a target="_blank" href="<%$itemLink%>"><%$itemHeadline%></a></h2>
+							<%if $hideLead === "no"%><div class="item-lead"><%$itemLead|nl2br%></div><%/if%>
+							<div class="icon-right icon-save">
+								<button id="addfavlink<%$itemId%>"><%if $$favstory == ""%>收藏<%else%>删除<%/if%></button>
 							</div>
-						<%/if%>
+							<%$itemTimeStamp%>
+							<div class="item-bottom"></div>
+						</div></div>
+						<%assign var="i" value=$i+1%>
+					<%else%>
+						<%$itemTop%>
+						<div class="item-container <%$itemClass%> <%$hasImage%>"><div class="item-inner">
+							<h2 class="item-headline"><%$itemTag%><a target="_blank" href="<%$itemLink%>"><%$itemHeadline%></a></h2>
+							<%if $item.relatives|@count > 0 && $item.relatives[0].type === 'video'%><div class="image"><figure class="loading-video" data-vid="<%$item.relatives[0].id%>"></figure></div><%elseif $itemType === "video" && $listType !== "videos"%><div class="image"><figure class="loading-video" data-vid="<%$itemId%>"></figure></div><%elseif $itemImage != "" && $hasImage === "has-image"%><a class="image" target="_blank" href="<%$itemLink%>"><figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure></a><%/if%>
+							<%if $hideLead === "no"%><div class="item-lead"><%$itemLead%></div><%/if%>
+							<%$itemTimeStamp%>
+							<%if $item.relatives|@count > 0 && $item.showRelativeStoryItems > 0%>
+								<%assign var="r" value=0%>
+								<div class="relative-container">
+									<%foreach from=$item.relatives item=relative%>
+										<%if $r<$item.showRelativeStoryItems%>
+										<h3 class="relative"><a href="/<%$relative.type%>/<%$relative.id%>" target="_blank"><%$relative.headline%></a></h3>
+										<%assign var="r" value=$r+1%>
+										<%/if%>
+									<%/foreach%>
+									<div class="clearfloat"></div>
+								</div>
+							<%/if%>
 						<div class="item-bottom"></div>
-					</div></div>
-					<%assign var="i" value=$i+1%>
+						</div></div>
+						<%assign var="i" value=$i+1%>
+					<%/if%>
 				<%/if%>
 			<%/foreach%>
 			<%*<!--Display Stories Without Image End-->*%>

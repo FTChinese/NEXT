@@ -151,6 +151,12 @@
 					<%assign var="itemsArray" value=$list.items%>
 				<%/if%>
 
+				<!--
+				items arragy: 
+<%$itemsArray|var_dump%>
+
+				-->
+
 
 				<%assign var="i" value=0%>
 				<%assign var="listItemCount" value=$itemsArray|@count%>
@@ -640,7 +646,7 @@
 					<%assign var="itemTag" value=""%>
 					<%if $list.showTag === "yes"%>
 						<%*<!--Sometimes Editors Use Space in Tags-->*%>
-						<%assign var="itemTagsString" value=$item.tag|default:$item.tags%>
+						<%assign var="itemTagsString" value=$item.tag|default:$item.tags|default:$item.tagname%>
 						<%assign var="itemTagsString" value=$itemTagsString|replace:" ":","%>
 						<%assign var="itemTags" value=","|explode:$itemTagsString%>
 						<%assign var="itemTag" value=$itemTags[0]%>
@@ -666,12 +672,13 @@
 
 					<%assign var="itemTimeStamp" value=""%>
 					<%assign var="itemT" value=$item.timeStamp|default:$item.pubdate|default:$item.add_times%>
+					<%assign var="itemT" value=$itemT|regex_replace:"/\.[0-9]+$/i":""%>
 					<%if $list.showTimeStamp === "all" || $lists.showTimeStamp === "new stories"%>
 						<%assign var="highlightTime" value=""%>
 						<%math assign="timeDiff" equation="x-y" x=$smarty.now y=$itemT%>
-						<%if $item.type === "video"%>
+						<%if $item.type === "video" && preg_match("/[0-9]+\-[0-9]+\-[0-9]+/is",$itemT)%>
 							<%assign var="highlightTime" value=""%>
-							<%assign var="timeDiff" value=$item.timeStamp|default:$item.pubdate%>
+							<%assign var="timeDiff" value=$itemT|date_format:"%Y年%-m月%-d日"%>
 						<%elseif $timeDiff < 0%>
 							<%assign var="highlightTime" value=" highlight"%>
 							<%assign var="timeDiff" value="刚刚发布"%>
@@ -741,7 +748,7 @@
 							<%if $hideLead === "no"%><div class="item-lead"><%$itemLead|nl2br%></div><%/if%>
 							</div>
 							<div class="icon-right icon-save">
-								<button id="addfavlink" onclick="addstoryfav('<%$itemId%>')">收藏</button>
+								<button id="addfavlink<%$itemId%>">收藏</button>
 							</div>
 							<%$itemTimeStamp%>
 							<div class="item-bottom"></div>
