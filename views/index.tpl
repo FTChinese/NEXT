@@ -52,7 +52,7 @@ document.documentElement.className = document.documentElement.className.replace(
 <!-- endbuild -->
 
 <!-- build:css styles/main.css -->
-<link rel="stylesheet" href="styles/main-myft.css">
+<link rel="stylesheet" href="styles/main.css">
 <!-- endbuild -->
 
 <!-- build:css styles/main-ie-XL.css -->
