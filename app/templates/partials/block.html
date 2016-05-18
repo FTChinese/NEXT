@@ -117,6 +117,12 @@
 				<%if $list.feedType == "myFT"%>
 					<%easyapi command="31005" assign="myftArrays" topnum=30%>
 					<%assign var="itemsArray" value=$myftArrays.odatalist%>
+				<%elseif $list.feedType == "ftc_columns"%>
+					<%assign var="itemsArray" value=$storymodel->get_column_list("cn")%>
+					<%assign var="feedType" value="columns"%>
+				<%elseif $list.feedType == "ft_columns"%>
+					<%assign var="itemsArray" value=$storymodel->get_column_list("en")%>
+					<%assign var="feedType" value="columns"%>
 				<%elseif $list.items|@count==0 && $list.feedItems != "" && $list.feedItems != "0"%>
 					<%if preg_match("/like|find_in_set|=|\(| in /is",$list.feedTag)%>
 						<%if $list.feedType == "story"%>
@@ -164,6 +170,9 @@
 					<%assign var="itemHeadline" value=$item.headline|default:$item.cheadline|default:$item.cn_title%>
 					<%if $feedType == "all"%>
 						<%assign var="itemImage" value=$item.image.cover|default:$item.image.smallbutton|default:$item.image.other|default:$item.image.bigbutton%>
+					<%elseif $feedType == "columns"%>
+						<%assign var="columninfo" value=$storymodel->get_column_info($item.id)%>
+						<%assign var="itemImage" value=$columninfo.piclink%>
 					<%elseif $feedType == "photonews"%>
 						<%assign var="itemImage" value=$item.illustration|default:$item.cover|default:$item.thumb_url%>
 						<%if $itemImage != ""%>
@@ -206,7 +215,7 @@
 						<%assign var="hideImage" value="yes"%>
 						<%assign var="XL" value="one-row"%>
 						<%assign var="itemTopClass" value="XLT LT ST MT PT"%>
-					<%elseif $list.float === "Card"%>
+					<%elseif $list.float === "Card" || $feedType=="columns"%>
 						<%if $sectionHasSide == "yes"%>
 							<%assign var="XL" value="XL4 L4 S12 M6 P12"%>
 							<%if $i%3 == 0%>
@@ -713,6 +722,9 @@
 							<%assign var="itemTagLink" value="/channel/speedread.html"%>
 						<%elseif $itemTag === "FT商学院"%>
 							<%assign var="itemTagLink" value="/channel/mba.html"%>
+						<%elseif $feedType=="columns"%>
+							<%assign var="itemTag" value=$item.author_name_cn%>
+							<%assign var="itemTagLink" value="/column/`$itemId`"%>
 						<%else%>
 							<%assign var="itemTagLink" value="/tag/`$itemTag`"%>
 						<%/if%>
@@ -765,9 +777,9 @@
 						<%assign var="hideLead" value="yes"%>
 						<%assign var="itemLead" value=""%>
 					<%elseif $list.preferLead === "shortlead"%>
-						<%assign var="itemLead" value=$item.shortlead|default:$item.clead|default:$item.longlead|default:$item.cshortleadbody|default:$item.clongleadbody%>
+						<%assign var="itemLead" value=$item.shortlead|default:$item.clead|default:$item.longlead|default:$item.cshortleadbody|default:$item.clongleadbody|default:$item.description%>
 					<%else%>
-						<%assign var="itemLead" value=$item.longlead|default:$item.clead|default:$item.shortlead|default:$item.clongleadbody|default:$item.cshortleadbody%>
+						<%assign var="itemLead" value=$item.longlead|default:$item.clead|default:$item.shortlead|default:$item.clongleadbody|default:$item.cshortleadbody|default:$item.description%>
 					<%/if%>
 
 					<%if $hideImage === "yes"%>
@@ -780,6 +792,9 @@
 						<%assign var="listLanguage" value=""%>
 					<%/if%>
 
+					<%if $feedType=="columns"%>
+						<%assign var="itemType" value="column"%>
+					<%/if%>
 
 					<%if $item.customLink != "" %>
 						<%assign var="itemLink" value=$item.customLink%>
@@ -790,6 +805,8 @@
 						<%assign var="itemLink" value="/`$itemType`/`$itemId``$listLanguage``$adForceString`"%>
 						<%assign var="itemLink" value=" href=\"`$itemLink`\""%>
 					<%/if%>
+
+
 
 					<%if $listType == "videos" && $i>5%>
 						<%*<!--Only display first 6 in video package-->*%>

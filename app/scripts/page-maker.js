@@ -9,7 +9,7 @@
         'lists': 'array',
         'items': 'item',
         'type': 'readonly',
-        'theme': ['default', 'luxury', 'myFT'],
+        'theme': ['default', 'luxury', 'myFT', 'technology'],
         //'type': ['block', 'banner', 'header', 'footer'],
         'side': ['none', 'HomeRightRail','TagRightRail', 'MostPopular', 'HotVideos', 'MarketsData', 'videos', 'MostCommented'],
         'sideAlign': ['right', 'left'],

@@ -1,6 +1,21 @@
 <div class="side-container"><div class="side-inner">
 	<%if $tagabout != ""%>
-		<div class="tag-about">
+		<%if $PageIntroTitle != ""%>
+			<div class="list-title">
+				<%if $PageIntroRSS != ""%>
+					<a href="<%$PageIntroRSS%>" class="follow__rss"><%$PageIntroTitle%></a>
+				<%else%>
+					<a><%$PageIntroTitle%></a>
+				<%/if%>
+			</div>
+			<%assign var=tagAboutClass value="top10"%>
+		<%else%>
+			<%assign var=tagAboutClass value="tag-about"%>
+		<%/if%>
+		<div class="<%$tagAboutClass%>">
+			<%if $PageIntroIMG != ""%>
+				<a class="image" target="_blank"><figure class="loading" data-url="<%$PageIntroIMG%>"></figure></a>
+			<%/if%>
 			<%$tagabout%>
 		</div>
 	<%/if%>

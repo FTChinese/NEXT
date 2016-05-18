@@ -77,6 +77,7 @@ delegate.on('click', '#font-options div', function(){
         /* jshint ignore:start */
         SetCookie('fs',currentClass,'','/');
         /* jshint ignore:end */
+        storyContainerClass = storyContainerClass.replace(/ (normal|bigger|biggest|smaller|smallest)/g,'');
         document.querySelector('.story-container').className = storyContainerClass + ' ' + currentClass;
         stickyBottomPrepare();
         stickyAdsPrepare();
