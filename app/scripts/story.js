@@ -87,7 +87,7 @@ delegate.on('click', '#font-options div', function(){
 /* jshint ignore:start */
 fs = GetCookie('fs');
 /* jshint ignore:end */
-if (typeof fs === 'string' && fs !== null && fs !== '') {
+if (typeof fs === 'string' && fs !== null && fs !== '' && document.getElementById('font-options') && document.querySelector('.story-container')) {
     document.getElementById('font-options').querySelector('.' + fs.replace(/ /g, '.')).className = fs + ' selected';
     document.querySelector('.story-container').className = document.querySelector('.story-container').className + ' ' + fs;
 } else {

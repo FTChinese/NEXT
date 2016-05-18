@@ -31,62 +31,67 @@
                 </li>
               </ol>
             </li>
-
             <%foreach from=$datass1.odatalist item="level_1"%>
-            <li class="nav-section"
-            <%if $topnav==$level_1.code%>
-            aria-selected="true"
-<%assign var=current_page value=$level_1.name%>
-<%assign var=current_link value=$level_1.link%>
-            <%/if%>
-            data-section="<%$level_1.code%>">
-
-              <button class="nav-section-head mobile"><%$level_1.name%></button>
-
-              <a class="nav-section-head desktop" href="<%$level_1.link%>"><%$level_1.name%></a>
-
-<%if $topnav==$level_1.code%>
-
-              <ol class="nav-items">
-
-                <li class="nav-item mobile">
-                  <a class="nav-link" href="<%$level_1.link%>">
-                  <%if $level_1.code=='home'%>FT中文网首页
-                  <%else%>
-                  频道首页
-                  <%/if%></a>
-                </li>
-
-                <%foreach from=$level_1.children item="level_2"%>
-
-                <li class="nav-item"
-                <%if !empty($subnav) && ($subnav==$level_2.code)%>
-                aria-selected="true"
-<%assign var=current_sub_page value=$level_2.name%>
-<%assign var=current_sub_link value=$level_2.link%>
-                <%/if%>
-                <%if $level_2.haschildren%>
-                aria-haspopup="true"
-                <%/if%>
-                data-channel="<%$level_2.code%>">
-                  <a class="nav-link" href="<%$level_2.link%>"><%$level_2.name %></a>
-                  
-                  <%if $level_2.haschildren%>
-                  <ol class="nav-sub-items">
-                  
-                    <%foreach from=$level_2.children item="level_3"%>
-                    <li><a href="<%$level_3.link%>"><%$level_3.name%></a></li>
-                    <%/foreach%>
-
-                  </ol>
+              <%if preg_match("/home/is",$level_1.code) || !preg_match("/myft/is",$topnav)%>
+                <li class="nav-section"
+                  <%if $topnav==$level_1.code%> aria-selected="true"<%assign var=current_page value=$level_1.name%><%assign var=current_link value=$level_1.link%><%/if%> data-section="<%$level_1.code%>">
+                  <button class="nav-section-head mobile"><%$level_1.name%></button>
+                  <a class="nav-section-head desktop" href="<%$level_1.link%>"><%$level_1.name%></a>
+                  <%if $topnav==$level_1.code%>
+                    <ol class="nav-items">
+                      <li class="nav-item mobile">
+                        <a class="nav-link" href="<%$level_1.link%>">
+                        <%if $level_1.code=='home'%>FT中文网首页
+                        <%else%>
+                        频道首页
+                        <%/if%></a>
+                      </li>
+                      <%if !preg_match("/home/is",$level_1.code) || !preg_match("/myft/is",$topnav)%>
+                        <%foreach from=$level_1.children item="level_2"%>
+                          <li class="nav-item" <%if !empty($subnav) && ($subnav==$level_2.code)%>
+                          aria-selected="true"<%assign var=current_sub_page value=$level_2.name%><%assign var=current_sub_link value=$level_2.link%><%/if%><%if $level_2.haschildren%> aria-haspopup="true"<%/if%> data-channel="<%$level_2.code%>">
+                            <a class="nav-link" href="<%$level_2.link%>"><%$level_2.name %></a>
+                            <%if $level_2.haschildren%>
+                              <ol class="nav-sub-items">
+                                <%foreach from=$level_2.children item="level_3"%>
+                                <li><a href="<%$level_3.link%>"><%$level_3.name%></a></li>
+                                <%/foreach%>
+                              </ol>
+                            <%/if%>
+                          </li>
+                        <%/foreach%>
+                      <%/if%>
+                    </ol>
                   <%/if%>
-
                 </li>
-                <%/foreach%>
-
-              </ol>
-<%/if%>
-            </li>
+                <%if preg_match("/home/is",$level_1.code) && preg_match("/myft/is",$topnav)%>
+                  <li class="nav-section" aria-selected="true"<%assign var=current_page value="我的FT"%><%assign var=current_link value="m/corp/myft.html"%> data-section="myft">
+                    <button class="nav-section-head mobile">我的FT</button>
+                    <a class="nav-section-head desktop" href="/m/corp/myft.html">我的FT</a>
+                    <ol class="nav-items">
+                      <li class="nav-item mobile">
+                        <a class="nav-link" href="/m/corp/myft.html">频道首页</a>
+                      </li>
+                      <li class="nav-item" <%if $subnav=="mystories"%>
+                      aria-selected="true"<%/if%> data-channel="mystories">
+                        <a class="nav-link" href="/m/corp/myft.html">文章</a>
+                      </li>
+                      <li class="nav-item" <%if $subnav=="mytopics"%>
+                      aria-selected="true"<%/if%> data-channel="mytopics">
+                        <a class="nav-link" href="/m/corp/mytopics.html">话题</a>
+                      </li>
+                      <li class="nav-item" <%if $subnav=="fav"%>
+                      aria-selected="true"<%/if%> data-channel="fav">
+                        <a class="nav-link" href="/users/favstorylist">收藏</a>
+                      </li>
+                      <li class="nav-item" <%if $subnav=="discover"%>
+                      aria-selected="true"<%/if%> data-channel="discover">
+                        <a class="nav-link" href="/m/corp/discover.html">发现</a>
+                      </li>
+                    </ol>
+                  </li>
+                <%/if%>
+              <%/if%>
             <%/foreach%>
             <li class="nav-section mobile login">
               <ul>
@@ -152,14 +157,14 @@
 
 <div class="site-map">
   <div class="site-map__container">
-<%if ($topnav!='home') || !empty($subnav)%>
-    <ul class="site-map__items">
-      <li><a href="<%$current_link%>"><%$current_page%></a></li>
-    <%if !empty($subnav)%>  
-      <li><a href="<%$current_sub_link%>"><%$current_sub_page%></a></li>
+    <%if ($topnav!='home') || !empty($subnav)%>
+        <ul class="site-map__items">
+          <li><a href="<%$current_link%>"><%$current_page%></a></li>
+        <%if !empty($subnav)%>  
+          <li><a href="<%$current_sub_link%>"><%$current_sub_page%></a></li>
+        <%/if%>
+        </ul>
     <%/if%>
-    </ul>
-<%/if%>
   </div>
 </div>
 

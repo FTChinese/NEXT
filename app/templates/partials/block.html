@@ -113,7 +113,11 @@
 				<%/if%>
 
 
-				<%if $list.items|@count==0 && $list.feedItems != "" && $list.feedItems != "0"%>
+
+				<%if $list.feedType == "myFT"%>
+					<%easyapi command="31005" assign="myftArrays" topnum=30%>
+					<%assign var="itemsArray" value=$myftArrays.odatalist%>
+				<%elseif $list.items|@count==0 && $list.feedItems != "" && $list.feedItems != "0"%>
 					<%if preg_match("/like|find_in_set|=|\(| in /is",$list.feedTag)%>
 						<%if $list.feedType == "story"%>
 							<%assign var="feedType" value=$list.feedType%>
@@ -151,15 +155,11 @@
 					<%assign var="itemsArray" value=$list.items%>
 				<%/if%>
 
-				<!--
-				items arragy: 
-<%$itemsArray|var_dump%>
-
-				-->
-
 
 				<%assign var="i" value=0%>
 				<%assign var="listItemCount" value=$itemsArray|@count%>
+
+
 				<%foreach from=$itemsArray item=item%>
 					<%assign var="itemHeadline" value=$item.headline|default:$item.cheadline|default:$item.cn_title%>
 					<%if $feedType == "all"%>
@@ -172,7 +172,7 @@
 					<%else%>
 						<%assign var="itemImage" value=$item.image|default:$item.story_pic.cover|default:$item.story_pic.smallbutton|default:$item.story_pic.other|default:$item.story_pic.bigbutton%>
 					<%/if%>
-					<%assign var="itemType" value=$item.type|default:$feedType%>
+					<%assign var="itemType" value=$item.type|default:$item.itemtype|default:$feedType%>
 					<%if $itemType == "photo"%>
 						<%assign var="itemType" value="photonews"%>
 					<%/if%>
@@ -206,6 +206,57 @@
 						<%assign var="hideImage" value="yes"%>
 						<%assign var="XL" value="one-row"%>
 						<%assign var="itemTopClass" value="XLT LT ST MT PT"%>
+					<%elseif $list.float === "Card"%>
+						<%if $sectionHasSide == "yes"%>
+							<%assign var="XL" value="XL4 L4 S12 M6 P12"%>
+							<%if $i%3 == 0%>
+								<%assign var="itemTopClass" value="`$itemTopClass` XLT LT"%>
+							<%/if%>
+							<%if $i%2 == 0%>
+								<%assign var="itemTopClass" value="`$itemTopClass` MT"%>
+							<%/if%>
+							<%assign var="itemTopClass" value="`$itemTopClass` ST PT"%>
+						<%else%>
+							<%assign var="XL" value="XL3 L3 S4 M6 P12"%>
+							<%if $i%4 == 0%>
+								<%assign var="itemTopClass" value="`$itemTopClass` XLT LT"%>
+							<%/if%>
+							<%if $i%3 == 0%>
+								<%assign var="itemTopClass" value="`$itemTopClass` ST"%>
+							<%/if%>
+							<%if $i%2 == 0%>
+								<%assign var="itemTopClass" value="`$itemTopClass` MT"%>
+							<%/if%>
+							<%assign var="itemTopClass" value="`$itemTopClass` PT"%>
+						<%/if%>
+					<%elseif $list.float === "IconTitle"%>
+						<%if $sectionHasSide == "yes"%>
+							<%assign var="XL" value="icon-title XL3 L3 S4 M6 P12"%>
+							<%if $i%4 == 0%>
+								<%assign var="itemTopClass" value="`$itemTopClass` XLT LT"%>
+							<%/if%>
+							<%if $i%3 == 0%>
+								<%assign var="itemTopClass" value="`$itemTopClass` ST"%>
+							<%/if%>
+							<%if $i%2 == 0%>
+								<%assign var="itemTopClass" value="`$itemTopClass` MT"%>
+							<%/if%>
+							<%assign var="itemTopClass" value="`$itemTopClass` PT"%>
+						<%else%>
+							<%assign var="XL" value="icon-title XL2 L2 S3 M4 P6"%>
+							<%if $i%6 == 0%>
+								<%assign var="itemTopClass" value="`$itemTopClass` XLT LT"%>
+							<%/if%>
+							<%if $i%4 == 0%>
+								<%assign var="itemTopClass" value="`$itemTopClass` ST"%>
+							<%/if%>
+							<%if $i%3 == 0%>
+								<%assign var="itemTopClass" value="`$itemTopClass` MT"%>
+							<%/if%>
+							<%if $i%2 == 0%>
+								<%assign var="itemTopClass" value="`$itemTopClass` PT"%>
+							<%/if%>
+						<%/if%>
 					<%elseif $sectionHasSide == "yes"%>
 						<%if $list.float === "SideBySide"%>
 							<%if $i > 0%>
@@ -673,7 +724,7 @@
 					<%assign var="itemTimeStamp" value=""%>
 					<%assign var="itemT" value=$item.timeStamp|default:$item.pubdate|default:$item.add_times%>
 					<%assign var="itemT" value=$itemT|regex_replace:"/\.[0-9]+$/i":""%>
-					<%if $list.showTimeStamp === "all" || $lists.showTimeStamp === "new stories"%>
+					<%if $list.showTimeStamp === "all" || $lists.showTimeStamp === "new stories" || $list.feedType == "myFT"%>
 						<%assign var="highlightTime" value=""%>
 						<%math assign="timeDiff" equation="x-y" x=$smarty.now y=$itemT%>
 						<%if $item.type === "video" && preg_match("/[0-9]+\-[0-9]+\-[0-9]+/is",$itemT)%>
@@ -714,9 +765,9 @@
 						<%assign var="hideLead" value="yes"%>
 						<%assign var="itemLead" value=""%>
 					<%elseif $list.preferLead === "shortlead"%>
-						<%assign var="itemLead" value=$item.shortlead|default:$item.longlead|default:$item.cshortleadbody|default:$item.clongleadbody%>
+						<%assign var="itemLead" value=$item.shortlead|default:$item.clead|default:$item.longlead|default:$item.cshortleadbody|default:$item.clongleadbody%>
 					<%else%>
-						<%assign var="itemLead" value=$item.longlead|default:$item.shortlead|default:$item.clongleadbody|default:$item.cshortleadbody%>
+						<%assign var="itemLead" value=$item.longlead|default:$item.clead|default:$item.shortlead|default:$item.clongleadbody|default:$item.cshortleadbody%>
 					<%/if%>
 
 					<%if $hideImage === "yes"%>
@@ -730,7 +781,10 @@
 					<%/if%>
 
 
-					<%if $itemId == "" || $itemType == "" %>
+					<%if $item.customLink != "" %>
+						<%assign var="itemLink" value=$item.customLink%>
+						<%assign var="itemLink" value=" href=\"`$itemLink`\""%>
+					<%elseif $itemId == "" || $itemType == "" %>
 						<%assign var="itemLink" value=""%>
 					<%else%>
 						<%assign var="itemLink" value="/`$itemType`/`$itemId``$listLanguage``$adForceString`"%>

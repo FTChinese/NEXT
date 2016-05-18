@@ -547,22 +547,35 @@
 <%/if%>
 
 <%*<!--override tag for sponsored special reports start-->*%>
-<%if preg_match("/品味|乐尚街|艺术投资|腕表|游艇|极致人生/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20150525 && date("Ymd",$smarty.now) <= 20160625%>
-<%assign var=breadcrum value="<a href=\"/tag/极致人生\">极致人生</a><button class=\"myft-follow plus\" data-tag=\"极致人生\" data-type=\"tag\">关注</button>"%>
-<%assign var="adchannelID" value="2052"%>
-<%assign var="hide590" value="no"%>
-<%assign var="hideInReadAd" value="yes"%>
+<%assign var="keys" value=""%>
+<%foreach from=$story.tag item=sc%>
+	<%assign var="keys" value="`$keys`,`$sc`"%>
+<%/foreach%>
+<%assign var="keys" value="`$keys`,`$tag`"%>
+<%if preg_match("/品味|乐尚街|艺术投资|腕表|游艇|极致人生/is",$keys) && date("Ymd",$smarty.now) >= 20140525 && date("Ymd",$smarty.now) <= 20160625%>
+	<%assign var=breadcrum value="<a href=\"/tag/极致人生\">极致人生</a><button class=\"myft-follow plus\" data-tag=\"极致人生\" data-type=\"tag\">关注</button>"%>
+	<%assign var="PageTitle" value="<a href=\"/tag/极致人生\">极致人生</a>"%>
+	<%assign var="adchannelID" value="2052"%>
+	<%assign var="hide590" value="yes"%>
+	<%assign var="hideInReadAd" value="yes"%>
+<%elseif preg_match("/新闻稿/is",$keys)%>
+	<%assign var="topnav" value="home"%>
+	<%assign var="subnav" value="member"%>
+	<%assign var=breadcrum value="<a href=\"/m/marketing/home.html\">会员信息中心</a>"%>
+<%elseif preg_match("/企业公告/is",$keys)%>
+	<%assign var="topnav" value="home"%>
+	<%assign var=breadcrum value="<a>企业公告</a>"%>
 <%/if%>
 <%*<!--override tag for sponsored special reports end-->*%>
 
 <%assign var="storyContent" value=$story_content%>
 
 <%if $page_action=="en"%>
-	<%assign var="storyHeadline" value=`$story.eheadline`%>
+	<%assign var="storyHeadline" value=$story.eheadline%>
 <%elseif $page_action=="ce"%>
 	<%assign var="storyHeadline" value="`$story.eheadline`<br>`$story.cheadline`"%>
 <%else%>
-	<%assign var="storyHeadline" value=`$story.cheadline`%>
+	<%assign var="storyHeadline" value=$story.cheadline|default:$cheadline%>
 <%/if%>
 
 <%if $story.cshortleadbody && $story.cshortleadbody != ""%>
@@ -571,13 +584,15 @@
 	<%assign var="storyLead" value=$story.clongleadbody%>
 <%elseif $story.cskylinetext && $story.cskylinetext != ""%>
 	<%assign var="storyLead" value=$story.cskylinetext%>
+<%else%>
+	<%assign var="storyLead" value=$clongleadbody|default:$cshortleadbody%>
 <%/if%>
 <%assign var="shareLead" value=$storyLead%>
 <%if $storyLead != ""%>
 	<%assign var="storyLead" value="<div class=\"story-lead\">`$storyLead`</div>"%>
 <%/if%>
 
-<%math assign="timeDiff" equation="x-y" x=$smarty.now y=$story.last_publish_time%>
+<%math assign="timeDiff" equation="x-y" x=$smarty.now y=$story.last_publish_time|default:$pubdate%>
 <%if $timeDiff < 0%>
 	<%assign var="storyTime" value="刚刚发布"%>
 <%elseif $timeDiff < 60*60%>
@@ -593,9 +608,11 @@
 	<%assign var="timeDiff" value=$timeDiff/86400|intval%>
 	<%assign var="storyTime" value="`$timeDiff`天前"%>
 <%elseif date("Y",$smarty.now) == date("Y",$item.timeStamp)%>
-	<%assign var="storyTime" value=$story.last_publish_time|date_format:"%-m月%-d日"%>
+	<%assign var="storyTime" value=$story.last_publish_time|default:$pubdate%>
+	<%assign var="storyTime" value=$storyTime|date_format:"%-m月%-d日"%>
 <%else%>
-	<%assign var="storyTime" value=$story.last_publish_time|date_format:"%Y年%-m月%-d日"%>
+	<%assign var="storyTime" value=$story.last_publish_time|default:$pubdate%>
+	<%assign var="storyTime" value=$storyTime|date_format:"%Y年%-m月%-d日"%>
 <%/if%>
 
 
@@ -625,7 +642,8 @@
 	<%/if%>
 <%/if%>
 
-<%assign var="storyBody" value=$story.cbody|regex_replace:"/@ftchinese.com/":"@ftmail.com"|regex_replace:"/<p>[_-]+<\/p>/":"<hr/><br/>"%>
+<%assign var="storyBody" value=$story.cbody|default:$cbody%>
+<%assign var="storyBody" value=$storyBody|regex_replace:"/@ftchinese.com/":"@ftmail.com"|regex_replace:"/<p>[_-]+<\/p>/":"<hr/><br/>"%>
 
 <%if $page_action=="ce"%>
 <%assign var="storyLanguage" value=" ce"%>
@@ -661,8 +679,12 @@
 	<%/if%>
 <%/if%>
 
+<%if $itemType == ""%>
+	<%assign var="itemType" value="story"%>
+<%/if%>
+
 <%assign var="shareTitle" value="`$storyHeadline` - FT中文网"%>
-<%assign var="shareUrl" value="http://www.ftchinese.com/story/`$story.id`?full=y"%>
+<%assign var="shareUrl" value="http://www.ftchinese.com/`$itemType`/`$story.id`?full=y"%>
 <%assign var="shareUrl" value=$shareUrl|escape:'url'%>
 <%assign var="shareText" value="【`$storyHeadline`】`$shareLead`（分享自 @FT中文网）"%>
 
@@ -691,7 +713,10 @@
     <%/if%>
     <%assign var="story_content" value=$story_content|regex_replace:"/[\n]/":"<br>"%>
     <%assign var="story_content" value="`$story_content``$jobApply`"%>
-    
+<%elseif $itemType=="interactive" || $pageType=="interactive"%>
+	<%assign var="storyHeadline" value=$cheadline%>
+	<%assign var="story_content" value=$cbody|regex_replace:"/[\n]/":"<br>"%>
+	<%assign var="storyAuthor" value="`$cbyline_description` `$cauthor`"%>
 <%/if%>
 
 
@@ -718,7 +743,7 @@
     
     <%if $pageType == "job"%>
     	<style><%include file="next/styles/main-story-job.css"%></style>
-    <%elseif in_array("艺术品投资",$story.tag) || in_array("乐尚街",$story.tag)%>
+    <%elseif preg_match("/品味|乐尚街|艺术投资|腕表|游艇|极致人生/is",$keys)%>
     	<style><%include file="next/styles/main-story-luxury.css"%></style>
     	<script type="text/javascript">var pageTheme = 'luxury';</script>
     <%else%>
@@ -741,6 +766,11 @@
         document.write('<meta content="FT中文网" name="application-name" /><meta content="app-id=396124008" name="apple-itunes-app" />');
     }
     </script>
+
+
+
+
+
     <link rel="alternate" type="application/rss+xml" title="FT中文网 - 每日更新" href="/rss/feed" />
     <link rel="alternate" type="application/rss+xml" title="FT中文网 - 双语阅读" href="/rss/diglossia" />
     <link rel="alternate" type="application/rss+xml" title="FT中文网 - 今日焦点" href="/rss/news" />
@@ -781,15 +811,23 @@
   </head>
   <%assign var="bannerCount" value=0%>
   <body class="<%$hideDate%>">
-      <%include file="next/partials/header.html"%>
+  	  <%if $PageTitle != ""%>
+      	<%include file="next/partials/tag-header.html"%>
+      <%else%>
+      	<%include file="next/partials/header.html"%>
+      <%/if%>
       <%include file="next/partials/nav.html"%>
-	  <%if !in_array("艺术品投资",$story.tag) && !in_array("乐尚街",$story.tag)%>
+	  <%if !preg_match("/品味|乐尚街|艺术投资|腕表|游艇|极致人生/is",$keys)%>
 		<%include file="next/partials/banner.html"%>
 	  <%/if%>
       <%assign var="bannerCount" value=$bannerCount+1%>
-      <%include file="next/partials/story-block.html"%>
+      <%if $info.photonewsid != ""%>
+      	<%include file="next/partials/photo-block.html"%>
+      <%else%>
+      	<%include file="next/partials/story-block.html"%>
+      <%/if%>
       <%include file="next/partials/story-recommend.html%>
-	  <%if !in_array("艺术品投资",$story.tag) && !in_array("乐尚街",$story.tag)%>
+	  <%if !preg_match("/品味|乐尚街|艺术投资|腕表|游艇|极致人生/is",$keys)%>
 		<%include file="next/partials/banner.html"%>
 	  <%/if%>
       <%include file="next/partials/footer.html"%>

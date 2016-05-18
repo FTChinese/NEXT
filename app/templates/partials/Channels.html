@@ -1,22 +1,19 @@
-<%assign var="itemIds" value="\"0000\""%>
+<%assign var="itemIds" value="'0000'"%>
 <%foreach from=$p.sections item=section%>
 	<%if $section.type == "block"%>
 	    <%foreach from=$section.lists item=list%>
 	        <%foreach from=$list.items item=item%>
-	            <%assign var="itemIds" value="`$itemIds`,\"`$item.id`\""%>
+	            <%assign var="itemIds" value="`$itemIds`,'`$item.id`'"%>
 	        <%/foreach%>
 	    <%/foreach%>
 	<%/if%>
 <%/foreach%>
-
-<%assign var=$itemIds value=','|explode:$itemIds%>
 <%assign var="allstories" value=$storymodel->get_story_collection($itemIds,100)%>
 <%php%>
     $channels = '[{"title":"经济","link":"/channel/economy.html","type":"channel","include":"china","exclude":"letter","cover":1,"headline":3},{"title":"金融市场","link":"/channel/markets.html","type":"channel","include":"markets","exclude":"letter","cover":1,"headline":3},{"title":"科技","link":"/channel/technology.html","type":"channel","include":"technology","exclude":"letter","cover":1,"headline":3},{"title":"生活时尚","link":"/channel/lifestyle.html","type":"channel","include":"lifestyle","exclude":"letter","cover":1,"headline":3},{"title":"商业与管理","link":"/channel/management.html","type":"channel","include":"management|business","exclude":"letter","cover":1,"headline":3},{"title":"中国","link":"/channel/china.html","type":"channel","include":"china","exclude":"letter","cover":1,"headline":3}]';
     $channelsArray = json_decode($channels, true);
     $this->assign("c", $channelsArray);
 <%/php%>
-
 <%if $includeSide != "" && $includeSide != "none"%>
 	<%assign var="hasSide" value=" has-side"%>
 <%else%>

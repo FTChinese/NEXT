@@ -43,9 +43,11 @@ document.documentElement.className = document.documentElement.className.replace(
     </script>
 <![endif]-->
 
-<!-- build:css styles/main-story.css -->
-<link rel="stylesheet" href="styles/main-story.css">
+<!-- build:css styles/main-photo.css -->
+<link rel="stylesheet" href="styles/main-photo.css">
 <!-- endbuild -->
+
+<link rel="stylesheet" href="origami/o-gallery.css">
 
 <link rel="stylesheet" href="styles/main-ie-XL.css">
 
@@ -58,9 +60,12 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 </script>
 
 
+<!-- build:js scripts/key-photo.js -->
 <script type="text/javascript" src="scripts/key.js"></script>
 <script type="text/javascript" src="scripts/ad.js"></script>
-
+<script type="text/javascript" src="scripts/photonews.js"></script>
+<script type="text/javascript" src="origami/o-gallery.js"></script>
+<!-- endbuild -->
 
  <link rel="icon" type="image/png" href="https://next-geebee.ft.com/assets/brand-alpha/icons/favicon-32x32.png" sizes="32x32">
  <link rel="icon" type="image/png" href="https://next-geebee.ft.com/assets/brand-alpha/icons/favicon-194x194.png" sizes="194x194">
@@ -74,9 +79,6 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
  }
  </script>
  
- <!--[if lte IE 8]>
- <link rel="stylesheet" href="https://next-geebee.ft.com/hashed-assets/front-page/35cf21f8/ie8.css" />
- <![endif]-->
  <script>var startTime = new Date().getTime();</script>
  <script>
  if ( screen.width<=480) {
@@ -263,7 +265,7 @@ FT中文网首页
 <li class="nav-item"  data-channel="english">
 <a class="nav-link" href="/channel/english.html">英语学习</a>
 </li>
-<li class="nav-item"  data-channel="photo">
+<li class="nav-item" aria-selected="true" data-channel="photo">
 <a class="nav-link" href="/channel/slides.html">图辑</a>
 </li>
 <li class="nav-item"  data-channel="job">
@@ -324,6 +326,11 @@ FT中文网首页
 <button class="nav-section-head mobile">每日英语</button>
 <a class="nav-section-head desktop" href="/channel/english.html">每日英语</a>
 </li>
+<li class="nav-section"
+ data-section="innovation">
+<button class="nav-section-head mobile">创新经济</button>
+<a class="nav-section-head desktop" href="/channel/innovation.html">创新经济</a>
+</li>
 <li class="nav-section mobile login">
 <ul>
 <li class="nav-item">
@@ -382,6 +389,11 @@ FT中文网首页
 </div><!-- o-nav__placeholder -->
 <div class="site-map">
 <div class="site-map__container">
+<ul class="site-map__items">
+<li><a href="/">首页</a></li>
+  
+<li><a href="/channel/slides.html">图辑</a></li>
+</ul>
 </div>
 </div><div class="banner-placeholder">
 <div class="banner-container">
@@ -392,282 +404,204 @@ FT中文网首页
 </div>
 </div>
 </div>
-<link rel="stylesheet" href="http://origami-build.ft.com/v2/bundles/css?modules=o-gallery@^1.7.4" />
-<script src="http://static.ftchinese.com/js/jquery-1.10.2.min.js?0"></script>
 <style>
-.o-gallery--thumbnails.o-gallery--more{
-height:auto;
-background:#f6e9d8;
-margin:14px 0;
-padding-top:14px;
-}
-.o-gallery__item__caption.o-gallery__item__main {
-color:white;
-background:#333;
-}
-.o-gallery__item__caption.o-gallery__item__moretitle {
-font-size:12px;
-margin:0 10px;
-}
-.o-gallery__item__more {
-vertical-align: top;
-}
-.ftscroller_x, .ftscroller_y{-webkit-transition: all 0.5s ease-in-out;-ms-transition: all 0.5s ease-in-out;transition: all 0.5s ease-in-out;}
 </style>
-<script language=javascript>
-var storybread="interactive-slide";
-var pagetype="photoslide";
-var ftcteam="product";
-var thetags="";
-if (document.getElementById("thetags")) {document.getElementById("thetags").value}
-var FTAdch1="NP_Lifestyle_LeShang";
-function adiframe(adchannel,adname,adwidth,adheight) {
-var adchannel;
-var adwidth;
-var adheight;
-var adname;
-document.write ('<iframe marginheight=0 marginwidth=0 frameborder="0" width="' + adwidth + '" height="' + adheight + '" scrolling="no" src="http://ftchinese.allyes.com/main/adfshow?user=FTCHINESE|' + adchannel + '|' + adname + '&db=ftchinese&border=0&local=yes" allowTransparency="true"></iframe>');
-}
-function advalue(adchannel,adname,adwidth,adheight) {
-var adchannel;
-var adwidth;
-var adheight;
-var adname;
-return '<iframe marginheight=0 marginwidth=0 frameborder="0" width="' + adwidth + '" height="' + adheight + '" scrolling="no" src="http://ftchinese.allyes.com/main/adfshow?user=FTCHINESE|' + adchannel + '|' + adname + '&db=ftchinese&border=0&local=yes" allowTransparency="true"></iframe>';
-}
-</script>
-<script language=javascript>
-function recordpv2() {
-var hasad="";
-var ads = document.querySelectorAll('.banner-content iframe');
-var i;
-for (i=0; i<ads.length; i++) {
-ads[i].contentWindow.location.reload(true);
-hasad = 1;
-}
-if (hasad==1) {
-try{
-ga('send', 'pageview');
-fa('send', 'pageview');
-imgLog(logurl);
-}catch(err){
-console.log ('ga not sent');
-}
-}
-}
-</script>
-<!--Photo Slide Start-->
-<script>(function(d) {var b = d.getElementsByTagName('body')[0];b.className = b.className + ' demo-js';})(document);</script>
-<link rel="stylesheet" type="text/css" href="http://static.ftchinese.com/styles/comments.css?v=4.0.0.5" />
-<input type=hidden id=thetags value="高清,俄罗斯,欧洲,乌克兰,歌手,历史,领土争端,克里米亚半岛,难民">
-<div class="block-container no-image"><div class="block-inner"><div class="item-inner">
-<h1 class="story-headline">乌克兰歌手夺冠 引发政治争议</h1>
-<div class="item-lead">乌克兰歌手贾玛拉（Jamala）14日以一首讲述克里米亚韃靼人被前苏联迫害的歌曲《1944》一曲赢得欧洲歌唱大赛（Eurovision Song Contest）冠军。俄罗斯议员批评：政治战胜了艺术。</div>
+<div class="block-container has-side story-page"><div class="block-inner">
+<div class="content-container"><div class="content-inner">
+<div class="story-container ce">
+<h1 class="story-headline">2016园艺盛会</h1>
+<div class="story-share-placeholder" id="story-share-placeholder">
+<div class="story-share">
+<div class="share-inner">
+<a class="share-icon icon-wechat" href="/m/corp/qrshare.html?url=http%3A%2F%2Fwww.ftchinese.com%2Fphotonews%2F1024&title=2016园艺盛会 - FT中文网" target="_blank"></a>
+<a class="share-icon icon-weibo" href="http://service.weibo.com/share/share.php?appkey=4221537403&url=http%3A%2F%2Fwww.ftchinese.com%2Fphotonews%2F1024?ccode=2G169001&title=【2016园艺盛会】在英国流行着这样的说法，有三件事会引起伦敦交通堵塞：一是女王出行，二是获胜的足球队凯旋，三就是切尔西花展对外开放。作为世界上最著名的花卉展之一，2016年的切尔西花卉展即将在5月下旬正式开展。（分享自 @FT中文网）&ralateUid=1698233740&source=&sourceUrl=&content=utf-8&pic=" target="_blank"></a>
+<a class="share-icon icon-linkedin" href="https://www.linkedin.com/cws/share?url=http%3A%2F%2Fwww.ftchinese.com%2Fphotonews%2F1024%3Fccode%3D2G169003&original_referer=https%3A%2F%2Fdeveloper.linkedin.com%2Fsites%2Fall%2Fthemes%2Fdlc%2Fsandbox.php%3F&token=&isFramed=true&lang=zh_CN&_ts=1422502780259.2795" target="_blank"></a>
+<a class="share-icon icon-twitter" href="http://twitter.com/home?status=【2016园艺盛会】在英国流行着这样的说法，有三件事会引起伦敦交通堵塞：一是女王出行，二是获胜的足球队凯旋，三就是切尔西花展对外开放。作为世界上最著名的花卉展之一，2016年的切尔西花卉展即将在5月下旬正式开展。（分享自 @FT中文网）...%20http%3A%2F%2Fwww.ftchinese.com%2Fphotonews%2F1024" target="_blank"></a>
+<a class="share-icon icon-facebook" href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.ftchinese.com%2Fphotonews%2F1024&t=【2016园艺盛会】在英国流行着这样的说法，有三件事会引起伦敦交通堵塞：一是女王出行，二是获胜的足球队凯旋，三就是切尔西花展对外开放。作为世界上最著名的花卉展之一，2016年的切尔西花卉展即将在5月下旬正式开展。（分享自 @FT中文网）" target="_blank"></a>
+<a class="icon-right icon-action icon-share" onclick="showOverlay('share-legacy')"></a>
+</div>
+</div>
+</div>
+<div class="story-byline">
+<span class="story-time"></span>
+<span class="story-author"></span>
+</div>
+<div class="story-body">
 <div id="declarative-slideshow-with-thumbnails" class="o-gallery o-gallery--slideshow" data-o-component="o-gallery" data-o-version="1.0.0" data-o-gallery-syncid="declarative-slideshow-with-thumbnails" data-o-gallery-captionminheight="30" data-o-gallery-captionmaxheight="50" data-o-gallery-touch=false>
 <ol class="o-gallery__items">
 <li class="o-gallery__item" aria-selected="true">
 <div class="o-gallery__item__content o-gallery__item__rect">
-<img alt="" src="http://i.ftimg.net/photonews/2016/05/57396cbeb2d5b8.01269074.jpg">
+<img alt="" src="http://i.ftimg.net/photonews/2016/05/57319685ac1772.51380287.jpg">
 </div>
-<div class="o-gallery__item__caption o-gallery__item__main">贾玛拉（Jamala）的演唱《1944》，主题是克里米亚半岛上的鞑靼人在斯大林当政时期被强制流放的历史。贾玛拉本人就是克里米亚半岛上鞑靼人的后代。</div>
+<div class="o-gallery__item__caption o-gallery__item__main">切尔西花展(Chelsea Garden Show)是英国的传统花卉园艺展会，由英国皇家园艺学会 (The Royal Horticultural Society)创办于1862年 ，是全世界最著名、最盛大的园艺博览会之一。今年的开展时间：2016-05-24 至 2016-05-28。</div>
 </li>                                
 <li class="o-gallery__item">
 <div class="o-gallery__item__content o-gallery__item__rect">
-<img alt="" src="http://i.ftimg.net/photonews/2016/05/57396cbf05fbb7.98851018.jpg">
+<img alt="" src="http://i.ftimg.net/photonews/2016/05/573196860d2e80.82813814.jpg">
 </div>
-<div class="o-gallery__item__caption o-gallery__item__main">乌克兰歌手贾玛拉以534分成为冠军得主，澳洲韩裔歌手Dami以511分成为亚军（图），俄罗斯男歌手Sergey Lazarev以491分成为季军。</div>
+<div class="o-gallery__item__caption o-gallery__item__main">专业育种公司Sande BV公司培育的彩色马蹄莲“Zantedeschia Nashville”。</div>
 </li>                                
 <li class="o-gallery__item">
 <div class="o-gallery__item__content o-gallery__item__rect">
-<img alt="" src="http://i.ftimg.net/photonews/2016/05/57396cbf4f3dc9.85140128.jpg">
+<img alt="" src="http://i.ftimg.net/photonews/2016/05/573196864deea4.57289110.jpg">
 </div>
-<div class="o-gallery__item__caption o-gallery__item__main">俄罗斯歌手Sergey Lazarev演唱《You Are The Only One》。</div>
+<div class="o-gallery__item__caption o-gallery__item__main">英国人为园艺和花草疯狂，他们可以出动大批警察保护珍贵兰花，也会花费多年心血培育频临灭绝的世界上最小睡莲品种。</div>
 </li>                                
 <li class="o-gallery__item">
 <div class="o-gallery__item__content o-gallery__item__rect">
-<img alt="" src="http://i.ftimg.net/photonews/2016/05/57396cbf935a14.42882624.jpg">
+<img alt="" src="http://i.ftimg.net/photonews/2016/05/573196868aa255.91503190.jpg">
 </div>
-<div class="o-gallery__item__caption o-gallery__item__main">俄国2014年2月兼并克里米亚以来，与乌克兰成宿敌。图为第五名的瑞典歌手Frans演唱《If I Were Sorry》。</div>
+<div class="o-gallery__item__caption o-gallery__item__main">大卫·奥斯汀（David C.H Austin）今年将带来3个月季新品种。如今，奥斯汀培育出的月季品种已经超过200种，这些月季新品种常常以他的家人、著名玫瑰专家、英国地名、历史事件、英国作家名字等命名。</div>
 </li>                                
 <li class="o-gallery__item">
 <div class="o-gallery__item__content o-gallery__item__rect">
-<img alt="" src="http://i.ftimg.net/photonews/2016/05/57396cbfdfec67.09271174.jpg">
+<img alt="" src="http://i.ftimg.net/photonews/2016/05/57319686d66008.88680771.jpg">
 </div>
-<div class="o-gallery__item__caption o-gallery__item__main">俄国还被控对乌克兰东部的血腥分离暴乱煽风点火。乌克兰危机造成俄国与西方世界的关系降到冷战结束以来的最低点。</div>
+<div class="o-gallery__item__caption o-gallery__item__main">每届花展不止吸引成千上万的爱花人，就连王室成员、明星名流也会不顾人潮前去欣赏。之前“卷福”Benedict Cumberbatch、“憨豆先生”Rowan Atkinson和超模莉丽·科尔 (Lily Cole)都曾到场支持。</div>
 </li>                                
 <li class="o-gallery__item">
 <div class="o-gallery__item__content o-gallery__item__rect">
-<img alt="" src="http://i.ftimg.net/photonews/2016/05/57396cc028b691.08286988.jpg">
+<img alt="" src="http://i.ftimg.net/photonews/2016/05/573196871b45d7.82458098.jpg">
 </div>
-<div class="o-gallery__item__caption o-gallery__item__main">事实上，欧洲歌唱大赛经常被政治因素困扰。2009年组织者拒绝了格鲁吉亚的参赛曲目，因为歌名中有俄罗斯总统普京的谐音，2015年，组织者还要求亚美尼亚歌手修改歌词，因为直接涉及到土耳其和亚美尼亚关于大屠杀的历史积怨。</div>
+<div class="o-gallery__item__caption o-gallery__item__main">由Raymond Evison带来的粉红铁线莲“Clematis Tekla”。</div>
 </li>                                
 <li class="o-gallery__item">
 <div class="o-gallery__item__content o-gallery__item__rect">
-<img alt="" src="http://i.ftimg.net/photonews/2016/05/57396cc05827f2.92803891.jpg">
+<img alt="" src="http://i.ftimg.net/photonews/2016/05/57319687545307.42988813.jpg">
 </div>
-<div class="o-gallery__item__caption o-gallery__item__main">“欧洲歌唱大赛”由欧洲广播联盟（EBU）主办，自1956年开赛，目前是全世界规模最大的歌唱比赛，每个参赛国家选出一名代表，每届冠军的祖国自动成为下届比赛的东道国，因此下届大赛将在乌克兰举办。</div>
+<div class="o-gallery__item__caption o-gallery__item__main">对英国人来说，收拾花园已经成为一种生活方式。在英国报纸、杂志和电视节目中有专门的栏目来介绍园艺经验，推荐出色的家庭园艺，或者让有名的园丁来为观众答疑。</div>
 </li>                                
 <li class="o-gallery__item">
 <div class="o-gallery__item__content o-gallery__item__rect">
-<img alt="" src="http://i.ftimg.net/photonews/2016/05/57396cc09ac6f3.71651073.jpg">
+<img alt="" src="http://i.ftimg.net/photonews/2016/05/5731968783a3a7.97717179.jpg">
 </div>
-<div class="o-gallery__item__caption o-gallery__item__main">俄罗斯已经有政治人物呼吁抵制下届比赛。</div>
+<div class="o-gallery__item__caption o-gallery__item__main">在英国书店里，介绍园艺的书籍实在太多。这些书事无巨细地告诉读者应该如何适当地松土，怎样挑剔地选种，在什么季节什么天气用什么样的工具来呵护花草，怎样把自己的园林收拾得精致独特。</div>
+</li>                                
+<li class="o-gallery__item">
+<div class="o-gallery__item__content o-gallery__item__rect">
+<img alt="" src="http://i.ftimg.net/photonews/2016/05/57319687c04e63.16216945.jpg">
+</div>
+<div class="o-gallery__item__caption o-gallery__item__main">切尔西花展的奖项分为4 个等级, 金奖( Gold) 、镀金白银奖( Silver- Gilt) 、银奖( Silver) 、铜奖( Bronze) , 另外还会在获奖作品( 一般是金奖) 中评出一个最佳奖。图为2015年的金奖作品“A Perfumer’s Garden in Grasse”。</div>
 </li>                                
 </ol>
 </div>
 <div class="o-gallery o-gallery--thumbnails" data-o-component="o-gallery" data-o-version="1.0.0" data-o-gallery-syncid="declarative-slideshow-with-thumbnails" data-o-gallery-multipleitemsperpage="true" data-o-gallery-touch=false>
 <ol class="o-gallery__items">
 <li class="o-gallery__item" aria-selected="true">
-<div class="o-gallery__item__content"><img src="http://i.ftimg.net/photonews/2016/05/57396cbeb2d5b8.01269074.jpg"></div>
+<div class="o-gallery__item__content"><img src="http://i.ftimg.net/photonews/2016/05/57319685ac1772.51380287.jpg"></div>
 </li>
 <li class="o-gallery__item">
-<div class="o-gallery__item__content"><img src="http://i.ftimg.net/photonews/2016/05/57396cbf05fbb7.98851018.jpg"></div>
+<div class="o-gallery__item__content"><img src="http://i.ftimg.net/photonews/2016/05/573196860d2e80.82813814.jpg"></div>
 </li>
 <li class="o-gallery__item">
-<div class="o-gallery__item__content"><img src="http://i.ftimg.net/photonews/2016/05/57396cbf4f3dc9.85140128.jpg"></div>
+<div class="o-gallery__item__content"><img src="http://i.ftimg.net/photonews/2016/05/573196864deea4.57289110.jpg"></div>
 </li>
 <li class="o-gallery__item">
-<div class="o-gallery__item__content"><img src="http://i.ftimg.net/photonews/2016/05/57396cbf935a14.42882624.jpg"></div>
+<div class="o-gallery__item__content"><img src="http://i.ftimg.net/photonews/2016/05/573196868aa255.91503190.jpg"></div>
 </li>
 <li class="o-gallery__item">
-<div class="o-gallery__item__content"><img src="http://i.ftimg.net/photonews/2016/05/57396cbfdfec67.09271174.jpg"></div>
+<div class="o-gallery__item__content"><img src="http://i.ftimg.net/photonews/2016/05/57319686d66008.88680771.jpg"></div>
 </li>
 <li class="o-gallery__item">
-<div class="o-gallery__item__content"><img src="http://i.ftimg.net/photonews/2016/05/57396cc028b691.08286988.jpg"></div>
+<div class="o-gallery__item__content"><img src="http://i.ftimg.net/photonews/2016/05/573196871b45d7.82458098.jpg"></div>
 </li>
 <li class="o-gallery__item">
-<div class="o-gallery__item__content"><img src="http://i.ftimg.net/photonews/2016/05/57396cc05827f2.92803891.jpg"></div>
+<div class="o-gallery__item__content"><img src="http://i.ftimg.net/photonews/2016/05/57319687545307.42988813.jpg"></div>
 </li>
 <li class="o-gallery__item">
-<div class="o-gallery__item__content"><img src="http://i.ftimg.net/photonews/2016/05/57396cc09ac6f3.71651073.jpg"></div>
+<div class="o-gallery__item__content"><img src="http://i.ftimg.net/photonews/2016/05/5731968783a3a7.97717179.jpg"></div>
+</li>
+<li class="o-gallery__item">
+<div class="o-gallery__item__content"><img src="http://i.ftimg.net/photonews/2016/05/57319687c04e63.16216945.jpg"></div>
 </li>
 </ol>
 </div>
-</div></div></div>
-<div class="block-container no-image"><div class="block-inner">
-<div class="list-title"><a class="list-link" href="/channel/slides.html">更多图辑</a></div>
-<div class="item-inner">
-<div class=clearfloat></div>
-<div id="more-photo-slides" class="o-gallery o-gallery--thumbnails o-gallery--more" data-o-component="o-gallery" data-o-version="1.0.0" data-o-gallery-multipleitemsperpage="true" data-o-gallery-touch=false>
-<ol class="o-gallery__items">
-<assign var="i" value=0%>
-<li class="o-gallery__item o-gallery__item__more">
-<div class="o-gallery__item__content"><a href="/photonews/1024"><img src="http://i.ftimg.net/photonews/2016/05/5731968586b498.99036082.jpg"/></a></div>
-<div class="o-gallery__item__caption o-gallery__item__moretitle"><a href="/photonews/1024" class=blacklink>2016园艺盛会</a></div>
-</li>
-<li class="o-gallery__item o-gallery__item__more">
-<div class="o-gallery__item__content"><a href="/photonews/1023"><img src="http://i.ftimg.net/photonews/2016/05/573041c31fb589.02402649.jpg"/></a></div>
-<div class="o-gallery__item__caption o-gallery__item__moretitle"><a href="/photonews/1023" class=blacklink>特殊的客人——机器人Pepper </a></div>
-</li>
-<li class="o-gallery__item o-gallery__item__more">
-<div class="o-gallery__item__content"><a href="/photonews/1021"><img src="http://i.ftimg.net/photonews/2016/05/572c4bf531f511.85518796.jpg"/></a></div>
-<div class="o-gallery__item__caption o-gallery__item__moretitle"><a href="/photonews/1021" class=blacklink>加拿大森林大火蔓延</a></div>
-</li>
-<li class="o-gallery__item o-gallery__item__more">
-<div class="o-gallery__item__content"><a href="/photonews/1020"><img src="http://i.ftimg.net/photonews/2016/05/572aee62cc4b98.94828111.jpg"/></a></div>
-<div class="o-gallery__item__caption o-gallery__item__moretitle"><a href="/photonews/1020" class=blacklink>印第安纳州：桑德斯反超希拉里取胜</a></div>
-</li>
-<li class="o-gallery__item o-gallery__item__more">
-<div class="o-gallery__item__content"><a href="/photonews/1019"><img src="http://i.ftimg.net/photonews/2016/05/5729926582b0e9.89460188.jpg"/></a></div>
-<div class="o-gallery__item__caption o-gallery__item__moretitle"><a href="/photonews/1019" class=blacklink>克鲁兹印第安纳州惨败 宣布退选</a></div>
-</li>
-<li class="o-gallery__item o-gallery__item__more">
-<div class="o-gallery__item__content"><a href="/photonews/1018"><img src="http://i.ftimg.net/photonews/2016/05/57285fcae15b53.84905108.jpg"/></a></div>
-<div class="o-gallery__item__caption o-gallery__item__moretitle"><a href="/photonews/1018" class=blacklink>北京车展上的概念车</a></div>
-</li>
-<li class="o-gallery__item o-gallery__item__more">
-<div class="o-gallery__item__content"><a href="/photonews/1017"><img src="http://i.ftimg.net/photonews/2016/04/572188610445d7.62307339.jpg"/></a></div>
-<div class="o-gallery__item__caption o-gallery__item__moretitle"><a href="/photonews/1017" class=blacklink>奢华掠影——2016北京车展精华展车专题图辑</a></div>
-</li>
-<li class="o-gallery__item o-gallery__item__more">
-<div class="o-gallery__item__content"><a href="/photonews/1016"><img src="http://i.ftimg.net/photonews/2016/04/571f201b89f564.02127521.jpg"/></a></div>
-<div class="o-gallery__item__caption o-gallery__item__moretitle"><a href="/photonews/1016" class=blacklink>难民获得重要疫苗</a></div>
-</li>
-<li class="o-gallery__item o-gallery__item__more">
-<div class="o-gallery__item__content"><a href="/photonews/1014"><img src="http://i.ftimg.net/photonews/2016/04/571d9db02e7c05.11524393.jpg"/></a></div>
-<div class="o-gallery__item__caption o-gallery__item__moretitle"><a href="/photonews/1014" class=blacklink>奥巴马到访英国</a></div>
-</li>
-<li class="o-gallery__item o-gallery__item__more">
-<div class="o-gallery__item__content"><a href="/photonews/1013"><img src="http://i.ftimg.net/photonews/2016/04/5719ad1180a360.33855822.jpg"/></a></div>
-<div class="o-gallery__item__caption o-gallery__item__moretitle"><a href="/photonews/1013" class=blacklink>美国流行巨星Prince去世</a></div>
-</li>
-<li class="o-gallery__item o-gallery__item__more">
-<div class="o-gallery__item__content"><a href="/photonews/1012"><img src="http://i.ftimg.net/photonews/2016/04/5718919cb6fa22.77149424.jpg"/></a></div>
-<div class="o-gallery__item__caption o-gallery__item__moretitle"><a href="/photonews/1012" class=blacklink>走进无人机制造工厂</a></div>
-</li>
-<li class="o-gallery__item o-gallery__item__more">
-<div class="o-gallery__item__content"><a href="/photonews/1011"><img src="http://i.ftimg.net/photonews/2016/04/57173783238c52.71690862.jpg"/></a></div>
-<div class="o-gallery__item__caption o-gallery__item__moretitle"><a href="/photonews/1011" class=blacklink>特朗普赢得纽约州共和党初选</a></div>
-</li>
-<li class="o-gallery__item o-gallery__item__more">
-<div class="o-gallery__item__content"><a href="/photonews/1010"><img src="http://i.ftimg.net/photonews/2016/04/5715e0bd1255b4.96496632.jpg"/></a></div>
-<div class="o-gallery__item__caption o-gallery__item__moretitle"><a href="/photonews/1010" class=blacklink>埃及多地爆发示威</a></div>
-</li>
-</ol>
 </div>
+<div class="clearfloat"></div>
+</div>
+<div class="list-container photo-more"><div class="list-inner">
+<h2 class="list-title"><a class="list-link" href="/channel/slides.html">最新图辑</a></h2>
+<div class="items">
+
+<div class="item-container XL4 L4 M12 S6 P12 has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/photonews/1025">乌克兰歌手夺冠 引发政治争议</a></h2>
+<a class="image" target="_blank" href="/photonews/1025"><figure class="loading" data-url="http://i.ftimg.net/photonews/2016/05/573a7dc1f053c9.42216298.jpg"></figure></a><div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/photonews/1023">特殊的客人——机器人Pepper </a></h2>
+<a class="image" target="_blank" href="/photonews/1023"><figure class="loading" data-url="http://i.ftimg.net/photonews/2016/05/573041c33aa186.19817744.jpg"></figure></a><div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/photonews/1021">加拿大森林大火蔓延</a></h2>
+<a class="image" target="_blank" href="/photonews/1021"><figure class="loading" data-url="http://i.ftimg.net/photonews/2016/05/572c4bf5449411.44832663.jpg"></figure></a><div class="item-bottom"></div>
+</div></div>
+<div class="XLT LT MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/photonews/1020">印第安纳州：桑德斯反超希拉里取胜</a></h2>
+<a class="image" target="_blank" href="/photonews/1020"><figure class="loading" data-url="http://i.ftimg.net/photonews/2016/05/572aee62d931c4.64031841.jpg"></figure></a><div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/photonews/1019">克鲁兹印第安纳州惨败 宣布退选</a></h2>
+<a class="image" target="_blank" href="/photonews/1019"><figure class="loading" data-url="http://i.ftimg.net/photonews/2016/05/57299265c8aeb4.23318830.jpg"></figure></a><div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/photonews/1018">北京车展上的概念车</a></h2>
+<a class="image" target="_blank" href="/photonews/1018"><figure class="loading" data-url="http://i.ftimg.net/photonews/2016/05/57285fcb065be1.27031522.jpg"></figure></a><div class="item-bottom"></div>
+</div></div>
+<div class="XLT LT MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/photonews/1017">奢华掠影——2016北京车展精华展车专题图辑</a></h2>
+<a class="image" target="_blank" href="/photonews/1017"><figure class="loading" data-url="http://i.ftimg.net/photonews/2016/04/57218670a351e4.95449864.jpg"></figure></a><div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/photonews/1016">难民获得重要疫苗</a></h2>
+<a class="image" target="_blank" href="/photonews/1016"><figure class="loading" data-url="http://i.ftimg.net/photonews/2016/04/571f201b9d0191.02978504.jpg"></figure></a><div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/photonews/1015">FT中文网-埃森哲战略主题沙龙精彩回顾</a></h2>
+<a class="image" target="_blank" href="/photonews/1015"><figure class="loading" data-url="http://i.ftimg.net/photonews/2016/04/571dbde100dfe2.75203333.jpg"></figure></a><div class="item-bottom"></div>
+</div></div>
+<div class="XLT LT MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/photonews/1014">奥巴马到访英国</a></h2>
+<a class="image" target="_blank" href="/photonews/1014"><figure class="loading" data-url="http://i.ftimg.net/photonews/2016/04/571d9db03f4b10.46610463.jpg"></figure></a><div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/photonews/1013">美国流行巨星Prince去世</a></h2>
+<a class="image" target="_blank" href="/photonews/1013"><figure class="loading" data-url="http://i.ftimg.net/photonews/2016/04/5719ad119148e8.87195956.jpg"></figure></a><div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/photonews/1012">走进无人机制造工厂</a></h2>
+<a class="image" target="_blank" href="/photonews/1012"><figure class="loading" data-url="http://i.ftimg.net/photonews/2016/04/5718919cc81c47.96590020.jpg"></figure></a><div class="item-bottom"></div>
+</div></div>
+<div class="clearfloat"></div>
 </div>
 </div></div>
-<!--Photo Slide End-->
-<script>
-var gCurrentSlide = 0, gAllSlides = 0, gSlideId = "";
-function initSlideShow (id) {
-var arrowsStyle = {"position":"absolute","top":"50%","margin-top":"-31px","background-color":"#333","background-image":"url(http://static.ftchinese.com/img/nav_sprite.png)","color":"white","height":"62px","width":"44px","font-size":"60px","font-weight":"bold","line-height":"62px","cursor":"pointer","text-align":"center","display":"none"};
-var arrowLeft = {"left":0,"background-position":"0 0"};
-var arrowRight = {"right":0,"text-align":"right","background-position":"-44px 0"};
-gSlideId = id;
-gAllSlides = $("#" + id + " .o-gallery__item").length;
-$("#" + id + " .o-gallery__item").hide();
-$("#" + id + " .o-gallery__item").eq(0).show();
-$("#" + id + " .o-gallery__item").each(function (index){
-$(this).find(".o-gallery__item__caption").prepend(index + 1  + "/" + gAllSlides + " ");
-});
-$("#" + id + " .o-gallery__items").css("position","relative").append('<div id="arrow-prev"></div><div  id="arrow-next"></div>');
-$("#arrow-prev").css(arrowsStyle).css(arrowLeft);
-$("#arrow-next").css(arrowsStyle).css(arrowRight);
-$("#arrow-prev,#arrow-next").bind("click",function(){
-var arrowId=$(this).attr("id");
-if (arrowId === "arrow-prev") {
-nextSlide(-1);
-} else {
-nextSlide(1);
-}
-});
-$("#" + id).hover(
-function(){
-$("#arrow-prev,#arrow-next").show();
-},
-function(){
-$("#arrow-prev,#arrow-next").hide();
-}
-);
-$("#more-photo-slides").show();
-$("#more-photo-slides .o-gallery__item").css({"display":"inline-block","width":"125px","vertical-align":"top"}).slice(7,14).hide();
-$(".o-gallery--thumbnails.o-gallery--more").css({"margin":"14px auto","width":"969px","background":"transparent"});
-//$(".o-gallery--thumbnails .o-gallery__item").css("display","inline-block");
-}
-function nextSlide(step) {
-gCurrentSlide = gCurrentSlide + step;
-if (gCurrentSlide === -1) {
-gCurrentSlide = gAllSlides -1;
-} else if (gCurrentSlide >= gAllSlides) {
-gCurrentSlide = 0
-}
-goToSlide(gCurrentSlide);
-}
-function goToSlide(index) {
-$("#" + gSlideId + " .o-gallery__item").hide();
-$("#" + gSlideId + " .o-gallery__item").eq(index).show();
-gCurrentSlide = index;
-recordpv2();
-}
-function isIE() { return ((navigator.appName == 'Microsoft Internet Explorer') || ((navigator.appName == 'Netscape') && (new RegExp("Trident/.*rv:([0-9]{1,}[\.0-9]{0,})").exec(navigator.userAgent) != null)));}
-</script>
+<div class="clearfloat block-bottom"></div><div class="clearfloat block-bottom"></div>
+</div></div>
+<div class="side-container"><div class="side-inner">
+<div class="story-box">
+<h2 class="box-title"><a>编者按</a></h2>
+<div class="top10">在英国流行着这样的说法，有三件事会引起伦敦交通堵塞：一是女王出行，二是获胜的足球队凯旋，三就是切尔西花展对外开放。作为世界上最著名的花卉展之一，2016年的切尔西花卉展即将在5月下旬正式开展。</div>
+</div>
+<div class="mpu-container last-child">
+<script type="text/javascript">document.write (writeAd('mpu'));</script>
+</div>
+</div></div><div class="clearfloat"></div>
+</div></div>
 <script>
 var gDispatchResizeEvent = false;
 if (isIE() === true) {
 initSlideShow("declarative-slideshow-with-thumbnails");
 } else {
-document.write ('<scr' + 'ipt src="http://origami-build.ft.com/v2/bundles/js?modules=o-gallery@^1.7.4"></scr' + 'ipt>');
 document.getElementById("declarative-slideshow-with-thumbnails").addEventListener("oGallery.itemSelect",function(event){
 recordpv2();
 if (gDispatchResizeEvent === false) { 
@@ -760,16 +694,16 @@ document.dispatchEvent(new Event('o.DOMContentLoaded'));
 <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
 <![endif]-->
 
-<!-- build:js scripts/main-story.js -->
+
 <script type="text/javascript" src="scripts/dom-delegate.js"></script>
 <script type="text/javascript" src="scripts/main.js"></script>
 <script type="text/javascript" src="scripts/story.js"></script>
 <script type="text/javascript" src="scripts/o-nav.js"></script>
-<script type="text/javascript" src="scripts/myft-follow.js"></script>
-<!-- endbuild -->
 
-<!-- build:js scripts/main-sharelinks.js -->
+
+
+
 <script type="text/javascript" src="scripts/sharelinks.js"></script>
-<!-- endbuild -->
+
 </html>
 

@@ -14,13 +14,13 @@
         'side': ['none', 'HomeRightRail','TagRightRail', 'MostPopular', 'HotVideos', 'MarketsData', 'videos', 'MostCommented'],
         'sideAlign': ['right', 'left'],
         'belt': ['member'],
-        'float': ['none', 'left', 'right', 'oneline', 'SideBySide', 'myFT'],
+        'float': ['none', 'left', 'right', 'oneline', 'SideBySide', 'myFT', 'IconTitle', 'Card'],
         'showTag': ['no', 'yes'],
         'showTimeStamp': ['no', 'new stories', 'all'],
         'from': ['', 'MarketsData', 'SpecialReports', 'Columns', 'Channels', 'Events', 'Marketing'],
         'sideOption': ['headlineOnly', 'leadOnly', 'imageAndText'],
         'preferLead': ['longlead', 'shortlead', 'none'],
-        'feedType': ['all','story','video','interactive','photo','job', 'myFT', 'fav'],
+        'feedType': ['all','story','video','interactive','photo','job', 'myFT', 'fav', 'ftc_columns', 'ft_columns'],
         'feedItems': 'number',
         'language': ['', 'en', 'ce']
     };
@@ -140,7 +140,7 @@
         return todaystamp;
     }
 
-    function renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, relativestory, showRelativeStoryItems) {
+    function renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, customLink, relativestory, showRelativeStoryItems) {
         var editLink = '';
         var previewLink = '';
         var dataHTML = '';
@@ -197,7 +197,7 @@
         }
         //console.log (relativestoryHTML);
         //relativestoryHTML = '';
-        dataHTML = '<div draggable=true data-type="' + type + '" class="item ' + type + hasImageClass + '"' + imageBG + ' data-id="' + id + '"><div class="remove-item"></div><div class="timestamp">' + timeStamp + '</div><div class="item-title">' + headline + '</div><div class="item-info"><div class="item-links"><a href="http://www7.ftchinese.com/' + type + '/' + id + '" target=_blank>Preview</a><a href="' + editLink + '" target=_blank>Edit</a></div><div class="item-info-item"><input title="headline" name="headline" class="o-input-text" value="' + headline + '"></div><div class="item-info-item"><input title="image" name="image" class="o-input-text" value="' + image + '"></div><div class="item-info-item"><div class="item-info-title">Long Lead: </div><textarea title="image" name="longlead" class="o-input-text">' + longlead + '</textarea></div><div class="item-info-item"><div class="item-info-title">Short Lead: </div><textarea title="image" name="shortlead" class="o-input-text">' + shortlead + '</textarea></div><div class="item-info-item"><input title="tag" name="tag" class="o-input-text" value="' + tag + '"></div>' + showRelativeStoryItems + '<div class="item-info-item"><input name="timeStamp" type="hidden" class="o-input-text" value="' + oTimeStamp + '" readonly><input type="hidden" name="type" class="o-input-text" value="' + type + '" readonly><input type="hidden" name="id" class="o-input-text" value="' + id + '" readonly></div>' + relativestoryHTML + '</div></div>';
+        dataHTML = '<div draggable=true data-type="' + type + '" class="item ' + type + hasImageClass + '"' + imageBG + ' data-id="' + id + '"><div class="remove-item"></div><div class="timestamp">' + timeStamp + '</div><div class="item-title">' + headline + '</div><div class="item-info"><div class="item-links"><a href="http://www7.ftchinese.com/' + type + '/' + id + '" target=_blank>Preview</a><a href="' + editLink + '" target=_blank>Edit</a></div><div class="item-info-item"><input title="headline" placeholder="headline" name="headline" class="o-input-text" value="' + headline + '"></div><div class="item-info-item"><input title="image" placeholder="image" name="image" class="o-input-text" value="' + image + '"></div><div class="item-info-item"><div class="item-info-title">Long Lead: </div><textarea title="image" placeholder="Long Lead" name="longlead" class="o-input-text">' + longlead + '</textarea></div><div class="item-info-item"><div class="item-info-title">Short Lead: </div><textarea title="short lead" placeholder="short lead" name="shortlead" class="o-input-text">' + shortlead + '</textarea></div><div class="item-info-item"><input title="tag" placeholder="tag" name="tag" class="o-input-text" value="' + tag + '"></div><div class="item-info-item"><input title="custom link" placeholder="custom link" name="customLink" class="o-input-text" value="' + customLink + '"></div>' + showRelativeStoryItems + '<div class="item-info-item"><input name="timeStamp" type="hidden" class="o-input-text" value="' + oTimeStamp + '" readonly><input type="hidden" name="type" class="o-input-text" value="' + type + '" readonly><input type="hidden" name="id" class="o-input-text" value="' + id + '" readonly></div>' + relativestoryHTML + '</div></div>';
         return dataHTML;
     }
 
@@ -214,10 +214,11 @@
         var tag = data.tag || '';
         var relatives = data.relatives || [];
         var showRelativeStoryItems = data.showRelativeStoryItems || 0;
+        var customLink = data.customLink || '';
         if (type !== 'story') {
             timeStampType = 3;
         }
-        return renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, relatives, showRelativeStoryItems);
+        return renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, customLink, relatives, showRelativeStoryItems);
     }
 
 
@@ -337,6 +338,7 @@
                     var tag = '';
                     var relativestory = [];
                     var showRelativeStoryItems = 0;
+                    var customLink = '';
                     if (entry.id) {
                         //console.log (entry.last_publish_time);
                         timeStamp = entry.last_publish_time || '';
@@ -354,16 +356,17 @@
                         type = 'story';
                         priority = entry.priority;
                         relativestory = entry.relativestory || [];
+                        customLink = entry.customLink || '';
                         //shortlead = JSON.stringify(relativestory);
                         if ($('.content-left-inner .item[data-id=' + id + '][data-type=' + type + ']').length === 0) {
                             if (priority > 0 && priority <= 9) {
-                                coverHTML += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, relativestory, showRelativeStoryItems);
+                                coverHTML += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, customLink, relativestory, showRelativeStoryItems);
                             } else if (priority >= 20 && priority <= 49) {
-                                newsHTML += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, relativestory, showRelativeStoryItems);
+                                newsHTML += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, customLink, relativestory, showRelativeStoryItems);
                             } else if ((priority >= 49 && priority <= 69) || (priority >= 10 && priority <= 19)) {
-                                commentsHTML += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, relativestory, showRelativeStoryItems);
+                                commentsHTML += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, customLink, relativestory, showRelativeStoryItems);
                             } else {
-                                otherHTML += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, relativestory, showRelativeStoryItems);
+                                otherHTML += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, customLink, relativestory, showRelativeStoryItems);
                             }
                         } else {
                             //console.log (headline + ' already exists');
@@ -385,7 +388,7 @@
                             }
                             type = 'photo';
                             if ($('.content-left-inner .item[data-id=' + id + '][data-type=' + type + ']').length === 0) {
-                                photosInner += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag);
+                                photosInner += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, customLink);
                             }
                         });
                     } else if (entryIndex === 'interactive') {
@@ -413,7 +416,7 @@
                             image = interactive.story_pic.other || interactive.story_pic.smallbutton || interactive.story_pic.cover || interactive.story_pic.bigbutton || '';
                             type = 'interactive';
                             if ($('.content-left-inner .item[data-id=' + id + '][data-type=' + type + ']').length === 0) {
-                                interactivesInner += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag);
+                                interactivesInner += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, customLink);
                             }
                         });
                     } else if (entryIndex === 'video') {
@@ -430,7 +433,7 @@
                             image = video.story_pic.other || video.story_pic.smallbutton || video.story_pic.cover || video.story_pic.bigbutton || '';
                             type = 'video';
                             if ($('.content-left-inner .item[data-id=' + id + '][data-type=' + type + ']').length === 0) {
-                                videosInner += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag);
+                                videosInner += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, customLink);
                             }
                         });
                     }
@@ -460,18 +463,18 @@
         $.each(toolkits.list, function (key, value) { // jshint ignore:line
             lists += '<div class="toolkit toolkit-list toolkit-' + key + '" draggable=true>' + key + '</div>';
         });
-        lists += renderAPI('', 'Empty Item 1', '', '', '', '', '', '', '');
-        lists += renderAPI('', 'Empty Item 2', '', '', '', '', '', '', '');
-        lists += renderAPI('', 'Empty Item 3', '', '', '', '', '', '', '');
-        lists += renderAPI('', 'Empty Item 4', '', '', '', '', '', '', '');
-        lists += renderAPI('', 'Empty Item 5', '', '', '', '', '', '', '');
-        lists += renderAPI('', 'Empty Item 6', '', '', '', '', '', '', '');
-        lists += renderAPI('', 'Empty Item 7', '', '', '', '', '', '', '');
-        lists += renderAPI('', 'Empty Item 8', '', '', '', '', '', '', '');
-        lists += renderAPI('', 'Empty Item 9', '', '', '', '', '', '', '');
-        lists += renderAPI('', 'Empty Item 10', '', '', '', '', '', '', '');
-        lists += renderAPI('', 'Empty Item 11', '', '', '', '', '', '', '');
-        lists += renderAPI('', 'Empty Item 12', '', '', '', '', '', '', '');
+        lists += renderAPI('', 'Empty Item 1', '', '', '', '', '', '', '', '');
+        lists += renderAPI('', 'Empty Item 2', '', '', '', '', '', '', '', '');
+        lists += renderAPI('', 'Empty Item 3', '', '', '', '', '', '', '', '');
+        lists += renderAPI('', 'Empty Item 4', '', '', '', '', '', '', '', '');
+        lists += renderAPI('', 'Empty Item 5', '', '', '', '', '', '', '', '');
+        lists += renderAPI('', 'Empty Item 6', '', '', '', '', '', '', '', '');
+        lists += renderAPI('', 'Empty Item 7', '', '', '', '', '', '', '', '');
+        lists += renderAPI('', 'Empty Item 8', '', '', '', '', '', '', '', '');
+        lists += renderAPI('', 'Empty Item 9', '', '', '', '', '', '', '', '');
+        lists += renderAPI('', 'Empty Item 10', '', '', '', '', '', '', '', '');
+        lists += renderAPI('', 'Empty Item 11', '', '', '', '', '', '', '', '');
+        lists += renderAPI('', 'Empty Item 12', '', '', '', '', '', '', '', '');
         //lists = '<div class="toolkit toolkit-list" draggable=true>list</div>';
         $('#tool-sec-inner').html(sections);
         $('#tool-list-inner').html(lists);
