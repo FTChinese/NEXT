@@ -22,6 +22,7 @@
         'preferLead': ['longlead', 'shortlead', 'none'],
         'feedType': ['all','story','video','interactive','photo','job', 'myFT', 'fav', 'ftc_columns', 'ft_columns'],
         'feedItems': 'number',
+        'feedImage': ['optional','necessary'],
         'language': ['', 'en', 'ce']
     };
     var dataRulesTitle = {
@@ -35,6 +36,7 @@
         'sideOption': 'headlineOnly表示只显示标题；leadOnly表示只显示lead，这个功能可以用来展示联系方式一类的文字信息；imageAndText显示方式类似微信公众号的图文信息，第一条出大图',
         'preferLead': '优先显示的lead类型',
         'feedType': '自动抓取的内容类型，如果选择all则四种类型都抓取，最新的先显示',
+        'feedImage': 'Optional代表不要求抓出来的内容必须有配图，Necessary则要求内容必须有配图',
         'feedItems': '自动抓取内容的条数上限，如果这个list中有手动拖入的内容，则不显示自动抓取的内容',
         'feedTag': '自动抓取内容依据的标签，如果抓取条件复杂，也可以请技术帮助你输入mysql的查询语句',
         'language': '中文、英文或者中英文对照，只适用于story'
@@ -49,7 +51,7 @@
             'topbelt': ['belt']
         },
         'list': {
-            'list': ['name', 'title', 'url', 'language', 'description', 'style', 'float', 'showTag', 'showTimeStamp', 'preferLead', 'sponsorAdId', 'sponsorLogoUrl', 'sponsorLink', 'sponsorNote', 'feedItems', 'feedTag', 'feedType'],
+            'list': ['name', 'title', 'url', 'language', 'description', 'style', 'float', 'showTag', 'showTimeStamp', 'preferLead', 'sponsorAdId', 'sponsorLogoUrl', 'sponsorLink', 'sponsorNote', 'feedItems', 'feedTag', 'feedType', 'feedImage'],
             'SideMPU': ['name'],
             'SideWithItems':['name', 'title', 'url', 'sideOption', 'feedItems', 'feedTag', 'feedType'],
             'SideRanking': ['name', 'title', 'url', 'feedItems', 'feedTag', 'feedType']
@@ -900,7 +902,8 @@
                         'sponsorNote': '',
                         'feedItems': '',
                         'feedTag': '',
-                        'feedType': ''
+                        'feedType': '',
+                        'feedImage': 'optional'
                     }
                 ];
             }

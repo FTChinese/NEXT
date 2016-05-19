@@ -6,6 +6,7 @@ var bodyHeight;
 var gNavOffsetY=0;
 var gNavHeight = 44;
 var gShareOffsetY;
+var gAudioOffsetY;
 //  var gShareHeight = 38;
 var defaultPadding = 30;
 var hasSideWidth = 690;
@@ -68,6 +69,10 @@ function stickyBottomPrepare() {
     gShareOffsetY = findTop(document.getElementById('story-share-placeholder'));
   }
 
+  if (document.getElementById('audio-placeholder')) {
+    gAudioOffsetY = findTop(document.getElementById('audio-placeholder'));
+  }
+
   w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
   if (sectionsWithSide.length > 0) {
 
@@ -88,11 +93,10 @@ function stickyBottomPrepare() {
 }
 
 function stickyBottomUpdate() {
-  var htmlClassNew = htmlClass.replace(/ o-nav-sticky/g, '').replace(/ share-sticky/g, '');
+  var htmlClassNew = htmlClass.replace(/( o-nav-sticky)|( share-sticky)|( audio-sticky)/g, '');
   if (typeof requestAnimationFrame === 'function') {
     requestAnimationFrame(stickyBottomUpdate);
   }
-
   //sticky navigation
   if (typeof gShareOffsetY === 'number' && gShareOffsetY > gNavOffsetY) {
     if (scrollTop >= gShareOffsetY) {
@@ -100,22 +104,22 @@ function stickyBottomUpdate() {
     } else if (scrollTop >= gNavHeight) {
       htmlClassNew += ' o-nav-sticky'; 
     }
-    if (htmlClassNew !== htmlClass) {
-      htmlClass = htmlClassNew;
-      document.documentElement.className = htmlClass;
-    }
   } else {
     if (scrollTop >= gNavOffsetY) {
-      if (htmlClass.indexOf(' o-nav-sticky')<0) {
-        htmlClass += ' o-nav-sticky';
-        document.documentElement.className = htmlClass;
-      }
-    } else {
-      if (htmlClass.indexOf(' o-nav-sticky')>=0) {
-        htmlClass = htmlClass.replace(/ o-nav-sticky/g, '');
-        document.documentElement.className = htmlClass;
-      }
+      htmlClassNew += ' o-nav-sticky';
     }
+  }
+
+  //sticky audo player
+  if (typeof gAudioOffsetY === 'number' && gAudioOffsetY > gNavOffsetY) {
+    if (scrollTop + gNavOffsetY >= gAudioOffsetY ) {
+      htmlClassNew += ' audio-sticky';
+    }
+  }
+
+  if (htmlClassNew !== htmlClass) {
+    htmlClass = htmlClassNew;
+    document.documentElement.className = htmlClass;
   }
 
   // sticky sides

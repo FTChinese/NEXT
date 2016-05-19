@@ -158,10 +158,35 @@
 
 
 				<%assign var="i" value=0%>
-				<%assign var="listItemCount" value=$itemsArray|@count%>
+				
+				<%if (preg_match("/all|story|interactive|photonews/is",$feedType) && $feedImage == "necessary%>
+					<%foreach from=$itemsArray item=item%>
+						<%if $i < $list.feedItems%>
+							<%if $feedType == "all"%>
+								<%assign var="itemImage" value=$item.image.cover|default:$item.image.smallbutton|default:$item.image.other|default:$item.image.bigbutton%>
+							<%elseif $feedType == "photonews"%>
+								<%assign var="itemImage" value=$item.illustration|default:$item.cover|default:$item.thumb_url%>
+								<%if $itemImage != ""%>
+									<%assign var="itemImage" value="http://i.ftimg.net/`$itemImage`"%>
+								<%/if%>
+							<%else%>
+								<%assign var="itemImage" value=$item.image|default:$item.story_pic.cover|default:$item.story_pic.smallbutton|default:$item.story_pic.other|default:$item.story_pic.bigbutton%>
+							<%/if%>
+							<%if $itemImage != ""%>
+								<%assign var="i" value=$i+1%>
+							<%/if%>
+						<%/if%>
+					<%/foreach%>
+					<%assign var="listItemCount" value=$i%>
+					<%assign var="i" value=0%>
+					<!--Display Only <%$listItemCount%> Items with Image-->
+				<%else%>
+					<%assign var="listItemCount" value=$itemsArray|@count%>
+				<%/if%>
 
 
 				<%foreach from=$itemsArray item=item%>
+					<%assign var="feedLimit" value=36%>
 					<%assign var="itemHeadline" value=$item.headline|default:$item.cheadline|default:$item.cn_title%>
 					<%if $feedType == "all"%>
 						<%assign var="itemImage" value=$item.image.cover|default:$item.image.smallbutton|default:$item.image.other|default:$item.image.bigbutton%>
