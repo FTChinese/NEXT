@@ -23,7 +23,7 @@
 		<%elseif $list.type == "" || $list.type == "list"%>
 			<%assign var="listTop" value=""%>
 			<%assign var="listTopClass" value=""%>
-			<%if $list.items|@count >= 6 && $list.items[0].type === 'video' && $list.items[1].type === 'video' && $list.items[2].type === 'video' && $list.items[3].type === 'video' && $list.items[4].type === 'video' && $list.items[5].type === 'video'%>
+			<%if ($list.items|@count >= 6 && $list.items[0].type === 'video' && $list.items[1].type === 'video' && $list.items[2].type === 'video' && $list.items[3].type === 'video' && $list.items[4].type === 'video' && $list.items[5].type === 'video') || ($list.feedType=="video" && $list.feedItems == 6)%>
 				<%assign var="listClass" value=" video-package"%>
 				<%assign var="listType" value="videos"%>
 			<%elseif $listHasFloat === "left" || $listHasFloat === "right"%>
@@ -74,7 +74,6 @@
 			<%if $listTopClass !== "" && $l > 0%>
 				<%assign var="listTop" value="<div class=\"`$listTopClass`\"></div>"%>
 			<%/if%>
-
 			<%$listTop%>
 			<%*<!--combine side lists-->*%>
 			<%if $listHasFloat === "none" || $listHasFloat === "SideBySide" || $l==0 || ($prev >= 0 && $list.float != $section.lists[$prev].float)%><div class="list-container<%$listClass%>"><div class="list-inner"><%/if%>
@@ -108,10 +107,6 @@
 				<%/if%>
 
 				<div class="items">
-				<%if $listType === "videos"%>
-					<div class="item-inner video-package-inner"><div class="image"><figure id="video-package-play" class="loading-video" data-vid="<%$list.items[0].id%>"></figure></div><div class="video-package-title"><a href="/video/<%$list.items[0].id%>" target=_blank><%$list.items[0].headline%></a></div></div>
-				<%/if%>
-
 
 
 				<%if $list.feedType == "myFT"%>
@@ -806,7 +801,9 @@
 						<%assign var="itemLink" value=" href=\"`$itemLink`\""%>
 					<%/if%>
 
-
+					<%if $listType === "videos" && $i==0%>
+						<div class="item-inner video-package-inner"><div class="image"><figure id="video-package-play" class="loading-video" data-vid="<%$itemId%>"></figure></div><div class="video-package-title"><a href="/video/<%$itemId%>" target=_blank><%$itemHeadline%></a></div></div>
+					<%/if%>
 
 					<%if $listType == "videos" && $i>5%>
 						<%*<!--Only display first 6 in video package-->*%>

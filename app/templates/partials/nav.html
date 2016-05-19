@@ -64,29 +64,32 @@
                     </ol>
                   <%/if%>
                 </li>
+
+
+
                 <%if preg_match("/home/is",$level_1.code) && preg_match("/myft/is",$topnav)%>
-                  <li class="nav-section" aria-selected="true"<%assign var=current_page value="我的FT"%><%assign var=current_link value="m/corp/myft.html"%> data-section="myft">
+                  <li class="nav-section" aria-selected="true"<%assign var=current_page value="我的FT"%><%assign var=current_link value="/users/mystories"%> data-section="myft">
                     <button class="nav-section-head mobile">我的FT</button>
-                    <a class="nav-section-head desktop" href="/m/corp/myft.html">我的FT</a>
+                    <a class="nav-section-head desktop" href="/users/mystories">我的FT</a>
                     <ol class="nav-items">
                       <li class="nav-item mobile">
-                        <a class="nav-link" href="/m/corp/myft.html">频道首页</a>
+                        <a class="nav-link" href="/users/mystories">频道首页</a>
                       </li>
                       <li class="nav-item" <%if $subnav=="mystories"%>
-                      aria-selected="true"<%/if%> data-channel="mystories">
-                        <a class="nav-link" href="/m/corp/myft.html">文章</a>
+                      aria-selected="true"<%assign var=current_sub_page value="文章"%><%/if%> data-channel="mystories">
+                        <a class="nav-link" href="/users/mystories">文章</a>
                       </li>
                       <li class="nav-item" <%if $subnav=="mytopics"%>
-                      aria-selected="true"<%/if%> data-channel="mytopics">
-                        <a class="nav-link" href="/m/corp/mytopics.html">话题</a>
+                      aria-selected="true"<%assign var=current_sub_page value="话题"%><%/if%> data-channel="mytopics">
+                        <a class="nav-link" href="/users/mytopics">话题</a>
                       </li>
                       <li class="nav-item" <%if $subnav=="fav"%>
-                      aria-selected="true"<%/if%> data-channel="fav">
+                      aria-selected="true"<%assign var=current_sub_page value="收藏"%><%/if%> data-channel="fav">
                         <a class="nav-link" href="/users/favstorylist">收藏</a>
                       </li>
                       <li class="nav-item" <%if $subnav=="discover"%>
-                      aria-selected="true"<%/if%> data-channel="discover">
-                        <a class="nav-link" href="/m/corp/discover.html">发现</a>
+                      aria-selected="true"<%assign var=current_sub_page value="发现"%><%/if%> data-channel="discover">
+                        <a class="nav-link" href="/users/discover">发现</a>
                       </li>
                     </ol>
                   </li>

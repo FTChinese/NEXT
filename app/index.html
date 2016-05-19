@@ -116,11 +116,32 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 
 
 
+<div id=roadblock style="margin:0 auto;position:relative;width:700px;text-align:center;">
+<script type="text/javascript">
+var thisday1 = new Date();
+var todaydate1 = thisday1.getFullYear() + "-" + (thisday1.getMonth() + 1) + "-" + thisday1.getDate();
+var fullsc = GetCookie("rb2");
+var loadFullAtEnd = false;
+if (fullsc == null && (todaydate1 == "2016-5-13" || todaydate1 == "2016-4-29" || todaydate1 == "2016-5-4" || todaydate1 == "2016-5-16" || todaydate1 == "2016-5-7")) {
+document.write('<scr' + 'ipt type="text/jav' + 'ascript" src="http://dolphin.ftimg.net/s?z=ft&amp;c=10000014&amp;slot=645072137&amp;_sex=101&amp;_trip=1&amp;_lux=1&amp;_dc=2&amp;_mm=2&amp;_sz=2&amp;_am=2" charset="gbk"></scr' + 'ipt>');
+} else if (fullsc == null) {
+loadFullAtEnd = true;
+}
+setTimeout(function () {
+stickyBottomPrepare();
+stickyAdsPrepare();
+}, 9000);
+</script>
+</div>
 <header class="header-container">
 <div class="header-inner">
-<div class="header-title">关注我们</div>
-<div class="header-side header-left">
-<div class="header-brand"><figure class="loading" data-url="http://static.ftchinese.com/images/masthead36.png"></figure></div>
+<div class="masthead"></div>
+<div class="header-side header-left expandable">
+<div class="current-edition">
+<span>简体中文版</span>
+<a href="http://big5.ftchinese.com/">繁体中文版</a>
+<a href="http://www.ft.com/">英文版</a>
+</div>
 </div>
 <div class="header-side header-right">
 <span class="visitor-box">
@@ -184,8 +205,7 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 </ol>
 </li>
 <li class="nav-section"
-aria-selected="true"
-data-section="home">
+ aria-selected="true" data-section="home">
 <button class="nav-section-head mobile">首页</button>
 <a class="nav-section-head desktop" href="/">首页</a>
 <ol class="nav-items">
@@ -194,9 +214,7 @@ data-section="home">
 FT中文网首页
 </a>
 </li>
-<li class="nav-item"
-aria-haspopup="true"
-data-channel="special">
+<li class="nav-item"  aria-haspopup="true" data-channel="special">
 <a class="nav-link" href="/channel/special.html">专题报道</a>
 <ol class="nav-sub-items">
 <li><a href="/tag/全球商业的未来">全球商业的未来</a></li>
@@ -204,91 +222,87 @@ data-channel="special">
 <li><a href="/tag/与FT共进午餐">与FT共进午餐</a></li>
 </ol>
 </li>
-<li class="nav-item"
-data-channel="weekly">
+<li class="nav-item"  data-channel="weekly">
 <a class="nav-link" href="/channel/weekly.html">热门文章</a>
 </li>
-<li class="nav-item"
-data-channel="event">
+<li class="nav-item"  data-channel="event">
 <a class="nav-link" href="/m/events/event.html">会议活动</a>
 </li>
-<li class="nav-item"
-data-channel="member">
+<li class="nav-item"  data-channel="member">
 <a class="nav-link" href="/m/marketing/home.html">会员信息中心</a>
 </li>
-<li class="nav-item"
-data-channel="intelligence">
+<li class="nav-item"  data-channel="intelligence">
 <a class="nav-link" href="/m/marketing/intelligence.html">FT研究院</a>
 </li>
-<li class="nav-item"
-data-channel="mba">
+<li class="nav-item"  data-channel="mba">
 <a class="nav-link" href="/channel/mba.html">FT商学院</a>
 </li>
-<li class="nav-item"
-data-channel="english">
+<li class="nav-item"  data-channel="english">
 <a class="nav-link" href="/channel/english.html">英语学习</a>
 </li>
-<li class="nav-item"
-data-channel="photo">
+<li class="nav-item"  data-channel="photo">
 <a class="nav-link" href="/channel/slides.html">图辑</a>
 </li>
-<li class="nav-item"
-data-channel="job">
+<li class="nav-item"  data-channel="job">
 <a class="nav-link" href="/jobs/">职业机会</a>
 </li>
-<li class="nav-item"
-data-channel="datanews">
+<li class="nav-item"  data-channel="datanews">
 <a class="nav-link" href="/channel/datanews.html">数据新闻</a>
 </li>
 </ol>
 </li>
 <li class="nav-section"
-data-section="china">
+ data-section="china">
 <button class="nav-section-head mobile">中国</button>
 <a class="nav-section-head desktop" href="/channel/china.html">中国</a>
 </li>
 <li class="nav-section"
-data-section="world">
+ data-section="world">
 <button class="nav-section-head mobile">全球</button>
 <a class="nav-section-head desktop" href="/channel/world.html">全球</a>
 </li>
 <li class="nav-section"
-data-section="economy">
+ data-section="economy">
 <button class="nav-section-head mobile">经济</button>
 <a class="nav-section-head desktop" href="/channel/economy.html">经济</a>
 </li>
 <li class="nav-section"
-data-section="markets">
+ data-section="markets">
 <button class="nav-section-head mobile">金融市场</button>
 <a class="nav-section-head desktop" href="/channel/markets.html">金融市场</a>
 </li>
 <li class="nav-section"
-data-section="business">
+ data-section="business">
 <button class="nav-section-head mobile">商业</button>
 <a class="nav-section-head desktop" href="/channel/business.html">商业</a>
 </li>
 <li class="nav-section"
-data-section="opinion">
+ data-section="innovation">
+<button class="nav-section-head mobile">创新经济</button>
+<a class="nav-section-head desktop" href="/channel/innovation.html">创新经济</a>
+</li>
+<li class="nav-section"
+ data-section="opinion">
 <button class="nav-section-head mobile">观点</button>
 <a class="nav-section-head desktop" href="/channel/opinion.html">观点</a>
 </li>
 <li class="nav-section"
-data-section="management">
+ data-section="management">
 <button class="nav-section-head mobile">管理</button>
 <a class="nav-section-head desktop" href="/channel/management.html">管理</a>
 </li>
 <li class="nav-section"
-data-section="lifestyle">
+ data-section="lifestyle">
 <button class="nav-section-head mobile">生活时尚</button>
 <a class="nav-section-head desktop" href="/channel/lifestyle.html">生活时尚</a>
 </li>
 <li class="nav-section"
-data-section="stream">
+ data-section="stream">
 <button class="nav-section-head mobile">视频</button>
 <a class="nav-section-head desktop" href="/channel/stream.html">视频</a>
 </li>
 <li class="nav-section"
-data-section="english">
+ data-section="english">
 <button class="nav-section-head mobile">每日英语</button>
 <a class="nav-section-head desktop" href="/channel/english.html">每日英语</a>
 </li>
@@ -350,17 +364,12 @@ data-section="english">
 </div><!-- o-nav__placeholder -->
 <div class="site-map">
 <div class="site-map__container">
-<ul class="site-map__items">
-<li><a href="/">首页</a></li>
-  
-<li><a href=""></a></li>
-</ul>
 </div>
 </div><div class="banner-placeholder">
 <div class="banner-container">
 <div class="banner-inner">
 <div class="banner-content">
-<script type="text/javascript">document.write (writeAd('tagbanner'));</script>
+<script type="text/javascript">document.write (writeAd('banner'));</script>
 </div>
 </div>
 </div>
@@ -368,151 +377,715 @@ data-section="english">
 <div class="block-container has-side side-right"><div class="block-inner">
 <div class="content-container"><div class="content-inner">
 
-<div class="list-container"><div class="list-inner"><h2 class="list-title">
-<a class="list-link" href="#">微信账号</a>
-</h2>
-<div class="items">
+<div class="list-container"><div class="list-inner"><div class="items">
 
-<div class="item-container XL4 L4 S12 M6 P12     has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067485#adchannelID=1100">俄罗斯真的在衰落吗？</a></h2>
-<a class="image" target="_blank" href="/story/001067485#adchannelID=1100"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000061606_piclink.jpg"></figure></a><div class="item-lead">哈佛大学萨拉江：俄罗斯真如西方学者所宣称的那样正在衰落吗？如果将俄罗斯的表现与世界整体水平或与西方主要经济体进行比较，可以发现，俄罗斯进入21世纪后仍继续衰落的说法，起码是非常有争议的。</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class=" ST PT"></div>
-<div class="item-container XL4 L4 S12 M6 P12     has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067534#adchannelID=1100">中国抨击即将裁决的南海仲裁案</a></h2>
-<a class="image" target="_blank" href="/story/001067534#adchannelID=1100"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000060830_piclink.jpg"></figure></a><div class="item-lead">重申海牙联合国仲裁庭对菲律宾提起的南海仲裁案没有管辖权</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class=" MT ST PT"></div>
-<div class="item-container XL4 L4 S12 M6 P12     has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067526#adchannelID=1100">该在公司收快递吗？</a></h2>
-<a class="image" target="_blank" href="/story/001067526#adchannelID=1100"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000061611_piclink.jpg"></figure></a><div class="item-lead">我在网上订购的刷子和磨刀器，寄到公司前台合适吗？</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class="clearfloat"></div>
-</div>
-</div></div>
-<div class="list-container"><div class="list-inner"><h2 class="list-title">
-<a class="list-link" href="#">社交网络</a>
-</h2>
-<div class="items">
-
-<div class="item-container icon-title XL3 L3 S4 M6 P12     has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="http://www.w3school.com.cn/tags/att_input_placeholder.asp">Empty Item 1</a></h2>
-<a class="image" target="_blank" href="http://www.w3school.com.cn/tags/att_input_placeholder.asp"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000061611_piclink.jpg"></figure></a>
-<div class="item-bottom"></div>
-</div></div>
-<div class=" PT"></div>
-<div class="item-container icon-title XL3 L3 S4 M6 P12     no-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank">Empty Item 3</a></h2>
-
+<div class="item-container XL8 L8 M12 S6 P12 has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067546">大苹果投资小桔子的幕后</a></h2>
+<a class="image" target="_blank" href="/story/001067546"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000061650_piclink.jpg"></figure></a><div class="item-lead">王冠雄：苹果选了母公司叫“小桔”的中国打车服务滴滴，而非总部设在美国的Uber，这种战略投资是一个系统行为，随着中国互联网力量的狂野增长和不可逆转的国际化，类似战略合作还将发生，而产业和消费者也从中获益。</div>
 <div class="item-bottom"></div>
 </div></div>
 <div class=" MT PT"></div>
-<div class="item-container icon-title XL3 L3 S4 M6 P12     no-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank">Empty Item 4</a></h2>
-
+<div class="item-container XL4 XL-right L4 L-right M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067558">分析：滴滴会“烧光”苹果的投资吗？</a></h2>
+<a class="image" target="_blank" href="/story/001067558"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000061660_piclink.jpg"></figure></a><div class="item-lead">刚从苹果获得10亿美元投资的这家中国打车服务表示，将用此投资产品和科技创新，但有人认为，这笔钱会被投入滴滴与优步争夺中国市场份额的竞争。</div>
 <div class="item-bottom"></div>
 </div></div>
-<div class=" ST PT"></div>
-<div class="item-container icon-title XL3 L3 S4 M6 P12     no-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank">Empty Item 2</a></h2>
-
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 XL-right XL-no-image L4 L-right L-no-image M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067557">分析：中城建控股向央行求救说明了什么？</a></h2>
+<a class="image" target="_blank" href="/story/001067557"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000061662_piclink.jpg"></figure></a><div class="item-lead">这家已经私有化的原中国国企致函中国央行，请求明确担保，突显隐性担保在多大程度上影响着中国哪些公司能够获得融资，以什么价格获得融资。</div>
 <div class="item-bottom"></div>
 </div></div>
-<div class=" XLT LT MT PT"></div>
-<div class="item-container icon-title XL3 L3 S4 M6 P12     no-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank">Empty Item 5</a></h2>
-
+<div class="XLT LT MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067561">中资证券公司债券销售费用收入激增</a></h2>
+<a class="image" target="_blank" href="/story/001067561"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000061664_piclink.jpg"></figure></a><div class="item-lead">按债券销售费用收入排名，中资机构今年迄今在前20家机构中占了9家，斩获4.5亿美元，而去年全年为7.97亿美元。低借款利率鼓励中资企业利用债市，而不是从银行贷款。</div>
 <div class="item-bottom"></div>
 </div></div>
-<div class=" PT"></div>
-<div class="item-container icon-title XL3 L3 S4 M6 P12     no-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank">Empty Item 6</a></h2>
-
-<div class="item-bottom"></div>
-</div></div>
-<div class=" ST MT PT"></div>
-<div class="item-container icon-title XL3 L3 S4 M6 P12     no-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank">Empty Item 7</a></h2>
-
-<div class="item-bottom"></div>
-</div></div>
-<div class=" PT"></div>
-<div class="item-container icon-title XL3 L3 S4 M6 P12     no-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank">Empty Item 8</a></h2>
-
-<div class="item-bottom"></div>
-</div></div>
-<div class=" XLT LT MT PT"></div>
-<div class="item-container icon-title XL3 L3 S4 M6 P12     no-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank">Empty Item 9</a></h2>
-
-<div class="item-bottom"></div>
-</div></div>
-<div class=" ST PT"></div>
-<div class="item-container icon-title XL3 L3 S4 M6 P12     no-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank">Empty Item 10</a></h2>
-
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067560">“私人股本难以跟中国矿企竞争”</a></h2>
+<a class="image" target="_blank" href="/story/001067560"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000061658_piclink.jpg"></figure></a><div class="item-lead">Denham Capital表示，私人股本公司无法在战略矿产竞购中击败资金成本更低的中国买家</div>
 <div class="item-bottom"></div>
 </div></div>
 <div class=" MT PT"></div>
-<div class="item-container icon-title XL3 L3 S4 M6 P12     no-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank">Empty Item 11</a></h2>
-
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067559">印度央行行长：富国耗尽经济刺激弹药</a></h2>
+<a class="image" target="_blank" href="/story/001067559"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000061659_piclink.jpg"></figure></a><div class="item-lead">但拉詹指出，各国央行不会承认自己已经没有刺激手段可用</div>
 <div class="item-bottom"></div>
 </div></div>
-<div class=" PT"></div>
-<div class="item-container icon-title XL3 L3 S4 M6 P12     no-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank">Empty Item 12</a></h2>
-
+<div class="XLT LT MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067555">游戏机为何没被淘汰？</a></h2>
+<a class="image" target="_blank" href="/story/001067555"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000061643_piclink.jpg"></figure></a><div class="item-lead">刘易斯：就像电视的问世并没有让电影业消亡一样，在游戏领域，智能手机也未抢走游戏机的生意，原因在于手机游戏和主机游戏给人的不同体验。</div>
 <div class="item-bottom"></div>
 </div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067522">中俄能源协议的背后</a></h2>
+<a class="image" target="_blank" href="/story/001067522"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000061651_piclink.jpg"></figure></a><div class="item-lead">FT巴克利：中资银行为亚马尔项目提供贷款似乎表明，俄罗斯虽受西方制裁，仍能为国内能源项目找到融资。比起中国需要俄罗斯，俄罗斯更需要中国。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067556">我们对机器人时代准备不足</a></h2>
+<a class="image" target="_blank" href="/story/001067556"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000061652_piclink.jpg"></figure></a><div class="item-lead">《机器人的崛起》作者福特：机器人和人工智能的普及，预示着一场社会、经济和政治混乱。新技术难以创造足够就业机会，吸收被挤出传统岗位的人。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="XLT LT MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067551">女性员工一定要穿高跟鞋吗？</a></h2>
+<a class="image" target="_blank" href="/story/001067551"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000061647_piclink.jpg"></figure></a><div class="item-lead">FT马斯特斯：妮古拉•索普因没穿高跟鞋被解雇，引发争议。在企业被要求提高女性在董事会地位的时代，过于强调女性穿着的做法，尤其过时。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067550">全民基本收入方案利弊谈</a></h2>
+<a class="image" target="_blank" href="/story/001067550"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000061649_piclink.jpg"></figure></a><div class="item-lead">FT专栏作家哈福德：有人认为，无差别地直接给每个人钱，能够帮助那些因全球化和技术变革而陷入困境的人。但这个方案带来的麻烦可能不会少。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067548">苹果投资滴滴剑指人机智能时代</a></h2>
+<a class="image" target="_blank" href="/story/001067548"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000060931_piclink.jpg"></figure></a><div class="item-lead">FT中文网专栏作家周掌柜：苹果的生态正在被超级应用智能化击穿，其投资滴滴，目的是试探性的布局击穿APP应用生态的人机智能技术，或许类似“大手笔”仅仅是一个华丽的开头。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="XLT LT MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067542">供给侧结构性改革把脉医疗乱象</a></h2>
+<a class="image" target="_blank" href="/story/001067542"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000057293_piclink.jpg"></figure></a><div class="item-lead">滕泰、张海冰：中国医疗服务领域的供给形成机制存在严重的问题，是供给侧矛盾最突出的领域之一。为了增加医疗有效供给，降低供给价格，应该如何着手？ </div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067552">朝鲜令中美两国面临考验</a></h2>
+<a class="image" target="_blank" href="/story/001067552"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000061646_piclink.jpg"></figure></a><div class="item-lead">FT专栏作家斯蒂芬斯：中美两国都希望朝鲜停止核武器及弹道导弹的研制，但做法并不相同。中美是选择彼此接纳还是冲突，如何应对朝鲜将是一次考验。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067547">朝鲜改革开放？勿抱太大希望 </a></h2>
+<a class="image" target="_blank" href="/story/001067547"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000061386_piclink.jpg"></figure></a><div class="item-lead">韩国学者李成贤：朝鲜劳动党七大释放的信号是，巩固金正恩的唯一领导体制，坚持发展核武器，不断更新核打击手段，并未展现改革开放的意向。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="XLT LT MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067549">与FT共进晚餐：Temba</a></h2>
+<a class="image" target="_blank" href="/story/001067549"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000061641_piclink.jpg"></figure></a><div class="item-lead">FT中文网专栏作家张力奋：格罗顿，一所曾经白得不能再白的美国精英私校，聘了百年校史上首任黑人校长。他是Temba，出生于南非，年轻时为反抗种族主义统治流亡海外。他的教育哲学：包容。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067545">高考招生：资源稀缺下如何尽量公平？</a></h2>
+<a class="image" target="_blank" href="/story/001067545"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000023923_piclink_0_0.jpg"></figure></a><div class="item-lead">陈振铎：教育没有绝对的公平，不公平在任何一个时代和国家都会存在。制定政策、分配资源的公共部门，能否让公民看到消除这种不公平的努力，缓解各种潜在的社会不公心理，是尽量防止引起大范围冲突的关键。</div>
+<div class="relative-container">
+<h3 class="relative"><a href="/story/001067436" target="_blank">中国移民的纽约择校战</a></h3>
 <div class="clearfloat"></div>
 </div>
+<div class="item-bottom"></div>
 </div></div>
-<div class="list-container"><div class="list-inner"><h2 class="list-title">
-<a class="list-link" href="#">视频</a>
-</h2>
-<div class="items">
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067485">俄罗斯真的在衰落吗？</a></h2>
+<a class="image" target="_blank" href="/story/001067485"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000061606_piclink.jpg"></figure></a><div class="item-lead">哈佛大学萨拉江：俄罗斯真如西方学者所宣称的那样正在衰落吗？如果将俄罗斯的表现与世界整体水平或与西方主要经济体进行比较，可以发现，俄罗斯进入21世纪后仍继续衰落的说法，起码是非常有争议的。</div>
+<div class="item-bottom"></div>
+</div></div>
 <div class="clearfloat"></div>
 </div>
 </div></div><div class="clearfloat block-bottom"></div>
 </div></div>
 <div class="side-container"><div class="side-inner">
-    
-<div class="side-list first-child">
-<h2 class="list-title">
-<a href="/channel/stream.html">编者按</a>
-</h2>
-<div class="item-container first has-image"><div class="item-inner">
-<div class="item-lead item-description">这是由阿苏负责的板块</div>
-</div></div>
+<div class="links-container P-hide">
+<h2 class="list-title"><a href="/m/marketing/home.html">会员信息中心</a></h2>
+<div class="links" id="member-info">
+<a>...</a><a>...</a><a>...</a>
+</div>
+<div class="hide">
+<iframe width="0" height="0" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="/m/marketing/membertext.html"></iframe>
+</div>
 </div>
 <div class="mpu-container">
 <script type="text/javascript">document.write (writeAd('mpu'));</script>
 </div>
-<div class="mps">
-<h2 class="list-title"><a href="/channel/weekly.html">热门文章</a></h2>
-<ul class="top10">
-<li class="mp1"><span>1. </span><a target="_blank" href="/story/001067493?dailypop">中国经济政策三大新取向</a></li>
-<li class="mp2"><span>2. </span><a target="_blank" href="/story/001067508?dailypop">中国未来3年拟投资4.7万亿元兴建交通设施</a></li>
-<li class="mp3"><span>3. </span><a target="_blank" href="/story/001067501?dailypop">中国债务周期：勇敢者的游戏</a></li>
-<li class="mp4"><span>4. </span><a target="_blank" href="/story/001067512?dailypop">英国女王私下抱怨中国访英官员“无礼”</a></li>
-<li class="mp5"><span>5. </span><a target="_blank" href="/story/001067498?dailypop">中国能找到宗教治理新思维吗？</a></li>
-<li class="mp6"><span>6. </span><a target="_blank" href="/story/001067502?dailypop">中国企业借新债偿旧债</a></li>
-<li class="mp7"><span>7. </span><a target="_blank" href="/story/001067507?dailypop">新丝绸之路将为谁带来繁荣？</a></li>
-<li class="mp8"><span>8. </span><a target="_blank" href="/story/001067511?dailypop">欧盟以“强烈担心”为由否决李嘉诚收购O2</a></li>
-<li class="mp9"><span>9. </span><a target="_blank" href="/story/001067509?dailypop">FT社评：中国应练好“市场经济”内功</a></li>
-<li class="mp10"><span>10. </span><a target="_blank" href="/story/001067518?dailypop">中国保监会派调研组赴安邦保险</a></li>
-</ul>
+<div class="interactives">
+<h2 class="list-title"><a href="/channel/mba.html">互动与图辑</a></h2>
+<!---->
+<div class="item-container first"><div class="item-inner">
+<a class="image" href="/interactive/6888" target=_blank><figure class="loading" data-url="http://i.ftimg.net/picture/2/000061742_piclink.jpg"></figure></a>
+<h2 class="item-headline"><a href="/interactive/6888" target=_blank>【速读】“退欧”与三明治的经济账</a></h2>
+</div></div>
+<div class="item-container"><div class="item-inner">
+<a class="image" href="/interactive/4438" target=_blank><figure class="loading" data-url="http://i.ftimg.net/picture/4/000058414_piclink.jpg"></figure></a>
+<h2 class="item-headline"><a href="/interactive/4438" target=_blank>【小测】测测你的新闻IQ</a></h2>
+</div></div>
+<div class="item-container"><div class="item-inner">
+<a class="image" href="/interactive/6880" target=_blank><figure class="loading" data-url="http://i.ftimg.net/picture/2/000061712_piclink.jpg"></figure></a>
+<h2 class="item-headline"><a href="/interactive/6880" target=_blank>【速读】无麸质食谱真的有益健康？</a></h2>
+</div></div>
+<div class="item-container"><div class="item-inner">
+<a class="image" href="/interactive/6872" target=_blank><figure class="loading" data-url="http://i.ftimg.net/picture/2/000061682_piclink.jpg"></figure></a>
+<h2 class="item-headline"><a href="/interactive/6872" target=_blank>【速读】焦虑的“白领”</a></h2>
+</div></div>
+<div class="item-container"><div class="item-inner">
+<a class="image" href="/photonews/1025" target=_blank><figure class="loading" data-url="http://i.ftimg.net/photonews/2016/05/57396cbea2bc00.09333438.jpg"></figure></a>
+<h2 class="item-headline"><a href="/photonews/1025" target=_blank>【图辑】乌克兰歌手夺冠 引发政治争议</a></h2>
+</div></div>
+<!---->
 </div>
-<div class="mpu-container last-child">
+<div class="mpu-container">
 <script type="text/javascript">document.write (writeAd('mpu'));</script>
 </div>
+<div class="vidoes P-hide">
+<h2 class="list-title"><a href="/m/marketing/intelligence.html">FT研究院</a></h2>
+<div class="item-container first"><div class="item-inner">
+<a class="image" href="/interactive/6692" target=_blank><figure class="loading" data-url="http://i.ftimg.net/picture/4/000061164_piclink.jpg"></figure></a>
+<h2 class="item-headline"><a href="/interactive/6692" target=_blank>休闲旅行：国人是如何开心地玩耍！</a></h2>
+</div></div>
+<div id="three-video-part" class="triplet-container">
+<div id="three-video-content">
+<ul>
+<li><a target="video-frame" href="/interactive/6691"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000060887_piclink.jpg"></figure><p>国人旅行需求有望持续引领中国休闲消费升级</p></a></li>
+<li><a target="video-frame" href="/interactive/6690"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000061064_piclink.jpg"></figure><p>独家数据：中国财富人士如何选购豪华车？</p></a></li>
+<li><a target="video-frame" href="/interactive/6674"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000060812_piclink.jpg"></figure><p>哪5大趋势，将主导2016年中国豪华车市场发展？</p></a></li>
+<div class="clearfloat"></div>
+</ul>
+</div>
+</div>
+</div>
+</div></div><div class="clearfloat"></div>
+</div></div><div class="banner-placeholder">
+<div class="banner-container">
+<div class="banner-inner">
+<div class="banner-content">
+<script type="text/javascript">document.write (writeAd('banner'));</script>
+</div>
+</div>
+</div>
+</div>
+<div class="block-container no-side"><div class="block-inner">
+<div class="content-container"><div class="content-inner">
+
+<div class="list-container"><div class="list-inner"><h2 class="list-title">
+<a class="list-link" href="/channel/opinion.html">评论</a>
+</h2>
+<div class="items">
+
+
+<div class="item-container XL3 L4 M4 S6 P12 has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/中国南海">中国南海</a></div><a target="_blank" href="/story/001067094">应重估美国在南海问题上的对华政策</a></h2>
+<a class="image" target="_blank" href="/story/001067094"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000058618_piclink.jpg"></figure></a><div class="item-lead">美国参议院军事委员会主席麦凯恩：奥巴马政府提出在南中国海不填海造岛、不搞军事化和不胁迫，但这一政策不仅未能遏制中国，同时也令美国的盟友感到困惑。</div><div class="item-time">4月15日</div>
+<div class="item-bottom"></div>
+</div></div>
+
+<div class=" PT"></div>
+<div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/负利率">负利率</a></div><a target="_blank" href="/story/001067119">负利率是经济痼疾的表征而非病因</a></h2>
+<a class="image" target="_blank" href="/story/001067119"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000060697_piclink.jpg"></figure></a><div class="item-lead">FT首席经济评论员沃尔夫：世界经济正遭遇储蓄过剩、投资不足的困扰，负利率政策符合这一事实。但是，货币政策变得越极端，对其进行校准就越困难。</div><div class="item-time">4月15日</div>
+<div class="item-bottom"></div>
+</div></div>
+
+<div class=" ST PT"></div>
+<div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/货币政策">货币政策</a></div><a target="_blank" href="/story/001067115">为什么会有人买负收益率债券？</a></h2>
+<a class="image" target="_blank" href="/story/001067115"><figure class="loading" data-url="http://i.ftimg.net/picture/5/000060175_piclink.jpg"></figure></a><div class="item-lead">购买收益率为负的债券然后持有到期，是板上钉钉的亏本交易。FT记者为你揭开其中“奥妙”：如果其它资产价格大跌，负收益率债券将带来“超常表现”。</div><div class="item-time">4月15日</div>
+<div class="item-bottom"></div>
+</div></div>
+
+<div class=" LT MT PT"></div>
+<div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/乐尚街">乐尚街</a></div><a target="_blank" href="/story/001067105">国际艺术界的“韩国风”</a></h2>
+<a class="image" target="_blank" href="/story/001067105"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000060673_piclink.jpg"></figure></a><div class="item-lead">韩国艺术近年屡获国际认可。韩国单色画在拍卖中屡创佳绩，艺术家摘得威尼斯双年展大奖。90年代韩国艺术家更是赢得了西方主流社会认可，并成时尚。<br />
+</div><div class="item-time">4月15日</div>
+<div class="item-bottom"></div>
+</div></div>
+
+<div class="XLT ST PT"></div>
+<div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/乐尚街">乐尚街</a></div><a target="_blank" href="/story/001067106">卡地亚助力中国博物馆热潮</a></h2>
+<a class="image" target="_blank" href="/story/001067106"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000060676_piclink.jpg"></figure></a><div class="item-lead">卡地亚与中国政府签署框架协议，就艺术与文化交流项目展开合作。此举将助力中国博物馆建设热潮。卡地亚旗下的当代艺术基金会有丰富的艺术经营经验。</div><div class="item-time">4月15日</div>
+<div class="item-bottom"></div>
+</div></div>
+
+<div class=" PT"></div>
+<div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/乐尚街">乐尚街</a></div><a target="_blank" href="/story/001067108">今年的腕表：好货不贵</a></h2>
+<a class="image" target="_blank" href="/story/001067108"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000060679_piclink.jpg"></figure></a><div class="item-lead">丁之方：面对着不足20%的手腕戴表率，今年的中高端新品手表功能外型俱佳而价格不贵，与电子智能表一起争夺消费者宝贵的“手腕”资源。</div><div class="item-time">4月15日</div>
+<div class="item-bottom"></div>
+</div></div>
+
+<div class=" LT MT ST PT"></div>
+<div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/社交网站">社交网站</a></div><a target="_blank" href="/story/001067005">领英“十诫”</a></h2>
+<a class="image" target="_blank" href="/story/001067005"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000060570_piclink.jpg"></figure></a><div class="item-lead">FT专栏作家凯拉韦：看了一些名人的领英个人页面后，我发现没人知道该怎么写。篇幅写多长？第一人称还是第三人称？要不要幽默点？对于诸多疑问，我总结了10条教训。</div><div class="item-time">4月12日</div>
+<div class="item-bottom"></div>
+</div></div>
+
+<div class=" PT"></div>
+<div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/创业">创业</a></div><a target="_blank" href="/story/001067025">创业者需善用杠杆</a></h2>
+<a class="image" target="_blank" href="/story/001067025"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000060496_piclink.jpg"></figure></a><div class="item-lead">贺嘉：创业者多做高杠杆率的事，才能够更多释放自己的时间，去思考公司的战略发展方向，做资源和人力的整合，让正确的事相继发生。</div><div class="item-time">4月12日</div>
+<div class="item-bottom"></div>
+</div></div>
+
+<div class="XLT ST PT"></div>
+<div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/中国经济">中国经济</a></div><a target="_blank" href="/story/001067045">如何抵御经济刺激政策诱惑？</a></h2>
+<a class="image" target="_blank" href="/story/001067045"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000058489_piclink.jpg"></figure></a><div class="item-lead">加拿大菲莎河谷大学教授陆丁：从中国基本面来看，“新常态”已经是学界的共识。在“三期叠加”尚未解决理清的情况下，发生如此大规模的财政货币扩张，显然令人担忧。</div><div class="item-time">4月12日</div>
+<div class="item-bottom"></div>
+</div></div>
+
+<div class=" LT MT PT"></div>
+<div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/台湾">台湾</a></div><a target="_blank" href="/story/001067046">两岸关系无法回避宪制建构</a></h2>
+<a class="image" target="_blank" href="/story/001067046"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000056084_piclink.jpg"></figure></a><div class="item-lead">北航高研院田飞龙：两岸关系若要朝“和平统一”方向前进，就必须设法对“九二共识”的抽象政治原则加以宪制性转化。两岸法律学者需要聚焦此议题，寻找妥切方案。</div><div class="item-time">4月12日</div>
+<div class="item-bottom"></div>
+</div></div>
+
+<div class=" ST PT"></div>
+<div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/5g">5g</a></div><a target="_blank" href="/story/001067023">5G时代：智慧城市革命和中国机会</a></h2>
+<a class="image" target="_blank" href="/story/001067023"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000060362_piclink.jpg"></figure></a><div class="item-lead">师北宸：各个国家和企业对5G都有着空前的热情和期待，不仅由于“万物互联”所开启的想象空间，更是因为这代表着下一代世界通讯技术的话语权将落于谁手。</div><div class="item-time">4月12日</div>
+<div class="item-bottom"></div>
+</div></div>
+
+<div class=" PT"></div>
+<div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/FT社评">FT社评</a></div><a target="_blank" href="/story/001067048">FT社评：美联储推迟加息牵连了谁？</a></h2>
+<a class="image" target="_blank" href="/story/001067048"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000060572_piclink.jpg"></figure></a><div class="item-lead">有助于缓和美元走强的政策立场目前最符合美国乃至全球经济的利益。如果可以从变化莫测的短期汇率波动得出任何结论的话，那就是欧元区和日本正在承受连带损害。</div><div class="item-time">4月12日</div>
+<div class="item-bottom"></div>
 </div></div>
 <div class="clearfloat"></div>
+</div>
+</div></div><div class="clearfloat block-bottom"></div>
+</div></div>
+<div class="clearfloat"></div>
+</div></div><div class="banner-placeholder">
+<div class="banner-container">
+<div class="banner-inner">
+<div class="banner-content">
+<script type="text/javascript">document.write (writeAd('banner'));</script>
+</div>
+</div>
+</div>
+</div>
+<div class="block-container has-side side-left">
+<div class="block-inner">
+<div class="content-container">
+<div class="content-inner">
+
+<div class="list-container  XL4 L6 M12 S6 P12 side-by-side">
+<div class="list-inner">
+<h2 class="list-title"><a class="list-link" href="/channel/economy.html">经济</a></h2>
+
+<div class="item-container side-by-side first has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067611">致奥巴马的一封信</a></h2>
+<a class="image" target="_blank" href="/story/001067611"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000057636_piclink.jpg"></figure></a><div class="item-lead">中国社科院薛力：美国正在南海误判与羞辱中国。误判有二：以为中国正谋求全面控制南海；以为可以通过一整套组合拳迫使中国清晰化南海主张，进而放弃南海断续线。</div><div class="item-bottom"></div>
+</div></div>
+
+<div class="item-container side-by-side "><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067624">睿康集团收购阿斯顿维拉足球俱乐部</a></h2>
+<div class="item-bottom"></div>
+</div></div>
+
+<div class="item-container side-by-side "><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067623">“中国成为发展融资全球领导者”</a></h2>
+<div class="item-bottom"></div>
+</div></div>
+
+<div class="item-container side-by-side "><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067616">王健林为何也将公司私有化？</a></h2>
+<div class="item-bottom"></div>
+</div></div>
+</div>
+</div>
+<div class=" MC PC"></div>
+<div class="list-container  XL4 L6 M12 S6 P12 side-by-side">
+<div class="list-inner">
+<h2 class="list-title"><a class="list-link" href="/channel/markets.html">金融市场</a></h2>
+
+<div class="item-container side-by-side first has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067585">Lex专栏：洛阳钼业高歌猛进</a></h2>
+<a class="image" target="_blank" href="/story/001067585"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000061707_piclink.jpg"></figure></a><div class="item-lead">洛阳钼业将从英美资源集团和自由港迈克墨伦收购总价值42亿美元的资产。新资产将彻底改变该公司面貌，大大提高其国际化程度和多元化水平。</div><div class="item-bottom"></div>
+</div></div>
+
+<div class="item-container side-by-side "><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067581">油价继续回升 逼近每桶50美元</a></h2>
+<div class="item-bottom"></div>
+</div></div>
+
+<div class="item-container side-by-side "><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067569">从投资视角新解中国经济“三期叠加”</a></h2>
+<div class="item-bottom"></div>
+</div></div>
+
+<div class="item-container side-by-side "><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067575">特朗普挑战“强势美元”政策</a></h2>
+<div class="item-bottom"></div>
+</div></div>
+</div>
+</div>
+<div class=" LC SC MC PC"></div>
+<div class="list-container  XL4 L6 M12 S6 P12 side-by-side">
+<div class="list-inner">
+<h2 class="list-title"><a class="list-link" href="/channel/technology.html">科技</a></h2>
+
+<div class="item-container side-by-side first has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067615">公司大，员工少？</a></h2>
+<a class="image" target="_blank" href="/story/001067615"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000061752_piclink.jpg"></figure></a><div class="item-lead">如今，拥有数百万乃至数千万客户的企业可能仅有极少的员工和极低的管理费用。最近我与两家科技初创企业的谈话，揭示出这种现象背后的原因。</div><div class="item-bottom"></div>
+</div></div>
+
+<div class="item-container side-by-side "><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067619">微软把诺基亚手机业务售予富士康</a></h2>
+<div class="item-bottom"></div>
+</div></div>
+
+<div class="item-container side-by-side "><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067553">数据是最基本的公共品</a></h2>
+<div class="item-bottom"></div>
+</div></div>
+
+<div class="item-container side-by-side "><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067605">圣战网站借助谷歌广告平台获利</a></h2>
+<div class="item-bottom"></div>
+</div></div>
+</div>
+</div>
+<div class="XLC MC PC"></div>
+<div class="list-container  XL4 L6 M12 S6 P12 side-by-side">
+<div class="list-inner">
+<h2 class="list-title"><a class="list-link" href="/channel/lifestyle.html">生活时尚</a></h2>
+
+<div class="item-container side-by-side first has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067593">文艺片困局出路：分线发行</a></h2>
+<a class="image" target="_blank" href="/story/001067593"><figure class="loading" data-url="http://i.ftimg.net/picture/5/000061725_piclink.jpg"></figure></a><div class="item-lead">陈昌业：《百鸟朝凤》让中国艺术片发行困境进入大众视野。待中国电影银幕数进一步提高，排他性的分线发行或可能实现，或许能为艺术片带来机遇。</div><div class="item-bottom"></div>
+</div></div>
+
+<div class="item-container side-by-side "><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067592">中国为何没有艺术片院线？</a></h2>
+<div class="item-bottom"></div>
+</div></div>
+
+<div class="item-container side-by-side "><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067514">美国追捧的全新时装品牌</a></h2>
+<div class="item-bottom"></div>
+</div></div>
+
+<div class="item-container side-by-side "><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067516">收藏：古巴的国家特供雪茄</a></h2>
+<div class="item-bottom"></div>
+</div></div>
+</div>
+</div>
+<div class=" LC SC MC PC"></div>
+<div class="list-container  XL4 L6 M12 S6 P12 side-by-side">
+<div class="list-inner">
+<h2 class="list-title"><a class="list-link" href="/channel/management.html">商业与管理</a></h2>
+
+<div class="item-container side-by-side first has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067614">挪威石油基金作出了积极表率</a></h2>
+<a class="image" target="_blank" href="/story/001067614"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000061750_piclink.jpg"></figure></a><div class="item-lead">FT社评：挪威石油基金已经宣布，将就排放丑闻起诉大众汽车公司。所有的主权基金都可以从挪威石油基金身上学到一点：权力越大，责任就越重。</div><div class="item-bottom"></div>
+</div></div>
+
+<div class="item-container side-by-side "><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067610">4月份中国房价创两年来最大涨幅</a></h2>
+<div class="item-bottom"></div>
+</div></div>
+
+<div class="item-container side-by-side "><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067609">铃木汽车承认其燃油效率检测方法不当</a></h2>
+<div class="item-bottom"></div>
+</div></div>
+
+<div class="item-container side-by-side "><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067599">寻觅新增长源 苹果CEO将访印度</a></h2>
+<div class="item-bottom"></div>
+</div></div>
+</div>
+</div>
+<div class=" MC PC"></div>
+<div class="list-container  XL4 L6 M12 S6 P12 side-by-side">
+<div class="list-inner">
+<h2 class="list-title"><a class="list-link" href="/channel/china.html">中国</a></h2>
+
+<div class="item-container side-by-side first has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067620">美国对中国钢板做出“双反”终裁</a></h2>
+<a class="image" target="_blank" href="/story/001067620"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000061758_piclink.jpg"></figure></a><div class="item-lead">美国商务部认定中国冷轧钢板应被征收256.4%的反补贴税和265.8%的反倾销税</div><div class="item-bottom"></div>
+</div></div>
+
+<div class="item-container side-by-side "><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067603">中国杠杆率真的偏高吗？</a></h2>
+<div class="item-bottom"></div>
+</div></div>
+
+<div class="item-container side-by-side "><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067583">“权威人士”的苦心：唯有改革不能辜负？</a></h2>
+<div class="item-bottom"></div>
+</div></div>
+
+<div class="item-container side-by-side "><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067602">张德江到香港“看，听，讲”</a></h2>
+<div class="item-bottom"></div>
+</div></div>
+</div>
+</div>
+<div class="clearfloat block-bottom"></div>
+</div>
+</div>
+<div class="side-container"><div class="side-inner">
+<div class="mps">
+<h2 class="list-title"><a href="/channel/weekly.html">十大热门文章</a></h2>
+<ul class="top10">
+<li class="mp1"><span>1. </span><a target="_blank" href="/story/001067583?dailypop">“权威人士”的苦心：唯有改革不能辜负？</a></li>
+<li class="mp2"><span>2. </span><a target="_blank" href="/story/001067591?dailypop">分析：蔡英文的人事布局</a></li>
+<li class="mp3"><span>3. </span><a target="_blank" href="/story/001067594?dailypop">全球化是否减少了不平等？</a></li>
+<li class="mp4"><span>4. </span><a target="_blank" href="/story/001067602?dailypop">张德江到香港“看，听，讲”</a></li>
+<li class="mp5"><span>5. </span><a target="_blank" href="/story/001067601?dailypop">巴基斯坦陆军参谋长访华牵动美印神经</a></li>
+<li class="mp6"><span>6. </span><a target="_blank" href="/story/001067587?dailypop">台湾的民主之歌</a></li>
+<li class="mp7"><span>7. </span><a target="_blank" href="/story/001067596?dailypop">中国钢铁去产能遇上复产潮</a></li>
+<li class="mp8"><span>8. </span><a target="_blank" href="/story/001067588?dailypop">香港的“超级联系人”不好当</a></li>
+<li class="mp9"><span>9. </span><a target="_blank" href="/story/001067593?dailypop">文艺片困局出路：分线发行</a></li>
+<li class="mp10"><span>10. </span><a target="_blank" href="/story/001067610?dailypop">4月份中国房价创两年来最大涨幅</a></li>
+</ul>
+</div>
+<div class="mpu-container">
+<script type="text/javascript">document.write (writeAd('mpu'));</script>
+</div>
+</div></div><div class="clearfloat"></div>
+</div>
+</div><div class="banner-placeholder">
+<div class="banner-container">
+<div class="banner-inner">
+<div class="banner-content">
+<script type="text/javascript">document.write (writeAd('banner'));</script>
+</div>
+</div>
+</div>
+</div>
+<div class="block-container has-side side-right side-video"><div class="block-inner">
+<div class="content-container"><div class="content-inner">
+
+<div class="list-container"><div class="list-inner"><h2 class="list-title">
+<a class="list-link" href="/channel/stream.html">视频</a>
+</h2>
+<div class="items">
+
+<div class="item-container XL8 L8 M12 S6 P12 has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/photonews/1023">特殊的客人——机器人Pepper </a></h2>
+<a class="image" target="_blank" href="/photonews/1023"><figure class="loading" data-url="http://i.ftimg.net/photonews/2016/05/573041c33aa186.19817744.jpg"></figure></a><div class="item-lead">Pepper是一个会表达情绪的类人型机器人，可以对人类的表情和声调进行识别并进行交流。图辑记录了Pepper来到英国《金融时报》办公室真实的一天。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 XL-right L4 L-right M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1911">朝鲜劳动党“七大”：FT记者的平壤观察</a></h2>
+<div class="image"><figure class="loading-video" data-vid="1911"></figure></div><div class="item-lead">朝鲜最高领导人金正恩出席并宣布了一项罕见的经济“五年计划”，但他同时称“第一次氢弹测试”和“光明星4号”观测卫星的发射，是今年“社会主义事业取得的伟大成就”。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 XL-right XL-no-image L4 L-right L-no-image M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1903">政府喜欢借钱的根本原因</a></h2>
+<div class="image"><figure class="loading-video" data-vid="1903"></figure></div><div class="item-lead">全世界各国政府都很喜欢借钱，近年来他们的债务规模随时间推移稳步上升。政府为何喜欢大举借债？FT经济社评撰稿人马丁•桑德布为你解释。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="XLT LT MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1904">美术馆：宾至如归是一种怎样的体验? </a></h2>
+<div class="image"><figure class="loading-video" data-vid="1904"></figure></div><div class="item-lead">惠特尼美术馆馆长亚当·韦恩博格希望破除任何文化上的壁垒，鼓励那些从未想过来参观美术馆的人来到这里，身处在自由的环境中，深切感受到艺术是一种权利，而不是一个特权。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1891">“金砖银行”喜欢投什么？</a></h2>
+<div class="image"><figure class="loading-video" data-vid="1891"></figure></div><div class="item-lead">总部位于上海的金砖国家新开发银行已正式运行数月，南非籍副行长兼首席财务官莱斯利·马斯多普(Leslie Maasdorp)向FT中文网介绍称，在第一阶段的项目中，他会更青睐新能源和清洁能源。他还表示，尽管新开发银行总部位于中国，但中国并非享有不成比例的话语权。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1890">“避税天堂”之辩</a></h2>
+<div class="image"><figure class="loading-video" data-vid="1890"></figure></div><div class="item-lead">巴拿马绝密文件泄露事件发生后，富人们通过将资产转移到远方来避税的行为进入民众的视野。英国《金融时报》社评主笔乔纳森·福特与Lex专栏负责人罗伯特·阿姆斯特朗，围绕“避税天堂”展开了一场讨论。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="clearfloat"></div>
+</div>
+</div></div><div class="clearfloat block-bottom"></div>
+</div></div>
+<div class="side-container"><div class="side-inner">
+<div class="mps">
+<h2 class="list-title"><a href="/channel/stream.html">热门视频</a></h2>
+<ul class="top10">
+<li class="mp1"><span>1. </span><a target="_blank" href="/video/">中国债务水平为何令人担忧？</a></li>
+<li class="mp2"><span>2. </span><a target="_blank" href="/video/">中国经济走上回头路？</a></li>
+<li class="mp3"><span>3. </span><a target="_blank" href="/video/">朝鲜党代会闭幕 民众游行展现极权主义热情</a></li>
+<li class="mp4"><span>4. </span><a target="_blank" href="/video/">原研哉：四合院式的家居最理想</a></li>
+<li class="mp5"><span>5. </span><a target="_blank" href="/video/">牡丹峰乐团：流行音乐与政治宣传</a></li>
+</ul>
+</div>
+<div class="mpu-container">
+<script type="text/javascript">document.write (writeAd('mpu'));</script>
+</div>
+</div></div><div class="clearfloat"></div>
+</div></div><div class="banner-placeholder">
+<div class="banner-container">
+<div class="banner-inner">
+<div class="banner-content">
+<script type="text/javascript">document.write (writeAd('banner'));</script>
+</div>
+</div>
+</div>
+</div>
+<div class="block-container no-side"><div class="block-inner">
+<div class="content-container"><div class="content-inner">
+
+<div class="list-container"><div class="list-inner"><h2 class="list-title">
+<a class="list-link" href="/tag/数据新闻">数据新闻</a>
+</h2>
+<div class="items">
+
+<div class="item-container XL3 L3 M3 S6 P6 has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/interactive/6461">调查报道：缅甸失地农民 被打乱的生活</a></h2>
+<a class="image" target="_blank" href="/interactive/6461"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000060036_piclink.jpg"></figure></a><div class="item-lead">快速开放中的缅甸正努力利用其所处的亚洲战略要冲位置，吸引外资、迈向现代化，然而一些失地农民却感觉自己被扔回了通往农奴时代的道路。</div>
+<div class="item-bottom"></div>
+</div></div>
+
+<div class="item-container XL3 L3 M3 S6 P6 has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/interactive/5986">特别报道：从数据看国民党政治版图的衰退</a></h2>
+<a class="image" target="_blank" href="/interactive/5986"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000057911_piclink.jpg"></figure></a><div class="item-lead">台湾大选预料将迎来“蓝下绿上”的局面。带你研读近年台湾关键选战数据，看国民党高墙如何倒下。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" ST PT"></div>
+<div class="item-container XL3 L3 M3 S6 P6 has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/interactive/5775">特别报道：如何读懂中国GDP？</a></h2>
+<a class="image" target="_blank" href="/interactive/5775"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000056908_piclink.jpg"></figure></a><div class="item-lead">讨论中国经济增长的虚实，一直是让经济观察者兴奋的议题。到底要如何读懂中国2015年关键经济数字？我们带你从头理解。</div>
+<div class="item-bottom"></div>
+</div></div>
+
+<div class="item-container XL3 L3 M3 S6 P6 has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/interactive/5499">数据新闻：世界到底在采取哪些措施阻止气候变化？</a></h2>
+<a class="image" target="_blank" href="/interactive/5499"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000055871_piclink.jpg"></figure></a><div class="item-lead">你能让全球气温在本世纪结束前控制在增幅2°C之内吗? 通过互动图表找出不同国家该如何应对才能达到目标中的减排量。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="clearfloat"></div>
+</div>
+</div></div><div class="clearfloat block-bottom"></div>
+</div></div>
+<div class="clearfloat"></div>
+</div></div><div class="block-container no-side"><div class="block-inner">
+<div class="content-container"><div class="content-inner">
+
+<div class="list-container"><div class="list-inner"><h2 class="list-title">
+<a class="list-link" href="/m/marketing/intelligence.html">FT研究院</a>
+</h2>
+<div class="items">
+
+<div class="item-container XL3 L3 M3 S6 P6 has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/interactive/6692">休闲旅行：国人是如何开心地玩耍！</a></h2>
+<a class="image" target="_blank" href="/interactive/6692"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000061164_piclink.jpg"></figure></a>
+<div class="item-bottom"></div>
+</div></div>
+
+<div class="item-container XL3 L3 M3 S6 P6 has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/interactive/6691">国人旅行需求有望持续引领中国休闲消费升级</a></h2>
+<a class="image" target="_blank" href="/interactive/6691"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000060886_piclink.jpg"></figure></a>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" ST PT"></div>
+<div class="item-container XL3 L3 M3 S6 P6 has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/interactive/6690">独家数据：中国财富人士如何选购豪华车？</a></h2>
+<a class="image" target="_blank" href="/interactive/6690"><figure class="loading" data-url="http://i.ftimg.net/picture/5/000061065_piclink.jpg"></figure></a>
+<div class="item-bottom"></div>
+</div></div>
+
+<div class="item-container XL3 L3 M3 S6 P6 has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/interactive/6674">哪5大趋势，将主导2016年中国豪华车市场发展？</a></h2>
+<a class="image" target="_blank" href="/interactive/6674"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000060811_piclink.jpg"></figure></a>
+<div class="item-bottom"></div>
+</div></div>
+<div class="clearfloat"></div>
+</div>
+</div></div><div class="clearfloat block-bottom"></div>
+</div></div>
+<div class="clearfloat"></div>
+</div></div><div class="block-container  no-side">
+<div class="block-inner">
+<div class="content-container">
+<div class="content-inner">
+<div class="list-container">
+<div class="list-inner">
+<h2 class="list-title"><a class="list-link" href="/channel/special.html">特别报导</a></h2>
+<div class="items">
+
+<div class="item-container XL3 L3 M3 S6 P6 headline-only">
+<div class="item-inner">
+<a class="image" href="/tag/与FT共进午餐" target=_blank><figure class="loading" data-url="http://i.ftimg.net/picture/7/000059087_piclink.jpg"></figure></a>
+<h2 class="item-headline"><a href="/tag/与FT共进午餐" target=_blank>与FT共进午餐</a></h2>
+</div>
+</div>
+
+<div class="item-container XL3 L3 M3 S6 P6 headline-only">
+<div class="item-inner">
+<a class="image" href="/tag/2016达沃斯" target=_blank><figure class="loading" data-url="http://i.ftimg.net/picture/3/000059083_piclink.jpg"></figure></a>
+<h2 class="item-headline"><a href="/tag/2016达沃斯" target=_blank>2016达沃斯</a></h2>
+</div>
+</div>
+<div class=" ST PT"></div>
+<div class="item-container XL3 L3 M3 S6 P6 headline-only">
+<div class="item-inner">
+<a class="image" href="/tag/奢华水上" target=_blank><figure class="loading" data-url="http://i.ftimg.net/picture/4/000059084_piclink.jpg"></figure></a>
+<h2 class="item-headline"><a href="/tag/奢华水上" target=_blank>奢华水上</a></h2>
+</div>
+</div>
+
+<div class="item-container XL3 L3 M3 S6 P6 headline-only">
+<div class="item-inner">
+<a class="image" href="/tag/礼待天下" target=_blank><figure class="loading" data-url="http://i.ftimg.net/picture/5/000059085_piclink.jpg"></figure></a>
+<h2 class="item-headline"><a href="/tag/礼待天下" target=_blank>礼待天下</a></h2>
+</div>
+</div>
+<div class="clearfloat"></div>
+</div>
+</div>
+</div>
+<div class="clearfloat block-bottom"></div>
+</div>
+</div>
+<div class="clearfloat"></div>
+</div>
+</div><div class="block-container no-side"><div class="block-inner">
+<div class="content-container"><div class="content-inner">
+
+<div class="list-container"><div class="list-inner"><h2 class="list-title">
+<a class="list-link" href="/m/marketing/member.html">会员活动</a>
+</h2>
+<div class="items">
+
+<div class="item-container XL3 L3 M3 S6 P6 has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/photonews/964">走进C/O柏林展览馆</a></h2>
+<a class="image" target="_blank" href="/photonews/964"><figure class="loading" data-url="http://i.ftimg.net/photonews/2016/02/56c57e2585bbf8.20040246.jpg"></figure></a>
+<div class="item-bottom"></div>
+</div></div>
+
+<div class="item-container XL3 L3 M3 S6 P6 has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/photonews/979">MBA调研关键数据</a></h2>
+<a class="image" target="_blank" href="/photonews/979"><figure class="loading" data-url="http://i.ftimg.net/photonews/2016/03/56d7f0744f06d9.13303265.jpg"></figure></a>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" ST PT"></div>
+<div class="item-container XL3 L3 M3 S6 P6 has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066255">FT社评：苹果抵制FBI大错特错</a></h2>
+<a class="image" target="_blank" href="/story/001066255"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000058831_piclink.jpg"></figure></a>
+<div class="item-bottom"></div>
+</div></div>
+
+<div class="item-container XL3 L3 M3 S6 P6 has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001066235">穿衣服得“流性”！</a></h2>
+<a class="image" target="_blank" href="/story/001066235"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000058802_piclink.jpg"></figure></a>
+<div class="item-bottom"></div>
+</div></div>
+<div class="clearfloat"></div>
+</div>
+</div></div><div class="clearfloat block-bottom"></div>
+</div></div>
+<div class="clearfloat"></div>
+</div></div><div class="block-container no-side"><div class="block-inner" id="markets-data">
 </div></div><div class="footer-container"><div class="footer-inner">
 <div>
 <a href="/m/corp/aboutus.html">关于我们</a>
