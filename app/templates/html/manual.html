@@ -6,6 +6,19 @@
 <%if !isset($adchannelID)||$adchannelID==""%>
     <%assign var="adchannelID" value="1100"%>
 <%/if%>
+
+<%assign var="itemIds" value="'0000'"%>
+<%foreach from=$p.sections item=section%>
+    <%if $section.type == "block"%>
+        <%foreach from=$section.lists item=list%>
+            <%foreach from=$list.items item=item%>
+                <%assign var="itemIds" value="`$itemIds`,'`$item.id`'"%>
+            <%/foreach%>
+        <%/foreach%>
+    <%/if%>
+<%/foreach%>
+<%assign var="itemIdsArray" value=$itemIds|replace:"'":""%>
+
 <!DOCTYPE html>
 <html class="no-js core" data-next-app="front-page">
     <head>

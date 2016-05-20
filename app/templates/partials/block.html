@@ -108,14 +108,18 @@
 
 				<div class="items">
 
-				<%if preg_match("/all|story|interactive|photo/is",$list.feedType) && $list.feedImage == "necessary"%>
-					<%assign var="feedImage" value="necessary"%>
+				<%if preg_match("/all|story|interactive|photo/is",$list.feedType) && $list.items|@count==0%>
+					<%if $list.feedImage == "necessary"%>
+						<%assign var="feedImage" value="necessary"%>
+					<%/if%>
+					<%assign var="feedRepeatCheck" value="yes"%>
 					<%assign var="feedItems" value=$list.feedItems*4%>
 				<%else%>
 					<%assign var="feedImage" value="optional"%>
+					<%assign var="feedRepeatCheck" value="no"%>
 					<%assign var="feedItems" value=$list.feedItems%>
 				<%/if%>
-
+				<%*<!--feed type is <%$feedType%>, feed repeat check is <%$feedRepeatCheck%>-->*%>
 
 				<%if $list.feedType == "myFT"%>
 					<%easyapi command="31005" assign="myftArrays" topnum=30%>
@@ -167,7 +171,7 @@
 
 				<%assign var="i" value=0%>
 				
-				<%if $feedImage == "necessary"%>
+				<%if $feedRepeatCheck == "yes"%>
 					<%foreach from=$itemsArray item=item%>
 						<%if $i < $list.feedItems%>
 							<%if $feedType == "all"%>
@@ -180,17 +184,21 @@
 							<%else%>
 								<%assign var="itemImage" value=$item.image|default:$item.story_pic.cover|default:$item.story_pic.smallbutton|default:$item.story_pic.other|default:$item.story_pic.bigbutton%>
 							<%/if%>
-							<%if $itemImage != ""%>
+							<%assign var="itemId" value=$item.id|default:$item.photonewsid%>
+							<%if ($itemImage != "" || $feedImage != "necessary") && !in_array($itemId, explode(',',$itemIdsArray))%>
 								<%assign var="i" value=$i+1%>
+							<%elseif in_array($itemId, explode(',',$itemIdsArray))%>
+								<%*<!--repeated item: <%$itemId%>-->*%>
 							<%/if%>
+
 						<%/if%>
 					<%/foreach%>
 					<%assign var="listItemCount" value=$i%>
 					<%assign var="i" value=0%>
-					<!--Display Only <%$listItemCount%> Items with Image: <%$feedType%>/<%$feedImage%>-->
+					<%*<!--Display Only <%$listItemCount%> Items That should display: <%$feedType%>/<%$feedImage%>/<%$feedRepeatCheck%>-->*%>
 				<%else%>
 					<%assign var="listItemCount" value=$itemsArray|@count%>
-					<!--Display Only <%$listItemCount%> Items without Image: <%$feedType%>/<%$feedImage%>-->
+					<%*<!--Display Only <%$listItemCount%> Items without Image: <%$feedType%>/<%$feedImage%>/<%$feedRepeatCheck%>-->*%>
 				<%/if%>
 
 
@@ -210,14 +218,25 @@
 					<%else%>
 						<%assign var="itemImage" value=$item.image|default:$item.story_pic.cover|default:$item.story_pic.smallbutton|default:$item.story_pic.other|default:$item.story_pic.bigbutton%>
 					<%/if%>
+					<%assign var="itemId" value=$item.id|default:$item.photonewsid%>
 
-
-					<%if $feedImage != "necessary" || ($list.feedItems>0 && $i<$list.feedItems && $itemImage != "")%>
+					<%*<!--
+						符合以下条件的方可显示：
+						1. $feedRepeatCheck != "yes": 手动插入的，或是非story, interactive, photo类的auto feed
+						或者
+						2. 同时满足下列三种条件：
+						a. 在手动插入的item中没有出现过的item；
+						b. feedItems大于0；
+						c. 当前展示的item数量没有超过feedItems；
+						d. 当前item配图，或者当前list不要求必须出图
+					-->
+					*%>
+					<%if $feedRepeatCheck != "yes" || (($feedImage != "necessary" || $itemImage != "") && $list.feedItems>0 && $i<$list.feedItems && !in_array($itemId, explode(',',$itemIdsArray)))%>
 						<%assign var="itemType" value=$item.type|default:$item.itemtype|default:$feedType%>
 						<%if $itemType == "photo"%>
 							<%assign var="itemType" value="photonews"%>
 						<%/if%>
-						<%assign var="itemId" value=$item.id|default:$item.photonewsid%>
+						
 						<%assign var="itemClass" value=""%>
 						<%assign var="itemTop" value=""%>
 						<%assign var="itemTopClass" value=""%>
@@ -737,16 +756,20 @@
 						<%assign var="itemTag" value=""%>
 						<%if $list.showTag === "yes"%>
 							<%*<!--Sometimes Editors Use Space in Tags-->*%>
+							<%assign var="tagCanFollow" value="yes"%>
 							<%assign var="itemTagsString" value=$item.tag|default:$item.tags|default:$item.tagname%>
 							<%assign var="itemTagsString" value=$itemTagsString|replace:" ":","%>
 							<%assign var="itemTags" value=","|explode:$itemTagsString%>
 							<%assign var="itemTag" value=$itemTags[0]%>
 							<%if $itemTag === "视频"%>
 								<%assign var="itemTagLink" value="/channel/explainer.html"%>
+								<%assign var="tagCanFollow" value="no"%>
 							<%elseif $itemTag === "秒懂"%>
 								<%assign var="itemTagLink" value="/channel/slides.html"%>
+								<%assign var="tagCanFollow" value="no"%>
 							<%elseif $itemTag === "图辑"%>
 								<%assign var="itemTagLink" value="/channel/slides.html"%>
+								<%assign var="tagCanFollow" value="no"%>
 							<%elseif $itemTag === "数据新闻"%>
 								<%assign var="itemTagLink" value="/channel/datanews.html"%>
 							<%elseif $itemTag === "速读"%>
@@ -756,10 +779,15 @@
 							<%elseif $feedType=="columns"%>
 								<%assign var="itemTag" value=$item.author_name_cn%>
 								<%assign var="itemTagLink" value="/column/`$itemId`"%>
+								<%assign var="tagCanFollow" value="no"%>
 							<%else%>
 								<%assign var="itemTagLink" value="/tag/`$itemTag`"%>
 							<%/if%>
-							<%assign var="itemTag" value="<div class=item-tag><a href=\"`$itemTagLink`\">`$itemTag`</a></div>"%>
+							<%if $tagCanFollow == "yes"%>
+								<%assign var="itemTag" value="<div class=item-tag><a href=\"`$itemTagLink`\">`$itemTag`</a><button class=\"myft-follow plus\" data-tag=\"`$itemTag`\" data-type=\"tag\">关注</button></div>"%>
+							<%else%>
+								<%assign var="itemTag" value="<div class=item-tag><a href=\"`$itemTagLink`\">`$itemTag`</a></div>"%>
+							<%/if%>
 						<%/if%>
 
 

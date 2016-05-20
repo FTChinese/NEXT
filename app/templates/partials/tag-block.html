@@ -234,28 +234,43 @@
 						<%assign var="hasImage" value="no-image"%>
 					<%/if%>
 
+
+
 					<%assign var="itemTag" value=""%>
 					<%if $showTag === "yes"%>
 						<%*<!--Sometimes Editors Use Space in Tags-->*%>
-						<%assign var="itemTagsString" value=$item.tag|replace:" ":","%>
+						<%assign var="tagCanFollow" value="yes"%>
+						<%assign var="itemTagsString" value=$item.tag|default:$item.tags|default:$item.tagname%>
+						<%assign var="itemTagsString" value=$itemTagsString|replace:" ":","%>
 						<%assign var="itemTags" value=","|explode:$itemTagsString%>
 						<%assign var="itemTag" value=$itemTags[0]%>
 						<%if $itemTag === "视频"%>
 							<%assign var="itemTagLink" value="/channel/explainer.html"%>
+							<%assign var="tagCanFollow" value="no"%>
 						<%elseif $itemTag === "秒懂"%>
 							<%assign var="itemTagLink" value="/channel/slides.html"%>
+							<%assign var="tagCanFollow" value="no"%>
 						<%elseif $itemTag === "图辑"%>
 							<%assign var="itemTagLink" value="/channel/slides.html"%>
+							<%assign var="tagCanFollow" value="no"%>
 						<%elseif $itemTag === "数据新闻"%>
 							<%assign var="itemTagLink" value="/channel/datanews.html"%>
 						<%elseif $itemTag === "速读"%>
 							<%assign var="itemTagLink" value="/channel/speedread.html"%>
 						<%elseif $itemTag === "FT商学院"%>
 							<%assign var="itemTagLink" value="/channel/mba.html"%>
+						<%elseif $feedType=="columns"%>
+							<%assign var="itemTag" value=$item.author_name_cn%>
+							<%assign var="itemTagLink" value="/column/`$itemId`"%>
+							<%assign var="tagCanFollow" value="no"%>
 						<%else%>
 							<%assign var="itemTagLink" value="/tag/`$itemTag`"%>
 						<%/if%>
-						<%assign var="itemTag" value="<div class=item-tag><a href=\"`$itemTagLink`\">`$itemTag`</a></div>"%>
+						<%if $tagCanFollow == "yes"%>
+							<%assign var="itemTag" value="<div class=item-tag><a href=\"`$itemTagLink`\">`$itemTag`</a><button class=\"myft-follow plus\" data-tag=\"`$itemTag`\" data-type=\"tag\">关注</button></div>"%>
+						<%else%>
+							<%assign var="itemTag" value="<div class=item-tag><a href=\"`$itemTagLink`\">`$itemTag`</a></div>"%>
+						<%/if%>
 					<%/if%>
 
 
@@ -487,27 +502,39 @@
 					<%assign var="itemTag" value=""%>
 					<%if $showTag === "yes"%>
 						<%*<!--Sometimes Editors Use Space in Tags-->*%>
-						<%assign var="itemTagsString" value=$item.tag|replace:" ":","%>
+						<%assign var="tagCanFollow" value="yes"%>
+						<%assign var="itemTagsString" value=$item.tag|default:$item.tags|default:$item.tagname%>
+						<%assign var="itemTagsString" value=$itemTagsString|replace:" ":","%>
 						<%assign var="itemTags" value=","|explode:$itemTagsString%>
 						<%assign var="itemTag" value=$itemTags[0]%>
 						<%if $itemTag === "视频"%>
 							<%assign var="itemTagLink" value="/channel/explainer.html"%>
+							<%assign var="tagCanFollow" value="no"%>
 						<%elseif $itemTag === "秒懂"%>
 							<%assign var="itemTagLink" value="/channel/slides.html"%>
+							<%assign var="tagCanFollow" value="no"%>
 						<%elseif $itemTag === "图辑"%>
 							<%assign var="itemTagLink" value="/channel/slides.html"%>
+							<%assign var="tagCanFollow" value="no"%>
 						<%elseif $itemTag === "数据新闻"%>
 							<%assign var="itemTagLink" value="/channel/datanews.html"%>
 						<%elseif $itemTag === "速读"%>
 							<%assign var="itemTagLink" value="/channel/speedread.html"%>
 						<%elseif $itemTag === "FT商学院"%>
 							<%assign var="itemTagLink" value="/channel/mba.html"%>
+						<%elseif $feedType=="columns"%>
+							<%assign var="itemTag" value=$item.author_name_cn%>
+							<%assign var="itemTagLink" value="/column/`$itemId`"%>
+							<%assign var="tagCanFollow" value="no"%>
 						<%else%>
 							<%assign var="itemTagLink" value="/tag/`$itemTag`"%>
 						<%/if%>
-						<%assign var="itemTag" value="<div class=item-tag><a href=\"`$itemTagLink`\">`$itemTag`</a></div>"%>
+						<%if $tagCanFollow == "yes"%>
+							<%assign var="itemTag" value="<div class=item-tag><a href=\"`$itemTagLink`\">`$itemTag`</a><button class=\"myft-follow plus\" data-tag=\"`$itemTag`\" data-type=\"tag\">关注</button></div>"%>
+						<%else%>
+							<%assign var="itemTag" value="<div class=item-tag><a href=\"`$itemTagLink`\">`$itemTag`</a></div>"%>
+						<%/if%>
 					<%/if%>
-
 
 
 					<%assign var="itemPubDate" value=$item.pubdate|default:$item.timeStamp%>
