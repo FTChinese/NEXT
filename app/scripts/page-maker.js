@@ -28,8 +28,11 @@
     var dataRulesTitle = {
         'theme': 'Luxury是指乐尚街的配色风格，主要特点是Title和分割线为金色',
         'side': '采用事先写好的模版',
+        'name': '仅供编辑内部沟通，不会被读者看见，尽量采用英文的name',
+        'title': 'list的title会被读者看见，请使用中文',
+        'url': '请尽量使用相对链接，比如［/tag/中国经济］',
         'sideAlign': ' 这个Block的侧边栏放在右边还是左边',
-        'float': '如果某个list有文章没有配图，可以采用float到左边的方式来展示这个List，同时其余的list自动float到右边；如果想要某个list，如cover占据全部宽度，则设定其为oneline；如果想要像myFT那样一行一条内容，则选择myFT',
+        'float': '如果某个list有文章没有配图，可以采用float到左边的方式来展示这个List，同时其余的list自动float到右边；如果想要某个list，如cover占据全部宽度，则设定其为oneline；如果想要像myFT那样一行一条内容，则选择myFT；想要强制设定这个List所有内容都采用同样的展现形式，则选择Card',
         'showTag': '程序会抓取tag字段中第一个tag做为primary tag来显示',
         'showTimeStamp': 'new stories代表只在文章发布的一个小时内显示时间，all代表在所有情况下都显示时间',
         'from': '选取事先写好的模版',
@@ -176,7 +179,8 @@
 
         if (image !== '') {
             hasImageClass = ' has-image';
-            imageBG = image.replace('i.ftimg.net', 'i.ftmailbox.com').replace('/upload/', '/');
+            imageBG = image.replace('/upload/', '/');
+            //imageBG = image.replace('i.ftimg.net', 'i.ftmailbox.com').replace('/upload/', '/');
             imageBG = encodeURIComponent(imageBG);
             imageBG = 'http://image.webservices.ft.com/v1/images/raw/' + imageBG + '?source=ftchinese&width=80&fit=scale-down';
             imageBG = ' style="background-image: url(' + imageBG + ')"';
