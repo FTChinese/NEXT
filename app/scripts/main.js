@@ -360,6 +360,7 @@ try {
     var thisItemEle = this.parentNode.parentNode;
     var thisHeadline = thisItemEle.querySelector('.item-headline a').innerHTML;
     var allVideos = this.parentNode.parentNode.parentNode.querySelectorAll('.video-package .XL2');
+    link = link.replace(/#.*$/g,'');
     for (var i=0; i<allVideos.length; i++) {
       var thisClassName = allVideos[i].className;
       if (thisClassName.indexOf(' on')>=0) {

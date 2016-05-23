@@ -75,7 +75,7 @@
 
 
 
-		<%assign var="storyall" value=$interactivemodel->get_interactive_by_field_search("(find_in_set('测试',tag) or find_in_set('教程',tag) or find_in_set('QuizPlus',tag) or find_in_set('速读',tag) or find_in_set('数据新闻',tag)) and !find_in_set('广告互动教程',tag) and pubdate <= unix_timestamp(now())",0,5,30,10800)%>
+		<%assign var="storyall" value=$interactivemodel->get_interactive_by_field_search("(find_in_set('测试',tag) or find_in_set('教程',tag) or find_in_set('QuizPlus',tag) or find_in_set('速读',tag) or find_in_set('英语电台',tag) or find_in_set('数据新闻',tag)) and !find_in_set('广告互动教程',tag) and pubdate <= unix_timestamp(now())",0,5,30,10800)%>
 		<%assign var="photoall" value=$photonewsmodel->get_new_photonews(6)%>
 		<%assign var="storycount" value=$storyall|@count%>
 		<%assign var="photocount" value=$photoall|@count%>

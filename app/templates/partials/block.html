@@ -17,14 +17,22 @@
 		<div class="block-title"><%$section.title%></div>
 	<%/if%>
 	<%assign var="l" value=0%>
+	<%assign var="listLength" value=$section.lists|@count%>
 	<%foreach from=$section.lists item=list%>
+		<%assign var="listType" value=""%>
+		<%assign var="listClass" value=""%>
 		<%if $list.feedType == "job"%>
 			<%include file="next/partials/job.html"%>
 		<%elseif $list.type == "" || $list.type == "list"%>
 			<%assign var="listTop" value=""%>
 			<%assign var="listTopClass" value=""%>
 			<%if ($list.items|@count >= 6 && $list.items[0].type === 'video' && $list.items[1].type === 'video' && $list.items[2].type === 'video' && $list.items[3].type === 'video' && $list.items[4].type === 'video' && $list.items[5].type === 'video') || ($list.feedType=="video" && $list.feedItems == 6)%>
-				<%assign var="listClass" value=" video-package"%>
+				<%if $l == $listLength-1%>
+					<%assign var="listLastChildClass" value=" last-child"%>
+				<%else%>
+					<%assign var="listLastChildClass" value=""%>
+				<%/if%>
+				<%assign var="listClass" value=" video-package`$listLastChildClass`"%>
 				<%assign var="listType" value="videos"%>
 			<%elseif $listHasFloat === "left" || $listHasFloat === "right"%>
 				<%*<!--Layout of side and main lists-->*%>

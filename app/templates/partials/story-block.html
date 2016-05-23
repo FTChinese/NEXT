@@ -14,11 +14,13 @@
 			            <a class="share-icon icon-twitter" href="<%$twitterUrl%>" target="_blank"></a>
 			            <a class="share-icon icon-facebook" href="<%$facebookUrl%>" target="_blank"></a>
 			            <%$languageOptions%>
-			            <div class="icon-right icon-save">
-			                <button id="addfavlink<%$story.id%>">收藏</button>
-			            </div>
-			            <a class="icon-right icon-action icon-comments" href="/comments/index/<%$story.id%>" target="_blank"></a>
-			            <a class="icon-right icon-action icon-print" href="/story/<%$story.id%>?print=y" target="_blank"></a>
+			            <%if $itemType == "story"%>
+				            <div class="icon-right icon-save">
+				                <button id="addfavlink<%$story.id%>">收藏</button>
+				            </div>
+				            <a class="icon-right icon-action icon-comments" href="/comments/index/<%$story.id%>" target="_blank"></a>
+				            <a class="icon-right icon-action icon-print" href="/story/<%$story.id%>?print=y" target="_blank"></a>
+			            <%/if%>
 			            <a class="icon-right icon-action icon-font-size" onclick="showOverlay('font-setting')"></a>
 			            <a class="icon-right icon-action icon-share" onclick="showOverlay('share-legacy')"></a>
 			        </div>
@@ -29,6 +31,7 @@
 				<span class="story-author"><%$storyAuthor%></span>
 			</div>
 			<div class="story-body">
+				<%$audioHTML%>
 				<%$storyImageInline%>
 				<%$story_content%>
 				<div class="clearfloat"></div>

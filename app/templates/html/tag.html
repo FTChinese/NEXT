@@ -38,7 +38,9 @@
 <%assign var="allstory" value=$tagstory%>
 <%/if%>
 
-
+<%if $tag_name != ""%>
+<%assign var="itemTag" value="<div class=item-tag><a href=\"#\">`$tagtitle`</a><button class=\"myft-follow plus\" data-tag=\"`$tag_name`\" data-type=\"tag\">关注</button></div>"%>
+<%/if%>
 
 <!DOCTYPE html>
 <html class="no-js core" data-next-app="tag-page">

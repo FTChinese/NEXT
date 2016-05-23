@@ -571,14 +571,16 @@
 <%assign var="storyContent" value=$story_content%>
 
 <%if $page_action=="en"%>
-	<%assign var="storyHeadline" value=$story.eheadline%>
+	<%assign var="storyHeadline" value=$story.eheadline|default:$eheadline%>
 <%elseif $page_action=="ce"%>
 	<%assign var="storyHeadline" value="`$story.eheadline`<br>`$story.cheadline`"%>
 <%else%>
 	<%assign var="storyHeadline" value=$story.cheadline|default:$cheadline%>
 <%/if%>
 
-<%if $story.cshortleadbody && $story.cshortleadbody != ""%>
+<%if $preferLead == "none"%>
+	<%assign var="storyLead" value=""%>
+<%elseif $story.cshortleadbody && $story.cshortleadbody != ""%>
 	<%assign var="storyLead" value=$story.cshortleadbody%>
 <%elseif $story.clongleadbody && $story.clongleadbody != ""%>
 	<%assign var="storyLead" value=$story.clongleadbody%>
@@ -592,7 +594,7 @@
 	<%assign var="storyLead" value="<div class=\"story-lead\">`$storyLead`</div>"%>
 <%/if%>
 
-<%math assign="timeDiff" equation="x-y" x=$smarty.now y=$story.last_publish_time|default:$pubdate%>
+<%math assign="timeDiff" equation="x-y" x=$smarty.now y=$story.last_publish_time|default:$fileupdatetime%>
 <%if $timeDiff < 0%>
 	<%assign var="storyTime" value="刚刚发布"%>
 <%elseif $timeDiff < 60*60%>
@@ -634,6 +636,7 @@
 	<%assign var="storyImageClass" value=""%>
 <%/if%>
 
+
 <%if $storyImage != ""%>
 	<%if in_array("插图",$story.tag)%>
 		<%assign var="storyImageInline" value="<div class=\"leftPic\"><img src=`$storyImage`></div>"%>
@@ -656,6 +659,8 @@
 	<%foreach item=body from=$storyce%>
 	<%assign var="story_content" value="`$story_content`<div class=leftp>`$body.l`</div><div class=rightp>`$body.r`</div><div class=clearfloat></div>"%>
 	<%/foreach%>
+<%elseif $page_action=="en" && $ebody != ""%>
+	<%assign var="story_content" value=$ebody%>
 <%else%>
 	<%assign var="story_content" value=$story_content|regex_replace:"/<div class=[\"]*inlinevideo[\"]* id=[\"]*([A-Za-z0-9]+)[\"]* auto[sS]tart=[\"]*([a-zA-Z]+)[\"]* title=\"(.*)\" image=\"(.*)\" vid=\"(.*)\"><\/div>/":"<div class='o-responsive-video-container'><div class='o-responsive-video-wrapper-outer'><div class='o-responsive-video-wrapper-inner'><script src='http://union.bokecc.com/player?vid=\\1&siteid=922662811F1A49E9&autoStart=\\2&width=100%&height=100%&playerid=3571A3BF2AEC8829&playertype=1'></script></div></div><a class='o-responsive-video-caption' href='/video/\\5' target='_blank'>\\3</a></div>"%>
 	<%assign var="storyBody" value=$storyBody|regex_replace:"/<div class=[\"]*inlinevideo[\"]* id=[\"]*([A-Za-z0-9]+)[\"]* auto[sS]tart=[\"]*([a-zA-Z]+)[\"]* title=\"(.*)\" image=\"(.*)\" vid=\"(.*)\"><\/div>/":"<div class='o-responsive-video-container'><div class='o-responsive-video-wrapper-outer'><div class='o-responsive-video-wrapper-inner'><script src='http://union.bokecc.com/player?vid=\\1&siteid=922662811F1A49E9&autoStart=\\2&width=100%&height=100%&playerid=3571A3BF2AEC8829&playertype=1'></script></div></div><a class='o-responsive-video-caption' href='/video/\\5' target='_blank'>\\3</a></div>"%>
@@ -694,11 +699,14 @@
 <%assign var="twitterUrl" value="http://twitter.com/home?status=`$shareText`...%20`$shareUrl`"%>
 <%assign var="facebookUrl" value="http://www.facebook.com/sharer.php?u=`$shareUrl`&t=`$shareText`"%>
 
-<%if $page_action=="en" || $page_action=="ce"%>
+<%if $page_action=="en" && $eshortleadbody != ""%>
+<%assign var="languageOptions" value="<a class=\"icon-right icon-ch\" href=\"`$eshortleadbody`\"><button>中文</button></a>"%>
+<%elseif $page_action=="en" || $page_action=="ce"%>
 <%assign var="languageOptions" value="<a class=\"icon-right icon-ch\" href=\"/story/`$story.id`\"><button>中文</button></a>"%>
 <%elseif $story.show_english == "yes"%>
 <%assign var="languageOptions" value="<a class=\"icon-right icon-ch\" href=\"/story/`$story.id`/ch\"><button>对照</button></a><a class=\"icon-right icon-ch\" href=\"/story/`$story.id`/en\"><button>英文</button></a>"%>
 <%/if%>
+
 
 <%if $pageType=="job"%>
 	<%assign var="storyHeadline" value="`$jobinfo.company`招聘`$jobinfo.position_name`"%>
@@ -715,8 +723,19 @@
     <%assign var="story_content" value="`$story_content``$jobApply`"%>
 <%elseif $itemType=="interactive" || $pageType=="interactive"%>
 	<%assign var="storyHeadline" value=$cheadline%>
-	<%assign var="story_content" value=$cbody|regex_replace:"/[\n]/":"<br>"%>
 	<%assign var="storyAuthor" value="`$cbyline_description` `$cauthor`"%>
+	<%if $page_action == "en"%>
+		<%assign var="story_content" value=$ebody%>
+	<%else%>
+		<%assign var="story_content" value=$cbody|regex_replace:"/[\n]/":"<br>"%>
+	<%/if%>
+<%/if%>
+
+<%if $hasAudio == "yes"%>
+	<%assign var="audioSrc value=$cshortleadbody%>
+	<%if $audioSrc != ""%>
+		<%assign var="audioHTML" value="<div class=\"audio-placeholder\" id=\"audio-placeholder\"><div class=\"audio-container\"><audio preload=\"none\" controls=\"\"><source src=\"`$cshortleadbody`\"><br clear='all'></audio></div></div>"%>
+	<%/if%>
 <%/if%>
 
 
