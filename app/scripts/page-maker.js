@@ -9,20 +9,19 @@
         'lists': 'array',
         'items': 'item',
         'type': 'readonly',
-        'theme': ['default', 'luxury', 'myFT', 'technology', 'lifestyle'],
+        'theme': ['default', 'luxury', 'myFT', 'technology', 'lifestyle', 'ebook'],
         //'type': ['block', 'banner', 'header', 'footer'],
         'side': ['none', 'HomeRightRail','TagRightRail', 'MostPopular', 'HotVideos', 'MarketsData', 'videos', 'MostCommented'],
         'sideAlign': ['right', 'left'],
-        'belt': ['member'],
-        'float': ['none', 'left', 'right', 'oneline', 'SideBySide', 'myFT', 'IconTitle', 'Card'],
+        'float': ['none', 'left', 'right', 'oneline', 'SideBySide', 'myFT', 'IconTitle', 'Card', 'eBook'],
         'showTag': ['no', 'yes'],
         'showTimeStamp': ['no', 'new stories', 'all'],
-        'from': ['', 'MarketsData', 'SpecialReports', 'Columns', 'Channels', 'Events', 'Marketing'],
+        'from': ['', 'MarketsData', 'SpecialReports', 'Columns', 'Channels', 'Events', 'MyTopics', 'Marketing'],
         'sideOption': ['headlineOnly', 'leadOnly', 'imageAndText'],
         'preferLead': ['longlead', 'shortlead', 'none'],
         'feedType': ['all','story','video','interactive','photo','job', 'myFT', 'fav', 'ftc_columns', 'ft_columns'],
         'feedItems': 'number',
-        'feedImage': ['optional','necessary'],
+        'feedImage': ['optional','necessary','hide'],
         'language': ['', 'en', 'ce']
     };
     var dataRulesTitle = {
@@ -50,8 +49,7 @@
             'include': ['from', 'side', 'sideAlign'],
             'header': [],
             'banner': ['position'],
-            'footer': [],
-            'topbelt': ['belt']
+            'footer': []
         },
         'list': {
             'list': ['name', 'title', 'url', 'language', 'description', 'style', 'float', 'showTag', 'showTimeStamp', 'preferLead', 'sponsorAdId', 'sponsorLogoUrl', 'sponsorLink', 'sponsorNote', 'feedItems', 'feedTag', 'feedType', 'feedImage'],
@@ -1067,7 +1065,7 @@
     });
 
     $('body').on('click', '.preview-on-device', function () {
-        var url = 'http://www7.ftchinese.com/m/corp/p0.html';
+        var url = 'http://www7.ftchinese.com/?n=1';
         var w = $(this).attr('data-width') || $(window).width();
         var h = $(this).attr('data-height') || $(window).height();
         window.open(url, 'newwindow', 'height=' + h + ',width=' + w + ',top=0,left=0,toolbar=no,menubar=no,resizable=no,scrollbars=yes,location=no, status=no');

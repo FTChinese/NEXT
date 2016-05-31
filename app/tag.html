@@ -70,6 +70,10 @@ document.documentElement.className = document.documentElement.className.replace(
 <!-- endbuild -->
 
 
+<!-- build:css styles/main-ebook.css -->
+<link rel="stylesheet" href="styles/main-ebook.css">
+<!-- endbuild -->
+
 <script type="text/javascript">
 if(typeof startTime === "undefined"){
 var startTime=new Date().getTime();
@@ -124,7 +128,7 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 
 <header class="header-container">
 <div class="header-inner">
-<div class="header-title">互联网</div>
+<div class="header-title">电子书</div>
 <div class="header-side header-left">
 <div class="header-brand"><figure class="loading" data-url="http://static.ftchinese.com/images/masthead36.png"></figure></div>
 </div>
@@ -190,9 +194,51 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 </ol>
 </li>
 <li class="nav-section"
- data-section="home">
+ aria-selected="true" data-section="home">
 <button class="nav-section-head mobile">首页</button>
 <a class="nav-section-head desktop" href="/">首页</a>
+<ol class="nav-items">
+<li class="nav-item mobile">
+<a class="nav-link" href="/">
+FT中文网首页
+</a>
+</li>
+<li class="nav-item"  aria-haspopup="true" data-channel="special">
+<a class="nav-link" href="/channel/special.html">专题报道</a>
+<ol class="nav-sub-items">
+<li><a href="/tag/全球商业的未来">全球商业的未来</a></li>
+<li><a href="/tag/2016%E8%BE%BE%E6%B2%83%E6%96%AF">2016达沃斯</a></li>
+<li><a href="/tag/与FT共进午餐">与FT共进午餐</a></li>
+</ol>
+</li>
+<li class="nav-item"  data-channel="weekly">
+<a class="nav-link" href="/channel/weekly.html">热门文章</a>
+</li>
+<li class="nav-item"  data-channel="event">
+<a class="nav-link" href="/m/events/event.html">会议活动</a>
+</li>
+<li class="nav-item"  data-channel="member">
+<a class="nav-link" href="/m/marketing/home.html">会员信息中心</a>
+</li>
+<li class="nav-item"  data-channel="intelligence">
+<a class="nav-link" href="/m/marketing/intelligence.html">FT研究院</a>
+</li>
+<li class="nav-item"  data-channel="mba">
+<a class="nav-link" href="/channel/mba.html">FT商学院</a>
+</li>
+<li class="nav-item"  data-channel="english">
+<a class="nav-link" href="/channel/english.html">英语学习</a>
+</li>
+<li class="nav-item"  data-channel="photo">
+<a class="nav-link" href="/channel/slides.html">图辑</a>
+</li>
+<li class="nav-item"  data-channel="job">
+<a class="nav-link" href="/jobs/">职业机会</a>
+</li>
+<li class="nav-item"  data-channel="datanews">
+<a class="nav-link" href="/channel/datanews.html">数据新闻</a>
+</li>
+</ol>
 </li>
 <li class="nav-section"
  data-section="china">
@@ -220,31 +266,9 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 <a class="nav-section-head desktop" href="/channel/business.html">商业</a>
 </li>
 <li class="nav-section"
- aria-selected="true" data-section="innovation">
+ data-section="innovation">
 <button class="nav-section-head mobile">创新经济</button>
 <a class="nav-section-head desktop" href="/channel/innovation.html">创新经济</a>
-<ol class="nav-items">
-<li class="nav-item mobile">
-<a class="nav-link" href="/channel/innovation.html">
-频道首页
-</a>
-</li>
-<li class="nav-item"  data-channel="futureofbusiness">
-<a class="nav-link" href="/tag/全球商业的未来">全球商业的未来</a>
-</li>
-<li class="nav-item"  data-channel="connectedbusiness">
-<a class="nav-link" href="/tag/商务互联">商务互联</a>
-</li>
-<li class="nav-item"  data-channel="robotics">
-<a class="nav-link" href="/tag/机器人">机器人</a>
-</li>
-<li class="nav-item"  data-channel="bigdata">
-<a class="nav-link" href="/tag/大数据">大数据</a>
-</li>
-<li class="nav-item" aria-selected="true" data-channel="internet">
-<a class="nav-link" href="/tag/互联网">互联网</a>
-</li>
-</ol>
 </li>
 <li class="nav-section"
  data-section="opinion">
@@ -330,9 +354,9 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 <div class="site-map">
 <div class="site-map__container">
 <ul class="site-map__items">
-<li><a href="/channel/innovation.html">创新经济</a></li>
+<li><a href="/">首页</a></li>
   
-<li><a href="/tag/互联网">互联网</a></li>
+<li><a href=""></a></li>
 </ul>
 </div>
 </div><div class="banner-placeholder">
@@ -344,232 +368,58 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 </div>
 </div>
 </div>
-<div class="block-container has-side"><div class="block-inner">
+<div class="block-container has-side side-right"><div class="block-inner">
 <div class="content-container"><div class="content-inner">
-<div class="list-container"><div class="list-inner">
-<div class="items">
 
+<div class="list-container"><div class="list-inner"><div class="items">
 
-<div class="item-container XL8 L4 M12 S6 P12 has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067645#adchannelID=2000">Lex专栏：腾讯股价波动带来投资机遇</a></h2>
-<a class="image" target="_blank" href="/story/001067645#adchannelID=2000"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000059737_piclink.jpg"></figure></a><div class="item-lead">高预期导致股价波动，也带来机会。中国互联网集团腾讯就是例子。腾讯有能力以令人意想不到的方式实现增长，其股价波动可能也会继续创造机会。</div><div class="item-time">9小时前</div>
+<div class="item-container XL4 L4 S12 M6 P12     has-image ebook"><div class="item-inner">
+<a class="image portrait-img" target="_blank" href="/interactive/6947#adchannelID=1100"><figure class="loading" data-url="http://i.ftimg.net//picture/5/000061935_piclink.jpg"></figure></a>
 <div class="item-bottom"></div>
 </div></div>
-
-<div class=" MT PT"></div>
-<div class="item-container XL4 XL-half XL-right L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067292#adchannelID=2000">平台经济崛起的挑战</a></h2>
-<a class="image" target="_blank" href="/story/001067292#adchannelID=2000"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000047021_piclink.jpg"></figure></a><div class="item-lead">马丁·肯尼、约翰·齐斯曼、贾开：平台经济正在重构工作、社交、价值创造和分配的方式，平台经济的崛起也为中国经济的再次腾飞提供了机会，但最终决定这场变革结果的，将是我们在社会、政治、经济政策上做出的选择。</div><div class="item-time">2016年4月28日</div>
+<div class=" ST PT"></div>
+<div class="item-container XL4 L4 S12 M6 P12     has-image ebook"><div class="item-inner">
+<a class="image portrait-img" target="_blank" href="/interactive/6946#adchannelID=1100"><figure class="loading" data-url="http://i.ftimg.net//picture/3/000061933_piclink.jpg"></figure></a>
 <div class="item-bottom"></div>
 </div></div>
-
-<div class=" MT PT ST"></div>
-<div class="item-container XL4 XL-half XL-right XL-lower L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067156#adchannelID=2000">生态型企业何以挑战BAT？</a></h2>
-<a class="image" target="_blank" href="/story/001067156#adchannelID=2000"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000052754_piclink.jpg"></figure></a><div class="item-lead">周掌柜：人机智能时代，以人为核心的社群会成为商业核心价值承载中心，带有个性化属性的社群很难被BAT式垄断布局掌控，这是生态型企业的机会，也是BAT的挑战。</div><div class="item-time">2016年4月19日</div>
+<div class=" MT ST PT"></div>
+<div class="item-container XL4 L4 S12 M6 P12     has-image ebook"><div class="item-inner">
+<a class="image portrait-img" target="_blank" href="/interactive/6945#adchannelID=1100"><figure class="loading" data-url="http://i.ftimg.net//picture/2/000061932_piclink.jpg"></figure></a>
 <div class="item-bottom"></div>
 </div></div>
-
-<div class="XLT LT MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067032#adchannelID=2000">共同打造印度电商巨擘</a></h2>
-<a class="image" target="_blank" href="/story/001067032#adchannelID=2000"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000060550_piclink.jpg"></figure></a><div class="item-lead">从班加罗尔的一间卧室到印度最大的电子商务企业，Flipkart的发展历程并不平坦，但联合创始人萨钦和宾尼仍配合默契，甚至成了更铁杆的盟友。</div><div class="item-time">2016年4月11日</div>
+<div class=" XLT LT ST PT"></div>
+<div class="item-container XL4 L4 S12 M6 P12     has-image ebook"><div class="item-inner">
+<a class="image portrait-img" target="_blank" href="/interactive/6944#adchannelID=1100"><figure class="loading" data-url="http://i.ftimg.net//picture/1/000061931_piclink.jpg"></figure></a>
 <div class="item-bottom"></div>
 </div></div>
-
-<div class=" MT PT ST"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067008#adchannelID=2000">互联网文明时代何时来临？</a></h2>
-<a class="image" target="_blank" href="/story/001067008#adchannelID=2000"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000060513_piclink.jpg"></figure></a><div class="item-lead">计算机科学与生物学教授夏皮罗：互联网文明在20年间极大地发展起来，但它目前并不民主。互联网上有无数大型社区，但掌握控制权的是社区“统治者”，而非社区成员。</div><div class="item-time">2016年4月8日</div>
+<div class=" MT ST PT"></div>
+<div class="item-container XL4 L4 S12 M6 P12     has-image ebook"><div class="item-inner">
+<a class="image portrait-img" target="_blank" href="/interactive/6943#adchannelID=1100"><figure class="loading" data-url="http://i.ftimg.net//picture/0/000061930_piclink.jpg"></figure></a>
 <div class="item-bottom"></div>
 </div></div>
-
-<div class=" MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001066963#adchannelID=2000">数字世界应属于所有人</a></h2>
-<a class="image" target="_blank" href="/story/001066963#adchannelID=2000"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000060484_piclink.jpg"></figure></a><div class="item-lead">斯劳特：接通网络并不等于能真正利用互联网的价值。调研发现，年龄差别、贫富差距等都会直接影响不同群体的上网质量和效果，这也成了政策制定者们所面临的难题。</div><div class="item-time">2016年4月6日</div>
+<div class=" ST PT"></div>
+<div class="item-container XL4 L4 S12 M6 P12     has-image ebook"><div class="item-inner">
+<a class="image portrait-img" target="_blank" href="/interactive/6942#adchannelID=1100"><figure class="loading" data-url="http://i.ftimg.net//picture/9/000061929_piclink.jpg"></figure></a>
 <div class="item-bottom"></div>
 </div></div>
-
-<div class="XLT LT MT PT ST"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001066863#adchannelID=2000">中国互联网数字有无水分？</a></h2>
-<a class="image" target="_blank" href="/story/001066863#adchannelID=2000"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000060123_piclink.jpg"></figure></a><div class="item-lead">很少有人怀疑中国互联网行业有着令人晕眩的增长故事，但这种增长有多快是值得讨论的。分析师们对中国互联网巨头的种种说法持保留态度，有些分析师直截了当地表示出怀疑。</div><div class="item-time">2016年3月29日</div>
+<div class=" XLT LT MT ST PT"></div>
+<div class="item-container XL4 L4 S12 M6 P12     has-image ebook"><div class="item-inner">
+<a class="image portrait-img" target="_blank" href="/interactive/6941#adchannelID=1100"><figure class="loading" data-url="http://i.ftimg.net//picture/8/000061928_piclink.jpg"></figure></a>
 <div class="item-bottom"></div>
 </div></div>
-
-<div class=" MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001066697#adchannelID=2000">腾讯全年利润增长21%</a></h2>
-<a class="image" target="_blank" href="/story/001066697#adchannelID=2000"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000059737_piclink.jpg"></figure></a><div class="item-lead">这家中国社交媒体和网络游戏巨擘称，用户继续转向使用智能手机而非电脑</div><div class="item-time">2016年3月18日</div>
+<div class=" ST PT"></div>
+<div class="item-container XL4 L4 S12 M6 P12     has-image ebook"><div class="item-inner">
+<a class="image portrait-img" target="_blank" href="/interactive/6948#adchannelID=1100"><figure class="loading" data-url="http://i.ftimg.net//picture/6/000061936_piclink.jpg"></figure></a>
 <div class="item-bottom"></div>
 </div></div>
-
-<div class=" MT PT ST"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001066589#adchannelID=2000">ICANN提议美国交出互联网域名管理权</a></h2>
-<a class="image" target="_blank" href="/story/001066589#adchannelID=2000"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000059482_piclink.jpg"></figure></a><div class="item-lead">互联网名称与数字地址分配机构的这一建议可能在华盛顿引发激烈政治辩论</div><div class="item-time">2016年3月11日</div>
-<div class="item-bottom"></div>
-</div></div>
-
-<div class="XLT LT MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001066526#adchannelID=2000">互联网终结，人机智能崛起</a></h2>
-<a class="image" target="_blank" href="/story/001066526#adchannelID=2000"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000059378_piclink.jpg"></figure></a><div class="item-lead">FT中文网专栏作家周掌柜：互联网巨头们似乎已经意识到“互联网”时代正在终结，伴随着交通工具、虚拟现实、人工智能以及机器人技术的飞速发展，人机智能竞争的“战国时代”已经不再限于科幻层面。</div><div class="item-time">2016年3月9日</div>
-<div class="item-bottom"></div>
-</div></div>
-
-<div class=" MT PT ST"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001065994#adchannelID=2000">印度：“新十亿网民”的风口</a></h2>
-<a class="image" target="_blank" href="/story/001065994#adchannelID=2000"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000058886_piclink.jpg"></figure></a><div class="item-lead">2015年印度网民数量飙升至4亿人以上，超过美国成为仅次于中国的互联网第二大国。印度总理莫迪坚信，科技浪潮为印度在低迷的全球经济中逆势崛起提供了千载难逢的机遇。</div><div class="item-time">2016年2月23日</div>
-<div class="item-bottom"></div>
-</div></div>
-
-<div class=" MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001065964#adchannelID=2000">下一代的巴菲特会是一种超级算法吗？</a></h2>
-<a class="image" target="_blank" href="/story/001065964#adchannelID=2000"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000058856_piclink.jpg"></figure></a><div class="item-lead">人工智能已经引起金融业的巨大兴趣，有金融人士认为，一台能思考、学习、从事交易的电脑甚至将使当前的超高速、超复杂的投资算法看起来过时——而且有可能使人类基金经理成为多余。</div><div class="item-time">2016年2月22日</div>
-<div class="item-bottom"></div>
-</div></div>
-
-<div class="XLT LT MT PT ST"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001066033#adchannelID=2000">互联网改善性别不平等？</a></h2>
-<a class="image" target="_blank" href="/story/001066033#adchannelID=2000"><figure class="loading" data-url="http://i.ftimg.net/picture/5/000051045_piclink.jpg"></figure></a><div class="item-lead">天则经济研究所王军：互联网交易淡化了性别差异，也许有助于两性平等。但互联网经营因更为隐蔽，更可能违反劳工标准，也可能造成对劳动的滥用和对女性的压榨。</div><div class="item-time">2016年2月3日</div>
-<div class="item-bottom"></div>
-</div></div>
-
-<div class=" MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001065881#adchannelID=2000">技术带来的七大变化</a></h2>
-<a class="image" target="_blank" href="/story/001065881#adchannelID=2000"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000058118_piclink.jpg"></figure></a><div class="item-lead">FT首席经济评论员沃尔夫：人们习惯把“技术”看成一个经济部门。这个定义太狭窄。我们需要在更大背景下评估当代创新。技术是工具，既提供机会，也暗藏危险。</div><div class="item-time">2016年1月22日</div>
-<div class="item-bottom"></div>
-</div></div>
-
-<div class=" MT PT ST"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001065854#adchannelID=2000">后斯诺登时代的悖论</a></h2>
-<a class="image" target="_blank" href="/story/001065854#adchannelID=2000"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000034700_piclink_566_319.jpg"></figure></a><div class="item-lead">FT专栏作家拉赫曼：斯诺登事件后，华盛顿和硅谷之间分歧加剧。但因欧洲和中国对硅谷巨擘的敌意，美国政府又觉得有必要维护本国企业的利益。</div><div class="item-time">2016年1月21日</div>
-<div class="item-bottom"></div>
-</div></div>
-
-<div class="XLT LT MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001065859#adchannelID=2000">充满陷阱的网络世界？</a></h2>
-<a class="image" target="_blank" href="/story/001065859#adchannelID=2000"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000040780_piclink.jpg"></figure></a><div class="item-lead">互联网和社交媒体的负面作用日趋彰显。一个允许人们匿名评论、并且可以方便地转发和分享消息的系统很容易遭到操纵，尤其是受到有组织集团的操纵。</div><div class="item-time">2016年1月21日</div>
-<div class="item-bottom"></div>
-</div></div>
-
-<div class=" MT PT ST"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001065793#adchannelID=2000">百度高管被中国网信办约谈</a></h2>
-<a class="image" target="_blank" href="/story/001065793#adchannelID=2000"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000057970_piclink.jpg"></figure></a><div class="item-lead">有大量举报投诉百度存在虚假广告、淫秽色情、泄露个人隐私等违法违规行为</div><div class="item-time">2016年1月18日</div>
-<div class="item-bottom"></div>
-</div></div>
-
-<div class=" MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001065530#adchannelID=2000">2016：科技行业变数丛生</a></h2>
-<a class="image" target="_blank" href="/story/001065530#adchannelID=2000"><figure class="loading" data-url="http://i.ftimg.net/picture/5/000057465_piclink.jpg"></figure></a><div class="item-lead">2016年的科技行业很可能会在轰动中开场。从走向市场的虚拟现实头戴式设备，到再次临近转折点的智能手机革命，重大技术飞跃也许不会横空出世，但诸多令人期待的亮点，将注定这是眼花缭乱的一年。</div><div class="item-time">2016年1月2日</div>
-<div class="item-bottom"></div>
-</div></div>
-
-<div class="XLT LT MT PT ST"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001065426#adchannelID=2000">“网络主权”的国际背景与中国互联网特色</a></h2>
-<a class="image" target="_blank" href="/story/001065426#adchannelID=2000"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000051047_piclink.jpg"></figure></a><div class="item-lead">中国亚非发展交流协会理事曹辛：美国政府的行为在一定程度上为中国“网络主权”观提供了外部依据。但网络主权所基于的国家利益是否是民众利益，又是另一个问题。</div><div class="item-time">2015年12月23日</div>
-<div class="item-bottom"></div>
-</div></div>
-
-<div class=" MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001065366#adchannelID=2000">FT中文网年度好文推荐：媒体、互联网与科技</a></h2>
-<a class="image" target="_blank" href="/story/001065366#adchannelID=2000"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000057216_piclink.jpg"></figure></a><div class="item-lead">2015年，科技仍然在猛烈重塑着世界，但真正能够主导未来格局的力量尚未显现真容。FT中文网推荐十篇旧文，重温这一年值得记忆的观点与事件。</div><div class="item-time">2015年12月22日</div>
-<div class="item-bottom"></div>
-</div></div>
-
-<div class=" MT PT ST"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001065292#adchannelID=2000">如何抓住互联网和服务业投资机会？</a></h2>
-<a class="image" target="_blank" href="/story/001065292#adchannelID=2000"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000056940_piclink.jpg"></figure></a><div class="item-lead">瑞银财富管理投资总监陈敏兰：投资者和决策者一样，在中国经济转型过程中的成败将取决于，他们能否摈弃旧有习惯，与中国这个地区经济火车头一同实现“华丽转身”。</div><div class="item-time">2015年12月16日</div>
-<div class="item-bottom"></div>
-</div></div>
-
-<div class="XLT LT MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001065196#adchannelID=2000">微信内容审查机制的“黑洞”</a></h2>
-<a class="image" target="_blank" href="/story/001065196#adchannelID=2000"><figure class="loading" data-url="http://i.ftimg.net/picture/5/000054235_piclink.jpg"></figure></a><div class="item-lead">北京媒体人赵剑飞：微信平台全面封杀Uber，很可能是出于内部自我审查或是政府要求，的确在清理整顿微信公号。但这是否说明，微信已成为腾讯竞争对手们的“一场灾难”？</div><div class="item-time">2015年12月9日</div>
-<div class="item-bottom"></div>
-</div></div>
-
-<div class=" MT PT ST"></div>
-<div class="item-container XL4 XL-half L4 L-half M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001065148#adchannelID=2000">谷歌风险资本主管：初创企业IPO“太磨蹭”</a></h2>
-<a class="image" target="_blank" href="/story/001065148#adchannelID=2000"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000056817_piclink.jpg"></figure></a><div class="item-lead">比尔•马里斯警告，那些为追求高估值而迟迟不上市的初创企业早晚会后悔</div><div class="item-time">2015年12月7日</div>
-<div class="item-bottom"></div>
-</div></div>
-
-<div class=" MT PT"></div>
-<div class="item-container XL4 XL-half L4 L-half M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001065106#adchannelID=2000">雅虎考虑出售核心业务</a></h2>
-<a class="image" target="_blank" href="/story/001065106#adchannelID=2000"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000056737_piclink.jpg"></figure></a><div class="item-lead">该互联网企业董事会正在寻找抛出所持阿里巴巴股份这个原计划的替代方案</div><div class="item-time">2015年12月3日</div>
-<div class="item-bottom"></div>
-</div></div>
-
-<div class="XLT-clear-right LT-clear-right MT PT ST"></div>
-<div class="item-container XL4 XL-half XL-lower L4 L-half L-lower M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001065108#adchannelID=2000">Lex专栏：雅虎应该“把自己卖掉”</a></h2>
-<a class="image" target="_blank" href="/story/001065108#adchannelID=2000"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000034273_piclink_272_181.jpg"></figure></a><div class="item-lead">令人泄气的业绩说明，雅虎应该停止尝试出售所持阿里巴巴股份，转而卖掉核心互联网业务，也就是把自己卖掉。但问题是，谁有兴趣买雅虎？</div><div class="item-time">2015年12月3日</div>
-<div class="item-bottom"></div>
-</div></div>
-
-<div class=" MT PT"></div>
-<div class="item-container XL4 XL-half XL-lower L4 L-half L-lower M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001065045#adchannelID=2000">比特币：高明的传销骗局？</a></h2>
-<a class="image" target="_blank" href="/story/001065045#adchannelID=2000"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000052963_piclink.jpg"></figure></a><div class="item-lead">“社交金融网络”MMM的兴起，推动比特币的价格重拾飙涨态势。问题在于，这到底标志着加密货币的复苏，还是“快速致富”骗局的最新形态？</div><div class="item-time">2015年11月30日</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class="XLT LT MT ST PT"></div>
-
-<div class="item-container XL6 L6 M12 S12 S-double-width P12 no-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067022#adchannelID=2000">专访乐视刘弘：坚信能把牛皮变成现实</a></h2>
-<div class="item-lead">乐视控股联合创始人刘弘坚信，吹牛皮不可怕，关键是要把牛皮变成现实。乐视从一个视频网站迅速扩张到七大产业，刘弘坦言外界对乐视近年来的高歌猛进存在误解。</div><div class="item-time">2016年4月18日</div>
-<div class="item-bottom"></div>
-</div></div>
-
-<div class=" MT PT ST"></div>
-<div class="item-container XL6 L6 M12 M-half S6 P12 P-half no-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001066503#adchannelID=2000">“电子邮件之父”汤姆林森去世</a></h2>
-<div class="item-lead">他想出了使用@符号来隔开收信人姓名和主机名的主意，创建了如今仍在使用的标准</div><div class="item-time">2016年3月7日</div>
-<div class="item-bottom"></div>
-</div></div>
-
-<div class="XLT LT MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half no-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001065811#adchannelID=2000">极简手机——未来新潮流？</a></h2>
-<div class="item-lead">你可以用这款极简风格的小巧手机打电话，但不能发短信、不能拍照，更不能上网。创始人表示，这款手机的革命性在于它什么高级功能都没有。
-</div><div class="item-time">2016年1月19日</div>
-<div class="item-bottom"></div>
-</div></div>
-
-<div class=" MT PT ST"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half no-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001065784#adchannelID=2000">水杯需要“智能”吗？</a></h2>
-<div class="item-lead">FT记者布拉德肖：我们知道什么时候需要喝水，因为我们会觉得口渴。但有些企业试图让我们相信：人类在喝水上存在问题，需要智能水杯提醒我们及时足量地喝水。</div><div class="item-time">2016年1月18日</div>
-<div class="item-bottom"></div>
-</div></div>
-
-<div class=" MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half no-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001065165#adchannelID=2000">靠电子商务拯救世界？</a></h2>
-<div class="item-lead">全球未来研究所程子俊：电子商务的空前繁荣，掩盖了当前经济模式中深层次的结构缺陷。中国和印度必须心怀比“拥抱互联网”更大的梦想，以解决更现实的社会问题。</div><div class="item-time">2015年12月8日</div>
+<div class=" MT ST PT"></div>
+<div class="item-container XL4 L4 S12 M6 P12     has-image ebook"><div class="item-inner">
+<a class="image portrait-img" target="_blank" href="/interactive/6949#adchannelID=1100"><figure class="loading" data-url="http://i.ftimg.net//picture/7/000061937_piclink.jpg"></figure></a>
 <div class="item-bottom"></div>
 </div></div>
 <div class="clearfloat"></div>
 </div>
-</div></div>
-<div class="clearfloat block-bottom"></div>
+</div></div><div class="clearfloat block-bottom"></div>
 </div></div>
 <div class="side-container"><div class="side-inner">
 <div class="mpu-container first-child">
@@ -578,26 +428,23 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 <div class="mps">
 <h2 class="list-title"><a href="/channel/weekly.html">十大热门文章</a></h2>
 <ul class="top10">
-<li class="mp1"><span>1. </span><a target="_blank" href="/story/001067616?dailypop">王健林为何也将公司私有化？</a></li>
-<li class="mp2"><span>2. </span><a target="_blank" href="/story/001067611?dailypop">致奥巴马的一封信</a></li>
-<li class="mp3"><span>3. </span><a target="_blank" href="/story/001067603?dailypop">中国杠杆率真的偏高吗？</a></li>
-<li class="mp4"><span>4. </span><a target="_blank" href="/story/001067612?dailypop">莫迪“印度梦”两年盘点</a></li>
-<li class="mp5"><span>5. </span><a target="_blank" href="/story/001067627?dailypop">两中国战机南中国海上空拦截美军侦察机</a></li>
-<li class="mp6"><span>6. </span><a target="_blank" href="/story/001067623?dailypop">“中国成为发展融资全球领导者”</a></li>
-<li class="mp7"><span>7. </span><a target="_blank" href="/story/001067619?dailypop">微软把诺基亚手机业务售予富士康</a></li>
-<li class="mp8"><span>8. </span><a target="_blank" href="/story/001067620?dailypop">美国对中国钢板做出“双反”终裁</a></li>
-<li class="mp9"><span>9. </span><a target="_blank" href="/story/001067615?dailypop">公司大，员工少？</a></li>
-<li class="mp10"><span>10. </span><a target="_blank" href="/story/001067622?dailypop">美的拟收购德国自动化企业库卡</a></li>
+<li class="mp1"><span>1. </span><a target="_blank" href="/story/001067702?dailypop">美联储躲不掉的“中国问题”</a></li>
+<li class="mp2"><span>2. </span><a target="_blank" href="/story/001067706?dailypop">王健林：迪士尼不该来中国</a></li>
+<li class="mp3"><span>3. </span><a target="_blank" href="/story/001067709?dailypop">华为起诉三星专利侵权</a></li>
+<li class="mp4"><span>4. </span><a target="_blank" href="/story/001067677?dailypop">北大与剑桥差在哪儿？</a></li>
+<li class="mp5"><span>5. </span><a target="_blank" href="/story/001067707?dailypop">Lex专栏：中国该不该一步到位调整汇率？</a></li>
+<li class="mp6"><span>6. </span><a target="_blank" href="/story/001067714?dailypop">中国官方将军费增长放缓归因于经济形势</a></li>
+<li class="mp7"><span>7. </span><a target="_blank" href="/story/001067699?dailypop">后营改增时代：应重塑中央与地方财政关系</a></li>
+<li class="mp8"><span>8. </span><a target="_blank" href="/story/001067703?dailypop">巴菲特模式：广受崇拜却无人能效仿</a></li>
+<li class="mp9"><span>9. </span><a target="_blank" href="/story/001067715?dailypop">奥巴马的核遗产</a></li>
+<li class="mp10"><span>10. </span><a target="_blank" href="/story/001067712?dailypop">印度将兴建绕过巴基斯坦到中亚的通路</a></li>
 </ul>
 </div>
 <div class="mpu-container last-child">
 <script type="text/javascript">document.write (writeAd('mpu'));</script>
 </div>
 </div></div><div class="clearfloat"></div>
-</div></div><div class="pagination-container"><div class="pagination-inner">
-<span class="current">1</span><a href="/tag/%E4%BA%92%E8%81%94%E7%BD%91?page=2">2</a><a href="/tag/%E4%BA%92%E8%81%94%E7%BD%91?page=3">3</a><a href="/tag/%E4%BA%92%E8%81%94%E7%BD%91?page=4">4</a><a href="/tag/%E4%BA%92%E8%81%94%E7%BD%91?page=5">5</a><a href="/tag/%E4%BA%92%E8%81%94%E7%BD%91?page=6">6</a><a href="/tag/%E4%BA%92%E8%81%94%E7%BD%91?page=7">7</a><a href="/tag/%E4%BA%92%E8%81%94%E7%BD%91?page=8">8</a><a href="/tag/%E4%BA%92%E8%81%94%E7%BD%91?page=9">9</a><a href="/tag/%E4%BA%92%E8%81%94%E7%BD%91?page=10">10</a><a href="/tag/%E4%BA%92%E8%81%94%E7%BD%91?page=2">&rsaquo;&rsaquo;</a><a href="/tag/%E4%BA%92%E8%81%94%E7%BD%91?page=2">下一页</a><a  href="/tag/%E4%BA%92%E8%81%94%E7%BD%91?page=11">&rsaquo;|</a><a style="padding: 0px"><input class="p_input" type="text" name="custompage" onKeyDown="if(event.keyCode==13) {window.location='/tag/%E4%BA%92%E8%81%94%E7%BD%91?page='+this.value; return false;}"></a>
-</div></div>
-<div class="footer-container"><div class="footer-inner">
+</div></div><div class="footer-container"><div class="footer-inner">
 <div>
 <a href="/m/corp/aboutus.html">关于我们</a>
 <a href="/jobs/?from=ft">加入我们</a>

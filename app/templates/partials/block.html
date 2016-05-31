@@ -213,7 +213,9 @@
 				<%foreach from=$itemsArray item=item%>
 
 					<%assign var="itemHeadline" value=$item.headline|default:$item.cheadline|default:$item.cn_title%>
-					<%if $feedType == "all"%>
+					<%if $list.feedImage == "hide"%>
+						<%assign var="itemImage" value=""%>
+					<%elseif $feedType == "all"%>
 						<%assign var="itemImage" value=$item.image.cover|default:$item.image.smallbutton|default:$item.image.other|default:$item.image.bigbutton%>
 					<%elseif $feedType == "columns"%>
 						<%assign var="columninfo" value=$storymodel->get_column_info($item.id)%>
@@ -273,7 +275,7 @@
 							<%assign var="hideImage" value="yes"%>
 							<%assign var="XL" value="one-row"%>
 							<%assign var="itemTopClass" value="XLT LT ST MT PT"%>
-						<%elseif $list.float === "Card" || $feedType=="columns"%>
+						<%elseif $list.float === "Card" || $list.float === "eBook" || $feedType=="columns"%>
 							<%if $sectionHasSide == "yes"%>
 								<%assign var="XL" value="XL4 L4 S12 M6 P12"%>
 								<%if $i%3 == 0%>
@@ -894,6 +896,13 @@
 								<div class="item-bottom"></div>
 							</div></div>
 							<%assign var="i" value=$i+1%>
+						<%elseif $list.float === "eBook"%>
+							<%$itemTop%>
+							<div class="item-container <%$itemClass%> has-image ebook"><div class="item-inner">
+								<a class="image portrait-img" target="_blank"<%$itemLink%>><figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure></a>
+								<div class="item-bottom"></div>
+							</div></div>
+							<%assign var="i" value=$i+1%>
 						<%else%>
 							<%$itemTop%>
 							<div class="item-container <%$itemClass%> <%$hasImage%>"><div class="item-inner">
@@ -960,12 +969,10 @@
 						<h2 class="list-title"><a href="/channel/weekly.html"><%$list.title|default:"热门文章"%></a></h2>
 						<ul class="top10">
 							<%assign var="i" value=0%>
-							<%assign var="mp" value=$storymodel->get_hot_story(1,15) %>
-							<%foreach item=sc from=$mp%>
-							<%if $sc.storyid!="001033136" && $i<10%>
+							<%easyapi command="60006"%>
+							<%foreach from=$data.odatalist item=sc name=foo%>
 								<%assign var="i" value=$i+1%>
-								<li class="mp<%$i%>"><span><%$i%>. </span><a target="_blank" href="/story/<%$sc.storyid%>?dailypop"><%$sc.cheadline%></a></li>
-							<%/if%>
+								<li class="mp<%$i%>"><span><%$i%>. </span><a target="_blank" href="/story/<%$sc.storyid%>?dailypop"><%$sc.title%></a></li>
 							<%/foreach%>
 						</ul>
 					</div>
@@ -1061,7 +1068,10 @@
 								<%/if%>
 							<%/if%>
 
-							<%if $itemId == "" || $itemType == "" %>
+							<%if $item.customLink != "" %>
+								<%assign var="itemLink" value=$item.customLink%>
+								<%assign var="itemLink" value=" href=\"`$itemLink`\""%>
+							<%elseif $itemId == "" || $itemType == "" %>
 								<%assign var="itemLink" value=""%>
 							<%else%>
 								<%assign var="itemLink" value="/`$itemType`/`$itemId``$adForceString`"%>

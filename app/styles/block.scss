@@ -4,7 +4,7 @@
 		margin-bottom: $defaultPadding;
 	}
 	a {
-		color: $darkGrey;
+		color: $fontColor;
 	}
 	&.fixside {
 		.side-inner {
@@ -161,6 +161,14 @@
 	padding: $figureHeight $defaultPadding/2 $defaultPadding $defaultPadding/2;
 	position: relative;
 }
+.ebook {
+	.item-inner {
+		padding: $figureHeightPortrait $defaultPadding/2 0 $defaultPadding/2;
+	}
+	.image {
+		padding-bottom:0;
+	}
+}
 
 .item-headline, .relative-container {
 	a {
@@ -184,11 +192,11 @@
 	}
 }
 .item-lead {
-	color: $lightGrey;
+	color: $lightFontColor;
 	font-size: 0.9em;
 }
 .item-tag {
-	color: $red;
+	color: $highlightColor;
 	font-size: 14px;
 	font-weight: bold;
 	padding-bottom: $defaultPadding/2;
@@ -197,8 +205,8 @@
 		color: $red;
 		vertical-align: middle;
 		&:hover, &:active {
-			border-bottom-color: $darkGrey;
-			color: $darkGrey;
+			border-bottom-color: $fontColor;
+			color: $fontColor;
 		}
 	}
 }
@@ -263,16 +271,30 @@
 			transform: scale(1.05);
 		}
 	}
+	&.leftPic, &.rightPic {
+		position: static;
+	}
+	&.portrait-img {
+		figure {
+			padding-bottom: 133.33333333%;
+		}
+	}
 }
 .icon-title {
 	.item-inner {
 		padding: 0 $defaultPadding/2 $defaultPadding $iconWidth+$defaultPadding;
+	}
+	&.no-image {
+		.item-inner {
+			padding-left: $defaultPadding/2;
+		}
 	}
 	.image {
 		width: $iconWidth;
 		height: $iconWidth;
 		figure {
 			padding-bottom: 100%;
+			background-color: transparent;
 		}
 	}
 	.item-headline {
@@ -442,7 +464,7 @@
 			border: 0;
 		}
 		span {
-			color: $red;
+			color: $highlightColor;
 			//padding-right: $defaultPadding/2;
 			//text-align: right;
 			//display: inline-block;

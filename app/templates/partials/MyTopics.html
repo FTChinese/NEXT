@@ -1,0 +1,75 @@
+<%if $includeSide != "" && $includeSide != "none"%>
+	<%assign var="hasSide" value=" has-side"%>
+<%else%>
+	<%assign var="hasSide" value=""%>
+<%/if%>
+<div class="block-container<%$hasSide%> side-<%$includeSideAlign%>">
+    <div class="block-inner">
+        <div class="content-container">
+            <div class="content-inner">
+            	<%assign var="echostoryid" value=""%>
+            	<%assign var="l" value=0%>
+				<%foreach from=$topicsdata item=list%>
+					<%assign var="listTop" value=""%>
+					<%assign var="listTopClass" value=""%>
+					<%if $hasSide != ""%>
+						<%assign var="listClass" value=" XL4 L6 M12 S6 P12 side-by-side"%>
+						<%if $l%3 === 0 %>
+							<%assign var="listTopClass" value="XLT"%>
+						<%/if%>
+						<%if $l%2 === 0 %>
+							<%assign var="listTopClass" value="`$listTopClass` LT ST"%>
+						<%/if%>
+						<%assign var="listTopClass" value="`$listTopClass` MT PT"%>
+					<%else%>
+						<%assign var="listClass" value=" XL3 L4 M6 S6 P12 side-by-side"%>
+						<%if $l%4 === 0 %>
+							<%assign var="listTopClass" value="XLT"%>
+						<%/if%>
+						<%if $l%3 === 0 %>
+							<%assign var="listTopClass" value="`$listTopClass` LT"%>
+						<%/if%>
+						<%if $l%2 === 0 %>
+							<%assign var="listTopClass" value="`$listTopClass` MT ST"%>
+						<%/if%>
+						<%assign var="listTopClass" value="`$listTopClass` PT"%>
+					<%/if%>
+					<%if $listTopClass !== "" && $l > 0%>
+						<%assign var="listTop" value="<div class=\"`$listTopClass`\"></div>"%>
+					<%/if%>
+					<%assign var="l" value=$l+1%>
+					<%$listTop%>
+					<div class="list-container <%$listClass%>">
+					    <div class="list-inner">
+							<div class="item-container side-by-side first no-image"><div class="item-inner">
+								<h2 class="item-headline">
+									<div class="item-tag"><a href="/tag/<%$list[0].tag%>"><%$list[0].tag%></a><button class="myft-follow plus" data-tag="<%$list[0].tag%>" data-type="tag">关注</button></div>
+									<a target="_blank" href="/<%$list[0].itemtype%>/<%$list[0].id%>"><%$list[0].cheadline%></a>
+								</h2>
+								<div class="item-lead"><%$list[0].clead%></div>
+								<div class="relative-container">
+							        <%assign var="i" value=0%>
+							        <%foreach from=$list item=item%>
+										<%if $i < 4 && $i > 0%>
+											<h3 class="relative">
+												<a target="_blank" href="/<%$item.itemtype%>/<%$item.id%>"><%$item.cheadline%></a>
+											</h3>
+										<%/if%>
+										<%assign var="i" value=$i+1%>
+							        <%/foreach%>
+									<div class="clearfloat"></div>
+								</div>
+								<div class="item-bottom"></div>
+							</div></div>
+					    </div>
+					</div>
+				<%/foreach%>
+				<div class="clearfloat block-bottom"></div>
+            </div>
+        </div>
+        <%if $hasSide != ""%>
+        	<%include file="next/partials/`$includeSide`.html"%>
+        <%/if%>
+        <div class="clearfloat"></div>
+    </div>
+</div>

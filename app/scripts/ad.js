@@ -288,6 +288,8 @@ function writeAd(adType) {
 
   if (window.pageTheme === 'luxury') {
     bannerBG = '&bg=e0cdac';
+  } else if (window.pageTheme === 'ebook') {
+    bannerBG = '&bg=777777';
   }
 
   adFileName = (adType === 'banner' &&  adCount[adType] === 0) ? 'topbanner' : 'a';

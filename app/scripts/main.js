@@ -232,6 +232,8 @@ function loadImages() {
       imageWidth = imageWidth * 2;
       imageHeight = imageHeight * 2;
     }
+    // imageWidth = parseInt (imageWidth, 10);
+    // imageHeight = parseInt (imageHeight, 10);
     if (/brand/.test(figureParentClass)) {
       fitType = 'contain';
     }
@@ -245,7 +247,9 @@ function loadImages() {
     }
     if (shouldLoadImage === true) {
       imageUrlBack = imageUrl.replace('i.ftimg.net', 'i.ftmailbox.com');
+      //thisFigure.innerHTML = '<img src="' + imageUrl + '" data-backupimage="' + imageUrlBack + '" style="width: '+imageWidth+'px; height: '+imageHeight+'px">';
       thisFigure.innerHTML = '<img src="' + imageUrl + '" data-backupimage="' + imageUrlBack + '">';
+      //thisFigure.style.backgroundImage = 'url("'+ imageUrl+'")';
       thisFigure.className = '';
     }
   }
@@ -290,8 +294,9 @@ try {
 // get the top of navigation
 gNavOffsetY = findTop(document.querySelector('.o-nav__placeholder'));
 
+console.log (gAudioOffsetY);
 // disable sticky scroll on touch devices
-if (gNavOffsetY > 30 && w > 490 && isTouchDevice() === false) {
+if ((gNavOffsetY > 30 && w > 490 && isTouchDevice() === false) || document.getElementById('audio-placeholder')) {
   try {
     stickyBottomPrepare();
     stickyAdsPrepare();
