@@ -970,6 +970,7 @@
 						<ul class="top10">
 							<%assign var="i" value=0%>
 							<%easyapi command="60006"%>
+							<li style="display:none"><%$data|@var_dump%></li>
 							<%foreach from=$data.odatalist item=sc name=foo%>
 								<%assign var="i" value=$i+1%>
 								<li class="mp<%$i%>"><span><%$i%>. </span><a target="_blank" href="/story/<%$sc.storyid%>?dailypop"><%$sc.title%></a></li>
