@@ -31,6 +31,9 @@
 				<span class="story-time"><%$storyTime%></span>
 				<span class="story-author"><%$storyAuthor%></span>
 			</div>
+			<%if $smarty.get.page != "" && $smarty.get.page != 1%>
+				<%include file="next/partials/pagination.html"%>
+			<%/if%>
 			<div class="story-body">
 				<%$audioHTML%>
 				<%$storyImageInline%>
