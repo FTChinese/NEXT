@@ -228,9 +228,11 @@ function loadImages() {
     var fitType = 'cover';
     var figureParentClass = thisFigure.parentNode.className || '';
     var shouldLoadImage = false;
+    var loadedClass = '';
     if (isRetinaDevice === true) {
       imageWidth = imageWidth * 2;
       imageHeight = imageHeight * 2;
+      loadedClass = 'is-retina';
     }
     // imageWidth = parseInt (imageWidth, 10);
     // imageHeight = parseInt (imageHeight, 10);
@@ -250,7 +252,7 @@ function loadImages() {
       //thisFigure.innerHTML = '<img src="' + imageUrl + '" data-backupimage="' + imageUrlBack + '" style="width: '+imageWidth+'px; height: '+imageHeight+'px">';
       thisFigure.innerHTML = '<img src="' + imageUrl + '" data-backupimage="' + imageUrlBack + '">';
       //thisFigure.style.backgroundImage = 'url("'+ imageUrl+'")';
-      thisFigure.className = '';
+      thisFigure.className = loadedClass;
     }
   }
 
