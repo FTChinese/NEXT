@@ -26,7 +26,7 @@
 		<%elseif $list.type == "" || $list.type == "list"%>
 			<%assign var="listTop" value=""%>
 			<%assign var="listTopClass" value=""%>
-			<%if ($list.items|@count >= 6 && $list.items[0].type === 'video' && $list.items[1].type === 'video' && $list.items[2].type === 'video' && $list.items[3].type === 'video' && $list.items[4].type === 'video' && $list.items[5].type === 'video') || ($list.feedType=="video" && $list.feedItems == 6)%>
+			<%if $list.float == "none" && (($list.items|@count >= 6 && $list.items[0].type === 'video' && $list.items[1].type === 'video' && $list.items[2].type === 'video' && $list.items[3].type === 'video' && $list.items[4].type === 'video' && $list.items[5].type === 'video') || ($list.feedType=="video" && $list.feedItems == 6))%>
 				<%if $l == $listLength-1%>
 					<%assign var="listLastChildClass" value=" last-child"%>
 				<%else%>
@@ -965,23 +965,39 @@
 						<%assign var="s" value=$s+1%>
 					<%/if%>
 				<%elseif $list.type == "SideRanking"%>
+					<%if $list.feedType == "video"%>
+						<%assign var="defaultTitle" value="热门视频"%>
+						<%assign var="feedType" value="video"%>
+						<%assign var="mp" value=$videomodel->get_hot_video(30,10) %>
+					<%else%>
+						<%assign var="defaultTitle" value="热门文章"%>
+						<%assign var="feedType" value="story"%>
+						<%easyapi command="60006"%>
+						<%assign var="mp" value=$data.odatalist%>
+					<%/if%>
+					<%if $list.feedItems == 0%>
+						<%assign var="feedItems" value=10%>
+					<%else%>
+						<%assign var="feedItems" value=$list.feedItems%>
+					<%/if%>
 					<div class="mps<%$firstChildClass%><%$lastChildClass%>">
-						<h2 class="list-title"><a href="/channel/weekly.html"><%$list.title|default:"热门文章"%></a></h2>
+						<h2 class="list-title"><a href="<%$list.url|default:"#"%>"><%$list.title|default:$defaultTitle%></a></h2>
 						<ul class="top10">
-							<%assign var="i" value=0%>
-							<%easyapi command="60006"%>
-							<%foreach from=$data.odatalist item=sc name=foo%>
-								<%assign var="i" value=$i+1%>
-								<li class="mp<%$i%>"><span><%$i%>. </span><a target="_blank" href="/story/<%$sc.storyid%>?dailypop"><%$sc.title%></a></li>
+							<%assign var="i" value=0%>							
+							<%foreach item=sc from=$mp%>
+								<%if $i<$feedItems%>
+									<%assign var="i" value=$i+1%>
+									<li class="mp<%$i%>"><span><%$i%>. </span><a target="_blank" href="/<%$feedType%>/<%$sc.storyid|default:$sc.id%>"><%$sc.cheadline|default:$sc.title%></a></li>
+								<%/if%>
 							<%/foreach%>
 						</ul>
 					</div>
 					<%assign var="s" value=$s+1%>
 				<%elseif $list.type == "SideWithItems"%>
-					<div class="side-list<%$firstChildClass%><%$lastChildClass%>">
+					<div class="side-list<%$firstChildClass%><%$lastChildClass%> <%$list.sideOption%>">
 						<%if $list.title && $list.title != ""%>
 							<h2 class="list-title">
-								<a href="/channel/stream.html"><%$list.title%></a>
+								<a href="<%$list.url|default:"#"%>"><%$list.title%></a>
 							</h2>
 						<%/if%>
 						<%if $list.items|@count==0 && $list.feedItems != "" && $list.feedItems != "0"%>
@@ -1080,7 +1096,9 @@
 							<div class="item-container <%$itemClass%> <%$hasImage%>"><div class="item-inner">
 								<%if $list.sideOption != "leadOnly"%>
 									<%if $itemImage != "" && $hasImage === "has-image"%><a class="image" target="_blank"<%$itemLink%>><figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure></a><%/if%>
-									<h2 class="item-headline"><%$itemTag%><a target="_blank"<%$itemLink%>><%$itemHeadline%></a></h2>
+									<%if $itemHeadline != ""%>
+										<h2 class="item-headline"><%$itemTag%><a target="_blank"<%$itemLink%>><%$itemHeadline%></a></h2>
+									<%/if%>
 								<%else%>
 									<div class="item-lead item-description"><%$itemLead|nl2br%></div>
 								<%/if%>
