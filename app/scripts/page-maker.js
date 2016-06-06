@@ -147,7 +147,7 @@
         var editLink = '';
         var previewLink = '';
         var dataHTML = '';
-        var oTimeStamp = timeStamp;
+        var oTimeStamp = timeStamp || Math.round(new Date().getTime()/1000);
         var relativestoryHTML = '';
         var hasImageClass = '';
         var imageBG = '';
