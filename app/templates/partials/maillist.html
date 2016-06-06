@@ -1,0 +1,58 @@
+<div class="block-container has-side"><div class="block-inner">
+    <div class="content-container"><div class="content-inner">
+        <div class="list-container"><div class="list-inner">
+            <div class="no-image"><div class="item-inner">
+
+                           <!--主要内容和代码-->
+                            <form id="accountforms" name="accountforms" action="" method="POST">
+                                <div id="theme_content" class="clearFix">
+                                    <div class="theme_box">
+                                        <div class="user_manage" style="font-size:14px;margin:0 15px 0 15px;">
+                                            <div style="float:right;"><a href="http://home.ftchinese.com/forum/viewthread.php?tid=1607" target=_blank style="font-size:12px;">订阅了收不到? 请看这里</a></div>
+                                            <div><b>订阅FT中文网电子邮件</b></div>       
+                                            <p>
+                                                <input style="width:auto" id="mail_sub_today_story" type="checkbox" <%if $users.mail_sub_todayStory == '1'%>checked="checked"<%/if%> value="1" name="mail_sub_todayStory" /> <b>《今日焦点》</b><br />
+                                                    每日最新要闻快递，直达您的邮箱。
+                                            </p>
+                                            <p>
+                                                <input style="width:auto" id="mail_sub_friday_story" type="checkbox" <%if $users.mail_sub_fridayStory == '1' %>checked="checked"<%/if%>  value="1" name="mail_sub_fridayStory" /> <b>《周五文摘》</b><br />
+                                                    一周精华荟萃，每周五上午准时送到，再也不用担心漏看什么精彩内容。
+                                            </p>
+                                            <p>
+                                                <input style="width:auto" id="mail_sub_afStory" type="checkbox"  value="1"  <%if $users.mail_sub_afStory == '1' %>checked="checked"<%/if%> name="mail_sub_afStory" /> <b>午后速递</b><br />
+                                                    本邮件是您所订阅的《今日焦点》的一部分，为您通报最新新闻和精华内容。
+                                            </p>
+                                            <div style="margin-top:15px;"><b>隐私权</b></div>
+                                            <p>FT中文网高度尊重您的隐私权。我们收集您的资料将用于分析研究，并向您推介
+                                                Financial Times的产品和服务。请确认您的下列选择：</p>
+                                            <p>
+                                                <input name="service_acceptance" type="checkbox" value="1"  <%if $users.service_acceptance == '1' %>checked<%/if%>/>
+                                                       我愿意接受FT中文网提供的更多服务和产品。 </p>
+
+                                            <p>
+                                                <input name="auth_email_sub" type="checkbox" value="1"  <%if $users.auth_email_sub == '1' %>checked<%/if%> />
+                                                       FT中文网及其慎重选择的第三方公司可以向我发送电子邮件。 </p>
+                                            <p>
+                                                <input name="auth_letter_sub" type="checkbox" value="1" <%if $users.auth_letter_sub == '1' %>checked<%/if%> />
+                                                       FT中文网及其慎重选择的第三方公司可以向我寄送信件。</p>
+                                            <span class="um_btn">
+                                                <input class=submit type="submit" value="保存更新" />
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <!--主要内容和代码End-->
+
+
+
+            </div></div>
+
+            <script>
+            document.getElementById('thekeys').focus();
+            </script>
+        </div></div>
+    </div></div>
+    <%include file="next/partials/TagRightRail.html"%>
+    <div class="clearfloat"></div>
+</div></div>

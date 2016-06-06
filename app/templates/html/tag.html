@@ -148,6 +148,8 @@
       <%assign var="bannerCount" value=$bannerCount+1%>
       <%if $pageId=="setting"%>
         <%include file="next/partials/setting-block.html"%>
+      <%elseif $pageId!=""%>
+        <%include file="next/partials/`$pageId`.html"%>
       <%elseif $pageType=="search"%>
         <%include file="next/partials/search-block.html"%>
       <%elseif $pageType=="findpassword"%>

@@ -1,0 +1,80 @@
+<div class="block-container has-side"><div class="block-inner">
+    <div class="content-container"><div class="content-inner">
+        <div class="list-container"><div class="list-inner">
+            <div class="no-image"><div class="item-inner">
+
+
+
+<style>
+.del {
+-moz-background-clip:border;
+-moz-background-inline-policy:continuous;
+-moz-background-origin:padding;
+background:#990100 url(http://static.ftchinese.com/img/icon_18.gif) no-repeat scroll 5px 50%;
+border:medium none;
+color:#FFFFFF;
+height:20px;
+line-height:20px;
+padding-left:20px;
+text-align:center;
+vertical-align:middle;
+width:60px;
+}
+.tool {
+text-align:right;
+}
+.rh {
+display:block;
+font-family:simhei;
+font-size:16px;
+font-weight:normal;
+line-height:150%;
+margin:0;
+padding:0;
+}
+
+.rl {
+color:#666666;
+line-height:150%;
+min-height:50px;
+}
+.rb {
+border-bottom:1px solid #7FAABB;
+color:#4781AA;
+display:block;
+line-height:150%;
+margin-bottom:10px;
+text-align:right;
+}
+</style>
+
+以下是您最近发表的评论：
+
+<%foreach from=$mycomment item=sc name=foo%>
+<h3 class="rh"><a href="/comments/index/<%$sc.id%>" target=_blank><%$sc.cheadline|regex_replace:"/\<br\>/":""%></a></h3>
+<div class="rl">
+<%$sc.talk%>
+</div>
+<p class="rb">发表于:<%$sc.dnewdate%>
+&nbsp;&nbsp;[<a href="javascript:if(confirm('您确认真的需要删除这条评论吗？'))location='/users/delete_myself_comment/<%$sc.cid%>'">删除</a>]
+</p>
+<%foreachelse%>
+<br>
+<p>您还没有对FT中文网的文章进行评论，您可以进入<a href="/">首页</a>，查看最新的文章并发表您的观点。</p>
+<%/foreach%>
+<div class="pagination"><%$pagination%></div>
+
+
+
+
+
+            </div></div>
+
+            <script>
+            document.getElementById('thekeys').focus();
+            </script>
+        </div></div>
+    </div></div>
+    <%include file="next/partials/TagRightRail.html"%>
+    <div class="clearfloat"></div>
+</div></div>

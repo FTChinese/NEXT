@@ -1,0 +1,31 @@
+<div class="block-container has-side"><div class="block-inner">
+    <div class="content-container"><div class="content-inner">
+        <div class="list-container"><div class="list-inner">
+            <div class="no-image"><div class="item-inner">
+
+<!--主要内容和代码-->
+<form action="" enctype="multipart/form-data" method=post id="changeicon">
+    <div style="margin-left:15px;">
+        <%if $userinfo.User_iconv%>
+        <img src="http://u.ftimg.net/<%$userinfo.User_iconv%>"  width="50" height="50"/>
+        <%else%>
+        <img width="50" height="50" src="http://static.ftchinese.com/img/no_user.jpg"  style="margin: 0px 15px 0 0;" />
+        <%/if%>
+        <input type="file" name="newicon" id="newicon" value="" /> <input type="submit" value="上传" />
+        <div style="margin:15px 0 15px 0;">只能上传jpg,gif,png格式的文件. 图片分辨率最好为50*50,否则会自动压缩。建议您使用自己的正面特写相片作为头像,这样能保证头像的效果更加清晰。</div>
+    </div>
+</form>
+<!--主要内容和代码End-->
+
+
+
+            </div></div>
+
+            <script>
+            document.getElementById('thekeys').focus();
+            </script>
+        </div></div>
+    </div></div>
+    <%include file="next/partials/TagRightRail.html"%>
+    <div class="clearfloat"></div>
+</div></div>

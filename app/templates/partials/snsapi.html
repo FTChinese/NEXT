@@ -1,0 +1,153 @@
+<div class="block-container has-side"><div class="block-inner">
+    <div class="content-container"><div class="content-inner">
+        <div class="list-container"><div class="list-inner">
+            <div class="no-image"><div class="item-inner">
+
+<!--主要内容和代码-->
+<div style="padding:0 0 0 15px;">
+
+    <div style="position: relative;" class="sync-block sync-block-left">
+                <%if !$sina_weibo.users_config_id %>
+                <table width="100%" class="sync_table">
+                    <tbody>
+                        <tr>
+                            <td class="label">同步到</td>
+                            <td><img width="116" height="35" src="http://static.ftchinese.com/weibo/sina.png"></td>
+                        </tr>
+                        <tr>
+                            <td align="center" style="font-size:14px; font-weight: bold;padding-top:10px;" colspan="2"><a href="/index.php/snsapi/sync_request/sina" id="sync-sina-url">&gt;&gt; 去新浪微博设置同步 &lt;&lt;</a></td>
+                        </tr>
+                    </tbody>
+                <%else%>
+                <div class="sync-success">
+                <div class="img-success png"></div>
+                <div class="sync-text">已同步到新浪微博。 <button onclick="test_post('sina')" >发布一条测试微博</button> <button onclick="cancelSync('sina')" >取消同步</button></div>
+                </div>
+                <%/if%>
+                </table>
+        </div>
+
+    <div style="position: relative;" class="sync-block sync-block-left">
+                <%if !$tencent_weibo.users_config_id %>
+                <table width="100%" class="sync_table">
+                    <tbody>
+                        <tr>
+                            <td class="label">同步到</td>
+                            <td><img width="116" height="35" src="http://static.ftchinese.com/weibo/tencent.png"></td>
+                        </tr>
+                        <tr>
+                            <td align="center" style="font-size:14px;font-weight: bold;padding-top:10px;" colspan="2"><a href="/index.php/snsapi/sync_request/tencent" id="sync-sina-url">&gt;&gt; 去腾讯微博设置同步 &lt;&lt;</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <%else%>
+                <div class="sync-success">
+                <div class="img-success png"></div>
+                <div class="sync-text">已同步到腾讯微博。 <button onclick="test_post('tencent')" >发布一条测试微博</button> <button onclick="cancelSync('tencent')" >取消同步</button></div>
+                </div>
+                <%/if%>
+        </div>
+    
+    <div style="position: relative;" class="sync-block sync-block-left">
+                <%if !$sohu_weibo.users_config_id %>
+                <table width="100%" class="sync_table">
+                    <tbody>
+                        <tr>
+                            <td class="label">同步到</td>
+                            <td><img width="116" height="35" src="http://static.ftchinese.com/weibo/sohu.png" /></td>
+                        </tr>
+                        <tr>
+                            <td align="center" style="font-size:14px;font-weight: bold;padding-top:10px;" colspan="2"><a href="/index.php/snsapi/sync_request/sohu" id="sync-sina-url">&gt;&gt; 去搜狐微博设置同步 &lt;&lt;</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <%else%>
+                <div class="sync-success">
+                <div class="img-success png"></div>
+                <div class="sync-text">已同步到搜狐微博。 <button onclick="test_post('sohu')" >发布一条测试微博</button> <button onclick="cancelSync('sohu')" >取消同步</button></div>
+                </div>
+                <%/if%>
+        </div>
+    
+        <div style="position: relative;" class="sync-block sync-block-left">
+                <%if !$netease_weibo.users_config_id %>
+                <table width="100%" class="sync_table">
+                    <tbody>
+                        <tr>
+                            <td class="label">同步到</td>
+                            <td><img width="116" height="35" src="http://static.ftchinese.com/weibo/netease.png?v=1" /></td>
+                        </tr>
+                        <tr>
+                            <td align="center" style="font-size:14px;font-weight: bold;padding-top:10px;" colspan="2"><a href="/index.php/snsapi/sync_request/netease" id="sync-sina-url">&gt;&gt; 去网易微博设置同步 &lt;&lt;</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <%else%>
+                <div class="sync-success">
+                <div class="img-success png"></div>
+                <div class="sync-text">已同步到网易微博。 <button onclick="test_post('netease')" >发布一条测试微博</button> <button onclick="cancelSync('netease')" >取消同步</button></div>
+                </div>
+                <%/if%>
+        </div>
+        <%if $debug_model == 1%>
+        <div style="position: relative;" class="sync-block sync-block-left">
+                <%if !$douban_weibo.users_config_id %>
+                <table width="100%" class="sync_table">
+                    <tbody>
+                        <tr>
+                            <td class="label">同步到</td>
+                            <td><img width="116" height="35" src="http://static.ftchinese.com/weibo/netease.png?v=1" /></td>
+                        </tr>
+                        <tr>
+                            <td align="center" style="font-size:14px;font-weight: bold;padding-top:10px;" colspan="2"><a href="/index.php/snsapi/sync_request/douban" id="sync-sina-url">&gt;&gt; 去豆瓣设置同步 &lt;&lt;</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <%else%>
+                <div class="sync-success">
+                <div class="img-success png"></div>
+                <div class="sync-text">已同步到豆瓣。 <button onclick="test_post('douban')" >发布一条测试广播</button> <button onclick="cancelSync('douban')" >取消同步</button></div>
+                </div>
+                <%/if%>
+        </div>
+        <%/if%>
+        <%if $debug_model == 1%>
+        <div style="position: relative;" class="sync-block sync-block-left">
+                <%if !$twitter_weibo.users_config_id %>
+                <table width="100%" class="sync_table">
+                    <tbody>
+                        <tr>
+                            <td class="label">同步到</td>
+                            <td><img width="116" height="35" src="http://static.ftchinese.com/weibo/netease.png?v=1" /></td>
+                        </tr>
+                        <tr>
+                            <td align="center" style="font-size:14px;font-weight: bold;padding-top:10px;" colspan="2"><a href="/index.php/snsapi/sync_request/twitter" id="sync-sina-url">&gt;&gt; 去Twitter设置同步 &lt;&lt;</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <%else%>
+                <div class="sync-success">
+                <div class="img-success png"></div>
+                <div class="sync-text">已同步到Twitter。 <button onclick="test_post('twitter')" >发布一条测试微博</button> <button onclick="cancelSync('twitter')" >取消同步</button></div>
+                </div>
+                <%/if%>
+        </div>
+    <%/if%>
+        <div class="clearfloat"></div>
+</div>
+
+
+<!--主要内容和代码End-->
+
+
+
+            </div></div>
+
+            <script>
+            document.getElementById('thekeys').focus();
+            </script>
+        </div></div>
+    </div></div>
+    <%include file="next/partials/TagRightRail.html"%>
+    <div class="clearfloat"></div>
+</div></div>
