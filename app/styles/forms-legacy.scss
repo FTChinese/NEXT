@@ -32,10 +32,10 @@ a.whitelink:visited {
     width: 68px;
 }
 
-.label {
-    font-size: 26px;
-    font-weight: bold;
-}
+// .label {
+//     font-size: 26px;
+//     font-weight: bold;
+// }
 
 .topright {
     float: right;
@@ -94,27 +94,30 @@ a.whitelink:visited {
     border-bottom: 3px solid #9E2F50;
 }
 
-#theme_content {
-    -moz-background-clip: border;
-    -moz-background-inline-policy: continuous;
-    -moz-background-origin: padding;
-    font-size: 12px;
-}
+// #theme_content {
+//     -moz-background-clip: border;
+//     -moz-background-inline-policy: continuous;
+//     -moz-background-origin: padding;
+//     font-size: 12px;
+// }
 
-.theme_box h3 {
-    font-size: 14px;
-    font-weight: bold;
-    padding: 15px 0 0 10px;
-}
+// .theme_box h3 {
+//     font-size: 14px;
+//     font-weight: bold;
+//     padding: 15px 0 0 10px;
+// }
 
-.theme_box p {
-    margin: 10px 0 0 10px;
-}
+// .theme_box p {
+//     margin: 10px 0 0 10px;
+// }
 
 .user_manage{
 	font-size: 16px;
 	line-height: 140%;
-	input, select {
+
+	input[type="text"],
+	input[type="submit"],
+	select {
 		box-sizing: border-box;
 		-webkit-appearance: none;
 		margin: 0;
@@ -258,5 +261,52 @@ a.whitelink:visited {
 		    width: 100%;
 		    float:none;
 		}	
+	}
+	input[type="checkbox"] + label {
+		cursor: pointer;
+		font-weight: bold;
+	}
+}
+
+.o-forms__group {
+	margin-bottom: 20px;
+	font-size: 16px;
+	> p {
+		margin: 15px 0 15px 1em;
+		position: relative;
+		span {
+			display: block;
+			padding-left: 20px;
+		}
+		input {
+			width: 16px;
+			height: 16px;
+		}
+
+		label {
+			// line-height: 25px;
+
+		}
+	}
+	h3 {
+	    padding: 0;
+	    margin: 15px 0;
+	    position: relative;
+	    overflow: hidden;
+	    span {
+	    	font-size: 1.2em;
+	    	padding-right: 10px;
+	    }
+		&:after {
+	    	box-sizing: border-box;
+	    	content: '';
+	    	position: absolute;
+	    	height: 9px;
+		    top: 0;
+		    bottom: 0;
+		    width: 100%;
+		    margin: auto;
+		    background-image: url(http://static.ftchinese.com/img/front-page-section-header.png);
+	    }
 	}
 }
