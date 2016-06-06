@@ -275,7 +275,7 @@
 							<%assign var="hideImage" value="yes"%>
 							<%assign var="XL" value="one-row"%>
 							<%assign var="itemTopClass" value="XLT LT ST MT PT"%>
-						<%elseif $list.float === "Card" || $list.float === "eBook" || $feedType=="columns"%>
+						<%elseif $list.float === "Card" || $list.float === "eBook"%>
 							<%if $sectionHasSide == "yes"%>
 								<%assign var="XL" value="XL4 L4 S12 M6 P12"%>
 								<%if $i%3 == 0%>
@@ -292,6 +292,29 @@
 								<%/if%>
 								<%if $i%3 == 0%>
 									<%assign var="itemTopClass" value="`$itemTopClass` ST"%>
+								<%/if%>
+								<%if $i%2 == 0%>
+									<%assign var="itemTopClass" value="`$itemTopClass` MT"%>
+								<%/if%>
+								<%assign var="itemTopClass" value="`$itemTopClass` PT"%>
+							<%/if%>
+						<%elseif $feedType=="columns"%>
+							<%if $sectionHasSide == "yes"%>
+								<%assign var="XL" value="headshot-title XL4 L6 S12 M12 P12"%>
+								<%if $i%3 == 0%>
+									<%assign var="itemTopClass" value="`$itemTopClass` XLT LT"%>
+								<%/if%>
+								<%if $i%2 == 0%>
+									<%assign var="itemTopClass" value="`$itemTopClass` LT"%>
+								<%/if%>
+								<%assign var="itemTopClass" value="`$itemTopClass` ST MT PT"%>
+							<%else%>
+								<%assign var="XL" value="headshot-title XL3 L4 S4 M6 P12"%>
+								<%if $i%4 == 0%>
+									<%assign var="itemTopClass" value="`$itemTopClass` XLT"%>
+								<%/if%>
+								<%if $i%3 == 0%>
+									<%assign var="itemTopClass" value="`$itemTopClass` LT ST"%>
 								<%/if%>
 								<%if $i%2 == 0%>
 									<%assign var="itemTopClass" value="`$itemTopClass` MT"%>
@@ -792,17 +815,22 @@
 								<%assign var="itemTag" value=$item.author_name_cn%>
 								<%assign var="itemTagLink" value="/column/`$itemId`"%>
 								<%assign var="tagCanFollow" value="no"%>
+								<%assign var="itemHeadline" value=$itemHeadline|replace:"《":""|replace:"》":""%>
 							<%else%>
 								<%assign var="itemTagLink" value="/tag/`$itemTag`"%>
 							<%/if%>
-							<%if $tagCanFollow == "yes"%>
-								<%assign var="itemTag" value="<div class=item-tag><a href=\"`$itemTagLink`\">`$itemTag`</a><button class=\"myft-follow plus\" data-tag=\"`$itemTag`\" data-type=\"tag\">关注</button></div>"%>
-							<%else%>
-								<%assign var="itemTag" value="<div class=item-tag><a href=\"`$itemTagLink`\">`$itemTag`</a></div>"%>
+							<%if $itemTag != ""%>
+								<%if $tagCanFollow == "yes"%>
+									<%assign var="itemTag" value="<div class=item-tag><a href=\"`$itemTagLink`\">`$itemTag`</a><button class=\"myft-follow plus\" data-tag=\"`$itemTag`\" data-type=\"tag\">关注</button></div>"%>
+								<%else%>
+									<%assign var="itemTag" value="<div class=item-tag><a href=\"`$itemTagLink`\">`$itemTag`</a></div>"%>
+								<%/if%>
 							<%/if%>
 						<%/if%>
 
-
+						<%if $feedType=="columns"%>
+							<%assign var="itemHeadline" value=$itemHeadline|replace:"《":""|replace:"》":""%>
+						<%/if%>
 
 						<%assign var="itemTimeStamp" value=""%>
 						<%assign var="itemT" value=$item.timeStamp|default:$item.pubdate|default:$item.add_times%>
