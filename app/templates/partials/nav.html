@@ -12,7 +12,7 @@
 <%/if%>
 
 <%if $thirdnav=="basicsetting"%>
-<%assign var="navBasicsetting" value=" aria-selected=true"%> 
+<%assign var="navBasicsetting" value=" aria-selected=true"%>
 <%elseif $thirdnav=="changeicon"%>
 <%assign var="navChangeicon" value=" aria-selected=true"%> 
 <%elseif $thirdnav=="maillist"%>
@@ -85,11 +85,11 @@
                         <%/if%></a>
                       </li>
                       <%if $subnav=="tools"%>
-                          <li class="nav-item" data-channel="basicsetting"<%navBasicsetting%>><a class="nav-link" href="/users/setting/index">基本设置</a></li>
-                          <li class="nav-item" data-channel="changeicon"<%navChangeicon%>><a class="nav-link" href="/users/setting/changeicon">修改头像</a></li>
-                          <li class="nav-item" data-channel="maillist"<%navMaillist%>><a class="nav-link" href="/users/setting/maillist">邮件订阅</a></li>
-                          <li class="nav-item" data-channel="snsapi"<%navSnsapi%>><a class="nav-link" href="/index.php/snsapi/index">同步微博</a></li>
-                          <li class="nav-item" data-channel="commentstory"<%navCommentstory%>><a class="nav-link" href="/users/commentstory">我的评论</a></li>
+                          <li class="nav-item" data-channel="basicsetting"<%$navBasicsetting%>><a class="nav-link" href="/users/setting/index">基本设置</a></li>
+                          <li class="nav-item" data-channel="changeicon"<%$navChangeicon%>><a class="nav-link" href="/users/setting/changeicon">修改头像</a></li>
+                          <li class="nav-item" data-channel="maillist"<%$navMaillist%>><a class="nav-link" href="/users/setting/maillist">邮件订阅</a></li>
+                          <li class="nav-item" data-channel="snsapi"<%$navSnsapi%>><a class="nav-link" href="/index.php/snsapi/index">同步微博</a></li>
+                          <li class="nav-item" data-channel="commentstory"<%$navCommentstory%>><a class="nav-link" href="/users/commentstory">我的评论</a></li>
                       <%elseif !preg_match("/home/is",$level_1.code) || !preg_match("/myft/is",$topnav)%>
                         <%foreach from=$level_1.children item="level_2"%>
                           <li class="nav-item" <%if !empty($subnav) && ($subnav==$level_2.code)%>
