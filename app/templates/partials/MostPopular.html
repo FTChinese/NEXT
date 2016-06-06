@@ -3,12 +3,10 @@
 		<h2 class="list-title"><a href="/channel/weekly.html">十大热门文章</a></h2>
 		<ul class="top10">
 			<%assign var="i" value=0%>
-			<%assign var="mp" value=$storymodel->get_hot_story(1,15) %>
-			<%foreach item=sc from=$mp%>
-			<%if $sc.storyid!="001033136" && $i<10%>
+			<%easyapi command="60006"%>
+			<%foreach from=$data.odatalist item=sc name=foo%>
 				<%assign var="i" value=$i+1%>
-				<li class="mp<%$i%>"><span><%$i%>. </span><a target="_blank" href="/story/<%$sc.storyid%>?dailypop"><%$sc.cheadline%></a></li>
-			<%/if%>
+				<li class="mp<%$i%>"><span><%$i%>. </span><a target="_blank" href="/story/<%$sc.storyid%>?dailypop"><%$sc.title%></a></li>
 			<%/foreach%>
 		</ul>
 	</div>

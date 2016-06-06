@@ -1,0 +1,45 @@
+// bower:scss
+// endbower
+
+
+// @import "bourbon/_bourbon.scss";
+
+// vendor prefix
+@mixin vendor-prefix($name, $argument) {
+  -webkit-#{$name}: #{$argument};
+  -ms-#{$name}: #{$argument};
+  -moz-#{$name}: #{$argument};
+  -o-#{$name}: #{$argument};
+  #{$name}: #{$argument};
+}
+
+// common parts
+@import "theme-luxury.scss";
+@import "variables.scss";
+@import "mixins.scss";
+@import "common.scss";
+@import "header.scss";
+@import "o-nav.scss"; 
+/*@import "nav.scss";*/
+@import "banner.scss";
+@import "block.scss";
+@import "footer.scss";
+@import "qr.scss";
+@import "overlay.scss";
+
+// story page specific parts
+@import "common-content.scss";
+@import "story.scss";
+@import "tag-right-rail.scss";
+
+// media query
+@import "block-media-query.scss";
+
+// my ft
+@import "myft-follow.scss";
+
+// photo
+@import "photonews.scss";
+
+// special reports header
+@import "header-tag.scss";

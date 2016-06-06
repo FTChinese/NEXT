@@ -94,14 +94,14 @@ try {
 function contains(a, obj) {
     for (var i = 0; i < a.length; i++) {
         if (a[i].value === obj.value && a[i].tag === obj.tag) {
-            console.log ('yes:');
-            console.log (a[i]);
-            console.log (obj);
+            // console.log ('yes:');
+            // console.log (a[i]);
+            // console.log (obj);
             return true;
         } else {
-            console.log ('no:');
-            console.log (a[i]);
-            console.log (obj);
+            // console.log ('no:');
+            // console.log (a[i]);
+            // console.log (obj);
         }
     }
     return false;

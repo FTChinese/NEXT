@@ -6,6 +6,19 @@
 <%if !isset($adchannelID)||$adchannelID==""%>
     <%assign var="adchannelID" value="1100"%>
 <%/if%>
+
+<%assign var="itemIds" value="'0000'"%>
+<%foreach from=$p.sections item=section%>
+    <%if $section.type == "block"%>
+        <%foreach from=$section.lists item=list%>
+            <%foreach from=$list.items item=item%>
+                <%assign var="itemIds" value="`$itemIds`,'`$item.id`'"%>
+            <%/foreach%>
+        <%/foreach%>
+    <%/if%>
+<%/foreach%>
+<%assign var="itemIdsArray" value=$itemIds|replace:"'":""%>
+
 <!DOCTYPE html>
 <html class="no-js core" data-next-app="front-page">
     <head>
@@ -40,22 +53,29 @@
         <%if $pageId == "home"%>
             <style><%include file="next/styles/main.css"%></style>
         <%elseif $pageType == "job"%>
-            <%include file="next/styles/main-job.css"%></style>
+            <style><%include file="next/styles/main-job.css"%></style>
+        <%elseif $p.meta.theme == "ebook"%>
+            <style><%include file="next/styles/main-ebook.css"%></style>
+            <script type="text/javascript">var pageTheme = 'ebook';</script>
         <%elseif $p.meta.theme == "luxury"%>
             <style><%include file="next/styles/main-luxury.css"%></style>
             <script type="text/javascript">var pageTheme = 'luxury';</script>
         <%elseif $p.meta.theme == "myFT"%>
             <style><%include file="next/styles/main-myft.css"%></style>
+        <%elseif $p.meta.theme == "technology"%>
+            <style><%include file="next/styles/main-technology.css"%></style>
+        <%elseif $p.meta.theme == "lifestyle"%>
+            <style><%include file="next/styles/main-lifestyle.css"%></style>
         <%else%>
             <style><%include file="next/styles/main-tag.css"%></style>
         <%/if%>
         
-        <link rel="icon" type="image/png" href="https://image.webservices.ft.com/v1/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=32&height=32" sizes="32x32">
-        <link rel="icon" type="image/png" href="https://image.webservices.ft.com/v1/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=194&height=194" sizes="194x194">
-        <link rel="apple-touch-icon" sizes="180x180" href="https://image.webservices.ft.com/v1/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=180&height=180" />
+        <link rel="icon" type="image/png" href="http://image.webservices.ft.com/v1/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=32&height=32" sizes="32x32">
+        <link rel="icon" type="image/png" href="http://image.webservices.ft.com/v1/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=194&height=194" sizes="194x194">
+        <link rel="apple-touch-icon" sizes="180x180" href="http://image.webservices.ft.com/v1/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=180&height=180" />
         <link rel="manifest" href="/assets/manifest/manifest-v2.json" />
         <meta name="msapplication-TileColor" content="#fff1e0" />
-        <meta name="msapplication-TileImage" content="https://image.webservices.ft.com/v1/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=144&height=144" />
+        <meta name="msapplication-TileImage" content="http://image.webservices.ft.com/v1/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=144&height=144" />
 
 
         <script type="text/javascript">var startTime = new Date().getTime();</script>

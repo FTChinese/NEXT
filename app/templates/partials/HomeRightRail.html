@@ -50,11 +50,11 @@
 	-->*%>
 
 	<%if in_array(date("Ymd"),explode(",",$ad.Ribbon)) && $smarty.get.ad != "no"%>
-	<iframe id="ribbon" class="ad-hidden" width="100%" height="0" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="/m/marketing/a.html#adid=10000009&slot=986723212&pid=ribbon"></iframe>
+	<iframe id="ribbon" class="ad-hidden hide" width="100%" height="0" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="/m/marketing/a.html#adid=10000009&slot=986723212&pid=ribbon"></iframe>
 	<%/if%>
 
 	<div class="links-container P-hide">
-		<h2 class="list-title"><a href="/channel/stream.html">会员信息中心</a></h2>
+		<h2 class="list-title"><a href="/m/marketing/home.html">会员信息中心</a></h2>
 		<div class="links" id="member-info">
 		<a>...</a><a>...</a><a>...</a>
 		</div>
@@ -70,12 +70,12 @@
 	<%/if%>
 
 	<div class="interactives">
-		<h2 class="list-title"><a href="/channel/stream.html">互动与图辑</a></h2>
+		<h2 class="list-title"><a href="/channel/mba.html">互动与图辑</a></h2>
 
 
 
 
-		<%assign var="storyall" value=$interactivemodel->get_interactive_by_field_search("(find_in_set('测试',tag) or find_in_set('教程',tag) or find_in_set('QuizPlus',tag) or find_in_set('速读',tag) or find_in_set('数据新闻',tag)) and !find_in_set('广告互动教程',tag) and pubdate <= unix_timestamp(now())",0,5,30,10800)%>
+		<%assign var="storyall" value=$interactivemodel->get_interactive_by_field_search("(find_in_set('测试',tag) or find_in_set('教程',tag) or find_in_set('QuizPlus',tag) or find_in_set('速读',tag) or find_in_set('英语电台',tag) or find_in_set('数据新闻',tag)) and !find_in_set('广告互动教程',tag) and pubdate <= unix_timestamp(now())",0,5,30,10800)%>
 		<%assign var="photoall" value=$photonewsmodel->get_new_photonews(6)%>
 		<%assign var="storycount" value=$storyall|@count%>
 		<%assign var="photocount" value=$photoall|@count%>

@@ -43,10 +43,39 @@ document.documentElement.className = document.documentElement.className.replace(
     </script>
 <![endif]-->
 
+
+
+<!-- build:css styles/main-myft.css -->
+<link rel="stylesheet" href="styles/main-myft.css">
+<!-- endbuild -->
+
+<!-- build:css styles/main-job.css -->
+<link rel="stylesheet" href="styles/main-job.css">
+<!-- endbuild -->
+
+<!-- build:css styles/main-technology.css -->
+<link rel="stylesheet" href="styles/main-technology.css">
+<!-- endbuild -->
+
+
+
+<!-- build:css styles/main-search.css -->
+<link rel="stylesheet" href="styles/main-search.css">
+<!-- endbuild -->
+
+
+<!-- build:css styles/main-ebook.css -->
+<link rel="stylesheet" href="styles/main-ebook.css">
+<!-- endbuild -->
+
 <!-- build:css styles/main-tag.css -->
 <link rel="stylesheet" href="styles/main-tag.css">
 <!-- endbuild -->
 
+
+<!-- build:css styles/main-luxury.css -->
+<link rel="stylesheet" href="styles/main-luxury.css">
+<!-- endbuild -->
 
 <script type="text/javascript">
 if(typeof startTime === "undefined"){
@@ -112,6 +141,7 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 <a class="more last" href="http://user.ftchinese.com/register">免费注册</a>
 </span>
 <span class="member-box">
+<a href="/users/mystories">我的FT</a>
 <a id="ft-login-your-account" href="/users/cp">设置</a>
 <a id="ft-login-logout" href="http://user.ftchinese.com/logout">登出</a>
 </span>
@@ -167,48 +197,52 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 </ol>
 </li>
 <li class="nav-section"
-data-section="home">
+ data-section="home">
 <button class="nav-section-head mobile">首页</button>
 <a class="nav-section-head desktop" href="/">首页</a>
 </li>
 <li class="nav-section"
-data-section="china">
+ data-section="china">
 <button class="nav-section-head mobile">中国</button>
 <a class="nav-section-head desktop" href="/channel/china.html">中国</a>
 </li>
 <li class="nav-section"
-data-section="world">
+ data-section="world">
 <button class="nav-section-head mobile">全球</button>
 <a class="nav-section-head desktop" href="/channel/world.html">全球</a>
 </li>
 <li class="nav-section"
-data-section="economy">
+ data-section="economy">
 <button class="nav-section-head mobile">经济</button>
 <a class="nav-section-head desktop" href="/channel/economy.html">经济</a>
 </li>
 <li class="nav-section"
-data-section="markets">
+ data-section="markets">
 <button class="nav-section-head mobile">金融市场</button>
 <a class="nav-section-head desktop" href="/channel/markets.html">金融市场</a>
 </li>
 <li class="nav-section"
-data-section="business">
+ data-section="business">
 <button class="nav-section-head mobile">商业</button>
 <a class="nav-section-head desktop" href="/channel/business.html">商业</a>
 </li>
 <li class="nav-section"
-data-section="opinion">
+ data-section="innovation">
+<button class="nav-section-head mobile">创新经济</button>
+<a class="nav-section-head desktop" href="/channel/innovation.html">创新经济</a>
+</li>
+<li class="nav-section"
+ data-section="opinion">
 <button class="nav-section-head mobile">观点</button>
 <a class="nav-section-head desktop" href="/channel/opinion.html">观点</a>
 </li>
 <li class="nav-section"
-data-section="management">
+ data-section="management">
 <button class="nav-section-head mobile">管理</button>
 <a class="nav-section-head desktop" href="/channel/management.html">管理</a>
 </li>
 <li class="nav-section"
-aria-selected="true"
-data-section="lifestyle">
+ aria-selected="true" data-section="lifestyle">
 <button class="nav-section-head mobile">生活时尚</button>
 <a class="nav-section-head desktop" href="/channel/lifestyle.html">生活时尚</a>
 <ol class="nav-items">
@@ -217,40 +251,38 @@ data-section="lifestyle">
 频道首页
 </a>
 </li>
-<li class="nav-item"
-data-channel="pursuit">
+<li class="nav-item"  data-channel="pursuit">
 <a class="nav-link" href="/channel/pursuit.html">乐尚街</a>
 </li>
-<li class="nav-item"
-data-channel="taste">
+<li class="nav-item"  data-channel="taste">
 <a class="nav-link" href="/channel/taste.html">品味</a>
 </li>
-<li class="nav-item"
-data-channel="travel">
+<li class="nav-item"  data-channel="travel">
 <a class="nav-link" href="/channel/travel.html">旅行</a>
 </li>
-<li class="nav-item"
-data-channel="life">
+<li class="nav-item"  data-channel="life">
 <a class="nav-link" href="/channel/life.html">生活话题</a>
 </li>
-<li class="nav-item"
-data-channel="art">
+<li class="nav-item"  data-channel="art">
 <a class="nav-link" href="/channel/art.html">艺术与娱乐</a>
 </li>
-<li class="nav-item"
-data-channel="spend">
+<li class="nav-item"  data-channel="spend">
 <a class="nav-link" href="/channel/spend.html">消费经</a>
 </li>
-<li class="nav-item"
-data-channel="money">
+<li class="nav-item"  data-channel="money">
 <a class="nav-link" href="/channel/money.html">理财</a>
 </li>
 </ol>
 </li>
 <li class="nav-section"
-data-section="stream">
+ data-section="stream">
 <button class="nav-section-head mobile">视频</button>
 <a class="nav-section-head desktop" href="/channel/stream.html">视频</a>
+</li>
+<li class="nav-section"
+ data-section="english">
+<button class="nav-section-head mobile">每日英语</button>
+<a class="nav-section-head desktop" href="/channel/english.html">每日英语</a>
 </li>
 <li class="nav-section mobile login">
 <ul>
@@ -316,43 +348,44 @@ data-section="stream">
 <li><a href=""></a></li>
 </ul>
 </div>
-</div><div class="banner-placeholder">
-<div class="banner-container">
-<div class="banner-inner">
-<div class="banner-content">
-<script type="text/javascript">document.write (writeAd('tagbanner'));</script>
-</div>
-</div>
-</div>
-</div>
-<div class="block-container has-side"><div class="block-inner">
+</div><div class="block-container has-side side-right"><div class="block-inner">
 <div class="content-container"><div class="content-inner">
-<div class="list-container"><div class="list-inner">
-<div class="items">
 
-<div class="item-container XL8 L8 M12 S6 P12 has-image"><div class="item-inner">
+<div class="list-container"><div class="list-inner"><div class="items">
+
+<div class="item-container XL8 L8 M12 S12 S-double-width P12 has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067826#adchannelID=2052">Bobbi Brown这样生活</a></h2>
+<a class="image" target="_blank" href="/story/001067826#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000062261_piclink.jpg"></figure></a><div class="item-lead">Bobbi Brown品牌的创始人Bobbi Brown女士的个人风格符号，是自己设计的黑框眼镜。她正在巴哈马群岛的Baker海湾建自己的房子，她用旧LV行李箱当咖啡桌。<br />
+</div>
+<div class="relative-container">
+<h3 class="relative"><a href="/story/001067773" target="_blank">体验横渡海峡的帆船旅行</a></h3>
+<div class="clearfloat"></div>
+</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 XL-right L4 L-right M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067106#adchannelID=2052">卡地亚助力中国博物馆热潮</a></h2>
+<a class="image" target="_blank" href="/story/001067106#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000060676_piclink.jpg"></figure></a><div class="item-lead">卡地亚与中国政府签署框架协议，就艺术与文化交流项目展开合作。此举将助力中国博物馆建设热潮。卡地亚旗下的当代艺术基金会有丰富的艺术经营经验。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 XL-right XL-no-image L4 L-right L-no-image M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067676#adchannelID=2052">时装品牌纷纷出品时髦家具</a></h2>
+<a class="image" target="_blank" href="/story/001067676#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000061918_piclink.jpg"></figure></a><div class="item-lead">罗意威、Dolce & Gabbana、爱马仕和葆蝶家等时尚品牌纷纷进军家居行业，出品橱柜、灯具、椅子甚至冰箱等家居产品，拓展品牌版图，迎合消费者需求。<br />
+</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="XLT LT MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
 <h2 class="item-headline"><a target="_blank" href="/story/001067409#adchannelID=2052">时装秀到底在兜售什么？</a></h2>
 <a class="image" target="_blank" href="/story/001067409#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000061363_piclink.jpg"></figure></a><div class="item-lead">品牌时装门店里热卖的爆款，绝大多数并没有在T台上展示过，但消费者却是通过T台时装秀的表演而接受并认可品牌的定位与内涵的。</div>
 <div class="item-bottom"></div>
 </div></div>
 <div class=" MT PT"></div>
-<div class="item-container XL4 XL-half XL-right L4 L-half L-right M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067414#adchannelID=2052">品牌该以什么姿势植入艺术？</a></h2>
-<a class="image" target="_blank" href="/story/001067414#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000061356_piclink.jpg"></figure></a><div class="item-lead">宝马集团15年起设立“宝马艺术之旅”，赞助香港巴塞尔艺术展新艺术家，宝马的角度是“旅程”。大卫杜夫、瑞银、古驰、路易威登赞助艺术也各有创意。</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class=" MT PT ST"></div>
-<div class="item-container XL4 XL-half XL-right XL-lower L4 L-half L-right L-lower M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067317#adchannelID=2052">国王的早餐</a></h2>
-<a class="image" target="_blank" href="/story/001067317#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000061198_piclink.jpg"></figure></a><div class="item-lead">FT中文网专栏作家陈楠：在巴塞罗那大市场小吃摊，我们的早餐包括香草烩鹰嘴豆、小扁豆烩墨鱼、沙丁鱼、炖小牛脸和牛蹄、龙虾及生蚝。
-</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class="XLT LT MT PT"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067320#adchannelID=2052">衬衣成了女人的华丽时装</a></h2>
-<a class="image" target="_blank" href="/story/001067320#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000061201_piclink.jpg"></figure></a><div class="item-lead">这一季的女式衬衣已被提升到全新高度：有晚装款，宽松露肩款，系丝带的雕花图案款，成为高调华丽的服装款式，而且不分季节、不分场合，完全百搭。
-
+<h2 class="item-headline"><a target="_blank" href="/story/001067516#adchannelID=2052">收藏：古巴的国家特供雪茄</a></h2>
+<a class="image" target="_blank" href="/story/001067516#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000061587_piclink.jpg"></figure></a><div class="item-lead">古巴雪茄发行国家特供版已有十年历史，08年也为中国定制过名为“Armonia”的雪茄，祝福北京奥运会。它们像波尔多年份酒一样有收藏价值。<br />
 </div>
 <div class="item-bottom"></div>
 </div></div>
@@ -362,52 +395,52 @@ data-section="stream">
 <a class="image" target="_blank" href="/story/001067322#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000061191_piclink.jpg"></figure></a><div class="item-lead">阿斯顿马丁公司几十年前就建立了闻名遐迩的老爷车“维修处理中心”，如今捷豹、保时捷、法拉利纷纷跟进。老爷车不断升值，维修认证服务也成赚钱生意。</div>
 <div class="item-bottom"></div>
 </div></div>
-<div class=" MT PT"></div>
+<div class="XLT LT MT PT"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067213#adchannelID=2052">专访Graff珠宝主席Graff先生</a></h2>
-<a class="image" target="_blank" href="/story/001067213#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000061002_piclink.jpg"></figure></a><div class="item-lead">他创立了“从矿区到市场”的模式，让矿主、切割师、交易商、工艺师和银行集中起来，砍掉了中间商。黄钻，是Graff品牌的主打之一。
+<h2 class="item-headline"><a target="_blank" href="/story/001067317#adchannelID=2052">国王的早餐</a></h2>
+<a class="image" target="_blank" href="/story/001067317#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000061198_piclink.jpg"></figure></a><div class="item-lead">FT中文网专栏作家陈楠：在巴塞罗那大市场小吃摊，我们的早餐包括香草烩鹰嘴豆、小扁豆烩墨鱼、沙丁鱼、炖小牛脸和牛蹄、龙虾及生蚝。<br />
 </div>
 <div class="item-bottom"></div>
 </div></div>
-<div class="XLT LT MT PT ST"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067209#adchannelID=2052">王亚彬为英国芭蕾编舞</a></h2>
-<a class="image" target="_blank" href="/story/001067209#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000061013_piclink.jpg"></figure></a><div class="item-lead">宋佩芬：这是中国舞者第一次为英国国家芭蕾舞团编舞。英方制作人计划邀请更多中国编舞家及舞者前来演出。和中国相比，西方舞者更强调个性。</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class=" MT PT"></div>
+<div class=" MT PT ST"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
 <h2 class="item-headline"><a target="_blank" href="/story/001067214#adchannelID=2052">你知道怎么穿袜子吗？</a></h2>
 <a class="image" target="_blank" href="/story/001067214#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/5/000061015_piclink.jpg"></figure></a><div class="item-lead">过去两年，时尚人士都不穿袜子。但对商务人士来说，把袜子穿出时尚是门学问。尤其是商务男士，不戴领带时，裤角下面露出的那截袜子，尤显品味。</div>
 <div class="item-bottom"></div>
 </div></div>
-<div class=" MT PT ST"></div>
+<div class=" MT PT"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
 <h2 class="item-headline"><a target="_blank" href="/story/001067108#adchannelID=2052">今年的腕表：好货不贵</a></h2>
 <a class="image" target="_blank" href="/story/001067108#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000060679_piclink.jpg"></figure></a><div class="item-lead">丁之方：面对着不足20%的手腕戴表率，今年的中高端新品手表功能外型俱佳而价格不贵，与电子智能表一起争夺消费者宝贵的“手腕”资源。</div>
 <div class="item-bottom"></div>
 </div></div>
-<div class="XLT LT MT PT"></div>
+<div class="XLT LT MT PT ST"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067106#adchannelID=2052">卡地亚助力中国博物馆热潮</a></h2>
-<a class="image" target="_blank" href="/story/001067106#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000060676_piclink.jpg"></figure></a><div class="item-lead">卡地亚与中国政府签署框架协议，就艺术与文化交流项目展开合作。此举将助力中国博物馆建设热潮。卡地亚旗下的当代艺术基金会有丰富的艺术经营经验。</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class=" MT PT ST"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067105#adchannelID=2052">国际艺术界的“韩国风”</a></h2>
-<a class="image" target="_blank" href="/story/001067105#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000060672_piclink.jpg"></figure></a><div class="item-lead">韩国艺术近年屡获国际认可。韩国单色画在拍卖中屡创佳绩，艺术家摘得威尼斯双年展大奖。90年代韩国艺术家更是赢得了西方主流社会认可，并成时尚。
-</div>
+<h2 class="item-headline"><a target="_blank" href="/story/001067414#adchannelID=2052">品牌该以什么姿势植入艺术？</a></h2>
+<a class="image" target="_blank" href="/story/001067414#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000061356_piclink.jpg"></figure></a><div class="item-lead">宝马集团15年起设立“宝马艺术之旅”，赞助香港巴塞尔艺术展新艺术家，宝马的角度是“旅程”。大卫杜夫、瑞银、古驰、路易威登赞助艺术也各有创意。</div>
 <div class="item-bottom"></div>
 </div></div>
 <div class=" MT PT"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001066999#adchannelID=2052">圣罗兰任命新任创意总监</a></h2>
-<a class="image" target="_blank" href="/story/001066999#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000060474_piclink.jpg"></figure></a><div class="item-lead">前任创意总监斯理曼离职4天后，圣罗兰宣布比利时设计师安东尼•瓦卡莱洛继任，他以极简主义和当代性感的平衡著称。他的首场圣罗兰秀将于10月举行。
+<h2 class="item-headline"><a target="_blank" href="/story/001067209#adchannelID=2052">王亚彬为英国芭蕾编舞</a></h2>
+<a class="image" target="_blank" href="/story/001067209#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000061013_piclink.jpg"></figure></a><div class="item-lead">宋佩芬：这是中国舞者第一次为英国国家芭蕾舞团编舞。英方制作人计划邀请更多中国编舞家及舞者前来演出。和中国相比，西方舞者更强调个性。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067320#adchannelID=2052">衬衣成了女人的华丽时装</a></h2>
+<a class="image" target="_blank" href="/story/001067320#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000061201_piclink.jpg"></figure></a><div class="item-lead">这一季的女式衬衣已被提升到全新高度：有晚装款，宽松露肩款，系丝带的雕花图案款，成为高调华丽的服装款式，而且不分季节、不分场合，完全百搭。<br />
+<br />
 </div>
 <div class="item-bottom"></div>
 </div></div>
-<div class="XLT LT MT PT ST"></div>
+<div class="XLT LT MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067515#adchannelID=2052">西方抽象大师能征服中国吗？</a></h2>
+<a class="image" target="_blank" href="/story/001067515#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000061583_piclink.jpg"></figure></a><div class="item-lead">曾焱：西方抽象艺术大师级艺术家肖恩·斯库利在中国频频办展，策展人菲利普·多德表示，西方抽象艺术想进入中国藏家的财富视线，还需要时间。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
 <h2 class="item-headline"><a target="_blank" href="/story/001066998#adchannelID=2052">中国白酒挺进西方市场</a></h2>
 <a class="image" target="_blank" href="/story/001066998#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000060478_piclink.jpg"></figure></a><div class="item-lead">中国白酒开始走向国际市场。五粮液赞助了伦敦交响乐团，为观众提供免费品尝的白酒。但白酒的气味，过高的酒精量和豪饮文化，是海外推广的障碍。</div>
@@ -415,81 +448,32 @@ data-section="stream">
 </div></div>
 <div class=" MT PT"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001066997#adchannelID=2052">腕表“好货”的标准正在变化</a></h2>
-<a class="image" target="_blank" href="/story/001066997#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000060481_piclink.jpg"></figure></a><div class="item-lead">丁之方：今年的巴塞尔钟表展，复刻版之多，产品之精美，价格之实惠都远在往年之上。复古与经典成卖点，让人眼前一亮的新技术乏善可陈。 </div>
-<div class="item-bottom"></div>
-</div></div>
-<div class=" MT PT ST"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001066904#adchannelID=2052">中国艺术家在多哈说艺术</a></h2>
-<a class="image" target="_blank" href="/story/001066904#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000060281_piclink.jpg"></figure></a><div class="item-lead">宋佩芬：卡塔尔与中国共同举办文化年，艺术家蔡国强策展了“说说艺术怎么样”，挑选15+1位中国艺术家去多哈对谈艺术。
-</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class="XLT LT MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001066906#adchannelID=2052">西方设计师家居中国遇冷</a></h2>
-<a class="image" target="_blank" href="/story/001066906#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000060288_piclink.jpg"></figure></a><div class="item-lead">郑静：曾经轰动一时的“设计上海”展吸引了不少西方设计大师来中国淘金，但今年第三届“设计上海”展上，西方设计师家居品牌越来越少。</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class=" MT PT ST"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001066905#adchannelID=2052">品尝上海福和慧素食餐厅</a></h2>
-<a class="image" target="_blank" href="/story/001066905#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/5/000060285_piclink.jpg"></figure></a><div class="item-lead">福和慧素食餐厅和姐妹餐厅福1015同时入选圣培露评选的“亚洲50家最佳餐厅”名录，位列第19位。餐厅包间为日式极简风格，主厨为上海大厨卢怿明。</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class=" MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001066800#adchannelID=2052">当欧莱雅遇到中国90后</a></h2>
-<a class="image" target="_blank" href="/story/001066800#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000059994_piclink.jpg"></figure></a><div class="item-lead">FT中文网生活时尚版主编薛莉：欧莱雅集团2015年在中国的发展增速已相对放缓，通过在线销售向三四五线城市渗透，成为他们的新增长机遇。
-</div>
+<h2 class="item-headline"><a target="_blank" href="/story/001067514#adchannelID=2052">美国追捧的全新时装品牌</a></h2>
+<a class="image" target="_blank" href="/story/001067514#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000061590_piclink.jpg"></figure></a><div class="item-lead">罗塞塔•盖蒂、The Row、罗奇•瑞恩等新锐设计师创立的品牌，风格多以精致、随意搭配、耐穿为特点，虽然款式不多，却赢得美国市场的追捧。</div>
 <div class="item-bottom"></div>
 </div></div>
 <div class="XLT LT MT PT ST"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001066799#adchannelID=2052">香港艺术周，怎么逛？</a></h2>
-<a class="image" target="_blank" href="/story/001066799#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000059990_piclink.jpg"></figure></a><div class="item-lead">宋佩芬：3月21-27是香港疯狂艺术周，会展中心的巴塞尔艺术展有两百家画廊、近250亿港币的艺术品，商场内、街道边也成了免费艺术秀场。</div>
+<h2 class="item-headline"><a target="_blank" href="/story/001066800#adchannelID=2052">当欧莱雅遇到中国90后</a></h2>
+<a class="image" target="_blank" href="/story/001066800#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000059994_piclink.jpg"></figure></a><div class="item-lead">FT中文网生活时尚版主编薛莉：欧莱雅集团2015年在中国的发展增速已相对放缓，通过在线销售向三四五线城市渗透，成为他们的新增长机遇。<br />
+</div>
 <div class="item-bottom"></div>
 </div></div>
 <div class=" MT PT"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
 <h2 class="item-headline"><a target="_blank" href="/story/001066801#adchannelID=2052">瑞士独立制表人寻找金主</a></h2>
-<a class="image" target="_blank" href="/story/001066801#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000059997_piclink.jpg"></figure></a><div class="item-lead">丁之方：钟表业大公司的扩张步伐明显变缓，为它们服务的小企业利润不足，步履维艰。不少瑞士独立钟表企业有意出让一些股权寻找金主。
+<a class="image" target="_blank" href="/story/001066801#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000059997_piclink.jpg"></figure></a><div class="item-lead">丁之方：钟表业大公司的扩张步伐明显变缓，为它们服务的小企业利润不足，步履维艰。不少瑞士独立钟表企业有意出让一些股权寻找金主。<br />
 </div>
 <div class="item-bottom"></div>
 </div></div>
 <div class=" MT PT ST"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001066682#adchannelID=2052">巴黎时装周五大潮流</a></h2>
-<a class="image" target="_blank" href="/story/001066682#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000059209_piclink.jpg"></figure></a><div class="item-lead">在刚结束的巴黎时装周上，FT时装编辑总结出2016年秋冬时装的五大潮流，从蓬蓬夹克到金属风衣，结合各品牌最新发布的时装，与读者分享。</div>
+<h2 class="item-headline"><a target="_blank" href="/story/001066342#adchannelID=2052">新西兰式的奢侈游</a></h2>
+<a class="image" target="_blank" href="/story/001066342#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000058988_piclink.jpg"></figure></a><div class="item-lead">在新西兰，游客不会血拼普拉达与路易维登，而是享用鲍鱼、看海景公寓、享受原生态环境。新西兰的高端旅游战略旨在吸引全球40-60岁富豪。<br />
+</div>
 <div class="item-bottom"></div>
 </div></div>
 <div class="XLT LT MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001066687#adchannelID=2052">Lanvin换帅</a></h2>
-<a class="image" target="_blank" href="/story/001066687#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000059704_piclink.jpg"></figure></a><div class="item-lead">Lanvin任命布什哈•加拉尔为新设计总监。2015年Lanvin利润下滑250万欧元，前任设计总监Alber Elbaz被台湾女商人王效兰解约。加拉尔设计以简约闻名。
-</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class=" MT PT ST"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001066686#adchannelID=2052">英国流行喝中国白茶</a></h2>
-<a class="image" target="_blank" href="/story/001066686#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000059708_piclink.jpg"></figure></a><div class="item-lead">张璐诗：中国白茶“白毫银针”和“白牡丹”成为伦敦优雅下午茶室里备受青睐的茶种。摄政街上的茶餐馆和咖啡室里，这两款白茶是菜单中最昂贵的茶品。</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class=" MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001066571#adchannelID=2052">唐卡：价值的逻辑</a></h2>
-<a class="image" target="_blank" href="/story/001066571#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000059464_piclink.jpg"></figure></a><div class="item-lead">盛立宇：唐卡兼具艺术品和宗教法物的双重属性，市场价格极其不透明。西藏唐卡一线大师的亲笔作品不过触及百万门槛，应该说市场价值被低估了。</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class="XLT LT MT PT ST"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001066569#adchannelID=2052">街拍：时尚界的热门生意</a></h2>
-<a class="image" target="_blank" href="/story/001066569#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000059442_piclink.jpg"></figure></a><div class="item-lead">以前时装爱好者去时装周看秀是为了欣赏时装，现在则为秀自己的时装，在社交媒体上获利。时装“大V”秀的时装只比T台上刚亮相的晚几个小时。</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class=" MT PT"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
 <h2 class="item-headline"><a target="_blank" href="/story/001066573#adchannelID=2052">“时装电影”崛起</a></h2>
 <a class="image" target="_blank" href="/story/001066573#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/5/000059445_piclink.jpg"></figure></a><div class="item-lead">2015年许多时装设计师跨界导演电影。汤姆•福特之前导演的《单身男子》曾获奥斯卡提名和英国BAFTA奖，新片《Nocturnal Animals》也被看好。</div>
@@ -497,96 +481,50 @@ data-section="stream">
 </div></div>
 <div class=" MT PT ST"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001066457#adchannelID=2052">时装周过气了吗？</a></h2>
-<a class="image" target="_blank" href="/story/001066457#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000059209_piclink.jpg"></figure></a><div class="item-lead">通常时装周上展示的服装要数月后才能在专柜买到，但今年的纽约时装周上出现了“现看现买”、“秀场直通卖场”的新现象。时装界的的新变局诞生了。</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class="XLT LT MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001066460#adchannelID=2052">为奥斯卡配乐的古典音乐家</a></h2>
-<a class="image" target="_blank" href="/story/001066460#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000059202_piclink.jpg"></figure></a><div class="item-lead">左驰：许多为好莱坞电影配乐的都是古典音乐家，包括为宫崎骏电影配乐的久石让、为《星球大战》配乐的约翰·威廉姆斯等。他们之间并没有鸿沟。</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class=" MT PT ST"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001066453#adchannelID=2052">中式火锅为何欧洲蒙冤？</a></h2>
-<a class="image" target="_blank" href="/story/001066453#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000059206_piclink.jpg"></figure></a><div class="item-lead">FT中文网专栏作家陈楠：英国知名食评家杰·瑞纳最近将中式自助回转火锅称为“一顿侮辱饭”，对食物持开放心态的巴黎人也不会享受中式火锅。</div>
+<h2 class="item-headline"><a target="_blank" href="/story/001066687#adchannelID=2052">Lanvin换帅</a></h2>
+<a class="image" target="_blank" href="/story/001066687#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000059704_piclink.jpg"></figure></a><div class="item-lead">Lanvin任命布什哈•加拉尔为新设计总监。2015年Lanvin利润下滑250万欧元，前任设计总监Alber Elbaz被台湾女商人王效兰解约。加拉尔设计以简约闻名。<br />
+</div>
 <div class="item-bottom"></div>
 </div></div>
 <div class=" MT PT"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001066344#adchannelID=2052">钟表界萌动着新玩家</a></h2>
-<a class="image" target="_blank" href="/story/001066344#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000058981_piclink.jpg"></figure></a><div class="item-lead">丁之方：2016年日内瓦钟表珠宝沙龙展的大品牌依旧中规中矩，倒是MB&F、Urwerk、Greubel Forsey等独立品牌的设计新品在引领潮流。
+<h2 class="item-headline"><a target="_blank" href="/story/001066904#adchannelID=2052">中国艺术家在多哈说艺术</a></h2>
+<a class="image" target="_blank" href="/story/001066904#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000060281_piclink.jpg"></figure></a><div class="item-lead">宋佩芬：卡塔尔与中国共同举办文化年，艺术家蔡国强策展了“说说艺术怎么样”，挑选15+1位中国艺术家去多哈对谈艺术。<br />
 </div>
-<div class="item-bottom"></div>
-</div></div>
-<div class="XLT LT MT PT ST"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001066343#adchannelID=2052">时装设计师跨界手工艺品</a></h2>
-<a class="image" target="_blank" href="/story/001066343#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000058984_piclink.jpg"></figure></a><div class="item-lead">伦敦新锐时装品牌Bruta，设计师阿瑟•叶芝配合时装推出了手绘陶缸。Gucci设计总监亚历桑德罗•米歇尔是这股潮流的推手，他本人是狂热的陶瓷藏家。</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class=" MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001066342#adchannelID=2052">新西兰式的奢侈游</a></h2>
-<a class="image" target="_blank" href="/story/001066342#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000058988_piclink.jpg"></figure></a><div class="item-lead">在新西兰，游客不会血拼普拉达与路易维登，而是享用鲍鱼、看海景公寓、享受原生态环境。新西兰的高端旅游战略旨在吸引全球40-60岁富豪。
-</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class=" MT PT ST"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001066234#adchannelID=2052">伦敦莎翁400周年祭精彩纷呈</a></h2>
-<a class="image" target="_blank" href="/story/001066234#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000058799_piclink.jpg"></figure></a><div class="item-lead">2016年，伦敦各大小剧场、音乐厅、展厅将有数不尽的莎翁剧作和与莎翁剧作相关的音乐作品演出次第展开。其中不少演出创意新颖，惊世骇俗。</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class="XLT LT MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001066236#adchannelID=2052">再游缅甸</a></h2>
-<a class="image" target="_blank" href="/story/001066236#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/5/000058795_piclink.jpg"></figure></a><div class="item-lead">李小龙：在仰光，我似乎回到了中国八九十年代，但仰光的变化比那时的北京还要迅疾。纪念品商店里昂山素季的像章触动了我的某根敏感神经。
-
-</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class=" MT PT ST"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001066235#adchannelID=2052">穿衣服得“流性”！</a></h2>
-<a class="image" target="_blank" href="/story/001066235#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000058802_piclink.jpg"></figure></a><div class="item-lead">“流性”风(Gender fluidity)既包括男装女穿也包括女装男穿。路易维登女装新代言人竟是影星威尔•史密斯(Will Smith) 17岁的儿子杰登•史密斯。</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class=" MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001066070#adchannelID=2052">我收藏的食谱奇书</a></h2>
-<a class="image" target="_blank" href="/story/001066070#adchannelID=2052"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000058458_piclink.jpg"></figure></a><div class="item-lead">陈楠：我收藏的食谱不仅包括三本欧美著名历史食谱奇书，也包括朋友们送的《我们的家传菜谱》。今天特奉上我家春节家宴祖传菜谱。</div>
 <div class="item-bottom"></div>
 </div></div>
 <div class="clearfloat"></div>
 </div>
-</div></div>
-<div class="clearfloat block-bottom"></div>
+</div></div><div class="clearfloat block-bottom"></div>
 </div></div>
 <div class="side-container"><div class="side-inner">
-<div class="mpu-container first-child">
+    
+<div class="side-list first-child imageAndText">
+<div class="item-container first has-image"><div class="item-inner">
+<a class="image" target="_blank" href="http://v.qq.com/page/l/0/v/l0303x54dnv.html"><figure class="loading" data-url="http://creatives.ftchinese.com/ads/beijing/201606/cartier-videoimage-960-540.jpg"></figure></a><h2 class="item-headline"><a target="_blank" href="http://v.qq.com/page/l/0/v/l0303x54dnv.html">卡地亚微电影《手》</a></h2>
+</div></div>
+</div>
+<div class="mpu-container">
 <script type="text/javascript">document.write (writeAd('mpu'));</script>
 </div>
-<div class="mps">
-<h2 class="list-title"><a href="/channel/weekly.html">十大热门文章</a></h2>
+<div class="mps last-child">
+<h2 class="list-title"><a href="/channel/weekly.html">热门文章</a></h2>
 <ul class="top10">
-<li class="mp1"><span>1. </span><a target="_blank" href="/story/001067457?dailypop">中国的“机器人革命”</a></li>
-<li class="mp2"><span>2. </span><a target="_blank" href="/story/001067458?dailypop">“权威人士”定调L型，经济驶入何方？</a></li>
-<li class="mp3"><span>3. </span><a target="_blank" href="/story/001067463?dailypop">希拉里与特朗普：保守派该选谁？</a></li>
-<li class="mp4"><span>4. </span><a target="_blank" href="/story/001067434?dailypop">《枝繁叶茂》聚焦中国农村</a></li>
-<li class="mp5"><span>5. </span><a target="_blank" href="/story/001067465?dailypop">“菲律宾特朗普”即将当选菲律宾下届总统</a></li>
-<li class="mp6"><span>6. </span><a target="_blank" href="/story/001067462?dailypop">谁在制造南海紧张局势？</a></li>
-<li class="mp7"><span>7. </span><a target="_blank" href="/story/001067450?dailypop">中国国企改革：从改什么到怎么改</a></li>
-<li class="mp8"><span>8. </span><a target="_blank" href="/story/001067453?dailypop">中国网络直播的“战国时代”</a></li>
-<li class="mp9"><span>9. </span><a target="_blank" href="/story/001067470?dailypop">分析：中国仍有资本外流压力</a></li>
-<li class="mp10"><span>10. </span><a target="_blank" href="/story/001067475?dailypop">美军舰驶至南中国海永暑礁附近</a></li>
+
+<li class="mp1"><span>1. </span><a target="_blank" href="/story/001067819?dailypop">中国城乡差距的根源</a></li>
+<li class="mp2"><span>2. </span><a target="_blank" href="/story/001067856?dailypop">中国会出现银行业危机吗？</a></li>
+<li class="mp3"><span>3. </span><a target="_blank" href="/story/001067851?dailypop">互联网金融乱象：中国式“钓愚”潜规则</a></li>
+<li class="mp4"><span>4. </span><a target="_blank" href="/story/001067850?dailypop">中国学者呼吁加强马克思主义经济学教学</a></li>
+<li class="mp5"><span>5. </span><a target="_blank" href="/story/001067861?dailypop">新闻业衰落中记者的担当</a></li>
+<li class="mp6"><span>6. </span><a target="_blank" href="/story/001067780?dailypop">广州十三行启示录（上）</a></li>
+<li class="mp7"><span>7. </span><a target="_blank" href="/story/001067846?dailypop">小米向微软购买1500项专利</a></li>
+<li class="mp8"><span>8. </span><a target="_blank" href="/story/001067854?dailypop">Lex专栏：中国“弃风”问题难解</a></li>
+<li class="mp9"><span>9. </span><a target="_blank" href="/story/001067834?dailypop">再说故乡的麦子</a></li>
+<li class="mp10"><span>10. </span><a target="_blank" href="/story/001067839?dailypop">香港奢侈品市场风光不再</a></li>
 </ul>
 </div>
-<div class="mpu-container last-child">
-<script type="text/javascript">document.write (writeAd('mpu'));</script>
-</div>
-</div></div><div class="clearfloat"></div>
+</div></div>
+<div class="clearfloat"></div>
 </div></div><div class="footer-container"><div class="footer-inner">
 <div>
 <a href="/m/corp/aboutus.html">关于我们</a>
@@ -626,12 +564,7 @@ data-section="stream">
 
 
 
-
-
-
-
-
- </body>
+</body>
 
 <!--[if lte IE 8]>
 <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
@@ -641,6 +574,7 @@ data-section="stream">
 <script type="text/javascript" src="scripts/dom-delegate.js"></script>
 <script type="text/javascript" src="scripts/o-nav.js"></script>
 <script type="text/javascript" src="scripts/main.js"></script>
+<script type="text/javascript" src="scripts/myft-follow.js"></script>
 
 </html>
 

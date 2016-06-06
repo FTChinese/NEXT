@@ -1,0 +1,115 @@
+<%if $smarty.get.type=="photoslide" && $smarty.get.id!=""%>
+    <%assign var="info" value=$photonewsmodel->get_photonews_info_by_id("`$smarty.get.id`",0,1)%>
+<%/if%>
+<style>
+<%if preg_match("/多种形状图片/is",$info.tags)%>
+.o-gallery__item {
+    background-color: #333;
+}
+.o-gallery__item__content.o-gallery__item__rect {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    overflow:hidden;
+}
+.o-gallery--dummy {
+    padding-top: 56.275720164609%; 
+}
+.o-gallery__item__content.o-gallery__item__rect img {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display:block;
+    margin:auto;
+    max-width:100%;
+    max-height:100%;
+    width:auto;
+    height:auto;
+}
+<%/if%>
+</style>
+ 
+<%*<!--Photo Slide Start-->*%>
+<div class="block-container has-side story-page"><div class="block-inner">
+    <div class="content-container"><div class="content-inner">
+        <div class="story-container ce">
+            <h1 class="story-headline"><%$storyHeadline%></h1>
+            <div class="story-share-placeholder" id="story-share-placeholder">
+                <div class="story-share">
+                    <div class="share-inner">
+                        <a class="share-icon icon-wechat" href="<%$wechatUrl%>" target="_blank"></a>
+                        <a class="share-icon icon-weibo" href="<%$sinaUrl%>" target="_blank"></a>
+                        <a class="share-icon icon-linkedin" href="<%$linkedInUrl%>" target="_blank"></a>
+                        <a class="share-icon icon-twitter" href="<%$twitterUrl%>" target="_blank"></a>
+                        <a class="share-icon icon-facebook" href="<%$facebookUrl%>" target="_blank"></a>
+                        <a class="icon-right icon-action icon-share" onclick="showOverlay('share-legacy')"></a>
+                    </div>
+                </div>
+            </div>
+            <div class="story-byline">
+                <span class="story-time"><%$storyTime%></span>
+                <span class="story-author"><%$storyAuthor%></span>
+            </div>
+            <div class="story-body">
+                <div id="declarative-slideshow-with-thumbnails" class="o-gallery o-gallery--slideshow" data-o-component="o-gallery" data-o-version="1.0.0" data-o-gallery-syncid="declarative-slideshow-with-thumbnails" data-o-gallery-captionminheight="30" data-o-gallery-captionmaxheight="50" data-o-gallery-touch=false>
+                    <ol class="o-gallery__items">
+                        <%foreach from=$info.picturelist item=pi name=pi1%>
+                            <li class="o-gallery__item"<%if $smarty.foreach.pi1.index==0%> aria-selected="true"<%/if%>>
+                                <div class="o-gallery__item__content o-gallery__item__rect">
+                                    <%if preg_match("/多种形状图片/is",$info.tags)%><div class="o-gallery--dummy"></div><%/if%>
+                                    <img alt="" src="http://i.ftimg.net/<%$pi.pic_url%>">
+                                </div>
+                                <div class="o-gallery__item__caption o-gallery__item__main"><%$pi.pbody%></div>
+                            </li>                                
+                        <%/foreach%>
+                    </ol>
+                </div>
+                <div class="o-gallery o-gallery--thumbnails" data-o-component="o-gallery" data-o-version="1.0.0" data-o-gallery-syncid="declarative-slideshow-with-thumbnails" data-o-gallery-multipleitemsperpage="true" data-o-gallery-touch=false>
+                    <ol class="o-gallery__items">
+                        <%foreach from=$info.picturelist item=pi name=pi2%>
+                            <li class="o-gallery__item"<%if $smarty.foreach.pi2.index==0%> aria-selected="true"<%/if%>>
+                                <div class="o-gallery__item__content"><img src="http://i.ftimg.net/<%$pi.pic_url%>"></div>
+                            </li>
+                        <%/foreach%>
+                    </ol>
+                </div>
+            </div>
+            <div class="clearfloat"></div>
+        </div>
+        <%assign var="allstory" value=$photonewsmodel->get_new_photonews(50)%>
+        <%include file="next/partials/photo-more.html"%>
+    <div class="clearfloat block-bottom"></div>
+    </div></div>
+    <%include file="next/partials/PhotoRightRail.html"%>
+    <div class="clearfloat"></div>
+</div></div>
+
+<%*<!--Photo Slide End-->*%>
+
+
+<script>
+var gDispatchResizeEvent = false;
+if (isIE() === true) {
+    var script = document.createElement('script');
+    script.src = 'http://static.ftchinese.com/js/jquery-1.10.2.min.js?0';
+    script.onload = function () {
+        initSlideShow("declarative-slideshow-with-thumbnails");
+    };
+    document.head.appendChild(script); //or something of the likes
+} else {
+document.getElementById("declarative-slideshow-with-thumbnails").addEventListener("oGallery.itemSelect",function(event){
+    recordpv2();
+    if (gDispatchResizeEvent === false) { 
+        window.dispatchEvent(new Event('resize'));
+        gDispatchResizeEvent = true;
+    }
+});
+try {
+    document.dispatchEvent(new Event('o.DOMContentLoaded'));
+} catch (ignore) {
+    //console.log (ignore.toString());
+}
+}
+</script>

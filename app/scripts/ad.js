@@ -227,7 +227,7 @@ var adMax = {};
 var adPositions = {
   'banner': ['0001','0006','0007','0008'],
   'tagbanner': ['0010'],
-  'mpu': ['0003', '0004', '0005', '0004'],
+  'mpu': ['0003', '0004', '0005'],
   'tagmpu': ['0012', '0013'],
   'storympu': ['0005', '0003', '0004', '0003'],
   'ipadhomempu': ['0003', '0004'],
@@ -288,6 +288,8 @@ function writeAd(adType) {
 
   if (window.pageTheme === 'luxury') {
     bannerBG = '&bg=e0cdac';
+  } else if (window.pageTheme === 'ebook') {
+    bannerBG = '&bg=777777';
   }
 
   adFileName = (adType === 'banner' &&  adCount[adType] === 0) ? 'topbanner' : 'a';

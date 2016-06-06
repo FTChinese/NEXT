@@ -4,7 +4,7 @@
 		margin-bottom: $defaultPadding;
 	}
 	a {
-		color: $darkGrey;
+		color: $fontColor;
 	}
 	&.fixside {
 		.side-inner {
@@ -161,6 +161,14 @@
 	padding: $figureHeight $defaultPadding/2 $defaultPadding $defaultPadding/2;
 	position: relative;
 }
+.ebook {
+	.item-inner {
+		padding: $figureHeightPortrait $defaultPadding/2 0 $defaultPadding/2;
+	}
+	.image {
+		padding-bottom:0;
+	}
+}
 
 .item-headline, .relative-container {
 	a {
@@ -184,19 +192,21 @@
 	}
 }
 .item-lead {
-	color: $lightGrey;
+	color: $lightFontColor;
 	font-size: 0.9em;
 }
 .item-tag {
-	color: $red;
+	color: $highlightColor;
 	font-size: 14px;
 	font-weight: bold;
 	padding-bottom: $defaultPadding/2;
+	//vertical-align: middle;
 	a {
 		color: $red;
+		vertical-align: middle;
 		&:hover, &:active {
-			border-bottom-color: $darkGrey;
-			color: $darkGrey;
+			border-bottom-color: $fontColor;
+			color: $fontColor;
 		}
 	}
 }
@@ -260,6 +270,36 @@
 			
 			transform: scale(1.05);
 		}
+	}
+	&.leftPic, &.rightPic {
+		position: static;
+	}
+	&.portrait-img {
+		figure {
+			padding-bottom: 133.33333333%;
+		}
+	}
+}
+.icon-title {
+	.item-inner {
+		padding: 0 $defaultPadding/2 $defaultPadding $iconWidth+$defaultPadding;
+	}
+	&.no-image {
+		.item-inner {
+			padding-left: $defaultPadding/2;
+		}
+	}
+	.image {
+		width: $iconWidth;
+		height: $iconWidth;
+		figure {
+			padding-bottom: 100%;
+			background-color: transparent;
+		}
+	}
+	.item-headline {
+		height: $iconWidth;
+		line-height: $iconWidth;
 	}
 }
 
@@ -380,6 +420,18 @@
 			}
 		}
 	}
+	.imageAndText {
+		.item-container.first {
+			.item-headline {
+				position: static;
+				background-color: transparent;
+				color: inherit;
+				a {
+					color: inherit;
+				}
+			}
+		}
+	}
 }
 .item-description {
 	padding: 0 $defaultPadding/2;
@@ -409,8 +461,8 @@
 		background-size: 20px;
 		background-position: right center;
 		background-repeat: no-repeat;
-		background-image: url(http://static.ftchinese.com/icons/svg/tick.svg);
-		background-image: url(http://static.ftchinese.com/img/png/tick.png)\9;
+		background-image: url(//image.webservices.ft.com/v1/images/raw/fticon:tick-thin?format=svg&source=o-icons);
+		background-image: url(//image.webservices.ft.com/v1/images/raw/fticon:plus?width=32&format=png&source=o-icons)\9;
 	}
 }
 .top10 {
@@ -424,7 +476,7 @@
 			border: 0;
 		}
 		span {
-			color: $red;
+			color: $highlightColor;
 			//padding-right: $defaultPadding/2;
 			//text-align: right;
 			//display: inline-block;
@@ -432,6 +484,67 @@
 		}
 	}
 }
+
+.video-package {
+	.items {
+		padding: 0 $defaultPadding/4;		
+	}
+
+	.item-inner {
+		padding: $figureHeight $defaultPadding/4 $defaultPadding $defaultPadding/4;
+		//padding-bottom: 0;
+	}
+	&.last-child {
+		.item-container {
+			>.item-inner {
+				//padding: $figureHeight $defaultPadding/4 0 $defaultPadding/4;
+				padding-bottom: 0;
+			}
+		}
+	}
+	.item-headline {
+		font-size: 0.75em;
+		font-weight: normal;
+	}
+	.image {
+		left: $defaultPadding/4;
+		right: $defaultPadding/4;
+		border: 2px solid transparent;
+		padding-bottom: 0;
+		&:hover, &.active {
+			border-color: $blue;
+		}
+	}
+	.on .image {
+		border-color: $blue;
+	}
+}
+.video-package-inner {
+	&.item-inner {
+		position: relative;
+		padding: 0 $defaultPadding/4 $defaultPadding/2 $defaultPadding/4;
+	}
+	.image {
+		position: static;
+		border-width: 0;
+		margin-bottom: 0;
+		figure {
+			background-color: black;
+			color: white;
+		}
+	}
+}
+.video-package-title {
+	background-color: black;
+	padding: $defaultPadding/4;
+	a {
+		color: white;
+		&:hover, &:active {
+			text-decoration: underline;
+		}
+	}
+}
+
 .P-only {
 	display: none;
 }

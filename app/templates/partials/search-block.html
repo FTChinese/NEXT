@@ -1,0 +1,69 @@
+<div class="block-container has-side"><div class="block-inner">
+	<div class="content-container"><div class="content-inner">
+		<div class="list-container"><div class="list-inner">
+			<div class="no-image"><div class="item-inner">
+				<form action=/search/ method=get class="filter">
+					<div class="select-container">
+						<div class="select-item">
+							<div class="select-label">搜索</div>
+							<input name=keys id=thekeys type=text value="<%$newKeys%>">
+						</div>
+						<div class="select-item">
+							<div class="select-label">范围</div>
+							<select name=type>
+								<option value="default"<%if $type=="default"%> selected<%/if%>>全文</option>
+								<option value="name"<%if $type=="name"%> selected<%/if%>>标题</option>
+								<option value="relative_byline"<%if $type=="relative_byline"%> selected<%/if%>>作者名</option>
+								<option value="relative_tag"<%if $type=="relative_tag"%> selected<%/if%>>标签</option>
+							</select>
+						</div>
+						<div class="select-item">
+							<div class="select-label">类型</div>
+							<select name=category>
+								<option value=""<%if $category=="" || $category=="all"%> selected<%/if%>>所有</option>
+								<option value="news"<%if $category=="news"%> selected<%/if%>>新闻</option>
+								<option value="analysis"<%if $category=="analysis"%> selected<%/if%>>分析</option>
+								<option value="comment"<%if $category=="comment"%> selected<%/if%>>评论与专栏</option>
+								<option value="feature"<%if $category=="feature"%> selected<%/if%>>特写</option>
+								<option value="video"<%if $category=="video"%> selected<%/if%>>视频</option>
+								<option value="letter"<%if $category=="letter"%> selected<%/if%>>读者来信</option>
+								<option value="other"<%if $category=="other"%> selected<%/if%>>其他</option>
+							</select>
+						</div>
+					</div>
+					<div class="submit-container">
+						<input type=submit value="搜索" class="filter-submit">
+					</div>
+				</form>
+			</div></div>
+
+			<script>
+			document.getElementById('thekeys').focus();
+			</script>
+
+			<%if $count_result>0%>
+				<%foreach from=$search_result item=sc name=foo%>
+					<div class="XLT LT ST MT PT"></div>
+					<div class="item-container one-row no-image"><div class="item-inner">
+						<h2 class="item-headline"><a href="/<%if $sc.isvideo=="1"%>video<%elseif $sc.type == 'interactive'%>interactive<%elseif $sc.type == 'photonews'%>photonews<%else%>story<%/if%>/<%if $sc.type == 'photonews'%><%$sc.photonewsid%><%else%><%$sc.id%><%/if%>" target=_blank><%$sc.cheadline|regex_replace:"/\<br\>/":""%></a></h2>
+						<div class="item-lead"><%$sc.cbody|default:$sc.clongleadbody%></div>
+						<a class="item-time" href="/archiver/<%$sc.pubdate|date_format:"%Y-%m-%d"%>" target=_blank><%$sc.pubdate|date_format:"%Y-%m-%d"%></a>
+						<div class="item-bottom"></div>
+					</div></div>
+				<%/foreach%>
+			<%else%>
+				<div class="no-image"><div class="item-inner">
+				对不起，我们的搜索引擎没有找到完全符合您的搜索条件的结果，您可以更换一下关键词或者搜索条件试试。
+				</div></div>
+			<%/if%>
+			<br>
+			<div class="no-image"><div class="item-inner">
+			<div><a href=http://www.ginkgotek.com/ target=_blank><img border=0 src="http://static.ftchinese.com/styles/images/yinxin.gif"></a></div>
+			友情提示：在<a href="http://www.g.cn" target=_blank>谷歌</a>或<a href="http://www.baidu.com" target=_blank>百度</a>上输入
+			“<a href="http://www.google.com/search?hl=zh-CN&source=hp&q=<%$newKeys|escape:"url"%>+site%3Aftchinese.com&btnG=Google+%E6%90%9C%E7%B4%A2&aq=f&oq=" target=_blank><b><%$newKeys%> site:ftchinese.com</b></a>”，就可以搜索FT中文网上的内容，其搜索结果按重要性排序。
+			</div></div>
+		</div></div>
+	</div></div>
+	<%include file="next/partials/TagRightRail.html"%>
+	<div class="clearfloat"></div>
+</div></div>

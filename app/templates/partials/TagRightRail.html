@@ -1,6 +1,21 @@
 <div class="side-container"><div class="side-inner">
 	<%if $tagabout != ""%>
-		<div class="tag-about">
+		<%if $PageIntroTitle != ""%>
+			<div class="list-title">
+				<%if $PageIntroRSS != ""%>
+					<a href="<%$PageIntroRSS%>" class="follow__rss"><%$PageIntroTitle%></a>
+				<%else%>
+					<a><%$PageIntroTitle%></a>
+				<%/if%>
+			</div>
+			<%assign var=tagAboutClass value="top10"%>
+		<%else%>
+			<%assign var=tagAboutClass value="tag-about"%>
+		<%/if%>
+		<div class="<%$tagAboutClass%>">
+			<%if $PageIntroIMG != ""%>
+				<a class="image" target="_blank"><figure class="loading" data-url="<%$PageIntroIMG%>"></figure></a>
+			<%/if%>
 			<%$tagabout%>
 		</div>
 	<%/if%>
@@ -11,24 +26,26 @@
 		</div>
 	<%/if%>
 
-	<div class="mps">
-		<h2 class="list-title"><a href="/channel/weekly.html">十大热门文章</a></h2>
-		<ul class="top10">
-			<%assign var="i" value=0%>
-			<%assign var="mp" value=$storymodel->get_hot_story(1,15) %>
-			<%foreach item=sc from=$mp%>
-			<%if $sc.storyid!="001033136" && $i<10%>
-				<%assign var="i" value=$i+1%>
-				<li class="mp<%$i%>"><span><%$i%>. </span><a target="_blank" href="/story/<%$sc.storyid%>?dailypop"><%$sc.cheadline%></a></li>
-			<%/if%>
-			<%/foreach%>
-		</ul>
-	</div>
-
-	<%if $smarty.get.ad != "no"%>
-		<div class="mpu-container last-child">
-		    <script type="text/javascript">document.write (writeAd('mpu'));</script>
+	<%if $storymodel != ""%>
+		<div class="mps">
+			<h2 class="list-title"><a href="/channel/weekly.html">十大热门文章</a></h2>
+			<ul class="top10">
+				<%assign var="i" value=0%>
+				<%easyapi command="60006"%>
+				<%foreach from=$data.odatalist item=sc name=foo%>
+					<%assign var="i" value=$i+1%>
+					<li class="mp<%$i%>"><span><%$i%>. </span><a target="_blank" href="/story/<%$sc.storyid%>?dailypop"><%$sc.title%></a></li>
+				<%/foreach%>
+			</ul>
 		</div>
+	
+
+		<%if $smarty.get.ad != "no"%>
+			<div class="mpu-container last-child">
+			    <script type="text/javascript">document.write (writeAd('mpu'));</script>
+			</div>
+		<%/if%>
+
 	<%/if%>
 
 </div></div>

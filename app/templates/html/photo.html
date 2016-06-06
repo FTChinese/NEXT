@@ -1,0 +1,129 @@
+<%assign var="topnav" value="home"%>
+<%assign var="subnav" value="photo"%>
+<%assign var="storyHeadline" value=$info.cn_title%>
+<%assign var="pageType" value="photo"%>
+<%assign var="adchannelID" value="2009"%>
+<%assign var="shareTitle" value="`$storyHeadline` - FT中文网"%>
+<%assign var="shareLead" value=$info.leadbody%>
+<%assign var="shareUrl" value="http://www.ftchinese.com/photonews/`$info.photonewsid`"%>
+<%assign var="shareUrl" value=$shareUrl|escape:'url'%>
+<%assign var="shareText" value="【`$storyHeadline`】`$shareLead`（分享自 @FT中文网）"%>
+
+<%assign var="wechatUrl" value="/m/corp/qrshare.html?url=`$shareUrl`&title=`$shareTitle`"%>
+<%assign var="sinaUrl" value="http://service.weibo.com/share/share.php?appkey=4221537403&url=`$shareUrl`?ccode=2G169001&title=`$shareText`&ralateUid=1698233740&source=&sourceUrl=&content=utf-8&pic="%>
+<%assign var="linkedInUrl" value="https://www.linkedin.com/cws/share?url=`$shareUrl`%3Fccode%3D2G169003&original_referer=https%3A%2F%2Fdeveloper.linkedin.com%2Fsites%2Fall%2Fthemes%2Fdlc%2Fsandbox.php%3F&token=&isFramed=true&lang=zh_CN&_ts=1422502780259.2795"%>
+<%assign var="twitterUrl" value="http://twitter.com/home?status=`$shareText`...%20`$shareUrl`"%>
+<%assign var="facebookUrl" value="http://www.facebook.com/sharer.php?u=`$shareUrl`&t=`$shareText`"%>
+
+
+<!DOCTYPE html>
+<html class="no-js core" data-next-app="tag-page">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Language" content="zh-CN"/>
+    <title><%$storyHeadline%> - FT中文网</title>
+    <META name=keywords content="<%$tagtitle%>">
+    <meta content="<%$p.meta.description%>" name="description"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <link rel="apple-touch-icon-precomposed" href="http://static.ftchinese.com/img/ipad_icon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="http://static.ftchinese.com" />
+    <link rel="preconnect" href="http://i.ftimg.net" />
+    <script>
+    window.cutsTheMustard = (typeof Function.prototype.bind !== 'undefined');
+    if (window.cutsTheMustard) {
+    document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/, 'js').replace(/\bcore\b/, 'enhanced');
+    }
+    </script>
+
+
+    
+    <%if preg_match("/艺术品投资/is",$info.tags) || preg_match("/乐尚街/is",$info.tags)%>
+        <style><%include file="next/styles/main-photo-luxury.css"%></style>
+        <script type="text/javascript">var pageTheme = 'luxury';</script>
+    <%else%>
+        <style><%include file="next/styles/main-photo.css"%></style>
+    <%/if%>
+    <style><%include file="next/styles/o-gallery.css"%></style>
+    
+    <link rel="icon" type="image/png" href="http://image.webservices.ft.com/v1/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=32&height=32" sizes="32x32">
+    <link rel="icon" type="image/png" href="http://image.webservices.ft.com/v1/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=194&height=194" sizes="194x194">
+    <link rel="apple-touch-icon" sizes="180x180" href="http://image.webservices.ft.com/v1/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=180&height=180" />
+    <link rel="manifest" href="/assets/manifest/manifest-v2.json" />
+    <meta name="msapplication-TileColor" content="#fff1e0" />
+    <meta name="msapplication-TileImage" content="http://image.webservices.ft.com/v1/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=144&height=144" />
+
+
+    <script>var startTime = new Date().getTime();</script>
+    <script>
+    if ( screen.width<=480) {
+        document.write('<meta content="FT中文网" name="application-name" /><meta content="app-id=443870811" name="apple-itunes-app" />');
+    } else {
+        document.write('<meta content="FT中文网" name="application-name" /><meta content="app-id=396124008" name="apple-itunes-app" />');
+    }
+    </script>
+    <link rel="alternate" type="application/rss+xml" title="FT中文网 - 每日更新" href="/rss/feed" />
+    <link rel="alternate" type="application/rss+xml" title="FT中文网 - 双语阅读" href="/rss/diglossia" />
+    <link rel="alternate" type="application/rss+xml" title="FT中文网 - 今日焦点" href="/rss/news" />
+    <link rel="alternate" type="application/rss+xml" title="FT中文网 - 生活时尚" href="/rss/lifestyle" />
+    <link rel="alternate" type="application/rss+xml" title="FT中文网 - 一周十大热门文章" href="/rss/hotstoryby7day" />
+    <link rel="alternate" type="application/rss+xml" title="FT中文网 - 热门用户评论" href="/rss/hotusercomment" />
+    <link rel="search" type="application/opensearchdescription+xml" title="FT中文网财经搜索" href="/opensearch.xml">
+    <!--[if lte IE 8]>
+    <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+    <![endif]-->
+    <%include file="next/partials/head.html"%>
+    <script type="text/javascript">
+    <%include file="next/scripts/key-photo.js"%>
+    </script>
+    <script type="text/javascript">
+    <%include file="next/scripts/o-gallery.js"%>
+    </script>
+    <!--[if lte IE 8]>
+        <script>
+            document.documentElement.className += ' is-ie-8';
+            document.createElement('figure');
+            document.createElement('header');
+            document.createElement('nav');
+            document.createElement('section');
+            document.createElement('article');
+            document.createElement('aside');
+            document.createElement('footer');
+            var wIE = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+            var cssId = 'ie-css';
+            var cssFile = '';
+            if (!document.getElementById(cssId)) {
+                var head  = document.getElementsByTagName('head')[0];
+                var link  = document.createElement('link');
+                link.id   = cssId;
+                link.rel  = 'stylesheet';
+                link.type = 'text/css';
+                cssFile = (wIE>=1200)?'XL':'L';
+                link.href = 'http://static.ftchinese.com/n/main-ie-'+ cssFile +'.css?<%include file="next/timestamp/timestamp.html"%>';
+                link.media = 'all';
+                head.appendChild(link);
+            }
+        </script>
+    <![endif]-->
+  </head>
+  <%assign var="bannerCount" value=0%>
+  <body class="<%$hideDate%>">
+      <%include file="next/partials/header.html"%>
+      <%include file="next/partials/nav.html"%>
+      <%if !preg_match("/艺术品投资/is",$info.tags) && !preg_match("/乐尚街/is",$info.tags)%>
+        <%include file="next/partials/banner.html"%>
+        <%assign var="bannerCount" value=$bannerCount+1%>
+      <%/if%>
+      <%include file="next/partials/photo-block.html"%>
+      <%include file="next/partials/story-recommend.html%>
+      <%include file="next/partials/footer.html"%>
+      <%include file="next/partials/QrCode.html"%>
+      <%include file="next/partials/story-font.html"%>
+      <%include file="next/partials/story-share.html"%>
+  </body>
+<script type="text/javascript">
+  <%include file="next/scripts/main-story.js"%>
+</script>
+<script type="text/javascript" src="http://static.ftchinese.com/n/main-sharelinks.js?<%include file="next/timestamp/timestamp.html"%>"></script>
+</html>

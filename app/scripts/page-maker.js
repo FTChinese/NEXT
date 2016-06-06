@@ -9,32 +9,36 @@
         'lists': 'array',
         'items': 'item',
         'type': 'readonly',
-        'theme': ['default', 'luxury', 'myFT'],
+        'theme': ['default', 'luxury', 'myFT', 'technology', 'lifestyle', 'ebook'],
         //'type': ['block', 'banner', 'header', 'footer'],
         'side': ['none', 'HomeRightRail','TagRightRail', 'MostPopular', 'HotVideos', 'MarketsData', 'videos', 'MostCommented'],
         'sideAlign': ['right', 'left'],
-        'belt': ['member'],
-        'float': ['none', 'left', 'right', 'oneline', 'SideBySide', 'myFT'],
+        'float': ['none', 'left', 'right', 'oneline', 'SideBySide', 'myFT', 'IconTitle', 'Card', 'eBook'],
         'showTag': ['no', 'yes'],
         'showTimeStamp': ['no', 'new stories', 'all'],
-        'from': ['', 'MarketsData', 'SpecialReports', 'Columns', 'Channels', 'Events', 'Marketing'],
-        'sideOption': ['headlineOnly', 'leadOnly', 'imageAndText'],
+        'from': ['', 'MarketsData', 'SpecialReports', 'Columns', 'Channels', 'Events', 'MyTopics', 'Marketing'],
+        'sideOption': ['headlineOnly', 'leadOnly', 'imageAndText', 'textOverImage'],
         'preferLead': ['longlead', 'shortlead', 'none'],
-        'feedType': ['all','story','video','interactive','photo','job', 'myFT'],
+        'feedType': ['all','story','video','interactive','photo','job', 'myFT', 'fav', 'ftc_columns', 'ft_columns'],
         'feedItems': 'number',
+        'feedImage': ['optional','necessary','hide'],
         'language': ['', 'en', 'ce']
     };
     var dataRulesTitle = {
         'theme': 'Luxury是指乐尚街的配色风格，主要特点是Title和分割线为金色',
         'side': '采用事先写好的模版',
+        'name': '仅供编辑内部沟通，不会被读者看见，尽量采用英文的name',
+        'title': 'list的title会被读者看见，请使用中文',
+        'url': '请尽量使用相对链接，比如［/tag/中国经济］',
         'sideAlign': ' 这个Block的侧边栏放在右边还是左边',
-        'float': '如果某个list有文章没有配图，可以采用float到左边的方式来展示这个List，同时其余的list自动float到右边；如果想要某个list，如cover占据全部宽度，则设定其为oneline；如果想要像myFT那样一行一条内容，则选择myFT',
+        'float': '如果某个list有文章没有配图，可以采用float到左边的方式来展示这个List，同时其余的list自动float到右边；如果想要某个list，如cover占据全部宽度，则设定其为oneline；如果想要像myFT那样一行一条内容，则选择myFT；想要强制设定这个List所有内容都采用同样的展现形式，则选择Card',
         'showTag': '程序会抓取tag字段中第一个tag做为primary tag来显示',
         'showTimeStamp': 'new stories代表只在文章发布的一个小时内显示时间，all代表在所有情况下都显示时间',
         'from': '选取事先写好的模版',
         'sideOption': 'headlineOnly表示只显示标题；leadOnly表示只显示lead，这个功能可以用来展示联系方式一类的文字信息；imageAndText显示方式类似微信公众号的图文信息，第一条出大图',
         'preferLead': '优先显示的lead类型',
         'feedType': '自动抓取的内容类型，如果选择all则四种类型都抓取，最新的先显示',
+        'feedImage': 'Optional代表不要求抓出来的内容必须有配图，Necessary则要求内容必须有配图',
         'feedItems': '自动抓取内容的条数上限，如果这个list中有手动拖入的内容，则不显示自动抓取的内容',
         'feedTag': '自动抓取内容依据的标签，如果抓取条件复杂，也可以请技术帮助你输入mysql的查询语句',
         'language': '中文、英文或者中英文对照，只适用于story'
@@ -45,11 +49,10 @@
             'include': ['from', 'side', 'sideAlign'],
             'header': [],
             'banner': ['position'],
-            'footer': [],
-            'topbelt': ['belt']
+            'footer': []
         },
         'list': {
-            'list': ['name', 'title', 'url', 'language', 'description', 'style', 'float', 'showTag', 'showTimeStamp', 'preferLead', 'sponsorAdId', 'sponsorLogoUrl', 'sponsorLink', 'sponsorNote', 'feedItems', 'feedTag', 'feedType'],
+            'list': ['name', 'title', 'url', 'language', 'description', 'style', 'float', 'showTag', 'showTimeStamp', 'preferLead', 'sponsorAdId', 'sponsorLogoUrl', 'sponsorLink', 'sponsorNote', 'feedItems', 'feedTag', 'feedType', 'feedImage'],
             'SideMPU': ['name'],
             'SideWithItems':['name', 'title', 'url', 'sideOption', 'feedItems', 'feedTag', 'feedType'],
             'SideRanking': ['name', 'title', 'url', 'feedItems', 'feedTag', 'feedType']
@@ -140,7 +143,7 @@
         return todaystamp;
     }
 
-    function renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, relativestory, showRelativeStoryItems) {
+    function renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, customLink, relativestory, showRelativeStoryItems) {
         var editLink = '';
         var previewLink = '';
         var dataHTML = '';
@@ -174,9 +177,10 @@
 
         if (image !== '') {
             hasImageClass = ' has-image';
-            imageBG = image.replace('i.ftimg.net', 'i.ftmailbox.com').replace('/upload/', '/');
+            imageBG = image.replace('/upload/', '/');
+            //imageBG = image.replace('i.ftimg.net', 'i.ftmailbox.com').replace('/upload/', '/');
             imageBG = encodeURIComponent(imageBG);
-            imageBG = 'https://image.webservices.ft.com/v1/images/raw/' + imageBG + '?source=ftchinese&width=80&fit=scale-down';
+            imageBG = 'http://image.webservices.ft.com/v1/images/raw/' + imageBG + '?source=ftchinese&width=80&fit=scale-down';
             imageBG = ' style="background-image: url(' + imageBG + ')"';
         }
 
@@ -197,7 +201,7 @@
         }
         //console.log (relativestoryHTML);
         //relativestoryHTML = '';
-        dataHTML = '<div draggable=true data-type="' + type + '" class="item ' + type + hasImageClass + '"' + imageBG + ' data-id="' + id + '"><div class="remove-item"></div><div class="timestamp">' + timeStamp + '</div><div class="item-title">' + headline + '</div><div class="item-info"><div class="item-links"><a href="http://www7.ftchinese.com/' + type + '/' + id + '" target=_blank>Preview</a><a href="' + editLink + '" target=_blank>Edit</a></div><div class="item-info-item"><input title="headline" name="headline" class="o-input-text" value="' + headline + '"></div><div class="item-info-item"><input title="image" name="image" class="o-input-text" value="' + image + '"></div><div class="item-info-item"><div class="item-info-title">Long Lead: </div><textarea title="image" name="longlead" class="o-input-text">' + longlead + '</textarea></div><div class="item-info-item"><div class="item-info-title">Short Lead: </div><textarea title="image" name="shortlead" class="o-input-text">' + shortlead + '</textarea></div><div class="item-info-item"><input title="tag" name="tag" class="o-input-text" value="' + tag + '"></div>' + showRelativeStoryItems + '<div class="item-info-item"><input name="timeStamp" type="hidden" class="o-input-text" value="' + oTimeStamp + '" readonly><input type="hidden" name="type" class="o-input-text" value="' + type + '" readonly><input type="hidden" name="id" class="o-input-text" value="' + id + '" readonly></div>' + relativestoryHTML + '</div></div>';
+        dataHTML = '<div draggable=true data-type="' + type + '" class="item ' + type + hasImageClass + '"' + imageBG + ' data-id="' + id + '"><div class="remove-item"></div><div class="timestamp">' + timeStamp + '</div><div class="item-title">' + headline + '</div><div class="item-info"><div class="item-links"><a href="http://www7.ftchinese.com/' + type + '/' + id + '" target=_blank>Preview</a><a href="' + editLink + '" target=_blank>Edit</a></div><div class="item-info-item"><input title="headline" placeholder="headline" name="headline" class="o-input-text" value="' + headline + '"></div><div class="item-info-item"><input title="image" placeholder="image" name="image" class="o-input-text" value="' + image + '"></div><div class="item-info-item"><div class="item-info-title">Long Lead: </div><textarea title="image" placeholder="Long Lead" name="longlead" class="o-input-text">' + longlead + '</textarea></div><div class="item-info-item"><div class="item-info-title">Short Lead: </div><textarea title="short lead" placeholder="short lead" name="shortlead" class="o-input-text">' + shortlead + '</textarea></div><div class="item-info-item"><input title="tag" placeholder="tag" name="tag" class="o-input-text" value="' + tag + '"></div><div class="item-info-item"><input title="custom link" placeholder="custom link" name="customLink" class="o-input-text" value="' + customLink + '"></div>' + showRelativeStoryItems + '<div class="item-info-item"><input name="timeStamp" type="hidden" class="o-input-text" value="' + oTimeStamp + '" readonly><input type="hidden" name="type" class="o-input-text" value="' + type + '" readonly><input type="hidden" name="id" class="o-input-text" value="' + id + '" readonly></div>' + relativestoryHTML + '</div></div>';
         return dataHTML;
     }
 
@@ -214,10 +218,11 @@
         var tag = data.tag || '';
         var relatives = data.relatives || [];
         var showRelativeStoryItems = data.showRelativeStoryItems || 0;
+        var customLink = data.customLink || '';
         if (type !== 'story') {
             timeStampType = 3;
         }
-        return renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, relatives, showRelativeStoryItems);
+        return renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, customLink, relatives, showRelativeStoryItems);
     }
 
 
@@ -337,6 +342,7 @@
                     var tag = '';
                     var relativestory = [];
                     var showRelativeStoryItems = 0;
+                    var customLink = '';
                     if (entry.id) {
                         //console.log (entry.last_publish_time);
                         timeStamp = entry.last_publish_time || '';
@@ -354,16 +360,17 @@
                         type = 'story';
                         priority = entry.priority;
                         relativestory = entry.relativestory || [];
+                        customLink = entry.customLink || '';
                         //shortlead = JSON.stringify(relativestory);
                         if ($('.content-left-inner .item[data-id=' + id + '][data-type=' + type + ']').length === 0) {
                             if (priority > 0 && priority <= 9) {
-                                coverHTML += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, relativestory, showRelativeStoryItems);
+                                coverHTML += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, customLink, relativestory, showRelativeStoryItems);
                             } else if (priority >= 20 && priority <= 49) {
-                                newsHTML += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, relativestory, showRelativeStoryItems);
+                                newsHTML += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, customLink, relativestory, showRelativeStoryItems);
                             } else if ((priority >= 49 && priority <= 69) || (priority >= 10 && priority <= 19)) {
-                                commentsHTML += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, relativestory, showRelativeStoryItems);
+                                commentsHTML += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, customLink, relativestory, showRelativeStoryItems);
                             } else {
-                                otherHTML += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, relativestory, showRelativeStoryItems);
+                                otherHTML += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, customLink, relativestory, showRelativeStoryItems);
                             }
                         } else {
                             //console.log (headline + ' already exists');
@@ -385,7 +392,7 @@
                             }
                             type = 'photo';
                             if ($('.content-left-inner .item[data-id=' + id + '][data-type=' + type + ']').length === 0) {
-                                photosInner += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag);
+                                photosInner += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, customLink);
                             }
                         });
                     } else if (entryIndex === 'interactive') {
@@ -413,7 +420,7 @@
                             image = interactive.story_pic.other || interactive.story_pic.smallbutton || interactive.story_pic.cover || interactive.story_pic.bigbutton || '';
                             type = 'interactive';
                             if ($('.content-left-inner .item[data-id=' + id + '][data-type=' + type + ']').length === 0) {
-                                interactivesInner += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag);
+                                interactivesInner += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, customLink);
                             }
                         });
                     } else if (entryIndex === 'video') {
@@ -430,7 +437,7 @@
                             image = video.story_pic.other || video.story_pic.smallbutton || video.story_pic.cover || video.story_pic.bigbutton || '';
                             type = 'video';
                             if ($('.content-left-inner .item[data-id=' + id + '][data-type=' + type + ']').length === 0) {
-                                videosInner += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag);
+                                videosInner += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, customLink);
                             }
                         });
                     }
@@ -460,18 +467,18 @@
         $.each(toolkits.list, function (key, value) { // jshint ignore:line
             lists += '<div class="toolkit toolkit-list toolkit-' + key + '" draggable=true>' + key + '</div>';
         });
-        lists += renderAPI('', 'Empty Item 1', '', '', '', '', '', '', '');
-        lists += renderAPI('', 'Empty Item 2', '', '', '', '', '', '', '');
-        lists += renderAPI('', 'Empty Item 3', '', '', '', '', '', '', '');
-        lists += renderAPI('', 'Empty Item 4', '', '', '', '', '', '', '');
-        lists += renderAPI('', 'Empty Item 5', '', '', '', '', '', '', '');
-        lists += renderAPI('', 'Empty Item 6', '', '', '', '', '', '', '');
-        lists += renderAPI('', 'Empty Item 7', '', '', '', '', '', '', '');
-        lists += renderAPI('', 'Empty Item 8', '', '', '', '', '', '', '');
-        lists += renderAPI('', 'Empty Item 9', '', '', '', '', '', '', '');
-        lists += renderAPI('', 'Empty Item 10', '', '', '', '', '', '', '');
-        lists += renderAPI('', 'Empty Item 11', '', '', '', '', '', '', '');
-        lists += renderAPI('', 'Empty Item 12', '', '', '', '', '', '', '');
+        lists += renderAPI('', 'Empty Item 1', '', '', '', '', '', '', '', '');
+        lists += renderAPI('', 'Empty Item 2', '', '', '', '', '', '', '', '');
+        lists += renderAPI('', 'Empty Item 3', '', '', '', '', '', '', '', '');
+        lists += renderAPI('', 'Empty Item 4', '', '', '', '', '', '', '', '');
+        lists += renderAPI('', 'Empty Item 5', '', '', '', '', '', '', '', '');
+        lists += renderAPI('', 'Empty Item 6', '', '', '', '', '', '', '', '');
+        lists += renderAPI('', 'Empty Item 7', '', '', '', '', '', '', '', '');
+        lists += renderAPI('', 'Empty Item 8', '', '', '', '', '', '', '', '');
+        lists += renderAPI('', 'Empty Item 9', '', '', '', '', '', '', '', '');
+        lists += renderAPI('', 'Empty Item 10', '', '', '', '', '', '', '', '');
+        lists += renderAPI('', 'Empty Item 11', '', '', '', '', '', '', '', '');
+        lists += renderAPI('', 'Empty Item 12', '', '', '', '', '', '', '', '');
         //lists = '<div class="toolkit toolkit-list" draggable=true>list</div>';
         $('#tool-sec-inner').html(sections);
         $('#tool-list-inner').html(lists);
@@ -897,7 +904,8 @@
                         'sponsorNote': '',
                         'feedItems': '',
                         'feedTag': '',
-                        'feedType': ''
+                        'feedType': '',
+                        'feedImage': 'optional'
                     }
                 ];
             }
@@ -1057,7 +1065,7 @@
     });
 
     $('body').on('click', '.preview-on-device', function () {
-        var url = 'http://www7.ftchinese.com/m/corp/p0.html';
+        var url = 'http://www7.ftchinese.com/?n=1';
         var w = $(this).attr('data-width') || $(window).width();
         var h = $(this).attr('data-height') || $(window).height();
         window.open(url, 'newwindow', 'height=' + h + ',width=' + w + ',top=0,left=0,toolbar=no,menubar=no,resizable=no,scrollbars=yes,location=no, status=no');

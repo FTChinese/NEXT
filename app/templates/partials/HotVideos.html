@@ -3,7 +3,7 @@
 		<h2 class="list-title"><a href="/channel/stream.html">热门视频</a></h2>
 		<ul class="top10">
 			<%assign var="i" value=0%>
-			<%assign var="mp" value=$videomodel->get_hot_video(30,5) %>
+			<%assign var="mp" value=$videomodel->get_hot_video(30,10) %>
 			<%foreach item=sc from=$mp%>
 			<%if $i<10%>
 				<%assign var="i" value=$i+1%>
@@ -13,7 +13,7 @@
 		</ul>
 	</div>
 
-	<%if $smarty.get.ad != "no"%>
+	<%if $smarty.get.ad != "no" && 1>2%>
     <div class="mpu-container">
         <script type="text/javascript">document.write (writeAd('mpu'));</script>
     </div>

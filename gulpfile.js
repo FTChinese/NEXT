@@ -47,6 +47,10 @@ function getUrltoFile (urlSource, fileName) {
   request.end();
 }
 
+gulp.task('origami', function () {
+  getUrltoFile('http://origami-build.ft.com/v2/bundles/js?modules=o-gallery@^1.7.6', './app/origami/o-gallery.js');
+  getUrltoFile('http://origami-build.ft.com/v2/bundles/css?modules=o-gallery@^1.7.6', './app/origami/o-gallery.css');
+});
 
 function getBodyFromUrl (urlSource, fileName) {
   // var http = require('http');
@@ -102,6 +106,16 @@ gulp.task('copy', ['build'], function () {
   //var replace = require('gulp-replace');
   //var rename = require("gulp-rename");
   var thedatestamp = new Date().getTime();
+
+  gulp.src('app/origami/*.css')
+    .pipe(gulp.dest('../dev_www/frontend/static/n'))
+    .pipe(gulp.dest('../dev_www/frontend/tpl/next/styles'))
+    .pipe(gulp.dest('../testing/dev_www/frontend/tpl/next/styles'));
+  
+  gulp.src('app/origami/*.js')
+    .pipe(gulp.dest('../dev_www/frontend/static/n'))
+    .pipe(gulp.dest('../dev_www/frontend/tpl/next/scripts'))
+    .pipe(gulp.dest('../testing/dev_www/frontend/tpl/next/scripts'));
 
   gulp.src('dist/styles/*.css')
     .pipe(gulp.dest('../dev_www/frontend/static/n'))
