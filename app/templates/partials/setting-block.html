@@ -10,7 +10,7 @@
             <div class="user_manage">
                 <dl>
                     <dt class="first-dt">设置登录信息</dt>
-                    <dd>
+                    <dd class="login-email">
                     <div class="um1">登录邮件：</div>
                     <div class="um2"><%$users.email%></div>
                     </dd>
@@ -21,14 +21,16 @@
                     </div>
                     </dd>
 
-                    <dd>
+                    <dd class="change-icon">
                     <div class="um1">* 头像：</div>
-                    <div class="um2"><%if $users.User_iconv%>
+                    <div class="um2">
+                    <a href="/users/setting/changeicon">
+                    <%if $users.User_iconv%>
                     <img src="http://u.ftimg.net/<%$users.User_iconv%>" width="50" height="50" />
                     <%else%>
-                    <img width="50" height="50" src="http://static.ftchinese.com/img/no_user.jpg" style="margin: 0px 10px;" />
+                    <img width="50" height="50" src="http://static.ftchinese.com/img/no_user.jpg" />
                     <%/if%>
-                    <span><a href="/users/setting/changeicon">更换头像</a></span>
+                    <span>更换头像</span></a>
                     </div>
                     </dd>
 
@@ -89,23 +91,23 @@
                     <span>国家号 手机号码 </span></div>
                     </dd>
 
-                    <dd>
+                    <dd class="living-place">
                     <div class="um1">* 居住地：</div>
 
                     <div class="um2"><span>
-                    <select style="width:120px" name="country" id="country" value="1" onchange="setselect();">
+                    <select name="country" id="country" value="1" onchange="setselect();">
                     <%foreach item=v key=k from=$country%>
                     <option value='<%$k%>' <%if $k == $users.country%>selected<%/if%>><%$v%></option>
                     <%/foreach%>
                     </select>
                     省份
-                    <select style="width:120px" class="" name="state" id="state" <%if $users.country != 101%>disabled="true"<%/if%> onchange="setselect3();">
+                    <select class="" name="state" id="state" <%if $users.country != 101%>disabled="true"<%/if%> onchange="setselect3();">
                     <%foreach item=v key=k from=$state%>
                     <option value='<%$k%>' <%if $k == $users.state%>selected<%/if%>><%$v%></option>
                     <%/foreach%>
                     </select>
                     城市
-                    <select style="width:120px" class="" name="city" id="city" <%if $users.country != 101%>disabled="true"<%/if%> >
+                    <select class="" name="city" id="city" <%if $users.country != 101%>disabled="true"<%/if%> >
                     <%foreach item=v key=k from=$city%>
                     <option value='<%$k%>' <%if $k == $users.city%>selected<%/if%>><%$v%></option>
                     <%/foreach%>
@@ -126,21 +128,21 @@
                     <input type="text" id="zip" name="zip" value="<%$users.zip%>"/>
                     <span></span></div>
                     </dd>
-                    <dd>
+                    <dd class="birth-date">
                     <div class="um1">
                     您的生日：
                     </div>
                     <div class="um2">
                     <span>
-                    <select name="StartDateYear" id="StartDateYear" style="width:60px">
+                    <select name="StartDateYear" id="StartDateYear">
                         <option value='<%$users.bYear%>' selected><%$users.bYear%></option>
                     </select>
                     &nbsp;
-                    <select name="StartDateMonth" id="StartDateMonth" style="width:50px">
+                    <select name="StartDateMonth" id="StartDateMonth">
                         <option value='<%$users.bMonth%>' selected><%$users.bMonth%></option>
                     </select>
                     &nbsp;
-                    <select name="StartDateDay" id="StartDateDay" style="width:50px">
+                    <select name="StartDateDay" id="StartDateDay">
                         <option value='<%$users.bDay%>' selected><%$users.bDay%></option>
                     </select>
                     </span>
@@ -149,7 +151,7 @@
                     <dd>
                     <div class="um1">教育程度：</div>
                     <div class="um2"><span>
-                    <select name="education" id="education" class="w100" style="width:180px;">
+                    <select name="education" id="education" class="w100">
                     <%foreach item=v key=k from=$education%>
                     <option value='<%$k%>' <%if $k == $users.education%>selected<%/if%>><%$v%></option>
                     <%/foreach%>
@@ -160,7 +162,7 @@
                     <dd>
                     <div class="um1">个人月收入水平：</div>
                     <div class="um2"><span>
-                    <select class="w100" name="income_level" id="income_level" style="width:180px;">
+                    <select class="w100" name="income_level" id="income_level">
                     <%foreach item=v key=k from=$income_level%>
                     <option value='<%$k%>' <%if $k == $users.income_level%>selected<%/if%>><%$v%></option>
                     <%/foreach%>
@@ -171,7 +173,7 @@
                     <dd>
                     <div class="um1">投资资产总额：</div>
                     <div class="um2"><span>
-                    <select name="investment" id="investment" class="w100" style="width:180px;">
+                    <select name="investment" id="investment" class="w100">
                     <%foreach item=v key=k from=$investment%>
                     <option value='<%$k%>' <%if $k == $users.investment%>selected<%/if%>><%$v%></option>
                     <%/foreach%>
@@ -181,7 +183,7 @@
                     <dd>
                     <div class="um1">家庭资产总额：</div>
                     <div class="um2"><span>
-                    <select name="property" id="property" class="w100" style="width:180px;">
+                    <select name="property" id="property" class="w100">
                     <%foreach item=v key=k from=$property%>
                     <option value='<%$k%>' <%if $k == $users.property%>selected<%/if%>><%$v%></option>
                     <%/foreach%>
@@ -199,15 +201,15 @@
                     </select>
                     </span><span></span></div>
                     </dd>
-                    <dd>
+                    <dd class="info-industry">
                     <div class="um1">* 所处行业：</div>
                     <div class="um2"><span>
-                    <select class="float_left" name="industry" id="industry" onchange="setselect4();" style="width:175px;">
+                    <select class="float_left" name="industry" id="industry" onchange="setselect4();">
                     <%foreach item=v key=k from=$industry%>
                     <option value='<%$k%>' <%if $k == $users.industry%>selected<%/if%>><%$v%></option>
                     <%/foreach%>
                     </select>&nbsp;
-                    <select class="float_left" name="working_field" disabled="disabled" id="working_field" style="width:180px;">
+                    <select class="float_left" name="working_field" disabled="disabled" id="working_field">
                     <%foreach item=v key=k from=$working_field%>
                     <option value='<%$k%>' <%if $k == $users.working_field%>selected<%/if%>><%$v%></option>
                     <%/foreach%>
