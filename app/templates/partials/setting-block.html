@@ -1,0 +1,1161 @@
+<div class="block-container has-side"><div class="block-inner">
+    <div class="content-container"><div class="content-inner">
+        <div class="list-container"><div class="list-inner">
+            <div class="no-image"><div class="item-inner">
+
+<!--设置的主要内容和代码-->
+<form id="accountforms" name="accountforms" action="" method="POST">
+    <div id="theme_content" class="clearFix">
+        <div class="theme_box">
+            <div class="user_manage">
+                <dl>
+                    <dt class="first-dt">设置登录信息</dt>
+                    <dd>
+                    <div class="um1">登录邮件：</div>
+                    <div class="um2"><%$users.email%></div>
+                    </dd>
+                    <dd>
+                    <div class="um1">* 会员名称：</div>
+                    <div class="um2"><input type="text" value="<%$users.user_name%>" id="nickname" name="nickname" />
+                    <span id="user_name_error">最近30天只能修改一次</span>
+                    </div>
+                    </dd>
+
+                    <dd>
+                    <div class="um1">* 头像：</div>
+                    <div class="um2"><%if $users.User_iconv%>
+                    <img src="http://u.ftimg.net/<%$users.User_iconv%>" width="50" height="50" />
+                    <%else%>
+                    <img width="50" height="50" src="http://static.ftchinese.com/img/no_user.jpg" style="margin: 0px 10px;" />
+                    <%/if%>
+                    <span><a href="/users/setting/changeicon">更换头像</a></span>
+                    </div>
+                    </dd>
+
+                    <dd>
+                    <div class="um1">登录密码：</div>
+
+                    <div class="um2">
+                    <input type="password" name="password" id="password" value='' autocomplete="off" />
+                    <span>允许6至20位英文字母和数字,不修改密码请留空</span></div>
+                    </dd>
+                    <dt>个人信息</dt>
+                    <dd>
+                    <div class="um1">* 姓：</div>
+                    <div class="um2">
+                    <input type="text" id="last_name" name="last_name" value="<%$users.last_name%>"/>
+                    <span>填写真实姓名，便于为您提供全面服务</span>
+                    </div>
+
+                    </dd>
+                    <dd>
+                    <div class="um1">* 名：</div>
+                    <div class="um2">
+                    <input type="text" id="first_name" name="first_name" value="<%$users.first_name%>"/>
+                    <span></span></div>
+                    </dd>
+                    <dd>
+
+                    <div class="um1">* 称谓：</div>
+                    <div class="um2">
+                    <label>
+                    <select class="list" name="title" id="title">
+                    <%foreach item=v key=k from=$title%>
+                    <option value='<%$k%>' <%if $k == $users.title%>selected<%/if%>><%$v%></option>
+                    <%/foreach%>
+
+                    </select>
+                    </label>
+                    <span></span></div>
+                    </dd>
+                    <dd>
+                    <div class="um1">* Email：</div>
+                    <div class="um2">
+                    <input id="email" maxlength="50" name="email" value="<%$users.email%>"/>
+                    <span id="user_email_error">请正确填写您的邮件地址，用于找回您遗忘的密码</span></div>
+
+                    </dd>
+                    <dd>
+                    <div class="um1">电话：</div>
+                    <div class="um2">
+                    <input type="text" id="phone_no" name="phone_no" value="<%$users.phone_no%>" class="w175"/>
+                    </div>
+                    </dd>
+                    <dd>
+                    <div class="um1">手机：</div>
+
+                    <div class="um2">
+                    <input type="text" id="mobile_phone_no" name="mobile_phone_no" value="<%$users.mobile_phone_no%>" class="w175"/>
+                    <span>国家号 手机号码 </span></div>
+                    </dd>
+
+                    <dd>
+                    <div class="um1">* 居住地：</div>
+
+                    <div class="um2"><span>
+                    <select style="width:120px" name="country" id="country" value="1" onchange="setselect();">
+                    <%foreach item=v key=k from=$country%>
+                    <option value='<%$k%>' <%if $k == $users.country%>selected<%/if%>><%$v%></option>
+                    <%/foreach%>
+                    </select>
+                    省份
+                    <select style="width:120px" class="" name="state" id="state" <%if $users.country != 101%>disabled="true"<%/if%> onchange="setselect3();">
+                    <%foreach item=v key=k from=$state%>
+                    <option value='<%$k%>' <%if $k == $users.state%>selected<%/if%>><%$v%></option>
+                    <%/foreach%>
+                    </select>
+                    城市
+                    <select style="width:120px" class="" name="city" id="city" <%if $users.country != 101%>disabled="true"<%/if%> >
+                    <%foreach item=v key=k from=$city%>
+                    <option value='<%$k%>' <%if $k == $users.city%>selected<%/if%>><%$v%></option>
+                    <%/foreach%>
+                    </select>
+                    </div>
+                    </dd>
+                    <dd>
+                    <div class="um1"> 邮寄地址：</div>
+                    <div class="um2">
+                    <input id="address" maxlength="120" name="address" value="<%$users.address%>" />
+                    <br />
+                    <span>请正确填写，我们将邮寄给您FT中文网的季刊、年刊、会员杂志或其它宣传品</span></div>
+
+                    </dd>
+                    <dd>
+                    <div class="um1">邮政编码：</div>
+                    <div class="um2">
+                    <input type="text" id="zip" name="zip" value="<%$users.zip%>"/>
+                    <span></span></div>
+                    </dd>
+                    <dd>
+                    <div class="um1">
+                    您的生日：
+                    </div>
+                    <div class="um2">
+                    <span>
+                    <select name="StartDateYear" id="StartDateYear" style="width:60px">
+                        <option value='<%$users.bYear%>' selected><%$users.bYear%></option>
+                    </select>
+                    &nbsp;
+                    <select name="StartDateMonth" id="StartDateMonth" style="width:50px">
+                        <option value='<%$users.bMonth%>' selected><%$users.bMonth%></option>
+                    </select>
+                    &nbsp;
+                    <select name="StartDateDay" id="StartDateDay" style="width:50px">
+                        <option value='<%$users.bDay%>' selected><%$users.bDay%></option>
+                    </select>
+                    </span>
+                    </div>
+                    </dd>
+                    <dd>
+                    <div class="um1">教育程度：</div>
+                    <div class="um2"><span>
+                    <select name="education" id="education" class="w100" style="width:180px;">
+                    <%foreach item=v key=k from=$education%>
+                    <option value='<%$k%>' <%if $k == $users.education%>selected<%/if%>><%$v%></option>
+                    <%/foreach%>
+                    </select>
+                    </span><span></span></div>
+                    </dd>
+
+                    <dd>
+                    <div class="um1">个人月收入水平：</div>
+                    <div class="um2"><span>
+                    <select class="w100" name="income_level" id="income_level" style="width:180px;">
+                    <%foreach item=v key=k from=$income_level%>
+                    <option value='<%$k%>' <%if $k == $users.income_level%>selected<%/if%>><%$v%></option>
+                    <%/foreach%>
+                    </select>
+                    </span><span></span></div>
+                    </dd>
+
+                    <dd>
+                    <div class="um1">投资资产总额：</div>
+                    <div class="um2"><span>
+                    <select name="investment" id="investment" class="w100" style="width:180px;">
+                    <%foreach item=v key=k from=$investment%>
+                    <option value='<%$k%>' <%if $k == $users.investment%>selected<%/if%>><%$v%></option>
+                    <%/foreach%>
+                    </select>
+                    </span><span></span></div>
+                    </dd>
+                    <dd>
+                    <div class="um1">家庭资产总额：</div>
+                    <div class="um2"><span>
+                    <select name="property" id="property" class="w100" style="width:180px;">
+                    <%foreach item=v key=k from=$property%>
+                    <option value='<%$k%>' <%if $k == $users.property%>selected<%/if%>><%$v%></option>
+                    <%/foreach%>
+                    </select>
+                    </span><span></span></div>
+                    </dd>
+                    <dt>公司信息</dt>
+                    <dd>
+                    <div class="um1">公司类型：</div>
+                    <div class="um2"><span>
+                    <select name="company" id="company" class="w175">
+                    <%foreach item=v key=k from=$company%>
+                    <option value='<%$k%>' <%if $k == $users.company%>selected<%/if%>><%$v%></option>
+                    <%/foreach%>
+                    </select>
+                    </span><span></span></div>
+                    </dd>
+                    <dd>
+                    <div class="um1">* 所处行业：</div>
+                    <div class="um2"><span>
+                    <select class="float_left" name="industry" id="industry" onchange="setselect4();" style="width:175px;">
+                    <%foreach item=v key=k from=$industry%>
+                    <option value='<%$k%>' <%if $k == $users.industry%>selected<%/if%>><%$v%></option>
+                    <%/foreach%>
+                    </select>&nbsp;
+                    <select class="float_left" name="working_field" disabled="disabled" id="working_field" style="width:180px;">
+                    <%foreach item=v key=k from=$working_field%>
+                    <option value='<%$k%>' <%if $k == $users.working_field%>selected<%/if%>><%$v%></option>
+                    <%/foreach%>
+                    </select>
+                    </span></div>
+                    </dd>
+                    <dd>
+                    <div class="um1">全球雇员人数：</div>
+                    <div class="um2"><span>
+                    <select name="company_employee_no" id="company_employee_no" class="w175">
+                    <%foreach item=v key=k from=$company_employee_no%>
+                    <option value='<%$k%>' <%if $k == $users.company_employee_no%>selected<%/if%>><%$v%></option>
+                    <%/foreach%>
+                    </select>
+                    </span><span></span></div>
+
+                    </dd>
+                    <dd>
+                    <div class="um1">* 您的工作范畴：</div>
+                    <div class="um2"><span>
+                    <select class="w175" name="job_duties" id="job_duties">
+                    <%foreach item=v key=k from=$job_duties%>
+                    <option value='<%$k%>' <%if $k == $users.job_duties%>selected<%/if%>><%$v%></option>
+                    <%/foreach%>
+                    </select>
+                    </span><span></span></div>
+                    </dd>
+                    <dd>
+                    <div class="um1">* 您的职位：</div>
+
+                    <div class="um2"><span>
+                    <select class="w175" name="job_position" id="job_position">
+                    <%foreach item=v key=k from=$job_position%>
+                    <option value='<%$k%>' <%if $k == $users.job_position%>selected<%/if%>><%$v%></option>
+                    <%/foreach%>
+                    </select>
+                    </span><span></span></div>
+                    </dd>
+                    <span class="um_btn">
+                    <input class=submit type="submit" value="保存更新" />
+                    </span>
+                </dl>
+            </div>
+        </div>
+    </div>
+</form>
+<script src="http://static.ftchinese.com/js/jquery-1.10.2.min.js?0"></script>
+<script>
+/***
+** user cp js
+**/
+//var checkusername = /^[0-9a-zA-Z\u4E00-\u9FA5_-]{2,20}$/;
+var checkusername = /^[0-9a-zA-Z\u4E00-\u9FA5][0-9a-zA-Z\_\-\u4E00-\u9FA5]{1,19}$/;
+$('#accountforms').submit(function() {
+    //$('#nickname').val($.trim($('#nickname').val()).toLowerCase());
+    $('#nickname').val($.trim($('#nickname').val()));
+    $('#password').val($.trim($('#password').val()));
+    $('#email').val($.trim($('#email').val()).toLowerCase());
+    $('#last_name').val($.trim($('#last_name').val()));
+    $('#first_name').val($.trim($('#first_name').val()));
+    $('#address').val($.trim($('#address').val()));
+    $('#zip').val($.trim($('#zip').val()));
+    if (!checkusername.exec($('#nickname').val())) {
+        $('#nickname').focus();
+        alert("注册用户名不合法.");
+        return false;
+    }
+    var checkemail = /^[a-z0-9\._-]{1,}@[a-z0-9\._-]{1,}\.[a-z]{2,4}$/;
+    if (!checkemail.exec($('#email').val())) {
+        $('#email').focus();
+        alert("邮件地址不合法");
+        return false;
+    }
+
+    if ($('#first_name').val() == '') {
+        $('#first_name').focus();
+        alert("您的姓不能为空!");
+        return false;
+    }
+    if ($('#last_name').val() == '') {
+        $('#last_name').focus();
+        alert("您的名字不能为空哦!");
+        return false;
+    }
+    if ($('#title').val() == '') {
+        $('#title').focus();
+        alert("请选择您的称谓!");
+        return false;
+    }
+    if ($('#title').val() == '0') {
+        $('#title').focus();
+        alert("请选择您的称谓!");
+        return false;
+    }
+    if ($('#country').val() == 0) {
+        $('#country').focus();
+        alert("请选择您的居住地!");
+        return false;
+    } else if ($('#country').val() == '101') {
+        if ($('#state').val() == 0) {
+            $('#state').focus();
+            alert("请选择您的省份!");
+            return false;
+        } else if ($('#city').val() == 0) {
+            $('#city').focus();
+            alert("请选择您的城市!");
+            return false;
+        }
+    }
+
+    if (! ($('#StartDateMonth').val() == "" && $('#StartDateDay').val() == "" && $('#StartDateYear').val() == "") && !($('#StartDateMonth').val() != "" && $('#StartDateDay').val() != "" && $('#StartDateYear').val() != "")) {
+        $('#StartDateYear').focus();
+        alert("请选择您的生日!");
+        return false;
+    }
+
+    if ($('#job_position').val() == 0) {
+        $('#job_position').focus();
+        alert("请选择您的职位!");
+        return false;
+    }
+
+    if ($('#job_duties').val() == 0) {
+        $('#job_duties').focus();
+        alert("请选择您的工作范畴!");
+        return false;
+    }
+
+    if ($('#working_field').val() == 0) {
+        $('#working_field').focus();
+        alert("请选择您的所处行业!");
+        return false;
+    }
+    if ($('#address').val() != '' && $('#zip').val() == '') {
+        $('#zip').focus();
+        alert("您还没有填写邮政编码哦!");
+        return false;
+    }
+    if ($('#country').val() == 1 && $('#state').val() == 0) {
+        $('#state').focus();
+        alert("请选择地区!");
+        return false;
+    }
+    return true;
+});
+
+$('#email').blur(function() {
+    if ($('#email').val() != '') {
+        $.get("/users/checkemailexists?e=" + $('#email').val(),
+        function(data) {
+            if ($.trim(data) == 'yes') {
+                $('#user_email_error').html($('#email').val() + ' 邮件地址已被注册');
+            } else {
+                $('#user_email_error').html('邮件地址可用');
+            }
+        });
+    }
+});
+
+$('#nickname').blur(function() {
+    if (!checkusername.exec($('#nickname').val())) {
+        $('#user_name_error').html("注册用户名不合法.");
+        $('#nickname').focus();
+        return false;
+    }
+    if ($('#user_name').val() != '') {
+        $.get("/users/checkuserexistsforme/" + $('#nickname').val(),
+        function(data) {
+            if ($.trim(data) == 'yes') {
+                $('#user_name_error').html('<font color=#FF0000>' + $('#nickname').val() + ' 用户名已被注册</font>');
+                boluser = false;
+            } else {
+                $('#user_name_error').html('用户名可用');
+                boluser = true;
+            }
+        });
+    }
+});
+
+var city = new Array();
+city[0] = new Array();
+city[1] = new Array();
+var working_field_ = new Array();
+working_field_[0] = new Array();
+working_field_[1] = new Array();
+
+var i = 0;
+city[0][i] = '0';
+city[1][i] = '请选择..';
+i++;
+city[0][i] = '10101';
+city[1][i] = '北京';
+i++;
+city[0][i] = '10201';
+city[1][i] = '天津';
+i++;
+city[0][i] = '10301';
+city[1][i] = '石家庄';
+i++;
+city[0][i] = '10302';
+city[1][i] = '唐山';
+i++;
+city[0][i] = '10303';
+city[1][i] = '保定';
+i++;
+city[0][i] = '10304';
+city[1][i] = '邯郸';
+i++;
+city[0][i] = '10305';
+city[1][i] = '廊坊';
+i++;
+city[0][i] = '10306';
+city[1][i] = '秦皇岛';
+i++;
+city[0][i] = '10307';
+city[1][i] = '沧州';
+i++;
+city[0][i] = '10308';
+city[1][i] = '邢台';
+i++;
+city[0][i] = '10399';
+city[1][i] = '其它城市';
+i++;
+city[0][i] = '10401';
+city[1][i] = '太原';
+i++;
+city[0][i] = '10402';
+city[1][i] = '大同';
+i++;
+city[0][i] = '10403';
+city[1][i] = '运城';
+i++;
+city[0][i] = '10404';
+city[1][i] = '忻州';
+i++;
+city[0][i] = '10499';
+city[1][i] = '其它城市';
+i++;
+city[0][i] = '10501';
+city[1][i] = '呼和浩特';
+i++;
+city[0][i] = '10599';
+city[1][i] = '其它城市';
+i++;
+city[0][i] = '20601';
+city[1][i] = '上海';
+i++;
+city[0][i] = '20701';
+city[1][i] = '南京';
+i++;
+city[0][i] = '20702';
+city[1][i] = '苏州';
+i++;
+city[0][i] = '20703';
+city[1][i] = '无锡';
+i++;
+city[0][i] = '20704';
+city[1][i] = '南通';
+i++;
+city[0][i] = '20705';
+city[1][i] = '扬州';
+i++;
+city[0][i] = '20706';
+city[1][i] = '镇江';
+i++;
+city[0][i] = '20707';
+city[1][i] = '常州';
+i++;
+city[0][i] = '20708';
+city[1][i] = '盐城';
+i++;
+city[0][i] = '20709';
+city[1][i] = '泰州';
+i++;
+city[0][i] = '20710';
+city[1][i] = '徐州';
+i++;
+city[0][i] = '20799';
+city[1][i] = '其它城市';
+i++;
+city[0][i] = '20801';
+city[1][i] = '杭州';
+i++;
+city[0][i] = '20802';
+city[1][i] = '温州';
+i++;
+city[0][i] = '20803';
+city[1][i] = '宁波';
+i++;
+city[0][i] = '20804';
+city[1][i] = '嘉兴';
+i++;
+city[0][i] = '20805';
+city[1][i] = '台州';
+i++;
+city[0][i] = '20806';
+city[1][i] = '绍兴';
+i++;
+city[0][i] = '20807';
+city[1][i] = '湖州';
+i++;
+city[0][i] = '20808';
+city[1][i] = '丽水';
+i++;
+city[0][i] = '20809';
+city[1][i] = '金华';
+i++;
+city[0][i] = '20899';
+city[1][i] = '其它城市';
+i++;
+city[0][i] = '20901';
+city[1][i] = '济南';
+i++;
+city[0][i] = '20902';
+city[1][i] = '青岛';
+i++;
+city[0][i] = '20903';
+city[1][i] = '济宁';
+i++;
+city[0][i] = '20904';
+city[1][i] = '聊城';
+i++;
+city[0][i] = '20905';
+city[1][i] = '烟台';
+i++;
+city[0][i] = '20906';
+city[1][i] = '淄博';
+i++;
+city[0][i] = '20907';
+city[1][i] = '德州';
+i++;
+city[0][i] = '20908';
+city[1][i] = '潍坊';
+i++;
+city[0][i] = '20909';
+city[1][i] = '临沂';
+i++;
+city[0][i] = '20910';
+city[1][i] = '威海';
+i++;
+city[0][i] = '20911';
+city[1][i] = '东营';
+i++;
+city[0][i] = '20912';
+city[1][i] = '枣庄';
+i++;
+city[0][i] = '20999';
+city[1][i] = '其它城市';
+i++;
+city[0][i] = '21001';
+city[1][i] = '福州';
+i++;
+city[0][i] = '21002';
+city[1][i] = '厦门';
+i++;
+city[0][i] = '21003';
+city[1][i] = '泉州';
+i++;
+city[0][i] = '21004';
+city[1][i] = '漳州';
+i++;
+city[0][i] = '21005';
+city[1][i] = '龙岩';
+i++;
+city[0][i] = '21099';
+city[1][i] = '其它城市';
+i++;
+city[0][i] = '21101';
+city[1][i] = '合肥';
+i++;
+city[0][i] = '21102';
+city[1][i] = '芜湖';
+i++;
+city[0][i] = '21103';
+city[1][i] = '淮南';
+i++;
+city[0][i] = '21104';
+city[1][i] = '巢湖';
+i++;
+city[0][i] = '21105';
+city[1][i] = '阜阳';
+i++;
+city[0][i] = '21106';
+city[1][i] = '宿州';
+i++;
+city[0][i] = '21107';
+city[1][i] = '黄山';
+i++;
+city[0][i] = '21108';
+city[1][i] = '安庆';
+i++;
+city[0][i] = '21199';
+city[1][i] = '其它城市';
+i++;
+city[0][i] = '21201';
+city[1][i] = '南昌';
+i++;
+city[0][i] = '21202';
+city[1][i] = '九江';
+i++;
+city[0][i] = '21203';
+city[1][i] = '宜春';
+i++;
+city[0][i] = '21204';
+city[1][i] = '赣州';
+i++;
+city[0][i] = '21205';
+city[1][i] = '萍乡';
+i++;
+city[0][i] = '21299';
+city[1][i] = '其它城市';
+i++;
+city[0][i] = '31301';
+city[1][i] = '武汉';
+i++;
+city[0][i] = '31302';
+city[1][i] = '十堰';
+i++;
+city[0][i] = '31303';
+city[1][i] = '黄冈';
+i++;
+city[0][i] = '31304';
+city[1][i] = '襄樊';
+i++;
+city[0][i] = '31305';
+city[1][i] = '宜昌';
+i++;
+city[0][i] = '31399';
+city[1][i] = '其它城市';
+i++;
+city[0][i] = '31401';
+city[1][i] = '长沙';
+i++;
+city[0][i] = '31402';
+city[1][i] = '衡阳';
+i++;
+city[0][i] = '31499';
+city[1][i] = '其它城市';
+i++;
+city[0][i] = '31501';
+city[1][i] = '郑州';
+i++;
+city[0][i] = '31502';
+city[1][i] = '洛阳';
+i++;
+city[0][i] = '31503';
+city[1][i] = '驻马店';
+i++;
+city[0][i] = '31504';
+city[1][i] = '许昌';
+i++;
+city[0][i] = '31505';
+city[1][i] = '平顶山';
+i++;
+city[0][i] = '31506';
+city[1][i] = '三门峡';
+i++;
+city[0][i] = '31599';
+city[1][i] = '其它城市';
+i++;
+city[0][i] = '41601';
+city[1][i] = '广州';
+i++;
+city[0][i] = '41602';
+city[1][i] = '深圳';
+i++;
+city[0][i] = '41603';
+city[1][i] = '东莞';
+i++;
+city[0][i] = '41604';
+city[1][i] = '佛山';
+i++;
+city[0][i] = '41605';
+city[1][i] = '珠海';
+i++;
+city[0][i] = '41606';
+city[1][i] = '中山';
+i++;
+city[0][i] = '41607';
+city[1][i] = '惠州';
+i++;
+city[0][i] = '41608';
+city[1][i] = '江门';
+i++;
+city[0][i] = '41609';
+city[1][i] = '汕头';
+i++;
+city[0][i] = '41610';
+city[1][i] = '韶关';
+i++;
+city[0][i] = '41611';
+city[1][i] = '湛江';
+i++;
+city[0][i] = '41612';
+city[1][i] = '茂名';
+i++;
+city[0][i] = '41613';
+city[1][i] = '肇庆';
+i++;
+city[0][i] = '41699';
+city[1][i] = '其它城市';
+i++;
+city[0][i] = '41701';
+city[1][i] = '南宁';
+i++;
+city[0][i] = '41702';
+city[1][i] = '玉林';
+i++;
+city[0][i] = '41703';
+city[1][i] = '柳州';
+i++;
+city[0][i] = '41799';
+city[1][i] = '其它城市';
+i++;
+city[0][i] = '41801';
+city[1][i] = '海口';
+i++;
+city[0][i] = '41802';
+city[1][i] = '三亚';
+i++;
+city[0][i] = '41899';
+city[1][i] = '其它城市';
+i++;
+city[0][i] = '51901';
+city[1][i] = '沈阳';
+i++;
+city[0][i] = '51902';
+city[1][i] = '大连';
+i++;
+city[0][i] = '51903';
+city[1][i] = '丹东';
+i++;
+city[0][i] = '51904';
+city[1][i] = '鞍山';
+i++;
+city[0][i] = '51905';
+city[1][i] = '抚顺';
+i++;
+city[0][i] = '51999';
+city[1][i] = '其它城市';
+i++;
+city[0][i] = '52001';
+city[1][i] = '哈尔滨';
+i++;
+city[0][i] = '52002';
+city[1][i] = '大庆';
+i++;
+city[0][i] = '52099';
+city[1][i] = '其它城市';
+i++;
+city[0][i] = '52101';
+city[1][i] = '长春';
+i++;
+city[0][i] = '52102';
+city[1][i] = '吉林';
+i++;
+city[0][i] = '52199';
+city[1][i] = '其它城市';
+i++;
+city[0][i] = '62201';
+city[1][i] = '西安';
+i++;
+city[0][i] = '62202';
+city[1][i] = '宝鸡';
+i++;
+city[0][i] = '62299';
+city[1][i] = '其它城市';
+i++;
+city[0][i] = '62301';
+city[1][i] = '乌鲁木齐';
+i++;
+city[0][i] = '62399';
+city[1][i] = '其它城市';
+i++;
+city[0][i] = '62401';
+city[1][i] = '兰州';
+i++;
+city[0][i] = '62499';
+city[1][i] = '其它城市';
+i++;
+city[0][i] = '62501';
+city[1][i] = '银川';
+i++;
+city[0][i] = '62599';
+city[1][i] = '其它城市';
+i++;
+city[0][i] = '62601';
+city[1][i] = '西宁';
+i++;
+city[0][i] = '62699';
+city[1][i] = '其它城市';
+i++;
+city[0][i] = '72701';
+city[1][i] = '成都';
+i++;
+city[0][i] = '72702';
+city[1][i] = '德阳';
+i++;
+city[0][i] = '72703';
+city[1][i] = '广元';
+i++;
+city[0][i] = '72704';
+city[1][i] = '绵阳';
+i++;
+city[0][i] = '72705';
+city[1][i] = '内江';
+i++;
+city[0][i] = '72799';
+city[1][i] = '其它城市';
+i++;
+city[0][i] = '72801';
+city[1][i] = '重庆';
+i++;
+city[0][i] = '72901';
+city[1][i] = '昆明';
+i++;
+city[0][i] = '72902';
+city[1][i] = '曲靖';
+i++;
+city[0][i] = '72903';
+city[1][i] = '玉溪';
+i++;
+city[0][i] = '72999';
+city[1][i] = '其它城市';
+i++;
+city[0][i] = '73001';
+city[1][i] = '贵阳';
+i++;
+city[0][i] = '73099';
+city[1][i] = '其它城市';
+i++;
+city[0][i] = '73101';
+city[1][i] = '拉萨';
+i++;
+city[0][i] = '73199';
+city[1][i] = '其它城市';
+i++;
+i = 0;
+working_field_[0][i] = '0';
+working_field_[1][i] = '请选择..';
+i++;
+working_field_[0][i] = '1101';
+working_field_[1][i] = '银行';
+i++;
+working_field_[0][i] = '1102';
+working_field_[1][i] = '保险';
+i++;
+working_field_[0][i] = '1103';
+working_field_[1][i] = '证券公司';
+i++;
+working_field_[0][i] = '1104';
+working_field_[1][i] = '会计/审计';
+i++;
+working_field_[0][i] = '1197';
+working_field_[1][i] = '其它金融服务';
+i++;
+working_field_[0][i] = '1201';
+working_field_[1][i] = '科研/教育';
+i++;
+working_field_[0][i] = '1202';
+working_field_[1][i] = '顾问/咨询服务';
+i++;
+working_field_[0][i] = '1203';
+working_field_[1][i] = '法律服务';
+i++;
+working_field_[0][i] = '1204';
+working_field_[1][i] = '医疗/保健';
+i++;
+working_field_[0][i] = '1297';
+working_field_[1][i] = '其它专业服务';
+i++;
+working_field_[0][i] = '1301';
+working_field_[1][i] = '政府机关';
+i++;
+working_field_[0][i] = '1302';
+working_field_[1][i] = '协会/非赢利性组织';
+i++;
+working_field_[0][i] = '1401';
+working_field_[1][i] = '计算机软/硬件';
+i++;
+working_field_[0][i] = '1402';
+working_field_[1][i] = '系统集成/科技公司';
+i++;
+working_field_[0][i] = '1403';
+working_field_[1][i] = '电信服务提供商';
+i++;
+working_field_[0][i] = '1404';
+working_field_[1][i] = '电信增值服务商';
+i++;
+working_field_[0][i] = '1497';
+working_field_[1][i] = '其它IT/通信业';
+i++;
+working_field_[0][i] = '1501';
+working_field_[1][i] = '媒体/信息传播';
+i++;
+working_field_[0][i] = '1502';
+working_field_[1][i] = '广告公司/展会公司';
+i++;
+working_field_[0][i] = '1503';
+working_field_[1][i] = '印刷/出版';
+i++;
+working_field_[0][i] = '1504';
+working_field_[1][i] = '酒店/饭店/旅游/餐饮';
+i++;
+working_field_[0][i] = '1505';
+working_field_[1][i] = '文化/体育/娱乐';
+i++;
+working_field_[0][i] = '1597';
+working_field_[1][i] = '其它媒体/娱乐';
+i++;
+working_field_[0][i] = '1601';
+working_field_[1][i] = '汽车制造';
+i++;
+working_field_[0][i] = '1602';
+working_field_[1][i] = '电子制造';
+i++;
+working_field_[0][i] = '1603';
+working_field_[1][i] = '快速消费品制造';
+i++;
+working_field_[0][i] = '1604';
+working_field_[1][i] = '制药/生物制造';
+i++;
+working_field_[0][i] = '1605';
+working_field_[1][i] = '工业设备制造';
+i++;
+working_field_[0][i] = '1606';
+working_field_[1][i] = '化工/石油制造';
+i++;
+working_field_[0][i] = '1697';
+working_field_[1][i] = '其它制造业';
+i++;
+working_field_[0][i] = '1701';
+working_field_[1][i] = '建筑工程/建设服务';
+i++;
+working_field_[0][i] = '1702';
+working_field_[1][i] = '楼宇';
+i++;
+working_field_[0][i] = '1703';
+working_field_[1][i] = '房地产';
+i++;
+working_field_[0][i] = '1797';
+working_field_[1][i] = '其它建筑业';
+i++;
+working_field_[0][i] = '1801';
+working_field_[1][i] = '能源开采';
+i++;
+working_field_[0][i] = '1802';
+working_field_[1][i] = '水/电/气等';
+i++;
+working_field_[0][i] = '1803';
+working_field_[1][i] = '公共事业';
+i++;
+working_field_[0][i] = '9901';
+working_field_[1][i] = '交通运输/仓储物流';
+i++;
+working_field_[0][i] = '9902';
+working_field_[1][i] = '批发/零售/分销';
+i++;
+working_field_[0][i] = '9903';
+working_field_[1][i] = '贸易/进出口';
+i++;
+working_field_[0][i] = '9997';
+working_field_[1][i] = '其它';
+i++;
+
+function setselect() {
+
+    if ($('#country').val() == '101') {
+        $('#state').attr('disabled', false);
+    } else {
+        $('#state').val('0');
+        $('#city').val('0');
+        $('#state').attr('disabled', true);
+        $('#city').attr('disabled', true);
+
+    }
+}
+function setselect3() {
+    if ($('#state').val() == '0') {
+        $('#city').attr('disabled', true);
+        $('#city').val('0');
+    } else {
+        $('#city').attr('disabled', false);
+        $("#city").empty();
+        $("<option value='" + city[0][0] + "'>" + city[1][0] + "</option>").appendTo("#city");
+        var thelenghth = city[0].length;
+        var j = 0;
+        for (j = 0; j < thelenghth; j++) {
+            //alert('aaaa');
+            //var thefirst = substring(thestate_2[0][j],1);
+            var thefirst = city[0][j].substr(0, 3);
+            //alert('aaaa1');
+            if (thefirst == $('#state').val()) {
+                $("<option value='" + city[0][j] + "'>" + city[1][j] + "</option>").appendTo("#city");
+            }
+        }
+    }
+}
+
+function setselect4() {
+
+    if ($('#industry').val() == '0') {
+        $('#working_field').attr('disabled', true);
+        $('#working_field').val('0');
+    } else {
+        $('#working_field').attr('disabled', false);
+        $("#working_field").empty();
+        $("<option value='" + working_field_[0][0] + "'>" + working_field_[1][0] + "</option>").appendTo("#working_field");
+        var thelenghth = working_field_[0].length;
+        var j = 0;
+        for (j = 0; j < thelenghth; j++) {
+            //alert('aaaa');
+            //var thefirst = substring(thestate_2[0][j],1);
+            var thefirst = working_field_[0][j].substr(0, 2);
+
+            //alert('aaaa1');
+            if (thefirst == $('#industry').val()) {
+                $("<option value='" + working_field_[0][j] + "'>" + working_field_[1][j] + "</option>").appendTo("#working_field");
+            }
+        }
+    }
+}
+
+function initselect() {
+    $("#city").empty();
+    $("<option value='" + city[0][0] + "'>" + city[1][0] + "</option>").appendTo("#city");
+    var thelenghth = city[0].length;
+    var j = 0;
+    for (j = 0; j < thelenghth; j++) {
+        //alert('aaaa');
+        //var thefirst = substring(thestate_2[0][j],1);
+        var thefirst = city[0][j].substr(0, 3);
+        //alert('aaaa1');
+        if (thefirst == $('#state').val()) {
+            if (usercity == city[0][j]) {
+                $("<option value='" + city[0][j] + "' selected>" + city[1][j] + "</option>").appendTo("#city");
+            } else {
+                $("<option value='" + city[0][j] + "'>" + city[1][j] + "</option>").appendTo("#city");
+            }
+        }
+    }
+
+    //alert(wfield);
+    if (wfield != null && wfield != "") {
+        var thefirst_ = wfield.substr(0, 2);
+        $('#industry').val(thefirst_);
+        $('#working_field').attr('disabled', false);
+        $("#working_field").empty();
+        $("<option value='" + working_field_[0][0] + "'>" + working_field_[1][0] + "</option>").appendTo("#working_field");
+        var thelenghth = working_field_[0].length;
+        var j = 0;
+        for (j = 0; j < thelenghth; j++) {
+            var thefirst = working_field_[0][j].substr(0, 2);
+            if (thefirst == thefirst_) {
+                $("<option value='" + working_field_[0][j] + "'>" + working_field_[1][j] + "</option>").appendTo("#working_field");
+            }
+        }
+        $('#working_field').val(wfield);
+
+    }
+    var thedate2 = null;
+    var theyear = null;
+    var themonth = null;
+    var theday = null;
+
+    if (thedate != "") {
+        thedate2 = setDate(thedate);
+        theyear = thedate2.getFullYear().toString();
+        themonth = (thedate2.getMonth() + 1).toString();
+        if (themonth.length < 2) {
+            themonth = "0" + themonth;
+        }
+        theday = thedate2.getDate().toString();
+        if (theday.length < 2) {
+            theday = "0" + theday;
+        }
+    }
+
+    $("#StartDateMonth").empty();
+    $("<option value=''></option>").appendTo("#StartDateMonth");
+    for (var k = 1; k <= 12; k++) {
+        var k2 = k.toString();
+        if (k2.length < 2) {
+            k2 = "0" + k2;
+        }
+        if (k2 == themonth) {
+            $("<option value='" + k2 + "' selected>" + k2 + "</option>").appendTo("#StartDateMonth");
+        } else {
+            $("<option value='" + k2 + "'>" + k2 + "</option>").appendTo("#StartDateMonth");
+        }
+    }
+    $("#StartDateDay").empty();
+    $("<option value=''></option>").appendTo("#StartDateDay");
+    for (var k = 1; k <= 31; k++) {
+        var k2 = k.toString();
+        if (k2.length < 2) {
+            k2 = "0" + k2;
+        }
+        if (k2 == theday) {
+            $("<option value='" + k2 + "' selected>" + k2 + "</option>").appendTo("#StartDateDay");
+        } else {
+            $("<option value='" + k2 + "'>" + k2 + "</option>").appendTo("#StartDateDay");
+        }
+    }
+
+    $("#StartDateYear").empty();
+    $("<option value=''></option>").appendTo("#StartDateYear");
+    var theend = new Date();
+    var theendyear = theend.getFullYear() - 10;
+    var thestartyear = theendyear - 65;
+    for (var k = thestartyear; k <= theendyear; k++) {
+        var k2 = k.toString();
+        if (k2 == theyear) {
+            $("<option value='" + k2 + "' selected>" + k2 + "</option>").appendTo("#StartDateYear");
+        } else {
+            $("<option value='" + k2 + "'>" + k2 + "</option>").appendTo("#StartDateYear");
+        }
+    }
+
+}
+function setDate(strDate) {
+    var aDate = strDate.split("-");
+    return new Date(aDate[0], aDate[1] - 1, aDate[2]);
+}
+</script>
+
+
+<SCRIPT>
+<!--
+var thedate = '<%$users.birthdate%>';
+var usercity = '<%$users.city%>';
+var wfield = '<%$users.working_field%>';
+initselect();
+//-->
+</SCRIPT>
+
+
+<!--设置的主要内容和代码End-->
+
+
+
+            </div></div>
+
+            <script>
+            document.getElementById('thekeys').focus();
+            </script>
+        </div></div>
+    </div></div>
+    <%include file="next/partials/TagRightRail.html"%>
+    <div class="clearfloat"></div>
+</div></div>

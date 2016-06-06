@@ -12,7 +12,7 @@
 <%assign var="tagtitle" value=$tag_name%>
 <%/if%>
 <%/if%>
-<%if $allstory|@count==0 && $storyCust|@count==0 && $tagstory2|@count==0 && $adchannelID=="" && $pageType != "search" %>
+<%if $allstory|@count==0 && $storyCust|@count==0 && $tagstory2|@count==0 && $adchannelID=="" && $pageType != "search" && $pageType != "findpassword"%>
 <%assign var="tagtitle" value="无效的标签"%>
 <%elseif $count_result == 0 && $pageType=="search"%>
 <%assign var="tagtitle" value="无效的关键字"%>
@@ -66,7 +66,10 @@
     
     <%if $pageType == "search"%>
         <style><%include file="next/styles/main-search.css"%></style>
-        <script type="text/javascript">var pageTheme = 'luxury';</script>
+    <%elseif $pageType == "form"%>
+        <style><%include file="next/styles/main-forms.css"%></style>
+    <%elseif $pageType == "job"%>
+        <style><%include file="next/styles/main-job.css"%></style>
     <%elseif $pageTheme == "luxury"%>
         <style><%include file="next/styles/main-luxury.css"%></style>
         <script type="text/javascript">var pageTheme = 'luxury';</script>
@@ -143,8 +146,12 @@
       <%include file="next/partials/banner.html"%>
       <%/if%>
       <%assign var="bannerCount" value=$bannerCount+1%>
-      <%if $pageType=="search"%>
+      <%if $pageId=="setting"%>
+        <%include file="next/partials/setting-block.html"%>
+      <%elseif $pageType=="search"%>
         <%include file="next/partials/search-block.html"%>
+      <%elseif $pageType=="findpassword"%>
+        <%include file="next/partials/findpassword.html"%>
       <%else%>
         <%include file="next/partials/tag-block.html"%>
       <%/if%>

@@ -16,7 +16,7 @@
         'float': ['none', 'left', 'right', 'oneline', 'SideBySide', 'myFT', 'IconTitle', 'Card', 'eBook'],
         'showTag': ['no', 'yes'],
         'showTimeStamp': ['no', 'new stories', 'all'],
-        'from': ['', 'MarketsData', 'SpecialReports', 'Columns', 'Channels', 'Events', 'MyTopics', 'Marketing'],
+        'from': ['', 'MarketsData', 'SpecialReports', 'Columns', 'Channels', 'Events', 'MyTopics', 'Marketing', 'findpassword'],
         'sideOption': ['headlineOnly', 'leadOnly', 'imageAndText', 'textOverImage'],
         'preferLead': ['longlead', 'shortlead', 'none'],
         'feedType': ['all','story','video','interactive','photo','job', 'myFT', 'fav', 'ftc_columns', 'ft_columns'],
