@@ -14,7 +14,8 @@ require 'nav-data.php';
 
 $data = [
 	"odatalist"=>[
-		$home, 
+		$home,
+		$myft,
 		$china, 
 		$global, 
 		$economy, 

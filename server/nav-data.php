@@ -224,6 +224,50 @@ $home = array (
   "type"=>"link",
 );
 
+$myft = array (
+  "id"=>"1",
+  "haschildren"=>"1",
+  "reid"=>"0",
+  "link"=>"/",
+  "name"=>"首页",
+  "children"=>array (
+    array (
+      "id"=>"17",
+      "haschildren"=>"0",
+      "reid"=>"1",
+      "link"=>"/channel/slides.html",
+      "name"=>"关注",
+      "children"=>array (),
+      "code"=>"photo",
+      "type"=>"link",
+    ),
+    array (
+      "id"=>"18",
+      "haschildren"=>"0",
+      "reid"=>"1",
+      "link"=>"/jobs/",
+      "name"=>"保存的文章",
+      "children"=>array (),
+      "code"=>"job",
+      "type"=>"link",
+    ),
+    array (
+      "id"=>"110",
+      "haschildren"=>"0",
+      "reid"=>"1",
+      "link"=>"/channel/datanews.html",
+      "name"=>"发现",
+      "children"=>array (),
+      "code"=>"datanews",
+      "type"=>"channel",
+    ),
+  ),
+  "code"=>"myft",
+  "type"=>"link",
+);
+
+
+
 $china = array (
   "id"=>"2",
   "haschildren"=>"0",
