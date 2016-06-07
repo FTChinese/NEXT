@@ -52,7 +52,7 @@ document.documentElement.className = document.documentElement.className.replace(
 <!-- endbuild -->
 
 <!-- build:css styles/main.css -->
-<link rel="stylesheet" href="styles/main.css">
+<link rel="stylesheet" href="styles/main-XL.css">
 <!-- endbuild -->
 
 <!-- build:css styles/main-ie-XL.css -->
@@ -126,7 +126,7 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 <!-- build:js scripts/main.js -->
 <script src="scripts/dom-delegate.js"></script>
 <script src="scripts/main.js"></script>
-<script src="scripts/o-nav.js"></script>
+
 <!-- endbuild -->
 
 </html>

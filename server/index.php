@@ -30,7 +30,7 @@ $data = [
 
 $smarty->assign('datass1', $data);
 
-$smarty->assign('topnav', 'home');
+$smarty->assign('topnav', 'china');
 // $smarty->assign('subnav', 'special');
 
 // $smarty->assign('topnav', 'china');

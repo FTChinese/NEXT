@@ -756,12 +756,11 @@
 
 	.nav-section{
 		display: inline-block;
+		position: relative;
 		&:hover {
-			// @include oColorsFor(o-header-sub-nav, background);
 			background-color: $headerTintLight;
 		}
 		&[aria-selected=true] {
-			// @include oColorsFor(o-header-sub-nav, background);
 			background-color: $headerTintLight;
 		}
 		&.mobile {		
@@ -779,7 +778,6 @@
 		line-height: $o-header-bottom-height;
 		display: block;
 		text-decoration: none;
-	 	// @include oColorsFor(o-header, text);
 		background-color: inherit;
 		color: $whiteColor;
 		&.desktop {
@@ -788,8 +786,6 @@
 			transition: $o-header-background-transition;
 
 			&:hover {
-				// @include oColorsFor(o-header-sub-nav, background);
-				// @include oColorsFor(o-header, text);
 				background-color: $headerTintLight;
 				color: $whiteColor;
 			}
@@ -806,69 +802,61 @@
 
 		position: absolute;
 		left: 0;
-		display: none;
-		width: 100%;
-		//height: 0;
+		height: 0;
+		transition: 0.3s height;
+		overflow: hidden;
+		min-width: 100%;
 		z-index: 1;
 
 		// @include oColorsFor(o-header-sub-nav, background);
 		background-color: $headerTintLight;
 		color: $whiteColor;
-
-		overflow: hidden;
-
-		&:hover {
-			overflow: visible;
-		}
 	}
 
 	.nav-section:hover,
-	.nav-section-head.desktop:hover ~,
-	.nav-section[aria-selected=true]{
+	.nav-section-head.desktop:hover ~ {
 		.nav-items {
 			z-index: 5;
-			display: block;
+			height: auto;
+			overflow: visible;
 		}		
 	}
 
 
 	&.o-nav-sticky {
-		.nav-section,
 		.nav-section:hover,
 		.nav-section-head.desktop:hover ~ {
 			.nav-items {
 					display: none;
+					height: 0;
 				}
 			}
 	}
 
 	.nav-item {
+		box-sizing: border-box;
 		&.mobile {
 			display: none;
 		}
 		position: relative;
-		display: inline-block;
+		min-width: 100%;
+		display: block;
+		border-top: 1px solid #666;
 		
 		&[aria-haspopup=true] {
-			.nav-link {
-				&:after {
-					content: '';
-					display: inline-block;
-					margin-left: 10px;
-					@include oHeaderArrowDown;
-				}
-
-				&:hover {
-					&:after {
-					@include oHeaderArrowUp;
-					}
-				}
+			.nav-link:after {
+				content: '';
+				@include oHeaderIcon('white/arrow-down-white', 10);
+				position: absolute;
+				right: 10px;
+				top: 50%;
+				margin-top: -5px;
 			}
-
-		 	&:hover {
-		 		.nav-link:after {
-					@include oHeaderArrowUp;
-		 		}
+			
+			.nav-link:hover:after,
+			&:hover .nav-link:after {
+				background-image: url('http://static.ftchinese.com/ftc-icons/png/white/arrow-right-white.png');
+				background-image: url('http://static.ftchinese.com/ftc-icons/svg/white/arrow-right-white.svg');				
 			}
 		}
 	}
@@ -881,15 +869,13 @@
 		white-space: nowrap;
 		line-height: $o-header-sub-nav-height;
 		height: $o-header-sub-nav-height;
-		padding: 0 10px;
+		padding: 0 25px 0 15px;
 		font-size: 14px;
 		// @include oColorsFor(o-header, text);
 		color: $whiteColor;
 		cursor: pointer;
 		&:hover,
 		.nav-item[aria-selected=true] & {
-			// @include oColorsFor(o-header-nav-link-hover, background);
-			// @include oColorsFor(o-header, text);
 			background-color: $darkGreen;
 			color: $whiteColor;
 		}		
@@ -900,19 +886,18 @@
 		margin: 0;
 		padding: 0;
 		position: absolute;
-		left: 0;
+		left: 100%;
+		top: 0;
 		min-width: 100%;
 
 		display: none;
 
-		// @include oColorsFor(o-header-sub-nav, background);
 		background-color: $headerTint;
 		li {
 			border-top: 1px solid #666;
 		}
 
 		a{
-			// @include oColorsFor(o-header, text);
 			color: $whiteColor;
 			padding: 0 20px;
 			height: $o-header-sub-nav-height;
@@ -923,7 +908,6 @@
 			white-space: nowrap;
 
 			&:hover {
-				// @include oColorsFor(o-header-nav-link-hover, background);
 				background-color: $darkGreen;
 			}
 		}
@@ -941,6 +925,9 @@
 	}
 
 	.o-nav__extra-tools {
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
 		display: inline-block;
 		height: $o-header-sub-nav-height;
 		overflow: hidden;
@@ -951,39 +938,87 @@
 		width: auto;
 		z-index: 10;
 
+		.nav-section-head {
+			line-height: $o-header-sub-nav-height;
+			padding: 0 5px 0 0;
+			color: #fff;
+			&:after {
+				content: '';
+				padding-left: 1em;
+				@include oHeaderIcon('white/arrow-down-white', 10);
+			}
+		}
+
+		.nav-section-head:hover:after,
+		.nav-section:hover .nav-section-head:after {
+			background-image: url('http://static.ftchinese.com/ftc-icons/png/white/arrow-up-white.png');
+			background-image: url('http://static.ftchinese.com/ftc-icons/svg/white/arrow-up-white.svg');
+		}
+
 		&:hover {
 			overflow: visible;
 		}
 
-		.nav-sub-items {
+		.nav-items {
 			left: auto;
 			right: 0;
-			&.follow-us a {
-				background-repeat: no-repeat;
-				background-position: left center;
-				background-size: contain;
+		}
+
+		.follow__rss {
+			display: inline-block;
+			vertical-align: middle;
+			span {
+				text-indent: -999em;
+				@include oHeaderIcon(rss, 20);
 			}
-		}		
+		}
 	}
 
 	&.o-nav-sticky .o-nav__extra-tools {
-		display: none;
+		height: 0;
 		overflow: hidden;
 	}
 
-	.follow__rss {
-		padding: 0;
-		&:after {
-			content: '';
-			@include oHeaderIcon(rss, 20)
-			vertical-align: middle;
+	.nav-section[aria-selected=true] {
+		position: static;
+
+		.nav-items {
+			overflow: hidden;
+			display: inline;
+			transition: $o-header-height-transition;
+			height: $o-header-sub-nav-height;
 		}
-		span {
-			display: none;
+
+		.nav-item {
+			display: inline-block;
+			min-width: auto;
+			width: auto;
+			border:0;
+			&.mobile {
+				display: none;
+			}
+			&[aria-haspopup=true] {
+				.nav-link:hover:after,
+				&:hover .nav-link:after {
+					background-image: url('http://static.ftchinese.com/ftc-icons/png/white/arrow-up-white.png');
+					background-image: url('http://static.ftchinese.com/ftc-icons/svg/white/arrow-up-white.svg');
+				}			
+			}
 		}
-		&:hover {
-			background-color: transparent;
+
+		.nav-link {
+			display: inline-block;
+			padding: 0 10px;
 		}
+
+		.nav-sub-items {
+			left: 0;
+			top: 100%;
+		}
+	}
+	
+	&.o-nav-sticky .nav-section[aria-selected=true] .nav-items {
+		height: 0;
 	}
 
 	.current-page {
@@ -1058,7 +1093,7 @@
 
 		&:after {
 			content: '';
-			@include oHeaderIcon(search, 20);
+			@include oHeaderIcon('white/search-white', 20);
 		}
 	 	span {
 			display: none;
