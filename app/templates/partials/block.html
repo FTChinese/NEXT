@@ -425,12 +425,12 @@
 										<%assign var="XL" value="XL8"%>
 									<%elseif $i===2 && $list.items[1].image !== ""%>
 										<%if $list.preferLead == 'none'%>
-											<%assign var="XL" value="XL4 XL-right"%>
+											<%assign var="XL" value="XL4 XL-right XL-no-tag"%>
 										<%else%>
-											<%assign var="XL" value="XL4 XL-right XL-no-image"%>
+											<%assign var="XL" value="XL4 XL-right XL-no-image XL-no-tag"%>
 										<%/if%>
 									<%elseif $i===1%>
-										<%assign var="XL" value="XL4 XL-right"%>
+										<%assign var="XL" value="XL4 XL-right XL-no-tag"%>
 									<%else%>
 										<%assign var="XL" value="XL4"%>
 									<%/if%>
@@ -994,6 +994,12 @@
 						</div>
 						<%assign var="s" value=$s+1%>
 					<%/if%>
+				<%elseif $list.type == "SideInclude"%>
+						<div class="mps<%$firstChildClass%><%$lastChildClass%>">
+							<h2 class="list-title"><a href="<%$list.url|default:"#"%>"><%$list.title|default:$defaultTitle%></a></h2>
+							<%include file="next/partials/`$list.fromSide`.html"%>
+						</div>
+						<%assign var="s" value=$s+1%>
 				<%elseif $list.type == "SideRanking"%>
 					<%if $list.feedType == "video"%>
 						<%assign var="defaultTitle" value="热门视频"%>

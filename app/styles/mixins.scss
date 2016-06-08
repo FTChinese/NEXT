@@ -176,6 +176,12 @@
 		padding-top: 0;
 	}
 }
+@mixin noTag {
+	.item-tag {
+		display: none;
+	}
+}
+
 @mixin XL {
 	.XL2 {
 		width: 16.6666666667%;
@@ -196,6 +202,10 @@
 		width: 66.666666667%;
 		.item-headline {
 			font-size: 1.4em;
+		}
+		.relative {
+			font-size: 1em;
+			line-height: 200%;
 		}
 	}
 	.XL12 {
@@ -233,6 +243,9 @@
 	}
 	.XL-no-image {
 		@include noImage;
+	}
+	.XL-no-tag {
+		@include noTag;
 	}
 	.XL-main {
 		width: 66.66666667%;
@@ -311,6 +324,10 @@
 		.item-headline {
 			font-size: 1.4em;
 		}
+		.relative {
+			font-size: 1em;
+			line-height: 200%;
+		}
 	}
 	.L12 {
 		width: 100%;
@@ -342,6 +359,9 @@
 	}
 	.L-no-image {
 		@include noImage;
+	}
+	.L-no-tag {
+		@include noTag;
 	}
 	.L-no-lead {
 		.item-headline {

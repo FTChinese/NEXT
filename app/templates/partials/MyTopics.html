@@ -8,6 +8,7 @@
         <div class="content-container">
             <div class="content-inner">
             	<%assign var="echostoryid" value=""%>
+            	<%assign var="echotopics" value="topic"%>
             	<%assign var="l" value=0%>
 				<%foreach from=$topicsdata item=list%>
 					<%assign var="listTop" value=""%>
@@ -63,8 +64,85 @@
 							</div></div>
 					    </div>
 					</div>
+					<%assign var="echotopics" value="`$echotopics`,`$list[0].tag`"%>
 				<%/foreach%>
 				<div class="clearfloat block-bottom"></div>
+
+
+
+
+
+
+				<%if $topicsdata|@count<6%>
+					<div class="list-title"><a class="list-link">热门话题</a></div>
+					<%easyapi command="60020" debug=false%>
+					<%assign var="topicsdata" value=$data.odatalist%>
+	            	<%assign var="echostoryid" value=""%>
+	            	<%assign var="l" value=0%>
+					<%foreach from=$topicsdata item=list%>
+						<%if !in_array($list.tag, explode(',',$echotopics))%>
+							<%assign var="listTop" value=""%>
+							<%assign var="listTopClass" value=""%>
+							<%if $hasSide != ""%>
+								<%assign var="listClass" value=" XL4 L6 M12 S6 P12 side-by-side"%>
+								<%if $l%3 === 0 %>
+									<%assign var="listTopClass" value="XLT"%>
+								<%/if%>
+								<%if $l%2 === 0 %>
+									<%assign var="listTopClass" value="`$listTopClass` LT ST"%>
+								<%/if%>
+								<%assign var="listTopClass" value="`$listTopClass` MT PT"%>
+							<%else%>
+								<%assign var="listClass" value=" XL3 L4 M6 S6 P12 side-by-side"%>
+								<%if $l%4 === 0 %>
+									<%assign var="listTopClass" value="XLT"%>
+								<%/if%>
+								<%if $l%3 === 0 %>
+									<%assign var="listTopClass" value="`$listTopClass` LT"%>
+								<%/if%>
+								<%if $l%2 === 0 %>
+									<%assign var="listTopClass" value="`$listTopClass` MT ST"%>
+								<%/if%>
+								<%assign var="listTopClass" value="`$listTopClass` PT"%>
+							<%/if%>
+							<%if $listTopClass !== "" && $l > 0%>
+								<%assign var="listTop" value="<div class=\"`$listTopClass`\"></div>"%>
+							<%/if%>
+							<%assign var="l" value=$l+1%>
+							<%$listTop%>
+							<%easyapi command="10005" tags=$list.tag debug=false%>
+							<%assign var="tagItems" value=$data.odatalist%>
+							<div class="list-container <%$listClass%>">
+							    <div class="list-inner">
+									<div class="item-container side-by-side first no-image"><div class="item-inner">
+										<h2 class="item-headline">
+											<div class="item-tag"><a href="/tag/<%$list.tag%>"><%$list.tag%></a><button class="myft-follow plus" data-tag="<%$list.tag%>" data-type="tag">关注</button></div>
+											<a target="_blank" href="/<%$tagItems[0].itemtype%>/<%$tagItems[0].id%>"><%$tagItems[0].cheadline%></a>
+										</h2>
+										<div class="item-lead"><%$tagItems[0].clead%></div>
+										<div class="relative-container">
+									        <%assign var="i" value=0%>
+									        <%foreach from=$tagItems item=item%>
+												<%if $i < 4 && $i > 0%>
+													<h3 class="relative">
+														<a target="_blank" href="/<%$item.itemtype%>/<%$item.id%>"><%$item.cheadline%></a>
+													</h3>
+												<%/if%>
+												<%assign var="i" value=$i+1%>
+									        <%/foreach%>
+											<div class="clearfloat"></div>
+										</div>
+										<div class="item-bottom"></div>
+									</div></div>
+							    </div>
+							</div>
+						<%/if%>
+					<%/foreach%>
+					<div class="clearfloat block-bottom"></div>
+				<%/if%>
+
+
+
             </div>
         </div>
         <%if $hasSide != ""%>
