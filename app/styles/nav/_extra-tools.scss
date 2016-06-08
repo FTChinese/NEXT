@@ -1,3 +1,48 @@
+// Make current page sub nav horizontal.
+@include oGridRespondTo(L) {
+	.nav-section[aria-selected=true] {
+		position: static;
+
+		.nav-items {
+			overflow: hidden;
+			display: inline;
+			transition: $o-header-height-transition;
+			height: $o-header-sub-nav-height;
+		}
+
+		.nav-item {
+			display: inline-block;
+			min-width: auto;
+			width: auto;
+			border:0;
+			&.mobile {
+				display: none;
+			}
+			&[aria-haspopup=true] {
+				.nav-link:hover:after,
+				&:hover .nav-link:after {
+					background-image: url('http://static.ftchinese.com/ftc-icons/png/white/arrow-up-white.png');
+					background-image: url('http://static.ftchinese.com/ftc-icons/svg/white/arrow-up-white.svg');
+				}			
+			}
+		}
+
+		.nav-link {
+			display: inline-block;
+			padding: 0 10px;
+		}
+
+		.nav-sub-items {
+			left: 0;
+			top: 100%;
+		}
+	}
+	.o-nav-sticky .nav-section[aria-selected=true] .nav-items {
+		height: 0;
+	}
+}
+
+
 .o-nav__extra-tools {
 	display: none;
 	list-style-type: none;
@@ -14,8 +59,27 @@
 		position: absolute;
 		right: 0;
 		left: auto;
+		min-width: auto;
 		width: auto;
+
 		z-index: 10;
+
+		.nav-section-head {
+			line-height: $o-header-sub-nav-height;
+			padding: 0 5px 0 0;
+			color: #fff;
+			&:after {
+				content: '';
+				padding-left: 1em;
+				@include oHeaderIcon('white/arrow-down-white', 10);
+			}
+		}
+
+		.nav-section-head:hover:after,
+		.nav-section:hover .nav-section-head:after {
+			background-image: url('http://static.ftchinese.com/ftc-icons/png/white/arrow-up-white.png');
+			background-image: url('http://static.ftchinese.com/ftc-icons/svg/white/arrow-up-white.svg');
+		}
 
 		&:hover {
 			overflow: visible;
@@ -26,31 +90,19 @@
 			overflow: hidden;
 		}
 
-		.nav-sub-items {
+		.nav-items {
 			left: auto;
 			right: 0;
-			&.follow-us a {
-				//padding-left: 40px;
-				background-repeat: no-repeat;
-				background-position: left center;
-				background-size: contain;
+		}
+
+		.follow__rss {
+			display: inline-block;
+			vertical-align: middle;
+			span {
+				text-indent: -999em;
+				@include oHeaderIcon(rss, 20);
 			}
 		}
-	}
-}
-
-.follow__rss {
-	padding: 0;
-	&:after {
-		content: '';
-		@include oHeaderIcon(rss, 20)
-		vertical-align: middle;
-	}
-	span {
-		display: none;
-	}
-	&:hover {
-		background-color: transparent;
 	}
 }
 
@@ -64,5 +116,6 @@
 	left: 0;
 	bottom: 0;
 }
+
 
 

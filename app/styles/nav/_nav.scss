@@ -24,16 +24,13 @@
 	margin: 0;
 	padding: 0;
 	@include oGridRespondTo(L) {
-		// @include oColorsFor(o-header, text background);
 		background-color: $headerTint;
 		color: $whiteColor;
 		white-space: nowrap;
-		overflow-x: hidden;
+		// overflow-x: hidden;
 	}
 	
 	@include oGridRespondTo($until:L) {
-
-		// @include oColorsFor(o-header-mega-nav);
 		background-color: $o-nav-pink-mobile;
 		color: $headerTint;
 		
@@ -49,7 +46,6 @@
 			left: 0;
 			bottom: 0;
 			width: $o-header-mobile-left-width;
-			// @include oColorsFor(o-header);
 			background-color: $headerTint;
 			color: $whiteColor;
 			z-index: -1;
@@ -74,14 +70,13 @@
 .nav-section{
 	@include oGridRespondTo(L) {
 		display: inline-block;
+		position: relative;
 
-		// &:hover {
-		// 	background-color: $headerTintLight;
-		// }
+		&:hover,
 		&[aria-selected=true] {
-			// @include oColorsFor(o-header-sub-nav, background);
 			background-color: $headerTintLight;
 		}
+
 		&.mobile {		
 			display: none;
 		}
@@ -111,7 +106,6 @@
 	line-height: $o-header-bottom-height;
 	display: block;
 	text-decoration: none;
- 	// @include oColorsFor(o-header, text);
 	background-color: inherit;
 	color: $whiteColor;
 	@include oGridRespondTo($until:L) {
@@ -131,12 +125,11 @@
 			content: '';
 			padding-left: 1em;
 			margin-right: -15px;
-			@include oHeaderIcon(arrow-right-white, 10);
+			@include oHeaderIcon('white/arrow-right-white', 10);
 		}
 
 		&[aria-selected=true] {
 // When button.nav-section-head was clicked
-			// @include oColorsFor(o-header-mega-nav);
 			background-color: $o-nav-pink-mobile;
 			color: $headerTint;
 			font-weight: bold;
@@ -179,40 +172,26 @@
 	@include oGridRespondTo(L) {
 		position: absolute;
 		left: 0;
-		display: block;
-		width: 100%;
 		height: 0;
+		transition: 0.3s height;
+		overflow: hidden;
+		min-width: 100%;
 		z-index: 1;
 // set color explicitly to enable transition.
-		// @include oColorsFor(o-header-sub-nav, background);
 		background-color: $headerTintLight;
 		color: $whiteColor;
 
-// hide overflow so that contents inside it could be transitioned.
-		overflow: hidden;
-// make sub menu visible
-		&:hover {
+		.nav-section:hover &,
+		.nav-section-head.desktop:hover ~ &{
+			z-index: 5;
+			height: auto;
 			overflow: visible;
 		}
 
-		.nav-section:hover &,
-		.nav-section-head.desktop:hover ~ &{
-			height: $o-header-sub-nav-height;
-			z-index: 5; // make sure it is always on top when hovered.
-		}
-// Only add transition on currently visible sub-nav
-		.nav-section[aria-selected=true] &{
-			transition: $o-header-height-transition;
-			height: $o-header-sub-nav-height;
-		}
-
-// hide when scrolled. To keep transiton effect, do no use  display, visibility.
-		.o-nav-sticky .nav-section[aria-selected=true] & {
-			height: 0;
-		}
 		.o-nav-sticky .nav-section:hover &,
 		.o-nav-sticky .nav-section-head.desktop:hover ~ & {
 			display: none;
+			height: 0;
 		}
 	}
 
@@ -243,32 +222,29 @@
 
 .nav-item {
 	@include oGridRespondTo(L) {
+		box-sizing: border-box;
 		&.mobile {
 			display: none;
 		}
 		position: relative;
-		display: inline-block;
-		
-		&[aria-haspopup=true] {
-			.nav-link {
-				&:after {
-					content: '';
-					display: inline-block;
-					margin-left: 10px;
-					@include oHeaderArrowDown;
-				}
+		min-width: 100%;
+		display: block;
+		border-top: 1px solid #666;
 
-				&:hover {
-					&:after {
-					@include oHeaderArrowUp;
-					}
-				}
+		&[aria-haspopup=true] {
+			.nav-link:after {
+				content: '';
+				@include oHeaderIcon('white/arrow-down-white', 10);
+				position: absolute;
+				right: 10px;
+				top: 50%;
+				margin-top: -5px;
 			}
 
-		 	&:hover {
-		 		.nav-link:after {
-					@include oHeaderArrowUp;
-		 		}
+			.nav-link:hover:after,
+			&:hover .nav-link:after {
+				background-image: url('http://static.ftchinese.com/ftc-icons/png/white/arrow-right-white.png');
+				background-image: url('http://static.ftchinese.com/ftc-icons/svg/white/arrow-right-white.svg');
 			}
 		}
 	}
@@ -289,17 +265,15 @@
 		text-align: right;
 
 		line-height: 32px;
-		min-height: 32px;
+		height: 32px;
 		padding-right: 15px;
 		margin: 0;
 		font-size: 14px;
 // set color and background-color that same as `.nav-section-head` for links on the left.
-		// @include oColorsFor(o-header);
 		background-color: $headerTint;
 		color: $whiteColor;
 
 		&:hover {
-			// @include oColorsFor(o-header, text);
 			color: $whiteColor;
 		}
 
@@ -332,16 +306,13 @@
 		white-space: nowrap;
 		line-height: $o-header-sub-nav-height;
 		height: $o-header-sub-nav-height;
-		padding: 0 10px;
+		padding: 0 25px 0 15px;
 		font-size: 14px;
-		// @include oColorsFor(o-header, text);
 		color: $whiteColor;
 
 		cursor: pointer;
 		&:hover,
 		.nav-item[aria-selected=true] & {
-			// @include oColorsFor(o-header-nav-link-hover, background);
-			// @include oColorsFor(o-header, text);
 			background-color: $darkGreen;
 			color: $whiteColor;
 		}		
@@ -349,7 +320,6 @@
 }
 
 .nav-sub-items {
-
 	display: none;
 
 	@include oGridRespondTo(L) {
@@ -357,12 +327,12 @@
 		margin: 0;
 		padding: 0;
 		position: absolute;
-		left: 0;
+		left: 100%;
+		top: 0;
 		min-width: 100%;
 
 		display: none;
 
-		// @include oColorsFor(o-header-sub-nav, background);
 		background-color: $headerTintLight;
 
 		li {
@@ -370,7 +340,6 @@
 		}
 
 		a{
-			// @include oColorsFor(o-header, text);
 			color: $whiteColor;
 			padding: 0 20px;
 			height: $o-header-sub-nav-height;
@@ -381,7 +350,6 @@
 			white-space: nowrap;
 
 			&:hover {
-				// @include oColorsFor(o-header-nav-link-hover, background);
 				background-color: $darkGreen;
 			}
 		}
@@ -400,7 +368,6 @@
 	@include oGridRespondTo(L) {
 		display: none;
 	}
-	// @include oColorsFor(o-header, text background);
 	background-color: $headerTint;
 	color: $whiteColor;
 
@@ -427,12 +394,12 @@
 		&:before {
 			content: '';
 			vertical-align: middle;
-			@include oHeaderIcon(hamburger, 20);
+			@include oHeaderIcon('white/hamburger-white', 20);
 		}
 
 		&[aria-pressed=true]{
 			&:before {
-				@include oHeaderIcon(cross, 20);
+				@include oHeaderIcon('white/cross-white', 20);
 			}
 
 		}		
