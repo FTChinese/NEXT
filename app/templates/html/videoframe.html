@@ -5,6 +5,12 @@
 <%else%>
 <%assign var="autostart" value="true"%>
 <%/if%>
+<%if $itemType == ""%>
+    <%assign var="itemType" value="video"%>
+<%/if%>
+<%if $cc_vaddress == ""%>
+    <%assign var="cc_vaddress" value=$cbyline_status%>
+<%/if%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,14 +29,14 @@ html,body{background:#000;height:100%;min-height:100%;}
 </head>
 
 <body>
-    <%assign var="virtualPage" value="/video/`$id`?contentType=other&channel=`$catalogname`&pageType=iframe"%>
+    <%assign var="virtualPage" value="/`$itemType`/`$id`?contentType=other&channel=`$catalogname`&pageType=iframe"%>
     <% foreach item=t from=$tag %>
     <% if preg_match('/英文原声/is',$t.tag) %>
-      <%assign var="virtualPage" value="/video/`$id`?contentType=english&channel=`$catalogname`&pageType=iframe"%>
+      <%assign var="virtualPage" value="/`$itemType`/`$id`?contentType=english&channel=`$catalogname`&pageType=iframe"%>
     <%/if%>
     <%/foreach%>
     <%if preg_match('/英文原声/is',$cheadline)%>
-      <%assign var="virtualPage" value="/video/`$id`?contentType=english&channel=`$catalogname`&pageType=iframe"%>
+      <%assign var="virtualPage" value="/`$itemType`/`$id`?contentType=english&channel=`$catalogname`&pageType=iframe"%>
     <%/if%>
     <script>
           var virtualPage = "<%$virtualPage%>";

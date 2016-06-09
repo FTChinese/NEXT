@@ -49,19 +49,37 @@
 	</div>
 	-->*%>
 
+
+
+
+
+
+
 	<%if in_array(date("Ymd"),explode(",",$ad.Ribbon)) && $smarty.get.ad != "no"%>
 	<iframe id="ribbon" class="ad-hidden hide" width="100%" height="0" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="/m/marketing/a.html#adid=10000009&slot=986723212&pid=ribbon"></iframe>
 	<%/if%>
 
-	<div class="links-container P-hide">
-		<h2 class="list-title"><a href="/m/marketing/home.html">会员信息中心</a></h2>
-		<div class="links" id="member-info">
-		<a>...</a><a>...</a><a>...</a>
+	<%if date("Ymd",$smarty.now) <= 20160615%>
+		<%assign var="video" value=$interactivemodel->get_interactive_by_tag('推广视频',1)%>
+		<div class="vidoes">
+			<div class="video-container">
+				<div class="video-inner">
+					<iframe name="video-frame" id="video-frame" style="width:100%;height:100%;" src="/interactive/<%$video[0].id%>?i=1&w=360&h=203&autostart=false" scrolling="no" frameborder="0" allowfullscreen=true></iframe>
+				</div>
+			</div>
+			<div class="video-title"><a href="/interactive/7083" target=_blank><%$video[0].cheadline%></a></div>
 		</div>
-		<div class="hide">
-		<iframe width="0" height="0" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="/m/marketing/membertext.html"></iframe>
+	<%else%>
+		<div class="links-container P-hide">
+			<h2 class="list-title"><a href="/m/marketing/home.html">会员信息中心</a></h2>
+			<div class="links" id="member-info">
+			<a>...</a><a>...</a><a>...</a>
+			</div>
+			<div class="hide">
+			<iframe width="0" height="0" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="/m/marketing/membertext.html"></iframe>
+			</div>
 		</div>
-	</div>
+	<%/if%>
 
 	<%if $smarty.get.ad != "no"%>
 		<div class="mpu-container">
