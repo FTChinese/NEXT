@@ -51,12 +51,8 @@ document.documentElement.className = document.documentElement.className.replace(
 <link rel="stylesheet" href="styles/main-footer.css">
 <!-- endbuild -->
 
-<!-- build:css styles/main.css -->
-<link rel="stylesheet" href="styles/main-XL.css">
-<!-- endbuild -->
-
 <!-- build:css styles/main-ie-XL.css -->
-<!--link rel="stylesheet" href="styles/main-ie-XL.css"-->
+<link rel="stylesheet" href="styles/main-ie-XL.css">
 <!-- endbuild -->
 
 
