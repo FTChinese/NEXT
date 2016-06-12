@@ -16,7 +16,8 @@
         'float': ['none', 'left', 'right', 'oneline', 'SideBySide', 'myFT', 'IconTitle', 'Card', 'eBook'],
         'showTag': ['no', 'yes'],
         'showTimeStamp': ['no', 'new stories', 'all'],
-        'from': ['', 'MarketsData', 'SpecialReports', 'Columns', 'Channels', 'Events', 'MyTopics', 'Marketing', 'findpassword'],
+        'from': ['', 'MarketsData', 'SpecialReports', 'Columns', 'Channels', 'Events', 'MyTopics', 'Discover', 'Marketing', 'findpassword'],
+        'fromSide': ['PartnerActivity'],
         'sideOption': ['headlineOnly', 'leadOnly', 'imageAndText', 'textOverImage'],
         'preferLead': ['longlead', 'shortlead', 'none'],
         'feedType': ['all','story','video','interactive','photo','job', 'myFT', 'fav', 'ftc_columns', 'ft_columns'],
@@ -55,7 +56,8 @@
             'list': ['name', 'title', 'url', 'language', 'description', 'style', 'float', 'showTag', 'showTimeStamp', 'preferLead', 'sponsorAdId', 'sponsorLogoUrl', 'sponsorLink', 'sponsorNote', 'feedItems', 'feedTag', 'feedType', 'feedImage'],
             'SideMPU': ['name'],
             'SideWithItems':['name', 'title', 'url', 'sideOption', 'feedItems', 'feedTag', 'feedType'],
-            'SideRanking': ['name', 'title', 'url', 'feedItems', 'feedTag', 'feedType']
+            'SideRanking': ['name', 'title', 'url', 'feedItems', 'feedTag', 'feedType'],
+            'SideInclude': ['name', 'title', 'url', 'fromSide']
         }
     };
     var devices = [

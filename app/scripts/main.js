@@ -74,11 +74,22 @@ function stickyBottomPrepare() {
   }
 
   w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+
+  // console.log (w);
+  //     console.log (hasSideWidth); 
   if (sectionsWithSide.length > 0) {
 
     for (var i=0; i<sectionsWithSide.length; i++) {
-      sectionClassName[i] = sectionsWithSide[i].className;        
-      if (!/fixmain|fixside|bottommain|bottomside|sticktop/.test(sectionClassName[i])) {
+
+      sectionClassName[i] = sectionsWithSide[i].className;       
+      if (w < hasSideWidth) {
+        sectionClassNameNew[i] = sectionClassName[i].replace(/ fixmain| fixside| bottommain| bottomside| sticktop/g,'');
+        if (sectionClassNameNew[i] !== sectionClassName[i]) {
+          // remove sticky side on mobile phone
+          sectionClassName[i] = sectionClassNameNew[i];
+          sectionsWithSide[i].className = sectionClassNameNew[i];
+        }
+      } else if (!/fixmain|fixside|bottommain|bottomside|sticktop/.test(sectionClassName[i])) {
         //calculate heights only when the sticky classes are not present
         containerTop[i] = findTop(sectionsWithSide[i]);
         mainHeight[i] = sectionsWithSide[i].querySelector('.content-inner').offsetHeight;
@@ -295,8 +306,11 @@ try {
 
 // get the top of navigation
 gNavOffsetY = findTop(document.querySelector('.o-nav__placeholder'));
+if (gNavOffsetY === 0) {
+  gNavOffsetY = findTop(document.querySelector('.site-map'));
+}
 
-console.log (gAudioOffsetY);
+// console.log (gAudioOffsetY);
 // disable sticky scroll on touch devices
 if ((gNavOffsetY > 30 && w > 490 && isTouchDevice() === false) || document.getElementById('audio-placeholder')) {
   try {

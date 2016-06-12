@@ -609,3 +609,26 @@
 		font-size: 0.9em;
 	}
 }
+.links {
+	padding: 0 $defaultPadding $defaultPadding $defaultPadding;
+	font-size: 0.75em;
+	a {
+		display: block;
+		padding-top: $defaultPadding/2;
+		margin-top: $defaultPadding/2;
+		border-top: 1px dotted $borderColor;
+		overflow: hidden;
+		width: 100%;
+		max-width: 100%;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		&:first-child {
+			border: 0;
+			margin-top: 0;
+			padding-top: 0;
+		}
+		&:hover, &:active {
+			text-decoration: underline;
+		}
+	}
+}

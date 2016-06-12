@@ -217,10 +217,6 @@ function setDolphinSlot(key){
 }
 /* jshint ignore:end */
 
-
-
-
-
 var slotStr=setDolphinSlot('USER_KV');
 var adCount = {};
 var adMax = {};
@@ -237,21 +233,24 @@ var adPositions = {
   'phonestorybanner': ['0101', '0115'],
   'phonestorympu': ['0004']
 };
-var uaString=navigator.userAgent || navigator.vendor || '';
-var w1 = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-
+var uaString = navigator.userAgent || navigator.vendor || '';
+// First get the browser width
+// On an mobile phone, this may return a larger value if
+// 1.  viewport meta is not added
+// or 2. Dom is not properly rendered
+var w1 = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+// However, screen.availWidth usually gets the correct value
+// Which is very useful to determine a mobile phone
+var w2 = window.screen.availWidth || 0;
+if (w2>0 && w1>w2) {
+  w1 = w2;
+}
 for(var x in adPositions){
   if (adPositions.hasOwnProperty(x)) {
       adCount[x] = 0;
       adMax[x] = adPositions[x].length;
   }
 }
-
-//console.log (adMax);
-///m/marketing/a.html#adid=10000003&slot=986723212&pid=mpu1
-///m/marketing/<%$adFileName%>.html#adid=<%$p.meta.adid%><%$banners[$bannerCount]%>&slot=986723212&pid=banner<%$bannerCount%>
-
-//<iframe id="banner<%$bannerCount%>" width="100%" height="90" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="/m/marketing/<%$adFileName%>.html#adid=<%$p.meta.adid%><%$banners[$bannerCount]%>&slot=986723212&pid=banner<%$bannerCount%>"></iframe>
 
 function writeAd(adType) {
   var adFileName;
@@ -264,15 +263,19 @@ function writeAd(adType) {
   var adch = adchID;
   var bannerBG = '';
 
+  // use UserAgent to determine iOS and Android devices
   if (/iPad/i.test(uaString) && /mpu/.test(adType)) {
     //if iPad, mpu ads change to iPad apps
     adch = '2021';
     adType = (adType === 'mpu') ? 'ipadhomempu' : 'ipadstorympu';
   } else if (/OS [0-9]+\_/i.test(uaString) && (/iPhone/i.test(uaString) || /iPod/i.test(uaString))) {
     adch = '2022';
-  } else if (w1 <= 490){
+  } else if (/Android|micromessenger/i.test(uaString) || w1 <= 490){
+    // if uaString shows Android or browser width is less than 490
+    // sometime browser width is not correct in Android phone
     adch = '2023';
   }
+
 
   if (adch === '2022' || adch === '2023') {
     if (adType === 'banner') {
@@ -308,40 +311,12 @@ function writeAd(adType) {
       adHeight = '90';
     }
     iframeHTML = '<iframe id="' + adType + adCount[adType] + '" width="'+ adWidth +'" height="'+ adHeight + '" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="'+ iframeSrc +'"></iframe>';
-    
-    
-
   } else {
     if (/banner/.test(adType)) {
       document.querySelectorAll('.banner-placeholder')[currentAdCount].style.display = 'none';
     }
     iframeHTML = '';
   }
-
   adCount[adType] = adCount[adType] + 1;
   return iframeHTML;
-  // console.log (adType + ': ' + currentAdCount);
-  // console.log (adPosition);
-  /*
-  if (adCode=="ad300x90") {
-      adPositionId="0102";
-      adType="ad90";
-  } else if (adCode=="ad300x250-home") {
-      adPositionId="0003";
-      adType="mpu-phone";
-  } else if (adCode=="ad300x250-story") {
-      adPositionId="0004";
-      adType="mpu-phone";
-  } else if (adCode=="banner-bottom-home") {
-      adPositionId="0114";
-      adType="ad50";
-  } else if (adCode=="banner-bottom-story") {
-      adPositionId="0115";
-      adType="ad50";
-  } else {
-      adPositionId="0101";
-      adType="ad50";
-  }
-  c=adchannelId + adPositionId;
-  */
 }

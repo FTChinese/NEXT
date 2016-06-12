@@ -746,6 +746,17 @@
 				<%assign var="bookDigest" value=$ebody|regex_replace:"/[\n]/":"<br>"%>
 				<%assign var="story_content" value="`$story_content`<div class=\"list-title\" style=\"margin:15px 0;\"><a class=\"list-link\">书摘</a></div>`$bookDigest`<div style=\"margin:15px 0;\">购买链接：<a href=\"`$eshortleadbody`\" target=_blank>`$eshortleadbody`</a></div>"%>
 			<%/if%>
+		<%elseif $pageType == "thirdpartyactivity"%>
+			<%if $eheadline != ""%>
+				<%assign var="activityTime" value="<b>活动时间：</b>`$eheadline`<br><br>"%>
+			<%/if%>
+			<%if $cshortleadbody != ""%>
+				<%assign var="activitySite" value="<b>活动官网：</b><a href=\"`$cshortleadbody`\" target=_blank>`$cshortleadbody`</a><br><br>"%>
+			<%/if%>
+			<%if $eshortleadbody != ""%>
+				<%assign var="activityJoin" value="<b>活动报名：</b><a href=\"`$eshortleadbody`\" target=_blank>`$eshortleadbody`</a><br><br>"%>
+			<%/if%>
+			<%assign var="story_content" value="`$activityTime`<b>活动详情：</b><br>`$story_content`<br><br>`$activitySite``$activityJoin`"%>
 		<%/if%>
 	<%/if%>
 <%/if%>

@@ -5,6 +5,12 @@
 <%else%>
 <%assign var="autostart" value="true"%>
 <%/if%>
+<%if $itemType == ""%>
+    <%assign var="itemType" value="video"%>
+<%/if%>
+<%if $cc_vaddress == ""%>
+    <%assign var="cc_vaddress" value=$cbyline_status%>
+<%/if%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,14 +29,14 @@ html,body{background:#000;height:100%;min-height:100%;}
 </head>
 
 <body>
-    <%assign var="virtualPage" value="/video/`$id`?contentType=other&channel=`$catalogname`&pageType=iframe"%>
+    <%assign var="virtualPage" value="/`$itemType`/`$id`?contentType=other&channel=`$catalogname`&pageType=iframe"%>
     <% foreach item=t from=$tag %>
     <% if preg_match('/英文原声/is',$t.tag) %>
-      <%assign var="virtualPage" value="/video/`$id`?contentType=english&channel=`$catalogname`&pageType=iframe"%>
+      <%assign var="virtualPage" value="/`$itemType`/`$id`?contentType=english&channel=`$catalogname`&pageType=iframe"%>
     <%/if%>
     <%/foreach%>
     <%if preg_match('/英文原声/is',$cheadline)%>
-      <%assign var="virtualPage" value="/video/`$id`?contentType=english&channel=`$catalogname`&pageType=iframe"%>
+      <%assign var="virtualPage" value="/`$itemType`/`$id`?contentType=english&channel=`$catalogname`&pageType=iframe"%>
     <%/if%>
     <script>
           var virtualPage = "<%$virtualPage%>";
@@ -71,6 +77,7 @@ html,body{background:#000;height:100%;min-height:100%;}
 var vid = "<%$cc_vaddress%>", id = "<%$id%>", w = "<%$w%>" || 347, h="<%$h%>" || 195;
 var gEffortsLimit = 10;
 var gEfforts = 0;
+var player = {};
 
 
 function nextElementSibling( elem ) {
@@ -93,6 +100,7 @@ function onPlayStart() {
     var www1Img=new Image(), theurl = window.location;
     www1Img.onload=function() {};
     www1Img.src='http://www1.ftchinese.com/log/new_log.php?id=&adch=&tpages=1&refer=&vpage=' + encodeURIComponent(theurl.pathname + theurl.search + theurl.hash) + '&timeStamp=' + Date.now();
+    //player.setVolume(0.5);
 }
 
 function onPlayStop() {
@@ -100,10 +108,11 @@ function onPlayStop() {
 }
 
 function on_cc_player_init( vid, objectID ){
-var config = {}, player = getSWF( objectID );
+var config = {};
+player = getSWF( objectID );
 config.on_player_start = "onPlayStart";
 config.on_player_stop = "onPlayStop";
-try {player.setConfig(config);} catch(ignore){}
+try {player.setConfig(config);player.setVolume(0.5);} catch(ignore){}
 }
 
 function getSWF( swfID ) {

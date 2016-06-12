@@ -1,10 +1,15 @@
 <%if !isset($adchId) || $adchId==""%>
     <%assign var=adchId value="1900"%>
 <%/if%>
-
+<%if $itemType == ""%>
+    <%assign var="itemType" value="video"%>
+<%/if%>
+<%if $cc_vaddress == ""%>
+    <%assign var="cc_vaddress" value=$cbyline_status%>
+<%/if%>
 <%assign var="shareLead" value=$clongleadbody|default:$cbody%>
 <%assign var="shareTitle" value="`$cheadline` - FT中文网"%>
-<%assign var="shareUrl" value="http://www.ftchinese.com/video/`$id`"%>
+<%assign var="shareUrl" value="http://www.ftchinese.com/`$itemType`/`$id`"%>
 <%assign var="shareUrl" value=$shareUrl|escape:'url'%>
 <%assign var="shareText" value="【`$cheadline`】`$shareLead`（分享自 @FT中文网）"%>
 
