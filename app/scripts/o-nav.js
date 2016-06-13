@@ -126,12 +126,12 @@ var navEl = document.querySelector('.o-nav');
 new Nav(navEl);
 // new Sticky(navEl, navElOffset.yTop);
 
-var initialNavSections = oNavSections(navEl.querySelector('.o-nav__meganav'));
+var initialNavSections = oNavSections(navEl);
+
 
 ajax.getData('/m/corp/ajax-nav.html', function(error, data) {
-// `data` is text, not DOM! 
-// You need to parse data into DOM before appending it.
-	if (error) {return;}
+
+	if (error) {return error;}
 	var wrapperEl = document.createElement('ol');
 	wrapperEl.innerHTML = data;
 
@@ -147,6 +147,8 @@ ajax.getData('/m/corp/ajax-nav.html', function(error, data) {
 		var navItemsEl = navSectionEl.querySelector('.nav-items');
 
 		navSectionsObj[navSectionName] = navItemsEl;
+		console.log(navSectionName);
 	}
+
 	zipObject(initialNavSections, navSectionsObj);
 });
