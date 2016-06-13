@@ -1,4 +1,4 @@
-/* exported addstoryfav, showOverlay, closeOverlay, w*/
+/* exported addstoryfav, showOverlay, closeOverlay, w, isTouchDevice*/
 /* jshint ignore:start */
 
 
