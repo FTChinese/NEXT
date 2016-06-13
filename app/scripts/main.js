@@ -287,7 +287,6 @@ function loadImages() {
   }
 }
 
-
 function setResizeClass() {
   if (document.documentElement.className.indexOf(' resized') < 0) {
   document.documentElement.className += ' resized';

@@ -223,8 +223,59 @@
 				<%foreach from=$itemsArray item=item%>
 
 					<%assign var="itemHeadline" value=$item.headline|default:$item.cheadline|default:$item.cn_title%>
+					<%assign var="itemTag" value=""%>
+					<%assign var="itemMainTag" value=""%>
+					<%assign var="tagCanFollow" value="yes"%>
+					<%assign var="itemTagsString" value=$item.tag|default:$item.tags|default:$item.tagname%>
+					<%assign var="itemTagsString" value=$itemTagsString|replace:" ":","%>
+					<%assign var="itemTags" value=","|explode:$itemTagsString%>
+					<%assign var="itemTag" value=$itemTags[0]%>
+					<%assign var="tagImage" value=""%>
+					<%assign var="itemMainTag" value=$itemTags[0]%>
+					<%*<!--Sometimes Editors Use Space in Tags-->*%>
+					<%if $itemTag === "视频"%>
+						<%assign var="itemTagLink" value="/channel/explainer.html"%>
+						<%assign var="tagCanFollow" value="no"%>
+					<%elseif $itemTag === "秒懂"%>
+						<%assign var="itemTagLink" value="/channel/slides.html"%>
+						<%assign var="tagCanFollow" value="no"%>
+					<%elseif $itemTag === "图辑"%>
+						<%assign var="itemTagLink" value="/channel/slides.html"%>
+						<%assign var="tagCanFollow" value="no"%>
+					<%elseif $itemTag === "数据新闻"%>
+						<%assign var="itemTagLink" value="/channel/datanews.html"%>
+					<%elseif $itemTag === "速读"%>
+						<%assign var="itemTagLink" value="/channel/speedread.html"%>
+					<%elseif $itemTag === "FT商学院"%>
+						<%assign var="itemTagLink" value="/channel/mba.html"%>
+					<%elseif $feedType=="columns"%>
+						<%assign var="itemTag" value=$item.author_name_cn%>
+						<%assign var="itemTagLink" value="/column/`$itemId`"%>
+						<%assign var="tagCanFollow" value="no"%>
+						<%assign var="itemHeadline" value=$itemHeadline|replace:"《":""|replace:"》":""%>
+					<%else%>
+						<%assign var="itemTagLink" value="/tag/`$itemTag`"%>
+					<%/if%>
+					<%if $itemTag != ""%>
+						<%if $tagCanFollow == "yes"%>
+							<%assign var="itemTag" value="<div class=item-tag><a href=\"`$itemTagLink`\">`$itemTag`</a><button class=\"myft-follow plus\" data-tag=\"`$itemTag`\" data-type=\"tag\">关注</button></div>"%>
+						<%else%>
+							<%assign var="itemTag" value="<div class=item-tag><a href=\"`$itemTagLink`\">`$itemTag`</a></div>"%>
+						<%/if%>
+					<%/if%>
+					<%if $list.showTag !== "yes"%>
+						<%assign var="itemTag" value=""%>
+					<%/if%>
+					<%if $item.preferSponsorImage == "yes" && $itemMainTag != ""%>
+						<%assign var="tagInteractive" value=$interactivemodel->get_interactive_by_field_search("find_in_set('特别报导',tag) and cshortleadbody = '`$itemMainTag`'",0,1,999999999,10800)%>
+						<%if $tagInteractive|@count >0%>
+						<%assign var="tagImage" value=$tagInteractive[0].story_pic.cover%>
+						<%/if%>
+					<%/if%>
 					<%if $list.feedImage == "hide"%>
 						<%assign var="itemImage" value=""%>
+					<%elseif $tagImage != ""%>
+						<%assign var="itemImage" value=$tagImage%>
 					<%elseif $feedType == "all"%>
 						<%assign var="itemImage" value=$item.image.cover|default:$item.image.smallbutton|default:$item.image.other|default:$item.image.bigbutton%>
 					<%elseif $feedType == "columns"%>
@@ -798,45 +849,6 @@
 							<%assign var="hasImage" value="no-image"%>
 						<%/if%>
 
-						<%assign var="itemTag" value=""%>
-						<%if $list.showTag === "yes"%>
-							<%*<!--Sometimes Editors Use Space in Tags-->*%>
-							<%assign var="tagCanFollow" value="yes"%>
-							<%assign var="itemTagsString" value=$item.tag|default:$item.tags|default:$item.tagname%>
-							<%assign var="itemTagsString" value=$itemTagsString|replace:" ":","%>
-							<%assign var="itemTags" value=","|explode:$itemTagsString%>
-							<%assign var="itemTag" value=$itemTags[0]%>
-							<%if $itemTag === "视频"%>
-								<%assign var="itemTagLink" value="/channel/explainer.html"%>
-								<%assign var="tagCanFollow" value="no"%>
-							<%elseif $itemTag === "秒懂"%>
-								<%assign var="itemTagLink" value="/channel/slides.html"%>
-								<%assign var="tagCanFollow" value="no"%>
-							<%elseif $itemTag === "图辑"%>
-								<%assign var="itemTagLink" value="/channel/slides.html"%>
-								<%assign var="tagCanFollow" value="no"%>
-							<%elseif $itemTag === "数据新闻"%>
-								<%assign var="itemTagLink" value="/channel/datanews.html"%>
-							<%elseif $itemTag === "速读"%>
-								<%assign var="itemTagLink" value="/channel/speedread.html"%>
-							<%elseif $itemTag === "FT商学院"%>
-								<%assign var="itemTagLink" value="/channel/mba.html"%>
-							<%elseif $feedType=="columns"%>
-								<%assign var="itemTag" value=$item.author_name_cn%>
-								<%assign var="itemTagLink" value="/column/`$itemId`"%>
-								<%assign var="tagCanFollow" value="no"%>
-								<%assign var="itemHeadline" value=$itemHeadline|replace:"《":""|replace:"》":""%>
-							<%else%>
-								<%assign var="itemTagLink" value="/tag/`$itemTag`"%>
-							<%/if%>
-							<%if $itemTag != ""%>
-								<%if $tagCanFollow == "yes"%>
-									<%assign var="itemTag" value="<div class=item-tag><a href=\"`$itemTagLink`\">`$itemTag`</a><button class=\"myft-follow plus\" data-tag=\"`$itemTag`\" data-type=\"tag\">关注</button></div>"%>
-								<%else%>
-									<%assign var="itemTag" value="<div class=item-tag><a href=\"`$itemTagLink`\">`$itemTag`</a></div>"%>
-								<%/if%>
-							<%/if%>
-						<%/if%>
 
 						<%if $feedType=="columns"%>
 							<%assign var="itemHeadline" value=$itemHeadline|replace:"《":""|replace:"》":""%>
@@ -915,6 +927,12 @@
 							<%assign var="itemLink" value=" href=\"`$itemLink`\""%>
 						<%/if%>
 
+						<%if $item.preferSponsorImage == "yes" && $itemTagLink != "" && $tagImage != ""%>
+							<%assign var="itemImageLink" value=" href=\"`$itemTagLink`\""%>
+						<%else%>
+							<%assign var="itemImageLink" value=$itemLink%>
+						<%/if%>
+
 						<%if $listType === "videos" && $i==0%>
 							<div class="item-inner video-package-inner"><div class="image"><figure id="video-package-play" class="loading-video" data-vid="<%$itemId%>"></figure></div><div class="video-package-title"><a href="/video/<%$itemId%>" target=_blank><%$itemHeadline%></a></div></div>
 						<%/if%>
@@ -946,7 +964,7 @@
 						<%else%>
 							<%$itemTop%>
 							<div class="item-container <%$itemClass%> <%$hasImage%>"><div class="item-inner">
-								<h2 class="item-headline"><%$itemTag%><a target="_blank"<%$itemLink%>><%$itemHeadline%></a></h2>
+								<h2 class="item-headline"><%$itemTag%><a target="_blank"<%$itemImageLink%>><%$itemHeadline%></a></h2>
 								<%if $item.relatives|@count > 0 && $item.relatives[0].type === 'video'%><div class="image"><figure class="loading-video" data-vid="<%$item.relatives[0].id%>"></figure></div><%elseif $itemType === "video" && $listType !== "videos"%><div class="image"><figure class="loading-video" data-vid="<%$itemId%>"></figure></div><%elseif $itemImage != "" && $hasImage === "has-image"%><a class="image" target="_blank"<%$itemLink%>><figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure></a><%/if%>
 								<%if $hideLead === "no"%><div class="item-lead"><%$itemLead|nl2br%></div><%/if%>
 								<%$itemTimeStamp%>
