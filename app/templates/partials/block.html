@@ -82,12 +82,22 @@
 			<%if $listTopClass !== "" && $l > 0%>
 				<%assign var="listTop" value="<div class=\"`$listTopClass`\"></div>"%>
 			<%/if%>
+			<%if $list.url != ""%>
+				<%if preg_match("/http|\//is",$list.url)%>
+					<%assign var=listUrl value=$list.url%>
+				<%else%>
+					<%assign var=listUrl value="/tag/`$list.url`"%>
+				<%/if%>
+			<%else%>
+				<%assign var=listUrl value="#"%>
+			<%/if%>
 			<%$listTop%>
 			<%*<!--combine side lists-->*%>
 			<%if $listHasFloat === "none" || $listHasFloat === "SideBySide" || $l==0 || ($prev >= 0 && $list.float != $section.lists[$prev].float)%><div class="list-container<%$listClass%>"><div class="list-inner"><%/if%>
 				<%if $list.title != ""%>
+
 					<h2 class="list-title">
-						<a class="list-link" href="<%$list.url|default:"#"%>"><%$list.title%></a>
+						<a class="list-link" href="<%$listUrl%>"><%$list.title%></a>
 						<%if $list.sponsorLogoUrl != ""%>
 							<a class="sponsor-link" target=_blank href="<%$list.sponsorLink|default:"#"%>"><figure class="loading sponsor" data-url="<%$list.sponsorLogoUrl|replace:"/upload/":"/"%>"></figure></a>
 						<%/if%>
@@ -427,7 +437,7 @@
 										<%if $list.preferLead == 'none'%>
 											<%assign var="XL" value="XL4 XL-right XL-no-tag"%>
 										<%else%>
-											<%assign var="XL" value="XL4 XL-right XL-no-image XL-no-tag"%>
+											<%assign var="XL" value="XL4 XL-right XL-half XL-no-tag"%>
 										<%/if%>
 									<%elseif $i===1%>
 										<%assign var="XL" value="XL4 XL-right XL-no-tag"%>
@@ -454,7 +464,7 @@
 									<%if $i === 0 %>
 										<%assign var="XL" value="XL8"%>
 									<%elseif $i===2 && $list.items[1].image !== ""%>
-										<%assign var="XL" value="XL4 XL-right XL-no-image"%>
+										<%assign var="XL" value="XL4 XL-right XL-half"%>
 									<%elseif $i===1%>
 										<%assign var="XL" value="XL4 XL-right"%>
 									<%elseif $i === ($listItemCount - 1) %>
@@ -471,7 +481,7 @@
 									<%if $i === 0 %>
 										<%assign var="XL" value="XL8"%>
 									<%elseif $i===2 && $list.items[1].image !== ""%>
-										<%assign var="XL" value="XL4 XL-right XL-no-image"%>
+										<%assign var="XL" value="XL4 XL-right XL-half"%>
 									<%elseif $i===1%>
 										<%assign var="XL" value="XL4 XL-right"%>
 									<%elseif $i >= ($listItemCount - 2)%>
@@ -528,12 +538,12 @@
 										<%assign var="L" value="L8"%>
 									<%elseif $i===2 && $list.items[1].image !== ""%>
 										<%if $list.preferLead == "none"%>
-											<%assign var="L" value="L4 L-right"%>
+											<%assign var="L" value="L4 L-right L-no-tag"%>
 										<%else%>
-											<%assign var="L" value="L4 L-right L-no-image"%>
+											<%assign var="L" value="L4 L-right L-no-tag L-half"%>
 										<%/if%>
 									<%elseif $i===1%>
-										<%assign var="L" value="L4 L-right"%>
+										<%assign var="L" value="L4 L-right L-half L-no-tag"%>
 									<%else%>
 										<%assign var="L" value="L4"%>
 									<%/if%>
@@ -551,13 +561,13 @@
 									<%elseif $i === 1 %>
 										<%assign var="L" value="L4 L-right L-no-lead"%>
 									<%else%>
-										<%assign var="L" value="L4 L-half L-right L-lower L-no-image"%>
+										<%assign var="L" value="L4 L-half L-right L-lower L-half"%>
 									<%/if%>
 								<%elseif $listItemCount % 3 === 1 && $l === 0 && $list.items[0].image !== ""%>
 									<%if $i === 0 %>
 										<%assign var="L" value="L8"%>
 									<%elseif $i===2 && $list.items[1].image !== ""%>
-										<%assign var="L" value="L4 L-right L-no-image"%>
+										<%assign var="L" value="L4 L-right L-half"%>
 									<%elseif $i===1%>
 										<%assign var="L" value="L4 L-right"%>
 									<%elseif $i === ($listItemCount - 1) %>
@@ -574,7 +584,7 @@
 									<%if $i === 0 %>
 										<%assign var="L" value="L8"%>
 									<%elseif $i===2 && $list.items[1].image !== ""%>
-										<%assign var="L" value="L4 L-right L-no-image"%>
+										<%assign var="L" value="L4 L-right L-half"%>
 									<%elseif $i===1%>
 										<%assign var="L" value="L4 L-right"%>
 									<%elseif $i >= ($listItemCount - 2)%>

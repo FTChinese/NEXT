@@ -30,7 +30,7 @@
         'side': '采用事先写好的模版',
         'name': '仅供编辑内部沟通，不会被读者看见，尽量采用英文的name',
         'title': 'list的title会被读者看见，请使用中文',
-        'url': '请尽量使用相对链接，比如［/tag/中国经济］',
+        'url': '可以填写标签，或者url，程序会自动识别并产生正确的链接',
         'sideAlign': ' 这个Block的侧边栏放在右边还是左边',
         'float': '如果某个list有文章没有配图，可以采用float到左边的方式来展示这个List，同时其余的list自动float到右边；如果想要某个list，如cover占据全部宽度，则设定其为oneline；如果想要像myFT那样一行一条内容，则选择myFT；想要强制设定这个List所有内容都采用同样的展现形式，则选择Card',
         'showTag': '程序会抓取tag字段中第一个tag做为primary tag来显示',
@@ -153,6 +153,8 @@
         var relativestoryHTML = '';
         var hasImageClass = '';
         var imageBG = '';
+        var sponsorImage = '';
+        sponsorImage = '<div title="如果是有赞助的特别报道，优先采用专题的图片，而不是文章的图片"><input title="use sponsor image" name="preferSponsorImage" class="o-input-checkbox" value="yes" type="checkbox">Prefer Sponsor Cover</div>';
         if (typeof showRelativeStoryItems !== 'undefined') {
             showRelativeStoryItems = '<div class="item-info-item"><div class="item-info-title">Show Related Items: </div><input type="number" title="How Many Related Content Would You Like to Show in This Page? " name="showRelativeStoryItems" class="o-input-text" value="' + showRelativeStoryItems + '"></div>';
         } else {
@@ -203,7 +205,7 @@
         }
         //console.log (relativestoryHTML);
         //relativestoryHTML = '';
-        dataHTML = '<div draggable=true data-type="' + type + '" class="item ' + type + hasImageClass + '"' + imageBG + ' data-id="' + id + '"><div class="remove-item"></div><div class="timestamp">' + timeStamp + '</div><div class="item-title">' + headline + '</div><div class="item-info"><div class="item-links"><a href="http://www7.ftchinese.com/' + type + '/' + id + '" target=_blank>Preview</a><a href="' + editLink + '" target=_blank>Edit</a></div><div class="item-info-item"><input title="headline" placeholder="headline" name="headline" class="o-input-text" value="' + headline + '"></div><div class="item-info-item"><input title="image" placeholder="image" name="image" class="o-input-text" value="' + image + '"></div><div class="item-info-item"><div class="item-info-title">Long Lead: </div><textarea title="image" placeholder="Long Lead" name="longlead" class="o-input-text">' + longlead + '</textarea></div><div class="item-info-item"><div class="item-info-title">Short Lead: </div><textarea title="short lead" placeholder="short lead" name="shortlead" class="o-input-text">' + shortlead + '</textarea></div><div class="item-info-item"><input title="tag" placeholder="tag" name="tag" class="o-input-text" value="' + tag + '"></div><div class="item-info-item"><input title="custom link" placeholder="custom link" name="customLink" class="o-input-text" value="' + customLink + '"></div>' + showRelativeStoryItems + '<div class="item-info-item"><input name="timeStamp" type="hidden" class="o-input-text" value="' + oTimeStamp + '" readonly><input type="hidden" name="type" class="o-input-text" value="' + type + '" readonly><input type="hidden" name="id" class="o-input-text" value="' + id + '" readonly></div>' + relativestoryHTML + '</div></div>';
+        dataHTML = '<div draggable=true data-type="' + type + '" class="item ' + type + hasImageClass + '"' + imageBG + ' data-id="' + id + '"><div class="remove-item"></div><div class="timestamp">' + timeStamp + '</div><div class="item-title">' + headline + '</div><div class="item-info"><div class="item-links"><a href="http://www7.ftchinese.com/' + type + '/' + id + '" target=_blank>Preview</a><a href="' + editLink + '" target=_blank>Edit</a></div>'+sponsorImage+'<div class="item-info-item"><input title="headline" placeholder="headline" name="headline" class="o-input-text" value="' + headline + '"></div><div class="item-info-item"><input title="image" placeholder="image" name="image" class="o-input-text" value="' + image + '"></div><div class="item-info-item"><div class="item-info-title">Long Lead: </div><textarea title="image" placeholder="Long Lead" name="longlead" class="o-input-text">' + longlead + '</textarea></div><div class="item-info-item"><div class="item-info-title">Short Lead: </div><textarea title="short lead" placeholder="short lead" name="shortlead" class="o-input-text">' + shortlead + '</textarea></div><div class="item-info-item"><input title="tag" placeholder="tag" name="tag" class="o-input-text" value="' + tag + '"></div><div class="item-info-item"><input title="custom link" placeholder="custom link" name="customLink" class="o-input-text" value="' + customLink + '"></div>' + showRelativeStoryItems + '<div class="item-info-item"><input name="timeStamp" type="hidden" class="o-input-text" value="' + oTimeStamp + '" readonly><input type="hidden" name="type" class="o-input-text" value="' + type + '" readonly><input type="hidden" name="id" class="o-input-text" value="' + id + '" readonly></div>' + relativestoryHTML + '</div></div>';
         return dataHTML;
     }
 
@@ -548,10 +550,15 @@
                         J.sections[sectionIndex].lists[listIndex].items = [];
                         $.each(items, function (itemIndex) {
                             J.sections[sectionIndex].lists[listIndex].items.push({});
-                            $.each($(this).find('.o-input-text'), function () {
+                            $.each($(this).find('.o-input-text, .o-input-checkbox'), function () {
 
                                 var key = $(this).attr('name');
-                                var value = $(this).val();
+                                var value;
+                                if ($(this).hasClass('o-input-checkbox') === true) {
+                                    value = ($(this).is(':checked')) ? 'yes' : 'no';
+                                } else {
+                                    value = $(this).val();
+                                }
                                 //console.log ($(this).html());
                                 J.sections[sectionIndex].lists[listIndex].items[itemIndex][key] = value;
                             });

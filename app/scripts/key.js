@@ -1,5 +1,7 @@
-/* exported addstoryfav, showOverlay, closeOverlay*/
+/* exported addstoryfav, showOverlay, closeOverlay, w*/
 /* jshint ignore:start */
+
+
 function GetCookie(name){
     var start = document.cookie.indexOf(name+"="),
         len = start+name.length+1,
@@ -33,6 +35,16 @@ var userId = GetCookie('USER_ID') || '';
 var ccodeCookie=GetCookie('ccode') || '';
 /* jshint ignore:end */
 
+var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+function isTouchDevice() {
+    var el = document.createElement('div');
+    el.setAttribute('ongesturestart', 'return;');
+    if (typeof el.ongesturestart === 'function') {
+        return true;
+    } else {
+        return false;
+    }
+}
 
 function showOverlay(overlayId) {
     document.getElementById(overlayId).className = 'overlay-container on';

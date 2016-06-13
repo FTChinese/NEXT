@@ -11,7 +11,6 @@ var gAudioOffsetY;
 var defaultPadding = 30;
 var hasSideWidth = 690;
 var sectionsWithSide = document.querySelectorAll('.block-container.has-side');
-var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 var delegate;
 var htmlClass = document.documentElement.className;
 var sectionsWithSideLength = sectionsWithSide.length;
@@ -279,22 +278,20 @@ function loadImages() {
     var videoWidth = thisVideo.offsetWidth;
     var videoHeight = thisVideo.offsetHeight;
     var videoId = thisVideo.getAttribute('data-vid');
+    var videoType = thisVideo.getAttribute('data-item-type') || 'video';
     if (videoWidth > 0 && videoHeight > 0) {
       //console.log (videoId + ' Height: ' + videoHeight + ' Width: ' + videoWidth);
-      thisVideo.innerHTML = '<iframe name="video-frame" id="video-frame" style="width:100%;height:100%;position:absolute;" src="' + hostForVideo + '/video/'+ videoId +'?i=2&k=1&w='+videoWidth+'&h='+videoHeight+'&autostart=false" scrolling="no" frameborder="0" allowfullscreen=true></iframe>';
+      thisVideo.innerHTML = '<iframe name="video-frame" id="video-frame" style="width:100%;height:100%;position:absolute;" src="' + hostForVideo + '/' + videoType + '/'+ videoId +'?i=2&w='+videoWidth+'&h='+videoHeight+'&autostart=false" scrolling="no" frameborder="0" allowfullscreen=true></iframe>';
       thisVideo.className = '';
     }
   }
 }
 
-function isTouchDevice() {
-    var el = document.createElement('div');
-    el.setAttribute('ongesturestart', 'return;');
-    if (typeof el.ongesturestart === 'function') {
-        return true;
-    } else {
-        return false;
-    }
+
+function setResizeClass() {
+  if (document.documentElement.className.indexOf(' resized') < 0) {
+  document.documentElement.className += ' resized';
+  }
 }
 
 
@@ -310,15 +307,17 @@ if (gNavOffsetY === 0) {
   gNavOffsetY = findTop(document.querySelector('.site-map'));
 }
 
+var addEvent =  window.attachEvent||window.addEventListener;
+var eventResize = window.attachEvent ? 'onresize' : 'resize';
+var eventScroll = window.attachEvent ? 'onscroll' : 'scroll';
 // console.log (gAudioOffsetY);
 // disable sticky scroll on touch devices
 if ((gNavOffsetY > 30 && w > 490 && isTouchDevice() === false) || document.getElementById('audio-placeholder')) {
   try {
     stickyBottomPrepare();
     stickyAdsPrepare();
-    var addEvent =  window.attachEvent||window.addEventListener;
-    var eventScroll = window.attachEvent ? 'onscroll' : 'scroll';
-    var eventResize = window.attachEvent ? 'onresize' : 'resize';
+
+
     // if (isTouchDevice() === true) {
     //   addEvent('touchmove', function() {
     //     stickyBottom();
@@ -328,13 +327,13 @@ if ((gNavOffsetY > 30 && w > 490 && isTouchDevice() === false) || document.getEl
     //   });
     // }
     addEvent(eventScroll, function(){
-
         stickyBottom();
-
     });
     addEvent(eventResize, function(){
         stickyBottomPrepare();
         stickyAdsPrepare();
+        reloadBanners();
+        setResizeClass();
     });
     setInterval(function(){
         stickyBottomPrepare();
@@ -343,6 +342,11 @@ if ((gNavOffsetY > 30 && w > 490 && isTouchDevice() === false) || document.getEl
   } catch (ignore) {
 
   }
+} else {
+  addEvent(eventResize, function(){
+      reloadBanners();
+      setResizeClass();
+  });
 }
 
 // check svg support
