@@ -710,14 +710,15 @@
 		background-color: $headerTint;
 		color: $whiteColor;
 		position: relative;
-		&:after {
-			content: '';
-			position: absolute;
-			left: 0;
-			right: 0;
-			height: $o-header-sub-nav-height;
-			background-color: $headerTintLight;
-		}
+	}
+
+	.o-nav__meganav-placeholder {
+		display: block;
+		position: absolute;
+		left: 0;
+		right: 0;
+		height: $o-header-sub-nav-height;
+		background-color: $headerTintLight;
 	}
 
 	&.o-nav-sticky .o-nav {
@@ -962,33 +963,37 @@
 	}
 
 	.o-nav__extra-tools {
-		display: none;
 		list-style-type: none;
 		margin: 0;
 		padding: 0;
-
-		display: block;
-
 		position: absolute;
 		right: 0;
 		top: 100%;
 		z-index: 10;
 
 		.tools-section {
-			display: inline-block;
+			box-sizing: border-box;
 			position: relative;
+			display: inline-block;		
 			height: $o-header-sub-nav-height;
 		}
 
 		.tools-section-head {
+			margin: 0;
 			text-decoration: none;
 			display: block;
 			word-break: keep-all;
 			white-space: nowrap;
 			line-height: $o-header-sub-nav-height;
+			height: $o-header-sub-nav-height;
 			font-size: 14px;
 			color: $whiteColor;
 			padding: 0 5px 0 0;
+			position: relative;
+			&:hover {
+				background-color: $darkGreen;
+				color: $whiteColor;
+			}
 		}
 
 		.tools-section[aria-haspopup=true] .tools-section-head:after {
@@ -1010,7 +1015,7 @@
 			padding: 0;
 			position: absolute;
 			right: 0;
-			min-width: 100%;
+			top: 100%;			
 			z-index: 1;
 			display: none;
 			background-color: $headerTintLight;
@@ -1044,11 +1049,9 @@
 	}
 
 	&.o-nav-sticky {
-		.o-nav:after,
+		.o-nav__meganav-placeholder,
 		.o-nav__extra-tools {
 			display: none;
-			height: 0;
-			overflow: hidden;
 		}
 
 		.nav-section:hover,
