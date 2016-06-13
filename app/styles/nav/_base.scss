@@ -30,6 +30,7 @@
 	// @include oColorsFor(o-header);
 	background-color: $headerTint;
 	color: $whiteColor;
+	position: relative;
 
 	@include oGridRespondTo($until: L) {
 		position: fixed;
@@ -40,7 +41,7 @@
 		height: $o-header-bottom-height;
 	}
 	@include oGridRespondTo(L) {
-		position: relative;
+		
 // add background placeholder for .nav-items. Move it out of normal flow.
 		&:after {
 			content: '';
@@ -63,6 +64,10 @@
 			z-index: 999999;
 		}
 	}
+}
+
+.o-nav__meganav-placeholder {
+	display: none;
 }
 
 .o-nav__outer {

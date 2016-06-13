@@ -87,13 +87,14 @@
 		box-sizing: border-box;
 
 		position: relative;
-		width: 100%;
+		min-width: 100%;
 		display: block;
 		border-top: 1px solid #666;
 
 		.nav-section[aria-selected="true"] & {
 			display: inline-block;
 			width: auto;
+			min-width: auto;
 			border:0;
 		}
 		.nav-section[aria-selected="true"] &.mobile {
@@ -118,6 +119,7 @@
 		cursor: pointer;
 		color: $whiteColor;
 		padding: 0 25px 0 15px;
+		position: relative;
 		
 		.nav-section[aria-selected=true] &{
 			padding: 0 6px;
