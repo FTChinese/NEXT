@@ -1,4 +1,4 @@
-/* exported writeAd, slotStr*/
+/* exported writeAd, slotStr, reloadBanners*/
 /* jshint ignore:start */
 function adReachability() {
   var thirdPartyVendors = {
@@ -233,26 +233,32 @@ var adPositions = {
   'phonestorybanner': ['0101', '0115'],
   'phonestorympu': ['0004']
 };
-var uaString = navigator.userAgent || navigator.vendor || '';
-// First get the browser width
-// On an mobile phone, this may return a larger value if
-// 1.  viewport meta is not added
-// or 2. Dom is not properly rendered
-var w1 = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-// However, screen.availWidth usually gets the correct value
-// Which is very useful to determine a mobile phone
-var w2 = window.screen.availWidth || 0;
-if (w2>0 && w1>w2) {
-  w1 = w2;
-}
-for(var x in adPositions){
-  if (adPositions.hasOwnProperty(x)) {
-      adCount[x] = 0;
-      adMax[x] = adPositions[x].length;
+var uaString;
+var w1;
+var w2;
+
+
+function initAds() {
+  uaString = navigator.userAgent || navigator.vendor || '';
+  // First get the browser width
+  // On an mobile phone, this may return a larger value if
+  // 1.  viewport meta is not added
+  // or 2. Dom is not properly rendered
+  w1 = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+  // However, screen.availWidth usually gets the correct value
+  // Which is very useful to determine a mobile phone
+  w2 = window.screen.availWidth || 0;
+  if (w2>0 && w1>w2) {
+    w1 = w2;
+  }
+  for(var x in adPositions){
+    if (adPositions.hasOwnProperty(x)) {
+        adCount[x] = 0;
+        adMax[x] = adPositions[x].length;
+    }
   }
 }
-
-function writeAd(adType) {
+function writeAd(adType, returnSrc) {
   var adFileName;
   var currentAdCount;
   var adPosition;
@@ -278,7 +284,7 @@ function writeAd(adType) {
 
 
   if (adch === '2022' || adch === '2023') {
-    if (adType === 'banner') {
+    if (adType.indexOf('banner') >=0) {
       adType = 'phonebanner';
     } else if (adType === 'mpu') {
       adType = 'phonempu';
@@ -310,13 +316,66 @@ function writeAd(adType) {
       adWidth = '969';
       adHeight = '90';
     }
-    iframeHTML = '<iframe id="' + adType + adCount[adType] + '" width="'+ adWidth +'" height="'+ adHeight + '" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="'+ iframeSrc +'"></iframe>';
+    iframeHTML = '<iframe class="banner-iframe" id="' + adType + adCount[adType] + '" width="'+ adWidth +'" height="'+ adHeight + '" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="'+ iframeSrc +'" data-src="'+ iframeSrc +'" data-ad-type="'+ adType +'" data-ad-count=' + adCount[adType] + '></iframe>';
   } else {
-    if (/banner/.test(adType)) {
-      document.querySelectorAll('.banner-placeholder')[currentAdCount].style.display = 'none';
-    }
+    iframeSrc = '';
     iframeHTML = '';
+    if (/banner/.test(adType) && document.querySelectorAll('.banner-placeholder')[currentAdCount]) {
+      //console.log (currentAdCount);
+      try {
+        document.querySelectorAll('.banner-placeholder')[currentAdCount].style.display = 'none';
+      } catch (ignore) {
+
+      }
+      
+    }    
   }
-  adCount[adType] = adCount[adType] + 1;
-  return iframeHTML;
+  
+  if (returnSrc === true) {
+    return iframeSrc;
+  } else {
+    adCount[adType] = adCount[adType] + 1;
+    return iframeHTML;
+  }
+  
 }
+
+var bannerIframeContainers = [];
+function reloadBanners() {
+  var bannerIframes;
+  var i = 0;
+  if (bannerIframeContainers.length === 0) {
+    bannerIframes = document.querySelectorAll('.banner-iframe');
+    for (i=0; i<bannerIframes.length; i++) {
+      bannerIframeContainers[i] = bannerIframes[i].parentNode;
+    }
+  }
+  adCount = {};
+  initAds();
+  for (i=0; i<bannerIframeContainers.length; i++) {
+    var thisiFrame = bannerIframeContainers[i].querySelector('.banner-iframe');
+    var thisSrc;
+    var adType;
+    var thisAdCount;
+    if (thisiFrame !== null) {
+      thisSrc = thisiFrame.getAttribute('data-src');
+      adType = thisiFrame.getAttribute('data-ad-type');
+      thisAdCount = thisiFrame.getAttribute('data-ad-count');
+    } else {
+      thisSrc = '';
+      adType = '';
+      thisAdCount = 0;
+    }
+
+    //console.log (thisSrc);
+    var newSrc = writeAd(adType, true);
+    if (thisSrc !== newSrc) {
+      bannerIframeContainers[i].innerHTML = writeAd(adType);
+      //console.log ('different: (' + i + ')' + thisSrc + '|' + newSrc);
+    } else {
+      //console.log ('same: (' + i + ')' + thisSrc + '|' + newSrc);
+    }
+  }
+}
+
+initAds();

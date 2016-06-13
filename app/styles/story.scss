@@ -38,6 +38,21 @@
 		padding: 0 $defaultPadding/3;
 	}
 }
+
+#story_main_mpu {
+	width: 100%;
+	padding: $defaultPadding 0;
+	margin-bottom: $defaultPadding;
+	//background-color: $bannerBG;
+	border-width: 1px 0;
+	border-color: $borderColor;
+	border-style: solid;
+	clear: both;
+	iframe {
+		margin: auto;
+		display: block;
+	}
+}
 .pagination-inner {
 	text-align: right;
 	//height: $mastheadHeight;
@@ -54,21 +69,6 @@
 		}
 	}
 }
-#story_main_mpu {
-	width: 100%;
-	padding: $defaultPadding 0;
-	margin-bottom: $defaultPadding;
-	//background-color: $bannerBG;
-	border-width: 1px 0;
-	border-color: $borderColor;
-	border-style: solid;
-	clear: both;
-	iframe {
-		margin: auto;
-		display: block;
-	}
-}
-
 .pic {
 	text-align:center;
 	color: #d66d06;
@@ -165,15 +165,5 @@
     		margin: auto;
     	}
     }
-	.pagination-inner {
-		text-align: left;
-		font-size: 0.9em;
-		//height: $mastheadHeight;
-		line-height: $mastheadHeight;
-		span, a {
-			padding-left: 0;
-			padding-right: $defaultPadding/4;
-			font-weight: normal;
-		}
-	}
+    @include paginationPhone;
 }
