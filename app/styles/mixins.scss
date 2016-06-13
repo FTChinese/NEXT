@@ -707,7 +707,6 @@
 		background-color: transparent;	
 	}
 	.o-nav {
-		// @include oColorsFor(o-header);
 		background-color: $headerTint;
 		color: $whiteColor;
 		position: relative;
@@ -717,21 +716,15 @@
 			left: 0;
 			right: 0;
 			height: $o-header-sub-nav-height;
-			// @include oColorsFor(o-header-sub-nav, background);
 			background-color: $headerTintLight;
 		}
 	}
+
 	&.o-nav-sticky .o-nav {
 		position: fixed;
 		top: 0;
 		left: 0;
 		right: 0;
-		&:after {
-			display: none;
-			background-color: transparent;
-			//height: 0;
-			//background-color: red;
-		}
 		z-index: 999999;
 	}
 
@@ -759,7 +752,6 @@
 		display: none;
 	}
 	.o-nav__container {
-		position: absolute;
 		top: 0;
 		height: $o-header-bottom-height;
 		position: relative;
@@ -768,29 +760,30 @@
 		list-style: none;
 		margin: 0;
 		padding: 0;
-		// @include oColorsFor(o-header, text background);
 		background-color: $headerTint;
 		color: $whiteColor;
 		white-space: nowrap;
-		overflow-x: hidden;
 	}
 
 	.nav-section{
 		display: inline-block;
 		position: relative;
-		&:hover {
-			background-color: $headerTintLight;
-		}
+
+		&:hover,
 		&[aria-selected=true] {
 			background-color: $headerTintLight;
 		}
+
 		&.mobile {		
 			display: none;
+		}
+
+		&[aria-selected=true] {
+			position: static;
 		}
 	}
 	.nav-section-head {
 		box-sizing: border-box;
-	// reset button's style. Refer to `o-buttons` reset mixin.
 		border: 0;
 		padding: 0;
 		outline: none;
@@ -804,7 +797,6 @@
 		&.desktop {
 			display: block;
 			font-size: 17px;
-			transition: $o-header-background-transition;
 
 			&:hover {
 				background-color: $headerTintLight;
@@ -823,13 +815,10 @@
 
 		position: absolute;
 		left: 0;
-		height: 0;
-		transition: 0.3s height;
-		overflow: hidden;
 		min-width: 100%;
 		z-index: 1;
+		display: none;
 
-		// @include oColorsFor(o-header-sub-nav, background);
 		background-color: $headerTintLight;
 		color: $whiteColor;
 	}
@@ -838,51 +827,40 @@
 	.nav-section-head.desktop:hover ~ {
 		.nav-items {
 			z-index: 5;
-			height: auto;
-			overflow: visible;
+			display: block;
 		}		
 	}
 
-
-	&.o-nav-sticky {
-		.nav-section:hover,
-		.nav-section-head.desktop:hover ~ {
-			.nav-items {
-					display: none;
-					height: 0;
-				}
-			}
+	.nav-section[aria-selected="true"] .nav-items {
+		display: inline;
+		height: $o-header-sub-nav-height;
 	}
 
 	.nav-item {
 		box-sizing: border-box;
-		&.mobile {
-			display: none;
-		}
 		position: relative;
-		min-width: 100%;
+		width: 100%;
 		display: block;
 		border-top: 1px solid #666;
-		
-		&[aria-haspopup=true] {
-			.nav-link:after {
-				content: '';
-				@include oHeaderIcon('white/arrow-down-white', 10);
-				position: absolute;
-				right: 10px;
-				top: 50%;
-				margin-top: -5px;
-			}
-			
-			.nav-link:hover:after,
-			&:hover .nav-link:after {
-				background-image: url('http://static.ftchinese.com/ftc-icons/png/white/arrow-right-white.png');
-				background-image: url('http://static.ftchinese.com/ftc-icons/svg/white/arrow-right-white.svg');				
-			}
-		}
 	}
+
+	.nav-section[aria-selected="true"] .nav-item {
+		display: inline-block;
+		width: auto;
+		border:0;
+	}
+
+	.nav-section[aria-selected="true"] .nav-item.mobile {
+		display: none;
+	}
+
+	.nav-item.mobile {
+		display: none;
+	}
+
 	.nav-link {
-		box-sizing: border-box;	
+		box-sizing: border-box;
+		position: relative;
 		text-decoration: none;
 		margin: 0;
 		display: block;
@@ -890,16 +868,49 @@
 		white-space: nowrap;
 		line-height: $o-header-sub-nav-height;
 		height: $o-header-sub-nav-height;
-		padding: 0 25px 0 15px;
 		font-size: 14px;
-		// @include oColorsFor(o-header, text);
-		color: $whiteColor;
 		cursor: pointer;
-		&:hover,
-		.nav-item[aria-selected=true] & {
-			background-color: $darkGreen;
-			color: $whiteColor;
-		}		
+		color: $whiteColor;
+		padding: 0 25px 0 15px;	
+	}
+
+	.nav-section[aria-selected=true] .nav-link{
+		padding: 0 10px;
+	}
+	
+
+	.nav-link:hover,
+	.nav-item[aria-selected=true] .nav-link {
+		background-color: $darkGreen;
+		color: $whiteColor;
+	}
+
+	.nav-item[aria-haspopup=true] .nav-link:after{
+		content: '';
+		display: inline-block;
+		@include oHeaderArrowDown;
+		position: absolute;
+		right: 10px;
+		top: 50%;
+		margin-top: -4px;
+	}
+
+	.nav-section[aria-selected=true] .nav-item[aria-haspopup=true] .nav-link:after {
+		position: static;
+		right: auto;
+		top: auto;
+		margin: 0 0 0 5px;
+	}
+
+	.nav-item[aria-haspopup=true] .nav-link:hover:after,
+	.nav-item[aria-haspopup=true]:hover .nav-link:after {
+		@include oHeaderArrowRight;
+		margin-top: -6px;
+	}
+
+	.nav-section[aria-selected=true] .nav-item[aria-haspopup=true] .nav-link:hover:after,
+	.nav-section[aria-selected=true] .nav-item[aria-haspopup=true]:hover .nav-link:after{
+		@include oHeaderArrowUp;
 	}
 
 	.nav-sub-items {
@@ -913,14 +924,14 @@
 
 		display: none;
 
-		background-color: $headerTint;
+		background-color: $headerTintLight;
 		li {
 			border-top: 1px solid #666;
 		}
 
 		a{
 			color: $whiteColor;
-			padding: 0 20px;
+			padding: 0 15px;
 			height: $o-header-sub-nav-height;
 			line-height: $o-header-sub-nav-height;
 			font-size: 12px;
@@ -939,6 +950,11 @@
 		.nav-sub-items {
 			display: block;
 		}		
+	}
+
+	.nav-section[aria-selected=true] .nav-sub-items {
+		left: 0;
+		top: 100%;
 	}	
 
 	.nav-toggle {
@@ -946,102 +962,104 @@
 	}
 
 	.o-nav__extra-tools {
+		display: none;
 		list-style-type: none;
 		margin: 0;
 		padding: 0;
-		display: inline-block;
-		height: $o-header-sub-nav-height;
-		overflow: hidden;
+
+		display: block;
 
 		position: absolute;
 		right: 0;
-		left: auto;
-		width: auto;
+		top: 100%;
 		z-index: 10;
 
-		.nav-section-head {
-			line-height: $o-header-sub-nav-height;
-			padding: 0 5px 0 0;
-			color: #fff;
-			&:after {
-				content: '';
-				padding-left: 1em;
-				@include oHeaderIcon('white/arrow-down-white', 10);
-			}
-		}
-
-		.nav-section-head:hover:after,
-		.nav-section:hover .nav-section-head:after {
-			background-image: url('http://static.ftchinese.com/ftc-icons/png/white/arrow-up-white.png');
-			background-image: url('http://static.ftchinese.com/ftc-icons/svg/white/arrow-up-white.svg');
-		}
-
-		&:hover {
-			overflow: visible;
-		}
-
-		.nav-items {
-			left: auto;
-			right: 0;
-		}
-
-		.follow__rss {
+		.tools-section {
 			display: inline-block;
-			vertical-align: middle;
-			span {
-				text-indent: -999em;
-				@include oHeaderIcon(rss, 20);
-			}
-		}
-	}
-
-	&.o-nav-sticky .o-nav__extra-tools {
-		height: 0;
-		overflow: hidden;
-	}
-
-	.nav-section[aria-selected=true] {
-		position: static;
-
-		.nav-items {
-			overflow: hidden;
-			display: inline;
-			transition: $o-header-height-transition;
+			position: relative;
 			height: $o-header-sub-nav-height;
 		}
 
-		.nav-item {
+		.tools-section-head {
+			text-decoration: none;
+			display: block;
+			word-break: keep-all;
+			white-space: nowrap;
+			line-height: $o-header-sub-nav-height;
+			font-size: 14px;
+			color: $whiteColor;
+			padding: 0 5px 0 0;
+		}
+
+		.tools-section[aria-haspopup=true] .tools-section-head:after {
+			content: '';
 			display: inline-block;
-			min-width: auto;
-			width: auto;
-			border:0;
-			&.mobile {
+			margin-left: 5px;
+			vertical-align: middle;
+			@include oHeaderArrowDown;			
+		}
+
+		.tools-section:hover .tools-section-head:after,
+		.tools-section-head:hover:after {
+			@include oHeaderArrowUp;
+		}
+
+		.tools-items {
+			list-style-type: none;
+			margin: 0;
+			padding: 0;
+			position: absolute;
+			right: 0;
+			min-width: 100%;
+			z-index: 1;
+			display: none;
+			background-color: $headerTintLight;
+
+			li {
+				border-top: 1px solid #666;
+			}
+			a{
+				color: $whiteColor;
+				padding: 0 10px;
+				height: $o-header-sub-nav-height;
+				line-height: $o-header-sub-nav-height;
+				font-size: 12px;
+				display: block;
+				text-decoration: none;
+				white-space: nowrap;
+
+				&:hover {
+					background-color: $darkGreen;
+				}
+			}
+		}
+
+		.tools-section:hover,
+		.tools-section-head:hover ~ {
+			.tools-items {
+				z-index: 5;
+				display: block;
+			}
+		}
+	}
+
+	&.o-nav-sticky {
+		.o-nav:after,
+		.o-nav__extra-tools {
+			display: none;
+			height: 0;
+			overflow: hidden;
+		}
+
+		.nav-section:hover,
+		.nav-section-head.desktop:hover ~,
+		.nav-section {
+			.nav-items {
 				display: none;
 			}
-			&[aria-haspopup=true] {
-				.nav-link:hover:after,
-				&:hover .nav-link:after {
-					background-image: url('http://static.ftchinese.com/ftc-icons/png/white/arrow-up-white.png');
-					background-image: url('http://static.ftchinese.com/ftc-icons/svg/white/arrow-up-white.svg');
-				}			
-			}
-		}
-
-		.nav-link {
-			display: inline-block;
-			padding: 0 10px;
-		}
-
-		.nav-sub-items {
-			left: 0;
-			top: 100%;
 		}
 	}
-	
-	&.o-nav-sticky .nav-section[aria-selected=true] .nav-items {
-		height: 0;
-	}
-
+/*  */
 	.current-page {
 		position: absolute;
 		left: 0;

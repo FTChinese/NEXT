@@ -1,0 +1,204 @@
+.o-nav__container {
+	@include oGridRespondTo(L) {
+		position: relative;
+	}
+	@include oGridTargetIE8 {
+		position: relative;
+	}
+}
+
+.o-nav__meganav {
+	@include oGridRespondTo(L) {
+		background-color: $headerTint;
+		color: $whiteColor;
+		white-space: nowrap;
+	}	
+}
+
+.nav-section {
+	@include oGridRespondTo(L) {
+		display: inline-block;
+		position: relative;
+
+		&:hover,
+		&[aria-selected=true] {
+			background-color: $headerTintLight;
+		}
+
+		&.mobile {		
+			display: none;
+		}
+
+		&[aria-selected=true] {
+			position: static;
+		}
+	}	
+}
+
+.nav-section-head.desktop {
+	@include oGridRespondTo(L) {
+		display: block;
+		font-size: 17px;
+		transition: $o-header-background-transition;
+
+		&:hover {
+			background-color: $headerTintLight;
+			color: $whiteColor;
+		}
+	}
+}
+
+.nav-items {
+	@include oGridRespondTo(L) {
+		position: absolute;
+		left: 0;
+		min-width: 100%;
+		z-index: 1;
+		display: none;
+		background-color: $headerTintLight;
+		color: $whiteColor;
+
+		.nav-section:hover &,
+		.nav-section-head.desktop:hover ~ &{
+			z-index: 5;
+			display: block;
+		}
+
+		.o-nav-sticky .nav-section:hover &,
+		.o-nav-sticky .nav-section-head.desktop:hover ~ & {
+			display: none;
+		}
+
+		.nav-section[aria-selected="true"] & {
+			display: inline;
+			height: $o-header-sub-nav-height;
+			transition: $o-header-height-transition;
+		}
+
+		.o-nav-sticky .nav-section[aria-selected="true"] & {
+			height: 0;
+			overflow: hidden;
+		}
+	}	
+}
+
+.nav-item {
+	@include oGridRespondTo(L) {
+		box-sizing: border-box;
+
+		position: relative;
+		width: 100%;
+		display: block;
+		border-top: 1px solid #666;
+
+		.nav-section[aria-selected="true"] & {
+			display: inline-block;
+			width: auto;
+			border:0;
+		}
+		.nav-section[aria-selected="true"] &.mobile {
+			display: none;
+		}
+
+		&.mobile {
+			display: none;
+		}
+	}
+}
+
+.nav-link {
+	@include oGridRespondTo(L) {
+		margin: 0;
+		display: block;
+		word-break: keep-all;
+		white-space: nowrap;
+		line-height: $o-header-sub-nav-height;
+		height: $o-header-sub-nav-height;	
+		font-size: 14px;
+		cursor: pointer;
+		color: $whiteColor;
+		padding: 0 25px 0 15px;
+		
+		.nav-section[aria-selected=true] &{
+			padding: 0 6px;
+		}
+
+		&:hover,
+		.nav-item[aria-selected=true] & {
+			background-color: $darkGreen;
+			color: $whiteColor;
+		}
+
+		.nav-item[aria-haspopup=true] &:after{
+			content: '';
+			@include oHeaderIcon('white/arrow-down-white', 10);
+			position: absolute;
+			right: 10px;
+			top: 50%;
+			margin-top: -5px;
+		}
+
+		.nav-section[aria-selected=true] .nav-item[aria-haspopup=true] &:after {
+			position: static;
+			right: auto;
+			top: auto;
+			margin: 0 0 0 5px;
+		}
+
+		.nav-item[aria-haspopup=true] &:hover:after,
+		.nav-item[aria-haspopup=true]:hover &:after {
+			background-image: url('http://static.ftchinese.com/ftc-icons/png/white/arrow-right-white.png');
+			background-image: url('http://static.ftchinese.com/ftc-icons/svg/white/arrow-right-white.svg');
+		}
+
+		.nav-section[aria-selected=true] .nav-item[aria-haspopup=true] &:hover:after,
+		.nav-section[aria-selected=true] .nav-item[aria-haspopup=true]:hover &:after{
+			background-image: url('http://static.ftchinese.com/ftc-icons/png/white/arrow-up-white.png');
+			background-image: url('http://static.ftchinese.com/ftc-icons/svg/white/arrow-up-white.svg');
+		}
+	}	
+}
+
+.nav-sub-items {
+	@include oGridRespondTo(L) {
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+		position: absolute;
+		left: 100%;
+		top: 0;
+		min-width: 100%;
+
+		display: none;
+
+		background-color: $headerTintLight;
+
+		li {
+			border-top: 1px solid #666;
+		}
+
+		a{
+			color: $whiteColor;
+			padding: 0 20px;
+			height: $o-header-sub-nav-height;
+			line-height: $o-header-sub-nav-height;
+			font-size: 12px;
+			display: block;
+			text-decoration: none;
+			white-space: nowrap;
+
+			&:hover {
+				background-color: $darkGreen;
+			}
+		}
+
+		.nav-item:hover &,
+		.nav-link:hover ~ & {
+			display: block;
+		}
+		.nav-section[aria-selected=true] & {
+			left: 0;
+			top: 100%;
+		}	
+	}	
+}
