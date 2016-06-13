@@ -3,9 +3,10 @@
 		<div class="list-container">
 		    <div class="list-inner">
 		        <div class="items">
-		            <div class="item-container XL12 L12 M12 S12 P12">
+		            <div class="item-container XL12 L12 M12 S12 P12 video-story">
 		                <div class="item-inner">
-		                    <div class="image" target="_blank" id="video-player">
+		                	<h1 class="story-headline"><%$cheadline%></h1>
+		                    <div class="video-player" target="_blank" id="video-player"><div class="video-player-inner">
 		                        <%if $cc_vaddress && $cc_vaddress!=""%>
 		                            <script type="text/javascript">
 		                            var thisVideo = document.getElementById('video-player');
@@ -42,8 +43,7 @@
 		                                <!--<![endif]-->
 		                            </object>
 		                        <%/if%>
-		                    </div>
-		                    <h1 class="story-headline"><%$cheadline%></h1>
+		                    </div></div>
 							<div class="story-share-placeholder" id="story-share-placeholder">
 							    <div class="story-share">
 							        <div class="share-inner">
@@ -59,7 +59,7 @@
 							<div class="story-byline">
 								<span class="story-time"><%$pubdate|date_format:"%Y年%m月%d日"%></span>
 								<span class="story-author">
-									<%$cdescribe%> <a href="/search/?keys=<%$cbyline%>&type=relative_byline&category=video"><%$cbyline%></a> 
+									<%$cdescribe%> <%if $cbyline != "0" && $cbyline != ""%><a href="/search/?keys=<%$cbyline%>&type=relative_byline&category=video"><%$cbyline%></a><%/if%> 
 				                    <%if $eshortleadbody && $eshortleadbody!="" && $eshortleadbody!=null%> [<a href=<%$eshortleadbody%> target=_blank>作者微博</a>]
 				                    <%elseif preg_match("/盛立宇/is",$cbyline)%> 【<a href=http://weibo.com/u/1773028931 target=_blank>作者微博</a>】
 				                    <%/if%>
