@@ -630,10 +630,13 @@
 <%/if%>
 
 
-<%if ($page==1 || $page =="") && $story_pic.smallbutton && (in_array("插图",$story.tag) || $imageType == "portrait")%>
+<%if ($page==1 || $page =="") && $page_action != "ce" && $story_pic.smallbutton && (in_array("插图",$story.tag) || $imageType == "portrait")%>
 	<%assign var="storyImage" value=$story_pic.smallbutton%>
 	<%assign var="storyImageClass" value="right-image"%>
-<%elseif ($page==1 || $page =="") && $story_pic.smallbutton%>
+<%elseif ($page==1 || $page =="") && $page_action != "ce" && $story_pic.skyline && (in_array("插图",$story.tag) || $imageType == "portrait")%>
+	<%assign var="storyImage" value=$story_pic.skyline%>
+	<%assign var="storyImageClass" value="right-image-small"%>
+<%elseif ($page==1 || $page =="") && $page_action != "ce" && $story_pic.smallbutton%>
 	<%assign var="storyImage" value=$story_pic.smallbutton%>
 	<%assign var="storyImageClass" value=""%>
 <%elseif ($page==1 || $page =="") && $story.story_pic.cover%>
@@ -643,8 +646,10 @@
 
 
 <%if $storyImage != ""%>
-	<%if $storyImageClass == "right-image"%>
+	<%if $storyImageClass=="right-image"%>
 		<%assign var="storyImageInline" value="<div class=\"leftPic image portrait-img\"><figure class=\"loading\" data-url=`$storyImage`></figure></div>"%>
+	<%elseif $storyImageClass=="right-image-small"%>
+		<%assign var="storyImageInline" value="<div class=\"left-pic-small image portrait-img\"><figure class=\"loading\" data-url=`$storyImage`></figure></div>"%>
 	<%else%>
 		<%assign var="storyImageTop" value="<div class=\"`$storyImageClass` story-image image\"><figure data-url=`$storyImage` class=\"loading\"></figure></div>"%>
 	<%/if%>

@@ -210,10 +210,10 @@ new Nav(navEl);
 
 var initialNavSections = oNavSections(navEl);
 
-
 ajax.getData('/m/corp/ajax-nav.html', function(error, data) {
-
-	if (error) {return error;}
+// `data` is text, not DOM! 
+// You need to parse data into DOM before appending it.
+	if (error) {return;}
 	var wrapperEl = document.createElement('ol');
 	wrapperEl.innerHTML = data;
 
@@ -229,8 +229,6 @@ ajax.getData('/m/corp/ajax-nav.html', function(error, data) {
 		var navItemsEl = navSectionEl.querySelector('.nav-items');
 
 		navSectionsObj[navSectionName] = navItemsEl;
-		console.log(navSectionName);
 	}
-
 	zipObject(initialNavSections, navSectionsObj);
 });
