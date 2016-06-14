@@ -186,6 +186,20 @@ var initialNavSections = oNavSections(navEl);
 ajax.getData('/m/corp/ajax-nav.html', function(error, data) {
 
 	if (error) {return error;}
+
+	// var doc;
+	// try {
+	// 	var parser = new DOMParser();
+	// 	doc = parser.parseFromString(data, 'text/html');
+	// 	console.log(doc);		
+	// } catch(e) {
+	// 		doc = new ActiveXObject('Microsoft.XMLDOM');
+	// 		doc.async = false;
+	// 		doc.loadXML(data);
+	// }
+
+	// document.body.appendChild(doc.querySelector('body'));
+
 	var tmpEl = document.createElement('div');
 	tmpEl.innerHTML = data;
 
@@ -194,7 +208,7 @@ ajax.getData('/m/corp/ajax-nav.html', function(error, data) {
 
 	var navSectionsObj = {};
 
-	console.log('Elements in ajax string: ' + navSectionEls.length);
+	// console.log(tmpEl);
 
 	for (var i = 0, len = navSectionEls.length; i< len; i++) {
 
