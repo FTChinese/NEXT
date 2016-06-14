@@ -2,7 +2,7 @@
 function Toggler(rootEl) {
   var toggler = this;
   var togglerBtnAttribute = '[data-o-toggler-button]';
-	var togglerTargetAttribute = '[data-o-toggler-target]';
+  var togglerTargetAttribute = '[data-o-toggler-target]';
 
   function init() {
     if (!rootEl) {
