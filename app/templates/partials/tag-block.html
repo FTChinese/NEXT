@@ -275,7 +275,7 @@
 					<%/if%>
 
 
-					<%assign var="itemPubDate" value=$item.pubdate|default:$item.timeStamp%>
+					<%assign var="itemPubDate" value=$item.pubdate|default:$item.timeStamp|default:$item.add_times%>
 					<%assign var="itemTimeStamp" value=""%>
 					<%if $showTimeStamp === "all" || $showTimeStamp === "new stories"%>
 						<%assign var="highlightTime" value=""%>

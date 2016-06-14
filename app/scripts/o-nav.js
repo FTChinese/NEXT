@@ -181,7 +181,6 @@ new Nav(navEl);
 var searchEl = navEl.querySelector('.o-nav__search');
 new Toggler(searchEl);
 
-
 var initialNavSections = oNavSections(navEl);
 
 ajax.getData('/m/corp/ajax-nav.html', function(error, data) {
@@ -195,7 +194,7 @@ ajax.getData('/m/corp/ajax-nav.html', function(error, data) {
 
 	var navSectionsObj = {};
 
-	console.log('Elements in ajax string: ' + navSectionEls.length);
+	// console.log('Elements in ajax string: ' + navSectionEls.length);
 
 	for (var i = 0, len = navSectionEls.length; i< len; i++) {
 
@@ -205,8 +204,7 @@ ajax.getData('/m/corp/ajax-nav.html', function(error, data) {
 		var navItemsEl = navSectionEl.querySelector('.nav-items');
 
 		navSectionsObj[navSectionName] = navItemsEl;
-		console.log(navSectionName);
-		console.log(typeof navItemsEl);
+
 	}
 
 	zipObject(initialNavSections, navSectionsObj);

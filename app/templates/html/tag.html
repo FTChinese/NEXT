@@ -157,7 +157,9 @@
       <%else%>
         <%include file="next/partials/tag-block.html"%>
       <%/if%>
-      <%include file="next/partials/pagination.html"%>
+      <%if $showPagination != "no"%>
+        <%include file="next/partials/pagination.html"%>
+      <%/if%>
       <%include file="next/partials/footer.html"%>
       <%include file="next/partials/QrCode.html"%>
   </body>

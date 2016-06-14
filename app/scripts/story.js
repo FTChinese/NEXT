@@ -95,5 +95,83 @@ if (typeof fs === 'string' && fs !== null && fs !== '' && document.getElementByI
     document.getElementById('font-setting').querySelector('.normal').className = 'normal selected';
 }
 
-//document.getElementById('font-options').querySelectorAll('div');
 
+/* jshint ignore:start */
+// var bpage=0;
+// function viewhistory() {
+//     var username=GetCookie("USER_NAME"),
+//         unixday=Math.round(new Date().getTime()/1000),
+//         viewstart=GetCookie ("viewstart"),
+//         clearhistory=0,
+//         v,
+//         k,
+//         barrierversion,
+//         ie6,
+//         isIE;
+//     if (typeof storyid==="string" && storyid!=="" && (username===''||username===null) && (location.href.match(/\/story\/[0-9]{9}$/g)!==null||location.href.indexOf("barrierversion")>0)) {
+        
+//         if (viewstart===null || viewstart==="") {
+//             viewstart=unixday;
+//             SetCookie("viewstart",unixday,86400*100,"/");
+//         } else if (unixday-viewstart>=30*86400) {
+//             DeleteCookie ("viewstart");
+//             DeleteCookie ("viewhistory");
+//             SetCookie("viewstart",unixday,86400*100,"/");
+//             clearhistory=1;
+//         }
+
+//         v=GetCookie ("viewhistory");
+//         if (v===null || clearhistory===1) {
+//             v="";
+//         }
+//         v=v.replace(storyid,"").replace(/[\|]+/g,"|");
+//         v=v+"|"+storyid;
+//         v=v.replace(/^\|+/g,"").replace(/^[0-9]{1,8}\|/g,"");
+//         if (v.length>=120) {
+//             v=v.replace(/^[0-9]+\|/g,"");
+//         }
+//         DeleteCookie ("viewhistory");
+//         SetCookie("viewhistory",v,86400*100,"/");
+//         if (v.length>=50  && (document.referrer.indexOf("ftchinese.com")>=0 ||location.href.indexOf("barrierversion")>0)) {
+//             bpage=1;
+//             if (location.href.indexOf("ftchinese.com")>=0) {
+                
+//                 //if(i<0.3){bpage=2}else if(i<0.5){bpage=3}
+//                 if (v.length>=100) {bpage=3;}
+//                 k=GetCookie("bp");
+//                 if (k!==null&&k!==""&&k>=2){bpage=k;}
+//                 barrierversion=paravalue(window.location.href,"barrierversion");
+//                 if (barrierversion!==null && barrierversion!==""){bpage=parseInt(barrierversion,0);}
+//                 //如果是IE6，则不弹出全屏模式，但是一定让他登录才能看文章
+//                 ie6=!!window.ActiveXObject&&!window.XMLHttpRequest;
+//                 isIE=!!window.ActiveXObject;
+//                 if (ie6 && v.length>=100) {
+//                     bpage=6;
+//                     $.get("/m/marketing/reg.html", function(data){
+//                         $("#bodytext p").slice(2).remove();
+//                         $("#bodytext p").eq(1).after(data.replace(/5篇以上文章/g,"10篇以上文章")+"<div style='font-weight:bold;color:#FFF;padding:5px;background:#9E2F50;margin-bottom:15px;'>友好提示：我们注意到您还在使用IE6浏览，这会带来安全隐患。建议您升级到更高的版本，或使用最新的FireFox或Chrome等浏览器。</div>");
+//                     });         
+//                 } else if (isIE && v.length>=100) {
+//                     $.get("/m/marketing/reg.html", function(data){
+//                         $("#bodytext p").slice(2).remove();
+//                         $("#bodytext p").eq(1).after(data.replace(/5篇以上文章/g,"10篇以上文章"));
+//                     });         
+//                 } else if (bpage>=2 && v.length>=100 && $(window).width()>1024 && (window.Modernizr === undefined || !window.Modernizr.touch)) {
+//                     $.get("/m/marketing/reg"+bpage+".html", function(data){
+//                     if (data.indexOf("用户名或电子邮件")>0) {
+//                         $("#bodytext").html(data);
+//                         $("#rail-content").empty();
+//                         $(".story_list,#top590x60,#commentheader,#logincomment,#nologincomment,.commentcontainer,#sharelinks,.announce").remove();
+//                         SetCookie("bp",bpage,86400*100,"/");
+//                         }
+//                     });
+//                 } else {
+//                     $.get("/m/marketing/reg.html", function(data){
+//                         $("#bodytext p").eq(1).after(data);
+//                     });
+//                 }
+//             }
+//         }
+//     }
+// }
+/* jshint ignore:end */
