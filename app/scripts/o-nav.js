@@ -187,20 +187,7 @@ ajax.getData('/m/corp/ajax-nav.html', function(error, data) {
 
 	if (error) {return error;}
 
-	// var doc;
-	// try {
-	// 	var parser = new DOMParser();
-	// 	doc = parser.parseFromString(data, 'text/html');
-	// 	console.log(doc);		
-	// } catch(e) {
-	// 		doc = new ActiveXObject('Microsoft.XMLDOM');
-	// 		doc.async = false;
-	// 		doc.loadXML(data);
-	// }
-
-	// document.body.appendChild(doc.querySelector('body'));
-
-	var tmpEl = document.createElement('div');
+	var tmpEl = document.createElement('ol');
 	tmpEl.innerHTML = data;
 
 	var navSectionEls = tmpEl.querySelectorAll('.nav-section');
