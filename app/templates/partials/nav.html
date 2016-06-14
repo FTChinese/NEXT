@@ -41,11 +41,17 @@
   <div class="o-nav">
     <div class="o-nav__outer">
       <div class="o-nav__inner">
-        <form action="/search/" id="search-form" class="o-header__search-form" role="search">
-          <button class="search-button" tabindex="1"><span>搜索</span></button> 
-          <input id="search-term" type="search" name="keys" class="search-input" placeholder="搜索FT中文网" />
-          <input id="type_news" type="hidden" value="type_news" name="ftsearchType" checked />
-        </form>
+<div class="o-nav__search"  data-o-component="o-toggler">
+  <button class="o-nav__search-toggle" data-o-toggler-button aria-controls="search-form">
+    <span class="search-toggle--open">搜索</span>
+    <span class="search-toggle--close">关闭</span>
+  </button>
+  <form action="/search/" id="search-form" role="search" data-o-toggler-target>
+      <input id="search-term" type="search" name="keys" class="search-input" placeholder="搜索FT中文网" />
+      <input id="type_news" type="hidden" value="type_news" name="ftsearchType" checked />
+      <button class="search-button" tabindex="1"><span>搜索</span></button>   
+  </form> 
+</div>
 
         <div class="o-header__masthead-mobile">
             <a href="/" title="前往FT中文网首页"><span>FT中文网</span></a>

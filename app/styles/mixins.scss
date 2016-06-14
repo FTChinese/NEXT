@@ -1117,15 +1117,75 @@
 		bottom: 0;
 	}
 
-	.o-header__search-form {	
+	.o-nav__search {
+		z-index: 10;
 		background-color: transparent;
-		overflow: hidden;
+		// overflow: hidden;
 		box-sizing: border-box;	
 		padding: 0;
 		margin: 0;
 		width: $o-header-bottom-height;
 		height: $o-header-bottom-height;
 		float: right;
+
+		button {
+			box-sizing: border-box;
+		 	padding: 0;
+			margin: 0;
+			border: none;
+			outline: none;
+			cursor: pointer;
+			text-align: center;
+			background-color: transparent;
+			width: $o-header-bottom-height;
+			height: 100%;
+			span {
+				color: $whiteColor;
+			}
+		}
+	}
+
+	.o-nav__search-toggle {
+		width: $o-header-bottom-height;
+		height: $o-header-bottom-height;	
+		// background-color: transparent;	
+		display: inline-block;
+		position: relative;
+		z-index: 10;
+		.search-toggle--close {
+			display: none;
+		}
+		.search-toggle--open {
+			display: inline-block;
+		}
+		&[aria-expanded=true] {
+			.search-toggle--close {
+				display: inline-block;
+			}
+			.search-toggle--open {
+				display: none;
+			}			
+		}
+	}
+
+
+	#search-form {
+		box-sizing: border-box;
+		background-color: $headerTint;
+		padding: 0 $o-header-bottom-height;
+		position: absolute;
+		top: 0;
+		right: -10px;
+		z-index: 9;
+
+		height: $o-header-bottom-height;
+		width: 0;
+		visibility: hidden;
+		&[aria-hidden="false"] {
+			width: 100%;
+			right: $o-header-bottom-height;
+			visibility: visible;
+		}
 	}
 
 	.search-input {
@@ -1135,55 +1195,26 @@
 		border: 1px solid transparent;
 		border-radius: 0;
 		display: block;
-		margin: 0;
-		padding: 0 $o-header-bottom-height 0 0;
-		width: 0;
-		height: $o-header-bottom-height;
+		margin: 0 0 0 $o-header-bottom-height;
+		padding: 2px 26px 1px 12px;
+		// width: 0;
+		height: 100%;
 		outline: none;
 		-moz-appearance: none;
 		-webkit-appearance: none;
-		cursor: pointer;
 	// canel iOS safari auto zoom.
-		font-size: inherit;		
-
-		position: absolute;
-		right: 0;
-		top: 0;
+		font-size: inherit;	
+		@include oHeaderSearchExpanded;	
 		
-	// above button
-		z-index: 3;
-		
-		transition: 0.2s width;
 
-		&:focus {
-	// below button
-			z-index: 1;
-			@include oHeaderSearchExpanded;
-		}
-
-		.search-button:focus ~ & {
-			z-index: 1;
-			@include oHeaderSearchExpanded;
-		}
+		// .search-button:focus ~ & {
+		// 	z-index: 1;
+		// 	// @include oHeaderSearchExpanded;
+		// }
 	}
-	.search-button {
-		box-sizing: border-box;
-	 	padding: 0;
-		margin: 0;
-		border: none;
-		outline: none;
-		cursor: pointer;
-		text-align: center;
-
-		width: $o-header-bottom-height;
-		height: $o-header-bottom-height;	
-		background-color: transparent;	
-		display: inline-block;	
-		position: relative;
-		z-index: 2;
-
-	 	span {
-			color: $whiteColor;
-		}
+	.search-button {	
+		position: absolute;
+		left: $o-header-bottom-height;;
+		top: 0;
 	}	
 }
