@@ -141,8 +141,6 @@ var ajax = {
 	}
 };
 
-
-
 function oNavSections(container) {
 	var navSectionClassname = '.nav-section';
 
@@ -169,8 +167,8 @@ function zipObject(objA, objB) {
 		}
 
 		if (k in objB) {
-			console.log(k);
-			console.log(objA[k]);
+			// console.log(k);
+			// console.log(objA[k]);
 
 			objA[k].appendChild(objB[k]);
 		}	
@@ -193,8 +191,11 @@ ajax.getData('/m/corp/ajax-nav.html', function(error, data) {
 	tmpEl.innerHTML = data;
 
 	var navSectionEls = tmpEl.querySelectorAll('.nav-section');
+	// console.log(data);
 
 	var navSectionsObj = {};
+
+	console.log('Elements in ajax string: ' + navSectionEls.length);
 
 	for (var i = 0, len = navSectionEls.length; i< len; i++) {
 
@@ -204,9 +205,9 @@ ajax.getData('/m/corp/ajax-nav.html', function(error, data) {
 		var navItemsEl = navSectionEl.querySelector('.nav-items');
 
 		navSectionsObj[navSectionName] = navItemsEl;
+		console.log(navSectionName);
+		console.log(typeof navItemsEl);
 	}
 
-	console.log(navSectionsObj);
-	
 	zipObject(initialNavSections, navSectionsObj);
 });
