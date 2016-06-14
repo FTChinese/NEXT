@@ -1,56 +1,4 @@
 /*exported e, ajax*/
-function Toggler(rootEl) {
-  var toggler = this;
-  var togglerBtnAttribute = '[data-o-toggler-button]';
-	var togglerTargetAttribute = '[data-o-toggler-target]';
-
-  function init() {
-    if (!rootEl) {
-      rootEl = document.body;
-    }
-
-    var btnEl = rootEl.querySelector(togglerBtnAttribute);
-    var targetEl = rootEl.querySelector(togglerTargetAttribute);
-
-    if (!btnEl) { return; }
-
-    toggler.rootEl = rootEl;
-    toggler.button = btnEl;
-    toggler.target = targetEl;
-    toggler.isOpen = false;
-
-    toggler.button.addEventListener('click', handleToggle);
-    document.body.addEventListener('click', handleClick);     
-    document.body.addEventListener('keydown', handleEsc);     
-  }
-
-  function handleToggle() {
-    toggler.isOpen = !toggler.isOpen;
-
-    if (toggler.isOpen) {
-      toggler.button.setAttribute('aria-expanded', 'true');
-      toggler.target.setAttribute('aria-hidden', 'false');
-    } else {
-      toggler.button.setAttribute('aria-expanded', 'false');
-      toggler.target.setAttribute('aria-hidden', 'true');
-    }
-  }
-
-  function handleEsc(e) {
-    if (toggler.isOpen && e.keyCode === 27) {
-        handleToggle();
-    }
-  }
-
-  function handleClick(e) {
-    if (toggler.isOpen && !rootEl.contains(e.target)) {
-      handleToggle();
-    }
-  }
-
-  init();
-}
-
 function Nav(rootEl) {
 	var config = {navClassName: 'o-nav'};
 	var oNav = this;
@@ -58,7 +6,9 @@ function Nav(rootEl) {
 	function init() {
 		if (!rootEl) {
 			rootEl = document.body;
-		} 
+		} else if (!(rootEl instanceof HTMLElement)) {
+			rootEl = document.querySelector(rootEl);
+		}
 		var rootDelegate = new Delegate(rootEl);
 
 		oNav.delegate = rootDelegate;
@@ -109,6 +59,88 @@ function Nav(rootEl) {
 	selected();
 }
 
+// function Sticky(fixedEl, startDistance, endDistance) {
+// 	const oSticky = this;
+// 	const rAF = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.msRequestAnimationFrame || window.oRequestAnimationFrame || function(callback){ window.setTimeout(callback, 1000/60) }
+
+
+// 	function init() {	
+// 		oSticky.lastPosition = -1;
+// 		if (!startDistance) {
+// 			startDistance = 0;
+// 		}
+// 		oSticky.start = startDistance;
+// 		oSticky.end = endDistance;
+// 		if (!(fixedEl instanceof HTMLElement)) {
+// 			fixedEl = document.querySelector(fixedEl);
+// 		}
+// 		oSticky.fixedEl = fixedEl;
+// 	}
+
+// 	function loop(){
+// 	    // Avoid calculations if not needed
+// 	    var scrollY = (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
+
+// 	    if (oSticky.lastPosition == scrollY) {
+// 	        rAF(loop);
+// 	        return false;
+// 	    } else {
+// 	    	oSticky.lastPosition = scrollY;
+// 	    }
+
+// 	    var abovePeak = oSticky.lastPosition < oSticky.start;
+
+// 	    var underTrough = oSticky.lastPosition > oSticky.end;
+
+// 	    var between = !abovePeak && !underTrough;
+
+// 	    console.log('abovePeak: ' + abovePeak + ', between: ' + between + ', underTrough: ' + underTrough);
+
+// 	    //var withinRange = oSticky.end ? ((oSticky.lastPosition > oSticky.start) && (oSticky.lastPosition < oSticky.end)) : (oSticky.lastPosition > oSticky.start);
+
+// 	    var sticked = oSticky.fixedEl.getAttribute('aria-sticky');
+// 	    var troughed = oSticky.fixedEl.getAttribute('aria-troughed');
+
+// 	    if (between && !sticked) {
+// 	    	oSticky.fixedEl.setAttribute('aria-sticky', 'true');
+// 	    } else if (!between && sticked) {
+// 	    	oSticky.fixedEl.removeAttribute('aria-sticky');
+// 	    }
+
+// 	    if (underTrough && !troughed) {
+// 	    	oSticky.fixedEl.setAttribute('aria-troughed', 'true');
+// 	    } else if (!underTrough && troughed) {
+// 	    	oSticky.fixedEl.removeAttribute('aria-troughed');
+// 	    }
+
+// 	    rAF( loop );
+// 	}
+// 	init();
+// 	loop();
+// }
+
+// function getElementOffset(e) {
+
+// 	function getPageOffset(w) {
+// 		w = w || window;
+// 		var x = (w.pageXOffset !== undefined) ? w.pageXOffset : (document.documentElement || document.body.parentNode || document.body).scrollLeft;
+// 		var y = (w.pageYOffset !== undefined) ? w.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
+// 		return {x: x, y: y};
+// 	}
+
+// 	if (!(e instanceof HTMLElement)) {
+// 		e = document.querySelector(e);
+// 	}
+// 	var box = e.getBoundingClientRect();
+// 	var offset = getPageOffset();
+// 	var x1 = box.left + offset.x;
+// 	var x2 = box.right + offset.x;
+// 	var y1 = box.top + offset.y;
+// 	var y2 = box.bottom + offset.y;
+
+// 	return {xLeft: x1,  xRight: x2, yTop: y1,yBottom: y2};
+// }
+
 // callback(error, data)
 var ajax = {
 	getData: function (url, callback) {
@@ -118,14 +150,13 @@ var ajax = {
 	    if (xhr.readyState === 4) {
 	      if (xhr.status >= 200 && xhr.status < 300 || xhr.status === 304) {
 	        var type = xhr.getResponseHeader('Content-Type');
-	        /*if (type.indexOf('html') !== -1 && xhr.responseXML) {
-	        	console.log('HTML or XML');
+	        if (type.indexOf('html') !== -1 && xhr.responseXML) {
 	          callback(null, xhr.responseXML);
 	        } else if (type === 'application/json') {
 	          callback(null, JSON.parse(xhr.responseText));
-	        } else {*/
+	        } else {
 	          callback(null, xhr.responseText);
-	        /*}*/
+	        }
 	      } else {
 	        //console.log('Request was unsuccessful: ' + xhr.status);
 	        callback(xhr.status);
@@ -136,6 +167,9 @@ var ajax = {
 	    }
 	  };
 
+	  // xhr.onprogress = function(event) {
+	  //   console.log('Request Progress: Received ' + event.loaded / 1000 + 'kb, Total' + event.total / 1000 + 'kb');
+	  // };
 	  xhr.open('GET', url);
 	  xhr.send(null);
 	}
@@ -164,34 +198,26 @@ function oNavSections(container) {
 
 function zipObject(objA, objB) {
 	for (var k in objA) {
-		if (!objA.hasOwnProperty(k)) {
-			continue;
-		}
-
-		if (k in objB) {
-			console.log(k);
-			console.log(objA[k]);
-
-			objA[k].appendChild(objB[k]);
-		}	
+		objA[k].appendChild(objB[k]);
 	}
 }
 
 var navEl = document.querySelector('.o-nav');
-new Nav(navEl);
+//var navElOffset = getElementOffset(navEl);
 
-var searchEl = navEl.querySelector('.o-nav__search');
-new Toggler(searchEl);
+new Nav(navEl);
+// new Sticky(navEl, navElOffset.yTop);
 
 var initialNavSections = oNavSections(navEl);
 
 ajax.getData('/m/corp/ajax-nav.html', function(error, data) {
+// `data` is text, not DOM! 
+// You need to parse data into DOM before appending it.
+	if (error) {return;}
+	var wrapperEl = document.createElement('ol');
+	wrapperEl.innerHTML = data;
 
-	if (error) {return error;}
-	var tmpEl = document.createElement('div');
-	tmpEl.innerHTML = data;
-
-	var navSectionEls = tmpEl.querySelectorAll('.nav-section');
+	var navSectionEls = wrapperEl.querySelectorAll('.nav-section');
 
 	var navSectionsObj = {};
 
@@ -203,7 +229,6 @@ ajax.getData('/m/corp/ajax-nav.html', function(error, data) {
 		var navItemsEl = navSectionEl.querySelector('.nav-items');
 
 		navSectionsObj[navSectionName] = navItemsEl;
-	}	
-
+	}
 	zipObject(initialNavSections, navSectionsObj);
 });
