@@ -140,7 +140,7 @@ var thisday1 = new Date();
 var todaydate1 = thisday1.getFullYear() + "-" + (thisday1.getMonth() + 1) + "-" + thisday1.getDate();
 var fullsc = GetCookie("rb2");
 var loadFullAtEnd = false;
-if (fullsc == null && w>490 && isTouchDevice() === false && (todaydate1 == "2016-5-30" || todaydate1 == "2016-6-13" || todaydate1 == "2016-6-14" || todaydate1 == "2016-5-16" || todaydate1 == "2016-5-7")) {
+if (fullsc == null && w>490 && isTouchDevice() === false && (todaydate1 == "2016-6-15" || todaydate1 == "2016-6-13" || todaydate1 == "2016-6-14" || todaydate1 == "2016-5-16" || todaydate1 == "2016-5-7")) {
 document.write('<scr' + 'ipt type="text/jav' + 'ascript" src="http://dolphin.ftimg.net/s?z=ft&amp;c=10000014&amp;slot=645072137&amp;_sex=101&amp;_trip=1&amp;_lux=1&amp;_dc=2&amp;_mm=2&amp;_sz=2&amp;_am=2" charset="gbk"></scr' + 'ipt>');
 } else if (fullsc == null) {
 loadFullAtEnd = true;
@@ -200,11 +200,17 @@ stickyAdsPrepare();
 <div class="o-nav">
 <div class="o-nav__outer">
 <div class="o-nav__inner">
-<form action="/search/" id="search-form" class="o-header__search-form" role="search">
-<button class="search-button" tabindex="1"><span>搜索</span></button> 
+<div class="o-nav__search"  data-o-component="o-toggler">
+<button class="o-nav__search-toggle" data-o-toggler-button aria-controls="search-form">
+<span class="search-toggle--open">搜索</span>
+<span class="search-toggle--close">关闭</span>
+</button>
+<form action="/search/" id="search-form" role="search" data-o-toggler-target>
 <input id="search-term" type="search" name="keys" class="search-input" placeholder="搜索FT中文网" />
 <input id="type_news" type="hidden" value="type_news" name="ftsearchType" checked />
-</form>
+<button class="search-button" tabindex="1"><span>搜索</span></button>   
+</form> 
+</div>
 <div class="o-header__masthead-mobile">
 <a href="/" title="前往FT中文网首页"><span>FT中文网</span></a>
 </div>
@@ -377,7 +383,8 @@ FT中文网首页
 </li>
 </ul>
 </div><!-- o-nav__inner -->
-</div><!-- o-nav__outer -->    
+</div><!-- o-nav__outer -->
+<div class="o-nav__meganav-placeholder"></div>   
 </div><!-- o-nav -->  
 </div><!-- o-nav__placeholder -->
 <div class="site-map">
@@ -397,111 +404,149 @@ FT中文网首页
 
 <div class="list-container"><div class="list-inner"><div class="items">
 
-<div class="item-container XL8 L8 M12 S6 P12 has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/钢铁业">钢铁业</a><button class="myft-follow plus" data-tag="钢铁业" data-type="tag">关注</button></div><a target="_blank" href="/story/001067961">全球钢铁业的中国因素</a></h2>
-<a class="image" target="_blank" href="/story/001067961"><figure class="loading" data-url="http://i.ftimg.net/picture/5/000062635_piclink.jpg"></figure></a><div class="item-lead">全球的钢铁业如今都面临着痛苦的转型。作为一个周期性很强的行业，钢铁业历来每隔一段时期就会遭遇产能过剩，将价格拖入低迷。但这一次，整个等式被一个巨大的变量扭曲：中国。中国经济的低迷对钢铁业的冲击大过对其他任何行业的冲击。</div>
+<div class="item-container XL8 L8 M12 S12 S-double-width P12 has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/恐怖袭击">恐怖袭击</a><button class="myft-follow plus" data-tag="恐怖袭击" data-type="tag">关注</button></div><a target="_blank" href="/story/001067990">特朗普式反恐不可取</a></h2>
+<a class="image" target="_blank" href="/story/001067990"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000062719_piclink.jpg"></figure></a><div class="item-lead">FT社评：特朗普试图从奥兰多恐袭事件中榨取政治资本的企图是可耻的，而他所重提的禁止穆斯林入境美国的应对之策更是危险的。ISIS的目的就是在西方挑起针对穆斯林的反弹和压制，煽动穆斯林青年走上激进道路。特朗普此时把矛头对准穆斯林，正中ISIS的下怀。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 XL-right XL-no-tag L4 L-right L-half L-no-tag M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/恐怖袭击">恐怖袭击</a><button class="myft-follow plus" data-tag="恐怖袭击" data-type="tag">关注</button></div><a target="_blank" href="/story/001067988">奥兰多恐袭阴影笼罩美国总统大选</a></h2>
+<a class="image" target="_blank" href="/story/001067988"><figure class="loading" data-url="http://i.ftimg.net/picture/5/000062715_piclink.jpg"></figure></a><div class="item-lead">希拉里和特朗普对奥兰多枪击事件作出了反差鲜明的回应，揭示了他们在如何应对恐怖主义问题上的明显鸿沟，并突显了这个问题对11月大选可能产生的影响。</div>
 <div class="item-bottom"></div>
 </div></div>
 <div class=" MT PT"></div>
-<div class="item-container XL4 XL-right XL-no-tag L4 L-right L-half L-no-tag M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/美国">美国</a><button class="myft-follow plus" data-tag="美国" data-type="tag">关注</button></div><a target="_blank" href="/story/001067970">美国发生“9·11”后最严重恐袭</a></h2>
-<a class="image" target="_blank" href="/story/001067970"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000062647_piclink.jpg"></figure></a><div class="item-lead">美国奥兰多市一家夜总会发生美国史上最血腥大规模枪击事件，造成50人死亡，53人受伤。这也是“9·11”以来在美国本土发生的最严重的恐怖袭击。</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class=" MT PT ST"></div>
 <div class="item-container XL4 XL-right XL-half XL-no-tag L4 L-right L-no-tag L-half M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/互联网金融">互联网金融</a><button class="myft-follow plus" data-tag="互联网金融" data-type="tag">关注</button></div><a target="_blank" href="/story/001067968">中国一家P2P平台拟用白酒偿付投资者</a></h2>
-<a class="image" target="_blank" href="/story/001067968"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000062641_piclink.jpg"></figure></a><div class="item-lead">徽融通宣布，在董事长周勤得被刑拘后，不再有能力向投资者返还现金</div>
+<h2 class="item-headline"><div class=item-tag><a href="/tag/恐怖袭击">恐怖袭击</a><button class="myft-follow plus" data-tag="恐怖袭击" data-type="tag">关注</button></div><a target="_blank" href="/story/001067991">恐怖杀手马丁是如何“激进化”的？</a></h2>
+<a class="image" target="_blank" href="/story/001067991"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000062720_piclink.jpg"></figure></a><div class="item-lead">无论从他所居住过的小镇，还是从他常去的清真寺，似乎很难找到奥兰多枪击案杀手马丁如何变成恐怖分子的迹象。美国有关部门表示，马丁似乎并未涉及任何外部阴谋，而是在网上变得激进化的。</div>
 <div class="item-bottom"></div>
 </div></div>
-<div class="XLT LT MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/机器人">机器人</a><button class="myft-follow plus" data-tag="机器人" data-type="tag">关注</button></div><a target="_blank" href="/story/001067969">中国私募股权基金收购意大利机器人企业</a></h2>
-<a class="image" target="_blank" href="/story/001067969"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000062642_piclink.jpg"></figure></a><div class="item-lead">汉德创始人蔡洪平的目标是“智造未来”，专注于第四次工业革命</div>
+<div class="clearfloat"></div>
+</div>
+</div></div>
+<div class="list-container"><div class="list-inner"><h2 class="list-title">
+<a class="list-link" href="/tag/英国退欧公投">英国退欧公投</a>
+</h2>
+<div class="items">
+
+<div class="item-container XL4 L4 M12 M-half S12 S-double-width P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067983">美国为何担忧英国退欧？</a></h2>
+<a class="image" target="_blank" href="/story/001067983"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000062710_piclink.jpg"></figure></a><div class="item-lead">FT专栏作家卢斯：美国精英阶层纷纷表态反对英国脱欧，他们真正担心的是：如果英国人愚蠢到选择脱欧，美国人可能也会疯狂到选特朗普当总统。</div>
 <div class="item-bottom"></div>
 </div></div>
 <div class=" MT PT ST"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/英国退欧公投">英国退欧公投</a><button class="myft-follow plus" data-tag="英国退欧公投" data-type="tag">关注</button></div><a target="_blank" href="/story/001067966">卡梅伦：脱欧将影响英国基本福利</a></h2>
+<h2 class="item-headline"><a target="_blank" href="/story/001067940">西方“普世价值”为何陷入危机？</a></h2>
+<a class="image" target="_blank" href="/story/001067940"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000062606_piclink.jpg"></figure></a><div class="item-lead">崔莹：著名学者、加拿大自由党前领袖叶礼廷最近在英国爱丁堡演讲，从难民危机、极右势力崛起等角度，解析“普世价值”在欧洲所遭遇的危机。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067966">卡梅伦：脱欧将影响英国基本福利</a></h2>
 <a class="image" target="_blank" href="/story/001067966"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000062640_piclink.jpg"></figure></a><div class="item-lead">英国首相警告称，脱离欧盟将给英国带来较低的养老金和较弱的医疗开支。此言意在争取老年选民，民调显示，这一群体更有可能支持英国脱欧。</div>
 <div class="item-bottom"></div>
 </div></div>
-<div class=" MT PT"></div>
+<div class="clearfloat"></div>
+</div>
+</div></div>
+<div class="list-container"><div class="list-inner"><h2 class="list-title">
+<a class="list-link" href="#">分析与评论</a>
+</h2>
+<div class="items">
+
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/女性经济学">女性经济学</a><button class="myft-follow plus" data-tag="女性经济学" data-type="tag">关注</button></div><a target="_blank" href="/story/001067967">金融服务业在性别平等方面进步缓慢</a></h2>
-<a class="image" target="_blank" href="/story/001067967"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000048841_piclink.jpg"></figure></a><div class="item-lead">最新报告称，全球而言，女性只占金融服务业董事会的1/5和执行委员会的16%</div>
+<h2 class="item-headline"><div class=item-tag><a href="/channel/slides.html">图辑</a></div><a target="_blank" href="/photonews/1033">希拉里锁定总统候选人</a></h2>
+<a class="image" target="_blank" href="/photonews/1033"><figure class="loading" data-url="http://i.ftimg.net/photonews/2016/06/575cfae2a48868.86502846.jpg"></figure></a><div class="item-lead">当地时间6月7日，美国民主党总统参选人希拉里（Hillary Clinton）赢下民主党总统候选人提名战，从而成为美国历史上首位代表一个重要政党角逐白宫的女性。</div>
 <div class="item-bottom"></div>
 </div></div>
-<div class="XLT LT MT PT ST"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/恐怖袭击">恐怖袭击</a><button class="myft-follow plus" data-tag="恐怖袭击" data-type="tag">关注</button></div><a target="_blank" href="/story/001067972">美同性恋群体哀悼奥兰多枪击案受害者</a></h2>
-<a class="image" target="_blank" href="/story/001067972"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000062648_piclink.jpg"></figure></a><div class="item-lead">一年前的这个时候，美国同性恋群体正在庆祝美最高法院裁定同性婚姻合法。今天，该群体正受到美国史上致死人数最多的枪击案的巨大打击。就该群体近年来取得的进步而言，这次枪击案是个令人痛心的转折。</div>
-<div class="item-bottom"></div>
-</div></div>
 <div class=" MT PT"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/商学院">商学院</a><button class="myft-follow plus" data-tag="商学院" data-type="tag">关注</button></div><a target="_blank" href="/story/001067965">教科书太贵 商学院助学生省钱</a></h2>
-<a class="image" target="_blank" href="/story/001067965"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000062624_piclink.jpg"></figure></a><div class="item-lead">教科书太贵，商学院及其教师们纷纷想方设法，力图让学生能以低成本获得教学材料，如使用电子版教材替代纸质教材，通过在线平台发放材料等。</div>
+<h2 class="item-headline"><div class=item-tag><a href="/tag/华为">华为</a><button class="myft-follow plus" data-tag="华为" data-type="tag">关注</button></div><a target="_blank" href="/story/001067974">华为能否走出战略无人区？</a></h2>
+<a class="image" target="_blank" href="/story/001067974"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000062712_piclink.jpg"></figure></a><div class="item-lead">周掌柜：任正非最近表示，华为创新进入了无人区，对智能时代也认知不足。他内心最大的恐惧或许是远离人群和无法准确定义敌人，而孤独可能导致误判一个崭新的时代。</div>
 <div class="item-bottom"></div>
 </div></div>
 <div class=" MT PT ST"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
 <h2 class="item-headline"><div class=item-tag><a href="/tag/全球商业的未来">全球商业的未来</a><button class="myft-follow plus" data-tag="全球商业的未来" data-type="tag">关注</button></div><a target="_blank" href="/story/001067964">勿迷信硅谷</a></h2>
-<a class="image" target="_blank" href="/tag/全球商业的未来"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000062658_piclink.jpg"></figure></a><div class="item-lead">一些欧洲企业家抱怨：欧洲为什么没有自己的硅谷？但更值得思考的问题是：美国的创新为什么不再起到推动经济的作用？显然，仅靠硅谷不能解决所有问题。</div>
+<a class="image" target="_blank" href="/story/001067964"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000052061_piclink.jpg"></figure></a><div class="item-lead">一些欧洲企业家抱怨：欧洲为什么没有自己的硅谷？但更值得思考的问题是：美国的创新为什么不再起到推动经济的作用？显然，仅靠硅谷不能解决所有问题。</div>
 <div class="item-bottom"></div>
 </div></div>
 <div class="XLT LT MT PT"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/管理">管理</a><button class="myft-follow plus" data-tag="管理" data-type="tag">关注</button></div><a target="_blank" href="/story/001067960">掌权的都是好人？</a></h2>
-<a class="image" target="_blank" href="/story/001067960"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000062623_piclink.jpg"></figure></a><div class="item-lead">FT专栏作家凯拉韦：《权力的悖论》一书认为，得到权力的都是为人民服务的好人。若果真如此，又如何解释全然无视大众福祉的特朗普的崛起呢？</div>
+<h2 class="item-headline"><div class=item-tag><a href="/tag/天则横议">天则横议</a><button class="myft-follow plus" data-tag="天则横议" data-type="tag">关注</button></div><a target="_blank" href="/story/001067979">科技创新需要自由的思想市场</a></h2>
+<a class="image" target="_blank" href="/story/001067979"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000062709_piclink.jpg"></figure></a><div class="item-lead">天则经济研究所王军：在全球化背景下，各国经济的高度融合，意味着任何一国对信息的封锁均会损害全球经济，而最大的受害者其实是自己。</div>
 <div class="item-bottom"></div>
 </div></div>
 <div class=" MT PT ST"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/房地产">房地产</a><button class="myft-follow plus" data-tag="房地产" data-type="tag">关注</button></div><a target="_blank" href="/story/001067959">地王豪赌，经济安否</a></h2>
-<a class="image" target="_blank" href="/story/001067959"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000062639_piclink.jpg"></figure></a><div class="item-lead">FT中文网首席财经评论员徐瑾：地王刷屏朋友圈到麻木，多空双方各有论证，房价其实已经变为信仰之争。房价很大程度是信贷现象，当下猛烈上涨其实是在对赌未来经济走势。</div>
+<h2 class="item-headline"><div class=item-tag><a href="/tag/中国经济">中国经济</a><button class="myft-follow plus" data-tag="中国经济" data-type="tag">关注</button></div><a target="_blank" href="/story/001067971">凯恩斯主义的现实边界</a></h2>
+<a class="image" target="_blank" href="/story/001067971"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000060919_piclink.jpg"></figure></a><div class="item-lead">伍戈、谢洁玉：拿来主义之下，人们只看到凯恩斯的结论，忽视其约束条件和政策边界；在凯恩斯主义框架下，许多宏观政策效果有待观察，凯恩斯主义经济学是否还有效？</div>
 <div class="item-bottom"></div>
 </div></div>
 <div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/中国经济">中国经济</a><button class="myft-follow plus" data-tag="中国经济" data-type="tag">关注</button></div><a target="_blank" href="/story/001067989">中国已动用4730亿美元外储捍卫人民币汇率</a></h2>
+<a class="image" target="_blank" href="/story/001067989"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000062714_piclink.jpg"></figure></a><div class="item-lead">FT基于官方数据估计，中国央行自去年8月以来已花掉大约4730亿美元外汇储备。知情人士称，干预汇市代价巨大，但对维护信心和阻止人民币无序贬值是必要的。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="XLT LT MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/科技">科技</a><button class="myft-follow plus" data-tag="科技" data-type="tag">关注</button></div><a target="_blank" href="/story/001067986">微软262亿美元收购领英</a></h2>
+<a class="image" target="_blank" href="/story/001067986"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000041871_piclink.jpg"></figure></a><div class="item-lead">这是微软历来最大的收购交易，也是科技行业今年迄今最大的收购交易</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/文明冲突">文明冲突</a><button class="myft-follow plus" data-tag="文明冲突" data-type="tag">关注</button></div><a target="_blank" href="/story/001067984">文明冲突并非人类宿命</a></h2>
+<a class="image" target="_blank" href="/story/001067984"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000062711_piclink.jpg"></figure></a><div class="item-lead">新加坡国立大学马凯硕：在西方，伦敦选出了穆斯林市长；在世界上穆斯林人口最多的国家印尼，首都雅加达市长则是一名华裔基督徒。我们在全球范围内将见证不同文明的融合，而非不同文明的冲突。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/科技">科技</a><button class="myft-follow plus" data-tag="科技" data-type="tag">关注</button></div><a target="_blank" href="/story/001067987">美的收购德国机器人企业遭政治阻力</a></h2>
+<a class="image" target="_blank" href="/story/001067987"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000062713_piclink.jpg"></figure></a><div class="item-lead">德国及欧盟担心这笔交易导致欧洲核心工业技术流入中国</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="XLT LT MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/中国经济">中国经济</a><button class="myft-follow plus" data-tag="中国经济" data-type="tag">关注</button></div><a target="_blank" href="/story/001067982">“海岸投资”遭遇生存危机</a></h2>
+<a class="image" target="_blank" href="/story/001067982"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000062707_piclink.jpg"></figure></a><div class="item-lead">“海岸投资”是中国的一家不良债务投资机构，在其本应受益于国内银行着手处理不良贷款问题所带来的机会之际，该公司却陷入动荡，人员出走。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/行为经济学">行为经济学</a><button class="myft-follow plus" data-tag="行为经济学" data-type="tag">关注</button></div><a target="_blank" href="/story/001067981">如何化解排队难题？</a></h2>
+<a class="image" target="_blank" href="/story/001067981"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000062708_piclink.jpg"></figure></a><div class="item-lead">FT专栏作家哈福德：我们不喜欢排队，这可能和等待时间无关。如何让排队不那么难熬呢？我试着从心理学、工程学和经济学三个角度化解排队难题。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/两岸关系">两岸关系</a><button class="myft-follow plus" data-tag="两岸关系" data-type="tag">关注</button></div><a target="_blank" href="/story/001067977">蔡英文阻止马英九赴港演讲</a></h2>
+<a class="image" target="_blank" href="/story/001067977"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000062694_piclink.jpg"></figure></a><div class="item-lead">蔡英文办公室以马掌握机密信息、且台湾安全部门与香港无合作先例为由，驳回马赴港申请</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="XLT LT MT PT ST"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
 <h2 class="item-headline"><div class=item-tag><a href="/tag/2016美国大选">2016美国大选</a><button class="myft-follow plus" data-tag="2016美国大选" data-type="tag">关注</button></div><a target="_blank" href="/story/001067963">特朗普挑战美国核心价值观</a></h2>
 <a class="image" target="_blank" href="/story/001067963"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000062626_piclink.jpg"></figure></a><div class="item-lead">Slate集团董事长韦斯伯格：特朗普最近向一位墨西哥裔法官“开炮”，在共和党内引发广泛批评。在挑战美国核心价值观方面，特朗普越过了三条红线。</div>
 <div class="item-bottom"></div>
 </div></div>
-<div class="XLT LT MT PT ST"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/公司管理">公司管理</a><button class="myft-follow plus" data-tag="公司管理" data-type="tag">关注</button></div><a target="_blank" href="/story/001067956">员工持股计划：在改革中前行</a></h2>
-<a class="image" target="_blank" href="/story/001067956"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000062638_piclink.jpg"></figure></a><div class="item-lead">蔡浩：员工持股计划最终目标是要形成资本所有者和劳动者利益共同体，激发员工创新活力，完善公司治理，提高企业市场竞争力，要达成这一目标，相关制度的设计、完善和突破是关键。</div>
-<div class="item-bottom"></div>
-</div></div>
 <div class=" MT PT"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/财富管理">财富管理</a><button class="myft-follow plus" data-tag="财富管理" data-type="tag">关注</button></div><a target="_blank" href="/story/001067953">女性企业高管如何为股东创造价值？</a></h2>
-<a class="image" target="_blank" href="/story/001067953"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000062637_piclink.jpg"></figure></a><div class="item-lead">夏春：女性高管让公司股价更高，还是好公司聘请了更多女性高管？如果“天花板效应”是更严格的人才选拔机制造成的，那么，被选拔出来的女性高管就更能为公司和股东创造价值。</div>
+<h2 class="item-headline"><div class=item-tag><a href="/tag/互联网金融">互联网金融</a><button class="myft-follow plus" data-tag="互联网金融" data-type="tag">关注</button></div><a target="_blank" href="/story/001067968">中国一家P2P平台拟用白酒偿付投资者</a></h2>
+<a class="image" target="_blank" href="/story/001067968"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000062641_piclink.jpg"></figure></a><div class="item-lead">徽融通宣布，在董事长周勤得被刑拘后，不再有能力向投资者返还现金</div>
 <div class="item-bottom"></div>
 </div></div>
 <div class=" MT PT ST"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/美国经济">美国经济</a><button class="myft-follow plus" data-tag="美国经济" data-type="tag">关注</button></div><a target="_blank" href="/story/001067962">长线观点：美联储“沉默是金”</a></h2>
-<a class="image" target="_blank" href="/story/001067962"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000062627_piclink.jpg"></figure></a><div class="item-lead">FT市场编辑麦肯齐：美联储今夏的相对沉默是对资产价格影响最大的因素，难怪本月有迹象表明投资者的冒险偏好上升，踊跃买入各类金融资产。</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class="XLT LT MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/高考">高考</a><button class="myft-follow plus" data-tag="高考" data-type="tag">关注</button></div><a target="_blank" href="/story/001067935">高考：录取率越“平衡”越失衡</a></h2>
-<a class="image" target="_blank" href="/story/001067935"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000062592_piclink.jpg"></figure></a><div class="item-lead">万喆：教育公平是社会公平的起点，教育资源配置非均衡会恶化阶层差距，加剧不平等。什么造成了不均衡？是招生制度？是教育基础？还是招生制度与教育基础的脱节？</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class=" MT PT ST"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/中国经济">中国经济</a><button class="myft-follow plus" data-tag="中国经济" data-type="tag">关注</button></div><a target="_blank" href="/story/001067943">现在不是卖空中国的时候</a></h2>
-<a class="image" target="_blank" href="/story/001067943"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000062586_piclink.jpg"></figure></a><div class="item-lead">渣打银行集团CEO温特斯：中国面临艰巨的短期挑战，经济中存在诸多风险，但这些风险是可控的，中国政府有能力、也有资源应对挑战，实现经济增长目标和经济转型。中国的经济转型不会一帆风顺，但对那些愿意长线投资的人来说，最终的回报仍然诱人。</div>
+<div class="item-container XL4 XL-half L4 L-half M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/管理">管理</a><button class="myft-follow plus" data-tag="管理" data-type="tag">关注</button></div><a target="_blank" href="/story/001067960">掌权的都是好人？</a></h2>
+<a class="image" target="_blank" href="/story/001067960"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000062623_piclink.jpg"></figure></a><div class="item-lead">FT专栏作家凯拉韦：《权力的悖论》一书认为，得到权力的都是为人民服务的好人。若果真如此，又如何解释全然无视大众福祉的特朗普的崛起呢？</div>
 <div class="item-bottom"></div>
 </div></div>
 <div class=" MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/威尼斯国际建筑双年展">威尼斯国际建筑双年展</a><button class="myft-follow plus" data-tag="威尼斯国际建筑双年展" data-type="tag">关注</button></div><a target="_blank" href="/story/001067939">梁井宇：失守的后方已成“前线”</a></h2>
-<a class="image" target="_blank" href="/story/001067939"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000062563_piclink.jpg"></figure></a><div class="item-lead">今年的威尼斯国际建筑双年展以“来自前线的报道”为主题。在中国国家馆策展人梁井宇看来，中国的快速发展，让曾经的大后方——乡村、环境和人——成为亟待关注的“前线”。</div>
+<div class="item-container XL4 XL-half XL-lower L4 L-half L-lower M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/房地产">房地产</a><button class="myft-follow plus" data-tag="房地产" data-type="tag">关注</button></div><a target="_blank" href="/story/001067959">地王豪赌，经济安否</a></h2>
+<a class="image" target="_blank" href="/story/001067959"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000062639_piclink.jpg"></figure></a><div class="item-lead">FT中文网首席财经评论员徐瑾：地王刷屏朋友圈到麻木，多空双方各有论证，房价已变为信仰之争。房价很大程度是信贷现象，当下猛烈上涨是在对赌未来经济走势。</div>
 <div class="item-bottom"></div>
 </div></div>
 <div class="clearfloat"></div>
@@ -509,6 +554,7 @@ FT中文网首页
 </div></div><div class="clearfloat block-bottom"></div>
 </div></div>
 <div class="side-container"><div class="side-inner">
+<iframe id="ribbon" class="ad-hidden hide" width="100%" height="0" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="/m/marketing/a.html#adid=10000009&slot=986723212&pid=ribbon"></iframe>
 <div class="vidoes">
 <div class="video-container">
 <div class="video-inner">
@@ -524,16 +570,20 @@ FT中文网首页
 <h2 class="list-title"><a href="/channel/mba.html">互动与图辑</a></h2>
 <!---->
 <div class="item-container first"><div class="item-inner">
+<a class="image" href="/interactive/7101" target=_blank><figure class="loading" data-url="http://i.ftimg.net/picture/1/000062641_piclink.jpg"></figure></a>
+<h2 class="item-headline"><a href="/interactive/7101" target=_blank>【速读】还不起钱怎么办？还白酒啊！</a></h2>
+</div></div>
+<div class="item-container"><div class="item-inner">
+<a class="image" href="/interactive/4438" target=_blank><figure class="loading" data-url="http://i.ftimg.net/picture/4/000058414_piclink.jpg"></figure></a>
+<h2 class="item-headline"><a href="/interactive/4438" target=_blank>【小测】测测你的新闻IQ</a></h2>
+</div></div>
+<div class="item-container"><div class="item-inner">
 <a class="image" href="/photonews/1034" target=_blank><figure class="loading" data-url="http://i.ftimg.net/photonews/2016/06/575e2e649aa667.66789058.jpg"></figure></a>
 <h2 class="item-headline"><a href="/photonews/1034" target=_blank>【图辑】奥兰多夜店枪击案</a></h2>
 </div></div>
 <div class="item-container"><div class="item-inner">
 <a class="image" href="/interactive/7085" target=_blank><figure class="loading" data-url="http://i.ftimg.net/picture/9/000062619_piclink.jpg"></figure></a>
 <h2 class="item-headline"><a href="/interactive/7085" target=_blank>【速读】旅途必备</a></h2>
-</div></div>
-<div class="item-container"><div class="item-inner">
-<a class="image" href="/interactive/4438" target=_blank><figure class="loading" data-url="http://i.ftimg.net/picture/4/000058414_piclink.jpg"></figure></a>
-<h2 class="item-headline"><a href="/interactive/4438" target=_blank>【小测】测测你的新闻IQ</a></h2>
 </div></div>
 <div class="item-container"><div class="item-inner">
 <a class="image" href="/photonews/1033" target=_blank><figure class="loading" data-url="http://i.ftimg.net/photonews/2016/06/575cfae28d59d5.81909679.jpg"></figure></a>
@@ -580,8 +630,32 @@ FT中文网首页
 <div class="items">
 
 <div class="item-container XL3 L4 M4 S6 P12 has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/华为">华为</a><button class="myft-follow plus" data-tag="华为" data-type="tag">关注</button></div><a target="_blank" href="/story/001067974">华为能否走出战略无人区？</a></h2>
-<a class="image" target="_blank" href="/story/001067974"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000058903_piclink.jpg"></figure></a><div class="item-lead">周掌柜：今年全国科技创新大会上，任正非表示华为创新进入了无人区及对智能时代认知不足，此刻，他内心最大的恐惧或许是远离人群和无法准确定义敌人，而孤独可能导致误判一个崭新的时代。</div>
+<h2 class="item-headline"><div class=item-tag><a href="/tag/中国股市">中国股市</a><button class="myft-follow plus" data-tag="中国股市" data-type="tag">关注</button></div><a target="_blank" href="/story/001067999">新三板：资本市场改革的“试验田”</a></h2>
+<a class="image" target="_blank" href="/story/001067999"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000061911_piclink.jpg"></figure></a><div class="item-lead">长江商学院李海涛：A股市场改革实质性放缓，但新三板改革正不断深入，新三板的相关利益方，从股转系统本身、到挂牌企业、再到投资者，都有望在A股改革的“缝隙期”迎来发展的“黄金时间”。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" PT"></div>
+<div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067976">致读者：为什么你一定会爱上全新的FT中文网</a></h2>
+<a class="image" target="_blank" href="/story/001067976"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000062752_piclink.jpg"></figure></a><div class="item-lead">FT中文网总编辑王丰：</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" ST PT"></div>
+<div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/财富管理">财富管理</a><button class="myft-follow plus" data-tag="财富管理" data-type="tag">关注</button></div><a target="_blank" href="/story/001067953">女性企业高管如何为股东创造价值？</a></h2>
+<a class="image" target="_blank" href="/story/001067953"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000062637_piclink.jpg"></figure></a><div class="item-lead">夏春：女高管让公司股价更高，还是好公司聘请了更多女高管？若“天花板效应”是更严格的人才选拔机制造成，被选拔出来的女高管就更能为公司和股东创造价值。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" LT MT PT"></div>
+<div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/公司管理">公司管理</a><button class="myft-follow plus" data-tag="公司管理" data-type="tag">关注</button></div><a target="_blank" href="/story/001067956">员工持股计划：在改革中前行</a></h2>
+<a class="image" target="_blank" href="/story/001067956"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000062638_piclink.jpg"></figure></a><div class="item-lead">蔡浩：员工持股计划最终目标是要形成资本所有者和劳动者利益共同体，激发员工创新活力，完善公司治理，提高企业市场竞争力，要达成这一目标，相关制度的设计、完善和突破是关键。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="XLT ST PT"></div>
+<div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/美国经济">美国经济</a><button class="myft-follow plus" data-tag="美国经济" data-type="tag">关注</button></div><a target="_blank" href="/story/001067962">长线观点：美联储“沉默是金”</a></h2>
+<a class="image" target="_blank" href="/story/001067962"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000062627_piclink.jpg"></figure></a><div class="item-lead">FT市场编辑麦肯齐：美联储今夏的相对沉默是对资产价格影响最大的因素，难怪本月有迹象表明投资者的冒险偏好上升，踊跃买入各类金融资产。</div>
 <div class="item-bottom"></div>
 </div></div>
 <div class=" PT"></div>
@@ -590,10 +664,22 @@ FT中文网首页
 <a class="image" target="_blank" href="/story/001067954"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000051514_piclink.jpg"></figure></a><div class="item-lead">梁海明：日前一份民调显示，多数港人认为“一带一路”无助个人与香港经济发展，这结果多少让人感到意外，但细心推敲，港人对该战略无感，并非没有原因。</div>
 <div class="item-bottom"></div>
 </div></div>
-<div class=" ST PT"></div>
+<div class=" LT MT ST PT"></div>
 <div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
 <h2 class="item-headline"><div class=item-tag><a href="/tag/职场">职场</a><button class="myft-follow plus" data-tag="职场" data-type="tag">关注</button></div><a target="_blank" href="/story/001067945">热衷婚外情的员工更具创造力？</a></h2>
 <a class="image" target="_blank" href="/story/001067945"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000062583_piclink.jpg"></figure></a><div class="item-lead">FT专栏作家斯卡平克：研究表明，有婚外情倾向的员工所在的公司，更有可能存在不同形式的违规行为，但这些公司似乎也更善于创新、更富有创造力。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" PT"></div>
+<div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/中国经济">中国经济</a><button class="myft-follow plus" data-tag="中国经济" data-type="tag">关注</button></div><a target="_blank" href="/story/001067943">现在不是卖空中国的时候</a></h2>
+<a class="image" target="_blank" href="/story/001067943"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000062586_piclink.jpg"></figure></a><div class="item-lead">渣打银行集团CEO温特斯：中国面临艰巨的短期挑战，经济中存在诸多风险，但这些风险是可控的，中国政府有能力、也有资源应对挑战，实现经济增长目标和经济转型。中国的经济转型不会一帆风顺，但对那些愿意长线投资的人来说，最终的回报仍然诱人。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="XLT ST PT"></div>
+<div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/高考">高考</a><button class="myft-follow plus" data-tag="高考" data-type="tag">关注</button></div><a target="_blank" href="/story/001067935">高考：录取率越“平衡”越失衡</a></h2>
+<a class="image" target="_blank" href="/story/001067935"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000062592_piclink.jpg"></figure></a><div class="item-lead">万喆：教育公平是社会公平的起点，教育资源配置非均衡会恶化阶层差距，加剧不平等。什么造成了不均衡？是招生制度？是教育基础？还是招生制度与教育基础的脱节？</div>
 <div class="item-bottom"></div>
 </div></div>
 <div class=" LT MT PT"></div>
@@ -602,52 +688,16 @@ FT中文网首页
 <a class="image" target="_blank" href="/story/001067955"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000062607_piclink.jpg"></figure></a><div class="item-lead">面对钢铁行业的产能过剩，欧美政府的最佳选择是审慎并有限地使用针对获补贴进口产品的贸易救济措施，应注意经济某一方面的扭曲不应给其他方面带来弄巧成拙的影响。</div>
 <div class="item-bottom"></div>
 </div></div>
-<div class="XLT ST PT"></div>
-<div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/欧洲">欧洲</a><button class="myft-follow plus" data-tag="欧洲" data-type="tag">关注</button></div><a target="_blank" href="/story/001067940">西方“普世价值”为何陷入危机？</a></h2>
-<a class="image" target="_blank" href="/story/001067940"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000062606_piclink.jpg"></figure></a><div class="item-lead">崔莹：著名学者、加拿大自由党前领袖叶礼廷最近在英国爱丁堡演讲，从难民危机、极右势力崛起等角度，解析“普世价值”在欧洲所遭遇的危机。</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class=" PT"></div>
+<div class=" ST PT"></div>
 <div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
 <h2 class="item-headline"><div class=item-tag><a href="/tag/英国退欧公投">英国退欧公投</a><button class="myft-follow plus" data-tag="英国退欧公投" data-type="tag">关注</button></div><a target="_blank" href="/story/001067944">移民问题可能影响英国退欧公投结果</a></h2>
 <a class="image" target="_blank" href="/story/001067944"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000062584_piclink.jpg"></figure></a><div class="item-lead">FT专栏作家拉赫曼：移民问题是退欧阵营的王牌。对普通人来说，移民问题是体现英国如何丧失主权、政府如何误判形势、欧盟如何难以改革的鲜活例证。</div>
 <div class="item-bottom"></div>
 </div></div>
-<div class=" LT MT ST PT"></div>
+<div class=" PT"></div>
 <div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
 <h2 class="item-headline"><div class=item-tag><a href="/tag/投资">投资</a><button class="myft-follow plus" data-tag="投资" data-type="tag">关注</button></div><a target="_blank" href="/story/001067941">优秀投资者懂得认输</a></h2>
 <a class="image" target="_blank" href="/story/001067941"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000062590_piclink.jpg"></figure></a><div class="item-lead">戴维斯：伦敦金融城有句老话：“长期投资”是出了错的短期投资。在导致投资者草率冒险的所有因素中，最常见、最严重的是死不认输，拒绝止损。</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class=" PT"></div>
-<div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/英国退欧">英国退欧</a><button class="myft-follow plus" data-tag="英国退欧" data-type="tag">关注</button></div><a target="_blank" href="/story/001067931">英国退欧，“权威言论”可信吗？</a></h2>
-<a class="image" target="_blank" href="/story/001067931"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000050071_piclink.jpg"></figure></a><div class="item-lead">工银国际程实：英国退欧公投日益临近，“权威言论”更倾向于将此举视作“非理性选择”，但其研究思路存在局限，削弱了经济效应分析的客观性和准确性。</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class="XLT ST PT"></div>
-<div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/社评">社评</a><button class="myft-follow plus" data-tag="社评" data-type="tag">关注</button></div><a target="_blank" href="/story/001067927">FT社评：希拉里真正的战斗才刚刚开始</a></h2>
-<a class="image" target="_blank" href="/story/001067927"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000055344_piclink.jpg"></figure></a><div class="item-lead">经过两场马拉松式的民主党总统候选人提名竞选活动，希拉里终于跨过了终点线。她是美国历史上首位获得总统候选人提名的女性。然而，最严峻的考验还在前面。</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class=" LT MT PT"></div>
-<div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/中产阶级">中产阶级</a><button class="myft-follow plus" data-tag="中产阶级" data-type="tag">关注</button></div><a target="_blank" href="/story/001067923">中国中产阶层的保守与彷徨</a></h2>
-<a class="image" target="_blank" href="/story/001067923"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000062546_piclink.jpg"></figure></a><div class="item-lead">曾于里：学界认为中产阶层是社会变革的推动器，但太多例子证明，中国中产阶层的政治属性并不明显，他们呈现出保守、自私与犬儒，是一种普遍现象，也有制度根源。</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class=" ST PT"></div>
-<div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/BT">BT</a><button class="myft-follow plus" data-tag="BT" data-type="tag">关注</button></div><a target="_blank" href="/story/001067937">BitTorrent：失落的“互联网革命者”</a></h2>
-<a class="image" target="_blank" href="/story/001067937"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000062574_piclink.jpg"></figure></a><div class="item-lead">FT中文网总编辑王丰：近年来，BitTorrent公司不断尝试适应时下流行的互联网应用场景，但产品始终不温不火。2016年，该公司再次做出策略调整，向媒体公司转型。</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class=" PT"></div>
-<div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/英国退欧公投">英国退欧公投</a><button class="myft-follow plus" data-tag="英国退欧公投" data-type="tag">关注</button></div><a target="_blank" href="/story/001067918">普京未必乐见英国退欧</a></h2>
-<a class="image" target="_blank" href="/story/001067918"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000062537_piclink.jpg"></figure></a><div class="item-lead">评论员玛丽•德耶夫斯基：西方认为英国退欧符合莫斯科方面的利益，臆测普京正准备为退欧阵营的胜利干杯。这种判断在多大程度上是准确的呢？</div>
 <div class="item-bottom"></div>
 </div></div>
 <div class="clearfloat"></div>
@@ -674,22 +724,22 @@ FT中文网首页
 <h2 class="list-title"><a class="list-link" href="/channel/economy.html">经济</a></h2>
 
 <div class="item-container side-by-side first has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067974">华为能否走出战略无人区？</a></h2>
-<a class="image" target="_blank" href="/story/001067974"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000058903_piclink.jpg"></figure></a><div class="item-lead">周掌柜：今年全国科技创新大会上，任正非表示华为创新进入了无人区及对智能时代认知不足，此刻，他内心最大的恐惧或许是远离人群和无法准确定义敌人，而孤独可能导致误判一个崭新的时代。</div><div class="item-bottom"></div>
+<h2 class="item-headline"><a target="_blank" href="/story/001067999">新三板：资本市场改革的“试验田”</a></h2>
+<a class="image" target="_blank" href="/story/001067999"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000061911_piclink.jpg"></figure></a><div class="item-lead">长江商学院李海涛：A股市场改革实质性放缓，但新三板改革正不断深入，新三板的相关利益方，从股转系统本身、到挂牌企业、再到投资者，都有望在A股改革的“缝隙期”迎来发展的“黄金时间”。</div><div class="item-bottom"></div>
 </div></div>
 
 <div class="item-container side-by-side "><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067954">“一带一路”无助香港发展？</a></h2>
+<h2 class="item-headline"><a target="_blank" href="/story/001067994">Lex专栏：追逐“独角兽”的中国人寿</a></h2>
 <div class="item-bottom"></div>
 </div></div>
 
 <div class="item-container side-by-side "><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067958">跨国公司在亚洲面临的政治禁忌</a></h2>
+<h2 class="item-headline"><a target="_blank" href="/story/001067993">“杠杆ETF”首次登陆香港交易所</a></h2>
 <div class="item-bottom"></div>
 </div></div>
 
 <div class="item-container side-by-side "><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067957">IMF就中国企业债务问题发出警告</a></h2>
+<h2 class="item-headline"><a target="_blank" href="/story/001067976">致读者：为什么你一定会爱上全新的FT中文网</a></h2>
 <div class="item-bottom"></div>
 </div></div>
 </div>
@@ -726,22 +776,22 @@ FT中文网首页
 <h2 class="list-title"><a class="list-link" href="/channel/technology.html">科技</a></h2>
 
 <div class="item-container side-by-side first has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067975">滴滴出行获中国人寿6亿美元投资</a></h2>
+<a class="image" target="_blank" href="/story/001067975"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000062686_piclink.jpg"></figure></a><div class="item-lead">继5月份获苹果公司10亿美元投资后，滴滴又增添一个知名股东</div><div class="item-bottom"></div>
+</div></div>
+
+<div class="item-container side-by-side "><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001067969">私募股权基金汉德收购意大利机器人企业</a></h2>
+<div class="item-bottom"></div>
+</div></div>
+
+<div class="item-container side-by-side "><div class="item-inner">
 <h2 class="item-headline"><a target="_blank" href="/story/001067973">AT&T因说“谢谢你”遭花旗起诉</a></h2>
-<a class="image" target="_blank" href="/story/001067973"><figure class="loading" data-url="http://i.ftimg.net/picture/5/000062645_piclink.jpg"></figure></a><div class="item-lead">花旗认为AT&T使用“thanks”标识推出奖励计划等于是侵犯了该行的商标权</div><div class="item-bottom"></div>
+<div class="item-bottom"></div>
 </div></div>
 
 <div class="item-container side-by-side "><div class="item-inner">
 <h2 class="item-headline"><a target="_blank" href="/story/001067942">被妖魔化的“黑客”</a></h2>
-<div class="item-bottom"></div>
-</div></div>
-
-<div class="item-container side-by-side "><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067937">BitTorrent：失落的“互联网革命者”</a></h2>
-<div class="item-bottom"></div>
-</div></div>
-
-<div class="item-container side-by-side "><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067934">阿里巴巴的“危”与“机”</a></h2>
 <div class="item-bottom"></div>
 </div></div>
 </div>
@@ -756,11 +806,6 @@ FT中文网首页
 <a class="image" target="_blank" href="/story/001067898"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000062436_piclink.jpg"></figure></a><div class="item-lead">FT中文网专栏作家马继东：09年，大批白领、工程师等新玩家涌入文玩珠串市场，行情爆发；这股热潮去年开始大幅降温，曾经的当红珠串乏人问津。 
 </div><div class="item-bottom"></div>
 </div></div>
-
-<div class="item-container side-by-side "><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067848">在家里装个Imax影院 ?</a></h2>
-<div class="item-bottom"></div>
-</div></div>
 </div>
 </div>
 <div class=" LC SC MC PC"></div>
@@ -769,22 +814,22 @@ FT中文网首页
 <h2 class="list-title"><a class="list-link" href="/channel/management.html">商业与管理</a></h2>
 
 <div class="item-container side-by-side first has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067945">热衷婚外情的员工更具创造力？</a></h2>
-<a class="image" target="_blank" href="/story/001067945"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000062583_piclink.jpg"></figure></a><div class="item-lead">FT专栏作家斯卡平克：研究表明，有婚外情倾向的员工所在的公司，更有可能存在不同形式的违规行为，但这些公司似乎也更善于创新、更富有创造力。</div><div class="item-bottom"></div>
+<h2 class="item-headline"><a target="_blank" href="/story/001067953">女性企业高管如何为股东创造价值？</a></h2>
+<a class="image" target="_blank" href="/story/001067953"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000062637_piclink.jpg"></figure></a><div class="item-lead">夏春：女高管让公司股价更高，还是好公司聘请了更多女高管？若“天花板效应”是更严格的人才选拔机制造成，被选拔出来的女高管就更能为公司和股东创造价值。</div><div class="item-bottom"></div>
 </div></div>
 
 <div class="item-container side-by-side "><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067955">FT社评：如何应对中国的廉价钢铁产品？</a></h2>
+<h2 class="item-headline"><a target="_blank" href="/story/001067985">李亦非：会学习的女人颜值更高</a></h2>
 <div class="item-bottom"></div>
 </div></div>
 
 <div class="item-container side-by-side "><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067948">与巴菲特共进午餐 神秘客一掷千金</a></h2>
+<h2 class="item-headline"><a target="_blank" href="/story/001067961">全球钢铁业的中国因素</a></h2>
 <div class="item-bottom"></div>
 </div></div>
 
 <div class="item-container side-by-side "><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067950">特斯拉重新审视修车后的保密要求</a></h2>
+<h2 class="item-headline"><a target="_blank" href="/story/001067965">教科书太贵 商学院助学生省钱</a></h2>
 <div class="item-bottom"></div>
 </div></div>
 </div>
@@ -795,22 +840,22 @@ FT中文网首页
 <h2 class="list-title"><a class="list-link" href="/channel/china.html">中国</a></h2>
 
 <div class="item-container side-by-side first has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067938">5月份中国进口降幅收窄</a></h2>
-<a class="image" target="_blank" href="/story/001067938"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000062571_piclink.jpg"></figure></a><div class="item-lead">以美元计的进口额同比仅下降0.4%，是2014年10月以来的最小月度降幅</div><div class="item-bottom"></div>
+<h2 class="item-headline"><a target="_blank" href="/story/001067978">中国固定资产投资增速降至16年低点</a></h2>
+<a class="image" target="_blank" href="/story/001067978"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000062697_piclink.jpg"></figure></a><div class="item-lead">增速放缓主要是由民营部门导致的，今年1-5月民间投资仅增长3.9%</div><div class="item-bottom"></div>
 </div></div>
 
 <div class="item-container side-by-side "><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067923">中国中产阶层的保守与彷徨</a></h2>
+<h2 class="item-headline"><a target="_blank" href="/story/001067956">员工持股计划：在改革中前行</a></h2>
 <div class="item-bottom"></div>
 </div></div>
 
 <div class="item-container side-by-side "><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067917">中国首富与米老鼠过招</a></h2>
+<h2 class="item-headline"><a target="_blank" href="/story/001067954">“一带一路”无助香港发展？</a></h2>
 <div class="item-bottom"></div>
 </div></div>
 
 <div class="item-container side-by-side "><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067929">中国5月外汇储备降至2011年以来最低</a></h2>
+<h2 class="item-headline"><a target="_blank" href="/story/001067958">跨国公司在亚洲面临的政治禁忌</a></h2>
 <div class="item-bottom"></div>
 </div></div>
 </div>
@@ -823,16 +868,16 @@ FT中文网首页
 <h2 class="list-title"><a href="/channel/weekly.html">十大热门文章</a></h2>
 <ul class="top10">
 
-<li class="mp1"><span>1. </span><a target="_blank" href="/story/001067935?dailypop">高考：录取率越“平衡”越失衡</a></li>
-<li class="mp2"><span>2. </span><a target="_blank" href="/story/001067940?dailypop">西方“普世价值”为何陷入危机？</a></li>
-<li class="mp3"><span>3. </span><a target="_blank" href="/story/001067943?dailypop">现在不是卖空中国的时候</a></li>
-<li class="mp4"><span>4. </span><a target="_blank" href="/story/001067970?dailypop">美国发生“9·11”后最严重恐袭</a></li>
-<li class="mp5"><span>5. </span><a target="_blank" href="/story/001067961?dailypop">全球钢铁业的中国因素</a></li>
-<li class="mp6"><span>6. </span><a target="_blank" href="/story/001067898?dailypop">中国文玩珠串市场遇“七年之痒”？</a></li>
-<li class="mp7"><span>7. </span><a target="_blank" href="/story/001067959?dailypop">地王豪赌，经济安否</a></li>
-<li class="mp8"><span>8. </span><a target="_blank" href="/story/001067945?dailypop">热衷婚外情的员工更具创造力？</a></li>
-<li class="mp9"><span>9. </span><a target="_blank" href="/story/001067958?dailypop">跨国公司在亚洲面临的政治禁忌</a></li>
-<li class="mp10"><span>10. </span><a target="_blank" href="/story/001067957?dailypop">IMF就中国企业债务问题发出警告</a></li>
+<li class="mp1"><span>1. </span><a target="_blank" href="/story/001067959?dailypop">地王豪赌，经济安否</a></li>
+<li class="mp2"><span>2. </span><a target="_blank" href="/story/001067970?dailypop">美国发生“9·11”后最严重恐袭</a></li>
+<li class="mp3"><span>3. </span><a target="_blank" href="/story/001067961?dailypop">全球钢铁业的中国因素</a></li>
+<li class="mp4"><span>4. </span><a target="_blank" href="/story/001067974?dailypop">华为能否走出战略无人区？</a></li>
+<li class="mp5"><span>5. </span><a target="_blank" href="/story/001067988?dailypop">奥兰多恐袭阴影笼罩美国总统大选</a></li>
+<li class="mp6"><span>6. </span><a target="_blank" href="/story/001067991?dailypop">恐怖杀手马丁是如何“激进化”的？</a></li>
+<li class="mp7"><span>7. </span><a target="_blank" href="/story/001067963?dailypop">特朗普挑战美国核心价值观</a></li>
+<li class="mp8"><span>8. </span><a target="_blank" href="/story/001067935?dailypop">高考：录取率越“平衡”越失衡</a></li>
+<li class="mp9"><span>9. </span><a target="_blank" href="/story/001067977?dailypop">蔡英文阻止马英九赴港演讲</a></li>
+<li class="mp10"><span>10. </span><a target="_blank" href="/story/001067940?dailypop">西方“普世价值”为何陷入危机？</a></li>
 </ul>
 </div>
 <div class="mpu-container">
@@ -853,12 +898,18 @@ FT中文网首页
 <div class="content-container"><div class="content-inner">
 
 <div class="list-container video-package last-child"><div class="list-inner"><h2 class="list-title">
-<a class="list-link" href="#">视频</a>
+<a class="list-link" href="/channel/stream.html">视频</a>
 </h2>
 <div class="items">
-<div class="item-inner video-package-inner"><div class="image"><figure id="video-package-play" class="loading-video" data-vid="1939"></figure></div><div class="video-package-title"><a href="/video/1939" target=_blank>美国奥兰多大规模枪击事件【英文原声】</a></div></div>
+<div class="item-inner video-package-inner"><div class="image"><figure id="video-package-play" class="loading-video" data-vid="1940"></figure></div><div class="video-package-title"><a href="/video/1940" target=_blank>又到A股纳入MSCI考验时</a></div></div>
 
 <div class="item-container XL2 L4 M4 S4 P4 on     has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1940">又到A股纳入MSCI考验时</a></h2>
+<a class="image" target="_blank" href="/video/1940"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000062698_piclink.jpg"></figure></a>
+<div class="item-bottom"></div>
+</div></div>
+
+<div class="item-container XL2 L4 M4 S4 P4     has-image"><div class="item-inner">
 <h2 class="item-headline"><a target="_blank" href="/video/1939">美国奥兰多大规模枪击事件【英文原声】</a></h2>
 <a class="image" target="_blank" href="/video/1939"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000062654_piclink.jpg"></figure></a>
 <div class="item-bottom"></div>
@@ -869,13 +920,13 @@ FT中文网首页
 <a class="image" target="_blank" href="/video/1938"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000062566_piclink.jpg"></figure></a>
 <div class="item-bottom"></div>
 </div></div>
-
-<div class="item-container XL2 L4 M4 S4 P4     has-image"><div class="item-inner">
+<div class=" LT MT ST"></div>
+<div class="item-container XL2 L4 M4 S4 P4    P-hide has-image"><div class="item-inner">
 <h2 class="item-headline"><a target="_blank" href="/video/1937">梁井宇：日常和持久的建筑之美</a></h2>
 <a class="image" target="_blank" href="/video/1937"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000062560_piclink.jpg"></figure></a>
 <div class="item-bottom"></div>
 </div></div>
-<div class=" LT MT ST"></div>
+
 <div class="item-container XL2 L4 M4 S4 P4    P-hide has-image"><div class="item-inner">
 <h2 class="item-headline"><a target="_blank" href="/video/1936">万达乐园叫板迪士尼？</a></h2>
 <a class="image" target="_blank" href="/video/1936"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000062512_piclink.jpg"></figure></a>
@@ -885,12 +936,6 @@ FT中文网首页
 <div class="item-container XL2 L4 M4 S4 P4    P-hide has-image"><div class="item-inner">
 <h2 class="item-headline"><a target="_blank" href="/video/1935">投资优步能帮助沙特减少对石油依赖吗？</a></h2>
 <a class="image" target="_blank" href="/video/1935"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000062404_piclink.jpg"></figure></a>
-<div class="item-bottom"></div>
-</div></div>
-
-<div class="item-container XL2 L4 M4 S4 P4    P-hide has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/video/1934">生活在朝鲜：仿佛穿越回70年代的中国</a></h2>
-<a class="image" target="_blank" href="/video/1934"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000062370_piclink.jpg"></figure></a>
 <div class="item-bottom"></div>
 </div></div>
 <div class="clearfloat"></div>
@@ -908,9 +953,9 @@ FT中文网首页
 <li class="mp5"><span>5. </span><a target="_blank" href="/video/1930">日本：或许终难逃下一次大地震</a></li>
 <li class="mp6"><span>6. </span><a target="_blank" href="/video/1938">希拉里和特朗普的中国人缘</a></li>
 <li class="mp7"><span>7. </span><a target="_blank" href="/video/1931">委内瑞拉：经济崩溃的新案例【英文原声】</a></li>
-<li class="mp8"><span>8. </span><a target="_blank" href="/video/1920">苹果投资滴滴，背后意图究竟是什么？</a></li>
-<li class="mp9"><span>9. </span><a target="_blank" href="/video/1936">万达乐园叫板迪士尼？</a></li>
-<li class="mp10"><span>10. </span><a target="_blank" href="/video/1916">特朗普改变世界的五种方式</a></li>
+<li class="mp8"><span>8. </span><a target="_blank" href="/video/1936">万达乐园叫板迪士尼？</a></li>
+<li class="mp9"><span>9. </span><a target="_blank" href="/video/1920">苹果投资滴滴，背后意图究竟是什么？</a></li>
+<li class="mp10"><span>10. </span><a target="_blank" href="/video/1923">蔡英文的三大挑战</a></li>
 </ul>
 </div>
 </div></div><div class="clearfloat"></div>
@@ -1047,7 +1092,7 @@ FT中文网首页
 <div class="list-container">
 <div class="list-inner">
 <h2 class="list-title">
-<a class="list-link" href="/m/marketing/member.html">会员活动</a>
+<a class="list-link" href="/m/marketing/home.html">会员活动</a>
 </h2>
 <div class="items headline-only" id="member-pic"></div>
 </div>

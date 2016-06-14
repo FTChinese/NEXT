@@ -324,7 +324,7 @@ gulp.task('jshint', function () {
     .pipe($.jshint.reporter('fail'));
 });
 
-gulp.task('html', ['navjs', 'styles'], function () {
+gulp.task('html', ['styles'], function () {
   return gulp.src('app/*.html')
     .pipe($.useref({searchPath: ['.tmp', 'app', '.']}))
     .pipe($.if('*.js', $.uglify()))
@@ -487,53 +487,6 @@ gulp.task('serve:test',
   gulp.watch(['app/styles/**/*.scss'], ['css']);
 });
 
-/* deploy to test server */
-gulp.task('testnav', function() {
-  return gulp.src('views/nav.html')
-    .pipe($.replace('<!-- easyapi -->', '<%easyapi command="11001" assign="datass1" debug=false%><%assign var="navData" value=$datass1.odatalist%><%if $topnav == ""%><%assign var="topnav" value="home"%><%/if%>'))
-    .pipe(gulp.dest('../www/frontend/tpl/next/partials'));
-});
-
-gulp.task('testajax', function() {
-  return gulp.src('views/ajax-nav.html')
-    .pipe($.replace('<!-- easyapi -->', '<%easyapi command="11001" assign="datass1" debug=false%><%assign var="navData" value=$datass1.odatalist%>'))
-    .pipe(gulp.dest('app/templates/partials'))
-    .pipe(gulp.dest('../www/frontend/tpl/corp'));
-});
-
-gulp.task('testcss', function() {
-  return gulp.src('dist/styles/main.css')
-    .pipe($.size({
-      title: 'main.css',
-      gzip: true
-    }))  
-    .pipe(gulp.dest('../www/frontend/tpl/next/styles/'));
-});
-
-gulp.task('testjs', function() {
-  return gulp.src('dist/scripts/main.js')
-    .pipe($.replace('ajax.php', '/m/corp/ajax-nav.html'))
-    .pipe($.size({
-      title: 'main.js',
-      gzip: true
-    }))
-    .pipe(gulp.dest('../www/frontend/tpl/next/scripts/'));
-});
-
-gulp.task('navtpl', function() {
-  return gulp.src('views/nav.html')
-    .pipe($.replace('<!-- easyapi -->', '<%easyapi command="11001" assign="datass1" debug=false%><%assign var="navData" value=$datass1.odatalist%><%if $topnav == ""%><%assign var="topnav" value="home"%><%/if%>'))
-    .pipe(gulp.dest('app/templates/partials'));
-});
-
-gulp.task('navjs', function() {
-  return gulp.src('views/scripts/o-nav.js')
-    .pipe($.if('*.js', $.replace('ajax.php', '/m/corp/ajax-nav.html')))
-    .pipe(gulp.dest('app/scripts'));
-});
-
-gulp.task('testbuild', ['testcss', 'testjs', 'testnav', 'testajax']);
-/*************/
 
 gulp.task('build', ['jshint', 'html', 'images', 'fonts', 'extras', 'ad'], function () {
   return gulp.src('dist/**/*').pipe($.size({title: 'build', gzip: true}));

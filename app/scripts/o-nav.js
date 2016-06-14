@@ -117,7 +117,7 @@ var ajax = {
 	  xhr.onreadystatechange = function() {
 	    if (xhr.readyState === 4) {
 	      if (xhr.status >= 200 && xhr.status < 300 || xhr.status === 304) {
-	        var type = xhr.getResponseHeader('Content-Type');
+	        //var type = xhr.getResponseHeader('Content-Type');
 	        /*if (type.indexOf('html') !== -1 && xhr.responseXML) {
 	        	console.log('HTML or XML');
 	          callback(null, xhr.responseXML);
