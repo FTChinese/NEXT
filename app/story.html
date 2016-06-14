@@ -223,11 +223,17 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 <div class="o-nav">
 <div class="o-nav__outer">
 <div class="o-nav__inner">
-<form action="/search/" id="search-form" class="o-header__search-form" role="search">
-<button class="search-button" tabindex="1"><span>搜索</span></button> 
+<div class="o-nav__search"  data-o-component="o-toggler">
+<button class="o-nav__search-toggle" data-o-toggler-button aria-controls="search-form">
+<span class="search-toggle--open">搜索</span>
+<span class="search-toggle--close">关闭</span>
+</button>
+<form action="/search/" id="search-form" role="search" data-o-toggler-target>
 <input id="search-term" type="search" name="keys" class="search-input" placeholder="搜索FT中文网" />
 <input id="type_news" type="hidden" value="type_news" name="ftsearchType" checked />
-</form>
+<button class="search-button" tabindex="1"><span>搜索</span></button>   
+</form> 
+</div>
 <div class="o-header__masthead-mobile">
 <a href="/" title="前往FT中文网首页"><span>FT中文网</span></a>
 </div>
@@ -251,37 +257,9 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 <a class="nav-section-head desktop" href="/">首页</a>
 </li>
 <li class="nav-section"
- aria-selected="true" data-section="china">
+ data-section="china">
 <button class="nav-section-head mobile">中国</button>
 <a class="nav-section-head desktop" href="/channel/china.html">中国</a>
-<ol class="nav-items">
-<li class="nav-item mobile">
-<a class="nav-link" href="/channel/china.html">
-频道首页
-</a>
-</li>
-<li class="nav-item"  data-channel="chinareport">
-<a class="nav-link" href="/channel/chinareport.html">政经</a>
-</li>
-<li class="nav-item"  data-channel="chinabusiness">
-<a class="nav-link" href="/channel/chinabusiness.html">商业</a>
-</li>
-<li class="nav-item"  data-channel="chinamarkets">
-<a class="nav-link" href="/channel/chinamarkets.html">金融市场</a>
-</li>
-<li class="nav-item"  data-channel="chinastock">
-<a class="nav-link" href="/channel/chinastock.html">股市</a>
-</li>
-<li class="nav-item"  data-channel="chinaproperty">
-<a class="nav-link" href="/channel/chinaproperty.html">房地产</a>
-</li>
-<li class="nav-item" aria-selected="true" data-channel="culture">
-<a class="nav-link" href="/channel/culture.html">社会与文化</a>
-</li>
-<li class="nav-item"  data-channel="chinaopinion">
-<a class="nav-link" href="/channel/chinaopinion.html">观点</a>
-</li>
-</ol>
 </li>
 <li class="nav-section"
  data-section="world">
@@ -309,9 +287,40 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 <a class="nav-section-head desktop" href="/channel/innovation.html">创新经济</a>
 </li>
 <li class="nav-section"
- data-section="opinion">
+ aria-selected="true" data-section="opinion">
 <button class="nav-section-head mobile">观点</button>
 <a class="nav-section-head desktop" href="/channel/opinion.html">观点</a>
+<ol class="nav-items">
+<li class="nav-item mobile">
+<a class="nav-link" href="/channel/opinion.html">
+频道首页
+</a>
+</li>
+<li class="nav-item"  data-channel="lex">
+<a class="nav-link" href="/channel/lex.html">Lex专栏</a>
+</li>
+<li class="nav-item"  data-channel="the-a-list">
+<a class="nav-link" href="/channel/the-a-list.html">A-List</a>
+</li>
+<li class="nav-item" aria-selected="true" data-channel="column">
+<a class="nav-link" href="/channel/column.html">专栏</a>
+</li>
+<li class="nav-item"  data-channel="analysis">
+<a class="nav-link" href="/channel/analysis.html">分析</a>
+</li>
+<li class="nav-item"  data-channel="comment">
+<a class="nav-link" href="/channel/comment.html">评论</a>
+</li>
+<li class="nav-item"  data-channel="editorial">
+<a class="nav-link" href="/channel/editorial.html">社评</a>
+</li>
+<li class="nav-item"  data-channel="book">
+<a class="nav-link" href="/channel/book.html">书评</a>
+</li>
+<li class="nav-item"  data-channel="letter">
+<a class="nav-link" href="/channel/letter.html">读者有话说</a>
+</li>
+</ol>
 </li>
 <li class="nav-section"
  data-section="management">
@@ -393,9 +402,9 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 <div class="site-map">
 <div class="site-map__container">
 <ul class="site-map__items">
-<li><a href="/channel/china.html">中国</a></li>
+<li><a href="/channel/opinion.html">观点</a></li>
   
-<li><a href="/channel/culture.html">社会与文化</a></li>
+<li><a href="/channel/column.html">专栏</a></li>
 </ul>
 </div>
 </div><div class="banner-placeholder">
@@ -410,50 +419,58 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 <div class="block-container has-side story-page"><div class="block-inner">
 <div class="content-container"><div class="content-inner">
 <div class="story-container">
-<div class="story-theme"><a target="_blank" href="/tag/"></a><button class="myft-follow plus" data-tag="" data-type="tag">关注</button></div>
-<h1 class="story-headline">致读者：为什么你一定会爱上全新的FT中文网</h1>
-<div class="story-lead">FT中文网总编辑王丰：</div>
-
+<div class="story-theme"><a target="_blank" href="/tag/华为">华为</a><button class="myft-follow plus" data-tag="华为" data-type="tag">关注</button></div>
+<h1 class="story-headline">华为能否走出战略无人区？</h1>
+<div class="story-lead">周掌柜：任正非最近表示，华为创新进入了无人区，对智能时代也认知不足。他内心最大的恐惧或许是远离人群和无法准确定义敌人，而孤独可能导致误判一个崭新的时代。</div>
+<div class=" story-image image"><figure data-url=http://i.ftimg.net/picture/2/000062712_piclink.jpg class="loading"></figure></div>
 <div class="story-share-placeholder" id="story-share-placeholder">
 <div class="story-share">
 <div class="share-inner">
-<a class="share-icon icon-wechat" href="/m/corp/qrshare.html?url=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001067976%3Ffull%3Dy&title=致读者：为什么你一定会爱上全新的FT中文网 - FT中文网" target="_blank"></a>
-<a class="share-icon icon-weibo" href="http://service.weibo.com/share/share.php?appkey=4221537403&url=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001067976%3Ffull%3Dy?ccode=2G169001&title=【致读者：为什么你一定会爱上全新的FT中文网】FT中文网总编辑王丰：（分享自 @FT中文网）&ralateUid=1698233740&source=&sourceUrl=&content=utf-8&pic=" target="_blank"></a>
-<a class="share-icon icon-linkedin" href="https://www.linkedin.com/cws/share?url=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001067976%3Ffull%3Dy%3Fccode%3D2G169003&original_referer=https%3A%2F%2Fdeveloper.linkedin.com%2Fsites%2Fall%2Fthemes%2Fdlc%2Fsandbox.php%3F&token=&isFramed=true&lang=zh_CN&_ts=1422502780259.2795" target="_blank"></a>
-<a class="share-icon icon-twitter" href="http://twitter.com/home?status=【致读者：为什么你一定会爱上全新的FT中文网】FT中文网总编辑王丰：（分享自 @FT中文网）...%20http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001067976%3Ffull%3Dy" target="_blank"></a>
-<a class="share-icon icon-facebook" href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001067976%3Ffull%3Dy&t=【致读者：为什么你一定会爱上全新的FT中文网】FT中文网总编辑王丰：（分享自 @FT中文网）" target="_blank"></a>
+<a class="share-icon icon-wechat" href="/m/corp/qrshare.html?url=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001067974%3Ffull%3Dy&title=华为能否走出战略无人区？ - FT中文网" target="_blank"></a>
+<a class="share-icon icon-weibo" href="http://service.weibo.com/share/share.php?appkey=4221537403&url=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001067974%3Ffull%3Dy?ccode=2G169001&title=【华为能否走出战略无人区？】周掌柜：任正非最近表示，华为创新进入了无人区，对智能时代也认知不足。他内心最大的恐惧或许是远离人群和无法准确定义敌人，而孤独可能导致误判一个崭新的时代。（分享自 @FT中文网）&ralateUid=1698233740&source=&sourceUrl=&content=utf-8&pic=" target="_blank"></a>
+<a class="share-icon icon-linkedin" href="https://www.linkedin.com/cws/share?url=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001067974%3Ffull%3Dy%3Fccode%3D2G169003&original_referer=https%3A%2F%2Fdeveloper.linkedin.com%2Fsites%2Fall%2Fthemes%2Fdlc%2Fsandbox.php%3F&token=&isFramed=true&lang=zh_CN&_ts=1422502780259.2795" target="_blank"></a>
+<a class="share-icon icon-twitter" href="http://twitter.com/home?status=【华为能否走出战略无人区？】周掌柜：任正非最近表示，华为创新进入了无人区，对智能时代也认知不足。他内心最大的恐惧或许是远离人群和无法准确定义敌人，而孤独可能导致误判一个崭新的时代。（分享自 @FT中文网）...%20http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001067974%3Ffull%3Dy" target="_blank"></a>
+<a class="share-icon icon-facebook" href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001067974%3Ffull%3Dy&t=【华为能否走出战略无人区？】周掌柜：任正非最近表示，华为创新进入了无人区，对智能时代也认知不足。他内心最大的恐惧或许是远离人群和无法准确定义敌人，而孤独可能导致误判一个崭新的时代。（分享自 @FT中文网）" target="_blank"></a>
 
 
 <div class="icon-right icon-save">
-<button id="addfavlink001067976">收藏</button>
+<button id="addfavlink001067974">收藏</button>
 </div>
-<a class="icon-right icon-action icon-comments" href="/comments/index/001067976" target="_blank"></a>
-<a class="icon-right icon-action icon-print" href="/story/001067976?print=y" target="_blank"></a>
+<a class="icon-right icon-action icon-comments" href="/comments/index/001067974" target="_blank"></a>
+<a class="icon-right icon-action icon-print" href="/story/001067974?print=y" target="_blank"></a>
 <a class="icon-right icon-action icon-font-size" onclick="showOverlay('font-setting')"></a>
 <a class="icon-right icon-action icon-share" onclick="showOverlay('share-legacy')"></a>
 </div>
 </div>
 </div>
 <div class="story-byline">
-<span class="story-time">18小时前</span>
-<span class="story-author">FT中文网总编辑 <a href='/search/%E7%8E%8B%E4%B8%B0/relative_byline' target=_blank>王丰</a>  </span>
+<span class="story-time">9小时前</span>
+<span class="story-author">英国《金融时报》中文网专栏作家 <a href='/search/%E5%91%A8%E6%8E%8C%E6%9F%9C/relative_byline' target=_blank>周掌柜</a>  </span>
 </div>
 <div class="story-body">
 
-<div class="leftPic image portrait-img small"><figure class="loading" data-url=http://i.ftimg.net/picture/2/000062702_piclink.jpg></figure></div>
-<p>亲爱的FT中文网读者们，</p>
-<p>我们改版啦！</p>
-<p>您肯定已经注意到，我们网站与客户端那熟悉的“FT粉”底色色调略有变化，网页中还增加了其他一些淡雅庄重的配色。这是整个Financial Times英国《金融时报》全球网络版视觉体验改革的一部分。FT报纸纸张的“鲑鱼粉色”虽然已经有123年的历史，但这并不一定意味着我们的线上风格和体验会一成不变。</p>
-<p>更重要的是，FT中文网的功能和服务已经应读者的偏好和需求而得到全面提升。我们响应了移动互联网大趋势，网页设计卡片化，页面会自动适配任何尺寸的屏幕。您还会发现，通过各家社交媒体平台上分享我们的内容变得更加顺畅便捷。在深度分析250万读者的访问行为后，每一位读者的个人使用习惯、阅读偏好都将自然地融入为他/她度身定制的推荐内容中。这就是大数据和云计算的力量。希望对自己消费的内容加以更精细订制、便捷管理的处女座读者们，则一定不要忘记我们全新的<a href="http://www.ftchinese.com/users/mystories" target=_blank>“我的FT”</a>功能——用它来设计你专享的英国《金融时报》个性版吧。</p>
-<div id="story_main_mpu"><script type="text/javascript">document.write (writeAd('storympu'));</script></div><p>过去一年中，我们的编辑团队融入了很多新鲜血液，内容也变得更加丰富、多元。新推出的<a href="http://www.ftchinese.com/channel/innovation.html" target=_blank>“创新经济”</a>板块将包含更多的中国及全球互联网、科技、创投领域相关报道。十年来一向大受欢迎的<a href="http://www.ftchinese.com/channel/ce.html" target=_blank>“双语阅读”</a>板块还增加了<a href="http://www.ftchinese.com/channel/ev.html" target=_blank>“英文原声视频”</a>和<a href="http://www.ftchinese.com/channel/radio.html" target=_blank>“FT英语电台”</a>等内容。</p>
-<p>您可能还注意到了，最近一年来我们推出了越来越多的<a href="http://www.ftchinese.com/channel/datanews.html" target=_blank>数据可视化及沉浸式报道</a>，用直观的图、表、互动功能讲述复杂的财经故事。现在，<a href="http://www.ftchinese.com/channel/numbers-china.html" target=_blank>“中国经济一图览”</a>板块更进了一步，用实时更新的图表展现了中国经济的多个主要指标。</p>
-<p>您也可以通过下面的视频，快速了解全新的FT中文网。</p>
-<p>从2005年到2016年，从1到250万，每一位忠诚读者的反馈，都是我们不断进步的强劲动力。这次改版是否如愿提升了您的阅读体验？还有其他问题、建议、吐槽吗？【请发送电邮至customer.service@ftchinese.com】</p>
-<p><div style="text-align:right">FT中文网总编辑<br></p>
-<p><img align="right" style="width:100px;" src="https://image.webservices.ft.com/v1/images/raw/http%3A%2F%2Fi.ftmailbox.com%2Fpicture%2F6%2F000062646_piclink.jpg?source=ftchinese&width=100" /></div></p>
+
+<p>大家是否有同样的感知：国内对于华为的大部分看法都是充满民族主义的，将其看成国家和民族成就的一部分。不过，坦率地说：对于近200年来一直渴望工业化和现代化的中国，我们完全抛开这种自我认知的情绪也不现实。</p>
+<p>客观分析，我们看华为的视角可能不自觉地产生两个盲点：第一个是更关注它应该为国家创造的贡献，却忽略了它作为一家世界级企业应该承载的全人类使命；第二个是过高地评价其成功，却忽视了推动其成就的时代性和国际化竞争带来的必然性市场选择。</p>
+<p>这两点已经成了华为的战略负担。</p>
+<p>在2016年5月底召开的全国科技创新大会上，任正非在《以创新为核心竞争力，为祖国百年科技振兴而奋斗》的讲话中提出：“随着逐步逼近香农定理、摩尔定律的极限，面对大流量、低时延的理论还未创造出来，华为已感到迷茫，找不到方向，华为已前进在迷航中。重大创新是无人区的生存法则，没有理论突破，没有技术突破，没有大量的技术积累，是不可能产生爆发性创新的。”</p>
+<div id="story_main_mpu"><script type="text/javascript">document.write (writeAd('storympu'));</script></div><p>讲话中，任正非的两个判断振聋发聩，第一个就是华为创新进入了无人区；第二个是对智能时代认知不足。作为中国最优秀的企业家之一，此刻，他内心最大的恐惧或许是远离人群和无法准确定义敌人，而孤独可能导致误判一个崭新的时代。</p>
+<p>本文，我们将从更宏观的视角感知华为，感知这个世界性巨头面临的战略挑战，感知新时代脚步对商业环境的塑造和推动，希望我们能建设性地和华为一起思考新理论、新战略、新梦想。</p>
+<p>总之，我试图和大家一起呈现和理解华为复杂布局、复杂战略背后的大逻辑和大趋势，我们以追问而非挑战的姿态融入其中。</p>
+<p><b>战略：华为如何领航人机智能？</b></p>
+<p>这是一个非常直接的问题，也是一个系统性的追问。</p>
+<p>大背景是：从Alphabet（Google母公司）、Amazon、Apple、Facebook、IBM、Microsoft等世界顶尖巨头，甚至BAT的最新战略来看，人机智能时代势不可挡，已经不需要讨论。但这个问题本来应该最先问互联网公司，此刻，任正非提出这个问题，这本身就意味着华为的战略性转变。</p>
+<p>回答这个抽象的问题之前，我们先总结一下华为在过去接近30年的成功要素。大体上我们可以概括为五点：第一点是香农和摩尔定律支撑的清晰战略路径和可持续战略预期；第二点是过去十几年全球通信行业作为IT和互联网底层基础设施爆发式增长，拥有需求驱动的时代红利；第三点是军事化思想支撑的本土化执行力；第四点是制度设计优势支撑的人才创造力；第五点是研发驱动的战略红利以及技术溢价。</p>
+<p>上述分析如果概括起来，我们可以客观地总结为：华为的成功具备时代性，且依附于时代，虽然超越了大部分中国企业的高度，但是依然是商业轨道上可以预知的成功，华为的属性是一家商业领域通过产品和服务成功的公司，但并不具备领先者的开创性基因。</p>
+<p>这个认知很重要，这可以让我们像任正非自己一样，打破对成功的盲目崇拜，进而理性地思考和推理。</p>
+<p>对于华为的成功要素，我们可以总结的是：华为的成就和中国的全球化红利高度捆绑，和时代趋势高度捆绑。华为目前的两大推动力，第一依然应该是中国在全球化中的核心驱动甚至主导地位，由此推动深化的全球大规模的通信基础设施投资；第二应该是把握新时代新红利，抓住了消费电子时代的全新需求。</p>
 
 <div class="clearfloat"></div>
 </div>
+<div class="pagination-container"><div class="pagination-inner">
+<span class="current">1</span><a href="/story/001067974?page=2">2</a><a href="/story/001067974?page=3">3</a><a href="/story/001067974?page=4">4</a><a href="/story/001067974?page=5">5</a><a href="/story/001067974?page=6">6</a><a href="/story/001067974?page=7">7</a><a href="/story/001067974?page=2">&rsaquo;&rsaquo;</a><a href="/story/001067974?page=2">下一页</a><a href="/story/001067974?page=rest">余下全文</a>
+<a href="/story/001067974?full=y">全文</a>
+</div></div>
 <div class="clearfloat"></div>
 </div>
 <div class="clearfloat block-bottom"></div>
@@ -464,19 +481,12 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 </div>
 
 <div class="story-box">
-<h2 class="box-title"><a href="/channel/weekly.html">热门文章</a></h2>
+<h2 class="box-title"><a href="/channel/weekly.html">相关文章</a></h2>
 <ul class="top10">
-
-<li class="mp1"><span>1. </span><a target="_blank" href="/story/001067959?dailypop">地王豪赌，经济安否</a></li>
-<li class="mp2"><span>2. </span><a target="_blank" href="/story/001067970?dailypop">美国发生“9·11”后最严重恐袭</a></li>
-<li class="mp3"><span>3. </span><a target="_blank" href="/story/001067961?dailypop">全球钢铁业的中国因素</a></li>
-<li class="mp4"><span>4. </span><a target="_blank" href="/story/001067974?dailypop">华为能否走出战略无人区？</a></li>
-<li class="mp5"><span>5. </span><a target="_blank" href="/story/001067988?dailypop">奥兰多恐袭阴影笼罩美国总统大选</a></li>
-<li class="mp6"><span>6. </span><a target="_blank" href="/story/001067991?dailypop">恐怖杀手马丁是如何“激进化”的？</a></li>
-<li class="mp7"><span>7. </span><a target="_blank" href="/story/001067963?dailypop">特朗普挑战美国核心价值观</a></li>
-<li class="mp8"><span>8. </span><a target="_blank" href="/story/001067935?dailypop">高考：录取率越“平衡”越失衡</a></li>
-<li class="mp9"><span>9. </span><a target="_blank" href="/story/001067977?dailypop">蔡英文阻止马英九赴港演讲</a></li>
-<li class="mp10"><span>10. </span><a target="_blank" href="/story/001067940?dailypop">西方“普世价值”为何陷入危机？</a></li>
+<li class="mp1"><a target="_blank" href="/story/001067306">华为：要做全球高端品牌</a></li>
+<li class="mp2"><a target="_blank" href="/story/001066304">敢不敢抛弃智能手机？</a></li>
+<li class="mp3"><a target="_blank" href="/story/001065449">余承东：华为消费者业务将相对独立运作</a></li>
+<li class="mp4"><a target="_blank" href="/story/001064431">赵明：始终坚持品质与创新竞争</a></li>
 </ul>
 </div>
 <div class="mpu-container">
@@ -486,9 +496,21 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 <h2 class="box-title"><a>相关话题</a></h2>
 <ul class="top10">
 <li class="story-theme mp1">
-<a target="_blank" href="/tag/"></a>
+<a target="_blank" href="/tag/华为">华为</a>
 <div class="icon-right">
-<button class="myft-follow plus" data-tag="" data-type="tag">关注</button>
+<button class="myft-follow plus" data-tag="华为" data-type="tag">关注</button>
+</div>
+</li>
+<li class="story-theme">
+<a target="_blank" href="/tag/任正非">任正非</a>
+<div class="icon-right">
+<button class="myft-follow plus" data-tag="任正非" data-type="tag">关注</button>
+</div>
+</li>
+<li class="story-theme">
+<a target="_blank" href="/tag/通信">通信</a>
+<div class="icon-right">
+<button class="myft-follow plus" data-tag="通信" data-type="tag">关注</button>
 </div>
 </li>
 </ul>
