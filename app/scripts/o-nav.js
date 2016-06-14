@@ -194,7 +194,7 @@ ajax.getData('/m/corp/ajax-nav.html', function(error, data) {
 
 	var navSectionsObj = {};
 
-	// console.log('Elements in ajax string: ' + navSectionEls.length);
+	console.log('Elements in ajax string: ' + navSectionEls.length);
 
 	for (var i = 0, len = navSectionEls.length; i< len; i++) {
 
