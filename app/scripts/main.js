@@ -24,6 +24,7 @@ var ticking = false;
 var hostForVideo = '';
 var currentFavButton;
 
+
 function findTop(obj) {
   var curtop = 0;
   if (obj.offsetParent) {
@@ -64,8 +65,8 @@ function stickyBottomPrepare() {
   gNavOffsetY = findTop(document.querySelector('.o-nav__placeholder'));
   bodyHeight = getBodyHeight(gNavOffsetY);
 
-  if (document.getElementById('story-share-placeholder')) {
-    gShareOffsetY = findTop(document.getElementById('story-share-placeholder'));
+  if (document.getElementById('story-action-placeholder')) {
+    gShareOffsetY = findTop(document.getElementById('story-action-placeholder'));
   }
 
   if (document.getElementById('audio-placeholder')) {
@@ -103,14 +104,19 @@ function stickyBottomPrepare() {
 }
 
 function stickyBottomUpdate() {
-  var htmlClassNew = htmlClass.replace(/( o-nav-sticky)|( share-sticky)|( audio-sticky)/g, '');
+
+
+
+
+
+  var htmlClassNew = htmlClass.replace(/( o-nav-sticky)|( tool-sticky)|( audio-sticky)/g, '');
   if (typeof requestAnimationFrame === 'function') {
     requestAnimationFrame(stickyBottomUpdate);
   }
   //sticky navigation
   if (typeof gShareOffsetY === 'number' && gShareOffsetY > gNavOffsetY) {
     if (scrollTop >= gShareOffsetY) {
-      htmlClassNew += ' share-sticky';
+      htmlClassNew += ' tool-sticky';
     } else if (scrollTop >= gNavHeight) {
       htmlClassNew += ' o-nav-sticky'; 
     }
@@ -120,7 +126,8 @@ function stickyBottomUpdate() {
     }
   }
 
-  //sticky audo player
+
+  //sticky audio player
   if (typeof gAudioOffsetY === 'number' && gAudioOffsetY > gNavOffsetY) {
     if (scrollTop + gNavOffsetY >= gAudioOffsetY ) {
       htmlClassNew += ' audio-sticky';
@@ -131,6 +138,9 @@ function stickyBottomUpdate() {
     htmlClass = htmlClassNew;
     document.documentElement.className = htmlClass;
   }
+
+
+
 
   // sticky sides
   if (sectionsWithSideLength > 0 && w > hasSideWidth) {
@@ -447,3 +457,4 @@ delegate.on('click', '.icon-save button', function(){
       storyid: storyid
   }));
 });
+

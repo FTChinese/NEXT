@@ -378,4 +378,24 @@ function reloadBanners() {
   }
 }
 
+var isBlocked = false;
+
+// test if ad blocker is turned on
+function checkB() {
+  var test = document.createElement('div');
+  test.innerHTML = '&nbsp;';
+  test.className = 'adsbox';
+  document.body.appendChild(test);
+  window.setTimeout(function() {
+    if (test.offsetHeight === 0) {
+      //document.body.classList.add('adblock');
+      isBlocked = true;
+    } else {
+      isBlocked = false;
+    }
+    test.remove();
+  }, 100);
+}
+
+checkB();
 initAds();
