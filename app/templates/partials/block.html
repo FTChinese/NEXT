@@ -142,6 +142,9 @@
 				<%if $list.feedType == "myFT"%>
 					<%easyapi command="31005" assign="myftArrays" topnum=30%>
 					<%assign var="itemsArray" value=$myftArrays.odatalist%>
+					<!--
+						<%$myftArrays|@var_dump%>
+						-->
 				<%elseif $list.feedType == "ftc_columns"%>
 					<%assign var="itemsArray" value=$storymodel->get_column_list("cn")%>
 					<%assign var="feedType" value="columns"%>
