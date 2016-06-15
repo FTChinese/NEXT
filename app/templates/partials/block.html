@@ -513,17 +513,17 @@
 									<%if $i === 0 %>
 										<%assign var="XL" value="XL8"%>
 									<%elseif $i === 1 %>
-										<%assign var="XL" value="XL4 XL-half XL-right"%>
+										<%assign var="XL" value="XL4 XL-half XL-right XL-no-tag"%>
 									<%else%>
-										<%assign var="XL" value="XL4 XL-half XL-lower XL-right"%>
+										<%assign var="XL" value="XL4 XL-half XL-lower XL-right XL-no-tag"%>
 									<%/if%>
 								<%elseif $listItemCount % 3 === 1 && $l === 0 && $list.items[0].image !== ""%>
 									<%if $i === 0 %>
 										<%assign var="XL" value="XL8"%>
 									<%elseif $i===2 && $list.items[1].image !== ""%>
-										<%assign var="XL" value="XL4 XL-right XL-half"%>
+										<%assign var="XL" value="XL4 XL-right XL-half XL-no-tag"%>
 									<%elseif $i===1%>
-										<%assign var="XL" value="XL4 XL-right"%>
+										<%assign var="XL" value="XL4 XL-right XL-no-tag"%>
 									<%elseif $i === ($listItemCount - 1) %>
 										<%assign var="XL" value="XL4 XL-half XL-lower"%>
 									<%elseif $i === ($listItemCount - 2) %>
@@ -538,9 +538,9 @@
 									<%if $i === 0 %>
 										<%assign var="XL" value="XL8"%>
 									<%elseif $i===2 && $list.items[1].image !== ""%>
-										<%assign var="XL" value="XL4 XL-right XL-half"%>
+										<%assign var="XL" value="XL4 XL-right XL-half XL-no-tag"%>
 									<%elseif $i===1%>
-										<%assign var="XL" value="XL4 XL-right"%>
+										<%assign var="XL" value="XL4 XL-right XL-no-tag"%>
 									<%elseif $i >= ($listItemCount - 2)%>
 										<%assign var="XL" value="XL4 XL-half XL-lower"%>
 									<%elseif $i >= ($listItemCount - 4)%>
@@ -863,7 +863,7 @@
 						<%assign var="itemTimeStamp" value=""%>
 						<%assign var="itemT" value=$item.timeStamp|default:$item.pubdate|default:$item.add_times%>
 						<%assign var="itemT" value=$itemT|regex_replace:"/\.[0-9]+$/i":""%>
-						<%if $list.showTimeStamp === "all" || $lists.showTimeStamp === "new stories" || $list.feedType == "myFT"%>
+						<%if $list.showTimeStamp == "all" || $list.showTimeStamp == "new stories" || $list.feedType == "myFT"%>
 							<%assign var="highlightTime" value=""%>
 							<%math assign="timeDiff" equation="x-y" x=$smarty.now y=$itemT%>
 							<%assign var="timeMath" value=$timeDiff%>
@@ -900,6 +900,7 @@
 								<%assign var="itemTimeStamp" value="<div class=\"item-time`$highlightTime`\">`$timeDiff`</div>"%>
 							<%/if%>
 						<%/if%>
+
 
 						<%if $list.preferLead === "none"%>
 							<%assign var="hideLead" value="yes"%>

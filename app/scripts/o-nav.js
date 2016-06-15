@@ -188,9 +188,9 @@ function stringToDOM(str) {
 // If it does not work, fallback to `getElementsByTagName`,
 // and manually iterate elements and filter by classname. 
 	if (navSectionEls.length > 0) {
-		for (var i = 0, len = navSectionEls.length; i< len; i++) {
+		for (var k = 0, len = navSectionEls.length; k< len; k++) {
 
-			var navSectionEl = navSectionEls[i];
+			var navSectionEl = navSectionEls[k];
 
 			var navSectionName = navSectionEl.getAttribute('data-section');
 			var navItemsEl = navSectionEl.querySelector('.nav-items');
