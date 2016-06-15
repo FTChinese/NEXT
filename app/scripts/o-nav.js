@@ -117,16 +117,16 @@ var ajax = {
 	  xhr.onreadystatechange = function() {
 	    if (xhr.readyState === 4) {
 	      if (xhr.status >= 200 && xhr.status < 300 || xhr.status === 304) {
-	        var type = xhr.getResponseHeader('Content-Type');
-	        if (type.indexOf('html') !== -1 || xhr.responseXML) {
-	        	console.log('HTML or XML');
-	          callback(null, xhr.responseXML);
-	        } else if (type === 'application/json') {
-	          callback(null, JSON.parse(xhr.responseText));
-	        } else {
+	        // var type = xhr.getResponseHeader('Content-Type');
+	        // if (type.indexOf('html') !== -1 || xhr.responseXML) {
+	        // 	console.log('HTML or XML');
+	        //   callback(null, xhr.responseXML);
+	        // } else if (type === 'application/json') {
+	        //   callback(null, JSON.parse(xhr.responseText));
+	        // } else {
 	        	console.log('text');
 	          callback(null, xhr.responseText);
-	        }
+	        // }
 	      } else {
 	        //console.log('Request was unsuccessful: ' + xhr.status);
 	        callback(xhr.status);
@@ -138,7 +138,7 @@ var ajax = {
 	  };
 
 	  xhr.open('GET', url);
-	  xhr.responseType = 'document';
+	  // xhr.responseType = 'document';
 	  xhr.send(null);
 	}
 };
@@ -189,17 +189,12 @@ ajax.getData('/m/corp/ajax-nav.html', function(error, data) {
 
 	if (error) {return error;}
 
-	console.log(data.querySelectorAll('.nav-section'));
+	var tmpEl = document.createElement('ol');
 
-	var tmpEl = document.createElement('div');
 	tmpEl.innerHTML = data;
-
-	// console.log(data);
 
 	var navSectionsObj = {};
 	var navSectionEls = tmpEl.querySelectorAll('.nav-section');
-
-	// console.log(tmpEl);
 
 	for (var i = 0, len = navSectionEls.length; i< len; i++) {
 
