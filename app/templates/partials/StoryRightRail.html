@@ -13,7 +13,9 @@
 	<%/if%>
 
 
-	<%easyapi command="10008" storyid=$story.id debug=false %>
+	<%if $story.id != null %>
+		<%easyapi command="10008" storyid=$story.id debug=false %>
+	<%/if%>
 	<%if $data.odatalist|@count>0%>
 		<%assign var="i" value=0%>
 		<div class="story-box">
