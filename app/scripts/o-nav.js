@@ -187,7 +187,7 @@ function stringToDOM(str) {
 // This might be that `querySelector` is not live.
 // If it does not work, fallback to `getElementsByTagName`,
 // and manually iterate elements and filter by classname. 
-	if (navSectionEls.length > 0) {
+	if (navSectionEls) {
 		for (var i = 0, len = navSectionEls.length; i< len; i++) {
 
 			var navSectionEl = navSectionEls[i];
