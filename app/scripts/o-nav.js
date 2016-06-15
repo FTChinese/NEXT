@@ -124,7 +124,7 @@ var ajax = {
 	        // } else if (type === 'application/json') {
 	        //   callback(null, JSON.parse(xhr.responseText));
 	        // } else {
-	        	console.log('text');
+	        	// console.log('text');
 	          callback(null, xhr.responseText);
 	        // }
 	      } else {
@@ -143,7 +143,8 @@ var ajax = {
 	}
 };
 
-function oNavSections(container) {
+// Find .nav-sections which are not the currently loaded page and thus have no .nav-items.level-2
+function getEmptyNavSections(container) {
 	var navSectionClassname = '.nav-section';
 
 	var navSectionEls = container.querySelectorAll(navSectionClassname);
@@ -164,16 +165,9 @@ function oNavSections(container) {
 
 function zipObject(objA, objB) {
 	for (var k in objA) {
-		if (!objA.hasOwnProperty(k)) {
-			continue;
-		}
-
-		if (k in objB) {
-			// console.log(k);
-			// console.log(objA[k]);
-
+		if (objA.hasOwnProperty(k) && k in objB) {
 			objA[k].appendChild(objB[k]);
-		}	
+		}
 	}
 }
 
@@ -183,28 +177,53 @@ new Nav(navEl);
 var searchEl = navEl.querySelector('.o-nav__search');
 new Toggler(searchEl);
 
-var initialNavSections = oNavSections(navEl);
-
-ajax.getData('/m/corp/ajax-nav.html', function(error, data) {
-
-	if (error) {return error;}
-
+function stringToDOM(str) {
 	var tmpEl = document.createElement('ol');
-
-	tmpEl.innerHTML = data;
-
-	var navSectionsObj = {};
+	tmpEl.innerHTML = str;
+	var elCollection = {};
 	var navSectionEls = tmpEl.querySelectorAll('.nav-section');
 
-	for (var i = 0, len = navSectionEls.length; i< len; i++) {
+// In IE8, `tmpEl.querySelectorAll('.nav-section')`does not work.
+// This might be that `querySelector` is not live.
+// If it does not work, fallback to `getElementsByTagName`,
+// and manually iterate elements and filter by classname. 
+	if (navSectionEls.length > 0) {
+		for (var i = 0, len = navSectionEls.length; i< len; i++) {
 
-		var navSectionEl = navSectionEls[i];
+			var navSectionEl = navSectionEls[i];
 
-		var navSectionName = navSectionEl.getAttribute('data-section');
-		var navItemsEl = navSectionEl.querySelector('.nav-items');
+			var navSectionName = navSectionEl.getAttribute('data-section');
+			var navItemsEl = navSectionEl.querySelector('.nav-items');
 
-		navSectionsObj[navSectionName] = navItemsEl;
+			elCollection[navSectionName] = navItemsEl;
+		}	
+	} else {
+		var liEls = tmpEl.getElementsByTagName('li');
+
+		for (var i = 0; i < liEls.length; i++) {
+			var liEl = liEls[i];
+			if (liEl.className.search(/nav-section/) > -1) {
+				var sectionName = liEl.getAttribute('data-section');
+				var olEls = liEl.getElementsByTagName('ol');
+				for(var j = 0; j < olEls.length; j++) {
+					var olEl = olEls[j];
+					if (olEl.className.search(/nav-items/) !== -1) {
+						var navItems = olEl;
+						elCollection[sectionName] = navItems;
+					}
+				}
+			}
+		}	
 	}
+	return elCollection;
+}
 
-	zipObject(initialNavSections, navSectionsObj);
+var emptyNavSections = getEmptyNavSections(navEl);
+
+ajax.getData('/m/corp/ajax-nav.html', function(error, data) {
+	if (error) {return error;}
+
+	var parsedDOM = stringToDOM(data);
+
+	zipObject(emptyNavSections, parsedDOM);
 });
