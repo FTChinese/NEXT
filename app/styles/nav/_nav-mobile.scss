@@ -70,31 +70,11 @@
 // left part of navigation on small screen
 .nav-section-head {
 	box-sizing: border-box;
-// reset button's style. Refer to `o-buttons` reset mixin.
-	border: 0;
-	border-radius: 0;
-	padding: 0;
-	outline: none;
-	padding: 0 15px;
-	margin: 0;
-	line-height: $o-header-bottom-height;
-	display: block;
-	text-decoration: none;
-	background-color: inherit;
-	color: $whiteColor;
-	@include oGridRespondTo($until:L) {
-		padding-left: oGridGutter();
-		min-width: $o-header-mobile-left-width;
-		max-width: $o-header-mobile-left-width;
-		width: $o-header-mobile-left-width;
-		text-align: right;
-//add background and color on .nav-section-head to fake two column on small screen;
-		// @include oColorsFor(o-header);
-		background-color: $headerTint;
-		color: $whiteColor;
-		font-size: 14px;
-		// override link color for luxury page
 
+	@include oGridRespondTo($until:L) {
+		@include oNavMobileLeft;
+
+		// override link color for luxury page
 		&:after {
 			content: '';
 			padding-left: 1em;
@@ -139,12 +119,15 @@
 		max-width: $o-header-mobile-right-width;
 		width: $o-header-mobile-right-width;
 			
-		position: absolute;
+		// position: absolute;
+		position: fixed;
 		right: 0;
-		top: 0;
+		// top: 0;
+		top: $o-header-bottom-height;
 		bottom: 0;
 		padding: 0 0 0 15px;
 		min-height: 340px;
+		overflow-y: scroll;
 
 		.nav-section-head ~ &{
 			display: none;
@@ -164,22 +147,7 @@
 	text-decoration: none;
 
 	@include oGridRespondTo($until:L) {
-		padding-left: oGridGutter();
-		min-width: $o-header-mobile-left-width;
-		max-width: $o-header-mobile-left-width;
-		width: $o-header-mobile-left-width;
-
-		display: block;
-		text-align: right;
-
-		line-height: 32px;
-		height: 32px;
-		padding-right: 15px;
-		margin: 0;
-		font-size: 14px;
-// set color and background-color that same as `.nav-section-head` for links on the left.
-		background-color: $headerTint;
-		color: $whiteColor;
+		@include oNavMobileLeft;
 
 		&:hover {
 			color: $whiteColor;
@@ -193,13 +161,15 @@
 			min-width: 0;
 			max-width: none;
 			width: auto;
+			height: 32px;
+			line-height: 32px;
 			text-align: left;
 // reset color and background-colors under `.nav-items`.
-			// @include oColorsFor(o-header-mega-nav);
 			background-color: $o-nav-pink-mobile;
 			color: $headerTint;
 
-			font-size: 16px;	
+			font-size: 16px;
+			font-weight: normal;	
 			&:hover,
 			&:focus {
 				text-decoration: underline;
@@ -230,7 +200,6 @@
 	cursor: pointer;
 	text-align: left;
 	display: inline-block;
-	// background: none;
 	line-height: $o-header-bottom-height;
 	height: 100%;
 	width: $o-header-bottom-height;

@@ -18,6 +18,7 @@ $o-header-mobile-width: 5;
 $o-header-mobile-left-width: percentage($o-header-mobile-width / $o-grid-columns);
 $o-header-mobile-right-width: percentage(($o-grid-columns - $o-header-mobile-width) / $o-grid-columns);
 
+$o-nav-head-mobile-height: 40px;
 
 @mixin oHeaderLogoDimension($height, $color: oColorsGetPaletteColor('white')) {
 	@if unitless($height) {
@@ -138,4 +139,24 @@ $o-header-mobile-right-width: percentage(($o-grid-columns - $o-header-mobile-wid
 	padding: 0;
 	width: 1px;
 	height: 1px;
+}
+
+@mixin oNavMobileLeft {
+	border: 0;
+	border-radius: 0;
+	outline: none;
+	padding: 0 15px;
+	margin: 0;
+	display: block;
+	min-width: $o-header-mobile-left-width;
+	max-width: $o-header-mobile-left-width;
+	width: $o-header-mobile-left-width;
+	height: $o-nav-head-mobile-height;
+	line-height: $o-nav-head-mobile-height;
+	text-align: right;
+	text-decoration: none;
+	background-color: $headerTint;
+	color: $whiteColor;
+	font-size: 14px;
+	font-weight: bold;
 }
