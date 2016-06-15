@@ -117,15 +117,16 @@ var ajax = {
 	  xhr.onreadystatechange = function() {
 	    if (xhr.readyState === 4) {
 	      if (xhr.status >= 200 && xhr.status < 300 || xhr.status === 304) {
-	        //var type = xhr.getResponseHeader('Content-Type');
-	        /*if (type.indexOf('html') !== -1 && xhr.responseXML) {
+	        var type = xhr.getResponseHeader('Content-Type');
+	        if (type.indexOf('html') !== -1 || xhr.responseXML) {
 	        	console.log('HTML or XML');
 	          callback(null, xhr.responseXML);
 	        } else if (type === 'application/json') {
 	          callback(null, JSON.parse(xhr.responseText));
-	        } else {*/
+	        } else {
+	        	console.log('text');
 	          callback(null, xhr.responseText);
-	        /*}*/
+	        }
 	      } else {
 	        //console.log('Request was unsuccessful: ' + xhr.status);
 	        callback(xhr.status);
@@ -137,6 +138,7 @@ var ajax = {
 	  };
 
 	  xhr.open('GET', url);
+	  xhr.responseType = 'document';
 	  xhr.send(null);
 	}
 };
@@ -187,26 +189,15 @@ ajax.getData('/m/corp/ajax-nav.html', function(error, data) {
 
 	if (error) {return error;}
 
-	// var doc;
-	// try {
-	// 	var parser = new DOMParser();
-	// 	doc = parser.parseFromString(data, 'text/html');
-	// 	console.log(doc);		
-	// } catch(e) {
-	// 		doc = new ActiveXObject('Microsoft.XMLDOM');
-	// 		doc.async = false;
-	// 		doc.loadXML(data);
-	// }
-
-	// document.body.appendChild(doc.querySelector('body'));
+	console.log(data.querySelectorAll('.nav-section'));
 
 	var tmpEl = document.createElement('div');
 	tmpEl.innerHTML = data;
 
-	var navSectionEls = tmpEl.querySelectorAll('.nav-section');
 	// console.log(data);
 
 	var navSectionsObj = {};
+	var navSectionEls = tmpEl.querySelectorAll('.nav-section');
 
 	// console.log(tmpEl);
 
@@ -218,7 +209,6 @@ ajax.getData('/m/corp/ajax-nav.html', function(error, data) {
 		var navItemsEl = navSectionEl.querySelector('.nav-items');
 
 		navSectionsObj[navSectionName] = navItemsEl;
-
 	}
 
 	zipObject(initialNavSections, navSectionsObj);
