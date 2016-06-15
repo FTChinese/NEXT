@@ -3,68 +3,68 @@
     <%assign var="adchannelID" value="1100"%>
 <%/if%>
 <%if $story.column!=""%>
-<%assign var="columninfo" value=$storymodel->get_column_info($story.column)%>
+	<%assign var="columninfo" value=$storymodel->get_column_info($story.column)%>
 <%/if%>
 <%if preg_match("/letter/is",$story.cheadline)%>
 <%assign var=breadcrum value="<a href=/channel/letter.html>读者有话说</a>"%>
 <%assign var=autoadchannel value="NP_Opinion"%>
-<%assign var="autoadchannelID" value="1600"%>
+<%assign var="adchannelID" value="1600"%>
 <%assign var="topnav" value="opinion"%>
 <%assign var="subnav" value="letter"%>
 <%assign var="thirdnav" value=""%>
 <%elseif preg_match("/career/is",$story.topic)%>
 <%assign var=breadcrum value="<a href=/channel/career.html>职场</a>"%>
 <%assign var=autoadchannel value="NP_Career"%>
-<%assign var="autoadchannelID" value="1702"%>
+<%assign var="adchannelID" value="1702"%>
 <%assign var="topnav" value="management"%>
 <%assign var="subnav" value="career"%>
 <%assign var="thirdnav" value=""%>
 <%elseif preg_match("/mba/is",$story.topic)%>
 <%assign var=breadcrum value="<a href=/channel/mba.html>FT商学院</a>"%>
 <%assign var=autoadchannel value="NP_FT_Business_School"%>
-<%assign var="autoadchannelID" value="1701"%>
+<%assign var="adchannelID" value="1701"%>
 <%assign var="topnav" value="management"%>
 <%assign var="subnav" value="mba"%>
 <%assign var="thirdnav" value=""%>
 <%elseif preg_match("/leadership/is",$story.topic)%>
 <%assign var=breadcrum value="<a href=/channel/leadership.html>领导力</a>"%>
 <%assign var=autoadchannel value="NP_leadership"%>
-<%assign var="autoadchannelID" value="1703"%>
+<%assign var="adchannelID" value="1703"%>
 <%assign var="topnav" value="management"%>
 <%assign var="subnav" value="leadership"%>
 <%assign var="thirdnav" value=""%>
 <%elseif preg_match("/technology/is",$story.topic)%>
 <%assign var=breadcrum value="<a href=/channel/technology.html>科技</a>"%>
 <%assign var=autoadchannel value="NP_Biz_Technology"%>
-<%assign var="autoadchannelID" value="1502"%>
+<%assign var="adchannelID" value="1502"%>
 <%assign var="topnav" value="business"%>
 <%assign var="subnav" value="technology"%>
 <%assign var="thirdnav" value=""%>
 <%elseif preg_match("/travel/is",$story.topic)%>
 <%assign var=breadcrum value="<a href=/channel/travel.html>旅行</a>"%>
 <%assign var=autoadchannel value="NP_Travel"%>
-<%assign var="autoadchannelID" value="1802"%>
+<%assign var="adchannelID" value="1802"%>
 <%assign var="topnav" value="lifestyle"%>
 <%assign var="subnav" value="travel"%>
 <%assign var="thirdnav" value=""%>
 <%elseif preg_match("/money/is",$story.topic)%>
 <%assign var=breadcrum value="<a href=/channel/money.html>理财</a>"%>
 <%assign var=autoadchannel value="NP_Life_Style"%>
-<%assign var="autoadchannelID" value="2047"%>
+<%assign var="adchannelID" value="2047"%>
 <%assign var="topnav" value="lifestyle"%>
 <%assign var="subnav" value="money"%>
 <%assign var="thirdnav" value=""%>
 <%elseif preg_match("/lifestory/is",$story.topic)%>
 <%assign var=breadcrum value="<a href=/channel/life.html>生活</a>"%>
 <%assign var=autoadchannel value="NP_Life_Style"%>
-<%assign var="autoadchannelID" value="2045"%>
+<%assign var="adchannelID" value="2045"%>
 <%assign var="topnav" value="lifestyle"%>
 <%assign var="subnav" value="life"%>
 <%assign var="thirdnav" value=""%>
 <%elseif preg_match("/artstory/is",$story.topic)%>
 <%assign var=breadcrum value="<a href=/channel/art.html>艺术与娱乐</a>"%>
 <%assign var=autoadchannel value="NP_Life_Style"%>
-<%assign var="autoadchannelID" value="2043"%>
+<%assign var="adchannelID" value="2043"%>
 <%assign var="topnav" value="lifestyle"%>
 <%assign var="subnav" value="art"%>
 <%assign var="thirdnav" value=""%>
@@ -72,207 +72,207 @@
 <%elseif preg_match("/taste/is",$story.topic)%>
 <%assign var=breadcrum value="<a href=/channel/taste.html>品味</a>"%>
 <%assign var=autoadchannel value="NP_Life_Style"%>
-<%assign var="autoadchannelID" value="2044"%>
+<%assign var="adchannelID" value="2044"%>
 <%assign var="topnav" value="lifestyle"%>
 <%assign var="subnav" value="taste"%>
 <%assign var="thirdnav" value=""%>
 <%elseif preg_match("/spend/is",$story.topic)%>
 <%assign var=breadcrum value="<a href=/channel/spend.html>消费经</a>"%>
 <%assign var=autoadchannel value="NP_Life_Style"%>
-<%assign var="autoadchannelID" value="2046"%>
+<%assign var="adchannelID" value="2046"%>
 <%assign var="topnav" value="lifestyle"%>
 <%assign var="subnav" value="spend"%>
 <%assign var="thirdnav" value=""%>
 <%elseif preg_match("/trade/is",$story.topic)%>
 <%assign var=breadcrum value="<a href=/channel/trade.html>贸易</a>"%>
 <%assign var=autoadchannel value="NP_Economy"%>
-<%assign var="autoadchannelID" value="1300"%>
+<%assign var="adchannelID" value="1300"%>
 <%assign var="topnav" value="economy"%>
 <%assign var="subnav" value="trade"%>
 <%assign var="thirdnav" value=""%>
 <%elseif preg_match("/environment/is",$story.topic)%>
 <%assign var=breadcrum value="<a href=/channel/environment.html>环境</a>"%>
 <%assign var=autoadchannel value="NP_Economy_Environment"%>
-<%assign var="autoadchannelID" value="1304"%>
+<%assign var="adchannelID" value="1304"%>
 <%assign var="topnav" value="economy"%>
 <%assign var="subnav" value="environment"%>
 <%assign var="thirdnav" value=""%>
 <%elseif preg_match("/stock/is",$story.topic) && preg_match("/china/is",$story.area)%>
 <%assign var=breadcrum value="<a href=/channel/chinastock.html>中国股市</a>"%>
 <%assign var=autoadchannel value="NP_Market_Stock"%>
-<%assign var="autoadchannelID" value="1401"%>
+<%assign var="adchannelID" value="1401"%>
 <%assign var="topnav" value="markets"%>
 <%assign var="subnav" value="stock"%>
 <%assign var="thirdnav" value=""%>
 <%elseif preg_match("/stock/is",$story.topic)%>
 <%assign var=breadcrum value="<a href=/channel/stock.html>全球股市</a>"%>
 <%assign var=autoadchannel value="NP_Market_Stock"%>
-<%assign var="autoadchannelID" value="1401"%>
+<%assign var="adchannelID" value="1401"%>
 <%assign var="topnav" value="markets"%>
 <%assign var="subnav" value="stock"%>
 <%assign var="thirdnav" value=""%>
 <%elseif preg_match("/china/is",$story.area) && preg_match("/economy/is",$story.topic)%>
 <%assign var=breadcrum value="<a href=/channel/chinaeconomy.html>中国经济</a>"%>
 <%assign var=autoadchannel value="NP_Economy"%>
-<%assign var="autoadchannelID" value="1300"%>
+<%assign var="adchannelID" value="1300"%>
 <%assign var="topnav" value="economy"%>
 <%assign var="subnav" value="chinaeconomy"%>
 <%assign var="thirdnav" value=""%>
 <%elseif preg_match("/china/is",$story.area) && preg_match("/politics/is",$story.topic)%>
 <%assign var=breadcrum value="<a href=/channel/chinareport.html>中国政经</a>"%>
 <%assign var=autoadchannel value="NP_China_Chinareport"%>
-<%assign var="autoadchannelID" value="1101"%>
+<%assign var="adchannelID" value="1101"%>
 <%assign var="topnav" value="china"%>
 <%assign var="subnav" value="chinareport"%>
 <%assign var="thirdnav" value=""%>
 <%elseif preg_match("/china/is",$story.area) && (preg_match("/culture/is",$story.topic) || preg_match("/society/is",$story.topic))%>
 <%assign var=breadcrum value="<a href=/channel/culture.html>社会与文化</a>"%>
 <%assign var=autoadchannel value="NP_China_Society_Culture"%>
-<%assign var="autoadchannelID" value="1102"%>
+<%assign var="adchannelID" value="1102"%>
 <%assign var="topnav" value="china"%>
 <%assign var="subnav" value="culture"%>
 <%assign var="thirdnav" value=""%>
 <%elseif preg_match("/culture/is",$story.topic) || preg_match("/society/is",$story.topic)%>
 <%assign var=breadcrum value="<a href=/channel/culture.html>社会与文化</a>"%>
 <%assign var=autoadchannel value="NP_China_Society_Culture"%>
-<%assign var="autoadchannelID" value="1102"%>
+<%assign var="adchannelID" value="1102"%>
 <%assign var="topnav" value="china"%>
 <%assign var="subnav" value="culture"%>
 <%elseif preg_match("/economy/is",$story.topic)%>
 <%assign var=breadcrum value="<a href=/channel/globaleconomy.html>全球经济</a>"%>
 <%assign var=autoadchannel value="NP_Economy"%>
-<%assign var="autoadchannelID" value="1300"%>
+<%assign var="adchannelID" value="1300"%>
 <%assign var="topnav" value="economy"%>
 <%assign var="subnav" value="globaleconomy"%>
 <%elseif preg_match("/finance/is",$story.industry)%>
 <%assign var=breadcrum value="<a href=/channel/finance.html>金融</a>"%>
 <%assign var=autoadchannel value="NP_Biz_Finance"%>
-<%assign var="autoadchannelID" value="1501"%>
+<%assign var="adchannelID" value="1501"%>
 <%assign var="topnav" value="business"%>
 <%assign var="subnav" value="finance"%>
 <%elseif preg_match("/technology/is",$story.industry)%>
 <%assign var=breadcrum value="<a href=/channel/technology.html>科技</a>"%>
 <%assign var=autoadchannel value="NP_Biz_Technology"%>
-<%assign var="autoadchannelID" value="1502"%>
+<%assign var="adchannelID" value="1502"%>
 <%assign var="topnav" value="business"%>
 <%assign var="subnav" value="technology"%>
 <%elseif preg_match("/auto/is",$story.industry)%>
 <%assign var=breadcrum value="<a href=/channel/auto.html>汽车</a>"%>
 <%assign var=autoadchannel value="NP_Biz_Auto"%>
-<%assign var="autoadchannelID" value="1503"%>
+<%assign var="adchannelID" value="1503"%>
 <%assign var="topnav" value="business"%>
 <%assign var="subnav" value="auto"%>
 <%elseif preg_match("/property/is",$story.industry)%>
 <%assign var=breadcrum value="<a href=/channel/property.html>房地产</a>"%>
 <%assign var=autoadchannel value="NP_Biz_Real_Estate"%>
-<%assign var="autoadchannelID" value="1504"%>
+<%assign var="adchannelID" value="1504"%>
 <%assign var="topnav" value="business"%>
 <%assign var="subnav" value="property"%>
 <%elseif preg_match("/energy/is",$story.industry)%>
 <%assign var=breadcrum value="<a href=/channel/finance.html>能源</a>"%>
 <%assign var=autoadchannel value="NP_Biz_Energy"%>
-<%assign var="autoadchannelID" value="1506"%>
+<%assign var="adchannelID" value="1506"%>
 <%assign var="topnav" value="business"%>
 <%assign var="subnav" value="energy"%>
 <%elseif preg_match("/industrials/is",$story.industry)%>
 <%assign var=breadcrum value="<a href=/channel/finance.html>工业与采矿</a>"%>
 <%assign var=autoadchannel value="NP_Biz_Industry_Mining"%>
-<%assign var="autoadchannelID" value="1507"%>
+<%assign var="adchannelID" value="1507"%>
 <%assign var="topnav" value="business"%>
 <%assign var="subnav" value="industrials"%>
 <%elseif preg_match("/airline/is",$story.industry)%>
 <%assign var=breadcrum value="<a href=/channel/airline.html>航空与运输</a>"%>
 <%assign var=autoadchannel value="NP_Biz_Aviation_Transport"%>
-<%assign var="autoadchannelID" value="1508"%>
+<%assign var="adchannelID" value="1508"%>
 <%assign var="topnav" value="business"%>
 <%assign var="subnav" value="airline"%>
 <%elseif preg_match("/pharma/is",$story.industry)%>
 <%assign var=breadcrum value="<a href=/channel/pharma.html>医疗保健</a>"%>
 <%assign var=autoadchannel value="NP_Biz_Medication"%>
-<%assign var="autoadchannelID" value="1509"%>
+<%assign var="adchannelID" value="1509"%>
 <%assign var="topnav" value="business"%>
 <%assign var="subnav" value="pharma"%>
 <%elseif preg_match("/agriculture/is",$story.industry)%>
 <%assign var=breadcrum value="<a href=/channel/agriculture.html>农林</a>"%>
 <%assign var=autoadchannel value="NP_Biz_Medication"%>
-<%assign var="autoadchannelID" value="1509"%>
+<%assign var="adchannelID" value="1509"%>
 <%assign var="topnav" value="business"%>
 <%assign var="subnav" value="agriculture"%>
 <%elseif preg_match("/entertainment/is",$story.industry)%>
 <%assign var=breadcrum value="<a href=/channel/entertainment.html>娱乐</a>"%>
 <%assign var=autoadchannel value="NP_Biz_Medication"%>
-<%assign var="autoadchannelID" value="1509"%>
+<%assign var="adchannelID" value="1509"%>
 <%assign var="topnav" value="business"%>
 <%assign var="subnav" value="entertainment"%>
 <%elseif preg_match("/consumer/is",$story.industry)%>
 <%assign var=breadcrum value="<a href=/channel/consumer.html>消费品</a>"%>
 <%assign var=autoadchannel value="NP_Biz_Consuming"%>
-<%assign var="autoadchannelID" value="1511"%>
+<%assign var="adchannelID" value="1511"%>
 <%assign var="topnav" value="business"%>
 <%assign var="subnav" value="consumer"%>
 <%elseif preg_match("/media/is",$story.industry)%>
 <%assign var=breadcrum value="<a href=/channel/media.html>传媒与文化</a>"%>
 <%assign var=autoadchannel value="NP_Biz_Media_Culture"%>
-<%assign var="autoadchannelID" value="1512"%>
+<%assign var="adchannelID" value="1512"%>
 <%assign var="topnav" value="business"%>
 <%assign var="subnav" value="media"%>
 <%elseif preg_match("/forex/is",$story.topic)%>
 <%assign var=breadcrum value="<a href=/channel/forex.html>外汇</a>"%>
 <%assign var=autoadchannel value="NP_Market_Forex"%>
-<%assign var="autoadchannelID" value="1402"%>
+<%assign var="adchannelID" value="1402"%>
 <%assign var="topnav" value="markets"%>
 <%assign var="subnav" value="forex"%>
 <%elseif preg_match("/bond/is",$story.topic)%>
 <%assign var=breadcrum value="<a href=/channel/bond.html>债券</a>"%>
 <%assign var=autoadchannel value="NP_Markets"%>
-<%assign var="autoadchannelID" value="1400"%>
+<%assign var="adchannelID" value="1400"%>
 <%assign var="topnav" value="markets"%>
 <%assign var="subnav" value="bond"%>
 <%elseif preg_match("/commodity/is",$story.topic)%>
 <%assign var=breadcrum value="<a href=/channel/commodity.html>大宗商品</a>"%>
 <%assign var=autoadchannel value="NP_Markets"%>
-<%assign var="autoadchannelID" value="1400"%>
+<%assign var="adchannelID" value="1400"%>
 <%assign var="topnav" value="markets"%>
 <%assign var="subnav" value="commodity"%>
 <%elseif preg_match("/editorial/is",$story.genre)%>
 <%assign var=breadcrum value="<a href=/channel/editorial.html>社评</a>"%>
 <%assign var=autoadchannel value="NP_Opinion"%>
-<%assign var="autoadchannelID" value="1600"%>
+<%assign var="adchannelID" value="1600"%>
 <%assign var="topnav" value="opinion"%>
 <%assign var="subnav" value="editorial"%>
 <%elseif preg_match("/Lex/is",$story.cheadline)%>
 <%assign var=breadcrum value="<a href=/channel/lex.html>Lex</a>"%>
 <%assign var=autoadchannel value="NP_Opinion"%>
-<%assign var="autoadchannelID" value="1600"%>
+<%assign var="adchannelID" value="1600"%>
 <%assign var="topnav" value="opinion"%>
 <%assign var="subnav" value="lex"%>
 <%elseif preg_match("/analysis/is",$story.genre)%>
 <%assign var=breadcrum value="<a href=/channel/analysis.html>分析</a>"%>
 <%assign var=autoadchannel value="NP_Opinion"%>
-<%assign var="autoadchannelID" value="1600"%>
+<%assign var="adchannelID" value="1600"%>
 <%assign var="topnav" value="opinion"%>
 <%assign var="subnav" value="analysis"%>
 <%elseif preg_match("/comment/is",$story.genre)%>
 <%assign var=breadcrum value="<a href=/channel/comment.html>评论</a>"%>
 <%assign var=autoadchannel value="NP_Opinion"%>
-<%assign var="autoadchannelID" value="1600"%>
+<%assign var="adchannelID" value="1600"%>
 <%assign var="topnav" value="opinion"%>
 <%assign var="subnav" value="comment"%>
 <%elseif preg_match("/book/is",$story.topic)%>
 <%assign var=breadcrum value="<a href=/channel/book.html>书评</a>"%>
 <%assign var=autoadchannel value="NP_Opinion"%>
-<%assign var="autoadchannelID" value="1600"%>
+<%assign var="adchannelID" value="1600"%>
 <%assign var="topnav" value="opinion"%>
 <%assign var="subnav" value="book"%>
 <%elseif preg_match("/management/is",$story.topic)%>
 <%assign var=breadcrum value="<a href=/channel/management.html>管理</a>"%>
 <%assign var=autoadchannel value="NP_Management"%>
-<%assign var="autoadchannelID" value="1700"%>
+<%assign var="adchannelID" value="1700"%>
 <%assign var="topnav" value="management"%>
 <%elseif preg_match("/lifestyle/is",$story.topic)%>
 <%assign var=breadcrum value="<a href=/channel/lifestyle.html>生活时尚</a>"%>
 <%assign var=autoadchannel value="NP_Life_Style"%>
-<%assign var="autoadchannelID" value="1800"%>
+<%assign var="adchannelID" value="1800"%>
 <%assign var="topnav" value="lifestyle"%>
 <%elseif preg_match("/business/is",$story.topic)%>
 <%assign var=breadcrum value="<a href=/channel/business.html>商业</a>"%>
@@ -280,47 +280,47 @@
 <%elseif preg_match("/markets/is",$story.topic)%>
 <%assign var=breadcrum value="<a href=/channel/business.html>金融市场</a>"%>
 <%assign var=autoadchannel value="NP_Business"%>
-<%assign var="autoadchannelID" value="1500"%>
+<%assign var="adchannelID" value="1500"%>
 <%assign var="topnav" value="business"%>
 <%elseif preg_match("/africa/is",$story.area)%>
 <%assign var=breadcrum value="<a href=/channel/africa.html>非洲</a>"%>
 <%assign var=autoadchannel value="NP_Global_Africa"%>
-<%assign var="autoadchannelID" value="1206"%>
+<%assign var="adchannelID" value="1206"%>
 <%assign var="topnav" value="world"%>
 <%assign var="subnav" value="africa"%>
 <%elseif preg_match("/uk/is",$story.area)%>
 <%assign var=breadcrum value="<a href=/channel/uk.html>英国</a>"%>
 <%assign var=autoadchannel value="NP_Global_UK"%>
-<%assign var="autoadchannelID" value="1202"%>
+<%assign var="adchannelID" value="1202"%>
 <%assign var="topnav" value="world"%>
 <%assign var="subnav" value="uk"%>
 <%elseif preg_match("/america/is",$story.area)%>
 <%assign var=breadcrum value="<a href=/channel/america.html>美洲</a>"%>
 <%assign var=autoadchannel value="NP_Global_America"%>
-<%assign var="autoadchannelID" value="1205"%>
+<%assign var="adchannelID" value="1205"%>
 <%elseif preg_match("/usa/is",$story.area)%>
 <%assign var=breadcrum value="<a href=/channel/usa.html>美国</a>"%>
 <%assign var=autoadchannel value="NP_Global_US"%>
-<%assign var="autoadchannelID" value="1201"%>
+<%assign var="adchannelID" value="1201"%>
 <%assign var="topnav" value="world"%>
 <%assign var="subnav" value="usa"%>
 <%elseif preg_match("/asia/is",$story.area)%>
 <%assign var=breadcrum value="<a href=/channel/asia.html>亚太</a>"%>
 <%assign var=autoadchannel value="NP_Global_Asia"%>
-<%assign var="autoadchannelID" value="1203"%>
+<%assign var="adchannelID" value="1203"%>
 <%assign var="topnav" value="world"%>
 <%assign var="subnav" value="asia"%>
 <%elseif preg_match("/europe/is",$story.area)%>
 <%assign var=breadcrum value="<a href=/channel/europe.html>欧洲</a>"%>
 <%assign var=autoadchannel value="NP_Global_Europe"%>
-<%assign var="autoadchannelID" value="1204"%>
+<%assign var="adchannelID" value="1204"%>
 <%assign var="topnav" value="world"%>
 <%assign var="subnav" value="europe"%>
 <%/if%>
 
 <%if in_array("艺术品投资",$story.tag) || in_array("乐尚街",$story.tag)%>
 <%assign var=breadcrum value="<a href=/channel/pursuit.html>乐尚街</a>"%>
-<%assign var="autoadchannelID" value="1801"%>
+<%assign var="adchannelID" value="1801"%>
 <%assign var="topnav" value="lifestyle"%>
 <%assign var="subnav" value="pursuit"%>
 <%assign var="thirdnav" value=""%>
@@ -347,6 +347,16 @@
 <%assign var="topnav" value="economy"%>
 <%assign var="subnav" value="environment"%>
 <%assign var="thirdnav" value="futureofenergy"%>
+
+
+<%elseif preg_match("/全球商业的未来/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20151231 && date("Ymd",$smarty.now) <= 20161231%>
+<%assign var=breadcrum value="<a href=\"/tag/全球商业的未来\">全球商业的未来</a>"%>
+<%assign var="adchannelID" value="2051"%>
+<%assign var="hideMPU2" value="no"%>
+<%assign var="hideMPU3" value="no"%>
+<%assign var="hide590" value="no"%>
+
+
 <%elseif (preg_match("/2015年度报告/is",implode(",", $story.tag))||preg_match("/年度报告/is",implode(",", $story.tag))) && date("Ymd",$smarty.now) >= 20131216 && date("Ymd",$smarty.now) <= 20151231%>
   <%assign var="adchannelID" value="2002"%>
   <%assign var=breadcrum value="<a href=\"/tag/2015年度报告/\">2015年度报告</a>"%>
@@ -398,7 +408,7 @@
 <%assign var="hideInReadAd" value="yes"%>
 
 
-<%elseif preg_match("/品味|乐尚街|艺术投资|腕表|游艇|极致人生/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20150525 && date("Ymd",$smarty.now) <= 20160625%>
+<%elseif preg_match("/极致人生/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20150525 && date("Ymd",$smarty.now) <= 20160625%>
 <%assign var=breadcrum value="<a href=\"/tag/极致人生\">极致人生</a>"%>
 <%assign var="adchannelID" value="2048"%>
 <%assign var="hide590" value="no"%>
@@ -553,7 +563,7 @@
 	<%assign var="keys" value="`$keys`,`$sc`"%>
 <%/foreach%>
 <%assign var="keys" value="`$keys`,`$tag`"%>
-<%if preg_match("/品味|乐尚街|艺术投资|腕表|游艇|极致人生/is",$keys) && date("Ymd",$smarty.now) >= 20140525 && date("Ymd",$smarty.now) <= 20160625%>
+<%if preg_match("/极致人生/is",$keys) && date("Ymd",$smarty.now) >= 20140525 && date("Ymd",$smarty.now) <= 20160625%>
 	<%assign var=breadcrum value="<a href=\"/tag/极致人生\">极致人生</a><button class=\"myft-follow plus\" data-tag=\"极致人生\" data-type=\"tag\">关注</button>"%>
 	<%assign var="PageTitle" value="<a href=\"/tag/极致人生\">极致人生</a>"%>
 	<%assign var="adchannelID" value="2052"%>
@@ -633,7 +643,7 @@
 <%if ($page==1 || $page =="") && $page_action != "ce" && $story_pic.smallbutton && (in_array("插图",$story.tag) || $imageType == "portrait")%>
 	<%assign var="storyImage" value=$story_pic.smallbutton%>
 	<%assign var="storyImageClass" value="right-image"%>
-<%elseif ($page==1 || $page =="") && $page_action != "ce" && $story_pic.skyline && (in_array("插图",$story.tag) || $imageType == "portrait")%>
+<%elseif ($page==1 || $page =="") && $page_action != "ce" && $story_pic.skyline%>
 	<%assign var="storyImage" value=$story_pic.skyline%>
 	<%assign var="storyImageClass" value="right-image-small"%>
 <%elseif ($page==1 || $page =="") && $page_action != "ce" && $story_pic.smallbutton%>
@@ -865,29 +875,33 @@
   </head>
   <%assign var="bannerCount" value=0%>
   <body class="<%$hideDate%>">
-  	  <%if $PageTitle != ""%>
-      	<%include file="next/partials/tag-header.html"%>
-      <%else%>
-      	<%include file="next/partials/header.html"%>
-      <%/if%>
-      <%include file="next/partials/nav.html"%>
-	  <%if !preg_match("/品味|乐尚街|艺术投资|腕表|游艇|极致人生/is",$keys)%>
+	<%if $smarty.get.print!="y"%>
+		<%if $PageTitle != ""%>
+			<%include file="next/partials/tag-header.html"%>
+		<%else%>
+			<%include file="next/partials/header.html"%>
+		<%/if%>
+		<%include file="next/partials/nav.html"%>
+		<%if !preg_match("/品味|乐尚街|艺术投资|腕表|游艇|极致人生/is",$keys)%>
 		<%include file="next/partials/banner.html"%>
-	  <%/if%>
-      <%assign var="bannerCount" value=$bannerCount+1%>
-      <%if $info.photonewsid != ""%>
-      	<%include file="next/partials/photo-block.html"%>
-      <%else%>
-      	<%include file="next/partials/story-block.html"%>
-      <%/if%>
-      <%include file="next/partials/story-recommend.html%>
-	  <%if !preg_match("/品味|乐尚街|艺术投资|腕表|游艇|极致人生/is",$keys)%>
+		<%/if%>
+		<%assign var="bannerCount" value=$bannerCount+1%>
+		<%if $info.photonewsid != ""%>
+			<%include file="next/partials/photo-block.html"%>
+		<%else%>
+			<%include file="next/partials/story-block.html"%>
+		<%/if%>
+		<%include file="next/partials/story-recommend.html%>
+		<%if !preg_match("/品味|乐尚街|艺术投资|腕表|游艇|极致人生/is",$keys)%>
 		<%include file="next/partials/banner.html"%>
-	  <%/if%>
-      <%include file="next/partials/footer.html"%>
-      <%include file="next/partials/QrCode.html"%>
-      <%include file="next/partials/story-font.html"%>
-      <%include file="next/partials/story-share.html"%>
+		<%/if%>
+		<%include file="next/partials/footer.html"%>
+		<%include file="next/partials/QrCode.html"%>
+		<%include file="next/partials/story-font.html"%>
+		<%include file="next/partials/story-share.html"%>
+	<%else%>
+		<%include file="include/story/story_print.html"%>
+	<%/if%>
   </body>
 <!--[if lte IE 8]>
 <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>

@@ -95,12 +95,15 @@
 			<%*<!--combine side lists-->*%>
 			<%if $listHasFloat === "none" || $listHasFloat === "SideBySide" || $l==0 || ($prev >= 0 && $list.float != $section.lists[$prev].float)%><div class="list-container<%$listClass%>"><div class="list-inner"><%/if%>
 				<%if $list.title != ""%>
-
 					<h2 class="list-title">
-						<a class="list-link" href="<%$listUrl%>"><%$list.title%></a>
+						<a class="list-link<%if $list.title == " "%> empty<%/if%>" href="<%$listUrl%>"><%$list.title%></a>
 						<%if $list.sponsorLogoUrl != ""%>
 							<a class="sponsor-link" target=_blank href="<%$list.sponsorLink|default:"#"%>"><figure class="loading sponsor" data-url="<%$list.sponsorLogoUrl|replace:"/upload/":"/"%>"></figure></a>
 						<%/if%>
+					</h2>
+				<%elseif $l > 0%>
+					<h2 class="list-title">
+						<a class="list-link empty"></a>
 					</h2>
 				<%/if%>
 
@@ -860,6 +863,7 @@
 						<%if $list.showTimeStamp === "all" || $lists.showTimeStamp === "new stories" || $list.feedType == "myFT"%>
 							<%assign var="highlightTime" value=""%>
 							<%math assign="timeDiff" equation="x-y" x=$smarty.now y=$itemT%>
+							<%assign var="timeMath" value=$timeDiff%>
 							<%if $item.type === "video" && preg_match("/[0-9]+\-[0-9]+\-[0-9]+/is",$itemT)%>
 								<%assign var="highlightTime" value=""%>
 								<%assign var="timeDiff" value=$itemT|date_format:"%Y年%-m月%-d日"%>
@@ -889,7 +893,7 @@
 								<%assign var="highlightTime" value=""%>
 								<%assign var="timeDiff" value=$itemT|date_format:"%Y年%-m月%-d日"%>
 							<%/if%>
-							<%if $list.showTimeStamp === "all" || $timeDiff < 60*60*4%>
+							<%if $list.showTimeStamp === "all" || $timeMath < 60*60*4%>
 								<%assign var="itemTimeStamp" value="<div class=\"item-time`$highlightTime`\">`$timeDiff`</div>"%>
 							<%/if%>
 						<%/if%>
