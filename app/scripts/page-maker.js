@@ -1179,4 +1179,12 @@
         $('.tab.all').click();
     }
 
+    window.onbeforeunload = function() {
+        $.ajax({
+            type: 'get',
+            url: '/falcon.php/homepage/unlock',
+            async: false
+        });
+    };
+
 })(); 
