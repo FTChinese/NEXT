@@ -13,7 +13,10 @@
 				<%foreach from=$topicsdata item=list%>
 					<%assign var="echotopics" value="`$echotopics`,`$list[0].tag`"%>
 				<%/foreach%>
-				<%easyapi command="60020" debug=false%>
+				<%easyapi command="61020"%>
+				<%if $data.odatalist|@count<1%>
+					<%easyapi command="60020"%>
+				<%/if%>
 				<%assign var="topicsdata" value=$data.odatalist%>
             	<%assign var="echostoryid" value=""%>
             	<%assign var="l" value=0%>
