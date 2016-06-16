@@ -1019,43 +1019,47 @@
     });
 
     $('body').on('click', '#button-save', function () {
-        $.ajax({
-            type: 'POST',
-            url: gApiUrls.homePOST,
-            data: {action: 'save', publish_type: getURLParameter('page'), publish_html: renderHTML($('#content-left-inner'))},
-            dataType: 'text',
-            success: function (msg) {
-                if (msg === 'save') {
-                    alert('页面保存成功，请确认后提交！');
+        if (confirm('是否“保存”当前操作结果？\n\n注意：保存操作不会更新首页。')) {
+            $.ajax({
+                type: 'POST',
+                url: gApiUrls.homePOST,
+                data: {action: 'save', publish_type: getURLParameter('page'), publish_html: renderHTML($('#content-left-inner'))},
+                dataType: 'text',
+                success: function (msg) {
+                    if (msg === 'save') {
+                        alert('页面保存成功，请确认后提交！');
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    console.log('url - [' + gApiUrls.homePOST + ']');
+                    console.log('XMLHttpRequest - [' + XMLHttpRequest + ']');
+                    console.log('textStatus - [' + textStatus + ']');
+                    console.log('errorThrown - [' + errorThrown + ']');
                 }
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                console.log('url - [' + gApiUrls.homePOST + ']');
-                console.log('XMLHttpRequest - [' + XMLHttpRequest + ']');
-                console.log('textStatus - [' + textStatus + ']');
-                console.log('errorThrown - [' + errorThrown + ']');
-            }
-        });
+            });
+        }
     });
 
     $('body').on('click', '#button-submit', function () {
-        $.ajax({
-            type: 'POST',
-            url: gApiUrls.homePOST,
-            data: {action: 'submit', publish_type: getURLParameter('page'), publish_html: renderHTML($('#content-left-inner'))},
-            dataType: 'text',
-            success: function (msg) {
-                if (msg === 'submit') {
-                    alert('页面提交成功！');
+        if (confirm('是否“提交”当前操作结果？\n\n注意：提交操作会更新首页。')) {
+            $.ajax({
+                type: 'POST',
+                url: gApiUrls.homePOST,
+                data: {action: 'submit', publish_type: getURLParameter('page'), publish_html: renderHTML($('#content-left-inner'))},
+                dataType: 'text',
+                success: function (msg) {
+                    if (msg === 'submit') {
+                        alert('页面提交成功！');
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    console.log('url - [' + gApiUrls.homePOST + ']');
+                    console.log('XMLHttpRequest - [' + XMLHttpRequest + ']');
+                    console.log('textStatus - [' + textStatus + ']');
+                    console.log('errorThrown - [' + errorThrown + ']');
                 }
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                console.log('url - [' + gApiUrls.homePOST + ']');
-                console.log('XMLHttpRequest - [' + XMLHttpRequest + ']');
-                console.log('textStatus - [' + textStatus + ']');
-                console.log('errorThrown - [' + errorThrown + ']');
-            }
-        });
+            });
+        }
     });
 
     $('body').on('click', '#button-preview-main', function () {
