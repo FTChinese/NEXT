@@ -40,7 +40,9 @@
 				<%$story_content%>
 				<div class="clearfloat"></div>
 			</div>
-			<%include file="next/partials/pagination.html"%>
+			<%if $smarty.get.full != "y"%>
+				<%include file="next/partials/pagination.html"%>
+			<%/if%>
 			<div class="clearfloat"></div>
 		</div>
 	<div class="clearfloat block-bottom"></div>

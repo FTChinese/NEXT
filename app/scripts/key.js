@@ -194,11 +194,11 @@ function trackerNew() {
         ga('set', 'dimension12', window.subTopic);
     }
 
-    if (window.isBlocked === true) {
-        ga('set', 'dimension16', 'yes');
-    } else {
-        ga('set', 'dimension16', 'no');
-    }
+    // if (window.isBlocked === true) {
+    //     ga('set', 'dimension16', 'yes');
+    // } else {
+    //     ga('set', 'dimension16', 'no');
+    // }
     
     if (window.bpage !== undefined && window.bpage !== 0 && window.bpage !== null) {
         trackerpage=l;
