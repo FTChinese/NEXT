@@ -666,7 +666,7 @@
 <%/if%>
 
 <%assign var="storyBody" value=$story.cbody|default:$cbody%>
-<%assign var="storyBody" value=$storyBody|regex_replace:"/@ftchinese.com/":"@ftmail.com"|regex_replace:"/<p>[_-]+<\/p>/":"<hr/><br/>"%>
+<%assign var="storyBody" value=$storyBody|regex_replace:"/<p>[_-]+<\/p>/":"<hr/><br/>"%>
 
 <%if $page_action=="ce"%>
 <%assign var="storyLanguage" value=" ce"%>
@@ -714,7 +714,7 @@
 <%assign var="shareText" value="【`$storyHeadline`】`$shareLead`（分享自 @FT中文网）"%>
 
 <%assign var="wechatUrl" value="/m/corp/qrshare.html?url=`$shareUrl`&title=`$shareTitle`"%>
-<%assign var="sinaUrl" value="http://service.weibo.com/share/share.php?appkey=4221537403&url=`$shareUrl`?ccode=2G169001&title=`$shareText`&ralateUid=1698233740&source=&sourceUrl=&content=utf-8&pic="%>
+<%assign var="sinaUrl" value="http://service.weibo.com/share/share.php?appkey=4221537403&url=`$shareUrl`?ccode=2G169001&title=`$shareText`&ralateUid=1698233740&source=&sourceUrl=&content=utf-8&pic=`$storyImage`&searchPic=false"%>
 <%assign var="linkedInUrl" value="https://www.linkedin.com/cws/share?url=`$shareUrl`%3Fccode%3D2G169003&original_referer=https%3A%2F%2Fdeveloper.linkedin.com%2Fsites%2Fall%2Fthemes%2Fdlc%2Fsandbox.php%3F&token=&isFramed=true&lang=zh_CN&_ts=1422502780259.2795"%>
 <%assign var="twitterUrl" value="http://twitter.com/home?status=`$shareText`...%20`$shareUrl`"%>
 <%assign var="facebookUrl" value="http://www.facebook.com/sharer.php?u=`$shareUrl`&t=`$shareText`"%>

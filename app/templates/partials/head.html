@@ -17,10 +17,12 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','/index.php/jsapi/analytics','ga');
 ga('create', 'UA-1608715-1');
 ga('require', 'displayfeatures');
-try {
-trackerNew();
-}catch(err){
-ga('send', 'pageview');
+if (window.gAutoStart === undefined) {
+    try {
+    trackerNew();
+    }catch(err){
+    ga('send', 'pageview');
+    }
 }
 </script>
 <!-- End Google Analytics -->
@@ -52,12 +54,31 @@ ga('send', 'pageview');
 
 <!-- Log Analytics -->
 <script>
-    (function(d, s, u, j, x) {
-        j = d.createElement(s),
-        x = d.getElementsByTagName(s)[0];
-        j.async = true;
-        j.src = u;
-        x.parentNode.insertBefore(j, x)
-    })(document, 'script', 'http://static.ftchinese.com/js/log.js?v=7&20160318');
+    if (window.gAutoStart === undefined) {
+        (function(d, s, u, j, x) {
+            j = d.createElement(s),
+            x = d.getElementsByTagName(s)[0];
+            j.async = true;
+            j.src = u;
+            x.parentNode.insertBefore(j, x)
+        })(document, 'script', 'http://static.ftchinese.com/js/log.js?v=7&20160318');
+    }
 </script>
 <!-- End Log Analytics -->
+
+<%*<!--Open Graph Start-->*%>
+<%if $storyImage != ""%>
+<meta property="thumbnail" content="<%$storyImage%>" />
+<meta property="og:title" content="<%$storyHeadline%>" />
+<meta property="og:url" content="http://www.ftchinese.com/<%$itemType%>/<%$id|default:$story.id%>" />
+<meta property="og:description" content="<%$shareLead%>" />
+<meta property="og:image" content="<%$storyImage%>" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="FT中文网" />
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:site" content="@FT中文网" />
+<meta property="twitter:title" content="<%$storyHeadline%>" />
+<meta property="twitter:description" content="<%$shareLead%>" />
+<meta property="twitter:image" content="<%$storyImage%>" />
+<%/if%>
+<%*<!--Open Graph End-->*%>

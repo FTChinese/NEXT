@@ -26,6 +26,7 @@
 * { margin:0; padding:0;}
 html,body{background:#000;height:100%;min-height:100%;}
 </style>
+<%include file="next/partials/head.html"%>
 </head>
 
 <body>
@@ -40,8 +41,7 @@ html,body{background:#000;height:100%;min-height:100%;}
     <%/if%>
     <script>
           var virtualPage = "<%$virtualPage%>";
-    </script>    
-    <%include file="next/partials/head.html"%>
+    </script>
     <%if $cc_vaddress && $cc_vaddress!=""%>
       <script src="http://union.bokecc.com/player?vid=<%$cc_vaddress%>&siteid=922662811F1A49E9&autoStart=<%$autostart%>&width=<%$w%>&height=<%$h%>&playerid=3571A3BF2AEC8829&playertype=1" type="text/javascript"></script>
     <%else%>
