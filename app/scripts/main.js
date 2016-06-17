@@ -25,6 +25,8 @@ var hostForVideo = '';
 var currentFavButton;
 
 
+
+
 function findTop(obj) {
   var curtop = 0;
   if (obj.offsetParent) {
@@ -457,4 +459,3 @@ delegate.on('click', '.icon-save button', function(){
       storyid: storyid
   }));
 });
-

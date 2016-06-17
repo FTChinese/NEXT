@@ -73,7 +73,6 @@
     <!--[if lte IE 8]>
     <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
     <![endif]-->
-    <%include file="next/partials/head.html"%>
     <script type="text/javascript">
     <%include file="next/scripts/key-photo.js"%>
     </script>
@@ -106,9 +105,11 @@
             }
         </script>
     <![endif]-->
+    <%include file="next/partials/head.html"%>
   </head>
   <%assign var="bannerCount" value=0%>
   <body class="<%$hideDate%>">
+      <script>checkB();</script>
       <%include file="next/partials/header.html"%>
       <%include file="next/partials/nav.html"%>
       <%if !preg_match("/艺术品投资/is",$info.tags) && !preg_match("/乐尚街/is",$info.tags)%>

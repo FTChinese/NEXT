@@ -7,6 +7,10 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 <%if $autostart=="false"%>
 var gAutoStart = false;
 <%/if%>
+var adchIDNew = window.location.href.replace(/^.*adchannelID=([0-9]{4}).*$/g,'$1');
+if (/^[0-9]{4}$/.test(adchIDNew)) {
+    adchID = adchIDNew;
+}
 </script>
 
 <!-- Google Analytics -->
@@ -22,6 +26,7 @@ if (window.gAutoStart === undefined) {
     trackerNew();
     }catch(err){
     ga('send', 'pageview');
+    console.log (err);
     }
 }
 </script>

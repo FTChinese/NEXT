@@ -1,4 +1,4 @@
-/* exported writeAd, slotStr, reloadBanners*/
+/* exported writeAd, slotStr, reloadBanners, checkB*/
 /* jshint ignore:start */
 function adReachability() {
   var thirdPartyVendors = {
@@ -378,24 +378,23 @@ function reloadBanners() {
   }
 }
 
-// var isBlocked = false;
+var isBlocked = 'unknown';
 
-// // test if ad blocker is turned on
-// function checkB() {
-//   var test = document.createElement('div');
-//   test.innerHTML = '&nbsp;';
-//   test.className = 'adsbox';
-//   document.body.appendChild(test);
-//   window.setTimeout(function() {
-//     if (test.offsetHeight === 0) {
-//       //document.body.classList.add('adblock');
-//       isBlocked = true;
-//     } else {
-//       isBlocked = false;
-//     }
-//     test.remove();
-//   }, 100);
-// }
+// test if ad blocker is turned on
+function checkB() {
+  var test = document.createElement('div');
+  test.innerHTML = '&nbsp;';
+  test.className = 'adsbox';
+  document.body.appendChild(test);
+  window.setTimeout(function() {
+    if (test.offsetHeight === 0) {
+      //document.body.classList.add('adblock');
+      isBlocked = 'yes';
+    } else {
+      isBlocked = 'no';
+    }
+    test.remove();
+  }, 100);
+}
 
-// checkB();
 initAds();

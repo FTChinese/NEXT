@@ -107,7 +107,6 @@
     <link rel="alternate" type="application/rss+xml" title="FT中文网 - 一周十大热门文章" href="/rss/hotstoryby7day" />
     <link rel="alternate" type="application/rss+xml" title="FT中文网 - 热门用户评论" href="/rss/hotusercomment" />
     <link rel="search" type="application/opensearchdescription+xml" title="FT中文网财经搜索" href="/opensearch.xml">
-    <%include file="next/partials/head.html"%>
     <script type="text/javascript">
     <%include file="next/scripts/key.js"%>
     </script>
@@ -137,31 +136,33 @@
             }
         </script>
     <![endif]-->
+    <%include file="next/partials/head.html"%>
   </head>
   <%assign var="bannerCount" value=0%>
   <body class="<%$hideDate%>">
-      <%include file="next/partials/tag-header.html"%>
-      <%include file="next/partials/nav.html"%>
-      <%if $pageTheme != "luxury"%>
-      <%include file="next/partials/banner.html"%>
-      <%/if%>
-      <%assign var="bannerCount" value=$bannerCount+1%>
-      <%if $pageId=="setting"%>
-        <%include file="next/partials/setting-block.html"%>
-      <%elseif $pageId!=""%>
-        <%include file="next/partials/`$pageId`.html"%>
-      <%elseif $pageType=="search"%>
-        <%include file="next/partials/search-block.html"%>
-      <%elseif $pageType=="findpassword"%>
-        <%include file="next/partials/findpassword.html"%>
-      <%else%>
-        <%include file="next/partials/tag-block.html"%>
-      <%/if%>
-      <%if $showPagination != "no"%>
-        <%include file="next/partials/pagination.html"%>
-      <%/if%>
-      <%include file="next/partials/footer.html"%>
-      <%include file="next/partials/QrCode.html"%>
+    <script>checkB();</script>
+    <%include file="next/partials/tag-header.html"%>
+    <%include file="next/partials/nav.html"%>
+    <%if $pageTheme != "luxury"%>
+    <%include file="next/partials/banner.html"%>
+    <%/if%>
+    <%assign var="bannerCount" value=$bannerCount+1%>
+    <%if $pageId=="setting"%>
+    <%include file="next/partials/setting-block.html"%>
+    <%elseif $pageId!=""%>
+    <%include file="next/partials/`$pageId`.html"%>
+    <%elseif $pageType=="search"%>
+    <%include file="next/partials/search-block.html"%>
+    <%elseif $pageType=="findpassword"%>
+    <%include file="next/partials/findpassword.html"%>
+    <%else%>
+    <%include file="next/partials/tag-block.html"%>
+    <%/if%>
+    <%if $showPagination != "no"%>
+    <%include file="next/partials/pagination.html"%>
+    <%/if%>
+    <%include file="next/partials/footer.html"%>
+    <%include file="next/partials/QrCode.html"%>
   </body>
 <!--[if lte IE 8]>
 <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
