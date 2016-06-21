@@ -145,7 +145,7 @@
         return todaystamp;
     }
 
-    function renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, customLink, relativestory, showRelativeStoryItems) {
+    function renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, customLink, showSponsorImage, relativestory, showRelativeStoryItems) {
         var editLink = '';
         var previewLink = '';
         var dataHTML = '';
@@ -154,7 +154,11 @@
         var hasImageClass = '';
         var imageBG = '';
         var sponsorImage = '';
-        sponsorImage = '<div title="如果是有赞助的特别报道，优先采用专题的图片，而不是文章的图片"><input title="use sponsor image" name="preferSponsorImage" class="o-input-checkbox" value="yes" type="checkbox">Prefer Sponsor Cover</div>';
+        var sponsorImageDisplay = '';
+        if (showSponsorImage === 'yes') {
+            sponsorImageDisplay = ' checked';
+        }
+        sponsorImage = '<div title="如果是有赞助的特别报道，优先采用专题的图片，而不是文章的图片"><input title="use sponsor image" name="preferSponsorImage" class="o-input-checkbox" value="yes" type="checkbox"' + sponsorImageDisplay + '>Prefer Sponsor Cover 1</div>';
         if (typeof showRelativeStoryItems !== 'undefined') {
             showRelativeStoryItems = '<div class="item-info-item"><div class="item-info-title">Show Related Items: </div><input type="number" title="How Many Related Content Would You Like to Show in This Page? " name="showRelativeStoryItems" class="o-input-text" value="' + showRelativeStoryItems + '"></div>';
         } else {
@@ -223,10 +227,11 @@
         var relatives = data.relatives || [];
         var showRelativeStoryItems = data.showRelativeStoryItems || 0;
         var customLink = data.customLink || '';
+        var showSponsorImage = data.preferSponsorImage || 'no';
         if (type !== 'story') {
             timeStampType = 3;
         }
-        return renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, customLink, relatives, showRelativeStoryItems);
+        return renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, customLink, showSponsorImage, relatives, showRelativeStoryItems);
     }
 
 
@@ -347,6 +352,7 @@
                     var relativestory = [];
                     var showRelativeStoryItems = 0;
                     var customLink = '';
+                    var showSponsorImage = 'no';
                     if (entry.id) {
                         //console.log (entry.last_publish_time);
                         timeStamp = entry.last_publish_time || '';
@@ -368,13 +374,13 @@
                         //shortlead = JSON.stringify(relativestory);
                         if ($('.content-left-inner .item[data-id=' + id + '][data-type=' + type + ']').length === 0) {
                             if (priority > 0 && priority <= 9) {
-                                coverHTML += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, customLink, relativestory, showRelativeStoryItems);
+                                coverHTML += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, customLink, showSponsorImage, relativestory, showRelativeStoryItems);
                             } else if (priority >= 20 && priority <= 49) {
-                                newsHTML += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, customLink, relativestory, showRelativeStoryItems);
+                                newsHTML += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, customLink, showSponsorImage, relativestory, showRelativeStoryItems);
                             } else if ((priority >= 49 && priority <= 69) || (priority >= 10 && priority <= 19)) {
-                                commentsHTML += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, customLink, relativestory, showRelativeStoryItems);
+                                commentsHTML += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, customLink, showSponsorImage, relativestory, showRelativeStoryItems);
                             } else {
-                                otherHTML += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, customLink, relativestory, showRelativeStoryItems);
+                                otherHTML += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, customLink, showSponsorImage, relativestory, showRelativeStoryItems);
                             }
                         } else {
                             //console.log (headline + ' already exists');
@@ -396,7 +402,7 @@
                             }
                             type = 'photo';
                             if ($('.content-left-inner .item[data-id=' + id + '][data-type=' + type + ']').length === 0) {
-                                photosInner += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, customLink);
+                                photosInner += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, customLink, showSponsorImage);
                             }
                         });
                     } else if (entryIndex === 'interactive') {
@@ -424,7 +430,7 @@
                             image = interactive.story_pic.other || interactive.story_pic.smallbutton || interactive.story_pic.cover || interactive.story_pic.bigbutton || '';
                             type = 'interactive';
                             if ($('.content-left-inner .item[data-id=' + id + '][data-type=' + type + ']').length === 0) {
-                                interactivesInner += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, customLink);
+                                interactivesInner += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, customLink, showSponsorImage);
                             }
                         });
                     } else if (entryIndex === 'video') {
@@ -441,7 +447,7 @@
                             image = video.story_pic.other || video.story_pic.smallbutton || video.story_pic.cover || video.story_pic.bigbutton || '';
                             type = 'video';
                             if ($('.content-left-inner .item[data-id=' + id + '][data-type=' + type + ']').length === 0) {
-                                videosInner += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, customLink);
+                                videosInner += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, customLink, showSponsorImage);
                             }
                         });
                     }
@@ -471,18 +477,18 @@
         $.each(toolkits.list, function (key, value) { // jshint ignore:line
             lists += '<div class="toolkit toolkit-list toolkit-' + key + '" draggable=true>' + key + '</div>';
         });
-        lists += renderAPI('', 'Empty Item 1', '', '', '', '', '', '', '', '');
-        lists += renderAPI('', 'Empty Item 2', '', '', '', '', '', '', '', '');
-        lists += renderAPI('', 'Empty Item 3', '', '', '', '', '', '', '', '');
-        lists += renderAPI('', 'Empty Item 4', '', '', '', '', '', '', '', '');
-        lists += renderAPI('', 'Empty Item 5', '', '', '', '', '', '', '', '');
-        lists += renderAPI('', 'Empty Item 6', '', '', '', '', '', '', '', '');
-        lists += renderAPI('', 'Empty Item 7', '', '', '', '', '', '', '', '');
-        lists += renderAPI('', 'Empty Item 8', '', '', '', '', '', '', '', '');
-        lists += renderAPI('', 'Empty Item 9', '', '', '', '', '', '', '', '');
-        lists += renderAPI('', 'Empty Item 10', '', '', '', '', '', '', '', '');
-        lists += renderAPI('', 'Empty Item 11', '', '', '', '', '', '', '', '');
-        lists += renderAPI('', 'Empty Item 12', '', '', '', '', '', '', '', '');
+        lists += renderAPI('', 'Empty Item 1', '', '', '', '', '', '', '', '', 'no');
+        lists += renderAPI('', 'Empty Item 2', '', '', '', '', '', '', '', '', 'no');
+        lists += renderAPI('', 'Empty Item 3', '', '', '', '', '', '', '', '', 'no');
+        lists += renderAPI('', 'Empty Item 4', '', '', '', '', '', '', '', '', 'no');
+        lists += renderAPI('', 'Empty Item 5', '', '', '', '', '', '', '', '', 'no');
+        lists += renderAPI('', 'Empty Item 6', '', '', '', '', '', '', '', '', 'no');
+        lists += renderAPI('', 'Empty Item 7', '', '', '', '', '', '', '', '', 'no');
+        lists += renderAPI('', 'Empty Item 8', '', '', '', '', '', '', '', '', 'no');
+        lists += renderAPI('', 'Empty Item 9', '', '', '', '', '', '', '', '', 'no');
+        lists += renderAPI('', 'Empty Item 10', '', '', '', '', '', '', '', '', 'no');
+        lists += renderAPI('', 'Empty Item 11', '', '', '', '', '', '', '', '', 'no');
+        lists += renderAPI('', 'Empty Item 12', '', '', '', '', '', '', '', '', 'no');
         //lists = '<div class="toolkit toolkit-list" draggable=true>list</div>';
         $('#tool-sec-inner').html(sections);
         $('#tool-list-inner').html(lists);

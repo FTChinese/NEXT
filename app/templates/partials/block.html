@@ -129,7 +129,7 @@
 
 				<div class="items">
 
-				<%if preg_match("/all|story|interactive|photo/is",$list.feedType) && $list.items|@count==0%>
+				<%if preg_match("/all|story|interactive|photo|video/is",$list.feedType) && $list.items|@count==0%>
 					<%if $list.feedImage == "necessary"%>
 						<%assign var="feedImage" value="necessary"%>
 					<%/if%>
@@ -875,6 +875,7 @@
 							<%if $item.type === "video" && preg_match("/[0-9]+\-[0-9]+\-[0-9]+/is",$itemT)%>
 								<%assign var="highlightTime" value=""%>
 								<%assign var="timeDiff" value=$itemT|date_format:"%Y年%-m月%-d日"%>
+								<%assign var="timeMath" value=0%>
 							<%elseif $timeDiff < 0%>
 								<%assign var="highlightTime" value=" highlight"%>
 								<%assign var="timeDiff" value="刚刚发布"%>
@@ -901,10 +902,12 @@
 								<%assign var="highlightTime" value=""%>
 								<%assign var="timeDiff" value=$itemT|date_format:"%Y年%-m月%-d日"%>
 							<%/if%>
-							<%if $list.showTimeStamp === "all" || $timeMath < 60*60*4%>
+							<%if $list.showTimeStamp === "all" || ($timeMath < 60*60*4 && $timeMath > 0)%>
 								<%assign var="itemTimeStamp" value="<div class=\"item-time`$highlightTime`\">`$timeDiff`</div>"%>
 							<%/if%>
 						<%/if%>
+						
+						
 
 
 						<%if $list.preferLead === "none"%>
