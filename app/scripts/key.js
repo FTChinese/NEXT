@@ -194,52 +194,55 @@ function trackerNew() {
         ga('set', 'dimension12', window.subTopic);
     }
 
-    // if (window.isBlocked === true) {
-    //     ga('set', 'dimension16', 'yes');
-    // } else {
-    //     ga('set', 'dimension16', 'no');
-    // }
-    
-    if (window.bpage !== undefined && window.bpage !== 0 && window.bpage !== null) {
-        trackerpage=l;
-        if (window.virtualPage !== undefined){
-            trackerpage=window.virtualPage;
-        } else {
-            trackerpage=trackerpage.replace(/^.*\/story/g,'story');
+
+    setTimeout(function(){
+        if (window.isBlocked === 'yes') {
+            ga('set', 'dimension16', 'yes');
+        } else if (window.isBlocked === 'no'){
+            ga('set', 'dimension16', 'no');
         }
-        if (window.metaInfo !== undefined){
-            trackerpage=trackerpage + '?' + window.metaInfo;
-        }
-        trackerpage='/barrier/'+window.bpage+'/'+trackerpage;
-        ga('send', 'pageview', trackerpage);
-    } else if (window.virtualPage !== undefined){
-        pagePara=l;
-        pagePara=pagePara.replace(/^.*\/(story|video|interactive)\/[0-9]+/g,'').replace(/^.*\.com[\/]*/g,'').replace(/search\/.*$/g,'');
-        if (window.metaInfo !== undefined){            
-            if (/\?.*\#/i.test(pagePara)) {
-                pagePara=pagePara.replace(/#/g,'&' + window.metaInfo +'#');
-            } else if (pagePara.indexOf('?') >=0){
-                pagePara=pagePara + '&' + window.metaInfo;
-            } else if (pagePara.indexOf('#') >=0) {
-                pagePara=pagePara.replace(/#/g,'?' + window.metaInfo +'#');
-            }else {
-                pagePara=pagePara + '?' + window.metaInfo;
+
+        if (window.bpage !== undefined && window.bpage !== 0 && window.bpage !== null) {
+            trackerpage=l;
+            if (window.virtualPage !== undefined){
+                trackerpage=window.virtualPage;
+            } else {
+                trackerpage=trackerpage.replace(/^.*\/story/g,'story');
             }
-        } else {
-            if (/\?/i.test(pagePara)) {
-                pagePara=pagePara.replace(/\?/g,'&');
+            if (window.metaInfo !== undefined){
+                trackerpage=trackerpage + '?' + window.metaInfo;
             }
+            trackerpage='/barrier/'+window.bpage+'/'+trackerpage;
+            ga('send', 'pageview', trackerpage);
+        } else if (window.virtualPage !== undefined){
+            pagePara=l;
+            pagePara=pagePara.replace(/^.*\/(story|video|interactive)\/[0-9]+/g,'').replace(/^.*\.com[\/]*/g,'').replace(/search\/.*$/g,'');
+            if (window.metaInfo !== undefined){            
+                if (/\?.*\#/i.test(pagePara)) {
+                    pagePara=pagePara.replace(/#/g,'&' + window.metaInfo +'#');
+                } else if (pagePara.indexOf('?') >=0){
+                    pagePara=pagePara + '&' + window.metaInfo;
+                } else if (pagePara.indexOf('#') >=0) {
+                    pagePara=pagePara.replace(/#/g,'?' + window.metaInfo +'#');
+                }else {
+                    pagePara=pagePara + '?' + window.metaInfo;
+                }
+            } else {
+                if (/\?/i.test(pagePara)) {
+                    pagePara=pagePara.replace(/\?/g,'&');
+                }
+            }
+            if (window.gAutoStart === undefined) {ga('send', 'pageview', window.virtualPage+pagePara);}
+        } else {
+            if (window.gAutoStart === undefined) {ga('send', 'pageview');}
         }
-        if (window.gAutoStart === undefined) {ga('send', 'pageview', window.virtualPage+pagePara);}
-    } else {
-        if (window.gAutoStart === undefined) {ga('send', 'pageview');}
-    }
-    if (typeof window.FTStoryid === 'string') {
-        keyTagArray=keyTag.split(',');
-        for (i = 0; i < keyTagArray.length; i++) {
-            ga('send','event','Story Tag',keyTagArray[i],'',{'nonInteraction':1});
-        }
-    }
+        // if (typeof window.FTStoryid === 'string') {
+        //     keyTagArray=keyTag.split(',');
+        //     for (i = 0; i < keyTagArray.length; i++) {
+        //         ga('send','event','Story Tag',keyTagArray[i],'',{'nonInteraction':1});
+        //     }
+        // }
+    }, 300);
 }
 
 var username=GetCookie('USER_NAME') || '';

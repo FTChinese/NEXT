@@ -1,4 +1,4 @@
-<%assign var="allstories" value=$storymodel->get_story_collection($itemIds,100)%>
+<%assign var="allstories" value=$storymodel->get_story_collection($itemIds,200)%>
 <%php%>
     $channels = '[{"title":"经济","link":"/channel/economy.html","type":"channel","include":"china","exclude":"letter","cover":1,"headline":3},{"title":"金融市场","link":"/channel/markets.html","type":"channel","include":"markets","exclude":"letter","cover":1,"headline":3},{"title":"科技","link":"/channel/technology.html","type":"channel","include":"technology","exclude":"letter","cover":1,"headline":3},{"title":"生活时尚","link":"/channel/lifestyle.html","type":"channel","include":"lifestyle","exclude":"letter","cover":1,"headline":3},{"title":"商业与管理","link":"/channel/management.html","type":"channel","include":"management|business","exclude":"letter","cover":1,"headline":3},{"title":"中国","link":"/channel/china.html","type":"channel","include":"china","exclude":"letter","cover":1,"headline":3}]';
     $channelsArray = json_decode($channels, true);
