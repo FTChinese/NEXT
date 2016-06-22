@@ -7,6 +7,8 @@ var gNavOffsetY=0;
 var gNavHeight = 44;
 var gShareOffsetY;
 var gAudioOffsetY;
+var gRecomendOffsetY;
+var gRecomendInViewNoted = false;
 //  var gShareHeight = 38;
 var defaultPadding = 30;
 var hasSideWidth = 690;
@@ -23,6 +25,7 @@ var scrollTop = window.scrollY || document.documentElement.scrollTop;
 var ticking = false;
 var hostForVideo = '';
 var currentFavButton;
+
 
 
 
@@ -66,7 +69,9 @@ function stickyAdsPrepare() {
 function stickyBottomPrepare() {
   gNavOffsetY = findTop(document.querySelector('.o-nav__placeholder'));
   bodyHeight = getBodyHeight(gNavOffsetY);
-
+  if (typeof recommendInner === 'object') {
+    gRecomendOffsetY = findTop(recommendInner);
+  }
   if (document.getElementById('story-action-placeholder')) {
     gShareOffsetY = findTop(document.getElementById('story-action-placeholder'));
   }
@@ -215,6 +220,21 @@ function stickyBottomUpdate() {
         stickyAds[j].currentClass = newClass;
         document.getElementById(stickyAds[j].BannerId).parentNode.parentNode.parentNode.className = newClass;
       }
+    }
+  }
+
+
+  // blocks in view
+  // story recommend
+  if (gRecomendInViewNoted === false && window.recommendLoaded === true && typeof window.recommendInner === 'object' && gRecomendOffsetY > 0) {
+    if (scrollTop + bodyHeight > gRecomendOffsetY) {
+      //send event to google for once
+      if (window.FTStoryid === undefined) {
+        window.FTStoryid = '';
+      }
+      ga('send','event','Story Recommend', 'Seen', FTStoryid, {'nonInteraction':1});
+      gRecomendInViewNoted = true;
+      //console.log ('in view');
     }
   }
 }

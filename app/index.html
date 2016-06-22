@@ -62,13 +62,20 @@ document.documentElement.className = document.documentElement.className.replace(
 
 
 
+
 <script type="text/javascript">
 if(typeof startTime === "undefined"){
 var startTime=new Date().getTime();
 }
 var adchID = '1000';
-var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现联动互斥功能
+var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现联动互斥功能 
+var adchIDNew = window.location.href.replace(/^.*adchannelID=([0-9]{4}).*$/g,'$1');
+if (/^[0-9]{4}$/.test(adchIDNew)) {
+adchID = adchIDNew;
+}
 </script>
+
+
 
 <!-- build:js scripts/key.js -->
 <script type="text/javascript" src="scripts/key.js"></script>

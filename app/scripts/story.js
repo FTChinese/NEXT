@@ -4,6 +4,9 @@ var xhr = new XMLHttpRequest();
 var ajaxMethod;
 var ajaxUrl;
 var message = {};
+var recommendLoaded = false;
+var recommendInner = document.getElementById('story-recommend');
+
 message.head = {};
 message.head.transactiontype = '61009';
 message.head.source = 'web';
@@ -51,9 +54,10 @@ xhr.onload = function() {
 	        			itemCount += 1;
         			}
         		}
-                document.getElementById('story-recommend').innerHTML = itemHTML;
+                recommendInner.innerHTML = itemHTML;
                 document.getElementById('story-recommend-container').style.display = 'block';
                 loadImages();
+                recommendLoaded = true;
         	}
         }
     } else if (xhr.status !== 200) {

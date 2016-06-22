@@ -585,6 +585,8 @@
 
 <%assign var="storyContent" value=$story_content%>
 
+<%assign var="storyId" value=$story.id|default:$id%>
+
 <%if $page_action=="en"%>
 	<%assign var="storyHeadline" value=$story.eheadline|default:$eheadline%>
 <%elseif $page_action=="ce"%>
