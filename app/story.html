@@ -65,6 +65,12 @@ document.documentElement.className = document.documentElement.className.replace(
 <!-- endbuild -->
 
 
+
+<!-- build:css styles/main-table.css -->
+<link rel="stylesheet" href="styles/main-table.css">
+<!-- endbuild -->
+
+
 <link rel="stylesheet" href="styles/main-ie-XL.css">
 
 <script type="text/javascript">
@@ -268,9 +274,34 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 <a class="nav-section-head desktop" href="/channel/world.html">全球</a>
 </li>
 <li class="nav-section"
- data-section="economy">
+ aria-selected="true" data-section="economy">
 <button class="nav-section-head mobile">经济</button>
 <a class="nav-section-head desktop" href="/channel/economy.html">经济</a>
+<ol class="nav-items">
+<li class="nav-item mobile">
+<a class="nav-link" href="/channel/economy.html">
+频道首页
+</a>
+</li>
+<li class="nav-item"  data-channel="globaleconomy">
+<a class="nav-link" href="/channel/globaleconomy.html">全球经济</a>
+</li>
+<li class="nav-item" aria-selected="true" data-channel="chinaeconomy">
+<a class="nav-link" href="/channel/chinaeconomy.html">中国经济</a>
+</li>
+<li class="nav-item"  data-channel="trade">
+<a class="nav-link" href="/channel/trade.html">贸易</a>
+</li>
+<li class="nav-item"  data-channel="environment">
+<a class="nav-link" href="/channel/environment.html">环境</a>
+</li>
+<li class="nav-item"  data-channel="economics">
+<a class="nav-link" href="/channel/economics.html">经济评论</a>
+</li>
+<li class="nav-item"  data-channel="chinanumbers">
+<a class="nav-link" href="/channel/numbers-china.html">中国经济一图览</a>
+</li>
+</ol>
 </li>
 <li class="nav-section"
  data-section="markets">
@@ -278,52 +309,9 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 <a class="nav-section-head desktop" href="/channel/markets.html">金融市场</a>
 </li>
 <li class="nav-section"
- aria-selected="true" data-section="business">
+ data-section="business">
 <button class="nav-section-head mobile">商业</button>
 <a class="nav-section-head desktop" href="/channel/business.html">商业</a>
-<ol class="nav-items">
-<li class="nav-item mobile">
-<a class="nav-link" href="/channel/business.html">
-频道首页
-</a>
-</li>
-<li class="nav-item"  data-channel="finance">
-<a class="nav-link" href="/channel/finance.html">金融</a>
-</li>
-<li class="nav-item"  data-channel="technology">
-<a class="nav-link" href="/channel/technology.html">科技</a>
-</li>
-<li class="nav-item"  data-channel="auto">
-<a class="nav-link" href="/channel/auto.html">汽车</a>
-</li>
-<li class="nav-item" aria-selected="true" data-channel="property">
-<a class="nav-link" href="/channel/property.html">房地产</a>
-</li>
-<li class="nav-item"  data-channel="agriculture">
-<a class="nav-link" href="/channel/agriculture.html">农林</a>
-</li>
-<li class="nav-item"  data-channel="energy">
-<a class="nav-link" href="/channel/energy.html">能源</a>
-</li>
-<li class="nav-item"  data-channel="industrials">
-<a class="nav-link" href="/channel/industrials.html">工业和采矿</a>
-</li>
-<li class="nav-item"  data-channel="airline">
-<a class="nav-link" href="/channel/airline.html">航空和运输</a>
-</li>
-<li class="nav-item"  data-channel="pharma">
-<a class="nav-link" href="/channel/pharma.html">医药</a>
-</li>
-<li class="nav-item"  data-channel="entertainment">
-<a class="nav-link" href="/channel/entertainment.html">娱乐</a>
-</li>
-<li class="nav-item"  data-channel="consumer">
-<a class="nav-link" href="/channel/consumer.html">零售和消费品</a>
-</li>
-<li class="nav-item"  data-channel="media">
-<a class="nav-link" href="/channel/media.html">传媒和文化</a>
-</li>
-</ol>
 </li>
 <li class="nav-section"
  data-section="innovation">
@@ -418,9 +406,9 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 <div class="site-map">
 <div class="site-map__container">
 <ul class="site-map__items">
-<li><a href="/channel/business.html">商业</a></li>
+<li><a href="/channel/economy.html">经济</a></li>
   
-<li><a href="/channel/property.html">房地产</a></li>
+<li><a href="/channel/chinaeconomy.html">中国经济</a></li>
 </ul>
 </div>
 </div><div class="banner-placeholder">
@@ -435,60 +423,53 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 <div class="block-container has-side story-page"><div class="block-inner">
 <div class="content-container"><div class="content-inner">
 <div class="story-container">
-<div class="story-theme"><a target="_blank" href="/tag/房地产">房地产</a><button class="myft-follow plus" data-tag="房地产" data-type="tag">关注</button></div>
-<h1 class="story-headline">中国楼市趋势探索：人口决定城市未来</h1>
-<div class="story-lead">中原集团研究总监刘渊：中国房地产“新常态”下最大的不同，就是楼市需求回归到“居住”本质，这既简化了游戏规则，又限定了游戏的边界，使得楼市未来走势的可预测性增强。</div>
-<div class=" story-image image"><figure data-url=http://i.ftimg.net/picture/9/000045219_piclink.jpg class="loading"></figure></div>
+<div class="story-theme"><a target="_blank" href="/tag/香港">香港</a><button class="myft-follow plus" data-tag="香港" data-type="tag">关注</button></div>
+<h1 class="story-headline">香港再度成为全球外派成本最高的城市</h1>
+<div class="story-lead">在咨询公司美世最新发布的外派人员所在城市生活成本年度排行榜上，高昂的房租帮助香港重新登上榜首位置。</div>
+<div class=" story-image image"><figure data-url=http://i.ftimg.net/picture/9/000063189_piclink.jpg class="loading"></figure></div>
 <div class="story-action-placeholder" id="story-action-placeholder">
 <div class="story-action">
 <div class="action-inner">
-<a class="action-icon icon-wechat" href="/m/corp/qrshare.html?url=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001064186%3Ffull%3Dy&title=中国楼市趋势探索：人口决定城市未来 - FT中文网" target="_blank"></a>
-<a class="action-icon icon-weibo" href="http://service.weibo.com/share/share.php?appkey=4221537403&url=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001064186%3Ffull%3Dy?ccode=2G169001&title=【中国楼市趋势探索：人口决定城市未来】中原集团研究总监刘渊：中国房地产“新常态”下最大的不同，就是楼市需求回归到“居住”本质，这既简化了游戏规则，又限定了游戏的边界，使得楼市未来走势的可预测性增强。（分享自 @FT中文网）&ralateUid=1698233740&source=&sourceUrl=&content=utf-8&pic=http://i.ftimg.net/picture/9/000045219_piclink.jpg&searchPic=false" target="_blank"></a>
-<a class="action-icon icon-linkedin" href="https://www.linkedin.com/cws/share?url=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001064186%3Ffull%3Dy%3Fccode%3D2G169003&original_referer=https%3A%2F%2Fdeveloper.linkedin.com%2Fsites%2Fall%2Fthemes%2Fdlc%2Fsandbox.php%3F&token=&isFramed=true&lang=zh_CN&_ts=1422502780259.2795" target="_blank"></a>
-<a class="action-icon icon-twitter" href="http://twitter.com/home?status=【中国楼市趋势探索：人口决定城市未来】中原集团研究总监刘渊：中国房地产“新常态”下最大的不同，就是楼市需求回归到“居住”本质，这既简化了游戏规则，又限定了游戏的边界，使得楼市未来走势的可预测性增强。（分享自 @FT中文网）...%20http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001064186%3Ffull%3Dy" target="_blank"></a>
-<a class="action-icon icon-facebook" href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001064186%3Ffull%3Dy&t=【中国楼市趋势探索：人口决定城市未来】中原集团研究总监刘渊：中国房地产“新常态”下最大的不同，就是楼市需求回归到“居住”本质，这既简化了游戏规则，又限定了游戏的边界，使得楼市未来走势的可预测性增强。（分享自 @FT中文网）" target="_blank"></a>
+<a class="action-icon icon-wechat" href="/m/corp/qrshare.html?url=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001068131%3Ffull%3Dy&title=香港再度成为全球外派成本最高的城市 - FT中文网" target="_blank"></a>
+<a class="action-icon icon-weibo" href="http://service.weibo.com/share/share.php?appkey=4221537403&url=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001068131%3Ffull%3Dy?ccode=2G169001&title=【香港再度成为全球外派成本最高的城市】在咨询公司美世最新发布的外派人员所在城市生活成本年度排行榜上，高昂的房租帮助香港重新登上榜首位置。（分享自 @FT中文网）&ralateUid=1698233740&source=&sourceUrl=&content=utf-8&pic=http://i.ftimg.net/picture/9/000063189_piclink.jpg&searchPic=false" target="_blank"></a>
+<a class="action-icon icon-linkedin" href="https://www.linkedin.com/cws/share?url=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001068131%3Ffull%3Dy%3Fccode%3D2G169003&original_referer=https%3A%2F%2Fdeveloper.linkedin.com%2Fsites%2Fall%2Fthemes%2Fdlc%2Fsandbox.php%3F&token=&isFramed=true&lang=zh_CN&_ts=1422502780259.2795" target="_blank"></a>
+<a class="action-icon icon-twitter" href="http://twitter.com/home?status=【香港再度成为全球外派成本最高的城市】在咨询公司美世最新发布的外派人员所在城市生活成本年度排行榜上，高昂的房租帮助香港重新登上榜首位置。（分享自 @FT中文网）...%20http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001068131%3Ffull%3Dy" target="_blank"></a>
+<a class="action-icon icon-facebook" href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001068131%3Ffull%3Dy&t=【香港再度成为全球外派成本最高的城市】在咨询公司美世最新发布的外派人员所在城市生活成本年度排行榜上，高昂的房租帮助香港重新登上榜首位置。（分享自 @FT中文网）" target="_blank"></a>
 
 
 <div class="icon-right icon-save">
-<button id="addfavlink001064186">收藏</button>
+<button id="addfavlink001068131">收藏</button>
 </div>
-<a class="icon-right icon-action icon-comments" href="/comments/index/001064186" target="_blank"></a>
-<a class="icon-right icon-action icon-print" href="/story/001064186?print=y" target="_blank"></a>
+<a class="icon-right icon-action icon-comments" href="/comments/index/001068131" target="_blank"></a>
+<a class="icon-right icon-action icon-print" href="/story/001068131?print=y" target="_blank"></a>
 <a class="icon-right icon-action icon-font-size" onclick="showOverlay('font-setting')"></a>
 <a class="icon-right icon-action icon-share" onclick="showOverlay('share-legacy')"></a>
 </div>
 </div>
 </div>
 <div class="story-byline">
-<span class="story-time">2015年9月30日</span>
-<span class="story-author">中原集团研究总监   <a href='/search/%E5%88%98%E6%B8%8A/relative_byline' target=_blank>刘渊</a>  为英国《金融时报》中文网撰稿</span>
+<span class="story-time">更新于2分钟前</span>
+<span class="story-author">英国《金融时报》 <a href='/search/%E7%99%BD%E6%9D%B0%E6%98%8E/relative_byline' target=_blank>白杰明</a>  香港报道</span>
 </div>
 <div class="story-body">
 
 
-<p>现阶段，中国房地产“新常态”下最大的不同，就是市场的可预测性增强了。自住需求主导、投资需求减弱、政策让位于市场，这些因素使得市场的基本供求关系成为决定楼市成交量、价的主要因素。</p>
-<p>随着过去10余年间楼市的快速增长，房改初期人均住房面积不足的情况已经得到很大改善，从2000年到2010年，全国人均住房面积增长了72%，分地区来看，最低的省份（直辖市）的人均住房面积增幅也达到40%。在这种局面下，未来居民继续改善居住条件的需求已经不那么迫切。</p>
-<p>随着金融产品创新不断使得投资渠道较以往大大增加，同时行政部门限购限贷抑制楼市投资需求，因此，在一个稳定的市场中，消费行为就与人的实际需求有着更强烈的直接关联。从近几年来的成交数据我们清楚地看到，刚需和改善性需求已经共同构成了当下房地产市场的绝对主力，并且楼市呈现两大特点：一是，“投资需求”大幅减少，使市场的供求关系更加直接和简单；二是，跨地域的购房需求消失，当地常住人口构成需求主体。</p>
-<p>简单来说，就是既简化了游戏规则，又限定了游戏的边界。也正是因为这样，楼市这个“游戏”的未来走势也就变得更加可预测了。当楼市需求回归到“居住”本质时，我们不难得出一个结论：人口越多的城市，有更多的实际需求，也更有条件支撑当地的房地产市场繁荣。</p>
-<p>无论对于哪个城市而言，就自主性需求来说，刚需和改善都是重要的板块。换句话说，常住人口年龄结构在刚需和改善这两个重要年龄阶段有突出表现的城市，当下和未来几年的房地产市场才能保持一个相对繁荣的景象，否则，住房库存难以消化是必然的后果。</p>
-<p>楼市在城市分化的大背景下，在不同城市会激起完全不同的市场效果，强则愈强，弱则恒弱。通过历史的开发经营数据来预测未来的房地产市场趋势，其隐含逻辑是过去的经验将在未来重复，不过事实却通常不是如此。大多数二三线城市目前存量高企、供大于求正是这类经验预测的结果。基于人口因素的需求分析，才是房地产新常态下预测未来需求的可靠途径，同时还能针对不同年龄段的购房需求进行市场细分。</p>
-<p>本文强调供求关系对房地产发展的影响。为了细化，<b>我们把影响市场的主要因素分为三类，分别是市场现状，供应以及需求三方面。</b></p>
-<p><b>首先，市场现状：人均累计新房销售面积。</b>具体计算方法是：用1998年房改以来该城市累计的新房销售面积，除以当年的常住人口数。由于指标没有计算1998年以前的住房存量（主要是老公房、自建住房等非商品房），因此代表了相对品质较好的新建商品住宅市场的发展程度。这个指标体现了当前城市新建住宅消费的饱和程度，值越低表示市场发展程度低，未来增长空间大。反之表示市场成熟，饱和度高，值越高则说明当地市场有发展过度的风险。</p>
-<p><div class="highcharts" data-height="450" data-chart-id="5357"></div></p>
-<p><b>注：以人口城镇化率达到75%计算。</b></p>
-<p>上图中，40个重点城市中包含28个二三线城市，你可以看到国内多数二三线城市的人均累计新房销售面积已经接近饱和（超过一线城市），而其中多数城市人口增长放缓，使得部分城市的库存消化靠当地现有的常住人口已渐渐难以支撑，预计未来几年内，人均累计新房销售面积的增加趋势也会逐步放缓。</p>
-<p><b>其次，供给方面：一是，新房库存消化周期。</b>该指标通过当期已获预售许可但尚未销售的新房存量（可售量）面积与最近6个月的平均销售面积的比值，值越大表示库存压力越大。这个指标可以代表当地楼市短期的供求格局；</p>
-<p><b>二是，土地需供比。</b>土地需供比使用土地成交面积与出让面积的比值计算。土地从出让到开发，再到竣工销售的周期通常在两年以上，从这个指标可以看出城市房地产的中期趋势。</p>
-<p><b>最后，需求方面：一是，城市人口增速。</b>人口增长是住房需求最原始的动力，在整体告别住房短缺窘境后，新增人口——通常表现为新移民，成为楼市需求的主力。</p>
-<p><b>二是，刚需年龄占比。</b>城市刚需年龄（25-40岁）人口占总人口的比重对城市未来房地产的发展前景尤为重要，它揭示了未来5-15年内，该城市潜在的真实住房需求总量。通过对人口年龄结构的深入挖掘，我们发现每个城市未来的住宅细分需求（刚需、改善、养老等）都是可计算的。在精细的计算背后，我们发现的是城市的分化，以及市场细分、产品细分、客户细分的可能性。</p>
-<p><div class="highcharts" data-height="450" data-chart-id="5357"></div></p>
-<p>上述5项指标都有明确的数值，为了形象的展示各城市相互之间的比较优势，我们把上述指标综合成供应和需求2方面，由于各指标量纲差异，我们用Z评分法（Z-Score）来综合不同的指标，制作出以下图表。</p>
-<p><div class="highcharts" data-height="450" data-chart-id="5357"></div></p>
-<p>图中水平轴代表需求潜力，由城市的刚需年龄占比和城市人口增速指标合成，可以看到深圳的潜力指数最高。图中的纵坐标代表供应压力，由人均累计新房销售面积、新房库存消化周期和土地需供比三个指标综合而成。其中，深圳、上海、合肥、贵阳等城市处于供应压力最低的水平。</p>
-<p>需要指出的是，这个评价模型只考虑住房供求“量”的关系而非“价格”。在国内房地产大环境下，各城市房价主要决定因素是城市的经济结构、产业结构以及由这两项决定的居民收入结构。而住房成交量则主要由当地人口规模决定。因此，一些城市可能意味着未来住房市场需求更为稳定，更可持续，但这并不意味着房价一定就高。</p>
-<p><b>注：本文仅代表作者观点。</p>
-<p>责任编辑：feng.tao@ftchinese.com</p>
-<p>图表编辑：silva.shih@ftchinese.com</b></p>
+<p>香港再度成为全球外派成本最高的城市，尽管这块中国领地的经济正面临越来越大的阻力、而且企业还削减了曾经很丰厚的外派津贴。</p>
+<p>香港拥有全球最难以负担的居住成本，高昂的房租帮助这座金融中心在咨询公司美世(Mercer)最新发布的生活成本年度排行榜上回到榜首位置。</p>
+<p>原先排在榜首的是罗安达，即石油资源丰富的安哥拉的首都。货币走软加上大宗商品价格暴跌，导致罗安达的生活成本下降。</p>
+<p>外派成本最高的十个城市，有五个位于亚洲，这突显出企业若想与这个全球经济增长引擎建立联系，得在他们的员工身上下多少血本。在前十名开外的城市中，纽约上升了五位、排名第十一，伦敦则滑落了五位、排名第十七。</p>
+<div id="story_main_mpu"><script type="text/javascript">document.write (writeAd('storympu'));</script></div><p>美世的马里奥•费拉罗(Mario Ferraro)表示：“许多亚洲城市仍是全球外派成本最高的地方。不过，这并没有妨碍企业向这里派遣人才，因为该地区仍在提供增长潜力，而且对一流人才的需求仍然很大。”</p>
+<p>新加坡在榜单上排名第四。对那些瞄准相对快速增长的东南亚地区的投资者来说，新加坡是一个枢纽。东京排名第五，上海第七，北京第十。</p>
+<p>但是，由于中国经济正经历结构性放缓，加上世界许多地区增长疲软，一些跨国公司近来一直在削减提供给外派员工的福利，包括住房津贴。</p>
+<p>无论是在充满活力的非洲石油城市生活，还是在亚洲的金融中心生活，许多外派员工都靠这些福利来说服自己离开总部所在地是正确的，因为后者的生活成本一般要低得多。</p>
+<p>香港的问题尤其尖锐，这里拥有一些世上最拥挤、最昂贵的住房。</p>
+<p>过去一年，随着香港感受到中国经济放缓和内地游客减少的影响，香港的房价开始下跌。</p>
+<p>但美国咨询公司Demographia的一项调查显示，截至2015年第三季度，香港房价中值仍达家庭税前年收入中值的19倍。</p>
+<p><table><caption>生活成本最高的城市</caption><thead><tr><th><span class="ft-bold">2016年排名</span></th><th><span class="ft-bold">2015年排名</span></th><th><span class="ft-bold">城市</span></th><th><span class="ft-bold">所在国家</span></th></tr></thead><tbody><tr><td>1</td><td>2</td><td>香港</td><td>中国</td></tr><tr><td>2</td><td>1</td><td>罗安达</td><td>安哥拉</td></tr><tr><td>3</td><td>3</td><td>苏黎士</td><td>瑞士</td></tr><tr><td>4</td><td>4</td><td>新加坡</td><td>新加坡</td></tr><tr><td>5</td><td>11</td><td>东京</td><td>日本</td></tr><tr><td>6</td><td>13</td><td>金沙萨</td><td>刚果民主共和国</td></tr><tr><td>7</td><td>6</td><td>上海</td><td>中国</td></tr><tr><td>8</td><td>5</td><td>日内瓦</td><td>瑞士</td></tr><tr><td>9</td><td>10</td><td>恩贾梅纳</td><td>乍得</td></tr><tr><td>10</td><td>7</td><td>北京</td><td>中国</td></tr></tbody></table></p>
+<p>美世表示，在香港的上佳地段租一套不带家具的两居室公寓，月租金超过6809美元，远高于纽约的5100美元、伦敦的4583美元和新加坡的3129美元。</p>
+<p>虽然房价依然高得令人痛苦，但香港仍是快餐卖得最便宜的地方之一，所以当地有些人称麦当劳(McDonald)是“穷人的福音”。</p>
+<p>在香港吃一顿汉堡仅需4.83美元，远低于伦敦的6.43美元和纽约的8.74美元。</p>
+<p>译者/何黎</p>
 
 <div class="clearfloat"></div>
 </div>
@@ -504,15 +485,11 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 <div class="story-box">
 <h2 class="box-title"><a href="/channel/weekly.html">相关文章</a></h2>
 <ul class="top10">
-<li class="mp1"><a target="_blank" href="/story/001066054">降首付无法解决中国楼市高库存</a></li>
-<li class="mp2"><a target="_blank" href="/story/001065587">房地产去库存：国家任务与道德风险</a></li>
-<li class="mp3"><a target="_blank" href="/story/001064890">中国10月房价止跌企稳</a></li>
-<li class="mp4"><a target="_blank" href="/story/001064621">全面二孩政策对中国楼市利好有限</a></li>
-<li class="mp5"><a target="_blank" href="/story/001064072">中国房价为何回升？</a></li>
-<li class="mp6"><a target="_blank" href="/story/001063948">警惕中国三、四线城市房地产泡沫</a></li>
-<li class="mp7"><a target="_blank" href="/story/001063554">Lex专栏：危机对万科或许意味着机会</a></li>
-<li class="mp8"><a target="_blank" href="/story/001063539">中国楼市风险的误解与真相</a></li>
-<li class="mp9"><a target="_blank" href="/story/001063413">中国豪宅市场火爆的背后</a></li>
+<li class="mp1"><a target="_blank" href="/story/001065934">香港蝉联“全球房价最难负担城市”</a></li>
+<li class="mp2"><a target="_blank" href="/story/001052192">企业雇员“抵触”新兴经济体</a></li>
+<li class="mp3"><a target="_blank" href="/story/001049734">外派增多令企业疲于应付</a></li>
+<li class="mp4"><a target="_blank" href="/story/001046226">英国投资银行家向往新加坡</a></li>
+<li class="mp5"><a target="_blank" href="/story/001044014">驻外生活百味</a></li>
 </ul>
 </div>
 <div class="mpu-container">
@@ -522,21 +499,15 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 <h2 class="box-title"><a>相关话题</a></h2>
 <ul class="top10">
 <li class="story-theme mp1">
-<a target="_blank" href="/tag/房地产">房地产</a>
+<a target="_blank" href="/tag/香港">香港</a>
 <div class="icon-right">
-<button class="myft-follow plus" data-tag="房地产" data-type="tag">关注</button>
+<button class="myft-follow plus" data-tag="香港" data-type="tag">关注</button>
 </div>
 </li>
 <li class="story-theme">
-<a target="_blank" href="/tag/人口结构">人口结构</a>
+<a target="_blank" href="/tag/外派">外派</a>
 <div class="icon-right">
-<button class="myft-follow plus" data-tag="人口结构" data-type="tag">关注</button>
-</div>
-</li>
-<li class="story-theme">
-<a target="_blank" href="/tag/中国楼市">中国楼市</a>
-<div class="icon-right">
-<button class="myft-follow plus" data-tag="中国楼市" data-type="tag">关注</button>
+<button class="myft-follow plus" data-tag="外派" data-type="tag">关注</button>
 </div>
 </li>
 </ul>

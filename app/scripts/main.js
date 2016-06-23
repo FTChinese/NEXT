@@ -431,6 +431,15 @@ try {
     videoPackage.querySelector('.video-package-title a').href = link;
     return false;
   });
+  delegate.on('click', 'a, .track-click', function(){
+    var ec = this.getAttribute('data-ec') || '';
+    var ea = this.getAttribute('data-ea') || '';
+    var el = this.getAttribute('data-el') || '';
+    if (ec !== '' && ea !== '') {
+      ga('send','event',ec, ea, el);
+      //console.log (ec + ea + el);
+    }
+  });
 } catch (ignore) {
 
 }

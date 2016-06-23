@@ -828,6 +828,10 @@
     <%else%>
     	<style><%include file="next/styles/main-story.css"%></style>
     <%/if%>
+
+    <%if preg_match("/<table/is",$story_content)%>
+    	<style><%include file="next/styles/main-table.css"%></style>
+    <%/if%>
     
     <link rel="icon" type="image/png" href="http://image.webservices.ft.com/v1/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=32&height=32" sizes="32x32">
     <link rel="icon" type="image/png" href="http://image.webservices.ft.com/v1/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=194&height=194" sizes="194x194">
