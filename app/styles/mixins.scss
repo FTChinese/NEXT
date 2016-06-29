@@ -346,8 +346,17 @@
 			@include doubleWidth;
 		}
 	}
+
+
+	.block-container.fixmain.side-left .content-inner, .block-container.bottommain.side-left .content-inner {
+		width: $maxWidth - 1.5 * $defaultPadding - $sideWidth;
+	}
 }
 @mixin L {
+	.block-container.fixmain.side-left .content-inner, .block-container.bottommain.side-left .content-inner {
+		left: 0;
+		right: $defaultPadding/2;
+	}
 	.L2 {
 		width: 16.6666666667%;
 	}

@@ -1,0 +1,18 @@
+<%if $story_pic.smallbutton != ""%>
+	<%assign var="wechatImage" value=$story_pic.smallbutton%>
+<%elseif $story_pic.cover != ""%>
+	<%assign var="wechatImage" value=$story_pic.cover%>
+<%elseif $story_pic.bigbutton != ""%>
+	<%assign var="wechatImage" value=$story_pic.bigbutton%>
+<%else%>
+	<%assign var="wechatImage" value="http://static.ftchinese.com/img/friend-share-icon.jpg"%>
+<%/if%>
+<%assign var="wechatImage" value=$wechatImage|urlencode%>
+<%assign var="wechatImage" value="https://image.webservices.ft.com/v1/images/raw/`$wechatImage`?source=ftchinese&width=300&height=300&quality=lowest"%>
+
+<script>
+var gUaOfPage = navigator.userAgent || navigator.vendor || "";
+if (/micromessenger/i.test(gUaOfPage)) {
+document.write ('<div class="hide"><img src="<%$wechatImage%>" width="0" height="0" /></div>');
+}
+</script>

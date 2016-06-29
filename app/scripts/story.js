@@ -22,6 +22,7 @@ if (/127\.0|localhost|192\.168/.test(window.location.href)) {
 	ajaxUrl = '/eaclient/apijson.php';
 }
 
+ga('send','event','Recommend Story API', 'Load', '', {'nonInteraction':1});
 xhr.open(ajaxMethod, encodeURI(ajaxUrl));
 xhr.setRequestHeader('Content-Type', 'application/json');
 xhr.onload = function() {
@@ -58,9 +59,15 @@ xhr.onload = function() {
                 document.getElementById('story-recommend-container').style.display = 'block';
                 loadImages();
                 recommendLoaded = true;
-        	}
+                ga('send','event','Recommend Story API', 'Success', '', {'nonInteraction':1});
+        	} else {
+                ga('send','event','Recommend Story API', 'No Data', '', {'nonInteraction':1});
+            }
+        } else {
+            ga('send','event','Recommend Story API', 'Parse Fail', data.body.oelement.errorcode, {'nonInteraction':1});
         }
     } else if (xhr.status !== 200) {
+        ga('send','event','Recommend Story API', 'Request Fail', '', {'nonInteraction':1});
         //alert('Request failed.  Returned status of ' + xhr.status);
     }
 };
@@ -68,16 +75,26 @@ xhr.send(JSON.stringify(message));
 
 //set font
 fontOptionsEle = document.getElementById('font-options');
+
+//fontOptionsDivs = fontOptionsEle.querySelectorAll('div');
+
 //click to change font size and set cookie (fs)
-delegate.on('click', '#font-options div', function(){
-    var currentClass = this.className || '';
+//Dom Delegate doesn't work here on iOS
+fontOptionsEle.onclick = function (e) {
+    var currentClass = e.target.className || '';
     var selectedClass;
     var storyContainerClass = document.querySelector('.story-container').className;
     if (currentClass.indexOf('selected') <0) {
-        selectedClass = fontOptionsEle.querySelector('.selected').className;
+        if (fontOptionsEle.querySelector('.selected')) {
+            selectedClass = fontOptionsEle.querySelector('.selected').className || '';
+        } else {
+            selectedClass = '';
+        }
         selectedClass = selectedClass.replace(/ selected/g, '');
-        fontOptionsEle.querySelector('.selected').className = selectedClass;
-        this.className = currentClass + ' selected';
+        if (fontOptionsEle.querySelector('.selected')) {
+            fontOptionsEle.querySelector('.selected').className = selectedClass;
+        }
+        e.target.className = currentClass + ' selected';
         /* jshint ignore:start */
         SetCookie('fs',currentClass,'','/');
         /* jshint ignore:end */
@@ -87,7 +104,31 @@ delegate.on('click', '#font-options div', function(){
         stickyAdsPrepare();
         setResizeClass();
     }
-});
+};
+
+
+
+
+//click to change font size and set cookie (fs)
+// delegate.on('click', '.font-options div', function(){
+//     var currentClass = this.className || '';
+//     var selectedClass;
+//     var storyContainerClass = document.querySelector('.story-container').className;
+//     if (currentClass.indexOf('selected') <0) {
+//         selectedClass = fontOptionsEle.querySelector('.selected').className;
+//         selectedClass = selectedClass.replace(/ selected/g, '');
+//         fontOptionsEle.querySelector('.selected').className = selectedClass;
+//         this.className = currentClass + ' selected';
+//         /* jshint ignore:start */
+//         SetCookie('fs',currentClass,'','/');
+//         /* jshint ignore:end */
+//         storyContainerClass = storyContainerClass.replace(/ (normal|bigger|biggest|smaller|smallest)/g,'');
+//         document.querySelector('.story-container').className = storyContainerClass + ' ' + currentClass;
+//         stickyBottomPrepare();
+//         stickyAdsPrepare();
+//         setResizeClass();
+//     }
+// });
 
 //set font by getting user cookie (fs)
 /* jshint ignore:start */

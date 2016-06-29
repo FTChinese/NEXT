@@ -56,8 +56,8 @@ function stickyAdsPrepare() {
       var theContainer = document.getElementById(stickyAds[i].BannerId).parentNode.parentNode.parentNode;
       stickyAds[i].oTop = findTop(thePlaceHolder);
       stickyAds[i].currentClass = theContainer.className;
+      //console.log (theContainer.className);
     }
-    //console.log (stickyAds);
   }
 }
 

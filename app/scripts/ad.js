@@ -42,7 +42,7 @@ function trackAd(adAction, adLabel, reachabilityStatus) {
       ga('send', 'timing', 'Third Party Ad', adAction + ' VS Page Start', adTimeSpent, adLabel);
     }
     try {
-      console.log (adAction + ' - ' + reachabilityStatus + ' ' + adLabel + ': ' + adTimeSpent);
+      //console.log (adAction + ' - ' + reachabilityStatus + ' ' + adLabel + ': ' + adTimeSpent);
     } catch (ignore) {
     }
   }
@@ -305,7 +305,7 @@ function writeAd(adType, returnSrc) {
   currentAdCount = adCount[adType];
   if (currentAdCount < adMax[adType]) {
     adPosition = adPositions[adType][currentAdCount];
-    iframeSrc = '/m/marketing/'+adFileName+'.html?v=5' + bannerBG + '#adid='+ adch + adPosition + '&pid='+adType+adCount[adType];
+    iframeSrc = '/m/marketing/'+adFileName+'.html?v=8' + bannerBG + '#adid='+ adch + adPosition + '&pid='+adType+adCount[adType];
     if (/mpu/.test(adType)) {
       adWidth = '300';
       adHeight = '250';
@@ -333,6 +333,21 @@ function writeAd(adType, returnSrc) {
   
   if (returnSrc === true) {
     return iframeSrc;
+  } else if (/micromessenger/i.test(uaString) && 1 > 0) {
+    //deal with WeChat Sharing Bug
+    // where WeChat grabs iframe src instead of the real url for sharing
+    slotStr = '';
+    var c = adch + adPosition;
+    var adP = '';
+    var wechatAdHTML = '<scr';
+    wechatAdHTML += 'ipt src="http://dolphin.ftimg.net/s?z=ft&c=' + c + slotStr + adP + '" charset="gbk">';
+    wechatAdHTML += '</scr';
+    wechatAdHTML += 'ipt>';
+    //var wechatAdHTML = 'http://dolphin.ftimg.net/s?z=ft&c=' + c + slotStr + adP;
+    console.log (wechatAdHTML);
+    return wechatAdHTML;
+
+
   } else {
     adCount[adType] = adCount[adType] + 1;
     return iframeHTML;
