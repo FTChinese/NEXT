@@ -366,6 +366,7 @@ if ((gNavOffsetY > 30 && w > 490 && isTouchDevice() === false) || document.getEl
         stickyAdsPrepare();
         reloadBanners();
         setResizeClass();
+        loadImages();
     });
     setInterval(function(){
         stickyBottomPrepare();
@@ -377,6 +378,7 @@ if ((gNavOffsetY > 30 && w > 490 && isTouchDevice() === false) || document.getEl
 } else {
   addEvent(eventResize, function(){
       reloadBanners();
+      loadImages();
       setResizeClass();
   });
 }

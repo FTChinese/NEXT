@@ -113,6 +113,8 @@
 						<%assign var="iTag" value="【速读】"%>
 						<%elseif preg_match("/测试|QuizPlus/is",$storyall[$cs].tag)%>
 						<%assign var="iTag" value="【小测】"%>
+						<%elseif preg_match("/英语电台/is",$storyall[$cs].tag)%>
+						<%assign var="iTag" value="【电台】"%>
 						<%elseif preg_match("/数据新闻/is",$storyall[$cs].tag)%>
 						<%assign var="iTag" value="【数据】"%>
 						<%elseif preg_match("/教程/is",$storyall[$cs].tag)%>
@@ -162,7 +164,7 @@
 				<ul>
 					<%foreach from=$ftintelligence item=vc name=homepagevideo%>
 					<%if $vc.id != $ftintelligence[0].id%>
-					<li><a target="video-frame" href="/interactive/<%$vc.id%>"><figure class="loading" data-url="<%$vc.story_pic.bigbutton|default:$vc.story_pic.cover%>"></figure><p><%$vc.cheadline%></p></a></li>
+					<li><a target="_blank" href="/interactive/<%$vc.id%>"><figure class="loading" data-url="<%$vc.story_pic.bigbutton|default:$vc.story_pic.cover%>"></figure><p><%$vc.cheadline%></p></a></li>
 					<%/if%>
 					<%/foreach%>
 					<div class="clearfloat"></div>

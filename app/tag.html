@@ -126,9 +126,15 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
  </head>
  <body>
 
-<header class="header-container">
+<script>checkB();</script>
+<script>
+var gUaOfPage = navigator.userAgent || navigator.vendor || "";
+if (/micromessenger/i.test(gUaOfPage)) {
+document.write ('<div class="hide"><img src="https://image.webservices.ft.com/v1/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=300&height=300&quality=lowest" width="0" height="0" /></div>');
+}
+</script><header class="header-container">
 <div class="header-inner">
-<div class="header-title">奢华水上</div>
+<div class="header-title">会议活动</div>
 <div class="header-side header-left">
 <div class="header-brand"><figure class="loading" data-url="http://static.ftchinese.com/images/masthead36.png"></figure></div>
 </div>
@@ -171,11 +177,17 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 <div class="o-nav">
 <div class="o-nav__outer">
 <div class="o-nav__inner">
-<form action="/search/" id="search-form" class="o-header__search-form" role="search">
-<button class="search-button" tabindex="1"><span>搜索</span></button> 
+<div class="o-nav__search"  data-o-component="o-toggler">
+<button class="o-nav__search-toggle" data-o-toggler-button aria-controls="search-form">
+<span class="search-toggle--open">搜索</span>
+<span class="search-toggle--close">关闭</span>
+</button>
+<form action="/search/" id="search-form" role="search" data-o-toggler-target>
 <input id="search-term" type="search" name="keys" class="search-input" placeholder="搜索FT中文网" />
 <input id="type_news" type="hidden" value="type_news" name="ftsearchType" checked />
-</form>
+<button class="search-button" tabindex="1"><span>搜索</span></button>   
+</form> 
+</div>
 <div class="o-header__masthead-mobile">
 <a href="/" title="前往FT中文网首页"><span>FT中文网</span></a>
 </div>
@@ -203,8 +215,8 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 FT中文网首页
 </a>
 </li>
-<li class="nav-item" aria-selected="true" aria-haspopup="true" data-channel="special">
-<a class="nav-link" href="/channel/special.html">专题报道</a>
+<li class="nav-item"  aria-haspopup="true" data-channel="special">
+<a class="nav-link" href="/channel/special.html">特别报导</a>
 <ol class="nav-sub-items">
 <li><a href="/tag/全球商业的未来">全球商业的未来</a></li>
 <li><a href="/tag/2016%E8%BE%BE%E6%B2%83%E6%96%AF">2016达沃斯</a></li>
@@ -217,7 +229,7 @@ FT中文网首页
 <li class="nav-item"  data-channel="weekly">
 <a class="nav-link" href="/channel/weekly.html">热门文章</a>
 </li>
-<li class="nav-item"  data-channel="event">
+<li class="nav-item" aria-selected="true" data-channel="event">
 <a class="nav-link" href="/m/events/event.html">会议活动</a>
 </li>
 <li class="nav-item"  data-channel="member">
@@ -229,8 +241,8 @@ FT中文网首页
 <li class="nav-item"  data-channel="mba">
 <a class="nav-link" href="/channel/mba.html">FT商学院</a>
 </li>
-<li class="nav-item"  data-channel="english">
-<a class="nav-link" href="/channel/english.html">英语学习</a>
+<li class="nav-item"  data-channel="ebook">
+<a class="nav-link" href="/m/marketing/ebook.html">FT电子书</a>
 </li>
 <li class="nav-item"  data-channel="photo">
 <a class="nav-link" href="/channel/slides.html">图辑</a>
@@ -298,57 +310,61 @@ FT中文网首页
 <li class="nav-section mobile login">
 <ul>
 <li class="nav-item">
-<a class="nav-link" href="http://user.ftchinese.com/login">登陆</a>
+<a class="nav-link" href="http://user.ftchinese.com/login">登录</a>
 </li>
 <li class="nav-item">
-<a class="nav-link" href="http://user.ftchinese.com/register">注册</a>
+<a class="nav-link" href="http://user.ftchinese.com/register">免费注册</a>
 </li>    
 </ul>
 </li>
 <li class="nav-section mobile logout">
 <ul>
 <li class="nav-item">
-<a class="nav-link" href="http://user.ftchinese.com/logout">退出</a>
+<a class="nav-link" href="/users/mystories">我的FT</a>
 </li>
 <li class="nav-item">
-<a class="nav-link" href="/users/setting/index">账户设置</a>
-</li>    
+<a class="nav-link" href="/users/setting/index">设置</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="http://user.ftchinese.com/logout">登出</a>
+</li>                   
 </ul>
 </li>
 </ol>
 </nav>
 <ul class="o-nav__extra-tools">
-<li class="nav-section" aria-haspopup="true">
-<a class="nav-section-head" href="http://www.ftchinese.com/m/corp/follow.html">关注我们</a>
-<ol class="nav-items follow-us">
-<li class="nav-item"><a class="nav-link" href="http://www.ftchinese.com/m/corp/follow.html" target="_blank">微信公众号</a></li>
-<li class="nav-item"><a class="nav-link" href="http://weibo.com/ftchinese" target="_blank">新浪微博</a></li>
-<li class="nav-item"><a class="nav-link" href="http://user.qzone.qq.com/622006290" target="_blank">QQ空间</a></li>
-<li class="nav-item"><a class="nav-link" href="http://www.ftchinese.com/m/corp/follow.html" target="_blank">读读日报</a></li>
-<li class="nav-item"><a class="nav-link" href="http://www.ftchinese.com/m/corp/follow.html" target="_blank">Flipboard</a></li>
-<li class="nav-item"><a class="nav-link" href="https://twitter.com/FTChinese" target="_blank">Twitter</a></li>
-<li class="nav-item"><a class="nav-link" href="https://www.facebook.com/financialtimeschinese" target="_blank">Facebook</a></li>
-<li class="nav-item"><a class="nav-link" href="https://www.linkedin.com/company/4865254?trk=hp-feed-company-name" target="_blank">LinkedIn</a></li>
+<li class="tools-section" aria-haspopup="true">
+<a class="tools-section-head" href="http://www.ftchinese.com/m/corp/follow.html">关注我们</a>
+<ol class="tools-items">
+<li><a href="http://www.ftchinese.com/m/corp/follow.html" target="_blank">微信公众号</a></li>
+<li><a href="http://weibo.com/ftchinese" target="_blank">新浪微博</a></li>
+<li><a href="http://user.qzone.qq.com/622006290" target="_blank">QQ空间</a></li>
+<li><a href="http://www.ftchinese.com/m/corp/follow.html" target="_blank">读读日报</a></li>
+<li><a href="http://www.ftchinese.com/m/corp/follow.html" target="_blank">Flipboard</a></li>
+<li><a href="https://twitter.com/FTChinese" target="_blank">Twitter</a></li>
+<li><a href="https://www.facebook.com/financialtimeschinese" target="_blank">Facebook</a></li>
+<li><a href="https://www.linkedin.com/company/4865254?trk=hp-feed-company-name" target="_blank">LinkedIn</a></li>
 </ol>
 </li>
-<li class="nav-section" aria-haspopup="true">
-<span class="nav-section-head">工具</span>
-<ol class="nav-items">
-<li class="nav-item"><a class="nav-link" href="http://app.ftchinese.com/">移动应用大全</a></li>
-<li class="nav-item"><a class="nav-link" href="/users/setting/index">基本设置</a></li>
-<li class="nav-item"><a class="nav-link" href="/users/setting/changeicon">修改头像</a></li>
-<li class="nav-item"><a class="nav-link" href="/users/setting/maillist">邮件订阅</a></li>
-<li class="nav-item"><a class="nav-link" href="/index.php/snsapi/index">同步微博</a></li>
-<li class="nav-item"><a class="nav-link" href="/users/commentstory">我的评论</a></li>
-<li class="nav-item"><a class="nav-link" href="/users/favstorylist">管理收藏</a></li>
+<li class="tools-section" aria-haspopup="true">
+<span class="tools-section-head">工具</span>
+<ol class="tools-items">
+<li><a href="http://app.ftchinese.com/">移动应用大全</a></li>
+<li><a href="/users/setting/index">基本设置</a></li>
+<li><a href="/users/setting/changeicon">修改头像</a></li>
+<li><a href="/users/setting/maillist">邮件订阅</a></li>
+<li><a href="/index.php/snsapi/index">同步微博</a></li>
+<li><a href="/users/commentstory">我的评论</a></li>
+<li><a href="/users/favstorylist">管理收藏</a></li>
 </ol>
 </li>
-<li class="nav-section">
-<a class="follow__rss" href="http://www.ftchinese.com/channel/rss.html" title="RSS"><span>RSS</span></a>
+<li class="tools-section">
+<a class="tools-section-head follow__rss" href="http://www.ftchinese.com/channel/rss.html" title="RSS"><span>RSS</span></a>
 </li>
 </ul>
 </div><!-- o-nav__inner -->
-</div><!-- o-nav__outer -->    
+</div><!-- o-nav__outer -->
+<div class="o-nav__meganav-placeholder"></div>   
 </div><!-- o-nav -->  
 </div><!-- o-nav__placeholder -->
 <div class="site-map">
@@ -356,233 +372,254 @@ FT中文网首页
 <ul class="site-map__items">
 <li><a href="/">首页</a></li>
   
-<li><a href="/channel/special.html">专题报道</a></li>
+<li><a href="/m/events/event.html">会议活动</a></li>
 </ul>
 </div>
-</div><div class="banner-placeholder">
+</div><div class="banner-placeholder standard">
 <div class="banner-container">
 <div class="banner-inner">
 <div class="banner-content">
-<script type="text/javascript">document.write (writeAd('tagbanner'));</script>
+<a class="P-hide"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000063431_piclink.jpg"></figure></a>
+<a class="P-only"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000063450_piclink.jpg"></figure></a>
 </div>
 </div>
 </div>
 </div>
-<div class="block-container has-side"><div class="block-inner">
+<div class="block-container has-side side-right"><div class="block-inner">
 <div class="content-container"><div class="content-inner">
-<div class="list-container"><div class="list-inner">
-<div class="no-image"><div class="item-inner"><div class=item-tag><a href="#">奢华水上</a><button class="myft-follow plus" data-tag="奢华水上" data-type="tag">关注</button></div></div></div>
-<div class="items">
 
+<div class="list-container"><div class="list-inner"><div class="items">
 
-<div class="item-container XL8 L8 M12 S6 P12 has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001065897#adchannelID=2000">超级游艇催生“码头升级战”</a></h2>
-<a class="image" target="_blank" href="/story/001065897#adchannelID=2000"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000058157_piclink.jpg"></figure></a><div class="item-lead">随着超级游艇的规格不断升级，游艇所有者和使用者对配套服务的期望值也水涨船高。为满足这一需求，开发商和运营商开始了一场“岸上的战争”。</div><div class="item-time">2016年1月25日</div>
+<div class="item-container XL8 L8 M12 S12 S-double-width P12 has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="http://www.ftchinese.com/m/marketing/renrendai-20160712.html">FT中文网-人人贷WE理财报告发布会</a></h2>
+<a class="image" target="_blank" href="http://www.ftchinese.com/m/marketing/renrendai-20160712.html"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000063430_piclink.jpg"></figure></a><div class="item-lead">FT携手人人贷WE理财联合发布中国中产阶层金融投资白皮书，深度剖析中国大众财富积累与分化的趋势，并邀请知名学者、业内投资菁英以及人人贷WE理财顶级财富管理智囊团共同探讨新常态下的投资新机遇，为中国新生代中产阶级与精英人士打造最佳财富升值路径。</div>
 <div class="item-bottom"></div>
 </div></div>
-
-<div class=" MT PT"></div>
-<div class="item-container XL4 XL-half XL-right L4 L-half L-right M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001065707#adchannelID=2000">如何购买游艇？</a></h2>
-<a class="image" target="_blank" href="/story/001065707#adchannelID=2000"><figure class="loading" data-url="http://i.ftimg.net/picture/5/000038855_piclink_550_407.jpg"></figure></a><div class="item-lead">你打造了自己的商业帝国，该享受一下了。有位朋友邀请你去他的游艇，而如今你也想要一艘游艇。可你对如何购买游艇一无所知。怎么办？</div><div class="item-time">2016年1月18日</div>
-<div class="item-bottom"></div>
-</div></div>
-
 <div class=" MT PT ST"></div>
-<div class="item-container XL4 XL-half XL-right XL-lower L4 L-half L-right L-lower M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001065014#adchannelID=2000">乘木游艇畅游印尼岛</a></h2>
-<a class="image" target="_blank" href="/story/001065014#adchannelID=2000"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000056614_piclink.jpg"></figure></a><div class="item-lead">阿曼公司运营的Amandira游艇最多容纳十人，往来于印尼岛屿间。5晚旅程，既可停靠小岛欣赏稀有藻礁，在荒岛上享用烤龙虾，还能在大海中潜泳潜水。
-</div><div class="item-time">2015年11月27日</div>
+<div class="item-container XL4 XL-right XL-no-tag L4 L-right L-half L-no-tag M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="http://www.ftchinese.com/m/marketing/zjits2016.html">第十八届中国浙江投资贸易洽谈会主题论坛</a></h2>
+<a class="image" target="_blank" href="http://www.ftchinese.com/m/marketing/zjits2016.html"><figure class="loading" data-url="http://i.ftimg.net//picture/3/000061133_piclink.jpg"></figure></a><div class="item-lead">由浙江省人民政府主办，浙江省商务厅、英国《金融时报》承办的第18届中国浙江投资贸易洽谈会主题论坛于2016年6月9日在宁波华侨豪生大酒店成功举办。论坛以“开放、创新、拥抱新机遇”为主题，吸引了驻华使领馆、国际商会、国内外知名企业、浙江各地市和企业的近600余名代表出席。</div>
 <div class="item-bottom"></div>
 </div></div>
-
-<div class="XLT LT MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001064907#adchannelID=2000">西方游艇玩家的新需求</a></h2>
-<a class="image" target="_blank" href="/story/001064907#adchannelID=2000"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000056427_piclink.jpg"></figure></a><div class="item-lead">他们希望游艇有更强的“越野”功能，能适应复杂水域；他们想把游艇停在人迹罕至的公海里潜水。与在南极洲港湾划独木舟相比，去摩纳哥用餐不值一提。
-</div><div class="item-time">2015年11月20日</div>
-<div class="item-bottom"></div>
-</div></div>
-
-<div class=" MT PT ST"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001064437#adchannelID=2000">驶往东方的大邮轮</a></h2>
-<a class="image" target="_blank" href="/story/001064437#adchannelID=2000"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000055633_piclink.jpg"></figure></a><div class="item-lead">今年将有100万以上中国人乘坐邮轮度假，数量较三年前猛增四倍。国际邮轮公司难再保持淡定，纷纷派出最豪华的巨轮驶向东方。然而，诸多问题却接踵而来。</div><div class="item-time">2015年10月20日</div>
-<div class="item-bottom"></div>
-</div></div>
-
 <div class=" MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001063132#adchannelID=2000">去加勒比海岛度个假</a></h2>
-<a class="image" target="_blank" href="/story/001063132#adchannelID=2000"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000053670_piclink.jpg"></figure></a><div class="item-lead">加勒比的圣基茨岛，旅游业占GDP24%。投资40万美元房产，就能成为该国公民，且无需付个人所得税和遗产税，也没有居住期限。各类海鲜更可以大快朵颐。</div><div class="item-time">2015年7月31日</div>
-<div class="item-bottom"></div>
-</div></div>
-
-<div class="XLT LT MT PT ST"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001059552#adchannelID=2000">南极漂流记</a></h2>
-<a class="image" target="_blank" href="/story/001059552#adchannelID=2000"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000048579_piclink.jpg"></figure></a><div class="item-lead">作家狄马：我在南极海上漂了11天。在故乡陕北，冬天雪也很大，但雪质绵软而细薄，而南极的雪则坚硬而呈颗粒状，好像冻住了的白砂糖。
-</div><div class="item-time">2014年12月11日</div>
-<div class="item-bottom"></div>
-</div></div>
-
-<div class=" MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001059108#adchannelID=2000">巴厘岛邂逅“好声音”</a></h2>
-<a class="image" target="_blank" href="/story/001059108#adchannelID=2000"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000048060_piclink.jpg"></figure></a><div class="item-lead">电台主持人阿健：旅行途中偶遇的有意思的人和他们的故事对我而言就是“好声音”。一旦遇到，就好似做了一档高收听率的访谈节目一般。</div><div class="item-time">2014年11月14日</div>
-<div class="item-bottom"></div>
-</div></div>
-
-<div class=" MT PT ST"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001058287#adchannelID=2000">加州海岸的特色酒店</a></h2>
-<a class="image" target="_blank" href="/story/001058287#adchannelID=2000"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000047073_piclink.jpg"></figure></a><div class="item-lead">美国加州中部海岸是世界上最著名的公路旅行目的地之一。这里的酒店，有的因受好莱坞影星青睐而闻名，有的则因悬崖房间的奇景而传世。</div><div class="item-time">2014年9月22日</div>
-<div class="item-bottom"></div>
-</div></div>
-
-<div class="XLT LT MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001056828#adchannelID=2000">巴西的瑰宝：安哥拉</a></h2>
-<a class="image" target="_blank" href="/story/001056828#adchannelID=2000"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000045152_piclink.jpg"></figure></a><div class="item-lead">巴西人都说上帝是巴西人，把最美的土地给了巴西。而安哥拉更像是在上帝的怀抱里。它是里约人和圣保罗人最喜爱的地方，周边有300个小岛。</div><div class="item-time">2014年6月20日</div>
-<div class="item-bottom"></div>
-</div></div>
-
-<div class=" MT PT ST"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001052650#adchannelID=2000">造个水下别墅？</a></h2>
-<a class="image" target="_blank" href="/story/001052650#adchannelID=2000"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000039238_piclink_550_310.jpg"></figure></a><div class="item-lead">建300平米的水下别墅需1000万美元，比奢华游艇还便宜。如今的技术已经可以使水下别墅的气压与陆地一致。水下建筑的老化也比地面建筑慢。</div><div class="item-time">2013年9月27日</div>
-<div class="item-bottom"></div>
-</div></div>
-
-<div class=" MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001052379#adchannelID=2000">高端旅行：租游艇出海</a></h2>
-<a class="image" target="_blank" href="/story/001052379#adchannelID=2000"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000038884_piclink_972_296.jpg"></figure></a><div class="item-lead">西方游艇一族开始租游艇，前往汤加、婆罗洲、南极洲这些充满挑战的海域，南太平洋上的小岛也很热门。游艇里有奢华酒店的所有配置。</div><div class="item-time">2013年9月6日</div>
-<div class="item-bottom"></div>
-</div></div>
-
-<div class="XLT LT MT PT ST"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001051658#adchannelID=2000">体验中国第一艘豪华邮轮</a></h2>
-<a class="image" target="_blank" href="/story/001051658#adchannelID=2000"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000037806_piclink_566_319.jpg"></figure></a><div class="item-lead">豪华邮轮游如今来到中国，将中国人在郑和下西洋之后中断多年的探险精神再次释放。许多中国游客开始站在本国邮轮上，第一次看外面的世界。</div><div class="item-time">2013年7月29日</div>
-<div class="item-bottom"></div>
-</div></div>
-
-<div class=" MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001049724#adchannelID=2000">自驾帆船：全新度假方式</a></h2>
-<a class="image" target="_blank" href="/story/001049724#adchannelID=2000"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000035053_piclink_300_452.jpg"></figure></a><div class="item-lead">西班牙加那利群岛是著名度假天堂。我们可不是来晒太阳的，而是自驾帆船进行历险式的旅游。一周内我们学会操控船舵，还钓了巨大的金枪鱼。
-</div><div class="item-time">2013年4月3日</div>
-<div class="item-bottom"></div>
-</div></div>
-
-<div class=" MT PT ST"></div>
-<div class="item-container XL4 XL-half L4 L-half M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001047775#adchannelID=2000">婆罗洲：西方人的异域天堂</a></h2>
-<a class="image" target="_blank" href="/story/001047775#adchannelID=2000"><figure class="loading" data-url="http://i.ftimg.net/picture/5/000032575_piclink_972_296.jpg"></figure></a><div class="item-lead">马来群岛的婆罗洲是西方人心目中的“异域天堂”。如今这里是奢华度假胜地，有原始雨林木屋，不容错过的野生探险，还有美味的香槟酒。
-</div><div class="item-time">2012年11月30日</div>
-<div class="item-bottom"></div>
-</div></div>
-
-<div class=" MT PT"></div>
-<div class="item-container XL4 XL-half XL-lower L4 L-half L-lower M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001044496#adchannelID=2000">游艇：中国富豪的新玩具</a></h2>
-<a class="image" target="_blank" href="/story/001044496#adchannelID=2000"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000056359_piclink.jpg"></figure></a><div class="item-lead">中国消费者已在全球范围内成为刺激奢侈品市场发展的新兴力量。中国富豪买游艇的规律是，第一个人买了后，小圈子的其他朋友会买更大的。</div><div class="item-time">2012年5月11日</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class="XLT LT MT ST PT"></div>
-
-<div class="item-container XL6 L6 M12 S6 P12 no-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001061880#adchannelID=2000">我的发明改变了飞钓</a></h2>
-<div class="item-lead">儿时的一次经历给了我灵感，让我发明出了著名的“疯狂查理”北梭鱼假饵，这个发明让咸水飞钓运动发生了革命性的变化，也创造出数百万美元的财富。</div><div class="item-time">2015年5月6日</div>
-<div class="item-bottom"></div>
-</div></div>
-
-<div class=" MT PT"></div>
-<div class="item-container XL6 L6 M12 M-half S6 P12 P-half no-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001057858#adchannelID=2000">在单舱帆船上度蜜月？</a></h2>
-<div class="item-lead">在管家及船员的陪伴下，情侣两人自由巡游海上群岛，晚上睡在荒岛宿营地。神情尴尬的服务员站在按摩浴缸前倒香槟的那种蜜月，过时了。
-
-</div><div class="item-time">2014年8月25日</div>
-<div class="item-bottom"></div>
-</div></div>
-
-<div class="XLT LT MT PT ST"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half no-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001057093#adchannelID=2000">潜水：水波下的专注</a></h2>
-<div class="item-lead">水下是一个完全不同的世界。潜水能给人带来从日复一日的平凡生活中逃离的感觉，还能促人冥想。水下是一个神秘的世界，可以令人着迷。</div><div class="item-time">2014年7月7日</div>
-<div class="item-bottom"></div>
-</div></div>
-
-<div class=" MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half no-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001046302#adchannelID=2000">中国市场喜欢大游艇</a></h2>
-<div class="item-lead">FT中文网特约撰稿人艾米：游艇设计从注重娱乐性，变为重视家庭聚会等使用，容量越来越大，更像一个可移动的建筑，很合中国富豪口味。
-
-</div><div class="item-time">2012年8月31日</div>
-<div class="item-bottom"></div>
-</div></div>
-
-<div class=" MT PT ST"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half no-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001044215#adchannelID=2000">体验不一般的海上垂钓</a></h2>
-<div class="item-lead">地中海的酒店推出的出海垂钓旅游项目温情十足，一边可以目睹收鱼网时的丰收景象，一边可以享受现烹制的鲜鱼。
-</div><div class="item-time">2012年4月24日</div>
-<div class="item-bottom"></div>
-</div></div>
-
-<div class="XLT LT MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half no-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001043807#adchannelID=2000">玩过水箭背包吗？</a></h2>
-<div class="item-lead">水箭背包(JetLev)是受007电影启发而研制的水上飞行工具。你可以背上它，在海面上享受遨翔的感觉。</div><div class="item-time">2012年3月27日</div>
-<div class="item-bottom"></div>
-</div></div>
-
-<div class=" MT PT ST"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half no-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001021642#adchannelID=2000">浙江出现“游艇热”</a></h2>
-<div class="item-lead">FT中文网特约撰稿人单燕蓉：自2004年第一艘豪华游艇在千岛湖开元度假村下水以来，千岛湖、宁波、台州、温州等地的游艇及码头建造项目不断升温。</div><div class="item-time">2010年8月29日</div>
-<div class="item-bottom"></div>
-</div></div>
-
-<div class=" MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half no-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001028237#adchannelID=2000">邮轮度假的中国特色</a></h2>
-<div class="item-lead">FT中文网特约撰稿人艾米：有国际邮轮公司增设“麻将室”来迎合中国客人的需要；中国客人也还不习惯根据Dress Code穿衣。起步阶段的中国邮轮度假业任重而道远。</div><div class="item-time">2010年8月20日</div>
+<div class="item-container XL4 XL-right XL-half XL-no-tag L4 L-right L-no-tag L-half M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="http://www.ftchinese.com/m/marketing/bcg2016.html">工业4.0——中国企业转型解决之道高管峰会</a></h2>
+<a class="image" target="_blank" href="http://www.ftchinese.com/m/marketing/bcg2016.html"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000062756_piclink.jpg"></figure></a><div class="item-lead"> 已于2016年5月17日在北京柏悦酒店举办</div>
 <div class="item-bottom"></div>
 </div></div>
 <div class="clearfloat"></div>
 </div>
 </div></div>
-<div class="clearfloat block-bottom"></div>
+<div class="list-container"><div class="list-inner"><h2 class="list-title">
+<a class="list-link" href="#">往届活动</a>
+</h2>
+<div class="items">
+
+<div class="item-container XL6 L6 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/interactive/6852#adchannelID=2010">“女性力量·重塑商业”主题沙龙</a></h2>
+<a class="image" target="_blank" href="/interactive/6852#adchannelID=2010"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000061579_piclink.jpg"></figure></a>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL6 L6 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="http://www.ftchinese.com/m/marketing/accenture2016.html">“敏捷力，企业可持续性增长新动力”FT中文网-埃森哲主题沙龙</a></h2>
+<a class="image" target="_blank" href="http://www.ftchinese.com/m/marketing/accenture2016.html"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000062760_piclink.jpg"></figure></a>
+<div class="item-bottom"></div>
+</div></div>
+<div class="XLT LT MT PT ST"></div>
+<div class="item-container XL6 L6 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="http://www.ftchinese.com/m/marketing/ukti2016.html">创意产业意见领袖高峰对话</a></h2>
+<a class="image" target="_blank" href="http://www.ftchinese.com/m/marketing/ukti2016.html"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000062761_piclink.jpg"></figure></a>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL6 L6 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="http://www.ftchinese.com/m/marketing/jic2016.html">出行改变未来主题沙龙</a></h2>
+<a class="image" target="_blank" href="http://www.ftchinese.com/m/marketing/jic2016.html"><figure class="loading" data-url="http://i.ftimg.net//picture/9/000060299_piclink.jpg"></figure></a>
+<div class="item-bottom"></div>
+</div></div>
+<div class="clearfloat"></div>
+</div>
+</div></div>
+<div class="list-container"><div class="list-inner"><h2 class="list-title">
+<a class="list-link" href="#">线上专题展示</a>
+</h2>
+<div class="items">
+
+<div class="item-container XL4 L4 M12 M-half S12 S-double-width P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="http://www.ftchinese.com/m/marketing/zherong-2016.html">FT中文网-浙融投资专题</a></h2>
+<a class="image" target="_blank" href="http://www.ftchinese.com/m/marketing/zherong-2016.html"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000062289_piclink.jpg"></figure></a><div class="item-lead">FT联合浙融投资为中国企业家精心定制金融电子期刊，带来一场高端、极致、专业的金融盛宴，与千万企业家同迈进、共成长，引领新金融时代！</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="http://www.ftchinese.com/m/marketing/yili-2016.html">中英企业家峰会专题</a></h2>
+<a class="image" target="_blank" href="http://www.ftchinese.com/m/marketing/yili-2016.html"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000062401_piclink.jpg"></figure></a><div class="item-lead">6月6日，FT新兴市场编辑金奇（James Kynge）和伊利集团董事长潘刚作为讨论嘉宾出席了在英国伦敦举行的第二届中英企业家峰会“新经济时代下的消费升级探索”分论坛。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="http://www.ftchinese.com/m/marketing/duke2016.html">FT中文网邀您与杜克大学富卡商学院教授面对面</a></h2>
+<a class="image" target="_blank" href="http://www.ftchinese.com/m/marketing/duke2016.html"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000062759_piclink.jpg"></figure></a><div class="item-lead">FT中文网诚邀您参加杜克大学商学院在北京（5月15日）和上海（5月18日）举办的杜克洲际MBA大师讲堂活动。北京场由Dan Vermeer教授主讲“商业在应对气候变化战略中所扮演的角色”，上海场由David Hsieh教授主讲“认识对冲基金”。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="clearfloat"></div>
+</div>
+</div></div>
+<div class="list-container"><div class="list-inner"><h2 class="list-title">
+<a class="list-link" href="#">活动图集回顾</a>
+</h2>
+<div class="items">
+
+<div class="item-container XL6 L6 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="http://www.ftchinese.com/photonews/ftc_reader_club_tanyilu">“经典挑战—艺术与人性”《谈艺录》读者沙龙精彩图集</a></h2>
+<a class="image" target="_blank" href="http://www.ftchinese.com/photonews/ftc_reader_club_tanyilu"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000063391_piclink.jpg"></figure></a><div class="item-lead">2016年6月25日，FT中文网专栏作家、蘇富比艺术学院纽约及洛杉矶艺术商业硕士课程教授吴可佳邀请北京大学历史系教授、艺术史专家朱青生教授、芝加哥艺术博物馆亚洲艺术部普利兹克专席主任暨中国艺术总策展人汪涛博士在北京尤伦斯当代艺术中心展开精彩对话。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL6 L6 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="http://www.ftchinese.com/photonews/zheqiahui">第18届浙洽会主题论坛</a></h2>
+<a class="image" target="_blank" href="http://www.ftchinese.com/photonews/zheqiahui"><figure class="loading" data-url="http://i.ftimg.net/photonews/2016/06/575fd2289273c1.53936935.jpg"></figure></a><div class="item-lead">由浙江省人民政府主办，浙江省商务厅、英国《金融时报》承办的第18届中国浙江投资贸易洽谈会主题论坛6月9日在宁波华侨豪生大酒店成功举办。论坛以“开放、创新、拥抱新机遇”为主题，吸引了驻华使领馆、国际商会、国内外知名企业、浙江各地市和企业的近600余名代表出席。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="XLT LT MT PT ST"></div>
+<div class="item-container XL6 L6 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="http://www.ftchinese.com/photonews/1028">“女性力量·重塑商业”主题沙龙及专属晚宴</a></h2>
+<a class="image" target="_blank" href="http://www.ftchinese.com/photonews/1028"><figure class="loading" data-url="http://i.ftimg.net/photonews/2016/05/574278e4e36ef2.23478240.jpg"></figure></a><div class="item-lead">由She’s Mercedes及英国《金融时报》联袂呈现的“女性力量·重塑商业”主题沙龙及专属晚宴于5月19日在北京Mercedes me三里屯体验店隆重登场。数十位来自海内外的商界精英女性在一起共同探讨女性如何在全新的经济环境下，重塑商业、社会公益、文化与艺术，创造绚烂的“她时代”等议题</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" MT PT"></div>
+<div class="item-container XL6 L6 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="http://www.ftchinese.com/photonews/1015">FT中文网-埃森哲战略主题沙龙</a></h2>
+<a class="image" target="_blank" href="http://www.ftchinese.com/photonews/1015"><figure class="loading" data-url="http://i.ftimg.net/photonews/2016/04/571dbde1139e82.02644981.jpg"></figure></a><div class="item-lead">FT携手埃森哲，邀请高敏捷力企业代表与您共同分享创新的企业发展战略和路径。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="clearfloat"></div>
+</div>
+</div></div>
+<div class="list-container video-package"><div class="list-inner"><h2 class="list-title">
+<a class="list-link" href="#">精彩视频</a>
+</h2>
+<div class="items">
+<div class="item-inner video-package-inner"><div class="image"><figure id="video-package-play" class="loading-video" data-vid="1962"></figure></div><div class="video-package-title"><a href="/video/1962" target=_blank>陈志武：儒家文化为何会抑制金融？</a></div></div>
+
+<div class="item-container XL2 L4 M4 S4 P4 on     has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1962#adchannelID=2010">陈志武：儒家文化为何会抑制金融？</a></h2>
+<a class="image" target="_blank" href="/video/1962#adchannelID=2010"><figure class="loading" data-url="http://i.ftimg.net//picture/2/000063362_piclink.jpg"></figure></a>
+<div class="item-bottom"></div>
+</div></div>
+
+<div class="item-container XL2 L4 M4 S4 P4     has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1898#adchannelID=2010">索瑞尔：一切都是设计，只有好坏之分</a></h2>
+<a class="image" target="_blank" href="/video/1898#adchannelID=2010"><figure class="loading" data-url="http://i.ftimg.net//picture/1/000060991_piclink.jpg"></figure></a>
+<div class="item-bottom"></div>
+</div></div>
+
+<div class="item-container XL2 L4 M4 S4 P4     has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1087#adchannelID=2010">林毅夫谈“新新常态” </a></h2>
+<a class="image" target="_blank" href="/video/1087#adchannelID=2010"><figure class="loading" data-url="http://i.ftimg.net//picture/2/000032002_piclink_632_355.jpg"></figure></a>
+<div class="item-bottom"></div>
+</div></div>
+<div class=" LT MT ST"></div>
+<div class="item-container XL2 L4 M4 S4 P4    P-hide has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1101#adchannelID=2010">泸州老窖：“塑化剂事件”对白酒行业有益</a></h2>
+<a class="image" target="_blank" href="/video/1101#adchannelID=2010"><figure class="loading" data-url="http://i.ftimg.net//picture/5/000032615_piclink_632_355.jpg"></figure></a>
+<div class="item-bottom"></div>
+</div></div>
+
+<div class="item-container XL2 L4 M4 S4 P4    P-hide has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1105#adchannelID=2010">陈丹青：莫言成为又一个“中国符号”</a></h2>
+<a class="image" target="_blank" href="/video/1105#adchannelID=2010"><figure class="loading" data-url="http://i.ftimg.net//picture/2/000032862_piclink_632_355.jpg"></figure></a>
+<div class="item-bottom"></div>
+</div></div>
+
+<div class="item-container XL2 L4 M4 S4 P4    P-hide has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/video/1110#adchannelID=2010">中金公司彭文生谈政府作用边界</a></h2>
+<a class="image" target="_blank" href="/video/1110#adchannelID=2010"><figure class="loading" data-url="http://i.ftimg.net//picture/9/000032949_piclink_632_355.jpg"></figure></a>
+<div class="item-bottom"></div>
+</div></div>
+<div class="clearfloat"></div>
+</div>
+</div></div><div class="clearfloat block-bottom"></div>
 </div></div>
 <div class="side-container"><div class="side-inner">
-<div class="tag-about">
-水上运动优雅刺激，海上体验浪漫惬意，中国高端消费者如今越来越热衷在水世界中驰聘与享受。英国《金融时报》中文网为你报道最权威的世界高端水上休闲项目。
+    
+<div class="mpu-container first-child">
+<a><figure class="loading" data-url="http://i.ftimg.net/picture/2/000063432_piclink.jpg"></figure></a>
+</div>
+<div class="side-list first-child headlineOnly">
+<h2 class="list-title">
+<a href="#">活动文字回顾</a>
+</h2>
+<div class="item-container first-headline no-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="http://www.ftchinese.com/interactive/7229">“经典挑战—艺术与人性”《谈艺录》读者沙龙活动实录</a></h2>
+</div></div>
+<div class="item-container  no-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="http://www.ftchinese.com/interactive/6737">FT& Accenture高管研讨会热议“敏捷力”</a></h2>
+</div></div>
+<div class="item-container  no-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="http://www.ftchinese.com/interactive/6682">“Great 英国”系列活动: 文化创意产业意见领袖高峰对话</a></h2>
+</div></div>
 </div>
 <div class="mpu-container">
 <script type="text/javascript">document.write (writeAd('mpu'));</script>
 </div>
-<div class="mps">
-<h2 class="list-title"><a href="/channel/weekly.html">十大热门文章</a></h2>
-<ul class="top10">
-
-<li class="mp1"><span>1. </span><a target="_blank" href="/story/001067935?dailypop">高考：录取率越“平衡”越失衡</a></li>
-<li class="mp2"><span>2. </span><a target="_blank" href="/story/001067943?dailypop">现在不是卖空中国的时候</a></li>
-<li class="mp3"><span>3. </span><a target="_blank" href="/story/001067940?dailypop">西方“普世价值”为何陷入危机？</a></li>
-<li class="mp4"><span>4. </span><a target="_blank" href="/story/001067898?dailypop">中国文玩珠串市场遇“七年之痒”？</a></li>
-<li class="mp5"><span>5. </span><a target="_blank" href="/story/001067970?dailypop">美国发生“9·11”后最严重恐袭</a></li>
-<li class="mp6"><span>6. </span><a target="_blank" href="/story/001067945?dailypop">热衷婚外情的员工更具创造力？</a></li>
-<li class="mp7"><span>7. </span><a target="_blank" href="/story/001067961?dailypop">全球钢铁业的中国因素</a></li>
-<li class="mp8"><span>8. </span><a target="_blank" href="/story/001067959?dailypop">地王豪赌，经济安否</a></li>
-<li class="mp9"><span>9. </span><a target="_blank" href="/story/001067957?dailypop">IMF就中国企业债务问题发出警告</a></li>
-<li class="mp10"><span>10. </span><a target="_blank" href="/story/001067958?dailypop">跨国公司在亚洲面临的政治禁忌</a></li>
-</ul>
+<div class="side-list leadOnly">
+<h2 class="list-title">
+<a href="#">关于我们</a>
+</h2>
+<div class="item-container first has-image"><div class="item-inner">
+<div class="item-lead item-description">FT中文网整合营销部为合作伙伴提供会议活动、专题策划、定制调研、媒体推广等精准品牌营销推广服务。我们汇集全球财经观点，盛情邀请影响力人物出席活动，覆盖大中华地区250万商界精英读者，为合作伙伴提供精准的线上、线下品牌营销服务。<br />
+<br />
+<p>电话：+8610-8587 7776</p><br />
+  <p>邮箱：<a href="mailto:ftevents@ftchinese.com">ftevents@ftchinese.com</a></p></div>
+</div></div>
 </div>
-<div class="mpu-container last-child">
-<script type="text/javascript">document.write (writeAd('mpu'));</script>
+<div class="side-list headlineOnly">
+<h2 class="list-title">
+<a href="#">合作伙伴新闻</a>
+</h2>
+<div class="item-container first-headline no-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/interactive/7244#adchannelID=2010">交通银行2015年度股东大会召开</a></h2>
+</div></div>
+<div class="item-container  no-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/interactive/7245#adchannelID=2010">销量说话，奔驰S级荣膺领袖极致</a></h2>
+</div></div>
+<div class="item-container  no-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/interactive/7229#adchannelID=2010">“经典挑战—艺术与人性”《谈艺录》读者沙龙活动实录</a></h2>
+</div></div>
+<div class="item-container  no-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/interactive/7224#adchannelID=2010">交行与韩国友利银行签署本国货币清算银行业务合作协议</a></h2>
+</div></div>
+<div class="item-container  no-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/interactive/7163#adchannelID=2010">惠誉确认交通银行等大型国有银行信用评级</a></h2>
+</div></div>
+<div class="item-container  no-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/interactive/7104#adchannelID=2010">IBM认知分析将助力中国慢性病患者获精准化预防和诊疗关怀</a></h2>
+</div></div>
+<div class="item-container  no-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/interactive/7102#adchannelID=2010">如何拥抱由“认知计算+行业”带来的认知商业时代</a></h2>
+</div></div>
+<div class="item-container  no-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/interactive/7074#adchannelID=2010">交通银行正式成为伦敦金银市场协会黄金定盘商</a></h2>
+</div></div>
+<div class="item-container  no-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/interactive/7018#adchannelID=2010">傲视同侪,开智能汽车先河的奔驰S级</a></h2>
+</div></div>
+<div class="item-container  no-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/interactive/7027#adchannelID=2010">浙融投资管理有限公司</a></h2>
+</div></div>
 </div>
-</div></div><div class="clearfloat"></div>
+<div class="side-list headlineOnly">
+<h2 class="list-title">
+<a href="#">友情链接</a>
+</h2>
+<div class="item-container first-headline no-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank">待添加</a></h2>
+</div></div>
+</div>
+</div></div>
+<div class="clearfloat"></div>
 </div></div><div class="footer-container"><div class="footer-inner">
 <div>
 <a href="/m/corp/aboutus.html">关于我们</a>
@@ -599,7 +636,9 @@ FT中文网首页
 <span class="copyright"><b>© The Financial Times Ltd 2016</b></span> 
 <span><acronym title="Financial Times">FT</acronym> and 'Financial Times' are trademarks of The Financial Times Ltd.</span>
 </p>
-</div></div><div class="app-download-container">
+</div></div>
+<div style="text-align: center; background-color: #FFFFFF; font-size: 38px; margin: 20px;font-weight:bold;"><a title="刷新本页CDN与服务器缓存" href="/index.php/marketing/flushcache?url=http://www7.ftchinese.com%2Fm%2Fevents%2Fevent.html%3Fdfadfafafa">刷新本页缓存</a></div>
+<div class="app-download-container">
 <a href="http://app.ftchinese.com/download.html?utm_source=marketing&utm_medium=campaign&utm_campaign=QRCODE02" target="_blank">
 <div>FT中文网客户端</div>
 <figure class="loading" data-url="http://s.ftimg.net/img/qr/qr90-2.png"></figure>

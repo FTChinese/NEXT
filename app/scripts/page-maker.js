@@ -13,7 +13,7 @@
         //'type': ['block', 'banner', 'header', 'footer'],
         'side': ['none', 'HomeRightRail','TagRightRail', 'MostPopular', 'HotVideos', 'MarketsData', 'videos', 'MostCommented'],
         'sideAlign': ['right', 'left'],
-        'float': ['none', 'left', 'right', 'oneline', 'SideBySide', 'myFT', 'IconTitle', 'Card', 'eBook'],
+        'float': ['none', 'left', 'right', 'oneline', 'SideBySide', 'myFT', 'IconTitle', 'Card', 'eBook', 'Headshot', 'ScoreBoard'],
         'showTag': ['no', 'yes'],
         'showTimeStamp': ['no', 'new stories', 'all'],
         'from': ['', 'MarketsData', 'SpecialReports', 'Columns', 'Channels', 'Events', 'MyTopics', 'Discover', 'Marketing', 'findpassword'],
@@ -22,8 +22,10 @@
         'preferLead': ['longlead', 'shortlead', 'none'],
         'feedType': ['all','story','video','interactive','photo','job', 'myFT', 'fav', 'ftc_columns', 'ft_columns'],
         'feedItems': 'number',
+        'feedStart': 'number',
         'feedImage': ['optional','necessary','hide'],
-        'language': ['', 'en', 'ce']
+        'language': ['', 'en', 'ce'],
+        'fit': ['', 'standard', 'highimpact', 'legacy']
     };
     var dataRulesTitle = {
         'theme': 'Luxury是指乐尚街的配色风格，主要特点是Title和分割线为金色',
@@ -41,6 +43,7 @@
         'feedType': '自动抓取的内容类型，如果选择all则四种类型都抓取，最新的先显示',
         'feedImage': 'Optional代表不要求抓出来的内容必须有配图，Necessary则要求内容必须有配图',
         'feedItems': '自动抓取内容的条数上限，如果这个list中有手动拖入的内容，则不显示自动抓取的内容',
+        'feedStart': '自动抓取内容的条数开始的Index，从0开始数',
         'feedTag': '自动抓取内容依据的标签，如果抓取条件复杂，也可以请技术帮助你输入mysql的查询语句',
         'language': '中文、英文或者中英文对照，只适用于story'
     };
@@ -49,12 +52,12 @@
             'block': ['title', 'name', 'side', 'sideAlign'],
             'include': ['from', 'side', 'sideAlign'],
             'header': [],
-            'banner': ['position'],
+            'banner': ['position', 'image', 'highImpactImage', 'url', 'fit'],
             'footer': []
         },
         'list': {
-            'list': ['name', 'title', 'url', 'language', 'description', 'style', 'float', 'showTag', 'showTimeStamp', 'preferLead', 'sponsorAdId', 'sponsorLogoUrl', 'sponsorLink', 'sponsorNote', 'feedItems', 'feedTag', 'feedType', 'feedImage'],
-            'SideMPU': ['name'],
+            'list': ['name', 'title', 'url', 'language', 'description', 'style', 'float', 'showTag', 'showTimeStamp', 'preferLead', 'sponsorAdId', 'sponsorLogoUrl', 'sponsorLink', 'sponsorNote', 'feedStart', 'feedItems', 'feedTag', 'feedType', 'feedImage', 'moreLink'],
+            'SideMPU': ['name', 'image', 'url'],
             'SideWithItems':['name', 'title', 'url', 'sideOption', 'feedItems', 'feedTag', 'feedType'],
             'SideRanking': ['name', 'title', 'url', 'feedItems', 'feedTag', 'feedType'],
             'SideInclude': ['name', 'title', 'url', 'fromSide']
@@ -917,10 +920,12 @@
                         'sponsorLogoUrl': '',
                         'sponsorLink': '',
                         'sponsorNote': '',
+                        'feedStart': '',
                         'feedItems': '',
                         'feedTag': '',
                         'feedType': '',
-                        'feedImage': 'optional'
+                        'feedImage': 'optional',
+                        'moreLink': ''
                     }
                 ];
             }

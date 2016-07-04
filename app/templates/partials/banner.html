@@ -8,13 +8,36 @@
 	<%else%>
 		<%assign var="bannerType" value="banner"%>
 	<%/if%>
-<div class="banner-placeholder">
-<div class="banner-container">
-<div class="banner-inner">
-<div class="banner-content">
-  <script type="text/javascript">document.write (writeAd('<%$bannerType%>'));</script>
-</div>
-</div>
-</div>
-</div>
+	<%if $section.url && $section.url != ""%>
+		<%assign var="sectionLink" value=" href=\"`$section.url`\" target=_blank"%>
+	<%else%>
+		<%assign var="sectionLink" value=""%>
+	<%/if%>
+	<%if $section.image && $section.image != "" && $section.fit != ""%>
+		<%assign var="figureClass" value=" `$section.fit`"%>
+	<%else%>
+		<%assign var="figureClass" value=""%>
+	<%/if%>
+	<%assign var="image1" value=$section.image|default:$section.highImpactImage%>
+	<%assign var="image2" value=$section.highImpactImage|default:$section.image%>
+	<%if $section.image && $section.image != "" && $section.fit == ""%>
+		<div class="block-image-container">
+			<a<%$sectionLink%>><img src="<%$section.image%>"></a>
+		</div>
+	<%else%>
+		<div class="banner-placeholder<%$figureClass%>">
+		<div class="banner-container">
+		<div class="banner-inner">
+		<div class="banner-content">
+			<%if $section.image == ""%>
+		  		<script type="text/javascript">document.write (writeAd('<%$bannerType%>'));</script>
+		  	<%else%>
+		  		<a<%$sectionLink%> class="P-hide"><figure class="loading" data-url="<%$image1%>"></figure></a>
+		  		<a<%$sectionLink%> class="P-only"><figure class="loading" data-url="<%$image2%>"></figure></a>
+		  	<%/if%>
+		</div>
+		</div>
+		</div>
+		</div>
+	<%/if%>
 <%/if%>

@@ -31,13 +31,29 @@
 		display: block!important;
 		text-align: center;
 	}
+	figure {
+		position: relative;
+		img {
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			top:0;
+			left:0;
+			right:0;
+			bottom:0;
+		}
+	}
 }
-.sponsor-container {
+.sponsor-container, .table-container {
 	padding: 0 $defaultPadding/2;
 }
 .mpu-container {
 	width: 300px;
 	margin: 0 auto;
+	figure {
+		height: 250px;
+		margin-bottom: $defaultPadding;
+	}
 }
 .high-impact {
 	&.banner-container {
@@ -51,6 +67,26 @@
 	.banner-content {
 		padding: 0;
 		background: black;
+	}
+}
+.standard, .highimpact {
+	&.banner-placeholder {
+		height: auto;
+		margin-bottom: $defaultPadding;
+	}
+	.banner-content {
+		padding: 0;
+		height: auto;
+	}
+}
+.standard {
+	figure {
+		padding-bottom: 10%;
+	} 
+}
+.highimpact, .P-only {
+	figure {
+		padding-bottom: 20%;
 	}
 }
 @media only screen and (min-width: 490px) and (max-width: 1059px) {

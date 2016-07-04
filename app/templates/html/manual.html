@@ -126,6 +126,7 @@
     </head>
     <body>
         <script>checkB();</script>
+        <%include file="next/partials/wechat-icon.html"%>
 
         <%if $pageId == "home"%>
             <%if $smarty.get.ad != 'no'%>
@@ -162,7 +163,10 @@
                 <%include file="next/partials/nav.html"%>
             <%elseif $section.type == "banner"%>
                 <%include file="next/partials/banner.html"%>
-                <%assign var="bannerCount" value=$bannerCount+1%>
+                <%if $section.image && $section.image == ""%>
+                <%else%>
+                    <%assign var="bannerCount" value=$bannerCount+1%>
+                <%/if%>
             <%elseif $section.type == "block"%>
                 <%include file="next/partials/block.html"%>
                 <%if $section.side != "" && $section.side != "none"%>

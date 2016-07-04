@@ -142,6 +142,8 @@
 				<%/if%>
 				<%*<!--feed type is <%$feedType%>, feed repeat check is <%$feedRepeatCheck%>-->*%>
 
+				<%assign var="feedStart" value=$list.feedStart|default:0%>
+
 				<%if $list.feedType == "myFT"%>
 					<%easyapi command="31005" assign="myftArrays" topnum=30%>
 					<%assign var="itemsArray" value=$myftArrays.odatalist%>
@@ -158,13 +160,13 @@
 					<%if preg_match("/like|find_in_set|=|\(| in /is",$list.feedTag)%>
 						<%if $list.feedType == "story"%>
 							<%assign var="feedType" value=$list.feedType%>
-							<%assign var="itemsArray" value=$storymodel->get_story_by_field_search($list.feedTag,0,$feedItems,999999999,10800)%>
+							<%assign var="itemsArray" value=$storymodel->get_story_by_field_search($list.feedTag,$feedStart,$feedItems,999999999,10800)%>
 						<%elseif $list.feedType == "interactive"%>
 							<%assign var="feedType" value=$list.feedType%>
-							<%assign var="itemsArray" value=$interactivemodel->get_interactive_by_field_search($list.feedTag,0,$feedItems,999999999,10800)%>
+							<%assign var="itemsArray" value=$interactivemodel->get_interactive_by_field_search($list.feedTag,$feedStart,$feedItems,999999999,10800)%>
 						<%elseif $list.feedType == "video"%>
 							<%assign var="feedType" value=$list.feedType%>
-							<%assign var="itemsArray" value=$videomodel->get_video_by_field_search($list.feedTag,0,$feedItems,9999999999999,10800)%>
+							<%assign var="itemsArray" value=$videomodel->get_video_by_field_search($list.feedTag,$feedStart,$feedItems,9999999999999,10800)%>
 						<%elseif $list.feedType == "photo"%>
 							<%assign var="feedType" value="photonews"%>
 							<%assign var="itemsArray" value=$photonewsmodel->get_photonews_by_field_search($list.feedTag,"ORDER BY photonewsid DESC",$feedItems)%>
@@ -228,6 +230,23 @@
 				<%else%>
 					<%assign var="listItemCount" value=$itemsArray|@count%>
 					<%*<!--Display Only <%$listItemCount%> Items without Image: <%$feedType%>/<%$feedImage%>/<%$feedRepeatCheck%>-->*%>
+				<%/if%>
+
+				<%if $list.float === "ScoreBoard"%>
+					<style><%include file="next/styles/main-table.css"%></style>
+					<div class="table-container">
+					<table class=tablesorter id=box-table-a summary="职位列表">
+						<thead>
+						<tr>
+						<th scope="col">测试题目</th>
+						<th scope="col" title="WPM是指您的每分钟阅读单词量（WPM：Word Per Minute）。一般来说，WPM达到200就算是相当不错了。如果您想要在GRE或者GMAT中获得高分，你需要把WPM提高到300。如果您要去英语国家攻读研究生，您的WPM需要达到400才能比较轻松地胜任学业。
+						">您的WPM*</th>
+						<th scope="col" style="text-align:right">平均WPM</th>
+						<th scope="col" style="text-align:right">您的用时</th>
+						<th scope="col" style="text-align:right">时间</th>
+						</tr>
+						</thead>
+						<tbody>
 				<%/if%>
 
 
@@ -346,6 +365,9 @@
 						<%elseif $list.float === "myFT"%>
 							<%assign var="hideImage" value="yes"%>
 							<%assign var="XL" value="one-row"%>
+							<%assign var="itemTopClass" value="XLT LT ST MT PT"%>
+						<%elseif $list.float === "Headshot"%>
+							<%assign var="XL" value="one-row headshot-lead"%>
 							<%assign var="itemTopClass" value="XLT LT ST MT PT"%>
 						<%elseif $list.float === "Card" || $list.float === "eBook"%>
 							<%if $sectionHasSide == "yes"%>
@@ -955,6 +977,15 @@
 
 						<%if $listType == "videos" && $i>5%>
 							<%*<!--Only display first 6 in video package-->*%>
+						<%elseif $list.float === "ScoreBoard"%>
+							<tr id="inter<%$itemId%>">
+								<td class="td1"><a target="_blank"<%$itemLink%>><%$itemHeadline%></a></td>
+								<td class="td3">&nbsp;</td>
+								<td class="td6">&nbsp;</td>
+								<td class="td4">&nbsp;</td>
+								<td class="td5">&nbsp;</td>
+							</tr>
+							<%assign var="i" value=$i+1%>
 						<%elseif $list.float === "myFT"%>
 							<%$itemTop%>
 							<div class="item-container <%$itemClass%> <%$hasImage%>"><div class="item-inner">
@@ -963,8 +994,23 @@
 								<h2 class="item-headline"><a target="_blank"<%$itemLink%>><%$itemHeadline%></a></h2>
 								<%if $hideLead === "no"%><div class="item-lead"><%$itemLead|nl2br%></div><%/if%>
 								</div>
-								<div class="icon-right icon-save">
-									<button id="addfavlink<%$itemId%>">收藏</button>
+								<%if $itemType == "story"%>
+									<div class="icon-right icon-save">
+										<button id="addfavlink<%$itemId%>">收藏</button>
+									</div>
+								<%/if%>
+								<%$itemTimeStamp%>
+								<div class="item-bottom"></div>
+							</div></div>
+							<%assign var="i" value=$i+1%>
+						<%elseif $list.float === "Headshot"%>
+							<%$itemTop%>
+							<div class="item-container <%$itemClass%> <%$hasImage%>"><div class="item-inner">
+								<a class="image portrait-img" target="_blank"<%$itemLink%>><figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure></a>
+								<%$itemTag%>
+								<div class="item-headline-lead">
+								<h2 class="item-headline"><a target="_blank"<%$itemLink%>><%$itemHeadline%></a></h2>
+								<%if $hideLead === "no"%><div class="item-lead"><%$itemLead|nl2br%></div><%/if%>
 								</div>
 								<%$itemTimeStamp%>
 								<div class="item-bottom"></div>
@@ -1006,10 +1052,24 @@
 
 					<%/if%>
 				<%/foreach%>
+				<%if $list.float === "ScoreBoard"%>
+					</tbody>
+					</table>
+					</div>
+					<script src="http://static.ftchinese.com/js/jquery-1.10.2.min.js" type="text/javascript"></script>
+					<script src="http://static.ftchinese.com/js/table.js?2" type="text/javascript"></script>
+					<script src="http://static.ftchinese.com/js/jquery.tablesorter.min.js" type="text/javascript"></script>
+					<script language=javascript>
+					setTimeout(function(){$("#box-table-a").tablesorter();$("#box-table-a thead tr th").attr("class","header");},10000);
+					</script>
+				<%/if%>
 				<div class="clearfloat"></div>
 			</div>
 			<%if $list.sponsorNote != ""%>
 				<div class="item-container no-image"><div class="item-inner"><%$list.sponsorNote|regex_replace:"/([A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6})/i":"<a class=\"blue-link\" href=\"mailto: \\1\">\\1</a>"%></div></div>
+			<%/if%>
+			<%if $list.moreLink != ""%>
+				<div class="more-link"><a href="<%$list.moreLink%>">更多</a></div>
 			<%/if%>
 			<%assign var="next" value=$l+1%>
 			<%*<!--combine side lists-->*%>
@@ -1034,9 +1094,18 @@
 				<%if $list.type == "SideMPU"%>
 					<%if $smarty.get.ad != "no"%>
 						<div class="mpu-container<%$firstChildClass%><%$lastChildClass%>">
-							<script type="text/javascript">document.write (writeAd('mpu'));</script>
+							<%if $list.image != ""%>
+								<%if $list.url && $list.url != ""%>
+									<%assign var="listLink" value=" href=\"`$list.url`\" target=_blank"%>
+								<%else%>
+									<%assign var="listLink" value=""%>
+								<%/if%>
+								<a<%$listLink%>><figure class="loading" data-url="<%$list.image%>"></figure></a>
+							<%else%>
+								<script type="text/javascript">document.write (writeAd('mpu'));</script>
+							<%/if%>
+							<%assign var="s" value=$s+1%>
 						</div>
-						<%assign var="s" value=$s+1%>
 					<%/if%>
 				<%elseif $list.type == "SideInclude"%>
 						<div class="mps<%$firstChildClass%><%$lastChildClass%>">
