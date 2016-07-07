@@ -48,6 +48,7 @@ function trackerNew() {
     var username=GetCookie('USER_NAME') || '';
     var userId = GetCookie('USER_ID') || '';
     var ccodeCookie=GetCookie('ccode') || '';
+    var ua = navigator.userAgent || navigator.vendor || '';
     ccode=paravalue(l,'ccode');
     if (l.indexOf('isappinstalled')>0  && l.indexOf('code')<0) {
         vsource='marketing';
@@ -99,7 +100,10 @@ function trackerNew() {
     }
     usource='marketing';
     umedium='campaign';
-    if (vsource.indexOf('Email')>=0) {
+    if (/micromessenger/i.test(ua)) {
+        usource='WeChat';
+        umedium='social';
+    } else if (vsource.indexOf('Email')>=0) {
         usource='EmailNewsletter';
         umedium='referral';
     } else if (vsource.indexOf('RSS')>=0) {
