@@ -8,7 +8,7 @@ var recommendLoaded = false;
 var recommendInner = document.getElementById('story-recommend');
 
 message.head = {};
-message.head.transactiontype = '61008';
+message.head.transactiontype = '61009';
 message.head.source = 'web';
 message.body = {};
 message.body.ielement = {};
