@@ -723,8 +723,9 @@
 	<%assign var="itemType" value="story"%>
 <%/if%>
 
+<%assign var="itemId" value=$story.id|default:$id%>
 <%assign var="shareTitle" value="`$storyHeadline` - FT中文网"%>
-<%assign var="shareUrl" value="http://www.ftchinese.com/`$itemType`/`$story.id`?full=y"%>
+<%assign var="shareUrl" value="http://www.ftchinese.com/`$itemType`/`$itemId`?full=y"%>
 <%assign var="shareUrl" value=$shareUrl|escape:'url'%>
 <%assign var="shareText" value="【`$storyHeadline`】`$shareLead`（分享自 @FT中文网）"%>
 

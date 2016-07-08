@@ -453,6 +453,17 @@ delegate.on('click', '.overlay-close, .overlay-bg', function(){
   closeOverlay(parentId);
 });
 
+//click to toggle editions
+delegate.on('click', '.current-edition span', function(){
+  var currentEditionClass = this.parentNode.parentNode.className;
+  if (currentEditionClass.indexOf(' on')>0) {
+    currentEditionClass = currentEditionClass.replace(/ on/g, '');
+  } else {
+    currentEditionClass += ' on';
+  }
+  this.parentNode.parentNode.className = currentEditionClass;
+});
+
 //click to close
 delegate.on('click', '.icon-save button', function(){
   if(username===''||username===null){
