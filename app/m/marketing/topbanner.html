@@ -100,8 +100,9 @@ if (obj.offsetParent) {
 var adContainerHeight;
 var parentIframe;
 var adBottom = document.getElementById('ad-bottom');
-var adHeight = findTop(adBottom)
-//console.log (findTop(adBottom));
+var adHeight = findTop(adBottom);
+var adResized = false;
+// console.log (adHeight);
 
 //change bg color manually for demo purpose
 
@@ -141,7 +142,22 @@ if ( window.parent.document.getElementById(parentId)) {
     // }
     //adHeight = 600;
     //console.log (adHeight);
-    if (adHeight > 0 &&  adHeight - adContainerHeight > 30) {
+    if (adHeight === 120 && adHeight - adContainerHeight > 20) {
+        adResized = true;
+        try {
+            document.querySelector('.top-left').style.width='1200px';
+        } catch(ignore){
+
+        }
+        parentIframe.style.width = '1200px';
+        //parentIframe.parentNode.style.height = '120px';
+        parentIframe.parentNode.parentNode.parentNode.parentNode.className += ' standard';
+    } else if (adHeight > 0 &&  adHeight - adContainerHeight > 20) {
+        adResized = true;
+        
+        
+    }
+    if (adResized === true) {
         parentIframe.style.height = adHeight + 'px';
         try {
             window.parent.stickyBottomPrepare();            
@@ -151,6 +167,7 @@ if ( window.parent.document.getElementById(parentId)) {
             }, 3000);
         }
     }
+    
 }
 //var stickyHeight = 3000;
 

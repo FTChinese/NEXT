@@ -67,6 +67,7 @@
 	.banner-content {
 		padding: 0;
 		background: black;
+		height: 2*($defaultPadding+$bannerHeight);
 	}
 }
 .standard, .highimpact {
@@ -76,13 +77,16 @@
 	}
 	.banner-content {
 		padding: 0;
-		height: auto;
+		//height: auto;
+		>iframe {
+			margin-top: 0;
+		}
 	}
 }
 .standard {
 	figure {
 		padding-bottom: 10%;
-	} 
+	}
 }
 .highimpact, .P-only {
 	figure {
