@@ -340,7 +340,7 @@ function writeAd(adType, returnSrc) {
     var c = adch + adPosition;
     var adP = '';
     var wechatAdHTML = '<scr';
-    wechatAdHTML += 'ipt src="http://dolphin.ftimg.net/s?z=ft&c=' + c + slotStr + adP + '" charset="gbk">';
+    wechatAdHTML += 'ipt src="http://dolphin.ftimg.net/s?z=ft&c=' + c + slotStr + adP + '&_fallback=0" charset="gbk">';
     wechatAdHTML += '</scr';
     wechatAdHTML += 'ipt>';
     //var wechatAdHTML = 'http://dolphin.ftimg.net/s?z=ft&c=' + c + slotStr + adP;
