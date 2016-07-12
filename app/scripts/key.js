@@ -102,7 +102,7 @@ function trackerNew() {
     umedium='campaign';
     if (/micromessenger/i.test(ua)) {
         usource='WeChat';
-        umedium='social';
+        umedium='Social';
     } else if (vsource.indexOf('Email')>=0) {
         usource='EmailNewsletter';
         umedium='referral';

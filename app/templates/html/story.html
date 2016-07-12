@@ -12,6 +12,13 @@
 <%assign var="topnav" value="opinion"%>
 <%assign var="subnav" value="letter"%>
 <%assign var="thirdnav" value=""%>
+<%elseif preg_match("/technology/is",$story.topic)%>
+<%assign var=breadcrum value="<a href=/channel/innovation.html>创新科技</a>"%>
+<%assign var=autoadchannel value="NP_Biz_Technology"%>
+<%assign var="adchannelID" value="2100"%>
+<%assign var="topnav" value="innovation"%>
+<%assign var="subnav" value=""%>
+<%assign var="thirdnav" value=""%>
 <%elseif preg_match("/career/is",$story.topic)%>
 <%assign var=breadcrum value="<a href=/channel/career.html>职场</a>"%>
 <%assign var=autoadchannel value="NP_Career"%>
@@ -32,13 +39,6 @@
 <%assign var="adchannelID" value="1703"%>
 <%assign var="topnav" value="management"%>
 <%assign var="subnav" value="leadership"%>
-<%assign var="thirdnav" value=""%>
-<%elseif preg_match("/technology/is",$story.topic)%>
-<%assign var=breadcrum value="<a href=/channel/technology.html>科技</a>"%>
-<%assign var=autoadchannel value="NP_Biz_Technology"%>
-<%assign var="adchannelID" value="1502"%>
-<%assign var="topnav" value="business"%>
-<%assign var="subnav" value="technology"%>
 <%assign var="thirdnav" value=""%>
 <%elseif preg_match("/travel/is",$story.topic)%>
 <%assign var=breadcrum value="<a href=/channel/travel.html>旅行</a>"%>
