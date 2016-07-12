@@ -271,8 +271,6 @@ request.post({
 
 });
 
-
-  
 });
 
 
@@ -420,73 +418,6 @@ gulp.task('watch', ['connect'], function () {
   gulp.watch('app/styles/**/*.scss', ['styles']);
   gulp.watch('bower.json', ['wiredep']);
 });
-
-/*
-* Task to lauch local PHP server.
-* It first starts a local PHP server with task `php` on port 8011
-* Then browser-sync start a proxy server on port 8081 connecting to port 8011.
-* You need to has PHP 5.4 or above to lauch a local server.
-* You also need to install PHP package manager `composer` to install dependencies needed.
-*/
-gulp.task('css', function () {
-  const DEST = '.tmp/styles';
-
-  return gulp.src(['app/styles/main*.scss'])
-    .pipe($.changed(DEST)) 
-    .pipe($.plumber()) 
-    .pipe($.sourcemaps.init({loadMaps:true})) 
-    .pipe($.sass({ 
-      outputStyle: 'expanded',
-      precision: 10,
-      includePaths: ['bower_components']
-    }).on('error', $.sass.logError))
-    .pipe($.postcss([
-      cssnext({ 
-        features: {
-          colorRgba: false
-        }
-      })
-    ]))
-    .pipe($.sourcemaps.write('./'))
-    .pipe(gulp.dest(DEST))
-    .pipe(browserSync.stream({once:true})); 
-});
-
-gulp.task('copym', function() {
-  return gulp.src('app/m/**')
-    .pipe(gulp.dest('.tmp/m'));
-});
-
-gulp.task('copyjs', function() {
-  return gulp.src(['views/scripts/o-nav.js', 'app/scripts/*.js', '!app/scripts/o-nav.js'])
-  .pipe(gulp.dest('.tmp/scripts'))
-  .pipe(browserSync.stream({once:true}));
-});
-
-gulp.task('php', function() {
-  $.connectPhp.server({
-    base: 'server',
-    port: '8011',
-    keepalive: true
-  });
-});
-
-gulp.task('serve:test', 
-  ['css', 'copym', 'copyjs', 'php'],
-  function() {
-  browserSync.init({
-    proxy: 'localhost:8011',
-    port: 8081,
-    open: true,
-    notify: true,
-    serveStatic: ['bower_components', '.tmp']
-  });
-
-  gulp.watch(['views/**/*', 'app/templates/partials/*.html', 'server/*'], browserSync.reload);
-  gulp.watch(['views/**/*.js'], ['copyjs']);
-  gulp.watch(['app/styles/**/*.scss'], ['css']);
-});
-
 
 gulp.task('build', ['jshint', 'html', 'images', 'fonts', 'extras', 'ad'], function () {
   return gulp.src('dist/**/*').pipe($.size({title: 'build', gzip: true}));

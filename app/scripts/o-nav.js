@@ -4,26 +4,6 @@ function Toggler(rootEl) {
   var togglerBtnAttribute = '[data-o-toggler-button]';
 	var togglerTargetAttribute = '[data-o-toggler-target]';
 
-  function init() {
-    if (!rootEl) {
-      rootEl = document.body;
-    }
-
-    var btnEl = rootEl.querySelector(togglerBtnAttribute);
-    var targetEl = rootEl.querySelector(togglerTargetAttribute);
-
-    if (!btnEl) { return; }
-
-    toggler.rootEl = rootEl;
-    toggler.button = btnEl;
-    toggler.target = targetEl;
-    toggler.isOpen = false;
-
-    toggler.button.addEventListener('click', handleToggle);
-    document.body.addEventListener('click', handleClick);     
-    document.body.addEventListener('keydown', handleEsc);     
-  }
-
   function handleToggle() {
     toggler.isOpen = !toggler.isOpen;
 
@@ -46,6 +26,26 @@ function Toggler(rootEl) {
     if (toggler.isOpen && !rootEl.contains(e.target)) {
       handleToggle();
     }
+  }
+
+  function init() {
+    if (!rootEl) {
+      rootEl = document.body;
+    }
+
+    var btnEl = rootEl.querySelector(togglerBtnAttribute);
+    var targetEl = rootEl.querySelector(togglerTargetAttribute);
+
+    if (!btnEl) { return; }
+
+    toggler.rootEl = rootEl;
+    toggler.button = btnEl;
+    toggler.target = targetEl;
+    toggler.isOpen = false;
+
+    toggler.button.addEventListener('click', handleToggle);
+    document.body.addEventListener('click', handleClick);     
+    document.body.addEventListener('keydown', handleEsc);     
   }
 
   init();
@@ -108,6 +108,31 @@ function Nav(rootEl) {
 	toggle();
 	selected();
 }
+
+function searchRedirect(formEl) {
+	if (typeof formEl === 'string') {
+		formEl = document.querySelector(formEl);
+	}
+	var searchEl = formEl.querySelector('.search-input');
+
+	var baseUrl = window.location.protocol + '//' + window.location.hostname + '/archiver/';
+
+	var pattern = /^(20\d{2})[-\s\/](0[1-9]|1[012])[-\s\/](0[1-9]|[12][0-9]|3[01])$/;
+
+	formEl.addEventListener('submit', function(e) {	
+		var searchValue = searchEl.value;
+		var matchedValue = searchValue.match(pattern);
+
+		if (matchedValue) {
+			e.preventDefault();
+			var archiveDate = matchedValue.slice(1).join('-');
+			console.log(archiveDate);
+
+			window.location.assign(baseUrl + archiveDate);
+		}
+	});	
+}
+searchRedirect('#search-form');
 
 // callback(error, data)
 var ajax = {
