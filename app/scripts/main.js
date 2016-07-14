@@ -260,6 +260,8 @@ function stickyBottom() {
 function loadImages() {
   var figures = document.querySelectorAll('figure.loading');
   var i;
+  var queryString = window.location.search;
+
   for (i=0; i<figures.length; i++) {
     var thisFigure = figures[i];
     var imageWidth = thisFigure.offsetWidth;
@@ -276,6 +278,22 @@ function loadImages() {
       imageHeight = imageHeight * 2;
       loadedClass = 'is-retina';
     }
+    
+
+    if (!queryString || queryString.indexOf('?ad=no') === -1) {
+      var mod = imageWidth % 50;
+
+      if (mod != 0) {
+        var MULTIPLE = 50;
+        var ratio = imageHeight / imageWidth;
+        var quotient = parseInt(imageWidth / MULTIPLE, 10);
+        imageWidth = (quotient + 1) * MULTIPLE;
+        imageHeight = parseInt(imageWidth * ratio, 10);
+      }
+      console.log(imageWidth, imageHeight);
+    }
+    
+
     // imageWidth = parseInt (imageWidth, 10);
     // imageHeight = parseInt (imageHeight, 10);
     if (/brand/.test(figureParentClass)) {
