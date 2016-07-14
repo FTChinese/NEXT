@@ -30,6 +30,9 @@ img {
     display: block !important;
     margin: auto !important;
 }
+.standard img {
+    margin: 0 !important;
+}
 .top-left {
     float: left;
 }
@@ -103,35 +106,7 @@ var adBottom = document.getElementById('ad-bottom');
 var adHeight = findTop(adBottom);
 var adResized = false;
 var w=0;
-// console.log (adHeight);
 
-//change bg color manually for demo purpose
-
-
-//Justerini
-/*
-var adText = document.querySelector('.ad>div').innerHTML;
-
-
-if (/icbc|Justerini/.test(adText)) {
-    window.adBGColor = 'white';
-} else if (/201602\/590\-90\.gif/.test(adText)) {
-    window.adBGColor = '#F6E9D8';
-} else if (/000058905_piclink\.jpg|201602\/336\-60\-ribbonAD\.gif/.test(adText)){
-    window.adBGColor = '#F6E9D8';
-} else if (/20160308housead969901\.gif|000059335_piclink\.jpg/.test(adText)) {
-    window.adBGColor = '#333';
-} else if (/201603\/590-90.gif/.test(adText)) {
-    window.adBGColor = '#e3dfca';
-} else {
-    window.adBGColor = '#F6E9D8';
-}
-
-
-if (typeof adBGColor === 'string' && adBGColor !== '') {
-    document.body.style.backgroundColor = adBGColor;
-}
-*/
 
 if ( window.parent.document.getElementById(parentId)) {
     parentIframe = window.parent.document.getElementById(parentId)
@@ -140,16 +115,19 @@ if ( window.parent.document.getElementById(parentId)) {
         adResized = true;
         try {
             w = window.parent.innerWidth || window.parent.document.documentElement.clientWidth || window.parent.document.body.clientWidth;
-            w = w - 60;
+            w = w - 60 - 15;
             if (w>1200) {
                 w = 1200;
             } else {
                 adHeight = w * 120/1200;
             }
-            document.querySelector('.top-left').style.width='1200px';
+            document.querySelector('.top-left').style.width = w+'px';
+            document.querySelector('.ad').className += ' standard';
             parentIframe.style.width = w + 'px';
             //parentIframe.parentNode.style.height = '120px';
             parentIframe.parentNode.parentNode.parentNode.parentNode.className += ' standard';
+            document.querySelector('.ad img').style.width = w+'px';
+            document.querySelector('.ad img').style.height = adHeight+'px';
         } catch(ignore){
 
         }
@@ -161,6 +139,9 @@ if ( window.parent.document.getElementById(parentId)) {
     if (adResized === true) {
         parentIframe.style.height = adHeight + 'px';
         try {
+            if (w<=1200) {
+                parentIframe.parentNode.style.height = adHeight + 'px';
+            }
             window.parent.stickyBottomPrepare();            
         } catch (err) {
             setTimeout (function(){
@@ -170,6 +151,7 @@ if ( window.parent.document.getElementById(parentId)) {
     }
     
 }
+
 //var stickyHeight = 3000;
 
 if (window.parent && parentId !== '' && /^banner/.test(parentId) && typeof stickyHeight === 'number' && stickyHeight > 0) {
