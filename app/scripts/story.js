@@ -8,7 +8,7 @@ var recommendLoaded = false;
 var recommendInner = document.getElementById('story-recommend');
 
 message.head = {};
-message.head.transactiontype = '61009';
+message.head.transactiontype = '61008';
 message.head.source = 'web';
 message.body = {};
 message.body.ielement = {};
@@ -69,6 +69,12 @@ xhr.onload = function() {
     } else if (xhr.status !== 200) {
         ga('send','event','Recommend Story API', 'Request Fail', '', {'nonInteraction':1});
         //alert('Request failed.  Returned status of ' + xhr.status);
+    }
+
+    if(!recommendLoaded && message.head.transactiontype === '61008'){
+        message.head.transactiontype = '61009';
+        xhr.open(ajaxMethod, encodeURI(ajaxUrl));
+        xhr.send(JSON.stringify(message));
     }
 };
 xhr.send(JSON.stringify(message));
