@@ -8,7 +8,7 @@ var recommendLoaded = false;
 var recommendInner = document.getElementById('story-recommend');
 
 message.head = {};
-message.head.transactiontype = '61008';
+message.head.transactiontype = '61009';
 message.head.source = 'web';
 message.body = {};
 message.body.ielement = {};
@@ -71,11 +71,11 @@ xhr.onload = function() {
         //alert('Request failed.  Returned status of ' + xhr.status);
     }
 
-    if(!recommendLoaded && message.head.transactiontype === '61008'){
-        message.head.transactiontype = '61009';
-        xhr.open(ajaxMethod, encodeURI(ajaxUrl));
-        xhr.send(JSON.stringify(message));
-    }
+    // if(!recommendLoaded && message.head.transactiontype === '61008'){
+    //     message.head.transactiontype = '61009';
+    //     xhr.open(ajaxMethod, encodeURI(ajaxUrl));
+    //     xhr.send(JSON.stringify(message));
+    // }
 };
 xhr.send(JSON.stringify(message));
 
