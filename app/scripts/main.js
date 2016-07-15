@@ -283,7 +283,7 @@ function loadImages() {
     if (!queryString || queryString.indexOf('?ad=no') === -1) {
       var mod = imageWidth % 50;
 
-      if (mod != 0) {
+      if (mod !== 0) {
         var MULTIPLE = 50;
         var ratio = imageHeight / imageWidth;
         var quotient = parseInt(imageWidth / MULTIPLE, 10);
