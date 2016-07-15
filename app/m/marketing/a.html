@@ -134,7 +134,12 @@ if ( window.parent.document.getElementById(parentId)) {
         parentIframe.style.height = adHeight + 'px';
         try {
             if (w<=1200) {
-                parentIframe.parentNode.style.height = adHeight + 'px';
+                if (parentId.indexOf('mpu')>=0) {
+                    alert (paretId);
+                    parentIframe.parentNode.style.height = 'auto';
+                } else {
+                    parentIframe.parentNode.style.height = adHeight + 'px';
+                }
             }
             window.parent.stickyBottomPrepare();            
         } catch (err) {
