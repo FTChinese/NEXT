@@ -331,6 +331,7 @@ function writeAd(adType, returnSrc) {
     }    
   }
   
+  adCount[adType] = adCount[adType] + 1;
   if (returnSrc === true) {
     return iframeSrc;
   } else if (/micromessenger/i.test(uaString) && 1 > 0) {
@@ -344,15 +345,11 @@ function writeAd(adType, returnSrc) {
     wechatAdHTML += '</scr';
     wechatAdHTML += 'ipt>';
     //var wechatAdHTML = 'http://dolphin.ftimg.net/s?z=ft&c=' + c + slotStr + adP;
-    console.log (wechatAdHTML);
+    //console.log (wechatAdHTML);
     return wechatAdHTML;
-
-
   } else {
-    adCount[adType] = adCount[adType] + 1;
     return iframeHTML;
   }
-  
 }
 
 var bannerIframeContainers = [];

@@ -1030,7 +1030,7 @@
     });
 
     $('body').on('click', '#button-save', function () {
-        if (confirm('是否“保存”当前操作结果？\n\n注意：保存操作不会更新首页。')) {
+        if (confirm('是否“保存”当前操作结果？\n\n注意：保存操作不会更新页面。')) {
             $.ajax({
                 type: 'POST',
                 url: gApiUrls.homePOST,
@@ -1052,7 +1052,7 @@
     });
 
     $('body').on('click', '#button-submit', function () {
-        if (confirm('是否“提交”当前操作结果？\n\n注意：提交操作会更新首页。')) {
+        if (confirm('是否“提交”当前操作结果？\n\n注意：提交操作会更新页面。')) {
             $.ajax({
                 type: 'POST',
                 url: gApiUrls.homePOST,
@@ -1089,7 +1089,7 @@
     });
 
     $('body').on('click', '.preview-on-device', function () {
-        var url = 'http://www7.ftchinese.com/?n=1';
+        var url = 'http://www7.ftchinese.com/m/corp/preview.html?pageid=' + getURLParameter('page');
         var w = $(this).attr('data-width') || $(window).width();
         var h = $(this).attr('data-height') || $(window).height();
         window.open(url, 'newwindow', 'height=' + h + ',width=' + w + ',top=0,left=0,toolbar=no,menubar=no,resizable=no,scrollbars=yes,location=no, status=no');

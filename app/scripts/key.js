@@ -124,6 +124,13 @@ function trackerNew() {
     }catch(ignore){
     
     }
+    if (typeof window.interactiveType === 'string') {
+        try{
+            ga('set', 'contentGroup1', window.interactiveType); 
+        }catch(ignore){
+        
+        }
+    }
 
     if (window.FTAdchID !== undefined && window.FTAdchID !== null && window.FTAdchID !== '') {
         ga('set', 'dimension1', window.FTAdchID);

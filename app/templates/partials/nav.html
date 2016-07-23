@@ -106,7 +106,14 @@
                             <li class="nav-item" <%if !empty($subnav) && ($subnav==$level_2.code)%>
                             aria-selected="true"<%assign var=current_sub_page value=$level_2.name%><%assign var=current_sub_link value=$level_2.link%><%/if%><%if $level_2.haschildren%> aria-haspopup="true"<%/if%> data-channel="<%$level_2.code%>">
                               <a class="nav-link" href="<%$level_2.link%>"><%$level_2.name %></a>
-                              <%if $level_2.haschildren%>
+                              <%if $level_2.code == "special"%>
+                                <ol class="nav-sub-items">
+                                <li><a href="/tag/投资英国">投资英国</a></li>
+                                <li><a href="/tag/全球商业的未来">全球商业的未来</a></li>
+                                <li><a href="/tag/2016%E8%BE%BE%E6%B2%83%E6%96%AF">2016达沃斯</a></li>
+                                <li><a href="/tag/与FT共进午餐">与FT共进午餐</a></li>
+                                </ol>
+                              <%elseif $level_2.haschildren%>
                                 <ol class="nav-sub-items">
                                   <%foreach from=$level_2.children item="level_3"%>
                                   <li><a href="<%$level_3.link%>"><%$level_3.name%></a></li>
@@ -276,6 +283,7 @@
   <li class="nav-item"  aria-haspopup="true" data-channel="special">
   <a class="nav-link" href="/channel/special.html">特别报导</a>
   <ol class="nav-sub-items">
+  <li><a href="/tag/投资英国">投资英国</a></li>
   <li><a href="/tag/全球商业的未来">全球商业的未来</a></li>
   <li><a href="/tag/2016%E8%BE%BE%E6%B2%83%E6%96%AF">2016达沃斯</a></li>
   <li><a href="/tag/与FT共进午餐">与FT共进午餐</a></li>
@@ -429,7 +437,7 @@
   <div class="site-map__container">
   </div>
   </div>
-  <script>ga('send','event', 'CatchError', 'API Error', '11001 Navigation', {'nonInteraction':1});</script>
+  <script>ga('send','event', 'CatchError', 'API 11001: Navigation', '<%$smarty.server.SERVER_ADDR%>: ' + window.location.href, {'nonInteraction':1});</script>
 <%/if%>
 
 

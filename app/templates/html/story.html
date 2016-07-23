@@ -349,6 +349,8 @@
 <%assign var="thirdnav" value="futureofenergy"%>
 
 
+
+
 <%elseif preg_match("/全球商业的未来/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20151231 && date("Ymd",$smarty.now) <= 20161231%>
 <%assign var=breadcrum value="<a href=\"/tag/全球商业的未来\">全球商业的未来</a>"%>
 <%assign var="adchannelID" value="2051"%>
@@ -569,6 +571,12 @@
 	<%assign var="adchannelID" value="2052"%>
 	<%assign var="hide590" value="yes"%>
 	<%assign var="hideInReadAd" value="yes"%>
+<%elseif preg_match("/投资英国/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20160701 && date("Ymd",$smarty.now) <= 20160831%>
+	<%assign var=breadcrum value="<a href=\"/tag/投资英国\">投资英国</a>"%>
+	<%assign var="adchannelID" value="2055"%>
+	<%assign var="hideMPU2" value="no"%>
+	<%assign var="hideMPU3" value="no"%>
+	<%assign var="hide590" value="no"%>
 <%elseif preg_match("/新闻稿/is",$keys)%>
 	<%assign var="topnav" value="home"%>
 	<%assign var="subnav" value="member"%>
@@ -920,6 +928,7 @@
 		<%include file="next/partials/QrCode.html"%>
 		<%include file="next/partials/story-font.html"%>
 		<%include file="next/partials/story-action.html"%>
+
 	<%else%>
 		<%include file="include/story/story_print.html"%>
 	<%/if%>
