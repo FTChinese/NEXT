@@ -36,12 +36,12 @@
 <%/if%>
 
 
-<%easyapi command="11001" assign="datass1" debug=false%>
-<%assign var="navData" value=$datass1.odatalist%>
+<%*easyapi command="11001" assign="datass1" debug=false*%>
+<%assign var="navData" value=$global_nav%>
 <%if $topnav == ""%><%assign var="topnav" value="home"%><%/if%>
 
 
-<%if $datass1.odatalist && $datass1.odatalist|@count > 0%>
+<%if $global_nav != null && $global_nav|@count > 0%>
   <div class="o-nav__placeholder">
     <div class="o-nav">
       <div class="o-nav__outer">
@@ -80,7 +80,7 @@
                   </li>
                 </ol>
               </li>
-              <%foreach from=$datass1.odatalist item="level_1"%>
+              <%foreach from=$global_nav item="level_1"%>
                 <%if preg_match("/home/is",$level_1.code) || !preg_match("/myft/is",$topnav)%>
                   <li class="nav-section"
                     <%if $topnav==$level_1.code%> aria-selected="true"<%assign var=current_page value=$level_1.name%><%assign var=current_link value=$level_1.link%><%/if%> data-section="<%$level_1.code%>">
