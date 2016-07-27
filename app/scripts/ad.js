@@ -231,6 +231,7 @@ var adPositions = {
   'phonebanner': ['0101', '0114'],
   'phonempu': ['0003'],
   'phonestorybanner': ['0101', '0115'],
+  'phonestorybannersponsor': ['0109', '0109'],
   'phonestorympu': ['0004']
 };
 var uaString;
@@ -269,6 +270,8 @@ function writeAd(adType, returnSrc) {
   var adch = adchID;
   var bannerBG = '';
 
+  //alert (adType);
+
   // use UserAgent to determine iOS and Android devices
   if (/iPad/i.test(uaString) && /mpu/.test(adType)) {
     //if iPad, mpu ads change to iPad apps
@@ -284,6 +287,8 @@ function writeAd(adType, returnSrc) {
 
 
   if (adch === '2022' || adch === '2023') {
+    // if it's a sponsored story
+
     if (adType.indexOf('banner') >=0) {
       adType = 'phonebanner';
     } else if (adType === 'mpu') {
@@ -293,6 +298,14 @@ function writeAd(adType, returnSrc) {
     } else if (adType === 'storympu') {
       adType = 'phonestorympu';
     }
+    if (window.sponsorMobile === true) {
+      adch = adchID;
+      if (adType === 'phonebanner') {
+        adType = 'phonestorybannersponsor';
+      }
+      //adType = 'phonestorympu';
+    }
+    //alert (adType);
   }
 
   if (window.pageTheme === 'luxury') {
@@ -309,7 +322,7 @@ function writeAd(adType, returnSrc) {
     if (/mpu/.test(adType)) {
       adWidth = '300';
       adHeight = '250';
-    } else if (adType === 'phonebanner' || adType === 'phonestorybanner') {
+    } else if (/phone.*banner/.test(adType)) {
       adWidth = '100%';
       adHeight = '50';
     } else {

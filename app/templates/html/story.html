@@ -577,6 +577,7 @@
 	<%assign var="hideMPU2" value="no"%>
 	<%assign var="hideMPU3" value="no"%>
 	<%assign var="hide590" value="no"%>
+	<%assign var="sponsorMobile" value="yes"%>
 <%elseif preg_match("/新闻稿/is",$keys)%>
 	<%assign var="topnav" value="home"%>
 	<%assign var="subnav" value="member"%>
@@ -899,6 +900,9 @@
             }
         </script>
     <![endif]-->
+    <%if preg_match("/数据新闻/is",$keys)%>
+	    <script type="text/javascript">window.interactiveType = 'Data News';</script>
+    <%/if%>
     <%include file="next/partials/head.html"%>
   </head>
   <%assign var="bannerCount" value=0%>
