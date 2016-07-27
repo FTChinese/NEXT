@@ -331,7 +331,7 @@ function loadImages() {
     var videoHeight = thisVideo.offsetHeight;
     var videoId = thisVideo.getAttribute('data-vid');
     var videoType = thisVideo.getAttribute('data-item-type') || 'video';
-    if (videoWidth > 0 && videoHeight > 0) {
+    if (videoWidth > 0 && videoHeight > 0 && queryString.indexOf('?ad=no') === -1 && hostForVideo !== 'http://www.ftchinese.com') {
       //console.log (videoId + ' Height: ' + videoHeight + ' Width: ' + videoWidth);
       thisVideo.innerHTML = '<iframe name="video-frame" id="video-frame" style="width:100%;height:100%;position:absolute;" src="' + hostForVideo + '/' + videoType + '/'+ videoId +'?i=2&w='+videoWidth+'&h='+videoHeight+'&autostart=false" scrolling="no" frameborder="0" allowfullscreen=true></iframe>';
       thisVideo.className = '';
