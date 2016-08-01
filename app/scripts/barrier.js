@@ -22,11 +22,11 @@
         
 
 
-        var viewstart=GetCookie ('viewstart') || '';
+        var viewstart=GetCookie ('viewstart') || unixday;
         var viewhistory = GetCookie('viewhistory') || '';
         var username=GetCookie('USER_NAME') || '';
 
-
+        viewstart = parseInt(viewstart, 10);
 
         if (viewstart === '') {
         	SetCookie('viewstart', unixday);
