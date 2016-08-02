@@ -358,6 +358,12 @@
 <%assign var="hideMPU3" value="no"%>
 <%assign var="hide590" value="no"%>
 
+<%elseif preg_match("/智能城市/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20151231 && date("Ymd",$smarty.now) <= 20161231%>
+<%assign var=breadcrum value="<a href=\"/tag/智能城市\">智能城市</a>"%>
+<%assign var="adchannelID" value="2056"%>
+<%assign var="hideMPU2" value="no"%>
+<%assign var="hideMPU3" value="no"%>
+<%assign var="hide590" value="no"%>
 
 <%elseif (preg_match("/2015年度报告/is",implode(",", $story.tag))||preg_match("/年度报告/is",implode(",", $story.tag))) && date("Ymd",$smarty.now) >= 20131216 && date("Ymd",$smarty.now) <= 20151231%>
   <%assign var="adchannelID" value="2002"%>
