@@ -83,7 +83,7 @@ function goToBottom(elm) {
 
 function abTest() {
 	const rand = getRandomIntInclusive(0, 1);
-	console.log('rand number: ', rand);
+	// console.log('rand number: ', rand);
 
 	const barrierNew = createBarrier('barrier-new');
 
@@ -241,8 +241,8 @@ function abTest() {
   //   }
 	if (typeof window.FTStoryid === 'string' && w > 490 && isTouchDevice() === false) {
 
-		// var maxStory = 8;
-		var maxStory = 1;
+		var maxStory = 8;
+		// var maxStory = 1;
 		var storyIdLength = 9;
 		var historyDays = 30;
 		var unixday=Math.round(new Date().getTime()/1000);
