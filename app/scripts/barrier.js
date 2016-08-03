@@ -173,7 +173,7 @@ function abTest() {
 		}
 
 		barrierElt.onclick = function(e) {
-			e.preventDefault();
+			// e.preventDefault();
 			const eventKey = e.target.className;
 			// console.log('clicked element className: ', eventKey);
 
