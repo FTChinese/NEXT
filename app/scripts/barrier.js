@@ -82,19 +82,19 @@ function goToBottom(elm) {
 }
 
 function abTest() {
-	const rand = getRandomIntInclusive(0, 1);
+	var rand = getRandomIntInclusive(0, 1);
 	// console.log('rand number: ', rand);
 
-	const barrierNew = createBarrier('barrier-new');
+	var barrierNew = createBarrier('barrier-new');
 
 	document.body.appendChild(barrierNew);
 // Use event delegation on the outermost element.
 // set up a map of element to action performed so taht we do not need to traverse the dom.
 // use e.target to capture the element click, then use the element's class or id as the map's key.
-	const oBarrierInstances = [
+	var oBarrierInstances = [
 		{
 			elt: barrierNew,
-			type: 'Barrier Page New',
+			type: 'Barrier Page 002',
 			events: {
 				'o-barrier': function(e, type) {
 					// console.log(barrierOnBottom(e.currentTarget.className))
@@ -133,7 +133,7 @@ function abTest() {
 		},
 		{
 			elt: document.getElementById('overlay-login'),
-			type: 'Barrier Page',
+			type: 'Barrier Page 001',
 			events: {
 				'register': function(e, type) {
 					recordAction(type, 'Register');
@@ -160,9 +160,9 @@ function abTest() {
 		}
 	];
 
-	const barrierType = oBarrierInstances[rand].type;
-	const barrierElt = oBarrierInstances[rand].elt;
-	const barrierEvents = oBarrierInstances[rand].events;
+	var barrierType = oBarrierInstances[rand].type;
+	var barrierElt = oBarrierInstances[rand].elt;
+	var barrierEvents = oBarrierInstances[rand].events;
 
 	if (rand === 0) {
 		barrierElt.style.display = 'block';
@@ -174,7 +174,7 @@ function abTest() {
 
 		barrierElt.onclick = function(e) {
 			// e.preventDefault();
-			const eventKey = e.target.className;
+			var eventKey = e.target.className;
 			// console.log('clicked element className: ', eventKey);
 
 			if (barrierEvents[eventKey]) {
@@ -183,7 +183,7 @@ function abTest() {
 		};	
 	} else if (rand === 1) {
 		showOverlay('overlay-login');
-		const msgElt = document.getElementById('login-reason');
+		var msgElt = document.getElementById('login-reason');
 		msgElt.innerHTML = '亲爱的读者，您在' + historyDays + '天内连续阅读了' + maxStory + '篇以上文章，如果您喜欢FT中文网，我们诚邀您登录访问或<a href="http://user.ftchinese.com/register/?ccode=1B110427" class=highlight>免费注册</a>为FT中文网的会员。';
 		
 		try {
@@ -194,9 +194,9 @@ function abTest() {
 
 		barrierElt.onclick = function(e) {
 			// e.preventDefault();
-			const target = e.target
-			const className = target.className;
-			const tagName = target.tagName.toLowerCase();
+			var target = e.target
+			var className = target.className;
+			var tagName = target.tagName.toLowerCase();
 			var eventKey = '';
 
 			if (tagName === 'a') {
@@ -219,7 +219,7 @@ function abTest() {
 		};
 
 		barrierElt.getElementsByTagName('form')[0].onsubmit = function(e) {
-			const eventKey = 'logIn';
+			var eventKey = 'logIn';
 
 			if (barrierEvents[eventKey]) {
 				barrierEvents[eventKey](e, barrierType);
