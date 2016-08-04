@@ -1,0 +1,470 @@
+<%assign var="p" value=$nextmodel->getPublishJson($pageId)|json_decode:true%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+<style>
+* {padding:0;margin:0;border:0;}
+.lineH{line-height: 1.618 !important;}
+.lineH1{line-height: 1 !important;}
+.lineH1_2{line-height: 1.2 !important;}
+.lineH1_4{line-height: 1.4 !important;}
+html{-webkit-text-size-adjust: none;}
+.videosubhead p {padding-top: 10px;}
+img,div,p,table,td,tr{max-width:100%;}
+.mainTD{width:100%;max-width:100%;}
+@media all and (max-width: 500px) {
+.coverImgLinkContain{float:none !important;margin:5px auto !important;}
+}
+@media all and (max-width: 450px) {
+.mainTD{width:100%;max-width:450px;}
+#wrapperInner,
+#containerTable {
+*width: 400px !important;
+_width: 400px !important;
+width: 100% !important;
+}
+.whiteBorder {
+width: 0 !important;
+font-size: 0 !important;
+}
+.otherHeadlines {
+font-size:17px !important;line-height:1.2 !important;color:#505050 !important;
+}
+.otherHeadlines a,
+.otherHeadlinesLink {
+color:#505050 !important;text-decoration:none !important;display:block !important;
+}
+.ft-logo {
+font-size:26px !important;line-height:1.2 !important;height:26px !important;text-align:center !important;
+}
+.ft-logo-briefing {
+font-size:5px !important;line-height:1 !important;height:5px !important;
+}
+.ft-desc {
+font-size:13px !important;line-height:1.2 !important;color:#505050 !important;text-align:center !important;font-weight:bold !important;
+}
+.ft-header-bar {
+border: solid 1px #A7A59B !important;
+border-width: 1px 0 !important;
+font-weight:normal !important;
+padding: 7px 14px !important;
+color:#000 !important;background-color:#E9DECE !important;font-size:19px !important; line-height:1.4 !important; font-weight:normal !important;width:100% !important;
+}
+.topHeadline {
+font-size:21px !important;line-height:1.1 !important;color:#333 !important;
+}
+.topHeadline a {
+color:#333 !important;text-decoration:none !important;display:block !important;
+}
+.subhead {
+font-size:18px !important;line-height:1.4 !important;color:#505050 !important;
+}
+.hotArticleList{font-size:20px !important;}
+.dotsSeparator {
+margin-left: 10px !important;
+margin-right: 10px !important;
+}
+.textPadding {
+padding-left:10px !important;padding-right:10px !important;
+}
+.videoImageLink {
+color:#505050 !important;text-decoration:none !important;display:block !important;
+}
+.headLine{font-size:19px !important;line-height:1.618 !important; color: #000;}
+.cover .headLine{font-size:26px !important;line-height:1.618 !important;}
+.SContent{font-size:16px !important;line-height:1.618 !important; color: #777;}
+.cover{font-size:16px !important;line-height:1.618 !important;}
+.imgSpace{height:6px !important;font-size: 0 !important;}
+.largeViewBar,.HSpace{display: none !important;}
+.tableBorder{border:0 !important;}
+}
+@media all and (min-width: 451px) {
+.mainTD{width:100%;max-width:450px;}
+#wrapperInner,#containerTable {
+*width: 400px !important;
+_width: 400px !important;
+width: 100% !important;
+}
+.whiteBorder {
+width: 0 !important;
+font-size: 0 !important;
+}
+.openInBrowserGap {
+height: 10px !important; font-size: 8px !important; line-height: 1.2 !important; padding: 0 !important;
+}
+.contentPadding {
+width: 45px !important;
+}
+.bottomContentPadding {
+height: 43px !important; font-size: 43px !important; line-height: 1 !important; padding: 0 !important;
+}
+.otherHeadlines {
+font-size:21px !important;line-height:1.1 !important;color:#505050 !important;
+}
+.otherHeadlines a,.otherHeadlinesLink {
+color:#505050 !important;text-decoration:none !important;
+}
+.ft-logo {
+font-size:53px !important;line-height:1 !important;height:53px !important;text-align:center !important;
+}
+.ft-logo-briefing {
+font-size:2px !important;line-height:1 !important;height:2px !important;
+}
+.ft-desc {
+font-size:13px !important;line-height:1.2 !important;color:#505050 !important;text-align:center !important;font-weight:bold !important;
+}
+.ft-header-bar {
+color:#000 !important;
+background: #E9DECF !important;
+border: solid 1px #A7A59B !important;
+border-width: 1px 0 !important;
+line-height:1.4 !important;
+font-size:19px !important;
+font-weight:normal !important;
+padding: 7px 14px !important;
+width:100% !important;
+}
+.topHeadline {
+font-size:28px !important;line-height:1.1 !important;color:#333 !important;
+}
+.topHeadline a {
+color:#333 !important;text-decoration:none !important;
+}
+.subhead {
+font-size:14px !important;line-height:1.4 !important;color:#505050 !important;
+}
+.dotsSeparator {
+margin-left: 17px !important;
+margin-right: 17px !important;
+}
+.textPadding {
+padding-left:17px !important;padding-right:17px !important;
+}
+.videoImageLink {
+color:#505050 !important;text-decoration:none !important;
+}
+}
+@media all and (min-width: 720px) {
+.mainTD{width:100%;max-width:720px;}
+#wrapperInner,
+#containerTable {
+width: 720px !important;
+}
+}
+@media only screen and (max-width: 720px) and (min-width: 501px){
+.coverImgLinkContain{max-width: 50% !important;}
+}
+</style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title><%$p.meta.title%> - FT中文网</title>
+</head>
+<body style="width:100%;color:#111111;background-color:#FFFFFF;font-family:"Hiragino Sans GB","WenQuanYi Micro Hei","Heiti SC",STHeiti,SimSun,sans-serif;font-size:14px;">
+<%assign var="articles" value=$publishhtml->get_publish_html("weekly")%>
+<%assign var="pageTitle" value=$p.meta.title%>
+<div id="wrapper" style="margin: 0 auto; text-align: center;">
+<div style="font-size:1px;color:#FFF;display:none;"><%$articles.TopPick|regex_replace:"/<a.*<\/a>/":""|strip_tags|regex_replace:"/[\r\n\t\s]/":""%></div>
+<table border="0" cellspacing="0" cellpadding="0" id="containerTable" style="background-color:#ffffff; display: table; margin: 0 auto; text-align: center; width: 720px; *width: 720px; _width: 720px;" align="center">
+<tr>
+<td class="mainTD" style="width: 720px;">
+<table border="0" cellspacing="0" cellpadding="0" align="left" style="text-align: left;">
+<tr>
+<td style="width:1%;" class="whiteBorder">&nbsp;</td>
+<td class="mainCol">
+<table class="tableBorder" border="0" cellspacing="0" cellpadding="0" style="background-color: #FFF1E0; border: 2px solid #f7f7f7; text-align: left;" align="left">
+<tr><td class="lineH1" style="height: 3px; font-size: 3px; line-height: 3px; padding: 0;">&nbsp;</td></tr>
+
+<tr><td class="lineH1_2" style="text-align: center; font-size: 11px; line-height: 13px;  color: #505050;">如果您无法正常显示邮件, <a
+href="<%$smarty.server.REQUEST_URI%>" style="color: #2e6e9e; text-decoration: none;"
+>请点击此处</a></td></tr>
+<tr><td class="lineH1 openInBrowserGap" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
+<tr><td style="padding-left: 10px; padding-right: 10px;">
+<table border="0" cellspacing="0" cellpadding="0" style="width: 100%;">
+<tr><td class="ft-logo lineH1" style="font-size:43px;line-height:43px;height:43px;text-align:center; width: 100%;">
+<a
+href="http://www.ftchinese.com" target="_blank"
+><img id="ft-logo-img" src="http://static.ftchinese.com/img/ftcLogoHD.png" width="172" height="36" style="width: 172px;height: 36px; color: #091523; font-size: 25px; border: 0 none;" alt="FT中文网" title="FT中文网" /></a>
+</td></tr>
+<tr><td style="font-size:4px;line-height:4px;height:4px;" class="ft-logo-briefing lineH1">&nbsp;</td></tr>
+<tr><td class="ft-desc lineH1_2" style="font-size:13px;line-height:16px;color:#505050;text-align:center;font-weight:bold;"><%$smarty.now|date_format:"%Y年%m月%d日"%></td></tr>
+</table>
+</td></tr>
+<tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
+<tr><td>
+<table width="100%" cellpadding="0" cellspacing="0">
+<tr>
+<td style="width: 3%;" class="contentPadding largeViewBar">&nbsp;</td>
+<td>
+<table width="100%" cellpadding="0" cellspacing="0">
+
+
+
+<%assign var="s" value=0%>
+<%foreach from=$p.sections item=section%>
+    <%if $section.type == "block"%>
+    	<%assign var="l" value=0%>
+        <%foreach from=$section.lists item=list%>
+        	<%if $list.title != ""%>
+	        	<tr><td class="ft-header-bar" style="color:#333333;background-color:#E9DECE;font-size:13px;font-weight:bold;padding:5px 17px 4px 17px;text-transform:uppercase;width:100%;"><%$list.title%></td></tr>
+				<tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
+			<%/if%>
+			<tr><td style="font-size:14px;line-height:25px;color:#505050;padding-left:17px;padding-right:17px;" class="subhead textPadding lineH">
+			<%assign var="i" value=0%>
+			<%foreach from=$list.items item=item%>
+				<%if $s == 0 && $l == 0 && $i ==0%>
+					<%assign var="imageWidth" value=300%>
+					<%assign var="imageHeight" value=169%>
+				<%else%>
+					<%assign var="imageWidth" value=167%>
+					<%assign var="imageHeight" value=94%>
+				<%/if%>
+				<div style="line-height:1.618; ">
+				    <table width="100%" cellpadding="0" cellspacing="0" style="border-bottom:1px solid #E9DECF; line-height:1.618;">
+				        <tr><td class="lineH1" style="height: 5px; font-size: 5px; line-height: 5px; padding: 0;"> </td></tr>
+				        <tr>
+				            <td class="SContent cover" style="font-size:14px;line-height:23px;color:#505050;">
+				                <div class="lineH1_4" style="line-height:40px;font-size:25px;">
+				                    <a target=_blank class="headLine" style="font-weight:bold; text-decoration:none; color:#111;" href="http://www.ftchinese.com/<%$item.type%>/<%$item.id%>#s=w"><%$item.headline%></a>
+				                </div>
+								<table cellpadding="0" cellspacing="0" align="left" class="coverImgLinkContain"><tr><td class="lineH1 imgSpace" style="height: 6px; font-size: 0px; line-height: 5px; padding: 0;"> </td></tr><tr><td>
+
+								<a class="coverImgLink" style="" target="_blank" href="http://www.ftchinese.com/<%$item.type%>/<%$item.id%>#s=w">
+								<img src="https://image.webservices.ft.com/v1/images/raw/<%$item.image|replace:"/upload/":"/"|escape:"ulr"%>?source=ftchinese&width=<%$imageWidth%>&height=<%$imageHeight%>" border="0" style="width:<%$imageWidth%>px;" align="left" width="<%$imageWidth%>"/>
+								</a>
+
+								</td><td style="width:10px"> </td></tr><tr><td class="lineH1 imgSpace" style="height: 5px; font-size: 0px; line-height: 5px; padding: 0;"> </td></tr></table>
+								<%$item.longlead|default:$item.shortlead%>
+				            </td>
+				        </tr>
+				        <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;"> </td></tr>
+				    </table>
+				</div>
+				<%if $s == 0 && $l == 0 && $i ==0%>
+					<table width="100%" cellpadding="0" cellspacing="0">                                     
+						<tr>
+							<td class="ft-embimg-container" style="font-size: 0; text-align: center; padding: 20px 0 20px 0; background-color:#E9DECE;">
+								<a target="_blank"  href='http://www3.ftchinese.com/app/newsletter/go.php?c=20250003&_t=<%$smarty.now|date_format:"%Y%m%d"%>'>
+									<img width="300" height="250" border="0" src='http://dolphin.ftimg.net/s?z=ft&c=20250003&_t=<%$smarty.now|date_format:"%Y%m%d"%>&u=www.ftchinese.com'>
+								</a>
+							</td>
+						</tr>
+					</table>
+				<%/if%>
+				<%assign var="i" value=$i+1%>
+			<%/foreach%>
+			</td></tr>
+			<%assign var="l" value=$l+1%>
+        <%/foreach%>
+        <%assign var="s" value=$s+1%>
+    <%/if%>
+<%/foreach%>
+
+
+</table>
+</td>
+<td style="width: 3%;" class="contentPadding largeViewBar">&nbsp;</td>
+</tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+<tr><td class="lineH1" style="height: 22px; font-size: 22px; line-height: 22px; padding: 0;">&nbsp;</td></tr>                                          
+<tr>
+<td colspan="3" class="ft-embimg-container" style="font-size: 0; text-align: center; padding: 20px 0 20px 0; background-color:#E9DECE;">
+<a target="_blank"  href='http://www3.ftchinese.com/app/newsletter/go.php?c=20250004&_t=<%$smarty.now|date_format:"%Y%m%d"%>'>
+<img width="300" height="250" border="0" src='http://dolphin.ftimg.net/s?z=ft&c=20250004&_t=<%$smarty.now|date_format:"%Y%m%d"%>&u=www.ftchinese.com'>
+</a>
+</td>
+</tr>
+<tr><td class="lineH1" style="height: 22px; font-size: 22px; line-height: 22px; padding: 0;">&nbsp;</td></tr>
+<%assign var="hotTopics" value=$articles.HotTopics%>
+<%assign var="hotTopics" value=$hotTopics|replace:"，":","%>
+<%assign var="topics" value=","|explode:$hotTopics%>
+<%foreach from=$topics item=topic%>
+<%if $topic!=""%>
+<tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
+<tr><td style="width: 3%;" class="contentPadding">&nbsp;</td><td class="ft-header-bar" style="background-color:#E9DECE;font-size:13px;font-weight:bold;padding:5px 17px 4px 17px;text-transform:uppercase;width:100%;"><a href="http://www.ftchinese.com/tag/<%$topic|escape:"url"%>" style="color:#333333;text-decoration:none;" target=_blank><%$topic%></a></td><td style="width: 3%;" class="contentPadding">&nbsp;</td></tr>
+<tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
+<tr><td style="width: 3%;" class="contentPadding">&nbsp;</td><td style="font-size:14px;line-height:25px;color:#505050;padding-left:17px;padding-right:17px;" class="subhead textPadding lineH">
+<%assign var="allstories" value=$storymodel->get_story_by_field_search("tag like '%`$topic`%'",0,5,15,10800)%>
+<%foreach from=$allstories item=sc%>
+<div class="lineH" style="line-height:161.8%;">
+<div class="lineH1_4" style="line-height:35px;font-size:25px;">
+<a target=_blank style="FONT-WEIGHT:bold;TEXT-DECORATION:none;color:#111;" href="http://www.ftchinese.com/story/<%$sc.id%>#s=w"><%$sc.cheadline%></a>
+</div>
+<%$sc.clongleadbody|default:$sc.cshortleadbody|default:$sc.cskylinetext%>
+<div style="height:8px;font-size:6px;"><br /></div>
+</div>
+<%/foreach%>
+</td><td style="width: 3%;" class="contentPadding">&nbsp;</td></tr>
+<%/if%>
+<%/foreach%>
+<tr>
+<td style="width: 3%;" class="contentPadding">&nbsp;</td>
+<td style="font-size:14px;line-height:25px;color:#505050;padding-left:17px;padding-right:17px;" class="subhead textPadding lineH">
+<div style="height:8px;font-size:6px;"><br /></div>
+<div style="font-size:1px;border-bottom:3px solid #beb39e"></div>
+<div style="height:8px;font-size:6px;"><br /></div>
+<div style="color:#111;"><b>一周热门文章</b></div>
+<div style="height:8px;font-size:6px;"><br /></div>
+<div style="color:#9b164f;font-weight:bold;" class="hotArticleList">
+<%assign var="mp" value=$storymodel->get_hot_story(7,10) %>
+<%foreach item=sc from=$mp name=popular%>
+<%$smarty.foreach.popular.iteration%>.&nbsp;<a  target=_blank style="FONT-WEIGHT:normal;TEXT-DECORATION:none;color:#2E6E9E;" href="http://www.ftchinese.com/story/<%$sc.storyid%>#s=n"><%$sc.cheadline%></a><div style="height:8px;font-size:6px;"><br /></div>
+<%/foreach%>
+</div>
+<div style="height:8px;font-size:6px;"><br /></div>
+</td>
+<td style="width: 3%;" class="contentPadding">&nbsp;</td>
+</tr>
+<tr>
+<td style="width: 3%;" class="contentPadding">&nbsp;</td>
+<td>
+<table width="100%" cellpadding="0" cellspacing="0">
+<tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
+<tr>
+<td style="padding: 0 12px 6px 12px;">
+<table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+<tr>
+<td style="width: 50%; background-color: #F6E8D7; padding: 6px 8px; border-radius: 2px;" valign="middle">
+<table border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td style="line-height: 16px;">
+<a
+href="http://www.ftchinese.com/users/setting/maillist" style="text-decoration: none;  line-height: 16px;" target="_blank"
+>
+<img src="http://img.ed4.net/financialtimesc/images/2013/Responsive/emailsettings-v2.png" alt="" style="width: 26px; height: 26px; border: 0 none;" />
+</a>
+</td>
+<td style="padding-left:5px;color:#2E6E9E;line-height:16px;" target="_blank" nowrap>
+<a  class="lineH1_2"
+href="http://www.ftchinese.com/users/setting/maillist" style="text-decoration:none;font-size:12px;line-height:16px;color:#2E6E9E;" target="_blank">设置邮件</a>
+</td>
+</tr>
+</table>
+</td>
+<td style="width: 7px; height: 100%;">&nbsp;&nbsp;</td>
+<td style="width: 50%; background-color: #F6E8D7; padding: 6px 8px; border-radius: 2px;" valign="middle">
+<table border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td style="line-height: 16px;">
+<a
+href="http://service.weibo.com/share/share.php?appkey=4221537403&url=http%3A%2F%2Fwww.ftchinese.com%2Fm%2Femail%2Fweek&title=<%"FT中文网一周精选"|escape:"url"%>&ralateUid=1698233740&source=&sourceUrl=&content=utf-8&pic=" style="text-decoration: none;  line-height: 16px;" target="_blank"
+>
+<img src="http://img.ed4.net/financialtimesc/images/2013/Responsive/forward-v2.png" alt="" style="width: 26px; height: 26px; border: 0 none;" />
+</a>
+</td>
+<td style="padding-left: 5px; color: #2E6E9E;  line-height: 16px;" nowrap>
+<a
+href="http://service.weibo.com/share/share.php?appkey=4221537403&url=http%3A%2F%2Fwww.ftchinese.com%2Fm%2Femail%2Fweek&title=<%"FT中文网一周精选"|escape:"url"%>&ralateUid=1698233740&source=&sourceUrl=&content=utf-8&pic=" class="lineH1_2" style="text-decoration: none; font-size: 12px; line-height: 16px;  color: #2E6E9E;" target="_blank"
+>分享到微博</a>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr><td class="lineH1" style="height: 7px; font-size: 7px; line-height: 7px; padding: 0;">&nbsp;</td></tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+<tr>
+<td class="lineH1" style="height: 7px; font-size: 7px; line-height: 7px; padding: 0;">&nbsp;</td>
+</tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+<tr>
+<td style="background-color: #F6E8D7; padding: 6px 8px; text-align: center;">
+<a href="http://user.ftchinese.com/register" style="text-decoration: none; color: #2E6E9E; font-size: 12px;"  target="_blank"
+>免费注册FT中文网</a>
+</td>
+</tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+<tr>
+<td class="lineH1" style="height: 7px; font-size: 7px; line-height: 7px; padding: 0;">&nbsp;</td>
+</tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" style="width: 100%; border-top: 1px dotted #C0C0C0; border-bottom: 1px dotted #C0C0C0;">
+<tr>
+<td align="center" style="padding: 4px 0;">
+<table border="0" cellpadding="0" cellspacing="0" align="center">
+<tr>
+<td valign="middle">
+<span style="font-size: 12px; color: #505050; ">关注FT中文网</span>
+</td>
+<td style="padding-left: 10px; width: 160px;">
+<table border="0" cellpadding="0" cellspacing="0" align="left" valign="middle" style="width: 150px;">
+<tr>
+<td>
+<a
+href="http://weibo.com/ftchinese" style="text-decoration: none; font-size: 12px; display: block;" target="_blank"
+><img src="http://i.ftimg.net/picture/8/000031298_piclink_24_24.jpg" style="border: 0 none; display: block;" width="24" height="24" alt="新浪微博"/></a>
+</td>
+<td>
+<a
+href="http://e.t.qq.com/ftchinese" style="text-decoration: none; font-size: 12px; display: block;" target="_blank"
+><img src="http://i.ftimg.net/picture/6/000031296_piclink_24_24.jpg" style="border: 0 none; display: block;" width="24" height="24" alt="腾讯微博"/></a>
+</td>
+<td>
+<a
+href="http://user.qzone.qq.com/622006290" style="text-decoration: none; font-size: 12px; display: block;" target="_blank"
+><img src="http://i.ftimg.net/picture/2/000031292_piclink_24_24.jpg" style="border: 0 none; display: block;" width="24" height="24" alt="QQ空间"/></a>
+</td>
+<td>
+<a
+href="http://www.ftchinese.com/m/corp/follow.html" style="text-decoration: none; font-size: 12px; display: block;" target="_blank"
+><img src="http://static.ftchinese.com/img/wechat48.png" style="border: 0 none; display: block;" width="24" height="24" alt="微信"/></a>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr><td class="lineH1" style="height: 22px; font-size: 22px; line-height: 22px; padding: 0;">&nbsp;</td></tr>
+<tr>
+<td class="ft-email-bar lineH1_4" style="text-align: center;font-size: 12px;line-height: 17px;color: #98948F;">
+<a
+href="http://www.ftchinese.com/m/corp/aboutus.html" style="text-decoration: none;color: #98948F;" target="_blank"
+>关于我们</a> |
+<a
+href="http://www.ftchinese.com/jobs/?from=ft" style="text-decoration: none; color: #98948F;" target="_blank"
+>加入我们</a> |
+<a
+href="http://www.ftchinese.com/m/corp/contact.html" style="text-decoration: none; color: #98948F;" target="_blank"
+>联系方式</a> |
+<a
+href="http://www.ftchinese.com/m/corp/service.html" target="_blank" style="text-decoration: none;color: #98948F;"
+>服务条款</a> |
+<a
+href="http://www.ftchinese.com/m/corp/sales.html" style="text-decoration: none;color: #98948F;" target="_blank"
+>广告业务</a> |
+<a
+href="http://www.ftchinese.com/m/corp/faq.html" style="text-decoration: none;color: #98948F;" target="_blank"
+>问题回馈</a>
+</td>
+</tr>
+<tr><td class="lineH1" style="height: 34px; font-size: 34px; line-height: 34px; padding: 0;">&nbsp;</td></tr>
+<tr><td class="ft-copyright lineH1_4" style="font-size: 12px;line-height: 17px;padding: 5px 5px 0 5px;text-align: center;color: #505050;">
+&copy; THE FINANCIAL TIMES LTD <%$smarty.now|date_format:"%Y"%>
+</td></tr>
+</table>
+</td>
+<td style="width: 3%;" class="contentPadding largeViewBar">&nbsp;</td>
+</tr>
+</table>
+</td></tr>
+<tr><td style="height: 28px; font-size: 28px; line-height: 28px; padding: 0;" class="bottomContentPadding lineH1">&nbsp;</td></tr>
+</table>
+</td>
+<td style="width:1%;" class="whiteBorder">&nbsp;</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</div>
+<%include file="include/email/tracking.html"%>
+</body>
+</html>

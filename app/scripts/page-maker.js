@@ -71,7 +71,8 @@
         {'name': 'iPad LandScape', 'width': 1024, 'height': 748},
         {'name': 'iPad Portrait', 'width': 768, 'height': 1024},
         {'name': 'Huawei Mate 8', 'width': 540, 'height': 960},
-        {'name': 'Google Nexus 7', 'width': 600, 'height': 960}
+        {'name': 'Google Nexus 7', 'width': 600, 'height': 960},
+        {'name': 'Email', 'width': '', 'height': '', 'view': 'email'}
     ];
     var thisday = new Date();
     var thenow = thisday.getHours() * 10000 + thisday.getMinutes() * 100 + thisday.getSeconds();
@@ -369,7 +370,7 @@
                         shortlead = entry.cshortleadbody || '';
                         tag = entry.tag || '';
                         //shortlead = JSON.stringify(entry);
-                        image = entry.story_pic.cover || entry.story_pic.other || entry.story_pic.smallbutton || entry.story_pic.bigbutton || '';
+                        image = entry.story_pic.cover || entry.story_pic.other || entry.story_pic.Other || entry.story_pic.smallbutton || entry.story_pic.bigbutton || '';
                         type = 'story';
                         priority = entry.priority;
                         relativestory = entry.relativestory || [];
@@ -653,6 +654,9 @@
         thenow = thisday.getHours() * 10000 + thisday.getMinutes() * 100 + thisday.getSeconds();
         if (/[0-9]{4}\-[0-9]+\-[0-9]+/.test(k)) {
             gApiUrls.stories = storyAPIRoot + k + '?' + thenow;
+        } else if (/^[0-9]+$/.test(k)) {
+            //https://backyard.ftchinese.com/falcon.php/homepage/getstorybyday/7/dfadfa
+            gApiUrls.stories = '/falcon.php/homepage/getstorybyday/' + k + '/'+ thenow;
         } else {
             gApiUrls.stories = '/falcon.php/homepage/gettagstoryapi?tag=' + k + '&' + thenow;
             //alert (gApiUrls.stories);
@@ -1077,7 +1081,8 @@
         //console.log ('open');
         var devicesHTML = '';
         $.each(devices, function (key, value) {
-            devicesHTML += '<div class="preview-on-device" data-width="' + value.width + '" data-height="' + value.height + '">' + value.name + '</div>';
+            var viewValue = value.view || '';
+            devicesHTML += '<div class="preview-on-device" data-width="' + value.width + '" data-height="' + value.height + '" data-view="' + viewValue + '">' + value.name + '</div>';
         });
         var previewHTML = '<div id="preview-shadow" class="o-overlay-shadow animated fadeIn"></div><div id="preview-box" class="rightanswer show o-overlay__arrow-top animated fadeInRight"><div class="preview-header">Simulate on the following devices: </div><div class="explain-body"><div class="explain-answer">' + devicesHTML + '</div></div>';
         $('#preview-overlay').html(previewHTML);
@@ -1092,6 +1097,10 @@
         var url = 'http://www7.ftchinese.com/m/corp/preview.html?pageid=' + getURLParameter('page');
         var w = $(this).attr('data-width') || $(window).width();
         var h = $(this).attr('data-height') || $(window).height();
+        var viewValue = $(this).attr('data-view') || '';
+        if (viewValue !== '') {
+            url += '&view=' + viewValue;
+        }
         window.open(url, 'newwindow', 'height=' + h + ',width=' + w + ',top=0,left=0,toolbar=no,menubar=no,resizable=no,scrollbars=yes,location=no, status=no');
     });
 
