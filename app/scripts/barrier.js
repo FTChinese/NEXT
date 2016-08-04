@@ -25,7 +25,7 @@ function createElement(name, attributes) {
 	return node;
 }
 
-function createBarrier(id, commonClass, message) {
+function createBarrier(id, baseClass, message) {
 	var registerElt = createElement('a', {
 		'href': 'http://user.ftchinese.com/register/?ccode=1B110427',
 		'class': 'o-register'
