@@ -112,7 +112,7 @@ var barrierEvents = {
 
 function abTest() {
 	var rand = getRandomIntInclusive(0, 1);
-	console.log('rand number: ', rand);
+	// console.log('rand number: ', rand);
 	
 	var barrierTypes = ['Barrier Page 003', 'Barrier Page 004'];
 
