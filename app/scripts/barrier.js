@@ -25,7 +25,7 @@ function createElement(name, attributes) {
 	return node;
 }
 
-function createBarrier(id, baseClass, message) {
+function createBarrier() {
 	var registerElt = createElement('a', {
 		'href': 'http://user.ftchinese.com/register/?ccode=1B110427',
 		'class': 'o-register'
@@ -50,8 +50,7 @@ function createBarrier(id, baseClass, message) {
 	}, messageElt, actionWrapper, closeElt);
 
 	var barrierElt = createElement('div', {
-		'class': 'o-barrier',
-		'id': id
+		'class': 'o-barrier'
 	}, barrierWrapper);
 
 	return barrierElt;
@@ -81,160 +80,63 @@ function goToBottom(elm) {
 	}
 }
 
+var barrierEvents = {
+	'o-barrier': function(e, type, rand) {
+		if ((!barrierOnBottom(e.currentTarget.className)) && rand === 0) {
+			goToBottom(e.currentTarget);
+			recordAction(type, 'Click Close BG');
+		}
+	},
+
+	'o-barrier__close': function(e, type) {
+		if (!barrierOnBottom(e.currentTarget.className)) {
+			goToBottom(e.currentTarget);
+			recordAction(type, 'Click Close Button');
+		}
+	},
+
+	'o-register': function(e, type) {
+		if (barrierOnBottom(e.currentTarget.className)) {
+			type = type + ' bottom';
+		}
+		recordAction(type, 'Register');
+	},
+
+	'o-login': function(e, type) {
+		if (barrierOnBottom(e.currentTarget.className)) {
+			type = type + ' bottom';
+		}
+		recordAction(type, 'Log In');
+	}			
+}
+
 function abTest() {
 	var rand = getRandomIntInclusive(0, 1);
-	// console.log('rand number: ', rand);
+	console.log('rand number: ', rand);
+	
+	var barrierTypes = ['Barrier Page 003', 'Barrier Page 004'];
 
-	var barrierNew = createBarrier('barrier-new');
+	var barrierElt = createBarrier();
+	document.body.appendChild(barrierElt);
+	var barrierType = barrierTypes[rand];
 
-	document.body.appendChild(barrierNew);
-// Use event delegation on the outermost element.
-// set up a map of element to action performed so taht we do not need to traverse the dom.
-// use e.target to capture the element click, then use the element's class or id as the map's key.
-	var oBarrierInstances = [
-		{
-			elt: barrierNew,
-			type: 'Barrier Page 002',
-			events: {
-				'o-barrier': function(e, type) {
-					// console.log(barrierOnBottom(e.currentTarget.className))
-					if (!barrierOnBottom(e.currentTarget.className)) {
-						goToBottom(e.currentTarget)
-						recordAction(type, 'Click Close BG');
-					}
-				},
+	barrierElt.style.display = 'block';
 
-				'o-barrier__close': function(e, type) {
-					if (!barrierOnBottom(e.currentTarget.className)) {
-						goToBottom(e.currentTarget);
-						recordAction(type, 'Click Close Button');
-					}
-				},
+	try {
+		ga('send', 'event', barrierType, 'Pop Out', window.FTStoryid, {'nonInteraction':1});
+	} catch(err) {
+		console.log('send', 'event', barrierType,  'Pop Out');
+	}
 
-				'o-register': function(e, type) {
-					// e.preventDefault();
-					if (barrierOnBottom(e.currentTarget.className)) {
-						recordAction(type + ' bottom', 'Register');
-					} else {
-						recordAction(type, 'Register');
-					}
-					// console.log('clicked register', type);
-				},
+	barrierElt.onclick = function(e) {
+		// e.preventDefault();
+		var eventKey = e.target.className;
+		// console.log('clicked element className: ', eventKey);
 
-				'o-login': function(e, type) {
-					if (barrierOnBottom(e.currentTarget.className)) {
-						recordAction(type + ' bottom', 'Log In');
-					} else {
-						recordAction(type, 'Log In');
-					}
-					// console.log('clicked login', type);
-				}			
-			}
-		},
-		{
-			elt: document.getElementById('overlay-login'),
-			type: 'Barrier Page 001',
-			events: {
-				'register': function(e, type) {
-					recordAction(type, 'Register');
-				},
-
-				'findPassword': function(e, type) {
-					recordAction(type, 'Find Password');
-				},
-
-				'logIn': function(e, type) {
-					recordAction(type, 'Log In');
-				},
-
-				'overlay-close': function(e, type) {
-					closeOverlay(e.currentTarget.id);
-					recordAction(type, 'Click Close Button');
-				},
-
-				'overlay-bg': function(e, type) {
-					closeOverlay(e.currentTarget.id);
-					recordAction(type, 'Click Close BG');
-				}
-			}
+		if (barrierEvents[eventKey]) {
+			barrierEvents[eventKey](e, barrierType, rand);
 		}
-	];
-
-	var barrierType = oBarrierInstances[rand].type;
-	var barrierElt = oBarrierInstances[rand].elt;
-	var barrierEvents = oBarrierInstances[rand].events;
-
-	if (rand === 0) {
-		// cssVersionNumber
-		var head  = document.getElementsByTagName('head')[0];
-		var link  = document.createElement('link');
-		link.rel  = 'stylesheet';
-		link.type = 'text/css';
-		link.href = (/localhost|127\.0|192\.168/.test(window.location.href)) ? 'styles/main-barrier.css': 'http://static.ftchinese.com/n/main-barrier.css?'+cssVersionNumber;
-		head.appendChild(link);
-		link.onload = function () {
-			barrierElt.style.display = 'block';
-		};
-		try {
-			ga('send', 'event', barrierType, 'Pop Out', window.FTStoryid, {'nonInteraction':1});
-		} catch(err) {
-			console.log('send', 'event', barrierType,  'Pop Out');
-		}
-		barrierElt.onclick = function(e) {
-			// e.preventDefault();
-			var eventKey = e.target.className;
-			// console.log('clicked element className: ', eventKey);
-
-			if (barrierEvents[eventKey]) {
-				barrierEvents[eventKey](e, barrierType);
-			}
-		};
-
-	} else if (rand === 1) {
-		showOverlay('overlay-login');
-		var msgElt = document.getElementById('login-reason');
-		msgElt.innerHTML = '亲爱的读者，您在' + historyDays + '天内连续阅读了' + maxStory + '篇以上文章，如果您喜欢FT中文网，我们诚邀您登录访问或<a href="http://user.ftchinese.com/register/?ccode=1B110427" class=highlight>免费注册</a>为FT中文网的会员。';
-		
-		try {
-			ga('send', 'event', barrierType, 'Pop Out', window.FTStoryid, {'nonInteraction':1});
-		} catch(err) {
-			console.log('send', 'event', barrierType,  'Pop Out');
-		}
-
-		barrierElt.onclick = function(e) {
-			// e.preventDefault();
-			var target = e.target
-			var className = target.className;
-			var tagName = target.tagName.toLowerCase();
-			var eventKey = '';
-
-			if (tagName === 'a') {
-
-				if (target.href.indexOf('register') !== -1) {
-					target.href = 'http://user.ftchinese.com/register/?ccode=1B110427'
-					eventKey = 'register';
-				} else if (target.href.indexOf('findpassword') !== -1) {
-					eventKey = 'findPassword';
-				}
-			} else {
-				eventKey = className;
-			}
-
-			// console.log(eventKey);
-
-			if (barrierEvents[eventKey]) {
-				barrierEvents[eventKey](e, barrierType);
-			}
-		};
-
-		barrierElt.getElementsByTagName('form')[0].onsubmit = function(e) {
-			var eventKey = 'logIn';
-
-			if (barrierEvents[eventKey]) {
-				barrierEvents[eventKey](e, barrierType);
-			}
-		}
-	}	
+	};	
 }
   //   function clickRegister() {
 		// var link = this.href;
