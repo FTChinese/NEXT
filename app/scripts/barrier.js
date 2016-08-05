@@ -117,10 +117,19 @@ function abTest() {
 	var barrierTypes = ['Barrier Page 003', 'Barrier Page 004'];
 
 	var barrierElt = createBarrier();
+	
 	document.body.appendChild(barrierElt);
 	var barrierType = barrierTypes[rand];
-
-	barrierElt.style.display = 'block';
+// cssVersionNumber
+	var head  = document.getElementsByTagName('head')[0];
+	var link  = document.createElement('link');
+	link.rel  = 'stylesheet';
+	link.type = 'text/css';
+	link.href = (/localhost|127\.0|192\.168/.test(window.location.href)) ? 'styles/main-barrier.css': 'http://static.ftchinese.com/n/main-barrier.css?'+cssVersionNumber;
+	head.appendChild(link);
+	link.onload = function () {
+			barrierElt.style.display = 'block';
+	};
 
 	try {
 		ga('send', 'event', barrierType, 'Pop Out', window.FTStoryid, {'nonInteraction':1});
