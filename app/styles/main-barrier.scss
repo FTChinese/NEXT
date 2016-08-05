@@ -1,0 +1,200 @@
+/* o-barrier */
+@import "o-grid/main";
+.o-barrier {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	padding: 0 10px;
+	background-color: rgba(0, 0, 0, 0.7);
+	display: none;
+	text-align: center;
+	white-space: nowrap;
+	z-index: 100000000;
+
+	&:before {
+		content: "";
+		display: inline-block;
+		width: 0;
+		height: 100%;
+		vertical-align: middle;
+		margin-right: -0.25em;
+	}
+
+	&--bottom {
+		top: auto;
+	}
+}
+
+.o-barrier.o-barrier--bottom {
+	&:before {
+		display: none;
+		width: 0;
+		height: 0;
+	}
+}
+
+.o-barrier__wrapper {
+	box-sizing: border-box;
+	margin: 0 auto;
+	padding: 1em;
+	background-color: #FFF1E0;
+	min-width: 240px;
+	max-width: 460px;
+	display: inline-block;
+	text-align: center;
+	vertical-align: middle;
+
+	@include oGridRespondTo(M) {
+		// position: absolute;
+		// top: 50%;
+		// left: 50%;
+		// padding: 29px 31px 21px 31px;
+		// margin-top: -165px;
+		// margin-left: -230px;
+		position: relative;
+		width: 460px;
+		height: 310px;
+	}
+
+	.o-barrier--bottom &:after {
+		clear: both;
+		content: "";
+		display: table;
+	}
+
+	.o-barrier--bottom & {
+		display: block;
+		background-color: transparent;
+// should not have left/right padding on bottom
+		padding: 0;
+		
+		@include oGridRespondTo(M) {
+			position: relative;
+			top: auto;
+			left: auto;
+			margin: 0 auto;
+			padding: 0;
+			height: auto;
+			width: auto;
+			max-width: 1260px;
+		}
+	}
+}
+
+.o-barrier__message {
+	margin: 0;
+	font-size: 16px;
+	line-height: 1.5;
+// reset center from wrapper
+	text-align: left;
+	white-space: normal;
+	
+	@include oGridRespondTo(M) {
+		line-height: 1.75;
+		font-size: 18px;
+	}
+
+	.o-barrier--bottom & {
+		color: #fff;
+		padding-top: 14px;
+
+		@include oGridRespondTo(M) {
+			float: left;
+			font-size: 16px;
+			
+		}
+	}
+}
+
+.o-barrier__action {
+	text-align: center;
+	
+	.o-barrier--bottom & {
+		@include oGridRespondTo(M) {
+			float: right;
+		}		
+	}
+}
+
+.o-register,
+.o-login {
+	display: block;
+	text-align: center;
+	min-width: 0;
+	max-width: 170px;
+	margin: 2em auto;
+	height: 32px;
+	line-height: 32px;
+	color: #fff;
+	font-size: 16px;
+	text-decoration: none;
+	&:hover {
+		color: #fff;
+	}
+
+	@include oGridRespondTo(M) {
+		display: inline-block;
+		font-size: 20px;
+		width: 170px;
+		height: 40px;
+		line-height: 40px;
+		padding: 0;
+	}
+
+	.o-barrier--bottom & {
+		display: inline-block;
+		margin: 14px 0;
+		padding: 0 1em;
+		height: 32px;
+		line-height: 32px;
+
+		@include oGridRespondTo(M) {
+			font-size: 16px;
+			padding: 0;
+			width: 138px;
+		}
+	}
+}
+
+.o-register {
+	background-color: #9e2f50;
+	@include oGridRespondTo(M) {
+		margin-right: 50px;
+	}
+	.o-barrier--bottom & {
+		margin-right: 1em;
+		@include oGridRespondTo(M) {
+			margin-right: 70px;
+		}
+	}
+}
+
+.o-login {
+	background-color: #27757b;
+	.o-barrier--bottom & {
+		// padding: 0 2em;
+	} 
+}
+.o-barrier__close {
+	font-size: 14px;
+	background-color: transparent;
+	border: 0;
+	padding: 0;
+	outline: none;
+	&:hover{
+		cursor: pointer;
+	} 
+
+	@include oGridRespondTo(M) {
+		font-size: 16px;
+		position: absolute;
+		bottom: 21px;
+		right: 31px;
+		font-weight: bold;
+	}
+	.o-barrier--bottom & {
+		display: none;
+	}
+}
