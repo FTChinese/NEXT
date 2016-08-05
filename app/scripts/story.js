@@ -38,6 +38,8 @@ xhr.onload = function() {
         			var itemHeadline = data.body.odatalist[i].cheadline;
         			var itemImage = data.body.odatalist[i].piclink;
         			var itemId = data.body.odatalist[i].storyid;
+                    var itemT = data.body.odatalist[i].t;
+                    if(itemT === undefined || itemT === null) {itemT = '';}
         			var itemTop = '';
         			var itemTopClass = 'PT';
         			if (itemCount % 4 === 0) {
@@ -51,7 +53,7 @@ xhr.onload = function() {
         			}
 
         			if (itemCount<maxItem && itemImage && itemImage !== '') {
-	        			itemHTML += itemTop + '<div class="item-container ' + itemClass + ' has-image no-lead"><div class="item-inner"><h2 class="item-headline"><a data-ec="Story Recommend" data-ea="Click" data-el="/story/'+itemId+'" target="_blank" href="/story/'+itemId+'?tcode=smartrecommend">'+itemHeadline+'</a></h2><a data-ec="Story Recommend" data-ea="Click" data-el="/story/'+itemId+'" class="image" target="_blank" href="/story/'+itemId+'?tcode=smartrecommend"><figure class="loading" data-url="'+itemImage+'"></figure></a><div class="item-bottom"></div></div></div>';
+	        			itemHTML += itemTop + '<div class="item-container ' + itemClass + ' has-image no-lead"><div class="item-inner"><h2 class="item-headline"><a data-ec="Story Recommend" data-ea="Click" data-el="'+itemT+'/story/'+itemId+'" target="_blank" href="/story/'+itemId+'?tcode=smartrecommend">'+itemHeadline+'</a></h2><a data-ec="Story Recommend" data-ea="Click" data-el="'+itemT+'/story/'+itemId+'" class="image" target="_blank" href="/story/'+itemId+'?tcode=smartrecommend"><figure class="loading" data-url="'+itemImage+'"></figure></a><div class="item-bottom"></div></div></div>';
 	        			itemCount += 1;
         			}
         		}
@@ -70,12 +72,7 @@ xhr.onload = function() {
         ga('send','event','Recommend Story API', 'Request Fail', '', {'nonInteraction':1});
         //alert('Request failed.  Returned status of ' + xhr.status);
     }
-
-    // if(!recommendLoaded && message.head.transactiontype === '61008'){
-    //     message.head.transactiontype = '61009';
-    //     xhr.open(ajaxMethod, encodeURI(ajaxUrl));
-    //     xhr.send(JSON.stringify(message));
-    // }
+    
 };
 xhr.send(JSON.stringify(message));
 
