@@ -9,9 +9,9 @@
 *{margin:0;padding: 0;}
 html, body{background: #<%if $smarty.get.bg !=""%><%$smarty.get.bg%><%else%>F6E9D8<%/if%>;margin:0 auto;width:100%;height:100%;overflow:hidden;}
 .ad{
-	width:100%;
-	overflow:visible;
-	position: relative;
+    width:100%;
+    overflow:visible;
+    position: relative;
 }
 .ad>div {
     margin: auto !important;
@@ -21,12 +21,12 @@ html, body{background: #<%if $smarty.get.bg !=""%><%$smarty.get.bg%><%else%>F6E9
     width:100%;
 }
 .ad>div div {
-	margin: auto !important;
+    margin: auto !important;
     display:block !important;
 }
 
 img {
-	max-width: 100% !important;
+    max-width: 100% !important;
     display: block !important;
     margin: auto !important;
 }
@@ -61,6 +61,7 @@ if (/^[0-9]{4}0001$/.test(c)) {
 }
 var slotStr = window.parent.slotStr || '';
 var parentId = k.replace(/^.*pid=([0-9A-Za-z\-]+).*$/,"$1");
+
 var adP = '';
 try {
     adP = parent.adReachability();
@@ -69,16 +70,11 @@ try {
 }
 
 
-if (1===2 && c === '20220101') {
-    //console.log ('is iphone top banner')
+if (1===2 && /^[0-9]+0117$/.test(c)) {
 
 } else {
 document.write ('<scr'+'ipt src="http://dolphin.ftimg.net/s?z=ft&c=' + c + slotStr + adP + '&_fallback=0" charset="gbk" onerror="removeAd()" onload="loaded()"></scr'+'ipt>');
 }
-
-//document.write ('<scr'+'ipt src="http://dolphin.ftimg.net/s?z=ft&amp;c=15020010&amp;slot=37892332&amp;_sex=101&amp;_trip=1&amp;_sm=0&amp;_ibm=0&amp;_lux=1&amp;_dc=1&amp;_mm=2&amp;_sz=2&amp;_am=2" charset="gbk" onerror="removeAd()" onload="loaded()"></scr'+'ipt>');
-
-//var adBGColor = 'white';
 </script>
 </div></div>
 <div id="ad-bottom"></div>
@@ -103,7 +99,6 @@ var adResized = false;
 
 
 var w=0;
-
 
 if ( window.parent.document.getElementById(parentId)) {
     parentIframe = window.parent.document.getElementById(parentId)
@@ -135,7 +130,7 @@ if ( window.parent.document.getElementById(parentId)) {
         try {
             if (w<=1200) {
                 if (parentId.indexOf('mpu')>=0) {
-                    alert (paretId);
+                    //alert (paretId);
                     parentIframe.parentNode.style.height = 'auto';
                 } else {
                     parentIframe.parentNode.style.height = adHeight + 'px';
@@ -166,7 +161,7 @@ if (window.parent && parentId !== '' && /^banner/.test(parentId) && typeof stick
         
     }
 }
-//in an iframe of h5 template
+//in a iframe of h5 template
 if (window.parent && typeof window.parent.mpuAds === 'object' && parentId !== '') {
     if (typeof parentIframe === 'object') {
         var parentContainer = parentIframe.parentNode;

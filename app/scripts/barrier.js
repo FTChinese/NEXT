@@ -165,13 +165,21 @@ function abTest() {
 	var barrierEvents = oBarrierInstances[rand].events;
 
 	if (rand === 0) {
-		barrierElt.style.display = 'block';
+		// cssVersionNumber
+		var head  = document.getElementsByTagName('head')[0];
+		var link  = document.createElement('link');
+		link.rel  = 'stylesheet';
+		link.type = 'text/css';
+		link.href = (/localhost|127\.0|192\.168/.test(window.location.href)) ? 'styles/main-barrier.css': 'http://static.ftchinese.com/n/main-barrier.css?'+cssVersionNumber;
+		head.appendChild(link);
+		link.onload = function () {
+			barrierElt.style.display = 'block';
+		};
 		try {
 			ga('send', 'event', barrierType, 'Pop Out', window.FTStoryid, {'nonInteraction':1});
 		} catch(err) {
 			console.log('send', 'event', barrierType,  'Pop Out');
 		}
-
 		barrierElt.onclick = function(e) {
 			// e.preventDefault();
 			var eventKey = e.target.className;
@@ -180,7 +188,8 @@ function abTest() {
 			if (barrierEvents[eventKey]) {
 				barrierEvents[eventKey](e, barrierType);
 			}
-		};	
+		};
+
 	} else if (rand === 1) {
 		showOverlay('overlay-login');
 		var msgElt = document.getElementById('login-reason');
@@ -247,20 +256,20 @@ function abTest() {
 		var historyDays = 30;
 		var unixday=Math.round(new Date().getTime()/1000);
         
-    var viewstart=GetCookie ('viewstart') || unixday;
-    var viewhistory = GetCookie('viewhistory') || '';
-    var username=GetCookie('USER_NAME') || '';
+	    var viewstart=GetCookie ('viewstart') || unixday;
+	    var viewhistory = GetCookie('viewhistory') || '';
+	    var username=GetCookie('USER_NAME') || '';
 
-    viewstart = parseInt(viewstart, 10);
+	    viewstart = parseInt(viewstart, 10);
 
-    if (viewstart === '') {
-    	SetCookie('viewstart', unixday);
-    } else if (unixday-viewstart >= historyDays * 86400) {
-        DeleteCookie ('viewstart');
-        DeleteCookie ('viewhistory');
-        SetCookie('viewstart',unixday,86400*100,'/');
-        viewhistory = '';
-    }
+	    if (viewstart === '') {
+	    	SetCookie('viewstart', unixday);
+	    } else if (unixday-viewstart >= historyDays * 86400) {
+	        DeleteCookie ('viewstart');
+	        DeleteCookie ('viewhistory');
+	        SetCookie('viewstart',unixday,86400*100,'/');
+	        viewhistory = '';
+	    }
 
 		if (viewhistory.indexOf(window.FTStoryid) < 0 && username === '') {
 			viewhistory += FTStoryid;
