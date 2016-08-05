@@ -232,7 +232,9 @@ var adPositions = {
   'phonempu': ['0003'],
   'phonestorybanner': ['0101', '0115'],
   'phonestorybannersponsor': ['0109', '0109'],
-  'phonestorympu': ['0004']
+  'phonestorympu': ['0004'],
+  'phonestoryiphonempu': ['0110'],
+  'phonestoryandroidmpu': ['0111']
 };
 var uaString;
 var w1;
@@ -299,13 +301,16 @@ function writeAd(adType, returnSrc) {
       adType = 'phonestorympu';
     }
     if (window.sponsorMobile === true) {
-      adch = adchID;
+      
       if (adType === 'phonebanner') {
         adType = 'phonestorybannersponsor';
+      } else if (adType === 'phonestorympu') {
+        adType = (adch === '2022')?'phonestoryiphonempu':'phonestoryandroidmpu';
       }
+      adch = adchID;
       //adType = 'phonestorympu';
     }
-    //alert (adType);
+    alert (adType);
   }
 
   if (window.pageTheme === 'luxury') {
