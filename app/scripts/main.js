@@ -412,7 +412,6 @@ if (typeof SVGRect === 'undefined') {
 loadImages();
 
 
-
 //A cool trick to handle images that fail to load:
 try {
   delegate.on('error', 'img', function(){

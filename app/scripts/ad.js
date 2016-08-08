@@ -310,7 +310,6 @@ function writeAd(adType, returnSrc) {
       adch = adchID;
       //adType = 'phonestorympu';
     }
-    alert (adType);
   }
 
   if (window.pageTheme === 'luxury') {

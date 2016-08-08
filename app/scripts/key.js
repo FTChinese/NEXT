@@ -143,7 +143,7 @@ function trackerNew() {
     ga('set', 'dimension13', vsource);
 
     try {
-        keyTag=$('meta[name=keywords]').attr('content') || '';
+        keyTag=window.gKeyTag;
         keyTag=keyTag.replace(/白底|靠右|单页|插图|透明|高清|置顶|沉底|资料|突发/g,'').replace(/,+/g,',');
     } catch(ignore){    
     }
@@ -247,12 +247,12 @@ function trackerNew() {
         } else {
             if (window.gAutoStart === undefined) {ga('send', 'pageview');}
         }
-        // if (typeof window.FTStoryid === 'string') {
-        //     keyTagArray=keyTag.split(',');
-        //     for (i = 0; i < keyTagArray.length; i++) {
-        //         ga('send','event','Story Tag',keyTagArray[i],'',{'nonInteraction':1});
-        //     }
-        // }
+	    if (typeof window.FTStoryid === 'string') {
+	        keyTagArray=keyTag.split(',');
+	        for (i = 0; i < keyTagArray.length; i++) {
+	            ga('send','event','Story Tag',keyTagArray[i],window.FTStoryid,{'nonInteraction':1});
+	        }
+	    }
     }, 300);
 }
 

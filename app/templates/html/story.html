@@ -571,6 +571,11 @@
 	<%assign var="keys" value="`$keys`,`$sc`"%>
 <%/foreach%>
 <%assign var="keys" value="`$keys`,`$tag`"%>
+<%assign var="keys" value=$keys|regex_replace:"/白底|靠右|单页|插图|透明|高清|置顶|沉底|资料|突发/":""%>
+<%assign var="keys" value=$keys|regex_replace:"/,+/":","%>
+<%assign var="keys" value=$keys|regex_replace:"/^,/":""%>
+<%assign var="keys" value=$keys|regex_replace:"/,$/":""%>
+
 <%if preg_match("/极致人生/is",$keys) && date("Ymd",$smarty.now) >= 20140525 && date("Ymd",$smarty.now) <= 20160625%>
 	<%assign var=breadcrum value="<a href=\"/tag/极致人生\">极致人生</a><button class=\"myft-follow plus\" data-tag=\"极致人生\" data-type=\"tag\">关注</button>"%>
 	<%assign var="PageTitle" value="<a href=\"/tag/极致人生\">极致人生</a>"%>
@@ -822,7 +827,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta http-equiv="Content-Language" content="zh-CN"/>
     <title><%$storyHeadline%> - FT中文网</title>
-    <META name=keywords content="<%$tagtitle%>">
+    <META name=keywords content="<%$keys%>">
     <meta content="<%$p.meta.description%>" name="description"/>
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     <link rel="apple-touch-icon-precomposed" href="http://static.ftchinese.com/img/ipad_icon.png" />
@@ -877,6 +882,10 @@
     <link rel="alternate" type="application/rss+xml" title="FT中文网 - 一周十大热门文章" href="/rss/hotstoryby7day" />
     <link rel="alternate" type="application/rss+xml" title="FT中文网 - 热门用户评论" href="/rss/hotusercomment" />
     <link rel="search" type="application/opensearchdescription+xml" title="FT中文网财经搜索" href="/opensearch.xml">
+
+    <script>
+    	var gKeyTag = '<%$keys%>';
+    </script>
     <script type="text/javascript">
     <%include file="next/scripts/key.js"%>
     </script>
