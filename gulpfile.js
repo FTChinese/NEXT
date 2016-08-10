@@ -274,6 +274,63 @@ request.post({
 });
 
 
+function postDatatoFile (urlSource, postData, fileName) {
+  var url = require('url');
+  var querystring = require('querystring');
+  var post_data = JSON.stringify(postData);
+  var http = require('http');
+  var options = {
+      host: url.parse(urlSource).hostname,
+      path: url.parse(urlSource).pathname + unescape(url.parse(urlSource).search),
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Length': post_data.length
+      }
+  }
+  var request = http.request(options, function (res) {
+      var data = '';
+      res.on('data', function (chunk) {
+          data += chunk;
+      });
+      res.on('end', function () {
+        var fs = require('fs');
+        fs.writeFile(fileName, data, function(err) {
+            if(err) {
+                return console.log(err);
+            }
+            console.log(urlSource);
+            console.log('post data writen to');
+            console.log('fileName');
+        }); 
+      });
+  });
+  request.on('error', function (e) {
+      console.log(e.message);
+  });
+  request.write(post_data);
+  request.end();
+}
+
+
+gulp.task('nav', function () {
+
+  var message = {};
+  message.head = {};
+  message.head.transactiontype = '11001';
+  message.head.source = 'web';
+  message.body = {};
+  message.body.ielement = {};
+  //message.body.ielement.num = 25;
+  //http://app003.ftmailbox.com/index.php/jsapi/get_last_publish_story?day=2015-6-17&
+
+  //postDatatoFile('http://m.ftchinese.com/eaclient/apijson.php', message, './app/api/ea001.json');
+  //postDatatoFile('http://m.ftchinese.com/index.php/jsapi/get_last_publish_story?day=2016-1-8&', message, './app/api/ea001.json');
+  postDatatoFile('http://m.ftchinese.com/eaclient/apijson.php', message, './app/api/page/nav.json');
+});
+
+
+
 /*gulp.task('styles', function () {
   return gulp.src('app/styles/main*.scss')
     .pipe($.plumber())

@@ -1,0 +1,58 @@
+// vendor prefix
+@mixin vendor-prefix($name, $argument) {
+  -webkit-#{$name}: #{$argument};
+  -ms-#{$name}: #{$argument};
+  -moz-#{$name}: #{$argument};
+  -o-#{$name}: #{$argument};
+  #{$name}: #{$argument};
+}
+
+// common parts
+@import "theme-default.scss";
+@import "variables.scss";
+@import "mixins.scss";
+@import "common.scss";
+@import "header.scss";
+@import "o-nav.scss";
+@import "header-tag.scss";
+@import "overlay.scss";
+
+.paid-post {
+	.item-inner {
+		background:white;
+		margin-left:$defaultPadding/2;
+		margin-right:$defaultPadding/2;
+	}
+	.image {
+		left:0;
+		right:0;
+	}
+	.item-tag {
+		a {
+			color: $darkGreen;
+		}
+	}
+}
+
+@media only screen and (max-width: 980px) and (min-width: 691px) {
+	.paid-post {
+		.item-inner {
+			margin-left:$defaultPadding/2;
+			margin-right:$defaultPadding/2;
+			margin-bottom: $defaultPadding;
+			padding-top: $defaultPadding/2;
+		}
+	}
+}
+
+
+@media only screen and (max-width: 490px) {
+	.paid-post {
+		.item-inner {
+			margin-left:$defaultPadding/4;
+			margin-right:$defaultPadding/4;
+			margin-bottom: $defaultPadding/2;
+			padding-top: $defaultPadding/2;
+		}
+	}
+}

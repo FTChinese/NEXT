@@ -187,13 +187,14 @@
         <!--[if lte IE 8]>
         <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
         <![endif]-->
-        <script type="text/javascript">
-            <%include file = "next/scripts/main-inline.js"%>
-        </script>
+
         <script type="text/javascript">
             <%include file = "next/scripts/main.js"%>
         </script>
         <%if $pageId == "home"%>
+            <script type="text/javascript">
+                <%include file = "next/scripts/main-inline.js"%>
+            </script>
             <%if $smarty.get.ad != 'no'%>
                 <script type="text/javascript" src="http://static.ftchinese.com/n/main-home.js?<%include file="next/timestamp/timestamp.html"%>"></script>
                 <div class="hide">

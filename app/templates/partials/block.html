@@ -977,6 +977,15 @@
 							<div class="item-inner video-package-inner"><div class="image"><figure id="video-package-play" class="loading-video" data-vid="<%$itemId%>"></figure></div><div class="video-package-title"><a href="/video/<%$itemId%>" target=_blank><%$itemHeadline%></a></div></div>
 						<%/if%>
 
+
+						<%if preg_match("/特别企划|企业公告/is",$item.tag)%>
+							<%assign var=itemClass value="`$itemClass` paid-post"%>
+							<%if $paidPostStyleLoaded == ""%>
+								<style><%include file="next/styles/main-paid-post.css"%></style>
+								<%assign var=$paidPostStyleLoaded value="yes"%>
+							<%/if%>
+						<%/if%>
+
 						<%if $listType == "videos" && $i>5%>
 							<%*<!--Only display first 6 in video package-->*%>
 						<%elseif $list.float === "ScoreBoard"%>

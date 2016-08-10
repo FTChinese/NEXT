@@ -358,8 +358,8 @@
 <%assign var="hideMPU3" value="no"%>
 <%assign var="hide590" value="no"%>
 
-<%elseif preg_match("/智能城市/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20151231 && date("Ymd",$smarty.now) <= 20161231%>
-<%assign var=breadcrum value="<a href=\"/tag/智能城市\">智能城市</a>"%>
+<%elseif preg_match("/智慧城市/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20151231 && date("Ymd",$smarty.now) <= 20161231%>
+<%assign var=breadcrum value="<a href=\"/tag/智慧城市\">智慧城市</a>"%>
 <%assign var="adchannelID" value="2056"%>
 <%assign var="hideMPU2" value="yes"%>
 <%assign var="hideMPU3" value="yes"%>
@@ -820,6 +820,15 @@
 <%/if%>
 
 
+<%if $story.original=="yes"%>
+	<%assign var=ftcteam value="Original"%>
+<%elseif $story.original != ""%>
+	<%assign var=ftcteam value="Translation"%>
+<%/if%>
+<%assign var=gauthor value=$story.cauthor|regex_replace:"[\n\r]":""%>
+
+
+
 <!DOCTYPE html>
 <html class="no-js core" data-next-app="tag-page">
   <head>
@@ -885,10 +894,51 @@
 
     <script>
     	var gKeyTag = '<%$keys%>';
+  		
+		var gauthor="<%$gauthor%>".replace(/ and /g,",").replace(/([\s\_]+)[Bb]y /g,"$1").replace(/ in .*/g,"").replace(/,.*/g,"").replace(/\s+$/g,"").replace(/^\s+/g,"").replace(/\s+/g,"_");
     </script>
-    <script type="text/javascript">
-    <%include file="next/scripts/key.js"%>
-    </script>
+    <%if $ftcteam != ""%>
+		<script>var ftcteam="<%$ftcteam%>";</script>
+	<%/if%>
+	<script type="text/javascript">
+		var storyGenre="<%$story.genre|regex_replace:"/[\r\n\t\s]/":""%>";
+		var storyArea="<%$story.area|regex_replace:"/[\r\n\t\s]/":""%>";
+		var storyIndustry="<%$story.industry|regex_replace:"/[\r\n\t\s]/":""%>";
+		<%assign var="mainTopic" value=""%>
+		<%assign var="subTopic" value=""%>
+		<%assign var="storyTopic" value=$story.topic|regex_replace:"/[\r\n\t\s]/":""%>
+		<%if in_array("乐尚街",$story.tag)%>
+		<%assign var="storyTopic" value="`$storyTopic`,lux"%>
+		<%/if%>
+
+		<%assign var="mainArr" value="business,book,culture,economy,politics,people,society,markets,management,lifestyle"%>
+		<%assign var="subArr" value="environment,trade,stock,forex,bond,commodity,derivative,career,mba,leadership,taste,travel,lifestory,artstory,money,spend,lux"%>
+		<%assign var="mainArr" value=","|explode:$mainArr%>
+		<%assign var="subArr" value=","|explode:$subArr%>
+
+
+		<%assign var="storyTopic" value=","|explode:$storyTopic%>
+		<%assign var=i value=0%>
+		<%foreach from=$storyTopic item=sitem%>
+			<%if in_array($sitem,$mainArr)%>
+				<%if $mainTopic==""%>
+					<%assign var="mainTopic" value=$mainTopic|@cat:$sitem%>
+				<%else%>
+					<%assign var="mainTopic" value=$mainTopic|@cat:","|@cat:$sitem%>
+				<%/if%>
+			<%else%>
+				<%if $subTopic==""%>
+					<%assign var="subTopic" value=$subTopic|@cat:$sitem%>
+				<%else%>
+					<%assign var="subTopic" value=$subTopic|@cat:","|@cat:$sitem%>
+				<%/if%>
+			<%/if%>
+			<%assign var="i" value=$i+1 %>
+		<%/foreach%>
+		var mainTopic="<%$mainTopic%>";
+		var subTopic="<%$subTopic%>";
+	</script>
+    <script type="text/javascript"><%include file="next/scripts/key.js"%></script>
     <!--[if lte IE 8]>
         <script>
             document.documentElement.className += ' is-ie-8';
