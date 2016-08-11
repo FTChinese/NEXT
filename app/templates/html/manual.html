@@ -123,11 +123,15 @@
             </script>
         <![endif]-->
         <%include file="next/partials/head.html"%>
+
+        <%if $pageId == "home" && $smarty.get.showHotClick == "yes"%>
+            <meta name="google-signin-client_id" content="911260228291-d2b7cjs7c0ajobjd6l89133tv4bmrcjb.apps.googleusercontent.com">
+            <meta name="google-signin-scope" content="https://www.googleapis.com/auth/analytics.readonly">
+        <%/if%>
     </head>
     <body>
         <script>checkB();</script>
         <%include file="next/partials/wechat-icon.html"%>
-
         <%if $pageId == "home"%>
             <script>var gPageId = 'home';</script>
             <%if $smarty.get.ad != 'no'%>
@@ -211,6 +215,9 @@
         <%if $debug_model == 1 && $pageId != "home"%>
         <div style="text-align: center; background-color: #FFFFFF; font-size: 38px; margin: 20px;font-weight:bold;"><a title="编辑本页的内容" href="https://backyard.ftchinese.com/pagemaker/page-maker.html?page=<%$pageId%>">编辑本页</a></div>
         <%/if%>
-        
+
+        <%if $pageId == "home" && $smarty.get.showHotClick == "yes"%>
+            <script type="text/javascript" src="http://static.ftchinese.com/n/main-home-click.js?<%include file="next/timestamp/timestamp.html"%>"></script>
+        <%/if%>
     </body>
 </html>

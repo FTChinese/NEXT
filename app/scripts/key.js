@@ -247,7 +247,7 @@ function trackerNew() {
         } else {
             if (window.gAutoStart === undefined) {ga('send', 'pageview');}
         }
-	    if (typeof window.FTStoryid === 'string') {
+	    if (typeof window.FTStoryid === 'string' && typeof keyTag === 'string' && keyTag.indexOf(',')>=0) {
 	        keyTagArray=keyTag.split(',');
 	        for (i = 0; i < keyTagArray.length; i++) {
 	            ga('send','event','Story Tag',keyTagArray[i],window.FTStoryid,{'nonInteraction':1});
