@@ -365,6 +365,13 @@
 <%assign var="hideMPU3" value="yes"%>
 <%assign var="hide590" value="no"%>
 
+<%elseif preg_match("/存储世界/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20151231 && date("Ymd",$smarty.now) <= 20161231%>
+<%assign var=breadcrum value="<a href=\"/tag/存储世界\">存储世界</a>"%>
+<%assign var="adchannelID" value="2057"%>
+<%assign var="hideMPU2" value="yes"%>
+<%assign var="hideMPU3" value="yes"%>
+<%assign var="hide590" value="no"%>
+
 <%elseif (preg_match("/2015年度报告/is",implode(",", $story.tag))||preg_match("/年度报告/is",implode(",", $story.tag))) && date("Ymd",$smarty.now) >= 20131216 && date("Ymd",$smarty.now) <= 20151231%>
   <%assign var="adchannelID" value="2002"%>
   <%assign var=breadcrum value="<a href=\"/tag/2015年度报告/\">2015年度报告</a>"%>
