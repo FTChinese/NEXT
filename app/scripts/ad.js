@@ -286,9 +286,14 @@ function writeAd(adType, returnSrc) {
     // sometime browser width is not correct in Android phone
     adch = '2023';
   }
+  var adchIDNew = window.location.href.replace(/^.*adchannelID=([0-9]{4}).*$/g,'$1');
+  var NewAD = false;
+  if (/^[0-9]{4}$/.test(adchIDNew)) {
+    adch = adchIDNew;
+    NewAD = true;
+  }
 
-
-  if (adch === '2022' || adch === '2023') {
+  if (adch === '2022' || adch === '2023' || NewAD) {
     // if it's a sponsored story
 
     if (adType.indexOf('banner') >=0) {
