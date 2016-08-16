@@ -361,15 +361,17 @@
 <%elseif preg_match("/智慧城市/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20151231 && date("Ymd",$smarty.now) <= 20161231%>
 <%assign var=breadcrum value="<a href=\"/tag/智慧城市\">智慧城市</a>"%>
 <%assign var="adchannelID" value="2056"%>
+<%assign var="hideMPU1" value="yes"%>
 <%assign var="hideMPU2" value="yes"%>
 <%assign var="hideMPU3" value="yes"%>
 <%assign var="hide590" value="no"%>
+<%assign var="hideBanner" value="no"%>
 
 <%elseif preg_match("/存储世界/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20151231 && date("Ymd",$smarty.now) <= 20161231%>
 <%assign var=breadcrum value="<a href=\"/tag/存储世界\">存储世界</a>"%>
 <%assign var="adchannelID" value="2057"%>
-<%assign var="hideMPU2" value="yes"%>
-<%assign var="hideMPU3" value="yes"%>
+<%assign var="hideMPU2" value="no"%>
+<%assign var="hideMPU3" value="no"%>
 <%assign var="hide590" value="no"%>
 
 <%elseif (preg_match("/2015年度报告/is",implode(",", $story.tag))||preg_match("/年度报告/is",implode(",", $story.tag))) && date("Ymd",$smarty.now) >= 20131216 && date("Ymd",$smarty.now) <= 20151231%>
@@ -404,7 +406,6 @@
 <%assign var="hideMPU3" value="yes"%>
 <%assign var="hide590" value="yes"%>
 
-
 <%elseif preg_match("/2015博鳌论坛/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20150326 && date("Ymd",$smarty.now) <= 20150331%>
 <%assign var=breadcrum value="<a href=\"/tag/2015博鳌论坛\">2015博鳌论坛</a>"%>
 <%assign var="adchannelID" value="2033"%>
@@ -422,14 +423,12 @@
 <%assign var="hide590" value="no"%>
 <%assign var="hideInReadAd" value="yes"%>
 
-
 <%elseif preg_match("/极致人生/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20150525 && date("Ymd",$smarty.now) <= 20160625%>
 <%assign var=breadcrum value="<a href=\"/tag/极致人生\">极致人生</a>"%>
 <%assign var="adchannelID" value="2048"%>
 <%assign var="hide590" value="no"%>
 <%assign var="hideMPU2" value="yes"%>
 <%assign var="hideInReadAd" value="yes"%>
-
 
 <%elseif preg_match("/新中坚力量/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20140701 && date("Ymd",$smarty.now) <= 20150701%>
 <%assign var=breadcrum value="<a href=\"/tag/新中坚力量\">新中坚力量</a>"%>
@@ -602,7 +601,7 @@
 	<%assign var=breadcrum value="<a href=\"/m/marketing/home.html\">会员信息中心</a>"%>
 <%elseif preg_match("/企业公告/is",$keys)%>
 	<%assign var="topnav" value="home"%>
-	<%assign var=breadcrum value="<a>企业公告</a>"%>
+	<%assign var=breadcrum value="<a>特别策划</a>"%>
 <%elseif preg_match("/英语电台/is",$keys)%>
 	<%assign var="topnav" value="english"%>
 	<%assign var="subnav" value="radio"%>
