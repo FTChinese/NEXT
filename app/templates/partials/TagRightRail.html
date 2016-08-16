@@ -25,7 +25,7 @@
 		</div>
 	<%/if%>
 
-	<%if $smarty.get.ad != "no"%>
+	<%if $smarty.get.ad != "no" && $hideMPU1 != "yes"%>
 		<div class="mpu-container<%if $tagabout == ""%> first-child<%/if%>">
 			<script type="text/javascript">document.write (writeAd('mpu'));</script>
 		</div>
@@ -45,7 +45,7 @@
 		</div>
 	
 
-		<%if $smarty.get.ad != "no"%>
+		<%if $smarty.get.ad != "no" && $hideMPU2 != "yes"%>
 			<div class="mpu-container last-child">
 			    <script type="text/javascript">document.write (writeAd('mpu'));</script>
 			</div>
