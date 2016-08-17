@@ -595,12 +595,32 @@
 	<%assign var="hideMPU3" value="no"%>
 	<%assign var="hide590" value="no"%>
 	<%assign var="sponsorMobile" value="yes"%>
+<%elseif preg_match("/智慧城市/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20151231 && date("Ymd",$smarty.now) <= 20161231%>
+	<%assign var=breadcrum value="<a href=\"/tag/智慧城市\">智慧城市</a>"%>
+	<%assign var="adchannelID" value="2056"%>
+	<%assign var="hideMPU1" value="yes"%>
+	<%assign var="hideMPU2" value="yes"%>
+	<%assign var="hideMPU3" value="yes"%>
+	<%assign var="hide590" value="no"%>
+	<%assign var="hideBanner" value="no"%>
+	<%assign var="sponsorMobile" value="yes"%>
+<%elseif preg_match("/存储世界/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20151231 && date("Ymd",$smarty.now) <= 20161231%>
+	<%assign var=breadcrum value="<a href=\"/tag/存储世界\">存储世界</a>"%>
+	<%assign var="adchannelID" value="2057"%>
+	<%assign var="hideMPU2" value="no"%>
+	<%assign var="hideMPU3" value="no"%>
+	<%assign var="hide590" value="no"%>
 <%elseif preg_match("/新闻稿/is",$keys)%>
 	<%assign var="topnav" value="home"%>
 	<%assign var="subnav" value="member"%>
 	<%assign var=breadcrum value="<a href=\"/m/marketing/home.html\">会员信息中心</a>"%>
 <%elseif preg_match("/企业公告/is",$keys)%>
 	<%assign var="topnav" value="home"%>
+	<%if preg_match("/智慧城市/is",$tag)%>
+		<%assign var="adchannelID" value="2056"%>
+		<%assign var="hideMPU1" value="yes"%>
+		<%assign var="hideMPU2" value="yes"%>
+	<%/if%>
 	<%assign var=breadcrum value="<a>特别策划</a>"%>
 <%elseif preg_match("/英语电台/is",$keys)%>
 	<%assign var="topnav" value="english"%>
@@ -996,7 +1016,7 @@
 			<%include file="next/partials/story-block.html"%>
 		<%/if%>
 		<%include file="next/partials/story-recommend.html%>
-		<%if !preg_match("/品味|乐尚街|艺术投资|腕表|游艇|极致人生/is",$keys)%>
+<%if !preg_match("/品味|乐尚街|艺术投资|腕表|游艇|极致人生|智慧城市/is",$keys)%>
 		<%include file="next/partials/banner.html"%>
 		<%/if%>
 		<%include file="next/partials/footer.html"%>
