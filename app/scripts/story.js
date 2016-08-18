@@ -22,7 +22,7 @@ if (/127\.0|localhost|192\.168/.test(window.location.href)) {
 	ajaxUrl = '/eaclient/apijson.php';
 }
 
-ga('send','event','Recommend Story API: 61008', 'Load', '', {'nonInteraction':1});
+ga('send','event','Recommend Story API', 'Load', '', {'nonInteraction':1});
 xhr.open(ajaxMethod, encodeURI(ajaxUrl));
 xhr.setRequestHeader('Content-Type', 'application/json');
 xhr.onload = function() {
