@@ -361,6 +361,7 @@
 <%elseif preg_match("/智慧城市/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20151231 && date("Ymd",$smarty.now) <= 20161231%>
 <%assign var=breadcrum value="<a href=\"/tag/智慧城市\">智慧城市</a>"%>
 <%assign var="adchannelID" value="2056"%>
+<%assign var="FTadchannelID" value="2056"%>
 <%assign var="hideMPU1" value="yes"%>
 <%assign var="hideMPU2" value="yes"%>
 <%assign var="hideMPU3" value="yes"%>
@@ -964,6 +965,7 @@
 		var mainTopic="<%$mainTopic%>";
 		var subTopic="<%$subTopic%>";
 	</script>
+    <script type="text/javascript">var FTadchannelID = '<%$FTadchannelID%>';</script>
     <script type="text/javascript"><%include file="next/scripts/key.js"%></script>
     <!--[if lte IE 8]>
         <script>

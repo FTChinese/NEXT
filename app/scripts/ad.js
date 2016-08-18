@@ -296,6 +296,10 @@ function writeAd(adType, returnSrc) {
     adch = adchURL;
     fromURL = true;
   }
+  if (typeof(window.FTadchannelID)!=='undefined' && window.FTadchannelID && !fromURL) {
+    adch = window.FTadchannelID;
+    fromURL = true;
+  }
   //2022(iPhone) + 2023(Android) + 2056(Smart City)
   if ((adch === '2022' || adch === '2023' || fromURL) && TouchDevice) {
     // if it's a sponsored story
