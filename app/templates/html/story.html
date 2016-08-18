@@ -361,7 +361,6 @@
 <%elseif preg_match("/智慧城市/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20151231 && date("Ymd",$smarty.now) <= 20161231%>
 <%assign var=breadcrum value="<a href=\"/tag/智慧城市\">智慧城市</a>"%>
 <%assign var="adchannelID" value="2056"%>
-<%assign var="FTadchannelID" value="2056"%>
 <%assign var="hideMPU1" value="yes"%>
 <%assign var="hideMPU2" value="yes"%>
 <%assign var="hideMPU3" value="yes"%>
@@ -619,6 +618,7 @@
 	<%assign var="topnav" value="home"%>
 	<%if preg_match("/智慧城市/is",$tag)%>
 		<%assign var="adchannelID" value="2056"%>
+        <%assign var="FTadchannelID" value="2056"%>
 		<%assign var="hideMPU1" value="yes"%>
 		<%assign var="hideMPU2" value="yes"%>
 	<%/if%>
