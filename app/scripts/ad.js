@@ -275,20 +275,33 @@ function writeAd(adType, returnSrc) {
   //alert (adType);
 
   // use UserAgent to determine iOS and Android devices
+  var TouchDevice = false;
   if (/iPad/i.test(uaString) && /mpu/.test(adType)) {
     //if iPad, mpu ads change to iPad apps
     adch = '2021';
+    TouchDevice = true;
     adType = (adType === 'mpu') ? 'ipadhomempu' : 'ipadstorympu';
   } else if (/OS [0-9]+\_/i.test(uaString) && (/iPhone/i.test(uaString) || /iPod/i.test(uaString))) {
     adch = '2022';
+    TouchDevice = true;
   } else if (/Android|micromessenger/i.test(uaString) || w1 <= 490){
     // if uaString shows Android or browser width is less than 490
     // sometime browser width is not correct in Android phone
     adch = '2023';
+    TouchDevice = true;
   }
-
-
-  if (adch === '2022' || adch === '2023') {
+  var adchURL = window.location.href.replace(/^.*adchannelID=([0-9]{4}).*$/g,'$1');
+  var fromURL = false;
+  if (/^[0-9]{4}$/.test(adchURL)) {
+    adch = adchURL;
+    fromURL = true;
+  }
+  if (typeof(window.FTadchannelID)!=='undefined' && window.FTadchannelID && !fromURL) {
+    adch = window.FTadchannelID;
+    fromURL = true;
+  }
+  //2022(iPhone) + 2023(Android) + 2056(Smart City)
+  if ((adch === '2022' || adch === '2023' || fromURL) && TouchDevice) {
     // if it's a sponsored story
 
     if (adType.indexOf('banner') >=0) {
