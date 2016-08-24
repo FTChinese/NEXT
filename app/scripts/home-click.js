@@ -155,6 +155,37 @@ function queryReports() {
           orderBys: [
             {fieldName: 'ga:eventLabel'}
           ]
+        },
+        {
+          viewId: VIEW_ID,
+          dateRanges: [
+            {
+              startDate: startDate,
+              endDate: endDate
+            }
+          ],
+          metrics: [
+            {
+              expression: 'ga:pageviews'
+            }
+          ],
+          dimensions:
+          [
+            {
+              name: 'ga:pagePath'
+            }
+          ],
+          dimensionFilterClauses: [
+            {
+              filters: [
+                {
+                  dimensionName: 'ga:pagePath',
+                  operator: 'EXACT',
+                  expressions: ['/', '/index.php']
+                }
+              ]
+            }
+          ]
         }
       ]
     }
@@ -234,7 +265,13 @@ function queryGAData() {
 }
 
 if ( /showHotClick=yes/.test(window.location.href)) {
-  document.querySelector('.banner-content').innerHTML = '<div class="g-signin2" data-onsuccess="queryReports"></div><div>Start Date: <input id="ga-start-date" type="text" placeholder="YYYY-MM-DD"> End Date: <input id="ga-end-date" type="text" placeholder="YYYY-MM-DD"> <button id="show-ga-data" onclick="queryGAData()">显示点击数据</button></div>';
+  var firstAdContainer = document.querySelector('.banner-placeholder');
+  var gaContainer = document.createElement('div');
+  gaContainer.id = 'ga-container';
+  gaContainer.style.margin = '0 auto 15px auto';
+  gaContainer.style.maxWidth = '1200px';
+  firstAdContainer.parentNode.insertBefore(gaContainer, firstAdContainer);
+  gaContainer.innerHTML = '<div class="g-signin2" data-onsuccess="queryReports"></div><div>Start Date: <input id="ga-start-date" type="text" placeholder="YYYY-MM-DD"> End Date: <input id="ga-end-date" type="text" placeholder="YYYY-MM-DD"> <button id="show-ga-data" onclick="queryGAData()">显示点击数据</button></div>';
 
   var node = document.body;
   var textnode = document.createElement('textarea');

@@ -65,8 +65,8 @@ try {
 
 <div class="top-left">
 <script>
-    if (1<0) {
-
+    if (c === '10000001' && 1>2) {
+        document.write ('<div style="width:970px;height:250px;"><iframe src="http://www3.ftchinese.com/adv/IBM/" width="970" height="250" frameborder=0></iframe></div>');
     } else {
         document.write ('<scr'+'ipt src="http://dolphin.ftimg.net/s?z=ft&c=' + c + slotStr + adP + '&_fallback=0" charset="gbk" ></scr'+'ipt>');
     }
@@ -136,15 +136,23 @@ if ( window.parent.document.getElementById(parentId)) {
 
         }
     } else if (adHeight > 0 &&  adHeight - adContainerHeight > 20) {
+        //alert (adHeight);
         adResized = true;
         
         
     }
     if (adResized === true) {
         parentIframe.style.height = adHeight + 'px';
+
         try {
             if (w<=1200) {
                 parentIframe.parentNode.style.height = adHeight + 'px';
+            }
+            adHeight += 60;
+            if (adHeight > 180) {
+                //alert (adHeight);
+                parentIframe.parentNode.style.height = adHeight + 'px';
+                parentIframe.parentNode.parentNode.parentNode.parentNode.style.height = adHeight + 'px';
             }
             window.parent.stickyBottomPrepare();            
         } catch (err) {

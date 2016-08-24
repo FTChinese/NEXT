@@ -1,5 +1,7 @@
 /* exported writeAd, slotStr, reloadBanners, checkB*/
 /* jshint ignore:start */
+
+
 function adReachability() {
   var thirdPartyVendors = {
     'dcR': '_dc',
@@ -194,7 +196,6 @@ function checkAdLoad() {
 }
 
 
-//
 function adLoadStatus(eventAction, eventLabel) {
   ga('send','event', 'Ad Load', eventAction, eventLabel, {'nonInteraction':1});
 }
@@ -217,7 +218,15 @@ function setDolphinSlot(key){
 }
 /* jshint ignore:end */
 
+window.dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现联动互斥功能 
 var slotStr=setDolphinSlot('USER_KV');
+
+// try {
+//   console.log ('slotStr Set to ' + slotStr);
+// } catch (ignore) {
+
+// }
+
 var adCount = {};
 var adMax = {};
 var adPositions = {
@@ -271,6 +280,7 @@ function writeAd(adType, returnSrc) {
   var iframeHTML;
   var adch = adchID;
   var bannerBG = '';
+
 
   //alert (adType);
 
@@ -380,6 +390,7 @@ function writeAd(adType, returnSrc) {
   } else {
     return iframeHTML;
   }
+
 }
 
 var bannerIframeContainers = [];

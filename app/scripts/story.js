@@ -6,6 +6,7 @@ var ajaxUrl;
 var message = {};
 var recommendLoaded = false;
 var recommendInner = document.getElementById('story-recommend');
+var recommendVersion = (Math.random() > 0.5)? ' 001': ' 002';
 
 message.head = {};
 message.head.transactiontype = '61008';
