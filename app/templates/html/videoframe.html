@@ -8,7 +8,9 @@
 <%if $itemType == ""%>
     <%assign var="itemType" value="video"%>
 <%/if%>
-<%if $cc_vaddress == ""%>
+<%if $smarty.get.vid != ""%>
+    <%assign var="cc_vaddress" value=$smarty.get.vid%>
+<%elseif $cc_vaddress == ""%>
     <%assign var="cc_vaddress" value=$cbyline_status%>
 <%/if%>
 <!DOCTYPE html>

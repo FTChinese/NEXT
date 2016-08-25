@@ -625,7 +625,35 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 
 <script type="text/javascript">
 if (w > 490 && isTouchDevice() === false) {
-    document.write ('<scr'+'ipt src="http://dolphin.ftimg.net/s?z=ft&c=' + adchID + '0112' + adReachability() + '" charset="gbk"></scr'+'ipt>');
+    //document.write ('<scr'+'ipt src="http://dolphin.ftimg.net/s?z=ft&c=' + adchID + '0015'  + slotStr + adReachability() + '" charset="gbk"></scr'+'ipt>');
+    //console.log (slotStr);
+
+    var inreadAd = {
+        'minSlot': 7,
+        'slot': '.story-body p', 
+        'displayTime': 15000, 
+        'played': false 
+    };
+
+    function initInreadAd() {
+        //find the slot to insert inread ad
+        var inreadAdSlot = document.querySelectorAll(inreadAd.slot)[inreadAd.minSlot];
+        var inreadAdContainer = document.createElement('div');
+        var inreadAdWidth = inreadAdSlot.parentNode.offsetWidth;
+        var hostForVideo = '';
+        if (window.location.hostname === 'localhost' || window.location.hostname.indexOf('192.168') === 0 || window.location.hostname.indexOf('10.113') === 0 || window.location.hostname.indexOf('127.0') === 0) {
+            hostForVideo = 'http://www.ftchinese.com';
+        }
+        //console.log (inreadAdWidth);
+        inreadAdContainer.style.height = '100px';
+        inreadAdContainer.style.backgroundColor = 'red';
+        inreadAdContainer.innerHTML = '<iframe name="inread-frame" id="inread-frame" style="width:100%;height:100%;position:absolute;" src="' + hostForVideo + '/m/corp/video.html?i=2&w='+videoWidth+'&h='+videoHeight+'&autostart=false" scrolling="no" frameborder="0" allowfullscreen=true></iframe>';
+        //inreadAdContainer.style.marginBottom = '30px';
+        inreadAdSlot.parentNode.insertBefore(inreadAdContainer, inreadAdSlot);
+    }
+
+    initInreadAd();
+
 }
 </script>
 
