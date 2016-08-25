@@ -13,6 +13,11 @@
 <%elseif $cc_vaddress == ""%>
     <%assign var="cc_vaddress" value=$cbyline_status%>
 <%/if%>
+<%if $smarty.get.sound == "off"%>
+    <%assign var=sound value="off"%>
+<%else%>
+    <%assign var=sound value="on"%>
+<%/if%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -44,7 +49,10 @@ html,body{background:#000;height:100%;min-height:100%;}
     <script>
           var virtualPage = "<%$virtualPage%>";
     </script>
-    <%if $cc_vaddress && $cc_vaddress!=""%>
+    
+    <%if $smarty.get.vid != ""%>
+        <script src="http://p.bokecc.com/player?vid=<%$smarty.get.vid%>&siteid=922662811F1A49E9&autoStart=<%$autostart%>&width=<%$w%>&height=<%$h%>&playerid=3571A3BF2AEC8829&playertype=1" type="text/javascript"></script>
+    <%elseif $cc_vaddress && $cc_vaddress!=""%>
       <script src="http://union.bokecc.com/player?vid=<%$cc_vaddress%>&siteid=922662811F1A49E9&autoStart=<%$autostart%>&width=<%$w%>&height=<%$h%>&playerid=3571A3BF2AEC8829&playertype=1" type="text/javascript"></script>
     <%else%>
     <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="<%$w%>" height="<%$h%>" id="osmfPlayer">
@@ -77,6 +85,7 @@ html,body{background:#000;height:100%;min-height:100%;}
 <%*<!--on_player_start-->*%>
 <script>
 var vid = "<%$cc_vaddress%>", id = "<%$id%>", w = "<%$w%>" || 347, h="<%$h%>" || 195;
+var sound = '<%$sound%>';
 var gEffortsLimit = 10;
 var gEfforts = 0;
 var player = {};
@@ -102,7 +111,9 @@ function onPlayStart() {
     var www1Img=new Image(), theurl = window.location;
     www1Img.onload=function() {};
     www1Img.src='http://www1.ftchinese.com/log/new_log.php?id=&adch=&tpages=1&refer=&vpage=' + encodeURIComponent(theurl.pathname + theurl.search + theurl.hash) + '&timeStamp=' + Date.now();
-    //player.setVolume(0.5);
+    if (sound === 'off') {
+        player.setVolume(0);        
+    }
 }
 
 function onPlayStop() {

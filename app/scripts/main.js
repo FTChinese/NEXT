@@ -237,6 +237,13 @@ function stickyBottomUpdate() {
       //console.log ('in view');
     }
   }
+
+  // in read ad in view
+  if (typeof inreadAd === 'object' && inreadAd.h >0 && inreadAd.t >0 && inreadAd.displayed === false) {
+      if (scrollTop + bodyHeight > inreadAd.t + inreadAd.h) {
+        showInreadAd();
+      }
+  }
 }
 
 function requestTick() {
