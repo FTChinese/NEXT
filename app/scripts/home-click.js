@@ -180,8 +180,8 @@ function queryReports() {
               filters: [
                 {
                   dimensionName: 'ga:pagePath',
-                  operator: 'EXACT',
-                  expressions: ['/', '/index.php']
+                  operator: 'REGEXP',
+                  expressions: ['^(\/|\/index.php|\/\?.*)$']
                 }
               ]
             }

@@ -1,3 +1,5 @@
+/*exported recommendVersion*/
+
 var fontOptionsEle;
 var fs;
 var ajaxMethod;
