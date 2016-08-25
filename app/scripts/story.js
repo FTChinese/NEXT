@@ -9,6 +9,7 @@ var recommendLoaded = false;
 var recommendInner = document.getElementById('story-recommend');
 var recommendVersion = (Math.random() > 0.5)? '-001': '-002';
 var thirdPartAPIUrl = 'http://120.27.47.77:8091/getRtCmd?siteId=5002&num=20&itemId=' + FTStoryid;
+var thirdPartData = [];
 
 /**
  * Switch to local mode or remote mode.
@@ -70,6 +71,7 @@ function recommendationPayload(datalist){
     var maxItem = 8;
     var itemCount = 0;
     var itemHTML = '';
+    var eventAction = 'Click' + recommendVersion;
 
     for (var i=0; i<datalist.length; i++) {
         var itemClass = 'XL3 L3 M6 S6 P12';
@@ -90,8 +92,11 @@ function recommendationPayload(datalist){
             itemTop = '<div class="' + itemTopClass + '"></div>';
         }
 
+        var link = '/story/'+itemId+'?tcode=smartrecommend&ulu-rcmd=' + thirdPartData[itemId];
+
         if (itemCount<maxItem && itemImage && itemImage !== '') {
-            itemHTML += itemTop + '<div class="item-container ' + itemClass + ' has-image no-lead"><div class="item-inner"><h2 class="item-headline"><a data-ec="Story Recommend" data-ea="Click'+recommendVersion+'" data-el="'+itemT+'/story/'+itemId+'" target="_blank" href="/story/'+itemId+'?tcode=smartrecommend">'+itemHeadline+'</a></h2><a data-ec="Story Recommend" data-ea="Click'+recommendVersion+'" data-el="'+itemT+'/story/'+itemId+'" class="image" target="_blank" href="/story/'+itemId+'?tcode=smartrecommend"><figure class="loading" data-url="'+itemImage+'"></figure></a><div class="item-bottom"></div></div></div>';
+
+            itemHTML += itemTop + '<div class="item-container ' + itemClass + ' has-image no-lead"><div class="item-inner"><h2 class="item-headline"><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el="'+itemT+'/story/'+itemId+'" target="_blank" href="'+link+'">'+itemHeadline+'</a></h2><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el="'+itemT+'/story/'+itemId+'" class="image" target="_blank" href="'+link+'"><figure class="loading" data-url="'+itemImage+'"></figure></a><div class="item-bottom"></div></div></div>';
             itemCount += 1;
         }
     }
@@ -155,8 +160,11 @@ function getRec(data) {
             var ids = '';
             var split = '';
             for(var i = 0; i < data.length; i++){
-                ids += split + data[i].id;
+                var tmpKey = data[i].id;
+                var tmpVal = data[i].parameter;
+                ids += split + tmpKey;
                 split = ',';
+                thirdPartData[tmpKey] = tmpVal;
             }
             
             message.head = {};
@@ -185,7 +193,7 @@ if(recommendVersion === '-001'){
     message.body.ielement = {};
     message.body.ielement.storyid = '';
 
-    ga('send','event','Recommend Story API', 'Load', '', {'nonInteraction':1});
+    ga('send','event','Recommend Story API', 'Load' + recommendVersion, '', {'nonInteraction':1});
     ftc_api.call(message, getFtcRecommendSuccess, getFtcRecommendFailed);
 } else {
     var s = document.createElement('script');
@@ -194,6 +202,7 @@ if(recommendVersion === '-001'){
     s.src = thirdPartAPIUrl + '&callback=getRec&v=' + new Date().getTime();
     var d = document.getElementsByTagName('script')[0];
     d.parentNode.insertBefore(s, d);
+    ga('send','event','Recommend Story API', 'Load' + recommendVersion, '', {'nonInteraction':1});
     // The rest work jump to getRec
 }
 
