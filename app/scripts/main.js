@@ -232,7 +232,7 @@ function stickyBottomUpdate() {
       if (window.FTStoryid === undefined) {
         window.FTStoryid = '';
       }
-      ga('send','event','Story Recommend', 'Seen', FTStoryid, {'nonInteraction':1});
+      ga('send','event','Story Recommend', 'Seen' + window.recommendVersion, FTStoryid, {'nonInteraction':1});
       gRecomendInViewNoted = true;
       //console.log ('in view');
     }
