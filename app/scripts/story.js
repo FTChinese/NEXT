@@ -1,20 +1,16 @@
 var fontOptionsEle;
 var fs;
-var xhr = new XMLHttpRequest();
 var ajaxMethod;
 var ajaxUrl;
 var message = {};
 var recommendLoaded = false;
 var recommendInner = document.getElementById('story-recommend');
-var recommendVersion = (Math.random() > 0.5)? ' 001': ' 002';
+var recommendVersion = (Math.random() > 0.5)? '-001': '-002';
+var thirdPartAPIUrl = 'http://120.27.47.77:8091/getRtCmd?siteId=5002&num=20&itemId=' + FTStoryid;
 
-message.head = {};
-message.head.transactiontype = '61008';
-message.head.source = 'web';
-message.body = {};
-message.body.ielement = {};
-message.body.ielement.storyid = '';
-
+/**
+ * Switch to local mode or remote mode.
+ */
 if (/127\.0|localhost|192\.168/.test(window.location.href)) {
 	ajaxMethod = 'GET';
 	ajaxUrl = '/api/page/recommend.json';
@@ -23,59 +19,181 @@ if (/127\.0|localhost|192\.168/.test(window.location.href)) {
 	ajaxUrl = '/eaclient/apijson.php';
 }
 
-ga('send','event','Recommend Story API', 'Load', '', {'nonInteraction':1});
-xhr.open(ajaxMethod, encodeURI(ajaxUrl));
-xhr.setRequestHeader('Content-Type', 'application/json');
-xhr.onload = function() {
-    if (xhr.status === 200) {
-        var data = JSON.parse(xhr.responseText);
-        var maxItem = 8;
-        var itemCount = 0;
-        var itemHTML = '';
-        if (data.body.oelement.errorcode === '0') {
-        	if (data.body.odatalist && data.body.odatalist.length > 0) {
-        		for (var i=0; i<data.body.odatalist.length; i++) {
-        			var itemClass = 'XL3 L3 M6 S6 P12';
-        			var itemHeadline = data.body.odatalist[i].cheadline;
-        			var itemImage = data.body.odatalist[i].piclink;
-        			var itemId = data.body.odatalist[i].storyid;
-                    var itemT = data.body.odatalist[i].t;
-                    if(itemT === undefined || itemT === null) {itemT = '';}
-        			var itemTop = '';
-        			var itemTopClass = 'PT';
-        			if (itemCount % 4 === 0) {
-        				itemTopClass += ' XLT LT';
-        			}
-        			if (itemCount % 2 === 0) {
-        				itemTopClass += ' MT ST';
-        			}
-        			if (itemTopClass !== '' && itemCount >0) {
-        				itemTop = '<div class="' + itemTopClass + '"></div>';
-        			}
+/**
+ * The FTC API communication
+ */
+var ftc_api = {
+    server_url: '',
+    method: 'POST',
 
-        			if (itemCount<maxItem && itemImage && itemImage !== '') {
-	        			itemHTML += itemTop + '<div class="item-container ' + itemClass + ' has-image no-lead"><div class="item-inner"><h2 class="item-headline"><a data-ec="Story Recommend" data-ea="Click" data-el="'+itemT+'/story/'+itemId+'" target="_blank" href="/story/'+itemId+'?tcode=smartrecommend">'+itemHeadline+'</a></h2><a data-ec="Story Recommend" data-ea="Click" data-el="'+itemT+'/story/'+itemId+'" class="image" target="_blank" href="/story/'+itemId+'?tcode=smartrecommend"><figure class="loading" data-url="'+itemImage+'"></figure></a><div class="item-bottom"></div></div></div>';
-	        			itemCount += 1;
-        			}
-        		}
-                recommendInner.innerHTML = itemHTML;
-                document.getElementById('story-recommend-container').style.display = 'block';
-                loadImages();
-                recommendLoaded = true;
-                ga('send','event','Recommend Story API', 'Success', '', {'nonInteraction':1});
-        	} else {
-                ga('send','event','Recommend Story API', 'No Data', '', {'nonInteraction':1});
+    call: function(message, success, failed) {
+        var xhr = new XMLHttpRequest();
+
+        try {
+            if(this.server_url === '') {
+                throw 'The server address is empty!';
             }
-        } else {
-            ga('send','event','Recommend Story API', 'Parse Fail', data.body.oelement.errorcode, {'nonInteraction':1});
+
+            xhr.open(this.method, encodeURI(this.server_url), true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.onreadystatechange = function() {
+                if(xhr.readyState === 4){
+                    if(xhr.status === 200){
+                        if(typeof success === 'function') {
+                            success(xhr.responseText);
+                        }
+                    } else {
+                        if(typeof failed === 'function') {
+                            failed(xhr.status);
+                        }
+                    }
+                }
+            };
+            xhr.send(JSON.stringify(message));
+
+        } catch (e) {
+            console.log(xhr.status);
+            console.log(e.message);
         }
-    } else if (xhr.status !== 200) {
-        ga('send','event','Recommend Story API', 'Request Fail', '', {'nonInteraction':1});
-        //alert('Request failed.  Returned status of ' + xhr.status);
     }
-    
 };
-xhr.send(JSON.stringify(message));
+
+ftc_api.method = ajaxMethod;
+ftc_api.server_url = ajaxUrl;
+
+/**
+ * Global recommendation payload
+ */
+function recommendationPayload(datalist){
+    var maxItem = 8;
+    var itemCount = 0;
+    var itemHTML = '';
+
+    for (var i=0; i<datalist.length; i++) {
+        var itemClass = 'XL3 L3 M6 S6 P12';
+        var itemHeadline = datalist[i].cheadline;
+        var itemImage = datalist[i].piclink;
+        var itemId = datalist[i].storyid;
+        var itemT = datalist[i].t;
+        if(itemT === undefined || itemT === null) {itemT = '';}
+        var itemTop = '';
+        var itemTopClass = 'PT';
+        if (itemCount % 4 === 0) {
+            itemTopClass += ' XLT LT';
+        }
+        if (itemCount % 2 === 0) {
+            itemTopClass += ' MT ST';
+        }
+        if (itemTopClass !== '' && itemCount >0) {
+            itemTop = '<div class="' + itemTopClass + '"></div>';
+        }
+
+        if (itemCount<maxItem && itemImage && itemImage !== '') {
+            itemHTML += itemTop + '<div class="item-container ' + itemClass + ' has-image no-lead"><div class="item-inner"><h2 class="item-headline"><a data-ec="Story Recommend" data-ea="Click" data-el="'+itemT+'/story/'+itemId+'" target="_blank" href="/story/'+itemId+'?tcode=smartrecommend">'+itemHeadline+'</a></h2><a data-ec="Story Recommend" data-ea="Click" data-el="'+itemT+'/story/'+itemId+'" class="image" target="_blank" href="/story/'+itemId+'?tcode=smartrecommend"><figure class="loading" data-url="'+itemImage+'"></figure></a><div class="item-bottom"></div></div></div>';
+            itemCount += 1;
+        }
+    }
+
+    recommendInner.innerHTML = itemHTML;
+    document.getElementById('story-recommend-container').style.display = 'block';
+    loadImages();
+    recommendLoaded = true;
+}
+
+/**
+ * Get ftc recommend stories
+ */
+function getFtcRecommendSuccess(data) {
+    data = JSON.parse(data);
+    if (data.body.oelement.errorcode === '0') {
+        if (data.body.odatalist && data.body.odatalist.length > 0) {
+            recommendationPayload(data.body.odatalist);
+            ga('send','event','Recommend Story API', 'Success' + recommendVersion, '', {'nonInteraction':1});
+        } else {
+            ga('send','event','Recommend Story API', 'No Data' + recommendVersion, '', {'nonInteraction':1});
+        }
+    } else {
+        ga('send','event','Recommend Story API', 'Parse Fail' + recommendVersion, data.body.oelement.errorcode, {'nonInteraction':1});
+    }
+}
+
+function getFtcRecommendFailed(){
+    console.log('Request failed!');
+    ga('send','event','Recommend Story API', 'Request Fail' + recommendVersion, '', {'nonInteraction':1});
+}
+
+/**
+ * Playload thirdpart recommend stories
+ */
+function getThirdPartRecommendSuccess(data) {
+    data = JSON.parse(data);
+    if (data.body.oelement.errorcode === '0') {
+        if (data.body.odatalist && data.body.odatalist.length > 0) {
+            recommendationPayload(data.body.odatalist);
+            ga('send','event','Recommend Story API', 'Success' + recommendVersion, '', {'nonInteraction':1});
+        } else {
+            ga('send','event','Recommend Story API', 'No Data' + recommendVersion, '', {'nonInteraction':1});
+        }
+    } else {
+        ga('send','event','Recommend Story API', 'Parse Fail' + recommendVersion, data.body.oelement.errorcode, {'nonInteraction':1});
+    }
+}
+
+function getThirdPartRecommendFailed(){
+    console.log('Request failed!');
+    ga('send','event','Recommend Story API', 'Request Fail' + recommendVersion, '', {'nonInteraction':1});
+}
+
+/* jshint unused: true */
+/*exported getRec */
+function getRec(data) {
+
+    if(typeof data === 'object') {
+        if(data.length > 0){
+            var ids = '';
+            var split = '';
+            for(var i = 0; i < data.length; i++){
+                ids += split + data[i].id;
+                split = ',';
+            }
+            
+            message.head = {};
+            message.head.transactiontype = '10002';
+            message.head.source = 'web';
+            message.body = {};
+            message.body.ielement = {};
+            message.body.ielement.storyid = ids;
+            message.body.ielement.withpic = 1;
+
+            ftc_api.call(message, getThirdPartRecommendSuccess, getThirdPartRecommendFailed);
+        } else {
+            ga('send','event','Recommend Story API', 'No Data' + recommendVersion, '', {'nonInteraction':1});
+        }
+    } else {
+        ga('send','event','Recommend Story API', 'Request Fail' + recommendVersion, '', {'nonInteraction':1});
+    }
+}
+
+// A & B Test
+if(recommendVersion === '-001'){
+    message.head = {};
+    message.head.transactiontype = '61008';
+    message.head.source = 'web';
+    message.body = {};
+    message.body.ielement = {};
+    message.body.ielement.storyid = '';
+
+    ga('send','event','Recommend Story API', 'Load', '', {'nonInteraction':1});
+    ftc_api.call(message, getFtcRecommendSuccess, getFtcRecommendFailed);
+} else {
+    var s = document.createElement('script');
+    s.type = 'text/javascript';
+    s.async = !0;
+    s.src = thirdPartAPIUrl + '&callback=getRec&v=' + new Date().getTime();
+    var d = document.getElementsByTagName('script')[0];
+    d.parentNode.insertBefore(s, d);
+    // The rest work jump to getRec
+}
 
 //set font
 fontOptionsEle = document.getElementById('font-options');
