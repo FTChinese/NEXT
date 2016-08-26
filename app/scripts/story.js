@@ -7,7 +7,7 @@ var ajaxUrl;
 var message = {};
 var recommendLoaded = false;
 var recommendInner = document.getElementById('story-recommend');
-var recommendVersion = (Math.random() > 0.5)? '-001': '-002';
+var recommendVersion = (Math.random() > 0)? '-001': '-002';
 var thirdPartAPIUrl = 'http://120.27.47.77:8091/getRtCmd?siteId=5002&num=20&itemId=' + FTStoryid;
 var thirdPartData = [];
 

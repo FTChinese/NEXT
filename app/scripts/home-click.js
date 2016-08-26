@@ -1,10 +1,14 @@
 /* exported queryReports, queryGAData*/
 // Replace with your view ID.
-var VIEW_ID = '10995661';
+//var VIEW_ID = '10995661';
+var VIEW_ID = '69390283';
 var gGADataStatus = '';
 var startDate = '7daysAgo';
 var endDate = 'today';
-
+var queryJSON = {};
+var textnode;
+var textnode2;
+var textnode3;
 function findContainer(ele) {
   var eleContainer = ele;
   var i = 0;
@@ -31,19 +35,30 @@ function getPercentage(v, t) {
 function displayResults(response) {
   try {
         var formattedJson = JSON.stringify(response.result, null, 2);
-        document.getElementById('query-output').value = formattedJson;
+        textnode3.style.display = 'block';
+        textnode.style.backgroundColor = 'white';
+        textnode.value = formattedJson;
   } catch (ignore) {
 
   }
   var data;
   var total;
+  var totalPV;
+  var overallClickRate;
   if (/127.0|localhost|192.168/.test(window.location.href)) {
     data = response.reports[0].data.rows;
     total = response.reports[0].data.totals[0].values[0];
+    totalPV = response.reports[1].data.totals[0].values[0];
   } else {
     data = response.result.reports[0].data.rows;
     total = response.result.reports[0].data.totals[0].values[0];
+    totalPV = response.result.reports[1].data.totals[0].values[0];
   }
+  overallClickRate = Math.round(10000 * total/totalPV)/10000;
+
+  document.getElementById('show-click-rate').innerHTML = overallClickRate;
+  document.getElementById('show-click-rate').style.color = '#9E2F50';
+  //alert (overallClickRate);
   for (var i=0; i<data.length; i++) {
     var key = data[i].dimensions[0];
     var value = data[i].metrics[0].values[0];
@@ -84,7 +99,7 @@ function displayResults(response) {
     var blockGAData;
     var blockClicksP;
     var blockClicksMore='';
-    var textnode;
+    var textnode4;
 
     for (var k=0; k<clickData.length; k++) {
       //console.log (clickData);
@@ -104,9 +119,9 @@ function displayResults(response) {
       }
       blockGAData = '<div title="Total Clicks on this Block: '+ blockClicks +' ('+blockClicksP + '). ' +blockClicksMore+'" class="ga-data-show-block" style="position:absolute;top:0;right:30px;width:100px;height:100px;line-height:100px;text-align:center;background:#9E2F50;color:white;z-index:999999999;cursor:pointer;border-radius:60px;">'+blockClicksP+'</div>';
       blocks[j].style.position = 'relative';
-      textnode = document.createElement('div');
-      textnode.innerHTML = blockGAData;
-      blocks[j].appendChild(textnode); 
+      textnode4 = document.createElement('div');
+      textnode4.innerHTML = blockGAData;
+      blocks[j].appendChild(textnode4); 
 
       //blocks[j].innerHTML = blockGAData + blocks[j].innerHTML;
     }
@@ -114,13 +129,12 @@ function displayResults(response) {
 
 }
 
+
+
+
 // Query the API and print the results to the page.
 function queryReports() {
-  gapi.client.request({
-    path: '/v4/reports:batchGet',
-    root: 'https://analyticsreporting.googleapis.com/',
-    method: 'POST',
-    body: {
+  queryJSON = {
       reportRequests: [
         {
           viewId: VIEW_ID,
@@ -169,12 +183,6 @@ function queryReports() {
               expression: 'ga:pageviews'
             }
           ],
-          dimensions:
-          [
-            {
-              name: 'ga:pagePath'
-            }
-          ],
           dimensionFilterClauses: [
             {
               filters: [
@@ -188,10 +196,33 @@ function queryReports() {
           ]
         }
       ]
-    }
+    };
+
+  textnode2.value = JSON.stringify(queryJSON, null, 2);
+
+  gapi.client.request({
+    path: '/v4/reports:batchGet',
+    root: 'https://analyticsreporting.googleapis.com/',
+    method: 'POST',
+    body: queryJSON
   }).then(displayResults, console.error.bind(console));
 }
 
+
+
+// Query the API and print the results to the page.
+function queryReports2() {
+  queryJSON = JSON.parse(textnode2.value);
+  textnode.style.backgroundColor = 'grey';
+  textnode.value = '更新数据...';
+  //console.log (queryJSON);
+  gapi.client.request({
+    path: '/v4/reports:batchGet',
+    root: 'https://analyticsreporting.googleapis.com/',
+    method: 'POST',
+    body: queryJSON
+  }).then(displayResults, console.error.bind(console));
+}
 
 
 function queryReportsTest() {
@@ -208,6 +239,7 @@ function queryReportsTest() {
       }  
   };
   xhr.send(JSON.stringify(message));
+  textnode2.value = JSON.stringify(queryJSON, null, 2);
 }
 
 function fixDateFormat(originalDate) {
@@ -271,12 +303,30 @@ if ( /showHotClick=yes/.test(window.location.href)) {
   gaContainer.style.margin = '0 auto 15px auto';
   gaContainer.style.maxWidth = '1200px';
   firstAdContainer.parentNode.insertBefore(gaContainer, firstAdContainer);
-  gaContainer.innerHTML = '<div class="g-signin2" data-onsuccess="queryReports"></div><div>Start Date: <input id="ga-start-date" type="text" placeholder="YYYY-MM-DD"> End Date: <input id="ga-end-date" type="text" placeholder="YYYY-MM-DD"> <button id="show-ga-data" onclick="queryGAData()">显示点击数据</button></div>';
+  gaContainer.innerHTML = '<div class="g-signin2" data-onsuccess="queryReports"></div><div>Start Date: <input id="ga-start-date" type="text" placeholder="YYYY-MM-DD"> End Date: <input id="ga-end-date" type="text" placeholder="YYYY-MM-DD"> <button id="show-ga-data" onclick="queryGAData()">显示点击数据</button> Clicks／Page View：<span id="show-click-rate">...</span></div>';
 
   var node = document.body;
-  var textnode = document.createElement('textarea');
+  textnode = document.createElement('textarea');
   textnode.id =  'query-output';
   textnode.style.width = '100%';
   textnode.style.height = '300px';
+
+  textnode2 = document.createElement('textarea');
+  textnode2.id =  'query-input';
+  textnode2.style.width = '100%';
+  textnode2.style.height = '300px';
+  
+
+  textnode3 = document.createElement('button');
+  textnode3.id =  'query-rerun';
+  textnode3.innerHTML = '查询';
+  textnode3.style.display = 'block';
+  textnode3.style.margin = '15px';
+  textnode3.style.display = 'none';
+  textnode3.onclick = queryReports2;
+
+
+  node.appendChild(textnode2); 
+  node.appendChild(textnode3); 
   node.appendChild(textnode); 
 }
