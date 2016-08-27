@@ -14,7 +14,7 @@ var thirdPartData = [];
 
 recommendVersion = GetCookie('ab001') || '';
 if (recommendVersion === '') {
-    recommendVersion = (Math.random() > 0)? '-001': '-002';
+    recommendVersion = (Math.random() > 0.5)? '-001': '-002';
     SetCookie('ab001',recommendVersion,'','/');
 }
 
