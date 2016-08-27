@@ -58,6 +58,10 @@ function displayResults(response) {
 
   document.getElementById('show-click-rate').innerHTML = overallClickRate;
   document.getElementById('show-click-rate').style.color = '#9E2F50';
+  document.getElementById('show-click-total').innerHTML = total;
+  document.getElementById('show-click-total').style.color = '#9E2F50';
+  document.getElementById('show-page-view').innerHTML = totalPV;
+  document.getElementById('show-page-view').style.color = '#9E2F50';
   //alert (overallClickRate);
   for (var i=0; i<data.length; i++) {
     var key = data[i].dimensions[0];
@@ -70,10 +74,10 @@ function displayResults(response) {
     var isSide = '';
     if (ele !== null && value >0 && total >0) {
       //console.log (key + ':' + value);
-      p1 = value/total;
+      p1 = value/totalPV;
       p1 = Math.sqrt(p1) * 100;
       p1 = p1 + '%';
-      p = getPercentage(value, total);
+      p = getPercentage(value, totalPV);
       ele.title = value;
       eleContainer = findContainer(ele);
       if (key.indexOf('Side')===0) {
@@ -113,7 +117,7 @@ function displayResults(response) {
       }
     }
     if (blockClicks >0) {
-      blockClicksP = getPercentage(blockClicks, total);
+      blockClicksP = getPercentage(blockClicks, totalPV);
       if (sideClicks>0) {
         blockClicksMore = ' ' + mainClicks + ' on main (' + getPercentage(mainClicks, total) + '). ' + sideClicks + ' on side. (' + getPercentage(sideClicks, total) + ')';
       }
@@ -189,7 +193,7 @@ function queryReports() {
                 {
                   dimensionName: 'ga:pagePath',
                   operator: 'REGEXP',
-                  expressions: ['^(\/|\/index.php|\/\?.*)$']
+                  expressions: ['^(\/|\/index.php)$']
                 }
               ]
             }
@@ -303,7 +307,7 @@ if ( /showHotClick=yes/.test(window.location.href)) {
   gaContainer.style.margin = '0 auto 15px auto';
   gaContainer.style.maxWidth = '1200px';
   firstAdContainer.parentNode.insertBefore(gaContainer, firstAdContainer);
-  gaContainer.innerHTML = '<div class="g-signin2" data-onsuccess="queryReports"></div><div>Start Date: <input id="ga-start-date" type="text" placeholder="YYYY-MM-DD"> End Date: <input id="ga-end-date" type="text" placeholder="YYYY-MM-DD"> <button id="show-ga-data" onclick="queryGAData()">显示点击数据</button> Clicks／Page View：<span id="show-click-rate">...</span></div>';
+  gaContainer.innerHTML = '<div class="g-signin2" data-onsuccess="queryReports"></div><div>Start Date: <input id="ga-start-date" type="text" placeholder="YYYY-MM-DD"> End Date: <input id="ga-end-date" type="text" placeholder="YYYY-MM-DD"> <button id="show-ga-data" onclick="queryGAData()">显示点击数据</button> Clicks per Page：<span id="show-click-rate">...</span>  Clicks：<span id="show-click-total">...</span>  Page View：<span id="show-page-view">...</span></div>';
 
   var node = document.body;
   textnode = document.createElement('textarea');
