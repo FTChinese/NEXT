@@ -9,6 +9,7 @@ var recommendLoaded = false;
 var recommendInner = document.getElementById('story-recommend');
 var recommendVersion;
 var thirdPartAPIUrl = 'http://120.27.47.77:8091/getRtCmd?siteId=5002&num=20&itemId=' + FTStoryid;
+var thirdPartFeedbackUrl = 'http://120.27.47.77:8091/rec/click?siteId=5002&itemId=' + FTStoryid;
 var thirdPartData = [];
 
 
@@ -71,6 +72,29 @@ var ftc_api = {
 ftc_api.method = ajaxMethod;
 ftc_api.server_url = ajaxUrl;
 
+function bindFeedbackEvent(){
+    var delegate = new Delegate(document.getElementById('story-recommend'));
+    
+    if(recommendVersion === '-002') {
+        delegate.on('click', 'a', function(event, obj){
+            try {
+                var link = obj.getAttribute('href');
+                var splits = link.split('?');
+
+                var recStoryId = splits[0].replace(/\D/g, '');
+                var recParam = splits[1].replace(/\D/g, '');
+
+                ftc_api.method = 'GET';
+                ftc_api.server_url = thirdPartFeedbackUrl + '&recId=' + recStoryId + '&parameter=' + recParam;
+                ftc_api.call({});
+
+            } catch (e) {
+                console.log(e);
+            }
+        });
+    }
+}
+
 /**
  * Global recommendation payload
  */
@@ -109,6 +133,7 @@ function recommendationPayload(datalist){
     }
 
     recommendInner.innerHTML = itemHTML;
+    bindFeedbackEvent();
     document.getElementById('story-recommend-container').style.display = 'block';
     loadImages();
     recommendLoaded = true;
