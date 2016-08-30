@@ -30,6 +30,12 @@ function createBarrier() {
 		'href': 'http://user.ftchinese.com/register/?ccode=1B110427',
 		'class': 'o-register'
 	}, '免费注册');
+
+	// var form = createElement('form', {
+	// 	'method': 'POST',
+	// 	'action': '/users/login',
+	// 	'class': 'o-barrier__form'
+	// });
 	var loginElt = createElement('a', {
 		'href': 'http://user.ftchinese.com/login',
 		'class': 'o-login'
@@ -81,12 +87,12 @@ function goToBottom(elm) {
 }
 
 var barrierEvents = {
-	'o-barrier': function(e, type, rand) {
-		if ((!barrierOnBottom(e.currentTarget.className)) && rand === 0) {
-			goToBottom(e.currentTarget);
-			recordAction(type, 'Click Close BG');
-		}
-	},
+	// 'o-barrier': function(e, type, rand) {
+	// 	if ((!barrierOnBottom(e.currentTarget.className)) && rand === 0) {
+	// 		goToBottom(e.currentTarget);
+	// 		recordAction(type, 'Click Close BG');
+	// 	}
+	// },
 
 	'o-barrier__close': function(e, type) {
 		if (!barrierOnBottom(e.currentTarget.className)) {
@@ -103,23 +109,29 @@ var barrierEvents = {
 	},
 
 	'o-login': function(e, type) {
+		e.preventDefault();
 		if (barrierOnBottom(e.currentTarget.className)) {
+			
 			type = type + ' bottom';
-		}
+		}	
+		showOverlay('overlay-login');
+		goToBottom(e.currentTarget);
 		recordAction(type, 'Log In');
 	}			
 }
 
 function abTest() {
-	var rand = getRandomIntInclusive(0, 1);
+	// var rand = getRandomIntInclusive(0, 1);
 	// console.log('rand number: ', rand);
 	
-	var barrierTypes = ['Barrier Page 003', 'Barrier Page 004'];
+	// var barrierTypes = ['Barrier Page 003', 'Barrier Page 004'];
 
 	var barrierElt = createBarrier();
 	
 	document.body.appendChild(barrierElt);
-	var barrierType = barrierTypes[rand];
+	// var barrierType = barrierTypes[rand];
+	var barrierType = 'Barrier Page 005';
+
 // cssVersionNumber
 	var head  = document.getElementsByTagName('head')[0];
 	var link  = document.createElement('link');
@@ -128,7 +140,7 @@ function abTest() {
 	link.href = (/localhost|127\.0|192\.168/.test(window.location.href)) ? 'styles/main-barrier.css': 'http://static.ftchinese.com/n/main-barrier.css?'+cssVersionNumber;
 	head.appendChild(link);
 	link.onload = function () {
-			barrierElt.style.display = 'block';
+		barrierElt.style.display = 'block';
 	};
 
 	try {
@@ -138,12 +150,11 @@ function abTest() {
 	}
 
 	barrierElt.onclick = function(e) {
-		// e.preventDefault();
 		var eventKey = e.target.className;
-		// console.log('clicked element className: ', eventKey);
 
 		if (barrierEvents[eventKey]) {
-			barrierEvents[eventKey](e, barrierType, rand);
+			// barrierEvents[eventKey](e, barrierType, rand);
+			barrierEvents[eventKey](e, barrierType);
 		}
 	};	
 }
