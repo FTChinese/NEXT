@@ -25,7 +25,10 @@ var scrollTop = window.scrollY || document.documentElement.scrollTop;
 var ticking = false;
 var hostForVideo = '';
 var currentFavButton;
-
+var figures = document.querySelectorAll('figure.loading');
+var figuresLazy = [];
+var figuresLoadStatus = 0;
+var videos = document.querySelectorAll('figure.loading-video');
 
 
 
@@ -66,6 +69,128 @@ function stickyAdsPrepare() {
 //       'stickyHeight': stickyHeight
 //   }
 
+
+// Lazy-load images
+function loadImagesLazy () {
+  if (figuresLoadStatus ===1 ) {
+    return;
+  }
+  var figuresToLoad = 0;
+  for (var i=0; i<figuresLazy.length; i++) {
+    //console.log (figuresLazy[i]);
+    if (figuresLazy[i] !== '') {
+      if (scrollTop + bodyHeight*1.5 > figuresLazy[i].imageTop) {
+        figures[i].innerHTML = '<img src="' + figuresLazy[i].imageUrl + '" data-backupimage="' + figuresLazy[i].imageUrlBack + '">';
+        figures[i].className = figuresLazy[i].loadedClass;
+        //console.log ('loaded image: ' + figuresLazy[i].imageUrl);
+        figuresLazy[i] = '';
+        figuresToLoad --;
+        //figuresLazy[i].loaded = true;
+        
+      }
+      figuresToLoad ++;
+    }
+  }
+  if (figuresToLoad === 0) {
+    figuresLoadStatus = 1;
+  }
+  //console.log (figuresToLoad);
+
+}
+
+// Init responsive images loading
+function loadImages() {
+
+  var i;
+  var queryString = window.location.search;
+  var isFrenquentDevice = false;
+  var MULTIPLE = 100;
+
+  figures = document.querySelectorAll('figure.loading');
+  figuresLazy = [];
+  figuresLoadStatus = 0;
+
+  try {
+    if (w === 360 || w === 375 || w === 320 || w === 414 || w === 768 || w === 1024 || w>1220) {
+      isFrenquentDevice = true;
+    }
+  } catch (ignore) {
+
+  }
+  for (i=0; i<figures.length; i++) {
+    var thisFigure = figures[i];
+    var imageWidth = thisFigure.offsetWidth;
+    var imageHeight = thisFigure.offsetHeight;
+    var imageTop = findTop(thisFigure);
+    var imageUrl = thisFigure.getAttribute('data-url');
+    var imageUrlBack;
+    var figureClass = thisFigure.className || '';
+    var fitType = 'cover';
+    var figureParentClass = thisFigure.parentNode.className || '';
+    var shouldLoadImage = false;
+    var loadedClass = '';
+    if (isRetinaDevice === true) {
+      imageWidth = imageWidth * 2;
+      imageHeight = imageHeight * 2;
+      loadedClass = 'is-retina';
+    }
+    if ((!queryString || queryString.indexOf('?ad=no') === -1 ) && isFrenquentDevice === false) {
+      var mod = imageWidth % MULTIPLE;
+      if (mod !== 0) {
+        var ratio = imageHeight / imageWidth;
+        var quotient = parseInt(imageWidth / MULTIPLE, 10);
+        imageWidth = (quotient + 1) * MULTIPLE;
+        imageHeight = parseInt(imageWidth * ratio, 10);
+        loadedClass = 'is-retina';
+      }
+    }
+    // imageWidth = parseInt (imageWidth, 10);
+    // imageHeight = parseInt (imageHeight, 10);
+    if (/brand/.test(figureParentClass)) {
+      fitType = 'contain';
+    }
+    imageUrl = encodeURIComponent(imageUrl);
+    if (/sponsor/.test(figureClass)) {
+      imageUrl = 'http://image.webservices.ft.com/v1/images/raw/' + imageUrl + '?source=ftchinese&height=' + imageHeight + '&fit=' + fitType;
+      shouldLoadImage = true;
+    } else if (imageWidth > 0 && imageHeight > 0) {
+      imageUrl = 'http://image.webservices.ft.com/v1/images/raw/' + imageUrl + '?source=ftchinese&width=' + imageWidth + '&height=' + imageHeight + '&fit=' + fitType;
+      shouldLoadImage = true;
+    }
+    if (shouldLoadImage === true) {
+      imageUrlBack = imageUrl.replace('i.ftimg.net', 'i.ftmailbox.com');
+      figuresLazy[i] = {
+        imageTop: imageTop,
+        imageUrl: imageUrl,
+        imageUrlBack: imageUrlBack
+      };
+      //thisFigure.innerHTML = '<img src="' + imageUrl + '" data-backupimage="' + imageUrlBack + '">';
+      //thisFigure.className = loadedClass;
+    }
+  }
+
+
+  // load responsive videos
+
+  hostForVideo = '';
+  if (window.location.hostname === 'localhost' || window.location.hostname.indexOf('192.168') === 0 || window.location.hostname.indexOf('10.113') === 0 || window.location.hostname.indexOf('127.0') === 0) {
+    hostForVideo = 'http://www.ftchinese.com';
+  }
+  for (i=0; i<videos.length; i++) {
+    var thisVideo = videos[i];
+    var videoWidth = thisVideo.offsetWidth;
+    var videoHeight = thisVideo.offsetHeight;
+    var videoId = thisVideo.getAttribute('data-vid');
+    var videoType = thisVideo.getAttribute('data-item-type') || 'video';
+    if (videoWidth > 0 && videoHeight > 0 && queryString.indexOf('?ad=no') === -1 && hostForVideo !== 'http://www.ftchinese.com') {
+      //console.log (videoId + ' Height: ' + videoHeight + ' Width: ' + videoWidth);
+      thisVideo.innerHTML = '<iframe name="video-frame" id="video-frame" style="width:100%;height:100%;position:absolute;" src="' + hostForVideo + '/' + videoType + '/'+ videoId +'?i=2&w='+videoWidth+'&h='+videoHeight+'&autostart=false" scrolling="no" frameborder="0" allowfullscreen=true></iframe>';
+      thisVideo.className = '';
+    }
+  }
+
+  loadImagesLazy ();
+}
 function stickyBottomPrepare() {
   gNavOffsetY = findTop(document.querySelector('.o-nav__placeholder'));
   bodyHeight = getBodyHeight(gNavOffsetY);
@@ -111,9 +236,6 @@ function stickyBottomPrepare() {
 }
 
 function stickyBottomUpdate() {
-
-
-
 
 
   var htmlClassNew = htmlClass.replace(/( o-nav-sticky)|( tool-sticky)|( audio-sticky)/g, '');
@@ -244,6 +366,8 @@ function stickyBottomUpdate() {
         showInreadAd();
       }
   }
+
+  loadImagesLazy ();
 }
 
 function requestTick() {
@@ -263,88 +387,9 @@ function stickyBottom() {
 }
 
 
-// load responsive images
-function loadImages() {
-  var figures = document.querySelectorAll('figure.loading');
-  var i;
-  var queryString = window.location.search;
-  var isFrenquentDevice = false;
-  var MULTIPLE = 100;
-  try {
-    if (w === 360 || w === 375 || w === 320 || w === 414 || w === 768 || w === 1024 || w>1220) {
-      isFrenquentDevice = true;
-    }
-  } catch (ignore) {
-
-  }
-  for (i=0; i<figures.length; i++) {
-    var thisFigure = figures[i];
-    var imageWidth = thisFigure.offsetWidth;
-    var imageHeight = thisFigure.offsetHeight;
-    var imageUrl = thisFigure.getAttribute('data-url');
-    var imageUrlBack;
-    var figureClass = thisFigure.className || '';
-    var fitType = 'cover';
-    var figureParentClass = thisFigure.parentNode.className || '';
-    var shouldLoadImage = false;
-    var loadedClass = '';
-    if (isRetinaDevice === true) {
-      imageWidth = imageWidth * 2;
-      imageHeight = imageHeight * 2;
-      loadedClass = 'is-retina';
-    }
-    if ((!queryString || queryString.indexOf('?ad=no') === -1 ) && isFrenquentDevice === false) {
-      var mod = imageWidth % MULTIPLE;
-      if (mod !== 0) {
-        var ratio = imageHeight / imageWidth;
-        var quotient = parseInt(imageWidth / MULTIPLE, 10);
-        imageWidth = (quotient + 1) * MULTIPLE;
-        imageHeight = parseInt(imageWidth * ratio, 10);
-        loadedClass = 'is-retina';
-      }
-    }
-    // imageWidth = parseInt (imageWidth, 10);
-    // imageHeight = parseInt (imageHeight, 10);
-    if (/brand/.test(figureParentClass)) {
-      fitType = 'contain';
-    }
-    imageUrl = encodeURIComponent(imageUrl);
-    if (/sponsor/.test(figureClass)) {
-      imageUrl = 'http://image.webservices.ft.com/v1/images/raw/' + imageUrl + '?source=ftchinese&height=' + imageHeight + '&fit=' + fitType;
-      shouldLoadImage = true;
-    } else if (imageWidth > 0 && imageHeight > 0) {
-      imageUrl = 'http://image.webservices.ft.com/v1/images/raw/' + imageUrl + '?source=ftchinese&width=' + imageWidth + '&height=' + imageHeight + '&fit=' + fitType;
-      shouldLoadImage = true;
-    }
-    if (shouldLoadImage === true) {
-      imageUrlBack = imageUrl.replace('i.ftimg.net', 'i.ftmailbox.com');
-      //thisFigure.innerHTML = '<img src="' + imageUrl + '" data-backupimage="' + imageUrlBack + '" style="width: '+imageWidth+'px; height: '+imageHeight+'px">';
-      thisFigure.innerHTML = '<img src="' + imageUrl + '" data-backupimage="' + imageUrlBack + '">';
-      //thisFigure.style.backgroundImage = 'url("'+ imageUrl+'")';
-      thisFigure.className = loadedClass;
-    }
-  }
 
 
-  // load responsive videos
-  var videos = document.querySelectorAll('figure.loading-video');
-  hostForVideo = '';
-  if (window.location.hostname === 'localhost' || window.location.hostname.indexOf('192.168') === 0 || window.location.hostname.indexOf('10.113') === 0 || window.location.hostname.indexOf('127.0') === 0) {
-    hostForVideo = 'http://www.ftchinese.com';
-  }
-  for (i=0; i<videos.length; i++) {
-    var thisVideo = videos[i];
-    var videoWidth = thisVideo.offsetWidth;
-    var videoHeight = thisVideo.offsetHeight;
-    var videoId = thisVideo.getAttribute('data-vid');
-    var videoType = thisVideo.getAttribute('data-item-type') || 'video';
-    if (videoWidth > 0 && videoHeight > 0 && queryString.indexOf('?ad=no') === -1 && hostForVideo !== 'http://www.ftchinese.com') {
-      //console.log (videoId + ' Height: ' + videoHeight + ' Width: ' + videoWidth);
-      thisVideo.innerHTML = '<iframe name="video-frame" id="video-frame" style="width:100%;height:100%;position:absolute;" src="' + hostForVideo + '/' + videoType + '/'+ videoId +'?i=2&w='+videoWidth+'&h='+videoHeight+'&autostart=false" scrolling="no" frameborder="0" allowfullscreen=true></iframe>';
-      thisVideo.className = '';
-    }
-  }
-}
+
 
 function setResizeClass() {
   if (htmlClass.indexOf(' resized') < 0) {
@@ -403,10 +448,15 @@ if ((gNavOffsetY > 30 && w > 490 && isTouchDevice() === false) || document.getEl
 
   }
 } else {
+  bodyHeight = getBodyHeight();
   addEvent(eventResize, function(){
+      bodyHeight = getBodyHeight();
       reloadBanners();
       loadImages();
       setResizeClass();
+  });
+  addEvent(eventScroll, function(){
+      loadImagesLazy();
   });
 }
 
