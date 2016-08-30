@@ -130,7 +130,7 @@ function abTest() {
 	
 	document.body.appendChild(barrierElt);
 	// var barrierType = barrierTypes[rand];
-	var barrierType = 'Barrier Page 005';
+	var barrierType = 'Barrier Page';
 
 // cssVersionNumber
 	var head  = document.getElementsByTagName('head')[0];
