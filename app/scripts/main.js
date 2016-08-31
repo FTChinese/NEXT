@@ -13,6 +13,7 @@ var gRecomendInViewNoted = false;
 var defaultPadding = 30;
 var hasSideWidth = 690;
 var sectionsWithSide = document.querySelectorAll('.block-container.has-side');
+var sections = document.querySelectorAll('.block-container, .footer-container, .banner-container');
 var delegate;
 var htmlClass = document.documentElement.className;
 var sectionsWithSideLength = sectionsWithSide.length;
@@ -31,6 +32,7 @@ var figuresLoadStatus = 0;
 var videos = document.querySelectorAll('figure.loading-video');
 var videosLazy = [];
 var videosLoadStatus = 0;
+var viewables = [];
 
 
 
@@ -105,9 +107,6 @@ function loadVideosLazy () {
   if (videosLoadStatus ===1 ) {
     return;
   }
-
-  console.log ('dadfaf');
-
   var videosToLoad = 0;
   for (var i=0; i<videosLazy.length; i++) {
     
@@ -132,6 +131,19 @@ function loadVideosLazy () {
 
 }
 
+function trackViewables() {
+  // blocks in view
+  var ec = window.gPageId || 'Other Page';
+  for (var j=0; j<viewables.length; j++) {
+    if (viewables[j].viewed === false) {
+      if (scrollTop + bodyHeight > viewables[j].top + viewables[j].height * viewables[j].minimum) {
+          viewables[j].viewed = true;
+          ga('send','event', ec, 'Seen', viewables[j].id, {'nonInteraction':1});
+          //console.log (j + ' set to viewed');
+      }
+    }
+  }
+}
 
 // Init responsive images loading
 function loadImages() {
@@ -237,6 +249,7 @@ function loadImages() {
 
   loadImagesLazy ();
   loadVideosLazy ();
+  trackViewables();
 }
 
 function stickyBottomPrepare() {
@@ -258,9 +271,7 @@ function stickyBottomPrepare() {
   // console.log (w);
   //     console.log (hasSideWidth); 
   if (sectionsWithSide.length > 0) {
-
     for (var i=0; i<sectionsWithSide.length; i++) {
-
       sectionClassName[i] = sectionsWithSide[i].className;       
       if (w < hasSideWidth) {
         sectionClassNameNew[i] = sectionClassName[i].replace(/ fixmain| fixside| bottommain| bottomside| sticktop/g,'');
@@ -281,6 +292,22 @@ function stickyBottomPrepare() {
     }
   }
 
+  if (sections.length > 0 && window.gPageId === 'home') {
+    for (var j=0; j<sections.length; j++) {
+      if (typeof viewables[j] !== 'object') {
+        var top = findTop(sections[j]);
+        var height = sections[j].offsetHeight;
+        sections[j].setAttribute('data-id', 'section-' + j);
+        viewables[j] = {
+          id: 'section-' + j,
+          top: top,
+          height: height,
+          minimum: 0,
+          viewed: false
+        };
+      }
+    }
+  }
 }
 
 function stickyBottomUpdate() {
@@ -417,7 +444,11 @@ function stickyBottomUpdate() {
 
   loadImagesLazy();
   loadVideosLazy();
+  trackViewables();
+
 }
+
+
 
 function requestTick() {
   if(!ticking) {
@@ -508,6 +539,7 @@ if ((gNavOffsetY > 30 && w > 490 && isTouchDevice() === false) || document.getEl
       scrollTop = window.scrollY || document.documentElement.scrollTop;
       loadImagesLazy();
       loadVideosLazy();
+      trackViewables();
   });
 }
 
