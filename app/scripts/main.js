@@ -82,7 +82,7 @@ function loadImagesLazy () {
   for (var i=0; i<figuresLazy.length; i++) {
     //console.log (figuresLazy[i]);
     if (figuresLazy[i] !== '') {
-      if (scrollTop + bodyHeight*1.5 > figuresLazy[i].imageTop) {
+      if (scrollTop + bodyHeight*2 > figuresLazy[i].imageTop) {
         figures[i].innerHTML = '<img src="' + figuresLazy[i].imageUrl + '" data-backupimage="' + figuresLazy[i].imageUrlBack + '">';
         figures[i].className = figuresLazy[i].loadedClass;
         //console.log ('loaded image: ' + figuresLazy[i].imageUrl);
@@ -113,7 +113,7 @@ function loadVideosLazy () {
     
     //console.log (figuresLazy[i]);
     if (videosLazy[i] !== '') {
-      if (scrollTop + bodyHeight*1.5 > videosLazy[i].videoTop) {
+      if (scrollTop + bodyHeight*2 > videosLazy[i].videoTop) {
         videos[i].innerHTML = videosLazy[i].ih;
         videos[i].className = '';
         //console.log ('loaded image: ' + figuresLazy[i].imageUrl);
