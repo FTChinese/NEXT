@@ -29,6 +29,8 @@ var figures = document.querySelectorAll('figure.loading');
 var figuresLazy = [];
 var figuresLoadStatus = 0;
 var videos = document.querySelectorAll('figure.loading-video');
+var videosLazy = [];
+var videosLoadStatus = 0;
 
 
 
@@ -75,6 +77,7 @@ function loadImagesLazy () {
   if (figuresLoadStatus ===1 ) {
     return;
   }
+
   var figuresToLoad = 0;
   for (var i=0; i<figuresLazy.length; i++) {
     //console.log (figuresLazy[i]);
@@ -84,7 +87,7 @@ function loadImagesLazy () {
         figures[i].className = figuresLazy[i].loadedClass;
         //console.log ('loaded image: ' + figuresLazy[i].imageUrl);
         figuresLazy[i] = '';
-        figuresToLoad --;
+        //figuresToLoad --;
         //figuresLazy[i].loaded = true;
         
       }
@@ -94,9 +97,41 @@ function loadImagesLazy () {
   if (figuresToLoad === 0) {
     figuresLoadStatus = 1;
   }
+
+}
+
+// Lazy-load videos
+function loadVideosLazy () {
+  if (videosLoadStatus ===1 ) {
+    return;
+  }
+
+  console.log ('dadfaf');
+
+  var videosToLoad = 0;
+  for (var i=0; i<videosLazy.length; i++) {
+    
+    //console.log (figuresLazy[i]);
+    if (videosLazy[i] !== '') {
+      if (scrollTop + bodyHeight*1.5 > videosLazy[i].videoTop) {
+        videos[i].innerHTML = videosLazy[i].ih;
+        videos[i].className = '';
+        //console.log ('loaded image: ' + figuresLazy[i].imageUrl);
+        videosLazy[i] = '';
+        //videosToLoad --;
+        //figuresLazy[i].loaded = true;
+        
+      }
+      videosToLoad ++;
+    }
+  }
+  if (videosToLoad === 0) {
+    videosLoadStatus = 1;
+  }
   //console.log (figuresToLoad);
 
 }
+
 
 // Init responsive images loading
 function loadImages() {
@@ -162,15 +197,21 @@ function loadImages() {
       figuresLazy[i] = {
         imageTop: imageTop,
         imageUrl: imageUrl,
-        imageUrlBack: imageUrlBack
+        imageUrlBack: imageUrlBack,
+        loadedClass: loadedClass
       };
       //thisFigure.innerHTML = '<img src="' + imageUrl + '" data-backupimage="' + imageUrlBack + '">';
       //thisFigure.className = loadedClass;
+    } else {
+      figuresLazy[i] = '';
     }
   }
 
 
   // load responsive videos
+  videos = document.querySelectorAll('figure.loading-video');
+  videosLazy = [];
+  videosLoadStatus = 0;
 
   hostForVideo = '';
   if (window.location.hostname === 'localhost' || window.location.hostname.indexOf('192.168') === 0 || window.location.hostname.indexOf('10.113') === 0 || window.location.hostname.indexOf('127.0') === 0) {
@@ -178,19 +219,26 @@ function loadImages() {
   }
   for (i=0; i<videos.length; i++) {
     var thisVideo = videos[i];
+    var videoTop = findTop(thisVideo);
     var videoWidth = thisVideo.offsetWidth;
     var videoHeight = thisVideo.offsetHeight;
     var videoId = thisVideo.getAttribute('data-vid');
     var videoType = thisVideo.getAttribute('data-item-type') || 'video';
+
     if (videoWidth > 0 && videoHeight > 0 && queryString.indexOf('?ad=no') === -1 && hostForVideo !== 'http://www.ftchinese.com') {
-      //console.log (videoId + ' Height: ' + videoHeight + ' Width: ' + videoWidth);
-      thisVideo.innerHTML = '<iframe name="video-frame" id="video-frame" style="width:100%;height:100%;position:absolute;" src="' + hostForVideo + '/' + videoType + '/'+ videoId +'?i=2&w='+videoWidth+'&h='+videoHeight+'&autostart=false" scrolling="no" frameborder="0" allowfullscreen=true></iframe>';
-      thisVideo.className = '';
+      videosLazy[i] = {
+        ih: '<iframe name="video-frame" id="video-frame" style="width:100%;height:100%;position:absolute;" src="' + hostForVideo + '/' + videoType + '/'+ videoId +'?i=2&w='+videoWidth+'&h='+videoHeight+'&autostart=false" scrolling="no" frameborder="0" allowfullscreen=true></iframe>',
+        videoTop: videoTop
+      };
+    } else {
+      videosLazy[i] = '';
     }
   }
 
   loadImagesLazy ();
+  loadVideosLazy ();
 }
+
 function stickyBottomPrepare() {
   gNavOffsetY = findTop(document.querySelector('.o-nav__placeholder'));
   bodyHeight = getBodyHeight(gNavOffsetY);
@@ -367,7 +415,8 @@ function stickyBottomUpdate() {
       }
   }
 
-  loadImagesLazy ();
+  loadImagesLazy();
+  loadVideosLazy();
 }
 
 function requestTick() {
@@ -456,7 +505,9 @@ if ((gNavOffsetY > 30 && w > 490 && isTouchDevice() === false) || document.getEl
       setResizeClass();
   });
   addEvent(eventScroll, function(){
+      scrollTop = window.scrollY || document.documentElement.scrollTop;
       loadImagesLazy();
+      loadVideosLazy();
   });
 }
 
