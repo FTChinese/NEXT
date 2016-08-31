@@ -13,7 +13,7 @@ var gRecomendInViewNoted = false;
 var defaultPadding = 30;
 var hasSideWidth = 690;
 var sectionsWithSide = document.querySelectorAll('.block-container.has-side');
-var sections = document.querySelectorAll('.block-container, .footer-container, .banner-container');
+var sections = document.querySelectorAll('.block-container, .footer-container, .header-container, .banner-placeholder, .o-nav__placeholder');
 var delegate;
 var htmlClass = document.documentElement.className;
 var sectionsWithSideLength = sectionsWithSide.length;
@@ -135,11 +135,11 @@ function trackViewables() {
   // blocks in view
   var ec = window.gPageId || 'Other Page';
   for (var j=0; j<viewables.length; j++) {
-    if (viewables[j].viewed === false) {
+    if (viewables[j] !== '' && viewables[j].viewed === false) {
       if (scrollTop + bodyHeight > viewables[j].top + viewables[j].height * viewables[j].minimum) {
           viewables[j].viewed = true;
           ga('send','event', ec, 'Seen', viewables[j].id, {'nonInteraction':1});
-          //console.log (j + ' set to viewed');
+          //console.log (viewables[j].id + ' set to viewed');
       }
     }
   }
@@ -298,13 +298,29 @@ function stickyBottomPrepare() {
         var top = findTop(sections[j]);
         var height = sections[j].offsetHeight;
         sections[j].setAttribute('data-id', 'section-' + j);
-        viewables[j] = {
-          id: 'section-' + j,
-          top: top,
-          height: height,
-          minimum: 0,
-          viewed: false
-        };
+        if (typeof top === 'number') {
+          var sectionType = 'other';
+          if (sections[j].className.indexOf('block') >= 0) {
+            sectionType = 'block';
+          } else if (sections[j].className.indexOf('banner') >= 0) {
+            sectionType = 'banner';
+          } else if (sections[j].className.indexOf('footer') >= 0) {
+            sectionType = 'footer';
+          } else if (sections[j].className.indexOf('header') >= 0) {
+            sectionType = 'header';
+          } else if (sections[j].className.indexOf('o-nav__placeholder') >= 0) {
+            sectionType = 'navigation';
+          }
+          viewables[j] = {
+            id: sectionType + '-' + j,
+            top: top,
+            height: height,
+            minimum: 0,
+            viewed: false
+          };
+        } else {
+          viewables[j] = '';
+        }
       }
     }
   }
