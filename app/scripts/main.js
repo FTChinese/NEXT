@@ -68,10 +68,6 @@ function stickyAdsPrepare() {
   }
 }
 
-// {
-//       'BannerId': parentId,
-//       'stickyHeight': stickyHeight
-//   }
 
 
 // Lazy-load images
@@ -131,17 +127,44 @@ function loadVideosLazy () {
 
 }
 
+function checkInView(obj) {
+  // if (obj.id === 'block-5') {
+  //   console.log (obj.id + ': scrollTop = ' + scrollTop + ', obj.top = ' + obj.top + ', obj.height = ' + obj.height);
+  // }
+  if (scrollTop + bodyHeight > obj.top + obj.height * obj.minimum && scrollTop < obj.top + obj.height) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 function trackViewables() {
-  // blocks in view
-  var ec = window.gPageId || 'Other Page';
-  for (var j=0; j<viewables.length; j++) {
-    if (viewables[j] !== '' && viewables[j].viewed === false) {
-      if (scrollTop + bodyHeight > viewables[j].top + viewables[j].height * viewables[j].minimum) {
-          viewables[j].viewed = true;
-          ga('send','event', ec, 'Seen', viewables[j].id, {'nonInteraction':1});
-          //console.log (viewables[j].id + ' set to viewed');
+  try {
+    // blocks in view
+    var ec = window.gPageId || 'Other Page';
+    for (var j=0; j<viewables.length; j++) {
+      if (viewables[j] !== '' && viewables[j].viewed === false) {
+        if (checkInView(viewables[j]) === true) {
+          var k = j;
+          viewables[k].viewed = 'pending';
+          setTimeout((function(k) {
+              return function() {
+                //console.log ('check ' + k + ' in 1 second');
+                if (checkInView(viewables[k]) === true) {
+                  viewables[k].viewed = true;
+                  ga('send','event', ec, 'Seen', viewables[k].id, {'nonInteraction':1});
+                  //console.log (viewables[k].id + ' in view!');
+                } else {
+                  viewables[k].viewed = false;
+                  //console.log (viewables[k].id + ' moved away!');
+                }
+              };
+          })(k), viewables[k].time);
+        }
       }
     }
+  } catch (ignore) {
+
   }
 }
 
@@ -252,6 +275,42 @@ function loadImages() {
   trackViewables();
 }
 
+function viewablesInit() {
+  if (sections.length > 0 && window.gPageId === 'home') {
+    for (var j=0; j<sections.length; j++) {
+      if (typeof viewables[j] !== 'object') {
+        var top = findTop(sections[j]);
+        var height = sections[j].offsetHeight;
+        var sectionType = 'other';
+        if (sections[j].className.indexOf('block') >= 0) {
+          sectionType = 'block';
+        } else if (sections[j].className.indexOf('banner') >= 0) {
+          sectionType = 'banner';
+        } else if (sections[j].className.indexOf('footer') >= 0) {
+          sectionType = 'footer';
+        } else if (sections[j].className.indexOf('header') >= 0) {
+          sectionType = 'header';
+        } else if (sections[j].className.indexOf('o-nav__placeholder') >= 0) {
+          sectionType = 'navigation';
+        }
+        if (typeof top === 'number') {
+          viewables[j] = {
+            id: sectionType + '-' + j,
+            top: top,
+            height: height,
+            minimum: 0,
+            time: 1000,
+            viewed: false
+          };
+        } else {
+          viewables[j] = '';
+        }
+        sections[j].setAttribute('data-id', sectionType + '-' + j);
+      }
+    }
+  }
+}
+
 function stickyBottomPrepare() {
   gNavOffsetY = findTop(document.querySelector('.o-nav__placeholder'));
   bodyHeight = getBodyHeight(gNavOffsetY);
@@ -289,39 +348,6 @@ function stickyBottomPrepare() {
         maxHeight[i] = Math.max(mainHeight[i], sideHeight[i]);
       }
       //sectionsWithSide[i].querySelector('.side-inner').style.backgroundColor = 'grey';
-    }
-  }
-
-  if (sections.length > 0 && window.gPageId === 'home') {
-    for (var j=0; j<sections.length; j++) {
-      if (typeof viewables[j] !== 'object') {
-        var top = findTop(sections[j]);
-        var height = sections[j].offsetHeight;
-        sections[j].setAttribute('data-id', 'section-' + j);
-        if (typeof top === 'number') {
-          var sectionType = 'other';
-          if (sections[j].className.indexOf('block') >= 0) {
-            sectionType = 'block';
-          } else if (sections[j].className.indexOf('banner') >= 0) {
-            sectionType = 'banner';
-          } else if (sections[j].className.indexOf('footer') >= 0) {
-            sectionType = 'footer';
-          } else if (sections[j].className.indexOf('header') >= 0) {
-            sectionType = 'header';
-          } else if (sections[j].className.indexOf('o-nav__placeholder') >= 0) {
-            sectionType = 'navigation';
-          }
-          viewables[j] = {
-            id: sectionType + '-' + j,
-            top: top,
-            height: height,
-            minimum: 0,
-            viewed: false
-          };
-        } else {
-          viewables[j] = '';
-        }
-      }
     }
   }
 }
@@ -566,7 +592,7 @@ if (typeof SVGRect === 'undefined') {
 }
 
 loadImages();
-
+viewablesInit();
 
 //A cool trick to handle images that fail to load:
 try {
