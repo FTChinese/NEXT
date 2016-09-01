@@ -278,35 +278,39 @@ function loadImages() {
 function viewablesInit() {
   if (sections.length > 0 && window.gPageId === 'home') {
     for (var j=0; j<sections.length; j++) {
-      if (typeof viewables[j] !== 'object') {
-        var top = findTop(sections[j]);
-        var height = sections[j].offsetHeight;
-        var sectionType = 'other';
-        if (sections[j].className.indexOf('block') >= 0) {
-          sectionType = 'block';
-        } else if (sections[j].className.indexOf('banner') >= 0) {
-          sectionType = 'banner';
-        } else if (sections[j].className.indexOf('footer') >= 0) {
-          sectionType = 'footer';
-        } else if (sections[j].className.indexOf('header') >= 0) {
-          sectionType = 'header';
-        } else if (sections[j].className.indexOf('o-nav__placeholder') >= 0) {
-          sectionType = 'navigation';
-        }
-        if (typeof top === 'number') {
-          viewables[j] = {
-            id: sectionType + '-' + j,
-            top: top,
-            height: height,
-            minimum: 0,
-            time: 1000,
-            viewed: false
-          };
-        } else {
-          viewables[j] = '';
-        }
-        sections[j].setAttribute('data-id', sectionType + '-' + j);
+      var top = findTop(sections[j]);
+      var height = sections[j].offsetHeight;
+      var sectionType = 'other';
+      var viewedStatus;
+      if (typeof viewables[j] === 'object' && viewables[j].viewed) {
+        viewedStatus = viewables[j].viewed;
+      } else {
+        viewedStatus = false;
       }
+      if (sections[j].className.indexOf('block') >= 0) {
+        sectionType = 'block';
+      } else if (sections[j].className.indexOf('banner') >= 0) {
+        sectionType = 'banner';
+      } else if (sections[j].className.indexOf('footer') >= 0) {
+        sectionType = 'footer';
+      } else if (sections[j].className.indexOf('header') >= 0) {
+        sectionType = 'header-pc';
+      } else if (sections[j].className.indexOf('o-nav__placeholder') >= 0) {
+        sectionType = 'header-mobile';
+      }
+      if (typeof top === 'number') {
+        viewables[j] = {
+          id: sectionType + '-' + j,
+          top: top,
+          height: height,
+          minimum: 0,
+          time: 1000,
+          viewed: viewedStatus
+        };
+      } else {
+        viewables[j] = '';
+      }
+      sections[j].setAttribute('data-id', sectionType + '-' + j);
     }
   }
 }
@@ -350,6 +354,8 @@ function stickyBottomPrepare() {
       //sectionsWithSide[i].querySelector('.side-inner').style.backgroundColor = 'grey';
     }
   }
+
+  viewablesInit();
 }
 
 function stickyBottomUpdate() {
@@ -483,7 +489,6 @@ function stickyBottomUpdate() {
         showInreadAd();
       }
   }
-
   loadImagesLazy();
   loadVideosLazy();
   trackViewables();
