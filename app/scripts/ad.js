@@ -368,7 +368,13 @@ function writeAd(adType, returnSrc) {
 
       }
       
-    }    
+    } else if (/mpu/.test(adType) && document.querySelectorAll('.mpu-container')[currentAdCount]) {
+      try {
+      document.querySelectorAll('.mpu-container')[currentAdCount].style.display = 'none';
+      } catch (ignore) {
+        
+      }
+    }
   }
   
   adCount[adType] = adCount[adType] + 1;

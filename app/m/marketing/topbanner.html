@@ -43,7 +43,10 @@ img {
 
 </head>
 <body>
+
 <div class="ad" id="topadcontainer"><div id="topad">
+
+
 <script>
 var k=window.location.href;
 var c = k.replace(/^.*adid=([0-9A-Za-z\-]+).*$/,"$1");
@@ -160,6 +163,21 @@ if ( window.parent.document.getElementById(parentId)) {
                 window.parent.stickyBottomPrepare(); 
             }, 3000);
         }
+    }
+
+    // if there's need track viewability
+    if (typeof viewable === 'object') {
+        setTimeout(function() {
+            if (typeof window.parent.viewablesInit === 'function') {
+                viewable.top = findTop (parentIframe.parentNode);
+                viewable.height = parentIframe.parentNode.offsetHeight;
+                viewable.viewed = false;
+                window.parent.viewables.push(viewable);
+                window.parent.viewablesInit();
+                window.parent.trackViewables();
+                //console.log (window.parent.viewables);
+            }
+        }, 1000);
     }
     
 }

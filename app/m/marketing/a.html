@@ -40,7 +40,10 @@ img {
 
 </head>
 <body>
+
 <div class="ad"><div>
+
+
 <script>
 
 function removeAd() {
@@ -71,11 +74,16 @@ try {
 }
 
 
-if (1===2 && /^[0-9]+0117$/.test(c)) {
-
+if (1>1 && /^20550004$/.test(c)) {
+    var viewable = {
+      id: 'ad-ibm-200122323',
+      minimum: 0.6,
+      time: 1000
+    };
 } else {
 document.write ('<scr'+'ipt src="http://dolphin.ftimg.net/s?z=ft&c=' + c + slotStr + adP + '&_fallback=0" charset="gbk" onerror="removeAd()" onload="loaded()"></scr'+'ipt>');
 }
+
 </script>
 
 
@@ -145,6 +153,21 @@ if ( window.parent.document.getElementById(parentId)) {
                 window.parent.stickyBottomPrepare(); 
             }, 3000);
         }
+    }
+
+    // if there's need track viewability
+    if (typeof viewable === 'object') {
+        setTimeout(function() {
+            if (typeof window.parent.viewablesInit === 'function') {
+                viewable.top = findTop (parentIframe.parentNode);
+                viewable.height = parentIframe.parentNode.offsetHeight;
+                viewable.viewed = false;
+                window.parent.viewables.push(viewable);
+                window.parent.viewablesInit();
+                window.parent.trackViewables();
+                //console.log (window.parent.viewables);
+            }
+        }, 1000);
     }
     
 }

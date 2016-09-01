@@ -22,6 +22,7 @@
 	background: $bannerBG;
 	height: $bannerHeight + $defaultPadding;
 	text-align: center;
+	position: relative;
 	>iframe {
 		margin: $defaultPadding/2 auto 0 auto;
 	}
@@ -43,6 +44,17 @@
 			bottom:0;
 		}
 	}
+	position:relative;
+	// &:before {
+	// 	content: '广告';
+	//     position:absolute;
+	//     top:0;
+	//     right:0;
+	//     background: #e9decf;
+	//     font-size:8px;
+	//     padding:1px 5px;
+	//     color: #505050;
+	// }
 }
 .sponsor-container, .table-container {
 	padding: 0 $defaultPadding/2;
@@ -50,11 +62,23 @@
 .mpu-container {
 	width: 300px;
 	margin: 0 auto;
+	position: relative;
+	// &:before {
+	// 	content: '广告';
+	//     position:absolute;
+	//     top:100%;
+	//     left:0;
+	//     right:0;
+	//     font-size:8px;
+	//     text-align:center;
+	//     color: #505050;
+	// }
 	figure {
 		height: 250px;
 		margin-bottom: $defaultPadding;
 	}
 }
+
 .high-impact {
 	&.banner-container {
 		iframe {
@@ -93,6 +117,7 @@
 		padding-bottom: 20%;
 	}
 }
+
 @media only screen and (min-width: 490px) and (max-width: 1059px) {
 	.banner-placeholder {
 		margin-bottom: $defaultPadding;
@@ -116,6 +141,9 @@
 	}
 	.banner-content {
 		margin: 0 $defaultPadding/2;
+		&:before {
+			transform: scale(0.6) translate(30%, -30%);
+		}
 	}
 	.banner-placeholder {
 		margin-bottom: $defaultPadding/2;
