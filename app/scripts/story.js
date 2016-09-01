@@ -171,7 +171,7 @@ function getThirdPartRecommendSuccess(data) {
             recommendationPayload(data.body.odatalist);
             ga('send','event','Recommend Story API', 'Success' + recommendVersion, '', {'nonInteraction':1});
         } else {
-            ga('send','event','Recommend Story API', 'No Data' + recommendVersion, '', {'nonInteraction':1});
+            ga('send','event','Recommend Story API', 'No Data2' + recommendVersion, '', {'nonInteraction':1});
         }
     } else {
         ga('send','event','Recommend Story API', 'Parse Fail' + recommendVersion, data.body.oelement.errorcode, {'nonInteraction':1});
@@ -209,7 +209,7 @@ function getRec(data) {
 
             ftc_api.call(message, getThirdPartRecommendSuccess, getThirdPartRecommendFailed);
         } else {
-            ga('send','event','Recommend Story API', 'No Data' + recommendVersion, '', {'nonInteraction':1});
+            ga('send','event','Recommend Story API', 'No Data1' + recommendVersion, '', {'nonInteraction':1});
         }
     } else {
         ga('send','event','Recommend Story API', 'Request Fail' + recommendVersion, '', {'nonInteraction':1});
