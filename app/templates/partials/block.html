@@ -1087,7 +1087,7 @@
 			<%if $listHasFloat === "none" || $listHasFloat === "SideBySide" || $l === $section.lists|@count-1 || ($next < $section.lists|@count && $list.float != $section.lists[$next].float)%></div></div><%/if%>
 			<%assign var="l" value=$l+1%>
 		<%/if%>
-        <%if $list.name = "[iframe]" && $list.url != ""%>
+        <%if $list.name == "[iframe]" && $list.url != ""%>
             <div class="list-container<%$listClass%>">
                 <div class="list-inner">
                     <iframe style="<%$list.style|default:'width: 100%; height: 400px'%>" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="<%$list.url|default:"#"%>" data-src="<%$list.url|default:"#"%>" data-ad-type="mpu" data-ad-count="0"></iframe>
