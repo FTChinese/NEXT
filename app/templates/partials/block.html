@@ -1118,6 +1118,10 @@
 							<%assign var="s" value=$s+1%>
 						</div>
 					<%/if%>
+                <%elseif $list.type == "SideIframe"%>
+						<div class="mps<%$firstChildClass%><%$lastChildClass%>">
+							<iframe class="banner-iframe" id="mpu0" width="<%$list.width|default:300%>" height="<%$list.height|default:250%>" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="<%$list.url|default:"#"%>" data-src="<%$list.url|default:"#"%>" data-ad-type="mpu" data-ad-count="0"></iframe>
+						</div>
 				<%elseif $list.type == "SideInclude"%>
 						<div class="mps<%$firstChildClass%><%$lastChildClass%>">
 							<h2 class="list-title"><a href="<%$list.url|default:"#"%>"><%$list.title|default:$defaultTitle%></a></h2>
