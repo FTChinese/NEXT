@@ -61,7 +61,7 @@
             'SideWithItems':['name', 'title', 'url', 'sideOption', 'feedItems', 'feedTag', 'feedType'],
             'SideRanking': ['name', 'title', 'url', 'feedItems', 'feedTag', 'feedType'],
             'SideInclude': ['name', 'title', 'url', 'fromSide'],
-            'SideIframe': ['name', 'title', 'url', 'width', 'heigh']
+            'SideIframe': ['name', 'title', 'url', 'width', 'height']
         }
     };
     var devices = [
