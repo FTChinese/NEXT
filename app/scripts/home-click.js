@@ -301,7 +301,7 @@ function queryGAData() {
 }
 
 if ( /showHotClick=yes/.test(window.location.href)) {
-  var firstAdContainer = document.querySelector('.banner-placeholder');
+  var firstAdContainer = document.querySelector('.bn-ph');
   var gaContainer = document.createElement('div');
   gaContainer.id = 'ga-container';
   gaContainer.style.margin = '0 auto 15px auto';

@@ -117,7 +117,7 @@
 
 
 				<%if $list.sponsorAdId != ""%>
-				<div class="sponsor-container"><div class="banner-placeholder"><div class="banner-container">
+				<div class="sponsor-container"><div class="bn-ph"><div class="banner-container">
 				<div class="banner-inner">
 				<div style="line-height:90px;text-align:center;font-size:2em;background-color:black;color: white;">IBM</div>
 				</div>
@@ -1103,6 +1103,11 @@
 					<%assign var="lastChildClass" value=" last-child"%>
 				<%/if%>
 				<%if $list.type == "SideMPU"%>
+					<%if $pageId == "home"%>
+						<%assign var="mpuPosition" value="mpu"%>
+					<%else%>
+						<%assign var="mpuPosition" value="tagmpu"%>
+					<%/if%>
 					<%if $smarty.get.ad != "no"%>
 						<div class="mpu-container<%$firstChildClass%><%$lastChildClass%>">
 							<%if $list.image != ""%>
@@ -1113,7 +1118,7 @@
 								<%/if%>
 								<a<%$listLink%>><figure class="loading" data-url="<%$list.image%>"></figure></a>
 							<%else%>
-								<script type="text/javascript">document.write (writeAd('mpu'));</script>
+								<script type="text/javascript">document.write (writeAd('<%$mpuPosition%>'));</script>
 							<%/if%>
 							<%assign var="s" value=$s+1%>
 						</div>

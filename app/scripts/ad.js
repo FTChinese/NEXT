@@ -360,10 +360,10 @@ function writeAd(adType, returnSrc) {
   } else {
     iframeSrc = '';
     iframeHTML = '';
-    if (/banner/.test(adType) && document.querySelectorAll('.banner-placeholder')[currentAdCount]) {
+    if (/banner/.test(adType) && document.querySelectorAll('.bn-ph')[currentAdCount]) {
       //console.log (currentAdCount);
       try {
-        document.querySelectorAll('.banner-placeholder')[currentAdCount].style.display = 'none';
+        document.querySelectorAll('.bn-ph')[currentAdCount].style.display = 'none';
       } catch (ignore) {
 
       }

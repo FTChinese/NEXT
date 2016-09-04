@@ -13,7 +13,7 @@ var gRecomendInViewNoted = false;
 var defaultPadding = 30;
 var hasSideWidth = 690;
 var sectionsWithSide = document.querySelectorAll('.block-container.has-side');
-var sections = document.querySelectorAll('.block-container, .footer-container, .header-container, .banner-placeholder, .o-nav__placeholder');
+var sections = document.querySelectorAll('.block-container, .footer-container, .bn-ph, .mpu-container');
 var delegate;
 var htmlClass = document.documentElement.className;
 var sectionsWithSideLength = sectionsWithSide.length;
@@ -131,7 +131,7 @@ function checkInView(obj) {
   // if (obj.id === 'block-5') {
   //   console.log (obj.id + ': scrollTop = ' + scrollTop + ', obj.top = ' + obj.top + ', obj.height = ' + obj.height);
   // }
-  if (scrollTop + bodyHeight > obj.top + obj.height * obj.minimum && scrollTop < obj.top + obj.height) {
+  if (scrollTop + bodyHeight > obj.top + obj.height * obj.minimum && scrollTop < obj.top + obj.height && obj.height>0) {
     return true;
   } else {
     return false;
@@ -152,8 +152,15 @@ function trackViewables() {
                 //console.log ('check ' + k + ' in 1 second');
                 if (checkInView(viewables[k]) === true) {
                   viewables[k].viewed = true;
-                  ga('send','event', ec, 'Seen', viewables[k].id, {'nonInteraction':1});
-                  //console.log (viewables[k].id + ' in view!');
+                  ga('send','event', ec, 'In View', viewables[k].id, {'nonInteraction':1});
+                  console.log (viewables[k].id + ' in view!');
+                  // if (viewables[k].id === 'block-1') {
+                  //   setTimeout (function(){
+                  //     if (viewables[0].viewed !== true) {
+                  //       ga('send','event', ec, 'In View Error Catch: 007 - ' + scrollTop, JSON.stringify(viewables), {'nonInteraction':1});
+                  //     }
+                  //   }, 10);
+                  // }
                 } else {
                   viewables[k].viewed = false;
                   //console.log (viewables[k].id + ' moved away!');
@@ -277,40 +284,61 @@ function loadImages() {
 
 function viewablesInit() {
   if (sections.length > 0 && window.gPageId === 'home') {
+    var sectionTypes = {
+      'block': 0,
+      'banner': 0,
+      'mpu': 0,
+      'footer': 0
+    };
+    window.bBlocked = 'unknown';
     for (var j=0; j<sections.length; j++) {
       var top = findTop(sections[j]);
       var height = sections[j].offsetHeight;
       var sectionType = 'other';
       var viewedStatus;
+      var minimumHeight = 0;
+      var minimumTime = 1000;
       if (typeof viewables[j] === 'object' && viewables[j].viewed) {
         viewedStatus = viewables[j].viewed;
       } else {
         viewedStatus = false;
       }
-      if (sections[j].className.indexOf('block') >= 0) {
-        sectionType = 'block';
-      } else if (sections[j].className.indexOf('banner') >= 0) {
+      if (sections[j].className.indexOf('bn-ph') >= 0) {
         sectionType = 'banner';
+        minimumHeight = 0.5;
+      } else if (sections[j].className.indexOf('mpu-container') >= 0) {
+        sectionType = 'mpu';
+        minimumHeight = 0.5;
       } else if (sections[j].className.indexOf('footer') >= 0) {
         sectionType = 'footer';
-      } else if (sections[j].className.indexOf('header') >= 0) {
-        sectionType = 'header-pc';
-      } else if (sections[j].className.indexOf('o-nav__placeholder') >= 0) {
-        sectionType = 'header-mobile';
+      } else if (sections[j].className.indexOf('block') >= 0) {
+        sectionType = 'block';
       }
+      sectionTypes[sectionType] ++;
       if (typeof top === 'number') {
         viewables[j] = {
-          id: sectionType + '-' + j,
+          id: sectionType + '-' + sectionTypes[sectionType],
           top: top,
           height: height,
-          minimum: 0,
-          time: 1000,
+          minimum: minimumHeight,
+          time: minimumTime,
           viewed: viewedStatus
         };
+        if (j === 0) {
+          window.bBlocked = 'no';
+        }
       } else {
         viewables[j] = '';
+        if (j === 0) {
+          window.bBlocked = 'yes';
+        }
+        // if (j === 0) {
+        //   setTimeout(function(){
+        //     ga('send','event', 'home', 'In View Error Catch: 019', window.isBlocked + ': ' + sections[0].offsetTop +'/' + sections[4].offsetTop + ',' + sections[4].offsetHeight + '/' + sections[4].style.display +'/'+ sections[4].className, {'nonInteraction':1});
+        //   }, 1000);
+        // }
       }
-      sections[j].setAttribute('data-id', sectionType + '-' + j);
+      sections[j].setAttribute('data-id', sectionType + '-' + sectionTypes[sectionType]);
     }
   }
 }
