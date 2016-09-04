@@ -381,6 +381,13 @@
 <%assign var="hideMPU3" value="no"%>
 <%assign var="hide590" value="no"%>
 
+<%elseif preg_match("/根植财富/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20151231 && date("Ymd",$smarty.now) <= 20161231%>
+<%assign var=breadcrum value="<a href=\"/tag/根植财富\">根植财富</a>"%>
+<%assign var="adchannelID" value="2050"%>
+<%assign var="hideMPU2" value="no"%>
+<%assign var="hideMPU3" value="no"%>
+<%assign var="hide590" value="no"%>
+
 <%elseif (preg_match("/2015年度报告/is",implode(",", $story.tag))||preg_match("/年度报告/is",implode(",", $story.tag))) && date("Ymd",$smarty.now) >= 20131216 && date("Ymd",$smarty.now) <= 20151231%>
   <%assign var="adchannelID" value="2002"%>
   <%assign var=breadcrum value="<a href=\"/tag/2015年度报告/\">2015年度报告</a>"%>
@@ -617,12 +624,21 @@
 	<%assign var="hideMPU2" value="no"%>
 	<%assign var="hideMPU3" value="no"%>
 	<%assign var="hide590" value="no"%>
+    <%assign var="sponsorMobile" value="yes"%>
 <%elseif preg_match("/G20/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20151231 && date("Ymd",$smarty.now) <= 20161231%>
 	<%assign var=breadcrum value="<a href=\"/tag/G20\">G20</a>"%>
 	<%assign var="adchannelID" value="2005"%>
 	<%assign var="hideMPU2" value="no"%>
 	<%assign var="hideMPU3" value="no"%>
 	<%assign var="hide590" value="no"%>
+    <%assign var="sponsorMobile" value="yes"%>
+<%elseif preg_match("/根植财富/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20151231 && date("Ymd",$smarty.now) <= 20161231%>
+	<%assign var=breadcrum value="<a href=\"/tag/根植财富\">根植财富</a>"%>
+	<%assign var="adchannelID" value="2050"%>
+	<%assign var="hideMPU2" value="no"%>
+	<%assign var="hideMPU3" value="no"%>
+	<%assign var="hide590" value="no"%>
+    <%assign var="sponsorMobile" value="yes"%>
 <%elseif preg_match("/新闻稿/is",$keys)%>
 	<%assign var="topnav" value="home"%>
 	<%assign var="subnav" value="member"%>

@@ -1087,6 +1087,13 @@
 			<%if $listHasFloat === "none" || $listHasFloat === "SideBySide" || $l === $section.lists|@count-1 || ($next < $section.lists|@count && $list.float != $section.lists[$next].float)%></div></div><%/if%>
 			<%assign var="l" value=$l+1%>
 		<%/if%>
+        <%if $list.name == "[iframe]" && $list.url != ""%>
+            <div class="list-container<%$listClass%>">
+                <div class="list-inner">
+                    <iframe style="<%$list.style|default:'width: 100%; height: 400px'%>" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="<%$list.url|default:"#"%>" data-src="<%$list.url|default:"#"%>" data-ad-type="mpu" data-ad-count="0"></iframe>
+                </div>
+            </div>
+        <%/if%>
 	<%/foreach%>
 	<div class="clearfloat block-bottom"></div>
 	</div></div>
@@ -1123,6 +1130,10 @@
 							<%assign var="s" value=$s+1%>
 						</div>
 					<%/if%>
+                <%elseif $list.type == "SideIframe"%>
+						<div class="mps<%$firstChildClass%><%$lastChildClass%>">
+							<iframe width="<%$list.width|default:300%>" height="<%$list.height|default:250%>" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="<%$list.url|default:"#"%>" data-src="<%$list.url|default:"#"%>" data-ad-type="mpu" data-ad-count="0"></iframe>
+						</div>
 				<%elseif $list.type == "SideInclude"%>
 						<div class="mps<%$firstChildClass%><%$lastChildClass%>">
 							<h2 class="list-title"><a href="<%$list.url|default:"#"%>"><%$list.title|default:$defaultTitle%></a></h2>
