@@ -213,9 +213,9 @@ function trackerNew() {
             ga('set', 'dimension16', 'no');
         }
 
-        if (typeof window.bBlocked === 'string' ) {
-            ga('send','event', 'home', 'In View Error Catch: 025', window.isBlocked + '/' + window.bBlocked, {'nonInteraction':1});
-        }
+        // if (typeof window.bBlocked === 'string' ) {
+        //     ga('send','event', 'home', 'In View Error Catch: 026', window.isBlocked + '/' + window.bBlocked, {'nonInteraction':1});
+        // }
 
         if (window.bpage !== undefined && window.bpage !== 0 && window.bpage !== null) {
             trackerpage=l;

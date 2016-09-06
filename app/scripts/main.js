@@ -153,7 +153,7 @@ function trackViewables() {
                 if (checkInView(viewables[k]) === true) {
                   viewables[k].viewed = true;
                   ga('send','event', ec, 'In View', viewables[k].id, {'nonInteraction':1});
-                  console.log (viewables[k].id + ' in view!');
+                  // console.log (viewables[k].id + ' in view!');
                   // if (viewables[k].id === 'block-1') {
                   //   setTimeout (function(){
                   //     if (viewables[0].viewed !== true) {
@@ -304,6 +304,10 @@ function viewablesInit() {
         viewedStatus = false;
       }
       if (sections[j].className.indexOf('bn-ph') >= 0) {
+        if (j===0 && typeof top !== 'number' && document.getElementById('topad') && sections[j].previousSibling.offsetTop > 0) {
+          top = sections[j].previousSibling.offsetTop;
+          height = sections[j].previousSibling.offsetHeight;
+        }
         sectionType = 'banner';
         minimumHeight = 0.5;
       } else if (sections[j].className.indexOf('mpu-container') >= 0) {
@@ -339,6 +343,7 @@ function viewablesInit() {
         // }
       }
       sections[j].setAttribute('data-id', sectionType + '-' + sectionTypes[sectionType]);
+      //sections[j].id = sectionType + '-' + sectionTypes[sectionType];
     }
   }
 }
