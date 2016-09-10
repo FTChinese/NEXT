@@ -724,8 +724,8 @@
 <%/if%>
 *%>
 
-<%assign var="storyTime" value=$story.last_publish_time|default:$pubdate%>
-<%assign var="storyTime" value=$storyTime|date_format:"%Y年%-m月%-d日 %H:%M"%>
+<%assign var="storyTime" value=$timeForStory|date_format:"%Y年%-m月%-d日 %H:%M"%>
+<%assign var="storyTime" value="`$timeStatus``$storyTime`"%>
 
 <%if $page_action=="en"%>
 	<%assign var="storyAuthor" value="`$story.ebyline_description` `$story.eauthor` `$story.ebyline_status`"%>
