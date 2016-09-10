@@ -32,6 +32,7 @@
 	<%/if%>
 
 	<%if $storymodel != ""%>
+    <%if $hideHotStory != "yes"%>
 		<div class="mps">
 			<h2 class="list-title"><a href="/channel/weekly.html">热门文章</a></h2>
 			<ul class="top10">
@@ -43,7 +44,13 @@
 				<%/foreach%>
 			</ul>
 		</div>
-	
+	<%/if%>
+
+    <%if ((date("Ymd",$smarty.now) >= 20160912 && date("Ymd",$smarty.now) <= 20161031) || $smarty.get.demo == '1') && $adchannelID == "2047"%>
+        <div class="mps">
+            <iframe width="300" height="700" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="http://www.ftchinese.com/index.php/poll/index/18" data-src="http://www.ftchinese.com/index.php/poll/index/18" data-ad-type="mpu" data-ad-count="0"></iframe>
+        </div>
+    <%/if%>
 
 		<%if $smarty.get.ad != "no" && $hideMPU2 != "yes"%>
 			<div class="mpu-container last-child">
