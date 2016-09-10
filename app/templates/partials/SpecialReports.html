@@ -29,12 +29,18 @@
 								<%if $i === 0%>
 									<%assign var="itemTop" value=""%>
 								<%/if%>
+
+								<%if preg_match("/\//is",$report.cshortleadbody)%>
+									<%assign var="specialLink" value=$report.cshortleadbody%>
+								<%else%>
+									<%assign var="specialLink" value="/tag/`$report.cshortleadbody`"%>
+								<%/if%>
 								
 								<%$itemTop%>
 								<div class="item-container <%$itemClass%> headline-only">
 								    <div class="item-inner">
-								        <a class="image" href="/tag/<%$report.cshortleadbody%>" target=_blank><figure class="loading" data-url="<%$report.story_pic.cover|default:$report.story_pic.bigbutton%>"></figure></a>
-								        <h2 class="item-headline"><a href="/tag/<%$report.cshortleadbody%>" target=_blank><%$report.cheadline%></a></h2>
+								        <a class="image" href="<%$specialLink%>" target=_blank><figure class="loading" data-url="<%$report.story_pic.cover|default:$report.story_pic.bigbutton%>"></figure></a>
+								        <h2 class="item-headline"><a href="<%$specialLink%>" target=_blank><%$report.cheadline%></a></h2>
 								    </div>
 								</div>
 								<%assign var="i" value=$i+1%>

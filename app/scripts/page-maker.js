@@ -360,7 +360,7 @@
                     var showSponsorImage = 'no';
                     if (entry.id) {
                         //console.log (entry.last_publish_time);
-                        timeStamp = entry.last_publish_time || '';
+                        timeStamp = entry.fileupdatetime || '';
                         if (entry.publish_status === 'draft') {
                             timeStamp = '';
                         }

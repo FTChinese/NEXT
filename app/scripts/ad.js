@@ -280,6 +280,8 @@ function writeAd(adType, returnSrc) {
   var iframeHTML;
   var adch = adchID;
   var bannerBG = '';
+  var wechatAdHTML = '';
+  var isWeChat = (/micromessenger/i.test(uaString));
 
 
   //alert (adType);
@@ -343,6 +345,7 @@ function writeAd(adType, returnSrc) {
 
   adFileName = (adType === 'banner' &&  adCount[adType] === 0) ? 'topbanner' : 'a';
   currentAdCount = adCount[adType];
+
   if (currentAdCount < adMax[adType]) {
     adPosition = adPositions[adType][currentAdCount];
     iframeSrc = '/m/marketing/'+adFileName+'.html?v=11' + bannerBG + '#adid='+ adch + adPosition + '&pid='+adType+adCount[adType];
@@ -356,42 +359,39 @@ function writeAd(adType, returnSrc) {
       adWidth = '969';
       adHeight = '90';
     }
-    iframeHTML = '<iframe class="banner-iframe" id="' + adType + adCount[adType] + '" width="'+ adWidth +'" height="'+ adHeight + '" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="'+ iframeSrc +'" data-src="'+ iframeSrc +'" data-ad-type="'+ adType +'" data-ad-count=' + adCount[adType] + '></iframe>';
+    if (isWeChat === true) {
+      slotStr = '';
+      var c = adch + adPosition;
+      var adP = '';
+      wechatAdHTML = '<div class="banner-iframe" style="width: 300px; height: '+ adHeight + 'px;" ><scr';
+      wechatAdHTML += 'ipt src="http://dolphin.ftimg.net/s?z=ft&c=' + c + slotStr + adP + '&_fallback=0" charset="gbk">';
+      wechatAdHTML += '</scr';
+      wechatAdHTML += 'ipt></div>';
+    } else {
+      iframeHTML = '<iframe class="banner-iframe" id="' + adType + adCount[adType] + '" width="'+ adWidth +'" height="'+ adHeight + '" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="'+ iframeSrc +'" data-src="'+ iframeSrc +'" data-ad-type="'+ adType +'" data-ad-count=' + adCount[adType] + '></iframe>';
+    }
   } else {
     iframeSrc = '';
     iframeHTML = '';
-    if (/banner/.test(adType) && document.querySelectorAll('.bn-ph')[currentAdCount]) {
-      //console.log (currentAdCount);
-      try {
-        document.querySelectorAll('.bn-ph')[currentAdCount].style.display = 'none';
-      } catch (ignore) {
-
-      }
-      
-    } else if (/mpu/.test(adType) && document.querySelectorAll('.mpu-container')[currentAdCount]) {
-      try {
-      document.querySelectorAll('.mpu-container')[currentAdCount].style.display = 'none';
-      } catch (ignore) {
-        
-      }
+    var bannerContainers = document.querySelectorAll('.bn-ph');
+    var mpuContainers = document.querySelectorAll('.mpu-container, #story_main_mpu');
+    // console.log ((currentAdCount < adMax[adType]) + '/' + currentAdCount + '/' + adType);
+    // console.log (/mpu/.test(adType));
+    // console.log (currentAdCount);
+    // console.log (mpuContainers[currentAdCount].className);
+    if (/banner/.test(adType) && bannerContainers && bannerContainers[currentAdCount]) {
+      bannerContainers[currentAdCount].style.display = 'none';
+    } else if (/mpu/.test(adType) && mpuContainers && mpuContainers[currentAdCount]) {
+      mpuContainers[currentAdCount].style.display = 'none';
     }
   }
   
   adCount[adType] = adCount[adType] + 1;
   if (returnSrc === true) {
     return iframeSrc;
-  } else if (/micromessenger/i.test(uaString) && 1 > 0) {
+  } else if (isWeChat === true) {
     //deal with WeChat Sharing Bug
     // where WeChat grabs iframe src instead of the real url for sharing
-    slotStr = '';
-    var c = adch + adPosition;
-    var adP = '';
-    var wechatAdHTML = '<scr';
-    wechatAdHTML += 'ipt src="http://dolphin.ftimg.net/s?z=ft&c=' + c + slotStr + adP + '&_fallback=0" charset="gbk">';
-    wechatAdHTML += '</scr';
-    wechatAdHTML += 'ipt>';
-    //var wechatAdHTML = 'http://dolphin.ftimg.net/s?z=ft&c=' + c + slotStr + adP;
-    //console.log (wechatAdHTML);
     return wechatAdHTML;
   } else {
     return iframeHTML;

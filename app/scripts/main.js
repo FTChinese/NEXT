@@ -13,7 +13,7 @@ var gRecomendInViewNoted = false;
 var defaultPadding = 30;
 var hasSideWidth = 690;
 var sectionsWithSide = document.querySelectorAll('.block-container.has-side');
-var sections = document.querySelectorAll('.block-container, .footer-container, .bn-ph, .mpu-container');
+var sections = document.querySelectorAll('.block-container, .footer-container, .bn-ph, .mpu-container, #story_main_mpu');
 var delegate;
 var htmlClass = document.documentElement.className;
 var sectionsWithSideLength = sectionsWithSide.length;
@@ -153,7 +153,7 @@ function trackViewables() {
                 if (checkInView(viewables[k]) === true) {
                   viewables[k].viewed = true;
                   ga('send','event', ec, 'In View', viewables[k].id, {'nonInteraction':1});
-                  // console.log (viewables[k].id + ' in view!');
+                  //console.log (viewables[k].id + ' in view!');
                   // if (viewables[k].id === 'block-1') {
                   //   setTimeout (function(){
                   //     if (viewables[0].viewed !== true) {
@@ -283,11 +283,12 @@ function loadImages() {
 }
 
 function viewablesInit() {
-  if (sections.length > 0 && window.gPageId === 'home') {
+  if (sections.length > 0 && typeof window.gPageId === 'string' && window.gPageId !== '') {
     var sectionTypes = {
       'block': 0,
       'banner': 0,
       'mpu': 0,
+      'storympu':0,
       'footer': 0
     };
     window.bBlocked = 'unknown';
@@ -309,6 +310,9 @@ function viewablesInit() {
           height = sections[j].previousSibling.offsetHeight;
         }
         sectionType = 'banner';
+        minimumHeight = 0.5;
+      } else if (sections[j].id === 'story_main_mpu') {
+        sectionType = 'storympu';
         minimumHeight = 0.5;
       } else if (sections[j].className.indexOf('mpu-container') >= 0) {
         sectionType = 'mpu';

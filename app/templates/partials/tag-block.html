@@ -332,7 +332,11 @@
 					<%/if%>
 
 					<%if $pageType=="special"%>
-						<%assign var="itemLink" value="/tag/`$item.cshortleadbody`"%>
+						<%if preg_match("/\//is",$item.cshortleadbody)%>
+							<%assign var="itemLink" value=$item.cshortleadbody%>
+						<%else%>
+							<%assign var="itemLink" value="/tag/`$item.cshortleadbody`"%>
+						<%/if%>
 					<%else%>
 						<%assign var="itemLink" value="/`$itemType`/`$itemId`#adchannelID=`$adchannelID`"%>
 					<%/if%>
@@ -596,7 +600,11 @@
 
 
 					<%if $pageType=="special"%>
-						<%assign var="itemLink" value="/tag/`$item.cshortleadbody`"%>
+						<%if preg_match("/\//is",$item.cshortleadbody)%>
+							<%assign var="itemLink" value=$item.cshortleadbody%>
+						<%else%>
+							<%assign var="itemLink" value="/tag/`$item.cshortleadbody`"%>
+						<%/if%>
 					<%else%>
 						<%assign var="itemLink" value="/`$itemType`/`$itemId`#adchannelID=`$adchannelID`"%>
 					<%/if%>

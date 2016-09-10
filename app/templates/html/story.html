@@ -699,7 +699,7 @@
 	<%assign var="timeStatus" value="发布于"%>
 <%/if%>
 
-
+<%*
 <%math assign="timeDiff" equation="x-y" x=$smarty.now y=$timeForStory%>
 <%if $timeDiff < 0%>
 	<%assign var="storyTime" value="刚刚更新"%>
@@ -722,7 +722,10 @@
 	<%assign var="storyTime" value=$story.last_publish_time|default:$pubdate%>
 	<%assign var="storyTime" value=$storyTime|date_format:"%Y年%-m月%-d日"%>
 <%/if%>
+*%>
 
+<%assign var="storyTime" value=$story.last_publish_time|default:$pubdate%>
+<%assign var="storyTime" value=$storyTime|date_format:"%Y年%-m月%-d日 %H:%M"%>
 
 <%if $page_action=="en"%>
 	<%assign var="storyAuthor" value="`$story.ebyline_description` `$story.eauthor` `$story.ebyline_status`"%>
@@ -957,6 +960,7 @@
 		<script>var ftcteam="<%$ftcteam%>";</script>
 	<%/if%>
 	<script type="text/javascript">
+		var gPageId = 'story';
 		var storyGenre="<%$story.genre|regex_replace:"/[\r\n\t\s]/":""%>";
 		var storyArea="<%$story.area|regex_replace:"/[\r\n\t\s]/":""%>";
 		var storyIndustry="<%$story.industry|regex_replace:"/[\r\n\t\s]/":""%>";

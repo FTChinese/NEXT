@@ -16,6 +16,9 @@
 	max-width: $maxAdWidth + 2*$defaultPadding;
 	margin: 0 auto;
 }
+.banner-iframe {
+	margin: $defaultPadding/2 auto 0 auto;
+}
 .banner-content {
 	margin: 0 $defaultPadding;
 	padding: 0 $defaultPadding/2;
@@ -23,9 +26,7 @@
 	height: $bannerHeight + $defaultPadding;
 	text-align: center;
 	position: relative;
-	>iframe {
-		margin: $defaultPadding/2 auto 0 auto;
-	}
+
 	>div {
 		margin: 0 auto 0 auto!important;
 		padding-top: $defaultPadding/2;
@@ -51,7 +52,7 @@
 	    top:0;
 	    right:0;
 	    background: #e9decf;
-	    font-size:8px;
+	    font-size:12px;
 	    padding:1px 5px;
 	    color: #505050;
 	}
@@ -61,7 +62,7 @@
 }
 .mpu-container {
 	width: 300px;
-	margin: 0 auto;
+	margin: 0 auto $defaultPadding + 20 auto;
 	position: relative;
 	&:before {
 		content: '广告';
@@ -69,7 +70,7 @@
 	    top:100%;
 	    left:0;
 	    right:0;
-	    font-size:8px;
+	    font-size:12px;
 	    text-align:center;
 	    color: #505050;
 	}
@@ -102,7 +103,7 @@
 	.banner-content {
 		padding: 0;
 		//height: auto;
-		>iframe {
+		>.banner-iframe {
 			margin-top: 0;
 		}
 	}
@@ -128,7 +129,7 @@
 		padding: 0;
 		background: transparent;
 		height: $bannerHeight;
-		>iframe {
+		>.banner-iframe {
 			margin-top: 0;
 		}
 	}
@@ -161,7 +162,7 @@
 		padding: 0;
 		background: transparent;
 		height: 50px;
-		>iframe {
+		>.banner-iframe {
 			margin-top: 0;
 		}
 	}
