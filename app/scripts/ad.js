@@ -1,7 +1,6 @@
 /* exported writeAd, slotStr, reloadBanners, checkB*/
 /* jshint ignore:start */
 
-
 function adReachability() {
   var thirdPartyVendors = {
     'dcR': '_dc',
@@ -248,7 +247,7 @@ var adPositions = {
 var uaString;
 var w1;
 var w2;
-
+var isWeChat = (/micromessenger/i.test(uaString));
 
 function initAds() {
   uaString = navigator.userAgent || navigator.vendor || '';
@@ -281,7 +280,6 @@ function writeAd(adType, returnSrc) {
   var adch = adchID;
   var bannerBG = '';
   var wechatAdHTML = '';
-  var isWeChat = (/micromessenger/i.test(uaString));
 
 
   //alert (adType);
@@ -363,7 +361,7 @@ function writeAd(adType, returnSrc) {
       slotStr = '';
       var c = adch + adPosition;
       var adP = '';
-      wechatAdHTML = '<div class="banner-iframe" style="width: 300px; height: '+ adHeight + 'px;" ><scr';
+      wechatAdHTML = '<div class="banner-iframe" style="width: 300px; " ><scr';
       wechatAdHTML += 'ipt src="http://dolphin.ftimg.net/s?z=ft&c=' + c + slotStr + adP + '&_fallback=0" charset="gbk">';
       wechatAdHTML += '</scr';
       wechatAdHTML += 'ipt></div>';
@@ -457,3 +455,6 @@ function checkB() {
 }
 
 initAds();
+if (isWeChat === true) {
+  document.documentElement.className += ' is-wechat';
+}
