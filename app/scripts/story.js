@@ -240,7 +240,7 @@ if(recommendVersion === '-001'){
     message.head.source = 'web';
     message.body = {};
     message.body.ielement = {};
-    message.body.ielement.storyid = '';
+    message.body.ielement.storyid = FTStoryid;
 
     ga('send','event','Recommend Story API', 'Load' + recommendVersion, '', {'nonInteraction':1});
     ftc_api.call(message, getFtcRecommendSuccess, getFtcRecommendFailed);
