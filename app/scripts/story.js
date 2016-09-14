@@ -77,15 +77,6 @@ ftc_api.server_url = ajaxUrl;
 
 function bindFeedbackEvent(){
     var delegate = new Delegate(document.getElementById('story-recommend'));
-    function guid() {
-      function s4() {
-        return Math.floor((1 + Math.random()) * 0x10000)
-          .toString(16)
-          .substring(1);
-      }
-      return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-        s4() + '-' + s4() + s4() + s4();
-    }
     if(recommendVersion === '-002') {
         delegate.on('click', 'a', function(event, obj){
             try {
@@ -95,14 +86,8 @@ function bindFeedbackEvent(){
                 var recStoryId = splits[0].replace(/\D/g, '');
                 var recParam = splits[1].replace(/\D/g, '');
 
-                var userId = GetCookie('USER_ID') || GetCookie('uniqueVisitorId');
-                if (userId === null) {
-                    userId = guid();
-                    SetCookie('uniqueVisitorId',userId,'','/');
-                }
-
                 ftc_api.method = 'GET';
-                ftc_api.server_url = thirdPartFeedbackUrl + '&recId=' + recStoryId + '&parameter=' + recParam + '&cki=' + userId;
+                ftc_api.server_url = thirdPartFeedbackUrl + '&recId=' + recStoryId + '&parameter=' + recParam;
                 ftc_api.call({});
 
             } catch (e) {
@@ -233,6 +218,17 @@ function getRec(data) {
     }
 }
 
+
+function guid() {
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  }
+  return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+    s4() + '-' + s4() + s4() + s4();
+}
+    
 // A & B Test
 if(recommendVersion === '-001'){
     message.head = {};
@@ -245,10 +241,15 @@ if(recommendVersion === '-001'){
     ga('send','event','Recommend Story API', 'Load' + recommendVersion, '', {'nonInteraction':1});
     ftc_api.call(message, getFtcRecommendSuccess, getFtcRecommendFailed);
 } else {
+    var userId = GetCookie('USER_ID') || GetCookie('uniqueVisitorId');
+    if (userId === null) {
+        userId = guid();
+        SetCookie('uniqueVisitorId',userId,'','/');
+    }
     var s = document.createElement('script');
     s.type = 'text/javascript';
     s.async = !0;
-    s.src = thirdPartAPIUrl + '&callback=getRec&v=' + new Date().getTime();
+    s.src = thirdPartAPIUrl + '&callback=getRec&cki=' + userId + '&v=' + new Date().getTime();
     var d = document.getElementsByTagName('script')[0];
     d.parentNode.insertBefore(s, d);
     ga('send','event','Recommend Story API', 'Load' + recommendVersion, '', {'nonInteraction':1});

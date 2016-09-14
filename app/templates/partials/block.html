@@ -297,9 +297,12 @@
 						<%assign var="itemTag" value=""%>
 					<%/if%>
 					<%if $item.preferSponsorImage == "yes" && $itemMainTag != ""%>
-						<%assign var="tagInteractive" value=$interactivemodel->get_interactive_by_field_search("find_in_set('特别报导',tag) and cshortleadbody = '`$itemMainTag`'",0,1,999999999,10800)%>
+						<%assign var="tagInteractive" value=$interactivemodel->get_interactive_by_field_search("find_in_set('特别报导',tag) and (cshortleadbody = '`$itemMainTag`' or cheadline = '`$itemMainTag`')",0,1,999999999,10800)%>
 						<%if $tagInteractive|@count >0%>
-						<%assign var="tagImage" value=$tagInteractive[0].story_pic.cover%>
+							<%assign var="tagImage" value=$tagInteractive[0].story_pic.cover%>
+							<%if preg_match("/\//is",$tagInteractive[0].cshortleadbody)%>
+								<%assign var="itemTagLink" value=$tagInteractive[0].cshortleadbody%>
+							<%/if%>
 						<%/if%>
 					<%/if%>
 					<%if $list.feedImage == "hide"%>
