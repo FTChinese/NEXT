@@ -11,7 +11,7 @@ var recommendVersion;
 var thirdPartAPIUrl = 'http://120.27.47.77:8091/getRtCmd?siteId=5002&num=20&itemId=' + FTStoryid;
 var thirdPartFeedbackUrl = 'http://120.27.47.77:8091/rec/click?siteId=5002&itemId=' + FTStoryid;
 var thirdPartData = [];
-
+var userId;
 
 recommendVersion = GetCookie('ab001') || '';
 if (recommendVersion === '') {
@@ -87,7 +87,7 @@ function bindFeedbackEvent(){
                 var recParam = splits[1].replace(/\D/g, '');
 
                 ftc_api.method = 'GET';
-                ftc_api.server_url = thirdPartFeedbackUrl + '&recId=' + recStoryId + '&parameter=' + recParam;
+                ftc_api.server_url = thirdPartFeedbackUrl + '&recId=' + recStoryId + '&cki=' + userId + '&parameter=' + recParam;
                 ftc_api.call({});
 
             } catch (e) {
@@ -228,7 +228,7 @@ function guid() {
   return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
     s4() + '-' + s4() + s4() + s4();
 }
-    
+
 // A & B Test
 if(recommendVersion === '-001'){
     message.head = {};
@@ -241,7 +241,7 @@ if(recommendVersion === '-001'){
     ga('send','event','Recommend Story API', 'Load' + recommendVersion, '', {'nonInteraction':1});
     ftc_api.call(message, getFtcRecommendSuccess, getFtcRecommendFailed);
 } else {
-    var userId = GetCookie('USER_ID') || GetCookie('uniqueVisitorId');
+    userId = GetCookie('USER_ID') || GetCookie('uniqueVisitorId');
     if (userId === null) {
         userId = guid();
         SetCookie('uniqueVisitorId',userId,'','/');
