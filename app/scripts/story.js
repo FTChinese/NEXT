@@ -13,6 +13,7 @@ var thirdPartFeedbackUrl = 'http://120.27.47.77:8091/rec/click?siteId=5002&itemI
 var thirdPartData = [];
 var userId;
 
+
 recommendVersion = GetCookie('ab001') || '';
 if (recommendVersion === '') {
     recommendVersion = (Math.random() > 0.5)? '-001': '-002';
