@@ -228,10 +228,10 @@ function loadImages() {
     }
     imageUrl = encodeURIComponent(imageUrl);
     if (/sponsor/.test(figureClass)) {
-      imageUrl = 'http://image.webservices.ft.com/v1/images/raw/' + imageUrl + '?source=ftchinese&height=' + imageHeight + '&fit=' + fitType;
+      imageUrl = '//image.webservices.ft.com/v1/images/raw/' + imageUrl + '?source=ftchinese&height=' + imageHeight + '&fit=' + fitType;
       shouldLoadImage = true;
     } else if (imageWidth > 0 && imageHeight > 0) {
-      imageUrl = 'http://image.webservices.ft.com/v1/images/raw/' + imageUrl + '?source=ftchinese&width=' + imageWidth + '&height=' + imageHeight + '&fit=' + fitType;
+      imageUrl = '//image.webservices.ft.com/v1/images/raw/' + imageUrl + '?source=ftchinese&width=' + imageWidth + '&height=' + imageHeight + '&fit=' + fitType;
       shouldLoadImage = true;
     }
     if (shouldLoadImage === true) {

@@ -740,10 +740,10 @@
 <%elseif ($page==1 || $page =="") && $page_action != "ce" && $story_pic.skyline%>
 	<%assign var="storyImage" value=$story_pic.skyline%>
 	<%assign var="storyImageClass" value="right-image-small"%>
-<%elseif ($page==1 || $page =="") && $page_action != "ce" && $story_pic.smallbutton%>
+<%elseif ($page==1 || $page =="") && $page_action != "ce" && $story_pic.smallbutton && $pageType != "singlechoice"%>
 	<%assign var="storyImage" value=$story_pic.smallbutton%>
 	<%assign var="storyImageClass" value=""%>
-<%elseif ($page==1 || $page =="") && $story.story_pic.cover%>
+<%elseif ($page==1 || $page =="") && $story_pic.cover%>
 	<%assign var="storyImage" value=$story_pic.cover%>
 	<%assign var="storyImageClass" value=""%>
 <%/if%>
@@ -836,6 +836,10 @@
     <%/if%>
     <%assign var="story_content" value=$story_content|regex_replace:"/[\n]/":"<br>"%>
     <%assign var="story_content" value="`$story_content``$jobApply`"%>
+<%elseif $pageType=="singlechoice"%>
+	<%assign var="storyHeadline" value="`$cheadline`：`$eheadline`"%>
+	<%assign var="story_content" value="<div class=\"quiz-container\"></div>"%>
+	<%assign var="breadcrum" value="小测试"%>
 <%elseif $itemType=="interactive" || $pageType=="interactive"%>
 	<%assign var="storyAuthor" value="`$cbyline_description` `$cauthor`"%>
 	<%if $page_action == "en"%>
@@ -915,6 +919,9 @@
     	<style><%include file="next/styles/main-story-luxury.css"%></style>
     	<script type="text/javascript">var pageTheme = 'luxury';</script>
     <%else%>
+    	<%if $pageType == "singlechoice"%>
+    		<style><%include file="next/styles/main-quiz.css"%></style>
+    	<%/if%>
     	<style><%include file="next/styles/main-story.css"%></style>
     <%/if%>
 
@@ -1090,6 +1097,17 @@ if (document.querySelector('.highcharts[data-chart-id]')) {
 <script type="text/javascript">
   <%include file="next/scripts/main-story.js"%>
 </script>
+<%if $pageType="singlechoice"%>
+	<script type="text/javascript">
+		var rightAnswer = '<%$cskylineheadline|regex_replace:"/[\n\']/":""%>';
+		var choices = '<%$cbody|regex_replace:"/[\n]/":"|"|regex_replace:"/\'/":""%>';
+		var explain = '<%$cshortleadbody|regex_replace:"/[\n]/":"<br>"|regex_replace:"/\'/":""%>';
+		<%if $story_pic.smallbutton != ""%>
+			var explainImage = '<%$story_pic.smallbutton%>';
+		<%/if%>
+	  <%include file="next/scripts/main-single-choice.js"%>
+	</script>
+<%/if%>
 <script type="text/javascript" src="http://static.ftchinese.com/n/main-sharelinks.js?<%include file="next/timestamp/timestamp.html"%>"></script>
 <%*<!--In Read Ad-->*%>
 <script type="text/javascript">

@@ -47,6 +47,18 @@
 		</div>
 	<div class="clearfloat block-bottom"></div>
 	</div></div>
-	<%include file="next/partials/StoryRightRail.html"%>
+
+	<%if $pageType=="singlechoice"%>
+		<div class="side-container"><div class="side-inner">
+			<%if $smarty.get.ad != "no" && $hideMPU1 != "yes"%>
+				<div class="mpu-container<%if $tagabout == ""%> first-child<%/if%>">
+					<script type="text/javascript">document.write (writeAd('storympu'));</script>
+				</div>
+			<%/if%>
+		</div></div>
+	<%else%>
+		<%include file="next/partials/StoryRightRail.html"%>
+	<%/if%>
+
 	<div class="clearfloat"></div>
 </div></div>

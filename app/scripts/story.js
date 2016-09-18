@@ -87,11 +87,8 @@ function bindFeedbackEvent(){
         delegate.on('click', 'a', function(event, obj){
             try {
                 var link = obj.getAttribute('href');
-                var splits = link.split('?');
-
-                var recStoryId = splits[0].replace(/\D/g, '');
-                var recParam = splits[1].replace(/\D/g, '');
-                
+                var recStoryId = link.replace(/^\/story\/([0-9]+)\?.*$/g,'$1');
+                var recParam = link.replace(/^.*ulu-rcmd=([^&]+).*$/g,'$1');
                 ftc_api.jsonp(thirdPartFeedbackUrl + '&recId=' + recStoryId + '&cki=' + userId + '&parameter=' + recParam);
             } catch (e) {
                 console.log(e);
@@ -99,6 +96,7 @@ function bindFeedbackEvent(){
         });
     }
 }
+
 
 /**
  * Global recommendation payload
