@@ -1099,6 +1099,8 @@ if (document.querySelector('.highcharts[data-chart-id]')) {
 </script>
 <%if $pageType="singlechoice"%>
 	<script type="text/javascript">
+		var quizId = '<%$id%>';
+		var quizLevel = '<%$scoop|default:0%>';
 		var rightAnswer = '<%$cskylineheadline|regex_replace:"/[\n\']/":""%>';
 		var choices = '<%$cbody|regex_replace:"/[\n]/":"|"|regex_replace:"/\'/":""%>';
 		var explain = '<%$cshortleadbody|regex_replace:"/[\n]/":"<br>"|regex_replace:"/\'/":""%>';

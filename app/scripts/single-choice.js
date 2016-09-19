@@ -27,13 +27,18 @@
 		}
 		var theAnswer = ele.innerHTML;
 		var answerExplain = '';
+		var rightOrWrong = '';
+		theAnswer = theAnswer.replace(/\s+$/g, '');
+		rightAnswer = rightAnswer.replace(/\s+$/g, '');
 		if (theAnswer === rightAnswer) {
 			//alert ('right');
 			answerExplain = '<div class="answer-correct answer-title">回答正确</div>';
 			ele.className += ' quiz-selected quiz-correct';
+			rightOrWrong = theAnswer + '(Right)';
 		} else {
 			answerExplain = '<div class="answer-wrong answer-title">回答错误，正确答案应为' + rightAnswer +'</div>';
 			ele.className += ' quiz-selected quiz-wrong';
+			rightOrWrong = theAnswer + '(Wrong)';
 		}
 		if (typeof explainImage === 'string') {
 			var storyWidth = ele.offsetWidth;
@@ -43,10 +48,15 @@
 			answerExplain += '<div class=" story-image image"><figure><img src="'+ imageUrl +'"></figure></div>';
 		}
 		answerExplain += '<div class="answer-explain-detail">' + explain + '</div>';
-		document.getElementById('answer-explain').innerHTML = answerExplain;
-		stickyBottomPrepare();
-		stickyAdsPrepare();
 		quizAnswered = true;
+		document.getElementById('answer-explain').innerHTML = answerExplain;
+		try {
+			ga('send','event', 'Quiz', document.querySelector('.story-headline').innerHTML + '(' + quizId + '/' + quizLevel + ')', rightOrWrong);
+			stickyBottomPrepare();
+			stickyAdsPrepare();
+		} catch (ignore) {
+
+		}
 	}
 
 	choicesArray.push(rightAnswer);
