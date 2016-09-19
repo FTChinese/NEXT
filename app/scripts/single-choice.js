@@ -39,10 +39,13 @@
 			var storyWidth = ele.offsetWidth;
 			var imageUrl = '//image.webservices.ft.com/v1/images/raw/' + encodeURIComponent(window.explainImage) + '?source=ftchinese&width=' + storyWidth;
 			//alert (storyWidth);
-			answerExplain += '<img src="'+ imageUrl +'">';
+			//answerExplain += '<img src="'+ imageUrl +'">';
+			answerExplain += '<div class=" story-image image"><figure><img src="'+ imageUrl +'"></figure></div>';
 		}
 		answerExplain += '<div class="answer-explain-detail">' + explain + '</div>';
 		document.getElementById('answer-explain').innerHTML = answerExplain;
+		stickyBottomPrepare();
+		stickyAdsPrepare();
 		quizAnswered = true;
 	}
 
