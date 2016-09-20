@@ -1,11 +1,11 @@
-/* exported addstoryfav, showOverlay, closeOverlay, w, isTouchDevice, trackerNew, paravalue, trackAdClick*/
-/* jshint ignore:start */
+/* exported DeleteCookie,username,userId,ccodeCookie,addstoryfav, showOverlay, closeOverlay, w, isTouchDevice, trackerNew, paravalue, trackAdClick*/
+
 
 
 function GetCookie(name){
-    var start = document.cookie.indexOf(name+"="),
+    var start = document.cookie.indexOf(name+'='),
         len = start+name.length+1,
-        end = document.cookie.indexOf(";",len);
+        end = document.cookie.indexOf(';',len);
     if ((!start) && (name !== document.cookie.substring(0,name.length))) {return null;}
     if (start === -1) {return null;}
     if (end === -1) {end = document.cookie.length; }
@@ -19,16 +19,28 @@ function SetCookie (name, value , sec , path , domain) {
         secure = (argc > 5) ? argv[5] : false;
     path = (argc > 3) ? argv[3] : null;
     domain = (argc > 4) ? argv[4] : null;
-   if(sec === null || sec === "") {sec = 600 * (24 * 60 * 60 * 1000);}
+   if(sec === null || sec === '') {sec = 600 * (24 * 60 * 60 * 1000);}
     else {sec = 1000*sec;}
     expires.setTime (expires.getTime() + sec);
-    document.cookie = name + "=" + escape (value) +((expires === null) ? "" : ("; expires=" + expires.toGMTString())) +((path === null) ? "/" : ("; path=" + path)) +((domain === null) ? "" : ("; domain=" + domain)) +((secure === true) ? "; secure" : "");  
+    document.cookie = name + '=' + escape (value) +((expires === null) ? '' : ('; expires=' + expires.toGMTString())) +((path === null) ? '/' : ('; path=' + path)) +((domain === null) ? '' : ('; domain=' + domain)) +((secure === true) ? '; secure' : '');  
 }
 
 function DeleteCookie (name) {  
     var exp = new Date(),cval = GetCookie (name);
     exp.setTime (exp.getTime() - 1);
-    document.cookie = name + "=" + cval + "; expires=" + exp.toGMTString();
+    document.cookie = name + '=' + cval + '; expires=' + exp.toGMTString();
+}
+
+function paravalue(theurl, thep) {
+    var k,thev;
+    if (theurl.indexOf(thep + '=')>1) {
+        k=theurl.indexOf(thep) + thep.length + 1;
+        thev=theurl.substring(k,theurl.length);
+        thev=thev.replace(/[\&\#].*/g,'');
+    } else {
+        thev='';
+    }
+    return thev;
 }
 
 function trackerNew() {
@@ -50,6 +62,7 @@ function trackerNew() {
     var ccodeCookie=GetCookie('ccode') || '';
     var ua = navigator.userAgent || navigator.vendor || '';
     var screenType=0;
+    var deviceName;
     
     if (w >0) {
         if (w>1220) {
@@ -65,6 +78,21 @@ function trackerNew() {
         }
         ga('set', 'dimension18', screenType);
     }
+    
+    if (/ipad/i.test(ua)) {
+        deviceName = 'iPad';
+    } else if (/OS [0-9]+\_/i.test(ua) && /iphone|ipod/i.test(ua)) {
+        deviceName = 'iPhone';
+    } else if (/android/i.test(ua)) {
+        deviceName = 'Android';
+    } else if (isTouchDevice() === true){
+        deviceName = 'Other Touch Device';
+    } else {
+        deviceName = 'Desktop';
+    }
+    deviceName = 'Page by ' + deviceName;
+    ga('set', 'contentGroup4', deviceName);
+
     //console.log (screenType);
     ccode=paravalue(l,'ccode');
     if (l.indexOf('isappinstalled')>0  && l.indexOf('code')<0) {
@@ -282,7 +310,7 @@ function trackerNew() {
 var username=GetCookie('USER_NAME') || '';
 var userId = GetCookie('USER_ID') || '';
 var ccodeCookie=GetCookie('ccode') || '';
-/* jshint ignore:end */
+
 
 var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 function isTouchDevice() {
@@ -303,20 +331,10 @@ function closeOverlay(overlayId) {
     document.getElementById(overlayId).className = 'overlay-container';
 }
 
-function paravalue(theurl, thep) {
-var k,thev;
-if (theurl.indexOf(thep + '=')>1) {
-k=theurl.indexOf(thep) + thep.length + 1;
-thev=theurl.substring(k,theurl.length);
-thev=thev.replace(/[\&\#].*/g,'');
-} else {
-thev='';
-}
-return thev;
-}
+
 
 /* jshint ignore:start */
-var user_name=GetCookie ("USER_NAME");
+var user_name=GetCookie ('USER_NAME');
 if (user_name !== null) {
     document.documentElement.className += ' is-member';
 }
