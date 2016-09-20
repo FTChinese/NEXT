@@ -49,6 +49,23 @@ function trackerNew() {
     var userId = GetCookie('USER_ID') || '';
     var ccodeCookie=GetCookie('ccode') || '';
     var ua = navigator.userAgent || navigator.vendor || '';
+    var screenType=0;
+    
+    if (w >0) {
+        if (w>1220) {
+            screenType = 'XL: above 1220';
+        } else if (w>980) {
+            screenType = 'Large: 981-1220';
+        } else if (w>690) {
+            screenType = 'Medium: 691-981';
+        } else if (w>490) {
+            screenType = 'Small: 491-690';
+        } else {
+            screenType = 'Phone: under 491';
+        }
+        ga('set', 'dimension18', screenType);
+    }
+    //console.log (screenType);
     ccode=paravalue(l,'ccode');
     if (l.indexOf('isappinstalled')>0  && l.indexOf('code')<0) {
         vsource='marketing';
@@ -141,6 +158,8 @@ function trackerNew() {
 
     ga('set', 'dimension2', vtype);
     ga('set', 'dimension13', vsource);
+
+
 
     try {
         keyTag=window.gKeyTag;
