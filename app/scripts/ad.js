@@ -341,7 +341,7 @@ function writeAd(adType, returnSrc) {
     bannerBG = '&bg=777777';
   }
 
-  adFileName = (adType === 'banner' &&  adCount[adType] === 0) ? 'topbanner' : 'a';
+  adFileName = (/banner/i.test(adType) &&  adCount[adType] === 0) ? 'topbanner' : 'a';
   currentAdCount = adCount[adType];
 
   if (currentAdCount < adMax[adType]) {
