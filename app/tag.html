@@ -82,7 +82,7 @@
 if(typeof startTime === "undefined"){
 var startTime=new Date().getTime();
 }
-var adchID = '1801';
+var adchID = '1200';
 var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现联动互斥功能
 </script>
 
@@ -127,14 +127,9 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
  <body>
 
 <script>checkB();</script>
-<script>
-var gUaOfPage = navigator.userAgent || navigator.vendor || "";
-if (/micromessenger/i.test(gUaOfPage)) {
-document.write ('<div class="hide"><img src="https://image.webservices.ft.com/v1/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=300&height=300&quality=lowest" width="0" height="0" /></div>');
-}
-</script><header class="header-container">
+<header class="header-container">
 <div class="header-inner">
-<div class="header-title">乐尚街</div>
+<div class="header-title">全球</div>
 <div class="header-side header-left">
 <div class="header-brand"><figure class="loading" data-url="http://static.ftchinese.com/images/masthead36.png"></figure></div>
 </div>
@@ -173,8 +168,7 @@ document.write ('<div class="hide"><img src="https://image.webservices.ft.com/v1
 </div>
 </div>
 </div>
-</div>
-<div class="o-nav__placeholder">
+</div><div class="o-nav__placeholder">
 <div class="o-nav">
 <div class="o-nav__outer">
 <div class="o-nav__inner">
@@ -184,7 +178,7 @@ document.write ('<div class="hide"><img src="https://image.webservices.ft.com/v1
 <span class="search-toggle--close">关闭</span>
 </button>
 <form action="/search/" id="search-form" role="search" data-o-toggler-target>
-<input id="search-term" type="search" name="keys" class="search-input" placeholder="搜索FT中文网" />
+<input id="search-term" type="search" name="keys" class="search-input" placeholder="输入年月日‘xxxx-xx-xx’可搜索该日存档" />
 <input id="type_news" type="hidden" value="type_news" name="ftsearchType" checked />
 <button class="search-button" tabindex="1"><span>搜索</span></button>   
 </form> 
@@ -207,104 +201,87 @@ document.write ('<div class="hide"><img src="https://image.webservices.ft.com/v1
 </ol>
 </li>
 <li class="nav-section"
-aria-selected="true" data-section="home">
+ data-section="home">
 <button class="nav-section-head mobile">首页</button>
 <a class="nav-section-head desktop" href="/">首页</a>
-<ol class="nav-items">
-<li class="nav-item mobile">
-<a class="nav-link" href="/">
-FT中文网首页
-</a>
-</li>
-<li class="nav-item"  aria-haspopup="true" data-channel="special">
-<a class="nav-link" href="/channel/special.html">特别报导</a>
-<ol class="nav-sub-items">
-<li><a href="/tag/全球商业的未来">全球商业的未来</a></li>
-<li><a href="/tag/2016%E8%BE%BE%E6%B2%83%E6%96%AF">2016达沃斯</a></li>
-<li><a href="/tag/与FT共进午餐">与FT共进午餐</a></li>
-</ol>
-</li>
-<li class="nav-item"  data-channel="datanews">
-<a class="nav-link" href="/channel/datanews.html">数据新闻</a>
-</li>
-<li class="nav-item"  data-channel="weekly">
-<a class="nav-link" href="/channel/weekly.html">热门文章</a>
-</li>
-<li class="nav-item"  data-channel="event">
-<a class="nav-link" href="/m/events/event.html">会议活动</a>
-</li>
-<li class="nav-item"  data-channel="member">
-<a class="nav-link" href="/m/marketing/home.html">会员信息中心</a>
-</li>
-<li class="nav-item"  data-channel="intelligence">
-<a class="nav-link" href="/m/marketing/intelligence.html">FT研究院</a>
-</li>
-<li class="nav-item"  data-channel="mba">
-<a class="nav-link" href="/channel/mba.html">FT商学院</a>
-</li>
-<li class="nav-item"  data-channel="ebook">
-<a class="nav-link" href="/m/marketing/ebook.html">FT电子书</a>
-</li>
-<li class="nav-item"  data-channel="photo">
-<a class="nav-link" href="/channel/slides.html">图辑</a>
-</li>
-<li class="nav-item"  data-channel="job">
-<a class="nav-link" href="/jobs/">职业机会</a>
-</li>
-</ol>
 </li>
 <li class="nav-section"
-data-section="china">
+ data-section="china">
 <button class="nav-section-head mobile">中国</button>
 <a class="nav-section-head desktop" href="/channel/china.html">中国</a>
 </li>
 <li class="nav-section"
-data-section="world">
+ aria-selected="true" data-section="world">
 <button class="nav-section-head mobile">全球</button>
 <a class="nav-section-head desktop" href="/channel/world.html">全球</a>
+<ol class="nav-items">
+<li class="nav-item mobile">
+<a class="nav-link" href="/channel/world.html">
+频道首页
+</a>
+</li>
+<li class="nav-item"  data-channel="usa">
+<a class="nav-link" href="/channel/usa.html">美国</a>
+</li>
+<li class="nav-item"  data-channel="uk">
+<a class="nav-link" href="/channel/uk.html">英国</a>
+</li>
+<li class="nav-item"  data-channel="asia">
+<a class="nav-link" href="/channel/asia.html">亚太</a>
+</li>
+<li class="nav-item"  data-channel="europe">
+<a class="nav-link" href="/channel/europe.html">欧洲</a>
+</li>
+<li class="nav-item"  data-channel="america">
+<a class="nav-link" href="/channel/america.html">美洲</a>
+</li>
+<li class="nav-item"  data-channel="africa">
+<a class="nav-link" href="/channel/africa.html">非洲</a>
+</li>
+</ol>
 </li>
 <li class="nav-section"
-data-section="economy">
+ data-section="economy">
 <button class="nav-section-head mobile">经济</button>
 <a class="nav-section-head desktop" href="/channel/economy.html">经济</a>
 </li>
 <li class="nav-section"
-data-section="markets">
+ data-section="markets">
 <button class="nav-section-head mobile">金融市场</button>
 <a class="nav-section-head desktop" href="/channel/markets.html">金融市场</a>
 </li>
 <li class="nav-section"
-data-section="business">
+ data-section="business">
 <button class="nav-section-head mobile">商业</button>
 <a class="nav-section-head desktop" href="/channel/business.html">商业</a>
 </li>
 <li class="nav-section"
-data-section="innovation">
+ data-section="innovation">
 <button class="nav-section-head mobile">创新经济</button>
 <a class="nav-section-head desktop" href="/channel/innovation.html">创新经济</a>
 </li>
 <li class="nav-section"
-data-section="opinion">
+ data-section="opinion">
 <button class="nav-section-head mobile">观点</button>
 <a class="nav-section-head desktop" href="/channel/opinion.html">观点</a>
 </li>
 <li class="nav-section"
-data-section="management">
+ data-section="management">
 <button class="nav-section-head mobile">管理</button>
 <a class="nav-section-head desktop" href="/channel/management.html">管理</a>
 </li>
 <li class="nav-section"
-data-section="lifestyle">
+ data-section="lifestyle">
 <button class="nav-section-head mobile">生活时尚</button>
 <a class="nav-section-head desktop" href="/channel/lifestyle.html">生活时尚</a>
 </li>
 <li class="nav-section"
-data-section="stream">
+ data-section="stream">
 <button class="nav-section-head mobile">视频</button>
 <a class="nav-section-head desktop" href="/channel/stream.html">视频</a>
 </li>
 <li class="nav-section"
-data-section="english">
+ data-section="english">
 <button class="nav-section-head mobile">每日英语</button>
 <a class="nav-section-head desktop" href="/channel/english.html">每日英语</a>
 </li>
@@ -370,329 +347,275 @@ data-section="english">
 </div><!-- o-nav__placeholder -->
 <div class="site-map">
 <div class="site-map__container">
+<ul class="site-map__items">
+<li><a href="/channel/world.html">全球</a></li>
+</ul>
 </div>
 </div>
-<div class="block-container has-side side-right"><div class="block-inner">
+<div class="bn-ph">
+<div class="banner-container">
+<div class="banner-inner">
+<div class="banner-content">
+<script type="text/javascript">document.write (writeAd('tagbanner'));</script>
+</div>
+</div>
+</div>
+</div>
+<div class="block-container has-side"><div class="block-inner">
 <div class="content-container"><div class="content-inner">
+<div class="list-container"><div class="list-inner">
 
-<div class="list-container"><div class="list-inner"><div class="items">
+<div class="items">
 
-<div class="item-container XL8 L8 M12 S6 P12 has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001068279#adchannelID=1801">威尼斯有了第一个百货商场</a></h2>
-<a class="image" target="_blank" href="/story/001068279#adchannelID=1801"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000063760_piclink.jpg"></figure></a><div class="item-lead">宋佩芬:威尼斯居然连一个百货商场都没有？今年十月，该意大利水城一座13世纪的老建筑将被改建成现代商场。</div>
+
+<div class="item-container XL8 L8 M12 S12 S-double-width P12 has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001069486#adchannelID=1200">美国北卡州宣布紧急状态</a></h2>
+<a class="image" target="_blank" href="/story/001069486#adchannelID=1200"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000065280_piclink.jpg"></figure></a><div class="item-lead">在针对警察枪杀黑人的抗议演变成暴力冲突后，这个南方州请求国民警卫队协助维持治安，州长称将尽力支援警方。</div><div class="item-time">16小时前</div>
 <div class="item-bottom"></div>
 </div></div>
-<div class=" MT PT"></div>
-<div class="item-container XL4 XL-right XL-no-tag L4 L-right L-half L-no-tag M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001068282#adchannelID=1801">藏着眼泪和体香的首饰</a></h2>
-<a class="image" target="_blank" href="/story/001068282#adchannelID=1801"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000063762_piclink.jpg"></figure></a><div class="item-lead">这种首饰自带吊坠小容器，能盛放鲜血、体香、泪水甚至骨灰，寄托佩戴者最私密的情感，是首饰界最红的时尚。</div>
-<div class="item-bottom"></div>
-</div></div>
+
 <div class=" MT PT ST"></div>
-<div class="item-container XL4 XL-right XL-half XL-no-tag L4 L-right L-no-tag L-half M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001068283#adchannelID=1801">西班牙金枪鱼美食游</a></h2>
-<a class="image" target="_blank" href="/story/001068283#adchannelID=1801"><figure class="loading" data-url="http://i.ftimg.net/picture/5/000063775_piclink.jpg"></figure></a><div class="item-lead">在4月底至6月初的金枪鱼捕捞季，现场观摩绿色围捕金枪鱼，并品尝金枪鱼美食，是具有西班牙特色的旅游项目。</div>
+<div class="item-container XL4 XL-half XL-right L4 L-half L-right M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001069482#adchannelID=1200">与FT共进午餐：爱德华•斯诺登</a></h2>
+<a class="image" target="_blank" href="/story/001069482#adchannelID=1200"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000065276_piclink.jpg"></figure></a><div class="item-lead">这位“棱镜计划”的披露者抨击他所客居的俄罗斯，暗指该国与近期针对美国政府的黑客攻击有瓜葛，并称他仍对美国心怀忠诚。</div><div class="item-time">16小时前</div>
 <div class="item-bottom"></div>
 </div></div>
-<div class="XLT LT MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001068256#adchannelID=1801">中国人需要“中式”卫生间吗？</a></h2>
-<a class="image" target="_blank" href="/story/001068256#adchannelID=1801"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000063464_piclink.jpg"></figure></a><div class="item-lead">带有万字符、祥云图等文化符号的新中式风格成为中国卫浴产品市场的风潮，但产品功能和设计感比符号更重要。</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class=" MT PT ST"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001068253#adchannelID=1801">特朗普衣服为何总大一号？</a></h2>
-<a class="image" target="_blank" href="/story/001068253#adchannelID=1801"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000063457_piclink.jpg"></figure></a><div class="item-lead">特朗普的西装宽到溜肩，外套总是鼓鼓囊囊，他的形象实现了其政治目的。很多达官显贵都把时装穿得很糟。</div>
-<div class="item-bottom"></div>
-</div></div>
+
 <div class=" MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001068254#adchannelID=1801">路易威登出香水了</a></h2>
-<a class="image" target="_blank" href="/story/001068254#adchannelID=1801"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000063459_piclink.jpg"></figure></a><div class="item-lead">路易威登将于9月推出香水系列，距上一款LV香水时隔70年。该系列香水限量销售，只在路易威登专卖店出售。</div>
+<div class="item-container XL4 XL-half XL-right XL-lower L4 L-half L-right L-lower M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001069478#adchannelID=1200">扎克伯格捐资30亿美元欲“终结所有疾病”</a></h2>
+<a class="image" target="_blank" href="/story/001069478#adchannelID=1200"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000029106_piclink_0_0.jpg"></figure></a><div class="item-lead">扎克伯格夫妇承诺这笔资金会用于“在本世纪结束前治疗、阻止或管控所有疾病”，聚焦开展基础研究。</div><div class="item-time">1天前</div>
 <div class="item-bottom"></div>
 </div></div>
+
 <div class="XLT LT MT PT ST"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001068144#adchannelID=1801">欧美私人海滩豪宅什么价？</a></h2>
-<a class="image" target="_blank" href="/story/001068144#adchannelID=1801"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000063236_piclink.jpg"></figure></a><div class="item-lead">这些别墅有六间以上卧室，有私人海滩，分布在英国威尔士、美国加州等地，价值1600万到1.8亿人民币。</div>
+<h2 class="item-headline"><a target="_blank" href="/story/001069467#adchannelID=1200">美联储维持利率不变 增大年底加息可能</a></h2>
+<a class="image" target="_blank" href="/story/001069467#adchannelID=1200"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000065242_piclink.jpg"></figure></a><div class="item-lead">美联储十位政策制定者中，有三人投票支持立即加息，严重的分歧突显当前政策辩论的激烈性。</div><div class="item-time">1天前</div>
 <div class="item-bottom"></div>
 </div></div>
+
 <div class=" MT PT"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001068145#adchannelID=1801">酩悦轩尼诗推出“傲云”中国酒</a></h2>
-<a class="image" target="_blank" href="/story/001068145#adchannelID=1801"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000063234_piclink.jpg"></figure></a><div class="item-lead">酩悦轩尼诗在中国云南推出“傲云”系列葡萄酒，每瓶定价高达300欧元，为旗下葡萄酒之最。</div>
+<h2 class="item-headline"><a target="_blank" href="/story/001069470#adchannelID=1200">逾500万名大企业员工电邮和密码泄露</a></h2>
+<a class="image" target="_blank" href="/story/001069470#adchannelID=1200"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000043242_piclink.jpg"></figure></a><div class="item-lead">这些数据是从领英等高人气服务网站泄露的，被泄密的550万名员工来自1000家大企业，90%的被泄露信息是新的。</div><div class="item-time">1天前</div>
 <div class="item-bottom"></div>
 </div></div>
+
 <div class=" MT PT ST"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001068151#adchannelID=1801">顶级时装品牌开始海外走秀</a></h2>
-<a class="image" target="_blank" href="/story/001068151#adchannelID=1801"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000063293_piclink.jpg"></figure></a><div class="item-lead">王英菡：顶级品牌赴海外秀场成为时装界的大趋势。在市场疲软的大环境下，时装品牌用这种方式探耕区域市场。</div>
+<h2 class="item-headline"><a target="_blank" href="/story/001069460#adchannelID=1200">普京如何给美国制造麻烦？</a></h2>
+<a class="image" target="_blank" href="/story/001069460#adchannelID=1200"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000065234_piclink.jpg"></figure></a><div class="item-lead">卢斯：俄罗斯几乎在毫不掩饰地干预美国2016年总统大选，而且它只需让人们对美国大选的公正性产生怀疑就可以了。</div><div class="item-time">1天前</div>
 <div class="item-bottom"></div>
 </div></div>
+
 <div class="XLT LT MT PT"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001068046#adchannelID=1801">世界文化遗产该怎么分享？</a></h2>
-<a class="image" target="_blank" href="/story/001068046#adchannelID=1801"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000063040_piclink.jpg"></figure></a><div class="item-lead">宋佩芬：西方馆藏出借到中国展出，最大的问题是保险费。英国的保险费由政府支付，英国博物馆也享有自主权。</div>
+<h2 class="item-headline"><a target="_blank" href="/story/001069459#adchannelID=1200">“欧洲之父”丘吉尔和被误读的英欧关系</a></h2>
+<a class="image" target="_blank" href="/story/001069459#adchannelID=1200"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000065233_piclink.jpg"></figure></a><div class="item-lead">皮尔：英国人对欧洲的态度根植于大英帝国的历史，以及这样一种观念，即英国的安全、利益和外交都系于全球、而非仅系于欧洲。</div><div class="item-time">1天前</div>
 <div class="item-bottom"></div>
 </div></div>
+
 <div class=" MT PT ST"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001068044#adchannelID=1801">在日本自建住房的英国人</a></h2>
-<a class="image" target="_blank" href="/story/001068044#adchannelID=1801"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000063060_piclink.jpg"></figure></a><div class="item-lead">日本房屋均寿30年，美国100年，英国几百年的比比皆是。在日本自建别墅不易，但FT前亚洲主编还是完成了。</div>
+<h2 class="item-headline"><a target="_blank" href="/story/001069455#adchannelID=1200">日本央行加码实施货币宽松</a></h2>
+<a class="image" target="_blank" href="/story/001069455#adchannelID=1200"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000065224_piclink.jpg"></figure></a><div class="item-lead">该行承诺将十年期日本国债收益率上限设置在零，并承诺继续买入资产，直至通胀率超过并稳定停留在2%这一目标上方。</div><div class="item-time">2天前</div>
 <div class="item-bottom"></div>
 </div></div>
+
 <div class=" MT PT"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001068048#adchannelID=1801">游遍丹麦“世界遗产”</a></h2>
-<a class="image" target="_blank" href="/story/001068048#adchannelID=1801"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000063041_piclink.jpg"></figure></a><div class="item-lead">去年丹麦新增两处世界遗产。来到这个安静国度，穿越回几世纪前的北欧王国，犹如置身《权力的游戏》场景中。</div>
+<h2 class="item-headline"><a target="_blank" href="/story/001069443#adchannelID=1200">美国大选进入“决战阶段”</a></h2>
+<a class="image" target="_blank" href="/story/001069443#adchannelID=1200"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000065210_piclink.jpg"></figure></a><div class="item-lead">卢斯：大势正在向特朗普倾斜。眼下一切都取决于希拉里能否像过去那样，在无路可退之际迸发出最强战斗力。</div><div class="item-time">2天前</div>
 <div class="item-bottom"></div>
 </div></div>
+
 <div class="XLT LT MT PT ST"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067853#adchannelID=1801">专访Met服装大展出品人</a></h2>
-<a class="image" target="_blank" href="/story/001067853#adchannelID=1801"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000062297_piclink.jpg"></figure></a><div class="item-lead">安德鲁•波顿是纽约大都会艺术博物馆服装学院院长，今年他负责主题为“手工x机械”的服装大展。为服装学院筹款的Met Ball如今成为全球时装盛事。</div>
+<h2 class="item-headline"><a target="_blank" href="/story/001069448#adchannelID=1200">布莱尔将关闭咨询公司</a></h2>
+<a class="image" target="_blank" href="/story/001069448#adchannelID=1200"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000065218_piclink.jpg"></figure></a><div class="item-lead">英国前工党首相已从有争议的客户赚取巨额收入。他仍将保留“少量个人咨询业务”以维持收入，并将继续收费发表演讲。</div><div class="item-time">2天前</div>
 <div class="item-bottom"></div>
 </div></div>
+
 <div class=" MT PT"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067849#adchannelID=1801">中国影像艺术家曹斐纽约办展</a></h2>
-<a class="image" target="_blank" href="/story/001067849#adchannelID=1801"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000062296_piclink.jpg"></figure></a><div class="item-lead">曹斐的影像作品充满伤感，对转型中的中国社会提出了尖刻批评。《谁的乌托邦？》、《La Town》等作品对中国城市的暴力转型发出了怒吼。</div>
+<h2 class="item-headline"><a target="_blank" href="/story/001069447#adchannelID=1200">联合国车队叙利亚遭袭 救援暂停</a></h2>
+<a class="image" target="_blank" href="/story/001069447#adchannelID=1200"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000065217_piclink.jpg"></figure></a><div class="item-lead">向叙利亚运输救援物资的车队周一晚遭到空袭，导致20人遇难。外交官们正忙于保住美俄达成的叙利亚和平计划。</div><div class="item-time">2天前</div>
 <div class="item-bottom"></div>
 </div></div>
+
 <div class=" MT PT ST"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067848#adchannelID=1801">在家里装个Imax影院 ?</a></h2>
-<a class="image" target="_blank" href="/story/001067848#adchannelID=1801"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000062266_piclink.jpg"></figure></a><div class="item-lead">Imax公司启动了家庭Imax计划，价格在250万美元左右，入门级别是40万美元。第一款全尺寸Imax私人影院的首位消费者来自好莱坞。</div>
+<h2 class="item-headline"><a target="_blank" href="/story/001069444#adchannelID=1200">纽约爆炸嫌疑人父亲曾发出预警</a></h2>
+<a class="image" target="_blank" href="/story/001069444#adchannelID=1200"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000065211_piclink.jpg"></figure></a><div class="item-lead">有报道称，拉哈米的父亲曾告诉警方他的儿子是恐怖分子。但知情者表示，其父随后便改了口。</div><div class="item-time">2天前</div>
 <div class="item-bottom"></div>
 </div></div>
+
 <div class="XLT LT MT PT"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067735#adchannelID=1801">去宝格丽门店试戴珠宝？</a></h2>
-<a class="image" target="_blank" href="/story/001067735#adchannelID=1801"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000062001_piclink.jpg"></figure></a><div class="item-lead">奢侈品专卖店开始重视体验式销售：在皮具店体验养护皮鞋，在珠宝店试戴各色首饰，在香水店了解前调知识，在体验中实现高溢价变现。</div>
+<h2 class="item-headline"><a target="_blank" href="/story/001069438#adchannelID=1200">美国亟需加大基础设施投资</a></h2>
+<a class="image" target="_blank" href="/story/001069438#adchannelID=1200"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000064938_piclink.jpg"></figure></a><div class="item-lead">萨默斯：不管大选结果如何，美国总统和美国国会应该在2017年春季出台一项大规模的基础设施投资计划。</div><div class="item-time">2天前</div>
 <div class="item-bottom"></div>
 </div></div>
+
 <div class=" MT PT ST"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067732#adchannelID=1801">明星雇用的知名造型师们</a></h2>
-<a class="image" target="_blank" href="/story/001067732#adchannelID=1801"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000062004_piclink.jpg"></figure></a><div class="item-lead">为碧昂斯单曲《Formation》MV打理造型的是玛尼•塞诺丰特，她擅长将街头装束整合出惊人效果。蕾哈娜、Lady Gaga甚至各时装大品牌也都聘请造型师。</div>
+<h2 class="item-headline"><a target="_blank" href="/story/001069429#adchannelID=1200">美国警方逮捕一名纽约爆炸案嫌疑人</a></h2>
+<a class="image" target="_blank" href="/story/001069429#adchannelID=1200"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000065190_piclink.jpg"></figure></a><div class="item-lead">28岁的艾哈迈德汗•拉哈米是阿富汗裔美国人，涉嫌参与上周末曼哈顿爆炸案以及新泽西海滨公园爆炸案。</div><div class="item-time">3天前</div>
 <div class="item-bottom"></div>
 </div></div>
+
 <div class=" MT PT"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067738#adchannelID=1801">镜面住宅成欧美时尚</a></h2>
-<a class="image" target="_blank" href="/story/001067738#adchannelID=1801"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000061997_piclink.jpg"></figure></a><div class="item-lead">镜面外观用在高楼大厦上已司空见惯，最近西方建筑师将它们用在乡野或城市住宅上，让住宅看上去像当代艺术品，并与环境交融，很受新贵们欢迎。</div>
+<h2 class="item-headline"><a target="_blank" href="/story/001069423#adchannelID=1200">俄罗斯的“远东赠地运动”</a></h2>
+<a class="image" target="_blank" href="/story/001069423#adchannelID=1200"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000065187_piclink.jpg"></figure></a><div class="item-lead">为吸引人们在人烟稀少的远东地区定居，俄罗斯政府重启了一项古老的赠地政策，然而这场土地运动的前景却并不被看好。</div><div class="item-time">3天前</div>
 <div class="item-bottom"></div>
 </div></div>
+
 <div class="XLT LT MT PT ST"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067631#adchannelID=1801">一位有“中国眼”的德国藏家</a></h2>
-<a class="image" target="_blank" href="/story/001067631#adchannelID=1801"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000061772_piclink.jpg"></figure></a><div class="item-lead">宋佩芬：弗尔睿热衷收藏中式古董家具，并擅于将中式古董家具和欧洲古董藏品混搭展出，他将柏林全德最大的电信通讯碉堡改造成私人博物馆。</div>
+<h2 class="item-headline"><a target="_blank" href="/story/001069427#adchannelID=1200">默克尔对难民政策表达悔意</a></h2>
+<a class="image" target="_blank" href="/story/001069427#adchannelID=1200"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000064946_piclink.jpg"></figure></a><div class="item-lead">基民盟在柏林地方选举中遭遇历史性挫败后，德国总理承认，如果可能的话，她希望时光倒流，以便重新制定其难民政策。</div><div class="item-time">3天前</div>
 <div class="item-bottom"></div>
 </div></div>
+
 <div class=" MT PT"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067629#adchannelID=1801">伦敦泰特新馆拥抱“全球化”</a></h2>
-<a class="image" target="_blank" href="/story/001067629#adchannelID=1801"><figure class="loading" data-url="http://i.ftimg.net/picture/5/000061765_piclink.jpg"></figure></a><div class="item-lead">张璐诗：将于6月开幕的伦敦新泰特现代美术馆，投入2亿6千万英镑扩建，新馆展品更具全球视野，但也被质疑，这会使得历史的面目模糊化。</div>
+<h2 class="item-headline"><a target="_blank" href="/story/001069420#adchannelID=1200">蒙古：负债之人难自立</a></h2>
+<a class="image" target="_blank" href="/story/001069420#adchannelID=1200"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000064712_piclink.jpg"></figure></a><div class="item-lead">大宗商品疲软对蒙古经济打击严重，蒙古外债总额已达235亿美元，其中约84亿美元为政府债务，民众也举债度日。</div><div class="item-time">3天前</div>
 <div class="item-bottom"></div>
 </div></div>
+
 <div class=" MT PT ST"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067625#adchannelID=1801">路易威登的日本情结</a></h2>
-<a class="image" target="_blank" href="/story/001067625#adchannelID=1801"><figure class="loading" data-url="http://i.ftimg.net/picture/5/000061775_piclink.jpg"></figure></a><div class="item-lead">LVMH集团2015全年收入357亿欧元，路易威登一个品牌贡献了年入的25%和总利润的50%。路易威登的“飞行、航海与前行之路”展，在巴黎、东京和美国展出。</div>
+<h2 class="item-headline"><a target="_blank" href="/story/001069417#adchannelID=1200">如何从资本家手中拯救资本主义？</a></h2>
+<a class="image" target="_blank" href="/story/001069417#adchannelID=1200"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000065181_piclink.jpg"></figure></a><div class="item-lead">斯蒂芬斯：近年来，西方民主国家纷纷出现民粹主义浪潮。其背后，隐藏着民众对全球化和大企业避税的极度不满。</div><div class="item-time">3天前</div>
 <div class="item-bottom"></div>
 </div></div>
+
 <div class="XLT LT MT PT"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067516#adchannelID=1801">收藏：古巴的国家特供雪茄</a></h2>
-<a class="image" target="_blank" href="/story/001067516#adchannelID=1801"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000061587_piclink.jpg"></figure></a><div class="item-lead">古巴雪茄发行国家特供版已有十年历史，08年也为中国定制过名为“Armonia”的雪茄，祝福北京奥运会。它们像波尔多年份酒一样有收藏价值。</div>
+<h2 class="item-headline"><a target="_blank" href="/story/001069416#adchannelID=1200">俄执政党在国家杜马选举中获得大胜</a></h2>
+<a class="image" target="_blank" href="/story/001069416#adchannelID=1200"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000065174_piclink.jpg"></figure></a><div class="item-lead">执政的统一俄罗斯党在国家杜马中拥有的席位比例将从目前的53%升至76%。但此次选举的投票率创普京掌权以来的新低。</div><div class="item-time">4天前</div>
 <div class="item-bottom"></div>
 </div></div>
+
 <div class=" MT PT ST"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067514#adchannelID=1801">美国追捧的全新时装品牌</a></h2>
-<a class="image" target="_blank" href="/story/001067514#adchannelID=1801"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000061590_piclink.jpg"></figure></a><div class="item-lead">罗塞塔•盖蒂、The Row、罗奇•瑞恩等新锐设计师创立的品牌，风格多以精致、随意搭配、耐穿为特点，虽然款式不多，却赢得美国市场的追捧。</div>
+<h2 class="item-headline"><a target="_blank" href="/story/001069414#adchannelID=1200">俄美在联合国就美误炸叙政府军展开交锋</a></h2>
+<a class="image" target="_blank" href="/story/001069414#adchannelID=1200"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000065158_piclink.jpg"></figure></a><div class="item-lead">俄驻联合国大使表示，美国选择在这个时点在叙利亚实施这一特定的空袭，意图非同一般，坦率地讲相当可疑。</div><div class="item-time">4天前</div>
 <div class="item-bottom"></div>
 </div></div>
+
 <div class=" MT PT"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067515#adchannelID=1801">西方抽象大师能征服中国吗？</a></h2>
-<a class="image" target="_blank" href="/story/001067515#adchannelID=1801"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000061583_piclink.jpg"></figure></a><div class="item-lead">曾焱：西方抽象艺术大师级艺术家肖恩·斯库利在中国频频办展，策展人菲利普·多德表示，西方抽象艺术想进入中国藏家的财富视线，还需要时间。</div>
+<h2 class="item-headline"><a target="_blank" href="/story/001069413#adchannelID=1200">印控克什米尔一军事基地遭袭</a></h2>
+<a class="image" target="_blank" href="/story/001069413#adchannelID=1200"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000065157_piclink.jpg"></figure></a><div class="item-lead">袭击导致17名印军士兵丧生。印度官员表示此事像是根据地在巴基斯坦的恐怖组织所为，巴方则否认巴应为此事负责。</div><div class="item-time">4天前</div>
 <div class="item-bottom"></div>
 </div></div>
+
 <div class="XLT LT MT PT ST"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067406#adchannelID=1801">IWC万国表：只在中国有电商</a></h2>
-<a class="image" target="_blank" href="/story/001067406#adchannelID=1801"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000061360_piclink.jpg"></figure></a><div class="item-lead">FT中文网编辑刘皓琳：IWC万国表行政总裁乔祺斯说，作为两百年来技术几乎没有改变的传统产品，定位高端的万国表必须与时俱进，尤其在中国市场。</div>
+<h2 class="item-headline"><a target="_blank" href="/story/001069411#adchannelID=1200">德国新选择党在柏林获得政治立足点</a></h2>
+<a class="image" target="_blank" href="/story/001069411#adchannelID=1200"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000065156_piclink.jpg"></figure></a><div class="item-lead">在德国地方选举中，新选择党在一向反右翼民粹主义的柏林获得了约12%的选票，这一结果将保持对默克尔的政治压力。</div><div class="item-time">4天前</div>
 <div class="item-bottom"></div>
 </div></div>
+
 <div class=" MT PT"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067414#adchannelID=1801">品牌该以什么姿势植入艺术？</a></h2>
-<a class="image" target="_blank" href="/story/001067414#adchannelID=1801"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000061356_piclink.jpg"></figure></a><div class="item-lead">宝马集团15年起设立“宝马艺术之旅”，赞助香港巴塞尔艺术展新艺术家，宝马的角度是“旅程”。大卫杜夫、瑞银、古驰、路易威登赞助艺术也各有创意。</div>
+<h2 class="item-headline"><a target="_blank" href="/story/001069407#adchannelID=1200">纽约在爆炸后高度警戒</a></h2>
+<a class="image" target="_blank" href="/story/001069407#adchannelID=1200"><figure class="loading" data-url="http://i.ftimg.net/picture/5/000065155_piclink.jpg"></figure></a><div class="item-lead">在上周六晚爆炸中受伤的29人均已出院，但由于奥巴马和世界领导人将汇聚纽约出席联合国大会，当局高度紧张。</div><div class="item-time">4天前</div>
 <div class="item-bottom"></div>
 </div></div>
+
 <div class=" MT PT ST"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067409#adchannelID=1801">时装秀到底在兜售什么？</a></h2>
-<a class="image" target="_blank" href="/story/001067409#adchannelID=1801"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000061363_piclink.jpg"></figure></a><div class="item-lead">品牌时装门店里热卖的爆款，绝大多数并没有在T台上展示过，但消费者却是通过T台时装秀的表演而接受并认可品牌的定位与内涵的。</div>
+<h2 class="item-headline"><a target="_blank" href="/story/001069409#adchannelID=1200">国际清算银行：市场过于依赖央行</a></h2>
+<a class="image" target="_blank" href="/story/001069409#adchannelID=1200"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000064763_piclink.jpg"></figure></a><div class="item-lead">该行首席经济学家博里奥称，要让全球经济实现更为强劲、平衡和可持续的扩张，更为均衡的政策组合至关重要。</div><div class="item-time">4天前</div>
 <div class="item-bottom"></div>
 </div></div>
+
 <div class="XLT LT MT PT"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067317#adchannelID=1801">国王的早餐</a></h2>
-<a class="image" target="_blank" href="/story/001067317#adchannelID=1801"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000061198_piclink.jpg"></figure></a><div class="item-lead">FT中文网专栏作家陈楠：在巴塞罗那大市场小吃摊，我们的早餐包括香草烩鹰嘴豆、小扁豆烩墨鱼、沙丁鱼、炖小牛脸和牛蹄、龙虾及生蚝。</div>
+<h2 class="item-headline"><a target="_blank" href="/story/001069405#adchannelID=1200">美国企业海外资金回流并非易事</a></h2>
+<a class="image" target="_blank" href="/story/001069405#adchannelID=1200"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000063497_piclink.jpg"></figure></a><div class="item-lead">邰蒂：为反击欧盟的税收处罚，苹果CEO库克暗示明年将把资金汇回美国，这一承诺或将有助于界定下任总统的政策纲领。</div><div class="item-time">4天前</div>
 <div class="item-bottom"></div>
 </div></div>
+
 <div class=" MT PT ST"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067322#adchannelID=1801">老爷车维修成了赚钱生意</a></h2>
-<a class="image" target="_blank" href="/story/001067322#adchannelID=1801"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000061191_piclink.jpg"></figure></a><div class="item-lead">阿斯顿马丁公司几十年前就建立了闻名遐迩的老爷车“维修处理中心”，如今捷豹、保时捷、法拉利纷纷跟进。老爷车不断升值，维修认证服务也成赚钱生意。</div>
+<h2 class="item-headline"><a target="_blank" href="/story/001069398#adchannelID=1200">民粹主义者错怪全球化？</a></h2>
+<a class="image" target="_blank" href="/story/001069398#adchannelID=1200"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000064252_piclink.jpg"></figure></a><div class="item-lead">FT社评：一家智库认为，全球化对富国中产阶层收入冲击不如预想的严重，不平等在很大程度上是国内政策的结果。</div><div class="item-time">4天前</div>
 <div class="item-bottom"></div>
 </div></div>
+
 <div class=" MT PT"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067320#adchannelID=1801">衬衣成了女人的华丽时装</a></h2>
-<a class="image" target="_blank" href="/story/001067320#adchannelID=1801"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000061201_piclink.jpg"></figure></a><div class="item-lead">这一季的女式衬衣已被提升到全新高度：有晚装款，宽松露肩款，系丝带的雕花图案款，成为高调华丽的服装款式，而且不分季节、不分场合，完全百搭。</div>
+<h2 class="item-headline"><a target="_blank" href="/story/001069396#adchannelID=1200">曼哈顿爆炸造成29人受伤</a></h2>
+<a class="image" target="_blank" href="/story/001069396#adchannelID=1200"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000065144_piclink.jpg"></figure></a><div class="item-lead">新泽西州也发生一起爆炸。警方表示目前并无证据显示两起爆炸之间有关联，也无证据表明爆炸与恐怖主义有关。</div><div class="item-time">5天前</div>
 <div class="item-bottom"></div>
 </div></div>
+
 <div class="XLT LT MT PT ST"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067213#adchannelID=1801">专访Graff珠宝主席Graff先生</a></h2>
-<a class="image" target="_blank" href="/story/001067213#adchannelID=1801"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000061002_piclink.jpg"></figure></a><div class="item-lead">他创立了“从矿区到市场”的模式，让矿主、切割师、交易商、工艺师和银行集中起来，砍掉了中间商。黄钻，是Graff品牌的主打之一。</div>
+<h2 class="item-headline"><a target="_blank" href="/story/001069383#adchannelID=1200">美国投资移民项目的是非之争</a></h2>
+<a class="image" target="_blank" href="/story/001069383#adchannelID=1200"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000065137_piclink.jpg"></figure></a><div class="item-lead">美国国会正在重估“现金换绿卡”的EB-5项目。支持者称，该项目让大笔投资流入美国；但批评者表示，这个项目充斥着欺诈行为。</div><div class="item-time">5天前</div>
 <div class="item-bottom"></div>
 </div></div>
+
 <div class=" MT PT"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067214#adchannelID=1801">你知道怎么穿袜子吗？</a></h2>
-<a class="image" target="_blank" href="/story/001067214#adchannelID=1801"><figure class="loading" data-url="http://i.ftimg.net/picture/5/000061015_piclink.jpg"></figure></a><div class="item-lead">过去两年，时尚人士都不穿袜子。但对商务人士来说，把袜子穿出时尚是门学问。尤其是商务男士，不戴领带时，裤角下面露出的那截袜子，尤显品味。</div>
+<h2 class="item-headline"><a target="_blank" href="/story/001069390#adchannelID=1200">欧盟官员：英国最迟将于明年初开启退欧谈判</a></h2>
+<a class="image" target="_blank" href="/story/001069390#adchannelID=1200"><figure class="loading" data-url="http://i.ftimg.net/picture/5/000065135_piclink.jpg"></figure></a><div class="item-lead">欧洲理事会主席图斯克称，英国首相梅本周告诉他，很可能在未来5个月内作出触发里斯本条约第50条的决定。</div><div class="item-time">5天前</div>
 <div class="item-bottom"></div>
 </div></div>
+
 <div class=" MT PT ST"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067209#adchannelID=1801">王亚彬为英国芭蕾编舞</a></h2>
-<a class="image" target="_blank" href="/story/001067209#adchannelID=1801"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000061013_piclink.jpg"></figure></a><div class="item-lead">宋佩芬：这是中国舞者第一次为英国国家芭蕾舞团编舞。英方制作人计划邀请更多中国编舞家及舞者前来演出。和中国相比，西方舞者更强调个性。</div>
+<div class="item-container XL4 XL-half L4 L-half M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001069384#adchannelID=1200">西方为什么修建隔离墙？</a></h2>
+<a class="image" target="_blank" href="/story/001069384#adchannelID=1200"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000064832_piclink.jpg"></figure></a><div class="item-lead">贝蒂：特朗普提议修建隔离墙，特里萨•梅提出修建加莱长城，内塔尼亚胡拟延长以色列与约旦河西岸的隔离墙。</div><div class="item-time">5天前</div>
 <div class="item-bottom"></div>
 </div></div>
-<div class="XLT LT MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067108#adchannelID=1801">今年的腕表：好货不贵</a></h2>
-<a class="image" target="_blank" href="/story/001067108#adchannelID=1801"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000060679_piclink.jpg"></figure></a><div class="item-lead">丁之方：面对着不足20%的手腕戴表率，今年的中高端新品手表功能外型俱佳而价格不贵，与电子智能表一起争夺消费者宝贵的“手腕”资源。</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class=" MT PT ST"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067106#adchannelID=1801">卡地亚助力中国博物馆热潮</a></h2>
-<a class="image" target="_blank" href="/story/001067106#adchannelID=1801"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000060676_piclink.jpg"></figure></a><div class="item-lead">卡地亚与中国政府签署框架协议，就艺术与文化交流项目展开合作。此举将助力中国博物馆建设热潮。卡地亚旗下的当代艺术基金会有丰富的艺术经营经验。</div>
-<div class="item-bottom"></div>
-</div></div>
+
 <div class=" MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001067105#adchannelID=1801">国际艺术界的“韩国风”</a></h2>
-<a class="image" target="_blank" href="/story/001067105#adchannelID=1801"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000060672_piclink.jpg"></figure></a><div class="item-lead">韩国艺术近年屡获国际认可。韩国单色画在拍卖中屡创佳绩，艺术家摘得威尼斯双年展大奖。90年代韩国艺术家更是赢得了西方主流社会认可，并成时尚。</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class="XLT LT MT PT ST"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001066998#adchannelID=1801">中国白酒挺进西方市场</a></h2>
-<a class="image" target="_blank" href="/story/001066998#adchannelID=1801"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000060478_piclink.jpg"></figure></a><div class="item-lead">中国白酒开始走向国际市场。五粮液赞助了伦敦交响乐团，为观众提供免费品尝的白酒。但白酒的气味，过高的酒精量和豪饮文化，是海外推广的障碍。</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class=" MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001066999#adchannelID=1801">圣罗兰任命新任创意总监</a></h2>
-<a class="image" target="_blank" href="/story/001066999#adchannelID=1801"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000060474_piclink.jpg"></figure></a><div class="item-lead">前任创意总监斯理曼离职4天后，圣罗兰宣布比利时设计师安东尼•瓦卡莱洛继任，他以极简主义和当代性感的平衡著称。他的首场圣罗兰秀将于10月举行。</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class=" MT PT ST"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001066997#adchannelID=1801">腕表“好货”的标准正在变化</a></h2>
-<a class="image" target="_blank" href="/story/001066997#adchannelID=1801"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000060481_piclink.jpg"></figure></a><div class="item-lead">丁之方：今年的巴塞尔钟表展，复刻版之多，产品之精美，价格之实惠都远在往年之上。复古与经典成卖点，让人眼前一亮的新技术乏善可陈。 </div>
-<div class="item-bottom"></div>
-</div></div>
-<div class="XLT LT MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001066904#adchannelID=1801">中国艺术家在多哈说艺术</a></h2>
-<a class="image" target="_blank" href="/story/001066904#adchannelID=1801"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000060281_piclink.jpg"></figure></a><div class="item-lead">宋佩芬：卡塔尔与中国共同举办文化年，艺术家蔡国强策展了“说说艺术怎么样”，挑选15+1位中国艺术家去多哈对谈艺术。</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class=" MT PT ST"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001066905#adchannelID=1801">品尝上海福和慧素食餐厅</a></h2>
-<a class="image" target="_blank" href="/story/001066905#adchannelID=1801"><figure class="loading" data-url="http://i.ftimg.net/picture/5/000060285_piclink.jpg"></figure></a><div class="item-lead">福和慧素食餐厅和姐妹餐厅福1015同时入选圣培露评选的“亚洲50家最佳餐厅”名录，位列第19位。餐厅包间为日式极简风格，主厨为上海大厨卢怿明。</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class=" MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001066906#adchannelID=1801">西方设计师家居中国遇冷</a></h2>
-<a class="image" target="_blank" href="/story/001066906#adchannelID=1801"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000060288_piclink.jpg"></figure></a><div class="item-lead">郑静：曾经轰动一时的“设计上海”展吸引了不少西方设计大师来中国淘金，但今年第三届“设计上海”展上，西方设计师家居品牌越来越少。</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class="XLT LT MT PT ST"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001066800#adchannelID=1801">当欧莱雅遇到中国90后</a></h2>
-<a class="image" target="_blank" href="/story/001066800#adchannelID=1801"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000059994_piclink.jpg"></figure></a><div class="item-lead">FT中文网生活时尚版主编薛莉：欧莱雅集团2015年在中国的发展增速已相对放缓，通过在线销售向三四五线城市渗透，成为他们的新增长机遇。</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class=" MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001066801#adchannelID=1801">瑞士独立制表人寻找金主</a></h2>
-<a class="image" target="_blank" href="/story/001066801#adchannelID=1801"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000059997_piclink.jpg"></figure></a><div class="item-lead">丁之方：钟表业大公司的扩张步伐明显变缓，为它们服务的小企业利润不足，步履维艰。不少瑞士独立钟表企业有意出让一些股权寻找金主。</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class=" MT PT ST"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001066799#adchannelID=1801">香港艺术周，怎么逛？</a></h2>
-<a class="image" target="_blank" href="/story/001066799#adchannelID=1801"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000059990_piclink.jpg"></figure></a><div class="item-lead">宋佩芬：3月21-27是香港疯狂艺术周，会展中心的巴塞尔艺术展有两百家画廊、近250亿港币的艺术品，商场内、街道边也成了免费艺术秀场。</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class="XLT LT MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001066687#adchannelID=1801">Lanvin换帅</a></h2>
-<a class="image" target="_blank" href="/story/001066687#adchannelID=1801"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000059704_piclink.jpg"></figure></a><div class="item-lead">Lanvin任命布什哈•加拉尔为新设计总监。2015年Lanvin利润下滑250万欧元，前任设计总监Alber Elbaz被台湾女商人王效兰解约。加拉尔设计以简约闻名。</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class=" MT PT ST"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001066682#adchannelID=1801">巴黎时装周五大潮流</a></h2>
-<a class="image" target="_blank" href="/story/001066682#adchannelID=1801"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000059209_piclink.jpg"></figure></a><div class="item-lead">在刚结束的巴黎时装周上，FT时装编辑总结出2016年秋冬时装的五大潮流，从蓬蓬夹克到金属风衣，结合各品牌最新发布的时装，与读者分享。</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class=" MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001066686#adchannelID=1801">英国流行喝中国白茶</a></h2>
-<a class="image" target="_blank" href="/story/001066686#adchannelID=1801"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000059708_piclink.jpg"></figure></a><div class="item-lead">张璐诗：中国白茶“白毫银针”和“白牡丹”成为伦敦优雅下午茶室里备受青睐的茶种。摄政街上的茶餐馆和咖啡室里，这两款白茶是菜单中最昂贵的茶品。</div>
+<div class="item-container XL4 XL-half XL-lower L4 L-half L-lower M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/story/001069389#adchannelID=1200">特朗普敦促希拉里的保镖“不要佩枪”</a></h2>
+<a class="image" target="_blank" href="/story/001069389#adchannelID=1200"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000065134_piclink.jpg"></figure></a><div class="item-lead">特朗普希望以此抨击希拉里对武器管理的政治立场。然而言论一出，再次招来舆论的指责和争议。</div><div class="item-time">5天前</div>
 <div class="item-bottom"></div>
 </div></div>
 <div class="clearfloat"></div>
 </div>
-</div></div><div class="clearfloat block-bottom"></div>
+</div></div>
+<div class="clearfloat block-bottom"></div>
 </div></div>
 <div class="side-container"><div class="side-inner">
 <div class="mpu-container first-child">
-<script type="text/javascript">document.write (writeAd('mpu'));</script>
+<script type="text/javascript">document.write (writeAd('tagmpu'));</script>
 </div>
 <div class="mps">
-<h2 class="list-title"><a href="/channel/weekly.html">十大热门文章</a></h2>
+<h2 class="list-title"><a href="/channel/weekly.html">热门文章</a></h2>
 <ul class="top10">
 
-<li class="mp1"><span>1. </span><a target="_blank" href="/story/001068463?dailypop">南中国海问题与中国的外交困局</a></li>
-<li class="mp2"><span>2. </span><a target="_blank" href="/story/001068430?dailypop">中国需要与时俱进的主权观</a></li>
-<li class="mp3"><span>3. </span><a target="_blank" href="/story/001068438?dailypop">家族企业传承：富不过三代？</a></li>
-<li class="mp4"><span>4. </span><a target="_blank" href="/story/001068457?dailypop">英国退欧公投：全球瞩目的民主实验</a></li>
-<li class="mp5"><span>5. </span><a target="_blank" href="/story/001068453?dailypop">奥巴马升级美中贸易战</a></li>
-<li class="mp6"><span>6. </span><a target="_blank" href="/story/001068459?dailypop">分析：周五GDP数据的五大看点</a></li>
-<li class="mp7"><span>7. </span><a target="_blank" href="/story/001068442?dailypop">对南海仲裁裁决效力问题的再回应</a></li>
-<li class="mp8"><span>8. </span><a target="_blank" href="/story/001068444?dailypop">中国在南中国海仲裁后警告邻国</a></li>
-<li class="mp9"><span>9. </span><a target="_blank" href="/story/001068478?dailypop">有争议的仲裁是推动南海争端和平解决的新契机</a></li>
-<li class="mp10"><span>10. </span><a target="_blank" href="/story/001068476?dailypop">法国尼斯发生货车撞入人群事件</a></li>
+<li class="mp1"><span>1. </span><a target="_blank" href="/story/001069364?dailypop">在柬埔寨“呼风唤雨”的中国商人</a></li>
+<li class="mp2"><span>2. </span><a target="_blank" href="/story/001069363?dailypop">面对朝鲜，中美韩勿陷入战略性对抗泥潭</a></li>
+<li class="mp3"><span>3. </span><a target="_blank" href="/story/001069372?dailypop">胚胎研究为两名男性繁育后代开启大门</a></li>
+<li class="mp4"><span>4. </span><a target="_blank" href="/story/001069341?dailypop">掌控朝鲜：中国必须在东北亚争取主动</a></li>
+<li class="mp5"><span>5. </span><a target="_blank" href="/story/001069353?dailypop">阻止母亲杀子，不是钱那么简单</a></li>
+<li class="mp6"><span>6. </span><a target="_blank" href="/story/001069358?dailypop">毛泽东逝世40周年纪念日在沉默中度过</a></li>
+<li class="mp7"><span>7. </span><a target="_blank" href="/story/001069373?dailypop">中国警方拘留乌坎十几名村民</a></li>
+<li class="mp8"><span>8. </span><a target="_blank" href="/story/001069355?dailypop">让股市成为扶贫场是个悲哀</a></li>
+<li class="mp9"><span>9. </span><a target="_blank" href="/story/001069375?dailypop">FT社评：美国应警惕中俄结盟的可能性</a></li>
+<li class="mp10"><span>10. </span><a target="_blank" href="/story/001069316?dailypop">文革：世界文明史独特的政治现象</a></li>
 </ul>
 </div>
 <div class="mpu-container last-child">
-<script type="text/javascript">document.write (writeAd('mpu'));</script>
+<script type="text/javascript">document.write (writeAd('tagmpu'));</script>
 </div>
 </div></div><div class="clearfloat"></div>
-</div></div><div class="footer-container"><div class="footer-inner">
+</div></div><div class="pagination-container"><div class="pagination-inner">
+<span class="current">1</span><a href="world.html?page=2">2</a><a href="world.html?page=3">3</a><a href="world.html?page=4">4</a><a href="world.html?page=5">5</a><a href="world.html?page=6">6</a><a href="world.html?page=7">7</a><a href="world.html?page=8">8</a><a href="world.html?page=9">9</a><a href="world.html?page=10">10</a><a href="world.html?page=2">&rsaquo;&rsaquo;</a><a href="world.html?page=2">下一页</a><a  href="world.html?page=417">&rsaquo;|</a><a style="padding: 0px"><input class="p_input" type="text" name="custompage" onKeyDown="if(event.keyCode==13) {window.location='world.html?page='+this.value; return false;}"></a>
+</div></div>
+<div class="footer-container"><div class="footer-inner">
 <div>
 <a href="/m/corp/aboutus.html">关于我们</a>
 <a href="/jobs/?from=ft">加入我们</a>
@@ -709,7 +632,6 @@ data-section="english">
 <span><acronym title="Financial Times">FT</acronym> and 'Financial Times' are trademarks of The Financial Times Ltd.</span>
 </p>
 </div></div>
-<div style="text-align: center; background-color: #FFFFFF; font-size: 38px; margin: 20px;font-weight:bold;"><a title="刷新本页CDN与服务器缓存" href="/index.php/marketing/flushcache?url=http://www7.ftchinese.com%2Fchannel%2Fpursuit.html">刷新本页缓存</a></div>
 <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-KP4V3G"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -724,7 +646,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 </a>
 </div>
 <div class="app-download-container wechat">
-<a href="#" target="_blank">
+<a href="/m/corp/follow.html" target="_blank">
 <div>FT中文网微信</div>
 <figure class="loading" data-url="http://i.ftimg.net/picture/6/000060716_piclink.jpg"></figure>
 <div>扫描关注</div>

@@ -51,8 +51,8 @@ img {
 var k=window.location.href;
 var c = k.replace(/^.*adid=([0-9A-Za-z\-]+).*$/,"$1");
 var d;
-if (/^[0-9]{4}0001$/.test(c)) {
-    d = c.replace(/([0-9]{4})0001/g,'$10002');
+if (/^[0-9]{4}00(01|10)$/.test(c)) {
+    d = c.replace(/([0-9]{4})00(01|10)/g,'$10002');
 } else {
     d='';
 }
