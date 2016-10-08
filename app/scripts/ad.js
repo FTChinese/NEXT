@@ -269,6 +269,20 @@ function initAds() {
     }
   }
 }
+
+function sendEvent(ec, ea, el, ei) {
+  if (window.gaLoaded === undefined || window.gaLoaded === true) {
+    ga('send','event',ec, ea, el, ei);
+  } else {
+    //console.log ('not loaded');
+    // Probably want to cap the total number of times you call this.
+    setTimeout(function() {
+        sendEvent(ec, ea, el, ei);
+        //console.log ('resend to ec: ' + ec + ea + el);
+    }, 1000);
+  }
+}
+
 function writeAd(adType, returnSrc) {
   var adFileName;
   var currentAdCount;
@@ -280,7 +294,6 @@ function writeAd(adType, returnSrc) {
   var adch = adchID;
   var bannerBG = '';
   var wechatAdHTML = '';
-
 
   //alert (adType);
 
@@ -346,7 +359,7 @@ function writeAd(adType, returnSrc) {
 
   if (currentAdCount < adMax[adType]) {
     adPosition = adPositions[adType][currentAdCount];
-    iframeSrc = '/m/marketing/'+adFileName+'.html?v=12' + bannerBG + '#adid='+ adch + adPosition + '&pid='+adType+adCount[adType];
+    iframeSrc = '/m/marketing/'+adFileName+'.html?v=14' + bannerBG + '#adid='+ adch + adPosition + '&pid='+adType+adCount[adType];
     if (/mpu/.test(adType)) {
       adWidth = '300';
       adHeight = '250';
@@ -388,13 +401,21 @@ function writeAd(adType, returnSrc) {
   if (returnSrc === true) {
     return iframeSrc;
   } else if (isWeChat === true) {
+
+    // record the ad impression
+    try {
+      sendEvent('Ad Request', adch, adPosition, {'nonInteraction':1});
+      sendEvent('Ad Impression', adch, adPosition, {'nonInteraction':1});
+    } catch (ignore) {
+
+    }
+
     //deal with WeChat Sharing Bug
     // where WeChat grabs iframe src instead of the real url for sharing
     return wechatAdHTML;
   } else {
     return iframeHTML;
   }
-
 }
 
 var bannerIframeContainers = [];

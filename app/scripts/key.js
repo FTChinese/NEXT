@@ -1,7 +1,6 @@
 /* exported DeleteCookie,username,userId,ccodeCookie,addstoryfav, showOverlay, closeOverlay, w, isTouchDevice, trackerNew, paravalue, trackAdClick*/
 
 
-
 function GetCookie(name){
     var start = document.cookie.indexOf(name+'='),
         len = start+name.length+1,
