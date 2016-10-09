@@ -404,7 +404,6 @@ function writeAd(adType, returnSrc) {
 
     // record the ad impression
     try {
-      sendEvent('Ad Request', adch, adPosition, {'nonInteraction':1});
       sendEvent('Ad Impression', adch, adPosition, {'nonInteraction':1});
     } catch (ignore) {
 
