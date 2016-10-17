@@ -81,6 +81,8 @@ if (1>1 && /^20550004$/.test(c)) {
       minimum: 0.6,
       time: 1000
     };
+} else if (1>1 && /^20220101$/.test(c)) {
+
 } else {
 document.write ('<scr'+'ipt src="http://dolphin.ftimg.net/s?z=ft&c=' + c + slotStr + adP + '&_fallback=0" charset="gbk" onerror="removeAd()" onload="loaded()"></scr'+'ipt>');
 }
@@ -110,12 +112,12 @@ if (obj.offsetParent) {
 }
 }
 
-
 var adContainerHeight;
 var parentIframe;
 var adBottom = document.getElementById('ad-bottom');
 var adHeight = findTop(adBottom);
 var adResized = false;
+var adFullWidth = false;
 
 
 var w=0;
@@ -123,7 +125,13 @@ var w=0;
 if ( window.parent.document.getElementById(parentId)) {
     parentIframe = window.parent.document.getElementById(parentId)
     adContainerHeight = parentIframe.offsetHeight || 0;
-    if (adHeight === 120 && adHeight - adContainerHeight > 20) {
+    if (window.forceLink && window.forceHeight) {
+        adFullWidth = true;
+        parentIframe.style.margin = 0;
+        parentIframe.style.height = forceHeight + 'px';
+        parentIframe.parentNode.style.height = forceHeight + 'px';
+        parentIframe.parentNode.parentNode.parentNode.parentNode.className += ' full-width';
+    } else if (adHeight === 120 && adHeight - adContainerHeight > 20) {
         adResized = true;
         try {
             w = window.parent.innerWidth || window.parent.document.documentElement.clientWidth || window.parent.document.body.clientWidth;
@@ -158,6 +166,14 @@ if ( window.parent.document.getElementById(parentId)) {
             }
             window.parent.stickyBottomPrepare();            
         } catch (err) {
+            setTimeout (function(){
+                window.parent.stickyBottomPrepare(); 
+            }, 3000);
+        }
+    } else if (adFullWidth === true) {
+        try {
+            window.parent.stickyBottomPrepare();
+        } catch (ignore) {
             setTimeout (function(){
                 window.parent.stickyBottomPrepare(); 
             }, 3000);

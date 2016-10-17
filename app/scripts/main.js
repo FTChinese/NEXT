@@ -227,6 +227,11 @@ function loadImages() {
       fitType = 'contain';
     }
     imageUrl = encodeURIComponent(imageUrl);
+
+
+    //v2/images/raw/https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Ff%2Ffd%2FGhostscript_Tiger.svg?source=test&format=png
+
+
     if (/sponsor/.test(figureClass)) {
       imageUrl = '//image.webservices.ft.com/v1/images/raw/' + imageUrl + '?source=ftchinese&height=' + imageHeight + '&fit=' + fitType;
       shouldLoadImage = true;

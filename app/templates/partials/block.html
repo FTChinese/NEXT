@@ -1155,7 +1155,8 @@
 					<%else%>
 						<%assign var="defaultTitle" value="热门文章"%>
 						<%assign var="feedType" value="story"%>
-						<%easyapi command="60006"%>
+						<%*easyapi command="60006"*%>
+						<%assign var="mp" value=$storymodel->get_hot_story(1,10) %>
 						<%assign var="mp" value=$data.odatalist%>
 					<%/if%>
 					<%if $list.feedItems == 0%>

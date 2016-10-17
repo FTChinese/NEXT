@@ -18,6 +18,9 @@
 }
 .banner-iframe {
 	margin: $defaultPadding/2 auto 0 auto;
+	>div {
+		margin:0 auto !important;
+	}
 }
 .banner-content {
 	margin: 0 $defaultPadding;
@@ -95,7 +98,7 @@
 		height: 2*($defaultPadding+$bannerHeight);
 	}
 }
-.standard, .highimpact {
+.standard, .highimpact, .full-width {
 	&.bn-ph {
 		height: auto;
 		margin-bottom: $defaultPadding;
@@ -116,6 +119,17 @@
 .highimpact, .P-only {
 	figure {
 		padding-bottom: 20%;
+	}
+}
+.full-width {
+	.banner-content {
+		margin:0;
+		>div {
+			padding-top:0;
+		}
+	}
+	&.bn-ph {
+		margin-bottom: 15px;
 	}
 }
 

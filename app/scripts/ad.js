@@ -1,4 +1,4 @@
-/* exported writeAd, slotStr, reloadBanners, checkB*/
+/* exported writeAd, slotStr, reloadBanners, checkB, clearEvents*/
 /* jshint ignore:start */
 
 function adReachability() {
@@ -269,18 +269,29 @@ function initAds() {
     }
   }
 }
-
+var gaLoaded = false;
+var eventsToSend = [];
 function sendEvent(ec, ea, el, ei) {
-  if (window.gaLoaded === undefined || window.gaLoaded === true) {
+  if (gaLoaded === true) {
     ga('send','event',ec, ea, el, ei);
   } else {
-    //console.log ('not loaded');
-    // Probably want to cap the total number of times you call this.
-    setTimeout(function() {
-        sendEvent(ec, ea, el, ei);
-        //console.log ('resend to ec: ' + ec + ea + el);
-    }, 1000);
+    // push this to an array for GA to send after loading JS
+    eventsToSend.push({
+      'ec': ec,
+      'ea': ea,
+      'el': el,
+      'ei': ei
+    });
   }
+}
+
+function clearEvents() {
+  var l = eventsToSend.length;
+  for (var i=0; i<l; i++) {
+    ga('send', 'event', eventsToSend[i].ec, eventsToSend[i].ea, eventsToSend[i].el, eventsToSend[i].ei);
+  }
+  eventsToSend = [];
+  gaLoaded = true;
 }
 
 function writeAd(adType, returnSrc) {
@@ -294,8 +305,6 @@ function writeAd(adType, returnSrc) {
   var adch = adchID;
   var bannerBG = '';
   var wechatAdHTML = '';
-
-  //alert (adType);
 
   // use UserAgent to determine iOS and Android devices
   var TouchDevice = false;
@@ -354,12 +363,12 @@ function writeAd(adType, returnSrc) {
     bannerBG = '&bg=777777';
   }
 
-  adFileName = (/banner/i.test(adType) &&  adCount[adType] === 0) ? 'topbanner' : 'a';
+  adFileName = (/banner/i.test(adType) && adCount[adType] === 0 && /^(1200|1300|1500)$/i.test(adch)) ? 't' : 'a';
   currentAdCount = adCount[adType];
 
   if (currentAdCount < adMax[adType]) {
     adPosition = adPositions[adType][currentAdCount];
-    iframeSrc = '/m/marketing/'+adFileName+'.html?v=14' + bannerBG + '#adid='+ adch + adPosition + '&pid='+adType+adCount[adType];
+    iframeSrc = '/m/marketing/'+adFileName+'.html?v=20161009143608' + bannerBG + '#adid='+ adch + adPosition + '&pid='+adType+adCount[adType];
     if (/mpu/.test(adType)) {
       adWidth = '300';
       adHeight = '250';
@@ -374,10 +383,13 @@ function writeAd(adType, returnSrc) {
       slotStr = '';
       var c = adch + adPosition;
       var adP = '';
-      wechatAdHTML = '<div class="banner-iframe" style="width: 300px; " ><scr';
-      wechatAdHTML += 'ipt src="http://dolphin.ftimg.net/s?z=ft&c=' + c + slotStr + adP + '&_fallback=0" charset="gbk">';
-      wechatAdHTML += '</scr';
-      wechatAdHTML += 'ipt></div>';
+      if (1<0 && c==='20220101') {
+      } else {
+        wechatAdHTML = '<div class="banner-iframe" style="width: 100%; " ><scr';
+        wechatAdHTML += 'ipt src="http://dolphin.ftimg.net/s?z=ft&c=' + c + slotStr + adP + '&_fallback=0" charset="gbk">';
+        wechatAdHTML += '</scr';
+        wechatAdHTML += 'ipt></div>';
+      }
     } else {
       iframeHTML = '<iframe class="banner-iframe" id="' + adType + adCount[adType] + '" width="'+ adWidth +'" height="'+ adHeight + '" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="'+ iframeSrc +'" data-src="'+ iframeSrc +'" data-ad-type="'+ adType +'" data-ad-count=' + adCount[adType] + '></iframe>';
     }

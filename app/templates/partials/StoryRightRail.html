@@ -42,12 +42,21 @@
 		<div class="story-box">
 			<h2 class="box-title"><a href="/channel/weekly.html">热门文章</a></h2>
 			<ul class="top10">
-				<%assign var="i" value=0%>
-				<%easyapi command="60006"%>
-				<%foreach from=$data.odatalist item=sc name=foo%>
-					<%assign var="i" value=$i+1%>
-					<li class="mp<%$i%>"><span><%$i%>. </span><a target="_blank" href="/story/<%$sc.storyid%>?dailypop"><%$sc.title%></a></li>
-				<%/foreach%>
+
+			<%assign var="i" value=0%>
+			<%*<!-- easy api is broken, switch to old model
+			<%easyapi command="60006"%>
+			<%foreach from=$data.odatalist item=sc name=foo%>
+				<%assign var="i" value=$i+1%>
+				<li class="mp<%$i%>"><span><%$i%>. </span><a target="_blank" href="/story/<%$sc.storyid%>?dailypop"><%$sc.title%></a></li>
+			<%/foreach%>
+			-->*%>
+
+			<%assign var="mp" value=$storymodel->get_hot_story(1,10) %>
+			<%foreach from=$mp item=sc%>
+				<%assign var="i" value=$i+1%>
+				<li class="mp<%$i%>"><span><%$i%>. </span><a target="_blank" href="/story/<%$sc.storyid%>?dailypop"><%$sc.cheadline%></a></li>
+			<%/foreach%>
 			</ul>
 		</div>
 	<%/if%>
