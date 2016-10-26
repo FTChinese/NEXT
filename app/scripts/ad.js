@@ -217,7 +217,7 @@ function setDolphinSlot(key){
 }
 /* jshint ignore:end */
 
-window.dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现联动互斥功能 
+window.dolRand = Math.round(Math.random()*1000000);//定义slot随机数实现联动互斥功能 
 var slotStr=setDolphinSlot('USER_KV');
 
 // try {
