@@ -18,6 +18,8 @@
 	<%/if%>
 	<%assign var="l" value=0%>
 	<%assign var="listLength" value=$section.lists|@count%>
+
+
 	<%foreach from=$section.lists item=list%>
 		<%assign var="listType" value=""%>
 		<%assign var="listClass" value=""%>
@@ -985,13 +987,14 @@
 						<%/if%>
 
 
-						<%if preg_match("/特别企划|企业公告/is",$itemTag)%>
+						<%if (preg_match("/特别企划|企业公告/is",$itemTagsString) || ($item.customLink != "" && preg_match("/^http/is",$item.customLink) && !preg_match("/ftchinese.com|ft.com|ftacademy/is",$item.customLink)))  && !preg_match("/event.html|marketing/is",$smarty.server.REQUEST_URI)%>
 							<%assign var=itemClass value="`$itemClass` paid-post"%>
 							<%if $paidPostStyleLoaded == ""%>
 								<style><%include file="next/styles/main-paid-post.css"%></style>
-								<%assign var=$paidPostStyleLoaded value="yes"%>
+								<%assign var=paidPostStyleLoaded value="yes"%>
 							<%/if%>
 						<%/if%>
+
 
 						<%if $listType == "videos" && $i>5%>
 							<%*<!--Only display first 6 in video package-->*%>
@@ -1039,6 +1042,11 @@
 							<div class="item-container <%$itemClass%> has-image ebook"><div class="item-inner">
 								<a class="image portrait-img" target="_blank"<%$itemLink%>><figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure></a>
 								<div class="item-bottom"></div>
+							</div></div>
+							<%assign var="i" value=$i+1%>
+						<%elseif $itemType === "widget"%>
+							<div class="item-container <%$itemClass%> no-image"><div class="item-inner">
+								<%include file="widgets/`$itemHeadline`"%>
 							</div></div>
 							<%assign var="i" value=$i+1%>
 						<%else%>
@@ -1278,7 +1286,9 @@
 								<%assign var="itemLink" value=" href=\"`$itemLink`\""%>
 							<%/if%>
 							<div class="item-container <%$itemClass%> <%$hasImage%>"><div class="item-inner">
-								<%if $list.sideOption != "leadOnly"%>
+								<%if $itemType === "widget"%>
+									<%include file="widgets/`$itemHeadline`"%>
+								<%elseif $list.sideOption != "leadOnly"%>
 									<%if $itemImage != "" && $hasImage === "has-image"%><a class="image" target="_blank"<%$itemLink%>><figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure></a><%/if%>
 									<%if $itemHeadline != ""%>
 										<h2 class="item-headline"><%$itemTag%><a target="_blank"<%$itemLink%>><%$itemHeadline%></a></h2>

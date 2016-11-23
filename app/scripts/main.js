@@ -188,6 +188,8 @@ function loadImages() {
   figuresLoadStatus = 0;
 
   try {
+    // this is ironically the only sure way to write this logic
+    // ([1,3,12].indexOf(w) > -1) only works for IE 9 and above
     if (w === 360 || w === 375 || w === 320 || w === 414 || w === 768 || w === 1024 || w>1220) {
       isFrenquentDevice = true;
     }
@@ -206,6 +208,12 @@ function loadImages() {
     var figureParentClass = thisFigure.parentNode.className || '';
     var shouldLoadImage = false;
     var loadedClass = '';
+    var imageServiceHost = '//image.webservices.ft.com/v1/images/raw/';
+
+    if (location.href.indexOf('127.0.0.1') >= 0) {
+      imageServiceHost = '//www.ft.com/origami/service/image/v2/images/raw/';
+    }
+
     if (isRetinaDevice === true) {
       imageWidth = imageWidth * 2;
       imageHeight = imageHeight * 2;
@@ -233,10 +241,10 @@ function loadImages() {
 
 
     if (/sponsor/.test(figureClass)) {
-      imageUrl = '//image.webservices.ft.com/v1/images/raw/' + imageUrl + '?source=ftchinese&height=' + imageHeight + '&fit=' + fitType;
+      imageUrl = imageServiceHost + imageUrl + '?source=ftchinese&height=' + imageHeight + '&fit=' + fitType;
       shouldLoadImage = true;
     } else if (imageWidth > 0 && imageHeight > 0) {
-      imageUrl = '//image.webservices.ft.com/v1/images/raw/' + imageUrl + '?source=ftchinese&width=' + imageWidth + '&height=' + imageHeight + '&fit=' + fitType;
+      imageUrl = imageServiceHost + imageUrl + '?source=ftchinese&width=' + imageWidth + '&height=' + imageHeight + '&fit=' + fitType;
       shouldLoadImage = true;
     }
     if (shouldLoadImage === true) {
@@ -688,6 +696,12 @@ try {
     if (ec !== '' && ea !== '') {
       ga('send','event',ec, ea, el);
       //console.log (ec + ea + el);
+    }
+  });
+
+  delegate.on('click', '.overlay', function(e){
+    if (e.target.className === 'cell') {
+      closeOverlay();
     }
   });
 } catch (ignore) {

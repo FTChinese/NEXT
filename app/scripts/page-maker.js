@@ -16,6 +16,10 @@
         'float': ['none', 'left', 'right', 'oneline', 'SideBySide', 'myFT', 'IconTitle', 'Card', 'eBook', 'Headshot', 'ScoreBoard'],
         'showTag': ['no', 'yes'],
         'showTimeStamp': ['no', 'new stories', 'all'],
+        'showSoundButton': ['no', 'yes'],
+        'iphone': ['no', 'yes'],
+        'android': ['no', 'yes'],
+        'ipad': ['no', 'yes'],
         'from': ['', 'MarketsData', 'SpecialReports', 'Columns', 'Channels', 'Events', 'MyTopics', 'Discover', 'Marketing', 'findpassword'],
         'fromSide': ['PartnerActivity'],
         'sideOption': ['headlineOnly', 'leadOnly', 'imageAndText', 'textOverImage'],
@@ -25,7 +29,8 @@
         'feedStart': 'number',
         'feedImage': ['optional','necessary','hide'],
         'language': ['', 'en', 'ce'],
-        'fit': ['', 'standard', 'highimpact', 'legacy']
+        'fit': ['', 'standard', 'highimpact', 'legacy'],
+        'sponsorMobile': ['no', 'yes']
     };
     var dataRulesTitle = {
         'theme': 'Luxury是指乐尚街的配色风格，主要特点是Title和分割线为金色',
@@ -45,7 +50,8 @@
         'feedItems': '自动抓取内容的条数上限，如果这个list中有手动拖入的内容，则不显示自动抓取的内容',
         'feedStart': '自动抓取内容的条数开始的Index，从0开始数',
         'feedTag': '自动抓取内容依据的标签，如果抓取条件复杂，也可以请技术帮助你输入mysql的查询语句',
-        'language': '中文、英文或者中英文对照，只适用于story'
+        'language': '中文、英文或者中英文对照，只适用于story',
+        'dates': '输入生效的日期，格式为YYYYMMDD，半角逗号分隔'
     };
     var toolkits = {
         'section': {
@@ -53,7 +59,8 @@
             'include': ['from', 'side', 'sideAlign'],
             'header': [],
             'banner': ['position', 'image', 'highImpactImage', 'url', 'fit'],
-            'footer': []
+            'footer': [],
+            'creative': ['title', 'fileName', 'click', 'impression_1', 'impression_2', 'impression_3', 'iphone', 'android', 'ipad', 'dates', 'showSoundButton', 'backupImage', 'backgroundColor', 'note']
         },
         'list': {
             'list': ['name', 'title', 'url', 'language', 'description', 'style', 'float', 'showTag', 'showTimeStamp', 'preferLead', 'sponsorAdId', 'sponsorLogoUrl', 'sponsorLink', 'sponsorNote', 'feedStart', 'feedItems', 'feedTag', 'feedType', 'feedImage', 'moreLink'],
@@ -84,7 +91,7 @@
         //'home': 'api/page/home.json',
         'home': pagemakerAPIRoot + 'get/'+ getURLParameter('page') +'/' + todaydate + '?' + thenow,
         'homePOST': pagemakerAPIRoot + 'post/'+ getURLParameter('page') +'/' + todaydate,
-        'blank': 'api/page/blank.json',
+        'blank': 'api/page/blank.json?0',
         'stories': storyAPIRoot + todaydate + '?' + thenow
     };
     var gApiUrlsLocal = {
@@ -494,6 +501,27 @@
         lists += renderAPI('', 'Empty Item 10', '', '', '', '', '', '', '', '', 'no');
         lists += renderAPI('', 'Empty Item 11', '', '', '', '', '', '', '', '', 'no');
         lists += renderAPI('', 'Empty Item 12', '', '', '', '', '', '', '', '', 'no');
+        lists += renderAPI('', 'Widget File 1', '', '', '', '', '', 'widget', '', '', 'no');
+        lists += renderAPI('', 'Widget File 2', '', '', '', '', '', 'widget', '', '', 'no');
+        lists += renderAPI('', 'Widget File 3', '', '', '', '', '', 'widget', '', '', 'no');
+        lists += renderAPI('', 'Widget File 4', '', '', '', '', '', 'widget', '', '', 'no');
+        lists += renderAPI('', 'Widget File 5', '', '', '', '', '', 'widget', '', '', 'no');
+        lists += renderAPI('', 'Widget File 6', '', '', '', '', '', 'widget', '', '', 'no');
+        lists += renderAPI('', 'Widget File 7', '', '', '', '', '', 'widget', '', '', 'no');
+        lists += renderAPI('', 'Widget File 8', '', '', '', '', '', 'widget', '', '', 'no');
+        lists += renderAPI('', 'Widget File 9', '', '', '', '', '', 'widget', '', '', 'no');
+        lists += renderAPI('', 'Widget File 10', '', '', '', '', '', 'widget', '', '', 'no');
+        lists += renderAPI('', 'uselection2016.html', '', '', '', '', '', 'widget', '', '', 'no');
+        lists += renderAPI('', 'numbers-china-sources.html', '', '', '', '', '', 'widget', '', '', 'no');
+        lists += renderAPI('', 'numbers-china-labour.html', '', '', '', '', '', 'widget', '', '', 'no');
+        lists += renderAPI('', 'numbers-china-markets.html', '', '', '', '', '', 'widget', '', '', 'no');
+        lists += renderAPI('', 'numbers-china-gdp.html', '', '', '', '', '', 'widget', '', '', 'no');
+        lists += renderAPI('', 'numbers-china-housing.html', '', '', '', '', '', 'widget', '', '', 'no');
+        lists += renderAPI('', 'numbers-china-rates.html', '', '', '', '', '', 'widget', '', '', 'no');
+        lists += renderAPI('', 'numbers-china-trade.html', '', '', '', '', '', 'widget', '', '', 'no');
+
+
+
         //lists = '<div class="toolkit toolkit-list" draggable=true>list</div>';
         $('#tool-sec-inner').html(sections);
         $('#tool-list-inner').html(lists);
@@ -523,12 +551,24 @@
         };
         var mainMeta = ele.find('>.meta-table .meta-item');
         var sections = ele.find('>.sections>.section-container');
+        var fileUpdateTime;
+        var fileUpdateTimeString = '';
         // render page meta data into JSON
         $.each(mainMeta, function () {
             var key = $(this).find('.o-input-text').eq(0).val();
             var value = $(this).find('.o-input-text').eq(1).val();
             J.meta[key] = value;
+            if (key === 'fileTime') {
+                // use the time stamp of the current operation
+                fileUpdateTime = new Date();
+                fileUpdateTimeString = fileUpdateTime.getFullYear() * 100000000 + (fileUpdateTime.getMonth() + 1) * 1000000 + fileUpdateTime.getDate()*10000 + fileUpdateTime.getHours() * 100 + fileUpdateTime.getMinutes();
+                J.meta[key] = fileUpdateTimeString;
+            } else {
+                J.meta[key] = value;
+            }
         });
+
+
 
         // render section data
         $.each(sections, function (sectionIndex) {

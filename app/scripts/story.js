@@ -24,6 +24,8 @@ if (recommendVersion === '') {
     SetCookie('ab001',recommendVersion,'','/');
 }
 
+// recommendVersion = '-001';
+
 /**
  * Switch to local mode or remote mode.
  */

@@ -327,7 +327,13 @@ function showOverlay(overlayId) {
 }
 
 function closeOverlay(overlayId) {
-    document.getElementById(overlayId).className = 'overlay-container';
+    if (overlayId !== undefined) {
+        document.getElementById(overlayId).className = 'overlay-container';        
+    } else {
+        document.getElementById('pop-ad').style.display = 'none';
+        document.getElementById('pop-ad').innerHTML = '';
+    }
+
 }
 
 

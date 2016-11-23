@@ -39,7 +39,7 @@
 	}
 }
 
-#story_main_mpu {
+#story_main_mpu, .story_main_mpu_vw {
 	width: 100%;
 	padding: $defaultPadding 0;
 	margin-bottom: $defaultPadding;
@@ -231,6 +231,9 @@ a.o-responsive-video-caption:link, a.o-responsive-video-caption:visited, a.o-res
 // background-color: #eae0d7;
 // }
 
+.story_main_mpu_vw {
+	display:none;
+}
 
 @media only screen and (max-width: 490px) {
     .rightPic,.leftPic{
@@ -245,6 +248,9 @@ a.o-responsive-video-caption:link, a.o-responsive-video-caption:visited, a.o-res
     		display: block;
     		margin: auto;
     	}
+    }
+    .story_main_mpu_vw {
+    	display:block;
     }
     @include paginationPhone;
 }

@@ -167,6 +167,32 @@ stickyAdsPrepare();
 }, 9000);
 </script>
 </div>
+
+
+
+<!-- pop up ad -->
+<!-- build:css styles/main-pop-ad.css -->
+<link rel="stylesheet" href="styles/main-pop-ad.css">
+<!-- endbuild -->
+
+
+<div id="pop-ad" class=overlay></div>
+<div class="pop-ad-code">
+<script type="text/javascript">
+var fullSC = GetCookie("fs0");
+//document.title = fullSC;
+
+var loadFullAtEnd = false;
+if (fullSC === null && w <= 490) {
+    document.write (writeAd('fullpage'));
+    SetCookie("fs0",1,24*60*60/3600,"/");
+}
+</script>
+</div>
+<!-- pop up ad -->
+
+
+
 <header class="header-container">
 <div class="header-inner">
 <div class="masthead"></div>
@@ -422,6 +448,9 @@ FT中文网首页
 </div>
 <div class="block-container has-side side-right"><div class="block-inner">
 <div class="content-container"><div class="content-inner">
+
+
+
 
 <div class="list-container"><div class="list-inner"><div class="items">
 
