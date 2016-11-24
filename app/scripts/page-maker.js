@@ -30,7 +30,8 @@
         'feedImage': ['optional','necessary','hide'],
         'language': ['', 'en', 'ce'],
         'fit': ['', 'standard', 'highimpact', 'legacy'],
-        'sponsorMobile': ['no', 'yes']
+        'sponsorMobile': ['no', 'yes'],
+        'durationInSeconds': ['default','15','30','60','90']
     };
     var dataRulesTitle = {
         'theme': 'Luxury是指乐尚街的配色风格，主要特点是Title和分割线为金色',
@@ -60,7 +61,7 @@
             'header': [],
             'banner': ['position', 'image', 'highImpactImage', 'url', 'fit'],
             'footer': [],
-            'creative': ['title', 'fileName', 'click', 'impression_1', 'impression_2', 'impression_3', 'iphone', 'android', 'ipad', 'dates', 'showSoundButton', 'backupImage', 'backgroundColor', 'note']
+            'creative': ['title', 'fileName', 'click', 'impression_1', 'impression_2', 'impression_3', 'iphone', 'android', 'ipad', 'dates', 'showSoundButton', 'backupImage', 'backgroundColor', 'durationInSeconds', 'note']
         },
         'list': {
             'list': ['name', 'title', 'url', 'language', 'description', 'style', 'float', 'showTag', 'showTimeStamp', 'preferLead', 'sponsorAdId', 'sponsorLogoUrl', 'sponsorLink', 'sponsorNote', 'feedStart', 'feedItems', 'feedTag', 'feedType', 'feedImage', 'moreLink'],
