@@ -171,6 +171,7 @@
 
         <%assign var="bannerCount" value=0%>
         <%assign var="mpuCount" value=0%>
+        <%assign var="b" value=0%>
         <%foreach from=$p.sections item=section%>
             <%if $section.type == "header"%>
                 <%if $pageId != "" && $pageId != "home"%>
@@ -187,6 +188,7 @@
                 <%/if%>
             <%elseif $section.type == "block"%>
                 <%include file="next/partials/block.html"%>
+                <%assign var="b" value=$b+1%>
                 <%if $section.side != "" && $section.side != "none"%>
                 <%assign var="mpuCount" value=$mpuCount+1%>
                 <%/if%>

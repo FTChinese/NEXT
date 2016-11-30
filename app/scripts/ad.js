@@ -244,7 +244,8 @@ var adPositions = {
   'phonestoryiphonempu': ['0110'],
   'phonestoryandroidmpu': ['0111'],
   'phonefullpage': ['0107'],
-  'phonestorympuVW': ['0119']
+  'phonestorympuVW': ['0119'],
+  'phonehomempu': ['0118', '0003']
 };
 var uaString;
 var w1;
@@ -343,14 +344,16 @@ function writeAd(adType, returnSrc) {
 
     if (adType.indexOf('banner') >=0) {
       adType = 'phonebanner';
-    } else if (adType === 'mpu') {
-      adType = 'phonempu';
+    } else if (adType === 'mpu' || adType === 'homempu') {
+      adType = 'phonehomempu';
     } else if (adType === 'storybanner') {
       adType = 'phonestorybanner';
     } else if (adType === 'storympu') {
       adType = 'phonestorympu';
     } else if (adType === 'storympuVW') {
       adType = 'phonestorympuVW';
+    } else if (adType === 'homempuVW') {
+      adType = 'phonehomempuVW';
     } else if (adType === 'fullpage') {
       adType = 'phonefullpage';
     }
@@ -374,8 +377,8 @@ function writeAd(adType, returnSrc) {
 
   adFileName = (/banner/i.test(adType) && adCount[adType] === 0 && /^(1200|1300|1500)$/i.test(adch)) ? 't' : 'a';
   currentAdCount = adCount[adType];
-
-  if (currentAdCount < adMax[adType]) {
+  //console.log (currentAdCount + '/' + adMax[adType]);
+  if (currentAdCount !== undefined && currentAdCount < adMax[adType]) {
     adPosition = adPositions[adType][currentAdCount];
     iframeSrc = '/m/marketing/'+adFileName+'.html?v=20161009143608' + bannerBG + '#adid='+ adch + adPosition + '&pid='+adType+adCount[adType];
     if (/mpu/.test(adType)) {
@@ -407,7 +410,9 @@ function writeAd(adType, returnSrc) {
     } else {
       iframeHTML = '<iframe class="banner-iframe" id="' + adType + adCount[adType] + '" width="'+ adWidth +'" height="'+ adHeight + '" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="'+ iframeSrc +'" data-src="'+ iframeSrc +'" data-ad-type="'+ adType +'" data-ad-count=' + adCount[adType] + '></iframe>';
     }
+    //console.log ('this ad is displayed: ' + adType);
   } else {
+    //console.log ('no need to display this ad: ' + adType);
     iframeSrc = '';
     iframeHTML = '';
     var bannerContainers = document.querySelectorAll('.bn-ph');
