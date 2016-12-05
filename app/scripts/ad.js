@@ -238,14 +238,16 @@ var adPositions = {
   'ipadstorympu': ['0005'],
   'phonebanner': ['0101', '0114'],
   'phonempu': ['0003'],
-  'phonestorybanner': ['0101', '0115'],
+  //'phonestorybanner': ['0101', '0115'],
+  'phonestorybanner': ['0101'],
   'phonestorybannersponsor': ['0109', '0109'],
-  'phonestorympu': ['0004'],
+  'phonestorympu': ['0004','0120'],
   'phonestoryiphonempu': ['0110'],
   'phonestoryandroidmpu': ['0111'],
   'phonefullpage': ['0107'],
   'phonestorympuVW': ['0119'],
-  'phonehomempu': ['0118', '0003']
+  'phonehomempu': ['0118', '0003'],
+  'phonetagmpu': ['0119','0004','0120']
 };
 var uaString;
 var w1;
@@ -346,6 +348,8 @@ function writeAd(adType, returnSrc) {
       adType = 'phonebanner';
     } else if (adType === 'mpu' || adType === 'homempu') {
       adType = 'phonehomempu';
+    } else if (adType === 'tagmpu' || adType === 'taginlinempu') {
+      adType = 'phonetagmpu';
     } else if (adType === 'storybanner') {
       adType = 'phonestorybanner';
     } else if (adType === 'storympu') {

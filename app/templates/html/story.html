@@ -819,7 +819,7 @@
 		<%assign var="story_content" value=$storyBody%>
 	<%/if%>
 
-	<%if date("Ymd",$smarty.now) <= 20161210%>
+	<%if date("Ymd",$smarty.now) <= 20161230%>
 		<%assign var="story_content" value=$story_content|regex_replace:"/[\r\t\n]/":""|regex_replace:"/^(\<p\>.*?)\<p\>/":"\\1<div class=story_main_mpu_vw><script type=\"text/javascript\">document.write (writeAd('storympuVW'));</script></div><p>"%>
 	<%/if%>
 <%/if%>
@@ -872,7 +872,19 @@
 		<%assign var="story_content" value=$ebody%>
 		<%assign var="storyHeadline" value=$eheadline%>
 	<%else%>
-		<%assign var="story_content" value=$cbody|regex_replace:"/[\n]/":"<br>"%>
+		<%assign var="story_content" value=$cbody|regex_replace:"/[\r\t\n]/":"</p><p>"%>
+		<%assign var="story_content" value="<p>`$story_content`</p>"%>
+		<%assign var="story_content" value=$story_content|regex_replace:"/\<p\>\<\/p\>/":""%>
+		<%if !preg_match("/highcharts/is",$story_content) && !preg_match("/video/is",$story_content) && hideMPU3!="yes"%>
+		<%*<!--在单页的情况下，如果文章没有插图，没有iframe，没有video，没有highcharts, 也没有被强制设为不显示MPU 3，则将MPU_3广告位插入到第五段开头。-->*%>
+			 <%assign var="story_content" value=$story_content|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1<div id=story_main_mpu><script type=\"text/javascript\">document.write (writeAd('storympu'));</script></div><p>"%>
+		<%/if%>
+		<%if date("Ymd",$smarty.now) <= 20161230%>
+			<%assign var="story_content" value=$story_content|regex_replace:"/^(\<p\>.*?)\<p\>/":"\\1<div class=story_main_mpu_vw><script type=\"text/javascript\">document.write (writeAd('storympuVW'));</script></div><p>"%>
+		<%/if%>
+		
+		
+
 		<%assign var="storyHeadline" value=$cheadline%>
 		<%if $pageType == "bookinfo"%>
 			<%if $eshortleadbody != ""%>
@@ -1084,8 +1096,8 @@
 			<%include file="next/partials/story-block.html"%>
 		<%/if%>
 		<%include file="next/partials/story-recommend.html%>
-<%if !preg_match("/品味|乐尚街|艺术投资|腕表|游艇|极致人生|智慧城市/is",$keys)%>
-		<%include file="next/partials/banner.html"%>
+		<%if !preg_match("/品味|乐尚街|艺术投资|腕表|游艇|极致人生|智慧城市/is",$keys)%>
+			<%include file="next/partials/banner.html"%>
 		<%/if%>
 		<%include file="next/partials/footer.html"%>
 		<%include file="next/partials/QrCode.html"%>

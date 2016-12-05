@@ -1074,9 +1074,14 @@
 						<%/if%>
 
 						<%*<!--insert an extra MPU for mobile phone temporarily start-->*%>
-						<%if date("Ymd",$smarty.now) <= 20161231 && $pageId == "home" && $b == 0 && $l == 0%>
+						<%if date("Ymd",$smarty.now) <= 20161231 && $b == 0 && $l == 0%>
+							<%if $pageId == "home"%>
+								<%assign var="mpuName" value="homempu"%>
+							<%else%>
+								<%assign var="mpuName" value="taginlinempu"%>
+							<%/if%>
 							<%if $i == 3 || $i == 10 || $i == 18%>
-								<div class="mpu-container P-only"><script type="text/javascript">document.write (writeAd('homempu'));</script></div>
+								<div class="mpu-container P-only"><script type="text/javascript">document.write (writeAd('<%$mpuName%>'));</script></div>
 							<%/if%>
 						<%/if%>
 						<%*<!--insert an extra MPU for mobile phone temporarily end-->*%>
