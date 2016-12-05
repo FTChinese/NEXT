@@ -72,7 +72,7 @@ co(function *() {
   
   const html = yield render('index.html', {body: latestBody});
 
-  console.log(html);
+  yield fs.writeFile('.tmp/index.html', html, 'utf8');
 })
 .catch(err => {
   console.error(err.stack);
