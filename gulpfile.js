@@ -359,7 +359,8 @@ gulp.task('copy:p0', () => {
 });
 
 gulp.task('copy', gulp.series(
-  'styles', 
+  'clean',
+  'build', 
   gulp.parallel(
     'copy:cssjs', 
     'copy:marketing', 
