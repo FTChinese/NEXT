@@ -3,6 +3,7 @@ const got = require('got');
 const co = require('co');
 const cheerio = require('cheerio');
 const nunjucks = require('nunjucks');
+// Set template default dir to `views`. To be used in `home` task.
 nunjucks.configure('views', {
   noCache: true,
   watch: false,
