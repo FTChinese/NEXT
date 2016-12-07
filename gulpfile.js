@@ -5,28 +5,9 @@ const cheerio = require('cheerio');
 const nunjucks = require('nunjucks');
 nunjucks.configure('views', {
   noCache: true,
-  watch: false
+  watch: false,
+  autoescape: false
 });
-const del = require('del');
-
-const gulp = require('gulp');
-const $ = require('gulp-load-plugins')();
-const useref = require('gulp-useref');
-const wiredep = require('wiredep').stream;
-
-const browserSync = require('browser-sync').create();
-const cssnext = require('postcss-cssnext');
-
-const origamiModules = [
-  {
-    source: 'http://origami-build.ft.com/v2/bundles/js?modules=o-gallery@^1.7.6',
-    dest: './app/origami/o-gallery.js'
-  },
-  {
-    source: 'http://origami-build.ft.com/v2/bundles/css?modules=o-gallery@^1.7.6',
-    dest: './app/origami/o-gallery.css'
-  }
-];
 // Promisify nunjucks render function.
 function render(view, context) {
   return new Promise(function(resolve, reject) {
@@ -40,7 +21,31 @@ function render(view, context) {
   });
 }
 
-// fetch contents from origamiModules.source and write to origamiModules.dest.
+const del = require('del');
+
+const gulp = require('gulp');
+const $ = require('gulp-load-plugins')();
+const useref = require('gulp-useref');
+const wiredep = require('wiredep').stream;
+
+const browserSync = require('browser-sync').create();
+const cssnext = require('postcss-cssnext');
+const merge = require('merge-stream');
+const source = require('vinyl-source-stream');
+const lazypipe = require('lazypipe');
+
+const origamiModules = [
+  {
+    source: 'http://origami-build.ft.com/v2/bundles/js?modules=o-gallery@^1.7.6',
+    dest: './app/origami/o-gallery.js'
+  },
+  {
+    source: 'http://origami-build.ft.com/v2/bundles/css?modules=o-gallery@^1.7.6',
+    dest: './app/origami/o-gallery.css'
+  }
+];
+
+// fetch contents from `origamiModules.source` and write to `origamiModules.dest`.
 gulp.task('origami', () => {
   return co(function *() {
     const results = yield Promise.all(origamiModules.map(module => {
@@ -70,10 +75,11 @@ gulp.task('origami', () => {
   });
 });
 
+// Fetch latest content from home page, and update `app/index.html`
 gulp.task('home', () => {
   const timeStamp = new Date().getTime();
   return co(function *() {
-    const destDir = '.tmp';
+    const destDir = 'app';
   // check if `destDir` exitsts  
     try {
       yield fs.access(destDir, fs.constants.R_OK | fs.constants.W_OK);
@@ -87,22 +93,23 @@ gulp.task('home', () => {
       .then(response => {
   // Use cheerio to parse HTML and extract contents inside `<body>`      
         const $ = cheerio.load(response.body, {
-          decodeEntities: false
+          decodeEntities: true
         });      
         return $('body').html();
       });
+      
   // Render `views/index.html` using the extracted body contents.
     const html = yield render('index.html', {body: latestBody});
   // Write rendered file to `.tmp/index.html`
     yield fs.writeFile(`${destDir}/index.html`, html, 'utf8');
-    console.log('Updated .tmp/index.html');
+    console.log(`Updated ${destDir}/index.html`);
   })
   .catch(err => {
     console.error(err.stack);
   });
 })
 
-
+// To access the api you need to send cookie PHPSESSID.
 gulp.task('story', () => {
   return co(function *() {
     const date = new Date();
@@ -132,6 +139,7 @@ gulp.task('story', () => {
   });
 });
 
+// Get the nav.json.
 gulp.task('nav', () => {
   return got(`http://m.ftchinese.com/eaclient/apijson.php`, {
     method: 'POST',
@@ -146,6 +154,7 @@ gulp.task('nav', () => {
     })
   })
   .then(response => {
+    console.log('updated ./app/api/page/nav.json');
     return fs.writeFile('./app/api/page/nav.json', response.body, 'utf8');
   })
   .catch(error => {
@@ -153,6 +162,7 @@ gulp.task('nav', () => {
   });
 });
 
+// Compile SCSS
 gulp.task('styles', function () {
   const DEST = '.tmp/styles';
 
@@ -174,7 +184,7 @@ gulp.task('styles', function () {
     ]))
     .pipe($.sourcemaps.write('./'))
     .pipe(gulp.dest(DEST))
-    .pipe(browserSync.stream()); 
+    .pipe(browserSync.stream({once: true})); 
 });
 
 
@@ -190,13 +200,20 @@ gulp.task('jshint', function () {
     .pipe($.jshint.reporter('fail'));
 });
 
+// Build css and js.
 gulp.task('html', gulp.series('styles', () => {
   return gulp.src('app/*.html')
     .pipe($.useref({searchPath: ['.tmp', 'app', '.']}))
     .pipe($.if('*.js', $.uglify()))
+    .on('error', (err) => {
+      if (err instanceof GulpUglifyError) {
+        console.log(err.fileName);
+        console.log(err.cause);
+        console.log(err.line);
+      }
+    })
     .pipe($.if('*.css', $.cssnano()))
     .pipe($.if('*.html', $.htmlmin({collapseWhitespace: true})))
-    .on('error', $.util.log)
     .pipe(gulp.dest('dist'));
 }));
 
@@ -209,72 +226,15 @@ gulp.task('images', function () {
     .pipe(gulp.dest('dist/images'));
 });
 
-// gulp.task('fonts', function () {
-//   return gulp.src(require('main-bower-files')().concat('app/fonts/**/*'))
-//     .pipe($.filter('**/*.{eot,svg,ttf,woff}'))
-//     .pipe($.flatten())
-//     .pipe(gulp.dest('dist/fonts'));
-// });
-
-// gulp.task('extras', function () {
-//   return gulp.src([
-//     'app/*.*',
-//     '!app/*.html',
-//     'node_modules/apache-server-configs/dist/.htaccess'
-//   ], {
-//     dot: true
-//   }).pipe(gulp.dest('dist'));
-// });
-
-
-
-// gulp.task('connect', ['styles'], function () {
-//   var serveStatic = require('serve-static');
-//   var serveIndex = require('serve-index');
-//   var app = require('connect')()
-//     .use(require('connect-livereload')({port: 35729}))
-//     .use(serveStatic('.tmp'))
-//     .use(serveStatic('app'))
-//     // paths to bower_components should be relative to the current file
-//     // e.g. in app/index.html you should use ../bower_components
-//     .use('/bower_components', serveStatic('bower_components'))
-//     .use(serveIndex('app'));
-
-//   require('http').createServer(app)
-//     //.listen(9000)
-//     .listen(9000, '0.0.0.0')
-//     .on('listening', function () {
-//       console.log('Started connect web server on http://localhost:9000');
-//     });
-// });
-
-// gulp.task('watch', ['connect'], function () {
-//   $.livereload.listen();
-
-//   // watch for changes
-//   gulp.watch([
-//     'app/*.html',
-//     '.tmp/styles/**/*.css',
-//     'app/scripts/**/*.js',
-//     'app/images/**/*'
-//   ]).on('change', $.livereload.changed);
-
-//   gulp.watch('app/styles/**/*.scss', ['styles']);
-//   gulp.watch('bower.json', ['wiredep']);
-// });
-
-// gulp.task('serve', ['connect', 'watch'], function () {
-//   require('opn')('http://localhost:9000');
-// });
-
+// Launch static server
 gulp.task('serve', 
   gulp.parallel(
-    'html', 'styles', 
+    'styles', 
 
     function serve() {
     browserSync.init({
       server: {
-        baseDir: [tmpDir, 'client'],
+        baseDir: ['app', '.tmp'],
         index: 'index.html',
         routes: {
           '/bower_components': 'bower_components'
@@ -287,16 +247,18 @@ gulp.task('serve',
   })
 );
 
-// inject bower components
+// Is this one in use?
 gulp.task('wiredep', function () {
 
-  gulp.src('app/styles/*.scss')
+  const scss = gulp.src('app/styles/*.scss')
     .pipe(wiredep())
     .pipe(gulp.dest('app/styles'));
 
-  gulp.src('app/*.html')
+  const html = gulp.src('app/*.html')
     .pipe(wiredep())
     .pipe(gulp.dest('app'));
+
+  return merge(scss, html);
 });
 
 gulp.task('clean', function() {
@@ -307,95 +269,104 @@ gulp.task('clean', function() {
 
 gulp.task('build', gulp.parallel('jshint', 'html', 'images', /*'fonts', 'extras',*/ 'ad'));
 
-// gulp.task('default', ['clean'], function () {
-//   gulp.start('build');
-// });
+// Various copy tasks.
+gulp.task('copy:cssjs', () => {
+   const staticDest = '../dev_www/frontend/static/n';
+  const devDest = '../dev_www/frontend/tpl/next';
+  const testDest = '../testing/dev_www/frontend/tpl/next';
 
-// gulp.task('copy', ['build'], function () {
-//   //var replace = require('gulp-replace');
-//   //var rename = require("gulp-rename");
-//   var thedatestamp = new Date().getTime();
+  let cssStream = gulp.src(['app/origami/*.css', 'dist/styles/*.css'])
+    .pipe(gulp.dest(staticDest))
+    .pipe(gulp.dest(`${devDest}/styles`))
+    .pipe(gulp.dest(`${testDest}/styles`));
 
-//   gulp.src('app/origami/*.css')
-//     .pipe(gulp.dest('../dev_www/frontend/static/n'))
-//     .pipe(gulp.dest('../dev_www/frontend/tpl/next/styles'))
-//     .pipe(gulp.dest('../testing/dev_www/frontend/tpl/next/styles'));
-  
-//   gulp.src('app/origami/*.js')
-//     .pipe(gulp.dest('../dev_www/frontend/static/n'))
-//     .pipe(gulp.dest('../dev_www/frontend/tpl/next/scripts'))
-//     .pipe(gulp.dest('../testing/dev_www/frontend/tpl/next/scripts'));
+  let partialsCssStream = gulp.src('dist/styles/partials/*.css')
+    .pipe(gulp.dest(`${devDest}/styles`))
+    .pipe(gulp.dest(`${testDest}/styles`));
 
-//   gulp.src('dist/styles/*.css')
-//     .pipe(gulp.dest('../dev_www/frontend/static/n'))
-//     .pipe(gulp.dest('../dev_www/frontend/tpl/next/styles'))
-//     .pipe(gulp.dest('../testing/dev_www/frontend/tpl/next/styles'));
+  let jsStream = gulp.src(['app/origami/*.js', 'dist/scripts/*.js'])
+    .pipe(gulp.dest(staticDest))
+    .pipe(gulp.dest(`${devDest}/scripts`))
+    .pipe(gulp.dest(`${testDest}/scripts`));
 
-//   gulp.src('dist/styles/partials/*.css')
-//     .pipe(gulp.dest('../dev_www/frontend/tpl/next/styles'))
-//     .pipe(gulp.dest('../testing/dev_www/frontend/tpl/next/styles'));
+  return merge(cssStream, partialsCssStream, jsStream);
+});
 
-//   gulp.src('dist/scripts/*.js')
-//     .pipe(gulp.dest('../dev_www/frontend/static/n'))
-//     .pipe(gulp.dest('../dev_www/frontend/tpl/next/scripts'))
-//     .pipe(gulp.dest('../testing/dev_www/frontend/tpl/next/scripts'));
+gulp.task('copy:marketing', () => {
+  const marketing = '../dev_www/frontend/tpl/marketing';
+  return gulp.src('dist/m/marketing/*')
+    .pipe(gulp.dest(marketing))
+    .pipe(gulp.dest(marketing));
+});
 
-//   gulp.src('dist/m/marketing/*')
-//     .pipe(gulp.dest('../dev_www/frontend/tpl/marketing'))
-//     .pipe(gulp.dest('../testing/dev_www/frontend/tpl/marketing'));
+gulp.task('copy:apipage', () => {
+  const pageDest = '../dev_www/frontend/tpl/next/api/page'
+  return gulp.src('app/api/page/*')
+    .pipe(gulp.dest(pageDest))
+    .pipe(gulp.dest(pageDest));
+});
 
-//   gulp.src('app/api/page/*')
-//     .pipe(gulp.dest('../dev_www/frontend/tpl/next/api/page'))
-//     .pipe(gulp.dest('../testing/dev_www/frontend/tpl/next/api/page'));
+gulp.task('copy:pagemaker', () => {
+  const dest = 'dev_cms/pagemaker';
 
-//   gulp.src('dist/**/*')
-//     .pipe(gulp.dest('../dev_cms/pagemaker'))
-//     .pipe(gulp.dest('../testing/dev_cms/pagemaker'));
+  return gulp.src(['dist/**/*', 'app/api*/**/*'])
+    .pipe(gulp.dest(`../${dest}`))
+    .pipe(gulp.dest(`../testing/${dest}`));
+});
 
-//   gulp.src('app/api/**/*')
-//     .pipe(gulp.dest('../dev_cms/pagemaker/api'))
-//     .pipe(gulp.dest('..testing/dev_cms/pagemaker/api'));
+gulp.task('copy:time', () => {
+  const timeStamp = new Date().getTime();
+// Create a virtual vinyl stream  
+  const stream = source('timestamp.html');
+// write date to the stream.  
+  stream.end(timeStamp.toString());
+// Use the steam with gulp.
+  return stream
+    .pipe(gulp.dest('../dev_www/frontend/tpl/next/timestamp'))
+    .pipe(gulp.dest('../testing/dev_www/frontend/tpl/next/timestamp'));
+});
 
-//   gulp.src('app/templates/p0.html')
-//     .pipe($.replace(/([\r\n])[ \t]+/g, '$1'))
-//     .pipe($.replace(/(\r\n)+/g, '\r\n'))
-//     .pipe($.replace(/(\n)+/g, '\n'))
-//     .pipe(gulp.dest('../dev_www/frontend/tpl/corp'))
-//     .pipe(gulp.dest('../testing/dev_www/frontend/tpl/corp'));
+// NOTE: app/templates/html/manual_email.html cannot be parsed by `html-minifier`. There are might some invalid markups. Ignore its contents for now.
+const minifier = lazypipe()
+  .pipe($.htmlmin, {
+    collapseWhitespace: false,
+    minifyCSS: false,
+    minifyJS: false,
+    ignoreCustomFragments: [ /<%[\s\S]*?%>/, /<\?[\s\S]*?\?>/ ]
+  })
+  .pipe($.debug);
 
-//   gulp.src('app/templates/partials/**/*')
-//     .pipe($.replace(/([\r\n])[ \t]+/g, '$1'))
-//     .pipe($.replace(/(\r\n)+/g, '\r\n'))
-//     .pipe($.replace(/(\n)+/g, '\n'))
-//     .pipe(gulp.dest('../dev_www/frontend/tpl/next/partials'))
-//     .pipe(gulp.dest('../testing/dev_www/frontend/tpl/next/partials'));
+gulp.task('copy:tpl', () => {
+  const dest = '../dev_www/frontend/tpl/next';
+  return gulp.src(['app/templates/partials*/**/*.html', 'app/templates/html*/**/*.html'])
+    .pipe(minifier())
+    .on('error', (err) => {
+      console.error(err.stack);
+    })
+    .pipe(gulp.dest(dest))
+    .pipe(gulp.dest(`../testing/${dest}`));
+});
 
-//   gulp.src('app/templates/html/**/*')
-//     .pipe($.replace(/([\r\n])[ \t]+/g, '$1'))
-//     .pipe($.replace(/(\r\n)+/g, '\r\n'))
-//     .pipe($.replace(/(\n)+/g, '\n'))
-//     .pipe(gulp.dest('../dev_www/frontend/tpl/next/html'))
-//     .pipe(gulp.dest('../testing/dev_www/frontend/tpl/next/html'));
+gulp.task('copy:p0', () => {
+  const dest = '../testing/dev_www/frontend/tpl/corp';
+  return gulp.src('app/templates/p0.html')
+    .pipe(minifier())
+    .on('error', (err) => {
+      console.error(err.stack);
+    })
+    .pipe(gulp.dest(dest))
+    .pipe(gulp.dest(`../testing/${dest}`));
+});
 
-
-//   var fileName = '../dev_www/frontend/tpl/next/timestamp/timestamp.html';
-//   var fileName2 = '../testing/dev_www/frontend/tpl/next/timestamp/timestamp.html';
-//   //var fs = require('fs');
-//   fs.writeFile(fileName, thedatestamp, function(err) {
-//       if(err) {
-//           return console.log(err);
-//       }
-//       console.log(thedatestamp);
-//       console.log('writen to');
-//       console.log(fileName);
-//   });
-//   fs.writeFile(fileName2, thedatestamp, function(err) {
-//       if(err) {
-//           return console.log(err);
-//       }
-//       console.log(thedatestamp);
-//       console.log('writen to');
-//       console.log(fileName2);
-//   });
-
-// });
+gulp.task('copy', gulp.series(
+  'styles', 
+  gulp.parallel(
+    'copy:cssjs', 
+    'copy:marketing', 
+    'copy:apipage', 
+    'copy:pagemaker', 
+    'copy:tpl', 
+    'copy:p0', 
+    'copy:time'
+  )
+));
