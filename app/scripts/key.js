@@ -1,5 +1,5 @@
 /* exported DeleteCookie,username,userId,ccodeCookie,addstoryfav, showOverlay, closeOverlay, w, isTouchDevice, trackerNew, paravalue, trackAdClick*/
-
+var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 
 function GetCookie(name){
     var start = document.cookie.indexOf(name+'='),
@@ -311,7 +311,6 @@ var userId = GetCookie('USER_ID') || '';
 var ccodeCookie=GetCookie('ccode') || '';
 
 
-var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 function isTouchDevice() {
     var el = document.createElement('div');
     el.setAttribute('ongesturestart', 'return;');
