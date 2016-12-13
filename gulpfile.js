@@ -274,7 +274,7 @@ gulp.task('build', gulp.parallel('jshint', 'html', 'images', /*'fonts', 'extras'
 gulp.task('copy:cssjs', () => {
   const staticDest = 'dev_www/frontend/static/n';
   const cssDest = 'dev_www/frontend/tpl/next/styles';
-  const jsDest = 'dev_www/frontend/tpl/next/scripts'
+  const jsDest = 'dev_www/frontend/tpl/next/scripts';
 
   let cssStream = gulp.src(['app/origami/*.css', 'dist/styles/*.css'])
     .pipe(gulp.dest(`../${staticDest}`))
