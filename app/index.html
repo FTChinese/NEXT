@@ -136,28 +136,29 @@ ga('send','event','Testing', 'Oliver', 'AD Testing', {'nonInteraction':1});
 
 
  </head>
- <body>
-
-
-
-
-
-
-<script>var gPageId = 'home';</script>
+<body>
+ 
 <script>checkB();</script>
 <script>
 var gUaOfPage = navigator.userAgent || navigator.vendor || "";
 if (/micromessenger/i.test(gUaOfPage)) {
 document.write ('<div class="hide"><img src="https://image.webservices.ft.com/v1/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=300&height=300&quality=lowest" width="0" height="0" /></div>');
 }
-</script><div id=roadblock style="margin:0 auto;position:relative;width:700px;text-align:center;">
+</script><script>var gPageId = 'home';</script>
+<div id="roadblock" style="margin:0 auto;position:relative;width:700px;text-align:center;">
 <script type="text/javascript">
 var thisday1 = new Date();
 var todaydate1 = thisday1.getFullYear() + "-" + (thisday1.getMonth() + 1) + "-" + thisday1.getDate();
 var fullsc = GetCookie("rb2");
 var loadFullAtEnd = false;
-if (fullsc == null && w>490 && isTouchDevice() === false && (todaydate1 == "2016-6-25" || todaydate1 == "2016-6-24" || todaydate1 == "2016-6-29" || todaydate1 == "2016-7-8" || todaydate1 == "2016-6-23")) {
-document.write('<scr' + 'ipt type="text/jav' + 'ascript" src="http://dolphin.ftimg.net/s?z=ft&amp;c=10000014&amp;slot=645072137&amp;_sex=101&amp;_trip=1&amp;_lux=1&amp;_dc=2&amp;_mm=2&amp;_sz=2&amp;_am=2" charset="gbk"></scr' + 'ipt>');
+var fullPageAdchId = '10000014';
+var testFullPageAd = false;
+if (window.adchID !== '1000' && window.adchID !== undefined && /[0-9]{4}/.test(window.adchID)) {
+fullPageAdchId =  window.adchID + '0014';
+testFullPageAd = true;
+}
+if ((fullsc == null && w>490 && isTouchDevice() === false && (todaydate1 == "2016-12-6" || todaydate1 == "2016-12-5" || todaydate1 == "2016-12-9" || todaydate1 == "2016-11-25" || todaydate1 == "2016-12-2")) || testFullPageAd === true) {
+document.write('<scr' + 'ipt type="text/jav' + 'ascript" src="http://dolphin.ftimg.net/s?z=ft&amp;c=' + fullPageAdchId + '&amp;slot=645072137&amp;_sex=101&amp;_trip=1&amp;_lux=1&amp;_dc=2&amp;_mm=2&amp;_sz=2&amp;_am=2" charset="gbk"></scr' + 'ipt>');
 } else if (fullsc == null) {
 loadFullAtEnd = true;
 }
@@ -168,50 +169,37 @@ stickyAdsPrepare();
 </script>
 </div>
 
-
-
-<!-- pop up ad -->
-<!-- build:css styles/main-pop-ad.css -->
-<link rel="stylesheet" href="styles/main-pop-ad.css">
-<!-- endbuild -->
-
-
-<div id="pop-ad" class=overlay></div>
+<style>@charset "UTF-8";#pop-ad .o-overlay__close{padding:10px;position:absolute;right:-23px;top:-25px}#pop-ad .o-overlay__close-icon{width:24px;height:24px;font-size:12px;line-height:15px;font-family:ft-icons;display:inline-block;vertical-align:middle;font-weight:400!important;font-style:normal!important;text-decoration:inherit;text-transform:none;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;border:1px solid;border-radius:50%;background-color:#2e6e9e;color:#fff;border-color:#2e6e9e;background-clip:padding-box}#pop-ad .o-overlay__close-icon:before{content:"x";font-size:28px;width:24px;height:32px;text-align:center;line-height:32px;display:block;font-style:normal;padding-top:0;margin-top:-6px}#pop-ad .cell{display:table-cell;vertical-align:middle}.overlay_close-btn{position:relative}.overlay_close-btn:after{content:"×";font-size:43px;position:absolute;font-family:Arial;font-weight:400;color:#fff;top:0;left:0;right:0;bottom:0;display:block;margin:auto;text-align:center}.mobile-landscape{display:none}@media only screen and (min-width:450px){.mobile-landscape{display:block}.mobile-portrait{display:none}}.overlay,.overlayBG{width:100%;height:100%;position:absolute;top:0;left:0}.overlay{display:none;z-index:1}.overlayBG{opacity:.7;background:#54534d;z-index:2}.overlay.on{display:block;color:#333;background:transparent;position:fixed}.overlay .inner{width:100%;height:100%;position:absolute;top:0;left:0;background:transparent;z-index:3;display:table}.pop-ad-code{display:none}</style>
+<div id="pop-ad" class="overlay"></div>
 <div class="pop-ad-code">
 <script type="text/javascript">
 var fullSC = GetCookie("fs0");
-//document.title = fullSC;
-
 var loadFullAtEnd = false;
 if (fullSC === null && w <= 490) {
-    //document.write (writeAd('fullpage'));
-    SetCookie("fs0",1,24*60*60/3600,"/");
+document.write (writeAd('fullpage'));
+SetCookie("fs0",1,12*60*60,"/");
 }
 </script>
 </div>
-<!-- pop up ad -->
-
-
-
 <header class="header-container">
 <div class="header-inner">
 <div class="masthead"></div>
 <div class="header-side header-left expandable">
 <div class="current-edition">
-<span>简体中文</span>
-<a href="http://big5.ftchinese.com/">繁体中文</a>
-<a href="http://www.ft.com/">英文</a>
+<span>&#x7B80;&#x4F53;&#x4E2D;&#x6587;</span>
+<a href="http://big5.ftchinese.com/">&#x7E41;&#x4F53;&#x4E2D;&#x6587;</a>
+<a href="http://www.ft.com/">&#x82F1;&#x6587;</a>
 </div>
 </div>
 <div class="header-side header-right">
 <span class="visitor-box">
-<a onclick="showOverlay('overlay-login')">登录</a>
-<a class="more last" href="http://user.ftchinese.com/register">免费注册</a>
+<a onclick="showOverlay(&apos;overlay-login&apos;)">&#x767B;&#x5F55;</a>
+<a class="more last" href="http://user.ftchinese.com/register">&#x514D;&#x8D39;&#x6CE8;&#x518C;</a>
 </span>
 <span class="member-box">
-<a href="/users/mystories">我的FT</a>
-<a id="ft-login-your-account" href="/users/cp">设置</a>
-<a id="ft-login-logout" href="http://user.ftchinese.com/logout">登出</a>
+<a href="/users/mystories">&#x6211;&#x7684;FT</a>
+<a id="ft-login-your-account" href="/users/cp">&#x8BBE;&#x7F6E;</a>
+<a id="ft-login-logout" href="http://user.ftchinese.com/logout">&#x767B;&#x51FA;</a>
 </span>
 </div>
 </div>
@@ -222,177 +210,167 @@ if (fullSC === null && w <= 490) {
 <div class="overlay-content-outer">
 <div class="overlay-content-inner">
 <div class="overlay-content">
-<div class="overlay-title">登录<i class="overlay-close" data-parentid="overlay-login">×</i></div>
+<div class="overlay-title">&#x767B;&#x5F55;<i class="overlay-close" data-parentid="overlay-login">&#xD7;</i></div>
 <form method="post" action="/users/login">
 <div class="input-title" id="login-reason"></div>
-<div class="input-title">电子邮件/用户名</div>
+<div class="input-title">&#x7535;&#x5B50;&#x90AE;&#x4EF6;/&#x7528;&#x6237;&#x540D;</div>
 <div class="input-container"><input type="text" class="input-oneline" name="username" id="ft-login-input-username"></div>
-<div class="input-title">密码</div>
+<div class="input-title">&#x5BC6;&#x7801;</div>
 <div class="input-container"><input type="password" class="input-oneline" name="password"></div>
-<div class="input-title input-submit-container"><input type="checkbox" class="checkbox" value="1" checked="checked" name="saveme" id="ft-login-input-remember">记住我
-<input class="input-submit" type="submit" value="提交"></div>
-<div class="input-title"><a href="/users/findpassword" class="blue-link">找回密码</a></div>
-<div class="input-title"><a href="http://user.ftchinese.com/register" class="blue-link">免费注册</a></div>
+<div class="input-title input-submit-container"><input type="checkbox" class="checkbox" value="1" checked="checked" name="saveme" id="ft-login-input-remember">&#x8BB0;&#x4F4F;&#x6211;
+<input class="input-submit" type="submit" value="&#x63D0;&#x4EA4;"></div>
+<div class="input-title"><a href="/users/findpassword" class="blue-link">&#x627E;&#x56DE;&#x5BC6;&#x7801;</a></div>
+<div class="input-title"><a href="http://user.ftchinese.com/register" class="blue-link">&#x514D;&#x8D39;&#x6CE8;&#x518C;</a></div>
 </form>
 </div>
 </div>
 </div>
 </div>
-</div>
-<div class="o-nav__placeholder">
+</div><div class="o-nav__placeholder">
 <div class="o-nav">
 <div class="o-nav__outer">
 <div class="o-nav__inner">
-<div class="o-nav__search"  data-o-component="o-toggler">
-<button class="o-nav__search-toggle" data-o-toggler-button aria-controls="search-form">
-<span class="search-toggle--open">搜索</span>
-<span class="search-toggle--close">关闭</span>
+<div class="o-nav__search" data-o-component="o-toggler">
+<button class="o-nav__search-toggle" data-o-toggler-button="" aria-controls="search-form">
+<span class="search-toggle--open">&#x641C;&#x7D22;</span>
+<span class="search-toggle--close">&#x5173;&#x95ED;</span>
 </button>
-<form action="/search/" id="search-form" role="search" data-o-toggler-target>
-<input id="search-term" type="search" name="keys" class="search-input" placeholder="输入年月日‘xxxx-xx-xx’可搜索该日存档" />
-<input id="type_news" type="hidden" value="type_news" name="ftsearchType" checked />
-<button class="search-button" tabindex="1"><span>搜索</span></button>   
+<form action="/search/" id="search-form" role="search" data-o-toggler-target="">
+<input id="search-term" type="search" name="keys" class="search-input" placeholder="&#x8F93;&#x5165;&#x5E74;&#x6708;&#x65E5;&#x2018;xxxx-xx-xx&#x2019;&#x53EF;&#x641C;&#x7D22;&#x8BE5;&#x65E5;&#x5B58;&#x6863;">
+<input id="type_news" type="hidden" value="type_news" name="ftsearchType" checked>
+<button class="search-button" tabindex="1"><span>&#x641C;&#x7D22;</span></button>   
 </form> 
 </div>
 <div class="o-header__masthead-mobile">
-<a href="/" title="前往FT中文网首页"><span>FT中文网</span></a>
+<a href="/" title="&#x524D;&#x5F80;FT&#x4E2D;&#x6587;&#x7F51;&#x9996;&#x9875;"><span>FT&#x4E2D;&#x6587;&#x7F51;</span></a>
 </div>
 <nav class="o-nav__container" role="navigation">
-<button class="nav-toggle" data-o-nav-togglable><span>Menu</span></button>
+<button class="nav-toggle" data-o-nav-togglable=""><span>Menu</span></button>
 <ol class="o-nav__meganav">
 <li class="nav-section mobile">
-<button class="nav-section-head mobile" aria-selected="true">切换版本</button>
+<button class="nav-section-head mobile" aria-selected="true">&#x5207;&#x6362;&#x7248;&#x672C;</button>
 <ol class="nav-items">
 <li class="nav-item">
-<a class="nav-link" href="http://big5.ftchinese.com/">繁体中文版</a>
+<a class="nav-link" href="http://big5.ftchinese.com/">&#x7E41;&#x4F53;&#x4E2D;&#x6587;&#x7248;</a>
 </li>
 <li class="nav-item">
-<a class="nav-link" href="http://www.ft.com/">英文版</a>
+<a class="nav-link" href="http://www.ft.com/">&#x82F1;&#x6587;&#x7248;</a>
 </li>
 </ol>
 </li>
-<li class="nav-section"
- aria-selected="true" data-section="home">
-<button class="nav-section-head mobile">首页</button>
-<a class="nav-section-head desktop" href="/">首页</a>
+<li class="nav-section" aria-selected="true" data-section="home">
+<button class="nav-section-head mobile">&#x9996;&#x9875;</button>
+<a class="nav-section-head desktop" href="/">&#x9996;&#x9875;</a>
 <ol class="nav-items">
 <li class="nav-item mobile">
 <a class="nav-link" href="/">
-FT中文网首页
+FT&#x4E2D;&#x6587;&#x7F51;&#x9996;&#x9875;
 </a>
 </li>
-<li class="nav-item"  aria-haspopup="true" data-channel="special">
-<a class="nav-link" href="/channel/special.html">特别报导</a>
+<li class="nav-item" aria-haspopup="true" data-channel="special">
+<a class="nav-link" href="/channel/special.html">&#x7279;&#x522B;&#x62A5;&#x5BFC;</a>
 <ol class="nav-sub-items">
-<li><a href="/tag/全球商业的未来">全球商业的未来</a></li>
-<li><a href="/tag/2016%E8%BE%BE%E6%B2%83%E6%96%AF">2016达沃斯</a></li>
-<li><a href="/tag/与FT共进午餐">与FT共进午餐</a></li>
+<li><a href="/tag/&#x5B58;&#x50A8;&#x4E16;&#x754C;">&#x5B58;&#x50A8;&#x4E16;&#x754C;</a></li>
+<li><a href="/tag/&#x667A;&#x6167;&#x57CE;&#x5E02;">&#x667A;&#x6167;&#x57CE;&#x5E02;</a></li>
+<li><a href="/tag/&#x6295;&#x8D44;&#x82F1;&#x56FD;">&#x6295;&#x8D44;&#x82F1;&#x56FD;</a></li>
+<li><a href="/tag/&#x5168;&#x7403;&#x5546;&#x4E1A;&#x7684;&#x672A;&#x6765;">&#x5168;&#x7403;&#x5546;&#x4E1A;&#x7684;&#x672A;&#x6765;</a></li>
+<li><a href="/tag/2016%E8%BE%BE%E6%B2%83%E6%96%AF">2016&#x8FBE;&#x6C83;&#x65AF;</a></li>
+<li><a href="/tag/&#x4E0E;FT&#x5171;&#x8FDB;&#x5348;&#x9910;">&#x4E0E;FT&#x5171;&#x8FDB;&#x5348;&#x9910;</a></li>
 </ol>
 </li>
-<li class="nav-item"  data-channel="datanews">
-<a class="nav-link" href="/channel/datanews.html">数据新闻</a>
+<li class="nav-item" data-channel="datanews">
+<a class="nav-link" href="/channel/datanews.html">&#x6570;&#x636E;&#x65B0;&#x95FB;</a>
 </li>
-<li class="nav-item"  data-channel="weekly">
-<a class="nav-link" href="/channel/weekly.html">热门文章</a>
+<li class="nav-item" data-channel="weekly">
+<a class="nav-link" href="/channel/weekly.html">&#x70ED;&#x95E8;&#x6587;&#x7AE0;</a>
 </li>
-<li class="nav-item"  data-channel="event">
-<a class="nav-link" href="/m/events/event.html">会议活动</a>
+<li class="nav-item" data-channel="event">
+<a class="nav-link" href="/m/events/event.html">&#x4F1A;&#x8BAE;&#x6D3B;&#x52A8;</a>
 </li>
-<li class="nav-item"  data-channel="member">
-<a class="nav-link" href="/m/marketing/home.html">会员信息中心</a>
+<li class="nav-item" data-channel="member">
+<a class="nav-link" href="/m/marketing/home.html">&#x4F1A;&#x5458;&#x4FE1;&#x606F;&#x4E2D;&#x5FC3;</a>
 </li>
-<li class="nav-item"  data-channel="intelligence">
-<a class="nav-link" href="/m/marketing/intelligence.html">FT研究院</a>
+<li class="nav-item" data-channel="intelligence">
+<a class="nav-link" href="/m/marketing/intelligence.html">FT&#x7814;&#x7A76;&#x9662;</a>
 </li>
-<li class="nav-item"  data-channel="mba">
-<a class="nav-link" href="/channel/mba.html">FT商学院</a>
+<li class="nav-item" data-channel="mba">
+<a class="nav-link" href="/channel/mba.html">FT&#x5546;&#x5B66;&#x9662;</a>
 </li>
-<li class="nav-item"  data-channel="ebook">
-<a class="nav-link" href="/m/marketing/ebook.html">FT电子书</a>
+<li class="nav-item" data-channel="ebook">
+<a class="nav-link" href="/m/marketing/ebook.html">FT&#x7535;&#x5B50;&#x4E66;</a>
 </li>
-<li class="nav-item"  data-channel="photo">
-<a class="nav-link" href="/channel/slides.html">图辑</a>
+<li class="nav-item" data-channel="photo">
+<a class="nav-link" href="/channel/slides.html">&#x56FE;&#x8F91;</a>
 </li>
-<li class="nav-item"  data-channel="job">
-<a class="nav-link" href="/jobs/">职业机会</a>
+<li class="nav-item" data-channel="job">
+<a class="nav-link" href="/jobs/">&#x804C;&#x4E1A;&#x673A;&#x4F1A;</a>
 </li>
 </ol>
 </li>
-<li class="nav-section"
- data-section="china">
-<button class="nav-section-head mobile">中国</button>
-<a class="nav-section-head desktop" href="/channel/china.html">中国</a>
+<li class="nav-section" data-section="china">
+<button class="nav-section-head mobile">&#x4E2D;&#x56FD;</button>
+<a class="nav-section-head desktop" href="/channel/china.html">&#x4E2D;&#x56FD;</a>
 </li>
-<li class="nav-section"
- data-section="world">
-<button class="nav-section-head mobile">全球</button>
-<a class="nav-section-head desktop" href="/channel/world.html">全球</a>
+<li class="nav-section" data-section="world">
+<button class="nav-section-head mobile">&#x5168;&#x7403;</button>
+<a class="nav-section-head desktop" href="/channel/world.html">&#x5168;&#x7403;</a>
 </li>
-<li class="nav-section"
- data-section="economy">
-<button class="nav-section-head mobile">经济</button>
-<a class="nav-section-head desktop" href="/channel/economy.html">经济</a>
+<li class="nav-section" data-section="economy">
+<button class="nav-section-head mobile">&#x7ECF;&#x6D4E;</button>
+<a class="nav-section-head desktop" href="/channel/economy.html">&#x7ECF;&#x6D4E;</a>
 </li>
-<li class="nav-section"
- data-section="markets">
-<button class="nav-section-head mobile">金融市场</button>
-<a class="nav-section-head desktop" href="/channel/markets.html">金融市场</a>
+<li class="nav-section" data-section="markets">
+<button class="nav-section-head mobile">&#x91D1;&#x878D;&#x5E02;&#x573A;</button>
+<a class="nav-section-head desktop" href="/channel/markets.html">&#x91D1;&#x878D;&#x5E02;&#x573A;</a>
 </li>
-<li class="nav-section"
- data-section="business">
-<button class="nav-section-head mobile">商业</button>
-<a class="nav-section-head desktop" href="/channel/business.html">商业</a>
+<li class="nav-section" data-section="business">
+<button class="nav-section-head mobile">&#x5546;&#x4E1A;</button>
+<a class="nav-section-head desktop" href="/channel/business.html">&#x5546;&#x4E1A;</a>
 </li>
-<li class="nav-section"
- data-section="innovation">
-<button class="nav-section-head mobile">创新经济</button>
-<a class="nav-section-head desktop" href="/channel/innovation.html">创新经济</a>
+<li class="nav-section" data-section="innovation">
+<button class="nav-section-head mobile">&#x521B;&#x65B0;&#x7ECF;&#x6D4E;</button>
+<a class="nav-section-head desktop" href="/channel/innovation.html">&#x521B;&#x65B0;&#x7ECF;&#x6D4E;</a>
 </li>
-<li class="nav-section"
- data-section="opinion">
-<button class="nav-section-head mobile">观点</button>
-<a class="nav-section-head desktop" href="/channel/opinion.html">观点</a>
+<li class="nav-section" data-section="opinion">
+<button class="nav-section-head mobile">&#x89C2;&#x70B9;</button>
+<a class="nav-section-head desktop" href="/channel/opinion.html">&#x89C2;&#x70B9;</a>
 </li>
-<li class="nav-section"
- data-section="management">
-<button class="nav-section-head mobile">管理</button>
-<a class="nav-section-head desktop" href="/channel/management.html">管理</a>
+<li class="nav-section" data-section="management">
+<button class="nav-section-head mobile">&#x7BA1;&#x7406;</button>
+<a class="nav-section-head desktop" href="/channel/management.html">&#x7BA1;&#x7406;</a>
 </li>
-<li class="nav-section"
- data-section="lifestyle">
-<button class="nav-section-head mobile">生活时尚</button>
-<a class="nav-section-head desktop" href="/channel/lifestyle.html">生活时尚</a>
+<li class="nav-section" data-section="lifestyle">
+<button class="nav-section-head mobile">&#x751F;&#x6D3B;&#x65F6;&#x5C1A;</button>
+<a class="nav-section-head desktop" href="/channel/lifestyle.html">&#x751F;&#x6D3B;&#x65F6;&#x5C1A;</a>
 </li>
-<li class="nav-section"
- data-section="stream">
-<button class="nav-section-head mobile">视频</button>
-<a class="nav-section-head desktop" href="/channel/stream.html">视频</a>
+<li class="nav-section" data-section="stream">
+<button class="nav-section-head mobile">&#x89C6;&#x9891;</button>
+<a class="nav-section-head desktop" href="/channel/stream.html">&#x89C6;&#x9891;</a>
 </li>
-<li class="nav-section"
- data-section="english">
-<button class="nav-section-head mobile">每日英语</button>
-<a class="nav-section-head desktop" href="/channel/english.html">每日英语</a>
+<li class="nav-section" data-section="english">
+<button class="nav-section-head mobile">&#x6BCF;&#x65E5;&#x82F1;&#x8BED;</button>
+<a class="nav-section-head desktop" href="/channel/english.html">&#x6BCF;&#x65E5;&#x82F1;&#x8BED;</a>
 </li>
 <li class="nav-section mobile login">
 <ul>
 <li class="nav-item">
-<a class="nav-link" href="http://user.ftchinese.com/login">登录</a>
+<a class="nav-link" href="http://user.ftchinese.com/login">&#x767B;&#x5F55;</a>
 </li>
 <li class="nav-item">
-<a class="nav-link" href="http://user.ftchinese.com/register">免费注册</a>
+<a class="nav-link" href="http://user.ftchinese.com/register">&#x514D;&#x8D39;&#x6CE8;&#x518C;</a>
 </li>    
 </ul>
 </li>
 <li class="nav-section mobile logout">
 <ul>
 <li class="nav-item">
-<a class="nav-link" href="/users/mystories">我的FT</a>
+<a class="nav-link" href="/users/mystories">&#x6211;&#x7684;FT</a>
 </li>
 <li class="nav-item">
-<a class="nav-link" href="/users/setting/index">设置</a>
+<a class="nav-link" href="/users/setting/index">&#x8BBE;&#x7F6E;</a>
 </li>
 <li class="nav-item">
-<a class="nav-link" href="http://user.ftchinese.com/logout">登出</a>
+<a class="nav-link" href="http://user.ftchinese.com/logout">&#x767B;&#x51FA;</a>
 </li>                   
 </ul>
 </li>
@@ -400,12 +378,12 @@ FT中文网首页
 </nav>
 <ul class="o-nav__extra-tools">
 <li class="tools-section" aria-haspopup="true">
-<a class="tools-section-head" href="http://www.ftchinese.com/m/corp/follow.html">关注我们</a>
+<a class="tools-section-head" href="http://www.ftchinese.com/m/corp/follow.html">&#x5173;&#x6CE8;&#x6211;&#x4EEC;</a>
 <ol class="tools-items">
-<li><a href="http://www.ftchinese.com/m/corp/follow.html" target="_blank">微信公众号</a></li>
-<li><a href="http://weibo.com/ftchinese" target="_blank">新浪微博</a></li>
-<li><a href="http://user.qzone.qq.com/622006290" target="_blank">QQ空间</a></li>
-<li><a href="http://www.ftchinese.com/m/corp/follow.html" target="_blank">读读日报</a></li>
+<li><a href="http://www.ftchinese.com/m/corp/follow.html" target="_blank">&#x5FAE;&#x4FE1;&#x516C;&#x4F17;&#x53F7;</a></li>
+<li><a href="http://weibo.com/ftchinese" target="_blank">&#x65B0;&#x6D6A;&#x5FAE;&#x535A;</a></li>
+<li><a href="http://user.qzone.qq.com/622006290" target="_blank">QQ&#x7A7A;&#x95F4;</a></li>
+<li><a href="http://www.ftchinese.com/m/corp/follow.html" target="_blank">&#x8BFB;&#x8BFB;&#x65E5;&#x62A5;</a></li>
 <li><a href="http://www.ftchinese.com/m/corp/follow.html" target="_blank">Flipboard</a></li>
 <li><a href="https://twitter.com/FTChinese" target="_blank">Twitter</a></li>
 <li><a href="https://www.facebook.com/financialtimeschinese" target="_blank">Facebook</a></li>
@@ -413,15 +391,15 @@ FT中文网首页
 </ol>
 </li>
 <li class="tools-section" aria-haspopup="true">
-<span class="tools-section-head">工具</span>
+<span class="tools-section-head">&#x5DE5;&#x5177;</span>
 <ol class="tools-items">
-<li><a href="http://app.ftchinese.com/">移动应用大全</a></li>
-<li><a href="/users/setting/index">基本设置</a></li>
-<li><a href="/users/setting/changeicon">修改头像</a></li>
-<li><a href="/users/setting/maillist">邮件订阅</a></li>
-<li><a href="/index.php/snsapi/index">同步微博</a></li>
-<li><a href="/users/commentstory">我的评论</a></li>
-<li><a href="/users/favstorylist">管理收藏</a></li>
+<li><a href="http://app.ftchinese.com/">&#x79FB;&#x52A8;&#x5E94;&#x7528;&#x5927;&#x5168;</a></li>
+<li><a href="/users/setting/index">&#x57FA;&#x672C;&#x8BBE;&#x7F6E;</a></li>
+<li><a href="/users/setting/changeicon">&#x4FEE;&#x6539;&#x5934;&#x50CF;</a></li>
+<li><a href="/users/setting/maillist">&#x90AE;&#x4EF6;&#x8BA2;&#x9605;</a></li>
+<li><a href="/index.php/snsapi/index">&#x540C;&#x6B65;&#x5FAE;&#x535A;</a></li>
+<li><a href="/users/commentstory">&#x6211;&#x7684;&#x8BC4;&#x8BBA;</a></li>
+<li><a href="/users/favstorylist">&#x7BA1;&#x7406;&#x6536;&#x85CF;</a></li>
 </ol>
 </li>
 <li class="tools-section">
@@ -449,209 +427,218 @@ FT中文网首页
 <div class="block-container has-side side-right"><div class="block-inner">
 <div class="content-container"><div class="content-inner">
 
-
-
-
 <div class="list-container"><div class="list-inner"><div class="items">
 
 
-<div class="item-container XL8 L8 M12 S12 S-double-width P12 has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/南中国海">南中国海</a><button class="myft-follow plus" data-tag="南中国海" data-type="tag">关注</button></div><a target="_blank" href="/story/001068552">FT大视野：暗潮涌动的南中国海</a></h2>
-<a class="image" target="_blank" href="/story/001068552"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000063891_piclink.jpg"></figure></a><div class="item-lead">南海裁决后，中国可能通过追加岛屿建设或军事行动维护主权，美国的回应则会对该地区地缘政治产生极大影响。</div><div class="item-time highlight">3小时前</div>
+<div class="item-container XL8 L8 M12 S6 P12 has-image"><div class="item-inner">
+<h2 class="item-headline"><div class="item-tag"><a href="/tag/&#x4E2D;&#x7F8E;&#x5173;&#x7CFB;">&#x4E2D;&#x7F8E;&#x5173;&#x7CFB;</a><button class="myft-follow plus" data-tag="&#x4E2D;&#x7F8E;&#x5173;&#x7CFB;" data-type="tag">&#x5173;&#x6CE8;</button></div><a target="_blank" href="/story/001070532">&#x7279;&#x6717;&#x666E;&#x7684;&#x201C;&#x53F0;&#x6D77;&#x518D;&#x5E73;&#x8861;&#x201D;&#x6218;&#x7565;&#xFF1F;</a></h2>
+<a class="image" target="_blank" href="/story/001070532"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000066777_piclink.jpg"></figure></a><div class="item-lead">&#x9648;&#x9065;&#xFF1A;&#x4E2D;&#x7F8E;&#x5173;&#x7CFB;&#x8FD1;&#x5E74;&#x6765;&#x5F97;&#x4EE5;&#x4FDD;&#x6301;&#x7A33;&#x5B9A;&#x7684;&#x5404;&#x79CD;&#x79EF;&#x6781;&#x56E0;&#x7D20;&#xFF0C;&#x4E5F;&#x8BB8;&#x5C06;&#x8981;&#x53D8;&#x5316;&#xFF0C;&#x8FD9;&#x5C06;&#x4F7F;&#x4E2D;&#x7F8E;&#x6218;&#x7565;&#x4E92;&#x7591;&#x52A0;&#x5267;&#xFF0C;&#x4F7F;&#x5927;&#x9646;&#x9762;&#x4E34;&#x538B;&#x529B;&#x3002;</div>
 <div class="item-bottom"></div>
 </div></div>
 
-
-
-
-<div class=" MT PT ST"></div>
+<div class=" MT PT"></div>
 <div class="item-container XL4 XL-right XL-no-tag L4 L-right L-half L-no-tag M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/全球政治">全球政治</a><button class="myft-follow plus" data-tag="全球政治" data-type="tag">关注</button></div><a target="_blank" href="/story/001068550">精英该如何面对民怨？</a></h2>
-<a class="image" target="_blank" href="/story/001068550"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000063886_piclink.jpg"></figure></a><div class="item-lead">沃尔夫：面对西方民众的不满，特朗普等民粹主义者拿出了简单但错误的解决方案，如果执政精英继续对此束手无策，他们将很快被扫地出门。</div><div class="item-time highlight">3小时前</div>
+<h2 class="item-headline"><div class="item-tag"><a href="/tag/2016&#x5E74;&#x5EA6;&#x62A5;&#x544A;">2016&#x5E74;&#x5EA6;&#x62A5;&#x544A;</a><button class="myft-follow plus" data-tag="2016&#x5E74;&#x5EA6;&#x62A5;&#x544A;" data-type="tag">&#x5173;&#x6CE8;</button></div><a target="_blank" href="/story/001070512">&#x7279;&#x6717;&#x666E;&#x91CD;&#x5851;&#x5168;&#x7403;&#x7684;&#x4E09;&#x5927;&#x6218;&#x7565;</a></h2>
+<a class="image" target="_blank" href="/story/001070512"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000066754_piclink.jpg"></figure></a><div class="item-lead">&#x9648;&#x5EFA;&#x5947;&#x3001;&#x90ED;&#x6653;&#x654F;&#xFF1A;&#x7279;&#x6717;&#x666E;&#x7684;&#x76EE;&#x6807;&#x662F;&#x8BA9;&#x7F8E;&#x56FD;&#x518D;&#x6B21;&#x4F1F;&#x5927;&#xFF0C;&#x56E0;&#x800C;&#x7279;&#x6717;&#x666E;&#x7684;&#x6218;&#x7565;&#x76EE;&#x6807;&#x66F4;&#x591A;&#x662F;&#x8BA9;&#x7F8E;&#x56FD;&#x66F4;&#x597D;&#x4E3B;&#x5BFC;&#x5168;&#x7403;&#x800C;&#x4E0D;&#x662F;&#x76F8;&#x53CD;&#x3002;</div><div class="item-time highlight">4&#x5C0F;&#x65F6;&#x524D;</div>
 <div class="item-bottom"></div>
 </div></div>
 
-<div class=" MT PT"></div>
+<div class=" MT PT ST"></div>
 <div class="item-container XL4 XL-right XL-half XL-no-tag L4 L-right L-no-tag L-half M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/郭台铭">郭台铭</a><button class="myft-follow plus" data-tag="郭台铭" data-type="tag">关注</button></div><a target="_blank" href="/story/001068536">鸿海股东会的暗语</a></h2>
-<a class="image" target="_blank" href="/story/001068536"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000063878_piclink.jpg"></figure></a><div class="item-lead">倪可诚：身为全球最大电子制造服务集团的鸿海，在收购夏普、买下诺基亚品牌后，下一步会如何走出单纯代工厂？</div><div class="item-time highlight">4小时前</div>
+<h2 class="item-headline"><div class="item-tag"><a href="/tag/2016&#x5E74;&#x5EA6;&#x62A5;&#x544A;">2016&#x5E74;&#x5EA6;&#x62A5;&#x544A;</a><button class="myft-follow plus" data-tag="2016&#x5E74;&#x5EA6;&#x62A5;&#x544A;" data-type="tag">&#x5173;&#x6CE8;</button></div><a target="_blank" href="/story/001070534">A&#x80A1;&#x4F55;&#x65F6;&#x201C;&#x5165;&#x6307;&#x201D;&#xFF1F;</a></h2>
+<a class="image" target="_blank" href="/story/001070534"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000066228_piclink.jpg"></figure></a><div class="item-lead">&#x628A;&#x4E2D;&#x56FD;&#x80A1;&#x7968;&#x7EB3;&#x5165;&#x5168;&#x7403;&#x57FA;&#x51C6;&#x80A1;&#x6307;&#xFF0C;&#x5BF9;&#x4E2D;&#x56FD;&#x548C;&#x6307;&#x6570;&#x63D0;&#x4F9B;&#x5546;&#x53CC;&#x65B9;&#x90FD;&#x6709;&#x597D;&#x5904;&#x3002;&#x7136;&#x800C;&#xFF0C;&#x4E2D;&#x56FD;&#x7684;&#x4E09;&#x4E2A;&#x95EE;&#x9898;&#x4F7F;&#x6307;&#x6570;&#x63D0;&#x4F9B;&#x5546;&#x72B9;&#x8C6B;&#x4E0D;&#x51B3;&#x3002;</div><div class="item-time highlight">4&#x5C0F;&#x65F6;&#x524D;</div>
 <div class="item-bottom"></div>
 </div></div>
-
-
 <div class="mpu-container P-only"><script type="text/javascript">document.write (writeAd('homempu'));</script></div>
 
-
-<div class="XLT LT MT PT ST"></div>
+<div class="XLT LT MT PT"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/银行业">银行业</a><button class="myft-follow plus" data-tag="银行业" data-type="tag">关注</button></div><a target="_blank" href="/story/001068560">汇丰顶级外汇交易员在美国被捕</a></h2>
-<a class="image" target="_blank" href="/story/001068560"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000063893_piclink.jpg"></figure></a><div class="item-lead">该行两名外汇现金交易主管被控“抢先交易”客户的35亿美元外汇交易。此事可能进一步损害这家全球银行的声誉。</div><div class="item-time highlight">3小时前</div>
-<div class="item-bottom"></div>
-</div></div>
-
-<div class=" MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/英国退欧公投">英国退欧公投</a><button class="myft-follow plus" data-tag="英国退欧公投" data-type="tag">关注</button></div><a target="_blank" href="/story/001068559">英国新首相梅首次会晤默克尔</a></h2>
-<a class="image" target="_blank" href="/story/001068559"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000063892_piclink.jpg"></figure></a><div class="item-lead">在全球权力最大的两位女性首次正式会面时，德国总理称，应给英国一些时间，但表示英国退欧不应“悬而不决”。</div><div class="item-time highlight">3小时前</div>
+<h2 class="item-headline"><div class="item-tag"><a href="/tag/2016&#x7F8E;&#x56FD;&#x5927;&#x9009;">2016&#x7F8E;&#x56FD;&#x5927;&#x9009;</a><button class="myft-follow plus" data-tag="2016&#x7F8E;&#x56FD;&#x5927;&#x9009;" data-type="tag">&#x5173;&#x6CE8;</button></div><a target="_blank" href="/story/001070540">&#x9ED1;&#x5BA2;&#x98CE;&#x6CE2;&#x5F15;&#x53D1;&#x7279;&#x6717;&#x666E;&#x4E0E;&#x5171;&#x548C;&#x515A;&#x9AD8;&#x5C42;&#x4E0D;&#x548C;</a></h2>
+<a class="image" target="_blank" href="/story/001070540"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000065523_piclink.jpg"></figure></a><div class="item-lead">&#x7F8E;&#x56FD;&#x53C2;&#x8BAE;&#x9662;&#x591A;&#x6570;&#x515A;&#x9886;&#x8896;&#x9EA6;&#x5EB7;&#x5948;&#x5C14;&#x8868;&#x793A;&#x201C;&#x4FC4;&#x7F57;&#x65AF;&#x4EBA;&#x4E0D;&#x662F;&#x6211;&#x4EEC;&#x7684;&#x670B;&#x53CB;&#x201D;&#xFF0C;&#x79F0;&#x56FD;&#x4F1A;&#x5C06;&#x8C03;&#x67E5;&#x4FC4;&#x7F57;&#x65AF;&#x9ED1;&#x5BA2;&#x5E72;&#x9884;&#x7F8E;&#x56FD;&#x9009;&#x4E3E;&#x7684;&#x6307;&#x63A7;&#x3002;</div><div class="item-time highlight">3&#x5C0F;&#x65F6;&#x524D;</div>
 <div class="item-bottom"></div>
 </div></div>
 
 <div class=" MT PT ST"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/女性领导人">女性领导人</a><button class="myft-follow plus" data-tag="女性领导人" data-type="tag">关注</button></div><a target="_blank" href="/story/001068551">站在“玻璃悬崖”上的女性</a></h2>
-<a class="image" target="_blank" href="/story/001068551"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000063756_piclink.jpg"></figure></a><div class="item-lead">希尔：研究显示，女性比男性更易于被推上危险职位，如英国退欧公投后“收拾男人们留下的烂摊子”的新首相梅。</div><div class="item-time highlight">3小时前</div>
+<h2 class="item-headline"><div class="item-tag"><a href="/tag/&#x4E2D;&#x7F8E;&#x5173;&#x7CFB;">&#x4E2D;&#x7F8E;&#x5173;&#x7CFB;</a><button class="myft-follow plus" data-tag="&#x4E2D;&#x7F8E;&#x5173;&#x7CFB;" data-type="tag">&#x5173;&#x6CE8;</button></div><a target="_blank" href="/story/001070537">&#x5317;&#x4EAC;&#x56DE;&#x51FB;&#x7279;&#x6717;&#x666E;&#x6D89;&#x53F0;&#x8A00;&#x8BBA;</a></h2>
+<a class="image" target="_blank" href="/story/001070537"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000066921_piclink.jpg"></figure></a><div class="item-lead">&#x4E2D;&#x56FD;&#x5916;&#x4EA4;&#x90E8;&#x53D1;&#x8A00;&#x4EBA;&#x79F0;&#xFF0C;&#x5982;&#x679C;&#x4E00;&#x4E2A;&#x4E2D;&#x56FD;&#x539F;&#x5219;&#x53D7;&#x5230;&#x5E72;&#x6270;&#x548C;&#x7834;&#x574F;&#xFF0C;&#x4E2D;&#x7F8E;&#x5173;&#x7CFB;&#x5065;&#x5EB7;&#x7A33;&#x5B9A;&#x53D1;&#x5C55;&#x548C;&#x4E24;&#x56FD;&#x91CD;&#x8981;&#x9886;&#x57DF;&#x5408;&#x4F5C;&#x5C31;&#x65E0;&#x4ECE;&#x8C08;&#x8D77;&#x3002;</div><div class="item-time highlight">3&#x5C0F;&#x65F6;&#x524D;</div>
+<div class="item-bottom"></div>
+</div></div>
+
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class="item-tag"><a href="/tag/2016&#x7F8E;&#x56FD;&#x5927;&#x9009;">2016&#x7F8E;&#x56FD;&#x5927;&#x9009;</a><button class="myft-follow plus" data-tag="2016&#x7F8E;&#x56FD;&#x5927;&#x9009;" data-type="tag">&#x5173;&#x6CE8;</button></div><a target="_blank" href="/story/001070538">&#x53F0;&#x6E7E;&#x62C5;&#x5FC3;&#x7279;&#x6717;&#x666E;&#x6253;&#x201C;&#x53F0;&#x6E7E;&#x724C;&#x201D;</a></h2>
+<a class="image" target="_blank" href="/story/001070538"><figure class="loading" data-url="http://i.ftimg.net/picture/5/000062995_piclink.jpg"></figure></a><div class="item-lead">&#x5BF9;&#x7279;&#x6717;&#x666E;&#x548C;&#x8521;&#x82F1;&#x6587;&#x901A;&#x7535;&#x8BDD;&#x7684;&#x6B22;&#x547C;&#xFF0C;&#x5DF2;&#x8BA9;&#x4F4D;&#x4E8E;&#x62C5;&#x5FC3;&#x7F8E;&#x56FD;&#x5F53;&#x9009;&#x603B;&#x7EDF;&#x5728;&#x5BF9;&#x534E;&#x8C08;&#x5224;&#x4E2D;&#x628A;&#x53F0;&#x6E7E;&#x4EBA;&#x6C11;&#x5F53;&#x4F5C;&#x8BA8;&#x4EF7;&#x8FD8;&#x4EF7;&#x7684;&#x7B79;&#x7801;&#x3002;</div><div class="item-time highlight">3&#x5C0F;&#x65F6;&#x524D;</div>
+<div class="item-bottom"></div>
+</div></div>
+
+<div class="XLT LT MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class="item-tag"><a href="/tag/2016&#x7F8E;&#x56FD;&#x5927;&#x9009;">2016&#x7F8E;&#x56FD;&#x5927;&#x9009;</a><button class="myft-follow plus" data-tag="2016&#x7F8E;&#x56FD;&#x5927;&#x9009;" data-type="tag">&#x5173;&#x6CE8;</button></div><a target="_blank" href="/story/001070541">Lex&#x4E13;&#x680F;&#xFF1A;&#x7279;&#x6717;&#x666E;&#x8C6A;&#x8D4C;&#x53EA;&#x4F1A;&#x635F;&#x5BB3;&#x7F8E;&#x53F0;&#x4F01;&#x4E1A;&#x5229;&#x76CA;</a></h2>
+<a class="image" target="_blank" href="/story/001070541"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000066880_piclink.jpg"></figure></a><div class="item-lead">&#x7F8E;&#x56FD;&#x5BF9;&#x53F0;&#x6E7E;&#x5236;&#x9020;&#x4E1A;&#x7684;&#x4F9D;&#x8D56;&#x7A0B;&#x5EA6;&#x5F88;&#x6DF1;&#xFF0C;&#x7F8E;&#x56FD;&#x548C;&#x4E2D;&#x56FD;&#x4E4B;&#x95F4;&#x53D1;&#x751F;&#x7684;&#x4EFB;&#x4F55;&#x9F83;&#x9F89;&#x90FD;&#x53EF;&#x80FD;&#x4E25;&#x91CD;&#x4F24;&#x5BB3;&#x53F0;&#x6E7E;&#x548C;&#x7F8E;&#x56FD;&#x4F01;&#x4E1A;&#x7684;&#x5229;&#x76CA;&#x3002;</div><div class="item-time highlight">3&#x5C0F;&#x65F6;&#x524D;</div>
+<div class="item-bottom"></div>
+</div></div>
+
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class="item-tag"><a href="/tag/&#x5E02;&#x573A;&#x7ECF;&#x6D4E;&#x5730;&#x4F4D;">&#x5E02;&#x573A;&#x7ECF;&#x6D4E;&#x5730;&#x4F4D;</a><button class="myft-follow plus" data-tag="&#x5E02;&#x573A;&#x7ECF;&#x6D4E;&#x5730;&#x4F4D;" data-type="tag">&#x5173;&#x6CE8;</button></div><a target="_blank" href="/story/001070539">&#x4E2D;&#x56FD;&#x5C31;&#x5E02;&#x573A;&#x7ECF;&#x6D4E;&#x5730;&#x4F4D;&#x8D77;&#x8BC9;&#x7F8E;&#x56FD;&#x548C;&#x6B27;&#x76DF;</a></h2>
+<a class="image" target="_blank" href="/story/001070539"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000037598_piclink_272_153.jpg"></figure></a><div class="item-lead">&#x4E2D;&#x65B9;&#x5F3A;&#x70C8;&#x8981;&#x6C42;&#x5165;&#x4E16;&#x8BAE;&#x5B9A;&#x4E66;&#x4E2D;&#x7684;&#x201C;&#x66FF;&#x4EE3;&#x56FD;&#x201D;&#x6761;&#x6B3E;&#x5728;&#x4E2D;&#x56FD;&#x5165;&#x4E16;15&#x5468;&#x5E74;&#x4E4B;&#x9645;&#x7EC8;&#x6B62;&#x3002;&#x4F46;&#x6B27;&#x76DF;&#x3001;&#x7F8E;&#x56FD;&#x7B49;WTO&#x6210;&#x5458;&#x62B5;&#x5236;&#x6B64;&#x4E3E;&#x3002;</div><div class="item-time highlight">3&#x5C0F;&#x65F6;&#x524D;</div>
+<div class="item-bottom"></div>
+</div></div>
+
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class="item-tag"><a href="/tag/WTO">WTO</a><button class="myft-follow plus" data-tag="WTO" data-type="tag">&#x5173;&#x6CE8;</button></div><a target="_blank" href="/story/001070530">&#x4E2D;&#x56FD;&#x201C;&#x5E02;&#x573A;&#x7ECF;&#x6D4E;&#x201D;&#x5730;&#x4F4D;&#x9047;&#x963B;&#x5C06;&#x5F15;&#x7206;&#x65B0;&#x8D38;&#x6613;&#x6218;&#xFF1F;</a></h2>
+<a class="image" target="_blank" href="/story/001070530"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000066911_piclink.jpg"></figure></a><div class="item-lead">&#x4E2D;&#x56FD;&#x4E00;&#x65B9;&#x5219;&#x5BF9;&#x53D1;&#x8FBE;&#x56FD;&#x5BB6;&#x5728;&#x201C;&#x5E02;&#x573A;&#x7ECF;&#x6D4E;&#x201D;&#x5730;&#x4F4D;&#x8BA4;&#x5B9A;&#x548C;&#x5176;&#x4ED6;&#x5BF9;&#x4E2D;&#x56FD;&#x51FA;&#x53E3;&#x5546;&#x800C;&#x8A00;&#x91CD;&#x8981;&#x7684;&#x95EE;&#x9898;&#x4E0A;&#x660E;&#x663E;&#x6301;&#x53CC;&#x91CD;&#x6807;&#x51C6;&#x611F;&#x5230;&#x6CAE;&#x4E27;&#x3002;</div>
 <div class="item-bottom"></div>
 </div></div>
 
 <div class="XLT LT MT PT"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/俄罗斯">俄罗斯</a><button class="myft-follow plus" data-tag="俄罗斯" data-type="tag">关注</button></div><a target="_blank" href="/story/001068553">普京面对麻烦的万灵丹式回应</a></h2>
-<a class="image" target="_blank" href="/story/001068553"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000063883_piclink.jpg"></figure></a><div class="item-lead">波梅兰采夫：莫斯科对此次兴奋剂丑闻采取了一贯的回应策略：乌鸦别笑猪黑。这一策略是普京掌控权力的法宝。</div><div class="item-time highlight">3小时前</div>
+<h2 class="item-headline"><div class="item-tag"><a href="/tag/2016&#x5E74;&#x5EA6;&#x62A5;&#x544A;">2016&#x5E74;&#x5EA6;&#x62A5;&#x544A;</a><button class="myft-follow plus" data-tag="2016&#x5E74;&#x5EA6;&#x62A5;&#x544A;" data-type="tag">&#x5173;&#x6CE8;</button></div><a target="_blank" href="/story/001070533">&#x4E2D;&#x56FD;&#x76D1;&#x7BA1;&#x65B0;&#x89C4;&#x4F24;&#x53CA;&#x5BF9;&#x5916;&#x5A31;&#x4E50;&#x4E1A;&#x6536;&#x8D2D;</a></h2>
+<a class="image" target="_blank" href="/story/001070533"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000066922_piclink.jpg"></figure></a><div class="item-lead">&#x4E2D;&#x56FD;&#x76D1;&#x7BA1;&#x673A;&#x6784;&#x5C06;&#x5883;&#x5916;&#x6536;&#x8D2D;&#x7EB3;&#x5165;&#x9650;&#x5236;&#x8D44;&#x91D1;&#x5916;&#x6D41;&#x7684;&#x76D1;&#x7BA1;&#x89C4;&#x5B9A;&#xFF0C;&#x4EE4;&#x4E00;&#x4E9B;&#x901A;&#x8FC7;&#x5BF9;&#x5916;&#x6536;&#x8D2D;&#x5B9E;&#x73B0;&#x4E1A;&#x52A1;&#x8F6C;&#x578B;&#x7684;&#x4E2D;&#x8D44;&#x4F01;&#x4E1A;&#x9047;&#x4E0A;&#x9EBB;&#x70E6;&#x3002;</div><div class="item-time highlight">2&#x5C0F;&#x65F6;&#x524D;</div>
 <div class="item-bottom"></div>
 </div></div>
-
-
 <div class="mpu-container P-only"><script type="text/javascript">document.write (writeAd('homempu'));</script></div>
 
-
 <div class=" MT PT ST"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/乌克兰">乌克兰</a><button class="myft-follow plus" data-tag="乌克兰" data-type="tag">关注</button></div><a target="_blank" href="/story/001068561">乌克兰知名调查记者死于汽车爆炸</a></h2>
-<a class="image" target="_blank" href="/story/001068561"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000063894_piclink.jpg"></figure></a><div class="item-lead">乌克兰一位议员暗示，俄罗斯情报机关可能参与了此事，但俄罗斯否认这种说法，指出受害人舍列梅特是俄公民。</div><div class="item-time highlight">3小时前</div>
+<h2 class="item-headline"><div class="item-tag"><a href="/tag/&#x697C;&#x5E02;&#x4E4B;&#x60D1;">&#x697C;&#x5E02;&#x4E4B;&#x60D1;</a><button class="myft-follow plus" data-tag="&#x697C;&#x5E02;&#x4E4B;&#x60D1;" data-type="tag">&#x5173;&#x6CE8;</button></div><a target="_blank" href="/story/001070529">&#x201C;&#x697C;&#x5E02;&#x4E4B;&#x60D1;&#x201D;&#x7CFB;&#x5217;&#x62A5;&#x9053;&#x4E4B;&#x516D;&#xFF1A;&#x7B2C;&#x4E09;&#x6B21;&#x623F;&#x6539;&#x8BE5;&#x5982;&#x4F55;&#x63A8;&#x8FDB;&#xFF1F;&#xFF08;&#x4E0A;&#xFF09;</a></h2>
+<a class="image" target="_blank" href="/story/001070529"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000060814_piclink.jpg"></figure></a><div class="item-lead">&#x6C88;&#x6653;&#x6770;&#xFF1A;&#x9876;&#x5C42;&#x82E5;&#x80FD;&#x8BBE;&#x8BA1;&#x548C;&#x91CD;&#x542F;&#x666E;&#x901A;&#x4EBA;&#x4F4F;&#x623F;&#x6D88;&#x8D39;&#x673A;&#x5236;&#xFF0C;&#x5C06;&#x4F1A;&#x4E3A;&#x7ECF;&#x6D4E;&#x53D1;&#x5C55;&#x3001;&#x793E;&#x4F1A;&#x7A33;&#x5B9A;&#x548C;&#x56FD;&#x6C11;&#x5E78;&#x798F;&#x6307;&#x6570;&#xFF0C;&#x5E26;&#x6765;&#x5DE8;&#x5927;&#x53D8;&#x5316;&#x3002;</div><div class="item-time highlight">4&#x5C0F;&#x65F6;&#x524D;</div>
 <div class="item-bottom"></div>
 </div></div>
 
 <div class=" MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image paid-post"><div class="item-inner">
-
-<h2 class="item-headline"><div class=item-tag><a href="/tag/日本">特别企划</a><button class="myft-follow plus" data-tag="日本" data-type="tag">关注</button></div><a target="_blank" href="/story/001068558">日本入境旅游受日元升值影响</a></h2>
-<a class="image" target="_blank" href="/story/001068558"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000060520_piclink.jpg"></figure></a><div class="item-lead">6月赴日游客同比增长24%，创下纪录，但人均消费下降。游客人数上升、支出下降的趋势在中国游客身上尤为突出。</div><div class="item-time highlight">3小时前</div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class="item-tag"><a href="/tag/&#x4EBA;&#x6C11;&#x5E01;">&#x4EBA;&#x6C11;&#x5E01;</a><button class="myft-follow plus" data-tag="&#x4EBA;&#x6C11;&#x5E01;" data-type="tag">&#x5173;&#x6CE8;</button></div><a target="_blank" href="/story/001070528">&#x201C;&#x4EBA;&#x65E0;&#x8D2C;&#x57FA;&#x201D;&#x770B;&#x6F0F;&#x7684;&#x4E09;&#x70B9;&#x56E0;&#x7D20;</a></h2>
+<a class="image" target="_blank" href="/story/001070528"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000064351_piclink.jpg"></figure></a><div class="item-lead">&#x51AF;&#x660E;&#xFF1A;&#x5206;&#x6790;&#x9884;&#x5224;&#x4EBA;&#x6C11;&#x5E01;&#x6C47;&#x7387;&#x8D70;&#x52BF;&#x6210;&#x4E3A;&#x8BA8;&#x8BBA;&#x5B8F;&#x89C2;&#x7ECF;&#x6D4E;&#x5F62;&#x52BF;&#x7ED5;&#x4E0D;&#x8FC7;&#x53BB;&#x7684;&#x7126;&#x70B9;&#x95EE;&#x9898;&#xFF0C;&#x4F46;&#x770B;&#x6F0F;&#x7684;&#x4E09;&#x70B9;&#x56E0;&#x7D20;&#x90FD;&#x4E0E;&#x91D1;&#x878D;&#x5E02;&#x573A;&#x6709;&#x5173;&#x3002;</div><div class="item-time highlight">4&#x5C0F;&#x65F6;&#x524D;</div>
 <div class="item-bottom"></div>
 </div></div>
 
 <div class="XLT LT MT PT ST"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/公司治理">公司治理</a><button class="myft-follow plus" data-tag="公司治理" data-type="tag">关注</button></div><a target="_blank" href="/story/001068548">日本会出现更多“孙正义”吗？</a></h2>
-<a class="image" target="_blank" href="/story/001068548"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000063881_piclink.jpg"></figure></a><div class="item-lead">孙正义持有软银19%股份。软银出价240亿英镑收购ARM的大胆之举，是不太可能由持有本公司股份微乎其微的职业CEO做出的。</div>
+<h2 class="item-headline"><div class="item-tag"><a href="/tag/2016&#x5E74;&#x5EA6;&#x62A5;&#x544A;">2016&#x5E74;&#x5EA6;&#x62A5;&#x544A;</a><button class="myft-follow plus" data-tag="2016&#x5E74;&#x5EA6;&#x62A5;&#x544A;" data-type="tag">&#x5173;&#x6CE8;</button></div><a target="_blank" href="/story/001070526">&#x5206;&#x4EAB;&#x7ECF;&#x6D4E;&#x7684;&#x76D1;&#x7BA1;&#x4E0E;&#x521B;&#x65B0;&#x6311;&#x6218;</a></h2>
+<a class="image" target="_blank" href="/story/001070526"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000061677_piclink.jpg"></figure></a><div class="item-lead">&#x5218;&#x8FDC;&#x4E3E;&#xFF1A;&#x4EBA;&#x7C7B;&#x7684;&#x7ECF;&#x6D4E;&#x53F2;&#xFF0C;&#x67D0;&#x79CD;&#x7A0B;&#x5EA6;&#x4E0A;&#x662F;&#x6280;&#x672F;&#x4E0D;&#x65AD;&#x6539;&#x53D8;&#x4EBA;&#x4E0E;&#x81EA;&#x7136;&#x3001;&#x4EBA;&#x4E0E;&#x4EBA;&#x7684;&#x5173;&#x7CFB;&#x3002;&#x8FD1;&#x51E0;&#x5E74;&#xFF0C;&#x6700;&#x65B0;&#x7684;&#x53D8;&#x5316;&#x5219;&#x662F;&#x5206;&#x4EAB;&#x7ECF;&#x6D4E;&#x3002;</div><div class="item-time highlight">4&#x5C0F;&#x65F6;&#x524D;</div>
 <div class="item-bottom"></div>
 </div></div>
 
 <div class=" MT PT"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/中国投资">中国投资</a><button class="myft-follow plus" data-tag="中国投资" data-type="tag">关注</button></div><a target="_blank" href="/story/001068562">中资企业拟向英国二线城市投资</a></h2>
-<a class="image" target="_blank" href="/story/001068562"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000063328_piclink.jpg"></figure></a><div class="item-lead">四川国栋将在谢菲尔德投资2.2亿英镑，该市议会称，这是中国开发商在伦敦以外达成的最大规模的房地产交易。</div><div class="item-time highlight">3小时前</div>
+<h2 class="item-headline"><div class="item-tag"><a href="/tag/&#x4FC4;&#x65E5;&#x5173;&#x7CFB;">&#x4FC4;&#x65E5;&#x5173;&#x7CFB;</a><button class="myft-follow plus" data-tag="&#x4FC4;&#x65E5;&#x5173;&#x7CFB;" data-type="tag">&#x5173;&#x6CE8;</button></div><a target="_blank" href="/story/001070535">&#x65E5;&#x4FC4;&#x63A5;&#x89E6;&#x5E94;&#x53D7;&#x5230;&#x897F;&#x65B9;&#x6B22;&#x8FCE;</a></h2>
+<a class="image" target="_blank" href="/story/001070535"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000066920_piclink.jpg"></figure></a><div class="item-lead">&#x8239;&#x6865;&#x6D0B;&#x4E00;&#xFF1A;&#x65E5;&#x672C;&#x4E0D;&#x5E94;&#x628A;&#x4FC4;&#x7F57;&#x65AF;&#x724C;&#x4F5C;&#x4E3A;&#x5176;&#x5BF9;&#x4E2D;&#x56FD;&#x6574;&#x4F53;&#x6218;&#x7565;&#x7684;&#x4E00;&#x90E8;&#x5206;&#xFF0C;&#x4F46;&#x897F;&#x65B9;&#x5E94;&#x8BE5;&#x6B22;&#x8FCE;&#x65E5;&#x672C;&#x548C;&#x4FC4;&#x7F57;&#x65AF;&#x53CC;&#x8FB9;&#x5173;&#x7CFB;&#x6B63;&#x5E38;&#x5316;&#x3002;</div><div class="item-time highlight">4&#x5C0F;&#x65F6;&#x524D;</div>
 <div class="item-bottom"></div>
 </div></div>
 
 <div class=" MT PT ST"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/全球商业的未来">全球商业的未来</a><button class="myft-follow plus" data-tag="全球商业的未来" data-type="tag">关注</button></div><a target="_blank" href="/story/001068556">太空经济谁来管理？</a></h2>
-<a class="image" target="_blank" href="/tag/全球商业的未来"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000062658_piclink.jpg"></figure></a><div class="item-lead">地球经济管理似乎有点糟。我们能否在太空领域表现得更出色？美国国家航空航天局就这个问题向经济学家们请教。</div><div class="item-time highlight">3小时前</div>
+<h2 class="item-headline"><div class="item-tag"><a href="/channel/datanews.html">&#x6570;&#x636E;&#x65B0;&#x95FB;</a><button class="myft-follow plus" data-tag="&#x6570;&#x636E;&#x65B0;&#x95FB;" data-type="tag">&#x5173;&#x6CE8;</button></div><a target="_blank" href="/story/001070491">&#x6570;&#x636E;&#xFF1A;&#x5916;&#x56FD;&#x4EBA;&#x9886;&#x517B;&#x4E2D;&#x56FD;&#x513F;&#x7AE5;&#x6570;&#x91CF;10&#x5E74;&#x51CF;&#x5C11;8&#x6210;</a></h2>
+<a class="image" target="_blank" href="/story/001070491"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000066873_piclink.jpg"></figure></a><div class="item-lead">2005&#x5E74;&#xFF0C;&#x7EA6;15000&#x540D;&#x4E2D;&#x56FD;&#x5B69;&#x7AE5;&#x88AB;&#x5916;&#x56FD;&#x4EBA;&#x9886;&#x517B;&#x3002;2014&#x5E74;&#xFF0C;&#x8FD9;&#x4E00;&#x6570;&#x5B57;&#x5927;&#x5E45;&#x4E0B;&#x964D;&#x5230;2800&#x540D;&#xFF0C;10&#x5E74;&#x95F4;&#x6570;&#x91CF;&#x9510;&#x51CF;80%&#x3002;</div><div class="item-time highlight">3&#x5C0F;&#x65F6;&#x524D;</div>
 <div class="item-bottom"></div>
 </div></div>
 
 <div class="XLT LT MT PT"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/剃刀边缘">剃刀边缘</a><button class="myft-follow plus" data-tag="剃刀边缘" data-type="tag">关注</button></div><a target="_blank" href="/story/001068557">我们共同的人生难题：如何度过此生？</a></h2>
-<a class="image" target="_blank" href="/story/001068557"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000049834_piclink.jpg"></figure></a><div class="item-lead">老愚：年岁增长，它让我感知衰老的同时，也带给我前所未有的镇静与从容：从云端徐徐落下，俯瞰自我及万物。</div><div class="item-time highlight">3小时前</div>
+<h2 class="item-headline"><div class="item-tag"><a href="/tag/&#x5370;&#x5EA6;">&#x5370;&#x5EA6;</a><button class="myft-follow plus" data-tag="&#x5370;&#x5EA6;" data-type="tag">&#x5173;&#x6CE8;</button></div><a target="_blank" href="/story/001070536">&#x201C;&#x5B98;&#x5546;&#x52FE;&#x7ED3;&#x662F;&#x5370;&#x5EA6;&#x6C34;&#x8D44;&#x6E90;&#x6700;&#x5927;&#x987D;&#x75BE;&#x201D;</a></h2>
+<a class="image" target="_blank" href="/story/001070536"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000066919_piclink.jpg"></figure></a><div class="item-lead">&#x4E2D;&#x5916;&#x5BF9;&#x8BDD;&#x7B2C;&#x4E09;&#x6781;&#x9879;&#x76EE;&#xFF1A;&#x5373;&#x5C06;&#x9000;&#x4F11;&#x7684;&#x5370;&#x5EA6;&#x6C34;&#x8D44;&#x6E90;&#x90E8;&#x90E8;&#x957F;&#x8C22;&#x5361;&#x5C14;&#x5766;&#x7387;&#x5730;&#x8C08;&#x53CA;&#x5370;&#x5EA6;&#x6C34;&#x5229;&#x90E8;&#x95E8;&#x7684;&#x95EE;&#x9898;&#x6240;&#x5728;&#x53CA;&#x5176;&#x672A;&#x6765;&#x7684;&#x53D1;&#x5C55;&#x3002;</div><div class="item-time highlight">4&#x5C0F;&#x65F6;&#x524D;</div>
 <div class="item-bottom"></div>
 </div></div>
 
 <div class=" MT PT ST"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/英国退欧公投">英国退欧公投</a><button class="myft-follow plus" data-tag="英国退欧公投" data-type="tag">关注</button></div><a target="_blank" href="/story/001068546">英国脱欧：区域一体化的现实主义逻辑</a></h2>
-<a class="image" target="_blank" href="/story/001068546"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000063403_piclink.jpg"></figure></a><div class="item-lead">欧阳俊：被誉为一体化典范的欧盟近年来为何麻烦不断？一切英国式的算计，都需要在实现理想的路途中加以考虑。</div><div class="item-time highlight">3小时前</div>
+<h2 class="item-headline"><div class="item-tag"><a href="/tag/&#x7F8E;&#x4FC4;&#x5173;&#x7CFB;">&#x7F8E;&#x4FC4;&#x5173;&#x7CFB;</a><button class="myft-follow plus" data-tag="&#x7F8E;&#x4FC4;&#x5173;&#x7CFB;" data-type="tag">&#x5173;&#x6CE8;</button></div><a target="_blank" href="/story/001070524">FT&#x793E;&#x8BC4;&#xFF1A;&#x5148;&#x89E3;&#x51B3;&#x9ED1;&#x5BA2;&#x5E72;&#x6D89;&#x5927;&#x9009;&#x95EE;&#x9898;&#x518D;&#x8C08;&#x7F8E;&#x4FC4;&#x5173;&#x7CFB;&#x91CD;&#x7F6E;</a></h2>
+<a class="image" target="_blank" href="/story/001070524"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000066909_piclink.jpg"></figure></a><div class="item-lead">&#x4FC4;&#x7F57;&#x65AF;&#x9ED1;&#x5BA2;&#x53EF;&#x80FD;&#x5E72;&#x6D89;&#x7F8E;&#x56FD;&#x5927;&#x9009;&#x7684;&#x4E8B;&#x60C5;&#x503C;&#x5F97;&#x6240;&#x6709;&#x6C11;&#x4E3B;&#x56FD;&#x5BB6;&#x91CD;&#x89C6;&#x3002;&#x7F8E;&#x4FC4;&#x5173;&#x7CFB;&#x53EF;&#x80FD;&#x8FCE;&#x6765;&#x91CD;&#x7F6E;&#xFF0C;&#x4F46;&#x8FD9;&#x5E94;&#x7B49;&#x5230;&#x9ED1;&#x5BA2;&#x4E8B;&#x4EF6;&#x89E3;&#x51B3;&#x4EE5;&#x540E;&#x3002;</div>
 <div class="item-bottom"></div>
 </div></div>
 
 <div class=" MT PT"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/英国退欧公投">英国退欧公投</a><button class="myft-follow plus" data-tag="英国退欧公投" data-type="tag">关注</button></div><a target="_blank" href="/story/001068555">英国退欧是经济长期低迷的结果</a></h2>
-<a class="image" target="_blank" href="/story/001068555"><figure class="loading" data-url="http://i.ftimg.net/picture/5/000063645_piclink.jpg"></figure></a><div class="item-lead">哈福德：如果我们不能在发达经济体恢复广泛和持续的繁荣，英国退欧就不会是我们必须面对的最后政治冲击。</div><div class="item-time highlight">3小时前</div>
+<h2 class="item-headline"><div class="item-tag"><a href="/tag/&#x6B27;&#x76DF;">&#x6B27;&#x76DF;</a><button class="myft-follow plus" data-tag="&#x6B27;&#x76DF;" data-type="tag">&#x5173;&#x6CE8;</button></div><a target="_blank" href="/story/001070531">&#x6B27;&#x6D32;&#x51C6;&#x5907;&#x56DE;&#x51FB;&#x7279;&#x6717;&#x666E;&#x7684;&#x4FDD;&#x62A4;&#x4E3B;&#x4E49;</a></h2>
+<a class="image" target="_blank" href="/story/001070531"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000066914_piclink.jpg"></figure></a><div class="item-lead">&#x6CD5;&#x56FD;&#x5DE5;&#x4E1A;&#x90E8;&#x957F;&#x8868;&#x793A;&#xFF0C;&#x6B27;&#x6D32;&#x51C6;&#x5907;&#x50CF;&#x6253;&#x51FB;&#x4E2D;&#x56FD;&#x53CD;&#x7ADE;&#x4E89;&#x884C;&#x4E3A;&#x90A3;&#x6837;&#xFF0C;&#x91C7;&#x53D6;&#x4E00;&#x4E9B;&#x8D22;&#x653F;&#x548C;&#x7ACB;&#x6CD5;&#x624B;&#x6BB5;&#x6765;&#x56DE;&#x51FB;&#x7279;&#x6717;&#x666E;&#x653F;&#x5E9C;&#x7684;&#x7ECF;&#x6D4E;&#x4FDD;&#x62A4;&#x4E3B;&#x4E49;&#x3002;</div>
+<div class="item-bottom"></div>
+</div></div>
+<div class="mpu-container P-only"><script type="text/javascript">document.write (writeAd('homempu'));</script></div>
+
+<div class="XLT LT MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class="item-tag"><a href="/tag/2016&#x5E74;&#x5EA6;&#x62A5;&#x544A;">2016&#x5E74;&#x5EA6;&#x62A5;&#x544A;</a><button class="myft-follow plus" data-tag="2016&#x5E74;&#x5EA6;&#x62A5;&#x544A;" data-type="tag">&#x5173;&#x6CE8;</button></div><a target="_blank" href="/story/001070514">&#x4E60;&#x8FD1;&#x5E73;&#x3001;&#x8FBE;&#x6C83;&#x65AF;&#x548C;2017&#x5E74;&#x7684;&#x4E16;&#x754C;</a></h2>
+<a class="image" target="_blank" href="/story/001070514"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000056162_piclink.jpg"></figure></a><div class="item-lead">&#x65AF;&#x8482;&#x82AC;&#x65AF;&#xFF1A;&#x7279;&#x6717;&#x666E;&#x5E0C;&#x671B;&#x8BA9;&#x7F8E;&#x56FD;&#x6446;&#x8131;&#x5168;&#x7403;&#x8D23;&#x4EFB;&#xFF0C;&#x4E2D;&#x56FD;&#x5219;&#x53EF;&#x4EE5;&#x5C06;&#x81EA;&#x5DF1;&#x5851;&#x9020;&#x6210;&#x5168;&#x7403;&#x6CBB;&#x7406;&#x7684;&#x5B88;&#x536B;&#x8005;&#x548C;&#x5F00;&#x653E;&#x8D38;&#x6613;&#x4F53;&#x7CFB;&#x7684;&#x706B;&#x70AC;&#x624B;&#x3002;</div>
+<div class="item-bottom"></div>
+</div></div>
+
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class="item-tag"><a href="/tag/&#x97E9;&#x56FD;">&#x97E9;&#x56FD;</a><button class="myft-follow plus" data-tag="&#x97E9;&#x56FD;" data-type="tag">&#x5173;&#x6CE8;</button></div><a target="_blank" href="/story/001070511">&#x6734;&#x69FF;&#x60E0;&#x5F39;&#x52BE;&#x4E8B;&#x4EF6;&#xFF1A;&#x201C;&#x97E9;&#x5267;&#x201D;&#x8FD8;&#x662F;&#x653F;&#x6CBB;&#x8BFE;&#x5802;&#xFF1F;</a></h2>
+<a class="image" target="_blank" href="/story/001070511"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000053829_piclink.jpg"></figure></a><div class="item-lead">&#x674E;&#x5F00;&#x76DB;&#xFF1A;&#x4E0D;&#x5E94;&#x628A;&#x6734;&#x69FF;&#x60E0;&#x4E8B;&#x4EF6;&#x770B;&#x505A;&#x4E00;&#x51FA;&#x201C;&#x72D7;&#x8840;&#x201D;&#x653F;&#x6CBB;&#x5267;&#xFF0C;&#x5B83;&#x6D89;&#x53CA;&#x6C11;&#x4E3B;&#x653F;&#x6CBB;&#x5728;&#x4E1C;&#x65B9;&#x793E;&#x4F1A;&#x751F;&#x6839;&#x53D1;&#x82BD;&#x7684;&#x5404;&#x4E2A;&#x73AF;&#x8282;&#xFF0C;&#x503C;&#x5F97;&#x601D;&#x8003;&#x3002;</div>
+<div class="item-bottom"></div>
+</div></div>
+
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class="item-tag"><a href="/tag/&#x7F8E;&#x56FD;&#x793E;&#x4F1A;">&#x7F8E;&#x56FD;&#x793E;&#x4F1A;</a><button class="myft-follow plus" data-tag="&#x7F8E;&#x56FD;&#x793E;&#x4F1A;" data-type="tag">&#x5173;&#x6CE8;</button></div><a target="_blank" href="/story/001070517">&#x4E00;&#x4F4D;&#x767E;&#x5C81;&#x8001;&#x4EBA;&#x89C1;&#x8BC1;&#x7684;&#x7F8E;&#x56FD;&#x5386;&#x53F2;</a></h2>
+<a class="image" target="_blank" href="/story/001070517"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000066904_piclink.jpg"></figure></a><div class="item-lead">&#x5728;20&#x4E16;&#x7EAA;&#x7684;&#x65B0;&#x95FB;&#x6444;&#x5F71;&#x9886;&#x57DF;&#xFF0C;&#x7EA6;&#x7FF0;&#x2022;&#x83AB;&#x91CC;&#x65AF;&#x6709;&#x6770;&#x51FA;&#x6210;&#x5C31;&#x3002;&#x5728;&#x4ED6;&#x770B;&#x6765;&#xFF0C;&#x7279;&#x6717;&#x666E;&#x5F53;&#x9009;&#x662F;&#x4ED6;&#x6BD5;&#x751F;&#x6240;&#x89C1;&#x7684;&#x6700;&#x7CDF;&#x7CD5;&#x7684;&#x653F;&#x6CBB;&#x4E8B;&#x4EF6;&#x3002;</div>
+<div class="item-bottom"></div>
+</div></div>
+
+<div class="XLT LT MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class="item-tag"><a href="/tag/2016&#x5E74;&#x5EA6;&#x62A5;&#x544A;">2016&#x5E74;&#x5EA6;&#x62A5;&#x544A;</a><button class="myft-follow plus" data-tag="2016&#x5E74;&#x5EA6;&#x62A5;&#x544A;" data-type="tag">&#x5173;&#x6CE8;</button></div><a target="_blank" href="/story/001070513">&#x8D22;&#x653F;&#x6539;&#x9769;&#xFF1A;&#x8F6C;&#x79FB;&#x652F;&#x4ED8;&#x7684;&#x662F;&#x662F;&#x975E;&#x975E;</a></h2>
+<a class="image" target="_blank" href="/story/001070513"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000065481_piclink.jpg"></figure></a><div class="item-lead">&#x5434;&#x6728;&#x92AE;&#xFF1A;&#x5E94;&#x8BA9;&#x4E2D;&#x56FD;&#x5730;&#x65B9;&#x653F;&#x5E9C;&#x5728;&#x8D22;&#x653F;&#x4E0A;&#x771F;&#x6B63;&#x505A;&#x4E3B;&#xFF0C;&#x8BA9;&#x5730;&#x65B9;&#x4EBA;&#x5927;&#x4EE3;&#x8868;&#x3001;&#x6C11;&#x4F17;&#x548C;&#x5BA1;&#x8BA1;&#x90E8;&#x95E8;&#x53D1;&#x6325;&#x4FE1;&#x606F;&#x4F18;&#x52BF;&#x6765;&#x63A7;&#x5236;&#x5730;&#x65B9;&#x652F;&#x51FA;&#x3002;</div>
+<div class="item-bottom"></div>
+</div></div>
+
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class="item-tag"><a href="/tag/&#x7F8E;&#x5143;">&#x7F8E;&#x5143;</a><button class="myft-follow plus" data-tag="&#x7F8E;&#x5143;" data-type="tag">&#x5173;&#x6CE8;</button></div><a target="_blank" href="/story/001070515">&#x4E9A;&#x6D32;&#x4F01;&#x4E1A;&#x7684;&#x4FE1;&#x8D37;&#x72C2;&#x6B22;&#x5982;&#x4F55;&#x6536;&#x573A;&#xFF1F;</a></h2>
+<a class="image" target="_blank" href="/story/001070515"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000066820_piclink.jpg"></figure></a><div class="item-lead">&#x8FD1;&#x5E74;&#x4E9A;&#x6D32;&#x5F88;&#x591A;&#x65B0;&#x5174;&#x5E02;&#x573A;&#x4F01;&#x4E1A;&#x5229;&#x7528;&#x4F4E;&#x5229;&#x7387;&#x5927;&#x4E3E;&#x501F;&#x5165;&#x7F8E;&#x5143;&#x503A;&#x52A1;&#xFF0C;&#x968F;&#x7740;&#x7F8E;&#x8054;&#x50A8;&#x5373;&#x5C06;&#x52A0;&#x606F;&#xFF0C;&#x8FD9;&#x573A;&#x4FE1;&#x8D37;&#x72C2;&#x6B22;&#x5982;&#x4ECA;&#x770B;&#x6765;&#x95EE;&#x9898;&#x91CD;&#x91CD;&#x3002;</div>
+<div class="item-bottom"></div>
+</div></div>
+
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class="item-tag"><a href="/channel/mba.html">FT&#x5546;&#x5B66;&#x9662;</a><button class="myft-follow plus" data-tag="FT&#x5546;&#x5B66;&#x9662;" data-type="tag">&#x5173;&#x6CE8;</button></div><a target="_blank" href="/story/001070518">&#x4E3A;&#x4F55;&#x51FA;&#x56FD;&#x653B;&#x8BFB;&#x7BA1;&#x7406;&#x5B66;&#x7855;&#x58EB;&#xFF1F;</a></h2>
+<a class="image" target="_blank" href="/story/001070518"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000064163_piclink.jpg"></figure></a><div class="item-lead">&#x7269;&#x6709;&#x6240;&#x503C;&#x548C;&#x56FD;&#x9645;&#x6D41;&#x52A8;&#x4ECD;&#x7136;&#x662F;&#x5E74;&#x8F7B;&#x4EBA;&#x5728;&#x8003;&#x8651;&#x653B;&#x8BFB;&#x7BA1;&#x7406;&#x5B66;&#x7855;&#x58EB;&#x8BFE;&#x7A0B;&#x65F6;&#x7684;&#x5173;&#x952E;&#x56E0;&#x7D20;&#x3002;&#x5546;&#x5B66;&#x9662;&#x8BFE;&#x7A0B;&#x6392;&#x540D;&#x6709;&#x52A9;&#x4E8E;&#x4ED6;&#x4EEC;&#x9009;&#x62E9;&#x8BFE;&#x7A0B;&#x3002;</div>
 <div class="item-bottom"></div>
 </div></div>
 
 <div class="XLT LT MT PT ST"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/市场经济地位">市场经济地位</a><button class="myft-follow plus" data-tag="市场经济地位" data-type="tag">关注</button></div><a target="_blank" href="/story/001068539">欧盟酝酿有条件给予中国市场经济地位</a></h2>
-<a class="image" target="_blank" href="/story/001068539"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000063776_piclink.jpg"></figure></a><div class="item-lead">布鲁塞尔拟在贸易争端中把中国视为市场经济体，但条件是有权实行美国式的反倾销税，同时中国大幅削减钢铁生产过剩。</div>
+<h2 class="item-headline"><div class="item-tag"><a href="/tag/2016&#x5E74;&#x5EA6;&#x62A5;&#x544A;">2016&#x5E74;&#x5EA6;&#x62A5;&#x544A;</a><button class="myft-follow plus" data-tag="2016&#x5E74;&#x5EA6;&#x62A5;&#x544A;" data-type="tag">&#x5173;&#x6CE8;</button></div><a target="_blank" href="/story/001070510">&#x5F00;&#x653E;&#x751F;&#x6001;&#x7CFB;&#x7EDF;&#x80FD;&#x5426;&#x52A9;&#x534E;&#x4E3A;&#x8D70;&#x51FA;&#x201C;&#x65E0;&#x4EBA;&#x533A;&#x201D;&#xFF1F;</a></h2>
+<a class="image" target="_blank" href="/story/001070510"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000062712_piclink.jpg"></figure></a><div class="item-lead">&#x5BF9;&#x79D1;&#x7814;&#x6301;&#x7EED;&#x6295;&#x5165;&#x8BA9;&#x534E;&#x4E3A;&#x5728;5G&#x6807;&#x51C6;&#x5236;&#x5B9A;&#x4E2D;&#x5D2D;&#x9732;&#x5934;&#x89D2;&#xFF0C;&#x5F00;&#x653E;&#x751F;&#x6001;&#x7CFB;&#x7EDF;&#x7684;&#x5EFA;&#x8BBE;&#x80FD;&#x5426;&#x5E2E;&#x52A9;&#x534E;&#x4E3A;&#x8D70;&#x51FA;&#x4EFB;&#x6B63;&#x975E;&#x53E3;&#x4E2D;&#x7684;&#x6218;&#x7565;&#x65E0;&#x4EBA;&#x533A;&#xFF1F;</div>
 <div class="item-bottom"></div>
 </div></div>
 
 <div class=" MT PT"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/中国经济">中国经济</a><button class="myft-follow plus" data-tag="中国经济" data-type="tag">关注</button></div><a target="_blank" href="/story/001068526">中国外汇储备与别国外汇储备不一样吗？</a></h2>
-<a class="image" target="_blank" href="/story/001068526"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000059041_piclink.jpg"></figure></a><div class="item-lead">张明：外汇储备是中国未来经济发展与金融稳定的宝贵资源，是中国人民的国民财富，应用到更具价值的渠道上。</div>
+<h2 class="item-headline"><div class="item-tag"><a href="/tag/&#x4EBA;&#x5DE5;&#x667A;&#x80FD;">&#x4EBA;&#x5DE5;&#x667A;&#x80FD;</a><button class="myft-follow plus" data-tag="&#x4EBA;&#x5DE5;&#x667A;&#x80FD;" data-type="tag">&#x5173;&#x6CE8;</button></div><a target="_blank" href="/story/001070484">&#x5FAE;&#x8F6F;&#x4E9A;&#x6D32;&#x7814;&#x7A76;&#x9662;&#x9662;&#x957F;&#xFF1A;AI&#x53D6;&#x4EE3;&#x4EBA;&#xFF0C;&#x5927;&#x6982;&#x8FD8;&#x8981;500&#x5E74;</a></h2>
+<a class="image" target="_blank" href="/story/001070484"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000066850_piclink.jpg"></figure></a><div class="item-lead">AI&#x5927;&#x8D8B;&#x52BF;&#x5982;&#x4F55;&#xFF1F;&#x5FAE;&#x8F6F;&#x4E9A;&#x6D32;&#x7814;&#x7A76;&#x9662;&#x9662;&#x957F;&#x6D2A;&#x5C0F;&#x6587;&#x9884;&#x8A00;&#xFF0C;&#x4E09;&#x5E74;&#x4E4B;&#x5185;&#xFF0C;AI&#x4E00;&#x5B9A;&#x4F1A;&#x88AB;&#x666E;&#x53CA;&#x5316;&#xFF0C;&#x4F46;&#x4EBA;&#x548C;&#x673A;&#x5668;&#x4ECD;&#x65E7;&#x626E;&#x6F14;&#x4E3B;&#x4ECE;&#x5173;&#x7CFB;&#x3002;</div>
 <div class="item-bottom"></div>
 </div></div>
 
 <div class=" MT PT ST"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/中国游客">中国游客</a><button class="myft-follow plus" data-tag="中国游客" data-type="tag">关注</button></div><a target="_blank" href="/story/001068535">北京试图规范中国游客的海外行为</a></h2>
-<a class="image" target="_blank" href="/story/001068535"><figure class="loading" data-url="http://i.ftimg.net/picture/5/000063885_piclink.jpg"></figure></a><div class="item-lead">吉密欧：中国政府担忧本国游客的海外不文明行为损害中国提升“软实力”的努力，为此发布了旅游文明行为指南。</div><div class="item-time highlight">3小时前</div>
+<h2 class="item-headline"><div class="item-tag"><a href="/tag/&#x4F20;&#x7EDF;&#x5A92;&#x4F53;">&#x4F20;&#x7EDF;&#x5A92;&#x4F53;</a><button class="myft-follow plus" data-tag="&#x4F20;&#x7EDF;&#x5A92;&#x4F53;" data-type="tag">&#x5173;&#x6CE8;</button></div><a target="_blank" href="/story/001070505">&#x6E20;&#x9053;&#x5784;&#x65AD;&#xFF1A;&#x4F20;&#x7EDF;&#x5A92;&#x4F53;&#x9762;&#x4E34;&#x7B2C;&#x4E8C;&#x6B21;&#x51B2;&#x51FB;</a></h2>
+<a class="image" target="_blank" href="/story/001070505"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000044607_piclink.jpg"></figure></a><div class="item-lead">&#x9648;&#x6B46;&#x78CA;&#xFF1A;&#x4E92;&#x8054;&#x7F51;&#x548C;&#x793E;&#x4EA4;&#x7F51;&#x7EDC;&#x51B2;&#x51FB;&#xFF0C;&#x6539;&#x53D8;&#x4E86;&#x65B0;&#x95FB;&#x7684;&#x4F20;&#x64AD;&#x6E20;&#x9053;&#x548C;&#x5185;&#x5BB9;&#x5448;&#x73B0;&#x5F62;&#x5F0F;&#xFF0C;&#x4F46;&#x4E0D;&#x7BA1;&#x662F;&#x4EC0;&#x4E48;&#x65F6;&#x4EE3;&#xFF0C;&#x65B0;&#x95FB;&#x672C;&#x8D28;&#x6CA1;&#x6709;&#x6539;&#x53D8;&#x3002;</div>
 <div class="item-bottom"></div>
 </div></div>
 
 <div class="XLT LT MT PT"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/中国经济">中国经济</a><button class="myft-follow plus" data-tag="中国经济" data-type="tag">关注</button></div><a target="_blank" href="/story/001068525">不必为中国经济平缓下行而悲观</a></h2>
-<a class="image" target="_blank" href="/story/001068525"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000063868_piclink.jpg"></figure></a><div class="item-lead">陈稻田：未来我们会看到一个较长时期增速平缓下行、但经济结构不断优化、居民福利水平不断提高的中国经济。</div>
+<h2 class="item-headline"><div class="item-tag"><a href="/tag/&#x4E92;&#x8054;&#x7F51;&#x91D1;&#x878D;">&#x4E92;&#x8054;&#x7F51;&#x91D1;&#x878D;</a><button class="myft-follow plus" data-tag="&#x4E92;&#x8054;&#x7F51;&#x91D1;&#x878D;" data-type="tag">&#x5173;&#x6CE8;</button></div><a target="_blank" href="/story/001070509">&#x8BB8;&#x6CFD;&#x73AE;&#xFF1A;&#x201C;&#x7EA2;&#x53C8;&#x4E13;&#x201D;&#x7684;&#x4E92;&#x8054;&#x7F51;&#x91D1;&#x878D;CEO</a></h2>
+<div class="image"><figure class="loading-video" data-vid="2114"></figure></div><div class="item-lead">&#x5728;&#x4E2D;&#x56FD;&#x4E92;&#x91D1;&#x884C;&#x4E1A;&#xFF0C;P2P&#x8FD9;&#x4E2A;&#x6280;&#x672F;&#x540D;&#x8BCD;&#x81ED;&#x4E86;&#x6574;&#x4E2A;&#x7F51;&#x7EDC;&#x501F;&#x8D37;&#x5E02;&#x573A;&#x3002;&#x5E74;&#x8F7B;&#x7684;91&#x91D1;&#x878D;&#x521B;&#x59CB;&#x4EBA;&#xFF0C;&#x8BB2;&#x8FF0;&#x81EA;&#x5DF1;&#x4ECE;&#x4E1A;&#x4EE5;&#x6765;&#x7684;&#x5FC3;&#x8DEF;&#x5386;&#x7A0B;&#x3002;</div>
 <div class="item-bottom"></div>
 </div></div>
 
 <div class=" MT PT ST"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/2016美国大选">2016美国大选</a><button class="myft-follow plus" data-tag="2016美国大选" data-type="tag">关注</button></div><a target="_blank" href="/story/001068538">特朗普崛起败坏民主信誉</a></h2>
-<a class="image" target="_blank" href="/story/001068538"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000063872_piclink.jpg"></figure></a><div class="item-lead">卢斯：特朗普对美国民主健康的败坏最令人担忧。英国退欧的影响最终是局部的，但美国影响着全球民主的命运。</div>
+<h2 class="item-headline"><div class="item-tag"><a href="/tag/&#x4EBA;&#x6C11;&#x5E01;">&#x4EBA;&#x6C11;&#x5E01;</a><button class="myft-follow plus" data-tag="&#x4EBA;&#x6C11;&#x5E01;" data-type="tag">&#x5173;&#x6CE8;</button></div><a target="_blank" href="/story/001070521">&#x4EBA;&#x6C11;&#x5E01;&#x5168;&#x7403;&#x4F7F;&#x7528;&#x56DE;&#x843D;</a></h2>
+<a class="image" target="_blank" href="/story/001070521"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000064489_piclink.jpg"></figure></a><div class="item-lead">&#x4EBA;&#x6C11;&#x5E01;&#x201C;&#x5165;&#x7BEE;&#x201D;&#x4E00;&#x5E74;&#x540E;&#xFF0C;&#x4EE5;&#x4EBA;&#x6C11;&#x5E01;&#x7ED3;&#x7B97;&#x7684;&#x4E2D;&#x56FD;&#x5BF9;&#x5916;&#x8D38;&#x6613;&#x4ECE;26%&#x4E0B;&#x964D;&#x5230;16%&#xFF0C;&#x4E2D;&#x56FD;&#x63A8;&#x52A8;&#x4EBA;&#x6C11;&#x5E01;&#x6210;&#x4E3A;&#x7F8E;&#x5143;&#x7ADE;&#x4E89;&#x5BF9;&#x624B;&#x7684;&#x76EE;&#x6807;&#x53D7;&#x632B;&#x3002;</div>
 <div class="item-bottom"></div>
 </div></div>
 
 <div class=" MT PT"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/2016美国大选">2016美国大选</a><button class="myft-follow plus" data-tag="2016美国大选" data-type="tag">关注</button></div><a target="_blank" href="/story/001068544">特朗普正式获得共和党总统候选人提名</a></h2>
-<a class="image" target="_blank" href="/story/001068544"><figure class="loading" data-url="http://i.ftimg.net/picture/5/000063875_piclink.jpg"></figure></a><div class="item-lead">周二晚在克利夫兰共和党全国代表大会上，特朗普总计获得1725张党代表票，正式成为美国共和党总统候选人。</div>
-<div class="item-bottom"></div>
-</div></div>
-
-<div class="XLT LT MT PT ST"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/公共政策">公共政策</a><button class="myft-follow plus" data-tag="公共政策" data-type="tag">关注</button></div><a target="_blank" href="/story/001068512">在中国，抢先上车很重要</a></h2>
-<a class="image" target="_blank" href="/story/001068512"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000042071_piclink.jpg"></figure></a><div class="item-lead">聂日明：很多政策制定没有公共讨论，也不允许利益相关者参与决策，导致后来者承担政策成本，所有人疯狂抢先。</div>
-<div class="item-bottom"></div>
-</div></div>
-
-<div class=" MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/土耳其政变">土耳其政变</a><button class="myft-follow plus" data-tag="土耳其政变" data-type="tag">关注</button></div><a target="_blank" href="/story/001068528">土耳其变局——中东政治强人的宿命？</a></h2>
-<a class="image" target="_blank" href="/story/001068528"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000042511_piclink.jpg"></figure></a><div class="item-lead">赵灵敏：人们一度以为，中东政治迎来了新时代。但旧强人倒下，新强人又起，这难道是中东政坛的又一个宿命？</div>
-<div class="item-bottom"></div>
-</div></div>
-
-<div class=" MT PT ST"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/全球反恐">全球反恐</a><button class="myft-follow plus" data-tag="全球反恐" data-type="tag">关注</button></div><a target="_blank" href="/story/001068532">穆斯林不应再对恐怖主义沉默</a></h2>
-<a class="image" target="_blank" href="/story/001068532"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000063807_piclink.jpg"></figure></a><div class="item-lead">贾兹：面对伊斯兰激进主义者煽动起来的恐怖主义火焰，全世界的穆斯林公民们必须站在一起，去扑灭这些火焰。</div>
-<div class="item-bottom"></div>
-</div></div>
-
-<div class="XLT LT MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/时代的噪音">时代的噪音</a><button class="myft-follow plus" data-tag="时代的噪音" data-type="tag">关注</button></div><a target="_blank" href="/story/001068531">“小粉红”们与戴立忍们</a></h2>
-<a class="image" target="_blank" href="/story/001068531"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000063867_piclink.jpg"></figure></a><div class="item-lead">张铁志：如果中国大陆继续被这种狭隘盲目的民族主义遮蔽了内部任何异质性，只会和香港台湾的距离越来越远。</div>
-<div class="item-bottom"></div>
-</div></div>
-
-<div class=" MT PT ST"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/商业管理">商业管理</a><button class="myft-follow plus" data-tag="商业管理" data-type="tag">关注</button></div><a target="_blank" href="/story/001068534">职业社交网络难以取代名片</a></h2>
-<a class="image" target="_blank" href="/story/001068534"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000063870_piclink.jpg"></figure></a><div class="item-lead">加普：微软收购领英，提出一个关于互联网的根本问题：我们如何从隐私有保障、个人自主的名片跨越到社交网络？</div>
-<div class="item-bottom"></div>
-</div></div>
-
-<div class=" MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/商业管理">商业管理</a><button class="myft-follow plus" data-tag="商业管理" data-type="tag">关注</button></div><a target="_blank" href="/story/001068533">非执行董事真的有用吗？</a></h2>
-<a class="image" target="_blank" href="/story/001068533"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000063871_piclink.jpg"></figure></a><div class="item-lead">希尔：非执行董事制度在理论上有用，但在实践中差强人意，不如迫使高管、监管者和投资者履行好自己的职责。</div>
+<h2 class="item-headline"><div class="item-tag"><a href="/tag/&#x4E9A;&#x592A;&#x81EA;&#x8D38;&#x534F;&#x5B9A;">&#x4E9A;&#x592A;&#x81EA;&#x8D38;&#x534F;&#x5B9A;</a><button class="myft-follow plus" data-tag="&#x4E9A;&#x592A;&#x81EA;&#x8D38;&#x534F;&#x5B9A;" data-type="tag">&#x5173;&#x6CE8;</button></div><a target="_blank" href="/story/001070516">&#x4E9A;&#x592A;&#x81EA;&#x8D38;&#x534F;&#x5B9A;&#xFF1A;&#x540E;TPP&#x65F6;&#x4EE3;&#x7684;&#x6700;&#x4F73;&#x9009;&#x62E9;&#xFF1F;</a></h2>
+<a class="image" target="_blank" href="/story/001070516"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000066549_piclink.jpg"></figure></a><div class="item-lead">&#x4E2D;&#x56FD;&#x4E0E;&#x5168;&#x7403;&#x5316;&#x667A;&#x5E93;&#xFF1A;&#x4E2D;&#x56FD;&#x548C;&#x7F8E;&#x56FD;&#x53CC;&#x65B9;&#x5E94;&#x5171;&#x540C;&#x63A8;&#x52A8;&#x5EFA;&#x7ACB;&#x4E9A;&#x592A;&#x81EA;&#x8D38;&#x533A;&#xFF0C;&#x4E3A;&#x4E9A;&#x592A;&#x5730;&#x533A;&#x5168;&#x7403;&#x4EF7;&#x503C;&#x94FE;&#x7684;&#x6574;&#x5408;&#x8FDB;&#x4E00;&#x6B65;&#x91CA;&#x653E;&#x7EA2;&#x5229;&#x3002;</div>
 <div class="item-bottom"></div>
 </div></div>
 <div class="clearfloat"></div>
@@ -659,9 +646,8 @@ FT中文网首页
 </div></div><div class="clearfloat block-bottom"></div>
 </div></div>
 <div class="side-container"><div class="side-inner">
-<iframe id="ribbon" class="ad-hidden hide" width="100%" height="60" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="/m/marketing/a.html#adid=10000009&slot=986723212&pid=ribbon"></iframe>
 <div class="links-container P-hide">
-<h2 class="list-title"><a href="/m/marketing/home.html">会员信息中心</a></h2>
+<h2 class="list-title"><a href="/m/marketing/home.html">&#x4F1A;&#x5458;&#x4FE1;&#x606F;&#x4E2D;&#x5FC3;</a></h2>
 <div class="links" id="member-info">
 <a>...</a><a>...</a><a>...</a>
 </div>
@@ -673,23 +659,23 @@ FT中文网首页
 <script type="text/javascript">document.write (writeAd('mpu'));</script>
 </div>
 <div class="interactives">
-<h2 class="list-title"><a href="/channel/mba.html">互动与图辑</a></h2>
+<h2 class="list-title"><a href="/channel/english.html">&#x6BCF;&#x65E5;&#x82F1;&#x8BED;</a></h2>
 <!---->
 <div class="item-container first"><div class="item-inner">
-<a class="image" href="/interactive/7366" target=_blank><figure class="loading" data-url="http://i.ftimg.net/picture/2/000063882_piclink.jpg"></figure></a>
-<h2 class="item-headline"><a href="/interactive/7366" target=_blank>【速读】谁才是肥胖的元凶？</a></h2>
+<a class="image" href="/interactive/8338" target="_blank"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000063954_piclink.jpg"></figure></a>
+<h2 class="item-headline"><a href="/interactive/8338" target="_blank">&#x3010;&#x901F;&#x8BFB;&#x3011;&#x51FA;&#x552E;&#x7528;&#x6237;&#x4FE1;&#x606F;&#x7684;&#x201C;&#x53E6;&#x7C7B;&#x4EA4;&#x6613;&#x201D;</a></h2>
 </div></div>
 <div class="item-container"><div class="item-inner">
-<a class="image" href="/interactive/7365" target=_blank><figure class="loading" data-url="http://i.ftimg.net/picture/0/000063880_piclink.jpg"></figure></a>
-<h2 class="item-headline"><a href="/interactive/7365" target=_blank>【电台】腐败：来自炼狱的财富</a></h2>
+<a class="image" href="/interactive/8336" target="_blank"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000066910_piclink.jpg"></figure></a>
+<h2 class="item-headline"><a href="/interactive/8336" target="_blank">&#x3010;&#x7535;&#x53F0;&#x3011;&#x201C;&#x4E94;&#x6B65;&#x6CD5;&#x201D;&#x6218;&#x80DC;&#x516C;&#x5F00;&#x53D1;&#x8A00;&#x6050;&#x614C;&#x75C7;</a></h2>
 </div></div>
 <div class="item-container"><div class="item-inner">
-<a class="image" href="/interactive/4438" target=_blank><figure class="loading" data-url="http://i.ftimg.net/picture/2/000062762_piclink.jpg"></figure></a>
-<h2 class="item-headline"><a href="/interactive/4438" target=_blank>【小测】测测你的新闻IQ</a></h2>
+<a class="image" href="/interactive/4438" target="_blank"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000066918_piclink.jpg"></figure></a>
+<h2 class="item-headline"><a href="/interactive/4438" target="_blank">&#x3010;&#x5C0F;&#x6D4B;&#x3011;&#x6D4B;&#x6D4B;&#x4F60;&#x7684;&#x65B0;&#x95FB;IQ</a></h2>
 </div></div>
 <div class="item-container"><div class="item-inner">
-<a class="image" href="/interactive/7357" target=_blank><figure class="loading" data-url="http://i.ftimg.net/picture/0/000063860_piclink.jpg"></figure></a>
-<h2 class="item-headline"><a href="/interactive/7357" target=_blank>【速读】绝对爱玩的中国人</a></h2>
+<a class="image" href="/photonews/1045" target="_blank"><figure class="loading" data-url="http://i.ftimg.net/photonews/2016/12/584e61961e3218.63653153.jpg"></figure></a>
+<h2 class="item-headline"><a href="/photonews/1045" target="_blank">&#x3010;&#x56FE;&#x8F91;&#x3011;FT&#x4E2D;&#x6587;&#x7F51;-&#x4EBA;&#x4EBA;&#x8D37;WE&#x7406;&#x8D22;&#x62A5;&#x544A;&#x53D1;&#x5E03;&#x4F1A;&#x7CBE;&#x5F69;&#x56FE;&#x96C6;</a></h2>
 </div></div>
 <!---->
 </div>
@@ -697,17 +683,17 @@ FT中文网首页
 <script type="text/javascript">document.write (writeAd('mpu'));</script>
 </div>
 <div class="vidoes P-hide">
-<h2 class="list-title"><a href="/m/marketing/intelligence.html">FT研究院</a></h2>
+<h2 class="list-title"><a href="/m/marketing/intelligence.html">FT&#x7814;&#x7A76;&#x9662;</a></h2>
 <div class="item-container first"><div class="item-inner">
-<a class="image" href="/interactive/7208" target=_blank><figure class="loading" data-url="http://i.ftimg.net/images/2016/06/75ee315009e8d74675c2af60656575bf.jpg"></figure></a>
-<h2 class="item-headline"><a href="/interactive/7208" target=_blank>中产富裕阶层金融投资研究报告</a></h2>
+<a class="image" href="/interactive/8152" target="_blank"><figure class="loading" data-url="http://i.ftimg.net/images/2016/11/b55addb98a4b6fa86723050ee9f43aaa.jpg"></figure></a>
+<h2 class="item-headline"><a href="/interactive/8152" target="_blank">&#x4E2D;&#x4EA7;&#x5BCC;&#x88D5;&#x9636;&#x5C42;&#x8D22;&#x5BCC;&#x7BA1;&#x7406;&#x7814;&#x7A76;&#x62A5;&#x544A;</a></h2>
 </div></div>
 <div id="three-video-part" class="triplet-container">
 <div id="three-video-content">
 <ul>
-<li><a target="_blank" href="/interactive/7206"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000063207_piclink.jpg"></figure><p>中产富裕阶层收入信心研究报告</p></a></li>
-<li><a target="_blank" href="/interactive/7157"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000063047_piclink.jpg"></figure><p>数据告诉你，各省间高考招录真的很不公平吗？</p></a></li>
-<li><a target="_blank" href="/interactive/7063"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000062979_piclink.jpg"></figure><p>每一分都不许浪费！大数据帮你有效填写高考志愿</p></a></li>
+<li><a target="_blank" href="/interactive/8190"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000066760_piclink.jpg"></figure><p>&#x9650;&#x65F6;&#x514D;&#x8D39;&#x9605;&#x8BFB;|&#x4E2D;&#x56FD;&#x4E92;&#x8054;&#x7F51;&#x91D1;&#x878D;&#x7814;&#x7A76;&#x62A5;&#x544A;</p></a></li>
+<li><a target="_blank" href="/interactive/8253"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000066698_piclink.jpg"></figure><p>&#x4E2D;&#x56FD;&#x4E2D;&#x9AD8;&#x7AEF;&#x4EBA;&#x7FA4;&#x6C7D;&#x8F66;&#x65B0;&#x8D2D;&#x518D;&#x8D2D;&#x5E02;&#x573A;&#x9700;&#x6C42;&#x7814;&#x7A76;&#x62A5;&#x544A;</p></a></li>
+<li><a target="_blank" href="/interactive/7876"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000066481_piclink.jpg"></figure><p>&#x5927;&#x6570;&#x636E;&#xFF1A;&#x4E2D;&#x5B66;&#x751F;&#x53D6;&#x5F97;&#x597D;&#x6210;&#x7EE9;&#x9700;&#x8981;&#x8DE8;&#x8FC7;&#x54EA;&#x4E9B;&#x5751;&#xFF1F;</p></a></li>
 <div class="clearfloat"></div>
 </ul>
 </div>
@@ -727,79 +713,79 @@ FT中文网首页
 <div class="content-container"><div class="content-inner">
 
 <div class="list-container"><div class="list-inner"><h2 class="list-title">
-<a class="list-link" href="#">评论</a>
+<a class="list-link" href="#">&#x8BC4;&#x8BBA;</a>
 </h2>
 <div class="items">
 
 <div class="item-container XL3 L4 M4 S6 P12 has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/南中国海">南中国海</a><button class="myft-follow plus" data-tag="南中国海" data-type="tag">关注</button></div><a target="_blank" href="/story/001068537">南海仲裁案：中国需要补上国际法这一课</a></h2>
-<a class="image" target="_blank" href="/story/001068537"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000063732_piclink.jpg"></figure></a><div class="item-lead">汪铮：时至今日，中国还是不习惯主动利用法律武器为自己争取和维护权益，还是对国际法的规则和惯例不熟悉。</div>
+<h2 class="item-headline"><div class="item-tag"><a href="/tag/2016&#x5E74;&#x5EA6;&#x62A5;&#x544A;">2016&#x5E74;&#x5EA6;&#x62A5;&#x544A;</a><button class="myft-follow plus" data-tag="2016&#x5E74;&#x5EA6;&#x62A5;&#x544A;" data-type="tag">&#x5173;&#x6CE8;</button></div><a target="_blank" href="/story/001070481">&#x7EE7;&#x7EED;&#x5BFB;&#x627E;&#x8EAB;&#x4EFD;&#x7684;&#x5C9B;&#x5C7F;</a></h2>
+<a class="image" target="_blank" href="/story/001070481"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000066844_piclink.jpg"></figure></a><div class="item-lead">&#x9EC4;&#x54F2;&#x658C;&#xFF1A;&#x8521;&#x82F1;&#x6587;&#x5F53;&#x9009;&#xFF0C;&#x6234;&#x7ACB;&#x5FCD;&#x4E8B;&#x4EF6;&#xFF0C;&#x540C;&#x6027;&#x5A5A;&#x59FB;&#x4E89;&#x8BAE;&#xFF0C;&#x582A;&#x79F0;&#x4ECA;&#x5E74;&#x6700;&#x80FD;&#x4F53;&#x73B0;&#x53F0;&#x6E7E;&#x5185;&#x90E8;&#x653F;&#x6CBB;&#x529B;&#x4E0E;&#x793E;&#x4F1A;&#x529B;&#x7684;&#x91CD;&#x5927;&#x7EAA;&#x4E8B;&#x3002;</div>
 <div class="item-bottom"></div>
 </div></div>
 <div class=" PT"></div>
 <div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/英国退欧公投">英国退欧公投</a><button class="myft-follow plus" data-tag="英国退欧公投" data-type="tag">关注</button></div><a target="_blank" href="/story/001068516">经济学家们不应退出公共生活</a></h2>
-<a class="image" target="_blank" href="/story/001068516"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000063831_piclink.jpg"></figure></a><div class="item-lead">哈福德：在英国退欧问题上，经济学家意见空前一致，却无力回天。但公共生活太过宝贵，不能完全交托给政客。</div>
+<h2 class="item-headline"><div class="item-tag"><a href="/tag/TPP">TPP</a><button class="myft-follow plus" data-tag="TPP" data-type="tag">&#x5173;&#x6CE8;</button></div><a target="_blank" href="/story/001070493">&#x9000;&#x51FA;TPP&#x5BF9;&#x7F8E;&#x56FD;&#x4E0D;&#x5229;</a></h2>
+<a class="image" target="_blank" href="/story/001070493"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000066879_piclink.jpg"></figure></a><div class="item-lead">&#x9EA6;&#x51EF;&#x6069;&#xFF1A;&#x65E0;&#x8BBA;&#x7F8E;&#x56FD;&#x662F;&#x5426;&#x7B7E;&#x7F72;&#x8D38;&#x6613;&#x534F;&#x5B9A;&#xFF0C;&#x5168;&#x7403;&#x7ECF;&#x6D4E;&#x90FD;&#x4F1A;&#x53D8;&#x5F97;&#x8D8A;&#x6765;&#x8D8A;&#x5F00;&#x653E;&#x5E76;&#x66F4;&#x5177;&#x7ADE;&#x4E89;&#x6027;&#x3002;&#x9000;&#x51FA;TPP&#x53EA;&#x4F1A;&#x635F;&#x5BB3;&#x7F8E;&#x56FD;&#x7ADE;&#x4E89;&#x529B;&#x3002;</div>
 <div class="item-bottom"></div>
 </div></div>
 <div class=" ST PT"></div>
 <div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/科技业">科技业</a><button class="myft-follow plus" data-tag="科技业" data-type="tag">关注</button></div><a target="_blank" href="/story/001068529">FT社评：英国不能靠出售来实现荣光</a></h2>
-<a class="image" target="_blank" href="/story/001068529"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000063837_piclink.jpg"></figure></a><div class="item-lead">软银收购ARM是对英国经商环境投下的信任票。但英国若想实现经济再平衡，就应再考虑一下是否应出售ARM这样的战略性企业。</div>
+<h2 class="item-headline"><div class="item-tag"><a href="/tag/&#x5243;&#x5200;&#x8FB9;&#x7F18;">&#x5243;&#x5200;&#x8FB9;&#x7F18;</a><button class="myft-follow plus" data-tag="&#x5243;&#x5200;&#x8FB9;&#x7F18;" data-type="tag">&#x5173;&#x6CE8;</button></div><a target="_blank" href="/story/001070469">&#x300A;&#x7075;&#x9B42;&#x8F9E;&#x5178;&#x300B;&#xFF1A;&#x827A;&#x672F;&#x5BB6;&#x53E9;&#x95EE;&#x4E2D;&#x56FD;&#x4EBA;&#x7684;&#x7075;&#x9B42;</a></h2>
+<a class="image" target="_blank" href="/story/001070469"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000066824_piclink.jpg"></figure></a><div class="item-lead">&#x8001;&#x611A;&#xFF1A;&#x4E5D;&#x5341;&#x5206;&#x949F;&#x3001;&#x6CA1;&#x6709;&#x4E00;&#x53E5;&#x53F0;&#x8BCD;&#x7684;&#x5148;&#x950B;&#x5B9E;&#x9A8C;&#x620F;&#x5267;&#x300A;&#x7075;&#x9B42;&#x8BCD;&#x5178;&#x300B;&#xFF0C;&#x8868;&#x73B0;&#x5F53;&#x4E0B;&#x4E2D;&#x56FD;&#x4EBA;&#x6323;&#x8131;&#x4E16;&#x4FD7;&#x684E;&#x688F;&#xFF0C;&#x56DE;&#x5F52;&#x6027;&#x7075;&#x751F;&#x6D3B;&#x7684;&#x5386;&#x7A0B;&#x3002;</div>
 <div class="item-bottom"></div>
 </div></div>
 <div class=" LT MT PT"></div>
 <div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/政治经济">政治经济</a><button class="myft-follow plus" data-tag="政治经济" data-type="tag">关注</button></div><a target="_blank" href="/story/001068508">精英阶层何以丧失影响力？</a></h2>
-<a class="image" target="_blank" href="/story/001068508"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000063481_piclink.jpg"></figure></a><div class="item-lead">孙涤：当下西方社会矛盾积累的一大原因，是精英阶层没有关心其他阶层权益，没有切身体验他们的感受和痛楚。</div>
+<h2 class="item-headline"><div class="item-tag"><a href="/tag/2016&#x7F8E;&#x56FD;&#x5927;&#x9009;">2016&#x7F8E;&#x56FD;&#x5927;&#x9009;</a><button class="myft-follow plus" data-tag="2016&#x7F8E;&#x56FD;&#x5927;&#x9009;" data-type="tag">&#x5173;&#x6CE8;</button></div><a target="_blank" href="/story/001070494">&#x7279;&#x6717;&#x666E;&#x4E3A;&#x4F55;&#x63A8;&#x884C;&#x201C;Twitter&#x5916;&#x4EA4;&#x201D;&#xFF1F;</a></h2>
+<a class="image" target="_blank" href="/story/001070494"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000066880_piclink.jpg"></figure></a><div class="item-lead">&#x5361;&#x62C9;&#x592B;&#xFF1A;&#x4E00;&#x4E9B;&#x6C9F;&#x901A;&#x4E13;&#x5BB6;&#x8BA4;&#x4E3A;&#xFF0C;&#x7279;&#x6717;&#x666E;&#x7684;Twitter&#x6218;&#x7565;&#x6216;&#x8BB8;&#x786E;&#x5B9E;&#x662F;&#x4E00;&#x9879;&#x5929;&#x624D;&#x6218;&#x7565;&#xFF0C;&#x800C;&#x4E14;&#x5F88;&#x53EF;&#x80FD;&#x91CD;&#x5851;&#x653F;&#x6CBB;&#x4E0E;&#x5A92;&#x4F53;&#x95F4;&#x7684;&#x5173;&#x7CFB;&#x3002;</div>
 <div class="item-bottom"></div>
 </div></div>
 <div class="XLT ST PT"></div>
 <div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/中国留学生">中国留学生</a><button class="myft-follow plus" data-tag="中国留学生" data-type="tag">关注</button></div><a target="_blank" href="/story/001068518">哈佛女孩的“爱国演讲”：你所不知的台前幕后</a></h2>
-<a class="image" target="_blank" href="/story/001068518"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000063833_piclink.jpg"></figure></a><div class="item-lead">哈佛大学中国留学生许吉如日前在北京卫视的演讲赢得广泛关注，如今她给FT中文网撰稿，讲述演讲背后的故事。</div>
+<h2 class="item-headline"><div class="item-tag"><a href="/tag/2016&#x5E74;&#x5EA6;&#x62A5;&#x544A;">2016&#x5E74;&#x5EA6;&#x62A5;&#x544A;</a><button class="myft-follow plus" data-tag="2016&#x5E74;&#x5EA6;&#x62A5;&#x544A;" data-type="tag">&#x5173;&#x6CE8;</button></div><a target="_blank" href="/story/001070490">&#x4E2D;&#x56FD;&#x80FD;&#x5426;&#x6210;&#x4E3A;&#x56FD;&#x9645;&#x6C14;&#x5019;&#x6CBB;&#x7406;&#x9886;&#x8896;&#xFF1F;</a></h2>
+<a class="image" target="_blank" href="/story/001070490"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000047999_piclink.jpg"></figure></a><div class="item-lead">&#x674E;&#x7855;&#xFF1A;&#x7279;&#x6717;&#x666E;&#x4E0A;&#x53F0;&#x5728;&#x56FD;&#x9645;&#x6C14;&#x5019;&#x6CBB;&#x7406;&#x7684;&#x821E;&#x53F0;&#x4E2D;&#x5FC3;&#x5F00;&#x51FF;&#x51FA;&#x4E00;&#x4E2A;&#x5DE8;&#x5927;&#x9ED1;&#x6D1E;&#xFF0C;&#x6C14;&#x5019;&#x8FDB;&#x7A0B;&#x7684;&#x96C6;&#x4F53;&#x9886;&#x5BFC;&#x6A21;&#x5F0F;&#x6050;&#x5C06;&#x96BE;&#x4EE5;&#x5EF6;&#x7EED;&#x3002;</div>
 <div class="item-bottom"></div>
 </div></div>
 <div class=" PT"></div>
 <div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/法国尼斯恐袭">法国尼斯恐袭</a><button class="myft-follow plus" data-tag="法国尼斯恐袭" data-type="tag">关注</button></div><a target="_blank" href="/story/001068513">恐袭阴影下法国人的生活</a></h2>
-<a class="image" target="_blank" href="/story/001068513"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000056340_piclink.jpg"></figure></a><div class="item-lead">库柏：在一座悠闲的海滨度假城市都能发生如此残暴的袭击，那法国就没有任何能让人感到安全的地方了。</div>
+<h2 class="item-headline"><div class="item-tag"><a href="/tag/&#x56FD;&#x503A;">&#x56FD;&#x503A;</a><button class="myft-follow plus" data-tag="&#x56FD;&#x503A;" data-type="tag">&#x5173;&#x6CE8;</button></div><a target="_blank" href="/story/001070465">10&#x5E74;&#x671F;&#x56FD;&#x503A;&#x8FD8;&#x6709;&#x591A;&#x5C11;&#x8C03;&#x6574;&#x7A7A;&#x95F4;&#xFF1F;</a></h2>
+<a class="image" target="_blank" href="/story/001070465"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000066297_piclink.jpg"></figure></a><div class="item-lead">&#x4EE5;10&#x5E74;&#x671F;&#x56FD;&#x503A;&#x89C2;&#x5BDF;&#xFF0C;&#x8FD1;&#x671F;&#x5168;&#x7403;&#x503A;&#x5E02;&#x51FA;&#x73B0;&#x660E;&#x663E;&#x8C03;&#x6574;&#xFF1B;&#x76F8;&#x5BF9;&#x4E8E;&#x8D27;&#x5E01;&#x653F;&#x7B56;&#x76EE;&#x6807;&#x5229;&#x7387;&#x3001;&#x901A;&#x80C0;&#x7387;&#x548C;&#x4EA7;&#x51FA;&#x589E;&#x901F;&#xFF0C;&#x5F53;&#x524D;&#x4E2D;&#x957F;&#x671F;&#x56FD;&#x503A;&#x6536;&#x76CA;&#x7387;&#x5E76;&#x4E0D;&#x9AD8;&#x3002;</div>
 <div class="item-bottom"></div>
 </div></div>
 <div class=" LT MT ST PT"></div>
 <div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/中国社会">中国社会</a><button class="myft-follow plus" data-tag="中国社会" data-type="tag">关注</button></div><a target="_blank" href="/story/001068506">赵薇事件，互联网时代的“叫魂”</a></h2>
-<a class="image" target="_blank" href="/story/001068506"><figure class="loading" data-url="http://i.ftimg.net/picture/5/000061485_piclink.jpg"></figure></a><div class="item-lead">侯虹斌：在这个权力对普通民众来说向来稀缺的社会里，以“叫魂”罪名来恶意中伤他人成了普通人的一种突然可得的权力。</div>
+<h2 class="item-headline"><div class="item-tag"><a href="/tag/&#x6559;&#x80B2;">&#x6559;&#x80B2;</a><button class="myft-follow plus" data-tag="&#x6559;&#x80B2;" data-type="tag">&#x5173;&#x6CE8;</button></div><a target="_blank" href="/story/001070492">&#x82F1;&#x56FD;&#xFF1A;&#x6559;&#x80B2;&#x51FA;&#x53E3;&#x5927;&#x56FD;&#x7684;&#x6559;&#x80B2;&#x95EE;&#x9898;</a></h2>
+<a class="image" target="_blank" href="/story/001070492"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000066582_piclink.jpg"></figure></a><div class="item-lead">&#x683C;&#x6797;&#xFF1A;&#x5728;&#x6700;&#x65B0;Pisa&#x6392;&#x540D;&#x4E2D;&#xFF0C;&#x82F1;&#x56FD;15&#x5C81;&#x5B69;&#x5B50;&#x7684;&#x9605;&#x8BFB;&#x548C;&#x6570;&#x5B66;&#x5206;&#x522B;&#x505C;&#x7559;&#x5728;&#x7B2C;22&#x4F4D;&#x548C;&#x7B2C;27&#x4F4D;&#xFF0C;&#x4EE4;&#x8FD9;&#x4E2A;&#x6559;&#x80B2;&#x51FA;&#x53E3;&#x5927;&#x56FD;&#x5341;&#x5206;&#x96BE;&#x582A;&#x3002;</div>
 <div class="item-bottom"></div>
 </div></div>
 <div class=" PT"></div>
 <div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/中国经济">中国经济</a><button class="myft-follow plus" data-tag="中国经济" data-type="tag">关注</button></div><a target="_blank" href="/story/001068503">中国潜在增速的未来趋势：L还是乁？</a></h2>
-<a class="image" target="_blank" href="/story/001068503"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000063827_piclink.jpg"></figure></a><div class="item-lead">刘海影：中国最新经济增速已降低到6.7%左右，大幅低于5年前大家习惯的10%以上的增速。这一速度是否过低？</div>
+<h2 class="item-headline"><div class="item-tag"><a href="/tag/&#x610F;&#x5927;&#x5229;">&#x610F;&#x5927;&#x5229;</a><button class="myft-follow plus" data-tag="&#x610F;&#x5927;&#x5229;" data-type="tag">&#x5173;&#x6CE8;</button></div><a target="_blank" href="/story/001070470">&#x610F;&#x5927;&#x5229;&#x516C;&#x6295;&#xFF1A;&#x8FD9;&#x53EA;&#x5929;&#x9E45;&#x4E0D;&#x592A;&#x9ED1;</a></h2>
+<a class="image" target="_blank" href="/story/001070470"><figure class="loading" data-url="http://i.ftimg.net/picture/5/000066825_piclink.jpg"></figure></a><div class="item-lead">&#x590F;&#x4E50;&#xFF1A;&#x51FA;&#x4EBA;&#x610F;&#x6599;&#x7684;&#x5E02;&#x573A;&#x53CD;&#x5E94;&#x8BA9;&#x610F;&#x5927;&#x5229;&#x201C;&#x9ED1;&#x5929;&#x9E45;&#x201D;&#x4E8B;&#x4EF6;&#x663E;&#x5F97;&#x6210;&#x8272;&#x4E0D;&#x8DB3;&#xFF0C;&#x96BE;&#x9053;&#x5E02;&#x573A;&#x5DF2;&#x7ECF;&#x5BF9;&#x9891;&#x7E41;&#x51FA;&#x73B0;&#x7684;&#x201C;&#x9ED1;&#x5929;&#x9E45;&#x201D;&#x611F;&#x5230;&#x9EBB;&#x6728;&#xFF1F;</div>
 <div class="item-bottom"></div>
 </div></div>
 <div class="XLT ST PT"></div>
 <div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/艺述东西">艺述东西</a><button class="myft-follow plus" data-tag="艺述东西" data-type="tag">关注</button></div><a target="_blank" href="/story/001068510">他给中国艺术展览“打假”</a></h2>
-<a class="image" target="_blank" href="/story/001068510"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000063829_piclink.jpg"></figure></a><div class="item-lead">马继东：中国艺术从业者梁克刚打假北京一场名为“毕加索走进中国”的展览，揭示中国艺术展览领域的乱象。</div>
+<h2 class="item-headline"><div class="item-tag"><a href="/tag/&#x7279;&#x6717;&#x666E;">&#x7279;&#x6717;&#x666E;</a><button class="myft-follow plus" data-tag="&#x7279;&#x6717;&#x666E;" data-type="tag">&#x5173;&#x6CE8;</button></div><a target="_blank" href="/story/001070480">&#x7279;&#x6717;&#x666E;&#x53F0;&#x6E7E;&#x89C2;&#x7684;&#x6839;&#x6E90;</a></h2>
+<a class="image" target="_blank" href="/story/001070480"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000066846_piclink.jpg"></figure></a><div class="item-lead">&#x5F20;&#x950B;&#xFF1A;&#x7279;&#x6717;&#x666E;&#x5176;&#x5B9E;&#x5728;&#x5411;&#x7F8E;&#x56FD;&#x5BF9;&#x53F0;&#x653F;&#x7B56;&#x7684;&#x5386;&#x53F2;&#x6839;&#x6E90;&#x56DE;&#x5F52;&#x3002;&#x60F3;&#x8BA4;&#x8BC6;&#x5230;&#x8FD9;&#x4E00;&#x70B9;&#xFF0C;&#x9700;&#x7406;&#x89E3;&#x7F8E;&#x56FD;&#x6240;&#x8C13;&#x7684;&#x201C;&#x4E00;&#x4E2A;&#x4E2D;&#x56FD;&#x201D;&#x539F;&#x5219;&#x7684;&#x672C;&#x8D28;&#x3002;</div>
 <div class="item-bottom"></div>
 </div></div>
 <div class=" LT MT PT"></div>
 <div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/科学研究">科学研究</a><button class="myft-follow plus" data-tag="科学研究" data-type="tag">关注</button></div><a target="_blank" href="/story/001068515">“完美人”离我们有多远</a></h2>
-<a class="image" target="_blank" href="/story/001068515"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000063830_piclink.jpg"></figure></a><div class="item-lead">阿胡贾：美国将批准首项人类Crispr基因编辑试验。但有人会想，为何止步于修正人类基因组？何不对其进行美化？</div>
+<h2 class="item-headline"><div class="item-tag"><a href="/tag/&#x6B27;&#x5143;&#x533A;">&#x6B27;&#x5143;&#x533A;</a><button class="myft-follow plus" data-tag="&#x6B27;&#x5143;&#x533A;" data-type="tag">&#x5173;&#x6CE8;</button></div><a target="_blank" href="/story/001070471">&#x6B27;&#x5143;&#x533A;&#x5C06;&#x9762;&#x4E34;&#x66F4;&#x591A;&#x5371;&#x673A;</a></h2>
+<a class="image" target="_blank" href="/story/001070471"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000066826_piclink.jpg"></figure></a><div class="item-lead">&#x6C83;&#x5C14;&#x592B;&#xFF1A;&#x610F;&#x5927;&#x5229;&#x653F;&#x5C40;&#x52A8;&#x8361;&#x5C1A;&#x65E0;&#x6CD5;&#x5DE6;&#x53F3;&#x6B27;&#x5143;&#x533A;&#x547D;&#x8FD0;&#xFF0C;&#x4F46;&#x53EA;&#x8981;&#x6B27;&#x5143;&#x533A;&#x65E0;&#x6CD5;&#x5B9E;&#x73B0;&#x5E7F;&#x6CDB;&#x5206;&#x4EAB;&#x7684;&#x7E41;&#x8363;&#xFF0C;&#x5B83;&#x5C31;&#x4F1A;&#x968F;&#x65F6;&#x906D;&#x53D7;&#x51B2;&#x51FB;&#x3002;</div>
 <div class="item-bottom"></div>
 </div></div>
 <div class=" ST PT"></div>
 <div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/恐怖袭击">恐怖袭击</a><button class="myft-follow plus" data-tag="恐怖袭击" data-type="tag">关注</button></div><a target="_blank" href="/story/001068507">FT社评：全球反恐变得更加困难</a></h2>
-<a class="image" target="_blank" href="/story/001068507"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000063811_piclink.jpg"></figure></a><div class="item-lead">恐怖主义的战术正发生变化，使各国更难以先发制人展开打击。但不变的一点是，反恐战争仍然既是安全问题、也是理念之战。</div>
+<h2 class="item-headline"><div class="item-tag"><a href="/tag/2016&#x5E74;&#x5EA6;&#x62A5;&#x544A;">2016&#x5E74;&#x5EA6;&#x62A5;&#x544A;</a><button class="myft-follow plus" data-tag="2016&#x5E74;&#x5EA6;&#x62A5;&#x544A;" data-type="tag">&#x5173;&#x6CE8;</button></div><a target="_blank" href="/story/001070428">&#x5168;&#x7403;&#x7ECF;&#x6D4E;&#x4ECA;&#x5E74;&#x666E;&#x904D;&#x52A0;&#x901F;&#x589E;&#x957F;</a></h2>
+<a class="image" target="_blank" href="/story/001070428"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000063952_piclink.jpg"></figure></a><div class="item-lead">&#x6234;&#x7EF4;&#x65AF;&#xFF1A;&#x4ECA;&#x5E74;&#x5BF9;&#x5168;&#x7403;&#x7ECF;&#x6D4E;&#x63D0;&#x901F;&#x8D21;&#x732E;&#x6700;&#x5927;&#x7684;&#x4ECD;&#x7136;&#x662F;&#x65B0;&#x5174;&#x5E02;&#x573A;&#xFF0C;&#x5176;&#x4E2D;&#x4E3B;&#x8981;&#x662F;&#x4E2D;&#x56FD;&#x3001;&#x4FC4;&#x7F57;&#x65AF;&#x548C;&#x5DF4;&#x897F;&#x3002;&#x7F8E;&#x56FD;&#x7684;&#x7ECF;&#x6D4E;&#x6D3B;&#x52A8;&#x98D9;&#x5347;&#x4E5F;&#x975E;&#x5E38;&#x660E;&#x663E;&#x3002;</div>
 <div class="item-bottom"></div>
 </div></div>
 <div class=" PT"></div>
 <div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/土耳其">土耳其</a><button class="myft-follow plus" data-tag="土耳其" data-type="tag">关注</button></div><a target="_blank" href="/story/001068504">FT社评：土耳其必须寻求共识而非报复</a></h2>
-<a class="image" target="_blank" href="/story/001068504"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000063810_piclink.jpg"></figure></a><div class="item-lead">土耳其政变凸显出该国社会中不断加深的分裂。虽然埃尔多安仍得到约半数选民的热情支持，但他的种种做法加剧了紧张。</div>
+<h2 class="item-headline"><div class="item-tag"><a href="/tag/&#x7535;&#x5B50;&#x652F;&#x4ED8;">&#x7535;&#x5B50;&#x652F;&#x4ED8;</a><button class="myft-follow plus" data-tag="&#x7535;&#x5B50;&#x652F;&#x4ED8;" data-type="tag">&#x5173;&#x6CE8;</button></div><a target="_blank" href="/story/001070473">&#x4E2D;&#x56FD;&#x6570;&#x5B57;&#x5316;&#x6D88;&#x8D39;&#x4F55;&#x4EE5;&#x9886;&#x5148;&#x4E16;&#x754C;&#xFF1F;</a></h2>
+<a class="image" target="_blank" href="/story/001070473"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000066831_piclink.jpg"></figure></a><div class="item-lead">&#x9A6C;&#x4E01;&#xFF1A;&#x4E2D;&#x56FD;&#x6D88;&#x8D39;&#x8005;&#x7B97;&#x4E0D;&#x4E0A;&#x5168;&#x4E16;&#x754C;&#x6700;&#x5BCC;&#x6709;&#x7684;&#x7FA4;&#x4F53;&#xFF0C;&#x4F46;&#x5728;&#x8D2D;&#x7269;&#x548C;&#x652F;&#x4ED8;&#x65B9;&#x9762;&#xFF0C;&#x4ED6;&#x4EEC;&#x7684;&#x89C2;&#x5FF5;&#x5374;&#x6BD4;&#x53D1;&#x8FBE;&#x56FD;&#x5BB6;&#x7684;&#x6D88;&#x8D39;&#x8005;&#x8D85;&#x524D;&#x5F88;&#x591A;&#x3002;</div>
 <div class="item-bottom"></div>
 </div></div>
 <div class="clearfloat"></div>
@@ -823,25 +809,25 @@ FT中文网首页
 
 <div class="list-container  XL4 L6 M12 S6 P12 side-by-side">
 <div class="list-inner">
-<h2 class="list-title"><a class="list-link" href="/channel/economy.html">经济</a></h2>
+<h2 class="list-title"><a class="list-link" href="/channel/economy.html">&#x7ECF;&#x6D4E;</a></h2>
 
 <div class="item-container side-by-side first has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001068547">中国自由派杂志《炎黄春秋》停刊</a></h2>
-<a class="image" target="_blank" href="/story/001068547"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000063879_piclink.jpg"></figure></a><div class="item-lead">中国官方要对《炎黄春秋》杂志社管理层洗牌，但该杂志社社委会未服从这一要求，而是一致决定立即停刊。</div><div class="item-bottom"></div>
+<h2 class="item-headline"><a target="_blank" href="/story/001070525">&#x4E2D;&#x56FD;&#x5B98;&#x5A92;&#x4E25;&#x5389;&#x62A8;&#x51FB;&#x7279;&#x6717;&#x666E;&#x6700;&#x65B0;&#x6D89;&#x53F0;&#x8A00;&#x8BBA;</a></h2>
+<a class="image" target="_blank" href="/story/001070525"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000066907_piclink.jpg"></figure></a><div class="item-lead">&#x7279;&#x6717;&#x666E;&#x516C;&#x5F00;&#x8D28;&#x7591;&#x7F8E;&#x56FD;&#x653F;&#x5E9C;&#x662F;&#x5426;&#x8FD8;&#x8981;&#x7EE7;&#x7EED;&#x5C0A;&#x91CD;&#x201C;&#x4E00;&#x4E2A;&#x4E2D;&#x56FD;&#x201D;&#x653F;&#x7B56;&#x3002;&#x4E2D;&#x56FD;&#x300A;&#x73AF;&#x7403;&#x65F6;&#x62A5;&#x300B;&#x56DE;&#x5E94;&#x79F0;&#x201C;&#x4E00;&#x4E2A;&#x4E2D;&#x56FD;&#x201D;&#x4E0D;&#x80FD;&#x4E70;&#x5356;&#x3002;</div><div class="item-bottom"></div>
 </div></div>
 
 <div class="item-container side-by-side "><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001068537">南海仲裁案：中国需要补上国际法这一课</a></h2>
+<h2 class="item-headline"><a target="_blank" href="/story/001070508">&#x6881;&#x632F;&#x82F1;&#x5BA3;&#x5E03;&#x4E0D;&#x5BFB;&#x6C42;&#x8FDE;&#x4EFB;</a></h2>
 <div class="item-bottom"></div>
 </div></div>
 
 <div class="item-container side-by-side "><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001068542">中国驻英大使批评美国插手南海事务</a></h2>
+<h2 class="item-headline"><a target="_blank" href="/story/001070503">&#x6FB3;&#x95E8;ATM&#x53D6;&#x6B3E;&#x9650;&#x5236;&#x62A5;&#x9053;&#x5BFC;&#x81F4;&#x535A;&#x5F69;&#x80A1;&#x5927;&#x8DCC;</a></h2>
 <div class="item-bottom"></div>
 </div></div>
 
 <div class="item-container side-by-side "><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001068541">百度因出现神秘赌博广告而面临调查</a></h2>
+<h2 class="item-headline"><a target="_blank" href="/story/001070502">&#x4E2D;&#x56FD;&#x5C71;&#x4E1C;&#x7701;&#x51FA;&#x53F0;&#x6D41;&#x52A8;&#x4EBA;&#x53E3;&#x65B0;&#x89C4;</a></h2>
 <div class="item-bottom"></div>
 </div></div>
 </div>
@@ -849,25 +835,25 @@ FT中文网首页
 <div class=" MC PC"></div>
 <div class="list-container  XL4 L6 M12 S6 P12 side-by-side">
 <div class="list-inner">
-<h2 class="list-title"><a class="list-link" href="/channel/markets.html">金融市场</a></h2>
+<h2 class="list-title"><a class="list-link" href="/channel/markets.html">&#x91D1;&#x878D;&#x5E02;&#x573A;</a></h2>
 
 <div class="item-container side-by-side first has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001068477">欣泰电气退市忌虎头蛇尾</a></h2>
-<a class="image" target="_blank" href="/story/001068477"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000062974_piclink.jpg"></figure></a><div class="item-lead">如果欣泰电气在跌停途中反弹或者最终不能退市，这将会成为A股市场的笑料，人们也就不会再相信退市的震慑力。</div><div class="item-bottom"></div>
+<h2 class="item-headline"><a target="_blank" href="/story/001070465">10&#x5E74;&#x671F;&#x56FD;&#x503A;&#x8FD8;&#x6709;&#x591A;&#x5C11;&#x8C03;&#x6574;&#x7A7A;&#x95F4;&#xFF1F;</a></h2>
+<a class="image" target="_blank" href="/story/001070465"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000066297_piclink.jpg"></figure></a><div class="item-lead">&#x4EE5;10&#x5E74;&#x671F;&#x56FD;&#x503A;&#x89C2;&#x5BDF;&#xFF0C;&#x8FD1;&#x671F;&#x5168;&#x7403;&#x503A;&#x5E02;&#x51FA;&#x73B0;&#x660E;&#x663E;&#x8C03;&#x6574;&#xFF1B;&#x76F8;&#x5BF9;&#x4E8E;&#x8D27;&#x5E01;&#x653F;&#x7B56;&#x76EE;&#x6807;&#x5229;&#x7387;&#x3001;&#x901A;&#x80C0;&#x7387;&#x548C;&#x4EA7;&#x51FA;&#x589E;&#x901F;&#xFF0C;&#x5F53;&#x524D;&#x4E2D;&#x957F;&#x671F;&#x56FD;&#x503A;&#x6536;&#x76CA;&#x7387;&#x5E76;&#x4E0D;&#x9AD8;&#x3002;</div><div class="item-bottom"></div>
 </div></div>
 
 <div class="item-container side-by-side "><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001068462">德国发行负收益率国债</a></h2>
+<h2 class="item-headline"><a target="_blank" href="/story/001070482">&#x4EBA;&#x6C11;&#x5E01;&#x4F1A;&#x4E00;&#x6B21;&#x6027;&#x8D2C;&#x503C;&#x5417;&#xFF1F;</a></h2>
 <div class="item-bottom"></div>
 </div></div>
 
 <div class="item-container side-by-side "><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001068461">短线视点：煤炭价格迎来春天？</a></h2>
+<h2 class="item-headline"><a target="_blank" href="/story/001070476">&#x4FC4;&#x7F57;&#x65AF;&#x5C06;&#x53D1;&#x884C;&#x9996;&#x53EA;&#x4EBA;&#x6C11;&#x5E01;&#x503A;&#x5238;</a></h2>
 <div class="item-bottom"></div>
 </div></div>
 
 <div class="item-container side-by-side "><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001068446">英镑触底了吗？</a></h2>
+<h2 class="item-headline"><a target="_blank" href="/story/001070466">&#x4E2D;&#x56FD;&#x5916;&#x6C47;&#x50A8;&#x5907;&#x8FDE;&#x7EED;&#x7B2C;5&#x4E2A;&#x6708;&#x7F29;&#x6C34;</a></h2>
 <div class="item-bottom"></div>
 </div></div>
 </div>
@@ -875,25 +861,25 @@ FT中文网首页
 <div class=" LC SC MC PC"></div>
 <div class="list-container  XL4 L6 M12 S6 P12 side-by-side">
 <div class="list-inner">
-<h2 class="list-title"><a class="list-link" href="/channel/technology.html">科技</a></h2>
+<h2 class="list-title"><a class="list-link" href="/channel/technology.html">&#x79D1;&#x6280;</a></h2>
 
 <div class="item-container side-by-side first has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001068489">与苏珊·武伊齐茨基共进午餐</a></h2>
-<a class="image" target="_blank" href="/story/001068489"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000063869_piclink.jpg"></figure></a><div class="item-lead">这位YouTube的首席执行官曾把自家车库出租给谷歌两位创始人，后来加入谷歌，是谷歌收购YouTube的主要推手。</div><div class="item-bottom"></div>
+<h2 class="item-headline"><a target="_blank" href="/story/001070495">&#x5C0F;&#x732A;&#x77ED;&#x79DF;&#x770B;&#x591A;&#x4E2D;&#x56FD;&#x5206;&#x4EAB;&#x7ECF;&#x6D4E;&#x7684;&#x672A;&#x6765;</a></h2>
+<a class="image" target="_blank" href="/story/001070495"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000066881_piclink.jpg"></figure></a><div class="item-lead">&#x9762;&#x5BF9;&#x65E7;&#x7ECF;&#x6D4E;&#x5F15;&#x64CE;&#x653E;&#x7F13;&#xFF0C;&#x4E2D;&#x56FD;&#x653F;&#x5E9C;&#x4F3C;&#x4E4E;&#x652F;&#x6301;&#x201C;&#x5206;&#x4EAB;&#x7ECF;&#x6D4E;&#x201D;&#x7684;&#x53D1;&#x5C55;&#x3002;&#x5728;&#x4ECE;&#x4E1A;&#x8005;&#x770B;&#x6765;&#xFF0C;&#x4E2D;&#x56FD;&#x5BF9;&#x98A0;&#x8986;&#x6027;&#x884C;&#x4E1A;&#x7684;&#x7075;&#x6D3B;&#x6027;&#x8D85;&#x8FC7;&#x5916;&#x56FD;&#x3002;</div><div class="item-bottom"></div>
 </div></div>
 
 <div class="item-container side-by-side "><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001068529">FT社评：英国不能靠出售来实现荣光</a></h2>
+<h2 class="item-headline"><a target="_blank" href="/story/001070473">&#x4E2D;&#x56FD;&#x6570;&#x5B57;&#x5316;&#x6D88;&#x8D39;&#x4F55;&#x4EE5;&#x9886;&#x5148;&#x4E16;&#x754C;&#xFF1F;</a></h2>
 <div class="item-bottom"></div>
 </div></div>
 
 <div class="item-container side-by-side "><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001068523">中国财团收购Opera遇阻</a></h2>
+<h2 class="item-headline"><a target="_blank" href="/story/001070475">&#x5728;&#x534E;&#x6295;&#x8D44;&#x7814;&#x53D1;&#x5C1A;&#x96BE;&#x9006;&#x8F6C;&#x82F9;&#x679C;&#x8870;&#x52BF;</a></h2>
 <div class="item-bottom"></div>
 </div></div>
 
 <div class="item-container side-by-side "><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001068515">“完美人”离我们有多远</a></h2>
+<h2 class="item-headline"><a target="_blank" href="/story/001070464">&#x8F6F;&#x94F6;&#x627F;&#x8BFA;&#x5BF9;&#x7F8E;&#x6295;&#x8D44;500&#x4EBF;&#x7F8E;&#x5143;&#x83B7;&#x7279;&#x6717;&#x666E;&#x76DB;&#x8D5E;</a></h2>
 <div class="item-bottom"></div>
 </div></div>
 </div>
@@ -901,26 +887,25 @@ FT中文网首页
 <div class="XLC MC PC"></div>
 <div class="list-container  XL4 L6 M12 S6 P12 side-by-side">
 <div class="list-inner">
-<h2 class="list-title"><a class="list-link" href="/channel/lifestyle.html">生活时尚</a></h2>
+<h2 class="list-title"><a class="list-link" href="/channel/lifestyle.html">&#x751F;&#x6D3B;&#x65F6;&#x5C1A;</a></h2>
 
 <div class="item-container side-by-side first has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001068510">他给中国艺术展览“打假”</a></h2>
-<a class="image" target="_blank" href="/story/001068510"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000063829_piclink.jpg"></figure></a><div class="item-lead">马继东：中国艺术从业者梁克刚打假北京一场名为“毕加索走进中国”的展览，揭示中国艺术展览领域的乱象。
-</div><div class="item-bottom"></div>
+<h2 class="item-headline"><a target="_blank" href="/story/001070486">&#x5BCC;&#x8C6A;&#x5BF9;&#x8D85;&#x5927;&#x6E38;&#x8247;&#x60C5;&#x6709;&#x72EC;&#x949F;</a></h2>
+<a class="image" target="_blank" href="/story/001070486"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000066864_piclink.jpg"></figure></a><div class="item-lead">&#x6E38;&#x8247;&#x8D8A;&#x957F;&#xFF0C;&#x5428;&#x4F4D;&#x548C;&#x6BCF;&#x5E73;&#x7C73;&#x5EFA;&#x9020;&#x8D39;&#x7528;&#x5C31;&#x4F1A;&#x51E0;&#x4F55;&#x7EA7;&#x589E;&#x52A0;&#x3002;&#x5168;&#x7403;&#x5927;&#x4E8E;60&#x7C73;&#x957F;&#x7684;&#x8D85;&#x8C6A;&#x534E;&#x6E38;&#x8247;&#x8FC7;&#x53BB;&#x5341;&#x5E74;&#x4E2D;&#x7FFB;&#x4E86;&#x4E00;&#x500D;&#x3002;</div><div class="item-bottom"></div>
 </div></div>
 
 <div class="item-container side-by-side "><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001068283">西班牙金枪鱼美食游</a></h2>
+<h2 class="item-headline"><a target="_blank" href="/story/001070487">&#x5728;&#x8FEA;&#x62DC;&#x673A;&#x573A;&#x8840;&#x62FC;&#x7684;&#x4E2D;&#x56FD;&#x4EBA;</a></h2>
 <div class="item-bottom"></div>
 </div></div>
 
 <div class="item-container side-by-side "><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001068282">藏着眼泪和体香的首饰</a></h2>
+<h2 class="item-headline"><a target="_blank" href="/story/001070488">&#x8BDD;&#x9898;&#x56FD;&#x5BB6;&#x7684;&#x8BDD;&#x9898;&#x753B;&#x5BB6;&#xFF1A;&#x8521;&#x56FD;&#x5F3A;</a></h2>
 <div class="item-bottom"></div>
 </div></div>
 
 <div class="item-container side-by-side "><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001068279">威尼斯有了第一个百货商场</a></h2>
+<h2 class="item-headline"><a target="_blank" href="/story/001070424">&#x518D;&#x9020;&#x201C;&#x8001;&#x5317;&#x4EAC;&#x57CE;&#x201D;&#x7684;&#x4E2D;&#x56FD;&#x5973;&#x9996;&#x5BCC;</a></h2>
 <div class="item-bottom"></div>
 </div></div>
 </div>
@@ -928,25 +913,25 @@ FT中文网首页
 <div class=" LC SC MC PC"></div>
 <div class="list-container  XL4 L6 M12 S6 P12 side-by-side">
 <div class="list-inner">
-<h2 class="list-title"><a class="list-link" href="/channel/management.html">商业与管理</a></h2>
+<h2 class="list-title"><a class="list-link" href="/channel/management.html">&#x5546;&#x4E1A;&#x4E0E;&#x7BA1;&#x7406;</a></h2>
 
 <div class="item-container side-by-side first has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001068540">万科向监管机构指控宝能融资违规</a></h2>
-<a class="image" target="_blank" href="/story/001068540"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000063574_piclink.jpg"></figure></a><div class="item-lead">无论监管部门是否采取行动，中国最大住宅开发商股价下跌都可能迫使最大股东宝能抛售部分持股偿还购股债务。</div><div class="item-bottom"></div>
+<h2 class="item-headline"><a target="_blank" href="/story/001070520">&#x201C;&#x53E6;&#x7C7B;&#x6570;&#x636E;&#x201D;&#x5356;&#x5BB6;&#x6CC4;&#x9732;&#x9690;&#x79C1;</a></h2>
+<a class="image" target="_blank" href="/story/001070520"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000064802_piclink.jpg"></figure></a><div class="item-lead">&#x591A;&#x5BB6;&#x5BF9;&#x51B2;&#x57FA;&#x91D1;&#x8868;&#x793A;&#xFF0C;&#x5411;&#x6295;&#x8D44;&#x96C6;&#x56E2;&#x51FA;&#x552E;APP&#x4E0B;&#x8F7D;&#x3001;&#x4FE1;&#x7528;&#x5361;&#x8D2D;&#x4E70;&#x4EA4;&#x6613;&#x7B49;&#x4FE1;&#x606F;&#x7684;&#x201C;&#x53E6;&#x7C7B;&#x6570;&#x636E;&#x201D;&#x4EA7;&#x4E1A;&#x672A;&#x80FD;&#x5145;&#x5206;&#x62B9;&#x53BB;&#x4E2A;&#x4EBA;&#x8D44;&#x6599;&#x3002;</div><div class="item-bottom"></div>
 </div></div>
 
 <div class="item-container side-by-side "><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001068511">香港“叮叮车”力图与时俱进</a></h2>
+<h2 class="item-headline"><a target="_blank" href="/story/001070500">&#x8FC8;&#x514B;&#x5C14;&#x2022;&#x4E54;&#x4E39;&#x6253;&#x8D62;&#x4E2D;&#x56FD;&#x5546;&#x6807;&#x6848;</a></h2>
 <div class="item-bottom"></div>
 </div></div>
 
 <div class="item-container side-by-side "><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001068527">富国银行斥资3亿英镑在伦敦买楼</a></h2>
+<h2 class="item-headline"><a target="_blank" href="/story/001070485">&#x6D77;&#x822A;&#x6210;&#x529F;&#x6536;&#x8D2D;&#x82F1;&#x8FC8;&#x7F13;&#x89E3;&#x8D44;&#x672C;&#x7BA1;&#x5236;&#x62C5;&#x5FE7;</a></h2>
 <div class="item-bottom"></div>
 </div></div>
 
 <div class="item-container side-by-side "><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001068522">对冲基金起诉东亚银行 要求摆脱家族控制</a></h2>
+<h2 class="item-headline"><a target="_blank" href="/story/001070460">&#x4E2D;&#x56FD;&#x6253;&#x51FB;&#x4FDD;&#x9669;&#x516C;&#x53F8;&#x9AD8;&#x6760;&#x6746;&#x6536;&#x8D2D;</a></h2>
 <div class="item-bottom"></div>
 </div></div>
 </div>
@@ -954,25 +939,25 @@ FT中文网首页
 <div class=" MC PC"></div>
 <div class="list-container  XL4 L6 M12 S6 P12 side-by-side">
 <div class="list-inner">
-<h2 class="list-title"><a class="list-link" href="/channel/china.html">中国</a></h2>
+<h2 class="list-title"><a class="list-link" href="/channel/china.html">&#x4E2D;&#x56FD;</a></h2>
 
 <div class="item-container side-by-side first has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001068518">哈佛女孩的“爱国演讲”：你所不知的台前幕后</a></h2>
-<a class="image" target="_blank" href="/story/001068518"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000063833_piclink.jpg"></figure></a><div class="item-lead">哈佛大学中国留学生许吉如日前在北京卫视的演讲赢得广泛关注，如今她给FT中文网撰稿，讲述演讲背后的故事。</div><div class="item-bottom"></div>
+<h2 class="item-headline"><a target="_blank" href="/story/001070501">&#x7F8E;&#x56FD;&#x52A0;&#x606F;&#x5C06;&#x66B4;&#x9732;&#x4E2D;&#x56FD;&#x7ECF;&#x6D4E;&#x5F31;&#x70B9;</a></h2>
+<a class="image" target="_blank" href="/story/001070501"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000057840_piclink.jpg"></figure></a><div class="item-lead">&#x7279;&#x6717;&#x666E;&#x4E0A;&#x53F0;&#x540E;&#x7F8E;&#x56FD;&#x4F1A;&#x4E0A;&#x8C03;&#x5229;&#x7387;&#xFF0C;&#x800C;&#x9AD8;&#x6760;&#x6746;&#x7387;&#x7684;&#x4F01;&#x4E1A;&#x90E8;&#x95E8;&#x3001;&#x6CE2;&#x52A8;&#x7684;&#x623F;&#x5730;&#x4EA7;&#x4E1A;&#x7B49;&#x56E0;&#x7D20;&#xFF0C;&#x4F7F;&#x4E2D;&#x56FD;&#x5BF9;&#x7F8E;&#x56FD;&#x52A0;&#x606F;&#x5468;&#x671F;&#x5C24;&#x4E3A;&#x654F;&#x611F;&#x3002;</div><div class="item-bottom"></div>
 </div></div>
 
 <div class="item-container side-by-side "><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001068506">赵薇事件，互联网时代的“叫魂”</a></h2>
+<h2 class="item-headline"><a target="_blank" href="/story/001070498">11&#x6708;&#x4E2D;&#x56FD;&#x8FDB;&#x51FA;&#x53E3;&#x53CC;&#x53CC;&#x589E;&#x957F;</a></h2>
 <div class="item-bottom"></div>
 </div></div>
 
 <div class="item-container side-by-side "><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001068503">中国潜在增速的未来趋势：L还是乁？</a></h2>
+<h2 class="item-headline"><a target="_blank" href="/story/001070496">&#x4E2D;&#x56FD;&#x5168;&#x9762;&#x8C03;&#x67E5;&#x97E9;&#x56FD;&#x4E50;&#x5929;</a></h2>
 <div class="item-bottom"></div>
 </div></div>
 
 <div class="item-container side-by-side "><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001068509">中国删除国内抗议南海仲裁活动的报道</a></h2>
+<h2 class="item-headline"><a target="_blank" href="/story/001070469">&#x300A;&#x7075;&#x9B42;&#x8F9E;&#x5178;&#x300B;&#xFF1A;&#x827A;&#x672F;&#x5BB6;&#x53E9;&#x95EE;&#x4E2D;&#x56FD;&#x4EBA;&#x7684;&#x7075;&#x9B42;</a></h2>
 <div class="item-bottom"></div>
 </div></div>
 </div>
@@ -982,19 +967,18 @@ FT中文网首页
 </div>
 <div class="side-container"><div class="side-inner">
 <div class="mps">
-<h2 class="list-title"><a href="/channel/weekly.html">十大热门文章</a></h2>
+<h2 class="list-title"><a href="/channel/weekly.html">&#x70ED;&#x95E8;&#x6587;&#x7AE0;</a></h2>
 <ul class="top10">
-
-<li class="mp1"><span>1. </span><a target="_blank" href="/story/001068537?dailypop">南海仲裁案：中国需要补上国际法这一课</a></li>
-<li class="mp2"><span>2. </span><a target="_blank" href="/story/001068528?dailypop">土耳其变局——中东政治强人的宿命？</a></li>
-<li class="mp3"><span>3. </span><a target="_blank" href="/story/001068531?dailypop">“小粉红”们与戴立忍们</a></li>
-<li class="mp4"><span>4. </span><a target="_blank" href="/story/001068518?dailypop">哈佛女孩的“爱国演讲”：你所不知的台前幕后</a></li>
-<li class="mp5"><span>5. </span><a target="_blank" href="/story/001068512?dailypop">在中国，抢先上车很重要</a></li>
-<li class="mp6"><span>6. </span><a target="_blank" href="/story/001068538?dailypop">特朗普崛起败坏民主信誉</a></li>
-<li class="mp7"><span>7. </span><a target="_blank" href="/story/001068526?dailypop">中国外汇储备与别国外汇储备不一样吗？</a></li>
-<li class="mp8"><span>8. </span><a target="_blank" href="/story/001068525?dailypop">不必为中国经济平缓下行而悲观</a></li>
-<li class="mp9"><span>9. </span><a target="_blank" href="/story/001068532?dailypop">穆斯林不应再对恐怖主义沉默</a></li>
-<li class="mp10"><span>10. </span><a target="_blank" href="/story/001068547?dailypop">中国自由派杂志《炎黄春秋》停刊</a></li>
+<li class="mp1"><span>1. </span><a target="_blank" href="/story/001070521?dailypop">&#x4EBA;&#x6C11;&#x5E01;&#x5168;&#x7403;&#x4F7F;&#x7528;&#x56DE;&#x843D;</a></li>
+<li class="mp2"><span>2. </span><a target="_blank" href="/story/001070514?dailypop">&#x4E60;&#x8FD1;&#x5E73;&#x3001;&#x8FBE;&#x6C83;&#x65AF;&#x548C;2017&#x5E74;&#x7684;&#x4E16;&#x754C;</a></li>
+<li class="mp3"><span>3. </span><a target="_blank" href="/story/001070525?dailypop">&#x4E2D;&#x56FD;&#x5B98;&#x5A92;&#x4E25;&#x5389;&#x62A8;&#x51FB;&#x7279;&#x6717;&#x666E;&#x6700;&#x65B0;&#x6D89;&#x53F0;&#x8A00;&#x8BBA;</a></li>
+<li class="mp4"><span>4. </span><a target="_blank" href="/story/001070530?dailypop">&#x4E2D;&#x56FD;&#x201C;&#x5E02;&#x573A;&#x7ECF;&#x6D4E;&#x201D;&#x5730;&#x4F4D;&#x9047;&#x963B;&#x5C06;&#x5F15;&#x7206;&#x65B0;&#x8D38;&#x6613;&#x6218;&#xFF1F;</a></li>
+<li class="mp5"><span>5. </span><a target="_blank" href="/story/001070513?dailypop">&#x8D22;&#x653F;&#x6539;&#x9769;&#xFF1A;&#x8F6C;&#x79FB;&#x652F;&#x4ED8;&#x7684;&#x662F;&#x662F;&#x975E;&#x975E;</a></li>
+<li class="mp6"><span>6. </span><a target="_blank" href="/story/001070519?dailypop">&#x7279;&#x6717;&#x666E;&#xFF1A;&#x4E2D;&#x60C5;&#x5C40;&#x62A5;&#x544A;&#x201C;&#x53EF;&#x7B11;&#x201D;</a></li>
+<li class="mp7"><span>7. </span><a target="_blank" href="/story/001070511?dailypop">&#x6734;&#x69FF;&#x60E0;&#x5F39;&#x52BE;&#x4E8B;&#x4EF6;&#xFF1A;&#x201C;&#x97E9;&#x5267;&#x201D;&#x8FD8;&#x662F;&#x653F;&#x6CBB;&#x8BFE;&#x5802;&#xFF1F;</a></li>
+<li class="mp8"><span>8. </span><a target="_blank" href="/story/001070510?dailypop">&#x5F00;&#x653E;&#x751F;&#x6001;&#x7CFB;&#x7EDF;&#x80FD;&#x5426;&#x52A9;&#x534E;&#x4E3A;&#x8D70;&#x51FA;&#x201C;&#x65E0;&#x4EBA;&#x533A;&#x201D;&#xFF1F;</a></li>
+<li class="mp9"><span>9. </span><a target="_blank" href="/story/001070517?dailypop">&#x4E00;&#x4F4D;&#x767E;&#x5C81;&#x8001;&#x4EBA;&#x89C1;&#x8BC1;&#x7684;&#x7F8E;&#x56FD;&#x5386;&#x53F2;</a></li>
+<li class="mp10"><span>10. </span><a target="_blank" href="/story/001070509?dailypop">&#x8BB8;&#x6CFD;&#x73AE;&#xFF1A;&#x201C;&#x7EA2;&#x53C8;&#x4E13;&#x201D;&#x7684;&#x4E92;&#x8054;&#x7F51;&#x91D1;&#x878D;CEO</a></li>
 </ul>
 </div>
 <div class="mpu-container">
@@ -1015,44 +999,44 @@ FT中文网首页
 <div class="content-container"><div class="content-inner">
 
 <div class="list-container video-package last-child"><div class="list-inner"><h2 class="list-title">
-<a class="list-link" href="/channel/stream.html">视频</a>
+<a class="list-link" href="/channel/stream.html">&#x89C6;&#x9891;</a>
 </h2>
 <div class="items">
-<div class="item-inner video-package-inner"><div class="image"><figure id="video-package-play" class="loading-video" data-vid="1982"></figure></div><div class="video-package-title"><a href="/video/1982" target=_blank>大连万达搅局欧洲足球</a></div></div>
+<div class="item-inner video-package-inner"><div class="image"><figure id="video-package-play" class="loading-video" data-vid="2114"></figure></div><div class="video-package-title"><a href="/video/2114" target="_blank">&#x3010;&#x9AD8;&#x7AEF;&#x89C6;&#x70B9;&#x3011;&#x8BB8;&#x6CFD;&#x73AE;&#xFF1A;&#x201C;&#x91D1;&#x878D;&#x516B;&#x5366;&#x5973;&#x201D;&#x8EAB;&#x540E;&#x7684;&#x7537;&#x751F;</a></div></div>
 
 <div class="item-container XL2 L4 M4 S4 P4 on     has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/video/1982">大连万达搅局欧洲足球</a></h2>
-<a class="image" target="_blank" href="/video/1982"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000063842_piclink.jpg"></figure></a>
+<h2 class="item-headline"><a target="_blank" href="/video/2114">&#x3010;&#x9AD8;&#x7AEF;&#x89C6;&#x70B9;&#x3011;&#x8BB8;&#x6CFD;&#x73AE;&#xFF1A;&#x201C;&#x91D1;&#x878D;&#x516B;&#x5366;&#x5973;&#x201D;&#x8EAB;&#x540E;&#x7684;&#x7537;&#x751F;</a></h2>
+<a class="image" target="_blank" href="/video/2114"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000066902_piclink.jpg"></figure></a>
 <div class="item-bottom"></div>
 </div></div>
 
 <div class="item-container XL2 L4 M4 S4 P4     has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/video/1981">【秒懂】中国靠什么实现经济增长目标？</a></h2>
-<a class="image" target="_blank" href="/video/1981"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000063817_piclink.jpg"></figure></a>
+<h2 class="item-headline"><a target="_blank" href="/video/2113">Jason Wu&#xFF1A;&#x65F6;&#x88C5;&#x7684;&#x5206;&#x754C;&#x6B63;&#x5728;&#x6253;&#x7834;</a></h2>
+<a class="image" target="_blank" href="/video/2113"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000066897_piclink.jpg"></figure></a>
 <div class="item-bottom"></div>
 </div></div>
 
 <div class="item-container XL2 L4 M4 S4 P4     has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/video/1980">法国国庆日遭遇卡车袭击【英文原声】</a></h2>
-<a class="image" target="_blank" href="/video/1980"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000063788_piclink.jpg"></figure></a>
+<h2 class="item-headline"><a target="_blank" href="/video/2112">&#x5FB7;&#x62C9;&#x5409;&#x575A;&#x79F0;&#x524A;&#x51CF;&#x8D2D;&#x503A;&#x4E0D;&#x662F;&#x8981;&#x9000;&#x51FA;&#x91CF;&#x5BBD;&#xFF08;&#x82F1;&#x6587;&#xFF09;</a></h2>
+<a class="image" target="_blank" href="/video/2112"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000066892_piclink.jpg"></figure></a>
 <div class="item-bottom"></div>
 </div></div>
 <div class=" LT MT ST"></div>
 <div class="item-container XL2 L4 M4 S4 P4    P-hide has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/video/1979">特里莎·梅是谁？【英文原声】</a></h2>
-<a class="image" target="_blank" href="/video/1979"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000063770_piclink.jpg"></figure></a>
+<h2 class="item-headline"><a target="_blank" href="/video/2111">&#x3010;&#x79D2;&#x61C2;&#x3011;&#x4EBA;&#x6C11;&#x5E01;&#x4E0B;&#x8DCC;&#x5239;&#x5F97;&#x4F4F;&#x5417;&#xFF1F;</a></h2>
+<a class="image" target="_blank" href="/video/2111"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000066852_piclink.jpg"></figure></a>
 <div class="item-bottom"></div>
 </div></div>
 
 <div class="item-container XL2 L4 M4 S4 P4    P-hide has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/video/1978">如何用3个数字来形容中国？</a></h2>
-<a class="image" target="_blank" href="/video/1978"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000063764_piclink.jpg"></figure></a>
+<h2 class="item-headline"><a target="_blank" href="/video/2110">&#x610F;&#x5927;&#x5229;&#xFF1A;&#x9ECE;&#x660E;&#x4E4D;&#x73B0;&#x8FD8;&#x662F;&#x5371;&#x673A;&#x5C06;&#x4E34;&#xFF1F;</a></h2>
+<a class="image" target="_blank" href="/video/2110"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000066792_piclink.jpg"></figure></a>
 <div class="item-bottom"></div>
 </div></div>
 
 <div class="item-container XL2 L4 M4 S4 P4    P-hide has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/video/1977">英国新任首相梅的艰巨挑战</a></h2>
-<a class="image" target="_blank" href="/video/1977"><figure class="loading" data-url="http://i.ftimg.net/picture/5/000063755_piclink.jpg"></figure></a>
+<h2 class="item-headline"><a target="_blank" href="/video/2109">&#x3010;&#x79D2;&#x61C2;&#x3011;&#x5371;&#x673A;&#x4E2D;&#x7684;&#x610F;&#x5927;&#x5229;</a></h2>
+<a class="image" target="_blank" href="/video/2109"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000066788_piclink.jpg"></figure></a>
 <div class="item-bottom"></div>
 </div></div>
 <div class="clearfloat"></div>
@@ -1061,18 +1045,18 @@ FT中文网首页
 </div></div>
 <div class="side-container"><div class="side-inner">
 <div class="mps">
-<h2 class="list-title"><a href="/channel/stream.html">热门视频</a></h2>
+<h2 class="list-title"><a href="/channel/stream.html">&#x70ED;&#x95E8;&#x89C6;&#x9891;</a></h2>
 <ul class="top10">
-<li class="mp1"><span>1. </span><a target="_blank" href="/video/1949">朝鲜人眼中的世界什么样？</a></li>
-<li class="mp2"><span>2. </span><a target="_blank" href="/video/1976">南海裁决让中国感受到“民族主义双刃剑”</a></li>
-<li class="mp3"><span>3. </span><a target="_blank" href="/video/1975">南海仲裁将如何影响地区局势？</a></li>
-<li class="mp4"><span>4. </span><a target="_blank" href="/video/1933">从友爱到背叛：朝鲜人对中国的真实感受</a></li>
-<li class="mp5"><span>5. </span><a target="_blank" href="/video/1978">如何用3个数字来形容中国？</a></li>
-<li class="mp6"><span>6. </span><a target="_blank" href="/video/1934">生活在朝鲜：仿佛穿越回70年代的中国</a></li>
-<li class="mp7"><span>7. </span><a target="_blank" href="/video/1977">英国新任首相梅的艰巨挑战</a></li>
-<li class="mp8"><span>8. </span><a target="_blank" href="/video/1959">记述英国脱欧派胜利的喜悦</a></li>
-<li class="mp9"><span>9. </span><a target="_blank" href="/video/1953">新疆崛起中国“风王”</a></li>
-<li class="mp10"><span>10. </span><a target="_blank" href="/video/1955">英国脱欧成功，市场为何误判？【英文原声】</a></li>
+<li class="mp1"><span>1. </span><a target="_blank" href="/video/2096">&#x4E2D;&#x56FD;&#x201C;&#x72C2;&#x4EBA;&#x201D;&#x5F20;&#x8DC3;&#x7684;&#x5EFA;&#x7B51;&#x68A6;</a></li>
+<li class="mp2"><span>2. </span><a target="_blank" href="/video/2092">&#x5E0C;&#x62C9;&#x91CC;&#x9009;&#x540E;&#x9996;&#x6B21;&#x4EAE;&#x76F8;&#xFF1A;&#x5DEE;&#x70B9;&#x4E0D;&#x60F3;&#x518D;&#x8D70;&#x51FA;&#x5BB6;&#x95E8;&#x3010;&#x82F1;&#x6587;&#x539F;&#x58F0;&#x3011;</a></li>
+<li class="mp3"><span>3. </span><a target="_blank" href="/video/2111">&#x4EBA;&#x6C11;&#x5E01;&#x4E0B;&#x8DCC;&#x5239;&#x5F97;&#x4F4F;&#x5417;&#xFF1F;</a></li>
+<li class="mp4"><span>4. </span><a target="_blank" href="/video/2071">&#x4E2D;&#x56FD;&#x4E0D;&#x60F3;&#x518D;&#x5F53;&#x201C;&#x50BB;&#x5927;&#x5934;&#x201D;&#x4E86;&#xFF1F;</a></li>
+<li class="mp5"><span>5. </span><a target="_blank" href="/video/2105">&#x4E3A;&#x4EC0;&#x4E48;&#x6742;&#x4E71;&#x624D;&#x662F;&#x6700;&#x597D;&#x7684;&#xFF1F;</a></li>
+<li class="mp6"><span>6. </span><a target="_blank" href="/video/2098">&#x98DF;&#x2022;&#x201C;&#x56DE;&#x5BB6;&#x201D;&#x5403;&#x996D;</a></li>
+<li class="mp7"><span>7. </span><a target="_blank" href="/video/2103">&#x5FEB;&#x5E74;&#x7EC8;&#x4E86;&#xFF0C;&#x8BE5;&#x5982;&#x4F55;&#x8981;&#x6C42;&#x6DA8;&#x5DE5;&#x8D44;&#xFF1F;</a></li>
+<li class="mp8"><span>8. </span><a target="_blank" href="/video/2054">&#x6BDB;&#x4E3B;&#x4E49;&#x7684;&#x56DE;&#x5F52;&#x4E0E;&#x73B0;&#x4EE3;&#x5316;&#x7684;&#x4E2D;&#x56FD;</a></li>
+<li class="mp9"><span>9. </span><a target="_blank" href="/video/2075">&#x6B7C;-20&#xFF1A;&#x4E2D;&#x56FD;&#x6280;&#x672F;&#x5F3A;&#x519B;&#x7684;&#x6700;&#x65B0;&#x6848;&#x4F8B;</a></li>
+<li class="mp10"><span>10. </span><a target="_blank" href="/video/2079">&#x6E2F;&#x4EBA;&#x6E38;&#x884C;&#x6297;&#x8BAE;&#x4E2D;&#x56FD;&#x201C;&#x91CA;&#x6CD5;&#x201D;&#x3010;&#x82F1;&#x6587;&#x539F;&#x58F0;&#x3011;</a></li>
 </ul>
 </div>
 </div></div><div class="clearfloat"></div>
@@ -1089,31 +1073,31 @@ FT中文网首页
 <div class="content-container"><div class="content-inner">
 
 <div class="list-container"><div class="list-inner"><h2 class="list-title">
-<a class="list-link" href="/tag/数据新闻">数据新闻</a>
+<a class="list-link" href="/channel/datanews.html">&#x6570;&#x636E;&#x65B0;&#x95FB;</a>
 </h2>
 <div class="items">
 
 <div class="item-container XL3 L3 M3 S6 P6 has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001068424">图解南海仲裁案</a></h2>
-<a class="image" target="_blank" href="/story/001068424"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000063699_piclink.jpg"></figure></a><div class="item-lead">在海牙仲裁庭周二所做的仲裁中，有两项地理上的重要裁决。通过以下地图，带你快速看懂这两大裁决。</div>
+<h2 class="item-headline"><a target="_blank" href="/story/001070073">&#x7279;&#x6717;&#x666E;&#x4E3A;&#x4EC0;&#x4E48;&#x80DC;&#x9009;&#xFF1F;&#x56FE;&#x89E3;&#x7F8E;&#x56FD;&#x5927;&#x9009;&#x7ED3;&#x679C;</a></h2>
+<a class="image" target="_blank" href="/story/001070073"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000066158_piclink.jpg"></figure></a><div class="item-lead">&#x6839;&#x636E;&#x7F8E;&#x56FD;&#x4E3B;&#x6D41;&#x673A;&#x6784;&#x7684;&#x9009;&#x524D;&#x6C11;&#x8C03;&#xFF0C;&#x5E0C;&#x62C9;&#x91CC;&#x539F;&#x672C;&#x88AB;&#x770B;&#x597D;&#x5728;&#x8FD9;&#x6B21;&#x7F8E;&#x56FD;&#x5927;&#x9009;&#x9886;&#x5148;&#xFF0C;&#x4F46;&#x7ED3;&#x679C;&#x5374;&#x662F;&#x5B8C;&#x5168;&#x7FFB;&#x76D8;&#x3002;&#x7A76;&#x7ADF;&#x662F;&#x54EA;&#x4E9B;&#x5173;&#x952E;&#x6295;&#x7968;&#x5F71;&#x54CD;&#x4E86;&#x6700;&#x7EC8;&#x7ED3;&#x679C;&#xFF1F;</div>
 <div class="item-bottom"></div>
 </div></div>
 
 <div class="item-container XL3 L3 M3 S6 P6 has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/interactive/7225">特别报道：优步鏖战中国</a></h2>
-<a class="image" target="_blank" href="/interactive/7225"><figure class="loading" data-url="http://i.ftimg.net//picture/4/000063344_piclink.jpg"></figure></a><div class="item-lead">优步在中国最大的问题不在于它是一家外国公司，而在于它最终遇到了一个完全与自己一样具有颠覆性和进攻性的对手。</div>
+<h2 class="item-headline"><a target="_blank" href="/story/001070056">&#x5982;&#x4F55;&#x901A;&#x8FC7;&#x53EF;&#x89C6;&#x5316;&#x5730;&#x56FE;&#x62A5;&#x9053;&#x7F8E;&#x56FD;&#x5927;&#x9009;&#xFF1F;</a></h2>
+<a class="image" target="_blank" href="/story/001070056"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000066114_piclink.jpg"></figure></a><div class="item-lead">&#x7528;&#x5730;&#x56FE;&#x5448;&#x73B0;&#x7F8E;&#x56FD;&#x5927;&#x9009;&#x7ED3;&#x679C;&#x6210;&#x4E3A;&#x65B0;&#x95FB;&#x62A5;&#x9053;&#x7684;&#x9ED8;&#x8BA4;&#x56FE;&#x50CF;&#xFF0C;&#x4F46;&#x4F20;&#x7EDF;&#x53EF;&#x89C6;&#x5316;&#x5730;&#x56FE;&#x5374;&#x88AB;&#x8BA4;&#x4E3A;&#x5145;&#x6EE1;&#x7455;&#x75B5;&#x3002;&#x65B0;&#x95FB;&#x7F16;&#x8F91;&#x6709;&#x66F4;&#x597D;&#x9009;&#x62E9;&#x5417;&#xFF1F;</div>
 <div class="item-bottom"></div>
 </div></div>
 <div class=" ST PT"></div>
 <div class="item-container XL3 L3 M3 S6 P6 has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001068169">图解英国退欧公投结果</a></h2>
-<a class="image" target="_blank" href="/story/001068169"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000063320_piclink.jpg"></figure></a><div class="item-lead">英国退欧公投结果出炉，学历高低和投票倾向相关？投给退欧的选区反而最依赖欧盟？用五张图带你阅读投票结果。</div>
+<h2 class="item-headline"><a target="_blank" href="/story/001069892">&#x56DB;&#x5F20;&#x56FE;&#x89E3;&#x8BFB;&#x82F9;&#x679C;&#x6700;&#x65B0;&#x8D22;&#x62A5;</a></h2>
+<a class="image" target="_blank" href="/story/001069892"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000064710_piclink.jpg"></figure></a><div class="item-lead">&#x82F9;&#x679C;&#x5468;&#x4E09;&#x516C;&#x5E03;&#x7B2C;&#x56DB;&#x5B63;&#x8D22;&#x62A5;&#xFF0C;&#x5E74;&#x5EA6;&#x6536;&#x5165;&#x81EA;2001&#x5E74;&#x9996;&#x6B21;&#x51FA;&#x73B0;&#x540C;&#x6BD4;&#x4E0B;&#x6ED1;&#xFF0C;&#x8D22;&#x62A5;&#x6570;&#x5B57;&#x4E5F;&#x900F;&#x6F0F;&#x51FA;iPhone&#x4EA7;&#x54C1;&#x7684;&#x6210;&#x957F;&#x56F0;&#x5883;&#x3002;</div>
 <div class="item-bottom"></div>
 </div></div>
 
 <div class="item-container XL3 L3 M3 S6 P6 has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001068127">六张图表解析英国退欧公投</a></h2>
-<a class="image" target="_blank" href="/story/001068127"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000063244_piclink.jpg"></figure></a><div class="item-lead">英国退欧公投进入倒数计时，FT中文网用六张关键数据图帮你了解“退欧”争议以及英国的最新民调。</div>
+<h2 class="item-headline"><a target="_blank" href="/story/001069835">OECD&#xFF1A;2007&#x5E74;&#x4EE5;&#x6765;&#x6709;&#x5341;&#x5206;&#x4E4B;&#x4E00;&#x5DE5;&#x4F5C;&#x5C97;&#x4F4D;&#x6D88;&#x5931;</a></h2>
+<a class="image" target="_blank" href="/story/001069835"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000065798_piclink.jpg"></figure></a><div class="item-lead">&#x90E8;&#x5206;OECD&#x56FD;&#x5BB6;&#x5DF2;&#x5C06;&#x9752;&#x5E74;&#x5C31;&#x4E1A;&#x7387;&#x62C9;&#x56DE;&#x5230;&#x91D1;&#x878D;&#x5371;&#x673A;&#x524D;&#x7684;&#x6C34;&#x5E73;&#xFF0C;&#x4F46;&#x591A;&#x6570;&#x56FD;&#x5BB6;&#x5C31;&#x4E1A;&#x5E02;&#x573A;&#x4ECD;&#x7136;&#x6CA1;&#x6709;&#x5927;&#x5E45;&#x6539;&#x5584;&#x9752;&#x5E74;&#x5C31;&#x4E1A;&#x7684;&#x524D;&#x666F;&#x3002;</div>
 <div class="item-bottom"></div>
 </div></div>
 <div class="clearfloat"></div>
@@ -1125,31 +1109,31 @@ FT中文网首页
 <div class="content-container"><div class="content-inner">
 
 <div class="list-container"><div class="list-inner"><h2 class="list-title">
-<a class="list-link" href="/m/marketing/intelligence.html">FT研究院</a>
+<a class="list-link" href="/m/marketing/intelligence.html">FT&#x7814;&#x7A76;&#x9662;</a>
 </h2>
 <div class="items">
 
 <div class="item-container XL3 L3 M3 S6 P6 has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/interactive/7208">中产富裕阶层金融投资研究报告</a></h2>
-<a class="image" target="_blank" href="/interactive/7208"><figure class="loading" data-url="http://i.ftimg.net/images/2016/06/75ee315009e8d74675c2af60656575bf.jpg"></figure></a>
+<h2 class="item-headline"><a target="_blank" href="/interactive/8152">&#x4E2D;&#x4EA7;&#x5BCC;&#x88D5;&#x9636;&#x5C42;&#x8D22;&#x5BCC;&#x7BA1;&#x7406;&#x7814;&#x7A76;&#x62A5;&#x544A;</a></h2>
+<a class="image" target="_blank" href="/interactive/8152"><figure class="loading" data-url="http://i.ftimg.net/images/2016/11/b55addb98a4b6fa86723050ee9f43aaa.jpg"></figure></a>
 <div class="item-bottom"></div>
 </div></div>
 
 <div class="item-container XL3 L3 M3 S6 P6 has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/interactive/7206">中产富裕阶层收入信心研究报告</a></h2>
-<a class="image" target="_blank" href="/interactive/7206"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000063207_piclink.jpg"></figure></a>
+<h2 class="item-headline"><a target="_blank" href="/interactive/8190">&#x9650;&#x65F6;&#x514D;&#x8D39;&#x9605;&#x8BFB;|&#x4E2D;&#x56FD;&#x4E92;&#x8054;&#x7F51;&#x91D1;&#x878D;&#x7814;&#x7A76;&#x62A5;&#x544A;</a></h2>
+<a class="image" target="_blank" href="/interactive/8190"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000066760_piclink.jpg"></figure></a>
 <div class="item-bottom"></div>
 </div></div>
 <div class=" ST PT"></div>
 <div class="item-container XL3 L3 M3 S6 P6 has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/interactive/7157">数据告诉你，各省间高考招录真的很不公平吗？</a></h2>
-<a class="image" target="_blank" href="/interactive/7157"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000063047_piclink.jpg"></figure></a>
+<h2 class="item-headline"><a target="_blank" href="/interactive/8253">&#x4E2D;&#x56FD;&#x4E2D;&#x9AD8;&#x7AEF;&#x4EBA;&#x7FA4;&#x6C7D;&#x8F66;&#x65B0;&#x8D2D;&#x518D;&#x8D2D;&#x5E02;&#x573A;&#x9700;&#x6C42;&#x7814;&#x7A76;&#x62A5;&#x544A;</a></h2>
+<a class="image" target="_blank" href="/interactive/8253"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000066698_piclink.jpg"></figure></a>
 <div class="item-bottom"></div>
 </div></div>
 
 <div class="item-container XL3 L3 M3 S6 P6 has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/interactive/7063">每一分都不许浪费！大数据帮你有效填写高考志愿</a></h2>
-<a class="image" target="_blank" href="/interactive/7063"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000062979_piclink.jpg"></figure></a>
+<h2 class="item-headline"><a target="_blank" href="/interactive/7876">&#x5927;&#x6570;&#x636E;&#xFF1A;&#x4E2D;&#x5B66;&#x751F;&#x53D6;&#x5F97;&#x597D;&#x6210;&#x7EE9;&#x9700;&#x8981;&#x8DE8;&#x8FC7;&#x54EA;&#x4E9B;&#x5751;&#xFF1F;</a></h2>
+<a class="image" target="_blank" href="/interactive/7876"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000066481_piclink.jpg"></figure></a>
 <div class="item-bottom"></div>
 </div></div>
 <div class="clearfloat"></div>
@@ -1163,34 +1147,34 @@ FT中文网首页
 <div class="content-inner">
 <div class="list-container">
 <div class="list-inner">
-<h2 class="list-title"><a class="list-link" href="/channel/special.html">特别报导</a></h2>
+<h2 class="list-title"><a class="list-link" href="/channel/special.html">&#x7279;&#x522B;&#x62A5;&#x5BFC;</a></h2>
 <div class="items">
 
 <div class="item-container XL3 L3 M3 S6 P6 headline-only">
 <div class="item-inner">
-<a class="image" href="/tag/全球商业的未来" target=_blank><figure class="loading" data-url="http://i.ftimg.net/picture/8/000062658_piclink.jpg"></figure></a>
-<h2 class="item-headline"><a href="/tag/全球商业的未来" target=_blank>全球商业的未来</a></h2>
+<a class="image" href="http://www.ftchinese.com/m/corp/preview.html?pageid=we2016&amp;isad=1#" target="_blank"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000065981_piclink.jpg"></figure></a>
+<h2 class="item-headline"><a href="http://www.ftchinese.com/m/corp/preview.html?pageid=we2016&amp;isad=1#" target="_blank">2016&#x817E;&#x8BAF;WE&#x5927;&#x4F1A;</a></h2>
 </div>
 </div>
 
 <div class="item-container XL3 L3 M3 S6 P6 headline-only">
 <div class="item-inner">
-<a class="image" href="/tag/极致人生" target=_blank><figure class="loading" data-url="http://i.ftimg.net/picture/9/000062659_piclink.jpg"></figure></a>
-<h2 class="item-headline"><a href="/tag/极致人生" target=_blank>极致人生</a></h2>
+<a class="image" href="http://www.ftchinese.com/m/marketing/hxxf2016.html" target="_blank"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000065911_piclink.jpg"></figure></a>
+<h2 class="item-headline"><a href="http://www.ftchinese.com/m/marketing/hxxf2016.html" target="_blank">&#x900F;&#x89C6;&#x4E2D;&#x56FD;PPP&#x6A21;&#x5F0F;</a></h2>
 </div>
 </div>
 <div class=" ST PT"></div>
 <div class="item-container XL3 L3 M3 S6 P6 headline-only">
 <div class="item-inner">
-<a class="image" href="/tag/财富管理" target=_blank><figure class="loading" data-url="http://i.ftimg.net/picture/0/000062660_piclink.jpg"></figure></a>
-<h2 class="item-headline"><a href="/tag/财富管理" target=_blank>财富管理</a></h2>
+<a class="image" href="http://www.ftchinese.com/channel/money.html" target="_blank"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000065033_piclink.jpg"></figure></a>
+<h2 class="item-headline"><a href="http://www.ftchinese.com/channel/money.html" target="_blank">&#x7406;&#x8D22;</a></h2>
 </div>
 </div>
 
 <div class="item-container XL3 L3 M3 S6 P6 headline-only">
 <div class="item-inner">
-<a class="image" href="/tag/2016博鳌论坛" target=_blank><figure class="loading" data-url="http://i.ftimg.net/picture/1/000062661_piclink.jpg"></figure></a>
-<h2 class="item-headline"><a href="/tag/2016博鳌论坛" target=_blank>2016博鳌论坛</a></h2>
+<a class="image" href="/tag/G20" target="_blank"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000064851_piclink.jpg"></figure></a>
+<h2 class="item-headline"><a href="/tag/G20" target="_blank">G20&#x5CF0;&#x4F1A;</a></h2>
 </div>
 </div>
 <div class="clearfloat"></div>
@@ -1209,7 +1193,7 @@ FT中文网首页
 <div class="list-container">
 <div class="list-inner">
 <h2 class="list-title">
-<a class="list-link" href="/m/marketing/home.html">会员活动</a>
+<a class="list-link" href="/m/marketing/home.html">&#x4F1A;&#x5458;&#x6D3B;&#x52A8;</a>
 </h2>
 <div class="items headline-only" id="member-pic"></div>
 </div>
@@ -1223,48 +1207,56 @@ FT中文网首页
 <iframe width="0" height="0" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="/m/marketing/memberpic.html" class="hide"></iframe><div class="block-container no-side"><div class="block-inner" id="markets-data">
 </div></div><div class="footer-container"><div class="footer-inner">
 <div>
-<a href="/m/corp/aboutus.html">关于我们</a>
-<a href="/jobs/?from=ft">加入我们</a>
-<a href="/m/corp/faq.html">问题回馈</a>
-<a href="/m/corp/contact.html">联系方式</a>
-<a href="/m/corp/partner.html">合作伙伴</a>
-<a href="/m/corp/service.html">服务条款</a>
-<a href="/m/corp/sales.html">广告业务 </a>
-<a href="/m/corp/copyright.html">版权声明</a>
-<a href="/m/marketing/ftc.html">最新动态</a>
+<a href="/m/corp/aboutus.html">&#x5173;&#x4E8E;&#x6211;&#x4EEC;</a>
+<a href="/jobs/?from=ft">&#x52A0;&#x5165;&#x6211;&#x4EEC;</a>
+<a href="/m/corp/faq.html">&#x95EE;&#x9898;&#x56DE;&#x9988;</a>
+<a href="/m/corp/contact.html">&#x8054;&#x7CFB;&#x65B9;&#x5F0F;</a>
+<a href="/m/corp/partner.html">&#x5408;&#x4F5C;&#x4F19;&#x4F34;</a>
+<a href="/m/corp/service.html">&#x670D;&#x52A1;&#x6761;&#x6B3E;</a>
+<a href="/m/corp/sales.html">&#x5E7F;&#x544A;&#x4E1A;&#x52A1; </a>
+<a href="/m/corp/copyright.html">&#x7248;&#x6743;&#x58F0;&#x660E;</a>
+<a href="/m/marketing/ftc.html">&#x6700;&#x65B0;&#x52A8;&#x6001;</a>
 </div>
 <p>
-<span class="copyright"><b>© The Financial Times Ltd 2016</b></span> 
-<span><acronym title="Financial Times">FT</acronym> and 'Financial Times' are trademarks of The Financial Times Ltd.</span>
+<span class="copyright"><b>&#xA9; The Financial Times Ltd 2016</b></span> 
+<span><acronym title="Financial Times">FT</acronym> and &apos;Financial Times&apos; are trademarks of The Financial Times Ltd.</span>
 </p>
 </div></div>
-<div style="text-align: center; background-color: #FFFFFF; font-size: 38px; margin: 20px;font-weight:bold;"><a title="刷新本页CDN与服务器缓存" href="/index.php/marketing/flushcache?url=http://www7.ftchinese.com%2F">刷新本页缓存</a></div>
-<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-KP4V3G"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-KP4V3G" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-KP4V3G');</script><div class="app-download-container">
-<a href="http://app.ftchinese.com/download.html?utm_source=marketing&utm_medium=campaign&utm_campaign=QRCODE02" target="_blank">
-<div>FT中文网客户端</div>
+<a href="http://app.ftchinese.com/download.html?utm_source=marketing&amp;utm_medium=campaign&amp;utm_campaign=QRCODE02" target="_blank">
+<div>FT&#x4E2D;&#x6587;&#x7F51;&#x5BA2;&#x6237;&#x7AEF;</div>
 <figure class="loading" data-url="http://s.ftimg.net/img/qr/qr90-2.png"></figure>
-<div>点击或扫描下载</div>
+<div>&#x70B9;&#x51FB;&#x6216;&#x626B;&#x63CF;&#x4E0B;&#x8F7D;</div>
 </a>
 </div>
 <div class="app-download-container wechat">
-<a href="#" target="_blank">
-<div>FT中文网微信</div>
+<a href="/m/corp/follow.html" target="_blank">
+<div>FT&#x4E2D;&#x6587;&#x7F51;&#x5FAE;&#x4FE1;</div>
 <figure class="loading" data-url="http://i.ftimg.net/picture/6/000060716_piclink.jpg"></figure>
-<div>扫描关注</div>
+<div>&#x626B;&#x63CF;&#x5173;&#x6CE8;</div>
 </a>
+</div><!--[if lte IE 8]>
+<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+<![endif]-->
+<script type="text/javascript">
+"use strict";function Delegate(e){this.listenerMap=[{},{}],e&&this.root(e),this.handle=Delegate.prototype.handle.bind(this)}function matchesTag(e,t){return e.toLowerCase()===t.tagName.toLowerCase()}function matchesRoot(e,t){return this.rootElement===window?t===document:this.rootElement===t}function matchesId(e,t){return e===t.id}function Toggler(e){function t(){a.isOpen=!a.isOpen,a.isOpen?(a.button.setAttribute("aria-expanded","true"),a.target.setAttribute("aria-hidden","false")):(a.button.setAttribute("aria-expanded","false"),a.target.setAttribute("aria-hidden","true"))}function o(e){a.isOpen&&27===e.keyCode&&t()}function i(o){a.isOpen&&!e.contains(o.target)&&t()}function n(){e||(e=document.body);var n=e.querySelector(s),l=e.querySelector(r);n&&(a.rootEl=e,a.button=n,a.target=l,a.isOpen=!1,a.button.addEventListener("click",t),document.body.addEventListener("click",i),document.body.addEventListener("keydown",o))}var a=this,s="[data-o-toggler-button]",r="[data-o-toggler-target]";n()}function Nav(e){function t(){e||(e=document.body);var t=new Delegate(e);s.delegate=t,s.rootEl=e}function o(){var e=".nav-section-head.mobile",t=s.rootEl.querySelectorAll(e);s.delegate.on("click",e,function(e,o){for(var i=0;i<t.length;i++)t[i].setAttribute("aria-selected","false");o.setAttribute("aria-selected","true")})}function i(){var e=s.rootEl.querySelector("[data-o-nav-togglable]"),t=a.navClassName+"--open";e&&e.addEventListener("click",function(){document.documentElement.classList.toggle(t),document.body.classList.toggle(t)})}function n(){var e="[data-o-nav-togglable]";s.delegate.on("click",e,function(e,t){var o=t.getAttribute("aria-pressed");"true"===o?t.setAttribute("aria-pressed","false"):"false"!==o&&o||t.setAttribute("aria-pressed","true")})}var a={navClassName:"o-nav"},s=this;t(),i(),n(),o()}function searchRedirect(e){"string"==typeof e&&(e=document.querySelector(e));var t=e.querySelector(".search-input"),o=window.location.protocol+"//"+window.location.hostname+"/archiver/",i=/^(20\d{2})[-\s\/](0[1-9]|1[012])[-\s\/](0[1-9]|[12][0-9]|3[01])$/;e.addEventListener("submit",function(e){var n=t.value,a=n.match(i);if(a){e.preventDefault();var s=a.slice(1).join("-");console.log(s),window.location.assign(o+s)}})}function getEmptyNavSections(e){for(var t=".nav-section",o=e.querySelectorAll(t),i={},n=0,a=o.length;a>n;n++){var s=o[n],r=s.getAttribute("aria-selected"),l=s.getAttribute("data-section");!r&&l&&(i[l]=s)}return i}function zipObject(e,t){for(var o in e)e.hasOwnProperty(o)&&o in t&&e[o].appendChild(t[o])}function stringToDOM(e){var t=document.createElement("ol");t.innerHTML=e;var o={},i=t.querySelectorAll(".nav-section");if(i.length>0)for(var n=0,a=i.length;a>n;n++){var s=i[n],r=s.getAttribute("data-section"),l=s.querySelector(".nav-items");o[r]=l}else for(var c=t.getElementsByTagName("li"),d=0;d<c.length;d++){var u=c[d];if(u.className.search(/nav-section/)>-1)for(var f=u.getAttribute("data-section"),m=u.getElementsByTagName("ol"),h=0;h<m.length;h++){var g=m[h];if(-1!==g.className.search(/nav-items/)){var p=g;o[f]=p}}}return o}function findTop(e){var t=0;if(e.offsetParent){do t+=e.offsetTop;while(e=e.offsetParent);return t}}function getBodyHeight(){var e=window,t=document,o=t.documentElement,i=t.getElementsByTagName("body")[0],n=e.innerHeight||o.clientHeight||i.clientHeight;return n}function stickyAdsPrepare(){if("object"==typeof stickyAds&&stickyAds.length>0)for(var e=0;e<stickyAds.length;e++){var t=document.getElementById(stickyAds[e].BannerId).parentNode.parentNode.parentNode.parentNode,o=document.getElementById(stickyAds[e].BannerId).parentNode.parentNode.parentNode;stickyAds[e].oTop=findTop(t),stickyAds[e].currentClass=o.className}}function loadImagesLazy(){if(1!==figuresLoadStatus){for(var e=0,t=0;t<figuresLazy.length;t++)""!==figuresLazy[t]&&(scrollTop+2*bodyHeight>figuresLazy[t].imageTop&&(figures[t].innerHTML='<img src="'+figuresLazy[t].imageUrl+'" data-backupimage="'+figuresLazy[t].imageUrlBack+'">',figures[t].className=figuresLazy[t].loadedClass,figuresLazy[t]=""),e++);0===e&&(figuresLoadStatus=1)}}function loadVideosLazy(){if(1!==videosLoadStatus){for(var e=0,t=0;t<videosLazy.length;t++)""!==videosLazy[t]&&(scrollTop+2*bodyHeight>videosLazy[t].videoTop&&(videos[t].innerHTML=videosLazy[t].ih,videos[t].className="",videosLazy[t]=""),e++);0===e&&(videosLoadStatus=1)}}function checkInView(e){return scrollTop+bodyHeight>e.top+e.height*e.minimum&&scrollTop<e.top+e.height&&e.height>0?!0:!1}function trackViewables(){try{for(var e=window.gPageId||"Other Page",t=0;t<viewables.length;t++)if(""!==viewables[t]&&viewables[t].viewed===!1&&checkInView(viewables[t])===!0){var o=t;viewables[o].viewed="pending",setTimeout(function(t){return function(){checkInView(viewables[t])===!0?(viewables[t].viewed=!0,ga("send","event",e,"In View",viewables[t].id,{nonInteraction:1}),""!==viewables[t].adch&&""!==viewables[t].adPosition&&ga("send","event","Ad In View",viewables[t].adch,viewables[t].adPosition,{nonInteraction:1})):viewables[t].viewed=!1}}(o),viewables[o].time)}}catch(i){}}function loadImages(){var e,t=window.location.search,o=!1,i=100;figures=document.querySelectorAll("figure.loading"),figuresLazy=[],figuresLoadStatus=0;try{(360===w||375===w||320===w||414===w||768===w||1024===w||w>1220)&&(o=!0)}catch(n){}for(e=0;e<figures.length;e++){var a,s=figures[e],r=s.offsetWidth,l=s.offsetHeight,c=findTop(s),d=s.getAttribute("data-url"),u=s.className||"",f="cover",m=s.parentNode.className||"",h=!1,g="",p="//image.webservices.ft.com/v1/images/raw/";if(location.href.indexOf("127.0.0.1")>=0&&(p="//www.ft.com/origami/service/image/v2/images/raw/"),isRetinaDevice===!0&&(r=2*r,l=2*l,g="is-retina"),(!t||-1===t.indexOf("?ad=no"))&&o===!1){var v=r%i;if(0!==v){var y=l/r,b=parseInt(r/i,10);r=(b+1)*i,l=parseInt(r*y,10),g="is-retina"}}/brand/.test(m)&&(f="contain"),d=encodeURIComponent(d),/sponsor/.test(u)?(d=p+d+"?source=ftchinese&height="+l+"&fit="+f,h=!0):r>0&&l>0&&(d=p+d+"?source=ftchinese&width="+r+"&height="+l+"&fit="+f,h=!0),h===!0?(a=d.replace("i.ftimg.net","i.ftmailbox.com"),figuresLazy[e]={imageTop:c,imageUrl:d,imageUrlBack:a,loadedClass:g}):figuresLazy[e]=""}for(videos=document.querySelectorAll("figure.loading-video"),videosLazy=[],videosLoadStatus=0,hostForVideo="",("localhost"===window.location.hostname||0===window.location.hostname.indexOf("192.168")||0===window.location.hostname.indexOf("10.113")||0===window.location.hostname.indexOf("127.0"))&&(hostForVideo="http://www.ftchinese.com"),e=0;e<videos.length;e++){var N=videos[e],k=findTop(N),T=N.offsetWidth,S=N.offsetHeight,H=N.getAttribute("data-vid"),L=N.getAttribute("data-item-type")||"video";T>0&&S>0&&-1===t.indexOf("?ad=no")&&"http://www.ftchinese.com"!==hostForVideo?videosLazy[e]={ih:'<iframe name="video-frame" id="video-frame" style="width:100%;height:100%;position:absolute;" src="'+hostForVideo+"/"+L+"/"+H+"?i=2&w="+T+"&h="+S+'&autostart=false" scrolling="no" frameborder="0" allowfullscreen=true></iframe>',videoTop:k}:videosLazy[e]=""}loadImagesLazy(),loadVideosLazy(),trackViewables()}function viewablesInit(){if(sections.length>0&&"string"==typeof window.gPageId&&""!==window.gPageId){var e={block:0,banner:0,mpu:0,storympu:0,footer:0};window.bBlocked="unknown";for(var t=0;t<sections.length;t++){var o,i,n=findTop(sections[t]),a=sections[t].offsetHeight,s="other",r=0,l=1e3,c="",d="",u=!1;o="object"==typeof viewables[t]&&viewables[t].viewed?viewables[t].viewed:!1,sections[t].className.indexOf("bn-ph")>=0?(0===t&&"number"!=typeof n&&document.getElementById("topad")&&sections[t].previousSibling.offsetTop>0&&(n=sections[t].previousSibling.offsetTop,a=sections[t].previousSibling.offsetHeight),s="banner",r=.5,u=!0):"story_main_mpu"===sections[t].id?(s="storympu",r=.5,u=!0):sections[t].className.indexOf("mpu-container")>=0?(s="mpu",r=.5,u=!0):sections[t].className.indexOf("footer")>=0?s="footer":sections[t].className.indexOf("block")>=0&&(s="block"),u===!0&&(i=sections[t].querySelector(".banner-iframe"),null!==i&&(c=i.getAttribute("data-adch")||"",d=i.getAttribute("data-adPosition")||"")),e[s]++,"number"==typeof n?(viewables[t]={id:s+"-"+e[s],top:n,height:a,minimum:r,time:l,viewed:o,adch:c,adPosition:d},0===t&&(window.bBlocked="no")):(viewables[t]="",0===t&&(window.bBlocked="yes")),sections[t].setAttribute("data-id",s+"-"+e[s])}}}function stickyBottomPrepare(){if(gNavOffsetY=findTop(document.querySelector(".o-nav__placeholder")),bodyHeight=getBodyHeight(gNavOffsetY),"object"==typeof recommendInner&&(gRecomendOffsetY=findTop(recommendInner)),document.getElementById("story-action-placeholder")&&(gShareOffsetY=findTop(document.getElementById("story-action-placeholder"))),document.getElementById("audio-placeholder")&&(gAudioOffsetY=findTop(document.getElementById("audio-placeholder"))),w=window.innerWidth||document.documentElement.clientWidth||document.body.clientWidth,sectionsWithSide.length>0)for(var e=0;e<sectionsWithSide.length;e++)sectionClassName[e]=sectionsWithSide[e].className,w<hasSideWidth?(sectionClassNameNew[e]=sectionClassName[e].replace(/ fixmain| fixside| bottommain| bottomside| sticktop/g,""),sectionClassNameNew[e]!==sectionClassName[e]&&(sectionClassName[e]=sectionClassNameNew[e],sectionsWithSide[e].className=sectionClassNameNew[e])):/fixmain|fixside|bottommain|bottomside|sticktop/.test(sectionClassName[e])||(containerTop[e]=findTop(sectionsWithSide[e]),mainHeight[e]=sectionsWithSide[e].querySelector(".content-inner").offsetHeight,sideHeight[e]=sectionsWithSide[e].querySelector(".side-inner").offsetHeight+defaultPadding,minHeight[e]=Math.min(mainHeight[e],sideHeight[e]),maxHeight[e]=Math.max(mainHeight[e],sideHeight[e]));viewablesInit()}function stickyBottomUpdate(){var e=htmlClass.replace(/( o-nav-sticky)|( tool-sticky)|( audio-sticky)/g,"");if("function"==typeof requestAnimationFrame&&requestAnimationFrame(stickyBottomUpdate),"number"==typeof gShareOffsetY&&gShareOffsetY>gNavOffsetY?scrollTop>=gShareOffsetY?e+=" tool-sticky":scrollTop>=gNavHeight&&(e+=" o-nav-sticky"):scrollTop>=gNavOffsetY&&(e+=" o-nav-sticky"),"number"==typeof gAudioOffsetY&&gAudioOffsetY>gNavOffsetY&&scrollTop+gNavOffsetY>=gAudioOffsetY&&(e+=" audio-sticky"),e!==htmlClass&&(htmlClass=e,document.documentElement.className=htmlClass),sectionsWithSideLength>0&&w>hasSideWidth)for(var t=0;sectionsWithSideLength>t;t++){sectionClassNameNew[t]=sectionClassName[t].replace(/fixmain|fixside|bottommain|bottomside|sticktop/g,"");var o=0,i=0,n="";maxHeight[t]+gNavHeight+defaultPadding>=bodyHeight&&maxHeight[t]-minHeight[t]>=100&&(minHeight[t]+gNavHeight+defaultPadding<bodyHeight?(n=" sticktop",o=containerTop[t]+maxHeight[t]-minHeight[t]-scrollTop-gNavHeight-defaultPadding,i=containerTop[t]-gNavHeight-scrollTop-defaultPadding,/side-left/.test(sectionClassName[t])&&(o+=defaultPadding)):(o=containerTop[t]+maxHeight[t]-bodyHeight-scrollTop,i=containerTop[t]+minHeight[t]-bodyHeight-scrollTop,/side-left/.test(sectionClassName[t])&&(o+=defaultPadding/2)),mainHeight[t]>sideHeight[t]?0>=o?sectionClassNameNew[t]+=" bottomside":0>=i&&(sectionClassNameNew[t]+=" fixside"+n):mainHeight[t]<sideHeight[t]&&(30>o?sectionClassNameNew[t]+=" bottommain":0>i&&(sectionClassNameNew[t]+=" fixmain"+n))),sectionClassNameNew[t]=sectionClassNameNew[t].replace(/[\s]+/g," "),sectionClassNameNew[t]!==sectionClassName[t]&&(sectionClassName[t]=sectionClassNameNew[t],sectionsWithSide[t].className=sectionClassNameNew[t])}if("object"==typeof stickyAds&&stickyAds.length>0)for(var a=0;a<stickyAds.length;a++){var s=stickyAds[a].oTop-scrollTop-gNavHeight,r=s+stickyAds[a].stickyHeight,l="";l=0>=s&&r>0?" is-fix":"",l="banner-container"+l,l!==stickyAds[a].currentClass&&(stickyAds[a].currentClass=l,document.getElementById(stickyAds[a].BannerId).parentNode.parentNode.parentNode.className=l)}gRecomendInViewNoted===!1&&window.recommendLoaded===!0&&"object"==typeof window.recommendInner&&gRecomendOffsetY>0&&scrollTop+bodyHeight>gRecomendOffsetY&&(void 0===window.FTStoryid&&(window.FTStoryid=""),ga("send","event","Story Recommend","Seen"+window.recommendVersion,FTStoryid,{nonInteraction:1}),gRecomendInViewNoted=!0),"object"==typeof inreadAd&&inreadAd.h>0&&inreadAd.t>0&&inreadAd.displayed===!1&&scrollTop+bodyHeight>inreadAd.t+inreadAd.h&&showInreadAd(),loadImagesLazy(),loadVideosLazy(),trackViewables()}function requestTick(){ticking||requestAnimationFrame(stickyBottomUpdate),ticking=!0}function stickyBottom(){scrollTop=window.scrollY||document.documentElement.scrollTop,"function"==typeof requestAnimationFrame?requestTick():stickyBottomUpdate()}function setResizeClass(){htmlClass.indexOf(" resized")<0&&(htmlClass+=" resized",document.documentElement.className=htmlClass)}function contains(e,t){if(e&&e.length>0&&t&&t.value&&t.tag)for(var o=0;o<e.length;o++)if(e[o].value===t.value&&e[o].tag===t.tag)return!0;return!1}function checkFollow(){var e,t,o=new XMLHttpRequest,i={};i.head={},i.head.transactiontype="31004",i.head.source="web",i.body={},i.body.ielement={},/127\.0|localhost|192\.168/.test(window.location.href)?(e="GET",t="/api/page/recommend.json"):(e="POST",t="/eaclient/apijson.php"),o.open(e,encodeURI(t)),o.setRequestHeader("Content-Type","application/json"),o.onload=function(){if(200===o.status)for(var e=JSON.parse(o.responseText),t=document.querySelectorAll("button.myft-follow"),i=0;i<t.length;i++){var n={};n.type=t[i].getAttribute("data-type"),n.value=t[i].getAttribute("data-tag"),contains(e.body.odatalist,n)===!0&&(t[i].innerHTML="已关注",t[i].className=t[i].className.replace(/ plus/g," tick"))}},o.send(JSON.stringify(i))}Delegate.prototype.root=function(e){var t,o=this.listenerMap;if(this.rootElement){for(t in o[1])o[1].hasOwnProperty(t)&&this.rootElement.removeEventListener(t,this.handle,!0);for(t in o[0])o[0].hasOwnProperty(t)&&this.rootElement.removeEventListener(t,this.handle,!1)}if(!e||!e.addEventListener)return this.rootElement&&delete this.rootElement,this;this.rootElement=e;for(t in o[1])o[1].hasOwnProperty(t)&&this.rootElement.addEventListener(t,this.handle,!0);for(t in o[0])o[0].hasOwnProperty(t)&&this.rootElement.addEventListener(t,this.handle,!1);return this},Delegate.prototype.captureForType=function(e){return-1!==["blur","error","focus","load","resize","scroll"].indexOf(e)},Delegate.prototype.on=function(e,t,o,i){var n,a,s,r;if(!e)throw new TypeError("Invalid event type: "+e);if("function"==typeof t&&(i=o,o=t,t=null),void 0===i&&(i=this.captureForType(e)),"function"!=typeof o)throw new TypeError("Handler must be a type of Function");return n=this.rootElement,a=this.listenerMap[i?1:0],a[e]||(n&&n.addEventListener(e,this.handle,i),a[e]=[]),t?/^[a-z]+$/i.test(t)?(r=t,s=matchesTag):/^#[a-z0-9\-_]+$/i.test(t)?(r=t.slice(1),s=matchesId):(r=t,s=matches):(r=null,s=matchesRoot.bind(this)),a[e].push({selector:t,handler:o,matcher:s,matcherParam:r}),this},Delegate.prototype.off=function(e,t,o,i){var n,a,s,r,l;if("function"==typeof t&&(i=o,o=t,t=null),void 0===i)return this.off(e,t,o,!0),this.off(e,t,o,!1),this;if(s=this.listenerMap[i?1:0],!e){for(l in s)s.hasOwnProperty(l)&&this.off(l,t,o);return this}if(r=s[e],!r||!r.length)return this;for(n=r.length-1;n>=0;n--)a=r[n],t&&t!==a.selector||o&&o!==a.handler||r.splice(n,1);return r.length||(delete s[e],this.rootElement&&this.rootElement.removeEventListener(e,this.handle,i)),this},Delegate.prototype.handle=function(e){var t,o,i,n,a,s,r,l=e.type,c=[],d="ftLabsDelegateIgnore";if(e[d]!==!0){switch(r=e.target,3===r.nodeType&&(r=r.parentNode),i=this.rootElement,n=e.eventPhase||(e.target!==e.currentTarget?3:2)){case 1:c=this.listenerMap[1][l];break;case 2:this.listenerMap[0]&&this.listenerMap[0][l]&&(c=c.concat(this.listenerMap[0][l])),this.listenerMap[1]&&this.listenerMap[1][l]&&(c=c.concat(this.listenerMap[1][l]));break;case 3:c=this.listenerMap[0][l]}for(o=c.length;r&&o;){for(t=0;o>t&&(a=c[t],a);t++)if(a.matcher.call(r,a.matcherParam,r)&&(s=this.fire(e,r,a)),s===!1)return e[d]=!0,void e.preventDefault();if(r===i)break;o=c.length,r=r.parentElement}}},Delegate.prototype.fire=function(e,t,o){return o.handler.call(t,e,t)};var matches=function(e){if(e){var t=e.prototype;return t.matches||t.matchesSelector||t.webkitMatchesSelector||t.mozMatchesSelector||t.msMatchesSelector||t.oMatchesSelector}}(Element);Delegate.prototype.destroy=function(){this.off(),this.root()},searchRedirect("#search-form");var ajax={getData:function(e,t){var o=new XMLHttpRequest;o.onreadystatechange=function(){4===o.readyState&&(o.status>=200&&o.status<300||304===o.status?t(null,o.responseText):t(o.status))},o.open("GET",e),o.send(null)}},navEl=document.querySelector(".o-nav");new Nav(navEl);var searchEl=navEl.querySelector(".o-nav__search");new Toggler(searchEl);var emptyNavSections=getEmptyNavSections(navEl);ajax.getData("/m/corp/ajax-nav.html",function(e,t){if(e)return e;var o=stringToDOM(t);zipObject(emptyNavSections,o)});var containerTop=[],mainHeight=[],sideHeight=[],bodyHeight,gNavOffsetY=0,gNavHeight=44,gShareOffsetY,gAudioOffsetY,gRecomendOffsetY,gRecomendInViewNoted=!1,defaultPadding=30,hasSideWidth=690,sectionsWithSide=document.querySelectorAll(".block-container.has-side"),sections=document.querySelectorAll(".block-container, .footer-container, .bn-ph, .mpu-container, #story_main_mpu"),delegate,htmlClass=document.documentElement.className,sectionsWithSideLength=sectionsWithSide.length,sectionClassName=[],sectionClassNameNew=[],minHeight=[],maxHeight=[],isRetinaDevice=window.devicePixelRatio>1,scrollTop=window.scrollY||document.documentElement.scrollTop,ticking=!1,hostForVideo="",currentFavButton,figures=document.querySelectorAll("figure.loading"),figuresLazy=[],figuresLoadStatus=0,videos=document.querySelectorAll("figure.loading-video"),videosLazy=[],videosLoadStatus=0,viewables=[];try{delegate=new Delegate(document.body)}catch(ignore){}gNavOffsetY=findTop(document.querySelector(".o-nav__placeholder")),0===gNavOffsetY&&(gNavOffsetY=findTop(document.querySelector(".site-map")));var addEvent=window.attachEvent||window.addEventListener,eventResize=window.attachEvent?"onresize":"resize",eventScroll=window.attachEvent?"onscroll":"scroll";if(gNavOffsetY>30&&w>490&&isTouchDevice()===!1||document.getElementById("audio-placeholder"))try{stickyBottomPrepare(),stickyAdsPrepare(),addEvent(eventScroll,function(){stickyBottom()}),addEvent(eventResize,function(){stickyBottomPrepare(),stickyAdsPrepare(),reloadBanners(),setResizeClass(),loadImages()}),setInterval(function(){stickyBottomPrepare(),stickyAdsPrepare()},1e4)}catch(ignore){}else bodyHeight=getBodyHeight(),addEvent(eventResize,function(){bodyHeight=getBodyHeight(),reloadBanners(),loadImages(),setResizeClass()}),addEvent(eventScroll,function(){scrollTop=window.scrollY||document.documentElement.scrollTop,loadImagesLazy(),loadVideosLazy(),trackViewables()});"undefined"==typeof SVGRect&&(document.documentElement.className+=" no-svg"),loadImages(),viewablesInit();try{delegate.on("error","img",function(){var e=this.getAttribute("data-backupimage")||"";""!==e?(this.setAttribute("data-backupimage",""),this.src=e):this.style.display="none"})}catch(ignore){}try{delegate.on("click",".video-package .XL2 a.image",function(){var e=hostForVideo+this.getAttribute("href"),t=this.parentNode.parentNode.parentNode,o=t.querySelector("#video-package-play"),i=o.offsetWidth,n=o.offsetHeight,a=this.parentNode.parentNode,s=a.querySelector(".item-headline a").innerHTML,r=this.parentNode.parentNode.parentNode.querySelectorAll(".video-package .XL2");e=e.replace(/#.*$/g,"");for(var l=0;l<r.length;l++){var c=r[l].className;c.indexOf(" on")>=0&&(c=c.replace(" on",""),r[l].className=c)}return this.parentNode.parentNode.className+=" on",o.querySelector("iframe").src=e+"?i=2&k=1&w="+i+"&h="+n+"&autostart=true",t.querySelector(".video-package-title a").innerHTML=s,t.querySelector(".video-package-title a").href=e,!1}),delegate.on("click","a, .track-click",function(){var e=this.getAttribute("data-ec")||"",t=this.getAttribute("data-ea")||"",o=this.getAttribute("data-el")||"";""!==e&&""!==t&&ga("send","event",e,t,o)}),delegate.on("click",".overlay",function(e){"cell"===e.target.className&&closeOverlay()})}catch(ignore){}delegate.on("click",".overlay-close, .overlay-bg",function(){var e=this.getAttribute("data-parentid");closeOverlay(e)}),delegate.on("click",".current-edition span",function(){var e=this.parentNode.parentNode.className;e.indexOf(" on")>0?e=e.replace(/ on/g,""):e+=" on",this.parentNode.parentNode.className=e}),delegate.on("click",".icon-save button",function(){if(""===username||null===username)return void alert("您必须登录后能才能收藏文章!");var e,t=this.id.replace(/addfavlink/g,"");if("收藏"===this.innerHTML)e="add";else{if("删除"!==this.innerHTML)return;e="remove"}currentFavButton=document.getElementById("addfavlink"+t)||document.getElementById("addfavlink"),currentFavButton.innerHTML="add"===e?"保存...":"删除...";var o=new XMLHttpRequest;o.open("POST","/users/"+e+"favstory/"+t),o.setRequestHeader("Content-Type","application/text"),o.onload=function(){if(200===o.status){var t=o.responseText;("ok"===t||""===t)&&(currentFavButton.innerHTML="add"===e?"删除":"收藏")}else 200!==o.status},o.send(JSON.stringify({storyid:t}))});try{var eleFollow;delegate.on("click",".myft-follow",function(){if(""===window.username||null===window.username)document.getElementById("login-reason").innerHTML="<b>请先登录再关注话题</b>",showOverlay("overlay-login");else{if(this.className.indexOf(" pending")>=0)return;this.className+=" pending";var e,t,o=this.className.indexOf(" plus")>0?1:0,i=this.innerHTML,n="pending",a=new XMLHttpRequest,s={};s.head={},s.head.transactiontype="31003",s.head.source="web",s.body={},s.body.ielement={},s.body.ielement.type=this.getAttribute("data-type"),s.body.ielement.value=this.getAttribute("data-tag"),s.body.ielement.cmd=o,/127\.0|localhost|192\.168/.test(window.location.href)?(e="GET",t="/api/page/recommend.json"):(e="POST",t="/eaclient/apijson.php"),this.innerHTML=this.className.indexOf(" plus")>0?"关注...":"取消关注...",eleFollow=this,a.open(e,encodeURI(t)),a.setRequestHeader("Content-Type","application/json"),a.onload=function(){try{if(200===a.status){var e=JSON.parse(a.responseText);n="0"===e.body.oelement.errorcode?"success":"20101"===e.body.oelement.errorcode?"followed":"20100"===e.body.oelement.errorcode?"unfollowed":"failed"}else 200!==a.status&&(this.innerHTML="操作失败",n="failed")}catch(t){n="failed"}"success"===n?1===o?(eleFollow.innerHTML="已关注",eleFollow.className=eleFollow.className.replace(" plus"," tick")):(eleFollow.innerHTML="关注",eleFollow.className=eleFollow.className.replace(" tick"," plus")):"followed"===n?(eleFollow.innerHTML="已关注",eleFollow.className=eleFollow.className.replace(" plus"," tick")):"unfollowed"===n?(eleFollow.innerHTML="关注",eleFollow.className=eleFollow.className.replace(" tick"," plus")):(eleFollow.innerHTML="操作失败",setTimeout(function(){eleFollow.innerHTML=i},1e3)),eleFollow.className=eleFollow.className.replace(/ pending/g,"")},a.send(JSON.stringify(s))}})}catch(ignore){}checkFollow();</script>
+<script type="text/javascript">
+function trackClicks(){if("string"==typeof window.gPageId)for(var e=document.querySelectorAll(".block-container"),t=0;t<e.length;t++){for(var r=e[t].querySelectorAll(".list-container"),a=e[t].querySelector(".side-container"),l=0;l<r.length;l++)for(var i=r[l].querySelectorAll(".item-container"),n=0;n<i.length;n++)for(var o=i[n].querySelectorAll("a"),c=0;c<o.length;c++)o[c].setAttribute("data-ec","Click"),o[c].setAttribute("data-ea",window.gPageId),o[c].setAttribute("data-el","Block"+t+"-List"+l+"-Item"+n);if(null!==a)for(var s=a.querySelectorAll(".links-container, .interactives, .vidoes, .mps"),d=0;d<s.length;d++)for(var u=s[d].querySelectorAll(".item-container, li, .links a"),g=0;g<u.length;g++){var A;if("A"===u[g].tagName)u[g].setAttribute("data-ec","Click"),u[g].setAttribute("data-ea",window.gPageId),u[g].setAttribute("data-el","Side"+t+"-List"+d+"-Item"+g);else{A=u[g].querySelectorAll("a");for(var f=0;f<A.length;f++)A[f].setAttribute("data-ec","Click"),A[f].setAttribute("data-ea",window.gPageId),A[f].setAttribute("data-el","Side"+t+"-List"+d+"-Item"+g)}}}}trackClicks();</script>
+<div class="hide">
+<script type="text/javascript">
+if (fullsc == null && loadFullAtEnd === true) {
+document.write('<scr' + 'ipt type="text/jav' + 'ascript" src="http://dolphin.ftimg.net/s?z=ft&amp;c=10000014&amp;slot=645072137&amp;_sex=101&amp;_trip=1&amp;_lux=1&amp;_dc=2&amp;_mm=2&amp;_sz=2&amp;_am=2" charset="gbk"></scr' + 'ipt>');
+SetCookie("rb2",1,24*60*60,"/");
+}
+</script>
 </div>
 
-
-
-
- </body>
-
+</body>
 <!--[if lte IE 8]>
 <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
 <![endif]-->
