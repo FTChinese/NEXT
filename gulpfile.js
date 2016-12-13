@@ -220,10 +220,10 @@ gulp.task('html', gulp.series('styles', () => {
 
 gulp.task('images', function () {
   return gulp.src('app/images/**/*')
-    .pipe($.cache($.imagemin({
+    .pipe($.imagemin({
       progressive: true,
       interlaced: true
-    })))
+    }))
     .pipe(gulp.dest('dist/images'));
 });
 
@@ -272,50 +272,51 @@ gulp.task('build', gulp.parallel('jshint', 'html', 'images', /*'fonts', 'extras'
 
 // Various copy tasks.
 gulp.task('copy:cssjs', () => {
-   const staticDest = '../dev_www/frontend/static/n';
-  const devDest = '../dev_www/frontend/tpl/next';
-  const testDest = '../testing/dev_www/frontend/tpl/next';
+  const staticDest = 'dev_www/frontend/static/n';
+  const cssDest = 'dev_www/frontend/tpl/next/styles';
+  const jsDest = 'dev_www/frontend/tpl/next/scripts'
 
   let cssStream = gulp.src(['app/origami/*.css', 'dist/styles/*.css'])
-    .pipe(gulp.dest(staticDest))
-    .pipe(gulp.dest(`${devDest}/styles`))
-    .pipe(gulp.dest(`${testDest}/styles`));
+    .pipe(gulp.dest(`../${staticDest}`))
+    .pipe(gulp.dest(`../${cssDest}`))
+    .pipe(gulp.dest(`../testing/${cssDest}`));
 
   let partialsCssStream = gulp.src('dist/styles/partials/*.css')
-    .pipe(gulp.dest(`${devDest}/styles`))
-    .pipe(gulp.dest(`${testDest}/styles`));
+    .pipe(gulp.dest(`../${cssDest}`))
+    .pipe(gulp.dest(`../testing/${cssDest}`));
 
   let jsStream = gulp.src(['app/origami/*.js', 'dist/scripts/*.js'])
-    .pipe(gulp.dest(staticDest))
-    .pipe(gulp.dest(`${devDest}/scripts`))
-    .pipe(gulp.dest(`${testDest}/scripts`));
+    .pipe(gulp.dest(`../${staticDest}`))
+    .pipe(gulp.dest(`../${jsDest}`))
+    .pipe(gulp.dest(`../testing/${jsDest}`));
 
   return merge(cssStream, partialsCssStream, jsStream);
 });
 
 gulp.task('copy:marketing', () => {
-  const marketing = '../dev_www/frontend/tpl/marketing';
+  const dest = 'dev_www/frontend/tpl/marketing';
   return gulp.src('dist/m/marketing/*')
-    .pipe(gulp.dest(marketing))
-    .pipe(gulp.dest(marketing));
+    .pipe(gulp.dest(`../${dest}`))
+    .pipe(gulp.dest(`../testing/${dest}`));
 });
 
 gulp.task('copy:apipage', () => {
-  const pageDest = '../dev_www/frontend/tpl/next/api/page'
+  const dest = 'dev_www/frontend/tpl/next/api/page'
   return gulp.src('app/api/page/*')
-    .pipe(gulp.dest(pageDest))
-    .pipe(gulp.dest(pageDest));
+    .pipe(gulp.dest(`../${dest}`))
+    .pipe(gulp.dest(`../testing/${dest}`));
 });
 
 gulp.task('copy:pagemaker', () => {
   const dest = 'dev_cms/pagemaker';
-
+// `api*` use make a `api*` directory under dest.
   return gulp.src(['dist/**/*', 'app/api*/**/*'])
     .pipe(gulp.dest(`../${dest}`))
     .pipe(gulp.dest(`../testing/${dest}`));
 });
 
 gulp.task('copy:time', () => {
+  const dest = 'dev_www/frontend/tpl/next/timestamp';
   const timeStamp = new Date().getTime();
 // Create a virtual vinyl stream  
   const stream = source('timestamp.html');
@@ -323,39 +324,44 @@ gulp.task('copy:time', () => {
   stream.end(timeStamp.toString());
 // Use the steam with gulp.
   return stream
-    .pipe(gulp.dest('../dev_www/frontend/tpl/next/timestamp'))
-    .pipe(gulp.dest('../testing/dev_www/frontend/tpl/next/timestamp'));
+    .pipe(gulp.dest(`../${dest}`))
+    .pipe(gulp.dest(`../testing/${dest}`));
 });
 
-// NOTE: app/templates/html/manual_email.html cannot be parsed by `html-minifier`. There are might some invalid markups. Ignore its contents for now.
+// NOTE: app/templates/html/manual_email.html cannot be parsed by `html-minifier`. There might be some invalid markups. Ignore its contents for now.
 const minifier = lazypipe()
   .pipe($.htmlmin, {
+// minify html    
     collapseWhitespace: false,
+// minify inline css
     minifyCSS: false,
+// minify inline js
     minifyJS: false,
+// ignore php tags
     ignoreCustomFragments: [ /<%[\s\S]*?%>/, /<\?[\s\S]*?\?>/ ]
   })
+// show which files are processed in terminal
   .pipe($.debug);
 
 gulp.task('copy:tpl', () => {
-  const dest = '../dev_www/frontend/tpl/next';
+  const dest = 'dev_www/frontend/tpl/next';
   return gulp.src(['app/templates/partials*/**/*.html', 'app/templates/html*/**/*.html'])
     .pipe(minifier())
     .on('error', (err) => {
       console.error(err.stack);
     })
-    .pipe(gulp.dest(dest))
+    .pipe(gulp.dest(`../${dest}`))
     .pipe(gulp.dest(`../testing/${dest}`));
 });
 
 gulp.task('copy:p0', () => {
-  const dest = '../testing/dev_www/frontend/tpl/corp';
+  const dest = 'dev_www/frontend/tpl/corp';
   return gulp.src('app/templates/p0.html')
     .pipe(minifier())
     .on('error', (err) => {
       console.error(err.stack);
     })
-    .pipe(gulp.dest(dest))
+    .pipe(gulp.dest(`../${dest}`))
     .pipe(gulp.dest(`../testing/${dest}`));
 });
 
