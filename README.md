@@ -12,19 +12,6 @@
 - `gulp build`: `jshint`, `html`, `images` and `ad` task in one shot.
 - `gulp copy`: `clean`, `build` and then copy assets.
 
-To minify template files, find this section in `gulp.js`
-```
-const minifier = lazypipe()
-  .pipe($.htmlmin, {
-    collapseWhitespace: false,
-    minifyCSS: false,
-    minifyJS: false,
-    ignoreCustomFragments: [ /<%[\s\S]*?%>/, /<\?[\s\S]*?\?>/ ]
-  })
-  .pipe($.debug);
-```
-Set `collapseWhitespace`, `minifyCSS` or `minifyJS` to `true` according your needs.
-
 ## 用户体验改版要点
 ### 设计
 全新的[首页](http://next.ftchinese.com/)、[频道页](http://next.ftchinese.com/channel/china.html)和[文章页](http://next.ftchinese.com/story/001067390)设计，令读者可以更加方便地浏览内容和阅读文章。新的页面不但支持电脑，还支持移动设备，令您可以随时随地阅读FT中文网的精彩内容。
