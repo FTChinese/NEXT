@@ -340,6 +340,9 @@ const minifier = lazypipe()
 // ignore php tags
     ignoreCustomFragments: [ /<%[\s\S]*?%>/, /<\?[\s\S]*?\?>/ ]
   })
+  .pipe($.replace(/([\r\n])[ \t]+/g, '$1'))
+  .pipe($.replace(/(\r\n)+/g, '\r\n'))
+  .pipe($.replace(/(\n)+/g, '\n'))  
 // show which files are processed in terminal
   .pipe($.debug);
 
