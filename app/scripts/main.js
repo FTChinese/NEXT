@@ -142,6 +142,7 @@ function trackViewables() {
   try {
     // blocks in view
     var ec = window.gPageId || 'Other Page';
+    //console.log (viewables);
     for (var j=0; j<viewables.length; j++) {
       if (viewables[j] !== '' && viewables[j].viewed === false) {
         if (checkInView(viewables[j]) === true) {
@@ -161,6 +162,12 @@ function trackViewables() {
                   //     }
                   //   }, 10);
                   // }
+                  if (viewables[k].adch !== '' && viewables[k].adPosition !== '') {
+                    ga('send','event', 'Ad In View', viewables[k].adch, viewables[k].adPosition, {'nonInteraction':1});
+                    // console.log ('track: ' + viewables[k].adch + viewables[k].adPosition);
+                    // console.log (k);
+                    // console.log (viewables[k]);
+                  }
                 } else {
                   viewables[k].viewed = false;
                   //console.log (viewables[k].id + ' moved away!');
@@ -312,11 +319,17 @@ function viewablesInit() {
       var viewedStatus;
       var minimumHeight = 0;
       var minimumTime = 1000;
+      var bannerFrame;
+      var adchValue = '';
+      var adPositionValue = '';
+      var isAdContainer = false;
       if (typeof viewables[j] === 'object' && viewables[j].viewed) {
         viewedStatus = viewables[j].viewed;
       } else {
         viewedStatus = false;
       }
+
+
       if (sections[j].className.indexOf('bn-ph') >= 0) {
         if (j===0 && typeof top !== 'number' && document.getElementById('topad') && sections[j].previousSibling.offsetTop > 0) {
           top = sections[j].previousSibling.offsetTop;
@@ -324,17 +337,29 @@ function viewablesInit() {
         }
         sectionType = 'banner';
         minimumHeight = 0.5;
+        isAdContainer = true;
       } else if (sections[j].id === 'story_main_mpu') {
         sectionType = 'storympu';
         minimumHeight = 0.5;
+        isAdContainer = true;
       } else if (sections[j].className.indexOf('mpu-container') >= 0) {
         sectionType = 'mpu';
         minimumHeight = 0.5;
+        isAdContainer = true;
       } else if (sections[j].className.indexOf('footer') >= 0) {
         sectionType = 'footer';
       } else if (sections[j].className.indexOf('block') >= 0) {
         sectionType = 'block';
       }
+
+      if (isAdContainer === true) {
+        bannerFrame = sections[j].querySelector('.banner-iframe');
+        if (bannerFrame !== null) {
+          adchValue = bannerFrame.getAttribute('data-adch') || '';
+          adPositionValue = bannerFrame.getAttribute('data-adPosition') || '';
+        }
+      }
+
       sectionTypes[sectionType] ++;
       if (typeof top === 'number') {
         viewables[j] = {
@@ -343,7 +368,9 @@ function viewablesInit() {
           height: height,
           minimum: minimumHeight,
           time: minimumTime,
-          viewed: viewedStatus
+          viewed: viewedStatus,
+          adch: adchValue,
+          adPosition: adPositionValue
         };
         if (j === 0) {
           window.bBlocked = 'no';

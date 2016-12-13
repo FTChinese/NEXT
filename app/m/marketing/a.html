@@ -81,7 +81,8 @@ if (1>1 && /^20550004$/.test(c)) {
       minimum: 0.6,
       time: 1000
     };
-} else if (1>1 && /^20220101$/.test(c)) {
+} else if (1>1 && /^20360001$/.test(c)) {
+
 
 } else {
 document.write ('<scr'+'ipt src="http://dolphin.ftimg.net/s?z=ft&c=' + c + slotStr + adP + '&_fallback=0" charset="gbk" onerror="removeAd()" onload="loaded()"></scr'+'ipt>');
@@ -127,6 +128,8 @@ if ( window.parent.document.getElementById(parentId)) {
     parentIframe = window.parent.document.getElementById(parentId)
     adContainerHeight = parentIframe.offsetHeight || 0;
 
+
+
     // force the ad position to have a custom background
     if (typeof window.forceBG === 'string' && window.forceBG !== '') {
         document.body.style.backgroundColor = window.forceBG;
@@ -134,12 +137,13 @@ if ( window.parent.document.getElementById(parentId)) {
             parentIframe.parentNode.style.backgroundColor = window.forceBG;
         }
     }
-    if (window.forceLink && window.forceHeight) {
+    if (window.forceHeight && window.forceWidth) {
         adFullWidth = true;
         parentIframe.style.margin = 0;
+        parentIframe.style.width = forceWidth + 'px';
         parentIframe.style.height = forceHeight + 'px';
         parentIframe.parentNode.style.height = forceHeight + 'px';
-        parentIframe.parentNode.parentNode.parentNode.parentNode.className += ' full-width';
+        parentIframe.parentNode.parentNode.parentNode.parentNode.className += ' standard';
     } else if (adHeight === 120 && adHeight - adContainerHeight > 20) {
         adResized = true;
         try {

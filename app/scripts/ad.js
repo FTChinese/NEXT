@@ -253,7 +253,6 @@ var uaString;
 var w1;
 var w2;
 var isWeChat = (/micromessenger/i.test(uaString));
-
 function initAds() {
   uaString = navigator.userAgent || navigator.vendor || '';
   // First get the browser width
@@ -405,14 +404,14 @@ function writeAd(adType, returnSrc) {
       if (1<0 && c==='20220101') {
       } else {
         window.adType = adType;
-        wechatAdHTML = '<div class="banner-iframe" style="width: 100%; " ><scr';
+        wechatAdHTML = '<div class="banner-iframe" style="width: 100%; " data-adch="'+adch+'" data-adPosition="'+adPosition+'"><scr';
         wechatAdHTML += 'ipt src="http://dolphin.ftimg.net/s?z=ft&c=' + c + slotStr + adP + '&_fallback=0" charset="gbk">';
         wechatAdHTML += '</scr';
         wechatAdHTML += 'ipt></div>';
         // console.log (adType + adCount[adType]);
       }
     } else {
-      iframeHTML = '<iframe class="banner-iframe" id="' + adType + adCount[adType] + '" width="'+ adWidth +'" height="'+ adHeight + '" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="'+ iframeSrc +'" data-src="'+ iframeSrc +'" data-ad-type="'+ adType +'" data-ad-count=' + adCount[adType] + '></iframe>';
+      iframeHTML = '<iframe class="banner-iframe" data-adch="'+adch+'" data-adPosition="'+adPosition+'" id="' + adType + adCount[adType] + '" width="'+ adWidth +'" height="'+ adHeight + '" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="'+ iframeSrc +'" data-src="'+ iframeSrc +'" data-ad-type="'+ adType +'" data-ad-count=' + adCount[adType] + '></iframe>';
     }
     //console.log ('this ad is displayed: ' + adType);
   } else {
