@@ -350,9 +350,9 @@ gulp.task('copy:tpl', () => {
     .on('error', (err) => {
       console.error(err.stack);
     })
-    .pipe($.replace(/([\r\n])[ \t]+/g, '$1'))
-    .pipe($.replace(/(\r\n)+/g, '\r\n'))
-    .pipe($.replace(/(\n)+/g, '\n')) 
+    // .pipe($.replace(/([\r\n])[ \t]+/g, '$1'))
+    // .pipe($.replace(/(\r\n)+/g, '\r\n'))
+    // .pipe($.replace(/(\n)+/g, '\n')) 
     .pipe(gulp.dest(`../${dest}`))
     .pipe(gulp.dest(`../testing/${dest}`));
 });
@@ -361,9 +361,9 @@ gulp.task('copy:p0', () => {
   const dest = 'dev_www/frontend/tpl/corp';
   return gulp.src('app/templates/p0.html')
     .pipe(minifier())
-    .pipe($.replace(/([\r\n])[ \t]+/g, '$1'))
-    .pipe($.replace(/(\r\n)+/g, '\r\n'))
-    .pipe($.replace(/(\n)+/g, '\n')) 
+    // .pipe($.replace(/([\r\n])[ \t]+/g, '$1'))
+    // .pipe($.replace(/(\r\n)+/g, '\r\n'))
+    // .pipe($.replace(/(\n)+/g, '\n')) 
     .on('error', (err) => {
       console.error(err.stack);
     })
