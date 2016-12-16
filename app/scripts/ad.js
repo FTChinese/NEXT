@@ -361,7 +361,6 @@ function writeAd(adType, returnSrc) {
       adType = 'phonefullpage';
     }
     if (window.sponsorMobile === true) {
-      
       if (adType === 'phonebanner') {
         adType = 'phonestorybannersponsor';
       } else if (adType === 'phonestorympu') {
