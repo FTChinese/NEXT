@@ -328,21 +328,6 @@ gulp.task('copy:time', () => {
     .pipe(gulp.dest(`../testing/${dest}`));
 });
 
-// NOTE: app/templates/html/manual_email.html cannot be parsed by `html-minifier`. There might be some invalid markups. Ignore its contents for now.
-const minifier = lazypipe()
-  .pipe($.htmlmin, {
-// minify html    
-    collapseWhitespace: false,
-// minify inline css
-    minifyCSS: false,
-// minify inline js
-    minifyJS: false,
-// ignore php tags
-    ignoreCustomFragments: [ /<%[\s\S]*?%>/, /<\?[\s\S]*?\?>/ ]
-  }) 
-// show which files are processed in terminal
-  .pipe($.debug);
-
 gulp.task('copy:tpl', () => {
   const dest = 'dev_www/frontend/tpl/next';
 
