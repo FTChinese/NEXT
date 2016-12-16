@@ -131,7 +131,7 @@ function checkInView(obj) {
   // if (obj.id === 'block-5') {
   //   console.log (obj.id + ': scrollTop = ' + scrollTop + ', obj.top = ' + obj.top + ', obj.height = ' + obj.height);
   // }
-  if (scrollTop + bodyHeight > obj.top + obj.height * obj.minimum && scrollTop < obj.top + obj.height && obj.height>0) {
+  if (scrollTop + bodyHeight > obj.top + obj.height * obj.minimum && scrollTop < obj.top + obj.height && obj.height>0 && !document.hidden) {
     return true;
   } else {
     return false;
@@ -164,7 +164,7 @@ function trackViewables() {
                   // }
                   if (viewables[k].adch !== '' && viewables[k].adPosition !== '') {
                     ga('send','event', 'Ad In View', viewables[k].adch, viewables[k].adPosition, {'nonInteraction':1});
-                    // console.log ('track: ' + viewables[k].adch + viewables[k].adPosition);
+                    //console.log ('track: ' + viewables[k].adch + viewables[k].adPosition);
                     // console.log (k);
                     // console.log (viewables[k]);
                   }

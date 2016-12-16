@@ -251,6 +251,9 @@ href="http://www.ftchinese.com" target="_blank"
 						</tr>
 					</table>
 				<%/if%>
+				<%if $s == 0 && $l == 0 && $i==10%>
+					<%include file="email/284x90/code.html"%>
+				<%/if%>
 				<%assign var="i" value=$i+1%>
 			<%/foreach%>
 			</td></tr>
@@ -286,6 +289,7 @@ href="http://www.ftchinese.com" target="_blank"
 <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
 <tr><td style="width: 3%;" class="contentPadding">&nbsp;</td><td style="font-size:14px;line-height:25px;color:#505050;padding-left:17px;padding-right:17px;" class="subhead textPadding lineH">
 <%assign var="allstories" value=$storymodel->get_story_by_field_search("tag like '%`$topic`%'",0,5,15,10800)%>
+
 <%foreach from=$allstories item=sc%>
 <div class="lineH" style="line-height:161.8%;">
 <div class="lineH1_4" style="line-height:35px;font-size:25px;">
@@ -294,9 +298,11 @@ href="http://www.ftchinese.com" target="_blank"
 <%$sc.clongleadbody|default:$sc.cshortleadbody|default:$sc.cskylinetext%>
 <div style="height:8px;font-size:6px;"><br /></div>
 </div>
+<%assign var=i value=$i+1%>
 <%/foreach%>
 </td><td style="width: 3%;" class="contentPadding">&nbsp;</td></tr>
 <%/if%>
+
 <%/foreach%>
 <tr>
 <td style="width: 3%;" class="contentPadding">&nbsp;</td>
