@@ -1073,8 +1073,18 @@
 							<%assign var="i" value=$i+1%>
 						<%/if%>
 
+						<%*<!--insert 10 bonus MPU for mobile phone temporarily start-->*%>
+						<%if $smarty.get.utm_campaign == "2M161000" || preg_match("/2U16[0-9]+/is",$smarty.get.utm_campaign)%>
+							<%if $pageId == "home"%>
+								<%assign var="mpuName" value="homempu-bonus"%>
+								<%*<!--show bonus MPU every 3 stories-->*%>
+								<%if $i%3 == 1 %>
+									<div class="mpu-container P-only"><script type="text/javascript">document.write (writeAd('<%$mpuName%>'));</script></div>
+								<%/if%>
+							<%/if%>
+						<%*<!--insert 10 bonus MPU for mobile phone temporarily end-->*%>
 						<%*<!--insert an extra MPU for mobile phone temporarily start-->*%>
-						<%if date("Ymd",$smarty.now) <= 20161231 && $b == 0 && $l == 0%>
+						<%elseif date("Ymd",$smarty.now) <= 20161231 && $b == 0 && $l == 0%>
 							<%if $pageId == "home"%>
 								<%assign var="mpuName" value="homempu"%>
 							<%else%>

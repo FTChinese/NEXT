@@ -247,6 +247,8 @@ var adPositions = {
   'phonefullpage': ['0107'],
   'phonestorympuVW': ['0119'],
   'phonehomempu': ['0118', '0003'],
+  //bonus mpu ad positions
+  'phonehomempuBonus': ['0003', '0004', '0005', '0006', '0007', '0008', '0003', '0004', '0005', '0006', '0007', '0008'],
   'phonetagmpu': ['0119','0004','0120']
 };
 var uaString;
@@ -343,7 +345,15 @@ function writeAd(adType, returnSrc) {
   if ((adch === '2022' || adch === '2023' || fromURL) && TouchDevice) {
     // if it's a sponsored story
 
-    if (adType.indexOf('banner') >=0) {
+    // if the url fits certain pattern
+    // display bonus MPU on mobile
+    if (/utm\_campaign=2[MU]16/i.test(location.href)) {
+      if (adType.indexOf('banner') < 0) {
+        adType = 'phonehomempuBonus';  
+      } else {
+        adType = 'phonebanner';
+      }
+    } else if (adType.indexOf('banner') >=0) {
       adType = 'phonebanner';
     } else if (adType === 'mpu' || adType === 'homempu') {
       adType = 'phonehomempu';
