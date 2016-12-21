@@ -346,10 +346,10 @@ function writeAd(adType, returnSrc) {
     // if the url fits certain pattern
     // display bonus MPU on mobile
     if (/utm\_campaign=2[MU]16/i.test(location.href)) {
-      if (adType.indexOf('banner') < 0) {
-        adType = 'phonehomempuBonus';  
-      } else if (adType === 'fullpage') {
+      if (adType === 'fullpage') {
         adType = 'phonefullpage';
+      } else if (adType.indexOf('banner') < 0) {
+        adType = 'phonehomempuBonus';  
       } else {
         adType = 'phonebanner';
       }
