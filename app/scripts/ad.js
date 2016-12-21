@@ -194,11 +194,9 @@ function checkAdLoad() {
 	}
 }
 
-
 function adLoadStatus(eventAction, eventLabel) {
   ga('send','event', 'Ad Load', eventAction, eventLabel, {'nonInteraction':1});
 }
-
 
 function setDolphinSlot(key){
   //定义slot随机数实现联动互斥功能
@@ -350,6 +348,8 @@ function writeAd(adType, returnSrc) {
     if (/utm\_campaign=2[MU]16/i.test(location.href)) {
       if (adType.indexOf('banner') < 0) {
         adType = 'phonehomempuBonus';  
+      } else if (adType === 'fullpage') {
+        adType = 'phonefullpage';
       } else {
         adType = 'phonebanner';
       }
