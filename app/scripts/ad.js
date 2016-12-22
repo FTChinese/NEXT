@@ -246,7 +246,7 @@ var adPositions = {
   'phonestorympuVW': ['0119'],
   'phonehomempu': ['0118', '0003'],
   //bonus mpu ad positions
-  'phonehomempuBonus': ['0003', '0004', '0005', '0006', '0007', '0008', '0003', '0004', '0005', '0006', '0007', '0008'],
+  'phonehomempuBonus': ['0003', '0004', '0005', '0006', '0007', '0008', '0003', '0004', '0005', '0006', '0007', '0008', '0003', '0004', '0005', '0006', '0007', '0008', '0003', '0004', '0005', '0006', '0007', '0008'],
   'phonetagmpu': ['0119','0004','0120']
 };
 var uaString;
@@ -349,7 +349,8 @@ function writeAd(adType, returnSrc) {
       if (adType === 'fullpage') {
         adType = 'phonefullpage';
       } else if (adType.indexOf('banner') < 0) {
-        adType = 'phonehomempuBonus';  
+        adType = 'phonehomempuBonus'; 
+        SetCookie('fs0',1,10,'/');
       } else {
         adType = 'phonebanner';
       }
