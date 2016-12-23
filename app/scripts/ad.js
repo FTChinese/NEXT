@@ -350,7 +350,7 @@ function writeAd(adType, returnSrc) {
         adType = 'phonefullpage';
       } else if (adType.indexOf('banner') < 0) {
         adType = 'phonehomempuBonus'; 
-        SetCookie('fs0',1,10,'/');
+        SetCookie('fs0',1,0,'/');
       } else {
         adType = 'phonebanner';
       }
