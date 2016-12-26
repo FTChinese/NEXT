@@ -1,4 +1,4 @@
-<%if date("Ymd",$smarty.now) <= 20161231%>
+<%if date("Ymd",$smarty.now) <= 20161231 && $smarty.get.ad != 'no'%>
 <style><%include file="next/styles/main-pop-ad.css"%></style>
 <div id="pop-ad" class=overlay></div>
 <div class="pop-ad-code">
@@ -7,6 +7,17 @@ var fullSC = GetCookie("fs0");
 var loadFullAtEnd = false;
 if ((fullSC === null || /utm\_campaign=2[MU]16/i.test(location.href)) && w <= 490) {
     document.write (writeAd('fullpage'));
+    if (/utm\_campaign=2[MU]16/i.test(location.href)) {    
+        setTimeout(function(){
+            document.querySelector('.pop-ad-code .banner-iframe').contentDocument.location.reload(true);
+        }, 3000);
+        setTimeout(function(){
+            document.querySelector('.pop-ad-code .banner-iframe').contentDocument.location.reload(true);
+        }, 6000);
+        setTimeout(function(){
+            document.querySelector('.pop-ad-code .banner-iframe').contentDocument.location.reload(true);
+        }, 9000);
+    }
     SetCookie("fs0",1,12*60*60,"/");
 }
 </script>

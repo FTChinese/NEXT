@@ -382,6 +382,7 @@ function writeAd(adType, returnSrc) {
     }
   }
 
+
   if (window.pageTheme === 'luxury') {
     bannerBG = '&bg=e0cdac';
   } else if (window.pageTheme === 'ebook') {

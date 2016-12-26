@@ -170,17 +170,35 @@ stickyAdsPrepare();
 </div>
 
 <style>@charset "UTF-8";#pop-ad .o-overlay__close{padding:10px;position:absolute;right:-23px;top:-25px}#pop-ad .o-overlay__close-icon{width:24px;height:24px;font-size:12px;line-height:15px;font-family:ft-icons;display:inline-block;vertical-align:middle;font-weight:400!important;font-style:normal!important;text-decoration:inherit;text-transform:none;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;border:1px solid;border-radius:50%;background-color:#2e6e9e;color:#fff;border-color:#2e6e9e;background-clip:padding-box}#pop-ad .o-overlay__close-icon:before{content:"x";font-size:28px;width:24px;height:32px;text-align:center;line-height:32px;display:block;font-style:normal;padding-top:0;margin-top:-6px}#pop-ad .cell{display:table-cell;vertical-align:middle}.overlay_close-btn{position:relative}.overlay_close-btn:after{content:"×";font-size:43px;position:absolute;font-family:Arial;font-weight:400;color:#fff;top:0;left:0;right:0;bottom:0;display:block;margin:auto;text-align:center}.mobile-landscape{display:none}@media only screen and (min-width:450px){.mobile-landscape{display:block}.mobile-portrait{display:none}}.overlay,.overlayBG{width:100%;height:100%;position:absolute;top:0;left:0}.overlay{display:none;z-index:1}.overlayBG{opacity:.7;background:#54534d;z-index:2}.overlay.on{display:block;color:#333;background:transparent;position:fixed}.overlay .inner{width:100%;height:100%;position:absolute;top:0;left:0;background:transparent;z-index:3;display:table}.pop-ad-code{display:none}</style>
-<div id="pop-ad" class="overlay"></div>
+
+
+
+
+<div id="pop-ad" class=overlay></div>
 <div class="pop-ad-code">
 <script type="text/javascript">
 var fullSC = GetCookie("fs0");
 var loadFullAtEnd = false;
-if (fullSC === null && w <= 490) {
-document.write (writeAd('fullpage'));
-SetCookie("fs0",1,12*60*60,"/");
+if ((fullSC === null || /utm\_campaign=2[MU]16/i.test(location.href)) && w <= 490) {
+    document.write (writeAd('fullpage'));
+    if (/utm\_campaign=2[MU]16/i.test(location.href)) {    
+        setTimeout(function(){
+            document.querySelector('.pop-ad-code .banner-iframe').contentDocument.location.reload(true);
+        }, 3000);
+        setTimeout(function(){
+            document.querySelector('.pop-ad-code .banner-iframe').contentDocument.location.reload(true);
+        }, 6000);
+        setTimeout(function(){
+            document.querySelector('.pop-ad-code .banner-iframe').contentDocument.location.reload(true);
+        }, 9000);
+    }
+    SetCookie("fs0",1,12*60*60,"/");
 }
 </script>
 </div>
+
+
+
 <header class="header-container">
 <div class="header-inner">
 <div class="masthead"></div>
