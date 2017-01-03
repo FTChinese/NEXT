@@ -5,26 +5,24 @@
 <script type="text/javascript">
 var fullSC = GetCookie("fs0");
 var loadFullAtEnd = false;
-if ((fullSC === null || /utm\_campaign=2[MU]16/i.test(location.href)) && w <= 490) {
+if (/*(fullSC === null || /utm\_campaign=2[MU]16/i.test(location.href)) && */w <= 490) {
     document.write (writeAd('fullpage'));
-    if (/utm\_campaign=2[MU]16/i.test(location.href)) {    
-        setTimeout(function(){
-            document.querySelector('.pop-ad-code .banner-iframe').contentDocument.location.reload(true);
-        }, 3000);
-        setTimeout(function(){
-            document.querySelector('.pop-ad-code .banner-iframe').contentDocument.location.reload(true);
-        }, 6000);
-        setTimeout(function(){
-            document.querySelector('.pop-ad-code .banner-iframe').contentDocument.location.reload(true);
-        }, 9000);
+    <%if $smarty.get.utm_campaign == "2M161000" || preg_match("/2U16[0-9]+/is",$smarty.get.utm_campaign)%>
+        if (/utm\_campaign=2[MU]16/i.test(location.href)) {
+            document.write (writeAd('fullpage'));
+            document.write (writeAd('fullpage'));
+            document.write (writeAd('fullpage'));
+            document.write (writeAd('fullpage'));
+        }
+    <%/if%>
+    if (fullSC !== null && !/utm\_campaign=2[MU]16/i.test(location.href)) {
+        document.getElementById('pop-ad').style.display = 'none';
     }
-    SetCookie("fs0",1,12*60*60,"/");
+    SetCookie("fs0",1,3*60,"/");
 }
 </script>
 </div>
 <%/if%>
-
-
 
 
 <header class="header-container">

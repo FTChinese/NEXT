@@ -242,7 +242,7 @@ var adPositions = {
   'phonestorympu': ['0004','0120'],
   'phonestoryiphonempu': ['0110'],
   'phonestoryandroidmpu': ['0111'],
-  'phonefullpage': ['0107'],
+  'phonefullpage': ['0107','9951','9952','9953','9954'],
   'phonestorympuVW': ['0119'],
   'phonehomempu': ['0118', '0003'],
   //bonus mpu ad positions

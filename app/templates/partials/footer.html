@@ -14,11 +14,53 @@
 		<span class="copyright"><b>© The Financial Times Ltd <%$smarty.now|date_format:"%Y"%></b></span> 
 		<span><acronym title="Financial Times">FT</acronym> and 'Financial Times' are trademarks of The Financial Times Ltd.</span>
 	</p>
-	
+
+
+
+
+	<%if date("Ymd",$smarty.now) <= 20161231 && $smarty.get.ad != 'no'%>
+		<%if $smarty.get.utm_campaign == "2M161000" || preg_match("/2U16[0-9]+/is",$smarty.get.utm_campaign)%>
+		<script>
+			function checkFrames() {
+			    var adFrames = document.querySelectorAll('.banner-iframe');
+			    for (var k=0; k<adFrames.length; k++) {
+			        if (k<4 || k>8) {
+			            adFrames[k].contentDocument.location.reload(true);
+			            //console.log ('test for angela ' + k);
+			        }
+			    }
+			}
+		    setTimeout(function(){
+		    	checkFrames();
+		    }, 5000);
+		    setTimeout(function(){
+		    	checkFrames();
+		    }, 10000);
+		    setTimeout(function(){
+		    	checkFrames();
+		    }, 15000);
+		</script>
+		<%else%>
+			<script>
+			if (w > 490) {
+			if (document.getElementById('pop-ad')) {
+			document.getElementById('pop-ad').style.display = 'none';
+			} else {
+			document.write('<div style="display:none;"><div id="pop-ad" class="overlay on done" style="display: none;"></div></div>');
+			}
+			document.write('<iframe class="banner-iframe" data-adch="2023" data-adPosition="9951" id="phonefullpage1" width="0" height="0" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="/m/marketing/a.html?v=20161009143608#adid=20239951&pid=phonefullpage1" data-src="/m/marketing/a.html?v=20161009143608#adid=20239951&pid=phonefullpage1" data-ad-type="phonefullpage" data-ad-count=1></iframe>');
+			}
+			</script>
+		<%/if%>
+	<%/if%>
+
+
 </div></div>
 <%if $debug_model == 1%>
 <div style="text-align: center; background-color: #FFFFFF; font-size: 38px; margin: 20px;font-weight:bold;"><a title="刷新本页CDN与服务器缓存" href="/index.php/marketing/flushcache?url=http://www7.ftchinese.com<%$smarty.server.REQUEST_URI|urlencode%>">刷新本页缓存</a></div>
 <%/if%>
+
+
 
 
 <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-KP4V3G"
