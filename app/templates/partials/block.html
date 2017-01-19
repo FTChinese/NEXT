@@ -1079,14 +1079,20 @@
 						<%*<!--insert 10 bonus MPU for mobile phone temporarily end-->*%>
 
 						<%*<!--insert an extra MPU for mobile phone temporarily start-->*%>
-						<%elseif date("Ymd",$smarty.now) <= 20161231 && $b == 0 && $l == 0%>
+						<%elseif $b == 0 && $l == 0%>
 							<%if $pageId == "home"%>
 								<%assign var="mpuName" value="homempu"%>
 							<%else%>
 								<%assign var="mpuName" value="taginlinempu"%>
 							<%/if%>
-							<%if $i == 3 || $i == 10 || $i == 18%>
-								<div class="mpu-container P-only"><script type="text/javascript">document.write (writeAd('<%$mpuName%>'));</script></div>
+							<%if date("Ymd",$smarty.now) <= 20170113 %>
+								<%if $i == 3 || $i == 10 || $i == 18%>
+									<div class="mpu-container P-only"><script type="text/javascript">document.write (writeAd('<%$mpuName%>'));</script></div>
+								<%/if%>
+							<%else%>
+								<%if $i == 3 || $i == 10%>
+									<div class="mpu-container P-only"><script type="text/javascript">document.write (writeAd('<%$mpuName%>'));</script></div>
+								<%/if%>
 							<%/if%>
 						<%/if%>
 						<%*<!--insert an extra MPU for mobile phone temporarily end-->*%>

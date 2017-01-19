@@ -240,11 +240,12 @@ var adPositions = {
   'phonestorybanner': ['0101'],
   'phonestorybannersponsor': ['0109', '0109'],
   'phonestorympu': ['0004','0120'],
+  //'phonestorympu': ['0004'],
   'phonestoryiphonempu': ['0110'],
   'phonestoryandroidmpu': ['0111'],
   'phonefullpage': ['0107','9951','9952','9953','9954'],
   'phonestorympuVW': ['0119'],
-  'phonehomempu': ['0118', '0003'],
+  'phonehomempu': ['0118', '0003', '0119'],
   //bonus mpu ad positions
   'phonehomempuBonus': ['0003', '0004', '0005', '0006', '0007', '0008','9901','9902','9903','9904','9905','9906','9907','9908','9909','9910','9911','9912','9913','9914','9915','9916','9917','9918'],
   'phonetagmpu': ['0119','0004','0120']

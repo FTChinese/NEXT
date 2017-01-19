@@ -43,11 +43,11 @@
 			t7="7C"+shcode;
 			t8='8C'+shcode;
 		} else {
-			t4="2G168001";
-			t5="2G169001";
-			t6="2G139002";
-			t7="2G139001";
-			t8='2G169003';
+			t4="2G178001";
+			t5="2G179001";
+			t6="2G179002";
+			t7="2G179001";
+			t8='2G179003';
 		}
 		if (document.getElementById("weibomessege")){
 		sinten=document.getElementById("weibomessege").innerHTML;

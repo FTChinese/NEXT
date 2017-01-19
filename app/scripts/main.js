@@ -78,16 +78,11 @@ function loadImagesLazy () {
 
   var figuresToLoad = 0;
   for (var i=0; i<figuresLazy.length; i++) {
-    //console.log (figuresLazy[i]);
     if (figuresLazy[i] !== '') {
       if (scrollTop + bodyHeight*2 > figuresLazy[i].imageTop) {
         figures[i].innerHTML = '<img src="' + figuresLazy[i].imageUrl + '" data-backupimage="' + figuresLazy[i].imageUrlBack + '">';
         figures[i].className = figuresLazy[i].loadedClass;
-        //console.log ('loaded image: ' + figuresLazy[i].imageUrl);
         figuresLazy[i] = '';
-        //figuresToLoad --;
-        //figuresLazy[i].loaded = true;
-        
       }
       figuresToLoad ++;
     }
@@ -105,17 +100,11 @@ function loadVideosLazy () {
   }
   var videosToLoad = 0;
   for (var i=0; i<videosLazy.length; i++) {
-    
-    //console.log (figuresLazy[i]);
     if (videosLazy[i] !== '') {
       if (scrollTop + bodyHeight*2 > videosLazy[i].videoTop) {
         videos[i].innerHTML = videosLazy[i].ih;
         videos[i].className = '';
-        //console.log ('loaded image: ' + figuresLazy[i].imageUrl);
         videosLazy[i] = '';
-        //videosToLoad --;
-        //figuresLazy[i].loaded = true;
-        
       }
       videosToLoad ++;
     }
@@ -123,14 +112,9 @@ function loadVideosLazy () {
   if (videosToLoad === 0) {
     videosLoadStatus = 1;
   }
-  //console.log (figuresToLoad);
-
 }
 
 function checkInView(obj) {
-  // if (obj.id === 'block-5') {
-  //   console.log (obj.id + ': scrollTop = ' + scrollTop + ', obj.top = ' + obj.top + ', obj.height = ' + obj.height);
-  // }
   if (scrollTop + bodyHeight > obj.top + obj.height * obj.minimum && scrollTop < obj.top + obj.height && obj.height>0 && !document.hidden) {
     return true;
   } else {
@@ -142,7 +126,6 @@ function trackViewables() {
   try {
     // blocks in view
     var ec = window.gPageId || 'Other Page';
-    //console.log (viewables);
     for (var j=0; j<viewables.length; j++) {
       if (viewables[j] !== '' && viewables[j].viewed === false) {
         if (checkInView(viewables[j]) === true) {
@@ -150,27 +133,14 @@ function trackViewables() {
           viewables[k].viewed = 'pending';
           setTimeout((function(k) {
               return function() {
-                //console.log ('check ' + k + ' in 1 second');
                 if (checkInView(viewables[k]) === true) {
                   viewables[k].viewed = true;
                   ga('send','event', ec, 'In View', viewables[k].id, {'nonInteraction':1});
-                  //console.log (viewables[k].id + ' in view!');
-                  // if (viewables[k].id === 'block-1') {
-                  //   setTimeout (function(){
-                  //     if (viewables[0].viewed !== true) {
-                  //       ga('send','event', ec, 'In View Error Catch: 007 - ' + scrollTop, JSON.stringify(viewables), {'nonInteraction':1});
-                  //     }
-                  //   }, 10);
-                  // }
                   if (viewables[k].adch !== '' && viewables[k].adPosition !== '') {
                     ga('send','event', 'Ad In View', viewables[k].adch, viewables[k].adPosition, {'nonInteraction':1});
-                    //console.log ('track: ' + viewables[k].adch + viewables[k].adPosition);
-                    // console.log (k);
-                    // console.log (viewables[k]);
                   }
                 } else {
                   viewables[k].viewed = false;
-                  //console.log (viewables[k].id + ' moved away!');
                 }
               };
           })(k), viewables[k].time);
@@ -215,11 +185,8 @@ function loadImages() {
     var figureParentClass = thisFigure.parentNode.className || '';
     var shouldLoadImage = false;
     var loadedClass = '';
-    var imageServiceHost = '//image.webservices.ft.com/v1/images/raw/';
+    var imageServiceHost = 'https://www.ft.com/__origami/service/image/v2/images/raw/';
 
-    if (location.href.indexOf('127.0.0.1') >= 0) {
-      imageServiceHost = '//www.ft.com/origami/service/image/v2/images/raw/';
-    }
 
     if (isRetinaDevice === true) {
       imageWidth = imageWidth * 2;
@@ -244,9 +211,6 @@ function loadImages() {
     imageUrl = encodeURIComponent(imageUrl);
 
 
-    //v2/images/raw/https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Ff%2Ffd%2FGhostscript_Tiger.svg?source=test&format=png
-
-
     if (/sponsor/.test(figureClass)) {
       imageUrl = imageServiceHost + imageUrl + '?source=ftchinese&height=' + imageHeight + '&fit=' + fitType;
       shouldLoadImage = true;
@@ -254,6 +218,7 @@ function loadImages() {
       imageUrl = imageServiceHost + imageUrl + '?source=ftchinese&width=' + imageWidth + '&height=' + imageHeight + '&fit=' + fitType;
       shouldLoadImage = true;
     }
+    //console.log (imageUrl);
     if (shouldLoadImage === true) {
       imageUrlBack = imageUrl.replace('i.ftimg.net', 'i.ftmailbox.com');
       figuresLazy[i] = {

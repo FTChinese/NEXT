@@ -141,7 +141,7 @@
 <%elseif preg_match("/economy/is",$story.topic)%>
 <%assign var=breadcrum value="<a href=/channel/globaleconomy.html>全球经济</a>"%>
 <%assign var=autoadchannel value="NP_Economy"%>
-<%assign var="adchannelID" value="1300"%>
+<%assign var="adchannelID" value="1301"%>
 <%assign var="topnav" value="economy"%>
 <%assign var="subnav" value="globaleconomy"%>
 <%elseif preg_match("/finance/is",$story.industry)%>
@@ -647,6 +647,15 @@
 	<%assign var="hide590" value="no"%>
 	<%assign var="hideBanner" value="no"%>
 	<%assign var="sponsorMobile" value="yes"%>
+<%elseif preg_match("/economy/is",$story.topic) && !preg_match("/area/is",$story.area) && date("Ymd",$smarty.now) <= 20170131%>
+	<%assign var=breadcrum value="<a href=\"/channel/globaleconomy.html\">全球经济</a>"%>
+	<%assign var="adchannelID" value="1301"%>
+	<%assign var="hideMPU1" value="no"%>
+	<%assign var="hideMPU2" value="no"%>
+	<%assign var="hideMPU3" value="no"%>
+	<%assign var="hide590" value="no"%>
+	<%assign var="hideBanner" value="no"%>
+	<%assign var="sponsorMobile" value="no"%>
 <%elseif preg_match("/2017全球展望/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20170103 && date("Ymd",$smarty.now) <= 20170131%>
 	<%assign var=breadcrum value="<a href=\"/tag/2017全球展望\">2017全球展望</a>"%>
 	<%assign var="adchannelID" value="2062"%>
@@ -1000,12 +1009,12 @@
     	<style><%include file="next/styles/main-table.css"%></style>
     <%/if%>
     
-    <link rel="icon" type="image/png" href="http://image.webservices.ft.com/v1/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=32&height=32" sizes="32x32">
-    <link rel="icon" type="image/png" href="http://image.webservices.ft.com/v1/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=194&height=194" sizes="194x194">
-    <link rel="apple-touch-icon" sizes="180x180" href="http://image.webservices.ft.com/v1/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=180&height=180" />
+    <link rel="icon" type="image/png" href="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=32&height=32" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=194&height=194" sizes="194x194">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=180&height=180" />
     <link rel="manifest" href="/assets/manifest/manifest-v2.json" />
     <meta name="msapplication-TileColor" content="#fff1e0" />
-    <meta name="msapplication-TileImage" content="http://image.webservices.ft.com/v1/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=144&height=144" />
+    <meta name="msapplication-TileImage" content="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=144&height=144" />
 
 
     <script>var startTime = new Date().getTime();</script>

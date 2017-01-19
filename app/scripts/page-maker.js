@@ -201,7 +201,7 @@
             imageBG = image.replace('/upload/', '/');
             //imageBG = image.replace('i.ftimg.net', 'i.ftmailbox.com').replace('/upload/', '/');
             imageBG = encodeURIComponent(imageBG);
-            imageBG = 'http://image.webservices.ft.com/v1/images/raw/' + imageBG + '?source=ftchinese&width=80&fit=scale-down';
+            imageBG = 'https://www.ft.com/__origami/service/image/v2/images/raw/' + imageBG + '?source=ftchinese&width=80&fit=scale-down';
             imageBG = ' style="background-image: url(' + imageBG + ')"';
         }
 
