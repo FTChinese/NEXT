@@ -34,6 +34,7 @@ const cssnext = require('postcss-cssnext');
 const merge = require('merge-stream');
 const source = require('vinyl-source-stream');
 const lazypipe = require('lazypipe');
+const sass = require('node-sass');
 
 const origamiModules = [
   {
@@ -185,7 +186,7 @@ gulp.task('styles', function () {
     ]))
     .pipe($.sourcemaps.write('./'))
     .pipe(gulp.dest(DEST))
-    .pipe(browserSync.stream({once: true})); 
+    .pipe(browserSync.stream({match: '**/**/*.css'})); 
 });
 
 
