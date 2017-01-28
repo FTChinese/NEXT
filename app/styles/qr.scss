@@ -43,3 +43,53 @@
 		display: block;
 	}
 }
+
+
+
+// download button for WeChat
+.app-download-bar-container {
+	display: none;
+	position:fixed;
+	width:100%;
+	height: $headerHeight;
+	bottom:0;
+	background-color: $darkGreen;
+}
+.app-download-bar-inner {
+	padding: $textPadding;
+}
+.app-download-bar-image {
+	float: left;
+	width: $headerHeight - $textPadding * 2;
+	height: $headerHeight - $textPadding * 2;
+	margin-right: $textPadding;
+	figure {
+		width: $headerHeight - $textPadding * 2;
+		height: $headerHeight - $textPadding * 2;
+	}
+}
+.app-download-bar-text {
+	padding-left: $textPadding;
+	line-height: $headerHeight/2 - $textPadding;
+	color: white;
+	font-size: 15px;
+	b {
+		display:block;
+	}
+}
+.app-download-bar-button {
+	float: right;
+	background-color: #FFF1E0;
+	height: $buttonHeight;
+	line-height: $buttonHeight;
+	margin-top: ($headerHeight - $textPadding * 2 - $buttonHeight)/2;
+	margin-right: $textPadding;
+}
+
+@media only screen and (max-width: 490px) {
+	.is-wechat {
+		.app-download-bar-container {
+			display: block;
+		}
+	}
+}

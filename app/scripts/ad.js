@@ -245,7 +245,7 @@ var adPositions = {
   'phonestoryandroidmpu': ['0111'],
   'phonefullpage': ['0107','9951','9952','9953','9954'],
   'phonestorympuVW': ['0119'],
-  'phonehomempu': ['0118', '0003', '0119'],
+  'phonehomempu': ['0003'],
   //bonus mpu ad positions
   'phonehomempuBonus': ['0003', '0004', '0005', '0006', '0007', '0008','9901','9902','9903','9904','9905','9906','9907','9908','9909','9910','9911','9912','9913','9914','9915','9916','9917','9918'],
   'phonetagmpu': ['0119','0004','0120']
@@ -253,9 +253,10 @@ var adPositions = {
 var uaString;
 var w1;
 var w2;
-var isWeChat = (/micromessenger/i.test(uaString));
+var isWeChat;
 function initAds() {
   uaString = navigator.userAgent || navigator.vendor || '';
+  isWeChat = (/micromessenger/i.test(uaString));
   // First get the browser width
   // On an mobile phone, this may return a larger value if
   // 1.  viewport meta is not added
