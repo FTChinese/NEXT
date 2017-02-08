@@ -13,7 +13,7 @@ var gRecomendInViewNoted = false;
 var defaultPadding = 30;
 var hasSideWidth = 690;
 var sectionsWithSide = document.querySelectorAll('.block-container.has-side');
-var sections = document.querySelectorAll('.block-container, .footer-container, .bn-ph, .mpu-container, #story_main_mpu');
+var sections = document.querySelectorAll('.block-container, .footer-container, .bn-ph, .mpu-container, #story_main_mpu, .in-story-recommend');
 var delegate;
 var htmlClass = document.documentElement.className;
 var sectionsWithSideLength = sectionsWithSide.length;
@@ -274,7 +274,8 @@ function viewablesInit() {
       'banner': 0,
       'mpu': 0,
       'storympu':0,
-      'footer': 0
+      'footer': 0,
+      'in-story-recommend': 0
     };
     window.bBlocked = 'unknown';
     for (var j=0; j<sections.length; j++) {
@@ -315,6 +316,8 @@ function viewablesInit() {
         sectionType = 'footer';
       } else if (sections[j].className.indexOf('block') >= 0) {
         sectionType = 'block';
+      } else if (sections[j].className.indexOf('in-story-recommend') >= 0){
+        sectionType = 'in-story-recommend';
       }
 
       if (isAdContainer === true) {
