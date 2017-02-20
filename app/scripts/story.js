@@ -119,7 +119,7 @@ function recommendationPayload(datalist){
         var itemImage = datalist[i].piclink;
         var itemId = datalist[i].storyid;
         var itemT = datalist[i].t;
-        var itemLead = datalist[i].lead || '';
+        var itemLead = datalist[i].lead || datalist[i].clongleadbody || datalist[i].cshortleadbody || '';
         var itemTag = datalist[i].tag || '为您推荐';
         itemTag = itemTag.replace(/[,，].*$/g,'');
         if(itemT === undefined || itemT === null) {itemT = '';}
