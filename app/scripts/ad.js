@@ -1,4 +1,33 @@
 /* exported writeAd, slotStr, reloadBanners, checkB, clearEvents*/
+
+
+
+var adPositions = {
+  'banner': ['0001','0006','0007','0008'],
+  'tagbanner': ['0010'],
+  'mpu': ['0003', '0004', '0005'],
+  'tagmpu': ['0012', '0013'],
+  'storympu': ['0005', '0003', '0004', '0003'],
+  'ipadhomempu': ['0003', '0004'],
+  'ipadstorympu': ['0005'],
+  'phonebanner': ['0101', '0114'],
+  'phonempu': ['0003'],
+  //'phonestorybanner': ['0101', '0115'],
+  'phonestorybanner': ['0101'],
+  'phonestorybannersponsor': ['0109', '0109'],
+  //'phonestorympu': ['0004','0120'],
+  'phonestorympu': ['0004'],
+  'phonestoryiphonempu': ['0110'],
+  'phonestoryandroidmpu': ['0111'],
+  'phonefullpage': ['0107','9951','9952','9953','9954'],
+  'phonestorympuVW': ['0119'],
+  'phonehomempu': ['0003'],
+  //bonus mpu ad positions
+  'phonehomempuBonus': ['0003', '0004', '0005', '0006', '0007', '0008','9901','9902','9903','9904','9905','9906','9907','9908','9909','9910','9911','9912','9913','9914','9915','9916','9917','9918'],
+  'phonetagmpu': ['0119','0004','0120']
+};
+
+
 /* jshint ignore:start */
 
 function adReachability() {
@@ -226,30 +255,7 @@ var slotStr=setDolphinSlot('USER_KV');
 
 var adCount = {};
 var adMax = {};
-var adPositions = {
-  'banner': ['0001','0006','0007','0008'],
-  'tagbanner': ['0010'],
-  'mpu': ['0003', '0004', '0005'],
-  'tagmpu': ['0012', '0013'],
-  'storympu': ['0005', '0003', '0004', '0003'],
-  'ipadhomempu': ['0003', '0004'],
-  'ipadstorympu': ['0005'],
-  'phonebanner': ['0101', '0114'],
-  'phonempu': ['0003'],
-  //'phonestorybanner': ['0101', '0115'],
-  'phonestorybanner': ['0101'],
-  'phonestorybannersponsor': ['0109', '0109'],
-  'phonestorympu': ['0004','0120'],
-  //'phonestorympu': ['0004'],
-  'phonestoryiphonempu': ['0110'],
-  'phonestoryandroidmpu': ['0111'],
-  'phonefullpage': ['0107','9951','9952','9953','9954'],
-  'phonestorympuVW': ['0119'],
-  'phonehomempu': ['0003'],
-  //bonus mpu ad positions
-  'phonehomempuBonus': ['0003', '0004', '0005', '0006', '0007', '0008','9901','9902','9903','9904','9905','9906','9907','9908','9909','9910','9911','9912','9913','9914','9915','9916','9917','9918'],
-  'phonetagmpu': ['0119','0004','0120']
-};
+
 var uaString;
 var w1;
 var w2;
