@@ -20,11 +20,9 @@ var userId;
 
 recommendVersion = GetCookie('ab001') || '';
 if (recommendVersion === '') {
-    recommendVersion = (Math.random() > 0.5)? '-001': '-002';
+    recommendVersion = (Math.random() > 1)? '-001': '-002';
     SetCookie('ab001',recommendVersion,'','/');
 }
-
-recommendVersion = '-002';
 
 /**
  * Switch to local mode or remote mode.
