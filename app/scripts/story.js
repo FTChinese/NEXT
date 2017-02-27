@@ -41,11 +41,6 @@ if (recommendVersionInstory === '') {
 // MARK: 根据Cookie的A/B版本来决定变量的值
 recommendVersionInstory = (recommendVersionInstory === 'A')?'from_recommends':'from_relatives';
 
-recommendVersionInstory = 'from_relatives';
-
-//console.log('recommendVersionInstory:'+recommendVersionInstory);
-
-trackGaOfRecommandInstory();
 /**
  * Switch to local mode or remote mode.
  */
@@ -278,6 +273,8 @@ function recommendAndRelativesPayLoad(recommenddata,relativesdata){
     loadImages();
     try {
         stickyBottomPrepare();
+        trackViewables();
+        trackGaOfRecommandInstory();
     } catch(ignore) {
 
     }
@@ -286,6 +283,7 @@ function recommendAndRelativesPayLoad(recommenddata,relativesdata){
 
 function trackGaOfRecommandInstory(){// ga for ABtestForRecommandInstory
     var recommendDiv = document.getElementById('in-story-recommend');
+    //track click 
     recommendDiv.addEventListener('click',function(){
         ga('send','event','ABtestForRecommandInstory','click',recommendVersionInstory);
     },false);

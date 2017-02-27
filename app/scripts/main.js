@@ -32,7 +32,7 @@ var figuresLoadStatus = 0;
 var videos = document.querySelectorAll('figure.loading-video');
 var videosLazy = [];
 var videosLoadStatus = 0;
-var viewables = [];
+var viewables = [];//存储要记录track In View的元素
 
 
 
@@ -63,7 +63,6 @@ function stickyAdsPrepare() {
       var theContainer = document.getElementById(stickyAds[i].BannerId).parentNode.parentNode.parentNode;
       stickyAds[i].oTop = findTop(thePlaceHolder);
       stickyAds[i].currentClass = theContainer.className;
-      //console.log (theContainer.className);
     }
   }
 }
@@ -340,6 +339,7 @@ function viewablesInit() {
           adch: adchValue,
           adPosition: adPositionValue
         };
+        
         if (j === 0) {
           window.bBlocked = 'no';
         }
@@ -354,7 +354,15 @@ function viewablesInit() {
         //   }, 1000);
         // }
       }
+     
       sections[j].setAttribute('data-id', sectionType + '-' + sectionTypes[sectionType]);
+
+       if(sectionType === 'in-story-recommend'){
+          if(window.recommendVersionInstory){
+            viewables[j].id = window.recommendVersionInstory;
+          }
+          
+        }
       //sections[j].id = sectionType + '-' + sectionTypes[sectionType];
     }
   }
@@ -376,8 +384,6 @@ function stickyBottomPrepare() {
 
   w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 
-  // console.log (w);
-  //     console.log (hasSideWidth); 
   if (sectionsWithSide.length > 0) {
     for (var i=0; i<sectionsWithSide.length; i++) {
       sectionClassName[i] = sectionsWithSide[i].className;       
@@ -487,7 +493,6 @@ function stickyBottomUpdate() {
       if (sectionClassNameNew[i] !== sectionClassName[i]) {
         sectionClassName[i] = sectionClassNameNew[i];
         sectionsWithSide[i].className = sectionClassNameNew[i];
-        //console.log (sectionClassName[i]);
       }
     }
   }
