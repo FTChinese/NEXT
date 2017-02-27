@@ -2,7 +2,6 @@
 var fontOptionsEle;
 var fs;
 
-/*待做：这四个变量待整合成一个对象*/
 var ajaxMethod;//for Recommends
 var ajaxUrl;//for Recommends
 
@@ -26,13 +25,12 @@ var recommendData = [];
 var relativesData = [];
 /*决定recommends的版本 */
 recommendVersion = GetCookie('ab001') || '';
-console.log(recommendVersion);
 if (recommendVersion === '') {
     recommendVersion = (Math.random() > 1)? '-001': '-002';
     SetCookie('ab001',recommendVersion,'','/');
 }
 recommendVersion = '-002';
-console.log(recommendVersion);
+
 /*决定文章内嵌文章的版本：是来自recommends还是relatives*/
 var recommendVersionInstory = (Math.random()<0.5)?'from_recommends':'from_relatives';
 console.log('recommendVersionInstory:'+recommendVersionInstory);
@@ -240,7 +238,6 @@ function recommendAndRelativesPayLoad(recommenddata,relativesdata){
             link += '&position=instory';
             oneItem = '<a data-ec="In Story Recommend" data-ea="'+eventAction+'" data-el="'+itemT+'/story/'+itemId+'" target="_blank" href="'+link+'" class="headline">'+itemHeadline+'</a><div class="lead">'+itemLead+'</div>';
             oneImage = '<a data-ec="In Story Recommend" data-ea="'+eventAction+'" data-el="'+itemT+'/story/'+itemId+'" class="recommend-image" target="_blank" href="'+link+'"><figure class="loading" data-url="'+itemImage+'"></figure></a>';
-            console.log("itemImage:"+itemImage);
             recommendDiv.innerHTML = '<div class="recommend-header">' + itemTag + '</div><div class="recommend-content">' + oneItem + '</div>' + oneImage;
             recommendDiv.className = 'leftPic in-story-recommend';
         } else if (itemCount<maxItem && itemImage && itemImage !== '') {
@@ -315,7 +312,6 @@ function getThirdPartRecommendSuccess(data) {//此处data为recommend.json
             recommendData = data.body.odatalist;//填充全局变量recommendData
             ftc_api.method = ajaxMethod_relativesData;
             ftc_api.server_url = ajaxUrl_relativesData;
-            console.log('ftc_api.server_url:'+ftc_api.server_url);
             ftc_api.call('',getRelativesSuccess,getRelativesFailed);
             ga('send','event','Recommend Story API', 'Success' + recommendVersion, '', {'nonInteraction':1});
         } else {
@@ -347,14 +343,13 @@ function getRelativesSuccess(data) {//此处data为relatives.json
      recommendAndRelativesPayLoad(recommendData,relativesData);
 
 }
-function getRelativesFailed(){//待做：函数内部待细写
-    //console.log('Request failed!');
-    ga('send','event','Recommend Story API', 'Request Fail' + recommendVersion, '', {'nonInteraction':1});
+function getRelativesFailed(){
+    console.log('getRelativesFailed!');
+    
 }
 /* jshint unused: true */
 /*exported getRec */
 function getRec(data) {
-    console.log('excute:getRec');
     if(typeof data === 'object') {
         if(data.length > 0){
             var ids = '';
@@ -376,8 +371,6 @@ function getRec(data) {
             message.body.ielement.withpic = 1;
             ftc_api.method = ajaxMethod;
             ftc_api.server_url = ajaxUrl;
-            console.log('ftc_api.server_url:'+ftc_api.server_url);
-            console.log("message:"+JSON.stringify(message));
             ftc_api.call(message, getThirdPartRecommendSuccess, getThirdPartRecommendFailed);
         } else {
             ga('send','event','Recommend Story API', 'No Data1' + recommendVersion, '', {'nonInteraction':1});
@@ -400,7 +393,6 @@ function guid() {
 
 // A & B Test
 if(recommendVersion === '-001'){
-    console.log('excute:-001');
     message.head = {};
     message.head.transactiontype = '61008';
     message.head.source = 'web';
@@ -411,7 +403,6 @@ if(recommendVersion === '-001'){
     ga('send','event','Recommend Story API', 'Load' + recommendVersion, '', {'nonInteraction':1});
     ftc_api.call(message, getFtcRecommendSuccess, getFtcRecommendFailed);
 } else {
-    console.log('excute:-002');
     userId = GetCookie('USER_ID') || GetCookie('uniqueVisitorId');
     if (userId === null) {
         userId = guid();
