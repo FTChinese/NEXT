@@ -29,11 +29,22 @@ if (recommendVersion === '') {
     recommendVersion = (Math.random() > 1)? '-001': '-002';
     SetCookie('ab001',recommendVersion,'','/');
 }
+// MARK: 测试结束，全部使用002版本
 recommendVersion = '-002';
 
 /*决定文章内嵌文章的版本：是来自recommends还是relatives*/
-var recommendVersionInstory = (Math.random()<0.5)?'from_recommends':'from_relatives';
-console.log('recommendVersionInstory:'+recommendVersionInstory);
+var recommendVersionInstory = GetCookie('ab002') || '';
+if (recommendVersionInstory === '') {
+    recommendVersionInstory = (Math.random()<0.5)?'A':'B';
+    SetCookie('ab002',recommendVersionInstory,'','/');
+}
+// MARK: 根据Cookie的A/B版本来决定变量的值
+recommendVersionInstory = (recommendVersionInstory === 'A')?'from_recommends':'from_relatives';
+
+recommendVersionInstory = 'from_relatives';
+
+//console.log('recommendVersionInstory:'+recommendVersionInstory);
+
 trackGaOfRecommandInstory();
 /**
  * Switch to local mode or remote mode.
