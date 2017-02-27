@@ -49,7 +49,7 @@ if (/127\.0|localhost|192\.168/.test(window.location.href)) {
 	ajaxMethod = 'POST';
 	ajaxUrl = '/eaclient/apijson.php';//线上地址eg:http://www.ftchinese.com/eaclient/apijson.php
     ajaxMethod_relativesData = 'POST';
-    ajaxUrl_relativesData = '/jsapi/related/'+FTStoryid;//线上地址为 eg: http://www.ftchinese.com/index.php/jsapi/related/001068131
+    ajaxUrl_relativesData = '/index.php/jsapi/related/'+FTStoryid;//线上地址为 eg: http://www.ftchinese.com/index.php/jsapi/related/001068131
 }
 
 /**
