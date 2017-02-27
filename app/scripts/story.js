@@ -23,6 +23,7 @@ if (recommendVersion === '') {
     recommendVersion = (Math.random() > 1)? '-001': '-002';
     SetCookie('ab001',recommendVersion,'','/');
 }
+recommendVersion = '-002';
 
 /**
  * Switch to local mode or remote mode.
