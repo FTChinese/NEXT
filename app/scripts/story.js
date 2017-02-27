@@ -5,8 +5,7 @@ var fs;
 /*待做：这四个变量待整合成一个对象*/
 var ajaxMethod;//for Recommends
 var ajaxUrl;//for Recommends
-var ajaxMethod_relativesIdData;
-var ajaxUrl_relativesIdData;
+
 var ajaxMethod_relativesData;
 var ajaxUrl_relativesData;
 
@@ -23,8 +22,8 @@ var thirdPartFeedbackUrl = '//uluai.com.cn/rcmd/rec/click?siteId=5002&itemId=' +
 
 var thirdPartData = [];
 var userId;
-var recommendData = {};
-var relativesData = {};
+var recommendData = [];
+var relativesData = [];
 /*决定recommends的版本 */
 recommendVersion = GetCookie('ab001') || '';
 console.log(recommendVersion);
@@ -44,17 +43,13 @@ trackGaOfRecommandInstory();
 if (/127\.0|localhost|192\.168/.test(window.location.href)) {
 	ajaxMethod = 'GET';
 	ajaxUrl = '/api/page/recommend.json';
-    ajaxMethod_relativesIdData = 'GET';
-    ajaxUrl_relativesIdData = '/api/page/relativesIdData.json';
     ajaxMethod_relativesData = 'GET';
     ajaxUrl_relativesData = '/api/page/relatives.json';
 } else {
 	ajaxMethod = 'POST';
 	ajaxUrl = '/eaclient/apijson.php';//线上地址eg:http://www.ftchinese.com/eaclient/apijson.php
-    ajaxMethod_relativesIdData = 'POST';
-    ajaxUrl_relativesIdData = '/jsapi/related/'+FTStoryid;//线上地址为 eg: http://www.ftchinese.com/index.php/jsapi/related/001068131
     ajaxMethod_relativesData = 'POST';
-    ajaxUrl_relativesData = '/eaclient/apijson.php';
+    ajaxUrl_relativesData = '/jsapi/related/'+FTStoryid;//线上地址为 eg: http://www.ftchinese.com/index.php/jsapi/related/001068131
 }
 
 /**
@@ -192,20 +187,12 @@ function recommendationPayload(datalist){//原datalist是recommendData
 }
 
 function recommendAndRelativesPayLoad(recommenddata,relativesdata){
-    console.log('recommenddata:'+recommenddata);
-    console.log('relativesdata:'+relativesdata);
     var maxItem = 8;//规定下方推荐文章区域显示多少个
     var itemCount = 0;//记录某item位于下方推荐文章区域的第几个
     var itemHTML = '';//下方推荐文章区域的innerHTML
     var eventAction = 'Click' + recommendVersion;
     var recommendDiv = document.getElementById('in-story-recommend');//文章内部推荐的那篇文章预期的元素
     
-    /*右侧相关文章区域*/
-    var relativeStories = document.getElementById('relativeStories');//5个条目:下面每个item形如：<li class="mp1"><a target="_blank" href="/story/001065934">香港蝉联“全球房价最难负担城市”</a></li>
-    var itemCount_relative = 0;
-    var itemHTML_relative='';
-    var maxItem_relative = 5;
-
 
     for (var i=0; i<recommenddata.length; i++) {
         var itemClass = 'XL3 L3 M6 S6 P12';
@@ -225,10 +212,7 @@ function recommendAndRelativesPayLoad(recommenddata,relativesdata){
             itemTop = '<div class="' + itemTopClass + '"></div>';
         }
 
-        /*右侧相关文章区域 */
-        var link_relative,itemHeadline_relative,oneItem_relative,liclass;//"相关文章区域"
-        var itemRelativeIndex = 0;
-
+        
 
         // insert the first item into the story body
         if (i === 0 && recommendDiv) {
@@ -256,15 +240,14 @@ function recommendAndRelativesPayLoad(recommenddata,relativesdata){
             link += '&position=instory';
             oneItem = '<a data-ec="In Story Recommend" data-ea="'+eventAction+'" data-el="'+itemT+'/story/'+itemId+'" target="_blank" href="'+link+'" class="headline">'+itemHeadline+'</a><div class="lead">'+itemLead+'</div>';
             oneImage = '<a data-ec="In Story Recommend" data-ea="'+eventAction+'" data-el="'+itemT+'/story/'+itemId+'" class="recommend-image" target="_blank" href="'+link+'"><figure class="loading" data-url="'+itemImage+'"></figure></a>';
+            console.log("itemImage:"+itemImage);
             recommendDiv.innerHTML = '<div class="recommend-header">' + itemTag + '</div><div class="recommend-content">' + oneItem + '</div>' + oneImage;
             recommendDiv.className = 'leftPic in-story-recommend';
         } else if (itemCount<maxItem && itemImage && itemImage !== '') {
             if( recommendVersionInstory === 'from_relatives'){
                 itemBottomIndex = i-1;
-                itemRelativeIndex = i;
             } else if(recommendVersionInstory === 'from_recommends'){
                 itemBottomIndex = i;
-                itemRelativeIndex = i-1;
             }
             //底部文章区域
             itemHeadline = recommenddata[itemBottomIndex].cheadline;
@@ -277,26 +260,11 @@ function recommendAndRelativesPayLoad(recommenddata,relativesdata){
             if(itemT === undefined || itemT === null) {itemT = '';}
             link = '/story/'+itemId+'?tcode=smartrecommend&ulu-rcmd=' + thirdPartData[itemId];
             oneItem = itemTop + '<div class="item-container ' + itemClass + ' has-image no-lead"><div class="item-inner"><h2 class="item-headline"><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el="'+itemT+'/story/'+itemId+'" target="_blank" href="'+link+'">'+itemHeadline+'</a></h2><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el="'+itemT+'/story/'+itemId+'" class="image" target="_blank" href="'+link+'"><figure class="loading" data-url="'+itemImage+'"></figure></a><div class="item-bottom"></div></div></div>';
-
             itemHTML += oneItem;
             itemCount += 1;
-
-            //右侧相关文章区域
-            if(itemCount_relative<maxItem_relative){
-                link_relative = '/story/'+relativesdata[itemRelativeIndex].storyid;
-                itemHeadline_relative = relativesdata[itemRelativeIndex].cheadline;
-                liclass = 'mp'+(itemRelativeIndex+1);
-                oneItem_relative = '<li class="'+liclass+'"><a target="_blank" href="'+link_relative+'">'+itemHeadline_relative+'</a></li>';
-                itemHTML_relative += oneItem_relative;
-                itemCount_relative += 1;
-            }
-          
-          
         }
     }
-
     recommendInner.innerHTML = itemHTML;
-    relativeStories.innerHTML = itemHTML_relative;
     bindFeedbackEvent();
     document.getElementById('story-recommend-container').style.display = 'block';
     loadImages();
@@ -306,7 +274,6 @@ function recommendAndRelativesPayLoad(recommenddata,relativesdata){
 
     }
     recommendLoaded = true;
-
 }
 
 function trackGaOfRecommandInstory(){// ga for ABtestForRecommandInstory
@@ -345,13 +312,11 @@ function getThirdPartRecommendSuccess(data) {//此处data为recommend.json
     data = JSON.parse(data);
     if (data.body.oelement.errorcode === '0') {
         if (data.body.odatalist && data.body.odatalist.length > 0) {
-            recommendData = data.body.odatalist;
-            console.log(recommendData);
-            ftc_api.method = ajaxMethod_relativesIdData;
-            ftc_api.server_url = ajaxUrl_relativesIdData;
+            recommendData = data.body.odatalist;//填充全局变量recommendData
+            ftc_api.method = ajaxMethod_relativesData;
+            ftc_api.server_url = ajaxUrl_relativesData;
             console.log('ftc_api.server_url:'+ftc_api.server_url);
-            ftc_api.call('',getRelativesIdDataSuccess,getRelativesIdDataFailed);
-            //getrecommendationPayload(data.body.odatalist);
+            ftc_api.call('',getRelativesSuccess,getRelativesFailed);
             ga('send','event','Recommend Story API', 'Success' + recommendVersion, '', {'nonInteraction':1});
         } else {
             ga('send','event','Recommend Story API', 'No Data2' + recommendVersion, '', {'nonInteraction':1});
@@ -366,52 +331,21 @@ function getThirdPartRecommendFailed(){
     ga('send','event','Recommend Story API', 'Request Fail' + recommendVersion, '', {'nonInteraction':1});
 }
 
-function getRelativesIdDataSuccess(data) {//此处data为relativesIdData.json
-    console.log('excute getRelativesIdDataSuccess');
-    data = JSON.parse(data);
-    if (data.length>0) {
-            var messageRelativesIdData = {
-                head:{
-                    transactiontype:'10002',
-                    source:'web'
-                },
-                body:{
-                    ielement:{
-                        storyid:'',
-                        withpic:1
-                    }
-                }
-            };
-            var storyidStr = '';
-            for(var i=0,len=data.length;i<len;i++){
-                storyidStr += data[i].id;
-            }
 
-            messageRelativesIdData.body.ielement.storyid=storyidStr;//形如"001065443,001050880,001065868,001070945,001066342,001071409,001049318"(7个id)
-            console.log('messageRelativesIdData:'+JSON.stringify(messageRelativesIdData));
-            ftc_api.method= ajaxMethod_relativesData;
-            ftc_api.server_url = ajaxUrl_relativesData;
-            ftc_api.call(messageRelativesIdData,getRelativesSuccess,getRelativesFailed);
-            //ga('send','event','Recommend Story API', 'Success' + recommendVersion, '', {'nonInteraction':1});
-    } else {
-        //ga('send','event','Recommend Story API', 'Parse Fail' + recommendVersion, data.body.oelement.errorcode, {'nonInteraction':1});
-    }
-}
-function getRelativesIdDataFailed(){//待做：函数内部待细写
-    //console.log('Request failed!');
-    ga('send','event','Recommend Story API', 'Request Fail' + recommendVersion, '', {'nonInteraction':1});
-}
 function getRelativesSuccess(data) {//此处data为relatives.json
     data = JSON.parse(data);
-    if (data.body.oelement.errorcode === '0') {
-        if (data.body.odatalist && data.body.odatalist.length > 0) {
-            relativesData = data.body.odatalist;
-            recommendAndRelativesPayLoad(recommendData,relativesData);
-            ga('send','event','Recommend Story API', 'Success' + recommendVersion, '', {'nonInteraction':1});
+  
+    for(var i=0,len=data.length;i<len;i++){
+        var dataItem = {};
+        dataItem.cheadline = data[i].cheadline;
+        dataItem.piclink = data[i].story_pic.smallbutton||data[i].story_pic.other;
+        dataItem.storyid = data[i].id;
+        if(dataItem.cheadline && dataItem.piclink && dataItem.storyid){
+            relativesData.push(dataItem);//填充全局变量relativesData
         }
-    } else {
-        ga('send','event','Recommend Story API', 'Parse Fail' + recommendVersion, data.body.oelement.errorcode, {'nonInteraction':1});
     }
+     recommendAndRelativesPayLoad(recommendData,relativesData);
+
 }
 function getRelativesFailed(){//待做：函数内部待细写
     //console.log('Request failed!');
