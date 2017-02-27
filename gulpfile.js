@@ -278,17 +278,17 @@ gulp.task('copy:cssjs', () => {
   const jsDest = 'dev_www/frontend/tpl/next/scripts';
 
   let cssStream = gulp.src(['app/origami/*.css', 'dist/styles/*.css'])
-    //.pipe(gulp.dest(`../${staticDest}`))
-    //.pipe(gulp.dest(`../${cssDest}`))
+    .pipe(gulp.dest(`../${staticDest}`))
+    .pipe(gulp.dest(`../${cssDest}`))
     .pipe(gulp.dest(`../testing/${cssDest}`));
 
   let partialsCssStream = gulp.src('dist/styles/partials/*.css')
-    //.pipe(gulp.dest(`../${cssDest}`))
+    .pipe(gulp.dest(`../${cssDest}`))
     .pipe(gulp.dest(`../testing/${cssDest}`));
 
   let jsStream = gulp.src(['app/origami/*.js', 'dist/scripts/*.js'])
-    //.pipe(gulp.dest(`../${staticDest}`))
-    //.pipe(gulp.dest(`../${jsDest}`))
+    .pipe(gulp.dest(`../${staticDest}`))
+    .pipe(gulp.dest(`../${jsDest}`))
     .pipe(gulp.dest(`../testing/${jsDest}`));
 
   return merge(cssStream, partialsCssStream, jsStream);
@@ -339,7 +339,7 @@ gulp.task('copy:tpl', () => {
     .pipe($.replace(/([\r\n])[ \t]+/g, '$1'))
     .pipe($.replace(/(\r\n)+/g, '\r\n'))
     .pipe($.replace(/(\n)+/g, '\n')) 
-   // .pipe(gulp.dest(`../${dest}`))
+    .pipe(gulp.dest(`../${dest}`))
     .pipe(gulp.dest(`../testing/${dest}`));
 });
 
