@@ -41,6 +41,8 @@ if (recommendVersionInstory === '') {
 // MARK: 根据Cookie的A/B版本来决定变量的值
 recommendVersionInstory = (recommendVersionInstory === 'A')?'from_recommends':'from_relatives';
 
+//recommendVersionInstory = 'from_relatives';
+
 /**
  * Switch to local mode or remote mode.
  */
@@ -194,7 +196,7 @@ function recommendAndRelativesPayLoad(recommenddata,relativesdata){
     var maxItem = 8;//规定下方推荐文章区域显示多少个
     var itemCount = 0;//记录某item位于下方推荐文章区域的第几个
     var itemHTML = '';//下方推荐文章区域的innerHTML
-    var eventAction = 'Click' + recommendVersion;
+    var eventAction = 'Click' + recommendVersion + recommendVersionInstory;
     var recommendDiv = document.getElementById('in-story-recommend');//文章内部推荐的那篇文章预期的元素
     
 
@@ -273,14 +275,15 @@ function recommendAndRelativesPayLoad(recommenddata,relativesdata){
     loadImages();
     try {
         stickyBottomPrepare();
-        trackViewables();
-        trackGaOfRecommandInstory();
+        //trackViewables();
+        //trackGaOfRecommandInstory();
     } catch(ignore) {
 
     }
     recommendLoaded = true;
 }
 
+/*
 function trackGaOfRecommandInstory(){// ga for ABtestForRecommandInstory
     var recommendDiv = document.getElementById('in-story-recommend');
     //track click 
@@ -288,6 +291,7 @@ function trackGaOfRecommandInstory(){// ga for ABtestForRecommandInstory
         ga('send','event','ABtestForRecommandInstory','click',recommendVersionInstory);
     },false);
 }
+*/
 /**
  * Get ftc recommend stories
  */
