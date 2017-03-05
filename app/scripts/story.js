@@ -202,7 +202,6 @@ function recommendAndRelativesPayLoad(recommenddata,relativesdata){
     var eventAction = 'Click' + recommendVersion + recommendVersionInstory;
     var recommendDiv = document.getElementById('in-story-recommend');//文章内部推荐的那篇文章预期的元素
     
-
     for (var i=0; i<recommenddata.length; i++) {
         var itemClass = 'XL3 L3 M6 S6 P12';
         var itemHeadline,itemImage,itemId,itemT,itemLead,itemTag,link,oneItem,oneImage;
@@ -251,7 +250,8 @@ function recommendAndRelativesPayLoad(recommenddata,relativesdata){
             oneImage = '<a data-ec="In Story Recommend" data-ea="'+eventAction+'" data-el="'+itemT+'/story/'+itemId+'" class="recommend-image" target="_blank" href="'+link+'"><figure class="loading" data-url="'+itemImage+'"></figure></a>';
             recommendDiv.innerHTML = '<div class="recommend-header">' + itemTag + '</div><div class="recommend-content">' + oneItem + '</div>' + oneImage;
             recommendDiv.className = 'leftPic in-story-recommend';
-        } else if (itemCount<maxItem && itemImage && itemImage !== '') {
+        } //else if (itemCount<maxItem && itemImage && itemImage !== '') {
+         else if (i>0 && itemCount<maxItem ) {
             if( recommendVersionInstory === 'from_relatives'){
                 itemBottomIndex = i-1;
             } else if(recommendVersionInstory === 'from_recommends'){
@@ -268,8 +268,11 @@ function recommendAndRelativesPayLoad(recommenddata,relativesdata){
             if(itemT === undefined || itemT === null) {itemT = '';}
             link = '/story/'+itemId+'?tcode=smartrecommend&ulu-rcmd=' + thirdPartData[itemId];
             oneItem = itemTop + '<div class="item-container ' + itemClass + ' has-image no-lead"><div class="item-inner"><h2 class="item-headline"><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el="'+itemT+'/story/'+itemId+'" target="_blank" href="'+link+'">'+itemHeadline+'</a></h2><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el="'+itemT+'/story/'+itemId+'" class="image" target="_blank" href="'+link+'"><figure class="loading" data-url="'+itemImage+'"></figure></a><div class="item-bottom"></div></div></div>';
-            itemHTML += oneItem;
-            itemCount += 1;
+            if(itemImage && itemImage !== ''){
+                itemHTML += oneItem;
+                itemCount += 1;
+            }
+           
         }
     }
     recommendInner.innerHTML = itemHTML;
@@ -350,6 +353,7 @@ function getRelativesSuccess(data) {//此处data为relatives.json
     for(var i=0,len=data.length;i<len;i++){
         var dataItem = {};
         dataItem.cheadline = data[i].cheadline;
+
         if (data[i].story_pic) {
             dataItem.piclink = data[i].story_pic.smallbutton||data[i].story_pic.other||data[i].piclink;
         } else {
