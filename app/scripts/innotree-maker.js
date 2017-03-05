@@ -1,3 +1,4 @@
+/* jshint ignore:start */
 
 /* jshint devel:true */
 (function () {
@@ -114,13 +115,14 @@
     var dragOverIndex;
     var customPageJSON;
 
+
+
+
     // get parameter value from url
 
-    /* jshint ignore:start */
     function getURLParameter(name) {
         return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [, ""])[1].replace(/\+/g, '%20')) || null;
     }
-    /* jshint ignore:end */
 //    console.log (getURLParameter('page'));
 
     //将Unix时间戳转换为中文日期和星期
@@ -418,10 +420,10 @@
     function loadTools() {
         var sections = '';
         var lists = '';
-        $.each(toolkits.section, function (key, value) { // jshint ignore:line
+        $.each(toolkits.section, function (key, value) { 
             sections += '<div class="toolkit toolkit-section toolkit-' + key + '" draggable=true>' + key + '</div>';
         });
-        $.each(toolkits.list, function (key, value) { // jshint ignore:line
+        $.each(toolkits.list, function (key, value) { 
             lists += '<div class="toolkit toolkit-list toolkit-' + key + '" draggable=true>' + key + '</div>';
         });
    /*     lists += renderAPI('', 'Empty Item 1', '', '', '', '', '', '', '', '', 'no');
@@ -1210,3 +1212,5 @@
     };
 
 })(); 
+
+/* jshint ignore:end */

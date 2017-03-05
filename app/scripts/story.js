@@ -347,7 +347,11 @@ function getRelativesSuccess(data) {//此处data为relatives.json
     for(var i=0,len=data.length;i<len;i++){
         var dataItem = {};
         dataItem.cheadline = data[i].cheadline;
-        dataItem.piclink = data[i].story_pic.smallbutton||data[i].story_pic.other;
+        if (data[i].story_pic) {
+            dataItem.piclink = data[i].story_pic.smallbutton||data[i].story_pic.other;
+        } else {
+            dataItem.piclink = '';
+        }
         dataItem.storyid = data[i].id;
         if(dataItem.cheadline && dataItem.piclink && dataItem.storyid){
             relativesData.push(dataItem);//填充全局变量relativesData
