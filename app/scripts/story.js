@@ -132,6 +132,9 @@ function bindFeedbackEvent(){
  */
 
 function recommendationPayload(datalist){//原datalist是recommendData
+    console.log ('data list for recommend pay load is: ');
+    console.log (datalist);
+
     var maxItem = 8;
     var itemCount = 0;
     var itemHTML = '';
@@ -348,7 +351,7 @@ function getRelativesSuccess(data) {//此处data为relatives.json
         var dataItem = {};
         dataItem.cheadline = data[i].cheadline;
         if (data[i].story_pic) {
-            dataItem.piclink = data[i].story_pic.smallbutton||data[i].story_pic.other;
+            dataItem.piclink = data[i].story_pic.smallbutton||data[i].story_pic.other||data[i].piclink;
         } else {
             dataItem.piclink = '';
         }
@@ -357,9 +360,9 @@ function getRelativesSuccess(data) {//此处data为relatives.json
             relativesData.push(dataItem);//填充全局变量relativesData
         }
     }
-     recommendAndRelativesPayLoad(recommendData,relativesData);
-
+    recommendAndRelativesPayLoad(recommendData,relativesData);
 }
+
 function getRelativesFailed(){
     console.log('getRelativesFailed!');
     
