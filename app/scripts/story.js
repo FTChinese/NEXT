@@ -55,7 +55,7 @@ if (/127\.0|localhost|192\.168/.test(window.location.href)) {
 } else {
 	ajaxMethod = 'POST';
 	ajaxUrl = '/eaclient/apijson.php';//线上地址eg:http://www.ftchinese.com/eaclient/apijson.php
-    ajaxMethod_relativesData = 'POST';
+    ajaxMethod_relativesData = 'GET';
     ajaxUrl_relativesData = '/index.php/jsapi/related/'+FTStoryid;//线上地址为 eg: http://www.ftchinese.com/index.php/jsapi/related/001068131
 }
 
@@ -259,17 +259,21 @@ function getRelativesSuccess(data) {
 
     data = JSON.parse(data);
   
-    for(var i=0,len=data.length;i<len;i++){
+    for(var i=0,len=data.length;i<len;i++) {
         var dataItem = {};
-        dataItem.cheadline = data[i].cheadline;
-
+        dataItem.cheadline = data[i].cheadline||'';
+        /*
         if (data[i].story_pic) {
             dataItem.piclink = data[i].story_pic.smallbutton||data[i].story_pic.other||data[i].piclink;
         } else {
             dataItem.piclink = '';
         }
+        */
+        dataItem.piclink = data[i].story_pic.smallbutton||data[i].story_pic.other||data[i].piclink||'';
         dataItem.storyid = data[i].id;
-        if(dataItem.cheadline && dataItem.piclink && dataItem.storyid){
+        dataItem.lead = data[i].clongleadbody || data[i].cshortleadbody ||data[i].lead || '';
+        dataItem.tag = data[i].tag||'';
+        if(dataItem.cheadline && dataItem.piclink && dataItem.storyid) {
             relativesData.push(dataItem);//填充全局变量relativesData
         }
     }
@@ -386,17 +390,17 @@ function recommendAndRelativesPayLoad(recommenddata,relativesdata){
                 itemHeadline = relativesdata[0].cheadline;
                 itemImage = relativesdata[0].piclink;
                 itemId = relativesdata[0].storyid;
-                itemT = relativesdata[0].t;
-                itemLead = relativesdata[0].lead || relativesdata[0].clongleadbody || relativesdata[0].cshortleadbody || '';
+                itemT = relativesdata[0].t;//为了保持和recommenddata一致，relativesdata也没有添加t
+                itemLead = relativesdata[0].lead;
                 itemTag = relativesdata[0].tag || '为您推荐';
                 itemTag = itemTag.replace(/[,，].*$/g,'');
                 if(itemT === undefined || itemT === null) {itemT = '';}
-                link = '/story/'+itemId+'?tcode=smartrecommend&';
+                link = '/story/'+itemId+'?tcode=smartrecommend&';//这个link里面需要加上'tcode=smartrecommend'吗？
             } else if( recommendVersionInstory === 'from_recommends'){
                 itemHeadline = recommenddata[0].cheadline;
                 itemImage = recommenddata[0].piclink;
                 itemId = recommenddata[0].storyid;
-                itemT = recommenddata[0].t;
+                itemT = recommenddata[0].t;//这个recommenddata里面没有t
                 itemLead = recommenddata[0].lead || recommenddata[0].clongleadbody || recommenddata[0].cshortleadbody || '';
                 itemTag = recommenddata[0].tag || '为您推荐';
                 itemTag = itemTag.replace(/[,，].*$/g,'');
