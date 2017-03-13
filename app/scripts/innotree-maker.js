@@ -2,8 +2,10 @@
 /* jshint devel:true */
 (function () {
     'use strict';
-    //var actionType = 'create';
-    
+    var  startTime=document.getElementById('startTime');
+    var  endTime=document.getElementById('endTime');
+    // var searchTime=document.getElementById('search-button');
+    var sele=document.getElementById('industry-select');
     var actionType = 'edit';
     var pageId = '';
     var domId = 'content-left-inner';
@@ -28,7 +30,6 @@
         'preferLead': ['longName', 'shortname', 'none'],
         'feedType': ['all','story','video','interactive','photo','job', 'myFT', 'fav', 'ftc_columns', 'ft_columns'],
         'feedItems': 'number',
-   
 
         'feedStart': 'number',
         'feedImage': ['optional','necessary','hide'],
@@ -92,22 +93,22 @@
     var todaydate = thisday.getFullYear() + '-' + (thisday.getMonth() + 1) + '-' + thisday.getDate();
     var pagemakerAPIRoot = '/falcon.php/pagemaker/';
     var storyAPIRoot = '/falcon.php/homepage/getstoryapi/';
+ //   var innotreeAPIRoot = '/falcon.php/homepage/innotree/';
+    var innotreeAPIRoot = '/falcon.php/homepage/innotreeSearch/';
     var gApiUrls = {
-        //'home': 'api/page/home.json',
         'home': pagemakerAPIRoot + 'get/'+ getURLParameter('page') +'/' + todaydate + '?' + thenow,
         'homePOST': pagemakerAPIRoot + 'post/'+ getURLParameter('page') +'/' + todaydate,
-        'blank': 'api/page/blank.json?0',
+        'blank': 'api/page/innoblank.json?0',
         'stories': storyAPIRoot + todaydate + '?' + thenow,
-        'innotree': 'api/page//blank.json?0'
+        'innotree': innotreeAPIRoot,
     };
     var gApiUrlsLocal = {
         'home': 'api/page/home.json',
         'homePOST': 'api',
-        'blank': 'api/page/blank.json',
+        'blank': 'api/page/innoblank.json',
         'stories': 'api/page/stories.json',//右边是加载stories文件，修改任何一个格式都不正确，在loadStories（）中加载
         'innotree': 'api/page/innotree.json'
  };
-
     //drag and drop
     var dragSrcEl = null;
     var dragIndex;
@@ -166,7 +167,7 @@
 
     function renderAPI(id, headline, timeStamp, timeStampType, longName, shortName,  type,time, money, round,firstIndustry,secondIndustry,thirdIndustry,investors) {
         var dataHTML = '';
-        var oTimeStamp = timeStamp || Math.round(new Date().getTime()/1000);
+   //     var oTimeStamp = timeStamp || Math.round(new Date().getTime()/1000);
         var investorHTML = '';
         var hasImageClass = '';
         var imageBG = '';
@@ -186,12 +187,10 @@
             timeStamp = '<div class="new-item"></div>';
         }
       
-        dataHTML = '<div draggable=true data-type="' + type + '" class="item ' + type + hasImageClass + '"' + imageBG + ' data-id="' + id + '"> <div class="remove-item"></div> <div class="timestamp">' + timeStamp + '</div> <div class="item-title">' + headline + '</div> <div class="item-info"><div class="item-links"> </div><div class="item-info-item"><input title="headline" placeholder="headline" name="headline" class="o-input-text" value="' + headline + '"></div>  <div class="item-info-item"><div class="item-info-title">Long Name: </div><input title="image" placeholder="longName " name="longName" class="o-input-text" value="' + longName + '" > </div>  <div class="item-info-item"><div class="item-info-title">Short Name: </div><input title="short lead" placeholder="short lead" name="shortName" class="o-input-text" value="' + shortName + '"></div>  <div class="item-info-item"><div class="item-info-title">Time: </div><input title="time" placeholder="time" name="time" class="o-input-text" value="' + time + '"></div>  <div class="item-info-item"><div class="item-info-title">Money: </div><input title="Money" placeholder="Money" name="Money" class="o-input-text" value="' + money + '"></div>   <div class="item-info-item"><div class="item-info-title">Round: </div><input title="round" placeholder="round" name="round" class="o-input-text" value="' + round + '"></div>   <div class="item-info-item"><div class="item-info-title">First Industry: </div><input title="image" placeholder="firstIndustry" name="firstIndustry" class="o-input-text" value="' + firstIndustry + '" ></div>   <div class="item-info-item"><div class="item-info-title">Second Industry: </div><input title="image" placeholder="secondIndustry" name="secondIndustry" class="o-input-text" value="' + secondIndustry + '" ></div>  <div class="item-info-item"><div class="item-info-title">Third Industry: </div><input title="image" placeholder="thirdIndustry" name="thirdIndustry" class="o-input-text" value="' + thirdIndustry + '" ></div>  <div class="item-info-item"><div class="item-info-title">Investor: </div> <ul>' + investorHTML + '</ul></div>  </div></div>';
+        dataHTML = '<div draggable=true data-type="' + type + '" class="item ' + type + hasImageClass + '"' + imageBG + ' data-id="' + id + '"> <div class="remove-item"></div> <div class="timestamp">' + timeStamp + '</div>  <div class="item-title">' + headline + '</div> <div class="item-info"><div class="item-links"> </div>   <div class="item-info-item"><div class="item-info-title">Company profile: </div><textarea title="company profile" placeholder="" name="companyProfile" class="o-input-text"></textarea></div>  <div class="item-info-item"><div class="item-info-title">Investment share: </div><textarea title="investment share" placeholder="" name="investmentshare" class="o-input-text"></textarea> </div>  <div class="item-info-item"><span class="item-info-title item-info-titleFixed">Long Name: </span><input title="image" placeholder="longName " name="longName" readonly="readonly"class="item-info-textFixed" value="' + longName + '" ></div>  <div class="item-info-item"><span class="item-info-title item-info-titleFixed">Short Name: </span><input title="short lead" placeholder="short lead" name="shortName" readonly="readonly"class="item-info-textFixed" value="' + shortName + '"></div>  <div class="item-info-item"><span class="item-info-title item-info-titleFixed">Time: </span><input title="time" placeholder="time" name="time" readonly="readonly"class="item-info-textFixed" value="' + time + '"></div>  <div class="item-info-item"><span class="item-info-title item-info-titleFixed">Money: </span><input title="Money" placeholder="Money" name="Money" readonly="readonly"class="item-info-textFixed" value="' + money + '"></div>   <div class="item-info-item"><span class="item-info-title item-info-titleFixed">Round: </span><input title="round" placeholder="round" name="round" readonly="readonly"class="item-info-textFixed" value="' + round + '"></div>   <div class="item-info-item"><span class="item-info-title item-info-titleFixed">First Industry: </span><input title="image" placeholder="firstIndustry" name="firstIndustry" readonly="readonly"class="item-info-textFixed" value="' + firstIndustry + '" ></div>   <div class="item-info-item"><span class="item-info-title item-info-titleFixed">Second Industry: </span><input title="image" placeholder="secondIndustry" name="secondIndustry" readonly="readonly"class="item-info-textFixed" value="' + secondIndustry + '" ></div>  <div class="item-info-item"><span class="item-info-title item-info-titleFixed">Third Industry: </span><input title="image" placeholder="thirdIndustry" name="thirdIndustry"  readonly="readonly"class="item-info-textFixed" value="' + thirdIndustry + '" ></div>  <div class="item-info-item"><span class="item-info-title item-info-titleFixed">Investor: </span> <ul>' + investorHTML + '</ul></div>  </div></div>';
 
         return dataHTML;
     }
-
-
     function renderItem(data) {
         console.log ('renderItem');
         var id = data.id;
@@ -295,27 +294,9 @@
         $('#' + domId).html(metaHTML + sectionsHTML);
     }
 
-    // function wrapItemHTML(htmlCode, groupTitle) {
-    //     if (htmlCode !== '') {
-    //         return '<div class="group-container"><div class="group-header" draggable=true>' + groupTitle + '</div><div class="group-inner">' + htmlCode + '</div></div>';
-    //     }
-    //     return '';
-    // }
     function wrapItemHTML(htmlCode, groupTitle) {
-     //   if (htmlCode !== '') {
-            return '<div class="group-container">'+wrapItemTitle(groupTitle)+''+wrapItemCode( htmlCode)+'</div>';
-     //   }
-      //  return '';
-    }
-    function wrapItemTitle( groupTitle) {
-        if (groupTitle !== '') {
-            return '<div class="group-header" draggable=true>' + groupTitle + '</div>';
-        }
-        return '';
-    }
-    function wrapItemCode( htmlCode) {
         if (htmlCode !== '') {
-            return '<div class="group-inner">' + htmlCode + '</div>';
+            return '<div class="group-container"><div class="group-header" draggable=true>' + groupTitle + '</div><div class="group-inner">' + htmlCode + '</div></div>';
         }
         return '';
     }
@@ -323,9 +304,9 @@
         $('.animated').removeClass('animated');
     }
     //除去数组中相同元素
-    function unique(firstIndustry) {
+    function unique(arr) {
         var result = [], hash = {};
-        for (var i = 0, elem; (elem = firstIndustry[i]) != null; i++) {
+        for (var i = 0, elem; (elem = arr[i])&&elem !==null; i++) {
             if (!hash[elem]) {
             result.push(elem);
             hash[elem] = true;
@@ -333,87 +314,125 @@
         }
         return result;
     }
-    function loadStories() {
+    function loadData(data){
         var industries=[];
         var diffIndustries=[];
-        var cateFinances={};
-        var financesInner =[];
-        $.ajax({
-            type: 'get',
-            url: gApiUrls.innotree,
-            dataType: 'json',
-            success: function (data) {
-                var financesInner0 = '';
-                $.each(data, function (entryIndex, entry) {
-                    var timeStamp = '';
-                    var timeStampType = 2;
-                    var headline = '';
-                    var id = '';
-                    var longName = '';
-                    var shortName = '';
-                    var image = '';
-                    var type = '';
-                    var time = '';
-                    var money = '';
-                    var round = '';
-                    var firstIndustry = '';
-                    var secondIndustry = '';
-                    var thirdIndustry = '';
-                    var investors = [];
-                    var investorItem='';
-                    if (entryIndex === 'finances') {
-                    $.each(entry, function (financesIndex, finances) {
-                        firstIndustry = finances.first_industry|| '';
-                        industries.push(firstIndustry);//获得所有firstIndustry值，得到一数组
-                        diffIndustries=unique(industries);
-                    });
-                    console.log (diffIndustries);
-                        //entry为整个数组
-                    for(var i = 0;i<diffIndustries.length;i++){
-                      //  console.log (diffIndustries[i]);
-                        financesInner[i]='';
-                        $.each(entry, function (financesIndex, finances) {
-                            id = finances.cid;
-                            timeStamp = finances.pubdate || '';
-                            timeStampType = 3;
-                            headline = finances.cname_full;
-                            longName = finances.cname_full || '';
-                            shortName = finances.cname_short || '';
-                            time = finances.time || '';
-                            money = finances.money || '';
-                            round = finances.round|| '';
-                            var myFT;
-                            myFT = finances.first_industry|| '';
-                            secondIndustry = finances.second_industry|| '';
-                            thirdIndustry = finances.third_industry|| '';
-                            investors = finances.investor || [];
-                            type = 'finance';//type在id、class、data-type中显示
-                             //console.log (finances.first_industry+'\n');     
-                         if((finances.first_industry).localeCompare(diffIndustries[i])==0){
-                            //console.log (finances.first_industry+'1111\n');
-                            // for(var i=0, len=diffIndustries.length;i<len;i++){
-                                if ($('.content-left-inner .item[data-id=' + id + '][data-type=' + type + ']').length === 0) {
-                                    financesInner[i]+= renderAPI(id, headline, timeStamp, timeStampType, longName, shortName,  type, time,money, round,myFT,secondIndustry,thirdIndustry,investors);
-                                }//financesInner1为div代码字符串
-                           }//企业服务
-                       
-                        });//$.each(entry, function (financesIndex, finances) 条件结束，json文件具体内容层
-                        //console.log (financesInner[i]);
-                    }
-                    }//if (entryIndex === 'finances') 条件结束，json文件第二层
-                });//$.each(data, function (entryIndex, entry)条件结束,json文件最外层
-                   //放在$.each(data, function (entryIndex, entry)之外
-             //   var aaaa='';
-                for(var m = 0;m<diffIndustries.length;m++){
+        var financesInner =[];       
+        var financesInner0 = '';
+        $.each(data, function (entryIndex, entry) {
+            var timeStamp = '';
+            var timeStampType = 2;
+            var headline = '';
+            var id = '';
+            var longName = '';
+            var shortName = '';
+            var type = '';
+            var time = '';
+            var money = '';
+            var round = '';
+            var firstIndustry = '';
+            var secondIndustry = '';
+            var thirdIndustry = '';
+            var investors = [];
+        //    console.info (data); 
+            if (entryIndex === 'finances') {
+                //获取公共值
+            $.each(entry, function (financesIndex, finances) {
+                firstIndustry = finances.first_industry|| '';
+                industries.push(firstIndustry);//获得所有firstIndustry值，得到一数组
+                diffIndustries=unique(industries);
+            });
+            var len0=diffIndustries.length;
+            //循环添加下拉列表值
+            for(var k = 0;k<len0;k++){
+                var newOption=new Option(diffIndustries[k]);
+                sele.add(newOption,undefined);
+            }//在data里面执行
+                //entry为整个数组
+           // for(var i = 0,len=diffIndustries.length;i<len;i++){
+            for(var i = 0;i<len0;i++){
+                financesInner[i]='';
+                $.each(entry, function (financesIndex, finances) {
+                    id = finances.cid;
+                    timeStamp = finances.pubdate || '';
+                    timeStampType = 3;
+                    headline = finances.cname_full;
+                    longName = finances.cname_full || '';
+                    shortName = finances.cname_short || '';
+                    time = finances.time || '';
+                    money = finances.money || '';
+                    round = finances.round|| '';
+                    var myFT;
+                    myFT = finances.first_industry|| '';
+                    secondIndustry = finances.second_industry|| '';
+                    thirdIndustry = finances.third_industry|| '';
+                    investors = finances.investor || [];
+                    type = 'finance';//type在id、class、data-type中显示
+             //        console.log (finances.first_industry+'\n'); 
+              //控制分类下面的内容的明细是包含分类标题，这是首要控制条件
+              //renderAPI为json数据中循坏渲染的内容，要控制select中选中   
+                  if((finances.first_industry).localeCompare(diffIndustries[i])===0){
+                      //  console.log(sele.options);//放在此处输出entry.lengh个数
+                        if ($('.content-left-inner .item[data-id=' + id + '][data-type=' + type + ']').length === 0) {
+                            financesInner[i]+= renderAPI(id, headline, timeStamp, timeStampType, longName, shortName,  type, time,money, round,myFT,secondIndustry,thirdIndustry,investors);
+                        }
+                   }//企业服务
+              //financesInner数组为已经分类好的所有div字符串数组
+                });//$.each(entry, function (financesIndex, finances) 条件结束，json文件具体内容层
+               // console.log (financesInner[i]);
+              }//len=diffIndustries.length
+
+            }//if (entryIndex === 'finances') 条件结束，json文件第二层
+
+        });//$.each(data, function (entryIndex, entry)条件结束,json文件最外层
+           //放在$.each(data, function (entryIndex, entry)之外
+
+        //下拉值筛选思路：获取鼠标选中下拉框中的值，把值与diffIndustries[m]比较
+        var selectedText='';
+        $('#industry-select').change(function() {
+            selectedText=$(this).find('option:selected').text();
+            financesInner0= '';
+            for(var m = 0;m<diffIndustries.length;m++){
+                if((selectedText===diffIndustries[m])&&(selectedText!=='全部')){
+                    financesInner0 += wrapItemHTML(financesInner[m], diffIndustries[m]);
+                }else if(selectedText==='全部'){
                     financesInner0 += wrapItemHTML(financesInner[m], diffIndustries[m]);
                 }
-                    $('#stories-inner').html(financesInner0);
-        },//success
+            }
+            $('#stories-inner').html(financesInner0);
+        });
+        for(var m = 0;m<diffIndustries.length;m++){
+            financesInner0 += wrapItemHTML(financesInner[m], diffIndustries[m]);
+        }//financesInner0为包含分类标题的所有div字符串，不是数组
+        $('#stories-inner').html(financesInner0);
+    }
+   
+    function loadStories() {
+        var start=startTime.value;
+        var end=endTime.value;
+        console.log('当前开始时间'+start);
+        $.ajax({
+            type: 'post',
+            url: gApiUrls.innotree,
+            data:{
+                a:start,
+                b:end
+            },
+            dataType: 'json',
+            success: function (data1) {
+                loadData(data1);
+            },//success
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 console.log('errorThrown - [' + errorThrown + ']');
             }
         });//ajax
     }//hanshu
+    
+    $('body').on('click', '#search-button', function () {
+        $('#industry-select').empty();
+        $('#industry-select').append( '<option value=\"1\">全部</option>' );        
+        loadStories();
+    });
 
     function loadTools() {
         var sections = '';
@@ -424,41 +443,7 @@
         $.each(toolkits.list, function (key, value) { // jshint ignore:line
             lists += '<div class="toolkit toolkit-list toolkit-' + key + '" draggable=true>' + key + '</div>';
         });
-   /*     lists += renderAPI('', 'Empty Item 1', '', '', '', '', '', '', '', '', 'no');
-        lists += renderAPI('', 'Empty Item 2', '', '', '', '', '', '', '', '', 'no');
-        lists += renderAPI('', 'Empty Item 3', '', '', '', '', '', '', '', '', 'no');
-        lists += renderAPI('', 'Empty Item 4', '', '', '', '', '', '', '', '', 'no');
-        lists += renderAPI('', 'Empty Item 5', '', '', '', '', '', '', '', '', 'no');
-        lists += renderAPI('', 'Empty Item 6', '', '', '', '', '', '', '', '', 'no');
-        lists += renderAPI('', 'Empty Item 7', '', '', '', '', '', '', '', '', 'no');
-        lists += renderAPI('', 'Empty Item 8', '', '', '', '', '', '', '', '', 'no');
-        lists += renderAPI('', 'Empty Item 9', '', '', '', '', '', '', '', '', 'no');
-        lists += renderAPI('', 'Empty Item 10', '', '', '', '', '', '', '', '', 'no');
-        lists += renderAPI('', 'Empty Item 11', '', '', '', '', '', '', '', '', 'no');
-        lists += renderAPI('', 'Empty Item 12', '', '', '', '', '', '', '', '', 'no');
-        lists += renderAPI('', 'Widget File 1', '', '', '', '', '', 'widget', '', '', 'no');
-        lists += renderAPI('', 'Widget File 2', '', '', '', '', '', 'widget', '', '', 'no');
-        lists += renderAPI('', 'Widget File 3', '', '', '', '', '', 'widget', '', '', 'no');
-        lists += renderAPI('', 'Widget File 4', '', '', '', '', '', 'widget', '', '', 'no');
-        lists += renderAPI('', 'Widget File 5', '', '', '', '', '', 'widget', '', '', 'no');
-        lists += renderAPI('', 'Widget File 6', '', '', '', '', '', 'widget', '', '', 'no');
-        lists += renderAPI('', 'Widget File 7', '', '', '', '', '', 'widget', '', '', 'no');
-        lists += renderAPI('', 'Widget File 8', '', '', '', '', '', 'widget', '', '', 'no');
-        lists += renderAPI('', 'Widget File 9', '', '', '', '', '', 'widget', '', '', 'no');
-        lists += renderAPI('', 'Widget File 10', '', '', '', '', '', 'widget', '', '', 'no');
-        lists += renderAPI('', 'uselection2016.html', '', '', '', '', '', 'widget', '', '', 'no');
-        lists += renderAPI('', 'numbers-china-sources.html', '', '', '', '', '', 'widget', '', '', 'no');
-        lists += renderAPI('', 'numbers-china-labour.html', '', '', '', '', '', 'widget', '', '', 'no');
-        lists += renderAPI('', 'numbers-china-markets.html', '', '', '', '', '', 'widget', '', '', 'no');
-        lists += renderAPI('', 'numbers-china-gdp.html', '', '', '', '', '', 'widget', '', '', 'no');
-        lists += renderAPI('', 'numbers-china-housing.html', '', '', '', '', '', 'widget', '', '', 'no');
-        lists += renderAPI('', 'numbers-china-rates.html', '', '', '', '', '', 'widget', '', '', 'no');
-        lists += renderAPI('', 'numbers-china-trade.html', '', '', '', '', '', 'widget', '', '', 'no');
-        */
 
-
-
-        //lists = '<div class="toolkit toolkit-list" draggable=true>list</div>';
         $('#tool-sec-inner').html(sections);
         $('#tool-list-inner').html(lists);
     }
@@ -1004,8 +989,6 @@
         } else if ($(this).hasClass('json')) {
             $('#source-json').val(renderHTML($('#content-left-inner')));
             $('html').addClass('show-json');
-        var stringsource=renderHTML($('#content-left-inner'))
-        var jsonsource=JSON.parse(stringsource);
         }
 
     });
@@ -1014,7 +997,7 @@
         if (confirm('是否“保存”当前操作结果？\n\n注意：保存操作不会更新页面。')) {
             $.ajax({
                 type: 'POST',
-                url: gApiUrlsLocal.new,
+                url: gApiUrlsLocal.homePOST,
                 data: {
                     action: 'save', 
                     publish_type: getURLParameter('page'), 
@@ -1058,17 +1041,6 @@
                     console.log('errorThrown - [' + errorThrown + ']');
                 }
             });
-            var fs = require('fs');
-            data=fs.readFileSync('./file.txt');
-            //  if (err) {console.log('读取错误')};
-            //  else 
-                    {console.log(data.toString())};
-            fs.writeFile('./file1.txt',data.toString(),function(err,data){
-            //  if (err) {console.log('读取错误')};
-            //  else 
-                    console.log('xiewenjian');
-            });
-            console.log ('success');
         }
     });
 
@@ -1177,14 +1149,13 @@
     pageId = getURLParameter('id');
     if (customPageJSON !== null && customPageJSON !== '') {
         actionType = 'edit';
-        console.log("edit1");
+      //  console.log('edit1');
     } else if (customPageJSON !== null && customPageJSON !== '') {
         gApiUrlsLocal.home = 'api/page/' + customPageJSON + '.json';
         actionType = 'edit';
-        console.log("edit2");
     } else {
         actionType = 'create';
-        console.log("create");
+    //    console.log('create1');
     }
 
     if (window.location.hostname === 'localhost' || window.location.hostname.indexOf('192.168') === 0 || window.location.hostname.indexOf('10.113') === 0 || window.location.hostname.indexOf('127.0') === 0) {
@@ -1198,7 +1169,7 @@
     } else if (actionType === 'create') {
         jsonToDom(gApiUrls.blank);
         $('.tab.all').click();
-     //   console.log("editt");
+      //  console.log('create');
     }
 
     window.onbeforeunload = function() {
