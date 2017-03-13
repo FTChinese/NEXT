@@ -1,11 +1,11 @@
-/* jshint ignore:start */
 
 /* jshint devel:true */
 (function () {
     'use strict';
-    var  startTime=document.getElementById("startTime");
-    var  endTime=document.getElementById("endTime");
-    var  searchTime=document.getElementById("search-button");
+    var  startTime=document.getElementById('startTime');
+    var  endTime=document.getElementById('endTime');
+    // var searchTime=document.getElementById('search-button');
+    var sele=document.getElementById('industry-select');
     var actionType = 'edit';
     var pageId = '';
     var domId = 'content-left-inner';
@@ -30,7 +30,6 @@
         'preferLead': ['longName', 'shortname', 'none'],
         'feedType': ['all','story','video','interactive','photo','job', 'myFT', 'fav', 'ftc_columns', 'ft_columns'],
         'feedItems': 'number',
-   
 
         'feedStart': 'number',
         'feedImage': ['optional','necessary','hide'],
@@ -94,13 +93,14 @@
     var todaydate = thisday.getFullYear() + '-' + (thisday.getMonth() + 1) + '-' + thisday.getDate();
     var pagemakerAPIRoot = '/falcon.php/pagemaker/';
     var storyAPIRoot = '/falcon.php/homepage/getstoryapi/';
-    var innotreeAPIRoot = '/falcon.php/homepage/innotree/';
+ //   var innotreeAPIRoot = '/falcon.php/homepage/innotree/';
+    var innotreeAPIRoot = '/falcon.php/homepage/innotreeSearch/';
     var gApiUrls = {
         'home': pagemakerAPIRoot + 'get/'+ getURLParameter('page') +'/' + todaydate + '?' + thenow,
         'homePOST': pagemakerAPIRoot + 'post/'+ getURLParameter('page') +'/' + todaydate,
         'blank': 'api/page/innoblank.json?0',
         'stories': storyAPIRoot + todaydate + '?' + thenow,
-        'innotree': innotreeAPIRoot
+        'innotree': innotreeAPIRoot,
     };
     var gApiUrlsLocal = {
         'home': 'api/page/home.json',
@@ -109,21 +109,19 @@
         'stories': 'api/page/stories.json',//右边是加载stories文件，修改任何一个格式都不正确，在loadStories（）中加载
         'innotree': 'api/page/innotree.json'
  };
-
     //drag and drop
     var dragSrcEl = null;
     var dragIndex;
     var dragOverIndex;
     var customPageJSON;
 
-
-
-
     // get parameter value from url
 
+    /* jshint ignore:start */
     function getURLParameter(name) {
         return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [, ""])[1].replace(/\+/g, '%20')) || null;
     }
+    /* jshint ignore:end */
 //    console.log (getURLParameter('page'));
 
     //将Unix时间戳转换为中文日期和星期
@@ -193,8 +191,6 @@
 
         return dataHTML;
     }
-
-
     function renderItem(data) {
         console.log ('renderItem');
         var id = data.id;
@@ -318,258 +314,133 @@
         }
         return result;
     }
-    var cateFinances={};
-    var diff0=[];
-    var industries=[];
-    var diffIndustries=[];
-    var financesInner =[];
-    var times=[];
-    var getTimes=[];
-    var diffTimes=[];
-    var diff=[];
-
-    function loadStories() {
-        var sele=document.getElementById("industry-select");
-        $.ajax({
-            type: 'get',
-            url: gApiUrls.innotree,
-            dataType: 'json',
-            success: function (data) {
-        //       console.log (data);
-                var financesInner0 = '';
-                $.each(data, function (entryIndex, entry) {
-                    var timeStamp = '';
-                    var timeStampType = 2;
-                    var headline = '';
-                    var id = '';
-                    var longName = '';
-                    var shortName = '';
-                    var type = '';
-                    var time = '';
-                    var money = '';
-                    var round = '';
-                    var firstIndustry = '';
-                    var secondIndustry = '';
-                    var thirdIndustry = '';
-                    var investors = [];
-                //    console.info (data); 
-                    if (entryIndex === 'finances') {
-                        //获取公共值
-                    $.each(entry, function (financesIndex, finances) {
-                        firstIndustry = finances.first_industry|| '';
-                        industries.push(firstIndustry);//获得所有firstIndustry值，得到一数组
-                        diffIndustries=unique(industries);
-                        time = finances.time || '';
-                        times.push(time);
-                        diffTimes=unique(times);
-                    //    alert(finances+'\n'); 
-                        diff.push(finances);
-                    });
-                 //   console.log (entry+'\n'); 
-                    console.log (diffIndustries+'\n'); 
-                    const len=diffIndustries.length;
-                    //循环添加下拉列表值
-                    for(let k = 0;k<len;k++){
-                        var newOption=new Option(diffIndustries[k]);
-                        sele.add(newOption,undefined);
-                        // var newOption=document.createElement("option");
-                        // newOption.appendChild(document.createTextNode(diffIndustries[k]));
-                        // sele.appendChild(newOption);
-                    }//在data里面执行
-                        //entry为整个数组
-                   // for(let i = 0,len=diffIndustries.length;i<len;i++){
-                    for(let i = 0;i<len;i++){
-                        financesInner[i]='';
-                        $.each(entry, function (financesIndex, finances) {
-                            id = finances.cid;
-                            timeStamp = finances.pubdate || '';
-                            timeStampType = 3;
-                            headline = finances.cname_full;
-                            longName = finances.cname_full || '';
-                            shortName = finances.cname_short || '';
-                            time = finances.time || '';
-                            money = finances.money || '';
-                            round = finances.round|| '';
-                            var myFT;
-                            myFT = finances.first_industry|| '';
-                            secondIndustry = finances.second_industry|| '';
-                            thirdIndustry = finances.third_industry|| '';
-                            investors = finances.investor || [];
-                            type = 'finance';//type在id、class、data-type中显示
-                     //        console.log (finances.first_industry+'\n'); 
-                    
-                      //控制分类下面的内容的明细是包含分类标题，这是首要控制条件
-                      //renderAPI为json数据中循坏渲染的内容，要控制select中选中   
-                          if((finances.first_industry).localeCompare(diffIndustries[i])===0){
-                              //  console.log(sele.options);//放在此处输出entry.lengh个数
-                                if ($('.content-left-inner .item[data-id=' + id + '][data-type=' + type + ']').length === 0) {
-                                    financesInner[i]+= renderAPI(id, headline, timeStamp, timeStampType, longName, shortName,  type, time,money, round,myFT,secondIndustry,thirdIndustry,investors);
-                                }
-                           }//企业服务
-                      //financesInner数组为已经分类好的所有div字符串数组
-                        });//$.each(entry, function (financesIndex, finances) 条件结束，json文件具体内容层
-                       // console.log (financesInner[i]);
-                      }//len=diffIndustries.length
-
-                    }//if (entryIndex === 'finances') 条件结束，json文件第二层
-
-                });//$.each(data, function (entryIndex, entry)条件结束,json文件最外层
-                   //放在$.each(data, function (entryIndex, entry)之外
-            //时间筛选思路：获取json时间参数值，将此值与选择开始结束时间对比，点击搜索获取渲染
-            //从已经完全渲染好的对象中，重新筛选出含有时间的finnance，意思是让重新排列好的json中筛选
-            
-            for(var i=0, len=diffIndustries.length;i<len;i++){
-               diff0[i]= (function(){
-                        return diff.filter(function(item,index,array){
-                            return ((item.first_industry).localeCompare(diffIndustries[i])==0)
-                    });
-                 })(i);  
-            } //把数组中相同的元素依次取出来，再分别存储到数组中
-            for(var i=0, len=diffIndustries.length;i<len;i++){
-                cateFinances[diffIndustries[i]]=diff0[i];
-            }//把取出来的数组放入对象cateFinances中，cateFinances为json重排后的对象
-            // Object {企业服务: Array[2], 消费生活: Array[2], 企业服务1: Array[2]}
-            for(let i = 0;i<times.length;i++){
-                getTimes.push(new Date(times[i]).getTime());
-            }
-            //下拉值筛选思路：获取鼠标选中下拉框中的值，把值与diffIndustries[m]比较
-            var selectedText='';
-            $("#industry-select").change(function() {
-                selectedText=$(this).find("option:selected").text();
-                financesInner0= '';
-                for(let m = 0;m<diffIndustries.length;m++){
-                    if((selectedText==diffIndustries[m])&&(selectedText!=="全部")){
-                        financesInner0 += wrapItemHTML(financesInner[m], diffIndustries[m]);
-                    }else if(selectedText=="全部"){
-                        financesInner0 += wrapItemHTML(financesInner[m], diffIndustries[m]);
-                    }
-                }
-                $('#stories-inner').html(financesInner0);
+    function loadData(data){
+        var industries=[];
+        var diffIndustries=[];
+        var financesInner =[];       
+        var financesInner0 = '';
+        $.each(data, function (entryIndex, entry) {
+            var timeStamp = '';
+            var timeStampType = 2;
+            var headline = '';
+            var id = '';
+            var longName = '';
+            var shortName = '';
+            var type = '';
+            var time = '';
+            var money = '';
+            var round = '';
+            var firstIndustry = '';
+            var secondIndustry = '';
+            var thirdIndustry = '';
+            var investors = [];
+        //    console.info (data); 
+            if (entryIndex === 'finances') {
+                //获取公共值
+            $.each(entry, function (financesIndex, finances) {
+                firstIndustry = finances.first_industry|| '';
+                industries.push(firstIndustry);//获得所有firstIndustry值，得到一数组
+                diffIndustries=unique(industries);
             });
-            for(let m = 0;m<diffIndustries.length;m++){
-                financesInner0 += wrapItemHTML(financesInner[m], diffIndustries[m]);
-            }//financesInner0为包含分类标题的所有div字符串，不是数组
+            var len0=diffIndustries.length;
+            //循环添加下拉列表值
+            for(var k = 0;k<len0;k++){
+                var newOption=new Option(diffIndustries[k]);
+                sele.add(newOption,undefined);
+            }//在data里面执行
+                //entry为整个数组
+           // for(var i = 0,len=diffIndustries.length;i<len;i++){
+            for(var i = 0;i<len0;i++){
+                financesInner[i]='';
+                $.each(entry, function (financesIndex, finances) {
+                    id = finances.cid;
+                    timeStamp = finances.pubdate || '';
+                    timeStampType = 3;
+                    headline = finances.cname_full;
+                    longName = finances.cname_full || '';
+                    shortName = finances.cname_short || '';
+                    time = finances.time || '';
+                    money = finances.money || '';
+                    round = finances.round|| '';
+                    var myFT;
+                    myFT = finances.first_industry|| '';
+                    secondIndustry = finances.second_industry|| '';
+                    thirdIndustry = finances.third_industry|| '';
+                    investors = finances.investor || [];
+                    type = 'finance';//type在id、class、data-type中显示
+             //        console.log (finances.first_industry+'\n'); 
+              //控制分类下面的内容的明细是包含分类标题，这是首要控制条件
+              //renderAPI为json数据中循坏渲染的内容，要控制select中选中   
+                  if((finances.first_industry).localeCompare(diffIndustries[i])===0){
+                      //  console.log(sele.options);//放在此处输出entry.lengh个数
+                        if ($('.content-left-inner .item[data-id=' + id + '][data-type=' + type + ']').length === 0) {
+                            financesInner[i]+= renderAPI(id, headline, timeStamp, timeStampType, longName, shortName,  type, time,money, round,myFT,secondIndustry,thirdIndustry,investors);
+                        }
+                   }//企业服务
+              //financesInner数组为已经分类好的所有div字符串数组
+                });//$.each(entry, function (financesIndex, finances) 条件结束，json文件具体内容层
+               // console.log (financesInner[i]);
+              }//len=diffIndustries.length
+
+            }//if (entryIndex === 'finances') 条件结束，json文件第二层
+
+        });//$.each(data, function (entryIndex, entry)条件结束,json文件最外层
+           //放在$.each(data, function (entryIndex, entry)之外
+
+        //下拉值筛选思路：获取鼠标选中下拉框中的值，把值与diffIndustries[m]比较
+        var selectedText='';
+        $('#industry-select').change(function() {
+            selectedText=$(this).find('option:selected').text();
+            financesInner0= '';
+            for(var m = 0;m<diffIndustries.length;m++){
+                if((selectedText===diffIndustries[m])&&(selectedText!=='全部')){
+                    financesInner0 += wrapItemHTML(financesInner[m], diffIndustries[m]);
+                }else if(selectedText==='全部'){
+                    financesInner0 += wrapItemHTML(financesInner[m], diffIndustries[m]);
+                }
+            }
             $('#stories-inner').html(financesInner0);
-        },//success
+        });
+        for(var m = 0;m<diffIndustries.length;m++){
+            financesInner0 += wrapItemHTML(financesInner[m], diffIndustries[m]);
+        }//financesInner0为包含分类标题的所有div字符串，不是数组
+        $('#stories-inner').html(financesInner0);
+    }
+   
+    function loadStories() {
+        var start=startTime.value;
+        var end=endTime.value;
+        console.log('当前开始时间'+start);
+        $.ajax({
+            type: 'post',
+            url: gApiUrls.innotree,
+            data:{
+                a:start,
+                b:end
+            },
+            dataType: 'json',
+            success: function (data1) {
+                loadData(data1);
+            },//success
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 console.log('errorThrown - [' + errorThrown + ']');
             }
         });//ajax
     }//hanshu
-    console.info(cateFinances);
-    // var  startTime=document.getElementById("startTime");
-    // var  endTime=document.getElementById("endTime");
-    // var  searchTime=document.getElementById("search-button");
-    searchTime.onclick=function(){
-         console.info(startTime.value);
-        if (confirm('是否“搜索”当前时间结果？\n\n注意：提交操作会更新页面。')) {
-            $.ajax({
-                type: 'POST',
-                url: gApiUrls.homePOST,
-                data: {
-                    a:startTime.value,
-                    b:endTime.value
-                },
-                dataType: 'text',
-                success: function (msg) {
-                    if (msg === 'submit') {
-                        alert('页面提交成功！');
-                    }
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    console.log('url - [' + gApiUrls.homePOST + ']');
-                    console.log('XMLHttpRequest - [' + XMLHttpRequest + ']');
-                    console.log('textStatus - [' + textStatus + ']');
-                    console.log('errorThrown - [' + errorThrown + ']');
-                }
-            });
-        }
-    }
-    // searchTime.onclick=function(){
-    //     var start=new Date(startTime.value).getTime();
-    //     var end=new Date(endTime.value).getTime();
-    //     console.info(start);//NaN
-    //     var financesInner0 = '';
-    //     var financesInner11= '';
-    //     // var selectedText00=document.getElementById("industry-select").value;
-    //     $.each(cateFinances, function (entryIndex, entry) {
-    //         console.info(entryIndex+'entryIndexentryIndex');
-    //         // if(entryIndex==selectedText00){
-    //         var timeStamp = '';
-    //         var timeStampType = 2;
-    //         var headline = '';
-    //         var id = '';
-    //         var longName = '';
-    //         var shortName = '';
-    //         var type = '';
-    //         var time = '';
-    //         var money = '';
-    //         var round = '';
-    //         var firstIndustry = '';
-    //         var secondIndustry = '';
-    //         var thirdIndustry = '';
-    //         var investors = [];
-    //         var getTime11;
-    //         //循环添加下拉列表值
-    //         financesInner11='';
-    //         var selectedText00=document.getElementById("industry-select").value;
-    //         $.each(entry, function (financesIndex, finances) {
-    //             id = finances.cid;
-    //             timeStamp = finances.pubdate || '';
-    //             timeStampType = 3;
-    //             headline = finances.cname_full;
-    //             longName = finances.cname_full || '';
-    //             shortName = finances.cname_short || '';
-    //             time = finances.time || '';
-    //             money = finances.money || '';
-    //             round = finances.round|| '';
-    //             var myFT;
-    //             myFT = finances.first_industry|| '';
-    //             secondIndustry = finances.second_industry|| '';
-    //             thirdIndustry = finances.third_industry|| '';
-    //             investors = finances.investor || [];
-    //             type = '';//type在id、class、data-type中显示
-    //             getTime11=new Date(finances.time).getTime();
-    //            // console.info(finances.first_industry+"111111111111111");
-    //            if(selectedText00=="全部"){
-    //                 if(getTime11>start&&getTime11<end){
-    //                     financesInner11+= renderAPI(id, headline, timeStamp, timeStampType, longName, shortName,  type, time,money, round,myFT,secondIndustry,thirdIndustry,investors);
-    //                 }else if(getTime11<start&&isNaN(end)){
-    //                     financesInner11+= renderAPI(id, headline, timeStamp, timeStampType, longName, shortName,  type, time,money, round,myFT,secondIndustry,thirdIndustry,investors);
-    //                 }else if(getTime11>end&&isNaN(start)){
-    //                     financesInner11+= renderAPI(id, headline, timeStamp, timeStampType, longName, shortName,  type, time,money, round,myFT,secondIndustry,thirdIndustry,investors);
-    //                 }else if(isNaN(start)&&isNaN(end)){
-    //                     financesInner11+= renderAPI(id, headline, timeStamp, timeStampType, longName, shortName,  type, time,money, round,myFT,secondIndustry,thirdIndustry,investors);
-    //                 }else if(end<start){
-    //                     financesInner11+= "";
-    //                 }                
-    //             }
-    //             if(selectedText00==finances.first_industry){
-    //                 if(getTime11>start&&getTime11<end){
-    //                     financesInner11+= renderAPI(id, headline, timeStamp, timeStampType, longName, shortName,  type, time,money, round,myFT,secondIndustry,thirdIndustry,investors);
-    //                 }else if(getTime11<start&&isNaN(end)){
-    //                     financesInner11+= renderAPI(id, headline, timeStamp, timeStampType, longName, shortName,  type, time,money, round,myFT,secondIndustry,thirdIndustry,investors);
-    //                 }else if(getTime11>end&&isNaN(start)){
-    //                     financesInner11+= renderAPI(id, headline, timeStamp, timeStampType, longName, shortName,  type, time,money, round,myFT,secondIndustry,thirdIndustry,investors);
-    //                 }else if(isNaN(start)&&isNaN(end)){
-    //                     financesInner11+= renderAPI(id, headline, timeStamp, timeStampType, longName, shortName,  type, time,money, round,myFT,secondIndustry,thirdIndustry,investors);
-    //                 }else if(end<start){
-    //                     financesInner11+= "";
-    //                 }
-    //             }
-    //         });//$.each(entry, function (financesIndex, finances) 条件结束，json文件具体内容层
-    //         financesInner0 += wrapItemHTML(financesInner11, entryIndex);
-    //     // }
-    //     });//$.each(data, function (entryIndex, entry)条件结束,json文件最外层
-    //     $('#stories-inner').html(financesInner0);
-    // }
+    
+    $('body').on('click', '#search-button', function () {
+        $('#industry-select').empty();
+        $('#industry-select').append( '<option value=\"1\">全部</option>' );        
+        loadStories();
+    });
+
     function loadTools() {
         var sections = '';
         var lists = '';
-        $.each(toolkits.section, function (key, value) { 
+        $.each(toolkits.section, function (key, value) { // jshint ignore:line
             sections += '<div class="toolkit toolkit-section toolkit-' + key + '" draggable=true>' + key + '</div>';
         });
-        $.each(toolkits.list, function (key, value) { 
+        $.each(toolkits.list, function (key, value) { // jshint ignore:line
             lists += '<div class="toolkit toolkit-list toolkit-' + key + '" draggable=true>' + key + '</div>';
         });
 
@@ -641,6 +512,8 @@
                         var value = $(this).find('.o-input-text').eq(1).val();
                         J.sections[sectionIndex].lists[listIndex][key] = value;
                     });
+
+
                     if (items.length > 0) {
                         //console.log (items.length);
                         J.sections[sectionIndex].lists[listIndex].items = [];
@@ -1308,5 +1181,3 @@
     };
 
 })(); 
-
-/* jshint ignore:end */

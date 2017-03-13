@@ -14,7 +14,7 @@
 
     <!-- build:css styles/page-maker.css -->
     <link rel="stylesheet" href="styles/main-page-maker.css">
-    <link rel="stylesheet" href="styles/main-page-innotree.css">
+    <!--<link rel="stylesheet" href="styles/main-page-innotree.css">-->
     <link rel="stylesheet" href="../bower_components/animate.css/animate.min.css">
     <!-- endbuild -->
 
@@ -55,20 +55,19 @@
           </div>
         </div>
         <div class="select-container">
-          <div class="select-inner select-ind-inner">
-            <label for="industry-select">行业选择：</label>
-            <select id="industry-select" class="industry-select"  >
-                <option>全部</option>
-            </select>
-          </div>
-          <div class="select-inner select-time-inner">
-            <label for="startTime">起始时间：</label><input id="startTime" type="date"class=""value="" >
-            <label for="endTime">结束时间：</label><input id="endTime" type="date" class="" value="">
-          </div>
-          <!--<div class="select-inner select-button-inner">-->
-            <button id="search-button" class="">search</button> 
-          <!--</div> -->
-                    
+          <div class="select-inner">
+            <div class="select-ind-inner">
+              <label for="industry-select">行业选择：</label>
+              <select id="industry-select" class="industry-select"  >
+                  <option>全部</option>
+              </select>
+            </div>
+            <div class="select-time-inner">
+              <label for="startTime">起始时间：</label><input id="startTime" type="date" >
+              <label for="endTime">结束时间：</label><input id="endTime" type="date" >
+            </div>
+          </div> 
+          <button id="search-button" >search</button> 
         </div>
         <div class="stories-container">
           <div class="stories-inner" id="stories-inner"></div>
@@ -89,7 +88,6 @@
     <!-- build:js scripts/innotree-maker.js -->
     <!-- bower:js -->
     <script src="../bower_components/jquery/dist/jquery.js"></script>
-    <!--<script src="scripts/page-maker.js"></script>-->
     <script src="scripts/innotree-maker.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
