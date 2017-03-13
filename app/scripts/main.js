@@ -357,11 +357,11 @@ function viewablesInit() {
      
       sections[j].setAttribute('data-id', sectionType + '-' + sectionTypes[sectionType]);
 
+      // MARK: When in-story-recommend is viewed, change the id to the A/B test version
        if(sectionType === 'in-story-recommend'){
           if(window.recommendVersionInstory){
             viewables[j].id = window.recommendVersionInstory;
           }
-          
         }
       //sections[j].id = sectionType + '-' + sectionTypes[sectionType];
     }
