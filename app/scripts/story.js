@@ -1,4 +1,5 @@
 /*Global Variables*/
+console.log('The newest');
 var fontOptionsEle;
 var fs;
 
@@ -261,15 +262,17 @@ function getRelativesSuccess(data) {
   
     for(var i=0,len=data.length;i<len;i++) {
         var dataItem = {};
-        dataItem.cheadline = data[i].cheadline||'';
-        /*
+        
+        console.log(data[i]);
+        dataItem.cheadline = data[i].cheadline;
+   
         if (data[i].story_pic) {
-            dataItem.piclink = data[i].story_pic.smallbutton||data[i].story_pic.other||data[i].piclink;
+            dataItem.piclink = data[i].story_pic.smallbutton||data[i].story_pic.other;
         } else {
             dataItem.piclink = '';
         }
-        */
-        dataItem.piclink = data[i].story_pic.smallbutton||data[i].story_pic.other||data[i].piclink||'';
+      
+        //dataItem.piclink = data[i].story_pic.smallbutton||data[i].story_pic.other||data[i].piclink||'';
         dataItem.storyid = data[i].id;
         dataItem.lead = data[i].clongleadbody || data[i].cshortleadbody ||data[i].lead || '';
         dataItem.tag = data[i].tag||'';
