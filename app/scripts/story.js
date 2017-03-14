@@ -1,5 +1,5 @@
 /*Global Variables*/
-console.log('The newest');
+//console.log('The newest12');
 var fontOptionsEle;
 var fs;
 
@@ -184,18 +184,21 @@ function getRec(data) {
     /* The jsonP callback function for thirdPartAPIUrl(即用jsonp请求优路科技的接口后的回调函数)
     * @param data: the response data of the thirdPartAPIUrl(即jsonp请求优路科技接口后的xhr.responseText) 
     */
-    if(typeof data === 'object') {
-        if(data.length > 0){
-            var ids = '';
-            var split = '';
-            for(var i = 0; i < data.length; i++){
+    if(typeof data === 'object' && data.length > 0) {
+        var ids = '';
+        var split = '';
+        for(var i = 0; i < data.length; i++){
+            if(data[i]) {
                 var tmpKey = data[i].id;
                 var tmpVal = data[i].parameter;
-                ids += split + tmpKey;
-                split = ',';
-                thirdPartData[tmpKey] = tmpVal;
+                if(tmpKey&&tmpVal) {
+                    ids += split + tmpKey;
+                    split = ',';
+                    thirdPartData[tmpKey] = tmpVal;
+                }
             }
-            
+        }
+        if(ids && ids.length>0) {
             message.head = {};
             message.head.transactiontype = '10002';
             message.head.source = 'web';
@@ -205,12 +208,15 @@ function getRec(data) {
             message.body.ielement.withpic = 1;
             ftc_api.method = ajaxMethod;
             ftc_api.server_url = ajaxUrl;
+
             ftc_api.call(message, getThirdPartRecommendSuccess, getThirdPartRecommendFailed);//用message（含优路科技提供的推荐文章id)来请求我们的接口，请求成功后回调函数为getThredPartRecommendSuccess，请求失败后回调函数为getThirdPartRecommendFaild
-            //MARK:jump to  getThirdPartRecommendSuccess
+            //MARK:jump to  getThirdPartRecommendSuccess  
         } else {
-            ga('send','event','Recommend Story API', 'No Data1' + recommendVersion, '', {'nonInteraction':1});
+             //console.log(' Data from jsonp is wrong');
+             ga('send','event','Recommend Story API', 'No Data1' + recommendVersion, '', {'nonInteraction':1});
         }
     } else {
+        //console.log('Get data from jsonp failed ');
         ga('send','event','Recommend Story API', 'Request Fail' + recommendVersion, '', {'nonInteraction':1});
     }
 }
@@ -224,7 +230,6 @@ function getThirdPartRecommendSuccess(data) {//
           线上：使用优路科技接口返回的推荐文章id请求我们的接口后的xhr.responseText；
           本地：即api/page/recommend.json
     */
-
     data = JSON.parse(data);
     if (data.body.oelement.errorcode === '0') {
         if (data.body.odatalist && data.body.odatalist.length > 0) {
@@ -245,6 +250,7 @@ function getThirdPartRecommendSuccess(data) {//
 function getThirdPartRecommendFailed(){
      /* 当用优路科技接口返回的推荐文章id 来请求我们的接口获取推荐文章的具体信息失败后，调用该函数
      */
+    console.log('getThirdPartRecommendFaild');
     ga('send','event','Recommend Story API', 'Request Fail' + recommendVersion, '', {'nonInteraction':1});
 }
 
@@ -259,28 +265,36 @@ function getRelativesSuccess(data) {
     */
 
     data = JSON.parse(data);
-  
-    for(var i=0,len=data.length;i<len;i++) {
-        var dataItem = {};
-        
-        console.log(data[i]);
-        dataItem.cheadline = data[i].cheadline;
-   
-        if (data[i].story_pic) {
-            dataItem.piclink = data[i].story_pic.smallbutton||data[i].story_pic.other;
-        } else {
-            dataItem.piclink = '';
+    if(data && data.length > 0) {
+        for(var i=0,len=data.length;i<len;i++) {
+            if(data[i] && data[i].story_pic) {
+                var dataItem = {};
+                dataItem.cheadline = data[i].cheadline;
+                dataItem.piclink = data[i].story_pic.smallbutton||data[i].story_pic.other||'';
+                dataItem.storyid = data[i].id;
+                dataItem.lead = data[i].clongleadbody || data[i].cshortleadbody ||data[i].lead || '';
+                dataItem.tag = data[i].tag||'';
+                if(dataItem.cheadline && dataItem.piclink && dataItem.storyid) {
+                    relativesData.push(dataItem);//填充全局变量relativesData
+                }
+            }
+
         }
-      
-        //dataItem.piclink = data[i].story_pic.smallbutton||data[i].story_pic.other||data[i].piclink||'';
-        dataItem.storyid = data[i].id;
-        dataItem.lead = data[i].clongleadbody || data[i].cshortleadbody ||data[i].lead || '';
-        dataItem.tag = data[i].tag||'';
-        if(dataItem.cheadline && dataItem.piclink && dataItem.storyid) {
-            relativesData.push(dataItem);//填充全局变量relativesData
-        }
+    } else {
+         console.log('The length of the data got from  interface "/jsapi/related/" is 0');
     }
+   
+    // MARK:如果没抓到正确的relativesdata数据，那么还是要保证能照常执行recommendAndRelativesPayLoad，只不过要设置recommendVersionInstory 为'from_recommends'
+    if(relativesData.length === 0 ) {
+        recommendVersionInstory = 'from_recommends';
+    }
+    /*
+    console.log(recommendVersionInstory);
+    console.log(recommendData);
+    console.log(relativesData);
+    */
     recommendAndRelativesPayLoad(recommendData,relativesData);
+  
 }
 
 function getRelativesFailed(){
@@ -361,7 +375,6 @@ function recommendAndRelativesPayLoad(recommenddata,relativesdata){
      * @param recommenddata:即获取的推荐文章数据，调用时实参为全局变量recommendData
      * @param relativesdata:即获取的相关文章数据，调用时实参为全局变量relativesData
     */
-
     var maxItem = 8;//规定下方推荐文章区域显示多少个
     var itemCount = 0;//记录某item位于下方推荐文章区域的第几个
     var itemHTML = '';//下方推荐文章区域的innerHTML
@@ -388,8 +401,8 @@ function recommendAndRelativesPayLoad(recommenddata,relativesdata){
 
         // insert the first item into the story body
         if (i === 0 && recommendDiv) {
-            //处理第一个数据，这时必须满足recommendDiv存在
-            if( recommendVersionInstory === 'from_relatives'){
+            //MARK:处理第一个数据，这时必须满足recommendDiv存在
+            if( recommendVersionInstory === 'from_relatives') {
                 itemHeadline = relativesdata[0].cheadline;
                 itemImage = relativesdata[0].piclink;
                 itemId = relativesdata[0].storyid;
@@ -399,7 +412,7 @@ function recommendAndRelativesPayLoad(recommenddata,relativesdata){
                 itemTag = itemTag.replace(/[,，].*$/g,'');
                 if(itemT === undefined || itemT === null) {itemT = '';}
                 link = '/story/'+itemId+'?tcode=smartrecommend&';//这个link里面需要加上'tcode=smartrecommend'吗？
-            } else if( recommendVersionInstory === 'from_recommends'){
+            } else if( recommendVersionInstory === 'from_recommends') {
                 itemHeadline = recommenddata[0].cheadline;
                 itemImage = recommenddata[0].piclink;
                 itemId = recommenddata[0].storyid;
@@ -418,12 +431,10 @@ function recommendAndRelativesPayLoad(recommenddata,relativesdata){
            
         } else if (itemCount<maxItem ) {
             if(recommendDiv === null) {
-                //如果recommendDiv不存在，那i===0的时候和i>0的时候都会进入此分支
-                //此时既然没有recommendDiv，那也不用考虑from_relatives还是from_recommends了
+                // MARK:如果recommendDiv不存在，那i===0的时候和i>0的时候都会进入此分支。此时既然没有recommendDiv，那也不用考虑from_relatives还是from_recommends了
                 itemBottomIndex = i;
             } else if(i>0) {
-                //如果recommendDiv存在，进入此分支
-                //为了保险起见加上i>0的条件，其实只有i>0才会进入此分支
+                // MARK:如果recommendDiv存在，进入此分支。此处为了保险起见加上i>0的条件，其实只有i>0才会进入else分支
                 if( recommendVersionInstory === 'from_relatives') {
                     itemBottomIndex = i-1;
                 } else if(recommendVersionInstory === 'from_recommends') {
@@ -431,21 +442,24 @@ function recommendAndRelativesPayLoad(recommenddata,relativesdata){
                 }
             }
             
-            //底部文章区域
-            itemHeadline = recommenddata[itemBottomIndex].cheadline;
-            itemImage = recommenddata[itemBottomIndex].piclink;
-            itemId = recommenddata[itemBottomIndex].storyid;
-            itemT = recommenddata[itemBottomIndex].t;
-            itemLead = recommenddata[itemBottomIndex].lead || recommenddata[itemBottomIndex].clongleadbody || recommenddata[itemBottomIndex].cshortleadbody || '';
-            itemTag = recommenddata[itemBottomIndex].tag || '为您推荐';
-            itemTag = itemTag.replace(/[,，].*$/g,'');
-            if(itemT === undefined || itemT === null) {itemT = '';}
-            link = '/story/'+itemId+'?tcode=smartrecommend&ulu-rcmd=' + thirdPartData[itemId];
-            oneItem = itemTop + '<div class="item-container ' + itemClass + ' has-image no-lead"><div class="item-inner"><h2 class="item-headline"><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el="'+itemT+'/story/'+itemId+'" target="_blank" href="'+link+'">'+itemHeadline+'</a></h2><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el="'+itemT+'/story/'+itemId+'" class="image" target="_blank" href="'+link+'"><figure class="loading" data-url="'+itemImage+'"></figure></a><div class="item-bottom"></div></div></div>';
-            if(itemImage && itemImage !== ''){
-                itemHTML += oneItem;
-                itemCount += 1;
+            //底部文章区
+            if(recommenddata[itemBottomIndex]) {
+                itemHeadline = recommenddata[itemBottomIndex].cheadline;
+                itemImage = recommenddata[itemBottomIndex].piclink;
+                itemId = recommenddata[itemBottomIndex].storyid;
+                itemT = recommenddata[itemBottomIndex].t;
+                itemLead = recommenddata[itemBottomIndex].lead || recommenddata[itemBottomIndex].clongleadbody || recommenddata[itemBottomIndex].cshortleadbody || '';
+                itemTag = recommenddata[itemBottomIndex].tag || '为您推荐';
+                itemTag = itemTag.replace(/[,，].*$/g,'');
+                if(itemT === undefined || itemT === null) {itemT = '';}
+                link = '/story/'+itemId+'?tcode=smartrecommend&ulu-rcmd=' + thirdPartData[itemId];
+                oneItem = itemTop + '<div class="item-container ' + itemClass + ' has-image no-lead"><div class="item-inner"><h2 class="item-headline"><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el="'+itemT+'/story/'+itemId+'" target="_blank" href="'+link+'">'+itemHeadline+'</a></h2><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el="'+itemT+'/story/'+itemId+'" class="image" target="_blank" href="'+link+'"><figure class="loading" data-url="'+itemImage+'"></figure></a><div class="item-bottom"></div></div></div>';
+                if(itemImage && itemImage !== ''){
+                    itemHTML += oneItem;
+                    itemCount += 1;
+                }
             }
+          
         }
     }
     recommendInner.innerHTML = itemHTML;

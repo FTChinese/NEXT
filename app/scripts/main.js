@@ -359,7 +359,7 @@ function viewablesInit() {
 
       // MARK: When in-story-recommend is viewed, change the id to the A/B test version
        if(sectionType === 'in-story-recommend'){
-          if(window.recommendVersionInstory){
+          if(window.recommendVersionInstory && viewables[j]){
             viewables[j].id = window.recommendVersionInstory;
           }
         }
