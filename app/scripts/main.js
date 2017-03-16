@@ -137,6 +137,7 @@ function trackViewables() {
                   ga('send','event', ec, 'In View', viewables[k].id, {'nonInteraction':1});
                   if (viewables[k].adch !== '' && viewables[k].adPosition !== '') {
                     ga('send','event', 'Ad In View', viewables[k].adch, viewables[k].adPosition, {'nonInteraction':1});
+                    //playVideoInIframe(viewables[k].adch + '' + viewables[k].adPosition);
                   }
                 } else {
                   viewables[k].viewed = false;
@@ -150,6 +151,8 @@ function trackViewables() {
 
   }
 }
+
+
 
 // Init responsive images loading
 function loadImages() {
