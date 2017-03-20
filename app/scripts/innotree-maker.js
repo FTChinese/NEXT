@@ -5,7 +5,7 @@
     var  startTime=document.getElementById('startTime');
     var  endTime=document.getElementById('endTime');
     // var searchTime=document.getElementById('search-button');
-    var sele=document.getElementById('industry-select');
+    var sele=document.getElementById('select-industry');
     var actionType = 'edit';
     var pageId = '';
     var domId = 'content-left-inner';
@@ -95,6 +95,8 @@
     var storyAPIRoot = '/falcon.php/homepage/getstoryapi/';
  //   var innotreeAPIRoot = '/falcon.php/homepage/innotree/';
     var innotreeAPIRoot = '/falcon.php/homepage/innotreeSearch/';
+  //  var innotreeAPIRoot = '/falcon.php/homepage/innotree/';
+  //  var innotreeAPIRoot = '/falcon.php/homepage/innotreeSearch/';
     var gApiUrls = {
         'home': pagemakerAPIRoot + 'get/'+ getURLParameter('page') +'/' + todaydate + '?' + thenow,
         'homePOST': pagemakerAPIRoot + 'post/'+ getURLParameter('page') +'/' + todaydate,
@@ -164,7 +166,6 @@
         }
         return todaystamp;
     }
-
     function renderAPI(id, headline, timeStamp, timeStampType, longName, shortName,  type,time, money, round,firstIndustry,secondIndustry,thirdIndustry,investors) {
         var dataHTML = '';
    //     var oTimeStamp = timeStamp || Math.round(new Date().getTime()/1000);
@@ -175,9 +176,10 @@
      //   if (typeof investors === 'object') {
         if (investors instanceof Array) {   //此方法判断更准确 
             $.each(investors, function (key, value) {
-                
-       //         console.log (investors.length);
-                investorHTML += '<li>' + value + '</li>';
+             //   investorHTML += '<div>' + value + '</div>';
+                // investorHTML += '<input class="o-input-text" value="' + value + '"> </input>';
+                investorHTML+=key+1+'.'+value+'  ';
+             //   investorHTML+=value+"";
             });
      //       investorHTML = '<div class="item-info-item"><div class="item-info-title">Investor: </div> <ul>' + investorHTML + '</ul></div>';
         }
@@ -187,7 +189,7 @@
             timeStamp = '<div class="new-item"></div>';
         }
       
-        dataHTML = '<div draggable=true data-type="' + type + '" class="item ' + type + hasImageClass + '"' + imageBG + ' data-id="' + id + '"> <div class="remove-item"></div> <div class="timestamp">' + timeStamp + '</div>  <div class="item-title">' + headline + '</div> <div class="item-info"><div class="item-links"> </div>   <div class="item-info-item"><div class="item-info-title">Company profile: </div><textarea title="company profile" placeholder="" name="companyProfile" class="o-input-text"></textarea></div>  <div class="item-info-item"><div class="item-info-title">Investment share: </div><textarea title="investment share" placeholder="" name="investmentshare" class="o-input-text"></textarea> </div>  <div class="item-info-item"><span class="item-info-title item-info-titleFixed">Long Name: </span><input title="image" placeholder="longName " name="longName" readonly="readonly"class="item-info-textFixed" value="' + longName + '" ></div>  <div class="item-info-item"><span class="item-info-title item-info-titleFixed">Short Name: </span><input title="short lead" placeholder="short lead" name="shortName" readonly="readonly"class="item-info-textFixed" value="' + shortName + '"></div>  <div class="item-info-item"><span class="item-info-title item-info-titleFixed">Time: </span><input title="time" placeholder="time" name="time" readonly="readonly"class="item-info-textFixed" value="' + time + '"></div>  <div class="item-info-item"><span class="item-info-title item-info-titleFixed">Money: </span><input title="Money" placeholder="Money" name="Money" readonly="readonly"class="item-info-textFixed" value="' + money + '"></div>   <div class="item-info-item"><span class="item-info-title item-info-titleFixed">Round: </span><input title="round" placeholder="round" name="round" readonly="readonly"class="item-info-textFixed" value="' + round + '"></div>   <div class="item-info-item"><span class="item-info-title item-info-titleFixed">First Industry: </span><input title="image" placeholder="firstIndustry" name="firstIndustry" readonly="readonly"class="item-info-textFixed" value="' + firstIndustry + '" ></div>   <div class="item-info-item"><span class="item-info-title item-info-titleFixed">Second Industry: </span><input title="image" placeholder="secondIndustry" name="secondIndustry" readonly="readonly"class="item-info-textFixed" value="' + secondIndustry + '" ></div>  <div class="item-info-item"><span class="item-info-title item-info-titleFixed">Third Industry: </span><input title="image" placeholder="thirdIndustry" name="thirdIndustry"  readonly="readonly"class="item-info-textFixed" value="' + thirdIndustry + '" ></div>  <div class="item-info-item"><span class="item-info-title item-info-titleFixed">Investor: </span> <ul>' + investorHTML + '</ul></div>  </div></div>';
+        dataHTML = '<div draggable=true data-type="' + type + '" class="item ' + type + hasImageClass + '"' + imageBG + ' data-id="' + id + '"> <div class="remove-item"></div> <div class="timestamp">' + timeStamp + '</div>  <div class="item-title">' + headline + '</div> <div class="item-info"><div class="item-links"> </div> <div class="item-info-item"><input title="headline" placeholder="headline" name="headline" class="o-input-text" value="' + headline + '"></div>  <div class="item-info-item"><div class="item-info-title">Company profile: </div><textarea title="company profile" placeholder="" name="companyProfile" class="o-input-text"></textarea></div>  <div class="item-info-item"><div class="item-info-title">Investment share: </div><textarea title="investment share" placeholder="" name="investmentshare" class="o-input-text"></textarea> </div>  <div class="item-info-item"><span class="item-info-title item-info-titleFixed">Long Name: </span><input title="image" placeholder="longName " name="longName" readonly="readonly"class="o-input-text item-info-textFixed" value="' + longName + '" ></div>  <div class="item-info-item"><span class="item-info-title item-info-titleFixed">Short Name: </span><input title="short lead" placeholder="short lead" name="shortName" readonly="readonly"class="o-input-text item-info-textFixed" value="' + shortName + '"></div>  <div class="item-info-item"><span class="item-info-title item-info-titleFixed">Time: </span><input title="time" placeholder="time" name="time" readonly="readonly"class="o-input-text item-info-textFixed" value="' + time + '"></div>  <div class="item-info-item"><span class="item-info-title item-info-titleFixed">Money: </span><input title="Money" placeholder="Money" name="Money" readonly="readonly"class="o-input-text item-info-textFixed" value="' + money + '"></div>   <div class="item-info-item"><span class="item-info-title item-info-titleFixed">Round: </span><input title="round" placeholder="round" name="round" readonly="readonly"class="o-input-text item-info-textFixed" value="' + round + '"></div>   <div class="item-info-item"><span class="item-info-title item-info-titleFixed">First Industry: </span><input title="image" placeholder="firstIndustry" name="firstIndustry" readonly="readonly"class="o-input-text item-info-textFixed" value="' + firstIndustry + '" ></div>   <div class="item-info-item"><span class="item-info-title item-info-titleFixed">Second Industry: </span><input title="image" placeholder="secondIndustry" name="secondIndustry" readonly="readonly"class="o-input-text item-info-textFixed" value="' + secondIndustry + '" ></div>  <div class="item-info-item"><span class="item-info-title item-info-titleFixed">Third Industry: </span><input title="image" placeholder="thirdIndustry" name="thirdIndustry"  readonly="readonly"class="o-input-text item-info-textFixed" value="' + thirdIndustry+ '" ></div>   <div class="item-info-item"><span class="item-info-title item-info-titleFixed">Investor: </span><input title="investor" placeholder="investor" name="investor"  readonly="readonly"class="o-input-text item-info-textFixed" value="' + investorHTML+ '" ></div>     </div></div>';
 
         return dataHTML;
     }
@@ -319,6 +321,9 @@
         var diffIndustries=[];
         var financesInner =[];       
         var financesInner0 = '';
+        var financesInner1 = '';
+        var financesInner2 = '';
+        var checkedCateg=$('input:radio[name="category"]:checked').val();
         $.each(data, function (entryIndex, entry) {
             var timeStamp = '';
             var timeStampType = 2;
@@ -352,6 +357,8 @@
            // for(var i = 0,len=diffIndustries.length;i<len;i++){
             for(var i = 0;i<len0;i++){
                 financesInner[i]='';
+                financesInner1='';
+                financesInner2='';
                 $.each(entry, function (financesIndex, finances) {
                     id = finances.cid;
                     timeStamp = finances.pubdate || '';
@@ -370,13 +377,28 @@
                     type = 'finance';//type在id、class、data-type中显示
              //        console.log (finances.first_industry+'\n'); 
               //控制分类下面的内容的明细是包含分类标题，这是首要控制条件
-              //renderAPI为json数据中循坏渲染的内容，要控制select中选中   
-                  if((finances.first_industry).localeCompare(diffIndustries[i])===0){
-                      //  console.log(sele.options);//放在此处输出entry.lengh个数
+              //renderAPI为json数据中循坏渲染的内容，要控制select中选中
+                    if(checkedCateg==='1'){
+                        document.getElementById('select-industry').disabled=true;
                         if ($('.content-left-inner .item[data-id=' + id + '][data-type=' + type + ']').length === 0) {
-                            financesInner[i]+= renderAPI(id, headline, timeStamp, timeStampType, longName, shortName,  type, time,money, round,myFT,secondIndustry,thirdIndustry,investors);
+                            financesInner1+= renderAPI(id, headline, timeStamp, timeStampType, longName, shortName,  type, time,money, round,myFT,secondIndustry,thirdIndustry,investors);
                         }
-                   }//企业服务
+                    }else if(checkedCateg==='2'){
+                        document.getElementById('select-industry').disabled=true;
+                        if ($('.content-left-inner .item[data-id=' + id + '][data-type=' + type + ']').length === 0) {
+                            financesInner2+= renderAPI(id, headline, timeStamp, timeStampType, longName, shortName,  type, time,money, round,myFT,secondIndustry,thirdIndustry,investors);
+                        }
+                    }else if(checkedCateg==='3'){
+                        document.getElementById('select-industry').disabled=false;
+                        if((finances.first_industry).localeCompare(diffIndustries[i])===0){
+                          //  console.log(sele.options);//放在此处输出entry.lengh个数
+                            if ($('.content-left-inner .item[data-id=' + id + '][data-type=' + type + ']').length === 0) {
+                                financesInner[i]+= renderAPI(id, headline, timeStamp, timeStampType, longName, shortName,  type, time,money, round,myFT,secondIndustry,thirdIndustry,investors);
+                            }
+                       }//企业服务
+                    }else{
+                        alert('请选择排序方式！');
+                    }
               //financesInner数组为已经分类好的所有div字符串数组
                 });//$.each(entry, function (financesIndex, finances) 条件结束，json文件具体内容层
                // console.log (financesInner[i]);
@@ -386,38 +408,46 @@
 
         });//$.each(data, function (entryIndex, entry)条件结束,json文件最外层
            //放在$.each(data, function (entryIndex, entry)之外
-
-        //下拉值筛选思路：获取鼠标选中下拉框中的值，把值与diffIndustries[m]比较
-        var selectedText='';
-        $('#industry-select').change(function() {
-            selectedText=$(this).find('option:selected').text();
-            financesInner0= '';
-            for(var m = 0;m<diffIndustries.length;m++){
-                if((selectedText===diffIndustries[m])&&(selectedText!=='全部')){
-                    financesInner0 += wrapItemHTML(financesInner[m], diffIndustries[m]);
-                }else if(selectedText==='全部'){
-                    financesInner0 += wrapItemHTML(financesInner[m], diffIndustries[m]);
+        if(checkedCateg==='1'){
+            financesInner1 = wrapItemHTML(financesInner1, '金额排序');
+        }else if(checkedCateg==='2'){
+            financesInner2 = wrapItemHTML(financesInner2, '热度排序');
+        }
+        else if(checkedCateg==='3'){
+            //下拉值筛选思路：获取鼠标选中下拉框中的值，把值与diffIndustries[m]比较
+            var selectedText='';
+            $('#select-industry').change(function() {
+                selectedText=$(this).find('option:selected').text();
+                financesInner0= '';
+                for(var m = 0;m<diffIndustries.length;m++){
+                    if((selectedText===diffIndustries[m])&&(selectedText!=='全部')){
+                        financesInner0 += wrapItemHTML(financesInner[m], diffIndustries[m]);
+                    }else if(selectedText==='全部'){
+                        financesInner0 += wrapItemHTML(financesInner[m], diffIndustries[m]);
+                    }
                 }
-            }
-            $('#stories-inner').html(financesInner0);
-        });
-        for(var m = 0;m<diffIndustries.length;m++){
-            financesInner0 += wrapItemHTML(financesInner[m], diffIndustries[m]);
-        }//financesInner0为包含分类标题的所有div字符串，不是数组
-        $('#stories-inner').html(financesInner0);
+                $('#stories-inner').html(financesInner0);
+            });
+            for(var m = 0;m<diffIndustries.length;m++){
+                financesInner0 += wrapItemHTML(financesInner[m], diffIndustries[m]);
+            }//financesInner0为包含分类标题的所有div字符串，不是数组
+        }
+        $('#stories-inner').html(financesInner0+financesInner1+financesInner2);
     }
-   
+
     function loadStories() {
         var start=startTime.value;
         var end=endTime.value;
-        console.log('当前开始时间'+start);
+        var checkedCateg=$('input:radio[name="category"]:checked').val();
         $.ajax({
-            type: 'post',
+            type: 'get',
+           // type: 'post',
             url: gApiUrls.innotree,
-            data:{
-                a:start,
-                b:end
-            },
+            // data:{
+            //     startTime:start,
+            //     endTime:end,
+            //     order:checkedCateg
+            // },
             dataType: 'json',
             success: function (data1) {
                 loadData(data1);
@@ -429,8 +459,8 @@
     }//hanshu
     
     $('body').on('click', '#search-button', function () {
-        $('#industry-select').empty();
-        $('#industry-select').append( '<option value=\"1\">全部</option>' );        
+        $('#select-industry').empty();
+        $('#select-industry').append( '<option value=\"1\">全部</option>' );        
         loadStories();
     });
 
