@@ -320,7 +320,7 @@
         var industries=[];
         var diffIndustries=[];
         var financesInner =[];       
-        var financesInner0 = '';
+        var financesInner3 = '';
         var financesInner1 = '';
         var financesInner2 = '';
         var checkedCateg=$('input:radio[name="category"]:checked').val();
@@ -418,21 +418,21 @@
             var selectedText='';
             $('#select-industry').change(function() {
                 selectedText=$(this).find('option:selected').text();
-                financesInner0= '';
+                financesInner3= '';
                 for(var m = 0;m<diffIndustries.length;m++){
                     if((selectedText===diffIndustries[m])&&(selectedText!=='全部')){
-                        financesInner0 += wrapItemHTML(financesInner[m], diffIndustries[m]);
+                        financesInner3 += wrapItemHTML(financesInner[m], diffIndustries[m]);
                     }else if(selectedText==='全部'){
-                        financesInner0 += wrapItemHTML(financesInner[m], diffIndustries[m]);
+                        financesInner3 += wrapItemHTML(financesInner[m], diffIndustries[m]);
                     }
                 }
-                $('#stories-inner').html(financesInner0);
+                $('#stories-inner').html(financesInner3);
             });
             for(var m = 0;m<diffIndustries.length;m++){
-                financesInner0 += wrapItemHTML(financesInner[m], diffIndustries[m]);
-            }//financesInner0为包含分类标题的所有div字符串，不是数组
+                financesInner3 += wrapItemHTML(financesInner[m], diffIndustries[m]);
+            }//financesInner3为包含分类标题的所有div字符串，不是数组
         }
-        $('#stories-inner').html(financesInner0+financesInner1+financesInner2);
+        $('#stories-inner').html(financesInner3+financesInner1+financesInner2);
     }
 
     function loadStories() {
@@ -440,14 +440,14 @@
         var end=endTime.value;
         var checkedCateg=$('input:radio[name="category"]:checked').val();
         $.ajax({
-            type: 'get',
-           // type: 'post',
+           // type: 'get',
+            type: 'post',
             url: gApiUrls.innotree,
-            // data:{
-            //     startTime:start,
-            //     endTime:end,
-            //     order:checkedCateg
-            // },
+            data:{
+                startTime:start,
+                endTime:end,
+                order:checkedCateg
+            },
             dataType: 'json',
             success: function (data1) {
                 loadData(data1);

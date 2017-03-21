@@ -1,0 +1,63 @@
+<div class="side-container">
+	<div class="side-inner">
+
+	<%if $ribbonAd == "yes"%>
+	<iframe id="ribbon" class="ad-hidden hide" width="100%" height="60" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="/m/marketing/a.html#adid=<%$adchannelID%>0009&slot=986723212&pid=ribbon"></iframe>
+	<%/if%>
+
+	<%if $tagabout != ""%>
+		<%if $PageIntroTitle != ""%>
+			<div class="list-title">
+				<%if $PageIntroRSS != ""%>
+					<a href="<%$PageIntroRSS%>" class="follow__rss"><%$PageIntroTitle%></a>
+				<%else%>
+					<a><%$PageIntroTitle%></a>
+				<%/if%>
+			</div>
+			<%assign var=tagAboutClass value="top10"%>
+		<%else%>
+			<%assign var=tagAboutClass value="tag-about"%>
+		<%/if%>
+		<div class="<%$tagAboutClass%>">
+			<%if $PageIntroIMG != ""%>
+				<a class="image" target="_blank"><figure class="loading" data-url="<%$PageIntroIMG%>"></figure></a>
+			<%/if%>
+			<%$tagabout%>
+		</div>
+	<%/if%>
+
+	<%if $smarty.get.ad != "no" && $hideMPU1 != "yes"%>
+		<div class="mpu-container<%if $tagabout == ""%> first-child<%/if%>">
+			<script type="text/javascript">document.write (writeAd('tagmpu'));</script>
+		</div>
+	<%/if%>
+	<%if $storymodel != ""%>
+    <%if $hideHotStory != "yes"%>
+		<div class="mps">
+			<h2 class="list-title"><a href="/channel/weekly.html">热门文章</a></h2>
+			<ul class="top10">
+				<%assign var="i" value=0%>
+				<%*<!-- easy api is broken, switch to old model
+				<%easyapi command="60006"%>
+				<%foreach from=$data.odatalist item=sc name=foo%>
+					<%assign var="i" value=$i+1%>
+					<li class="mp<%$i%>"><span><%$i%>. </span><a target="_blank" href="/story/<%$sc.storyid%>?dailypop"><%$sc.title%></a></li>
+				<%/foreach%>
+				-->*%>
+				<%assign var="mp" value=$storymodel->get_hot_story(1,10)%>
+				<%foreach from=$mp item=sc%>
+					<%assign var="i" value=$i+1%>
+					<li class="mp<%$i%>"><span><%$i%>. </span><a target="_blank" href="/story/<%$sc.storyid%>?dailypop"><%$sc.cheadline%></a></li>
+				<%/foreach%>
+
+			</ul>
+		</div>
+	<%/if%>
+		<%if $smarty.get.ad != "no" && $hideMPU2 != "yes"%>
+			<div class="mpu-container last-child">
+				<script type="text/javascript">document.write (writeAd('tagmpu'));</script>
+			</div>
+		<%/if%>
+	<%/if%>
+	</div>
+</div>
