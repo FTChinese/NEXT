@@ -48,26 +48,30 @@
     </div>
     <div class="content-right">
       <div class="content-right-inner">
-        <div class="search-container">
-          <div class="search-inner">
-            <input id="keywords-input" class="o-input-text r-input-text" placeholder="Input Date (YYYY-M-D) or Keywords, then return">
-            <button id="refresh-button" class="o-input-button">Refresh</button>
-          </div>
-        </div>
         <div class="select-container">
           <div class="select-inner">
-            <div class="select-ind-inner">
-              <label for="industry-select">行业选择：</label>
-              <select id="industry-select" class="industry-select"  >
-                  <option>全部</option>
-              </select>
+            <div class="select-sort-inner">
+              <form id="select-sort">
+                <label class="">排序方式：</label>
+                <label class="select-way"><input name="category" type="radio" value="1" checked />金额 </label> 
+                <label class="select-way"><input name="category" type="radio" value="2" />热度 </label> 
+                <label class="select-way"><input name="category" type="radio" value="3" />行业 </label> 
+              </form>
             </div>
             <div class="select-time-inner">
               <label for="startTime">起始时间：</label><input id="startTime" type="date" >
               <label for="endTime">结束时间：</label><input id="endTime" type="date" >
             </div>
           </div> 
+          <!-- <div> -->
           <button id="search-button" >search</button> 
+          <!-- </div> -->
+          <div class="select-ind-inner" id="select-ind-inner">
+            <label for="select-industry" class="industry-select1">分类显示：</label>
+            <select id="select-industry" class="industry-select" >
+                <option>全部</option>
+            </select>
+          </div>
         </div>
         <div class="stories-container">
           <div class="stories-inner" id="stories-inner"></div>
