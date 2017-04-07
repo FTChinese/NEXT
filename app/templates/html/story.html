@@ -952,7 +952,7 @@
 			<%/if%>
 			<%if $ebody != ""%>
 				<%assign var="bookDigest" value=$ebody|regex_replace:"/[\n]/":"<br>"%>
-				<%assign var="story_content" value="`$story_content`<div class=\"list-title\" style=\"margin:15px 0;\"><a class=\"list-link\">书摘</a></div>`$bookDigest`<div style=\"margin:15px 0;\">购买链接：<a href=\"`$eshortleadbody`\" target=_blank>`$eshortleadbody`</a></div>"%>
+				<%assign var="story_content" value="`$story_content`<div class=\"list-title\" style=\"margin:15px 0;\"><a class=\"list-link\">书摘</a></div>`$bookDigest`<div style=\"margin:15px 0;clear:both;\">购买链接：<a href=\"`$eshortleadbody`\" target=_blank>`$eshortleadbody`</a></div>"%>
 			<%/if%>
 		<%elseif $pageType == "thirdpartyactivity"%>
 			<%if $eheadline != ""%>
@@ -970,9 +970,9 @@
 <%/if%>
 
 <%if $hasAudio == "yes"%>
-	<%assign var="audioSrc value=$cshortleadbody%>
+	<%assign var="audioSrc" value=$cshortleadbody|replace:"http://v.ftimg.net/album/":"https://creatives.ftimg.net/album/"%>
 	<%if $audioSrc != ""%>
-		<%assign var="audioHTML" value="<div class=\"audio-placeholder\" id=\"audio-placeholder\"><div class=\"audio-container\"><audio preload=\"none\" controls=\"\"><source src=\"`$cshortleadbody`\"><br clear='all'></audio></div></div>"%>
+		<%assign var="audioHTML" value="<div class=\"audio-placeholder\" id=\"audio-placeholder\"><div class=\"audio-container\"><audio preload=\"none\" controls=\"\"><source src=\"`$audioSrc`\"><br clear='all'></audio></div></div>"%>
 	<%/if%>
 <%/if%>
 
