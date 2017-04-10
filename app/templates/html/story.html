@@ -974,6 +974,16 @@
 	<%if $audioSrc != ""%>
 		<%assign var="audioHTML" value="<div class=\"audio-placeholder\" id=\"audio-placeholder\"><div class=\"audio-container\"><audio preload=\"none\" controls=\"\"><source src=\"`$audioSrc`\"><br clear='all'></audio></div></div>"%>
 	<%/if%>
+	<%if $smarty.get.hideheader == "yes"%>
+		<style>
+			.audio-placeholder,.site-map,.story-theme,.header-container,.overlay-container,.o-nav__placeholder,.story-action-placeholder {
+				display:none;
+			}
+			body {
+				margin-top: 20px;
+			}
+		</style>
+	<%/if%>
 <%/if%>
 
 
