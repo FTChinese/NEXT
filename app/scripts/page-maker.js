@@ -115,7 +115,6 @@
         return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [, ""])[1].replace(/\+/g, '%20')) || null;
     }
     /* jshint ignore:end */ 
-   // alert(getURLParameter('home'));
 
     //将Unix时间戳转换为中文日期和星期
     function unixtochinese(thetime, datetype) {
@@ -477,6 +476,10 @@
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 console.log('errorThrown - [' + errorThrown + ']');
+                // if(XMLHttpRequest.status===200){
+                //     alert('请登录backyard！');
+                //     document.location.href='/falcon.php/cmsusers/login?from=pagemaker';
+                // }
             }
         });
     }
@@ -540,12 +543,18 @@
                 $('#source-json').val(JSON.stringify(data));
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
-                console.log('errorThrown - [' + errorThrown + ']');
-                alert('请登录backyard');
-                document.location.href='http://backyard.corp.ftchinese.com/falcon.php/cmsusers/login?from=pagemaker&&page=home';
+                console.log('errorThrown1 - [' + errorThrown + ']');
+                if(XMLHttpRequest.status===200 && XMLHttpRequest.readyState===4){
+                    alert('请登录backyard！');
+                    document.location.href='/falcon.php/cmsusers/login?from=pagemaker'+page();
+                }
             }
         });
     }
+    function page() {
+        var a=window.location.search;
+        return '&'+a.substring(1);
+    } 
     function renderHTML(ele) {
         var J = {
             'meta': {},
