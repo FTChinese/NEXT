@@ -1027,7 +1027,7 @@
         if (confirm('是否“保存”当前操作结果？\n\n注意：保存操作不会更新页面。')) {
             $.ajax({
                 type: 'POST',
-                url: gApiUrlsLocal.homePOST,
+                url: gApiUrls.homePOST,
                 data: {
                     action: 'save', 
                     publish_type: getURLParameter('page'), 
@@ -1040,7 +1040,7 @@
                     }
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    console.log('url - [' + gApiUrls.new + ']');
+                    console.log('url - [' + gApiUrls.homePOST + ']');
                     console.log('XMLHttpRequest - [' + XMLHttpRequest + ']');
                     console.log('textStatus - [' + textStatus + ']');
                     console.log('errorThrown - [' + errorThrown + ']');
@@ -1048,7 +1048,7 @@
             });
         }
     });
-
+    console.log(location.host);
     $('body').on('click', '#button-submit', function () {
         if (confirm('是否“提交”当前操作结果？\n\n注意：提交操作会更新页面。')) {
             $.ajax({
@@ -1091,7 +1091,13 @@
     });
 
     $('body').on('click', '.preview-on-device', function () {
-        var url = 'http://www7.ftchinese.com/m/corp/preview.html?pageid=' + getURLParameter('page');
+        var url='';
+        if(location.host==='backyard.corp.ftchinese.com'){
+             url = 'http://www.corp.ftchinese.com/index.php/innotree';
+        }else if(location.host==='backyard.ftchinese.com'){
+             url = 'http://www.ftchinese.com/index.php/innotree';
+        }
+      //  var url = '/index.php/innotree';
         var w = $(this).attr('data-width') || $(window).width();
         var h = $(this).attr('data-height') || $(window).height();
         var viewValue = $(this).attr('data-view') || '';
