@@ -1,5 +1,4 @@
 /*Global Variables*/
-//console.log('The newest12');
 var fontOptionsEle;
 var fs;
 
@@ -188,7 +187,6 @@ function getRec(data) {
     /* The jsonP callback function for thirdPartAPIUrl(即用jsonp请求优路科技的接口后的回调函数)
     * @param data: the response data of the thirdPartAPIUrl(即jsonp请求优路科技接口后的xhr.responseText) 
     */
-    console.log(data);
     if(typeof data === 'object' && data.length > 0) {
         var ids = '';
         var split = '';
@@ -248,7 +246,7 @@ function getThirdPartRecommendSuccess(data) {//
             ga('send','event','Recommend Story API', 'No Data2' + recommendVersion, '', {'nonInteraction':1});
         }
     } else {
-    	console.log('no odatalist');
+    	//console.log('no odatalist');
         ga('send','event','Recommend Story API', 'Parse Fail' + recommendVersion, data.body.oelement.errorcode, {'nonInteraction':1});
     }
 }
