@@ -1,5 +1,4 @@
 /*Global Variables*/
-//console.log('The newest12');
 var fontOptionsEle;
 var fs;
 
@@ -38,6 +37,7 @@ recommendVersion = '-002';
 
 
 /*决定文章内嵌文章的版本：是来自recommends还是relatives*/
+/*
 var recommendVersionInstory = GetCookie('ab002') || '';
 if (recommendVersionInstory === '') {
     recommendVersionInstory = (Math.random()<0.5)?'A':'B';
@@ -45,6 +45,9 @@ if (recommendVersionInstory === '') {
 }
 // MARK: 根据Cookie的A/B版本来决定变量的值
 recommendVersionInstory = (recommendVersionInstory === 'A')?'from_recommends':'from_relatives';
+*/
+// MARK: 测试结束，全部使用'from_recommends'版本
+var recommendVersionInstory = 'from_recommends';
 
 
 /* Switch to local mode or remote mode.*/
@@ -209,7 +212,7 @@ function getRec(data) {
             ftc_api.method = ajaxMethod;
             ftc_api.server_url = ajaxUrl;
 
-            ftc_api.call(message, getThirdPartRecommendSuccess, getThirdPartRecommendFailed);//用message（含优路科技提供的推荐文章id)来请求我们的接口，请求成功后回调函数为getThredPartRecommendSuccess，请求失败后回调函数为getThirdPartRecommendFaild
+            ftc_api.call(message, getThirdPartRecommendSuccess, getThirdPartRecommendFailed);//用message（含优路科技提供的推荐文章id)来请求我们的接口，请求成功后回调函数为getThirdPartRecommendSuccess，请求失败后回调函数为getThirdPartRecommendFaild
             //MARK:jump to  getThirdPartRecommendSuccess  
         } else {
              //console.log(' Data from jsonp is wrong');
@@ -243,6 +246,7 @@ function getThirdPartRecommendSuccess(data) {//
             ga('send','event','Recommend Story API', 'No Data2' + recommendVersion, '', {'nonInteraction':1});
         }
     } else {
+    	//console.log('no odatalist');
         ga('send','event','Recommend Story API', 'Parse Fail' + recommendVersion, data.body.oelement.errorcode, {'nonInteraction':1});
     }
 }
