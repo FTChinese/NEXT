@@ -31,7 +31,8 @@
         'language': ['', 'en', 'ce'],
         'fit': ['', 'standard', 'highimpact', 'legacy'],
         'sponsorMobile': ['no', 'yes'],
-        'durationInSeconds': ['default','15','30','60','90']
+        'durationInSeconds': ['default','15','30','60','90'],
+        'weight': [1,2,3,4,5]
     };
     var dataRulesTitle = {
         'theme': 'Luxury是指乐尚街的配色风格，主要特点是Title和分割线为金色',
@@ -52,7 +53,8 @@
         'feedStart': '自动抓取内容的条数开始的Index，从0开始数',
         'feedTag': '自动抓取内容依据的标签，如果抓取条件复杂，也可以请技术帮助你输入mysql的查询语句',
         'language': '中文、英文或者中英文对照，只适用于story',
-        'dates': '输入生效的日期，格式为YYYYMMDD，半角逗号分隔'
+        'dates': '输入生效的日期，格式为YYYYMMDD，半角逗号分隔',
+        'weight': '创意的权重'
     };
     var toolkits = {
         'section': {
@@ -61,7 +63,7 @@
             'header': [],
             'banner': ['position', 'image', 'highImpactImage', 'url', 'fit'],
             'footer': [],
-            'creative': ['title', 'fileName', 'click', 'impression_1', 'impression_2', 'impression_3', 'iphone', 'android', 'ipad', 'dates', 'showSoundButton', 'landscapeFileName', 'backupImage', 'backgroundColor', 'durationInSeconds', 'note']
+            'creative': ['title', 'fileName', 'click', 'impression_1', 'impression_2', 'impression_3', 'iphone', 'android', 'ipad', 'dates', 'weight', 'showSoundButton', 'landscapeFileName', 'backupImage', 'backgroundColor', 'durationInSeconds', 'note']
         },
         'list': {
             'list': ['name', 'title', 'url', 'language', 'description', 'style', 'float', 'showTag', 'showTimeStamp', 'preferLead', 'sponsorAdId', 'sponsorLogoUrl', 'sponsorLink', 'sponsorNote', 'feedStart', 'feedItems', 'feedTag', 'feedType', 'feedImage', 'moreLink'],
@@ -71,6 +73,30 @@
             'SideInclude': ['name', 'title', 'url', 'fromSide'],
             'SideIframe': ['name', 'title', 'url', 'width', 'height']
         }
+    };
+
+    // MARK: - Regex for validating common input mistakes such as lack of https
+    var regSecureUrl = {
+        description: '网址应该采用https! ',
+        regStr: /^https:/
+    };
+    var datesFormat = {
+        description: '日期格式为YYYYMMDD，半角逗号分隔',
+        regStr: /^[0-9]{8}$|^[0-9]{8},[0-9,]*[0-9]{8}$/
+    };
+    var hexColor = {
+        description: '色号格式应为#FFF1E0',
+        regStr: /^#[0-9a-zA-Z]{6}$/
+    };
+    var validator = {
+        'impression_1': regSecureUrl,
+        'impression_2': regSecureUrl,
+        'impression_3': regSecureUrl,
+        'fileName': regSecureUrl,
+        'backupImage': regSecureUrl,
+        'landscapeFileName': regSecureUrl,
+        'dates': datesFormat,
+        'backgroundColor': hexColor
     };
     var devices = [
         {'name': 'PC or Mac', 'width': '', 'height': ''},
@@ -682,6 +708,24 @@
         objContainer.find('.lists-header').html(title + listsLength);
     }
 
+
+    function validateDataFormat(ele) {
+        var value = ele.val();
+        var valueType = ele.attr('data-key');
+        if (validator[valueType] !== undefined) {
+            var validateRegex = validator[valueType].regStr;
+            var validateDescription = validator[valueType].description;
+            if (typeof validateRegex === 'object' && value !== '') {
+                if (validateRegex.test(value)) {
+                    ele.removeClass('warning');
+                } else {
+                    ele.addClass('warning');
+                    alert (validateDescription);
+                }
+            }
+        }
+    }
+
     function updateAllTitles() {
         $('.section-container').each(function () {
             var obj = $(this).find('.section-inner>.meta-table .o-input-text');
@@ -1203,11 +1247,13 @@
     // change section meta property
     $('body').on('change', '.section-inner>.meta-table .o-input-text', function () {
         updateSectionTitle($(this));
+        validateDataFormat($(this));
     });
 
     // change list meta
     $('body').on('change', '.lists-item>.meta-table .o-input-text', function () {
         updateListTitle($(this));
+        validateDataFormat($(this));
     });
 
     // change related story title
