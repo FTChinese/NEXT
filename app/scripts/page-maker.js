@@ -32,7 +32,7 @@
         'fit': ['', 'standard', 'highimpact', 'legacy'],
         'sponsorMobile': ['no', 'yes'],
         'durationInSeconds': ['default','15','30','60','90'],
-        'weight': [1,2,3,4,5]
+        'weight': [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
     };
     var dataRulesTitle = {
         'theme': 'Luxury是指乐尚街的配色风格，主要特点是Title和分割线为金色',
@@ -78,15 +78,20 @@
     // MARK: - Regex for validating common input mistakes such as lack of https
     var regSecureUrl = {
         description: '网址应该采用https! ',
-        regStr: /^https:/
+        regStrInclude: /^https:/
     };
     var datesFormat = {
         description: '日期格式为YYYYMMDD，半角逗号分隔',
-        regStr: /^[0-9]{8}$|^[0-9]{8},[0-9,]*[0-9]{8}$/
+        regStrInclude: /^[0-9]{8}$|^[0-9]{8},[0-9,]*[0-9]{8}$/
     };
     var hexColor = {
         description: '色号格式应为#FFF1E0',
-        regStr: /^#[0-9a-zA-Z]{6}$/
+        regStrInclude: /^#[0-9a-zA-Z]{6}$/
+    };
+    var clickRedirect = {
+        description: '点击必须以http开头，并且不能从https跳转到http',
+        regStrInclude: /^http/,
+        regStrExclude: /^https.+http:/
     };
     var validator = {
         'impression_1': regSecureUrl,
@@ -96,7 +101,8 @@
         'backupImage': regSecureUrl,
         'landscapeFileName': regSecureUrl,
         'dates': datesFormat,
-        'backgroundColor': hexColor
+        'backgroundColor': hexColor,
+        'click': clickRedirect
     };
     var devices = [
         {'name': 'PC or Mac', 'width': '', 'height': ''},
@@ -713,10 +719,11 @@
         var value = ele.val();
         var valueType = ele.attr('data-key');
         if (validator[valueType] !== undefined) {
-            var validateRegex = validator[valueType].regStr;
+            var validateRegexInclude = validator[valueType].regStrInclude || /.*/;
             var validateDescription = validator[valueType].description;
-            if (typeof validateRegex === 'object' && value !== '') {
-                if (validateRegex.test(value)) {
+            var validateRegexExclude = validator[valueType].regStrExclude || /mission impossible do not do this/;
+            if (value !== '') {
+                if (validateRegexInclude.test(value) && !validateRegexExclude.test(value)) {
                     ele.removeClass('warning');
                 } else {
                     ele.addClass('warning');
