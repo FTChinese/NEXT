@@ -652,14 +652,18 @@ if (typeof SVGRect === 'undefined') {
 loadImages();
 viewablesInit();
 
-//A cool trick to handle images that fail to load:
+// MARK: - A cool trick to handle images that fail to load
 try {
   delegate.on('error', 'img', function(){
+    if (this.getAttribute('src') === '') {
+      return;
+    }
     var backupImg = this.getAttribute('data-backupimage') || '';
     if (backupImg !== '') {
       this.setAttribute('data-backupimage', '');
       this.src = backupImg;
     } else {
+      this.setAttribute('data-hide-image-reason', 'failed to load');
       this.style.display = 'none';
     }
   });
