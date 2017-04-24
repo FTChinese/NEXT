@@ -93,13 +93,10 @@
     var todaydate = thisday.getFullYear() + '-' + (thisday.getMonth() + 1) + '-' + thisday.getDate();
     var pagemakerAPIRoot = '/falcon.php/pagemaker/';
     var storyAPIRoot = '/falcon.php/homepage/getstoryapi/';
- //   var innotreeAPIRoot = '/falcon.php/homepage/innotree/';
     var innotreeAPIRoot = '/falcon.php/homepage/innotreeSearch/';
-  //  var innotreeAPIRoot = '/falcon.php/homepage/innotree/';
-  //  var innotreeAPIRoot = '/falcon.php/homepage/innotreeSearch/';
     var gApiUrls = {
         'home': pagemakerAPIRoot + 'get/'+ getURLParameter('page') +'/' + todaydate + '?' + thenow,
-        'homePOST': pagemakerAPIRoot + 'post/'+ getURLParameter('page') +'/' + todaydate,
+        'homePOST': pagemakerAPIRoot + 'post/innotree',
         'blank': 'api/page/innoblank.json?0',
         'stories': storyAPIRoot + todaydate + '?' + thenow,
         'innotree': innotreeAPIRoot,
@@ -124,7 +121,6 @@
         return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [, ""])[1].replace(/\+/g, '%20')) || null;
     }
     /* jshint ignore:end */
-//    console.log (getURLParameter('page'));
 
     //将Unix时间戳转换为中文日期和星期
     function unixtochinese(thetime, datetype) {
@@ -709,8 +705,6 @@
     });
 
     $('body').on('dragenter', '.item, .relative-item, .relative-container-title, .lists-item>.meta-table, .lists-item>.lists-header, .section-container, .lists-item, .section-inner>.meta-table, .section-header, .content-left-inner', function () {
-        //console.log (dragSrcEl);
-
         if (dragSrcEl.is('.item, .group-header') && $(this).is('.item, .lists-item>.meta-table, .lists-item>.lists-header')) {
             $(this).addClass('over');
         } else if (dragSrcEl.hasClass('relative-item') && $(this).is('.relative-item, .relative-container-title')) {
@@ -754,7 +748,6 @@
         if (e.preventDefault) {
             e.preventDefault(); // Necessary. Allows us to drop.
         }
-        //console.log (this.classList);
         if (dragSrcEl.is('.item, .group-header') && $(this).is('.item, .lists-item>.meta-table, .lists-item>.lists-header')) {
             $(this).addClass('over');
         } else if (dragSrcEl.hasClass('relative-item') && $(this).is('.relative-item, .relative-container-title')) {
@@ -1030,7 +1023,7 @@
                 url: gApiUrls.homePOST,
                 data: {
                     action: 'save', 
-                    publish_type: getURLParameter('page'), 
+                    publish_type: 'innotree', 
                     publish_html: renderHTML($('#content-left-inner'))
                 },
                 dataType: 'text',
@@ -1048,14 +1041,13 @@
             });
         }
     });
-    console.log(location.host);
     $('body').on('click', '#button-submit', function () {
         if (confirm('是否“提交”当前操作结果？\n\n注意：提交操作会更新页面。')) {
             $.ajax({
                 type: 'POST',
                 url: gApiUrls.homePOST,
                 data: {action: 'submit', 
-                publish_type: getURLParameter('page'), 
+                publish_type: 'innotree', 
                 publish_html: renderHTML($('#content-left-inner'))},
                 
                 dataType: 'text',
