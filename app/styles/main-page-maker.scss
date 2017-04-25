@@ -770,14 +770,13 @@ display: block;
 }
 //hehuiyun  add
   .item-info-titleFixed {
-         
       display:inline-block;
       width:30%;   
   }
   .item11 {
 	  background-color:#FFF;
-      border: 1px solid #FFF1E0;
-      box-sizing: border-box;
+    border: 1px solid #FFF1E0;
+    box-sizing: border-box;
 	  margin: 0;
 	  height: 26px;
 	  border-radius: 5px;
@@ -785,11 +784,17 @@ display: block;
 	  font-family: BentonSans,sans-serif;
 	  font-size: 14px;
   }
-
+  .item-info-selectFixed {
+  	@extend .item11;
+    display:inline-block; 
+    width:100%; 	 
+	  padding: 2px 5px; 
+	  
+  }
   .item-info-textFixed {
-  	  @extend .item11;
-      display:inline-block; 
-      width:70%; 	 
+  	@extend .item11;
+    display:inline-block; 
+    width:70%; 	 
 	  padding: 2px 5px; 
 	  &[title][readonly] {
 	    &:hover, &:active {
