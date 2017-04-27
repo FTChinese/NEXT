@@ -1,4 +1,4 @@
-/* exported writeAd, slotStr, reloadBanners, checkB, clearEvents*/
+/* exported writeAd, slotStr, reloadBanners, checkB, clearEvents, sendImpToThirdParty*/
 
 
 
@@ -46,11 +46,15 @@ function adReachability() {
          adReachabilityStatus = GetCookie(k);
          if (adReachabilityStatus === 'reachable') {
           adParameter += '&' + thirdPartyVendors[k] + '=1';
+         } else if (/OS 9.1 /i.test(uaString) && k === 'dcR') {
+          // MARK: - If iOS 9.1, it's probably spam. Don't use DoubleClick ad
+          adParameter += '&' + thirdPartyVendors[k] + '=0';
          } else if (adReachabilityStatus === null) {
           adParameter += '&' + thirdPartyVendors[k] + '=2';
          }
       }
   }
+  //console.log (adParameter);
   return adParameter;
 }
 
@@ -532,6 +536,63 @@ function checkB() {
     }
     test.remove();
   }, 100);
+}
+
+
+// MARK: - Test Checking The Impression Tracking
+function sendImpToThirdParty(Imp, AdName, assID) {
+    if (typeof Imp === 'string') {
+        var asRandom = 'IMG' + Math.round(Math.random() * 1000000000000);
+        var timestamp = new Date().getTime();
+        var ImpNew = Imp;
+        if (ImpNew.indexOf('?') < 0) {
+            ImpNew += '?';
+        }
+        ImpNew = ImpNew.replace('ord=[timestamp]', 'ord=' + timestamp) + '&' + asRandom + '&ftctime=' + timestamp;
+        ImpNew = ImpNew.replace('http://ad.doubleclick.net','https://ad.doubleclick.net');
+        if (typeof window.parent.gTrackThirdParyImpression !== 'object') {
+            window.parent.gTrackThirdParyImpression = {};
+        }
+        window.parent.gTrackThirdParyImpression[asRandom] = new Image();
+        window.parent.gTrackThirdParyImpression[asRandom].src = ImpNew;
+        window.parent.gTrackThirdParyImpression[asRandom].title = AdName + ' (' + assID + ')';
+        window.parent.gTrackThirdParyImpression[asRandom].alt = Imp;
+
+        window.parent.gTrackThirdParyImpression[asRandom].onload = function() {
+            window.parent.ga('send', 'event', this.title, 'Success', this.alt, {
+                'nonInteraction': 1
+            });
+            delete window.parent.gTrackThirdParyImpression[asRandom];
+        };
+
+        window.parent.gTrackThirdParyImpression[asRandom].onerror = function() {
+            window.parent.ga('send', 'event', this.title, 'Fail', this.alt, {
+                'nonInteraction': 1
+            });
+            ImpNew = ImpNew.replace('https://ad.doubleclick.net','http://ad.doubleclick.net');
+            var asRandom2 = 'IMG' + Math.round(Math.random() * 1000000000000);
+            window.parent.gTrackThirdParyImpression[asRandom2] = new Image();
+            window.parent.gTrackThirdParyImpression[asRandom2].src = ImpNew;
+            window.parent.gTrackThirdParyImpression[asRandom2].title = this.title;
+            window.parent.gTrackThirdParyImpression[asRandom2].alt = this.alt;
+            window.parent.gTrackThirdParyImpression[asRandom2].onload = function() {
+                window.parent.ga('send', 'event', this.title, 'Success on Retry', this.alt, {
+                    'nonInteraction': 1
+                });
+                delete window.parent.gTrackThirdParyImpression[asRandom2];
+            };
+            window.parent.gTrackThirdParyImpression[asRandom2].onerror = function() {
+                window.parent.ga('send', 'event', this.title, 'Fail on Retry', this.alt, {
+                    'nonInteraction': 1
+                });
+            };
+            delete window.parent.gTrackThirdParyImpression[asRandom];
+        };
+
+        window.parent.ga('send', 'event', AdName + ' (' + assID + ')', 'Request', Imp, {
+            'nonInteraction': 1
+        });
+    }
 }
 
 initAds();
