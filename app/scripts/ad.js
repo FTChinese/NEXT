@@ -571,11 +571,11 @@ function sendImpToThirdParty(Imp, AdName, AssID) {
                 'nonInteraction': 1
             });
             if (typeof window.uaString === 'string') {
-                if (window.uaString.indexOf('iPhone') && window.uaString.indexOf('spider')) {
+                if (window.uaString.indexOf('iPhone') > 0 && window.uaString.indexOf('spider') > 0) {
                     window.parent.ga('send', 'event', 'Fail UA String', AssID, 'iPhone Spider', {
                         'nonInteraction': 1
                     });
-                } else if (window.uaString.indexOf('spider')) {
+                } else if (window.uaString.indexOf('spider') >=0 || window.uaString.indexOf('Spider') >= 0) {
                     window.parent.ga('send', 'event', 'Fail UA String', AssID, 'Other Spider', {
                         'nonInteraction': 1
                     });
