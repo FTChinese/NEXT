@@ -541,7 +541,7 @@ function checkB() {
 
 
 // MARK: - Test Checking The Impression Tracking
-function sendImpToThirdParty(Imp, AdName, assID) {
+function sendImpToThirdParty(Imp, AdName, AssID) {
     if (typeof Imp === 'string') {
         var asRandom = 'IMG' + Math.round(Math.random() * 1000000000000);
         var timestamp = new Date().getTime();
@@ -550,13 +550,13 @@ function sendImpToThirdParty(Imp, AdName, assID) {
             ImpNew += '?';
         }
         ImpNew = ImpNew.replace('ord=[timestamp]', 'ord=' + timestamp) + '&' + asRandom + '&ftctime=' + timestamp;
-        ImpNew = ImpNew.replace('http://ad.doubleclick.net','https://ad.doubleclick.net');
+        ImpNew = ImpNew.replace('http://ad.doubleclick.net', 'https://ad.doubleclick.net');
         if (typeof window.parent.gTrackThirdParyImpression !== 'object') {
             window.parent.gTrackThirdParyImpression = {};
         }
         window.parent.gTrackThirdParyImpression[asRandom] = new Image();
         window.parent.gTrackThirdParyImpression[asRandom].src = ImpNew;
-        window.parent.gTrackThirdParyImpression[asRandom].title = AdName + ' (' + assID + ')';
+        window.parent.gTrackThirdParyImpression[asRandom].title = AdName + ' (' + AssID + ')';
         window.parent.gTrackThirdParyImpression[asRandom].alt = Imp;
 
         window.parent.gTrackThirdParyImpression[asRandom].onload = function() {
@@ -570,8 +570,23 @@ function sendImpToThirdParty(Imp, AdName, assID) {
             window.parent.ga('send', 'event', this.title, 'Fail', this.alt, {
                 'nonInteraction': 1
             });
-            ImpNew = ImpNew.replace('https://ad.doubleclick.net','http://ad.doubleclick.net');
+            if (typeof window.uaString === 'string') {
+                if (window.uaString.indexOf('iPhone') && window.uaString.indexOf('spider')) {
+                    window.parent.ga('send', 'event', 'Fail UA String', AssID, 'iPhone Spider', {
+                        'nonInteraction': 1
+                    });
+                } else if (window.uaString.indexOf('spider')) {
+                    window.parent.ga('send', 'event', 'Fail UA String', AssID, 'Other Spider', {
+                        'nonInteraction': 1
+                    });
+                } else {
+                    window.parent.ga('send', 'event', 'Fail UA String', AssID, 'Device', {
+                        'nonInteraction': 1
+                    });
+                }
+            }
             var asRandom2 = 'IMG' + Math.round(Math.random() * 1000000000000);
+            ImpNew = ImpNew.replace('https://', 'http://');
             window.parent.gTrackThirdParyImpression[asRandom2] = new Image();
             window.parent.gTrackThirdParyImpression[asRandom2].src = ImpNew;
             window.parent.gTrackThirdParyImpression[asRandom2].title = this.title;
@@ -590,7 +605,7 @@ function sendImpToThirdParty(Imp, AdName, assID) {
             delete window.parent.gTrackThirdParyImpression[asRandom];
         };
 
-        window.parent.ga('send', 'event', AdName + ' (' + assID + ')', 'Request', Imp, {
+        window.parent.ga('send', 'event', AdName + ' (' + AssID + ')', 'Request', Imp, {
             'nonInteraction': 1
         });
     }
