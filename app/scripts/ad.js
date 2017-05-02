@@ -579,7 +579,7 @@ function sendImpToThirdParty(Imp, AdName, AssID) {
             }
 
             if (typeof window.uaString === 'string') {
-                if (window.uaString.toLowerCase().indexOf('iphone') > 0 && window.uaString.toLowerCase().indexOf('spider') > 0) {
+                if (window.uaString.toLowerCase().indexOf('iphone') >= 0 && window.uaString.toLowerCase().indexOf('spider') >= 0) {
                     window.parent.ga('send', 'event', 'Fail UA String', AssID, 'iPhone Spider', {
                         'nonInteraction': 1
                     });
