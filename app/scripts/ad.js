@@ -570,6 +570,10 @@ function sendImpToThirdParty(Imp, AdName, AssID) {
             window.parent.ga('send', 'event', this.title, 'Fail', this.alt, {
                 'nonInteraction': 1
             });
+            
+            //MAKR: Baidu Analytics
+            window.parent._hmt.push('_trackEvent',this.title, 'Fail', this.alt);
+
             if (typeof window.uaString === 'string') {
                 if (window.uaString.indexOf('iPhone') > 0 && window.uaString.indexOf('spider') > 0) {
                     window.parent.ga('send', 'event', 'Fail UA String', AssID, 'iPhone Spider', {
