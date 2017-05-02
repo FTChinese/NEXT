@@ -46,7 +46,7 @@ function adReachability() {
          adReachabilityStatus = GetCookie(k);
          if (adReachabilityStatus === 'reachable') {
           adParameter += '&' + thirdPartyVendors[k] + '=1';
-         } else if (/OS 9.1 /i.test(uaString) && k === 'dcR') {
+         } else if (/OS 9.1 |spider/i.test(uaString) && k === 'dcR') {
           // MARK: - If iOS 9.1, it's probably spam. Don't use DoubleClick ad
          // } else if (/iPhone/i.test(uaString) && /spider/i.test(uaString) && k === 'dcR') {
           adParameter += '&' + thirdPartyVendors[k] + '=0';
@@ -572,7 +572,11 @@ function sendImpToThirdParty(Imp, AdName, AssID) {
             });
             
             //MAKR: Baidu Analytics
-            window.parent._hmt.push(['_trackEvent',this.title, 'Fail', uaString]);
+            try {
+              window.parent._hmt.push(['_trackEvent',this.title, 'Fail', uaString]);
+            } catch (ignore) {
+
+            }
 
             if (typeof window.uaString === 'string') {
                 if (window.uaString.toLowerCase().indexOf('iphone') > 0 && window.uaString.toLowerCase().indexOf('spider') > 0) {
