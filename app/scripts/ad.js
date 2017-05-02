@@ -46,9 +46,9 @@ function adReachability() {
          adReachabilityStatus = GetCookie(k);
          if (adReachabilityStatus === 'reachable') {
           adParameter += '&' + thirdPartyVendors[k] + '=1';
-         //} else if (/OS 9.1 /i.test(uaString) && k === 'dcR') {
+         } else if (/OS 9.1 /i.test(uaString) && k === 'dcR') {
           // MARK: - If iOS 9.1, it's probably spam. Don't use DoubleClick ad
-         } else if (/iPhone/i.test(uaString) && /spider/i.test(uaString) && k === 'dcR') {
+         // } else if (/iPhone/i.test(uaString) && /spider/i.test(uaString) && k === 'dcR') {
           adParameter += '&' + thirdPartyVendors[k] + '=0';
          } else if (adReachabilityStatus === null) {
           adParameter += '&' + thirdPartyVendors[k] + '=2';
