@@ -572,7 +572,7 @@ function sendImpToThirdParty(Imp, AdName, AssID) {
             });
             
             //MAKR: Baidu Analytics
-            window.parent._hmt.push('_trackEvent',this.title, 'Fail', uaString);
+            window.parent._hmt.push(['_trackEvent',this.title, 'Fail', uaString]);
 
             if (typeof window.uaString === 'string') {
                 if (window.uaString.toLowerCase().indexOf('iphone') > 0 && window.uaString.toLowerCase().indexOf('spider') > 0) {
