@@ -575,11 +575,11 @@ function sendImpToThirdParty(Imp, AdName, AssID) {
             window.parent._hmt.push('_trackEvent',this.title, 'Fail', uaString);
 
             if (typeof window.uaString === 'string') {
-                if (window.uaString.indexOf('iPhone') > 0 && window.uaString.indexOf('spider') > 0) {
+                if (window.uaString.toLowerCase().indexOf('iphone') > 0 && window.uaString.toLowerCase().indexOf('spider') > 0) {
                     window.parent.ga('send', 'event', 'Fail UA String', AssID, 'iPhone Spider', {
                         'nonInteraction': 1
                     });
-                } else if (window.uaString.indexOf('spider') >=0 || window.uaString.indexOf('Spider') >= 0) {
+                } else if (window.uaString.toLowerCase().indexOf('spider') >=0) {
                     window.parent.ga('send', 'event', 'Fail UA String', AssID, 'Other Spider', {
                         'nonInteraction': 1
                     });
