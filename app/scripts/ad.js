@@ -46,7 +46,7 @@ function adReachability() {
          adReachabilityStatus = GetCookie(k);
          if (adReachabilityStatus === 'reachable') {
           adParameter += '&' + thirdPartyVendors[k] + '=1';
-         } else if (/OS 9.1 |spider/i.test(uaString) && k === 'dcR') {
+         } else if (/OS 9.1 |spider|baidu|bidu/i.test(uaString) && k === 'dcR') {
           // MARK: - If iOS 9.1, it's probably spam. Don't use DoubleClick ad
          // } else if (/iPhone/i.test(uaString) && /spider/i.test(uaString) && k === 'dcR') {
           adParameter += '&' + thirdPartyVendors[k] + '=0';
@@ -429,7 +429,7 @@ function writeAd(adType, returnSrc) {
       } else {
         window.adType = adType;
         wechatAdHTML = '<div class="banner-iframe" style="width: 100%; " data-adch="'+adch+'" data-adPosition="'+adPosition+'"><scr';
-        wechatAdHTML += 'ipt src="http://dolphin.ftimg.net/s?z=ft&c=' + c + slotStr + adP + '&_fallback=0" charset="gbk">';
+        wechatAdHTML += 'ipt src="http://dolphin4.ftimg.net/s?z=ft&c=' + c + slotStr + adP + '&_fallback=0" charset="gbk">';
         wechatAdHTML += '</scr';
         wechatAdHTML += 'ipt></div>';
         // console.log (adType + adCount[adType]);
@@ -579,19 +579,20 @@ function sendImpToThirdParty(Imp, AdName, AssID) {
             }
 
             if (typeof window.uaString === 'string') {
-                if (window.uaString.toLowerCase().indexOf('iphone') >= 0 && window.uaString.toLowerCase().indexOf('spider') >= 0) {
-                    window.parent.ga('send', 'event', 'Fail UA String', AssID, 'iPhone Spider', {
+                if (window.uaString.toLowerCase().indexOf('iphone') >= 0 && /OS 9.1 |spider|baidu|bidu/i.test(window.uaString)) {
+                    window.parent.ga('send', 'event', 'Fail UA String', AssID, 'iPhone Spider: ' + window.parent.adReachability(), {
                         'nonInteraction': 1
                     });
-                } else if (window.uaString.toLowerCase().indexOf('spider') >=0) {
-                    window.parent.ga('send', 'event', 'Fail UA String', AssID, 'Other Spider', {
+                } else if (/OS 9.1 |spider|baidu|bidu/i.test(window.uaString)) {
+                    window.parent.ga('send', 'event', 'Fail UA String', AssID, 'Other Spider: ' + window.parent.adReachability(), {
                         'nonInteraction': 1
                     });
                 } else {
-                    window.parent.ga('send', 'event', 'Fail UA String', AssID, 'Device', {
+                    window.parent.ga('send', 'event', 'Fail UA String', AssID, 'Device: ' + window.parent.adReachability(), {
                         'nonInteraction': 1
                     });
                 }
+                //window.parent.ga('send', 'event', 'Fail UA String', AssID, window.uaString, {'nonInteraction': 1});
             }
             var asRandom2 = 'IMG' + Math.round(Math.random() * 1000000000000);
             ImpNew = ImpNew.replace('https://', 'http://');
