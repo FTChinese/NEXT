@@ -1,7 +1,9 @@
 /* exported DeleteCookie,username,userId,ccodeCookie,addstoryfav, showOverlay, closeOverlay, w, isTouchDevice, trackerNew, paravalue, trackAdClick*/
 var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 var ua = navigator.userAgent || navigator.vendor || '';
-var gIsSpider = (/spider|baidu|bidu|bot|googlebot|crawler|robot|crawling/i.test(ua)) ? true: false;
+var gIsSpider = (/spider|baidu|bidu|bot|crawler|crawling/i.test(ua)) ? true: false;
+var gUserType = 'visitor';
+
 function GetCookie(name){
     var start = document.cookie.indexOf(name+'='),
         len = start+name.length+1,
@@ -186,6 +188,8 @@ function trackerNew() {
     } else {
         vtype = 'member';
     }
+
+    gUserType = vtype;
 
     if (userId !== '') {
         ga('set', 'dimension14', userId);

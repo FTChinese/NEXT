@@ -51,6 +51,10 @@ function adReachability() {
          }
       }
   }
+  if (typeof window.gUserType !== 'string') {
+    window.gUserType = 'visitor';
+  }
+  adParameter += '&' + '_ut=' + window.gUserType;
   //console.log (adParameter);
   return adParameter;
 }
