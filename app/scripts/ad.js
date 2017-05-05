@@ -1,7 +1,4 @@
-/* exported writeAd, slotStr, reloadBanners, checkB, clearEvents, sendImpToThirdParty*/
-
-
-
+/* exported writeAd, slotStr, reloadBanners, checkB, clearEvents*/
 var adPositions = {
   'banner': ['0001','0006','0007','0008'],
   'tagbanner': ['0010'],
@@ -46,9 +43,8 @@ function adReachability() {
          adReachabilityStatus = GetCookie(k);
          if (adReachabilityStatus === 'reachable') {
           adParameter += '&' + thirdPartyVendors[k] + '=1';
-         } else if (/OS 9.1 |spider|baidu|bidu/i.test(uaString) && k === 'dcR') {
-          // MARK: - If iOS 9.1, it's probably spam. Don't use DoubleClick ad
-         // } else if (/iPhone/i.test(uaString) && /spider/i.test(uaString) && k === 'dcR') {
+         } else if (window.gIsSpider === true && (k === 'dcR' || k === 'amR')) {
+          // MARK: - If it's spam. Don't use DoubleClick and AdMaster to serve
           adParameter += '&' + thirdPartyVendors[k] + '=0';
          } else if (adReachabilityStatus === null) {
           adParameter += '&' + thirdPartyVendors[k] + '=2';
@@ -540,85 +536,7 @@ function checkB() {
 }
 
 
-// MARK: - Test Checking The Impression Tracking
-function sendImpToThirdParty(Imp, AdName, AssID) {
-    if (typeof Imp === 'string') {
-        var asRandom = 'IMG' + Math.round(Math.random() * 1000000000000);
-        var timestamp = new Date().getTime();
-        var ImpNew = Imp;
-        if (ImpNew.indexOf('?') < 0) {
-            ImpNew += '?';
-        }
-        ImpNew = ImpNew.replace('ord=[timestamp]', 'ord=' + timestamp) + '&' + asRandom + '&ftctime=' + timestamp;
-        ImpNew = ImpNew.replace('http://ad.doubleclick.net', 'https://ad.doubleclick.net');
-        if (typeof window.parent.gTrackThirdParyImpression !== 'object') {
-            window.parent.gTrackThirdParyImpression = {};
-        }
-        window.parent.gTrackThirdParyImpression[asRandom] = new Image();
-        window.parent.gTrackThirdParyImpression[asRandom].src = ImpNew;
-        window.parent.gTrackThirdParyImpression[asRandom].title = AdName + ' (' + AssID + ')';
-        window.parent.gTrackThirdParyImpression[asRandom].alt = Imp;
 
-        window.parent.gTrackThirdParyImpression[asRandom].onload = function() {
-            window.parent.ga('send', 'event', this.title, 'Success', this.alt, {
-                'nonInteraction': 1
-            });
-            delete window.parent.gTrackThirdParyImpression[asRandom];
-        };
-
-        window.parent.gTrackThirdParyImpression[asRandom].onerror = function() {
-            window.parent.ga('send', 'event', this.title, 'Fail', this.alt, {
-                'nonInteraction': 1
-            });
-            
-            //MAKR: Baidu Analytics
-            try {
-              window.parent._hmt.push(['_trackEvent',this.title, 'Fail', uaString]);
-            } catch (ignore) {
-
-            }
-
-            if (typeof window.uaString === 'string') {
-                if (window.uaString.toLowerCase().indexOf('iphone') >= 0 && /OS 9.1 |spider|baidu|bidu/i.test(window.uaString)) {
-                    window.parent.ga('send', 'event', 'Fail UA String', AssID, 'iPhone Spider: ' + window.parent.adReachability(), {
-                        'nonInteraction': 1
-                    });
-                } else if (/OS 9.1 |spider|baidu|bidu/i.test(window.uaString)) {
-                    window.parent.ga('send', 'event', 'Fail UA String', AssID, 'Other Spider: ' + window.parent.adReachability(), {
-                        'nonInteraction': 1
-                    });
-                } else {
-                    window.parent.ga('send', 'event', 'Fail UA String', AssID, 'Device: ' + window.parent.adReachability(), {
-                        'nonInteraction': 1
-                    });
-                }
-                //window.parent.ga('send', 'event', 'Fail UA String', AssID, window.uaString, {'nonInteraction': 1});
-            }
-            var asRandom2 = 'IMG' + Math.round(Math.random() * 1000000000000);
-            ImpNew = ImpNew.replace('https://', 'http://');
-            window.parent.gTrackThirdParyImpression[asRandom2] = new Image();
-            window.parent.gTrackThirdParyImpression[asRandom2].src = ImpNew;
-            window.parent.gTrackThirdParyImpression[asRandom2].title = this.title;
-            window.parent.gTrackThirdParyImpression[asRandom2].alt = this.alt;
-            window.parent.gTrackThirdParyImpression[asRandom2].onload = function() {
-                window.parent.ga('send', 'event', this.title, 'Success on Retry', this.alt, {
-                    'nonInteraction': 1
-                });
-                delete window.parent.gTrackThirdParyImpression[asRandom2];
-            };
-            window.parent.gTrackThirdParyImpression[asRandom2].onerror = function() {
-                window.parent.ga('send', 'event', this.title, 'Fail on Retry', this.alt, {
-                    'nonInteraction': 1
-                });
-            };
-            delete window.parent.gTrackThirdParyImpression[asRandom];
-        };
-
-        window.parent.ga('send', 'event', AdName + ' (' + AssID + ')', 'Request', Imp, {
-            'nonInteraction': 1
-        });
-    }
-}
 
 initAds();
 if (isWeChat === true) {

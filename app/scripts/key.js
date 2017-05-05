@@ -1,6 +1,7 @@
 /* exported DeleteCookie,username,userId,ccodeCookie,addstoryfav, showOverlay, closeOverlay, w, isTouchDevice, trackerNew, paravalue, trackAdClick*/
 var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-
+var ua = navigator.userAgent || navigator.vendor || '';
+var gIsSpider = (/spider|baidu|bidu|bot|googlebot|crawler|robot|crawling/i.test(ua)) ? true: false;
 function GetCookie(name){
     var start = document.cookie.indexOf(name+'='),
         len = start+name.length+1,
@@ -59,10 +60,8 @@ function trackerNew() {
     var username=GetCookie('USER_NAME') || '';
     var userId = GetCookie('USER_ID') || '';
     var ccodeCookie=GetCookie('ccode') || '';
-    var ua = navigator.userAgent || navigator.vendor || '';
     var screenType=0;
     var deviceName;
-    
     if (w >0) {
         if (w>1220) {
             screenType = 'XL: above 1220';
@@ -180,13 +179,21 @@ function trackerNew() {
         ga('set', 'dimension1', window.FTAdchID);
     }
 
-    if (username === '') {vtype='visitor';} else {vtype='member';}
-    if (userId !== '') {ga('set', 'dimension14', userId);}
+    if (gIsSpider === true) {
+        vtype = 'spider';
+    } else if (username === '') {
+        vtype = 'visitor';
+    } else {
+        vtype = 'member';
+    }
 
+    if (userId !== '') {
+        ga('set', 'dimension14', userId);
+        ga('set', 'userId', userId);
+    }
+    
     ga('set', 'dimension2', vtype);
     ga('set', 'dimension13', vsource);
-
-
 
     try {
         keyTag=window.gKeyTag;
