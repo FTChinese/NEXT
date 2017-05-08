@@ -25,14 +25,26 @@ function sendImpToThirdParty(Imp, AdName, AssID) {
             window.parent.gTrackThirdParyImpression[asRandom].alt = Imp;
 
             window.parent.gTrackThirdParyImpression[asRandom].onload = function() {
-                window.parent.ga('send', 'event', this.title, 'Success'+reRryTimes, this.alt, {
+                var actionName = '';
+                if(reRryTimes === 0){
+                    actionName = 'Success';
+                } else {
+                    actionName = 'Success on Retry'+reRryTimes;
+                }
+                window.parent.ga('send', 'event', this.title, actionName, this.alt, {
                     'nonInteraction': 1
                 });
                 delete window.parent.gTrackThirdParyImpression[asRandom];
             };
 
             window.parent.gTrackThirdParyImpression[asRandom].onerror = function() {
-                window.parent.ga('send', 'event', this.title, 'Fail'+reRryTimes, this.alt, {'nonInteraction': 1});
+                var failActionName = '';
+                if(reRryTimes === 0){
+                    failActionName = 'Fail';
+                } else {
+                    failActionName = 'Fail on Retry'+reRryTimes;
+                }
+                window.parent.ga('send', 'event', this.title, failActionName, this.alt, {'nonInteraction': 1});
                 window.parent.ga('send', 'event', 'Fail UA String', AssID, window.parent.adReachability(), {'nonInteraction': 1});
 
                 if (typeof window.uaString === 'string') {
