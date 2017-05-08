@@ -45,12 +45,11 @@ function sendImpToThirdParty(Imp, AdName, AssID) {
                     //window.parent.ga('send', 'event', 'Fail UA String', AssID, window.uaString, {'nonInteraction': 1});
                 }
                 reRryTimes++;
-                if (reRryTimes < 5) {
+                if (reRryTimes <= 5) {
                      sendOnetime();
-                } 
-               
-            }
-        }
+                }   
+            };
+        };
         sendOnetime();
         /*
             window.parent.gTrackThirdParyImpression[asRandom].onerror = function() {
