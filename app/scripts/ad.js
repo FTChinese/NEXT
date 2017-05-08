@@ -1,4 +1,4 @@
-/* exported writeAd, slotStr, reloadBanners, checkB, clearEvents*/
+/* exported writeAd, slotStr, reloadBanners, checkB, clearEvents */
 var adPositions = {
   'banner': ['0001','0006','0007','0008'],
   'tagbanner': ['0010'],
@@ -26,39 +26,6 @@ var adPositions = {
 
 
 /* jshint ignore:start */
-
-function adReachability() {
-  var thirdPartyVendors = {
-    'dcR': '_dc',
-    'mmR': '_mm',
-    'szR': '_sz',
-    'amR': '_am'
-  };
-  var adParameter = '';
-  var adReachabilityStatus;
-  for (var k in thirdPartyVendors) {
-      if (thirdPartyVendors.hasOwnProperty(k)) {
-         //user[k] = data[k];
-         //console.log (k + ': ' + thirdPartyVendors[k]);
-         adReachabilityStatus = GetCookie(k);
-         if (adReachabilityStatus === 'reachable') {
-          adParameter += '&' + thirdPartyVendors[k] + '=1';
-         } else if (window.gIsSpider === true && (k === 'dcR' || k === 'amR')) {
-          // MARK: - If it's spam. Don't use DoubleClick and AdMaster to serve
-          adParameter += '&' + thirdPartyVendors[k] + '=0';
-         } else if (adReachabilityStatus === null) {
-          adParameter += '&' + thirdPartyVendors[k] + '=2';
-         }
-      }
-  }
-  if (typeof window.gUserType !== 'string') {
-    window.gUserType = 'visitor';
-  }
-  adParameter += '&' + '_ut=' + window.gUserType;
-  //console.log (adParameter);
-  return adParameter;
-}
-
 function trackAd(adAction, adLabel, reachabilityStatus) {
   var adLoadTime;
   var adTimeSpent;
