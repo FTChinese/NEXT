@@ -215,9 +215,11 @@ href="http://www.ftchinese.com" target="_blank"
 				<%if $s == 0 && $l == 0 && $i ==0%>
 					<%assign var="imageWidth" value=300%>
 					<%assign var="imageHeight" value=169%>
+					<%assign var="imageClass" value=" class=\"coverImgLinkContain\""%>
 				<%else%>
 					<%assign var="imageWidth" value=167%>
 					<%assign var="imageHeight" value=94%>
+					<%assign var="imageClass" value=""%>
 				<%/if%>
 				<div style="line-height:1.618; ">
 				    <table width="100%" cellpadding="0" cellspacing="0" style="border-bottom:1px solid #E9DECF; line-height:1.618;">
@@ -227,7 +229,7 @@ href="http://www.ftchinese.com" target="_blank"
 				                <div class="lineH1_4" style="line-height:40px;font-size:25px;">
 				                    <a target=_blank class="headLine" style="font-weight:bold; text-decoration:none; color:#111;" href="http://www.ftchinese.com/<%$item.type%>/<%$item.id%>#s=w"><%$item.headline%></a>
 				                </div>
-								<table cellpadding="0" cellspacing="0" align="left" class="coverImgLinkContain"><tr><td class="lineH1 imgSpace" style="height: 6px; font-size: 0px; line-height: 5px; padding: 0;"> </td></tr><tr><td>
+								<table cellpadding="0" cellspacing="0" align="left"<%$imageClass%>><tr><td class="lineH1 imgSpace" style="height: 6px; font-size: 0px; line-height: 5px; padding: 0;"> </td></tr><tr><td>
 
 								<a class="coverImgLink" style="" target="_blank" href="http://www.ftchinese.com/<%$item.type%>/<%$item.id%>#s=w">
 								<img src="https://www.ft.com/__origami/service/image/v2/images/raw/<%$item.image|replace:"/upload/":"/"|escape:"ulr"%>?source=ftchinese&width=<%$imageWidth%>&height=<%$imageHeight%>" border="0" style="width:<%$imageWidth%>px;" align="left" width="<%$imageWidth%>"/>
