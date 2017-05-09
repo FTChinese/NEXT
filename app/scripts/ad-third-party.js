@@ -63,8 +63,8 @@ function sendImpToThirdParty(Imp, AdName, AssID) {
                     //window.parent.ga('send', 'event', 'Fail UA String', AssID, window.uaString, {'nonInteraction': 1});
                 }
                 reRryTimes++;
-                if (reRryTimes <= 5) {
-                    setTimeout(sendOnetime, 100 * reRryTimes);
+                if (reRryTimes <= 3) {
+                    setTimeout(sendOnetime, 100 * reRryTimes * reRryTimes * reRryTimes);
                     //sendOnetime();
                 }
             };

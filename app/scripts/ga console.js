@@ -44,7 +44,7 @@ firstSuccessRate = 'First Request Success rate is ' + firstSuccessRate + '%';
 
 var retrySuccessRate = 100 * successOnRetry / request;
 retrySuccessRate = (Math.round(retrySuccessRate * 10))/10;
-retrySuccessRate = 'Retry success rate is ' + retrySuccessRate + '%. ';
+retrySuccessRate = 'Recover ' + retrySuccessRate + '% through retry. ';
 
 console.clear();
 // console.log (request + ' requests, ' + success + ' succeed at once, ' + successOnRetry + ' succeed on retry. ');
