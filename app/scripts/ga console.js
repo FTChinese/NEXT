@@ -17,11 +17,11 @@ for (var i = 0; i<tableRows.length; i++) {
 		request += dataValue;
 	} else if (dataName === 'Success') {
 		success += dataValue;
-	} else if (dataName === 'Success on Retry') {
+	} else if (dataName.indexOf('Success on Retry') >= 0) {
 		successOnRetry += dataValue;
 	} else if (dataName === 'Fail') {
 		fail += dataValue;
-	} else if (dataName === 'Fail on Retry') {
+	} else if (dataName === 'Fail on Retry5') {
 		failOnRetry += dataValue;
 	}
 }

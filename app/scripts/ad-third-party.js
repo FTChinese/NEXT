@@ -7,6 +7,7 @@ function sendImpToThirdParty(Imp, AdName, AssID) {
             window.parent.gTrackThirdParyImpression = {};
         }
         var reRryTimes = 0;
+        var lastImp = Imp;
 
         var sendOnetime = function() {
             var asRandom = 'IMG' + Math.round(Math.random() * 1000000000000);
@@ -16,8 +17,13 @@ function sendImpToThirdParty(Imp, AdName, AssID) {
                 ImpNew += '?';
             }
             ImpNew = ImpNew.replace('ord=[timestamp]', 'ord=' + timestamp) + '&' + asRandom + '&ftctime=' + timestamp;
-            ImpNew = ImpNew.replace('http://ad.doubleclick.net', 'https://ad.doubleclick.net');
-
+            // MARK: - Alternate http and https for DoubleClick
+            if (lastImp.indexOf('https') === 0) {
+              ImpNew = ImpNew.replace('https://ad.doubleclick.net', 'http://ad.doubleclick.net');
+            } else {
+              ImpNew = ImpNew.replace('http://ad.doubleclick.net', 'https://ad.doubleclick.net');
+            }
+            lastImp = ImpNew;
 
             window.parent.gTrackThirdParyImpression[asRandom] = new Image();
             window.parent.gTrackThirdParyImpression[asRandom].src = ImpNew;
