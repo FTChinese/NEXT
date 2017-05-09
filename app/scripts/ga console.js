@@ -42,11 +42,16 @@ var firstSuccessRate = 100 * (success) / request;
 firstSuccessRate = (Math.round(firstSuccessRate * 10))/10;
 firstSuccessRate = 'First Request Success rate is ' + firstSuccessRate + '%';
 
+var retrySuccessRate = 100 * successOnRetry / request;
+retrySuccessRate = (Math.round(retrySuccessRate * 10))/10;
+retrySuccessRate = 'Retry success rate is ' + retrySuccessRate + '%. ';
+
 console.clear();
 // console.log (request + ' requests, ' + success + ' succeed at once, ' + successOnRetry + ' succeed on retry. ');
 console.log (firstSuccessRate);
 console.log (failRate);
 //console.log (rateUplimit);
+console.log (retrySuccessRate);
 console.log (rate);
 }
 
