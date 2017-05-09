@@ -64,8 +64,9 @@ function sendImpToThirdParty(Imp, AdName, AssID) {
                 }
                 reRryTimes++;
                 if (reRryTimes <= 5) {
-                     sendOnetime();
-                }   
+                    setTimeout(sendOnetime, 100 * reRryTimes);
+                    //sendOnetime();
+                }
             };
         };
         sendOnetime();

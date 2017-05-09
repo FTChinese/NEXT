@@ -46,7 +46,7 @@ console.clear();
 // console.log (request + ' requests, ' + success + ' succeed at once, ' + successOnRetry + ' succeed on retry. ');
 console.log (firstSuccessRate);
 console.log (failRate);
-console.log (rateUplimit);
+//console.log (rateUplimit);
 console.log (rate);
 }
 
