@@ -4,6 +4,13 @@ var ua = navigator.userAgent || navigator.vendor || '';
 var gIsSpider = (/spider|baidu|bidu|bot|crawler|crawling/i.test(ua)) ? true: false;
 var gUserType = 'visitor';
 
+// MARK: - check for hard-to-find spiders such as those disguised as iOS 9 devices
+function findMoreSpider() {
+    if (gIsSpider === false && /iPhone OS 9\_1 /i.test(ua) && typeof httpspv !== 'function') {
+        gIsSpider = true;
+    }
+}
+
 function GetCookie(name){
     var start = document.cookie.indexOf(name+'='),
         len = start+name.length+1,
@@ -348,9 +355,8 @@ function closeOverlay(overlayId) {
 
 
 
-/* jshint ignore:start */
 var user_name=GetCookie ('USER_NAME');
 if (user_name !== null) {
     document.documentElement.className += ' is-member';
 }
-/* jshint ignore:end */
+findMoreSpider();

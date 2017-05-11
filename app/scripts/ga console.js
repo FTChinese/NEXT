@@ -7,6 +7,7 @@ var success = 0;
 var successOnRetry = 0;
 var failOnRetry = 0;
 var fail = 0;
+var pending = 0;
 
 for (var i = 0; i<tableRows.length; i++) {
 	//console.log (tableRows[i].querySelector('._GALM').innerHTML.replace(',', ''));
@@ -23,6 +24,8 @@ for (var i = 0; i<tableRows.length; i++) {
 		fail += dataValue;
 	} else if (dataName === 'Fail on Retry5') {
 		failOnRetry += dataValue;
+	} else if (dataName === 'Request from Pending') {
+		pending += dataValue;
 	}
 }
 
@@ -38,18 +41,24 @@ var failRate = 100 * fail / request;
 failRate = (Math.round(failRate * 10))/10;
 failRate = 'First Time Fail rate is ' + failRate + '%';
 
+
+var pendingRate = 100 * pending / request;
+pendingRate = (Math.round(pendingRate * 10))/10;
+pendingRate = pendingRate + '% requests are pending in 10 seconds';
+
 var firstSuccessRate = 100 * (success) / request;
 firstSuccessRate = (Math.round(firstSuccessRate * 10))/10;
 firstSuccessRate = 'First Request Success rate is ' + firstSuccessRate + '%';
 
 var retrySuccessRate = 100 * successOnRetry / request;
 retrySuccessRate = (Math.round(retrySuccessRate * 10))/10;
-retrySuccessRate = 'Recover ' + retrySuccessRate + '% through retry. ';
+retrySuccessRate = 'Recover ' + retrySuccessRate + '% through retry';
 
 console.clear();
 // console.log (request + ' requests, ' + success + ' succeed at once, ' + successOnRetry + ' succeed on retry. ');
 console.log (firstSuccessRate);
 console.log (failRate);
+console.log (pendingRate);
 //console.log (rateUplimit);
 console.log (retrySuccessRate);
 console.log (rate);
