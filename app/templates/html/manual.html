@@ -158,13 +158,15 @@
                             fullPageAdchId =  window.adchID + '0014';
                             testFullPageAd = true;
                         }
-                        if ((fullsc == null && w>490 && isTouchDevice() === false && (todaydate1 == "<%$ad.fullscreen1%>" || todaydate1 == "<%$ad.fullscreen2%>" || todaydate1 == "<%$ad.fullscreen3%>" || todaydate1 == "<%$ad.fullscreen4%>" || todaydate1 == "<%$ad.fullscreen5%>")) || testFullPageAd === true) {
+                        if ((/*fullsc == null && */w>490 && isTouchDevice() === false && (todaydate1 == "<%$ad.fullscreen1%>" || todaydate1 == "<%$ad.fullscreen2%>" || todaydate1 == "<%$ad.fullscreen3%>" || todaydate1 == "<%$ad.fullscreen4%>" || todaydate1 == "<%$ad.fullscreen5%>")) || testFullPageAd === true) {
                             document.write('<scr' + 'ipt type="text/jav' + 'ascript" src="http://dolphin4.ftimg.net/s?z=ft&amp;c=' + fullPageAdchId + '&amp;slot=645072137&amp;_sex=101&amp;_trip=1&amp;_lux=1&amp;_dc=2&amp;_mm=2&amp;_sz=2&amp;_am=2" charset="gbk"></scr' + 'ipt>');
                             sendEvent('Ad Impression', adchHome, adPositionHome, {'nonInteraction':1});
                         } else if (fullsc == null) {
                             loadFullAtEnd = true;
                         } else if (w>490 && isTouchDevice() === false && (todaydate1 == "<%$ad.fullscreen1%>" || todaydate1 == "<%$ad.fullscreen2%>" || todaydate1 == "<%$ad.fullscreen3%>" || todaydate1 == "<%$ad.fullscreen4%>" || todaydate1 == "<%$ad.fullscreen5%>")) {
                             sendEvent('Ad Impression Suppress', adchHome, adPositionHome, {'nonInteraction':1});
+                        } else {
+                            sendEvent('Ad Impression Not Scheduled', adchHome, adPositionHome, {'nonInteraction':1});
                         }
                         setTimeout(function () {
                             stickyBottomPrepare();
