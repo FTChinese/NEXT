@@ -526,13 +526,17 @@
 									<%if $i === 0 %>
 										<%assign var="XL" value="XL8"%>
 									<%elseif $i===2 && $list.items[1].image !== ""%>
-										<%if $list.preferLead == 'none'%>
+										<%if $list.preferLead == "none"%>
 											<%assign var="XL" value="XL4 XL-right XL-no-tag"%>
 										<%else%>
 											<%assign var="XL" value="XL4 XL-right XL-half XL-no-tag"%>
 										<%/if%>
 									<%elseif $i===1%>
-										<%assign var="XL" value="XL4 XL-right XL-no-tag"%>
+										<%if $list.float == "EqualSizeForNonFirstItems"%>
+											<%assign var="XL" value="XL4 XL-half XL-right XL-no-tag"%>
+										<%else%>
+											<%assign var="XL" value="XL4 XL-right XL-no-tag"%>
+										<%/if%>
 									<%else%>
 										<%assign var="XL" value="XL4"%>
 									<%/if%>
@@ -557,7 +561,7 @@
 										<%assign var="XL" value="XL8"%>
 									<%elseif $i===2 && $list.items[1].image !== ""%>
 										<%assign var="XL" value="XL4 XL-right XL-half XL-no-tag"%>
-									<%elseif $i===1%>
+									<%elseif $i===1 && $list.float != "EqualSizeForNonFirstItems"%>
 										<%assign var="XL" value="XL4 XL-right XL-no-tag"%>
 									<%elseif $i === ($listItemCount - 1) %>
 										<%assign var="XL" value="XL4 XL-half XL-lower"%>
@@ -574,7 +578,7 @@
 										<%assign var="XL" value="XL8"%>
 									<%elseif $i===2 && $list.items[1].image !== ""%>
 										<%assign var="XL" value="XL4 XL-right XL-half XL-no-tag"%>
-									<%elseif $i===1%>
+									<%elseif $i===1 && $list.float != "EqualSizeForNonFirstItems"%>
 										<%assign var="XL" value="XL4 XL-right XL-no-tag"%>
 									<%elseif $i >= ($listItemCount - 2)%>
 										<%assign var="XL" value="XL4 XL-half XL-lower"%>
