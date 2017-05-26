@@ -735,7 +735,10 @@
 <%assign var="storyId" value=$story.id|default:$id%>
 
 <%if $page_action=="en"%>
-	<%assign var="storyHeadline" value=$story.eheadline|default:$eheadline%>
+	<%assign var="storyHeadline" value=$story.eheadline|default:$eheadline|default:$cheadline|default:$story.cheadline%>
+	<%if $storyHeadline == ""%>
+		<%assign var="storyHeadline" value=$cheadline|default:$story.cheadline%>
+	<%/if%>
 <%elseif $page_action=="ce"%>
 	<%assign var="storyHeadline" value="`$story.eheadline`<br>`$story.cheadline`"%>
 <%else%>
@@ -923,7 +926,7 @@
 	<%assign var="storyAuthor" value="`$cbyline_description` `$cauthor`"%>
 	<%if $page_action == "en"%>
 		<%assign var="story_content" value=$ebody%>
-		<%assign var="storyHeadline" value=$eheadline%>
+		<%assign var="storyHeadline" value=$eheadline|default:$cheadline%>
 	<%else%>
 		<%assign var="story_content" value=$cbody|regex_replace:"/[\r\t\n]/":"</p><p>"%>
 		<%assign var="story_content" value="<p>`$story_content`</p>"%>
@@ -980,8 +983,15 @@
 				display:none;
 			}
 			.header-container,.header-inner {
-				background-color: transparent;
-			    height: 20px;
+			    height: 20px!important;
+			    display:block!important;
+			}
+			.header-container {
+				background-color: transparent !important;
+			}
+			.header-inner {
+				background-color: #FFF1E0!important;
+				opacity: 0.9;
 			}
 		</style>
 	<%/if%>
@@ -1154,7 +1164,7 @@
 			<%include file="next/partials/header.html"%>
 		<%/if%>
 		<%include file="next/partials/nav.html"%>
-		<%if !preg_match("/品味|乐尚街|艺术投资|腕表|游艇|极致人生/is",$keys)%>
+		<%if !preg_match("/品味|乐尚街|艺术投资|腕表|游艇|极致人生/is",$keys) && $smarty.get.hideheader != "yes"%>
 		<%include file="next/partials/banner.html"%>
 		<%/if%>
 		<%assign var="bannerCount" value=$bannerCount+1%>
