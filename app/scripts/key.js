@@ -1,5 +1,15 @@
 /* exported DeleteCookie,username,userId,ccodeCookie,addstoryfav, showOverlay, closeOverlay, w, isTouchDevice, trackerNew, paravalue, trackAdClick*/
 var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+var ua = navigator.userAgent || navigator.vendor || '';
+var gIsSpider = (/spider|baidu|bidu|bot|crawler|crawling/i.test(ua)) ? true: false;
+var gUserType = 'visitor';
+
+// MARK: - check for hard-to-find spiders such as those disguised as iOS 9 devices
+function findMoreSpider() {
+    if (gIsSpider === false && /iPhone OS 9\_1 /i.test(ua) && typeof httpspv !== 'function') {
+        gIsSpider = true;
+    }
+}
 
 function GetCookie(name){
     var start = document.cookie.indexOf(name+'='),
@@ -59,10 +69,8 @@ function trackerNew() {
     var username=GetCookie('USER_NAME') || '';
     var userId = GetCookie('USER_ID') || '';
     var ccodeCookie=GetCookie('ccode') || '';
-    var ua = navigator.userAgent || navigator.vendor || '';
     var screenType=0;
     var deviceName;
-    
     if (w >0) {
         if (w>1220) {
             screenType = 'XL: above 1220';
@@ -180,13 +188,23 @@ function trackerNew() {
         ga('set', 'dimension1', window.FTAdchID);
     }
 
-    if (username === '') {vtype='visitor';} else {vtype='member';}
-    if (userId !== '') {ga('set', 'dimension14', userId);}
+    if (gIsSpider === true) {
+        vtype = 'spider';
+    } else if (username === '') {
+        vtype = 'visitor';
+    } else {
+        vtype = 'member';
+    }
 
+    gUserType = vtype;
+
+    if (userId !== '') {
+        ga('set', 'dimension14', userId);
+        ga('set', 'userId', userId);
+    }
+    
     ga('set', 'dimension2', vtype);
     ga('set', 'dimension13', vsource);
-
-
 
     try {
         keyTag=window.gKeyTag;
@@ -337,9 +355,8 @@ function closeOverlay(overlayId) {
 
 
 
-/* jshint ignore:start */
 var user_name=GetCookie ('USER_NAME');
 if (user_name !== null) {
     document.documentElement.className += ' is-member';
 }
-/* jshint ignore:end */
+findMoreSpider();

@@ -1,23 +1,14 @@
-<%if date("Ymd",$smarty.now) >= 20170424 && date("Ymd",$smarty.now) <= 20170426 && $smarty.get.ad != 'no'%>
+<%if date("Ymd",$smarty.now) >= 20170501 && date("Ymd",$smarty.now) <= 20170505 && $smarty.get.ad != 'no'%>
 <style><%include file="next/styles/main-pop-ad.css"%></style>
 <div id="pop-ad" class=overlay></div>
 <div class="pop-ad-code">
 <script type="text/javascript">
 var fullSC = GetCookie("fs0");
 var loadFullAtEnd = false;
-if ((fullSC === null || /utm\_campaign=2[MU]16/i.test(location.href)) && w <= 490) {
+// MARK: - Display the full screen ad for every visit
+fullSC = null;
+if (fullSC === null && w <= 490) {
     document.write (writeAd('fullpage'));
-    <%if $smarty.get.utm_campaign == "2M161000" || preg_match("/2U16[0-9]+/is",$smarty.get.utm_campaign)%>
-        if (/utm\_campaign=2[MU]16/i.test(location.href)) {
-            document.write (writeAd('fullpage'));
-            document.write (writeAd('fullpage'));
-            document.write (writeAd('fullpage'));
-            document.write (writeAd('fullpage'));
-        }
-    <%/if%>
-    if (fullSC !== null && !/utm\_campaign=2[MU]16/i.test(location.href)) {
-        document.getElementById('pop-ad').style.display = 'none';
-    }
     SetCookie("fs0",1,3*60,"/");
 }
 </script>
