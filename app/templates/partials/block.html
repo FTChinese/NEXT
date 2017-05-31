@@ -1314,6 +1314,16 @@
 							<div class="item-container <%$itemClass%> <%$hasImage%>"><div class="item-inner">
 								<%if $itemType === "widget"%>
 									<%include file="widgets/`$itemHeadline`"%>
+								<%elseif $list.sideOption == "barcode"%>
+									<style>
+									.is-barcode figure {
+									    width: 200px;
+									    height: 200px;
+									    padding-bottom: 0;
+									    margin:auto;
+									}
+									</style>
+									<%if $itemImage != "" && $hasImage === "has-image"%><div class="image is-barcode" target="_blank"<%$itemLink%>><figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure></div><%/if%>
 								<%elseif $list.sideOption != "leadOnly"%>
 									<%if $itemImage != "" && $hasImage === "has-image"%><a class="image" target="_blank"<%$itemLink%>><figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure></a><%/if%>
 									<%if $itemHeadline != ""%>
