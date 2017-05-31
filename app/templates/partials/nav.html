@@ -14,23 +14,23 @@
 <%if $thirdnav=="basicsetting"%>
 <%assign var="navBasicsetting" value=" aria-selected=true"%>
 <%elseif $thirdnav=="changeicon"%>
-<%assign var="navChangeicon" value=" aria-selected=true"%> 
+<%assign var="navChangeicon" value=" aria-selected=true"%>
 <%elseif $thirdnav=="maillist"%>
-<%assign var="navMaillist" value=" aria-selected=true"%> 
+<%assign var="navMaillist" value=" aria-selected=true"%>
 <%elseif $thirdnav=="snsapi"%>
-<%assign var="navSnsapi" value=" aria-selected=true"%> 
+<%assign var="navSnsapi" value=" aria-selected=true"%>
 <%elseif $thirdnav=="commentstory"%>
-<%assign var="navCommentstory" value=" aria-selected=true"%> 
+<%assign var="navCommentstory" value=" aria-selected=true"%>
 <%elseif $thirdnav=="favstorylist"%>
 <%assign var="navFavstorylist" value=" aria-selected=true"%>
 <%elseif $thirdnav=="eventhome"%>
-<%assign var="navEventHome" value=" aria-selected=true"%> 
+<%assign var="navEventHome" value=" aria-selected=true"%>
 <%elseif $thirdnav=="eventupcoming"%>
-<%assign var="navEventUpcoming" value=" aria-selected=true"%> 
+<%assign var="navEventUpcoming" value=" aria-selected=true"%>
 <%elseif $thirdnav=="eventprevious"%>
-<%assign var="navEventPrevious" value=" aria-selected=true"%> 
+<%assign var="navEventPrevious" value=" aria-selected=true"%>
 <%elseif $thirdnav=="eventsponsorship"%>
-<%assign var="navEventSponsorship" value=" aria-selected=true"%> 
+<%assign var="navEventSponsorship" value=" aria-selected=true"%>
 <%elseif $thirdnav=="eventabout"%>
 <%assign var="navEventAbout" value=" aria-selected=true"%>
 <%/if%>
@@ -38,11 +38,11 @@
 
 
 <%php%>
-$filename = "../frontend/tpl/next/api/page/nav.json"; 
-$handle = fopen($filename, "r"); 
-$json = fread($handle, filesize ($filename)); 
-fclose($handle); 
-$page = json_decode($json, true); 
+$filename = "../frontend/tpl/next/api/page/nav.json";
+$handle = fopen($filename, "r");
+$json = fread($handle, filesize ($filename));
+fclose($handle);
+$page = json_decode($json, true);
 $this->assign("p", $page);
 <%/php%>
 
@@ -66,8 +66,8 @@ $this->assign("p", $page);
             <form action="/search/" id="search-form" role="search" data-o-toggler-target>
                 <input id="search-term" type="search" name="keys" class="search-input" placeholder="输入年月日‘xxxx-xx-xx’可搜索该日存档" />
                 <input id="type_news" type="hidden" value="type_news" name="ftsearchType" checked />
-                <button class="search-button" tabindex="1"><span>搜索</span></button>   
-            </form> 
+                <button class="search-button" tabindex="1"><span>搜索</span></button>
+            </form>
           </div>
 
           <div class="o-header__masthead-mobile">
@@ -75,14 +75,14 @@ $this->assign("p", $page);
           </div>
 
           <nav class="o-nav__container" role="navigation">
-            
+
             <button class="nav-toggle" data-o-nav-togglable><span>Menu</span></button>
 
             <ol class="o-nav__meganav">
 
               <li class="nav-section mobile">
                 <button class="nav-section-head mobile" aria-selected="true">切换版本</button>
-                                          
+
                 <ol class="nav-items">
                   <li class="nav-item">
                     <a class="nav-link" href="http://big5.ftchinese.com/">繁体中文版</a>
@@ -120,13 +120,10 @@ $this->assign("p", $page);
                               <a class="nav-link" href="<%$level_2.link%>"><%$level_2.name %></a>
                               <%if $level_2.code == "special"%>
                                 <ol class="nav-sub-items">
-                                <li><a href="/channel/2016highlight.html">2016年度好文推荐</a></li>
-                                <li><a href="/tag/存储世界">存储世界</a></li>
-                                <li><a href="/tag/智慧城市">智慧城市</a></li>
-                                <li><a href="/tag/投资英国">投资英国</a></li>
-                                <li><a href="/tag/全球商业的未来">全球商业的未来</a></li>
-                                <li><a href="/tag/2016%E8%BE%BE%E6%B2%83%E6%96%AF">2016达沃斯</a></li>
+                                <li><a href="/tag/智慧城市群">智慧城市群</a></li>
+                                <li><a href="/m/marketing/creditease.html">未来生活 未来金融</a></li>
                                 <li><a href="/tag/与FT共进午餐">与FT共进午餐</a></li>
+                                <li><a href="/channel/2016highlight.html">2016年度好文推荐</a></li>
                                 </ol>
                               <%elseif $level_2.haschildren%>
                                 <ol class="nav-sub-items">
@@ -180,7 +177,7 @@ $this->assign("p", $page);
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="http://user.ftchinese.com/register">免费注册</a>
-                  </li>    
+                  </li>
                 </ul>
               </li>
               <li class="nav-section mobile logout">
@@ -195,7 +192,7 @@ $this->assign("p", $page);
 
                   <li class="nav-item">
                     <a class="nav-link" href="http://user.ftchinese.com/logout">登出</a>
-                  </li>                   
+                  </li>
                 </ul>
               </li>
             </ol>
@@ -234,8 +231,8 @@ $this->assign("p", $page);
 
         </div><!-- o-nav__inner -->
       </div><!-- o-nav__outer -->
-      <div class="o-nav__meganav-placeholder"></div>   
-    </div><!-- o-nav -->  
+      <div class="o-nav__meganav-placeholder"></div>
+    </div><!-- o-nav -->
   </div><!-- o-nav__placeholder -->
 
 
@@ -244,7 +241,7 @@ $this->assign("p", $page);
       <%if ($topnav!='home') || !empty($subnav)%>
           <ul class="site-map__items">
             <li><a href="<%$current_link%>"><%$current_page%></a></li>
-          <%if !empty($subnav)%>  
+          <%if !empty($subnav)%>
             <li><a href="<%$current_sub_link%>"><%$current_sub_page%></a></li>
           <%/if%>
           </ul>
@@ -265,8 +262,8 @@ $this->assign("p", $page);
   <form action="/search/" id="search-form" role="search" data-o-toggler-target>
   <input id="search-term" type="search" name="keys" class="search-input" placeholder="搜索FT中文网" />
   <input id="type_news" type="hidden" value="type_news" name="ftsearchType" checked />
-  <button class="search-button" tabindex="1"><span>搜索</span></button>   
-  </form> 
+  <button class="search-button" tabindex="1"><span>搜索</span></button>
+  </form>
   </div>
   <div class="o-header__masthead-mobile">
   <a href="/" title="前往FT中文网首页"><span>FT中文网</span></a>
@@ -397,7 +394,7 @@ $this->assign("p", $page);
   </li>
   <li class="nav-item">
   <a class="nav-link" href="http://user.ftchinese.com/register">免费注册</a>
-  </li>    
+  </li>
   </ul>
   </li>
   <li class="nav-section mobile logout">
@@ -410,7 +407,7 @@ $this->assign("p", $page);
   </li>
   <li class="nav-item">
   <a class="nav-link" href="http://user.ftchinese.com/logout">登出</a>
-  </li>                   
+  </li>
   </ul>
   </li>
   </ol>
@@ -447,8 +444,8 @@ $this->assign("p", $page);
   </ul>
   </div><!-- o-nav__inner -->
   </div><!-- o-nav__outer -->
-  <div class="o-nav__meganav-placeholder"></div>   
-  </div><!-- o-nav -->  
+  <div class="o-nav__meganav-placeholder"></div>
+  </div><!-- o-nav -->
   </div><!-- o-nav__placeholder -->
   <div class="site-map">
   <div class="site-map__container">
