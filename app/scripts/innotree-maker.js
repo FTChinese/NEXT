@@ -108,6 +108,8 @@
         'stories': 'api/page/stories.json',//右边是加载stories文件，修改任何一个格式都不正确，在loadStories（）中加载
         'innotree': 'api/page/innotree.json'
  };
+
+ var ajaxType;
     //drag and drop
     var dragSrcEl = null;
     var dragIndex;
@@ -165,27 +167,16 @@
     function renderAPI(id, headline, timeStamp, timeStampType, longName, shortName,  type,time, money, round,firstIndustry,secondIndustry,thirdIndustry,investors) {
         var dataHTML = '';
    //     var oTimeStamp = timeStamp || Math.round(new Date().getTime()/1000);
-        var investorHTML = '';
+     //   var investorHTML = '';
         var hasImageClass = '';
         var imageBG = '';
-        
-     //   if (typeof investors === 'object') {
-        if (investors instanceof Array) {   //此方法判断更准确 
-            $.each(investors, function (key, value) {
-             //   investorHTML += '<div>' + value + '</div>';
-                // investorHTML += '<input class="o-input-text" value="' + value + '"> </input>';
-                investorHTML+=key+1+'.'+value+'  ';
-             //   investorHTML+=value+"";
-            });
-     //       investorHTML = '<div class="item-info-item"><div class="item-info-title">Investor: </div> <ul>' + investorHTML + '</ul></div>';
-        }
         if (timeStamp !== '') {
             timeStamp = unixtochinese(timeStamp, timeStampType);
         } else {
             timeStamp = '<div class="new-item"></div>';
         }
       
-        dataHTML = '<div draggable=true data-type="' + type + '" class="item ' + type + hasImageClass + '"' + imageBG + ' data-id="' + id + '"> <div class="remove-item"></div> <div class="timestamp">' + timeStamp + '</div>  <div class="item-title">' + headline + '</div> <div class="item-info"><div class="item-links"> </div> <div class="item-info-item"><input title="headline" placeholder="headline" name="headline" class="o-input-text" value="' + headline + '"></div>  <div class="item-info-item"><div class="item-info-title">Company profile: </div><textarea title="company profile" placeholder="" name="companyProfile" class="o-input-text"></textarea></div>  <div class="item-info-item"><div class="item-info-title">Investment share: </div><textarea title="investment share" placeholder="" name="investmentshare" class="o-input-text"></textarea> </div>  <div class="item-info-item"><span class="item-info-title item-info-titleFixed">Reliability: </span> <select id="reliability" name="reliability" class="o-input-text  item-info-share" ><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div>  <div class="item-info-item"><span class="item-info-title item-info-titleFixed">Long Name: </span><input title="image" placeholder="longName " name="longName" readonly="readonly"class="o-input-text item-info-textFixed" value="' + longName + '" ></div>  <div class="item-info-item"><span class="item-info-title item-info-titleFixed">Short Name: </span><input title="short lead" placeholder="short lead" name="shortName" readonly="readonly"class="o-input-text item-info-textFixed" value="' + shortName + '"></div>  <div class="item-info-item"><span class="item-info-title item-info-titleFixed">Time: </span><input title="time" placeholder="time" name="time" readonly="readonly"class="o-input-text item-info-textFixed" value="' + time + '"></div>  <div class="item-info-item"><span class="item-info-title item-info-titleFixed">Money: </span><input title="Money" placeholder="Money" name="Money" readonly="readonly"class="o-input-text item-info-textFixed" value="' + money + '"></div>   <div class="item-info-item"><span class="item-info-title item-info-titleFixed">Round: </span><input title="round" placeholder="round" name="round" readonly="readonly"class="o-input-text item-info-textFixed" value="' + round + '"></div>   <div class="item-info-item"><span class="item-info-title item-info-titleFixed">First Industry: </span><input title="image" placeholder="firstIndustry" name="firstIndustry" readonly="readonly"class="o-input-text item-info-textFixed" value="' + firstIndustry + '" ></div>   <div class="item-info-item"><span class="item-info-title item-info-titleFixed">Second Industry: </span><input title="image" placeholder="secondIndustry" name="secondIndustry" readonly="readonly"class="o-input-text item-info-textFixed" value="' + secondIndustry + '" ></div>  <div class="item-info-item"><span class="item-info-title item-info-titleFixed">Third Industry: </span><input title="image" placeholder="thirdIndustry" name="thirdIndustry"  readonly="readonly"class="o-input-text item-info-textFixed" value="' + thirdIndustry+ '" ></div>   <div class="item-info-item"><span class="item-info-title item-info-titleFixed">Investor: </span><input title="investor" placeholder="investor" name="investor"  readonly="readonly"class="o-input-text item-info-textFixed" value="' + investorHTML+ '" ></div>     </div></div>';
+        dataHTML = '<div draggable=true data-type="' + type + '" class="item ' + type + hasImageClass + '"' + imageBG + ' data-id="' + id + '"> <div class="remove-item"></div> <div class="timestamp">' + timeStamp + '</div>  <div class="item-title">' + headline + '</div> <div class="item-info"><div class="item-links"> </div> <div class="item-info-item"><input title="headline" placeholder="headline" name="headline" class="o-input-text" value="' + headline + '"></div>  <div class="item-info-item"><div class="item-info-title">Company profile: </div><textarea title="company profile" placeholder="" name="companyProfile" class="o-input-text"></textarea></div>  <div class="item-info-item"><span class="item-info-title item-info-titleFixed">Reliability: </span> <select id="reliability" name="reliability" class="o-input-text  item-info-share" ><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div>  <div class="item-info-item"><div class="item-info-title">Investor: </div><textarea title="investor" placeholder="" name="investor" disabled="disabled" class="o-input-text" id="item-noedit-textarea">' + investors + '</textarea> </div>    <div class="item-info-item"><span class="item-info-title item-info-titleFixed">Long Name: </span><input title="image" placeholder="longName " name="longName" readonly="readonly"class="o-input-text item-info-textFixed" value="' + longName + '" ></div>  <div class="item-info-item"><span class="item-info-title item-info-titleFixed">Short Name: </span><input title="short lead" placeholder="short lead" name="shortName" readonly="readonly"class="o-input-text item-info-textFixed" value="' + shortName + '"></div>  <div class="item-info-item"><span class="item-info-title item-info-titleFixed">Time: </span><input title="time" placeholder="time" name="time" readonly="readonly"class="o-input-text item-info-textFixed" value="' + time + '"></div>  <div class="item-info-item"><span class="item-info-title item-info-titleFixed">Money: </span><input title="Money" placeholder="Money" name="Money" readonly="readonly"class="o-input-text item-info-textFixed" value="' + money + '"></div>   <div class="item-info-item"><span class="item-info-title item-info-titleFixed">Round: </span><input title="round" placeholder="round" name="round" readonly="readonly"class="o-input-text item-info-textFixed" value="' + round + '"></div>   <div class="item-info-item"><span class="item-info-title item-info-titleFixed">First Industry: </span><input title="image" placeholder="firstIndustry" name="firstIndustry" readonly="readonly"class="o-input-text item-info-textFixed" value="' + firstIndustry + '" ></div>   <div class="item-info-item"><span class="item-info-title item-info-titleFixed">Second Industry: </span><input title="image" placeholder="secondIndustry" name="secondIndustry" readonly="readonly"class="o-input-text item-info-textFixed" value="' + secondIndustry + '" ></div>  <div class="item-info-item"><span class="item-info-title item-info-titleFixed">Third Industry: </span><input title="image" placeholder="thirdIndustry" name="thirdIndustry"  readonly="readonly"class="o-input-text item-info-textFixed" value="' + thirdIndustry+ '" ></div>   </div></div>';
 
         return dataHTML;
     }
@@ -437,7 +428,7 @@
         var checkedCateg=$('input:radio[name="category"]:checked').val();
         $.ajax({
            // type: 'get',
-            type: 'post',
+            type: ajaxType,
             url: gApiUrls.innotree,
             data:{
                 startTime:start,
@@ -1188,6 +1179,9 @@
 
     if (window.location.hostname === 'localhost' || window.location.hostname.indexOf('192.168') === 0 || window.location.hostname.indexOf('10.113') === 0 || window.location.hostname.indexOf('127.0') === 0) {
         gApiUrls = gApiUrlsLocal;
+        ajaxType='get';
+    }else{
+        ajaxType='post';
     }
 
     $('#keywords-input').val(todaydate);
