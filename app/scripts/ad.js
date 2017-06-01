@@ -253,12 +253,13 @@ function initAds() {
     }
   }
 }
-var gaLoaded = false;
+window.gaLoaded = false;
 var eventsToSend = [];
 function sendEvent(ec, ea, el, ei) {
-  if (gaLoaded === true) {
+  console.log (ec);
+  try {
     ga('send','event',ec, ea, el, ei);
-  } else {
+  } catch (ignore) {
     // push this to an array for GA to send after loading JS
     eventsToSend.push({
       'ec': ec,
@@ -275,7 +276,7 @@ function clearEvents() {
     ga('send', 'event', eventsToSend[i].ec, eventsToSend[i].ea, eventsToSend[i].el, eventsToSend[i].ei);
   }
   eventsToSend = [];
-  gaLoaded = true;
+  window.gaLoaded = true;
 }
 
 function writeAd(adType, returnSrc) {
