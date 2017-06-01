@@ -614,7 +614,7 @@
 	<%assign var=breadcrum value="<a target=\"_blank\" href=\"/tag/`$story.tag[0]`\">`$story.tag[0]`</a><button class=\"myft-follow plus\" data-tag=\"`$story.tag[0]`\" data-type=\"tag\">关注</button>"%>
 <%/if%>
 
-<%*<!--override tag for sponsored special reports start-->*%>
+<%*<!--Important: override tag for sponsored special reports start-->*%>
 <%assign var="keys" value=""%>
 <%foreach from=$story.tag item=sc%>
 	<%assign var="keys" value="`$keys`,`$sc`"%>
@@ -631,7 +631,7 @@
 	<%assign var="hideMPU3" value="yes"%>
 <%/if%>
 
-
+<%assign var="isCurrentAdchFinal" value="yes"%>
 <%if preg_match("/极致人生/is",$keys) && date("Ymd",$smarty.now) >= 20140525 && date("Ymd",$smarty.now) <= 20160625%>
 	<%assign var=breadcrum value="<a href=\"/tag/极致人生\">极致人生</a><button class=\"myft-follow plus\" data-tag=\"极致人生\" data-type=\"tag\">关注</button>"%>
 	<%assign var="PageTitle" value="<a href=\"/tag/极致人生\">极致人生</a>"%>
@@ -645,12 +645,12 @@
 	<%assign var="hideMPU3" value="no"%>
 	<%assign var="hide590" value="no"%>
 	<%assign var="sponsorMobile" value="yes"%>
-<%elseif preg_match("/智慧城市/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20151231 && date("Ymd",$smarty.now) <= 20161231%>
-	<%assign var=breadcrum value="<a href=\"/tag/智慧城市\">智慧城市</a>"%>
+<%elseif preg_match("/智慧城市群/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20151231 && date("Ymd",$smarty.now) <= 20170709%>
+	<%assign var=breadcrum value="<a href=\"/tag/智慧城市群\">智慧城市群</a>"%>
 	<%assign var="adchannelID" value="2056"%>
-	<%assign var="hideMPU1" value="yes"%>
-	<%assign var="hideMPU2" value="yes"%>
-	<%assign var="hideMPU3" value="yes"%>
+	<%assign var="hideMPU1" value="no"%>
+	<%assign var="hideMPU2" value="no"%>
+	<%assign var="hideMPU3" value="no"%>
 	<%assign var="hide590" value="no"%>
 	<%assign var="hideBanner" value="no"%>
 	<%assign var="sponsorMobile" value="yes"%>
@@ -727,8 +727,10 @@
 	<%assign var="topnav" value="english"%>
 	<%assign var="subnav" value="radio"%>
 	<%assign var=breadcrum value="<a href=\"/channel/radio.html\">FT英语电台</a><button class=\"myft-follow plus\" data-tag=\"英语电台\" data-type=\"tag\">关注</button>"%>
+<%else%>
+	<%assign var="isCurrentAdchFinal" value="no"%>
 <%/if%>
-<%*<!--override tag for sponsored special reports end-->*%>
+<%*<!--Important: override tag for sponsored special reports end-->*%>
 
 <%assign var="storyContent" value=$story_content%>
 
@@ -1181,7 +1183,6 @@
 		<%include file="next/partials/QrCode.html"%>
 		<%include file="next/partials/story-font.html"%>
 		<%include file="next/partials/story-action.html"%>
-
 	<%else%>
 		<%include file="include/story/story_print.html"%>
 	<%/if%>

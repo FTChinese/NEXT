@@ -23,7 +23,7 @@ var adPositions = {
   'phonehomempuBonus': ['0003', '0004', '0005', '0006', '0007', '0008','9901','9902','9903','9904','9905','9906','9907','9908','9909','9910','9911','9912','9913','9914','9915','9916','9917','9918'],
   'phonetagmpu': ['0119','0004','0120']
 };
-
+var gIsLandingPage = false;
 
 /* jshint ignore:start */
 function trackAd(adAction, adLabel, reachabilityStatus) {
@@ -256,7 +256,6 @@ function initAds() {
 window.gaLoaded = false;
 var eventsToSend = [];
 function sendEvent(ec, ea, el, ei) {
-  console.log (ec);
   try {
     ga('send','event',ec, ea, el, ei);
   } catch (ignore) {
@@ -319,6 +318,21 @@ function writeAd(adType, returnSrc) {
   if (typeof(window.FTadchannelID)!=='undefined' && window.FTadchannelID && !fromURL) {
     adch = window.FTadchannelID;
     fromURL = true;
+  }
+  // MARK: if it's a landing page, not a touch device and not a sponsored page, change the adch to home (1000)
+  try {
+    if (gIsLandingPage === true && TouchDevice === false && fromURL === false && window.gIsCurrentAdchFinal === false && adch !== '1000') {
+      //ga('send','event','Landing Page Ad Impression', adch , adType, {'nonInteraction':1});
+      //console.log ('Current adch ('+ adch +') can be changed to 1000');
+      adch = '1000';
+      if (adType === 'tagbanner') {
+        adType = 'banner';
+      }
+    } else {
+      //console.log ('Current adch ('+ adch +') is final');
+    }
+  } catch (ignore) {
+
   }
   //2022(iPhone) + 2023(Android) + 2056(Smart City)
   if ((adch === '2022' || adch === '2023' || fromURL) && TouchDevice) {
@@ -507,10 +521,19 @@ function checkB() {
   }, 100);
 }
 
-
+function checkLandingPage() {
+  var hostName = window.location.host || '';
+  var referrerPage = document.referrer || '';
+  if (referrerPage.indexOf(hostName) < 0) {
+    gIsLandingPage = true;
+  } else {
+    gIsLandingPage = false;
+  }
+}
 
 
 initAds();
 if (isWeChat === true) {
   document.documentElement.className += ' is-wechat';
 }
+checkLandingPage();

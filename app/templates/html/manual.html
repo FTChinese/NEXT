@@ -3,8 +3,10 @@
 <%/if%>
 <%assign var="p" value=$nextmodel->getPublishJson($pageId)|json_decode:true%>
 <%assign var="adchannelID" value="`$p.meta.adid`"%>
+<%assign var="isCurrentAdchFinal" value="yes"%>
 <%if !isset($adchannelID)||$adchannelID==""%>
     <%assign var="adchannelID" value="1100"%>
+    <%assign var="isCurrentAdchFinal" value="no"%>
 <%/if%>
 
 <%assign var="itemIds" value="'0000'"%>
