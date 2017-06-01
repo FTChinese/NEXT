@@ -142,3 +142,12 @@ var _hmt = _hmt || [];
     var gDebugAd = '<span style="display:block;width:100%;position:relative;height:0;overflow:visible;"><div style="position:absolute;top:0;left:0;font-size:14px;color:#777;">adcode_for_debug</div></span>';
 </script>
 <%/if%>
+
+<script>
+<%if !isset($isCurrentAdchFinal) || $isCurrentAdchFinal == "no" || $isCurrentAdchFinal == "" %>
+    var gIsCurrentAdchFinal = false;
+<%else%>
+    var gIsCurrentAdchFinal = true;
+<%/if%>
+</script>
+<!--isCurrentAdchFinal: <%$isCurrentAdchFinal%>-->
