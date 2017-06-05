@@ -290,7 +290,7 @@
 
 					<%*<!--If editor ticked prefer sponsor image, get image and link from database -->*%>
 					<%if $item.preferSponsorImage == "yes" && $itemMainTag != ""%>
-						<%assign var="tagInteractive" value=$interactivemodel->get_interactive_by_field_search("find_in_set('特别报导',tag) and (cshortleadbody = '`$itemMainTag`' or cheadline = '`$itemMainTag`')",0,1,999999999,10800)%>
+						<%assign var="tagInteractive" value=$interactivemodel->get_interactive_by_field_search("find_in_set('特别报导',tag) and (cshortleadbody = '`$itemMainTag`' or cheadline = '`$itemMainTag`' or find_in_set('`$itemMainTag`',tag))",0,1,999999999,10800)%>
 						<%if $tagInteractive|@count >0%>
 							<%assign var="tagImage" value=$tagInteractive[0].story_pic.cover%>
 							<%if preg_match("/\//is",$tagInteractive[0].cshortleadbody)%>
