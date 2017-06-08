@@ -290,7 +290,7 @@
 
 					<%*<!--If editor ticked prefer sponsor image, get image and link from database -->*%>
 					<%if $item.preferSponsorImage == "yes" && $itemMainTag != ""%>
-						<%assign var="tagInteractive" value=$interactivemodel->get_interactive_by_field_search("find_in_set('特别报导',tag) and (cshortleadbody = '`$itemMainTag`' or cheadline = '`$itemMainTag`')",0,1,999999999,10800)%>
+						<%assign var="tagInteractive" value=$interactivemodel->get_interactive_by_field_search("find_in_set('特别报导',tag) and (cshortleadbody = '`$itemMainTag`' or cheadline = '`$itemMainTag`' or find_in_set('`$itemMainTag`',tag))",0,1,999999999,10800)%>
 						<%if $tagInteractive|@count >0%>
 							<%assign var="tagImage" value=$tagInteractive[0].story_pic.cover%>
 							<%if preg_match("/\//is",$tagInteractive[0].cshortleadbody)%>
@@ -1314,6 +1314,12 @@
 							<div class="item-container <%$itemClass%> <%$hasImage%>"><div class="item-inner">
 								<%if $itemType === "widget"%>
 									<%include file="widgets/`$itemHeadline`"%>
+								<%elseif $list.sideOption == "imageAndLead"%>
+									<%if $itemImage != "" && $hasImage === "has-image"%><a class="image" target="_blank"<%$itemLink%>><figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure></a><%/if%>
+									<%if $itemHeadline != ""%>
+										<h2 class="item-headline"><%$itemTag%><a target="_blank"<%$itemLink%>><%$itemHeadline%></a></h2>
+									<%/if%>	
+									<div class="item-lead item-description"><%$itemLead|nl2br%></div>
 								<%elseif $list.sideOption == "barcode"%>
 									<style>
 									.is-barcode figure {
@@ -1324,13 +1330,13 @@
 									}
 									</style>
 									<%if $itemImage != "" && $hasImage === "has-image"%><div class="image is-barcode" target="_blank"<%$itemLink%>><figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure></div><%/if%>
-								<%elseif $list.sideOption != "leadOnly"%>
+								<%elseif $list.sideOption == "leadOnly"%>
+									<div class="item-lead item-description"><%$itemLead|nl2br%></div>
+								<%else%>
 									<%if $itemImage != "" && $hasImage === "has-image"%><a class="image" target="_blank"<%$itemLink%>><figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure></a><%/if%>
 									<%if $itemHeadline != ""%>
 										<h2 class="item-headline"><%$itemTag%><a target="_blank"<%$itemLink%>><%$itemHeadline%></a></h2>
-									<%/if%>
-								<%else%>
-									<div class="item-lead item-description"><%$itemLead|nl2br%></div>
+									<%/if%>									
 								<%/if%>
 							</div></div>
 							<%assign var="i" value=$i+1%>

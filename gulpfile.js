@@ -38,11 +38,11 @@ const sass = require('node-sass');
 
 const origamiModules = [
   {
-    source: 'http://origami-build.ft.com/v2/bundles/js?modules=o-gallery@^1.7.6',
+    source: 'http://www.ft.com/__origami/service/build/v2/bundles/js?modules=o-gallery@^1.7.6',
     dest: './app/origami/o-gallery.js'
   },
   {
-    source: 'http://origami-build.ft.com/v2/bundles/css?modules=o-gallery@^1.7.6',
+    source: 'http://www.ft.com/__origami/service/build/v2/bundles/css?modules=o-gallery@^1.7.6',
     dest: './app/origami/o-gallery.css'
   }
 ];

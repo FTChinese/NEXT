@@ -120,7 +120,10 @@ $this->assign("p", $page);
                               <a class="nav-link" href="<%$level_2.link%>"><%$level_2.name %></a>
                               <%if $level_2.code == "special"%>
                                 <ol class="nav-sub-items">
-                                <li><a href="/tag/智慧城市群">智慧城市群</a></li>
+                                <%if date("Ymd",$smarty.now) >= 20170602 && date("Ymd",$smarty.now) <= 20170606%>
+                                <li><a href="m/marketing/maotai.html">品味中国 飘香世界</a></li>
+                                <%/if%>
+                                <li><a href="/tag/智慧城市群">西门子·智慧城市群</a></li>
                                 <li><a href="/m/marketing/creditease.html">未来生活 未来金融</a></li>
                                 <li><a href="/tag/与FT共进午餐">与FT共进午餐</a></li>
                                 <li><a href="/channel/2016highlight.html">2016年度好文推荐</a></li>
@@ -295,7 +298,10 @@ $this->assign("p", $page);
   <li class="nav-item"  aria-haspopup="true" data-channel="special">
   <a class="nav-link" href="/channel/special.html">特别报导</a>
   <ol class="nav-sub-items">
-  <li><a href="/tag/智慧城市群">智慧城市群</a></li>
+  <%if date("Ymd",$smarty.now) >= 20170602 && date("Ymd",$smarty.now) <= 20170606%>
+  <li><a href="m/marketing/maotai.html">品味中国 飘香世界</a></li>
+  <%/if%>
+  <li><a href="/tag/智慧城市群">西门子·智慧城市群</a></li>
   <li><a href="/m/marketing/creditease.html">未来生活 未来金融</a></li>
   <li><a href="/tag/与FT共进午餐">与FT共进午餐</a></li>
   <li><a href="/channel/2016highlight.html">2016年度好文推荐</a></li>
