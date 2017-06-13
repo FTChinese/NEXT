@@ -738,6 +738,18 @@
 
 <%assign var="storyId" value=$story.id|default:$id%>
 
+
+
+<%if preg_match("/活动页面/is",$keys)%>
+	<%if preg_match("/\/interactive\/[0-9]+\/en/is",$smarty.server.REQUEST_URI)%>
+		<%assign var="page_action" value="en"%>
+	<%elseif preg_match("/\/interactive\/[0-9]+\/ce/is",$smarty.server.REQUEST_URI)%>
+		<%assign var="page_action" value="ce"%>
+	<%else%>
+	<%/if%>
+<%/if%>
+
+
 <%if $page_action=="en"%>
 	<%assign var="storyHeadline" value=$story.eheadline|default:$eheadline|default:$cheadline|default:$story.cheadline%>
 	<%if $storyHeadline == ""%>
@@ -930,6 +942,8 @@
 	<%assign var="storyAuthor" value="`$cbyline_description` `$cauthor`"%>
 	<%if $page_action == "en"%>
 		<%assign var="story_content" value=$ebody%>
+		<%assign var="story_content" value=$story_content|regex_replace:"/[\r\t\n]+/":"</p><p>"%>
+		<%assign var="story_content" value="<p>`$story_content`</p>"%>
 		<%assign var="storyHeadline" value=$eheadline|default:$cheadline%>
 	<%else%>
 		<%assign var="story_content" value=$cbody|regex_replace:"/[\r\t\n]/":"</p><p>"%>
