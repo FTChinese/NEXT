@@ -718,9 +718,10 @@
         <%assign var="FTadchannelID" value="2056"%>
 		<%assign var="hideMPU1" value="yes"%>
 		<%assign var="hideMPU2" value="yes"%>
-	<%/if%>
-	<%if $eheadline != ""%>
+		<%assign var="sponsorMobile" value="yes"%>
+	<%elseif $eheadline != ""%>
 		<%assign var="FTadchannelID" value=$eheadline%>
+		<%assign var="adchannelID" value=$eheadline%>
 		<%assign var="sponsorMobile" value="yes"%>
 	<%/if%>
 	<%assign var=breadcrum value="<a>特别策划</a>"%>
