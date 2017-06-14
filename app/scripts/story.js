@@ -20,8 +20,6 @@ var thirdPartFeedbackUrl = '//uluai.com.cn/rcmd/rec/click?siteId=5002&itemId=' +
 
 var thirdPartData = [];
 var userId;
-var recommendData = [];
-var relativesData = [];
 
 
 /*决定recommends的版本 */
@@ -37,18 +35,7 @@ recommendVersion = '-002';
 
 
 /*决定文章内嵌文章的版本：是来自recommends还是relatives*/
-/*
-var recommendVersionInstory = GetCookie('ab002') || '';
-if (recommendVersionInstory === '') {
-    recommendVersionInstory = (Math.random()<0.5)?'A':'B';
-    SetCookie('ab002',recommendVersionInstory,'','/');
-}
-// MARK: 根据Cookie的A/B版本来决定变量的值
-recommendVersionInstory = (recommendVersionInstory === 'A')?'from_recommends':'from_relatives';
-*/
-// MARK: 测试结束，全部使用'from_recommends'版本
-var recommendVersionInstory = 'from_recommends';
-
+// MARK: 测试结束，全部使用'from_recommends'版本,已删除相关多余代码，含对recommendVersionInstory两个版本进行测试的代码见本地backup/storyInNext/story1.js
 
 /* Switch to local mode or remote mode.*/
 if (/127\.0|localhost|192\.168/.test(window.location.href)) {
@@ -187,6 +174,7 @@ function getRec(data) {
     /* The jsonP callback function for thirdPartAPIUrl(即用jsonp请求优路科技的接口后的回调函数)
     * @param data: the response data of the thirdPartAPIUrl(即jsonp请求优路科技接口后的xhr.responseText) 
     */
+    console.log("yulu"+JSON.stringify(data));
     if(typeof data === 'object' && data.length > 0) {
         var ids = '';
         var split = '';
@@ -225,7 +213,7 @@ function getRec(data) {
 }
 
 
-function getThirdPartRecommendSuccess(data) {//
+function getThirdPartRecommendSuccess(data) {
     /* 当用优路科技接口返回的推荐文章id 来请求我们的接口/eaclient/apijson.php获取推荐文章的具体信息成功后，调用该函数，即该函数是该Ajax请求的请求成功回调函数；
        在该函数中得到了存储推荐文章数据的全局变量recommendData；
        在该函数中发起了向/jsapi/related/storyId接口获取相关文章的Ajax请求。
@@ -236,11 +224,8 @@ function getThirdPartRecommendSuccess(data) {//
     data = JSON.parse(data);
     if (data.body.oelement.errorcode === '0') {
         if (data.body.odatalist && data.body.odatalist.length > 0) {
-            recommendData = data.body.odatalist;//填充全局变量recommendData
-            ftc_api.method = ajaxMethod_relativesData;
-            ftc_api.server_url = ajaxUrl_relativesData;
-            ftc_api.call('',getRelativesSuccess,getRelativesFailed);
-            // MARK:jump to  getRelativesSuccess
+            var recommendData = data.body.odatalist;
+            recommendPayLoad(recommendData);
             ga('send','event','Recommend Story API', 'Success' + recommendVersion, '', {'nonInteraction':1});
         } else {
             ga('send','event','Recommend Story API', 'No Data2' + recommendVersion, '', {'nonInteraction':1});
@@ -259,130 +244,14 @@ function getThirdPartRecommendFailed(){
 }
 
 
-function getRelativesSuccess(data) {
-    /* 当请求我们的接口/jsapi/related/001068131获取相关文章的具体信息成功后，调用该函数；
-       在该函数中得到了存储相关文章数据的全局变量relativesData；
-       在该函数中调用了数据渲染函数recommendAndRelativesPayLoad。
-     * @param data:
-          线上：请求我们的接口/jsapi/related/001068131获取相关文章后的xhr.responseText；
-          本地：即api/page/relatives.json
-    */
-
-    data = JSON.parse(data);
-    if(data && data.length > 0) {
-        for(var i=0,len=data.length;i<len;i++) {
-            if(data[i] && data[i].story_pic) {
-                var dataItem = {};
-                dataItem.cheadline = data[i].cheadline;
-                dataItem.piclink = data[i].story_pic.smallbutton||data[i].story_pic.other||'';
-                dataItem.storyid = data[i].id;
-                dataItem.lead = data[i].clongleadbody || data[i].cshortleadbody ||data[i].lead || '';
-                dataItem.tag = data[i].tag||'';
-                if(dataItem.cheadline && dataItem.piclink && dataItem.storyid) {
-                    relativesData.push(dataItem);//填充全局变量relativesData
-                }
-            }
-
-        }
-    } else {
-         console.log('The length of the data got from  interface "/jsapi/related/" is 0');
-    }
-   
-    // MARK:如果没抓到正确的relativesdata数据，那么还是要保证能照常执行recommendAndRelativesPayLoad，只不过要设置recommendVersionInstory 为'from_recommends'
-    if(relativesData.length === 0 ) {
-        recommendVersionInstory = 'from_recommends';
-    }
-    /*
-    console.log(recommendVersionInstory);
-    console.log(recommendData);
-    console.log(relativesData);
-    */
-    recommendAndRelativesPayLoad(recommendData,relativesData);
-  
-}
-
-function getRelativesFailed(){
-    /* 当请求我们的接口/jsapi/related/001068131获取相关文章的具体信息失败后，调用该函数
-    */
-    console.log('getRelativesFailed!');
-}
-
-/*
-function recommendationPayload(datalist){
-    console.log ('data list for recommend pay load is: ');
-    console.log (datalist);
-
-    var maxItem = 8;
-    var itemCount = 0;
-    var itemHTML = '';
-    var eventAction = 'Click' + recommendVersion;
-    var recommendDiv = document.getElementById('in-story-recommend');
-
-
-    for (var i=0; i<datalist.length; i++) {
-        var itemClass = 'XL3 L3 M6 S6 P12';
-        var itemHeadline = datalist[i].cheadline;
-        var itemImage = datalist[i].piclink;
-        var itemId = datalist[i].storyid;
-        var itemT = datalist[i].t;
-        var itemLead = datalist[i].lead || datalist[i].clongleadbody || datalist[i].cshortleadbody || '';
-        var itemTag = datalist[i].tag || '为您推荐';
-        itemTag = itemTag.replace(/[,，].*$/g,'');
-        if(itemT === undefined || itemT === null) {itemT = '';}
-        var itemTop = '';
-        var itemTopClass = 'PT';
-        if (itemCount % 4 === 0) {
-            itemTopClass += ' XLT LT';
-        }
-        if (itemCount % 2 === 0) {
-            itemTopClass += ' MT ST';
-        }
-        if (itemTopClass !== '' && itemCount >0) {
-            itemTop = '<div class="' + itemTopClass + '"></div>';
-        }
-
-        var link = '/story/'+itemId+'?tcode=smartrecommend&ulu-rcmd=' + thirdPartData[itemId];
-        var oneItem = itemTop + '<div class="item-container ' + itemClass + ' has-image no-lead"><div class="item-inner"><h2 class="item-headline"><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el="'+itemT+'/story/'+itemId+'" target="_blank" href="'+link+'">'+itemHeadline+'</a></h2><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el="'+itemT+'/story/'+itemId+'" class="image" target="_blank" href="'+link+'"><figure class="loading" data-url="'+itemImage+'"></figure></a><div class="item-bottom"></div></div></div>';
-        var oneImage = '';
-
-
-
-        // insert the first item into the story body
-        if (i === 0 && recommendDiv) {
-            link += '&position=instory';
-            oneItem = '<a data-ec="In Story Recommend" data-ea="'+eventAction+'" data-el="'+itemT+'/story/'+itemId+'" target="_blank" href="'+link+'" class="headline">'+itemHeadline+'</a><div class="lead">'+itemLead+'</div>';
-            oneImage = '<a data-ec="In Story Recommend" data-ea="'+eventAction+'" data-el="'+itemT+'/story/'+itemId+'" class="recommend-image" target="_blank" href="'+link+'"><figure class="loading" data-url="'+itemImage+'"></figure></a>';
-            recommendDiv.innerHTML = '<div class="recommend-header">' + itemTag + '</div><div class="recommend-content">' + oneItem + '</div>' + oneImage;
-            recommendDiv.className = 'leftPic in-story-recommend';
-        } else if (itemCount<maxItem && itemImage && itemImage !== '') {
-            itemHTML += oneItem;
-            itemCount += 1;
-        }
-    }
-
-    recommendInner.innerHTML = itemHTML;
-    bindFeedbackEvent();
-    document.getElementById('story-recommend-container').style.display = 'block';
-    loadImages();
-    try {
-        stickyBottomPrepare();
-    } catch(ignore) {
-
-    }
-    recommendLoaded = true;
-}
-*/
-
-
-function recommendAndRelativesPayLoad(recommenddata,relativesdata){
-    /* 成功获取到推荐文章数据和相关文章数据后，渲染story文中的推荐文章div及文后的猜你喜欢div
-     * @param recommenddata:即获取的推荐文章数据，调用时实参为全局变量recommendData
-     * @param relativesdata:即获取的相关文章数据，调用时实参为全局变量relativesData
+function recommendPayLoad(recommenddata){
+    /* 成功获取到推荐文章数据后，渲染story文中的推荐文章div及文后的猜你喜欢div
+     * @param recommenddata:即获取的推荐文章数据
     */
     var maxItem = 8;//规定下方推荐文章区域显示多少个
     var itemCount = 0;//记录某item位于下方推荐文章区域的第几个
     var itemHTML = '';//下方推荐文章区域的innerHTML
-    var eventAction = 'Click' + recommendVersion + recommendVersionInstory;
+    var eventAction = 'Click' + recommendVersion;
     var recommendDiv = document.getElementById('in-story-recommend');//文章内部推荐的那篇文章预期的元素
     
     for (var i=0; i<recommenddata.length; i++) {
@@ -403,67 +272,36 @@ function recommendAndRelativesPayLoad(recommenddata,relativesdata){
             itemTop = '<div class="' + itemTopClass + '"></div>';
         }
 
+        //一块文章item的信息
+        itemHeadline = recommenddata[i].cheadline;
+        itemImage = recommenddata[i].piclink;
+        itemId = recommenddata[i].storyid;
+        itemT = recommenddata[i].t;//这个recommenddata里面没有t
+        itemLead = recommenddata[i].lead || recommenddata[i].clongleadbody ||recommenddata[i].cshortleadbody || '';
+        itemTag = recommenddata[i].tag || '为您推荐';
+        itemTag = itemTag.replace(/[,，].*$/g,'');
+        if(itemT === undefined || itemT === null) {itemT = '';}
+        link = '/story/'+itemId+'?tcode=smartrecommend&ulu-rcmd=' + thirdPartData[itemId];
+
         // insert the first item into the story body
         if (i === 0 && recommendDiv) {
             //MARK:处理第一个数据，这时必须满足recommendDiv存在
-            if( recommendVersionInstory === 'from_relatives') {
-                itemHeadline = relativesdata[0].cheadline;
-                itemImage = relativesdata[0].piclink;
-                itemId = relativesdata[0].storyid;
-                itemT = relativesdata[0].t;//为了保持和recommenddata一致，relativesdata也没有添加t
-                itemLead = relativesdata[0].lead;
-                itemTag = relativesdata[0].tag || '为您推荐';
-                itemTag = itemTag.replace(/[,，].*$/g,'');
-                if(itemT === undefined || itemT === null) {itemT = '';}
-                link = '/story/'+itemId+'?tcode=smartrecommend&';//这个link里面需要加上'tcode=smartrecommend'吗？
-            } else if( recommendVersionInstory === 'from_recommends') {
-                itemHeadline = recommenddata[0].cheadline;
-                itemImage = recommenddata[0].piclink;
-                itemId = recommenddata[0].storyid;
-                itemT = recommenddata[0].t;//这个recommenddata里面没有t
-                itemLead = recommenddata[0].lead || recommenddata[0].clongleadbody || recommenddata[0].cshortleadbody || '';
-                itemTag = recommenddata[0].tag || '为您推荐';
-                itemTag = itemTag.replace(/[,，].*$/g,'');
-                if(itemT === undefined || itemT === null) {itemT = '';}
-                link = '/story/'+itemId+'?tcode=smartrecommend&ulu-rcmd=' + thirdPartData[itemId];
-            }
             link += '&position=instory';
+
             oneItem = '<a data-ec="In Story Recommend" data-ea="'+eventAction+'" data-el="'+itemT+'/story/'+itemId+'" target="_blank" href="'+link+'" class="headline">'+itemHeadline+'</a><div class="lead">'+itemLead+'</div>';
             oneImage = '<a data-ec="In Story Recommend" data-ea="'+eventAction+'" data-el="'+itemT+'/story/'+itemId+'" class="recommend-image" target="_blank" href="'+link+'"><figure class="loading" data-url="'+itemImage+'"></figure></a>';
             recommendDiv.innerHTML = '<div class="recommend-header">' + itemTag + '</div><div class="recommend-content">' + oneItem + '</div>' + oneImage;
             recommendDiv.className = 'leftPic in-story-recommend';
            
         } else if (itemCount<maxItem ) {
-            if(recommendDiv === null) {
-                // MARK:如果recommendDiv不存在，那i===0的时候和i>0的时候都会进入此分支。此时既然没有recommendDiv，那也不用考虑from_relatives还是from_recommends了
-                itemBottomIndex = i;
-            } else if(i>0) {
-                // MARK:如果recommendDiv存在，进入此分支。此处为了保险起见加上i>0的条件，其实只有i>0才会进入else分支
-                if( recommendVersionInstory === 'from_relatives') {
-                    itemBottomIndex = i-1;
-                } else if(recommendVersionInstory === 'from_recommends') {
-                    itemBottomIndex = i;
-                }
-            }
-            
             //底部文章区
-            if(recommenddata[itemBottomIndex]) {
-                itemHeadline = recommenddata[itemBottomIndex].cheadline;
-                itemImage = recommenddata[itemBottomIndex].piclink;
-                itemId = recommenddata[itemBottomIndex].storyid;
-                itemT = recommenddata[itemBottomIndex].t;
-                itemLead = recommenddata[itemBottomIndex].lead || recommenddata[itemBottomIndex].clongleadbody || recommenddata[itemBottomIndex].cshortleadbody || '';
-                itemTag = recommenddata[itemBottomIndex].tag || '为您推荐';
-                itemTag = itemTag.replace(/[,，].*$/g,'');
-                if(itemT === undefined || itemT === null) {itemT = '';}
-                link = '/story/'+itemId+'?tcode=smartrecommend&ulu-rcmd=' + thirdPartData[itemId];
+            if(recommenddata[i]) {
                 oneItem = itemTop + '<div class="item-container ' + itemClass + ' has-image no-lead"><div class="item-inner"><h2 class="item-headline"><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el="'+itemT+'/story/'+itemId+'" target="_blank" href="'+link+'">'+itemHeadline+'</a></h2><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el="'+itemT+'/story/'+itemId+'" class="image" target="_blank" href="'+link+'"><figure class="loading" data-url="'+itemImage+'"></figure></a><div class="item-bottom"></div></div></div>';
                 if(itemImage && itemImage !== ''){
                     itemHTML += oneItem;
                     itemCount += 1;
                 }
             }
-          
         }
     }
     recommendInner.innerHTML = itemHTML;
@@ -477,34 +315,6 @@ function recommendAndRelativesPayLoad(recommenddata,relativesdata){
     }
     recommendLoaded = true;
 }
-
-
-
-// MARK:The function is for 001Version,测试已结束
-/* Get ftc recommend stories */
-/*
-function getFtcRecommendSuccess(data) {
-    data = JSON.parse(data);
-    if (data.body.oelement.errorcode === '0') {
-        if (data.body.odatalist && data.body.odatalist.length > 0) {
-            recommendationPayload(data.body.odatalist);
-            ga('send','event','Recommend Story API', 'Success' + recommendVersion, '', {'nonInteraction':1});
-        } else {
-            ga('send','event','Recommend Story API', 'No Data' + recommendVersion, '', {'nonInteraction':1});
-        }
-    } else {
-        ga('send','event','Recommend Story API', 'Parse Fail' + recommendVersion, data.body.oelement.errorcode, {'nonInteraction':1});
-    }
-}
-*/
-
-// MARK:The function is for 001Version,测试已结束
-/*
-function getFtcRecommendFailed(){
-    //console.log('Request failed!');
-    ga('send','event','Recommend Story API', 'Request Fail' + recommendVersion, '', {'nonInteraction':1});
-}
-*/
 
 
 function bindFeedbackEvent(){
