@@ -1,3 +1,4 @@
+console.log('111');
 /*Global Variables*/
 var fontOptionsEle;
 var fs;
@@ -174,7 +175,7 @@ function getRec(data) {
     /* The jsonP callback function for thirdPartAPIUrl(即用jsonp请求优路科技的接口后的回调函数)
     * @param data: the response data of the thirdPartAPIUrl(即jsonp请求优路科技接口后的xhr.responseText) 
     */
-    console.log("yulu"+JSON.stringify(data));
+    console.log('yulu'+JSON.stringify(data));
     if(typeof data === 'object' && data.length > 0) {
         var ids = '';
         var split = '';
@@ -257,8 +258,6 @@ function recommendPayLoad(recommenddata){
     for (var i=0; i<recommenddata.length; i++) {
         var itemClass = 'XL3 L3 M6 S6 P12';
         var itemHeadline,itemImage,itemId,itemT,itemLead,itemTag,link,oneItem,oneImage;
-        var itemBottomIndex = 0;
-
         var itemTop = '';
         var itemTopClass = 'PT';
       
