@@ -21,7 +21,8 @@ var thirdPartFeedbackUrl = '//uluai.com.cn/rcmd/rec/click?siteId=5002&itemId=' +
 
 var thirdPartData = [];
 var userId;
-
+var recommendData =[];//存放推荐数据
+var adData = {};//存放广告数据
 
 /*决定recommends的版本 */
 /*
@@ -176,18 +177,42 @@ function getRec(data) {
     * @param data: the response data of the thirdPartAPIUrl(即jsonp请求优路科技接口后的xhr.responseText) 
     */
     console.log('yulu'+JSON.stringify(data));
+    /*
+    * 数组data的其中一个item（文章）形如：
+    {
+        "parameter":"1_02ap_ap_0_e7bd95ee3f644f5488675bf509f6f091","id":"001070626",
+        "pic":"",
+        "title":"万科取消与深圳地铁集团的交易",
+        "url":""
+    }
+    * item(广告)形如：
+    {
+        "parameter":"1_02ap_dnidea_4_e7bd95ee3f644f5488675bf509f6f091",
+        "id":"001072960",//广告就不要检测这个字段
+        "pic":"",//广告图片链接
+        "title":"",//广告图片标题
+        "isAd":1,//表明是广告
+        "url":"" //广告url链接
+    }
+    */
+
     if(typeof data === 'object' && data.length > 0) {
         var ids = '';
         var split = '';
         for(var i = 0; i < data.length; i++){
             if(data[i]) {
-                var tmpKey = data[i].id;
-                var tmpVal = data[i].parameter;
-                if(tmpKey&&tmpVal) {
-                    ids += split + tmpKey;
-                    split = ',';
-                    thirdPartData[tmpKey] = tmpVal;
+                if(data[i].isAd===1) { //把广告数据领出来,更新全局变量adData
+                    adData = data[i];
+                } else { //把文章id拎出来，得到ids
+                    var tmpKey = data[i].id;
+                    var tmpVal = data[i].parameter;
+                    if(tmpKey&&tmpVal) {
+                        ids += split + tmpKey;
+                        split = ',';
+                        thirdPartData[tmpKey] = tmpVal;
+                    }
                 }
+               
             }
         }
         if(ids && ids.length>0) {
@@ -225,8 +250,8 @@ function getThirdPartRecommendSuccess(data) {
     data = JSON.parse(data);
     if (data.body.oelement.errorcode === '0') {
         if (data.body.odatalist && data.body.odatalist.length > 0) {
-            var recommendData = data.body.odatalist;
-            recommendPayLoad(recommendData);
+            recommendData = data.body.odatalist;
+            recommendPayLoad(recommendData, adData);
             ga('send','event','Recommend Story API', 'Success' + recommendVersion, '', {'nonInteraction':1});
         } else {
             ga('send','event','Recommend Story API', 'No Data2' + recommendVersion, '', {'nonInteraction':1});
@@ -245,22 +270,31 @@ function getThirdPartRecommendFailed(){
 }
 
 
-function recommendPayLoad(recommenddata){
+function recommendPayLoad(recommenddata, addata){
     /* 成功获取到推荐文章数据后，渲染story文中的推荐文章div及文后的猜你喜欢div
      * @param recommenddata:即获取的推荐文章数据
     */
+    console.log(recommenddata);
+    console.log(addata);
     var maxItem = 8;//规定下方推荐文章区域显示多少个
     var itemCount = 0;//记录某item位于下方推荐文章区域的第几个
     var itemHTML = '';//下方推荐文章区域的innerHTML
     var eventAction = 'Click' + recommendVersion;
     var recommendDiv = document.getElementById('in-story-recommend');//文章内部推荐的那篇文章预期的元素
-    
-    for (var i=0; i<recommenddata.length; i++) {
+
+ 
+    //一块文章item的信息定义
+    var itemHeadline,itemImage,itemId,itemT,itemLead,itemTag,link,oneItem,oneImage;
+
+    var insertedAd = 0;//表征没有插入广告
+
+
+
+    for (var i=0; i<recommenddata.length; i++) {//i记录recommenddata中的文章数
         var itemClass = 'XL3 L3 M6 S6 P12';
-        var itemHeadline,itemImage,itemId,itemT,itemLead,itemTag,link,oneItem,oneImage;
         var itemTop = '';
         var itemTopClass = 'PT';
-      
+        
         if (itemCount % 4 === 0) {
             itemTopClass += ' XLT LT';
         }
@@ -271,7 +305,7 @@ function recommendPayLoad(recommenddata){
             itemTop = '<div class="' + itemTopClass + '"></div>';
         }
 
-        //一块文章item的信息
+        //一块文章item的信息赋值
         itemHeadline = recommenddata[i].cheadline;
         itemImage = recommenddata[i].piclink;
         itemId = recommenddata[i].storyid;
@@ -282,6 +316,7 @@ function recommendPayLoad(recommenddata){
         if(itemT === undefined || itemT === null) {itemT = '';}
         link = '/story/'+itemId+'?tcode=smartrecommend&ulu-rcmd=' + thirdPartData[itemId];
 
+        
         // insert the first item into the story body
         if (i === 0 && recommendDiv) {
             //MARK:处理第一个数据，这时必须满足recommendDiv存在
@@ -293,8 +328,22 @@ function recommendPayLoad(recommenddata){
             recommendDiv.className = 'leftPic in-story-recommend';
            
         } else if (itemCount<maxItem ) {
-            //底部文章区
-            if(recommenddata[i]) {
+            //MARK:底部文章区,此时一定有i>0
+            
+            if(insertedAd === 0 && addata ) {
+                ///MARK:第一个位置放来自优路科技的广告（如果有的话）
+                var adHeadline,adImage,adLink,adItem;
+                adHeadline = addata.title;
+                adImage = addata.pic;
+                adLink = addata.url;
+                adItem = itemTop + '<div class="item-container ' + itemClass + ' has-image no-lead"><div class="item-inner"><h2 class="item-headline"><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el= "ad"  target="_blank" href="'+adLink+'">'+adHeadline+'</a></h2><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el= "ad"  class="image" target="_blank" href="'+adLink+'"><figure class="loading" data-url="'+adImage+'"></figure></a><div class="item-bottom"></div></div></div>';
+                if(adImage && adImage !== '') {
+                    itemHTML += adItem;
+                    itemCount++;
+                }
+                insertedAd = 1;
+                i--;//如果第一个位置放了广告，那么就等于recommenddata[1]还没有用，就i--下次还是用recommenddata[1]
+            } else if(recommenddata[i]) {
                 oneItem = itemTop + '<div class="item-container ' + itemClass + ' has-image no-lead"><div class="item-inner"><h2 class="item-headline"><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el="'+itemT+'/story/'+itemId+'" target="_blank" href="'+link+'">'+itemHeadline+'</a></h2><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el="'+itemT+'/story/'+itemId+'" class="image" target="_blank" href="'+link+'"><figure class="loading" data-url="'+itemImage+'"></figure></a><div class="item-bottom"></div></div></div>';
                 if(itemImage && itemImage !== ''){
                     itemHTML += oneItem;
