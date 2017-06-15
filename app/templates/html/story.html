@@ -888,7 +888,7 @@
 	<%if (in_array("单页",$story.tag) || $smarty.get.full=="y") && $page_action=="en"%>
 		<%assign var="story_content" value=$story.ebody%>
 	<%elseif (!in_array("单页",$story.tag) && $smarty.get.full!="y") || $page_action=="en"%>
-		
+
 		<%if $hideMPU3 == "yes" || $smarty.get.ad == "no" || preg_match("/活动页面/is",$keys)%>
 		    <%assign var="story_content" value=$story_content|replace:"<div id=\"story_main_mpu\"></div>":""%>
 		<%else%>
@@ -932,7 +932,7 @@
 	<%assign var="storyTime" value=$jobinfo.pubtime%>
 	<%assign var="storyAuthor" value=$jobinfo.provider%>
 	<%assign var="story_content" value="<b>工作地点：</b>`$jobinfo.workaddr`<br><b>职位类型：</b>`$jobinfo.position`<br><b>所属行业：</b>`$jobinfo.workfield`<br><b>职位描述及要求：</b><br>`$jobinfo.detail`<br>"%>
-	
+
     <%if $source=='1002' %>
     	<%assign var="jobApply" value="<br>招聘方的Email：<a onclick=\"ga('send','event','Jobsite', 'Send Email', 'Resume')\" href=\"mailto:`$jobinfo.email`?\">`$jobinfo.email`</a>（邮件标题请以“姓名+研究人才来源（境内或境外）”命名，注明来源于FT中文网）<br><a onclick=\"ga('send','event','Jobsite', 'Send Email', 'Resume');\" href=\"mailto:`$jobinfo.email｀?\" class=\"rejob\">发送简历</a><br><form action=\"/index.php/marketing/send_recommend_jobsite_email2/`$jobinfo.num`\" method=\"post\"><b>推荐给朋友：</b><br>朋友电子邮件：<input type=\"text\" class=\"myemail\" name=\"email2\"><br>我的电子邮件：<input type=\"text\" class=\"myemail\" name=\"email1\"><br><input onclick=\"ga('send','event','Jobsite', 'Send Email', 'Recommend');\" type=\"submit\" value=\"发送邮件\" class=\"sendemail\"></form>"%>
     <%else%>
@@ -951,6 +951,12 @@
 		<%assign var="story_content" value=$story_content|regex_replace:"/[\r\t\n]+/":"</p><p>"%>
 		<%assign var="story_content" value="<p>`$story_content`</p>"%>
 		<%assign var="storyHeadline" value=$eheadline|default:$cheadline%>
+    <%elseif $page_action == "ce"%>
+        <%assign var="story_content" value=""%>
+        <%foreach item=body from=$storyce%>
+        <%assign var="story_content" value="`$story_content`<div class=leftp>`$body.l`</div><div class=rightp>`$body.r`</div><div class=clearfloat></div>"%>
+        <%/foreach%>
+        <%assign var="storyHeadline" value=$eheadline|default:$cheadline%>
 	<%else%>
 		<%assign var="story_content" value=$cbody|regex_replace:"/[\r\t\n]/":"</p><p>"%>
 		<%assign var="story_content" value="<p>`$story_content`</p>"%>
@@ -965,8 +971,8 @@
 
 
 
-		
-		
+
+
 
 		<%assign var="storyHeadline" value=$cheadline%>
 		<%if $pageType == "bookinfo"%>
@@ -1064,7 +1070,7 @@
     document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/, 'js').replace(/\bcore\b/, 'enhanced');
     }
     </script>
-    
+
     <%if $pageType == "job"%>
     	<style><%include file="next/styles/main-story-job.css"%></style>
     <%elseif preg_match("/极致人生/is",$keys)%>
@@ -1080,11 +1086,11 @@
     <%if preg_match("/<table/is",$story_content)%>
     	<style><%include file="next/styles/main-table.css"%></style>
     <%/if%>
-    
+
     <link rel="icon" type="image/png" href="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=32&height=32" sizes="32x32">
     <link rel="icon" type="image/png" href="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=194&height=194" sizes="194x194">
     <link rel="apple-touch-icon" sizes="180x180" href="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=180&height=180" />
-    
+
     <meta name="msapplication-TileColor" content="#fff1e0" />
     <meta name="msapplication-TileImage" content="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=144&height=144" />
 
@@ -1112,7 +1118,7 @@
 
     <script>
     	var gKeyTag = '<%$keys%>';
-  		
+
 		var gauthor="<%$gauthor%>".replace(/ and /g,",").replace(/([\s\_]+)[Bb]y /g,"$1").replace(/ in .*/g,"").replace(/,.*/g,"").replace(/\s+$/g,"").replace(/^\s+/g,"").replace(/\s+/g,"_");
     </script>
     <%if $ftcteam != ""%>
