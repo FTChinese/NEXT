@@ -1,14 +1,14 @@
-console.log('111');
+console.log('114');
 /*Global Variables*/
 var fontOptionsEle;
 var fs;
 
 var ajaxMethod;//for Recommends
 var ajaxUrl;//for Recommends
-
+/*
 var ajaxMethod_relativesData;//for Relatives
 var ajaxUrl_relativesData;//for Relatives
-
+*/
 var message = {};
 var recommendLoaded = false;
 var recommendInner = document.getElementById('story-recommend');
@@ -43,13 +43,17 @@ recommendVersion = '-002';
 if (/127\.0|localhost|192\.168/.test(window.location.href)) {
 	ajaxMethod = 'GET';
 	ajaxUrl = '/api/page/recommend.json';
+    /*
     ajaxMethod_relativesData = 'GET';
     ajaxUrl_relativesData = '/api/page/relatives.json';
+    */
 } else {
 	ajaxMethod = 'POST';
 	ajaxUrl = '/eaclient/apijson.php';//线上地址eg:http://www.ftchinese.com/eaclient/apijson.php
+    /*
     ajaxMethod_relativesData = 'GET';
     ajaxUrl_relativesData = '/index.php/jsapi/related/'+FTStoryid;//线上地址为 eg: http://www.ftchinese.com/index.php/jsapi/related/001068131
+    */
 }
 
 
@@ -199,9 +203,9 @@ function getRec(data) {
     if(typeof data === 'object' && data.length > 0) {
         var ids = '';
         var split = '';
-        for(var i = 0; i < data.length; i++){
+        for(var i = 0, len=data.length; i < len; i++){
             if(data[i]) {
-                if(data[i].isAd===1) { //把广告数据领出来,更新全局变量adData
+                if(data[i].isAd===1) { //把广告数据拎出来,更新全局变量adData
                     adData = data[i];
                 } else { //把文章id拎出来，得到ids
                     var tmpKey = data[i].id;
@@ -274,8 +278,12 @@ function recommendPayLoad(recommenddata, addata){
     /* 成功获取到推荐文章数据后，渲染story文中的推荐文章div及文后的猜你喜欢div
      * @param recommenddata:即获取的推荐文章数据
     */
+
+
     console.log(recommenddata);
     console.log(addata);
+    // 监听广告位推荐
+    
     var maxItem = 8;//规定下方推荐文章区域显示多少个
     var itemCount = 0;//记录某item位于下方推荐文章区域的第几个
     var itemHTML = '';//下方推荐文章区域的innerHTML
@@ -336,10 +344,25 @@ function recommendPayLoad(recommenddata, addata){
                 adHeadline = addata.title;
                 adImage = addata.pic;
                 adLink = addata.url;
-                adItem = itemTop + '<div class="item-container ' + itemClass + ' has-image no-lead"><div class="item-inner"><h2 class="item-headline"><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el= "ad"  target="_blank" href="'+adLink+'">'+adHeadline+'</a></h2><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el= "ad"  class="image" target="_blank" href="'+adLink+'"><figure class="loading" data-url="'+adImage+'"></figure></a><div class="item-bottom"></div></div></div>';
+                adItem = itemTop + '<div class="item-container ' + itemClass + ' has-image no-lead" id="uluAd"><div class="item-inner"><h2 class="item-headline"><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el= "ad"  target="_blank" href="'+adLink+'">'+adHeadline+'</a></h2><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el= "ad"  class="image" target="_blank" href="'+adLink+'"><figure class="loading" data-url="'+adImage+'"></figure></a><div class="item-bottom"></div></div></div>';
                 if(adImage && adImage !== '') {
                     itemHTML += adItem;
                     itemCount++;
+                    document.getElementById('uluAd').addEventListener('click',function() {
+                        var uluAdImage = new Image();
+                        var uluAdUrl = 'http://e.cn.miaozhen.com/r/k=2049651&p=76w3I&dx=__IPDX__&rt=2&ns=__IP__&ni=__IESID__&v=__LOC__&xa=__ADPLATFORM__&tr=__REQUESTID__&mo=__OS__&m0=__OPENUDID__&m0a=__DUID__&m1=__ANDROIDID1__&m1a=__ANDROIDID__&m2=__IMEI__&m4=__AAID__&m5=__IDFA__&m6=__MAC1__&m6a=__MAC__&o=';
+                        uluAdImage.onload = function() {
+                            ga('send','event','uluAd','Success',uluAdUrl,{
+                                'nonInteraction': 1
+                            });
+                        };
+                        uluAdImage.onerror = function() {
+                            ga('send','event','uluAd','Fail',uluAdUrl,{
+                                'nonInteraction': 1
+                            });
+                        };
+                        Image.src = uluAdUrl;
+                    },false);
                 }
                 insertedAd = 1;
                 i--;//如果第一个位置放了广告，那么就等于recommenddata[1]还没有用，就i--下次还是用recommenddata[1]
