@@ -294,7 +294,7 @@ function recommendPayLoad(recommenddata, addata){
     //一块文章item的信息定义
     var itemHeadline,itemImage,itemId,itemT,itemLead,itemTag,link,oneItem,oneImage;
 
-    var insertedAd = 0;//表征没有插入广告
+    var tryToInsertAd = 0;//表征还未尝试插入广告，每次都会尝试插入一次，插入完成或因广告信息缺失没有插入的话都更新为1
 
 
 
@@ -328,6 +328,7 @@ function recommendPayLoad(recommenddata, addata){
         // insert the first item into the story body
         if (i === 0 && recommendDiv) {
             //MARK:处理第一个数据，这时必须满足recommendDiv存在
+            console.log('a:'+i);
             link += '&position=instory';
 
             oneItem = '<a data-ec="In Story Recommend" data-ea="'+eventAction+'" data-el="'+itemT+'/story/'+itemId+'" target="_blank" href="'+link+'" class="headline">'+itemHeadline+'</a><div class="lead">'+itemLead+'</div>';
@@ -337,8 +338,8 @@ function recommendPayLoad(recommenddata, addata){
            
         } else if (itemCount<maxItem ) {
             //MARK:底部文章区,此时一定有i>0
-            
-            if(insertedAd === 0 && addata ) {
+            console.log('b:'+i);
+            if(tryToInsertAd === 0 && addata ) {
                 ///MARK:第一个位置放来自优路科技的广告（如果有的话）
                 var adHeadline,adImage,adLink,adItem;
                 adHeadline = addata.title;
@@ -346,6 +347,7 @@ function recommendPayLoad(recommenddata, addata){
                 adLink = addata.url;
                 adItem = itemTop + '<div class="item-container ' + itemClass + ' has-image no-lead" id="uluAd"><div class="item-inner"><h2 class="item-headline"><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el= "ad"  target="_blank" href="'+adLink+'">'+adHeadline+'</a></h2><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el= "ad"  class="image" target="_blank" href="'+adLink+'"><figure class="loading" data-url="'+adImage+'"></figure></a><div class="item-bottom"></div></div></div>';
                 if(adImage && adImage !== '') {
+                    console.log('c:'+i);
                     itemHTML += adItem;
                     itemCount++;
                     document.getElementById('uluAd').addEventListener('click',function() {
@@ -361,12 +363,13 @@ function recommendPayLoad(recommenddata, addata){
                                 'nonInteraction': 1
                             });
                         };
-                        Image.src = uluAdUrl;
+                        uluAdImage.src = uluAdUrl;
                     },false);
                 }
-                insertedAd = 1;
-                i--;//如果第一个位置放了广告，那么就等于recommenddata[1]还没有用，就i--下次还是用recommenddata[1]
+                tryToInsertAd = 1;
+                i--;//尝试插入广告的行为势必会经历一次循环，该循环等于recommenddata[1]还没有用，就i--下次还是用recommenddata[1]
             } else if(recommenddata[i]) {
+                console.log('d:'+i);
                 oneItem = itemTop + '<div class="item-container ' + itemClass + ' has-image no-lead"><div class="item-inner"><h2 class="item-headline"><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el="'+itemT+'/story/'+itemId+'" target="_blank" href="'+link+'">'+itemHeadline+'</a></h2><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el="'+itemT+'/story/'+itemId+'" class="image" target="_blank" href="'+link+'"><figure class="loading" data-url="'+itemImage+'"></figure></a><div class="item-bottom"></div></div></div>';
                 if(itemImage && itemImage !== ''){
                     itemHTML += oneItem;
