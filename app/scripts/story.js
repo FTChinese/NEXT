@@ -1,4 +1,4 @@
-console.log('114');
+console.log('115');
 /*Global Variables*/
 var fontOptionsEle;
 var fs;
@@ -180,7 +180,7 @@ function getRec(data) {
     /* The jsonP callback function for thirdPartAPIUrl(即用jsonp请求优路科技的接口后的回调函数)
     * @param data: the response data of the thirdPartAPIUrl(即jsonp请求优路科技接口后的xhr.responseText) 
     */
-    console.log('yulu'+JSON.stringify(data));
+    console.log('ulu'+JSON.stringify(data));
     /*
     * 数组data的其中一个item（文章）形如：
     {
@@ -345,11 +345,12 @@ function recommendPayLoad(recommenddata, addata){
                 adHeadline = addata.title;
                 adImage = addata.pic;
                 adLink = addata.url;
-                adItem = itemTop + '<div class="item-container ' + itemClass + ' has-image no-lead" id="uluAd"><div class="item-inner"><h2 class="item-headline"><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el= "ad"  target="_blank" href="'+adLink+'">'+adHeadline+'</a></h2><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el= "ad"  class="image" target="_blank" href="'+adLink+'"><figure class="loading" data-url="'+adImage+'"></figure></a><div class="item-bottom"></div></div></div>';
+                adItem = itemTop + '<div class="item-container ' + itemClass + ' has-image no-lead" ><div class="item-inner"><h2 class="item-headline"><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el= "uluAd"  target="_blank" href="'+adLink+'">'+adHeadline+'</a></h2><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el= "uluAd"  class="image" target="_blank" href="'+adLink+'"><figure class="loading" data-url="'+adImage+'"></figure></a><div class="item-bottom"></div></div></div>';
                 if(adImage && adImage !== '') {
                     console.log('c:'+i);
                     itemHTML += adItem;
                     itemCount++;
+                    /*
                     document.getElementById('uluAd').addEventListener('click',function() {
                         var uluAdImage = new Image();
                         var uluAdUrl = 'http://e.cn.miaozhen.com/r/k=2049651&p=76w3I&dx=__IPDX__&rt=2&ns=__IP__&ni=__IESID__&v=__LOC__&xa=__ADPLATFORM__&tr=__REQUESTID__&mo=__OS__&m0=__OPENUDID__&m0a=__DUID__&m1=__ANDROIDID1__&m1a=__ANDROIDID__&m2=__IMEI__&m4=__AAID__&m5=__IDFA__&m6=__MAC1__&m6a=__MAC__&o=';
@@ -365,6 +366,7 @@ function recommendPayLoad(recommenddata, addata){
                         };
                         uluAdImage.src = uluAdUrl;
                     },false);
+                    */
                 }
                 tryToInsertAd = 1;
                 i--;//尝试插入广告的行为势必会经历一次循环，该循环等于recommenddata[1]还没有用，就i--下次还是用recommenddata[1]
