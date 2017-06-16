@@ -180,7 +180,7 @@ function getRec(data) {
     /* The jsonP callback function for thirdPartAPIUrl(即用jsonp请求优路科技的接口后的回调函数)
     * @param data: the response data of the thirdPartAPIUrl(即jsonp请求优路科技接口后的xhr.responseText) 
     */
-    console.log('ulu'+JSON.stringify(data));
+    // console.log('ulu'+JSON.stringify(data));
     /*
     * 数组data的其中一个item（文章）形如：
     {
@@ -280,8 +280,8 @@ function recommendPayLoad(recommenddata, addata){
     */
 
 
-    console.log(recommenddata);
-    console.log(addata);
+    // console.log(recommenddata);
+    // console.log(addata);
     // 监听广告位推荐
     
     var maxItem = 8;//规定下方推荐文章区域显示多少个
@@ -326,28 +326,35 @@ function recommendPayLoad(recommenddata, addata){
 
         
         // insert the first item into the story body
+
+
         if (i === 0 && recommendDiv) {
             //MARK:处理第一个数据，这时必须满足recommendDiv存在
-            console.log('a:'+i);
+            // console.log('a:'+i);
             link += '&position=instory';
 
             oneItem = '<a data-ec="In Story Recommend" data-ea="'+eventAction+'" data-el="'+itemT+'/story/'+itemId+'" target="_blank" href="'+link+'" class="headline">'+itemHeadline+'</a><div class="lead">'+itemLead+'</div>';
             oneImage = '<a data-ec="In Story Recommend" data-ea="'+eventAction+'" data-el="'+itemT+'/story/'+itemId+'" class="recommend-image" target="_blank" href="'+link+'"><figure class="loading" data-url="'+itemImage+'"></figure></a>';
             recommendDiv.innerHTML = '<div class="recommend-header">' + itemTag + '</div><div class="recommend-content">' + oneItem + '</div>' + oneImage;
             recommendDiv.className = 'leftPic in-story-recommend';
+
+
            
         } else if (itemCount<maxItem ) {
             //MARK:底部文章区,此时一定有i>0
-            console.log('b:'+i);
-            if(tryToInsertAd === 0 && addata ) {
+            // console.log('b:'+i);
+
+
+            // MARK: - Use the number i to decide the position of the ad
+            if(tryToInsertAd === 0 && addata && i === 4) {
                 ///MARK:第一个位置放来自优路科技的广告（如果有的话）
                 var adHeadline,adImage,adLink,adItem;
                 adHeadline = addata.title;
                 adImage = addata.pic;
                 adLink = addata.url;
-                adItem = itemTop + '<div class="item-container ' + itemClass + ' has-image no-lead" ><div class="item-inner"><h2 class="item-headline"><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el= "uluAd"  target="_blank" href="'+adLink+'">'+adHeadline+'</a></h2><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el= "uluAd"  class="image" target="_blank" href="'+adLink+'"><figure class="loading" data-url="'+adImage+'"></figure></a><div class="item-bottom"></div></div></div>';
+                adItem = itemTop + '<div class="item-container ' + itemClass + ' has-image no-lead is-ad" ><div class="item-inner"><h2 class="item-headline"><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el= "uluAd"  target="_blank" href="'+adLink+'">'+adHeadline+'</a></h2><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el= "uluAd"  class="image" target="_blank" href="'+adLink+'"><figure class="loading" data-url="'+adImage+'"></figure></a><div class="item-bottom"></div></div></div>';
                 if(adImage && adImage !== '') {
-                    console.log('c:'+i);
+                    // console.log('c:'+i);
                     itemHTML += adItem;
                     itemCount++;
                     /*
@@ -371,7 +378,7 @@ function recommendPayLoad(recommenddata, addata){
                 tryToInsertAd = 1;
                 i--;//尝试插入广告的行为势必会经历一次循环，该循环等于recommenddata[1]还没有用，就i--下次还是用recommenddata[1]
             } else if(recommenddata[i]) {
-                console.log('d:'+i);
+                //console.log('d:'+i);
                 oneItem = itemTop + '<div class="item-container ' + itemClass + ' has-image no-lead"><div class="item-inner"><h2 class="item-headline"><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el="'+itemT+'/story/'+itemId+'" target="_blank" href="'+link+'">'+itemHeadline+'</a></h2><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el="'+itemT+'/story/'+itemId+'" class="image" target="_blank" href="'+link+'"><figure class="loading" data-url="'+itemImage+'"></figure></a><div class="item-bottom"></div></div></div>';
                 if(itemImage && itemImage !== ''){
                     itemHTML += oneItem;
