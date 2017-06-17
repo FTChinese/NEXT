@@ -1,4 +1,4 @@
-console.log('115');
+console.log('116');
 /*Global Variables*/
 var fontOptionsEle;
 var fs;
@@ -276,13 +276,12 @@ function getThirdPartRecommendFailed(){
 
 function recommendPayLoad(recommenddata, addata){
     /* 成功获取到推荐文章数据后，渲染story文中的推荐文章div及文后的猜你喜欢div
-     * @param recommenddata:即获取的推荐文章数据
+     * @param recommenddata:TYPE Array,即获取的推荐文章数据
+     * @param addata:TYPE Object, 即获取的ulu合作广告数据
     */
 
-
-    // console.log(recommenddata);
-    // console.log(addata);
-    // 监听广告位推荐
+    //console.log(recommenddata);
+    //console.log(addata);
     
     var maxItem = 8;//规定下方推荐文章区域显示多少个
     var itemCount = 0;//记录某item位于下方推荐文章区域的第几个
@@ -291,14 +290,16 @@ function recommendPayLoad(recommenddata, addata){
     var recommendDiv = document.getElementById('in-story-recommend');//文章内部推荐的那篇文章预期的元素
 
  
-    //一块文章item的信息定义
+    //MARK:一块文章item的信息定义
     var itemHeadline,itemImage,itemId,itemT,itemLead,itemTag,link,oneItem,oneImage;
 
+    var instertedInstory = 0;//表征是否插入了文章内容中间的推荐块
     var tryToInsertAd = 0;//表征还未尝试插入广告，每次都会尝试插入一次，插入完成或因广告信息缺失没有插入的话都更新为1
+    var uluAdPosition = 4;//表征底部为您推荐的第几个位置用于展示uluAd，第1个位置记为1
+    var setUluAdPosition = 0;//表征是否已判断底部推荐位广告的位置，只判断1次，判断后就置为1
 
 
-
-    for (var i=0; i<recommenddata.length; i++) {//i记录recommenddata中的文章数
+    for (var i=0; i<recommenddata.length; i++) {
         var itemClass = 'XL3 L3 M6 S6 P12';
         var itemTop = '';
         var itemTopClass = 'PT';
@@ -313,7 +314,7 @@ function recommendPayLoad(recommenddata, addata){
             itemTop = '<div class="' + itemTopClass + '"></div>';
         }
 
-        //一块文章item的信息赋值
+        //MARK:一块文章item的信息赋值
         itemHeadline = recommenddata[i].cheadline;
         itemImage = recommenddata[i].piclink;
         itemId = recommenddata[i].storyid;
@@ -325,60 +326,43 @@ function recommendPayLoad(recommenddata, addata){
         link = '/story/'+itemId+'?tcode=smartrecommend&ulu-rcmd=' + thirdPartData[itemId];
 
         
-        // insert the first item into the story body
-
-
+        // MARK:insert the first item into the story body
         if (i === 0 && recommendDiv) {
             //MARK:处理第一个数据，这时必须满足recommendDiv存在
-            // console.log('a:'+i);
             link += '&position=instory';
 
             oneItem = '<a data-ec="In Story Recommend" data-ea="'+eventAction+'" data-el="'+itemT+'/story/'+itemId+'" target="_blank" href="'+link+'" class="headline">'+itemHeadline+'</a><div class="lead">'+itemLead+'</div>';
             oneImage = '<a data-ec="In Story Recommend" data-ea="'+eventAction+'" data-el="'+itemT+'/story/'+itemId+'" class="recommend-image" target="_blank" href="'+link+'"><figure class="loading" data-url="'+itemImage+'"></figure></a>';
             recommendDiv.innerHTML = '<div class="recommend-header">' + itemTag + '</div><div class="recommend-content">' + oneItem + '</div>' + oneImage;
             recommendDiv.className = 'leftPic in-story-recommend';
-
+            instertedInstory = 1;//s
 
            
         } else if (itemCount<maxItem ) {
-            //MARK:底部文章区,此时一定有i>0
-            // console.log('b:'+i);
-
+            //MARK:底部文章区
 
             // MARK: - Use the number i to decide the position of the ad
-            if(tryToInsertAd === 0 && addata && i === 4) {
-                ///MARK:第一个位置放来自优路科技的广告（如果有的话）
+            if(instertedInstory === 0 && setUluAdPosition === 0) {
+                // MARK:如果文章中没有插入成推荐文章，那么ulu合作广告位就向前推一个位置。
+                uluAdPosition -= 1;
+                setUluAdPosition = 1;
+            }
+            if(tryToInsertAd === 0 && addata && i === uluAdPosition) {
+                ///MARK:第4个位置放来自优路科技的广告（如果有的话）
+                console.log('uluAdPosition:'+uluAdPosition);
                 var adHeadline,adImage,adLink,adItem;
                 adHeadline = addata.title;
                 adImage = addata.pic;
                 adLink = addata.url;
                 adItem = itemTop + '<div class="item-container ' + itemClass + ' has-image no-lead is-ad" ><div class="item-inner"><h2 class="item-headline"><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el= "uluAd"  target="_blank" href="'+adLink+'">'+adHeadline+'</a></h2><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el= "uluAd"  class="image" target="_blank" href="'+adLink+'"><figure class="loading" data-url="'+adImage+'"></figure></a><div class="item-bottom"></div></div></div>';
                 if(adImage && adImage !== '') {
-                    // console.log('c:'+i);
                     itemHTML += adItem;
                     itemCount++;
-                    /*
-                    document.getElementById('uluAd').addEventListener('click',function() {
-                        var uluAdImage = new Image();
-                        var uluAdUrl = 'http://e.cn.miaozhen.com/r/k=2049651&p=76w3I&dx=__IPDX__&rt=2&ns=__IP__&ni=__IESID__&v=__LOC__&xa=__ADPLATFORM__&tr=__REQUESTID__&mo=__OS__&m0=__OPENUDID__&m0a=__DUID__&m1=__ANDROIDID1__&m1a=__ANDROIDID__&m2=__IMEI__&m4=__AAID__&m5=__IDFA__&m6=__MAC1__&m6a=__MAC__&o=';
-                        uluAdImage.onload = function() {
-                            ga('send','event','uluAd','Success',uluAdUrl,{
-                                'nonInteraction': 1
-                            });
-                        };
-                        uluAdImage.onerror = function() {
-                            ga('send','event','uluAd','Fail',uluAdUrl,{
-                                'nonInteraction': 1
-                            });
-                        };
-                        uluAdImage.src = uluAdUrl;
-                    },false);
-                    */
+                 
                 }
                 tryToInsertAd = 1;
                 i--;//尝试插入广告的行为势必会经历一次循环，该循环等于recommenddata[1]还没有用，就i--下次还是用recommenddata[1]
             } else if(recommenddata[i]) {
-                //console.log('d:'+i);
                 oneItem = itemTop + '<div class="item-container ' + itemClass + ' has-image no-lead"><div class="item-inner"><h2 class="item-headline"><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el="'+itemT+'/story/'+itemId+'" target="_blank" href="'+link+'">'+itemHeadline+'</a></h2><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el="'+itemT+'/story/'+itemId+'" class="image" target="_blank" href="'+link+'"><figure class="loading" data-url="'+itemImage+'"></figure></a><div class="item-bottom"></div></div></div>';
                 if(itemImage && itemImage !== ''){
                     itemHTML += oneItem;
