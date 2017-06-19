@@ -346,7 +346,7 @@ function recommendPayLoad(recommenddata, addata){
 
 
             // MARK: - Use the number i to decide the position of the ad
-            if(tryToInsertAd === 0 && addata && i === 4) {
+            if(tryToInsertAd === 0 && addata && i === 300) {
                 ///MARK:第一个位置放来自优路科技的广告（如果有的话）
                 var adHeadline,adImage,adLink,adItem;
                 adHeadline = addata.title;
