@@ -1,4 +1,4 @@
-console.log('116');
+console.log('117');
 /*Global Variables*/
 var fontOptionsEle;
 var fs;
@@ -295,7 +295,7 @@ function recommendPayLoad(recommenddata, addata){
 
     var instertedInstory = 0;//表征是否插入了文章内容中间的推荐块
     var tryToInsertAd = 0;//表征还未尝试插入广告，每次都会尝试插入一次，插入完成或因广告信息缺失没有插入的话都更新为1
-    var uluAdPosition = 4;//表征底部为您推荐的第几个位置用于展示uluAd，第1个位置记为1
+    var uluAdPosition = 300;//表征底部为您推荐的第几个位置用于展示uluAd，第1个位置记为1
     var setUluAdPosition = 0;//表征是否已判断底部推荐位广告的位置，只判断1次，判断后就置为1
 
 
@@ -341,34 +341,32 @@ function recommendPayLoad(recommenddata, addata){
         } else if (itemCount<maxItem ) {
             //MARK:底部文章区
             // MARK: - Use the number i to decide the position of the ad
-            if(tryToInsertAd === 0 && addata && i === 300) {
-                ///MARK:第一个位置放来自优路科技的广告（如果有的话）
-                if(instertedInstory === 0 && setUluAdPosition === 0) {
-                    // MARK:如果文章中没有插入成推荐文章，那么ulu合作广告位就向前推一个位置。
-                    uluAdPosition -= 1;
-                    setUluAdPosition = 1;
+        
+            if(instertedInstory === 0 && setUluAdPosition === 0) {
+                // MARK:如果文章中没有插入成推荐文章，那么ulu合作广告位就向前推一个位置。
+                uluAdPosition -= 1;
+                setUluAdPosition = 1;
+            }
+            if(tryToInsertAd === 0 && addata && i === uluAdPosition) {
+                ///MARK:第4个位置放来自优路科技的广告（如果有的话）
+                //console.log('uluAdPosition:'+uluAdPosition);
+                var adHeadline,adImage,adLink,adItem;
+                adHeadline = addata.title;
+                adImage = addata.pic;
+                adLink = addata.url;
+                adItem = itemTop + '<div class="item-container ' + itemClass + ' has-image no-lead is-ad" ><div class="item-inner"><h2 class="item-headline"><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el= "uluAd"  target="_blank" href="'+adLink+'">'+adHeadline+'</a></h2><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el= "uluAd"  class="image" target="_blank" href="'+adLink+'"><figure class="loading" data-url="'+adImage+'"></figure></a><div class="item-bottom"></div></div></div>';
+                if(adImage && adImage !== '') {
+                    itemHTML += adItem;
+                    itemCount++;
+                    
                 }
-                if(tryToInsertAd === 0 && addata && i === uluAdPosition) {
-                    ///MARK:第4个位置放来自优路科技的广告（如果有的话）
-                    //console.log('uluAdPosition:'+uluAdPosition);
-                    var adHeadline,adImage,adLink,adItem;
-                    adHeadline = addata.title;
-                    adImage = addata.pic;
-                    adLink = addata.url;
-                    adItem = itemTop + '<div class="item-container ' + itemClass + ' has-image no-lead is-ad" ><div class="item-inner"><h2 class="item-headline"><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el= "uluAd"  target="_blank" href="'+adLink+'">'+adHeadline+'</a></h2><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el= "uluAd"  class="image" target="_blank" href="'+adLink+'"><figure class="loading" data-url="'+adImage+'"></figure></a><div class="item-bottom"></div></div></div>';
-                    if(adImage && adImage !== '') {
-                        itemHTML += adItem;
-                        itemCount++;
-                     
-                    }
-                    tryToInsertAd = 1;
-                    i--;//尝试插入广告的行为势必会经历一次循环，该循环等于recommenddata[1]还没有用，就i--下次还是用recommenddata[1]
-                } else if(recommenddata[i]) {
-                    oneItem = itemTop + '<div class="item-container ' + itemClass + ' has-image no-lead"><div class="item-inner"><h2 class="item-headline"><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el="'+itemT+'/story/'+itemId+'" target="_blank" href="'+link+'">'+itemHeadline+'</a></h2><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el="'+itemT+'/story/'+itemId+'" class="image" target="_blank" href="'+link+'"><figure class="loading" data-url="'+itemImage+'"></figure></a><div class="item-bottom"></div></div></div>';
-                    if(itemImage && itemImage !== ''){
-                        itemHTML += oneItem;
-                        itemCount += 1;
-                    }
+                tryToInsertAd = 1;
+                i--;//尝试插入广告的行为势必会经历一次循环，该循环等于recommenddata[1]还没有用，就i--下次还是用recommenddata[1]
+            } else if(recommenddata[i]) {
+                oneItem = itemTop + '<div class="item-container ' + itemClass + ' has-image no-lead"><div class="item-inner"><h2 class="item-headline"><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el="'+itemT+'/story/'+itemId+'" target="_blank" href="'+link+'">'+itemHeadline+'</a></h2><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el="'+itemT+'/story/'+itemId+'" class="image" target="_blank" href="'+link+'"><figure class="loading" data-url="'+itemImage+'"></figure></a><div class="item-bottom"></div></div></div>';
+                if(itemImage && itemImage !== ''){
+                    itemHTML += oneItem;
+                    itemCount += 1;
                 }
             }
         }
