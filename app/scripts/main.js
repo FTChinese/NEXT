@@ -703,6 +703,21 @@ try {
     if (ec !== '' && ea !== '') {
       ga('send','event',ec, ea, el);
       //console.log (ec + ea + el);
+      if (el === 'uluAd') {
+          var uluAdImage = new Image();
+          var uluAdUrl = 'http://e.cn.miaozhen.com/r/k=2049651&p=76w3I&dx=__IPDX__&rt=2&ns=__IP__&ni=__IESID__&v=__LOC__&xa=__ADPLATFORM__&tr=__REQUESTID__&mo=__OS__&m0=__OPENUDID__&m0a=__DUID__&m1=__ANDROIDID1__&m1a=__ANDROIDID__&m2=__IMEI__&m4=__AAID__&m5=__IDFA__&m6=__MAC1__&m6a=__MAC__&o=';
+          uluAdImage.onload = function() {
+              ga('send','event','uluAd','Success',uluAdUrl,{
+                  'nonInteraction': 1
+              });
+          };
+          uluAdImage.onerror = function() {
+              ga('send','event','uluAd','Fail',uluAdUrl,{
+                  'nonInteraction': 1
+              });
+          };
+          uluAdImage.src = uluAdUrl;
+      }
     }
   });
 

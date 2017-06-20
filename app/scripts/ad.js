@@ -23,7 +23,10 @@ var adPositions = {
   'phonehomempuBonus': ['0003', '0004', '0005', '0006', '0007', '0008','9901','9902','9903','9904','9905','9906','9907','9908','9909','9910','9911','9912','9913','9914','9915','9916','9917','9918'],
   'phonetagmpu': ['0119','0004','0120']
 };
+// MARK: - Sponsored Channel Ids
+var sponsoredChannelIds = ['1400'];
 var gIsLandingPage = false;
+
 
 /* jshint ignore:start */
 function trackAd(adAction, adLabel, reachabilityStatus) {
@@ -290,6 +293,7 @@ function writeAd(adType, returnSrc) {
   var bannerBG = '';
   var wechatAdHTML = '';
   var debugString = '';
+  
 
 
 
@@ -321,7 +325,7 @@ function writeAd(adType, returnSrc) {
   }
   // MARK: if it's a landing page, not a touch device and not a sponsored page, change the adch to home (1000)
   try {
-    if (gIsLandingPage === true && TouchDevice === false && fromURL === false && window.gIsCurrentAdchFinal === false && adch !== '1000') {
+    if (gIsLandingPage === true && TouchDevice === false && fromURL === false && window.gIsCurrentAdchFinal === false && adch !== '1000' && sponsoredChannelIds.indexOf(adch) < 0) {
       //ga('send','event','Landing Page Ad Impression', adch , adType, {'nonInteraction':1});
       //console.log ('Current adch ('+ adch +') can be changed to 1000');
       adch = '1000';
