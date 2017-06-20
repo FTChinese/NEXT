@@ -450,7 +450,7 @@ function writeAd(adType, returnSrc) {
   adCount[adType] = adCount[adType] + 1;
   if (returnSrc === true) {
     return  iframeSrc + debugString;
-  } else if (isWeChat === true) {
+  } else if (isWeChat === true && 1>2) {
     // record the ad impression
     try {
       if (typeof adPosition === 'string') {
