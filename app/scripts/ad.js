@@ -407,7 +407,8 @@ function writeAd(adType, returnSrc) {
       adWidth = '969';
       adHeight = '90';
     }
-    if (isWeChat === true) {
+    // MARK: WeChat have fixed the bug with iframe. Use iframe for all ads. 
+    if (isWeChat === true && 1>2) {
       slotStr = '';
       var c = adch + adPosition;
       var adP = '';
