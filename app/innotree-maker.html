@@ -55,12 +55,12 @@
                 <label class="">排序方式：</label>
                 <label class="select-way"><input name="category" type="radio" value="1" checked />金额 </label> 
                 <label class="select-way"><input name="category" type="radio" value="2" />热度 </label> 
-                <label class="select-way"><input name="category" type="radio" value="3" />行业 </label> 
+                <label class="select-way" style="visibility:hidden"><input name="category" type="radio" value="3" />行业 </label> 
               </form>
             </div>
             <div class="select-time-inner">
-              <label for="startTime">起始时间：</label><input id="startTime" type="date" >
-              <label for="endTime">结束时间：</label><input id="endTime" type="date" >
+              <label for="startTime">起始时间：</label><input id="startTime" type="month" ><br>
+              <label for="endTime">结束时间：</label><input id="endTime" type="month" >
             </div>
           </div> 
           <!-- <div> -->
@@ -100,7 +100,7 @@
         
         <!-- endbuild -->
  <script>
-  //  var  searchTime=document.getElementById("search-button");
+   var  searchTime=document.getElementById("search-button");
     var  startTime=document.getElementById("startTime");
     var  endTime=document.getElementById("endTime");
     function getNowFormatDate() {
@@ -108,14 +108,15 @@
         var seperator1 = "-";
         var year = date.getFullYear();
         var month = date.getMonth() + 1;
-        var strDate = date.getDate();
+      //  var strDate = date.getDate();
         if (month >= 1 && month <= 9) {
             month = "0" + month;
         }
-        if (strDate >= 0 && strDate <= 9) {
-            strDate = "0" + strDate;
-        }
-        var currentdate = year + seperator1 + month + seperator1 + strDate;
+        // if (strDate >= 0 && strDate <= 9) {
+        //     strDate = "0" + strDate;
+        // }
+        // var currentdate = year + seperator1 + month + seperator1 + strDate;
+        var currentdate = year + seperator1 + month;
         return currentdate;
     }
     startTime.value=getNowFormatDate();
