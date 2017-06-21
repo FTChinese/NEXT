@@ -13,8 +13,8 @@ var message = {};
 var recommendLoaded = false;
 var recommendInner = document.getElementById('story-recommend');
 var recommendVersion;
-var uluAdPosition = getRandomInt(1, 5);//表征底部为您推荐的第几个位置用于展示uluAd，第1个位置记为1 ,此时随机为1,2,3,4
-
+//var uluAdPosition = getRandomInt(1, 5);//表征底部为您推荐的第几个位置用于展示uluAd，第1个位置记为1 ,此时随机为1,2,3,4
+var uluAdPosition = 300;
 // var thirdPartAPIUrl = 'http://120.27.47.77:8091/getRtCmd?siteId=5002&num=8&itemId=' + FTStoryid;
 // var thirdPartFeedbackUrl = 'http://120.27.47.77:8091/rec/click?siteId=5002&itemId=' + FTStoryid;
 
@@ -25,6 +25,7 @@ var thirdPartData = [];
 var userId;
 var recommendData =[];//存放推荐数据
 var adData = {};//存放广告数据
+//var thereIsUluAd = 0;//表征是否确实插入了联合广告，插入的话就计为1，这是为了方便曝光次数
 
 /*决定recommends的版本 */
 /*
@@ -358,7 +359,7 @@ function recommendPayLoad(recommenddata, addata){
                 if(adImage && adImage !== '') {
                     itemHTML += adItem;
                     itemCount++;
-                    
+                    //thereIsUluAd = 1;
                 }
                 tryToInsertAd = 1;
                 i--;//尝试插入广告的行为势必会经历一次循环，该循环等于recommenddata[1]还没有用，就i--下次还是用recommenddata[1]
@@ -412,8 +413,10 @@ function guid() {
 }
 
 // MARK:Getting a random integer between two values.The maximum is exclusive and the minimum is inclusive
+/*
 function getRandomInt(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min)) + min; 
 }
+*/

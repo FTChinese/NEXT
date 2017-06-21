@@ -9,6 +9,7 @@ var gShareOffsetY;
 var gAudioOffsetY;
 var gRecomendOffsetY;
 var gRecomendInViewNoted = false;
+
 //  var gShareHeight = 38;
 var defaultPadding = 30;
 var hasSideWidth = 690;
@@ -531,6 +532,11 @@ function stickyBottomUpdate() {
         window.FTStoryid = '';
       }
       ga('send','event','Story Recommend', 'Seen' + window.recommendVersion, FTStoryid, {'nonInteraction':1});
+      /*
+      if(thereIsUluAd && thereIsUluAd === 1) {
+        ga('send','event','Story Recommend With Ad', 'Seen' + window.recommendVersion, FTStoryid, {'nonInteraction':1});
+      }
+      */
       gRecomendInViewNoted = true;
       //console.log ('in view');
     }
@@ -545,7 +551,6 @@ function stickyBottomUpdate() {
   loadImagesLazy();
   loadVideosLazy();
   trackViewables();
-
 }
 
 
