@@ -295,7 +295,8 @@ function recommendPayLoad(recommenddata, addata){
 
     var instertedInstory = 0;//表征是否插入了文章内容中间的推荐块
     var tryToInsertAd = 0;//表征还未尝试插入广告，每次都会尝试插入一次，插入完成或因广告信息缺失没有插入的话都更新为1
-    var uluAdPosition = 300;//表征底部为您推荐的第几个位置用于展示uluAd，第1个位置记为1
+    var uluAdPosition = 4;//表征底部为您推荐的第几个位置用于展示uluAd，第1个位置记为1
+    var asPositionRandom = getRandomInt(1, 5);//随机为1,2,3,4
     var setUluAdPosition = 0;//表征是否已判断底部推荐位广告的位置，只判断1次，判断后就置为1
 
 
@@ -409,4 +410,11 @@ function guid() {
   }
   return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
     s4() + '-' + s4() + s4() + s4();
+}
+
+// MARK:Getting a random integer between two values.The maximum is exclusive and the minimum is inclusive
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min)) + min; 
 }
