@@ -1,4 +1,4 @@
-console.log('117');
+console.log('118');
 /*Global Variables*/
 var fontOptionsEle;
 var fs;
@@ -13,11 +13,13 @@ var message = {};
 var recommendLoaded = false;
 var recommendInner = document.getElementById('story-recommend');
 var recommendVersion;
+var uluAdPosition = getRandomInt(1, 5);//表征底部为您推荐的第几个位置用于展示uluAd，第1个位置记为1 ,此时随机为1,2,3,4
+
 // var thirdPartAPIUrl = 'http://120.27.47.77:8091/getRtCmd?siteId=5002&num=8&itemId=' + FTStoryid;
 // var thirdPartFeedbackUrl = 'http://120.27.47.77:8091/rec/click?siteId=5002&itemId=' + FTStoryid;
 
-var thirdPartAPIUrl = '//uluai.com.cn/rcmd/getRtCmd?siteId=5002&num=12&itemId=' + FTStoryid;//FTStoryid为'001068131'
-var thirdPartFeedbackUrl = '//uluai.com.cn/rcmd/rec/click?siteId=5002&itemId=' + FTStoryid;
+var thirdPartAPIUrl = '//uluai.com.cn/rcmd/getRtCmd?siteId=5002&num=12&itemId=' + FTStoryid + '&position='+uluAdPosition;//FTStoryid为'001068131'
+var thirdPartFeedbackUrl = '//uluai.com.cn/rcmd/rec/click?siteId=5002&itemId=' + FTStoryid + '&position='+uluAdPosition;
 
 var thirdPartData = [];
 var userId;
@@ -34,7 +36,6 @@ if (recommendVersion === '') {
 */
 // MARK: 测试结束，全部使用002版本
 recommendVersion = '-002';
-
 
 /*决定文章内嵌文章的版本：是来自recommends还是relatives*/
 // MARK: 测试结束，全部使用'from_recommends'版本,已删除相关多余代码，含对recommendVersionInstory两个版本进行测试的代码见本地backup/storyInNext/story1.js
@@ -295,8 +296,6 @@ function recommendPayLoad(recommenddata, addata){
 
     var instertedInstory = 0;//表征是否插入了文章内容中间的推荐块
     var tryToInsertAd = 0;//表征还未尝试插入广告，每次都会尝试插入一次，插入完成或因广告信息缺失没有插入的话都更新为1
-    var uluAdPosition = 4;//表征底部为您推荐的第几个位置用于展示uluAd，第1个位置记为1
-    var asPositionRandom = getRandomInt(1, 5);//随机为1,2,3,4
     var setUluAdPosition = 0;//表征是否已判断底部推荐位广告的位置，只判断1次，判断后就置为1
 
 
@@ -350,7 +349,7 @@ function recommendPayLoad(recommenddata, addata){
             }
             if(tryToInsertAd === 0 && addata && i === uluAdPosition) {
                 ///MARK:第4个位置放来自优路科技的广告（如果有的话）
-                //console.log('uluAdPosition:'+uluAdPosition);
+                console.log('uluAdPosition:'+uluAdPosition);
                 var adHeadline,adImage,adLink,adItem;
                 adHeadline = addata.title;
                 adImage = addata.pic;
