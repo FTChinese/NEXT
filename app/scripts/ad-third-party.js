@@ -2,7 +2,6 @@
 // MARK: - Test Checking The Impression Tracking
 function sendImpToThirdParty(Imp, AdName, AssID) {
     if (typeof Imp === 'string') {
-      
         if (typeof window.parent.gTrackThirdParyImpression !== 'object') {
             window.parent.gTrackThirdParyImpression = {};
         }
@@ -10,8 +9,22 @@ function sendImpToThirdParty(Imp, AdName, AssID) {
         var lastImp = Imp;
         var isRequestSuccessful = false;
         var retryTimeLimit = 3;
-
-
+        var sendEvent = function() {
+          var eventCategory = arguments[0] || '';
+          var eventAction = arguments[1] || '';
+          var eventLabel = arguments[2] || '';
+          try {
+            window.parent.ga('send', 'event', eventCategory, eventAction, eventLabel, {'nonInteraction': 1});
+          } catch (ignore) {
+            var gaServerTracker = new Image();
+            gaServerTracker.src = 'http://www.ftchinese.com/index.php/ft/hit/' + AssID + '/2?ec=' + eventCategory + '&ea=' + eventAction + '&el=' + eventLabel;
+            if (eventAction === 'request') {
+              var topUrl = top.location.href;
+              var topUrlTracker = new Image();
+              topUrlTracker.src = 'http://www.ftchinese.com/index.php/ft/hit/' + AssID + '/1?url=' + encodeURIComponent(topUrl);
+            }
+          }
+        };
         var sendOnetime = function() {
             var asRandom = 'IMG' + Math.round(Math.random() * 1000000000000);
             var timestamp = new Date().getTime();
@@ -37,12 +50,10 @@ function sendImpToThirdParty(Imp, AdName, AssID) {
               }
             }
             lastImp = ImpNew;
-
             window.parent.gTrackThirdParyImpression[asRandom] = new Image();
             window.parent.gTrackThirdParyImpression[asRandom].src = ImpNew;
             window.parent.gTrackThirdParyImpression[asRandom].title = AdName + ' (' + AssID + ')';
             window.parent.gTrackThirdParyImpression[asRandom].alt = Imp;
-
             window.parent.gTrackThirdParyImpression[asRandom].onload = function() {
                 var actionName = '';
                 if(reRryTimes === 0){
@@ -52,11 +63,10 @@ function sendImpToThirdParty(Imp, AdName, AssID) {
                 } else {
                     actionName = 'Success on Retry'+reRryTimes;
                 }
-                window.parent.ga('send', 'event', this.title, actionName, this.alt, {'nonInteraction': 1});
+                sendEvent(this.title, actionName, this.alt);
                 delete window.parent.gTrackThirdParyImpression[asRandom];
                 isRequestSuccessful = true;
             };
-
             window.parent.gTrackThirdParyImpression[asRandom].onerror = function() {
                 var failActionName = '';
                 if(reRryTimes === 0){
@@ -66,8 +76,8 @@ function sendImpToThirdParty(Imp, AdName, AssID) {
                 } else {
                     failActionName = 'Fail on Retry'+reRryTimes;
                 }
-                window.parent.ga('send', 'event', this.title, failActionName, this.alt, {'nonInteraction': 1});
-                window.parent.ga('send', 'event', 'Fail UA String', AssID, window.parent.adReachability(), {'nonInteraction': 1});
+                sendEvent(this.title, failActionName, this.alt);
+                sendEvent('Fail UA String', AssID, window.parent.adReachability());
 
                 if (typeof window.uaString === 'string') {
                     //MAKR: Baidu Analytics
@@ -76,9 +86,6 @@ function sendImpToThirdParty(Imp, AdName, AssID) {
                     } catch (ignore) {
 
                     }
-                    // if (AssID === '605018' || AssID === 605018) {
-                    //   window.parent.ga('send', 'event', 'Fail UA Full String', AssID, window.uaString, {'nonInteraction': 1});
-                    // }
                 }
                 reRryTimes++;
                 if (reRryTimes <= retryTimeLimit) {
@@ -93,12 +100,11 @@ function sendImpToThirdParty(Imp, AdName, AssID) {
               reRryTimes = retryTimeLimit -1;
               var retryReason2 = ' from Pending';
               sendOnetime(retryReason2);
-              window.parent.ga('send', 'event', AdName + ' (' + AssID + ')', 'Request' + retryReason2, Imp, {'nonInteraction': 1});
+              sendEvent(AdName + ' (' + AssID + ')', 'Request' + retryReason2, Imp);
           }
         }, 10000);
-
         // MARK: send request for all
-        window.parent.ga('send', 'event', AdName + ' (' + AssID + ')', 'Request', Imp, {'nonInteraction': 1});
+        sendEvent(AdName + ' (' + AssID + ')', 'Request', Imp);
     }
 }
 
