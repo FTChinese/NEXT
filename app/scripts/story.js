@@ -359,7 +359,7 @@ function recommendPayLoad(recommenddata, addata){
                 if(adImage && adImage !== '') {
                     itemHTML += adItem;
                     itemCount++;
-                    //thereIsUluAd = 1;
+                    gThereIsUluAd = 1;
                 }
                 tryToInsertAd = 1;
                 i--;//尝试插入广告的行为势必会经历一次循环，该循环等于recommenddata[1]还没有用，就i--下次还是用recommenddata[1]

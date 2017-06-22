@@ -9,7 +9,7 @@ var gShareOffsetY;
 var gAudioOffsetY;
 var gRecomendOffsetY;
 var gRecomendInViewNoted = false;
-
+var gThereIsUluAd = 0;//MARK：表征底部为你推荐是否确实插入了联合广告，插入的话就计为1，这是为了方便统计曝光次数
 //  var gShareHeight = 38;
 var defaultPadding = 30;
 var hasSideWidth = 690;
@@ -532,11 +532,12 @@ function stickyBottomUpdate() {
         window.FTStoryid = '';
       }
       ga('send','event','Story Recommend', 'Seen' + window.recommendVersion, FTStoryid, {'nonInteraction':1});
-      /*
-      if(thereIsUluAd && thereIsUluAd === 1) {
+      
+      // MARK: If there is uluAd, send another ga 'seen' eventAction
+      if(gThereIsUluAd === 1) {
         ga('send','event','Story Recommend With Ad', 'Seen' + window.recommendVersion, FTStoryid, {'nonInteraction':1});
       }
-      */
+      
       gRecomendInViewNoted = true;
       //console.log ('in view');
     }
@@ -708,6 +709,8 @@ try {
     if (ec !== '' && ea !== '') {
       ga('send','event',ec, ea, el);
       //console.log (ec + ea + el);
+
+      // MARK: If there is a cooperative adverising in bottom Recommend Section, these code to send img.src to third part
       if (el === 'uluAd') {
           var uluAdImage = new Image();
           var uluAdUrl = 'http://e.cn.miaozhen.com/r/k=2049651&p=76w3I&dx=__IPDX__&rt=2&ns=__IP__&ni=__IESID__&v=__LOC__&xa=__ADPLATFORM__&tr=__REQUESTID__&mo=__OS__&m0=__OPENUDID__&m0a=__DUID__&m1=__ANDROIDID1__&m1a=__ANDROIDID__&m2=__IMEI__&m4=__AAID__&m5=__IDFA__&m6=__MAC1__&m6a=__MAC__&o=';
