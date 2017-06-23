@@ -734,7 +734,9 @@ try {
                 'nonInteraction': 1
               });
               retryTime++;
-              uluAdSendOneTime();
+              if(retryTime<=5) {
+                uluAdSendOneTime();
+              }
             };
             uluAdImage.src = uluAdUrl;
           };
