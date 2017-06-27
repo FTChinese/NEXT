@@ -16,6 +16,8 @@ if (/^[0-9]{4}$/.test(adchIDNew)) {
 }
 <%if $itemType == "story" && $storyId != ""%>
 var FTStoryid = '<%$storyId%>';
+<%elseif $itemType == "interactive" && $id != ""%>
+var interactiveId = 'interactive<%$id%>';
 <%/if%>
 <%if $sponsorMobile == "yes"%>
     window.sponsorMobile = true;
