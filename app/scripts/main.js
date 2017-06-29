@@ -11,6 +11,7 @@ var gRecomendOffsetY;
 var gRecomendInViewNoted = false;
 var gThereIsUluAd = 0;//MARK：表征底部为你推荐是否确实插入了联合广告，插入的话就计为1，这是为了方便统计曝光次数
 //  var gShareHeight = 38;
+var ftItemId = window.FTStoryid || window.interactiveId || '';
 var defaultPadding = 30;
 var hasSideWidth = 690;
 var sectionsWithSide = document.querySelectorAll('.block-container.has-side');
@@ -528,14 +529,14 @@ function stickyBottomUpdate() {
   if (gRecomendInViewNoted === false && window.recommendLoaded === true && typeof window.recommendInner === 'object' && gRecomendOffsetY > 0) {
     if (scrollTop + bodyHeight > gRecomendOffsetY) {
       //send event to google for once
-      if (window.FTStoryid === undefined) {
-        window.FTStoryid = '';
+      if (window.ftItemId === undefined) {
+        window.ftItemId = '';
       }
-      ga('send','event','Story Recommend', 'Seen' + window.recommendVersion, FTStoryid, {'nonInteraction':1});
+      ga('send','event','Story Recommend', 'Seen' + window.recommendVersion, ftItemId, {'nonInteraction':1});
       
       // MARK: If there is uluAd, send another ga 'seen' eventAction
       if(gThereIsUluAd === 1) {
-        ga('send','event','Story Recommend With Ad', 'Seen' + window.recommendVersion, FTStoryid, {'nonInteraction':1});
+        ga('send','event','Story Recommend With Ad', 'Seen' + window.recommendVersion, ftItemId, {'nonInteraction':1});
       }
       
       gRecomendInViewNoted = true;

@@ -19,7 +19,7 @@ var uluAdPosition = 300;
 // var thirdPartFeedbackUrl = 'http://120.27.47.77:8091/rec/click?siteId=5002&itemId=' + FTStoryid;
 
 
-var ftItemId = window.FTStoryid || window.interactiveId || '';
+//var ftItemId = window.FTStoryid || window.interactiveId || '';//Defined in main.js as Global Variables
 var thirdPartAPIUrl = '//uluai.com.cn/rcmd/getRtCmd?siteId=5002&num=12&itemId=' + ftItemId + '&position='+uluAdPosition;//FTStoryid为'001068131'
 var thirdPartFeedbackUrl = '//uluai.com.cn/rcmd/rec/click?siteId=5002&itemId=' + ftItemId + '&position='+uluAdPosition;
 
@@ -211,6 +211,7 @@ function getRec(data) {
             if(data[i]) {
                 if(data[i].isAd===1) { //把广告数据拎出来,更新全局变量adData
                     adData = data[i];
+                    ga('send','evnet','Story Recommend With Ad','Got Data', ftItemId, {'nonInteraction':1});//如果获取的数据里面有广告，则进行一次ga监控；正常不投放的情况下应该数据中间没有广告
                 } else { //把文章id拎出来，得到ids
                     var tmpKey = data[i].id;
                     var tmpVal = data[i].parameter;
