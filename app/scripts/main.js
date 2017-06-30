@@ -726,14 +726,10 @@ try {
               failAction = 'Fail' + retryTime;
             }
             uluAdImage.onload = function() {
-              ga('send','event','uluAd',seccessAction,uluAdUrl,{
-                'nonInteraction': 1
-              });
+              ga('send','event','uluAd',seccessAction,uluAdUrl);
             };
             uluAdImage.onerror = function() {
-              ga('send','event','uluAd',failAction,uluAdUrl,{
-                'nonInteraction': 1
-              });
+              ga('send','event','uluAd',failAction,uluAdUrl);
               retryTime++;
               if(retryTime<=5) {
                 uluAdSendOneTime();
@@ -743,9 +739,7 @@ try {
           };
 
           uluAdSendOneTime();
-          ga('send','event','uluAd','Request',uluAdUrl,{
-            'nonInteraction': 1
-          });
+          ga('send','event','uluAd','Request',uluAdUrl);
       }
     }
   });
