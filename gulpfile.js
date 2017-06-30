@@ -157,6 +157,7 @@ gulp.task('nav', () => {
   })
   .then(response => {
     console.log('updated ./app/api/page/nav.json');
+    console.log (response.body);
     return fs.writeFile('./app/api/page/nav.json', response.body, 'utf8');
   })
   .catch(error => {
