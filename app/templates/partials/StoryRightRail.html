@@ -6,7 +6,7 @@
 		</div>
 	<%/if%>
 
-	<%if $smarty.get.ad != "no" && $hideMPU1 != "yes"%>
+	<%if $smarty.get.ad != "no" && $noAd != "true" && $hideMPU1 != "yes"%>
 		<div class="mpu-container<%if $tagabout == ""%> first-child<%/if%>">
 			<script type="text/javascript">document.write (writeAd('storympu'));</script>
 		</div>
@@ -62,7 +62,7 @@
 	<%/if%>
 
 
-	<%if $smarty.get.ad != "no" && $hideMPU2 != "yes"%>
+	<%if $smarty.get.ad != "no" && $noAd != "true" && $hideMPU2 != "yes"%>
 		<div class="mpu-container<%if $story.tag|@count==0%> last-child<%/if%>">
 		    <script type="text/javascript">document.write (writeAd('storympu'));</script>
 		</div>
