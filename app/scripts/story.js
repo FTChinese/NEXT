@@ -1,4 +1,4 @@
-console.log('118');
+console.log('119');
 /*Global Variables*/
 var fontOptionsEle;
 var fs;
@@ -350,16 +350,20 @@ function recommendPayLoad(recommenddata, addata){
                 // MARK:如果文章中没有插入成推荐文章，那么ulu合作广告位就向前推一个位置。
                 uluAdPosition -= 1;
                 setUluAdPosition = 1;
+                console.log('a');
             }
             if(tryToInsertAd === 0 && addata.isAd ===1 && i === uluAdPosition) {
                 ///MARK:第4个位置放来自优路科技的广告（如果有的话）
+                console.log('b');
                 console.log('uluAdPosition:'+uluAdPosition);
                 var adHeadline,adImage,adLink,adItem;
                 adHeadline = addata.title;
                 adImage = addata.pic;
                 adLink = addata.url;
                 adItem = itemTop + '<div class="item-container ' + itemClass + ' has-image no-lead is-ad" ><div class="item-inner"><h2 class="item-headline"><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el= "uluAd"  target="_blank" href="'+adLink+'">'+adHeadline+'</a></h2><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el= "uluAd"  class="image" target="_blank" href="'+adLink+'"><figure class="loading" data-url="'+adImage+'"></figure></a><div class="item-bottom"></div></div></div>';
+
                 if(adImage && adImage !== '') {
+                    console.log('c');
                     itemHTML += adItem;
                     itemCount++;
                     gThereIsUluAd = 1;
