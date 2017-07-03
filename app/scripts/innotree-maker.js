@@ -94,8 +94,10 @@
     var pagemakerAPIRoot = '/falcon.php/pagemaker/';
     var storyAPIRoot = '/falcon.php/homepage/getstoryapi/';
     var innotreeAPIRoot = '/falcon.php/homepage/innotreeSearch/';
+    
     var gApiUrls = {
-        'home': pagemakerAPIRoot + 'get/'+ getURLParameter('page') +'/' + todaydate + '?' + thenow,
+        'home': pagemakerAPIRoot + 'get/innotree'+'/' + todaydate + '?' + thenow,
+       // 'home': pagemakerAPIRoot + 'get/'+ getURLParameter('page') +'/' + todaydate + '?' + thenow,
         'homePOST': pagemakerAPIRoot + 'post/innotree',
         'blank': 'api/page/innoblank.json?0',
         'stories': storyAPIRoot + todaydate + '?' + thenow,
@@ -169,12 +171,14 @@
         var dataHTML = '';
    //     var oTimeStamp = timeStamp || Math.round(new Date().getTime()/1000);
      //   var investorHTML = '';
+      //  console.log('new-timeStamp'+timeStamp)
         var hasImageClass = '';
         var imageBG = '';
         if (timeStamp !== '') {
             timeStamp = unixtochinese(timeStamp, timeStampType);
         } else {
             timeStamp = '<div class="new-item"></div>';
+         //   console.log('new-item')
         }
       
         dataHTML = '<div draggable=true data-type="' + type + '" class="item ' + type + hasImageClass + '"' + imageBG + ' data-id="' + id + '"> <div class="remove-item"></div> <div class="timestamp">' + timeStamp + '</div>  <div class="item-title">' + headline + '</div> <div class="item-info"><div class="item-links"> </div> <div class="item-info-item"><input title="headline" placeholder="headline" name="headline" class="o-input-text" value="' + headline + '"></div>  <div class="item-info-item"><div class="item-info-title">Company profile: </div><textarea title="company profile" placeholder="" name="companyProfile" class="o-input-text"></textarea></div>  <div class="item-info-item"><span class="item-info-title item-info-titleFixed">Reliability: </span> <select id="reliability" name="reliability" class="o-input-text  item-info-share" ><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div>  <div class="item-info-item"><div class="item-info-title">Investor: </div><textarea title="investor" placeholder="" name="investor" disabled="disabled" class="o-input-text" id="item-noedit-textarea">' + investors + '</textarea> </div>    <div class="item-info-item"><span class="item-info-title item-info-titleFixed">Long Name: </span><input title="image" placeholder="longName " name="longName" readonly="readonly"class="o-input-text item-info-textFixed" value="' + longName + '" ></div>  <div class="item-info-item"><span class="item-info-title item-info-titleFixed">Short Name: </span><input title="short lead" placeholder="short lead" name="shortName" readonly="readonly"class="o-input-text item-info-textFixed" value="' + shortName + '"></div>  <div class="item-info-item"><span class="item-info-title item-info-titleFixed">Time: </span><input title="time" placeholder="time" name="time" readonly="readonly"class="o-input-text item-info-textFixed" value="' + time + '"></div>  <div class="item-info-item"><span class="item-info-title item-info-titleFixed">Money: </span><input title="Money" placeholder="Money" name="Money" readonly="readonly"class="o-input-text item-info-textFixed" value="' + money + '"></div>   <div class="item-info-item"><span class="item-info-title item-info-titleFixed">Round: </span><input title="round" placeholder="round" name="round" readonly="readonly"class="o-input-text item-info-textFixed" value="' + round + '"></div>   <div class="item-info-item"><span class="item-info-title item-info-titleFixed">First Industry: </span><input title="image" placeholder="firstIndustry" name="firstIndustry" readonly="readonly"class="o-input-text item-info-textFixed" value="' + firstIndustry + '" ></div>   <div class="item-info-item"><span class="item-info-title item-info-titleFixed">Second Industry: </span><input title="image" placeholder="secondIndustry" name="secondIndustry" readonly="readonly"class="o-input-text item-info-textFixed" value="' + secondIndustry + '" ></div>  <div class="item-info-item"><span class="item-info-title item-info-titleFixed">Third Industry: </span><input title="image" placeholder="thirdIndustry" name="thirdIndustry"  readonly="readonly"class="o-input-text item-info-textFixed" value="' + thirdIndustry+ '" ></div>   </div></div>';
@@ -182,14 +186,31 @@
         return dataHTML;
     }
     function renderItem(data) {
-        console.log ('renderItem');
+       console.log (data);
+    //    var id = data.comp_ID;
+    //     var headline = data.comp_name;
+    //     var longName = data.comp_name || '';
+    //     var shortName = data.proj_name || '';
+    //  //   var image = data.image || '';
+    //     var type = data.type || '';
+    //     var timeStamp = data.time || '';
+    //     var timeStampType = 2;
+    //     var time = data.time || '';
+    //     var money = data.money_rawdata || '';
+
+    //     var round = data.round || '';
+    //     var firstIndustry = data.sector || '';
+    //     var secondIndustry = data.subsector || '';
+    //     var thirdIndustry = data.sub_subsector || '';
+    //     var investors =data.investor|| '';
+
         var id = data.id;
         var headline = data.headline;
         var longName = data.longName || '';
         var shortName = data.shortName || '';
      //   var image = data.image || '';
         var type = data.type || '';
-        var timeStamp = data.timeStamp || '';
+        var timeStamp = data.time || '';
         var timeStampType = 2;
         var time = data.time || '';
         var money = data.money || '';
@@ -199,9 +220,11 @@
         var secondIndustry = data.secondIndustry || '';
         var thirdIndustry = data.thirdIndustry || '';
         var investors =[]|| '';
+
         if (type !== 'story') {
             timeStampType = 3;
         }
+       //console.log('111n1ew-timeStamp---'+timeStamp) ;
         return renderAPI(id, headline, timeStamp, timeStampType, longName, shortName,  type,time, money, round,firstIndustry,secondIndustry,thirdIndustry,investors);
     }
 
