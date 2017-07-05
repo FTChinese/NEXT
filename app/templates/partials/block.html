@@ -80,6 +80,7 @@
 					<%assign var="listClass" value=" XL-oneline"%>
 				<%/if%>
 			<%/if%>
+
 			<%assign var="prev" value=$l-1%>
 			<%if $listTopClass !== "" && $l > 0%>
 				<%assign var="listTop" value="<div class=\"`$listTopClass`\"></div>"%>
@@ -199,7 +200,9 @@
 				<%else%>
 					<%assign var="feedType" value="manual"%>
 					<%assign var="itemsArray" value=$list.items%>
+
 				<%/if%>
+
 
 
 				<%assign var="i" value=0%>
@@ -994,6 +997,7 @@
 							<%/if%>
 						<%/if%>
 
+
 						<%if $listType == "videos" && $i>5%>
 							<%*<!--Only display first 6 in video package-->*%>
 						<%elseif $list.float === "ScoreBoard"%>
@@ -1023,6 +1027,14 @@
 							</div></div>
 							<%assign var="i" value=$i+1%>
 						<%elseif $list.float === "Headshot"%>
+							<%if $list.feedItems > 0 && $list.feedItems < $list.items|@count && $list.feedItems <= $i%>
+								<%assign var="showMoreButton" value="yes"%>
+								<%assign var="itemClass" value="`$itemClass` hide"%>
+								<%if $itemTopClass != ""%>
+									<%assign var="itemClass" value="`$itemClass` "%>
+									<%assign var="itemTop" value="<div class=\"`$itemTopClass` hide\"></div>"%>
+								<%/if%>
+							<%/if%>
 							<%$itemTop%>
 							<div class="item-container <%$itemClass%> <%$hasImage%>"><div class="item-inner">
 								<a class="image portrait-img" target="_blank"<%$itemLink%>><figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure></a>
@@ -1121,6 +1133,24 @@
 			<%/if%>
 			<%if $list.moreLink != ""%>
 				<div class="more-link"><a href="<%$list.moreLink%>">更多</a></div>
+			<%elseif $showMoreButton == "yes"%>
+				<script>
+					function showMore(ele) {
+						var hidenDivs = ele.parentNode.parentNode.querySelectorAll('.hide');
+						for (var i=0; i<hidenDivs.length; i++) {
+							hidenDivs[i].className = hidenDivs[i].className.replace(' hide', '');
+						}
+						ele.parentNode.style.display = 'none';
+						try {
+							loadImages();
+							stickyBottomPrepare();
+						} catch (ignore) {
+
+						}
+					}
+				</script>
+				<div class="more-link"><a onclick="showMore(this)">更多</a></div>
+				<%assign var="showMoreButton" value=""%>
 			<%/if%>
 			<%assign var="next" value=$l+1%>
 			<%*<!--combine side lists-->*%>
@@ -1320,6 +1350,14 @@
 										<h2 class="item-headline"><%$itemTag%><a target="_blank"<%$itemLink%>><%$itemHeadline%></a></h2>
 									<%/if%>	
 									<div class="item-lead item-description"><%$itemLead|nl2br%></div>
+								<%elseif $list.sideOption == "originalImage"%>
+									<style>
+										.is-original img {
+											margin: 0 auto;
+											display: block;
+										}
+									</style>
+									<%if $itemImage != "" && $hasImage === "has-image"%><a class="image is-original" target="_blank"<%$itemLink%>><img src="<%$itemImage|replace:"/upload/":"/"%>"></a><%/if%>
 								<%elseif $list.sideOption == "barcode"%>
 									<style>
 									.is-barcode figure {
