@@ -2,6 +2,7 @@ function printRate() {
 var tableRows = document.getElementById('ID-eventPanel-Table').querySelectorAll('tbody tr');
 //console.log (tableRows);
 
+var initiate = 0;
 var request = 0;
 var success = 0;
 var successOnRetry = 0;
@@ -14,7 +15,9 @@ for (var i = 0; i<tableRows.length; i++) {
 	var dataName = tableRows[i].querySelectorAll('td')[1].querySelector('span').innerHTML;
 	var dataValue = tableRows[i].querySelector('._GALM').innerHTML.replace(',', '');
 	dataValue = parseInt(dataValue, 10) || 0;
-	if (dataName === 'Request') {
+	if (dataName === 'initiate') {
+		initiate += dataValue;
+	} else if (dataName === 'Request') {
 		request += dataValue;
 	} else if (dataName === 'Success') {
 		success += dataValue;
@@ -28,6 +31,11 @@ for (var i = 0; i<tableRows.length; i++) {
 		pending += dataValue;
 	}
 }
+
+
+var requestRate = 100 * request / initiate;
+requestRate = (Math.round(requestRate * 10))/10;
+requestRate = requestRate + '% of Dolphin requests are executed';
 
 var rate = 100 * (success + successOnRetry) / request;
 rate = (Math.round(rate * 10))/10;
@@ -56,6 +64,8 @@ retrySuccessRate = 'Recover ' + retrySuccessRate + '% through retry';
 
 console.clear();
 // console.log (request + ' requests, ' + success + ' succeed at once, ' + successOnRetry + ' succeed on retry. ');
+
+console.log (requestRate);
 console.log (firstSuccessRate);
 console.log (failRate);
 console.log (pendingRate);

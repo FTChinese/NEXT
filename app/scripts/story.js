@@ -1,4 +1,4 @@
-console.log('118');
+console.log('119');
 /*Global Variables*/
 var fontOptionsEle;
 var fs;
@@ -13,13 +13,15 @@ var message = {};
 var recommendLoaded = false;
 var recommendInner = document.getElementById('story-recommend');
 var recommendVersion;
-//var uluAdPosition = getRandomInt(1, 5);//表征底部为您推荐的第几个位置用于展示uluAd，第1个位置记为1 ,此时随机为1,2,3,4
-var uluAdPosition = 300;
+var uluAdPosition = getRandomInt(1, 5);//表征底部为您推荐的第几个位置用于展示uluAd，第1个位置记为1 ,此时随机为1,2,3,4
+//var uluAdPosition = 300;
 // var thirdPartAPIUrl = 'http://120.27.47.77:8091/getRtCmd?siteId=5002&num=8&itemId=' + FTStoryid;
 // var thirdPartFeedbackUrl = 'http://120.27.47.77:8091/rec/click?siteId=5002&itemId=' + FTStoryid;
 
-var thirdPartAPIUrl = '//uluai.com.cn/rcmd/getRtCmd?siteId=5002&num=12&itemId=' + FTStoryid + '&position='+uluAdPosition;//FTStoryid为'001068131'
-var thirdPartFeedbackUrl = '//uluai.com.cn/rcmd/rec/click?siteId=5002&itemId=' + FTStoryid + '&position='+uluAdPosition;
+
+//var ftItemId = window.FTStoryid || window.interactiveId || '';//Defined in main.js as Global Variables
+var thirdPartAPIUrl = '//uluai.com.cn/rcmd/getRtCmd?siteId=5002&num=12&itemId=' + ftItemId + '&position='+uluAdPosition;//FTStoryid为'001068131'
+var thirdPartFeedbackUrl = '//uluai.com.cn/rcmd/rec/click?siteId=5002&itemId=' + ftItemId + '&position='+uluAdPosition;
 
 var thirdPartData = [];
 var userId;
@@ -209,6 +211,7 @@ function getRec(data) {
             if(data[i]) {
                 if(data[i].isAd===1) { //把广告数据拎出来,更新全局变量adData
                     adData = data[i];
+                    ga('send','event','Story Recommend With Ad','Got Data', ftItemId, {'nonInteraction':1});//MARK：如果获取的数据里面有广告，则进行一次ga监控；正常不投放的情况下应该数据中间没有广告
                 } else { //把文章id拎出来，得到ids
                     var tmpKey = data[i].id;
                     var tmpVal = data[i].parameter;
@@ -343,23 +346,27 @@ function recommendPayLoad(recommenddata, addata){
             //MARK:底部文章区
             // MARK: - Use the number i to decide the position of the ad
         
-            if(instertedInstory === 0 && setUluAdPosition === 0) {
+            if(instertedInstory === 0 && addata.isAd ===1 && setUluAdPosition === 0) {
                 // MARK:如果文章中没有插入成推荐文章，那么ulu合作广告位就向前推一个位置。
                 uluAdPosition -= 1;
                 setUluAdPosition = 1;
+                console.log('a');
             }
-            if(tryToInsertAd === 0 && addata && i === uluAdPosition) {
+            if(tryToInsertAd === 0 && addata.isAd ===1 && i === uluAdPosition) {
                 ///MARK:第4个位置放来自优路科技的广告（如果有的话）
+                console.log('b');
                 console.log('uluAdPosition:'+uluAdPosition);
                 var adHeadline,adImage,adLink,adItem;
                 adHeadline = addata.title;
                 adImage = addata.pic;
                 adLink = addata.url;
                 adItem = itemTop + '<div class="item-container ' + itemClass + ' has-image no-lead is-ad" ><div class="item-inner"><h2 class="item-headline"><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el= "uluAd"  target="_blank" href="'+adLink+'">'+adHeadline+'</a></h2><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el= "uluAd"  class="image" target="_blank" href="'+adLink+'"><figure class="loading" data-url="'+adImage+'"></figure></a><div class="item-bottom"></div></div></div>';
+
                 if(adImage && adImage !== '') {
+                    console.log('c');
                     itemHTML += adItem;
                     itemCount++;
-                    //thereIsUluAd = 1;
+                    gThereIsUluAd = 1;
                 }
                 tryToInsertAd = 1;
                 i--;//尝试插入广告的行为势必会经历一次循环，该循环等于recommenddata[1]还没有用，就i--下次还是用recommenddata[1]
@@ -413,10 +420,9 @@ function guid() {
 }
 
 // MARK:Getting a random integer between two values.The maximum is exclusive and the minimum is inclusive
-/*
+
 function getRandomInt(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min)) + min; 
 }
-*/

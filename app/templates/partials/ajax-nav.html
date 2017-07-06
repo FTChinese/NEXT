@@ -1,5 +1,21 @@
-<%easyapi command="11001" assign="datass1" debug=false%><%assign var="navData" value=$datass1.odatalist%>
-<%foreach from=$datass1.odatalist item="level_1"%>
+
+
+<%*easyapi command="11001" assign="datass1" debug=false*%>
+<%*assign var="navData" value=$datass1.odatalist*%>
+
+<%php%>
+$filename = "../frontend/tpl/next/api/page/nav.json";
+$handle = fopen($filename, "r");
+$json = fread($handle, filesize ($filename));
+fclose($handle);
+$page = json_decode($json, true);
+$this->assign("p", $page);
+<%/php%>
+<%assign var="navData" value=$p.body.odatalist%>
+
+
+<%*foreach from=$datass1.odatalist item="level_1"*%>
+<%foreach from=$navData item="level_1"%>
 <li class="nav-section" data-section="<%$level_1.code%>">
   <ol class="nav-items level-2">
     <li class="nav-item mobile">

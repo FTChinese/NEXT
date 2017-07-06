@@ -2,7 +2,7 @@
 <%if $smarty.get.utm_campaign == "2M161000" || preg_match("/2U16[0-9]+/is",$smarty.get.utm_campaign)%>
 	<%assign var="hideBanner" value="yes"%>
 <%/if%>
-<%if $smarty.get.ad != "no" && $hideBanner != "yes"%>
+<%if $smarty.get.ad != "no" && $noAd != "true" && $hideBanner != "yes"%>
 	<%if $pageId == "home"%>
 		<%assign var="bannerType" value="banner"%>
 	<%elseif $pageId != ""%>

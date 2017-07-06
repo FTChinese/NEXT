@@ -1,31 +1,5 @@
-
-<script>
-    var hitTracker = new Image();
-    hitTracker.src = 'http://www.ftchinese.com/index.php/ft/hit/605257/73322941';
-    (function() {
-        var fullScreenImage = {
-            'imageUrl': 'https://creatives.ftimg.net/ads/beijing/201706/840-210-0612.jpg',
-            'link': 'http://dolphin.ftimg.net/c?z=ft&la=0&si=600&cg=2023&c=20230101&ci=263&or=3759&l=605257&bg=8911&b=30310&u=http://clickc.admaster.com.cn/c/a86063,b1726056,c362,i0,m101,8a2,8b2,h',
-            'widthByHeight': 4
-        };
-        var isRetinaDevice = (window.devicePixelRatio > 1);
-        var w;
-        var h;
-        var imageWidth;
-        var imageHeight;
-        var mod = 50;
-        var imageUrl;
-        var fitType = 'cover';
-        var htmlCode;
-        var parentDom;
-        var parentFrameDom;
-        var parentLink;
-        var imageServiceBase = 'https://www.ft.com/__origami/service/image/v2/images/raw/';
-        var Imp = 'http://v.admaster.com.cn/i/a86063,b1726056,c362,i0,m202,8a2,8b2,h';
-        var AdName = 'Full Width Top Banner';
-        var AssID = '605257';
-
-
+/* exported sendImpToThirdParty */
+// MARK: - Test Checking The Impression Tracking
 function sendImpToThirdParty(Imp, AdName, AssID) {
     if (typeof Imp === 'string') {
         if (typeof window.parent.gTrackThirdParyImpression !== 'object') {
@@ -36,20 +10,21 @@ function sendImpToThirdParty(Imp, AdName, AssID) {
         var isRequestSuccessful = false;
         var retryTimeLimit = 3;
         var sendEvent = function() {
-          var eventCategory = arguments[0] || '';
-          var eventAction = arguments[1] || '';
-          var eventLabel = arguments[2] || '';
-          try {
-            window.parent.ga('send', 'event', eventCategory, eventAction, eventLabel, {'nonInteraction': 1});
-          } catch (ignore) {
-            var gaServerTracker = new Image();
-            gaServerTracker.src = 'http://www.ftchinese.com/index.php/ft/hit/' + AssID + '/2?ec=' + eventCategory + '&ea=' + eventAction + '&el=' + eventLabel;
-            if (eventAction === 'request') {
-              var topUrl = top.location.href;
-              var topUrlTracker = new Image();
-              topUrlTracker.src = 'http://www.ftchinese.com/index.php/ft/hit/' + AssID + '/1?url=' + encodeURIComponent(topUrl);
+            var eventCategory = arguments[0] || '';
+            var eventAction = arguments[1] || '';
+            var eventLabel = arguments[2] || '';
+            try {
+                window.parent.ga('send', 'event', eventCategory, eventAction, eventLabel, {'nonInteraction': 1});
+            } catch (ignore) {
+                var gaServerTracker = new Image();
+                var asRandom = 'G' + Math.round(Math.random() * 1000000000000);
+                gaServerTracker.src = 'http://www.ftchinese.com/index.php/ft/hit/' + AssID + '/2?ec=' + eventCategory + '&ea=' + eventAction + '&el=' + eventLabel + '&r=' + asRandom;
+                // if (eventAction === 'request') {
+                //   var topUrl = top.location.href;
+                //   var topUrlTracker = new Image();
+                //   topUrlTracker.src = 'http://www.ftchinese.com/index.php/ft/hit/' + AssID + '/1?url=' + encodeURIComponent(topUrl);
+                // }
             }
-          }
         };
         var sendOnetime = function() {
             var asRandom = 'IMG' + Math.round(Math.random() * 1000000000000);
@@ -133,53 +108,3 @@ function sendImpToThirdParty(Imp, AdName, AssID) {
         sendEvent(AdName + ' (' + AssID + ')', 'Request', Imp);
     }
 }
-
-
-
-        if (typeof Imp === 'string' && Imp !== '') {
-            if (typeof window.parent.sendImpToThirdParty === 'function') {
-                window.parent.sendImpToThirdParty(Imp, AdName, AssID);
-            } else {
-                sendImpToThirdParty(Imp, AdName, AssID);
-            }
-        }
-
-        if (window.parent) {
-            w = window.parent.innerWidth || window.parent.document.documentElement.clientWidth || window.parent.document.body.clientWidth;
-        } else {
-            w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-        }
-        if (w === 360 || w === 375 || w === 320 || w === 414 || w === 768 || w === 1024 || w>1220) {
-            imageWidth = w;
-        } else {
-            imageWidth = Math.ceil(w/mod) * mod;
-        }
-        h = Math.round(w/fullScreenImage.widthByHeight);
-        if (isRetinaDevice === true) {
-          imageWidth = imageWidth * 2;
-        }
-        imageHeight = imageWidth/fullScreenImage.widthByHeight;
-        imageHeight = Math.round(imageHeight);
-        imageUrl = imageServiceBase + encodeURIComponent(fullScreenImage.imageUrl) + '?source=ftchinese&width=' + imageWidth + '&height=' + imageHeight + '&fit=' + fitType;
-        htmlCode = '<a href="'+fullScreenImage.link.replace('dolphin.','dolphin1.')+'" target=_blank><image src="'+ imageUrl +'" style="width:100%;"></a>';
-        window.forceLink = fullScreenImage.link.replace('dolphin.','dolphin1.');
-        window.forceHeight = h;
-        document.write (htmlCode);
-
-        if (window.parent && typeof adId === 'string') {
-          parentDom = parent.document.getElementById('ad-' + adId);
-          if (parentDom) {
-              parentFrameDom = parent.document.getElementById(adId);
-              parentLink = parentDom.getElementsByTagName("a")[0];
-              parentDom.style.width = '100%';
-              parentDom.style.height = h + 'px';
-              parentFrameDom.style.width = '100%';
-          }
-        } else if (window.isWeChat === true) {
-          console.log(adType);
-          parentDom = document.querySelectorAll('.bn-ph')[adCount[adType]-1];
-          parentDom.className += ' full-width';
-          parentDom.querySelector('.banner-content').style.height = h + 'px';
-        }
-    }) ();  
-</script>

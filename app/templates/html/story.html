@@ -2,6 +2,9 @@
 <%if !isset($adchannelID)||$adchannelID==""%>
     <%assign var="adchannelID" value="1100"%>
 <%/if%>
+<%if $smarty.get.ad == "no" || ($story.id == "001073180" && date("Ymd",$smarty.now) <= 20170712)%>
+	<%assign var="noAd" value="true"%>
+<%/if%>
 <%if $story.column!=""%>
 	<%assign var="columninfo" value=$storymodel->get_column_info($story.column)%>
 <%/if%>
@@ -884,27 +887,34 @@
 	<%assign var="story_content" value=$story_content|regex_replace:"/<div class=[\"]*inlinevideo[\"]* id=[\"]*[\"]* auto[sS]tart=[\"]*([a-zA-Z]+)[\"]* title=\"(.*)\" image=\"(.*)\" vid=\"(.*)\" vsource=\"(.*)\"><\/div>/":"<div class='o-responsive-video-container'><div class='o-responsive-video-wrapper-outer'><div class='o-responsive-video-wrapper-inner'><object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' width='100%' height='100%' id='osmfPlayer'><param name='movie' value='http://static.ftchinese.com/player111014/osmfPlayer_3.swf?videoid=\\4&autoplay=false' /><param name='quality' value='high' /><param name='bgcolor' value='#000000' /><param name='allowScriptAccess' value='always' /><param name='allowFullScreen' value='true' /><!--[if !IE]>--><object type='application/x-shockwave-flash' data='http://static.ftchinese.com/player111014/osmfPlayer_3.swf?videoid=\\4&autoplay=false' width='100%' height='100%'><param name='quality' value='high' /><param name='bgcolor' value='#000000' /><param name='allowFullScreen' value='true' /><param name='allowScriptAccess' value='always' /><!--<![endif]--><!--[if gte IE 6]>--><video id='nowvideo' src='http://v.ftimg.net/\\5' controls='' width='100%' height='100%'><p>Either scripts and active content are not permitted to run or Adobe Flash Player version10.0.0 or greater is not installed.</p></video><!--<![endif]--><!--[if !IE]>--></object><!--<![endif]--></object></div></div><a class='o-responsive-video-caption' href='/video/\\4' target='_blank'>\\2</a></div>"%>
 	<%assign var="storyBody" value=$storyBody|regex_replace:"/<div class=[\"]*inlinevideo[\"]* id=[\"]*[\"]* auto[sS]tart=[\"]*([a-zA-Z]+)[\"]* title=\"(.*)\" image=\"(.*)\" vid=\"(.*)\" vsource=\"(.*)\"><\/div>/":"<div class='o-responsive-video-container'><div class='o-responsive-video-wrapper-outer'><div class='o-responsive-video-wrapper-inner'><object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' width='100%' height='100%' id='osmfPlayer'><param name='movie' value='http://static.ftchinese.com/player111014/osmfPlayer_3.swf?videoid=\\4&autoplay=false' /><param name='quality' value='high' /><param name='bgcolor' value='#000000' /><param name='allowScriptAccess' value='always' /><param name='allowFullScreen' value='true' /><!--[if !IE]>--><object type='application/x-shockwave-flash' data='http://static.ftchinese.com/player111014/osmfPlayer_3.swf?videoid=\\4&autoplay=false' width='100%' height='100%'><param name='quality' value='high' /><param name='bgcolor' value='#000000' /><param name='allowFullScreen' value='true' /><param name='allowScriptAccess' value='always' /><!--<![endif]--><!--[if gte IE 6]>--><video id='nowvideo' src='http://v.ftimg.net/\\5' controls='' width='100%' height='100%'><p>Either scripts and active content are not permitted to run or Adobe Flash Player version10.0.0 or greater is not installed.</p></video><!--<![endif]--><!--[if !IE]>--></object><!--<![endif]--></object></div></div><a class='o-responsive-video-caption' href='/video/\\4' target='_blank'>\\2</a></div>"%>
 
+
+
+
+
 	<!-- keys: start-->
 	<%if (in_array("单页",$story.tag) || $smarty.get.full=="y") && $page_action=="en"%>
 		<%assign var="story_content" value=$story.ebody%>
 	<%elseif (!in_array("单页",$story.tag) && $smarty.get.full!="y") || $page_action=="en"%>
 
-		<%if $hideMPU3 == "yes" || $smarty.get.ad == "no" || preg_match("/活动页面/is",$keys)%>
+		<%if $hideMPU3 == "yes" || $noAd == "true" || preg_match("/活动页面/is",$keys)%>
 		    <%assign var="story_content" value=$story_content|replace:"<div id=\"story_main_mpu\"></div>":""%>
 		<%else%>
 			<%assign var="story_content" value=$story_content|replace:"<div id=\"story_main_mpu\"></div>":"<div id=\"story_main_mpu\"><script type=\"text/javascript\">document.write (writeAd('storympu'));</script></div>"%>
 		<%/if%>
-	<%elseif $hideMPU3!="yes" && !preg_match("/活动页面/is",$keys)%>
+	<%elseif $hideMPU3!="yes" && !preg_match("/活动页面/is",$keys) && $noAd != "true"%>
 	<%*<!--在单页的情况下，如果文章没有插图，没有iframe，没有video，没有highcharts, 也没有被强制设为不显示MPU 3，则将MPU_3广告位插入到第五段开头。-->*%>
 		 <%assign var="story_content" value=$storyBody|regex_replace:"/[\r\t\n]/":""|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1<div id=story_main_mpu><script type=\"text/javascript\">document.write (writeAd('storympu'));</script></div><p>"%>
 	<%else%>
 		<%assign var="story_content" value=$storyBody%>
 	<%/if%>
 
-	<%if date("Ymd",$smarty.now) <= 20161230%>
-		<%assign var="story_content" value=$story_content|regex_replace:"/[\r\t\n]/":""|regex_replace:"/^(\<p\>.*?)\<p\>/":"\\1<div class=story_main_mpu_vw><script type=\"text/javascript\">document.write (writeAd('storympuVW'));</script></div><p>"%>
-	<%else%>
-		<%assign var="story_content" value=$story_content|regex_replace:"/[\r\t\n]/":""|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1<div class=\"in-story-recommend P-only\" id=\"in-story-recommend\"></div><p>"%>
+	
+	<%if $noAd != "true"%>
+		<%if date("Ymd",$smarty.now) <= 20161230%>
+			<%assign var="story_content" value=$story_content|regex_replace:"/[\r\t\n]/":""|regex_replace:"/^(\<p\>.*?)\<p\>/":"\\1<div class=story_main_mpu_vw><script type=\"text/javascript\">document.write (writeAd('storympuVW'));</script></div><p>"%>
+		<%else%>
+			<%assign var="story_content" value=$story_content|regex_replace:"/[\r\t\n]/":""|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1<div class=\"in-story-recommend P-only\" id=\"in-story-recommend\"></div><p>"%>
+		<%/if%>
 	<%/if%>
 <%/if%>
 
@@ -961,11 +971,11 @@
 		<%assign var="story_content" value=$cbody|regex_replace:"/[\r\t\n]/":"</p><p>"%>
 		<%assign var="story_content" value="<p>`$story_content`</p>"%>
 		<%assign var="story_content" value=$story_content|regex_replace:"/\<p\>\<\/p\>/":""%>
-		<%if !preg_match("/highcharts/is",$story_content) && !preg_match("/video/is",$story_content) && $hideMPU3!="yes"%>
+		<%if !preg_match("/highcharts/is",$story_content) && !preg_match("/video/is",$story_content) && $hideMPU3!="yes" && $noAd != "true"%>
 		<%*<!--在单页的情况下，如果文章没有插图，没有iframe，没有video，没有highcharts, 也没有被强制设为不显示MPU 3，则将MPU_3广告位插入到第五段开头。-->*%>
 			 <%assign var="story_content" value=$story_content|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1<div id=story_main_mpu><script type=\"text/javascript\">document.write (writeAd('storympu'));</script></div><p>"%>
 		<%/if%>
-		<%if date("Ymd",$smarty.now) <= 20161230%>
+		<%if date("Ymd",$smarty.now) <= 20161230 && $noAd != "true"%>
 			<%assign var="story_content" value=$story_content|regex_replace:"/^(\<p\>.*?)\<p\>/":"\\1<div class=story_main_mpu_vw><script type=\"text/javascript\">document.write (writeAd('storympuVW'));</script></div><p>"%>
 		<%/if%>
 
@@ -1039,6 +1049,7 @@
 		</style>
 	<%/if%>
 <%/if%>
+
 
 
 <%if $story.original=="yes"%>
@@ -1189,12 +1200,15 @@
                 link.media = 'all';
                 head.appendChild(link);
             }
+
         </script>
     <![endif]-->
     <%if preg_match("/数据新闻/is",$keys)%>
 	    <script type="text/javascript">window.interactiveType = 'Data News';</script>
     <%/if%>
     <%include file="next/partials/head.html"%>
+
+		<script>!function(a,b,c){var d=b.getElementsByTagName(c)[0],e=b.createElement(c);e.async=!0,e.src="http://uluai.com.cn/api/sc/j/moni.min.js",d.parentNode.insertBefore(e,d)}(window,document,"script");</script>
   </head>
   <%assign var="bannerCount" value=0%>
   <body class="<%$hideDate%>">
