@@ -986,7 +986,7 @@
 							<div class="item-inner video-package-inner"><div class="image"><figure id="video-package-play" class="loading-video" data-vid="<%$itemId%>"></figure></div><div class="video-package-title"><a href="/video/<%$itemId%>" target=_blank><%$itemHeadline%></a></div></div>
 						<%/if%>
 
-						<%if (preg_match("/特别企划|企业公告/is",$itemTagsString) || ($item.customLink != "" && preg_match("/^http/is",$item.customLink) && !preg_match("/ftchinese.com|ft.com|ftacademy/is",$item.customLink)))  && !preg_match("/event.html|marketing/is",$smarty.server.REQUEST_URI)%>
+						<%if (preg_match("/特别企划|企业公告/is",$itemTagsString) || ($item.customLink != "" && preg_match("/^http/is",$item.customLink) && !preg_match("/ftchinese.com|ft.com|ftacademy/is",$item.customLink)))  && !preg_match("/event.html|marketing|m\/corp/is",$smarty.server.REQUEST_URI)%>
 							<%assign var=itemClass value="`$itemClass` paid-post"%>
 							<%if $paidPostStyleLoaded == ""%>
 								<style><%include file="next/styles/main-paid-post.css"%></style>
