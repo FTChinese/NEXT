@@ -55,7 +55,7 @@
 
 
 
-	<%if in_array(date("Ymd"),explode(",",$ad.Ribbon)) && $smarty.get.ad != "no"%>
+	<%if in_array(date("Ymd"),explode(",",$ad.Ribbon)) && $smarty.get.ad != "no" && $noAd != "true"%>
 	<iframe id="ribbon" class="ad-hidden hide" width="100%" height="60" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="/m/marketing/a.html#adid=10000009&slot=986723212&pid=ribbon"></iframe>
 	<%/if%>
 
@@ -84,7 +84,7 @@
 		</div>
 	<%/if%>
 
-	<%if $smarty.get.ad != "no"%>
+	<%if $smarty.get.ad != "no" && $noAd != "true"%>
 		<div class="mpu-container">
 			<script type="text/javascript">document.write (writeAd('mpu'));</script>
 		</div>
@@ -146,7 +146,7 @@
 		<!--<%*两组数据进行合并，重新排序 End*%>-->
 	</div>
 
-	<%if $smarty.get.ad != "no"%>
+	<%if $smarty.get.ad != "no" && $noAd != "true"%>
 		<div class="mpu-container">
 		    <script type="text/javascript">document.write (writeAd('mpu'));</script>
 		</div>
