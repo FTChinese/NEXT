@@ -100,7 +100,8 @@
         'home': pagemakerAPIRoot + 'get/innotree'+'/' + todaydate + '?' + thenow,
        // 'home': pagemakerAPIRoot + 'get/'+ getURLParameter('page') +'/' + todaydate + '?' + thenow,
         'homePOST': pagemakerAPIRoot + 'post/innotree',
-        'blank': 'api/page/innoblank.json?0',
+        // 'blank': 'api/page/innoblank.json?0',
+        'blank': pagemakerAPIRoot + 'get/innotree'+'/' + todaydate + '?' + thenow,
         'stories': storyAPIRoot + todaydate + '?' + thenow,
         'innotree': innotreeAPIRoot,
     };
