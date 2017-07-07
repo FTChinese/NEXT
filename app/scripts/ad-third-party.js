@@ -40,3 +40,13 @@ function adReachability() {
   //console.log (adParameter);
   return adParameter;
 }
+
+function showTextImageForAd(sourceInfo) {
+  //MARK: sourceInfo is the object that has all the information from advertiser
+  //
+  //MARK:  if some dom exist, change the content
+  // MARK: add appropriate event tracking
+  // category: Text and Image Ad
+  // action: click banner/mpu
+  // label: headline 
+}

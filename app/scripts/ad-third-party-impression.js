@@ -13,17 +13,12 @@ function sendImpToThirdParty(Imp, AdName, AssID) {
             var eventCategory = arguments[0] || '';
             var eventAction = arguments[1] || '';
             var eventLabel = arguments[2] || '';
+            var asRandom = 'G' + Math.round(Math.random() * 1000000000000);
             try {
                 window.parent.ga('send', 'event', eventCategory, eventAction, eventLabel, {'nonInteraction': 1});
             } catch (ignore) {
                 var gaServerTracker = new Image();
-                var asRandom = 'G' + Math.round(Math.random() * 1000000000000);
                 gaServerTracker.src = 'http://www.ftchinese.com/index.php/ft/hit/' + AssID + '/2?ec=' + eventCategory + '&ea=' + eventAction + '&el=' + eventLabel + '&r=' + asRandom;
-                // if (eventAction === 'request') {
-                //   var topUrl = top.location.href;
-                //   var topUrlTracker = new Image();
-                //   topUrlTracker.src = 'http://www.ftchinese.com/index.php/ft/hit/' + AssID + '/1?url=' + encodeURIComponent(topUrl);
-                // }
             }
         };
         var sendOnetime = function() {
