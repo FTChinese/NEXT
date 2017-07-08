@@ -1,5 +1,6 @@
 console.log('119');
 /*Global Variables*/
+var gReplaceInstoryrecWithAd = false;
 var fontOptionsEle;
 var fs;
 
@@ -27,7 +28,6 @@ var thirdPartData = [];
 var userId;
 var recommendData =[];//存放推荐数据
 var adData = {};//存放广告数据
-//var thereIsUluAd = 0;//表征是否确实插入了联合广告，插入的话就计为1，这是为了方便曝光次数
 
 /*决定recommends的版本 */
 /*
@@ -298,7 +298,7 @@ function recommendPayLoad(recommenddata, addata){
     //MARK:一块文章item的信息定义
     var itemHeadline,itemImage,itemId,itemT,itemLead,itemTag,link,oneItem,oneImage;
 
-    var instertedInstory = 0;//表征是否插入了文章内容中间的推荐块
+    var insertedInstory = 0;//表征是否已经成功插入了文章内容中间的推荐块
     var tryToInsertAd = 0;//表征还未尝试插入广告，每次都会尝试插入一次，插入完成或因广告信息缺失没有插入的话都更新为1
     var setUluAdPosition = 0;//表征是否已判断底部推荐位广告的位置，只判断1次，判断后就置为1
 
@@ -339,14 +339,14 @@ function recommendPayLoad(recommenddata, addata){
             oneImage = '<a data-ec="In Story Recommend" data-ea="'+eventAction+'" data-el="'+itemT+'/story/'+itemId+'" class="recommend-image" target="_blank" href="'+link+'"><figure class="loading" data-url="'+itemImage+'"></figure></a>';
             recommendDiv.innerHTML = '<div class="recommend-header">' + itemTag + '</div><div class="recommend-content">' + oneItem + '</div>' + oneImage;
             recommendDiv.className = 'leftPic in-story-recommend';
-            instertedInstory = 1;//s
+            insertedInstory = 1;//s
 
            
         } else if (itemCount<maxItem ) {
             //MARK:底部文章区
             // MARK: - Use the number i to decide the position of the ad
         
-            if(instertedInstory === 0 && addata.isAd ===1 && setUluAdPosition === 0) {
+            if(insertedInstory === 0 && addata.isAd ===1 && setUluAdPosition === 0) {
                 // MARK:如果文章中没有插入成推荐文章，那么ulu合作广告位就向前推一个位置。
                 uluAdPosition -= 1;
                 setUluAdPosition = 1;
@@ -380,6 +380,8 @@ function recommendPayLoad(recommenddata, addata){
         }
     }
     recommendInner.innerHTML = itemHTML;
+
+   
     bindFeedbackEvent();
     document.getElementById('story-recommend-container').style.display = 'block';
     loadImages();//from main.js
@@ -389,6 +391,18 @@ function recommendPayLoad(recommenddata, addata){
 
     }
     recommendLoaded = true;
+    if(recommendLoaded = true && document.getElementById('in-story-recommend')) {
+        gReplaceInstoryrecWithAd = true;
+    }
+
+    // MARK: Test for showTextImageForAd in ad-third-party.js
+    /*
+    var sourceInfo = {};
+    setTimeout(function(){
+        showTextImageForAd(sourceInfo);
+    }, 5000);
+    */
+    
 }
 
 
