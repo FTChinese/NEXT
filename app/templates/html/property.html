@@ -1,0 +1,174 @@
+<%if $storymodel != ""%>
+<%assign var=taginfo value=$storymodel->get_tag_describes($tag_name)%>
+<%assign var=tagtitle value=$taginfo.tag_title%>
+<%assign var=tagabout value=$taginfo.tag_desc|default:$PageIntro%>
+<%/if%>
+
+
+<%if $tagtitle=="" || $breadcrumb!=""%>
+<%if $breadcrumb!=""%>
+<%assign var="tagtitle" value=$breadcrumb%>
+<%else%>
+<%assign var="tagtitle" value=$tag_name%>
+<%/if%>
+<%/if%>
+<%if $allstory|@count==0 && $storyCust|@count==0 && $tagstory2|@count==0 && $adchannelID=="" && $pageType != "search" && $pageType != "findpassword" && $pageType != "form"%>
+<%assign var="tagtitle" value="FT中文网"%>
+<%elseif $count_result == 0 && $pageType=="search"%>
+<%assign var="tagtitle" value="无效的关键字"%>
+<%/if%>
+
+<%assign var="channelname" value=" <span>`$tagtitle`</span>"%>
+<%if !isset($adchannelID)||$adchannelID ==""%>
+<%assign var="adchannelID" value="2000"%>
+<%/if%>
+<%if !isset($adchannelID)||$adchannelID==""%>
+    <%assign var="adchannelID" value="1100"%>
+<%/if%>
+
+<%if $storymodel != ""%>
+<%assign var="gettime" value=$storymodel->get_story_by_tag($tag_name,0,20)%>
+<%/if%>
+
+<%if $showTimeStamp == ""%>
+    <%assign var="showTimeStamp" value="all"%>
+<%/if%>
+
+<%if $tagstory%>
+<%assign var="allstory" value=$tagstory%>
+<%/if%>
+
+<%if $tag_name != ""%>
+<%assign var="itemTag" value="<div class=\"no-image\"><div class=\"item-inner\"><div class=item-tag><a href=\"#\">`$tagtitle`</a><button class=\"myft-follow plus\" data-tag=\"`$tag_name`\" data-type=\"tag\">关注</button></div></div></div>"%>
+<%/if%>
+     
+<!DOCTYPE html>
+<html class="no-js core" data-next-app="tag-page">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Language" content="zh-CN"/>
+    <title><%$tagtitle|default:$PageTitle%> - FT中文网</title>
+    <%if $tagtitle=="FT中文网" || $tagtitle=="无效的关键字"%><META NAME="robots" CONTENT="noindex"><%/if%>
+    <META name=keywords content="<%$tagtitle%>">
+    <meta content="<%$p.meta.description|default:$PageIntro%>" name="description"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <link rel="apple-touch-icon-precomposed" href="http://static.ftchinese.com/img/ipad_icon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="http://static.ftchinese.com" />
+    <link rel="preconnect" href="http://i.ftimg.net" />
+    <script>
+    window.cutsTheMustard = (typeof Function.prototype.bind !== 'undefined');
+    if (window.cutsTheMustard) {
+    document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/, 'js').replace(/\bcore\b/, 'enhanced');
+    }
+    </script>
+    
+    <%if $pageType == "search"%>
+        <style><%include file="next/styles/main-search.css"%></style>
+    <%elseif $pageType == "form"%>
+        <style><%include file="next/styles/main-forms.css"%></style>
+    <%elseif $pageType == "job"%>
+        <style><%include file="next/styles/main-job.css"%></style>
+    <%elseif $pageTheme == "luxury"%>
+        <style><%include file="next/styles/main-luxury.css"%></style>
+        <script type="text/javascript">var pageTheme = 'luxury';</script>
+    <%elseif $pageTheme == "myft"%>
+        <style><%include file="next/styles/main-myft.css"%></style>
+    <%elseif $pageTheme == "technology"%>
+        <style><%include file="next/styles/main-technology.css"%></style>
+    <%elseif $pageTheme == "lifestyle"%>
+        <style><%include file="next/styles/main-lifestyle.css"%></style>
+    <%else%>
+        <style><%include file="next/styles/main-tag.css"%></style>
+    <%/if%>
+    <style><%include file="next/styles/main-innotree.css"%></style>
+
+    <link rel="icon" type="image/png" href="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=32&height=32" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=194&height=194" sizes="194x194">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=180&height=180" />
+    
+    <meta name="msapplication-TileColor" content="#fff1e0" />
+    <meta name="msapplication-TileImage" content="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=144&height=144" />
+
+    <script>var gPageId = '<%$tag_name|default:$PageTitle%>';</script>
+    <script>var startTime = new Date().getTime();</script>
+    <script>
+    if ( screen.width<=480) {
+        document.write('<meta content="FT中文网" name="application-name" /><meta content="app-id=443870811" name="apple-itunes-app" />');
+    } else {
+        document.write('<meta content="FT中文网" name="application-name" /><meta content="app-id=396124008" name="apple-itunes-app" />');
+    }
+    </script>
+    <link rel="alternate" type="application/rss+xml" title="FT中文网 - 每日更新" href="/rss/feed" />
+    <link rel="alternate" type="application/rss+xml" title="FT中文网 - 双语阅读" href="/rss/diglossia" />
+    <link rel="alternate" type="application/rss+xml" title="FT中文网 - 今日焦点" href="/rss/news" />
+    <link rel="alternate" type="application/rss+xml" title="FT中文网 - 生活时尚" href="/rss/lifestyle" />
+    <link rel="alternate" type="application/rss+xml" title="FT中文网 - 一周十大热门文章" href="/rss/hotstoryby7day" />
+    <link rel="alternate" type="application/rss+xml" title="FT中文网 - 热门用户评论" href="/rss/hotusercomment" />
+    <link rel="search" type="application/opensearchdescription+xml" title="FT中文网财经搜索" href="/opensearch.xml">
+    <script type="text/javascript">
+    <%include file="next/scripts/key.js"%>
+    </script>
+    <!--[if lte IE 8]>
+        <script>
+            document.documentElement.className += ' is-ie-8';
+            document.createElement('figure');
+            document.createElement('header');
+            document.createElement('nav');
+            document.createElement('section');
+            document.createElement('article');
+            document.createElement('aside');
+            document.createElement('footer');
+            var wIE = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+            var cssId = 'ie-css';
+            var cssFile = '';
+            if (!document.getElementById(cssId)) {
+                var head  = document.getElementsByTagName('head')[0];
+                var link  = document.createElement('link');
+                link.id   = cssId;
+                link.rel  = 'stylesheet';
+                link.type = 'text/css';
+                cssFile = (wIE>=1200)?'XL':'L';
+                link.href = 'http://static.ftchinese.com/n/main-ie-'+ cssFile +'.css?<%include file="next/timestamp/timestamp.html"%>';
+                link.media = 'all';
+                head.appendChild(link);
+            }
+        </script>
+    <![endif]-->
+    <%include file="next/partials/head.html"%>
+  </head>
+  <%assign var="bannerCount" value=0%>
+  <body class="<%$hideDate%>">
+    <script>checkB();</script>
+    <%include file="next/partials/tag-header.html"%>
+    <%include file="next/partials/nav.html"%>
+    <%if $pageTheme != "luxury"%>
+    <%include file="next/partials/banner.html"%>
+    <%/if%>
+    <%assign var="bannerCount" value=$bannerCount+1%>
+    <%if $pageId=="setting"%>
+    <%include file="next/partials/setting-block.html"%>
+    <%elseif $pageId!=""%>
+    <%include file="next/partials/`$pageId`.html"%>
+    <%elseif $pageType=="search"%>
+    <%include file="next/partials/search-block.html"%>
+    
+    <%/if%> 
+    <%include file="next/partials/property-block.html"%>
+    <%if $showPagination != "no"%>
+    <%include file="next/partials/pagination.html"%>
+    <%/if%>
+    <%include file="next/partials/footer.html"%>
+    <%include file="next/partials/QrCode.html"%>
+  </body>
+<!--[if lte IE 8]>
+<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+<![endif]-->
+<script type="text/javascript">
+  <%include file="next/scripts/main.js"%>
+</script>
+<script type="text/javascript">
+    <%include file="next/scripts/innotree.js"%>
+</script>
+</html>
