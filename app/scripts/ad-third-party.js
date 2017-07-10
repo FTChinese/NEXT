@@ -71,12 +71,12 @@ function showTextImageForAd(sourceInfo) {
       imageImg = instoryDiv.querySelector('.recommend-image figure img');
     }
     
-
-    var adTag = sourceInfo.adTag||'Hennessy';
-    var adHeadline = sourceInfo.adHeadline||'轩尼诗百乐廷皇禧';
-    var adLink = sourceInfo.adLink||'https://www.hennessy.com/zh-cn/hennessyparadisimperial/?utm_source=Ftchinese%20homepage%20top%20banner&utm_campaign=HPI2017JuntoJulCampaignDigital&utm_content=Ad&utm_term=JuntoJulCampaign&smtid=499499531z216rz160ngzacz0z';
-    var adLead = sourceInfo.adLead||'轩尼诗百乐廷皇禧干邑蕴含令人叹为观止的甄选艺术，是历任调配总艺师不懈追求卓越的结晶';
-    var adImg = sourceInfo.adImg||'https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fi.ftimg.net%2Fpicture%2F7%2F000071147_piclink.jpg?source=ftchinese&width=1340&height=754&fit=cover';
+    console.log('decoded');
+    var adTag = decodeURIComponent(sourceInfo.adTag)||'Hennessy';
+    var adHeadline = decodeURIComponent(sourceInfo.adHeadline)||'轩尼诗百乐廷皇禧';
+    var adLink = decodeURIComponent(sourceInfo.adLink)||'https://www.hennessy.com/zh-cn/hennessyparadisimperial/?utm_source=Ftchinese%20homepage%20top%20banner&utm_campaign=HPI2017JuntoJulCampaignDigital&utm_content=Ad&utm_term=JuntoJulCampaign&smtid=499499531z216rz160ngzacz0z';
+    var adLead = decodeURIComponent(sourceInfo.adLead)||'轩尼诗百乐廷皇禧干邑蕴含令人叹为观止的甄选艺术，是历任调配总艺师不懈追求卓越的结晶。';
+    var adImg = decodeURIComponent(sourceInfo.adImg)||'https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fi.ftimg.net%2Fpicture%2F7%2F000071147_piclink.jpg?source=ftchinese&width=1340&height=754&fit=cover';
 
     if(tagDiv && headlineA && leadDiv && imageA && imageFigure && imageImg) {
       tagDiv.innerHTML = adTag;
