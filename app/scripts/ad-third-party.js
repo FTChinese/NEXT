@@ -103,11 +103,6 @@ function showTextImageForAd(sourceInfo) {
     // TODO:曝光的追踪，这个逻辑在main.js的trackViewables()，其追踪方式是  ga('send','event', ec, 'In View', viewables[k].id, {'nonInteraction':1})  而viewables的更新需要viewablesInit()。这个追踪是根据区域id来的，然而这个只是替换了内容，id没变，故怎样追踪曝光待商量。或者仿照底部推荐区域曝光追踪方式：单独追踪(也在main.js)
     // TODO:是否有必要加上执行这个替换的次数的追踪？
     gReplacedInstroyWithAd = true;
-    if(window.parent.trackViewables && window.parent.viewablesInit) {
-      console.log('There are tracking func in parent');
-      window.parent.viewablesInit();
-      window.parent.trackViewables();
-    }
     
   }
 
