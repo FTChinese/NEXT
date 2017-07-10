@@ -378,8 +378,6 @@ function viewablesInit() {
       if(sectionType === 'in-story-recommend') {
         if(window.gReplacedInstroyWithAd && viewables[j]) {
           viewables[j].id = 'instroyAd';
-          console.log('instoryId');
-          console.log(viewables);
         }
       }
 
