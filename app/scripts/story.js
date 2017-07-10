@@ -1,6 +1,6 @@
 console.log('119');
 /*Global Variables*/
-var gReplaceInstoryrecWithAd = false;
+
 var fontOptionsEle;
 var fs;
 
@@ -391,8 +391,8 @@ function recommendPayLoad(recommenddata, addata){
 
     }
     recommendLoaded = true;
-    if(recommendLoaded = true && document.getElementById('in-story-recommend')) {
-        gReplaceInstoryrecWithAd = true;
+    if(recommendLoaded && document.getElementById('in-story-recommend')) {
+        gCanReplaceInstoryWithAd = true;
     }
 
     // MARK: Test for showTextImageForAd in ad-third-party.js

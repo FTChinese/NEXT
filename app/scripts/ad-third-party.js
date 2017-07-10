@@ -1,5 +1,6 @@
-/* exported adReachability */
-
+/* exported adReachability,showTextImageForAd */
+var gCanReplaceInstoryWithAd = false;//表征文章内推荐块内容是否准备好，如果准备好，则可以将其用Ad替换
+var gReplacedInstroyWithAd = false;//表征文章内推荐块内容已经用Ad替换
 function adReachability() {
   var thirdPartyVendors = {
     'dcR': '_dc',
@@ -58,16 +59,16 @@ function showTextImageForAd(sourceInfo) {
   // category: Text and Image Ad
   // action: click banner/mpu
   // label: headline 
-  if (gReplaceInstoryrecWithAd === true) {
+  if (gCanReplaceInstoryWithAd === true && gReplacedInstroyWithAd === false) {
     var instoryDiv = document.getElementById('in-story-recommend');
-
+    var tagDiv, headlineA, leadDiv, imageA, imageFigure, imageImg;
     if(instoryDiv) {
-      var tagDiv = instoryDiv.querySelector('.recommend-header');
-      var headlineA = instoryDiv.querySelector('.recommend-content a');
-      var leadDiv = instoryDiv.querySelector('.recommend-content .lead');
-      var imageA = instoryDiv.querySelector('.recommend-image');
-      var imageFigure = instoryDiv.querySelector('.recommend-image figure');
-      var imageImg = instoryDiv.querySelector('.recommend-image figure img');
+      tagDiv = instoryDiv.querySelector('.recommend-header');
+      headlineA = instoryDiv.querySelector('.recommend-content a');
+      leadDiv = instoryDiv.querySelector('.recommend-content .lead');
+      imageA = instoryDiv.querySelector('.recommend-image');
+      imageFigure = instoryDiv.querySelector('.recommend-image figure');
+      imageImg = instoryDiv.querySelector('.recommend-image figure img');
     }
     
 
@@ -101,7 +102,9 @@ function showTextImageForAd(sourceInfo) {
    
     // TODO:曝光的追踪，这个逻辑在main.js的trackViewables()，其追踪方式是  ga('send','event', ec, 'In View', viewables[k].id, {'nonInteraction':1})  而viewables的更新需要viewablesInit()。这个追踪是根据区域id来的，然而这个只是替换了内容，id没变，故怎样追踪曝光待商量。或者仿照底部推荐区域曝光追踪方式：单独追踪(也在main.js)
     // TODO:是否有必要加上执行这个替换的次数的追踪？
-    
+    gReplacedInstroyWithAd = true;
+    window.parent.viewablesInit();
+    window.parent.trackViewables();
   }
 
 }

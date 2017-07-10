@@ -11,6 +11,7 @@ var gRecomendOffsetY;
 var gRecomendInViewNoted = false;
 var gThereIsUluAd = 0;//MARK：表征底部为你推荐是否确实插入了联合广告，插入的话就计为1，这是为了方便统计曝光次数
 //  var gShareHeight = 38;
+
 var ftItemId = window.FTStoryid || window.interactiveId || '';
 var defaultPadding = 30;
 var hasSideWidth = 690;
@@ -362,13 +363,26 @@ function viewablesInit() {
      
       sections[j].setAttribute('data-id', sectionType + '-' + sectionTypes[sectionType]);
 
-      // MARK: When in-story-recommend is viewed, change the id to the A/B test version
+      // MARK: When in-story-recommend is viewed, change the id to the A/B test version ---测试结束
+      /*
        if(sectionType === 'in-story-recommend'){
           if(window.recommendVersionInstory && viewables[j]){
             viewables[j].id = window.recommendVersionInstory;
           }
         }
+        */
       //sections[j].id = sectionType + '-' + sectionTypes[sectionType];
+
+      // MARK:When in-story-recommend has changed to the Ad, change the id to 'instroyAd' 
+      
+      if(sectionType === 'in-story-recommend') {
+        if(window.gReplacedInstroyWithAd && viewables[j]) {
+          viewables[j].id = 'instroyAd';
+          console.log('instoryId');
+          console.log(viewables);
+        }
+      }
+
     }
   }
 }
