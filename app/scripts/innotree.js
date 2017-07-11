@@ -69,7 +69,7 @@ function loadData1(data){
                 longName = item.longName || '';
                 shortName = item.shortName || '';
                 time = item.time || '';
-                money = item.Money || '';
+                money = item.money || '';
                 round = item.round|| '';
                 firstIndustry = item.firstIndustry|| '';
                 secondIndustry = item.secondIndustry|| '';

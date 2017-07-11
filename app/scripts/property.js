@@ -6,7 +6,7 @@ var gApiUrls = {
     'innotree': innotreeAPIRoot,
 };
 var gApiUrlsLocal = {
-    'innotree': 'api/page/source.json'
+    'innotree': 'api/page/property-source.json'
 };
 if (window.location.hostname === 'localhost' || window.location.hostname.indexOf('192.168') === 0 || window.location.hostname.indexOf('10.113') === 0 || window.location.hostname.indexOf('127.0') === 0) {
     gApiUrls = gApiUrlsLocal;
