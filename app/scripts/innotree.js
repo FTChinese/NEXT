@@ -11,8 +11,8 @@ var gApiUrlsLocal = {
 if (window.location.hostname === 'localhost' || window.location.hostname.indexOf('192.168') === 0 || window.location.hostname.indexOf('10.113') === 0 || window.location.hostname.indexOf('127.0') === 0) {
     gApiUrls = gApiUrlsLocal;
 }
-function renderNews(headline,companyProfile,investmentShare,shortName,time,money,round,secondIndustry,thirdIndustry,investor){
-    var  newsHtml='<div id="item-container0" class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner" id="item-inner"><h2 class="item-headline"><a target="_blank" href="">'+headline+'</a></h2><div class="item-lead">'+companyProfile+'</div><div class="item-lead">'+shortName+'</div><div class="item-time">'+time+'</div><div class="item-time">'+money+'</div><div class="item-time">'+round+'</div><div class="item-time">'+secondIndustry+'</div><div class="item-time">'+thirdIndustry+'</div><div class="item-time">'+investor+'</div><div class="item-bottom"></div></div></div>';
+function renderNews(headline,companyProfile,reliability,shortName,time,money,round,firstIndustry,investor){
+    var  newsHtml='<div id="item-container0" class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner" id="item-inner"><h2 class="item-headline"><a target="_blank" href="">'+shortName+'</a></h2><div class="item-time">'+firstIndustry+'</div><div class="item-lead">'+headline+'</div><div class="item-lead">'+companyProfile+'</div><div class="item-time">'+time+'</div><div class="item-time">'+money+'</div><div class="item-time">'+round+'</div><div class="item-time">'+investor+'</div><div class="item-time">'+reliability+'</div><div class="item-bottom"></div></div></div>';
     return newsHtml;
 }
 // function wrapAllNews(wrapNews){
@@ -29,6 +29,7 @@ function loadPublic() {
         url: gApiUrls.innotree,
         dataType: 'json',
         success: function (data) {
+            console.log(data);
             loadData1(data);
         },//success
         error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -45,7 +46,8 @@ function loadData1(data){
     var wrapAllHtml= []||'';
     var headline = '';
     var companyProfile = '';
-    var investmentShare = '';
+    // var investmentShare = '';
+    var reliability = '';
     var longName = '';
     var shortName = '';
     var time = '';
@@ -65,7 +67,7 @@ function loadData1(data){
             $.each(list.items, function (key3, item) {
                 headline = item.headline;
                 companyProfile = item.companyProfile || '';
-                investmentShare = item.investmentshare;
+                reliability = item.reliability;
                 longName = item.longName || '';
                 shortName = item.shortName || '';
                 time = item.time || '';
@@ -75,7 +77,7 @@ function loadData1(data){
                 secondIndustry = item.secondIndustry|| '';
                 thirdIndustry = item.thirdIndustry|| '';
                 investor = item.investor || [];
-                newsHtml0= renderNews(headline,companyProfile,investmentShare,shortName,time,money,round,secondIndustry,thirdIndustry,investor);
+                newsHtml0= renderNews(headline,companyProfile,reliability,shortName,time,money,round,firstIndustry,investor);
                 newsHtmls01[key3]=newsHtml0;
             });//list.items
             newsHtmls02[key2]=newsHtmls01;
