@@ -81,8 +81,17 @@ if (1>1 && /^20550004$/.test(c)) {
       minimum: 0.6,
       time: 1000
     };
-} else if (1>1 && /^20360001$/.test(c)) {
-
+} else if (1>1 && /^10000001$/.test(c)) {
+    document.write ('my href is '+ k + 'my parent id is ' + parentId);
+    console.log (window.parent.document.getElementById(parentId));
+    console.log ('try to increase the height of the ad to 400');
+    var parentFrame = window.parent.document.getElementById(parentId);
+    parentFrame.style.height = '400px';
+    parentFrame.parentNode.style.height = 'auto';
+    parentFrame.parentNode.parentNode.parentNode.parentNode.style.height = 'auto';
+    var contentId = parentId + 'content';
+    parentFrame.parentNode.id = contentId;
+    window.parent.document.styleSheets[0].insertRule('#' + contentId + ':before { right: auto; left:0;}', 0);
 
 } else {
 document.write ('<scr'+'ipt src="http://dolphin4.ftimg.net/s?z=ft&c=' + c + slotStr + adP + '&_fallback=0" charset="gbk" onerror="removeAd()" onload="loaded()"></scr'+'ipt>');
