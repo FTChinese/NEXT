@@ -12,6 +12,8 @@ var gRecomendInViewNoted = false;
 var gThereIsUluAd = 0;//MARK：表征底部为你推荐是否确实插入了联合广告，插入的话就计为1，这是为了方便统计曝光次数
 //  var gShareHeight = 38;
 
+var gInstoryAdHasTrackInview = false;
+
 var ftItemId = window.FTStoryid || window.interactiveId || '';
 var defaultPadding = 30;
 var hasSideWidth = 690;
@@ -377,8 +379,13 @@ function viewablesInit() {
       
       if(sectionType === 'in-story-recommend') {
         if(window.gReplacedInstroyWithAd && viewables[j]) {
-          viewables[j].id = 'instroyAd';
-          viewables[j].viewed = false;
+          viewables[j].id = 'instoryAd'+textIndex;
+          if(gInstoryAdHasTrackInview === false) {
+            viewables[j].viewed = false;
+            gInstoryAdHasTrackInview = true;
+          } else {
+            viewables[j].viewed = true;
+          }
         }
       }
 
