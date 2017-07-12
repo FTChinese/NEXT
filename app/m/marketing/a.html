@@ -36,105 +36,8 @@ img {
 .top-right {
     float: right;
 }
-
-/*pushdown ad style*/
-.pullup-close {
-  -webkit-animation:shrinkToClose 1s linear;
-  -moz-animation: shrinkToClose 1s linear;
-  -o-animation: shrinkToClose 1s linear;
-  animation:shrinkToClose 1s linear;
-}
-
-.pushdown-open {
-  -webkit-animation:pushdownToOpen 1s linear;
-  -moz-animation: pushdownToOpen 1s linear;
-  -o-animation: pushdownToOpen 1s linear;
-  animation:pushdownToOpen 1s linear;
-}
-@-webkit-keyframes shrinkToClose {
-  from {
-    width:969px;
-    height:400px;
-  }
-  to {
-    width:969px;
-    height:90px;
-  }
-}
-@-moz-keyframes shrinkToClose {
-  from {
-    width:969px;
-    height:400px;
-  }
-  to {
-    width:969px;
-    height:90px;
-  }
-}
-@-o-keyframes shrinkToClose {
-  from {
-    width:969px;
-    height:400px;
-  }
-  to {
-    width:969px;
-    height:90px;
-  }
-}
-@keyframes shrinkToClose {
-  from {
-    width:969px;
-    height:400px;
-  }
-  to {
-    width:969px;
-    height:90px;
-  }
-}
-
-
-@-webkit-keyframes pushdownToOpen {
-  from {
-    width:969px;
-    height:90px;
-  }
-  to {
-    width:969px;
-    height:400px;
-  }
-}
-@-moz-keyframes pushdownToOpen {
-  from {
-    width:969px;
-    height:90px;
-  }
-  to {
-    width:969px;
-    height:400px;
-  }
-}
-@-o-keyframes pushdownToOpen {
-  from {
-    width:969px;
-    height:90px;
-  }
-  to {
-    width:969px;
-    height:400px;
-  }
-}
-@keyframes pushdownToOpen {
-  from {
-    width:969px;
-    height:90px;
-  }
-  to {
-    width:969px;
-    height:400px;
-  }
-}
 </style>
-<!-- TODO:为什么style注入不进去 -->
+
 </head>
 <body>
 
@@ -179,20 +82,9 @@ if (1>1 && /^20550004$/.test(c)) {
       time: 1000
     };
 } else if (1>1 && /^10000001$/.test(c)) {// wyc test
-    //document.write ('my href is '+ k + 'my parent id is ' + parentId);
-    //console.log (window.parent.document.getElementById(parentId));
-    //console.log ('try to increase the height of the ad to 400');
-    console.log(parentId);
-    var parentFrame = window.parent.document.getElementById(parentId);
-    parentFrame.style.height = 'auto';
-    parentFrame.parentNode.style.height = 'auto';
-    parentFrame.parentNode.parentNode.parentNode.parentNode.style.height = 'auto';
-    var contentId = parentId + 'content';
-    parentFrame.parentNode.id = contentId;
-    window.parent.document.styleSheets[0].insertRule('#' + contentId + ':before { right: auto; left:0;}', 0);
-
-    //document.write('<iframe style="width:auto;height:auto;" src="./testAd/index.html"></iframe>');
-    var innerFrameId=parentId + 'Inner';
+    console.log(parentId);//外层iframe的id:'banner0'
+    var bannerImg = "http://i.ftimg.net/picture/2/000071402_piclink.jpg";
+    var innerFrameId=parentId + 'Inner';//内层iframe的id:'banner0Inner'
     document.write('<iframe class="banner-iframe" data-adch="1000" data-adposition="0001" id="'+innerFrameId+'" width="969" height="90" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" style="" src="./testAd/index.html"></iframe>')
 
 } else {

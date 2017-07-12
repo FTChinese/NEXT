@@ -1,5 +1,7 @@
 console.log('119');
 /*Global Variables*/
+var gReplacedInstroyWithAd = false;//表征文章内推荐块内容已经用Ad替换
+var gCanReplaceInstoryWithAd = false;//表征文章内推荐块内容是否准备好，如果准备好，则可以将其用Ad替换
 
 var fontOptionsEle;
 var fs;
