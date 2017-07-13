@@ -168,7 +168,7 @@ function showTextImageForAd(sourceInfo) {
       footerEle.innerHTML += '<div id="footer-more"></div>';
       var footerMore = document.getElementById('footer-more');
       footerMore.innerHTML = '<div class="hide"><iframe width="' + w2 + '" height="'+ h2 +'" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" style="" src="' + adLink + '"></iframe></div>';
-      ga('send','event','Text and Image Ad', 'click footer', '令人叹为观止的甄选艺术');
+      ga('send','event','Text and Image Ad', 'click footer', '喝生命之水轩尼诗百乐廷皇禧干邑是一种什么样的体验?');
       window.footerMoreShowed = true;
     }
   }
