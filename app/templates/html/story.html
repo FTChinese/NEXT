@@ -320,13 +320,7 @@
 <%/if%>
 
 
-<%if preg_match("/餐厅|美酒|美食|烈酒/is",$keys)%>
-<%assign var=breadcrum value="<a href=/channel/wine.html>美食与美酒</a>"%>
-<%assign var="adchannelID" value="1803"%>
-<%assign var="topnav" value="lifestyle"%>
-<%assign var="subnav" value="wine"%>
-<%assign var="thirdnav" value=""%>
-<%elseif in_array("艺术品投资",$story.tag) || in_array("乐尚街",$story.tag)%>
+<%if in_array("艺术品投资",$story.tag) || in_array("乐尚街",$story.tag)%>
 <%assign var=breadcrum value="<a href=/channel/pursuit.html>乐尚街</a>"%>
 <%assign var="adchannelID" value="1801"%>
 <%assign var="topnav" value="lifestyle"%>
@@ -643,7 +637,13 @@
 <%/if%>
 
 <%assign var="isCurrentAdchFinal" value="yes"%>
-<%if preg_match("/极致人生/is",$keys) && date("Ymd",$smarty.now) >= 20140525 && date("Ymd",$smarty.now) <= 20160625%>
+<%if preg_match("/餐厅|美酒|美食|烈酒/is",$keys)%>
+	<%assign var=breadcrum value="<a href=/channel/wine.html>美食与美酒</a>"%>
+	<%assign var="adchannelID" value="1803"%>
+	<%assign var="topnav" value="lifestyle"%>
+	<%assign var="subnav" value="wine"%>
+	<%assign var="thirdnav" value=""%>
+<%elseif preg_match("/极致人生/is",$keys) && date("Ymd",$smarty.now) >= 20140525 && date("Ymd",$smarty.now) <= 20160625%>
 	<%assign var=breadcrum value="<a href=\"/tag/极致人生\">极致人生</a><button class=\"myft-follow plus\" data-tag=\"极致人生\" data-type=\"tag\">关注</button>"%>
 	<%assign var="PageTitle" value="<a href=\"/tag/极致人生\">极致人生</a>"%>
 	<%assign var="adchannelID" value="2052"%>
