@@ -319,7 +319,14 @@
 <%assign var="subnav" value="europe"%>
 <%/if%>
 
-<%if in_array("艺术品投资",$story.tag) || in_array("乐尚街",$story.tag)%>
+
+<%if preg_match("/餐厅|美酒|美食|烈酒/is",$keys)%>
+<%assign var=breadcrum value="<a href=/channel/wine.html>美食与美酒</a>"%>
+<%assign var="adchannelID" value="1803"%>
+<%assign var="topnav" value="lifestyle"%>
+<%assign var="subnav" value="wine"%>
+<%assign var="thirdnav" value=""%>
+<%elseif in_array("艺术品投资",$story.tag) || in_array("乐尚街",$story.tag)%>
 <%assign var=breadcrum value="<a href=/channel/pursuit.html>乐尚街</a>"%>
 <%assign var="adchannelID" value="1801"%>
 <%assign var="topnav" value="lifestyle"%>
@@ -1222,7 +1229,7 @@
 			<%include file="next/partials/header.html"%>
 		<%/if%>
 		<%include file="next/partials/nav.html"%>
-		<%if !preg_match("/品味|乐尚街|艺术投资|腕表|游艇|极致人生/is",$keys) && $smarty.get.hideheader != "yes"%>
+		<%if !preg_match("/品味|乐尚街|艺术投资|腕表|游艇|极致人生|美食与美酒/is",$keys) && $smarty.get.hideheader != "yes"%>
 		<%include file="next/partials/banner.html"%>
 		<%/if%>
 		<%assign var="bannerCount" value=$bannerCount+1%>
