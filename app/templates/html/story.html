@@ -2,9 +2,7 @@
 <%if !isset($adchannelID)||$adchannelID==""%>
     <%assign var="adchannelID" value="1100"%>
 <%/if%>
-<%if $smarty.get.ad == "no" || ($story.id == "001073180" && date("Ymd",$smarty.now) <= 20170712)%>
-	<%assign var="noAd" value="true"%>
-<%/if%>
+
 <%if $story.column!=""%>
 	<%assign var="columninfo" value=$storymodel->get_column_info($story.column)%>
 <%/if%>
@@ -628,6 +626,9 @@
 <%assign var="keys" value=$keys|regex_replace:"/^,/":""%>
 <%assign var="keys" value=$keys|regex_replace:"/,$/":""%>
 
+<%if $smarty.get.ad == "no" || preg_match("/去广告/is",$keys)%>
+	<%assign var="noAd" value="true"%>
+<%/if%>
 
 
 <%if preg_match("/活动页面/is",$keys)%>
