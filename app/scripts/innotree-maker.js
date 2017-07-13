@@ -1104,12 +1104,12 @@
     });
 
     $('body').on('click', '.preview-on-device', function () {
-        var url='';
-        if(location.host==='backyard.corp.ftchinese.com'){
-             url = 'http://www.corp.ftchinese.com/index.php/innotree';
-        }else if(location.host==='backyard.ftchinese.com'){
-             url = 'http://www.ftchinese.com/index.php/innotree';
-        }
+        var url='/index.php/innotree';
+        // if(location.host==='backyard.corp.ftchinese.com'){
+        //      url = 'http://www.corp.ftchinese.com/index.php/innotree';
+        // }else if(location.host==='backyard.ftchinese.com'){
+        //      url = 'http://www.ftchinese.com/index.php/innotree';
+        // }
         console.log('test data show');
       //  var url = '/index.php/innotree';
         var w = $(this).attr('data-width') || $(window).width();
