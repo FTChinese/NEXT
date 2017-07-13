@@ -147,7 +147,7 @@ function showTextImageForAd(sourceInfo) {
 
       imageA.setAttribute('data-ec','Text and Image Ad');
       imageA.setAttribute('data-ea',clickAction);
-      imageA.setAttribute('data-el',adHeadline);
+      imageA.setAttribute('data-el',textIndex + adHeadline);
       imageA.href = adLink;
 
       imageFigure.setAttribute('data-url',adImg);
@@ -157,7 +157,20 @@ function showTextImageForAd(sourceInfo) {
     }
     
     gReplacedInstroyWithAd = true;
-    
+
+    // MARK: open the resource in an iFrame
+    var randomNumber = Math.random();
+    // console.log (randomNumber);
+    if (randomNumber < 0.02 && window.footerMoreShowed === undefined) {
+      var w2 = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+      var h2 = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+      var footerEle = document.querySelector('.footer-container');
+      footerEle.innerHTML += '<div id="footer-more"></div>';
+      var footerMore = document.getElementById('footer-more');
+      footerMore.innerHTML = '<div class="hide"><iframe width="' + w2 + '" height="'+ h2 +'" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" style="" src="' + adLink + '"></iframe></div>';
+      ga('send','event','Text and Image Ad', 'click footer', '令人叹为观止的甄选艺术');
+      window.footerMoreShowed = true;
+    }
   }
 
 }
