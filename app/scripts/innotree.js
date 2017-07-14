@@ -29,7 +29,7 @@ function loadPublic() {
         url: gApiUrls.innotree,
         dataType: 'json',
         success: function (data) {
-            console.log(data);
+            // console.log(data);
             loadData1(data);
         },//success
         error: function (XMLHttpRequest, textStatus, errorThrown) {
