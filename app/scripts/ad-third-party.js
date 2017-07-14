@@ -90,7 +90,6 @@ function showTextImageForAd(sourceInfo) {
   // category: Text and Image Ad
   // action: click banner/mpu
   // label: headline 
-  var randomNumber1 = Math.random();
   if (gCanReplaceInstoryWithAd === true && gReplacedInstroyWithAd === false) {
     var instoryDiv = document.getElementById('in-story-recommend');
     var tagDiv, headlineA, leadDiv, imageA, imageFigure, imageImg;
