@@ -90,6 +90,7 @@ function showTextImageForAd(sourceInfo) {
   // category: Text and Image Ad
   // action: click banner/mpu
   // label: headline 
+  var randomNumber1 = Math.random();
   if (gCanReplaceInstoryWithAd === true && gReplacedInstroyWithAd === false) {
     var instoryDiv = document.getElementById('in-story-recommend');
     var tagDiv, headlineA, leadDiv, imageA, imageFigure, imageImg;
@@ -161,7 +162,7 @@ function showTextImageForAd(sourceInfo) {
     // MARK: open the resource in an iFrame
     var randomNumber = Math.random();
     // console.log (randomNumber);
-    if (randomNumber < 0.012 && window.footerMoreShowed === undefined) {
+    if (randomNumber < 0.015 && window.footerMoreShowed === undefined) {
       var w2 = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
       var h2 = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
       var footerEle = document.querySelector('.footer-container');
