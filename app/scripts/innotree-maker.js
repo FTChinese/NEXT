@@ -1110,7 +1110,6 @@
         }else if(location.host==='backyard.ftchinese.com'){
              url = 'http://www.ftchinese.com/index.php/innotree';
         }
-        console.log('test data show');
       //  var url = '/index.php/innotree';
         var w = $(this).attr('data-width') || $(window).width();
         var h = $(this).attr('data-height') || $(window).height();

@@ -1,7 +1,7 @@
 /* jshint devel:true */
 (function () {
 'use strict';
-var innotreeAPIRoot = '/index.php/jsapi/publish/innotree';
+var innotreeAPIRoot = '/index.php/jsapi/publish/property';
 var gApiUrls = {
     'property': innotreeAPIRoot,
 };
@@ -13,7 +13,7 @@ if (window.location.hostname === 'localhost' || window.location.hostname.indexOf
 }
 
 function renderNews(headline,image,logoImage,money,supplement,link){
-    var  newsHtml='<div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner"><h2 class="item-headline"><a target="_blank" href="'+link+'">'+headline+'</a></h2><a class="image" target="_blank" href="'+link+'"><figure class="is-retina" data-url="'+image+'"><img src="'+image+'" data-backupimage="'+image+'" style="width:556px;height:312px";></figure></a><div class="item-lead">'+money+'</div><div class="item-time">'+supplement+'</div><div class="item-bottom"></div></div></div>';
+    var  newsHtml='<div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner"><h2 class="item-headline"><a target="_blank" href="'+link+'">'+headline+'</a></h2><a class="image" target="_blank" href="'+link+'"><figure style="position: relative;" class="is-retina" data-url="'+image+'"><img src="'+image+'" data-backupimage="'+image+'" style="";><img  src="'+logoImage+'" style="max-width: 65px; max-height: 40px;left: 70%;bottom: 10px;position: absolute;"></figure></a><div class="item-lead">'+money+'</div><div class="item-time">'+supplement+'</div><div class="item-bottom"></div></div></div>';
     return newsHtml;
 }
 
