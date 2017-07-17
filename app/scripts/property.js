@@ -70,7 +70,7 @@ function loadData1(data){
                 newsHtmls01[key3]=newsHtml0;//保存单个item
             });//list.items
             newsHtmls02[key2]=newsHtmls01;//newsHtmls02保存所有item的二维数组，多个list下的items
-            console.log(newsHtmls02)
+            // console.log(newsHtmls02);
         });//section.lists
     });//data.sections
 
