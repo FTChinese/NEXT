@@ -1,4 +1,5 @@
 <%assign var="p" value=$nextmodel->getPublishJson($pageId)|json_decode:true%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
 <head>
@@ -161,6 +162,9 @@ width: 720px !important;
 </head>
 <!-- htmlmin:ignore -->
 <body style="width:100%;color:#111111;background-color:#FFFFFF;font-family:"Hiragino Sans GB","WenQuanYi Micro Hei","Heiti SC",STHeiti,SimSun,sans-serif;font-size:14px;">
+	<div><% $pageId %></div>
+	<div>11111</div>
+	<div>11111</div>
 <%assign var="articles" value=$publishhtml->get_publish_html("weekly")%>
 <%assign var="pageTitle" value=$p.meta.title%>
 <div id="wrapper" style="margin: 0 auto; text-align: center;">
@@ -224,7 +228,7 @@ href="http://www.ftchinese.com" target="_blank"
 				<div style="line-height:1.618; ">
 				    <table width="100%" cellpadding="0" cellspacing="0" style="border-bottom:1px solid #E9DECF; line-height:1.618;">
 				        <tr><td class="lineH1" style="height: 5px; font-size: 5px; line-height: 5px; padding: 0;"> </td></tr>
-						
+						<tr><%$item.companyProfile|default:$item.headline%></tr>
 
 
 				        <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;"> </td></tr>

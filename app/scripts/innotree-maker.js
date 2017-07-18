@@ -86,7 +86,7 @@
         {'name': 'iPad Portrait', 'width': 768, 'height': 1024},
         {'name': 'Huawei Mate 8', 'width': 540, 'height': 960},
         {'name': 'Google Nexus 7', 'width': 600, 'height': 960},
-        {'name': 'Email', 'width': '', 'height': '', 'view': 'email'}
+        {'name': 'Email', 'width': '', 'height': '', 'view': 'innotree_email'}
     ];
     var thisday = new Date();
     var thenow = thisday.getHours() * 10000 + thisday.getMinutes() * 100 + thisday.getSeconds();
@@ -1115,7 +1115,9 @@
         var h = $(this).attr('data-height') || $(window).height();
         var viewValue = $(this).attr('data-view') || '';
         if (viewValue !== '') {
-            url += '&view=' + viewValue;
+            url += '?pageid=innotree'+'&view=' + viewValue;
+            // url += '&view=' + viewValue;
+            // url = 'http://www.ftchinese.com/index.php/innotree_email';
         }
         window.open(url, 'newwindow', 'height=' + h + ',width=' + w + ',top=0,left=0,toolbar=no,menubar=no,resizable=no,scrollbars=yes,location=no, status=no');
     });
