@@ -1116,8 +1116,8 @@
         var viewValue = $(this).attr('data-view') || '';
         if (viewValue !== '') {
             url += '?pageid=innotree'+'&view=' + viewValue;
-            // url += '&view=' + viewValue;
-            // url = 'http://www.ftchinese.com/index.php/innotree_email';
+            // url += '?view=' + viewValue;
+            
         }
         window.open(url, 'newwindow', 'height=' + h + ',width=' + w + ',top=0,left=0,toolbar=no,menubar=no,resizable=no,scrollbars=yes,location=no, status=no');
     });

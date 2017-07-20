@@ -12,7 +12,7 @@ if (window.location.hostname === 'localhost' || window.location.hostname.indexOf
     gApiUrls = gApiUrlsLocal;
 }
 function renderNews(headline,companyProfile,reliability,shortName,time,money,round,firstIndustry,investor){
-    var  newsHtml='<div id="item-container0" class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner" id="item-inner"><h2 class="item-headline"><a target="_blank" href="">'+shortName+'</a></h2><div class="item-time">'+firstIndustry+'</div><div class="item-lead">'+headline+'</div><div class="item-lead">'+companyProfile+'</div><div class="item-time">'+time+'</div><div class="item-time">'+money+'</div><div class="item-time">'+round+'</div><div class="item-time">'+investor+'</div><div class="item-bottom"></div></div></div>';
+    var  newsHtml='<div id="item-container0" class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner" id="item-inner"><h2 class="item-headline"><a href="#">'+shortName+'</a></h2><div class="item-time">'+firstIndustry+'</div><div class="item-lead">'+headline+'</div><div class="item-lead">'+companyProfile+'</div><div class="item-time">'+time+'</div><div class="item-time">'+money+'</div><div class="item-time">'+round+'</div><div class="item-time">'+investor+'</div><div class="item-bottom"></div></div></div>';
     return newsHtml;
 }
 // function wrapAllNews(wrapNews){

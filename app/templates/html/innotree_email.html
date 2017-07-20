@@ -1,8 +1,8 @@
 <%assign var="p" value=$nextmodel->getPublishJson($pageId)|json_decode:true%>
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
 <head>
+<style><%include file="next/styles/main-innotree.css"%></style>
 <style>
 * {padding:0;margin:0;border:0;}
 .lineH{line-height: 1.618 !important;}
@@ -161,281 +161,388 @@ width: 720px !important;
 <title>Innotree - FT中文网</title>
 </head>
 <!-- htmlmin:ignore -->
-<body style="width:100%;color:#111111;background-color:#FFFFFF;font-family:"Hiragino Sans GB","WenQuanYi Micro Hei","Heiti SC",STHeiti,SimSun,sans-serif;font-size:14px;">
-	<div><% $pageId %></div>
-	<div>11111</div>
-	<div>11111</div>
-<%assign var="articles" value=$publishhtml->get_publish_html("weekly")%>
-<%assign var="pageTitle" value=$p.meta.title%>
-<div id="wrapper" style="margin: 0 auto; text-align: center;">
-<div style="font-size:1px;color:#FFF;display:none;"><%$articles.TopPick|regex_replace:"/<a.*<\/a>/":""|strip_tags|regex_replace:"/[\r\n\t\s]/":""%></div>
-<table border="0" cellspacing="0" cellpadding="0" id="containerTable" style="background-color:#ffffff; display: table; margin: 0 auto; text-align: center; width: 720px; *width: 720px; _width: 720px;" align="center">
-<tr>
-<td class="mainTD" style="width: 720px;">
-<table border="0" cellspacing="0" cellpadding="0" align="left" style="text-align: left;">
-<tr>
-<td style="width:1%;" class="whiteBorder">&nbsp;</td>
-<td class="mainCol">
-<table class="tableBorder" border="0" cellspacing="0" cellpadding="0" style="background-color: #FFF1E0; border: 2px solid #f7f7f7; text-align: left;" align="left">
-<tr><td class="lineH1" style="height: 3px; font-size: 3px; line-height: 3px; padding: 0;">&nbsp;</td></tr>
+<body style="width:100%;color:#111111;background-color:#FFFFFF;font-family:" Hiragino Sans GB ","WenQuanYi Micro Hei ","Heiti
+    SC ",STHeiti,SimSun,sans-serif;font-size:14px;">
+    <div style=" background-color:#FFF1E0; display: table; margin: 0 auto; text-align: center; width: 720px; *width: 720px; _width: 720px;">
+        <table border="0" cellspacing="0" cellpadding="0" id="containerTable" style="background-color:#FFF1E0; display: table; margin: 0 auto; text-align: center; width: 720px; *width: 720px; _width: 720px;"
+            align="center">
 
-<tr><td class="lineH1_2" style="text-align: center; font-size: 11px; line-height: 13px;  color: #505050;">如果您无法正常显示邮件, <a
-href="<%$smarty.server.REQUEST_URI%>" style="color: #2e6e9e; text-decoration: none;"
->请点击此处</a></td></tr>
-<tr><td class="lineH1 openInBrowserGap" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
-<tr><td style="padding-left: 10px; padding-right: 10px;">
-<table border="0" cellspacing="0" cellpadding="0" style="width: 100%;">
-<tr><td class="ft-logo lineH1" style="font-size:43px;line-height:43px;height:43px;text-align:center; width: 100%;">
-<a
-href="http://www.ftchinese.com" target="_blank"
-><img id="ft-logo-img" src="http://static.ftchinese.com/img/ftcLogoHD.png" width="172" height="36" style="width: 172px;height: 36px; color: #091523; font-size: 25px; border: 0 none;" alt="FT中文网" title="FT中文网" /></a>
-</td></tr>
-<tr><td style="font-size:4px;line-height:4px;height:4px;" class="ft-logo-briefing lineH1">&nbsp;</td></tr>
-<tr><td class="ft-desc lineH1_2" style="font-size:13px;line-height:16px;color:#505050;text-align:center;font-weight:bold;"><%$smarty.now|date_format:"%Y年%m月%d日"%></td></tr>
-</table>
-</td></tr>
-<tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
-<tr><td>
-<table width="100%" cellpadding="0" cellspacing="0">
-<tr>
-<td style="width: 3%;" class="contentPadding largeViewBar">&nbsp;</td>
-<td>
-<table width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                <td class="lineH1" style="height: 3px; font-size: 3px; line-height: 3px; padding: 0;">&nbsp;</td>
+            </tr>
 
+            <tr>
+                <td class="lineH1_2" style="text-align: center; font-size: 11px; line-height: 13px;  color: #505050;">如果您无法正常显示邮件, <a href="<%$smarty.server.REQUEST_URI%>" style="color: #2e6e9e; text-decoration: none;">请点击此处</a></td>
+            </tr>
 
+            <tr>
+                <td class="lineH1 openInBrowserGap" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td>
+            </tr>
 
-<%assign var="s" value=0%>
+            <tr>
+                <td style="padding-left: 10px; padding-right: 10px;">
+                    <table border="0" cellspacing="0" cellpadding="0" style="width: 100%;">
+                        <tr>
+                            <td class="ft-logo lineH1" style="font-size:43px;line-height:43px;height:43px;text-align:center; width: 100%;">
+                                <a href="http://www.ftchinese.com" target="_blank"><img id="ft-logo-img" src="http://static.ftchinese.com/img/ftcLogoHD.png" width="172" height="36"
+                                        style="width: 172px;height: 36px; color: #091523; font-size: 25px; border: 0 none;" alt="FT中文网"
+                                        title="FT中文网" /></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:4px;line-height:4px;height:4px;" class="ft-logo-briefing lineH1">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="ft-desc lineH1_2" style="font-size:13px;line-height:16px;color:#505050;text-align:center;font-weight:bold;">
+                                <%$smarty.now|date_format:"%Y年%m月%d日"%>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        <%assign var="s" value=0%>
 <%foreach from=$p.sections item=section%>
     <%if $section.type == "block"%>
-    	<%assign var="l" value=0%>
+        <%assign var="l" value=0%>
         <%foreach from=$section.lists item=list%>
-        	<%if $list.title != ""%>
-	        	<tr><td class="ft-header-bar" style="color:#333333;background-color:#E9DECE;font-size:13px;font-weight:bold;padding:5px 17px 4px 17px;text-transform:uppercase;width:100%;"><%$list.title%></td></tr>
-				<tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
-			<%/if%>
-			<tr><td style="font-size:14px;line-height:25px;color:#505050;padding-left:17px;padding-right:17px;" class="subhead textPadding lineH">
-			<%assign var="i" value=0%>
-			<%foreach from=$list.items item=item%>
-				<%if $s == 0 && $l == 0 && $i ==0%>
-					<%assign var="imageWidth" value=414%>
-					<%assign var="imageHeight" value=233%>
-					<%assign var="imageClass" value=" class=\"coverImgLinkContain\""%>
-				<%else%>
-					<%assign var="imageWidth" value=167%>
-					<%assign var="imageHeight" value=96%>
-					<%assign var="imageClass" value=""%>
-				<%/if%>
-				<div style="line-height:1.618; ">
-				    <table width="100%" cellpadding="0" cellspacing="0" style="border-bottom:1px solid #E9DECF; line-height:1.618;">
-				        <tr><td class="lineH1" style="height: 5px; font-size: 5px; line-height: 5px; padding: 0;"> </td></tr>
-						<tr><%$item.companyProfile|default:$item.headline%></tr>
-
-
-				        <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;"> </td></tr>
-				    </table>
-				</div>
-				<%assign var="i" value=$i+1%>
-			<%/foreach%>
-			</td></tr>
-			<%assign var="l" value=$l+1%>
+            <%if $list.title != ""%>
+            <%/if%>
+            <%assign var="i" value=0%>
+            <%foreach from=$list.items item=item%>
+            <div style="width:50%">
+                            <div class="item-inner" id="item-inner">
+                                            <h2 class="item-headline"><a href="#"><%$item.shortName%></a></h2>
+                                            <div class="item-time"><%$item.firstIndustry%></div>
+                                            <div class="item-lead"><%$item.headline%></div>
+                                            <div class="item-lead"><%$item.companyProfile%></div>
+                                            <div class="item-time"><%$item.time%></div>
+                                            <div class="item-time"><%$item.money%></div>
+                                            <div class="item-time"><%$item.round%></div>
+                                            <div class="item-time"><%$item.investor%> </div>
+                                            <div class="item-bottom"></div>
+                                        </div>
+                                    </div>
+                                    <div class="ST"></div>
+            <%assign var="i" value=$i+1%>
+            <%/foreach%>
+            <%assign var="l" value=$l+1%>
         <%/foreach%>
         <%assign var="s" value=$s+1%>
     <%/if%>
 <%/foreach%>
+        <div class="block-container">
+            <div class="block-inner">
+                <div class="content-container">
+                    <div class="content-inner" id="content-inner">
+                        <div class="list-container">
+                            <div class="list-inner">
+                                <h2 class="list-title"><a class="list-link">企业服务</a></h2>
+                                <div class="items">
+                                    <div id="item-container0" class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image">
+                                        <div class="item-inner" id="item-inner">
+                                            <h2 class="item-headline"><a href="#">云集智造</a></h2>
+                                            <div class="item-time">企业服务</div>
+                                            <div class="item-lead">北京云集智造科技有限公司</div>
+                                            <div class="item-lead">张铁志：美国哈佛大学、哥伦比亚大学等名校正在检视大学历史与奴隶制的关系，台湾大学能诚恳面对历史吗？</div>
+                                            <div class="item-time">2016-08-21</div>
+                                            <div class="item-time">5000万人民币</div>
+                                            <div class="item-time">A</div>
+                                            <div class="item-time">1.红点创投中国基金 2.君联资本 </div>
+                                            <div class="item-bottom"></div>
+                                        </div>
+                                    </div>
+                                    <div class=" MT PT"></div>
+                                    <div id="item-container0" class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image">
+                                        <div class="item-inner" id="item-inner">
+                                            <h2 class="item-headline"><a href="#">云集智造1</a></h2>
+                                            <div class="item-time">企业服务</div>
+                                            <div class="item-lead">北京云集智造科技有限公司1</div>
+                                            <div class="item-lead">蔡浩1：在防风险、去杠杆的政策目标下，近期流动性明显宽松继而推动股债继续上涨的可能性不大。</div>
+                                            <div class="item-time">2016-12-21</div>
+                                            <div class="item-time">5001万人民币</div>
+                                            <div class="item-time">A</div>
+                                            <div class="item-time">1.红点创投中国基金 2.君联资本 </div>
+                                            <div class="item-bottom"></div>
+                                        </div>
+                                    </div>
+                                    <div class=" MT PT ST"></div>
+                                    <div id="item-container0" class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image">
+                                        <div class="item-inner" id="item-inner">
+                                            <h2 class="item-headline"><a href="#">云集智造2</a></h2>
+                                            <div class="item-time">企业服务</div>
+                                            <div class="item-lead">北京云集智造科技有限公司2</div>
+                                            <div class="item-lead">蔡浩2：在防风险、去杠杆的政策目标下，近期流动性明显宽松继而推动股债继续上涨的可能性不大。</div>
+                                            <div class="item-time">2016-08-10</div>
+                                            <div class="item-time">5001万人民币</div>
+                                            <div class="item-time">A</div>
+                                            <div class="item-time">1.红点创投中国基金 2.君联资本 </div>
+                                            <div class="item-bottom"></div>
+                                        </div>
+                                    </div>
+                                    <div class=" XLT LT MT PT"></div>
+                                    <div id="item-container0" class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image">
+                                        <div class="item-inner" id="item-inner">
+                                            <h2 class="item-headline"><a href="#">云集智造3</a></h2>
+                                            <div class="item-time">企业服务</div>
+                                            <div class="item-lead">北京云集智造科技有限公司3</div>
+                                            <div class="item-lead">蔡浩3：在防风险、去杠杆的政策目标下，近期流动性明显宽松继而推动股债继续上涨的可能性不大。</div>
+                                            <div class="item-time">2017-02-01</div>
+                                            <div class="item-time">5001万人民币</div>
+                                            <div class="item-time">A</div>
+                                            <div class="item-time">1.红点创投中国基金 2.君联资本 </div>
+                                            <div class="item-bottom"></div>
+                                        </div>
+                                    </div>
+                                    <div class=" MT PT ST"></div>
+                                    <div class="clearfloat"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-container">
+                            <div class="list-inner">
+                                <h2 class="list-title"><a class="list-link">消费生活</a></h2>
+                                <div class="items">
+                                    <div id="item-container0" class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image">
+                                        <div class="item-inner" id="item-inner">
+                                            <h2 class="item-headline"><a href="#">HelloFresh</a></h2>
+                                            <div class="item-time">消费生活</div>
+                                            <div class="item-lead">HelloFresh</div>
+                                            <div class="item-lead">1英国政府即将启动退欧程序，退欧谈判将会非常艰难，同时应对一场苏格兰独立公投运动，将是特里萨•梅的噩梦。</div>
+                                            <div class="item-time">2016-12-21</div>
+                                            <div class="item-time">5000万人民币</div>
+                                            <div class="item-time">A轮</div>
+                                            <div class="item-time">1.Baillie Gifford </div>
+                                            <div class="item-bottom"></div>
+                                        </div>
+                                    </div>
+                                    <div class=" MT PT"></div>
+                                    <div id="item-container0" class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image">
+                                        <div class="item-inner" id="item-inner">
+                                            <h2 class="item-headline"><a href="#">HelloFresh1</a></h2>
+                                            <div class="item-time">消费生活</div>
+                                            <div class="item-lead">HelloFresh1</div>
+                                            <div class="item-lead">2英国政府即将启动退欧程序，退欧谈判将会非常艰难，同时应对一场苏格兰独立公投运动，将是特里萨•梅的噩梦。</div>
+                                            <div class="item-time">2016-08-10</div>
+                                            <div class="item-time">5001万人民币</div>
+                                            <div class="item-time">A轮</div>
+                                            <div class="item-time">1.Baillie Gifford1 </div>
+                                            <div class="item-bottom"></div>
+                                        </div>
+                                    </div>
+                                    <div class=" MT PT ST"></div>
+                                    <div id="item-container0" class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image">
+                                        <div class="item-inner" id="item-inner">
+                                            <h2 class="item-headline"><a href="#">HelloFresh2</a></h2>
+                                            <div class="item-time">消费生活</div>
+                                            <div class="item-lead">HelloFresh2</div>
+                                            <div class="item-lead">3英国政府即将启动退欧程序，退欧谈判将会非常艰难，同时应对一场苏格兰独立公投运动，将是特里萨•梅的噩梦。</div>
+                                            <div class="item-time">2016-08-10</div>
+                                            <div class="item-time">5001万人民币</div>
+                                            <div class="item-time">A轮</div>
+                                            <div class="item-time">1.Baillie Gifford1 </div>
+                                            <div class="item-bottom"></div>
+                                        </div>
+                                    </div>
+                                    <div class=" XLT LT MT PT"></div>
+                                    <div id="item-container0" class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image">
+                                        <div class="item-inner" id="item-inner">
+                                            <h2 class="item-headline"><a href="#">HelloFresh2</a></h2>
+                                            <div class="item-time">消费生活</div>
+                                            <div class="item-lead">HelloFresh2</div>
+                                            <div class="item-lead">3英国政府即将启动退欧程序，退欧谈判将会非常艰难，同时应对一场苏格兰独立公投运动，将是特里萨•梅的噩梦。</div>
+                                            <div class="item-time">2016-08-10</div>
+                                            <div class="item-time">5001万人民币</div>
+                                            <div class="item-time">A轮</div>
+                                            <div class="item-time">1.Baillie Gifford1 </div>
+                                            <div class="item-bottom"></div>
+                                        </div>
+                                    </div>
+                                    <div class=" MT PT ST"></div>
 
 
-</table>
-</td>
-<td style="width: 3%;" class="contentPadding largeViewBar">&nbsp;</td>
-</tr>
-</table>
-<table width="100%" cellpadding="0" cellspacing="0">
-<tr><td class="lineH1" style="height: 22px; font-size: 22px; line-height: 22px; padding: 0;">&nbsp;</td></tr>                                          
-<tr>
-<td colspan="3" class="ft-embimg-container" style="font-size: 0; text-align: center; padding: 20px 0 20px 0; background-color:#E9DECE;">
-<a target="_blank"  href='http://www3.ftchinese.com/app/newsletter/go.php?c=20250004&_t=<%$smarty.now|date_format:"%Y%m%d"%>'>
-<img width="300" height="250" border="0" src='http://dolphin4.ftimg.net/s?z=ft&c=20250004&_t=<%$smarty.now|date_format:"%Y%m%d"%>&u=www.ftchinese.com'>
-</a>
-</td>
-</tr>
-<tr><td class="lineH1" style="height: 22px; font-size: 22px; line-height: 22px; padding: 0;">&nbsp;</td></tr>
-<%assign var="hotTopics" value=$articles.HotTopics%>
-<%assign var="hotTopics" value=$hotTopics|replace:"，":","%>
-<%assign var="topics" value=","|explode:$hotTopics%>
-<%foreach from=$topics item=topic%>
-<%if $topic!=""%>
-<tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
-<tr><td style="width: 3%;" class="contentPadding">&nbsp;</td><td class="ft-header-bar" style="background-color:#E9DECE;font-size:13px;font-weight:bold;padding:5px 17px 4px 17px;text-transform:uppercase;width:100%;"><a href="http://www.ftchinese.com/tag/<%$topic|escape:"url"%>" style="color:#333333;text-decoration:none;" target=_blank><%$topic%></a></td><td style="width: 3%;" class="contentPadding">&nbsp;</td></tr>
-<tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
-<tr><td style="width: 3%;" class="contentPadding">&nbsp;</td><td style="font-size:14px;line-height:25px;color:#505050;padding-left:17px;padding-right:17px;" class="subhead textPadding lineH">
-<%assign var="allstories" value=$storymodel->get_story_by_field_search("tag like '%`$topic`%'",0,5,15,10800)%>
 
-<%foreach from=$allstories item=sc%>
-<div class="lineH" style="line-height:161.8%;">
-<div class="lineH1_4" style="line-height:35px;font-size:25px;">
-<a target=_blank style="FONT-WEIGHT:bold;TEXT-DECORATION:none;color:#111;" href="http://www.ftchinese.com/story/<%$sc.id%>#s=w"><%$sc.cheadline%></a>
-</div>
-<%$sc.clongleadbody|default:$sc.cshortleadbody|default:$sc.cskylinetext%>
-<div style="height:8px;font-size:6px;"><br /></div>
-</div>
-<%assign var=i value=$i+1%>
-<%/foreach%>
-</td><td style="width: 3%;" class="contentPadding">&nbsp;</td></tr>
-<%/if%>
 
-<%/foreach%>
 
-<tr>
-<td style="width: 3%;" class="contentPadding">&nbsp;</td>
-<td>
-<table width="100%" cellpadding="0" cellspacing="0">
-<tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
-<tr>
-<td style="padding: 0 12px 6px 12px;">
-<table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
-<tr>
-<td style="width: 50%; background-color: #F6E8D7; padding: 6px 8px; border-radius: 2px;" valign="middle">
-<table border="0" cellpadding="0" cellspacing="0">
-<tr>
-<td style="line-height: 16px;">
-<a
-href="http://www.ftchinese.com/users/setting/maillist" style="text-decoration: none;  line-height: 16px;" target="_blank"
->
-<img src="http://img.ed4.net/financialtimesc/images/2013/Responsive/emailsettings-v2.png" alt="" style="width: 26px; height: 26px; border: 0 none;" />
-</a>
-</td>
-<td style="padding-left:5px;color:#2E6E9E;line-height:16px;" target="_blank" nowrap>
-<a  class="lineH1_2"
-href="http://www.ftchinese.com/users/setting/maillist" style="text-decoration:none;font-size:12px;line-height:16px;color:#2E6E9E;" target="_blank">设置邮件</a>
-</td>
-</tr>
-</table>
-</td>
-<td style="width: 7px; height: 100%;">&nbsp;&nbsp;</td>
-<td style="width: 50%; background-color: #F6E8D7; padding: 6px 8px; border-radius: 2px;" valign="middle">
-<table border="0" cellpadding="0" cellspacing="0">
-<tr>
-<td style="line-height: 16px;">
-<a
-href="http://service.weibo.com/share/share.php?appkey=4221537403&url=http%3A%2F%2Fwww.ftchinese.com%2Fm%2Femail%2Fweek&title=<%"FT中文网一周精选"|escape:"url"%>&ralateUid=1698233740&source=&sourceUrl=&content=utf-8&pic=" style="text-decoration: none;  line-height: 16px;" target="_blank"
->
-<img src="http://img.ed4.net/financialtimesc/images/2013/Responsive/forward-v2.png" alt="" style="width: 26px; height: 26px; border: 0 none;" />
-</a>
-</td>
-<td style="padding-left: 5px; color: #2E6E9E;  line-height: 16px;" nowrap>
-<a
-href="http://service.weibo.com/share/share.php?appkey=4221537403&url=http%3A%2F%2Fwww.ftchinese.com%2Fm%2Femail%2Fweek&title=<%"FT中文网一周精选"|escape:"url"%>&ralateUid=1698233740&source=&sourceUrl=&content=utf-8&pic=" class="lineH1_2" style="text-decoration: none; font-size: 12px; line-height: 16px;  color: #2E6E9E;" target="_blank"
->分享到微博</a>
-</td>
-</tr>
-</table>
-</td>
-</tr>
-<tr><td class="lineH1" style="height: 7px; font-size: 7px; line-height: 7px; padding: 0;">&nbsp;</td></tr>
-</table>
-<table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
-<tr>
-<td class="lineH1" style="height: 7px; font-size: 7px; line-height: 7px; padding: 0;">&nbsp;</td>
-</tr>
-</table>
-<table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
-<tr>
-<td style="background-color: #F6E8D7; padding: 6px 8px; text-align: center;">
-<a href="http://user.ftchinese.com/register" style="text-decoration: none; color: #2E6E9E; font-size: 12px;"  target="_blank"
->免费注册FT中文网</a>
-</td>
-</tr>
-</table>
-<table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
-<tr>
-<td class="lineH1" style="height: 7px; font-size: 7px; line-height: 7px; padding: 0;">&nbsp;</td>
-</tr>
-</table>
-<table border="0" cellpadding="0" cellspacing="0" style="width: 100%; border-top: 1px dotted #C0C0C0; border-bottom: 1px dotted #C0C0C0;">
-<tr>
-<td align="center" style="padding: 4px 0;">
-<table border="0" cellpadding="0" cellspacing="0" align="center">
-<tr>
-<td valign="middle">
-<span style="font-size: 12px; color: #505050; ">关注FT中文网</span>
-</td>
-<td style="padding-left: 10px; width: 160px;">
-<table border="0" cellpadding="0" cellspacing="0" align="left" valign="middle" style="width: 150px;">
-<tr>
-<td>
-<a
-href="http://weibo.com/ftchinese" style="text-decoration: none; font-size: 12px; display: block;" target="_blank"
-><img src="http://i.ftimg.net/picture/8/000031298_piclink_24_24.jpg" style="border: 0 none; display: block;" width="24" height="24" alt="新浪微博"/></a>
-</td>
-<td>
-<a
-href="http://e.t.qq.com/ftchinese" style="text-decoration: none; font-size: 12px; display: block;" target="_blank"
-><img src="http://i.ftimg.net/picture/6/000031296_piclink_24_24.jpg" style="border: 0 none; display: block;" width="24" height="24" alt="腾讯微博"/></a>
-</td>
-<td>
-<a
-href="http://user.qzone.qq.com/622006290" style="text-decoration: none; font-size: 12px; display: block;" target="_blank"
-><img src="http://i.ftimg.net/picture/2/000031292_piclink_24_24.jpg" style="border: 0 none; display: block;" width="24" height="24" alt="QQ空间"/></a>
-</td>
-<td>
-<a
-href="http://www.ftchinese.com/m/corp/follow.html" style="text-decoration: none; font-size: 12px; display: block;" target="_blank"
-><img src="http://static.ftchinese.com/img/wechat48.png" style="border: 0 none; display: block;" width="24" height="24" alt="微信"/></a>
-</td>
-</tr>
-</table>
-</td>
-</tr>
-</table>
-</td>
-</tr>
-</table>
-</td>
-</tr>
-<tr><td class="lineH1" style="height: 22px; font-size: 22px; line-height: 22px; padding: 0;">&nbsp;</td></tr>
-<tr>
-<td class="ft-email-bar lineH1_4" style="text-align: center;font-size: 12px;line-height: 17px;color: #98948F;">
-<a
-href="http://www.ftchinese.com/m/corp/aboutus.html" style="text-decoration: none;color: #98948F;" target="_blank"
->关于我们</a> |
-<a
-href="http://www.ftchinese.com/jobs/?from=ft" style="text-decoration: none; color: #98948F;" target="_blank"
->加入我们</a> |
-<a
-href="http://www.ftchinese.com/m/corp/contact.html" style="text-decoration: none; color: #98948F;" target="_blank"
->联系方式</a> |
-<a
-href="http://www.ftchinese.com/m/corp/service.html" target="_blank" style="text-decoration: none;color: #98948F;"
->服务条款</a> |
-<a
-href="http://www.ftchinese.com/m/corp/sales.html" style="text-decoration: none;color: #98948F;" target="_blank"
->广告业务</a> |
-<a
-href="http://www.ftchinese.com/m/corp/faq.html" style="text-decoration: none;color: #98948F;" target="_blank"
->问题回馈</a>
-</td>
-</tr>
-<tr><td class="lineH1" style="height: 34px; font-size: 34px; line-height: 34px; padding: 0;">&nbsp;</td></tr>
-<tr><td class="ft-copyright lineH1_4" style="font-size: 12px;line-height: 17px;padding: 5px 5px 0 5px;text-align: center;color: #505050;">
-&copy; THE FINANCIAL TIMES LTD <%$smarty.now|date_format:"%Y"%>
-</td></tr>
-</table>
-</td>
-<td style="width: 3%;" class="contentPadding largeViewBar">&nbsp;</td>
-</tr>
-</table>
-</td></tr>
-<tr><td style="height: 28px; font-size: 28px; line-height: 28px; padding: 0;" class="bottomContentPadding lineH1">&nbsp;</td></tr>
-</table>
-</td>
-<td style="width:1%;" class="whiteBorder">&nbsp;</td>
-</tr>
-</table>
-</td>
-</tr>
-</table>
-</div>
-<%include file="include/email/tracking.html"%>
+
+
+                                    <div class="clearfloat"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--content-inner结束-->
+                </div>
+                <!--content-container结束-->
+
+                <!--side-container结束-->
+                <div class="clearfloat"></div>
+            </div>
+            <!--block-inner结束-->
+        </div>
+        <table width="100%" cellpadding="0" cellspacing="0">
+            <tbody>
+                <tr>
+                    <td class="lineH1" style="height: 22px; font-size: 22px; line-height: 22px; padding: 0;">&nbsp;</td>
+                </tr>
+
+                <tr>
+                    <td class="lineH1" style="height: 22px; font-size: 22px; line-height: 22px; padding: 0;">&nbsp;</td>
+                </tr>
+
+                <tr>
+                    <td style="width: 3%;" class="contentPadding">&nbsp;</td>
+                    <td>
+                        <table width="100%" cellpadding="0" cellspacing="0">
+                            <tbody>
+                                <tr>
+                                    <td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0 12px 6px 12px;">
+                                        <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+                                            <tbody>
+                                                <tr>
+                                                    <td style="width: 50%; background-color: #F6E8D7; padding: 6px 8px; border-radius: 2px;" valign="middle">
+                                                        <table border="0" cellpadding="0" cellspacing="0">
+                                                            <tbody>
+                                                                <tr>
+
+                                                                    <td style="padding-left:5px;color:#2E6E9E;line-height:16px;" target="_blank" nowrap="">
+                                                                        <a class="lineH1_2" href="http://www.ftchinese.com/users/setting/maillist" style="text-decoration:none;font-size:12px;line-height:16px;color:#2E6E9E;"
+                                                                            target="_blank">设置邮件</a>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                    <td style="width: 7px; height: 100%;">&nbsp;&nbsp;</td>
+                                                    <td style="width: 50%; background-color: #F6E8D7; padding: 6px 8px; border-radius: 2px;" valign="middle">
+                                                        <table border="0" cellpadding="0" cellspacing="0">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td style="line-height: 16px;">
+                                                                        <a href="http://service.weibo.com/share/share.php?appkey=4221537403&amp;url=http%3A%2F%2Fwww.ftchinese.com%2Fm%2Femail%2Fweek&amp;title=FT%E4%B8%AD%E6%96%87%E7%BD%91%E4%B8%80%E5%91%A8%E7%B2%BE%E9%80%89&amp;ralateUid=1698233740&amp;source=&amp;sourceUrl=&amp;content=utf-8&amp;pic="
+                                                                            style="text-decoration: none;  line-height: 16px;"
+                                                                            target="_blank">
+                                                                            <img src="http://img.ed4.net/financialtimesc/images/2013/Responsive/forward-v2.png" alt="" style="width: 26px; height: 26px; border: 0 none;">
+                                                                        </a>
+                                                                    </td>
+                                                                    <td style="padding-left: 5px; color: #2E6E9E;  line-height: 16px;" nowrap="">
+                                                                        <a href="http://service.weibo.com/share/share.php?appkey=4221537403&amp;url=http%3A%2F%2Fwww.ftchinese.com%2Fm%2Femail%2Fweek&amp;title=FT%E4%B8%AD%E6%96%87%E7%BD%91%E4%B8%80%E5%91%A8%E7%B2%BE%E9%80%89&amp;ralateUid=1698233740&amp;source=&amp;sourceUrl=&amp;content=utf-8&amp;pic="
+                                                                            class="lineH1_2" style="text-decoration: none; font-size: 12px; line-height: 16px;  color: #2E6E9E;"
+                                                                            target="_blank">分享到微博</a>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="lineH1" style="height: 7px; font-size: 7px; line-height: 7px; padding: 0;">&nbsp;</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+                                            <tbody>
+                                                <tr>
+                                                    <td class="lineH1" style="height: 7px; font-size: 7px; line-height: 7px; padding: 0;">&nbsp;</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+                                            <tbody>
+                                                <tr>
+                                                    <td style="background-color: #F6E8D7; padding: 6px 8px; text-align: center;">
+                                                        <a href="http://user.ftchinese.com/register" style="text-decoration: none; color: #2E6E9E; font-size: 12px;" target="_blank">免费注册FT中文网</a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+                                            <tbody>
+                                                <tr>
+                                                    <td class="lineH1" style="height: 7px; font-size: 7px; line-height: 7px; padding: 0;">&nbsp;</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <table border="0" cellpadding="0" cellspacing="0" style="width: 100%; border-top: 1px dotted #C0C0C0; border-bottom: 1px dotted #C0C0C0;">
+                                            <tbody>
+                                                <tr>
+                                                    <td align="center" style="padding: 4px 0;">
+                                                        <table border="0" cellpadding="0" cellspacing="0" align="center">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td valign="middle">
+                                                                        <span style="font-size: 12px; color: #505050; ">关注FT中文网</span>
+                                                                    </td>
+                                                                    <td style="padding-left: 10px; width: 160px;">
+                                                                        <table border="0" cellpadding="0" cellspacing="0" align="left" valign="middle" style="width: 150px;">
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        <a href="http://weibo.com/ftchinese" style="text-decoration: none; font-size: 12px; display: block;" target="_blank"><img src="http://i.ftimg.net/picture/8/000031298_piclink_24_24.jpg"
+                                                                                                style="border: 0 none; display: block;"
+                                                                                                width="24" height="24" alt="新浪微博"></a>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <a href="http://e.t.qq.com/ftchinese" style="text-decoration: none; font-size: 12px; display: block;" target="_blank"><img src="http://i.ftimg.net/picture/6/000031296_piclink_24_24.jpg"
+                                                                                                style="border: 0 none; display: block;"
+                                                                                                width="24" height="24" alt="腾讯微博"></a>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <a href="http://user.qzone.qq.com/622006290" style="text-decoration: none; font-size: 12px; display: block;" target="_blank"><img src="http://i.ftimg.net/picture/2/000031292_piclink_24_24.jpg"
+                                                                                                style="border: 0 none; display: block;"
+                                                                                                width="24" height="24" alt="QQ空间"></a>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <a href="http://www.ftchinese.com/m/corp/follow.html" style="text-decoration: none; font-size: 12px; display: block;" target="_blank"><img src="http://static.ftchinese.com/img/wechat48.png"
+                                                                                                style="border: 0 none; display: block;"
+                                                                                                width="24" height="24" alt="微信"></a>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="lineH1" style="height: 22px; font-size: 22px; line-height: 22px; padding: 0;">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td class="ft-email-bar lineH1_4" style="text-align: center;font-size: 12px;line-height: 17px;color: #98948F;">
+                                        <a href="http://www.ftchinese.com/m/corp/aboutus.html" style="text-decoration: none;color: #98948F;" target="_blank">关于我们</a>                                        |
+                                        <a href="http://www.ftchinese.com/jobs/?from=ft" style="text-decoration: none; color: #98948F;" target="_blank">加入我们</a>                                        |
+                                        <a href="http://www.ftchinese.com/m/corp/contact.html" style="text-decoration: none; color: #98948F;" target="_blank">联系方式</a>                                        |
+                                        <a href="http://www.ftchinese.com/m/corp/service.html" target="_blank" style="text-decoration: none;color: #98948F;">服务条款</a>                                        |
+                                        <a href="http://www.ftchinese.com/m/corp/sales.html" style="text-decoration: none;color: #98948F;" target="_blank">广告业务</a>                                        |
+                                        <a href="http://www.ftchinese.com/m/corp/faq.html" style="text-decoration: none;color: #98948F;" target="_blank">问题回馈</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="lineH1" style="height: 34px; font-size: 34px; line-height: 34px; padding: 0;">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td class="ft-copyright lineH1_4" style="font-size: 12px;line-height: 17px;padding: 5px 5px 0 5px;text-align: center;color: #505050;">
+                                        © THE FINANCIAL TIMES LTD 2017
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td style="width: 3%;" class="contentPadding largeViewBar">&nbsp;</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <%include file="include/email/tracking.html"%>
 </body>
 <!-- htmlmin:ignore -->
 </html>
