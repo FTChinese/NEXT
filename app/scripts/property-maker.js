@@ -959,7 +959,8 @@
             $.ajax({
                 type: 'POST',
                 url: gApiUrls.homePOST,
-                data: {action: 'save', publish_type: getURLParameter('page'), publish_html: renderHTML($('#content-left-inner'))},
+                data: {action: 'save', 
+                publish_type: 'property', publish_html: renderHTML($('#content-left-inner'))},
                 dataType: 'text',
                 success: function (msg) {
                     if (msg === 'save') {
@@ -981,7 +982,9 @@
             $.ajax({
                 type: 'POST',
                 url: gApiUrls.homePOST,
-                data: {action: 'submit', publish_type: getURLParameter('page'), publish_html: renderHTML($('#content-left-inner'))},
+                data: {action: 'submit',
+                 publish_type: 'property', 
+                 publish_html: renderHTML($('#content-left-inner'))},
                 dataType: 'text',
                 success: function (msg) {
                     if (msg === 'submit') {
@@ -1015,7 +1018,13 @@
     });
 
     $('body').on('click', '.preview-on-device', function () {
-        var url = 'http://www7.ftchinese.com/m/corp/preview.html?pageid=' + getURLParameter('page');
+        // var url = 'http://www7.ftchinese.com/m/corp/preview.html?pageid=' + getURLParameter('page');
+         var url='';
+        if(location.host==='backyard.corp.ftchinese.com'){
+             url = 'http://www.corp.ftchinese.com/index.php/property';
+        }else if(location.host==='backyard.ftchinese.com'){
+             url = 'http://www.ftchinese.com/index.php/property';
+        }
         var w = $(this).attr('data-width') || $(window).width();
         var h = $(this).attr('data-height') || $(window).height();
         var viewValue = $(this).attr('data-view') || '';
