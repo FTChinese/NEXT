@@ -641,6 +641,7 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 <!-- endbuild -->
 
 <script type="text/javascript">
+
 if (w > 490 && isTouchDevice() === false) {
     //document.write ('<scr'+'ipt src="http://dolphin4.ftimg.net/s?z=ft&c=' + adchID + '0015'  + slotStr + adReachability() + '" charset="gbk"></scr'+'ipt>');
     //console.log (slotStr);
@@ -648,17 +649,20 @@ if (w > 490 && isTouchDevice() === false) {
     var inreadAd = {
         'minSlot': 7,
         'slot': '.story-body p', 
-        'displayTime': 20000, 
+        'displayTime': 2000000, 
         'played': false,
         'vid': 'FBE98EB5D743B4649C33DC5901307461',
         'h': 0,
         't':0,
         'htmlCode': '',
+        'iframeSrc': '/m/marketing/cartier-in-read.html',
         'id': 'inread-ad-container',
         'displayed': false,
         'sound': 'off',
         'impression': '',
-        'click': 'http://www.ft.com'
+        'click': 'http://www.ft.com',
+        'forceWidth': 590,
+        'forceHeight': 400
     };
 
 
@@ -672,6 +676,16 @@ if (w > 490 && isTouchDevice() === false) {
         var s = inreadAdContainer.style;
         var clickTag = '';
         var clickTagHeight;
+        var iframeSrc;
+
+        if (inreadAd.forceWidth && inreadAd.forceWidth > 0) {
+            inreadAdWidth = inreadAd.forceWidth;
+        }
+
+        if (inreadAd.forceHeight && inreadAd.forceHeight > 0) {
+            inreadAdHeight = inreadAd.forceHeight;
+        }
+
         inreadAd.h = inreadAdHeight + 30;
         if (window.location.hostname === 'localhost' || window.location.hostname.indexOf('192.168') === 0 || window.location.hostname.indexOf('10.113') === 0 || window.location.hostname.indexOf('127.0') === 0) {
             hostForVideo = 'http://www.ftchinese.com';
@@ -684,6 +698,8 @@ if (w > 490 && isTouchDevice() === false) {
         s.mozTransition = 'height 500ms linear';
         s.position = 'relative';
         s.overflow = 'hidden';
+        s.marginLeft = 'auto';
+        s.marginRight = 'auto';
         //inreadAdContainer.style.backgroundColor = 'black';
 
         if (inreadAd.click !== '') {
@@ -691,8 +707,13 @@ if (w > 490 && isTouchDevice() === false) {
             clickTag = '<a target="_blank" href="'+ inreadAd.click +'" style="top:0;left:0;cursor:pointer;display:block;width:100%;position:absolute;height:'+clickTagHeight+'px"></a>';
         }
        
+       if (inreadAd.iframeSrc && inreadAd.iframeSrc !== '') {
+        iframeSrc =  inreadAd.iframeSrc;
+       } else {
+        iframeSrc =  hostForVideo + '/m/corp/video.html?vid='+ inreadAd.vid +'&w='+inreadAdWidth+'&h='+inreadAdHeight+'&autostart=true&sound=' + inreadAd.sound +'&003';
+       }
 
-        inreadAd.htmlCode = '<div style="width:100%;height:'+ inreadAdHeight +'px;position:relative;background:black;"><iframe name="inread-frame" id="inread-frame" style="width:'+ inreadAdWidth +'px;height:'+ inreadAdHeight +'px;position:absolute;" src="' + hostForVideo + '/m/corp/video.html?vid='+ inreadAd.vid +'&w='+inreadAdWidth+'&h='+inreadAdHeight+'&autostart=true&sound=' + inreadAd.sound +'&003" scrolling="no" frameborder="0" allowfullscreen=true></iframe></div>' + clickTag;
+        inreadAd.htmlCode = '<div style="width:100%;height:'+ inreadAdHeight +'px;position:relative;background:black;"><iframe name="inread-frame" id="inread-frame" style="width:'+ inreadAdWidth +'px;height:'+ inreadAdHeight +'px;position:absolute;" src="' + iframeSrc + '" scrolling="no" frameborder="0" allowfullscreen=true></iframe></div>' + clickTag;
         inreadAdSlot.parentNode.insertBefore(inreadAdContainer, inreadAdSlot);
         inreadAd.t = findTop(inreadAdContainer);
     }
