@@ -78,14 +78,14 @@ function loadData1(data){
         var myParseInt=parseInt((newsHtmls02[i].length)/6);
          wrapAllHtml[i]='';//每个section
         for(var j = 0,lenj=parseInt((newsHtmls02[i].length)/6);j<lenj;j++){
-         wrapAllHtml[i]+= ''+(newsHtmls02[i][6*j]||'')+'<div class=" MT PT"></div>'+(newsHtmls02[i][(6*j+1)]||'')+'<div class=" MT PT ST"></div>'+(newsHtmls02[i][6*j+2]||'')+'<div class=" XLT LT MT PT"></div>'+(newsHtmls02[i][6*j+3]||'')+'<div class=" MT PT ST"></div>'+(newsHtmls02[i][6*j+4]||'')+'<div class=" MT PT"></div>'+(newsHtmls02[i][6*j+5]||'')+'<div class=" XLT LT MT PT ST"></div>';
+         wrapAllHtml[i]+= ''+(newsHtmls02[i][6*j]||'')+'<div class="PT"></div>'+(newsHtmls02[i][(6*j+1)]||'')+'<div class="PT ST"></div>'+(newsHtmls02[i][6*j+2]||'')+'<div class=" XLT LT MT PT"></div>'+(newsHtmls02[i][6*j+3]||'')+'<div class="PT ST"></div>'+(newsHtmls02[i][6*j+4]||'')+'<div class="PT"></div>'+(newsHtmls02[i][6*j+5]||'')+'<div class=" XLT LT MT PT ST"></div>';
         }
         switch((newsHtmls02[i].length)%6){
-            case 1: wrapAllHtml[i]+= ''+(newsHtmls02[i][myParseInt*6]||'')+'<div class=" MT PT"></div>'; break;
-            case 2: wrapAllHtml[i]+= ''+(newsHtmls02[i][myParseInt*6]||'')+'<div class=" MT PT"></div>'+(newsHtmls02[i][(6*myParseInt+1)]||'')+'<div class=" MT PT ST"></div>'; break;
-            case 3: wrapAllHtml[i]+= ''+(newsHtmls02[i][myParseInt*6]||'')+'<div class=" MT PT"></div>'+(newsHtmls02[i][(6*myParseInt+1)]||'')+'<div class=" MT PT ST"></div>'+(newsHtmls02[i][6*myParseInt+2]||'')+'<div class=" XLT LT MT PT"></div>'; break;
-            case 4: wrapAllHtml[i]+= ''+(newsHtmls02[i][6*myParseInt]||'')+'<div class=" MT PT"></div>'+(newsHtmls02[i][(6*myParseInt+1)]||'')+'<div class=" MT PT ST"></div>'+(newsHtmls02[i][6*myParseInt+2]||'')+'<div class=" XLT LT MT PT"></div>'+(newsHtmls02[i][6*myParseInt+3]||'')+'<div class=" MT PT ST"></div>';break;
-            case 5: wrapAllHtml[i]+= ''+(newsHtmls02[i][6*myParseInt]||'')+'<div class=" MT PT"></div>'+(newsHtmls02[i][(6*myParseInt+1)]||'')+'<div class=" MT PT ST"></div>'+(newsHtmls02[i][6*myParseInt+2]||'')+'<div class=" XLT LT MT PT"></div>'+(newsHtmls02[i][6*myParseInt+3]||'')+'<div class=" MT PT ST"></div>'+(newsHtmls02[i][6*myParseInt+4]||'')+'<div class=" MT PT"></div>';break;
+            case 1: wrapAllHtml[i]+= ''+(newsHtmls02[i][myParseInt*6]||'')+'<div class="PT"></div>'; break;
+            case 2: wrapAllHtml[i]+= ''+(newsHtmls02[i][myParseInt*6]||'')+'<div class="PT"></div>'+(newsHtmls02[i][(6*myParseInt+1)]||'')+'<div class="PT ST"></div>'; break;
+            case 3: wrapAllHtml[i]+= ''+(newsHtmls02[i][myParseInt*6]||'')+'<div class="PT"></div>'+(newsHtmls02[i][(6*myParseInt+1)]||'')+'<div class="PT ST"></div>'+(newsHtmls02[i][6*myParseInt+2]||'')+'<div class=" XLT LT MT PT"></div>'; break;
+            case 4: wrapAllHtml[i]+= ''+(newsHtmls02[i][6*myParseInt]||'')+'<div class="PT"></div>'+(newsHtmls02[i][(6*myParseInt+1)]||'')+'<div class="PT ST"></div>'+(newsHtmls02[i][6*myParseInt+2]||'')+'<div class=" XLT LT MT PT"></div>'+(newsHtmls02[i][6*myParseInt+3]||'')+'<div class="PT ST"></div>';break;
+            case 5: wrapAllHtml[i]+= ''+(newsHtmls02[i][6*myParseInt]||'')+'<div class="PT"></div>'+(newsHtmls02[i][(6*myParseInt+1)]||'')+'<div class="PT ST"></div>'+(newsHtmls02[i][6*myParseInt+2]||'')+'<div class=" XLT LT MT PT"></div>'+(newsHtmls02[i][6*myParseInt+3]||'')+'<div class="PT ST"></div>'+(newsHtmls02[i][6*myParseInt+4]||'')+'<div class="PT"></div>';break;
         }
         
         listHtml0+=renderList('FEATURED PROPERTIES',wrapAllHtml[i]);

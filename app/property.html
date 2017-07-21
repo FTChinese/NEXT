@@ -13,8 +13,8 @@
     <link rel="preconnect" href="http://static.ftchinese.com" />
     <link rel="preconnect" href="http://i.ftimg.net" />
     
-    <script src="https://cdn.bootcss.com/bootstrap/4.0.0-alpha.6/js/bootstrap.js"></script>
-    <link href="https://cdn.bootcss.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" rel="stylesheet">
+    <!--<script src="https://cdn.bootcss.com/bootstrap/4.0.0-alpha.6/js/bootstrap.js"></script>
+    <link href="https://cdn.bootcss.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" rel="sstylesheet">-->
    
     <script>
     window.errorBuffer = window.errorBuffer || [];
@@ -36,14 +36,15 @@
     </script>
 
 
-<!-- build:css styles/main-myft.css -->
-<link rel="stylesheet" href="styles/main-myft.css">
-<!-- endbuild -->
+
 
 <!-- build:css styles/main-search.css -->
 <link rel="stylesheet" href="styles/main-search.css">
 <!-- endbuild -->
 
+<!-- build:css styles/main-page-property.css -->
+<link rel="stylesheet" href="styles/main-page-property.css">
+<!-- endbuild -->
 <script type="text/javascript">
 if(typeof startTime === "undefined"){
 var startTime=new Date().getTime();
@@ -316,27 +317,28 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
     </ul>
     </div>
 </div>
-<div>
+<div class="ai-search-block" style="background:url('https://pgl.azureedge.net/Content/images/ft/home/3.jpg?a=4U1UN1B41C3U');background-size:cover;background-position:center bottom">
+<div class="container" >
     <form>
-        <fieldset>
-            <div id="searchContainer" style="margin: 0 auto">
-                <div class="">
-                    <select>
-                    <option value ="forsale">For Sale</option>
-                    <option value ="forrent">For Rent</option>
-                    </select>
-                </div>
-
-                <div >
-                    <span><input placeholder="Search country, area or city"type="search" tabindex="0" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></span>
-                    <span><button type="submit">搜索</button></span>
-                </div>
-
+        <div id="searchContainer" >
+            <div class="select-search-group floatClass">
+                <select style="height: 40px">
+                <option value ="forsale">For Sale</option>
+                <option value ="forrent">For Rent</option>
+                </select>
             </div>
-        </fieldset>
+
+            <div class="input-search-group floatClass">
+                <span><input placeholder="Search country, area or city" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"tabindex="0"class="select-search-field" style="height: 40px"></span>
+                <button class="select-search-button" tabindex="1"><span>搜索</span></button>
+                <!--<span><button class="select-search-button" type="submit">搜索</button></span>-->
+            </div>
+            <div class="clearfloat"></div>
+        </div>
+
     </form>
 </div>
-
+</div>
 
 <div class="block-container no-side">
   <div class="block-inner">
