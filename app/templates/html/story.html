@@ -745,7 +745,8 @@
 <%/if%>
 <%*<!--Important: override tag for sponsored special reports end-->*%>
 
-<%assign var="storyContent" value=$story_content%>
+
+<%assign var="storyContent" value=$story_content|replace:"<p></p>":""%>
 
 <%assign var="storyId" value=$story.id|default:$id%>
 
@@ -966,8 +967,10 @@
 	<%assign var="storyAuthor" value="`$cbyline_description` `$cauthor`"%>
 	<%if $page_action == "en"%>
 		<%assign var="story_content" value=$ebody%>
-		<%assign var="story_content" value=$story_content|regex_replace:"/[\r\t\n]+/":"</p><p>"%>
-		<%assign var="story_content" value="<p>`$story_content`</p>"%>
+		<%if !preg_match("/<p>/is",$story_content)%>
+			<%assign var="story_content" value=$story_content|regex_replace:"/[\r\t\n]+/":"</p><p>"%>
+			<%assign var="story_content" value="<p>`$story_content`</p>"%>
+		<%/if%>
 		<%assign var="storyHeadline" value=$eheadline|default:$cheadline%>
     <%elseif $page_action == "ce"%>
         <%assign var="story_content" value=""%>
@@ -976,9 +979,12 @@
         <%/foreach%>
         <%assign var="storyHeadline" value=$eheadline|default:$cheadline%>
 	<%else%>
-		<%assign var="story_content" value=$cbody|regex_replace:"/[\r\t\n]/":"</p><p>"%>
+		<%assign var="story_content" value=$cbody%>
+		<%if !preg_match("/<p>/is",$story_content)%>
+		<%assign var="story_content" value=story_content|regex_replace:"/[\r\t\n]/":"</p><p>"%>
 		<%assign var="story_content" value="<p>`$story_content`</p>"%>
 		<%assign var="story_content" value=$story_content|regex_replace:"/\<p\>\<\/p\>/":""%>
+		<%/if%>
 		<%if !preg_match("/highcharts/is",$story_content) && !preg_match("/video/is",$story_content) && $hideMPU3!="yes" && $noAd != "true"%>
 		<%*<!--在单页的情况下，如果文章没有插图，没有iframe，没有video，没有highcharts, 也没有被强制设为不显示MPU 3，则将MPU_3广告位插入到第五段开头。-->*%>
 			 <%assign var="story_content" value=$story_content|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1<div id=story_main_mpu><script type=\"text/javascript\">document.write (writeAd('storympu'));</script></div><p>"%>
@@ -1074,7 +1080,7 @@
 	<%assign var=ftcteam value="Translation"%>
 <%/if%>
 <%assign var=gauthor value=$story.cauthor|regex_replace:"[\n\r]":""%>
-
+<%assign var="storyBody" value=$storyBody|replace:"<p><p>":"<p>"|replace:"</p></p>":"</p>"%>
 
 
 <!DOCTYPE html>
