@@ -1043,19 +1043,27 @@
 			.audio-placeholder,.site-map,.story-theme,.overlay-container,.o-nav__placeholder,.story-action-placeholder, .header-inner div {
 				display:none;
 			}
-			.header-container,.header-inner {
-			    height: 20px!important;
-			    display:block!important;
-			}
-			.header-container {
-				background-color: transparent !important;
-			}
-			.header-inner {
-				background-color: #FFF1E0!important;
-				opacity: 0.9;
-			}
+
+			<%if $smarty.get.inNavigation == "yes"%>
+				.header-container,.header-inner {
+				    display: none;
+				}
+			<%else%>
+				.header-container,.header-inner {
+				    height: 20px!important;
+				    display:block!important;
+				}
+				.header-container {
+					background-color: transparent !important;
+				}
+				.header-inner {
+					background-color: #FFF1E0!important;
+					opacity: 0.9;
+				}
+			<%/if%>
 		</style>
 	<%/if%>
+
 <%/if%>
 
 
