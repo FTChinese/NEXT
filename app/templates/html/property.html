@@ -64,7 +64,7 @@
     }
     </script>
     
-    <%if $pageType == "search"%>
+    <%*<!--<%if $pageType == "search"%>
         <style><%include file="next/styles/main-search.css"%></style>
     <%elseif $pageType == "form"%>
         <style><%include file="next/styles/main-forms.css"%></style>
@@ -81,7 +81,8 @@
         <style><%include file="next/styles/main-lifestyle.css"%></style>
     <%else%>
         <style><%include file="next/styles/main-tag.css"%></style>
-    <%/if%>
+    <%/if%>-->*%>
+    <style><%include file="next/styles/main-search.css"%></style>
     <style><%include file="next/styles/main-page-property.css"%></style>
 
     <link rel="icon" type="image/png" href="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=32&height=32" sizes="32x32">
@@ -138,13 +139,13 @@
     <![endif]-->
     <%include file="next/partials/head.html"%>
   </head>
-  <%assign var="bannerCount" value=0%>
+  
   <body class="<%$hideDate%>">
     <script>checkB();</script>
     <%include file="next/partials/tag-header.html"%>
     <%include file="next/partials/nav.html"%>
     
-    <%assign var="bannerCount" value=$bannerCount+1%>
+   
     <%if $pageId=="setting"%>
     <%include file="next/partials/setting-block.html"%>
     <%elseif $pageId!=""%>
