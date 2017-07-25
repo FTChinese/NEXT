@@ -637,12 +637,14 @@
 <%/if%>
 
 <%assign var="isCurrentAdchFinal" value="yes"%>
-<%if (preg_match("/economy/is",$story.topic) || preg_match("/房地产|经济/is",$keys)) && date("Ymd",$smarty.now) <= 20170804%>
-	<%assign var="adchannelID" value="1300"%>
-<%elseif preg_match("/management/is",$story.topic) && date("Ymd",$smarty.now) <= 20170804%>
-	<%assign var="adchannelID" value="1700"%>
-<%elseif preg_match("/markets/is",$story.topic) && date("Ymd",$smarty.now) <= 20170804%>
-	<%assign var="adchannelID" value="1400"%>
+<%if (preg_match("/management|economy|markets/is",$story.topic) || preg_match("/经济|房地产/is",$keys)) && date("Ymd",$smarty.now) <= 20170804%>
+	<%if 1>0%>
+		<%assign var="adchannelID" value="1700"%>
+	<%elseif 2>1%>
+		<%assign var="adchannelID" value="1400"%>
+	<%elseif 2>1%>
+		<%assign var="adchannelID" value="1300"%>
+	<%/if%>
 <%elseif preg_match("/餐厅|美酒|美食|烈酒/is",$keys)%>
 	<%assign var=breadcrum value="<a href=/channel/wine.html>美食与美酒</a>"%>
 	<%assign var="adchannelID" value="1803"%>
