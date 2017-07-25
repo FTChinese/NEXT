@@ -638,11 +638,12 @@
 
 <%assign var="isCurrentAdchFinal" value="yes"%>
 <%if (preg_match("/management|economy|markets/is",$story.topic) || preg_match("/经济|房地产/is",$keys)) && date("Ymd",$smarty.now) <= 20170804%>
-	<%if 1>0%>
+	<%assign var="randNum" value =0|mt_rand:2 %>
+	<%if $randNum == 0 %>
 		<%assign var="adchannelID" value="1700"%>
-	<%elseif 2>1%>
+	<%elseif $randNum == 1 %>
 		<%assign var="adchannelID" value="1400"%>
-	<%elseif 2>1%>
+	<%elseif $randNum == 2 %>
 		<%assign var="adchannelID" value="1300"%>
 	<%/if%>
 <%elseif preg_match("/餐厅|美酒|美食|烈酒/is",$keys)%>
