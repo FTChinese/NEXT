@@ -637,7 +637,16 @@
 <%/if%>
 
 <%assign var="isCurrentAdchFinal" value="yes"%>
-<%if preg_match("/餐厅|美酒|美食|烈酒/is",$keys)%>
+<%if (preg_match("/management|economy|markets/is",$story.topic) || preg_match("/经济|房地产/is",$keys)) && date("Ymd",$smarty.now) <= 20170804%>
+	<%assign var="randNum" value =0|mt_rand:2 %>
+	<%if $randNum == 0 %>
+		<%assign var="adchannelID" value="1700"%>
+	<%elseif $randNum == 1 %>
+		<%assign var="adchannelID" value="1400"%>
+	<%elseif $randNum == 2 %>
+		<%assign var="adchannelID" value="1300"%>
+	<%/if%>
+<%elseif preg_match("/餐厅|美酒|美食|烈酒/is",$keys)%>
 	<%assign var=breadcrum value="<a href=/channel/wine.html>美食与美酒</a>"%>
 	<%assign var="adchannelID" value="1803"%>
 	<%assign var="topnav" value="lifestyle"%>
@@ -981,7 +990,7 @@
 	<%else%>
 		<%assign var="story_content" value=$cbody%>
 		<%if !preg_match("/<p>/is",$story_content)%>
-		<%assign var="story_content" value=story_content|regex_replace:"/[\r\t\n]/":"</p><p>"%>
+		<%assign var="story_content" value=$story_content|regex_replace:"/[\r\t\n]/":"</p><p>"%>
 		<%assign var="story_content" value="<p>`$story_content`</p>"%>
 		<%assign var="story_content" value=$story_content|regex_replace:"/\<p\>\<\/p\>/":""%>
 		<%/if%>
