@@ -637,16 +637,8 @@
 <%/if%>
 
 <%assign var="isCurrentAdchFinal" value="yes"%>
-<%if (preg_match("/management|economy|markets/is",$story.topic) || preg_match("/经济|房地产/is",$keys)) && date("Ymd",$smarty.now) <= 20170804%>
-	<%assign var="randNum" value =0|mt_rand:2 %>
-	<%if $randNum == 0 %>
-		<%assign var="adchannelID" value="1700"%>
-	<%elseif $randNum == 1 %>
-		<%assign var="adchannelID" value="1400"%>
-	<%elseif $randNum == 2 %>
-		<%assign var="adchannelID" value="1300"%>
-	<%/if%>
-<%elseif preg_match("/餐厅|美酒|美食|烈酒/is",$keys)%>
+
+<%if preg_match("/餐厅|美酒|美食|烈酒/is",$keys)%>
 	<%assign var=breadcrum value="<a href=/channel/wine.html>美食与美酒</a>"%>
 	<%assign var="adchannelID" value="1803"%>
 	<%assign var="topnav" value="lifestyle"%>
@@ -751,6 +743,18 @@
 	<%assign var=breadcrum value="<a href=\"/channel/radio.html\">FT英语电台</a><button class=\"myft-follow plus\" data-tag=\"英语电台\" data-type=\"tag\">关注</button>"%>
 <%else%>
 	<%assign var="isCurrentAdchFinal" value="no"%>
+<%/if%>
+
+<%*<%if (preg_match("/management|economy|markets/is",$story.topic) || preg_match("/经济|房地产/is",$keys)) && date("Ymd",$smarty.now) <= 20170804%>*%>
+<%if date("Ymd",$smarty.now) <= 20170804%>
+	<%assign var="randNum" value =0|mt_rand:2 %>
+	<%if $randNum == 0 %>
+		<%assign var="adchannelID" value="1700"%>
+	<%elseif $randNum == 1 %>
+		<%assign var="adchannelID" value="1400"%>
+	<%elseif $randNum == 2 %>
+		<%assign var="adchannelID" value="1300"%>
+	<%/if%>
 <%/if%>
 <%*<!--Important: override tag for sponsored special reports end-->*%>
 
