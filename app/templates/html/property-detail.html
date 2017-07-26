@@ -68,6 +68,7 @@
     <style><%include file="next/styles/main-story.css"%></style>
     <style><%include file="next/styles/main-search.css"%></style>
     <style><%include file="next/styles/main-page-property.css"%></style>
+    <link rel="stylesheet" type="text/css" href="http://static.ftchinese.com/styles/swiper.min.css" />
 
     <link rel="icon" type="image/png" href="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=32&height=32" sizes="32x32">
     <link rel="icon" type="image/png" href="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=194&height=194" sizes="194x194">
@@ -151,6 +152,26 @@
 </script>
 <script type="text/javascript" src="http://static.ftchinese.com/n/main-sharelinks.js?<%include file="next/timestamp/timestamp.html"%>"></script>
 <script type="text/javascript">
-    <%include file="next/scripts/property-detail.js.js"%>
+    <%include file="next/scripts/property-detail.js"%>
 </script>
+<!-- Initialize Swiper -->
+    <script>
+    var galleryTop = new Swiper('.gallery-top', {
+        nextButton: '.swiper-button-next',
+        prevButton: '.swiper-button-prev',
+        spaceBetween: 10,
+        autoplay: 2500,
+        autoplayDisableOnInteraction: false
+    });
+    var galleryThumbs = new Swiper('.gallery-thumbs', {
+        spaceBetween: 10,
+        centeredSlides: true,
+        slidesPerView: 'auto',
+        touchRatio: 0.2,
+        slideToClickedSlide: true
+    });
+    galleryTop.params.control = galleryThumbs;
+    galleryThumbs.params.control = galleryTop;
+    
+    </script>
 </html>
