@@ -325,7 +325,7 @@ function writeAd(adType, returnSrc) {
   }
   // MARK: if it's a landing page, not a touch device and not a sponsored page, change the adch to home (1000)
   try {
-    if (gIsLandingPage === true && TouchDevice === false && fromURL === false && window.gIsCurrentAdchFinal === false && adch !== '1000' && sponsoredChannelIds.indexOf(adch) < 0) {
+    if (1<0 && gIsLandingPage === true && TouchDevice === false && fromURL === false && window.gIsCurrentAdchFinal === false && adch !== '1000' && sponsoredChannelIds.indexOf(adch) < 0) {
       //ga('send','event','Landing Page Ad Impression', adch , adType, {'nonInteraction':1});
       //console.log ('Current adch ('+ adch +') can be changed to 1000');
       adch = '1000';
