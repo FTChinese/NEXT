@@ -416,7 +416,7 @@ function writeAd(adType, returnSrc) {
       } else {
         window.adType = adType;
         wechatAdHTML = '<div class="banner-iframe" style="width: 100%; " data-adch="'+adch+'" data-adPosition="'+adPosition+'"><scr';
-        wechatAdHTML += 'ipt src="http://dolphin4.ftimg.net/s?z=ft&c=' + c + slotStr + adP + '&_fallback=0" charset="gbk">';
+        wechatAdHTML += 'ipt src="http://54.251.12.141/s?z=ft&c=' + c + slotStr + adP + '&_fallback=0" charset="gbk">';
         wechatAdHTML += '</scr';
         wechatAdHTML += 'ipt></div>';
         // console.log (adType + adCount[adType]);
