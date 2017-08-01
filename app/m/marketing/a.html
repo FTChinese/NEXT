@@ -41,17 +41,21 @@ img {
 </head>
 <body>
 
-<div class="ad"><div>
+<div class="ad"><div id="n-ad-container">
 
 
 <script>
 
 function removeAd() {
     //alert ('removeAd');
+    window.parent.sendEvent('Ad Impression: Error', c.substring(0,4), c.substring(4,8), {'nonInteraction':1});
 }
 
 function loaded() {
     //alert ('loaded');
+    if (window.isHouseAd === true) {
+        window.parent.sendEvent('Ad Impression: House Ad', c.substring(0,4), c.substring(4,8), {'nonInteraction':1});
+    }
 }
 
 var k=window.location.href;
