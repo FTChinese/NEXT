@@ -61,11 +61,10 @@ var startTime=new Date().getTime();
 var adchID = '1200';
 var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现联动互斥功能
 </script>
-
+<script    src="http://static.ftchinese.com/js/jquery-1.10.2.min.js?0"></script>
 <script type="text/javascript" src="scripts/key.js"></script>
 <script type="text/javascript" src="scripts/ad.js"></script>
 <!-- build:js scripts/innotree.js -->
-<script src="../bower_components/jquery/dist/jquery.js"></script>
 <script type="text/javascript" src="scripts/innotree.js"></script>
 <!-- endbuild -->
 
@@ -189,7 +188,7 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 <a class="nav-section-head desktop" href="/channel/china.html">中国</a>
 </li>
 <li class="nav-section"
- aria-selected="true" data-section="world">
+ aria-selected="" data-section="world">
 <button class="nav-section-head mobile">全球</button>
 <a class="nav-section-head desktop" href="/channel/world.html">全球</a>
 <ol class="nav-items">
@@ -233,7 +232,7 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 <button class="nav-section-head mobile">商业</button>
 <a class="nav-section-head desktop" href="/channel/business.html">商业</a>
 </li>
-<li class="nav-section"
+<li class="nav-section"  aria-selected="true"
  data-section="innovation">
 <button class="nav-section-head mobile">创新经济</button>
 <a class="nav-section-head desktop" href="/channel/innovation.html">创新经济</a>
@@ -328,7 +327,7 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 <div class="site-map"><!-- 被选中的导航 -->
     <div class="site-map__container">
     <ul class="site-map__items">
-    <li><a href="/channel/world.html">全球</a></li>
+    <li><a href="/channel/innovation.html">创新经济</a></li>
     </ul>
     </div>
 </div>    
@@ -345,6 +344,9 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 </div>
 
 
+<map name="information-map" id="information-map">
+    <area shape="rect" coords="60,0,270,50" href ="https://www.theinformation.com/" target ="_blank" alt="information" />
+</map>
 <div class="block-container has-side">
     <div class="block-inner">
     <div class="content-container">
@@ -357,12 +359,12 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
         <div class="links-container P-hide">
     <h2 class="list-title"><a>栏目介绍</a></h2>
     <div class="links" style="font-size:.9em;">
-    本栏目由FT中文网与美国科技新闻网站The Information联合出品，定期呈现中国互联网投资领域最新动态。数据来源于人工智能信息服务平台因果树。
+    本栏目由FT中文网与美国科技新闻网站The Information联合出品，定期呈现中国互联网投资领域最新动态。美国科技新闻网站The Information 提供硅谷以及全球的科技原创新闻和分析。数据来源于人工智能信息服务平台因果树。
     </div>
-    <div class="links"><img src="http://i.ftimg.net/picture/6/000071546_piclink.jpg" />
+    <div class="links"><img usemap="#information-map" src="http://i.ftimg.net/picture/6/000071546_piclink.jpg" />
+    
     </div>
     </div>
-
     
     <div class="mpu-container first-child">
         <script type="text/javascript">
