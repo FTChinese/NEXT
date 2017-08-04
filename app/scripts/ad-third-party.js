@@ -30,7 +30,7 @@ var optionalTexts = [
   }
 ];
 var textIndex = getRandomInt(0, 5);
-console.log('textIndex:'+textIndex);
+// console.log('textIndex:'+textIndex);
 function adReachability() {
   var thirdPartyVendors = {
     'dcR': '_dc',
