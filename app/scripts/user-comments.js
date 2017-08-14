@@ -1,9 +1,10 @@
-/* exported loadcomment */
+/* exported loadcomment, init_repeat_cmt, showcmt, voteComment */
 // MARK: User Comments
 
+var commentfolder;
 function loadcomment(storyid, theid, type) {
 
-    var url, new_comment_prefix, common_comment_prefix, user_icon='', isvip, commentnumber, cfoption, cftype, commentsortby, commentfolder;
+    var url, new_comment_prefix, common_comment_prefix, user_icon='', isvip, commentnumber, cfoption, cftype, commentsortby;
     new_comment_prefix = '/index.php/comments/newcommentsbysort/';
     common_comment_prefix = '/index.php/common_comments/newcommentsbysort/';
     
@@ -59,150 +60,115 @@ function loadcomment(storyid, theid, type) {
     // MARK: Construct JSON request
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
-        if (this.readyState === 4 && this.status === 200) {
-            var data = JSON.parse(this.responseText);
-            var commentsBody = '';
-            
-            if (data.hot) {
-                for (var i=0; i<data.hot.length; i++) {
-                    user_icon = '';
+        if (this.readyState === 4) {
+            if (this.status === 200) {
+                var data = JSON.parse(this.responseText);
+                var commentsBody = '';
+                
+                if (data.hot) {
+                    for (var i=0; i<data.hot.length; i++) {
+                        user_icon = '';
+                        isvip = '';
+                        commentsBody += '<div class="commentcontainer">' + user_icon + '<dt><div class="ding"></div><span>' + data.hot[i].dnewdate + '</span><b>' + data.hot[i].nickname.replace(/<[Aa] .+>(.+)<\/[Aa]>/g, '$1') + isvip + '</b> <font class="grey">' + data.hot[i].user_area + '</font><img src=\'/phone/hot_1.gif\' width=\'22\' height=\'14\' /></dt><dd>' + data.hot[i].quote_content + data.hot[i].talk + '</dd><div class="replybox" id=reh' + data.hot[i].id + '></div><dt class=\'replycomment\'><a href=\'javascript:cmt_reply("' + data.hot[i].id + '","h");\'>回复</a> <a id=hst' + data.hot[i].id + ' href=\'javascript:voteComment("' + data.hot[i].id + '","#hst", "support");\'>支持</a>(<font id=\'hsts' + data.hot[i].id + '\' color=#BA2636>' + data.hot[i].support_count + '</font>) <a id=hdt' + data.hot[i].id + ' href=\'javascript:voteComment("' + data.hot[i].id + '","#hdt","disagree");\'>反对</a>(<font id=\'hdtd' + data.hot[i].id + '\'>' + data.hot[i].disagree_count + '</font>)</dt></div>';
+                    }
+                }
+
+
+
+                for (var j=0; j<data.result.length; j++) {
                     isvip = '';
-                    commentsBody += '<div class="commentcontainer">' + user_icon + '<dt><div class="ding"></div><span>' + data.hot[i].dnewdate + '</span><b>' + data.hot[i].nickname.replace(/<[Aa] .+>(.+)<\/[Aa]>/g, '$1') + isvip + '</b> <font class="grey">' + data.hot[i].user_area + '</font><img src=\'/phone/hot_1.gif\' width=\'22\' height=\'14\' /></dt><dd>' + data.hot[i].quote_content + data.hot[i].talk + '</dd><div class="replybox" id=reh' + data.hot[i].id + '></div><dt class=\'replycomment\'><a href=\'javascript:cmt_reply("' + data.hot[i].id + '","h");\'>回复</a> <a id=hst' + data.hot[i].id + ' href=\'javascript:voteComment("' + data.hot[i].id + '","#hst", "support");\'>支持</a>(<font id=\'hsts' + data.hot[i].id + '\' color=#BA2636>' + data.hot[i].support_count + '</font>) <a id=hdt' + data.hot[i].id + ' href=\'javascript:voteComment("' + data.hot[i].id + '","#hdt","disagree");\'>反对</a>(<font id=\'hdtd' + data.hot[i].id + '\'>' + data.hot[i].disagree_count + '</font>)</dt></div>';
+                    user_icon = '';
+                    commentsBody += '<div class=commentcontainer>' + user_icon + '<dt><span>' + data.result[j].dnewdate + '</span><b>' + data.result[j].nickname.replace(/<[Aa] .+>(.+)<\/[Aa]>/g, '$1') + isvip + '</b> <font class=grey>' + data.result[j].user_area + '</font><div class=clearfloat></div></dt><dd>' + data.result[j].quote_content + data.result[j].talk + '</dd><div class=replybox id=re' + data.result[j].id + '></div><dt class=replycomment><a href=\'javascript:cmt_reply("' + data.result[j].id + '","");\'>回复</a> <a id=st' + data.result[j].id + ' href=\'javascript:voteComment("' + data.result[j].id + '","#st","support");\'>支持</a>(<font id=\'sts' + data.result[j].id + '\'>' + data.result[j].support_count + '</font>) <a id=dt' + data.result[j].id + ' href=\'javascript:voteComment("' + data.result[j].id + '","#dt","disagree");\'>反对</a>(<font id=\'dtd' + data.result[j].id + '\'>' + data.result[j].disagree_count + '</font>)</dt></div>';
+                    window.unusedEntryIndex = j;
                 }
-            }
 
 
-
-            for (var j=0; j<data.result.length; j++) {
-                isvip = '';
-                user_icon = '';
-                commentsBody += '<div class=commentcontainer>' + user_icon + '<dt><span>' + data.result[j].dnewdate + '</span><b>' + data.result[j].nickname.replace(/<[Aa] .+>(.+)<\/[Aa]>/g, '$1') + isvip + '</b> <font class=grey>' + data.result[j].user_area + '</font><div class=clearfloat></div></dt><dd>' + data.result[j].quote_content + data.result[j].talk + '</dd><div class=replybox id=re' + data.result[j].id + '></div><dt class=replycomment><a href=\'javascript:cmt_reply("' + data.result[j].id + '","");\'>回复</a> <a id=st' + data.result[j].id + ' href=\'javascript:voteComment("' + data.result[j].id + '","#st","support");\'>支持</a>(<font id=\'sts' + data.result[j].id + '\'>' + data.result[j].support_count + '</font>) <a id=dt' + data.result[j].id + ' href=\'javascript:voteComment("' + data.result[j].id + '","#dt","disagree");\'>反对</a>(<font id=\'dtd' + data.result[j].id + '\'>' + data.result[j].disagree_count + '</font>)</dt></div>';
-                window.unusedEntryIndex = j;
-            }
+                userCommentsEle.innerHTML = commentsBody;
 
 
-            userCommentsEle.innerHTML = commentsBody;
-
-
-            if ((data.count && data.count > 0) || type !== 'story') {
-                // $('#commentcount').html(' ( '+ data.count + ' ) ');
-                // $('#commentcount2').html(' [  '+ data.count + ' 条 ] ');
-                // $('#readercomment').html('评论[<font style=\'color:#9e2f50;\'>' + data.count + '条</font>]');
-                // init_repeat_cmt();
-                if (data.count > 20 || data.result.length > 20) {
-                    commentnumber = data.count || data.result.length;
-                    cftype = (type.indexOf('story') >= 0) ? 'story' : 'common';
-                    cfoption = (type.indexOf('storyall') >= 0) ? type.replace(/storyall/g, '') : 1;
-                    userCommentsEle.innerHTML += '<div class=fullcomments>' + '<span class=viewfullcomments id=viewfullcomments>查看全部<span class=highlight>' + commentnumber + '</span>条评论 </span>' +'<select class=commentsortby id=commentsortby value="' + cfoption + '">' + '<option value=1 selected>最新的在上方</option>' + '<option value=2>最早的在上方</option>' + '<option value=3>按热门程度</option></select></div>';
-                    
-                    document.getElementById('viewfullcomments').onclick = function() {
-                        commentsortby =  document.getElementById('commentsortby').value;
-                        loadcomment(storyid, theid, cftype + 'all'+ commentsortby);
-                    };
-                    document.getElementById('commentsortby').onchange = function() {
-                        commentsortby =  document.getElementById('commentsortby').value;
-                        loadcomment(storyid, theid, cftype + 'all'+ commentsortby);
-                    };
+                if ((data.count && data.count > 0) || type !== 'story') {
+                    // $('#commentcount').html(' ( '+ data.count + ' ) ');
+                    // $('#commentcount2').html(' [  '+ data.count + ' 条 ] ');
+                    // $('#readercomment').html('评论[<font style=\'color:#9e2f50;\'>' + data.count + '条</font>]');
+                    init_repeat_cmt();
+                    if (data.count > 20 || data.result.length > 20) {
+                        commentnumber = data.count || data.result.length;
+                        cftype = (type.indexOf('story') >= 0) ? 'story' : 'common';
+                        cfoption = (type.indexOf('storyall') >= 0) ? type.replace(/storyall/g, '') : 1;
+                        userCommentsEle.innerHTML += '<div class=fullcomments>' + '<span class=viewfullcomments id=viewfullcomments>查看全部<span class=highlight>' + commentnumber + '</span>条评论 </span>' +'<select class=commentsortby id=commentsortby value="' + cfoption + '">' + '<option value=1 selected>最新的在上方</option>' + '<option value=2>最早的在上方</option>' + '<option value=3>按热门程度</option></select></div>';
+                        
+                        document.getElementById('viewfullcomments').onclick = function() {
+                            commentsortby =  document.getElementById('commentsortby').value;
+                            loadcomment(storyid, theid, cftype + 'all'+ commentsortby);
+                        };
+                        document.getElementById('commentsortby').onchange = function() {
+                            commentsortby =  document.getElementById('commentsortby').value;
+                            loadcomment(storyid, theid, cftype + 'all'+ commentsortby);
+                        };
+                    }
+                } else { 
+                    userCommentsEle.innerHTML = '';
                 }
-            } else { 
-                userCommentsEle.innerHTML = '';
+            } else {
+                userCommentsEle.innerHTML = '<span class=\'error\'>' + '很抱歉。由于您与FT服务器之间的连接发生故障，' + '加载评论内容失败。请稍后再尝试。</span>';
             }
-
-
-
-            
-
-
-/*
-            if ((data.count && data.count > 0) || type != 'story') {
-                $('#commentcount').html(' ( '+ data.count + ' ) ');
-                $('#commentcount2').html(' [  '+ data.count + ' 条 ] ');
-                $('#readercomment').html('评论[<font style=\'color:#9e2f50;\'>' + data.count + '条</font>]');
-                init_repeat_cmt();
-                if (data.count > 20 || data.result.length > 20) {
-                    commentnumber = data.count || data.result.length;
-                    $('#' + theid).append('<div class=fullcomments>'
-                        +'<span class=viewfullcomments>查看全部<span class=highlight>' 
-                        + commentnumber + '</span>条评论 </span>'
-                        +'<select class=commentsortby>'
-                        +'<option value=1 selected>最新的在上方</option>'
-                        +'<option value=2>最早的在上方</option>'
-                        +'<option value=3>按热门程度</option></select></div>');
-                    cfoption = (type.indexOf('storyall') >= 0) ? type.replace(/storyall/g, '') : 1;
-                    cftype = (type.indexOf('story') >= 0) ? 'story' : 'common';
-                    $('.commentsortby').val(cfoption);
-                    $('.viewfullcomments').click(function() {
-                        storyid = $('#cstoryid').val();
-                        theid = $(this).parent().parent().attr('id');
-                        commentsortby = $('.commentsortby').val();
-                        loadcomment(storyid, theid, cftype + 'all'+ commentsortby);
-                    });
-                    $('.commentsortby').change(function() {
-                        storyid = $('#cstoryid').val();
-                        theid = $(this).parent().parent().attr('id');
-                        commentsortby = $(this).val();
-
-                        loadcomment(storyid, theid, cftype + 'all'+ commentsortby);
-                    });
-                }
-            } else { 
-                $('#' + theid).html('');
-            }
-*/
-
-
         }
-        // if (this.status !== 200) {
-        //     userCommentsEle.innerHTML = '<span class=\'error\'>' + '很抱歉。由于您与FT服务器之间的连接发生故障，' + '加载评论内容失败。请稍后再尝试。</span>';
-        // }
-
-
-
-
     };
 
     xmlhttp.open('GET', url, true);
     xmlhttp.send();
-
-
 }
 
-/*
 function init_repeat_cmt() {
     var all_cmt;
-    $('.cmt_quote').each(function() {
-        if (this.parentNode.tagName.toUpperCase() == 'DD') {
-            this.id = 'cmt_quote_'+ Math.round(Math.random() * 1000000);
-            if (this.childNodes[0].className == 'cmt_quote') {
-                this.childNodes[0].id = 'cmt_quote_child_'+ Math.round(Math.random() * 1000000);
+    var cmtQuotes = document.querySelectorAll('.cmt_quote');
+    for (var i=0; i<cmtQuotes[i]; i++) {
+        if (cmtQuotes[i].parentNode.tagName.toUpperCase() === 'DD') {
+            cmtQuotes[i].id = 'cmt_quote_'+ Math.round(Math.random() * 1000000);
+            if (cmtQuotes[i].childNodes[0].className === 'cmt_quote') {
+                cmtQuotes[i].childNodes[0].id = 'cmt_quote_child_'+ Math.round(Math.random() * 1000000);
             }
-        }else {
-            if (this.id != 'recommendcomment') {this.style.display = 'none';}
+        } else if (cmtQuotes[i].id !== 'recommendcomment') {
+            cmtQuotes[i].style.display = 'none';
         }
-    });
-    $('div[id^=\'cmt_quote_child_\']').each(function() {
-        this.style.display = '';
-        if (this.childNodes[0].className == 'cmt_quote') {
-            all_cmt = $('#'+ this.id + ' .cmt_quote').length;
-            $('#'+ this.id).prepend('<p class=\'showcmt\'>重复 [ ' + all_cmt + ' ] 条引用已被隐藏,点击展开。</p>');
+    }
+
+    var cmtQuoteChilds = document.querySelectorAll('div[id^="cmt_quote_child_"]');
+    for (var j=0; j<cmtQuoteChilds.length; j++) {
+        cmtQuoteChilds[j].style.display = '';
+        if (cmtQuoteChilds[j].childNodes[0].className === 'cmt_quote') {
+            all_cmt = document.querySelectorAll('#'+ cmtQuoteChilds[j].id + ' .cmt_quote').length;
+            document.getElementById(cmtQuoteChilds[j].id).innerHTML = '<p onclick="showcmt(this)" class=\'showcmt\'>重复 [ ' + all_cmt + ' ] 条引用已被隐藏,点击展开。</p>' + document.getElementById(cmtQuoteChilds[j].id).innerHTML;
         }
-    });
-    $('.showcmt').click(function() {
-        $('#'+ this.parentNode.id + ' .cmt_quote').css('display', '');
-        this.style.display = 'none';
-    });
+    }
+}
+
+function showcmt(ele) {
+    document.querySelector('#'+ ele.parentNode.id + ' .cmt_quote').style.display = '';
+    ele.style.display = 'none';
 }
 
 function voteComment(id, ctype, vote) {
-    if (!ctype) {ctype = (vote == 'support') ? '#st' : '#dt';}
-    var i = $(ctype + vote[0] + id).html();
-        i = parseInt(i, 10) || 0;
-    $(ctype + vote[0] + id).html(i + 1);
-    $('#st'+id+',#dt'+id).removeAttr('href');
-    if (vote==='support') {$('#st'+id).html('已支持');} else {$('#st'+id).html('已反对');}
-    $.post(commentfolder + '/addvote/', {cmtid: id, action: vote});
+    if (!ctype) {
+        ctype = (vote === 'support') ? '#st' : '#dt';
+    }
+    var i = document.querySelector(ctype + vote[0] + id).innerHTML;
+    i = parseInt(i, 10) || 0;
+    document.querySelector(ctype + vote[0] + id).innerHTML = i + 1;
+    document.querySelector('#st'+id).removeAttribute('href');
+    document.querySelector('#dt'+id).removeAttribute('href');
+    if (vote==='support') {
+        document.querySelector('#st'+id).innerHTML = '已支持';
+    } else {
+        document.querySelector('#dt'+id).innerHTML = '已反对';
+    }
+    var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance 
+    xmlhttp.open('POST', commentfolder + '/addvote/');
+    xmlhttp.setRequestHeader('Content-Type', 'application/json');
+    xmlhttp.send(JSON.stringify({cmtid: id, action: vote}));
 }
 
+/*
 function cmt_reply(id,ctype) {
     var pl, usenicknamer;
     ctype = ctype || '';
