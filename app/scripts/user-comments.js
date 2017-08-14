@@ -141,7 +141,7 @@ function loadcomment(storyid, theid, type) {
                         commentsortby =  document.getElementById('commentsortby').value;
                         loadcomment(storyid, theid, cftype + 'all'+ commentsortby);
                     };
-                    document.getElementById('commentsortby').onclick = function() {
+                    document.getElementById('commentsortby').onchange = function() {
                         commentsortby =  document.getElementById('commentsortby').value;
                         loadcomment(storyid, theid, cftype + 'all'+ commentsortby);
                     };
