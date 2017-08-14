@@ -277,6 +277,7 @@ gulp.task('copy:cssjs', () => {
   const staticDest = 'dev_www/frontend/static/n';
   const cssDest = 'dev_www/frontend/tpl/next/styles';
   const jsDest = 'dev_www/frontend/tpl/next/scripts';
+  
 
   let cssStream = gulp.src(['app/origami/*.css', 'dist/styles/*.css'])
     .pipe(gulp.dest(`../${staticDest}`))
@@ -297,9 +298,13 @@ gulp.task('copy:cssjs', () => {
 
 gulp.task('copy:marketing', () => {
   const dest = 'dev_www/frontend/tpl/marketing';
+  const mobileRootdest = 'dev_www/mobile_webroot/m/marketing';
   return gulp.src('dist/m/marketing/*')
     .pipe(gulp.dest(`../${dest}`))
-    .pipe(gulp.dest(`../testing/${dest}`));
+    .pipe(gulp.dest(`../testing/${dest}`))
+    .pipe(gulp.dest(`../${mobileRootdest}`))
+    .pipe(gulp.dest(`../testing/${mobileRootdest}`))
+    ;
 });
 
 gulp.task('copy:apipage', () => {
