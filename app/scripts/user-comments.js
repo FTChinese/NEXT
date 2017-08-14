@@ -92,6 +92,7 @@ function loadcomment(storyid, theid, type) {
 
             for (var i=0; i<data.result.length; i++) {
                 var isvip = '';
+                var user_icon = '';
                 commentsBody += '<div class=commentcontainer>'
                             + user_icon + '<dt><span>' 
                             + data.result[i].dnewdate + '</span><b>' 
