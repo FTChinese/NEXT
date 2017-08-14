@@ -114,7 +114,45 @@ function loadcomment(storyid, theid, type) {
                 window.unusedEntryIndex = i;
             }
 
+
             userCommentsEle.innerHTML = commentsBody;
+
+
+            if ((data.count && data.count > 0) || type != 'story') {
+                // $('#commentcount').html(' ( '+ data.count + ' ) ');
+                // $('#commentcount2').html(' [  '+ data.count + ' 条 ] ');
+                // $('#readercomment').html('评论[<font style=\'color:#9e2f50;\'>' + data.count + '条</font>]');
+                // init_repeat_cmt();
+                if (data.count > 20 || data.result.length > 20) {
+                    commentnumber = data.count || data.result.length;
+                    cftype = (type.indexOf('story') >= 0) ? 'story' : 'common';
+                    cfoption = (type.indexOf('storyall') >= 0) ? type.replace(/storyall/g, '') : 1;
+                    userCommentsEle.innerHTML += '<div class=fullcomments>'
+                        +'<span class=viewfullcomments id=viewfullcomments>查看全部<span class=highlight>' 
+                        + commentnumber + '</span>条评论 </span>'
+                        +'<select class=commentsortby id=commentsortby value="'
+                        +cfoption
+                        +'">'
+                        +'<option value=1 selected>最新的在上方</option>'
+                        +'<option value=2>最早的在上方</option>'
+                        +'<option value=3>按热门程度</option></select></div>';
+                    
+                    document.getElementById('viewfullcomments').onclick = function() {
+                        commentsortby =  document.getElementById('commentsortby').value;
+                        loadcomment(storyid, theid, cftype + 'all'+ commentsortby);
+                    };
+                    document.getElementById('commentsortby').onclick = function() {
+                        commentsortby =  document.getElementById('commentsortby').value;
+                        loadcomment(storyid, theid, cftype + 'all'+ commentsortby);
+                    };
+                }
+            } else { 
+                userCommentsEle.innerHTML = '';
+            }
+
+
+
+            
 
 
 /*
