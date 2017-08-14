@@ -240,7 +240,249 @@
 .property-share-container{
     margin: 15px;
 }
+// list-detail
 
+.ai-search-result .thumbnail {
+  padding: 0;
+  margin-bottom: 0;
+  position: relative;
+}
+
+@media (max-width: 767px) {
+  .ai-search-result[data-itemtype="l"][data-feature="1"] .thumbnail .cropped img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    overflow: hidden;
+  }
+  .ai-search-result[data-itemtype="l"][data-feature="1"] .photo-count-badge {
+    left: 0;
+    top: 10px;
+    z-index: 2;
+    color: #fff;
+    padding: 5px 15px;
+    position: absolute;
+  }
+  .ai-search-result[data-itemtype="l"][data-feature="1"] .listing-info-badge {
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    z-index: 1;
+    color: #fff;
+    padding: 5px 15px;
+    position: absolute;
+  }
+}
+@media (min-width: 768px) {
+  /* featured */
+  .ai-search-result[data-itemtype="l"][data-feature="1"] .thumbnail .cropped img {
+    width: 100%;
+    height: 450px;
+    object-fit: cover;
+    overflow: hidden;
+  }
+  .ai-search-result[data-itemtype="l"][data-feature="1"] .photo-count-badge {
+    left: 0;
+    top: 10px;
+    z-index: 2;
+    color: #fff;
+    padding: 5px 15px;
+    position: absolute;
+  }
+  .ai-search-result[data-itemtype="l"][data-feature="1"] .listing-info-badge {
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    z-index: 1;
+    color: #fff;
+    padding: 5px 15px;
+    position: absolute;
+  }
+  /* premium */
+  .ai-search-result[data-itemtype="l"][data-feature="0"] .thumbnail .thumbnail-img,
+  .ai-search-result[data-itemtype="l"][data-feature="0"] .thumbnail .thumbnail-img img {
+    /*max-height: 150px;*/
+  }
+  .ai-search-result[data-itemtype="l"][data-feature="0"] .thumbnail .cropped img {
+    width: 100%;
+    height: 230px;
+    object-fit: cover;
+    overflow: hidden;
+  }
+  /* normal */
+  .ai-search-result[data-itemtype="l"][data-feature="-1"] {
+    height: 230px;
+  }
+  .ai-search-result[data-itemtype="l"][data-feature="-1"] .thumbnail .cropped img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    overflow: hidden;
+  }
+}
+@media (min-width: 992px) {
+  /* featured */
+  .ai-search-result[data-itemtype="l"][data-feature="1"] .thumbnail .cropped img {
+    width: 100%;
+    height: 450px;
+    object-fit: cover;
+    overflow: hidden;
+  }
+  .ai-search-result[data-itemtype="l"][data-feature="1"] .photo-count-badge {
+    left: 0;
+    top: 10px;
+    z-index: 2;
+    color: #fff;
+    padding: 5px 15px;
+    position: absolute;
+  }
+  .ai-search-result[data-itemtype="l"][data-feature="1"] .listing-info-badge {
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    z-index: 1;
+    color: #fff;
+    padding: 5px 15px;
+    position: absolute;
+  }
+  /* premium */
+  .ai-search-result[data-itemtype="l"][data-feature="0"] {
+    height: 315px;
+  }
+  .ai-search-result[data-itemtype="l"][data-feature="0"] .thumbnail .cropped img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    overflow: hidden;
+  }
+  /* normal */
+  .ai-search-result[data-itemtype="l"][data-feature="-1"] {
+    height: 210px;
+  }
+  .ai-search-result[data-itemtype="l"][data-feature="-1"] .thumbnail .cropped img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    overflow: hidden;
+  }
+}
+// do not put in 1200px
+ai-search-result .photo-count-badge {
+  left: 0;
+  top: 10px;
+  z-index: 2;
+  color: #fff;
+  padding: 5px 15px;
+  position: absolute;
+}
+.ai-search-result .video-icon-badge {
+  right: 0;
+  top: 10px;
+  z-index: 2;
+  color: #fff;
+  padding: 5px 15px;
+  position: absolute;
+  font-size: 18px;
+}
+@media (min-width: 1200px) {
+  /*.ai-search-result-detail-section {
+    margin-top:15px;
+}*/
+  /* featured */
+  .ai-search-result[data-itemtype="l"][data-feature="1"] .thumbnail .cropped img {
+    width: 100%;
+    height: 450px;
+    object-fit: cover;
+    overflow: hidden;
+  }
+  .ai-search-result[data-itemtype="l"][data-feature="1"] .listing-info-badge {
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    z-index: 1;
+    color: #fff;
+    padding: 5px 15px;
+    position: absolute;
+  }
+  /* premium */
+  .ai-search-result[data-itemtype="l"][data-feature="0"] {
+    height: 330px;
+  }
+  .ai-search-result[data-itemtype="l"][data-feature="0"] .thumbnail .cropped img {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    overflow: hidden;
+  }
+  /* normal */
+  .ai-search-result[data-itemtype="l"][data-feature="-1"] {
+    height: 210px;
+  }
+  .ai-search-result[data-itemtype="l"][data-feature="-1"] .thumbnail .cropped img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    overflow: hidden;
+  }
+}
+/*//Featured Listing*/
+.ai-search-result[data-itemtype="l"][data-feature="1"] .thumbnail .cropped img.company-logo {
+  width: initial;
+  height: initial;
+  max-width: 150px;
+  max-height: 100px;
+  right: 0;
+  bottom: 10px;
+  position: absolute;
+  object-fit: initial;
+}
+/*//Premium Listing*/
+.ai-search-result[data-itemtype="l"][data-feature="0"] .thumbnail .cropped img.company-logo {
+  width: initial;
+  height: 75px;
+  width: auto;
+  /*max-width: 100px;
+    max-height: 75px;*/
+  right: 0;
+  bottom: 10px;
+  position: absolute;
+  object-fit: initial;
+}
+/*//Normal Listing*/
+.ai-search-result[data-itemtype="l"][data-feature="-1"] .thumbnail .cropped img.company-logo {
+  width: initial;
+  height: initial;
+  max-width: 75px;
+  max-height: 50px;
+  right: 0;
+  bottom: 10px;
+  position: absolute;
+  object-fit: initial;
+}
+
+.ai-search-result[data-itemtype="l"][data-feature="1"] .anchor-text {
+  color: white;
+  font-size: 17px;
+  text-shadow: 1px 1px 5px #000;
+}
+@media (min-width: 768px) {
+  .ai-search-result[data-itemtype="l"][data-feature="1"] .anchor-text {
+    font-size: 20px;
+  }
+}
+
+.ai-search-result[data-itemtype="l"][data-feature="1"] .ai-list-info {
+  color: white;
+  font-size: 16px;
+}
+.ai-search-result-detail-item .ai-list-info .ai-listing-price,
+.ai-search-result-detail-item .ai-list-info .ai-listing-bed,
+.ai-search-result-detail-item .ai-list-info .ai-listing-bath {
+  font-size: 24px;
+}
+ .ai-search-result-detail-item .ai-list-info .ai-listing-bedbathlabel {
+  font-size: 14px;
+}
 
 
 
