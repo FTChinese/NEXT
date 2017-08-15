@@ -272,7 +272,7 @@ function login(fromwhere) {
     };
     xmlhttp.open('POST', '/index.php/users/login/ajax');
     xmlhttp.setRequestHeader('Content-Type', 'application/json');
-    xmlhttp.send(postData);
+    xmlhttp.send(JSON.stringify(postData));
 }
 
 /*
