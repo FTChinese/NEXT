@@ -265,7 +265,11 @@ function login(fromwhere) {
             }
         }
     };
-    var postData = { username: u, password: p, saveme: 1};
+    var postData = {
+        username: u, 
+        password: p, 
+        saveme: 1
+    };
     xmlhttp.open('POST', '/index.php/users/login/ajax');
     xmlhttp.setRequestHeader('Content-Type', 'application/json');
     xmlhttp.send(JSON.stringify(postData));
