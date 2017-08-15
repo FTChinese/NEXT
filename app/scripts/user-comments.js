@@ -153,10 +153,11 @@ function voteComment(id, ctype, vote) {
     } else {
         document.querySelector('#dt'+id).innerHTML = '已反对';
     }
+    var params = 'cmtid=' + id + '&action=' + vote; 
     var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance 
     xmlhttp.open('POST', commentfolder + '/addvote/');
-    xmlhttp.setRequestHeader('Content-Type', 'application/json');
-    xmlhttp.send(JSON.stringify({cmtid: id, action: vote}));
+    xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xmlhttp.send(paramsJSON);
 }
 
 
