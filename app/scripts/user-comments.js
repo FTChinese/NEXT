@@ -242,16 +242,16 @@ function login(fromwhere) {
                 var l = JSON.parse(this.responseText);
                 if (l.status && l.status === 'ok') {
                     document.querySelector('.statusmsg').innerHTML = '登录成功！';
-                    var nonLoginEles = document.querySelectorAll('#logincomment, #logincommentc, #nologincomment, #nologincommentc, .logged, .notLogged');
+                    var nonLoginEles = document.querySelectorAll('.logincomment, .logincommentc, .nologincomment, .nologincommentc, .logged, .notLogged');
                     for (var i=0; i<nonLoginEles.length; i++) {
                         nonLoginEles[i].style.display = 'none';
                     }
-                    var loginEles = document.querySelectorAll('#nick_name,.user_id,.user_Name');
+                    var loginEles = document.querySelectorAll('.nick_name,.user_id,.user_Name');
                     for (var j=0; j<loginEles; j++) {
                         loginEles[j].value = u;
                         loginEles[j].innerHTML = u;
                     }
-                    var loginComments = document.querySelectorAll('#logincomment, #logincommentc, .logged');
+                    var loginComments = document.querySelectorAll('.logincomment, .logincommentc, .logged');
                     for (var k=0; k<loginComments.length; k++) {
                         loginComments[k].style.display = 'block';
                     }
@@ -273,34 +273,56 @@ function login(fromwhere) {
 
 
 
-/*
+
 function logout() {
-    $('.logged .statusmsg').html('正在登出...');
-    $.get('/index.php/users/logout?' + thed, function() {
-        $('#logincomment,#nologincomment, .logged, .notLogged').hide();
-        $('#nologincomment,.notLogged').show();
-        username = '';
-        closeOverlay();
-        $('#setting').find('.standalonebutton').eq(0).find('button').html('登录');
-    });
+    var statusMsg = document.querySelectorAll('.logged .statusmsg');
+    for (var i=0; i<statusMsg.length; i++) {
+        statusMsg[i].innerHTML = '正在登出...'; 
+    }
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState === 4) {
+            if (this.status === 200) {
+                var eles = document.querySelectorAll('.logincomment,.nologincomment, .logged, .notLogged');
+                for (var i=0; i<eles.length; i++) {
+                    eles[i].styles.display = 'none';
+                }
+                var eles2 = document.querySelectorAll('.nologincomment,.notLogged');
+                for (var j=0; j<eles2.length; j++) {
+                    eles2[j].style.display = 'block';
+                }
+                window.username = '';
+            }
+        }
+    };
+    xmlhttp.open('GET', '/index.php/users/logout?');
+    xmlhttp.send();
 }
+
+
 
 function checkLogin() {
-    $('#logincomment, #nologincomment, .logged, .notLogged').hide();
-    $('.statusmsg').empty();
+    var eles = document.querySelectorAll('.logincomment, .nologincomment, .logged, .notLogged');
+    for (var i=0; i<eles.length; i++) {
+        eles[i].style.display = 'none';
+    }
+    document.querySelector('.statusmsg').innerHTML = '';
+
     if (!!username) {
-        $('#nick_name,.user_id,.user_Name').val(username).html(username);
-        $('#logincomment,.logged').show();
-        // $('#loginButton').removeClass("blue");
-        $('#setting').find('.standalonebutton').eq(0).find('button').html('登出');
-    }else {
-        $('#nick_name').val('');
-        $('#nologincomment,.notLogged').show();
-        // $('#loginButton').addClass("blue");
-        
+        var nameEles = document.querySelectorAll('.nick_name,.user_id,.user_Name');
+        for (var j=0; j<nameEles.length; j++) {
+            nameEles[j].value = window.username;
+            nameEles[j].innerHTML = window.username;
+        }
+        var eles2 = document.querySelectorAll('.logincomment,.logged');
+        for (var k=0; k<eles2.length; k++) {
+            eles2[k].style.display = 'block';
+        }
+    } else {
+        document.querySelector('#nick_name').value = '';
+        var eles3 = document.querySelectorAll('.nologincomment,.notLogged');
+        for (var l=0; l<eles3.length; l++) {
+            eles3[l].style.display = 'block';
+        }        
     }
 }
-*/
-
-
-//读者评论
