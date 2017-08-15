@@ -265,15 +265,13 @@ function login(fromwhere) {
             }
         }
     };
-    var postData = {
-        username: u, 
-        password: p, 
-        saveme: 1
-    };
+    var params = 'username='+ u + '&password=' + p + '&saveme=1';
     xmlhttp.open('POST', '/index.php/users/login/ajax');
-    xmlhttp.setRequestHeader('Content-Type', 'application/json');
-    xmlhttp.send(JSON.stringify(postData));
+    xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xmlhttp.send(params);
 }
+
+
 
 /*
 function logout() {
