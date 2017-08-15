@@ -506,13 +506,52 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 
 
 <h2 class="list-title"><a class="list-link" href="#">读者评论</a></h2>
-<div id="allcomments" class="allcomments container">
+<div id="allcomments" class="allcomments container"></div>
+
+<div id="logincomment">
+<form id="storyForm">
+<div class="comment-input-container">
+<div class=container>
+<div style="margin:5px 0;">FT中文网欢迎读者发表评论，部分评论会被选进《读者有话说》栏目。我们保留编辑与出版的权利。</div>
+<textarea name="Talk" id="Talk" class="commentTextArea" width="100%" rows="3"></textarea>
+<span style="display:none">
+<input name="use_nickname" type="hidden" id="name" onclick="unuseit(this);"/>
+<label for="name" style="display:none">匿名</label>
+<input name="use_nickname" type="radio" id="userid" value="0" onclick="useit(this);" checked/>
+<input type="text"  autocorrect="off" class="user_id textinput" name="NickName" id="nick_name" value=""/>
+</span>
+<input type="button" value="提交评论" class="comment_btn submitbutton button ui-light-btn" id="addnewcomment"/>
+<input type="hidden" name="storyid"  id=cstoryid value=""/>
+</div>
+</div>
+</form>
+</div>
+
+<div id="nologincomment">
+    <div class="container">
+        <div class="username-label">用户名</div>
+        <input type="text"  autocorrect="off" name="username" id="username1" class="user_id textinput user-name"/>
+        <div class="password-label">密码</div>
+        <input type="password" name="password"  class="user_id textinput password" id="password1"/>
+        <input type="submit" value="登录后发表评论" class="comment_btn submitbutton button ui-light-btn" onclick="login(1)"/> 
+        <div class="topmargin statusmsg"></div>
+        <div class="centerButton"><button class="ui-light-btn" onclick='register()'>免费注册</button></div>
+        <a class="social-login-wechat" href="weixinlogin://www.ftchinese.com/"><div class="centerButton"><button class="ui-light-btn">微信登录</button></div></a>
+    </div>
+</div>
+
 <!-- build:js scripts/main-user-comments.js -->
 <script type="text/javascript" src="scripts/user-comments.js"></script>
 <script type="text/javascript">
     loadcomment('00000000', 'allcomments', 'story');
 </script>
 <!-- endbuild -->
+
+
+
+
+
+
 
 
 <div class="clearfloat block-bottom"></div>
