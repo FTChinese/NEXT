@@ -1,13 +1,11 @@
-/* exported loadcomment, init_repeat_cmt, showcmt, voteComment */
+/* exported loadcomment, init_repeat_cmt, showcmt, voteComment, cmt_reply, login */
 // MARK: User Comments
 
 var commentfolder;
 function loadcomment(storyid, theid, type) {
-
     var url, new_comment_prefix, common_comment_prefix, user_icon='', isvip, commentnumber, cfoption, cftype, commentsortby;
     new_comment_prefix = '/index.php/comments/newcommentsbysort/';
     common_comment_prefix = '/index.php/common_comments/newcommentsbysort/';
-    
     switch (type) {
 	    case 'story':
 	    	commentfolder='/index.php/comments';
@@ -32,7 +30,6 @@ function loadcomment(storyid, theid, type) {
       	case 'commonall3':
       		url=common_comment_prefix+storyid+'/3?limit=0&rows=500';
       		break;
-      		
       	default:
       		commentfolder='/index.php/common_comments';
       		url='/index.php/common_comments/newcomment/' + storyid;
@@ -45,11 +42,9 @@ function loadcomment(storyid, theid, type) {
         url = '/api/comments/story.json';
     }
 
-
     try {
         document.getElementById('cstoryid').value = storyid;
         window.readingid = storyid;
-        
     } catch (ignore) {
 
     }
@@ -73,8 +68,6 @@ function loadcomment(storyid, theid, type) {
                     }
                 }
 
-
-
                 for (var j=0; j<data.result.length; j++) {
                     isvip = '';
                     user_icon = '';
@@ -82,9 +75,7 @@ function loadcomment(storyid, theid, type) {
                     window.unusedEntryIndex = j;
                 }
 
-
                 userCommentsEle.innerHTML = commentsBody;
-
 
                 if ((data.count && data.count > 0) || type !== 'story') {
                     // $('#commentcount').html(' ( '+ data.count + ' ) ');
@@ -162,55 +153,205 @@ function voteComment(id, ctype, vote) {
     } else {
         document.querySelector('#dt'+id).innerHTML = '已反对';
     }
+    var params = 'cmtid=' + id + '&action=' + vote; 
     var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance 
     xmlhttp.open('POST', commentfolder + '/addvote/');
-    xmlhttp.setRequestHeader('Content-Type', 'application/json');
-    xmlhttp.send(JSON.stringify({cmtid: id, action: vote}));
+    xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xmlhttp.send(params);
 }
 
-/*
+
 function cmt_reply(id,ctype) {
     var pl, usenicknamer;
     ctype = ctype || '';
-    $('.replybox').empty();
+    var replyBoxes = document.querySelectorAll('.replybox');
+    for (var i=0; i<replyBoxes.length; i++) {
+        replyBoxes[i].innerHTML = '';
+    }
     if (!username) {
-        pl = $('#nologincomment').html()
+        pl = document.querySelector('#nologincomment').innerHTML
           .replace(/username1/g, 'username2')
           .replace(/password1/g, 'password2')
           .replace(/login\(1\)/g, 'login(2)');
-        $('#re' + ctype + id).html(pl);
+        document.querySelector('#re' + ctype + id).innerHTML = pl;
     } else {
-        $('#re' + ctype + id).html('<div id=reply-input-container><b>回复此评论：</b><textarea id="replycontent" class="commentTextArea" rows="3"></textarea><span style="display:none;"><input name="use_nicknamer" type="radio" id="namer" onclick="unuseitr(this);"/><label for="namer">匿名</label><input name="use_nicknamer" type="radio" id="useridr" value="0" onclick="useitr(this);" checked/><label for="useridr">昵称</label> <input type="text" class="user_id textinput" id="nick_namer" value="" /></span><input type="button" value="提交回复" class="comment_btn submitbutton button ui-light-btn" id="addnewcommentr"/></div>');
-
-        $('#nick_namer').attr('value', $('#nick_name').val());
-        $('#addnewcommentr').click(function() {
+        document.querySelector('#re' + ctype + id).innerHTML = '<div id=reply-input-container><b>回复此评论：</b><textarea id="replycontent" class="commentTextArea" rows="3"></textarea><span style="display:none;"><input name="use_nicknamer" type="radio" id="namer" onclick="unuseitr(this);"/><label for="namer">匿名</label><input name="use_nicknamer" type="radio" id="useridr" value="0" onclick="useitr(this);" checked/><label for="useridr">昵称</label> <input type="text" class="user_id textinput" id="nick_namer" value="" /></span><input type="button" value="提交回复" class="comment_btn submitbutton button ui-light-btn" id="addnewcommentr"/></div>';
+        document.querySelector('#nick_namer').value = document.querySelector('#nick_name').value;
+        document.querySelector('#addnewcommentr').onclick = function() {
             usenicknamer = 0;
-            $.ajax({
-                type: 'POST',
-                url: commentfolder + '/add',
-                data: {storyid: readingid, topic_object_id: readingid, talk: $('#replycontent').val(), use_nickname: usenicknamer, NickName: $('#nick_namer').val()+osVersionMore, cmtid: id, type: 'video', title: '', url: ''} ,
-                success: function(data) {
-                    if (data != 'yes') {
-                        alert('非常抱歉，现在我们的网站遇到一些技术故障。您的留言可能没有发表成功，稍后请您试着重新发表一次。');
-                        return;
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState === 4) {
+                    if (this.status === 200) {
+                        var data = JSON.parse(this.responseText);
+                        if (data !== 'yes') {
+                            alert('非常抱歉，现在我们的网站遇到一些技术故障。您的留言可能没有发表成功，稍后请您试着重新发表一次。');
+                            return;
+                        }
+                        document.querySelector('#re' + ctype + id).innerHTML = '';
+                        alert('感谢您的参与，您的评论内容已经提交。审核后会立即显示出来！');
+                    } else { 
+                        document.querySelector('#re' + ctype + id).innerHTML = '';
+                        alert('很抱歉。由于您的网络的连接发生故障，发表评论失败。稍后请您试着重新发表一次。');
                     }
-                    $('#re' + ctype + id).empty();
-                    alert('感谢您的参与，您的评论内容已经提交。审核后会立即显示出来！');
-                },
-                error: function() {
-                    alert('很抱歉。由于您的网络的连接发生故障，发表评论失败。稍后请您试着重新发表一次。');
-                    $('#addnewcommentr').attr('disabled', false);
-                    return;
                 }
-            });
-            $(this).attr('disabled', true);
-        });
-        $('#closecomment').click(function() {
-            $('.replybox').empty();
-        });
+            };
+            var postData = {
+                storyid: window.readingid, 
+                topic_object_id: window.readingid, 
+                talk: document.querySelector('#replycontent').value, 
+                use_nickname: usenicknamer, 
+                NickName: document.querySelector('#nick_namer').value, 
+                cmtid: id, 
+                type: ctype, 
+                title: '', 
+                url: ''
+            };
+            xmlhttp.open('POST', commentfolder + '/add');
+            xmlhttp.setRequestHeader('Content-Type', 'application/json');
+            xmlhttp.send(JSON.stringify(postData));
+            this.disabled = true;
+        };
+        document.querySelector('#closecomment').onclick = function() {
+            document.querySelector('.replybox').innerHTML = '';
+        };
     }
 }
 
-*/
 
-//读者评论
+
+function clickToSubmitComment() {
+    document.querySelector('#addnewcomment').onclick = function() {
+        var usenickname = document.querySelectorAll('#name').checked ? 1 : 0;
+        console.log('clicked comments');
+        this.value = '正在发布中...';
+        this.disabled = true;
+
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState === 4) {
+                var data = this.responseText;
+                if (data != 'yes') {
+                    alert('抱歉,现在我们的网站可能出现了一些小故障.您的留言可能没有发表成功,请您稍后再重新尝试发表一次。');
+                    return;
+                }
+                alert('感谢您的参与，您的评论内容已经发表成功。审核后就会立即显示!');
+                document.querySelector('#addnewcomment').value = '提交评论';
+                document.querySelector('#addnewcomment').disabled = false;
+                document.querySelector('#Talk').value = '';
+            }
+        };
+        var params = 'storyid='+ window.FTStoryid +'&talk=' + document.querySelector('#Talk').value + '&use_nickname=' + usenickname + '&NickName=' + document.querySelector('#nick_name').value;
+        xmlhttp.open('POST', commentfolder + '/add');
+        xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xmlhttp.send(params);
+
+
+    };
+}
+
+
+
+
+// MARK: User Login
+function login(fromwhere) {
+    var u, p;
+    if (fromwhere !== undefined) {
+        u = document.querySelector('#username'+ fromwhere).value;
+        p = document.querySelector('#password'+ fromwhere).value;
+    } else {
+        u = document.querySelector('#username').value;
+        p = document.querySelector('#password').value;
+    }
+    document.querySelector('.statusmsg').innerHTML = '正在登录中...';
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState === 4) {
+            if (this.status === 200) {
+                var l = JSON.parse(this.responseText);
+                if (l.status && l.status === 'ok') {
+                    document.querySelector('.statusmsg').innerHTML = '登录成功！';
+                    var nonLoginEles = document.querySelectorAll('.logincomment, .logincommentc, .nologincomment, .nologincommentc, .logged, .notLogged');
+                    for (var i=0; i<nonLoginEles.length; i++) {
+                        nonLoginEles[i].style.display = 'none';
+                    }
+                    var loginEles = document.querySelectorAll('.nick_name,.user_id,.user_Name');
+                    for (var j=0; j<loginEles; j++) {
+                        loginEles[j].value = u;
+                        loginEles[j].innerHTML = u;
+                    }
+                    var loginComments = document.querySelectorAll('.logincomment, .logincommentc, .logged');
+                    for (var k=0; k<loginComments.length; k++) {
+                        loginComments[k].style.display = 'block';
+                    }
+                    username = u;
+                    document.querySelector('.statusmsg').innerHTML = '';
+                } else {
+                    document.querySelector('.statusmsg').innerHTML = '<div class="highlight">'+ l.msg + '</div>';
+                }
+            } else { 
+                document.querySelector('.statusmsg').innerHTML = '<div class="highlight">对不起，网络故障。请过一段时间再重新尝试。</div>';
+            }
+        }
+    };
+    var params = 'username='+ u + '&password=' + p + '&saveme=1';
+    xmlhttp.open('POST', '/index.php/users/login/ajax');
+    xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xmlhttp.send(params);
+}
+
+
+
+
+function logout() {
+    var statusMsg = document.querySelectorAll('.logged .statusmsg');
+    for (var i=0; i<statusMsg.length; i++) {
+        statusMsg[i].innerHTML = '正在登出...'; 
+    }
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState === 4) {
+            if (this.status === 200) {
+                var eles = document.querySelectorAll('.logincomment,.nologincomment, .logged, .notLogged');
+                for (var i=0; i<eles.length; i++) {
+                    eles[i].styles.display = 'none';
+                }
+                var eles2 = document.querySelectorAll('.nologincomment,.notLogged');
+                for (var j=0; j<eles2.length; j++) {
+                    eles2[j].style.display = 'block';
+                }
+                window.username = '';
+            }
+        }
+    };
+    xmlhttp.open('GET', '/index.php/users/logout?');
+    xmlhttp.send();
+}
+
+
+
+function checkLogin() {
+    var eles = document.querySelectorAll('.logincomment, .nologincomment, .logged, .notLogged');
+    for (var i=0; i<eles.length; i++) {
+        eles[i].style.display = 'none';
+    }
+    document.querySelector('.statusmsg').innerHTML = '';
+
+    if (!!username) {
+        var nameEles = document.querySelectorAll('.nick_name,.user_id,.user_Name');
+        for (var j=0; j<nameEles.length; j++) {
+            nameEles[j].value = window.username;
+            nameEles[j].innerHTML = window.username;
+        }
+        var eles2 = document.querySelectorAll('.logincomment,.logged');
+        for (var k=0; k<eles2.length; k++) {
+            eles2[k].style.display = 'block';
+        }
+    } else {
+        document.querySelector('#nick_name').value = '';
+        var eles3 = document.querySelectorAll('.nologincomment,.notLogged');
+        for (var l=0; l<eles3.length; l++) {
+            eles3[l].style.display = 'block';
+        }        
+    }
+}
