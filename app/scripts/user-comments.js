@@ -157,7 +157,7 @@ function voteComment(id, ctype, vote) {
     var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance 
     xmlhttp.open('POST', commentfolder + '/addvote/');
     xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xmlhttp.send(paramsJSON);
+    xmlhttp.send(params);
 }
 
 
