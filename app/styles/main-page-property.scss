@@ -240,8 +240,443 @@
 .property-share-container{
     margin: 15px;
 }
+// list-detail
 
+.ai-search-result .thumbnail {
+  padding: 0;
+  margin-bottom: 0;
+  position: relative;
+}
 
+@media (max-width: 767px) {
+  .ai-search-result[data-itemtype="l"][data-feature="1"] .thumbnail .cropped img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    overflow: hidden;
+  }
+  .ai-search-result[data-itemtype="l"][data-feature="1"] .photo-count-badge {
+    left: 0;
+    top: 10px;
+    z-index: 2;
+    color: #fff;
+    padding: 5px 15px;
+    position: absolute;
+  }
+  .ai-search-result[data-itemtype="l"][data-feature="1"] .listing-info-badge {
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    z-index: 1;
+    color: #fff;
+    padding: 5px 15px;
+    position: absolute;
+  }
+}
+@media (min-width: 768px) {
+  /* featured */
+  .ai-search-result[data-itemtype="l"][data-feature="1"] .thumbnail .cropped img {
+    width: 100%;
+    height: 450px;
+    object-fit: cover;
+    overflow: hidden;
+  }
+  .ai-search-result[data-itemtype="l"][data-feature="1"] .photo-count-badge {
+    left: 0;
+    top: 10px;
+    z-index: 2;
+    color: #fff;
+    padding: 5px 15px;
+    position: absolute;
+  }
+  .ai-search-result[data-itemtype="l"][data-feature="1"] .listing-info-badge {
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    z-index: 1;
+    color: #fff;
+    padding: 5px 15px;
+    position: absolute;
+  }
+  /* premium */
+  .ai-search-result[data-itemtype="l"][data-feature="0"] .thumbnail .thumbnail-img,
+  .ai-search-result[data-itemtype="l"][data-feature="0"] .thumbnail .thumbnail-img img {
+    /*max-height: 150px;*/
+  }
+  .ai-search-result[data-itemtype="l"][data-feature="0"] .thumbnail .cropped img {
+    width: 100%;
+    height: 230px;
+    object-fit: cover;
+    overflow: hidden;
+  }
+  /* normal */
+  .ai-search-result[data-itemtype="l"][data-feature="-1"] {
+    height: 230px;
+  }
+  .ai-search-result[data-itemtype="l"][data-feature="-1"] .thumbnail .cropped img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    overflow: hidden;
+  }
+}
+@media (min-width: 992px) {
+  /* featured */
+  .ai-search-result[data-itemtype="l"][data-feature="1"] .thumbnail .cropped img {
+    width: 100%;
+    height: 450px;
+    object-fit: cover;
+    overflow: hidden;
+  }
+  .ai-search-result[data-itemtype="l"][data-feature="1"] .photo-count-badge {
+    left: 0;
+    top: 10px;
+    z-index: 2;
+    color: #fff;
+    padding: 5px 15px;
+    position: absolute;
+  }
+  .ai-search-result[data-itemtype="l"][data-feature="1"] .listing-info-badge {
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    z-index: 1;
+    color: #fff;
+    padding: 5px 15px;
+    position: absolute;
+  }
+  /* premium */
+  .ai-search-result[data-itemtype="l"][data-feature="0"] {
+    height: 315px;
+  }
+  .ai-search-result[data-itemtype="l"][data-feature="0"] .thumbnail .cropped img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    overflow: hidden;
+  }
+  /* normal */
+  .ai-search-result[data-itemtype="l"][data-feature="-1"] {
+    height: 210px;
+  }
+  .ai-search-result[data-itemtype="l"][data-feature="-1"] .thumbnail .cropped img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    overflow: hidden;
+  }
+}
+// do not put in 1200px
+ai-search-result .photo-count-badge {
+  left: 0;
+  top: 10px;
+  z-index: 2;
+  color: #fff;
+  padding: 5px 15px;
+  position: absolute;
+}
+.ai-search-result .video-icon-badge {
+  right: 0;
+  top: 10px;
+  z-index: 2;
+  color: #fff;
+  padding: 5px 15px;
+  position: absolute;
+  font-size: 18px;
+}
+@media (min-width: 1200px) {
+  /*.ai-search-result-detail-section {
+    margin-top:15px;
+}*/
+  /* featured */
+  .ai-search-result[data-itemtype="l"][data-feature="1"] .thumbnail .cropped img {
+    width: 100%;
+    height: 450px;
+    object-fit: cover;
+    overflow: hidden;
+  }
+  .ai-search-result[data-itemtype="l"][data-feature="1"] .listing-info-badge {
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    z-index: 1;
+    color: #fff;
+    padding: 5px 15px;
+    position: absolute;
+  }
+  /* premium */
+  .ai-search-result[data-itemtype="l"][data-feature="0"] {
+    height: 330px;
+  }
+  .ai-search-result[data-itemtype="l"][data-feature="0"] .thumbnail .cropped img {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    overflow: hidden;
+  }
+  /* normal */
+  .ai-search-result[data-itemtype="l"][data-feature="-1"] {
+    height: 210px;
+  }
+  .ai-search-result[data-itemtype="l"][data-feature="-1"] .thumbnail .cropped img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    overflow: hidden;
+  }
+}
+/*//Featured Listing*/
+.ai-search-result[data-itemtype="l"][data-feature="1"] .thumbnail .cropped img.company-logo {
+  width: initial;
+  height: initial;
+  max-width: 150px;
+  max-height: 100px;
+  right: 0;
+  bottom: 10px;
+  position: absolute;
+  object-fit: initial;
+}
+/*//Premium Listing*/
+.ai-search-result[data-itemtype="l"][data-feature="0"] .thumbnail .cropped img.company-logo {
+  width: initial;
+  height: 75px;
+  width: auto;
+  /*max-width: 100px;
+    max-height: 75px;*/
+  right: 0;
+  bottom: 10px;
+  position: absolute;
+  object-fit: initial;
+}
+/*//Normal Listing*/
+.ai-search-result[data-itemtype="l"][data-feature="-1"] .thumbnail .cropped img.company-logo {
+  width: initial;
+  height: initial;
+  max-width: 75px;
+  max-height: 50px;
+  right: 0;
+  bottom: 10px;
+  position: absolute;
+  object-fit: initial;
+}
+
+.ai-search-result[data-itemtype="l"][data-feature="1"] .anchor-text {
+  color: white;
+  font-size: 17px;
+  text-shadow: 1px 1px 5px #000;
+}
+@media (min-width: 768px) {
+  .ai-search-result[data-itemtype="l"][data-feature="1"] .anchor-text {
+    font-size: 20px;
+  }
+}
+
+.ai-search-result[data-itemtype="l"][data-feature="1"] .ai-list-info {
+  color: white;
+  font-size: 16px;
+}
+.ai-search-result-detail-item .ai-list-info .ai-listing-price,
+.ai-search-result-detail-item .ai-list-info .ai-listing-bed,
+.ai-search-result-detail-item .ai-list-info .ai-listing-bath {
+  font-size: 24px;
+}
+ .ai-search-result-detail-item .ai-list-info .ai-listing-bedbathlabel {
+  font-size: 14px;
+}
+
+// detail-section  show
+
+.ai-listing-detail-spa-container .ai-search-result-header-section,
+.ai-listing-detail-spa-container .ai-search-result-detail-section,
+.ai-listing-detail-spa-container .ai-search-result-detail-section-full-width {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.ai-listing-detail-spa-container .ai-search-result-detail-section-inner,
+.ai-listing-detail-spa-container .ai-search-result-detail-section-full-width-inner {
+  border: none;
+  background-color: black;
+  padding: 15px;
+}
+.ai-listing-detail-spa-container .ai-listing-detail-spa-container .ai-lead-form-section,
+body.creamy .ai-search-result-detail-section-full-width .ai-lead-form-section {
+  color: white;
+}
+.ai-listing-detail-spa-container .ai-listing-detail-spa-container .ai-lead-form-section .ai-listing-name {
+  font-size: 22px;
+}
+.ai-listing-detail-spa-container .ai-listing-detail-spa-container .ai-lead-form-section .ai-listing-location {
+  font-size: 15px;
+  color: gray;
+  line-height: 1;
+  margin-bottom: 10px;
+}
+.ai-listing-detail-spa-container .ai-listing-detail-spa-container .ai-lead-form-section .ai-listing-price {
+  font-size: 22px;
+  margin-bottom: 5px;
+}
+.ai-listing-detail-spa-container .ai-listing-detail-spa-container .ai-lead-form-section .ai-listing-price .ai-listing-type {
+  font-size: 14px;
+  color: gray;
+}
+.ai-listing-detail-spa-container .ai-listing-detail-spa-container .ai-lead-form-section .price-converted {
+  font-size: 16px;
+}
+.ai-listing-detail-spa-container .ai-listing-detail-spa-container .ai-listing-info {
+  font-size: 20px;
+  margin-bottom: -8px;
+  color: gray;
+}
+.ai-listing-detail-spa-container .ai-listing-detail-spa-container .ai-listing-info-label {
+  font-size: 14px;
+  color: gray;
+}
+
+.ai-listing-detail-spa-container .ai-action-button-container {
+  background: black;
+  border-bottom: 1px dotted dimgrey;
+}
+.ai-listing-detail-spa-container .ai-action-button-container .ai-left-buttons-container {
+  float: left;
+}
+.ai-listing-detail-spa-container .ai-action-button-container .ai-left-buttons-container .ai-save-property-container {
+  padding-top: 10px;
+  padding-right: 125px;
+  padding-left: 10px;
+  display: inline-block;
+  border-right: 1px dotted dimgrey;
+  cursor: pointer;
+  background: grey;
+}
+.ai-listing-detail-spa-container .ai-action-button-container .ai-left-buttons-container .ai-save-property-container:hover {
+  background: black;
+}
+.ai-listing-detail-spa-container .ai-action-button-container .ai-left-buttons-container .ai-save-property-container .ai-save-property-label {
+  color: white;
+  position: absolute;
+  top: 10px;
+  left: 32px;
+}
+.ai-listing-detail-spa-container .ai-action-button-container .ai-right-buttons-container {
+  float: right;
+}
+.ai-listing-detail-spa-container .ai-action-button-container .ai-right-buttons-container .ai-expand-container {
+  padding-top: 10px;
+  padding-left: 10px;
+  position: relative;
+  display: inline-block;
+  border-left: 1px dotted dimgrey;
+  cursor: pointer;
+  text-align: right;
+  padding-right: 83px;
+  left: 3px;
+  background: grey;
+}
+.ai-listing-detail-spa-container .ai-action-button-container .ai-right-buttons-container .ai-expand-container:hover {
+  background: black;
+}
+.ai-listing-detail-spa-container .ai-action-button-container .ai-right-buttons-container .ai-expand-container .ai-expand-label {
+  color: white;
+  position: absolute;
+  top: 10px;
+}
+.ai-listing-detail-spa-container .ai-action-button-container .ai-right-buttons-container .ai-close-container {
+  padding-top: 11px;
+  padding-left: 10px;
+  padding-right: 10px;
+  position: relative;
+  display: inline-block;
+  border-left: 1px dotted dimgrey;
+  cursor: pointer;
+  text-align: right;
+  background: grey;
+}
+
+.ai-listing-detail-spa-container  .ai-action-button-container .ai-right-buttons-container .ai-close-container:hover {
+  background: black;
+}
+.ai-listing-detail-spa-container  .ai-action-button-container .ai-right-buttons-container .ai-close-container .ai-close-label {
+  color: white;
+  position: absolute;
+  top: 10px;
+}
+.ai-listing-detail-spa-container  .ai-action-button-container .ai-footer-button-close-detail {
+  background: black;
+  border-top: 1px dotted white;
+  color: white;
+}
+.ai-listing-detail-spa-container  .ai-action-button-container2 {
+  background: black;
+  border-bottom: 1px dotted dimgrey;
+}
+.ai-listing-detail-spa-container  .ai-action-button-container2 .ai-left-buttons-container2 {
+  float: left;
+}
+.ai-listing-detail-spa-container  .ai-action-button-container2 .ai-left-buttons-container2 .ai-save-property-container2 {
+  padding-top: 10px;
+  padding-right: 125px;
+  padding-left: 10px;
+  display: inline-block;
+  border-right: 1px dotted dimgrey;
+  cursor: pointer;
+  background: grey;
+}
+.ai-listing-detail-spa-container  .ai-action-button-container2 .ai-left-buttons-container2 .ai-save-property-container2:hover {
+  background: black;
+}
+.ai-listing-detail-spa-container  .ai-action-button-container2 .ai-left-buttons-container2 .ai-save-property-container2 .ai-save-property-label2 {
+  color: white;
+  position: absolute;
+  bottom: 7px;
+  left: 32px;
+}
+.ai-listing-detail-spa-container  .ai-action-button-container2 .ai-right-buttons-container2 {
+  float: right;
+}
+.ai-listing-detail-spa-container  .ai-action-button-container2 .ai-right-buttons-container2 .ai-expand-container2 {
+  padding-top: 10px;
+  padding-left: 10px;
+  position: relative;
+  display: inline-block;
+  border-left: 1px dotted dimgrey;
+  cursor: pointer;
+  text-align: right;
+  padding-right: 83px;
+  left: 3px;
+  background: grey;
+}
+.ai-listing-detail-spa-container  .ai-action-button-container2 .ai-right-buttons-container2 .ai-expand-container2:hover {
+  background: black;
+}
+.ai-listing-detail-spa-container  .ai-action-button-container2 .ai-right-buttons-container2 .ai-expand-container2 .ai-expand-label2 {
+  color: white;
+  position: absolute;
+  top: 10px;
+}
+.ai-listing-detail-spa-container  .ai-action-button-container2 .ai-right-buttons-container2 .ai-close-container2 {
+  padding-top: 11px;
+  padding-left: 10px;
+  padding-right: 10px;
+  position: relative;
+  display: inline-block;
+  border-left: 1px dotted dimgrey;
+  cursor: pointer;
+  text-align: right;
+  background: grey;
+}
+.ai-listing-detail-spa-container  .ai-action-button-container2 .ai-right-buttons-container2 .ai-close-container2:hover {
+  background: black;
+}
+.ai-listing-detail-spa-container  .ai-action-button-container2 .ai-right-buttons-container2 .ai-close-container2 .ai-close-label2 {
+  color: white;
+  position: absolute;
+  top: 10px;
+}
+.ai-listing-detail-spa-container  .ai-action-button-container2 .ai-footer-button-close-detail {
+  background: black;
+  border-top: 1px dotted white;
+  color: white;
+}
 
 
 
