@@ -1,9 +1,44 @@
 @import "theme-default.scss";
 @import "variables.scss";
+
+button,a.button,input.button {
+	display: inline-block;
+    box-sizing: border-box;
+    vertical-align: middle;
+    margin: 0;
+    outline: 0;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 3px;
+    cursor: pointer;
+    -webkit-transition: .3s background-color,.15s color ease-out,.15s border-color ease-out;
+    transition: .3s background-color,.15s color ease-out,.15s border-color ease-out;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-clip: padding-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-size: 16px;
+    min-height: 26px;
+    min-width: 26px;
+    padding: 0 8px;
+    font-size: 14px;
+    line-height: 26px;
+    color: #27757b;
+    background-color: hsla(0,0%,100%,.4);
+    border: 1px solid rgba(39,117,123,.15);
+}
+
 #allcomments {
 	padding: 0 $defaultPadding/2 $defaultPadding/2 $defaultPadding/2;
 	font-size: 0.85em;
 }
+
 #allcomments .commentcontainer,.commentcontainer{
 	border-radius:3px;
 	background:#F6EADA;
@@ -12,6 +47,7 @@
 	padding:10px;
 	border:1px solid #A4A4A4;
 }
+
 #allcomments dt b a:link,#commoncomments dt b a:link{text-decoration: underline;}
 #allcomments,#commoncomments,dd.all{display:block;line-height:150%;}
 dd.all {text-align:right;margin-bottom:15px;}
@@ -27,6 +63,8 @@ dd.all {text-align:right;margin-bottom:15px;}
 .cmt_oldauther {color:#666;padding:5px 3px 0 0;}
 .cmt_oldcmt {clear:both;color:#000000;font-size:0.9em;line-height:161.8%;margin:9px 3px;}
 .showcmt {background:#F6EADA;border:1px solid #E9DECF;margin-bottom:15px;overflow:hidden;padding:5px;line-height:161.8%;color:#9b164f;cursor:pointer;}
+
+
 
 .commentTextArea{
 	width:100%;
