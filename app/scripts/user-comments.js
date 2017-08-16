@@ -310,33 +310,53 @@ function login(fromwhere) {
 
 function socialLogin(socialName, socialInfo) {
     var socialLoginUrl = '/index.php/users/socialLogin/' + socialName;
-    $.ajax({
-        type: 'POST',
-        url: socialLoginUrl,
-        data: {'socialInfo': socialInfo},
-        success: function(data) {
-            if (data === 'yes') {
-                // show this in the interface so that users know login is successful
-                presentAlert('微信登陆成功', data); 
-                username = GetCookie('USER_NAME') || '';
-                presentAlert('微信登陆成功', username); 
-                checkLogin();
-                // send an even to GA
-                return;
-            }
-            // if return data is not correct
-            presentAlert('登录失败', data + '亲爱的用户，由于FT中文网的服务器未能正确响应，所以您未能成功登录。请稍后再试，或尝试其他登录方式。'); 
-        },
-        error: function() {
-            presentAlert('登录失败', '亲爱的用户，由于FT中文网的服务器未能正确响应，所以您未能成功登录。请稍后再试，或尝试其他登录方式。'); 
-            return;
-        }
-    });
+    // $.ajax({
+    //     type: 'POST',
+    //     url: socialLoginUrl,
+    //     data: {'socialInfo': socialInfo},
+    //     success: function(data) {
+    //         if (data === 'yes') {
+    //             // show this in the interface so that users know login is successful
+    //             presentAlert('微信登陆成功', ''); 
+    //             username = GetCookie('USER_NAME') || '';
+    //             checkLogin();
+    //             // send an even to GA
+    //             return;
+    //         }
+    //         // if return data is not correct
+    //         presentAlert('登录失败', data + '亲爱的用户，由于FT中文网的服务器未能正确响应，所以您未能成功登录。请稍后再试，或尝试其他登录方式。'); 
+    //     },
+    //     error: function() {
+    //         presentAlert('登录失败', '亲爱的用户，由于FT中文网的服务器未能正确响应，所以您未能成功登录。请稍后再试，或尝试其他登录方式。'); 
+    //         return;
+    //     }
+    // });
 
-    // print it some where for review
-    // turnonOverlay('yourDevice');
-    //$('#yourDevice .overlay-header p').html(socialName);
-    //$('#yourDevice .padding').html(socialInfo);
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState === 4) {
+            if (this.status === 200) {
+                var data = this.responseText;
+                if (data === 'yes') {
+                    // show this in the interface so that users know login is successful
+                    presentAlert('微信登陆成功', ''); 
+                    username = GetCookie('USER_NAME') || '';
+                    checkLogin();
+                    // send an even to GA
+                    return;
+                }
+                // if return data is not correct
+                presentAlert('登录失败', data + '亲爱的用户，由于FT中文网的服务器未能正确响应，所以您未能成功登录。请稍后再试，或尝试其他登录方式。');                 
+            } else { 
+                presentAlert('登录失败', '亲爱的用户，由于FT中文网的服务器未能正确响应，所以您未能成功登录。请稍后再试，或尝试其他登录方式。'); 
+            }
+        }
+    };
+    var params = 'socialInfo='+ socialInfo;
+    var randomNumber = parseInt(Math.random()*1000000, 10);
+    xmlhttp.open('POST', socialLoginUrl + '?' + randomNumber);
+    xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xmlhttp.send(params);
 }
 
 
