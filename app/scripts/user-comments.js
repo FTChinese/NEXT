@@ -274,6 +274,7 @@ function login(fromwhere) {
     xmlhttp.onreadystatechange = function() {
         if (this.readyState === 4) {
             if (this.status === 200) {
+                console.log (this.responseText);
                 var l = JSON.parse(this.responseText);
                 if (l.status && l.status === 'ok') {
                     document.querySelector('.statusmsg').innerHTML = '登录成功！';
