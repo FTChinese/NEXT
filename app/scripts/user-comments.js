@@ -195,20 +195,21 @@ function cmt_reply(id,ctype) {
                     }
                 }
             };
-            var postData = {
-                storyid: window.readingid, 
-                topic_object_id: window.readingid, 
-                talk: document.querySelector('#replycontent').value, 
-                use_nickname: usenicknamer, 
-                NickName: document.querySelector('#nick_namer').value, 
-                cmtid: id, 
-                type: ctype, 
-                title: '', 
-                url: ''
-            };
+            // var postData = {
+            //     storyid: window.readingid, 
+            //     topic_object_id: window.readingid, 
+            //     talk: document.querySelector('#replycontent').value, 
+            //     use_nickname: usenicknamer, 
+            //     NickName: document.querySelector('#nick_namer').value, 
+            //     cmtid: id, 
+            //     type: ctype, 
+            //     title: '', 
+            //     url: ''
+            // };
+            var params = 'storyid=' + window.readingid + '&topic_object_id=' + window.readingid + '&talk=' + document.querySelector('#replycontent').value + '&use_nickname=' +usenicknamer + '&NickName=' + document.querySelector('#nick_namer').value + '&cmtid=' + id + '&type=' + ctype + '&title=&url='
             xmlhttp.open('POST', commentfolder + '/add');
-            xmlhttp.setRequestHeader('Content-Type', 'application/json');
-            xmlhttp.send(JSON.stringify(postData));
+            xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xmlhttp.send(params);
             this.disabled = true;
         };
         document.querySelector('#closecomment').onclick = function() {
@@ -216,6 +217,29 @@ function cmt_reply(id,ctype) {
         };
     }
 }
+
+
+/*
+
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState === 4) {
+                var data = this.responseText;
+                if (data != 'yes') {
+                    presentAlert('抱歉,现在我们的网站可能出现了一些小故障.您的留言可能没有发表成功,请您稍后再重新尝试发表一次。', '');
+                    return;
+                }
+                presentAlert('感谢您的参与，您的评论内容已经发表成功。审核后就会立即显示!', '');
+                document.querySelector('#addnewcomment').value = '提交评论';
+                document.querySelector('#addnewcomment').disabled = false;
+                document.querySelector('#Talk').value = '';
+            }
+        };
+        var params = 'storyid='+ window.FTStoryid +'&talk=' + document.querySelector('#Talk').value + '&use_nickname=' + usenickname + '&NickName=' + document.querySelector('#nick_name').value;
+        xmlhttp.open('POST', commentfolder + '/add');
+        xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xmlhttp.send(params);
+*/
 
 
 
