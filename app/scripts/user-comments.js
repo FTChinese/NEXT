@@ -269,7 +269,7 @@ function login(fromwhere) {
         u = document.querySelector('#username').value;
         p = document.querySelector('#password').value;
     }
-    document.querySelector('.statusmsg').innerHTML = '正在登录中1...';
+    document.querySelector('.statusmsg').innerHTML = '正在登录中...';
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
         if (this.readyState === 4) {
@@ -302,7 +302,8 @@ function login(fromwhere) {
         }
     };
     var params = 'username='+ u + '&password=' + p + '&saveme=1';
-    xmlhttp.open('POST', '/index.php/users/login/ajax');
+    var randomNumber = parseInt(Math.random()*1000000, 10);
+    xmlhttp.open('POST', '/index.php/users/login/ajax?' + randomNumber);
     xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xmlhttp.send(params);
 }
