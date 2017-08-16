@@ -317,7 +317,9 @@ function socialLogin(socialName, socialInfo) {
         success: function(data) {
             if (data === 'yes') {
                 // show this in the interface so that users know login is successful
+                presentAlert('微信登陆成功', data); 
                 username = getCookie('USER_NAME') || '';
+                presentAlert('微信登陆成功', username); 
                 checkLogin();
                 // send an even to GA
                 return;
