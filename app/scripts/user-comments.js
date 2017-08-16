@@ -318,16 +318,16 @@ function logout() {
     xmlhttp.onreadystatechange = function() {
         if (this.readyState === 4) {
             if (this.status === 200) {
-                checkLogin();
                 var eles = document.querySelectorAll('.logincomment,.nologincomment, .logged, .notLogged');
                 for (var i=0; i<eles.length; i++) {
-                    eles[i].styles.display = 'none';
+                    eles[i].style.display = 'none';
                 }
                 var eles2 = document.querySelectorAll('.nologincomment,.notLogged');
                 for (var j=0; j<eles2.length; j++) {
                     eles2[j].style.display = 'block';
                 }
                 window.username = '';
+                checkLogin();
             }
         }
     };
@@ -341,7 +341,6 @@ function checkLogin() {
         eles[i].style.display = 'none';
     }
     document.querySelector('.statusmsg').innerHTML = '';
-
     if (!!username) {
         var nameEles = document.querySelectorAll('.nick_name,.user_id,.user_Name');
         for (var j=0; j<nameEles.length; j++) {
