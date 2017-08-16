@@ -318,6 +318,7 @@ function logout() {
     xmlhttp.onreadystatechange = function() {
         if (this.readyState === 4) {
             if (this.status === 200) {
+                checkLogin();
                 var eles = document.querySelectorAll('.logincomment,.nologincomment, .logged, .notLogged');
                 for (var i=0; i<eles.length; i++) {
                     eles[i].styles.display = 'none';
