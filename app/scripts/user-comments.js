@@ -269,7 +269,7 @@ function login(fromwhere) {
         u = document.querySelector('#username').value;
         p = document.querySelector('#password').value;
     }
-    document.querySelector('.statusmsg').innerHTML = '正在登录中...';
+    document.querySelector('.statusmsg').innerHTML = '正在登录中1...';
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
         if (this.readyState === 4) {
