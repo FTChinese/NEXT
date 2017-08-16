@@ -1,4 +1,4 @@
-/* exported loadcomment, init_repeat_cmt, showcmt, voteComment, cmt_reply, login, clickToSubmitComment, logout, checkLogin */
+/* exported loadcomment, init_repeat_cmt, showcmt, voteComment, cmt_reply, login, clickToSubmitComment, logout, checkLogin, socialLogin */
 // MARK: User Comments
 
 var commentfolder ='/index.php/comments';
@@ -308,7 +308,34 @@ function login(fromwhere) {
     xmlhttp.send(params);
 }
 
+function socialLogin(socialName, socialInfo) {
+    var socialLoginUrl = '/index.php/users/socialLogin/' + socialName;
+    $.ajax({
+        type: 'POST',
+        url: socialLoginUrl,
+        data: {'socialInfo': socialInfo},
+        success: function(data) {
+            if (data === 'yes') {
+                // show this in the interface so that users know login is successful
+                username = getCookie('USER_NAME') || '';
+                checkLogin();
+                // send an even to GA
+                return;
+            }
+            // if return data is not correct
+            presentAlert('登录失败', data + '亲爱的用户，由于FT中文网的服务器未能正确响应，所以您未能成功登录。请稍后再试，或尝试其他登录方式。'); 
+        },
+        error: function() {
+            presentAlert('登录失败', '亲爱的用户，由于FT中文网的服务器未能正确响应，所以您未能成功登录。请稍后再试，或尝试其他登录方式。'); 
+            return;
+        }
+    });
 
+    // print it some where for review
+    // turnonOverlay('yourDevice');
+    //$('#yourDevice .overlay-header p').html(socialName);
+    //$('#yourDevice .padding').html(socialInfo);
+}
 
 
 function logout() {
