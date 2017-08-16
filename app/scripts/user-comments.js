@@ -333,7 +333,8 @@ function logout() {
             }
         }
     };
-    xmlhttp.open('GET', '/index.php/users/logout?');
+    var randomNumber = parseInt(Math.random()*1000000, 10);
+    xmlhttp.open('GET', '/index.php/users/logout?' + randomNumber);
     xmlhttp.send();
 }
 
