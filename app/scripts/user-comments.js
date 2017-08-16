@@ -182,7 +182,7 @@ function cmt_reply(id,ctype) {
             xmlhttp.onreadystatechange = function() {
                 if (this.readyState === 4) {
                     if (this.status === 200) {
-                        var data = JSON.parse(this.responseText);
+                        var data = this.responseText;
                         if (data !== 'yes') {
                             presentAlert('非常抱歉，现在我们的网站遇到一些技术故障。您的留言可能没有发表成功，稍后请您试着重新发表一次。', '');
                             return;
@@ -212,9 +212,9 @@ function cmt_reply(id,ctype) {
             xmlhttp.send(params);
             this.disabled = true;
         };
-        document.querySelector('#closecomment').onclick = function() {
-            document.querySelector('.replybox').innerHTML = '';
-        };
+        // document.querySelector('#closecomment').onclick = function() {
+        //     document.querySelector('.replybox').innerHTML = '';
+        // };
     }
 }
 
