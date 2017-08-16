@@ -185,14 +185,14 @@ function cmt_reply(id,ctype) {
                     if (this.status === 200) {
                         var data = JSON.parse(this.responseText);
                         if (data !== 'yes') {
-                            presentAlert('非常抱歉，现在我们的网站遇到一些技术故障。您的留言可能没有发表成功，稍后请您试着重新发表一次。');
+                            presentAlert('非常抱歉，现在我们的网站遇到一些技术故障。您的留言可能没有发表成功，稍后请您试着重新发表一次。', '');
                             return;
                         }
                         document.querySelector('#re' + ctype + id).innerHTML = '';
-                        presentAlert('感谢您的参与，您的评论内容已经提交。审核后会立即显示出来！');
+                        presentAlert('感谢您的参与，您的评论内容已经提交。审核后会立即显示出来！', '');
                     } else { 
                         document.querySelector('#re' + ctype + id).innerHTML = '';
-                        presentAlert('很抱歉。由于您的网络的连接发生故障，发表评论失败。稍后请您试着重新发表一次。');
+                        presentAlert('很抱歉。由于您的网络的连接发生故障，发表评论失败。稍后请您试着重新发表一次。', '');
                     }
                 }
             };
@@ -232,10 +232,10 @@ function clickToSubmitComment() {
             if (this.readyState === 4) {
                 var data = this.responseText;
                 if (data != 'yes') {
-                    presentAlert('抱歉,现在我们的网站可能出现了一些小故障.您的留言可能没有发表成功,请您稍后再重新尝试发表一次。');
+                    presentAlert('抱歉,现在我们的网站可能出现了一些小故障.您的留言可能没有发表成功,请您稍后再重新尝试发表一次。', '');
                     return;
                 }
-                presentAlert('感谢您的参与，您的评论内容已经发表成功。审核后就会立即显示!');
+                presentAlert('感谢您的参与，您的评论内容已经发表成功。审核后就会立即显示!', '');
                 document.querySelector('#addnewcomment').value = '提交评论';
                 document.querySelector('#addnewcomment').disabled = false;
                 document.querySelector('#Talk').value = '';
