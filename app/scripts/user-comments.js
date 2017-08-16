@@ -146,12 +146,11 @@ function voteComment(id, ctype, vote) {
     var i = document.querySelector(ctype + vote[0] + id).innerHTML;
     i = parseInt(i, 10) || 0;
     document.querySelector(ctype + vote[0] + id).innerHTML = i + 1;
-    document.querySelector('#st'+id).removeAttribute('href');
-    document.querySelector('#dt'+id).removeAttribute('href');
+    document.querySelector(ctype + id).removeAttribute('href');
     if (vote==='support') {
-        document.querySelector('#st'+id).innerHTML = '已支持';
+        document.querySelector(ctype + id).innerHTML = '已支持';
     } else {
-        document.querySelector('#dt'+id).innerHTML = '已反对';
+        document.querySelector(ctype + id).innerHTML = '已反对';
     }
     var params = 'cmtid=' + id + '&action=' + vote; 
     var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance 
