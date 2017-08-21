@@ -706,6 +706,13 @@
 	<%assign var="hideMPU2" value="no"%>
 	<%assign var="hideMPU3" value="no"%>
 	<%assign var="hide590" value="no"%>
+		<%assign var="sponsorMobile" value="yes"%>
+<%elseif preg_match("/与FT共进下午茶/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20170821 && date("Ymd",$smarty.now) <= 20171018 %>
+	<%assign var=breadcrum value="<a href=\"/tag/与FT共进下午茶\">与FT共进下午茶</a>"%>
+	<%assign var="adchannelID" value="2063"%>
+	<%assign var="hideMPU2" value="no"%>
+	<%assign var="hideMPU3" value="no"%>
+	<%assign var="hide590" value="no"%>
     <%assign var="sponsorMobile" value="yes"%>
  <%elseif preg_match("/财富管理/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20161226 && date("Ymd",$smarty.now) <= 20170131%>
 	<%assign var=breadcrum value="<a href=\"/tag/财富管理\">财富管理</a>"%>
