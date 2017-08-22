@@ -32,7 +32,7 @@
         'fit': ['', 'standard', 'highimpact', 'legacy'],
         'sponsorMobile': ['no', 'yes'],
         'durationInSeconds': ['default','15','30','60','90'],
-        'weight': [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20],
+        'weight': ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20'],
         'closeButton': ['none','LeftTop','RightTop','LeftBottom','RightBottom']
     };
     var dataRulesTitle = {
@@ -147,7 +147,7 @@
     function getURLParameter(name) {
         return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [, ""])[1].replace(/\+/g, '%20')) || null;
     }
-    /* jshint ignore:end */ 
+    /* jshint ignore:end */
 
     //将Unix时间戳转换为中文日期和星期
     function unixtochinese(thetime, datetype) {
@@ -516,7 +516,7 @@
             }
         });
     }
-    
+
     function loadTools() {
         var sections = '';
         var lists = '';
@@ -587,7 +587,7 @@
     function page() {
         var a=window.location.search;
         return '&'+a.substring(1);
-    } 
+    }
     function renderHTML(ele) {
         var J = {
             'meta': {},
@@ -680,7 +680,7 @@
 
                 });
             }
-        }); 
+        });
         return JSON.stringify(J);
     }
 
@@ -1121,7 +1121,7 @@
         dragSrcEl = null;
         return false;
     });
-     
+
     $('body').on('click', '.tab', function () {
         $('html').removeClass('show-all').removeClass('show-sections').removeClass('show-items').removeClass('show-json');
         if ($(this).hasClass('all')) {
@@ -1316,4 +1316,4 @@
         });
     };
 
-})(); 
+})();
