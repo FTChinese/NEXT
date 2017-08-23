@@ -36,7 +36,7 @@
 <%assign var="itemIdsArray" value=$itemIds|replace:"'":""%>
 
 <!DOCTYPE html>
-<html class="no-js core" data-next-app="front-page">
+<html class="no-js core<%if $smarty.get.webview == "ftcapp"%> is-ftc-app<%/if%>" data-next-app="front-page">
     <head>
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -89,6 +89,9 @@
             <style><%include file="next/styles/main-tag.css"%></style>
         <%/if%>
 
+        <%if $smarty.get.webview == "ftcapp"%>
+            <style><%include file="next/styles/main-ftc-app.css"%></style>
+        <%/if%>
 
         
         <link rel="icon" type="image/png" href="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=32&height=32" sizes="32x32">

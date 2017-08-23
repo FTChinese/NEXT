@@ -1,7 +1,7 @@
-/* exported loadcomment, init_repeat_cmt, showcmt, voteComment, cmt_reply, login */
+/* exported loadcomment, init_repeat_cmt, showcmt, voteComment, cmt_reply, login, clickToSubmitComment, logout, checkLogin, socialLogin */
 // MARK: User Comments
 
-var commentfolder;
+var commentfolder ='/index.php/comments';
 function loadcomment(storyid, theid, type) {
     var url, new_comment_prefix, common_comment_prefix, user_icon='', isvip, commentnumber, cfoption, cftype, commentsortby;
     new_comment_prefix = '/index.php/comments/newcommentsbysort/';
@@ -12,22 +12,28 @@ function loadcomment(storyid, theid, type) {
 	    	url='/index.php/comments/newcomment/' + storyid;
 	    	break;
 	    case 'storyall1':
+            commentfolder='/index.php/comments';
 	    	url=new_comment_prefix+storyid+'/1?limit=0&rows=500';
 	    	break;
 	    case 'storyall2':
+            commentfolder='/index.php/comments';
 	    	url=new_comment_prefix+storyid+'/2?limit=0&rows=500';
 	    	break;
 	    case 'storyall3':
+            commentfolder='/index.php/comments';
 	    	url=new_comment_prefix+storyid+'/3?limit=0&rows=500';
 	    	break;
 	    case 'commonall1':
+            commentfolder='/index.php/common_comments';
 	    	url=common_comment_prefix+storyid+'/1?limit=0&rows=500';
       		break;
       		
       	case 'commonall2':
+            commentfolder='/index.php/common_comments';
       		url=common_comment_prefix+storyid+'/2?limit=0&rows=500';
       		break;
       	case 'commonall3':
+            commentfolder='/index.php/common_comments';
       		url=common_comment_prefix+storyid+'/3?limit=0&rows=500';
       		break;
       	default:
@@ -146,12 +152,11 @@ function voteComment(id, ctype, vote) {
     var i = document.querySelector(ctype + vote[0] + id).innerHTML;
     i = parseInt(i, 10) || 0;
     document.querySelector(ctype + vote[0] + id).innerHTML = i + 1;
-    document.querySelector('#st'+id).removeAttribute('href');
-    document.querySelector('#dt'+id).removeAttribute('href');
+    document.querySelector(ctype + id).removeAttribute('href');
     if (vote==='support') {
-        document.querySelector('#st'+id).innerHTML = '已支持';
+        document.querySelector(ctype + id).innerHTML = '已支持';
     } else {
-        document.querySelector('#dt'+id).innerHTML = '已反对';
+        document.querySelector(ctype + id).innerHTML = '已反对';
     }
     var params = 'cmtid=' + id + '&action=' + vote; 
     var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance 
@@ -183,40 +188,43 @@ function cmt_reply(id,ctype) {
             xmlhttp.onreadystatechange = function() {
                 if (this.readyState === 4) {
                     if (this.status === 200) {
-                        var data = JSON.parse(this.responseText);
+                        var data = this.responseText;
                         if (data !== 'yes') {
-                            alert('非常抱歉，现在我们的网站遇到一些技术故障。您的留言可能没有发表成功，稍后请您试着重新发表一次。');
+                            presentAlert('非常抱歉，现在我们的网站遇到一些技术故障。您的留言可能没有发表成功，稍后请您试着重新发表一次。', '');
                             return;
                         }
                         document.querySelector('#re' + ctype + id).innerHTML = '';
-                        alert('感谢您的参与，您的评论内容已经提交。审核后会立即显示出来！');
+                        presentAlert('感谢您的参与，您的评论内容已经提交。审核后会立即显示出来！', '');
                     } else { 
                         document.querySelector('#re' + ctype + id).innerHTML = '';
-                        alert('很抱歉。由于您的网络的连接发生故障，发表评论失败。稍后请您试着重新发表一次。');
+                        presentAlert('很抱歉。由于您的网络的连接发生故障，发表评论失败。稍后请您试着重新发表一次。', '');
                     }
                 }
             };
-            var postData = {
-                storyid: window.readingid, 
-                topic_object_id: window.readingid, 
-                talk: document.querySelector('#replycontent').value, 
-                use_nickname: usenicknamer, 
-                NickName: document.querySelector('#nick_namer').value, 
-                cmtid: id, 
-                type: ctype, 
-                title: '', 
-                url: ''
-            };
+            // var postData = {
+            //     storyid: window.readingid, 
+            //     topic_object_id: window.readingid, 
+            //     talk: document.querySelector('#replycontent').value, 
+            //     use_nickname: usenicknamer, 
+            //     NickName: document.querySelector('#nick_namer').value, 
+            //     cmtid: id, 
+            //     type: ctype, 
+            //     title: '', 
+            //     url: ''
+            // };
+            var params = 'storyid=' + window.readingid + '&topic_object_id=' + window.readingid + '&talk=' + document.querySelector('#replycontent').value + '&use_nickname=' +usenicknamer + '&NickName=' + document.querySelector('#nick_namer').value + '&cmtid=' + id + '&type=' + ctype + '&title=&url=';
             xmlhttp.open('POST', commentfolder + '/add');
-            xmlhttp.setRequestHeader('Content-Type', 'application/json');
-            xmlhttp.send(JSON.stringify(postData));
+            xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xmlhttp.send(params);
             this.disabled = true;
         };
-        document.querySelector('#closecomment').onclick = function() {
-            document.querySelector('.replybox').innerHTML = '';
-        };
+        // document.querySelector('#closecomment').onclick = function() {
+        //     document.querySelector('.replybox').innerHTML = '';
+        // };
     }
 }
+
+
 
 
 
@@ -231,11 +239,11 @@ function clickToSubmitComment() {
         xmlhttp.onreadystatechange = function() {
             if (this.readyState === 4) {
                 var data = this.responseText;
-                if (data != 'yes') {
-                    alert('抱歉,现在我们的网站可能出现了一些小故障.您的留言可能没有发表成功,请您稍后再重新尝试发表一次。');
+                if (data !== 'yes') {
+                    presentAlert('抱歉,现在我们的网站可能出现了一些小故障.您的留言可能没有发表成功,请您稍后再重新尝试发表一次。', '');
                     return;
                 }
-                alert('感谢您的参与，您的评论内容已经发表成功。审核后就会立即显示!');
+                presentAlert('感谢您的参与，您的评论内容已经发表成功。审核后就会立即显示!', '');
                 document.querySelector('#addnewcomment').value = '提交评论';
                 document.querySelector('#addnewcomment').disabled = false;
                 document.querySelector('#Talk').value = '';
@@ -245,8 +253,6 @@ function clickToSubmitComment() {
         xmlhttp.open('POST', commentfolder + '/add');
         xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xmlhttp.send(params);
-
-
     };
 }
 
@@ -268,6 +274,7 @@ function login(fromwhere) {
     xmlhttp.onreadystatechange = function() {
         if (this.readyState === 4) {
             if (this.status === 200) {
+                console.log (this.responseText);
                 var l = JSON.parse(this.responseText);
                 if (l.status && l.status === 'ok') {
                     document.querySelector('.statusmsg').innerHTML = '登录成功！';
@@ -295,12 +302,62 @@ function login(fromwhere) {
         }
     };
     var params = 'username='+ u + '&password=' + p + '&saveme=1';
-    xmlhttp.open('POST', '/index.php/users/login/ajax');
+    var randomNumber = parseInt(Math.random()*1000000, 10);
+    xmlhttp.open('POST', '/index.php/users/login/ajax?' + randomNumber);
     xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xmlhttp.send(params);
 }
 
+function socialLogin(socialName, socialInfo) {
+    var socialLoginUrl = '/index.php/users/socialLogin/' + socialName;
+    // $.ajax({
+    //     type: 'POST',
+    //     url: socialLoginUrl,
+    //     data: {'socialInfo': socialInfo},
+    //     success: function(data) {
+    //         if (data === 'yes') {
+    //             // show this in the interface so that users know login is successful
+    //             presentAlert('微信登陆成功', ''); 
+    //             username = GetCookie('USER_NAME') || '';
+    //             checkLogin();
+    //             // send an even to GA
+    //             return;
+    //         }
+    //         // if return data is not correct
+    //         presentAlert('登录失败', data + '亲爱的用户，由于FT中文网的服务器未能正确响应，所以您未能成功登录。请稍后再试，或尝试其他登录方式。'); 
+    //     },
+    //     error: function() {
+    //         presentAlert('登录失败', '亲爱的用户，由于FT中文网的服务器未能正确响应，所以您未能成功登录。请稍后再试，或尝试其他登录方式。'); 
+    //         return;
+    //     }
+    // });
 
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState === 4) {
+            if (this.status === 200) {
+                var data = this.responseText;
+                if (data === 'yes') {
+                    // show this in the interface so that users know login is successful
+                    presentAlert('微信登陆成功', ''); 
+                    username = GetCookie('USER_NAME') || '';
+                    checkLogin();
+                    // send an even to GA
+                    return;
+                }
+                // if return data is not correct
+                presentAlert('登录失败', data + '亲爱的用户，由于FT中文网的服务器未能正确响应，所以您未能成功登录。请稍后再试，或尝试其他登录方式。');                 
+            } else { 
+                presentAlert('登录失败', '亲爱的用户，由于FT中文网的服务器未能正确响应，所以您未能成功登录。请稍后再试，或尝试其他登录方式。'); 
+            }
+        }
+    };
+    var params = 'socialInfo='+ socialInfo;
+    var randomNumber = parseInt(Math.random()*1000000, 10);
+    xmlhttp.open('POST', socialLoginUrl + '?' + randomNumber);
+    xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xmlhttp.send(params);
+}
 
 
 function logout() {
@@ -314,21 +371,21 @@ function logout() {
             if (this.status === 200) {
                 var eles = document.querySelectorAll('.logincomment,.nologincomment, .logged, .notLogged');
                 for (var i=0; i<eles.length; i++) {
-                    eles[i].styles.display = 'none';
+                    eles[i].style.display = 'none';
                 }
                 var eles2 = document.querySelectorAll('.nologincomment,.notLogged');
                 for (var j=0; j<eles2.length; j++) {
                     eles2[j].style.display = 'block';
                 }
                 window.username = '';
+                checkLogin();
             }
         }
     };
-    xmlhttp.open('GET', '/index.php/users/logout?');
+    var randomNumber = parseInt(Math.random()*1000000, 10);
+    xmlhttp.open('GET', '/index.php/users/logout?' + randomNumber);
     xmlhttp.send();
 }
-
-
 
 function checkLogin() {
     var eles = document.querySelectorAll('.logincomment, .nologincomment, .logged, .notLogged');
@@ -336,7 +393,6 @@ function checkLogin() {
         eles[i].style.display = 'none';
     }
     document.querySelector('.statusmsg').innerHTML = '';
-
     if (!!username) {
         var nameEles = document.querySelectorAll('.nick_name,.user_id,.user_Name');
         for (var j=0; j<nameEles.length; j++) {
@@ -353,5 +409,17 @@ function checkLogin() {
         for (var l=0; l<eles3.length; l++) {
             eles3[l].style.display = 'block';
         }        
+    }
+}
+
+function presentAlert(title, message) {
+    var alertMessage = {
+        title: title,
+        message: message
+    };
+    try {
+        webkit.messageHandlers.alert.postMessage(alertMessage);
+    } catch (ignore) {
+
     }
 }

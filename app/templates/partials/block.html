@@ -146,7 +146,7 @@
 				<%*<!--feed type is <%$feedType%>, feed repeat check is <%$feedRepeatCheck%>-->*%>
 
 				<%assign var="feedStart" value=$list.feedStart|default:0%>
-
+				<%assign var="feedTag" value=$list.feedTag%>
 				<%if $list.feedType == "myFT"%>
 					<%easyapi command="31005" assign="myftArrays" topnum=30%>
 					<%assign var="itemsArray" value=$myftArrays.odatalist%>
@@ -160,41 +160,42 @@
 					<%assign var="itemsArray" value=$storymodel->get_column_list("en")%>
 					<%assign var="feedType" value="columns"%>
 				<%elseif $list.items|@count==0 && $list.feedItems != "" && $list.feedItems != "0"%>
-					<%if preg_match("/like|find_in_set|=|\(| in /is",$list.feedTag)%>
+					<%if preg_match("/like|find_in_set|=|\(| in /is",$feedTag)%>
 						<%if $list.feedType == "story"%>
 							<%assign var="feedType" value=$list.feedType%>
-							<%assign var="itemsArray" value=$storymodel->get_story_by_field_search($list.feedTag,$feedStart,$feedItems,999999999,10800)%>
+							<%assign var="feedTag" value="(`$feedTag`) and eskylinetext not like '%低调%'"%>
+							<%assign var="itemsArray" value=$storymodel->get_story_by_field_search($feedTag,$feedStart,$feedItems,999999999,10800)%>
 						<%elseif $list.feedType == "interactive"%>
 							<%assign var="feedType" value=$list.feedType%>
-							<%assign var="itemsArray" value=$interactivemodel->get_interactive_by_field_search($list.feedTag,$feedStart,$feedItems,999999999,10800)%>
+							<%assign var="itemsArray" value=$interactivemodel->get_interactive_by_field_search($feedTag,$feedStart,$feedItems,999999999,10800)%>
 						<%elseif $list.feedType == "video"%>
 							<%assign var="feedType" value=$list.feedType%>
-							<%assign var="itemsArray" value=$videomodel->get_video_by_field_search($list.feedTag,$feedStart,$feedItems,9999999999999,10800)%>
+							<%assign var="itemsArray" value=$videomodel->get_video_by_field_search($feedTag,$feedStart,$feedItems,9999999999999,10800)%>
 						<%elseif $list.feedType == "photo"%>
 							<%assign var="feedType" value="photonews"%>
-							<%assign var="itemsArray" value=$photonewsmodel->get_photonews_by_field_search($list.feedTag,"ORDER BY photonewsid DESC",$feedItems)%>
+							<%assign var="itemsArray" value=$photonewsmodel->get_photonews_by_field_search($feedTag,"ORDER BY photonewsid DESC",$feedItems)%>
 						<%/if%>
 					<%else%>
 						<%if $list.feedType == "story"%>
 							<%assign var="feedType" value=$list.feedType%>
-							<%assign var="itemsArray" value=$storymodel->get_story_by_tag($list.feedTag,0,$feedItems)%>
+							<%assign var="itemsArray" value=$storymodel->get_story_by_tag($feedTag,0,$feedItems)%>
 						<%elseif $list.feedType == "interactive"%>
 							<%assign var="feedType" value=$list.feedType%>
-							<%assign var="itemsArray" value=$interactivemodel->get_interactive_by_tag($list.feedTag, $feedItems)%>
+							<%assign var="itemsArray" value=$interactivemodel->get_interactive_by_tag($feedTag, $feedItems)%>
 						<%elseif $list.feedType == "video"%>
 							<%assign var="feedType" value=$list.feedType%>
-							<%if preg_match("/^[0-9]+$/is",$list.feedTag)%>
-								<%assign var="videoChannel" value=$list.feedTag%>
+							<%if preg_match("/^[0-9]+$/is",$feedTag)%>
+								<%assign var="videoChannel" value=$feedTag%>
 								<%assign var="itemsArray" value=$videomodel->get_video_by_channel($videoChannel,0,$feedItems)%>
 							<%else%>
-								<%assign var="itemsArray" value=$videomodel->get_video_by_tag($list.feedTag,0,$feedItems)%>
+								<%assign var="itemsArray" value=$videomodel->get_video_by_tag($feedTag,0,$feedItems)%>
 							<%/if%>
 						<%elseif $list.feedType == "photo"%>
 							<%assign var="feedType" value="photonews"%>
-							<%assign var="itemsArray" value=$photonewsmodel->get_photonews_by_tag($list.feedTag,0,$feedItems)%>
+							<%assign var="itemsArray" value=$photonewsmodel->get_photonews_by_tag($feedTag,0,$feedItems)%>
 						<%else%>
 							<%assign var="feedType" value=$list.feedType%>
-							<%assign var="itemsArray" value=$storymodel->getContentByTag($list.feedTag,$feedItems)%>
+							<%assign var="itemsArray" value=$storymodel->getContentByTag($feedTag,$feedItems)%>
 						<%/if%>
 					<%/if%>
 				<%else%>

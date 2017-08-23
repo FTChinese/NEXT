@@ -706,6 +706,13 @@
 	<%assign var="hideMPU2" value="no"%>
 	<%assign var="hideMPU3" value="no"%>
 	<%assign var="hide590" value="no"%>
+		<%assign var="sponsorMobile" value="yes"%>
+<%elseif preg_match("/与FT共进下午茶/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20170821 && date("Ymd",$smarty.now) <= 20171018 %>
+	<%assign var=breadcrum value="<a href=\"/tag/与FT共进下午茶\">与FT共进下午茶</a>"%>
+	<%assign var="adchannelID" value="2063"%>
+	<%assign var="hideMPU2" value="no"%>
+	<%assign var="hideMPU3" value="no"%>
+	<%assign var="hide590" value="no"%>
     <%assign var="sponsorMobile" value="yes"%>
  <%elseif preg_match("/财富管理/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20161226 && date("Ymd",$smarty.now) <= 20170131%>
 	<%assign var=breadcrum value="<a href=\"/tag/财富管理\">财富管理</a>"%>
@@ -1114,7 +1121,7 @@
 
 
 <!DOCTYPE html>
-<html class="no-js core" data-next-app="tag-page">
+<html class="no-js core<%if $smarty.get.webview == "ftcapp"%> is-ftc-app<%/if%>" data-next-app="tag-page">
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -1148,6 +1155,10 @@
 
     <%if preg_match("/<table/is",$story_content)%>
     	<style><%include file="next/styles/main-table.css"%></style>
+    <%/if%>
+
+    <%if $smarty.get.webview == "ftcapp"%>
+        <style><%include file="next/styles/main-ftc-app.css"%></style>
     <%/if%>
 
     <link rel="icon" type="image/png" href="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=32&height=32" sizes="32x32">
