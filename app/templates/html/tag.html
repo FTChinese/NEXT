@@ -30,7 +30,14 @@
 <%assign var="gettime" value=$storymodel->get_story_by_tag($tag_name,0,20)%>
 <%/if%>
 
-<%if $showTimeStamp == ""%>
+<%*
+<!-- 
+    设置$showTimeStamp，决定每篇文章的时间显示方式
+ -->
+*%>
+<%if $pageTheme == "afternoonteaWithFT" %>
+    <%assign var="showTimeStamp" value="hide"%>
+<%elseif $showTimeStamp == ""%>
     <%assign var="showTimeStamp" value="all"%>
 <%/if%>
 
@@ -79,6 +86,8 @@
         <style><%include file="next/styles/main-technology.css"%></style>
     <%elseif $pageTheme == "lifestyle"%>
         <style><%include file="next/styles/main-lifestyle.css"%></style>
+    <%elseif $pageTheme == "afternoonteaWithFT"%>
+        <style><%include file="next/styles/main-afternoonteaWithFT.css"%></style>
     <%else%>
         <style><%include file="next/styles/main-tag.css"%></style>
     <%/if%>
