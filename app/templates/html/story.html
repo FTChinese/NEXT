@@ -703,7 +703,7 @@
 <%elseif preg_match("/金砖五国峰会/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20170814 && date("Ymd",$smarty.now) <= 20170930 %>
 	<%assign var=breadcrum value="<a href=\"/tag/金砖五国峰会\">金砖五国峰会</a>"%>
 	<%assign var="adchannelID" value="2064"%>
-	<%assign var="hideMPU2" value="yes"%>
+	<%assign var="hideMPU2" value="no"%>
 	<%assign var="hideMPU3" value="yes"%>
 	<%assign var="hide590" value="no"%>
 		<%assign var="sponsorMobile" value="yes"%>
@@ -954,7 +954,7 @@
 		<%assign var="story_content" value=$storyBody%>
 	<%/if%>
 
-	
+
 	<%if $noAd != "true"%>
 		<%if date("Ymd",$smarty.now) <= 20161230%>
 			<%assign var="story_content" value=$story_content|regex_replace:"/[\r\t\n]/":""|regex_replace:"/^(\<p\>.*?)\<p\>/":"\\1<div class=story_main_mpu_vw><script type=\"text/javascript\">document.write (writeAd('storympuVW'));</script></div><p>"%>
