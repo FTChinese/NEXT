@@ -638,7 +638,9 @@
 
 <%assign var="isCurrentAdchFinal" value="yes"%>
 
-<%if (preg_match("/management|economy|markets/is",$story.topic) || preg_match("/经济|房地产/is",$keys)) && date("Ymd",$smarty.now) <= 20170817%>
+<%if preg_match("/恐怖袭击/is",$keys)%>
+	<%assign var="adchannelID" value="2065"%>
+<%elseif (preg_match("/management|economy|markets/is",$story.topic) || preg_match("/经济|房地产/is",$keys)) && date("Ymd",$smarty.now) <= 20170817%>
 	<%assign var="randNum" value =0|mt_rand:2 %>
 	<%if $randNum == 0 %>
 		<%assign var="adchannelID" value="1700"%>
