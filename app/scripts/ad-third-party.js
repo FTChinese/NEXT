@@ -1,4 +1,4 @@
-/* exported adReachability,showTextImageForAd */
+/* exported adReachability,showTextImageForAd, gCanReplaceInstoryWithAd, gReplacedInstroyWithAd */
 var gCanReplaceInstoryWithAd = false;//表征文章内推荐块内容是否准备好，如果准备好，则可以将其用Ad替换
 var gReplacedInstroyWithAd = false;//表征文章内推荐块内容已经用Ad替换
 
@@ -73,111 +73,27 @@ function adReachability() {
 }
 
 
-function showTextImageForAd(sourceInfo) {
-  //MARK: sourceInfo is the object that has all the information from advertiser
-    /* @param sourceInfo: TYPE Object, eg:
-     {
-       adTag:"",
-       adHeadline:"",
-       adLink:"",
-       adLead:"",
-       adImg:"",
-       adType:""
-     }
-     */
-  //MARK:  if some dom exist, change the content
-  // MARK: add appropriate event tracking
-  // category: Text and Image Ad
-  // action: click banner/mpu
-  // label: headline 
+// function showTextImageForAd(sourceInfo) {
+//   if (gCanReplaceInstoryWithAd === true && gReplacedInstroyWithAd === false) {
 
+//    //正式模式   
+//     var adLink = decodeURIComponent(sourceInfo.adLink)||'http://ad.doubleclick.net/ddm/trackclk/N5840.139612.1071020274421/B20208468.203238953;dc_trk_aid=403040961;dc_trk_cid=91843725';
+//     // MARK: open the resource in an iFrame
+//     var randomNumber = Math.random();
+//     // console.log (randomNumber);
+//     if (randomNumber < 0.009 && window.footerMoreShowed === undefined) {
+//       var w2 = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+//       var h2 = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+//       var footerEle = document.querySelector('.footer-container');
+//       footerEle.innerHTML += '<div id="footer-more"></div>';
+//       var footerMore = document.getElementById('footer-more');
+//       footerMore.innerHTML = '<div class="hide"><iframe width="' + w2 + '" height="'+ h2 +'" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" style="" src="' + adLink + '"></iframe></div>';
+//       ga('send','event','Text and Image Ad', 'click footer', '惠普新一代A3智能复合机震撼上市');
+//       window.footerMoreShowed = true;
+//     }
+//   }
 
-  if (gCanReplaceInstoryWithAd === true && gReplacedInstroyWithAd === false) {
-    // var instoryDiv = document.getElementById('in-story-recommend');
-    // var tagDiv, headlineA, leadDiv, imageA, imageFigure, imageImg;
-    // if(instoryDiv) {
-    //   tagDiv = instoryDiv.querySelector('.recommend-header');
-    //   headlineA = instoryDiv.querySelector('.recommend-content a');
-    //   leadDiv = instoryDiv.querySelector('.recommend-content .lead');
-    //   imageA = instoryDiv.querySelector('.recommend-image');
-    //   imageFigure = instoryDiv.querySelector('.recommend-image figure');
-    //   imageImg = instoryDiv.querySelector('.recommend-image figure img');
-    // }
-    
-
-   //正式模式
-   
-    var adLink = decodeURIComponent(sourceInfo.adLink)||'http://ad.doubleclick.net/ddm/trackclk/N5840.139612.1071020274421/B20208468.203238953;dc_trk_aid=403040961;dc_trk_cid=91843725';
-    
-
-    // var adImg = decodeURIComponent(sourceInfo.adImg)||'https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fi.ftimg.net%2Fpicture%2F7%2F000071147_piclink.jpg?source=ftchinese&width=1340&height=754&fit=cover';
-    // var adType = sourceInfo.adType;
-    
-
-    // // 本地模式
-    // /*
-    // var adLink = 'https://www.hennessy.com/zh-cn/hennessyparadisimperial/?utm_source=Ftchinese%20homepage%20top%20banner&utm_campaign=HPI2017JuntoJulCampaignDigital&utm_content=Ad&utm_term=JuntoJulCampaign&smtid=499499531z216rz160ngzacz0z';
-    // var adImg = 'https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fi.ftimg.net%2Fpicture%2F7%2F000071147_piclink.jpg?source=ftchinese&width=1340&height=754&fit=cover';
-    // var adType = 'Leadboard';
-    // */
-
-
-    // // 文案非AB测试模式
-    
-    // var adTag = decodeURIComponent(sourceInfo.adTag)||'Hennessy';
-    // var adHeadline = decodeURIComponent(sourceInfo.adHeadline)||'轩尼诗百乐廷皇禧';
-    // var adLead = decodeURIComponent(sourceInfo.adLead)||'轩尼诗百乐廷皇禧干邑蕴含令人叹为观止的甄选艺术，是历任调配总艺师不懈追求卓越的结晶。';
-    
-
-    // // 文案AB测试模式
-    // var adTag = optionalTexts[textIndex].adTag;
-    // var adHeadline = optionalTexts[textIndex].adHeadline;
-    // var adLead = optionalTexts[textIndex].adLead;
-
-    
-
-    // var clickAction = 'click' + adType;
-
-    // if(tagDiv && headlineA && leadDiv && imageA && imageFigure && imageImg) {
-    //   tagDiv.innerHTML = adTag;
-
-    //   headlineA.innerHTML = adHeadline;
-    //   headlineA.setAttribute('data-ec','Text and Image Ad');
-    //   headlineA.setAttribute('data-ea',clickAction);
-    //   headlineA.setAttribute('data-el', textIndex + adHeadline);
-    //   headlineA.href = adLink;
-
-    //   leadDiv.innerHTML = adLead;
-
-    //   imageA.setAttribute('data-ec','Text and Image Ad');
-    //   imageA.setAttribute('data-ea',clickAction);
-    //   imageA.setAttribute('data-el',textIndex + adHeadline);
-    //   imageA.href = adLink;
-
-    //   imageFigure.setAttribute('data-url',adImg);
-
-    //   imageImg.src = adImg;
-    //   imageImg.setAttribute('data-backupimage',adImg);
-    // }
-    
-    // gReplacedInstroyWithAd = true;
-
-    // MARK: open the resource in an iFrame
-    var randomNumber = Math.random();
-    // console.log (randomNumber);
-    if (randomNumber < 0.009 && window.footerMoreShowed === undefined) {
-      var w2 = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-      var h2 = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-      var footerEle = document.querySelector('.footer-container');
-      footerEle.innerHTML += '<div id="footer-more"></div>';
-      var footerMore = document.getElementById('footer-more');
-      footerMore.innerHTML = '<div class="hide"><iframe width="' + w2 + '" height="'+ h2 +'" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" style="" src="' + adLink + '"></iframe></div>';
-      ga('send','event','Text and Image Ad', 'click footer', '惠普新一代A3智能复合机震撼上市');
-      window.footerMoreShowed = true;
-    }
-  }
-
-}
+// }
 
 // function getRandomInt(min, max) {
 //   min = Math.ceil(min);

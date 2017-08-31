@@ -1078,6 +1078,10 @@
 
 <%/if%>
 
+<%if preg_match("/FT研究院/is",$tag) && preg_match("/.mp3$/is",$cshortleadbody)%>
+	<%assign var="hasAudio" value="yes"%>
+<%/if%>
+
 <%if $hasAudio == "yes"%>
 	<%assign var="audioSrc" value=$cshortleadbody|replace:"http://v.ftimg.net/album/":"https://creatives.ftimg.net/album/"%>
 	<%if $audioSrc != ""%>
