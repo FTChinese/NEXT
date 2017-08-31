@@ -408,8 +408,6 @@ function recommendPayLoad(recommenddata, addata){
     setTimeout(function(){
         showTextImageForAd(sourceInfo);
     }, 5000);
-    
-    
 }
 
 
