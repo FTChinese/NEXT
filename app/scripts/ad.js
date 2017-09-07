@@ -22,7 +22,7 @@ var adPositions = {
   'phonehomempu': ['0003'],
   //bonus mpu ad positions
   'phonehomempuBonus': ['0003', '0004', '0005', '0006', '0007', '0008','9901','9902','9903','9904','9905','9906','9907','9908','9909','9910','9911','9912','9913','9914','9915','9916','9917','9918'],
-  'phonetagmpu': ['0119','0004','0120']
+  'phonetagmpu': ['0119','0120','0004']
 };
 // MARK: - Sponsored Channel Ids
 var sponsoredChannelIds = ['1400'];
@@ -56,7 +56,7 @@ function trackAd(adAction, adLabel, reachabilityStatus) {
 
 function checkAd(adOptions, adDomContainer) {
   // to be on the safe side
-  // use setTimeout so that the third party script will be 
+  // use setTimeout so that the third party script will be
   // captured in the innerHTML in all browsers
   var img;
   var passDomCheck = false;
@@ -137,7 +137,7 @@ function checkAd(adOptions, adDomContainer) {
       regex = new RegExp(expression);
         if (adOptions.fallBackImg.match(regex)) {
           img = new Image();
-          img.src = adOptions.fallBackImg; 
+          img.src = adOptions.fallBackImg;
           img.onload = function() {
             //fallback image is loaded successfully
             //tell Google Analytics that ad has loaded through the fallback
@@ -220,7 +220,7 @@ function setDolphinSlot(key){
 }
 /* jshint ignore:end */
 
-window.dolRand = Math.round(Math.random()*1000000);//定义slot随机数实现联动互斥功能 
+window.dolRand = Math.round(Math.random()*1000000);//定义slot随机数实现联动互斥功能
 var slotStr=setDolphinSlot('USER_KV');
 
 // try {
@@ -294,7 +294,7 @@ function writeAd(adType, returnSrc) {
   var bannerBG = '';
   var wechatAdHTML = '';
   var debugString = '';
-  
+
 
 
 
@@ -349,7 +349,7 @@ function writeAd(adType, returnSrc) {
       if (adType === 'fullpage') {
         adType = 'phonefullpage';
       } else if (adType.indexOf('banner') < 0) {
-        adType = 'phonehomempuBonus'; 
+        adType = 'phonehomempuBonus';
         SetCookie('fs0',1,0,'/');
       } else {
         adType = 'phonebanner';
@@ -408,7 +408,7 @@ function writeAd(adType, returnSrc) {
       adWidth = '969';
       adHeight = '90';
     }
-    // MARK: WeChat have fixed the bug with iframe. Use iframe for all ads. 
+    // MARK: WeChat have fixed the bug with iframe. Use iframe for all ads.
     if (isWeChat === true && 1>2) {
       slotStr = '';
       var c = adch + adPosition;
@@ -447,7 +447,7 @@ function writeAd(adType, returnSrc) {
     debugString = window.gDebugAd.replace('adcode_for_debug', adch + adPosition);
   }
 
-  
+
   adCount[adType] = adCount[adType] + 1;
   if (returnSrc === true) {
     return  iframeSrc + debugString;
@@ -467,7 +467,7 @@ function writeAd(adType, returnSrc) {
   } else {
     return iframeHTML + debugString;
   }
-  
+
 }
 
 var bannerIframeContainers = [];
