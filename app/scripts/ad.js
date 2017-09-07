@@ -5,6 +5,7 @@ var adPositions = {
   'mpu': ['0003', '0004', '0005'],
   'tagmpu': ['0012', '0013'],
   'storympu': ['0005', '0003', '0004', '0003'],
+  'storympuRight': ['0003', '0004', '0003'],
   'ipadhomempu': ['0003', '0004'],
   'ipadstorympu': ['0005'],
   'phonebanner': ['0101', '0114'],

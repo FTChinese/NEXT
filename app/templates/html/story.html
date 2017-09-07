@@ -638,7 +638,9 @@
 
 <%assign var="isCurrentAdchFinal" value="yes"%>
 
-<%if (preg_match("/management|economy|markets/is",$story.topic) || preg_match("/经济|房地产/is",$keys)) && date("Ymd",$smarty.now) <= 20170817%>
+<%if preg_match("/恐怖袭击/is",$keys)%>
+	<%assign var="adchannelID" value="2065"%>
+<%elseif (preg_match("/management|economy|markets/is",$story.topic) || preg_match("/经济|房地产/is",$keys)) && date("Ymd",$smarty.now) <= 20170817%>
 	<%assign var="randNum" value =0|mt_rand:2 %>
 	<%if $randNum == 0 %>
 		<%assign var="adchannelID" value="1700"%>
@@ -703,12 +705,12 @@
 <%elseif preg_match("/金砖五国峰会/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20170814 && date("Ymd",$smarty.now) <= 20170930 %>
 	<%assign var=breadcrum value="<a href=\"/tag/金砖五国峰会\">金砖五国峰会</a>"%>
 	<%assign var="adchannelID" value="2064"%>
-	<%assign var="hideMPU2" value="yes"%>
+	<%assign var="hideMPU2" value="no"%>
 	<%assign var="hideMPU3" value="yes"%>
 	<%assign var="hide590" value="no"%>
 		<%assign var="sponsorMobile" value="yes"%>
-<%elseif preg_match("/与FT共进下午茶/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20170821 && date("Ymd",$smarty.now) <= 20171018 %>
-	<%assign var=breadcrum value="<a href=\"/tag/与FT共进下午茶\">与FT共进下午茶</a>"%>
+<%elseif preg_match("/与FT共进下午茶|女性特刊/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20170821 && date("Ymd",$smarty.now) <= 20171018 %>
+	<%assign var=breadcrum value="<a href=\"/channel/teawithft.html\">与FT共进下午茶</a>"%>
 	<%assign var="adchannelID" value="2063"%>
 	<%assign var="hideMPU2" value="no"%>
 	<%assign var="hideMPU3" value="no"%>
@@ -954,7 +956,7 @@
 		<%assign var="story_content" value=$storyBody%>
 	<%/if%>
 
-	
+
 	<%if $noAd != "true"%>
 		<%if date("Ymd",$smarty.now) <= 20161230%>
 			<%assign var="story_content" value=$story_content|regex_replace:"/[\r\t\n]/":""|regex_replace:"/^(\<p\>.*?)\<p\>/":"\\1<div class=story_main_mpu_vw><script type=\"text/javascript\">document.write (writeAd('storympuVW'));</script></div><p>"%>
@@ -1076,6 +1078,10 @@
 
 <%/if%>
 
+<%if preg_match("/FT研究院/is",$tag) && preg_match("/.mp3$/is",$cshortleadbody)%>
+	<%assign var="hasAudio" value="yes"%>
+<%/if%>
+
 <%if $hasAudio == "yes"%>
 	<%assign var="audioSrc" value=$cshortleadbody|replace:"http://v.ftimg.net/album/":"https://creatives.ftimg.net/album/"%>
 	<%if $audioSrc != ""%>
@@ -1145,7 +1151,14 @@
     	<style><%include file="next/styles/main-story-job.css"%></style>
     <%elseif preg_match("/极致人生/is",$keys)%>
     	<style><%include file="next/styles/main-story-luxury.css"%></style>
-    	<script type="text/javascript">var pageTheme = 'luxury';</script>
+			<script type="text/javascript">var pageTheme = 'luxury';</script>
+		<%* <!--
+		<%elseif  preg_match("/与FT共进下午茶/is",$keys) %>
+			<style><%include file="next/styles/main-story-afternoonteaWithFT.css"%></style>
+			<script type="text/javascript">console.log("afternoonteaWithFT");</script>
+		-->
+		*%>
+		
     <%else%>
     	<%if $pageType == "singlechoice"%>
     		<style><%include file="next/styles/main-quiz.css"%></style>
@@ -1349,7 +1362,8 @@ if (document.querySelector('.highcharts[data-chart-id]')) {
 <%*<!--In Read Ad-->*%>
 <%if $noAd != "true"%>
 <script type="text/javascript">
-if (w > 490 && isTouchDevice() === false) {
+// MARK: Don't show inread ad for biligual stories
+if (w > 490 && isTouchDevice() === false && document.querySelectorAll('.ce').length == 0) {
 	var cssVersionNumber = '<%include file="next/timestamp/timestamp.html"%>';
     document.write ('<scr'+'ipt src="http://dualstack.adsame-1421766300.ap-southeast-1.elb.amazonaws.com/s?z=ft&c=' + adchID + '0112' + slotStr + adReachability() + '" charset="gbk"></scr'+'ipt>');
     document.write ('<scr'+'ipt src="http://static.ftchinese.com/n/main-barrier.js?<%include file="next/timestamp/timestamp.html"%>"></scr'+'ipt>');

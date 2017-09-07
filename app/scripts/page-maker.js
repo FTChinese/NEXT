@@ -190,55 +190,59 @@
         return todaystamp;
     }
 
-    function renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, customLink, showSponsorImage, relativestory, showRelativeStoryItems) {
+    function renderAPI(obj) {
+        //id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, customLink, showSponsorImage, relativestory, showRelativeStoryItems
         var editLink = '';
         var previewLink = '';
         var dataHTML = '';
-        var oTimeStamp = timeStamp || Math.round(new Date().getTime()/1000);
+        var oTimeStamp = obj.timeStamp || Math.round(new Date().getTime()/1000);
         var relativestoryHTML = '';
         var hasImageClass = '';
         var imageBG = '';
         var sponsorImage = '';
         var sponsorImageDisplay = '';
-        if (showSponsorImage === 'yes') {
+        if (obj.showSponsorImage === 'yes') {
             sponsorImageDisplay = ' checked';
         }
         sponsorImage = '<div title="如果是有赞助的特别报道，优先采用专题的图片，而不是文章的图片"><input title="use sponsor image" name="preferSponsorImage" class="o-input-checkbox" value="yes" type="checkbox"' + sponsorImageDisplay + '>Prefer Sponsor Cover 1</div>';
-        if (typeof showRelativeStoryItems !== 'undefined') {
-            showRelativeStoryItems = '<div class="item-info-item"><div class="item-info-title">Show Related Items: </div><input type="number" title="How Many Related Content Would You Like to Show in This Page? " name="showRelativeStoryItems" class="o-input-text" value="' + showRelativeStoryItems + '"></div>';
+        if (typeof obj.showRelativeStoryItems !== 'undefined') {
+            obj.showRelativeStoryItems = '<div class="item-info-item"><div class="item-info-title">Show Related Items: </div><input type="number" title="How Many Related Content Would You Like to Show in This Page? " name="showRelativeStoryItems" class="o-input-text" value="' + obj.showRelativeStoryItems + '"></div>';
         } else {
-            showRelativeStoryItems = '';
+            obj.showRelativeStoryItems = '';
         }
-        if (type === 'story') {
-            editLink = 'https://backyard.ftchinese.com/falcon.php/story/edit/' + id;
-            previewLink = 'http://www7.ftchinese.com/story/' + id;
-        } else if (type === 'interactive') {
-            editLink = 'https://backyard.ftchinese.com/falcon.php/ia/edit/' + id;
-            previewLink = 'http://www7.ftchinese.com/interactive/' + id;
-        } else if (type === 'photo') {
-            editLink = 'https://backyard.ftchinese.com/falcon.php/pics/edit_photonews/' + id;
-            previewLink = 'http://www7.ftchinese.com/photonews/' + id;
-        } else if (type === 'video') {
-            editLink = 'https://backyard.ftchinese.com/create_videostory.php?id=' + id;
-            previewLink = 'http://www7.ftchinese.com/video/' + id;
+        if (obj.type === 'story') {
+            editLink = 'https://backyard.ftchinese.com/falcon.php/story/edit/' + obj.id;
+            previewLink = 'http://www7.ftchinese.com/story/' + obj.id;
+        } else if (obj.type === 'interactive') {
+            editLink = 'https://backyard.ftchinese.com/falcon.php/ia/edit/' + obj.id;
+            previewLink = 'http://www7.ftchinese.com/interactive/' + obj.id;
+        } else if (obj.type === 'photo') {
+            editLink = 'https://backyard.ftchinese.com/falcon.php/pics/edit_photonews/' + obj.id;
+            previewLink = 'http://www7.ftchinese.com/photonews/' + obj.id;
+        } else if (obj.type === 'video') {
+            editLink = 'https://backyard.ftchinese.com/create_videostory.php?id=' + obj.id;
+            previewLink = 'http://www7.ftchinese.com/video/' + obj.id;
         }
-        if (timeStamp !== '') {
-            timeStamp = unixtochinese(timeStamp, timeStampType);
+        if (obj.timeStamp !== '') {
+            obj.timeStamp = unixtochinese(obj.timeStamp, obj.timeStampType);
         } else {
-            timeStamp = '<div class="new-item"></div>';
+            obj.timeStamp = '<div class="new-item"></div>';
         }
 
-        if (image !== '') {
+        if (obj.image !== '') {
             hasImageClass = ' has-image';
-            imageBG = image.replace('/upload/', '/');
+            imageBG = obj.image.replace('/upload/', '/');
             //imageBG = image.replace('i.ftimg.net', 'i.ftmailbox.com').replace('/upload/', '/');
             imageBG = encodeURIComponent(imageBG);
             imageBG = 'https://www.ft.com/__origami/service/image/v2/images/raw/' + imageBG + '?source=ftchinese&width=80&fit=scale-down';
             imageBG = ' style="background-image: url(' + imageBG + ')"';
         }
 
-        if (typeof relativestory === 'object') {
-            $.each(relativestory, function (key, value) {
+        var chineseAudioUrl = obj.chineseAudioUrl || '';
+        var englishAudioUrl = obj.englishAudioUrl || '';
+
+        if (typeof obj.relativestory === 'object') {
+            $.each(obj.relativestory, function (key, value) {
                 var cheadline = value.cheadline || value.headline || '';
                 var id = value.id || '';
                 var type = value.type || 'story';
@@ -254,7 +258,7 @@
         }
         //console.log (relativestoryHTML);
         //relativestoryHTML = '';
-        dataHTML = '<div draggable=true data-type="' + type + '" class="item ' + type + hasImageClass + '"' + imageBG + ' data-id="' + id + '"><div class="remove-item"></div><div class="timestamp">' + timeStamp + '</div><div class="item-title">' + headline + '</div><div class="item-info"><div class="item-links"><a href="http://www7.ftchinese.com/' + type + '/' + id + '" target=_blank>Preview</a><a href="' + editLink + '" target=_blank>Edit</a></div>'+sponsorImage+'<div class="item-info-item"><input title="headline" placeholder="headline" name="headline" class="o-input-text" value="' + headline + '"></div><div class="item-info-item"><input title="image" placeholder="image" name="image" class="o-input-text" value="' + image + '"></div><div class="item-info-item"><div class="item-info-title">Long Lead: </div><textarea title="image" placeholder="Long Lead" name="longlead" class="o-input-text">' + longlead + '</textarea></div><div class="item-info-item"><div class="item-info-title">Short Lead: </div><textarea title="short lead" placeholder="short lead" name="shortlead" class="o-input-text">' + shortlead + '</textarea></div><div class="item-info-item"><input title="tag" placeholder="tag" name="tag" class="o-input-text" value="' + tag + '"></div><div class="item-info-item"><input title="custom link" placeholder="custom link" name="customLink" class="o-input-text" value="' + customLink + '"></div>' + showRelativeStoryItems + '<div class="item-info-item"><input name="timeStamp" type="hidden" class="o-input-text" value="' + oTimeStamp + '" readonly><input type="hidden" name="type" class="o-input-text" value="' + type + '" readonly><input type="hidden" name="id" class="o-input-text" value="' + id + '" readonly></div>' + relativestoryHTML + '</div></div>';
+        dataHTML = '<div draggable=true data-type="' + obj.type + '" class="item ' + obj.type + hasImageClass + '"' + imageBG + ' data-id="' + obj.id + '"><div class="remove-item"></div><div class="timestamp">' + obj.timeStamp + '</div><div class="item-title">' + obj.headline + '</div><div class="item-info"><div class="item-links"><a href="http://www7.ftchinese.com/' + obj.type + '/' + obj.id + '" target=_blank>Preview</a><a href="' + editLink + '" target=_blank>Edit</a></div>'+sponsorImage+'<div class="item-info-item"><input title="headline" placeholder="headline" name="headline" class="o-input-text" value="' + obj.headline + '"></div><div class="item-info-item"><input title="image" placeholder="image" name="image" class="o-input-text" value="' + obj.image + '"></div><div class="item-info-item"><div class="item-info-title">Long Lead: </div><textarea title="image" placeholder="Long Lead" name="longlead" class="o-input-text">' + obj.longlead + '</textarea></div><div class="item-info-item"><div class="item-info-title">Short Lead: </div><textarea title="short lead" placeholder="short lead" name="shortlead" class="o-input-text">' + obj.shortlead + '</textarea></div><div class="item-info-item"><input title="tag" placeholder="tag" name="tag" class="o-input-text" value="' + obj.tag + '"></div><div class="item-info-item"><input title="custom link" placeholder="custom link" name="customLink" class="o-input-text" value="' + obj.customLink + '"></div><div class="item-info-item"><input title="Chinese Audio Url" placeholder="Chinese Audio Url" name="caudio" class="o-input-text" value="' + chineseAudioUrl + '"></div><div class="item-info-item"><input title="English Audio Url" placeholder="English Audio Url" name="eaudio" class="o-input-text" value="' + englishAudioUrl + '"></div>' + obj.showRelativeStoryItems + '<div class="item-info-item"><input name="timeStamp" type="hidden" class="o-input-text" value="' + oTimeStamp + '" readonly><input type="hidden" name="type" class="o-input-text" value="' + obj.type + '" readonly><input type="hidden" name="id" class="o-input-text" value="' + obj.id + '" readonly></div>' + relativestoryHTML + '</div></div>';
         return dataHTML;
     }
 
@@ -276,7 +280,23 @@
         if (type !== 'story') {
             timeStampType = 3;
         }
-        return renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, customLink, showSponsorImage, relatives, showRelativeStoryItems);
+        return renderAPI(
+            {
+                id: id,
+                headline: headline,
+                timeStamp: timeStamp,
+                timeStampType: timeStampType,
+                longlead: longlead,
+                shortlead: shortlead,
+                image: image,
+                type: type,
+                tag: tag,
+                customLink: customLink,
+                showSponsorImage: showSponsorImage,
+                relativestory: relatives,
+                showRelativeStoryItems: showRelativeStoryItems
+            }
+        );
     }
 
 
@@ -417,15 +437,31 @@
                         relativestory = entry.relativestory || [];
                         customLink = entry.customLink || '';
                         //shortlead = JSON.stringify(relativestory);
+                        var obj = {
+                            id: id,
+                            headline: headline,
+                            timeStamp: timeStamp,
+                            timeStampType: timeStampType,
+                            longlead: longlead,
+                            shortlead: shortlead,
+                            image: image,
+                            type: type,
+                            tag: tag,
+                            customLink: customLink,
+                            showSponsorImage: showSponsorImage,
+                            relativestory: relativestory,
+                            showRelativeStoryItems: showRelativeStoryItems
+                        };
+
                         if ($('.content-left-inner .item[data-id=' + id + '][data-type=' + type + ']').length === 0) {
                             if (priority > 0 && priority <= 9) {
-                                coverHTML += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, customLink, showSponsorImage, relativestory, showRelativeStoryItems);
+                                coverHTML += renderAPI(obj);
                             } else if (priority >= 20 && priority <= 49) {
-                                newsHTML += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, customLink, showSponsorImage, relativestory, showRelativeStoryItems);
+                                newsHTML += renderAPI(obj);
                             } else if ((priority >= 49 && priority <= 69) || (priority >= 10 && priority <= 19)) {
-                                commentsHTML += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, customLink, showSponsorImage, relativestory, showRelativeStoryItems);
+                                commentsHTML += renderAPI(obj);
                             } else {
-                                otherHTML += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, customLink, showSponsorImage, relativestory, showRelativeStoryItems);
+                                otherHTML += renderAPI(obj);
                             }
                         } else {
                             //console.log (headline + ' already exists');
@@ -447,7 +483,19 @@
                             }
                             type = 'photo';
                             if ($('.content-left-inner .item[data-id=' + id + '][data-type=' + type + ']').length === 0) {
-                                photosInner += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, customLink, showSponsorImage);
+                                photosInner += renderAPI({
+                                                    id: id,
+                                                    headline: headline,
+                                                    timeStamp: timeStamp,
+                                                    timeStampType: timeStampType,
+                                                    longlead: longlead,
+                                                    shortlead: shortlead,
+                                                    image: image,
+                                                    type: type,
+                                                    tag: tag,
+                                                    customLink: customLink,
+                                                    showSponsorImage: showSponsorImage
+                                                });
                             }
                         });
                     } else if (entryIndex === 'interactive') {
@@ -475,7 +523,19 @@
                             image = interactive.story_pic.other || interactive.story_pic.smallbutton || interactive.story_pic.cover || interactive.story_pic.bigbutton || '';
                             type = 'interactive';
                             if ($('.content-left-inner .item[data-id=' + id + '][data-type=' + type + ']').length === 0) {
-                                interactivesInner += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, customLink, showSponsorImage);
+                                interactivesInner += renderAPI({
+                                                        id: id,
+                                                        headline: headline,
+                                                        timeStamp: timeStamp,
+                                                        timeStampType: timeStampType,
+                                                        longlead: longlead,
+                                                        shortlead: shortlead,
+                                                        image: image,
+                                                        type: type,
+                                                        tag: tag,
+                                                        customLink: customLink,
+                                                        showSponsorImage: showSponsorImage
+                                                    });
                             }
                         });
                     } else if (entryIndex === 'video') {
@@ -492,7 +552,19 @@
                             image = video.story_pic.other || video.story_pic.smallbutton || video.story_pic.cover || video.story_pic.bigbutton || '';
                             type = 'video';
                             if ($('.content-left-inner .item[data-id=' + id + '][data-type=' + type + ']').length === 0) {
-                                videosInner += renderAPI(id, headline, timeStamp, timeStampType, longlead, shortlead, image, type, tag, customLink, showSponsorImage);
+                                videosInner += renderAPI({
+                                                    id: id,
+                                                    headline: headline,
+                                                    timeStamp: timeStamp,
+                                                    timeStampType: timeStampType,
+                                                    longlead: longlead,
+                                                    shortlead: shortlead,
+                                                    image: image,
+                                                    type: type,
+                                                    tag: tag,
+                                                    customLink: customLink,
+                                                    showSponsorImage: showSponsorImage
+                                                });
                             }
                         });
                     }
@@ -526,36 +598,142 @@
         $.each(toolkits.list, function (key, value) { // jshint ignore:line
             lists += '<div class="toolkit toolkit-list toolkit-' + key + '" draggable=true>' + key + '</div>';
         });
-        lists += renderAPI('', 'Empty Item 1', '', '', '', '', '', '', '', '', 'no');
-        lists += renderAPI('', 'Empty Item 2', '', '', '', '', '', '', '', '', 'no');
-        lists += renderAPI('', 'Empty Item 3', '', '', '', '', '', '', '', '', 'no');
-        lists += renderAPI('', 'Empty Item 4', '', '', '', '', '', '', '', '', 'no');
-        lists += renderAPI('', 'Empty Item 5', '', '', '', '', '', '', '', '', 'no');
-        lists += renderAPI('', 'Empty Item 6', '', '', '', '', '', '', '', '', 'no');
-        lists += renderAPI('', 'Empty Item 7', '', '', '', '', '', '', '', '', 'no');
-        lists += renderAPI('', 'Empty Item 8', '', '', '', '', '', '', '', '', 'no');
-        lists += renderAPI('', 'Empty Item 9', '', '', '', '', '', '', '', '', 'no');
-        lists += renderAPI('', 'Empty Item 10', '', '', '', '', '', '', '', '', 'no');
-        lists += renderAPI('', 'Empty Item 11', '', '', '', '', '', '', '', '', 'no');
-        lists += renderAPI('', 'Empty Item 12', '', '', '', '', '', '', '', '', 'no');
-        lists += renderAPI('', 'Widget File 1', '', '', '', '', '', 'widget', '', '', 'no');
-        lists += renderAPI('', 'Widget File 2', '', '', '', '', '', 'widget', '', '', 'no');
-        lists += renderAPI('', 'Widget File 3', '', '', '', '', '', 'widget', '', '', 'no');
-        lists += renderAPI('', 'Widget File 4', '', '', '', '', '', 'widget', '', '', 'no');
-        lists += renderAPI('', 'Widget File 5', '', '', '', '', '', 'widget', '', '', 'no');
-        lists += renderAPI('', 'Widget File 6', '', '', '', '', '', 'widget', '', '', 'no');
-        lists += renderAPI('', 'Widget File 7', '', '', '', '', '', 'widget', '', '', 'no');
-        lists += renderAPI('', 'Widget File 8', '', '', '', '', '', 'widget', '', '', 'no');
-        lists += renderAPI('', 'Widget File 9', '', '', '', '', '', 'widget', '', '', 'no');
-        lists += renderAPI('', 'Widget File 10', '', '', '', '', '', 'widget', '', '', 'no');
-        lists += renderAPI('', 'uselection2016.html', '', '', '', '', '', 'widget', '', '', 'no');
-        lists += renderAPI('', 'numbers-china-sources.html', '', '', '', '', '', 'widget', '', '', 'no');
-        lists += renderAPI('', 'numbers-china-labour.html', '', '', '', '', '', 'widget', '', '', 'no');
-        lists += renderAPI('', 'numbers-china-markets.html', '', '', '', '', '', 'widget', '', '', 'no');
-        lists += renderAPI('', 'numbers-china-gdp.html', '', '', '', '', '', 'widget', '', '', 'no');
-        lists += renderAPI('', 'numbers-china-housing.html', '', '', '', '', '', 'widget', '', '', 'no');
-        lists += renderAPI('', 'numbers-china-rates.html', '', '', '', '', '', 'widget', '', '', 'no');
-        lists += renderAPI('', 'numbers-china-trade.html', '', '', '', '', '', 'widget', '', '', 'no');
+        for (var i = 0; i < 12; i++) {
+            lists += renderAPI({
+                id: '',
+                headline: 'EmptyItem' + i,
+                timeStamp: '',
+                timeStampType: '',
+                longlead: '',
+                shortlead: '',
+                image: '',
+                type: '',
+                tag: '',
+                customLink: '',
+                showSponsorImage: 'no'
+            });
+        }
+
+        for (var j = 0; j < 12; j++) {
+            lists += renderAPI({
+                id: '',
+                headline: 'WidgetFile' + j,
+                timeStamp: '',
+                timeStampType: '',
+                longlead: '',
+                shortlead: '',
+                image: '',
+                type: 'widget',
+                tag: '',
+                customLink: '',
+                showSponsorImage: 'no'
+            });
+        }
+
+        lists += renderAPI({
+            id: '',
+            headline: 'uselection2016.html',
+            timeStamp: '',
+            timeStampType: '',
+            longlead: '',
+            shortlead: '',
+            image: '',
+            type: 'widget',
+            tag: '',
+            customLink: '',
+            showSponsorImage: 'no'
+        });
+        lists += renderAPI({
+            id: '',
+            headline: 'numbers-china-sources.html',
+            timeStamp: '',
+            timeStampType: '',
+            longlead: '',
+            shortlead: '',
+            image: '',
+            type: 'widget',
+            tag: '',
+            customLink: '',
+            showSponsorImage: 'no'
+        });
+        lists += renderAPI({
+            id: '',
+            headline: 'numbers-china-labour.html',
+            timeStamp: '',
+            timeStampType: '',
+            longlead: '',
+            shortlead: '',
+            image: '',
+            type: 'widget',
+            tag: '',
+            customLink: '',
+            showSponsorImage: 'no'
+        });
+        lists += renderAPI({
+            id: '',
+            headline: 'numbers-china-markets.html',
+            timeStamp: '',
+            timeStampType: '',
+            longlead: '',
+            shortlead: '',
+            image: '',
+            type: 'widget',
+            tag: '',
+            customLink: '',
+            showSponsorImage: 'no'
+        });
+        lists += renderAPI({
+            id: '',
+            headline: 'numbers-china-gdp.html',
+            timeStamp: '',
+            timeStampType: '',
+            longlead: '',
+            shortlead: '',
+            image: '',
+            type: 'widget',
+            tag: '',
+            customLink: '',
+            showSponsorImage: 'no'
+        });
+        lists += renderAPI({
+            id: '',
+            headline: 'numbers-china-housing.html',
+            timeStamp: '',
+            timeStampType: '',
+            longlead: '',
+            shortlead: '',
+            image: '',
+            type: 'widget',
+            tag: '',
+            customLink: '',
+            showSponsorImage: 'no'
+        });
+        lists += renderAPI({
+            id: '',
+            headline: 'numbers-china-rates.html',
+            timeStamp: '',
+            timeStampType: '',
+            longlead: '',
+            shortlead: '',
+            image: '',
+            type: 'widget',
+            tag: '',
+            customLink: '',
+            showSponsorImage: 'no'
+        });
+        lists += renderAPI({
+            id: '',
+            headline: 'numbers-china-trade.html',
+            timeStamp: '',
+            timeStampType: '',
+            longlead: '',
+            shortlead: '',
+            image: '',
+            type: 'widget',
+            tag: '',
+            customLink: '',
+            showSponsorImage: 'no'
+        });
 
 
 

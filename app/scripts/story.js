@@ -396,13 +396,18 @@ function recommendPayLoad(recommenddata, addata){
     }
 
     // MARK: Test for showTextImageForAd in ad-third-party.js
-    /*
-    var sourceInfo = {};
-    setTimeout(function(){
-        showTextImageForAd(sourceInfo);
-    }, 5000);
-    */
     
+    // var sourceInfo = {
+    //    adTag: '',
+    //    adHeadline: '',
+    //    adLink: 'http://ad.doubleclick.net/ddm/trackclk/N5840.139612.1071020274421/B20208468.203238953;dc_trk_aid=403040961;dc_trk_cid=91843725',
+    //    adLead: '',
+    //    adImg: '',
+    //    adType: ''
+    //  };
+    // setTimeout(function(){
+    //     showTextImageForAd(sourceInfo);
+    // }, 5000);
 }
 
 
