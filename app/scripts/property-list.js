@@ -54,17 +54,17 @@
          
      });
      
-     $("#o-header-link-1").hover(function(){
-        $("#o-header-mega-1").css("display","block");
-        console.log("display")
+     $('#o-header-link-1').hover(function(){
+        $('#o-header-mega-1').css('display','block');
+        console.log('display');
     },function(){
-        $("#o-header-mega-1").css("display","none");
+        $('#o-header-mega-1').css('display','none');
     });
-    $("#o-header-link-2").hover(function(){
-        $("#o-header-mega-2").css("display","block");
-        console.log("display")
+    $('#o-header-link-2').hover(function(){
+        $('#o-header-mega-2').css('display','block');
+        console.log('display');
     },function(){
-        $("#o-header-mega-2").css("display","none");
+        $('#o-header-mega-2').css('display','none');
     });
    
 })(); 
