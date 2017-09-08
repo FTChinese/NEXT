@@ -41,7 +41,9 @@
     <%assign var="showTimeStamp" value="all"%>
 <%/if%>
 
-<%if $tagstory%>
+<%if $tag_name == "银行业"%>
+<%assign var="allstory" value=$storymodel->get_story_by_field_search("find_in_set('银行业', tag) and id != '001074186'",0,54,100000,10800)%>
+<%elseif $tagstory%>
 <%assign var="allstory" value=$tagstory%>
 <%/if%>
 
