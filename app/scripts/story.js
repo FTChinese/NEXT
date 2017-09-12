@@ -132,7 +132,7 @@ if(recommendVersion === '-001'){
     
 //}
 
-setTimeout(function(){
+function changeFontSize() {
     /*set font*/
     fontOptionsEle = document.getElementById('font-options');
 
@@ -165,7 +165,7 @@ setTimeout(function(){
             setResizeClass();
         }
     };
-}, 1000);
+}
 
 
 
@@ -453,3 +453,4 @@ function getRandomInt(min, max) {
 
 
 checkFontSize();
+changeFontSize()
