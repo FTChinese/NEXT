@@ -170,8 +170,9 @@ function changeFontSize() {
 
 
 
-/* jshint ignore:start */
+
 function checkFontSize() {
+    /* jshint ignore:start */
     fs = GetCookie('fs');
     /* jshint ignore:end */
     if (typeof fs === 'string' && fs !== null && fs !== '' && document.getElementById('font-options') && document.querySelector('.story-container')) {
@@ -453,4 +454,4 @@ function getRandomInt(min, max) {
 
 
 checkFontSize();
-changeFontSize()
+changeFontSize();
