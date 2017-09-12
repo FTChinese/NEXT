@@ -165,7 +165,7 @@ setTimeout(function(){
             setResizeClass();
         }
     };
-}, 100);
+}, 1000);
 
 
 
