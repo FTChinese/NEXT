@@ -132,38 +132,41 @@ if(recommendVersion === '-001'){
     
 //}
 
-/*set font*/
-fontOptionsEle = document.getElementById('font-options');
+setTimeout(function(){
+    /*set font*/
+    fontOptionsEle = document.getElementById('font-options');
 
-//fontOptionsDivs = fontOptionsEle.querySelectorAll('div');
+    //fontOptionsDivs = fontOptionsEle.querySelectorAll('div');
 
-//click to change font size and set cookie (fs)
-//Dom Delegate doesn't work here on iOS
-fontOptionsEle.onclick = function (e) {
-    var currentClass = e.target.className || '';
-    var selectedClass;
-    var storyContainerClass = document.querySelector('.story-container').className;
-    if (currentClass.indexOf('selected') <0) {
-        if (fontOptionsEle.querySelector('.selected')) {
-            selectedClass = fontOptionsEle.querySelector('.selected').className || '';
-        } else {
-            selectedClass = '';
+    //click to change font size and set cookie (fs)
+    //Dom Delegate doesn't work here on iOS
+    fontOptionsEle.onclick = function (e) {
+        var currentClass = e.target.className || '';
+        var selectedClass;
+        var storyContainerClass = document.querySelector('.story-container').className;
+        if (currentClass.indexOf('selected') <0) {
+            if (fontOptionsEle.querySelector('.selected')) {
+                selectedClass = fontOptionsEle.querySelector('.selected').className || '';
+            } else {
+                selectedClass = '';
+            }
+            selectedClass = selectedClass.replace(/ selected/g, '');
+            if (fontOptionsEle.querySelector('.selected')) {
+                fontOptionsEle.querySelector('.selected').className = selectedClass;
+            }
+            e.target.className = currentClass + ' selected';
+            /* jshint ignore:start */
+            SetCookie('fs',currentClass,'','/');
+            /* jshint ignore:end */
+            storyContainerClass = storyContainerClass.replace(/ (normal|bigger|biggest|smaller|smallest)/g,'');
+            document.querySelector('.story-container').className = storyContainerClass + ' ' + currentClass;
+            stickyBottomPrepare();
+            stickyAdsPrepare();
+            setResizeClass();
         }
-        selectedClass = selectedClass.replace(/ selected/g, '');
-        if (fontOptionsEle.querySelector('.selected')) {
-            fontOptionsEle.querySelector('.selected').className = selectedClass;
-        }
-        e.target.className = currentClass + ' selected';
-        /* jshint ignore:start */
-        SetCookie('fs',currentClass,'','/');
-        /* jshint ignore:end */
-        storyContainerClass = storyContainerClass.replace(/ (normal|bigger|biggest|smaller|smallest)/g,'');
-        document.querySelector('.story-container').className = storyContainerClass + ' ' + currentClass;
-        stickyBottomPrepare();
-        stickyAdsPrepare();
-        setResizeClass();
-    }
-};
+    };
+}, 100);
+
 
 
 
