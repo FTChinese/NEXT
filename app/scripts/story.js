@@ -168,15 +168,17 @@ fontOptionsEle.onclick = function (e) {
 
 
 /* jshint ignore:start */
-fs = GetCookie('fs');
-/* jshint ignore:end */
-if (typeof fs === 'string' && fs !== null && fs !== '' && document.getElementById('font-options') && document.querySelector('.story-container')) {
-    document.getElementById('font-options').querySelector('.' + fs.replace(/ /g, '.')).className = fs + ' selected';
-    document.querySelector('.story-container').className = document.querySelector('.story-container').className + ' ' + fs;
-    setResizeClass();
-} else {
-    document.getElementById('font-setting').querySelector('.normal').className = 'normal selected';
-} 
+function checkFontSize() {
+    fs = GetCookie('fs');
+    /* jshint ignore:end */
+    if (typeof fs === 'string' && fs !== null && fs !== '' && document.getElementById('font-options') && document.querySelector('.story-container')) {
+        document.getElementById('font-options').querySelector('.' + fs.replace(/ /g, '.')).className = fs + ' selected';
+        document.querySelector('.story-container').className = document.querySelector('.story-container').className + ' ' + fs;
+        setResizeClass();
+    } else {
+        document.getElementById('font-setting').querySelector('.normal').className = 'normal selected';
+    }
+}
 
 
 /*exported getRec */
@@ -445,3 +447,6 @@ function getRandomInt(min, max) {
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min)) + min; 
 }
+
+
+checkFontSize();
