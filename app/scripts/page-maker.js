@@ -546,7 +546,6 @@
                             headline = video.cheadline;
                             longlead = video.clongleadbody || '';
                             shortlead = video.cshortleadbody || '';
-                            shortlead = JSON.stringify(video);
                             tag = video.tag || '';
                             tag = '视频,' + tag;
                             image = video.story_pic.other || video.story_pic.smallbutton || video.story_pic.cover || video.story_pic.bigbutton || '';
