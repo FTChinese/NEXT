@@ -404,6 +404,11 @@
 								<%/if%>
 								<%assign var="itemTopClass" value="`$itemTopClass` PT"%>
 							<%/if%>
+						<%elseif $list.float === "VideoWall"%>
+								<%assign var="XL" value="XL6 L6 S6 M6 P6"%>
+								<%if $i%2 == 0%>
+									<%assign var="itemTopClass" value="clearfloat"%>
+								<%/if%>
 						<%elseif $feedType=="columns"%>
 							<%if $sectionHasSide == "yes"%>
 								<%assign var="XL" value="headshot-title XL4 L6 S12 M12 P12"%>
@@ -1055,6 +1060,14 @@
 								<div class="item-bottom"></div>
 							</div></div>
 							<%assign var="i" value=$i+1%>
+						<%elseif $list.float === "VideoWall"%>
+							<%$itemTop%>
+							<div class="item-container <%$itemClass%> has-image video-wall">
+								<div class="item-inner video-package-inner" style="padding:0;"><div class="image" style="width: 100%;left: 0;right: 0;padding: 0;">
+									<figure id="video-package-play" class="loading-video" data-vid="<%$itemId%>" data-type="<%$itemType%>"></figure>
+								</div></div>
+							</div>
+							<%assign var="i" value=$i+1%>
 						<%elseif $itemType === "widget"%>
 							<div class="item-container <%$itemClass%> no-image"><div class="item-inner">
 								<%include file="widgets/`$itemHeadline`"%>
@@ -1096,7 +1109,7 @@
 						<%*<!--insert 10 bonus MPU for mobile phone temporarily end-->*%>
 
 						<%*<!--insert an extra MPU for mobile phone temporarily start-->*%>
-						<%elseif $b == 0 && $l == 0%>
+						<%elseif $b == 0 && $l == 0 && $list.float != "VideoWall"%>
 							<%if $pageId == "home"%>
 								<%assign var="mpuName" value="homempu"%>
 							<%else%>

@@ -35,6 +35,11 @@
 <%/foreach%>
 <%assign var="itemIdsArray" value=$itemIds|replace:"'":""%>
 
+<%if $p.meta.hideDownloadButton == "yes"%>
+    <%assign var=hideQR value="yes"%>
+<%/if%>
+
+
 <!DOCTYPE html>
 <html class="no-js core<%if $smarty.get.webview == "ftcapp"%> is-ftc-app<%/if%>" data-next-app="front-page">
     <head>

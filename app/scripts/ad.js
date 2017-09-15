@@ -362,7 +362,7 @@ function writeAd(adType, returnSrc) {
       adType = 'phonetagmpu';
     } else if (adType === 'storybanner') {
       adType = 'phonestorybanner';
-    } else if (adType === 'storympu') {
+    } else if (adType === 'storympu' || adType === 'storympuRight') {
       adType = 'phonestorympu';
     } else if (adType === 'storympuVW') {
       adType = 'phonestorympuVW';
