@@ -258,10 +258,17 @@ function loadImages() {
     var videoHeight = thisVideo.offsetHeight;
     var videoId = thisVideo.getAttribute('data-vid');
     var itemType = thisVideo.getAttribute('data-type') || 'video';
-
+    var autoStart = thisVideo.getAttribute('data-autoplay') || '';
+    var videoWall = '';
+    if (autoStart === 'yes') {
+      autoStart = 'true';
+      videoWall = '&videowall=yes';
+    } else {
+      autoStart = 'false';
+    }
     if (videoWidth > 0 && videoHeight > 0 && queryString.indexOf('?ad=no') === -1 && hostForVideo !== 'http://www.ftchinese.com') {
       videosLazy[i] = {
-        ih: '<iframe name="video-frame" id="video-frame" style="width:100%;height:100%;position:absolute;" src="' + hostForVideo + '/' + itemType + '/'+ videoId +'?i=2&w='+videoWidth+'&h='+videoHeight+'&autostart=false" scrolling="no" frameborder="0" allowfullscreen=true></iframe>',
+        ih: '<iframe name="video-frame" id="video-frame" style="width:100%;height:100%;position:absolute;" src="' + hostForVideo + '/' + itemType + '/'+ videoId +'?i=2&w='+videoWidth+'&h='+videoHeight+'&autostart=' + autoStart + videoWall + '" scrolling="no" frameborder="0" allowfullscreen=true></iframe>',
         videoTop: videoTop
       };
     } else {

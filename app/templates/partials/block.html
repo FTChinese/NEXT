@@ -1062,11 +1062,13 @@
 							<%assign var="i" value=$i+1%>
 						<%elseif $list.float === "VideoWall"%>
 							<%$itemTop%>
+							<a href="/<%$itemType%>/<%$itemId%>" target="_blank">
 							<div class="item-container <%$itemClass%> has-image video-wall">
 								<div class="item-inner video-package-inner" style="padding:0;"><div class="image" style="width: 100%;left: 0;right: 0;padding: 0;">
-									<figure id="video-package-play" class="loading-video" data-vid="<%$itemId%>" data-type="<%$itemType%>"></figure>
+									<figure id="video-package-play" class="loading-video" data-vid="<%$itemId%>" data-type="<%$itemType%>" data-autoplay="yes"></figure>
 								</div></div>
 							</div>
+							</a>
 							<%assign var="i" value=$i+1%>
 						<%elseif $itemType === "widget"%>
 							<div class="item-container <%$itemClass%> no-image"><div class="item-inner">
