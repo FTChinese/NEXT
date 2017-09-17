@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html class="no-js core is-ftc-app" data-next-app="front-page">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>视频页</title>
+<meta http-equiv="Content-Language" content="zh-CN"/>
+<meta content="<%$p.meta.description%>" name="description"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<link rel="apple-touch-icon-precomposed" href="http://static.ftchinese.com/img/ipad_icon.png" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+
+<script type="text/javascript">
+var useragent;
+var opacity = 0;
+var siteid = '922662811F1A49E9';
+var vid = '14DE36D66F9717609C33DC5901307461';
+var v_width = '320';
+var v_height = '180';
+var AutoPlay = 'Y';
+var Click = 'http://www.ftchinese.com/';
+if (typeof uaString === 'string') {
+    if (/iphone/i.test(uaString)) {
+        useragent = 'iPhone';
+    } else if (/ipad/i.test(uaString)) {
+        useragent = 'iPad';
+    } else if (/android/i.test(uaString)) {
+        useragent = 'Android';
+    } else {
+        useragent = 'iPhone';
+    }
+} else {
+    useragent = 'iPhone';
+}
+
+document.write('<div style="width:' + v_width + 'px; height:' + v_height + 'px; display:block; overflow:hidden">');
+document.write('<div id="video" style="position:relative;"></div>');
+document.write('<a style="cursor:pointer; width:1px; height:1px; display:block;" href="[URL]" target="_blank"><div style="width:300px; height:70px; position:relative; top:-250px; left:0px; z-index:10; background-color:#FFF; filter:alpha(opacity=' + opacity + '); -moz-opacity:' + opacity + '; opacity:' + opacity + '; cursor:pointer; border:none; padding:0px; margin:0px"></div></a></div>');
+document.write('<a style="cursor:pointer; width:1px; height:1px; display:block;" href="[URL]" target="_blank"><div style="width:300px; height:70px; position:relative; top:-100px; left:0px; z-index:10; background-color:#FFF; filter:alpha(opacity=' + opacity + '); -moz-opacity:' + opacity + '; opacity:' + opacity + '; cursor:pointer; border:none; padding:0px; margin:0px"></div></a></div>');
+document.write('<a style="cursor:pointer; width:1px; height:1px; display:block;" href="[URL]" target="_blank"><div style="width:100px; height:220px; position:relative; top:-250px; left:0px; z-index:10; background-color:#FFF; filter:alpha(opacity=' + opacity + '); -moz-opacity:' + opacity + '; opacity:' + opacity + '; cursor:pointer; border:none; padding:0px; margin:0px"></div></a></div>');
+document.write('<a style="cursor:pointer; width:1px; height:1px; display:block;" href="[URL]" target="_blank"><div style="width:100px; height:220px; position:relative; top:-250px; left:200px; z-index:10; background-color:#FFF; filter:alpha(opacity=' + opacity + '); -moz-opacity:' + opacity + '; opacity:' + opacity + '; cursor:pointer; border:none; padding:0px; margin:0px"></div></a></div>');
+var JSONP = document.createElement('script');
+JSONP.type = 'text/javascript';
+JSONP.src = 'http://p.bokecc.com/servlet/getvideofile?[ASRANDOM]&vid=' + vid + '&siteid=' + siteid + '&divid=&callback=video&useragent=' + useragent;
+document.getElementsByTagName('head')[0].appendChild(JSONP);
+function video(obj) {
+    document.getElementById('video').innerHTML = '<video id="mpu-video" src="' + obj.copies[0].playurl + '" width="' + v_width + '" height="' + v_height + '" airplay="deny" x-webkit-airplay="deny" playsinline webkit-playsinline>Your browser does not support the <code>video</code> element.</video><div id="sound-button" style="width:36px; height:36px; position:absolute; top:0; left:0px; z-index:16; background-color:#FFF; cursor:pointer; border:none; padding:0px; margin:0px; background: url(http://static.ftchinese.com/ftc-icons/png/ic_volume_up_white_18pt.png) rgba(0,0,0,0.618) no-repeat 50% 50%; " onclick="switchSound(this)"></div>';
+    var v = document.getElementById('mpu-video');
+    var soundButton = document.getElementById('sound-button');
+    v.controls = true;
+    v.poster = obj.img;
+    var isUsingData = (parent.window.gConnectionType === 'data')? true : false;
+    var isUsingPhone = (/phone/i.test(parent.window.gDeviceType) || /pad/i.test(parent.window.gDeviceType))? true : false;
+    if (isUsingData === true || isUsingPhone === true) {
+        AutoPlay = 'N';
+    }
+    if (AutoPlay === 'Y') {
+        // MARK: When user is runnin the ad from a web page using wifi
+        v.autoplay = true;
+        v.muted = true;
+        v.preload = 'metadata';
+        soundButton.style.display = 'block';
+    } else {
+        v.autoplay = false;
+        v.preload = 'none';
+        if (isUsingData === false) {
+            // MARK: If in a web app, set autoplay as N. But play video when user scroll the MPU into view.
+            soundButton.style.display = 'block';
+            v.muted = true;
+        } else {
+            soundButton.style.display = 'none';
+            v.muted = false;
+        }
+    }
+}
+function switchSound(ele) {
+    var v = document.getElementById('mpu-video');
+    if (ele.className == 'sound-on') {
+        ele.className = '';
+        ele.style.backgroundImage = 'url(http://static.ftchinese.com/ftc-icons/png/ic_volume_up_white_18pt.png)';
+        v.muted = true;
+    } else {
+        ele.className = 'sound-on';
+        ele.style.backgroundImage = 'url(http://static.ftchinese.com/ftc-icons/png/ic_volume_off_white_18pt.png)';
+        v.muted = false;
+    }
+}
+</script>
+
+</body>
+</html>
