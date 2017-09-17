@@ -153,6 +153,9 @@
 					<!--
 						<%$myftArrays|@var_dump%>
 						-->
+				<%elseif $list.feedType == "hot"%>
+					<%assign var="itemsArray" value=$storymodel->get_hot_story(7,40,true)%>
+					<%assign var="feedType" value=$list.feedType%>
 				<%elseif $list.feedType == "ftc_columns"%>
 					<%assign var="itemsArray" value=$storymodel->get_column_list("cn")%>
 					<%assign var="feedType" value="columns"%>
