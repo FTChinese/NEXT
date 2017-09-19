@@ -177,7 +177,12 @@ function checkFontSize(forceFontSize) {
     /* jshint ignore:end */
     if (typeof fs === 'string' && fs !== null && fs !== '' && document.getElementById('font-options') && document.querySelector('.story-container')) {
         document.getElementById('font-options').querySelector('.' + fs.replace(/ /g, '.')).className = fs + ' selected';
-        document.querySelector('.story-container').className = document.querySelector('.story-container').className + ' ' + fs;
+        var fontClasses = ['smallest', 'smaller', 'normal', 'bigger', 'biggest'];
+        var storyClasses = document.querySelector('.story-container').className;
+        for (var i=0; i<fontClasses.length; i++) {
+            storyClasses = storyClasses.replace(' ' + fontClasses[i], '');
+        }
+        document.querySelector('.story-container').className = storyClasses + ' ' + fs;
         setResizeClass();
     } else {
         document.getElementById('font-setting').querySelector('.normal').className = 'normal selected';
