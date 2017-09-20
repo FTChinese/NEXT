@@ -1,4 +1,4 @@
-console.log('119');
+
 /*Global Variables*/
 
 var fontOptionsEle;
@@ -172,10 +172,8 @@ function changeFontSize() {
 
 
 function checkFontSize(forceFontSize) {
-    /* jshint ignore:start */
     fs = forceFontSize || GetCookie('fs');
     SetCookie(fs);
-    /* jshint ignore:end */
     if (typeof fs === 'string' && fs !== null && fs !== '' && document.getElementById('font-options') && document.querySelector('.story-container')) {
         document.getElementById('font-options').querySelector('.' + fs.replace(/ /g, '.')).className = fs + ' selected';
         var fontClasses = ['smallest', 'smaller', 'normal', 'bigger', 'biggest'];

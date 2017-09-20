@@ -286,6 +286,11 @@ if (document.querySelector('.ad').innerHTML.indexOf('N5840.139612.1071020274421/
     parent.window.gCanReplaceInstoryWithAd = true;
     parent.window.gReplacedInstroyWithAd = false;
 }
+
+if (parentIframe && window.hideAdSign && window.hideAdSign !== '') {
+    var adClassName = parentIframe.parentNode.className;
+    parentIframe.parentNode.className = adClassName + ' hide-sign';
+}
 </script>
 
 
