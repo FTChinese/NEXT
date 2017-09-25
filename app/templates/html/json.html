@@ -1,0 +1,204 @@
+<%assign var="pageId" value="`$smarty.get.pageid`"%>
+<%assign var="p" value=$nextmodel->getPublishJson($pageId)|json_decode:true%>
+{
+"meta": {
+	"title": "<%$p.meta.title%>",
+	"description": "<%$p.meta.title%>",
+	"adid": "<%$p.meta.adid%>",
+	"theme": "<%$p.meta.theme%>"
+},
+"sections": [
+	<%assign var=sectionIndex value=0%>
+	<%foreach from=$p.sections item=section%>
+		<%if $section.type == "block"%>
+			<%if $sectionIndex>0%>,<%/if%>
+			{
+				"type": "<%$section.type%>",
+				"title": "<%$section.title%>",
+				"name": "<%$section.name%>",
+				"side": "<%$section.side%>",
+				"sideAlign": "<%$section.sideAlign%>",
+				"lists": [
+					<%assign var=listIndex value=0%>
+					<%foreach from=$section.lists item=list%>
+						<%if $list.type == "list" || $list.type == ""%>
+							<%if $listIndex>0%>,<%/if%>
+							{
+								"name": "<%$list.name%>",
+								"type": "<%$list.type%>",
+								"title": "<%$list.title%>",
+								"url": "<%$list.url%>",
+								"language": "<%$list.language%>",
+								"description": "<%$list.description%>",
+								"style": "<%$list.style%>",
+								"float": "<%$list.float%>",
+								"showTag": "<%$list.showTag%>",
+								"showTimeStamp": "<%$list.showTimeStamp%>",
+								"preferLead": "<%$list.preferLead%>",
+								"sponsorAdId": "<%$list.sponsorAdId%>",
+								"sponsorLogoUrl": "<%$list.sponsorLogoUrl%>",
+								"sponsorLink": "<%$list.sponsorLink%>",
+								"sponsorNote": "<%$list.sponsorNote%>",
+								"feedItems": "<%$list.feedItems%>",
+								"feedTag": "<%$list.feedTag%>",
+								"feedType": "<%$list.feedType%>",
+								"items": [
+									<%assign var=itemIndex value=0%>
+									<%foreach from=$list.items item=item%>
+										<%if $itemIndex>0%>,<%/if%>
+										{
+											"preferSponsorImage": "<%$item.preferSponsorImage|regex_replace:"/[\n\r\"]/":""%>",
+											"headline": "<%$item.headline|regex_replace:"/[\n\r\"]/":""%>",
+											"image": "<%$item.image|regex_replace:"/[\n\r\"]/":""%>",
+											"longlead": "<%$item.longlead|regex_replace:"/[\n\r\"]/":""%>",
+											"shortlead": "<%$item.shortlead|regex_replace:"/[\n\r\"]/":""%>",
+											"tag": "<%$item.tag|regex_replace:"/[\n\r\"]/":""%>",
+											"customLink": "<%$item.customLink|regex_replace:"/[\n\r\"]/":""%>",
+											"showRelativeStoryItems": "<%$item.showRelativeStoryItems%>",
+											"timeStamp": "<%$item.timeStamp%>",
+											"type": "<%$item.type|regex_replace:"/[\n\r\"]/":""%>",
+											"id": "<%$item.id%>"
+											<%assign var=itemIndex value=$itemIndex+1%>
+										}
+									<%/foreach%>
+									<%if preg_match("/all|story|interactive|photo|video|hot/is",$list.feedType) && $list.items|@count==0%>
+										<%if $list.feedImage == "necessary"%>
+											<%assign var="feedImage" value="necessary"%>
+										<%/if%>
+										<%assign var="feedRepeatCheck" value="yes"%>
+										<%assign var="feedItems" value=$list.feedItems%>
+
+									
+										<%assign var="feedStart" value=$list.feedStart|default:0%>
+										<%assign var="feedTag" value=$list.feedTag%>
+										<%if $list.feedType == "myFT"%>
+											<%easyapi command="31005" assign="myftArrays" topnum=30%>
+											<%assign var="itemsArray" value=$myftArrays.odatalist%>
+										<%elseif $list.feedType == "hot"%>
+											<%assign var="itemsArray" value=$storymodel->get_hot_story(7,$feedItems,true)%>
+											<%assign var="feedType" value="story"%>
+										<%elseif $list.feedType == "ftc_columns"%>
+											<%assign var="itemsArray" value=$storymodel->get_column_list("cn")%>
+											<%assign var="feedType" value="columns"%>
+										<%elseif $list.feedType == "ft_columns"%>
+											<%assign var="itemsArray" value=$storymodel->get_column_list("en")%>
+											<%assign var="feedType" value="columns"%>
+										<%elseif $list.items|@count==0 && $list.feedItems != "" && $list.feedItems != "0"%>
+											<%if preg_match("/like|find_in_set|=|\(| in /is",$feedTag)%>
+												<%if $list.feedType == "story"%>
+													<%assign var="feedType" value=$list.feedType%>
+													<%assign var="feedTag" value="(`$feedTag`) and eskylinetext not like '%低调%'"%>
+													<%assign var="itemsArray" value=$storymodel->get_story_by_field_search($feedTag,$feedStart,$feedItems,999999999,10800)%>
+												<%elseif $list.feedType == "interactive"%>
+													<%assign var="feedType" value=$list.feedType%>
+													<%assign var="itemsArray" value=$interactivemodel->get_interactive_by_field_search($feedTag,$feedStart,$feedItems,999999999,10800)%>
+												<%elseif $list.feedType == "video"%>
+													<%assign var="feedType" value=$list.feedType%>
+													<%assign var="itemsArray" value=$videomodel->get_video_by_field_search($feedTag,$feedStart,$feedItems,9999999999999,10800)%>
+												<%elseif $list.feedType == "photo"%>
+													<%assign var="feedType" value="photonews"%>
+													<%assign var="itemsArray" value=$photonewsmodel->get_photonews_by_field_search($feedTag,"ORDER BY photonewsid DESC",$feedItems)%>
+												<%/if%>
+											<%else%>
+												<%if $list.feedType == "story"%>
+													<%assign var="feedType" value=$list.feedType%>
+													<%assign var="itemsArray" value=$storymodel->get_story_by_tag($feedTag,0,$feedItems)%>
+												<%elseif $list.feedType == "interactive"%>
+													<%assign var="feedType" value=$list.feedType%>
+													<%assign var="itemsArray" value=$interactivemodel->get_interactive_by_tag($feedTag, $feedItems)%>
+												<%elseif $list.feedType == "video"%>
+													<%assign var="feedType" value=$list.feedType%>
+													<%if preg_match("/^[0-9]+$/is",$feedTag)%>
+														<%assign var="videoChannel" value=$feedTag%>
+														<%assign var="itemsArray" value=$videomodel->get_video_by_channel($videoChannel,0,$feedItems)%>
+													<%else%>
+														<%assign var="itemsArray" value=$videomodel->get_video_by_tag($feedTag,0,$feedItems)%>
+													<%/if%>
+												<%elseif $list.feedType == "photo"%>
+													<%assign var="feedType" value="photonews"%>
+													<%assign var="itemsArray" value=$photonewsmodel->get_photonews_by_tag($feedTag,0,$feedItems)%>
+												<%else%>
+													<%assign var="feedType" value=$list.feedType%>
+													<%assign var="itemsArray" value=$storymodel->getContentByTag($feedTag,$feedItems)%>
+												<%/if%>
+											<%/if%>
+										<%/if%>
+
+										<%foreach from=$itemsArray item=item%>
+											<%assign var="itemTag" value=$item.tag|default:$item.tags|default:$item.tagname%>
+											<%if $list.feedImage == "hide"%>
+												<%assign var="itemImage" value=""%>
+											<%elseif $tagImage != ""%>
+												<%assign var="itemImage" value=$tagImage%>
+											<%elseif $feedType == "all"%>
+												<%assign var="itemImage" value=$item.image.cover|default:$item.image.smallbutton|default:$item.image.other|default:$item.image.bigbutton%>
+											<%elseif $feedType == "columns"%>
+												<%assign var="columninfo" value=$storymodel->get_column_info($item.id)%>
+												<%assign var="itemImage" value=$columninfo.piclink%>
+											<%elseif $feedType == "photonews"%>
+												<%assign var="itemImage" value=$item.illustration|default:$item.cover|default:$item.thumb_url%>
+												<%if $itemImage != ""%>
+													<%assign var="itemImage" value="http://i.ftimg.net/`$itemImage`"%>
+												<%/if%>
+											<%else%>
+												<%assign var="itemImage" value=$item.image|default:$item.story_pic.cover|default:$item.story_pic.smallbutton|default:$item.story_pic.other|default:$item.story_pic.bigbutton%>
+											<%/if%>
+
+
+											<%assign var="itemLead" value=$item.clongleadbody|default:$item.cshortleadbody%>
+											<%assign var="itemLead" value=$itemLead|regex_replace:"/[\n\r\"]/":""%>
+
+											<%if preg_match("/http.*.mp3/is",$item.cshortleadbody) && preg_match("/英语电台/is",$itemTag)%>
+												<%assign var="itemShortLead" value=$item.cshortleadbody|regex_replace:"/[\n\r\"]/":""%>
+											<%elseif preg_match("/速读/is",$itemTag)%>
+												<%assign var="itemShortLead" value=$item.cshortleadbody|regex_replace:"/[\n\r\"]/":""%>
+												<%assign var="itemLead" value=$item.cshortleadbody%>
+											<%else%>
+												<%assign var="itemShortLead" value=$itemLead|regex_replace:"/[\n\r\"]/":""%>
+											<%/if%>
+
+											<%assign var="itemHeadline" value=$item.headline|default:$item.cheadline|default:$item.cn_title%>
+											<%assign var="itemHeadline" value=$itemHeadline|regex_replace:"/[\n\r\"]/":""%>
+
+											<%assign var="itemT" value=$item.timeStamp|default:$item.pubdate|default:$item.add_times%>
+											<%assign var="itemT" value=$itemT|regex_replace:"/\.[0-9]+$/i":""%>
+
+											<%assign var="customLink" value=$item.customLink%>
+
+											<%assign var="itemType" value=$item.type|default:$feedType%>
+											<%if $itemType == "photo"%>
+												<%assign var="itemType" value="photonews"%>
+											<%/if%>
+
+											<%assign var="itemId" value=$item.id|default:$item.photonewsid%>
+
+											<%if $itemIndex>0%>,<%/if%>
+											{
+												"preferSponsorImage": "",
+												"headline": "<%$itemHeadline%>",
+												"image": "<%$itemImage%>",
+												"longlead": "<%$itemLead%>",
+												"shortlead": "<%$itemShortLead%>",
+												"tag": "<%$itemTag%>",
+												"customLink": "<%$customLink%>",
+												"timeStamp": "<%$itemT%>",
+												"type": "<%$itemType%>",
+												"id": "<%$itemId%>",
+												"caudio": "<%$item.caudio%>",
+												"eaudio": "<%$item.eaudio%>"
+												<%assign var=itemIndex value=$itemIndex+1%>
+											}
+										<%/foreach%>
+									<%/if%>
+								]
+							}
+							<%assign var=listIndex value=$listIndex+1%>
+						<%/if%>
+					<%/foreach%>
+				]
+			}
+			<%assign var=sectionIndex value=$sectionIndex+1%>
+		<%/if%>
+	<%/foreach%>
+]
+}
