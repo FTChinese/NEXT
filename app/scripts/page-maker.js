@@ -239,8 +239,8 @@
             imageBG = ' style="background-image: url(' + imageBG + ')"';
         }
 
-        var chineseAudioUrl = obj.chineseAudioUrl || '';
-        var englishAudioUrl = obj.englishAudioUrl || '';
+        var chineseAudioUrl = obj.caudio || '';
+        var englishAudioUrl = obj.eaudio || '';
 
         if (typeof obj.relativestory === 'object') {
             $.each(obj.relativestory, function (key, value) {
@@ -277,6 +277,8 @@
         var relatives = data.relatives || [];
         var showRelativeStoryItems = data.showRelativeStoryItems || 0;
         var customLink = data.customLink || '';
+        var caudio = data.caudio || '';
+        var eaudio = data.eaudio || '';
         var showSponsorImage = data.preferSponsorImage || 'no';
         if (type !== 'story') {
             timeStampType = 3;
@@ -293,6 +295,8 @@
                 type: type,
                 tag: tag,
                 customLink: customLink,
+                caudio: caudio,
+                eaudio: eaudio,
                 showSponsorImage: showSponsorImage,
                 relativestory: relatives,
                 showRelativeStoryItems: showRelativeStoryItems
@@ -743,6 +747,7 @@
     }
 
     function jsonToDom(jsonUrl) {
+        console.log (jsonUrl);
         $.ajax({
             type: 'get',
             url: jsonUrl,

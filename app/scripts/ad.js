@@ -1,6 +1,7 @@
 /* exported writeAd, slotStr, reloadBanners, checkB, clearEvents */
 var adPositions = {
   'banner': ['0001','0006','0007','0008'],
+  'storybanner': ['0001','0006','0007','0008'],
   'tagbanner': ['0010'],
   'mpu': ['0003', '0004', '0005'],
   'tagmpu': ['0012', '0013'],
