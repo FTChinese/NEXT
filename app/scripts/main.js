@@ -242,6 +242,7 @@ function loadImages() {
   }
 
 
+
   // load responsive videos
   videos = document.querySelectorAll('figure.loading-video');
   videosLazy = [];
@@ -257,7 +258,7 @@ function loadImages() {
     var videoWidth = thisVideo.offsetWidth;
     var videoHeight = thisVideo.offsetHeight;
     var videoId = thisVideo.getAttribute('data-vid');
-    var itemType = thisVideo.getAttribute('data-type') || 'video';
+    var itemType = thisVideo.getAttribute('data-type') || thisVideo.getAttribute('data-item-type') || 'video';
     var autoStart = thisVideo.getAttribute('data-autoplay') || '';
     var videoWall = '';
     if (autoStart === 'yes') {
