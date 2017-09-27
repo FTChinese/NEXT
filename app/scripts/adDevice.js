@@ -9,13 +9,13 @@ var adDevices = {
     id:'2000',
     description: '在iPhone手机上看到的App',
     pattern: adPatternPhone,
-    channels: adChannelsMobile//Quest:这个Mobie指的是Appd的意思吧？因为Mobile也可能用网页打开
+    channels: adChannelsMobile
   },
   iPhoneWeb: {
     id:'3000',
     description: '在iPhone手机上看到的网页',
     pattern: adPatternPhone,
-    channels: adChannelsMobile//Quest:这个Mobie指的是Appd的意思吧？因为Mobile也可能用网页打开
+    channels: adChannelsMobile
   },
   AndroidApp: {
     id:'4000',
@@ -41,4 +41,5 @@ var adDevices = {
     pattern: adPatternPad,
     channels: adChannelsMobile
   }
-}
+};
+console.log(adDevices.PC.id);

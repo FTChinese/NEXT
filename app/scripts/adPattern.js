@@ -123,7 +123,7 @@ var adPatternPC = {
       }
     }
   }
-}
+};
 
 var adPatternPhone = {
   FullScreen: {
@@ -182,7 +182,7 @@ var adPatternPhone = {
       }
     }
   }
-}
+};
 
 var adPatternPad = {
   FullScreen: {
@@ -209,4 +209,8 @@ var adPatternPad = {
       }
     }
   }
-}
+};
+
+console.log(adPatternPC.FullScreen.id);
+console.log(adPatternPhone.FullScreen.id);
+console.log(adPatternPad.FullScreen.id);

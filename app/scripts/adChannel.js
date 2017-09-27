@@ -690,3 +690,6 @@ var adChannelsMobile = {
     }
   }
 };
+
+console.log(adChannelsPC.Home.id);
+console.log(adChannelsMobile.Home.id);
