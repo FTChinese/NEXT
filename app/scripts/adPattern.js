@@ -1,4 +1,4 @@
-var adPatternPC = {
+var adPatternsPC = {
   FullScreen: {
     id:'01',
     description:'进入网站后时首先看到的大块全屏广告。',
@@ -125,7 +125,7 @@ var adPatternPC = {
   }
 };
 
-var adPatternPhone = {
+var adPatternsPhone = {
   FullScreen: {
     id:'01',
     description:'进入手机App时看到的全屏广告。',
@@ -184,7 +184,7 @@ var adPatternPhone = {
   }
 };
 
-var adPatternPad = {
+var adPatternsPad = {
   FullScreen: {
     id:'01',
     description:'进入pad端App时看到的大块全屏广告。',
@@ -211,6 +211,6 @@ var adPatternPad = {
   }
 };
 
-console.log(adPatternPC.FullScreen.id);
-console.log(adPatternPhone.FullScreen.id);
-console.log(adPatternPad.FullScreen.id);
+console.log(adPatternsPC.FullScreen.id);
+console.log(adPatternsPhone.FullScreen.id);
+console.log(adPatternsPad.FullScreen.id);
