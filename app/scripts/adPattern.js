@@ -49,11 +49,11 @@ var adPatternsPC = {
         id:'12',
         description:'页面右侧从上至下第2个MPU位。'
       },
-      HalfPage1: {
+      Middle1: {
         id:'21',
         description:'页面正文中间穿插的第1个MPU位。'
       },
-      HalfPage2: {
+      Middle2: {
         id:'22',
         description:'页面正文中间穿插的第2个MPU位。'
       }
@@ -158,11 +158,11 @@ var adPatternsPhone = {
     id:'04',
     description:'页面中的块状广告。由上至下穿插。',
     position:{
-      HalfPage1:{
+      Middle1:{
         id:'01',
         description:'页面从上至下第1个MPU位。'
       },
-      HalfPage2:{
+      Middle2:{
         id:'02',
         description:'页面从上至下第2个MPU位。'
       }
@@ -188,24 +188,28 @@ var adPatternsPad = {
   FullScreen: {
     id:'01',
     description:'进入pad端App时看到的大块全屏广告。',
-    position:[
-      {
+    position:{
+      Web:  {
         id:'01',
         description:'pad端网页形式的FullScreen位。'
       },
-      {
+      Native: {
         id:'02',
         description:'pad端原生形式的FullScreen位。'
       }
-    ]
+    }
   },
   MPU: {
     id:'04',
     description:'页面右上角的块状广告。此处的页面包含首页、频道页、文章页。',
     position:{
-      RightTop: {
-        id:'01',
-        description:'页面右上角的MPU位。'
+      Right1: {
+        id:'11',
+        description:'页面右侧从上至下第1个MPU位。'
+      },
+      Right2: {
+        id:'12',
+        description:'页面右侧从上至下第2个MPU位。'
       }
     }
   }
