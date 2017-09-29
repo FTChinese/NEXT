@@ -21,6 +21,8 @@
  }
  });
  }
+
+ window.gDebugAd = '<span style="display:block;width:100%;position:relative;height:0;overflow:visible;"><div style="position:absolute;top:0;left:0;font-size:14px;color:#777;">adcode_for_debug</div></span>';
  </script>
 
 <script>
@@ -86,6 +88,9 @@ adchID = adchIDNew;
 
 <!-- build:js scripts/key.js -->
 <script type="text/javascript" src="scripts/key.js"></script>
+<script type="text/javascript" src="scripts/adChannel.js"></script>
+<script type="text/javascript" src="scripts/adPattern.js"></script>
+<script type="text/javascript" src="scripts/adDevice.js"></script>
 <script type="text/javascript" src="scripts/ad.js"></script>
 <script type="text/javascript" src="scripts/ad-third-party.js"></script>
 <script type="text/javascript" src="scripts/ad-third-party-impression.js"></script>
@@ -434,15 +439,34 @@ FT中文网首页
 <div class="site-map__container">
 </div>
 </div>
-<div class="bn-ph">
-<div class="banner-container">
-<div class="banner-inner">
-<div class="banner-content">
-<script type="text/javascript">document.write (writeAd('banner'));</script>
-</div>
-</div>
-</div>
-</div>
+
+
+
+
+<script type="text/javascript">
+
+//document.write (writeAd('banner'));
+    document.write (writeAdNew(
+        {
+            devices: ['PC'],
+            pattern: 'Leaderboard',
+            position: 'Num1'
+        }
+    ));
+
+    document.write (writeAdNew(
+        {
+            devices: ['iPhoneApp','iPhoneWeb','AndroidApp','AndroidWeb'],
+            pattern: 'Banner',
+            position: 'Num1'
+        }
+    ));
+
+</script>
+x
+
+
+
 <div class="block-container has-side side-right"><div class="block-inner">
 <div class="content-container"><div class="content-inner">
 
@@ -468,7 +492,18 @@ FT中文网首页
 <a class="image" target="_blank" href="/story/001071049"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000057636_piclink.jpg"></figure></a><div class="item-lead">芯片是中国产业计划的关键支柱，受到巨额政府补贴。但难以从国外收购技术是中国成为芯片大国的最大障碍之一。</div><div class="item-time highlight">3小时前</div>
 <div class="item-bottom"></div>
 </div></div>
-<div class="mpu-container P-only"><script type="text/javascript">document.write (writeAd('homempu'));</script></div>
+
+<script type="text/javascript">
+    document.write (writeAdNew(
+        {
+            devices: ['iPhoneApp','iPhoneWeb','AndroidApp','AndroidWeb'],
+            pattern: 'MPU',
+            position: 'Middle1'
+        }
+    ));
+</script>
+
+
 
 <div class="XLT LT MT PT"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
@@ -518,7 +553,17 @@ FT中文网首页
 <a class="image" target="_blank" href="/story/001071055"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000067667_piclink.jpg"></figure></a><div class="item-lead">AI专家陆奇将出任首席运营官，领导这家中文搜索引擎集团的日常事务，李彦宏将转而扮演更具战略性的角色。</div><div class="item-time highlight">3小时前</div>
 <div class="item-bottom"></div>
 </div></div>
-<div class="mpu-container P-only"><script type="text/javascript">document.write (writeAd('homempu'));</script></div>
+
+<script type="text/javascript">
+    document.write (writeAdNew(
+        {
+            devices: ['iPhoneApp','iPhoneWeb','AndroidApp','AndroidWeb'],
+            pattern: 'MPU',
+            position: 'Middle2'
+        }
+    ));
+</script>
+
 
 <div class=" MT PT ST"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
@@ -632,9 +677,19 @@ FT中文网首页
 <iframe width="0" height="0" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="/m/marketing/membertext.html"></iframe>
 </div>
 </div>
-<div class="mpu-container">
-<script type="text/javascript">document.write (writeAd('mpu'));</script>
-</div>
+
+
+<script type="text/javascript">
+    document.write (writeAdNew(
+        {
+            devices: ['PC', 'PadWeb', 'PadApp'],
+            pattern: 'MPU',
+            position: 'Right1'
+        }
+    ));
+</script>
+
+
 <div class="interactives">
 <h2 class="list-title"><a href="/channel/english.html">每日英语</a></h2>
 <!---->

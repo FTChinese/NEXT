@@ -1,4 +1,4 @@
-/* exported writeAd, slotStr, reloadBanners, checkB, clearEvents */
+/* exported writeAd, slotStr, reloadBanners, checkB, clearEvents, writeAdNew */
 var adPositions = {
   'banner': ['0001','0006','0007','0008'],
   'storybanner': ['0001','0006','0007','0008'],
@@ -508,6 +508,83 @@ function reloadBanners() {
     }
   }
 }
+
+
+
+
+function writeAdNew(obj) {
+  //MARK: First, get the adid
+  var iframeHTML = '';
+  var debugString = '';
+  var adid = '';
+  var deviceType = 'PC';
+  var deviceId = '';
+  var bannerBG = '';
+  // MARK: determin device type
+  if (/iPad/i.test(uaString)) {
+    deviceType = 'PadWeb';
+  } else if (/OS [0-9]+\_/i.test(uaString) && (/iPhone/i.test(uaString) || /iPod/i.test(uaString))) {
+    deviceType = 'iPhoneWeb';
+  } else if (/Android|micromessenger/i.test(uaString) || w1 <= 490) {
+    deviceType = 'AndroidWeb';
+  }
+  
+  // MARK: If device does not fit, return immediately
+  if (obj.devices.indexOf(deviceType) < 0) {
+    return '';
+  }
+
+  deviceId = adDevices[deviceType].id;
+
+
+  // MARK: Get ad channel id from smarty server side
+  var adChannelId = '1000'; // window.dasfdafa || '1000'
+
+  var adPattern = adDevices[deviceType].patterns[obj.pattern];
+  var adPatternId = adPattern.id;
+  var adPositionId = adPattern.position[obj.position].id;
+  var adWidth = adPattern.width || '100%';
+  var adHeight = adPattern.height || '50';
+  var containerType = adPattern.container || 'none';
+  
+  adid = deviceId + adChannelId + adPatternId + adPositionId;
+  adDescription = deviceType + '-' + 'channel' + '-' + obj.pattern + '-' + obj.position;
+
+  if (window.pageTheme === 'luxury') {
+    bannerBG = '&bg=e0cdac';
+  } else if (window.pageTheme === 'ebook') {
+    bannerBG = '&bg=777777';
+  }
+
+  var iframeSrc = '/m/marketing/a.html?v=20161009143608' + bannerBG + '#adid='+ adid + '&pid=' + adid;
+  iframeHTML = '<iframe class="banner-iframe" data-adch="'+adChannelId+'" data-adPosition="'+ adPatternId + adPositionId+'" id="ad-' + adid + '" width="'+ adWidth +'" height="'+ adHeight + '" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="'+ iframeSrc +'" data-src="'+ iframeSrc +'" data-ad-type="'+ adPatternId + adPositionId +'" data-ad-count=0></iframe>';
+  
+  
+  var debugString = '';
+  if (typeof window.gDebugAd === 'string' || 1>0) {
+    debugString = window.gDebugAd.replace('adcode_for_debug', adid + ': ' + adDescription);
+  }
+
+  iframeHTML += debugString;
+
+  if (containerType === 'banner') {
+    iframeHTML = '<div class="bn-ph"><div class="banner-container"><div class="banner-inner"><div class="banner-content">' + iframeHTML + '</div></div></div></div>';
+  } else if (containerType === 'mpu') {
+    iframeHTML = '<div class="mpu-container">' + iframeHTML + '</div>';
+  }
+  return iframeHTML;
+}
+
+
+
+
+
+
+
+
+
+
+
 
 var isBlocked = 'unknown';
 
