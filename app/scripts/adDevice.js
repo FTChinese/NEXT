@@ -1,14 +1,15 @@
+/* exported adDevices */
 var adDevices = {
   PC: {
     id:'1000',
     description: '在PC上看到的网页',
-    patternss: adPatternsPC,
+    patterns: adPatternsPC,
     channels: adChannelsPC
   },
   iPhoneApp: {
     id:'2000',
     description: '在iPhone手机上看到的App',
-    patternss: adPatternsPhone,
+    patterns: adPatternsPhone,
     channels: adChannelsMobile
   },
   iPhoneWeb: {
@@ -42,4 +43,4 @@ var adDevices = {
     channels: adChannelsMobile
   }
 };
-console.log(adDevices.PC.id);
+//console.log(adDevices.PC.id);

@@ -1,3 +1,4 @@
+/* exported adChannelsPC, adChannelsMobile */
 var adChannelsPC = {
   Home: {
     id:'10',
@@ -691,5 +692,5 @@ var adChannelsMobile = {
   }
 };
 
-console.log(adChannelsPC.Home.id);
-console.log(adChannelsMobile.Home.id);
+// console.log(adChannelsPC.Home.id);
+// console.log(adChannelsMobile.Home.id);
