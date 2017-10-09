@@ -39,165 +39,212 @@
     <%assign var=hideQR value="yes"%>
 <%/if%>
 
-
-<!DOCTYPE html>
-<html class="no-js core<%if $smarty.get.webview == "ftcapp"%> is-ftc-app<%/if%>" data-next-app="front-page">
-    <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title><%$p.meta.title%><%if $pageId != "home"%> - FT中文网<%/if%></title>
-        <meta http-equiv="Content-Language" content="zh-CN"/>
-        <meta content="<%$p.meta.description%>" name="description"/>
-        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-        <%if $pageId == "home" && date("Ymd",$smarty.now) <= 20161231%>
-            <meta http-equiv="refresh" content="1800;url=/?refresh" />
-        <%/if%>
-        <link rel="apple-touch-icon-precomposed" href="http://static.ftchinese.com/img/ipad_icon.png" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="preconnect" href="http://static.ftchinese.com" />
-        <link rel="preconnect" href="http://i.ftimg.net" />
-        <script type="text/javascript">
-            window.errorBuffer = window.errorBuffer || [];
-            function beaconCssError(e) {
-                window.errorBuffer.push({
-                    error: e ? e : new Error('CSS failed to load.'),
-                    context: {
-                        isMobileNetork: document.cookie.replace(/(?:(?:^|.*;\s*)h2_isMobile\s*\=\s*([^;]*).*$)|^.*$/, "$1") === '' ? false : true
-                    }
-                });
-            }
-        </script>
-        <script type="text/javascript">
-            window.cutsTheMustard = (typeof Function.prototype.bind !== 'undefined');
-            if (window.cutsTheMustard) {
-                document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/, 'js').replace(/\bcore\b/, 'enhanced');
-            }
-        </script>
-        
-        <%if $pageId == "home"%>
-            <style><%include file="next/styles/main.css"%></style>
-        <%elseif $pageType == "job"%>
-            <style><%include file="next/styles/main-job.css"%></style>
-        <%elseif $p.meta.theme == "ebook"%>
-            <style><%include file="next/styles/main-ebook.css"%></style>
-            <script type="text/javascript">var pageTheme = 'ebook';</script>
-        <%elseif $p.meta.theme == "luxury"%>
-            <style><%include file="next/styles/main-luxury.css"%></style>
-            <script type="text/javascript">var pageTheme = 'luxury';</script>
-        <%elseif $p.meta.theme == "myFT"%>
-            <style><%include file="next/styles/main-myft.css"%></style>
-        <%elseif $p.meta.theme == "technology"%>
-            <style><%include file="next/styles/main-technology.css"%></style>
-        <%elseif $p.meta.theme == "lifestyle"%>
-            <style><%include file="next/styles/main-lifestyle.css"%></style>
-        <%else%>
-            <style><%include file="next/styles/main-tag.css"%></style>
-        <%/if%>
-
-        <%if $smarty.get.webview == "ftcapp"%>
-            <style><%include file="next/styles/main-ftc-app.css"%></style>
-        <%/if%>
-
-        
-        <link rel="icon" type="image/png" href="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=32&height=32" sizes="32x32">
-        <link rel="icon" type="image/png" href="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=194&height=194" sizes="194x194">
-        <link rel="apple-touch-icon" sizes="180x180" href="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=180&height=180" />
-        
-        <meta name="msapplication-TileColor" content="#fff1e0" />
-        <meta name="msapplication-TileImage" content="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=144&height=144" />
-
-
-        <script type="text/javascript">var startTime = new Date().getTime();</script>
-        <script type="text/javascript">
-            if (screen.width <= 480) {
-                document.write('<meta content="FT中文网" name="application-name" /><meta content="app-id=443870811" name="apple-itunes-app" />');
-            } else {
-                document.write('<meta content="FT中文网" name="application-name" /><meta content="app-id=396124008" name="apple-itunes-app" />');
-            }
-        </script>
-        <link rel="alternate" type="application/rss+xml" title="FT中文网 - 每日更新" href="/rss/feed" />
-        <link rel="alternate" type="application/rss+xml" title="FT中文网 - 双语阅读" href="/rss/diglossia" />
-        <link rel="alternate" type="application/rss+xml" title="FT中文网 - 今日焦点" href="/rss/news" />
-        <link rel="alternate" type="application/rss+xml" title="FT中文网 - 生活时尚" href="/rss/lifestyle" />
-        <link rel="alternate" type="application/rss+xml" title="FT中文网 - 一周十大热门文章" href="/rss/hotstoryby7day" />
-        <link rel="alternate" type="application/rss+xml" title="FT中文网 - 热门用户评论" href="/rss/hotusercomment" />
-        <link rel="search" type="application/opensearchdescription+xml" title="FT中文网财经搜索" href="/opensearch.xml">
-        <script type="text/javascript">
-            <%include file = "next/scripts/key.js"%>
-        </script>
-        <!--[if lte IE 8]>
+<%if $smarty.get.bodyonly != "yes"%>
+    <!DOCTYPE html>
+    <html class="no-js core<%if $smarty.get.webview == "ftcapp"%> is-ftc-app<%/if%>" data-next-app="front-page">
+        <head>
+            <meta charset="utf-8" />
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <title><%$p.meta.title%><%if $pageId != "home"%> - FT中文网<%/if%></title>
+            <meta http-equiv="Content-Language" content="zh-CN"/>
+            <meta content="<%$p.meta.description%>" name="description"/>
+            <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+            <%if $pageId == "home" && date("Ymd",$smarty.now) <= 20161231%>
+                <meta http-equiv="refresh" content="1800;url=/?refresh" />
+            <%/if%>
+            <link rel="apple-touch-icon-precomposed" href="http://static.ftchinese.com/img/ipad_icon.png" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+            <link rel="preconnect" href="http://static.ftchinese.com" />
+            <link rel="preconnect" href="http://i.ftimg.net" />
             <script type="text/javascript">
-                document.documentElement.className += ' is-ie-8';
-                document.createElement('figure');
-                document.createElement('header');
-                document.createElement('nav');
-                document.createElement('section');
-                document.createElement('article');
-                document.createElement('aside');
-                document.createElement('footer');
-                var wIE = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-                var cssId = 'ie-css';
-                var cssFile = '';
-                if (!document.getElementById(cssId)) {
-                    var head  = document.getElementsByTagName('head')[0];
-                    var link  = document.createElement('link');
-                    link.id   = cssId;
-                    link.rel  = 'stylesheet';
-                    link.type = 'text/css';
-                    cssFile = (wIE>=1200)?'XL':'L';
-                    link.href = 'http://static.ftchinese.com/n/main-ie-'+ cssFile +'.css?<%include file="next/timestamp/timestamp.html"%>';
-                    link.media = 'all';
-                    head.appendChild(link);
+                window.errorBuffer = window.errorBuffer || [];
+                function beaconCssError(e) {
+                    window.errorBuffer.push({
+                        error: e ? e : new Error('CSS failed to load.'),
+                        context: {
+                            isMobileNetork: document.cookie.replace(/(?:(?:^|.*;\s*)h2_isMobile\s*\=\s*([^;]*).*$)|^.*$/, "$1") === '' ? false : true
+                        }
+                    });
                 }
             </script>
-        <![endif]-->
-        <%if $p.meta.sponsorMobile == "yes" || $p.meta.adid == "2061"%>
-            <%assign var="sponsorMobile" value="yes"%>
-        <%/if%>
-        <%include file="next/partials/head.html"%>
-
-        <%if $pageId == "home" && $smarty.get.showHotClick == "yes"%>
-            <meta name="google-signin-client_id" content="911260228291-d2b7cjs7c0ajobjd6l89133tv4bmrcjb.apps.googleusercontent.com">
-            <meta name="google-signin-scope" content="https://www.googleapis.com/auth/analytics.readonly">
-        <%/if%>
-    </head>
-    <body>
-        <script>checkB();</script>
-        <%include file="next/partials/wechat-icon.html"%>
-        <%include file="next/partials/body.html"%>
-        <%include file="next/partials/QrCode.html"%>
-        <!--[if lte IE 8]>
-        <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
-        <![endif]-->
-
-        <script type="text/javascript">
-            <%include file = "next/scripts/main.js"%>
-        </script>
-        <%if $pageId == "home"%>
             <script type="text/javascript">
-                <%include file = "next/scripts/main-inline.js"%>
+                window.cutsTheMustard = (typeof Function.prototype.bind !== 'undefined');
+                if (window.cutsTheMustard) {
+                    document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/, 'js').replace(/\bcore\b/, 'enhanced');
+                }
             </script>
-            <%if $smarty.get.ad != 'no'%>
-                <%*<!-- disabled for better implementation
-                <script type="text/javascript" src="http://static.ftchinese.com/n/main-home.js?<%include file="next/timestamp/timestamp.html"%>"></script>
-                -->*%>
-                <div class="hide">
-                    <script type="text/javascript">
-                        if (fullsc == null && loadFullAtEnd === true) {
-                            document.write('<scr' + 'ipt type="text/jav' + 'ascript" src="http://dualstack.adsame-1421766300.ap-southeast-1.elb.amazonaws.com/s?z=ft&amp;c=10000014&amp;slot=645072137&amp;_sex=101&amp;_trip=1&amp;_lux=1&amp;_dc=2&amp;_mm=2&amp;_sz=2&amp;_am=2" charset="gbk"></scr' + 'ipt>');
-                            SetCookie("rb2",1,24*60*60,"/");
-                        }
-                    </script>
-                </div>
+            
+            <%if $pageId == "home"%>
+                <style><%include file="next/styles/main.css"%></style>
+            <%elseif $pageType == "job"%>
+                <style><%include file="next/styles/main-job.css"%></style>
+            <%elseif $p.meta.theme == "ebook"%>
+                <style><%include file="next/styles/main-ebook.css"%></style>
+                <script type="text/javascript">var pageTheme = 'ebook';</script>
+            <%elseif $p.meta.theme == "luxury"%>
+                <style><%include file="next/styles/main-luxury.css"%></style>
+                <script type="text/javascript">var pageTheme = 'luxury';</script>
+            <%elseif $p.meta.theme == "myFT"%>
+                <style><%include file="next/styles/main-myft.css"%></style>
+            <%elseif $p.meta.theme == "technology"%>
+                <style><%include file="next/styles/main-technology.css"%></style>
+            <%elseif $p.meta.theme == "lifestyle"%>
+                <style><%include file="next/styles/main-lifestyle.css"%></style>
+            <%else%>
+                <style><%include file="next/styles/main-tag.css"%></style>
             <%/if%>
-        <%/if%>
 
-        <%if $debug_model == 1 && $pageId != "home"%>
-        <div style="text-align: center; background-color: #FFFFFF; font-size: 38px; margin: 20px;font-weight:bold;"><a title="编辑本页的内容" href="https://backyard.ftchinese.com/pagemaker/page-maker.html?page=<%$pageId%>">编辑本页</a></div>
-        <%/if%>
+            <%if $smarty.get.webview == "ftcapp"%>
+                <style><%include file="next/styles/main-ftc-app.css"%></style>
+            <%/if%>
 
-        <%if $pageId == "home" && $smarty.get.showHotClick == "yes"%>
-            <script type="text/javascript" src="http://static.ftchinese.com/n/main-home-click.js?<%include file="next/timestamp/timestamp.html"%>"></script>
-        <%/if%>
-    </body>
-</html>
+            
+            <link rel="icon" type="image/png" href="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=32&height=32" sizes="32x32">
+            <link rel="icon" type="image/png" href="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=194&height=194" sizes="194x194">
+            <link rel="apple-touch-icon" sizes="180x180" href="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=180&height=180" />
+            
+            <meta name="msapplication-TileColor" content="#fff1e0" />
+            <meta name="msapplication-TileImage" content="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=144&height=144" />
+
+
+            <script type="text/javascript">var startTime = new Date().getTime();</script>
+            <script type="text/javascript">
+                if (screen.width <= 480) {
+                    document.write('<meta content="FT中文网" name="application-name" /><meta content="app-id=443870811" name="apple-itunes-app" />');
+                } else {
+                    document.write('<meta content="FT中文网" name="application-name" /><meta content="app-id=396124008" name="apple-itunes-app" />');
+                }
+            </script>
+            <link rel="alternate" type="application/rss+xml" title="FT中文网 - 每日更新" href="/rss/feed" />
+            <link rel="alternate" type="application/rss+xml" title="FT中文网 - 双语阅读" href="/rss/diglossia" />
+            <link rel="alternate" type="application/rss+xml" title="FT中文网 - 今日焦点" href="/rss/news" />
+            <link rel="alternate" type="application/rss+xml" title="FT中文网 - 生活时尚" href="/rss/lifestyle" />
+            <link rel="alternate" type="application/rss+xml" title="FT中文网 - 一周十大热门文章" href="/rss/hotstoryby7day" />
+            <link rel="alternate" type="application/rss+xml" title="FT中文网 - 热门用户评论" href="/rss/hotusercomment" />
+            <link rel="search" type="application/opensearchdescription+xml" title="FT中文网财经搜索" href="/opensearch.xml">
+            <script type="text/javascript">
+                <%include file = "next/scripts/key.js"%>
+            </script>
+            <!--[if lte IE 8]>
+                <script type="text/javascript">
+                    document.documentElement.className += ' is-ie-8';
+                    document.createElement('figure');
+                    document.createElement('header');
+                    document.createElement('nav');
+                    document.createElement('section');
+                    document.createElement('article');
+                    document.createElement('aside');
+                    document.createElement('footer');
+                    var wIE = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+                    var cssId = 'ie-css';
+                    var cssFile = '';
+                    if (!document.getElementById(cssId)) {
+                        var head  = document.getElementsByTagName('head')[0];
+                        var link  = document.createElement('link');
+                        link.id   = cssId;
+                        link.rel  = 'stylesheet';
+                        link.type = 'text/css';
+                        cssFile = (wIE>=1200)?'XL':'L';
+                        link.href = 'http://static.ftchinese.com/n/main-ie-'+ cssFile +'.css?<%include file="next/timestamp/timestamp.html"%>';
+                        link.media = 'all';
+                        head.appendChild(link);
+                    }
+                </script>
+            <![endif]-->
+            <%if $p.meta.sponsorMobile == "yes" || $p.meta.adid == "2061"%>
+                <%assign var="sponsorMobile" value="yes"%>
+            <%/if%>
+            <%include file="next/partials/head.html"%>
+
+            <%if $pageId == "home" && $smarty.get.showHotClick == "yes"%>
+                <meta name="google-signin-client_id" content="911260228291-d2b7cjs7c0ajobjd6l89133tv4bmrcjb.apps.googleusercontent.com">
+                <meta name="google-signin-scope" content="https://www.googleapis.com/auth/analytics.readonly">
+            <%/if%>
+        </head>
+        <body>
+            <script>checkB();</script>
+            <%include file="next/partials/wechat-icon.html"%>
+            <%if $pageId == "home"%>
+            <script>var gPageId = 'home';</script>
+                <%if $smarty.get.ad != 'no'%>
+                    <%assign var="ad" value=$publishhtml->get_publish_html("ad")%>
+                    <div id=roadblock style="margin:0 auto;position:relative;width:700px;text-align:center;">
+                        <script type="text/javascript">
+                            var thisday1 = new Date();
+                            var todaydate1 = thisday1.getFullYear() + "-" + (thisday1.getMonth() + 1) + "-" + thisday1.getDate();
+                            var fullsc = GetCookie("rb2");
+                            var loadFullAtEnd = false;
+                            var adchHome = '1000';
+                            var adPositionHome = '0014';
+                            var fullPageAdchId = adchHome + adPositionHome;
+                            var testFullPageAd = false;
+                            if (window.adchID !== '1000' && window.adchID !== undefined && /[0-9]{4}/.test(window.adchID)) {
+                                fullPageAdchId =  window.adchID + '0014';
+                                testFullPageAd = true;
+                            }
+                            try {
+                                DeleteCookie('rb2');
+                            } catch (ignore) {
+
+                            }
+                            if ((fullsc == null && w>490 && isTouchDevice() === false && (todaydate1 == "<%$ad.fullscreen1%>" || todaydate1 == "<%$ad.fullscreen2%>" || todaydate1 == "<%$ad.fullscreen3%>" || todaydate1 == "<%$ad.fullscreen4%>" || todaydate1 == "<%$ad.fullscreen5%>")) || testFullPageAd === true) {
+                                document.write('<scr' + 'ipt type="text/jav' + 'ascript" src="http://dualstack.adsame-1421766300.ap-southeast-1.elb.amazonaws.com/s?z=ft&amp;c=' + fullPageAdchId + '&amp;slot=645072137&amp;_sex=101&amp;_trip=1&amp;_lux=1&amp;_dc=2&amp;_mm=2&amp;_sz=2&amp;_am=2&amp;_ut='+ window.gUserType +'" charset="gbk"></scr' + 'ipt>');
+                                sendEvent('Ad Impression', adchHome, adPositionHome, {'nonInteraction':1});
+                            } else if (fullsc == null) {
+                                loadFullAtEnd = true;
+                            } else if (w>490 && isTouchDevice() === false && (todaydate1 == "<%$ad.fullscreen1%>" || todaydate1 == "<%$ad.fullscreen2%>" || todaydate1 == "<%$ad.fullscreen3%>" || todaydate1 == "<%$ad.fullscreen4%>" || todaydate1 == "<%$ad.fullscreen5%>")) {
+                                sendEvent('Ad Impression Suppress', adchHome, adPositionHome, {'nonInteraction':1});
+                            } else if (w>490 && isTouchDevice() === false){
+                                sendEvent('Ad Impression Not Scheduled', adchHome, adPositionHome, {'nonInteraction':1});
+                            }
+                            setTimeout(function () {
+                                stickyBottomPrepare();
+                                stickyAdsPrepare();
+                            }, 9000);
+                        </script>
+                    </div>
+                <%/if%>
+            <%else%>
+                <script>var gPageId = '<%$pageId%>';</script>
+            <%/if%>
+
+            <%include file="next/partials/body.html"%>
+            <%include file="next/partials/QrCode.html"%>
+            <!--[if lte IE 8]>
+            <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+            <![endif]-->
+
+            <script type="text/javascript">
+                <%include file = "next/scripts/main.js"%>
+            </script>
+            <%if $pageId == "home"%>
+                <script type="text/javascript">
+                    <%include file = "next/scripts/main-inline.js"%>
+                </script>
+                <%if $smarty.get.ad != 'no'%>
+                    <%*<!-- disabled for better implementation
+                    <script type="text/javascript" src="http://static.ftchinese.com/n/main-home.js?<%include file="next/timestamp/timestamp.html"%>"></script>
+                    -->*%>
+                    <div class="hide">
+                        <script type="text/javascript">
+                            if (fullsc == null && loadFullAtEnd === true) {
+                                document.write('<scr' + 'ipt type="text/jav' + 'ascript" src="http://dualstack.adsame-1421766300.ap-southeast-1.elb.amazonaws.com/s?z=ft&amp;c=10000014&amp;slot=645072137&amp;_sex=101&amp;_trip=1&amp;_lux=1&amp;_dc=2&amp;_mm=2&amp;_sz=2&amp;_am=2" charset="gbk"></scr' + 'ipt>');
+                                SetCookie("rb2",1,24*60*60,"/");
+                            }
+                        </script>
+                    </div>
+                <%/if%>
+            <%/if%>
+
+            <%if $debug_model == 1 && $pageId != "home"%>
+            <div style="text-align: center; background-color: #FFFFFF; font-size: 38px; margin: 20px;font-weight:bold;"><a title="编辑本页的内容" href="https://backyard.ftchinese.com/pagemaker/page-maker.html?page=<%$pageId%>">编辑本页</a></div>
+            <%/if%>
+
+            <%if $pageId == "home" && $smarty.get.showHotClick == "yes"%>
+                <script type="text/javascript" src="http://static.ftchinese.com/n/main-home-click.js?<%include file="next/timestamp/timestamp.html"%>"></script>
+            <%/if%>
+        </body>
+    </html>
+<%else%>
+    <%include file="next/partials/body.html"%>
+<%/if%>
