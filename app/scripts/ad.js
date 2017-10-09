@@ -520,6 +520,7 @@ function writeAdNew(obj) {
   var deviceType = 'PC';
   var deviceId = '';
   var bannerBG = '';
+  var adDescription = '';
   // MARK: determin device type
   if (/iPad/i.test(uaString)) {
     deviceType = 'PadWeb';
@@ -560,7 +561,6 @@ function writeAdNew(obj) {
   iframeHTML = '<iframe class="banner-iframe" data-adch="'+adChannelId+'" data-adPosition="'+ adPatternId + adPositionId+'" id="ad-' + adid + '" width="'+ adWidth +'" height="'+ adHeight + '" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="'+ iframeSrc +'" data-src="'+ iframeSrc +'" data-ad-type="'+ adPatternId + adPositionId +'" data-ad-count=0></iframe>';
   
   
-  var debugString = '';
   if (typeof window.gDebugAd === 'string' || 1>0) {
     debugString = window.gDebugAd.replace('adcode_for_debug', adid + ': ' + adDescription);
   }
