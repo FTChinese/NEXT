@@ -86,7 +86,7 @@
 }
 @mixin itemTopPhone {
 	clear: both;
-	border-top: 1px dotted $borderColor;
+	border-top: 1px solid $borderColor;
 	padding: $defaultPadding 0 0 0;
 	margin: 0 $defaultPadding/4;
 }
@@ -197,11 +197,27 @@
 	.image {
 		position: static;
 		float:left;
-		width: 135px;
+		width: 118px;
 		padding: 3px 6px 3px 0;
 	}
 	&.no-image .image {
 		display: none;
+	}
+	.item-tag {
+		padding-bottom: $defaultPadding/4;
+		a {
+			&:before {
+				display: none;
+			}
+		}
+	}
+	.item-lead {
+		overflow: hidden;
+	    text-overflow: ellipsis;
+	    display: -webkit-box;
+	    /* number of lines to show */
+		-webkit-line-clamp: 3;
+		-webkit-box-orient: vertical;
 	}
 }
 @mixin lower {
@@ -557,8 +573,38 @@
 		font-size: 18px;
 	}
 	.item-headline {
-		font-size: 1.2em;
+		font-size: 1.3em;
+		line-height: 1.2em;
 	}
+	.item-tag {
+		font-size: 17px;
+		padding-bottom: $defaultPadding/2;
+		a {
+			display: inline-block;
+			position: relative;
+			&:before {
+				content: '';
+				display: block;
+				position: absolute;
+				bottom: -12px;
+				width: 100%;
+				height: 5px;
+				background: $red;
+
+			}
+		}
+	}
+	.item-lead {
+		color: #777;
+		line-height: $goldenRatio;
+	}
+	// .item-tag {
+	// 	font-size: 0.8em;
+	// 	line-height: 1.2em;
+	// 	a {
+	// 		border-bottom: 5px solid $red;
+	// 	}
+	// }
 	.P3 {
 		width: 25%;
 	}
@@ -629,14 +675,36 @@
 		left: $defaultPadding/4;
 		right: $defaultPadding/4;
 	}
-	.item-tag {
-		padding-bottom: $defaultPadding/4;
-	}
 	.item-time {
 		padding-top: $defaultPadding/4;
 	}
-	.list-title{
-		font-size: 0.9em;
+	.list-title, .side-container .list-title{
+		font-size: 1.2em;
+		background: transparent;
+		border-width: 8px 0 0 0;
+		border-color: #333;
+		margin-left: $defaultPadding/2;
+		margin-right: $defaultPadding/2;
+		padding-left: 0;
+		padding-right: 0;
+		a:after {
+		    background-image: url(https://www.ft.com/__origami/service/image/v2/images/raw/fticon-v1:arrow-right?source=o-icons&tint=%23000000,%23000000&format=svg);
+		    background-image: url(https://www.ft.com/__origami/service/image/v2/images/raw/fticon-v1:arrow-right?source=o-icons&tint=%23000000,%23000000&format=png&width=30) \9;
+		    width: 30px;
+		    height: 30px;
+		    background-repeat: no-repeat;
+		    background-size: contain;
+		    background-position: 50%;
+		    background-color: transparent;
+		    vertical-align: baseline;
+		    content: '';
+		    display: inline-block;
+		    position: relative;
+		    top: 7px;
+		    right: -13px;
+		    margin-left: -13px;
+		    margin-top: -10px;
+		}
 	}
 	.top10 {
 		font-size: 1.1em;
@@ -654,15 +722,15 @@
 		}
 	}
 	.side-by-side {
-		.list-title {
-			margin-left: 0;
-			margin-right: 0;
-		}
 		&.first.item-container {
 			@include halfPhone;
+			.item-headline {
+				font-size: 1.3em;
+			}
 		}
 		.item-headline {
-			font-size: 0.85em;
+			font-size: 1.1em;
+			border-top-style: solid;
 		}
 	}
 
@@ -674,11 +742,26 @@
 					width: auto;
 					left: $defaultPadding/2;
 					right: $defaultPadding/2;
-					font-size: 0.9em;
+					font-size: 1em;
+				}
+				.item-inner {
+					border-top-style: solid;
+					margin: 0;
 				}
 			}
 			.item-headline {
-				font-size: 0.9em;
+				font-size: 1em;
+				font-weight: bold;
+				padding: 5px $defaultPadding/2 0 0;
+			}
+			.item-inner {
+				border-top-style: solid;
+				margin: 0 $defaultPadding/2;
+				padding: 0;
+				clear: both;
+			}
+			.image {
+				padding: 5px 0 5px 0;
 			}
 		}
 		iframe {
