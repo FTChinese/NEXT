@@ -10,6 +10,7 @@ var adPositions = {
   'ipadhomempu': ['0003', '0004'],
   'ipadstorympu': ['0005'],
   'phonebanner': ['0101', '0114'],
+  'phonepaidpost': ['0121'],
   'phonempu': ['0003'],
   //'phonestorybanner': ['0101', '0115'],
   'phonestorybanner': ['0102', '0115'],
@@ -371,6 +372,8 @@ function writeAd(adType, returnSrc) {
       adType = 'phonehomempuVW';
     } else if (adType === 'fullpage') {
       adType = 'phonefullpage';
+    } else if (adType === 'paidpost') {
+      adType = 'phonepaidpost';
     }
     if (window.sponsorMobile === true) {
       if (adType === 'phonebanner') {

@@ -85,22 +85,112 @@ if (1>1 && /^20550004$/.test(c)) {
       minimum: 0.6,
       time: 1000
     };
-} else if (1>1 && /^10000001$/.test(c)) {// wyc test
-    //console.log(parentId);//外层iframe的id:'banner0'
-    var detailPage = "https://www.hennessy.com/zh-cn/hennessyparadisimperial/";
-    var bannerImg = "http://i.ftimg.net/picture/2/000071402_piclink.jpg";
-    var videoPoster = "http://i.ftimg.net/picture/3/000071403_piclink.jpg";
-    var sourceUrl = "http://ds-cc.serving-sys.com/BurstingRes/Site-3968/Type-16/3dd3a38b-68ff-4a3d-a842-e076dca5a631.mp4";
-    var sourceType = "video/mp4";
+} else if (/^20220121$/.test(c)) {// wyc test
 
 
 
-    var innerFrameId=parentId + 'Inner';//内层iframe的id:'banner0Inner'
-
-    document.write('<iframe class="banner-iframe" data-adch="1000" data-adposition="0001" id="'+innerFrameId+'" width="969" height="90" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" style="" src="./testAd/index.html"></iframe>');
 
 
-    //document.write('<div style="display:none;"><iframe width="1200" height="800" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" style="" src="http://www.ftchinese.com/m/marketing/home.html?code=testfromoliver"></iframe></div>');
+
+
+
+
+(function() {
+// MARK: - Parameters needed for each creative
+var headline = '酩悦轩尼诗天猫旗舰店盛大开幕';
+var lead = '酩悦轩尼诗进驻天猫，150万成交天价洋酒';
+var image = 'https://creatives.ftimg.net/ads/shanghai/201707/information_flow_0728.jpg?';
+var bgColor = '4';
+var Click = 'https://moethennessy.m.tmall.com/';
+var Imp = '';
+var AdName = 'Paid Post';
+var AssID = '';
+//var adId = 'fullbody1';//wyc Add. In the real template,the variable is from the “ad.html”'s url:“/phone/ad.html?isad=0&amp;v=1209#adtype=banner-paid-post-home&amp;adid=fullbody1”
+if (Imp !== '') {
+    var gaServerTracker = new Image();
+    gaServerTracker.src = 'http://www.ftchinese.com/index.php/ft/hit/' + AssID + '/2?ec=' + AdName + ' (' + AssID + ')' + '&ea=initiate&el=' + Imp + '&' + Math.random();
+    if (typeof window.parent.sendImpToThirdParty === 'function') {
+        window.parent.sendImpToThirdParty(Imp, AdName, AssID);
+    } else {
+        sendImpToThirdParty(Imp, AdName, AssID);
+    }
+}
+// MARK: - Code that generate the paid post in a parent window
+var adFrameContainerDiv = '';
+
+if (typeof window.parentId === 'string' || window.parentId !== '') {
+    adFrameContainerDiv = parent.document.getElementById(parentId);
+    window.adId = parentId;
+    console.log ('found it in Next project! ');
+} else {
+    adFrameContainerDiv = parent.document.getElementById('ad-' + adId);
+}
+
+var newItem = document.createElement("div");
+var newItemId = 'paidpost-' + adId;//'paidpost-fullbody1'
+var template = '<a id="paid-post-mpu-new" href="[Click]" target="_blank"><div class="oneStory" style="background:[background];margin:0;padding:0;border-bottom:1px solid #e9decf;"><div class="storyInner" style="padding:14px;"><div class="headline">[headline]</div>[image]<div class="lead" style="font-size:0.9em;">[lead]</div><div class="clearfloat"></div><div style="text-align: right;"><span style="color:#333;font-size:0.9em;background:#bdbdbd;padding:3px;">广告</span></div></div></div></a>';
+var imageTemplate = '<div class="leftimage" style="width: 167px;height: 96px;"><img style="width:167px;height:96px;" src="https://www.ft.com/__origami/service/image/v2/images/raw/[image]?source=ftchinese&amp;width=334&amp;height=188"></div>';
+var imageHTML = '';
+var finalHTML = '';
+var backgroundColorByUser = '';
+if (image !== '') {
+    image = encodeURIComponent(image);
+    imageHTML = imageTemplate.replace('[image]', image);
+}
+switch (bgColor) {
+case '0':
+    backgroundColorByUser = 'transparent';
+    break;
+case '1':
+    backgroundColorByUser = '#fbe9da';
+    break;
+case '2':
+    backgroundColorByUser = '#f3dec8';
+    break;
+case '3':
+    backgroundColorByUser = 'white';
+    break;
+case '4':
+    backgroundColorByUser = '#f6e9d8';
+    break;
+default:
+    backgroundColorByUser = 'transparent';
+}
+finalHTML = template.replace('[Click]', Click)
+    .replace('[headline]', headline)
+    .replace('[lead]', lead)
+    .replace('[image]', imageHTML)
+    .replace('[background]', backgroundColorByUser);
+// MARK: Create the container of paid post if it doesn't exist
+if (!parent.document.getElementById(newItemId)) {
+    // console.log ('create the id');
+    newItem.id = newItemId;
+    adFrameContainerDiv.parentNode.insertBefore(newItem, adFrameContainerDiv);
+} else {
+    //console.log ('the id already exists');
+    newItem = parent.document.getElementById(newItemId);
+}
+newItem.innerHTML = finalHTML;
+// MARK: - Set the top border of the next story to 0 so that there's no double-line
+adFrameContainerDiv.nextElementSibling.nextElementSibling.style.borderTopWidth = 0;
+})();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 } else {
