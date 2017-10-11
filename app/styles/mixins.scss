@@ -743,6 +743,9 @@
 					left: $defaultPadding/2;
 					right: $defaultPadding/2;
 					font-size: 1em;
+					padding-left: $defaultPadding/2;
+					background: #0f5499;
+					position: static;
 				}
 				.item-inner {
 					border-top-style: solid;
@@ -752,7 +755,7 @@
 			.item-headline {
 				font-size: 1em;
 				font-weight: bold;
-				padding: 5px $defaultPadding/2 0 0;
+				padding: $defaultPadding/2 $defaultPadding/2 0 0;
 			}
 			.item-inner {
 				border-top-style: solid;
@@ -762,6 +765,30 @@
 			}
 			.image {
 				padding: 5px 0 5px 0;
+			}
+		}
+		.interactive-inner {
+			margin: 0 $defaultPadding/2;
+			background-color: #0f5499;
+			.item-container {
+				&.first {
+					padding: 0;
+					margin-bottom: 0;
+					.item-headline {
+						padding-top: $defaultPadding/2;
+						font-size: 1.1em;
+					}
+				}
+			}
+			.item-inner {
+				border-color: #CCCCCC;
+			}
+			.item-headline {
+				padding-top: 5px;
+				font-weight: normal;
+				a {
+					color: white;
+				}
 			}
 		}
 		iframe {
