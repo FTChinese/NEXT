@@ -381,17 +381,17 @@
 
 
 
-					<!--Current Date: <%$smarty.now|date_format:"%A, %B %e, %Y"%>-->
-					<%*<!--insert an extra MPU for mobile phone temporarily start-->
-					<%if date("Ymd",$smarty.now) <= 20161231%>
+					<%*<!--<%$i%>. Current Date: <%$smarty.now|date_format:"%A, %B %e, %Y"%>-->*%>
+					<%*<!--insert an extra MPU for mobile phone temporarily start-->*%>
+					<%if $smarty.get.ad != "no"%>
 						<%assign var="mpuName" value="taginlinempu"%>
-						<%if $i == 2 || $i == 9 || $i == 17%>
+						<%if $i == 8 || $i == 17%>
 							<div class="mpu-container P-only"><script type="text/javascript">document.write (writeAd('<%$mpuName%>'));</script></div>
 						<%/if%>
 					<%/if%>
-					<!--insert an extra MPU for mobile phone temporarily end-->*%>
-
+					<%*<!--insert an extra MPU for mobile phone temporarily end-->*%>
 					<%assign var="i" value=$i+1%>
+
 				<%/if%>
 			<%/foreach%>
 			<%*<!--Display Stories With Image End-->*%>
