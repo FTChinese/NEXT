@@ -51,6 +51,8 @@
 <%assign var="itemTag" value="<div class=\"no-image\"><div class=\"item-inner\"><div class=item-tag><a href=\"#\">`$tagtitle`</a><button class=\"myft-follow plus\" data-tag=\"`$tag_name`\" data-type=\"tag\">关注</button></div></div></div>"%>
 <%/if%>
      
+
+<%if $smarty.get.bodyonly != "yes"%>
 <!DOCTYPE html>
 <html class="no-js core<%if $smarty.get.webview == "ftcapp"%> is-ftc-app<%/if%>" data-next-app="tag-page">
   <head>
@@ -186,3 +188,21 @@
   <%include file="next/scripts/main.js"%>
 </script>
 </html>
+<%else%>
+    <%include file="next/partials/banner.html"%>
+    <%assign var="bannerCount" value=$bannerCount+1%>
+    <%if $pageId=="setting"%>
+    <%include file="next/partials/setting-block.html"%>
+    <%elseif $pageId!=""%>
+    <%include file="next/partials/`$pageId`.html"%>
+    <%elseif $pageType=="search"%>
+    <%include file="next/partials/search-block.html"%>
+    <%elseif $pageType=="findpassword"%>
+    <%include file="next/partials/findpassword.html"%>
+    <%else%>
+    <%include file="next/partials/tag-block.html"%>
+    <%/if%>
+    <%if $showPagination != "no"%>
+    <%include file="next/partials/pagination.html"%>
+    <%/if%>
+<%/if%>
