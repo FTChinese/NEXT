@@ -1111,36 +1111,37 @@
 							<%assign var="i" value=$i+1%>
 						<%/if%>
 
-						<%*<!--insert 10 bonus MPU for mobile phone temporarily start-->*%>
-						<%if $smarty.get.utm_campaign == "2M161000" || preg_match("/2U16[0-9]+/is",$smarty.get.utm_campaign)%>
-							<%if $pageId == "home"%>
-								<%assign var="mpuName" value="homempu-bonus"%>
-								<%*<!--show bonus MPU every 3 stories-->*%>
-								<%if $i%2 == 1 %>
-									<div class="mpu-container P-only"><script type="text/javascript">document.write (writeAd('<%$mpuName%>'));</script></div>
+						<%if $smarty.get.ad != "no"%>
+							<%*<!--insert 10 bonus MPU for mobile phone temporarily start-->*%>
+							<%if $smarty.get.utm_campaign == "2M161000" || preg_match("/2U16[0-9]+/is",$smarty.get.utm_campaign)%>
+								<%if $pageId == "home"%>
+									<%assign var="mpuName" value="homempu-bonus"%>
+									<%*<!--show bonus MPU every 3 stories-->*%>
+									<%if $i%2 == 1 %>
+										<div class="mpu-container P-only"><script type="text/javascript">document.write (writeAd('<%$mpuName%>'));</script></div>
+									<%/if%>
 								<%/if%>
-							<%/if%>
-						<%*<!--insert 10 bonus MPU for mobile phone temporarily end-->*%>
+							<%*<!--insert 10 bonus MPU for mobile phone temporarily end-->*%>
 
-						<%*<!--insert an extra MPU for mobile phone temporarily start-->*%>
-						<%elseif $b == 0 && $l == 0 && $list.float != "VideoWall"%>
-							<%if $pageId == "home"%>
-								<%assign var="mpuName" value="homempu"%>
-							<%else%>
-								<%assign var="mpuName" value="taginlinempu"%>
-							<%/if%>
-							<%if date("Ymd",$smarty.now) <= 20170113 %>
-								<%if $i == 3 || $i == 10 || $i == 18%>
-									<div class="mpu-container P-only"><script type="text/javascript">document.write (writeAd('<%$mpuName%>'));</script></div>
+							<%*<!--insert an extra MPU for mobile phone temporarily start-->*%>
+							<%elseif $b == 0 && $l == 0 && $list.float != "VideoWall"%>
+								<%if $pageId == "home"%>
+									<%assign var="mpuName" value="homempu"%>
+								<%else%>
+									<%assign var="mpuName" value="taginlinempu"%>
 								<%/if%>
-							<%else%>
-								<%if $i == 8%>
-									<div class="mpu-container P-only"><script type="text/javascript">document.write (writeAd('<%$mpuName%>'));</script></div>
+								<%if date("Ymd",$smarty.now) <= 20170113 %>
+									<%if $i == 3 || $i == 10 || $i == 18%>
+										<div class="mpu-container P-only"><script type="text/javascript">document.write (writeAd('<%$mpuName%>'));</script></div>
+									<%/if%>
+								<%else%>
+									<%if $i == 8%>
+										<div class="mpu-container P-only"><script type="text/javascript">document.write (writeAd('<%$mpuName%>'));</script></div>
+									<%/if%>
 								<%/if%>
 							<%/if%>
+							<%*<!--insert an extra MPU for mobile phone temporarily end-->*%>
 						<%/if%>
-						<%*<!--insert an extra MPU for mobile phone temporarily end-->*%>
-
 					<%/if%>
 				<%/foreach%>
 				<%if $list.float === "ScoreBoard"%>
