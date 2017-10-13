@@ -631,7 +631,7 @@ var eventResize = window.attachEvent ? 'onresize' : 'resize';
 var eventScroll = window.attachEvent ? 'onscroll' : 'scroll';
 // console.log (gAudioOffsetY);
 // disable sticky scroll on touch devices
-if ((gNavOffsetY > 30 && w > 490 /*&& isTouchDevice() === false*/) || document.getElementById('audio-placeholder')) {
+if ((gNavOffsetY > 30 && w > 490 && isTouchDevice() === false) || document.getElementById('audio-placeholder')) {
   try {
     stickyBottomPrepare();
     stickyAdsPrepare();
