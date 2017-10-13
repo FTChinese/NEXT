@@ -7,7 +7,7 @@ var adPositions = {
   'tagmpu': ['0012', '0013'],
   'storympu': ['0005', '0003', '0004', '0003'],
   'storympuRight': ['0003', '0004', '0003'],
-  'ipadhomempu': ['0003', '0004'],
+  'ipadhomempu': ['0003', '0004', '0005'],
   'ipadstorympu': ['0005'],
   'phonebanner': ['0101', '0114'],
   'phonepaidpost': ['0121'],
@@ -284,6 +284,8 @@ function clearEvents() {
   window.gaLoaded = true;
 }
 
+
+
 function writeAd(adType, returnSrc) {
   var adFileName;
   var currentAdCount;
@@ -296,17 +298,24 @@ function writeAd(adType, returnSrc) {
   var bannerBG = '';
   var wechatAdHTML = '';
   var debugString = '';
-
-
-
-
-  // use UserAgent to determine iOS and Android devices
   var TouchDevice = false;
-  if (/iPad/i.test(uaString) && /mpu/.test(adType)) {
+  var shouldHideAdContainer = false;
+
+  if (/iPad/i.test(uaString)) {
     //if iPad, mpu ads change to iPad apps
     adch = '2021';
     TouchDevice = true;
-    adType = (adType === 'mpu') ? 'ipadhomempu' : 'ipadstorympu';
+    if (adType === 'mpu') {
+      if (window.gPageId === 'home') {
+        adType = 'ipadhomempu';
+      } else {
+        adType = 'ipadstorympu';
+      }
+    } else {
+      shouldHideAdContainer = true;
+      // hideAdContainer(adType);
+      // return '';
+    }
   } else if (/OS [0-9]+\_/i.test(uaString) && (/iPhone/i.test(uaString) || /iPod/i.test(uaString))) {
     adch = '2022';
     TouchDevice = true;
@@ -395,8 +404,8 @@ function writeAd(adType, returnSrc) {
 
   adFileName = (/banner/i.test(adType) && adCount[adType] === 0 && /^(1200|1300|1500)$/i.test(adch)) ? 't' : 'a';
   currentAdCount = adCount[adType];
-  //console.log (currentAdCount + '/' + adMax[adType]);
-  if (currentAdCount !== undefined && currentAdCount < adMax[adType]) {
+  //console.log ('AdType: ' + adType + ' currentAdCount: ' + currentAdCount + '/' + adMax[adType] + 'adMax[adType]: ' + adMax[adType] + '/' + adch + adType);
+  if (typeof currentAdCount === 'number' && currentAdCount < adMax[adType] && shouldHideAdContainer === false) {
     adPosition = adPositions[adType][currentAdCount];
     iframeSrc = '/m/marketing/'+adFileName+'.html?v=20161009143608' + bannerBG + '#adid='+ adch + adPosition + '&pid='+adType+adCount[adType];
     if (/mpu/.test(adType)) {
@@ -436,6 +445,7 @@ function writeAd(adType, returnSrc) {
     iframeHTML = '';
     var bannerContainers = document.querySelectorAll('.bn-ph');
     var mpuContainers = document.querySelectorAll('.mpu-container, #story_main_mpu');
+    // console.log (mpuContainers);
     // console.log ((currentAdCount < adMax[adType]) + '/' + currentAdCount + '/' + adType);
     // console.log (/mpu/.test(adType));
     // console.log (currentAdCount);
@@ -443,6 +453,7 @@ function writeAd(adType, returnSrc) {
     if (/banner/.test(adType) && bannerContainers && bannerContainers[currentAdCount]) {
       bannerContainers[currentAdCount].style.display = 'none';
     } else if (/mpu/.test(adType) && mpuContainers && mpuContainers[currentAdCount]) {
+      //console.log (currentAdCount);
       mpuContainers[currentAdCount].style.display = 'none';
     }
   }
