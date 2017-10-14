@@ -8,7 +8,7 @@ var adPositions = {
   'storympu': ['0005', '0003', '0004', '0003'],
   'storympuRight': ['0003', '0004', '0003'],
   'ipadhomempu': ['0003', '0004', '0005'],
-  'ipadstorympu': ['0005'],
+  'ipadstorympu': ['0005', '0004', '0006'],
   'phonebanner': ['0101', '0114'],
   'phonepaidpost': ['0121'],
   'phonempu': ['0003'],
@@ -305,11 +305,11 @@ function writeAd(adType, returnSrc) {
     //if iPad, mpu ads change to iPad apps
     adch = '2021';
     TouchDevice = true;
-    if (adType === 'mpu') {
-      if (window.gPageId === 'home') {
-        adType = 'ipadhomempu';
-      } else {
+    if (['mpu', 'storympuRight'].indexOf(adType) > 0) {
+      if (window.gPageId === 'story') {
         adType = 'ipadstorympu';
+      } else {
+        adType = 'ipadhomempu';
       }
     } else {
       shouldHideAdContainer = true;
