@@ -485,197 +485,7 @@ function writeAd(adType, returnSrc) {
 
 }
 
-/*
-function writeAdNew(adType, returnSrc) {
-  var adFileName;
-  var currentAdCount;
-  var adPosition;
-  var iframeSrc;
-  var adWidth;
-  var adHeight;
-  var iframeHTML;
-  var adDevice;//MARK:此为adDevice号
-  var adChannel;//MARK:此为adChannel号
-  var adPattern;//MARK:此为adPattern号
-  var ad;
-  var bannerBG = '';
-  var wechatAdHTML = '';
-  var debugString = '';
 
-
-
-  //MARK: Step1:设置adDevice
-  // use UserAgent to determine iOS and Android devices
-  var TouchDevice = false;
-  if (/iPad/i.test(uaString) && /mpu/.test(adType)) {
-    //if iPad, mpu ads change to iPad apps
-    //adch = '2021'
-    adch = adDevices.PadWeb.id;
-    TouchDevice = true;
-    adType = (adType === 'mpu') ? 'ipadhomempu' : 'ipadstorympu';
-  } else if (/OS [0-9]+\_/i.test(uaString) && (/iPhone/i.test(uaString) || /iPod/i.test(uaString))) {
-     //adch = '2022'
-    adch = adDevices.iPhoneWeb.id;
-    TouchDevice = true;
-  } else if (/Android|micromessenger/i.test(uaString) || w1 <= 490) {
-    // if uaString shows Android or browser width is less than 490
-    // sometime browser width is not correct in Android phone
-    //adch = '2023';
-    adch = adDevices.AndroidWeb.id;
-    TouchDevice = true;
-  } else {
-    addevice = adDevices.PC.id;
-  }
-
-
-  //MARK: Step2: 设置adChannel
-  adChannel = window.location.href.replace(/^.*adchannelID=([0-9]{4}).*$/g,'$1');
-  
-  // MARK: if it's a landing page, not a touch device and not a sponsored page, change the adch to home (1000)
-  try {
-    if (1<0 && gIsLandingPage === true && TouchDevice === false && fromURL === false && window.gIsCurrentAdchFinal === false && adChannel !== '1000' && sponsoredChannelIds.indexOf(adch) < 0) {
-      adChannel = '1000';
-  
-    } else {
-      //console.log ('Current adch ('+ adch +') is final');
-    }
-  } catch (ignore) {
-
-  }
-
-
-  //MARK: Step3:依次设置Pattern
-  //2022(iPhone) + 2023(Android) + 2056(Smart City)
-  if (TouchDevice) {
-    // if it's a sponsored story
-
-    // if the url fits certain pattern
-    // display bonus MPU on mobile
-    if (/utm\_campaign=2[MU]16/i.test(location.href)) {
-      if (adType === 'fullpage') {
-        adType = 'phonefullpage';
-      } else if (adType.indexOf('banner') < 0) {
-        adType = 'phonehomempuBonus';
-        SetCookie('fs0',1,0,'/');
-      } else {
-        adType = 'phonebanner';
-      }
-    } else if (adType === 'storybanner') {
-      adType = 'phonestorybanner';
-    } else if (adType.indexOf('banner') >=0) {
-      adType = 'phonebanner';
-    } else if (adType === 'mpu' || adType === 'homempu') {
-      adType = 'phonehomempu';
-    } else if (adType === 'tagmpu' || adType === 'taginlinempu') {
-      adType = 'phonetagmpu';
-    } else if (adType === 'storympu' || adType === 'storympuRight') {
-      adType = 'phonestorympu';
-    } else if (adType === 'storympuVW') {
-      adType = 'phonestorympuVW';
-    } else if (adType === 'homempuVW') {
-      adType = 'phonehomempuVW';
-    } else if (adType === 'fullpage') {
-      adType = 'phonefullpage';
-    }
-    if (window.sponsorMobile === true) {
-      if (adType === 'phonebanner') {
-        adType = 'phonestorybannersponsor';
-      } else if (adType === 'phonestorympu') {
-        adType = (adch === '2022')?'phonestoryiphonempu':'phonestoryandroidmpu';
-      }
-      adch = adchID;
-      //adType = 'phonestorympu';
-    }
-  }
-
-
-  if (window.pageTheme === 'luxury') {
-    bannerBG = '&bg=e0cdac';
-  } else if (window.pageTheme === 'ebook') {
-    bannerBG = '&bg=777777';
-  }
-
-  adFileName = (/banner/i.test(adType) && adCount[adType] === 0 && /^(1200|1300|1500)$/i.test(adch)) ? 't' : 'a';
-  currentAdCount = adCount[adType];
-  //console.log (currentAdCount + '/' + adMax[adType]);
-  if (currentAdCount !== undefined && currentAdCount < adMax[adType]) {
-    adPosition = adPositions[adType][currentAdCount];
-    iframeSrc = '/m/marketing/'+adFileName+'.html?v=20161009143608' + bannerBG + '#adid='+ adch + adPosition + '&pid='+adType+adCount[adType];
-    if (/mpu/.test(adType)) {
-      adWidth = '300';
-      adHeight = '250';
-    } else if (/phone.*banner/.test(adType)) {
-      adWidth = '100%';
-      adHeight = '50';
-    } else if (/phonefullpage/.test(adType)) {
-      adWidth = '0';
-      adHeight = '0';
-    } else {
-      adWidth = '969';
-      adHeight = '90';
-    }
-    // MARK: WeChat have fixed the bug with iframe. Use iframe for all ads.
-    if (isWeChat === true && 1>2) {
-      slotStr = '';
-      var c = adch + adPosition;
-      var adP = '';
-      if (1<0 && c==='20220101') {
-      } else {
-        window.adType = adType;
-        wechatAdHTML = '<div class="banner-iframe" style="width: 100%; " data-adch="'+adch+'" data-adPosition="'+adPosition+'"><scr';
-        wechatAdHTML += 'ipt src="http://dualstack.adsame-1421766300.ap-southeast-1.elb.amazonaws.com/s?z=ft&c=' + c + slotStr + adP + '&_fallback=0" charset="gbk">';
-        wechatAdHTML += '</scr';
-        wechatAdHTML += 'ipt></div>';
-        // console.log (adType + adCount[adType]);
-      }
-    } else {
-      iframeHTML = '<iframe class="banner-iframe" data-adch="'+adch+'" data-adPosition="'+adPosition+'" id="' + adType + adCount[adType] + '" width="'+ adWidth +'" height="'+ adHeight + '" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="'+ iframeSrc +'" data-src="'+ iframeSrc +'" data-ad-type="'+ adType +'" data-ad-count=' + adCount[adType] + '></iframe>';
-    }
-    //console.log ('this ad is displayed: ' + adType);
-  } else {
-    //console.log ('no need to display this ad: ' + adType);
-    iframeSrc = '';
-    iframeHTML = '';
-    var bannerContainers = document.querySelectorAll('.bn-ph');
-    var mpuContainers = document.querySelectorAll('.mpu-container, #story_main_mpu');
-    // console.log ((currentAdCount < adMax[adType]) + '/' + currentAdCount + '/' + adType);
-    // console.log (/mpu/.test(adType));
-    // console.log (currentAdCount);
-    // console.log (mpuContainers[currentAdCount].className);
-    if (/banner/.test(adType) && bannerContainers && bannerContainers[currentAdCount]) {
-      bannerContainers[currentAdCount].style.display = 'none';
-    } else if (/mpu/.test(adType) && mpuContainers && mpuContainers[currentAdCount]) {
-      mpuContainers[currentAdCount].style.display = 'none';
-    }
-  }
-
-  if (typeof window.gDebugAd === 'string') {
-    debugString = window.gDebugAd.replace('adcode_for_debug', adch + adPosition);
-  }
-
-
-  adCount[adType] = adCount[adType] + 1;
-  if (returnSrc === true) {
-    return  iframeSrc + debugString;
-  } else if (isWeChat === true && 1>2) {
-    // record the ad impression
-    try {
-      if (typeof adPosition === 'string') {
-        sendEvent('Ad Impression', adch, adPosition, {'nonInteraction':1});
-      }
-    } catch (ignore) {
-
-    }
-
-    //deal with WeChat Sharing Bug
-    // where WeChat grabs iframe src instead of the real url for sharing
-    return wechatAdHTML + debugString;
-  } else {
-    return iframeHTML + debugString;
-  }
-
-}
-*/
 var bannerIframeContainers = [];
 function reloadBanners() {
   var bannerIframes;
@@ -718,6 +528,12 @@ function reloadBanners() {
 
 
 function writeAdNew(obj) {
+  /**
+   * @param obj 
+   * @param obj.devices: TYPE Array, the devices are allowed to show this ad, Eg:['PC','PadWeb','iPhoneWeb','AndroidWeb']
+   * @param obj.pattern: TYPE String,the key string of var adPattern, Eg：'FullScreen'、'Leaderboard'
+   * @param obj.adPosition：TYPE String, the key string of var adPattern.xxx.position,Eg: 'Num1','Right1','Middle2'
+   */
   //MARK: First, get the adid
   var iframeHTML = '';
   var debugString = '';
@@ -741,12 +557,13 @@ function writeAdNew(obj) {
   }
 
   deviceId = adDevices[deviceType].id;
-
+  console.log(deviceId);
 
   // MARK: Get ad channel id from smarty server side
   var adChannelId = '1000'; // window.dasfdafa || '1000'
 
   var adPattern = adDevices[deviceType].patterns[obj.pattern];
+  console.log(adPattern);
   var adPatternId = adPattern.id;
   var adPositionId = adPattern.position[obj.position].id;
   var adWidth = adPattern.width || '100%';
