@@ -1,3 +1,4 @@
+<%if $smarty.get.webview != "ftcapp"%>
 <div class="footer-container"><div class="footer-inner">
 	<div>
 		<a href="/m/corp/aboutus.html">关于我们</a>
@@ -56,6 +57,9 @@
 
 
 </div></div>
+<%/if%>
+
+
 <%if $debug_model == 1%>
 <div style="text-align: center; background-color: #FFFFFF; font-size: 38px; margin: 20px;font-weight:bold;"><a title="刷新本页CDN与服务器缓存" href="/index.php/marketing/flushcache?url=http://www7.ftchinese.com<%$smarty.server.REQUEST_URI|urlencode%>">刷新本页缓存</a></div>
 <%/if%>

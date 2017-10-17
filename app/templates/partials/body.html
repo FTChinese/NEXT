@@ -1,0 +1,33 @@
+<%assign var="bannerCount" value=0%>
+<%assign var="mpuCount" value=0%>
+<%assign var="b" value=0%>
+<%foreach from=$p.sections item=section%>
+    <%if $section.type == "header"%>
+        <%if $pageId != "" && $pageId != "home"%>
+            <%include file="next/partials/tag-header.html"%>
+        <%else%>
+            <%include file="next/partials/header.html"%>
+        <%/if%>
+        <%include file="next/partials/nav.html"%>
+    <%elseif $section.type == "banner"%>
+        <%include file="next/partials/banner.html"%>
+        <%if $section.image && $section.image == ""%>
+        <%else%>
+            <%assign var="bannerCount" value=$bannerCount+1%>
+        <%/if%>
+    <%elseif $section.type == "block"%>
+        <%include file="next/partials/block.html"%>
+        <%assign var="b" value=$b+1%>
+        <%if $section.side != "" && $section.side != "none"%>
+        <%assign var="mpuCount" value=$mpuCount+1%>
+        <%/if%>
+    <%elseif $section.type == "footer"%>
+        <%include file="next/partials/footer.html"%>
+    <%elseif $section.type == "topbelt"%>
+        <%include file="next/partials/topbelt.html"%>
+    <%elseif $section.type == "include" && $section.from != ""%>
+        <%assign var="includeSide" value=$section.side%>
+        <%assign var="includeSideAlign" value=$section.sideAlign%>
+        <%include file="next/partials/`$section.from`.html"%>
+    <%/if%>
+<%/foreach%>

@@ -8,6 +8,33 @@
 	@include L;
 }
 
+// MARK: iPad related styles. It needs to be here so that it can be override for smaller break points. 
+@media only screen and (max-width: 1024px) {
+	.item-tag {
+	    padding-bottom: $defaultPadding/4;
+	}
+	.item-inner {
+		padding-left: $defaultPadding/4;
+		padding-right: $defaultPadding/4; 
+	}
+	.image {
+		left: $defaultPadding/4;
+		right: $defaultPadding/4;
+	}
+	.list-title {
+		margin: 0 $defaultPadding/4 $defaultPadding/2 $defaultPadding/4;
+	}
+	.side-by-side .item-inner {
+		padding: 0 $defaultPadding/4 $defaultPadding/2 $defaultPadding/4;
+	}
+	.has-side .block-inner {
+		padding-right: 3*$defaultPadding/4;
+	}
+	.has-side.side-left .block-inner {
+		padding-left: 3*$defaultPadding/4;
+	}
+}
+
 //M: middle screen devices like iPad portrait
 @media only screen and (max-width: 980px) and (min-width: 691px) {
 	@include M;
@@ -141,3 +168,4 @@
 		}
 	}
 }
+

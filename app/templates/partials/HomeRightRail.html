@@ -94,8 +94,7 @@
 		<h2 class="list-title"><a href="/channel/english.html">每日英语</a></h2>
 
 
-
-
+		<div class="interactive-inner">
 		<%assign var="storyall" value=$interactivemodel->get_interactive_by_field_search("(find_in_set('测试',tag) or find_in_set('教程',tag) or (find_in_set('QuizPlus',tag) and (find_in_set('新闻',tag) or find_in_set('热点观察',tag) or find_in_set('FT商学院',tag)) and (scoop = '1' or scoop = '0')) or find_in_set('速读',tag) or find_in_set('英语电台',tag) or find_in_set('数据新闻',tag)) and !find_in_set('广告互动教程',tag) and pubdate <= unix_timestamp(now())",0,5,30,10800)%>
 		<%assign var="photoall" value=$photonewsmodel->get_new_photonews(6)%>
 		<%assign var="storycount" value=$storyall|@count%>
@@ -122,9 +121,18 @@
 						<%else%>
 						<%assign var="iTag" value=""%>
 						<%/if%>
-						<div class="item-container<%if $i===0%> first<%/if%>"><div class="item-inner">
+
+						<%if $smarty.get.webview == "ftcapp"%>
+							<%if preg_match("/.mp3$/is",$storyall[$cs].cshortleadbody)%>
+								<%assign var="audioUrl" value=$storyall[$cs].cshortleadbody%>
+								<%assign var="audioData" value=" data-audio=\"`$audioUrl`\""%>
+							<%/if%>
+							<%assign var="sideItemClass" value=" item-container-app"%>
+							<%assign var="itemData" value=" data-id=\"`$storyall[$cs].id`\" data-type=\"interactive\"`$audioData`"%>
+						<%/if%>
+						<div class="item-container<%if $i===0%> first<%/if%><%$sideItemClass%>"<%$itemData%>><div class="item-inner">
 						<a class="image" href="/interactive/<%$storyall[$cs].id%>" target=_blank><figure class="loading" data-url="<%$storyall[$cs].story_pic.cover|default:$storyall[$cs].story_pic.smallbutton|default:$storyall[$cs].story_pic.bigbutton%>"></figure></a>
-						<h2 class="item-headline"><a href="/interactive/<%$storyall[$cs].id%>" target=_blank><%$iTag%><%$storyall[$cs].cheadline%></a></h2>
+						<h2 class="item-headline"><a href="/interactive/<%$storyall[$cs].id%>" target=_blank class="item-headline-link"><%*$iTag*%><%$storyall[$cs].cheadline%></a></h2>
 						</div></div>
 						<%assign var="echostoryid" value=`$storyall[$cs].id`,$echostoryid%>
 						<%assign var="i" value=$i+1%>
@@ -144,6 +152,9 @@
 			<%/if%>
 		<%/section%>
 		<!--<%*两组数据进行合并，重新排序 End*%>-->
+		<div class="clearfloat"></div>
+		</div>
+
 	</div>
 
 	<%if $smarty.get.ad != "no" && $noAd != "true"%>

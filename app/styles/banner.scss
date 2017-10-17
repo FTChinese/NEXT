@@ -18,6 +18,7 @@
 }
 .banner-iframe {
 	margin: $defaultPadding/2 auto 0 auto;
+	max-width: 100% !important;
 	>div {
 		margin:0 auto !important;
 	}
@@ -50,21 +51,22 @@
 	}
 	position:relative;
 }
-.banner-content:before, .is-ad figure:after {
-	content: '广告';
-    position:absolute;
-    top:0;
-    right:0;
-    background: #e9decf;
-    font-size:12px;
-    padding:1px 5px;
-    color: #505050;
-}
-.hide-sign.banner-content {
-	&:before {
-		display: none;
-	}
-}
+
+// .banner-content:before, .is-ad figure:after {
+// 	content: '广告';
+//     position:absolute;
+//     top:0;
+//     right:0;
+//     background: #e9decf;
+//     font-size:12px;
+//     padding:1px 5px;
+//     color: #505050;
+// }
+// .hide-sign.banner-content {
+// 	&:before {
+// 		display: none;
+// 	}
+// }
 .sponsor-container, .table-container {
 	padding: 0 $defaultPadding/2;
 }
@@ -144,6 +146,40 @@
 	}
 }
 
+// Paid Post related styles
+.oneStory {
+	margin: 0 -15px !important;
+}
+.storyInner {
+	padding: $defaultPadding/2 22.5px !important;
+	border-top:1px solid #e9decf;
+	.headline {
+		font-weight: bold;
+		font-size: 1.2em;
+		padding-bottom: $defaultPadding/4;
+	}
+	.leftimage {
+		float: left;
+		margin: 4px $defaultPadding/2 $defaultPadding/2 0;
+		width: 112px !important;
+		height: 63px !important;
+		img {
+			width: 112px !important;
+			height: 63px !important;
+		}
+	}
+	.lead {
+		color: #777;
+		padding-bottom: $defaultPadding/2;
+		line-height: $goldenRatio;
+		font-size: 0.8em !important;
+	}
+}
+.hide-iframe {
+	.banner-iframe {
+		display: none;
+	}
+}
 @media only screen and (min-width: 490px) and (max-width: 1059px) {
 	.bn-ph {
 		margin-bottom: $defaultPadding;

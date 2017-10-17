@@ -881,7 +881,7 @@
 
 							<%*<!--No Side: P Use Single Column-->*%>
 							<%if $listItemCount === 4%>
-								<%assign var="P" value="P6"%>
+								<%assign var="P" value="P12"%>
 								<%if $i===2 %>
 									<%assign var="itemTopClass" value="`$itemTopClass` PT"%>
 								<%/if%>
@@ -1006,12 +1006,21 @@
 							<%/if%>
 						<%/if%>
 
+						<%if $smarty.get.webview == "ftcapp"%>
+							<%if preg_match("/.mp3$/is",$item.shortlead) || preg_match("/.mp3$/is",$item.cshortleadbody)%>
+								<%assign var="audioUrl" value=$item.shortlead|default:$item.cshortleadbody%>
+								<%assign var="audioData" value=" data-audio=\"`$audioUrl`\""%>
+							<%/if%>
+							<%assign var="itemClass" value="`$itemClass` item-container-app"%>
+							<%assign var="itemData" value=" data-id=\"`$item.id`\" data-type=\"`$itemType`\"`$audioData`"%>
+						<%/if%>
+
 
 						<%if $listType == "videos" && $i>5%>
 							<%*<!--Only display first 6 in video package-->*%>
 						<%elseif $list.float === "ScoreBoard"%>
 							<tr id="inter<%$itemId%>">
-								<td class="td1"><a target="_blank"<%$itemLink%>><%$itemHeadline%></a></td>
+								<td class="td1"><a target="_blank"<%$itemLink%> class="item-headline-link"><%$itemHeadline%></a></td>
 								<td class="td3">&nbsp;</td>
 								<td class="td6">&nbsp;</td>
 								<td class="td4">&nbsp;</td>
@@ -1020,10 +1029,10 @@
 							<%assign var="i" value=$i+1%>
 						<%elseif $list.float === "myFT"%>
 							<%$itemTop%>
-							<div class="item-container <%$itemClass%> <%$hasImage%>"><div class="item-inner">
+							<div class="item-container <%$itemClass%> <%$hasImage%>"<%$itemData%>><div class="item-inner">
 								<%$itemTag%>
 								<div class="item-headline-lead">
-								<h2 class="item-headline"><a target="_blank"<%$itemLink%>><%$itemHeadline%></a></h2>
+								<h2 class="item-headline"><a target="_blank"<%$itemLink%> class="item-headline-link"><%$itemHeadline%></a></h2>
 								<%if $hideLead === "no"%><div class="item-lead"><%$itemLead|nl2br%></div><%/if%>
 								</div>
 								<%if $itemType == "story"%>
@@ -1045,11 +1054,11 @@
 								<%/if%>
 							<%/if%>
 							<%$itemTop%>
-							<div class="item-container <%$itemClass%> <%$hasImage%>"><div class="item-inner">
+							<div class="item-container <%$itemClass%> <%$hasImage%>"<%$itemData%>><div class="item-inner">
 								<a class="image portrait-img" target="_blank"<%$itemLink%>><figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure></a>
 								<%$itemTag%>
 								<div class="item-headline-lead">
-								<h2 class="item-headline"><a target="_blank"<%$itemLink%>><%$itemHeadline%></a></h2>
+								<h2 class="item-headline"><a target="_blank"<%$itemLink%> class="item-headline-link"><%$itemHeadline%></a></h2>
 								<%if $hideLead === "no"%><div class="item-lead"><%$itemLead|nl2br%></div><%/if%>
 								</div>
 								<%$itemTimeStamp%>
@@ -1058,7 +1067,7 @@
 							<%assign var="i" value=$i+1%>
 						<%elseif $list.float === "eBook"%>
 							<%$itemTop%>
-							<div class="item-container <%$itemClass%> has-image ebook"><div class="item-inner">
+							<div class="item-container <%$itemClass%> has-image ebook"<%$itemData%>><div class="item-inner">
 								<a class="image portrait-img" target="_blank"<%$itemLink%>><figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure></a>
 								<div class="item-bottom"></div>
 							</div></div>
@@ -1066,7 +1075,7 @@
 						<%elseif $list.float === "VideoWall"%>
 							<%$itemTop%>
 							<a href="/<%$itemType%>/<%$itemId%>" target="_blank">
-							<div class="item-container <%$itemClass%> has-image video-wall">
+							<div class="item-container <%$itemClass%> has-image video-wall"<%$itemData%>>
 								<div class="item-inner video-package-inner" style="padding:0;"><div class="image" style="width: 100%;left: 0;right: 0;padding: 0;">
 									<figure id="video-package-play" class="loading-video" data-vid="<%$itemId%>" data-type="<%$itemType%>" data-autoplay="yes"></figure>
 								</div></div>
@@ -1080,8 +1089,8 @@
 							<%assign var="i" value=$i+1%>
 						<%else%>
 							<%$itemTop%>
-							<div class="item-container <%$itemClass%> <%$hasImage%>"><div class="item-inner">
-								<h2 class="item-headline"><%$itemTag%><a target="_blank"<%$itemLink%>><%$itemHeadline%></a></h2>
+							<div class="item-container <%$itemClass%> <%$hasImage%>"<%$itemData%>><div class="item-inner">
+								<h2 class="item-headline"><%$itemTag%><a target="_blank"<%$itemLink%> class="item-headline-link"><%$itemHeadline%></a></h2>
 								<%if $item.relatives|@count > 0 && $item.relatives[0].type == "video"%><div class="image"><figure class="loading-video" data-vid="<%$item.relatives[0].id%>"></figure></div><%elseif ($itemType === "video" && $listType !== "videos") || ($itemType == "interactive" && preg_match("/推广视频|精彩视频|产品视频/is",$item.tag))%><div class="image"><figure class="loading-video" data-vid="<%$itemId%>" data-item-type="<%$itemType%>"></figure></div><%elseif $itemImage != "" && $hasImage === "has-image"%><a class="image" target="_blank"<%$itemImageLink%>><figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure></a><%/if%>
 								<%if $hideLead === "no"%><div class="item-lead"><%$itemLead|nl2br%></div><%/if%>
 								<%$itemTimeStamp%>
@@ -1102,36 +1111,37 @@
 							<%assign var="i" value=$i+1%>
 						<%/if%>
 
-						<%*<!--insert 10 bonus MPU for mobile phone temporarily start-->*%>
-						<%if $smarty.get.utm_campaign == "2M161000" || preg_match("/2U16[0-9]+/is",$smarty.get.utm_campaign)%>
-							<%if $pageId == "home"%>
-								<%assign var="mpuName" value="homempu-bonus"%>
-								<%*<!--show bonus MPU every 3 stories-->*%>
-								<%if $i%2 == 1 %>
-									<div class="mpu-container P-only"><script type="text/javascript">document.write (writeAd('<%$mpuName%>'));</script></div>
+						<%if $smarty.get.ad != "no"%>
+							<%*<!--insert 10 bonus MPU for mobile phone temporarily start-->*%>
+							<%if $smarty.get.utm_campaign == "2M161000" || preg_match("/2U16[0-9]+/is",$smarty.get.utm_campaign)%>
+								<%if $pageId == "home"%>
+									<%assign var="mpuName" value="homempu-bonus"%>
+									<%*<!--show bonus MPU every 3 stories-->*%>
+									<%if $i%2 == 1 %>
+										<div class="mpu-container P-only"><script type="text/javascript">document.write (writeAd('<%$mpuName%>'));</script></div>
+									<%/if%>
 								<%/if%>
-							<%/if%>
-						<%*<!--insert 10 bonus MPU for mobile phone temporarily end-->*%>
+							<%*<!--insert 10 bonus MPU for mobile phone temporarily end-->*%>
 
-						<%*<!--insert an extra MPU for mobile phone temporarily start-->*%>
-						<%elseif $b == 0 && $l == 0 && $list.float != "VideoWall"%>
-							<%if $pageId == "home"%>
-								<%assign var="mpuName" value="homempu"%>
-							<%else%>
-								<%assign var="mpuName" value="taginlinempu"%>
-							<%/if%>
-							<%if date("Ymd",$smarty.now) <= 20170113 %>
-								<%if $i == 3 || $i == 10 || $i == 18%>
-									<div class="mpu-container P-only"><script type="text/javascript">document.write (writeAd('<%$mpuName%>'));</script></div>
+							<%*<!--insert an extra MPU for mobile phone temporarily start-->*%>
+							<%elseif $b == 0 && $l == 0 && $list.float != "VideoWall"%>
+								<%if $pageId == "home"%>
+									<%assign var="mpuName" value="homempu"%>
+								<%else%>
+									<%assign var="mpuName" value="taginlinempu"%>
 								<%/if%>
-							<%else%>
-								<%if $i == 3 || $i == 10%>
-									<div class="mpu-container P-only"><script type="text/javascript">document.write (writeAd('<%$mpuName%>'));</script></div>
+								<%if date("Ymd",$smarty.now) <= 20170113 %>
+									<%if $i == 3 || $i == 10 || $i == 18%>
+										<div class="mpu-container P-only"><script type="text/javascript">document.write (writeAd('<%$mpuName%>'));</script></div>
+									<%/if%>
+								<%else%>
+									<%if $i == 8%>
+										<div class="mpu-container P-only"><script type="text/javascript">document.write (writeAd('<%$mpuName%>'));</script></div>
+									<%/if%>
 								<%/if%>
 							<%/if%>
+							<%*<!--insert an extra MPU for mobile phone temporarily end-->*%>
 						<%/if%>
-						<%*<!--insert an extra MPU for mobile phone temporarily end-->*%>
-
 					<%/if%>
 				<%/foreach%>
 				<%if $list.float === "ScoreBoard"%>
@@ -1360,7 +1370,17 @@
 								<%assign var="itemLink" value="/`$itemType`/`$itemId``$adForceString`"%>
 								<%assign var="itemLink" value=" href=\"`$itemLink`\""%>
 							<%/if%>
-							<div class="item-container <%$itemClass%> <%$hasImage%>"><div class="item-inner">
+
+							<%if $smarty.get.webview == "ftcapp"%>
+								<%if preg_match("/.mp3$/is",$item.shortlead) || preg_match("/.mp3$/is",$item.cshortleadbody)%>
+									<%assign var="audioUrl" value=$item.shortlead|default:$item.cshortleadbody%>
+									<%assign var="audioData" value=" data-audio=\"`$audioUrl`\""%>
+								<%/if%>
+								<%assign var="itemClass" value="`$itemClass` item-container-app"%>
+								<%assign var="itemData" value=" data-id=\"`$item.id`\" data-type=\"`$itemType`\"`$audioData`"%>
+							<%/if%>
+
+							<div class="item-container <%$itemClass%> <%$hasImage%>"<%$itemData%>><div class="item-inner">
 								<%if $itemType === "widget"%>
 									<%include file="widgets/`$itemHeadline`"%>
 								<%elseif $list.sideOption == "imageAndLead"%>

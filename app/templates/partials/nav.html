@@ -1,468 +1,474 @@
-<%if $topnav==""%>
-<%assign var="topnav" value="home"%>
-<%assign var=navHome value=" on nosub"%>
-<%/if%>
+<%if $smarty.get.webview != "ftcapp"%>
 
-<%if $subnav=="tools"%>
-<%assign var=navTools value=" on"%>
-<%elseif $subnav=="follow"%>
-<%assign var=navFollow value=" on"%>
-<%elseif $subnav=="rss"%>
-<%assign var=navRSS value=" on"%>
-<%/if%>
-
-<%if $thirdnav=="basicsetting"%>
-<%assign var="navBasicsetting" value=" aria-selected=true"%>
-<%elseif $thirdnav=="changeicon"%>
-<%assign var="navChangeicon" value=" aria-selected=true"%>
-<%elseif $thirdnav=="maillist"%>
-<%assign var="navMaillist" value=" aria-selected=true"%>
-<%elseif $thirdnav=="snsapi"%>
-<%assign var="navSnsapi" value=" aria-selected=true"%>
-<%elseif $thirdnav=="commentstory"%>
-<%assign var="navCommentstory" value=" aria-selected=true"%>
-<%elseif $thirdnav=="favstorylist"%>
-<%assign var="navFavstorylist" value=" aria-selected=true"%>
-<%elseif $thirdnav=="eventhome"%>
-<%assign var="navEventHome" value=" aria-selected=true"%>
-<%elseif $thirdnav=="eventupcoming"%>
-<%assign var="navEventUpcoming" value=" aria-selected=true"%>
-<%elseif $thirdnav=="eventprevious"%>
-<%assign var="navEventPrevious" value=" aria-selected=true"%>
-<%elseif $thirdnav=="eventsponsorship"%>
-<%assign var="navEventSponsorship" value=" aria-selected=true"%>
-<%elseif $thirdnav=="eventabout"%>
-<%assign var="navEventAbout" value=" aria-selected=true"%>
-<%/if%>
-
-
-
-<%php%>
-$filename = "../frontend/tpl/next/api/page/nav.json";
-$handle = fopen($filename, "r");
-$json = fread($handle, filesize ($filename));
-fclose($handle);
-$page = json_decode($json, true);
-$this->assign("p", $page);
-<%/php%>
-
-
-<%*easyapi command="11001" assign="datass1" debug=false*%>
-<%*assign var="navData" value=$global_nav*%>
-<%assign var="navData" value=$p.body.odatalist%>
-<%if $topnav == ""%><%assign var="topnav" value="home"%><%/if%>
-
-
-<%if $navData != null && $navData|@count > 0%>
-  <div class="o-nav__placeholder">
-    <div class="o-nav">
-      <div class="o-nav__outer">
-        <div class="o-nav__inner">
-          <div class="o-nav__search"  data-o-component="o-toggler">
-            <button class="o-nav__search-toggle" data-o-toggler-button aria-controls="search-form">
-              <span class="search-toggle--open">搜索</span>
-              <span class="search-toggle--close">关闭</span>
-            </button>
-            <form action="/search/" id="search-form" role="search" data-o-toggler-target>
-                <input id="search-term" type="search" name="keys" class="search-input" placeholder="输入年月日‘xxxx-xx-xx’可搜索该日存档" />
-                <input id="type_news" type="hidden" value="type_news" name="ftsearchType" checked />
-                <button class="search-button" tabindex="1"><span>搜索</span></button>
-            </form>
-          </div>
-
-          <div class="o-header__masthead-mobile">
-              <a href="/" title="前往FT中文网首页"><span>FT中文网</span></a>
-          </div>
-
-          <nav class="o-nav__container" role="navigation">
-
-            <button class="nav-toggle" data-o-nav-togglable><span>Menu</span></button>
-
-            <ol class="o-nav__meganav">
-
-              <li class="nav-section mobile">
-                <button class="nav-section-head mobile" aria-selected="true">切换版本</button>
-
-                <ol class="nav-items">
-                  <li class="nav-item">
-                    <a class="nav-link" href="http://big5.ftchinese.com/">繁体中文版</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="http://www.ft.com/">英文版</a>
-                  </li>
-                </ol>
-              </li>
-              <%foreach from=$navData item="level_1"%>
-                <%if preg_match("/home/is",$level_1.code) || !preg_match("/myft/is",$topnav)%>
-                  <li class="nav-section"
-                    <%if $topnav==$level_1.code%> aria-selected="true"<%assign var=current_page value=$level_1.name%><%assign var=current_link value=$level_1.link%><%/if%> data-section="<%$level_1.code%>">
-                    <button class="nav-section-head mobile"><%$level_1.name%></button>
-                    <a class="nav-section-head desktop" href="<%$level_1.link%>"><%$level_1.name%></a>
-                    <%if $topnav==$level_1.code%>
-                      <ol class="nav-items">
-                        <li class="nav-item mobile">
-                          <a class="nav-link" href="<%$level_1.link%>">
-                          <%if $level_1.code=='home'%>FT中文网首页
-                          <%else%>
-                          频道首页
-                          <%/if%></a>
-                        </li>
-                        <%if $subnav=="tools"%>
-                            <li class="nav-item" data-channel="basicsetting"<%$navBasicsetting%>><a class="nav-link" href="/users/setting/index">基本设置</a></li>
-                            <li class="nav-item" data-channel="changeicon"<%$navChangeicon%>><a class="nav-link" href="/users/setting/changeicon">修改头像</a></li>
-                            <li class="nav-item" data-channel="maillist"<%$navMaillist%>><a class="nav-link" href="/users/setting/maillist">邮件订阅</a></li>
-                            <li class="nav-item" data-channel="snsapi"<%$navSnsapi%>><a class="nav-link" href="/index.php/snsapi/index">同步微博</a></li>
-                            <li class="nav-item" data-channel="commentstory"<%$navCommentstory%>><a class="nav-link" href="/users/commentstory">我的评论</a></li>
-                        <%elseif !preg_match("/home/is",$level_1.code) || !preg_match("/myft/is",$topnav)%>
-                          <%foreach from=$level_1.children item="level_2"%>
-                            <li class="nav-item" <%if !empty($subnav) && ($subnav==$level_2.code)%>
-                            aria-selected="true"<%assign var=current_sub_page value=$level_2.name%><%assign var=current_sub_link value=$level_2.link%><%/if%><%if $level_2.haschildren%> aria-haspopup="true"<%/if%> data-channel="<%$level_2.code%>">
-                              <a class="nav-link" href="<%$level_2.link%>"><%$level_2.name %></a>
-                              <%if $level_2.code == "special"%>
-                                <ol class="nav-sub-items">
-                                <%if date("Ymd",$smarty.now) >= 20170602 && date("Ymd",$smarty.now) <= 20170606%>
-                                <li><a href="m/marketing/maotai.html">品味中国 飘香世界</a></li>
-                                <%/if%>
-                                <li><a href="/tag/金砖五国峰会">金砖五国峰会</a></li>
-                                <li><a href="/channel/teawithft.html">与FT共进下午茶</a></li>
-                                <li><a href="/tag/智慧城市群">西门子·智慧城市群</a></li>
-                                <li><a href="/m/marketing/creditease.html">未来生活 未来金融</a></li>
-                                <li><a href="/tag/与FT共进午餐">与FT共进午餐</a></li>
-                                <li><a href="/channel/2016highlight.html">2016年度好文推荐</a></li>
-                                </ol>
-                              <%elseif $level_2.haschildren%>
-                                <ol class="nav-sub-items">
-                                  <%foreach from=$level_2.children item="level_3"%>
-                                  <li><a href="<%$level_3.link%>"><%$level_3.name%></a></li>
-                                  <%/foreach%>
-                                </ol>
-                              <%/if%>
-                            </li>
-                          <%/foreach%>
-                        <%/if%>
-                      </ol>
-                    <%/if%>
-                  </li>
-
-
-
-                  <%if preg_match("/home/is",$level_1.code) && preg_match("/myft/is",$topnav)%>
-                    <li class="nav-section" aria-selected="true"<%assign var=current_page value="我的FT"%><%assign var=current_link value="/users/mystories"%> data-section="myft">
-                      <button class="nav-section-head mobile">我的FT</button>
-                      <a class="nav-section-head desktop" href="/users/mystories">我的FT</a>
-                      <ol class="nav-items">
-                        <li class="nav-item mobile">
-                          <a class="nav-link" href="/users/mystories">频道首页</a>
-                        </li>
-                        <li class="nav-item" <%if $subnav=="mystories"%>
-                        aria-selected="true"<%assign var=current_sub_page value="文章"%><%/if%> data-channel="mystories">
-                          <a class="nav-link" href="/users/mystories">文章</a>
-                        </li>
-                        <li class="nav-item" <%if $subnav=="mytopics"%>
-                        aria-selected="true"<%assign var=current_sub_page value="话题"%><%/if%> data-channel="mytopics">
-                          <a class="nav-link" href="/users/mytopics">话题</a>
-                        </li>
-                        <li class="nav-item" <%if $subnav=="fav"%>
-                        aria-selected="true"<%assign var=current_sub_page value="收藏"%><%/if%> data-channel="fav">
-                          <a class="nav-link" href="/users/favstorylist">收藏</a>
-                        </li>
-                        <li class="nav-item" <%if $subnav=="discover"%>
-                        aria-selected="true"<%assign var=current_sub_page value="发现"%><%/if%> data-channel="discover">
-                          <a class="nav-link" href="/users/discover">发现</a>
-                        </li>
-                      </ol>
-                    </li>
-                  <%/if%>
-                <%/if%>
-              <%/foreach%>
-              <li class="nav-section mobile login">
-                <ul>
-                  <li class="nav-item">
-                    <a class="nav-link" href="http://user.ftchinese.com/login">登录</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="http://user.ftchinese.com/register">免费注册</a>
-                  </li>
-                </ul>
-              </li>
-              <li class="nav-section mobile logout">
-                <ul>
-                  <li class="nav-item">
-                    <a class="nav-link" href="/users/mystories">我的FT</a>
-                  </li>
-
-                  <li class="nav-item">
-                    <a class="nav-link" href="/users/setting/index">设置</a>
-                  </li>
-
-                  <li class="nav-item">
-                    <a class="nav-link" href="http://user.ftchinese.com/logout">登出</a>
-                  </li>
-                </ul>
-              </li>
-            </ol>
-          </nav>
-
-          <ul class="o-nav__extra-tools">
-              <li class="tools-section" aria-haspopup="true">
-                  <a class="tools-section-head" href="http://www.ftchinese.com/m/corp/follow.html">关注我们</a>
-                  <ol class="tools-items">
-                      <li><a href="http://www.ftchinese.com/m/corp/follow.html" target="_blank">微信公众号</a></li>
-                      <li><a href="http://weibo.com/ftchinese" target="_blank">新浪微博</a></li>
-                      <li><a href="http://user.qzone.qq.com/622006290" target="_blank">QQ空间</a></li>
-                      <li><a href="http://www.ftchinese.com/m/corp/follow.html" target="_blank">读读日报</a></li>
-                      <li><a href="http://www.ftchinese.com/m/corp/follow.html" target="_blank">Flipboard</a></li>
-                      <li><a href="https://twitter.com/FTChinese" target="_blank">Twitter</a></li>
-                      <li><a href="https://www.facebook.com/financialtimeschinese" target="_blank">Facebook</a></li>
-                      <li><a href="https://www.linkedin.com/company/4865254?trk=hp-feed-company-name" target="_blank">LinkedIn</a></li>
-                  </ol>
-              </li>
-              <li class="tools-section" aria-haspopup="true">
-                  <span class="tools-section-head">工具</span>
-                  <ol class="tools-items">
-                      <li><a href="http://app.ftchinese.com/">移动应用大全</a></li>
-                      <li><a href="/users/setting/index">基本设置</a></li>
-                      <li><a href="/users/setting/changeicon">修改头像</a></li>
-                      <li><a href="/users/setting/maillist">邮件订阅</a></li>
-                      <li><a href="/index.php/snsapi/index">同步微博</a></li>
-                      <li><a href="/users/commentstory">我的评论</a></li>
-                      <li><a href="/users/favstorylist">管理收藏</a></li>
-                  </ol>
-              </li>
-              <li class="tools-section">
-                  <a class="tools-section-head follow__rss" href="http://www.ftchinese.com/channel/rss.html" title="RSS"><span>RSS</span></a>
-              </li>
-          </ul>
-
-        </div><!-- o-nav__inner -->
-      </div><!-- o-nav__outer -->
-      <div class="o-nav__meganav-placeholder"></div>
-    </div><!-- o-nav -->
-  </div><!-- o-nav__placeholder -->
-
-
-  <div class="site-map">
-    <div class="site-map__container">
-      <%if ($topnav!='home') || !empty($subnav)%>
-          <ul class="site-map__items">
-            <li><a href="<%$current_link%>"><%$current_page%></a></li>
-          <%if !empty($subnav)%>
-            <li><a href="<%$current_sub_link%>"><%$current_sub_page%></a></li>
-          <%/if%>
-          </ul>
-      <%/if%>
-    </div>
-  </div>
-
-<%else%>
-  <div class="o-nav__placeholder">
-  <div class="o-nav">
-  <div class="o-nav__outer">
-  <div class="o-nav__inner">
-  <div class="o-nav__search"  data-o-component="o-toggler">
-  <button class="o-nav__search-toggle" data-o-toggler-button aria-controls="search-form">
-  <span class="search-toggle--open">搜索</span>
-  <span class="search-toggle--close">关闭</span>
-  </button>
-  <form action="/search/" id="search-form" role="search" data-o-toggler-target>
-  <input id="search-term" type="search" name="keys" class="search-input" placeholder="搜索FT中文网" />
-  <input id="type_news" type="hidden" value="type_news" name="ftsearchType" checked />
-  <button class="search-button" tabindex="1"><span>搜索</span></button>
-  </form>
-  </div>
-  <div class="o-header__masthead-mobile">
-  <a href="/" title="前往FT中文网首页"><span>FT中文网</span></a>
-  </div>
-  <nav class="o-nav__container" role="navigation">
-  <button class="nav-toggle" data-o-nav-togglable><span>Menu</span></button>
-  <ol class="o-nav__meganav">
-  <li class="nav-section mobile">
-  <button class="nav-section-head mobile" aria-selected="true">切换版本</button>
-  <ol class="nav-items">
-  <li class="nav-item">
-  <a class="nav-link" href="http://big5.ftchinese.com/">繁体中文版</a>
-  </li>
-  <li class="nav-item">
-  <a class="nav-link" href="http://www.ft.com/">英文版</a>
-  </li>
-  </ol>
-  </li>
-  <li class="nav-section"
-   aria-selected="true" data-section="home">
-  <button class="nav-section-head mobile">首页</button>
-  <a class="nav-section-head desktop" href="/">首页</a>
-  <ol class="nav-items">
-  <li class="nav-item mobile">
-  <a class="nav-link" href="/">
-  FT中文网首页
-  </a>
-  </li>
-  <li class="nav-item"  aria-haspopup="true" data-channel="special">
-  <a class="nav-link" href="/channel/special.html">特别报导</a>
-  <ol class="nav-sub-items">
-  <%if date("Ymd",$smarty.now) >= 20170602 && date("Ymd",$smarty.now) <= 20170606%>
-  <li><a href="m/marketing/maotai.html">品味中国 飘香世界</a></li>
+  <%if $topnav==""%>
+  <%assign var="topnav" value="home"%>
+  <%assign var=navHome value=" on nosub"%>
   <%/if%>
-  <%if date("Ymd",$smarty.now) >= 20170814 && date("Ymd",$smarty.now) <= 20170930 %><li><a href="/tag/金砖五国峰会">金砖五国峰会</a></li><%/if%>
-  <li><a href="/tag/与FT共进下午茶">与FT共进下午茶</a></li>
-  <li><a href="/tag/智慧城市群">西门子·智慧城市群</a></li>
-  <li><a href="/m/marketing/creditease.html">未来生活 未来金融</a></li>
-  <li><a href="/tag/与FT共进午餐">与FT共进午餐</a></li>
-  <li><a href="/channel/2016highlight.html">2016年度好文推荐</a></li>
-  </ol>
-  </li>
-  <li class="nav-item"  data-channel="datanews">
-  <a class="nav-link" href="/channel/datanews.html">数据新闻</a>
-  </li>
-  <li class="nav-item"  data-channel="weekly">
-  <a class="nav-link" href="/channel/weekly.html">热门文章</a>
-  </li>
-  <li class="nav-item"  data-channel="event">
-  <a class="nav-link" href="/m/events/event.html">会议活动</a>
-  </li>
-  <li class="nav-item"  data-channel="member">
-  <a class="nav-link" href="/m/marketing/home.html">会员信息中心</a>
-  </li>
-  <li class="nav-item"  data-channel="intelligence">
-  <a class="nav-link" href="/m/marketing/intelligence.html">FT研究院</a>
-  </li>
-  <li class="nav-item"  data-channel="mba">
-  <a class="nav-link" href="/channel/mba.html">FT商学院</a>
-  </li>
-  <li class="nav-item"  data-channel="ebook">
-  <a class="nav-link" href="/m/marketing/ebook.html">FT电子书</a>
-  </li>
-  <li class="nav-item"  data-channel="photo">
-  <a class="nav-link" href="/channel/slides.html">图辑</a>
-  </li>
-  <li class="nav-item"  data-channel="job">
-  <a class="nav-link" href="https://ft.wd3.myworkdayjobs.com/FT_Chinese_External_Careers">职业机会</a>
-  </li>
-  </ol>
-  </li>
-  <li class="nav-section"
-   data-section="china">
-  <button class="nav-section-head mobile">中国</button>
-  <a class="nav-section-head desktop" href="/channel/china.html">中国</a>
-  </li>
-  <li class="nav-section"
-   data-section="world">
-  <button class="nav-section-head mobile">全球</button>
-  <a class="nav-section-head desktop" href="/channel/world.html">全球</a>
-  </li>
-  <li class="nav-section"
-   data-section="economy">
-  <button class="nav-section-head mobile">经济</button>
-  <a class="nav-section-head desktop" href="/channel/economy.html">经济</a>
-  </li>
-  <li class="nav-section"
-   data-section="markets">
-  <button class="nav-section-head mobile">金融市场</button>
-  <a class="nav-section-head desktop" href="/channel/markets.html">金融市场</a>
-  </li>
-  <li class="nav-section"
-   data-section="business">
-  <button class="nav-section-head mobile">商业</button>
-  <a class="nav-section-head desktop" href="/channel/business.html">商业</a>
-  </li>
-  <li class="nav-section"
-   data-section="innovation">
-  <button class="nav-section-head mobile">创新经济</button>
-  <a class="nav-section-head desktop" href="/channel/innovation.html">创新经济</a>
-  </li>
-  <li class="nav-section"
-   data-section="opinion">
-  <button class="nav-section-head mobile">观点</button>
-  <a class="nav-section-head desktop" href="/channel/opinion.html">观点</a>
-  </li>
-  <li class="nav-section"
-   data-section="management">
-  <button class="nav-section-head mobile">管理</button>
-  <a class="nav-section-head desktop" href="/channel/management.html">管理</a>
-  </li>
-  <li class="nav-section"
-   data-section="lifestyle">
-  <button class="nav-section-head mobile">生活时尚</button>
-  <a class="nav-section-head desktop" href="/channel/lifestyle.html">生活时尚</a>
-  </li>
-  <li class="nav-section"
-   data-section="stream">
-  <button class="nav-section-head mobile">视频</button>
-  <a class="nav-section-head desktop" href="/channel/stream.html">视频</a>
-  </li>
-  <li class="nav-section"
-   data-section="english">
-  <button class="nav-section-head mobile">每日英语</button>
-  <a class="nav-section-head desktop" href="/channel/english.html">每日英语</a>
-  </li>
-  <li class="nav-section mobile login">
-  <ul>
-  <li class="nav-item">
-  <a class="nav-link" href="http://user.ftchinese.com/login">登录</a>
-  </li>
-  <li class="nav-item">
-  <a class="nav-link" href="http://user.ftchinese.com/register">免费注册</a>
-  </li>
-  </ul>
-  </li>
-  <li class="nav-section mobile logout">
-  <ul>
-  <li class="nav-item">
-  <a class="nav-link" href="/users/mystories">我的FT</a>
-  </li>
-  <li class="nav-item">
-  <a class="nav-link" href="/users/setting/index">设置</a>
-  </li>
-  <li class="nav-item">
-  <a class="nav-link" href="http://user.ftchinese.com/logout">登出</a>
-  </li>
-  </ul>
-  </li>
-  </ol>
-  </nav>
-  <ul class="o-nav__extra-tools">
-  <li class="tools-section" aria-haspopup="true">
-  <a class="tools-section-head" href="http://www.ftchinese.com/m/corp/follow.html">关注我们</a>
-  <ol class="tools-items">
-  <li><a href="http://www.ftchinese.com/m/corp/follow.html" target="_blank">微信公众号</a></li>
-  <li><a href="http://weibo.com/ftchinese" target="_blank">新浪微博</a></li>
-  <li><a href="http://user.qzone.qq.com/622006290" target="_blank">QQ空间</a></li>
-  <li><a href="http://www.ftchinese.com/m/corp/follow.html" target="_blank">读读日报</a></li>
-  <li><a href="http://www.ftchinese.com/m/corp/follow.html" target="_blank">Flipboard</a></li>
-  <li><a href="https://twitter.com/FTChinese" target="_blank">Twitter</a></li>
-  <li><a href="https://www.facebook.com/financialtimeschinese" target="_blank">Facebook</a></li>
-  <li><a href="https://www.linkedin.com/company/4865254?trk=hp-feed-company-name" target="_blank">LinkedIn</a></li>
-  </ol>
-  </li>
-  <li class="tools-section" aria-haspopup="true">
-  <span class="tools-section-head">工具</span>
-  <ol class="tools-items">
-  <li><a href="http://app.ftchinese.com/">移动应用大全</a></li>
-  <li><a href="/users/setting/index">基本设置</a></li>
-  <li><a href="/users/setting/changeicon">修改头像</a></li>
-  <li><a href="/users/setting/maillist">邮件订阅</a></li>
-  <li><a href="/index.php/snsapi/index">同步微博</a></li>
-  <li><a href="/users/commentstory">我的评论</a></li>
-  <li><a href="/users/favstorylist">管理收藏</a></li>
-  </ol>
-  </li>
-  <li class="tools-section">
-  <a class="tools-section-head follow__rss" href="http://www.ftchinese.com/channel/rss.html" title="RSS"><span>RSS</span></a>
-  </li>
-  </ul>
-  </div><!-- o-nav__inner -->
-  </div><!-- o-nav__outer -->
-  <div class="o-nav__meganav-placeholder"></div>
-  </div><!-- o-nav -->
-  </div><!-- o-nav__placeholder -->
-  <div class="site-map">
-  <div class="site-map__container">
-  </div>
-  </div>
-  <script>ga('send','event', 'CatchError', 'JSON File: Navigation', '<%$smarty.server.SERVER_ADDR%>: ' + window.location.href, {'nonInteraction':1});</script>
+
+  <%if $subnav=="tools"%>
+  <%assign var=navTools value=" on"%>
+  <%elseif $subnav=="follow"%>
+  <%assign var=navFollow value=" on"%>
+  <%elseif $subnav=="rss"%>
+  <%assign var=navRSS value=" on"%>
+  <%/if%>
+
+  <%if $thirdnav=="basicsetting"%>
+  <%assign var="navBasicsetting" value=" aria-selected=true"%>
+  <%elseif $thirdnav=="changeicon"%>
+  <%assign var="navChangeicon" value=" aria-selected=true"%>
+  <%elseif $thirdnav=="maillist"%>
+  <%assign var="navMaillist" value=" aria-selected=true"%>
+  <%elseif $thirdnav=="snsapi"%>
+  <%assign var="navSnsapi" value=" aria-selected=true"%>
+  <%elseif $thirdnav=="commentstory"%>
+  <%assign var="navCommentstory" value=" aria-selected=true"%>
+  <%elseif $thirdnav=="favstorylist"%>
+  <%assign var="navFavstorylist" value=" aria-selected=true"%>
+  <%elseif $thirdnav=="eventhome"%>
+  <%assign var="navEventHome" value=" aria-selected=true"%>
+  <%elseif $thirdnav=="eventupcoming"%>
+  <%assign var="navEventUpcoming" value=" aria-selected=true"%>
+  <%elseif $thirdnav=="eventprevious"%>
+  <%assign var="navEventPrevious" value=" aria-selected=true"%>
+  <%elseif $thirdnav=="eventsponsorship"%>
+  <%assign var="navEventSponsorship" value=" aria-selected=true"%>
+  <%elseif $thirdnav=="eventabout"%>
+  <%assign var="navEventAbout" value=" aria-selected=true"%>
+  <%/if%>
+
+
+
+  <%php%>
+  $filename = "../frontend/tpl/next/api/page/nav.json";
+  $handle = fopen($filename, "r");
+  $json = fread($handle, filesize ($filename));
+  fclose($handle);
+  $page = json_decode($json, true);
+  $this->assign("p", $page);
+  <%/php%>
+
+
+  <%*easyapi command="11001" assign="datass1" debug=false*%>
+  <%*assign var="navData" value=$global_nav*%>
+  <%assign var="navData" value=$p.body.odatalist%>
+  <%if $topnav == ""%><%assign var="topnav" value="home"%><%/if%>
+
+
+  <%if $navData != null && $navData|@count > 0%>
+    <div class="o-nav__placeholder">
+      <div class="o-nav">
+        <div class="o-nav__outer">
+          <div class="o-nav__inner">
+            <div class="o-nav__search"  data-o-component="o-toggler">
+              <button class="o-nav__search-toggle" data-o-toggler-button aria-controls="search-form">
+                <span class="search-toggle--open">搜索</span>
+                <span class="search-toggle--close">关闭</span>
+              </button>
+              <form action="/search/" id="search-form" role="search" data-o-toggler-target>
+                  <input id="search-term" type="search" name="keys" class="search-input" placeholder="输入年月日‘xxxx-xx-xx’可搜索该日存档" />
+                  <input id="type_news" type="hidden" value="type_news" name="ftsearchType" checked />
+                  <button class="search-button" tabindex="1"><span>搜索</span></button>
+              </form>
+            </div>
+
+            <div class="o-header__masthead-mobile">
+                <a href="/" title="前往FT中文网首页"><span>FT中文网</span></a>
+            </div>
+
+            <nav class="o-nav__container" role="navigation">
+
+              <button class="nav-toggle" data-o-nav-togglable><span>Menu</span></button>
+
+              <ol class="o-nav__meganav">
+
+                <li class="nav-section mobile">
+                  <button class="nav-section-head mobile" aria-selected="true">切换版本</button>
+
+                  <ol class="nav-items">
+                    <li class="nav-item">
+                      <a class="nav-link" href="http://big5.ftchinese.com/">繁体中文版</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="http://www.ft.com/">英文版</a>
+                    </li>
+                  </ol>
+                </li>
+                <%foreach from=$navData item="level_1"%>
+                  <%if preg_match("/home/is",$level_1.code) || !preg_match("/myft/is",$topnav)%>
+                    <li class="nav-section"
+                      <%if $topnav==$level_1.code%> aria-selected="true"<%assign var=current_page value=$level_1.name%><%assign var=current_link value=$level_1.link%><%/if%> data-section="<%$level_1.code%>">
+                      <button class="nav-section-head mobile"><%$level_1.name%></button>
+                      <a class="nav-section-head desktop" href="<%$level_1.link%>"><%$level_1.name%></a>
+                      <%if $topnav==$level_1.code%>
+                        <ol class="nav-items">
+                          <li class="nav-item mobile">
+                            <a class="nav-link" href="<%$level_1.link%>">
+                            <%if $level_1.code=='home'%>FT中文网首页
+                            <%else%>
+                            频道首页
+                            <%/if%></a>
+                          </li>
+                          <%if $subnav=="tools"%>
+                              <li class="nav-item" data-channel="basicsetting"<%$navBasicsetting%>><a class="nav-link" href="/users/setting/index">基本设置</a></li>
+                              <li class="nav-item" data-channel="changeicon"<%$navChangeicon%>><a class="nav-link" href="/users/setting/changeicon">修改头像</a></li>
+                              <li class="nav-item" data-channel="maillist"<%$navMaillist%>><a class="nav-link" href="/users/setting/maillist">邮件订阅</a></li>
+                              <li class="nav-item" data-channel="snsapi"<%$navSnsapi%>><a class="nav-link" href="/index.php/snsapi/index">同步微博</a></li>
+                              <li class="nav-item" data-channel="commentstory"<%$navCommentstory%>><a class="nav-link" href="/users/commentstory">我的评论</a></li>
+                          <%elseif !preg_match("/home/is",$level_1.code) || !preg_match("/myft/is",$topnav)%>
+                            <%foreach from=$level_1.children item="level_2"%>
+                              <li class="nav-item" <%if !empty($subnav) && ($subnav==$level_2.code)%>
+                              aria-selected="true"<%assign var=current_sub_page value=$level_2.name%><%assign var=current_sub_link value=$level_2.link%><%/if%><%if $level_2.haschildren%> aria-haspopup="true"<%/if%> data-channel="<%$level_2.code%>">
+                                <a class="nav-link" href="<%$level_2.link%>"><%$level_2.name %></a>
+                                <%if $level_2.code == "special"%>
+                                  <ol class="nav-sub-items">
+                                  <li><a href="/m/marketing/antfinancial.html">“新四大发明”背后的中国浪潮</a></li>
+                                  <%if date("Ymd",$smarty.now) >= 20170602 && date("Ymd",$smarty.now) <= 20170606%>
+                                  <li><a href="m/marketing/maotai.html">品味中国 飘香世界</a></li>
+                                  <%/if%>
+                                  <li><a href="/tag/金砖五国峰会">金砖五国峰会</a></li>
+                                  <li><a href="/channel/teawithft.html">与FT共进下午茶</a></li>
+                                  <li><a href="/tag/智慧城市群">西门子·智慧城市群</a></li>
+                                  <li><a href="/m/marketing/creditease.html">未来生活 未来金融</a></li>
+                                  <li><a href="/tag/与FT共进午餐">与FT共进午餐</a></li>
+                                  <li><a href="/channel/2016highlight.html">2016年度好文推荐</a></li>
+                                  </ol>
+                                <%elseif $level_2.haschildren%>
+                                  <ol class="nav-sub-items">
+                                    <%foreach from=$level_2.children item="level_3"%>
+                                    <li><a href="<%$level_3.link%>"><%$level_3.name%></a></li>
+                                    <%/foreach%>
+                                  </ol>
+                                <%/if%>
+                              </li>
+                            <%/foreach%>
+                          <%/if%>
+                        </ol>
+                      <%/if%>
+                    </li>
+
+
+
+                    <%if preg_match("/home/is",$level_1.code) && preg_match("/myft/is",$topnav)%>
+                      <li class="nav-section" aria-selected="true"<%assign var=current_page value="我的FT"%><%assign var=current_link value="/users/mystories"%> data-section="myft">
+                        <button class="nav-section-head mobile">我的FT</button>
+                        <a class="nav-section-head desktop" href="/users/mystories">我的FT</a>
+                        <ol class="nav-items">
+                          <li class="nav-item mobile">
+                            <a class="nav-link" href="/users/mystories">频道首页</a>
+                          </li>
+                          <li class="nav-item" <%if $subnav=="mystories"%>
+                          aria-selected="true"<%assign var=current_sub_page value="文章"%><%/if%> data-channel="mystories">
+                            <a class="nav-link" href="/users/mystories">文章</a>
+                          </li>
+                          <li class="nav-item" <%if $subnav=="mytopics"%>
+                          aria-selected="true"<%assign var=current_sub_page value="话题"%><%/if%> data-channel="mytopics">
+                            <a class="nav-link" href="/users/mytopics">话题</a>
+                          </li>
+                          <li class="nav-item" <%if $subnav=="fav"%>
+                          aria-selected="true"<%assign var=current_sub_page value="收藏"%><%/if%> data-channel="fav">
+                            <a class="nav-link" href="/users/favstorylist">收藏</a>
+                          </li>
+                          <li class="nav-item" <%if $subnav=="discover"%>
+                          aria-selected="true"<%assign var=current_sub_page value="发现"%><%/if%> data-channel="discover">
+                            <a class="nav-link" href="/users/discover">发现</a>
+                          </li>
+                        </ol>
+                      </li>
+                    <%/if%>
+                  <%/if%>
+                <%/foreach%>
+                <li class="nav-section mobile login">
+                  <ul>
+                    <li class="nav-item">
+                      <a class="nav-link" href="http://user.ftchinese.com/login">登录</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="http://user.ftchinese.com/register">免费注册</a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="nav-section mobile logout">
+                  <ul>
+                    <li class="nav-item">
+                      <a class="nav-link" href="/users/mystories">我的FT</a>
+                    </li>
+
+                    <li class="nav-item">
+                      <a class="nav-link" href="/users/setting/index">设置</a>
+                    </li>
+
+                    <li class="nav-item">
+                      <a class="nav-link" href="http://user.ftchinese.com/logout">登出</a>
+                    </li>
+                  </ul>
+                </li>
+              </ol>
+            </nav>
+
+            <ul class="o-nav__extra-tools">
+                <li class="tools-section" aria-haspopup="true">
+                    <a class="tools-section-head" href="http://www.ftchinese.com/m/corp/follow.html">关注我们</a>
+                    <ol class="tools-items">
+                        <li><a href="http://www.ftchinese.com/m/corp/follow.html" target="_blank">微信公众号</a></li>
+                        <li><a href="http://weibo.com/ftchinese" target="_blank">新浪微博</a></li>
+                        <li><a href="http://user.qzone.qq.com/622006290" target="_blank">QQ空间</a></li>
+                        <li><a href="http://www.ftchinese.com/m/corp/follow.html" target="_blank">读读日报</a></li>
+                        <li><a href="http://www.ftchinese.com/m/corp/follow.html" target="_blank">Flipboard</a></li>
+                        <li><a href="https://twitter.com/FTChinese" target="_blank">Twitter</a></li>
+                        <li><a href="https://www.facebook.com/financialtimeschinese" target="_blank">Facebook</a></li>
+                        <li><a href="https://www.linkedin.com/company/4865254?trk=hp-feed-company-name" target="_blank">LinkedIn</a></li>
+                    </ol>
+                </li>
+                <li class="tools-section" aria-haspopup="true">
+                    <span class="tools-section-head">工具</span>
+                    <ol class="tools-items">
+                        <li><a href="http://app.ftchinese.com/">移动应用大全</a></li>
+                        <li><a href="/users/setting/index">基本设置</a></li>
+                        <li><a href="/users/setting/changeicon">修改头像</a></li>
+                        <li><a href="/users/setting/maillist">邮件订阅</a></li>
+                        <li><a href="/index.php/snsapi/index">同步微博</a></li>
+                        <li><a href="/users/commentstory">我的评论</a></li>
+                        <li><a href="/users/favstorylist">管理收藏</a></li>
+                    </ol>
+                </li>
+                <li class="tools-section">
+                    <a class="tools-section-head follow__rss" href="http://www.ftchinese.com/channel/rss.html" title="RSS"><span>RSS</span></a>
+                </li>
+            </ul>
+
+          </div><!-- o-nav__inner -->
+        </div><!-- o-nav__outer -->
+        <div class="o-nav__meganav-placeholder"></div>
+      </div><!-- o-nav -->
+    </div><!-- o-nav__placeholder -->
+
+
+    <div class="site-map">
+      <div class="site-map__container">
+        <%if ($topnav!='home') || !empty($subnav)%>
+            <ul class="site-map__items">
+              <li><a href="<%$current_link%>"><%$current_page%></a></li>
+            <%if !empty($subnav)%>
+              <li><a href="<%$current_sub_link%>"><%$current_sub_page%></a></li>
+            <%/if%>
+            </ul>
+        <%/if%>
+      </div>
+    </div>
+
+  <%else%>
+    <div class="o-nav__placeholder">
+    <div class="o-nav">
+    <div class="o-nav__outer">
+    <div class="o-nav__inner">
+    <div class="o-nav__search"  data-o-component="o-toggler">
+    <button class="o-nav__search-toggle" data-o-toggler-button aria-controls="search-form">
+    <span class="search-toggle--open">搜索</span>
+    <span class="search-toggle--close">关闭</span>
+    </button>
+    <form action="/search/" id="search-form" role="search" data-o-toggler-target>
+    <input id="search-term" type="search" name="keys" class="search-input" placeholder="搜索FT中文网" />
+    <input id="type_news" type="hidden" value="type_news" name="ftsearchType" checked />
+    <button class="search-button" tabindex="1"><span>搜索</span></button>
+    </form>
+    </div>
+    <div class="o-header__masthead-mobile">
+    <a href="/" title="前往FT中文网首页"><span>FT中文网</span></a>
+    </div>
+    <nav class="o-nav__container" role="navigation">
+    <button class="nav-toggle" data-o-nav-togglable><span>Menu</span></button>
+    <ol class="o-nav__meganav">
+    <li class="nav-section mobile">
+    <button class="nav-section-head mobile" aria-selected="true">切换版本</button>
+    <ol class="nav-items">
+    <li class="nav-item">
+    <a class="nav-link" href="http://big5.ftchinese.com/">繁体中文版</a>
+    </li>
+    <li class="nav-item">
+    <a class="nav-link" href="http://www.ft.com/">英文版</a>
+    </li>
+    </ol>
+    </li>
+    <li class="nav-section"
+     aria-selected="true" data-section="home">
+    <button class="nav-section-head mobile">首页</button>
+    <a class="nav-section-head desktop" href="/">首页</a>
+    <ol class="nav-items">
+    <li class="nav-item mobile">
+    <a class="nav-link" href="/">
+    FT中文网首页
+    </a>
+    </li>
+    <li class="nav-item"  aria-haspopup="true" data-channel="special">
+    <a class="nav-link" href="/channel/special.html">特别报导</a>
+    <ol class="nav-sub-items">
+    <li><a href="/m/marketing/antfinancial.html">“新四大发明”背后的中国浪潮</a></li>
+    <%if date("Ymd",$smarty.now) >= 20170602 && date("Ymd",$smarty.now) <= 20170606%>
+    <li><a href="m/marketing/maotai.html">品味中国 飘香世界</a></li>
+    <%/if%>
+    <%if date("Ymd",$smarty.now) >= 20170814 && date("Ymd",$smarty.now) <= 20170930 %>
+    <li><a href="/tag/金砖五国峰会">金砖五国峰会</a></li>
+    <%/if%>
+    <li><a href="/tag/与FT共进下午茶">与FT共进下午茶</a></li>
+    <li><a href="/tag/智慧城市群">西门子·智慧城市群</a></li>
+    <li><a href="/m/marketing/creditease.html">未来生活 未来金融</a></li>
+    <li><a href="/tag/与FT共进午餐">与FT共进午餐</a></li>
+    <li><a href="/channel/2016highlight.html">2016年度好文推荐</a></li>
+    </ol>
+    </li>
+    <li class="nav-item"  data-channel="datanews">
+    <a class="nav-link" href="/channel/datanews.html">数据新闻</a>
+    </li>
+    <li class="nav-item"  data-channel="weekly">
+    <a class="nav-link" href="/channel/weekly.html">热门文章</a>
+    </li>
+    <li class="nav-item"  data-channel="event">
+    <a class="nav-link" href="/m/events/event.html">会议活动</a>
+    </li>
+    <li class="nav-item"  data-channel="member">
+    <a class="nav-link" href="/m/marketing/home.html">会员信息中心</a>
+    </li>
+    <li class="nav-item"  data-channel="intelligence">
+    <a class="nav-link" href="/m/marketing/intelligence.html">FT研究院</a>
+    </li>
+    <li class="nav-item"  data-channel="mba">
+    <a class="nav-link" href="/channel/mba.html">FT商学院</a>
+    </li>
+    <li class="nav-item"  data-channel="ebook">
+    <a class="nav-link" href="/m/marketing/ebook.html">FT电子书</a>
+    </li>
+    <li class="nav-item"  data-channel="photo">
+    <a class="nav-link" href="/channel/slides.html">图辑</a>
+    </li>
+    <li class="nav-item"  data-channel="job">
+    <a class="nav-link" href="https://ft.wd3.myworkdayjobs.com/FT_Chinese_External_Careers">职业机会</a>
+    </li>
+    </ol>
+    </li>
+    <li class="nav-section"
+     data-section="china">
+    <button class="nav-section-head mobile">中国</button>
+    <a class="nav-section-head desktop" href="/channel/china.html">中国</a>
+    </li>
+    <li class="nav-section"
+     data-section="world">
+    <button class="nav-section-head mobile">全球</button>
+    <a class="nav-section-head desktop" href="/channel/world.html">全球</a>
+    </li>
+    <li class="nav-section"
+     data-section="economy">
+    <button class="nav-section-head mobile">经济</button>
+    <a class="nav-section-head desktop" href="/channel/economy.html">经济</a>
+    </li>
+    <li class="nav-section"
+     data-section="markets">
+    <button class="nav-section-head mobile">金融市场</button>
+    <a class="nav-section-head desktop" href="/channel/markets.html">金融市场</a>
+    </li>
+    <li class="nav-section"
+     data-section="business">
+    <button class="nav-section-head mobile">商业</button>
+    <a class="nav-section-head desktop" href="/channel/business.html">商业</a>
+    </li>
+    <li class="nav-section"
+     data-section="innovation">
+    <button class="nav-section-head mobile">创新经济</button>
+    <a class="nav-section-head desktop" href="/channel/innovation.html">创新经济</a>
+    </li>
+    <li class="nav-section"
+     data-section="opinion">
+    <button class="nav-section-head mobile">观点</button>
+    <a class="nav-section-head desktop" href="/channel/opinion.html">观点</a>
+    </li>
+    <li class="nav-section"
+     data-section="management">
+    <button class="nav-section-head mobile">管理</button>
+    <a class="nav-section-head desktop" href="/channel/management.html">管理</a>
+    </li>
+    <li class="nav-section"
+     data-section="lifestyle">
+    <button class="nav-section-head mobile">生活时尚</button>
+    <a class="nav-section-head desktop" href="/channel/lifestyle.html">生活时尚</a>
+    </li>
+    <li class="nav-section"
+     data-section="stream">
+    <button class="nav-section-head mobile">视频</button>
+    <a class="nav-section-head desktop" href="/channel/stream.html">视频</a>
+    </li>
+    <li class="nav-section"
+     data-section="english">
+    <button class="nav-section-head mobile">每日英语</button>
+    <a class="nav-section-head desktop" href="/channel/english.html">每日英语</a>
+    </li>
+    <li class="nav-section mobile login">
+    <ul>
+    <li class="nav-item">
+    <a class="nav-link" href="http://user.ftchinese.com/login">登录</a>
+    </li>
+    <li class="nav-item">
+    <a class="nav-link" href="http://user.ftchinese.com/register">免费注册</a>
+    </li>
+    </ul>
+    </li>
+    <li class="nav-section mobile logout">
+    <ul>
+    <li class="nav-item">
+    <a class="nav-link" href="/users/mystories">我的FT</a>
+    </li>
+    <li class="nav-item">
+    <a class="nav-link" href="/users/setting/index">设置</a>
+    </li>
+    <li class="nav-item">
+    <a class="nav-link" href="http://user.ftchinese.com/logout">登出</a>
+    </li>
+    </ul>
+    </li>
+    </ol>
+    </nav>
+    <ul class="o-nav__extra-tools">
+    <li class="tools-section" aria-haspopup="true">
+    <a class="tools-section-head" href="http://www.ftchinese.com/m/corp/follow.html">关注我们</a>
+    <ol class="tools-items">
+    <li><a href="http://www.ftchinese.com/m/corp/follow.html" target="_blank">微信公众号</a></li>
+    <li><a href="http://weibo.com/ftchinese" target="_blank">新浪微博</a></li>
+    <li><a href="http://user.qzone.qq.com/622006290" target="_blank">QQ空间</a></li>
+    <li><a href="http://www.ftchinese.com/m/corp/follow.html" target="_blank">读读日报</a></li>
+    <li><a href="http://www.ftchinese.com/m/corp/follow.html" target="_blank">Flipboard</a></li>
+    <li><a href="https://twitter.com/FTChinese" target="_blank">Twitter</a></li>
+    <li><a href="https://www.facebook.com/financialtimeschinese" target="_blank">Facebook</a></li>
+    <li><a href="https://www.linkedin.com/company/4865254?trk=hp-feed-company-name" target="_blank">LinkedIn</a></li>
+    </ol>
+    </li>
+    <li class="tools-section" aria-haspopup="true">
+    <span class="tools-section-head">工具</span>
+    <ol class="tools-items">
+    <li><a href="http://app.ftchinese.com/">移动应用大全</a></li>
+    <li><a href="/users/setting/index">基本设置</a></li>
+    <li><a href="/users/setting/changeicon">修改头像</a></li>
+    <li><a href="/users/setting/maillist">邮件订阅</a></li>
+    <li><a href="/index.php/snsapi/index">同步微博</a></li>
+    <li><a href="/users/commentstory">我的评论</a></li>
+    <li><a href="/users/favstorylist">管理收藏</a></li>
+    </ol>
+    </li>
+    <li class="tools-section">
+    <a class="tools-section-head follow__rss" href="http://www.ftchinese.com/channel/rss.html" title="RSS"><span>RSS</span></a>
+    </li>
+    </ul>
+    </div><!-- o-nav__inner -->
+    </div><!-- o-nav__outer -->
+    <div class="o-nav__meganav-placeholder"></div>
+    </div><!-- o-nav -->
+    </div><!-- o-nav__placeholder -->
+    <div class="site-map">
+    <div class="site-map__container">
+    </div>
+    </div>
+    <script>ga('send','event', 'CatchError', 'JSON File: Navigation', '<%$smarty.server.SERVER_ADDR%>: ' + window.location.href, {'nonInteraction':1});</script>
+  <%/if%>
+
 <%/if%>
-
-
 
 
 
