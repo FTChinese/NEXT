@@ -1,10 +1,15 @@
+
+<%assign var="carousel_images_array" value= implode(',',$all_carousel_images|regex_replace:"/[\r\n\t]/":","%>
 <!--<div class="block-container">
-    <div class="block-inner">
+    <div class="block-inner">   
     <div class="content-container  swiper-position">-->
      <div class="swiper-position">   
 <!-- Swiper -->
     <div class="swiper-container gallery-top">
         <div class="swiper-wrapper">
+            <%foreach from=$carousel_images_array item=image%>
+                <div class="swiper-slide" style="background-image:url(<%$image%>)"></div>
+	        <%/foreach%>
             <div class="swiper-slide" style="background-image:url(https://az592774.vo.msecnd.net/pgl-release/Images/LuxuryImages/adhoc/47257a15-76c6-4809-83f2-64f928f60e93/f8374d4e101719bfe19bb8ed88dd33b3.jpg)"></div>
             <div class="swiper-slide" style="background-image:url(https://az592774.vo.msecnd.net/pgl-release/Images/LuxuryImages/adhoc/251cb30d-a860-46d4-8bb5-e1ea86c3cea9/887b65a400a4878c62cc62661135e778.jpg)"></div>
             <div class="swiper-slide" style="background-image:url(https://az592774.vo.msecnd.net/pgl-release/Images/LuxuryImages/adhoc/ff97b839-284a-4fcf-8983-fe047ea5df9f/523c8948c03b909327648b179d81e7a1.jpg)"></div>
@@ -23,6 +28,9 @@
 
     <div class="swiper-container gallery-thumbs">
         <div class="swiper-wrapper">
+            <%foreach from=$carousel_images_array item=image%>
+                <div class="swiper-slide" style="background-image:url(<%$image%>)"></div>
+	        <%/foreach%>
             <div class="swiper-slide" style="background-image:url(https://az592774.vo.msecnd.net/pgl-release/Images/LuxuryImages/adhoc/47257a15-76c6-4809-83f2-64f928f60e93/f8374d4e101719bfe19bb8ed88dd33b3.jpg)"></div>
             <div class="swiper-slide" style="background-image:url(https://az592774.vo.msecnd.net/pgl-release/Images/LuxuryImages/adhoc/251cb30d-a860-46d4-8bb5-e1ea86c3cea9/887b65a400a4878c62cc62661135e778.jpg)"></div>
             <div class="swiper-slide" style="background-image:url(https://az592774.vo.msecnd.net/pgl-release/Images/LuxuryImages/adhoc/ff97b839-284a-4fcf-8983-fe047ea5df9f/523c8948c03b909327648b179d81e7a1.jpg)"></div>
@@ -50,8 +58,8 @@
                     <li><span>For Sale</span></li>
                     <li><span> <strong>GBP 11,408,980</strong>&nbsp; </span></li>
                     <li>Property Style: <span>Modern</span></li>
-                    <li>Bedroom: <span>3</span></li>
-                    <li>Bathroom: <span>4</span></li>
+                    <li>Bedroom: <span><%$bedroom%></span></li>
+                    <li>Bathroom: <span><%$bathroom%></span></li>
                     <li>Half Bathroom: <span>1</span></li>
                 </ul>
                 <div class="clearfloat"></div>
