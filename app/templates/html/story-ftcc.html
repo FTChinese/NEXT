@@ -943,27 +943,28 @@
 	<%if (in_array("单页",$story.tag) || $smarty.get.full=="y") && $page_action=="en"%>
 		<%assign var="story_content" value=$story.ebody%>
 	<%elseif (!in_array("单页",$story.tag) && $smarty.get.full!="y") || $page_action=="en"%>
-
+	<%*
 		<%if $hideMPU3 == "yes" || $noAd == "true" || preg_match("/活动页面/is",$keys)%>
 		    <%assign var="story_content" value=$story_content|replace:"<div id=\"story_main_mpu\"></div>":""%>
 		<%else%>
 			<%assign var="story_content" value=$story_content|replace:"<div id=\"story_main_mpu\"></div>":"<div id=\"story_main_mpu\"><script type=\"text/javascript\">document.write (writeAd('storympu'));</script></div>"%>
-		<%/if%>
+		<%/if%> 
+	*%>
 	<%elseif $hideMPU3!="yes" && !preg_match("/活动页面/is",$keys) && $noAd != "true"%>
 	<%*<!--在单页的情况下，如果文章没有插图，没有iframe，没有video，没有highcharts, 也没有被强制设为不显示MPU 3，则将MPU_3广告位插入到第五段开头。-->*%>
-		 <%assign var="story_content" value=$storyBody|regex_replace:"/[\r\t\n]/":""|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1<div id=story_main_mpu><script type=\"text/javascript\">document.write (writeAd('storympu'));</script></div><p>"%>
+	<%*	 <%assign var="story_content" value=$storyBody|regex_replace:"/[\r\t\n]/":""|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1<div id=story_main_mpu><script type=\"text/javascript\">document.write (writeAd('storympu'));</script></div><p>"%>   *%>
 	<%else%>
 		<%assign var="story_content" value=$storyBody%>
 	<%/if%>
 
-
+   <%*
 	<%if $noAd != "true"%>
 		<%if date("Ymd",$smarty.now) <= 20161230%>
 			<%assign var="story_content" value=$story_content|regex_replace:"/[\r\t\n]/":""|regex_replace:"/^(\<p\>.*?)\<p\>/":"\\1<div class=story_main_mpu_vw><script type=\"text/javascript\">document.write (writeAd('storympuVW'));</script></div><p>"%>
 		<%else%>
 			<%assign var="story_content" value=$story_content|regex_replace:"/[\r\t\n]/":""|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1<div class=\"in-story-recommend P-only\" id=\"in-story-recommend\"></div><p>"%>
 		<%/if%>
-	<%/if%>
+	<%/if%>  *%>
 <%/if%>
 
 <%if $itemType == ""%>
@@ -1026,11 +1027,11 @@
 		<%/if%>
 		<%if !preg_match("/highcharts/is",$story_content) && !preg_match("/video/is",$story_content) && $hideMPU3!="yes" && $noAd != "true" && !preg_match("/单页/is",$tag)%>
 		<%*<!--在单页的情况下，如果文章没有插图，没有iframe，没有video，没有highcharts, 也没有被强制设为不显示MPU 3，则将MPU_3广告位插入到第五段开头。-->*%>
-			 <%assign var="story_content" value=$story_content|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1<div id=story_main_mpu><script type=\"text/javascript\">document.write (writeAd('storympu'));</script></div><p>"%>
+		<%*	 <%assign var="story_content" value=$story_content|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1<div id=story_main_mpu><script type=\"text/javascript\">document.write (writeAd('storympu'));</script></div><p>"%> *%>
 		<%/if%>
-		<%if date("Ymd",$smarty.now) <= 20161230 && $noAd != "true"%>
+	<%*	<%if date("Ymd",$smarty.now) <= 20161230 && $noAd != "true"%>
 			<%assign var="story_content" value=$story_content|regex_replace:"/^(\<p\>.*?)\<p\>/":"\\1<div class=story_main_mpu_vw><script type=\"text/javascript\">document.write (writeAd('storympuVW'));</script></div><p>"%>
-		<%/if%>
+		<%/if%> *%>
 
 
 
@@ -1152,6 +1153,12 @@
     <%elseif preg_match("/极致人生/is",$keys)%>
     	<style><%include file="next/styles/main-story-luxury.css"%></style>
 			<script type="text/javascript">var pageTheme = 'luxury';</script>
+		<%* <!--
+		<%elseif  preg_match("/与FT共进下午茶/is",$keys) %>
+			<style><%include file="next/styles/main-story-afternoonteaWithFT.css"%></style>
+			<script type="text/javascript">console.log("afternoonteaWithFT");</script>
+		-->
+		*%>
 		
     <%else%>
     	<%if $pageType == "singlechoice"%>
@@ -1291,9 +1298,9 @@
 			<%include file="next/partials/header.html"%>
 		<%/if%>
 		<%include file="next/partials/nav.html"%>
-		<%if !preg_match("/品味|乐尚街|艺术投资|腕表|游艇|极致人生|美食与美酒/is",$keys) && $smarty.get.hideheader != "yes"%>
+		<%*<%if !preg_match("/品味|乐尚街|艺术投资|腕表|游艇|极致人生|美食与美酒/is",$keys) && $smarty.get.hideheader != "yes"%>
 		<%include file="next/partials/banner.html"%>
-		<%/if%>
+		<%/if%>*%>
 		<%assign var="bannerCount" value=$bannerCount+1%>
 		<%if $info.photonewsid != ""%>
 			<%include file="next/partials/photo-block.html"%>
@@ -1301,10 +1308,11 @@
 			<%include file="next/partials/story-ftcc-block.html"%>
 		<%/if%>
 		<%*<%include file="next/partials/story-recommend.html%>*%>
-		<%if !preg_match("/品味|乐尚街|艺术投资|腕表|游艇|极致人生/is",$keys)%>
+		<%*<%if !preg_match("/品味|乐尚街|艺术投资|腕表|游艇|极致人生/is",$keys)%>
 			<%include file="next/partials/banner.html"%>
-		<%/if%>
+		<%/if%>*%>
 		<%include file="next/partials/footer.html"%>
+		<%*<%include file="next/partials/QrCode.html"%>*%>
 		<%include file="next/partials/story-font.html"%>
 		<%include file="next/partials/story-action.html"%>
 	<%else%>
@@ -1336,10 +1344,31 @@ if (document.querySelector('.highcharts[data-chart-id]')) {
 <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
 <![endif]-->
 <script type="text/javascript">
-  <%include file="next/scripts/main-ftcc-story.js"%>
+  <%include file="next/scripts/main-story.js"%>
 </script>
-
+<%if $pageType == "singlechoice"%>
+	<script type="text/javascript">
+		var quizId = '<%$id%>';
+		var quizLevel = '<%$scoop|default:0%>';
+		var rightAnswer = '<%$cskylineheadline|regex_replace:"/[\n\']/":""%>';
+		var choices = '<%$cbody|regex_replace:"/[\n]/":"|"|regex_replace:"/\'/":""%>';
+		var explain = '<%$cshortleadbody|regex_replace:"/[\n]/":"<br>"|regex_replace:"/\'/":""%>';
+		<%if $story_pic.smallbutton != ""%>
+			var explainImage = '<%$story_pic.smallbutton%>';
+		<%/if%>
+	  <%include file="next/scripts/main-single-choice.js"%>
+	</script>
+<%/if%>
 <script type="text/javascript" src="http://static.ftchinese.com/n/main-sharelinks.js?<%include file="next/timestamp/timestamp.html"%>"></script>
-
+<%*<!--In Read Ad-->*%>
+<%if $noAd != "true"%>
+<script type="text/javascript">
+// MARK: Don't show inread ad for biligual stories
+if (w > 490 && isTouchDevice() === false && document.querySelectorAll('.ce').length == 0) {
+	var cssVersionNumber = '<%include file="next/timestamp/timestamp.html"%>';
+    document.write ('<scr'+'ipt src="http://dualstack.adsame-1421766300.ap-southeast-1.elb.amazonaws.com/s?z=ft&c=' + adchID + '0112' + slotStr + adReachability() + '" charset="gbk"></scr'+'ipt>');
+    document.write ('<scr'+'ipt src="http://static.ftchinese.com/n/main-barrier.js?<%include file="next/timestamp/timestamp.html"%>"></scr'+'ipt>');
+}
+</script>
 <%/if%>
 </html>
