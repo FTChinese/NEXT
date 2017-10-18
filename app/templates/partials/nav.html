@@ -121,10 +121,8 @@
                               aria-selected="true"<%assign var=current_sub_page value=$level_2.name%><%assign var=current_sub_link value=$level_2.link%><%/if%><%if $level_2.haschildren%> aria-haspopup="true"<%/if%> data-channel="<%$level_2.code%>">
                                 <a class="nav-link" href="<%$level_2.link%>"><%$level_2.name %></a>
                                 <%if $level_2.code == "special"%>
-                                  <ol class="nav-sub-items">
-                                  <!--
+                                  <ol class="nav-sub-items">          
                                   <li><a href="/tag/交通银行记账式原油">交通银行记账式原油</a></li>
-                                  -->
                                   <li><a href="/m/marketing/antfinancial.html">“新四大发明”背后的中国浪潮</a></li>
                                   <%if date("Ymd",$smarty.now) >= 20170602 && date("Ymd",$smarty.now) <= 20170606%>
                                   <li><a href="m/marketing/maotai.html">品味中国 飘香世界</a></li>
