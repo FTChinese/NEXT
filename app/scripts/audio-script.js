@@ -1,3 +1,4 @@
+/*
 var audioCurrentTime;
 var audioData = {
 	url: '',
@@ -68,3 +69,4 @@ function exportData() {
 	var exportedJSONString = JSON.stringify(audioData);
 	alert (exportedJSONString);
 }
+*/

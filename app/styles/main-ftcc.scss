@@ -1,0 +1,94 @@
+// bower:scss
+// endbower
+
+
+// @import "bourbon/_bourbon.scss";
+
+// vendor prefix
+@mixin vendor-prefix($name, $argument) {
+  -webkit-#{$name}: #{$argument};
+  -ms-#{$name}: #{$argument};
+  -moz-#{$name}: #{$argument};
+  -o-#{$name}: #{$argument};
+  #{$name}: #{$argument};
+}
+
+// common parts
+@import "theme-ftcc.scss";
+@import "variables.scss";
+@import "mixins.scss";
+@import "common.scss";
+@import "header.scss";
+@import "o-nav.scss"; 
+/*@import "nav.scss";*/
+@import "banner.scss";
+@import "block.scss";
+@import "footer.scss";
+@import "qr.scss";
+@import "overlay.scss";
+
+// story page specific parts
+@import "common-content.scss";
+@import "story.scss";
+@import "tag-right-rail.scss";
+
+// media query
+@import "block-media-query.scss";
+
+// my ft
+@import "myft-follow.scss";
+
+// special reports header
+@import "header-tag.scss";
+
+
+
+
+.img-section{
+	margin: 0 10px 15px 10px;
+	.image.story-image {
+		position: relative;
+		padding-bottom: 0;
+		margin: 0px;
+		a{
+			position: absolute;
+			top:20px;
+			right: 20px;
+		}
+		figure{
+			background:white;
+		}
+		}
+		.image{
+			left: 0px;
+			right: 0px;
+		}
+		.tag-section{
+			height:30px;
+			.tag {
+				float: left;
+				background-color: #12a5b3;
+				padding:5px 15px 5px 15px
+			}
+			.show-comment{
+				float: right;
+				img{
+					background-color: white;
+				}
+				span{
+					margin-left:10px 
+				}
+			}
+		}
+}
+.clear-float{
+	clear: both;
+}
+.story-body{
+	margin: 0 20px;
+	h1{
+		font-size: 1.6em;
+		padding-bottom: 15px;
+		line-height: 161.8%;
+	}
+}
