@@ -649,7 +649,7 @@
 	<%elseif $randNum == 2 %>
 		<%assign var="adchannelID" value="1300"%>
 	<%/if%>
-<%elseif preg_match("/餐厅|美酒|美食|烈酒/is",$keys)%>
+<%*  <%elseif preg_match("/餐厅|美酒|美食|烈酒/is",$keys)%>
 	<%assign var=breadcrum value="<a href=/channel/wine.html>美食与美酒</a>"%>
 	<%assign var="adchannelID" value="1803"%>
 	<%assign var="topnav" value="lifestyle"%>
@@ -761,7 +761,7 @@
 		<%assign var="adchannelID" value=$eheadline%>
 		<%assign var="sponsorMobile" value="yes"%>
 	<%/if%>
-	<%assign var=breadcrum value="<a>特别策划</a>"%>
+	<%assign var=breadcrum value="<a>特别策划</a>"%>  *%>
 <%elseif preg_match("/英语电台/is",$keys)%>
 	<%assign var="topnav" value="english"%>
 	<%assign var="subnav" value="radio"%>
