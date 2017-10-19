@@ -226,7 +226,7 @@ function loadImages() {
       shouldLoadImage = true;
     }
 
-    if (window.gNoImageWithData === true && window.gConnectionType === 'data') {
+    if (window.gNoImageWithData === 'On' && window.gConnectionType === 'data') {
       shouldLoadImage = false;
     }
 
