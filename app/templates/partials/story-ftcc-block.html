@@ -10,8 +10,10 @@
 				<div class="tag-section">
 					
 					<%if $story.tag|@count > 0%>
-						<div  class="tag">`$story.tag[0]`</div>
+						<%assign var=breadcrum value="<a target=\"_blank\" href=\"/tag/`$story.tag[0]`\">`$story.tag[0]`</a>"%>
 					<%/if%>
+					<div  class="tag"><%$breadcrum%></div>
+					
 					<div class="show-comment">
 						<div><img onclick="clip(this)"  src="http://static.ftchinese.com/images/png/love.png"></div>
 						<div class="count nubmerSpace">3</div>
