@@ -446,7 +446,14 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 -->
 <script type="text/javascript">
     document.write(writeAdNew({
-        devices: ['PC','iPhoneWeb','AndroidWeb'],
+        devices: ['PC'],
+        pattern:'Leaderboard',
+        position:'Num1'
+   }));
+</script>
+<script type="text/javascript">
+    document.write(writeAdNew({
+        devices: ['iPhoneWeb','AndroidWeb'],
         pattern:'Banner',
         position:'Num1'
    }));
@@ -707,7 +714,14 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 -->
 <script type="text/javascript">
     document.write (writeAdNew({
-        devices: ['PC','iPhoneWeb','AndroidWeb'],
+        devices: ['PC'],
+        pattern:'Banner',
+        position:'Num1'
+    }));
+</script>
+<script type="text/javascript">
+    document.write (writeAdNew({
+        devices: ['iPhoneWeb','AndroidWeb'],
         pattern:'Banner',
         position:'Num2'
     }));
@@ -839,7 +853,7 @@ if (w > 490 && isTouchDevice() === false) {
     };
 
 
-    function initInreadAd() {
+    function initInreadAd() { //QUEST:这个也需要改成writeAdNew的方式吗？
         //find the slot to insert inread ad
         var inreadAdSlot = document.querySelectorAll(inreadAd.slot)[inreadAd.minSlot];
         var inreadAdContainer = document.createElement('div');
