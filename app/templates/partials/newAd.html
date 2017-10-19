@@ -1,0 +1,13 @@
+<%if $smarty.get.utm_campaign == "2M161000" || preg_match("/2U16[0-9]+/is",$smarty.get.utm_campaign)%>
+<%assign var="hideBanner" value="yes"%>
+<%/if%>
+<%if $smarty.get.ad != "no" && $noAd != "true" && $hideBanner != "yes"%>
+  <script type="text/javascript">
+    var adObj = {};
+    adObj.devices = '<%$section.devices%>';
+    adObj.pattern = '<%$section.pattern%>';
+    adObj.adPosition = '<%$section.adPosition%>';
+    adObj.container = '<%$section.container%>';
+    document.write (writeAd(adObj));
+  </script>
+<%/if%>
