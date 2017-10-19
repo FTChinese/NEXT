@@ -21,6 +21,7 @@
  }
  });
  }
+ window.gDebugAd = '<span style="display:block;width:100%;position:relative;height:0;overflow:visible;"><div style="position:absolute;top:0;left:0;font-size:14px;color:#777;">adcode_for_debug</div></span>';
  </script>
 
 <script>
@@ -69,6 +70,9 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 
 
 <script type="text/javascript" src="scripts/key.js"></script>
+<script type="text/javascript" src="scripts/adChannel.js"></script>
+<script type="text/javascript" src="scripts/adPattern.js"></script>
+<script type="text/javascript" src="scripts/adDevice.js"></script>
 <script type="text/javascript" src="scripts/ad.js"></script>
 <script type="text/javascript" src="scripts/ad-third-party.js"></script>
 <script type="text/javascript" src="scripts/ad-third-party-impression.js"></script>
@@ -332,7 +336,9 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 <li><a href="/channel/stream.html">视频</a></li>
 </ul>
 </div>
-</div><div class="bn-ph">
+</div>
+<!-- Old Ad:
+<div class="bn-ph">
 <div class="banner-container">
 <div class="banner-inner">
 <div class="banner-content">
@@ -341,6 +347,21 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 </div>
 </div>
 </div>
+-->
+<script type="text/javascript">
+    document.write(writeAdNew({
+        devices: ['PC'],
+        pattern:'Leaderboard',
+        position:'Num1'
+   }));
+</script>
+<script type="text/javascript">
+    document.write(writeAdNew({
+        devices: ['iPhoneWeb','AndroidWeb'],
+        pattern:'Banner',
+        position:'Num1'
+   }));
+</script>
 <div class="block-container has-side"><div class="block-inner">
 <div class="content-container"><div class="content-inner">
 <div class="list-container video-list-container">
@@ -412,9 +433,27 @@ document.write('<scr' + 'ipt src="http://union.bokecc.com/player?vid=A836BE37127
 <div class="clearfloat block-bottom"></div>
 </div></div>
 <div class="side-container"><div class="side-inner">
+
+<!-- Old Ad:
 <div class="mpu-container first-child">
 <script type="text/javascript">document.write (writeAd('mpu'));</script>
 </div>
+-->
+<script type="text/javascript">
+    document.write (writeAdNew({
+        devices: ['PC','PadWeb'],
+        pattern:'MPU',
+        position:'Right1'
+    }));
+</script>
+<script type="text/javascript">
+    document.write (writeAdNew({
+        devices: ['iPhoneWeb','AndroidWeb'],
+        pattern:'MPU',
+        position:'Middle1'
+    }));
+</script>
+
 </div></div>
 <div class="clearfloat"></div>
 </div></div><div class="footer-container"><div class="footer-inner">
