@@ -359,7 +359,7 @@
 
 					<%$itemTop%>
 					<div class="item-container <%$itemClass%> <%$hasImage%>"<%$itemData%>><div class="item-inner">
-						<h2 class="item-headline"><%$itemTag%><a target="_blank" href="<%$itemLink%>"><%$itemHeadline%></a></h2>
+						<h2 class="item-headline"><%$itemTag%><a class="item-headline-link" target="_blank" href="<%$itemLink%>"><%$itemHeadline%></a></h2>
 						<%if $item.relatives|@count > 0 && $item.relatives[0].type === 'video'%><div class="image"><figure class="loading-video" data-vid="<%$item.relatives[0].id%>"></figure></div><%elseif $itemType === "video" && $listType !== "videos"%><div class="image"><figure class="loading-video" data-vid="<%$itemId%>"></figure></div><%elseif $itemImage != "" && $hasImage === "has-image"%><a class="image" target="_blank" href="<%$itemLink%>"><figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure></a><%/if%>
 						<%if $hideLead === "no"%><div class="item-lead"><%$itemLead|strip_tags%></div><%/if%>
 						<%$itemTimeStamp%>
@@ -667,7 +667,7 @@
 					<%else%>
 						<%$itemTop%>
 						<div class="item-container <%$itemClass%> <%$hasImage%>"<%$itemData%>><div class="item-inner">
-							<h2 class="item-headline"><%$itemTag%><a target="_blank" href="<%$itemLink%>"><%$itemHeadline%></a></h2>
+							<h2 class="item-headline"><%$itemTag%><a class="item-headline-link" target="_blank" href="<%$itemLink%>"><%$itemHeadline%></a></h2>
 							<%if $item.relatives|@count > 0 && $item.relatives[0].type === 'video'%><div class="image"><figure class="loading-video" data-vid="<%$item.relatives[0].id%>"></figure></div><%elseif $itemType === "video" && $listType !== "videos"%><div class="image"><figure class="loading-video" data-vid="<%$itemId%>"></figure></div><%elseif $itemImage != "" && $hasImage === "has-image"%><a class="image" target="_blank" href="<%$itemLink%>"><figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure></a><%/if%>
 							<%if $hideLead === "no"%><div class="item-lead"><%$itemLead%></div><%/if%>
 							<%$itemTimeStamp%>

@@ -21,6 +21,7 @@
  }
  });
  }
+ window.gDebugAd = '<span style="display:block;width:100%;position:relative;height:0;overflow:visible;"><div style="position:absolute;top:0;left:0;font-size:14px;color:#777;">adcode_for_debug</div></span>';
  </script>
 
 <script>
@@ -95,6 +96,9 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 
 
 <script type="text/javascript" src="scripts/key.js"></script>
+<script type="text/javascript" src="scripts/adChannel.js"></script>
+<script type="text/javascript" src="scripts/adPattern.js"></script>
+<script type="text/javascript" src="scripts/adDevice.js"></script>
 <script type="text/javascript" src="scripts/ad.js"></script>
 <script type="text/javascript" src="scripts/ad-third-party.js"></script>
 <script type="text/javascript" src="scripts/ad-third-party-impression.js"></script>
@@ -429,7 +433,7 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 </div>
 
 
-
+<!-- Old Ad:
 <div class="bn-ph">
 <div class="banner-container">
 <div class="banner-inner">
@@ -439,7 +443,14 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 </div>
 </div>
 </div>
-
+-->
+<script type="text/javascript">
+    document.write(writeAdNew({
+        devices: ['PC','iPhoneWeb','AndroidWeb'],
+        pattern:'Banner',
+        position:'Num1'
+   }));
+</script>
 
 <div class="block-container has-side story-page"><div class="block-inner">
 <div class="content-container"><div class="content-inner">
@@ -476,11 +487,35 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 
 
 <p>香港再度成为全球外派成本最高的城市，尽管这块中国领地的经济正面临越来越大的阻力、而且企业还削减了曾经很丰厚的外派津贴。</p>
+<!-- Old Ad:(QUEST:此处应该是story中的第一个MPU吧？)
 <div class=story_main_mpu_vw><script type="text/javascript">document.write (writeAd('storympuVW'));</script></div>
+-->
+<script type="text/javascript">
+    document.write (writeAdNew({
+        devices: ['PC','iPhoneWeb','AndroidWeb'],
+        pattern:'MPU',
+        position:'Middle1',
+        container:'mpuInStroy'
+    }));
+</script>
 <p>香港拥有全球最难以负担的居住成本，高昂的房租帮助这座金融中心在咨询公司美世(Mercer)最新发布的生活成本年度排行榜上回到榜首位置。</p>
 <p>原先排在榜首的是罗安达，即石油资源丰富的安哥拉的首都。货币走软加上大宗商品价格暴跌，导致罗安达的生活成本下降。</p>
 <p>外派成本最高的十个城市，有五个位于亚洲，这突显出企业若想与这个全球经济增长引擎建立联系，得在他们的员工身上下多少血本。在前十名开外的城市中，纽约上升了五位、排名第十一，伦敦则滑落了五位、排名第十七。</p>
-<div id="story_main_mpu"><script type="text/javascript">document.write (writeAd('storympu'));</script></div><p>美世的马里奥•费拉罗(Mario Ferraro)表示：“许多亚洲城市仍是全球外派成本最高的地方。不过，这并没有妨碍企业向这里派遣人才，因为该地区仍在提供增长潜力，而且对一流人才的需求仍然很大。”</p>
+
+<!-- Old ad:
+<div id="story_main_mpu"><script type="text/javascript">document.write (writeAd('storympu'));</script></div>
+--> 
+<script type="text/javascript">
+    document.write (writeAdNew({
+        devices: ['PC','iPhoneWeb','AndroidWeb'],
+        pattern:'MPU',
+        position:'Middle2',
+        container:'mpuInStroy'
+    }));
+</script>
+
+
+<p>美世的马里奥•费拉罗(Mario Ferraro)表示：“许多亚洲城市仍是全球外派成本最高的地方。不过，这并没有妨碍企业向这里派遣人才，因为该地区仍在提供增长潜力，而且对一流人才的需求仍然很大。”</p>
 <p>新加坡在榜单上排名第四。对那些瞄准相对快速增长的东南亚地区的投资者来说，新加坡是一个枢纽。东京排名第五，上海第七，北京第十。</p>
 <p>但是，由于中国经济正经历结构性放缓，加上世界许多地区增长疲软，一些跨国公司近来一直在削减提供给外派员工的福利，包括住房津贴。</p>
 <p>无论是在充满活力的非洲石油城市生活，还是在亚洲的金融中心生活，许多外派员工都靠这些福利来说服自己离开总部所在地是正确的，因为后者的生活成本一般要低得多。</p>
@@ -593,10 +628,18 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 <div class="clearfloat block-bottom"></div>
 </div></div>
 <div class="side-container"><div class="side-inner">
+<!--
 <div class="mpu-container first-child">
 <script type="text/javascript">document.write (writeAd('storympuRight'));</script>
 </div>
-
+-->
+<script type="text/javascript">
+    document.write (writeAdNew({
+        devices: ['PC','PadWeb'],
+        pattern:'MPU',
+        position:'Right1'
+    }));
+</script>
 <div class="story-box">
 <h2 class="box-title"><a href="/channel/weekly.html">相关文章</a></h2>
 <ul class="top10">
@@ -607,9 +650,19 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 <li class="mp5"><a target="_blank" href="/story/001044014">驻外生活百味</a></li>
 </ul>
 </div>
+<!-- Old Ad:
 <div class="mpu-container">
 <script type="text/javascript">document.write (writeAd('storympuRight'));</script>
 </div>
+-->
+<script type="text/javascript">
+    document.write (writeAdNew({
+        devices: ['PC','PadWeb'],
+        pattern:'MPU',
+        position:'Right2'
+    }));
+</script>
+
 <div class="story-box last-child">
 <h2 class="box-title"><a>相关话题</a></h2>
 <ul class="top10">
@@ -641,7 +694,7 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 </div></div>
 
 
-
+<!-- Old Ad:QUEST:旧代码的bn-ph处为什么还有style="display:none;"?
 <div class="bn-ph">
 <div class="banner-container">
 <div class="banner-inner">
@@ -651,6 +704,15 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 </div>
 </div>
 </div>
+-->
+<script type="text/javascript">
+    document.write (writeAdNew({
+        devices: ['PC','iPhoneWeb','AndroidWeb'],
+        pattern:'Banner',
+        position:'Num2'
+    }));
+</script>
+
 <div class="footer-container"><div class="footer-inner">
 <div>
 <a href="/m/corp/aboutus.html">关于我们</a>

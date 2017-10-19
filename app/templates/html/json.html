@@ -61,7 +61,7 @@
 											<%assign var=itemIndex value=$itemIndex+1%>
 										}
 									<%/foreach%>
-									<%if preg_match("/all|story|interactive|photo|video|hot/is",$list.feedType) && $list.items|@count==0%>
+									<%if preg_match("/all|story|interactive|photo|video|hot|myFT/is",$list.feedType) && $list.items|@count==0%>
 										<%if $list.feedImage == "necessary"%>
 											<%assign var="feedImage" value="necessary"%>
 										<%/if%>
@@ -72,8 +72,62 @@
 										<%assign var="feedStart" value=$list.feedStart|default:0%>
 										<%assign var="feedTag" value=$list.feedTag%>
 										<%if $list.feedType == "myFT"%>
-											<%easyapi command="31005" assign="myftArrays" topnum=30%>
-											<%assign var="itemsArray" value=$myftArrays.odatalist%>
+
+
+
+
+
+<%if $smarty.get.tag != ""%>
+	<%assign var="tagSql" value=$smarty.get.tag|replace:",":"', tag) or find_in_set('"%>
+	<%assign var="tagSql" value="find_in_set('`$tagSql`', tag)"%>
+<%/if%>
+<%if $smarty.get.topic != ""%>
+	<%assign var="topicSql" value=$smarty.get.topic|replace:",":"', topic) or find_in_set('"%>
+	<%assign var="topicSql" value="find_in_set('`$topicSql`', topic)"%>
+<%/if%>
+<%if $smarty.get.area != ""%>
+<%assign var="areaSql" value=$smarty.get.area|replace:",":"', area) or find_in_set('"%>
+<%assign var="areaSql" value="find_in_set('`$areaSql`', area)"%>
+<%/if%>
+<%if $smarty.get.industry != ""%>
+<%assign var="industrySql" value=$smarty.get.industry|replace:",":"', industry) or find_in_set('"%>
+<%assign var="industrySql" value="find_in_set('`$industrySql`', industry)"%>
+<%/if%>
+
+
+<%assign var="followSql" value="1=1"%>
+
+<%if $tagSql != ""%>
+	<%assign var="followSql" value="`$followSql` or `$tagSql`"%>
+<%/if%>
+
+<%if $topicSql != ""%>
+	<%assign var="followSql" value="`$followSql` or `$topicSql`"%>
+<%/if%>
+
+<%if $areaSql != ""%>
+	<%assign var="followSql" value="`$followSql` or `$areaSql`"%>
+<%/if%>
+
+<%if $industrySql != ""%>
+	<%assign var="followSql" value="`$followSql` or `$industrySql`"%>
+<%/if%>
+
+<%assign var="allkeys" value="`$smarty.get.tag``$smarty.get.topic``$smarty.get.area``$smarty.get.industry`"%>
+<%if  preg_match("/'/is",$allkeys)%>
+	<%assign var="followSql" value="1=1"%>
+<%/if%>
+
+<!--<%$followSql%>-->
+<%assign var="itemsArray" value=$storymodel->get_story_by_field_search($followSql,$feedStart,$feedItems,999999999,10800)%>
+
+
+
+
+
+
+
+
 										<%elseif $list.feedType == "hot"%>
 											<%assign var="itemsArray" value=$storymodel->get_hot_story(7,$feedItems,true)%>
 											<%assign var="feedType" value="story"%>
