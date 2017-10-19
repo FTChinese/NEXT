@@ -8,12 +8,15 @@
 					<a  href=""><img src="http://static.ftchinese.com/images/png/playSound.png"></a>
 				</div>
 				<div class="tag-section">
-					<div class="tag">科技</div>
+					
+					<%if $story.tag|@count > 0%>
+						<div  class="tag">`$story.tag[0]`</div>
+					<%/if%>
 					<div class="show-comment">
-					<div ><img src="http://static.ftchinese.com/images/png/love.png"></div>
-					<div class="count">3</div>
-					<div><img src="http://static.ftchinese.com/images/png/comment.png"></div>
-					<div class="count">23</div>
+						<div><img onclick="clip(this)"  src="http://static.ftchinese.com/images/png/love.png"></div>
+						<div class="count nubmerSpace">3</div>
+						<div><a href="/story/001074718"><img id="open-comment" src="http://static.ftchinese.com/images/png/comment.png"></a></div>
+						<div id="comment-number" class="count">23</div>
 					</div>
 				</div>
 			</div>

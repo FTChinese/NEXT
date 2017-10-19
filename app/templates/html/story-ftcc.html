@@ -1379,6 +1379,23 @@ if (w > 490 && isTouchDevice() === false && document.querySelectorAll('.ce').len
     document.write ('<scr'+'ipt src="http://dualstack.adsame-1421766300.ap-southeast-1.elb.amazonaws.com/s?z=ft&c=' + adchID + '0112' + slotStr + adReachability() + '" charset="gbk"></scr'+'ipt>');
     document.write ('<scr'+'ipt src="http://static.ftchinese.com/n/main-barrier.js?<%include file="next/timestamp/timestamp.html"%>"></scr'+'ipt>');
 }
+var commentNumber = document.getElementById('comment-number')
+var openComment = document.getElementById('open-comment')
+if (commentNumber.innerHTML>0){
+    openComment.src = "http://static.ftchinese.com/images/png/commentActive.png"
+}else{
+    openComment.src = "http://static.ftchinese.com/images/png/comment.png"
+}
+var isLove=false
+function clip(ele){
+    if (isLove===false) {
+        ele.src = "http://static.ftchinese.com/images/png/loveActive.png"
+        isLove = true
+    }else{
+        ele.src = "http://static.ftchinese.com/images/png/love.png"
+        isLove = false
+    }
+}
 </script>
 <%/if%>
 </html>
