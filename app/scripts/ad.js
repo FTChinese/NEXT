@@ -597,7 +597,7 @@ function writeAdNew(obj) {
     iframeHTML = '<div class="mpu-container">' + iframeHTML + '</div>';
   } else if (containerType === 'mpuInStroy') {
     iframeHTML = '<div class="mpu-container-instory">' + iframeHTML + '</div>';
-  }
+  } 
   return iframeHTML;
 }
 
