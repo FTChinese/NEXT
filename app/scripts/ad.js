@@ -533,6 +533,7 @@ function writeAdNew(obj) {
    * @param obj.devices: TYPE Array, the devices are allowed to show this ad, Eg:['PC','PadWeb','iPhoneWeb','AndroidWeb']
    * @param obj.pattern: TYPE String,the key string of var adPattern, Eg：'FullScreen'、'Leaderboard'
    * @param obj.adPosition：TYPE String, the key string of var adPattern.xxx.position,Eg: 'Num1','Right1','Middle2'
+   * @param obj.container: TYPE String, the container specified for the ad position in a certain page. The priority of obj.container is the highest among obj.container,adPattern.container and 'none'
    */
   //MARK: First, get the adid
   var iframeHTML = '';
@@ -561,14 +562,15 @@ function writeAdNew(obj) {
 
   // MARK: Get ad channel id from smarty server side
   var adChannelId = '1000'; // window.dasfdafa || '1000'
-
+  console.log(adDevices[deviceType]);
+  console.log(obj.pattern);
   var adPattern = adDevices[deviceType].patterns[obj.pattern];
   console.log(adPattern);
   var adPatternId = adPattern.id;
   var adPositionId = adPattern.position[obj.position].id;
   var adWidth = adPattern.width || '100%';
   var adHeight = adPattern.height || '50';
-  var containerType = adPattern.container || 'none';
+  var containerType = obj.container || adPattern.container || 'none';
   
   adid = deviceId + adChannelId + adPatternId + adPositionId;
   adDescription = deviceType + '-' + 'channel' + '-' + obj.pattern + '-' + obj.position;
@@ -593,6 +595,8 @@ function writeAdNew(obj) {
     iframeHTML = '<div class="bn-ph"><div class="banner-container"><div class="banner-inner"><div class="banner-content">' + iframeHTML + '</div></div></div></div>';
   } else if (containerType === 'mpu') {
     iframeHTML = '<div class="mpu-container">' + iframeHTML + '</div>';
+  } else if (containerType === 'mpuInStroy') {
+    iframeHTML = '<div class="mpu-container-instory">' + iframeHTML + '</div>';
   }
   return iframeHTML;
 }
