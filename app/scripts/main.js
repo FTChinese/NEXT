@@ -225,6 +225,11 @@ function loadImages() {
       imageUrl = imageServiceHost + imageUrl + '?source=ftchinese&width=' + imageWidth + '&height=' + imageHeight + '&fit=' + fitType;
       shouldLoadImage = true;
     }
+
+    if (window.gNoImageWithData === 'On' && window.gConnectionType === 'data') {
+      shouldLoadImage = false;
+    }
+
     //console.log (imageUrl);
     if (shouldLoadImage === true) {
       imageUrlBack = imageUrl.replace('i.ftimg.net', 'i.ftmailbox.com');
