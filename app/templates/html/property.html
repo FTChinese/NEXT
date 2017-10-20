@@ -137,6 +137,9 @@
             }
         </script>
     <![endif]-->
+    <%if $p.meta.sponsorMobile == "yes" || $p.meta.adid == "2061"%>
+        <%assign var="sponsorMobile" value="yes"%>
+    <%/if%>
     <%include file="next/partials/head.html"%>
   </head>
   
@@ -144,8 +147,8 @@
     <script>checkB();</script>
     <%include file="next/partials/tag-header.html"%>
     <%include file="next/partials/nav.html"%>
-    
-   
+    <%include file="next/partials/banner.html"%>
+
     <%if $pageId=="setting"%>
     <%include file="next/partials/setting-block.html"%>
     <%elseif $pageId!=""%>
@@ -155,7 +158,7 @@
     
     <%/if%> 
     <%include file="next/partials/property-block.html"%>
-  
+    <%include file="next/partials/banner.html"%>
     <%include file="next/partials/footer.html"%>
     <%include file="next/partials/QrCode.html"%>
   </body>
@@ -165,7 +168,7 @@
 <script type="text/javascript">
   <%include file="next/scripts/main.js"%>
 </script>
-<script    src="http://static.ftchinese.com/js/jquery-1.10.2.min.js?0"></script>
+<script src="http://static.ftchinese.com/js/jquery-1.10.2.min.js?0"></script>
 
 <script type="text/javascript">
     <%include file="next/scripts/property.js"%>
