@@ -532,7 +532,7 @@ function writeAdNew(obj) {
    * @param obj 
    * @param obj.devices: TYPE Array, the devices are allowed to show this ad, Eg:['PC','PadWeb','iPhoneWeb','AndroidWeb']
    * @param obj.pattern: TYPE String,the key string of var adPattern, Eg：'FullScreen'、'Leaderboard'
-   * @param obj.adPosition：TYPE String, the key string of var adPattern.xxx.position,Eg: 'Num1','Right1','Middle2'
+   * @param obj.position：TYPE String, the key string of var adPattern.xxx.position,Eg: 'Num1','Right1','Middle2'
    * @param obj.container: TYPE String, the container specified for the ad position in a certain page. The priority of obj.container is the highest among obj.container,adPattern.container and 'none'
    */
   //MARK: First, get the adid
@@ -585,7 +585,7 @@ function writeAdNew(obj) {
   iframeHTML = '<iframe class="banner-iframe" data-adch="'+adChannelId+'" data-adPosition="'+ adPatternId + adPositionId+'" id="ad-' + adid + '" width="'+ adWidth +'" height="'+ adHeight + '" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="'+ iframeSrc +'" data-src="'+ iframeSrc +'" data-ad-type="'+ adPatternId + adPositionId +'" data-ad-count=0></iframe>';
   
   
-  if (typeof window.gDebugAd === 'string' || 1>0) {
+  if (window.gDebugAd && typeof window.gDebugAd === 'string') {
     debugString = window.gDebugAd.replace('adcode_for_debug', adid + ': ' + adDescription);
   }
 

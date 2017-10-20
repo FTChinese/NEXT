@@ -4,10 +4,13 @@
 <%if $smarty.get.ad != "no" && $noAd != "true" && $hideBanner != "yes"%>
   <script type="text/javascript">
     var adObj = {};
-    adObj.devices = '<%$section.devices%>';
+    var devicesStr = '<%$section.devices%>'
+    adObj.devices = devicesStr.split("&");
+    console.log(adObj.devices);
     adObj.pattern = '<%$section.pattern%>';
-    adObj.adPosition = '<%$section.adPosition%>';
+    adObj.position = '<%$section.position%>';
     adObj.container = '<%$section.container%>';
-    document.write (writeAd(adObj));
+    console.log(adObj);
+    document.write (writeAdNew(adObj));
   </script>
 <%/if%>
