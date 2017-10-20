@@ -9,7 +9,7 @@
             <%include file="next/partials/header.html"%>
         <%/if%>
         <%include file="next/partials/nav.html"%>
-    <%elseif $section.type == "banner"%>
+    <%elseif $section.type == "banner" && $smarty.get.newad != "yes" %>
         <%include file="next/partials/banner.html"%>
         <%if $section.image && $section.image == ""%>
         <%else%>
