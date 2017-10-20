@@ -1118,7 +1118,17 @@
 									<%assign var="mpuName" value="homempu-bonus"%>
 									<%*<!--show bonus MPU every 3 stories-->*%>
 									<%if $i%2 == 1 %>
-										<div class="mpu-container P-only"><script type="text/javascript">document.write (writeAd('<%$mpuName%>'));</script></div>
+										<%if $smarty.get.newad == "yes"%>
+											<script type="text/javascript">
+												document.write (writeAdNew({
+														devices: ['iPhoneWeb','AndroidWeb'],
+														pattern:'MPU',
+														position:'Middle1'
+												}));
+											</script>
+										<%else%>
+											<div class="mpu-container P-only"><script type="text/javascript">document.write (writeAd('<%$mpuName%>'));</script></div>
+										<%/if%>
 									<%/if%>
 								<%/if%>
 							<%*<!--insert 10 bonus MPU for mobile phone temporarily end-->*%>
