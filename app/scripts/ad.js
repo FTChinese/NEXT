@@ -485,6 +485,7 @@ function writeAd(adType, returnSrc) {
 
 }
 
+
 var bannerIframeContainers = [];
 function reloadBanners() {
   var bannerIframes;
@@ -527,6 +528,13 @@ function reloadBanners() {
 
 
 function writeAdNew(obj) {
+  /**
+   * @param obj 
+   * @param obj.devices: TYPE Array, the devices are allowed to show this ad, Eg:['PC','PadWeb','iPhoneWeb','AndroidWeb']
+   * @param obj.pattern: TYPE String,the key string of var adPattern, Eg：'FullScreen'、'Leaderboard'
+   * @param obj.position：TYPE String, the key string of var adPattern.xxx.position,Eg: 'Num1','Right1','Middle2'
+   * @param obj.container: TYPE String, the container specified for the ad position in a certain page. The priority of obj.container is the highest among obj.container,adPattern.container and 'none'
+   */
   //MARK: First, get the adid
   var iframeHTML = '';
   var debugString = '';
@@ -550,17 +558,19 @@ function writeAdNew(obj) {
   }
 
   deviceId = adDevices[deviceType].id;
-
+  console.log(deviceId);
 
   // MARK: Get ad channel id from smarty server side
   var adChannelId = '1000'; // window.dasfdafa || '1000'
-
+  console.log(adDevices[deviceType]);
+  console.log(obj.pattern);
   var adPattern = adDevices[deviceType].patterns[obj.pattern];
+  console.log(adPattern);
   var adPatternId = adPattern.id;
   var adPositionId = adPattern.position[obj.position].id;
   var adWidth = adPattern.width || '100%';
   var adHeight = adPattern.height || '50';
-  var containerType = adPattern.container || 'none';
+  var containerType = obj.container || adPattern.container || 'none';
   
   adid = deviceId + adChannelId + adPatternId + adPositionId;
   adDescription = deviceType + '-' + 'channel' + '-' + obj.pattern + '-' + obj.position;
@@ -575,7 +585,7 @@ function writeAdNew(obj) {
   iframeHTML = '<iframe class="banner-iframe" data-adch="'+adChannelId+'" data-adPosition="'+ adPatternId + adPositionId+'" id="ad-' + adid + '" width="'+ adWidth +'" height="'+ adHeight + '" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="'+ iframeSrc +'" data-src="'+ iframeSrc +'" data-ad-type="'+ adPatternId + adPositionId +'" data-ad-count=0></iframe>';
   
   
-  if (typeof window.gDebugAd === 'string' || 1>0) {
+  if (window.gDebugAd && typeof window.gDebugAd === 'string') {
     debugString = window.gDebugAd.replace('adcode_for_debug', adid + ': ' + adDescription);
   }
 
@@ -585,7 +595,9 @@ function writeAdNew(obj) {
     iframeHTML = '<div class="bn-ph"><div class="banner-container"><div class="banner-inner"><div class="banner-content">' + iframeHTML + '</div></div></div></div>';
   } else if (containerType === 'mpu') {
     iframeHTML = '<div class="mpu-container">' + iframeHTML + '</div>';
-  }
+  } else if (containerType === 'mpuInStroy') {
+    iframeHTML = '<div class="mpu-container-instory">' + iframeHTML + '</div>';
+  } 
   return iframeHTML;
 }
 

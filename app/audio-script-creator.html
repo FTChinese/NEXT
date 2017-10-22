@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html class="no-js core" data-next-app="front-page">
+ <head>
+ <meta charset="utf-8" />
+ <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+ <title>字幕生成器</title>
+ <meta http-equiv="Content-Language" content="zh-CN"/>
+ <meta content="<%$p.meta.description%>" name="description"/>
+ <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+ <link rel="apple-touch-icon-precomposed" href="http://static.ftchinese.com/img/ipad_icon.png" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <link rel="preconnect" href="http://static.ftchinese.com" />
+ <link rel="preconnect" href="http://i.ftimg.net" />
+
+<link rel="stylesheet" href="styles/main-story.css">
+<link rel="stylesheet" href="styles/main-table.css">
+<link rel="stylesheet" href="styles/main-user-comments.css">
+
+ </head>
+<body>
+<div class="block-container has-side story-page"><div class="block-inner"><div class="content-container"><div class="content-inner">
+<h1>音频字幕生成</h1>
+<div>
+<input style="text" value="https://creatives.ftimg.net/album/Therandomandoutrageousbosscrush.mp3" placeholder="音频文件地址" id="audio-url">
+</div>
+<div>
+<textarea placeholder="文本全部粘贴到此" class="commentTextArea" width="100%" rows="3" id="audio-text">
+X is an impressive, slightly scary CEO. You will have heard of him. Y is a smartish, youngish man who works for his company. You won’t have heard of him, unless you work there too — in which case the very sound of his name will have you grinding your teeth.
+When Y was hired about three years ago, X took to him at once, decided he was a man of extraordinary talent and in no time at all, Y was given a big department to run. Because Y has neither the experience nor the personality for the job, he is screwing it up.
+Various senior colleagues have protested, but they have been silenced. The CEO cannot and will not see that his protégé is a dog. He is too smitten.
+This story, which I’ve had to doctor a little to avoid getting myself into trouble, is a common one, yet it isn’t an issue that leadership experts ever talk about. Instead they obsess over unconscious bias — the latest fashionable way in which all managers take bad decisions about people — and pack executives off on training courses to try to conquer their subtle, buried prejudices. But no one seems to worry about what happens when a boss’s bias is neither subtle nor buried but outrageous, and there for everyone to see — apart from the boss himself, who is blind to his own bias and instead congratulates himself on his prescience in spotting someone extraordinary.
+The syndrome, which is a major character flaw of some of the world’s finest managers, needs a name and so I’m calling it boss crush. It is when an executive falls for someone, loses all judgment, refuses to listen and ensures that disaster will follow.
+A version of this was played out recently between David Cameron and Camila Batmanghelidjh. The prime minister developed a crush on the mesmerising, rainbow-turbaned head of Kids Company; large quantities of cash were shovelled into her charity; civil servants asked questions, but nothing happened — until things went so spectacularly wrong the plug had to be pulled.
+I first became aware of the boss crush phenomenon more than 30 years ago, when I was the love object myself. I was singled out by a cantankerous manager who got it into his head that I was all-round wonderful. I was given a job which I had no idea how to do, yet despite my manifestly indifferent performance, I was repeatedly told I was doing brilliantly.
+In some ways I found this nice as I’m a sucker for being told I’m a genius. What was less nice was the feeling of being over-promoted, and what was even less nice was how little my colleagues seemed to like me. I have no idea how it would have ended: the man in question got fired for assorted misdemeanours and shortly afterwards I quit myself.
+Since then I’ve taken a keen interest in the boss crush phenomenon, and tried to draw some conclusions.
+First, it has little to do with sex, and everything to do with power. The objects of the crush of a powerful man are as often men as women. Second, it is as random as real love. Sometimes the older boss falls for someone who reminds him of himself — but sometimes the object of the love is quite different. Sometimes the loved one is brilliant. Other times they are a liability. Most often they are a mixture of both.
+In many cases the object has brought the crush upon themselves following a brilliant campaign of sucking up. (Anyone who doesn’t believe that sucking up works, should read a blog post written by Marshall Goldsmith about the love we feel for our dogs, who are the most successful suckers-up ever invented.)
+But some crush objects have never invited such attention. I can think of one who I used to know, who was grumpy, taciturn and viewed all power with great suspicion — and yet was revered by his doting manager.
+Like real love, the boss crush is blind. Worse than that, once the boss has publicly singled out the love-object as worthy of promotion, his pride is on the line. The crush object simply has to be good; nothing else will do. All warning signs are ignored, the truth only outs when it is too late. Then the after-effects of the crush are brutal — the former loved one is treated to rage and disdain and usually in the end is fired.
+The most troubling thing about this phenomenon is that there isn’t an answer. You can’t ban executives from crushes any more than you can ban teenagers. All you can do is notice the sorts of people who are prone to them, and be warned.
+In the absence of any studies and based only on my own observation, I’d say those most prone to crushes are sublimely confident of their own judgment, are somewhat isolated and inclined to be strong and charismatic. Which turns out not to be very helpful at all — they are just the sort of people most likely to rise to the very top.
+lucy.kellaway@ft.com
+Twitter: @lucykellaway
+</textarea>
+</div>
+<div><input type="button" onclick="startPlay();" value="开始"></div>
+
+
+<div id="audio-player-container"></div>
+
+<div id="audio-player-text-lines"></div>
+
+<div><input type="button" onclick="exportData()" value="导出"></div>
+
+</div></div></div></div>
+
+</body>
+
+<!-- build:js scripts/main-audio-script.js -->
+<script type="text/javascript" src="scripts/audio-script.js"></script>
+<!-- endbuild -->
+
+</html>

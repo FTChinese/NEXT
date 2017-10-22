@@ -1,8 +1,165 @@
-<!--<div class="block-container">
-    <div class="block-inner">
-    <div class="content-container  swiper-position">-->
-     <div class="swiper-position">   
+
+<%$realProperty.allImages|@var_dump%>
+<%assign var="carousel_images_array" value = implode(',',$realProperty.allImages|regex_replace:"/[\r\n\t]/":","%>
+<%$carousel_images_array|@var_dump%>
+
+<div class="swiper-position">   
 <!-- Swiper -->
+    <div class="swiper-container gallery-top">
+        <div class="swiper-wrapper">
+            <%foreach from=$carousel_images_array item=image%>
+                <div class="swiper-slide" style="background-image:url(<%$image%>)"></div>
+	        <%/foreach%>
+        </div>
+        <!-- Add Arrows -->
+        <div class="swiper-button-next swiper-button-white"></div>
+        <div class="swiper-button-prev swiper-button-white"></div>
+    </div>
+
+    <div class="swiper-container gallery-thumbs">
+        <div class="swiper-wrapper">
+            <%foreach from=$carousel_images_array item=image%>
+                <div class="swiper-slide" style="background-image:url(<%$image%>)"></div>
+	        <%/foreach%>
+        </div>
+    </div>
+</div> 
+
+<div class="block-container has-side">
+    <div class="block-inner">
+    <div class="content-container">
+    <div class="content-inner">
+        <div class="list-inner">
+            <h2 class="list-title"><a class="list-link">FEATURED PROPERTIES</a></h2>
+            <div class="items">
+                <ul class="indentation">
+                    <li><span><%$realProperty.propertyNature%></span></li>
+                    <li><span> <strong><%$realProperty.price%></strong>&nbsp; </span></li>
+                    <li>Property Style: <span><%$realProperty.propertyStyle%></span></li>
+                    <li>Bedroom: <span><%$realProperty.bedroom%></span></li>
+                    <li>Bathroom: <span><%$realProperty.bathroom%></span></li>
+                    <li>Half Bathroom: <span><%$realProperty.halfBathroom%></span></li>
+                </ul>
+                <div class="clearfloat"></div>
+            </div>
+            <h2 class="list-title"><a class="list-link">PROPERTY DESCRIPTION</a>
+            </h2>
+            <div class="items">
+                <div class="item-lead indentation"><%$realProperty.description%>
+                </div>
+                <div class="clearfloat"></div>
+            </div>
+        </div>
+
+<div class="property-share-container">
+
+
+<div class="story-action-placeholder" id="story-action-placeholder">
+<div class="story-action">
+<div class="action-inner">
+<a class="action-icon icon-wechat" href="/m/corp/qrshare.html?url=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001068131%3Ffull%3Dy&title=香港再度成为全球外派成本最高的城市 - FT中文网" target="_blank"></a>
+<a class="action-icon icon-weibo" href="http://service.weibo.com/share/share.php?appkey=4221537403&url=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001068131%3Ffull%3Dy%26ccode=2G169001&title=【香港再度成为全球外派成本最高的城市】在咨询公司美世最新发布的外派人员所在城市生活成本年度排行榜上，高昂的房租帮助香港重新登上榜首位置。（分享自 @FT中文网）&ralateUid=1698233740&source=&sourceUrl=&content=utf-8&pic=http://i.ftimg.net/picture/9/000063189_piclink.jpg&searchPic=false" target="_blank"></a>
+<a class="action-icon icon-linkedin" href="https://www.linkedin.com/cws/share?url=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001068131%3Ffull%3Dy%26ccode%3D2G169003&original_referer=https%3A%2F%2Fdeveloper.linkedin.com%2Fsites%2Fall%2Fthemes%2Fdlc%2Fsandbox.php%3F&token=&isFramed=true&lang=zh_CN&_ts=1422502780259.2795" target="_blank"></a>
+<a class="action-icon icon-twitter" href="http://twitter.com/home?status=【香港再度成为全球外派成本最高的城市】在咨询公司美世最新发布的外派人员所在城市生活成本年度排行榜上，高昂的房租帮助香港重新登上榜首位置。（分享自 @FT中文网）...%20http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001068131%3Ffull%3Dy" target="_blank"></a>
+<a class="action-icon icon-facebook" href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001068131%3Ffull%3Dy&t=【香港再度成为全球外派成本最高的城市】在咨询公司美世最新发布的外派人员所在城市生活成本年度排行榜上，高昂的房租帮助香港重新登上榜首位置。（分享自 @FT中文网）" target="_blank"></a>
+
+
+<div class="icon-right icon-save">
+<button id="addfavlink001068131">收藏</button>
+</div>
+<a class="icon-right icon-action icon-comments" href="/comments/index/001068131" target="_blank"></a>
+<a class="icon-right icon-action icon-print" href="/story/001068131?print=y" target="_blank"></a>
+<a class="icon-right icon-action icon-font-size" onclick="showOverlay('font-setting')"></a>
+<a class="icon-right icon-action icon-share" onclick="showOverlay('share-legacy')"></a>
+</div>
+</div>
+</div>
+
+</div>
+<div class="clearfloat block-bottom"></div>
+</div>
+</div>
+<div class="side-container">
+<div class="side-inner">
+    <h2 class="list-title"><a class="list-link">GET MORE INFORMATION</a></h2>
+<div>
+<form id="ai-inquirylead-form" method="post" action="/api/inquiry/post"class="sky-form ai-inquirylead-form xs-no-border xs-no-side-space xs-no-top-space xs-section-no-bottom-space"novalidate="novalidate">
+    <div class="team-v6">
+        <span><%$realProperty.name%></span> 
+    
+        <div class="listing-title ai-inquirylead-form-property-link"> 
+            <a  target="_blank" rel="nofollow" title="<%$realProperty.propertyTitle%>" href="<%$realProperty.companyLink%>"><%$realProperty.propertyTitle%></a> </div>
+        <h5>View more properties from</h5>  
+        <div>
+            <a class="ai-inquirylead-form-company-link" target="_blank" rel="nofollow" href="<%$realProperty.companyLink%>" title="<%$realProperty.propertyTitle%>"> <img class="img-responsive" src="<%$realProperty.companyImage%>" alt="<%$realProperty.propertyTitle%>" > </a>
+        </div>
+        <div>
+            <ul class="list-section">
+                <li id="inquiry-agent-call">
+                    <img src="http://static.ftchinese.com/icon/svg/phone-call.svg">
+                    <a rel="nofollow" href="javascript:void(0)">Call</a>
+                </li>
+                <li>
+                <img src="http://static.ftchinese.com/icon/svg/share.svg">
+                <a class="ai-inquirylead-form-company-link" target="_blank" rel="nofollow" href="<%$realProperty.companyLink%>">
+                Link
+                </a>
+                </li>
+            </ul>
+            <div class="" id="inquiry-agent-contact-number">
+                <a itemprop="telephone" href="tel:<%$realProperty.agentTelephone%>"> <%$realProperty.agentTelephone%> </a>
+            </div>
+        </div>
+    </div>
+    <div>
+        <section>
+            <div class="input">
+                <img src="http://static.ftchinese.com/icon/svg/avatar.svg">
+                
+                <input id="client-name" name="client-name" placeholder="Your Full Name" type="text">
+                
+            </div>
+        </section>
+        <section>
+            <div class="input">
+                <img src="http://static.ftchinese.com/icon/svg/phone-call.svg">
+                <input id="client-number" name="client-number" placeholder="Phone, e.g. +(country)-(number)" type="text">
+               
+            </div>
+        </section>
+        <section>
+            <div class="input">
+                <img src="http://static.ftchinese.com/icon/svg/envelope.svg">
+                <input id="client-eamil" name="client-eamil" placeholder="Email" type="text">
+               
+            </div>
+        </section>
+        <section>
+            <div class="textarea textarea-resizable">
+            <img src="http://static.ftchinese.com/icon/svg/chat.svg">    
+                <textarea id="client-message" name="client-message" placeholder="Message" type="text"></textarea>
+               
+            </div>
+        </section>
+        <div class="clearfloat"></div>
+    </div>
+    <div class="ai-inquirylead-form-contact">
+        <button type="submit" class="btn-u">Contact Agent</button>
+    </div>
+</form>
+</div>
+
+
+
+
+</div></div><div class="clearfloat"></div>
+</div>
+</div><!--<div class="block-container has-side story-page">-->
+
+
+
+
+<div class="swiper-position">   
     <div class="swiper-container gallery-top">
         <div class="swiper-wrapper">
             <div class="swiper-slide" style="background-image:url(https://az592774.vo.msecnd.net/pgl-release/Images/LuxuryImages/adhoc/47257a15-76c6-4809-83f2-64f928f60e93/f8374d4e101719bfe19bb8ed88dd33b3.jpg)"></div>
@@ -110,11 +267,11 @@
         <div>
             <ul class="list-section">
                 <li id="inquiry-agent-call">
-                    <img src="http://static.ftchinese.com/icon/svg/phone-call.svg">
+                    <img src="/images/phone-call.svg">
                     <a rel="nofollow" href="javascript:void(0)">Call</a>
                 </li>
                 <li>
-                <img src="http://static.ftchinese.com/icon/svg/share.svg">
+                <img src="/images/share.svg">
                 <a class="ai-inquirylead-form-company-link" target="_blank" rel="nofollow" href="http://www.lionard.com">
                 Link
                 </a>
@@ -128,7 +285,7 @@
     <div>
         <section>
             <div class="input">
-                <img src="http://static.ftchinese.com/icon/svg/avatar.svg">
+                <img src="/images/avatar.svg">
                 
                 <input id="Inquiry_Name" name="Inquiry.Name" placeholder="Your Full Name" type="text">
                 
@@ -136,21 +293,21 @@
         </section>
         <section>
             <div class="input">
-                <img src="http://static.ftchinese.com/icon/svg/phone-call.svg">
+                <img src="/images/phone-call.svg">
                 <input id="Inquiry_Name" name="Inquiry.Name" placeholder="Phone, e.g. +(country)-(number)" type="text">
                
             </div>
         </section>
         <section>
             <div class="input">
-                <img src="http://static.ftchinese.com/icon/svg/envelope.svg">
+                <img src="/images/envelope.svg">
                 <input id="Inquiry_Name" name="Inquiry.Name" placeholder="Email" type="text">
                
             </div>
         </section>
         <section>
             <div class="textarea textarea-resizable">
-            <img src="http://static.ftchinese.com/icon/svg/chat.svg">    
+            <img src="/images/chat.svg">    
                 <textarea id="Inquiry_Name" name="Inquiry.Name" placeholder="Message" type="text"></textarea>
                
             </div>
@@ -162,8 +319,6 @@
     </div>
 </form>
 </div>
-
-
 
 
 </div></div><div class="clearfloat"></div>

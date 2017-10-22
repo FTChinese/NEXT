@@ -376,14 +376,6 @@
 <%assign var="hideMPU3" value="no"%>
 <%assign var="hide590" value="no"%>
 
-<%elseif preg_match("/交通银行记账式原油/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20171018 && date("Ymd",$smarty.now) <= 20180130%>
-<%assign var=breadcrum value="<a href=\"/tag/交通银行记账式原油\">交通银行记账式原油</a>"%>
-<%assign var="hideMPU1" value="yes"%>
-<%assign var="hideMPU2" value="yes"%>
-<%assign var="hideMPU3" value="yes"%>
-<%assign var="hide590" value="no"%>
-<%assign var="hideBanner" value="no"%>
-
 <%elseif preg_match("/财富管理/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20161226 && date("Ymd",$smarty.now) <= 20170131%>
 <%assign var=breadcrum value="<a href=\"/tag/财富管理\">财富管理</a>"%>
 <%assign var="adchannelID" value="1704"%>
@@ -657,7 +649,7 @@
 	<%elseif $randNum == 2 %>
 		<%assign var="adchannelID" value="1300"%>
 	<%/if%>
-<%elseif preg_match("/餐厅|美酒|美食|烈酒/is",$keys)%>
+<%*  <%elseif preg_match("/餐厅|美酒|美食|烈酒/is",$keys)%>
 	<%assign var=breadcrum value="<a href=/channel/wine.html>美食与美酒</a>"%>
 	<%assign var="adchannelID" value="1803"%>
 	<%assign var="topnav" value="lifestyle"%>
@@ -769,7 +761,7 @@
 		<%assign var="adchannelID" value=$eheadline%>
 		<%assign var="sponsorMobile" value="yes"%>
 	<%/if%>
-	<%assign var=breadcrum value="<a>特别策划</a>"%>
+	<%assign var=breadcrum value="<a>特别策划</a>"%>  *%>
 <%elseif preg_match("/英语电台/is",$keys)%>
 	<%assign var="topnav" value="english"%>
 	<%assign var="subnav" value="radio"%>
@@ -951,45 +943,28 @@
 	<%if (in_array("单页",$story.tag) || $smarty.get.full=="y") && $page_action=="en"%>
 		<%assign var="story_content" value=$story.ebody%>
 	<%elseif (!in_array("单页",$story.tag) && $smarty.get.full!="y") || $page_action=="en"%>
-
+	<%*
 		<%if $hideMPU3 == "yes" || $noAd == "true" || preg_match("/活动页面/is",$keys)%>
 		    <%assign var="story_content" value=$story_content|replace:"<div id=\"story_main_mpu\"></div>":""%>
 		<%else%>
-			<%if $smarty.get.newad == "yes"%>
-				<%assign var="story_content" value==$story_content|replace:"<div id=\"story_main_mpu\"></div>":"<script type="text/javascript">document.write (writeAdNew({
-					devices: ['PC','iPhoneWeb','AndroidWeb'],
-					pattern:'MPU',
-					position:'Middle1',
-					container:'mpuInStroy'
-				}));</script>"%>
-			<%else%>
-				<%assign var="story_content" value=$story_content|replace:"<div id=\"story_main_mpu\"></div>":"<div id=\"story_main_mpu\"><script type=\"text/javascript\">document.write (writeAd('storympu'));</script></div>"%>
-			<%/if%>
-		<%/if%>
+			<%assign var="story_content" value=$story_content|replace:"<div id=\"story_main_mpu\"></div>":"<div id=\"story_main_mpu\"><script type=\"text/javascript\">document.write (writeAd('storympu'));</script></div>"%>
+		<%/if%> 
+	*%>
 	<%elseif $hideMPU3!="yes" && !preg_match("/活动页面/is",$keys) && $noAd != "true"%>
 	<%*<!--在单页的情况下，如果文章没有插图，没有iframe，没有video，没有highcharts, 也没有被强制设为不显示MPU 3，则将MPU_3广告位插入到第五段开头。-->*%>
-		<%if $smarty.get.newad == "yes"%>
-			<%assign var="story_content" value=$storyBody|regex_replace:"/[\r\t\n]/":""|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1<script type="text/javascript">document.write (writeAdNew({
-						devices: ['PC','iPhoneWeb','AndroidWeb'],
-						pattern:'MPU',
-						position:'Middle1',
-						container:'mpuInStroy'
-				}));</script><p>"%>
-		<%else%>
-		 	<%assign var="story_content" value=$storyBody|regex_replace:"/[\r\t\n]/":""|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1<div id=story_main_mpu><script type=\"text/javascript\">document.write (writeAd('storympu'));</script></div><p>"%>
-		<%/if%>
+	<%*	 <%assign var="story_content" value=$storyBody|regex_replace:"/[\r\t\n]/":""|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1<div id=story_main_mpu><script type=\"text/javascript\">document.write (writeAd('storympu'));</script></div><p>"%>   *%>
 	<%else%>
 		<%assign var="story_content" value=$storyBody%>
 	<%/if%>
 
-
+   <%*
 	<%if $noAd != "true"%>
 		<%if date("Ymd",$smarty.now) <= 20161230%>
 			<%assign var="story_content" value=$story_content|regex_replace:"/[\r\t\n]/":""|regex_replace:"/^(\<p\>.*?)\<p\>/":"\\1<div class=story_main_mpu_vw><script type=\"text/javascript\">document.write (writeAd('storympuVW'));</script></div><p>"%>
 		<%else%>
 			<%assign var="story_content" value=$story_content|regex_replace:"/[\r\t\n]/":""|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1<div class=\"in-story-recommend P-only\" id=\"in-story-recommend\"></div><p>"%>
 		<%/if%>
-	<%/if%>
+	<%/if%>  *%>
 <%/if%>
 
 <%if $itemType == ""%>
@@ -1052,20 +1027,11 @@
 		<%/if%>
 		<%if !preg_match("/highcharts/is",$story_content) && !preg_match("/video/is",$story_content) && $hideMPU3!="yes" && $noAd != "true" && !preg_match("/单页/is",$tag)%>
 		<%*<!--在单页的情况下，如果文章没有插图，没有iframe，没有video，没有highcharts, 也没有被强制设为不显示MPU 3，则将MPU_3广告位插入到第五段开头。-->*%>
-			<%if $smarty.get.newad == "yes"%>
-				<%assign var="story_content" value=$story_content|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1<script type="text/javascript">document.write (writeAdNew({
-							devices: ['PC','iPhoneWeb','AndroidWeb'],
-							pattern:'MPU',
-							position:'Middle1',
-							container:'mpuInStroy'
-					}));</script><p>"%>
-			<%else%>
-			 	<%assign var="story_content" value=$story_content|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1<div id=story_main_mpu><script type=\"text/javascript\">document.write (writeAd('storympu'));</script></div><p>"%>
-			<%/if%>
+		<%*	 <%assign var="story_content" value=$story_content|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1<div id=story_main_mpu><script type=\"text/javascript\">document.write (writeAd('storympu'));</script></div><p>"%> *%>
 		<%/if%>
-		<%if date("Ymd",$smarty.now) <= 20161230 && $noAd != "true"%>
+	<%*	<%if date("Ymd",$smarty.now) <= 20161230 && $noAd != "true"%>
 			<%assign var="story_content" value=$story_content|regex_replace:"/^(\<p\>.*?)\<p\>/":"\\1<div class=story_main_mpu_vw><script type=\"text/javascript\">document.write (writeAd('storympuVW'));</script></div><p>"%>
-		<%/if%>
+		<%/if%> *%>
 
 
 
@@ -1198,7 +1164,7 @@
     	<%if $pageType == "singlechoice"%>
     		<style><%include file="next/styles/main-quiz.css"%></style>
     	<%/if%>
-    	<style><%include file="next/styles/main-story.css"%></style>
+    	<style><%include file="next/styles/main-ftcc.css"%></style>
     <%/if%>
 
     <%if preg_match("/<table/is",$story_content)%>
@@ -1331,22 +1297,32 @@
 		<%else%>
 			<%include file="next/partials/header.html"%>
 		<%/if%>
-		<%include file="next/partials/nav.html"%>
-		<%if !preg_match("/品味|乐尚街|艺术投资|腕表|游艇|极致人生|美食与美酒/is",$keys) && $smarty.get.hideheader != "yes"%>
+		<div class="o-nav__placeholder">
+		<div class="o-nav">
+		<div class="o-nav__outer">
+		<div class="o-nav__inner">
+		<div class="o-header__masthead-mobile">
+		<a>FT Ideas</a>
+		</div>
+		</div>   
+		</div>  
+		</div>
+		<%*<%include file="next/partials/nav.html"%>*%>
+		<%*<%if !preg_match("/品味|乐尚街|艺术投资|腕表|游艇|极致人生|美食与美酒/is",$keys) && $smarty.get.hideheader != "yes"%>
 		<%include file="next/partials/banner.html"%>
-		<%/if%>
+		<%/if%>*%>
 		<%assign var="bannerCount" value=$bannerCount+1%>
 		<%if $info.photonewsid != ""%>
 			<%include file="next/partials/photo-block.html"%>
 		<%else%>
-			<%include file="next/partials/story-block.html"%>
+			<%include file="next/partials/story-ftcc-block.html"%>
 		<%/if%>
-		<%include file="next/partials/story-recommend.html%>
-		<%if !preg_match("/品味|乐尚街|艺术投资|腕表|游艇|极致人生/is",$keys)%>
+		<%*<%include file="next/partials/story-recommend.html%>*%>
+		<%*<%if !preg_match("/品味|乐尚街|艺术投资|腕表|游艇|极致人生/is",$keys)%>
 			<%include file="next/partials/banner.html"%>
-		<%/if%>
+		<%/if%>*%>
 		<%include file="next/partials/footer.html"%>
-		<%include file="next/partials/QrCode.html"%>
+		<%*<%include file="next/partials/QrCode.html"%>*%>
 		<%include file="next/partials/story-font.html"%>
 		<%include file="next/partials/story-action.html"%>
 	<%else%>
@@ -1402,6 +1378,23 @@ if (w > 490 && isTouchDevice() === false && document.querySelectorAll('.ce').len
 	var cssVersionNumber = '<%include file="next/timestamp/timestamp.html"%>';
     document.write ('<scr'+'ipt src="http://dualstack.adsame-1421766300.ap-southeast-1.elb.amazonaws.com/s?z=ft&c=' + adchID + '0112' + slotStr + adReachability() + '" charset="gbk"></scr'+'ipt>');
     document.write ('<scr'+'ipt src="http://static.ftchinese.com/n/main-barrier.js?<%include file="next/timestamp/timestamp.html"%>"></scr'+'ipt>');
+}
+var commentNumber = document.getElementById('comment-number')
+var openComment = document.getElementById('open-comment')
+if (commentNumber.innerHTML>0){
+    openComment.src = "http://static.ftchinese.com/images/png/commentActive.png"
+}else{
+    openComment.src = "http://static.ftchinese.com/images/png/comment.png"
+}
+var isLove=false
+function clip(ele){
+    if (isLove===false) {
+        ele.src = "http://static.ftchinese.com/images/png/loveActive.png"
+        isLove = true
+    }else{
+        ele.src = "http://static.ftchinese.com/images/png/love.png"
+        isLove = false
+    }
 }
 </script>
 <%/if%>

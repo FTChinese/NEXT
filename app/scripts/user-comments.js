@@ -4,23 +4,23 @@
 var commentfolder ='/index.php/comments';
 function loadcomment(storyid, theid, type) {
     var url, new_comment_prefix, common_comment_prefix, user_icon='', isvip, commentnumber, cfoption, cftype, commentsortby;
-    new_comment_prefix = '/index.php/comments/newcommentsbysort/';
+    new_comment_prefix = '/index.php/c/newcommentsbysort/';
     common_comment_prefix = '/index.php/common_comments/newcommentsbysort/';
     switch (type) {
 	    case 'story':
-	    	commentfolder='/index.php/comments';
-	    	url='/index.php/comments/newcomment/' + storyid;
+	    	commentfolder='/index.php/c';
+	    	url='/index.php/c/newcomment/' + storyid;
 	    	break;
 	    case 'storyall1':
-            commentfolder='/index.php/comments';
+            commentfolder='/index.php/';
 	    	url=new_comment_prefix+storyid+'/1?limit=0&rows=500';
 	    	break;
 	    case 'storyall2':
-            commentfolder='/index.php/comments';
+            commentfolder='/index.php/c';
 	    	url=new_comment_prefix+storyid+'/2?limit=0&rows=500';
 	    	break;
 	    case 'storyall3':
-            commentfolder='/index.php/comments';
+            commentfolder='/index.php/c';
 	    	url=new_comment_prefix+storyid+'/3?limit=0&rows=500';
 	    	break;
 	    case 'commonall1':

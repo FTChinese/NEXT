@@ -19,8 +19,18 @@
 		</ul>
 	</div>
 	<%if $smarty.get.ad != "no" && $noAd != "true"%>
-    <div class="mpu-container">
-        <script type="text/javascript">document.write (writeAd('mpu'));</script>
-    </div>
+		<%if $smarty.get.newad == "yes"%>
+			<script type="text/javascript">
+				document.write (writeAdNew({
+						devices: ['PC'],
+						pattern:'MPU',
+						position:'Middle1'
+				}));
+			</script>
+		<%else%>
+			<div class="mpu-container">
+				<script type="text/javascript">document.write (writeAd('mpu'));</script>
+			</div>
+		<%/if%>
     <%/if%>
 </div></div>

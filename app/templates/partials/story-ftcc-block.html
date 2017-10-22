@@ -1,0 +1,55 @@
+<div class="block-container no-side story-page"><div class="block-inner">
+	<div class="content-container"><div class="content-inner">
+		<div class="story-container<%$storyLanguage%>">
+
+			<div class="img-section clear-float">
+				<div class=" story-image image">
+					<figure data-url=http://i.ftimg.net/picture/9/000063189_piclink.jpg class="loading"></figure>
+					<a  href=""><img src="http://static.ftchinese.com/images/png/playSound.png"></a>
+				</div>
+				<div class="tag-section">
+					
+					<%if $story.tag|@count > 0%>
+						<%assign var=breadcrum value="<a target=\"_blank\" href=\"/tag/`$story.tag[0]`\">`$story.tag[0]`</a>"%>
+					<%/if%>
+					<div  class="tag"><%$breadcrum%></div>
+					
+					<div class="show-comment">
+						<div><img onclick="clip(this)"  src="http://static.ftchinese.com/images/png/love.png"></div>
+						<div class="count nubmerSpace">3</div>
+						<div><a href="/story/001074718"><img id="open-comment" src="http://static.ftchinese.com/images/png/comment.png"></a></div>
+						<div id="comment-number" class="count">23</div>
+					</div>
+				</div>
+			</div>
+
+			<%*<%$storyLead%>
+			<%$storyImageTop%>*%>
+	
+			<%if $smarty.get.page != "" && $smarty.get.page != 1 && !in_array("单页",$story.tag)%>
+				<%include file="next/partials/pagination.html"%>
+			<%/if%>
+			<div class="story-body">
+				<h1 class="clear-float"><%$storyHeadline%></h1>
+				<%$audioHTML%>
+				<%$storyImageInline%>
+				<%$story_content%>
+				<div class="clearfloat"></div>
+			</div>
+			<%if $smarty.get.full != "y" && !in_array("单页",$story.tag)%>
+				<%include file="next/partials/pagination.html"%>
+			<%/if%>
+			<div class="clearfloat"></div>
+		</div>
+	<div class="clearfloat block-bottom"></div>
+	</div></div>
+
+	<%*<%if $pageType=="singlechoice"%>
+		<div class="side-container"><div class="side-inner">
+		</div></div>
+	<%else%>
+		<%include file="next/partials/StoryRightRail.html"%>
+	<%/if%>*%>
+
+	<div class="clearfloat"></div>
+</div></div>
