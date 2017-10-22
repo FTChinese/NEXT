@@ -9,7 +9,7 @@ function loadcomment(storyid, theid, type) {
     switch (type) {
 	    case 'story':
 	    	commentfolder='/index.php/c';
-	    	url='/index.php/c/newcomment/' + storyid;
+	    	url='/index.php/c/newcomment/' + storyid + '?v=1';
 	    	break;
 	    case 'storyall1':
             commentfolder='/index.php/';
@@ -38,8 +38,13 @@ function loadcomment(storyid, theid, type) {
       		break;
       	default:
       		commentfolder='/index.php/common_comments';
-      		url='/index.php/common_comments/newcomment/' + storyid;
+      		url='/index.php/common_comments/newcomment/' + storyid + '?v=1';
     }
+    var currentDate = new Date();
+    var currentTimeStamp = currentDate.getFullYear() * 100000000 + (currentDate.getMonth() + 1) * 1000000 + currentDate.getDate() * 10000 + currentDate.getHours() * 100 + currentDate.getMinutes();
+
+    url = url + '&' + currentTimeStamp;
+    
     new_comment_prefix = null;
     common_comment_prefix = null;
 
@@ -249,7 +254,22 @@ function clickToSubmitComment() {
                 document.querySelector('#Talk').value = '';
             }
         };
-        var params = 'storyid='+ window.FTStoryid +'&talk=' + document.querySelector('#Talk').value + '&use_nickname=' + usenickname + '&NickName=' + document.querySelector('#nick_name').value;
+        var params;
+
+
+//         topic_object_id:r_interactive_10420
+// use_nickname:0
+// NickName:
+// title:亟待变革的美国足球
+// url:http://www.ftchinese.com/interactive/10420
+// type:video
+
+        if (/^[0-9]+$/.test(window.FTStoryid)) {
+            params = 'storyid='+ window.FTStoryid +'&talk=' + document.querySelector('#Talk').value + '&use_nickname=' + usenickname + '&NickName=' + document.querySelector('#nick_name').value;
+        } else {
+            params = 'topic_object_id='+ window.FTStoryid +'&talk=' + document.querySelector('#Talk').value + '&use_nickname=' + usenickname + '&NickName=' + document.querySelector('#nick_name').value + '&type=video';
+        }
+
         xmlhttp.open('POST', commentfolder + '/add');
         xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xmlhttp.send(params);
