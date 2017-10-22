@@ -509,6 +509,33 @@ ai-search-result .photo-count-badge {
 
 // detail-section  show
 // ai-listing-detail-spa-containe
+.container {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+@media (min-width: 768px) {
+  .container {
+    width: 750px;
+  }
+}
+@media (min-width: 992px) {
+  .container {
+    width: 970px;
+  }
+}
+@media (min-width: 1200px) {
+  .container {
+    width: 1170px;
+  }
+}
+.container-fluid {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
 .row {
     margin-right: -15px;
     margin-left: -15px;
@@ -1153,48 +1180,6 @@ ai-search-result .photo-count-badge {
   }
 }
 
-
-
-.col-xs-12 {
-    width: 100%;
-    float: left;
-}
-.col-xs-2 {
-    width: 16.66666667%;
-    float: left;
-
-}
-@media (min-width: 768px){
-  .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9 {
-      float: left;
-  }
-}
-
-@media (min-width: 992px){
-  .col-md-7 {
-      width: 58.33333333%;
-      float: left;
-  }
-   .col-md-5 {
-      width: 41.66666667%;
-      float: left;
-   }
-
-}
-@media (min-width: 768px){
-  .col-sm-7 {
-      width: 58.33333333%;
-      float: left;
-  }
-   .col-sm-5 {
-      width: 41.66666667%;
-      float: left;
-   }
-
-}
-.col-xs-6 {
-    width: 50%;
-}
 .margin-bottom-5,
 .margin-bottom-10,
 .margin-bottom-15,
@@ -1441,45 +1426,7 @@ ai-search-result .photo-count-badge {
     display: none !important;
   }
 }
-.col-xs-offset-12 {
-  margin-left: 100%;
-}
-.col-xs-offset-11 {
-  margin-left: 91.66666667%;
-}
-.col-xs-offset-10 {
-  margin-left: 83.33333333%;
-}
-.col-xs-offset-9 {
-  margin-left: 75%;
-}
-.col-xs-offset-8 {
-  margin-left: 66.66666667%;
-}
-.col-xs-offset-7 {
-  margin-left: 58.33333333%;
-}
-.col-xs-offset-6 {
-  margin-left: 50%;
-}
-.col-xs-offset-5 {
-  margin-left: 41.66666667%;
-}
-.col-xs-offset-4 {
-  margin-left: 33.33333333%;
-}
-.col-xs-offset-3 {
-  margin-left: 25%;
-}
-.col-xs-offset-2 {
-  margin-left: 16.66666667%;
-}
-.col-xs-offset-1 {
-  margin-left: 8.33333333%;
-}
-.col-xs-offset-0 {
-  margin-left: 0;
-}
+
 
 /*Image Classes*/
 .img-width-60 { width: 60px;}
@@ -1576,6 +1523,12 @@ img.img-center,
   border: none;
   background-color: black;
   padding: 15px;
+  position: relative;
+}
+.action-icon-section{
+  position: absolute;
+  bottom: 5px;
+  left: 30px;
 }
 .ai-listing-detail-spa-container  .ai-lead-form-section,
 body.creamy .ai-search-result-detail-section-full-width .ai-lead-form-section {
@@ -1645,15 +1598,17 @@ body.creamy .ai-search-result-detail-section-full-width .ai-lead-form-section {
   float: right;
 }
 .ai-listing-detail-spa-container .ai-action-button-container .ai-right-buttons-container .ai-expand-container {
-  padding-top: 10px;
-  padding-left: 10px;
-  position: relative;
-  display: inline-block;
+  // padding-top: 10px;
+  // padding-left: 10px;
+  height: 40px;
+  float: left;
+  // position: relative;
+  // display: inline-block;
   border-left: 1px dotted dimgrey;
   cursor: pointer;
   text-align: right;
-  padding-right: 83px;
-  left: 3px;
+  padding: 10px 10px 0px 10px;
+  // left: 3px;
   background: grey;
 }
 .ai-listing-detail-spa-container .ai-action-button-container .ai-right-buttons-container .ai-expand-container:hover {
@@ -1661,15 +1616,17 @@ body.creamy .ai-search-result-detail-section-full-width .ai-lead-form-section {
 }
 .ai-listing-detail-spa-container .ai-action-button-container .ai-right-buttons-container .ai-expand-container .ai-expand-label {
   color: white;
-  position: absolute;
-  top: 10px;
+  // position: absolute;
+  // top: 10px;
 }
 .ai-listing-detail-spa-container .ai-action-button-container .ai-right-buttons-container .ai-close-container {
-  padding-top: 11px;
+  height: 40px;
+  float: left;
+  padding-top: 10px;
   padding-left: 10px;
   padding-right: 10px;
-  position: relative;
-  display: inline-block;
+  // position: relative;
+  // display: inline-block;
   border-left: 1px dotted dimgrey;
   cursor: pointer;
   text-align: right;
@@ -1769,53 +1726,84 @@ body.creamy .ai-search-result-detail-section-full-width .ai-lead-form-section {
 }
 
 // property-list-detail search
-.detailListContainer .searchContainer 
-{
-    width: 80%;
-    margin-left: 10%;
-  input,select,button,label{
-    height:40px;
-    
-  }
-  .floatClass{
-    // margin: 0 10px;
-  }
-  // #price-menu{
-  // display: none;
-  // position:absolute;
-  // z-index: 1000;
-  // }
-  #price-button{
-    display: inline-block;
-    background-color: white;
-    padding-top: 10px;
-    width: 100px;
-  }
-  #price-range-menu{
-    display: none;
-    position:absolute;
-    z-index: 1000;
-  }
-  #price-range-menu a {
-    color:palevioletred
-  }
-  .sale{
-    width:10%
-  }
-  .search{
-    width:35%
-  }
-  .beds{
-    width:7%
-  }
-  .bath{
-    width:7%
-  }
-  .gap{
-    width:7%
-  }
-  .price{
-    width:30%
+.search-widget-container{
+  margin-bottom: 45px;
+  .detailListContainer 
+  {
+    fieldset{
+      border: none;
+    }
+   .searchContainer{
+        // width: 80%;
+    // margin-left: 10%;
+      section{
+        // margin-bottom: 5px;
+      }
+      input,select,button,label{
+        height:40px;
+      }
+      .search {
+        input{
+          width: 75%;
+          border: solid 1px #bbb;
+          border-radius: 5px;
+        }
+        button{
+          // width: 10%;
+        }
+      }
+
+      section select{
+        width: 100%;
+        border: solid 1px #bbb;
+      }
+      .floatClass{
+        // margin: 0 10px;
+      }
+
+      #price-button{
+        display: inline-block;
+        background-color: white;
+        padding-top: 10px;
+        width: 100px;
+      }
+      #price-range-menu{
+        display: none;
+        position:absolute;
+        z-index: 1000;
+      }
+      #price-range-menu a {
+        color:palevioletred;
+      }
+      #price-menu span{
+        // display: inline-block;
+        // width: 45%;
+        input{
+           width: 45%;
+           border: solid 1px #bbb;
+           border-radius: 5px;
+        }
+      }
+      // .sale{
+      //   width:10%
+      // }
+      // .search{
+      //   width:35%
+      // }
+      // .beds{
+      //   width:7%
+      // }
+      // .bath{
+      //   width:7%
+      // }
+      // .gap{
+      //   width:7%
+      // }
+      // .price{
+      //   width:30%
+      // }
+    }
+  
   }
 }
 // property-list-detail locations and lifestyles 
@@ -1844,7 +1832,7 @@ body.creamy .ai-search-result-detail-section-full-width .ai-lead-form-section {
 }
 .o-header__nav-list {
     display: table;
-    margin: 20px;
+    margin: 0px 40px 20px;
     padding: 0;
 }
 .o-header__nav-item:first-child {

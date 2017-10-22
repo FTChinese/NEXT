@@ -45,13 +45,9 @@ document.documentElement.className = document.documentElement.className.replace(
     </script>
 <![endif]-->
 
-<!-- build:css styles/main-story.css -->
-<link rel="stylesheet" href="styles/main-story.css">
-<!-- endbuild -->
-<!-- build:css styles/main-search.css -->
-<link rel="stylesheet" href="styles/main-search.css">
-<!-- endbuild -->
 
+<link rel="stylesheet" href="styles/main-story.css">
+<link rel="stylesheet" href="styles/main-search.css">
 
 <!-- build:css styles/main-page-property.css -->
 <link rel="stylesheet" href="/styles/main-page-property.css">
@@ -477,41 +473,55 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
         </li>
     </ul>
 </div>
-
- <div class="detailListContainer" >
-    <form>
+<!--search section-->
+<div class="container search-widget-container visible-sm visible-md visible-lg visible-xs">
+<div class="row" >
+ <div class="detailListContainer col-md-12" >
+    <form action="#" class="xs-no-border xs-no-side-space xs-no-top-space xs-section-margin-bottom-5">
+    <fieldset>
     <div class="searchContainer clearfloat" >
-    <div class="floatClass sale" >
+    <section class="col-xs-4 col-sm-4 col-md-2 col-lg-1" class="floatClass sale" >
         <select>
-        <option value="forsale">For Sale</option>
-        <option value="forrent">For Rent</option>
+        <option value="forSale">For Sale</option>
+        <option value="forRent">For Rent</option>
         </select>
-    </div>
+    </section>
 
-    <div class="floatClass search">
+    <section class="col-xs-8 col-sm-4 col-md-4 col-lg-4 search" class="floatClass ">
         <input placeholder="Search country, area or city" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0">
         <button class="select-search-button" ></button>
-    </div>
+    </section>
     
-    <div class="floatClass beds">
+    <section class="col-xs-4 col-md-1 col-lg-1" class="floatClass beds" >
         <select>
-        <option value="beds">Beds</option>
-        <option value="forrent">For Rent</option>
+        <option value="-1">Beds</option>
+        <option value="0">0+</option>
+        <option value="1">1+</option>
+        <option value="2">2+</option>
+        <option value="3">3+</option>
+        <option value="4">4+</option>
+        <option value="5">5+</option>
         </select>
-    </div>
-    <div class="floatClass bath" >
+    </section>
+    <section  class="col-xs-4 col-md-1 col-lg-1" class="floatClass bath">
         <select>
-        <option value="bath">Bath</option>
-        <option value="forrent">For Rent</option>
+        <option value="-1">Bath</option>
+        <option value="0">0+</option>
+        <option value="1">1+</option>
+        <option value="2">2+</option>
+        <option value="3">3+</option>
+        <option value="4">4+</option>
+        <option value="5">5+</option>
         </select>
-    </div>
-    <div class="floatClass gap" >       
+    </section>
+    <section  class="col-xs-4 col-md-1 col-lg-1" class="floatClass gap">       
         <select>
         <option value="GBP">GBP</option>
-        <option value="forrent">For Rent</option>
+        <option value="EUR">EUR</option>
+        <option value="EUR">CNY</option>
         </select>
-    </div>
-    <div class="floatClass price">
+    </section>
+    <section class="col-xs-12 col-sm-3 col-md-3 col-lg-4" class="floatClass price" >
         <!--<label id="price-button">Price</label>-->
   
         <div id="price-menu" >
@@ -533,11 +543,14 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
             <li role="menuitem"><a class="text-right">$500,000</a></li>
             </ul>
          </div>
-    </div>
+    </section>
 
   <div class="clearfloat"></div>
   </div><!--<div id="searchContainer" >-->
+</fieldset>
   </form>
+</div>
+</div>
 </div>
 
 <div class="block-container">
@@ -577,7 +590,7 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 
                     <div class="ai-listing-detail-spa-container ai-search-result-detail-section-full-width" style="display: none">
     <div class="ai-action-button-container">
-        <div class="ai-left-buttons-container">
+        <!--<div class="ai-left-buttons-container">
             <div class="ai-save-property-container">
                 <a class="ai-modal-btn" data-target="#login-modal" data-toggle="modal" href="javascript:void(0)" style="vertical-align: super" title="save property">
                     <span style="color: white;">
@@ -586,14 +599,14 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
                     <span class="text-uppercase ai-save-property-label">Save Property</span>
                 </a>
             </div>
-        </div>
+        </div>-->
         <div class="ai-right-buttons-container">
             <div class="ai-expand-container">
 
                 <a style="vertical-align: super" target="_blank" href="https://propertylistings.ft.com/homes/1134003/new-york-property-for-sale/310-west-81st-street" title="More Info">
-                    <span style="color: white;">
+                    <!--<span style="color: white;">
                         <img src="/images/avatar.svg">
-                    </span>
+                    </span>-->
                     <span class="text-uppercase ai-expand-label">More Info</span>
                 </a>
             </div>
@@ -609,9 +622,9 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
     </div><!-- <div class="ai-action-button-container">-->
 
     
-    <div class="ai-search-result-detail-section-full-width-inner" style="height:500px;"> 
+    <div class="ai-search-result-detail-section-full-width-inner" > 
         <div class="row margin-bottom-10">
-            <div class="col-md-7" style="height:450px;">
+            <div class="col-md-7" style="height:400px;">
                 <!-- Swiper -->
                 <div class="swiper-position">   
                     <div class="swiper-container gallery-top">
@@ -722,10 +735,12 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
                             </span>
                         </div>
                         <div class="row margin-bottom-5 hidden-xs">
-                            <div class="call">
-                                <img src="/images/phone-call.svg">
+                            <div class="call  inquiry-agent-call" id="inquiry-agent-call">
+                                <img src="http://static.ftchinese.com/icon/svg/phone-call.svg">
                                 <a rel="nofollow" href="javascript:void(0)">CALL</a>
-                            
+                            </div>
+                            <div class="call" id="inquiry-agent-contact-number">
+                                <a itemprop="telephone" href="tel:390550548100"> 390550548111 </a>
                             </div>
                         </div>
                         <div class="row">
@@ -739,12 +754,12 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
                             </div>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-sm-7 hidden-xs">
+                    <div class="col-xs-12 col-sm-7">
                         <form id="" method="post" action="/api/inquiry/post"class="sky-form"novalidate="novalidate">
                             <div>
                                 <section>
                                     <div class="input">
-                                        <img src="/images/avatar.svg">
+                                        <img src="http://static.ftchinese.com/icon/svg/avatar.svg">
                                         
                                         <input id="Inquiry_Name" name="Inquiry.Name" placeholder="Your Full Name" type="text">
                                         
@@ -752,21 +767,21 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
                                 </section>
                                 <section>
                                     <div class="input">
-                                        <img src="/images/phone-call.svg">
+                                        <img src="http://static.ftchinese.com/icon/svg/phone-call.svg">
                                         <input id="Inquiry_Name" name="Inquiry.Name" placeholder="Phone, e.g. +(country)-(number)" type="text">
                                     
                                     </div>
                                 </section>
                                 <section>
                                     <div class="input">
-                                        <img src="/images/envelope.svg">
+                                        <img src="http://static.ftchinese.com/icon/svg/envelope.svg">
                                         <input id="Inquiry_Name" name="Inquiry.Name" placeholder="Email" type="text">
                                     
                                     </div>
                                 </section>
                                 <section>
                                     <div class="textarea textarea-resizable">
-                                    <img src="/images/chat.svg">    
+                                    <img src="http://static.ftchinese.com/icon/svg/chat.svg">    
                                         <textarea id="Inquiry_Name" name="Inquiry.Name" placeholder="Message" type="text"></textarea>
                                     
                                     </div>
@@ -785,7 +800,7 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
             </div>
             <div style="clear:both"></div>
         </div>
-        <div style="margin:-10px 30px;">
+        <div class="action-icon-section  hidden-xs">
             <a class="action-icon icon-wechat" href="/m/corp/qrshare.html?url=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001068131%3Ffull%3Dy&title=香港再度成为全球外派成本最高的城市 - FT中文网" target="_blank"></a>
             <a class="action-icon icon-weibo" href="http://service.weibo.com/share/share.php?appkey=4221537403&url=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001068131%3Ffull%3Dy%26ccode=2G169001&title=【香港再度成为全球外派成本最高的城市】在咨询公司美世最新发布的外派人员所在城市生活成本年度排行榜上，高昂的房租帮助香港重新登上榜首位置。（分享自 @FT中文网）&ralateUid=1698233740&source=&sourceUrl=&content=utf-8&pic=http://i.ftimg.net/picture/9/000063189_piclink.jpg&searchPic=false" target="_blank"></a>
             <a class="action-icon icon-linkedin" href="https://www.linkedin.com/cws/share?url=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001068131%3Ffull%3Dy%26ccode%3D2G169003&original_referer=https%3A%2F%2Fdeveloper.linkedin.com%2Fsites%2Fall%2Fthemes%2Fdlc%2Fsandbox.php%3F&token=&isFramed=true&lang=zh_CN&_ts=1422502780259.2795" target="_blank"></a>
@@ -864,7 +879,7 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 
                     <div class="ai-listing-detail-spa-container ai-search-result-detail-section-full-width" id="ai-listing-detail-spa-container" style="display: none">
     <div class="ai-action-button-container">
-        <div class="ai-left-buttons-container">
+        <!--<div class="ai-left-buttons-container">
             <div class="ai-save-property-container">
                 <a class="ai-modal-btn" data-target="#login-modal" data-toggle="modal" href="javascript:void(0)" style="vertical-align: super" title="save property">
                     <span style="color: white;">
@@ -873,14 +888,14 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
                     <span class="text-uppercase ai-save-property-label">Save Property</span>
                 </a>
             </div>
-        </div>
+        </div>-->
         <div class="ai-right-buttons-container">
             <div class="ai-expand-container">
 
                 <a style="vertical-align: super" target="_blank" href="https://propertylistings.ft.com/homes/1134003/new-york-property-for-sale/310-west-81st-street" title="More Info">
-                    <span style="color: white;">
+                    <!--<span style="color: white;">
                         <img src="/images/avatar.svg">
-                    </span>
+                    </span>-->
                     <span class="text-uppercase ai-expand-label">More Info</span>
                 </a>
             </div>
@@ -896,9 +911,9 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
     </div>
 
     
-    <div class="ai-search-result-detail-section-full-width-inner" style="height:540px;"> 
+    <div class="ai-search-result-detail-section-full-width-inner"> 
         <div class="row margin-bottom-10">
-            <div class="col-md-7" style="height:450px;">
+            <div class="col-md-7" style="height:400px;">
                 <!-- Swiper -->
  <div class="swiper-position">   
     <div class="swiper-container gallery-top">
@@ -1009,10 +1024,13 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
                             </span>
                         </div>
                         <div class="row margin-bottom-5 hidden-xs">
-                            <div class="call">
-                                <img src="/images/phone-call.svg">
+                            <div class="call inquiry-agent-call" id="inquiry-agent-call">
+                                <img src="http://static.ftchinese.com/icon/svg/phone-call.svg">
                                 <a rel="nofollow" href="javascript:void(0)">CALL</a>
                             
+                            </div>
+                            <div class="call" id="inquiry-agent-contact-number">
+                                <a itemprop="telephone" href="tel:390550548100"> 390550548100 </a>
                             </div>
                         </div>
                         <div class="row">
@@ -1031,7 +1049,7 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
                             <div>
                                 <section>
                                     <div class="input">
-                                        <img src="/images/avatar.svg">
+                                        <img src="http://static.ftchinese.com/icon/svg/avatar.svg">
                                         
                                         <input id="Inquiry_Name" name="Inquiry.Name" placeholder="Your Full Name" type="text">
                                         
@@ -1039,21 +1057,21 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
                                 </section>
                                 <section>
                                     <div class="input">
-                                        <img src="/images/phone-call.svg">
+                                        <img src="http://static.ftchinese.com/icon/svg/phone-call.svg">
                                         <input id="Inquiry_Name" name="Inquiry.Name" placeholder="Phone, e.g. +(country)-(number)" type="text">
                                     
                                     </div>
                                 </section>
                                 <section>
                                     <div class="input">
-                                        <img src="/images/envelope.svg">
+                                        <img src="http://static.ftchinese.com/icon/svg/envelope.svg">
                                         <input id="Inquiry_Name" name="Inquiry.Name" placeholder="Email" type="text">
                                     
                                     </div>
                                 </section>
                                 <section>
                                     <div class="textarea textarea-resizable">
-                                    <img src="/images/chat.svg">    
+                                    <img src="http://static.ftchinese.com/icon/svg/chat.svg">    
                                         <textarea id="Inquiry_Name" name="Inquiry.Name" placeholder="Message" type="text"></textarea>
                                     
                                     </div>

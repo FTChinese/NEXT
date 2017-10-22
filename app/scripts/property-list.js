@@ -66,5 +66,19 @@
     },function(){
         $('#o-header-mega-2').css('display','none');
     });
+
+    var isDisplayContactNumber=false;   
+     $('body').on('click', '.inquiry-agent-call', function () {
+         if(!isDisplayContactNumber){
+            $(this).next('#inquiry-agent-contact-number').css('display','block'); 
+            // $('#inquiry-agent-contact-number').css('display','block');
+            isDisplayContactNumber=true;
+         }else{
+             $(this).next('#inquiry-agent-contact-number').css('display','none'); 
+            //  $('#inquiry-agent-contact-number').css('display','none');
+            isDisplayContactNumber=false;
+         }
+
+    });
    
 })(); 
