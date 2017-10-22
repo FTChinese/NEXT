@@ -9,7 +9,7 @@ function loadcomment(storyid, theid, type) {
     switch (type) {
 	    case 'story':
 	    	commentfolder='/index.php/c';
-	    	url='/index.php/c/newcomment/' + storyid;
+	    	url='/index.php/c/newcomment/' + storyid + '?v=1';
 	    	break;
 	    case 'storyall1':
             commentfolder='/index.php/';
@@ -38,8 +38,13 @@ function loadcomment(storyid, theid, type) {
       		break;
       	default:
       		commentfolder='/index.php/common_comments';
-      		url='/index.php/common_comments/newcomment/' + storyid;
+      		url='/index.php/common_comments/newcomment/' + storyid + '?v=1';
     }
+    var currentDate = new Date();
+    var currentTimeStamp = currentDate.getFullYear() * 100000000 + (currentDate.getMonth() + 1) * 1000000 + currentDate.getDate() * 10000 + currentDate.getHours() * 100 + currentDate.getMinutes();
+
+    url = url + '&' + currentTimeStamp;
+    
     new_comment_prefix = null;
     common_comment_prefix = null;
 
