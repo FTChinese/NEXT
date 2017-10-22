@@ -259,7 +259,7 @@ function clickToSubmitComment() {
 // url:http://www.ftchinese.com/interactive/10420
 // type:video
 
-        if (/[0-9]+/.test(window.FTStoryid)) {
+        if (/^[0-9]+$/.test(window.FTStoryid)) {
             params = 'storyid='+ window.FTStoryid +'&talk=' + document.querySelector('#Talk').value + '&use_nickname=' + usenickname + '&NickName=' + document.querySelector('#nick_name').value;
         } else {
             params = 'topic_object_id='+ window.FTStoryid +'&talk=' + document.querySelector('#Talk').value + '&use_nickname=' + usenickname + '&NickName=' + document.querySelector('#nick_name').value + '&type=video';
