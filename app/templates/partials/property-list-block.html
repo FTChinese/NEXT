@@ -67,12 +67,13 @@
             
             <ul>
                 <%foreach from=$propertyListArray item=propertyItem%>
-                
+
+                <%assign var="carousel_images_array" value = implode(',',$propertyItem.allImages|regex_replace:"/[\r\n\t]/":","%>
                 <li class="ai-search-result-detail-item last-column">
                     <div class="ai-search-result ai-search-result-header-section" data-itemtype="l" data-feature="1" data-listtype="1">
                     <div class="thumbnail">
                         <a href="javascript:void(0)" id="thumbnail-a"title="Beautiful Southwest adobe-style home in Scottsdale">
-                    <div class="photo-count-badge"><span>12 Photos</span></div>
+                    <div class="photo-count-badge"><span>$carousel_images_array|@count Photos</span></div>
                     <div class="listing-info-badge">
                         <div class="row">
                                <div class="col-md-9">
@@ -136,7 +137,7 @@
                 <div class="swiper-position">   
                     <div class="swiper-container gallery-top">
                         <div class="swiper-wrapper">
-                            <%foreach from=$propertyItem.allImages item=image%>
+                            <%foreach from=$carousel_images_array item=image%>
                                 <div class="swiper-slide" style="background-image:url(<%$image%>)"></div>
                             <%/foreach%>
                         </div>
@@ -147,7 +148,7 @@
 
                     <div class="swiper-container gallery-thumbs">
                         <div class="swiper-wrapper">
-                            <%foreach from=$propertyItem item=image%>
+                            <%foreach from=$carousel_images_array item=image%>
                                 <div class="swiper-slide" style="background-image:url(<%$image%>)"></div>
                             <%/foreach%>
                         </div>
@@ -247,28 +248,28 @@
                                     <div class="input">
                                         <img src="http://static.ftchinese.com/icon/svg/avatar.svg">
                                         
-                                        <input id="Inquiry_Name" name="Inquiry.Name" placeholder="Your Full Name" type="text">
+                                        <input id="client-name" name="client-name" placeholder="Your Full Name" type="text">
                                         
                                     </div>
                                 </section>
                                 <section>
                                     <div class="input">
                                         <img src="http://static.ftchinese.com/icon/svg/phone-call.svg">
-                                        <input id="Inquiry_Name" name="Inquiry.Name" placeholder="Phone, e.g. +(country)-(number)" type="text">
+                                        <input id="client-number" name="client-number" placeholder="Phone, e.g. +(country)-(number)" type="text">
                                     
                                     </div>
                                 </section>
                                 <section>
                                     <div class="input">
                                         <img src="http://static.ftchinese.com/icon/svg/envelope.svg">
-                                        <input id="Inquiry_Name" name="Inquiry.Name" placeholder="Email" type="text">
+                                        <input id="client-email" name="client-email" placeholder="Email" type="text">
                                     
                                     </div>
                                 </section>
                                 <section>
                                     <div class="textarea textarea-resizable">
                                     <img src="http://static.ftchinese.com/icon/svg/chat.svg">    
-                                        <textarea id="Inquiry_Name" name="Inquiry.Name" placeholder="Message" type="text"></textarea>
+                                        <textarea id="client-message" name="client-message" placeholder="Message" type="text"></textarea>
                                     
                                     </div>
                                 </section>
@@ -335,7 +336,7 @@
             <div class="ai-save-property-container">
                 <a class="ai-modal-btn" data-target="#login-modal" data-toggle="modal" href="javascript:void(0)" style="vertical-align: super" title="save property">
                     <span style="color: white;">
-                       <img src="/images/phone-call.svg">
+                       <img src="http://static.ftchinese.com/icon/svg/phone-call.svg">
                     </span>
                     <span class="text-uppercase ai-save-property-label">Save Property</span>
                 </a>
@@ -346,7 +347,7 @@
 
                 <a style="vertical-align: super" target="_blank" href="https://propertylistings.ft.com/homes/1134003/new-york-property-for-sale/310-west-81st-street" title="More Info">
                     <span style="color: white;">
-                        <img src="/images/avatar.svg">
+                        <img src="http://static.ftchinese.com/icon/svg/avatar.svg">
                     </span>
                     <span class="text-uppercase ai-expand-label">More Info</span>
                 </a>
@@ -498,30 +499,30 @@
                             <div>
                                 <section>
                                     <div class="input">
-                                        <img src="/images/avatar.svg">
+                                        <img src="http://static.ftchinese.com/icon/svg/avatar.svg">
                                         
-                                        <input id="Inquiry_Name" name="Inquiry.Name" placeholder="Your Full Name" type="text">
+                                        <input id="client-name" name="client-name" placeholder="Your Full Name" type="text">
                                         
                                     </div>
                                 </section>
                                 <section>
                                     <div class="input">
-                                        <img src="/images/phone-call.svg">
-                                        <input id="Inquiry_Name" name="Inquiry.Name" placeholder="Phone, e.g. +(country)-(number)" type="text">
+                                        <img src="http://static.ftchinese.com/icon/svg/phone-call.svg">
+                                        <input id="client-number" name="client-number" placeholder="Phone, e.g. +(country)-(number)" type="text">
                                     
                                     </div>
                                 </section>
                                 <section>
                                     <div class="input">
-                                        <img src="/images/envelope.svg">
-                                        <input id="Inquiry_Name" name="Inquiry.Name" placeholder="Email" type="text">
+                                        <img src="http://static.ftchinese.com/icon/svg/envelope.svg">
+                                        <input id="client-email" name="client-email" placeholder="Email" type="text">
                                     
                                     </div>
                                 </section>
                                 <section>
                                     <div class="textarea textarea-resizable">
-                                    <img src="/images/chat.svg">    
-                                        <textarea id="Inquiry_Name" name="Inquiry.Name" placeholder="Message" type="text"></textarea>
+                                    <img src="http://static.ftchinese.com/icon/svg/chat.svg">    
+                                        <textarea id="client-message" name="client-message" placeholder="Message" type="text"></textarea>
                                     
                                     </div>
                                 </section>
