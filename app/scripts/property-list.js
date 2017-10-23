@@ -2,28 +2,26 @@
 (function () {
 
     'use strict';
-        function swipeTop(){
-        var galleryTop = new Swiper(eleTop, {
-            nextButton: '.swiper-button-next',
-            prevButton: '.swiper-button-prev',
-            spaceBetween: 10,
-            autoplay: 2500,
-            autoplayDisableOnInteraction: false
-        });
-        console.log( "swipeTop11---")
-        var galleryThumbs = new Swiper(eleThumbs, {
-            spaceBetween: 10,
-            centeredSlides: true,
-            slidesPerView: 'auto',
-            touchRatio: 0.2,
-            slideToClickedSlide: true
-        });
-        console.log( "swipeTop22---")
-        galleryTop.params.control = galleryThumbs;
-        console.log( "swipeTop33---")  //此处没运行？
-        galleryThumbs.params.control = galleryTop;
-        console.log( "swipeTop---")
-    }
+//     function swipeTop(){
+//         var galleryTop = new Swiper('.gallery-top', {
+//             nextButton: '.swiper-button-next',
+//             prevButton: '.swiper-button-prev',
+//             spaceBetween: 10,
+//             autoplay: 2500,
+//             autoplayDisableOnInteraction: false
+//         });
+
+//         var galleryThumbs = new Swiper('.gallery-thumbs', {
+//             spaceBetween: 10,
+//             centeredSlides: true,
+//             slidesPerView: 'auto',
+//             touchRatio: 0.2,
+//             slideToClickedSlide: true
+//         });
+//         galleryTop.params.control = galleryThumbs;
+//  //此处没运行？
+//         galleryThumbs.params.control = galleryTop;
+//     }
 //      $('body').on('click', '#thumbnail-a', function () { 
 //            console.log( "thumbnail")
 //      });
@@ -34,7 +32,7 @@
         });
         $(this).parent().parent().find('.ai-listing-detail-spa-container').show();
         $(this).next().show();
-        swipeTop($(this).find()
+        // swipeTop();
         // swipeTop($(this).find('.gallery-top'),$(this).find('.gallery-thumbs'))
    });
 // .ai-close-container a不能这么使
