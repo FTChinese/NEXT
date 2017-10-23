@@ -190,13 +190,17 @@
 <!--[if lte IE 8]>
 <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
 <![endif]-->
-<script type="text/javascript">
-  <%include file="next/scripts/main.js"%>
-</script>
-</html>
+    <script type="text/javascript">
+    <%include file="next/scripts/main.js"%>
+    </script>
+    </html>
 <%else%>
-    <%include file="next/partials/banner.html"%>
-    <%assign var="bannerCount" value=$bannerCount+1%>
+    <%if $smarty.get.newad == "yes"%>
+        <%include file="next/partials/banner-top.html"%>
+    <%else%>
+        <%include file="next/partials/banner.html"%>
+        <%assign var="bannerCount" value=$bannerCount+1%>
+    <%/if%>
     <%if $pageId=="setting"%>
     <%include file="next/partials/setting-block.html"%>
     <%elseif $pageId!=""%>
