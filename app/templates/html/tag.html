@@ -161,9 +161,15 @@
     <%include file="next/partials/tag-header.html"%>
     <%include file="next/partials/nav.html"%>
     <%if $pageTheme != "luxury"%>
-    <%include file="next/partials/banner-top.html"%>
+        <%if $smarty.get.newad == "yes"%>
+            <%include file="next/partials/banner-top.html"%>
+        <%else%>
+            <%include file="next/partials/banner.html"%>
+        <%/if%>
     <%/if%>
-    <%assign var="bannerCount" value=$bannerCount+1%>
+    <%if $smarty.get.newad == "yes"%>
+        <%assign var="bannerCount" value=$bannerCount+1%>
+    <%/if>
     <%if $pageId=="setting"%>
     <%include file="next/partials/setting-block.html"%>
     <%elseif $pageId!=""%>
