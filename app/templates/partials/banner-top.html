@@ -3,15 +3,6 @@
 	<%assign var="hideBanner" value="yes"%>
 <%/if%>
 <%if $smarty.get.ad != "no" && $noAd != "true" && $hideBanner != "yes"%>
-	<%if $pageId == "home"%>
-		<%assign var="bannerType" value="banner"%>
-	<%elseif $pageId != ""%>
-		<%assign var="bannerType" value="tagbanner"%>
-	<%elseif !preg_match("/story|interactive/is",$smarty.server.REQUEST_URI)%>
-		<%assign var="bannerType" value="tagbanner"%>
-	<%else%>
-		<%assign var="bannerType" value="storybanner"%>
-	<%/if%>
 	<%if $section.url && $section.url != ""%>
 		<%assign var="sectionLink" value=" href=\"`$section.url`\" target=_blank"%>
 	<%else%>
@@ -29,19 +20,19 @@
 			<a<%$sectionLink%>><img src="<%$section.image%>"></a>
 		</div>
 	<%else%>
-    <script type="text/javascript">
-      document.write(writeAdNew({
-          devices: ['PC'],
-          pattern:'Leaderboard',
-          position:'Num1'
-      }));
-    </script>
-    <script type="text/javascript">
-      document.write(writeAdNew({
-          devices: ['iPhoneWeb','AndroidWeb'],
-          pattern:'Banner',
-          position:'Num1'
-      }));
-    </script>
+	  <script type="text/javascript">
+		document.write(writeAdNew({
+			devices: ['PC'],
+			pattern:'Leaderboard',
+			position:'Num1'
+		}));
+	  </script>
+	  <script type="text/javascript">
+		document.write(writeAdNew({
+			devices: ['iPhoneWeb','AndroidWeb'],
+			pattern:'Banner',
+			position:'Num1'
+		}));
+	  </script>
 	<%/if%>
 <%/if%>
