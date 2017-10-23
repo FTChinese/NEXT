@@ -97,9 +97,19 @@
 	<%if $pageType=="singlechoice"%>
 		<div class="side-container"><div class="side-inner">
 			<%if $smarty.get.ad != "no" && $noAd != "true" && $hideMPU1 != "yes"%>
-				<div class="mpu-container<%if $tagabout == ""%> first-child<%/if%>">
-					<script type="text/javascript">document.write (writeAd('storympuRight'));</script>
-				</div>
+				<%if $smarty.get.newad == "yes"%>
+					<script type="text/javascript">
+						document.write (writeAdNew({
+							devices: ['PC','PadWeb'],
+							pattern:'MPU',
+							position:'Right1'
+						}));
+					</script>
+				<%else%>
+					<div class="mpu-container<%if $tagabout == ""%> first-child<%/if%>">
+						<script type="text/javascript">document.write (writeAd('storympuRight'));</script>
+					</div>
+				<%/if%>
 			<%/if%>
 		</div></div>
 	<%else%>

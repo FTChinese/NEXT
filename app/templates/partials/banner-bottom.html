@@ -29,19 +29,19 @@
 			<a<%$sectionLink%>><img src="<%$section.image%>"></a>
 		</div>
 	<%else%>
-		<div class="bn-ph<%$figureClass%>">
-		<div class="banner-container">
-		<div class="banner-inner">
-		<div class="banner-content">
-			<%if $section.image == ""%>
-					<script type="text/javascript">document.write (writeAd('<%$bannerType%>'));</script>
-				<%else%>
-					<a<%$sectionLink%> class="P-hide"><figure class="loading" data-url="<%$image1%>"></figure></a>
-					<a<%$sectionLink%> class="P-only"><figure class="loading" data-url="<%$image2%>"></figure></a>
-				<%/if%>
-		</div>
-		</div>
-		</div>
-		</div>
+    <script type="text/javascript">
+      document.write(writeAdNew({
+          devices: ['PC'],
+          pattern:'Banner',
+          position:'Num1'
+      }));
+    </script>
+    <script type="text/javascript">
+      document.write(writeAdNew({
+          devices: ['iPhoneWeb','AndroidWeb'],
+          pattern:'Banner',
+          position:'Num2'
+      }));
+    </script>
 	<%/if%>
 <%/if%>
