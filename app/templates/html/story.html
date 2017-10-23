@@ -955,18 +955,18 @@
 		<%if $hideMPU3 == "yes" || $noAd == "true" || preg_match("/活动页面/is",$keys)%>
 		    <%assign var="story_content" value=$story_content|replace:"<div id=\"story_main_mpu\"></div>":""%>
 		<%else%>
-			
+			<%*
 			<%if $smarty.get.newad == "yes"%>
-				<%assign var="story_content" value==$story_content|replace:"<div id=\"story_main_mpu\"></div>":"<div id=\"story_main_mpu\"><script type="text/javascript">document.write (writeAdNew({
+				<%assign var="story_content" value==$story_content|replace:"<div id=\"story_main_mpu\"></div>":"<script type="text/javascript">document.write (writeAdNew({
 					devices: ['PC','iPhoneWeb','AndroidWeb'],
 					pattern:'MPU',
 					position:'Middle1',
 					container:'mpuInStroy'
-				}));</script></div>"%>
+				}));</script>"%>
 			<%else%>
-			
+			*%>
 				<%assign var="story_content" value=$story_content|replace:"<div id=\"story_main_mpu\"></div>":"<div id=\"story_main_mpu\"><script type=\"text/javascript\">document.write (writeAd('storympu'));</script></div>"%>
-			<%/if%>
+			<%*<%/if%>*%>
 		<%/if%>
 	<%elseif $hideMPU3!="yes" && !preg_match("/活动页面/is",$keys) && $noAd != "true"%>
 	<%*<!--在单页的情况下，如果文章没有插图，没有iframe，没有video，没有highcharts, 也没有被强制设为不显示MPU 3，则将MPU_3广告位插入到第五段开头。-->*%>
