@@ -1,7 +1,9 @@
+<%assign var="carousel_images_string" value = $realProperty.allImages|regex_replace:"/[\r\n\t]/":"*"%>
+<%assign var="carousel_images_string" value = $carousel_images_string|regex_replace:"/(\*+)/":"*"%>
+<%*<%$carousel_images_string|@var_dump%>*%>
 
-<%$realProperty.allImages|@var_dump%>
-<%assign var="carousel_images_array" value = implode(',',$realProperty.allImages|regex_replace:"/[\r\n\t]/":","%>
-<%$carousel_images_array|@var_dump%>
+<%assign var="carousel_images_array" value="*"|explode:$carousel_images_string%>
+<%*<%$carousel_images_array|@var_dump%>*%>
 
 <div class="swiper-position">   
 <!-- Swiper -->
