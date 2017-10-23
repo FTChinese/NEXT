@@ -1334,7 +1334,11 @@
 		<%/if%>
 		<%include file="next/partials/story-recommend.html%>
 		<%if !preg_match("/品味|乐尚街|艺术投资|腕表|游艇|极致人生/is",$keys)%>
-			<%include file="next/partials/banner.html"%>
+			<%if $smarty.get.newad == "yes"%>
+				<%include file="next/partials/story-bannerbottom.html"%>
+			<%else%>
+				<%include file="next/partials/banner.html"%>
+			<%/if%>
 		<%/if%>
 		<%include file="next/partials/footer.html"%>
 		<%include file="next/partials/QrCode.html"%>
