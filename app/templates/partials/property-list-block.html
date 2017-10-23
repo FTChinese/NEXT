@@ -82,13 +82,16 @@
             
             <ul>
                 <%foreach from=$propertyListArray item=propertyItem%>
+                <%assign var="carousel_images_string" value = $propertyItem.allImages|regex_replace:"/[\r\n\t]/":"*"%>
+                <%assign var="carousel_images_string" value = $carousel_images_string|regex_replace:"/(\*+)/":"*"%>
+                <%assign var="carousel_images_array" value="*"|explode:$carousel_images_string%>
+                <%assign var="imageCount" value=$carousel_images_array|@count%>
 
-                <%assign var="carousel_images_array" value = implode(',',$propertyItem.allImages|regex_replace:"/[\r\n\t]/":","%>
                 <li class="ai-search-result-detail-item last-column">
                     <div class="ai-search-result ai-search-result-header-section" data-itemtype="l" data-feature="1" data-listtype="1">
                     <div class="thumbnail">
                         <a href="javascript:void(0)" id="thumbnail-a"title="Beautiful Southwest adobe-style home in Scottsdale">
-                    <div class="photo-count-badge"><span>$carousel_images_array|@count Photos</span></div>
+                    <div class="photo-count-badge"><span><%$imageCount%>  Photos</span></div>
                     <div class="listing-info-badge">
                         <div class="row">
                                <div class="col-md-9">
