@@ -636,61 +636,61 @@ var eventResize = window.attachEvent ? 'onresize' : 'resize';
 var eventScroll = window.attachEvent ? 'onscroll' : 'scroll';
 // console.log (gAudioOffsetY);
 // disable sticky scroll on touch devices
-if ((gNavOffsetY > 30 && w > 490 && isTouchDevice() === false) || document.getElementById('audio-placeholder')) {
-  try {
-    stickyBottomPrepare();
-    stickyAdsPrepare();
+// if ((gNavOffsetY > 30 && w > 490 && isTouchDevice() === false) || document.getElementById('audio-placeholder')) {
+//   try {
+//     stickyBottomPrepare();
+//     stickyAdsPrepare();
 
 
-    // if (isTouchDevice() === true) {
-    //   addEvent('touchmove', function() {
-    //     stickyBottom();
-    //   });
-    //   addEvent('touchend', function() {
-    //     stickyBottom();
-    //   });
-    // }
-    addEvent(eventScroll, function(){
-        stickyBottom();
-    });
-    addEvent(eventResize, function(){
-        stickyBottomPrepare();
-        stickyAdsPrepare();
-        reloadBanners();
-        setResizeClass();
-        loadImages();
-    });
-    setInterval(function(){
-        stickyBottomPrepare();
-        stickyAdsPrepare();
-    }, 10000);
-  } catch (ignore) {
+//     // if (isTouchDevice() === true) {
+//     //   addEvent('touchmove', function() {
+//     //     stickyBottom();
+//     //   });
+//     //   addEvent('touchend', function() {
+//     //     stickyBottom();
+//     //   });
+//     // }
+//     addEvent(eventScroll, function(){
+//         stickyBottom();
+//     });
+//     addEvent(eventResize, function(){
+//         stickyBottomPrepare();
+//         stickyAdsPrepare();
+//         reloadBanners();
+//         setResizeClass();
+//         loadImages();
+//     });
+//     setInterval(function(){
+//         stickyBottomPrepare();
+//         stickyAdsPrepare();
+//     }, 10000);
+//   } catch (ignore) {
 
-  }
-} else {
-  bodyHeight = getBodyHeight();
-  addEvent(eventResize, function(){
-      bodyHeight = getBodyHeight();
-      reloadBanners();
-      loadImages();
-      setResizeClass();
-  });
-  addEvent(eventScroll, function(){
-      scrollTop = window.scrollY || document.documentElement.scrollTop;
-      loadImagesLazy();
-      loadVideosLazy();
-      trackViewables();
-  });
-}
+//   }
+// } else {
+//   bodyHeight = getBodyHeight();
+//   addEvent(eventResize, function(){
+//       bodyHeight = getBodyHeight();
+//       reloadBanners();
+//       loadImages();
+//       setResizeClass();
+//   });
+//   addEvent(eventScroll, function(){
+//       scrollTop = window.scrollY || document.documentElement.scrollTop;
+//       loadImagesLazy();
+//       loadVideosLazy();
+//       trackViewables();
+//   });
+// }
 
-// check svg support
-// SVG is default, no-svg is exception
-if (typeof SVGRect === 'undefined') {
-  document.documentElement.className += ' no-svg';
-}
+// // check svg support
+// // SVG is default, no-svg is exception
+// if (typeof SVGRect === 'undefined') {
+//   document.documentElement.className += ' no-svg';
+// }
 
-loadImages();
-viewablesInit();
+// loadImages();
+// viewablesInit();
 
 // MARK: - A cool trick to handle images that fail to load
 try {
