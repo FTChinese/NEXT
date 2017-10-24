@@ -68,10 +68,10 @@ if (/^[0-9]{4}0001$/.test(c)) {
 }
 var slotStr = window.parent.slotStr || '';
 var parentId = k.replace(/^.*pid=([0-9A-Za-z\-]+).*$/,"$1");
-if(newAd) {
+if(window.parent.newAd) {
     parentId = 'ad-'+parentId;
 }
-console.log("parentId:" + parentId);
+//console.log("parentId:" + parentId);
 
 var adP = '';
 try {
@@ -159,7 +159,6 @@ if ( window.parent.document.getElementById(parentId)) {
         parentIframe.parentNode.parentNode.parentNode.parentNode.className += ' standard';
     } else if (adHeight === 120 && adHeight - adContainerHeight > 20) {
         adResized = true;
-        console.log("adResized"+adResized);
         try {
             w = window.parent.innerWidth || window.parent.document.documentElement.clientWidth || window.parent.document.body.clientWidth;
             w = w - 60 - 15;
