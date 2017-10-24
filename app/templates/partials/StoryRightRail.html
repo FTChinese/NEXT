@@ -7,7 +7,7 @@
 	<%/if%>
 
 	<%if $smarty.get.ad != "no" && $noAd != "true" && $hideMPU1 != "yes"%>
-		<%if $smarty.get.newad == "yes"%>
+		<%if $smarty.get.newad == "yes" || date("Ymd",$smarty.now) >= 20171025%>
 			<script type="text/javascript">
 				document.write (writeAdNew({
 						devices: ['PC','PadWeb'],
@@ -73,7 +73,7 @@
 
 
 	<%if $smarty.get.ad != "no" && $noAd != "true" && $hideMPU2 != "yes"%>
-		<%if $smarty.get.newad == "yes"%>
+		<%if $smarty.get.newad == "yes" || date("Ymd",$smarty.now) >= 20171025%>
 			<script type="text/javascript">
 				document.write (writeAdNew({
 						devices: ['PC','PadWeb'],
