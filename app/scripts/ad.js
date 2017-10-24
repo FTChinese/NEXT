@@ -564,6 +564,7 @@ function writeAdNew(obj) {
   // MARK: Get ad channel id from smarty server side
   var adch = adchID;
   var adchURL = window.location.href.replace(/^.*adchannelID=([0-9]{4}).*$/g,'$1');
+  var fromURL = false;
   if (/^[0-9]{4}$/.test(adchURL)) {
     adch = adchURL;
     fromURL = true;
