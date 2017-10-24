@@ -575,6 +575,7 @@ function writeAdNew(obj) {
   }
   var adChannelId = adch||'1000';
   //var adChannelId = '1000'; // window.dasfdafa || '1000'
+  
 
   console.log(adDevices[deviceType]);
   console.log(obj.pattern);
@@ -587,7 +588,7 @@ function writeAdNew(obj) {
   var containerType = obj.container || adPattern.container || 'none';
   
   adid = deviceId + adChannelId + adPatternId + adPositionId;
-  adDescription = deviceType + '-' + 'channel' + '-' + obj.pattern + '-' + obj.position;
+
 
   if (window.pageTheme === 'luxury') {
     bannerBG = '&bg=e0cdac';
@@ -600,6 +601,28 @@ function writeAdNew(obj) {
   
   
   if (window.gDebugAd && typeof window.gDebugAd === 'string') {
+    //MARK:找出channel的describtion
+    var topChannelId = adChannelId.substring(0,2);
+    var subChannelId = adChannelId.substring(2,4);
+    var adChannel = adDevices[deviceType].channels;
+    var subChannels = {};
+    var topChannelTitle = '';
+    var subChannelTitle = '';
+    for(var prop in adChannel) {
+      var propObj = adChannel[prop];
+      if(propObj.id === topChannelId) {
+        topChannelTitle = propObj.title;
+        subChannels = propObj.sub;
+      }
+    }
+    for(var subProp in subChannels) {
+      var subPropObj = subChannels[subProp];
+      if(subPropObj.id === subChannelId) {
+        subChannelTitle = subPropObj.title;
+      }
+    }
+
+    adDescription = deviceType + '-' + topChannelTitle + '-' + subChannelTitle + '-' + obj.pattern + '-' + obj.position;
     debugString = window.gDebugAd.replace('adcode_for_debug', adid + ': ' + adDescription);
   }
 
