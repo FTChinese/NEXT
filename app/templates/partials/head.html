@@ -145,11 +145,21 @@ var _hmt = _hmt || [];
 </script>
 <%/if%>
 
+
+
+
+
 <script>
 <%if !isset($isCurrentAdchFinal) || $isCurrentAdchFinal == "no" || $isCurrentAdchFinal == "" %>
     var gIsCurrentAdchFinal = false;
 <%else%>
     var gIsCurrentAdchFinal = true;
+<%/if%>
+
+<%if $smarty.get.newad == "yes" || date("Ymd",$smarty.now) >= 20171025 %>
+    var newAd = true;
+<%else%> 
+     var newAd = false;
 <%/if%>
 </script>
 <!--isCurrentAdchFinal: <%$isCurrentAdchFinal%>-->

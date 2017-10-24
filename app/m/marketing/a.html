@@ -68,6 +68,9 @@ if (/^[0-9]{4}0001$/.test(c)) {
 }
 var slotStr = window.parent.slotStr || '';
 var parentId = k.replace(/^.*pid=([0-9A-Za-z\-]+).*$/,"$1");
+if(newAd) {
+    parentId = 'ad-'+parentId;
+}
 console.log("parentId:" + parentId);
 
 var adP = '';

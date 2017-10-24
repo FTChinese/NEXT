@@ -1324,7 +1324,7 @@
 				<%include file="next/partials/banner.html"%>
 			<%/if%>
 		<%/if%>
-		<%if $smarty.get.newad != "yes"%>
+		<%if $smarty.get.newad != "yes" && date("Ymd",$smarty.now) < 20171025%>
 			<%assign var="bannerCount" value=$bannerCount+1%>
 		<%/if%>
 		<%if $info.photonewsid != ""%>
