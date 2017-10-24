@@ -163,16 +163,13 @@
     <%if $pageTheme != "luxury"%>
         <%if $smarty.get.newad == "yes"%>
             <%include file="next/partials/banner-top.html"%>
-            <script type="text/javascript">
-                var thisPageId='<%$pageId%>';
-                console.log(thisPageId);
-            </script>
+            <%$pageId%>'
         <%else%>
             <%include file="next/partials/banner.html"%>
         <%/if%>
 
     <%/if%>
-    <%if $smarty.get.newad == "yes"%>
+    <%if $smarty.get.newad != "yes"%>
         <%assign var="bannerCount" value=$bannerCount+1%>
     <%/if>
     <%if $pageId=="setting"%>
