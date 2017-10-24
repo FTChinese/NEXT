@@ -9,13 +9,13 @@
             <%include file="next/partials/header.html"%>
         <%/if%>
         <%include file="next/partials/nav.html"%>
-    <%elseif $section.type == "banner" && $smarty.get.newad != "yes" && ((date("Ymd",$smarty.now) < 20171025 || ((date("Ymd",$smarty.now) >= 20171025 && $randForAd != 0))) %>
+    <%elseif $section.type == "banner" && $smarty.get.newad != "yes" && ((date("Ymd",$smarty.now) < 20171025 || (date("Ymd",$smarty.now) >= 20171025 && $randForAd != 0))) %>
         <%include file="next/partials/banner.html"%>
         <%if $section.image && $section.image == ""%>
         <%else%>
             <%assign var="bannerCount" value=$bannerCount+1%>
         <%/if%>
-    <%elseif $section.type == "newAd" && ($smarty.get.newad == "yes" || ((date("Ymd",$smarty.now) >= 20171025 && $randForAd == 0)))%>
+    <%elseif $section.type == "newAd" && ($smarty.get.newad == "yes" || (date("Ymd",$smarty.now) >= 20171025 && $randForAd == 0))%>
         <%include file="next/partials/newAd.html"%>
     <%elseif $section.type == "block"%>
         <%include file="next/partials/block.html"%>
