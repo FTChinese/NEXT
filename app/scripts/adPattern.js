@@ -14,8 +14,8 @@ var adPatternsPC = {
     id:'02',
     description:'页面上部导航栏下方的长带状广告。此处的页面包括首页、频道页、文章页。',
     container: 'banner',
-    width: '1200',
-    height: '120',
+    width: '969',
+    height: '90',
     position:{
       Num1: {
         id:'01',
@@ -27,8 +27,8 @@ var adPatternsPC = {
     id:'03',
     description:'页面中部穿插的长带状广告（页面导航栏下方的长带状广告除外，其叫做LeaderBoard，见上）。此处的页面包括首页、频道页、文章页。从上到下顺序出现。',
     container: 'banner',
-    width: '1200',
-    height: '120',
+    width: '969',
+    height: '90',
     position:{
       Num1:{
         id:'01',
