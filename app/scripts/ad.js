@@ -1,4 +1,4 @@
-/* exported writeAd, slotStr, reloadBanners, checkB, clearEvents, writeAdNew */
+/* exported writeAd, slotStr, checkB, clearEvents, writeAdNew */
 var adPositions = {
   'banner': ['0001','0006','0007','0008'],
   'storybanner': ['0001','0006','0007','0008'],
