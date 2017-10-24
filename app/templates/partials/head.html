@@ -2,6 +2,7 @@
 <%if $interactiveType != ""%>
     <script>window.interactiveType = '<%$interactiveType%>';</script>
 <%/if%>
+<%assign var="randForAd" value =0|mt_rand:100 %>
 <script type="text/javascript">
 if(typeof startTime === "undefined"){
     var startTime=new Date().getTime();
@@ -156,10 +157,10 @@ var _hmt = _hmt || [];
     var gIsCurrentAdchFinal = true;
 <%/if%>
 
-<%if $smarty.get.newad == "yes" || date("Ymd",$smarty.now) >= 20171025 %>
+<%if $smarty.get.newad == "yes" || (date("Ymd",$smarty.now) >= 20171025 && $randForAd == 0) %>
     var newAd = true;
 <%else%> 
-     var newAd = false;
+    var newAd = false;
 <%/if%>
 </script>
 <!--isCurrentAdchFinal: <%$isCurrentAdchFinal%>-->

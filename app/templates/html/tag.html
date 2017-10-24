@@ -161,7 +161,7 @@
     <%include file="next/partials/tag-header.html"%>
     <%include file="next/partials/nav.html"%>
     <%if $pageTheme != "luxury"%>
-        <%if $smarty.get.newad == "yes" || date("Ymd",$smarty.now) >= 20171025%>
+        <%if $smarty.get.newad == "yes" || (date("Ymd",$smarty.now) >= 20171025 && $randForAd == 0)%>
             <%include file="next/partials/banner-top.html"%>
         <%else%>
             <%include file="next/partials/banner.html"%>
@@ -196,7 +196,7 @@
     </script>
     </html>
 <%else%>
-    <%if $smarty.get.newad == "yes" || date("Ymd",$smarty.now) >= 20171025%>
+    <%if $smarty.get.newad == "yes" || (date("Ymd",$smarty.now) >= 20171025 && $randForAd == 0)%>
         <%include file="next/partials/banner-top.html"%>
     <%else%>
         <%include file="next/partials/banner.html"%>

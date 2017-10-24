@@ -19,7 +19,7 @@
 		</ul>
 	</div>
 	<%if $smarty.get.ad != "no" && $noAd != "true"%>
-		<%if $smarty.get.newad == "yes" || date("Ymd",$smarty.now) >= 20171025%>
+		<%if $smarty.get.newad == "yes" || (date("Ymd",$smarty.now) >= 20171025 && $randForAd == 0)%>
 			<script type="text/javascript">
 				document.write (writeAdNew({
 						devices: ['PC'],

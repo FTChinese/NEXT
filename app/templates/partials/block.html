@@ -1136,7 +1136,7 @@
 									<%/if%>
 								<%else%>
 									<%if $i == 8%>
-										<%if $smarty.get.newad == "yes" || date("Ymd",$smarty.now) >= 20171025%>
+										<%if $smarty.get.newad == "yes" || (date("Ymd",$smarty.now) >= 20171025 && $randForAd == 0)%>
 											<script type="text/javascript">
 												document.write (writeAdNew({
 														devices: ['iPhoneWeb','AndroidWeb'],
