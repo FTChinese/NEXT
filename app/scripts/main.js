@@ -288,7 +288,6 @@ function loadImages() {
 }
 
 function viewablesInit() {
-  return;
   if (sections.length > 0 && typeof window.gPageId === 'string' && window.gPageId !== '') {
     var sectionTypes = {
       'block': 0,
