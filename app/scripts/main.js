@@ -656,7 +656,7 @@ if ((gNavOffsetY > 30 && w > 490 && isTouchDevice() === false) || document.getEl
     addEvent(eventResize, function(){
         stickyBottomPrepare();
         stickyAdsPrepare();
-        reloadBanners();
+        //reloadBanners();
         setResizeClass();
         loadImages();
     });
