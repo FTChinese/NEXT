@@ -6,9 +6,9 @@
     <fieldset>
     <div class="searchContainer clearfloat" >
     <section class="col-xs-4 col-sm-4 col-md-2 col-lg-1" class="floatClass sale" >
-        <select>
-        <option value="forSale">For Sale</option>
-        <option value="forRent">For Rent</option>
+        <select  id="property-nature" name="property-nature" >
+        <option value="forSale"<%if $searchedProperty.propertyNature == '0'%> selected='selected'<%/if%>>For Sale</option>
+        <option value="forRent"<%if $searchedProperty.propertyNature == '1'%> selected='selected'<%/if%>>For Rent</option>
         </select>
     </section>
 
@@ -18,53 +18,54 @@
     </section>
     
     <section class="col-xs-4 col-md-1 col-lg-1" class="floatClass beds" >
-        <select>
-        <option value="-1">Beds</option>
-        <option value="0">0+</option>
-        <option value="1">1+</option>
-        <option value="2">2+</option>
-        <option value="3">3+</option>
-        <option value="4">4+</option>
-        <option value="5">5+</option>
+        <select  id="bed-num" name="bed-num">
+        <option value="-1"<%if $searchedProperty.bedNum == '-1'%> selected='selected'<%/if%>>Beds</option>
+        <option value="0"<%if $searchedProperty.bedNum == '0'%> selected='selected'<%/if%>>0+</option>
+        <option value="1"<%if $searchedProperty.bedNum == '1'%> selected='selected'<%/if%>>1+</option>
+        <option value="2"<%if $searchedProperty.bedNum == '2'%> selected='selected'<%/if%>>2+</option>
+        <option value="3"<%if $searchedProperty.bedNum == '3'%> selected='selected'<%/if%>>3+</option>
+        <option value="4"<%if $searchedProperty.bedNum == '4'%> selected='selected'<%/if%>>4+</option>
+        <option value="5"<%if $searchedProperty.bedNum == '5'%> selected='selected'<%/if%>>5+</option>
         </select>
     </section>
     <section  class="col-xs-4 col-md-1 col-lg-1" class="floatClass bath">
-        <select>
-        <option value="-1">Bath</option>
-        <option value="0">0+</option>
-        <option value="1">1+</option>
-        <option value="2">2+</option>
-        <option value="3">3+</option>
-        <option value="4">4+</option>
-        <option value="5">5+</option>
+        <select  id="bath-num" name="bath-num">
+        <option value="-1"<%if $searchedProperty.bathNum == '-1'%> selected='selected'<%/if%>>Bath</option>
+        <option value="0"<%if $searchedProperty.bathNum == '0'%> selected='selected'<%/if%>>0+</option>
+        <option value="1"<%if $searchedProperty.bathNum == '1'%> selected='selected'<%/if%>>1+</option>
+        <option value="2"<%if $searchedProperty.bathNum == '2'%> selected='selected'<%/if%>>2+</option>
+        <option value="3"<%if $searchedProperty.bathNum == '3'%> selected='selected'<%/if%>>3+</option>
+        <option value="4"<%if $searchedProperty.bathNum == '4'%> selected='selected'<%/if%>>4+</option>
+        <option value="5"<%if $searchedProperty.bathNum == '5'%> selected='selected'<%/if%>>5+</option>
         </select>
     </section>
     <section  class="col-xs-4 col-md-1 col-lg-1" class="floatClass gap">      
-        <select>
-        <option value="USD">USD</option>
-        <option value="RMB">RMB</option>
-        <option value="GBP">GBP</option>
-        <option value="EUR">EUR</option>
+        <select  id="price-unit" name="price-unit">
+        <option value="USD"<%if $searchedProperty.priceUnit == 'USD'%> selected='selected'<%/if%>>USD</option>
+        <option value="RMB"<%if $searchedProperty.priceUnit == 'RMB'%> selected='selected'<%/if%>>RMB</option>
+        <option value="GBP"<%if $searchedProperty.priceUnit == 'GBP'%> selected='selected'<%/if%>>GBP</option>
+        <option value="EUR"<%if $searchedProperty.priceUnit == 'EUR'%> selected='selected'<%/if%>>EUR</option>
+
         </select>
     </section>
     <section class="col-xs-12 col-sm-3 col-md-3 col-lg-4" class="floatClass price" >
         <div id="price-menu" >
             <div>
                 <span class="" >
-                    <input type="text" placeholder="MinPrice" class="" muti="1" min="0" max="999999" name="minPrice" autocomplete="off" id="price-start">
+                    <input type="text" placeholder="MinPrice"  muti="1" min="0" max="999999" autocomplete="off" id="price-start" name="price-start" value="<%$searchedProperty.priceStart%>">
                 </span>
                 <span > - </span>
                 <span class="">
-                    <input type="text" placeholder="MaxPrice" class="" muti="1" min="0" max="999999" name="maxPrice" autocomplete="off" id="price-end">
+                    <input type="text" placeholder="MaxPrice" muti="1" min="0" max="999999"  autocomplete="off" id="price-end" name="price-end"value="<%$searchedProperty.priceEnd%>">
                 </span>
             </div>
-            <ul id="price-range-menu" >
+           <!--  <ul id="price-range-menu" >
             <li role="menuitem"><a class="text-right">$0</a></li>
             <li role="menuitem"><a class="text-right">$500</a></li>
             <li role="menuitem"><a class="text-right">$5,000</a></li>
             <li role="menuitem"><a class="text-right">$50,000</a></li>
             <li role="menuitem"><a class="text-right">$500,000</a></li>
-            </ul>
+            </ul> -->
          </div>
     </section>
 
@@ -98,7 +99,7 @@
                                <div class="col-md-9">
                                  <p class="no-bottom-space anchor-text"><%$propertyItem.area%> <%$propertyItem.country%></p>
                                  <p class="ai-list-info">
-                            <span class="ai-listing-price"><%$propertyItem.price%></span>
+                            <span class="ai-listing-price"><%$propertyItem.price%>  <%$propertyItem.priceUnit%></span>
                             <span class="ai-listing-bed">&nbsp;&nbsp;&nbsp;<%$propertyItem.bedroom%></span>
                                 &nbsp;
                             <span class="text-uppercase ai-listing-bedbathlabel">Bed</span>
@@ -184,7 +185,7 @@
                             <span class="text-uppercase ai-listing-type"><%$propertyItem.propertyNature%></span> &nbsp;&nbsp;
                             &nbsp;&nbsp;
                             <!--template bindings={}--><span class="price-converted">
-                                <%$propertyItem.price%>
+                                <%$propertyItem.price%>  <%$propertyItem.priceUnit%>
                             </span>
                         </div>
                     </div>
@@ -295,13 +296,13 @@
             </div>
             <div style="clear:both"></div>
         </div>
-        <div class="action-icon-section  hidden-xs">
+ <!--        <div class="action-icon-section  hidden-xs">
             <a class="action-icon icon-wechat" href="/m/corp/qrshare.html?url=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001068131%3Ffull%3Dy&title=香港再度成为全球外派成本最高的城市 - FT中文网" target="_blank"></a>
             <a class="action-icon icon-weibo" href="http://service.weibo.com/share/share.php?appkey=4221537403&url=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001068131%3Ffull%3Dy%26ccode=2G169001&title=【香港再度成为全球外派成本最高的城市】在咨询公司美世最新发布的外派人员所在城市生活成本年度排行榜上，高昂的房租帮助香港重新登上榜首位置。（分享自 @FT中文网）&ralateUid=1698233740&source=&sourceUrl=&content=utf-8&pic=http://i.ftimg.net/picture/9/000063189_piclink.jpg&searchPic=false" target="_blank"></a>
             <a class="action-icon icon-linkedin" href="https://www.linkedin.com/cws/share?url=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001068131%3Ffull%3Dy%26ccode%3D2G169003&original_referer=https%3A%2F%2Fdeveloper.linkedin.com%2Fsites%2Fall%2Fthemes%2Fdlc%2Fsandbox.php%3F&token=&isFramed=true&lang=zh_CN&_ts=1422502780259.2795" target="_blank"></a>
             <a class="action-icon icon-twitter" href="http://twitter.com/home?status=【香港再度成为全球外派成本最高的城市】在咨询公司美世最新发布的外派人员所在城市生活成本年度排行榜上，高昂的房租帮助香港重新登上榜首位置。（分享自 @FT中文网）...%20http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001068131%3Ffull%3Dy" target="_blank"></a>
             <a class="action-icon icon-facebook" href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001068131%3Ffull%3Dy&t=【香港再度成为全球外派成本最高的城市】在咨询公司美世最新发布的外派人员所在城市生活成本年度排行榜上，高昂的房租帮助香港重新登上榜首位置。（分享自 @FT中文网）" target="_blank"></a>
-        </div>
+        </div> -->
     </div><!-- <div class="ai-search-result-detail-section-full-width-inner" -->
                         
     </div>

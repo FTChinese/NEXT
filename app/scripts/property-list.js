@@ -2,29 +2,6 @@
 (function () {
 
     'use strict';
-//     function swipeTop(){
-//         var galleryTop = new Swiper('.gallery-top', {
-//             nextButton: '.swiper-button-next',
-//             prevButton: '.swiper-button-prev',
-//             spaceBetween: 10,
-//             autoplay: 2500,
-//             autoplayDisableOnInteraction: false
-//         });
-
-//         var galleryThumbs = new Swiper('.gallery-thumbs', {
-//             spaceBetween: 10,
-//             centeredSlides: true,
-//             slidesPerView: 'auto',
-//             touchRatio: 0.2,
-//             slideToClickedSlide: true
-//         });
-//         galleryTop.params.control = galleryThumbs;
-//  //此处没运行？
-//         galleryThumbs.params.control = galleryTop;
-//     }
-//      $('body').on('click', '#thumbnail-a', function () { 
-//            console.log( "thumbnail")
-//      });
 
 $('body').on('click', '#select-search-button', function () { 
     console.log( 'select-search-button');
@@ -65,29 +42,29 @@ $('body').on('click', '#select-search-button', function () { 
      var priceRangeStartActive = false;
      var priceRangeEndActive = false;
 
-     $('#price-start').click(function () {
-            $('#price-range-menu').css('display','block');
-            $('#price-range-menu').css('left','10%');
-            priceRangeStartActive = true;
-     });
-     $('#price-end').click(function () {
-        $('#price-range-menu').css('display','block');
-        $('#price-range-menu').css('left','60%');
-        priceRangeEndActive = true ;
-     });
-     $('#price-range-menu li').click(function(){ 
-        if (priceRangeStartActive ) {
-            $('#price-start').val($(this).find('.text-right').text());  
-            $('#price-range-menu').css('display','none'); 
-            priceRangeStartActive = false;
-        }
-        if (priceRangeEndActive ) {
-            $('#price-end').val($(this).find('.text-right').text());  
-            $('#price-range-menu').css('display','none');
-            priceRangeEndActive = false ;
-        }
+     // $('#price-start').click(function () {
+     //        $('#price-range-menu').css('display','block');
+     //        $('#price-range-menu').css('left','10%');
+     //        priceRangeStartActive = true;
+     // });
+     // $('#price-end').click(function () {
+     //    $('#price-range-menu').css('display','block');
+     //    $('#price-range-menu').css('left','60%');
+     //    priceRangeEndActive = true ;
+     // });
+     // $('#price-range-menu li').click(function(){ 
+     //    if (priceRangeStartActive ) {
+     //        $('#price-start').val($(this).find('.text-right').text());  
+     //        $('#price-range-menu').css('display','none'); 
+     //        priceRangeStartActive = false;
+     //    }
+     //    if (priceRangeEndActive ) {
+     //        $('#price-end').val($(this).find('.text-right').text());  
+     //        $('#price-range-menu').css('display','none');
+     //        priceRangeEndActive = false ;
+     //    }
          
-     });
+     // });
      
      $('#o-header-link-1').hover(function(){
         $('#o-header-mega-1').css('display','block');
