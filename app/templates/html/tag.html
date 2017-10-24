@@ -163,15 +163,15 @@
     <%if $pageTheme != "luxury"%>
         <%if $smarty.get.newad == "yes"%>
             <%include file="next/partials/banner-top.html"%>
-            <%$pageId%>'
+            <%$pageId%>
         <%else%>
             <%include file="next/partials/banner.html"%>
         <%/if%>
 
     <%/if%>
-    <%if $smarty.get.newad != "yes"%>
-        <%assign var="bannerCount" value=$bannerCount+1%>
-    <%/if>
+  
+    <%assign var="bannerCount" value=$bannerCount+1%>
+
     <%if $pageId=="setting"%>
     <%include file="next/partials/setting-block.html"%>
     <%elseif $pageId!=""%>

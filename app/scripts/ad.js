@@ -543,6 +543,7 @@ function writeAdNew(obj) {
   var deviceId = '';
   var bannerBG = '';
   var adDescription = '';
+  
   // MARK: determin device type
   if (/iPad/i.test(uaString)) {
     deviceType = 'PadWeb';
@@ -561,7 +562,18 @@ function writeAdNew(obj) {
   console.log(deviceId);
 
   // MARK: Get ad channel id from smarty server side
-  var adChannelId = '1000'; // window.dasfdafa || '1000'
+  var adch = adchID;
+  var adchURL = window.location.href.replace(/^.*adchannelID=([0-9]{4}).*$/g,'$1');
+  if (/^[0-9]{4}$/.test(adchURL)) {
+    adch = adchURL;
+    fromURL = true;
+  }
+  if (typeof(window.FTadchannelID)!=='undefined' && window.FTadchannelID && !fromURL) {
+    adch = window.FTadchannelID;
+  }
+  var adChannelId = adch||'1000';
+  //var adChannelId = '1000'; // window.dasfdafa || '1000'
+
   console.log(adDevices[deviceType]);
   console.log(obj.pattern);
   var adPattern = adDevices[deviceType].patterns[obj.pattern];
