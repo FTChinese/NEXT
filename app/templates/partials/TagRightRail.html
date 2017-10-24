@@ -26,9 +26,19 @@
 	<%/if%>
 
 	<%if $smarty.get.ad != "no" && $noAd != "true" && $hideMPU1 != "yes"%>
-		<div class="mpu-container<%if $tagabout == ""%> first-child<%/if%>">
-			<script type="text/javascript">document.write (writeAd('tagmpu'));</script>
-		</div>
+		<%if $smarty.get.newad == "yes"%>
+			<script type="text/javascript">
+				document.write (writeAdNew({
+					devices: ['PC', 'PadWeb'],
+					pattern:'MPU',
+					position:'Right1'
+				}));
+			</script>
+		<%else%>
+			<div class="mpu-container<%if $tagabout == ""%> first-child<%/if%>">
+				<script type="text/javascript">document.write (writeAd('tagmpu'));</script>
+			</div>
+		<%/if%>
 	<%/if%>
 
 	<%if $storymodel != ""%>
@@ -61,9 +71,19 @@
     <%/if%>
 
 		<%if $smarty.get.ad != "no" && $noAd != "true" && $hideMPU2 != "yes"%>
-			<div class="mpu-container last-child">
-			    <script type="text/javascript">document.write (writeAd('tagmpu'));</script>
-			</div>
+			<%if $smarty.get.newad == "yes" %>
+				<script type="text/javascript">
+					document.write (writeAdNew({
+						devices: ['PC', 'PadWeb'],
+						pattern:'MPU',
+						position:'Right2'
+					}));
+				</script>
+			<%else%>
+				<div class="mpu-container last-child">
+					<script type="text/javascript">document.write (writeAd('tagmpu'));</script>
+				</div>
+			<%/if%>
 		<%/if%>
 
 	<%/if%>
