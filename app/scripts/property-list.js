@@ -25,6 +25,27 @@
 //      $('body').on('click', '#thumbnail-a', function () { 
 //            console.log( "thumbnail")
 //      });
+
+$('body').on('click', '#select-search-button', function () { 
+    console.log( 'select-search-button');
+    var propertyNature=$('#property-nature').val();
+    var bedNum=$('#bed-num').val();
+    var bathNum=$('#bath-num').val();
+    var priceUnit=$('#price-unit').val();
+    var priceStart=$('#price-start').val();
+    var priceEnd=$('#price-end').val();
+    // $.ajax({
+    //     type: 'get',
+    //     url: '/index.php/ft/property/detail?search&property-nature=propertyNature&bed-num=bedNum&bath-num=bathNum&price-unit=priceUnit&price-start=priceStart&price-end=priceEnd',
+    //     dataType: 'text',
+    //     success: function (msg) {
+    window.location = '/index.php/ft/property/detail?search&property-nature='+propertyNature+'&bed-num='+bedNum+'&bath-num='+bathNum+'&price-unit='+priceUnit+'&price-start='+priceStart+'&price-end='+priceEnd;
+        // },
+        // error: function (XMLHttpRequest, textStatus, errorThrown) {
+        //     window.location = "/index.php/ft/property/detail";
+        // }
+    // });
+});
   $('body').on('click', '.thumbnail', function () { 
          $($(this).parents().find('.ai-listing-detail-spa-container')).each(function(){
               $(this).hide();
@@ -32,8 +53,6 @@
         });
         $(this).parent().parent().find('.ai-listing-detail-spa-container').show();
         $(this).next().show();
-        // swipeTop();
-        // swipeTop($(this).find('.gallery-top'),$(this).find('.gallery-thumbs'))
    });
 // .ai-close-container a不能这么使
 
@@ -42,24 +61,18 @@
 //           console.log("ai-close-container")
         $(this).parent().parent().parent().parent().find('.selected-listing-pointer').hide();
      });
-//      var isDisplayPriceRangeMenu=false;
+
      var priceRangeStartActive = false;
      var priceRangeEndActive = false;
-//      $('#price-button').click(function () {
-//         if(!isDisplayPriceRangeMenu){
-//             $('#price-menu').css('display','block');
-//             isDisplayPriceRangeMenu=true;
-//          }else{
-//              $('#price-menu').css('display','none');
-//             isDisplayPriceRangeMenu=false;
-//          }
-//      });
+
      $('#price-start').click(function () {
             $('#price-range-menu').css('display','block');
+            $('#price-range-menu').css('left','10%');
             priceRangeStartActive = true;
      });
      $('#price-end').click(function () {
         $('#price-range-menu').css('display','block');
+        $('#price-range-menu').css('left','60%');
         priceRangeEndActive = true ;
      });
      $('#price-range-menu li').click(function(){ 
