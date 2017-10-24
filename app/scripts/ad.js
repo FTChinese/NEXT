@@ -486,43 +486,44 @@ function writeAd(adType, returnSrc) {
 }
 
 
-var bannerIframeContainers = [];
-function reloadBanners() {
-  var bannerIframes;
-  var i = 0;
-  if (bannerIframeContainers.length === 0) {
-    bannerIframes = document.querySelectorAll('.banner-iframe');
-    for (i=0; i<bannerIframes.length; i++) {
-      bannerIframeContainers[i] = bannerIframes[i].parentNode;
-    }
-  }
-  adCount = {};
-  initAds();
-  for (i=0; i<bannerIframeContainers.length; i++) {
-    var thisiFrame = bannerIframeContainers[i].querySelector('.banner-iframe');
-    var thisSrc;
-    var adType;
-    var thisAdCount;
-    if (thisiFrame !== null) {
-      thisSrc = thisiFrame.getAttribute('data-src');
-      adType = thisiFrame.getAttribute('data-ad-type');
-      thisAdCount = thisiFrame.getAttribute('data-ad-count');
-    } else {
-      thisSrc = '';
-      adType = '';
-      thisAdCount = 0;
-    }
+// MARK: This is no longer needed, remove in 3 months
+// var bannerIframeContainers = [];
+// function reloadBanners() {
+//   var bannerIframes;
+//   var i = 0;
+//   if (bannerIframeContainers.length === 0) {
+//     bannerIframes = document.querySelectorAll('.banner-iframe');
+//     for (i=0; i<bannerIframes.length; i++) {
+//       bannerIframeContainers[i] = bannerIframes[i].parentNode;
+//     }
+//   }
+//   adCount = {};
+//   initAds();
+//   for (i=0; i<bannerIframeContainers.length; i++) {
+//     var thisiFrame = bannerIframeContainers[i].querySelector('.banner-iframe');
+//     var thisSrc;
+//     var adType;
+//     var thisAdCount;
+//     if (thisiFrame !== null) {
+//       thisSrc = thisiFrame.getAttribute('data-src');
+//       adType = thisiFrame.getAttribute('data-ad-type');
+//       thisAdCount = thisiFrame.getAttribute('data-ad-count');
+//     } else {
+//       thisSrc = '';
+//       adType = '';
+//       thisAdCount = 0;
+//     }
 
-    //console.log (thisSrc);
-    var newSrc = writeAd(adType, true);
-    if (thisSrc !== newSrc) {
-      bannerIframeContainers[i].innerHTML = writeAd(adType);
-      //console.log ('different: (' + i + ')' + thisSrc + '|' + newSrc);
-    } else {
-      //console.log ('same: (' + i + ')' + thisSrc + '|' + newSrc);
-    }
-  }
-}
+//     //console.log (thisSrc);
+//     var newSrc = writeAd(adType, true);
+//     if (thisSrc !== newSrc) {
+//       bannerIframeContainers[i].innerHTML = writeAd(adType);
+//       //console.log ('different: (' + i + ')' + thisSrc + '|' + newSrc);
+//     } else {
+//       //console.log ('same: (' + i + ')' + thisSrc + '|' + newSrc);
+//     }
+//   }
+// }
 
 
 
