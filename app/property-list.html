@@ -481,7 +481,7 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
     <fieldset>
     <div class="searchContainer clearfloat" >
     <section class="col-xs-4 col-sm-4 col-md-2 col-lg-1" class="floatClass sale" >
-        <select>
+        <select id="property-nature" name="property-nature" >
         <option value="forSale">For Sale</option>
         <option value="forRent">For Rent</option>
         </select>
@@ -489,11 +489,11 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 
     <section class="col-xs-8 col-sm-4 col-md-4 col-lg-4 search" class="floatClass ">
         <input placeholder="Search country, area or city" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0">
-        <button class="select-search-button" ></button>
+        <button class="select-search-button" id="select-search-button" ></button>
     </section>
     
     <section class="col-xs-4 col-md-1 col-lg-1" class="floatClass beds" >
-        <select>
+        <select id="bed-num" name="bed-num">
         <option value="-1">Beds</option>
         <option value="0">0+</option>
         <option value="1">1+</option>
@@ -504,7 +504,7 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
         </select>
     </section>
     <section  class="col-xs-4 col-md-1 col-lg-1" class="floatClass bath">
-        <select>
+        <select id="bath-num" name="bath-num">
         <option value="-1">Bath</option>
         <option value="0">0+</option>
         <option value="1">1+</option>
@@ -515,7 +515,7 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
         </select>
     </section>
     <section  class="col-xs-4 col-md-1 col-lg-1" class="floatClass gap">       
-        <select>
+        <select id="price-unit" name="price-unit">
         <option value="GBP">GBP</option>
         <option value="EUR">EUR</option>
         <option value="EUR">CNY</option>
@@ -527,11 +527,11 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
         <div id="price-menu" >
             <div>
                 <span class="" >
-                    <input type="text" placeholder="MinPrice" class="" muti="1" min="0" max="999999" name="minPrice" autocomplete="off" id="price-start">
+                    <input type="text" placeholder="MinPrice" class="" muti="1" min="0" max="999999" name="minPrice" autocomplete="off" id="price-start" name="price-start">
                 </span>
                 <span > - </span>
                 <span class="">
-                    <input type="text" placeholder="MaxPrice" class="" muti="1" min="0" max="999999" name="maxPrice" autocomplete="off" id="price-end">
+                    <input type="text" placeholder="MaxPrice" class="" muti="1" min="0" max="999999" name="maxPrice" autocomplete="off" id="price-end" name="price-end">
                     <!--<input class="mr5" type="text" id="price_end" para="minprice" size="3" muti="1" min="0" max="999999" name="b_q" autocomplete="off">-->
                 </span>
             </div>
@@ -1299,25 +1299,29 @@ if (w > 490 && isTouchDevice() === false) {
 </script>
     
     <!-- Initialize Swiper -->
-    <script>
-    var galleryTop = new Swiper('.gallery-top', {
-        nextButton: '.swiper-button-next',
-        prevButton: '.swiper-button-prev',
-        spaceBetween: 10,
-        autoplay: 2500,
-        autoplayDisableOnInteraction: false
-    });
-    var galleryThumbs = new Swiper('.gallery-thumbs', {
-        spaceBetween: 10,
-        centeredSlides: true,
-        slidesPerView: 'auto',
-        touchRatio: 0.2,
-        slideToClickedSlide: true
-    });
-    galleryTop.params.control = galleryThumbs;
-    galleryThumbs.params.control = galleryTop;
-    
-    </script>
+<script> 
+     function swipeTop(eleTop,eleThumbs){
+        var galleryTop = new Swiper(eleTop, {
+            nextButton: '.swiper-button-next',
+            prevButton: '.swiper-button-prev',
+            spaceBetween: 10,
+            autoplay: 2500,
+            autoplayDisableOnInteraction: false
+        });
+        var galleryThumbs = new Swiper(eleThumbs, {
+            spaceBetween: 10,
+            centeredSlides: true,
+            slidesPerView: 'auto',
+            touchRatio: 0.2,
+            slideToClickedSlide: true
+        });
+        galleryTop.params.control = galleryThumbs;
+        galleryThumbs.params.control = galleryTop;
+    }
+    $('body').on('click', '.thumbnail', function () { 
+        swipeTop($(this).parent().next().find('.gallery-top'),$(this).parent().next().find('.gallery-thumbs'));
+    });
+</script>
     <!--detail page action-->
     
    
