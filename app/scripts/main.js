@@ -671,15 +671,15 @@ if ((gNavOffsetY > 30 && w > 490 && isTouchDevice() === false) || document.getEl
   bodyHeight = getBodyHeight();
   addEvent(eventResize, function(){
       bodyHeight = getBodyHeight();
-      reloadBanners();
+      //reloadBanners();
       loadImages();
       setResizeClass();
   });
   addEvent(eventScroll, function(){
-      // scrollTop = window.scrollY || document.documentElement.scrollTop;
-      // loadImagesLazy();
-      // loadVideosLazy();
-      // trackViewables();
+      scrollTop = window.scrollY || document.documentElement.scrollTop;
+      loadImagesLazy();
+      loadVideosLazy();
+      trackViewables();
   });
 }
 
