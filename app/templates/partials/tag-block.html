@@ -386,7 +386,27 @@
 					<%if $smarty.get.ad != "no"%>
 						<%assign var="mpuName" value="taginlinempu"%>
 						<%if $i == 8 || $i == 17%>
-							<div class="mpu-container P-only"><script type="text/javascript">document.write (writeAd('<%$mpuName%>'));</script></div>
+								<%if $smarty.get.newad == "yes" || date("Ymd",$smarty.now) >= 20171025%>
+									<%if $i == 8 %>
+										<script type="text/javascript">
+											document.write (writeAdNew({
+												devices: ['iPhoneWeb', 'AndroidWeb'],
+												pattern:'MPU',
+												position:'Middle1'
+											}));
+										</script>
+									<%elseif $i == 17 %>
+										<script type="text/javascript">
+											document.write (writeAdNew({
+												devices: ['iPhoneWeb', 'AndroidWeb'],
+												pattern:'MPU',
+												position:'Middle2'
+											}));
+										</script>
+									<%/if%>
+							<%else%>
+								<div class="mpu-container P-only"><script type="text/javascript">document.write (writeAd('<%$mpuName%>'));</script></div>
+							<%/if%>
 						<%/if%>
 					<%/if%>
 					<%*<!--insert an extra MPU for mobile phone temporarily end-->*%>
