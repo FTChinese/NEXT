@@ -668,19 +668,19 @@ if ((gNavOffsetY > 30 && w > 490 && isTouchDevice() === false) || document.getEl
 
   }
 } else {
-  // bodyHeight = getBodyHeight();
-  // addEvent(eventResize, function(){
-  //     bodyHeight = getBodyHeight();
-  //     reloadBanners();
-  //     loadImages();
-  //     setResizeClass();
-  // });
-  // addEvent(eventScroll, function(){
-  //     scrollTop = window.scrollY || document.documentElement.scrollTop;
-  //     loadImagesLazy();
-  //     loadVideosLazy();
-  //     trackViewables();
-  // });
+  bodyHeight = getBodyHeight();
+  addEvent(eventResize, function(){
+      bodyHeight = getBodyHeight();
+      reloadBanners();
+      loadImages();
+      setResizeClass();
+  });
+  addEvent(eventScroll, function(){
+      scrollTop = window.scrollY || document.documentElement.scrollTop;
+      loadImagesLazy();
+      loadVideosLazy();
+      //trackViewables();
+  });
 }
 
 // check svg support
