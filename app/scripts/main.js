@@ -689,8 +689,8 @@ if (typeof SVGRect === 'undefined') {
   document.documentElement.className += ' no-svg';
 }
 
-loadImages();
-viewablesInit();
+// loadImages();
+// viewablesInit();
 
 // MARK: - A cool trick to handle images that fail to load
 try {
