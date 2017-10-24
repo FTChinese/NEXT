@@ -15,7 +15,7 @@
         <%else%>
             <%assign var="bannerCount" value=$bannerCount+1%>
         <%/if%>
-    <%elseif $section.type == "newAd" && $smarty.get.newad == "yes" || date("Ymd",$smarty.now) >= 20171025%>
+    <%elseif $section.type == "newAd" && ($smarty.get.newad == "yes" || date("Ymd",$smarty.now) >= 20171025)%>
         <%include file="next/partials/newAd.html"%>
     <%elseif $section.type == "block"%>
         <%include file="next/partials/block.html"%>
