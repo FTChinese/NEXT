@@ -39,8 +39,8 @@ $('body').on('click', '#select-search-button', function () { 
         $(this).parent().parent().parent().parent().find('.selected-listing-pointer').hide();
      });
 
-     var priceRangeStartActive = false;
-     var priceRangeEndActive = false;
+     // var priceRangeStartActive = false;
+     // var priceRangeEndActive = false;
 
      // $('#price-start').click(function () {
      //        $('#price-range-menu').css('display','block');
