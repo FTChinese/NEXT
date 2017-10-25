@@ -3,16 +3,17 @@ var w = window.innerWidth || document.documentElement.clientWidth || document.bo
 var ua = navigator.userAgent || navigator.vendor || '';
 var gIsSpider = (/spider|baidu|bidu|bot|crawler|crawling/i.test(ua)) ? true: false;
 var gUserType = 'visitor';
+SetCookie('randForAd','99');
+/*
 var randForAd = getRandomInt(0,100);
 SetCookie('randForAd',randForAd);
-
 //MARK:生成随机数，如果min,max都为整数，则包含min不包含max
 function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
 }
-
+*/
 // MARK: - check for hard-to-find spiders such as those disguised as iOS 9 devices
 function findMoreSpider() {
     if (gIsSpider === false && /iPhone OS 9\_1 /i.test(ua) && typeof httpspv !== 'function') {
