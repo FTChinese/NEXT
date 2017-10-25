@@ -269,7 +269,7 @@ var adChannelsPC = {
     }
   },
   Innovation: {
-    id:'20',
+    id:'21',
     title:'创新经济',
     sub:{
       Home: {
