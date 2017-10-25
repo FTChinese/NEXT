@@ -11,7 +11,7 @@
         <%include file="next/partials/nav.html"%>
     <%elseif $section.type == "banner" && $smarty.get.newad != "yes" && ((date("Ymd",$smarty.now) < 20171025 || (date("Ymd",$smarty.now) >= 20171025 && $smarty.cookies.randForAd != "99"))) %>
         <script>
-            var randTest = '<%$randForAd%>';
+            var randTest = '<$smarty.cookies.randForAd%>';
             console.log('Show Old:'+ randTest);
         </script>
         <%include file="next/partials/banner.html"%>
@@ -21,7 +21,7 @@
         <%/if%>
     <%elseif $section.type == "newAd" && ($smarty.get.newad == "yes" || (date("Ymd",$smarty.now) >= 20171025 && $smarty.cookies.randForAd == "99"))%>
         <script>
-            var randTest = '<%$randForAd%>';
+            var randTest = '<%$smarty.cookies.randForAd%>';
             console.log('Show New:'+ randTest);
         </script>
         <%include file="next/partials/newAd.html"%>

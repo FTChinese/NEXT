@@ -4,7 +4,7 @@ var ua = navigator.userAgent || navigator.vendor || '';
 var gIsSpider = (/spider|baidu|bidu|bot|crawler|crawling/i.test(ua)) ? true: false;
 var gUserType = 'visitor';
 var randForAd = getRandomInt(0,100);
-SetCookie("randForAd",randForAd);
+SetCookie('randForAd',randForAd);
 
 //MARK:生成随机数，如果min,max都为整数，则包含min不包含max
 function getRandomInt(min, max) {
