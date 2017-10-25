@@ -48,13 +48,13 @@ img {
 
 function removeAd() {
     //alert ('removeAd');
-    window.parent.sendEvent('Ad Impression: Error', c.substring(0,4), c.substring(4,8), {'nonInteraction':1});
+    window.parent.sendEvent('Ad Impression: Error', adChannelId, adPositionId, {'nonInteraction':1});
 }
 
 function loaded() {
     //alert ('loaded');
     if (window.isHouseAd === true) {
-        window.parent.sendEvent('Ad Impression: House Ad', c.substring(0,4), c.substring(4,8), {'nonInteraction':1});
+        window.parent.sendEvent('Ad Impression: House Ad', adChannelId, adPositionId, {'nonInteraction':1});
     }
 }
 
@@ -66,6 +66,20 @@ if (/^[0-9]{4}0001$/.test(c)) {
 } else {
     d='';
 }
+var adChannelId;
+var adPositionId;
+
+
+if (/^[0-9]{12}$/.test(c)) {
+    adChannelId = c.substring(0,8);
+    adPositionId = c.substring(8,12);
+} else {
+    adChannelId = c.substring(0,4);
+    adPositionId = c.substring(4,8);
+}
+
+
+
 var slotStr = window.parent.slotStr || '';
 var parentId = k.replace(/^.*pid=([0-9A-Za-z\-]+).*$/,"$1");
 if(window.parent.newAd) {
@@ -99,7 +113,7 @@ document.write ('<scr'+'ipt src="http://dualstack.adsame-1421766300.ap-southeast
 
 // record the ad impression
 try {
-    window.parent.sendEvent('Ad Impression', c.substring(0,4), c.substring(4,8), {'nonInteraction':1});
+    window.parent.sendEvent('Ad Impression', adChannelId, adPositionId, {'nonInteraction':1});
 } catch (ignore) {
 
 }
