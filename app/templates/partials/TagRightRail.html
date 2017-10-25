@@ -26,7 +26,7 @@
 	<%/if%>
 
 	<%if $smarty.get.ad != "no" && $noAd != "true" && $hideMPU1 != "yes"%>
-		<%if $smarty.get.newad == "yes" || (date("Ymd",$smarty.now) >= 20171025 && $randForAd == 99)%>
+		<%if $smarty.get.newad == "yes" || (date("Ymd",$smarty.now) >= 20171025 && $smarty.cookies.randForAd == "99")%>
 			<script type="text/javascript">
 				document.write (writeAdNew({
 					devices: ['PC', 'PadWeb'],
@@ -71,7 +71,7 @@
     <%/if%>
 
 		<%if $smarty.get.ad != "no" && $noAd != "true" && $hideMPU2 != "yes"%>
-			<%if $smarty.get.newad == "yes" || (date("Ymd",$smarty.now) >= 20171025 && $randForAd == 99) %>
+			<%if $smarty.get.newad == "yes" || (date("Ymd",$smarty.now) >= 20171025 && $smarty.cookies.randForAd == "99") %>
 				<script type="text/javascript">
 					document.write (writeAdNew({
 						devices: ['PC', 'PadWeb'],

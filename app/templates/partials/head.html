@@ -3,8 +3,7 @@
     <script>window.interactiveType = '<%$interactiveType%>';</script>
 <%/if%>
 <script type="text/javascript">
-var randForAd = '<%$randForAd%>';
-console.log('randForAd:'+ randForAd);
+
 if(typeof startTime === "undefined"){
     var startTime=new Date().getTime();
 }
@@ -158,7 +157,7 @@ var _hmt = _hmt || [];
     var gIsCurrentAdchFinal = true;
 <%/if%>
 
-<%if $smarty.get.newad == "yes" || (date("Ymd",$smarty.now) >= 20171025 && $randForAd == 99) %>
+<%if $smarty.get.newad == "yes" || (date("Ymd",$smarty.now) >= 20171025 && $smarty.cookies.randForAd == "99") %>
     var newAd = true;
 <%else%> 
     var newAd = false;

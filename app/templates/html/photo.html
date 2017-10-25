@@ -114,7 +114,7 @@
       <%include file="next/partials/header.html"%>
       <%include file="next/partials/nav.html"%>
       <%if !preg_match("/艺术品投资/is",$info.tags) && !preg_match("/乐尚街/is",$info.tags)%>
-         <%if $smarty.get.newad == "yes" || (date("Ymd",$smarty.now) >= 20171025 && $randForAd == 99)%>
+         <%if $smarty.get.newad == "yes" || (date("Ymd",$smarty.now) >= 20171025 && $smarty.cookies.randForAd == "99")%>
             <%include file="next/partials/banner-top.html"%>
         <%else%>
             <%include file="next/partials/banner.html"%>

@@ -163,7 +163,7 @@ if ( screen.width<=480) {
     <%include file="next/partials/header.html"%>
 <%/if%>
 <%include file="next/partials/nav.html"%>
-<%if $smarty.get.newad == "yes" || (date("Ymd",$smarty.now) >= 20171025 && $randForAd == 99)%>
+<%if $smarty.get.newad == "yes" || (date("Ymd",$smarty.now) >= 20171025 && $smarty.cookies.randForAd == "99")%>
   <%include file="next/partials/banner-top.html"%>
 <%else%>
   <%include file="next/partials/banner.html"%>
