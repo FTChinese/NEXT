@@ -3,17 +3,17 @@
       <form>
           <div id="searchContainer" >
     <div class="floatClass select-search-group" >
-                <select>
-                <option value="forsale">For Sale</option>
-                <option value="forrent">For Rent</option>
+                <select  id="property-nature" name="property-nature">
+                <option value="forSale" <%if $searchedProperty.propertyNature == '0'%> selected='selected'<%/if%>>For Sale</option>
+                <option value="forRent" <%if $searchedProperty.propertyNature == '1'%> selected='selected'<%/if%>>For Rent</option>
                 </select>
     </div>
 
     <div class="floatClass input-search-group">
-        <input placeholder="Search country, area or city" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0">
+        <input placeholder="Search country, area or city" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0"  id="property-position" name="property-position">
     </div>
     <div>
-        <button class="select-search-button" ></button>
+        <button class="select-search-button" id="select-search-button" ></button>
     </div>
 
   <div class="clearfloat"></div>
