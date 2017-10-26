@@ -3,9 +3,10 @@ var w = window.innerWidth || document.documentElement.clientWidth || document.bo
 var ua = navigator.userAgent || navigator.vendor || '';
 var gIsSpider = (/spider|baidu|bidu|bot|crawler|crawling/i.test(ua)) ? true: false;
 var gUserType = 'visitor';
+//SetCookie('randForAd','99');
+
 var randForAd = getRandomInt(0,100);
 SetCookie('randForAd',randForAd);
-
 //MARK:生成随机数，如果min,max都为整数，则包含min不包含max
 function getRandomInt(min, max) {
     min = Math.ceil(min);
