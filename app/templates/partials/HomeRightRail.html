@@ -374,7 +374,7 @@
 		<%/if%>
 
 		<%assign var="ftintelligence" value=$interactivemodel->get_interactive_by_field_search("find_in_set('FT研究院',tag) and find_in_set('报告',tag)",0,4,1000,10800)%>
-		<div class="videos interactives">
+		<div class="videos">
 			<h2 class="list-title"><a href="/m/marketing/intelligence.html?webview=ftcapp">FT研究院</a></h2>
 			<div class="item-container first"><div class="item-inner">
 			<a class="image" href="/interactive/<%$ftintelligence[0].id%>" target=_blank><figure class="loading" data-url="<%$ftintelligence[0].story_pic.cover|default:$ftintelligence[0].story_pic.bigbutton%>"></figure></a>
