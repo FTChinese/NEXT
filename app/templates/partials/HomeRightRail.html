@@ -54,154 +54,371 @@
 
 
 
+	<%if $smarty.get.webview != "ftcapp"%>
+		<%if in_array(date("Ymd"),explode(",",$ad.Ribbon)) && $smarty.get.ad != "no" && $noAd != "true"%>
+		<iframe id="ribbon" class="ad-hidden hide" width="100%" height="60" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="/m/marketing/a.html#adid=10000009&slot=986723212&pid=ribbon"></iframe>
+		<%/if%>
 
-	<%if in_array(date("Ymd"),explode(",",$ad.Ribbon)) && $smarty.get.ad != "no" && $noAd != "true"%>
-	<iframe id="ribbon" class="ad-hidden hide" width="100%" height="60" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="/m/marketing/a.html#adid=10000009&slot=986723212&pid=ribbon"></iframe>
-	<%/if%>
-
-	<%if date("Ymd",$smarty.now) <= 20160617%>
-		<%assign var="video" value=$interactivemodel->get_interactive_by_tag('推广视频',1)%>
-		<div class="vidoes">
-			<div class="video-container">
-				<div class="video-inner">
-					<div class="image first-child"><figure class="loading-video" data-item-type="interactive" data-vid="<%$video[0].id%>"></figure></div>
-<%*
-					<iframe name="video-frame" id="video-frame" style="width:100%;height:100%;" src="/interactive/<%$video[0].id%>?i=1&w=360&h=203&autostart=false" scrolling="no" frameborder="0" allowfullscreen=true></iframe>
-*%>
+		<%if date("Ymd",$smarty.now) <= 20160617%>
+			<%assign var="video" value=$interactivemodel->get_interactive_by_tag('推广视频',1)%>
+			<div class="vidoes">
+				<div class="video-container">
+					<div class="video-inner">
+						<div class="image first-child"><figure class="loading-video" data-item-type="interactive" data-vid="<%$video[0].id%>"></figure></div>
+		<%*
+		<iframe name="video-frame" id="video-frame" style="width:100%;height:100%;" src="/interactive/<%$video[0].id%>?i=1&w=360&h=203&autostart=false" scrolling="no" frameborder="0" allowfullscreen=true></iframe>
+		*%>
+					</div>
+				</div>
+				<div class="video-title"><a href="/interactive/7083" target=_blank><%$video[0].cheadline%></a></div>
+			</div>
+		<%else%>
+			<div class="links-container P-hide">
+				<h2 class="list-title"><a href="/m/marketing/home.html">会员信息中心</a></h2>
+				<div class="links" id="member-info">
+				<a>...</a><a>...</a><a>...</a>
+				</div>
+				<div class="hide">
+				<iframe width="0" height="0" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="/m/marketing/membertext.html"></iframe>
 				</div>
 			</div>
-			<div class="video-title"><a href="/interactive/7083" target=_blank><%$video[0].cheadline%></a></div>
+		<%/if%>
+		
+
+		<%if $smarty.get.ad != "no" && $noAd != "true"%>
+			<%if $smarty.get.newad == "yes" || (date("Ymd",$smarty.now) >= 20171025 && $smarty.cookies.randForAd == "99")%>
+				<script type="text/javascript">
+					document.write (writeAdNew({
+						devices: ['PC', 'PadWeb'],
+						pattern:'MPU',
+						position:'Right1'
+					}));
+				</script>
+			<%else%>
+				<div class="mpu-container">
+					<script type="text/javascript">document.write (writeAd('mpu'));</script>
+				</div>
+			<%/if%>
+		<%/if%>
+
+		<div class="interactives">
+			<h2 class="list-title"><a href="/channel/english.html">每日英语</a></h2>
+
+
+			<div class="interactive-inner">
+			<%assign var="storyall" value=$interactivemodel->get_interactive_by_field_search("(find_in_set('测试',tag) or find_in_set('教程',tag) or (find_in_set('QuizPlus',tag) and (find_in_set('新闻',tag) or find_in_set('热点观察',tag) or find_in_set('FT商学院',tag)) and (scoop = '1' or scoop = '0')) or find_in_set('速读',tag) or find_in_set('英语电台',tag) or find_in_set('数据新闻',tag)) and !find_in_set('广告互动教程',tag) and pubdate <= unix_timestamp(now())",0,5,30,10800)%>
+			<%assign var="photoall" value=$photonewsmodel->get_new_photonews(6)%>
+			<%assign var="storycount" value=$storyall|@count%>
+			<%assign var="photocount" value=$photoall|@count%>
+			<%assign var="allcount" value=$photocount+$storycount%>
+			<%assign var="cs" value=0%>
+			<%assign var="cp" value=0%>
+			<%assign var="i" value=0%>
+			<!--<%*两组数据进行合并，重新排序 Start*%>-->
+			<%section name=bothdata loop=$allcount%>
+				<%if $i<4%>
+					<%if $cs<$storycount && ($storyall[$cs].pubdate>=$photoall[$cp].add_times || $ps>=$photocount)%>
+						<%if !in_array($storyall[$cs].id , explode(',',$echostoryid)) && ($storyall[$cs].story_pic.smallbutton || $storyall[$cs].story_pic.bigbutton || $storyall[$cs].story_pic.cover)%>
+							<%if preg_match("/速读/is",$storyall[$cs].tag)%>
+							<%assign var="iTag" value="【速读】"%>
+							<%elseif preg_match("/测试|QuizPlus/is",$storyall[$cs].tag)%>
+							<%assign var="iTag" value="【小测】"%>
+							<%elseif preg_match("/英语电台/is",$storyall[$cs].tag)%>
+							<%assign var="iTag" value="【电台】"%>
+							<%elseif preg_match("/数据新闻/is",$storyall[$cs].tag)%>
+							<%assign var="iTag" value="【数据】"%>
+							<%elseif preg_match("/教程/is",$storyall[$cs].tag)%>
+							<%assign var="iTag" value="【教程】"%>
+							<%else%>
+							<%assign var="iTag" value=""%>
+							<%/if%>
+
+							<%if $smarty.get.webview == "ftcapp"%>
+								<%if preg_match("/.mp3$/is",$storyall[$cs].cshortleadbody)%>
+									<%assign var="audioUrl" value=$storyall[$cs].cshortleadbody%>
+									<%assign var="audioData" value=" data-audio=\"`$audioUrl`\""%>
+								<%/if%>
+								<%assign var="sideItemClass" value=" item-container-app"%>
+								<%assign var="itemData" value=" data-id=\"`$storyall[$cs].id`\" data-type=\"interactive\"`$audioData`"%>
+							<%/if%>
+							<div class="item-container<%if $i===0%> first<%/if%><%$sideItemClass%>"<%$itemData%>><div class="item-inner">
+							<a class="image" href="/interactive/<%$storyall[$cs].id%>" target=_blank><figure class="loading" data-url="<%$storyall[$cs].story_pic.cover|default:$storyall[$cs].story_pic.smallbutton|default:$storyall[$cs].story_pic.bigbutton%>"></figure></a>
+							<h2 class="item-headline"><a href="/interactive/<%$storyall[$cs].id%>" target=_blank class="item-headline-link"><%*$iTag*%><%$storyall[$cs].cheadline%></a></h2>
+							</div></div>
+							<%assign var="echostoryid" value=`$storyall[$cs].id`,$echostoryid%>
+							<%assign var="i" value=$i+1%>
+						<%/if%>
+						<%assign var="cs" value=$cs+1%>
+					<%elseif $ps<$photocount && ($storyall[$cs].pubdate<$photoall[$cp].add_times || $cs>=$storycount)%>
+						<%if !in_array($photoall[$cp].en_title , explode(',',$echostoryid)) && $photoall[$cp].thumb_url %>
+							<div class="item-container<%if $i===0%> first<%/if%>"><div class="item-inner">
+							<a class="image" href="/photonews/<%$photoall[$cp].photonewsid%>" target=_blank><figure class="loading" data-url="http://i.ftimg.net/<%$photoall[$cp].thumb_url%>"></figure></a>
+							<h2 class="item-headline"><a href="/photonews/<%$photoall[$cp].photonewsid%>" target=_blank>【图辑】<%$photoall[$cp].cn_title%></a></h2>
+							</div></div>
+							<%assign var="echostoryid" value=`$photoall[$cp].en_title`,$echostoryid%>
+							<%assign var="i" value=$i+1%>
+						<%/if%>
+						<%assign var="cp" value=$cp+1%>
+					<%/if%>
+				<%/if%>
+			<%/section%>
+			<!--<%*两组数据进行合并，重新排序 End*%>-->
+			<div class="clearfloat"></div>
+			</div>
+
+		</div>
+
+		<%if $smarty.get.ad != "no" && $noAd != "true"%>
+			<%if $smarty.get.newad == "yes" || (date("Ymd",$smarty.now) >= 20171025 && $smarty.cookies.randForAd == "99") %>
+				<script type="text/javascript">
+					document.write (writeAdNew({
+						devices: ['PC', 'PadWeb'],
+						pattern:'MPU',
+						position:'Right2'
+					}));
+				</script>
+			<%else%>
+				<div class="mpu-container">
+				    <script type="text/javascript">document.write (writeAd('mpu'));</script>
+				</div>
+			<%/if%>
+		<%/if%>
+
+		<%assign var="ftintelligence" value=$interactivemodel->get_interactive_by_field_search("find_in_set('FT研究院',tag) and find_in_set('报告',tag)",0,4,1000,10800)%>
+		<div class="vidoes P-hide">
+			<h2 class="list-title"><a href="/m/marketing/intelligence.html">FT研究院</a></h2>
+			<div class="item-container first"><div class="item-inner">
+			<a class="image" href="/interactive/<%$ftintelligence[0].id%>" target=_blank><figure class="loading" data-url="<%$ftintelligence[0].story_pic.cover|default:$ftintelligence[0].story_pic.bigbutton%>"></figure></a>
+			<h2 class="item-headline"><a href="/interactive/<%$ftintelligence[0].id%>" target=_blank><%$ftintelligence[0].cheadline%></a></h2>
+			</div></div>
+			<div id="three-video-part" class="triplet-container">
+				<div id="three-video-content">
+					<ul>
+						<%foreach from=$ftintelligence item=vc name=homepagevideo%>
+						<%if $vc.id != $ftintelligence[0].id%>
+						<li><a target="_blank" href="/interactive/<%$vc.id%>"><figure class="loading" data-url="<%$vc.story_pic.bigbutton|default:$vc.story_pic.cover%>"></figure><p><%$vc.cheadline%></p></a></li>
+						<%/if%>
+						<%/foreach%>
+						<div class="clearfloat"></div>
+					</ul>
+				</div>
+			</div>
 		</div>
 	<%else%>
-		<div class="links-container P-hide">
-			<h2 class="list-title"><a href="/m/marketing/home.html">会员信息中心</a></h2>
-			<div class="links" id="member-info">
-			<a>...</a><a>...</a><a>...</a>
-			</div>
-			<div class="hide">
-			<iframe width="0" height="0" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="/m/marketing/membertext.html"></iframe>
-			</div>
-		</div>
-	<%/if%>
-
-	<%if $smarty.get.ad != "no" && $noAd != "true"%>
-		<%if $smarty.get.newad == "yes" || (date("Ymd",$smarty.now) >= 20171025 && $smarty.cookies.randForAd == "99")%>
-			<script type="text/javascript">
-				document.write (writeAdNew({
-					devices: ['PC', 'PadWeb'],
-					pattern:'MPU',
-					position:'Right1'
-				}));
-			</script>
-		<%else%>
-			<div class="mpu-container">
-				<script type="text/javascript">document.write (writeAd('mpu'));</script>
-			</div>
-		<%/if%>
-	<%/if%>
-
-	<div class="interactives">
-		<h2 class="list-title"><a href="/channel/english.html">每日英语</a></h2>
 
 
-		<div class="interactive-inner">
-		<%assign var="storyall" value=$interactivemodel->get_interactive_by_field_search("(find_in_set('测试',tag) or find_in_set('教程',tag) or (find_in_set('QuizPlus',tag) and (find_in_set('新闻',tag) or find_in_set('热点观察',tag) or find_in_set('FT商学院',tag)) and (scoop = '1' or scoop = '0')) or find_in_set('速读',tag) or find_in_set('英语电台',tag) or find_in_set('数据新闻',tag)) and !find_in_set('广告互动教程',tag) and pubdate <= unix_timestamp(now())",0,5,30,10800)%>
-		<%assign var="photoall" value=$photonewsmodel->get_new_photonews(6)%>
-		<%assign var="storycount" value=$storyall|@count%>
-		<%assign var="photocount" value=$photoall|@count%>
-		<%assign var="allcount" value=$photocount+$storycount%>
-		<%assign var="cs" value=0%>
-		<%assign var="cp" value=0%>
-		<%assign var="i" value=0%>
-		<!--<%*两组数据进行合并，重新排序 Start*%>-->
-		<%section name=bothdata loop=$allcount%>
-			<%if $i<4%>
-				<%if $cs<$storycount && ($storyall[$cs].pubdate>=$photoall[$cp].add_times || $ps>=$photocount)%>
-					<%if !in_array($storyall[$cs].id , explode(',',$echostoryid)) && ($storyall[$cs].story_pic.smallbutton || $storyall[$cs].story_pic.bigbutton || $storyall[$cs].story_pic.cover)%>
-						<%if preg_match("/速读/is",$storyall[$cs].tag)%>
-						<%assign var="iTag" value="【速读】"%>
-						<%elseif preg_match("/测试|QuizPlus/is",$storyall[$cs].tag)%>
-						<%assign var="iTag" value="【小测】"%>
-						<%elseif preg_match("/英语电台/is",$storyall[$cs].tag)%>
-						<%assign var="iTag" value="【电台】"%>
-						<%elseif preg_match("/数据新闻/is",$storyall[$cs].tag)%>
-						<%assign var="iTag" value="【数据】"%>
-						<%elseif preg_match("/教程/is",$storyall[$cs].tag)%>
-						<%assign var="iTag" value="【教程】"%>
-						<%else%>
-						<%assign var="iTag" value=""%>
-						<%/if%>
-
-						<%if $smarty.get.webview == "ftcapp"%>
-							<%if preg_match("/.mp3$/is",$storyall[$cs].cshortleadbody)%>
-								<%assign var="audioUrl" value=$storyall[$cs].cshortleadbody%>
-								<%assign var="audioData" value=" data-audio=\"`$audioUrl`\""%>
+		<div class="interactives">
+			<h2 class="list-title"><a href="/channel/english.html?webview=ftcapp">每日英语</a></h2>
+			<div class="interactive-inner">
+			<%assign var="storyall" value=$interactivemodel->get_interactive_by_field_search("(find_in_set('速读',tag) or find_in_set('英语电台',tag)) and !find_in_set('广告互动教程',tag) and pubdate <= unix_timestamp(now())",0,5,30,10800)%>
+			<%assign var="photoall" value=$photonewsmodel->get_new_photonews(0)%>
+			<%assign var="storycount" value=$storyall|@count%>
+			<%assign var="photocount" value=$photoall|@count%>
+			<%assign var="allcount" value=$photocount+$storycount%>
+			<%assign var="cs" value=0%>
+			<%assign var="cp" value=0%>
+			<%assign var="i" value=0%>
+			<!--<%*两组数据进行合并，重新排序 Start*%>-->
+			<%section name=bothdata loop=$allcount%>
+				<%if $i<4%>
+					<%if $cs<$storycount && ($storyall[$cs].pubdate>=$photoall[$cp].add_times || $ps>=$photocount)%>
+						<%if !in_array($storyall[$cs].id , explode(',',$echostoryid)) && ($storyall[$cs].story_pic.smallbutton || $storyall[$cs].story_pic.bigbutton || $storyall[$cs].story_pic.cover)%>
+							<%if preg_match("/速读/is",$storyall[$cs].tag)%>
+							<%assign var="iTag" value="【速读】"%>
+							<%elseif preg_match("/测试|QuizPlus/is",$storyall[$cs].tag)%>
+							<%assign var="iTag" value="【小测】"%>
+							<%elseif preg_match("/英语电台/is",$storyall[$cs].tag)%>
+							<%assign var="iTag" value="【电台】"%>
+							<%elseif preg_match("/数据新闻/is",$storyall[$cs].tag)%>
+							<%assign var="iTag" value="【数据】"%>
+							<%elseif preg_match("/教程/is",$storyall[$cs].tag)%>
+							<%assign var="iTag" value="【教程】"%>
+							<%else%>
+							<%assign var="iTag" value=""%>
 							<%/if%>
-							<%assign var="sideItemClass" value=" item-container-app"%>
-							<%assign var="itemData" value=" data-id=\"`$storyall[$cs].id`\" data-type=\"interactive\"`$audioData`"%>
+
+							<%if $smarty.get.webview == "ftcapp"%>
+								<%if preg_match("/.mp3$/is",$storyall[$cs].cshortleadbody)%>
+									<%assign var="audioUrl" value=$storyall[$cs].cshortleadbody%>
+									<%assign var="audioData" value=" data-audio=\"`$audioUrl`\""%>
+								<%/if%>
+								<%assign var="sideItemClass" value=" item-container-app"%>
+								<%assign var="itemData" value=" data-id=\"`$storyall[$cs].id`\" data-type=\"interactive\"`$audioData`"%>
+							<%/if%>
+							<div class="item-container<%if $i===0%> first<%/if%><%$sideItemClass%>"<%$itemData%>><div class="item-inner">
+							<a class="image" href="/interactive/<%$storyall[$cs].id%>" target=_blank><figure class="loading" data-url="<%$storyall[$cs].story_pic.cover|default:$storyall[$cs].story_pic.smallbutton|default:$storyall[$cs].story_pic.bigbutton%>"></figure></a>
+							<h2 class="item-headline"><a href="/interactive/<%$storyall[$cs].id%>" target=_blank class="item-headline-link"><%*$iTag*%><%$storyall[$cs].cheadline%></a></h2>
+							</div></div>
+							<%assign var="echostoryid" value=`$storyall[$cs].id`,$echostoryid%>
+							<%assign var="i" value=$i+1%>
 						<%/if%>
-						<div class="item-container<%if $i===0%> first<%/if%><%$sideItemClass%>"<%$itemData%>><div class="item-inner">
-						<a class="image" href="/interactive/<%$storyall[$cs].id%>" target=_blank><figure class="loading" data-url="<%$storyall[$cs].story_pic.cover|default:$storyall[$cs].story_pic.smallbutton|default:$storyall[$cs].story_pic.bigbutton%>"></figure></a>
-						<h2 class="item-headline"><a href="/interactive/<%$storyall[$cs].id%>" target=_blank class="item-headline-link"><%*$iTag*%><%$storyall[$cs].cheadline%></a></h2>
-						</div></div>
-						<%assign var="echostoryid" value=`$storyall[$cs].id`,$echostoryid%>
-						<%assign var="i" value=$i+1%>
+						<%assign var="cs" value=$cs+1%>
+					<%elseif $ps<$photocount && ($storyall[$cs].pubdate<$photoall[$cp].add_times || $cs>=$storycount)%>
+						<%if !in_array($photoall[$cp].en_title , explode(',',$echostoryid)) && $photoall[$cp].thumb_url %>
+							<div class="item-container<%if $i===0%> first<%/if%>"><div class="item-inner">
+							<a class="image" href="/photonews/<%$photoall[$cp].photonewsid%>" target=_blank><figure class="loading" data-url="http://i.ftimg.net/<%$photoall[$cp].thumb_url%>"></figure></a>
+							<h2 class="item-headline"><a href="/photonews/<%$photoall[$cp].photonewsid%>" target=_blank>【图辑】<%$photoall[$cp].cn_title%></a></h2>
+							</div></div>
+							<%assign var="echostoryid" value=`$photoall[$cp].en_title`,$echostoryid%>
+							<%assign var="i" value=$i+1%>
+						<%/if%>
+						<%assign var="cp" value=$cp+1%>
 					<%/if%>
-					<%assign var="cs" value=$cs+1%>
-				<%elseif $ps<$photocount && ($storyall[$cs].pubdate<$photoall[$cp].add_times || $cs>=$storycount)%>
-					<%if !in_array($photoall[$cp].en_title , explode(',',$echostoryid)) && $photoall[$cp].thumb_url %>
-						<div class="item-container<%if $i===0%> first<%/if%>"><div class="item-inner">
-						<a class="image" href="/photonews/<%$photoall[$cp].photonewsid%>" target=_blank><figure class="loading" data-url="http://i.ftimg.net/<%$photoall[$cp].thumb_url%>"></figure></a>
-						<h2 class="item-headline"><a href="/photonews/<%$photoall[$cp].photonewsid%>" target=_blank>【图辑】<%$photoall[$cp].cn_title%></a></h2>
-						</div></div>
-						<%assign var="echostoryid" value=`$photoall[$cp].en_title`,$echostoryid%>
-						<%assign var="i" value=$i+1%>
-					<%/if%>
-					<%assign var="cp" value=$cp+1%>
 				<%/if%>
-			<%/if%>
-		<%/section%>
-		<!--<%*两组数据进行合并，重新排序 End*%>-->
-		<div class="clearfloat"></div>
+			<%/section%>
+			<!--<%*两组数据进行合并，重新排序 End*%>-->
+			<div class="clearfloat"></div>
+			</div>
 		</div>
 
-	</div>
 
-	<%if $smarty.get.ad != "no" && $noAd != "true"%>
-		<%if $smarty.get.newad == "yes" || (date("Ymd",$smarty.now) >= 20171025 && $smarty.cookies.randForAd == "99") %>
-			<script type="text/javascript">
-				document.write (writeAdNew({
-					devices: ['PC', 'PadWeb'],
-					pattern:'MPU',
-					position:'Right2'
-				}));
-			</script>
-		<%else%>
-			<div class="mpu-container">
-			    <script type="text/javascript">document.write (writeAd('mpu'));</script>
-			</div>
+		<%if $smarty.get.ad != "no" && $noAd != "true"%>
+			<%if $smarty.get.newad == "yes" || (date("Ymd",$smarty.now) >= 20171025 && $smarty.cookies.randForAd == "99")%>
+				<script type="text/javascript">
+					document.write (writeAdNew({
+						devices: ['PC', 'PadWeb'],
+						pattern:'MPU',
+						position:'Right1'
+					}));
+				</script>
+			<%else%>
+				<div class="mpu-container">
+					<script type="text/javascript">document.write (writeAd('mpu'));</script>
+				</div>
+			<%/if%>
 		<%/if%>
+
+
+
+
+
+		<div class="interactives">
+			<h2 class="list-title"><a href="/channel/mba.html?webview=ftcapp">FT商学院</a></h2>
+			<div class="interactive-inner">
+			<%assign var="storyall" value=$interactivemodel->get_interactive_by_field_search("(find_in_set('测试',tag) or find_in_set('教程',tag) or (find_in_set('QuizPlus',tag) and (find_in_set('新闻',tag) or find_in_set('热点观察',tag) or find_in_set('FT商学院',tag)) and (scoop = '1' or scoop = '0')) or find_in_set('数据新闻',tag)) and !find_in_set('广告互动教程',tag) and pubdate <= unix_timestamp(now())",0,5,30,10800)%>
+			<%assign var="photoall" value=$photonewsmodel->get_new_photonews(6)%>
+			<%assign var="storycount" value=$storyall|@count%>
+			<%assign var="photocount" value=$photoall|@count%>
+			<%assign var="allcount" value=$photocount+$storycount%>
+			<%assign var="cs" value=0%>
+			<%assign var="cp" value=0%>
+			<%assign var="i" value=0%>
+			<!--<%*两组数据进行合并，重新排序 Start*%>-->
+			<%section name=bothdata loop=$allcount%>
+				<%if $i<4%>
+					<%if $cs<$storycount && ($storyall[$cs].pubdate>=$photoall[$cp].add_times || $ps>=$photocount)%>
+						<%if !in_array($storyall[$cs].id , explode(',',$echostoryid)) && ($storyall[$cs].story_pic.smallbutton || $storyall[$cs].story_pic.bigbutton || $storyall[$cs].story_pic.cover)%>
+							<%if preg_match("/速读/is",$storyall[$cs].tag)%>
+							<%assign var="iTag" value="【速读】"%>
+							<%elseif preg_match("/测试|QuizPlus/is",$storyall[$cs].tag)%>
+							<%assign var="iTag" value="【小测】"%>
+							<%elseif preg_match("/英语电台/is",$storyall[$cs].tag)%>
+							<%assign var="iTag" value="【电台】"%>
+							<%elseif preg_match("/数据新闻/is",$storyall[$cs].tag)%>
+							<%assign var="iTag" value="【数据】"%>
+							<%elseif preg_match("/教程/is",$storyall[$cs].tag)%>
+							<%assign var="iTag" value="【教程】"%>
+							<%else%>
+							<%assign var="iTag" value=""%>
+							<%/if%>
+
+							<%if $smarty.get.webview == "ftcapp"%>
+								<%if preg_match("/.mp3$/is",$storyall[$cs].cshortleadbody)%>
+									<%assign var="audioUrl" value=$storyall[$cs].cshortleadbody%>
+									<%assign var="audioData" value=" data-audio=\"`$audioUrl`\""%>
+								<%/if%>
+								<%assign var="sideItemClass" value=" item-container-app"%>
+								<%assign var="itemData" value=" data-id=\"`$storyall[$cs].id`\" data-type=\"interactive\"`$audioData`"%>
+							<%/if%>
+							<div class="item-container<%if $i===0%> first<%/if%><%$sideItemClass%>"<%$itemData%>><div class="item-inner">
+							<a class="image" href="/interactive/<%$storyall[$cs].id%>" target=_blank><figure class="loading" data-url="<%$storyall[$cs].story_pic.cover|default:$storyall[$cs].story_pic.smallbutton|default:$storyall[$cs].story_pic.bigbutton%>"></figure></a>
+							<h2 class="item-headline"><a href="/interactive/<%$storyall[$cs].id%>" target=_blank class="item-headline-link"><%*$iTag*%><%$storyall[$cs].cheadline%></a></h2>
+							</div></div>
+							<%assign var="echostoryid" value=`$storyall[$cs].id`,$echostoryid%>
+							<%assign var="i" value=$i+1%>
+						<%/if%>
+						<%assign var="cs" value=$cs+1%>
+					<%elseif $ps<$photocount && ($storyall[$cs].pubdate<$photoall[$cp].add_times || $cs>=$storycount)%>
+						<%if !in_array($photoall[$cp].en_title , explode(',',$echostoryid)) && $photoall[$cp].thumb_url %>
+							<div class="item-container<%if $i===0%> first<%/if%>"><div class="item-inner">
+							<a class="image" href="/photonews/<%$photoall[$cp].photonewsid%>" target=_blank><figure class="loading" data-url="http://i.ftimg.net/<%$photoall[$cp].thumb_url%>"></figure></a>
+							<h2 class="item-headline"><a href="/photonews/<%$photoall[$cp].photonewsid%>" target=_blank>【图辑】<%$photoall[$cp].cn_title%></a></h2>
+							</div></div>
+							<%assign var="echostoryid" value=`$photoall[$cp].en_title`,$echostoryid%>
+							<%assign var="i" value=$i+1%>
+						<%/if%>
+						<%assign var="cp" value=$cp+1%>
+					<%/if%>
+				<%/if%>
+			<%/section%>
+			<!--<%*两组数据进行合并，重新排序 End*%>-->
+			<div class="clearfloat"></div>
+			</div>
+		</div>
+
+
+		<%if $smarty.get.ad != "no" && $noAd != "true"%>
+			<%if $smarty.get.newad == "yes" || (date("Ymd",$smarty.now) >= 20171025 && $smarty.cookies.randForAd == "99") %>
+				<script type="text/javascript">
+					document.write (writeAdNew({
+						devices: ['PC', 'PadWeb'],
+						pattern:'MPU',
+						position:'Right2'
+					}));
+				</script>
+			<%else%>
+				<div class="mpu-container">
+				    <script type="text/javascript">document.write (writeAd('mpu'));</script>
+				</div>
+			<%/if%>
+		<%/if%>
+
+		<%assign var="ftintelligence" value=$interactivemodel->get_interactive_by_field_search("find_in_set('FT研究院',tag) and find_in_set('报告',tag)",0,4,1000,10800)%>
+		<div class="videos interactives">
+			<h2 class="list-title"><a href="/m/marketing/intelligence.html?webview=ftcapp">FT研究院</a></h2>
+			<div class="item-container first"><div class="item-inner">
+			<a class="image" href="/interactive/<%$ftintelligence[0].id%>" target=_blank><figure class="loading" data-url="<%$ftintelligence[0].story_pic.cover|default:$ftintelligence[0].story_pic.bigbutton%>"></figure></a>
+			<h2 class="item-headline"><a href="/interactive/<%$ftintelligence[0].id%>" target=_blank><%$ftintelligence[0].cheadline%></a></h2>
+			</div></div>
+			<div id="three-video-part" class="triplet-container">
+				<div id="three-video-content">
+					<ul>
+						<%foreach from=$ftintelligence item=vc name=homepagevideo%>
+						<%if $vc.id != $ftintelligence[0].id%>
+						<li><a target="_blank" href="/interactive/<%$vc.id%>"><figure class="loading" data-url="<%$vc.story_pic.bigbutton|default:$vc.story_pic.cover%>"></figure><p><%$vc.cheadline%></p></a></li>
+						<%/if%>
+						<%/foreach%>
+						<div class="clearfloat"></div>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<div class="clearfloat"></div>
+		<div class="mps">
+			<h2 class="list-title"><a href="/channel/weekly.html">热门文章</a></h2>
+			<ul class="top10">
+				<%assign var="i" value=0%>
+
+				<%*<!-- easy api is broken, switch to old model
+				<%easyapi command="60006"%>
+				<%foreach from=$data.odatalist item=sc name=foo%>
+					<%assign var="i" value=$i+1%>
+					<li class="mp<%$i%>"><span><%$i%>. </span><a target="_blank" href="/story/<%$sc.storyid%>?dailypop"><%$sc.title%></a></li>
+				<%/foreach%>
+				-->*%>
+				<%assign var="mp" value=$storymodel->get_hot_story(1,10) %>
+				<%foreach from=$mp item=sc%>
+					<%assign var="i" value=$i+1%>
+					<li class="mp<%$i%>"><span><%$i%>. </span><a target="_blank" href="/story/<%$sc.storyid%>?dailypop"><%$sc.cheadline%></a></li>
+				<%/foreach%>
+			</ul>
+		</div>
+
 	<%/if%>
 
-	<%assign var="ftintelligence" value=$interactivemodel->get_interactive_by_field_search("find_in_set('FT研究院',tag) and find_in_set('报告',tag)",0,4,1000,10800)%>
-	<div class="vidoes P-hide">
-		<h2 class="list-title"><a href="/m/marketing/intelligence.html">FT研究院</a></h2>
-		<div class="item-container first"><div class="item-inner">
-		<a class="image" href="/interactive/<%$ftintelligence[0].id%>" target=_blank><figure class="loading" data-url="<%$ftintelligence[0].story_pic.cover|default:$ftintelligence[0].story_pic.bigbutton%>"></figure></a>
-		<h2 class="item-headline"><a href="/interactive/<%$ftintelligence[0].id%>" target=_blank><%$ftintelligence[0].cheadline%></a></h2>
-		</div></div>
-		<div id="three-video-part" class="triplet-container">
-			<div id="three-video-content">
-				<ul>
-					<%foreach from=$ftintelligence item=vc name=homepagevideo%>
-					<%if $vc.id != $ftintelligence[0].id%>
-					<li><a target="_blank" href="/interactive/<%$vc.id%>"><figure class="loading" data-url="<%$vc.story_pic.bigbutton|default:$vc.story_pic.cover%>"></figure><p><%$vc.cheadline%></p></a></li>
-					<%/if%>
-					<%/foreach%>
-					<div class="clearfloat"></div>
-				</ul>
-			</div>
-		</div>
-	</div>
+
+
+
 
 </div></div>
