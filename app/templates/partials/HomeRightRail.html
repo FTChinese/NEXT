@@ -329,6 +329,9 @@
 								<%if preg_match("/.mp3$/is",$storyall[$cs].cshortleadbody)%>
 									<%assign var="audioUrl" value=$storyall[$cs].cshortleadbody%>
 									<%assign var="audioData" value=" data-audio=\"`$audioUrl`\""%>
+								<%else%>
+									<%assign var="audioUrl" value=""%>
+									<%assign var="audioData" value=""%>
 								<%/if%>
 								<%assign var="sideItemClass" value=" item-container-app"%>
 								<%assign var="itemData" value=" data-id=\"`$storyall[$cs].id`\" data-type=\"interactive\"`$audioData`"%>
