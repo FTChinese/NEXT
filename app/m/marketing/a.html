@@ -96,7 +96,11 @@ try {
 
 }
 
-
+var randNumber = parseInt(Math.random() * 10000000000, 10).toString();
+if (c === '20220101' || c === '20220102' || c === '20230101' || c === '20230102') {
+    parent.window.gRand = randNumber;
+}
+var trString = '&tr=' + c + '_' + randNumber;
 
 if (1>1 && /^20550004$/.test(c)) {
     var viewable = {
@@ -108,7 +112,7 @@ if (1>1 && /^20550004$/.test(c)) {
 
 
 } else {
-document.write ('<scr'+'ipt src="http://dualstack.adsame-1421766300.ap-southeast-1.elb.amazonaws.com/s?z=ft&c=' + c + slotStr + adP + '&_fallback=0" charset="gbk" onerror="removeAd()" onload="loaded()"></scr'+'ipt>');
+document.write ('<scr'+'ipt src="http://dualstack.adsame-1421766300.ap-southeast-1.elb.amazonaws.com/s?z=ft&c=' + c + slotStr + trString + adP + '&_fallback=0" charset="gbk" onerror="removeAd()" onload="loaded()"></scr'+'ipt>');
 }
 
 // var forceBG = 'black';
