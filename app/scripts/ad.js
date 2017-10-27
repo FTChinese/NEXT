@@ -419,7 +419,7 @@ function writeAd(adType, returnSrc) {
   //console.log ('AdType: ' + adType + ' currentAdCount: ' + currentAdCount + '/' + adMax[adType] + 'adMax[adType]: ' + adMax[adType] + '/' + adch + adType);
   if (typeof currentAdCount === 'number' && currentAdCount < adMax[adType] && shouldHideAdContainer === false) {
     adPosition = adPositions[adType][currentAdCount];
-    iframeSrc = '/m/marketing/'+adFileName+'.html?v=20161009143608' + bannerBG + '#adid='+ adch + adPosition + '&pid='+adType+adCount[adType];
+    iframeSrc = '/m/marketing/'+adFileName+'.html?v=20171028000800' + bannerBG + '#adid='+ adch + adPosition + '&pid='+adType+adCount[adType];
     if (/mpu/.test(adType)) {
       adWidth = '300';
       adHeight = '250';
@@ -542,7 +542,7 @@ function writeAd(adType, returnSrc) {
 
 function writeAdNew(obj) {
   /**
-   * @param obj 
+   * @param obj
    * @param obj.devices: TYPE Array, the devices are allowed to show this ad, Eg:['PC','PadWeb','iPhoneWeb','AndroidWeb']
    * @param obj.pattern: TYPE String,the key string of var adPattern, Eg：'FullScreen'、'Leaderboard'
    * @param obj.position：TYPE String, the key string of var adPattern.xxx.position,Eg: 'Num1','Right1','Middle2'
@@ -570,8 +570,8 @@ function writeAdNew(obj) {
     }
   } else if (/Android|micromessenger/i.test(uaString) || w1 <= 490) {
     deviceType = 'AndroidWeb';
-  } 
-  
+  }
+
   // MARK: If device does not fit, return immediately
   if (obj.devices.indexOf(deviceType) < 0) {
     return '';
@@ -593,7 +593,7 @@ function writeAdNew(obj) {
   }
   var adChannelId = adch||'1000';
   //var adChannelId = '1000'; // window.dasfdafa || '1000'
-  
+
 
   console.log(adDevices[deviceType]);
   console.log(obj.pattern);
@@ -604,7 +604,7 @@ function writeAdNew(obj) {
   var adWidth = adPattern.width || '100%';
   var adHeight = adPattern.height || '50';
   var containerType = obj.container || adPattern.container || 'none';
-  
+
   adid = deviceId + adChannelId + adPatternId + adPositionId;
 
 
@@ -614,10 +614,10 @@ function writeAdNew(obj) {
     bannerBG = '&bg=777777';
   }
 
-  var iframeSrc = '/m/marketing/a.html?v=20161009143608' + bannerBG + '#adid='+ adid + '&pid=' + adid;
+  var iframeSrc = '/m/marketing/a.html?v=201710280008' + bannerBG + '#adid='+ adid + '&pid=' + adid;
   iframeHTML = '<iframe class="banner-iframe" data-adch="'+adChannelId+'" data-adPosition="'+ adPatternId + adPositionId+'" id="ad-' + adid + '" width="'+ adWidth +'" height="'+ adHeight + '" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="'+ iframeSrc +'" data-src="'+ iframeSrc +'" data-ad-type="'+ adPatternId + adPositionId +'" data-ad-count=0></iframe>';
-  
-  
+
+
   if (window.gDebugAd && typeof window.gDebugAd === 'string') {
     //MARK:找出channel的describtion
     var topChannelId = adChannelId.substring(0,2);
@@ -652,7 +652,7 @@ function writeAdNew(obj) {
     iframeHTML = '<div class="mpu-container">' + iframeHTML + '</div>';
   } else if (containerType === 'mpuInStroy') {
     iframeHTML = '<div class="mpu-container-instory">' + iframeHTML + '</div>';
-  } 
+  }
   return iframeHTML;
 }
 
