@@ -441,8 +441,13 @@ function writeAd(adType, returnSrc) {
       if (1<0 && c==='20220101') {
       } else {
         window.adType = adType;
+        var randNumber = parseInt(Math.random() * 10000000000, 10).toString();
+        if (c === '20220101' || c === '20220102' || c === '20230101' || c === '20230102') {
+            window.gRand = randNumber;
+        }
+        var trString = '&tr=' + c + '_' + randNumber;
         wechatAdHTML = '<div class="banner-iframe" style="width: 100%; " data-adch="'+adch+'" data-adPosition="'+adPosition+'"><scr';
-        wechatAdHTML += 'ipt src="http://dualstack.adsame-1421766300.ap-southeast-1.elb.amazonaws.com/s?z=ft&c=' + c + slotStr + adP + '&_fallback=0" charset="gbk">';
+        wechatAdHTML += 'ipt src="http://dualstack.adsame-1421766300.ap-southeast-1.elb.amazonaws.com/s?z=ft&c=' + c + slotStr + trString + adP + '&_fallback=0" charset="gbk">';
         wechatAdHTML += '</scr';
         wechatAdHTML += 'ipt></div>';
         // console.log (adType + adCount[adType]);
@@ -614,7 +619,7 @@ function writeAdNew(obj) {
     bannerBG = '&bg=777777';
   }
 
-  var iframeSrc = '/m/marketing/a.html?v=201710280008' + bannerBG + '#adid='+ adid + '&pid=' + adid;
+  var iframeSrc = '/m/marketing/a.html?v=20171028000800' + bannerBG + '#adid='+ adid + '&pid=' + adid;
   iframeHTML = '<iframe class="banner-iframe" data-adch="'+adChannelId+'" data-adPosition="'+ adPatternId + adPositionId+'" id="ad-' + adid + '" width="'+ adWidth +'" height="'+ adHeight + '" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="'+ iframeSrc +'" data-src="'+ iframeSrc +'" data-ad-type="'+ adPatternId + adPositionId +'" data-ad-count=0></iframe>';
 
 
