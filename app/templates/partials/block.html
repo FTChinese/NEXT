@@ -1149,15 +1149,17 @@
 										<%/if%>
 									<%/if%>
 									<%if $i == 1%>
-										<div class="hide-iframe">
-											<script type="text/javascript">
-											    document.write(writeAdNew({
-											        devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
-											        pattern:'Information',
-											        position:'Num1'
-											    }));
-											</script>
-										</div>
+										<%if $smarty.get.newad == "yes" || (date("Ymd",$smarty.now) >= 20171025 && $smarty.cookies.randForAd == "99")%>
+											<div class="hide-iframe">
+												<script type="text/javascript">
+														document.write(writeAdNew({
+																devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
+																pattern:'Information',
+																position:'Num1'
+														}));
+												</script>
+											</div>
+										<%/if%>
 									<%/if%>
 								<%/if%>
 							<%/if%>
