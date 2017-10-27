@@ -3,17 +3,17 @@
       <form>
           <div id="searchContainer" >
     <div class="floatClass select-search-group" >
-                <select>
-                <option value="forsale">For Sale</option>
-                <option value="forrent">For Rent</option>
+                <select  id="property-nature" name="property-nature">
+                <option value="forSale" <%if $searchedProperty.propertyNature == '0'%> selected='selected'<%/if%>>For Sale</option>
+                <option value="forRent" <%if $searchedProperty.propertyNature == '1'%> selected='selected'<%/if%>>For Rent</option>
                 </select>
     </div>
 
     <div class="floatClass input-search-group">
-        <input placeholder="Search country, area or city" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0">
+        <input placeholder="Search country, area or city" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0"  id="property-position" name="property-position">
     </div>
     <div>
-        <button class="select-search-button" ></button>
+        <button class="select-search-button" id="select-search-button" ></button>
     </div>
 
   <div class="clearfloat"></div>
@@ -30,7 +30,7 @@
                     <div class="items">
                         <%foreach from=$propertyArray item=propertyItem%>
 
-                <div class="<%$propertyItem.className%>"></div>
+
                         <div class="item-container XL4 L4 M4 S6 P12 P-half has-image">
                             <div class="item-inner"><h2 class="item-headline"><a target="_blank" href="/index.php/ft/property/detail?id=<%$propertyItem.propertyId%>"><%$propertyItem.area%> <%$propertyItem.country%></a></h2>
                             <a class="image" target="_blank" href="/index.php/ft/property/detail?id=<%$propertyItem.propertyId%>">
@@ -42,6 +42,7 @@
                             <div class="item-bottom"></div>
                             </div>
                         </div>
+                        <div class="<%$propertyItem.className%>"></div>
                         <%/foreach%> 
                         <div class="clearfloat"></div>
                     </div>

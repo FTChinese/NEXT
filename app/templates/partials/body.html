@@ -1,6 +1,10 @@
 <%assign var="bannerCount" value=0%>
 <%assign var="mpuCount" value=0%>
 <%assign var="b" value=0%>
+<%assign var="maxB" value=100%>
+<%if $smarty.get.maxB != ""%>
+    <%assign var="maxB" value=$smarty.get.maxB|intval%>
+<%/if%>
 <%foreach from=$p.sections item=section%>
     <%if $section.type == "header"%>
         <%if $pageId != "" && $pageId != "home"%>
@@ -9,7 +13,7 @@
             <%include file="next/partials/header.html"%>
         <%/if%>
         <%include file="next/partials/nav.html"%>
-    <%elseif $section.type == "banner" && $smarty.get.newad != "yes" && ((date("Ymd",$smarty.now) < 20171025 || (date("Ymd",$smarty.now) >= 20171025 && $smarty.cookies.randForAd != "99"))) %>
+    <%elseif $section.type == "banner" && $smarty.get.newad != "yes" && ((date("Ymd",$smarty.now) < 20171025 || (date("Ymd",$smarty.now) >= 20171025 && $smarty.cookies.randForAd != "99")))%>
         <script>
             var randTest = '<%$smarty.cookies.randForAd%>';
             console.log('Show Old:'+ randTest);
@@ -25,7 +29,7 @@
             console.log('Show New:'+ randTest);
         </script>
         <%include file="next/partials/newAd.html"%>
-    <%elseif $section.type == "block"%>
+    <%elseif $section.type == "block" && $b < $maxB%>
         <%include file="next/partials/block.html"%>
         <%assign var="b" value=$b+1%>
         <%if $section.side != "" && $section.side != "none"%>
@@ -33,9 +37,9 @@
         <%/if%>
     <%elseif $section.type == "footer"%>
         <%include file="next/partials/footer.html"%>
-    <%elseif $section.type == "topbelt"%>
+    <%elseif $section.type == "topbelt" && $b < $maxB%>
         <%include file="next/partials/topbelt.html"%>
-    <%elseif $section.type == "include" && $section.from != ""%>
+    <%elseif $section.type == "include" && $section.from != "" && $b < $maxB%>
         <%assign var="includeSide" value=$section.side%>
         <%assign var="includeSideAlign" value=$section.sideAlign%>
         <%include file="next/partials/`$section.from`.html"%>

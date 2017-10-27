@@ -3,8 +3,8 @@
 
     'use strict';
 
-$('body').on('click', '#select-search-button', function () { 
-    console.log( 'select-search-button');
+$('body').on('click', '#list-search-button', function () { 
+    console.log( 'list-search-button');
     var propertyNature=$('#property-nature').val();
     var propertyPosition=$('#property-position').val();
     var bedNum=$('#bed-num').val();
@@ -13,17 +13,8 @@ $('body').on('click', '#select-search-button', function () { 
     var priceStart=$('#price-start').val();
     var priceEnd=$('#price-end').val();
     
-    // $.ajax({
-    //     type: 'get',
-    //     url: '/index.php/ft/property/detail?search&property-nature=propertyNature&bed-num=bedNum&bath-num=bathNum&price-unit=priceUnit&price-start=priceStart&price-end=priceEnd',
-    //     dataType: 'text',
-    //     success: function (msg) {
-    window.location = '/index.php/ft/property/detail?search&property-nature='+propertyNature+'&property-position='+propertyPosition+'&bed-num='+bedNum+'&bath-num='+bathNum+'&price-unit='+priceUnit+'&price-start='+priceStart+'&price-end='+priceEnd;
-        // },
-        // error: function (XMLHttpRequest, textStatus, errorThrown) {
-        //     window.location = "/index.php/ft/property/detail";
-        // }
-    // });
+    window.location = '/index.php/ft/property/list?property-nature='+propertyNature+'&property-position='+propertyPosition+'&bed-num='+bedNum+'&bath-num='+bathNum+'&price-unit='+priceUnit+'&price-start='+priceStart+'&price-end='+priceEnd;
+
 });
   $('body').on('click', '.thumbnail', function () { 
          $($(this).parents().find('.ai-listing-detail-spa-container')).each(function(){
