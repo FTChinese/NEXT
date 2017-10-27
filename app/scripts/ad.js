@@ -30,6 +30,18 @@ var adPositions = {
 var sponsoredChannelIds = ['1400'];
 var gIsLandingPage = false;
 
+//MARK:获取当前URL的search参数键值对处理成的对象
+function getSearchVars() {
+  var searchVars = {};
+  if (window.location.search.length > 1) {
+    var searchStr = window.parent.location.search;
+    for (var oneKeyValueArr, index = 0, searchStrArr = searchStr.substr(1).split("&"); index < searchStrArr.length; index++) {
+      oneKeyValueArr = searchStrArr[index].split("=");
+      searchVars[decodeURIComponent(oneKeyValueArr[0])] = oneKeyValueArr.length > 1 ? decodeURIComponent(oneKeyValueArr[1]) : "";
+    }
+  }
+  return searchVars;
+}
 
 /* jshint ignore:start */
 function trackAd(adAction, adLabel, reachabilityStatus) {
@@ -544,15 +556,21 @@ function writeAdNew(obj) {
   var deviceId = '';
   var bannerBG = '';
   var adDescription = '';
-  
+  var searchVars = getSearchVars();//获取当前url参数
   // MARK: determin device type
   if (/iPad/i.test(uaString)) {
     deviceType = 'PadWeb';
+    if(searchVars.webview && searchVars.webview == ftcapp) {
+      deviceType = 'PadApp';
+    }
   } else if (/OS [0-9]+\_/i.test(uaString) && (/iPhone/i.test(uaString) || /iPod/i.test(uaString))) {
     deviceType = 'iPhoneWeb';
+    if(searchVars.webview && searchVars.webview == ftcapp) {
+      deviceType = 'iPhoneApp';
+    }
   } else if (/Android|micromessenger/i.test(uaString) || w1 <= 490) {
     deviceType = 'AndroidWeb';
-  }
+  } 
   
   // MARK: If device does not fit, return immediately
   if (obj.devices.indexOf(deviceType) < 0) {
