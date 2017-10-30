@@ -19,7 +19,11 @@ var adPatternsPC = {
     position:{
       Num1: {
         id:'01',
-        description:'页面上部导航栏下方的Leaderboard位。'
+        description:'列表页上部导航栏下方的Leaderboard位。'
+      },
+      StoryNum1: {
+        id:'51',
+        description:'文章页上部导航栏下方的Leaderboard位。'
       }
     }
   },
@@ -32,15 +36,27 @@ var adPatternsPC = {
     position:{
       Num1:{
         id:'01',
-        description:'页面从上至下第1个Banner位。'
+        description:'列表页从上至下第1个Banner位。'
       },
       Num2:{
         id:'02',
-        description:'页面从上至下第2个Banner位。'
+        description:'列表页从上至下第2个Banner位。'
       },
       Num3:{
         id:'03',
-        description:'页面从上至下第3个Banner位。'
+        description:'列表页从上至下第3个Banner位。'
+      },
+      StoryNum1:{
+        id:'51',
+        description:'文章页从上至下第1个Banner位。'
+      },
+      StoryNum2:{
+        id:'52',
+        description:'文章页从上至下第2个Banner位。'
+      },
+      StoryNum3:{
+        id:'53',
+        description:'文章页从上至下第3个Banner位。'
       }
     } 
   },
@@ -53,19 +69,35 @@ var adPatternsPC = {
     position:{
       Right1: {
         id:'11',
-        description:'页面右侧从上至下第1个MPU位。'
+        description:'列表页右侧从上至下第1个MPU位。'
       },
       Right2: {
         id:'12',
-        description:'页面右侧从上至下第2个MPU位。'
+        description:'列表页右侧从上至下第2个MPU位。'
       },
       Middle1: {
         id:'21',
-        description:'页面正文中间穿插的第1个MPU位。'
+        description:'列表页正文中间穿插的第1个MPU位。'
       },
       Middle2: {
         id:'22',
-        description:'页面正文中间穿插的第2个MPU位。'
+        description:'列表页正文中间穿插的第2个MPU位。'
+      },
+      StoryRight1: {
+        id:'51',
+        description:'文章页右侧从上至下第1个MPU位。'
+      },
+      StoryRight2: {
+        id:'52',
+        description:'文章页右侧从上至下第2个MPU位。'
+      },
+      StoryMiddle1: {
+        id:'61',
+        description:'文章页正文中间穿插的第1个MPU位。'
+      },
+      StoryMiddle2: {
+        id:'62',
+        description:'文章页正文中间穿插的第2个MPU位。'
       }
     }  
   },
@@ -159,11 +191,19 @@ var adPatternsPhone = {
     position:{
       Num1:{
         id:'01',
-        description:'手机端页面顶部的带状广告。'
+        description:'列表页顶部的带状广告。'
       },
       Num2: {
         id:'02',
-        description:'手机端页面底部的带状广告。'
+        description:'列表页底部的带状广告。'
+      },
+      StoryNum1:{
+        id:'51',
+        description:'文章页顶部的带状广告。'
+      },
+      StoryNum2: {
+        id:'52',
+        description:'文章页底部的带状广告。'
       }
     } 
   },
@@ -176,11 +216,19 @@ var adPatternsPhone = {
     position:{
       Middle1:{
         id:'01',
-        description:'页面从上至下第1个MPU位。'
+        description:'列表页从上至下第1个MPU位。'
       },
       Middle2:{
         id:'02',
-        description:'页面从上至下第2个MPU位。'
+        description:'列表页从上至下第2个MPU位。'
+      },
+      StoryMiddle1:{
+        id:'51',
+        description:'文章页从上至下第1个MPU位。'
+      },
+      StoryMiddle2:{
+        id:'52',
+        description:'文章页从上至下第2个MPU位。'
       }
     } 
   },
@@ -224,11 +272,19 @@ var adPatternsPad = {
     position:{
       Right1: {
         id:'11',
-        description:'页面右侧从上至下第1个MPU位。'
+        description:'列表页右侧从上至下第1个MPU位。'
       },
       Right2: {
         id:'12',
-        description:'页面右侧从上至下第2个MPU位。'
+        description:'列表页右侧从上至下第2个MPU位。'
+      },
+      StoryRight1: {
+        id:'61',
+        description:'文章页右侧从上至下第1个MPU位。'
+      },
+      StoryRight2: {
+        id:'62',
+        description:'文章页右侧从上至下第2个MPU位。'
       }
     }
   }
