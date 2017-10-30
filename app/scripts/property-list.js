@@ -1,7 +1,7 @@
 /* jshint devel:true */
 (function () {
 
-    'use strict';
+'use strict';
 
 $('body').on('click', '#list-search-button', function () { 
     console.log( 'list-search-button');
@@ -12,9 +12,9 @@ $('body').on('click', '#list-search-button', function () { 
     var priceUnit=$('#price-unit').val();
     var priceStart=$('#price-start').val();
     var priceEnd=$('#price-end').val();
-    
+   
     window.location = '/index.php/ft/property/list?property-nature='+propertyNature+'&property-position='+propertyPosition+'&bed-num='+bedNum+'&bath-num='+bathNum+'&price-unit='+priceUnit+'&price-start='+priceStart+'&price-end='+priceEnd;
-
+    // window.location = '/index.php/ft/property/list?property-nature='+propertyNature+property_position+'&bed-num='+bedNum+'&bath-num='+bathNum+'&price-unit='+priceUnit+'&price-start='+priceStart+'&price-end='+priceEnd;
 });
   $('body').on('click', '.thumbnail', function () { 
          $($(this).parents().find('.ai-listing-detail-spa-container')).each(function(){
