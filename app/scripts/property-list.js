@@ -85,5 +85,10 @@ $('body').on('click', '#list-search-button', function () { 
          }
 
     });
+    $('body').on('click', '.nav-link', function () {
+        $(this).attr('href','/index.php/ft/property/list');
+    });
+
+    
    
 })(); 
