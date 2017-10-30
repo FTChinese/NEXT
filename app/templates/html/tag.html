@@ -196,6 +196,9 @@
     </script>
     </html>
 <%else%>
+    <script type="text/javascript">
+        window.adchID = '<%$adchannelID|default:$adchId%>';
+    </script>
     <%if $smarty.get.newad == "yes" || (date("Ymd",$smarty.now) >= 20171025 && $smarty.cookies.randForAd == "99")%>
         <%include file="next/partials/banner-top.html"%>
     <%else%>
