@@ -70,24 +70,19 @@ var adChannelId;
 var adPositionId;
 
 
+var parentId = k.replace(/^.*pid=([0-9A-Za-z\-]+).*$/,"$1");
 if (/^[0-9]{12}$/.test(c)) {
     adChannelId = c.substring(0,8);
     adPositionId = c.substring(8,12);
+    parentId = 'ad-'+parentId;
 } else {
     adChannelId = c.substring(0,4);
     adPositionId = c.substring(4,8);
 }
 
-
-
 var slotStr = window.parent.slotStr || '';
-var parentId = k.replace(/^.*pid=([0-9A-Za-z\-]+).*$/,"$1");
-//console.log('!!!'+window.parent.newAd);
-if(window.parent.newAd) {
-    console.log('get new parentId');
-    parentId = 'ad-'+parentId;
-}
-//console.log("parentId:" + parentId);
+
+
 
 var adP = '';
 try {
