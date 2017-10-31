@@ -293,13 +293,9 @@ if (parentIframe && window.hideAdSign && window.hideAdSign !== '') {
 
 
 try {
-    console.log("here");
-    var theInnerStr = document.querySelector(".ad");
-    //console.log(theInnerStr);
     if (document.querySelector(".ad").innerHTML.indexOf("bsch.serving-sys.com/BurstingPipe/adServer.bs?cn=rsb&amp;c=28&amp;pli=22920013&amp;PluID=56&amp;w=969&amp;h=90&amp;") > 0)
     {
         //http://bsch.serving-sys.com/BurstingPipe/adServer.bs?cn=rsb&c=28&pli=22920013&PluID=56&w=969&h=90&dlm=3&ucm=true&
-        console.log("top replace");
         parent.window.gCanReplaceInstoryWithAd = true;
         parent.window.gReplacedInstroyWithAd = false;
         var sourceInfo = {
