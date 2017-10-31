@@ -16,7 +16,7 @@
             <%include file="next/partials/header.html"%>
         <%/if%>
         <%include file="next/partials/nav.html"%>
-    <%elseif $section.type == "banner" && $smarty.get.newad != "yes" && ((date("Ymd",$smarty.now) < 20171025 || (date("Ymd",$smarty.now) >= 20171025 && $smarty.cookies.randForAd != "99")))%>
+    <%elseif $section.type == "banner" && $smarty.get.newad != "yes" && $smarty.get.webview != "ftcapp" && ((date("Ymd",$smarty.now) < 20171025 || (date("Ymd",$smarty.now) >= 20171025 && $smarty.cookies.randForAd != "99")))%>
         <script>
             var randTest = '<%$smarty.cookies.randForAd%>';
             console.log('Show Old:'+ randTest);
@@ -26,7 +26,7 @@
         <%else%>
             <%assign var="bannerCount" value=$bannerCount+1%>
         <%/if%>
-    <%elseif $section.type == "newAd" && ($smarty.get.newad == "yes" || (date("Ymd",$smarty.now) >= 20171025 && $smarty.cookies.randForAd == "99"))%>
+    <%elseif $section.type == "newAd" && ($smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || (date("Ymd",$smarty.now) >= 20171025 && $smarty.cookies.randForAd == "99"))%>
         <script>
             var randTest = '<%$smarty.cookies.randForAd%>';
             console.log('Show New:'+ randTest);
