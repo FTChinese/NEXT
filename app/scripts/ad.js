@@ -583,7 +583,6 @@ function writeAdNew(obj) {
   }
 
   deviceId = adDevices[deviceType].id;
-  console.log(deviceId);
 
   // MARK: Get ad channel id from smarty server side
   var adch = adchID;
@@ -599,11 +598,7 @@ function writeAdNew(obj) {
   var adChannelId = adch||'1000';
   //var adChannelId = '1000'; // window.dasfdafa || '1000'
 
-
-  console.log(adDevices[deviceType]);
-  console.log(obj.pattern);
   var adPattern = adDevices[deviceType].patterns[obj.pattern];
-  console.log(adPattern);
   var adPatternId = adPattern.id;
   var adPositionId = adPattern.position[obj.position].id;
   var adWidth = adPattern.width || '100%';
