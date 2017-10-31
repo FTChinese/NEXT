@@ -289,15 +289,28 @@ if (window.parent && typeof window.parent.mpuAds === 'object' && parentId !== ''
     }
 }
 
-if (document.querySelector('.ad').innerHTML.indexOf('N5840.139612.1071020274421/B20208468.203238953;dc_trk_aid=403040961') > 0) {
-    parent.window.gCanReplaceInstoryWithAd = true;
-    parent.window.gReplacedInstroyWithAd = false;
-}
+
 
 if (parentIframe && window.hideAdSign && window.hideAdSign !== '') {
     var adClassName = parentIframe.parentNode.className;
     parentIframe.parentNode.className = adClassName + ' hide-sign';
 }
+
+
+try {
+    if (document.querySelector('.ad').innerHTML.indexOf('https://du3rcmbgk4e8q.cloudfront.net/ads/beijing/201710/20171017ftmall1200120nn.jpg') > 0) {
+        parent.window.gCanReplaceInstoryWithAd = true;
+        parent.window.gReplacedInstroyWithAd = false;
+        var sourceInfo = {
+            adLink: 'https://www.hennessy.com/zh-cn/hennessyparadisimperial/campaign.htm?utm_source=Ftchinese%20homepage%20top%20banner&utm_campaign=HPI2017OcttoNovCampaignDigital&utm_content=Ad&utm_term=OcttoNovCampaign&smtid=509415688z2906z1cm6gzacz0z',
+            adTitle: '轩尼诗顶通'
+        }
+        window.parent.showTextImageForAd(sourceInfo);
+    }
+} catch(ignore) {
+
+}
+
 </script>
 
 
