@@ -293,12 +293,23 @@ if (parentIframe && window.hideAdSign && window.hideAdSign !== '') {
 
 
 try {
-    if (document.querySelector('.ad').innerHTML.indexOf('https://du3rcmbgk4e8q.cloudfront.net/ads/beijing/201710/20171017ftmall1200120nn.jpg') > 0) {
+    console.log("here");
+    
+    if (document.querySelector(".ad").innerHTML.indexOf("http://bsch.serving-sys.com/BurstingPipe/adServer.bs?cn=rsb&c=28&pli=22920013&PluID=56&w=969&h=90")>0)
+    {
         parent.window.gCanReplaceInstoryWithAd = true;
         parent.window.gReplacedInstroyWithAd = false;
         var sourceInfo = {
-            adLink: 'https://www.hennessy.com/zh-cn/hennessyparadisimperial/campaign.htm?utm_source=Ftchinese%20homepage%20top%20banner&utm_campaign=HPI2017OcttoNovCampaignDigital&utm_content=Ad&utm_term=OcttoNovCampaign&smtid=509415688z2906z1cm6gzacz0z',
+            adLink: 'https://www.hennessy.com/zh-cn/hennessyparadisimperial/campaign.htm?utm_source=Ftchinese%20homepage%20top%20banner&utm_campaign=HPI2017OcttoNovCampaignDigital&utm_content=Ad&utm_term=OcttoNovCampaign&smtid=509432326z2906z1cm6gzacz0z',
             adTitle: '轩尼诗顶通'
+        }
+        window.parent.showTextImageForAd(sourceInfo);
+    } else if (document.querySelector(".ad").innerHTML.indexOf("http://bsch.serving-sys.com/BurstingPipe/adServer.bs?cn=rsb&c=28&pli=22956903&PluID=56&w=300&h=600")>0) {
+        parent.window.gCanReplaceInstoryWithAd = true;
+        parent.window.gReplacedInstroyWithAd = false;
+        var sourceInfo = {
+            adLink: 'https://www.hennessy.com/zh-cn/hennessyparadisimperial/campaign.htm?utm_source=Ftchinese%20homepage%20top%20banner&utm_campaign=HPI2017OcttoNovCampaignDigital&utm_content=Ad&utm_term=OcttoNovCampaign&smtid=509432326z2906z1cm6gzacz0z',
+            adTitle: '轩尼诗右侧'
         }
         window.parent.showTextImageForAd(sourceInfo);
     }
