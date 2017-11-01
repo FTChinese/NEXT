@@ -83,7 +83,7 @@ function showTextImageForAd(sourceInfo) {
     // MARK: open the resource in an iFrame
     var randomNumber = Math.random();
     //console.log ('random number is ' + randomNumber);
-    if (randomNumber < 0.09 && window.footerMoreShowed === undefined) {
+    if (randomNumber < 0.009 && window.footerMoreShowed === undefined) {
       var w2 = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
       var h2 = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
       var footerEle = document.querySelector('.footer-container');
