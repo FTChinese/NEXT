@@ -1238,16 +1238,17 @@
 						<%assign var="mpuPosition" value="tagmpu"%>
 					<%/if%>
 					<%if $smarty.get.ad != "no" && $noAd != "true"%>
-						<div class="mpu-container<%$firstChildClass%><%$lastChildClass%>">
-							<%if $list.image != ""%>
-								<%if $list.url && $list.url != ""%>
-									<%assign var="listLink" value=" href=\"`$list.url`\" target=_blank"%>
+						<%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || (date("Ymd",$smarty.now) >= 20171025 && $smarty.cookies.randForAd == "99") %>
+								<%if $list.image != ""%>
+									<%if $list.url && $list.url != ""%>
+										<%assign var="listLink" value=" href=\"`$list.url`\" target=_blank"%>
+									<%else%>
+										<%assign var="listLink" value=""%>
+									<%/if%>
+									<div class="mpu-container<%$firstChildClass%><%$lastChildClass%>">
+										<a<%$listLink%>><figure class="loading" data-url="<%$list.image%>"></figure></a>
+									</div>
 								<%else%>
-									<%assign var="listLink" value=""%>
-								<%/if%>
-								<a<%$listLink%>><figure class="loading" data-url="<%$list.image%>"></figure></a>
-							<%else%>
-								<%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || (date("Ymd",$smarty.now) >= 20171025 && $smarty.cookies.randForAd == "99") %>
 									<script type="text/javascript">
 										var mpuCount = '<%$s%>';
 										if(mpuCount == 0) {
@@ -1264,12 +1265,22 @@
 											}));
 										}
 									</script>
-								<%else%>
-									<script type="text/javascript">document.write (writeAd('<%$mpuPosition%>'));</script>
 								<%/if%>
-							<%/if%>
-							<%assign var="s" value=$s+1%>
-						</div>
+						<%else%>
+							<div class="mpu-container<%$firstChildClass%><%$lastChildClass%>">
+								<%if $list.image != ""%>
+									<%if $list.url && $list.url != ""%>
+										<%assign var="listLink" value=" href=\"`$list.url`\" target=_blank"%>
+									<%else%>
+										<%assign var="listLink" value=""%>
+									<%/if%>
+									<a<%$listLink%>><figure class="loading" data-url="<%$list.image%>"></figure></a>
+								<%else%>
+										<script type="text/javascript">document.write (writeAd('<%$mpuPosition%>'));</script>
+								<%/if%>
+							</div>
+						<%/if%>
+						<%assign var="s" value=$s+1%>
 					<%/if%>
                 <%elseif $list.type == "SideIframe"%>
 						<div class="mps<%$firstChildClass%><%$lastChildClass%>">
