@@ -27,15 +27,6 @@
         <%else%>
             <%assign var="bannerCount" value=$bannerCount+1%>
         <%/if%>
-
-    <%*
-    <%elseif $section.type == "newAd" && ($smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || (date("Ymd",$smarty.now) >= 20171025 && $smarty.cookies.randForAd == "99"))%>
-        <script>
-            var randTest = '<%$smarty.cookies.randForAd%>';
-            console.log('Show New:'+ randTest);
-        </script>
-        <%include file="next/partials/newAd.html"%>
-    *%>
     <%elseif $section.type == "block" && $b < $maxB%>
         <%include file="next/partials/block.html"%>
         <%assign var="b" value=$b+1%>

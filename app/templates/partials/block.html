@@ -1247,7 +1247,26 @@
 								<%/if%>
 								<a<%$listLink%>><figure class="loading" data-url="<%$list.image%>"></figure></a>
 							<%else%>
-								<script type="text/javascript">document.write (writeAd('<%$mpuPosition%>'));</script>
+								<%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || (date("Ymd",$smarty.now) >= 20171025 && $smarty.cookies.randForAd == "99") %>
+									<script type="text/javascript">
+										var mpuCount = '<%$s%>';
+										if(mpuCount == 0) {
+											document.write (writeAdNew({
+													devices: ['PC','PadApp','PadWeb'],
+													pattern:'MPU',
+													position:'Right1'
+											}));
+										} else if(mpuCount == 1){
+											document.write (writeAdNew({
+													devices: ['PC','PadApp','PadWeb'],
+													pattern:'MPU',
+													position:'Right2'
+											}));
+										}
+									</script>
+								<%else%>
+									<script type="text/javascript">document.write (writeAd('<%$mpuPosition%>'));</script>
+								<%/if%>
 							<%/if%>
 							<%assign var="s" value=$s+1%>
 						</div>
