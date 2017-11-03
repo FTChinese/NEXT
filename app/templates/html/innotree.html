@@ -26,6 +26,14 @@
     <%assign var="adchannelID" value="1100"%>
 <%/if%>
 
+<%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || (date("Ymd",$smarty.now) >= 20171025 && $smarty.cookies.randForAd == "99")%>
+    <%if $adchannelID == "2063"%>
+        <%assign var="adchannelID" value="5063"%>
+    <%elseif $adchannelID == "2000"%>
+        <%assign var="adchannelID" value="5000"%>
+    <%/if%>
+<%/if%>
+
 <%if $storymodel != ""%>
 <%assign var="gettime" value=$storymodel->get_story_by_tag($tag_name,0,20)%>
 <%/if%>
@@ -145,7 +153,11 @@
     <%include file="next/partials/innotree-header.html"%>
     <%include file="next/partials/nav.html"%>
     <%if $pageTheme != "luxury"%>
-    <%include file="next/partials/banner.html"%>
+        <%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || (date("Ymd",$smarty.now) >= 20171025 && $smarty.cookies.randForAd == "99") %>
+            <%include file="next/partials/banner-new.html"%>
+        <%else%>
+            <%include file="next/partials/banner.html"%>
+        <%/if%>
     <%/if%>
     <%assign var="bannerCount" value=$bannerCount+1%>
     <%if $pageId=="setting"%>

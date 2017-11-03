@@ -6,10 +6,15 @@
 
 <%*<!-- 新版本需要调整从pagemaker获取的频道号adchannelID -->*%>
 <%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || (date("Ymd",$smarty.now) >= 20171025 && $smarty.cookies.randForAd == "99")%>
-    <%if $adchannelID == "2063"%>
-        <%assign var="adchannelID" value="5063"%>
-    <%elseif $adchannelID == "2000"%>
+    
+    <%if $adchannelID == "2000"%>
         <%assign var="adchannelID" value="5000"%>
+    <%elseif $adchannelID == "2063"%>
+        <%assign var="adchannelID" value="5063"%>
+    <%elseif $adchannelID == "2044"%>
+        <%assign var="adchannelID" value="5044"%>
+    <%elseif $adchannelID == "2045"%>
+        <%assign var="adchannelID" value="5045"%>
     <%/if%>
 <%/if%>
 
