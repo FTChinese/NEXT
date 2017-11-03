@@ -5,7 +5,7 @@
 <%assign var="adchannelID" value="`$p.meta.adid`"%>
 
 <%*<!-- 新版本需要调整从pagemaker获取的频道号adchannelID -->*%>
-<%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || (date("Ymd",$smarty.now) >= 20171025 && $smarty.cookies.randForAd == "99")%>
+<%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || (date("Ymd",$smarty.now) >= 20171025 && $smarty.cookies.randForAd < 50)%>
     <%assign var="adchannelID" value=$adchannelID|regex_replace:"/^(20)(..)$/":'50${2}'%>
 
     <%*
