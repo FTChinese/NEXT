@@ -92,7 +92,8 @@ try {
 }
 
 var randNumber = parseInt(Math.random() * 10000000000, 10).toString();
-if (c === '20220101' || c === '20220102' || c === '20230101' || c === '20230102') {
+var adpatternCode = c.substr(-4,4);
+if (c === '20220101' || c === '20220102' || c === '20230101' || c === '20230102' || adpatternCode === '0301' || adpatternCode === '0351') {
     parent.window.gRand = randNumber;
 }
 var trString = '&tr=' + c + '_' + randNumber;
