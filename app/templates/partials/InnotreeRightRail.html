@@ -10,9 +10,19 @@
     </div>
     </div>
 	<%if $smarty.get.ad != "no" && $noAd != "true" && $hideMPU1 != "yes"%>
-		<div class="mpu-container<%if $tagabout == ""%> first-child<%/if%>">
-			<script type="text/javascript">document.write (writeAd('tagmpu'));</script>
-		</div>
+		<%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || (date("Ymd",$smarty.now) >= 20171025 && $smarty.cookies.randForAd == "99")%>
+			<script type="text/javascript">
+				document.write (writeAdNew({
+					devices: ['PC','PadApp','PadWeb'],
+					pattern:'MPU',
+					position:'Right1'
+				}));
+			</script>
+		<%else%>
+			<div class="mpu-container<%if $tagabout == ""%> first-child<%/if%>">
+				<script type="text/javascript">document.write (writeAd('tagmpu'));</script>
+			</div>
+		<%/if%>
 	<%/if%>
 	<div class="mps">
 	
