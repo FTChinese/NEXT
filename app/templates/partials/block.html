@@ -1219,6 +1219,7 @@
 	<%/foreach%>
 	<div class="clearfloat block-bottom"></div>
 	</div></div>
+	<%assign var="sideMpuCount" value=0%>
 	<%if $sideListCount > 0%>
 		<div class="side-container"><div class="side-inner">
 			<%assign var="s" value=0%>	
@@ -1250,7 +1251,7 @@
 									</div>
 								<%else%>
 									<script type="text/javascript">
-										var mpuCount = '<%$s%>';
+										var mpuCount = '<%$sideMpuCount%>';
 										if(mpuCount == 0) {
 											document.write (writeAdNew({
 													devices: ['PC','PadApp','PadWeb'],
@@ -1281,6 +1282,7 @@
 							</div>
 						<%/if%>
 						<%assign var="s" value=$s+1%>
+						<%assign var="sideMpuCount" value=$sideMpuCount+1%>
 					<%/if%>
                 <%elseif $list.type == "SideIframe"%>
 						<div class="mps<%$firstChildClass%><%$lastChildClass%>">
