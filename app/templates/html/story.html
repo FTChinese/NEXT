@@ -1319,14 +1319,13 @@
 		<%include file="next/partials/nav.html"%>
 		<%if !preg_match("/品味|乐尚街|艺术投资|腕表|游艇|极致人生|美食与美酒/is",$keys) && $smarty.get.hideheader != "yes"%>
 			<%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || (date("Ymd",$smarty.now) >= 20171025 && $smarty.cookies.randForAd == "99")%>
-				<%include file="next/partials/banner-top.html"%>
+				<%include file="next/partials/banner-new.html"%>
 			<%else%>
 				<%include file="next/partials/banner.html"%>
 			<%/if%>
 		<%/if%>
-		<%if $smarty.get.newad != "yes" && $smarty.get.webview != "ftcapp" && date("Ymd",$smarty.now) < 20171025%>
-			<%assign var="bannerCount" value=$bannerCount+1%>
-		<%/if%>
+		<%assign var="bannerCount" value=$bannerCount+1%>
+		
 		<%if $info.photonewsid != ""%>
 			<%include file="next/partials/photo-block.html"%>
 		<%else%>
@@ -1335,7 +1334,7 @@
 		<%include file="next/partials/story-recommend.html%>
 		<%if !preg_match("/品味|乐尚街|艺术投资|腕表|游艇|极致人生/is",$keys)%>
 			<%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || (date("Ymd",$smarty.now) >= 20171025 && $smarty.cookies.randForAd == "99")%>
-				<%include file="next/partials/banner-bottom.html"%>
+				<%include file="next/partials/banner-new.html"%>
 			<%else%>
 				<%include file="next/partials/banner.html"%>
 			<%/if%>

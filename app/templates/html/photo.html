@@ -115,11 +115,11 @@
       <%include file="next/partials/nav.html"%>
       <%if !preg_match("/艺术品投资/is",$info.tags) && !preg_match("/乐尚街/is",$info.tags)%>
          <%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || (date("Ymd",$smarty.now) >= 20171025 && $smarty.cookies.randForAd == "99")%>
-            <%include file="next/partials/banner-top.html"%>
+            <%include file="next/partials/banner-new.html"%>
         <%else%>
             <%include file="next/partials/banner.html"%>
-            <%assign var="bannerCount" value=$bannerCount+1%>
         <%/if%>
+        <%assign var="bannerCount" value=$bannerCount+1%>
       <%/if%>
       <%include file="next/partials/photo-block.html"%>
       <%include file="next/partials/story-recommend.html%>
