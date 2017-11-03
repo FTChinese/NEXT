@@ -32,16 +32,8 @@
 <%/if%>
 
 <%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || (date("Ymd",$smarty.now) >= 20171025 && $smarty.cookies.randForAd == "99")%>
+    <%assign var="adchannelID" value=$adchannelID|regex_replace:"/^(20)(..)$/":'50${2}'%>
 
-    <%if $adchannelID == "2000"%>
-        <%assign var="adchannelID" value="5000"%>
-    <%elseif $adchannelID == "2063"%>
-        <%assign var="adchannelID" value="5063"%>
-    <%elseif $adchannelID == "2044"%>
-        <%assign var="adchannelID" value="5044"%>
-    <%elseif $adchannelID == "2045"%>
-        <%assign var="adchannelID" value="5045"%>
-    <%/if%>
 <%/if%>
 
 <%if $storymodel != ""%>
