@@ -57,7 +57,7 @@ $('body').on('click', '#list-search-button', function () { 
     //     $(this).attr('href','/index.php/ft/property/list');
     // });
     $('body').on('click', '#reset-search-data', function () { 
-        window.location = '/index.php/ft/property/list'
+        window.location = '/index.php/ft/property/list';
     });
     
    
