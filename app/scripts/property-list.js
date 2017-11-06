@@ -27,20 +27,17 @@ $('body').on('click', '#list-search-button', function () { 
 
      $('body').on('click', '.ai-close-container', function () { 
          $(this).parent().parent().parent().hide();
-//           console.log("ai-close-container")
         $(this).parent().parent().parent().parent().find('.selected-listing-pointer').hide();
      });
 
      
      $('#o-header-link-1').hover(function(){
         $('#o-header-mega-1').css('display','block');
-        console.log('display');
     },function(){
         $('#o-header-mega-1').css('display','none');
     });
     $('#o-header-link-2').hover(function(){
         $('#o-header-mega-2').css('display','block');
-        console.log('display');
     },function(){
         $('#o-header-mega-2').css('display','none');
     });
@@ -56,10 +53,12 @@ $('body').on('click', '#list-search-button', function () { 
          }
 
     });
-    $('body').on('click', '.nav-link', function () {
-        $(this).attr('href','/index.php/ft/property/list');
-    });
-
+    // $('body').on('click', '.nav-link', function () {
+    //     $(this).attr('href','/index.php/ft/property/list');
+    // });
+    $('body').on('click', '#reset-search-data', function () { 
+        window.location = '/index.php/ft/property/list'
+    });
     
    
 })(); 
