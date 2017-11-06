@@ -94,6 +94,9 @@
                 <%assign var="carousel_images_array" value="*"|explode:$carousel_images_string%>
                 <%assign var="imageCount" value=$carousel_images_array|@count%>
 
+                <%if $imageCount eq 0 || $propertyItem.price  eq ''%>
+                    <div>No result, please refine your search.</div>
+                <%else%>
                 <li class="ai-search-result-detail-item last-column">
                     <div class="ai-search-result ai-search-result-header-section" data-itemtype="l" data-feature="1" data-listtype="1">
                     <div class="thumbnail">
@@ -307,6 +310,7 @@
     </div>
                     
 </li>
+<%/if%>
 <%/foreach%> 
 
 <%/if%>
