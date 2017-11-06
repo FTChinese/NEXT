@@ -14,7 +14,6 @@ $('body').on('click', '#list-search-button', function () { 
     var priceEnd=$('#price-end').val();
    
     window.location = '/index.php/ft/property/list?property-nature='+propertyNature+'&property-position='+propertyPosition+'&bed-num='+bedNum+'&bath-num='+bathNum+'&price-unit='+priceUnit+'&price-start='+priceStart+'&price-end='+priceEnd;
-    // window.location = '/index.php/ft/property/list?property-nature='+propertyNature+property_position+'&bed-num='+bedNum+'&bath-num='+bathNum+'&price-unit='+priceUnit+'&price-start='+priceStart+'&price-end='+priceEnd;
 });
   $('body').on('click', '.thumbnail', function () { 
          $($(this).parents().find('.ai-listing-detail-spa-container')).each(function(){
@@ -50,11 +49,9 @@ $('body').on('click', '#list-search-button', function () { 
      $('body').on('click', '.inquiry-agent-call', function () {
          if(!isDisplayContactNumber){
             $(this).next('#inquiry-agent-contact-number').css('display','block'); 
-            // $('#inquiry-agent-contact-number').css('display','block');
             isDisplayContactNumber=true;
          }else{
              $(this).next('#inquiry-agent-contact-number').css('display','none'); 
-            //  $('#inquiry-agent-contact-number').css('display','none');
             isDisplayContactNumber=false;
          }
 

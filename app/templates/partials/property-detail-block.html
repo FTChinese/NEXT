@@ -1,9 +1,5 @@
 <%assign var="carousel_images_string" value = $realProperty.allImages|regex_replace:"/[\r\n\t]/":"*"%>
 <%assign var="carousel_images_string" value = $carousel_images_string|regex_replace:"/(\*+)/":"*"%>
-<%*<%$carousel_images_string|@var_dump%>*%>
-
-<%assign var="carousel_images_array" value="*"|explode:$carousel_images_string%>
-<%*<%$carousel_images_array|@var_dump%>*%>
 
 <div class="swiper-position">   
 <!-- Swiper -->
@@ -53,7 +49,7 @@
             </div>
         </div>
 
-<div class="property-share-container">
+<!--<div class="property-share-container">
 
 
 <div class="story-action-placeholder" id="story-action-placeholder">
@@ -64,7 +60,6 @@
 <a class="action-icon icon-linkedin" href="https://www.linkedin.com/cws/share?url=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001068131%3Ffull%3Dy%26ccode%3D2G169003&original_referer=https%3A%2F%2Fdeveloper.linkedin.com%2Fsites%2Fall%2Fthemes%2Fdlc%2Fsandbox.php%3F&token=&isFramed=true&lang=zh_CN&_ts=1422502780259.2795" target="_blank"></a>
 <a class="action-icon icon-twitter" href="http://twitter.com/home?status=<%$realProperty.propertyStyle%>" target="_blank"></a>
 <a class="action-icon icon-facebook" href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001068131%3Ffull%3Dy&t=<%$realProperty.propertyStyle%>" target="_blank"></a>
-
 
 <div class="icon-right icon-save">
 <button id="addfavlink001068131">收藏</button>
@@ -77,7 +72,7 @@
 </div>
 </div>
 
-</div>
+</div>-->
 <div class="clearfloat block-bottom"></div>
 </div>
 </div>

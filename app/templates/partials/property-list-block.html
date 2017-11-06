@@ -19,7 +19,7 @@
     
     <section class="col-xs-4 col-md-1 col-lg-1" class="floatClass beds" >
         <select  id="bed-num" name="bed-num">
-        <option value="-1"<%if $searchedProperty.bedNum == '-1'%> selected='selected'<%/if%>>Beds</option>
+        <option value=""<%if $searchedProperty.bedNum == ''%> selected='selected'<%/if%>>Beds</option>
         <option value="0"<%if $searchedProperty.bedNum == '0'%> selected='selected'<%/if%>>0+</option>
         <option value="1"<%if $searchedProperty.bedNum == '1'%> selected='selected'<%/if%>>1+</option>
         <option value="2"<%if $searchedProperty.bedNum == '2'%> selected='selected'<%/if%>>2+</option>
@@ -59,13 +59,6 @@
                     <input type="text" placeholder="MaxPrice" muti="1" min="0" max="999999"  autocomplete="off" id="price-end" name="price-end"value="<%$searchedProperty.priceEnd%>">
                 </span>
             </div>
-           <!--  <ul id="price-range-menu" >
-            <li role="menuitem"><a class="text-right">$0</a></li>
-            <li role="menuitem"><a class="text-right">$500</a></li>
-            <li role="menuitem"><a class="text-right">$5,000</a></li>
-            <li role="menuitem"><a class="text-right">$50,000</a></li>
-            <li role="menuitem"><a class="text-right">$500,000</a></li>
-            </ul> -->
          </div>
     </section>
 
@@ -95,7 +88,7 @@
                 <%assign var="imageCount" value=$carousel_images_array|@count%>
 
                 <%if $imageCount eq 0 || $propertyItem.price  eq ''%>
-                    <div>No result, please refine your search.</div>
+                    
                 <%else%>
                 <li class="ai-search-result-detail-item last-column">
                     <div class="ai-search-result ai-search-result-header-section" data-itemtype="l" data-feature="1" data-listtype="1">
@@ -192,7 +185,7 @@
                         <div class="ai-listing-price">
                             <span class="text-uppercase ai-listing-type"><%$propertyItem.propertyNature%></span> &nbsp;&nbsp;
                             &nbsp;&nbsp;
-                            <!--template bindings={}--><span class="price-converted">
+                            <span class="price-converted">
                                 <%$propertyItem.price%>  <%$propertyItem.priceUnit%>
                             </span>
                         </div>
