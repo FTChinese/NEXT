@@ -14,7 +14,6 @@ $('body').on('click', '#list-search-button', function () { 
     var priceEnd=$('#price-end').val();
    
     window.location = '/index.php/ft/property/list?property-nature='+propertyNature+'&property-position='+propertyPosition+'&bed-num='+bedNum+'&bath-num='+bathNum+'&price-unit='+priceUnit+'&price-start='+priceStart+'&price-end='+priceEnd;
-    // window.location = '/index.php/ft/property/list?property-nature='+propertyNature+property_position+'&bed-num='+bedNum+'&bath-num='+bathNum+'&price-unit='+priceUnit+'&price-start='+priceStart+'&price-end='+priceEnd;
 });
   $('body').on('click', '.thumbnail', function () { 
          $($(this).parents().find('.ai-listing-detail-spa-container')).each(function(){
@@ -32,32 +31,6 @@ $('body').on('click', '#list-search-button', function () { 
         $(this).parent().parent().parent().parent().find('.selected-listing-pointer').hide();
      });
 
-     // var priceRangeStartActive = false;
-     // var priceRangeEndActive = false;
-
-     // $('#price-start').click(function () {
-     //        $('#price-range-menu').css('display','block');
-     //        $('#price-range-menu').css('left','10%');
-     //        priceRangeStartActive = true;
-     // });
-     // $('#price-end').click(function () {
-     //    $('#price-range-menu').css('display','block');
-     //    $('#price-range-menu').css('left','60%');
-     //    priceRangeEndActive = true ;
-     // });
-     // $('#price-range-menu li').click(function(){ 
-     //    if (priceRangeStartActive ) {
-     //        $('#price-start').val($(this).find('.text-right').text());  
-     //        $('#price-range-menu').css('display','none'); 
-     //        priceRangeStartActive = false;
-     //    }
-     //    if (priceRangeEndActive ) {
-     //        $('#price-end').val($(this).find('.text-right').text());  
-     //        $('#price-range-menu').css('display','none');
-     //        priceRangeEndActive = false ;
-     //    }
-         
-     // });
      
      $('#o-header-link-1').hover(function(){
         $('#o-header-mega-1').css('display','block');
@@ -76,11 +49,9 @@ $('body').on('click', '#list-search-button', function () { 
      $('body').on('click', '.inquiry-agent-call', function () {
          if(!isDisplayContactNumber){
             $(this).next('#inquiry-agent-contact-number').css('display','block'); 
-            // $('#inquiry-agent-contact-number').css('display','block');
             isDisplayContactNumber=true;
          }else{
              $(this).next('#inquiry-agent-contact-number').css('display','none'); 
-            //  $('#inquiry-agent-contact-number').css('display','none');
             isDisplayContactNumber=false;
          }
 

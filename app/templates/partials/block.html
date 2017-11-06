@@ -1136,7 +1136,7 @@
 									<%/if%>
 								<%else%>
 									<%if $i == 8%>
-										<%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || (date("Ymd",$smarty.now) >= 20171025 && $smarty.cookies.randForAd == "99")%>
+										<%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || (date("Ymd",$smarty.now) >= 20171025 && $smarty.cookies.randForAd < 50)%>
 											<script type="text/javascript">
 												document.write (writeAdNew({
 														devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
@@ -1149,7 +1149,7 @@
 										<%/if%>
 									<%/if%>
 									<%if $i == 1%>
-										<%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || (date("Ymd",$smarty.now) >= 20171025 && $smarty.cookies.randForAd == "99")%>
+										<%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || (date("Ymd",$smarty.now) >= 20171025 && $smarty.cookies.randForAd < 50)%>
 											<div class="hide-iframe">
 												<script type="text/javascript">
 														document.write(writeAdNew({
@@ -1219,6 +1219,7 @@
 	<%/foreach%>
 	<div class="clearfloat block-bottom"></div>
 	</div></div>
+	<%assign var="sideMpuCount" value=0%>
 	<%if $sideListCount > 0%>
 		<div class="side-container"><div class="side-inner">
 			<%assign var="s" value=0%>	
@@ -1238,19 +1239,50 @@
 						<%assign var="mpuPosition" value="tagmpu"%>
 					<%/if%>
 					<%if $smarty.get.ad != "no" && $noAd != "true"%>
-						<div class="mpu-container<%$firstChildClass%><%$lastChildClass%>">
-							<%if $list.image != ""%>
-								<%if $list.url && $list.url != ""%>
-									<%assign var="listLink" value=" href=\"`$list.url`\" target=_blank"%>
+						<%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || (date("Ymd",$smarty.now) >= 20171025 && $smarty.cookies.randForAd < 50) %>
+								<%if $list.image != ""%>
+									<%if $list.url && $list.url != ""%>
+										<%assign var="listLink" value=" href=\"`$list.url`\" target=_blank"%>
+									<%else%>
+										<%assign var="listLink" value=""%>
+									<%/if%>
+									<div class="mpu-container<%$firstChildClass%><%$lastChildClass%>">
+										<a<%$listLink%>><figure class="loading" data-url="<%$list.image%>"></figure></a>
+									</div>
 								<%else%>
-									<%assign var="listLink" value=""%>
+									<script type="text/javascript">
+										var mpuCount = '<%$sideMpuCount%>';
+										if(mpuCount == 0) {
+											document.write (writeAdNew({
+													devices: ['PC','PadApp','PadWeb'],
+													pattern:'MPU',
+													position:'Right1'
+											}));
+										} else if(mpuCount == 1){
+											document.write (writeAdNew({
+													devices: ['PC','PadApp','PadWeb'],
+													pattern:'MPU',
+													position:'Right2'
+											}));
+										}
+									</script>
 								<%/if%>
-								<a<%$listLink%>><figure class="loading" data-url="<%$list.image%>"></figure></a>
-							<%else%>
-								<script type="text/javascript">document.write (writeAd('<%$mpuPosition%>'));</script>
-							<%/if%>
-							<%assign var="s" value=$s+1%>
-						</div>
+						<%else%>
+							<div class="mpu-container<%$firstChildClass%><%$lastChildClass%>">
+								<%if $list.image != ""%>
+									<%if $list.url && $list.url != ""%>
+										<%assign var="listLink" value=" href=\"`$list.url`\" target=_blank"%>
+									<%else%>
+										<%assign var="listLink" value=""%>
+									<%/if%>
+									<a<%$listLink%>><figure class="loading" data-url="<%$list.image%>"></figure></a>
+								<%else%>
+										<script type="text/javascript">document.write (writeAd('<%$mpuPosition%>'));</script>
+								<%/if%>
+							</div>
+						<%/if%>
+						<%assign var="s" value=$s+1%>
+						<%assign var="sideMpuCount" value=$sideMpuCount+1%>
 					<%/if%>
                 <%elseif $list.type == "SideIframe"%>
 						<div class="mps<%$firstChildClass%><%$lastChildClass%>">

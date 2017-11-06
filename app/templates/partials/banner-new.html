@@ -1,0 +1,80 @@
+<%if $smarty.get.utm_campaign == "2M161000" || preg_match("/2U16[0-9]+/is",$smarty.get.utm_campaign)%>
+  <%assign var="hideBanner" value="yes"%>
+<%/if%>
+
+<%if $smarty.get.ad != "no" && $noAd != "true" && $hideBanner != "yes"%>
+
+    <%if $section.url && $section.url != ""%>
+        <%assign var="sectionLink" value=" href=\"`$section.url`\" target=_blank"%>
+    <%else%>
+        <%assign var="sectionLink" value=""%>
+    <%/if%>
+    
+    <%if $section.image && $section.image != "" && $section.fit != ""%>
+        <%assign var="figureClass" value=" `$section.fit`"%>
+    <%else%>
+        <%assign var="figureClass" value=""%>
+    <%/if%>
+
+    <%assign var="image1" value=$section.image|default:$section.highImpactImage%>
+    <%assign var="image2" value=$section.highImpactImage|default:$section.image%>
+
+    <%if $section.image && $section.image != "" && $section.fit == ""%>
+        <div class="block-image-container">
+            <a<%$sectionLink%>><img src="<%$section.image%>"></a>
+        </div>
+    <%else%>
+        <%if $section.image == ""%>
+            <script type="text/javascript">
+                var bannerCount = '<%$bannerCount%>';
+                if(bannerCount == 0) {
+                    document.write(writeAdNew({
+                        devices: ['PC'],
+                        pattern:'Leaderboard',
+                        position:'Num1'
+                    }));
+                    document.write(writeAdNew({
+                        devices: ['iPhoneWeb', 'AndroidWeb','iPhoneApp','AndroidApp'],
+                        pattern:'Banner',
+                        position:'Num1'
+                        }));
+                } else if(bannerCount == 1) {
+                    document.write(writeAdNew({
+                        devices: ['PC'],
+                        pattern:'Banner',
+                        position:'Num1'
+                    }));
+                    document.write(writeAdNew({
+                        devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
+                        pattern:'Banner',
+                        position:'Num2'
+                    }));
+                } else if(bannerCount == 2) {
+                    document.write(writeAdNew({
+                        devices: ['PC'],
+                        pattern:'Banner',
+                        position:'Num2'
+                    }));
+                } else if(bannerCount == 3) {
+                    document.write(writeAdNew({
+                        devices: ['PC'],
+                        pattern:'Banner',
+                        position:'Num3'
+                    }));
+                }
+                
+            </script>
+        <%else%>
+            <div class="bn-ph<%$figureClass%>">
+            <div class="banner-container">
+            <div class="banner-inner">
+            <div class="banner-content">
+              <a<%$sectionLink%> class="P-hide"><figure class="loading" data-url="<%$image1%>"></figure></a>
+              <a<%$sectionLink%> class="P-only"><figure class="loading" data-url="<%$image2%>"></figure></a>
+            </div>
+            </div>
+            </div>
+            </div>
+        <%/if%>
+    <%/if%>
+<%/if%>

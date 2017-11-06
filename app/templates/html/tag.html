@@ -20,10 +20,20 @@
 
 <%assign var="channelname" value=" <span>`$tagtitle`</span>"%>
 <%if !isset($adchannelID)||$adchannelID ==""%>
-<%assign var="adchannelID" value="2000"%>
+    <%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || (date("Ymd",$smarty.now) >= 20171025 && $smarty.cookies.randForAd < 50)%>
+        <%assign var="adchannelID" value="5000"%>
+    <%else%>
+        <%assign var="adchannelID" value="2000"%>
+    <%/if%>
 <%/if%>
+
 <%if !isset($adchannelID)||$adchannelID==""%>
     <%assign var="adchannelID" value="1100"%>
+<%/if%>
+
+<%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || (date("Ymd",$smarty.now) >= 20171025 && $smarty.cookies.randForAd < 50)%>
+    <%assign var="adchannelID" value=$adchannelID|regex_replace:"/^(20)(..)$/":'50${2}'%>
+
 <%/if%>
 
 <%if $storymodel != ""%>
@@ -161,15 +171,15 @@
     <%include file="next/partials/tag-header.html"%>
     <%include file="next/partials/nav.html"%>
     <%if $pageTheme != "luxury"%>
-        <%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || (date("Ymd",$smarty.now) >= 20171025 && $smarty.cookies.randForAd == "99")%>
-            <%include file="next/partials/banner-top.html"%>
+        <%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || (date("Ymd",$smarty.now) >= 20171025 && $smarty.cookies.randForAd < 50)%>
+            <%include file="next/partials/banner-new.html"%>
         <%else%>
             <%include file="next/partials/banner.html"%>
         <%/if%>
+        <%assign var="bannerCount" value=$bannerCount+1%>
 
     <%/if%>
     
-    <%assign var="bannerCount" value=$bannerCount+1%>
 
     <%if $pageId=="setting"%>
     <%include file="next/partials/setting-block.html"%>
@@ -188,23 +198,25 @@
     <%include file="next/partials/footer.html"%>
     <%include file="next/partials/QrCode.html"%>
   </body>
-<!--[if lte IE 8]>
-<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
-<![endif]-->
-    <script type="text/javascript">
+
+  <!--[if lte IE 8]>
+  <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+  <![endif]-->
+
+  <script type="text/javascript">
     <%include file="next/scripts/main.js"%>
-    </script>
-    </html>
+  </script>
+</html>
 <%else%>
     <script type="text/javascript">
         window.adchID = '<%$adchannelID|default:$adchId%>';
     </script>
-    <%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || (date("Ymd",$smarty.now) >= 20171025 && $smarty.cookies.randForAd == "99")%>
-        <%include file="next/partials/banner-top.html"%>
+    <%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || (date("Ymd",$smarty.now) >= 20171025 && $smarty.cookies.randForAd < 50)%>
+        <%include file="next/partials/banner-new.html"%>
     <%else%>
         <%include file="next/partials/banner.html"%>
-        <%assign var="bannerCount" value=$bannerCount+1%>
     <%/if%>
+    <%assign var="bannerCount" value=$bannerCount+1%>
     <%if $pageId=="setting"%>
     <%include file="next/partials/setting-block.html"%>
     <%elseif $pageId!=""%>

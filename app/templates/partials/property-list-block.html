@@ -19,7 +19,7 @@
     
     <section class="col-xs-4 col-md-1 col-lg-1" class="floatClass beds" >
         <select  id="bed-num" name="bed-num">
-        <option value="-1"<%if $searchedProperty.bedNum == '-1'%> selected='selected'<%/if%>>Beds</option>
+        <option value=""<%if $searchedProperty.bedNum == ''%> selected='selected'<%/if%>>Beds</option>
         <option value="0"<%if $searchedProperty.bedNum == '0'%> selected='selected'<%/if%>>0+</option>
         <option value="1"<%if $searchedProperty.bedNum == '1'%> selected='selected'<%/if%>>1+</option>
         <option value="2"<%if $searchedProperty.bedNum == '2'%> selected='selected'<%/if%>>2+</option>
@@ -59,13 +59,6 @@
                     <input type="text" placeholder="MaxPrice" muti="1" min="0" max="999999"  autocomplete="off" id="price-end" name="price-end"value="<%$searchedProperty.priceEnd%>">
                 </span>
             </div>
-           <!--  <ul id="price-range-menu" >
-            <li role="menuitem"><a class="text-right">$0</a></li>
-            <li role="menuitem"><a class="text-right">$500</a></li>
-            <li role="menuitem"><a class="text-right">$5,000</a></li>
-            <li role="menuitem"><a class="text-right">$50,000</a></li>
-            <li role="menuitem"><a class="text-right">$500,000</a></li>
-            </ul> -->
          </div>
     </section>
 
@@ -94,6 +87,9 @@
                 <%assign var="carousel_images_array" value="*"|explode:$carousel_images_string%>
                 <%assign var="imageCount" value=$carousel_images_array|@count%>
 
+                <%if $imageCount eq 0 || $propertyItem.price  eq ''%>
+                    
+                <%else%>
                 <li class="ai-search-result-detail-item last-column">
                     <div class="ai-search-result ai-search-result-header-section" data-itemtype="l" data-feature="1" data-listtype="1">
                     <div class="thumbnail">
@@ -189,7 +185,7 @@
                         <div class="ai-listing-price">
                             <span class="text-uppercase ai-listing-type"><%$propertyItem.propertyNature%></span> &nbsp;&nbsp;
                             &nbsp;&nbsp;
-                            <!--template bindings={}--><span class="price-converted">
+                            <span class="price-converted">
                                 <%$propertyItem.price%>  <%$propertyItem.priceUnit%>
                             </span>
                         </div>
@@ -241,7 +237,7 @@
                                 <a rel="nofollow" href="javascript:void(0)">CALL</a>
                             </div>
                             <div class="call" id="inquiry-agent-contact-number">
-                                <a itemprop="telephone" href="tel:390550548100"> 390550548100 </a>
+                                <a itemprop="telephone" href="tel:<%$realProperty.agentTelephone%>"> <%$realProperty.agentTelephone%> </a>
                             </div>
                         </div>
                         <div class="row">
@@ -256,7 +252,7 @@
                         </div>
                     </div>
                     <div class="col-xs-12 col-sm-7 hidden-xs">
-                        <form id="" method="post" action="/api/inquiry/post"class="sky-form"novalidate="novalidate">
+                        <form id="" method="post" action="/inquiry/post"class="sky-form"novalidate="novalidate">
                             <div>
                                 <section>
                                     <div class="input">
@@ -307,6 +303,7 @@
     </div>
                     
 </li>
+<%/if%>
 <%/foreach%> 
 
 <%/if%>

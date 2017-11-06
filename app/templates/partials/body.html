@@ -17,46 +17,8 @@
         <%/if%>
         <%include file="next/partials/nav.html"%>
     <%elseif $section.type == "banner" %>
-        <%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || (date("Ymd",$smarty.now) >= 20171025 && $smarty.cookies.randForAd == "99") %>
-            <script type="text/javascript">
-                var bannerCount = '<%$bannerCount%>';
-                if(bannerCount == 0) {
-                    document.write(writeAdNew({
-                        devices: ['PC'],
-                        pattern:'Leaderboard',
-                        position:'Num1'
-                    }));
-                    document.write(writeAdNew({
-                        devices: ['iPhoneWeb', 'AndroidWeb','iPhoneApp','AndroidApp'],
-                        pattern:'Banner',
-                        position:'Num1'
-                        }));
-                } else if(bannerCount == 1) {
-                    document.write(writeAdNew({
-                        devices: ['PC'],
-                        pattern:'Banner',
-                        position:'Num1'
-                    }));
-                    document.write(writeAdNew({
-                        devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
-                        pattern:'Banner',
-                        position:'Num2'
-                    }));
-                } else if(bannerCount == 2) {
-                    document.write(writeAdNew({
-                        devices: ['PC'],
-                        pattern:'Banner',
-                        position:'Num2'
-                    }));
-                } else if(bannerCount == 3) {
-                    document.write(writeAdNew({
-                        devices: ['PC'],
-                        pattern:'Banner',
-                        position:'Num3'
-                    }));
-                }
-                
-            </script>
+        <%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || (date("Ymd",$smarty.now) >= 20171025 && $smarty.cookies.randForAd < 50) %>
+            <%include file="next/partials/banner-new.html"%>
         <%else%>
             <%include file="next/partials/banner.html"%>
         <%/if%>
@@ -65,15 +27,6 @@
         <%else%>
             <%assign var="bannerCount" value=$bannerCount+1%>
         <%/if%>
-
-    <%*
-    <%elseif $section.type == "newAd" && ($smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || (date("Ymd",$smarty.now) >= 20171025 && $smarty.cookies.randForAd == "99"))%>
-        <script>
-            var randTest = '<%$smarty.cookies.randForAd%>';
-            console.log('Show New:'+ randTest);
-        </script>
-        <%include file="next/partials/newAd.html"%>
-    *%>
     <%elseif $section.type == "block" && $b < $maxB%>
         <%include file="next/partials/block.html"%>
         <%assign var="b" value=$b+1%>
