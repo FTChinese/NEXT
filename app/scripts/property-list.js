@@ -32,32 +32,6 @@ $('body').on('click', '#list-search-button', function () { 
         $(this).parent().parent().parent().parent().find('.selected-listing-pointer').hide();
      });
 
-     // var priceRangeStartActive = false;
-     // var priceRangeEndActive = false;
-
-     // $('#price-start').click(function () {
-     //        $('#price-range-menu').css('display','block');
-     //        $('#price-range-menu').css('left','10%');
-     //        priceRangeStartActive = true;
-     // });
-     // $('#price-end').click(function () {
-     //    $('#price-range-menu').css('display','block');
-     //    $('#price-range-menu').css('left','60%');
-     //    priceRangeEndActive = true ;
-     // });
-     // $('#price-range-menu li').click(function(){ 
-     //    if (priceRangeStartActive ) {
-     //        $('#price-start').val($(this).find('.text-right').text());  
-     //        $('#price-range-menu').css('display','none'); 
-     //        priceRangeStartActive = false;
-     //    }
-     //    if (priceRangeEndActive ) {
-     //        $('#price-end').val($(this).find('.text-right').text());  
-     //        $('#price-range-menu').css('display','none');
-     //        priceRangeEndActive = false ;
-     //    }
-         
-     // });
      
      $('#o-header-link-1').hover(function(){
         $('#o-header-mega-1').css('display','block');
