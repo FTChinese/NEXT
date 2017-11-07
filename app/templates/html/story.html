@@ -832,7 +832,6 @@
 	<%assign var="storyHeadline" value=$story.cheadline|default:$cheadline%>
 <%/if%>
 
-
 <%if $preferLead == "none"%>
 	<%assign var="storyLead" value=""%>
 <%elseif $story.cshortleadbody && $story.cshortleadbody != ""%>
@@ -844,6 +843,7 @@
 <%else%>
 	<%assign var="storyLead" value=$clongleadbody|default:$cshortleadbody%>
 <%/if%>
+
 <%assign var="shareLead" value=$storyLead%>
 <%if $storyLead != ""%>
 	<%assign var="storyLead" value="<div class=\"story-lead\">`$storyLead`</div>"%>

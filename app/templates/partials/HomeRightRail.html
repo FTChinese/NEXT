@@ -421,6 +421,15 @@
 			</ul>
 		</div>
 
+		<%if $smarty.get.v != ""%>
+		<%assign var="v" value=$smarty.get.v|floatval%>
+			<%if $v >= 6.3%>
+				<div class="links-container">
+					<h2 class="list-title"><a>往期查询</a></h2>
+					<div id="archive-calendar" class="calendar"></div>
+				</div>
+			<%/if%>
+		<%/if%>
 
 		<div class="clearfloat"></div>
 		<div class="side-list last-child headlineOnly">
