@@ -3,6 +3,9 @@ function createCalendar() {
 	updateCalendar(theday);
 }
 function updateCalendar(theday) {
+	if !document.getElementById('archive-calendar') {
+		return;
+	}
 	var thisday = new Date();
     var currentday, prevmonth, nextmonth, prevyear, nextyear, prevm, nextm, i, j, k, dateclass, dateLink, themonth, theyear;
     themonth = theday.getMonth() + 1;
