@@ -3,7 +3,7 @@ function createCalendar() {
 	updateCalendar(theday);
 }
 function updateCalendar(theday) {
-	if !document.getElementById('archive-calendar') {
+	if (!document.getElementById('archive-calendar')) {
 		return;
 	}
 	var thisday = new Date();
