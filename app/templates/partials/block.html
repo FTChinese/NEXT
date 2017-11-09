@@ -1136,7 +1136,7 @@
 									<%/if%>
 								<%else%>
 									<%if $i == 8%>
-										<%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || (date("Ymd",$smarty.now) >= 20171025 && $smarty.cookies.randForAd < 50)%>
+										<%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || $smarty.cookies.randForAd < 80%>
 											<script type="text/javascript">
 												document.write (writeAdNew({
 														devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
@@ -1149,7 +1149,7 @@
 										<%/if%>
 									<%/if%>
 									<%if $i == 1%>
-										<%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || (date("Ymd",$smarty.now) >= 20171025 && $smarty.cookies.randForAd < 50)%>
+										<%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || $smarty.cookies.randForAd < 80%>
 											<div class="hide-iframe">
 												<script type="text/javascript">
 														document.write(writeAdNew({
@@ -1239,7 +1239,7 @@
 						<%assign var="mpuPosition" value="tagmpu"%>
 					<%/if%>
 					<%if $smarty.get.ad != "no" && $noAd != "true"%>
-						<%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || (date("Ymd",$smarty.now) >= 20171025 && $smarty.cookies.randForAd < 50) %>
+						<%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || $smarty.cookies.randForAd < 80 %>
 								<%if $list.image != ""%>
 									<%if $list.url && $list.url != ""%>
 										<%assign var="listLink" value=" href=\"`$list.url`\" target=_blank"%>

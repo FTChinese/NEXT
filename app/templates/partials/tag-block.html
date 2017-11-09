@@ -386,7 +386,7 @@
 					<%if $smarty.get.ad != "no"%>
 						<%assign var="mpuName" value="taginlinempu"%>
 						<%if $i == 8 || $i == 17%>
-								<%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || (date("Ymd",$smarty.now) >= 20171025 && $smarty.cookies.randForAd < 50)%>
+								<%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || $smarty.cookies.randForAd < 80%>
 									<%if $i == 8 %>
 										<script type="text/javascript">
 											document.write (writeAdNew({
