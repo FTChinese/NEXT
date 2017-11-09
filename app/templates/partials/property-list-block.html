@@ -7,8 +7,8 @@
     <div class="searchContainer clearfloat" >
     <section class="col-xs-4 col-sm-4 col-md-2 col-lg-1" class="floatClass sale" >
         <select  id="property-nature" name="property-nature" >
-        <option value="forSale"<%if $searchedProperty.propertyNature == '0'%> selected='selected'<%/if%>><%$propertytDataName.For_Sale%>For Sale</option>
-        <option value="forRent"<%if $searchedProperty.propertyNature == '1'%> selected='selected'<%/if%>><%$propertytDataName.For_Rent%>For Rent</option>
+        <option value="forSale"<%if $searchedProperty.propertyNature == '0'%> selected='selected'<%/if%>><%$propertytDataName.For_Sale%></option>
+        <option value="forRent"<%if $searchedProperty.propertyNature == '1'%> selected='selected'<%/if%>><%$propertytDataName.For_Rent%></option>
         </select>
     </section>
 
@@ -27,7 +27,7 @@
     </section>
     <section  class="col-xs-4 col-md-1 col-lg-1" class="floatClass bath">
         <select  id="bath-num" name="bath-num">
-        <option value="-1"<%if $searchedProperty.bathNum == '-1'%> selected='selected'<%/if%>><%$propertytDataName.Bath%></option>
+        <option value="-1"<%if $searchedProperty.bathNum == '-1'%> selected='selected'<%/if%>><%$propertytDataName.Baths%></option>
         <option value="0"<%if $searchedProperty.bathNum == '0'%> selected='selected'<%/if%>>0+</option>
         <option value="1"<%if $searchedProperty.bathNum == '1'%> selected='selected'<%/if%>>1+</option>
         <option value="2"<%if $searchedProperty.bathNum == '2'%> selected='selected'<%/if%>>2+</option>
@@ -236,7 +236,7 @@
                         <div class="row margin-bottom-5 hidden-xs">
                             <div class="call inquiry-agent-call" id="inquiry-agent-call">
                                 <img src="http://static.ftchinese.com/icon/svg/phone-call.svg">
-                                <a rel="nofollow" href="javascript:void(0)"><%$propertytDataName.CALL%></a>
+                                <a rel="nofollow" href="javascript:void(0)"><%$propertytDataName.Call%></a>
                             </div>
                             <div class="call" id="inquiry-agent-contact-number">
                                 <a itemprop="telephone" href="tel:<%$propertyItem.agentTelephone%>"> <%$propertyItem.agentTelephone%> </a>
