@@ -28,19 +28,19 @@
     <div class="content-container">
     <div class="content-inner">
         <div class="list-inner">
-            <h2 class="list-title"><a class="list-link">FEATURED PROPERTIES</a></h2>
+            <h2 class="list-title"><a class="list-link"><%$propertytDataName.FEATURED_PROPERTIES%></a></h2>
             <div class="items">
                 <ul class="indentation">
                     <li><span><%$realProperty.propertyNature%></span></li>
-                    <li><span> <strong><%$realProperty.price%></strong>&nbsp; </span></li>
-                    <li>Property Style: <span><%$realProperty.propertyStyle%></span></li>
-                    <li>Bedroom: <span><%$realProperty.bedroom%></span></li>
-                    <li>Bathroom: <span><%$realProperty.bathroom%></span></li>
-                    <li>Half Bathroom: <span><%$realProperty.halfBathroom%></span></li>
+                    <li><span> <strong><%$realProperty.price%><%$realProperty.priceUnit%></strong>&nbsp; </span></li>
+                    <li><%$propertytDataName.Property_Style%>: <span><%$realProperty.propertyStyle%></span></li>
+                    <li><%$propertytDataName.Bedroom%>: <span><%$realProperty.bedroom%></span></li>
+                    <li><%$propertytDataName.Bathroom%>: <span><%$realProperty.bathroom%></span></li>
+                    <li><%$propertytDataName.Half_Bathroom%>: <span><%$realProperty.halfBathroom%></span></li>
                 </ul>
                 <div class="clearfloat"></div>
             </div>
-            <h2 class="list-title"><a class="list-link">PROPERTY DESCRIPTION</a>
+            <h2 class="list-title"><a class="list-link"><%$propertytDataName.PROPERTY_DESCRIPTION%></a>
             </h2>
             <div class="items">
                 <div class="item-lead indentation"><%$realProperty.description%>
@@ -79,7 +79,7 @@
 </div>
 <div class="side-container">
 <div class="side-inner">
-    <h2 class="list-title"><a class="list-link">GET MORE INFORMATION</a></h2>
+    <h2 class="list-title"><a class="list-link"><%$propertytDataName.GET_MORE_INFORMATION%>GET MORE INFORMATION</a></h2>
 <div>
 <form id="ai-inquirylead-form" method="post" action="/inquiry/post"class="sky-form ai-inquirylead-form xs-no-border xs-no-side-space xs-no-top-space xs-section-no-bottom-space"novalidate="novalidate">
     <div class="team-v6">
@@ -87,7 +87,7 @@
     
         <div class="listing-title ai-inquirylead-form-property-link"> 
             <a  target="_blank" rel="nofollow" title="<%$realProperty.propertyTitle%>" href="<%$realProperty.companyLink%>"><%$realProperty.propertyTitle%></a> </div>
-        <h5>View more properties from</h5>  
+       <%* <h5><%$propertytDataName.View_more_properties_from%></h5>  *%>
         <div>
             <a class="ai-inquirylead-form-company-link" target="_blank" rel="nofollow" href="<%$realProperty.companyLink%>" title="<%$realProperty.propertyTitle%>"> <img class="img-responsive" src="<%$realProperty.companyImage%>" alt="<%$realProperty.propertyTitle%>" > </a>
         </div>
@@ -95,12 +95,12 @@
             <ul class="list-section">
                 <li id="inquiry-agent-call">
                     <img src="http://static.ftchinese.com/icon/svg/phone-call.svg">
-                    <a rel="nofollow" href="javascript:void(0)">Call</a>
+                    <a rel="nofollow" href="javascript:void(0)"><%$propertytDataName.Call%></a>
                 </li>
                 <li>
                 <img src="http://static.ftchinese.com/icon/svg/share.svg">
                 <a class="ai-inquirylead-form-company-link" target="_blank" rel="nofollow" href="<%$realProperty.companyLink%>">
-                Link
+                <%$propertytDataName.Link%>
                 </a>
                 </li>
             </ul>
@@ -114,35 +114,35 @@
             <div class="input">
                 <img src="http://static.ftchinese.com/icon/svg/avatar.svg">
                 
-                <input id="client-name" name="client-name" placeholder="Your Full Name" type="text">
+                <input id="client-name" name="client-name" placeholder="<%$propertytDataName.Your_Full_Name%>" type="text">
                 
             </div>
         </section>
         <section>
             <div class="input">
                 <img src="http://static.ftchinese.com/icon/svg/phone-call.svg">
-                <input id="client-number" name="client-number" placeholder="Phone, e.g. +(country)-(number)" type="text">
+                <input id="client-number" name="client-number" placeholder="<%$propertytDataName.Phone_Number%>" type="text">
                
             </div>
         </section>
         <section>
             <div class="input">
                 <img src="http://static.ftchinese.com/icon/svg/envelope.svg">
-                <input id="client-eamil" name="client-eamil" placeholder="Email" type="text">
+                <input id="client-eamil" name="client-eamil" placeholder="<%$propertytDataName.Email%>Email" type="text">
                
             </div>
         </section>
         <section>
             <div class="textarea textarea-resizable">
             <img src="http://static.ftchinese.com/icon/svg/chat.svg">    
-                <textarea id="client-message" name="client-message" placeholder="Message" type="text"></textarea>
+                <textarea id="client-message" name="client-message" placeholder="<%$propertytDataName.Message%>Message" type="text"></textarea>
                
             </div>
         </section>
         <div class="clearfloat"></div>
     </div>
     <div class="ai-inquirylead-form-contact">
-        <button type="submit" class="btn-u">Contact Agent</button>
+        <button type="submit" class="btn-u"><%$propertytDataName.Contact_Agent%></button>
     </div>
 </form>
 </div>

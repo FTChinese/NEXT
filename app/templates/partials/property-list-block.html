@@ -7,8 +7,8 @@
     <div class="searchContainer clearfloat" >
     <section class="col-xs-4 col-sm-4 col-md-2 col-lg-1" class="floatClass sale" >
         <select  id="property-nature" name="property-nature" >
-        <option value="forSale"<%if $searchedProperty.propertyNature == '0'%> selected='selected'<%/if%>>For Sale</option>
-        <option value="forRent"<%if $searchedProperty.propertyNature == '1'%> selected='selected'<%/if%>>For Rent</option>
+        <option value="forSale"<%if $searchedProperty.propertyNature == '0'%> selected='selected'<%/if%>><%$propertytDataName.For_Sale%>For Sale</option>
+        <option value="forRent"<%if $searchedProperty.propertyNature == '1'%> selected='selected'<%/if%>><%$propertytDataName.For_Rent%>For Rent</option>
         </select>
     </section>
 
@@ -16,7 +16,7 @@
     
     <section class="col-xs-4 col-md-1 col-lg-1" class="floatClass beds" >
         <select  id="bed-num" name="bed-num">
-        <option value=""<%if $searchedProperty.bedNum == ''%> selected='selected'<%/if%>>Beds</option>
+        <option value=""<%if $searchedProperty.bedNum == ''%> selected='selected'<%/if%>><%$propertytDataName.Beds%></option>
         <option value="0"<%if $searchedProperty.bedNum == '0'%> selected='selected'<%/if%>>0+</option>
         <option value="1"<%if $searchedProperty.bedNum == '1'%> selected='selected'<%/if%>>1+</option>
         <option value="2"<%if $searchedProperty.bedNum == '2'%> selected='selected'<%/if%>>2+</option>
@@ -27,7 +27,7 @@
     </section>
     <section  class="col-xs-4 col-md-1 col-lg-1" class="floatClass bath">
         <select  id="bath-num" name="bath-num">
-        <option value="-1"<%if $searchedProperty.bathNum == '-1'%> selected='selected'<%/if%>>Bath</option>
+        <option value="-1"<%if $searchedProperty.bathNum == '-1'%> selected='selected'<%/if%>><%$propertytDataName.Bath%></option>
         <option value="0"<%if $searchedProperty.bathNum == '0'%> selected='selected'<%/if%>>0+</option>
         <option value="1"<%if $searchedProperty.bathNum == '1'%> selected='selected'<%/if%>>1+</option>
         <option value="2"<%if $searchedProperty.bathNum == '2'%> selected='selected'<%/if%>>2+</option>
@@ -59,9 +59,9 @@
          </div>
     </section>
     <section class="col-xs-12 col-sm-6 col-md-4 col-lg-4 search" class="floatClass ">
-        <input placeholder="Search country, area or city" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0"  id="property-position" name="property-position">
+        <input placeholder="<%$propertytDataName.search_area%>" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0"  id="property-position" name="property-position">
         <button class="select-search-button" id="list-search-button"></button>
-        <a id="reset-search-data" >Reset</a>
+        <a id="reset-search-data" ><%$propertytDataName.Reset%></a>
     </section>
 
   <div class="clearfloat"></div>
@@ -96,7 +96,7 @@
                     <div class="ai-search-result ai-search-result-header-section" data-itemtype="l" data-feature="1" data-listtype="1">
                     <div class="thumbnail">
                         <a href="javascript:void(0)" id="thumbnail-a"title="Beautiful Southwest adobe-style home in Scottsdale">
-                    <div class="photo-count-badge"><span><%$imageCount%>  Photos</span></div>
+                    <div class="photo-count-badge"><span><%$imageCount%>  <%$propertytDataName.Photos%></span></div>
                     <div class="listing-info-badge">
                         <div class="row">
                                <div class="col-md-9">
@@ -105,9 +105,9 @@
                             <span class="ai-listing-price"><%$propertyItem.price%>  <%$propertyItem.priceUnit%></span>
                             <span class="ai-listing-bed">&nbsp;&nbsp;&nbsp;<%$propertyItem.bedroom%></span>
                                 &nbsp;
-                            <span class="text-uppercase ai-listing-bedbathlabel">Bed</span>
+                            <span class="text-uppercase ai-listing-bedbathlabel"><%$propertytDataName.Bed%></span>
                             <span class="ai-listing-bath">&nbsp;&nbsp;&nbsp;<%$propertyItem.bathroom%></span>&nbsp;
-                            <span class="text-uppercase ai-listing-bedbathlabel">Bath</span>
+                            <span class="text-uppercase ai-listing-bedbathlabel"><%$propertytDataName.Bath%></span>
                                 </p>
                              </div>
                          </div>
@@ -127,7 +127,7 @@
             <div class="ai-expand-container">
 
                 <a style="vertical-align: super" target="_blank" href="/index.php/ft/property/detail?id=<%$propertyItem.propertyId%>" title="More Info">
-                    <span class="text-uppercase ai-expand-label">More Info</span>
+                    <span class="text-uppercase ai-expand-label"><%$propertytDataName.More_Info%></span>
                 </a>
             </div>
             <div class="ai-close-container">
@@ -202,7 +202,7 @@
                         </div>
                         <div class="row">
                             <div class="col-xs-12 text-center ai-listing-info-label">
-                                Bed
+                                <%$propertytDataName.Bed%>
                             </div>
                         </div>
                     </div>
@@ -214,7 +214,7 @@
                         </div>
                         <div class="row">
                             <div class="col-xs-12 text-center ai-listing-info-label">
-                                Bath
+                                <%$propertytDataName.Bath%>
                             </div>
                         </div>
                     </div>
@@ -222,7 +222,7 @@
                 <div class="row">
                     <div class="col-xs-12">
                         <h4 class="ai-lead-form-title">
-                            Contact Agent
+                            <%$propertytDataName.Contact_Agent%>
                         </h4>
                     </div>
                 </div>
@@ -236,7 +236,7 @@
                         <div class="row margin-bottom-5 hidden-xs">
                             <div class="call inquiry-agent-call" id="inquiry-agent-call">
                                 <img src="http://static.ftchinese.com/icon/svg/phone-call.svg">
-                                <a rel="nofollow" href="javascript:void(0)">CALL</a>
+                                <a rel="nofollow" href="javascript:void(0)"><%$propertytDataName.CALL%></a>
                             </div>
                             <div class="call" id="inquiry-agent-contact-number">
                                 <a itemprop="telephone" href="tel:<%$propertyItem.agentTelephone%>"> <%$propertyItem.agentTelephone%> </a>
@@ -289,7 +289,7 @@
                             </div>
                             
                             <div class="ai-inquirylead-form-contact">
-                                <button type="submit" class="btn-u">Contact Agent</button>
+                                <button type="submit" class="btn-u"><%$propertytDataName.Contact_Agent%></button>
                             </div>
                         </form>
                     </div>
