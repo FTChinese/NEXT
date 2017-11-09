@@ -102,12 +102,33 @@
                                <div class="col-md-9">
                                  <p class="no-bottom-space anchor-text"><%$propertyItem.area%> <%$propertyItem.country%></p>
                                  <p class="ai-list-info">
+
+                            <%if $propertyItem.price|string_format:"%d" eq 0%>
+                            <span  class="ai-listing-price"><%$propertytDataName.Discuss_Personally%></span> 
+                            <%else%>
                             <span class="ai-listing-price"><%$propertyItem.price%>  <%$propertyItem.priceUnit%></span>
+                            <%/if%>
+
+                            <%if $propertyItem.bedroom eq 0%> 
+                            <%else%>
+                            <span class="ai-listing-bed">&nbsp;&nbsp;&nbsp;<%$propertyItem.bedroom%></span>
+                                &nbsp;
+                            <span class="text-uppercase ai-listing-bedbathlabel"><%$propertytDataName.Bed%></span>
+                            <%/if%>
+
+                            <%if $propertyItem.bathroom eq 0%> 
+                            <%else%>
+                            <span class="ai-listing-bath">&nbsp;&nbsp;&nbsp;<%$propertyItem.bathroom%></span>&nbsp;
+                            <span class="text-uppercase ai-listing-bedbathlabel"><%$propertytDataName.Bath%></span>
+                            <%/if%>
+
+                          <%*  <span class="ai-listing-price"><%$propertyItem.price%>  <%$propertyItem.priceUnit%></span>
                             <span class="ai-listing-bed">&nbsp;&nbsp;&nbsp;<%$propertyItem.bedroom%></span>
                                 &nbsp;
                             <span class="text-uppercase ai-listing-bedbathlabel"><%$propertytDataName.Bed%></span>
                             <span class="ai-listing-bath">&nbsp;&nbsp;&nbsp;<%$propertyItem.bathroom%></span>&nbsp;
                             <span class="text-uppercase ai-listing-bedbathlabel"><%$propertytDataName.Bath%></span>
+                            *%>
                                 </p>
                              </div>
                          </div>
@@ -187,13 +208,21 @@
                         <div class="ai-listing-price">
                             <span class="text-uppercase ai-listing-type"><%$propertyItem.propertyNature%></span> &nbsp;&nbsp;
                             &nbsp;&nbsp;
+
+                            <%if $propertyItem.price|string_format:"%d" eq 0%>
+                            <span  class="price-converted">面议</span> 
+                            <%else%>
                             <span class="price-converted">
                                 <%$propertyItem.price%>  <%$propertyItem.priceUnit%>
                             </span>
+                            <%/if%>
+                            
                         </div>
                     </div>
                 </div>
                 <div class="row">
+                    <%if $propertyItem.bedroom eq 0%> 
+                    <%else%>
                     <div class="col-xs-2">
                         <div class="row">
                             <div class="col-xs-12 text-center ai-listing-info">
@@ -206,6 +235,9 @@
                             </div>
                         </div>
                     </div>
+                    <%/if%>
+                    <%if $propertyItem.bathroom eq 0%> 
+                    <%else%>
                     <div class="col-xs-2">
                         <div class="row">
                             <div class="col-xs-12 text-center ai-listing-info">
@@ -218,6 +250,9 @@
                             </div>
                         </div>
                     </div>
+                    <%/if%>
+                    
+                    
                 </div>
                 <div class="row">
                     <div class="col-xs-12">
