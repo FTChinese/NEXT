@@ -11,7 +11,7 @@
 
 
 	<%if $smarty.get.ad != "no" && $noAd != "true"%>
-		<%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || (date("Ymd",$smarty.now) >= 20171025 && $smarty.cookies.randForAd < 50)%>
+		<%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || $smarty.cookies.randForAd < 80%>
 			<script type="text/javascript">
 				document.write (writeAdNew({
 					devices: ['PC','PadApp','PadWeb'],

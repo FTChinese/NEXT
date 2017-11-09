@@ -71,6 +71,9 @@ document.documentElement.className = document.documentElement.className.replace(
 <link rel="stylesheet" href="styles/main-paid-post.css">
 <!-- endbuild -->
 
+<!-- build:css styles/main-calendar.css -->
+<link rel="stylesheet" href="styles/main-calendar.css">
+<!-- endbuild -->
 
 <script type="text/javascript">
 if(typeof startTime === "undefined"){
@@ -200,6 +203,35 @@ stickyAdsPrepare();
 }, 9000);
 </script>
 </div>
+
+
+
+
+<script>
+window.newAd = true;
+</script>
+<div id="pop-ad" class=overlay></div>
+<div class="pop-ad-code">
+<script type="text/javascript">
+var fullSC = GetCookie("fs0");
+var loadFullAtEnd = false;
+// MARK: - Display the full screen ad for every visit
+fullSC = null;
+if (fullSC === null && w <= 490) {
+//document.write (writeAd('fullpage'));
+document.write (writeAdNew({
+devices: ['iPhoneApp','iPhoneWeb','AndroidApp','AndroidWeb'],
+pattern:'FullScreen',
+position:'Web'
+}));
+SetCookie("fs0",1,5*60*60,"/");
+}
+</script>
+</div>
+
+
+
+
 <header class="header-container">
 <div class="header-inner">
 <div class="masthead"></div>
@@ -683,6 +715,17 @@ FT中文网首页
 </div></div><div class="clearfloat block-bottom"></div>
 </div></div>
 <div class="side-container"><div class="side-inner">
+
+
+
+
+<div class="links-container">
+<h2 class="list-title"><a>往期查询</a></h2>
+<div id="archive-calendar" class="calendar"></div>
+</div>
+
+
+
 <iframe id="ribbon" class="ad-hidden hide" width="100%" height="60" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="/m/marketing/a.html#adid=10000009&slot=986723212&pid=ribbon"></iframe>
 <div class="links-container P-hide">
 <h2 class="list-title"><a href="/m/marketing/home.html">会员信息中心</a></h2>
@@ -1390,6 +1433,9 @@ FT中文网首页
 <script type="text/javascript" src="scripts/home-click.js"></script>
 <!-- endbuild -->
 
+<!-- build:js scripts/main-calendar.js -->
+<script type="text/javascript" src="scripts/main-calendar.js"></script>
+<!-- endbuild -->
 
 </html>
 

@@ -86,7 +86,7 @@
 		
 
 		<%if $smarty.get.ad != "no" && $noAd != "true"%>
-			<%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || (date("Ymd",$smarty.now) >= 20171025 && $smarty.cookies.randForAd < 50)%>
+			<%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || $smarty.cookies.randForAd < 80%>
 				<script type="text/javascript">
 					document.write (writeAdNew({
 						devices: ['PC', 'PadWeb', 'PadApp'],
@@ -169,7 +169,7 @@
 		</div>
 
 		<%if $smarty.get.ad != "no" && $noAd != "true"%>
-			<%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || (date("Ymd",$smarty.now) >= 20171025 && $smarty.cookies.randForAd < 50) %>
+			<%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || $smarty.cookies.randForAd < 80 %>
 				<script type="text/javascript">
 					document.write (writeAdNew({
 						devices: ['PC', 'PadWeb', 'PadApp'],
@@ -276,7 +276,7 @@
 
 
 		<%if $smarty.get.ad != "no" && $noAd != "true"%>
-			<%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || (date("Ymd",$smarty.now) >= 20171025 && $smarty.cookies.randForAd < 50)%>
+			<%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || $smarty.cookies.randForAd < 80%>
 				<script type="text/javascript">
 					document.write (writeAdNew({
 						devices: ['PC', 'PadWeb','PadApp'],
@@ -364,7 +364,7 @@
 
 
 		<%if $smarty.get.ad != "no" && $noAd != "true"%>
-			<%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || (date("Ymd",$smarty.now) >= 20171025 && $smarty.cookies.randForAd < 50) %>
+			<%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || $smarty.cookies.randForAd < 80 %>
 				<script type="text/javascript">
 					document.write (writeAdNew({
 						devices: ['PC', 'PadWeb','PadApp'],
@@ -421,6 +421,15 @@
 			</ul>
 		</div>
 
+		<%if $smarty.get.v != ""%>
+		<%assign var="v" value=$smarty.get.v|floatval%>
+			<%if $v >= 6.3%>
+				<div class="links-container">
+					<h2 class="list-title"><a>往期查询</a></h2>
+					<div id="archive-calendar" class="calendar"></div>
+				</div>
+			<%/if%>
+		<%/if%>
 
 		<div class="clearfloat"></div>
 		<div class="side-list last-child headlineOnly">
