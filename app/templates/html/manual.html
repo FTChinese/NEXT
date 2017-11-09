@@ -193,9 +193,16 @@
                             var todaydate1 = thisday1.getFullYear() + "-" + (thisday1.getMonth() + 1) + "-" + thisday1.getDate();
                             var fullsc = GetCookie("rb2");
                             var loadFullAtEnd = false;
+                            <%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || $smarty.cookies.randForAd < 80 %>
+                            var adchHome = '10001000';
+                            var adPositionHome = '0101';
+                            var fullPageAdchId = adchHome + adPositionHome;
+                            <%/if%>
+                            <%else%>
                             var adchHome = '1000';
                             var adPositionHome = '0014';
                             var fullPageAdchId = adchHome + adPositionHome;
+                            <%/if%>
                             var testFullPageAd = false;
                             if (window.adchID !== '1000' && window.adchID !== undefined && /[0-9]{4}/.test(window.adchID)) {
                                 fullPageAdchId =  window.adchID + '0014';
