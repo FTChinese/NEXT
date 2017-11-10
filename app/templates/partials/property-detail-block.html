@@ -32,11 +32,37 @@
             <div class="items">
                 <ul class="indentation">
                     <li><span><%$realProperty.propertyNature%></span></li>
+                    
+                    <%if $realProperty.price|string_format:"%d" eq 0%>
+                    <li><span><strong><%$propertytDataName.Discuss_Personally%></strong></span></li> 
+                    <%else%>
                     <li><span> <strong><%$realProperty.price%><%$realProperty.priceUnit%></strong>&nbsp; </span></li>
+                    <%/if%>
+
+                    <%if $realProperty.propertyStyle eq ''%> 
+                    <%else%>
                     <li><%$propertytDataName.Property_Style%>: <span><%$realProperty.propertyStyle%></span></li>
+                    <%/if%>
+
+                    <%if $realProperty.bedroom eq 0%> 
+                    <%else%>
+                    <li><%$propertytDataName.Bedroom%>: <span><%$realProperty.bedroom%></span></li>
+                    <%/if%>
+
+                    <%if $realProperty.bathroom eq 0%> 
+                    <%else%>
+                    <li><%$propertytDataName.Bathroom%>: <span><%$realProperty.bathroom%></span></li>
+                    <%/if%>
+
+                    <%if $realProperty.halfBathroom eq 0%> 
+                    <%else%>
+                    <li><%$propertytDataName.Half_Bathroom%>: <span><%$realProperty.halfBathroom%></span></li>
+                    <%/if%>
+
+                  <%*  <li><%$propertytDataName.Property_Style%>: <span><%$realProperty.propertyStyle%></span></li>
                     <li><%$propertytDataName.Bedroom%>: <span><%$realProperty.bedroom%></span></li>
                     <li><%$propertytDataName.Bathroom%>: <span><%$realProperty.bathroom%></span></li>
-                    <li><%$propertytDataName.Half_Bathroom%>: <span><%$realProperty.halfBathroom%></span></li>
+                    <li><%$propertytDataName.Half_Bathroom%>: <span><%$realProperty.halfBathroom%></span></li> *%>
                 </ul>
                 <div class="clearfloat"></div>
             </div>

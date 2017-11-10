@@ -4,13 +4,13 @@
           <div id="searchContainer" >
     <div class="floatClass select-search-group" >
                 <select  id="property-nature" name="property-nature">
-                <option value="forSale" <%if $searchedProperty.propertyNature == '0'%> selected='selected'<%/if%>>For Sale</option>
-                <option value="forRent" <%if $searchedProperty.propertyNature == '1'%> selected='selected'<%/if%>>For Rent</option>
+                <option value="forSale" <%if $searchedProperty.propertyNature == '0'%> selected='selected'<%/if%>><%$propertytDataName.For_Sale%></option>
+                <option value="forRent" <%if $searchedProperty.propertyNature == '1'%> selected='selected'<%/if%>><%$propertytDataName.For_Rent%></option>
                 </select>
     </div>
 
     <div class="floatClass input-search-group">
-        <input placeholder="Search country, area or city" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0"  id="property-position" name="property-position">
+        <input placeholder="<%$propertytDataName.search_area%>" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0"  id="property-position" name="property-position">
     </div>
     <div>
         <button class="select-search-button" id="select-search-button" ></button>
@@ -37,8 +37,27 @@
                             <figure class="is-retina" data-url="<%$propertyItem.coverImage%>">
                             <img src="<%$propertyItem.coverImage%>" data-backupimage="<%$propertyItem.coverImage%>">
                             <img class="logoImage" src="<%$propertyItem.companyImage%>"></figure></a>
+
+                            
+
+                            <%if $propertyItem.price|string_format:"%d" eq 0%> 
+                            <div class="item-lead"><%$propertytDataName.Discuss_Personally%></div>
+                            <%else%>
                             <div class="item-lead"><%$propertyItem.priceUnit%>  <%$propertyItem.price%></div>
-                            <div class="item-time"><%$propertyItem.bedroom%>BED <%$propertyItem.bedroom%>BATH</div>
+                            <%/if%>  
+                            
+                            <div class="item-time">
+                            <%if $propertyItem.bedroom eq 0%> 
+                            <%else%>
+                            <%$propertyItem.bedroom%>BED 
+                            <%/if%>    
+                            <%if $propertyItem.bathroom eq 0%> 
+                            <%else%>
+                            <%$propertyItem.bathroom%>BATH
+                            <%/if%>
+                            
+                            </div>
+
                             <div class="item-bottom"></div>
                             </div>
                         </div>
