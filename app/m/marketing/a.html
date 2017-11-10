@@ -132,11 +132,13 @@ try {
     /*<%else%>*/
         window.refreshTime = 10;
     /*<%/if%>*/
-if (/100010000201|100010000411|100010000412|100010000421|100010000301/.test(c)) {
+/*
+    if (/100010000201|100010000411|100010000412|100010000421|100010000301/.test(c)) {
     setTimeout(function(){
         location.reload();
     }, 1000 * 60 * window.refreshTime);
 }
+*/
 /*<%/if%>*/
 
 </script>
@@ -220,10 +222,10 @@ if ( window.parent.document.getElementById(parentId)) {
                     parentIframe.parentNode.style.height = adHeight + 'px';
                 }
             }
-            window.parent.stickyBottomPrepare();            
+            window.parent.stickyBottomPrepare();
         } catch (err) {
             setTimeout (function(){
-                window.parent.stickyBottomPrepare(); 
+                window.parent.stickyBottomPrepare();
             }, 3000);
         }
     } else if (adFullWidth === true) {
@@ -231,7 +233,7 @@ if ( window.parent.document.getElementById(parentId)) {
             window.parent.stickyBottomPrepare();
         } catch (ignore) {
             setTimeout (function(){
-                window.parent.stickyBottomPrepare(); 
+                window.parent.stickyBottomPrepare();
             }, 3000);
         }
     }
@@ -250,7 +252,7 @@ if ( window.parent.document.getElementById(parentId)) {
             }
         }, 1000);
     }
-    
+
 }
 
 if (window.parent && parentId !== '' && /^banner/.test(parentId) && typeof stickyHeight === 'number' && stickyHeight > 0) {
@@ -265,7 +267,7 @@ if (window.parent && parentId !== '' && /^banner/.test(parentId) && typeof stick
         window.parent.stickyAdsPrepare();
         window.parent.stickyBottomPrepare();
     } catch (ignore) {
-        
+
     }
 }
 //in a iframe of h5 template
@@ -278,7 +280,7 @@ if (window.parent && typeof window.parent.mpuAds === 'object' && parentId !== ''
         if (document.querySelector('.ad a')) {
             adUrl = document.querySelector('.ad a').href || '';
         }
-        
+
         if (adUrl !== '') {
             if (parentContainer.getElementsByTagName('a').length===0) {
                 overlayLink = document.createElement("a");
