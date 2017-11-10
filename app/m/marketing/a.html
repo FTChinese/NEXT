@@ -125,13 +125,20 @@ try {
 </script>
 
 <script>
-//<%*
-// if (/^1[347]000003$/.test(c) || /^1[347]000012$/.test(c) || c === '10000004') {
-//     setTimeout(function(){
-//         location.reload();
-//     }, 1000 * 60 * 5);
-// }
-//*%>
+/*<%if date("Ymd",$smarty.now) <= 20171231%>*/
+
+    /*<%if date("Ymd",$smarty.now) == 20171117 && date("Ymd",$smarty.now) == 20171124%>*/
+        window.refreshTime = 20;
+    /*<%else%>*/
+        window.refreshTime = 10;
+    /*<%/if%>*/
+if (/100010000201|100010000411|100010000412|100010000421|100010000301/.test(c)) {
+    setTimeout(function(){
+        location.reload();
+    }, 1000 * 60 * window.refreshTime);
+}
+/*<%/if%>*/
+
 </script>
 
 
