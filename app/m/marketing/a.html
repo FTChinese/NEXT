@@ -45,6 +45,9 @@ img {
 
 
 <script>
+var parentIframe;
+
+
 
 function removeAd() {
     //alert ('removeAd');
@@ -132,13 +135,22 @@ try {
     /*<%else%>*/
         window.refreshTime = 10;
     /*<%/if%>*/
-/*
-    if (/100010000201|100010000411|100010000412|100010000421|100010000301/.test(c)) {
-    setTimeout(function(){
-        location.reload();
-    }, 1000 * 60 * window.refreshTime);
+if (/100010000201|100010000411|100010000412|100010000421|100010000301/.test(c)) {
+setTimeout(function(){
+    if ( window.parent.document.getElementById(parentId)) {
+        parentIframe = window.parent.document.getElementById(parentId);
+        var divAddedByClient = parentIframe.parentNode.querySelectorAll('div')[0];
+        if (divAddedByClient !== undefined) {
+            divAddedByClient.outerHTML = '';
+            delete divAddedByClient;
+        }
+        parentIframe.style = '';
+        parentIframe.setAttribute('width', '100%');
+    }
+    location.reload();
+}, 1000 * 60 * window.refreshTime);
 }
-*/
+
 /*<%/if%>*/
 
 </script>
@@ -160,13 +172,10 @@ if (obj.offsetParent) {
 }
 
 var adContainerHeight;
-var parentIframe;
 var adBottom = document.getElementById('ad-bottom');
 var adHeight = findTop(adBottom);
 var adResized = false;
 var adFullWidth = false;
-
-
 var w=0;
 
 if ( window.parent.document.getElementById(parentId)) {
