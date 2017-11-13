@@ -20,7 +20,7 @@
 
 <%assign var="channelname" value=" <span>`$tagtitle`</span>"%>
 <%if !isset($adchannelID)||$adchannelID ==""%>
-    <%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || $smarty.cookies.randForAd < 80%>
+    <%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || date("Ymd",$smarty.now) >= 20171114 ||  $smarty.cookies.randForAd < 80%>
         <%assign var="adchannelID" value="5000"%>
     <%else%>
         <%assign var="adchannelID" value="2000"%>
@@ -31,7 +31,7 @@
     <%assign var="adchannelID" value="1100"%>
 <%/if%>
 
-<%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || $smarty.cookies.randForAd < 80%>
+<%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || date("Ymd",$smarty.now) >= 20171114 ||  $smarty.cookies.randForAd < 80%>
     <%assign var="adchannelID" value=$adchannelID|regex_replace:"/^(20)(..)$/":'50${2}'%>
 
 <%/if%>
@@ -171,7 +171,7 @@
     <%include file="next/partials/tag-header.html"%>
     <%include file="next/partials/nav.html"%>
     <%if $pageTheme != "luxury"%>
-        <%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || $smarty.cookies.randForAd < 80%>
+        <%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || date("Ymd",$smarty.now) >= 20171114 ||  $smarty.cookies.randForAd < 80%>
             <%include file="next/partials/banner-new.html"%>
         <%else%>
             <%include file="next/partials/banner.html"%>
@@ -211,7 +211,7 @@
     <script type="text/javascript">
         window.adchID = '<%$adchannelID|default:$adchId%>';
     </script>
-    <%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || $smarty.cookies.randForAd < 80%>
+    <%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || date("Ymd",$smarty.now) >= 20171114 ||  $smarty.cookies.randForAd < 80%>
         <%include file="next/partials/banner-new.html"%>
     <%else%>
         <%include file="next/partials/banner.html"%>
