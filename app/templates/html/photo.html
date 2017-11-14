@@ -114,7 +114,7 @@
       <%include file="next/partials/header.html"%>
       <%include file="next/partials/nav.html"%>
       <%if !preg_match("/艺术品投资/is",$info.tags) && !preg_match("/乐尚街/is",$info.tags)%>
-         <%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || $smarty.cookies.randForAd < 80%>
+         <%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || date("Ymd",$smarty.now) >= 20171114 ||  $smarty.cookies.randForAd < 80%>
             <%include file="next/partials/banner-new.html"%>
         <%else%>
             <%include file="next/partials/banner.html"%>
