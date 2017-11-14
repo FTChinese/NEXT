@@ -93,6 +93,13 @@ function showTextImageForAd(sourceInfo) {
       ga('send','event','Text and Image Ad', 'click footer', adTitle);
       window.footerMoreShowed = true;
       gReplacedInstroyWithAd = true;
+      // var randomNumber1 = Math.random();
+      // if (randomNumber1 < 0.7) {
+      //   setTimeout(function(){
+      //     document.getElementById('footer-more-frame').style.width = '1200px';
+      //     document.getElementById('footer-more-frame').style.height = '3500px';
+      //   }, 2000);
+      // }
     }
   }
 }
