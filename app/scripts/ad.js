@@ -594,6 +594,11 @@ function writeAdNew(obj) {
   }
   if (typeof(window.FTadchannelID)!=='undefined' && window.FTadchannelID && !fromURL) {
     adch = window.FTadchannelID;
+  } 
+  //MARK:Mobile情况下的频道要抹去二级频道（一级频道为50开头的除外）
+  var mobileDeviceTypeArr = ['iPhoneApp','iPhoneWeb','AndroidApp','AndroidWeb','PadApp','PadWeb'];
+  if (adch && mobileDeviceTypeArr.indexOf(deviceType) >= 0 && adch.substring(0,2)!== '50' && adch.substring(2,4)!=='00') {
+    adch = adch.substring(0,2) + '00';
   }
   var adChannelId = adch||'1000';
   //var adChannelId = '1000'; // window.dasfdafa || '1000'

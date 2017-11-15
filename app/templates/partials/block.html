@@ -1012,7 +1012,8 @@
 								<%assign var="audioData" value=" data-audio=\"`$audioUrl`\""%>
 							<%/if%>
 							<%assign var="itemClass" value="`$itemClass` item-container-app"%>
-							<%assign var="itemData" value=" data-id=\"`$item.id`\" data-type=\"`$itemType`\"`$audioData`"%>
+							<%assign var="itemDataId" value=$item.id|default:$item.customLink%>
+							<%assign var="itemData" value=" data-id=\"`$itemDataId`\" data-type=\"`$itemType`\"`$audioData`"%>
 						<%/if%>
 
 
