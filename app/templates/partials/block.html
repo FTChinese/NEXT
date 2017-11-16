@@ -1013,7 +1013,14 @@
 							<%/if%>
 							<%assign var="itemClass" value="`$itemClass` item-container-app"%>
 							<%assign var="itemDataId" value=$item.id|default:$item.customLink%>
-							<%assign var="itemData" value=" data-id=\"`$itemDataId`\" data-type=\"`$itemType`\"`$audioData`"%>
+							<%if $itemDataId == "" && $item.customLink != ""%>
+								<%assign var="itemDataId" value=$item.customLink%>
+							<%/if%>
+							<%assign var="itemDataType" value=$itemType%>
+							<%if $smarty.get.try == "yes" && $i>2%>
+								<%assign var="itemDataType" value="TryBook"%>
+							<%/if%>
+							<%assign var="itemData" value=" data-id=\"`$itemDataId`\" data-type=\"`$itemDataType`\"`$audioData`"%>
 						<%/if%>
 
 

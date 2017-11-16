@@ -26,64 +26,52 @@
 	<%/if%>
 
 	<%if $smarty.get.ad != "no" && $noAd != "true" && $hideMPU1 != "yes"%>
-		<%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || date("Ymd",$smarty.now) >= 20171114 ||  $smarty.cookies.randForAd < 80%>
-			<script type="text/javascript">
-				document.write (writeAdNew({
-					devices: ['PC', 'PadWeb','iPhoneApp','AndroidApp'],
-					pattern:'MPU',
-					position:'Right1'
-				}));
-			</script>
-		<%else%>
-			<div class="mpu-container<%if $tagabout == ""%> first-child<%/if%>">
-				<script type="text/javascript">document.write (writeAd('tagmpu'));</script>
-			</div>
-		<%/if%>
+		<script type="text/javascript">
+			document.write (writeAdNew({
+				devices: ['PC', 'PadWeb','PadApp'],
+				pattern:'MPU',
+				position:'Right1'
+			}));
+		</script>
 	<%/if%>
 
 	<%if $storymodel != ""%>
-    <%if $hideHotStory != "yes"%>
-		<div class="mps">
-			<h2 class="list-title"><a href="/channel/weekly.html">热门文章</a></h2>
-			<ul class="top10">
-				<%assign var="i" value=0%>
-				<%*<!-- easy api is broken, switch to old model
-				<%easyapi command="60006"%>
-				<%foreach from=$data.odatalist item=sc name=foo%>
-					<%assign var="i" value=$i+1%>
-					<li class="mp<%$i%>"><span><%$i%>. </span><a target="_blank" href="/story/<%$sc.storyid%>?dailypop"><%$sc.title%></a></li>
-				<%/foreach%>
-				-->*%>
-				<%assign var="mp" value=$storymodel->get_hot_story(1,10)%>
-				<%foreach from=$mp item=sc%>
-					<%assign var="i" value=$i+1%>
-					<li class="mp<%$i%>"><span><%$i%>. </span><a target="_blank" href="/story/<%$sc.storyid%>?dailypop"><%$sc.cheadline%></a></li>
-				<%/foreach%>
+	    <%if $hideHotStory != "yes"%>
+			<div class="mps P-hide">
+				<h2 class="list-title"><a href="/channel/weekly.html">热门文章</a></h2>
+				<ul class="top10">
+					<%assign var="i" value=0%>
+					<%*<!-- easy api is broken, switch to old model
+					<%easyapi command="60006"%>
+					<%foreach from=$data.odatalist item=sc name=foo%>
+						<%assign var="i" value=$i+1%>
+						<li class="mp<%$i%>"><span><%$i%>. </span><a target="_blank" href="/story/<%$sc.storyid%>?dailypop"><%$sc.title%></a></li>
+					<%/foreach%>
+					-->*%>
+					<%assign var="mp" value=$storymodel->get_hot_story(1,10)%>
+					<%foreach from=$mp item=sc%>
+						<%assign var="i" value=$i+1%>
+						<li class="mp<%$i%>"><span><%$i%>. </span><a target="_blank" href="/story/<%$sc.storyid%>?dailypop"><%$sc.cheadline%></a></li>
+					<%/foreach%>
 
-			</ul>
-		</div>
-	<%/if%>
+				</ul>
+			</div>
+		<%/if%>
 
-    <%if (((date("Ymd",$smarty.now) >= 20160912 && date("Ymd",$smarty.now) <= 20161031) || $smarty.get.demo == '1') && $adchannelID == "2047") || ((date("Ymd",$smarty.now) >= 20160912 && date("Ymd",$smarty.now) <= 20161031) && $showIFrame == "yes") %>
-        <div class="mps">
-            <iframe width="300" height="700" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="http://www.ftchinese.com/index.php/poll/index/18" data-src="http://www.ftchinese.com/index.php/poll/index/18" data-ad-type="mpu" data-ad-count="0"></iframe>
-        </div>
-    <%/if%>
+	    <%if (((date("Ymd",$smarty.now) >= 20160912 && date("Ymd",$smarty.now) <= 20161031) || $smarty.get.demo == '1') && $adchannelID == "2047") || ((date("Ymd",$smarty.now) >= 20160912 && date("Ymd",$smarty.now) <= 20161031) && $showIFrame == "yes") %>
+	        <div class="mps">
+	            <iframe width="300" height="700" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="http://www.ftchinese.com/index.php/poll/index/18" data-src="http://www.ftchinese.com/index.php/poll/index/18" data-ad-type="mpu" data-ad-count="0"></iframe>
+	        </div>
+	    <%/if%>
 
 		<%if $smarty.get.ad != "no" && $noAd != "true" && $hideMPU2 != "yes"%>
-			<%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || date("Ymd",$smarty.now) >= 20171114 ||  $smarty.cookies.randForAd < 80 %>
-				<script type="text/javascript">
-					document.write (writeAdNew({
-						devices: ['PC', 'PadWeb','iPhoneApp','AndroidApp'],
-						pattern:'MPU',
-						position:'Right2'
-					}));
-				</script>
-			<%else%>
-				<div class="mpu-container last-child">
-					<script type="text/javascript">document.write (writeAd('tagmpu'));</script>
-				</div>
-			<%/if%>
+			<script type="text/javascript">
+				document.write (writeAdNew({
+					devices: ['PC', 'PadWeb','PadApp'],
+					pattern:'MPU',
+					position:'Right2'
+				}));
+			</script>
 		<%/if%>
 
 	<%/if%>
