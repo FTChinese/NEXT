@@ -62,6 +62,27 @@
 
 <%if $debug_model == 1%>
 <div style="text-align: center; background-color: #FFFFFF; font-size: 38px; margin: 20px;font-weight:bold;"><a title="刷新本页CDN与服务器缓存" href="/index.php/marketing/flushcache?url=http://www7.ftchinese.com<%$smarty.server.REQUEST_URI|urlencode%>">刷新本页缓存</a></div>
+
+<div style="text-align: center; background-color: #FFFFFF; font-size: 38px; margin: 20px;font-weight:bold;"><a title="提取本页的所有链接，便于在谷歌分析中查询流量" onclick="javascript:getAllLinksFromPage(this);">提取本页链接</a></div>
+<script>
+	function getAllLinksFromPage(ele) {
+		var allLinks = document.querySelectorAll('a[href]');
+		var linksArray = [];
+		var hostName = window.location.host;
+		for (var i=0; i<allLinks.length; i++) {
+		var linkText = allLinks[i].href;
+		linkText = linkText.replace('http://' + hostName, "");
+		if (/story\/|interactive\/|video\/|photonews/.test(linkText)) {
+		linkText = linkText.replace(/[\?#].*$/g, '');
+		if (linksArray.indexOf(linkText)<0) {
+		linksArray.push(linkText);
+		}
+		}
+		}
+		ele.innerHTML = '<textarea rows=3 style="width:100%">'+linksArray.join('|')+'</textarea>'
+		//alert (linksArray.join('|'));
+	}
+</script>
 <%/if%>
 
 

@@ -206,6 +206,18 @@
 		</div>
 	<%else%>
 
+		<div class="P-hide" style="padding-top: 15px;"></div>
+
+		<%if $smarty.get.ad != "no" && $noAd != "true"%>
+			<script type="text/javascript">
+				document.write (writeAdNew({
+					devices: ['PC', 'PadWeb','PadApp'],
+					pattern:'MPU',
+					position:'Right1'
+				}));
+			</script>
+		<%/if%>
+
 		<div id="iap-ebooks"></div>
 
 		<div class="interactives">
@@ -274,27 +286,6 @@
 			<div class="clearfloat"></div>
 			</div>
 		</div>
-
-
-		<%if $smarty.get.ad != "no" && $noAd != "true"%>
-			<%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || date("Ymd",$smarty.now) >= 20171114 ||  $smarty.cookies.randForAd < 80%>
-				<script type="text/javascript">
-					document.write (writeAdNew({
-						devices: ['PC', 'PadWeb','PadApp'],
-						pattern:'MPU',
-						position:'Right1'
-					}));
-				</script>
-			<%else%>
-				<div class="mpu-container">
-					<script type="text/javascript">document.write (writeAd('mpu'));</script>
-				</div>
-			<%/if%>
-		<%/if%>
-
-
-
-
 
 		<div class="interactives">
 			<h2 class="list-title"><a href="/channel/mba.html?webview=ftcapp">FT商学院</a></h2>
@@ -365,23 +356,18 @@
 
 
 		<%if $smarty.get.ad != "no" && $noAd != "true"%>
-			<%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || date("Ymd",$smarty.now) >= 20171114 ||  $smarty.cookies.randForAd < 80 %>
-				<script type="text/javascript">
-					document.write (writeAdNew({
-						devices: ['PC', 'PadWeb','PadApp'],
-						pattern:'MPU',
-						position:'Right2'
-					}));
-				</script>
-			<%else%>
-				<div class="mpu-container">
-				    <script type="text/javascript">document.write (writeAd('mpu'));</script>
-				</div>
-			<%/if%>
+			<script type="text/javascript">
+				document.write (writeAdNew({
+					devices: ['PC', 'PadWeb','PadApp'],
+					pattern:'MPU',
+					position:'Right2'
+				}));
+			</script>
 		<%/if%>
 
+
 		<%assign var="ftintelligence" value=$interactivemodel->get_interactive_by_field_search("find_in_set('FT研究院',tag) and find_in_set('报告',tag)",0,4,1000,10800)%>
-		<div class="videos">
+		<div class="videos P-only">
 			<h2 class="list-title"><a href="/m/marketing/intelligence.html?webview=ftcapp">FT研究院</a></h2>
 			<div class="item-container first"><div class="item-inner">
 			<a class="image" href="/interactive/<%$ftintelligence[0].id%>" target=_blank><figure class="loading" data-url="<%$ftintelligence[0].story_pic.cover|default:$ftintelligence[0].story_pic.bigbutton%>"></figure></a>
@@ -402,7 +388,7 @@
 		</div>
 
 		<div class="clearfloat"></div>
-		<div class="mps">
+		<div class="mps P-only">
 			<h2 class="list-title"><a href="/channel/weekly.html">热门文章</a></h2>
 			<ul class="top10">
 				<%assign var="i" value=0%>
@@ -442,8 +428,6 @@
 				<h2 class="item-headline"><a href="mailto:ftchinese.feedback@gmail.com?subject=Feedback about FTC Web App - from home page">通过电子邮件反馈</a></h2>
 			</div></div>
 		</div>
-
-
 
 	<%/if%>
 
