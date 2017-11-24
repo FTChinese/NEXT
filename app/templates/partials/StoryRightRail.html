@@ -7,19 +7,13 @@
 	<%/if%>
 
 	<%if $smarty.get.ad != "no" && $noAd != "true" && $hideMPU1 != "yes"%>
-		<%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || date("Ymd",$smarty.now) >= 20171114 ||  $smarty.cookies.randForAd < 80%>
-			<script type="text/javascript">
-				document.write (writeAdNew({
-						devices: ['PC','PadWeb','PadApp'],
-						pattern:'MPU',
-						position:'Right1'
-				}));
-			</script>
-		<%else%>
-			<div class="mpu-container<%if $tagabout == ""%> first-child<%/if%>">
-				<script type="text/javascript">document.write (writeAd('storympuRight'));</script>
-			</div>
-		<%/if%>
+		<script type="text/javascript">
+			document.write (writeAdNew({
+					devices: ['PC','PadWeb','PadApp'],
+					pattern:'MPU',
+					position:'Right1'
+			}));
+		</script>
 	<%/if%>
 
 
@@ -73,19 +67,13 @@
 
 
 	<%if $smarty.get.ad != "no" && $noAd != "true" && $hideMPU2 != "yes"%>
-		<%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || date("Ymd",$smarty.now) >= 20171114 ||  $smarty.cookies.randForAd < 80%>
-			<script type="text/javascript">
-				document.write (writeAdNew({
-						devices: ['PC','PadWeb','PadApp'],
-						pattern:'MPU',
-						position:'Right2'
-				}));
-			</script>
-		<%else%>
-			<div class="mpu-container<%if $story.tag|@count==0%> last-child<%/if%>">
-					<script type="text/javascript">document.write (writeAd('storympuRight'));</script>
-			</div>
-		<%/if%>
+		<script type="text/javascript">
+			document.write (writeAdNew({
+					devices: ['PC','PadWeb','PadApp'],
+					pattern:'MPU',
+					position:'Right2'
+			}));
+		</script>
 	<%/if%>
 
 	<%if $story.tag|@count>=1%>

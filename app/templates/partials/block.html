@@ -1144,30 +1144,24 @@
 									<%/if%>
 								<%else%>
 									<%if $i == 8%>
-										<%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || date("Ymd",$smarty.now) >= 20171114 ||  $smarty.cookies.randForAd < 80%>
-											<script type="text/javascript">
-												document.write (writeAdNew({
-														devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
-														pattern:'MPU',
-														position:'Middle1'
-												}));
-											</script>
-										<%else%>
-											<div class="mpu-container P-only"><script type="text/javascript">document.write (writeAd('<%$mpuName%>'));</script></div>
-										<%/if%>
+										<script type="text/javascript">
+											document.write (writeAdNew({
+													devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
+													pattern:'MPU',
+													position:'Middle1'
+											}));
+										</script>
 									<%/if%>
 									<%if $i == 1%>
-										<%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || date("Ymd",$smarty.now) >= 20171114 ||  $smarty.cookies.randForAd < 80%>
-											<div class="hide-iframe">
-												<script type="text/javascript">
-														document.write(writeAdNew({
-																devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
-																pattern:'Information',
-																position:'Num1'
-														}));
-												</script>
-											</div>
-										<%/if%>
+										<div class="hide-iframe">
+											<script type="text/javascript">
+													document.write(writeAdNew({
+															devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
+															pattern:'Information',
+															position:'Num1'
+													}));
+											</script>
+										</div>
 									<%/if%>
 								<%/if%>
 							<%/if%>
@@ -1247,48 +1241,35 @@
 						<%assign var="mpuPosition" value="tagmpu"%>
 					<%/if%>
 					<%if $smarty.get.ad != "no" && $noAd != "true"%>
-						<%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || date("Ymd",$smarty.now) >= 20171114 ||  $smarty.cookies.randForAd < 80 %>
-								<%if $list.image != ""%>
-									<%if $list.url && $list.url != ""%>
-										<%assign var="listLink" value=" href=\"`$list.url`\" target=_blank"%>
-									<%else%>
-										<%assign var="listLink" value=""%>
-									<%/if%>
-									<div class="mpu-container<%$firstChildClass%><%$lastChildClass%>">
-										<a<%$listLink%>><figure class="loading" data-url="<%$list.image%>"></figure></a>
-									</div>
-								<%else%>
-									<script type="text/javascript">
-										var mpuCount = '<%$sideMpuCount%>';
-										if(mpuCount == 0) {
-											document.write (writeAdNew({
-													devices: ['PC','PadApp','PadWeb'],
-													pattern:'MPU',
-													position:'Right1'
-											}));
-										} else if(mpuCount == 1){
-											document.write (writeAdNew({
-													devices: ['PC','PadApp','PadWeb'],
-													pattern:'MPU',
-													position:'Right2'
-											}));
-										}
-									</script>
-								<%/if%>
-						<%else%>
+						
+						<%if $list.image != ""%>
+							<%if $list.url && $list.url != ""%>
+								<%assign var="listLink" value=" href=\"`$list.url`\" target=_blank"%>
+							<%else%>
+								<%assign var="listLink" value=""%>
+							<%/if%>
 							<div class="mpu-container<%$firstChildClass%><%$lastChildClass%>">
-								<%if $list.image != ""%>
-									<%if $list.url && $list.url != ""%>
-										<%assign var="listLink" value=" href=\"`$list.url`\" target=_blank"%>
-									<%else%>
-										<%assign var="listLink" value=""%>
-									<%/if%>
-									<a<%$listLink%>><figure class="loading" data-url="<%$list.image%>"></figure></a>
-								<%else%>
-										<script type="text/javascript">document.write (writeAd('<%$mpuPosition%>'));</script>
-								<%/if%>
+								<a<%$listLink%>><figure class="loading" data-url="<%$list.image%>"></figure></a>
 							</div>
+						<%else%>
+							<script type="text/javascript">
+								var mpuCount = '<%$sideMpuCount%>';
+								if(mpuCount == 0) {
+									document.write (writeAdNew({
+											devices: ['PC','PadApp','PadWeb'],
+											pattern:'MPU',
+											position:'Right1'
+									}));
+								} else if(mpuCount == 1){
+									document.write (writeAdNew({
+											devices: ['PC','PadApp','PadWeb'],
+											pattern:'MPU',
+											position:'Right2'
+									}));
+								}
+							</script>
 						<%/if%>
+				
 						<%assign var="s" value=$s+1%>
 						<%assign var="sideMpuCount" value=$sideMpuCount+1%>
 					<%/if%>

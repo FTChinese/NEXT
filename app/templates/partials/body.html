@@ -17,12 +17,7 @@
         <%/if%>
         <%include file="next/partials/nav.html"%>
     <%elseif $section.type == "banner" %>
-        <%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || date("Ymd",$smarty.now) >= 20171114 ||  $smarty.cookies.randForAd < 80 %>
-            <%include file="next/partials/banner-new.html"%>
-        <%else%>
-            <%include file="next/partials/banner.html"%>
-        <%/if%>
-
+        <%include file="next/partials/banner-new.html"%>
         <%if $section.image && $section.image == ""%>
         <%else%>
             <%assign var="bannerCount" value=$bannerCount+1%>
