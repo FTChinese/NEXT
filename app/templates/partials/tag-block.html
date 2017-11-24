@@ -386,27 +386,23 @@
 					<%if $smarty.get.ad != "no"%>
 						<%assign var="mpuName" value="taginlinempu"%>
 						<%if $i == 8 || $i == 17%>
-								<%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || date("Ymd",$smarty.now) >= 20171114 ||  $smarty.cookies.randForAd < 80%>
-									<%if $i == 8 %>
-										<script type="text/javascript">
-											document.write (writeAdNew({
-												devices: ['iPhoneWeb', 'AndroidWeb','iPhoneApp','AndroidApp'],
-												pattern:'MPU',
-												position:'Middle1'
-											}));
-										</script>
-									<%elseif $i == 17 %>
-										<script type="text/javascript">
-											document.write (writeAdNew({
-												devices: ['iPhoneWeb', 'AndroidWeb','iPhoneApp','AndroidApp'],
-												pattern:'MPU',
-												position:'Middle2'
-											}));
-										</script>
-									<%/if%>
-							<%else%>
-								<div class="mpu-container P-only"><script type="text/javascript">document.write (writeAd('<%$mpuName%>'));</script></div>
-							<%/if%>
+								<%if $i == 8 %>
+									<script type="text/javascript">
+										document.write (writeAdNew({
+											devices: ['iPhoneWeb', 'AndroidWeb','iPhoneApp','AndroidApp'],
+											pattern:'MPU',
+											position:'Middle1'
+										}));
+									</script>
+								<%elseif $i == 17 %>
+									<script type="text/javascript">
+										document.write (writeAdNew({
+											devices: ['iPhoneWeb', 'AndroidWeb','iPhoneApp','AndroidApp'],
+											pattern:'MPU',
+											position:'Middle2'
+										}));
+									</script>
+								<%/if%>
 						<%/if%>
 					<%/if%>
 					<%*<!--insert an extra MPU for mobile phone temporarily end-->*%>

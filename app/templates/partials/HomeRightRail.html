@@ -86,7 +86,6 @@
 		
 
 		<%if $smarty.get.ad != "no" && $noAd != "true"%>
-			<%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || date("Ymd",$smarty.now) >= 20171114 ||  $smarty.cookies.randForAd < 80%>
 				<script type="text/javascript">
 					document.write (writeAdNew({
 						devices: ['PC', 'PadWeb', 'PadApp'],
@@ -94,11 +93,6 @@
 						position:'Right1'
 					}));
 				</script>
-			<%else%>
-				<div class="mpu-container">
-					<script type="text/javascript">document.write (writeAd('mpu'));</script>
-				</div>
-			<%/if%>
 		<%/if%>
 
 		<div class="interactives">
@@ -169,19 +163,13 @@
 		</div>
 
 		<%if $smarty.get.ad != "no" && $noAd != "true"%>
-			<%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || date("Ymd",$smarty.now) >= 20171114 ||  $smarty.cookies.randForAd < 80 %>
-				<script type="text/javascript">
-					document.write (writeAdNew({
-						devices: ['PC', 'PadWeb', 'PadApp'],
-						pattern:'MPU',
-						position:'Right2'
-					}));
-				</script>
-			<%else%>
-				<div class="mpu-container">
-				    <script type="text/javascript">document.write (writeAd('mpu'));</script>
-				</div>
-			<%/if%>
+			<script type="text/javascript">
+				document.write (writeAdNew({
+					devices: ['PC', 'PadWeb', 'PadApp'],
+					pattern:'MPU',
+					position:'Right2'
+				}));
+			</script>
 		<%/if%>
 
 		<%assign var="ftintelligence" value=$interactivemodel->get_interactive_by_field_search("find_in_set('FT研究院',tag) and find_in_set('报告',tag)",0,4,1000,10800)%>

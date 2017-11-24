@@ -19,18 +19,12 @@
 		</ul>
 	</div>
 	<%if $smarty.get.ad != "no" && $noAd != "true"%>
-		<%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || date("Ymd",$smarty.now) >= 20171114 ||  $smarty.cookies.randForAd < 80%>
-			<script type="text/javascript">
-				document.write (writeAdNew({
-						devices: ['PC'],
-						pattern:'MPU',
-						position:'Middle1'
-				}));
-			</script>
-		<%else%>
-			<div class="mpu-container">
-				<script type="text/javascript">document.write (writeAd('mpu'));</script>
-			</div>
-		<%/if%>
-    <%/if%>
+		<script type="text/javascript">
+			document.write (writeAdNew({
+					devices: ['PC'],
+					pattern:'MPU',
+					position:'Middle1'
+			}));
+		</script>
+  <%/if%>
 </div></div>

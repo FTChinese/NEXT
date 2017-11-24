@@ -163,11 +163,9 @@ if ( screen.width<=480) {
     <%include file="next/partials/header.html"%>
 <%/if%>
 <%include file="next/partials/nav.html"%>
-<%if $smarty.get.newad == "yes" || $smarty.get.webview == "ftcapp" || date("Ymd",$smarty.now) >= 20171114 ||  $smarty.cookies.randForAd < 80%>
-  <%include file="next/partials/banner-new.html"%>
-<%else%>
-  <%include file="next/partials/banner.html"%>
-<%/if%>
+
+<%include file="next/partials/banner-new.html"%>
+
 <%assign var="bannerCount" value=$bannerCount+1%>
 <%include file="next/partials/video-block.html"%>
 <%include file="next/partials/footer.html"%>
