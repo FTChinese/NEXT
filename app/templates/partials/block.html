@@ -1131,7 +1131,7 @@
 								<%/if%>
 							<%*<!--insert 10 bonus MPU for mobile phone temporarily end-->*%>
 
-							<%*<!--insert an extra MPU for mobile phone temporarily start-->*%>
+							<%*<!--insert an extra MPU for mobile phone start-->*%>
 							<%elseif $b == 0 && $l == 0 && $list.float != "VideoWall"%>
 								<%if $pageId == "home"%>
 									<%assign var="mpuName" value="homempu"%>
@@ -1151,6 +1151,9 @@
 													position:'Middle1'
 											}));
 										</script>
+										<%if $smarty.get.webview == "ftcapp" &&date("Ymd",$smarty.now) < 20171128%>
+											<div id="iap-ebooks"></div>
+										<%/if%>
 									<%/if%>
 									<%if $i == 1%>
 										<div class="hide-iframe">
@@ -1165,7 +1168,7 @@
 									<%/if%>
 								<%/if%>
 							<%/if%>
-							<%*<!--insert an extra MPU for mobile phone temporarily end-->*%>
+							<%*<!--insert an extra MPU for mobile phone end-->*%>
 						<%/if%>
 					<%/if%>
 				<%/foreach%>
