@@ -553,6 +553,10 @@ function writeAdNew(obj) {
    * @param obj.position：TYPE String, the key string of var adPattern.xxx.position,Eg: 'Num1','Right1','Middle2'
    * @param obj.container: TYPE String, the container specified for the ad position in a certain page. The priority of obj.container is the highest among obj.container,adPattern.container and 'none'
    */
+  // MARK: If there's ad=no in the url, return empty string immediately
+  if (location.href.indexOf('ad=no')>0) {
+    return '';
+  }
   //MARK: First, get the adid
   var iframeHTML = '';
   var debugString = '';
