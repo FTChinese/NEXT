@@ -1,4 +1,5 @@
-<%*<!-- Mark: - Get the images for WeChat Sharing -->*%>
+<%*
+<!-- Mark: - Get the images for WeChat Sharing -->
 <%if $story_pic.smallbutton != ""%>
 	<%assign var="wechatImage" value=$story_pic.smallbutton%>
 <%elseif $story_pic.cover != ""%>
@@ -10,10 +11,13 @@
 <%/if%>
 <%assign var="wechatImage" value=$wechatImage|urlencode%>
 <%assign var="wechatImage" value="https://www.ft.com/__origami/service/image/v2/images/raw/`$wechatImage`?source=ftchinese&width=300&height=300&quality=lowest"%>
+<!-- Mark: - Get the images for WeChat Sharing -->
+*%>
+
 
 <script>
 var gUaOfPage = navigator.userAgent || navigator.vendor || "";
-if (/micromessenger/i.test(gUaOfPage)) {
-document.write ('<div class="hide"><img src="<%$wechatImage%>"/></div>');
-}
+// if (/micromessenger/i.test(gUaOfPage)) {
+// document.write ('<div class="hide"><img src="<%$wechatImage%>"/></div>');
+// }
 </script>
