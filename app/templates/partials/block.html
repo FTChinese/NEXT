@@ -1010,6 +1010,9 @@
 							<%if preg_match("/.mp3$/is",$item.shortlead) || preg_match("/.mp3$/is",$item.cshortleadbody)%>
 								<%assign var="audioUrl" value=$item.shortlead|default:$item.cshortleadbody%>
 								<%assign var="audioData" value=" data-audio=\"`$audioUrl`\""%>
+							<%else%>
+								<%assign var="audioUrl" value=""%>
+								<%assign var="audioData" value=""%>
 							<%/if%>
 							<%assign var="itemClass" value="`$itemClass` item-container-app"%>
 							<%assign var="itemDataId" value=$item.id|default:$item.customLink%>
@@ -1419,6 +1422,9 @@
 								<%if preg_match("/.mp3$/is",$item.shortlead) || preg_match("/.mp3$/is",$item.cshortleadbody)%>
 									<%assign var="audioUrl" value=$item.shortlead|default:$item.cshortleadbody%>
 									<%assign var="audioData" value=" data-audio=\"`$audioUrl`\""%>
+								<%else%>
+									<%assign var="audioUrl" value=""%>
+									<%assign var="audioData" value=""%>
 								<%/if%>
 								<%assign var="itemClass" value="`$itemClass` item-container-app"%>
 								<%assign var="itemData" value=" data-id=\"`$item.id`\" data-type=\"`$itemType`\"`$audioData`"%>

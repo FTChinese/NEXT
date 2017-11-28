@@ -1,0 +1,29 @@
+<%if date("Ymd",$smarty.now) <= 20171231%>
+    <%if $smarty.get.ad != 'no' && $publishhtml != ""%>
+        <%assign var="ad" value=$publishhtml->get_publish_html("ad")%>
+        <div id=roadblock style="margin:0 auto;position:relative;width:700px;text-align:center;">
+            <script type="text/javascript">
+                var thisday1 = new Date();
+                var todaydate1 = thisday1.getFullYear() + "-" + (thisday1.getMonth() + 1) + "-" + thisday1.getDate();
+                var fullsc = GetCookie("rb2");
+                var loadFullAtEnd = false;
+                var adchHome = '10001000';
+                var adPositionHome = '0101';
+                var fullPageAdchId = adchHome + adPositionHome;
+                var testFullPageAd = false;
+                try {
+                    DeleteCookie('rb2');
+                } catch (ignore) {
+                }
+                if ((fullsc == null && w>490 && isTouchDevice() === false && (todaydate1 == "<%$ad.fullscreen1%>" || todaydate1 == "<%$ad.fullscreen2%>" || todaydate1 == "<%$ad.fullscreen3%>" || todaydate1 == "<%$ad.fullscreen4%>" || todaydate1 == "<%$ad.fullscreen5%>")) || testFullPageAd === true) {
+                    document.write('<scr' + 'ipt type="text/jav' + 'ascript" src="http://dualstack.adsame-1421766300.ap-southeast-1.elb.amazonaws.com/s?z=ft&amp;c=' + fullPageAdchId + '&amp;slot=645072137&amp;_sex=101&amp;_trip=1&amp;_lux=1&amp;_dc=2&amp;_mm=2&amp;_sz=2&amp;_am=2&amp;_ut='+ window.gUserType +'" charset="gbk"></scr' + 'ipt>');
+                    sendEvent('Ad Impression', adchHome, adPositionHome, {'nonInteraction':1});
+                }
+                setTimeout(function () {
+                    stickyBottomPrepare();
+                    stickyAdsPrepare();
+                }, 9000);
+            </script>
+        </div>
+    <%/if%>
+<%/if%>
