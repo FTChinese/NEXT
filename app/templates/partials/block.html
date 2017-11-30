@@ -1014,6 +1014,20 @@
 								<%assign var="audioUrl" value=""%>
 								<%assign var="audioData" value=""%>
 							<%/if%>
+							<%if preg_match("/.mp3$/is",$item.caudio)%>
+								<%assign var="caudioUrl" value=$item.caudio%>
+								<%assign var="caudioData" value=" data-caudio=\"`$caudioUrl`\""%>
+							<%else%>
+								<%assign var="caudioUrl" value=""%>
+								<%assign var="caudioData" value=""%>
+							<%/if%>
+							<%if preg_match("/.mp3$/is",$item.eaudio)%>
+								<%assign var="eaudioUrl" value=$item.eaudio%>
+								<%assign var="eaudioData" value=" data-eaudio=\"`$eaudioUrl`\""%>
+							<%else%>
+								<%assign var="eaudioUrl" value=""%>
+								<%assign var="eaudioData" value=""%>
+							<%/if%>
 							<%assign var="itemClass" value="`$itemClass` item-container-app"%>
 							<%assign var="itemDataId" value=$item.id|default:$item.customLink%>
 							<%if $itemDataId == "" && $item.customLink != ""%>
@@ -1023,7 +1037,7 @@
 							<%if $smarty.get.try == "yes" && $i>2%>
 								<%assign var="itemDataType" value="TryBook"%>
 							<%/if%>
-							<%assign var="itemData" value=" data-id=\"`$itemDataId`\" data-type=\"`$itemDataType`\"`$audioData`"%>
+							<%assign var="itemData" value=" data-id=\"`$itemDataId`\" data-type=\"`$itemDataType`\"`$audioData``$caudioData``$eaudioData`"%>
 						<%/if%>
 
 
