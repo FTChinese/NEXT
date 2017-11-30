@@ -61,8 +61,11 @@ $('body').on('click', '#list-search-button', function () { 
         $(this).attr('href','/index.php/ft/property/list');
     });
 
-    $('body').on('blur', '#client-email', function () {
+$('body').on('blur', '#client-email', function () {
         checkUserName();
+    });
+    $('body').on('blur', '#client-number', function () {
+        checkTel();
     });
  
     function isEmail(str){ 
@@ -78,7 +81,7 @@ $('body').on('click', '#list-search-button', function () { 
                 return;
             }else{
                 $('#client-email').val('');//清空内容 
-                $('#client-email').attr('placeholder','Please enter the correct format email');
+                $('#client-email').attr('placeholder','请输入正确格式邮箱！');
                 $('#client-email').css('background','#FFEC1A');
             }
         }
@@ -91,10 +94,32 @@ $('body').on('click', '#list-search-button', function () { 
         if (name === ''){
             alert('请输入您的称呼');
         }
-        if ((email === '')&&(number === '')){
+        if ((name !== '')&&(email === '')&&(number === '')){
             alert('请您输入您的电子邮箱或者联系电话');
         }
+        if ((email !== '')&&((number !== '')||(email !== ''))){
+            $('#client-name').val('');
+            $('#client-number').val('');
+            $('#client-email').val('');
+        }
     });
+    function checkTel() {
+      var obj = document.getElementById('client-number');
+      var value = obj.value;
+      var regTel2 = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/.test(value);
+      if (value !== '') { 
+        if (!regTel2) { 
+        //   alert('电话号码输入有误！');
+          $('#client-number').val('');//清空内容 
+          $('#client-number').attr('placeholder','请输入正确电话号码！');
+          $('#client-number').css('background','#FFEC1A');
+          return ;
+        }
+      }
+    //   alert('电话号码输入正确！');
+      $('#client-number').css('background','#fff');
+      return true;
+    }
 
    
 })(); 

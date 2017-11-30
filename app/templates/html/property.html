@@ -199,10 +199,10 @@ $('body').on('click', '#select-search-button', function () { 
     var propertyPosition=$('#property-position').val();
     
     if ((propertyNature==="forSale") && (propertyPosition==="")){
-        window.location = '/index.php/ft/property';
-        alert('请输入地区') 
+        /*window.location = '/index.php/ft/property';*/
+        /*alert('请输入地区') */
+        return
     }else{
-        console.log('zhiixngle')
         window.location = '/index.php/ft/property/list?property-nature='+propertyNature+'&property-position='+propertyPosition;
     }
 });
