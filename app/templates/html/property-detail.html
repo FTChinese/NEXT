@@ -196,5 +196,19 @@
     galleryThumbs.params.control = galleryTop;
     
     </script>
-
+    <script>
+    function checkTel() {
+      var obj = document.getElementById('client-number');
+      var value = obj.value;
+      var regTel2 = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/.test(value);
+      if (value !== '') { 
+        if (!regTel2) { 
+          alert('电话号码输入有误！');
+          return ;
+        }
+      }
+      alert('电话号码输入正确！');
+      return true;
+    }
+</script>
 </html>
