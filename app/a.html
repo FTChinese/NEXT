@@ -45,9 +45,11 @@ img {
     <div id="n-ad-container">
         <script>
             function removeAd() {
+                //alert ('removeAd');
                 window.parent.sendEvent('Ad Impression: Error', adChannelId, adPositionId, {'nonInteraction':1});
             }
             function loaded() {
+                //alert ('loaded');
                 if (window.isHouseAd === true) {
                     window.parent.sendEvent('Ad Impression: House Ad', adChannelId, adPositionId, {'nonInteraction':1});
                 }
@@ -89,8 +91,18 @@ img {
             }
             var trString = '&tr=' + c + '_' + randNumber;
 
-            document.write ('<scr'+'ipt src="http://dualstack.adsame-1421766300.ap-southeast-1.elb.amazonaws.com/s?z=ft&c=' + c + slotStr + trString + adP + '&_fallback=0" charset="gbk" onerror="removeAd()" onload="loaded()"></scr'+'ipt>');
-            
+            if (1>1 && /^20550004$/.test(c)) {
+                var viewable = {
+                id: 'ad-ibm-200122323',
+                minimum: 0.6,
+                time: 1000
+                };
+            } else if (1<0 && /^300010000101$/.test(c)) {
+
+            } else {
+                document.write ('<scr'+'ipt src="http://dualstack.adsame-1421766300.ap-southeast-1.elb.amazonaws.com/s?z=ft&c=' + c + slotStr + trString + adP + '&_fallback=0" charset="gbk" onerror="removeAd()" onload="loaded()"></scr'+'ipt>');
+            }
+
             // record the ad impression
             try {
                 window.parent.sendEvent('Ad Impression', adChannelId, adPositionId, {'nonInteraction':1});
@@ -103,40 +115,14 @@ img {
             } catch (ignore) {
 
             }
-        
-
-            <%if date("Ymd",$smarty.now) <= 20171231%>
-
-                <%if date("Ymd",$smarty.now) == 20171117 && date("Ymd",$smarty.now) == 20171124%>
-                    window.refreshTime = 20;
-                <%else%>
-                    window.refreshTime = 10;
-                <%/if%>
-
-                if (/1000[0-9]{4}0201|1000[0-9]{4}0411|1000[0-9]{4}0412|1000[0-9]{4}0421|1000[0-9]{4}0301/.test(c)) {
-                setTimeout(function(){
-                    if ( window.parent.document.getElementById(parentId)) {
-                        parentIframe = window.parent.document.getElementById(parentId);
-                        var divAddedByClient = parentIframe.parentNode.querySelectorAll('div')[0];
-                        if (divAddedByClient !== undefined) {
-                            divAddedByClient.outerHTML = '';
-                            delete divAddedByClient;
-                        }
-                        parentIframe.style = '';
-                        parentIframe.setAttribute('width', '100%');
-                    }
-                    location.reload(false);
-                }, 1000 * 60 * window.refreshTime);
-                }
-
-            <%/if%>
         </script>
     </div>
 </div>
 
 <div id="ad-bottom"></div>
 
+<!-- build:js scripts/a-domore.js -->
 <script src="scripts/a-domore.js"></script>
-
+<!-- endbuild -->
 </body>
 </html>
