@@ -72,7 +72,6 @@ $('body').on('click', '#list-search-button', function () { 
         var userName = $('#client-email').val();
         var isTrue = isEmail(userName)
         if (userName != ''){
-            console.log("账户值"+ isTrue + userName)
             if (isTrue === true){
                 $('#client-email').css('background','#fff');
                 return;
@@ -89,23 +88,23 @@ $('body').on('click', '#list-search-button', function () { 
         var number = $('#client-number').val(); 
         var email = $('#client-email').val(); 
         if (name === ""){
-            alert("请输入您的称呼");
+            alert('请输入您的称呼');
         }
         if ((email === "")&&(number === "")){
-            alert("请您输入您的电子邮箱或者联系电话");
+            alert('请您输入您的电子邮箱或者联系电话');
         }
     });
     function checkTel() {
-      var obj = document.getElementById("client-number");
+      var obj = document.getElementById('client-number');
       var value = obj.value;
       var regTel2 = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/.test(value);
       if (value != "") { 
         if (!regTel2) { 
-          alert("电话号码输入有误！");
+          alert('电话号码输入有误！');
           return ;
         }
       }
-      alert("电话号码输入正确！");
+      alert('电话号码输入正确！');
       return true;
     }
    
