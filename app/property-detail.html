@@ -536,35 +536,35 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
             <div class="input">
                 <img src="http://static.ftchinese.com/icon/svg/avatar.svg">
                 
-                <input id="Inquiry_Name" name="Inquiry.Name" placeholder="Your Full Name" type="text">
+                <input id="client-name" name="client-name" placeholder="Your Full Name" type="text">
                 
             </div>
         </section>
         <section>
             <div class="input">
-                <img src="http://static.ftchinese.com/icon/svg/avatar.svg">
-                <input id="Inquiry_Name" name="Inquiry.Name" placeholder="Phone, e.g. +(country)-(number)" type="number" >
+                <img src="http://static.ftchinese.com/icon/svg/phone-call.svg">
+                <input id="client-number" name="client-number" placeholder="Phone, e.g. +(country)-(number)" type="number" onblur="return checkTel();">
                
             </div>
         </section>
         <section>
             <div class="input">
                 <img src="http://static.ftchinese.com/icon/svg/envelope.svg">
-                <input id="Inquiry_Name" name="Inquiry.Name" placeholder="Email" type="email">
+                <input id="client-email" name="client-email" placeholder="Email" type="email">
                
             </div>
         </section>
         <section>
             <div class="textarea textarea-resizable">
             <img src="http://static.ftchinese.com/icon/svg/chat.svg">    
-                <textarea id="Inquiry_Name" name="Inquiry.Name" placeholder="Message" type="text"></textarea>
+                <textarea id="client-message" name="client-message" placeholder="Message" type="text"></textarea>
                
             </div>
         </section>
         <div class="clearfloat"></div>
     </div>
     <div class="ai-inquirylead-form-contact">
-        <button type="submit" class="btn-u">Contact Agent</button>
+        <button type="button" class="btn-u" id="contact-agent-submit">Contact Agent</button>
     </div>
 </form>
 </div>
@@ -807,5 +807,63 @@ if (w > 490 && isTouchDevice() === false) {
     
     </script>
     <!--detail page action-->
+    <script>
+
+    $('body').on('blur', '#client-email', function () {
+        checkUserName();
+    });
+ 
+    function isEmail(str){ 
+        var reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/; 
+        return reg.test(str); 
+    }
+    function checkUserName(){
+        var userName = $('#client-email').val();
+        var isTrue = isEmail(userName)
+        if (userName != ''){
+            console.log("账户值"+ isTrue + userName)
+            if (isTrue === true){
+                $('#client-email').css('background','#fff');
+                return;
+            }else{
+                $("#client-email").val("");//清空内容 
+                $('#client-email').attr('placeholder','Please enter the correct format email');
+                $('#client-email').css('background','#FFEC1A');
+                console.log("账户值"+ $('#client-eamil').val())
+            }
+        }
+    } 
+ 
+    $('body').on('click', '#contact-agent-submit', function () {
+        var name = $('#client-name').val(); 
+        var number = $('#client-number').val(); 
+        var email = $('#client-email').val(); 
+        if (name === ""){
+            alert("请输入您的称呼");
+        }
+        if ((email === "")&&(number === "")){
+            alert("请您输入您的电子邮箱或者联系电话");
+        }
+    });
+    function checkTel() {
+      var obj = document.getElementById("client-number");
+      var value = obj.value;
+    // /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+    //   var regTel1 = /^(([0\+]\d{2,3}-)?(0\d{2,3})-)(\d{7,8})(-(\d{3,}))?$/.test(value);//带区号的固定电话
+    //   var regTel2 = /^(\d{7,8})(-(\d{3,}))?$/.test(value);//不带区号的固定电话
+      var regTel2 = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/.test(value);
+      if (value != "") {
+        //   if (!regTel1 && !regTel2) { 
+        if (!regTel2) { 
+          alert("电话号码输入有误！");
+        //   obj.focus();
+          return ;
+        }
+      }
+      alert("电话号码输入正确！");
+      return true;
+    }
+
+    </script>
 
 </html>

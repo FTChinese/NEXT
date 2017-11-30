@@ -348,7 +348,7 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
         <input placeholder="Search country, area or city" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" id="property-position" name="property-position">
     </div>
     <div>
-        <button class="select-search-button" id="select-search-button" ></button>
+        <button type ="button"class="select-search-button" id="select-search-button" ></button>
     </div>
 
   <div class="clearfloat"></div>
@@ -471,19 +471,19 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 <script type="text/javascript" src="scripts/myft-follow.js"></script>
 <script type="text/javascript" src="scripts/track-click.js"></script>
 <script type="text/javascript">
-// $('body').on('click', '#select-search-button', function () { 
-    // console.log( 'select-search-button');
-    // var propertyNature=$('#property-nature').val();
-    // var propertyPosition=$('#property-position').val();
+$('body').on('click', '#select-search-button', function () { 
+    console.log( 'select-search-button');
+    var propertyNature=$('#property-nature').val();
+    var propertyPosition=$('#property-position').val();
     
-    // if ((propertyNature==="forSale") && (propertyPosition==="")){
-    //     window.location = '/index.php/ft/property';
-    //     alert('请输入地区') 
-    // }else{
-        // console.log('zhiixngle')
-        // window.location = '/index.php/ft/property/list?property-nature='+propertyNature+'&property-position='+propertyPosition;
-    // }
-// });
+    if ((propertyNature==="forSale") && (propertyPosition==="")){
+        window.location = '/index.php/ft/property';
+        alert('请输入地区') 
+    }else{
+        console.log('zhiixngle')
+        window.location = '/index.php/ft/property/list?property-nature='+propertyNature+'&property-position='+propertyPosition;
+    }
+});
 // function getDocumentUrl(){
 //     return location.protocol+'//'+location.host+location.pathname;
 // }
