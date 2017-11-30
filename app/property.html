@@ -475,8 +475,13 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
     console.log( 'select-search-button');
     var propertyNature=$('#property-nature').val();
     var propertyPosition=$('#property-position').val();
-
-    window.location = '/index.php/ft/property/list?property-nature='+propertyNature+'&property-position='+propertyPosition;
+    if (propertyNature==="forSale") && (propertyPosition===""){
+        window.location = '/index.php/ft/property';
+        alert('请输入地区') 
+    }else{
+        window.location = '/index.php/ft/property/list?property-nature='+propertyNature+'&property-position='+propertyPosition;
+    }
+    
 
 });
 

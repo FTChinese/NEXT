@@ -198,12 +198,21 @@
     var propertyNature=$('#property-nature').val();
     var propertyPosition=$('#property-position').val();
 
-    window.location = '/index.php/ft/property/list?property-nature='+propertyNature+'&property-position='+propertyPosition;
-
+    /*window.location = '/index.php/ft/property/list?property-nature='+propertyNature+'&property-position='+propertyPosition;
+    if (propertyPosition==""){
+        alert("请输入地区") 
+    }*/
+    if (propertyNature==="forSale") && (propertyPosition===""){
+        window.location = '/index.php/ft/property';
+        alert('请输入地区') 
+    }else{
+        window.location = '/index.php/ft/property/list?property-nature='+propertyNature+'&property-position='+propertyPosition;
+    }
     });
     $('body').on('click', '.nav-link', function () {
         $(this).attr('href','/index.php/ft/property');
     });
+    
 
 </script>
 </html>

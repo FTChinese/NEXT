@@ -501,7 +501,8 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 <div class="side-inner">
     <h2 class="list-title"><a class="list-link">GET MORE INFORMATION</a></h2>
 <div>
-<form id="ai-inquirylead-form" method="post" action="/api/inquiry/post"class="sky-form ai-inquirylead-form xs-no-border xs-no-side-space xs-no-top-space xs-section-no-bottom-space"novalidate="novalidate">
+    <!--action="/api/inquiry/post" method="post"-->
+<form id="ai-inquirylead-form"  action=""class="sky-form ai-inquirylead-form xs-no-border xs-no-side-space xs-no-top-space xs-section-no-bottom-space"novalidate="novalidate">
     <div class="team-v6">
         <span>Lionard Luxury Real Estate</span> 
     
@@ -530,7 +531,7 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
         </div>
     </div>
     <div>
-        <input type="hidden" id="propertyId"  name="propertyId"  value="<%$realProperty.propertyId%>" />
+        <input type="hidden" id="propertyId"  name="propertyId"  value="" />
         <section>
             <div class="input">
                 <img src="http://static.ftchinese.com/icon/svg/avatar.svg">
@@ -542,14 +543,14 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
         <section>
             <div class="input">
                 <img src="http://static.ftchinese.com/icon/svg/avatar.svg">
-                <input id="Inquiry_Name" name="Inquiry.Name" placeholder="Phone, e.g. +(country)-(number)" type="text">
+                <input id="Inquiry_Name" name="Inquiry.Name" placeholder="Phone, e.g. +(country)-(number)" type="number" >
                
             </div>
         </section>
         <section>
             <div class="input">
                 <img src="http://static.ftchinese.com/icon/svg/envelope.svg">
-                <input id="Inquiry_Name" name="Inquiry.Name" placeholder="Email" type="text">
+                <input id="Inquiry_Name" name="Inquiry.Name" placeholder="Email" type="email">
                
             </div>
         </section>
