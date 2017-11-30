@@ -339,8 +339,8 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
           <div id="searchContainer" >
     <div class="floatClass select-search-group" >
                 <select  id="property-nature" name="property-nature">
-                <option value="forsale">For Sale</option>
-                <option value="forrent">For Rent</option>
+                <option value="forSale">For Sale</option>
+                <option value="forRent">For Rent</option>
                 </select>
     </div>
 
@@ -471,19 +471,22 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 <script type="text/javascript" src="scripts/myft-follow.js"></script>
 <script type="text/javascript" src="scripts/track-click.js"></script>
 <script type="text/javascript">
-    $('body').on('click', '#select-search-button', function () { 
-    console.log( 'select-search-button');
-    var propertyNature=$('#property-nature').val();
-    var propertyPosition=$('#property-position').val();
-    if (propertyNature==="forSale") && (propertyPosition===""){
-        window.location = '/index.php/ft/property';
-        alert('请输入地区') 
-    }else{
-        window.location = '/index.php/ft/property/list?property-nature='+propertyNature+'&property-position='+propertyPosition;
-    }
+// $('body').on('click', '#select-search-button', function () { 
+    // console.log( 'select-search-button');
+    // var propertyNature=$('#property-nature').val();
+    // var propertyPosition=$('#property-position').val();
     
-
-});
+    // if ((propertyNature==="forSale") && (propertyPosition==="")){
+    //     window.location = '/index.php/ft/property';
+    //     alert('请输入地区') 
+    // }else{
+        // console.log('zhiixngle')
+        // window.location = '/index.php/ft/property/list?property-nature='+propertyNature+'&property-position='+propertyPosition;
+    // }
+// });
+// function getDocumentUrl(){
+//     return location.protocol+'//'+location.host+location.pathname;
+// }
 
 </script>
 </html>
