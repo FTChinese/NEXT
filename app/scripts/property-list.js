@@ -60,6 +60,41 @@ $('body').on('click', '#list-search-button', function () { 
         // window.location = '/index.php/ft/property/list?';
         $(this).attr('href','/index.php/ft/property/list');
     });
-    
+
+    $('body').on('blur', '#client-email', function () {
+        checkUserName();
+    });
+ 
+    function isEmail(str){ 
+        var reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/; 
+        return reg.test(str); 
+    }
+    function checkUserName(){
+        var userName = $('#client-email').val();
+        var isTrue = isEmail(userName);
+        if (userName !== ''){
+            if (isTrue === true){
+                $('#client-email').css('background','#fff');
+                return;
+            }else{
+                $('#client-email').val('');//清空内容 
+                $('#client-email').attr('placeholder','Please enter the correct format email');
+                $('#client-email').css('background','#FFEC1A');
+            }
+        }
+    } 
+ 
+    $('body').on('click', '#contact-agent-submit', function () {
+        var name = $('#client-name').val(); 
+        var number = $('#client-number').val(); 
+        var email = $('#client-email').val(); 
+        if (name === ''){
+            alert('请输入您的称呼');
+        }
+        if ((email === '')&&(number === '')){
+            alert('请您输入您的电子邮箱或者联系电话');
+        }
+    });
+
    
 })(); 

@@ -501,7 +501,8 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 <div class="side-inner">
     <h2 class="list-title"><a class="list-link">GET MORE INFORMATION</a></h2>
 <div>
-<form id="ai-inquirylead-form" method="post" action="/api/inquiry/post"class="sky-form ai-inquirylead-form xs-no-border xs-no-side-space xs-no-top-space xs-section-no-bottom-space"novalidate="novalidate">
+    <!--action="/api/inquiry/post" method="post"-->
+<form id="ai-inquirylead-form"  action=""class="sky-form ai-inquirylead-form xs-no-border xs-no-side-space xs-no-top-space xs-section-no-bottom-space"novalidate="novalidate">
     <div class="team-v6">
         <span>Lionard Luxury Real Estate</span> 
     
@@ -530,40 +531,40 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
         </div>
     </div>
     <div>
-        <input type="hidden" id="propertyId"  name="propertyId"  value="<%$realProperty.propertyId%>" />
+        <input type="hidden" id="propertyId"  name="propertyId"  value="" />
         <section>
             <div class="input">
                 <img src="http://static.ftchinese.com/icon/svg/avatar.svg">
                 
-                <input id="Inquiry_Name" name="Inquiry.Name" placeholder="Your Full Name" type="text">
+                <input id="client-name" name="client-name" placeholder="Your Full Name" type="text">
                 
             </div>
         </section>
         <section>
             <div class="input">
-                <img src="http://static.ftchinese.com/icon/svg/avatar.svg">
-                <input id="Inquiry_Name" name="Inquiry.Name" placeholder="Phone, e.g. +(country)-(number)" type="text">
+                <img src="http://static.ftchinese.com/icon/svg/phone-call.svg">
+                <input id="client-number" name="client-number" placeholder="Phone, e.g. +(country)-(number)" type="number" onblur="return checkTel();">
                
             </div>
         </section>
         <section>
             <div class="input">
                 <img src="http://static.ftchinese.com/icon/svg/envelope.svg">
-                <input id="Inquiry_Name" name="Inquiry.Name" placeholder="Email" type="text">
+                <input id="client-email" name="client-email" placeholder="Email" type="email">
                
             </div>
         </section>
         <section>
             <div class="textarea textarea-resizable">
             <img src="http://static.ftchinese.com/icon/svg/chat.svg">    
-                <textarea id="Inquiry_Name" name="Inquiry.Name" placeholder="Message" type="text"></textarea>
+                <textarea id="client-message" name="client-message" placeholder="Message" type="text"></textarea>
                
             </div>
         </section>
         <div class="clearfloat"></div>
     </div>
     <div class="ai-inquirylead-form-contact">
-        <button type="submit" class="btn-u">Contact Agent</button>
+        <button type="button" class="btn-u" id="contact-agent-submit">Contact Agent</button>
     </div>
 </form>
 </div>
@@ -806,5 +807,56 @@ if (w > 490 && isTouchDevice() === false) {
     
     </script>
     <!--detail page action-->
+    <script>
+
+    $('body').on('blur', '#client-email', function () {
+        checkUserName();
+    });
+ 
+    function isEmail(str){ 
+        var reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/; 
+        return reg.test(str); 
+    }
+    function checkUserName(){
+        var userName = $('#client-email').val();
+        var isTrue = isEmail(userName)
+        if (userName != ''){
+            if (isTrue === true){
+                $('#client-email').css('background','#fff');
+                return;
+            }else{
+                $("#client-email").val("");//清空内容 
+                $('#client-email').attr('placeholder','Please enter the correct format email');
+                $('#client-email').css('background','#FFEC1A');
+            }
+        }
+    } 
+ 
+    $('body').on('click', '#contact-agent-submit', function () {
+        var name = $('#client-name').val(); 
+        var number = $('#client-number').val(); 
+        var email = $('#client-email').val(); 
+        if (name === ""){
+            alert('请输入您的称呼');
+        }
+        if ((email === "")&&(number === "")){
+            alert('请您输入您的电子邮箱或者联系电话');
+        }
+    });
+    function checkTel() {
+      var obj = document.getElementById('client-number');
+      var value = obj.value;
+      var regTel2 = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/.test(value);
+      if (value !== "") { 
+        if (!regTel2) { 
+          alert('电话号码输入有误！');
+          return ;
+        }
+      }
+      alert('电话号码输入正确！');
+      return true;
+    }
+
+    </script>
 
 </html>

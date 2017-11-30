@@ -303,14 +303,14 @@
                                 <section>
                                     <div class="input">
                                         <img src="http://static.ftchinese.com/icon/svg/phone-call.svg">
-                                        <input id="client-number" name="client-number" placeholder="<%$propertytDataName.Phone_Number%>" type="text">
+                                        <input id="client-number" name="client-number" placeholder="<%$propertytDataName.Phone_Number%>" type="number" onblur="return checkTel();">
                                     
                                     </div>
                                 </section>
                                 <section>
                                     <div class="input">
                                         <img src="http://static.ftchinese.com/icon/svg/envelope.svg">
-                                        <input id="client-email" name="client-email" placeholder="<%$propertytDataName.Email%>" type="text">
+                                        <input id="client-email" name="client-email" placeholder="<%$propertytDataName.Email%>" type="email">
                                     
                                     </div>
                                 </section>
@@ -325,7 +325,7 @@
                             </div>
                             
                             <div class="ai-inquirylead-form-contact">
-                                <button type="submit" class="btn-u"><%$propertytDataName.Contact_Agent%></button>
+                                <button type="submit" class="btn-u" id="contact-agent-submit"><%$propertytDataName.Contact_Agent%></button>
                             </div>
                         </form>
                     </div>
