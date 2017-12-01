@@ -250,13 +250,19 @@
 
     <div class="site-map">
       <div class="site-map__container">
-        <%if ($topnav!='home') || !empty($subnav)%>
+        <%if $tag_name != ""%>
             <ul class="site-map__items">
-              <li><a href="<%$current_link%>"><%$current_page%></a></li>
-            <%if !empty($subnav)%>
-              <li><a href="<%$current_sub_link%>"><%$current_sub_page%></a></li>
-            <%/if%>
+                <li><%$tag_name%></li>
             </ul>
+        <%else%>
+          <%if ($topnav!='home') || !empty($subnav)%>
+              <ul class="site-map__items">
+                <li><a href="<%$current_link%>"><%$current_page%></a></li>
+              <%if !empty($subnav)%>
+                <li><a href="<%$current_sub_link%>"><%$current_sub_page%></a></li>
+              <%/if%>
+              </ul>
+          <%/if%>
         <%/if%>
       </div>
     </div>
