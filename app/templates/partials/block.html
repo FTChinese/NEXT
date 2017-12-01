@@ -306,6 +306,12 @@
 						<%/if%>
 					<%/if%>
 
+
+					<%if preg_match("/2017年度报告/is",$itemTagsString) && date("Ymd",$smarty.now) <= 20171231%>
+						<%assign var="itemTagLink" value="http://cn.ft.com`$itemTagLink`"%>
+					<%/if%>
+
+
 					<%if $itemTag != ""%>
 						<%if $tagCanFollow == "yes"%>
 							<%assign var="itemTag" value="<div class=item-tag><a href=\"`$itemTagLink`\">`$itemTag`</a><button class=\"myft-follow plus\" data-tag=\"`$itemTag`\" data-type=\"tag\">关注</button></div>"%>
@@ -1028,7 +1034,7 @@
 								<%assign var="eaudioUrl" value=""%>
 								<%assign var="eaudioData" value=""%>
 							<%/if%>
-							<%assign var="itemClass" value="`$itemClass` item-container-app"%>
+							
 							<%assign var="itemDataId" value=$item.id|default:$item.customLink%>
 							<%if $itemDataId == "" && $item.customLink != ""%>
 								<%assign var="itemDataId" value=$item.customLink%>
@@ -1038,6 +1044,17 @@
 								<%assign var="itemDataType" value="TryBook"%>
 							<%/if%>
 							<%assign var="itemData" value=" data-id=\"`$itemDataId`\" data-type=\"`$itemDataType`\"`$audioData``$caudioData``$eaudioData`"%>
+
+
+
+							<%if preg_match("/2017年度报告/is",$itemTagsString) && date("Ymd",$smarty.now) <= 20171231%>
+								<%assign var="itemData" value=""%>
+								<%assign var="itemLink" value=" href=\"http://cn.ft.com/story/`$itemId`\""%>
+							<%else%>
+								<%assign var="itemClass" value="`$itemClass` item-container-app"%>
+							<%/if%>
+
+
 						<%/if%>
 
 
@@ -1189,7 +1206,7 @@
 											</script>
 										</div>
 									<%/if%>
-									<%if $i == 11%>
+									<%if $i == 13%>
 										<div class="hide-iframe">
 											<script type="text/javascript">
 													document.write(writeAdNew({
