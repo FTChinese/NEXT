@@ -340,6 +340,9 @@
 						<%else%>
 							<%assign var="itemLink" value="/tag/`$item.cshortleadbody`"%>
 						<%/if%>
+						<%if $smarty.get.webview == "ftcapp" && date("Ymd",$smarty.now) <= 20171231 && $item.id == "10719"%>
+							<%assign var="itemLink" value="http://cn.ft.com`$itemLink`"%>
+						<%/if%>
 						<%assign var="itemClass" value="XL4 L4 M12 S12 S-double-width P12 has-image"%>
 					<%else%>
 						<%assign var="itemLink" value="/`$itemType`/`$itemId`#adchannelID=`$adchannelID`"%>
