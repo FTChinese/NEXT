@@ -24,21 +24,20 @@
         var reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/; 
         return reg.test(str); 
     }
-    var isTrue = false
+    // var isTrue = false
     function checkUserName(){
         var userName = $('#client-email').val();
-        isTrue = isEmail(userName);
+        var isTrue = isEmail(userName);
         if (userName !== ''){
             if (isTrue === true){
                 $('#client-email').css('background','#fff');
-                return;
+                // return;
             }else{
                 $('#client-email').val('');//清空内容 
                 $('#client-email').attr('placeholder','请输入正确格式邮箱！');
                 $('#client-email').css('background','red');
             }
         }
-        console.log("checkUserName")
     } 
  
     $('body').on('click', '#contact-agent-submit', function () {
@@ -46,6 +45,7 @@
         var number = $('#client-number').val(); 
         var email = $('#client-email').val(); 
         var message = $('#client-message').val(); 
+        var propertyId = $('#propertyId').val(); 
         if (name === ''){
             // alert('请输入您的称呼');
             $('#client-name').val('');//清空内容 
@@ -62,25 +62,22 @@
                 $('#client-email').css('background','#fff');
                 $('#client-email').attr('placeholder','Email');
             }
-            // else{
-            //     $('#user-hint').css('display', 'none');
-            //     ('#client-name').css('background','#fff');
-            //     $('#client-email').css('background','#fff');
-            //     $('#client-email').attr('placeholder','Email');
-            // }
             if (number !== ''){
                 $('#user-hint').css('display', 'none');
                 $('#client-name').css('background','#fff');
                 $('#client-email').css('background','#fff');
                 $('#client-email').attr('placeholder','Email');
             }
+            if (email !== ''){
+                $('#user-hint').css('display', 'none');
+                $('#client-name').css('background','#fff');
+                $('#client-email').css('background','#fff');
+                $('#client-email').attr('placeholder','Email');
+            }
         }
-        if ((email !== '')&&((number !== '')||(email !== ''))){
-            $('#client-name').val('');
-            $('#client-number').val('');
-            $('#client-email').val('');
-        }
-        $.ajax({
+        if ((name !== '')&&((number !== '')||(email !== ''))){
+            $(this).html('正在提交...');
+            $.ajax({
                 type: 'post',
                 url: '/api/inquiry/post',
                 // dataType: 'text',
@@ -88,17 +85,25 @@
                        name:name,
                        number:number,
                        email:email,
-                       message:message
+                       message:message,
+                       propertyId:propertyId
                    },
                 success: function(data) {
-                    // $(this).html("欢迎您！"+userName).unbind();
+                    console.log('欢迎您！'+data);
+                    $(this).html('欢迎您！'+name).unbind();
                 },
                 error: function() {
-                    //  $(this).html("注册失败，请再次提交！");
+                     $(this).html('注册失败，请再次提交！');
                     return;
                 }
             });
-    });
+            
+            $('#client-name').val('');
+            $('#client-number').val('');
+            $('#client-email').val('');
+            
+        }
+        
     // function checkTel() {
     //   var obj = document.getElementById('client-number');
     //   var value = obj.value;
@@ -116,6 +121,6 @@
     //   $('#client-number').css('background','#fff');
     //   return true;
     // }
-    
+    });
    
 })(); 
