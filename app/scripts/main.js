@@ -82,7 +82,15 @@ function loadImagesLazy () {
 
   var figuresToLoad = 0;
   for (var i=0; i<figuresLazy.length; i++) {
+
     if (figuresLazy[i] !== '') {
+      // console.log (i);
+      // console.log (scrollTop);
+      // console.log (bodyHeight);
+      // console.log (figuresLazy[i].imageTop);
+      if (scrollTop === undefined) {
+        scrollTop = window.scrollY || document.documentElement.scrollTop;
+      }
       if (scrollTop + bodyHeight*2 > figuresLazy[i].imageTop) {
         figures[i].innerHTML = '<img src="' + figuresLazy[i].imageUrl + '" data-backupimage="' + figuresLazy[i].imageUrlBack + '">';
         figures[i].className = figuresLazy[i].loadedClass;
@@ -230,7 +238,8 @@ function loadImages() {
       shouldLoadImage = false;
     }
 
-    //console.log (imageUrl);
+  //   console.log (imageUrl);
+  // console.log (shouldLoadImage);
     if (shouldLoadImage === true) {
       imageUrlBack = imageUrl.replace('i.ftimg.net', 'i.ftmailbox.com');
       figuresLazy[i] = {
@@ -407,7 +416,11 @@ function viewablesInit() {
 }
 
 function stickyBottomPrepare() {
-  gNavOffsetY = findTop(document.querySelector('.o-nav__placeholder'));
+  var topElement = document.querySelector('.o-nav__placeholder');
+  if (topElement === undefined) {
+    topElement = document.body;
+  }
+  gNavOffsetY = findTop(topElement);
   bodyHeight = getBodyHeight(gNavOffsetY);
   if (typeof recommendInner === 'object') {
     gRecomendOffsetY = findTop(recommendInner);
@@ -422,7 +435,9 @@ function stickyBottomPrepare() {
 
   w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 
-  if (sectionsWithSide.length > 0) {
+
+
+  if (sectionsWithSide && sectionsWithSide.length > 0) {
     for (var i=0; i<sectionsWithSide.length; i++) {
       sectionClassName[i] = sectionsWithSide[i].className;       
       if (w < hasSideWidth) {

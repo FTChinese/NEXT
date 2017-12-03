@@ -221,6 +221,8 @@
 											<%assign var="itemType" value=$item.type|default:$feedType%>
 											<%if $itemType == "photo"%>
 												<%assign var="itemType" value="photonews"%>
+											<%elseif $itemType == ""%>
+												<%assign var="itemType" value="story"%>
 											<%/if%>
 
 											<%assign var="itemId" value=$item.id|default:$item.photonewsid%>

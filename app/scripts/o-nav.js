@@ -113,6 +113,9 @@ function searchRedirect(formEl) {
 	if (typeof formEl === 'string') {
 		formEl = document.querySelector(formEl);
 	}
+	if (!formEl) {
+		return;
+	}
 	var searchEl = formEl.querySelector('.search-input');
 
 	var baseUrl = window.location.protocol + '//' + window.location.hostname + '/archiver/';
@@ -132,6 +135,7 @@ function searchRedirect(formEl) {
 		}
 	});	
 }
+
 searchRedirect('#search-form');
 
 // callback(error, data)

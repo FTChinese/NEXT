@@ -221,7 +221,11 @@
             <![endif]-->
 
             <script type="text/javascript">
-                <%include file = "next/scripts/main.js"%>
+                <%if $smarty.get.webview == "ftcapp"%>
+                    <%include file = "next/scripts/main-ftcapp.js"%>
+                <%else%>
+                    <%include file = "next/scripts/main.js"%>
+                <%/if%>
             </script>
             <%if $pageId == "home"%>
                 <script type="text/javascript">
