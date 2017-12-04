@@ -1,3 +1,12 @@
+<%assign var="useSafariToOpenSponsorStory" value="yes"%>
+<%if $smarty.get.v != ""%>
+	<%assign var="v" value=$smarty.get.v|floatval%>
+	<%if $v >= 6.8%>
+		<%assign var="useSafariToOpenSponsorStory" value="no"%>
+	<%/if%>
+<%/if%>
+
+
 <%if $adchannelID != "1000"%>
     <%assign var="adForceString" value="#adchannelID=$adchannelID"%>
 <%/if%>
@@ -306,11 +315,9 @@
 						<%/if%>
 					<%/if%>
 
-
-					<%if preg_match("/2017年度报告/is",$itemTagsString) && date("Ymd",$smarty.now) <= 20171231%>
+					<%if $useSafariToOpenSponsorStory == "yes" && preg_match("/2017年度报告/is",$itemTagsString) && date("Ymd",$smarty.now) <= 20171231%>
 						<%assign var="itemTagLink" value="http://cn.ft.com`$itemTagLink`"%>
 					<%/if%>
-
 
 					<%if $itemTag != ""%>
 						<%if $tagCanFollow == "yes"%>
@@ -1047,7 +1054,8 @@
 
 
 
-							<%if preg_match("/2017年度报告/is",$itemTagsString) && date("Ymd",$smarty.now) <= 20171231%>
+
+							<%if $useSafariToOpenSponsorStory == "yes" && preg_match("/2017年度报告/is",$itemTagsString) && date("Ymd",$smarty.now) <= 20171231%>
 								<%assign var="itemData" value=""%>
 								<%assign var="itemLink" value=" href=\"http://cn.ft.com/story/`$itemId`\""%>
 							<%else%>
