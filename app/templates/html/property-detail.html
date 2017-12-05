@@ -25,6 +25,7 @@
 <%if !isset($adchannelID)||$adchannelID==""%>
     <%assign var="adchannelID" value="1100"%>
 <%/if%>
+<%assign var="adchannelID" value=$adchannelID|regex_replace:"/^(20)(..)$/":'50${2}'%>
 
 <%if $storymodel != ""%>
 <%assign var="gettime" value=$storymodel->get_story_by_tag($tag_name,0,20)%>

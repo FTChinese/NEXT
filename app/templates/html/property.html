@@ -1,8 +1,8 @@
-<%if $storymodel != ""%>
+<%*<%if $storymodel != ""%>
 <%assign var=taginfo value=$storymodel->get_tag_describes($tag_name)%>
 <%assign var=tagtitle value=$taginfo.tag_title%>
 <%assign var=tagabout value=$taginfo.tag_desc|default:$PageIntro%>
-<%/if%>
+<%/if%>*%>
 <%assign var="hideQR" value="yes"%>
 
 <%if $tagtitle=="" || $breadcrumb!=""%>
@@ -12,19 +12,20 @@
 <%assign var="tagtitle" value=$tag_name%>
 <%/if%>
 <%/if%>
-<%if $allstory|@count==0 && $storyCust|@count==0 && $tagstory2|@count==0 && $adchannelID=="" && $pageType != "search" && $pageType != "findpassword" && $pageType != "form"%>
+
+<%*<%if $allstory|@count==0 && $storyCust|@count==0 && $tagstory2|@count==0 && $adchannelID=="" && $pageType != "search" && $pageType != "findpassword" && $pageType != "form"%>
 <%assign var="tagtitle" value="FT中文网"%>
 <%elseif $count_result == 0 && $pageType=="search"%>
 <%assign var="tagtitle" value="无效的关键字"%>
-<%/if%>
+<%/if%>*%>
 
 <%assign var="channelname" value=" <span>`$tagtitle`</span>"%>
 <%if !isset($adchannelID)||$adchannelID ==""%>
 <%assign var="adchannelID" value="2000"%>
 <%/if%>
-<%if !isset($adchannelID)||$adchannelID==""%>
-    <%assign var="adchannelID" value="1100"%>
-<%/if%>
+
+
+<%assign var="adchannelID" value=$adchannelID|regex_replace:"/^(20)(..)$/":'50${2}'%>
 
 <%if $storymodel != ""%>
 <%assign var="gettime" value=$storymodel->get_story_by_tag($tag_name,0,20)%>
@@ -34,13 +35,13 @@
     <%assign var="showTimeStamp" value="all"%>
 <%/if%>
 
-<%if $tagstory%>
+<%*<%if $tagstory%>
 <%assign var="allstory" value=$tagstory%>
 <%/if%>
 
 <%if $tag_name != ""%>
 <%assign var="itemTag" value="<div class=\"no-image\"><div class=\"item-inner\"><div class=item-tag><a href=\"#\">`$tagtitle`</a><button class=\"myft-follow plus\" data-tag=\"`$tag_name`\" data-type=\"tag\">关注</button></div></div></div>"%>
-<%/if%>
+<%/if%>*%>
      
 <!DOCTYPE html>
 <html class="no-js core" data-next-app="tag-page">
@@ -64,24 +65,6 @@
     }
     </script>
     
-    <%*<!--<%if $pageType == "search"%>
-        <style><%include file="next/styles/main-search.css"%></style>
-    <%elseif $pageType == "form"%>
-        <style><%include file="next/styles/main-forms.css"%></style>
-    <%elseif $pageType == "job"%>
-        <style><%include file="next/styles/main-job.css"%></style>
-    <%elseif $pageTheme == "luxury"%>
-        <style><%include file="next/styles/main-luxury.css"%></style>
-        <script type="text/javascript">var pageTheme = 'luxury';</script>
-    <%elseif $pageTheme == "myft"%>
-        <style><%include file="next/styles/main-myft.css"%></style>
-    <%elseif $pageTheme == "technology"%>
-        <style><%include file="next/styles/main-technology.css"%></style>
-    <%elseif $pageTheme == "lifestyle"%>
-        <style><%include file="next/styles/main-lifestyle.css"%></style>
-    <%else%>
-        <style><%include file="next/styles/main-tag.css"%></style>
-    <%/if%>-->*%>
     <style><%include file="next/styles/main-search.css"%></style>
     <style><%include file="next/styles/main-page-property.css"%></style>
 
@@ -142,7 +125,7 @@
     <%/if%>
     <%include file="next/partials/head.html"%>
   </head>
-  
+  <%assign var="bannerCount" value=0%>
   <body class="<%$hideDate%>">
     <script>checkB();</script>
         <%if $smarty.get.webview != "ftcapp"%>
@@ -169,7 +152,10 @@
     <%/if%>
 
     <%include file="next/partials/nav.html"%>
-    <%include file="next/partials/banner.html"%>
+   
+    <%include file="next/partials/banner-new.html"%>
+
+    <%assign var="bannerCount" value=$bannerCount+1%>
 
     <%if $pageId=="setting"%>
     <%include file="next/partials/setting-block.html"%>
@@ -180,7 +166,7 @@
     
     <%/if%> 
     <%include file="next/partials/property-block.html"%>
-    <%include file="next/partials/banner.html"%>
+    <%include file="next/partials/banner-new.html"%>
     <%include file="next/partials/footer.html"%>
     <%include file="next/partials/QrCode.html"%>
   </body>

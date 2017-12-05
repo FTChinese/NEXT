@@ -75,31 +75,7 @@
             </div>
         </div>
 
-<!--<div class="property-share-container">
 
-
-<div class="story-action-placeholder" id="story-action-placeholder">
-<div class="story-action">
-<div class="action-inner">
-<a class="action-icon icon-wechat" href="/m/corp/qrshare.html?url=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001068131%3Ffull%3Dy&title=<%$realProperty.propertyStyle%>" target="_blank"></a>
-<a class="action-icon icon-weibo" href="http://service.weibo.com/share/share.php?appkey=4221537403&url=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001068131%3Ffull%3Dy%26ccode=2G169001&title=<%$realProperty.propertyStyle%>&ralateUid=1698233740&source=&sourceUrl=&content=utf-8&pic=http://i.ftimg.net/picture/9/000063189_piclink.jpg&searchPic=false" target="_blank"></a>
-<a class="action-icon icon-linkedin" href="https://www.linkedin.com/cws/share?url=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001068131%3Ffull%3Dy%26ccode%3D2G169003&original_referer=https%3A%2F%2Fdeveloper.linkedin.com%2Fsites%2Fall%2Fthemes%2Fdlc%2Fsandbox.php%3F&token=&isFramed=true&lang=zh_CN&_ts=1422502780259.2795" target="_blank"></a>
-<a class="action-icon icon-twitter" href="http://twitter.com/home?status=<%$realProperty.propertyStyle%>" target="_blank"></a>
-<a class="action-icon icon-facebook" href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001068131%3Ffull%3Dy&t=<%$realProperty.propertyStyle%>" target="_blank"></a>
-
-
-<div class="icon-right icon-save">
-<button id="addfavlink001068131">收藏</button>
-</div>
-<a class="icon-right icon-action icon-comments" href="/comments/index/001068131" target="_blank"></a>
-<a class="icon-right icon-action icon-print" href="/story/001068131?print=y" target="_blank"></a>
-<a class="icon-right icon-action icon-font-size" onclick="showOverlay('font-setting')"></a>
-<a class="icon-right icon-action icon-share" onclick="showOverlay('share-legacy')"></a>
-</div>
-</div>
-</div>
-
-</div>-->
 <div class="clearfloat block-bottom"></div>
 </div>
 </div>
@@ -107,7 +83,7 @@
 <div class="side-inner">
     <h2 class="list-title"><a class="list-link"><%$propertytDataName.GET_MORE_INFORMATION%></a></h2>
 <div>
-<form id="ai-inquirylead-form" name="<%$realProperty.propertyId%>"  method="post" action="/inquiry/post"class="sky-form ai-inquirylead-form xs-no-border xs-no-side-space xs-no-top-space xs-section-no-bottom-space"novalidate="novalidate">
+<form id="ai-inquirylead-form" name="<%$realProperty.propertyId%>"  method="post" action="./index.php/property/inquiry"class="sky-form ai-inquirylead-form xs-no-border xs-no-side-space xs-no-top-space xs-section-no-bottom-space"novalidate="novalidate">
     <div class="team-v6">
         <span><%$realProperty.name%></span> 
     
@@ -176,9 +152,21 @@
 </div>
 
 
+	<%if $smarty.get.ad != "no" && $noAd != "true" && $hideMPU1 != "yes"%>
+		<script type="text/javascript">
+			document.write (writeAdNew({
+				devices: ['PC','PadApp','PadWeb'],
+				pattern:'MPU',
+				position:'Right1'
+			}));
+		</script>
+	<%/if%>
 
 
-</div></div><div class="clearfloat"></div>
+
+</div>
+</div>
+<div class="clearfloat"></div>
 </div>
 </div><!--<div class="block-container has-side story-page">-->
 
