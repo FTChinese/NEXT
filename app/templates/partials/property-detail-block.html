@@ -1,7 +1,7 @@
 <%assign var="carousel_images_string" value = $realProperty.allImages|regex_replace:"/[\r\n\t]/":"*"%>
 <%assign var="carousel_images_string" value = $carousel_images_string|regex_replace:"/(\*+)/":"*"%>
 <%assign var="carousel_images_array" value="*"|explode:$carousel_images_string%>
-<div class="swiper-position">   
+<div class="swiper-position">
 <!-- Swiper -->
     <div class="swiper-container gallery-top">
         <div class="swiper-wrapper">
@@ -21,7 +21,7 @@
 	        <%/foreach%>
         </div>
     </div>
-</div> 
+</div>
 
 <div class="block-container has-side">
     <div class="block-inner">
@@ -32,29 +32,29 @@
             <div class="items">
                 <ul class="indentation">
                     <li><span><%$realProperty.propertyNature%></span></li>
-                    
+
                     <%if $realProperty.price|string_format:"%d" eq 0%>
-                    <li><span><strong><%$propertytDataName.Discuss_Personally%></strong></span></li> 
+                    <li><span><strong><%$propertytDataName.Discuss_Personally%></strong></span></li>
                     <%else%>
                     <li><span> <strong><%$realProperty.price%><%$realProperty.priceUnit%></strong>&nbsp; </span></li>
                     <%/if%>
 
-                    <%if $realProperty.propertyStyle eq ''%> 
+                    <%if $realProperty.propertyStyle eq ''%>
                     <%else%>
                     <li><%$propertytDataName.Property_Style%>: <span><%$realProperty.propertyStyle%></span></li>
                     <%/if%>
 
-                    <%if $realProperty.bedroom eq 0%> 
+                    <%if $realProperty.bedroom eq 0%>
                     <%else%>
                     <li><%$propertytDataName.Bedroom%>: <span><%$realProperty.bedroom%></span></li>
                     <%/if%>
 
-                    <%if $realProperty.bathroom eq 0%> 
+                    <%if $realProperty.bathroom eq 0%>
                     <%else%>
                     <li><%$propertytDataName.Bathroom%>: <span><%$realProperty.bathroom%></span></li>
                     <%/if%>
 
-                    <%if $realProperty.halfBathroom eq 0%> 
+                    <%if $realProperty.halfBathroom eq 0%>
                     <%else%>
                     <li><%$propertytDataName.Half_Bathroom%>: <span><%$realProperty.halfBathroom%></span></li>
                     <%/if%>
@@ -83,11 +83,13 @@
 <div class="side-inner">
     <h2 class="list-title"><a class="list-link"><%$propertytDataName.GET_MORE_INFORMATION%></a></h2>
 <div>
+
 <form id="ai-inquirylead-form" name="<%$realProperty.propertyId%>"  method="post" action="./index.php/property/inquiry"class="sky-form ai-inquirylead-form xs-no-border xs-no-side-space xs-no-top-space xs-section-no-bottom-space"novalidate="novalidate">
+
     <div class="team-v6">
-        <span><%$realProperty.name%></span> 
-    
-        <div class="listing-title ai-inquirylead-form-property-link"> 
+        <span><%$realProperty.name%></span>
+
+        <div class="listing-title ai-inquirylead-form-property-link">
             <a  target="_blank" rel="nofollow" title="<%$realProperty.propertyTitle%>" href="<%$realProperty.companyLink%>"><%$realProperty.propertyTitle%></a> </div>
        <%* <h5><%$propertytDataName.View_more_properties_from%></h5>  *%>
         <div>
@@ -116,31 +118,31 @@
         <section>
             <div class="input">
                 <img src="http://static.ftchinese.com/icon/svg/avatar.svg">
-                
+
                 <input id="client-name" name="client-name" placeholder="<%$propertytDataName.Your_Full_Name%>" type="text">
-                
+
             </div>
         </section>
         <section>
             <div class="input">
                 <img src="http://static.ftchinese.com/icon/svg/phone-call.svg">
                 <input id="client-number" name="client-number" placeholder="<%$propertytDataName.Phone_Number%>" type="number"  >
-               
+
             </div>
         </section>
         <section>
             <div class="input">
                 <img src="http://static.ftchinese.com/icon/svg/envelope.svg">
                 <input id="client-email" name="client-email" placeholder="<%$propertytDataName.Email%>" type="email">
-               
+
             </div>
         </section>
         <div class="register-hint"  id = "user-hint">请您输入您的电子邮箱或者联系电话?</div>
         <section>
             <div class="textarea textarea-resizable">
-            <img src="http://static.ftchinese.com/icon/svg/chat.svg">    
+            <img src="http://static.ftchinese.com/icon/svg/chat.svg">
                 <textarea id="client-message" name="client-message" placeholder="<%$propertytDataName.Message%>" type="text"></textarea>
-               
+
             </div>
         </section>
         <div class="clearfloat"></div>
