@@ -193,7 +193,7 @@ function loadImages() {
     var imageWidth = thisFigure.offsetWidth;
     var imageHeight = thisFigure.offsetHeight;
     var imageTop = findTop(thisFigure);
-    var imageUrl = thisFigure.getAttribute('data-url');
+    var imageUrl = thisFigure.getAttribute('data-url') || '';
     var imageUrlBack;
     var figureClass = thisFigure.className || '';
     var fitType = 'cover';
@@ -201,7 +201,12 @@ function loadImages() {
     var shouldLoadImage = false;
     var loadedClass = '';
     var imageServiceHost = 'https://www.ft.com/__origami/service/image/v2/images/raw/';
+    var imageExists = true;
 
+    if (imageUrl === '') {
+      //console.log ('an empty image is here! Break Now! ')
+      imageExists = false;
+    }
 
     if (isRetinaDevice === true) {
       imageWidth = imageWidth * 2;
@@ -226,6 +231,7 @@ function loadImages() {
     imageUrl = encodeURIComponent(imageUrl);
 
 
+
     if (/sponsor/.test(figureClass)) {
       imageUrl = imageServiceHost + imageUrl + '?source=ftchinese&height=' + imageHeight + '&fit=' + fitType;
       shouldLoadImage = true;
@@ -235,6 +241,12 @@ function loadImages() {
     }
 
     if (window.gNoImageWithData === 'On' && window.gConnectionType === 'data') {
+      shouldLoadImage = false;
+    }
+
+    // MARK: If the image doesn't even exist, it should not be loaded
+    if (imageExists === false) {
+      //console.log ('the image does not exist! ')
       shouldLoadImage = false;
     }
 
@@ -248,6 +260,9 @@ function loadImages() {
         imageUrlBack: imageUrlBack,
         loadedClass: loadedClass
       };
+
+      //console.log (imageUrl);
+
       //thisFigure.innerHTML = '<img src="' + imageUrl + '" data-backupimage="' + imageUrlBack + '">';
       //thisFigure.className = loadedClass;
     } else {
