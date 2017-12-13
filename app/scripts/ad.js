@@ -1,4 +1,4 @@
-/* exported writeAd, slotStr, checkB, clearEvents, writeAdNew */
+/* exported writeAd, slotStr, checkB, sendEvent,clearEvents, writeAdNew */
 /*
 var adPositions = {
   'banner': ['0001','0006','0007','0008'],
@@ -276,7 +276,7 @@ function initAds() {
   */
 }
 window.gaLoaded = false;
-/*
+
 var eventsToSend = [];
 
 function sendEvent(ec, ea, el, ei) {
@@ -301,7 +301,7 @@ function clearEvents() {
   eventsToSend = [];
   window.gaLoaded = true;
 }
-*/
+
 
 /*
 function writeAd(adType, returnSrc) {
