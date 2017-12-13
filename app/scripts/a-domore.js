@@ -16,8 +16,8 @@ var adResized = false;
 var adFullWidth = false;
 var w=0;
     
-if ( window.parent.document.getElementById(parentId)) {
-    parentIframe = window.parent.document.getElementById(parentId);
+if (window.parent.document.getElementById(window.parentId)) {
+    parentIframe = window.parent.document.getElementById(window.parentId);
     adContainerHeight = parentIframe.offsetHeight || 0;
 
 
@@ -62,7 +62,7 @@ if ( window.parent.document.getElementById(parentId)) {
         parentIframe.style.height = adHeight + 'px';
         try {
             if (w<=1200) {
-                if (parentId.indexOf('mpu')>=0) {
+                if (window.parentId.indexOf('mpu')>=0) {
                     //alert (paretId);
                     parentIframe.parentNode.style.height = 'auto';
                 } else {
@@ -102,12 +102,12 @@ if ( window.parent.document.getElementById(parentId)) {
 
 }
     
-if (window.parent && parentId !== '' && /^banner/.test(parentId) && typeof stickyHeight === 'number' && stickyHeight > 0) {
+if (window.parent && window.parentId !== '' && /^banner/.test(window.parentId) && typeof stickyHeight === 'number' && stickyHeight > 0) {
     if (typeof window.parent.stickyAds !== 'object') {
         window.parent.stickyAds = [];
     }
     window.parent.stickyAds.push({
-        'BannerId': parentId,
+        'BannerId': window.parentId,
         'stickyHeight': stickyHeight
     });
     try {
@@ -119,7 +119,7 @@ if (window.parent && parentId !== '' && /^banner/.test(parentId) && typeof stick
 }
 
 //in a iframe of h5 template
-if (window.parent && typeof window.parent.mpuAds === 'object' && parentId !== '') {
+if (window.parent && typeof window.parent.mpuAds === 'object' && window.parentId !== '') {
     if (typeof parentIframe === 'object') {
         var parentContainer = parentIframe.parentNode;
         var overlayLink;
