@@ -637,10 +637,6 @@ function stickyBottom() {
 }
 
 
-
-
-
-
 function setResizeClass() {
   if (htmlClass.indexOf(' resized') < 0) {
     htmlClass += ' resized';
@@ -648,9 +644,37 @@ function setResizeClass() {
   }
 }
 
+function validHTMLCode() {
+  var validateFail = false;
+  if (document.querySelectorAll) {
+    if (window.gPageId === 'home') {
+      if (document.querySelectorAll('.item-container').length === 0) {
+        validateFail = true;
+      }
+    } else if (window.gPageId === 'story') {
+      if (document.querySelectorAll('.story-body').length === 0) {
+        validateFail = true;
+      }
+    } else if (typeof window.gPageId === 'string'){
+      if (document.querySelectorAll('.item-container').length === 0) {
+        validateFail = true;
+      }
+    }
+    if (validateFail === true) {
+      ga('send','event','CatchError', 'Page HTML Valid Fail', window.location.href, {'nonInteraction':1});
+    }
+  }
+}
+
 
 try {
   delegate = new Delegate(document.body);
+} catch (ignore) {
+
+}
+
+try {
+  validHTMLCode();
 } catch (ignore) {
 
 }

@@ -63,6 +63,12 @@ img {
             var adChannelId;
             var adPositionId;
 
+            var refreshParameter = '';
+            if (/&refresh=1/.test(k)) {
+                refreshParameter = '&_refresh=1';
+            } else {
+                refreshParameter = '&_refresh=0';
+            }
 
             var parentId = k.replace(/^.*pid=([0-9A-Za-z\-]+).*$/,'$1');
             if (/^[0-9]{12}$/.test(c)) {
@@ -89,7 +95,7 @@ img {
             }
             var trString = '&tr=' + c + '_' + randNumber;
 
-            document.write ('<scr'+'ipt src="http://dualstack.adsame-1421766300.ap-southeast-1.elb.amazonaws.com/s?z=ft&c=' + c + slotStr + trString + adP + '&_fallback=0" charset="gbk" onerror="removeAd()" onload="loaded()"></scr'+'ipt>');
+            document.write ('<scr'+'ipt src="http://dualstack.adsame-1421766300.ap-southeast-1.elb.amazonaws.com/s?z=ft&c=' + c + slotStr + trString + adP + '&_fallback=0' + refreshParameter + '" charset="gbk" onerror="removeAd()" onload="loaded()"></scr'+'ipt>');
             
             // record the ad impression
             try {
@@ -106,6 +112,14 @@ img {
         
 
             <%if date("Ymd",$smarty.now) <= 20171231%>
+
+                try {
+                    var stateObj = {foo: 'bar'};
+                    var newUrl = window.location.href + '&refresh=1';
+                    history.pushState(stateObj, '', newUrl);
+                } catch (ignore) {
+
+                }
 
                 <%if date("Ymd",$smarty.now) == 20171117 && date("Ymd",$smarty.now) == 20171124%>
                     window.refreshTime = 20;

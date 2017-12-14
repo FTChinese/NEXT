@@ -425,7 +425,7 @@ function writeAd(adType, returnSrc) {
   //console.log ('AdType: ' + adType + ' currentAdCount: ' + currentAdCount + '/' + adMax[adType] + 'adMax[adType]: ' + adMax[adType] + '/' + adch + adType);
   if (typeof currentAdCount === 'number' && currentAdCount < adMax[adType] && shouldHideAdContainer === false) {
     adPosition = adPositions[adType][currentAdCount];
-    iframeSrc = '/m/marketing/'+adFileName+'.html?v=20171028005800' + bannerBG + '#adid='+ adch + adPosition + '&pid='+adType+adCount[adType];
+    iframeSrc = '/m/marketing/'+adFileName+'.html?v=20171214112400' + bannerBG + '#adid='+ adch + adPosition + '&pid='+adType+adCount[adType];
     if (/mpu/.test(adType)) {
       adWidth = '300';
       adHeight = '250';
@@ -631,9 +631,9 @@ function writeAdNew(obj) {
 
   var iframeSrc = '';
   if (window.location.hostname === 'localhost' || window.location.hostname.indexOf('192.168') === 0 || window.location.hostname.indexOf('10.113') === 0 || window.location.hostname.indexOf('127.0') === 0) {
-    iframeSrc = 'a.html?v=20171028005800' + bannerBG + '#adid='+ adid + '&pid=' + adid;
+    iframeSrc = 'a.html?v=20171214112400' + bannerBG + '#adid='+ adid + '&pid=' + adid;
   } else {
-    iframeSrc = '/m/marketing/a.html?v=20171028005800' + bannerBG + '#adid='+ adid + '&pid=' + adid;
+    iframeSrc = '/m/marketing/a.html?v=20171214112400' + bannerBG + '#adid='+ adid + '&pid=' + adid;
   }
   iframeHTML = '<iframe class="banner-iframe" data-adch="'+adChannelId+'" data-adPosition="'+ adPatternId + adPositionId+'" id="ad-' + adid + '" width="'+ adWidth +'" height="'+ adHeight + '" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="'+ iframeSrc +'" data-src="'+ iframeSrc +'" data-ad-type="'+ adPatternId + adPositionId +'" data-ad-count=0></iframe>';
 
