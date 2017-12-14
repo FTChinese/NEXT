@@ -661,7 +661,7 @@ function validHTMLCode() {
       }
     }
     if (validateFail === true) {
-      ga('send','event','CatchError', 'Page HTML Valid Fail', window.location.href, {'nonInteraction':1});
+      ga('send','event','CatchError', 'Page Validation Fail', window.location.href, {'nonInteraction':1});
     }
   }
 }
