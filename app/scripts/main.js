@@ -645,6 +645,9 @@ function setResizeClass() {
 }
 
 function validHTMLCode() {
+  if (/print|findpassword|search|corp|marketing|event|innotree/.test(window.location.href)) {
+    return;
+  }
   var validateFail = false;
   if (document.querySelectorAll) {
     if (window.gPageId === 'home') {
