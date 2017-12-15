@@ -415,6 +415,7 @@
                     var timeStampType = 2;
                     var headline = '';
                     var id = '';
+                    var ftid = '';
                     var longlead = '';
                     var shortlead = '';
                     var image = '';
@@ -425,6 +426,8 @@
                     var showRelativeStoryItems = 0;
                     var customLink = '';
                     var showSponsorImage = 'no';
+                    var caudio = '';
+                    var eaudio = '';
                     if (entry.id) {
                         //console.log (entry.last_publish_time);
                         timeStamp = entry.fileupdatetime || '';
@@ -433,6 +436,10 @@
                         }
                         timeStampType = 2;
                         id = entry.id;
+                        ftid = entry.ftid || '';
+                        if (ftid !== '') {
+                            eaudio = 'https://s3-us-west-2.amazonaws.com/ftlabs-audio-rss-bucket.prod/' + ftid + '.mp3';
+                        }
                         headline = entry.cheadline;
                         longlead = entry.clongleadbody || '';
                         shortlead = entry.cshortleadbody || '';
@@ -446,6 +453,7 @@
                         //shortlead = JSON.stringify(relativestory);
                         var obj = {
                             id: id,
+                            ftid: ftid,
                             headline: headline,
                             timeStamp: timeStamp,
                             timeStampType: timeStampType,
@@ -455,6 +463,8 @@
                             type: type,
                             tag: tag,
                             customLink: customLink,
+                            caudio: caudio,
+                            eaudio: eaudio,
                             showSponsorImage: showSponsorImage,
                             relativestory: relativestory,
                             showRelativeStoryItems: showRelativeStoryItems
