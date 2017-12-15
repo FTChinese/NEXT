@@ -617,8 +617,8 @@ function writeAdNew(obj) {
       adPatternData = window.adPatternsPC;
     }
   } 
-  console.log('adPatternData:');
-  console.log(adPatternData);
+  //console.log('adPatternData:');
+  //console.log(adPatternData);
   if(adPatternData) {
     var adPattern = adPatternData[obj.pattern];
     adPatternId = adPattern.id;
@@ -644,9 +644,11 @@ function writeAdNew(obj) {
     var topChannelId = adChannelId.substring(0,2);
     var subChannelId = adChannelId.substring(2,4);
     var adChannel = adDevices[deviceType].channels;
+    /*
     console.log('adChannel:');
     console.log(adChannel);
     console.log(typeof adChannel);
+    */
     var subChannels = {};
     var topChannelTitle = '';
     var subChannelTitle = '';
