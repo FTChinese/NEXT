@@ -1034,10 +1034,16 @@
 								<%assign var="caudioUrl" value=""%>
 								<%assign var="caudioData" value=""%>
 							<%/if%>
+
 							<%if preg_match("/.mp3$/is",$item.eaudio)%>
 								<%assign var="eaudioUrl" value=$item.eaudio%>
 								<%assign var="eaudioData" value=" data-eaudio=\"`$eaudioUrl`\""%>
 							<%else%>
+								<%assign var="eaudioUrl" value=""%>
+								<%assign var="eaudioData" value=""%>
+							<%/if%>
+
+							<%if date("Ymd",$smarty.now) <= 20180115 && $smarty.get.showEnglishAudio != "yes"%>
 								<%assign var="eaudioUrl" value=""%>
 								<%assign var="eaudioData" value=""%>
 							<%/if%>
