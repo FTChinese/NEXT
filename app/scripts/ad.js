@@ -304,253 +304,6 @@ function clearEvents() {
 
 
 /*
-function writeAd(adType, returnSrc) {
-  var adFileName;
-  var currentAdCount;
-  var adPosition;
-  var iframeSrc;
-  var adWidth;
-  var adHeight;
-  var iframeHTML;
-  var adch = adchID;
-  var bannerBG = '';
-  var wechatAdHTML = '';
-  var debugString = '';
-  var TouchDevice = false;
-  var shouldHideAdContainer = false;
-
-  if (/iPad/i.test(uaString)) {
-    //if iPad, mpu ads change to iPad apps
-    adch = '2021';
-    TouchDevice = true;
-    if (['mpu', 'storympuRight'].indexOf(adType) > 0) {
-      if (window.gPageId === 'story') {
-        adType = 'ipadstorympu';
-      } else {
-        adType = 'ipadhomempu';
-      }
-    } else {
-      shouldHideAdContainer = true;
-      // hideAdContainer(adType);
-      // return '';
-    }
-  } else if (/OS [0-9]+\_/i.test(uaString) && (/iPhone/i.test(uaString) || /iPod/i.test(uaString))) {
-    adch = '2022';
-    TouchDevice = true;
-  } else if (/Android|micromessenger/i.test(uaString) || w1 <= 490){
-    // if uaString shows Android or browser width is less than 490
-    // sometime browser width is not correct in Android phone
-    adch = '2023';
-    TouchDevice = true;
-  }
-  var adchURL = window.location.href.replace(/^.*adchannelID=([0-9]{4}).*$/g,'$1');
-  var fromURL = false;
-  if (/^[0-9]{4}$/.test(adchURL)) {
-    adch = adchURL;
-    fromURL = true;
-  }
-  if (typeof(window.FTadchannelID)!=='undefined' && window.FTadchannelID && !fromURL) {
-    adch = window.FTadchannelID;
-    fromURL = true;
-  }
-  // MARK: if it's a landing page, not a touch device and not a sponsored page, change the adch to home (1000)
-  try {
-    if (1<0 && gIsLandingPage === true && TouchDevice === false && fromURL === false && window.gIsCurrentAdchFinal === false && adch !== '1000' && sponsoredChannelIds.indexOf(adch) < 0) {
-      //ga('send','event','Landing Page Ad Impression', adch , adType, {'nonInteraction':1});
-      //console.log ('Current adch ('+ adch +') can be changed to 1000');
-      adch = '1000';
-      if (adType === 'tagbanner') {
-        adType = 'banner';
-      }
-    } else {
-      //console.log ('Current adch ('+ adch +') is final');
-    }
-  } catch (ignore) {
-
-  }
-  //2022(iPhone) + 2023(Android) + 2056(Smart City)
-  if ((adch === '2022' || adch === '2023' || fromURL) && TouchDevice) {
-    // if it's a sponsored story
-
-    // if the url fits certain pattern
-    // display bonus MPU on mobile
-    if (/utm\_campaign=2[MU]16/i.test(location.href)) {
-      if (adType === 'fullpage') {
-        adType = 'phonefullpage';
-      } else if (adType.indexOf('banner') < 0) {
-        adType = 'phonehomempuBonus';
-        SetCookie('fs0',1,0,'/');
-      } else {
-        adType = 'phonebanner';
-      }
-    } else if (adType === 'storybanner') {
-      adType = 'phonestorybanner';
-    } else if (adType.indexOf('banner') >=0) {
-      adType = 'phonebanner';
-    } else if (adType === 'mpu' || adType === 'homempu') {
-      adType = 'phonehomempu';
-    } else if (adType === 'tagmpu' || adType === 'taginlinempu') {
-      adType = 'phonetagmpu';
-    } else if (adType === 'storympu' || adType === 'storympuRight') {
-      adType = 'phonestorympu';
-    } else if (adType === 'storympuVW') {
-      adType = 'phonestorympuVW';
-    } else if (adType === 'homempuVW') {
-      adType = 'phonehomempuVW';
-    } else if (adType === 'fullpage') {
-      adType = 'phonefullpage';
-    } else if (adType === 'paidpost') {
-      adType = 'phonepaidpost';
-    }
-    if (window.sponsorMobile === true) {
-      if (adType === 'phonebanner') {
-        adType = 'phonestorybannersponsor';
-      } else if (adType === 'phonestorympu') {
-        adType = (adch === '2022')?'phonestoryiphonempu':'phonestoryandroidmpu';
-      }
-      adch = adchID;
-      //adType = 'phonestorympu';
-    }
-  }
-
-
-  if (window.pageTheme === 'luxury') {
-    bannerBG = '&bg=e0cdac';
-  } else if (window.pageTheme === 'ebook') {
-    bannerBG = '&bg=777777';
-  }
-
-  adFileName = (/banner/i.test(adType) && adCount[adType] === 0 && /^(1200|1300|1500)$/i.test(adch)) ? 't' : 'a';
-  currentAdCount = adCount[adType];
-  //console.log ('AdType: ' + adType + ' currentAdCount: ' + currentAdCount + '/' + adMax[adType] + 'adMax[adType]: ' + adMax[adType] + '/' + adch + adType);
-  if (typeof currentAdCount === 'number' && currentAdCount < adMax[adType] && shouldHideAdContainer === false) {
-    adPosition = adPositions[adType][currentAdCount];
-    iframeSrc = '/m/marketing/'+adFileName+'.html?v=20171214112400' + bannerBG + '#adid='+ adch + adPosition + '&pid='+adType+adCount[adType];
-    if (/mpu/.test(adType)) {
-      adWidth = '300';
-      adHeight = '250';
-    } else if (/phone.*banner/.test(adType)) {
-      adWidth = '100%';
-      adHeight = '50';
-    } else if (/phonefullpage/.test(adType)) {
-      adWidth = '0';
-      adHeight = '0';
-    } else {
-      adWidth = '969';
-      adHeight = '90';
-    }
-    // MARK: WeChat have fixed the bug with iframe. Use iframe for all ads.
-    if (isWeChat === true && 1>2) {
-      slotStr = '';
-      var c = adch + adPosition;
-      var adP = '';
-      if (1<0 && c==='20220101') {
-      } else {
-        window.adType = adType;
-        var randNumber = parseInt(Math.random() * 10000000000, 10).toString();
-        if (c === '20220101' || c === '20220102' || c === '20230101' || c === '20230102') {
-            window.gRand = randNumber;
-        }
-        var trString = '&tr=' + c + '_' + randNumber;
-        wechatAdHTML = '<div class="banner-iframe" style="width: 100%; " data-adch="'+adch+'" data-adPosition="'+adPosition+'"><scr';
-        wechatAdHTML += 'ipt src="http://dualstack.adsame-1421766300.ap-southeast-1.elb.amazonaws.com/s?z=ft&c=' + c + slotStr + trString + adP + '&_fallback=0" charset="gbk">';
-        wechatAdHTML += '</scr';
-        wechatAdHTML += 'ipt></div>';
-        // console.log (adType + adCount[adType]);
-      }
-    } else {
-      iframeHTML = '<iframe class="banner-iframe" data-adch="'+adch+'" data-adPosition="'+adPosition+'" id="' + adType + adCount[adType] + '" width="'+ adWidth +'" height="'+ adHeight + '" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="'+ iframeSrc +'" data-src="'+ iframeSrc +'" data-ad-type="'+ adType +'" data-ad-count=' + adCount[adType] + '></iframe>';
-    }
-    //console.log ('this ad is displayed: ' + adType);
-  } else {
-    //console.log ('no need to display this ad: ' + adType);
-    iframeSrc = '';
-    iframeHTML = '';
-    var bannerContainers = document.querySelectorAll('.bn-ph');
-    var mpuContainers = document.querySelectorAll('.mpu-container, #story_main_mpu');
-    // console.log (mpuContainers);
-    // console.log ((currentAdCount < adMax[adType]) + '/' + currentAdCount + '/' + adType);
-    // console.log (/mpu/.test(adType));
-    // console.log (currentAdCount);
-    // console.log (mpuContainers[currentAdCount].className);
-    if (/banner/.test(adType) && bannerContainers && bannerContainers[currentAdCount]) {
-      bannerContainers[currentAdCount].style.display = 'none';
-    } else if (/mpu/.test(adType) && mpuContainers && mpuContainers[currentAdCount]) {
-      //console.log (currentAdCount);
-      mpuContainers[currentAdCount].style.display = 'none';
-    }
-  }
-
-  if (typeof window.gDebugAd === 'string') {
-    debugString = window.gDebugAd.replace('adcode_for_debug', adch + adPosition);
-  }
-
-
-  adCount[adType] = adCount[adType] + 1;
-  if (returnSrc === true) {
-    return  iframeSrc + debugString;
-  } else if (isWeChat === true && 1>2) {
-    // record the ad impression
-    try {
-      if (typeof adPosition === 'string') {
-        sendEvent('Ad Impression', adch, adPosition, {'nonInteraction':1});
-      }
-    } catch (ignore) {
-
-    }
-
-    //deal with WeChat Sharing Bug
-    // where WeChat grabs iframe src instead of the real url for sharing
-    return wechatAdHTML + debugString;
-  } else {
-    return iframeHTML + debugString;
-  }
-
-}
-*/
-
-// MARK: This is no longer needed, remove in 3 months
-// var bannerIframeContainers = [];
-// function reloadBanners() {
-//   var bannerIframes;
-//   var i = 0;
-//   if (bannerIframeContainers.length === 0) {
-//     bannerIframes = document.querySelectorAll('.banner-iframe');
-//     for (i=0; i<bannerIframes.length; i++) {
-//       bannerIframeContainers[i] = bannerIframes[i].parentNode;
-//     }
-//   }
-//   adCount = {};
-//   initAds();
-//   for (i=0; i<bannerIframeContainers.length; i++) {
-//     var thisiFrame = bannerIframeContainers[i].querySelector('.banner-iframe');
-//     var thisSrc;
-//     var adType;
-//     var thisAdCount;
-//     if (thisiFrame !== null) {
-//       thisSrc = thisiFrame.getAttribute('data-src');
-//       adType = thisiFrame.getAttribute('data-ad-type');
-//       thisAdCount = thisiFrame.getAttribute('data-ad-count');
-//     } else {
-//       thisSrc = '';
-//       adType = '';
-//       thisAdCount = 0;
-//     }
-
-//     //console.log (thisSrc);
-//     var newSrc = writeAd(adType, true);
-//     if (thisSrc !== newSrc) {
-//       bannerIframeContainers[i].innerHTML = writeAd(adType);
-//       //console.log ('different: (' + i + ')' + thisSrc + '|' + newSrc);
-//     } else {
-//       //console.log ('same: (' + i + ')' + thisSrc + '|' + newSrc);
-//     }
-//   }
-// }
-
-
-
-
 function writeAdNew(obj) {
   /**
    * @param obj
@@ -558,7 +311,7 @@ function writeAdNew(obj) {
    * @param obj.pattern: TYPE String,the key string of var adPattern, Eg：'FullScreen'、'Leaderboard'
    * @param obj.position：TYPE String, the key string of var adPattern.xxx.position,Eg: 'Num1','Right1','Middle2'
    * @param obj.container: TYPE String, the container specified for the ad position in a certain page. The priority of obj.container is the highest among obj.container,adPattern.container and 'none'
-   */
+   
   // MARK: If there's ad=no in the url, return empty string immediately
   if (location.href.indexOf('ad=no')>0) {
     return '';
@@ -675,17 +428,7 @@ function writeAdNew(obj) {
   }
   return iframeHTML;
 }
-
-
-
-
-
-
-
-
-
-
-
+*/
 
 var isBlocked = 'unknown';
 
@@ -722,3 +465,216 @@ if (isWeChat === true) {
   document.documentElement.className += ' is-wechat';
 }
 checkLandingPage();
+
+var searchVars = getSearchVars(); 
+
+var deviceType = getDeviceTpye();
+
+console.log('deviceType:'+deviceType);
+var adChannelId = getAdChannelId();
+
+var bannerBG = getBannerBG();
+
+var isLocal = isLocal();
+//MARK:获取当前URL的search参数键值对处理成的对象
+function getSearchVars() {
+  var searchVars = {};
+  if (window.location.search.length > 1) {
+    var searchStr = window.parent.location.search;
+    for (var oneKeyValueArr, index = 0, searchStrArr = searchStr.substr(1).split('&'); index < searchStrArr.length; index++) {
+      oneKeyValueArr = searchStrArr[index].split('=');
+      searchVars[decodeURIComponent(oneKeyValueArr[0])] = oneKeyValueArr.length > 1 ? decodeURIComponent(oneKeyValueArr[1]) : '';
+    }
+  }
+  return searchVars;
+}
+
+function getDeviceTpye() {
+    /**
+     * @dependGlob uaString
+     * @dependGlob searchVars
+     * @dest: determin device type
+     */
+    var deviceType = 'PC';
+  
+    if (/iPad/i.test(uaString)) {
+      deviceType = 'PadWeb';
+      if(searchVars.webview && searchVars.webview === 'ftcapp') {
+        deviceType = 'PadApp';
+      }
+    } else if (/OS [0-9]+\_/i.test(uaString) && (/iPhone/i.test(uaString) || /iPod/i.test(uaString))) {
+      deviceType = 'iPhoneWeb';
+      if(searchVars.webview && searchVars.webview === 'ftcapp') {
+        deviceType = 'iPhoneApp';
+      }
+    } else if (/Android|micromessenger/i.test(uaString) || w1 <= 490) {
+      deviceType = 'AndroidWeb';
+    }
+    return deviceType;
+}
+
+function getAdChannelId() {
+  /**
+   * @dependGlob adchID
+   * @dependGlob FTadchannelID
+   * @dependGlob deviceType
+   */
+  var adch = ''; //TODO:集中channel号码的获取方式，不要head.html等等都有
+  var adchURL = window.location.href.replace(/^.*adchannelID=([0-9]{4}).*$/g,'$1');
+  if (/^[0-9]{4}$/.test(adchURL)) { //MARK:如果是从url可以得到4位频道号
+    adch = adchURL;
+  } else if (typeof(window.FTadchannelID)!=='undefined' && window.FTadchannelID ) { //MARK:否则看一下全局变量FTadchannelID是否存在
+    console.log(window.FTadchannelID);
+    adch = window.FTadchannelID;
+  } 
+  //MARK:Mobile情况下的频道要抹去二级频道（一级频道为50开头的除外）
+  var mobileDeviceTypeArr = ['iPhoneApp','iPhoneWeb','AndroidApp','AndroidWeb','PadApp','PadWeb'];
+  if (adch && mobileDeviceTypeArr.indexOf(deviceType) >= 0 && adch.substring(0,2)!== '50' && adch.substring(2,4)!=='00') {
+    adch = adch.substring(0,2) + '00';
+  }
+  var adChannelId = adch||'1000';
+  return adChannelId;
+}
+
+function getBannerBG() {
+  var bannerBG = '';
+  if (window.pageTheme === 'luxury') {
+    bannerBG = '&bg=e0cdac';
+  } else if (window.pageTheme === 'ebook') {
+    bannerBG = '&bg=777777';
+  }
+  return bannerBG;
+}
+
+function isLocal() {
+  /**
+   * @dest determine if it is local
+   */
+  if (window.location.hostname === 'localhost' || window.location.hostname.indexOf('192.168') === 0 || window.location.hostname.indexOf('10.113') === 0 || window.location.hostname.indexOf('127.0') === 0) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function writeAdNew(obj) {
+  /**
+   * @param obj
+   * @param obj.devices: TYPE Array, the devices are allowed to show this ad, Eg:['PC','PadWeb','iPhoneWeb','AndroidWeb']
+   * @param obj.pattern: TYPE String,the key string of var adPattern, Eg：'FullScreen'、'Leaderboard'
+   * @param obj.position：TYPE String, the key string of var adPattern.xxx.position,Eg: 'Num1','Right1','Middle2'
+   * @param obj.container: TYPE String, the container specified for the ad position in a certain page. The priority of obj.container is the highest among obj.container,adPattern.container and 'none'
+   
+   * @dependglob adDevices: It is from adDevice.js
+   * @dependglob deviceType
+   * @dependglob adChannelId
+   * @dependglob bannerBg
+   * @dependglob isLocal
+   */
+  
+  // MARK: If there's ad=no in the url, return empty string immediately
+  if (location.href.indexOf('ad=no')>0) {
+    return '';
+  }
+
+  //MARK: First, get the adid
+  
+  var iframeHTML = '';
+  var debugString = '';
+  var adid = '';
+  var deviceId = '';
+  var adPatternId = '';
+  var adPositionId = '';
+  var adWidth = '';
+  var adHeight = '';
+  var containerType = '';
+  var adDescription = '';
+  var adPatternData;
+
+  // MARK: If device does not fit, return immediately
+  if (obj.devices.indexOf(deviceType) < 0) {
+    return '';
+  }
+  deviceId = adDevices[deviceType].id;//get the deviceId
+ 
+  if(window.deviceGotFromPhp) {//线上环境根据后台php传过来的deviceGotFromPhp来获取设备类型
+    console.log(window.deviceGotFromPhp);
+    if (window.deviceGotFromPhp === 'Pad') {
+      adPatternData = window.adPatternsPad;
+    } else if (window.deviceGotFromPhp === 'Phone') {
+      adPatternData = window.adPatternsPhone;
+    } else {
+      adPatternData = window.adPatternsPC;
+    }
+  } else { //本地情况只能根据deviceType来判断
+    console.log('deviceType:'+deviceType);
+    if(deviceType === 'PadWeb'|| deviceType === 'PadApp') {
+      adPatternData = window.adPatternsPad;
+    } else if(deviceType === 'iPhoneWeb'|| deviceType === 'iPhoneApp' || deviceType === 'AndroidWeb') {
+      adPatternData = window.adPatternsPhone;
+    } else {
+      adPatternData = window.adPatternsPC;
+    }
+  } 
+  console.log('adPatternData:');
+  console.log(adPatternData);
+  if(adPatternData) {
+    var adPattern = adPatternData[obj.pattern];
+    adPatternId = adPattern.id;
+    adPositionId = adPattern.position[obj.position].id;
+    adWidth = adPattern.width || '100%';
+    adHeight = adPattern.height || '50';
+    containerType = obj.container || adPattern.container || 'none';
+    adid = deviceId + adChannelId + adPatternId + adPositionId;
+  }
+  
+ 
+  var iframeSrc = '';
+  if (isLocal) {
+    iframeSrc = 'a.html?v=20171214112400' + bannerBG + '#adid='+ adid + '&pid=' + adid;
+  } else {
+    iframeSrc = '/m/marketing/a.html?v=20171214112400' + bannerBG + '#adid='+ adid + '&pid=' + adid;
+  }
+  iframeHTML = '<iframe class="banner-iframe" data-adch="'+adChannelId+'" data-adPosition="'+ adPatternId + adPositionId+'" id="ad-' + adid + '" width="'+ adWidth +'" height="'+ adHeight + '" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="'+ iframeSrc +'" data-src="'+ iframeSrc +'" data-ad-type="'+ adPatternId + adPositionId +'" data-ad-count=0></iframe>';
+
+
+  if (window.gDebugAd && typeof window.gDebugAd === 'string') { //有两种情况存在gDebugAd：1线上为www7时，如果$debug_model == 1，则存在gDebugAd(参见partials/head.html);2本地测试一定存在gDebugAd
+    //MARK:找出channel的describtion
+    var topChannelId = adChannelId.substring(0,2);
+    var subChannelId = adChannelId.substring(2,4);
+    var adChannel = adDevices[deviceType].channels;
+    console.log('adChannel:');
+    console.log(adChannel);
+    console.log(typeof adChannel);
+    var subChannels = {};
+    var topChannelTitle = '';
+    var subChannelTitle = '';
+    for(var prop in adChannel) {
+      var propObj = adChannel[prop];
+      if(propObj.id === topChannelId) {
+        topChannelTitle = propObj.title;
+        subChannels = propObj.sub;
+      }
+    }
+    for(var subProp in subChannels) {
+      var subPropObj = subChannels[subProp];
+      if(subPropObj.id === subChannelId) {
+        subChannelTitle = subPropObj.title;
+      }
+    }
+
+    adDescription = deviceType + '-' + topChannelTitle + '-' + subChannelTitle + '-' + obj.pattern + '-' + obj.position;
+    debugString = window.gDebugAd.replace('adcode_for_debug', adid + ': ' + adDescription);
+  }
+
+  iframeHTML += debugString;
+
+  if (containerType === 'banner') {
+    iframeHTML = '<div class="bn-ph"><div class="banner-container"><div class="banner-inner"><div class="banner-content">' + iframeHTML + '</div></div></div></div>';
+  } else if (containerType === 'mpu') {
+    iframeHTML = '<div class="mpu-container">' + iframeHTML + '</div>';
+  } else if (containerType === 'mpuInStroy') {
+    iframeHTML = '<div class="mpu-container-instory">' + iframeHTML + '</div>';
+  }
+  return iframeHTML;
+}
