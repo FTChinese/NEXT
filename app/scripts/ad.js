@@ -472,6 +472,7 @@ var deviceType = getDeviceTpye();
 
 console.log('deviceType:'+deviceType);
 var adChannelId = getAdChannelId();
+console.log('adChannelId:'+adChannelId);
 
 var bannerBG = getBannerBG();
 
@@ -519,7 +520,7 @@ function getAdChannelId() {
    * @dependGlob FTadchannelID
    * @dependGlob deviceType
    */
-  var adch = ''; //TODO:集中channel号码的获取方式，不要head.html等等都有
+  var adch = adchID; //TODO:集中channel号码的获取方式，不要head.html等等都有
   var adchURL = window.location.href.replace(/^.*adchannelID=([0-9]{4}).*$/g,'$1');
   if (/^[0-9]{4}$/.test(adchURL)) { //MARK:如果是从url可以得到4位频道号
     adch = adchURL;
