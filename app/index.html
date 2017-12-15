@@ -87,12 +87,23 @@ adchID = adchIDNew;
 }
 </script>
 
+<!-- build以下三种设备的adPattern, 在templates/partials/loadAdDataByDevice.html中根据php获得的前端设备属性分别加载 -->
+<!-- build:js scripts/adPatternsPC.js -->
+<script type="text/javascript" src="scripts/adPatternsPC.js"></script>
+<!-- endbuild -->
+
+<!-- build:js scripts/adPatternsPhone.js -->
+<script type="text/javascript" src="scripts/adPatternsPhone.js"></script>
+<!-- endbuild -->
+
+<!-- build:js scripts/adPatternsPad.js -->
+<script type="text/javascript" src="scripts/adPatternsPad.js"></script>
+<!-- endbuild -->
 
 
 <!-- build:js scripts/key.js -->
 <script type="text/javascript" src="scripts/key.js"></script>
 <script type="text/javascript" src="scripts/adChannel.js"></script>
-<script type="text/javascript" src="scripts/adPattern.js"></script>
 <script type="text/javascript" src="scripts/adDevice.js"></script>
 <script type="text/javascript" src="scripts/ad.js"></script>
 <script type="text/javascript" src="scripts/ad-third-party.js"></script>
@@ -726,7 +737,7 @@ FT中文网首页
 
 
 
-<iframe id="ribbon" class="ad-hidden hide" width="100%" height="60" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="/m/marketing/a.html#adid=10000009&slot=986723212&pid=ribbon"></iframe>
+<iframe id="ribbon" class="ad-hidden hide" width="100%" height="60" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="a.html#adid=10000009&slot=986723212&pid=ribbon"></iframe>
 <div class="links-container P-hide">
 <h2 class="list-title"><a href="/m/marketing/home.html">会员信息中心</a></h2>
 <div class="links" id="member-info">
