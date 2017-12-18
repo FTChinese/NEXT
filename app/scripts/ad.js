@@ -641,17 +641,17 @@ function writeAdNew(obj) {
 
   if (window.gDebugAd && typeof window.gDebugAd === 'string') { //有两种情况存在gDebugAd：1线上为www7时，如果$debug_model == 1，则存在gDebugAd(参见partials/head.html);2本地测试一定存在gDebugAd
     //MARK:找出channel的describtion
+    //TODO:按需加载channel数据
+    /*
     var topChannelId = adChannelId.substring(0,2);
     var subChannelId = adChannelId.substring(2,4);
-    var adChannel = adDevices[deviceType].channels;
-    /*
-    console.log('adChannel:');
-    console.log(adChannel);
-    console.log(typeof adChannel);
-    */
+    var adChannel = adDevices[deviceType].channels; 
+
     var subChannels = {};
+    */
     var topChannelTitle = '';
     var subChannelTitle = '';
+    /*
     for(var prop in adChannel) {
       var propObj = adChannel[prop];
       if(propObj.id === topChannelId) {
@@ -665,7 +665,7 @@ function writeAdNew(obj) {
         subChannelTitle = subPropObj.title;
       }
     }
-
+    */
     adDescription = deviceType + '-' + topChannelTitle + '-' + subChannelTitle + '-' + obj.pattern + '-' + obj.position;
     debugString = window.gDebugAd.replace('adcode_for_debug', adid + ': ' + adDescription);
   }
