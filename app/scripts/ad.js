@@ -597,7 +597,8 @@ function writeAdNew(obj) {
     return '';
   }
   deviceId = adDevices[deviceType].id;//get the deviceId
- 
+  console.log('deviceId:'+deviceId);
+  /*
   if(window.deviceGotFromPhp) {//线上环境根据后台php传过来的deviceGotFromPhp来获取设备类型
     console.log(window.deviceGotFromPhp);
     if (window.deviceGotFromPhp === 'Pad') {
@@ -608,15 +609,16 @@ function writeAdNew(obj) {
       adPatternData = window.adPatternsPC;
     }
   } else { //本地情况只能根据deviceType来判断
-    console.log('deviceType:'+deviceType);
-    if(deviceType === 'PadWeb'|| deviceType === 'PadApp') {
-      adPatternData = window.adPatternsPad;
-    } else if(deviceType === 'iPhoneWeb'|| deviceType === 'iPhoneApp' || deviceType === 'AndroidWeb') {
-      adPatternData = window.adPatternsPhone;
-    } else {
-      adPatternData = window.adPatternsPC;
-    }
-  } 
+    */
+  console.log('deviceType:'+deviceType);
+  if(deviceType === 'PadWeb'|| deviceType === 'PadApp') {
+    adPatternData = window.adPatternsPad;
+  } else if(deviceType === 'iPhoneWeb'|| deviceType === 'iPhoneApp' || deviceType === 'AndroidWeb') {
+    adPatternData = window.adPatternsPhone;
+  } else {
+    adPatternData = window.adPatternsPC;
+  }
+  //} 
   //console.log('adPatternData:');
   //console.log(adPatternData);
   if(adPatternData) {
