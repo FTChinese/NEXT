@@ -470,9 +470,9 @@ var searchVars = getSearchVars();
 
 var deviceType = getDeviceTpye();
 
-console.log('deviceType:'+deviceType);
+//console.log('deviceType:'+deviceType);
 var adChannelId = getAdChannelId();
-console.log('adChannelId:'+adChannelId);
+//console.log('adChannelId:'+adChannelId);
 
 var bannerBG = getBannerBG();
 
@@ -597,7 +597,7 @@ function writeAdNew(obj) {
     return '';
   }
   deviceId = adDevices[deviceType].id;//get the deviceId
-  console.log('deviceId:'+deviceId);
+  //console.log('deviceId:'+deviceId);
   /*
   if(window.deviceGotFromPhp) {//线上环境根据后台php传过来的deviceGotFromPhp来获取设备类型
     console.log(window.deviceGotFromPhp);
@@ -610,7 +610,7 @@ function writeAdNew(obj) {
     }
   } else { //本地情况只能根据deviceType来判断
     */
-  console.log('deviceType:'+deviceType);
+  //console.log('deviceType:'+deviceType);
   if(deviceType === 'PadWeb'|| deviceType === 'PadApp') {
     adPatternData = window.adPatternsPad;
   } else if(deviceType === 'iPhoneWeb'|| deviceType === 'iPhoneApp' || deviceType === 'AndroidWeb') {
@@ -619,8 +619,7 @@ function writeAdNew(obj) {
     adPatternData = window.adPatternsPC;
   }
   //} 
-  //console.log('adPatternData:');
-  //console.log(adPatternData);
+
   if(adPatternData) {
     var adPattern = adPatternData[obj.pattern];
     adPatternId = adPattern.id;
