@@ -24,7 +24,7 @@
         'fromSide': ['PartnerActivity'],
         'sideOption': ['headlineOnly', 'leadOnly', 'imageAndText', 'imageAndLead', 'textOverImage', 'barcode', 'originalImage'],
         'preferLead': ['longlead', 'shortlead', 'none'],
-        'feedType': ['all','story','video','interactive','photo','job', 'myFT', 'fav', 'ftc_columns', 'ft_columns', 'hot'],
+        'feedType': ['all','story','video','interactive','photo','job', 'myFT', 'fav', 'ftc_columns', 'ft_columns', 'hot', 'premium'],
         'feedItems': 'number',
         'feedStart': 'number',
         'feedImage': ['optional','necessary','hide'],
@@ -225,6 +225,9 @@
         } else if (obj.type === 'video') {
             editLink = 'https://backyard.ftchinese.com/create_videostory.php?id=' + obj.id;
             previewLink = 'http://www7.ftchinese.com/video/' + obj.id;
+        } else if (obj.type === 'premium') {
+            editLink = 'https://backyard.ftchinese.com/falcon.php/story/edit/' + obj.id;
+            previewLink = 'http://www7.ftchinese.com/story/' + obj.id;
         }
         if (obj.timeStamp !== '') {
             obj.timeStamp = unixtochinese(obj.timeStamp, obj.timeStampType);
@@ -403,13 +406,14 @@
             dataType: 'json',
             success: function (data) {
                 var storiesInner = '';
-                var photosInner = '';
-                var interactivesInner = '';
-                var videosInner = '';
                 var coverHTML = '';
                 var newsHTML = '';
                 var commentsHTML = '';
                 var otherHTML = '';
+                var videosInner = '';
+                var interactivesInner = '';
+                var photosInner = '';
+                var premiumInner = '';
                 $.each(data, function (entryIndex, entry) {
                     var timeStamp = '';
                     var timeStampType = 2;
@@ -483,24 +487,20 @@
                         } else {
                             //console.log (headline + ' already exists');
                         }
-                    } else if (entryIndex === 'photonews') {
-                        $.each(entry, function (photoIndex, photo) {
-                            id = photo.photonewsid;
-                            timeStamp = photo.add_times || '';
+                    } else if (entryIndex === 'video') {
+                        $.each(entry, function (videoIndex, video) {
+                            id = video.id;
+                            timeStamp = video.pubdate || '';
                             timeStampType = 3;
-                            headline = photo.cn_title;
-                            longlead = photo.leadbody || '';
-                            shortlead = photo.shortlead || '';
-                            tag = photo.tags || '';
-                            tag = '图辑,' + tag;
-                            //shortlead = JSON.stringify(photo);
-                            image = photo.illustration || photo.cover || photo.thumb_url || '';
-                            if (image !== '') {
-                                image = 'http://i.ftimg.net/' + image;
-                            }
-                            type = 'photo';
+                            headline = video.cheadline;
+                            longlead = video.clongleadbody || '';
+                            shortlead = video.cshortleadbody || '';
+                            tag = video.tag || '';
+                            tag = '视频,' + tag;
+                            image = video.story_pic.other || video.story_pic.smallbutton || video.story_pic.cover || video.story_pic.bigbutton || '';
+                            type = 'video';
                             if ($('.content-left-inner .item[data-id=' + id + '][data-type=' + type + ']').length === 0) {
-                                photosInner += renderAPI({
+                                videosInner += renderAPI({
                                                     id: id,
                                                     headline: headline,
                                                     timeStamp: timeStamp,
@@ -555,20 +555,24 @@
                                                     });
                             }
                         });
-                    } else if (entryIndex === 'video') {
-                        $.each(entry, function (videoIndex, video) {
-                            id = video.id;
-                            timeStamp = video.pubdate || '';
+                    } else if (entryIndex === 'photonews') {
+                        $.each(entry, function (photoIndex, photo) {
+                            id = photo.photonewsid;
+                            timeStamp = photo.add_times || '';
                             timeStampType = 3;
-                            headline = video.cheadline;
-                            longlead = video.clongleadbody || '';
-                            shortlead = video.cshortleadbody || '';
-                            tag = video.tag || '';
-                            tag = '视频,' + tag;
-                            image = video.story_pic.other || video.story_pic.smallbutton || video.story_pic.cover || video.story_pic.bigbutton || '';
-                            type = 'video';
+                            headline = photo.cn_title;
+                            longlead = photo.leadbody || '';
+                            shortlead = photo.shortlead || '';
+                            tag = photo.tags || '';
+                            tag = '图辑,' + tag;
+                            //shortlead = JSON.stringify(photo);
+                            image = photo.illustration || photo.cover || photo.thumb_url || '';
+                            if (image !== '') {
+                                image = 'http://i.ftimg.net/' + image;
+                            }
+                            type = 'photo';
                             if ($('.content-left-inner .item[data-id=' + id + '][data-type=' + type + ']').length === 0) {
-                                videosInner += renderAPI({
+                                photosInner += renderAPI({
                                                     id: id,
                                                     headline: headline,
                                                     timeStamp: timeStamp,
@@ -583,17 +587,62 @@
                                                 });
                             }
                         });
+                    } else if (entryIndex === 'premium') {
+                        $.each(entry, function (premiumIndex, premium) {
+                            timeStamp = premium.fileupdatetime || '';
+                            if (premium.publish_status === 'draft') {
+                                timeStamp = '';
+                            }
+                            timeStampType = 2;
+                            id = premium.id;
+                            ftid = premium.ftid || '';
+                            if (ftid !== '') {
+                                eaudio = 'https://s3-us-west-2.amazonaws.com/ftlabs-audio-rss-bucket.prod/' + ftid + '.mp3';
+                            }
+                            headline = premium.cheadline;
+                            longlead = premium.clongleadbody || '';
+                            shortlead = premium.cshortleadbody || '';
+                            tag = premium.tag || '';
+                            image = premium.story_pic.cover || premium.story_pic.other || premium.story_pic.Other || premium.story_pic.smallbutton || premium.story_pic.bigbutton || '';
+                            type = 'premium';
+                            priority = premium.priority;
+                            relativestory = premium.relativestory || [];
+                            customLink = premium.customLink || '';
+                            var obj = {
+                                id: id,
+                                ftid: ftid,
+                                headline: headline,
+                                timeStamp: timeStamp,
+                                timeStampType: timeStampType,
+                                longlead: longlead,
+                                shortlead: shortlead,
+                                image: image,
+                                type: type,
+                                tag: tag,
+                                customLink: customLink,
+                                caudio: caudio,
+                                eaudio: eaudio,
+                                showSponsorImage: showSponsorImage,
+                                relativestory: relativestory,
+                                showRelativeStoryItems: showRelativeStoryItems
+                            };
+
+                            if ($('.content-left-inner .item[data-id=' + id + '][data-type=' + type + ']').length === 0) {
+                                premiumInner += renderAPI(obj);
+                            }
+                        });
                     }
                 });
                 coverHTML = wrapItemHTML(coverHTML, 'Cover');
                 newsHTML = wrapItemHTML(newsHTML, 'News');
                 commentsHTML = wrapItemHTML(commentsHTML, 'Comments');
                 otherHTML = wrapItemHTML(otherHTML, 'Other Stories');
+                storiesInner = coverHTML + newsHTML + commentsHTML + otherHTML;
                 videosInner = wrapItemHTML(videosInner, 'Videos');
                 interactivesInner = wrapItemHTML(interactivesInner, 'Interactive Features');
                 photosInner = wrapItemHTML(photosInner, 'Photo Slides');
-                storiesInner = coverHTML + newsHTML + commentsHTML + otherHTML;
-                $('#stories-inner').html(storiesInner + videosInner + interactivesInner + photosInner);
+                premiumInner = wrapItemHTML(premiumInner, 'Premium Stories');
+                $('#stories-inner').html(storiesInner + videosInner + interactivesInner + photosInner + premiumInner);
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 console.log('errorThrown - [' + errorThrown + ']');
