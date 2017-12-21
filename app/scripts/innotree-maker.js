@@ -14,7 +14,6 @@
         'items': 'item',
         'type': 'readonly',
         'theme': ['default', 'luxury', 'myFT', 'technology', 'lifestyle', 'ebook'],
-        //'type': ['block', 'banner', 'header', 'footer'],
         'side': ['none', 'HomeRightRail','TagRightRail', 'MostPopular', 'HotVideos', 'MarketsData', 'videos', 'MostCommented'],
         'sideAlign': ['right', 'left'],
         'float': ['none', 'left', 'right', 'oneline', 'SideBySide', 'myFT', 'IconTitle', 'Card', 'eBook', 'Headshot', 'ScoreBoard'],
@@ -96,11 +95,8 @@
     var innotreeAPIRoot = '/falcon.php/homepage/innotreeSearch/';
     
     var gApiUrls = {
-        // 'home': pagemakerAPIRoot + 'get/innotree/2017-6-23?164110',
         'home': pagemakerAPIRoot + 'get/innotree'+'/' + todaydate + '?' + thenow,
-       // 'home': pagemakerAPIRoot + 'get/'+ getURLParameter('page') +'/' + todaydate + '?' + thenow,
         'homePOST': pagemakerAPIRoot + 'post/innotree',
-        // 'blank': 'api/page/innoblank.json?0',
         'blank': pagemakerAPIRoot + 'get/innotree'+'/' + todaydate + '?' + thenow,
         'stories': storyAPIRoot + todaydate + '?' + thenow,
         'innotree': innotreeAPIRoot,
