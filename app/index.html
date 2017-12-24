@@ -87,12 +87,25 @@ adchID = adchIDNew;
 }
 </script>
 
+<!-- build以下三种设备的adPattern, 在templates/partials/loadAdDataByDevice.html中根据php获得的前端设备属性分别加载 -->
+<!-- build:js scripts/adPatternsPC.js -->
+<script type="text/javascript" src="scripts/adPatternsPC.js"></script>
+<!-- endbuild -->
 
+<!-- build:js scripts/adPatternsPhone.js -->
+<script type="text/javascript" src="scripts/adPatternsPhone.js"></script>
+<!-- endbuild -->
+
+<!-- build:js scripts/adPatternsPad.js -->
+<script type="text/javascript" src="scripts/adPatternsPad.js"></script>
+<!-- endbuild -->
+
+<!-- build:js scripts/adChannel.js -->
+<script type="text/javascript" src="scripts/adChannel.js"></script>
+<!-- endbuild -->
 
 <!-- build:js scripts/key.js -->
 <script type="text/javascript" src="scripts/key.js"></script>
-<script type="text/javascript" src="scripts/adChannel.js"></script>
-<script type="text/javascript" src="scripts/adPattern.js"></script>
 <script type="text/javascript" src="scripts/adDevice.js"></script>
 <script type="text/javascript" src="scripts/ad.js"></script>
 <script type="text/javascript" src="scripts/ad-third-party.js"></script>
@@ -158,7 +171,21 @@ ga('send','event','Testing', 'Oliver', 'AD Testing', {'nonInteraction':1});
 </script>
 <!-- End Google Analytics -->
 
+<!-- Doubleclick Head -->
+<script async='async' src='https://www.googletagservices.com/tag/js/gpt.js'></script>
+<script>
+  var googletag = googletag || {};
+  googletag.cmd = googletag.cmd || [];
+</script>
 
+<script>
+  googletag.cmd.push(function() {
+    googletag.defineSlot('/80682004/DC_100010000412', [300, 250], 'div-gpt-ad-1513839240621-0').addService(googletag.pubads());
+    googletag.pubads().enableSingleRequest();
+    googletag.enableServices();
+  });
+</script>
+<!-- End Doubleclick Head -->
  </head>
 <body>
  
@@ -726,7 +753,7 @@ FT中文网首页
 
 
 
-<iframe id="ribbon" class="ad-hidden hide" width="100%" height="60" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="/m/marketing/a.html#adid=10000009&slot=986723212&pid=ribbon"></iframe>
+<iframe id="ribbon" class="ad-hidden hide" width="100%" height="60" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="a.html#adid=10000009&slot=986723212&pid=ribbon"></iframe>
 <div class="links-container P-hide">
 <h2 class="list-title"><a href="/m/marketing/home.html">会员信息中心</a></h2>
 <div class="links" id="member-info">
@@ -772,11 +799,9 @@ FT中文网首页
 </div>
 </div>
 </div>
-<!-- Old Ad
-<div class="mpu-container">
-<script type="text/javascript">document.write (writeAd('mpu'));</script>
-</div>
--->
+
+<!-- Chuanyang -->
+<!--
 <script type="text/javascript">
     document.write (writeAdNew({
         devices: ['PC','PadApp','PadWeb'],
@@ -784,6 +809,16 @@ FT中文网首页
         position:'Right2'
     }));
 </script>
+-->
+<!-- DoubleClick -->
+<div class="mpu-container">
+    <!-- /80682004/DC_100010000412 -->
+    <div id='div-gpt-ad-1513839240621-0' style='height:250px; width:300px;'>
+        <script>
+        googletag.cmd.push(function() { googletag.display('div-gpt-ad-1513839240621-0'); });
+        </script>
+    </div>
+</div>
 
 <div class="vidoes">
 <h2 class="list-title"><a href="/m/marketing/intelligence.html">FT研究院</a></h2>

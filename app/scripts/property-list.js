@@ -123,8 +123,8 @@ $('body').on('click', '#list-search-button', function () { 
             $(this).html('正在提交...');
             $.ajax({
                 type: 'post',
-                url: '/api/inquiry/post',
-                // dataType: 'text',
+                url: '/index.php/property/inquiry',
+                dataType: 'json',
                 data: {
                        name:name,
                        number:number,
@@ -133,11 +133,17 @@ $('body').on('click', '#list-search-button', function () { 
                        propertyId:propertyId
                    },
                 success: function(data) {
-                    console.log('欢迎您！'+data);
-                    $(this).html('欢迎您！'+name).unbind();
+                    if (data === 'existence') {
+                        $(this).html('账号已存在，请重新输入！');
+                        return;
+                    }else{
+                        console.log('欢迎您！'+data);
+                        $(this).html('欢迎您！'+name).unbind();
+                    }
+                    
                 },
                 error: function() {
-                     $(this).html('注册失败，请再次提交！');
+                     $(this).html('联系失败，请再次提交！');
                     return;
                 }
             });

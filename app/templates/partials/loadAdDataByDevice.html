@@ -1,0 +1,32 @@
+
+
+<script type="text/javascript"> 
+  <%* 
+  <%if $DEVICE == "Phone"%>
+    <!-- Phone2 -->
+    <% include file="next/scripts/adPatternsPhone.js" %>
+  <%elseif $DEVICE == "Pad"%>
+    <!-- Pad2 -->
+    <% include file="next/scripts/adPatternsPad.js" %>
+  <%else%>
+    <!-- PC2 -->
+    <% include file="next/scripts/adPatternsPC.js" %>
+  <%/if%>
+  *%>
+
+  <% include file="next/scripts/adPatternsPhone.js" %>
+  <% include file="next/scripts/adPatternsPad.js" %> 
+  <% include file="next/scripts/adPatternsPC.js" %>
+
+  var deviceGotFromPhp = '<%$DEVICE%>';
+
+  var adchID = '<%$adchannelID|default:$adchId%>';
+
+  var adchIDNew = window.location.href.replace(/^.*adchannelID=([0-9]{4}).*$/g,'$1');
+  if (/^[0-9]{4}$/.test(adchIDNew)) {
+      adchID = adchIDNew;
+  }
+</script>
+
+
+

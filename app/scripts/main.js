@@ -193,7 +193,7 @@ function loadImages() {
     var imageWidth = thisFigure.offsetWidth;
     var imageHeight = thisFigure.offsetHeight;
     var imageTop = findTop(thisFigure);
-    var imageUrl = thisFigure.getAttribute('data-url');
+    var imageUrl = thisFigure.getAttribute('data-url') || '';
     var imageUrlBack;
     var figureClass = thisFigure.className || '';
     var fitType = 'cover';
@@ -201,7 +201,12 @@ function loadImages() {
     var shouldLoadImage = false;
     var loadedClass = '';
     var imageServiceHost = 'https://www.ft.com/__origami/service/image/v2/images/raw/';
+    var imageExists = true;
 
+    if (imageUrl === '') {
+      //console.log ('an empty image is here! Break Now! ')
+      imageExists = false;
+    }
 
     if (isRetinaDevice === true) {
       imageWidth = imageWidth * 2;
@@ -226,15 +231,22 @@ function loadImages() {
     imageUrl = encodeURIComponent(imageUrl);
 
 
+
     if (/sponsor/.test(figureClass)) {
-      imageUrl = imageServiceHost + imageUrl + '?source=ftchinese&height=' + imageHeight + '&fit=' + fitType;
+      imageUrl = imageServiceHost + imageUrl + '?source=ftchinese&height=' + imageHeight + '&fit=' + fitType + '&from=next001';
       shouldLoadImage = true;
     } else if (imageWidth > 0 && imageHeight > 0) {
-      imageUrl = imageServiceHost + imageUrl + '?source=ftchinese&width=' + imageWidth + '&height=' + imageHeight + '&fit=' + fitType;
+      imageUrl = imageServiceHost + imageUrl + '?source=ftchinese&width=' + imageWidth + '&height=' + imageHeight + '&fit=' + fitType + '&from=next001';
       shouldLoadImage = true;
     }
 
     if (window.gNoImageWithData === 'On' && window.gConnectionType === 'data') {
+      shouldLoadImage = false;
+    }
+
+    // MARK: If the image doesn't even exist, it should not be loaded
+    if (imageExists === false) {
+      //console.log ('the image does not exist! ')
       shouldLoadImage = false;
     }
 
@@ -248,6 +260,9 @@ function loadImages() {
         imageUrlBack: imageUrlBack,
         loadedClass: loadedClass
       };
+
+      //console.log (imageUrl);
+
       //thisFigure.innerHTML = '<img src="' + imageUrl + '" data-backupimage="' + imageUrlBack + '">';
       //thisFigure.className = loadedClass;
     } else {
@@ -622,10 +637,6 @@ function stickyBottom() {
 }
 
 
-
-
-
-
 function setResizeClass() {
   if (htmlClass.indexOf(' resized') < 0) {
     htmlClass += ' resized';
@@ -633,9 +644,40 @@ function setResizeClass() {
   }
 }
 
+function validHTMLCode() {
+  if (/print|findpassword|search|corp|marketing|event|innotree/.test(window.location.href)) {
+    return;
+  }
+  var validateFail = false;
+  if (document.querySelectorAll) {
+    if (window.gPageId === 'home') {
+      if (document.querySelectorAll('.item-container').length === 0) {
+        validateFail = true;
+      }
+    } else if (window.gPageId === 'story') {
+      if (document.querySelectorAll('.story-body').length === 0) {
+        validateFail = true;
+      }
+    } else if (typeof window.gPageId === 'string'){
+      if (document.querySelectorAll('.item-container').length === 0) {
+        validateFail = true;
+      }
+    }
+    if (validateFail === true) {
+      ga('send','event','CatchError', 'Page Validation Fail', window.location.href, {'nonInteraction':1});
+    }
+  }
+}
+
 
 try {
   delegate = new Delegate(document.body);
+} catch (ignore) {
+
+}
+
+try {
+  validHTMLCode();
 } catch (ignore) {
 
 }

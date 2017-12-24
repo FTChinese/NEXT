@@ -163,13 +163,24 @@
 		</div>
 
 		<%if $smarty.get.ad != "no" && $noAd != "true"%>
-			<script type="text/javascript">
+			<%if  date("Ymd",$smarty.now) >= 20171223 %>
+				<div class="mpu-container">
+					<!-- /80682004/DC_100010000412 -->
+					<div id='div-gpt-ad-1513839240621-0' style='height:250px; width:300px;'>
+					<script>
+					googletag.cmd.push(function() { googletag.display('div-gpt-ad-1513839240621-0'); });
+					</script>
+					</div>
+				</div>
+			<%else%>
+				<script type="text/javascript">
 				document.write (writeAdNew({
-					devices: ['PC', 'PadWeb', 'PadApp'],
-					pattern:'MPU',
-					position:'Right2'
+				devices: ['PC', 'PadWeb', 'PadApp'],
+				pattern:'MPU',
+				position:'Right2'
 				}));
-			</script>
+				</script>
+			<%/if%>
 		<%/if%>
 
 		<%assign var="ftintelligence" value=$interactivemodel->get_interactive_by_field_search("find_in_set('FT研究院',tag) and find_in_set('报告',tag)",0,4,1000,10800)%>
@@ -198,7 +209,7 @@
 
 		<%assign var="ftintelligence" value=$interactivemodel->get_interactive_by_field_search("find_in_set('精选',tag) and find_in_set('商业案例',tag)",0,4,1000,10800)%>
 		<div class="vidoes">
-			<h2 class="list-title"><a href="/m/corp/preview.html?pageid=businesscase">中国商业案例精选</a></h2>
+			<h2 class="list-title"><a href="/m/marketing/businesscase.html">中国商业案例精选</a></h2>
 			<div class="item-container first"><div class="item-inner">
 			<a class="image" href="/interactive/<%$ftintelligence[0].id%>" target=_blank><figure class="loading" data-url="<%$ftintelligence[0].story_pic.cover|default:$ftintelligence[0].story_pic.bigbutton%>"></figure></a>
 			<h2 class="item-headline"><a href="/interactive/<%$ftintelligence[0].id%>" target=_blank><%$ftintelligence[0].cheadline%></a></h2>
@@ -224,7 +235,7 @@
 
 
 		<div class="videos">
-			<h2 class="list-title"><a href="/m/corp/preview.html?pageid=businesscase">中国商业案例精选</a></h2>
+			<h2 class="list-title"><a href="/m/marketing/businesscase.html">中国商业案例精选</a></h2>
 			<div class="interactive-inner">
 			<%assign var="storyall" value=$interactivemodel->get_interactive_by_field_search("find_in_set('精选',tag) and find_in_set('商业案例',tag)",0,4,1000,10800)%>
 			<%assign var="photoall" value=$photonewsmodel->get_photonews_by_field_search("find_in_set('商业案例',tags)", "ORDER BY add_times DESC", 6)%>
@@ -261,9 +272,17 @@
 								<%assign var="sideItemClass" value=" item-container-app"%>
 								<%assign var="itemData" value=" data-id=\"`$storyall[$cs].id`\" data-type=\"interactive\"`$audioData`"%>
 							<%/if%>
+							<%*<!--
+							<%if $i===0%>
+								<%assign var="interactiveLink" value="/m/marketing/businesscase.html"%>
+							<%else%>
+								<%assign var="interactiveLink" value="/interactive/`$storyall[$cs].id`"%>
+							<%/if%>
+							-->*%>
+							<%assign var="interactiveLink" value="/interactive/`$storyall[$cs].id`"%>
 							<div class="item-container<%if $i===0%> first<%/if%><%$sideItemClass%>"<%$itemData%>><div class="item-inner">
-							<a class="image" href="/interactive/<%$storyall[$cs].id%>" target=_blank><figure class="loading" data-url="<%$storyall[$cs].story_pic.cover|default:$storyall[$cs].story_pic.smallbutton|default:$storyall[$cs].story_pic.bigbutton%>"></figure></a>
-							<h2 class="item-headline"><a href="/interactive/<%$storyall[$cs].id%>" target=_blank class="item-headline-link"><%*$iTag*%><%$storyall[$cs].cheadline%></a></h2>
+							<a class="image" href="<%$interactiveLink%>" target=_blank><figure class="loading" data-url="<%$storyall[$cs].story_pic.cover|default:$storyall[$cs].story_pic.smallbutton|default:$storyall[$cs].story_pic.bigbutton%>"></figure></a>
+							<h2 class="item-headline"><a href="<%$interactiveLink%>" target=_blank class="item-headline-link"><%*$iTag*%><%$storyall[$cs].cheadline%></a></h2>
 							</div></div>
 							<%assign var="echostoryid" value=`$storyall[$cs].id`,$echostoryid%>
 							<%assign var="i" value=$i+1%>
@@ -286,17 +305,6 @@
 			<div class="clearfloat"></div>
 			</div>
 		</div>
-
-
-
-
-
-
-
-
-
-
-
 
 
 	<%else%>
@@ -484,7 +492,7 @@
 
 
 		<div class="videos P-only">
-			<h2 class="list-title"><a href="/m/corp/preview.html?pageid=businesscase">中国商业案例精选</a></h2>
+			<h2 class="list-title"><a href="/m/marketing/businesscase.html">中国商业案例精选</a></h2>
 			<div class="interactive-inner">
 			<%assign var="storyall" value=$interactivemodel->get_interactive_by_field_search("find_in_set('精选',tag) and find_in_set('商业案例',tag)",0,4,1000,10800)%>
 			<%assign var="photoall" value=$photonewsmodel->get_photonews_by_field_search("find_in_set('商业案例',tags)", "ORDER BY add_times DESC", 6)%>

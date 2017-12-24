@@ -147,7 +147,7 @@
     function getURLParameter(name) {
         return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [, ""])[1].replace(/\+/g, '%20')) || null;
     }
-    /* jshint ignore:end */ 
+    /* jshint ignore:end */
 
     //将Unix时间戳转换为中文日期和星期
     function unixtochinese(thetime, datetype) {
@@ -199,7 +199,7 @@
         } else {
             timeStamp = '<div class="new-item"></div>';
         }
-      
+
         dataHTML = '<div draggable=true data-type="' + type + '" class="item ' + type + hasImageClass + '"' + imageBG + ' data-id="' + id + '"> <div class="remove-item"></div> <div class="timestamp">' + timeStamp + '</div>  <div class="item-title">' + headline + '</div> <div class="item-info">        <div class="item-info-item"><div class="item-info-title">Image: </div><input title="image" placeholder="image" name="image" class="o-input-text" value="' + image + '"></div><div class="item-info-item"><div class="item-info-title">LogoImage: </div><input title="logoImage" placeholder="logoImage" name="logoImage" class="o-input-text" value="' + logoImage + '"></div><div class="item-info-item"><div class="item-info-title">Address: </div><textarea title="address" placeholder="address" name="address" class="o-input-text">' + address + '</textarea></div><div class="item-info-item"><div class="item-info-title">Supplement Detail: </div><textarea title="supplement" placeholder="supplement" name="supplement" class="o-input-text">' + supplement + '</textarea></div><div class="item-info-item"><input title="money" placeholder="money" name="money" class="o-input-text" value="' + money + '"></div><div class="item-info-item"><input title="link" placeholder="link" name="link" class="o-input-text" value="' + link + '"></div>             </div></div>';
 
         return dataHTML;
@@ -217,9 +217,9 @@
         var timeStamp = data.timeStamp || '';
         var timeStampType = 2;
         var money = data.money || '';
-       
+
         var link = data.link || '';
-       
+
         if (type !== 'property') {
             timeStampType = 3;
         }
@@ -358,13 +358,13 @@
                 $('#stories-inner').html(storiesInner);
                  });
             },
-           
+
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 console.log('errorThrown - [' + errorThrown + ']');
             }
         });
     }
-    
+
     function loadTools() {
         var sections = '';
         var lists = '';
@@ -425,7 +425,7 @@
     function page() {
         var a=window.location.search;
         return '&'+a.substring(1);
-    } 
+    }
     function renderHTML(ele) {
         var J = {
             'meta': {},
@@ -518,7 +518,7 @@
 
                 });
             }
-        }); 
+        });
         return JSON.stringify(J);
     }
 
@@ -939,7 +939,7 @@
         dragSrcEl = null;
         return false;
     });
-     
+
     $('body').on('click', '.tab', function () {
         $('html').removeClass('show-all').removeClass('show-sections').removeClass('show-items').removeClass('show-json');
         if ($(this).hasClass('all')) {
@@ -959,7 +959,7 @@
             $.ajax({
                 type: 'POST',
                 url: gApiUrls.homePOST,
-                data: {action: 'save', 
+                data: {action: 'save',
                 publish_type: 'property', publish_html: renderHTML($('#content-left-inner'))},
                 dataType: 'text',
                 success: function (msg) {
@@ -983,7 +983,7 @@
                 type: 'POST',
                 url: gApiUrls.homePOST,
                 data: {action: 'submit',
-                 publish_type: 'property', 
+                 publish_type: 'property',
                  publish_html: renderHTML($('#content-left-inner'))},
                 dataType: 'text',
                 success: function (msg) {
@@ -1143,4 +1143,4 @@
         });
     };
 
-})(); 
+})();

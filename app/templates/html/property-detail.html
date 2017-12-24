@@ -1,22 +1,5 @@
-<%if $storymodel != ""%>
-<%assign var=taginfo value=$storymodel->get_tag_describes($tag_name)%>
-<%assign var=tagtitle value=$taginfo.tag_title%>
-<%assign var=tagabout value=$taginfo.tag_desc|default:$PageIntro%>
-<%/if%>
-<%assign var="hideQR" value="yes"%>
 
-<%if $tagtitle=="" || $breadcrumb!=""%>
-<%if $breadcrumb!=""%>
-<%assign var="tagtitle" value=$breadcrumb%>
-<%else%>
-<%assign var="tagtitle" value=$tag_name%>
-<%/if%>
-<%/if%>
-<%if $allstory|@count==0 && $storyCust|@count==0 && $tagstory2|@count==0 && $adchannelID=="" && $pageType != "search" && $pageType != "findpassword" && $pageType != "form"%>
-<%assign var="tagtitle" value="FT中文网"%>
-<%elseif $count_result == 0 && $pageType=="search"%>
-<%assign var="tagtitle" value="无效的关键字"%>
-<%/if%>
+<%assign var="hideQR" value="yes"%>
 
 <%assign var="channelname" value=" <span>`$tagtitle`</span>"%>
 <%if !isset($adchannelID)||$adchannelID ==""%>
@@ -25,22 +8,13 @@
 <%if !isset($adchannelID)||$adchannelID==""%>
     <%assign var="adchannelID" value="1100"%>
 <%/if%>
+<%assign var="adchannelID" value=$adchannelID|regex_replace:"/^(20)(..)$/":'50${2}'%>
 
-<%if $storymodel != ""%>
-<%assign var="gettime" value=$storymodel->get_story_by_tag($tag_name,0,20)%>
-<%/if%>
 
 <%if $showTimeStamp == ""%>
     <%assign var="showTimeStamp" value="all"%>
 <%/if%>
 
-<%if $tagstory%>
-<%assign var="allstory" value=$tagstory%>
-<%/if%>
-
-<%if $tag_name != ""%>
-<%assign var="itemTag" value="<div class=\"no-image\"><div class=\"item-inner\"><div class=item-tag><a href=\"#\">`$tagtitle`</a><button class=\"myft-follow plus\" data-tag=\"`$tag_name`\" data-type=\"tag\">关注</button></div></div></div>"%>
-<%/if%>
      
 <!DOCTYPE html>
 <html class="no-js core" data-next-app="tag-page">

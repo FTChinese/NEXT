@@ -1,7 +1,7 @@
 <%assign var="carousel_images_string" value = $realProperty.allImages|regex_replace:"/[\r\n\t]/":"*"%>
 <%assign var="carousel_images_string" value = $carousel_images_string|regex_replace:"/(\*+)/":"*"%>
 <%assign var="carousel_images_array" value="*"|explode:$carousel_images_string%>
-<div class="swiper-position">   
+<div class="swiper-position">
 <!-- Swiper -->
     <div class="swiper-container gallery-top">
         <div class="swiper-wrapper">
@@ -21,7 +21,7 @@
 	        <%/foreach%>
         </div>
     </div>
-</div> 
+</div>
 
 <div class="block-container has-side">
     <div class="block-inner">
@@ -32,29 +32,29 @@
             <div class="items">
                 <ul class="indentation">
                     <li><span><%$realProperty.propertyNature%></span></li>
-                    
+
                     <%if $realProperty.price|string_format:"%d" eq 0%>
-                    <li><span><strong><%$propertytDataName.Discuss_Personally%></strong></span></li> 
+                    <li><span><strong><%$propertytDataName.Discuss_Personally%></strong></span></li>
                     <%else%>
                     <li><span> <strong><%$realProperty.price%><%$realProperty.priceUnit%></strong>&nbsp; </span></li>
                     <%/if%>
 
-                    <%if $realProperty.propertyStyle eq ''%> 
+                    <%if $realProperty.propertyStyle eq ''%>
                     <%else%>
                     <li><%$propertytDataName.Property_Style%>: <span><%$realProperty.propertyStyle%></span></li>
                     <%/if%>
 
-                    <%if $realProperty.bedroom eq 0%> 
+                    <%if $realProperty.bedroom eq 0%>
                     <%else%>
                     <li><%$propertytDataName.Bedroom%>: <span><%$realProperty.bedroom%></span></li>
                     <%/if%>
 
-                    <%if $realProperty.bathroom eq 0%> 
+                    <%if $realProperty.bathroom eq 0%>
                     <%else%>
                     <li><%$propertytDataName.Bathroom%>: <span><%$realProperty.bathroom%></span></li>
                     <%/if%>
 
-                    <%if $realProperty.halfBathroom eq 0%> 
+                    <%if $realProperty.halfBathroom eq 0%>
                     <%else%>
                     <li><%$propertytDataName.Half_Bathroom%>: <span><%$realProperty.halfBathroom%></span></li>
                     <%/if%>
@@ -75,31 +75,7 @@
             </div>
         </div>
 
-<!--<div class="property-share-container">
 
-
-<div class="story-action-placeholder" id="story-action-placeholder">
-<div class="story-action">
-<div class="action-inner">
-<a class="action-icon icon-wechat" href="/m/corp/qrshare.html?url=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001068131%3Ffull%3Dy&title=<%$realProperty.propertyStyle%>" target="_blank"></a>
-<a class="action-icon icon-weibo" href="http://service.weibo.com/share/share.php?appkey=4221537403&url=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001068131%3Ffull%3Dy%26ccode=2G169001&title=<%$realProperty.propertyStyle%>&ralateUid=1698233740&source=&sourceUrl=&content=utf-8&pic=http://i.ftimg.net/picture/9/000063189_piclink.jpg&searchPic=false" target="_blank"></a>
-<a class="action-icon icon-linkedin" href="https://www.linkedin.com/cws/share?url=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001068131%3Ffull%3Dy%26ccode%3D2G169003&original_referer=https%3A%2F%2Fdeveloper.linkedin.com%2Fsites%2Fall%2Fthemes%2Fdlc%2Fsandbox.php%3F&token=&isFramed=true&lang=zh_CN&_ts=1422502780259.2795" target="_blank"></a>
-<a class="action-icon icon-twitter" href="http://twitter.com/home?status=<%$realProperty.propertyStyle%>" target="_blank"></a>
-<a class="action-icon icon-facebook" href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001068131%3Ffull%3Dy&t=<%$realProperty.propertyStyle%>" target="_blank"></a>
-
-
-<div class="icon-right icon-save">
-<button id="addfavlink001068131">收藏</button>
-</div>
-<a class="icon-right icon-action icon-comments" href="/comments/index/001068131" target="_blank"></a>
-<a class="icon-right icon-action icon-print" href="/story/001068131?print=y" target="_blank"></a>
-<a class="icon-right icon-action icon-font-size" onclick="showOverlay('font-setting')"></a>
-<a class="icon-right icon-action icon-share" onclick="showOverlay('share-legacy')"></a>
-</div>
-</div>
-</div>
-
-</div>-->
 <div class="clearfloat block-bottom"></div>
 </div>
 </div>
@@ -107,11 +83,13 @@
 <div class="side-inner">
     <h2 class="list-title"><a class="list-link"><%$propertytDataName.GET_MORE_INFORMATION%></a></h2>
 <div>
-<form id="ai-inquirylead-form" name="<%$realProperty.propertyId%>"  method="post" action="/inquiry/post"class="sky-form ai-inquirylead-form xs-no-border xs-no-side-space xs-no-top-space xs-section-no-bottom-space"novalidate="novalidate">
+
+<form id="ai-inquirylead-form" name="<%$realProperty.propertyId%>"  class="sky-form ai-inquirylead-form xs-no-border xs-no-side-space xs-no-top-space xs-section-no-bottom-space"novalidate="novalidate">
+
     <div class="team-v6">
-        <span><%$realProperty.name%></span> 
-    
-        <div class="listing-title ai-inquirylead-form-property-link"> 
+        <span><%$realProperty.name%></span>
+
+        <div class="listing-title ai-inquirylead-form-property-link">
             <a  target="_blank" rel="nofollow" title="<%$realProperty.propertyTitle%>" href="<%$realProperty.companyLink%>"><%$realProperty.propertyTitle%></a> </div>
        <%* <h5><%$propertytDataName.View_more_properties_from%></h5>  *%>
         <div>
@@ -140,31 +118,31 @@
         <section>
             <div class="input">
                 <img src="http://static.ftchinese.com/icon/svg/avatar.svg">
-                
+
                 <input id="client-name" name="client-name" placeholder="<%$propertytDataName.Your_Full_Name%>" type="text">
-                
+
             </div>
         </section>
         <section>
             <div class="input">
                 <img src="http://static.ftchinese.com/icon/svg/phone-call.svg">
                 <input id="client-number" name="client-number" placeholder="<%$propertytDataName.Phone_Number%>" type="number"  >
-               
+
             </div>
         </section>
         <section>
             <div class="input">
                 <img src="http://static.ftchinese.com/icon/svg/envelope.svg">
                 <input id="client-email" name="client-email" placeholder="<%$propertytDataName.Email%>" type="email">
-               
+
             </div>
         </section>
-        <div class="register-hint"  id = "user-hint">请您输入您的电子邮箱或者联系电话?</div>
+        <div class="register-hint"  id = "user-hint"></div>
         <section>
             <div class="textarea textarea-resizable">
-            <img src="http://static.ftchinese.com/icon/svg/chat.svg">    
+            <img src="http://static.ftchinese.com/icon/svg/chat.svg">
                 <textarea id="client-message" name="client-message" placeholder="<%$propertytDataName.Message%>" type="text"></textarea>
-               
+
             </div>
         </section>
         <div class="clearfloat"></div>
@@ -176,9 +154,21 @@
 </div>
 
 
+	<%if $smarty.get.ad != "no" && $noAd != "true" && $hideMPU1 != "yes"%>
+		<script type="text/javascript">
+			document.write (writeAdNew({
+				devices: ['PC','PadApp','PadWeb'],
+				pattern:'MPU',
+				position:'Right1'
+			}));
+		</script>
+	<%/if%>
 
 
-</div></div><div class="clearfloat"></div>
+
+</div>
+</div>
+<div class="clearfloat"></div>
 </div>
 </div><!--<div class="block-container has-side story-page">-->
 

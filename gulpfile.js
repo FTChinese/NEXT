@@ -291,6 +291,7 @@ gulp.task('copy:cssjs', () => {
   let jsStream = gulp.src(['app/origami/*.js', 'dist/scripts/*.js'])
     .pipe(gulp.dest(`../${staticDest}`))
     .pipe(gulp.dest(`../${jsDest}`))
+    .pipe(gulp.dest(`../testing/${staticDest}`))
     .pipe(gulp.dest(`../testing/${jsDest}`));
 
   return merge(cssStream, partialsCssStream, jsStream);
@@ -362,6 +363,86 @@ gulp.task('copy:p0', () => {
     .pipe(gulp.dest(`../testing/${dest}`));
 });
 
+
+gulp.task('copytest:cssjs', () => {
+  const staticDest = 'dev_www/frontend/static/n';
+  const cssDest = 'dev_www/frontend/tpl/next/styles';
+  const jsDest = 'dev_www/frontend/tpl/next/scripts';
+  
+
+  let cssStream = gulp.src(['app/origami/*.css', 'dist/styles/*.css'])
+    .pipe(gulp.dest(`../testing/${cssDest}`));
+
+  let partialsCssStream = gulp.src('dist/styles/partials/*.css')
+    .pipe(gulp.dest(`../testing/${cssDest}`));
+
+  let jsStream = gulp.src(['app/origami/*.js', 'dist/scripts/*.js'])
+    .pipe(gulp.dest(`../testing/${staticDest}`))
+    .pipe(gulp.dest(`../testing/${jsDest}`));
+
+  return merge(cssStream, partialsCssStream, jsStream);
+});
+
+gulp.task('copytest:marketing', () => {
+  const dest = 'dev_www/frontend/tpl/marketing';
+  const mobileRootdest = 'dev_www/mobile_webroot/m/marketing';
+  return gulp.src('dist/m/marketing/*')
+    .pipe(gulp.dest(`../testing/${dest}`))
+    .pipe(gulp.dest(`../testing/${mobileRootdest}`))
+    ;
+});
+
+gulp.task('copytest:apipage', () => {
+  const dest = 'dev_www/frontend/tpl/next/api/page'
+  return gulp.src('app/api/page/*')
+    .pipe(gulp.dest(`../testing/${dest}`));
+});
+
+gulp.task('copytest:pagemaker', () => {
+  const dest = 'dev_cms/pagemaker';
+// `api*` use make a `api*` directory under dest.
+  return gulp.src(['dist/**/*', 'app/api*/**/*'])
+    .pipe(gulp.dest(`../testing/${dest}`));
+});
+
+gulp.task('copytest:time', () => {
+  const dest = 'dev_www/frontend/tpl/next/timestamp';
+  const timeStamp = new Date().getTime();
+// Create a virtual vinyl stream  
+  const stream = source('timestamp.html');
+// write date to the stream.  
+  stream.end(timeStamp.toString());
+// Use the steam with gulp.
+  return stream
+    .pipe(gulp.dest(`../testing/${dest}`));
+});
+
+gulp.task('copytest:tpl', () => {
+  const dest = 'dev_www/frontend/tpl/next';
+
+  return gulp.src(['app/templates/partials*/**/*', 'app/templates/html*/**/*'])
+    .on('error', (err) => {
+      console.error(err.stack);
+    })
+    .pipe($.replace(/([\r\n])[ \t]+/g, '$1'))
+    .pipe($.replace(/(\r\n)+/g, '\r\n'))
+    .pipe($.replace(/(\n)+/g, '\n')) 
+    .pipe(gulp.dest(`../testing/${dest}`));
+});
+
+gulp.task('copytest:p0', () => {
+  const dest = 'dev_www/frontend/tpl/corp';
+  return gulp.src('app/templates/p0.html')
+    .pipe($.replace(/([\r\n])[ \t]+/g, '$1'))
+    .pipe($.replace(/(\r\n)+/g, '\r\n'))
+    .pipe($.replace(/(\n)+/g, '\n')) 
+    .on('error', (err) => {
+      console.error(err.stack);
+    })
+    .pipe(gulp.dest(`../testing/${dest}`));
+});
+
+
 gulp.task('copy', gulp.series(
   'clean',
   'build', 
@@ -375,3 +456,17 @@ gulp.task('copy', gulp.series(
     'copy:time'
   )
 ));
+
+gulp.task('copytest', gulp.series(
+  'clean',
+  'build',
+  gulp.parallel(
+    'copytest:cssjs',
+    'copytest:marketing',
+    'copytest:apipage',
+    'copytest:pagemaker',
+    'copytest:time',
+    'copytest:tpl',
+    'copytest:p0'
+  )
+))
