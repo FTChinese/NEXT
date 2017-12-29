@@ -1278,17 +1278,12 @@
     <%if $suppressRecommendation == "yes"%>
     	window.suppressRecommendation = true;
     <%/if%>
-    <%if $storyId === "001075684"%>
+    <%if $storyId === "001075684" && date("Ymd",$smarty.now) <= 20180115%>
     	window.hideAllAds = true;
     <%/if%>
     </script>
 
-
-<%assign var="suppressRecommendation" value="yes"%>
-	
-    
-
-		<%include file = "next/partials/loadAdDataByDevice.html"%>
+	<%include file = "next/partials/loadAdDataByDevice.html"%>
     <script type="text/javascript"><%include file="next/scripts/key.js"%></script>
     <!--[if lte IE 8]>
         <script>
