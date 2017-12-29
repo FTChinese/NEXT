@@ -730,7 +730,8 @@
 	<%assign var="hideMPU2" value="no"%>
 	<%assign var="hideMPU3" value="no"%>
 	<%assign var="hide590" value="no"%>
-  <%assign var="sponsorMobile" value="yes"%>
+	<%assign var="suppressRecommendation" value="yes"%>
+  	<%assign var="sponsorMobile" value="yes"%>
 <%elseif preg_match("/财富管理/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20161226 && date("Ymd",$smarty.now) <= 20170131%>
 	<%assign var=breadcrum value="<a href=\"/tag/财富管理\">财富管理</a>"%>
 	<%assign var="adchannelID" value="1704"%>
@@ -1272,7 +1273,21 @@
 		var mainTopic="<%$mainTopic%>";
 		var subTopic="<%$subTopic%>";
 	</script>
-    <script type="text/javascript">var FTadchannelID = '<%$FTadchannelID%>';</script>
+    <script type="text/javascript">
+    var FTadchannelID = '<%$FTadchannelID%>';
+    <%if $suppressRecommendation == "yes"%>
+    	window.suppressRecommendation = true;
+    <%/if%>
+    <%if $storyId === "001075684"%>
+    	window.hideAllAds = true;
+    <%/if%>
+    </script>
+
+
+<%assign var="suppressRecommendation" value="yes"%>
+	
+    
+
 		<%include file = "next/partials/loadAdDataByDevice.html"%>
     <script type="text/javascript"><%include file="next/scripts/key.js"%></script>
     <!--[if lte IE 8]>

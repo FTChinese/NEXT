@@ -290,6 +290,7 @@ function getThirdPartRecommendFailed(){
 
 
 function recommendPayLoad(recommenddata, addata){
+
     /* 成功获取到推荐文章数据后，渲染story文中的推荐文章div及文后的猜你喜欢div
      * @param recommenddata:TYPE Array,即获取的推荐文章数据
      * @param addata:TYPE Object, 即获取的ulu合作广告数据
@@ -297,6 +298,11 @@ function recommendPayLoad(recommenddata, addata){
 
     //console.log(recommenddata);
     //console.log(addata);
+
+
+    if (window.suppressRecommendation === true) {
+        return;
+    }
     
     var maxItem = 8;//规定下方推荐文章区域显示多少个
     var itemCount = 0;//记录某item位于下方推荐文章区域的第几个
@@ -341,6 +347,7 @@ function recommendPayLoad(recommenddata, addata){
 
         
         // MARK:insert the first item into the story body
+
         if (i === 0 && recommendDiv) {
             //MARK:处理第一个数据，这时必须满足recommendDiv存在
             link += '&position=instory';
@@ -404,6 +411,12 @@ function recommendPayLoad(recommenddata, addata){
     if(recommendLoaded && document.getElementById('in-story-recommend')) {
         gCanReplaceInstoryWithAd = true;
     }
+
+    
+
+
+
+
 
     // MARK: Test for showTextImageForAd in ad-third-party.js
     

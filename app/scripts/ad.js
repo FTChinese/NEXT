@@ -574,7 +574,7 @@ function writeAdNew(obj) {
    */
   
   // MARK: If there's ad=no in the url, return empty string immediately
-  if (location.href.indexOf('ad=no')>0) {
+  if (location.href.indexOf('ad=no')>0 || window.hideAllAds === true) {
     return '';
   }
 
