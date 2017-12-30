@@ -645,7 +645,7 @@ function setResizeClass() {
 }
 
 function validHTMLCode() {
-  if (/print|findpassword|search|corp|marketing|event|innotree/.test(window.location.href)) {
+  if (/print|findpassword|search|corp|marketing|event|innotree|webview=ftcapp|newad=yes/.test(window.location.href)) {
     return;
   }
   var validateFail = false;
