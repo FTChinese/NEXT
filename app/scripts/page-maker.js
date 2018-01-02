@@ -228,6 +228,9 @@
         } else if (obj.type === 'premium') {
             editLink = 'https://backyard.ftchinese.com/falcon.php/story/edit/' + obj.id;
             previewLink = 'http://www7.ftchinese.com/story/' + obj.id;
+        } else if (/\/m\/corp\/preview.html\?pageid=(.*)$/.test(obj.customLink)) {
+            editLink = obj.customLink.replace(/^.*\/m\/corp\/preview.html\?pageid=(.*)$/g,'https://backyard.ftchinese.com/pagemaker/page-maker.html?page=$1');
+            previewLink = obj.customLink;
         }
         if (obj.timeStamp !== '') {
             obj.timeStamp = unixtochinese(obj.timeStamp, obj.timeStampType);
@@ -663,6 +666,23 @@
         $.each(toolkits.list, function (key, value) { // jshint ignore:line
             lists += '<div class="toolkit toolkit-list toolkit-' + key + '" draggable=true>' + key + '</div>';
         });
+
+        var thisday = new Date();
+        var todaydate = thisday.getFullYear() * 10000 + (thisday.getMonth() + 1) * 100 + thisday.getDate();
+
+        lists += renderAPI({
+                id: '',
+                headline: '编辑精选' + todaydate,
+                timeStamp: '',
+                timeStampType: '',
+                longlead: '',
+                shortlead: '',
+                image: '',
+                type: '',
+                tag: '',
+                customLink: 'http://www.ftchinese.com/m/corp/preview.html?pageid=EditorChoice-' + todaydate,
+                showSponsorImage: 'no'
+            });
         for (var i = 0; i < 12; i++) {
             lists += renderAPI({
                 id: '',
