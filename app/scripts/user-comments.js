@@ -446,15 +446,13 @@ function presentAlert(title, message) {
 }
 
 function passLoginToNative(){
-    if(username){
-        var userInfo = {
-            username:username,
-            userId:userId
-        };
-        try {
-            webkit.messageHandlers.user.postMessage(userInfo);
-        } catch(ignore) {
+    var userInfo = {
+        username: username || '',
+        userId: userId || ''
+    };
+    try {
+        webkit.messageHandlers.user.postMessage(userInfo);
+    } catch(ignore) {
 
-        }
     }
 }
