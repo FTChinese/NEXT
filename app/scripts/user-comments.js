@@ -294,7 +294,7 @@ function login(fromwhere) {
     xmlhttp.onreadystatechange = function() {
         if (this.readyState === 4) {
             if (this.status === 200) {
-                console.log (this.responseText);
+                //console.log (this.responseText);
                 var l = JSON.parse(this.responseText);
                 if (l.status && l.status === 'ok') {
                     document.querySelector('.statusmsg').innerHTML = '登录成功！';
@@ -313,6 +313,7 @@ function login(fromwhere) {
                     }
                     username = u;
                     document.querySelector('.statusmsg').innerHTML = '';
+                    passLoginToNative();
                 } else {
                     document.querySelector('.statusmsg').innerHTML = '<div class="highlight">'+ l.msg + '</div>';
                 }
@@ -378,7 +379,6 @@ function socialLogin(socialName, socialInfo) {
     xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xmlhttp.send(params);
 }
-
 
 function logout() {
     var statusMsg = document.querySelectorAll('.logged .statusmsg');
