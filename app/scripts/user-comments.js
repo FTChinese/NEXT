@@ -312,6 +312,9 @@ function login(fromwhere) {
                         loginComments[k].style.display = 'block';
                     }
                     username = u;
+                    if (window.userId === undefined || window.userId === '') {
+                        window.userId = GetCookie('USER_ID') || '';
+                    }
                     document.querySelector('.statusmsg').innerHTML = '';
                     passLoginToNative();
                 } else {
@@ -448,7 +451,7 @@ function presentAlert(title, message) {
 function passLoginToNative(){
     var userInfo = {
         username: username || '',
-        userId: userId || ''
+        userId: window.userId || ''
     };
     try {
         webkit.messageHandlers.user.postMessage(userInfo);
