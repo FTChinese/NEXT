@@ -677,7 +677,7 @@
                 timeStampType: '',
                 longlead: '',
                 shortlead: '',
-                image: '',
+                image: 'http://i.ftimg.net/picture/4/000074984_piclink.jpg',
                 type: '',
                 tag: '',
                 customLink: 'http://www.ftchinese.com/m/corp/preview.html?pageid=EditorChoice-' + todaydate,
