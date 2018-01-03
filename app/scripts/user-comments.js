@@ -294,7 +294,7 @@ function login(fromwhere) {
     xmlhttp.onreadystatechange = function() {
         if (this.readyState === 4) {
             if (this.status === 200) {
-                console.log (this.responseText);
+                //console.log (this.responseText);
                 var l = JSON.parse(this.responseText);
                 if (l.status && l.status === 'ok') {
                     document.querySelector('.statusmsg').innerHTML = '登录成功！';
@@ -312,7 +312,11 @@ function login(fromwhere) {
                         loginComments[k].style.display = 'block';
                     }
                     username = u;
+                    if (window.userId === undefined || window.userId === '') {
+                        window.userId = GetCookie('USER_ID') || '';
+                    }
                     document.querySelector('.statusmsg').innerHTML = '';
+                    passLoginToNative();
                 } else {
                     document.querySelector('.statusmsg').innerHTML = '<div class="highlight">'+ l.msg + '</div>';
                 }
@@ -379,7 +383,6 @@ function socialLogin(socialName, socialInfo) {
     xmlhttp.send(params);
 }
 
-
 function logout() {
     var statusMsg = document.querySelectorAll('.logged .statusmsg');
     for (var i=0; i<statusMsg.length; i++) {
@@ -430,6 +433,7 @@ function checkLogin() {
             eles3[l].style.display = 'block';
         }        
     }
+    passLoginToNative();
 }
 
 function presentAlert(title, message) {
@@ -440,6 +444,18 @@ function presentAlert(title, message) {
     try {
         webkit.messageHandlers.alert.postMessage(alertMessage);
     } catch (ignore) {
+
+    }
+}
+
+function passLoginToNative(){
+    var userInfo = {
+        username: username || '',
+        userId: window.userId || ''
+    };
+    try {
+        webkit.messageHandlers.user.postMessage(userInfo);
+    } catch(ignore) {
 
     }
 }
