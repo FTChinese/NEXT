@@ -430,6 +430,7 @@ function checkLogin() {
             eles3[l].style.display = 'block';
         }        
     }
+    passLoginToNative();
 }
 
 function presentAlert(title, message) {
@@ -441,5 +442,19 @@ function presentAlert(title, message) {
         webkit.messageHandlers.alert.postMessage(alertMessage);
     } catch (ignore) {
 
+    }
+}
+
+function passLoginToNative(){
+    if(username){
+        var userInfo = {
+            username:username,
+            userId:userId
+        };
+        try {
+            webkit.messageHandlers.user.postMessage(userInfo);
+        } catch(ignore) {
+
+        }
     }
 }
