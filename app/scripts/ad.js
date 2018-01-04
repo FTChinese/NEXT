@@ -1,35 +1,6 @@
 /* exported writeAd, slotStr, checkB, sendEvent,clearEvents, writeAdNew */
-/*
-var adPositions = {
-  'banner': ['0001','0006','0007','0008'],
-  'storybanner': ['0001','0006','0007','0008'],
-  'tagbanner': ['0010'],
-  'mpu': ['0003', '0004', '0005'],
-  'tagmpu': ['0012', '0013'],
-  'storympu': ['0005', '0003', '0004', '0003'],
-  'storympuRight': ['0003', '0004', '0003'],
-  'ipadhomempu': ['0003', '0004', '0005'],
-  'ipadstorympu': ['0005', '0004', '0006'],
-  'phonebanner': ['0101', '0114'],
-  'phonepaidpost': ['0121'],
-  'phonempu': ['0003'],
-  //'phonestorybanner': ['0101', '0115'],
-  'phonestorybanner': ['0102', '0115'],
-  'phonestorybannersponsor': ['0109', '0109'],
-  //'phonestorympu': ['0004','0120'],
-  'phonestorympu': ['0004'],
-  'phonestoryiphonempu': ['0110'],
-  'phonestoryandroidmpu': ['0111'],
-  'phonefullpage': ['0107','9951','9952','9953','9954'],
-  'phonestorympuVW': ['0119'],
-  'phonehomempu': ['0003'],
-  //bonus mpu ad positions
-  'phonehomempuBonus': ['0003', '0004', '0005', '0006', '0007', '0008','9901','9902','9903','9904','9905','9906','9907','9908','9909','9910','9911','9912','9913','9914','9915','9916','9917','9918'],
-  'phonetagmpu': ['0119','0120','0004']
-};
-*/
 // MARK: - Sponsored Channel Ids
-//var sponsoredChannelIds = ['1400'];
+
 var gIsLandingPage = false;
 
 //MARK:获取当前URL的search参数键值对处理成的对象
@@ -239,14 +210,6 @@ function setDolphinSlot(key){
 window.dolRand = Math.round(Math.random()*1000000);//定义slot随机数实现联动互斥功能
 var slotStr=setDolphinSlot('USER_KV');
 
-// try {
-//   console.log ('slotStr Set to ' + slotStr);
-// } catch (ignore) {
-
-// }
-
-//var adCount = {};
-//var adMax = {};
 
 var uaString;
 var w1;
@@ -266,14 +229,6 @@ function initAds() {
   if (w2>0 && w1>w2) {
     w1 = w2;
   }
-  /*
-  for(var x in adPositions){
-    if (adPositions.hasOwnProperty(x)) {
-        adCount[x] = 0;
-        adMax[x] = adPositions[x].length;
-    }
-  }
-  */
 }
 window.gaLoaded = false;
 
@@ -302,137 +257,9 @@ function clearEvents() {
   window.gaLoaded = true;
 }
 
-
-/*
-function writeAdNew(obj) {
-  /**
-   * @param obj
-   * @param obj.devices: TYPE Array, the devices are allowed to show this ad, Eg:['PC','PadWeb','iPhoneWeb','AndroidWeb']
-   * @param obj.pattern: TYPE String,the key string of var adPattern, Eg：'FullScreen'、'Leaderboard'
-   * @param obj.position：TYPE String, the key string of var adPattern.xxx.position,Eg: 'Num1','Right1','Middle2'
-   * @param obj.container: TYPE String, the container specified for the ad position in a certain page. The priority of obj.container is the highest among obj.container,adPattern.container and 'none'
-   
-  // MARK: If there's ad=no in the url, return empty string immediately
-  if (location.href.indexOf('ad=no')>0) {
-    return '';
-  }
-  //MARK: First, get the adid
-  var iframeHTML = '';
-  var debugString = '';
-  var adid = '';
-  var deviceType = 'PC';
-  var deviceId = '';
-  var bannerBG = '';
-  var adDescription = '';
-  var searchVars = getSearchVars();//获取当前url参数
-  // MARK: determin device type
-  if (/iPad/i.test(uaString)) {
-    deviceType = 'PadWeb';
-    if(searchVars.webview && searchVars.webview === 'ftcapp') {
-      deviceType = 'PadApp';
-    }
-  } else if (/OS [0-9]+\_/i.test(uaString) && (/iPhone/i.test(uaString) || /iPod/i.test(uaString))) {
-    deviceType = 'iPhoneWeb';
-    if(searchVars.webview && searchVars.webview === 'ftcapp') {
-      deviceType = 'iPhoneApp';
-    }
-  } else if (/Android|micromessenger/i.test(uaString) || w1 <= 490) {
-    deviceType = 'AndroidWeb';
-  }
-
-  // MARK: If device does not fit, return immediately
-  if (obj.devices.indexOf(deviceType) < 0) {
-    return '';
-  }
-
-  deviceId = adDevices[deviceType].id;
-
-  // MARK: Get ad channel id from smarty server side
-  var adch = adchID;
-  var adchURL = window.location.href.replace(/^.*adchannelID=([0-9]{4}).*$/g,'$1');
-  var fromURL = false;
-  if (/^[0-9]{4}$/.test(adchURL)) {
-    adch = adchURL;
-    fromURL = true;
-  }
-  if (typeof(window.FTadchannelID)!=='undefined' && window.FTadchannelID && !fromURL) {
-    adch = window.FTadchannelID;
-  } 
-  //MARK:Mobile情况下的频道要抹去二级频道（一级频道为50开头的除外）
-  var mobileDeviceTypeArr = ['iPhoneApp','iPhoneWeb','AndroidApp','AndroidWeb','PadApp','PadWeb'];
-  if (adch && mobileDeviceTypeArr.indexOf(deviceType) >= 0 && adch.substring(0,2)!== '50' && adch.substring(2,4)!=='00') {
-    adch = adch.substring(0,2) + '00';
-  }
-  var adChannelId = adch||'1000';
-  //var adChannelId = '1000'; // window.dasfdafa || '1000'
-
-  var adPattern = adDevices[deviceType].patterns[obj.pattern];
-  var adPatternId = adPattern.id;
-  var adPositionId = adPattern.position[obj.position].id;
-  var adWidth = adPattern.width || '100%';
-  var adHeight = adPattern.height || '50';
-  var containerType = obj.container || adPattern.container || 'none';
-
-  adid = deviceId + adChannelId + adPatternId + adPositionId;
-
-
-  if (window.pageTheme === 'luxury') {
-    bannerBG = '&bg=e0cdac';
-  } else if (window.pageTheme === 'ebook') {
-    bannerBG = '&bg=777777';
-  }
-
-  var iframeSrc = '';
-  if (window.location.hostname === 'localhost' || window.location.hostname.indexOf('192.168') === 0 || window.location.hostname.indexOf('10.113') === 0 || window.location.hostname.indexOf('127.0') === 0) {
-    iframeSrc = 'a.html?v=20171214112400' + bannerBG + '#adid='+ adid + '&pid=' + adid;
-  } else {
-    iframeSrc = '/m/marketing/a.html?v=20171214112400' + bannerBG + '#adid='+ adid + '&pid=' + adid;
-  }
-  iframeHTML = '<iframe class="banner-iframe" data-adch="'+adChannelId+'" data-adPosition="'+ adPatternId + adPositionId+'" id="ad-' + adid + '" width="'+ adWidth +'" height="'+ adHeight + '" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="'+ iframeSrc +'" data-src="'+ iframeSrc +'" data-ad-type="'+ adPatternId + adPositionId +'" data-ad-count=0></iframe>';
-
-
-  if (window.gDebugAd && typeof window.gDebugAd === 'string') {
-    //MARK:找出channel的describtion
-    var topChannelId = adChannelId.substring(0,2);
-    var subChannelId = adChannelId.substring(2,4);
-    var adChannel = adDevices[deviceType].channels;
-    var subChannels = {};
-    var topChannelTitle = '';
-    var subChannelTitle = '';
-    for(var prop in adChannel) {
-      var propObj = adChannel[prop];
-      if(propObj.id === topChannelId) {
-        topChannelTitle = propObj.title;
-        subChannels = propObj.sub;
-      }
-    }
-    for(var subProp in subChannels) {
-      var subPropObj = subChannels[subProp];
-      if(subPropObj.id === subChannelId) {
-        subChannelTitle = subPropObj.title;
-      }
-    }
-
-    adDescription = deviceType + '-' + topChannelTitle + '-' + subChannelTitle + '-' + obj.pattern + '-' + obj.position;
-    debugString = window.gDebugAd.replace('adcode_for_debug', adid + ': ' + adDescription);
-  }
-
-  iframeHTML += debugString;
-
-  if (containerType === 'banner') {
-    iframeHTML = '<div class="bn-ph"><div class="banner-container"><div class="banner-inner"><div class="banner-content">' + iframeHTML + '</div></div></div></div>';
-  } else if (containerType === 'mpu') {
-    iframeHTML = '<div class="mpu-container">' + iframeHTML + '</div>';
-  } else if (containerType === 'mpuInStroy') {
-    iframeHTML = '<div class="mpu-container-instory">' + iframeHTML + '</div>';
-  }
-  return iframeHTML;
-}
-*/
-
 var isBlocked = 'unknown';
 
-// test if ad blocker is turned on
+// MARK: - test if ad blocker is turned on
 function checkB() {
   var test = document.createElement('div');
   test.innerHTML = '&nbsp;';
@@ -635,7 +462,7 @@ function writeAdNew(obj) {
   if (isLocal) {
     iframeSrc = 'a.html?v=20171214112400' + bannerBG + '#adid='+ adid + '&pid=' + adid;
   } else {
-    iframeSrc = '/m/marketing/a.html?v=20171214112400' + bannerBG + '#adid='+ adid + '&pid=' + adid;
+    iframeSrc = '/a.html?v=20171214112400' + bannerBG + '#adid='+ adid + '&pid=' + adid;
   }
   iframeHTML = '<iframe class="banner-iframe" data-adch="'+adChannelId+'" data-adPosition="'+ adPatternId + adPositionId+'" id="ad-' + adid + '" width="'+ adWidth +'" height="'+ adHeight + '" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="'+ iframeSrc +'" data-src="'+ iframeSrc +'" data-ad-type="'+ adPatternId + adPositionId +'" data-ad-count=0></iframe>';
 

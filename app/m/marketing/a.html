@@ -7,7 +7,13 @@
 <link rel="preconnect" href="http://dualstack.adsame-1421766300.ap-southeast-1.elb.amazonaws.com" />
 <style type="text/css">
 *{margin:0;padding: 0;}
-html, body{background: #<%if $smarty.get.bg !=""%><%$smarty.get.bg%><%else%>F6E9D8<%/if%>;margin:0 auto;width:100%;height:100%;overflow:hidden;}
+html, body{
+    background: #F6E9D8;
+    margin:0 auto;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+}
 .ad{
     width:100%;
     overflow:visible;
@@ -109,41 +115,7 @@ img {
             } catch (ignore) {
 
             }
-        
 
-            <%if date("Ymd",$smarty.now) <= 20171231%>
-
-                try {
-                    var stateObj = {foo: 'bar'};
-                    var newUrl = window.location.href + '&refresh=1';
-                    history.pushState(stateObj, '', newUrl);
-                } catch (ignore) {
-
-                }
-
-                <%if date("Ymd",$smarty.now) == 20171117 && date("Ymd",$smarty.now) == 20171124%>
-                    window.refreshTime = 20;
-                <%else%>
-                    window.refreshTime = 10;
-                <%/if%>
-
-                if (/1000[0-9]{4}0201|1000[0-9]{4}0411|1000[0-9]{4}0412|1000[0-9]{4}0421|1000[0-9]{4}0301/.test(c)) {
-                setTimeout(function(){
-                    if ( window.parent.document.getElementById(parentId)) {
-                        parentIframe = window.parent.document.getElementById(parentId);
-                        var divAddedByClient = parentIframe.parentNode.querySelectorAll('div')[0];
-                        if (divAddedByClient !== undefined) {
-                            divAddedByClient.outerHTML = '';
-                            delete divAddedByClient;
-                        }
-                        parentIframe.style = '';
-                        parentIframe.setAttribute('width', '100%');
-                    }
-                    location.reload(false);
-                }, 1000 * 60 * window.refreshTime);
-                }
-
-            <%/if%>
         </script>
     </div>
 </div>
