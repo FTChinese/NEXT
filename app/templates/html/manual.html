@@ -1,7 +1,11 @@
 <%if $pageId == ""%>
     <%assign var="pageId" value="home"%>
 <%/if%>
-<%assign var="p" value=$nextmodel->getPublishJson($pageId)|json_decode:true%>
+<%if $smarty.get.webview == "ftcapp"%>
+    <%assign var="p" value=$nextmodel->getPublishJsonWithPremium($pageId)|json_decode:true%>
+<%else%>
+    <%assign var="p" value=$nextmodel->getPublishJson($pageId)|json_decode:true%>
+<%/if%>
 <%assign var="adchannelID" value="`$p.meta.adid`"%>
 
 <%*<!-- 新版本需要调整从pagemaker获取的频道号adchannelID -->*%>
