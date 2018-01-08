@@ -154,6 +154,17 @@ if ( screen.width<=480) {
     </script>
 <![endif]-->
 <%include file="next/partials/head.html"%>
+
+
+<%date("Ymd",$smarty.now) <= 20181001 %>
+    <%if preg_match("/秒懂/",$PageTitle)%>
+        <script>
+        var trackImg = 'http://bsch.serving-sys.com/serving/adServer.bs?cn=display&c=19&mc=imp&pli=23613562&PluID=0&ord=__TIME__&rtu=-1&mb=1';
+
+        </script>
+    <%/if%>
+<%/if%>
+
 </head>
 <%assign var="bannerCount" value=0%>
 <body>
