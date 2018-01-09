@@ -1,4 +1,4 @@
-/* exported writeAd, slotStr, checkB, sendEvent,clearEvents, writeAdNew */
+/* exported writeAd, slotStr, checkB, sendEvent,clearEvents, writeAdNew,deviceCategory */
 // MARK: - Sponsored Channel Ids
 
 var gIsLandingPage = false;
@@ -294,7 +294,7 @@ if (isWeChat === true) {
 checkLandingPage();
 
 var searchVars = getSearchVars(); 
-
+var deviceCategory = getDeviceCategory();
 var deviceType = getDeviceTpye();
 
 //console.log('deviceType:'+deviceType);
@@ -316,7 +316,13 @@ function getSearchVars() {
   }
   return searchVars;
 }
-
+function getDeviceCategory() {
+  var deviceCategory = 'PC';
+  if ((/iPad/i.test(uaString))||(/OS [0-9]+\_/i.test(uaString) && (/iPhone/i.test(uaString) || /iPod/i.test(uaString)))||(/Android|micromessenger/i.test(uaString) || w1 <= 490) || (searchVars.webview === 'ftcapp')) {
+    deviceCategory = 'Mobile';
+  }
+  return deviceCategory;
+}
 function getDeviceTpye() {
     /**
      * @dependGlob uaString
