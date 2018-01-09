@@ -1226,10 +1226,10 @@
     <link rel="alternate" type="application/rss+xml" title="FT中文网 - 热门用户评论" href="/rss/hotusercomment" />
     <link rel="search" type="application/opensearchdescription+xml" title="FT中文网财经搜索" href="/opensearch.xml">
 
+    <%*<!-- TODO: gauthor should not be altered by JS, it should be output using server side code such as smarty  -->*%>
     <script>
     	var gKeyTag = '<%$keys%>';
-
-		var gauthor="<%$gauthor%>".replace(/ and /g,",").replace(/([\s\_]+)[Bb]y /g,"$1").replace(/ in .*/g,"").replace(/,.*/g,"").replace(/\s+$/g,"").replace(/^\s+/g,"").replace(/\s+/g,"_");
+		var gauthor = '<%$gauthor%>'.replace(/ and /g,",").replace(/([\s\_]+)[Bb]y /g,"$1").replace(/ in .*/g,"").replace(/,.*/g,"").replace(/\s+$/g,"").replace(/^\s+/g,"").replace(/\s+/g,"_");
     </script>
     <%if $ftcteam != ""%>
 		<script>var ftcteam="<%$ftcteam%>";</script>

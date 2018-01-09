@@ -1,3 +1,11 @@
+<%if $smarty.get.dispatch == "load"%>
+<script type="text/javascript">
+	dispatchEvent(new Event('load'));
+	document.querySelector('.story-theme').innerHTML = '加载成功';
+</script>
+<%/if%>
+
+
 <%if $smarty.get.webview != "ftcapp"%>
 <div class="footer-container"><div class="footer-inner">
 	<div>
