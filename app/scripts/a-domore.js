@@ -36,7 +36,8 @@ if (window.parent.document.getElementById(window.parentId)) {
         parentIframe.style.height = window.forceHeight + 'px';
         parentIframe.parentNode.style.height = window.forceHeight + 'px';
         parentIframe.parentNode.parentNode.parentNode.parentNode.className += ' standard';
-    } else if (adHeight === 120 && adHeight - adContainerHeight > 20) {
+    } else if (adHeight >= 120 && adHeight - adContainerHeight > 20) {
+        //MARK:当自定义广告告度adHeight大于等于120，都会执行此分支，该分支会1.设置adResized为true 2.将广告的iframe(就是引入a.html的那个）的宽度设为1200。然后当adResized为true时，后面iframe的高度会重设为adHeight
         adResized = true;
         try {
             w = window.parent.innerWidth || window.parent.document.documentElement.clientWidth || window.parent.document.body.clientWidth;
