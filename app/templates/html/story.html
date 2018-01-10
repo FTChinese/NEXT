@@ -1333,7 +1333,9 @@
 			<%include file="next/partials/header.html"%>
 		<%/if%>
 		<%include file="next/partials/nav.html"%>
-		<%if !preg_match("/品味|乐尚街|艺术投资|腕表|游艇|极致人生|美食与美酒/is",$keys) && $smarty.get.hideheader != "yes"%>
+		
+		<%*<!-- hide Leaderboard for some channel -->*%>
+		<%if !preg_match("/品味|艺术投资|腕表|游艇|极致人生|美食与美酒/is",$keys) && $smarty.get.hideheader != "yes"%>
 			<%include file="next/partials/banner-new.html"%>
 		<%/if%>
 		<%assign var="bannerCount" value=$bannerCount+1%>
