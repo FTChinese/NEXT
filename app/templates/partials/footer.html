@@ -100,4 +100,15 @@
 
 
 <%*<!--  MARK: Krux Tracking Code -->*%>
-<img src='http://beacon.krxd.net/event.gif?event_id=KWA6DGT9&event_type=rtg' width=0 height=0 />
+<%*
+<!--<img src='http://beacon.krxd.net/event.gif?event_id=KWA6DGT9&event_type=rtg' width=0 height=0 />-->
+*%>
+<script>
+	setTimeout(function() {
+		var kruxTrack = document.createElement(img);
+		kruxTrack.width = 0;
+		kruxTrack.height = 0;
+		kruxTrack.src = 'http://beacon.krxd.net/event.gif?event_id=KWA6DGT9&event_type=rtg';
+		document.body.appendChild(kruxTrack);
+	}, 1)
+</script>
