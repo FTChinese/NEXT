@@ -127,7 +127,6 @@ if(recommendVersion === '-001'){
         SetCookie('uniqueVisitorId',userId,'','/');
     }
     //Optinize ulu callback=getRec
-    console.log('optimized8');
     setTimeout(function() {
         ftc_api.jsonp(thirdPartAPIUrl + '&callback=getRec&cki=' + userId + '&v=' + new Date().getTime());
     }, 2000);
