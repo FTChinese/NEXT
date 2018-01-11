@@ -22,7 +22,7 @@ function sendImpToThirdParty(Imp, AdName, AssID) {
                 setTimeout(function() {
                     var gaServerTracker = new Image();
                     gaServerTracker.src = 'http://www.ftchinese.com/index.php/ft/hit/' + AssID + '/2?ec=' + eventCategory + '&ea=' + eventAction + '&el=' + encodeURIComponent(eventLabel) + '&r=' + asRandom;
-                }, 1000);
+                }, 2000);
             }
         };
         var sendOnetime = function() {
