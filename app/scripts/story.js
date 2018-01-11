@@ -126,7 +126,11 @@ if(recommendVersion === '-001'){
         userId = guid();
         SetCookie('uniqueVisitorId',userId,'','/');
     }
-    ftc_api.jsonp(thirdPartAPIUrl + '&callback=getRec&cki=' + userId + '&v=' + new Date().getTime());
+    //Optinize ulu callback=getRec
+    console.log('optimized8');
+    setTimeout(function() {
+        ftc_api.jsonp(thirdPartAPIUrl + '&callback=getRec&cki=' + userId + '&v=' + new Date().getTime());
+    }, 2000);
     // MARK: The rest work jump to getRec
     ga('send','event','Recommend Story API', 'Load' + recommendVersion, '', {'nonInteraction':1});
     
