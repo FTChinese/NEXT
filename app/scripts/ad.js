@@ -361,8 +361,8 @@ function getAdChannelId() {
     console.log(window.FTadchannelID);
     adch = window.FTadchannelID;
   } 
-  //MARK:Mobile情况下的频道要抹去二级频道（一级频道为50开头的除外）
-  var mobileDeviceTypeArr = ['iPhoneApp','iPhoneWeb','AndroidApp','AndroidWeb','PadApp','PadWeb'];
+  //MARK:App情况下的频道要抹去二级频道（一级频道为50开头的除外）
+  var mobileDeviceTypeArr = ['iPhoneApp','AndroidApp','PadApp'];
   if (adch && mobileDeviceTypeArr.indexOf(deviceType) >= 0 && adch.substring(0,2)!== '50' && adch.substring(2,4)!=='00') {
     adch = adch.substring(0,2) + '00';
   }
