@@ -323,13 +323,7 @@ gulp.task('copy:apipage', () => {
     .pipe(gulp.dest(`../testing/${dest}`));
 });
 
-gulp.task('copy:pagemaker', () => {
-  const dest = 'dev_cms/pagemaker';
-// `api*` use make a `api*` directory under dest.
-  return gulp.src(['dist/**/*', 'app/api*/**/*'])
-    .pipe(gulp.dest(`../${dest}`))
-    .pipe(gulp.dest(`../testing/${dest}`));
-});
+
 
 gulp.task('copy:time', () => {
   const dest = 'dev_www/frontend/tpl/next/timestamp';
@@ -406,12 +400,7 @@ gulp.task('copytest:apipage', () => {
     .pipe(gulp.dest(`../testing/${dest}`));
 });
 
-gulp.task('copytest:pagemaker', () => {
-  const dest = 'dev_cms/pagemaker';
-// `api*` use make a `api*` directory under dest.
-  return gulp.src(['dist/**/*', 'app/api*/**/*'])
-    .pipe(gulp.dest(`../testing/${dest}`));
-});
+
 
 gulp.task('copytest:time', () => {
   const dest = 'dev_www/frontend/tpl/next/timestamp';
@@ -458,7 +447,6 @@ gulp.task('copy', gulp.series(
     'copy:cssjs', 
     'copy:marketing', 
     'copy:apipage', 
-    'copy:pagemaker', 
     'copy:tpl', 
     'copy:p0', 
     'copy:time'
@@ -472,7 +460,6 @@ gulp.task('copytest', gulp.series(
     'copytest:cssjs',
     'copytest:marketing',
     'copytest:apipage',
-    'copytest:pagemaker',
     'copytest:time',
     'copytest:tpl',
     'copytest:p0'
