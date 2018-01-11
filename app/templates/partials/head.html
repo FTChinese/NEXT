@@ -91,7 +91,9 @@ if (window.gAutoStart === undefined) {
 <!-- End FTC Analytics -->
 
 <!-- Log Analytics -->
+<%*<!-- Optinize static log-->*%>
 <script>
+console.log('optimized7');
 setTimeout(function(){
     if (window.gAutoStart === undefined) {
         (function(d, s, u, j, x) {
@@ -102,7 +104,7 @@ setTimeout(function(){
             x.parentNode.insertBefore(j, x)
         })(document, 'script', 'http://static.ftchinese.com/js/log.js?v=7&20160318');
     }
-}, 1);
+}, 2000);
 </script>
 <!-- End Log Analytics -->
 
@@ -111,7 +113,6 @@ setTimeout(function(){
 <!-- Baidu Analytics -->
 <%*<!-- Optimize hm.baidu -->*%>
 <script>
-console.log('optimized6');
 setTimeout(function() {
     var _hmt = _hmt || [];
     (function() {
