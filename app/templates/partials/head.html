@@ -86,17 +86,15 @@ if (window.gAutoStart === undefined) {
 
 <!-- Log Analytics -->
 <script>
-setTimeout(function(){
-    if (window.gAutoStart === undefined) {
-        (function(d, s, u, j, x) {
-            j = d.createElement(s),
-            x = d.getElementsByTagName(s)[0];
-            j.async = true;
-            j.src = u;
-            x.parentNode.insertBefore(j, x)
-        })(document, 'script', 'http://static.ftchinese.com/js/log.js?v=7&20160318');
-    }
-}, 1);
+if (window.gAutoStart === undefined) {
+    (function(d, s, u, j, x) {
+        j = d.createElement(s),
+        x = d.getElementsByTagName(s)[0];
+        j.async = true;
+        j.src = u;
+        x.parentNode.insertBefore(j, x)
+    })(document, 'script', 'http://static.ftchinese.com/js/log.js?v=7&20160318');
+}
 </script>
 <!-- End Log Analytics -->
 
