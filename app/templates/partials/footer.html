@@ -96,20 +96,18 @@
 
 
 <%*<!--  MARK: Tracking Code added by Youlu Technology -->*%>
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-KP4V3G');</script>
+<%*<!-- optimize ulu's gtm -->*%>
+<script>setTimeout(function(){(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-KP4V3G')},2000);</script>
 
 
 <%*<!--  MARK: Krux Tracking Code -->*%>
-<%*
+<%* <!-- optimize beacon -->
 <!--<img src='http://beacon.krxd.net/event.gif?event_id=KWA6DGT9&event_type=rtg' width=0 height=0 />-->
 *%>
 <script>
-	console.log('Optimize1');
+	console.log('optimized4');
 	setTimeout(function() {
-		var kruxTrack = document.createElement(img);
-		kruxTrack.width = 0;
-		kruxTrack.height = 0;
+		var kruxTrack = new Image();
 		kruxTrack.src = 'http://beacon.krxd.net/event.gif?event_id=KWA6DGT9&event_type=rtg';
-		document.body.appendChild(kruxTrack);
-	}, 1)
+	}, 2000)
 </script>
