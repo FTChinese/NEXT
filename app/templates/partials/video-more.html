@@ -222,6 +222,24 @@
 			<%/if%>
 
 
+
+
+
+			<%*<!--Insert MPU ads for mobile devices-->*%>
+
+			<%if $i == 4%>
+				<script type="text/javascript">
+					document.write (writeAdNew({
+							devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
+							pattern:'MPU',
+							position:'Middle1'
+					}));
+				</script>
+			<%/if%>
+
+
+
+
 			<%$itemTop%>
 			<div class="item-container <%$itemClass%> <%$hasImage%>"><div class="item-inner">
 				<h2 class="item-headline"><%$itemTag%><a target="_blank" href="/<%$itemType%>/<%$item.id%>#adchannelID=<%$adchannelID%>"><%$item.cheadline%></a></h2>
