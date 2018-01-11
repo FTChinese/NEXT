@@ -361,9 +361,10 @@ function getAdChannelId() {
     console.log(window.FTadchannelID);
     adch = window.FTadchannelID;
   } 
-  //MARK:App情况下的频道要抹去二级频道（一级频道为50开头的除外）
-  var mobileDeviceTypeArr = ['iPhoneApp','AndroidApp','PadApp'];
-  if (adch && mobileDeviceTypeArr.indexOf(deviceType) >= 0 && adch.substring(0,2)!== '50' && adch.substring(2,4)!=='00') {
+  //MARK:Mobile情况下的频道要抹去二级频道（一级频道为50的除外）
+  //MARK：1902的移动端卖了广告，所以1902也要除去————移动端子频道分开卖广告是趋势
+  var mobileDeviceTypeArr = ['iPhoneApp','iPhoneWeb','AndroidApp','AndroidWeb','PadApp','PadWeb'];
+  if (adch && mobileDeviceTypeArr.indexOf(deviceType) >= 0 && adch.substring(0,2)!== '50' && adch.substring(2,4)!=='00' && adch !== '1902') {
     adch = adch.substring(0,2) + '00';
   }
   var adChannelId = adch||'1000';
