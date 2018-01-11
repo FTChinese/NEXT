@@ -1316,8 +1316,11 @@
 	    <script type="text/javascript">window.interactiveType = 'Data News';</script>
     <%/if%>
     <%include file="next/partials/head.html"%>
-
-	<script>!function(a,b,c){setTimeout(function(){var d=b.getElementsByTagName(c)[0],e=b.createElement(c);e.async=!0,e.src="http://uluai.com.cn/api/sc/j/moni.min.js",d.parentNode.insertBefore(e,d);},1);}(window,document,"script");</script>
+	<%*<!-- Optinize Ulu moni -->*%>		
+	<script>
+		console.log('optimize12');
+		setTimeout(function(){!function(a,b,c){var d=b.getElementsByTagName(c)[0],e=b.createElement(c);e.async=!0,e.src="http://uluai.com.cn/api/sc/j/moni.min.js",d.parentNode.insertBefore(e,d)}(window,document,"script");},2000);
+	</script>
   </head>
   <%assign var="bannerCount" value=0%>
   <body class="<%$hideDate%>">
@@ -1333,7 +1336,9 @@
 			<%include file="next/partials/header.html"%>
 		<%/if%>
 		<%include file="next/partials/nav.html"%>
-		<%if !preg_match("/品味|乐尚街|艺术投资|腕表|游艇|极致人生|美食与美酒/is",$keys) && $smarty.get.hideheader != "yes"%>
+		
+		<%*<!-- hide Leaderboard for some channel -->*%>
+		<%if !preg_match("/品味|艺术投资|腕表|游艇|极致人生|美食与美酒/is",$keys) && $smarty.get.hideheader != "yes"%>
 			<%include file="next/partials/banner-new.html"%>
 		<%/if%>
 		<%assign var="bannerCount" value=$bannerCount+1%>

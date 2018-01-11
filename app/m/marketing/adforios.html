@@ -1,7 +1,12 @@
 
 <script>
-    var hitTracker = new Image();
-    hitTracker.src = 'http://www.ftchinese.com/index.php/ft/hit/605257/73322941';
+    //Optinize index.php/ft/hit
+    console.log('optimized9');
+    setTimeout(function() {
+        var hitTracker = new Image();
+        hitTracker.src = 'http://www.ftchinese.com/index.php/ft/hit/605257/73322941';
+    }, 2000);
+    
     (function() {
         var fullScreenImage = {
             'imageUrl': 'https://creatives.ftimg.net/ads/beijing/201706/840-210-0612.jpg',
@@ -42,13 +47,16 @@ function sendImpToThirdParty(Imp, AdName, AssID) {
           try {
             window.parent.ga('send', 'event', eventCategory, eventAction, eventLabel, {'nonInteraction': 1});
           } catch (ignore) {
-            var gaServerTracker = new Image();
-            gaServerTracker.src = 'http://www.ftchinese.com/index.php/ft/hit/' + AssID + '/2?ec=' + eventCategory + '&ea=' + eventAction + '&el=' + +encodeURIComponent(eventLabel);
-            if (eventAction === 'request') {
-              var topUrl = top.location.href;
-              var topUrlTracker = new Image();
-              topUrlTracker.src = 'http://www.ftchinese.com/index.php/ft/hit/' + AssID + '/1?url=' + encodeURIComponent(topUrl);
-            }
+            console.log('optimized11');
+            setTimeout(function() {
+                var gaServerTracker = new Image();
+                gaServerTracker.src = 'http://www.ftchinese.com/index.php/ft/hit/' + AssID + '/2?ec=' + eventCategory + '&ea=' + eventAction + '&el=' + +encodeURIComponent(eventLabel);
+                if (eventAction === 'request') {
+                var topUrl = top.location.href;
+                var topUrlTracker = new Image();
+                topUrlTracker.src = 'http://www.ftchinese.com/index.php/ft/hit/' + AssID + '/1?url=' + encodeURIComponent(topUrl);
+                }
+            }, 2000);
           }
         };
         var sendOnetime = function() {
