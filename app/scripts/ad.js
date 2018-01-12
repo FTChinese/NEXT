@@ -471,7 +471,8 @@ function writeAdNew(obj) {
   } else {
     iframeSrc = '/a.html?v=20171214112400' + bannerBG + '#adid='+ adid + '&pid=' + adid;
   }
-  iframeHTML = '<iframe class="banner-iframe" data-adch="'+adChannelId+'" data-adPosition="'+ adPatternId + adPositionId+'" id="ad-' + adid + '" width="'+ adWidth +'" height="'+ adHeight + '" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="'+ iframeSrc +'" data-src="'+ iframeSrc +'" data-ad-type="'+ adPatternId + adPositionId +'" data-ad-count=0></iframe>';
+  var iframeId = 'ad-'+adid;
+  iframeHTML = '<iframe class="banner-iframe" data-adch="'+adChannelId+'" data-adPosition="'+ adPatternId + adPositionId+'" id="' + iframeId + '" width="'+ adWidth +'" height="'+ adHeight + '" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="" data-src="'+ iframeSrc +'" data-ad-type="'+ adPatternId + adPositionId +'" data-ad-count=0></iframe>';
 
 
   if (window.gDebugAd && typeof window.gDebugAd === 'string') { //有两种情况存在gDebugAd：1线上为www7时，如果$debug_model == 1，则存在gDebugAd(参见partials/head.html);2本地测试一定存在gDebugAd
@@ -514,5 +515,11 @@ function writeAdNew(obj) {
   } else if (containerType === 'mpuInStroy') {
     iframeHTML = '<div class="mpu-container-instory">' + iframeHTML + '</div>';
   }
+  //Optimize iframe of a.html
+  console.log('Delay load iframe of a 1');
+  setTimeout(function() {
+    var thisIframe = document.getElementById(iframeId);
+    thisIframe.src = iframeSrc;
+  }, 1000);
   return iframeHTML;
 }
