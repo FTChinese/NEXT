@@ -69,141 +69,179 @@
     <%assign var="pageType" value="channel"%>
 <%/if%>
 
-<!DOCTYPE html>
-<html class="no-js core<%if $smarty.get.webview == "ftcapp"%> is-ftc-app<%/if%>" data-next-app="video-page">
-<head>
-<meta charset="utf-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta http-equiv="Content-Language" content="zh-CN"/>
-<title><%$cheadline|default:$PageTitle|strip_tags%> - FT中文网</title>
-<META name=keywords content="<%foreach item=t from=$tag%><%$t.tag%> <%/foreach%>">
-<meta content="<%$PageIntro|default:$clongleadbody%>" name="description"/>
-<meta name="apple-mobile-web-app-status-bar-style" content="black" />
-<link rel="apple-touch-icon-precomposed" href="http://static.ftchinese.com/img/ipad_icon.png" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link rel="preconnect" href="http://static.ftchinese.com" />
-<link rel="preconnect" href="http://i.ftimg.net" />
-<script>
-window.cutsTheMustard = (typeof Function.prototype.bind !== 'undefined');
-if (window.cutsTheMustard) {
-document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/, 'js').replace(/\bcore\b/, 'enhanced');
-}
-</script>
-<script>var gPageId = 'video';</script>
-<style>
-<%if $pageType=="channel"%>
-    <%include file="next/styles/main-video-channel.css"%>
-<%else%>
-    <%include file="next/styles/main-video.css"%>
-<%/if%>
-<%if $smarty.get.webview == "ftcapp"%>
-    <%include file="next/styles/main-ftc-app.css"%>
-<%/if%>
-</style>
-<link rel="icon" type="image/png" href="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=32&height=32" sizes="32x32">
-<link rel="icon" type="image/png" href="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=194&height=194" sizes="194x194">
-<link rel="apple-touch-icon" sizes="180x180" href="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=180&height=180" />
-
-<meta name="msapplication-TileColor" content="#fff1e0" />
-<meta name="msapplication-TileImage" content="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=144&height=144" />
-
-
-<script>var startTime = new Date().getTime();</script>
-<script>
-if ( screen.width<=480) {
-    document.write('<meta content="FT中文网" name="application-name" /><meta content="app-id=443870811" name="apple-itunes-app" />');
-} else {
-    document.write('<meta content="FT中文网" name="application-name" /><meta content="app-id=396124008" name="apple-itunes-app" />');
-}
-</script>
-<link rel="alternate" type="application/rss+xml" title="FT中文网 - 每日更新" href="/rss/feed" />
-<link rel="alternate" type="application/rss+xml" title="FT中文网 - 双语阅读" href="/rss/diglossia" />
-<link rel="alternate" type="application/rss+xml" title="FT中文网 - 今日焦点" href="/rss/news" />
-<link rel="alternate" type="application/rss+xml" title="FT中文网 - 生活时尚" href="/rss/lifestyle" />
-<link rel="alternate" type="application/rss+xml" title="FT中文网 - 一周十大热门文章" href="/rss/hotstoryby7day" />
-<link rel="alternate" type="application/rss+xml" title="FT中文网 - 热门用户评论" href="/rss/hotusercomment" />
-<link rel="search" type="application/opensearchdescription+xml" title="FT中文网财经搜索" href="/opensearch.xml">
-<%include file = "next/partials/loadAdDataByDevice.html"%>
-<script type="text/javascript">
-<%include file="next/scripts/key.js"%>
-</script>
-<!--[if lte IE 8]>
+<%if $smarty.get.bodyonly != "yes"%>
+    <!DOCTYPE html>
+    <html class="no-js core<%if $smarty.get.webview == "ftcapp"%> is-ftc-app<%/if%>" data-next-app="video-page">
+    <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Language" content="zh-CN"/>
+    <title><%$cheadline|default:$PageTitle|strip_tags%> - FT中文网</title>
+    <META name=keywords content="<%foreach item=t from=$tag%><%$t.tag%> <%/foreach%>">
+    <meta content="<%$PageIntro|default:$clongleadbody%>" name="description"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <link rel="apple-touch-icon-precomposed" href="http://static.ftchinese.com/img/ipad_icon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="http://static.ftchinese.com" />
+    <link rel="preconnect" href="http://i.ftimg.net" />
     <script>
-        document.documentElement.className += ' is-ie-8';
-        document.createElement('figure');
-        document.createElement('header');
-        document.createElement('nav');
-        document.createElement('section');
-        document.createElement('article');
-        document.createElement('aside');
-        document.createElement('footer');
-        var wIE = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-        var cssId = 'ie-css';
-        var cssFile = '';
-        if (!document.getElementById(cssId)) {
-            var head  = document.getElementsByTagName('head')[0];
-            var link  = document.createElement('link');
-            link.id   = cssId;
-            link.rel  = 'stylesheet';
-            link.type = 'text/css';
-            cssFile = (wIE>=1200)?'XL':'L';
-            link.href = 'http://static.ftchinese.com/n/main-ie-'+ cssFile +'.css?<%include file="next/timestamp/timestamp.html"%>';
-            link.media = 'all';
-            head.appendChild(link);
-        }
+    window.cutsTheMustard = (typeof Function.prototype.bind !== 'undefined');
+    if (window.cutsTheMustard) {
+    document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/, 'js').replace(/\bcore\b/, 'enhanced');
+    }
     </script>
-<![endif]-->
-<%include file="next/partials/head.html"%>
-
-
-<%if date("Ymd",$smarty.now) <= 20181001 %>
-    <%if preg_match("/有色眼镜/",$PageTitle)%>
-        <%*<script> 
-        if(window.deviceCategory == 'PC') {
-            var trackImp = 'http://bsch.serving-sys.com/serving/adServer.bs?cn=display&c=19&mc=imp&pli=23476886&PluID=0&ord=[timestamp]&rtu=-1';
-        }else {
-            var trackImp = 'http://bsch.serving-sys.com/serving/adServer.bs?cn=display&c=19&mc=imp&pli=23613159&PluID=0&ord=__TIME__&rtu=-1&mb=1';
-        }
-        </script>
-        *%>
-        <script>
-        var trackImp = 'http://bsch.serving-sys.com/serving/adServer.bs?cn=display&c=19&mc=imp&pli=23613159&PluID=0&ord=__TIME__&rtu=-1&mb=1';
-        var trackVideoImpression = new Image();
-        trackVideoImpression.onload = function() {
-            window.ga('send', 'event', 'testvideo impression', 'Success', trackImp, {'nonInteraction': 1});
-        }
-        trackVideoImpression.onerror = function() {
-            window.ga('send', 'event', 'testvideo impression', 'Fail', trackImp, {'nonInteraction': 1});
-        }
-        trackVideoImpression.src = trackImp;
-        </script>
+    <script>var gPageId = 'video';</script>
+    <style>
+    <%if $pageType=="channel"%>
+        <%include file="next/styles/main-video-channel.css"%>
+    <%else%>
+        <%include file="next/styles/main-video.css"%>
     <%/if%>
-<%/if%>
+    <%if $smarty.get.webview == "ftcapp"%>
+        <%include file="next/styles/main-ftc-app.css"%>
+    <%/if%>
+    </style>
+    <link rel="icon" type="image/png" href="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=32&height=32" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=194&height=194" sizes="194x194">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=180&height=180" />
 
-</head>
-<%assign var="bannerCount" value=0%>
-<body>
-<script>checkB();</script>
-<%if $pageType=="channel"%>
-    <%include file="next/partials/tag-header.html"%>
+    <meta name="msapplication-TileColor" content="#fff1e0" />
+    <meta name="msapplication-TileImage" content="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=144&height=144" />
+
+
+    <script>var startTime = new Date().getTime();</script>
+    <script>
+    if ( screen.width<=480) {
+        document.write('<meta content="FT中文网" name="application-name" /><meta content="app-id=443870811" name="apple-itunes-app" />');
+    } else {
+        document.write('<meta content="FT中文网" name="application-name" /><meta content="app-id=396124008" name="apple-itunes-app" />');
+    }
+    </script>
+    <link rel="alternate" type="application/rss+xml" title="FT中文网 - 每日更新" href="/rss/feed" />
+    <link rel="alternate" type="application/rss+xml" title="FT中文网 - 双语阅读" href="/rss/diglossia" />
+    <link rel="alternate" type="application/rss+xml" title="FT中文网 - 今日焦点" href="/rss/news" />
+    <link rel="alternate" type="application/rss+xml" title="FT中文网 - 生活时尚" href="/rss/lifestyle" />
+    <link rel="alternate" type="application/rss+xml" title="FT中文网 - 一周十大热门文章" href="/rss/hotstoryby7day" />
+    <link rel="alternate" type="application/rss+xml" title="FT中文网 - 热门用户评论" href="/rss/hotusercomment" />
+    <link rel="search" type="application/opensearchdescription+xml" title="FT中文网财经搜索" href="/opensearch.xml">
+    <%include file = "next/partials/loadAdDataByDevice.html"%>
+    <script type="text/javascript">
+    <%include file="next/scripts/key.js"%>
+    </script>
+    <!--[if lte IE 8]>
+        <script>
+            document.documentElement.className += ' is-ie-8';
+            document.createElement('figure');
+            document.createElement('header');
+            document.createElement('nav');
+            document.createElement('section');
+            document.createElement('article');
+            document.createElement('aside');
+            document.createElement('footer');
+            var wIE = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+            var cssId = 'ie-css';
+            var cssFile = '';
+            if (!document.getElementById(cssId)) {
+                var head  = document.getElementsByTagName('head')[0];
+                var link  = document.createElement('link');
+                link.id   = cssId;
+                link.rel  = 'stylesheet';
+                link.type = 'text/css';
+                cssFile = (wIE>=1200)?'XL':'L';
+                link.href = 'http://static.ftchinese.com/n/main-ie-'+ cssFile +'.css?<%include file="next/timestamp/timestamp.html"%>';
+                link.media = 'all';
+                head.appendChild(link);
+            }
+        </script>
+    <![endif]-->
+    <%include file="next/partials/head.html"%>
+
+
+    <%if date("Ymd",$smarty.now) <= 20181001 %>
+        <%if preg_match("/有色眼镜/",$PageTitle)%>
+            <script>
+            var trackImp = 'http://bsch.serving-sys.com/serving/adServer.bs?cn=display&c=19&mc=imp&pli=23613159&PluID=0&ord=__TIME__&rtu=-1&mb=1';
+            var trackVideoImpression = new Image();
+            trackVideoImpression.onload = function() {
+                window.ga('send', 'event', 'testvideo impression', 'Success', trackImp, {'nonInteraction': 1});
+            }
+            trackVideoImpression.onerror = function() {
+                window.ga('send', 'event', 'testvideo impression', 'Fail', trackImp, {'nonInteraction': 1});
+            }
+            trackVideoImpression.src = trackImp;
+            </script>
+        <%/if%>
+    <%/if%>
+
+    </head>
+    <%assign var="bannerCount" value=0%>
+    <body>
+    <script>checkB();</script>
+    <%if $pageType=="channel"%>
+        <%include file="next/partials/tag-header.html"%>
+    <%else%>
+        <%include file="next/partials/header.html"%>
+    <%/if%>
+    <%include file="next/partials/nav.html"%>
+
+    <%include file="next/partials/banner-new.html"%>
+
+    <%assign var="bannerCount" value=$bannerCount+1%>
+    <%include file="next/partials/video-block.html"%>
+    <%include file="next/partials/footer.html"%>
+    <%include file="next/partials/QrCode.html"%>
+    <%include file="next/partials/story-action.html"%>
+    </body>
+    <!--[if lte IE 8]>
+    <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+    <![endif]-->
+    <script type="text/javascript">
+      <%include file="next/scripts/main-video.js"%>
+    </script>
+    <script type="text/javascript" src="http://static.ftchinese.com/n/main-sharelinks.js?<%include file="next/timestamp/timestamp.html"%>"></script>
+    </html>
 <%else%>
-    <%include file="next/partials/header.html"%>
+
+    <script>var gPageId = 'video';</script>
+    <style>
+    <%if $pageType=="channel"%>
+        <%include file="next/styles/main-video-channel.css"%>
+    <%else%>
+        <%include file="next/styles/main-video.css"%>
+    <%/if%>
+    </style>
+
+    <%if date("Ymd",$smarty.now) <= 20181001 %>
+        <%if preg_match("/有色眼镜/",$PageTitle)%>
+            <script>
+            var trackImp = 'http://bsch.serving-sys.com/serving/adServer.bs?cn=display&c=19&mc=imp&pli=23613159&PluID=0&ord=__TIME__&rtu=-1&mb=1';
+            var trackVideoImpression = new Image();
+            trackVideoImpression.onload = function() {
+                window.ga('send', 'event', 'testvideo impression', 'Success', trackImp, {'nonInteraction': 1});
+            }
+            trackVideoImpression.onerror = function() {
+                window.ga('send', 'event', 'testvideo impression', 'Fail', trackImp, {'nonInteraction': 1});
+            }
+            trackVideoImpression.src = trackImp;
+            </script>
+        <%/if%>
+    <%/if%>
+
+    <%assign var="bannerCount" value=0%>
+    <script>checkB();</script>
+    <%if $pageType=="channel"%>
+        <%include file="next/partials/tag-header.html"%>
+    <%else%>
+        <%include file="next/partials/header.html"%>
+    <%/if%>
+    <%include file="next/partials/nav.html"%>
+
+    <%include file="next/partials/banner-new.html"%>
+
+    <%assign var="bannerCount" value=$bannerCount+1%>
+    <%include file="next/partials/video-block.html"%>
+    <%include file="next/partials/footer.html"%>
+    <%include file="next/partials/QrCode.html"%>
+    <%include file="next/partials/story-action.html"%>
+
 <%/if%>
-<%include file="next/partials/nav.html"%>
-
-<%include file="next/partials/banner-new.html"%>
-
-<%assign var="bannerCount" value=$bannerCount+1%>
-<%include file="next/partials/video-block.html"%>
-<%include file="next/partials/footer.html"%>
-<%include file="next/partials/QrCode.html"%>
-<%include file="next/partials/story-action.html"%>
-</body>
-<!--[if lte IE 8]>
-<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
-<![endif]-->
-<script type="text/javascript">
-  <%include file="next/scripts/main-video.js"%>
-</script>
-<script type="text/javascript" src="http://static.ftchinese.com/n/main-sharelinks.js?<%include file="next/timestamp/timestamp.html"%>"></script>
-</html>
