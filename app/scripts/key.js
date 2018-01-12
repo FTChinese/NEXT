@@ -271,7 +271,7 @@ function trackerNew() {
     }
 
     //Optimize trackNew
-    console.log('Optimize track new');
+    //console.log('Optimize track new');
     setTimeout(function(){
         if (window.isBlocked === 'yes' || window.bBlocked === 'yes') {
             ga('set', 'dimension16', 'yes');
@@ -323,7 +323,7 @@ function trackerNew() {
 	            ga('send','event','Story Tag',keyTagArray[i],window.FTStoryid,{'nonInteraction':1});
 	        }
 	    }
-    }, 1000);//old 300
+    }, 1);//old 300
 }
 
 var username=GetCookie('USER_NAME') || '';

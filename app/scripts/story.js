@@ -129,7 +129,7 @@ if(recommendVersion === '-001'){
 
     setTimeout(function(){
         ftc_api.jsonp(thirdPartAPIUrl + '&callback=getRec&cki=' + userId + '&v=' + new Date().getTime());
-    }, 2000);
+    }, 1);
 
     // MARK: The rest work jump to getRec
     ga('send','event','Recommend Story API', 'Load' + recommendVersion, '', {'nonInteraction':1});

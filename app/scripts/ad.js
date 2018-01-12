@@ -516,10 +516,10 @@ function writeAdNew(obj) {
     iframeHTML = '<div class="mpu-container-instory">' + iframeHTML + '</div>';
   }
   //Optimize iframe of a.html
-  console.log('Delay load iframe of a 100ms');
+  //console.log('Delay load iframe of a 1000ms');
   setTimeout(function() {
     var thisIframe = document.getElementById(iframeId);
     thisIframe.src = iframeSrc;
-  }, 100);
+  }, 1);
   return iframeHTML;
 }
