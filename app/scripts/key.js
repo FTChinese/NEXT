@@ -270,7 +270,8 @@ function trackerNew() {
         ga('set', 'dimension12', window.subTopic);
     }
 
-
+    //Optimize trackNew
+    console.log('Optimize track new');
     setTimeout(function(){
         if (window.isBlocked === 'yes' || window.bBlocked === 'yes') {
             ga('set', 'dimension16', 'yes');
@@ -322,7 +323,7 @@ function trackerNew() {
 	            ga('send','event','Story Tag',keyTagArray[i],window.FTStoryid,{'nonInteraction':1});
 	        }
 	    }
-    }, 300);
+    }, 1000);//old 300
 }
 
 var username=GetCookie('USER_NAME') || '';

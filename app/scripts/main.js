@@ -307,10 +307,10 @@ function loadImages() {
   }
 
   // Optimize loadImagesLazy
-  console.log('Delay load iframe of a 1');
+  console.log('Delay loadImagesLazy 100ms');
   setTimeout(function() {
     loadImagesLazy ();
-  }, 10);
+  }, 100);
   
   loadVideosLazy ();
   trackViewables();
