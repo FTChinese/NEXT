@@ -307,7 +307,6 @@ function loadImages() {
   }
 
   // optimize loadImagesLazy
-  console.log('Delay loadImagesLazy 1ms');
   setTimeout(function() {
     loadImagesLazy ();
   }, 1);
