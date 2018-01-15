@@ -1004,14 +1004,14 @@
 							<%assign var="itemLink" value=" href=\"`$itemLink`\""%>
 						<%/if%>
 
+						<%if $listType === "videos" && $i==0%>
+							<div class="item-inner video-package-inner"><div class="image"><figure id="video-package-play" class="loading-video" data-vid="<%$itemId%>"></figure></div><div class="video-package-title"><a href="/video/<%$itemId%>" target=_blank><%$itemHeadline%></a></div></div>
+						<%/if%>
+
 						<%if $item.preferSponsorImage == "yes" && $itemTagLink != "" && $tagImage != ""%>
 							<%assign var="itemImageLink" value=" href=\"`$itemTagLink`\" data-sponsor-link=\"yes\""%>
 						<%else%>
 							<%assign var="itemImageLink" value=$itemLink%>
-						<%/if%>
-
-						<%if $listType === "videos" && $i==0%>
-							<div class="item-inner video-package-inner"><div class="image"><figure id="video-package-play" class="loading-video" data-vid="<%$itemId%>"></figure></div><div class="video-package-title"><a href="/video/<%$itemId%>" target=_blank><%$itemHeadline%></a></div></div>
 						<%/if%>
 
 						<%if (preg_match("/特别企划|企业公告/is",$itemTagsString) || ($item.customLink != "" && preg_match("/^http/is",$item.customLink) && !preg_match("/ftchinese.com|ft.com|ftacademy/is",$item.customLink)))  && (!preg_match("/event.html|marketing|m\/corp/is",$smarty.server.REQUEST_URI) || preg_match("/preview/is",$smarty.server.REQUEST_URI))%>
@@ -1152,7 +1152,7 @@
 							<%$itemTop%>
 							<div class="item-container <%$itemClass%> <%$hasImage%>"<%$itemData%>><div class="item-inner">
 								<h2 class="item-headline"><%$itemTag%><a target="_blank"<%$itemLink%> class="item-headline-link"><%$itemHeadline%></a></h2>
-								<%if $item.relatives|@count > 0 && $item.relatives[0].type == "video"%><div class="image"><figure class="loading-video" data-vid="<%$item.relatives[0].id%>"></figure></div><%elseif ($itemType === "video" && $listType !== "videos") || ($itemType == "interactive" && preg_match("/推广视频|精彩视频|产品视频/is",$item.tag))%><div class="image"><figure class="loading-video" data-vid="<%$itemId%>" data-item-type="<%$itemType%>"></figure></div><%elseif $itemImage != "" && $hasImage === "has-image"%><a class="image" target="_blank"<%$itemImageLink%>><figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure></a><%/if%>
+								<%if $item.relatives|@count > 0 && $item.relatives[0].type == "video"%><!--test 1--><div class="image"><figure class="loading-video" data-vid="<%$item.relatives[0].id%>"></figure></div><%elseif ($itemType === "video" && $listType !== "videos" && $item.preferSponsorImage != "yes") || ($itemType == "interactive" && preg_match("/推广视频|精彩视频|产品视频/is",$item.tag))%><!--test 2--><div class="image"><figure class="loading-video" data-vid="<%$itemId%>" data-item-type="<%$itemType%>"></figure></div><%elseif $itemImage != "" && $hasImage === "has-image"%><!--test 3--><a class="image" target="_blank"<%$itemImageLink%>><figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure></a><%/if%>
 								<%if $hideLead === "no"%><div class="item-lead"><%$itemLead|nl2br%></div><%/if%>
 								<%$itemTimeStamp%>
 								<%if $item.relatives|@count > 0 && $item.showRelativeStoryItems > 0%>

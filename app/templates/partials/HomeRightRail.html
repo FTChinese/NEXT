@@ -353,10 +353,14 @@
 							<%assign var="iTag" value=""%>
 							<%/if%>
 
+							<%*<!--MARK: - Audio file urls -->*%>
 							<%if $smarty.get.webview == "ftcapp"%>
 								<%if preg_match("/.mp3$/is",$storyall[$cs].cshortleadbody)%>
 									<%assign var="audioUrl" value=$storyall[$cs].cshortleadbody%>
 									<%assign var="audioData" value=" data-audio=\"`$audioUrl`\""%>
+								<%elseif preg_match("/.mp3$/is",$storyall[$cs].eshortleadbody)%>
+									<%assign var="audioUrl" value=$storyall[$cs].eshortleadbody%>
+									<%assign var="audioData" value=" data-eaudio=\"`$audioUrl`\""%>
 								<%else%>
 									<%assign var="audioUrl" value=""%>
 									<%assign var="audioData" value=""%>

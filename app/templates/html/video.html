@@ -1,6 +1,15 @@
 <%if !isset($adchId) || $adchId==""%>
     <%assign var=adchId value="1900"%>
 <%/if%>
+
+<%foreach item=t from=$tag%>
+<%assign var=mytag value="`$mytag`,`$t.tag`"%>
+<%/foreach%>
+<!--MARK: Change Ad Channel Id based on tag: <%$mytag|var_dump%>-->
+<%if preg_match("/高端视点/",$mytag)%>
+    <%assign var=adchId value="1902"%>
+<%/if%>
+
 <%if $itemType == ""%>
     <%assign var="itemType" value="video"%>
 <%/if%>
