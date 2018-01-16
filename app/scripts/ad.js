@@ -520,6 +520,6 @@ function writeAdNew(obj) {
   setTimeout(function() {
     var thisIframe = document.getElementById(iframeId);
     thisIframe.src = iframeSrc;
-  }, 500);
+  }, 200);
   return iframeHTML;
 }
