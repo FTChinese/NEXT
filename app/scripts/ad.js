@@ -517,9 +517,9 @@ function writeAdNew(obj) {
   }
   //optimize iframe of a.html
   //console.log('Delay load iframe of a 1ms');
-  setTimeout(function() {
+  //setTimeout(function() {
     var thisIframe = document.getElementById(iframeId);
     thisIframe.src = iframeSrc;
-  }, 500);
+  //}, 500);
   return iframeHTML;
 }
