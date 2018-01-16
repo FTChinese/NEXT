@@ -242,6 +242,11 @@
 						<%assign var="itemTop" value=""%>
 					<%/if%>
 
+					<%*<!--MARK: - If it is a premium story, set item type as premium -->*%>
+					<%if $item.accessright && $item.accessright>1%>
+						<%assign var="itemType" value="premium"%>
+					<%/if%>
+
 					<%if $itemImage == ""%>
 						<%assign var="hasImage" value="no-image"%>
 					<%/if%>
@@ -357,7 +362,6 @@
 					<%/if%>
 
 
-
 					<%if $smarty.get.webview == "ftcapp"%>
 						<%if preg_match("/.mp3$/is",$item.shortlead) || preg_match("/.mp3$/is",$item.cshortleadbody)%>
 							<%assign var="audioUrl" value=$item.shortlead|default:$item.cshortleadbody%>
@@ -365,13 +369,6 @@
 						<%/if%>
 						<%assign var="itemClass" value="`$itemClass` item-container-app"%>
 						<%assign var="itemData" value=" data-id=\"`$item.id`\" data-type=\"`$itemType`\"`$audioData`"%>
-					<%/if%>
-
-					<%if $item.id == "001075933"%>
-						<!--
-						Premium Test: 
-						<%$item|var_dump%>
-						-->
 					<%/if%>
 
 					<%$itemTop%>

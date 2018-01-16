@@ -1044,6 +1044,9 @@
 							<%if preg_match("/.mp3$/is",$item.eaudio)%>
 								<%assign var="eaudioUrl" value=$item.eaudio%>
 								<%assign var="eaudioData" value=" data-eaudio=\"`$eaudioUrl`\""%>
+							<%elseif preg_match("/.mp3$/is",$item.eshortleadbody)%>
+								<%assign var="eaudioUrl" value=$item.eshortleadbody%>
+								<%assign var="eaudioData" value=" data-eaudio=\"`$eaudioUrl`\""%>
 							<%else%>
 								<%assign var="eaudioUrl" value=""%>
 								<%assign var="eaudioData" value=""%>
