@@ -309,7 +309,7 @@ function loadImages() {
   // optimize loadImagesLazy
   setTimeout(function() {
     loadImagesLazy ();
-  }, 1);
+  }, 1000);
   
   loadVideosLazy ();
   trackViewables();
@@ -731,6 +731,7 @@ if ((gNavOffsetY > 30 && w > 490 && isTouchDevice() === false) || document.getEl
 } else {
   bodyHeight = getBodyHeight();
   addEvent(eventResize, function(){
+      console.log('test:onresize');
       bodyHeight = getBodyHeight();
       //reloadBanners();
       loadImages();
@@ -750,7 +751,8 @@ if (typeof SVGRect === 'undefined') {
   document.documentElement.className += ' no-svg';
 }
 
-loadImages();
+console.log('for test: loadImages() with no events ');
+loadImages();//MARK:Here is where to loadImages really,which is called with no events fired
 viewablesInit();
 
 // MARK: - A cool trick to handle images that fail to load

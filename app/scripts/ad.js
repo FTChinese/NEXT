@@ -515,11 +515,11 @@ function writeAdNew(obj) {
   } else if (containerType === 'mpuInStroy') {
     iframeHTML = '<div class="mpu-container-instory">' + iframeHTML + '</div>';
   }
-  //Optimize iframe of a.html
+  //optimize iframe of a.html
   //console.log('Delay load iframe of a 1ms');
   setTimeout(function() {
     var thisIframe = document.getElementById(iframeId);
     thisIframe.src = iframeSrc;
-  }, 1);
+  }, 500);
   return iframeHTML;
 }
