@@ -1,4 +1,5 @@
-<%if date("Ymd",$smarty.now) >= 20171109 && date("Ymd",$smarty.now) <= 20171231 && $smarty.get.ad != 'no' && $noAd != "true" && $smarty.get.webview != "ftcapp"%>
+<%*<!--MARK: Display Pop Up Ad on all pages-->*%>
+<%if date("Ymd",$smarty.now) >= 20171109 && date("Ymd",$smarty.now) <= 20180331 && $smarty.get.ad != 'no' && $noAd != "true" && $smarty.get.webview != "ftcapp"%>
 <style><%include file="next/styles/main-pop-ad.css"%></style>
 <div id="pop-ad" class=overlay></div>
 <div class="pop-ad-code">
@@ -6,7 +7,7 @@
 var fullSC = GetCookie("fs0");
 var loadFullAtEnd = false;
 // MARK: - Display the full screen ad for every visit
-// fullSC = null;
+fullSC = null;
 if (fullSC === null && w <= 490) {
     //document.write (writeAd('fullpage'));
     document.write (writeAdNew({

@@ -271,6 +271,9 @@
         } else {
             window.adchID = '<%$adchannelID|default:$adchId%>';
         }
+        <%if $pageId != "home"%>
+            document.title = '<%$p.meta.title%>';
+        <%/if%>
     </script>
     <%include file="next/partials/body.html"%>
 <%/if%>
