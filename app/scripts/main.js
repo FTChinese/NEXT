@@ -748,7 +748,6 @@ if (typeof SVGRect === 'undefined') {
   document.documentElement.className += ' no-svg';
 }
 
-console.log('for test: loadImages() with no events ');
 loadImages();//MARK:Here is where to loadImages really,which is called with no events fired
 viewablesInit();
 
