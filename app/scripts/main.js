@@ -306,11 +306,8 @@ function loadImages() {
     }
   }
 
-  // optimize loadImagesLazy
-  setTimeout(function() {
-    loadImagesLazy ();
-  }, 1000);
-  
+
+  loadImagesLazy ();
   loadVideosLazy ();
   trackViewables();
 }

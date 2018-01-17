@@ -17,12 +17,8 @@ function sendImpToThirdParty(Imp, AdName, AssID) {
             try {
                 window.parent.ga('send', 'event', eventCategory, eventAction, eventLabel, {'nonInteraction': 1});
             } catch (ignore) {
-                //Optinize index.php/ft/hit
-                console.log('optimized10');
-                setTimeout(function() {
-                    var gaServerTracker = new Image();
-                    gaServerTracker.src = 'http://www.ftchinese.com/index.php/ft/hit/' + AssID + '/2?ec=' + eventCategory + '&ea=' + eventAction + '&el=' + encodeURIComponent(eventLabel) + '&r=' + asRandom;
-                }, 1000);
+                var gaServerTracker = new Image();
+                gaServerTracker.src = 'http://www.ftchinese.com/index.php/ft/hit/' + AssID + '/2?ec=' + eventCategory + '&ea=' + eventAction + '&el=' + encodeURIComponent(eventLabel) + '&r=' + asRandom;
             }
         };
         var sendOnetime = function() {
