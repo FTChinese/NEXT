@@ -1,7 +1,18 @@
 <%if $pageId == ""%>
     <%assign var="pageId" value="home"%>
 <%/if%>
-<%if $smarty.get.webview == "ftcapp"%>
+
+<%if $smarty.get.v != ""%>
+    <%assign var="v" value=$smarty.get.v|floatval%>
+    <%if $v >= 7.3%>
+        <%assign var="showExclusiveContent" value="yes"%>
+        <!--version larger than 7.3-->
+    <%else%>
+        <!--version not larger than 7.3-->
+    <%/if%>
+<%/if%>
+
+<%if $smarty.get.webview == "ftcapp" && $showExclusiveContent == "yes"%>
     <%assign var="p" value=$nextmodel->getPublishJsonWithPremium($pageId)|json_decode:true%>
 <%else%>
     <%assign var="p" value=$nextmodel->getPublishJson($pageId)|json_decode:true%>

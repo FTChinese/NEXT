@@ -284,17 +284,16 @@ gulp.task('copy:cssjs', () => {
     .pipe(gulp.dest(`../${cssDest}`))
     .pipe(gulp.dest(`../testing/${cssDest}`));
 
-  let partialsCssStream = gulp.src('dist/styles/partials/*.css')
-    .pipe(gulp.dest(`../${cssDest}`))
-    .pipe(gulp.dest(`../testing/${cssDest}`));
+  // let partialsCssStream = gulp.src('dist/styles/partials/*.css')
+  //   .pipe(gulp.dest(`../${cssDest}`))
+  //   .pipe(gulp.dest(`../testing/${cssDest}`));
 
   let jsStream = gulp.src(['app/origami/*.js', 'dist/scripts/*.js'])
     .pipe(gulp.dest(`../${staticDest}`))
     .pipe(gulp.dest(`../${jsDest}`))
     .pipe(gulp.dest(`../testing/${staticDest}`))
     .pipe(gulp.dest(`../testing/${jsDest}`));
-
-  return merge(cssStream, partialsCssStream, jsStream);
+  return merge(cssStream, jsStream);
 });
 
 gulp.task('copy:marketing', () => {
