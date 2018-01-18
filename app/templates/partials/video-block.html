@@ -12,8 +12,23 @@
 		                            var thisVideo = document.getElementById('video-player');
 		                            var video_width = thisVideo.offsetWidth;
 		                            var video_height = Math.round(video_width*9/16);
-		                            document.write('<scr' + 'ipt src="http://union.bokecc.com/player?vid=<%$cc_vaddress%>&siteid=922662811F1A49E9&autoStart=true&width=' + video_width + '&height=' + video_height + '&playerid=3571A3BF2AEC8829&playertype=1" type="text/javascript"></sc' + 'ript>');
-		                            </script>
+									document.write('<scr' + 'ipt src="http://union.bokecc.com/player?vid=<%$cc_vaddress%>&siteid=922662811F1A49E9&autoStart=true&width=' + video_width + '&height=' + video_height + '&playerid=3571A3BF2AEC8829&playertype=1" type="text/javascript"></sc' + 'ript>');
+								
+									<%if $smarty.get.webview == "ftcapp" && (preg_match("/有色眼镜/",$PageTitle) || preg_match("/高端视点/",$PageTitle)) %>
+										var videoRealSection = thisVideo.querySelector('.video-player-inner');
+										var trackImp = 'http://bsch.serving-sys.com/serving/adServer.bs?cn=display&c=19&mc=imp&pli=23613159&PluID=0&ord=__TIME__&rtu=-1&mb=1';
+										var trackVideoImpression = new Image();
+										trackVideoImpression.onload = function() {
+											window.ga('send', 'event', 'testvideo impression', 'SuccessOnIphoneApp', trackImp, {'nonInteraction': 1});
+										}
+										trackVideoImpression.onerror = function() {
+											window.ga('send', 'event', 'testvideo impression', 'FailOnIphoneApp', trackImp, {'nonInteraction': 1});
+										}
+										trackVideoImpression.src = trackImp;
+									<%/if%>
+
+									</script>
+									
 		                        <%else%>
 		                            <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" id="osmfPlayer">
 		                                <param name="movie" value="http://static.ftchinese.com/player111014/osmfPlayer_3.swf?videoid=<%$id%>&autoplay=true" />
