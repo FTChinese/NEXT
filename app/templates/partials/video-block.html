@@ -16,15 +16,18 @@
 								
 									<%if $smarty.get.webview == "ftcapp" && (preg_match("/有色眼镜/",$PageTitle) || preg_match("/高端视点/",$PageTitle)) %>
 										var videoRealSection = thisVideo.querySelector('.video-player-inner');
-										var trackImp = 'http://bsch.serving-sys.com/serving/adServer.bs?cn=display&c=19&mc=imp&pli=23613159&PluID=0&ord=__TIME__&rtu=-1&mb=1';
-										var trackVideoImpression = new Image();
-										trackVideoImpression.onload = function() {
-											window.ga('send', 'event', 'testvideo impression', 'SuccessOnIphoneApp', trackImp, {'nonInteraction': 1});
+										videoRealSection.onclick = function() {
+											var trackImp = 'http://bsch.serving-sys.com/serving/adServer.bs?cn=display&c=19&mc=imp&pli=23613159&PluID=0&ord=__TIME__&rtu=-1&mb=1';
+											var trackVideoImpression = new Image();
+											trackVideoImpression.onload = function() {
+												window.ga('send', 'event', 'testvideo impression', 'SuccessOnIphoneApp', trackImp, {'nonInteraction': 1});
+											}
+											trackVideoImpression.onerror = function() {
+												window.ga('send', 'event', 'testvideo impression', 'FailOnIphoneApp', trackImp, {'nonInteraction': 1});
+											}
+											trackVideoImpression.src = trackImp;
 										}
-										trackVideoImpression.onerror = function() {
-											window.ga('send', 'event', 'testvideo impression', 'FailOnIphoneApp', trackImp, {'nonInteraction': 1});
-										}
-										trackVideoImpression.src = trackImp;
+										
 									<%/if%>
 
 									</script>
