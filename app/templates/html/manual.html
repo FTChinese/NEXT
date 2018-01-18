@@ -2,13 +2,11 @@
     <%assign var="pageId" value="home"%>
 <%/if%>
 
+<%*<!-- MARK: Set features based on version number -->*%>
 <%if $smarty.get.v != ""%>
     <%assign var="v" value=$smarty.get.v|floatval%>
     <%if $v >= 7.3%>
         <%assign var="showExclusiveContent" value="yes"%>
-        <!--version larger than 7.3-->
-    <%else%>
-        <!--version not larger than 7.3-->
     <%/if%>
 <%/if%>
 
