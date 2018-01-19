@@ -397,7 +397,7 @@
 <%assign var=breadcrum value="<a href=\"/tag/高端视点\">高端视点</a>"%>
 <%assign var="adchannelID" value="1902"%>
 <%assign var="hideMPU1" value="no"%>
-<%assign var="hideMPU2" value="no"%>
+<%assign var="hideMPU2" value="yes"%>
 <%assign var="hideMPU3" value="yes"%>
 <%assign var="hide590" value="no"%>
 <%assign var="hideBanner" value="no"%>
@@ -993,7 +993,7 @@
 	<%/if%>
 
 
-	<%if $noAd != "true"%>
+	<%if $hideMPU3 == "yes" || $noAd == "true" || preg_match("/活动页面/is",$keys) %>
 		<%assign var="story_content" value=$story_content|regex_replace:"/[\r\t\n]/":""|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1<script type=\"text/javascript\">document.write (writeAdNew({devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],pattern:'MPU',position:'Middle2',container:'mpuInStroy'}));</script><p>"%>
 	<%/if%>
 
