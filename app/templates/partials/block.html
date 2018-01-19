@@ -208,6 +208,9 @@
 						<%elseif $list.feedType == "photo"%>
 							<%assign var="feedType" value="photonews"%>
 							<%assign var="itemsArray" value=$photonewsmodel->get_photonews_by_tag($feedTag,0,$feedItems)%>
+						<%elseif $list.feedType == "premium"%>
+							<%assign var="feedType" value=$list.feedType%>
+							<%assign var="itemsArray" value=$storymodel->getContentByTag("FT独家",$feedItems)%>
 						<%else%>
 							<%assign var="feedType" value=$list.feedType%>
 							<%assign var="itemsArray" value=$storymodel->getContentByTag($feedTag,$feedItems)%>
