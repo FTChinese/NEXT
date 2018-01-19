@@ -166,7 +166,7 @@
     <%include file="next/partials/head.html"%>
 
 
-    <%if preg_match("/有色眼镜/",$PageTitle) || preg_match("/高端视点/",$PageTitle)%>
+    <%if ($smarty.get.webview != "ftcapp") && (preg_match("/有色眼镜/",$PageTitle) || preg_match("/高端视点/",$PageTitle))%>
         <script>
         var trackImp = 'http://bsch.serving-sys.com/serving/adServer.bs?cn=display&c=19&mc=imp&pli=23613159&PluID=0&ord=__TIME__&rtu=-1&mb=1';
         var trackVideoImpression = new Image();
