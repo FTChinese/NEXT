@@ -393,6 +393,16 @@
 <%assign var="hide590" value="no"%>
 <%assign var="hideBanner" value="no"%>
 
+<%elseif preg_match("/高端视点/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20180119 && date("Ymd",$smarty.now) <= 20180531%>
+<%assign var=breadcrum value="<a href=\"/tag/高端视点\">高端视点</a>"%>
+<%assign var="adchannelID" value="1902"%>
+<%assign var="hideMPU1" value="no"%>
+<%assign var="hideMPU2" value="no"%>
+<%assign var="hideMPU3" value="yes"%>
+<%assign var="hide590" value="no"%>
+<%assign var="hideBanner" value="no"%>
+
+
 <%elseif preg_match("/财富管理/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20161226 && date("Ymd",$smarty.now) <= 20170131%>
 <%assign var=breadcrum value="<a href=\"/tag/财富管理\">财富管理</a>"%>
 <%assign var="adchannelID" value="1704"%>
@@ -1357,7 +1367,7 @@
 			<%include file="next/partials/story-block.html"%>
 		<%/if%>
 		<%include file="next/partials/story-recommend.html%>
-		<%if !preg_match("/品味|乐尚街|艺术投资|腕表|游艇|极致人生/is",$keys)%>
+		<%if !preg_match("/品味|乐尚街|艺术投资|腕表|游艇|极致人生|高端视点/is",$keys)%>
 				<%include file="next/partials/banner-new.html"%>
 		<%/if%>
 		<%include file="next/partials/footer.html"%>
