@@ -666,6 +666,10 @@
 	<%elseif $randNum == 2 %>
 		<%assign var="adchannelID" value="1300"%>
 	<%/if%>
+<%elseif preg_match("/高端视点/is",$keys) && date("Ymd",$smarty.now) >= 20140525 && date("Ymd",$smarty.now) <= 20180601%>
+	<%assign var="adchannelID" value="1902"%>
+	<%assign var="hide590" value="yes"%>
+	<%assign var="hideInReadAd" value="yes"%>
 <%elseif preg_match("/餐厅|美酒|美食|烈酒/is",$keys)%>
 	<%assign var=breadcrum value="<a href=/channel/wine.html>美食与美酒</a>"%>
 	<%assign var="adchannelID" value="1803"%>

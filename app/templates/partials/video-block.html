@@ -87,7 +87,15 @@
 				                    <%/if%>
 				                </span>
 							</div>
-							<div class="story-lead"><%$cbody%></div>
+
+							<%if $pageType=="channel"%>
+						        <div class="story-lead"><%$clongleadbody%></div>
+						    <%else%>
+						    	<%assign var="story_content" value=$cbody|regex_replace:"/[\r\t\n]+/":"</p><p>"%>
+								<%assign var="story_content" value="<p>`$story_content`</p>"%>
+						       	<div class="video-body-container"><div class="story-body"><%$story_content%></div></div>
+						    <%/if%>
+
 		                </div>
 		            </div>
 		        </div>

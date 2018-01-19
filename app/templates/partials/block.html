@@ -162,9 +162,7 @@
 				<%if $list.feedType == "myFT"%>
 					<%easyapi command="31005" assign="myftArrays" topnum=30%>
 					<%assign var="itemsArray" value=$myftArrays.odatalist%>
-					<!--
-						<%$myftArrays|@var_dump%>
-						-->
+						<!--Premium Content checking -->
 				<%elseif $list.feedType == "hot"%>
 					<%assign var="itemsArray" value=$storymodel->get_hot_story(7,40,true)%>
 					<%assign var="feedType" value=$list.feedType%>
@@ -209,6 +207,7 @@
 							<%assign var="feedType" value="photonews"%>
 							<%assign var="itemsArray" value=$photonewsmodel->get_photonews_by_tag($feedTag,0,$feedItems)%>
 						<%elseif $list.feedType == "premium"%>
+							<!--Premium Content Should Display -->
 							<%assign var="feedType" value=$list.feedType%>
 							<%assign var="itemsArray" value=$storymodel->getContentByTag("FT独家",$feedItems)%>
 						<%else%>
