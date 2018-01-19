@@ -993,7 +993,7 @@
 	<%/if%>
 
 
-	<%if $hideMPU3 == "yes" || $noAd == "true" || preg_match("/活动页面/is",$keys) %>
+	<%if $hideMPU3!="yes" && !preg_match("/活动页面/is",$keys) && $noAd != "true" %>
 		<%assign var="story_content" value=$story_content|regex_replace:"/[\r\t\n]/":""|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1<script type=\"text/javascript\">document.write (writeAdNew({devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],pattern:'MPU',position:'Middle2',container:'mpuInStroy'}));</script><p>"%>
 	<%/if%>
 
