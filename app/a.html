@@ -104,8 +104,51 @@ img {
                 minimum: 0.6,
                 time: 1000
                 };
-            } else if (1<0 && /^300010000101$/.test(c)) {
+            } else if (1>0 && /^100088001001$/.test(c)) {
+    
+                var positionNum = 9;
+                var tag = '企业公告';
+                var headline = '中国能否成为世界新兴优质葡萄酒产地？';
+                var lead = '数据显示，中国已成为全球最大的葡萄酒消费国之一，亦是高端葡萄酒的重要销售市场。随着中国掀起新一轮的消费升级，作为健康、品位代表的葡萄酒，将获得更多中国消费者的青睐。';
+                var image = 'http://i.ftimg.net//picture/0/000074810_piclink.jpg';
+                var bgColor = '0';
+                var Click = '/interactive/10876#adchannelID=1100';
+                var Imp = '';
+                var AdName = '';
+                var AssID = '';
 
+                //可选背景颜色
+                switch (bgColor) {
+                case '0':
+                    backgroundColorByUser = 'white';
+                    break;
+                case '1':
+                    backgroundColorByUser = '#fbe9da';
+                    break;
+                case '2':
+                    backgroundColorByUser = '#f3dec8';
+                    break;
+                case '3':
+                    backgroundColorByUser = 'transparent';
+                    break;
+                case '4':
+                    backgroundColorByUser = '#f6e9d8';
+                    break;
+                default:
+                    backgroundColorByUser = 'white';
+                }
+                
+                var templateHTML ='<div class="item-inner" style="background:'+bgColor+';"><h2 class="item-headline"><div class="item-tag"><a href="/tag/'+tag+'">'+tag+'</a><button class="myft-follow plus" data-tag="企业公告" data-type="tag">关注</button></div><a target="_blank" href="'+ Click +'">'+ headline +'</a></h2><a class="image" target="_blank" href="'+ Click +'"><figure class="" data-url="'+image+'"><img src="https://www.ft.com/__origami/service/image/v2/images/raw/'+ image+'"?source=ftchinese&amp;width=250&amp;height=141&amp;fit=cover&amp;from=next001" data-backupimage="https://www.ft.com/__origami/service/image/v2/images/raw/' + image +'?source=ftchinese&amp;width=250&amp;height=141&amp;fit=cover&amp;from=next001"></figure></a><div class="item-lead">'+ lead +'</div><div class="item-bottom"></div></div>';
+
+                var paidpostStoryElem = document.createElement('div');
+                paidpostStoryElem.class = "item-container";
+                paidpostStoryElem.style.background = bgColor;
+                paidpostStoryElem.innerHTML = templateHTML;
+
+                var itemsInParent = window.parent.document.querySelectorAll('.item-container');
+                var insertBeforeItem = itemsInParent.item(positionNum);
+                insertBeforeItem.parentNode.insertBefore(paidpostStoryElem,insertBeforeItem);
+    
             } else {
                 document.write ('<scr'+'ipt src="http://dualstack.adsame-1421766300.ap-southeast-1.elb.amazonaws.com/s?z=ft&c=' + c + slotStr + trString + adP + '&_fallback=0' + refreshParameter + '" charset="gbk" onerror="removeAd()" onload="loaded()"></scr'+'ipt>');
             }

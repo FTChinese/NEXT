@@ -166,6 +166,16 @@ var adPatternsPC = {
           description:'文章页中的第2个Inread位。'
         }
       }
+    },
+    PaidpostStory: {
+      id:'10',
+      description:'',
+      position:{
+        Num1: {
+          id:'01',
+          description:''
+        },
+      }
     }
 };
   
