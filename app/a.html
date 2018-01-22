@@ -138,7 +138,7 @@ img {
                     backgroundColorByUser = 'white';
                 }
                 
-                var templateHTML ='<div class="item-inner" style="background:'+backgroundColorByUser+';"><h2 class="item-headline"><div class="item-tag"><a href="/tag/'+tag+'">'+tag+'</a><button class="myft-follow plus" data-tag="企业公告" data-type="tag">关注</button></div><a target="_blank" href="'+ Click +'">'+ headline +'</a></h2><a class="image" target="_blank" href="'+ Click +'"><figure class="" data-url="'+image+'"><img src="https://www.ft.com/__origami/service/image/v2/images/raw/'+ image+'"?source=ftchinese&amp;width=250&amp;height=141&amp;fit=cover&amp;from=next001" data-backupimage="https://www.ft.com/__origami/service/image/v2/images/raw/' + image +'?source=ftchinese&amp;width=250&amp;height=141&amp;fit=cover&amp;from=next001"></figure></a><div class="item-lead">'+ lead +'</div><div class="item-bottom"></div></div>';
+                var templateHTML ='<div class="item-inner" style="background:'+backgroundColorByUser+';"><h2 class="item-headline"><div class="item-tag"><a href="/tag/'+tag+'">'+tag+'</a><button class="myft-follow plus" data-tag="企业公告" data-type="tag">关注</button></div><a target="_blank" href="'+ Click +'">'+ headline +'</a></h2><a class="image" target="_blank" href="'+ Click +'"><figure class="" data-url="'+image+'"><img src="https://www.ft.com/__origami/service/image/v2/images/raw/'+ image+'?source=ftchinese&amp;width=250&amp;height=141&amp;fit=cover&amp;from=next001" data-backupimage="https://www.ft.com/__origami/service/image/v2/images/raw/' + image +'?source=ftchinese&amp;width=250&amp;height=141&amp;fit=cover&amp;from=next001"></figure></a><div class="item-lead">'+ lead +'</div><div class="item-bottom"></div></div>';
 
                 var paidpostStoryElem = document.createElement('div');
                 paidpostStoryElem.className = "item-container XL4 L4 M12 M-half S6 P12 P-half has-image";
@@ -146,9 +146,31 @@ img {
                 paidpostStoryElem.innerHTML = templateHTML;
                 var listContainer = window.parent.document.querySelector('.list-container');//找到第一个list-container
                 var itemContainers = listContainer.querySelectorAll('.item-container');
-                var insertBeforeItem = itemsInParent.item(positionNum);
+                var oldListItemCount = itemContainers.length;
+                var insertBeforeItem = itemContainers.item(positionNum);
                 insertBeforeItem.parentNode.insertBefore(paidpostStoryElem,insertBeforeItem);
-    
+                
+                var paidpostUnderline = document.createElement('div');
+                paidpostUnderline.className = "XLT LT MT PT";
+                insertBeforeItem.parentNode.insertBefore(paidpostUnderline,paidpostStoryElem);
+
+                //调整各item-container的class:
+                var listItemCount = oldListItemCount + 1;
+                var itemsArray = listContainer.querySelectorAll('.item-container');//这是包含paidpost story的array
+                for(var i=0;i<listItemCount;i++) {
+                    var XL="",L="",M="",S="",P="",itemTopClass="";
+                    if (listItemCount % 4 == 0) {
+                        XL = "XL3";
+                        if (i % 4 == 0 ) {
+                            itemTopClass = "XLT";
+                        }
+                    } else if (listItemCount % 4 == 1) {
+                        
+                    }
+
+                    var itemContainerClass = XL+L+M+S+P
+                }
+                
             } else {
                 document.write ('<scr'+'ipt src="http://dualstack.adsame-1421766300.ap-southeast-1.elb.amazonaws.com/s?z=ft&c=' + c + slotStr + trString + adP + '&_fallback=0' + refreshParameter + '" charset="gbk" onerror="removeAd()" onload="loaded()"></scr'+'ipt>');
             }
