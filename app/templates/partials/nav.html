@@ -123,6 +123,9 @@
                                 <a class="nav-link" href="<%$level_2.link%>"><%$level_2.name %></a>
                                 <%if $level_2.code == "special"%>
                                   <ol class="nav-sub-items">
+                                    <%if date("Ymd",$smarty.now) >= 20180129 && date("Ymd",$smarty.now) <= 20180302 %>
+                                      <li><a href="/tag/经济发展新动力">经济发展新动力</a></li>
+                                    <%/if%>
                                     <%if date("Ymd",$smarty.now) <= 20180331 %>
                                     <li><a href="/channel/viewtop.html">高端视点</a></li>
                                     <%/if%>
