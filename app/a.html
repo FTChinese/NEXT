@@ -138,14 +138,14 @@ img {
                     backgroundColorByUser = 'white';
                 }
                 
-                var templateHTML ='<div class="item-inner" style="background:'+bgColor+';"><h2 class="item-headline"><div class="item-tag"><a href="/tag/'+tag+'">'+tag+'</a><button class="myft-follow plus" data-tag="企业公告" data-type="tag">关注</button></div><a target="_blank" href="'+ Click +'">'+ headline +'</a></h2><a class="image" target="_blank" href="'+ Click +'"><figure class="" data-url="'+image+'"><img src="https://www.ft.com/__origami/service/image/v2/images/raw/'+ image+'"?source=ftchinese&amp;width=250&amp;height=141&amp;fit=cover&amp;from=next001" data-backupimage="https://www.ft.com/__origami/service/image/v2/images/raw/' + image +'?source=ftchinese&amp;width=250&amp;height=141&amp;fit=cover&amp;from=next001"></figure></a><div class="item-lead">'+ lead +'</div><div class="item-bottom"></div></div>';
+                var templateHTML ='<div class="item-inner" style="background:'+backgroundColorByUser+';"><h2 class="item-headline"><div class="item-tag"><a href="/tag/'+tag+'">'+tag+'</a><button class="myft-follow plus" data-tag="企业公告" data-type="tag">关注</button></div><a target="_blank" href="'+ Click +'">'+ headline +'</a></h2><a class="image" target="_blank" href="'+ Click +'"><figure class="" data-url="'+image+'"><img src="https://www.ft.com/__origami/service/image/v2/images/raw/'+ image+'"?source=ftchinese&amp;width=250&amp;height=141&amp;fit=cover&amp;from=next001" data-backupimage="https://www.ft.com/__origami/service/image/v2/images/raw/' + image +'?source=ftchinese&amp;width=250&amp;height=141&amp;fit=cover&amp;from=next001"></figure></a><div class="item-lead">'+ lead +'</div><div class="item-bottom"></div></div>';
 
                 var paidpostStoryElem = document.createElement('div');
-                paidpostStoryElem.class = "item-container";
+                paidpostStoryElem.className = "item-container XL4 L4 M12 M-half S6 P12 P-half has-image";
                 paidpostStoryElem.style.background = bgColor;
                 paidpostStoryElem.innerHTML = templateHTML;
-
-                var itemsInParent = window.parent.document.querySelectorAll('.item-container');
+                var listContainer = window.parent.document.querySelector('.list-container');//找到第一个list-container
+                var itemContainers = listContainer.querySelectorAll('.item-container');
                 var insertBeforeItem = itemsInParent.item(positionNum);
                 insertBeforeItem.parentNode.insertBefore(paidpostStoryElem,insertBeforeItem);
     
