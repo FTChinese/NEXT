@@ -29,7 +29,7 @@
 
 <div class="block-container has-side story-page">
   <div class="block-inner">
-<div class="content-container">
+<div class="content-container centerClass">
 
 <div class="welcome-guide">
   <div class="words">
@@ -49,6 +49,8 @@
     <div class="o-member__heading">
       <p>请选择您的订阅方式。<span class="o-member__login">已经是会员，请<a href="http://user.ftchinese.com/login" onclick="event.preventDefault(); showOverlay('overlay-login')">点击这里</a></span></p>
     </div>
+
+
     
     <div class="o-grid-row" data-flex-container>
       
@@ -94,7 +96,33 @@
 </div>
 </div>
 
+<script type="text/javascript">
+  var aLi = document.querySelectorAll('.openSub');
 
+  var previewOverlay = document.getElementById('preview-overlay');
+  var previewShadow = document.getElementById('preview-shadow');
+
+  var handler = function(event){
+
+      var previewHTML = '<div id="preview-shadow" class="o-overlay-shadow fadeIn"></div><div id="preview-box" class="rightanswer show o-overlay__arrow-top fadeInRight"><div>欢迎订阅FT会员服务</div><div><span>商品名称：</span><span>FT会员</span></div><div><span>支付方式：</span><label class="mode"><input name="pay" type="radio" value="" /><img src="https://www.ft.com/__origami/service/image/v2/images/raw/fticon-v1:tick?tint=26747a&format=svg&source=ftchinese" style="width: 1.5em"/>支付宝 </label><label><input name="pay" type="radio" value="微信支付" /><img src="https://www.ft.com/__origami/service/image/v2/images/raw/fticon-v1:tick?tint=26747a&format=svg&source=ftchinese" style="width: 1.5em"/></label></div><div><label>支付金额 ￥198/年</label><input type="button" id="to-pay" value ="确定支付"/></div></div>';
+      previewOverlay.innerHTML = previewHTML;
+  };
+
+  for (var i = 0; i < aLi.length; i++) {
+      if (window.addEventListener){
+          aLi[i].addEventListener("click",handler,false);
+      }else if (window.attachEvent){
+          aLi[i].attachEvent("onclick",handler);
+      }
+  }
+
+
+
+  $('body').on('click', '#to-pay', function () {
+      $('#preview-overlay').empty();
+  });
+
+</script>
 
 
 <!-- <script inline type="text/javascript" src="scripts/main.js"></script> -->
