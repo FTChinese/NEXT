@@ -2,11 +2,98 @@
 
 
 $grid-background: white;
-$grid-highlight: white;
-$teal-1: #26747a;
+$text-highlight: #faeadd;
+$text-background: #26747a;
 $n: 4;
+@mixin subscription-L {
+.welcome-guide {
+  padding: 0 60px;
+  .words{
+    width: 60%;
+    float:left;
+    padding-top: 30px;
+  }
+  .show-image {
+    width: 40%;
+    img{
+        display: block;
+        height: 214px;
+        width: 380px;
+    }
+  }
+}
+    .o-grid-container{
+    width:70%;
+    .o-member{
+      width:45%;
+      height:400px;
+      float:left;
+      margin:2.5%;
+    }
+    // .o-member__subscribe{
+    //   button{
+    //     letter-spacing: 3px;
+    //     height: 30px;
+    //     line-height: 30px;
+    //     width: 150px;
+    //   }
+    // }
+  }
+}
+@mixin subscription-M {
 
+  .o-grid-container{
+    width:80%;
+    .o-member{
+      width:45%;
+      height:450px;
+      float:left;
+      margin:2.5%;
+    }
+  }
+}
+@mixin subscription-S {
+  .welcome-guide {
+  padding: 0 30px;
+  .words{
+    font-size:10px; 
+    width: 60%;
+    float:left;
+    padding-top: 10px;
+  }
+  .show-image {
+    width: 40%;
+    padding-top: 30px;
+    img{
+        display: block;
+        height: 107px;
+        width: 190px;
+    }
+  }
+}
+  .o-grid-container{
+    width:80%;
+    .o-member{
+      width:100%;
+      height:400px;
+      margin:2.5% 0;
+    }
+  }
+}
+    // @include center-block;
+//XL related styles
+@media only screen and (min-width: 1221px) {
+  @include subscription-L;
+}
+//L: large screen devices like pc and iPad landscape
+@media only screen and (max-width: 1220px) and (min-width: 981px) {
+  @include subscription-L;
+}
+@media only screen and (max-width: 980px) and (min-width: 691px) {
+  @include subscription-M;
+}
 @media only screen and (max-width: 690px) {
+  @include subscription-S;
   #preview-box { 
     width: 60%;
   }
@@ -19,26 +106,52 @@ $n: 4;
   text-align: center;
 }
 .o-grid-container{
-  width:60%;
+  // width:60%;
   margin:0 auto;
-
+  .o-member__heading{
+      padding: 10px 0;
+      a{
+        color:$text-background; 
+      }
+  }
   .o-member{
     background-color:white;
-    width:45%;
-    height:300px;
-    float:left;
+    // width:45%;
+    // height:400px;
+
     padding:10px;
-    margin:2.5%;
+    position: relative;
     .o-member__title{
       text-align: center;
-      // text-decoration:underline;
     }
+
     .o-member__border{
-      border:1px solid #396d46;
+      border:1px solid $text-background;
       text-align: center;
       width:100%;
       padding:0px 40px;
       margin: 10px 0px;
+    }
+    .o-member__benefits{
+      li{
+
+      }
+    }
+    .o-member__subscribe{
+      position: absolute;
+      bottom: 10px;
+      width: 50%;
+      left: 25%;
+      text-align: center;
+      button{
+        background-color: $text-background;
+        color: white; 
+        margin: 10px 0;
+        letter-spacing: 3px;
+        height: 30px;
+        line-height: 30px;
+        padding: 0px 20px;
+      }
     }
   }
 }
@@ -53,20 +166,28 @@ li {
 }
 
 .welcome-guide {
-  background-color:#f1d2c3;
+  background-color:$text-highlight;
   margin: auto;
-  padding: 0 60px;
+  // padding: 0 60px;
   .words{
     width: 60%;
     float:left;
+    // padding-top: 30px;
+    .first{
+      padding: 10px 0px;
+    }
+    .second{
+      line-height: 160%;
+    }
   }
+
   .show-image {
     width: 40%;
     float:right;
     img{
         display: block;
-        height: 214px;
-        width: 380px;
+        // height: 214px;
+        // width: 380px;
     }
   }
   .clear-class {
@@ -99,10 +220,11 @@ li {
     width: 100%;
     top: 0;
     left: 0;
+
 }
 #preview-box { 
   position: absolute;
-  height:150px;
+  height:200px;
   top: 100px;
 
   right:35%;
@@ -115,5 +237,11 @@ li {
   font-size:20px;
   line-height:35px;
   opacity: 1;
-  background: #F5F5F5;
+  background: #FFF1E0;
+  .payment-way{
+    background-color:$text-highlight;
+  }
+  .to-pay{
+    background-color:$text-background;
+  }
  }

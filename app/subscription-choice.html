@@ -33,8 +33,8 @@
 
 <div class="welcome-guide">
   <div class="words">
-    <div>欢迎进入FT中文网会员专属服务频道</div>
-    <div>本频道是为更好服务FT中文网会员朋友们而设立的，是FT中文网与会员朋友之间沟通与交流的平台。在这里您将了解到FT中文网为会员提供的最新专属服务。</div>
+    <div class="first"><strong>欢迎进入FT中文网会员专属服务频道</strong></div>
+    <div class="second">本频道是为更好服务FT中文网会员朋友们而设立的，是FT中文网与会员朋友之间沟通与交流的平台。在这里您将了解到FT中文网为会员提供的最新专属服务。</div>
   </div>
   <div class="show-image">
     <img src="http://i.ftimg.net/picture/6/000068886_piclink.jpg" alt="" width="30%"/>
@@ -52,9 +52,9 @@
 
 
     
-    <div class="o-grid-row" data-flex-container>
+    <div class="o-grid-row" >
       
-      <div class="o-member o-member__premium" data-flex-item>
+      <div class="o-member o-member__premium" >
         <h2 class="o-member__title">会员</h2>
         <div class="o-member__border"></div>
         <ul class="o-member__benefits">
@@ -65,12 +65,13 @@
           
         </ul> 
         <div class="o-member__subscribe">
+          
+          <button id="openSub" class="openSub">立即订阅</button>
           <p> CN¥198.00/年*</p>
-          <input type="button" id="openSub" class="openSub"value="立即订阅"/>
         </div>         
       </div>
       
-      <div class="o-member o-member__standard" data-flex-item>
+      <div class="o-member o-member__standard" >
         <h2 class="o-member__title">高端会员</h2>
         <div class="o-member__border"></div>
         <ul class="o-member__benefits">
@@ -85,8 +86,10 @@
           
         </ul> 
         <div class="o-member__subscribe">
-          <p>*限时特惠 CN¥1,998.00/年*</p>
-          <input type="button" id="openSub" class="openSub"value="立即订阅"/>
+          
+          <button id="openSub" class="openSub">立即订阅</button>
+          <p>CN¥1,998.00/年</p>
+          <!--<input type="button" id="openSub" class="openSub"value="立即订阅"/>-->
         </div>         
       </div>
       
@@ -104,7 +107,7 @@
 
   var handler = function(event){
 
-      var previewHTML = '<div id="preview-shadow" class="o-overlay-shadow fadeIn"></div><div id="preview-box" class="rightanswer show o-overlay__arrow-top fadeInRight"><div>欢迎订阅FT会员服务</div><div><span>商品名称：</span><span>FT会员</span></div><div><span>支付方式：</span><label class="mode"><input name="pay" type="radio" value="" /><img src="https://www.ft.com/__origami/service/image/v2/images/raw/fticon-v1:tick?tint=26747a&format=svg&source=ftchinese" style="width: 1.5em"/>支付宝 </label><label><input name="pay" type="radio" value="微信支付" /><img src="https://www.ft.com/__origami/service/image/v2/images/raw/fticon-v1:tick?tint=26747a&format=svg&source=ftchinese" style="width: 1.5em"/></label></div><div><label>支付金额 ￥198/年</label><input type="button" id="to-pay" value ="确定支付"/></div></div>';
+      var previewHTML = '<div id="preview-shadow" class="o-overlay-shadow fadeIn"></div><div id="preview-box" class="rightanswer show o-overlay__arrow-top fadeInRight"><div>欢迎订阅FT会员服务</div><div class="payment-way"><div ><span>商品名称：</span><span>FT会员</span></div><div><span>支付方式：</span><label class="mode"><input name="pay" type="radio" value="" /><img src="https://www.ft.com/__origami/service/image/v2/images/raw/fticon-v1:tick?tint=26747a&format=svg&source=ftchinese" style="width: 1.5em"/>支付宝 </label><label><input name="pay" type="radio" value="微信支付" /><img src="https://www.ft.com/__origami/service/image/v2/images/raw/fticon-v1:tick?tint=26747a&format=svg&source=ftchinese" style="width: 1.5em"/></label></div></div><div><label>支付金额 ￥198/年</label><input type="button" class="to-pay" id="to-pay" value ="确定支付"/></div></div>';
       previewOverlay.innerHTML = previewHTML;
   };
 
