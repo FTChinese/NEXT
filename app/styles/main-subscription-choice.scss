@@ -1,0 +1,108 @@
+@import "o-colors/main";
+
+
+$grid-background: white;
+$grid-highlight: white;
+$teal-1: #26747a;
+$n: 4;
+
+@media only screen and (max-width: 690px) {
+  #preview-box { 
+    width: 60%;
+  }
+}
+.centerClass{
+  text-align:center;
+}
+.o-member__heading{
+  margin:0 auto;
+  text-align: center;
+}
+.o-grid-container{
+  width:60%;
+  margin:0 auto;
+
+  .o-member{
+    background-color:white;
+    width:45%;
+    height:300px;
+    float:left;
+    padding:10px;
+    margin:2.5%;
+  }
+}
+
+li {
+  background-image: url("https://www.ft.com/__origami/service/image/v2/images/raw/fticon-v1:tick?tint=26747a&format=svg&source=ftchinese");
+  background-repeat: no-repeat;
+  background-position: left top;
+  background-size: 1.5em;
+  padding-left: 1.5em;
+  margin: 0.5em 1em;
+}
+
+.welcome-guide {
+  background-color:#f1d2c3;
+  margin: auto;
+  padding: 0 60px;
+  .words{
+    width: 60%;
+    float:left;
+  }
+  .show-image {
+    width: 40%;
+    float:right;
+    img{
+        display: block;
+        height: 214px;
+        width: 380px;
+    }
+  }
+  .clear-class {
+    clear:both;
+  }
+  
+}
+
+.mode {
+  img{
+    background-image: url("https://www.ft.com/__origami/service/image/v2/images/raw/fticon-v1:tick?tint=26747a&format=svg&source=ftchinese");
+      background-repeat: no-repeat;
+      background-position: left top;
+      background-size: 1em;
+  }
+}
+
+#preview-overlay {
+    position: relative;
+    overflow: visible;
+}
+
+.o-overlay-shadow {
+    position: fixed;
+    z-index: 1;
+    opacity: 1;
+    transition: opacity .3s ease-in-out;
+    background: rgba(0,0,0,.7);
+    height: 150%;
+    width: 100%;
+    top: 0;
+    left: 0;
+}
+#preview-box { 
+  position: absolute;
+  height:150px;
+  top: 100px;
+
+  right:35%;
+  bottom: auto;
+  width: 30%;
+  overflow: visible;
+
+  z-index: 60000;
+  font-family:宋体;
+  font-size:20px;
+  line-height:35px;
+  opacity: 1;
+  background: #F5F5F5;
+ }
