@@ -34,15 +34,21 @@
 			<%if $smarty.get.page != "" && $smarty.get.page != 1 && !in_array("单页",$story.tag)%>
 				<%include file="next/partials/pagination.html"%>
 			<%/if%>
-			<div class="story-body">
-				<%$audioHTML%>
-				<%$storyImageInline%>
-				<%$story_content%>
-				<div class="clearfloat"></div>
-			</div>
-			<%if $smarty.get.full != "y" && !in_array("单页",$story.tag)%>
-				<%include file="next/partials/pagination.html"%>
+			<%if $smarty.get.premium == "1" || $premium == "1"%>
+				<%include file="next/partials/subscribe-hint.html"%>
+			<%else%>
+				<div class="story-body">
+					<%$audioHTML%>
+					<%$storyImageInline%>
+					<%$story_content%>
+					<div class="clearfloat"></div>
+				</div> 
+				<%if $smarty.get.full != "y" && !in_array("单页",$story.tag)%>
+					<%include file="next/partials/pagination.html"%>
+				<%/if%>
 			<%/if%>
+			
+			
 			<div class="clearfloat"></div>
 		</div>
 		<!--topic: <%$mainTopic%>-->
