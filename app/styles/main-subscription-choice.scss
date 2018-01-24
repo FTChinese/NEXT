@@ -1,15 +1,163 @@
 @import "o-colors/main";
 
 
-$grid-background: white;
-$grid-highlight: white;
-$teal-1: #26747a;
+$text-color: white;
+$text-highlight: #f2e0d0;
+$text-background: #26747a;
 $n: 4;
-
-@media only screen and (max-width: 690px) {
-  #preview-box { 
+@mixin subscription-XL {
+.welcome-guide {
+  padding: 0 60px;
+  .words{
     width: 60%;
+    float:left;
+    padding-top: 30px;
   }
+  .show-image {
+    width: 40%;
+    img{
+        display: block;
+        height: 214px;
+        width: 380px;
+    }
+  }
+}
+.o-grid-container{
+    width:70%;
+    .o-member{
+      width:45%;
+      height:400px;
+      float:left;
+      margin:0 2.5%;
+    }
+  }
+  #preview-box { 
+  // height:200px;
+    top:40px;
+    right:35%;
+    width: 30%;
+    .payment-method{
+      img{
+        height: 20px;
+      }
+    }
+  }
+}
+@mixin subscription-L {
+.welcome-guide {
+  padding: 0 60px;
+  .words{
+    width: 60%;
+    float:left;
+    padding-top: 30px;
+  }
+  .show-image {
+    width: 40%;
+    img{
+        display: block;
+        height: 214px;
+        width: 380px;
+    }
+  }
+}
+.o-grid-container{
+    width:70%;
+    .o-member{
+      width:45%;
+      height:400px;
+      float:left;
+      margin:0 2.5%;
+    }
+  }
+  #preview-box { 
+  // height:200px;
+    top:200px;
+    right:30%;
+    width: 40%;
+    .payment-method{
+      img{
+        height: 20px;
+      }
+    }
+  }
+}
+@mixin subscription-M {
+
+  .o-grid-container{
+    width:80%;
+    .o-member{
+      width:45%;
+      height:450px;
+      float:left;
+      margin:0 2.5%;
+    }
+  }
+  #preview-box { 
+  // height:200px;
+    top:180px;
+    right:27%;
+    width: 46%;
+    .payment-method{
+      img{
+        height: 15px;
+      }
+    }
+  }
+}
+@mixin subscription-S {
+  .welcome-guide {
+    padding: 0 30px;
+    .words{
+      font-size:10px; 
+      width: 60%;
+      float:left;
+      padding-top: 10px;
+    }
+    .show-image {
+      width: 40%;
+      padding-top: 10px;
+      img{
+          display: block;
+          height: 107px;
+          width: 190px;
+      }
+    }
+  }
+  .o-grid-container{
+    width:80%;
+    .o-member{
+      width:100%;
+      height:400px;
+      margin:2.5% 0;
+    }
+  }
+  #preview-box { 
+  // height:200px;
+    top:120px;
+    right:10%;
+    width: 80%;
+    .payment-method{
+      img{
+        height: 15px;
+      }
+    }
+  }
+}
+    // @include center-block;
+//XL related styles
+@media only screen and (min-width: 1221px) {
+  @include subscription-XL;
+}
+//L: large screen devices like pc and iPad landscape
+@media only screen and (max-width: 1220px) and (min-width: 981px) {
+  @include subscription-L;
+}
+@media only screen and (max-width: 980px) and (min-width: 691px) {
+  @include subscription-M;
+}
+@media only screen and (max-width: 690px) {
+  @include subscription-S;
+
 }
 .centerClass{
   text-align:center;
@@ -19,43 +167,92 @@ $n: 4;
   text-align: center;
 }
 .o-grid-container{
-  width:60%;
+  // width:60%;
   margin:0 auto;
-
+  .o-member__heading{
+      padding: 10px 0;
+      p{
+        margin: 15px 0;
+      }
+      a{
+        color:$text-background; 
+      }
+  }
   .o-member{
     background-color:white;
-    width:45%;
-    height:300px;
-    float:left;
+    // width:45%;
+    // height:400px;
+
     padding:10px;
-    margin:2.5%;
+    position: relative;
+    .o-member__title{
+      text-align: center;
+      margin: 30px 0px 15px;
+    }
+
+    .o-member__border{
+      border:0.5px solid $text-background;
+      text-align: center;
+      width:90%;
+      padding:0px 40px;
+      // margin: 10px 0px;
+      margin: 0 auto;
+    }
+    .o-member__benefits{
+      margin-top: 20px;
+      li {
+        background-image: url("https://www.ft.com/__origami/service/image/v2/images/raw/fticon-v1:tick?tint=26747a&format=svg&source=ftchinese");
+        background-repeat: no-repeat;
+        background-position: left top;
+        background-size: 1.5em;
+        padding-left: 1.5em;
+        margin: 0.5em 1em;
+      }
+    }
+    .o-member__subscribe{
+      position: absolute;
+      bottom: 10px;
+      width: 50%;
+      left: 25%;
+      text-align: center;
+      button{
+        background-color: $text-background;
+        color: white; 
+        margin: 10px 0;
+        letter-spacing: 3px;
+        height: 30px;
+        // line-height: 30px;
+        padding: 0px 20px;
+      }
+    }
   }
 }
 
-li {
-  background-image: url("https://www.ft.com/__origami/service/image/v2/images/raw/fticon-v1:tick?tint=26747a&format=svg&source=ftchinese");
-  background-repeat: no-repeat;
-  background-position: left top;
-  background-size: 1.5em;
-  padding-left: 1.5em;
-  margin: 0.5em 1em;
-}
+
 
 .welcome-guide {
-  background-color:#f1d2c3;
+  background-color:$text-highlight;
   margin: auto;
-  padding: 0 60px;
+  // padding: 0 60px;
   .words{
     width: 60%;
     float:left;
+    // padding-top: 30px;
+    .first{
+      padding: 10px 0px;
+    }
+    .second{
+      line-height: 160%;
+    }
   }
+
   .show-image {
     width: 40%;
     float:right;
     img{
         display: block;
-        height: 214px;
-        width: 380px;
+        // height: 214px;
+        // width: 380px;
     }
   }
   .clear-class {
@@ -88,21 +285,63 @@ li {
     width: 100%;
     top: 0;
     left: 0;
+
 }
 #preview-box { 
   position: absolute;
-  height:150px;
-  top: 100px;
+  // height:200px;
+  // width: 30%;
+  // right:35%;
 
-  right:35%;
+  // top: 100px;
   bottom: auto;
-  width: 30%;
+  
   overflow: visible;
-
-  z-index: 60000;
-  font-family:宋体;
-  font-size:20px;
+  z-index: 60;
+  font-size:15px;
   line-height:35px;
   opacity: 1;
-  background: #F5F5F5;
+  background: #FFF1E0;
+  .payment-title{
+    text-align: center;
+    margin: 20px 0 10px;
+  }
+  .payment-way{
+    background-color:$text-highlight;
+    .payment-name{
+      padding: 10px 20px 20px;
+    }
+  }
+  .payment-method{
+    padding: 10px 20px 20px;
+    span,input,img{
+      vertical-align:middle;
+    }
+    img{
+      margin: 0 10px;
+      // height: 20px;
+    }
+
+  }
+  .pay-action{
+    overflow: hidden;
+    padding: 15px 20px 20px;
+    vertical-align:middle;
+    label,button{
+        height: 30px;
+    }
+    // margin: 15px 0;
+      label{
+        display: inline-block;
+        height: 30px;
+        line-height: 30px;
+        color:#9e2f50;
+      }
+      .to-pay{
+        background-color:$text-background;
+        color: $text-color;
+        float: right;
+      }
+  }
+
  }
