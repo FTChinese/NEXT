@@ -493,7 +493,7 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 <span class="story-time">更新于2分钟前</span>
 <span class="story-author">英国《金融时报》 <a href='/search/%E7%99%BD%E6%9D%B0%E6%98%8E/relative_byline' target=_blank>白杰明</a>  香港报道</span>
 </div>
-<div class="story-body">
+<div class="story-body" id="story-body">
 
 
 <p>香港再度成为全球外派成本最高的城市，尽管这块中国领地的经济正面临越来越大的阻力、而且企业还削减了曾经很丰厚的外派津贴。</p>
@@ -948,7 +948,19 @@ if (w > 490 && isTouchDevice() === false) {
     initInreadAd();
 }
 </script>
+<!--根据url获取参数-->
+<script type="text/javascript">
+
+var parameter = window.location.search.substr(1);
+var storyBodyId = document.getElementById('story-body');
+
+if (parameter==='premium=1'){
+    storyBodyId.style.display = 'none';
+}else{
+    storyBodyId.style.display = 'block';
+}
 
 
+</script>
 
 </html>

@@ -14,7 +14,7 @@
 
       <script   src="http://static.ftchinese.com/js/jquery-1.10.2.min.js?0"></script>
 
-      <link rel="stylesheet" href="styles/main-story.css">
+      <!--<link rel="stylesheet" href="styles/main-story.css">-->
 
       <!-- build:css styles/main-subscription-choice.css -->
       <link rel="stylesheet" href="/styles/main-subscription-choice.css">
@@ -27,9 +27,9 @@
 <body>
 
 
-<div class="block-container has-side story-page">
+<!--<div class="block-container">
   <div class="block-inner">
-<div class="content-container centerClass">
+<div class="content-container">-->
 
 <div class="welcome-guide">
   <div class="words">
@@ -42,12 +42,12 @@
   <div class="clear-class"></div>
 </div>
 
-<div id="preview-overlay">
+<div id="payment-page">
 </div>
 
   <div id="site-content" class="o-grid-container">
     <div class="o-member__heading">
-      <p>请选择您的订阅方式。<span class="o-member__login">已经是会员，请<a href="http://user.ftchinese.com/login" onclick="event.preventDefault(); showOverlay('overlay-login')">点击这里</a></span></p>
+      <p>请选择您的订阅方式。<span class="o-member__login">已经是会员，请<a href="http://user.ftchinese.com/login" >点击这里</a></span></p>
     </div>
 
 
@@ -95,20 +95,20 @@
       
     </div>
   </div>
+<!--</div>
 </div>
-</div>
-</div>
+</div>-->
 
 <script type="text/javascript">
   var aLi = document.querySelectorAll('.openSub');
 
-  var previewOverlay = document.getElementById('preview-overlay');
-  var previewShadow = document.getElementById('preview-shadow');
+  var paymentPage = document.getElementById('payment-page');
+  var paymentShadow = document.getElementById('payment-shadow');
 
   var handler = function(event){
 
-      var previewHTML = '<div id="preview-shadow" class="o-overlay-shadow fadeIn"></div><div id="preview-box" class="rightanswer show o-overlay__arrow-top fadeInRight"><div class="payment-title">欢迎订阅FT会员服务</div><div class="payment-way"><div class="payment-name"><span>商品名称：</span><span class="payment-type"><strong>FT会员</strong></span></div><div class="payment-method"><span>支付方式：</span><label class="mode"><input name="pay" type="radio" value="" /><img src="http://static.ftchinese.com/img/pay-ali.jpg" /> </label><label><input name="pay" type="radio" value="" /><img src="http://static.ftchinese.com/img/pay-wxpay.jpg" /></label></div></div><div class="pay-action"><label>支付金额 ￥198/年</label><button  class="to-pay" id="to-pay">确定支付</button></div></div>';
-      previewOverlay.innerHTML = previewHTML;
+      var previewHTML = '<div id="payment-shadow" class="o-overlay-shadow fadeIn"></div><div id="payment-box" class="rightanswer show o-overlay__arrow-top fadeInRight"><div class="payment-title">欢迎订阅FT会员服务</div><div class="payment-way"><div class="payment-name"><span>商品名称：</span><span class="payment-type"><strong>FT会员</strong></span></div><div class="payment-method"><span>支付方式：</span><label class="mode"><input name="pay" type="radio" value="" /><img src="http://static.ftchinese.com/img/pay-ali.jpg" /> </label><label><input name="pay" type="radio" value="" /><img src="http://static.ftchinese.com/img/pay-wxpay.jpg" /></label></div></div><div class="pay-action"><label>支付金额 ￥198/年</label><button  class="to-pay" id="to-pay">确定支付</button></div></div>';
+      paymentPage.innerHTML = previewHTML;
   };
 
   for (var i = 0; i < aLi.length; i++) {
@@ -122,7 +122,7 @@
 
 
   $('body').on('click', '#to-pay', function () {
-      $('#preview-overlay').empty();
+      $('#payment-page').empty();
   });
 
 </script>
