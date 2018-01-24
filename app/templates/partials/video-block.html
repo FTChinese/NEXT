@@ -14,7 +14,8 @@
 		                            var video_height = Math.round(video_width*9/16);
 									document.write('<scr' + 'ipt src="http://union.bokecc.com/player?vid=<%$cc_vaddress%>&siteid=922662811F1A49E9&autoStart=true&width=' + video_width + '&height=' + video_height + '&playerid=3571A3BF2AEC8829&playertype=1" type="text/javascript"></sc' + 'ript>');
 								
-									<%if $smarty.get.webview == "ftcapp" && (preg_match("/有色眼镜/",$PageTitle) || preg_match("/高端视点/",$PageTitle)) %>
+									<%*<%if $smarty.get.webview == "ftcapp" && (preg_match("/有色眼镜/",$PageTitle) || preg_match("/高端视点/",$PageTitle)) %>*%>
+									<%if $smarty.get.webview == "ftcapp" %>
 										var videoRealSection = thisVideo.querySelector('.video-player-inner');
 										var hasSendTracking = false;
 										videoRealSection.onclick = function() {
