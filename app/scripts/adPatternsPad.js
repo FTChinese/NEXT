@@ -38,5 +38,15 @@ var adPatternsPad = {
                 description:'文章页右侧从上至下第2个MPU位。'
             }
         }
+    },
+    PaidpostStory: {
+        id:'10',
+        description:'',
+        position:{
+            Num1: {
+            id:'01',
+            description:''
+            },
+        }
     }
 };
