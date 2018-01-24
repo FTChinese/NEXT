@@ -1,0 +1,62 @@
+<script>
+var ImgWidth = '300';
+var ImgHeight = '250';
+var ImgSrc = 'https://du3rcmbgk4e8q.cloudfront.net/ads/beijing/201801/PDT_CRW_NA_SKYDW_M326933-0001_ZHS_300x250_STATIC-JPEG_171218.jpg';
+var Click = 'http://dualstack.adsame-1421766300.ap-southeast-1.elb.amazonaws.com/c?z=ft&la=0&si=600&cg=1902&c=200019020401&ci=234&or=3983&l=606240&bg=9894&b=31642&u=http://bsch.serving-sys.com/serving/adServer.bs?cn=trd&mc=click&pli=23613773&PluID=0&ord=__TIME__&mb=1';
+var Imp = 'http://bsch.serving-sys.com/serving/adServer.bs?cn=display&c=19&mc=imp&pli=23613773&PluID=0&ord=__TIME__&rtu=-1&mb=1';
+var AdName = '';
+var AssID = '606240';
+var HouseAd = 'N';
+if (HouseAd === 'Y') {
+    isHouseAd = true;
+} else {
+    isHouseAd = false;
+}
+var hide = 'N';
+if (hide === 'Y') {
+    hideAdSign = true;
+} else {
+    hideAdSign = false;
+}
+if (Imp !== '' && !(GetCookie('mpuHasSendImp200019020401'))) {
+    console.log('exect');
+    if (typeof window.parent.sendImpToThirdParty === 'function') {
+        window.parent.sendImpToThirdParty(Imp, AdName, AssID);
+    } else {
+        sendImpToThirdParty(Imp, AdName, AssID);
+    }
+    SetCookie('mpuHasSendImp200019020401', '1', 5);
+}
+function sendImpToThirdParty(t,e,r){if("string"==typeof t){"object"!=typeof window.parent.gTrackThirdParyImpression&&(window.parent.gTrackThirdParyImpression={});var n=0,a=t,i=!1,o=function(){var t=arguments[0]||"",e=arguments[1]||"",n=arguments[2]||"",a="G"+Math.round(1e12*Math.random());try{window.parent.ga("send","event",t,e,n,{nonInteraction:1})}catch(o){var i=new Image;i.src="http://www.ftchinese.com/index.php/ft/hit/"+r+"/2?ec="+t+"&ea="+e+"&el="+encodeURIComponent(n)+"&r="+a}},c=function(){var d,s="IMG"+Math.round(1e12*Math.random()),p=(new Date).getTime(),h=t;try{d=arguments[0]||""}catch(t){d=""}h.indexOf("?")<0&&(h+="?"),h=h.replace("ord=[timestamp]","ord="+p)+"&"+s+"&ftctime="+p,n>0&&(0===a.indexOf("https")?(h=h.replace("https://ad.doubleclick.net","http://ad.doubleclick.net"),h=h.replace("https://v.admaster.com.cn","http://v.admaster.com.cn")):(h=h.replace("http://ad.doubleclick.net","https://ad.doubleclick.net"),h=h.replace("http://v.admaster.com.cn","https://v.admaster.com.cn"))),a=h,window.parent.gTrackThirdParyImpression[s]=new Image,window.parent.gTrackThirdParyImpression[s].src=h,window.parent.gTrackThirdParyImpression[s].title=e+" ("+r+")",window.parent.gTrackThirdParyImpression[s].alt=t,window.parent.gTrackThirdParyImpression[s].onload=function(){console.log("onload");var t="";t=0===n?"Success":""!==d?"Success on Retry"+d:"Success on Retry"+n,o(this.title,t,this.alt),delete window.parent.gTrackThirdParyImpression[s],i=!0},window.parent.gTrackThirdParyImpression[s].onerror=function(){var t="";if(t=0===n?"Fail":""!==d?"Fail on Retry"+d:"Fail on Retry"+n,o(this.title,t,this.alt),o("Fail UA String",r,window.parent.adReachability()),"string"==typeof window.uaString)try{window.parent._hmt.push(["_trackEvent",this.title,"Fail",window.uaString])}catch(t){}++n<=3&&setTimeout(c,100*n*n*n)}};c(),setTimeout(function(){if(i===!1&&0===n){n=2;c(" from Pending"),o(e+" ("+r+")","Request from Pending",t)}},1e4),o(e+" ("+r+")","Request",t)}}
+document.write('<div style="width:' + ImgWidth + 'px;height:' + ImgHeight + 'px;border:none;padding:0px;margin:0px;overflow:hidden;"><a href="' + Click + '" target="_blank"><img src="' + ImgSrc + '" style="width:' + ImgWidth + 'px;height:' + ImgHeight + 'px;border:none;" /></a></div>');
+function GetCookie(name) {
+    var start = document.cookie.indexOf(name + '='),
+        len = start + name.length + 1,
+        end = document.cookie.indexOf(';', len);
+    if ((!start) && (name !== document.cookie.substring(0, name.length))) {
+        return null;
+    }
+    if (start === -1) {
+        return null;
+    }
+    if (end === -1) {
+        end = document.cookie.length;
+    }
+    return decodeURIComponent(document.cookie.substring(len, end));
+}
+function SetCookie(name, value, sec, path, domain) {
+    var argv = SetCookie.arguments,
+        argc = SetCookie.arguments.length,
+        expires = new Date(),
+        secure = (argc > 5) ? argv[5] : false;
+    path = (argc > 3) ? argv[3] : null;
+    domain = (argc > 4) ? argv[4] : null;
+    if (sec === null || sec === '') {
+        sec = 600 * (24 * 60 * 60 * 1000);
+    } else {
+        sec = 1000 * sec;
+    }
+    expires.setTime(expires.getTime() + sec);
+    document.cookie = name + '=' + escape(value) + ((expires === null) ? '' : ('; expires=' + expires.toGMTString())) + ((path === null) ? '/' : ('; path=' + path)) + ((domain === null) ? '' : ('; domain=' + domain)) + ((secure === true) ? '; secure' : '');
+}
+</script>

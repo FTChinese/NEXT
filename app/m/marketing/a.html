@@ -101,8 +101,210 @@ img {
             }
             var trString = '&tr=' + c + '_' + randNumber;
 
-            document.write ('<scr'+'ipt src="http://dualstack.adsame-1421766300.ap-southeast-1.elb.amazonaws.com/s?z=ft&c=' + c + slotStr + trString + adP + '&_fallback=0' + refreshParameter + '" charset="gbk" onerror="removeAd()" onload="loaded()"></scr'+'ipt>');
             
+            if (/^100088001001$/.test(c)) {
+                console.log('100088001001');
+                var positionNum=22; //位置必须>=4小于等于（文章总数-文章总数%3 * 2），譬如现在首页原本有25篇，加了该广告后为26篇，那么positionNum只能在4 ~ 22 (26-26%3*2),为安全起见，就positionNum取(4~ 文章总数-4) ---NOTE:这里的“文章总数”指的是原文章数+1。
+                var tag = '企业公告';
+                var headline = '中国能否成为世界新兴优质葡萄酒产地？';
+                var lead = '数据显示，中国已成为全球最大的葡萄酒消费国之一，亦是高端葡萄酒的重要销售市场。随着中国掀起新一轮的消费升级，作为健康、品位代表的葡萄酒，将获得更多中国消费者的青睐。';
+                var image = 'http://i.ftimg.net//picture/0/000074810_piclink.jpg';
+                var bgColor = '0';
+                var Click = '/interactive/10876#adchannelID=1100';
+                var Imp = '';
+                var AdName = '';
+                var AssID = '';
+
+                //可选背景颜色
+                switch (bgColor) {
+                case '0':
+                    backgroundColorByUser = 'white';
+                    break;
+                case '1':
+                    backgroundColorByUser = '#fbe9da';
+                    break;
+                case '2':
+                    backgroundColorByUser = '#f3dec8';
+                    break;
+                case '3':
+                    backgroundColorByUser = 'transparent';
+                    break;
+                case '4':
+                    backgroundColorByUser = '#f6e9d8';
+                    break;
+                default:
+                    backgroundColorByUser = 'white';
+                }
+                // postpaidStoryItem的item-inner的div
+                var templateHTML ='<div class="item-inner" style="background:'+backgroundColorByUser+';"><h2 class="item-headline"><div class="item-tag">'+tag+'<button class="myft-follow plus" data-tag="'+ tag +'" data-type="tag">关注</button></div><a target="_blank" href="'+ Click +'">'+ headline +'</a></h2><a class="image" target="_blank" href="'+ Click +'"><figure class="" data-url="'+image+'"><img src="https://www.ft.com/__origami/service/image/v2/images/raw/'+ image+'?source=ftchinese&amp;width=250&amp;height=141&amp;fit=cover&amp;from=next001" data-backupimage="https://www.ft.com/__origami/service/image/v2/images/raw/' + image +'?source=ftchinese&amp;width=250&amp;height=141&amp;fit=cover&amp;from=next001"></figure></a><div class="item-lead">'+ lead +'</div><div class="item-bottom"></div></div>';
+
+                //paidpostStoryItem的外层div，即item-container
+                var paidpostStoryElem = document.createElement('div');
+                paidpostStoryElem.className = "item-container";//注意一定要加上item-container类，否则后文调整样式时找不到该元素
+                paidpostStoryElem.style.background = bgColor;
+                paidpostStoryElem.innerHTML = templateHTML;
+
+                // 找到DOM中应该插入的位置：即第1个list-container的第positionNum个item-container子元素的前面一个元素（即paidpostTopElem元素）
+                var listContainer = window.parent.document.querySelector('.list-container .items');//找到第一个.list-container下的.items即为.item-container的父元素
+                console.log('listContainer:');
+                console.log(listContainer);
+                var itemContainers = listContainer.querySelectorAll('.item-container');
+                var oldListItemCount = itemContainers.length;
+                //目前仅适于原item数量>6，且插入位置也>6,即从第3排开始插入
+                if (positionNum > oldListItemCount) {//如果插入的位置比原item的数量还要多，那么直接append到父元素最后一个
+                    listContainer.appendChild(paidpostStoryElem);
+                } else { 
+                    var insertBeforeItem = itemContainers.item(positionNum-1).previousElementSibling;
+
+                    // 插入paidpostStoryElem
+                    insertBeforeItem.parentNode.insertBefore(paidpostStoryElem,insertBeforeItem);
+                }
+
+                // 在paidpostStoryElem之前插入paidpostTopElem
+                var paidpostTopElem = document.createElement('div');
+                paidpostStoryElem.parentNode.insertBefore(paidpostTopElem, paidpostStoryElem);
+   
+                //调整各item-container的class:
+                var listItemCount = oldListItemCount + 1;//插入paidpost之后的总数
+                var itemsArray = listContainer.querySelectorAll('.item-container');//这是包含paidpost story的array,其length肯定是等于listItemCount
+                console.log(`listItemCount:${listItemCount}`);
+                for(var i=0; i<listItemCount; i++) {
+                    //i == 1,2的情况其实不用处理，默认不会插入到第3个之前；默认listItemCount>=6,不然还有一堆代码的情况要处理
+                    var itemContainer = itemsArray.item(i);
+                    var topLineContainer = itemContainer.previousElementSibling;//第一个的话没有
+                    var XL="",L="",M="",S="",P="",itemTopClass="";
+                    //Set XL
+                    /*
+                    <%elseif $i===2 && $list.items[1].image !== ""%>
+                        <%assign var="XL" value="XL4 XL-right XL-half XL-no-tag"%>
+                    <%elseif $i===1 && $list.float != "EqualSizeForNonFirstItems"%>
+                        <%assign var="XL" value="XL4 XL-right XL-no-tag"%>
+                    */
+                    if (listItemCount % 3 == 0) {
+                        
+                        if (i == 0) { //处理第一篇文章，因为第一篇文章的class和listItemCount的数值关系较大。。暂时不处理i=1,2，代码显示它们跟listItemCount关系影响不大
+                            XL = "XL8"; 
+                        } else {
+                            XL = "XL4";
+                        }
+                        if (i % 3 == 0 ) { //一行3个，总数又能被3整除时，每行只有第1个的itemTop有XL的class
+                            itemTopClass = "XLT";
+                        }
+
+                    } else if (listItemCount % 3 == 1) {
+                        if (i == 0) {
+                            XL = "XL8"; 
+                        } else if (i == listItemCount-1) {
+                            XL = "XL4 XL-half XL-lower";
+                        } else if(i == listItemCount-2) {
+                            XL = "XL4 XL-half";
+                        } else {
+                            XL = "XL4";
+                        }
+
+                        if (i != listItemCount - 1 && i % 3 == 0) { //一行三个，总数被3除余1，那么除了最后1个以外、每行第1个的itemTop有XL的class
+                            itemTopClass = "XLT"
+                        }
+
+                    } else if (listItemCount % 3 == 2) {
+                        if (i == 0) {
+                            XL = "XL8";
+                        } else if ( i >= listItemCount - 2) { //当总数除以3余2时，倒数第1、第2个的class需要单独处理
+                            XL = "XL4 XL-half XL-lower";
+                        } else if ( i >= listItemCount - 4) { //总数除以3余2时，倒数第3、第4也要相应做处理
+                            XL = "XL4 XL-half";
+                        } else {
+                            XL = "XL4";
+                        }
+
+                        if ( i < listItemCount - 4 && i%3 == 0 ) {
+                            itemTopClass = "XLT";//i为listItemCount-4是倒数第4个，那么i<listItemCount-4也就是i要满足<=倒数第5个，倒数第5个就是最后一行的1个，所以就是针对每行的第1个加itemTop的class
+                        } else if ( i == listItemCount - 2 ) {//如果是倒数第2个，就是最后一行的第二分行的第一个，也要加上适当的class
+                            itemTopClass = "XLT-clear-right";
+                        }
+                 
+
+                    }
+                    //Set L
+                    if (listItemCount % 3 == 0 ) {
+                        if (i == 0) {
+                            L = "L8";
+                        } else {
+                            L = "L4";
+                        }
+                        if (i % 3 == 0) {
+                           itemTopClass = itemTopClass + " LT"
+                        } 
+                    } else if ( listItemCount % 3 == 1) {
+                        if (i == 0) {
+                            L = "L8";
+                        } else if (i == listItemCount - 1) {
+                            L = "L4 L-half L-lower";
+                        } else if ( i == listItemCount - 2) {
+                            L = "L4 L-half";
+                        } else {
+                            L = "L4";
+                        }
+                        if (i != listItemCount - 1 && i % 3 == 0) {
+                            itemTopClass = itemTopClass + " LT";
+                        }
+                    } else if ( listItemCount % 3 == 2) {
+                        if (i == 0) {
+                            L = "L8";
+                        } else if (i >= listItemCount - 2) {
+                            L = "L4 L-half L-lower";
+                        } else if (i >= listItemCount - 4) {
+                            L = "L4 L-half";
+                        } else {
+                            L = "L4";
+                        }
+
+                        if ((i < listItemCount - 4) && (i % 3 == 0)) {
+                           itemTopClass = itemTopClass + " LT";
+                        } else if (i == listItemCount - 2) {
+                            itemTopClass = itemTopClass + " LT-clear-right"
+                        }
+                    }
+
+                    // Set M and P
+                    if (i==0) {
+                        M = "M12";
+                        P = "P12";
+                    } else {
+                        M = "M12 M-half";
+                        P = "P12 P-half";
+                        itemTopClass = itemTopClass + " MT PT";
+                    }
+                    
+
+                    // Set S
+                    if (listItemCount % 2 == 1 && i == 0) { //总数为奇数，当前为第1个时
+                        S = "S12 S-double-width";
+                    } else {
+                        S = "S6";
+                        if ((i % 2 == 0 && listItemCount % 2 == 0) || (i % 2 == 1 && listItemCount % 2 == 1)) { //总数为偶数，当前为奇数；或总数为奇数，当前为偶数
+                            itemTopClass = itemTopClass + " ST"  
+                        }
+                    }
+                    
+ 
+                   
+                    if (itemTopClass != "" && topLineContainer) {
+                        topLineContainer.className = itemTopClass;
+                    }
+                    if (i == 0 || i >= positionNum-1) { //本来只需要调整i>=positionNum-1的情况，但是i==0的情况在S的情况下受listItemCount的邮箱较大，所以也要重新设置样式
+                        
+                        var itemContainerClass = "item-container " + XL + " " + L + " " + M + " " + S + " " + P;
+
+                        if (itemContainer.classList.contains("has-image")) {
+                            itemContainerClass = itemContainerClass += " has-image";
+                        }
+                        itemContainer.className = itemContainerClass;
+                    }
+                }
+            } else {
+                document.write ('<scr'+'ipt src="http://dualstack.adsame-1421766300.ap-southeast-1.elb.amazonaws.com/s?z=ft&c=' + c + slotStr + trString + adP + '&_fallback=0' + refreshParameter + '" charset="gbk" onerror="removeAd()" onload="loaded()"></scr'+'ipt>');
+            }
             // record the ad impression
             try {
                 window.parent.sendEvent('Ad Impression', adChannelId, adPositionId, {'nonInteraction':1});

@@ -387,10 +387,16 @@ gulp.task('copytest:cssjs', () => {
 gulp.task('copytest:marketing', () => {
   const dest = 'dev_www/frontend/tpl/marketing';
   const mobileRootdest = 'dev_www/mobile_webroot/m/marketing';
-  return gulp.src('dist/m/marketing/*')
+  gulp.src('dist/m/marketing/*')
     .pipe(gulp.dest(`../testing/${dest}`))
     .pipe(gulp.dest(`../testing/${mobileRootdest}`))
     ;
+
+  const wwwrootDest = 'dev_www/webroot';
+  const mobilewwwrootDest = 'dev_www/mobile_webroot';
+  return gulp.src('dist/m/marketing/a.html')
+    .pipe(gulp.dest(`../testing/${wwwrootDest}`))
+    .pipe(gulp.dest(`../testing/${mobilewwwrootDest}`));
 });
 
 gulp.task('copytest:apipage', () => {
