@@ -106,7 +106,7 @@ img {
                 };
             } else if (1>0 && /^100088001001$/.test(c)) {
     
-                var positionNum = 9;
+                var positionNum=22; //位置必须>=4小于等于（文章总数-文章总数%3 * 2），譬如现在首页原本有25篇，加了该广告后为26篇，那么positionNum只能在4 ~ 22 (26-26%3*2),为安全起见，就positionNum取(4~ 文章总数-4) ---NOTE:这里的“文章总数”指的是原文章数+1。
                 var tag = '企业公告';
                 var headline = '中国能否成为世界新兴优质葡萄酒产地？';
                 var lead = '数据显示，中国已成为全球最大的葡萄酒消费国之一，亦是高端葡萄酒的重要销售市场。随着中国掀起新一轮的消费升级，作为健康、品位代表的葡萄酒，将获得更多中国消费者的青睐。';
@@ -169,18 +169,25 @@ img {
                 var itemsArray = listContainer.querySelectorAll('.item-container');//这是包含paidpost story的array,其length肯定是等于listItemCount
                 console.log(`listItemCount:${listItemCount}`);
                 for(var i=0; i<listItemCount; i++) {
+                    //i == 1,2的情况其实不用处理，默认不会插入到第3个之前；默认listItemCount>=6,不然还有一堆代码的情况要处理
                     var itemContainer = itemsArray.item(i);
                     var topLineContainer = itemContainer.previousElementSibling;//第一个的话没有
                     var XL="",L="",M="",S="",P="",itemTopClass="";
                     //Set XL
+                    /*
+                    <%elseif $i===2 && $list.items[1].image !== ""%>
+                        <%assign var="XL" value="XL4 XL-right XL-half XL-no-tag"%>
+                    <%elseif $i===1 && $list.float != "EqualSizeForNonFirstItems"%>
+                        <%assign var="XL" value="XL4 XL-right XL-no-tag"%>
+                    */
                     if (listItemCount % 3 == 0) {
                         
-                        if (i == 0) {
-                            XL = "XL8";
+                        if (i == 0) { //处理第一篇文章，因为第一篇文章的class和listItemCount的数值关系较大。。暂时不处理i=1,2，代码显示它们跟listItemCount关系影响不大
+                            XL = "XL8"; 
                         } else {
                             XL = "XL4";
                         }
-                        if (i % 3 == 0 ) {
+                        if (i % 3 == 0 ) { //一行3个，总数又能被3整除时，每行只有第1个的itemTop有XL的class
                             itemTopClass = "XLT";
                         }
 
@@ -195,24 +202,24 @@ img {
                             XL = "XL4";
                         }
 
-                        if (i != listItemCount - 1 && i % 3 == 0) {
+                        if (i != listItemCount - 1 && i % 3 == 0) { //一行三个，总数被3除余1，那么除了最后1个以外、每行第1个的itemTop有XL的class
                             itemTopClass = "XLT"
                         }
 
                     } else if (listItemCount % 3 == 2) {
                         if (i == 0) {
                             XL = "XL8";
-                        } else if ( i >= listItemCount - 2) {
+                        } else if ( i >= listItemCount - 2) { //当总数除以3余2时，倒数第1、第2个的class需要单独处理
                             XL = "XL4 XL-half XL-lower";
-                        } else if ( i >= listItemCount - 4) {
+                        } else if ( i >= listItemCount - 4) { //总数除以3余2时，倒数第3、第4也要相应做处理
                             XL = "XL4 XL-half";
                         } else {
                             XL = "XL4";
                         }
 
                         if ( i < listItemCount - 4 && i%3 == 0 ) {
-                            itemTopClass = "XLT";
-                        } else if ( i == listItemCount - 2 ) {
+                            itemTopClass = "XLT";//i为listItemCount-4是倒数第4个，那么i<listItemCount-4也就是i要满足<=倒数第5个，倒数第5个就是最后一行的1个，所以就是针对每行的第1个加itemTop的class
+                        } else if ( i == listItemCount - 2 ) {//如果是倒数第2个，就是最后一行的第二分行的第一个，也要加上适当的class
                             itemTopClass = "XLT-clear-right";
                         }
                  
@@ -271,7 +278,6 @@ img {
                     
 
                     // Set S
-                   
                     if (listItemCount % 2 == 1 && i == 0) { //总数为奇数，当前为第1个时
                         S = "S12 S-double-width";
                     } else {
@@ -281,22 +287,13 @@ img {
                         }
                     }
                     
+ 
                    
-
-
-
                     if (itemTopClass != "" && topLineContainer) {
-                        /*
-                        var topLine = document.createElement('div');
-                        topLine.className = itemTopClass;
-                        itemContainer.parentNode.insertBefore
-                       (topLine, itemContainer);
-                       */
-                      
-                      topLineContainer.className = itemTopClass;
+                        topLineContainer.className = itemTopClass;
                     }
-
-                    if (i == 0 || i >= positionNum-1) { //本来只需要调整i>=positionNum-1的情况，但是i==0的情况也比较特殊，所以。。。
+                    if (i == 0 || i >= positionNum-1) { //本来只需要调整i>=positionNum-1的情况，但是i==0的情况在S的情况下受listItemCount的邮箱较大，所以也要重新设置样式
+                        
                         var itemContainerClass = "item-container " + XL + " " + L + " " + M + " " + S + " " + P;
 
                         if (itemContainer.classList.contains("has-image")) {
