@@ -475,3 +475,15 @@ function getRandomInt(min, max) {
 
 checkFontSize();
 changeFontSize();
+
+// MARK:The subscription product displays different contents according to different devices.
+var deviceType = getDeviceTpye()
+var iosDevice = document.getElementById('ios-device');
+var webType = document.getElementById('web-type');
+if(deviceType === 'PadWeb'|| deviceType === 'PadApp'|| deviceType === 'iPhoneApp'||deviceType === 'iPhoneWeb') {
+    webType.style.display = 'none';
+    iosDevice.style.display = 'block';
+}else{
+    webType.style.display = 'block';
+    iosDevice.style.display = 'none';
+}
