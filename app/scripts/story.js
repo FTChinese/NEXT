@@ -476,11 +476,39 @@ function getRandomInt(min, max) {
 checkFontSize();
 changeFontSize();
 
+
+function getDeviceSpecie() {
+    var searchVars = {};
+    if (window.location.search.length > 1) {
+        var searchStr = window.parent.location.search;
+        for (var oneKeyValueArr, index = 0, searchStrArr = searchStr.substr(1).split('&'); index < searchStrArr.length; index++) {
+        oneKeyValueArr = searchStrArr[index].split('=');
+        searchVars[decodeURIComponent(oneKeyValueArr[0])] = oneKeyValueArr.length > 1 ? decodeURIComponent(oneKeyValueArr[1]) : '';
+        }
+    }
+    var uaString = navigator.userAgent || navigator.vendor || '';
+    var deviceType = 'PC';
+  
+    if (/iPad/i.test(uaString)) {
+      deviceType = 'PadWeb';
+      if(searchVars.webview && searchVars.webview === 'ftcapp') {
+        deviceType = 'PadApp';
+      }
+    } else if (/OS [0-9]+\_/i.test(uaString) && (/iPhone/i.test(uaString) || /iPod/i.test(uaString))) {
+      deviceType = 'iPhoneWeb';
+      if(searchVars.webview && searchVars.webview === 'ftcapp') {
+        deviceType = 'iPhoneApp';
+      }
+    } else if (/Android|micromessenger/i.test(uaString) ) {
+      deviceType = 'AndroidWeb';
+    }
+    return deviceType;
+}
 // MARK:The subscription product displays different contents according to different devices.
-var deviceType = getDeviceTpye()
+var deviceSpecie = getDeviceSpecie();
 var iosDevice = document.getElementById('ios-device');
 var webType = document.getElementById('web-type');
-if(deviceType === 'PadWeb'|| deviceType === 'PadApp'|| deviceType === 'iPhoneApp'||deviceType === 'iPhoneWeb') {
+if(deviceSpecie === 'PadWeb'|| deviceSpecie === 'PadApp'|| deviceSpecie === 'iPhoneApp'||deviceSpecie === 'iPhoneWeb') {
     webType.style.display = 'none';
     iosDevice.style.display = 'block';
 }else{
