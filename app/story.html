@@ -579,15 +579,22 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 </div>
 
 
-<div class="subscribe-lock-container">
+<div class="subscribe-lock-container" id="iosDevice">
     <div class="lock-content">
       <div class="lock-text">购买会员服务，阅读FT独家内容</div>
-      <button class="subscribeBtn">立即订阅▶︎</button>
-      <div class="lock-text">已经购买过？请<span>登录</span></div>
+      <button class="subscribe-btn"><a href="http://www.ftchinese.com/startapp.html?" >打开app</a></button>
+      <!--<div class="lock-text"><span>请敬请期待，也可扫码下载ios app</span></div>-->
     </div>
 </div>  
 
-
+<div class="subscribe-lock-container" id="webType">
+    <div class="lock-content">
+      <div class="lock-text">使用iOS App，成为会员，阅读FT独家内容</div>
+      <div class="app-download-code">
+          <img src="http://static.ftchinese.com/img/download-ios-app.jpg"/>
+      </div>
+    </div>
+</div>  
 
 
 
@@ -959,8 +966,14 @@ if (parameter==='premium=1'){
 }else{
     storyBodyId.style.display = 'block';
 }
+var deviceType = getDeviceTpye()
+var deviceCategory = getDeviceCategory()
+if(deviceType === 'PadWeb'|| deviceType === 'PadApp'|| deviceType === 'iPhoneApp'||deviceType === 'iPhoneWeb') {
 
+}else{
 
+}
+console.log(deviceCategory)
 </script>
 
 </html>
