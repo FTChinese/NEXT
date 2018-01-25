@@ -75,5 +75,15 @@ var adPatternsPhone = {
             description:'从上至下第2个Information位'
         }
         }
+    },
+    PaidpostStory: {
+        id:'10',
+        description:'',
+        position:{
+            Num1: {
+            id:'01',
+            description:''
+            },
+        }
     }
 };
