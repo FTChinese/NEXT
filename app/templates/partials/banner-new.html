@@ -44,11 +44,14 @@
                         pattern:'Banner',
                         position:'Num1'
                     }));
-                    document.write(writeAdNew({
-                        devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
-                        pattern:'Banner',
-                        position:'Num2'
-                    }));
+                    var adChannelId = getAdChannelId();
+                    if (adChannelId!= '5048') {
+                        document.write(writeAdNew({
+                            devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
+                            pattern:'Banner',
+                            position:'Num2'
+                        }));
+                    }
                 } else if(bannerCount == 2) {
                     document.write(writeAdNew({
                         devices: ['PC'],
