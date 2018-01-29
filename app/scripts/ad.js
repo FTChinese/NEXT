@@ -517,3 +517,114 @@ function writeAdNew(obj) {
   }
   return iframeHTML;
 }
+
+function writeAdDB(obj) {
+  /**
+   * @param obj
+   * @param obj.devices: TYPE Array, the devices are allowed to show this ad, Eg:['PC','PadWeb','iPhoneWeb','AndroidWeb']
+   * @param obj.pattern: TYPE String,the key string of var adPattern, Eg：'FullScreen'、'Leaderboard'
+   * @param obj.position：TYPE String, the key string of var adPattern.xxx.position,Eg: 'Num1','Right1','Middle2'
+ 
+   * @dependglob adDevices: It is from adDevice.js
+   * @dependglob deviceType
+   * @dependglob adChannelId
+   * @dependglob bannerBg
+   * @dependglob isLocal
+   */
+  
+  // MARK: If there's ad=no in the url, return empty string immediately
+  if (location.href.indexOf('ad=no')>0 || window.hideAllAds === true) {
+    return '';
+  }
+
+  //MARK: First, get the adid
+  
+  var iframeHTML = '';
+  var debugString = '';
+  var adid = '';
+  var deviceId = '';
+  var adPatternId = '';
+  var adPositionId = '';
+  var adWidth = '';
+  var adHeight = '';
+  var containerType = '';
+  var adDescription = '';
+  var adPatternData;
+
+  // MARK: If device does not fit, return immediately
+  if (obj.devices.indexOf(deviceType) < 0) {
+    return '';
+  }
+  deviceId = adDevices[deviceType].id;//get the deviceId
+ 
+  if(deviceType === 'PadWeb'|| deviceType === 'PadApp') {
+    adPatternData = window.adPatternsPad;
+  } else if(deviceType === 'iPhoneWeb'|| deviceType === 'iPhoneApp' || deviceType === 'AndroidWeb') {
+    adPatternData = window.adPatternsPhone;
+  } else {
+    adPatternData = window.adPatternsPC;
+  }
+
+  if(adPatternData) {
+    var adPattern = adPatternData[obj.pattern];
+    adPatternId = adPattern.id;
+    adPositionId = adPattern.position[obj.position].id;
+    //adWidth = adPattern.width || '100%';
+    //adHeight = adPattern.height || '50';
+   // containerType = obj.container || adPattern.container || 'none';
+    adid = deviceId + adChannelId + adPatternId + adPositionId;
+  }
+  
+ 
+  var iframeSrc = '';
+  if (isLocal) {
+    iframeSrc = 'a.html?v=20171214112400' + bannerBG + '#adid='+ adid + '&pid=' + adid;
+  } else {
+    iframeSrc = '/a.html?v=20171214112400' + bannerBG + '#adid='+ adid + '&pid=' + adid;
+  }
+  var iframeId = 'ad-'+adid;
+  iframeHTML = '<iframe class="banner-iframe" data-adch="'+adChannelId+'" data-adPosition="'+ adPatternId + adPositionId+'" id="' + iframeId + '" width="'+ adWidth +'" height="'+ adHeight + '" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="'+ iframeSrc +'" data-src="'+ iframeSrc +'" data-ad-type="'+ adPatternId + adPositionId +'" data-ad-count=0></iframe>';
+
+
+  if (window.gDebugAd && typeof window.gDebugAd === 'string') { //有两种情况存在gDebugAd：1线上为www7时，如果$debug_model == 1，则存在gDebugAd(参见partials/head.html);2本地测试一定存在gDebugAd
+    //MARK:找出channel的describtion
+    //TODO:按需加载channel数据
+    /*
+    var topChannelId = adChannelId.substring(0,2);
+    var subChannelId = adChannelId.substring(2,4);
+    var adChannel = adDevices[deviceType].channels; 
+
+    var subChannels = {};
+    */
+    var topChannelTitle = '';
+    var subChannelTitle = '';
+    /*
+    for(var prop in adChannel) {
+      var propObj = adChannel[prop];
+      if(propObj.id === topChannelId) {
+        topChannelTitle = propObj.title;
+        subChannels = propObj.sub;
+      }
+    }
+    for(var subProp in subChannels) {
+      var subPropObj = subChannels[subProp];
+      if(subPropObj.id === subChannelId) {
+        subChannelTitle = subPropObj.title;
+      }
+    }
+    */
+    adDescription = deviceType + '-' + topChannelTitle + '-' + subChannelTitle + '-' + obj.pattern + '-' + obj.position;
+    debugString = window.gDebugAd.replace('adcode_for_debug', adid + ': ' + adDescription);
+  }
+
+  iframeHTML += debugString;
+
+  if (containerType === 'banner') {
+    iframeHTML = '<div class="bn-ph"><div class="banner-container"><div class="banner-inner"><div class="banner-content">' + iframeHTML + '</div></div></div></div>';
+  } else if (containerType === 'mpu') {
+    iframeHTML = '<div class="mpu-container">' + iframeHTML + '</div>';
+  } else if (containerType === 'mpuInStroy') {
+    iframeHTML = '<div class="mpu-container-instory">' + iframeHTML + '</div>';
+  }
+  return iframeHTML;
+}
