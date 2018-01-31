@@ -1016,6 +1016,8 @@
 							<%assign var="itemImageLink" value=$itemLink%>
 						<%/if%>
 
+						<%*<!-- Delete the paidpost story, for there is an alternative ad --> *%>
+						<%* 
 						<%if (preg_match("/特别企划|企业公告/is",$itemTagsString) || ($item.customLink != "" && preg_match("/^http/is",$item.customLink) && !preg_match("/ftchinese.com|ft.com|ftacademy/is",$item.customLink)))  && (!preg_match("/event.html|marketing|m\/corp/is",$smarty.server.REQUEST_URI) || preg_match("/preview/is",$smarty.server.REQUEST_URI))%>
 							<%assign var=itemClass value="`$itemClass` paid-post"%>
 							<%if $paidPostStyleLoaded == ""%>
@@ -1026,6 +1028,7 @@
 						<%else%>
 							<!--  Not a paid post 004:   -->
 						<%/if%>
+						*%>
 
 						<%if $smarty.get.webview == "ftcapp"%>
 							<%if preg_match("/.mp3$/is",$item.shortlead) || preg_match("/.mp3$/is",$item.cshortleadbody)%>
