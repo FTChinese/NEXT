@@ -478,3 +478,12 @@ changeFontSize();
 
 
 
+// var nowSubscribe = document.getElementById('now-subscribe');
+// console.log('userId:'+userId);
+// nowSubscribe.onclick = function(){
+//     if (userId === null) {
+//         window.open('http://user.ftchinese.com/login');
+//     }else{
+//         window.open('http://premium.ftacademy.cn/subscription.html');
+//     }
+// }
