@@ -175,7 +175,7 @@ ga('send','event','Testing', 'Oliver', 'AD Testing', {'nonInteraction':1});
 </script>
 <!-- End Google Analytics -->
 
-<!-- Doubleclick Head -->
+<!-- DB Ad -->
 <script async='async' src='https://www.googletagservices.com/tag/js/gpt.js'></script>
 <script>
   var googletag = googletag || {};
@@ -190,16 +190,21 @@ ga('send','event','Testing', 'Oliver', 'AD Testing', {'nonInteraction':1});
   });
 </script>
 -->
-
 <script>
-    // Leaderboard Num1
     googletag.cmd.push(function() {
       var gptadslots = [];
       gptadslots[0] = googletag.defineSlot('/80682004/PC-1000/100010000201', [[969, 90], [1200, 120], [1200, 500], 'fluid', [969, 250], [1200, 400], [969, 400]], 'Leaderboard-Num1').addService(googletag.pubads());
 
-      gptadslots[1] = googletag.defineSlot('/80682004/PC-1000/100010000301', [[969, 90], [1200, 120]], 'div-gpt-ad-1517196554968-0').addService(googletag.pubads());
+      gptadslots[1] = googletag.defineSlot('/80682004/PC-1000/100010000301', [[969, 90], [1200, 120]], 'Banner-Num1').addService(googletag.pubads());
 
-      gptadslots[2] = googletag.defineSlot('/80682004/PC-1000/100010000302', [[969, 90], [1200, 120]], 'div-gpt-ad-1517386150147-0').addService(googletag.pubads());
+      gptadslots[2] = googletag.defineSlot('/80682004/PC-1000/100010000302', [[969, 90], [1200, 120]], 'Banner-Num2').addService(googletag.pubads());
+      
+      gptadslots[3] = googletag.defineSlot('/80682004/PC-1000/100010000303', [[969, 90], [1200, 120]], 'Banner-Num3').addService(googletag.pubads());
+
+
+      gptadslots[4] = googletag.defineSlot('/80682004/PC-1000/100010000411', [[300, 250], [300, 1050], [300, 600], 'fluid', [810, 600]], 'MPU-Right1').addService(googletag.pubads());
+    
+      gptadslots[5] = googletag.defineSlot('/80682004/PC-1000/100010000412', [[300, 250], [300, 1050], [300, 600], 'fluid', [810, 600]], 'MPU-Right2').addService(googletag.pubads());
 
       googletag.pubads().enableSingleRequest();
       googletag.pubads().disableInitialLoad();
@@ -207,13 +212,6 @@ ga('send','event','Testing', 'Oliver', 'AD Testing', {'nonInteraction':1});
       googletag.pubads().refresh(gptadslots);
     });
 
-
-    // Banner Num1 
-    googletag.cmd.push(function() {
-       
-        googletag.pubads().enableSingleRequest();
-        googletag.enableServices();
-    });
 </script>
 
 <!-- End Doubleclick Head -->
@@ -556,7 +554,7 @@ FT中文网首页
 <div class="bn-ph">
     <div class="banner-container">
         <div class="banner-inner">
-            <div class="banner-content"> 
+            <div class="banner-content">
                 <div id='Leaderboard-Num1'>
                     <script>
                     googletag.cmd.push(function() { googletag.display('Leaderboard-Num1'); });
@@ -807,11 +805,8 @@ FT中文网首页
 <iframe width="0" height="0" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="/m/marketing/membertext.html"></iframe>
 </div>
 </div>
-<!-- Old Ad:
-<div class="mpu-container">
-<script type="text/javascript">document.write (writeAd('mpu'));</script>
-</div>
--->
+
+<!-- Chuan Yang 
 <script type="text/javascript">
     document.write (writeAdNew({
         devices: ['PC','PadApp','PadWeb'],
@@ -819,6 +814,16 @@ FT中文网首页
         position:'Right1'
     }));
 </script>
+-->
+<!-- DB Ad -->
+<div class="mpu-container">
+    <!-- /80682004/PC-1000/100010000411 -->
+    <div id='MPU-Right1'>
+        <script>
+            googletag.cmd.push(function() { googletag.display('MPU-Right1'); });
+        </script>
+    </div>
+</div>
 <div class="interactives">
 <h2 class="list-title"><a href="/channel/english.html">每日英语</a></h2>
 <!---->
@@ -845,7 +850,7 @@ FT中文网首页
 </div>
 
 <!-- Chuanyang -->
-
+<!--
 <script type="text/javascript">
     document.write (writeAdNew({
         devices: ['PC','PadApp','PadWeb'],
@@ -853,17 +858,18 @@ FT中文网首页
         position:'Right2'
     }));
 </script>
+-->
 
-<!-- DoubleClick -->
-<!--
+<!-- DB Ad -->
 <div class="mpu-container">
-    <div id='div-gpt-ad-1513839240621-0' style='height:250px; width:300px;'>
+    <!-- /80682004/PC-1000/100010000412 -->
+    <div id='MPU-Right2'>
         <script>
-        googletag.cmd.push(function() { googletag.display('div-gpt-ad-1513839240621-0'); });
+            googletag.cmd.push(function() { googletag.display('MPU-Right2'); });
         </script>
     </div>
 </div>
--->
+
 <div class="vidoes">
 <h2 class="list-title"><a href="/m/marketing/intelligence.html">FT研究院</a></h2>
 <div class="item-container first"><div class="item-inner">
@@ -883,17 +889,6 @@ FT中文网首页
 </div>
 </div></div><div class="clearfloat"></div>
 </div></div>
-<!-- Old Ad:
-<div class="bn-ph">
-<div class="banner-container">
-<div class="banner-inner">
-<div class="banner-content">
-<script type="text/javascript">document.write (writeAd('banner'));</script>
-</div>
-</div>
-</div>
-</div>
--->
 <!-- Chuanyang Ad -->
 <!--
 <script type="text/javascript">
@@ -907,18 +902,18 @@ FT中文网首页
 <!-- DB Ad -->
 <!-- /80682004/PC-1000/100010000301 -->
 <div class="bn-ph">
-        <div class="banner-container">
-            <div class="banner-inner">
-                <div class="banner-content"> 
-                    <div id='div-gpt-ad-1517196554968-0'>
-                        <script>
-                        googletag.cmd.push(function() { googletag.display('div-gpt-ad-1517196554968-0'); });
-                        </script>
-                    </div>
+    <div class="banner-container">
+        <div class="banner-inner">
+            <div class="banner-content"> 
+                <div id='Banner-Num1'>
+                    <script>
+                    googletag.cmd.push(function() { googletag.display('Banner-Num1'); });
+                    </script>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
 <script type="text/javascript">
     document.write(writeAdNew({
@@ -1030,9 +1025,9 @@ FT中文网首页
         <div class="banner-inner">
             <div class="banner-content"> 
                 <!-- /80682004/PC-1000/100010000302 -->
-                <div id='div-gpt-ad-1517386150147-0'>
+                <div id='Banner-Num2'>
                     <script>
-                    googletag.cmd.push(function() { googletag.display('div-gpt-ad-1517386150147-0'); });
+                    googletag.cmd.push(function() { googletag.display('Banner-Num2'); });
                     </script>
                 </div>
             </div>
@@ -1234,17 +1229,7 @@ FT中文网首页
 </div></div><div class="clearfloat"></div>
 </div>
 </div>
-<!--
-<div class="bn-ph">
-<div class="banner-container">
-<div class="banner-inner">
-<div class="banner-content">
-<script type="text/javascript">document.write (writeAd('banner'));</script>
-</div>
-</div>
-</div>
-</div>
--->
+<!-- Chuan Yang
 <script type="text/javascript">
     document.write(writeAdNew({
         devices: ['PC'],
@@ -1252,6 +1237,22 @@ FT中文网首页
         position:'Num3'
    }));
 </script>
+-->
+<!-- DB Ad -->
+<div class="bn-ph">
+    <div class="banner-container">
+        <div class="banner-inner">
+            <div class="banner-content"> 
+                <!-- /80682004/PC-1000/100010000303 -->
+                <div id='Banner-Num3'>
+                    <script>
+                    googletag.cmd.push(function() { googletag.display('Banner-Num3'); });
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="block-container has-side side-right side-video"><div class="block-inner">
 <div class="content-container"><div class="content-inner">
