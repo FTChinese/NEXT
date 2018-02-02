@@ -478,7 +478,7 @@ changeFontSize();
 
 
 
-// var nowSubscribe = document.getElementById('now-subscribe');
+var openApp = document.getElementById('open-app');
 // console.log('userId:'+userId);
 // nowSubscribe.onclick = function(){
 //     if (userId === null) {
@@ -487,3 +487,26 @@ changeFontSize();
 //         window.open('http://premium.ftacademy.cn/subscription.html');
 //     }
 // }
+function getDeviceSpecie() {
+    var uaString = navigator.userAgent || navigator.vendor || '';
+    var deviceSpecie = 'PC';
+    if (/iPad/i.test(uaString)) {
+        deviceSpecie = 'iPad';
+    } else if (/OS [0-9]+\_/i.test(uaString) && (/iPhone/i.test(uaString) || /iPod/i.test(uaString))) {
+        deviceSpecie = 'iPhone';
+    } else if (/Android|micromessenger/i.test(uaString) ) {
+        deviceSpecie = 'android';
+    }
+    return deviceSpecie;
+}
+var deviceSpecie = getDeviceSpecie();
+if (openApp){
+   if(deviceSpecie === 'iPad'|| deviceSpecie === 'iPhone') {
+        openApp.innerHTML = 'App内打开';
+        openApp.href = 'http://www.ftchinese.com/startapp.html';
+    }else{
+        openApp.innerHTML = '下载应用▶︎';
+        openApp.href = 'http://a.app.qq.com/o/simple.jsp?pkgname=com.ft';
+    } 
+    console.log('open');
+}
