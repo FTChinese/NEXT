@@ -1,4 +1,4 @@
-/* exported writeAd, slotStr, checkB, sendEvent,clearEvents, writeAdNew,deviceCategory,displayDBAd */
+/* exported writeAd, slotStr, checkB, sendEvent,clearEvents, writeAdNew,deviceCategory */
 // MARK: - Sponsored Channel Ids
 
 var gIsLandingPage = false;
@@ -518,32 +518,3 @@ function writeAdNew(obj) {
   return iframeHTML;
 }
 
-function displayDBAd(obj) {
-  /**
-   * @param obj
-   * @param obj.devices: TYPE Array, the devices are allowed to show this ad, Eg:['PC','PadWeb','iPhoneWeb','AndroidWeb']
-   * @param obj.adName: 'Leaderboard-Num1'
-   * @param obj.container: TYPE String, the container specified for the ad position in a certain page. It could be 'banner','mpu','mpuInStory'
-   * 
-   * @dependglob deviceType: string , one of 'PC','iPhoneApp','iPhoneWeb','AndroidApp','AndroidWeb','PadApp','PadWeb', the current real deviceType
-   * @dependglob deviceId
-   * @dependglob adChannelId
-   */
-
-   // MARK: If device does not fit, return immediately
-  if (obj.devices.indexOf(deviceType) < 0) {
-    return '';
-  }
-  var adName = obj.adName;
-   var adCode = ' <div id="'+ adName +'"><script>googletag.cmd.push(function() { googletag.display("'+ adName +'"); });</script></div>';
-
-   var container = obj.container;
-  if (container === 'mpu') {
-    adCode = '<div class="mpu-container">' + adCode + '</div>';
-  } else if (container === 'mpuInStroy') {
-    adCode = '<div class="mpu-container-instory">' + adCode + '</div>';
-  } else {
-    adCode = '<div class="bn-ph"><div class="banner-container"><div class="banner-inner"><div class="banner-content">' + adCode + '</div></div></div></div>';
-  }
-  return adCode;
-}

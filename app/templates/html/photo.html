@@ -107,6 +107,8 @@
         </script>
     <![endif]-->
     <%include file="next/partials/s"%>
+    <%include file="next/dbads/dbad-head.html"%>
+
   </head>
   <%assign var="bannerCount" value=0%>
   <body class="<%$hideDate%>">
@@ -114,8 +116,13 @@
       <%include file="next/partials/header.html"%>
       <%include file="next/partials/nav.html"%>
       <%if !preg_match("/艺术品投资/is",$info.tags) && !preg_match("/乐尚街/is",$info.tags)%>
-        <%include file="next/partials/banner-new.html"%>
+        <%if $smarty.get.testDB == "yes"%>
+            <%include file="next/dbads/banner.html"%>
+        <%else%>
+            <%include file="next/partials/banner-new.html"%>
+        <%/if%>
         <%assign var="bannerCount" value=$bannerCount+1%>
+      
       <%/if%>
       <%include file="next/partials/photo-block.html"%>
       <%include file="next/partials/story-recommend.html%>

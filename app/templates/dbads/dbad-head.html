@@ -50,6 +50,36 @@ function getAdChannelId() {
   var adChannelId = adch||'1000';
   return adChannelId;
 }
+
+function displayDBAd(obj) {
+  /**
+   * @param obj
+   * @param obj.devices: TYPE Array, the devices are allowed to show this ad, Eg:['PC','PadWeb','iPhoneWeb','AndroidWeb']
+   * @param obj.adName: 'Leaderboard-Num1'
+   * @param obj.container: TYPE String, the container specified for the ad position in a certain page. It could be 'banner','mpu','mpuInStory'
+   * 
+   * @dependglob deviceType: string , one of 'PC','iPhoneApp','iPhoneWeb','AndroidApp','AndroidWeb','PadApp','PadWeb', the current real deviceType
+   * @dependglob deviceId
+   * @dependglob adChannelId
+  */
+
+  // MARK: If device does not fit, return immediately
+  if (obj.devices.indexOf(deviceType) < 0) {
+    return '';
+  }
+  var adName = obj.adName;
+  var adCode = ' <div id="'+ adName +'"><scr'+'ipt>googletag.cmd.push(function() { googletag.display("'+ adName +'")})</scr'+'ipt></div>';
+
+  var container = obj.container;
+  if (container === 'mpu') {
+    adCode = '<div class="mpu-container">' + adCode + '</div>';
+  } else if (container === 'mpuInStroy') {
+    adCode = '<div class="mpu-container-instory">' + adCode + '</div>';
+  } else {
+    adCode = '<div class="bn-ph"><div class="banner-container"><div class="banner-inner"><div class="banner-content">' + adCode + '</div></div></div></div>';
+  }
+  return adCode;
+}
 </script>
 
 <!-- DB Ad -->
@@ -62,13 +92,14 @@ function getAdChannelId() {
 <script>
     googletag.cmd.push(function() {
       var gptadslots = [];
-      gptadslots[0] = googletag.defineSlot('/80682004/PC-1000/'+deviceId+adChannelId+'0201', [[969, 90], [1200, 120], [1200, 500], 'fluid', [969, 250], [1200, 400], [969, 400]], 'Leaderboard-Num1').addService(googletag.pubads());
+      //List page: mannual.html, tag.html
+      gptadslots[0] = googletag.defineSlot('/80682004/PC-1000/'+deviceId+adChannelId+'0201', [[969, 90], [1200, 120], [1200, 500], 'fluid', [969, 250], [1200, 400], [969, 400]], 'PC-Leaderboard-Num1').addService(googletag.pubads());
 
-      gptadslots[1] = googletag.defineSlot('/80682004/PC-1000/'+deviceId+adChannelId+'0301', [[969, 90], [1200, 120]], 'Banner-Num1').addService(googletag.pubads());
+      gptadslots[1] = googletag.defineSlot('/80682004/PC-1000/'+deviceId+adChannelId+'0301', [[969, 90], [1200, 120]], 'PC-Banner-Num1').addService(googletag.pubads());
 
-      gptadslots[2] = googletag.defineSlot('/80682004/PC-1000/'+deviceId+adChannelId+'0302', [[969, 90], [1200, 120]], 'Banner-Num2').addService(googletag.pubads());
+      gptadslots[2] = googletag.defineSlot('/80682004/PC-1000/'+deviceId+adChannelId+'0302', [[969, 90], [1200, 120]], 'PC-Banner-Num2').addService(googletag.pubads());
       
-      gptadslots[3] = googletag.defineSlot('/80682004/PC-1000/'+deviceId+adChannelId+'0303', [[969, 90], [1200, 120]], 'Banner-Num3').addService(googletag.pubads());
+      gptadslots[3] = googletag.defineSlot('/80682004/PC-1000/'+deviceId+adChannelId+'0303', [[969, 90], [1200, 120]], 'PC-Banner-Num3').addService(googletag.pubads());
 
 
       gptadslots[4] = googletag.defineSlot('/80682004/PC-1000/'+deviceId+adChannelId+'0411', [[300, 250], [300, 1050], [300, 600], 'fluid', [810, 600]], 'MPU-Right1').addService(googletag.pubads());
@@ -76,13 +107,15 @@ function getAdChannelId() {
       gptadslots[5] = googletag.defineSlot('/80682004/PC-1000/'+deviceId+adChannelId+'0412', [[300, 250], [300, 1050], [300, 600], 'fluid', [810, 600]], 'MPU-Right2').addService(googletag.pubads());
 
       gptadslots[6] = googletag.defineSlot('/80682004/iPhoneApp-2000/'+deviceId+adChannelId+'0301', [840, 210], 'Mobile-Banner-Num1').addService(googletag.pubads());
-  
+      
+      gptadslots[7] = googletag.defineSlot('/80682004/iPhoneApp-2000/'+deviceId+adChannelId+'0302', [840, 210], 'Mobile-Banner-Num2').addService(googletag.pubads());
+
+      //Story page: story.html
       googletag.pubads().enableSingleRequest();
       googletag.pubads().disableInitialLoad();
       googletag.enableServices();
       googletag.pubads().refresh(gptadslots);
     });
-
 </script>
 
 <!-- End Doubleclick Head -->

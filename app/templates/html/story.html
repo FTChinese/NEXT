@@ -1343,6 +1343,8 @@
 	<script>
 		!function(a,b,c){var d=b.getElementsByTagName(c)[0],e=b.createElement(c);e.async=!0,e.src="http://uluai.com.cn/api/sc/j/moni.min.js",d.parentNode.insertBefore(e,d)}(window,document,"script");
 	</script>
+	<%include file="next/dbads/dbad-head.html"%>
+
   </head>
   <%assign var="bannerCount" value=0%>
   <body class="<%$hideDate%>">
@@ -1361,9 +1363,13 @@
 		
 		<%*<!-- hide Leaderboard for some channel -->*%>
 		<%if !preg_match("/品味|艺术投资|腕表|游艇|极致人生|美食与美酒/is",$keys) && $smarty.get.hideheader != "yes"%>
-			<%include file="next/partials/banner-new.html"%>
+				<%if $smarty.get.testDB == "yes"%>
+            <%include file="next/dbads/banner.html"%>
+        <%else%>
+            <%include file="next/partials/banner-new.html"%>
+        <%/if%>
+        <%assign var="bannerCount" value=$bannerCount+1%>
 		<%/if%>
-		<%assign var="bannerCount" value=$bannerCount+1%>
 		
 		<%if $info.photonewsid != ""%>
 			<%include file="next/partials/photo-block.html"%>
@@ -1372,7 +1378,11 @@
 		<%/if%>
 		<%include file="next/partials/story-recommend.html%>
 		<%if !preg_match("/品味|乐尚街|艺术投资|腕表|游艇|极致人生|高端视点/is",$keys)%>
-				<%include file="next/partials/banner-new.html"%>
+				<%if $smarty.get.testDB == "yes"%>
+            <%include file="next/dbads/banner.html"%>
+        <%else%>
+            <%include file="next/partials/banner-new.html"%>
+        <%/if%>
 		<%/if%>
 		<%include file="next/partials/footer.html"%>
 		<%include file="next/partials/QrCode.html"%>
