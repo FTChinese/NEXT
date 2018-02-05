@@ -24,88 +24,35 @@
             <a<%$sectionLink%>><img src="<%$section.image%>"></a>
         </div>
     <%else%>
-        <%if $section.image == ""%>
-          
-          <%if $bannerCount == 0 %>
+        <%if $section.image == ""%>  
             <script>
-                document.write(displayDBAd({
-                    devices:['PC'],
-                    adName:'Leaderboard-Num1',
-                    container:'banner'
-                }));
+                var bannerCount = '<%$bannerCount%>';
+                if(bannerCount == 0) {
+                    document.write(displayDBAd({
+                        devices:['PC'],
+                        adName:'Leaderboard-Num1',
+                        container:'banner'
+                    }));
+                } else if (bannerCount == 1) {
+                    document.write(displayDBAd({
+                        devices:['PC'],
+                        adName:'Banner-Num1',
+                        container:'banner'
+                    }));
+                } else if (bannerCount == 2) {
+                    document.write(displayDBAd({
+                        devices:['PC'],
+                        adName:'Banner-Num2',
+                        container:'banner'
+                    }));
+                } else if (bannerCount == 3) {
+                    document.write(displayDBAd({
+                        devices:['PC'],
+                        adName:'Banner-Num3',
+                        container:'banner'
+                    }));
+                }
             </script>
-            <!-- /80682004/PC-1000/100010000201 -->
-            <!--
-            <div class="bn-ph">
-              <div class="banner-container">
-                  <div class="banner-inner">
-                      <div class="banner-content">
-                          <div id='Leaderboard-Num1'>
-                              <script>
-                                if (deviceType == 'PC' ) {
-                                  googletag.cmd.push(function() { googletag.display('Leaderboard-Num1'); });
-                                } else if (['iPhoneWeb', 'AndroidWeb','iPhoneApp','AndroidApp'].indexOf(deviceType)>=0) {
-                                  googletag.cmd.push(function() { googletag.display('Banner-Num1'); });
-                                }
-                              </script>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-            </div>
-            -->
-          <%elseif $bannerCount == 1 %>
-            <!-- /80682004/PC-1000/100010000301 -->
-            <div class="bn-ph">
-                <div class="banner-container">
-                    <div class="banner-inner">
-                        <div class="banner-content"> 
-                            <div id='Banner-Num1'>
-                                <script>
-                                  if(deviceType=='PC') {
-                                    googletag.cmd.push(function() { googletag.display('Banner-Num1'); });
-                                  } else if (['iPhoneWeb', 'AndroidWeb','iPhoneApp','AndroidApp'].indexOf(deviceType)>=0) {
-                                    googletag.cmd.push(function() { googletag.display('Banner-Num2'); });
-                                }
-                                </script>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-          <%elseif $bannerCount == 2%>
-            <div class="bn-ph">
-                <div class="banner-container">
-                    <div class="banner-inner">
-                        <div class="banner-content"> 
-                            <!-- /80682004/PC-1000/100010000302 -->
-                            <div id='Banner-Num2'>
-                                <script>
-                                googletag.cmd.push(function() { googletag.display('Banner-Num2'); });
-                                </script>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-          <%elseif $bannerCount == 3%>
-            <div class="bn-ph">
-                <div class="banner-container">
-                    <div class="banner-inner">
-                        <div class="banner-content"> 
-                            <!-- /80682004/PC-1000/100010000303 -->
-                            <div id='Banner-Num3'>
-                                <script>
-                                googletag.cmd.push(function() { googletag.display('Banner-Num3'); });
-                                </script>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-          <%/if%>
-                  
-                
         <%else%>
             <div class="bn-ph<%$figureClass%>">
             <div class="banner-container">
