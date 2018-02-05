@@ -501,12 +501,16 @@ function getDeviceSpecie() {
 }
 var deviceSpecie = getDeviceSpecie();
 if (openApp){
-    var parameter = window.location.pathname ;
-    var paraArr = parameter.split('/');
-    var storyId = paraArr[2];
+    var pathname = window.location.pathname ;
+    var paraArr = pathname.split('/');
+    var storyId = paraArr[paraArr.length-1];
    if(deviceSpecie === 'iPad'|| deviceSpecie === 'iPhone') {
         openApp.innerHTML = 'App内打开';
-        openApp.href = 'http://www.ftchinese.com/startapp.html?id='+storyId;
+        if  (storyId){
+            openApp.href = '/startapp.html?id='+storyId;
+        }  else{
+            openApp.href = '/startapp.html';
+        }
     }else{
         openApp.innerHTML = '下载应用▶︎';
         openApp.href = 'http://a.app.qq.com/o/simple.jsp?pkgname=com.ft';
