@@ -479,7 +479,7 @@ changeFontSize();
 
 
 var openApp = document.getElementById('open-app');
-// console.log('userId:'+userId);
+console.log('userId:'+userId);
 // nowSubscribe.onclick = function(){
 //     if (userId === null) {
 //         window.open('http://user.ftchinese.com/login');
@@ -501,9 +501,12 @@ function getDeviceSpecie() {
 }
 var deviceSpecie = getDeviceSpecie();
 if (openApp){
+    var parameter = window.location.pathname ;
+    var paraArr = parameter.split('/');
+    var storyId = paraArr[2];
    if(deviceSpecie === 'iPad'|| deviceSpecie === 'iPhone') {
         openApp.innerHTML = 'App内打开';
-        openApp.href = 'http://www.ftchinese.com/startapp.html';
+        openApp.href = 'http://www.ftchinese.com/startapp.html?id='+storyId;
     }else{
         openApp.innerHTML = '下载应用▶︎';
         openApp.href = 'http://a.app.qq.com/o/simple.jsp?pkgname=com.ft';
