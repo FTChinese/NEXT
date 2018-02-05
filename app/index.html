@@ -197,7 +197,10 @@ ga('send','event','Testing', 'Oliver', 'AD Testing', {'nonInteraction':1});
       gptadslots[4] = googletag.defineSlot('/80682004/PC-1000/100010000411', [[300, 250], [300, 1050], [300, 600], 'fluid', [810, 600]], 'MPU-Right1').addService(googletag.pubads());
     
       gptadslots[5] = googletag.defineSlot('/80682004/PC-1000/100010000412', [[300, 250], [300, 1050], [300, 600], 'fluid', [810, 600]], 'MPU-Right2').addService(googletag.pubads());
-
+    
+   
+      gptadslots[6] = googletag.defineSlot('/80682004/iPhoneApp-2000/200010000301', [840, 210], 'Mobile-Banner-Num1').addService(googletag.pubads());
+  
       googletag.pubads().enableSingleRequest();
       googletag.pubads().disableInitialLoad();
       googletag.enableServices();
@@ -531,40 +534,21 @@ FT中文网首页
 </div>
 </div>
 
-<!-- Chuanyan Ad -->
-<!--
+
+<!-- DB Ad -->
 <script type="text/javascript">
-   document.write(writeAdNew({
-    devices: ['PC'],
-    pattern:'Leaderboard',
-    position:'Num1'
+    document.write(displayDBAd({
+        devices:['PC'],
+        adName:'Leaderboard-Num1',
+        container:'banner'
+    }))
+    document.write(displayDBAd({
+        devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
+        adName:'Mobile-Banner-Num1',
+        container:'banner'
    }));
 </script>
--->
-<!-- DB Ad -->
-<!-- /80682004/PC-1000/100010000201 -->
-<div class="bn-ph">
-    <div class="banner-container">
-        <div class="banner-inner">
-            <div class="banner-content">
-                <div id='Leaderboard-Num1'>
-                    <script>
-                    googletag.cmd.push(function() { googletag.display('Leaderboard-Num1'); });
-                    </script>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
-
-<script type="text/javascript">
-    document.write(writeAdNew({
-     devices: ['iPhoneWeb', 'AndroidWeb','iPhoneApp','AndroidApp'],
-     pattern:'Banner',
-     position:'Num1'
-    }));
- </script>
 
 
 <div class="block-container has-side side-right"><div class="block-inner">
@@ -841,27 +825,18 @@ FT中文网首页
 </div>
 </div>
 
-<!-- Chuanyang -->
-<!--
-<script type="text/javascript">
-    document.write (writeAdNew({
-        devices: ['PC','PadApp','PadWeb'],
-        pattern:'MPU',
-        position:'Right2'
-    }));
-</script>
--->
 
 <!-- DB Ad -->
+<!--
 <div class="mpu-container">
-    <!-- /80682004/PC-1000/100010000412 -->
+    <!-- /80682004/PC-1000/100010000412 
     <div id='MPU-Right2'>
         <script>
             googletag.cmd.push(function() { googletag.display('MPU-Right2'); });
         </script>
     </div>
 </div>
-
+-->
 <div class="vidoes">
 <h2 class="list-title"><a href="/m/marketing/intelligence.html">FT研究院</a></h2>
 <div class="item-container first"><div class="item-inner">
@@ -881,37 +856,19 @@ FT中文网首页
 </div>
 </div></div><div class="clearfloat"></div>
 </div></div>
-<!-- Chuanyang Ad -->
-<!--
-<script type="text/javascript">
-    document.write(writeAdNew({
-        devices: ['PC'],
-        pattern:'Banner',
-        position:'Num1'
-   }));
-</script>
--->
-<!-- DB Ad -->
-<!-- /80682004/PC-1000/100010000301 -->
-<div class="bn-ph">
-    <div class="banner-container">
-        <div class="banner-inner">
-            <div class="banner-content"> 
-                <div id='Banner-Num1'>
-                    <script>
-                    googletag.cmd.push(function() { googletag.display('Banner-Num1'); });
-                    </script>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
+<script>
+    document.write(displayDBAd({
+        devices:['PC'],
+        adName:'Banner-Num1',
+        container:'banner'
+    }));
+</script>
 <script type="text/javascript">
-    document.write(writeAdNew({
+    document.write(displayDBAd({
         devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
-        pattern:'Banner',
-        position:'Num2'
+        adName:'Banner-Num2',
+        container:'banner'
    }));
 </script>
 <div class="block-container no-side"><div class="block-inner">
@@ -1000,23 +957,14 @@ FT中文网首页
 <div class="clearfloat"></div>
 </div></div>
 
-<!-- Chuan Yang -->
-<!--
-<script type="text/javascript">
-    document.write(writeAdNew({
-        devices: ['PC'],
-        pattern:'Banner',
-        position:'Num2'
-   }));
-</script>
--->
 
 <!-- DB Ad -->
+<!--
 <div class="bn-ph">
     <div class="banner-container">
         <div class="banner-inner">
             <div class="banner-content"> 
-                <!-- /80682004/PC-1000/100010000302 -->
+                <!-- /80682004/PC-1000/100010000302
                 <div id='Banner-Num2'>
                     <script>
                     googletag.cmd.push(function() { googletag.display('Banner-Num2'); });
@@ -1026,7 +974,7 @@ FT中文网首页
         </div>
     </div>
 </div>
-
+-->
 <div class="block-container has-side side-left">
 <div class="block-inner">
 <div class="content-container">
@@ -1312,25 +1260,7 @@ FT中文网首页
 </div>
 </div></div><div class="clearfloat"></div>
 </div></div>
-<!-- QUEST:该部分正式网站上没有，即没有底4个banner，只有3个banner
-<div class="bn-ph">
-<div class="banner-container">
-<div class="banner-inner">
-<div class="banner-content">
-<script type="text/javascript">document.write (writeAd('banner'));</script>
-</div>
-</div>
-</div>
-</div>
 
-<script type="text/javascript">
-    document.write(writeAdNew({
-        devices: ['PC'],
-        pattern:'Banner',
-        position:'Num4'
-   }));
-</script>
--->
 <div class="block-container no-side"><div class="block-inner">
 <div class="content-container"><div class="content-inner">
 
