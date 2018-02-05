@@ -1160,7 +1160,20 @@
 							<%$itemTop%>
 							<div class="item-container <%$itemClass%> <%$hasImage%>"<%$itemData%>><div class="item-inner">
 								<h2 class="item-headline"><%$itemTag%><a target="_blank"<%$itemLink%> class="item-headline-link"><%$itemHeadline%></a></h2>
-								<%if $item.relatives|@count > 0 && $item.relatives[0].type == "video"%><!--test 1--><div class="image"><figure class="loading-video" data-vid="<%$item.relatives[0].id%>"></figure></div><%elseif ($itemType === "video" && $listType !== "videos" && $item.preferSponsorImage != "yes") || ($itemType == "interactive" && preg_match("/推广视频|精彩视频|产品视频/is",$item.tag))%><!--test 2--><div class="image"><figure class="loading-video" data-vid="<%$itemId%>" data-item-type="<%$itemType%>"></figure></div><%elseif $itemImage != "" && $hasImage === "has-image"%><!--test 3--><a class="image" target="_blank"<%$itemImageLink%>><figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure></a><%/if%>
+								<%if $item.relatives|@count > 0 && $item.relatives[0].type == "video" &&  $item.preferSponsorImage != "yes"%>
+									<!--test 1-->
+									<div class="image">
+										<figure class="loading-video" data-vid="<%$item.relatives[0].id%>"></figure>
+									</div>
+								<%elseif ($itemType === "video" && $listType !== "videos" && $item.preferSponsorImage != "yes") || ($itemType == "interactive" && preg_match("/推广视频|精彩视频|产品视频/is",$item.tag))%>
+									<!--test 2-->
+									<div class="image">
+										<figure class="loading-video" data-vid="<%$itemId%>" data-item-type="<%$itemType%>"></figure>
+									</div>
+								<%elseif $itemImage != "" && $hasImage === "has-image"%>
+									<!--test 3-->
+									<a class="image" target="_blank"<%$itemImageLink%>><figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure></a>
+								<%/if%>
 								<%if $hideLead === "no"%><div class="item-lead"><%$itemLead|nl2br%></div><%/if%>
 								<%$itemTimeStamp%>
 								<%if $item.relatives|@count > 0 && $item.showRelativeStoryItems > 0%>
