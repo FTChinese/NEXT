@@ -512,7 +512,7 @@ if (openApp){
             openApp.href = '/startapp.html';
         }
     }else{
-        openApp.innerHTML = '下载应用▶︎';
+        openApp.innerHTML = '下载应用&#x25BA;';
         openApp.href = 'http://a.app.qq.com/o/simple.jsp?pkgname=com.ft';
     } 
 }
