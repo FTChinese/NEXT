@@ -546,6 +546,7 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 <p>在香港吃一顿汉堡仅需4.83美元，远低于伦敦的6.43美元和纽约的8.74美元。</p>
 
 
+
 <p><table><caption>有关自动驾驶在测试、标准和立法层面的探索</caption><thead><tr><th><span class="ft-bold">国家</span></th><th><span class="ft-bold">现状</span></th></tr></thead><tbody>
 <tr><td nowrap></td><td>有关自动驾驶在测试、标准和立法层面的探索</td></tr>
 <tr><td nowrap>英国</td><td>英国交通部发布了《无人驾驶汽车测试运行规则》、《网联自动化车辆网络安全关键原则》；计划于今年开始在高速公路上测试。</td></tr>
@@ -567,8 +568,24 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 
 
 
-
 <p>译者/何黎</p>
+
+<script type="text/javascript">
+var storyBy = document.getElementById('story-body');
+var setWidth = storyBy.offsetWidth ;
+var setWidth1 = '';
+if (setWidth>450){
+    setWidth1 = 0.499*setWidth+'px';
+}else{
+    setWidth1 = setWidth+'px';
+}
+function writeHtml(width){
+    var iframeHTML = '<div style="background-color: #faeadd;" ><div  style="float: left;width:'+width+';padding: 10px 10px;text-align: center;"><h3 style="padding-bottom: 10px;font-size:1.1em;">希尔顿</h3><div style="padding-bottom: 10px;"><img src="http://com.ft.imagepublish.upp-prod-eu.s3.amazonaws.com/5387c390-02c6-11e8-9650-9c0ad2d7c5b5"></div><div style="text-align: left;">2016年海航斥资65亿美元收购了希尔顿酒店集团25%的股份，这是其进军休闲及酒店业的一部分。</div></div><div style="float: left;width:'+width+';padding: 10px 10px;text-align: center;"><h3 style="padding-bottom: 10px;font-size:1.1em;">Avolon</h3><div style="padding-bottom: 10px;"><img src="http://com.ft.imagepublish.upp-prod-eu.s3.amazonaws.com/4f287362-02c6-11e8-9650-9c0ad2d7c5b5"></div><div style="text-align: left;">这家飞机租赁公司于2015年被收购，由海航在国内的主要融资公司渤海金控对其控股。</div></div><div class="clearfloat"></div></div>';
+    return iframeHTML;
+}
+    document.write (writeHtml(setWidth1));
+</script>
+
 
 <div class="clearfloat"></div>
 
@@ -968,3 +985,5 @@ if (parameter==='premium=1'){
 </script>
 
 </html>
+
+
