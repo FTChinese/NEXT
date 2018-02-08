@@ -1,6 +1,5 @@
 
 var itemHeadline = document.querySelectorAll('.item-headline');
-// var time = 0;
 // 应该需要把user_id传给你吧，难道判断登录后，后台就能获得这个cookie？
 // 应该在模板中先是全部锁住，如果既登录又付费了，便把class替换掉
 // 获取包含locked的class名，然后替换
@@ -13,9 +12,9 @@ var itemHeadline = document.querySelectorAll('.item-headline');
         if (xhrpw.status === 200) {
             var data = xhrpw.responseText;
             var dataObj = JSON.parse(data); 
-            console.log('paywall'+data);
+            // console.log('paywall'+data);
             if (dataObj.paywall === 1) {
-                console.log('get paywall1'+data);
+                console.log('get paywall1:'+data);
                 updateLockClass();
             }
         } else {
@@ -26,8 +25,8 @@ var itemHeadline = document.querySelectorAll('.item-headline');
     xhrpw.send(null);
   }
 var userId1 = GetCookie('USER_ID') || GetCookie('uniqueVisitorId');
-// if (userId1 !== null) {
-  payWall();
+if (userId1 !== null) {
+    
   for (var i = 0; i < 5; i++) {
     setTimeout((function(i){
         return function(){
@@ -36,7 +35,7 @@ var userId1 = GetCookie('USER_ID') || GetCookie('uniqueVisitorId');
         };
     })(i), 3000);
    }
-// }
+}
 console.log('userId:'+userId1);
 
 
@@ -57,15 +56,7 @@ function getPayStory(){
   }
 }
 getPayStory();
-// 过滤出包含a的子节点，然后用过滤出的节点增加class
-// function getHeadlineA(ele,clsName){
-//     var childNodes = ele.children;   //HTMLCollection
-//     for (let i = 0; i < childNodes.length; i++) {
-//       if (childNodes[i].tagName.toLowerCase()==='a'){
-//         addClass(childNodes[i], clsName);
-//       }
-//     } 
-// }
+
 function updateLockClass(){
     if (getPayHeadline.length>0){
       for (var k = 0; k < getPayHeadline.length; k++) {
@@ -100,3 +91,13 @@ function removeClass(ele, cls) {
     ele.className = newClass.replace(/^\s+|\s+$/g, '');
   }
 }
+
+// 过滤出包含a的子节点，然后用过滤出的节点增加class
+// function getHeadlineA(ele,clsName){
+//     var childNodes = ele.children;   //HTMLCollection
+//     for (let i = 0; i < childNodes.length; i++) {
+//       if (childNodes[i].tagName.toLowerCase()==='a'){
+//         addClass(childNodes[i], clsName);
+//       }
+//     } 
+// }
