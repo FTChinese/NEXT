@@ -4,7 +4,7 @@ var itemHeadline = document.querySelectorAll('.item-headline');
 // 应该在模板中先是全部锁住，如果既登录又付费了，便把class替换掉
 // 获取包含locked的class名，然后替换
 // 目前在首页能获取paywall模板值么？
-  function payWall(){  
+function payWall(){  
     var xhrpw = new XMLHttpRequest();
     xhrpw.open('get', '/index.php/jsapi/paywall');
     xhrpw.setRequestHeader('Content-Type', 'application/text');
@@ -23,10 +23,10 @@ var itemHeadline = document.querySelectorAll('.item-headline');
         }
     };
     xhrpw.send(null);
-  }
+}
 var userId1 = GetCookie('USER_ID') || GetCookie('uniqueVisitorId');
 if (userId1 !== null) {
-    
+  payWall();  
   for (var i = 0; i < 5; i++) {
     setTimeout((function(i){
         return function(){
