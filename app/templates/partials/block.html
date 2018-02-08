@@ -273,6 +273,11 @@
 
 
 				<%foreach from=$itemsArray item=item%>
+					<%if $item.type == "premium" || $paywall == "1"%>
+						<%assign var="lockClass" value="locked"%>
+					<%else%>
+						<%assign var="lockClass" value=""%>
+					<%/if%>
 
 					<%assign var="itemHeadline" value=$item.headline|default:$item.cheadline|default:$item.cn_title%>
 					<%assign var="itemTag" value=""%>
