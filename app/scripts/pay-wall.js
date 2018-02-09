@@ -1,9 +1,5 @@
 
 var itemHeadline = document.querySelectorAll('.item-headline');
-// 应该需要把user_id传给你吧，难道判断登录后，后台就能获得这个cookie？
-// 应该在模板中先是全部锁住，如果既登录又付费了，便把class替换掉
-// 获取包含locked的class名，然后替换
-// 目前在首页能获取paywall模板值么？
 function payWall(){  
     var xhrpw = new XMLHttpRequest();
     xhrpw.open('get', '/index.php/jsapi/paywall');
@@ -12,7 +8,6 @@ function payWall(){
         if (xhrpw.status === 200) {
             var data = xhrpw.responseText;
             var dataObj = JSON.parse(data); 
-            // console.log('paywall'+data);
             if (dataObj.paywall === 1) {
                 console.log('get paywall1:'+data);
                 updateLockClass();
@@ -24,9 +19,10 @@ function payWall(){
     };
     xhrpw.send(null);
 }
+
 var userId1 = GetCookie('USER_ID') || GetCookie('uniqueVisitorId');
 if (userId1 !== null) {
-  payWall();  
+  payWall();   
   for (var i = 0; i < 5; i++) {
     setTimeout((function(i){
         return function(){
@@ -36,10 +32,7 @@ if (userId1 !== null) {
     })(i), 3000);
    }
 }
-console.log('userId:'+userId1);
 
-
-// payWall();
 
 var getPayHeadline = [];
 // 过滤出包含locked的item-headline数组
@@ -65,7 +58,7 @@ function updateLockClass(){
       }
     }
 }
-//  updateLockClass();
+
 function hasClass(ele, cls) {
   cls = cls || '';
   if (cls.replace(/\s/g, '').length === 0) {
