@@ -9,7 +9,7 @@ function payWall(){
             var data = xhrpw.responseText;
             var dataObj = JSON.parse(data); 
             if (dataObj.paywall === 1) {
-                console.log('get paywall1:'+data);
+                console.log('get paywall:'+data);
                 updateLockClass();
             }
         } else {
@@ -22,15 +22,13 @@ function payWall(){
 
 var userId1 = GetCookie('USER_ID') || GetCookie('uniqueVisitorId');
 if (userId1 !== null) {
-  payWall();   
-  for (var i = 0; i < 5; i++) {
-    setTimeout((function(i){
-        return function(){
-            payWall();
-            console.log(i);
-        };
-    })(i), 3000);
-   }
+    payWall();   
+    var interval = setInterval(function(){
+      payWall();
+    },3000);
+    setTimeout(function( ) {
+       clearInterval(interval); 
+    }, 15000); 
 }
 
 
