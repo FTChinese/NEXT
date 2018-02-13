@@ -1075,7 +1075,7 @@
 								<%assign var="itemDataId" value=$item.customLink%>
 							<%/if%>
 							<%assign var="itemDataType" value=$itemType%>
-							<%if $smarty.get.try == "yes" && $i>2%>
+							<%if $smarty.get.try == "yes" && ($i>2 || ($l>0 && $i>0))%>
 								<%assign var="itemDataType" value="TryBook"%>
 								<%assign var="lockClass" value="locked"%>
 							<%/if%>
