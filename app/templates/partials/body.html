@@ -23,6 +23,9 @@
             <%assign var="bannerCount" value=$bannerCount+1%>
         <%/if%>
     <%elseif $section.type == "block" && $b < $maxB%>
+        <%if $b == 0 && ($smarty.get.subscription == "member" || $smarty.get.subscription == "premium")%>
+            <%include file="next/partials/subscriptions.html"%>        
+        <%/if%>
         <%include file="next/partials/block.html"%>
         <%assign var="b" value=$b+1%>
         <%if $section.side != "" && $section.side != "none"%>

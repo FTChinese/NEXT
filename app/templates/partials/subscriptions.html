@@ -1,0 +1,71 @@
+<%assign var="reports" value=$storymodel->getPremiumStory(0, 4)%>
+<div class="block-container no-side">
+    <div class="block-inner">
+        <div class="content-container">
+            <div class="content-inner">
+                <div class="list-container">
+                    <div class="list-inner">
+                        <h2 class="list-title"><a class="list-link" href="/channel/exclusive.html">我的订阅</a></h2>
+                        <div class="items">
+							<%assign var="i" value=0%>
+							<%foreach from=$reports item="report"%>
+								<%assign var="itemTopClass" value=""%>
+								<%assign var="itemTop" value=""%>
+								<%if $i%4 === 0%>
+									<%assign var="itemTopClass" value="XLT"%>
+								<%/if%>
+								<%if $i%2 === 0%>
+									<%assign var="itemTopClass" value="`$itemTopClass` ST"%>
+								<%/if%>
+								<%assign var="itemTopClass" value="`$itemTopClass` PT"%>
+								<%assign var="XL" value="XL3"%>
+								<%assign var="L" value="L3"%>
+								<%assign var="M" value="M3"%>
+								<%assign var="S" value="S6"%>
+								<%assign var="P" value="P12"%>
+								<%assign var="itemClass" value="`$XL` `$L` `$M` `$S` `$P`"%>
+								<%if $itemTopClass != ""%>
+									<%assign var="itemTop" value="<div class=\"`$itemTopClass`\"></div>"%>
+								<%/if%>
+								<%if $i === 0%>
+									<%assign var="itemTop" value=""%>
+								<%/if%>
+
+								<%if preg_match("/\//is",$report.cshortleadbody)%>
+									<%assign var="specialLink" value=$report.cshortleadbody%>
+								<%else%>
+									<%assign var="specialLink" value="/tag/`$report.cshortleadbody`"%>
+								<%/if%>
+
+								<%assign var="itemTag" value=""%>
+								<%assign var="itemMainTag" value=""%>
+								<%assign var="tagCanFollow" value="yes"%>
+								<%assign var="itemTagsString" value=$report.tag|default:$report.tags|default:$report.tagname%>
+								<%assign var="itemTagsString" value=$itemTagsString|replace:" ":","%>
+								<%assign var="itemTags" value=","|explode:$itemTagsString%>
+								<%assign var="itemTag" value=$itemTags[0]%>
+								<%assign var="itemMainTag" value=$itemTags[0]%>
+								
+								<%$itemTop%>
+								<div class="item-container item-container-app <%$itemClass%>" data-type="premium" data-id="<%$report.id%>">
+								    <div class="item-inner">
+								    	<div class="item-tag"><a href="/tag/<%$itemMainTag%>"><%$itemMainTag%></a></div>
+								        <a class="image"><figure class="loading" data-url="<%$report.story_pic.cover|default:$report.story_pic.smallbutton|default:$report.story_pic.other%>"></figure></a>
+								        <h2 class="item-headline"><a class="item-headline-link unlocked" target=_blank><%$report.cheadline%></a></h2>
+								        <div class="item-lead"><%$report.clongleadbody|default:$report.cshortleadbody%></div>
+								    </div>
+								</div>
+								<%assign var="i" value=$i+1%>
+							<%/foreach%>
+                            <div class="clearfloat"></div>
+                        </div>
+                        <h2 class="list-title"><a class="list-link">今日焦点</a></h2>
+                    </div>
+                </div>
+                <div class="clearfloat block-bottom"></div>
+            </div>
+        </div>
+        <div class="clearfloat"></div>
+    </div>
+</div>
+<%assign var="i" value=0%>
