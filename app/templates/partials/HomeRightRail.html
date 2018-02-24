@@ -86,6 +86,15 @@
 		
 
 		<%if $smarty.get.ad != "no" && $noAd != "true"%>
+			<%if $smarty.get.testDB == "yes"%>
+				<script>
+					document.write(displayDBAd({
+						devices:['PC','PadWeb', 'PadApp'],
+						adName:'PC-MPU-Right1',
+						container:'mpu'
+					}));
+				</script>
+			<%else%>
 				<script type="text/javascript">
 					document.write (writeAdNew({
 						devices: ['PC', 'PadWeb', 'PadApp'],
@@ -93,6 +102,7 @@
 						position:'Right1'
 					}));
 				</script>
+			<%/if%>
 		<%/if%>
 
 		<div class="interactives">
@@ -163,15 +173,14 @@
 		</div>
 
 		<%if $smarty.get.ad != "no" && $noAd != "true"%>
-			<%if  date("Ymd",$smarty.now) >= 20171223 &&  date("Ymd",$smarty.now) <= 20171224 %>
-				<div class="mpu-container">
-					<!-- /80682004/DC_100010000412 -->
-					<div id='div-gpt-ad-1513839240621-0' style='height:250px; width:300px;'>
-					<script>
-					googletag.cmd.push(function() { googletag.display('div-gpt-ad-1513839240621-0'); });
-					</script>
-					</div>
-				</div>
+			<%if $smarty.get.testDB == "yes"%>
+			<script>
+					document.write(displayDBAd({
+						devices:['PC','PadWeb', 'PadApp'],
+						adName:'PC-MPU-Right2',
+						container:'mpu'
+					}));
+				</script>
 			<%else%>
 				<script type="text/javascript">
 				document.write (writeAdNew({
@@ -312,13 +321,23 @@
 		<div class="P-hide" style="padding-top: 15px;"></div>
 
 		<%if $smarty.get.ad != "no" && $noAd != "true"%>
-			<script type="text/javascript">
-				document.write (writeAdNew({
-					devices: ['PC', 'PadWeb','PadApp'],
-					pattern:'MPU',
-					position:'Right1'
-				}));
-			</script>
+			<%if $smarty.get.testDB == "yes"%>
+				<script>
+					document.write(displayDBAd({
+						devices:['PC','PadWeb', 'PadApp'],
+						adName:'PC-MPU-Right1',
+						container:'mpu'
+					}));
+				</script>
+			<%else%>
+				<script type="text/javascript">
+					document.write (writeAdNew({
+						devices: ['PC', 'PadWeb', 'PadApp'],
+						pattern:'MPU',
+						position:'Right1'
+					}));
+				</script>
+			<%/if%>
 		<%/if%>
 
 		<div id="iap-ebooks"></div>
@@ -463,13 +482,23 @@
 
 
 		<%if $smarty.get.ad != "no" && $noAd != "true"%>
-			<script type="text/javascript">
+			<%if $smarty.get.testDB == "yes"%>
+			<script>
+					document.write(displayDBAd({
+						devices:['PC','PadWeb', 'PadApp'],
+						adName:'PC-MPU-Right2',
+						container:'mpu'
+					}));
+				</script>
+			<%else%>
+				<script type="text/javascript">
 				document.write (writeAdNew({
-					devices: ['PC', 'PadWeb','PadApp'],
-					pattern:'MPU',
-					position:'Right2'
+				devices: ['PC', 'PadWeb', 'PadApp'],
+				pattern:'MPU',
+				position:'Right2'
 				}));
-			</script>
+				</script>
+			<%/if%>
 		<%/if%>
 
 
