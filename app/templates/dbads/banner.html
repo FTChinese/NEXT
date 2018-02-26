@@ -25,10 +25,16 @@
         </div>
     <%else%>
         <%assign var="testDB" value=$smarty.get.testDB %>
+        <%if date("Ymd",$smarty.now) <= 20180316 %>
+            <%assign var="nowDB" value="yes" %>
+        <%else%>
+            <%assign var="nowDB" value="" %> 
+        <%/if%>
         <%if $section.image == ""%>  
             <script>
                 var bannerCount = '<%$bannerCount%>';
                 var testDB = '<%$testDB%>';
+                var nowDB = '<%$nowDB%>';
                 if(bannerCount == 0) {
                     if (testDB == 'yes') {
                         document.write(displayDBAd({
@@ -65,7 +71,7 @@
                     }
 
                 } else if (bannerCount == 1) {
-                    if (testDB == 'yes') {
+                    if (nowDB == 'yes' && adChannelId !='1000') {
                         document.write(displayDBAd({
                             devices:['PC'],
                             adName:'PC-Banner-Num1',
