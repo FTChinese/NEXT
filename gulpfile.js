@@ -340,7 +340,7 @@ gulp.task('copy:time', () => {
 gulp.task('copy:tpl', () => {
   const dest = 'dev_www/frontend/tpl/next';
 
-  return gulp.src(['app/templates/partials*/**/*', 'app/templates/html*/**/*'])
+  return gulp.src(['app/templates/partials*/**/*', 'app/templates/html*/**/*','app/templates/dbads*/**/*'])
     .on('error', (err) => {
       console.error(err.stack);
     })
@@ -416,7 +416,7 @@ gulp.task('copytest:time', () => {
 gulp.task('copytest:tpl', () => {
   const dest = 'dev_www/frontend/tpl/next';
 
-  return gulp.src(['app/templates/partials*/**/*', 'app/templates/html*/**/*'])
+  return gulp.src(['app/templates/partials*/**/*', 'app/templates/html*/**/*','app/templates/dbads*/**/*'])
     .on('error', (err) => {
       console.error(err.stack);
     })

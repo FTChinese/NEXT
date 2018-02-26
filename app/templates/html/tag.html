@@ -158,6 +158,8 @@
         </script>
     <![endif]-->
     <%include file="next/partials/head.html"%>
+    <%include file="next/dbads/dbad-head-tag.html"%>
+
   </head>
   <%assign var="bannerCount" value=0%>
   <body class="<%$hideDate%>">
@@ -169,7 +171,8 @@
     <%include file="next/partials/tag-header.html"%>
     <%include file="next/partials/nav.html"%>
     <%if $pageTheme != "luxury"%>
-        <%include file="next/partials/banner-new.html"%>
+        <%*<%include file="next/partials/banner-new.html"%>*%>
+        <%include file="next/dbads/banner.html"%>
         <%assign var="bannerCount" value=$bannerCount+1%>
     <%/if%>
     
@@ -207,8 +210,10 @@
         window.adChannelId = adchID;
     </script>
 
-    <%include file="next/partials/banner-new.html"%>
+    <%*<%include file="next/partials/banner-new.html"%>*%>
+    <%include file="next/dbads/banner.html"%>
     <%assign var="bannerCount" value=$bannerCount+1%>
+
     <%if $pageId=="setting"%>
     <%include file="next/partials/setting-block.html"%>
     <%elseif $pageId!=""%>

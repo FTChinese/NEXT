@@ -1,5 +1,6 @@
 <%math assign="cutdate" equation="x-y" x=$smarty.now y=86400%>
 <%assign var="reports" value=$storymodel->getPremiumStory(0, 4)%>
+<!--<%*$reports|var_dump*%>-->
 <div class="block-container no-side">
     <div class="block-inner">
         <div class="content-container">
@@ -46,10 +47,17 @@
 								<%assign var="itemTags" value=","|explode:$itemTagsString%>
 								<%assign var="itemTag" value=$itemTags[0]%>
 								<%assign var="itemMainTag" value=$itemTags[0]%>
-								
-								<%*<!--if $report.pubdate>=$cutdate-->*%>
+
+
+								<%if $report.ftid != ""%>
+									<%assign var="eaudioData" value=" data-eaudio=\"https://s3-us-west-2.amazonaws.com/ftlabs-audio-rss-bucket.prod/`$ftid`.mp3\""%>
+								<%else%>
+									<%assign var="eaudioData" value=""%>
+								<%/if%>
+
+
 								<%$itemTop%>
-								<div class="item-container item-container-app <%$itemClass%>" data-type="premium" data-id="<%$report.id%>">
+								<div class="item-container item-container-app <%$itemClass%>" data-type="premium" data-id="<%$report.id%>"<%$eaudioData%>>
 								    <div class="item-inner">
 								    	<div class="item-tag"><a href="/tag/<%$itemMainTag%>"><%$itemMainTag%></a></div>
 								        <a class="image"><figure class="loading" data-url="<%$report.story_pic.cover|default:$report.story_pic.smallbutton|default:$report.story_pic.other%>"></figure></a>

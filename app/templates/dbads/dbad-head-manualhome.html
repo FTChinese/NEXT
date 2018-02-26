@@ -1,0 +1,140 @@
+<!-- DB Ad -->
+<!-- Prepare for device and channel-->
+<script>
+  var deviceType = getDeviceType();
+  var deviceId = adDevices[deviceType].id;
+  var adChannelId = getAdChannelId();
+  function getDeviceType() {
+      /**
+       * @dependGlob uaString
+       * @dependGlob searchVars
+       * @dest: determin device type
+       */
+      var deviceType = 'PC';
+  
+      if (/iPad/i.test(uaString)) {
+      deviceType = 'PadWeb';
+      if(searchVars.webview && searchVars.webview === 'ftcapp') {
+          deviceType = 'PadApp';
+      }
+      } else if (/OS [0-9]+\_/i.test(uaString) && (/iPhone/i.test(uaString) || /iPod/i.test(uaString))) {
+      deviceType = 'iPhoneWeb';
+      if(searchVars.webview && searchVars.webview === 'ftcapp') {
+          deviceType = 'iPhoneApp';
+      }
+      } else if (/Android|micromessenger/i.test(uaString) || w1 <= 490) {
+      deviceType = 'AndroidWeb';
+      }
+      return deviceType;
+  }
+  
+  function getAdChannelId() {
+      /**
+       * @dependGlob adchID
+       * @dependGlob FTadchannelID
+       * @dependGlob deviceType
+       */
+      var adch = adchID; //TODO:集中channel号码的获取方式，不要head.html等等都有
+      var adchURL = window.location.href.replace(/^.*adchannelID=([0-9]{4}).*$/g,'$1');
+      if (/^[0-9]{4}$/.test(adchURL)) { //MARK:如果是从url可以得到4位频道号
+      adch = adchURL;
+      } else if (typeof(window.FTadchannelID)!=='undefined' && window.FTadchannelID ) { //MARK:否则看一下全局变量FTadchannelID是否存在
+      console.log(window.FTadchannelID);
+      adch = window.FTadchannelID;
+      } 
+      //MARK:Mobile情况下的频道要抹去二级频道（一级频道为50的除外）
+      //MARK：1902的移动端卖了广告，所以1902也要除去————移动端子频道分开卖广告是趋势
+      var mobileDeviceTypeArr = ['iPhoneApp','iPhoneWeb','AndroidApp','AndroidWeb','PadApp','PadWeb'];
+      if (adch && mobileDeviceTypeArr.indexOf(deviceType) >= 0 && adch.substring(0,2)!== '50' && adch.substring(2,4)!=='00' && adch !== '1902') {
+      adch = adch.substring(0,2) + '00';
+      }
+      var adChannelId = adch||'1000';
+      return adChannelId;
+  }
+  
+  function displayDBAd(obj) {
+      /**
+       * @param obj
+       * @param obj.devices: TYPE Array, the devices are allowed to show this ad, Eg:['PC','PadWeb','iPhoneWeb','AndroidWeb']
+       * @param obj.adName: 'Leaderboard-Num1'
+       * @param obj.container: TYPE String, the container specified for the ad position in a certain page. It could be 'banner','mpu','mpuInStory'
+       * 
+       * @dependglob deviceType: string , one of 'PC','iPhoneApp','iPhoneWeb','AndroidApp','AndroidWeb','PadApp','PadWeb', the current real deviceType
+       * @dependglob deviceId
+       * @dependglob adChannelId
+       */
+  
+      // MARK: If device does not fit, return immediately
+      if (obj.devices.indexOf(deviceType) < 0) {
+      return '';
+      }
+      var adName = obj.adName;
+      var adCode = ' <div id="'+ adName +'"><scr'+'ipt>googletag.cmd.push(function() { googletag.display("'+ adName +'")})</scr'+'ipt></div>';
+  
+      var container = obj.container;
+      if (container === 'mpu') {
+      adCode = '<div class="mpu-container">' + adCode + '</div>';
+      } else if (container === 'mpuInStroy') {
+      adCode = '<div class="mpu-container-instory">' + adCode + '</div>';
+      } else {
+      adCode = '<div class="bn-ph"><div class="banner-container"><div class="banner-inner"><div class="banner-content">' + adCode + '</div></div></div></div>';
+      }
+      return adCode;
+  }
+  </script>
+  <script async='async' src='https://www.googletagservices.com/tag/js/gpt.js'></script>
+  <script>
+    var googletag = googletag || {};
+    googletag.cmd = googletag.cmd || [];
+  </script>
+  
+  <script>
+      
+      googletag.cmd.push(function() {
+        var gptadslots = [];
+        /*
+        gptadslots.push(
+          googletag.defineSlot('/80682004/PC-1000/1000'+adChannelId+'0201', [[969, 90], [1200, 120], [1200, 500], 'fluid', [969, 250], [1200, 400], [969, 400]], 'PC-Leaderboard-Num1').addService(googletag.pubads())
+        );
+        
+        gptadslots.push(  
+          googletag.defineSlot('/80682004/PC-1000/1000'+ adChannelId +'0301', [[969, 90], [1200, 120]], 'PC-Banner-Num1').addService(googletag.pubads())
+        );
+        
+        gptadslots.push( 
+          googletag.defineSlot('/80682004/PC-1000/1000'+adChannelId+'0302', [[969, 90], [1200, 120]], 'PC-Banner-Num2').addService(googletag.pubads())
+        );
+        
+        gptadslots.push(
+          googletag.defineSlot('/80682004/PC-1000/1000'+adChannelId+'0303', [[969, 90], [1200, 120]], 'PC-Banner-Num3').addService(googletag.pubads())
+        );
+  
+        gptadslots.push(
+          googletag.defineSlot('/80682004/PC-1000/1000'+adChannelId+'0411', [[300, 250], [300, 1050], [300, 600], 'fluid', [810, 600]], 'PC-MPU-Right1').addService(googletag.pubads())
+        );
+      
+        gptadslots.push(
+          googletag.defineSlot('/80682004/PC-1000/1000'+adChannelId+'0412', [[300, 250], [300, 1050], [300, 600], 'fluid', [810, 600]], 'PC-MPU-Right2').addService(googletag.pubads())
+        );
+        */
+        gptadslots.push(
+          googletag.defineSlot('/80682004/PC-1000/1000'+adChannelId+'0421', [[300, 250], [300, 1050], [300, 600], 'fluid', [810, 600]], 'PC-MPU-Middle1').addService(googletag.pubads())
+        );
+        
+       
+        googletag.pubads().enableSingleRequest();
+        googletag.pubads().disableInitialLoad();
+        googletag.enableServices();
+        googletag.pubads().refresh(gptadslots);
+      });
+      
+      /*
+      googletag.cmd.push(function() {
+          googletag.defineSlot('/80682004/iPhoneApp-2000/200010000301', [[414, 104], [375, 94]], 'div-gpt-ad-1518143807221-0').addService(googletag.pubads());
+          googletag.pubads().enableSingleRequest();
+          googletag.enableServices();
+      });
+      */
+  </script>
+  
+  <!-- End Doubleclick Head -->

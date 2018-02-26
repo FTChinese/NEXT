@@ -1,0 +1,154 @@
+<%if $smarty.get.utm_campaign == "2M161000" || preg_match("/2U16[0-9]+/is",$smarty.get.utm_campaign)%>
+  <%assign var="hideBanner" value="yes"%>
+<%/if%>
+
+<%if $smarty.get.ad != "no" && $noAd != "true" && $hideBanner != "yes"%>
+
+    <%if $section.url && $section.url != ""%>
+        <%assign var="sectionLink" value=" href=\"`$section.url`\" target=_blank"%>
+    <%else%>
+        <%assign var="sectionLink" value=""%>
+    <%/if%>
+    
+    <%if $section.image && $section.image != "" && $section.fit != ""%>
+        <%assign var="figureClass" value=" `$section.fit`"%>
+    <%else%>
+        <%assign var="figureClass" value=""%>
+    <%/if%>
+
+    <%assign var="image1" value=$section.image|default:$section.highImpactImage%>
+    <%assign var="image2" value=$section.highImpactImage|default:$section.image%>
+
+    <%if $section.image && $section.image != "" && $section.fit == ""%>
+        <div class="block-image-container">
+            <a<%$sectionLink%>><img src="<%$section.image%>"></a>
+        </div>
+    <%else%>
+        <%assign var="testDB" value=$smarty.get.testDB %>
+        <%if date("Ymd",$smarty.now) <= 20180316 %>
+            <%assign var="nowDB" value="yes" %>
+        <%else%>
+            <%assign var="nowDB" value="" %> 
+        <%/if%>
+        <%if $section.image == ""%>  
+            <script>
+                var bannerCount = '<%$bannerCount%>';
+                var testDB = '<%$testDB%>';
+                var nowDB = '<%$nowDB%>';
+                if(bannerCount == 0) {
+                    if (testDB == 'yes') {
+                        document.write(displayDBAd({
+                            devices:['PC'],
+                            adName:'PC-Leaderboard-Num1',
+                            container:'banner'
+                        }));
+                        /*
+                        document.write(displayDBAd({
+                            devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
+                            adName:'Mobile-Banner-Num1',
+                            container:'banner'
+                        }));
+                        */
+                        var adChannelId = getAdChannelId();
+                        if (adChannelId!= '5048') {
+                            document.write(writeAdNew({
+                                devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
+                                pattern:'Banner',
+                                position:'Num2'
+                            }));
+                        }
+                    } else {
+                        document.write(writeAdNew({
+                            devices: ['PC'],
+                            pattern:'Leaderboard',
+                            position:'Num1'
+                        }));
+                        document.write(writeAdNew({
+                            devices: ['iPhoneWeb', 'AndroidWeb','iPhoneApp','AndroidApp'],
+                            pattern:'Banner',
+                            position:'Num1'
+                        }));
+                    }
+
+                } else if (bannerCount == 1) {
+                    if (nowDB == 'yes' && adChannelId !='1000') {
+                        document.write(displayDBAd({
+                            devices:['PC'],
+                            adName:'PC-Banner-Num1',
+                            container:'banner'
+                        }));
+                        /*
+                        document.write(displayDBAd({
+                            devices:['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
+                            adName:'Mobile-Banner-Num2',
+                            container:'banner'
+                        }));
+                        */
+                        var adChannelId = getAdChannelId();
+                        if (adChannelId!= '5048') {
+                            document.write(writeAdNew({
+                                devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
+                                pattern:'Banner',
+                                position:'Num2'
+                            }));
+                        }
+                    } else {
+                        document.write(writeAdNew({
+                            devices: ['PC'],
+                            pattern:'Banner',
+                            position:'Num1'
+                        }));
+                        var adChannelId = getAdChannelId();
+                        if (adChannelId!= '5048') {
+                            document.write(writeAdNew({
+                                devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
+                                pattern:'Banner',
+                                position:'Num2'
+                            }));
+                        }
+                    }
+
+                } else if (bannerCount == 2) {
+                    if (testDB == 'yes') {
+                        document.write(displayDBAd({
+                            devices:['PC'],
+                            adName:'PC-Banner-Num2',
+                            container:'banner'
+                        }));
+                    } else {
+                        document.write(writeAdNew({
+                            devices: ['PC'],
+                            pattern:'Banner',
+                            position:'Num2'
+                        }));
+                    }
+                } else if (bannerCount == 3) {
+                    if (testDB == 'yes') {
+                        document.write(displayDBAd({
+                            devices:['PC'],
+                            adName:'PC-Banner-Num3',
+                            container:'banner'
+                        }));
+                    } else {
+                        document.write(writeAdNew({
+                            devices: ['PC'],
+                            pattern:'Banner',
+                            position:'Num3'
+                        }));
+                    }
+                }
+            </script>
+        <%else%>
+            <div class="bn-ph<%$figureClass%>">
+            <div class="banner-container">
+            <div class="banner-inner">
+            <div class="banner-content">
+              <a<%$sectionLink%> class="P-hide"><figure class="loading" data-url="<%$image1%>"></figure></a>
+              <a<%$sectionLink%> class="P-only"><figure class="loading" data-url="<%$image2%>"></figure></a>
+            </div>
+            </div>
+            </div>
+            </div>
+        <%/if%>
+    <%/if%>
+<%/if%>

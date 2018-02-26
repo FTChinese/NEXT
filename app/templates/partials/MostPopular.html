@@ -19,12 +19,22 @@
 		</ul>
 	</div>
 	<%if $smarty.get.ad != "no" && $noAd != "true"%>
-		<script type="text/javascript">
-			document.write (writeAdNew({
-					devices: ['PC'],
-					pattern:'MPU',
-					position:'Middle1'
-			}));
-		</script>
+		<%if date("Ymd",$smarty.now) <= 20180316 %>
+			<script>
+				document.write(displayDBAd({
+					devices:['PC'],
+					adName:'PC-MPU-Middle1',
+					container:'mpu'
+				}));
+			</script>
+		<%else%>
+			<script type="text/javascript">
+				document.write (writeAdNew({
+						devices: ['PC'],
+						pattern:'MPU',
+						position:'Middle1'
+				}));
+			</script>
+		<%/if%>
   <%/if%>
 </div></div>
