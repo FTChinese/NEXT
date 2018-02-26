@@ -24,43 +24,112 @@
             <a<%$sectionLink%>><img src="<%$section.image%>"></a>
         </div>
     <%else%>
+        <%assign var="testDB" value=$smarty.get.testDB %>
         <%if $section.image == ""%>  
             <script>
                 var bannerCount = '<%$bannerCount%>';
+                var testDB = '<%$testDB%>';
                 if(bannerCount == 0) {
-                    document.write(displayDBAd({
-                        devices:['PC'],
-                        adName:'PC-Leaderboard-Num1',
-                        container:'banner'
-                    }));
-                    document.write(displayDBAd({
-                        devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
-                        adName:'Mobile-Banner-Num1',
-                        container:'banner'
-                    }));
+                    if (testDB == 'yes') {
+                        document.write(displayDBAd({
+                            devices:['PC'],
+                            adName:'PC-Leaderboard-Num1',
+                            container:'banner'
+                        }));
+                        /*
+                        document.write(displayDBAd({
+                            devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
+                            adName:'Mobile-Banner-Num1',
+                            container:'banner'
+                        }));
+                        */
+                        var adChannelId = getAdChannelId();
+                        if (adChannelId!= '5048') {
+                            document.write(writeAdNew({
+                                devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
+                                pattern:'Banner',
+                                position:'Num2'
+                            }));
+                        }
+                    } else {
+                        document.write(writeAdNew({
+                            devices: ['PC'],
+                            pattern:'Leaderboard',
+                            position:'Num1'
+                        }));
+                        document.write(writeAdNew({
+                            devices: ['iPhoneWeb', 'AndroidWeb','iPhoneApp','AndroidApp'],
+                            pattern:'Banner',
+                            position:'Num1'
+                        }));
+                    }
+
                 } else if (bannerCount == 1) {
-                    document.write(displayDBAd({
-                        devices:['PC'],
-                        adName:'PC-Banner-Num1',
-                        container:'banner'
-                    }));
-                    document.write(displayDBAd({
-                        devices:['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
-                        adName:'Mobile-Banner-Num2',
-                        container:'banner'
-                    }));
+                    if (testDB == 'yes') {
+                        document.write(displayDBAd({
+                            devices:['PC'],
+                            adName:'PC-Banner-Num1',
+                            container:'banner'
+                        }));
+                        /*
+                        document.write(displayDBAd({
+                            devices:['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
+                            adName:'Mobile-Banner-Num2',
+                            container:'banner'
+                        }));
+                        */
+                        var adChannelId = getAdChannelId();
+                        if (adChannelId!= '5048') {
+                            document.write(writeAdNew({
+                                devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
+                                pattern:'Banner',
+                                position:'Num2'
+                            }));
+                        }
+                    } else {
+                        document.write(writeAdNew({
+                            devices: ['PC'],
+                            pattern:'Banner',
+                            position:'Num1'
+                        }));
+                        var adChannelId = getAdChannelId();
+                        if (adChannelId!= '5048') {
+                            document.write(writeAdNew({
+                                devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
+                                pattern:'Banner',
+                                position:'Num2'
+                            }));
+                        }
+                    }
+
                 } else if (bannerCount == 2) {
-                    document.write(displayDBAd({
-                        devices:['PC'],
-                        adName:'PC-Banner-Num2',
-                        container:'banner'
-                    }));
+                    if (testDB == 'yes') {
+                        document.write(displayDBAd({
+                            devices:['PC'],
+                            adName:'PC-Banner-Num2',
+                            container:'banner'
+                        }));
+                    } else {
+                        document.write(writeAdNew({
+                            devices: ['PC'],
+                            pattern:'Banner',
+                            position:'Num2'
+                        }));
+                    }
                 } else if (bannerCount == 3) {
-                    document.write(displayDBAd({
-                        devices:['PC'],
-                        adName:'PC-Banner-Num3',
-                        container:'banner'
-                    }));
+                    if (testDB == 'yes') {
+                        document.write(displayDBAd({
+                            devices:['PC'],
+                            adName:'PC-Banner-Num3',
+                            container:'banner'
+                        }));
+                    } else {
+                        document.write(writeAdNew({
+                            devices: ['PC'],
+                            pattern:'Banner',
+                            position:'Num3'
+                        }));
+                    }
                 }
             </script>
         <%else%>
