@@ -1,3 +1,4 @@
+<%math assign="cutdate" equation="x-y" x=$smarty.now y=86400%>
 <%assign var="reports" value=$storymodel->getPremiumStory(0, 4)%>
 <div class="block-container no-side">
     <div class="block-inner">
@@ -46,6 +47,7 @@
 								<%assign var="itemTag" value=$itemTags[0]%>
 								<%assign var="itemMainTag" value=$itemTags[0]%>
 								
+								<%*<!--if $report.pubdate>=$cutdate-->*%>
 								<%$itemTop%>
 								<div class="item-container item-container-app <%$itemClass%>" data-type="premium" data-id="<%$report.id%>">
 								    <div class="item-inner">
@@ -55,6 +57,7 @@
 								        <div class="item-lead"><%$report.clongleadbody|default:$report.cshortleadbody%></div>
 								    </div>
 								</div>
+								<%*<!--/if-->*%>
 								<%assign var="i" value=$i+1%>
 							<%/foreach%>
                             <div class="clearfloat"></div>

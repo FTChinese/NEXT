@@ -656,7 +656,7 @@ function validHTMLCode() {
         validateFail = true;
       }
     } else if (window.gPageId === 'story') {
-      if (document.querySelectorAll('.story-body').length === 0) {
+      if (document.querySelectorAll('.story-body, .subscribe-lock-container').length === 0) {
         validateFail = true;
       }
     } else if (typeof window.gPageId === 'string'){

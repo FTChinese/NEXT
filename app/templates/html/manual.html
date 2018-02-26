@@ -11,7 +11,7 @@
     <%/if%>
 <%/if%>
 
-<%if $smarty.get.webview == "ftcapp" && $showExclusiveContent == "yes"%>
+<%if $smarty.get.webview == "ftcapp" && $showExclusiveContent == "yes" && $smarty.get.subscription !== "member" && $smarty.get.subscription !== "premium"%>
     <%assign var="p" value=$nextmodel->getPublishJsonWithPremium($pageId)|json_decode:true%>
 <%else%>
     <%assign var="p" value=$nextmodel->getPublishJson($pageId)|json_decode:true%>
