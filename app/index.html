@@ -268,6 +268,8 @@ function displayDBAd(obj) {
 <script>
     
     googletag.cmd.push(function() {
+        var mapping = googletag.sizeMapping().
+        addSize([0,0],[[375,94],[414,104]]);
       var gptadslots = [];
       /*
       gptadslots[0] = googletag.defineSlot('/80682004/PC-1000/100010000201', [[969, 90], [1200, 120], [1200, 500], 'fluid', [969, 250], [1200, 400], [969, 400]], 'PC-Leaderboard-Num1').addService(googletag.pubads());
@@ -286,7 +288,9 @@ function displayDBAd(obj) {
       gptadslots[6] = googletag.defineSlot('/80682004/PC-1000/100010000421', [[300, 250], [300, 1050], [300, 600], 'fluid', [810, 600]], 'PC-MPU-Middle1').addService(googletag.pubads());
     */
      
-      gptadslots[0] =  googletag.defineSlot('/80682004/iPhoneWeb-3000/300010000301', [[414, 104], [375, 94]], 'Mobile-Banner-Num1').addService(googletag.pubads());
+      gptadslots[0] =  googletag.defineSlot('/80682004/iPhoneWeb-3000/300010000301', [[414, 104], [375, 94]], 'Mobile-Banner-Num1').
+        defineSizeMapping(mapping).
+        addService(googletag.pubads());
     
      // gptadslots[8] =  googletag.defineSlot('/80682004/iPhoneApp-2000/200010000302', [[414, 104], [375, 94]], 'Mobile-Banner-Num2').addService(googletag.pubads());
       //gptadslots[7] = googletag.defineSlot('/80682004/iPhoneApp-2000/200010000302', [840, 210], 'Mobile-Banner-Num2').addService(googletag.pubads());
