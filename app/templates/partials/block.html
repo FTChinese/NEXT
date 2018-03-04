@@ -26,6 +26,15 @@
 	<%if $section.title != ""%>
 		<div class="block-title"><%$section.title%></div>
 	<%/if%>
+	<%if $section.description != ""%>
+		<div class="items">
+			<div class="no-image">
+				<div class="item-inner">
+					<div class="item-lead"><%$section.description%></div>
+				</div>
+			</div>
+		</div>
+	<%/if%>
 	<%assign var="l" value=0%>
 	<%assign var="listLength" value=$section.lists|@count%>
 

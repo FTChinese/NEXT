@@ -167,13 +167,33 @@
 
     <%if $smarty.get.webview != "ftcapp" && preg_match("/高端视点/",$PageTitle) %>
         <script>
-        var trackImp = 'http://bsch.serving-sys.com/serving/adServer.bs?cn=display&c=19&mc=imp&pli=23613552&PluID=0&ord=__TIME__&rtu=-1&mb=1';
+            <%if date("Ymd",$smarty.now) >= 20180302 %>
+                var trackImp = 'http://bsch.serving-sys.com/serving/adServer.bs?cn=display&c=19&mc=imp&pli=23613562&PluID=0&ord=__TIME__&rtu=-1&mb=1';
+            <%else%>
+                var trackImp = 'http://bsch.serving-sys.com/serving/adServer.bs?cn=display&c=19&mc=imp&pli=23613552&PluID=0&ord=__TIME__&rtu=-1&mb=1';
+            <%/if%>
+       
+        
+            var trackVideoImpression = new Image();
+            trackVideoImpression.onload = function() {
+                window.ga('send', 'event', 'testvideo impression', 'Success', trackImp, {'nonInteraction': 1});
+            }
+            trackVideoImpression.onerror = function() {
+                window.ga('send', 'event', 'testvideo impression', 'Fail', trackImp, {'nonInteraction': 1});
+            }
+            trackVideoImpression.src = trackImp;
+        </script>
+    <%/if%>
+
+    <%if $smarty.get.webview != "ftcapp" && preg_match("/有色眼镜/",$PageTitle) %>
+        <script>
+        var trackImp = 'http://bsch.serving-sys.com/serving/adServer.bs?cn=display&c=19&mc=imp&pli=23613562&PluID=0&ord=__TIME__&rtu=-1&mb=1';
         var trackVideoImpression = new Image();
         trackVideoImpression.onload = function() {
-            window.ga('send', 'event', 'testvideo impression', 'Success', trackImp, {'nonInteraction': 1});
+            window.ga('send', 'event', 'testvideoMarch impression', 'Success', trackImp, {'nonInteraction': 1});
         }
         trackVideoImpression.onerror = function() {
-            window.ga('send', 'event', 'testvideo impression', 'Fail', trackImp, {'nonInteraction': 1});
+            window.ga('send', 'event', 'testvideoMarch impression', 'Fail', trackImp, {'nonInteraction': 1});
         }
         trackVideoImpression.src = trackImp;
         </script>

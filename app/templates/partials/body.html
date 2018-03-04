@@ -17,11 +17,8 @@
         <%/if%>
         <%include file="next/partials/nav.html"%>
     <%elseif $section.type == "banner" %>
-        <%if $smarty.get.testDB == "yes"%>
-            <%include file="next/dbads/banner.html"%>
-        <%else%>
-            <%include file="next/partials/banner-new.html"%>
-        <%/if%>
+        <%include file="next/dbads/banner.html"%>
+ 
         <%if $section.image && $section.image == ""%>
         <%else%>
             <%assign var="bannerCount" value=$bannerCount+1%>
