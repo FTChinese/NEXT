@@ -9,12 +9,12 @@ function payWall(){
             var data = xhrpw.responseText;
             var dataObj = JSON.parse(data); 
             if (dataObj.paywall === 1) {
-                console.log('get paywall:'+data);
+                // console.log('get paywall:'+data);
                 updateLockClass();
             }
         } else {
             // updateLockClass();
-            console.log('fail to get paywall');
+            console.log('fail to get pw');
         }
     };
     xhrpw.send(null);
