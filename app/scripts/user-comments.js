@@ -281,7 +281,7 @@ function clickToSubmitComment() {
 
 // MARK: User Login
 function login(fromwhere) {
-    var u, p;
+    var u, p, j;
     if (fromwhere !== undefined) {
         u = document.querySelector('#username'+ fromwhere).value;
         p = document.querySelector('#password'+ fromwhere).value;
@@ -290,48 +290,51 @@ function login(fromwhere) {
         p = document.querySelector('#password').value;
     }
     var statusMsgDivs = document.querySelectorAll('.statusmsg');
-    for (var i=0; i < statusMsgDivs.length; i++) {
-        statusMsgDivs[i].innerHTML = '正在登录中...';
+    for (j=0; j < statusMsgDivs.length; j++) {
+        statusMsgDivs[j].innerHTML = '正在登录中...';
     }
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
+        var j;
         if (this.readyState === 4) {
             if (this.status === 200) {
                 //console.log (this.responseText);
                 var l = JSON.parse(this.responseText);
+                var k;
                 if (l.status && l.status === 'ok') {
-                    for (var i=0; i < statusMsgDivs.length; i++) {
-                        statusMsgDivs[i].innerHTML = '登录成功！';
+                    for (j=0; j < statusMsgDivs.length; j++) {
+                        statusMsgDivs[k].innerHTML = '登录成功！';
                     }
                     var nonLoginEles = document.querySelectorAll('.logincomment, .logincommentc, .nologincomment, .nologincommentc, .logged, .notLogged');
                     for (var i=0; i<nonLoginEles.length; i++) {
                         nonLoginEles[i].style.display = 'none';
                     }
                     var loginEles = document.querySelectorAll('.nick_name,.user_id,.user_Name');
-                    for (var j=0; j<loginEles; j++) {
+                    for (j=0; j<loginEles; j++) {
                         loginEles[j].value = u;
                         loginEles[j].innerHTML = u;
                     }
                     var loginComments = document.querySelectorAll('.logincomment, .logincommentc, .logged');
-                    for (var k=0; k<loginComments.length; k++) {
+                    
+                    for (k=0; k<loginComments.length; k++) {
                         loginComments[k].style.display = 'block';
                     }
                     username = u;
                     if (window.userId === undefined || window.userId === '') {
                         window.userId = GetCookie('USER_ID') || '';
                     }
-                    for (var i=0; i < statusMsgDivs.length; i++) {
-                        statusMsgDivs[i].innerHTML = '';
+                    for (j=0; j < statusMsgDivs.length; j++) {
+                        statusMsgDivs[k].innerHTML = '';
                     }
                     passLoginToNative();
                 } else {
-                    for (var i=0; i < statusMsgDivs.length; i++) {
-                        statusMsgDivs[i].innerHTML = '<div class="highlight">'+ l.msg + '</div>';
+                    for (j=0; j < statusMsgDivs.length; j++) {
+                        statusMsgDivs[k].innerHTML = '<div class="highlight">'+ l.msg + '</div>';
                     }
                 }
             } else { 
-                for (var i=0; i < statusMsgDivs.length; i++) {
-                    statusMsgDivs[i].innerHTML = '<div class="highlight">对不起，网络故障。请过一段时间再重新尝试。</div>';
+                for (j=0; j < statusMsgDivs.length; j++) {
+                    statusMsgDivs[j].innerHTML = '<div class="highlight">对不起，网络故障。请过一段时间再重新尝试。</div>';
                 }
             }
         }
@@ -423,11 +426,12 @@ function logout() {
 
 function checkLogin() {
     var eles = document.querySelectorAll('.logincomment, .nologincomment, .logged, .notLogged');
-    for (var i=0; i<eles.length; i++) {
+    var i;
+    for (i=0; i<eles.length; i++) {
         eles[i].style.display = 'none';
     }
     var statusMsg = document.querySelectorAll('.logged .statusmsg');
-    for (var i=0; i<statusMsg.length; i++) {
+    for (i=0; i<statusMsg.length; i++) {
         statusMsg[i].innerHTML = ''; 
     }
     if (!!username) {
