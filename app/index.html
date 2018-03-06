@@ -269,7 +269,7 @@ function displayDBAd(obj) {
     
     googletag.cmd.push(function() {
         var mapping = googletag.sizeMapping().
-        addSize([0,0],[[375,94],[414,104]]);
+        addSize([0,0],[[320,80],[375,94],[414,104]]).build();
       var gptadslots = [];
       /*
       gptadslots[0] = googletag.defineSlot('/80682004/PC-1000/100010000201', [[969, 90], [1200, 120], [1200, 500], 'fluid', [969, 250], [1200, 400], [969, 400]], 'PC-Leaderboard-Num1').addService(googletag.pubads());
@@ -288,8 +288,8 @@ function displayDBAd(obj) {
       gptadslots[6] = googletag.defineSlot('/80682004/PC-1000/100010000421', [[300, 250], [300, 1050], [300, 600], 'fluid', [810, 600]], 'PC-MPU-Middle1').addService(googletag.pubads());
     */
      
-      gptadslots[0] =  googletag.defineSlot('/80682004/iPhoneWeb-3000/300010000301', [[414, 104], [375, 94]], 'Mobile-Banner-Num1').
-        defineSizeMapping(mapping).
+      gptadslots[0] =  googletag.defineSlot('/80682004/iPhoneWeb-3000/300010000301', [[320,80],[375, 94],[414, 104]], 'Mobile-Banner-Num1').
+        //defineSizeMapping(mapping). //当只有这个广告时，可开启也可不开启
         addService(googletag.pubads());
     
      // gptadslots[8] =  googletag.defineSlot('/80682004/iPhoneApp-2000/200010000302', [[414, 104], [375, 94]], 'Mobile-Banner-Num2').addService(googletag.pubads());
@@ -300,14 +300,7 @@ function displayDBAd(obj) {
       googletag.enableServices();
       googletag.pubads().refresh(gptadslots);
     });
-    
-    /*
-    googletag.cmd.push(function() {
-        googletag.defineSlot('/80682004/iPhoneApp-2000/200010000301', [[414, 104], [375, 94]], 'div-gpt-ad-1518143807221-0').addService(googletag.pubads());
-        googletag.pubads().enableSingleRequest();
-        googletag.enableServices();
-    });
-    */
+
 </script>
 
 <!-- End Doubleclick Head -->
@@ -639,12 +632,13 @@ FT中文网首页
 <!-- DB Ad -->
 
 <script type="text/javascript">
+   /*
     document.write(displayDBAd({
         devices:['PC'],
         adName:'PC-Leaderboard-Num1',
         container:'banner'
     }));
-    
+    */
     document.write(displayDBAd({
         devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
         adName:'Mobile-Banner-Num1',
@@ -912,11 +906,13 @@ FT中文网首页
 -->
 <!-- DB Ad -->
 <script>
+    /*
 document.write(displayDBAd({
     devices:['PC'],
     adName:'PC-MPU-Right1',
     container:'mpu'
 }));
+*/
 </script>
 
 <div class="interactives">
@@ -957,11 +953,13 @@ document.write(displayDBAd({
 </div>
 -->
 <script>
+    /*
     document.write(displayDBAd({
         devices:['PC'],
         adName:'PC-MPU-Right2',
         container:'mpu'
     }))
+    */
 </script>
         
 <div class="vidoes">
@@ -986,6 +984,7 @@ document.write(displayDBAd({
 
 <!-- DB Ad -->
 <script>
+    /*
     document.write(displayDBAd({
         devices:['PC'],
         adName:'PC-Banner-Num1',
@@ -997,6 +996,7 @@ document.write(displayDBAd({
         adName:'Mobile-Banner-Num2',
         container:'banner'
    }));
+   */
 </script>
 <div class="block-container no-side"><div class="block-inner">
 <div class="content-container"><div class="content-inner">
@@ -1103,12 +1103,13 @@ document.write(displayDBAd({
 </div>
 -->
 <script type="text/javascript">
+/*
     document.write(displayDBAd({
         devices:['PC'],
         adName:'PC-Banner-Num2',
         container:'banner'
     }));
-
+*/
 </script>
 <div class="block-container has-side side-left">
 <div class="block-inner">
@@ -1298,11 +1299,13 @@ document.write(displayDBAd({
         position:'Middle1'
    }));
    */
+   /* DB AD
    document.write(displayDBAd({
     devices:['PC'],
     adName:'PC-MPU-Middle1',
     container:'mpu'
-}));
+    
+}));*/
 </script>
 </div></div><div class="clearfloat"></div>
 </div>
@@ -1333,11 +1336,13 @@ document.write(displayDBAd({
 </div>
 -->
 <script type="text/javascript">
+/*
     document.write(displayDBAd({
         devices:['PC'],
         adName:'PC-Banner-Num3',
         container:'banner'
     }));
+*/
 </script>
 <div class="block-container has-side side-right side-video"><div class="block-inner">
 <div class="content-container"><div class="content-inner">
