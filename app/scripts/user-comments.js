@@ -289,7 +289,10 @@ function login(fromwhere) {
         u = document.querySelector('#username').value;
         p = document.querySelector('#password').value;
     }
-    document.querySelector('.statusmsg').innerHTML = '正在登录中...';
+    var statusMsgDivs = document.querySelectorAll('.statusmsg');
+    for (var i=0; i < statusMsgDivs.length; i++) {
+        statusMsgDivs[i].innerHTML = '正在登录中...';
+    }
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
         if (this.readyState === 4) {
@@ -297,7 +300,9 @@ function login(fromwhere) {
                 //console.log (this.responseText);
                 var l = JSON.parse(this.responseText);
                 if (l.status && l.status === 'ok') {
-                    document.querySelector('.statusmsg').innerHTML = '登录成功！';
+                    for (var i=0; i < statusMsgDivs.length; i++) {
+                        statusMsgDivs[i].innerHTML = '登录成功！';
+                    }
                     var nonLoginEles = document.querySelectorAll('.logincomment, .logincommentc, .nologincomment, .nologincommentc, .logged, .notLogged');
                     for (var i=0; i<nonLoginEles.length; i++) {
                         nonLoginEles[i].style.display = 'none';
@@ -315,13 +320,19 @@ function login(fromwhere) {
                     if (window.userId === undefined || window.userId === '') {
                         window.userId = GetCookie('USER_ID') || '';
                     }
-                    document.querySelector('.statusmsg').innerHTML = '';
+                    for (var i=0; i < statusMsgDivs.length; i++) {
+                        statusMsgDivs[i].innerHTML = '';
+                    }
                     passLoginToNative();
                 } else {
-                    document.querySelector('.statusmsg').innerHTML = '<div class="highlight">'+ l.msg + '</div>';
+                    for (var i=0; i < statusMsgDivs.length; i++) {
+                        statusMsgDivs[i].innerHTML = '<div class="highlight">'+ l.msg + '</div>';
+                    }
                 }
             } else { 
-                document.querySelector('.statusmsg').innerHTML = '<div class="highlight">对不起，网络故障。请过一段时间再重新尝试。</div>';
+                for (var i=0; i < statusMsgDivs.length; i++) {
+                    statusMsgDivs[i].innerHTML = '<div class="highlight">对不起，网络故障。请过一段时间再重新尝试。</div>';
+                }
             }
         }
     };
@@ -415,7 +426,10 @@ function checkLogin() {
     for (var i=0; i<eles.length; i++) {
         eles[i].style.display = 'none';
     }
-    document.querySelector('.statusmsg').innerHTML = '';
+    var statusMsg = document.querySelectorAll('.logged .statusmsg');
+    for (var i=0; i<statusMsg.length; i++) {
+        statusMsg[i].innerHTML = ''; 
+    }
     if (!!username) {
         var nameEles = document.querySelectorAll('.nick_name,.user_id,.user_Name');
         for (var j=0; j<nameEles.length; j++) {
