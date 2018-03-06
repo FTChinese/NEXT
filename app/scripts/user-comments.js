@@ -325,7 +325,7 @@ function login(fromwhere) {
                         window.userId = GetCookie('USER_ID') || '';
                     }
                     for (j=0; j < statusMsgDivs.length; j++) {
-                        statusMsgDivs[k].innerHTML = '';
+                        statusMsgDivs[j].innerHTML = '';
                     }
                     passLoginToNative();
                 } else {
