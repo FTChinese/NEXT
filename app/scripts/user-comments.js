@@ -300,10 +300,11 @@ function login(fromwhere) {
             if (this.status === 200) {
                 //console.log (this.responseText);
                 var l = JSON.parse(this.responseText);
+                //console.log (l);
                 var k;
                 if (l.status && l.status === 'ok') {
                     for (j=0; j < statusMsgDivs.length; j++) {
-                        statusMsgDivs[k].innerHTML = '登录成功！';
+                        statusMsgDivs[j].innerHTML = '登录成功！';
                     }
                     var nonLoginEles = document.querySelectorAll('.logincomment, .logincommentc, .nologincomment, .nologincommentc, .logged, .notLogged');
                     for (var i=0; i<nonLoginEles.length; i++) {
@@ -329,7 +330,7 @@ function login(fromwhere) {
                     passLoginToNative();
                 } else {
                     for (j=0; j < statusMsgDivs.length; j++) {
-                        statusMsgDivs[k].innerHTML = '<div class="highlight">'+ l.msg + '</div>';
+                        statusMsgDivs[j].innerHTML = '<div class="highlight">'+ l.msg + '</div>';
                     }
                 }
             } else { 
