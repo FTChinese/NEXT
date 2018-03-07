@@ -1451,4 +1451,35 @@ if (w > 490 && isTouchDevice() === false && document.querySelectorAll('.ce').len
 <%/if%>
 
 
+
+<%if preg_match("/高端视点/is",$keys) %>
+	<script>
+	var videoRealSection = document.querySelector('.o-responsive-video-wrapper-inner');
+	var hasSendTracking = false;
+	if (videoRealSection) {
+		videoRealSection.onclick = function() {
+			if (!hasSendTracking) {
+				//var trackImp = 'http://bsch.serving-sys.com/serving/adServer.bs?cn=display&c=19&mc=imp&pli=23613159&PluID=0&ord=__TIME__&rtu=-1&mb=1';
+				<%if date("Ymd",$smarty.now) >= 20180302 %>
+					var trackImp = 'http://bsch.serving-sys.com/serving/adServer.bs?cn=display&c=19&mc=imp&pli=23613562&PluID=0&ord=__TIME__&rtu=-1&mb=1';
+				<%else%>
+					var trackImp = 'http://bsch.serving-sys.com/serving/adServer.bs?cn=display&c=19&mc=imp&pli=23613552&PluID=0&ord=__TIME__&rtu=-1&mb=1';
+				<%/if%>
+			
+				var trackVideoImpression = new Image();
+				trackVideoImpression.onload = function() {
+					window.ga('send', 'event', 'testvideo impression', 'SuccessOnIphoneApp', trackImp, {'nonInteraction': 1});
+				}
+				trackVideoImpression.onerror = function() {
+					window.ga('send', 'event', 'testvideo impression', 'FailOnIphoneApp', trackImp, {'nonInteraction': 1});
+				}
+				trackVideoImpression.src = trackImp;
+				hasSendTracking = true;
+			}
+		}
+	}
+	</script>
+<%/if%>
+
+
 </html>
