@@ -1,0 +1,58 @@
+<%if $page_action=="en"%>
+    <%assign var="storyHeadline" value=$story.eheadline|default:$eheadline|default:$cheadline|default:$story.cheadline%>
+    <%if $storyHeadline == ""%>
+        <%assign var="storyHeadline" value=$cheadline|default:$story.cheadline%>
+    <%/if%>
+    <%assign var="pageSuffix" value="/en"%>
+<%elseif $page_action=="ce"%>
+    <%assign var="storyHeadline" value="`$story.eheadline`<br>`$story.cheadline`"%>
+    <%assign var="pageSuffix" value="/ce"%>
+<%else%>
+    <%assign var="storyHeadline" value=$story.cheadline|default:$cheadline%>
+    <%assign var="pageSuffix" value=""%>
+<%/if%>
+<%assign var="storyId" value=$story.id|default:$id%>
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title><%$storyHeadline%></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <style type="text/css">
+            body, html
+            {
+                margin: 0; padding: 0; height: 100%; overflow: hidden;
+            }
+            #content
+            {
+                position:absolute; left: 0; right: 0; bottom: 0; top: 0px; 
+            }
+        </style>
+        <script type="text/javascript">
+            function showOverlay(overlayId) {
+                document.getElementById(overlayId).className = 'overlay-container on';
+            }
+
+            function closeOverlay(overlayId) {
+                if (overlayId !== undefined) {
+                    document.getElementById(overlayId).className = 'overlay-container';        
+                } else {
+                    document.getElementById('pop-ad').style.display = 'none';
+                    document.getElementById('pop-ad').innerHTML = '';
+                }
+
+            }
+        </script>
+    </head>
+    <body>
+        <%include file="next/partials/pop-ad.html"%>
+        <div id="content">
+            
+        </div>
+        <script>
+            setTimeout(function(){
+                document.getElementById('content').innerHTML = '<iframe width="100%" height="100%" id="story-iframe" frameborder="0" src="/story/<%$storyId%><%$pageSuffix%>"/>';
+            }, 100);
+        </script>
+    </body>
+</html>

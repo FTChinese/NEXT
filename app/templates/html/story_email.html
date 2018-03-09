@@ -1,4 +1,3 @@
-<%assign var="p" value=$nextmodel->getPublishJson($pageId)|json_decode:true%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
 <head>
@@ -155,9 +154,10 @@ width: 720px !important;
 .coverImgLinkContain{max-width: 50% !important;}
 }
 </style>
+<%assign var="storyId" value=$story.id|default:$id%>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title><%$p.meta.title%> - FT中文网</title>
+<title><%$story.cheadline%> - FT中文网</title>
 </head>
 <!-- htmlmin:ignore -->
 <body style="width:100%;color:#111111;background-color:#FFFFFF;font-family:"Hiragino Sans GB","WenQuanYi Micro Hei","Heiti SC",STHeiti,SimSun,sans-serif;font-size:14px;">
@@ -175,9 +175,7 @@ width: 720px !important;
 <table class="tableBorder" border="0" cellspacing="0" cellpadding="0" style="background-color: #FFF1E0; border: 2px solid #f7f7f7; text-align: left;" align="left">
 <tr><td class="lineH1" style="height: 3px; font-size: 3px; line-height: 3px; padding: 0;">&nbsp;</td></tr>
 
-<tr><td class="lineH1_2" style="text-align: center; font-size: 11px; line-height: 13px;  color: #505050;">如果您无法正常显示邮件, <a
-href="<%$smarty.server.REQUEST_URI%>" style="color: #2e6e9e; text-decoration: none;"
->请点击此处</a></td></tr>
+
 <tr><td class="lineH1 openInBrowserGap" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
 <tr><td style="padding-left: 10px; padding-right: 10px;">
 <table border="0" cellspacing="0" cellpadding="0" style="width: 100%;">
@@ -198,78 +196,39 @@ href="http://www.ftchinese.com" target="_blank"
 <td>
 <table width="100%" cellpadding="0" cellspacing="0">
 
+<%assign var="storyAuthor" value="`$story.cbyline_description` `$story.cauthor`"%>
+<%assign var="storyEAuthor" value="`$story.ebyline_description` `$story.eauthor`"%>
+<%if ($page==1 || $page =="") && $page_action != "ce" && $story_pic.smallbutton && (in_array("插图",$story.tag) || $imageType == "portrait")%>
+	<%assign var="storyImage" value=$story_pic.smallbutton%>
+<%elseif ($page==1 || $page =="") && $page_action != "ce" && $story_pic.skyline%>
+	<%assign var="storyImage" value=$story_pic.skyline%>
+<%elseif ($page==1 || $page =="") && $page_action != "ce" && $story_pic.smallbutton && $pageType != "singlechoice"%>
+	<%assign var="storyImage" value=$story_pic.smallbutton%>
+<%elseif ($page==1 || $page =="") && $story_pic.cover%>
+	<%assign var="storyImage" value=$story_pic.cover%>
+<%/if%>
 
 
-<%assign var="s" value=0%>
-<%foreach from=$p.sections item=section%>
-    <%if $section.type == "block"%>
-    	<%assign var="l" value=0%>
-        <%foreach from=$section.lists item=list%>
-        	<%if $list.title != ""%>
-	        	<tr><td class="ft-header-bar" style="color:#333333;background-color:#E9DECE;font-size:13px;font-weight:bold;padding:5px 17px 4px 17px;text-transform:uppercase;width:100%;"><%$list.title%></td></tr>
-				<tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
-			<%/if%>
-			<%if $list.description != ""%>
-	        	<tr><td  class="SContent cover" style="font-size:14px;line-height:23px;color:#505050;"><%$list.description%></td></tr>
-				<tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
-			<%/if%>
-			<tr><td style="font-size:14px;line-height:25px;color:#505050;padding-left:17px;padding-right:17px;" class="subhead textPadding lineH">
-			<%assign var="i" value=0%>
-			<%foreach from=$list.items item=item%>
-				<%if $s == 0 && $l == 0 && $i ==0%>
-					<%assign var="imageWidth" value=414%>
-					<%assign var="imageHeight" value=233%>
-					<%assign var="imageClass" value=" class=\"coverImgLinkContain\""%>
-				<%else%>
-					<%assign var="imageWidth" value=167%>
-					<%assign var="imageHeight" value=96%>
-					<%assign var="imageClass" value=""%>
-				<%/if%>
-				<div style="line-height:1.618; ">
-				    <table width="100%" cellpadding="0" cellspacing="0" style="border-bottom:1px solid #E9DECF; line-height:1.618;">
-				        <tr><td class="lineH1" style="height: 5px; font-size: 5px; line-height: 5px; padding: 0;"> </td></tr>
-				        <tr>
-				            <td class="SContent cover" style="font-size:14px;line-height:23px;color:#505050;">
-				                <div class="lineH1_4" style="line-height:40px;font-size:25px;">
-				                    <a target=_blank class="headLine" style="font-weight:bold; text-decoration:none; color:#111;" href="http://www.ftchinese.com/<%$item.type%>/<%$item.id%>#s=w"><%$item.headline%></a>
-				                </div>
-								<table cellpadding="0" cellspacing="0" align="left"<%$imageClass%>><tr><td class="lineH1 imgSpace" style="height: 6px; font-size: 0px; line-height: 5px; padding: 0;"> </td></tr><tr><td>
+<tr><td style="color:#333333;font-size:25px;font-weight:bold;padding:5px 17px 4px 17px;width:100%;"><%$story.cheadline%></td></tr>
+<tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
 
-								<a class="coverImgLink" style="" target="_blank" href="http://www.ftchinese.com/<%$item.type%>/<%$item.id%>#s=w">
-								<img src="https://www.ft.com/__origami/service/image/v2/images/raw/<%$item.image|replace:"/upload/":"/"|replace:"i.ftimg.net":"i.ftmailbox.com"|escape:"ulr"%>?source=ftchinese&width=<%$imageWidth%>&height=<%$imageHeight%>" border="0" style="width:<%$imageWidth%>px;" align="left" width="<%$imageWidth%>"/>
-								</a>
+<tr><td style="padding:5px 17px 4px 17px;font-size: 18px; line-height: 20px; color: #505050;"><%$storyAuthor%></td></tr>
+<tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
 
-								</td><td style="width:10px"> </td></tr><tr><td class="lineH1 imgSpace" style="height: 5px; font-size: 0px; line-height: 5px; padding: 0;"> </td></tr></table>
-								<%$item.longlead|default:$item.shortlead%>
-				            </td>
-				        </tr>
-				        <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;"> </td></tr>
-				    </table>
-				</div>
-				<%* <!--
-				<%if $s == 0 && $l == 0 && $i ==0%>
-					<table width="100%" cellpadding="0" cellspacing="0">                                     
-						<tr>
-							<td class="ft-embimg-container" style="font-size: 0; text-align: center; padding: 20px 0 20px 0; background-color:#E9DECE;">
-								<a target="_blank"  href='http://www3.ftchinese.com/app/newsletter/go.php?c=20250003&_t=<%$smarty.now|date_format:"%Y%m%d"%>'>
-									<img width="300" height="250" border="0" src='http://dualstack.adsame-1421766300.ap-southeast-1.elb.amazonaws.com/s?z=ft&c=20250003&_t=<%$smarty.now|date_format:"%Y%m%d"%>&u=www.ftchinese.com'>
-								</a>
-							</td>
-						</tr>
-					</table>
-				<%/if%>
-				--> *%>
-				<%if $s == 0 && $l == 0 && $i==10 && 1>2%>
-					<%include file="email/284x90/code.html"%>
-				<%/if%>
-				<%assign var="i" value=$i+1%>
-			<%/foreach%>
-			</td></tr>
-			<%assign var="l" value=$l+1%>
-        <%/foreach%>
-        <%assign var="s" value=$s+1%>
-    <%/if%>
-<%/foreach%>
+<tr><td style="padding:5px 17px 4px 17px;"><img src="<%$storyImage%>"></td></tr>
+
+<tr><td style="padding:5px 17px 4px 17px;font-size: 18px; line-height: 20px; color: #333333;"><%$story.cbody|replace:"<p>":"<p style=\"margin-bottom: 14px;line-height:161.8%;\">"%></td></tr>
+
+
+<tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
+
+<tr><td style="color:#333333;font-size:25px;font-weight:bold;padding:5px 17px 4px 17px;width:100%;"><%$story.eheadline%></td></tr>
+<tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
+
+<tr><td style="padding:5px 17px 4px 17px;font-size: 18px; line-height: 20px; color: #505050;"><%$storyEAuthor%></td></tr>
+<tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
+<tr><td style="padding:5px 17px 4px 17px;font-size: 18px; line-height: 20px; color: #333333;"><%$story.ebody|replace:"<p>":"<p style=\"margin-bottom: 14px;font-family: Georgia,serif;line-height:161.8%;\">"%></td></tr>
+
 
 
 </table>
@@ -279,13 +238,7 @@ href="http://www.ftchinese.com" target="_blank"
 </table>
 <table width="100%" cellpadding="0" cellspacing="0">
 <tr><td class="lineH1" style="height: 22px; font-size: 22px; line-height: 22px; padding: 0;">&nbsp;</td></tr>                                          
-<tr>
-<td colspan="3" class="ft-embimg-container" style="font-size: 0; text-align: center; padding: 20px 0 20px 0; background-color:#E9DECE;">
-<a target="_blank"  href='http://www3.ftchinese.com/app/newsletter/go.php?c=20250004&_t=<%$smarty.now|date_format:"%Y%m%d"%>'>
-<img width="300" height="250" border="0" src='http://dualstack.adsame-1421766300.ap-southeast-1.elb.amazonaws.com/s?z=ft&c=20250004&_t=<%$smarty.now|date_format:"%Y%m%d"%>&u=www.ftchinese.com'>
-</a>
-</td>
-</tr>
+
 <tr><td class="lineH1" style="height: 22px; font-size: 22px; line-height: 22px; padding: 0;">&nbsp;</td></tr>
 <%assign var="hotTopics" value=$articles.HotTopics%>
 <%assign var="hotTopics" value=$hotTopics|replace:"，":","%>
@@ -315,7 +268,6 @@ href="http://www.ftchinese.com" target="_blank"
 <tr>
 <td style="width: 3%;" class="contentPadding">&nbsp;</td>
 <td style="font-size:14px;line-height:25px;color:#505050;padding-left:17px;padding-right:17px;" class="subhead textPadding lineH">
-<%*<!--
 <div style="height:8px;font-size:6px;"><br /></div>
 <div style="font-size:1px;border-bottom:3px solid #beb39e"></div>
 <div style="height:8px;font-size:6px;"><br /></div>
@@ -328,8 +280,6 @@ href="http://www.ftchinese.com" target="_blank"
 <%/foreach%>
 </div>
 <div style="height:8px;font-size:6px;"><br /></div>
--->
-*%>
 </td>
 <td style="width: 3%;" class="contentPadding">&nbsp;</td>
 </tr>
