@@ -64,14 +64,28 @@
 
 
 								<%$itemTop%>
-								<div class="item-container item-container-app <%$itemClass%>" data-type="premium" data-id="<%$report.id%>"<%$eaudioData%>>
-								    <div class="item-inner">
-								    	<div class="item-tag"><a href="/tag/<%$itemMainTag%>"><%$itemMainTag%></a></div>
-								        <a class="image"><figure class="loading" data-url="<%$report.story_pic.cover|default:$report.story_pic.smallbutton|default:$report.story_pic.other%>"></figure></a>
-								        <h2 class="item-headline"><a class="item-headline-link unlocked" target=_blank><%$report.cheadline%></a></h2>
-								        <div class="item-lead"><%$report.clongleadbody|default:$report.cshortleadbody%></div>
-								    </div>
-								</div>
+								
+								<%if $supportBackgroundDowndingWhenBlocked == "yes" || $smarty.get.isBG == ""%>
+									<%*<!--MARK: If the user is using a normal launch or if his/her app version is at least 7.6, give him the normal page. -->*%>
+									<div class="item-container item-container-app <%$itemClass%>" data-id="<%$report.id%>" data-type="premium"<%$eaudioData%>>
+									    <div class="item-inner">
+									    	<div class="item-tag"><a href="/tag/<%$itemMainTag%>"><%$itemMainTag%></a></div>
+									        <a class="image"><figure class="loading" data-url="<%$report.story_pic.cover|default:$report.story_pic.smallbutton|default:$report.story_pic.other%>"></figure></a>
+									        <h2 class="item-headline"><a class="item-headline-link unlocked" target=_blank><%$report.cheadline%></a></h2>
+									        <div class="item-lead"><%$report.clongleadbody|default:$report.cshortleadbody%></div>
+									    </div>
+									</div>
+								<%else%>
+									<%*<!--MARK: Otherwise, just links -->*%>
+										<div class="item-container <%$itemClass%>" <%$eaudioData%>>
+										    <div class="item-inner">
+										    	<div class="item-tag"><a href="/tag/<%$itemMainTag%>"><%$itemMainTag%></a></div>
+										        <a class="image" href="http://www.ftchinese.com/premium/<%$report.id%>?webview=ftcapp"><figure class="loading" data-url="<%$report.story_pic.cover|default:$report.story_pic.smallbutton|default:$report.story_pic.other%>"></figure></a>
+										        <h2 class="item-headline"><a href="http://www.ftchinese.com/premium/<%$report.id%>?webview=ftcapp" class="item-headline-link unlocked" target=_blank><%$report.cheadline%></a></h2>
+										        <div class="item-lead"><a href="http://www.ftchinese.com/premium/<%$report.id%>?webview=ftcapp"><%$report.clongleadbody|default:$report.cshortleadbody%></a></div>
+										    </div>
+										</div>
+								<%/if%>
 								<%*<!--/if-->*%>
 								<%assign var="i" value=$i+1%>
 							<%/foreach%>
