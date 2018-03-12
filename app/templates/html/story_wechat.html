@@ -14,7 +14,7 @@
 <%assign var="storyId" value=$story.id|default:$id%>
 
 <!DOCTYPE html>
-<html>
+<html class="is-wechat">
     <head>
         <title><%$storyHeadline%></title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -54,8 +54,18 @@
         </div>
         <script>
             setTimeout(function(){
-                document.getElementById('content').innerHTML = '<iframe width="100%" height="100%" id="story-iframe" frameborder="0" src="/story/<%$storyId%><%$pageSuffix%>"/>';
+                document.getElementById('content').innerHTML = '<iframe width="100%" height="100%" id="story-iframe" frameborder="0" src="/story/<%$storyId%><%$pageSuffix%>"/ onload="contentLoad()">';
             }, 100);
+            function contentLoad() {
+                var contentIframe = document.querySelector('#content iframe');
+                if(contentIframe.contentWindow.document.querySelector('.app-download-bar-container')) {
+                    var downloadBarInContent = contentIframe.contentWindow.document.querySelector('.app-download-bar-container');
+                    downloadBarInContent.style.display="none";
+                    downloadBarInContent.style.height="0";
+                }
+                
+
+            }
         </script>
 
         <a class="app-download-bar-container" href="http://app.ftchinese.com/download.html?utm_source=marketing&utm_medium=campaign&utm_campaign=WECHAT01">
