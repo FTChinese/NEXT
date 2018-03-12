@@ -28,6 +28,9 @@
                 position:absolute; left: 0; right: 0; bottom: 0; top: 0px; 
             }
         </style>
+        <style>
+            <%include file="next/styles/main-story.css"%>
+        </style>
         <script type="text/javascript">
             function showOverlay(overlayId) {
                 document.getElementById(overlayId).className = 'overlay-container on';
@@ -54,5 +57,15 @@
                 document.getElementById('content').innerHTML = '<iframe width="100%" height="100%" id="story-iframe" frameborder="0" src="/story/<%$storyId%><%$pageSuffix%>"/>';
             }, 100);
         </script>
+
+        <a class="app-download-bar-container" href="http://app.ftchinese.com/download.html?utm_source=marketing&utm_medium=campaign&utm_campaign=WECHAT01">
+            <div class="app-download-bar-inner">
+                <div class="app-download-bar-image">
+                    <figure class="loading" data-url="http://static.ftchinese.com/img/friend-share-icon.jpg"></figure>
+                </div>
+                <button class="app-download-bar-button">免费下载</button>
+                <div class="app-download-bar-text"><b>FT中文网</b>全球财经精粹，中英对照</div>
+            </div>
+        </a>
     </body>
 </html>
