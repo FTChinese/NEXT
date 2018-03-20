@@ -14,7 +14,7 @@
 <%assign var="storyId" value=$story.id|default:$id%>
 
 <!DOCTYPE html>
-<html>
+<html class="is-wechat">
     <head>
         <title><%$storyHeadline%></title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -27,6 +27,9 @@
             {
                 position:absolute; left: 0; right: 0; bottom: 0; top: 0px; 
             }
+        </style>
+        <style>
+            <%include file="next/styles/main-story.css"%>
         </style>
         <script type="text/javascript">
             function showOverlay(overlayId) {
@@ -51,8 +54,30 @@
         </div>
         <script>
             setTimeout(function(){
-                document.getElementById('content').innerHTML = '<iframe width="100%" height="100%" id="story-iframe" frameborder="0" src="/story/<%$storyId%><%$pageSuffix%>"/>';
+                document.getElementById('content').innerHTML = '<iframe width="100%" height="100%" id="story-iframe" frameborder="0" src="/story/<%$storyId%><%$pageSuffix%>?fromWechat=yes"/ onload="contentLoad()">';
             }, 100);
+            function contentLoad() {
+                var contentIframe = document.querySelector('#content iframe');
+                if(contentIframe.contentWindow.document.querySelector('.app-download-bar-container')) {
+                    var downloadBarInContent = contentIframe.contentWindow.document.querySelector('.app-download-bar-container');
+                    downloadBarInContent.style.display="none";
+                    downloadBarInContent.style.height="0";
+                }
+                
+
+            }
         </script>
+
+        <a class="app-download-bar-container" href="http://app.ftchinese.com/download.html?utm_source=marketing&utm_medium=campaign&utm_campaign=WECHAT01">
+            <div class="app-download-bar-inner">
+                <div class="app-download-bar-image">
+                    <figure class="loading" data-url="http://static.ftchinese.com/img/friend-share-icon.jpg">
+                        <img src="http://static.ftchinese.com/img/friend-share-icon.jpg">
+                    </figure>
+                </div>
+                <button class="app-download-bar-button">免费下载</button>
+                <div class="app-download-bar-text"><b>FT中文网</b>全球财经精粹，中英对照</div>
+            </div>
+        </a>
     </body>
 </html>

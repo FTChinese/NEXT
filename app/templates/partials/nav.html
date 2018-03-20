@@ -38,15 +38,27 @@
   <%/if%>
 
 
+  <%if $smarty.get.newnav == 'yes' %>
+    <%php%>
+    $filename = "../frontend/tpl/next/api/page/navCopy.json";
+    $handle = fopen($filename, "r");
+    $json = fread($handle, filesize ($filename));
+    fclose($handle);
+    $page = json_decode($json, true);
+    $this->assign("p", $page);
+    <%/php%>
+  <%else%>
+    <%php%>
+    $filename = "../frontend/tpl/next/api/page/nav.json";
+    $handle = fopen($filename, "r");
+    $json = fread($handle, filesize ($filename));
+    fclose($handle);
+    $page = json_decode($json, true);
+    $this->assign("p", $page);
+    <%/php%>
+  <%/if%>
 
-  <%php%>
-  $filename = "../frontend/tpl/next/api/page/nav.json";
-  $handle = fopen($filename, "r");
-  $json = fread($handle, filesize ($filename));
-  fclose($handle);
-  $page = json_decode($json, true);
-  $this->assign("p", $page);
-  <%/php%>
+  
 
 
   <%*easyapi command="11001" assign="datass1" debug=false*%>
@@ -96,11 +108,14 @@
                 </li>
                 <%foreach from=$navData item="level_1"%>
                   <%if preg_match("/home/is",$level_1.code) || !preg_match("/myft/is",$topnav)%>
-                    <li class="nav-section"
-                      <%if $topnav==$level_1.code%> aria-selected="true"<%assign var=current_page value=$level_1.name%><%assign var=current_link value=$level_1.link%><%/if%> data-section="<%$level_1.code%>">
+                    <li class="nav-section <%if $level_1.new=="yes"%>nav-section-new<%/if%>"
+                      <%if $topnav==$level_1.code%> aria-selected="true"<%assign var=current_page value=$level_1.name%><%assign var=current_link value=$level_1.link%><%/if%> data-section="<%$level_1.code%>" 
+                      >
+                      <!-- top nav-->
                       <button class="nav-section-head mobile"><%$level_1.name%></button>
                       <a class="nav-section-head desktop" href="<%$level_1.link%>"><%$level_1.name%></a>
                       <%if $topnav==$level_1.code%>
+                        <!-- start subnav-->
                         <ol class="nav-items">
                           <li class="nav-item mobile">
                             <a class="nav-link" href="<%$level_1.link%>">
@@ -158,9 +173,10 @@
                           <%/if%>
                         </ol>
                       <%/if%>
+                      <!-- end top nav-->
                     </li>
 
-
+                    <!-- End li-->
 
                     <%if preg_match("/home/is",$level_1.code) && preg_match("/myft/is",$topnav)%>
                       <li class="nav-section" aria-selected="true"<%assign var=current_page value="我的FT"%><%assign var=current_link value="/users/mystories"%> data-section="myft">
