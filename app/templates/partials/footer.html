@@ -79,7 +79,7 @@
 	if (window.deviceType && window.deviceType == 'PC' && window.adChannelId && window.adChannelId == '1000') {
 		var topviewVideoOnHome = document.getElementById('viewtopVideo');
 		var rolexRandom = Math.random();
-		if(topviewVideoOnHome && rolexRandom<0.001) {
+		if(topviewVideoOnHome && rolexRandom<0.005) {
 			console.log('clicked');
 				setTimeout(function() {
 					topviewVideoOnHome.click();
@@ -87,10 +87,10 @@
 
 					var trackVideoImpression = new Image();
 					trackVideoImpression.onload = function() {
-							window.ga('send', 'event', 'testvideo impression', 'Success', trackImp, {'nonInteraction': 1});
+							window.ga('send', 'event', 'testvideo impression', 'Success add on home', trackImp, {'nonInteraction': 1});
 					}
 					trackVideoImpression.onerror = function() {
-							window.ga('send', 'event', 'testvideo impression', 'Fail', trackImp, {'nonInteraction': 1});
+							window.ga('send', 'event', 'testvideo impression', 'Fail add on home', trackImp, {'nonInteraction': 1});
 					}
 					trackVideoImpression.src = trackImp;
 			},2000);
