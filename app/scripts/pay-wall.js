@@ -102,7 +102,7 @@ function vipCenter(){
   var vipTypeId = document.getElementById('vip-type');
   var warmPrompt = document.getElementById('warm-prompt');
   if(vipType==='common'){
-    vipTypeId.innerHTML = '门外会员';
+    vipTypeId.innerHTML = '无';
     warmPrompt.innerHTML = '您还不是会员，请<a href="http://a.app.qq.com/o/simple.jsp?pkgname=com.ft" target="_blank" style="background:#d7c29e" id="open-app">立即订阅</a>';
   }
 }
