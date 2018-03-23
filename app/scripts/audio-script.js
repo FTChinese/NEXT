@@ -1,10 +1,14 @@
+
+/* exported startPlay, updateAudioTime, addTag, exportData, previewData */
 /*
+
 var audioCurrentTime;
 var audioData = {
 	url: '',
 	text: [
 	]
 };
+var audioHasRendered = false;
 
 function startPlay() {
 	var audioUrl = document.getElementById('audio-url').value || '';
@@ -19,7 +23,7 @@ function startPlay() {
 	var text = document.getElementById('audio-text').value;
 	text = text.replace(/[\r\n]/g,'||')
 	.replace(/\|+/g,'|');
-	textData = text.split('|');
+	var textData = text.split('|');
 	var textDataMarked = [];
 	for (var i=0; i<textData.length; i++) {
 		var currentParagraph = textData[i]
@@ -32,7 +36,7 @@ function startPlay() {
 			var currentLine = {
 				start: null,
 				text: currentParagraphData[j]
-			}
+			};
 			currentParagraphDataArray.push(currentLine);
 		}
 		textDataMarked.push(currentParagraphDataArray);
@@ -52,6 +56,9 @@ function startPlay() {
 
 function updateAudioTime(ele) {
 	audioCurrentTime = ele.currentTime;
+	if (audioHasRendered === true) {
+		updateAudioTimeForRenderedText(audioCurrentTime, audioData);
+	}
 }
 
 function addTag(ele) {
@@ -67,6 +74,83 @@ function addTag(ele) {
 function exportData() {
 	// TODO: Should check if the data is correct with all the time stamp. For example, all time stamp should not be null and the numbers should increase. 
 	var exportedJSONString = JSON.stringify(audioData);
-	alert (exportedJSONString);
+	document.getElementById('audio-json-text').value = exportedJSONString;
 }
+
+function previewData() {
+	var exportedJSONString = document.getElementById('audio-json-text').value;
+	audioData = JSON.parse(exportedJSONString);
+	var ele = document.getElementById('rendered-text');
+	renderAudioData(ele);
+	audioHasRendered = true;
+}
+
+function renderAudioData(ele) {
+	// MARK: render data to html for preview
+	var htmlForAudio = '';
+	for (var k=0; k<audioData.text.length; k++) {
+		htmlForAudio += '<p>';
+		for (var l=0; l<audioData.text[k].length; l++) {
+			htmlForAudio += '<span id="span-'+k+'-'+l+'" data-section="'+k+'" data-row="'+l+'">' + audioData.text[k][l].text +'</span>';
+		}
+		htmlForAudio += '</p>';
+	}
+	ele.innerHTML = htmlForAudio;
+
+}
+
+var lastIndex = {'k':0, 'l':0};
+var latestIndex = {'k':0, 'l':0};
+// MARK: this will be writen in SWIFT in the native app
+function updateAudioTimeForRenderedText(currentTime, data) {
+	//console.log ('current time: ' + currentTime);
+	for (var k=0; k<data.text.length; k++) {
+		for (var l=0; l<data.text[k].length; l++) {
+			var checkTime = data.text[k][l]['start'];
+			if (checkTime && checkTime>=currentTime) {
+				///console.log (latestIndex);
+				var lastK = lastIndex['k'];
+				var lastL = lastIndex['l'];
+				if (k !== latestIndex['k'] || l !== latestIndex['l']) {
+					console.log (lastK + '/' + k + '-' + lastL + '/' + l + ': ' + checkTime + '/' + currentTime);
+					
+
+					//MARK: Handle the output tuple from native side
+					showHightlight(lastK, lastL);
+
+
+
+					latestIndex = {'k':k, 'l':l};
+
+
+					var text = data.text[lastK][lastL]['text'];
+					if (text) {
+						console.log (text);
+					}
+				}
+				return;
+			}
+			lastIndex = {'k':k, 'l':l};
+		}
+	}
+}
+
+function showHightlight(k, l) {
+	var ele = document.getElementById('rendered-text').querySelectorAll('span');
+	for (var i=0; i<ele.length; i++) {
+		var sectionIndex = ele[i].getAttribute('data-section');
+		var rowIndex = ele[i].getAttribute('data-row');
+		var currentClass = ele[i].className;
+		var newClass;
+		if (sectionIndex == k && rowIndex == l) {
+			newClass = 'is-current';
+		} else {
+			newClass = '';
+		}
+		if (newClass !== currentClass) {
+			ele[i].className = newClass;
+		}
+	}
+}
+
 */
