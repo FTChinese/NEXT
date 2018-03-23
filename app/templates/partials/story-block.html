@@ -48,17 +48,20 @@
 				<%/if%>
 			<%/if%>
 			
-
+			<%if date("Ymd",$smarty.now) <= 20180331%>
 			<div class="hide-iframe">
-				<script type="text/javascript">
-						document.write(writeAdNew({
-								devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
-								pattern:'Information',
-								position:'Num1'
-						}));
-				</script>
+			    <script type="text/javascript">
+			            window.originalAdChannelId = window.adChannelId;
+			            window.adChannelId = '1000';
+			            document.write(writeAdNew({
+			                    devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
+			                    pattern:'Information',
+			                    position:'Num1'
+			            }));
+			            window.adChannelId = window.originalAdChannelId;
+			    </script>
 			</div>
-
+			<%/if%>
 
 			<div class="copyrightstatement-container">
 				<%$copyrightStatement%>
