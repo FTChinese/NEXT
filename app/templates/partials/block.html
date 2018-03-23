@@ -98,7 +98,7 @@
 				<%else%>
 					<%assign var="listClass" value=" XL-oneline"%>
 				<%/if%>
-			<%/if%>
+			<%/if%>  <%* <!--end SideBySide -->*%>
 
 			<%assign var="prev" value=$l-1%>
 			<%if $listTopClass !== "" && $l > 0%>
@@ -1306,8 +1306,8 @@
 							<%/if%>
 							<%*<!--insert an extra MPU for mobile phone end-->*%>
 						<%/if%>
-					<%/if%>
-				<%/foreach%>
+					<%/if%> <%*<!--end <%if $feedRepeatCheck != "yes" -->*%>
+				<%/foreach%>  <%*<!--end foreach itemsArray -->*%>
 				<%if $list.float === "ScoreBoard"%>
 					</tbody>
 					</table>
@@ -1349,7 +1349,7 @@
 			<%*<!--combine side lists-->*%>
 			<%if $listHasFloat === "none" || $listHasFloat === "SideBySide" || $l === $section.lists|@count-1 || ($next < $section.lists|@count && $list.float != $section.lists[$next].float)%></div></div><%/if%>
 			<%assign var="l" value=$l+1%>
-		<%/if%>
+		<%/if%> <%* <!--end $list.feedType -->*%>
         <%if ($list.name == "[iframe]" || $list.name == "[video]") && $list.url != ""%>
             <div class="list-container<%$listClass%>">
                 <div class="list-inner">
@@ -1357,9 +1357,11 @@
                 </div>
             </div>
         <%/if%>
-	<%/foreach%>
+	<%/foreach%>   <%* <!--end foreach $section.lists-->*%>
 	<div class="clearfloat block-bottom"></div>
-	</div></div>
+	</div>  <%* <!--end class="content-inner" -->*%>
+	</div>  <%* <!--end class="content-container"-->*%>
+
 	<%assign var="sideMpuCount" value=0%>
 	<%if $sideListCount > 0%>
 		<div class="side-container"><div class="side-inner">
@@ -1452,6 +1454,7 @@
 						</ul>
 					</div>
 					<%assign var="s" value=$s+1%>
+					<%*<!--end SideRanking -->*%>
 				<%elseif $list.type == "SideWithItems"%>
 					<%assign var="itemTag" value=""%>
 					<div class="side-list<%$firstChildClass%><%$lastChildClass%> <%$list.sideOption%>">
@@ -1496,8 +1499,9 @@
 						<%else%>
 							<%assign var="feedType" value="manual"%>
 							<%assign var="itemsArray" value=$list.items%>
-						<%/if%>
+						<%/if%>  <%*<!--end <%if $list.items|@count==0 && -->*%>
 						<%assign var="i" value=0%>
+						<%*<!--start foreach $itemsArray -->*%>
 						<%foreach from=$itemsArray item=item%>
 							<%assign var="itemHeadline" value=$item.headline|default:$item.cheadline|default:$item.cn_title%>
 							<%if $feedType == "all"%>
@@ -1601,16 +1605,19 @@
 										<h2 class="item-headline <%$lockClass%>"><%$itemTag%><a target="_blank"<%$itemLink%>><%$itemHeadline%></a></h2>
 									<%/if%>									
 								<%/if%>
-							</div></div>
+							</div><%*<!--end class="item-inner" -->*%>
+							</div><%*<!--end class="item-container -->*%>
 							<%assign var="i" value=$i+1%>
-						<%/foreach%>
-					</div>
+						<%/foreach%>  <%*<!--end foreach $itemsArray-->*%>
+					</div>  <%*<!--end class="side-list-->*%>
 					<%assign var="s" value=$s+1%>
-				<%/if%>
-			<%/foreach%>
-		</div></div>
+				<%/if%>  <%*<!--end $list.type == "SideWithItems"-->*%>
+			<%/foreach%>  <%*<!--end foreach $section.lists -->*%>	
+		</div>  <%*<!--end <div class="side-inner"> -->*%>
+		</div>  <%*<!--end <div class="side-container"> -->*%>
 	<%elseif $section.side != "" && $section.side != "none"%>
 		<%include file="next/partials/`$section.side`.html"%>
 	<%/if%>
 	<div class="clearfloat"></div>
-</div></div>
+</div> <%*<!--end class="block-inner" -->*%>
+</div> <%*<!--end class="block-container -->*%>
