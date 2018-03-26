@@ -27,7 +27,7 @@ function showHightlight(k, l) {
 	var highlightedTop = highlightedEle.offsetTop;
 	var highlightedHeight = highlightedEle.offsetHeight;
 	var windowHeight = window.innerHeight;
-	var windowTop = highlightedTop + Math.min((highlightedHeight - windowHeight * 1/3), 0);
+	var windowTop = window.scrollY;
 	for (var i=0; i<ele.length; i++) {
 		var sectionIndex = ele[i].getAttribute('data-section');
 		sectionIndex = parseInt(sectionIndex, 10);
@@ -44,5 +44,12 @@ function showHightlight(k, l) {
 			ele[i].className = newClass;
 		}
 	}
-	window.scrollTo({'behavior': 'smooth', 'top': windowTop});
+	if (windowTop > highlightedTop - 40 || windowTop + windowHeight < highlightedTop + highlightedHeight) {
+			window.scrollTo({'behavior': 'smooth', 'top': highlightedTop - 40});
+
+		console.log ('out of view');
+	} else {
+		console.log ('in view');
+	}
+
 }
