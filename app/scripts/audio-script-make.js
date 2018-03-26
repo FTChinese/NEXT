@@ -143,7 +143,7 @@ function updateAudioTimeForRenderedText(currentTime, data) {
 }
 
 function showHightlight(k, l) {
-	var ele = document.getElementById('rendered-text').querySelectorAll('span');
+	var ele = document.getElementById('story-body-container').querySelectorAll('span');
 	for (var i=0; i<ele.length; i++) {
 		var sectionIndex = ele[i].getAttribute('data-section');
 		sectionIndex = parseInt(sectionIndex, 10);

@@ -1151,7 +1151,7 @@
 	<%if $audioSrc != ""%>
 		<%assign var="audioHTML" value="<div class=\"audio-placeholder\" id=\"audio-placeholder\"><div class=\"audio-container\"><audio preload=\"none\" controls=\"\"><source src=\"`$audioSrc`\"><br clear='all'></audio></div></div>"%>
 		<%if $smarty.get.enableScript == "yes" && preg_match("/url/is",$cbody)%>
-			<%assign var="audioHTML" value="<textarea class=\"hide\">$body</textarea>"%>
+			<%assign var="audioHTML" value="<textarea class=\"hide\" id=\"audio-json-text\">`$cbody`</textarea>"%>
 		<%/if%>
 	<%/if%>
 	<%if $smarty.get.hideheader == "yes"%>
@@ -1501,5 +1501,16 @@ if (w > 490 && isTouchDevice() === false && document.querySelectorAll('.ce').len
 	</script>
 <%/if%>
 
+
+<%if $smarty.get.enableScript == "yes" && preg_match("/url/is",$cbody)%>
+
+<script>
+
+
+renderAudioData(document.getElementById('story-body-container'));
+
+</script>
+
+<%/if%>
 
 </html>
