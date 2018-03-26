@@ -23,6 +23,11 @@ function renderAudioData(ele) {
 
 function showHightlight(k, l) {
 	var ele = document.getElementById('story-body-container').querySelectorAll('span');
+	var highlightedEle = document.getElementById('span-' + k + '-' + l);
+	var highlightedTop = highlightedEle.offsetTop;
+	var highlightedHeight = highlightedEle.offsetHeight;
+	var windowHeight = window.innerHeight;
+	var windowTop = highlightedTop + Math.min((highlightedHeight - windowHeight * 1/3), 0);
 	for (var i=0; i<ele.length; i++) {
 		var sectionIndex = ele[i].getAttribute('data-section');
 		sectionIndex = parseInt(sectionIndex, 10);
@@ -39,4 +44,5 @@ function showHightlight(k, l) {
 			ele[i].className = newClass;
 		}
 	}
+	window.scrollTo({'behavior': 'smooth', 'top': windowTop});
 }
