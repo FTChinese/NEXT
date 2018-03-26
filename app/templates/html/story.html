@@ -1503,14 +1503,10 @@ if (w > 490 && isTouchDevice() === false && document.querySelectorAll('.ce').len
 
 
 <%if $smarty.get.enableScript == "yes" && preg_match("/url/is",$cbody)%>
-
 <script>
-
-
-renderAudioData(document.getElementById('story-body-container'));
-
+<%include file="next/scripts/main-audio-script-render.js"%>
 </script>
-
+<script>renderAudioData(document.getElementById('story-body-container'));</script>
 <%/if%>
 
 </html>
