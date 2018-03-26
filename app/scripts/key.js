@@ -1,4 +1,4 @@
-/* exported DeleteCookie,username,userId,ccodeCookie,addstoryfav, showOverlay, closeOverlay, w, isTouchDevice, trackerNew, paravalue, trackAdClick*/
+/* exported DeleteCookie,username,userId,guid,ccodeCookie,addstoryfav, showOverlay, closeOverlay, w, isTouchDevice, trackerNew, paravalue, trackAdClick*/
 var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 var ua = navigator.userAgent || navigator.vendor || '';
 var gIsSpider = (/spider|baidu|bidu|bot|crawler|crawling/i.test(ua)) ? true: false;
@@ -51,6 +51,16 @@ function paravalue(theurl, thep) {
         thev='';
     }
     return thev;
+}
+
+function guid() {
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  }
+  return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+    s4() + '-' + s4() + s4() + s4();
 }
 
 function trackerNew() {

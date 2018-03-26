@@ -385,7 +385,7 @@
 <%assign var="hideBanner" value="no"%>
 
 <!-- <%$story.tag%> -->
-<%elseif preg_match("/经济发展新动力/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20180119 && date("Ymd",$smarty.now) <= 20180302%>
+<%elseif preg_match("/经济发展新动力/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20180119 && date("Ymd",$smarty.now) <= 20180331%>
 	<%assign var=breadcrum value="<a href=\"/tag/经济发展新动力\">经济发展新动力</a>"%>
 	<%assign var="adchannelID" value="5048"%>
 		<%assign var="hideMPU1" value="no"%>
@@ -396,14 +396,22 @@
 	<%if date("Ymd",$smarty.now) <= 20180228%>
 		<%assign var="noAd" value="true"%>
 	<%/if%>
-<%elseif preg_match("/创新经济-物流4.0/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20180205 && date("Ymd",$smarty.now) <= 20180321%>
-<%assign var=breadcrum value="<a href=\"/tag/创新经济-物流4.0\">创新经济-物流4.0</a>"%>
-<%assign var="adchannelID" value="5061"%>
-<%assign var="hideMPU1" value="no"%>
-<%assign var="hideMPU2" value="no"%>
-<%assign var="hideMPU3" value="no"%>
-<%assign var="hide590" value="no"%>
-<%assign var="hideBanner" value="no"%>
+<%elseif preg_match("/创新经济-物流4.0/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20180306 && date("Ymd",$smarty.now) <= 20180406%>
+	<%assign var=breadcrum value="<a href=\"/tag/创新经济-物流4.0\">创新经济-物流4.0</a>"%>
+	<%assign var="adchannelID" value="5061"%>
+	<%assign var="hideMPU1" value="no"%>
+	<%assign var="hideMPU2" value="no"%>
+	<%assign var="hideMPU3" value="no"%>
+	<%assign var="hide590" value="no"%>
+	<%assign var="hideBanner" value="no"%>
+<%elseif preg_match("/2018中国女性力量/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20180322 && date("Ymd",$smarty.now) <= 20180430%>
+	<%assign var=breadcrum value="<a href=\"/tag/2018中国女性力量\">2018中国女性力量</a>"%>
+	<%assign var="adchannelID" value="5066"%>
+	<%assign var="hideMPU1" value="no"%>
+	<%assign var="hideMPU2" value="no"%>
+	<%assign var="hideMPU3" value="no"%>
+	<%assign var="hide590" value="no"%>
+	<%assign var="hideBanner" value="no"%>
 
 <%elseif preg_match("/高端视点/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20180119 && date("Ymd",$smarty.now) <= 20180531%>
 <%assign var=breadcrum value="<a href=\"/tag/高端视点\">高端视点</a>"%>
@@ -1137,10 +1145,14 @@
 	<%assign var="hasAudio" value="yes"%>
 <%/if%>
 
+<%*<!-- MARK: FT Radio: Handle Audio Content -->*%>
 <%if $hasAudio == "yes"%>
 	<%assign var="audioSrc" value=$cshortleadbody|replace:"http://v.ftimg.net/album/":"https://creatives.ftimg.net/album/"%>
 	<%if $audioSrc != ""%>
 		<%assign var="audioHTML" value="<div class=\"audio-placeholder\" id=\"audio-placeholder\"><div class=\"audio-container\"><audio preload=\"none\" controls=\"\"><source src=\"`$audioSrc`\"><br clear='all'></audio></div></div>"%>
+		<%if $smarty.get.enableScript == "yes" && preg_match("/url/is",$cbody)%>
+			<%assign var="audioHTML" value="<textarea class=\"hide\" id=\"audio-json-text\">`$cbody`</textarea>"%>
+		<%/if%>
 	<%/if%>
 	<%if $smarty.get.hideheader == "yes"%>
 		<style>
@@ -1168,6 +1180,7 @@
 		</style>
 	<%/if%>
 
+
 <%/if%>
 
 
@@ -1182,7 +1195,7 @@
 
 
 <%assign var="adchannelID" value=$adchannelID|regex_replace:"/^(20)(..)$/":'50${2}'%>
-
+<%assign var="copyrightStatement" value="版权声明：本文版权归FT中文网所有，未经允许任何单位或个人不得转载，复制或以任何其他方式使用本文全部或部分，侵权必究。"%>
 
 <!DOCTYPE html>
 <html class="no-js core<%if $smarty.get.webview == "ftcapp"%> is-ftc-app<%/if%>" data-next-app="tag-page">
@@ -1450,5 +1463,50 @@ if (w > 490 && isTouchDevice() === false && document.querySelectorAll('.ce').len
 </script>
 <%/if%>
 
+
+
+<%if preg_match("/高端视点/is",$keys) && date("Ymd",$smarty.now) <= 20180601%>
+	<script>
+	var videoRealSection = document.querySelector('.o-responsive-video-wrapper-inner');
+	var hasSendTracking = false;
+	if (videoRealSection) {
+		if (getDeviceType() === 'PC') {
+			sendVideoPlayTrackingCode();
+		} else {
+			videoRealSection.onclick = function() {
+				sendVideoPlayTrackingCode();
+			}
+		}
+	}
+	function sendVideoPlayTrackingCode() {
+		if (!hasSendTracking) {
+			//var trackImp = 'http://bsch.serving-sys.com/serving/adServer.bs?cn=display&c=19&mc=imp&pli=23613159&PluID=0&ord=__TIME__&rtu=-1&mb=1';
+			<%if date("Ymd",$smarty.now) >= 20180302 %>
+				var trackImp = 'http://bsch.serving-sys.com/serving/adServer.bs?cn=display&c=19&mc=imp&pli=23613562&PluID=0&ord=__TIME__&rtu=-1&mb=1';
+			<%else%>
+				var trackImp = 'http://bsch.serving-sys.com/serving/adServer.bs?cn=display&c=19&mc=imp&pli=23613552&PluID=0&ord=__TIME__&rtu=-1&mb=1';
+			<%/if%>
+		
+			var trackVideoImpression = new Image();
+			trackVideoImpression.onload = function() {
+				window.ga('send', 'event', 'testvideo impression', 'SuccessOnIphoneApp', trackImp, {'nonInteraction': 1});
+			}
+			trackVideoImpression.onerror = function() {
+				window.ga('send', 'event', 'testvideo impression', 'FailOnIphoneApp', trackImp, {'nonInteraction': 1});
+			}
+			trackVideoImpression.src = trackImp;
+			hasSendTracking = true;
+		}
+	}
+	</script>
+<%/if%>
+
+
+<%if $smarty.get.enableScript == "yes" && preg_match("/url/is",$cbody)%>
+<script>
+<%include file="next/scripts/main-audio-script-render.js"%>
+</script>
+<script>renderAudioData(document.getElementById('story-body-container'));</script>
+<%/if%>
 
 </html>

@@ -63,25 +63,17 @@
                     }
 
                 } else if (bannerCount == 1) {
-                    if (nowDB == 'yes' && adChannelId !='1000' &&adChannelId != '5048') {
+                    if (testDB == 'yes') {
                         document.write(displayDBAd({
                             devices:['PC'],
                             adName:'PC-Banner-Num1',
                             container:'banner'
                         }));
-                        /*
-                        document.write(displayDBAd({
-                            devices:['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
-                            adName:'Mobile-Banner-Num2',
-                            container:'banner'
-                        }));
-                        */
-                        var adChannelId = getAdChannelId();
                         if (adChannelId!= '5048') {
-                            document.write(writeAdNew({
-                                devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
-                                pattern:'Banner',
-                                position:'Num2'
+                            document.write(displayDBAd({
+                                devices:['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
+                                adName:'Mobile-Banner-Num2',
+                                container:'banner'
                             }));
                         }
                     } else {
@@ -90,7 +82,6 @@
                             pattern:'Banner',
                             position:'Num1'
                         }));
-                        var adChannelId = getAdChannelId();
                         if (adChannelId!= '5048') {
                             document.write(writeAdNew({
                                 devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],

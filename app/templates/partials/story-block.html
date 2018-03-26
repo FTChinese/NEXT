@@ -34,13 +34,13 @@
 			<%if $smarty.get.page != "" && $smarty.get.page != 1 && !in_array("单页",$story.tag)%>
 				<%include file="next/partials/pagination.html"%>
 			<%/if%>
-			<%if $smarty.get.paywall == "1" || $paywall == "1"%>
+			<%if $smarty.get.paywall == "1" || $paywall == "1"|| $smarty.get.paywall == "2"|| $paywall == "2"%>
 				<%include file="next/partials/subscribe-hint.html"%>
 			<%else%>
 				<div class="story-body">
 					<%$audioHTML%>
 					<%$storyImageInline%>
-					<%$story_content%>
+					<div id="story-body-container"><%$story_content%></div>
 					<div class="clearfloat"></div>
 				</div> 
 				<%if $smarty.get.full != "y" && !in_array("单页",$story.tag)%>
@@ -48,11 +48,28 @@
 				<%/if%>
 			<%/if%>
 			
-			
+			<%if date("Ymd",$smarty.now) <= 20180331%>
+			<div class="hide-iframe">
+			    <script type="text/javascript">
+			            window.originalAdChannelId = window.adChannelId;
+			            window.adChannelId = '1000';
+			            document.write(writeAdNew({
+			                    devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
+			                    pattern:'Information',
+			                    position:'Num1'
+			            }));
+			            window.adChannelId = window.originalAdChannelId;
+			    </script>
+			</div>
+			<%/if%>
+
+			<div class="copyrightstatement-container">
+				<%$copyrightStatement%>
+			</div>
 			<div class="clearfloat"></div>
 		</div>
 		<!--topic: <%$mainTopic%>-->
-		<%if $smarty.get.showcomment == "yes" || (date("Ymd",$smarty.now) >= 20171101 && !preg_match("/politics/is",$mainTopic) && $story.id != "001075591")%>
+		<%if $smarty.get.showcomment == "yes" || (date("Ymd",$smarty.now) >= 20171101 && !preg_match("/politics/is",$mainTopic) && $story.id != "001076592" && $smarty.get.screencapture != "yes")%>
 			<h2 class="list-title"><a class="list-link" href="#">读者评论</a></h2>
 			<div id="allcomments" class="allcomments container"></div>
 
@@ -112,7 +129,7 @@
 				</script>
 			<%/if%>
 		</div></div>
-	<%else%>
+	<%elseif $smarty.get.screencapture != "yes"%>
 		<%include file="next/partials/StoryRightRail.html"%>
 	<%/if%>
 

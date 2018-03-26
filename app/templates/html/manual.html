@@ -9,6 +9,9 @@
     <%if $v >= 7.3%>
         <%assign var="showExclusiveContent" value="yes"%>
     <%/if%>
+    <%if $v >= 7.6%>
+        <%assign var="supportBackgroundDowndingWhenBlocked" value="yes"%>
+    <%/if%>
 <%/if%>
 
 <%if $smarty.get.webview == "ftcapp" && $showExclusiveContent == "yes" && $smarty.get.subscription !== "member" && $smarty.get.subscription !== "premium"%>

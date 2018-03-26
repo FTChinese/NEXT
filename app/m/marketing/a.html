@@ -126,5 +126,98 @@ img {
 
 <script src="http://static.ftchinese.com/n/a-domore.js"></script>
 
+<script>
+window.refreshTime = 10;
+window.recoverOriginalUrlTime = 0.1;
+var shouldRunRefresh = Math.random();
+
+if (/1000[0-9]{4}0201|1000[0-9]{4}0411/.test(c) && shouldRunRefresh < 0.05) {
+
+    var parentPathName = '/';
+
+    try {
+        parentPathName = parent.window.location.pathname;
+        if (parent && typeof parent.window.OriginalUrlString === 'string') {
+            parentPathName = parent.window.OriginalUrlString; 
+        } else {
+            parent.window.OriginalUrlString = parentPathName;
+        }
+    } catch (ignore) {
+
+    }
+
+    var trackImpViewtop = 'http://bsch.serving-sys.com/serving/adServer.bs?cn=display&c=19&mc=imp&pli=23613562&PluID=0&ord=__TIME__&rtu=-1&mb=1';
+
+    if(window.parent && !window.parent.trackVideoImpressionViewtop ) {
+        window.parent.trackVideoImpressionViewtop = new Image();
+    }
+    
+
+    setTimeout(function(){
+
+        //video track	
+        window.parent.trackVideoImpressionViewtop.onload = function() {
+                window.parent.ga('send', 'event', 'testvideo impression', 'Success add By Ad', trackImpViewtop, {'nonInteraction': 1});
+        }
+        window.parent.trackVideoImpressionViewtop.onerror = function() {
+                window.parent.ga('send', 'event', 'testvideo impression', 'Fail add By Ad', trackImpViewtop, {'nonInteraction': 1});
+        }
+        window.parent.trackVideoImpressionViewtop.src = trackImpViewtop;
+
+        var adPosition;
+        if (/1000[0-9]{4}0201/.test(c)) {
+            adPosition = '0201';
+        } else {
+            adPosition = '0411';
+        }
+        if ( window.parent.document.getElementById(parentId)) {
+            //console.log('found: ' +parentId);
+            parentIframe = window.parent.document.getElementById(parentId);
+            var divAddedByClient = parentIframe.parentNode.querySelectorAll('div')[0];
+            if (divAddedByClient !== undefined) {
+                divAddedByClient.outerHTML = '';
+                delete divAddedByClient;
+            }
+            parentIframe.style = '';
+            parentIframe.setAttribute('width', '100%');
+            parentIframe.setAttribute('id', 'ad-10001902'+adPosition);
+            try {
+                var parentBannerContentDom = parentIframe.parentNode;
+                var allEyeDivs = parentBannerContentDom.querySelectorAll('div');
+                //console.log (allEyeDivs);
+                for (var eyeDivIndex = 0; eyeDivIndex<allEyeDivs.length; eyeDivIndex++) {
+                    parentBannerContentDom.removeChild(allEyeDivs[eyeDivIndex]);
+                }
+            } catch (ignore) {
+
+            }
+            try {
+                var eyeDivContainer = window.parent.document.getElementById('eyeDiv');
+                if (eyeDivContainer) {
+                    window.parent.document.body.removeChild(eyeDivContainer);
+                }
+            } catch (ignore) {
+
+            }
+        }
+
+        parent.window.history.replaceState({
+            foo: 'bar'
+        }, '', '/channel/viewtop.html');
+
+        var newHref = '/a.html?v=20171214112400#adid=10001902'+adPosition+'&pid=10001902'+adPosition;
+        window.location.href = newHref;
+        //console.log ('url print: change to: ' + newHref);
+        location.reload(false);
+    }, 1000 * 60 * window.refreshTime);
+
+    setTimeout(function() {
+        parent.window.history.replaceState({
+            foo: 'bar'
+        }, '', parentPathName);
+    }, 1000 * 60 * window.recoverOriginalUrlTime);
+}
+</script>
+
 </body>
 </html>

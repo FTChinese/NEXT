@@ -109,6 +109,7 @@ img {
             } else if (1<0 && /^300010000101$/.test(c)) {
 
             } else {
+                console.log ('print url: c is now ' + c);
                 document.write ('<scr'+'ipt src="http://dualstack.adsame-1421766300.ap-southeast-1.elb.amazonaws.com/s?z=ft&c=' + c + slotStr + trString + adP + '&_fallback=0' + refreshParameter + '" charset="gbk" onerror="removeAd()" onload="loaded()"></scr'+'ipt>');
             }
 
@@ -140,10 +141,52 @@ try {
 
 }
 
+//window.refreshTime = 10;
+// if (/1000[0-9]{4}0201|1000[0-9]{4}0411|1000[0-9]{4}0412|1000[0-9]{4}0421|1000[0-9]{4}0301/.test(c)) {
+//     setTimeout(function(){
+//         if ( window.parent.document.getElementById(parentId)) {
+//             parentIframe = window.parent.document.getElementById(parentId);
+//             var divAddedByClient = parentIframe.parentNode.querySelectorAll('div')[0];
+//             if (divAddedByClient !== undefined) {
+//                 divAddedByClient.outerHTML = '';
+//                 delete divAddedByClient;
+//             }
+//             parentIframe.style = '';
+//             parentIframe.setAttribute('width', '100%');
+//         }
+//         location.reload(false);
+//     }, 1000 * 60 * window.refreshTime);
+// }
+
+
 window.refreshTime = 10;
-if (/1000[0-9]{4}0201|1000[0-9]{4}0411|1000[0-9]{4}0412|1000[0-9]{4}0421|1000[0-9]{4}0301/.test(c)) {
+window.recoverOriginalUrlTime = 0.1;
+
+if (/1000[0-9]{4}0201|1000[0-9]{4}0411/.test(c)) {
+
+    var parentPathName = '/';
+
+    try {
+        parentPathName = parent.window.location.pathname;
+        if (parent && typeof parent.window.OriginalUrlString === 'string') {
+            parentPathName = parent.window.OriginalUrlString; 
+        } else {
+            parent.window.OriginalUrlString = parentPathName;
+        }
+    } catch (ignore) {
+
+    }
+
+
     setTimeout(function(){
+        var adPosition;
+        if (/1000[0-9]{4}0201/.test(c)) {
+            adPosition = '0201';
+        } else {
+            adPosition = '0411';
+        }
         if ( window.parent.document.getElementById(parentId)) {
+            //console.log('found: ' +parentId);
             parentIframe = window.parent.document.getElementById(parentId);
             var divAddedByClient = parentIframe.parentNode.querySelectorAll('div')[0];
             if (divAddedByClient !== undefined) {
@@ -152,10 +195,44 @@ if (/1000[0-9]{4}0201|1000[0-9]{4}0411|1000[0-9]{4}0412|1000[0-9]{4}0421|1000[0-
             }
             parentIframe.style = '';
             parentIframe.setAttribute('width', '100%');
+            parentIframe.setAttribute('id', 'ad-10001902'+adPosition);
+            try {
+                var parentBannerContentDom = parentIframe.parentNode;
+                var allEyeDivs = parentBannerContentDom.querySelectorAll('div');
+                //console.log (allEyeDivs);
+                for (var eyeDivIndex = 0; eyeDivIndex<allEyeDivs.length; eyeDivIndex++) {
+                    parentBannerContentDom.removeChild(allEyeDivs[eyeDivIndex]);
+                }
+            } catch (ignore) {
+
+            }
+            try {
+                var eyeDivContainer = window.parent.document.getElementById('eyeDiv');
+                if (eyeDivContainer) {
+                    window.parent.document.body.removeChild(eyeDivContainer);
+                }
+            } catch (ignore) {
+
+            }
         }
+
+        parent.window.history.replaceState({
+            foo: 'bar'
+        }, '', '/channel/viewtop.html');
+
+        var newHref = '/a.html?v=20171214112400#adid=10001902'+adPosition+'&pid=10001902'+adPosition;
+        window.location.href = newHref;
+        //console.log ('url print: change to: ' + newHref);
         location.reload(false);
     }, 1000 * 60 * window.refreshTime);
+
+    setTimeout(function() {
+        parent.window.history.replaceState({
+            foo: 'bar'
+        }, '', parentPathName);
+    }, 1000 * 60 * window.recoverOriginalUrlTime);
 }
+
 </script>
 
 <!-- build:js scripts/a-domore.js -->
