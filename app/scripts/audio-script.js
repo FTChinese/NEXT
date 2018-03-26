@@ -1,5 +1,5 @@
 
-/* exported startPlay, updateAudioTime, addTag, exportData, previewData */
+/* exported startPlay, updateAudioTime, addTag, exportData, previewData, updateAudioSpeed */
 
 
 var audioCurrentTime;
@@ -17,11 +17,13 @@ function startPlay() {
 		alert ('请输入正确的音频地址');
 		return;
 	}
-	document.getElementById('audio-player-container').innerHTML = '<audio preload="true" controls="" ontimeupdate="updateAudioTime(this)"><source src="'+audioUrl+'"><br clear="all"></audio>';
+	document.getElementById('audio-player-container').innerHTML = '<audio id="current-audio" preload="true" controls="" ontimeupdate="updateAudioTime(this)"><source src="'+audioUrl+'"><br clear="all"></audio>';
 	audioData.url = audioUrl;
 	// MARK: get the text from user input
 	var text = document.getElementById('audio-text').value;
-	text = text.replace(/[\r\n]/g,'||')
+	text = text.replace(/<[pP]>/g, '|')
+	.replace(/<\/[pP]>/g, '|')
+	.replace(/[\r\n]/g,'||')
 	.replace(/\|+/g,'|');
 	var textData = text.split('|');
 	var textDataMarked = [];
@@ -74,6 +76,12 @@ function exportData() {
 	// TODO: Should check if the data is correct with all the time stamp. For example, all time stamp should not be null and the numbers should increase. 
 	var exportedJSONString = JSON.stringify(audioData);
 	document.getElementById('audio-json-text').value = exportedJSONString;
+}
+
+function updateAudioSpeed(speed) {
+	console.log (speed);
+	var currentAudio = document.getElementById('current-audio');
+	currentAudio.playbackRate = speed;
 }
 
 function previewData() {

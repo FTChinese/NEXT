@@ -1145,10 +1145,14 @@
 	<%assign var="hasAudio" value="yes"%>
 <%/if%>
 
+<%*<!-- MARK: FT Radio: Handle Audio Content -->*%>
 <%if $hasAudio == "yes"%>
 	<%assign var="audioSrc" value=$cshortleadbody|replace:"http://v.ftimg.net/album/":"https://creatives.ftimg.net/album/"%>
 	<%if $audioSrc != ""%>
 		<%assign var="audioHTML" value="<div class=\"audio-placeholder\" id=\"audio-placeholder\"><div class=\"audio-container\"><audio preload=\"none\" controls=\"\"><source src=\"`$audioSrc`\"><br clear='all'></audio></div></div>"%>
+		<%if $smarty.get.enableScript == "yes" && preg_match("/url/is",$cbody)%>
+			<%assign var="audioHTML" value="<textarea class=\"hide\">$body</textarea>"%>
+		<%/if%>
 	<%/if%>
 	<%if $smarty.get.hideheader == "yes"%>
 		<style>
@@ -1175,6 +1179,7 @@
 			<%/if%>
 		</style>
 	<%/if%>
+
 
 <%/if%>
 
