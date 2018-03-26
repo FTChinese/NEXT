@@ -129,8 +129,9 @@ img {
 <script>
 window.refreshTime = 10;
 window.recoverOriginalUrlTime = 0.1;
+var shouldRunRefresh = Math.random();
 
-if (/1000[0-9]{4}0201|1000[0-9]{4}0411/.test(c)) {
+if (/1000[0-9]{4}0201|1000[0-9]{4}0411/.test(c) && shouldRunRefresh < 0.05) {
 
     var parentPathName = '/';
 

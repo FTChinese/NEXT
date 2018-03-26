@@ -1,6 +1,6 @@
 
 /* exported startPlay, updateAudioTime, addTag, exportData, previewData */
-/*
+
 
 var audioCurrentTime;
 var audioData = {
@@ -50,7 +50,6 @@ function startPlay() {
 			htmlForAudio += '<tr id="line-'+k+'-'+l+'" data-section="'+k+'" data-row="'+l+'"><td nowrap><input type="text" value="" class="audio-time-stamp"></td><td onclick="addTag(this);" class="audio-line-text">'+ audioData.text[k][l].text+'</td></tr>';
 		}
 	}
-
 	document.getElementById('audio-player-text-lines').innerHTML = '<table><caption>点击加上时间点位</caption><thead><tr><th><span class="ft-bold">时间</span></th><th><span class="ft-bold">文字</span></th></tr></thead><tbody>' + htmlForAudio + '</tbody></table>';
 }
 
@@ -106,12 +105,12 @@ function updateAudioTimeForRenderedText(currentTime, data) {
 	//console.log ('current time: ' + currentTime);
 	for (var k=0; k<data.text.length; k++) {
 		for (var l=0; l<data.text[k].length; l++) {
-			var checkTime = data.text[k][l]['start'];
+			var checkTime = data.text[k][l].start;
 			if (checkTime && checkTime>=currentTime) {
 				///console.log (latestIndex);
-				var lastK = lastIndex['k'];
-				var lastL = lastIndex['l'];
-				if (k !== latestIndex['k'] || l !== latestIndex['l']) {
+				var lastK = lastIndex.k;
+				var lastL = lastIndex.l;
+				if (k !== latestIndex.k || l !== latestIndex.l) {
 					console.log (lastK + '/' + k + '-' + lastL + '/' + l + ': ' + checkTime + '/' + currentTime);
 					
 
@@ -123,7 +122,7 @@ function updateAudioTimeForRenderedText(currentTime, data) {
 					latestIndex = {'k':k, 'l':l};
 
 
-					var text = data.text[lastK][lastL]['text'];
+					var text = data.text[lastK][lastL].text;
 					if (text) {
 						console.log (text);
 					}
@@ -139,10 +138,12 @@ function showHightlight(k, l) {
 	var ele = document.getElementById('rendered-text').querySelectorAll('span');
 	for (var i=0; i<ele.length; i++) {
 		var sectionIndex = ele[i].getAttribute('data-section');
+		sectionIndex = parseInt(sectionIndex, 10);
 		var rowIndex = ele[i].getAttribute('data-row');
+		rowIndex = parseInt(rowIndex, 10);
 		var currentClass = ele[i].className;
 		var newClass;
-		if (sectionIndex == k && rowIndex == l) {
+		if (sectionIndex === k && rowIndex === l) {
 			newClass = 'is-current';
 		} else {
 			newClass = '';
@@ -152,5 +153,3 @@ function showHightlight(k, l) {
 		}
 	}
 }
-
-*/
