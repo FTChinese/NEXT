@@ -34,7 +34,7 @@
 			<%if $smarty.get.page != "" && $smarty.get.page != 1 && !in_array("单页",$story.tag)%>
 				<%include file="next/partials/pagination.html"%>
 			<%/if%>
-			<%if $smarty.get.paywall == "1" || $paywall == "1"%>
+			<%if $smarty.get.paywall == "1" || $paywall == "1"|| $smarty.get.paywall == "2"|| $paywall == "2"%>
 				<%include file="next/partials/subscribe-hint.html"%>
 			<%else%>
 				<div class="story-body">

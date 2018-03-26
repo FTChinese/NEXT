@@ -598,8 +598,17 @@ function writeHtml(width){
 
 </div>
 
+<div class="subscribe-lock-container" id="subscribe-now-container">
+    <div class="lock-block">
+      <div class="lock-content">成为付费会员，阅读FT独家内容
+      </div>
+      <div class="lock-content">已经是会员，请<a href="http://user.ftchinese.com/login">点击这里</a>登录
+      </div>
+      <div class="subscribe-btn" ><a href="http://www.ftacademy.cn/subscription.html" target="_blank"  id="subscribe-now">立即订阅&#x25BA;</a></div>
+    </div>
+</div>  
 
-<div class="subscribe-lock-container">
+<div class="subscribe-lock-container" id="download-app-container">
     <div class="lock-block">
       <div class="lock-content">使用FT中文网 iOS应用
       </div>
@@ -608,7 +617,8 @@ function writeHtml(width){
       <div class="subscribe-btn" ><a href="#" target="_blank"  id="open-app">下载应用&#x25BA;</a></div>
       <!--<div class="lock-content" >立即订阅</div>-->
     </div>
-</div>  
+</div> 
+
 
 
 
@@ -987,12 +997,21 @@ if (w > 490 && isTouchDevice() === false) {
 
 var parameter = window.location.search.substr(1);
 var storyBodyId = document.getElementById('story-body');
+var downloadAppContainerId = document.getElementById('download-app-container');
+var subscribeNowContainerId = document.getElementById('subscribe-now-container');
 
-
-if (parameter==='premium=1'){
+if (parameter==='paywall=1'){
     storyBodyId.style.display = 'none';
+    downloadAppContainerId.style.display = 'none';
+    subscribeNowContainerId.style.display = 'block';
+}else if(parameter==='paywall=2'){
+    storyBodyId.style.display = 'none';
+    subscribeNowContainerId.style.display = 'none';
+    downloadAppContainerId.style.display = 'block';
 }else{
     storyBodyId.style.display = 'block';
+    subscribeNowContainerId.style.display = 'none';
+    downloadAppContainerId.style.display = 'none';
 }
 
 
