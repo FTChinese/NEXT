@@ -28,6 +28,7 @@ function showHightlight(k, l) {
 	var highlightedHeight = highlightedEle.offsetHeight;
 	var windowHeight = window.innerHeight;
 	var windowTop = window.scrollY;
+	var newScrollY = highlightedTop - 40;
 	for (var i=0; i<ele.length; i++) {
 		var sectionIndex = ele[i].getAttribute('data-section');
 		sectionIndex = parseInt(sectionIndex, 10);
@@ -44,7 +45,11 @@ function showHightlight(k, l) {
 			ele[i].className = newClass;
 		}
 	}
-	if (windowTop > highlightedTop - 40 || windowTop + windowHeight < highlightedTop + highlightedHeight) {
-			window.scrollTo({'behavior': 'smooth', 'top': highlightedTop - 40});
+	if (windowTop > newScrollY || windowTop + windowHeight < highlightedTop + highlightedHeight) {
+		try {
+			webkit.messageHandlers.scrollTo.postMessage(newScrollY);
+		} catch (ignore) {
+			window.scrollTo({'behavior': 'smooth', 'top': newScrollY});
+		}
 	}
 }

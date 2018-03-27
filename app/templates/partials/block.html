@@ -1053,6 +1053,22 @@
 						<%/if%>
 						*%>
 
+
+
+						<%if $itemType == "interactive"%>
+							<%if preg_match("/速读/is",$itemTagsString) %>
+								<%assign var="itemSubType" value="speedreading"%>
+							<%elseif preg_match("/电台/is",$itemTagsString) %>
+								<%assign var="itemSubType" value="radio"%>
+							<%elseif preg_match("/数据新闻/is",$itemTagsString) %>
+								<%assign var="itemSubType" value="datanews"%>
+							<%elseif preg_match("/FT商学院/is",$itemTagsString) %>
+								<%assign var="itemSubType" value="mbagym"%>
+							<%/if%>
+						<%/if%>
+
+
+
 						<%if $smarty.get.webview == "ftcapp"%>
 							<%if preg_match("/.mp3$/is",$item.shortlead) || preg_match("/.mp3$/is",$item.cshortleadbody)%>
 								<%assign var="audioUrl" value=$item.shortlead|default:$item.cshortleadbody%>
@@ -1080,11 +1096,18 @@
 								<%assign var="eaudioData" value=""%>
 							<%/if%>
 
-							<%*<!-- MARK: - Temporary Code to Hide English Audio Before the Launch Day. Delete After the Launch Date. -->*%>
-							<%if date("Ymd",$smarty.now) <= 20180115 && $smarty.get.showEnglishAudio != "yes"%>
-								<%assign var="eaudioUrl" value=""%>
-								<%assign var="eaudioData" value=""%>
+							<%if $itemSubType != ""%>
+								<%assign var="subTypeData" value=" data-sub-type=\"`$itemSubType`\""%>
+							<%else%>
+								<%assign var="subTypeData" value=""%>
 							<%/if%>
+
+							<%if $itemT != ""%>
+								<%assign var="dateData" value=" data-date=\"`$itemSubType`\""%>
+							<%else%>
+								<%assign var="dateData" value=""%>
+							<%/if%>
+
 							
 							<%assign var="itemDataId" value=$item.id|default:$item.customLink%>
 							<%if $itemDataId == "" && $item.customLink != ""%>
@@ -1095,15 +1118,11 @@
 								<%assign var="itemDataType" value="TryBook"%>
 								<%assign var="lockClass" value="locked"%>
 							<%/if%>
-							<%assign var="itemData" value=" data-id=\"`$itemDataId`\" data-type=\"`$itemDataType`\"`$audioData``$caudioData``$eaudioData`"%>
+							<%assign var="itemData" value=" data-id=\"`$itemDataId`\" data-type=\"`$itemDataType`\"`$audioData``$caudioData``$eaudioData``$subTypeData``$dateData`"%>
 
 
-							<%if $useSafariToOpenSponsorStory == "yes" && preg_match("/2017年度报告/is",$itemTagsString) && date("Ymd",$smarty.now) <= 20171231%>
-								<%assign var="itemData" value=""%>
-								<%assign var="itemLink" value=" href=\"http://cn.ft.com/story/`$itemId`\""%>
-							<%else%>
-								<%assign var="itemClass" value="`$itemClass` item-container-app"%>
-							<%/if%>
+							<%assign var="itemClass" value="`$itemClass` item-container-app"%>
+
 
 
 							<%*<!-- MARK: Show full text for premium content for internal use only!  -->*%>
