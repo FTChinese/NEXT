@@ -37,6 +37,9 @@ function showHightlight(k, l) {
 		}
 		if (newClass !== currentClass) {
 			ele[i].className = newClass;
+			if (newClass === 'is-current') {
+				ele[i].scrollIntoView({block: 'end', behavior: 'smooth'});
+			}
 		}
 	}
 }
