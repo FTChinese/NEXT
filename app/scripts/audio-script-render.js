@@ -42,17 +42,9 @@ function showHightlight(k, l) {
 		}
 		if (newClass !== currentClass) {
 			ele[i].className = newClass;
-			if (newClass === 'is-current') {
-				ele[i].scrollIntoView({block: 'end', behavior: 'smooth'});
-			}
 		}
 	}
 	if (windowTop > highlightedTop - 40 || windowTop + windowHeight < highlightedTop + highlightedHeight) {
 			window.scrollTo({'behavior': 'smooth', 'top': highlightedTop - 40});
-
-		console.log ('out of view');
-	} else {
-		console.log ('in view');
 	}
-
 }
