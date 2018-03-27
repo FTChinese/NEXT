@@ -87,7 +87,7 @@ function updateAudioSpeed(speed) {
 function previewData() {
 	var exportedJSONString = document.getElementById('audio-json-text').value;
 	audioData = JSON.parse(exportedJSONString);
-	var ele = document.getElementById('rendered-text');
+	var ele = document.getElementById('story-body-container');
 	renderAudioData(ele);
 	audioHasRendered = true;
 }

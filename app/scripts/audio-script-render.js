@@ -23,6 +23,11 @@ function renderAudioData(ele) {
 
 function showHightlight(k, l) {
 	var ele = document.getElementById('story-body-container').querySelectorAll('span');
+	var highlightedEle = document.getElementById('span-' + k + '-' + l);
+	var highlightedTop = highlightedEle.offsetTop;
+	var highlightedHeight = highlightedEle.offsetHeight;
+	var windowHeight = window.innerHeight;
+	var windowTop = window.scrollY;
 	for (var i=0; i<ele.length; i++) {
 		var sectionIndex = ele[i].getAttribute('data-section');
 		sectionIndex = parseInt(sectionIndex, 10);
@@ -42,4 +47,12 @@ function showHightlight(k, l) {
 			}
 		}
 	}
+	if (windowTop > highlightedTop - 40 || windowTop + windowHeight < highlightedTop + highlightedHeight) {
+			window.scrollTo({'behavior': 'smooth', 'top': highlightedTop - 40});
+
+		console.log ('out of view');
+	} else {
+		console.log ('in view');
+	}
+
 }
