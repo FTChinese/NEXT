@@ -8,7 +8,7 @@ function payWall(){
         if (xhrpw.status === 200) {
             var data = xhrpw.responseText;
             var dataObj = JSON.parse(data); 
-            if (dataObj.paywall === 1) {
+            if (dataObj.paywall === 0) {
                 // console.log('get paywall:'+data);
                 updateLockClass();
             }
