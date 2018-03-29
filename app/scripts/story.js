@@ -469,16 +469,18 @@ checkFontSize();
 changeFontSize();
 
 
-
+// var subscribeNow = document.getElementById('subscribe-now');
 var openApp = document.getElementById('open-app');
-console.log('userId:'+userId);
-// nowSubscribe.onclick = function(){
-//     if (userId === null) {
+
+// subscribeNow.onclick = function(){
+//     var userIdV = GetCookie('USER_ID') ;
+//     if (!userIdV) {
 //         window.open('http://user.ftchinese.com/login');
 //     }else{
 //         window.open('http://premium.ftacademy.cn/subscription.html');
 //     }
-// }
+// };
+
 function getDeviceSpecie() {
     var uaString = navigator.userAgent || navigator.vendor || '';
     var deviceSpecie = 'PC';

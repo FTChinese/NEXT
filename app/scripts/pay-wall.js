@@ -20,7 +20,7 @@ function payWall(){
     xhrpw.send(null);
 }
 
-var userId1 = GetCookie('USER_ID') || GetCookie('uniqueVisitorId');
+var userId1 = GetCookie('USER_ID') ;
 if (userId1 !== null) {
     payWall();   
     var interval = setInterval(function(){
@@ -101,15 +101,15 @@ function vipCenter(){
   var vipType = 'common';
   var vipTypeId = document.getElementById('vip-type');
   var warmPrompt = document.getElementById('warm-prompt');
-  var url = '';
-  if (!userId1){
-    url = 'http://user.ftchinese.com/login';
-  }else{
-    url = 'http://www.ftacademy.cn/subscription.html';
-  }
+  var url = 'http://www.ftchinese.com/index.php/ft/subscription';
+  // if (!userId1){
+  //   url = 'http://user.ftchinese.com/login';
+  // }else{
+  //   url = 'http://www.ftacademy.cn/subscription.html';
+  // }
   if(vipType==='common'){
     vipTypeId.innerHTML = '无';
-    warmPrompt.innerHTML = '您还不是会员，请<a href="'+url+'"  style="color:#26747a">立即订阅</a>';
+    warmPrompt.innerHTML = '您还不是会员，请<a href="'+url+'"  style="color:#26747a">成为会员</a>';
   }
 }
 vipCenter();
