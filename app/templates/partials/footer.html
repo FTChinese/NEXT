@@ -78,34 +78,35 @@
 <script>
 	if (window.deviceType && window.deviceType == 'PC' && window.adChannelId && window.adChannelId == '1000') {
 		var topviewVideoOnHome = document.getElementById('viewtopVideo');
-		
-		topviewVideoOnHome.onclick = function() {
-			var trackImp = 'http://bsch.serving-sys.com/serving/adServer.bs?cn=display&c=19&mc=imp&pli=23613562&PluID=0&ord=__TIME__&rtu=-1&mb=1';
+		if(topviewVideoOnHome) {
+			topviewVideoOnHome.onclick = function() {
+				var trackImp = 'http://bsch.serving-sys.com/serving/adServer.bs?cn=display&c=19&mc=imp&pli=23613562&PluID=0&ord=__TIME__&rtu=-1&mb=1';
 
-			var trackVideoImpression = new Image();
-			trackVideoImpression.onload = function() {
-					window.ga('send', 'event', 'testvideo impression', 'Success add on home by reader', trackImp, {'nonInteraction': 1});
+				var trackVideoImpression = new Image();
+				trackVideoImpression.onload = function() {
+						window.ga('send', 'event', 'testvideo impression', 'Success add on home by reader', trackImp, {'nonInteraction': 1});
+				}
+				trackVideoImpression.onerror = function() {
+						window.ga('send', 'event', 'testvideo impression', 'Fail add on home by reader', trackImp, {'nonInteraction': 1});
+				}
+				trackVideoImpression.src = trackImp;
 			}
-			trackVideoImpression.onerror = function() {
-					window.ga('send', 'event', 'testvideo impression', 'Fail add on home by reader', trackImp, {'nonInteraction': 1});
-			}
-			trackVideoImpression.src = trackImp;
-		}
-		var rolexRandom = Math.random();
-		if(topviewVideoOnHome && rolexRandom<0.005) {
-				setTimeout(function() {
-					topviewVideoOnHome.click();
-					var trackImp = 'http://bsch.serving-sys.com/serving/adServer.bs?cn=display&c=19&mc=imp&pli=23613562&PluID=0&ord=__TIME__&rtu=-1&mb=1';
+			var rolexRandom = Math.random();
+			if(rolexRandom<0.005) {
+					setTimeout(function() {
+						topviewVideoOnHome.click();
+						var trackImp = 'http://bsch.serving-sys.com/serving/adServer.bs?cn=display&c=19&mc=imp&pli=23613562&PluID=0&ord=__TIME__&rtu=-1&mb=1';
 
-					var trackVideoImpression = new Image();
-					trackVideoImpression.onload = function() {
-							window.ga('send', 'event', 'testvideo impression', 'Success add on home', trackImp, {'nonInteraction': 1});
-					}
-					trackVideoImpression.onerror = function() {
-							window.ga('send', 'event', 'testvideo impression', 'Fail add on home', trackImp, {'nonInteraction': 1});
-					}
-					trackVideoImpression.src = trackImp;
-			},2000);
+						var trackVideoImpression = new Image();
+						trackVideoImpression.onload = function() {
+								window.ga('send', 'event', 'testvideo impression', 'Success add on home', trackImp, {'nonInteraction': 1});
+						}
+						trackVideoImpression.onerror = function() {
+								window.ga('send', 'event', 'testvideo impression', 'Fail add on home', trackImp, {'nonInteraction': 1});
+						}
+						trackVideoImpression.src = trackImp;
+				},2000);
+			}
 		}
 	}
 </script>
