@@ -1,4 +1,3 @@
-
 /* exported startPlay, updateAudioTime, addTag, exportData, previewData, updateAudioSpeed */
 
 
@@ -87,7 +86,7 @@ function updateAudioSpeed(speed) {
 function previewData() {
 	var exportedJSONString = document.getElementById('audio-json-text').value;
 	audioData = JSON.parse(exportedJSONString);
-	var ele = document.getElementById('story-body-container');
+	var ele = document.getElementById('rendered-text');
 	renderAudioData(ele);
 	audioHasRendered = true;
 }
@@ -138,26 +137,6 @@ function updateAudioTimeForRenderedText(currentTime, data) {
 				return;
 			}
 			lastIndex = {'k':k, 'l':l};
-		}
-	}
-}
-
-function showHightlight(k, l) {
-	var ele = document.getElementById('story-body-container').querySelectorAll('span');
-	for (var i=0; i<ele.length; i++) {
-		var sectionIndex = ele[i].getAttribute('data-section');
-		sectionIndex = parseInt(sectionIndex, 10);
-		var rowIndex = ele[i].getAttribute('data-row');
-		rowIndex = parseInt(rowIndex, 10);
-		var currentClass = ele[i].className;
-		var newClass;
-		if (sectionIndex === k && rowIndex === l) {
-			newClass = 'is-current';
-		} else {
-			newClass = '';
-		}
-		if (newClass !== currentClass) {
-			ele[i].className = newClass;
 		}
 	}
 }
