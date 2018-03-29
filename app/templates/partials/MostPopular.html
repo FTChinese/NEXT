@@ -19,7 +19,7 @@
 		</ul>
 	</div>
 	<%if $smarty.get.ad != "no" && $noAd != "true"%>
-		<%if date("Ymd",$smarty.now) <= 20180316 %>
+		<%if $smarty.get.testDB == "yes" %>
 			<script>
 				document.write(displayDBAd({
 					devices:['PC'],

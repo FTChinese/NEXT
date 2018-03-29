@@ -1301,13 +1301,22 @@
 									<%/if%>
 									<%if $i == 1%>
 										<div class="hide-iframe">
-											<script type="text/javascript">
-													document.write(writeAdNew({
-															devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
-															pattern:'Information',
-															position:'Num1'
+											<%if $smarty.get.testDB == "yes"%>
+												<script>
+													document.write(displayDBAd({
+														devices:['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
+														adName:'Mobile-Information-Num1'
 													}));
-											</script>
+												</script>
+											<%else%>
+												<script type="text/javascript">
+														document.write(writeAdNew({
+																devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
+																pattern:'Information',
+																position:'Num1'
+														}));
+												</script>
+											<%/if%>
 										</div>
 									<%/if%>
 									<%if $i == 13%>
