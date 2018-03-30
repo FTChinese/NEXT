@@ -1,11 +1,13 @@
 
 var itemHeadline = document.querySelectorAll('.item-headline');
+var isReqSuccess = false;
 function payWall(){  
     var xhrpw = new XMLHttpRequest();
     xhrpw.open('get', '/index.php/jsapi/paywall');
     xhrpw.setRequestHeader('Content-Type', 'application/text');
     xhrpw.onload = function() {
         if (xhrpw.status === 200) {
+           isReqSuccess = true;
             var data = xhrpw.responseText;
             var dataObj = JSON.parse(data); 
             if (dataObj.paywall >= 1) {      
