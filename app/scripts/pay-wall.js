@@ -8,13 +8,13 @@ function payWall(){
         if (xhrpw.status === 200) {
             var data = xhrpw.responseText;
             var dataObj = JSON.parse(data); 
-            if (dataObj.paywall === 0) {
+            if (dataObj.paywall >= 1) {      
+                updateUnlockClass();
+            }else{
                 updateLockClass();
-            }else if(dataObj.paywall === 1){
-                updateunlockClass();
             }
         } else {
-            console.log('fail to get pw');
+            console.log('fail to request');
         }
     };
     xhrpw.send(null);
@@ -25,10 +25,10 @@ if (userId1 !== null) {
     payWall();   
     var interval = setInterval(function(){
       payWall();
-    },3000);
+    },5000);
     setTimeout(function( ) {
        clearInterval(interval); 
-    }, 15000); 
+    }, 10000); 
 }
 
 
@@ -56,7 +56,7 @@ function updateLockClass(){
       }
     }
 }
-function updateunlockClass(){
+function updateUnlockClass(){
     if (getPayHeadline.length>0){
       for (var k = 0; k < getPayHeadline.length; k++) {
         removeClass(getPayHeadline[k], 'unlocked');
@@ -102,17 +102,3 @@ function removeClass(ele, cls) {
 // }
 
 
-/**
- * 更新会员中心，订阅信息
- */
-// function vipCenter(){
-//   var vipType = 'common';
-//   var vipTypeId = document.getElementById('vip-type');
-//   var warmPrompt = document.getElementById('warm-prompt');
-//   var url = 'http://www.ftchinese.com/index.php/ft/subscription';
-//   if(vipType==='common'){
-//     vipTypeId.innerHTML = '无';
-//     warmPrompt.innerHTML = '您还不是会员，请<a href="'+url+'"  style="color:#26747a">成为会员</a>';
-//   }
-// }
-// vipCenter();
