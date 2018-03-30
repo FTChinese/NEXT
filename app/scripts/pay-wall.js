@@ -12,6 +12,7 @@ function payWall(){
                 updateUnlockClass();
             }else{
                 updateLockClass();
+                // console.log('open lock class');
             }
         } else {
             console.log('fail to request');
@@ -22,42 +23,48 @@ function payWall(){
 
 var userId1 = GetCookie('USER_ID') ;
 if (userId1 !== null) {
-    payWall();   
+    payWall(); 
     var interval = setInterval(function(){
-      payWall();
+        payWall();
     },5000);
     setTimeout(function( ) {
-       clearInterval(interval); 
-    }, 10000); 
+      clearInterval(interval); 
+    }, 10000);  
 }
 
 
-var getPayHeadline = [];
+
+
 // 过滤出包含locked的item-headline数组
-function getPayStory(){
+function getPayStory(className){
+  var getPayHeadline = [];
   // 循环itemHeadline长度数量
   for (var i = 0; i < itemHeadline.length; i++) {
         var childNodes = itemHeadline[i].children;
         // 循环childNodes长度数量
         for (var j = 0; j < childNodes.length; j++) {
-          if (hasClass(childNodes[j],'locked')){
+          if (hasClass(childNodes[j],className)){
             getPayHeadline.push(childNodes[j]);
           }
         }
   }
+  return getPayHeadline;
 }
-getPayStory();
+
+
+
 
 function updateLockClass(){
-  console.log('lock');
-    if (getPayHeadline.length>0){
-      for (var k = 0; k < getPayHeadline.length; k++) {
-        removeClass(getPayHeadline[k], 'locked');
-        addClass(getPayHeadline[k], 'unlocked');
-      }
+  var getPayHeadline = getPayStory('locked');
+  if (getPayHeadline.length>0){
+    for (var k = 0; k < getPayHeadline.length; k++) {
+      removeClass(getPayHeadline[k], 'locked');
+      addClass(getPayHeadline[k], 'unlocked');
     }
+  }
 }
 function updateUnlockClass(){
+    var getPayHeadline = getPayStory('unlocked');
     if (getPayHeadline.length>0){
       for (var k = 0; k < getPayHeadline.length; k++) {
         removeClass(getPayHeadline[k], 'unlocked');
