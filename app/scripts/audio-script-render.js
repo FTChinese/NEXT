@@ -1,8 +1,9 @@
 
 /* exported renderAudioData, showHightlight */
+var audioData;
 function renderAudioData(ele) {
 	var exportedJSONString = document.getElementById('audio-json-text').value;
-	var audioData = JSON.parse(exportedJSONString);
+	audioData = JSON.parse(exportedJSONString);
 	// MARK: render data to html for preview
 	var htmlForAudio = '';
 	for (var k=0; k<audioData.text.length; k++) {
@@ -57,6 +58,17 @@ function showHightlight(k, l) {
 function seekAudio(ele) {
 	var section = ele.getAttribute('data-section');
 	var row = ele.getAttribute('data-row');
+	section = parseInt(section, 10);
+	row = parseInt(row, 10);
 	showHightlight(section, row);
-	console.log ('seek to: ' + section + '/' + row);
+	var seekAudio = audioData.text[section][row].start;
+	console.log ('seek to: ' + seekAudio);
+	if (seekAudio !== null && seekAudio > 0) {
+		if (typeof webkit !== 'undefined') {
+			webkit.messageHandlers.seekAudio.postMessage(seekAudio);
+		} else {
+			var currentAudio = document.getElementById('current-audio');
+			currentAudio.currentTime = seekAudio
+		}
+	}
 }
