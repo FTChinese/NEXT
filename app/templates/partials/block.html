@@ -292,6 +292,8 @@
 				<%foreach from=$itemsArray item=item%>
 					<%if $item.type == "premium" || $paywall == "1"%>
 						<%assign var="lockClass" value="locked"%>
+					<%elseif $paywall == "0"%>
+						<%assign var="lockClass" value="unlocked"%>
 					<%else%>
 						<%assign var="lockClass" value=""%>
 					<%/if%>

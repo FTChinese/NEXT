@@ -9,11 +9,11 @@ function payWall(){
             var data = xhrpw.responseText;
             var dataObj = JSON.parse(data); 
             if (dataObj.paywall === 0) {
-                // console.log('get paywall:'+data);
                 updateLockClass();
+            }else if(dataObj.paywall === 1){
+                updateunlockClass();
             }
         } else {
-            // updateLockClass();
             console.log('fail to get pw');
         }
     };
@@ -53,6 +53,14 @@ function updateLockClass(){
       for (var k = 0; k < getPayHeadline.length; k++) {
         removeClass(getPayHeadline[k], 'locked');
         addClass(getPayHeadline[k], 'unlocked');
+      }
+    }
+}
+function updateunlockClass(){
+    if (getPayHeadline.length>0){
+      for (var k = 0; k < getPayHeadline.length; k++) {
+        removeClass(getPayHeadline[k], 'unlocked');
+        addClass(getPayHeadline[k], 'locked');
       }
     }
 }
