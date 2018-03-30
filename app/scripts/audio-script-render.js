@@ -8,7 +8,7 @@ function renderAudioData(ele) {
 	for (var k=0; k<audioData.text.length; k++) {
 		htmlForAudio += '<p>';
 		for (var l=0; l<audioData.text[k].length; l++) {
-			htmlForAudio += '<span id="span-'+k+'-'+l+'" data-section="'+k+'" data-row="'+l+'">' + audioData.text[k][l].text +'</span>';
+			htmlForAudio += '<span id="span-'+k+'-'+l+'" onclick="seekAudio(this)" data-section="'+k+'" data-row="'+l+'">' + audioData.text[k][l].text +'</span>';
 		}
 		htmlForAudio += '</p>';
 	}
@@ -28,7 +28,7 @@ function showHightlight(k, l) {
 	var highlightedHeight = highlightedEle.offsetHeight;
 	var windowHeight = window.innerHeight;
 	var windowTop = window.scrollY;
-	var newScrollY = highlightedTop - 40;
+	var newScrollY = highlightedTop - 5;
 	for (var i=0; i<ele.length; i++) {
 		var sectionIndex = ele[i].getAttribute('data-section');
 		sectionIndex = parseInt(sectionIndex, 10);
@@ -46,10 +46,17 @@ function showHightlight(k, l) {
 		}
 	}
 	if (windowTop > newScrollY || windowTop + windowHeight < highlightedTop + highlightedHeight) {
-		try {
+		if (typeof webkit !== 'undefined') {
 			webkit.messageHandlers.scrollTo.postMessage(newScrollY);
-		} catch (ignore) {
+		} else {
 			window.scrollTo({'behavior': 'smooth', 'top': newScrollY});
 		}
 	}
+}
+
+function seekAudio(ele) {
+	var section = ele.getAttribute('data-section');
+	var row = ele.getAttribute('data-row');
+	showHightlight(section, row);
+	console.log ('seek to: ' + section + '/' + row);
 }
