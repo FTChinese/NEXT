@@ -86,24 +86,24 @@ function updateAudioSpeed(speed) {
 function previewData() {
 	var exportedJSONString = document.getElementById('audio-json-text').value;
 	audioData = JSON.parse(exportedJSONString);
-	var ele = document.getElementById('rendered-text');
+	var ele = document.getElementById('story-body-container');
 	renderAudioData(ele);
 	audioHasRendered = true;
 }
 
-function renderAudioData(ele) {
-	// MARK: render data to html for preview
-	var htmlForAudio = '';
-	for (var k=0; k<audioData.text.length; k++) {
-		htmlForAudio += '<p>';
-		for (var l=0; l<audioData.text[k].length; l++) {
-			htmlForAudio += '<span id="span-'+k+'-'+l+'" data-section="'+k+'" data-row="'+l+'">' + audioData.text[k][l].text +'</span>';
-		}
-		htmlForAudio += '</p>';
-	}
-	ele.innerHTML = htmlForAudio;
+// function renderAudioData(ele) {
+// 	// MARK: render data to html for preview
+// 	var htmlForAudio = '';
+// 	for (var k=0; k<audioData.text.length; k++) {
+// 		htmlForAudio += '<p>';
+// 		for (var l=0; l<audioData.text[k].length; l++) {
+// 			htmlForAudio += '<span id="span-'+k+'-'+l+'" data-section="'+k+'" data-row="'+l+'">' + audioData.text[k][l].text +'</span>';
+// 		}
+// 		htmlForAudio += '</p>';
+// 	}
+// 	ele.innerHTML = htmlForAudio;
 
-}
+// }
 
 var lastIndex = {'k':0, 'l':0};
 var latestIndex = {'k':0, 'l':0};
