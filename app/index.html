@@ -230,37 +230,39 @@ ga('send','event','Testing', 'Oliver', 'AD Testing', {'nonInteraction':1});
     }
     
     function displayDBAd(obj) {
-        /**
-         * @param obj
-         * @param obj.devices: TYPE Array, the devices are allowed to show this ad, Eg:['PC','PadWeb','iPhoneWeb','AndroidWeb']
-         * @param obj.adName: 'Leaderboard-Num1'
-         * @param obj.container: TYPE String, the container specified for the ad position in a certain page. It could be 'banner','mpu','mpuInStory'
-         * 
-         * @dependglob deviceType: string , one of 'PC','iPhoneApp','iPhoneWeb','AndroidApp','AndroidWeb','PadApp','PadWeb', the current real deviceType
-         * @dependglob deviceId
-         * @dependglob adChannelId
-         */
-    
-        // MARK: If device does not fit, return immediately
-        if (obj.devices.indexOf(deviceType) < 0) {
-        return '';
-        }
-        var adName = obj.adName;
-        var adClass = '';
-        if(adName === 'Mobile-Banner-Num1' || adName === 'Mobile-Banner-Num2') {
-            adClass = 'db-mobile-banner';
-        }
-        var adCode = ' <div id="'+ adName +'" class ="' + adClass + '"style="padding-top:0;"><scr'+'ipt>googletag.cmd.push(function() { googletag.display("'+ adName +'")})</scr'+'ipt></div>';
-    
-        var container = obj.container;
-        if (container === 'mpu') {
-        adCode = '<div class="mpu-container">' + adCode + '</div>';
-        } else if (container === 'mpuInStroy') {
-        adCode = '<div class="mpu-container-instory">' + adCode + '</div>';
-        } else {
-        adCode = '<div class="bn-ph"><div class="banner-container"><div class="banner-inner"><div class="banner-content">' + adCode + '</div></div></div></div>';
-        }
-        return adCode;
+      /**
+       * @param obj
+       * @param obj.devices: TYPE Array, the devices are allowed to show this ad, Eg:['PC','PadWeb','iPhoneWeb','AndroidWeb']
+       * @param obj.adName: 'Leaderboard-Num1'
+       * @param obj.container: TYPE String, the container specified for the ad position in a certain page. It could be 'banner','mpu','mpuInStory'
+       * 
+       * @dependglob deviceType: string , one of 'PC','iPhoneApp','iPhoneWeb','AndroidApp','AndroidWeb','PadApp','PadWeb', the current real deviceType
+       * @dependglob deviceId
+       * @dependglob adChannelId
+       */
+  
+      // MARK: If device does not fit, return immediately
+      if (obj.devices.indexOf(deviceType) < 0) {
+      return '';
+      }
+      var adName = obj.adName;
+      var adClass = 'db-ad';
+      if(adName === 'Mobile-Banner-Num1' || adName === 'Mobile-Banner-Num2') {
+          adClass += ' db-mobile-banner';
+      } else if(adName === 'Mobile-Information-Num1' || adName === 'Mobile-Information-Num1') {
+          adClass += ' db-mobile-information';
+      }
+      var adCode = ' <div id="'+ adName +'" class ="' + adClass + '"style="padding-top:0;"><scr'+'ipt>googletag.cmd.push(function() { googletag.display("'+ adName +'")})</scr'+'ipt></div>';
+  
+      var container = obj.container;
+      if (container === 'mpu') {
+      adCode = '<div class="mpu-container">' + adCode + '</div>';
+      } else if (container === 'mpuInStroy') {
+      adCode = '<div class="mpu-container-instory">' + adCode + '</div>';
+      } else if(container === 'banner') {
+      adCode = '<div class="bn-ph"><div class="banner-container"><div class="banner-inner"><div class="banner-content">' + adCode + '</div></div></div></div>';
+      }
+      return adCode;
     }
     </script>
     <script async='async' src='https://www.googletagservices.com/tag/js/gpt.js'></script>
