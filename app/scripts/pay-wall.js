@@ -49,6 +49,7 @@ function getPayStory(){
 getPayStory();
 
 function updateLockClass(){
+  console.log('lock');
     if (getPayHeadline.length>0){
       for (var k = 0; k < getPayHeadline.length; k++) {
         removeClass(getPayHeadline[k], 'locked');
