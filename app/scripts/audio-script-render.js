@@ -1,5 +1,5 @@
 
-/* exported renderAudioData, showHightlight */
+/* exported renderAudioData, showHightlight, seekAudio */
 var audioData;
 function renderAudioData(ele) {
 	var exportedJSONString = document.getElementById('audio-json-text').value;
@@ -62,13 +62,13 @@ function seekAudio(ele) {
 	row = parseInt(row, 10);
 	showHightlight(section, row);
 	var seekAudio = audioData.text[section][row].start;
-	console.log ('seek to: ' + seekAudio);
+	//console.log ('seek to: ' + seekAudio);
 	if (seekAudio !== null && seekAudio > 0) {
 		if (typeof webkit !== 'undefined') {
 			webkit.messageHandlers.seekAudio.postMessage(seekAudio);
 		} else {
 			var currentAudio = document.getElementById('current-audio');
-			currentAudio.currentTime = seekAudio
+			currentAudio.currentTime = seekAudio;
 		}
 	}
 }
