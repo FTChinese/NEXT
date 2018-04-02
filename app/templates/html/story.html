@@ -867,7 +867,8 @@
 	<%assign var="languageOptions" value="<a class=\"icon-right icon-ch\" href=\"`$eshortleadbody`\"><button>中文</button></a>"%>
 <%elseif ($page_action=="en" || $page_action=="ce") && $story.id%>
 	<%assign var="languageOptions" value="<a class=\"icon-right icon-ch\" href=\"/story/`$story.id`\"><button>中文</button></a>"%>
-<%elseif $story.show_english == "yes"%>
+<%elseif $story.show_english == "yes" || $story.ebody != ""%>
+	<%*<!--MARK: Show English and Billigual Button to All-->*%>
 	<%assign var="languageOptions" value="<a class=\"icon-right icon-ch\" href=\"/story/`$story.id`/ce\"><button>对照</button></a><a class=\"icon-right icon-ch\" href=\"/story/`$story.id`/en\"><button>英文</button></a>"%>
 <%/if%>
 
