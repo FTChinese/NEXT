@@ -9,7 +9,7 @@
 -->*%>
 
 <%if $adchannelID != "1000"%>
-    <%assign var="adForceString" value="#adchannelID=$adchannelID"%>
+    <%assign var="adForceString" value="?adchannelID=$adchannelID"%>
 <%/if%>
 <%assign var="listHasFloat" value="none"%>
 <%assign var="sideListCount" value=0%>
@@ -1131,7 +1131,8 @@
 								<%assign var="itemLink" value=" href=\"/`$itemType`/`$itemId`?webview=ftcapp&screencapture=yes&ad=no\""%>
 							<%/if%>
 
-						<%/if%>
+						<%/if%> 
+						<%*<!--end  $smarty.get.webview == "ftcapp"-->*%>
 
 
 						<%if $listType == "videos" && $i>5%>
@@ -1216,6 +1217,7 @@
 								<%assign var="videoIdIndex" value=$videoIdIndex+1 %>
 								
 							<%/if%>
+							<%*<!-- Real Item of Block -->*%>
 							<div class="item-container <%$itemClass%> <%$hasImage%>"<%$itemData%>><div class="item-inner">
 								<h2 class="item-headline"><%$itemTag%><a target="_blank"<%$itemLink%> class="item-headline-link <%$lockClass%>"><%$itemHeadline%></a></h2>
 								<%if $item.relatives|@count > 0 && $item.relatives[0].type == "video" &&  $item.preferSponsorImage != "yes"%>
@@ -1642,7 +1644,7 @@
 										<h2 class="item-headline <%$lockClass%>"><%$itemTag%><a target="_blank"<%$itemLink%>><%$itemHeadline%></a></h2>
 									<%/if%>									
 								<%/if%>
-							</div><%*<!--end class="item-inner" -->*%>
+							</div><%*<!--end item-inner -->*%>
 							</div><%*<!--end class="item-container -->*%>
 							<%assign var="i" value=$i+1%>
 						<%/foreach%>  <%*<!--end foreach $itemsArray-->*%>
