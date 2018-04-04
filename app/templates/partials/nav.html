@@ -141,6 +141,7 @@
                                 <a class="nav-link" href="<%$level_2.link%>"><%$level_2.name %></a>
                                 <%if $level_2.code == "special"%>
                                   <ol class="nav-sub-items">
+                                    <%*<!--特别报导入口修改处，还要修改ajax-nav.html和o-nav.js -->*%>
                                     <%if date("Ymd",$smarty.now) >= 20180402 && date("Ymd",$smarty.now) <= 20180430 %>
                                       <li><a href="/tag/2018中国女性力量">2018 She's 中国女性力量</a></li>
                                     <%/if%>
@@ -169,7 +170,7 @@
                                 <%elseif $level_2.haschildren%>
                                   <ol class="nav-sub-items">
                                     <%foreach from=$level_2.children item="level_3"%>
-                                    <li><a href="<%$level_3.link%>"><%$level_3.name%></a></li>
+                                      <li><a href="<%$level_3.link%>"><%$level_3.name%></a></li>
                                     <%/foreach%>
                                   </ol>
                                 <%/if%>
