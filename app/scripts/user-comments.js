@@ -327,6 +327,7 @@ function login(fromwhere) {
                     for (j=0; j < statusMsgDivs.length; j++) {
                         statusMsgDivs[j].innerHTML = '';
                     }
+                    checkLogin();
                     passLoginToNative();
                 } else {
                     for (j=0; j < statusMsgDivs.length; j++) {
