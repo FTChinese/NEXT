@@ -168,9 +168,39 @@
                                   </ol>
                                 <%elseif $level_2.haschildren%>
                                   <ol class="nav-sub-items">
-                                    <%foreach from=$level_2.children item="level_3"%>
-                                    <li><a href="<%$level_3.link%>"><%$level_3.name%></a></li>
-                                    <%/foreach%>
+
+                                    <%if $level_2.code == "special"%>
+          
+                                      <%if date("Ymd",$smarty.now) >= 20180402 && date("Ymd",$smarty.now) <= 20180430 %>
+                                        <li><a href="/tag/2018中国女性力量">2018 She's 中国女性力量</a></li>
+                                      <%/if%>
+                                      <%if date("Ymd",$smarty.now) >= 20180307 && date("Ymd",$smarty.now) <= 20180406 %>
+                                        <li><a href="/tag/创新经济-物流4.0">创新经济-物流4.0</a></li>
+                                      <%/if%>
+                                      <%if date("Ymd",$smarty.now) >= 20180129 && date("Ymd",$smarty.now) <= 20180331 %>
+                                        <li><a href="/tag/经济发展新动力">经济发展新动力</a></li>
+                                      <%/if%>
+                                      <%if date("Ymd",$smarty.now) <= 20180401 %>
+                                      <li><a href="/channel/viewtop.html">高端视点</a></li>
+                                      <%/if%>
+                                      <%if date("Ymd",$smarty.now) >= 20171201 && date("Ymd",$smarty.now) <= 20180331 %>
+                                      <li><a href="/tag/2017年度报告">2017年度报告</a></li>
+                                      <%/if%>
+                                      <li><a href="/m/marketing/antfinancial.html">“新四大发明”背后的中国浪潮</a></li>
+                                      <li><a href="/channel/teawithft.html">与FT共进下午茶</a></li>
+                                      <li><a href="/tag/与FT共进午餐">与FT共进午餐</a></li>
+                                      <li><a href="/tag/智慧城市群">西门子·智慧城市群</a></li>
+                                      <li><a href="/m/marketing/creditease.html">未来生活 未来金融</a></li>
+                                      <li><a href="/channel/2016highlight.html">2016年度好文推荐</a></li>
+                                      <%if date("Ymd",$smarty.now) >= 20171115%>
+                                      <li><a href="/index.php/ft/property">全球地产</a></li>
+                                      <%/if%>
+                                    <%else%>
+                                      <%foreach from=$level_2.children item="level_3"%>
+                                        <!-- level_3 -->
+                                        <li><a href="<%$level_3.link%>"><%$level_3.name%></a></li>
+                                      <%/foreach%>
+                                    <%/if%>
                                   </ol>
                                 <%/if%>
                               </li>

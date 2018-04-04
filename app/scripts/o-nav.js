@@ -252,7 +252,7 @@ function stringToDOM(str) {
 
 var emptyNavSections = getEmptyNavSections(navEl);
 
-ajax.getData('/m/corp/ajax-nav.html?aaaaaaaaaaaaa', function(error, data) {
+ajax.getData('/m/corp/ajax-nav.html?bbbbbbb', function(error, data) {
 	if (error) {return error;}
 	var parsedDOM = stringToDOM(data);
 	zipObject(emptyNavSections, parsedDOM);
