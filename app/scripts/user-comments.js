@@ -427,6 +427,7 @@ function logout() {
 }
 
 function checkLogin() {
+    window.username = GetCookie('USER_NAME');
     var eles = document.querySelectorAll('.logincomment, .nologincomment, .logged, .notLogged');
     var i;
     for (i=0; i<eles.length; i++) {
