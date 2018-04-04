@@ -421,6 +421,10 @@ function logout() {
             }
         }
     };
+    xmlhttp.onerror = function() {
+        checkLogin();
+        console.log ('something went wrong. but we check login any way. ');
+    };
     var randomNumber = parseInt(Math.random()*1000000, 10);
     xmlhttp.open('GET', '/index.php/users/logout?' + randomNumber);
     xmlhttp.send();
