@@ -329,6 +329,10 @@ function login(fromwhere) {
                     }
                     checkLogin();
                     passLoginToNative();
+                    setTimeout(function() {
+                        checkLogin();
+                        passLoginToNative();
+                    }, 3000);
                 } else {
                     for (j=0; j < statusMsgDivs.length; j++) {
                         statusMsgDivs[j].innerHTML = '<div class="highlight">'+ l.msg + '</div>';
