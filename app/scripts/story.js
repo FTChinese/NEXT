@@ -469,17 +469,19 @@ checkFontSize();
 changeFontSize();
 
 
-// var subscribeNow = document.getElementById('subscribe-now');
+var subscribeNow = document.getElementById('subscribe-now');
 var openApp = document.getElementById('open-app');
 
-// subscribeNow.onclick = function(){
-//     var userIdV = GetCookie('USER_ID') ;
-//     if (!userIdV) {
-//         window.open('http://user.ftchinese.com/login');
-//     }else{
-//         window.open('http://premium.ftacademy.cn/subscription.html');
-//     }
-// };
+subscribeNow.onclick = function(){
+    // var userIdV = GetCookie('USER_ID') ;
+    // if (!userIdV) {
+    //     window.open('http://user.ftchinese.com/login','_self');
+    // }else{
+    //     window.open('http://premium.ftacademy.cn/subscription.html','_self');
+    // }
+    var pathname = window.location.pathname ;
+    ga('send','event','web member subscribe','subscribe now',pathname);
+};
 
 function getDeviceSpecie() {
     var uaString = navigator.userAgent || navigator.vendor || '';
