@@ -1,5 +1,5 @@
 
-var itemHeadline = document.querySelectorAll('.item-headline');
+
 // function payWall(){  
 //     var xhrpw = new XMLHttpRequest();
 //     xhrpw.open('get', '/index.php/jsapi/paywall');
@@ -71,6 +71,7 @@ if (userId1 !== null) {
 
 // 过滤出包含locked的item-headline数组
 function getPayStory(className){
+  var itemHeadline = document.querySelectorAll('.item-headline');
   var getPayHeadline = [];
   // 循环itemHeadline长度数量
   for (var i = 0; i < itemHeadline.length; i++) {
@@ -82,6 +83,7 @@ function getPayStory(className){
           }
         }
   }
+  console.log('getPayHeadline len:'+getPayHeadline.length);
   return getPayHeadline;
 }
 
