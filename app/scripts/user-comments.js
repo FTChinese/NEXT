@@ -327,8 +327,7 @@ function login(fromwhere) {
                     for (j=0; j < statusMsgDivs.length; j++) {
                         statusMsgDivs[j].innerHTML = '';
                     }
-                    checkLogin();
-                    passLoginToNative();
+                    checkLogin();                    
                 } else {
                     for (j=0; j < statusMsgDivs.length; j++) {
                         statusMsgDivs[j].innerHTML = '<div class="highlight">'+ l.msg + '</div>';
@@ -421,6 +420,10 @@ function logout() {
             }
         }
     };
+    xmlhttp.onerror = function() {
+        checkLogin();
+        console.log ('something went wrong. but we check login any way. ');
+    };
     var randomNumber = parseInt(Math.random()*1000000, 10);
     xmlhttp.open('GET', '/index.php/users/logout?' + randomNumber);
     xmlhttp.send();
@@ -428,6 +431,7 @@ function logout() {
 
 function checkLogin() {
     window.username = GetCookie('USER_NAME');
+    window.userId = GetCookie('USER_ID');
     var eles = document.querySelectorAll('.logincomment, .nologincomment, .logged, .notLogged');
     var i;
     for (i=0; i<eles.length; i++) {

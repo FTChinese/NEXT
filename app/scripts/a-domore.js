@@ -8,17 +8,21 @@ function findTop(obj) {
       return curtop;
     }
 }
-    
+
+
 var adContainerHeight;
 var adBottom = document.getElementById('ad-bottom');
 var adHeight = findTop(adBottom);
 var adResized = false;
 var adFullWidth = false;
-var w=0;
+var w = 0;
+var w1 = 0;
+
     
 if (window.parent.document.getElementById(window.parentId)) {
     parentIframe = window.parent.document.getElementById(window.parentId);
     adContainerHeight = parentIframe.offsetHeight || 0;
+
 
 
 
@@ -40,19 +44,37 @@ if (window.parent.document.getElementById(window.parentId)) {
         //MARK:当自定义广告告度adHeight大于等于120，都会执行此分支，该分支会1.设置adResized为true 2.将广告的iframe(就是引入a.html的那个）的宽度设为1200。然后当adResized为true时，后面iframe的高度会重设为adHeight
         adResized = true;
         try {
+
+        
+
             w = window.parent.innerWidth || window.parent.document.documentElement.clientWidth || window.parent.document.body.clientWidth;
             w = w - 60 - 15;
-            if (w>1200) {
+            w1 = window.innerWidth || window.documentElement.clientWidth || document.body.clientWidth;
+            // MARK: If the ad frame width is less than 300px, it's not a banner
+            if (w1 <= 300) {
+                w = w1;
+            } else if (w>1200) {
                 w = 1200;
             } else {
+                // MARK: Otherwise it's a banner
                 adHeight = w * 120/1200;
             }
+
             document.querySelector('.ad').className += ' standard';
             parentIframe.style.width = w + 'px';
             //parentIframe.parentNode.style.height = '120px';
             parentIframe.parentNode.parentNode.parentNode.parentNode.className += ' standard';
-            document.querySelector('.ad img').style.width = w+'px';
-            document.querySelector('.ad img').style.height = adHeight+'px';
+            var adImgEle = document.querySelector('.ad img');
+            if (adImgEle !== null) {
+                adImgEle.style.width = w+'px';
+                adImgEle.style.height = adHeight+'px';    
+                var adImgContainer = document.getElementById('n-ad-container').querySelectorAll('div');
+                if (adImgContainer.length > 0) {
+                    adImgContainer[0].style.width = w+'px';
+                    adImgContainer[0].style.height = adHeight + 'px';
+                }           
+            }
+
         } catch(ignore){
 
         }
@@ -86,6 +108,8 @@ if (window.parent.document.getElementById(window.parentId)) {
         }
     }
 
+
+
     // if there's need track viewability
     if (typeof viewable === 'object') {
         setTimeout(function() {
@@ -102,6 +126,8 @@ if (window.parent.document.getElementById(window.parentId)) {
     }
 
 }
+
+
     
 if (window.parent && window.parentId !== '' && /^banner/.test(window.parentId) && typeof stickyHeight === 'number' && stickyHeight > 0) {
     if (typeof window.parent.stickyAds !== 'object') {
@@ -119,18 +145,23 @@ if (window.parent && window.parentId !== '' && /^banner/.test(window.parentId) &
     }
 }
 
+
 //in a iframe of h5 template
 if (window.parent && typeof window.parent.mpuAds === 'object' && window.parentId !== '') {
+        
     if (typeof parentIframe === 'object') {
         var parentContainer = parentIframe.parentNode;
         var overlayLink;
         var adUrl = '';
+
 
         if (document.querySelector('.ad a')) {
             adUrl = document.querySelector('.ad a').href || '';
         }
 
         if (adUrl !== '') {
+
+
             if (parentContainer.getElementsByTagName('a').length===0) {
                 overlayLink = document.createElement('a');
                 parentContainer.appendChild(overlayLink);
@@ -150,10 +181,12 @@ if (window.parent && typeof window.parent.mpuAds === 'object' && window.parentId
     }
 }
 
+
 if (parentIframe && window.hideAdSign && window.hideAdSign !== '') {
     var adClassName = parentIframe.parentNode.className;
     parentIframe.parentNode.className = adClassName + ' hide-sign';
 }
+
     
 /*    
     try {
