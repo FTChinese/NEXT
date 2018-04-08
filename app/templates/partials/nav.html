@@ -40,7 +40,7 @@
   <%/if%>
 
 
-  <%if $smarty.get.newnav == 'yes'%>
+  <%if $smarty.get.newnav == 'yes' || date("Ymd",$smarty.now) >= 20180409 %>
     <%php%>
     $filename = "../frontend/tpl/next/api/page/navCopy.json";
     $handle = fopen($filename, "r");
