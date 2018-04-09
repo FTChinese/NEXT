@@ -83,7 +83,7 @@ function getPayStory(className){
           }
         }
   }
-  console.log('getPayHeadline len:'+getPayHeadline.length);
+  // console.log('getPayHeadline len:'+getPayHeadline.length);
   return getPayHeadline;
 }
 
