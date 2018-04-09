@@ -106,7 +106,125 @@ img {
                 minimum: 0.6,
                 time: 1000
                 };
-            } else if (1<0 && /^300010000101$/.test(c)) {
+            } else if (1<0 && /^300013000301$/.test(c)) {
+
+
+
+
+
+
+
+
+
+    var ImgPortrait = 'http://creatives.ftchinese.com/ads/beijing/201804/828x1472_cn_ml.jpg';
+    var ImgLandscape = 'http://creatives.ftchinese.com/ads/beijing/201804/828x1472_cn_ml.jpg';
+    var Imp = 'http://bsch.serving-sys.com/serving/adServer.bs?cn=display&c=19&mc=imp&pli=24662415&PluID=0&ord=__TIME__&rtu=-1&mb=1';
+    var AdName = 'Web App Full Screen AD';
+    var AssID = '606513';
+    if (Imp !== '') {
+        var gaServerTracker = new Image();
+        gaServerTracker.src = 'http://www.ftchinese.com/index.php/ft/hit/' + AssID + '/2?ec=' + AdName + ' (' + AssID + ')' + '&ea=initiate&el=' + encodeURIComponent(Imp) + '&' + Math.random();
+        if (typeof window.parent.sendImpToThirdParty === 'function') {
+            window.parent.sendImpToThirdParty(Imp, AdName, AssID);
+        } else {
+            sendImpToThirdParty(Imp, AdName, AssID);
+        }
+    }
+    function sendImpToThirdParty(t,e,r){if("string"==typeof t){"object"!=typeof window.parent.gTrackThirdParyImpression&&(window.parent.gTrackThirdParyImpression={});var n=0,a=t,i=!1,o=function(){var t=arguments[0]||"",e=arguments[1]||"",n=arguments[2]||"",a="G"+Math.round(1e12*Math.random());try{window.parent.ga("send","event",t,e,n,{nonInteraction:1})}catch(o){var i=new Image;i.src="http://www.ftchinese.com/index.php/ft/hit/"+r+"/2?ec="+t+"&ea="+e+"&el="+encodeURIComponent(n)+"&r="+a}},c=function(){var d,s="IMG"+Math.round(1e12*Math.random()),p=(new Date).getTime(),h=t;try{d=arguments[0]||""}catch(t){d=""}h.indexOf("?")<0&&(h+="?"),h=h.replace("ord=[timestamp]","ord="+p)+"&"+s+"&ftctime="+p,n>0&&(0===a.indexOf("https")?(h=h.replace("https://ad.doubleclick.net","http://ad.doubleclick.net"),h=h.replace("https://v.admaster.com.cn","http://v.admaster.com.cn")):(h=h.replace("http://ad.doubleclick.net","https://ad.doubleclick.net"),h=h.replace("http://v.admaster.com.cn","https://v.admaster.com.cn"))),a=h,window.parent.gTrackThirdParyImpression[s]=new Image,window.parent.gTrackThirdParyImpression[s].src=h,window.parent.gTrackThirdParyImpression[s].title=e+" ("+r+")",window.parent.gTrackThirdParyImpression[s].alt=t,window.parent.gTrackThirdParyImpression[s].onload=function(){var t="";t=0===n?"Success":""!==d?"Success on Retry"+d:"Success on Retry"+n,o(this.title,t,this.alt),delete window.parent.gTrackThirdParyImpression[s],i=!0},window.parent.gTrackThirdParyImpression[s].onerror=function(){var t="";if(t=0===n?"Fail":""!==d?"Fail on Retry"+d:"Fail on Retry"+n,o(this.title,t,this.alt),o("Fail UA String",r,window.parent.adReachability()),"string"==typeof window.uaString)try{window.parent._hmt.push(["_trackEvent",this.title,"Fail",window.uaString])}catch(t){}++n<=3&&setTimeout(c,100*n*n*n)}};c(),setTimeout(function(){if(i===!1&&0===n){n=2;c(" from Pending"),o(e+" ("+r+")","Request from Pending",t)}},1e4),o(e+" ("+r+")","Request",t)}}
+    // MARK: - get window width and height
+    try {
+        w = window.parent.innerWidth || window.parent.document.documentElement.clientWidth || window.parent.document.body.clientWidth;
+        h = window.parent.innerHeight || window.parent.document.documentElement.clientHeight || window.parent.document.body.clientHeight;
+    } catch (ignore) {
+        w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+        h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+    }
+    if (w > h) {
+        var newW = w;
+        w = h;
+        h = newW;
+    }
+    if (ImgPortrait === '') {
+        ImgLandscape = 'https://www.ft.com/__origami/service/image/v2/images/raw/' + encodeURIComponent(ImgLandscape) + '?source=ftchinese&width=' + 828;
+        ImgPortrait = ImgLandscape;
+    } else if (ImgLandscape === '') {
+        ImgPortrait = 'https://www.ft.com/__origami/service/image/v2/images/raw/' + encodeURIComponent(ImgPortrait) + '?source=ftchinese&width=' + 828;
+        ImgLandscape = ImgPortrait;
+    } else {
+        ImgPortrait = 'https://www.ft.com/__origami/service/image/v2/images/raw/' + encodeURIComponent(ImgPortrait) + '?source=ftchinese&width=' + 828;
+        ImgLandscape = 'https://www.ft.com/__origami/service/image/v2/images/raw/' + encodeURIComponent(ImgLandscape) + '?source=ftchinese&width=' + 828;
+    }
+    var url = parent.window.location.href;
+    if (typeof(url) != 'undefined') {
+        (function() {
+            var adOpacity = '1';
+            var adImage = ImgLandscape;
+            var adImage2 = ImgPortrait;
+            var adImp = Imp;
+            // MARK: Landscape
+            var adWidth = h;
+            var adHeight = w;
+            // MARK: Portrait
+            var adWidth2 = w;
+            var adHeight2 = h;
+            var closeButtonPosition = '';
+            var adClass1 = (adWidth < 820) ? 'mobile-landscape' : 'wide-screen';
+            var adClass2 = (adWidth < 820) ? 'mobile-portrait' : 'narrow-screen';
+            var adCode = '';
+            adLink = 'http://dualstack.adsame-1421766300.ap-southeast-1.elb.amazonaws.com/c?z=ft&la=0&si=600&cg=1300&c=300013000101&ci=710&or=4040&l=606513&bg=10167&b=31995&u=http://bsch.serving-sys.com/serving/adServer.bs?cn=trd&mc=click&pli=24662415&PluID=0&ord=__TIME__&mb=1';
+            if (adLink.indexOf('?') > 0 && !adLink.indexOf('?http')) {
+                adLink += '&isad=1';
+            } else {
+                adLink += '?isad=1';
+            }
+            adCode = '<div class=overlayBG style="opacity:' + adOpacity + '"></div><div class=inner><div class=cell><div class="' + adClass1 + '" style="width:' + adWidth + 'px;height:' + adHeight + 'px;margin:auto;position:relative;"><div class="o-overlay__close" style="top:0;right:0;"><div class="o-overlay__close-icon" onclick="closeOverlay()"></div></div><a href="' + adLink + '" target=_blank><div style="width:' + adWidth + 'px;height:' + adHeight + 'px;background-image: url(' + adImage + ');background-repeat: no-repeat;background-size:cover;"></div></a></div><div class="' + adClass2 + '" style="width:' + adWidth2 + 'px;height:' + adHeight2 + 'px;margin:auto;position:relative;"><div class="o-overlay__close" style="top:0;right:0;"><div class="o-overlay__close-icon" onclick="closeOverlay()"></div></div><a href="' + adLink + '" target=_blank><div style="width:' + adWidth2 + 'px;height:' + adHeight2 + 'px;background-image: url(' + adImage2 + ');background-repeat: no-repeat;background-size:cover;"></div></a></div></div>';
+            var popAd = parent.parent.document.getElementById("pop-ad");
+            var popAdClass = popAd.className;
+            var img = new Image();
+            img.src = adImage;
+            console.log ('yes! yes! ');
+            if (popAdClass.indexOf('done') < 0) {
+                img.onload = function() {
+                    var img2 = new Image();
+                    img2.src = adImage2;
+                    img2.onload = function() {
+                        popAd.innerHTML = adCode;
+                        if (popAdClass.indexOf('in-page') < 0) {
+                            popAd.className = 'overlay on done';
+                            setTimeout(function() {
+                                    popAd.className = 'overlay done';
+                                    popAd.innerHTML = '';
+                                },
+                                5000);
+                        } else {
+                            popAd.className += ' on';
+                        }
+                    };
+                };
+            }
+        }());
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             } else {
                 console.log ('print url: c is now ' + c);
