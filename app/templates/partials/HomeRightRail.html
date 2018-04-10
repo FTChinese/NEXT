@@ -156,7 +156,7 @@
 									<%assign var="audioData" value=" data-audio=\"`$audioUrl`\""%>
 								<%/if%>
 								<%assign var="sideItemClass" value=" item-container-app"%>
-								<%assign var="itemData" value=" data-id=\"`$storyall[$cs].id`\" data-type=\"interactive\"`$audioData`"`$subTypeData`%>
+								<%assign var="itemData" value=" data-id=\"`$storyall[$cs].id`\" data-type=\"interactive\"`$audioData``$subTypeData`"%>
 							<%/if%>
 							<div class="item-container<%if $i===0%> first<%/if%><%$sideItemClass%>"<%$itemData%>><div class="item-inner">
 							<a class="image" href="/interactive/<%$storyall[$cs].id%>" target=_blank><figure class="loading" data-url="<%$storyall[$cs].story_pic.cover|default:$storyall[$cs].story_pic.smallbutton|default:$storyall[$cs].story_pic.bigbutton%>"></figure></a>
@@ -227,7 +227,7 @@
 		</div>
 
 
-<%*
+<%*<!--
 
 		<%assign var="ftintelligence" value=$interactivemodel->get_interactive_by_field_search("find_in_set('精选',tag) and find_in_set('商业案例',tag)",0,4,1000,10800)%>
 		<div class="vidoes">
@@ -250,7 +250,7 @@
 			</div>
 		</div>
 
-*%>
+-->*%>
 
 
 
@@ -366,7 +366,7 @@
 			<%assign var="cs" value=0%>
 			<%assign var="cp" value=0%>
 			<%assign var="i" value=0%>
-			<!--<%*两组数据进行合并，重新排序 Start*%>-->
+			<%*<!--两组数据进行合并，重新排序 Start-->*%>
 			<%section name=bothdata loop=$allcount%>
 				<%if $i<4%>
 					<%if $cs<$storycount && ($storyall[$cs].pubdate>=$photoall[$cp].add_times || $ps>=$photocount)%>
@@ -412,7 +412,7 @@
 									<%assign var="audioData" value=""%>
 								<%/if%>
 								<%assign var="sideItemClass" value=" item-container-app"%>
-								<%assign var="itemData" value=" data-id=\"`$storyall[$cs].id`\" data-type=\"interactive\"`$audioData`"`$subTypeData`%>
+								<%assign var="itemData" value=" data-id=\"`$storyall[$cs].id`\" data-type=\"interactive\"`$audioData``$subTypeData`"%>
 							<%/if%>
 							<div class="item-container<%if $i===0%> first<%/if%><%$sideItemClass%>"<%$itemData%>><div class="item-inner">
 							<a class="image" href="/interactive/<%$storyall[$cs].id%>" target=_blank><figure class="loading" data-url="<%$storyall[$cs].story_pic.cover|default:$storyall[$cs].story_pic.smallbutton|default:$storyall[$cs].story_pic.bigbutton%>"></figure></a>
@@ -495,7 +495,7 @@
 									<%assign var="audioData" value=""%>
 								<%/if%>
 								<%assign var="sideItemClass" value=" item-container-app"%>
-								<%assign var="itemData" value=" data-id=\"`$storyall[$cs].id`\" data-type=\"interactive\"`$audioData`"`$subTypeData`%>
+								<%assign var="itemData" value=" data-id=\"`$storyall[$cs].id`\" data-type=\"interactive\"`$audioData``$subTypeData`"%>
 							<%/if%>
 							<div class="item-container<%if $i===0%> first<%/if%><%$sideItemClass%>"<%$itemData%>><div class="item-inner">
 							<a class="image" href="/interactive/<%$storyall[$cs].id%>" target=_blank><figure class="loading" data-url="<%$storyall[$cs].story_pic.cover|default:$storyall[$cs].story_pic.smallbutton|default:$storyall[$cs].story_pic.bigbutton%>"></figure></a>
