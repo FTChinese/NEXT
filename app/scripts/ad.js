@@ -469,7 +469,11 @@ function writeAdNew(obj) {
   if (isLocal) {
     iframeSrc = 'a.html?v=20171214112400' + bannerBG + '#adid='+ adid + '&pid=' + adid;
   } else {
-    iframeSrc = '/a.html?v=20171214112400' + bannerBG + '#adid='+ adid + '&pid=' + adid;
+    if(bannerBG) {
+      iframeSrc = '/a.html?v=20171214112401' + bannerBG + '#adid='+ adid + '&pid=' + adid;
+    } else {
+      iframeSrc = '/a.html?v=20171214112401#adid='+ adid + '&pid=' + adid;
+    }
   }
   var iframeId = 'ad-'+adid;
   iframeHTML = '<iframe class="banner-iframe" data-adch="'+adChannelId+'" data-adPosition="'+ adPatternId + adPositionId+'" id="' + iframeId + '" width="'+ adWidth +'" height="'+ adHeight + '" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="'+ iframeSrc +'" data-src="'+ iframeSrc +'" data-ad-type="'+ adPatternId + adPositionId +'" data-ad-count=0></iframe>';
