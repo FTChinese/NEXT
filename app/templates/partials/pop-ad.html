@@ -6,10 +6,12 @@
 <script type="text/javascript">
 if (typeof GetCookie === 'function') {
 	var fullSC = GetCookie("fs0");
+	var paywallType = GetCookie('paywall');
 	var loadFullAtEnd = false;
 	// MARK: - Display the full screen ad for every visit
 	fullSC = null;
-	if (fullSC === null && w <= 490) {
+	var canPopAd = (fullSC === null && w <= 490 && paywallType !== 'premium' && paywallType !== 'standard');
+	if (canPopAd) {
 	    //document.write (writeAd('fullpage'));
 	    document.write (writeAdNew({
 	        devices: ['iPhoneApp','iPhoneWeb','AndroidApp','AndroidWeb'],
