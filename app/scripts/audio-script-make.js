@@ -1,13 +1,7 @@
 /* exported startPlay, updateAudioTime, addTag, exportData, previewData, updateAudioSpeed */
 
 
-var audioCurrentTime;
-var audioData = {
-	url: '',
-	text: [
-	]
-};
-var audioHasRendered = false;
+
 
 function startPlay() {
 	var audioUrl = document.getElementById('audio-url').value || '';
@@ -54,12 +48,7 @@ function startPlay() {
 	document.getElementById('audio-player-text-lines').innerHTML = '<table><caption>点击加上时间点位</caption><thead><tr><th><span class="ft-bold">时间</span></th><th><span class="ft-bold">文字</span></th></tr></thead><tbody>' + htmlForAudio + '</tbody></table>';
 }
 
-function updateAudioTime(ele) {
-	audioCurrentTime = ele.currentTime;
-	if (audioHasRendered === true) {
-		updateAudioTimeForRenderedText(audioCurrentTime, audioData);
-	}
-}
+
 
 function addTag(ele) {
 	if (audioCurrentTime !== undefined) {
@@ -105,38 +94,3 @@ function previewData() {
 
 // }
 
-var lastIndex = {'k':0, 'l':0};
-var latestIndex = {'k':0, 'l':0};
-// MARK: this will be writen in SWIFT in the native app
-function updateAudioTimeForRenderedText(currentTime, data) {
-	//console.log ('current time: ' + currentTime);
-	for (var k=0; k<data.text.length; k++) {
-		for (var l=0; l<data.text[k].length; l++) {
-			var checkTime = data.text[k][l].start;
-			if (checkTime && checkTime>=currentTime) {
-				///console.log (latestIndex);
-				var lastK = lastIndex.k;
-				var lastL = lastIndex.l;
-				if (k !== latestIndex.k || l !== latestIndex.l) {
-					console.log (lastK + '/' + k + '-' + lastL + '/' + l + ': ' + checkTime + '/' + currentTime);
-					
-
-					//MARK: Handle the output tuple from native side
-					showHightlight(lastK, lastL);
-
-
-
-					latestIndex = {'k':k, 'l':l};
-
-
-					var text = data.text[lastK][lastL].text;
-					if (text) {
-						console.log (text);
-					}
-				}
-				return;
-			}
-			lastIndex = {'k':k, 'l':l};
-		}
-	}
-}

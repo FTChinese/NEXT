@@ -1,6 +1,13 @@
 
-/* exported renderAudioData, showHightlight, seekAudio */
-var audioData;
+/* exported renderAudioData, showHightlight, seekAudio, updateAudioTime*/
+var audioCurrentTime;
+var audioData = {
+	url: '',
+	text: [
+	]
+};
+var audioHasRendered = false;
+
 function renderAudioData(ele) {
 	var exportedJSONString = document.getElementById('audio-json-text').value;
 	audioData = JSON.parse(exportedJSONString);
@@ -69,6 +76,53 @@ function seekAudio(ele) {
 		} else {
 			var currentAudio = document.getElementById('current-audio');
 			currentAudio.currentTime = seekAudio;
+			if (currentAudio.paused === true) {
+				currentAudio.play();
+			}
+		}
+	}
+}
+
+
+function updateAudioTime(ele) {
+	audioCurrentTime = ele.currentTime;
+	if (audioHasRendered === true) {
+		updateAudioTimeForRenderedText(audioCurrentTime, audioData);
+	}
+}
+
+var lastIndex = {'k':0, 'l':0};
+var latestIndex = {'k':0, 'l':0};
+// MARK: this will be writen in SWIFT in the native app
+function updateAudioTimeForRenderedText(currentTime, data) {
+	//console.log ('current time: ' + currentTime);
+	for (var k=0; k<data.text.length; k++) {
+		for (var l=0; l<data.text[k].length; l++) {
+			var checkTime = data.text[k][l].start;
+			if (checkTime && checkTime>=currentTime) {
+				///console.log (latestIndex);
+				var lastK = lastIndex.k;
+				var lastL = lastIndex.l;
+				if (k !== latestIndex.k || l !== latestIndex.l) {
+					//console.log (lastK + '/' + k + '-' + lastL + '/' + l + ': ' + checkTime + '/' + currentTime);
+					
+
+					//MARK: Handle the output tuple from native side
+					showHightlight(lastK, lastL);
+
+
+
+					latestIndex = {'k':k, 'l':l};
+
+
+					var text = data.text[lastK][lastL].text;
+					if (text) {
+						//console.log (text);
+					}
+				}
+				return;
+			}
+			lastIndex = {'k':k, 'l':l};
 		}
 	}
 }
