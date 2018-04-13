@@ -1284,13 +1284,25 @@
 										<div id="iap-highlight"></div>
 									<%/if%>
 									<%if $i == 8%>
-										<script type="text/javascript">
-											document.write (writeAdNew({
-													devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
-													pattern:'MPU',
-													position:'Middle1'
-											}));
-										</script>
+										<%if $smarty.get.ad != "no" && $noAd != "true"%>
+											<%if $smarty.get.testDB == "yes" %>
+												<script>
+													document.write(displayDBAd({
+														devices:['iPhoneWeb','AndroidWeb','iPhoneApp'],
+														adName:'Mobile-MPU-Num1',
+														container:'mpu'
+													}));
+												</script>
+											<%else%>
+												<script type="text/javascript">
+													document.write (writeAdNew({
+															devices: ['iPhoneWeb','AndroidWeb','iPhoneApp'],
+															pattern:'MPU',
+															position:'Middle1'
+													}));
+												</script>
+											<%/if%>
+										<%/if%>
 									<%/if%>
 									<%if $i == 18 && date("Ymd",$smarty.now) <= 20171231%>
 										<script type="text/javascript">
