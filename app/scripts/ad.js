@@ -516,7 +516,7 @@ function writeAdNew(obj) {
     iframeHTML = '<div class="bn-ph"><div class="banner-container"><div class="banner-inner"><div class="banner-content">' + iframeHTML + '</div></div></div></div>';
   } else if (containerType === 'mpu') {
     iframeHTML = '<div class="mpu-container">' + iframeHTML + '</div>';
-  } else if (containerType === 'mpuInStroy') {
+  } else if (containerType === 'mpuInStory') {
     iframeHTML = '<div class="mpu-container-instory">' + iframeHTML + '</div>';
   }
   return iframeHTML;
