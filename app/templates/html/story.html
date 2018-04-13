@@ -1150,9 +1150,13 @@
 <%if $hasAudio == "yes"%>
 	<%assign var="audioSrc" value=$cshortleadbody|replace:"http://v.ftimg.net/album/":"https://creatives.ftimg.net/album/"%>
 	<%if $audioSrc != ""%>
-		<%assign var="audioHTML" value="<div class=\"audio-placeholder\" id=\"audio-placeholder\"><div class=\"audio-container\"><audio preload=\"none\" controls=\"\"><source src=\"`$audioSrc`\"><br clear='all'></audio></div></div>"%>
-		<%if $smarty.get.enableScript == "yes" && preg_match("/url/is",$cbody)%>
-			<%assign var="audioHTML" value="<textarea class=\"hide\" id=\"audio-json-text\">`$cbody`</textarea>"%>
+		<%if $smarty.get.webview != "ftcapp"%>
+			<%assign var="audioHTML" value="<div class=\"audio-placeholder\" id=\"audio-placeholder\"><div class=\"audio-container\"><audio preload=\"none\" controls=\"\"><source src=\"`$audioSrc`\"><br clear='all'></audio></div></div>"%>
+		<%else%>
+			<%assign var="audioHTML" value=""%>
+		<%/if%>
+		<%if preg_match("/url/is",$cbody)%>
+			<%assign var="audioHTML" value="`$audioHTML`<textarea class=\"hide\" id=\"audio-json-text\">`$cbody`</textarea>"%>
 		<%/if%>
 	<%/if%>
 	<%if $smarty.get.hideheader == "yes"%>
@@ -1477,11 +1481,9 @@ if (w > 490 && isTouchDevice() === false && document.querySelectorAll('.ce').len
 <%/if%>
 
 
-<%if $smarty.get.enableScript == "yes" && preg_match("/url/is",$cbody)%>
-<script>
-<%include file="next/scripts/main-audio-script-render.js"%>
-</script>
-<script>renderAudioData(document.getElementById('story-body-container'));</script>
+<%if $audioSrc != "" && preg_match("/url/is",$cbody)%>
+	<script><%include file="next/scripts/main-audio-script-render.js"%></script>
+	<script>renderAudioData(document.getElementById('story-body-container'));</script>
 <%/if%>
 
 </html>
