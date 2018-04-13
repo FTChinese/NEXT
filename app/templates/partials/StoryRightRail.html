@@ -7,13 +7,23 @@
 	<%/if%>
 
 	<%if $smarty.get.ad != "no" && $noAd != "true" && $hideMPU1 != "yes"%>
-		<script type="text/javascript">
-			document.write (writeAdNew({
-					devices: ['PC','PadWeb','PadApp'],
-					pattern:'MPU',
-					position:'Right1'
-			}));
-		</script>
+		<%if $smarty.get.testDB == "yes"%>
+			<script>
+				document.write(displayDBAd({
+					devices:['PC','PadWeb', 'PadApp'],
+					adName:'PC-MPU-Right1',
+					container:'mpu'
+				}));
+			</script>
+		<%else%>
+			<script type="text/javascript">
+				document.write (writeAdNew({
+						devices: ['PC','PadWeb','PadApp'],
+						pattern:'MPU',
+						position:'Right1'
+				}));
+			</script>
+		<%/if%>
 	<%/if%>
 
 
@@ -67,13 +77,23 @@
 
 
 	<%if $smarty.get.ad != "no" && $noAd != "true" && $hideMPU2 != "yes"%>
-		<script type="text/javascript">
-			document.write (writeAdNew({
-					devices: ['PC','PadWeb','PadApp'],
-					pattern:'MPU',
-					position:'Right2'
-			}));
-		</script>
+		<%if $smarty.get.testDB == "yes"%>
+			<script>
+				document.write(displayDBAd({
+					devices:['PC','PadWeb', 'PadApp'],
+					adName:'PC-MPU-Right2',
+					container:'mpu'
+				}));
+			</script>
+		<%else%>
+			<script type="text/javascript">
+				document.write (writeAdNew({
+						devices: ['PC','PadWeb','PadApp'],
+						pattern:'MPU',
+						position:'Right2'
+				}));
+			</script>
+		<%/if%>
 	<%/if%>
 
 	<%if $story.tag|@count>=1%>
