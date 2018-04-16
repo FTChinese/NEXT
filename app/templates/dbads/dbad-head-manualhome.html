@@ -40,6 +40,11 @@
           );
 
         } else if (['iPhoneWeb','AndroidWeb','iPhoneApp'].indexOf(deviceType)>-1) {
+          /*
+          var deviceWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+          var bannerW = deviceWidth;
+          var bannerH = Math.round(bannerW/4);
+          */
           gptadslots.push(
             googletag.defineSlot('/80682004/iPhoneWeb-3000/' + deviceId+ adChannelId +'0301', [[320,80],[375, 94],[414, 104]], 'Mobile-Banner-Num1'). addService(googletag.pubads())
           );
