@@ -479,7 +479,7 @@ subscribeNow.onclick = function(){
     // }else{
     //     window.open('http://premium.ftacademy.cn/subscription.html','_self');
     // }
-    var pathname = window.location.pathname ;
+    // var pathname = window.location.pathname ;
     ga('send','event','Web Privileges','Tap',window.gSubscriptionEventLabel);
 };
 
