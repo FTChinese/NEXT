@@ -1,6 +1,28 @@
+<%if $hasAudio == "yes"%>
+    <%assign var="privilegeType" value="Radio"%>
+    <%assign var="privilegeSuffix" value=""%>
+<%elseif $page_action == "en" || $page_action == "ce"%>
+    <%assign var="privilegeType" value="EnglishText"%>
+    <%assign var="privilegeSuffix" value="/`$page_action`"%>
+<%elseif $tag != "" && preg_match("/速读/is",$$tag)%>
+    <%assign var="privilegeType" value="SpeedReading"%>
+    <%assign var="privilegeSuffix" value="/`$page_action`"%>
+<%else%>
+    <%assign var="privilegeType" value="ExclusiveContent"%>
+    <%assign var="privilegeSuffix" value=""%>
+<%/if%>
+
+<%assign var="privilegeEventLabel" value="`$privilegeType`/`$itemType`/`$itemId``$privilegeSuffix`"%>
+
+
 <script type="text/javascript">
-    ga('send','event','web member subscribe','subscribe hint',window.location.href);
+    window.gSubscriptionEventLabel = '<%$privilegeEventLabel|strip_tags|regex_replace:"/[\r\n\t\s]/":""%>';
 </script>
+<script type="text/javascript">
+    ga('send','event','Web Privileges', 'Display', window.gSubscriptionEventLabel);
+</script>
+
+
 <%if $smarty.get.paywall == "1" || $paywall == "1"%>
     <div class="subscribe-lock-container" id="subscribe-now-container">
         <div class="lock-block">
@@ -10,7 +32,7 @@
         </div>
         <div class="subscribe-btn" ><a href="http://www.ftchinese.com/index.php/ft/subscription"  id="subscribe-now">成为会员&#x25BA;</a></div>
         </div>
-    </div> 
+    </div>
 <%elseif $smarty.get.paywall == "2" || $paywall == "2"%>
     <div class="subscribe-lock-container" id="download-app-container">
         <div class="lock-block">
@@ -22,7 +44,7 @@
         </div>
     </div> 
 <%/if%>
- 
+
 <script type="text/javascript">
     document.write (writeAdNew({
         devices: ['PC','iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
