@@ -480,7 +480,7 @@ subscribeNow.onclick = function(){
     //     window.open('http://premium.ftacademy.cn/subscription.html','_self');
     // }
     var pathname = window.location.pathname ;
-    ga('send','event','web member subscribe','subscribe now',pathname);
+    ga('send','event','Web Privileges','Tap',window.gSubscriptionEventLabel);
 };
 
 function getDeviceSpecie() {
