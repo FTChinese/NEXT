@@ -19,6 +19,7 @@
     window.gSubscriptionEventLabel = '<%$privilegeEventLabel|strip_tags|regex_replace:"/[\r\n\t\s]/":""%>';
 </script>
 <script type="text/javascript">
+    window.name = window.gSubscriptionEventLabel;
     SetCookie("SELabel",window.gSubscriptionEventLabel,"/");
     ga('send','event','Web Privileges', 'Display', window.gSubscriptionEventLabel);
 </script>
