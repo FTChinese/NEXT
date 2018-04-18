@@ -290,7 +290,7 @@
 
 
 				<%foreach from=$itemsArray item=item%>
-					<%if $item.type == "premium" || $paywall == "1"%>
+					<%if $item.type == "premium" || $paywall == "1"  || $pageId == "exclusive" ||$pageId == $smarty.get.issue || $pageId|strstr:"EditorChoice-"%>
 						<%assign var="lockClass" value="locked"%>
 					<%else%>
 						<%assign var="lockClass" value=""%>
