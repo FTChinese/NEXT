@@ -1,38 +1,4 @@
 
-
-// function payWall(){  
-//     var xhrpw = new XMLHttpRequest();
-//     xhrpw.open('get', '/index.php/jsapi/paywall');
-//     xhrpw.setRequestHeader('Content-Type', 'application/text');
-//     xhrpw.onload = function() {
-//         if (xhrpw.status === 200) {
-//            isReqSuccess = true;
-//             var data = xhrpw.responseText;
-//             var dataObj = JSON.parse(data); 
-//             if (dataObj.paywall >= 1) {      
-//                 updateUnlockClass();
-//             }else{
-//                 updateLockClass();
-//                 // console.log('open lock class');
-//             }
-//         } else {
-//             console.log('fail to request');
-//         }
-//     };
-//     xhrpw.send(null);
-// }
-
-// var userId1 = GetCookie('USER_ID') ;
-// if (userId1 !== null) {
-//     payWall(); 
-//     var interval = setInterval(function(){
-//         payWall();
-//     },5000);
-//     setTimeout(function( ) {
-//       clearInterval(interval); 
-//     }, 10000);  
-// }
-
 var isReqSuccess = false;
 var i = 0;
 function payWall(){  
