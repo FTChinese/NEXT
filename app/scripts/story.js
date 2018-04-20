@@ -464,24 +464,25 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min; 
 }
 
-
+try {
 checkFontSize();
 changeFontSize();
+} catch (ignore) {
 
+}
 
 var subscribeNow = document.getElementById('subscribe-now');
 var openApp = document.getElementById('open-app');
 
-subscribeNow.onclick = function(){
-    // var userIdV = GetCookie('USER_ID') ;
-    // if (!userIdV) {
-    //     window.open('http://user.ftchinese.com/login','_self');
-    // }else{
-    //     window.open('http://premium.ftacademy.cn/subscription.html','_self');
-    // }
-    var pathname = window.location.pathname ;
-    ga('send','event','Web Privileges','Tap',window.gSubscriptionEventLabel);
-};
+// MARK: subscribeNow might be null, for example, in iOS app. 
+// MARK: never assume a dom exists. 
+try {
+    subscribeNow.onclick = function(){
+        ga('send','event','Web Privileges','Tap',window.gSubscriptionEventLabel);
+    };
+} catch(ignore) {
+
+}
 
 function getDeviceSpecie() {
     var uaString = navigator.userAgent || navigator.vendor || '';
@@ -496,19 +497,23 @@ function getDeviceSpecie() {
     return deviceSpecie;
 }
 var deviceSpecie = getDeviceSpecie();
-if (openApp){
-    var pathname = window.location.pathname ;
-    var paraArr = pathname.split('/');
-    var storyId = paraArr[paraArr.length-1];
-   if(deviceSpecie === 'iPad'|| deviceSpecie === 'iPhone') {
-        openApp.innerHTML = 'App内打开';
-        if  (storyId){
-            openApp.href = '/startapp.html?id='+storyId;
-        }  else{
-            openApp.href = '/startapp.html';
-        }
-    }else{
-        openApp.innerHTML = '下载应用&#x25BA;';
-        openApp.href = 'http://a.app.qq.com/o/simple.jsp?pkgname=com.ft';
-    } 
+try {
+    if (openApp){
+        var pathname = window.location.pathname ;
+        var paraArr = pathname.split('/');
+        var storyId = paraArr[paraArr.length-1];
+       if(deviceSpecie === 'iPad'|| deviceSpecie === 'iPhone') {
+            openApp.innerHTML = 'App内打开';
+            if  (storyId){
+                openApp.href = '/startapp.html?id='+storyId;
+            }  else{
+                openApp.href = '/startapp.html';
+            }
+        }else{
+            openApp.innerHTML = '下载应用&#x25BA;';
+            openApp.href = 'http://a.app.qq.com/o/simple.jsp?pkgname=com.ft';
+        } 
+    }
+} catch (ignore) {
+
 }
