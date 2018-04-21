@@ -498,5 +498,9 @@ function passLoginToNative() {
             'uniqueVisitorId': uniqueId
         }
     }
-    webkit.messageHandlers.user.postMessage(message);
+    try {
+        webkit.messageHandlers.user.postMessage(message);
+    } catch(ignore) {
+
+    }
 }
