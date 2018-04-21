@@ -494,5 +494,7 @@ function passLoginToNative() {
     }
     try {
        webkit.messageHandlers.user.postMessage(message);
+    } catch (ignore) {
+        
     }
 }
