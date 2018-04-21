@@ -472,29 +472,3 @@ function presentAlert(title, message) {
 
     }
 }
-
-
-function passLoginToNative() {
-    var message = {};
-    var uniqueId = GetCookie('uniqueVisitorId') || guid();
-    window.username = GetCookie('USER_NAME') || '';
-    message = {
-        'username': window.username,
-        'userId': window.userId || '',
-        'uniqueVisitorId': uniqueId
-    };
-    // MARK: Get subscription: standard/premium
-    var paywall = GetCookie('paywall') || '';
-    var paywallExpire = GetCookie('paywall_expire') || '';
-    if (paywall !== '') {
-        message.paywall = paywall;
-    }
-    if (paywallExpire !== '') {
-        message.paywallExpire = paywallExpire;
-    }
-    try {
-       webkit.messageHandlers.user.postMessage(message);
-    } catch (ignore) {
-        
-    }
-}
