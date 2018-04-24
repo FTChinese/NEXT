@@ -405,6 +405,7 @@ function writeAdNew(obj) {
    * @dependglob adChannelId
    * @dependglob bannerBg
    * @dependglob isLocal
+   * @dependglob searchVars.testDB
    */
   
   // MARK: If there's ad=no in the url, return empty string immediately
@@ -431,20 +432,7 @@ function writeAdNew(obj) {
     return '';
   }
   deviceId = adDevices[deviceType].id;//get the deviceId
-  //console.log('deviceId:'+deviceId);
-  /*
-  if(window.deviceGotFromPhp) {//线上环境根据后台php传过来的deviceGotFromPhp来获取设备类型
-    console.log(window.deviceGotFromPhp);
-    if (window.deviceGotFromPhp === 'Pad') {
-      adPatternData = window.adPatternsPad;
-    } else if (window.deviceGotFromPhp === 'Phone') {
-      adPatternData = window.adPatternsPhone;
-    } else {
-      adPatternData = window.adPatternsPC;
-    }
-  } else { //本地情况只能根据deviceType来判断
-    */
-  //console.log('deviceType:'+deviceType);
+  
   if(deviceType === 'PadWeb'|| deviceType === 'PadApp') {
     adPatternData = window.adPatternsPad;
   } else if(deviceType === 'iPhoneWeb'|| deviceType === 'iPhoneApp' || deviceType === 'AndroidWeb') {
@@ -452,7 +440,6 @@ function writeAdNew(obj) {
   } else {
     adPatternData = window.adPatternsPC;
   }
-  //} 
 
   if(adPatternData) {
     var adPattern = adPatternData[obj.pattern];
@@ -466,46 +453,32 @@ function writeAdNew(obj) {
   
  
   var iframeSrc = '';
-  if (isLocal) {
-    iframeSrc = 'a.html?v=20171214112400' + bannerBG + '#adid='+ adid + '&pid=' + adid;
-  } else {
-    if(bannerBG) {
-      iframeSrc = '/a.html?v=20171214112401' + bannerBG + '#adid='+ adid + '&pid=' + adid;
+ 
+  if(bannerBG) {
+    if (searchVars.testDB === 'yes') {
+      iframeSrc = '/a.html?v=20171214112401' + bannerBG + '&testDB=yes&adid='+ adid + '&pid=' + adid + '&device=' + deviceType + '&pattern=' +  obj.pattern;
     } else {
-      iframeSrc = '/a.html?v=20171214112401#adid='+ adid + '&pid=' + adid;
+      iframeSrc = '/a.html?v=20171214112401' + bannerBG + '&adid='+ adid + '&pid=' + adid + '&device=' + deviceType + '&pattern=' +  obj.pattern;
     }
+  } else {
+    if (searchVars.testDB === 'yes') {
+      iframeSrc = '/a.html?v=20171214112401&testDB=yes&adid='+ adid + '&pid=' + adid + '&device=' + deviceType + '&pattern=' +  obj.pattern;
+    } else {
+      iframeSrc = '/a.html?v=20171214112401&adid='+ adid + '&pid=' + adid + '&device=' + deviceType + '&pattern=' +  obj.pattern;
+    }
+    
   }
+
   var iframeId = 'ad-'+adid;
   iframeHTML = '<iframe class="banner-iframe" data-adch="'+adChannelId+'" data-adPosition="'+ adPatternId + adPositionId+'" id="' + iframeId + '" width="'+ adWidth +'" height="'+ adHeight + '" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="'+ iframeSrc +'" data-src="'+ iframeSrc +'" data-ad-type="'+ adPatternId + adPositionId +'" data-ad-count=0></iframe>';
 
 
   if (window.gDebugAd && typeof window.gDebugAd === 'string') { //有两种情况存在gDebugAd：1线上为www7时，如果$debug_model == 1，则存在gDebugAd(参见partials/head.html);2本地测试一定存在gDebugAd
-    //MARK:找出channel的describtion
-    //TODO:按需加载channel数据
-    /*
-    var topChannelId = adChannelId.substring(0,2);
-    var subChannelId = adChannelId.substring(2,4);
-    var adChannel = adDevices[deviceType].channels; 
 
-    var subChannels = {};
-    */
+    
     var topChannelTitle = '';
     var subChannelTitle = '';
-    /*
-    for(var prop in adChannel) {
-      var propObj = adChannel[prop];
-      if(propObj.id === topChannelId) {
-        topChannelTitle = propObj.title;
-        subChannels = propObj.sub;
-      }
-    }
-    for(var subProp in subChannels) {
-      var subPropObj = subChannels[subProp];
-      if(subPropObj.id === subChannelId) {
-        subChannelTitle = subPropObj.title;
-      }
-    }
-    */
+    
     adDescription = deviceType + '-' + topChannelTitle + '-' + subChannelTitle + '-' + obj.pattern + '-' + obj.position;
     debugString = window.gDebugAd.replace('adcode_for_debug', adid + ': ' + adDescription);
   }
