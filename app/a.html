@@ -41,98 +41,98 @@ img {
 </style>
 <script>
 
-//获取url参数 
-var gSearchVars = {};
-var searchStr = window.location.search;
-for (var index = 0, searchStrArr = searchStr.substr(1).split("&"); index < searchStrArr.length; index++) {
-    var oneKeyValueArr = searchStrArr[index].split("=");
-    gSearchVars[oneKeyValueArr[0]] = oneKeyValueArr.length > 1 ? oneKeyValueArr[1] : "";
-}
-    
- var k=window.location.href;
-var c = k.replace(/^.*adid=([0-9A-Za-z\-]+).*$/,'$1');
-//var c = gSearchVars.adid;
-// console.log('gSearchVars:', gSearchVars);
-// console.log('c:',c);
-var d;
-if (/^[0-9]{4}0001$/.test(c)) {
-    d = c.replace(/([0-9]{4})0001/g,'$10002');
-} else {
-    d='';
-}
-var adDeviceId;
-var adChannelId;
-var adPositionId;
-
-var adSize;
-var parentId = k.replace(/^.*pid=([0-9A-Za-z\-]+).*$/,'$1');
-if (/^[0-9]{12}$/.test(c)) {
-    adChannelId = c.substring(4,8);
-    adPositionId = c.substring(8,12);
-    adDeviceId = c.substring(0,4);
-    parentId = 'ad-'+parentId;
-} else {
-    adChannelId = c.substring(0,4);
-    adPositionId = c.substring(4,8);
-    adDeviceId = '';
-}
-
-var refreshParameter = '';
-if (/&refresh=1/.test(k)) {
-    refreshParameter = '&_refresh=1';
-} else {
-    refreshParameter = '&_refresh=0';
-}
-
-var slotStr = window.parent.slotStr || '';
-
-var adP = '';
-try {
-    adP = parent.adReachability();
-} catch (ignore) {
-}
-
-var randNumber = parseInt(Math.random() * 10000000000, 10).toString();
-var adpatternCode = c.substr(-4,4);
-if (c === '20220101' || c === '20220102' || c === '20230101' || c === '20230102' || adpatternCode === '0301' || adpatternCode === '0351') {
-    parent.window.gRand = randNumber;
-}
-var trString = '&tr=' + c + '_' + randNumber;
-
-if (gSearchVars && gSearchVars.testDB === 'yes') {
-    var adDeviceType = gSearchVars.device;
-    var adPattern = gSearchVars.pattern;
-    var adSizeArr = [];
-    //var adClass = 'db-ad';
-
-    if (adDeviceType === 'PC') {
-        if(adPattern === 'Leaderboard') {
-            adSizeArr =  [[969, 90], [1200, 120], [1200, 500], 'fluid', [969, 250], [1200, 400], [969, 400]];
-        } else if (adPattern === 'Banner') {
-            adSizeArr = [[969, 90], [1200, 120]];
-        }else if (adPattern === 'MPU') {
-            adSizeArr = [[300, 250], [300, 1050], [300, 600], 'fluid', [810, 600]];
-        }
-    } else if (adDeviceType === 'iPhoneWeb' || adDeviceType === 'AndroidWeb') {
-        if(adPattern === 'Banner') {
-            var deviceWidth = window.parent.innerWidth || window.parent.document.documentElement.clientWidth || window.parent.document.body.clientWidth;
-            var bannerW = deviceWidth;
-            var bannerH = Math.round(bannerW/4);
-            adSizeArr = [[bannerW,bannerH],[414, 104]];
-            //adClass += ' db-mobile-banner';
-
-        } else if (adPattern === 'MPU') {
-            adSizeArr = [[300, 250]];
-        } else if (adPattern === 'Information') {
-            adSizeArr = [[480, 320]];
-            //adClass += ' db-mobile-information';
-
-        } else {
-            adSizeArr = [];
-        }
+    //获取url参数 
+    var gSearchVars = {};
+    var searchStr = window.location.search;
+    for (var index = 0, searchStrArr = searchStr.substr(1).split("&"); index < searchStrArr.length; index++) {
+        var oneKeyValueArr = searchStrArr[index].split("=");
+        gSearchVars[oneKeyValueArr[0]] = oneKeyValueArr.length > 1 ? oneKeyValueArr[1] : "";
     }
-    var adName = 'db-'+c;
-}
+        
+    var k=window.location.href;
+    var c = k.replace(/^.*adid=([0-9A-Za-z\-]+).*$/,'$1');
+    //var c = gSearchVars.adid;
+    // console.log('gSearchVars:', gSearchVars);
+    // console.log('c:',c);
+    var d;
+    if (/^[0-9]{4}0001$/.test(c)) {
+        d = c.replace(/([0-9]{4})0001/g,'$10002');
+    } else {
+        d='';
+    }
+    var adDeviceId;
+    var adChannelId;
+    var adPositionId;
+
+    var adSize;
+    var parentId = k.replace(/^.*pid=([0-9A-Za-z\-]+).*$/,'$1');
+    if (/^[0-9]{12}$/.test(c)) {
+        adChannelId = c.substring(4,8);
+        adPositionId = c.substring(8,12);
+        adDeviceId = c.substring(0,4);
+        parentId = 'ad-'+parentId;
+    } else {
+        adChannelId = c.substring(0,4);
+        adPositionId = c.substring(4,8);
+        adDeviceId = '';
+    }
+
+    var refreshParameter = '';
+    if (/&refresh=1/.test(k)) {
+        refreshParameter = '&_refresh=1';
+    } else {
+        refreshParameter = '&_refresh=0';
+    }
+
+    var slotStr = window.parent.slotStr || '';
+
+    var adP = '';
+    try {
+        adP = parent.adReachability();
+    } catch (ignore) {
+    }
+
+    var randNumber = parseInt(Math.random() * 10000000000, 10).toString();
+    var adpatternCode = c.substr(-4,4);
+    if (c === '20220101' || c === '20220102' || c === '20230101' || c === '20230102' || adpatternCode === '0301' || adpatternCode === '0351') {
+        parent.window.gRand = randNumber;
+    }
+    var trString = '&tr=' + c + '_' + randNumber;
+
+    if (gSearchVars && gSearchVars.testDB === 'yes') {
+        var adDeviceType = gSearchVars.device;
+        var adPattern = gSearchVars.pattern;
+        var adSizeArr = [];
+        //var adClass = 'db-ad';
+
+        if (adDeviceType === 'PC') {
+            if(adPattern === 'Leaderboard') {
+                adSizeArr =  [[969, 90], [1200, 120], [1200, 500], 'fluid', [969, 250], [1200, 400], [969, 400]];
+            } else if (adPattern === 'Banner') {
+                adSizeArr = [[969, 90], [1200, 120]];
+            }else if (adPattern === 'MPU') {
+                adSizeArr = [[300, 250], [300, 1050], [300, 600], 'fluid', [810, 600]];
+            }
+        } else if (adDeviceType === 'iPhoneWeb' || adDeviceType === 'AndroidWeb') {
+            if(adPattern === 'Banner') {
+                var deviceWidth = window.parent.innerWidth || window.parent.document.documentElement.clientWidth || window.parent.document.body.clientWidth;
+                var bannerW = deviceWidth;
+                var bannerH = Math.round(bannerW/4);
+                adSizeArr = [[bannerW,bannerH],[414, 104]];
+                //adClass += ' db-mobile-banner';
+
+            } else if (adPattern === 'MPU') {
+                adSizeArr = [[300, 250]];
+            } else if (adPattern === 'Information') {
+                adSizeArr = [[480, 320]];
+                //adClass += ' db-mobile-information';
+
+            } else {
+                adSizeArr = [];
+            }
+        }
+        var adName = 'db-'+c;
+    }
 </script>
 <script src='https://www.googletagservices.com/tag/js/gpt.js'></script>
 <script>
