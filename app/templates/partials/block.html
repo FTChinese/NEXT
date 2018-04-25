@@ -1023,9 +1023,7 @@
 							<%assign var="itemType" value="column"%>
 						<%/if%>
 
-					<%if $memberType != "premium" && $smarty.server.REQUEST_URI|strstr:"EditorChoice-"%>
-						<%assign var="itemLink" value=" data-hint=\"dataHint\" "%>
-					<%else%>
+
 						<%if $item.customLink != "" %>
 							<%assign var="itemLink" value=$item.customLink%>
 							<%assign var="itemLink" value=" href=\"`$itemLink`\""%>
@@ -1036,7 +1034,7 @@
 							<%assign var="itemLink" value=" href=\"`$itemLink`\""%>
 						<%/if%>
 						
-				    <%/if%>
+	
 
 						<%if $listType === "videos" && $i==0%>
 							<div class="item-inner video-package-inner"><div class="image"><figure id="video-package-play" class="loading-video" data-vid="<%$itemId%>"></figure></div><div class="video-package-title"><a href="/video/<%$itemId%>" target=_blank><%$itemHeadline%></a></div></div>
