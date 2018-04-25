@@ -1,6 +1,7 @@
 
 var isReqSuccess = false;
 var i = 0;
+var isPremium = false;
 function payWall(){  
 if(!isReqSuccess && i<3){
       var xhrpw = new XMLHttpRequest();
@@ -14,7 +15,13 @@ if(!isReqSuccess && i<3){
               if (dataObj.paywall >= 1) {      
                   updateUnlockClass();
               }else{
-                  updateLockClass();
+                  // updateLockClass();
+                  isPremium = (dataObj.premium >= 1) ? true : false ;  
+                  if(!isPremium && isEditorChoiceChannel()){
+                      updateUnlockClass();
+                  } else {
+                      updateLockClass();
+                  }
               }
           } else {
               isReqSuccess = false;
@@ -28,6 +35,16 @@ if(!isReqSuccess && i<3){
       xhrpw.send(null);
     }
 }
+
+
+
+function isEditorChoiceChannel(){
+  var para = location.search.substring(1);
+  var isEditorChoiceChannel = (para.indexOf('issue=EditorChoice')>=0) ? true : false;
+  return isEditorChoiceChannel;
+}
+
+
 
 var userId1 = GetCookie('USER_ID') ;
 if (userId1 !== null) {
@@ -111,4 +128,50 @@ function removeClass(ele, cls) {
 //     } 
 // }
 
+function showPaywallHint(){
+  // var parameter = window.location.search.substr(1);
+  var subscribeNowContainerId = document.getElementById('paywall-hint-container');
+  if(subscribeNowContainerId){
+      // if (parameter==='paywall=1'){
+      //     subscribeNowContainerId.style.display = 'block';
+      // }else{
+      //     subscribeNowContainerId.style.display = 'none';
+      // }
+
+      var paywallOverlayShadow = document.getElementById('paywall-overlay-shadow');
+      var paywallHintContainer = document.getElementById('paywall-hint-container');
+
+      paywallOverlayShadow.onclick = function(){
+          // paywallHintContainer.innerHTML = '';
+          paywallHintContainer.style.display = 'none';
+      };
+  }
+
+}
+showPaywallHint();
+
+
+function openHint(){
+  var para = location.search.substring(1);
+  if (para.indexOf('issue=EditorChoice')>=0){
+      var paywallHintContainer = document.getElementById('paywall-hint-container');
+      var dataHints = document.querySelectorAll('[data-hint="dataHint"]');
+      console.log('length'+dataHints.length);
+      if(dataHints.length>0){
+        for (var i = 0,len=dataHints.length; i < len; i++) {  
+          dataHints[i].onclick = function(){  
+            console.log('paywallHintContainer');   
+            paywallHintContainer.style.display = 'block';
+          };
+        }
+      }
+
+  }
+  
+
+
+  
+}
+
+openHint();
 

@@ -33,3 +33,109 @@
 		}
 	}
 }
+
+
+//subscribe-lock
+@media only screen and (max-width: 350px) {
+	#paywall-box {
+		width: 80%;
+		left: 10%;
+	}
+
+  	.lock-block{
+		height: 80%;
+	}
+}
+
+@media only screen and  (max-width: 980px) and (min-width: 351px) {
+	#paywall-box {
+		width: 70%;
+		left: 15%;
+	}
+
+  	.lock-block{
+		height: 70%;
+	}
+}
+
+@media only screen and (min-width: 600px) {
+	#paywall-box {
+		width: 50%;
+		left: 25%;
+	}
+
+  	.lock-block{
+		height: 50%;
+	}
+}
+
+.paywall-hint-container {
+    // position: relative;
+    overflow: visible;
+	display: none;
+}
+
+.paywall-overlay-shadow {
+    position: fixed;
+    z-index: 1;
+    opacity: 1;
+    transition: opacity .3s ease-in-out;
+    background: rgba(0,0,0,.7);
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+
+}
+
+
+#paywall-box{
+	display: flex;
+    justify-content: center;
+    flex-direction: column;
+
+	position: fixed;
+	overflow: visible;
+	z-index: 60;
+	font-size:15px;
+	opacity: 1;
+	height: 40%;
+	bottom: 30%;
+	background: #faeadd;	
+	overflow: visible;  
+	.lock-block{
+		width: 100%;
+		display: flex;
+    	flex-direction: column;
+		justify-content: space-between;
+	}
+    .lock-content{		
+      width: 100%;
+	  text-align: center;
+      padding-bottom: 15px;
+	  a{
+		color: #26747a;
+	  }
+    }
+
+    .subscribe-btn{
+	  bottom: 10px;
+      text-align: center;
+      width: 100%;
+      color:white;
+	  a{
+		color: white;
+		background-color: #0d7680;
+		display: inline-block;
+		letter-spacing: 3px;
+		height: 30px;
+		line-height: 30px;
+		width: 150px;
+		text-align: center;
+		font-size: 14px;
+		border-radius: 1px;
+	  }
+
+    }
+
+}
