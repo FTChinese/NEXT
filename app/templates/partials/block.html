@@ -1023,15 +1023,19 @@
 							<%assign var="itemType" value="column"%>
 						<%/if%>
 
-
-						<%if $item.customLink != "" %>
-							<%assign var="itemLink" value=$item.customLink%>
-							<%assign var="itemLink" value=" href=\"`$itemLink`\""%>
-						<%elseif $itemId == "" || $itemType == "" %>
-							<%assign var="itemLink" value=""%>
+						<%if ($memberType != "premium" && $smarty.server.REQUEST_URI|strstr:"EditorChoice-") || ($pageId == "speedread" && !$memberType)%>
+							<%assign var="itemLink" value=" data-hint=\"dataHint\" "%>
 						<%else%>
-							<%assign var="itemLink" value="/`$itemType`/`$itemId``$listLanguage``$adForceString`"%>
-							<%assign var="itemLink" value=" href=\"`$itemLink`\""%>
+							<%if $item.customLink != "" %>
+								<%assign var="itemLink" value=$item.customLink%>
+								<%assign var="itemLink" value=" href=\"`$itemLink`\""%>
+							<%elseif $itemId == "" || $itemType == "" %>
+								<%assign var="itemLink" value=""%>
+							<%else%>
+								<%assign var="itemLink" value="/`$itemType`/`$itemId``$listLanguage``$adForceString`"%>
+								<%assign var="itemLink" value=" href=\"`$itemLink`\""%>
+							<%/if%>
+							
 						<%/if%>
 						
 	
