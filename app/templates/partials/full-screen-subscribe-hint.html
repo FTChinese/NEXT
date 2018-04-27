@@ -17,8 +17,13 @@
 
             <div class="lock-block">
              <div>
-                <div class="lock-content">成为付费会员，阅读FT独家内容
-                </div>
+                <%if $pageId|strstr:"EditorChoice-" %>
+                    <div class="lock-content">购买高端用户，阅读编辑精选
+                    </div>
+                <%else%>
+                    <div class="lock-content">成为付费会员，阅读FT独家内容
+                    </div>
+                <%/if%>
                 <div class="lock-content">如果已经是会员，请<a href="http://user.ftchinese.com/login">点击这里</a>登录
                 </div>
              </div>
