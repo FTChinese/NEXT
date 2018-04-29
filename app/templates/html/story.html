@@ -1010,7 +1010,7 @@
 		<%assign var="story_content" value=$story.ebody%>
 	<%elseif (!in_array("单页",$story.tag) && $smarty.get.full!="y") || $page_action=="en"%>
 
-	<%if date("Ymd",$smarty.now) <= 20180501%>
+	<%if date("Ymd",$smarty.now) <= 20180401%>
 		<%assign var="infoAdCode" value="<div class=\"hide-iframe\"><script type=\"text/javascript\">window.originalAdId = window.adChannelId;window.adChannelId = '1000';document.write(writeAdNew({devices: ['iPhoneWeb','AndroidWeb'],pattern:'Information',position:'Num1'}));window.adChannelId = window.originalAdId;</script></div>"%>
 	<%else%>
 		<%assign var="infoAdCode" value=""%>
