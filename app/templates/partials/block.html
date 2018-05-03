@@ -1113,7 +1113,8 @@
 								<%assign var="subTypeData" value=""%>
 							<%/if%>
 
-							<%if $itemT != ""%>
+							<%*<!--MARK: Only story needs to show date here-->*%>
+							<%if $itemT != "" && $itemType == "story"%>
 								<%assign var="dateData" value=" data-date=\"`$itemT`\""%>
 							<%else%>
 								<%assign var="dateData" value=""%>
