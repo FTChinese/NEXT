@@ -7,10 +7,16 @@
 <%elseif $tag != "" && preg_match("/速读/is",$$tag)%>
     <%assign var="privilegeType" value="SpeedReading"%>
     <%assign var="privilegeSuffix" value="/`$page_action`"%>
+<%elseif $smarty.server.REQUEST_URI|strstr:"archive"%>
+    <%assign var="privilegeType" value="Archive"%>
+    <%assign var="privilegeSuffix" value="/`$page_action`"%>
 <%else%>
     <%assign var="privilegeType" value="ExclusiveContent"%>
     <%assign var="privilegeSuffix" value=""%>
 <%/if%>
+
+
+
 
 <%assign var="privilegeEventLabel" value="`$privilegeType`/`$itemType`/`$itemId``$privilegeSuffix`"%>
 
