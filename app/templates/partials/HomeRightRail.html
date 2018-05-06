@@ -113,7 +113,7 @@
 				<%if $i<4%>
 					<%if $cs<$storycount && ($storyall[$cs].pubdate>=$photoall[$cp].add_times || $ps>=$photocount)%>
 						<%if !in_array($storyall[$cs].id , explode(',',$echostoryid)) && ($storyall[$cs].story_pic.smallbutton || $storyall[$cs].story_pic.bigbutton || $storyall[$cs].story_pic.cover)%>
-
+							<%assign var="itemSubType" value=""%>
 							<%if preg_match("/速读/is",$storyall[$cs].tag)%>
 								<%assign var="iTag" value="【速读】"%>
 								<%assign var="itemSubType" value="speedreading"%>
@@ -344,7 +344,7 @@
 				<%if $i<4%>
 					<%if $cs<$storycount && ($storyall[$cs].pubdate>=$photoall[$cp].add_times || $ps>=$photocount)%>
 						<%if !in_array($storyall[$cs].id , explode(',',$echostoryid)) && ($storyall[$cs].story_pic.smallbutton || $storyall[$cs].story_pic.bigbutton || $storyall[$cs].story_pic.cover)%>
-
+							<%assign var="itemSubType" value=""%>
 							<%if preg_match("/速读/is",$storyall[$cs].tag)%>
 								<%assign var="iTag" value="【速读】"%>
 								<%assign var="itemSubType" value="speedreading"%>
@@ -430,7 +430,7 @@
 					<%if $cs<$storycount && ($storyall[$cs].pubdate>=$photoall[$cp].add_times || $ps>=$photocount)%>
 						<%if !in_array($storyall[$cs].id , explode(',',$echostoryid)) && ($storyall[$cs].story_pic.smallbutton || $storyall[$cs].story_pic.bigbutton || $storyall[$cs].story_pic.cover)%>
 
-
+							<%assign var="itemSubType" value=""%>
 							<%if preg_match("/速读/is",$storyall[$cs].tag)%>
 								<%assign var="iTag" value="【速读】"%>
 								<%assign var="itemSubType" value="speedreading"%>
