@@ -9,7 +9,7 @@
 -->*%>
 
 <%if $adchannelID != "1000"%>
-    <%assign var="adForceString" value="#adchannelID=$adchannelID"%>
+    <%assign var="adForceString" value="?adchannelID=$adchannelID"%>
 <%/if%>
 <%assign var="listHasFloat" value="none"%>
 <%assign var="sideListCount" value=0%>
@@ -22,7 +22,11 @@
 	<%/if%>
 <%/foreach%>
 <div class="block-container <%if ($section.side != "" && $section.side != "none") || $sideListCount > 0 %><%assign var="sectionHasSide" value="yes"%>has-side<%if $section.sideAlign !== ""%> side-<%$section.sideAlign|default:"right"%><%/if%><%else%><%assign var="sectionHasSide" value="no"%>no-side<%/if%><%if $section.side == "HotVideos"%> side-video<%/if%>"><div class="block-inner">
-	<div class="content-container"><div class="content-inner">
+	<div class="content-container">
+
+		<%include file="next/partials/full-screen-subscribe-hint.html"%>
+
+		<div class="content-inner">
 	<%if $section.title != ""%>
 		<div class="block-title"><%$section.title%></div>
 	<%/if%>
@@ -98,7 +102,7 @@
 				<%else%>
 					<%assign var="listClass" value=" XL-oneline"%>
 				<%/if%>
-			<%/if%>
+			<%/if%>  <%* <!--end SideBySide -->*%>
 
 			<%assign var="prev" value=$l-1%>
 			<%if $listTopClass !== "" && $l > 0%>
@@ -224,6 +228,12 @@
 						<%else%>
 							<%assign var="feedType" value=$list.feedType%>
 							<%assign var="itemsArray" value=$storymodel->getContentByTag($feedTag,$feedItems)%>
+
+
+
+
+
+
 						<%/if%>
 					<%/if%>
 				<%else%>
@@ -400,9 +410,9 @@
 						<%assign var="hideLead" value="no"%>
 						<%if $listType === "videos"%>
 							<%if $i === 0%>
-							<%assign var="XL" value="XL2 L4 M4 S4 P4 on"%>
+								<%assign var="XL" value="XL2 L4 M4 S4 P4 on"%>
 							<%else%>
-							<%assign var="XL" value="XL2 L4 M4 S4 P4"%>
+								<%assign var="XL" value="XL2 L4 M4 S4 P4"%>
 							<%/if%>
 							<%if $i === 3%>
 								<%assign var="itemTopClass" value="`$itemTopClass` LT MT ST"%>
@@ -956,6 +966,7 @@
 								<%assign var="highlightTime" value=""%>
 								<%assign var="timeDiff" value=$itemT|date_format:"%Y年%-m月%-d日"%>
 								<%assign var="timeMath" value=0%>
+								
 							<%elseif $timeDiff < 0%>
 								<%assign var="highlightTime" value=" highlight"%>
 								<%assign var="timeDiff" value="刚刚发布"%>
@@ -1012,15 +1023,22 @@
 							<%assign var="itemType" value="column"%>
 						<%/if%>
 
-						<%if $item.customLink != "" %>
-							<%assign var="itemLink" value=$item.customLink%>
-							<%assign var="itemLink" value=" href=\"`$itemLink`\""%>
-						<%elseif $itemId == "" || $itemType == "" %>
-							<%assign var="itemLink" value=""%>
+						<%if ($memberType != "premium" && $smarty.server.REQUEST_URI|strstr:"EditorChoice-") || ($pageId == "speedread" && !$memberType)%>
+							<%assign var="itemLink" value=" data-hint=\"dataHint\" "%>
 						<%else%>
-							<%assign var="itemLink" value="/`$itemType`/`$itemId``$listLanguage``$adForceString`"%>
-							<%assign var="itemLink" value=" href=\"`$itemLink`\""%>
+							<%if $item.customLink != "" %>
+								<%assign var="itemLink" value=$item.customLink%>
+								<%assign var="itemLink" value=" href=\"`$itemLink`\""%>
+							<%elseif $itemId == "" || $itemType == "" %>
+								<%assign var="itemLink" value=""%>
+							<%else%>
+								<%assign var="itemLink" value="/`$itemType`/`$itemId``$listLanguage``$adForceString`"%>
+								<%assign var="itemLink" value=" href=\"`$itemLink`\""%>
+							<%/if%>
+							
 						<%/if%>
+						
+	
 
 						<%if $listType === "videos" && $i==0%>
 							<div class="item-inner video-package-inner"><div class="image"><figure id="video-package-play" class="loading-video" data-vid="<%$itemId%>"></figure></div><div class="video-package-title"><a href="/video/<%$itemId%>" target=_blank><%$itemHeadline%></a></div></div>
@@ -1045,6 +1063,22 @@
 							<!--  Not a paid post 004:   -->
 						<%/if%>
 						*%>
+
+
+
+						<%if $itemType == "interactive"%>
+							<%if preg_match("/速读/is",$itemTagsString) %>
+								<%assign var="itemSubType" value="speedreading"%>
+							<%elseif preg_match("/电台/is",$itemTagsString) %>
+								<%assign var="itemSubType" value="radio"%>
+							<%elseif preg_match("/数据新闻/is",$itemTagsString) %>
+								<%assign var="itemSubType" value="datanews"%>
+							<%elseif preg_match("/FT商学院/is",$itemTagsString) %>
+								<%assign var="itemSubType" value="mbagym"%>
+							<%/if%>
+						<%/if%>
+
+
 
 						<%if $smarty.get.webview == "ftcapp"%>
 							<%if preg_match("/.mp3$/is",$item.shortlead) || preg_match("/.mp3$/is",$item.cshortleadbody)%>
@@ -1073,11 +1107,19 @@
 								<%assign var="eaudioData" value=""%>
 							<%/if%>
 
-							<%*<!-- MARK: - Temporary Code to Hide English Audio Before the Launch Day. Delete After the Launch Date. -->*%>
-							<%if date("Ymd",$smarty.now) <= 20180115 && $smarty.get.showEnglishAudio != "yes"%>
-								<%assign var="eaudioUrl" value=""%>
-								<%assign var="eaudioData" value=""%>
+							<%if $itemSubType != ""%>
+								<%assign var="subTypeData" value=" data-sub-type=\"`$itemSubType`\""%>
+							<%else%>
+								<%assign var="subTypeData" value=""%>
 							<%/if%>
+
+							<%*<!--MARK: Only story needs to show date here-->*%>
+							<%if $itemT != "" && $itemType == "story"%>
+								<%assign var="dateData" value=" data-date=\"`$itemT`\""%>
+							<%else%>
+								<%assign var="dateData" value=""%>
+							<%/if%>
+
 							
 							<%assign var="itemDataId" value=$item.id|default:$item.customLink%>
 							<%if $itemDataId == "" && $item.customLink != ""%>
@@ -1088,18 +1130,21 @@
 								<%assign var="itemDataType" value="TryBook"%>
 								<%assign var="lockClass" value="locked"%>
 							<%/if%>
-							<%assign var="itemData" value=" data-id=\"`$itemDataId`\" data-type=\"`$itemDataType`\"`$audioData``$caudioData``$eaudioData`"%>
+							<%assign var="itemData" value=" data-id=\"`$itemDataId`\" data-type=\"`$itemDataType`\"`$audioData``$caudioData``$eaudioData``$subTypeData``$dateData`"%>
 
 
-							<%if $useSafariToOpenSponsorStory == "yes" && preg_match("/2017年度报告/is",$itemTagsString) && date("Ymd",$smarty.now) <= 20171231%>
-								<%assign var="itemData" value=""%>
-								<%assign var="itemLink" value=" href=\"http://cn.ft.com/story/`$itemId`\""%>
-							<%else%>
-								<%assign var="itemClass" value="`$itemClass` item-container-app"%>
+							<%assign var="itemClass" value="`$itemClass` item-container-app"%>
+
+
+
+							<%*<!-- MARK: Show full text for premium content for internal use only!  -->*%>
+							<%if $smarty.get.showfulltext == "yes"%>
+								<!--showfull text is yes-->
+								<%assign var="itemLink" value=" href=\"/`$itemType`/`$itemId`?webview=ftcapp&screencapture=yes&ad=no\""%>
 							<%/if%>
 
-
-						<%/if%>
+						<%/if%> 
+						<%*<!--end  $smarty.get.webview == "ftcapp"-->*%>
 
 
 						<%if $listType == "videos" && $i>5%>
@@ -1175,6 +1220,16 @@
 							<%assign var="i" value=$i+1%>
 						<%else%>
 							<%$itemTop%>
+
+							<%*<!-- for viewtop video play -->*%>
+							<%assign var="videoId" value="" %>
+							<%assign var="videoIdIndex" value=0 %>
+							<%if $listType === "videos" && preg_match("/高端视点/is",$itemTagsString) %>
+								<%assign var="videoId" value="viewtopVideo" %>
+								<%assign var="videoIdIndex" value=$videoIdIndex+1 %>
+								
+							<%/if%>
+							<%*<!-- Real Item of Block -->*%>
 							<div class="item-container <%$itemClass%> <%$hasImage%>"<%$itemData%>><div class="item-inner">
 								<h2 class="item-headline"><%$itemTag%><a target="_blank"<%$itemLink%> class="item-headline-link <%$lockClass%>"><%$itemHeadline%></a></h2>
 								<%if $item.relatives|@count > 0 && $item.relatives[0].type == "video" &&  $item.preferSponsorImage != "yes"%>
@@ -1187,7 +1242,12 @@
 										<figure class="loading-video" data-vid="<%$itemId%>" data-item-type="<%$itemType%>"></figure>
 									</div>
 								<%elseif $itemImage != "" && $hasImage === "has-image"%>
-									<a class="image" target="_blank"<%$itemImageLink%>><figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure></a>
+									<!-- a formy viewtop -->
+									<a class="image" target="_blank"<%$itemImageLink%>
+										<%if $videoId === "viewtopVideo" && $videoIdIndex == 1 %>id="viewtopVideo"<%/if%>
+									 >
+										<figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure>
+									</a>
 								<%/if%>
 								<%if $hideLead === "no"%><div class="item-lead"><%$itemLead|nl2br%></div><%/if%>
 								<%$itemTimeStamp%>
@@ -1236,13 +1296,15 @@
 										<div id="iap-highlight"></div>
 									<%/if%>
 									<%if $i == 8%>
-										<script type="text/javascript">
-											document.write (writeAdNew({
-													devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
-													pattern:'MPU',
-													position:'Middle1'
-											}));
-										</script>
+										<%if $smarty.get.ad != "no" && $noAd != "true"%>
+												<script type="text/javascript">
+													document.write (writeAdNew({
+															devices: ['iPhoneWeb','AndroidWeb','iPhoneApp'],
+															pattern:'MPU',
+															position:'Middle1'
+													}));
+												</script>	
+										<%/if%>
 									<%/if%>
 									<%if $i == 18 && date("Ymd",$smarty.now) <= 20171231%>
 										<script type="text/javascript">
@@ -1279,8 +1341,8 @@
 							<%/if%>
 							<%*<!--insert an extra MPU for mobile phone end-->*%>
 						<%/if%>
-					<%/if%>
-				<%/foreach%>
+					<%/if%> <%*<!--end <%if $feedRepeatCheck != "yes" -->*%>
+				<%/foreach%>  <%*<!--end foreach itemsArray -->*%>
 				<%if $list.float === "ScoreBoard"%>
 					</tbody>
 					</table>
@@ -1322,7 +1384,7 @@
 			<%*<!--combine side lists-->*%>
 			<%if $listHasFloat === "none" || $listHasFloat === "SideBySide" || $l === $section.lists|@count-1 || ($next < $section.lists|@count && $list.float != $section.lists[$next].float)%></div></div><%/if%>
 			<%assign var="l" value=$l+1%>
-		<%/if%>
+		<%/if%> <%* <!--end $list.feedType -->*%>
         <%if ($list.name == "[iframe]" || $list.name == "[video]") && $list.url != ""%>
             <div class="list-container<%$listClass%>">
                 <div class="list-inner">
@@ -1330,9 +1392,11 @@
                 </div>
             </div>
         <%/if%>
-	<%/foreach%>
+	<%/foreach%>   <%* <!--end foreach $section.lists-->*%>
 	<div class="clearfloat block-bottom"></div>
-	</div></div>
+	</div>  <%* <!--end class="content-inner" -->*%>
+	</div>  <%* <!--end class="content-container"-->*%>
+
 	<%assign var="sideMpuCount" value=0%>
 	<%if $sideListCount > 0%>
 		<div class="side-container"><div class="side-inner">
@@ -1425,6 +1489,7 @@
 						</ul>
 					</div>
 					<%assign var="s" value=$s+1%>
+					<%*<!--end SideRanking -->*%>
 				<%elseif $list.type == "SideWithItems"%>
 					<%assign var="itemTag" value=""%>
 					<div class="side-list<%$firstChildClass%><%$lastChildClass%> <%$list.sideOption%>">
@@ -1469,8 +1534,9 @@
 						<%else%>
 							<%assign var="feedType" value="manual"%>
 							<%assign var="itemsArray" value=$list.items%>
-						<%/if%>
+						<%/if%>  <%*<!--end <%if $list.items|@count==0 && -->*%>
 						<%assign var="i" value=0%>
+						<%*<!--start foreach $itemsArray -->*%>
 						<%foreach from=$itemsArray item=item%>
 							<%assign var="itemHeadline" value=$item.headline|default:$item.cheadline|default:$item.cn_title%>
 							<%if $feedType == "all"%>
@@ -1574,16 +1640,19 @@
 										<h2 class="item-headline <%$lockClass%>"><%$itemTag%><a target="_blank"<%$itemLink%>><%$itemHeadline%></a></h2>
 									<%/if%>									
 								<%/if%>
-							</div></div>
+							</div><%*<!--end item-inner -->*%>
+							</div><%*<!--end class="item-container -->*%>
 							<%assign var="i" value=$i+1%>
-						<%/foreach%>
-					</div>
+						<%/foreach%>  <%*<!--end foreach $itemsArray-->*%>
+					</div>  <%*<!--end class="side-list-->*%>
 					<%assign var="s" value=$s+1%>
-				<%/if%>
-			<%/foreach%>
-		</div></div>
+				<%/if%>  <%*<!--end $list.type == "SideWithItems"-->*%>
+			<%/foreach%>  <%*<!--end foreach $section.lists -->*%>	
+		</div>  <%*<!--end <div class="side-inner"> -->*%>
+		</div>  <%*<!--end <div class="side-container"> -->*%>
 	<%elseif $section.side != "" && $section.side != "none"%>
 		<%include file="next/partials/`$section.side`.html"%>
 	<%/if%>
 	<div class="clearfloat"></div>
-</div></div>
+</div> <%*<!--end class="block-inner" -->*%>
+</div> <%*<!--end class="block-container -->*%>

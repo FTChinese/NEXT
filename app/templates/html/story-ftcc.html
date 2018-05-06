@@ -622,14 +622,15 @@
 	<%assign var="keys" value="`$keys`,`$sc`"%>
 <%/foreach%>
 <%assign var="keys" value="`$keys`,`$tag`"%>
-<%assign var="keys" value=$keys|regex_replace:"/白底|靠右|单页|插图|透明|高清|置顶|沉底|资料|突发/":""%>
+<%if $smarty.get.ad == "no" || preg_match("/去广告/is",$keys)%>
+	<%assign var="noAd" value="true"%>
+<%/if%>
+<%assign var="keys" value=$keys|regex_replace:"/白底|靠右|单页|去广告|插图|透明|高清|置顶|沉底|资料|突发/":""%>
 <%assign var="keys" value=$keys|regex_replace:"/,+/":","%>
 <%assign var="keys" value=$keys|regex_replace:"/^,/":""%>
 <%assign var="keys" value=$keys|regex_replace:"/,$/":""%>
 
-<%if $smarty.get.ad == "no" || preg_match("/去广告/is",$keys)%>
-	<%assign var="noAd" value="true"%>
-<%/if%>
+
 
 
 <%if preg_match("/活动页面/is",$keys)%>
@@ -1253,33 +1254,7 @@
 	</script>
     <script type="text/javascript">var FTadchannelID = '<%$FTadchannelID%>';</script>
     <script type="text/javascript"><%include file="next/scripts/key.js"%></script>
-    <!--[if lte IE 8]>
-        <script>
-            document.documentElement.className += ' is-ie-8';
-            document.createElement('figure');
-            document.createElement('header');
-            document.createElement('nav');
-            document.createElement('section');
-            document.createElement('article');
-            document.createElement('aside');
-            document.createElement('footer');
-            var wIE = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-            var cssId = 'ie-css';
-            var cssFile = '';
-            if (!document.getElementById(cssId)) {
-                var head  = document.getElementsByTagName('head')[0];
-                var link  = document.createElement('link');
-                link.id   = cssId;
-                link.rel  = 'stylesheet';
-                link.type = 'text/css';
-                cssFile = (wIE>=1200)?'XL':'L';
-                link.href = 'http://static.ftchinese.com/n/main-ie-'+ cssFile +'.css?<%include file="next/timestamp/timestamp.html"%>';
-                link.media = 'all';
-                head.appendChild(link);
-            }
-
-        </script>
-    <![endif]-->
+    <%include file="next/partials/ie-8-hack.html"%>
     <%if preg_match("/数据新闻/is",$keys)%>
 	    <script type="text/javascript">window.interactiveType = 'Data News';</script>
     <%/if%>

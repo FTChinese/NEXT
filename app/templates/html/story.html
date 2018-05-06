@@ -396,14 +396,22 @@
 	<%if date("Ymd",$smarty.now) <= 20180228%>
 		<%assign var="noAd" value="true"%>
 	<%/if%>
-<%elseif preg_match("/创新经济-物流4.0/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20180205 && date("Ymd",$smarty.now) <= 20180321%>
-<%assign var=breadcrum value="<a href=\"/tag/创新经济-物流4.0\">创新经济-物流4.0</a>"%>
-<%assign var="adchannelID" value="5061"%>
-<%assign var="hideMPU1" value="no"%>
-<%assign var="hideMPU2" value="no"%>
-<%assign var="hideMPU3" value="no"%>
-<%assign var="hide590" value="no"%>
-<%assign var="hideBanner" value="no"%>
+<%elseif preg_match("/创新经济-物流4.0/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20180306 && date("Ymd",$smarty.now) <= 20180406%>
+	<%assign var=breadcrum value="<a href=\"/tag/创新经济-物流4.0\">创新经济-物流4.0</a>"%>
+	<%assign var="adchannelID" value="5061"%>
+	<%assign var="hideMPU1" value="no"%>
+	<%assign var="hideMPU2" value="no"%>
+	<%assign var="hideMPU3" value="no"%>
+	<%assign var="hide590" value="no"%>
+	<%assign var="hideBanner" value="no"%>
+<%elseif preg_match("/2018中国女性力量/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20180322 && date("Ymd",$smarty.now) <= 20180430%>
+	<%assign var=breadcrum value="<a href=\"/tag/2018中国女性力量\">2018中国女性力量</a>"%>
+	<%assign var="adchannelID" value="5066"%>
+	<%assign var="hideMPU1" value="no"%>
+	<%assign var="hideMPU2" value="no"%>
+	<%assign var="hideMPU3" value="no"%>
+	<%assign var="hide590" value="no"%>
+	<%assign var="hideBanner" value="no"%>
 
 <%elseif preg_match("/高端视点/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20180119 && date("Ymd",$smarty.now) <= 20180531%>
 <%assign var=breadcrum value="<a href=\"/tag/高端视点\">高端视点</a>"%>
@@ -661,14 +669,18 @@
 	<%assign var="keys" value="`$keys`,`$sc`"%>
 <%/foreach%>
 <%assign var="keys" value="`$keys`,`$tag`"%>
-<%assign var="keys" value=$keys|regex_replace:"/白底|靠右|单页|插图|透明|高清|置顶|沉底|资料|突发/":""%>
+<%if $smarty.get.ad == "no" || preg_match("/去广告/is",$keys)%>
+	<%assign var="noAd" value="true"%>
+<%/if%>
+<%if preg_match("/单页/is",$keys)%>
+	<%assign var="suppressRecommendation" value="yes"%>
+<%/if%>
+<%assign var="keys" value=$keys|regex_replace:"/白底|靠右|单页|去广告|插图|透明|高清|置顶|沉底|资料|突发/":""%>
 <%assign var="keys" value=$keys|regex_replace:"/,+/":","%>
 <%assign var="keys" value=$keys|regex_replace:"/^,/":""%>
 <%assign var="keys" value=$keys|regex_replace:"/,$/":""%>
 
-<%if $smarty.get.ad == "no" || preg_match("/去广告/is",$keys)%>
-	<%assign var="noAd" value="true"%>
-<%/if%>
+
 
 
 <%if preg_match("/活动页面/is",$keys)%>
@@ -859,7 +871,8 @@
 	<%assign var="languageOptions" value="<a class=\"icon-right icon-ch\" href=\"`$eshortleadbody`\"><button>中文</button></a>"%>
 <%elseif ($page_action=="en" || $page_action=="ce") && $story.id%>
 	<%assign var="languageOptions" value="<a class=\"icon-right icon-ch\" href=\"/story/`$story.id`\"><button>中文</button></a>"%>
-<%elseif $story.show_english == "yes"%>
+<%elseif $story.show_english == "yes" || $story.ebody != ""%>
+	<%*<!--MARK: Show English and Billigual Button to All-->*%>
 	<%assign var="languageOptions" value="<a class=\"icon-right icon-ch\" href=\"/story/`$story.id`/ce\"><button>对照</button></a><a class=\"icon-right icon-ch\" href=\"/story/`$story.id`/en\"><button>英文</button></a>"%>
 <%/if%>
 
@@ -991,26 +1004,33 @@
 
 
 
+
 	<!-- keys: start-->
 	<%if (in_array("单页",$story.tag) || $smarty.get.full=="y") && $page_action=="en"%>
 		<%assign var="story_content" value=$story.ebody%>
 	<%elseif (!in_array("单页",$story.tag) && $smarty.get.full!="y") || $page_action=="en"%>
+		<%if date("Ymd",$smarty.now) < 20180501%>
+			<%assign var="infoAdCode" value="<div class=\"hide-iframe\"><script type=\"text/javascript\">window.originalAdId = window.adChannelId;window.adChannelId = '1000';document.write(writeAdNew({devices: ['iPhoneWeb','AndroidWeb'],pattern:'Information',position:'Num1'}));window.adChannelId = window.originalAdId;</script></div>"%>
+		<%else%>
+			<%assign var="infoAdCode" value=""%>
+		<%/if%>
 
 		<%if $hideMPU3 == "yes" || $noAd == "true" || preg_match("/活动页面/is",$keys)%>
 		    <%assign var="story_content" value=$story_content|replace:"<div id=\"story_main_mpu\"></div>":""%>
 		<%else%>
-				<%assign var="story_content" value==$story_content|replace:"<div id=\"story_main_mpu\"></div>":"<script type=\"text/javascript\">document.write (writeAdNew({devices: ['PC','iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],pattern:'MPU',position:'Middle1',container:'mpuInStroy'}));</script>"%>
+			<%assign var="story_content" value==$story_content|replace:"<div id=\"story_main_mpu\"></div>":"`$infoAdCode`<script type=\"text/javascript\">document.write (writeAdNew({devices: ['PC','iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],pattern:'MPU',position:'Middle1',container:'mpuInStory'}));</script>"%>
 		<%/if%>
 	<%elseif $hideMPU3!="yes" && !preg_match("/活动页面/is",$keys) && $noAd != "true"%>
 	<%*<!--在单页的情况下，如果文章没有插图，没有iframe，没有video，没有highcharts, 也没有被强制设为不显示MPU 3，则将MPU_3广告位插入到第五段开头。-->*%>
-		<%assign var="story_content" value=$storyBody|regex_replace:"/[\r\t\n]/":""|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1<script type=\"text/javascript\">document.write (writeAdNew({devices: ['PC','iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],pattern:'MPU',position:'Middle1',container:'mpuInStroy'}));</script><p>"%>
+		
+		<%assign var="story_content" value=$storyBody|regex_replace:"/[\r\t\n]/":""|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1<script type=\"text/javascript\">document.write (writeAdNew({devices: ['PC','iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],pattern:'MPU',position:'Middle1',container:'mpuInStory'}));</script><p>"%>
 	<%else%>
 		<%assign var="story_content" value=$storyBody%>
 	<%/if%>
 
 
 	<%if $hideMPU3!="yes" && !preg_match("/活动页面/is",$keys) && $noAd != "true" %>
-		<%assign var="story_content" value=$story_content|regex_replace:"/[\r\t\n]/":""|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1<script type=\"text/javascript\">document.write (writeAdNew({devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],pattern:'MPU',position:'Middle2',container:'mpuInStroy'}));</script><p>"%>
+		<%assign var="story_content" value=$story_content|regex_replace:"/[\r\t\n]/":""|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1<script type=\"text/javascript\">document.write (writeAdNew({devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],pattern:'MPU',position:'Middle2',container:'mpuInStory'}));</script><p>"%>		
 	<%/if%>
 
 
@@ -1081,7 +1101,7 @@
 		<%if !preg_match("/highcharts/is",$story_content) && !preg_match("/video/is",$story_content) && $hideMPU3!="yes" && $noAd != "true" && !preg_match("/单页/is",$tag)%>
 		<%*<!--在单页的情况下，如果文章没有插图，没有iframe，没有video，没有highcharts, 也没有被强制设为不显示MPU 3，则将MPU_3广告位插入到第五段开头。-->*%>
 
-			<%assign var="story_content"value=$story_content|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1<script type=\"text/javascript\">document.write (writeAdNew({devices: ['PC','iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],pattern:'MPU',position:'Middle1',container:'mpuInStroy'}));</script><p>"%>
+			<%assign var="story_content"value=$story_content|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1<script type=\"text/javascript\">document.write (writeAdNew({devices: ['PC','iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],pattern:'MPU',position:'Middle1',container:'mpuInStory'}));</script><p>"%>
 		<%/if%>
 		<%if date("Ymd",$smarty.now) <= 20161230 && $noAd != "true"%>
 			<%assign var="story_content" value=$story_content|regex_replace:"/^(\<p\>.*?)\<p\>/":"\\1<div class=story_main_mpu_vw><script type=\"text/javascript\">document.write (writeAd('storympuVW'));</script></div><p>"%>
@@ -1137,10 +1157,18 @@
 	<%assign var="hasAudio" value="yes"%>
 <%/if%>
 
+<%*<!-- MARK: FT Radio: Handle Audio Content -->*%>
 <%if $hasAudio == "yes"%>
 	<%assign var="audioSrc" value=$cshortleadbody|replace:"http://v.ftimg.net/album/":"https://creatives.ftimg.net/album/"%>
 	<%if $audioSrc != ""%>
-		<%assign var="audioHTML" value="<div class=\"audio-placeholder\" id=\"audio-placeholder\"><div class=\"audio-container\"><audio preload=\"none\" controls=\"\"><source src=\"`$audioSrc`\"><br clear='all'></audio></div></div>"%>
+		<%if $smarty.get.webview != "ftcapp"%>
+			<%assign var="audioHTML" value="<div class=\"audio-placeholder\" id=\"audio-placeholder\"><div class=\"audio-container\"><audio ontimeupdate=\"updateAudioTime(this)\" id=\"current-audio\" preload=\"none\" controls=\"\"><source src=\"`$audioSrc`\"><br clear='all'></audio></div></div>"%>
+		<%else%>
+			<%assign var="audioHTML" value=""%>
+		<%/if%>
+		<%if preg_match("/url/is",$cbody)%>
+			<%assign var="audioHTML" value="`$audioHTML`<textarea class=\"hide\" id=\"audio-json-text\">`$cbody`</textarea>"%>
+		<%/if%>
 	<%/if%>
 	<%if $smarty.get.hideheader == "yes"%>
 		<style>
@@ -1168,6 +1196,7 @@
 		</style>
 	<%/if%>
 
+
 <%/if%>
 
 
@@ -1182,7 +1211,7 @@
 
 
 <%assign var="adchannelID" value=$adchannelID|regex_replace:"/^(20)(..)$/":'50${2}'%>
-
+<%assign var="copyrightStatement" value="版权声明：本文版权归FT中文网所有，未经允许任何单位或个人不得转载，复制或以任何其他方式使用本文全部或部分，侵权必究。"%>
 
 <!DOCTYPE html>
 <html class="no-js core<%if $smarty.get.webview == "ftcapp"%> is-ftc-app<%/if%>" data-next-app="tag-page">
@@ -1194,6 +1223,7 @@
     <META name=keywords content="<%$keys%>">
     <meta content="<%$p.meta.description%>" name="description"/>
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<meta name="robots" content="noarchive">
     <link rel="apple-touch-icon-precomposed" href="http://static.ftchinese.com/img/ipad_icon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="preconnect" href="http://static.ftchinese.com" />
@@ -1320,33 +1350,7 @@
 
 	<%include file = "next/partials/loadAdDataByDevice.html"%>
     <script type="text/javascript"><%include file="next/scripts/key.js"%></script>
-    <!--[if lte IE 8]>
-        <script>
-            document.documentElement.className += ' is-ie-8';
-            document.createElement('figure');
-            document.createElement('header');
-            document.createElement('nav');
-            document.createElement('section');
-            document.createElement('article');
-            document.createElement('aside');
-            document.createElement('footer');
-            var wIE = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-            var cssId = 'ie-css';
-            var cssFile = '';
-            if (!document.getElementById(cssId)) {
-                var head  = document.getElementsByTagName('head')[0];
-                var link  = document.createElement('link');
-                link.id   = cssId;
-                link.rel  = 'stylesheet';
-                link.type = 'text/css';
-                cssFile = (wIE>=1200)?'XL':'L';
-                link.href = 'http://static.ftchinese.com/n/main-ie-'+ cssFile +'.css?<%include file="next/timestamp/timestamp.html"%>';
-                link.media = 'all';
-                head.appendChild(link);
-            }
-
-        </script>
-    <![endif]-->
+    <%include file="next/partials/ie-8-hack.html"%>
     <%if preg_match("/数据新闻/is",$keys)%>
 	    <script type="text/javascript">window.interactiveType = 'Data News';</script>
     <%/if%>
@@ -1355,7 +1359,6 @@
 	<script>
 		!function(a,b,c){var d=b.getElementsByTagName(c)[0],e=b.createElement(c);e.async=!0,e.src="http://uluai.com.cn/api/sc/j/moni.min.js",d.parentNode.insertBefore(e,d)}(window,document,"script");
 	</script>
-	<%include file="next/dbads/dbad-head-story.html"%>
   </head>
   <%assign var="bannerCount" value=0%>
   <body class="<%$hideDate%>">
@@ -1373,9 +1376,9 @@
 		<%include file="next/partials/nav.html"%>
 		
 		<%*<!-- hide Leaderboard for some channel -->*%>
-		<%if !preg_match("/品味|艺术投资|腕表|游艇|极致人生|美食与美酒/is",$keys) && $smarty.get.hideheader != "yes"%>
+		<%if !preg_match("/品味|艺术投资|腕表|游艇|极致人生/is",$keys) && $smarty.get.hideheader != "yes"%>
 			<%*<%include file="next/partials/banner-new.html"%>*%>
-			<%include file="next/dbads/banner.html"%>
+			<%include file="next/partials/banner.html"%>
 		<%/if%>
 		<%assign var="bannerCount" value=$bannerCount+1%>
 		
@@ -1387,7 +1390,7 @@
 		<%include file="next/partials/story-recommend.html%>
 		<%if !preg_match("/品味|乐尚街|艺术投资|腕表|游艇|极致人生|高端视点/is",$keys)%>
 				<%*<%include file="next/partials/banner-new.html"%>*%>
-				<%include file="next/dbads/banner.html"%>
+				<%include file="next/partials/banner.html"%>
 		<%/if%>
 		<%include file="next/partials/footer.html"%>
 		<%include file="next/partials/QrCode.html"%>
@@ -1450,5 +1453,48 @@ if (w > 490 && isTouchDevice() === false && document.querySelectorAll('.ce').len
 </script>
 <%/if%>
 
+
+
+<%if preg_match("/高端视点/is",$keys) && date("Ymd",$smarty.now) <= 20180601%>
+	<script>
+	var videoRealSection = document.querySelector('.o-responsive-video-wrapper-inner');
+	var hasSendTracking = false;
+	if (videoRealSection) {
+		if (getDeviceType() === 'PC') {
+			sendVideoPlayTrackingCode();
+		} else {
+			videoRealSection.onclick = function() {
+				sendVideoPlayTrackingCode();
+			}
+		}
+	}
+	function sendVideoPlayTrackingCode() {
+		if (!hasSendTracking) {
+			//var trackImp = 'http://bsch.serving-sys.com/serving/adServer.bs?cn=display&c=19&mc=imp&pli=23613159&PluID=0&ord=__TIME__&rtu=-1&mb=1';
+			<%if date("Ymd",$smarty.now) >= 20180302 %>
+				var trackImp = 'http://bsch.serving-sys.com/serving/adServer.bs?cn=display&c=19&mc=imp&pli=23613562&PluID=0&ord=__TIME__&rtu=-1&mb=1';
+			<%else%>
+				var trackImp = 'http://bsch.serving-sys.com/serving/adServer.bs?cn=display&c=19&mc=imp&pli=23613552&PluID=0&ord=__TIME__&rtu=-1&mb=1';
+			<%/if%>
+		
+			var trackVideoImpression = new Image();
+			trackVideoImpression.onload = function() {
+				window.ga('send', 'event', 'testvideo impression', 'SuccessOnIphoneApp', trackImp, {'nonInteraction': 1});
+			}
+			trackVideoImpression.onerror = function() {
+				window.ga('send', 'event', 'testvideo impression', 'FailOnIphoneApp', trackImp, {'nonInteraction': 1});
+			}
+			trackVideoImpression.src = trackImp;
+			hasSendTracking = true;
+		}
+	}
+	</script>
+<%/if%>
+
+
+<%if $audioSrc != "" && preg_match("/url/is",$cbody)%>
+	<script><%include file="next/scripts/main-audio-script-render.js"%></script>
+	<script>window.audioHasRendered = true; renderAudioData(document.getElementById('story-body-container'));</script>
+<%/if%>
 
 </html>

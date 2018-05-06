@@ -22,7 +22,7 @@
  });
  }
 
- window.gDebugAd = '<span style="display:block;width:100%;position:relative;height:0;overflow:visible;"><div style="position:absolute;top:0;left:0;font-size:14px;color:#777;">adcode_for_debug</div></span>';
+ //window.gDebugAd = '<span style="display:block;width:100%;position:relative;height:0;overflow:visible;"><div style="position:absolute;top:0;left:0;font-size:14px;color:#777;">adcode_for_debug</div></span>';
  </script>
 
 <script>
@@ -174,22 +174,8 @@ ga('send', 'pageview');
 ga('send','event','Testing', 'Oliver', 'AD Testing', {'nonInteraction':1});
 </script>
 <!-- End Google Analytics -->
+<script src='https://www.googletagservices.com/tag/js/gpt.js'></script>
 
-<!-- Doubleclick Head -->
-<script async='async' src='https://www.googletagservices.com/tag/js/gpt.js'></script>
-<script>
-  var googletag = googletag || {};
-  googletag.cmd = googletag.cmd || [];
-</script>
-
-<script>
-  googletag.cmd.push(function() {
-    googletag.defineSlot('/80682004/DC_100010000412', [300, 250], 'div-gpt-ad-1513839240621-0').addService(googletag.pubads());
-    googletag.pubads().enableSingleRequest();
-    googletag.enableServices();
-  });
-</script>
-<!-- End Doubleclick Head -->
  </head>
 <body>
  
@@ -510,35 +496,68 @@ FT中文网首页
 <div class="site-map__container">
 </div>
 </div>
-<!-- Old ad 
-<div class="bn-ph">
-<div class="banner-container">
-<div class="banner-inner">
-<div class="banner-content">
-<script type="text/javascript">document.write (writeAd('banner'));</script>
-</div>
-</div>
-</div>
-</div>
--->
+
+
+ <!-- DB Ad -->
+
 <script type="text/javascript">
-   document.write(writeAdNew({
-    devices: ['PC'],
-    pattern:'Leaderboard',
-    position:'Num1'
-   }));
-</script>
+    /*
+     document.write(displayDBAd({
+         devices:['PC'],
+         adName:'PC-Leaderboard-Num1',
+         container:'banner'
+     }));
+
+     document.write(displayDBAd({
+         devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
+         adName:'Mobile-Banner-Num1',
+         container:'banner'
+     }));
+     */
+ </script>
+<!-- CHuan Yang Ad -->
 <script type="text/javascript">
     document.write(writeAdNew({
-     devices: ['iPhoneWeb', 'AndroidWeb','iPhoneApp','AndroidApp'],
-     pattern:'Banner',
+     devices: ['PC'],
+     pattern:'Leaderboard',
      position:'Num1'
     }));
  </script>
-<div class="block-container has-side side-right"><div class="block-inner">
-<div class="content-container"><div class="content-inner">
+ <script type="text/javascript">
+     document.write(writeAdNew({
+      devices: ['iPhoneWeb', 'AndroidWeb', 'AndroidApp','AndroidApp'],
+      pattern:'Banner',
+      position:'Num1'
+     }));
+  </script>
 
-<div class="list-container"><div class="list-inner"><div class="items">
+<div class="block-container has-side side-right">
+    <div class="block-inner">
+<div class="content-container">
+
+  <!--<div id="paywall-hint-container">
+    <div class="paywall-overlay-shadow" id="paywall-overlay-shadow"></div>
+    <div id="paywall-box" class="subscribe-lock-container"> 
+
+            <div class="lock-block">
+             <div>
+                <div class="lock-content">成为付费会员，阅读FT独家内容
+                </div>
+                <div class="lock-content">如果已经是会员，请<a href="http://user.ftchinese.com/login">点击这里</a>登录
+                </div>
+             </div>
+            <div class="subscribe-btn" ><a href="#"  id="subscribe-now">成为会员&#x25BA;</a></div>
+            </div>
+    </div>
+</div>-->
+
+
+    <div class="content-inner">
+
+<div class="list-container">
+    <div class="list-inner"><div class="items">
+
+
 
 
 <div class="item-container XL8 L8 M12 S12 S-double-width P12 has-image"><div class="item-inner">
@@ -556,10 +575,10 @@ FT中文网首页
 <div class="hide-iframe">
 <script type="text/javascript">
     document.write(writeAdNew({
-        devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
+        devices: ['iPhoneWeb','AndroidWeb'],
         pattern:'Information',
         position:'Num1'
-    }));
+    })); 
 </script>
 </div>
 
@@ -614,7 +633,7 @@ FT中文网首页
 <!-- Old Ad
 <div class="mpu-container P-only"><script type="text/javascript">document.write (writeAd('homempu'));</script></div>
 -->
-<!--
+
 <script type="text/javascript">
     document.write (writeAdNew({
         devices: ['PC','iPhoneApp','AndroidApp'],
@@ -622,7 +641,7 @@ FT中文网首页
         position:'Middle1'
     }));
 </script>
---> <!-- MARK: P-only就是只有手机端可见的意思，仅供本地调试使用，模板中已经排除了PC端的情况 -->
+ <!-- MARK: P-only就是只有手机端可见的意思，仅供本地调试使用，模板中已经排除了PC端的情况 -->
 <div class=" MT PT"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
 <h2 class="item-headline"><div class=item-tag><a href="/tag/心理学">心理学</a><button class="myft-follow plus" data-tag="心理学" data-type="tag">关注</button></div><a target="_blank" href="/story/001074607" class="item-headline-link">现代青少年缺了什么？</a></h2>
@@ -657,6 +676,16 @@ FT中文网首页
 <a class="image" target="_blank" href="/story/001074598"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000073351_piclink.jpg"></figure></a><div class="item-lead">陈振铎：鹿晗是看得见的人，“鹿晗”则是摸不着的神，迷鹿晗的人在行动中实现了符号崇拜和信仰，完成了本由宗教完成的功能。</div>
 <div class="item-bottom"></div>
 </div></div>
+
+<div class="hide-iframe">
+    <script type="text/javascript">
+        document.write(writeAdNew({
+            devices: ['iPhoneWeb','AndroidWeb'],
+            pattern:'Information',
+            position:'Num2'
+        })); 
+    </script>
+</div>
 
 <div class=" MT PT ST"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
@@ -740,11 +769,23 @@ FT中文网首页
 <h2 class="item-headline"><div class=item-tag><a href="/tag/基因工程">基因工程</a><button class="myft-follow plus" data-tag="基因工程" data-type="tag">关注</button></div><a target="_blank" href="/story/001074591" class="item-headline-link">通过基因绘制长相为何令人不安？</a></h2>
 <a class="image" target="_blank" href="/story/001074591"><figure class="loading" data-url="http://i.ftimg.net/picture/5/000073335_piclink.jpg"></figure></a><div class="item-lead">基因科学迫使我们思索自己所珍视的东西。根据基因组绘制出长相，就像毫无保留地袒露我们深藏的每一个秘密。</div>
 <div class="item-bottom"></div>
-</div></div>
+</div>
+</div>
+
+
+
 <div class="clearfloat"></div>
 </div>
 </div></div><div class="clearfloat block-bottom"></div>
-</div></div>
+</div>
+
+
+
+
+
+</div>
+
+
 <div class="side-container"><div class="side-inner">
 
 
@@ -805,7 +846,7 @@ FT中文网首页
 </div>
 
 <!-- Chuanyang -->
-<!--
+
 <script type="text/javascript">
     document.write (writeAdNew({
         devices: ['PC','PadApp','PadWeb'],
@@ -813,17 +854,18 @@ FT中文网首页
         position:'Right2'
     }));
 </script>
--->
+
 <!-- DoubleClick -->
+<!--
 <div class="mpu-container">
-    <!-- /80682004/DC_100010000412 -->
+    <!-- /80682004/DC_100010000412
     <div id='div-gpt-ad-1513839240621-0' style='height:250px; width:300px;'>
         <script>
         googletag.cmd.push(function() { googletag.display('div-gpt-ad-1513839240621-0'); });
         </script>
     </div>
 </div>
-
+-->
 <div class="vidoes">
 <h2 class="list-title"><a href="/m/marketing/intelligence.html">FT研究院</a></h2>
 <div class="item-container first"><div class="item-inner">
@@ -843,17 +885,9 @@ FT中文网首页
 </div>
 </div></div><div class="clearfloat"></div>
 </div></div>
-<!-- Old Ad:
-<div class="bn-ph">
-<div class="banner-container">
-<div class="banner-inner">
-<div class="banner-content">
-<script type="text/javascript">document.write (writeAd('banner'));</script>
-</div>
-</div>
-</div>
-</div>
--->
+
+<!-- Chuan Yang -->
+
 <script type="text/javascript">
     document.write(writeAdNew({
         devices: ['PC'],
@@ -868,6 +902,16 @@ FT中文网首页
         position:'Num2'
    }));
 </script>
+
+<!-- DB Ad 
+<script>
+document.write(displayDBAd({
+    devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
+    adName:'Mobile-Banner-Num2',
+    container:'banner'
+}));
+</script>
+-->
 <div class="block-container no-side"><div class="block-inner">
 <div class="content-container"><div class="content-inner">
 
@@ -1447,6 +1491,8 @@ FT中文网首页
 </div>
 </a>
 
+ 
+
 </body>
 <!--[if lte IE 8]>
 <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
@@ -1484,8 +1530,12 @@ FT中文网首页
 <script type="text/javascript" src="scripts/main-calendar.js"></script>
 <!-- endbuild -->
 
-<!-- build:js scripts/pay-wall.js -->
+<!-- build:js scripts/main-pay-wall.js -->
 <script type="text/javascript" src="scripts/pay-wall.js"></script>
 <!-- endbuild -->
+
+
+
+
 </html>
 

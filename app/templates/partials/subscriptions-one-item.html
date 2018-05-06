@@ -1,0 +1,104 @@
+<%assign var="itemTopClass" value=""%>
+<%assign var="itemTop" value=""%>
+<%if $i%4 === 0%>
+	<%assign var="itemTopClass" value="XLT"%>
+<%/if%>
+<%if $i%2 === 0%>
+	<%assign var="itemTopClass" value="`$itemTopClass` ST"%>
+<%/if%>
+<%assign var="itemTopClass" value="`$itemTopClass` PT"%>
+<%assign var="XL" value="XL3"%>
+<%assign var="L" value="L3"%>
+<%assign var="M" value="M3"%>
+<%assign var="S" value="S6"%>
+<%assign var="P" value="P12"%>
+<%assign var="itemClass" value="`$XL` `$L` `$M` `$S` `$P`"%>
+<%if $itemTopClass != ""%>
+	<%assign var="itemTop" value="<div class=\"`$itemTopClass`\"></div>"%>
+<%/if%>
+<%if $i === 0%>
+	<%assign var="itemTop" value=""%>
+<%/if%>
+
+<%if preg_match("/\//is",$report.cshortleadbody)%>
+	<%assign var="specialLink" value=$report.cshortleadbody%>
+<%else%>
+	<%assign var="specialLink" value="/tag/`$report.cshortleadbody`"%>
+<%/if%>
+
+<%assign var="itemTag" value=""%>
+<%assign var="itemMainTag" value=""%>
+<%assign var="tagCanFollow" value="yes"%>
+<%assign var="itemTagsString" value=$report.tag|default:$report.tags|default:$report.tagname%>
+<%assign var="itemTagsString" value=$itemTagsString|replace:" ":","%>
+<%assign var="itemTags" value=","|explode:$itemTagsString%>
+<%assign var="itemTag" value=$itemTags[0]%>
+
+
+
+
+
+
+
+
+
+<%if $report.ftid != ""%>
+	<%assign var="audioData" value=" data-eaudio=\"https://s3-us-west-2.amazonaws.com/ftlabs-audio-rss-bucket.prod/`$report.ftid`.mp3\""%>
+<%elseif preg_match("/.mp3$/is",$report.cshortleadbody)%>
+	<%assign var="audioUrl" value=$report.cshortleadbody%>
+	<%assign var="audioData" value=" data-audio=\"`$audioUrl`\""%>
+<%elseif preg_match("/.mp3$/is",$report.eshortleadbody)%>
+	<%assign var="audioUrl" value=$report.eshortleadbody%>
+	<%assign var="audioData" value=" data-eaudio=\"`$audioUrl`\""%>
+<%else%>
+	<%assign var="audioData" value=""%>
+<%/if%>
+
+
+<%if preg_match("/速读/is",$itemTagsString)%>
+	<%assign var="itemSubType" value="speedreading"%>
+	<%assign var="itemLead" value=$report.cshortleadbody|default:$report.clongleadbody%>
+	<%assign var="itemMainTag" value="金融英语速读"%>
+	<%assign var="itemMainTagLink" value="<div class=\"item-tag\"><a href=\"/channel/speedread.html\">`$itemMainTag`</a></div>"%>
+<%elseif preg_match("/英语电台/is",$itemTagsString)%>
+	<%assign var="itemSubType" value="radio"%>
+	<%assign var="itemLead" value=$report.clongleadbody|default:$report.cshortleadbody%>
+	<%assign var="itemMainTag" value="英语电台"%>
+	<%assign var="itemMainTagLink" value="<div class=\"item-tag\"><a href=\"/channel/radio.html\">`$itemMainTag`</a></div>"%>
+<%else%>
+	<%assign var="itemSubType" value=""%>
+	<%assign var="itemLead" value=$report.clongleadbody|default:$report.cshortleadbody%>
+	<%assign var="itemMainTag" value=$itemTags[0]%>
+	<%assign var="itemMainTagLink" value="<div class=\"item-tag\"><a href=\"/tag/`$itemMainTag`\">`$itemMainTag`</a></div>"%>
+<%/if%>
+
+<%if $itemSubType != ""%>
+	<%assign var="subTypeData" value=" data-sub-type=\"`$itemSubType`\""%>
+<%else%>
+	<%assign var="subTypeData" value=""%>
+<%/if%>
+
+<%$itemTop%>
+
+<%if $supportBackgroundDowndingWhenBlocked == "yes" || $smarty.get.isBG == ""%>
+	<%*<!--MARK: If the user is using a normal launch or if his/her app version is at least 7.6, give him the normal page. -->*%>
+	<div class="item-container item-container-app <%$itemClass%>" data-id="<%$report.id%>" data-type="<%$itemType%>"<%$audioData%><%$subTypeData%>>
+	    <div class="item-inner">
+	    	<%$itemMainTagLink%>
+	        <a class="image"><figure class="loading" data-url="<%$report.story_pic.cover|default:$report.story_pic.smallbutton|default:$report.story_pic.bigbutton|default:$report.story_pic.other%>"></figure></a>
+	        <h2 class="item-headline"><a class="item-headline-link unlocked" target=_blank><%$report.cheadline%></a></h2>
+	        <div class="item-lead"><%$itemLead%></div>
+	    </div>
+	</div>
+<%else%>
+	<%*<!--MARK: Otherwise, just links -->*%>
+		<div class="item-container <%$itemClass%>" <%$audioData%>>
+		    <div class="item-inner">
+		    	<%$itemMainTagLink%>
+		        <a class="image" href="http://www.ftchinese.com/<%$itemType%>/<%$report.id%>?webview=ftcapp"><figure class="loading" data-url="<%$report.story_pic.cover|default:$report.story_pic.smallbutton|default:$report.story_pic.other%>"></figure></a>
+		        <h2 class="item-headline"><a href="http://www.ftchinese.com/<%$itemType%>/<%$report.id%>?webview=ftcapp" class="item-headline-link unlocked" target=_blank><%$report.cheadline%></a></h2>
+		        <div class="item-lead"><a href="http://www.ftchinese.com/<%$itemType%>/<%$report.id%>?webview=ftcapp"><%$report.clongleadbody|default:$report.cshortleadbody%></a></div>
+		    </div>
+		</div>
+<%/if%>
+<%*<!--/if-->*%>

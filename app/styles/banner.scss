@@ -1,7 +1,7 @@
 .bn-ph {
 	position: relative;
 	/*height: $bannerHeight;*/
-	margin-bottom: $defaultPadding + $defaultPadding;
+	margin-bottom: 1.5 * $defaultPadding;
 	//width: 100%;
 }
 .banner-container {
@@ -25,7 +25,7 @@
 }
 .banner-content {
 	margin: 0 $defaultPadding;
-	padding: 0 $defaultPadding/2;
+	padding: 0 $defaultPadding/2 $defaultPadding $defaultPadding/2;
 	background: $bannerBG;
 	height: $bannerHeight + $defaultPadding;
 	text-align: center;
@@ -52,21 +52,30 @@
 	position:relative;
 }
 
-// .banner-content:before, .is-ad figure:after {
-// 	content: '广告';
-//     position:absolute;
-//     top:0;
-//     right:0;
-//     background: #e9decf;
-//     font-size:12px;
-//     padding:1px 5px;
-//     color: #505050;
-// }
-// .hide-sign.banner-content {
-// 	&:before {
-// 		display: none;
-// 	}
-// }
+.banner-content:before, .is-ad figure:after {
+	// content: '广告';
+ //    position:absolute;
+ //    top:0;
+ //    right:0;
+ //    background: #e9decf;
+ //    font-size:12px;
+ //    padding:1px 5px;
+ //    color: #505050;
+ 		content: '广告';
+	    position:absolute;
+	    top:100%;
+	    //left:0;
+	    right:$defaultPadding/4;
+	    font-size:12px;
+	    text-align:right;
+	    color: #505050;
+
+}
+.hide-sign.banner-content {
+	&:before {
+		display: none;
+	}
+}
 .sponsor-container, .table-container {
 	padding: 0 $defaultPadding/2;
 }
@@ -78,10 +87,10 @@
 		content: '广告';
 	    position:absolute;
 	    top:100%;
-	    left:0;
-	    right:0;
+	    //left:0;
+	    right:$defaultPadding/4;
 	    font-size:12px;
-	    text-align:center;
+	    text-align:right;
 	    color: #505050;
 	}
 
@@ -176,13 +185,14 @@
 	}
 }
 .hide-iframe {
-	.banner-iframe {
+	.banner-iframe,iframe {
 		display: none;
 	}
+
 }
 @media only screen and (min-width: 490px) and (max-width: 1059px) {
 	.bn-ph {
-		margin-bottom: $defaultPadding;
+		margin-bottom: 1.5 * $defaultPadding;
 		//width: 100%;
 	}
 	.banner-content {
@@ -216,7 +226,7 @@
 		position: relative;
 		background: $bannerBG;
 		height: 0;
-		margin-bottom: $defaultPadding/2;
+		margin-bottom: $defaultPadding;
 		.banner-content {
 			margin: auto;
 			position: absolute;
@@ -268,3 +278,6 @@
 // 	}
 // }
 
+.db-ad>div{
+	text-align: center;
+}

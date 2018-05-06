@@ -85,24 +85,14 @@
 		<%/if%>
 		
 
-		<%if $smarty.get.ad != "no" && $noAd != "true"%>
-			<%if $smarty.get.testDB == "yes"%>
-				<script>
-					document.write(displayDBAd({
-						devices:['PC','PadWeb', 'PadApp'],
-						adName:'PC-MPU-Right1',
-						container:'mpu'
-					}));
-				</script>
-			<%else%>
-				<script type="text/javascript">
-					document.write (writeAdNew({
-						devices: ['PC', 'PadWeb', 'PadApp'],
-						pattern:'MPU',
-						position:'Right1'
-					}));
-				</script>
-			<%/if%>
+		<%if $smarty.get.ad != "no" && $noAd != "true"%>	
+			<script type="text/javascript">
+				document.write (writeAdNew({
+					devices: ['PC', 'PadWeb', 'PadApp'],
+					pattern:'MPU',
+					position:'Right1'
+				}));
+			</script>
 		<%/if%>
 
 		<div class="interactives">
@@ -123,18 +113,33 @@
 				<%if $i<4%>
 					<%if $cs<$storycount && ($storyall[$cs].pubdate>=$photoall[$cp].add_times || $ps>=$photocount)%>
 						<%if !in_array($storyall[$cs].id , explode(',',$echostoryid)) && ($storyall[$cs].story_pic.smallbutton || $storyall[$cs].story_pic.bigbutton || $storyall[$cs].story_pic.cover)%>
+							<%assign var="itemSubType" value=""%>
 							<%if preg_match("/速读/is",$storyall[$cs].tag)%>
-							<%assign var="iTag" value="【速读】"%>
+								<%assign var="iTag" value="【速读】"%>
+								<%assign var="itemSubType" value="speedreading"%>
+							<%elseif preg_match("/FT商学院/is",$storyall[$cs].tag)%>
+								<%assign var="iTag" value="【商学院】"%>
+								<%assign var="itemSubType" value="mbagym"%>
 							<%elseif preg_match("/测试|QuizPlus/is",$storyall[$cs].tag)%>
-							<%assign var="iTag" value="【小测】"%>
+								<%assign var="iTag" value="【小测】"%>
 							<%elseif preg_match("/英语电台/is",$storyall[$cs].tag)%>
-							<%assign var="iTag" value="【电台】"%>
+								<%assign var="iTag" value="【电台】"%>
+								<%assign var="itemSubType" value="radio"%>
 							<%elseif preg_match("/数据新闻/is",$storyall[$cs].tag)%>
-							<%assign var="iTag" value="【数据】"%>
+								<%assign var="iTag" value="【数据】"%>
+								<%assign var="itemSubType" value="datanews"%>
 							<%elseif preg_match("/教程/is",$storyall[$cs].tag)%>
-							<%assign var="iTag" value="【教程】"%>
+								<%assign var="iTag" value="【教程】"%>
+								<%assign var="itemSubType" value=""%>
 							<%else%>
-							<%assign var="iTag" value=""%>
+								<%assign var="iTag" value=""%>
+								<%assign var="itemSubType" value=""%>
+							<%/if%>
+
+							<%if $itemSubType != ""%>
+								<%assign var="subTypeData" value=" data-sub-type=\"`$itemSubType`\""%>
+							<%else%>
+								<%assign var="subTypeData" value=""%>
 							<%/if%>
 
 							<%if $smarty.get.webview == "ftcapp"%>
@@ -143,7 +148,7 @@
 									<%assign var="audioData" value=" data-audio=\"`$audioUrl`\""%>
 								<%/if%>
 								<%assign var="sideItemClass" value=" item-container-app"%>
-								<%assign var="itemData" value=" data-id=\"`$storyall[$cs].id`\" data-type=\"interactive\"`$audioData`"%>
+								<%assign var="itemData" value=" data-id=\"`$storyall[$cs].id`\" data-type=\"interactive\"`$audioData``$subTypeData`"%>
 							<%/if%>
 							<div class="item-container<%if $i===0%> first<%/if%><%$sideItemClass%>"<%$itemData%>><div class="item-inner">
 							<a class="image" href="/interactive/<%$storyall[$cs].id%>" target=_blank><figure class="loading" data-url="<%$storyall[$cs].story_pic.cover|default:$storyall[$cs].story_pic.smallbutton|default:$storyall[$cs].story_pic.bigbutton%>"></figure></a>
@@ -173,15 +178,7 @@
 		</div>
 
 		<%if $smarty.get.ad != "no" && $noAd != "true"%>
-			<%if $smarty.get.testDB == "yes"%>
-			<script>
-					document.write(displayDBAd({
-						devices:['PC','PadWeb', 'PadApp'],
-						adName:'PC-MPU-Right2',
-						container:'mpu'
-					}));
-				</script>
-			<%else%>
+	
 				<script type="text/javascript">
 				document.write (writeAdNew({
 				devices: ['PC', 'PadWeb', 'PadApp'],
@@ -189,7 +186,6 @@
 				position:'Right2'
 				}));
 				</script>
-			<%/if%>
 		<%/if%>
 
 		<%assign var="ftintelligence" value=$interactivemodel->get_interactive_by_field_search("find_in_set('FT研究院',tag) and find_in_set('报告',tag)",0,4,1000,10800)%>
@@ -214,7 +210,7 @@
 		</div>
 
 
-<%*
+<%*<!--
 
 		<%assign var="ftintelligence" value=$interactivemodel->get_interactive_by_field_search("find_in_set('精选',tag) and find_in_set('商业案例',tag)",0,4,1000,10800)%>
 		<div class="vidoes">
@@ -237,7 +233,7 @@
 			</div>
 		</div>
 
-*%>
+-->*%>
 
 
 
@@ -321,15 +317,6 @@
 		<div class="P-hide" style="padding-top: 15px;"></div>
 
 		<%if $smarty.get.ad != "no" && $noAd != "true"%>
-			<%if $smarty.get.testDB == "yes"%>
-				<script>
-					document.write(displayDBAd({
-						devices:['PC','PadWeb', 'PadApp'],
-						adName:'PC-MPU-Right1',
-						container:'mpu'
-					}));
-				</script>
-			<%else%>
 				<script type="text/javascript">
 					document.write (writeAdNew({
 						devices: ['PC', 'PadWeb', 'PadApp'],
@@ -337,7 +324,6 @@
 						position:'Right1'
 					}));
 				</script>
-			<%/if%>
 		<%/if%>
 
 		<div id="iap-ebooks"></div>
@@ -353,24 +339,38 @@
 			<%assign var="cs" value=0%>
 			<%assign var="cp" value=0%>
 			<%assign var="i" value=0%>
-			<!--<%*两组数据进行合并，重新排序 Start*%>-->
+			<%*<!--两组数据进行合并，重新排序 Start-->*%>
 			<%section name=bothdata loop=$allcount%>
 				<%if $i<4%>
 					<%if $cs<$storycount && ($storyall[$cs].pubdate>=$photoall[$cp].add_times || $ps>=$photocount)%>
 						<%if !in_array($storyall[$cs].id , explode(',',$echostoryid)) && ($storyall[$cs].story_pic.smallbutton || $storyall[$cs].story_pic.bigbutton || $storyall[$cs].story_pic.cover)%>
+							<%assign var="itemSubType" value=""%>
 							<%if preg_match("/速读/is",$storyall[$cs].tag)%>
-							<%assign var="iTag" value="【速读】"%>
+								<%assign var="iTag" value="【速读】"%>
+								<%assign var="itemSubType" value="speedreading"%>
+							<%elseif preg_match("/FT商学院/is",$storyall[$cs].tag)%>
+								<%assign var="iTag" value="【商学院】"%>
+								<%assign var="itemSubType" value="mbagym"%>
 							<%elseif preg_match("/测试|QuizPlus/is",$storyall[$cs].tag)%>
-							<%assign var="iTag" value="【小测】"%>
+								<%assign var="iTag" value="【小测】"%>
 							<%elseif preg_match("/英语电台/is",$storyall[$cs].tag)%>
-							<%assign var="iTag" value="【电台】"%>
+								<%assign var="iTag" value="【电台】"%>
+								<%assign var="itemSubType" value="radio"%>
 							<%elseif preg_match("/数据新闻/is",$storyall[$cs].tag)%>
-							<%assign var="iTag" value="【数据】"%>
+								<%assign var="iTag" value="【数据】"%>
+								<%assign var="itemSubType" value="datanews"%>
 							<%elseif preg_match("/教程/is",$storyall[$cs].tag)%>
-							<%assign var="iTag" value="【教程】"%>
+								<%assign var="iTag" value="【教程】"%>
 							<%else%>
-							<%assign var="iTag" value=""%>
+								<%assign var="iTag" value=""%>
 							<%/if%>
+
+							<%if $itemSubType != ""%>
+								<%assign var="subTypeData" value=" data-sub-type=\"`$itemSubType`\""%>
+							<%else%>
+								<%assign var="subTypeData" value=""%>
+							<%/if%>
+
 
 							<%*<!--MARK: - Audio file urls -->*%>
 							<%if $smarty.get.webview == "ftcapp"%>
@@ -385,7 +385,7 @@
 									<%assign var="audioData" value=""%>
 								<%/if%>
 								<%assign var="sideItemClass" value=" item-container-app"%>
-								<%assign var="itemData" value=" data-id=\"`$storyall[$cs].id`\" data-type=\"interactive\"`$audioData`"%>
+								<%assign var="itemData" value=" data-id=\"`$storyall[$cs].id`\" data-type=\"interactive\"`$audioData``$subTypeData`"%>
 							<%/if%>
 							<div class="item-container<%if $i===0%> first<%/if%><%$sideItemClass%>"<%$itemData%>><div class="item-inner">
 							<a class="image" href="/interactive/<%$storyall[$cs].id%>" target=_blank><figure class="loading" data-url="<%$storyall[$cs].story_pic.cover|default:$storyall[$cs].story_pic.smallbutton|default:$storyall[$cs].story_pic.bigbutton%>"></figure></a>
@@ -429,19 +429,35 @@
 				<%if $i<4%>
 					<%if $cs<$storycount && ($storyall[$cs].pubdate>=$photoall[$cp].add_times || $ps>=$photocount)%>
 						<%if !in_array($storyall[$cs].id , explode(',',$echostoryid)) && ($storyall[$cs].story_pic.smallbutton || $storyall[$cs].story_pic.bigbutton || $storyall[$cs].story_pic.cover)%>
+
+							<%assign var="itemSubType" value=""%>
 							<%if preg_match("/速读/is",$storyall[$cs].tag)%>
-							<%assign var="iTag" value="【速读】"%>
+								<%assign var="iTag" value="【速读】"%>
+								<%assign var="itemSubType" value="speedreading"%>
+							<%elseif preg_match("/FT商学院/is",$storyall[$cs].tag)%>
+								<%assign var="iTag" value="【商学院】"%>
+								<%assign var="itemSubType" value="mbagym"%>
 							<%elseif preg_match("/测试|QuizPlus/is",$storyall[$cs].tag)%>
-							<%assign var="iTag" value="【小测】"%>
+								<%assign var="iTag" value="【小测】"%>
 							<%elseif preg_match("/英语电台/is",$storyall[$cs].tag)%>
-							<%assign var="iTag" value="【电台】"%>
+								<%assign var="iTag" value="【电台】"%>
+								<%assign var="itemSubType" value="radio"%>
 							<%elseif preg_match("/数据新闻/is",$storyall[$cs].tag)%>
-							<%assign var="iTag" value="【数据】"%>
+								<%assign var="iTag" value="【数据】"%>
+								<%assign var="itemSubType" value="datanews"%>
 							<%elseif preg_match("/教程/is",$storyall[$cs].tag)%>
-							<%assign var="iTag" value="【教程】"%>
+								<%assign var="iTag" value="【教程】"%>
 							<%else%>
-							<%assign var="iTag" value=""%>
+								<%assign var="iTag" value=""%>
 							<%/if%>
+
+							<%if $itemSubType != ""%>
+								<%assign var="subTypeData" value=" data-sub-type=\"`$itemSubType`\""%>
+							<%else%>
+								<%assign var="subTypeData" value=""%>
+							<%/if%>
+
+
 
 							<%if $smarty.get.webview == "ftcapp"%>
 								<%if preg_match("/.mp3$/is",$storyall[$cs].cshortleadbody)%>
@@ -452,7 +468,7 @@
 									<%assign var="audioData" value=""%>
 								<%/if%>
 								<%assign var="sideItemClass" value=" item-container-app"%>
-								<%assign var="itemData" value=" data-id=\"`$storyall[$cs].id`\" data-type=\"interactive\"`$audioData`"%>
+								<%assign var="itemData" value=" data-id=\"`$storyall[$cs].id`\" data-type=\"interactive\"`$audioData``$subTypeData`"%>
 							<%/if%>
 							<div class="item-container<%if $i===0%> first<%/if%><%$sideItemClass%>"<%$itemData%>><div class="item-inner">
 							<a class="image" href="/interactive/<%$storyall[$cs].id%>" target=_blank><figure class="loading" data-url="<%$storyall[$cs].story_pic.cover|default:$storyall[$cs].story_pic.smallbutton|default:$storyall[$cs].story_pic.bigbutton%>"></figure></a>
@@ -482,23 +498,13 @@
 
 
 		<%if $smarty.get.ad != "no" && $noAd != "true"%>
-			<%if $smarty.get.testDB == "yes"%>
-			<script>
-					document.write(displayDBAd({
-						devices:['PC','PadWeb', 'PadApp'],
-						adName:'PC-MPU-Right2',
-						container:'mpu'
-					}));
-				</script>
-			<%else%>
-				<script type="text/javascript">
+			<script type="text/javascript">
 				document.write (writeAdNew({
 				devices: ['PC', 'PadWeb', 'PadApp'],
 				pattern:'MPU',
 				position:'Right2'
 				}));
-				</script>
-			<%/if%>
+			</script>
 		<%/if%>
 
 

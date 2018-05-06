@@ -195,6 +195,8 @@ function getEmptyNavSections(container) {
 function zipObject(objA, objB) {
 	for (var k in objA) {
 		if (objA.hasOwnProperty(k) && k in objB) {
+			//console.log(k);
+			//console.log(objA[k]);
 			objA[k].appendChild(objB[k]);
 		}
 	}
@@ -250,10 +252,8 @@ function stringToDOM(str) {
 
 var emptyNavSections = getEmptyNavSections(navEl);
 
-ajax.getData('/m/corp/ajax-nav.html', function(error, data) {
+ajax.getData('/m/corp/ajax-nav.html?bbbbbbb', function(error, data) {
 	if (error) {return error;}
-
 	var parsedDOM = stringToDOM(data);
-
 	zipObject(emptyNavSections, parsedDOM);
 });

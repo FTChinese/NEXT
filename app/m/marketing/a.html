@@ -45,7 +45,114 @@ img {
     float: right;
 }
 </style>
+<script>
 
+    //获取url参数 
+    var gSearchVars = {};
+    var searchStr = window.location.search;
+    for (var index = 0, searchStrArr = searchStr.substr(1).split("&"); index < searchStrArr.length; index++) {
+        var oneKeyValueArr = searchStrArr[index].split("=");
+        gSearchVars[oneKeyValueArr[0]] = oneKeyValueArr.length > 1 ? oneKeyValueArr[1] : "";
+    }
+        
+    var k=window.location.href;
+    var c = k.replace(/^.*adid=([0-9A-Za-z\-]+).*$/,'$1');
+    //var c = gSearchVars.adid;
+    // console.log('gSearchVars:', gSearchVars);
+    // console.log('c:',c);
+    var d;
+    if (/^[0-9]{4}0001$/.test(c)) {
+        d = c.replace(/([0-9]{4})0001/g,'$10002');
+    } else {
+        d='';
+    }
+    var adDeviceId;
+    var adChannelId;
+    var adPositionId;
+
+    var adSize;
+    var parentId = k.replace(/^.*pid=([0-9A-Za-z\-]+).*$/,'$1');
+    if (/^[0-9]{12}$/.test(c)) {
+        adChannelId = c.substring(4,8);
+        adPositionId = c.substring(8,12);
+        adDeviceId = c.substring(0,4);
+        parentId = 'ad-'+parentId;
+    } else {
+        adChannelId = c.substring(0,4);
+        adPositionId = c.substring(4,8);
+        adDeviceId = '';
+    }
+
+    var refreshParameter = '';
+    if (/&refresh=1/.test(k)) {
+        refreshParameter = '&_refresh=1';
+    } else {
+        refreshParameter = '&_refresh=0';
+    }
+
+    var slotStr = window.parent.slotStr || '';
+
+    var adP = '';
+    try {
+        adP = parent.adReachability();
+    } catch (ignore) {
+    }
+
+    var randNumber = parseInt(Math.random() * 10000000000, 10).toString();
+    var adpatternCode = c.substr(-4,4);
+    if (c === '20220101' || c === '20220102' || c === '20230101' || c === '20230102' || adpatternCode === '0301' || adpatternCode === '0351') {
+        parent.window.gRand = randNumber;
+    }
+    var trString = '&tr=' + c + '_' + randNumber;
+
+    if (gSearchVars && gSearchVars.testDB === 'yes') {
+        var adDeviceType = gSearchVars.device;
+        var adPattern = gSearchVars.pattern;
+        var adSizeArr = [];
+        //var adClass = 'db-ad';
+
+        if (adDeviceType === 'PC') {
+            if(adPattern === 'Leaderboard') {
+                adSizeArr =  [[969, 90], [1200, 120], [1200, 500], 'fluid', [969, 250], [1200, 400], [969, 400]];
+            } else if (adPattern === 'Banner') {
+                adSizeArr = [[969, 90], [1200, 120]];
+            }else if (adPattern === 'MPU') {
+                adSizeArr = [[300, 250], [300, 1050], [300, 600], 'fluid', [810, 600]];
+            }
+        } else if (adDeviceType === 'iPhoneWeb' || adDeviceType === 'AndroidWeb') {
+            if(adPattern === 'Banner') {
+                var deviceWidth = window.parent.innerWidth || window.parent.document.documentElement.clientWidth || window.parent.document.body.clientWidth;
+                var bannerW = deviceWidth;
+                var bannerH = Math.round(bannerW/4);
+                adSizeArr = [[bannerW,bannerH],[414, 104]];
+                //adClass += ' db-mobile-banner';
+
+            } else if (adPattern === 'MPU') {
+                adSizeArr = [[300, 250]];
+            } else if (adPattern === 'Information') {
+                adSizeArr = [[480, 320]];
+                //adClass += ' db-mobile-information';
+
+            } else {
+                adSizeArr = [];
+            }
+        }
+        var adName = 'db-'+c;
+    }
+</script>
+<script src='https://www.googletagservices.com/tag/js/gpt.js'></script>
+<script>
+
+    if (gSearchVars && gSearchVars.testDB === 'yes') {
+        googletag.cmd.push(function() {
+            googletag.defineSlot('/80682004/'+adDeviceType+'-'+adDeviceId +'/' + c,adSizeArr, adName). addService(googletag.pubads());
+            googletag.pubads().enableSingleRequest();
+            googletag.pubads().enableSyncRendering();
+            googletag.enableServices();
+
+        });
+    }
+</script>
 </head>
 <body>
 
@@ -60,50 +167,12 @@ img {
                     window.parent.sendEvent('Ad Impression: House Ad', adChannelId, adPositionId, {'nonInteraction':1});
                 }
             }
-            var k=window.location.href;
-            var c = k.replace(/^.*adid=([0-9A-Za-z\-]+).*$/,'$1');
-            var d;
-            if (/^[0-9]{4}0001$/.test(c)) {
-                d = c.replace(/([0-9]{4})0001/g,'$10002');
+            
+            if (gSearchVars.testDB === 'yes') {
+                document.write('<div id="'+ adName +'" class="db-ad db-mobile-banner"><scr'+'ipt>googletag.cmd.push(function() { googletag.display("'+ adName +'")})</scr'+'ipt></div>');
             } else {
-                d='';
+                document.write ('<scr'+'ipt src="http://dualstack.adsame-1421766300.ap-southeast-1.elb.amazonaws.com/s?z=ft&c=' + c + slotStr + trString + adP + '&_fallback=0' + refreshParameter + '" charset="gbk" onerror="removeAd()" onload="loaded()"></scr'+'ipt>');
             }
-            var adChannelId;
-            var adPositionId;
-
-            var refreshParameter = '';
-            if (/&refresh=1/.test(k)) {
-                refreshParameter = '&_refresh=1';
-            } else {
-                refreshParameter = '&_refresh=0';
-            }
-
-            var parentId = k.replace(/^.*pid=([0-9A-Za-z\-]+).*$/,'$1');
-            if (/^[0-9]{12}$/.test(c)) {
-                adChannelId = c.substring(0,8);
-                adPositionId = c.substring(8,12);
-                parentId = 'ad-'+parentId;
-            } else {
-                adChannelId = c.substring(0,4);
-                adPositionId = c.substring(4,8);
-            }
-
-            var slotStr = window.parent.slotStr || '';
-
-            var adP = '';
-            try {
-                adP = parent.adReachability();
-            } catch (ignore) {
-            }
-
-            var randNumber = parseInt(Math.random() * 10000000000, 10).toString();
-            var adpatternCode = c.substr(-4,4);
-            if (c === '20220101' || c === '20220102' || c === '20230101' || c === '20230102' || adpatternCode === '0301' || adpatternCode === '0351') {
-                parent.window.gRand = randNumber;
-            }
-            var trString = '&tr=' + c + '_' + randNumber;
-
-            document.write ('<scr'+'ipt src="http://dualstack.adsame-1421766300.ap-southeast-1.elb.amazonaws.com/s?z=ft&c=' + c + slotStr + trString + adP + '&_fallback=0' + refreshParameter + '" charset="gbk" onerror="removeAd()" onload="loaded()"></scr'+'ipt>');
             
             // record the ad impression
             try {
@@ -124,7 +193,102 @@ img {
 
 <div id="ad-bottom"></div>
 
-<script src="http://static.ftchinese.com/n/a-domore.js"></script>
+<script src="http://static.ftchinese.com/n/a-domore.js?002"></script>
+
+<script>
+/*
+window.refreshTime = 10;
+window.recoverOriginalUrlTime = 0.1;
+var shouldRunRefresh = Math.random();
+
+if (/1000[0-9]{4}0201|1000[0-9]{4}0411/.test(c) && shouldRunRefresh < 0.05) {
+
+    var parentPathName = '/';
+
+    try {
+        parentPathName = parent.window.location.pathname;
+        if (parent && typeof parent.window.OriginalUrlString === 'string') {
+            parentPathName = parent.window.OriginalUrlString; 
+        } else {
+            parent.window.OriginalUrlString = parentPathName;
+        }
+    } catch (ignore) {
+
+    }
+
+    var trackImpViewtop = 'http://bsch.serving-sys.com/serving/adServer.bs?cn=display&c=19&mc=imp&pli=23613562&PluID=0&ord=__TIME__&rtu=-1&mb=1';
+
+    if(window.parent && !window.parent.trackVideoImpressionViewtop ) {
+        window.parent.trackVideoImpressionViewtop = new Image();
+    }
+    
+
+    setTimeout(function(){
+
+        //video track	
+        window.parent.trackVideoImpressionViewtop.onload = function() {
+                window.parent.ga('send', 'event', 'testvideo impression', 'Success add By Ad', trackImpViewtop, {'nonInteraction': 1});
+        }
+        window.parent.trackVideoImpressionViewtop.onerror = function() {
+                window.parent.ga('send', 'event', 'testvideo impression', 'Fail add By Ad', trackImpViewtop, {'nonInteraction': 1});
+        }
+        window.parent.trackVideoImpressionViewtop.src = trackImpViewtop;
+
+        var adPosition;
+        if (/1000[0-9]{4}0201/.test(c)) {
+            adPosition = '0201';
+        } else {
+            adPosition = '0411';
+        }
+        if ( window.parent.document.getElementById(parentId)) {
+            //console.log('found: ' +parentId);
+            parentIframe = window.parent.document.getElementById(parentId);
+            var divAddedByClient = parentIframe.parentNode.querySelectorAll('div')[0];
+            if (divAddedByClient !== undefined) {
+                divAddedByClient.outerHTML = '';
+                delete divAddedByClient;
+            }
+            parentIframe.style = '';
+            parentIframe.setAttribute('width', '100%');
+            parentIframe.setAttribute('id', 'ad-10001902'+adPosition);
+            try {
+                var parentBannerContentDom = parentIframe.parentNode;
+                var allEyeDivs = parentBannerContentDom.querySelectorAll('div');
+                //console.log (allEyeDivs);
+                for (var eyeDivIndex = 0; eyeDivIndex<allEyeDivs.length; eyeDivIndex++) {
+                    parentBannerContentDom.removeChild(allEyeDivs[eyeDivIndex]);
+                }
+            } catch (ignore) {
+
+            }
+            try {
+                var eyeDivContainer = window.parent.document.getElementById('eyeDiv');
+                if (eyeDivContainer) {
+                    window.parent.document.body.removeChild(eyeDivContainer);
+                }
+            } catch (ignore) {
+
+            }
+        }
+
+        parent.window.history.replaceState({
+            foo: 'bar'
+        }, '', '/channel/viewtop.html');
+
+        var newHref = '/a.html?v=20171214112400#adid=10001902'+adPosition+'&pid=10001902'+adPosition;
+        window.location.href = newHref;
+        //console.log ('url print: change to: ' + newHref);
+        location.reload(false);
+    }, 1000 * 60 * window.refreshTime);
+
+    setTimeout(function() {
+        parent.window.history.replaceState({
+            foo: 'bar'
+        }, '', parentPathName);
+    }, 1000 * 60 * window.recoverOriginalUrlTime);
+}
+*/
+</script>
 
 </body>
 </html>

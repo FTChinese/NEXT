@@ -1,0 +1,26 @@
+<%*<!--MARK: Display Pop Up Ad on all pages-->*%>
+<%if date("Ymd",$smarty.now) >= 20171109 && date("Ymd",$smarty.now) <= 20180630 && $smarty.get.ad != 'no' && $noAd != "true" && $smarty.get.webview != "ftcapp"%>
+<style><%include file="next/styles/main-pop-ad.css"%></style>
+<div id="pop-ad" class=overlay></div>
+<div class="pop-ad-code">
+<script type="text/javascript">
+if (typeof GetCookie === 'function') {
+	var fullSC = GetCookie("fs0");
+	var paywallType = GetCookie('paywall');
+	var loadFullAtEnd = false;
+	// MARK: - Display the full screen ad for every visit
+	fullSC = null;
+	var canPopAd = (fullSC === null && w <= 490 && paywallType !== 'premium' && paywallType !== 'standard');
+	if (canPopAd) {
+	    //document.write (writeAd('fullpage'));
+	    document.write (writeAdNew({
+	        devices: ['iPhoneApp','iPhoneWeb','AndroidApp','AndroidWeb'],
+	        pattern:'FullScreen',
+	        position:'Web'
+	    }));
+	    SetCookie("fs0",1,5*60*60,"/");
+	}
+}
+</script>
+</div>
+<%/if%>

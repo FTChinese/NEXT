@@ -367,8 +367,13 @@
 							<%assign var="audioUrl" value=$item.shortlead|default:$item.cshortleadbody%>
 							<%assign var="audioData" value=" data-audio=\"`$audioUrl`\""%>
 						<%/if%>
+						<%if $itemPubDate != ""%>
+							<%assign var="dateData" value=" data-date=\"`$itemPubDate`\""%>
+						<%else%>
+							<%assign var="dateData" value=""%>
+						<%/if%>
 						<%assign var="itemClass" value="`$itemClass` item-container-app"%>
-						<%assign var="itemData" value=" data-id=\"`$item.id`\" data-type=\"`$itemType`\"`$audioData`"%>
+						<%assign var="itemData" value=" data-id=\"`$item.id`\" data-type=\"`$itemType`\"`$audioData``$dateData`"%>
 					<%/if%>
 
 					<%$itemTop%>

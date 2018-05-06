@@ -340,7 +340,7 @@ gulp.task('copy:time', () => {
 gulp.task('copy:tpl', () => {
   const dest = 'dev_www/frontend/tpl/next';
 
-  return gulp.src(['app/templates/partials*/**/*', 'app/templates/html*/**/*','app/templates/dbads*/**/*'])
+  return gulp.src(['app/templates/partials*/**/*', 'app/templates/html*/**/*'])
     .on('error', (err) => {
       console.error(err.stack);
     })
@@ -384,13 +384,20 @@ gulp.task('copytest:cssjs', () => {
   return merge(cssStream, partialsCssStream, jsStream);
 });
 
+
 gulp.task('copytest:marketing', () => {
   const dest = 'dev_www/frontend/tpl/marketing';
   const mobileRootdest = 'dev_www/mobile_webroot/m/marketing';
-  return gulp.src('dist/m/marketing/*')
+  gulp.src('dist/m/marketing/*')
     .pipe(gulp.dest(`../testing/${dest}`))
-    .pipe(gulp.dest(`../testing/${mobileRootdest}`))
-    ;
+    .pipe(gulp.dest(`../testing/${mobileRootdest}`));
+
+  const wwwrootDest = 'dev_www/webroot';
+  const mobilewwwrootDest = 'dev_www/mobile_webroot';
+  return gulp.src('dist/m/marketing/a.html')
+    .pipe(gulp.dest(`../testing/${wwwrootDest}`))
+    .pipe(gulp.dest(`../testing/${mobilewwwrootDest}`));
+
 });
 
 gulp.task('copytest:apipage', () => {
@@ -416,7 +423,7 @@ gulp.task('copytest:time', () => {
 gulp.task('copytest:tpl', () => {
   const dest = 'dev_www/frontend/tpl/next';
 
-  return gulp.src(['app/templates/partials*/**/*', 'app/templates/html*/**/*','app/templates/dbads*/**/*'])
+  return gulp.src(['app/templates/partials*/**/*', 'app/templates/html*/**/*'])
     .on('error', (err) => {
       console.error(err.stack);
     })
