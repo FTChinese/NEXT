@@ -412,17 +412,6 @@
 	<%assign var="hideMPU3" value="no"%>
 	<%assign var="hide590" value="no"%>
 	<%assign var="hideBanner" value="no"%>
-
-<%elseif preg_match("/高端视点/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20180119 && date("Ymd",$smarty.now) <= 20180531%>
-<%assign var=breadcrum value="<a href=\"/tag/高端视点\">高端视点</a>"%>
-<%assign var="adchannelID" value="1902"%>
-<%assign var="hideMPU1" value="no"%>
-<%assign var="hideMPU2" value="yes"%>
-<%assign var="hideMPU3" value="yes"%>
-<%assign var="hide590" value="no"%>
-<%assign var="hideBanner" value="no"%>
-
-
 <%elseif preg_match("/财富管理/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20161226 && date("Ymd",$smarty.now) <= 20170131%>
 <%assign var=breadcrum value="<a href=\"/tag/财富管理\">财富管理</a>"%>
 <%assign var="adchannelID" value="1704"%>
@@ -485,12 +474,6 @@
 <%assign var="hideMPU2" value="no"%>
 <%assign var="hide590" value="no"%>
 <%assign var="hideInReadAd" value="yes"%>
-<%elseif preg_match("/VFTT/is",implode(",", $story.tag))%>
-<%assign var=breadcrum value="<a href=\"/tag/VFTT\">高端视点</a>"%>
-<%assign var="adchannelID" value="2033"%>
-<%assign var="hideMPU2" value="no"%>
-<%assign var="hide590" value="no"%>
-
 <%elseif preg_match("/2016博鳌论坛/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20160301 && date("Ymd",$smarty.now) <= 20160431%>
 <%assign var=breadcrum value="<a href=\"/tag/2016博鳌论坛\">2016博鳌论坛</a>"%>
 <%assign var="adchannelID" value="2003"%>
@@ -701,9 +684,15 @@
 		<%assign var="adchannelID" value="1300"%>
 	<%/if%>
 <%elseif preg_match("/高端视点/is",$keys) && date("Ymd",$smarty.now) >= 20140525 && date("Ymd",$smarty.now) <= 20180601%>
+	<%assign var=breadcrum value="<a href=\"/channel/viewtop.html\">高端视点</a>"%>
 	<%assign var="adchannelID" value="1902"%>
+	<%assign var="hideMPU1" value="no"%>
+	<%assign var="hideMPU2" value="yes"%>
+	<%assign var="hideMPU3" value="yes"%>
 	<%assign var="hide590" value="yes"%>
+	<%assign var="hideBanner" value="no"%>
 	<%assign var="hideInReadAd" value="yes"%>
+	<%assign var="suppressRecommendation" value="yes"%>
 <%elseif preg_match("/餐厅|美酒|美食|烈酒/is",$keys)%>
 	<%assign var=breadcrum value="<a href=/channel/wine.html>美食与美酒</a>"%>
 	<%assign var="adchannelID" value="1803"%>
