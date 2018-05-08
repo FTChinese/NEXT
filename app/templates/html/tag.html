@@ -2,8 +2,15 @@
 <%assign var=taginfo value=$storymodel->get_tag_describes($tag_name)%>
 <%assign var=tagtitle value=$taginfo.tag_title%>
 <%assign var=tagabout value=$taginfo.tag_desc|default:$PageIntro%>
+<%assign var=whitelist value=$storymodel->getWhitelistTag()%>
 <%/if%>
 
+
+<!--
+<%if $whitelist != ""%>
+    <%$whitelist|var_dump%>
+<%/if%>
+-->
 
 <%if $tagtitle=="" || $breadcrumb!=""%>
 <%if $breadcrumb!=""%>
