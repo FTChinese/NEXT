@@ -1,0 +1,26 @@
+<%if $nextmodel != ""%>
+	<%assign var="textLinkForMBAGYM" value=$nextmodel->getPublishJson($pageIdForTextLink)|json_decode:true%>
+	<%assign var="todayDate" value=$smarty.now|date_format:'%Y%m%d'%>
+	<%foreach from=$textLinkForMBAGYM.sections item=section%>
+	    <%if $section.type == "creative"%>
+	    	<%if preg_match("/`$todayDate`/is",$section.dates)%>
+				<div class="item-container"><div class="item-inner">
+				<a class="image" href="<%$section.click%>" target=_blank onclick="recordClickEventForHouseAd(this)" data-event-category="<%$pageIdForTextLink%>"><figure class="loading" data-url="<%$section.fileName%>"></figure></a>
+				<h2 class="item-headline"><a href="<%$section.click%>" onclick="recordClickEventForHouseAd(this)" data-event-category="<%$pageIdForTextLink%>" target=_blank><%$section.title%></a></h2>
+				</div></div>
+				<script>
+					ga('send', 'event', 'House Ad: <%$pageIdForTextLink%>', 'Show', '<%$section.title%>');
+				</script>
+			<%/if%>
+	    <%/if%>
+	<%/foreach%>
+	<script>
+		function recordClickEventForHouseAd(ele) {
+			var eventCategory = ele.getAttribute('data-event-category') || '';
+			eventCategory = 'House Ad: ' + eventCategory;
+			var eventAction = 'Click';
+			var eventLabel = ele.href || '';
+			ga('send', 'event', eventCategory, eventAction, eventLabel);
+		}
+	</script>
+<%/if%>

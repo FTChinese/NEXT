@@ -3,6 +3,11 @@
     <%assign var="pageId" value="home"%>
 <%/if%>
 
+<%if $storymodel != ""%>
+    <%assign var=whitelist value=$storymodel->getWhitelistTag()%>
+<%/if%>
+
+
 <%*<!-- MARK: Set features based on version number -->*%>
 <%if $smarty.get.v != ""%>
     <%assign var="v" value=$smarty.get.v|floatval%>

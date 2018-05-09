@@ -251,16 +251,14 @@
 						<%assign var="hasImage" value="no-image"%>
 					<%/if%>
 
-
-
 					<%assign var="itemTag" value=""%>
+					<%*<!--Sometimes Editors Use Space in Tags-->*%>
+					<%assign var="itemTagsString" value=$item.tag|default:$item.tags|default:$item.tagname%>
+					<%assign var="itemTagsString" value=$itemTagsString|replace:" ":","%>
+					<%assign var="itemTags" value=","|explode:$itemTagsString%>
+					<%assign var="itemTag" value=$itemTags[0]%>
 					<%if $showTag === "yes"%>
-						<%*<!--Sometimes Editors Use Space in Tags-->*%>
 						<%assign var="tagCanFollow" value="yes"%>
-						<%assign var="itemTagsString" value=$item.tag|default:$item.tags|default:$item.tagname%>
-						<%assign var="itemTagsString" value=$itemTagsString|replace:" ":","%>
-						<%assign var="itemTags" value=","|explode:$itemTagsString%>
-						<%assign var="itemTag" value=$itemTags[0]%>
 						<%if $itemTag === "视频"%>
 							<%assign var="itemTagLink" value="/channel/explainer.html"%>
 							<%assign var="tagCanFollow" value="no"%>
@@ -367,7 +365,17 @@
 							<%assign var="audioUrl" value=$item.shortlead|default:$item.cshortleadbody%>
 							<%assign var="audioData" value=" data-audio=\"`$audioUrl`\""%>
 						<%/if%>
-						<%if $itemPubDate != ""%>
+						<%assign var=isInWhiteList value="no"%>
+						<%if $whitelist != ""%>
+						<%foreach from=$itemTags item=tag%>
+							<%if preg_match("/`$tag`/is",$whitelist)%>
+								<%assign var=isInWhiteList value="yes"%>
+							<%/if%>
+						<%/foreach%>
+						<%/if%>
+
+
+						<%if $itemPubDate != "" && $isInWhiteList == "no"%>
 							<%assign var="dateData" value=" data-date=\"`$itemPubDate`\""%>
 						<%else%>
 							<%assign var="dateData" value=""%>

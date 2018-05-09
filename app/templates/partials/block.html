@@ -1112,15 +1112,20 @@
 							<%else%>
 								<%assign var="subTypeData" value=""%>
 							<%/if%>
-
+							<%assign var=isInWhiteList value="no"%>
+							<%if $whitelist != ""%>
+								<%foreach from=$itemTags item=tag%>
+									<%if preg_match("/`$tag`/is",$whitelist)%>
+										<%assign var=isInWhiteList value="yes"%>
+									<%/if%>
+								<%/foreach%>
+							<%/if%>
 							<%*<!--MARK: Only story needs to show date here-->*%>
-							<%if $itemT != "" && $itemType == "story"%>
+							<%if $itemT != "" && $itemType == "story" && $isInWhiteList == "no"%>
 								<%assign var="dateData" value=" data-date=\"`$itemT`\""%>
 							<%else%>
 								<%assign var="dateData" value=""%>
 							<%/if%>
-
-							
 							<%assign var="itemDataId" value=$item.id|default:$item.customLink%>
 							<%if $itemDataId == "" && $item.customLink != ""%>
 								<%assign var="itemDataId" value=$item.customLink%>
@@ -1131,18 +1136,12 @@
 								<%assign var="lockClass" value="locked"%>
 							<%/if%>
 							<%assign var="itemData" value=" data-id=\"`$itemDataId`\" data-type=\"`$itemDataType`\"`$audioData``$caudioData``$eaudioData``$subTypeData``$dateData`"%>
-
-
 							<%assign var="itemClass" value="`$itemClass` item-container-app"%>
-
-
-
 							<%*<!-- MARK: Show full text for premium content for internal use only!  -->*%>
 							<%if $smarty.get.showfulltext == "yes"%>
 								<!--showfull text is yes-->
 								<%assign var="itemLink" value=" href=\"/`$itemType`/`$itemId`?webview=ftcapp&screencapture=yes&ad=no\""%>
 							<%/if%>
-
 						<%/if%> 
 						<%*<!--end  $smarty.get.webview == "ftcapp"-->*%>
 

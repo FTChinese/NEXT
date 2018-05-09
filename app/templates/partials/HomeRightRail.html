@@ -172,6 +172,7 @@
 				<%/if%>
 			<%/section%>
 			<!--<%*两组数据进行合并，重新排序 End*%>-->
+
 			<div class="clearfloat"></div>
 			</div>
 
@@ -424,7 +425,7 @@
 			<%assign var="cs" value=0%>
 			<%assign var="cp" value=0%>
 			<%assign var="i" value=0%>
-			<!--<%*两组数据进行合并，重新排序 Start*%>-->
+			<%*<!--两组数据进行合并，重新排序 Start-->*%>
 			<%section name=bothdata loop=$allcount%>
 				<%if $i<4%>
 					<%if $cs<$storycount && ($storyall[$cs].pubdate>=$photoall[$cp].add_times || $ps>=$photocount)%>
@@ -491,7 +492,13 @@
 					<%/if%>
 				<%/if%>
 			<%/section%>
-			<!--<%*两组数据进行合并，重新排序 End*%>-->
+			<%*<!--两组数据进行合并，重新排序 End-->*%>
+
+			<%*<!--House Ad For Marketing-->*%>
+			<%assign var="pageIdForTextLink" value="mbagymtextlink"%>
+			<%include file="next/partials/house-ad-mba-gym-text-link.html"%>
+			<%*<!--House Ad For Marketing End-->*%>
+
 			<div class="clearfloat"></div>
 			</div>
 		</div>
