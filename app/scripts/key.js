@@ -371,6 +371,7 @@ function showWarningMessage(warningType) {
         if (emailLink) {
             emailLink.href = 'mailto: subscriber.service@ftchinese.com?subject=Appeal For ' + window.userId;
         }
+        ga('send','event', 'Subscription Warning: ' + warningType, 'Show', window.userId, {'nonInteraction':1});
     }
 }
 
