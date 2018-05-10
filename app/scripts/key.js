@@ -367,6 +367,10 @@ function showWarningMessage(warningType) {
     var promptDiv = document.getElementById(promptId);
     if (promptDiv) {
         promptDiv.className = promptDiv.className.replace(/ hide/g, '');
+        var emailLink = promptDiv.querySelector('.email-link');
+        if (emailLink) {
+            emailLink.href = 'mailto: subscriber.service@ftchinese.com?subject=Appeal For ' + window.userId;
+        }
     }
 }
 
