@@ -7,13 +7,7 @@
                 <div class="list-container">
                     <div class="list-inner">
                         <h2 class="list-title"><a class="list-link" href="/channel/exclusive.html">我的订阅</a></h2>
-						<div class="items hide" id="membership-login-prompt">
-							<div class="no-image">
-								<div class="item-inner">
-									<div class="item-lead">亲爱的会员朋友，我们注意到您还没有登录FT中文网。如果您希望获得更好的服务，<a href="screen://myft/account">请点击此处登录。</a></div>
-								</div>
-							</div>
-						</div>
+						<%include file="next/partials/subscriptions-warnings.html"%>
                         <div class="items">
 							<%assign var="i" value=0%>
 							<%foreach from=$reports item="report"%>
@@ -38,3 +32,4 @@
     </div>
 </div>
 <%assign var="i" value=0%>
+<script>checkUserWarnings();</script>

@@ -1,8 +1,9 @@
-/* exported DeleteCookie,username,userId,guid,ccodeCookie,addstoryfav, showOverlay, closeOverlay, w, isTouchDevice, trackerNew, paravalue, trackAdClick*/
+/* exported DeleteCookie,username,userId,guid,ccodeCookie,addstoryfav, showOverlay, closeOverlay, w, isTouchDevice, trackerNew, paravalue, trackAdClic, checkUserWarnings*/
 var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 var ua = navigator.userAgent || navigator.vendor || '';
 var gIsSpider = (/spider|baidu|bidu|bot|crawler|crawling/i.test(ua)) ? true: false;
 var gUserType = 'visitor';
+
 
 
 // MARK: - check for hard-to-find spiders such as those disguised as iOS 9 devices
@@ -336,10 +337,6 @@ function trackerNew() {
     }, 1);//old 300
 }
 
-var username=GetCookie('USER_NAME') || '';
-var userId = GetCookie('USER_ID') || '';
-var ccodeCookie=GetCookie('ccode') || '';
-
 
 function isTouchDevice() {
     var el = document.createElement('div');
@@ -365,8 +362,31 @@ function closeOverlay(overlayId) {
 
 }
 
+function showWarningMessage(warningType) {
+    var promptId = (warningType === 'red') ? 'membership-red-card-prompt' : 'membership-yellow-card-prompt';
+    var promptDiv = document.getElementById(promptId);
+    if (promptDiv) {
+        promptDiv.className = promptDiv.className.replace(/ hide/g, '');
+    }
+}
 
+function checkUserWarnings() {
+    // MARK: show warnings for those suspected of foul play
+    if (window.userId === '') {
+        return;
+    }
+    var yellowCardUserIds = window.gYellowCardUserIds || '';
+    var redCardUserIds = window.gRedCardUserIds || '';
+    if (redCardUserIds.indexOf(window.userId)>=0) {
+        showWarningMessage('red');
+    } else if (yellowCardUserIds.indexOf(window.userId)>=0) {
+        showWarningMessage('yellow');
+    }
+}
 
+var username=GetCookie('USER_NAME') || '';
+var userId = GetCookie('USER_ID') || '';
+var ccodeCookie=GetCookie('ccode') || '';
 var user_name=GetCookie ('USER_NAME');
 if (user_name !== null) {
     document.documentElement.className += ' is-member';
