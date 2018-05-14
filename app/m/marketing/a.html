@@ -168,10 +168,32 @@ img {
                 }
             }
             
-            if (gSearchVars.testDB === 'yes') {
-                document.write('<div id="'+ adName +'" class="db-ad db-mobile-banner"><scr'+'ipt>googletag.cmd.push(function() { googletag.display("'+ adName +'")})</scr'+'ipt></div>');
+            if (/[0-9]{4}19020402/.test(c)) {
+                var parentIframe = window.parent.document.getElementById(parentId);
+                if ( window.parentIframe) {
+                    var adContainer = window.parentIframe.parentNode;
+                    if (adContainer) {
+                        if (/mpu\-container/.test(adContainer.className)) {
+                            adContainer.style.display = 'none';
+                        }
+                    }
+                }
+            } else if(/[0-9]{4}19020302/.test(c)) {
+                var parentIframe = window.parent.document.getElementById(parentId);
+                if ( window.parentIframe) {
+                    var adContainer = window.parentIframe.parentNode.parentNode.parentNode.parentNode;
+                    if (adContainer) {
+                        if (/bn\-ph/.test(adContainer.className)) {
+                            adContainer.style.display = 'none';
+                        }
+                    }
+                }
             } else {
-                document.write ('<scr'+'ipt src="http://dualstack.adsame-1421766300.ap-southeast-1.elb.amazonaws.com/s?z=ft&c=' + c + slotStr + trString + adP + '&_fallback=0' + refreshParameter + '" charset="gbk" onerror="removeAd()" onload="loaded()"></scr'+'ipt>');
+                if (gSearchVars.testDB === 'yes') {
+                    document.write('<div id="'+ adName +'" class="db-ad db-mobile-banner"><scr'+'ipt>googletag.cmd.push(function() { googletag.display("'+ adName +'")})</scr'+'ipt></div>');
+                } else {
+                    document.write ('<scr'+'ipt src="http://dualstack.adsame-1421766300.ap-southeast-1.elb.amazonaws.com/s?z=ft&c=' + c + slotStr + trString + adP + '&_fallback=0' + refreshParameter + '" charset="gbk" onerror="removeAd()" onload="loaded()"></scr'+'ipt>');
+                }
             }
             
             // record the ad impression
