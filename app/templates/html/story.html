@@ -693,6 +693,11 @@
 	<%assign var="hideBanner" value="no"%>
 	<%assign var="hideInReadAd" value="yes"%>
 	<%assign var="suppressRecommendation" value="yes"%>
+	<%assign var=breadcrum value="<a href=\"/channel/viewtop.html\">高端视点</a>"%>
+	<%assign var="topnav" value="stream"%>
+	<%assign var="subnav" value="viewtop"%>
+	<%assign var="thirdnav" value=""%>
+	<%assign var="isAdchannelIdFinal" value="yes"%>
 <%elseif preg_match("/餐厅|美酒|美食|烈酒/is",$keys)%>
 	<%assign var=breadcrum value="<a href=/channel/wine.html>美食与美酒</a>"%>
 	<%assign var="adchannelID" value="1803"%>
@@ -1328,13 +1333,16 @@
 		var subTopic="<%$subTopic%>";
 	</script>
     <script type="text/javascript">
-    var FTadchannelID = '<%$FTadchannelID%>';
-    <%if $suppressRecommendation == "yes"%>
-    	window.suppressRecommendation = true;
-    <%/if%>
-    <%if $storyId === "001075684" && date("Ymd",$smarty.now) <= 20180115%>
-    	window.hideAllAds = true;
-    <%/if%>
+	    var FTadchannelID = '<%$FTadchannelID%>';
+	    <%if $suppressRecommendation == "yes"%>
+	    	window.suppressRecommendation = true;
+	    <%/if%>
+	    <%if $storyId === "001075684" && date("Ymd",$smarty.now) <= 20180115%>
+	    	window.hideAllAds = true;
+	    <%/if%>
+	    <%if $isAdchannelIdFinal == "yes"%>
+	    	window.isAdchannelIdFinal = true;
+	    <%/if%>
     </script>
 
 	<%include file = "next/partials/loadAdDataByDevice.html"%>

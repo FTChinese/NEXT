@@ -355,7 +355,7 @@ function getAdChannelId() {
    */
   var adch = adchID; //TODO:集中channel号码的获取方式，不要head.html等等都有
   var adchURL = window.location.href.replace(/^.*adchannelID=([0-9]{4}).*$/g,'$1');
-  if (/^[0-9]{4}$/.test(adchURL)) { //MARK:如果是从url可以得到4位频道号
+  if (/^[0-9]{4}$/.test(adchURL) && window.isAdchannelIdFinal !== true) { //MARK:如果是从url可以得到4位频道号
     adch = adchURL;
   } else if (typeof(window.FTadchannelID)!=='undefined' && window.FTadchannelID ) { //MARK:否则看一下全局变量FTadchannelID是否存在
     console.log(window.FTadchannelID);
