@@ -186,20 +186,19 @@ img {
            
             // console.log (c);
 
-            // if (/500013000401/.test(c)) {
-            //     window.parentIframe = window.parent.document.getElementById(parentId);
-            //     if ( window.parentIframe) {
-            //         var adContainer = window.parentIframe.parentNode;
-            //         if (adContainer) {
-            //             if (/mpu\-container/.test(adContainer.className)) {
-
-            //                 return;
-            //             }
-            //         }
-            //     }
-            //     return;
-            // } else 
-            if (1>1 && /^20550004$/.test(c)) {
+            if (/500013000401/.test(c)) {
+                window.parentIframe = window.parent.document.getElementById(parentId);
+                if ( window.parentIframe) {
+                    var adContainer = window.parentIframe.parentNode;
+                    if (adContainer) {
+                        if (/mpu\-container/.test(adContainer.className)) {
+                            adContainer.style.display = 'none';
+                            return;
+                        }
+                    }
+                }
+                return;
+            } else if (1>1 && /^20550004$/.test(c)) {
                 var viewable = {
                 id: 'ad-ibm-200122323',
                 minimum: 0.6,
