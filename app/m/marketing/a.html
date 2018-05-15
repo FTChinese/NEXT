@@ -58,7 +58,7 @@ video::-webkit-media-controls-panel {
 
     //获取url参数 
     var gSearchVars = {};
-    var searchStr = window.location.search;
+    var searchStr = window.location.hash;
     for (var index = 0, searchStrArr = searchStr.substr(1).split("&"); index < searchStrArr.length; index++) {
         var oneKeyValueArr = searchStrArr[index].split("=");
         gSearchVars[oneKeyValueArr[0]] = oneKeyValueArr.length > 1 ? oneKeyValueArr[1] : "";

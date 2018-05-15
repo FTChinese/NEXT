@@ -462,9 +462,9 @@ function writeAdNew(obj) {
     }
   } else {
     if (searchVars.testDB === 'yes') {
-      iframeSrc = '/a.html?v=20180514163233&testDB=yes&adid='+ adid + '&pid=' + adid + '&device=' + deviceType + '&pattern=' +  obj.pattern;
+      iframeSrc = '/a.html?v=20180514163233#testDB=yes&adid='+ adid + '&pid=' + adid + '&device=' + deviceType + '&pattern=' +  obj.pattern;
     } else {
-      iframeSrc = '/a.html?v=20180514163233&adid='+ adid + '&pid=' + adid + '&device=' + deviceType + '&pattern=' +  obj.pattern;
+      iframeSrc = '/a.html?v=20180514163233#adid='+ adid + '&pid=' + adid + '&device=' + deviceType + '&pattern=' +  obj.pattern;
     }
     
   }
