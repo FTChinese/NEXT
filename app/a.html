@@ -38,12 +38,21 @@ img {
 .top-right {
     float: right;
 }
+video::-internal-media-controls-download-button {
+	display:none;
+}
+video::-webkit-media-controls-enclosure {  
+    overflow:hidden;  
+}  
+video::-webkit-media-controls-panel {  
+    width: calc(100% + 30px);  
+}  
 </style>
 <script>
 
     //获取url参数 
     var gSearchVars = {};
-    var searchStr = window.location.search;
+    var searchStr = window.location.hash;
     for (var index = 0, searchStrArr = searchStr.substr(1).split("&"); index < searchStrArr.length; index++) {
         var oneKeyValueArr = searchStrArr[index].split("=");
         gSearchVars[oneKeyValueArr[0]] = oneKeyValueArr.length > 1 ? oneKeyValueArr[1] : "";
@@ -184,15 +193,50 @@ img {
                 }
             }
            
+            // console.log (c);
 
-            if (1>1 && /^20550004$/.test(c)) {
+            if (/[0-9]{4}19020402/.test(c)) {
+                var parentIframe = window.parent.document.getElementById(parentId);
+                if (parentIframe) {
+                    var adContainer = parentIframe.parentNode;
+                    if (adContainer) {
+                        if (/mpu\-container/.test(adContainer.className)) {
+                            adContainer.style.display = 'none';
+                        }
+                    }
+                }
+            } else if(/[0-9]{4}19020302/.test(c)) {
+                var parentIframe = window.parent.document.getElementById(parentId);
+                if (parentIframe) {
+                    var adContainer = parentIframe.parentNode.parentNode.parentNode.parentNode;
+                    if (adContainer) {
+                        if (/bn\-ph/.test(adContainer.className)) {
+                            adContainer.style.display = 'none';
+                        }
+                    }
+                }
+            } else if (1>1 && /^20550004$/.test(c)) {
                 var viewable = {
                 id: 'ad-ibm-200122323',
                 minimum: 0.6,
                 time: 1000
                 };
-            } else if (1<0 && /^300013000301$/.test(c)) {
-
+            } else if (1<2 && /^300013000401$/.test(c)) {
+                var parentIframe = window.parent.document.getElementById(parentId);
+                if (parentIframe) {
+                    if (parentIframe.parentNode) {
+                        var adContainerForMpu = parentIframe.parentNode;
+                        if (/mpu\-container/.test(adContainerForMpu.className)) {
+                            adContainerForMpu.style.display = 'none';
+                        }
+                    }
+                    if (parentIframe.parentNode && parentIframe.parentNode.parentNode && parentIframe.parentNode.parentNode.parentNode && parentIframe.parentNode.parentNode.parentNode.parentNode) {
+                        var adContainerForBanner = parentIframe.parentNode.parentNode.parentNode.parentNode;
+                        if (/bn\-ph/.test(adContainerForBanner.className)) {
+                            adContainerForBanner.style.display = 'none';
+                        }
+                    }
+                }
             } else {
                 //console.log ('print url: c is now ' + c);
               

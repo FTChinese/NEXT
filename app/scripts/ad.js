@@ -355,7 +355,7 @@ function getAdChannelId() {
    */
   var adch = adchID; //TODO:集中channel号码的获取方式，不要head.html等等都有
   var adchURL = window.location.href.replace(/^.*adchannelID=([0-9]{4}).*$/g,'$1');
-  if (/^[0-9]{4}$/.test(adchURL)) { //MARK:如果是从url可以得到4位频道号
+  if (/^[0-9]{4}$/.test(adchURL) && window.isAdchannelIdFinal !== true) { //MARK:如果是从url可以得到4位频道号
     adch = adchURL;
   } else if (typeof(window.FTadchannelID)!=='undefined' && window.FTadchannelID ) { //MARK:否则看一下全局变量FTadchannelID是否存在
     console.log(window.FTadchannelID);
@@ -456,15 +456,15 @@ function writeAdNew(obj) {
  
   if(bannerBG) {
     if (searchVars.testDB === 'yes') {
-      iframeSrc = '/a.html?v=20171214112401' + bannerBG + '&testDB=yes&adid='+ adid + '&pid=' + adid + '&device=' + deviceType + '&pattern=' +  obj.pattern;
+      iframeSrc = '/a.html?v=20180514163233' + bannerBG + '&testDB=yes&adid='+ adid + '&pid=' + adid + '&device=' + deviceType + '&pattern=' +  obj.pattern;
     } else {
-      iframeSrc = '/a.html?v=20171214112401' + bannerBG + '&adid='+ adid + '&pid=' + adid + '&device=' + deviceType + '&pattern=' +  obj.pattern;
+      iframeSrc = '/a.html?v=20180514163233' + bannerBG + '&adid='+ adid + '&pid=' + adid + '&device=' + deviceType + '&pattern=' +  obj.pattern;
     }
   } else {
     if (searchVars.testDB === 'yes') {
-      iframeSrc = '/a.html?v=20171214112401&testDB=yes&adid='+ adid + '&pid=' + adid + '&device=' + deviceType + '&pattern=' +  obj.pattern;
+      iframeSrc = '/a.html?v=20180514163233#testDB=yes&adid='+ adid + '&pid=' + adid + '&device=' + deviceType + '&pattern=' +  obj.pattern;
     } else {
-      iframeSrc = '/a.html?v=20171214112401&adid='+ adid + '&pid=' + adid + '&device=' + deviceType + '&pattern=' +  obj.pattern;
+      iframeSrc = '/a.html?v=20180514163233#adid='+ adid + '&pid=' + adid + '&device=' + deviceType + '&pattern=' +  obj.pattern;
     }
     
   }
