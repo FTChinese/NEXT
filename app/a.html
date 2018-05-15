@@ -38,6 +38,15 @@ img {
 .top-right {
     float: right;
 }
+video::-internal-media-controls-download-button {
+	display:none;
+}
+video::-webkit-media-controls-enclosure {  
+    overflow:hidden;  
+}  
+video::-webkit-media-controls-panel {  
+    width: calc(100% + 30px);  
+}  
 </style>
 <script>
 
@@ -188,8 +197,8 @@ img {
 
             if (/[0-9]{4}19020402/.test(c)) {
                 var parentIframe = window.parent.document.getElementById(parentId);
-                if ( window.parentIframe) {
-                    var adContainer = window.parentIframe.parentNode;
+                if (parentIframe) {
+                    var adContainer = parentIframe.parentNode;
                     if (adContainer) {
                         if (/mpu\-container/.test(adContainer.className)) {
                             adContainer.style.display = 'none';
@@ -198,8 +207,8 @@ img {
                 }
             } else if(/[0-9]{4}19020302/.test(c)) {
                 var parentIframe = window.parent.document.getElementById(parentId);
-                if ( window.parentIframe) {
-                    var adContainer = window.parentIframe.parentNode.parentNode.parentNode.parentNode;
+                if (parentIframe) {
+                    var adContainer = parentIframe.parentNode.parentNode.parentNode.parentNode;
                     if (adContainer) {
                         if (/bn\-ph/.test(adContainer.className)) {
                             adContainer.style.display = 'none';
@@ -212,8 +221,22 @@ img {
                 minimum: 0.6,
                 time: 1000
                 };
-            } else if (1<0 && /^300013000301$/.test(c)) {
-
+            } else if (1<2 && /^300013000401$/.test(c)) {
+                var parentIframe = window.parent.document.getElementById(parentId);
+                if (parentIframe) {
+                    if (parentIframe.parentNode) {
+                        var adContainerForMpu = parentIframe.parentNode;
+                        if (/mpu\-container/.test(adContainerForMpu.className)) {
+                            adContainerForMpu.style.display = 'none';
+                        }
+                    }
+                    if (parentIframe.parentNode && parentIframe.parentNode.parentNode && parentIframe.parentNode.parentNode.parentNode && parentIframe.parentNode.parentNode.parentNode.parentNode) {
+                        var adContainerForBanner = parentIframe.parentNode.parentNode.parentNode.parentNode;
+                        if (/bn\-ph/.test(adContainerForBanner.className)) {
+                            adContainerForBanner.style.display = 'none';
+                        }
+                    }
+                }
             } else {
                 //console.log ('print url: c is now ' + c);
               
