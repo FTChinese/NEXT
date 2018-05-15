@@ -73,18 +73,20 @@
 		                            </object>
 		                        <%/if%>
 		                    </div></div>
-							<div class="story-action-placeholder" id="story-action-placeholder">
-							    <div class="story-action">
-							        <div class="action-inner">
-							            <a class="action-icon icon-wechat" href="<%$wechatUrl%>" target="_blank"></a>
-							            <a class="action-icon icon-weibo" href="<%$sinaUrl%>" target="_blank"></a>
-							            <a class="action-icon icon-linkedin" href="<%$linkedInUrl%>" target="_blank"></a>
-							            <a class="action-icon icon-twitter" href="<%$twitterUrl%>" target="_blank"></a>
-							            <a class="action-icon icon-facebook" href="<%$facebookUrl%>" target="_blank"></a>
-							            <a class="icon-right icon-action icon-share" onclick="showOverlay('share-legacy')"></a>
-							        </div>
-							    </div>
-							</div>
+		                    <%if $smarty.get.webview != "ftcapp"%>
+								<div class="story-action-placeholder" id="story-action-placeholder">
+								    <div class="story-action">
+								        <div class="action-inner">
+								            <a class="action-icon icon-wechat" href="<%$wechatUrl%>" target="_blank"></a>
+								            <a class="action-icon icon-weibo" href="<%$sinaUrl%>" target="_blank"></a>
+								            <a class="action-icon icon-linkedin" href="<%$linkedInUrl%>" target="_blank"></a>
+								            <a class="action-icon icon-twitter" href="<%$twitterUrl%>" target="_blank"></a>
+								            <a class="action-icon icon-facebook" href="<%$facebookUrl%>" target="_blank"></a>
+								            <a class="icon-right icon-action icon-share" onclick="showOverlay('share-legacy')"></a>
+								        </div>
+								    </div>
+								</div>
+							<%/if%>
 							<div class="story-byline">
 								<span class="story-time"><%$pubdate|date_format:"%Y年%m月%d日"%></span>
 								<span class="story-author">
