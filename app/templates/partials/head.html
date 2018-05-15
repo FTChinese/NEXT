@@ -7,14 +7,18 @@
 if(typeof startTime === "undefined"){
     var startTime=new Date().getTime();
 }
-var adchID = '<%$adchannelID|default:$adchId%>';
 <%if $autostart=="false"%>
 var gAutoStart = false;
 <%/if%>
+<%* 
+/*
+var adchID = '<%$adchannelID|default:$adchId%>';
 var adchIDNew = window.location.href.replace(/^.*adchannelID=([0-9]{4}).*$/g,'$1');
 if (/^[0-9]{4}$/.test(adchIDNew) && window.isAdchannelIdFinal !== true) {
     adchID = adchIDNew;
 }
+*/
+*%>
 <%if $itemType == "story" && $storyId != ""%>
 var FTStoryid = '<%$storyId%>';
 <%elseif $itemType == "interactive" && $id != ""%>
