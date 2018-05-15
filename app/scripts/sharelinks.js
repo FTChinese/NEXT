@@ -32,7 +32,6 @@
 				shcode=scodeSet;
 			}
 		}
-
 		if(typeof(shcode)=="string"&&shcode.length==6){
 			t1="1C"+shcode;
 			t2="2C"+shcode;

@@ -13,7 +13,6 @@
 		                            var video_width = thisVideo.offsetWidth;
 		                            var video_height = Math.round(video_width*9/16);
 									document.write('<scr' + 'ipt src="http://union.bokecc.com/player?vid=<%$cc_vaddress%>&siteid=922662811F1A49E9&autoStart=true&width=' + video_width + '&height=' + video_height + '&playerid=3571A3BF2AEC8829&playertype=1" type="text/javascript"></sc' + 'ript>');
-								
 									<%if $smarty.get.webview == "ftcapp" && preg_match("/高端视点/",$PageTitle) %>
 										var videoRealSection = thisVideo.querySelector('.video-player-inner');
 										var hasSendTracking = false;
@@ -24,9 +23,7 @@
 													var trackImp = 'http://bsch.serving-sys.com/serving/adServer.bs?cn=display&c=19&mc=imp&pli=24934762&PluID=0&ord=__TIME__&rtu=-1&mb=1';
 												<%else%>
 													var trackImp = 'http://bsch.serving-sys.com/serving/adServer.bs?cn=display&c=19&mc=imp&pli=23613562&PluID=0&ord=__TIME__&rtu=-1&mb=1';
-													
 												<%/if%>
-											
 												var trackVideoImpression = new Image();
 												trackVideoImpression.onload = function() {
 													window.ga('send', 'event', 'testvideo impression', 'SuccessOnIphoneApp', trackImp, {'nonInteraction': 1});
@@ -37,12 +34,9 @@
 												trackVideoImpression.src = trackImp;
 												hasSendTracking = true;
 											}
-											
 										}
 									<%/if%>
-
 									</script>
-									
 		                        <%else%>
 		                            <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" id="osmfPlayer">
 		                                <param name="movie" value="http://static.ftchinese.com/player111014/osmfPlayer_3.swf?videoid=<%$id%>&autoplay=true" />
@@ -95,8 +89,18 @@
 				                    <%elseif preg_match("/盛立宇/is",$cbyline)%> 【<a href=http://weibo.com/u/1773028931 target=_blank>作者微博</a>】
 				                    <%/if%>
 				                </span>
+				                <%if $smarty.get.webview == "ftcapp"%>
+				                	<script type="text/javascript">
+				                		window.linksForShare = {
+				                			'url': 'http://www.ftchinese.com/video/<%$id%>',
+				                			'title': document.querySelector('.story-headline').innerHTML,
+				                			'lead': '<%$clongleadbody|regex_replace:"/[\n\r\']/":""%>',
+				                			'image': '<%$story_pic.cover|default:$story_pic.bigbutton%>'
+				                		};
+				                	</script>
+				                	<a class="icon-right icon-action icon-share" onclick="sharePageFromApp(linksForShare)"></a>
+				                <%/if%>
 							</div>
-
 							<%if $pageType=="channel"%>
 						        <div class="story-lead"><%$clongleadbody%></div>
 						    <%else%>
@@ -104,19 +108,13 @@
 								<%assign var="story_content" value="<p>`$story_content`</p>"%>
 						       	<div class="video-body-container"><div class="story-body"><%$story_content%></div></div>
 						    <%/if%>
-
 		                </div>
 		            </div>
 		        </div>
 		    </div>
 		</div>
-
-
 		<%include file="next/partials/wechat-icon.html"%>
-
-
 		<%include file="next/partials/video-more.html%>
-
         <div class="list-container">
 	        <div class="list-inner">
 	        	<h2 class="list-title"><a class="list-link" href="#">版权声明</a></h2>
@@ -153,7 +151,6 @@
 			<%/foreach%>
 		</div>
 		<%/if%>
-
 		<%if $smarty.get.ad != "no" && $noAd != "true"%>
 			<script type="text/javascript">
 				document.write (writeAdNew({
@@ -163,7 +160,6 @@
 				}));
 			</script>
 	    <%/if%>
-
 	    <%if $itemType == "video"%>
 		    <%assign var="mp" value=$videomodel->get_hot_video(30,10) %>
 			<div class="mps last-child">
@@ -179,7 +175,6 @@
 				</ul>
 			</div>
 		<%/if%>
-		
 	</div></div>
 	<div class="clearfloat"></div>
 </div></div>
