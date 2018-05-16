@@ -384,6 +384,17 @@ function checkUserWarnings() {
     var redCardUserIds = window.gRedCardUserIds || '';
     if (redCardUserIds.indexOf(window.userId)>=0) {
         showWarningMessage('red');
+        DeleteCookie('paywall');
+        DeleteCookie('paywall_expire');
+        try {
+            card = {
+                'userId': window.userId,
+                'cardType': 'red'
+            }
+            webkit.messageHandlers.redCard.postMessage(card);
+        } catch (ignore) {
+
+        }
     } else if (yellowCardUserIds.indexOf(window.userId)>=0) {
         showWarningMessage('yellow');
     }
