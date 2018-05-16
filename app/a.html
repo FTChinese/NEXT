@@ -184,12 +184,12 @@ video::-webkit-media-controls-panel {
         <script>
             function removeAd() {
                 //alert ('removeAd');
-                window.parent.sendEvent('Ad Impression: Error', adChannelId, adPositionId, {'nonInteraction':1});
+                window.parent.sendEvent('Ad Impression: Error', adDeviceId+adChannelId, adPositionId, {'nonInteraction':1});
             }
             function loaded() {
                 //alert ('loaded');
                 if (window.isHouseAd === true) {
-                    window.parent.sendEvent('Ad Impression: House Ad', adChannelId, adPositionId, {'nonInteraction':1});
+                    window.parent.sendEvent('Ad Impression: House Ad', adDeviceId+adChannelId, adPositionId, {'nonInteraction':1});
                 }
             }
            
@@ -251,7 +251,7 @@ video::-webkit-media-controls-panel {
 
             // record the ad impression
             try {
-                window.parent.sendEvent('Ad Impression', adChannelId, adPositionId, {'nonInteraction':1});
+                window.parent.sendEvent('Ad Impression', adDeviceId+adChannelId, adPositionId, {'nonInteraction':1});
             } catch (ignore) {
 
             }
