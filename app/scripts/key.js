@@ -393,10 +393,10 @@ function checkUserWarnings() {
         showWarningMessage('yellow');
     }
     try {
-        card = {
+        var card = {
             'userId': window.userId,
             'cardType': window.cardType
-        }
+        };
         webkit.messageHandlers.card.postMessage(card);
     } catch (ignore) {
 
