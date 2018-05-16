@@ -382,21 +382,27 @@ function checkUserWarnings() {
     }
     var yellowCardUserIds = window.gYellowCardUserIds || '';
     var redCardUserIds = window.gRedCardUserIds || '';
+    var cardType = 'unknown';
     if (redCardUserIds.indexOf(window.userId)>=0) {
         showWarningMessage('red');
+        cardType = 'red';
         DeleteCookie('paywall');
         DeleteCookie('paywall_expire');
+
+    } else if (yellowCardUserIds.indexOf(window.userId)>=0) {
+        cardType = 'yellow';
+        showWarningMessage('yellow');
+    }
+    if (cardType !== 'unknown') {
         try {
             card = {
                 'userId': window.userId,
-                'cardType': 'red'
+                'cardType': cardType
             }
             webkit.messageHandlers.card.postMessage(card);
         } catch (ignore) {
 
         }
-    } else if (yellowCardUserIds.indexOf(window.userId)>=0) {
-        showWarningMessage('yellow');
     }
 }
 
