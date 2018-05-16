@@ -391,7 +391,7 @@ function checkUserWarnings() {
                 'userId': window.userId,
                 'cardType': 'red'
             }
-            webkit.messageHandlers.redCard.postMessage(card);
+            webkit.messageHandlers.card.postMessage(card);
         } catch (ignore) {
 
         }
