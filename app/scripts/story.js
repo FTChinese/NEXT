@@ -109,40 +109,25 @@ var ftc_api = {
 
 
 // MARK: 测试结束，全部使用002版本
-/*
-if(recommendVersion === '-001'){
-    message.head = {};
-    message.head.transactiontype = '61008';
-    message.head.source = 'web';
-    message.body = {};
-    message.body.ielement = {};
-    message.body.ielement.storyid = FTStoryid;
+var userIdForYoulu = GetCookie('USER_ID') || GetCookie('uniqueVisitorId');
+if (userIdForYoulu === null) {
+    userIdForYoulu = guid();
+    SetCookie('uniqueVisitorId',userIdForYoulu,'','/');
+}
 
-    ga('send','event','Recommend Story API', 'Load' + recommendVersion, '', {'nonInteraction':1});
-    ftc_api.call(message, getFtcRecommendSuccess, getFtcRecommendFailed);
-} else {*/
-    userId = GetCookie('USER_ID') || GetCookie('uniqueVisitorId');
-    if (userId === null) {
-        userId = guid();
-        SetCookie('uniqueVisitorId',userId,'','/');
-    }
-
-    ftc_api.jsonp(thirdPartAPIUrl + '&callback=getRec&cki=' + userId + '&v=' + new Date().getTime());
+ftc_api.jsonp(thirdPartAPIUrl + '&callback=getRec&cki=' + userId + '&v=' + new Date().getTime());
 
 
-    // MARK: The rest work jump to getRec
-    ga('send','event','Recommend Story API', 'Load' + recommendVersion, '', {'nonInteraction':1});
+// MARK: The rest work jump to getRec
+ga('send','event','Recommend Story API', 'Load' + recommendVersion, '', {'nonInteraction':1});
     
-//}
+
 
 function changeFontSize() {
-    /*set font*/
+    // MARK: set font
     fontOptionsEle = document.getElementById('font-options');
-
-    //fontOptionsDivs = fontOptionsEle.querySelectorAll('div');
-
-    //click to change font size and set cookie (fs)
-    //Dom Delegate doesn't work here on iOS
+    // MARK: click to change font size and set cookie (fs)
+    // MARK: Dom Delegate doesn't work here on iOS
     fontOptionsEle.onclick = function (e) {
         var currentClass = e.target.className || '';
         var selectedClass;

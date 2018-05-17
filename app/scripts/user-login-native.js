@@ -2,10 +2,11 @@
 function passLoginToNative() {
     var message = {};
     var uniqueId = GetCookie('uniqueVisitorId') || guid();
-    window.username = GetCookie('USER_NAME') || '';
+    var userNameForLogin = GetCookie('USER_NAME') || '';
+    var userIdForLoginUser = GetCookie('USER_ID') || '';
     message = {
-        'username': window.username,
-        'userId': window.userId || '',
+        'username': userNameForLogin,
+        'userId': userIdForLoginUser,
         'uniqueVisitorId': uniqueId
     };
     // MARK: Get subscription: standard/premium

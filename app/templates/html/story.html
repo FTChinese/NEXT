@@ -1444,18 +1444,46 @@ if (document.querySelector('.highcharts[data-chart-id]')) {
 // MARK: Don't show inread ad for biligual stories
 if (w > 490 && isTouchDevice() === false && document.querySelectorAll('.ce').length == 0) {
 	var cssVersionNumber = '<%include file="next/timestamp/timestamp.html"%>';
-    document.write ('<scr'+'ipt src="http://dualstack.adsame-1421766300.ap-southeast-1.elb.amazonaws.com/s?z=ft&c=' + adchID + '0112' + slotStr + adReachability() + '" charset="gbk"></scr'+'ipt>');
+    document.write ('<scr'+'ipt src="http://dualstack.adsame-1421766300.ap-southeast-1.elb.amazonaws.com/s?z=ft&c=1000' + window.adChannelId + '0112' + slotStr + adReachability() + '" charset="gbk"></scr'+'ipt>');
     document.write ('<scr'+'ipt src="http://static.ftchinese.com/n/main-barrier.js?<%include file="next/timestamp/timestamp.html"%>"></scr'+'ipt>');
 }
 </script>
 <%/if%>
 
+<%if $smarty.get.teads == "yes"%>
+
+	<!-- Teads -->
+	<script type="text/javascript">
+	window._ttf = window._ttf || [];
+	_ttf.push({
+	       pid          : 26607,
+	       lang        : "cn",
+	       format      : "inread",
+	       minSlot     : 1,
+	       slot        : '#story-body-container p',
+	       bSlot       : '.mpu-container-instory',
+	       components  : { mute: {delay :0}, skip: {delay :0} },
+	       css         : "margin: 0px 0px 10px; ",
+	       mutable     : false
+	});
+
+	(function (d) {
+	        var js, s = d.getElementsByTagName('script')[0];
+	        js = d.createElement('script');
+	        js.async = true;
+	        js.src = '//cdn.teads.tv/js/all-v1.js';
+	        s.parentNode.insertBefore(js, s);
+	})(window.document);
+	</script>
+	<!-- Teads End-->
+
+<%/if%>
 
 <!--keys: <%$keys%> -->
 <%if preg_match("/高端视点/is",$keys)%>
 	<!-- exect tracking -->
 	<script>
-	console.log('exect tracking');
+	//console.log('exect tracking');
 	var videoRealSection = document.querySelector('.o-responsive-video-wrapper-inner');
 	var hasSendTracking = false;
 	if (videoRealSection) {
