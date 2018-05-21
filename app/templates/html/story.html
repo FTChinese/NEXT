@@ -396,6 +396,15 @@
 	<%if date("Ymd",$smarty.now) <= 20180228%>
 		<%assign var="noAd" value="true"%>
 	<%/if%>
+<%elseif preg_match("/人民币/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20180521 && date("Ymd",$smarty.now) <= 20180630%>
+	<%assign var=breadcrum value="<a href=\"/tag/人民币\">人民币</a>"%>
+	<%assign var="adchannelID" value="5067"%>
+	<%assign var="hideMPU1" value="no"%>
+	<%assign var="hideMPU2" value="no"%>
+	<%assign var="hideMPU3" value="no"%>
+	<%assign var="hide590" value="no"%>
+	<%assign var="hideBanner" value="no"%>
+
 <%elseif preg_match("/创新经济-物流4.0/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20180306 && date("Ymd",$smarty.now) <= 20180406%>
 	<%assign var=breadcrum value="<a href=\"/tag/创新经济-物流4.0\">创新经济-物流4.0</a>"%>
 	<%assign var="adchannelID" value="5061"%>
