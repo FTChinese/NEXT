@@ -66,13 +66,23 @@
     <%assign var=hideQR value="yes"%>
 <%/if%>
 
+<%if $p.meta.title != ""%>
+	<%if $pageId != "home"%>
+		<%assign var=pageTitle value=$p.meta.title - FT中文网%>
+	<%else%>
+		<%assign var=pageTitle value=$p.meta.title%>
+	<%/if%>    
+<%else if $pageId == "home"%>
+    <%assign var=pageTitle value=FT中文网%>
+<%/if%>
+
 <%if $smarty.get.bodyonly != "yes"%>
     <!DOCTYPE html>
     <html class="no-js core<%if $smarty.get.webview == "ftcapp"%> is-ftc-app<%/if%>" data-next-app="front-page">
         <head>
             <meta charset="utf-8" />
             <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-            <title><%$p.meta.title%><%if $pageId != "home"%> - FT中文网<%/if%></title>
+            <title><%$pageTitle%></title>
             <meta http-equiv="Content-Language" content="zh-CN"/>
             <meta content="<%$p.meta.description%>" name="description"/>
             <meta name="apple-mobile-web-app-status-bar-style" content="black" />
