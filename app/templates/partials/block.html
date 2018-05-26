@@ -21,7 +21,7 @@
 		<%assign var="sideListCount" value=$sideListCount+1%>
 	<%/if%>
 <%/foreach%>
-<div class="block-container <%if ($section.side != "" && $section.side != "none") || $sideListCount > 0 %><%assign var="sectionHasSide" value="yes"%>has-side<%if $section.sideAlign !== ""%> side-<%$section.sideAlign|default:"right"%><%/if%><%else%><%assign var="sectionHasSide" value="no"%>no-side<%/if%><%if $section.side == "HotVideos"%> side-video<%/if%>"><div class="block-inner">
+<div class="block-container <%if ($section.side != "" && $section.side != "none" && $section.side != "Narrow") || $sideListCount > 0 %><%assign var="sectionHasSide" value="yes"%>has-side<%if $section.sideAlign !== ""%> side-<%$section.sideAlign|default:"right"%><%/if%><%else%><%assign var="sectionHasSide" value="no"%>no-side<%/if%><%if $section.side == "HotVideos"%> side-video<%/if%><%if $section.side == "Narrow"%> narrow-block<%/if%>"><div class="block-inner">
 	<div class="content-container">
 
 		<%include file="next/partials/full-screen-subscribe-hint.html"%>
