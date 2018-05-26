@@ -66,13 +66,23 @@
     <%assign var=hideQR value="yes"%>
 <%/if%>
 
+<%if $p.meta.title != ""%>
+	<%if $pageId != "home"%>
+		<%assign var=pageTitle value=$p.meta.title - FT中文网%>
+	<%else%>
+		<%assign var=pageTitle value=$p.meta.title%>
+	<%/if%>    
+<%else if $pageId == "home"%>
+    <%assign var=pageTitle value=FT中文网%>
+<%/if%>
+
 <%if $smarty.get.bodyonly != "yes"%>
     <!DOCTYPE html>
     <html class="no-js core<%if $smarty.get.webview == "ftcapp"%> is-ftc-app<%/if%>" data-next-app="front-page">
         <head>
             <meta charset="utf-8" />
             <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-            <title><%$p.meta.title%><%if $pageId != "home"%> - FT中文网<%/if%></title>
+            <title><%$pageTitle%></title>
             <meta http-equiv="Content-Language" content="zh-CN"/>
             <meta content="<%$p.meta.description%>" name="description"/>
             <meta name="apple-mobile-web-app-status-bar-style" content="black" />
@@ -122,11 +132,6 @@
             <%else%>
                 <style><%include file="next/styles/main-tag.css"%></style>
             <%/if%>
-
-            <%if $smarty.get.webview == "ftcapp"%>
-                <style><%include file="next/styles/main-ftc-app.css"%></style>
-            <%/if%>
-
             <link rel="icon" type="image/png" href="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=32&height=32" sizes="32x32">
             <link rel="icon" type="image/png" href="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=194&height=194" sizes="194x194">
             <link rel="apple-touch-icon" sizes="180x180" href="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=180&height=180" />

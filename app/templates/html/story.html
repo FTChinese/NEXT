@@ -396,6 +396,15 @@
 	<%if date("Ymd",$smarty.now) <= 20180228%>
 		<%assign var="noAd" value="true"%>
 	<%/if%>
+<%elseif preg_match("/引领变局之势/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20180521 && date("Ymd",$smarty.now) <= 20180630%>
+	<%assign var=breadcrum value="<a href=\"/tag/引领变局之势\">引领变局之势</a>"%>
+	<%assign var="adchannelID" value="5067"%>
+	<%assign var="hideMPU1" value="no"%>
+	<%assign var="hideMPU2" value="no"%>
+	<%assign var="hideMPU3" value="no"%>
+	<%assign var="hide590" value="no"%>
+	<%assign var="hideBanner" value="no"%>
+
 <%elseif preg_match("/创新经济-物流4.0/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20180306 && date("Ymd",$smarty.now) <= 20180406%>
 	<%assign var=breadcrum value="<a href=\"/tag/创新经济-物流4.0\">创新经济-物流4.0</a>"%>
 	<%assign var="adchannelID" value="5061"%>
@@ -1451,32 +1460,7 @@ if (w > 490 && isTouchDevice() === false && document.querySelectorAll('.ce').len
 <%/if%>
 
 <%if $smarty.get.teads == "yes"%>
-
-	<!-- Teads -->
-	<script type="text/javascript">
-	window._ttf = window._ttf || [];
-	_ttf.push({
-	       pid          : 26607,
-	       lang        : "cn",
-	       format      : "inread",
-	       minSlot     : 1,
-	       slot        : '#story-body-container p',
-	       bSlot       : '.mpu-container-instory',
-	       components  : { mute: {delay :0}, skip: {delay :0} },
-	       css         : "margin: 0px 0px 10px; ",
-	       mutable     : false
-	});
-
-	(function (d) {
-	        var js, s = d.getElementsByTagName('script')[0];
-	        js = d.createElement('script');
-	        js.async = true;
-	        js.src = '//cdn.teads.tv/js/all-v1.js';
-	        s.parentNode.insertBefore(js, s);
-	})(window.document);
-	</script>
-	<!-- Teads End-->
-
+<script type="text/javascript" class="teads" src="//a.teads.tv/page/84615/tag" async="true"></script>
 <%/if%>
 
 <!--keys: <%$keys%> -->
