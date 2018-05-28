@@ -493,7 +493,7 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 <span class="story-time">更新于2分钟前</span>
 <span class="story-author">英国《金融时报》 <a href='/search/%E7%99%BD%E6%9D%B0%E6%98%8E/relative_byline' target=_blank>白杰明</a>  香港报道</span>
 </div>
-<div class="story-body" id="story-body">
+<div class="story-body" id="story-body"><div id="story-body-container">
 
 <p>香港再度成为全球外派成本最高的城市，尽管这块中国领地的经济正面临越来越大的阻力、而且企业还削减了曾经很丰厚的外派津贴。</p>
 <!-- Old Ad:(QUEST:此处应该是story中的第一个MPU吧？)
@@ -584,6 +584,7 @@ window.originalAdId = window.adChannelId;window.adChannelId = '1000';document.wr
 
 <p>译者/何黎</p>
 
+
 <script type="text/javascript">
 var storyBy = document.getElementById('story-body');
 var setWidth = storyBy.offsetWidth ;
@@ -609,7 +610,7 @@ function writeHtml(width){
 
 </div>
 
-<div class="subscribe-lock-container" id="subscribe-now-container">
+<!-- <div class="subscribe-lock-container" id="subscribe-now-container">
     <div class="lock-block">
       <div class="lock-content">成为付费会员，阅读FT独家内容
       </div>
@@ -626,9 +627,8 @@ function writeHtml(width){
       <div class="lock-content">成为付费会员，阅读FT独家内容
       </div>
       <div class="subscribe-btn" ><a href="#" target="_blank"  id="open-app">下载应用&#x25BA;</a></div>
-      <!--<div class="lock-content" >立即订阅</div>-->
     </div>
-</div> 
+</div>  -->
 
 
 
@@ -651,7 +651,7 @@ function writeHtml(width){
 
 <div class="clearfloat"></div>
 </div>
-
+</div>
 
 
 
@@ -1049,21 +1049,7 @@ if (w > 490 && isTouchDevice() === false && 1<0) {
 var parameter = window.location.search.substr(1);
 var storyBodyId = document.getElementById('story-body');
 var downloadAppContainerId = document.getElementById('download-app-container');
-var subscribeNowContainerId = document.getElementById('subscribe-now-container');
 
-if (parameter==='paywall=1'){
-    storyBodyId.style.display = 'none';
-    downloadAppContainerId.style.display = 'none';
-    subscribeNowContainerId.style.display = 'block';
-}else if(parameter==='paywall=2'){
-    storyBodyId.style.display = 'none';
-    subscribeNowContainerId.style.display = 'none';
-    downloadAppContainerId.style.display = 'block';
-}else{
-    storyBodyId.style.display = 'block';
-    subscribeNowContainerId.style.display = 'none';
-    downloadAppContainerId.style.display = 'none';
-}
 
 
 </script>

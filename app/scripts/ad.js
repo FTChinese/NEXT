@@ -269,12 +269,34 @@ function checkB() {
     if (test.offsetHeight === 0) {
       //document.body.classList.add('adblock');
       isBlocked = 'yes';
+      showPayWall({'reason': '亲爱的读者，我们检测到您使用了广告拦截，请关闭广告拦截或注册为会员'});
     } else {
       isBlocked = 'no';
     }
-    //console.log ('ad block on: ' + isBlocked);
     test.remove();
   }, 100);
+}
+
+// MARK: Show Pay Wall in story body when ad blocker is detected. 
+function showPayWall(obj) {
+  setTimeout(function(){
+    var payWallCookie = GetCookie('paywall');
+    if (payWallCookie) {
+      return;
+    }
+    var storyBody = document.getElementById('story-body-container');
+    if (storyBody) {
+      var storyId = window.FTStoryid || '';
+      window.gSubscriptionEventLabel = 'AdBlocker/story/' + storyId; 
+      var reason = obj.reason || '';
+      var loginHTML = '如果已经是会员，请<a href="http://user.ftchinese.com/login">点击这里</a>登录';
+      var subscribeLink = 'http://www.ftchinese.com/index.php/ft/subscription?el=' + window.gSubscriptionEventLabel;
+      var subscribeHTML = '<a href="' + subscribeLink + '"  id="subscribe-now">成为会员&#x25BA;</a>';
+      var finalHTML = '<div class="subscribe-lock-container" id="subscribe-now-container"><div class="lock-block"><div class="lock-content">' + reason + '</div><div class="lock-content">' + loginHTML +'</div><div class="subscribe-btn">' + subscribeHTML + '</div></div></div>';
+      storyBody.innerHTML = finalHTML;
+      ga('send','event','Web Privileges', 'Display', window.gSubscriptionEventLabel);
+    }
+  }, 1000);
 }
 
 function checkLandingPage() {
