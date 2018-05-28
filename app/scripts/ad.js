@@ -272,6 +272,7 @@ function checkB() {
     } else {
       isBlocked = 'no';
     }
+    //console.log ('ad block on: ' + isBlocked);
     test.remove();
   }, 100);
 }
