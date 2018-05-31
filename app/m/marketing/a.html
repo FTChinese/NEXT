@@ -149,16 +149,15 @@ video::-webkit-media-controls-panel {
         var adName = 'db-'+c;
     }
 </script>
-<script src='https://www.googletagservices.com/tag/js/gpt.js'></script>
+<!-- <script src='https://www.googletagservices.com/tag/js/gpt.js'></script> -->
+<!-- TODO: if it will be used doubleclick in a.html, the loading for gpt should use a local file-->
 <script>
-
-    if (gSearchVars && gSearchVars.testDB === 'yes') {
+    if (gSearchVars && gSearchVars.testDB === 'yes' && window.googleTag) {
         googletag.cmd.push(function() {
             googletag.defineSlot('/80682004/'+adDeviceType+'-'+adDeviceId +'/' + c,adSizeArr, adName). addService(googletag.pubads());
             googletag.pubads().enableSingleRequest();
             googletag.pubads().enableSyncRendering();
             googletag.enableServices();
-
         });
     }
 </script>
@@ -198,7 +197,7 @@ video::-webkit-media-controls-panel {
                     }
                 }
             } else {
-                if (gSearchVars.testDB === 'yes') {
+                if (gSearchVars && gSearchVars.testDB === 'yes' && window.googleTag) {
                     document.write('<div id="'+ adName +'" class="db-ad db-mobile-banner"><scr'+'ipt>googletag.cmd.push(function() { googletag.display("'+ adName +'")})</scr'+'ipt></div>');
                 } else {
                     document.write ('<scr'+'ipt src="http://dualstack.adsame-1421766300.ap-southeast-1.elb.amazonaws.com/s?z=ft&c=' + c + slotStr + trString + adP + '&_fallback=0' + refreshParameter + '" charset="gbk" onerror="removeAd()" onload="loaded()"></scr'+'ipt>');
