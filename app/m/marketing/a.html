@@ -197,7 +197,7 @@ video::-webkit-media-controls-panel {
                     }
                 }
             } else {
-                if (gSearchVars && gSearchVars.testDB === 'yes' && googleTag) {
+                if (gSearchVars && gSearchVars.testDB === 'yes' && window.googleTag) {
                     document.write('<div id="'+ adName +'" class="db-ad db-mobile-banner"><scr'+'ipt>googletag.cmd.push(function() { googletag.display("'+ adName +'")})</scr'+'ipt></div>');
                 } else {
                     document.write ('<scr'+'ipt src="http://dualstack.adsame-1421766300.ap-southeast-1.elb.amazonaws.com/s?z=ft&c=' + c + slotStr + trString + adP + '&_fallback=0' + refreshParameter + '" charset="gbk" onerror="removeAd()" onload="loaded()"></scr'+'ipt>');

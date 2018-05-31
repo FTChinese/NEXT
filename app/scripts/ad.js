@@ -479,15 +479,15 @@ function writeAdNew(obj) {
  
   if(bannerBG) {
     if (searchVars.testDB === 'yes') {
-      iframeSrc = '/a.html?v=20180531105404' + bannerBG + '#testDB=yes&adid='+ adid + '&pid=' + adid + '&device=' + deviceType + '&pattern=' +  obj.pattern;
+      iframeSrc = '/a.html?v=20180531105405' + bannerBG + '#testDB=yes&adid='+ adid + '&pid=' + adid + '&device=' + deviceType + '&pattern=' +  obj.pattern;
     } else {
-      iframeSrc = '/a.html?v=20180531105404' + bannerBG + '#adid='+ adid + '&pid=' + adid + '&device=' + deviceType + '&pattern=' +  obj.pattern;
+      iframeSrc = '/a.html?v=20180531105405' + bannerBG + '#adid='+ adid + '&pid=' + adid + '&device=' + deviceType + '&pattern=' +  obj.pattern;
     }
   } else {
     if (searchVars.testDB === 'yes') {
-      iframeSrc = '/a.html?v=20180531105404#testDB=yes&adid='+ adid + '&pid=' + adid + '&device=' + deviceType + '&pattern=' +  obj.pattern;
+      iframeSrc = '/a.html?v=20180531105405#testDB=yes&adid='+ adid + '&pid=' + adid + '&device=' + deviceType + '&pattern=' +  obj.pattern;
     } else {
-      iframeSrc = '/a.html?v=20180531105404#adid='+ adid + '&pid=' + adid + '&device=' + deviceType + '&pattern=' +  obj.pattern;
+      iframeSrc = '/a.html?v=20180531105405#adid='+ adid + '&pid=' + adid + '&device=' + deviceType + '&pattern=' +  obj.pattern;
     }
     
   }
