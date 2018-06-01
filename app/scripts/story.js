@@ -462,9 +462,14 @@ var openApp = document.getElementById('open-app');
 // MARK: subscribeNow might be null, for example, in iOS app. 
 // MARK: never assume a dom exists. 
 try {
-    subscribeNow.onclick = function(){
-        ga('send','event','Web Privileges','Tap',window.gSubscriptionEventLabel);
-    };
+    if(subscribeNow){
+        var hrefLink = 'http://www.ftchinese.com/index.php/ft/subscription?el='+window.gSubscriptionEventLabel;
+        subscribeNow.href = hrefLink;
+        subscribeNow.onclick = function(){
+            ga('send','event','Web Privileges','Tap',window.gSubscriptionEventLabel);
+        };
+    }
+    
 } catch(ignore) {
 
 }
