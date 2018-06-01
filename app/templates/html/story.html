@@ -413,9 +413,7 @@
 	<%assign var="hideMPU3" value="yes"%>
 	<%assign var="hide590" value="no"%>
 	<%assign var="hideBanner" value="yes"%>
-	<!--hideMPU1:<%$hideMPU1%>-->
-	<!--hideMPU2:<%$hideMPU2%>-->
-	<!--hideMPU3:<%$hideMPU3%>-->
+	
 
 <%elseif preg_match("/创新经济-物流4.0/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20180306 && date("Ymd",$smarty.now) <= 20180406%>
 	<%assign var=breadcrum value="<a href=\"/tag/创新经济-物流4.0\">创新经济-物流4.0</a>"%>
@@ -1227,9 +1225,7 @@
 
 <%assign var="adchannelID" value=$adchannelID|regex_replace:"/^(20)(..)$/":'50${2}'%>
 <%assign var="copyrightStatement" value="版权声明：本文版权归FT中文网所有，未经允许任何单位或个人不得转载，复制或以任何其他方式使用本文全部或部分，侵权必究。"%>
-<!--hideMPU1:<%$hideMPU1%>-->
-<!--hideMPU2:<%$hideMPU2%>-->
-<!--hideMPU3:<%$hideMPU3%>-->
+
 <!DOCTYPE html>
 <html class="no-js core<%if $smarty.get.webview == "ftcapp"%> is-ftc-app<%/if%>" data-next-app="tag-page">
   <head>
