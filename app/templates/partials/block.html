@@ -1634,6 +1634,12 @@
 									<%if $itemImage != "" && $hasImage === "has-image"%><div class="image is-barcode" target="_blank"<%$itemLink%>><figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure></div><%/if%>
 								<%elseif $list.sideOption == "leadOnly"%>
 									<div class="item-lead item-description"><%$itemLead|nl2br%></div>
+								<%elseif $list.sideOption == "leadWithImage"%>
+									<%if $itemHeadline != ""%>
+										<h2 class="item-headline <%$lockClass%>"><%$itemTag%><a target="_blank"<%$itemLink%>><%$itemHeadline%></a></h2>
+									<%/if%>	
+									<%if $itemImage != "" && $hasImage === "has-image"%><a class="image" target="_blank"<%$itemLink%>><figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure></a><%/if%>
+									
 								<%else%>
 									<%if $itemImage != "" && $hasImage === "has-image"%><a class="image" target="_blank"<%$itemLink%>><figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure></a><%/if%>
 									<%if $itemHeadline != ""%>
