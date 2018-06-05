@@ -1583,6 +1583,13 @@
 								<%/if%>
 							<%/if%>
 
+							<%if $list.sideOption == "headShot"%>
+								<%if $i == 0%>
+									<%assign var="itemClass" value="first-headline"%>
+								<%/if%>
+							<%/if%>
+							
+
 							<%if $item.customLink != "" %>
 								<%assign var="itemLink" value=$item.customLink%>
 								<%assign var="itemLink" value=" href=\"`$itemLink`\""%>
@@ -1637,15 +1644,13 @@
 								<%elseif $list.sideOption == "headShot"%>
 									<%if $itemImage != "" && $hasImage === "has-image"%>
 										<a class="image portrait-img portrait-img-right" target="_blank"<%$itemLink%>><figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure></a>
-
-										<h2 class="item-headline <%$lockClass%>"><%$itemTag%><a target="_blank"<%$itemLink%>><%$itemHeadline%></a></h2>
 									<%/if%>	
 									<%if $itemHeadline != ""%>
 									<div class="item-headline-lead-right">
 									<h2 class="item-headline <%$lockClass%>"><%$itemTag%><a target="_blank"<%$itemLink%>><%$itemHeadline%></a></h2>
 									<div class="item-lead"><%$itemLead|nl2br%></div>
 									</div>
-
+									<div class=clearfloat></div>
 									<%/if%>	
 									
 								<%else%>
