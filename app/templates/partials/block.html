@@ -1635,10 +1635,18 @@
 								<%elseif $list.sideOption == "leadOnly"%>
 									<div class="item-lead item-description"><%$itemLead|nl2br%></div>
 								<%elseif $list.sideOption == "headShot"%>
-									<%if $itemHeadline != ""%>
+									<%if $itemImage != "" && $hasImage === "has-image"%>
+										<a class="image portrait-img portrait-img-right" target="_blank"<%$itemLink%>><figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure></a>
+
 										<h2 class="item-headline <%$lockClass%>"><%$itemTag%><a target="_blank"<%$itemLink%>><%$itemHeadline%></a></h2>
 									<%/if%>	
-									<%if $itemImage != "" && $hasImage === "has-image"%><a class="image" target="_blank"<%$itemLink%>><figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure></a><%/if%>
+									<%if $itemHeadline != ""%>
+									<div class="item-headline-lead-right">
+									<h2 class="item-headline <%$lockClass%>"><%$itemTag%><a target="_blank"<%$itemLink%>><%$itemHeadline%></a></h2>
+									<div class="item-lead"><%$itemLead|nl2br%></div>
+									</div>
+
+									<%/if%>	
 									
 								<%else%>
 									<%if $itemImage != "" && $hasImage === "has-image"%><a class="image" target="_blank"<%$itemLink%>><figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure></a><%/if%>
