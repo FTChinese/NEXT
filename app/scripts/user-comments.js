@@ -349,28 +349,6 @@ function login(fromwhere) {
 
 function socialLogin(socialName, socialInfo) {
     var socialLoginUrl = '/index.php/users/socialLogin/' + socialName;
-    // $.ajax({
-    //     type: 'POST',
-    //     url: socialLoginUrl,
-    //     data: {'socialInfo': socialInfo},
-    //     success: function(data) {
-    //         if (data === 'yes') {
-    //             // show this in the interface so that users know login is successful
-    //             presentAlert('微信登陆成功', ''); 
-    //             username = GetCookie('USER_NAME') || '';
-    //             checkLogin();
-    //             // send an even to GA
-    //             return;
-    //         }
-    //         // if return data is not correct
-    //         presentAlert('登录失败', data + '亲爱的用户，由于FT中文网的服务器未能正确响应，所以您未能成功登录。请稍后再试，或尝试其他登录方式。'); 
-    //     },
-    //     error: function() {
-    //         presentAlert('登录失败', '亲爱的用户，由于FT中文网的服务器未能正确响应，所以您未能成功登录。请稍后再试，或尝试其他登录方式。'); 
-    //         return;
-    //     }
-    // });
-
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
         if (this.readyState === 4) {
