@@ -441,4 +441,4 @@ function getUrlParams(key){
     }
     return value;
 }
-window.ccodeValue = getUrlParams('ccode');
+window.ccodeValue = getUrlParams('ccode') || GetCookie('ccode');
