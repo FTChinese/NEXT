@@ -247,7 +247,26 @@ video::-webkit-media-controls-panel {
                 if (gSearchVars.testDB === 'yes') {
                     document.write('<div id="'+ adName +'" class="db-ad db-mobile-banner"><scr'+'ipt>googletag.cmd.push(function() { googletag.display("'+ adName +'")})</scr'+'ipt></div>');
                 } else {
+                    try {
+                        if (/[0-9]{8}0301$/.test(c)) {
+                            //console.log ('about to send request to dolphine: ' + c);
+                            window.parent.sendEvent('Ad Validate: Request', adDeviceId+adChannelId, adPositionId, {'nonInteraction':1});
+                            var foundChildren = false;
+                            var checkChildren = function() {setTimeout(function() {
+                                var childrenItems = document.getElementById('n-ad-container').querySelectorAll('div, img, video, a').length;
+                                if (childrenItems <= 0) {
+                                    checkChildren();
+                                } else {
+                                    window.parent.sendEvent('Ad Validate: Success', adDeviceId+adChannelId, adPositionId, {'nonInteraction':1});
+                                }
+                            }, 1000);};
+                            checkChildren();
+                        }
+                    } catch(ignore){
+
+                    }
                     document.write ('<scr'+'ipt src="http://dualstack.adsame-1421766300.ap-southeast-1.elb.amazonaws.com/s?z=ft&c=' + c + slotStr + trString + adP + '&_fallback=0' + refreshParameter + '" charset="gbk" onerror="removeAd()" onload="loaded()"></scr'+'ipt>');
+
                 }
                 
             }
