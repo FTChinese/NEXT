@@ -1059,8 +1059,8 @@
 
 <%assign var="itemId" value=$story.id|default:$id%>
 <%assign var="shareTitle" value="`$storyHeadline` - FT中文网"%>
-<%assign var="shareUrl" value="http://www.ftchinese.com/`$itemType`/`$itemId`?full=y"%>
-<%assign var="shareUrl" value=$shareUrl|escape:'url'%>
+<%assign var="shareUrlOriginal" value="http://www.ftchinese.com/`$itemType`/`$itemId`?full=y"%>
+<%assign var="shareUrl" value=$shareUrlOriginal|escape:'url'%>
 <%assign var="shareText" value="【`$storyHeadline`】`$shareLead`（分享自 @FT中文网）"%>
 
 <%assign var="wechatUrl" value="/m/corp/qrshare.html?url=`$shareUrl`&title=`$shareTitle`"%>
@@ -1295,7 +1295,7 @@
 
 
 
-    <link rel="canonical" href="<%$shareUrl%>">
+    <link rel="canonical" href="<%$shareUrlOriginal%>">
     <link rel="alternate" type="application/rss+xml" title="FT中文网 - 每日更新" href="/rss/feed" />
     <link rel="alternate" type="application/rss+xml" title="FT中文网 - 双语阅读" href="/rss/diglossia" />
     <link rel="alternate" type="application/rss+xml" title="FT中文网 - 今日焦点" href="/rss/news" />
