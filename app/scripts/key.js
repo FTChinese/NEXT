@@ -403,15 +403,14 @@ function checkUserWarnings() {
     }
 }
 
-var username=GetCookie('USER_NAME') || '';
+var username = GetCookie('USER_NAME') || '';
 var userId = GetCookie('USER_ID') || '';
-var ccodeCookie=GetCookie('ccode') || '';
-var user_name=GetCookie ('USER_NAME');
+var ccodeCookie = GetCookie('ccode') || '';
+var user_name = GetCookie ('USER_NAME');
 if (user_name !== null) {
     document.documentElement.className += ' is-member';
 }
 findMoreSpider();
-
 
 function parseUrlSearch(){
     var para = location.search;
@@ -441,4 +440,4 @@ function getUrlParams(key){
     }
     return value;
 }
-window.ccodeValue = getUrlParams('ccode') || GetCookie('ccode');
+window.ccodeValue = getUrlParams('ccode') || getUrlParams('utm_campaign') || GetCookie('ccode');
