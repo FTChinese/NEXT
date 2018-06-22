@@ -35,6 +35,13 @@
 				<%include file="next/partials/pagination.html"%>
 			<%/if%>
 			<%if $smarty.get.paywall == "1" || $paywall == "1"|| $smarty.get.paywall == "2"|| $paywall == "2"%>
+				<%*<!--MARK: show first two paragraphs. -->*%>
+				<div class="story-body">
+					<div id="story-body-container">
+						<%$story_content|regex_replace:"/[\r\t\n]/":""|regex_replace:"/(\<p\>.*?\<p\>.*?)\<p\>.*$/":"\\1"%>
+					</div>
+					<div class="clearfloat"></div>
+				</div>
 				<%include file="next/partials/subscribe-hint.html"%>
 			<%else%>
 				<div class="story-body">
@@ -47,7 +54,6 @@
 					<%include file="next/partials/pagination.html"%>
 				<%/if%>
 			<%/if%>
-			
 			<%if date("Ymd",$smarty.now) <= 20180401%>
 			<div class="hide-iframe">
 			    <script type="text/javascript">
