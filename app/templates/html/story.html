@@ -1067,7 +1067,12 @@
 
 <%assign var="itemId" value=$story.id|default:$id%>
 <%assign var="shareTitle" value="`$storyHeadline` - FT中文网"%>
-<%assign var="shareUrlOriginal" value="http://www.ftchinese.com/`$itemType`/`$itemId`?full=y"%>
+<%if $smarty.server.HTTP_HOST == "big5.ftchinese.com"%>
+	<%assign var="serverHost" value="big5.ftchinese.com"%>
+<%else%>
+	<%assign var="serverHost" value="www.ftchinese.com"%>
+<%/if%>
+<%assign var="shareUrlOriginal" value="http://`$serverHost`/`$itemType`/`$itemId`?full=y"%>
 <%assign var="shareUrl" value=$shareUrlOriginal|escape:'url'%>
 <%assign var="shareText" value="【`$storyHeadline`】`$shareLead`（分享自 @FT中文网）"%>
 
@@ -1299,7 +1304,7 @@
     }
     </script>
 	-->*%>
-    <meta content="FT中文网" name="application-name" /><meta content="app-id=443870811" name="apple-itunes-app" />
+    <meta content="FT中文网" name="application-name" /><meta content="app-id=443870811, app-argument=<%$shareUrlOriginal%>" name="apple-itunes-app" />
     <link rel="canonical" href="<%$shareUrlOriginal%>">
     <link rel="alternate" type="application/rss+xml" title="FT中文网 - 每日更新" href="/rss/feed" />
     <link rel="alternate" type="application/rss+xml" title="FT中文网 - 双语阅读" href="/rss/diglossia" />
