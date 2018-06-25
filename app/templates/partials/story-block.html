@@ -20,7 +20,14 @@
 				                <button id="addfavlink<%$story.id%>">收藏</button>
 				            </div>
 				            <a class="icon-right icon-action icon-comments" href="/comments/index/<%$story.id%>" target="_blank"></a>
-				            <a class="icon-right icon-action icon-print P-hide" href="/story/<%$story.id%>?print=y" target="_blank"></a>
+							<%if $page_action == "en"%>
+							<a class="icon-right icon-action icon-print P-hide" href="/story/<%$story.id%>/en?print=y" target="_blank"></a>
+							<%elseif $page_action == "ce"%>
+							<a class="icon-right icon-action icon-print P-hide" href="/story/<%$story.id%>/ce?print=y" target="_blank"></a>
+							<%else%>
+							<a class="icon-right icon-action icon-print P-hide" href="/story/<%$story.id%>?print=y" target="_blank"></a>
+							<%/if%>
+				            
 			            <%/if%>
 			            <a class="icon-right icon-action icon-font-size" onclick="showOverlay('font-setting')"></a>
 			            <a class="icon-right icon-action icon-share P-hide" onclick="showOverlay('share-legacy')"></a>
