@@ -331,8 +331,7 @@
 						<%assign var="itemTagLink" value="/tag/`$itemTag`"%>
 					<%/if%>
 
-
-					<%if $item.type == "premium" || $paywall == "1" || ($item.type == "interactive" && preg_match("/英语电台|速读/is",$itemTagsString))%>
+					<%if $list.feedType == "premium" || $item.type == "premium" || $paywall == "1" || ($item.type == "interactive" && preg_match("/英语电台|速读/is",$itemTagsString))%>
 						<%assign var="lockClass" value="locked"%>
 					<%else%>
 						<%assign var="lockClass" value=""%>

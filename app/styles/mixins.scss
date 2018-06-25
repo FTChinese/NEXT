@@ -754,12 +754,38 @@
 
 	.side-container {
 		.interactives {
+			background-color: #262a33;
+			margin-bottom: $defaultPadding/2;
+			.list-title a {
+				color: #ffec1a;
+				&:after {
+				    background-image: url(https://www.ft.com/__origami/service/image/v2/images/raw/fticon-v1%3Aarrow-right?source=ftchinese&width=30&height=30&tint=%23ffec1a&format=svg);
+				    background-image: url(https://www.ft.com/__origami/service/image/v2/images/raw/fticon-v1%3Aarrow-right?source=ftchinese&width=30&height=30&tint=%23ffec1a&format=png) \9;
+				}
+			}
 			.item-container {
 			&.first {
 				.item-headline {
 					background: transparent;
+					a {
+						color: #ffec1a;
+					}
 				}
 			}
+			}
+			.item-headline {
+				a {
+					color: #ffec1a;
+				}
+			}
+			.item-lead {
+				color: #ffec1a;
+			}
+			.item-headline-link.locked:after {
+				background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z" fill="#ffec1a"/></svg>');
+			}
+			.item-headline-link.unlocked:after {
+				background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M12 17c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm6-9h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6h1.9c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm0 12H6V10h12v10z" fill="#ffec1a"/></svg>');
 			}
 		}
 		.item-container {
@@ -771,8 +797,8 @@
 					right: $defaultPadding/2;
 					font-size: 1em;
 					padding-left: $defaultPadding/2;
-					
 					position: static;
+
 				}
 				.item-inner {
 					border-top-style: solid;
@@ -794,17 +820,8 @@
 				padding: 5px 0 5px 0;
 			}
 		}
-// yellow: 
-// #ffec1a
-
-// background: 
-// #262a33
-
-// lead: 
-// #d4d4d6
 		.interactive-inner {
 			margin: 0 $defaultPadding/2;
-			background-color: #262a33;
 			.item-container {
 				&.first {
 					padding: 0;
@@ -821,9 +838,6 @@
 			.item-headline {
 				padding-top: 10px;
 				font-weight: normal;
-				a {
-					color: white;
-				}
 			}
 			.image {
 				padding: 10px 0;
