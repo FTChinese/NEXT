@@ -83,6 +83,10 @@ function trackerNew() {
     var ccodeCookie=GetCookie('ccode') || '';
     var screenType=0;
     var deviceName;
+    var paywall = GetCookie('paywall');
+    if (paywall !== null) {
+        document.documentElement.className += ' is-subscriber';
+    }
     if (w >0) {
         if (w>1220) {
             screenType = 'XL: above 1220';

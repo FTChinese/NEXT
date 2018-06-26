@@ -1,0 +1,30 @@
+<%*<!--House Ad For Marketing-->*%>
+<%assign var="pageIdForPromo" value="subcription-promo"%>
+<%if $nextmodel != ""%>
+	<%assign var="infoForPromo" value=$nextmodel->getPublishJson($pageIdForPromo)|json_decode:true%>
+	<%foreach from=$infoForPromo.sections item=section%>
+	    <%if $section.type == "creative"%>
+
+			<div class="subscription-promo-container">
+			    <div class="subscription-promo-inner">
+			        <a href="<%$section.click%>" class="subscription-promo-box" style="background-image: url(<%$section.fileName%>)">
+			            <div class="subscription-promo-text"><%$section.title%></div>
+			        </a>
+			    </div>
+			</div>
+
+	    <!--
+			<div class="item-container"><div class="item-inner">
+			<a class="image" href="<%$section.click%>" target=_blank onclick="recordClickEventForHouseAd(this)" data-event-category="<%$pageIdForTextLink%>"><figure class="loading" data-url="<%$section.fileName%>"></figure></a>
+			<h2 class="item-headline"><a href="<%$section.click%>" onclick="recordClickEventForHouseAd(this)" data-event-category="<%$pageIdForTextLink%>" target=_blank><%$section.title%></a></h2>
+			</div></div>
+			<script>
+				ga('send', 'event', 'House Ad: <%$pageIdForTextLink%>', 'Show', '<%$section.title%>');
+			</script>
+		-->
+	    <%/if%>
+	<%/foreach%>
+<%/if%>
+
+
+<%*<!--House Ad For Marketing End-->*%>
