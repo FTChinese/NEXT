@@ -890,11 +890,18 @@
 
 <%if $page_action=="en" && $eshortleadbody != ""%>
 	<%assign var="languageOptions" value="<a class=\"icon-right icon-ch\" href=\"`$eshortleadbody`\"><button>中文</button></a>"%>
+	<%assign var="languageSwitch" value="<div class=\"language-switch-placeholder\" id=\"language-switch-placeholder\"><div class=\"language-switch-container\"><div class=\"language-switch-inner\"><a href=\"/story/`$story.id`\">中文</a><a class=\"on\">英文</a><a href=\"/story/`$story.id`/ce\">对照</a></div></div></div>"%>
 <%elseif ($page_action=="en" || $page_action=="ce") && $story.id%>
 	<%assign var="languageOptions" value="<a class=\"icon-right icon-ch\" href=\"/story/`$story.id`\"><button>中文</button></a>"%>
+	<%if $page_action=="en"%>
+		<%assign var="languageSwitch" value="<div class=\"language-switch-placeholder\" id=\"language-switch-placeholder\"><div class=\"language-switch-container\"><div class=\"language-switch-inner\"><a href=\"/story/`$story.id`\">中文</a><a class=\"on\">英文</a><a href=\"/story/`$story.id`/ce\">对照</a></div></div></div>"%>
+	<%else%>
+		<%assign var="languageSwitch" value="<div class=\"language-switch-placeholder\" id=\"language-switch-placeholder\"><div class=\"language-switch-container\"><div class=\"language-switch-inner\"><a href=\"/story/`$story.id`\">中文</a><a  href=\"/story/`$story.id`/en\">英文</a><a class=\"on\">对照</a></div></div></div>"%>
+	<%/if%>
 <%elseif $story.show_english == "yes" || $story.ebody != ""%>
 	<%*<!--MARK: Show English and Billigual Button to All-->*%>
 	<%assign var="languageOptions" value="<a class=\"icon-right icon-ch\" href=\"/story/`$story.id`/ce\"><button>对照</button></a><a class=\"icon-right icon-ch\" href=\"/story/`$story.id`/en\"><button>英文</button></a>"%>
+	<%assign var="languageSwitch" value="<div class=\"language-switch-placeholder\" id=\"language-switch-placeholder\"><div class=\"language-switch-container\"><div class=\"language-switch-inner\"><a class=\"on\">中文</a><a href=\"/story/`$story.id`/en\">英文</a><a href=\"/story/`$story.id`/ce\">对照</a></div></div></div>"%>
 <%/if%>
 
 
@@ -1067,11 +1074,15 @@
 
 <%assign var="itemId" value=$story.id|default:$id%>
 <%assign var="shareTitle" value="`$storyHeadline` - FT中文网"%>
-<%if $smarty.server.HTTP_HOST == "big5.ftchinese.com"%>
-	<%assign var="serverHost" value="big5.ftchinese.com"%>
-<%else%>
-	<%assign var="serverHost" value="www.ftchinese.com"%>
+
+<%*<!--MARK: If the user is using big5.ftchinese.com, serverHost should be set to big5.ftchinese.com -->*%>
+<%assign var="serverHost" value="www.ftchinese.com"%>
+<%if array_key_exists('HTTP_FTHOST', $smarty.server)%>
+	<%if $smarty.server.HTTP_FTHOST == "big5.ftchinese.com"%>
+		<%assign var="serverHost" value="big5.ftchinese.com"%>
+	<%/if%>
 <%/if%>
+
 <%assign var="shareUrlOriginal" value="http://`$serverHost`/`$itemType`/`$itemId`?full=y"%>
 <%assign var="shareUrl" value=$shareUrlOriginal|escape:'url'%>
 <%assign var="shareText" value="【`$storyHeadline`】`$shareLead`（分享自 @FT中文网）"%>
@@ -1400,7 +1411,9 @@
 			<%include file="next/partials/header.html"%>
 		<%/if%>
 		<%include file="next/partials/nav.html"%>
-		
+		<%if $smarty.get.webview != "ftcapp"%>
+			<%$languageSwitch%>
+		<%/if%>
 		<%*<!-- hide Leaderboard for some channel -->*%>
 		<%if !preg_match("/品味|艺术投资|腕表|游艇|极致人生/is",$keys) && $smarty.get.hideheader != "yes"%>
 			<%*<%include file="next/partials/banner-new.html"%>*%>
@@ -1484,7 +1497,6 @@ if (w > 490 && isTouchDevice() === false && document.querySelectorAll('.ce').len
 <script type="text/javascript" class="teads" src="//a.teads.tv/page/84615/tag" async="true"></script>
 <%/if%>
 
-<!--keys: <%$keys%> -->
 <%if preg_match("/高端视点/is",$keys)%>
 	<!-- exect tracking -->
 	<script>

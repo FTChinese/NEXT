@@ -60,10 +60,12 @@ ul,li{
 .audio-placeholder {
 	height: $navHeight;
 }
+.language-switch-container {
+	display: none;
+}
 .audio-sticky {
-	.audio-container {
+	.audio-container, .language-switch-container {
 		position: fixed;
-	    top: $navHeight;
 	    width: 100%;
 	    height: $navHeight;
 	    left: 0;
@@ -71,6 +73,32 @@ ul,li{
 	    background-color: $headerTint;
 	    border:0;
 	    z-index: 9999999;
+	    display: block;
+	}
+	.audio-container {
+		top: $navHeight;
+	}
+	.language-switch-container {
+		top: 0;
+		padding-top: 8px;
+	}
+}
+.language-switch-inner {
+	margin: 0 auto;
+	text-align: center;
+	display: table;
+	border-collapse: collapse;
+	a {
+		color: $defaultPink;
+		display: table-cell;
+		height: $navHeight - 8 - 2;
+		line-height: $navHeight - 8 - 2;
+		padding: 0 $defaultPadding/2;
+		border: 1px solid $defaultPink;
+		&.on {
+			color: $darkGreen;
+			background-color: $defaultPink;
+		}
 	}
 }
 audio {
