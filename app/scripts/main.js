@@ -7,6 +7,7 @@ var gNavOffsetY=0;
 var gNavHeight = 44;
 var gShareOffsetY;
 var gAudioOffsetY;
+var gLanguageSwitchOffsetY;
 var gRecomendOffsetY;
 var gRecomendInViewNoted = false;
 var gThereIsUluAd = 0;//MARK：表征底部为你推荐是否确实插入了联合广告，插入的话就计为1，这是为了方便统计曝光次数
@@ -449,6 +450,13 @@ function stickyBottomPrepare() {
     gAudioOffsetY = findTop(document.getElementById('audio-placeholder'));
   }
 
+  var languageSwitchEle = document.getElementById('language-switch-placeholder');
+  if (languageSwitchEle) {
+    gLanguageSwitchOffsetY = findTop(languageSwitchEle);
+  }
+
+  
+
   w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 
 
@@ -485,11 +493,18 @@ function stickyBottomUpdate() {
   if (typeof requestAnimationFrame === 'function') {
     requestAnimationFrame(stickyBottomUpdate);
   }
-  //sticky navigation
-  if (typeof gShareOffsetY === 'number' && gShareOffsetY > gNavOffsetY) {
+
+    //language switch
+  if (typeof gLanguageSwitchOffsetY === 'number' && gLanguageSwitchOffsetY > gNavOffsetY) {
+    if (scrollTop + gNavOffsetY >= gLanguageSwitchOffsetY ) {
+      console.log ('should show language switch');
+      htmlClassNew += ' audio-sticky';
+    }
+  } else if (typeof gShareOffsetY === 'number' && gShareOffsetY > gNavOffsetY) {
     if (scrollTop >= gShareOffsetY) {
       htmlClassNew += ' tool-sticky';
-    } else if (scrollTop >= gNavHeight) {
+    } else 
+    if (scrollTop >= gNavHeight) {
       htmlClassNew += ' o-nav-sticky'; 
     }
   } else {
@@ -505,6 +520,10 @@ function stickyBottomUpdate() {
       htmlClassNew += ' audio-sticky';
     }
   }
+
+  
+
+
 
   if (htmlClassNew !== htmlClass) {
     htmlClass = htmlClassNew;
