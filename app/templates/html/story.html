@@ -1411,8 +1411,9 @@
 			<%include file="next/partials/header.html"%>
 		<%/if%>
 		<%include file="next/partials/nav.html"%>
-		<%$languageSwitch%>
-		
+		<%if $smarty.get.webview != "ftcapp"%>
+			<%$languageSwitch%>
+		<%/if%>
 		<%*<!-- hide Leaderboard for some channel -->*%>
 		<%if !preg_match("/品味|艺术投资|腕表|游艇|极致人生/is",$keys) && $smarty.get.hideheader != "yes"%>
 			<%*<%include file="next/partials/banner-new.html"%>*%>
