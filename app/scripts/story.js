@@ -12,7 +12,8 @@ var ajaxUrl_relativesData;//for Relatives
 */
 var message = {};
 var recommendLoaded = false;
-var recommendInner = document.getElementById('story-recommend');
+var recommendTop = document.getElementById('story-recommend-top')
+var recommendBottom = document.getElementById('story-recommend-bottom');
 var recommendVersion;
 var uluAdPosition = getRandomInt(1, 5);//表征底部为您推荐的第几个位置用于展示uluAd，第1个位置记为1 ,此时随机为1,2,3,4
 //var uluAdPosition = 300;
@@ -279,30 +280,31 @@ function getThirdPartRecommendFailed(){
 
 function recommendPayLoad(recommenddata, addata){
 
-    /* 成功获取到推荐文章数据后，渲染story文中的推荐文章div及文后的猜你喜欢div
+    /* 成功获取到推荐文章数据后，渲染story上部的推荐文章div及文后的猜你喜欢div
      * @param recommenddata:TYPE Array,即获取的推荐文章数据
      * @param addata:TYPE Object, 即获取的ulu合作广告数据
     */
 
-    //console.log(recommenddata);
+    console.log(recommenddata);
     //console.log(addata);
 
 
     if (window.suppressRecommendation === true) {
         return;
     }
-    
+ 
     var maxItem = 8;//规定下方推荐文章区域显示多少个
     var itemCount = 0;//记录某item位于下方推荐文章区域的第几个
-    var itemHTML = '';//下方推荐文章区域的innerHTML
+    var recommendTopItemHTML = ''
+    var recommendBottomItemHTML = '';//下方推荐文章区域的innerHTML
     var eventAction = 'Click' + recommendVersion;
-    var recommendDiv = document.getElementById('in-story-recommend');//文章内部推荐的那篇文章预期的元素
+    //var recommendDiv = document.getElementById('in-story-recommend');//文章内部推荐的那篇文章预期的元素
 
  
     //MARK:一块文章item的信息定义
     var itemHeadline,itemImage,itemId,itemT,itemLead,itemTag,link,oneItem,oneImage;
 
-    var insertedInstory = 0;//表征是否已经成功插入了文章内容中间的推荐块
+    //var insertedInstory = 0;//表征是否已经成功插入了文章内容中间的推荐块
     var tryToInsertAd = 0;//表征还未尝试插入广告，每次都会尝试插入一次，插入完成或因广告信息缺失没有插入的话都更新为1
     var setUluAdPosition = 0;//表征是否已判断底部推荐位广告的位置，只判断1次，判断后就置为1
 
@@ -335,7 +337,7 @@ function recommendPayLoad(recommenddata, addata){
 
         
         // MARK:insert the first item into the story body
-
+        /*
         if (i === 0 && recommendDiv) {
             //MARK:处理第一个数据，这时必须满足recommendDiv存在
             link += '&position=instory';
@@ -347,16 +349,19 @@ function recommendPayLoad(recommenddata, addata){
             insertedInstory = 1;//s
 
            
-        } else if (itemCount<maxItem ) {
+        } else
+        */
+        if (itemCount<maxItem ) {
             //MARK:底部文章区
             // MARK: - Use the number i to decide the position of the ad
-        
+            /*
             if(insertedInstory === 0 && addata.isAd ===1 && setUluAdPosition === 0) {
                 // MARK:如果文章中没有插入成推荐文章，那么ulu合作广告位就向前推一个位置。
                 uluAdPosition -= 1;
                 setUluAdPosition = 1;
                 console.log('a');
             }
+            */
             if(tryToInsertAd === 0 && addata.isAd ===1 && i === uluAdPosition) {
                 ///MARK:第4个位置放来自优路科技的广告（如果有的话）
                 console.log('b');
@@ -369,22 +374,33 @@ function recommendPayLoad(recommenddata, addata){
 
                 if(adImage && adImage !== '') {
                     console.log('c');
-                    itemHTML += adItem;
+                    if(i<=3) {
+                        recommendTopItemHTML += adItem;
+                    } else {
+                        recommendBottomItemHTML += adItem;
+                    }
                     itemCount++;
                     gThereIsUluAd = 1;
                 }
                 tryToInsertAd = 1;
                 i--;//尝试插入广告的行为势必会经历一次循环，该循环等于recommenddata[1]还没有用，就i--下次还是用recommenddata[1]
             } else if(recommenddata[i]) {
-                oneItem = itemTop + '<div class="item-container ' + itemClass + ' has-image no-lead"><div class="item-inner"><h2 class="item-headline"><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el="'+itemT+'/story/'+itemId+'" target="_blank" href="'+link+'">'+itemHeadline+'</a></h2><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el="'+itemT+'/story/'+itemId+'" class="image" target="_blank" href="'+link+'"><figure class="loading" data-url="'+itemImage+'"></figure></a><div class="item-bottom"></div></div></div>';
+                
                 if(itemImage && itemImage !== ''){
-                    itemHTML += oneItem;
+                    if(i<=3) {
+                        oneItem = itemTop + '<div class="item-container ' + itemClass + ' has-image no-lead"><div class="item-inner"><h2 class="item-headline"><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el="'+itemT+'/story/'+itemId+'" target="_blank" href="'+link+'">'+itemHeadline+'</a></h2><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el="'+itemT+'/story/'+itemId+'" class="image" target="_blank" href="'+link+'"><figure class="loading" data-url="'+itemImage+'"></figure></a><div class="item-bottom"></div></div></div>';
+                        recommendTopItemHTML += oneItem;
+                    } else {
+                        oneItem = itemTop + '<div class="item-container ' + itemClass + ' has-image no-lead"><div class="item-inner"><h2 class="item-headline"><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el="'+itemT+'/story/'+itemId+'" target="_blank" href="'+link+'">'+itemHeadline+'</a></h2><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el="'+itemT+'/story/'+itemId+'" class="image" target="_blank" href="'+link+'"><figure class="loading" data-url="'+itemImage+'"></figure></a><div class="item-bottom"></div></div></div>';
+                        recommendBottomItemHTML += oneItem;
+                    }
                     itemCount += 1;
                 }
             }
         }
     }
-    recommendInner.innerHTML = itemHTML;
+    recommendTop.innerHTML = recommendTopItemHTML;
+    recommendBottom.innerHTML = recommendBottomItemHTML;
 
    
     bindFeedbackEvent();
@@ -396,10 +412,11 @@ function recommendPayLoad(recommenddata, addata){
 
     }
     recommendLoaded = true;
+    /*
     if(recommendLoaded && document.getElementById('in-story-recommend')) {
         gCanReplaceInstoryWithAd = true;
     }
-
+    */
     
 
 
