@@ -56,23 +56,13 @@
 }
 
 .banner-content:before, .is-ad figure:after {
-	// content: '广告';
- //    position:absolute;
- //    top:0;
- //    right:0;
- //    background: #e9decf;
- //    font-size:12px;
- //    padding:1px 5px;
- //    color: #505050;
- 		content: '广告';
-	    position:absolute;
-	    top:100%;
-	    //left:0;
-	    right:$defaultPadding/4;
-	    font-size:12px;
-	    text-align:right;
-	    color: #505050;
-
+	content: '广告';
+    position:absolute;
+    top:100%;
+    right:$defaultPadding/4;
+    font-size:12px;
+    text-align:right;
+    color: #505050;
 }
 .hide-sign.banner-content {
 	&:before {
@@ -99,7 +89,6 @@ video::-internal-media-controls-download-button {
 	    text-align:right;
 	    color: #505050;
 	}
-
 	figure {
 		height: 250px;
 		margin-bottom: $defaultPadding;
@@ -213,19 +202,6 @@ video::-internal-media-controls-download-button {
 }
 
 @media only screen and (max-width: 490px) {
-	// .bn-ph, .banner-content {
-	// 	//display: none;
-	// 	height: 50px + $defaultPadding;
-	// }
-	// .banner-content {
-	// 	margin: 0 $defaultPadding/2;
-	// 	&:before {
-	// 		transform: scale(0.6) translate(30%, -30%);
-	// 	}
-	// }
-	// .bn-ph {
-	// 	margin-bottom: $defaultPadding/2;
-	// }
 	.bn-ph {
 		width: 100%;
 		padding-top: 25%;
@@ -267,27 +243,9 @@ video::-internal-media-controls-download-button {
 
 }
 
-// @media only screen and (max-width: 360px) {
-// 	.bn-ph {
-// 		margin-bottom: 0;
-// 		height: 50px + $defaultPadding/2;
-// 		//width: 100%;
-// 	}
-// 	.banner-content {
-// 		margin: 0;
-// 		padding: 0;
-// 		background: transparent;
-// 		height: 50px;
-// 		>.banner-iframe {
-// 			margin-top: 0;
-// 		}
-// 	}
-// }
-
 .db-ad>div{
 	text-align: center;
 }
-
 
 .subscription-promo-container {
 	height: 56px;
@@ -316,32 +274,19 @@ video::-internal-media-controls-download-button {
     box-sizing: border-box;
     vertical-align: middle;
     margin: 0;
-    border-style: solid;
     text-align: center;
     text-decoration: none;
     font-weight: 600;
-    -webkit-transition: 0.3s background-color, 0.15s color ease-out, 0.15s border-color ease-out;
-    transition: 0.3s background-color, 0.15s color ease-out, 0.15s border-color ease-out;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
     background-clip: border-box;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    -moz-appearance: none;
-    -webkit-appearance: none;
     background-size: 21px 21px;
     min-height: 28px;
     min-width: 60px;
     padding: 6px 8px 6px 8px;
     font-size: 14px;
     line-height: 14px;
-    border-width: 1px;
-    background-color: rgba(0,0,0,0);
+    background-color: black;
     color: white;
-    border-color: #0d7680;
-    background-color: #000;
+    border: 1px solid #0d7680;
     word-spacing: 1px;
 }
 .is-subscriber {
@@ -351,7 +296,10 @@ video::-internal-media-controls-download-button {
 }
 @media only screen and (max-width: 980px) {
 	.subscription-promo-container {
-		margin-top: $navHeight;
+		position: fixed;
+		width: 100%;
+		bottom: 0;
+		z-index: 9999999999;
 	}
 }
 @media only screen and (max-width: 490px) {
