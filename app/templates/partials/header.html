@@ -1,37 +1,35 @@
-<%if date("Ymd",$smarty.now) < 20180801 && $smarty.get.webview != "ftcapp"%>
-	<div class="warn-content"><span>为适应法律法规和英国《金融时报》中文网业务的更新，我们修订了新版用户协议（服务条款）包含隐私保护政策，敬请您<a  href="/m/corp/service.html">点击查阅</a>。</span><span class="close-img"></span></div>
-<%/if%>
-
 <%include file="next/partials/pop-ad.html"%>
-
 <%if $smarty.get.webview != "ftcapp"%>
-<header class="header-container">
-  <div class="header-inner">
-    <div class="masthead"></div>
-    <div class="header-side header-left expandable">
-      <div class="current-edition">
-        <%if $curr_lang == "big5"%>
-            <span>繁体中文</span>
-            <a href="http://www.ftchinese.com/">简体中文</a>
-        <%else%>
-            <span>简体中文</span>
-            <a href="http://big5.ftchinese.com/">繁体中文</a>
-        <%/if%>
-        <a href="http://www.ft.com/">FT.com</a>
+    <%if date("Ymd",$smarty.now) < 20180801%>
+        <div class="warn-content"><span>为适应法律法规和英国《金融时报》中文网业务的更新，我们修订了新版用户协议（服务条款）包含隐私保护政策，敬请您<a  href="/m/corp/service.html">点击查阅</a>。</span><span class="close-img"></span></div>
+    <%/if%>
+    <header class="header-container">
+      <div class="header-inner">
+        <div class="masthead"></div>
+        <div class="header-side header-left expandable">
+          <div class="current-edition">
+            <%if $curr_lang == "big5"%>
+                <span>繁体中文</span>
+                <a href="http://www.ftchinese.com/">简体中文</a>
+            <%else%>
+                <span>简体中文</span>
+                <a href="http://big5.ftchinese.com/">繁体中文</a>
+            <%/if%>
+            <a href="http://www.ft.com/">FT.com</a>
+          </div>
+        </div>
+        <div class="header-side header-right">
+            <span class="visitor-box">
+                <a onclick="showOverlay('overlay-login')">登录</a>
+                <a class="more last" href="http://user.ftchinese.com/register">免费注册</a>
+            </span>
+            <span class="member-box">
+                <a href="/users/mystories">我的FT</a>
+                <a id="ft-login-your-account" href="/users/cp">设置</a>
+                <a id="ft-login-logout" href="http://user.ftchinese.com/logout">登出</a>
+            </span>
+        </div>
       </div>
-    </div>
-    <div class="header-side header-right">
-        <span class="visitor-box">
-            <a onclick="showOverlay('overlay-login')">登录</a>
-            <a class="more last" href="http://user.ftchinese.com/register">免费注册</a>
-        </span>
-        <span class="member-box">
-            <a href="/users/mystories">我的FT</a>
-            <a id="ft-login-your-account" href="/users/cp">设置</a>
-            <a id="ft-login-logout" href="http://user.ftchinese.com/logout">登出</a>
-        </span>
-    </div>
-  </div>
-</header>
-<%include file="next/partials/login-overlay.html"%>
+    </header>
+    <%include file="next/partials/login-overlay.html"%>
 <%/if%>
