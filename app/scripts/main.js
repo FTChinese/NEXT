@@ -920,18 +920,16 @@ delegate.on('click', '.icon-save button', function(){
   }));
 });
 
-delegate.on('click', '.close-img', function(){
-  
+delegate.on('click', '.close-img', function(){  
   var warnContent = document.querySelector('.warn-content');
-  console.log('warnContent'+warnContent);
   if(warnContent){
     warnContent.style.display = 'none';
-    SetCookie('deleteWarn','1','','/',null);
+    SetCookie('DSW','1','','/',null);
   }
 
 });
 
-var deleteWarn = GetCookie('deleteWarn') || '';
+var deleteWarn = GetCookie('DSW') || '';
 var warnContent = document.querySelector('.warn-content');
 if(deleteWarn){
   warnContent.style.display = 'none';
