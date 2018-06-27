@@ -357,7 +357,7 @@ function socialLogin(socialName, socialInfo) {
                 if (data === 'yes') {
                     // show this in the interface so that users know login is successful
                     presentAlert('微信登陆成功', ''); 
-                    username = GetCookie('USER_NAME') || '';
+                    username = GetCookie('USER_NAME') || GetCookie('USER_NAME_FT') || '';
                     checkLogin();
                     // send an even to GA
                     return;
@@ -408,7 +408,7 @@ function logout() {
 }
 
 function checkLogin() {
-    window.username = GetCookie('USER_NAME');
+    window.username = GetCookie('USER_NAME') || GetCookie('USER_NAME_FT');
     window.userId = GetCookie('USER_ID');
     var eles = document.querySelectorAll('.logincomment, .nologincomment, .logged, .notLogged');
     var i;

@@ -78,11 +78,15 @@ function trackerNew() {
     var ftcteam1;
     var i;
     var keyTagArray;
-    var username=GetCookie('USER_NAME') || '';
+    var username=GetCookie('USER_NAME') || GetCookie('USER_NAME_FT') || '';
     var userId = GetCookie('USER_ID') || '';
     var ccodeCookie=GetCookie('ccode') || '';
     var screenType=0;
     var deviceName;
+    var paywall = GetCookie('paywall');
+    if (paywall !== null) {
+        document.documentElement.className += ' is-subscriber';
+    }
     if (w >0) {
         if (w>1220) {
             screenType = 'XL: above 1220';
@@ -403,10 +407,10 @@ function checkUserWarnings() {
     }
 }
 
-var username = GetCookie('USER_NAME') || '';
+var username = GetCookie('USER_NAME') || GetCookie('USER_NAME_FT') || '';
 var userId = GetCookie('USER_ID') || '';
 var ccodeCookie = GetCookie('ccode') || '';
-var user_name = GetCookie ('USER_NAME');
+var user_name = GetCookie('USER_NAME') || GetCookie('USER_NAME_FT');
 if (user_name !== null) {
     document.documentElement.className += ' is-member';
 }

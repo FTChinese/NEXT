@@ -1,0 +1,37 @@
+<%assign var="pageIdForPromo" value="subcription-promo"%>
+<%if $nextmodel != ""%>
+	<%assign var="infoForPromo" value=$nextmodel->getPublishJson($pageIdForPromo)|json_decode:true%>
+	<%assign var="promoIndex" value=0%>
+	<%foreach from=$infoForPromo.sections item=section%>
+	    <%if $section.type == "creative" && $promoIndex == 0%>
+	    	<style>
+	    	<%if $section.backgroundColor != ""%>
+		    	.subscription-promo-container {
+		    		background-color: <%$section.backgroundColor%>;
+		    	}
+	    	<%/if%>
+	    	.subscription-promo-box {
+	    		background-image: url(<%$section.fileName%>);
+	    	}
+	    	<%if $section.backupImage != ""%>
+				<%assign var="showImageInMobile" value=" show-image-in-mobile"%>
+				@media only screen and (max-width: 490px) {
+			    	.subscription-promo-box {
+			    		background-image: url(<%$section.backupImage%>);
+			    	}
+				}
+			<%else%>
+				<%assign var="showImageInMobile" value=""%>
+	    	<%/if%>
+	    	</style>
+			<div class="subscription-promo-container<%$showImageInMobile%>">
+			    <div class="subscription-promo-inner">
+			        <a href="<%$section.click%>" class="subscription-promo-box">
+			            <div class="subscription-promo-text"><%$section.title%></div>
+			        </a>
+			    </div>
+			</div>
+			<%assign var="promoIndex" value=$promoIndex+1%>
+	    <%/if%>
+	<%/foreach%>
+<%/if%>
