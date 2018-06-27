@@ -388,7 +388,21 @@ function recommendPayLoad(recommenddata, addata){
                 
                 if(itemImage && itemImage !== ''){
                     if(i<=3) {
-                        oneItem = itemTop + '<div class="item-container ' + itemClass + ' has-image no-lead"><div class="item-inner"><h2 class="item-headline"><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el="'+itemT+'/story/'+itemId+'" target="_blank" href="'+link+'">'+itemHeadline+'</a></h2><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el="'+itemT+'/story/'+itemId+'" class="image" target="_blank" href="'+link+'"><figure class="loading" data-url="'+itemImage+'"></figure></a><div class="item-bottom"></div></div></div>';
+                        oneItem = `<li class="toprecommend-item">
+                            <div class="toprecommend-item-content">
+                                <div class="toprecommend-item-title">
+                                    <a href="${link}">
+                                        ${itemHeadline}
+                                    </a>
+                                </div>
+                                <div class="toprecommend-item-image">
+                                    <a href="${link}">
+                                        <img src="${itemImage}">
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+                        `;
                         recommendTopItemHTML += oneItem;
                     } else {
                         oneItem = itemTop + '<div class="item-container ' + itemClass + ' has-image no-lead"><div class="item-inner"><h2 class="item-headline"><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el="'+itemT+'/story/'+itemId+'" target="_blank" href="'+link+'">'+itemHeadline+'</a></h2><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el="'+itemT+'/story/'+itemId+'" class="image" target="_blank" href="'+link+'"><figure class="loading" data-url="'+itemImage+'"></figure></a><div class="item-bottom"></div></div></div>';
