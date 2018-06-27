@@ -410,7 +410,7 @@ function checkUserWarnings() {
 var username = GetCookie('USER_NAME') || GetCookie('USER_NAME_FT') || '';
 var userId = GetCookie('USER_ID') || '';
 var ccodeCookie = GetCookie('ccode') || '';
-var user_name = GetCookie ('USER_NAME');
+var user_name = GetCookie('USER_NAME') || GetCookie('USER_NAME_FT');
 if (user_name !== null) {
     document.documentElement.className += ' is-member';
 }
