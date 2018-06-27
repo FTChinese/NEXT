@@ -2,7 +2,7 @@
 function passLoginToNative() {
     var message = {};
     var uniqueId = GetCookie('uniqueVisitorId') || guid();
-    var userNameForLogin = GetCookie('USER_NAME') || '';
+    var userNameForLogin = GetCookie('USER_NAME') || GetCookie('USER_NAME_FT') || '';
     var userIdForLoginUser = GetCookie('USER_ID') || '';
     message = {
         'username': userNameForLogin,

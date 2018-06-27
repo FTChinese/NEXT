@@ -78,7 +78,7 @@ function trackerNew() {
     var ftcteam1;
     var i;
     var keyTagArray;
-    var username=GetCookie('USER_NAME') || '';
+    var username=GetCookie('USER_NAME') || GetCookie('USER_NAME_FT') || '';
     var userId = GetCookie('USER_ID') || '';
     var ccodeCookie=GetCookie('ccode') || '';
     var screenType=0;
@@ -407,7 +407,7 @@ function checkUserWarnings() {
     }
 }
 
-var username = GetCookie('USER_NAME') || '';
+var username = GetCookie('USER_NAME') || GetCookie('USER_NAME_FT') || '';
 var userId = GetCookie('USER_ID') || '';
 var ccodeCookie = GetCookie('ccode') || '';
 var user_name = GetCookie ('USER_NAME');

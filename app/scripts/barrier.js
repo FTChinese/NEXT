@@ -180,7 +180,7 @@ function abTest() {
         
 	    var viewstart=GetCookie ('viewstart') || unixday;
 	    var viewhistory = GetCookie('viewhistory') || '';
-	    var username=GetCookie('USER_NAME') || '';
+	    var username=GetCookie('USER_NAME') || GetCookie('USER_NAME_FT') || '';
 
 	    viewstart = parseInt(viewstart, 10);
 
