@@ -159,14 +159,16 @@ s.parentNode.insertBefore(hm, s);
 </script>
 <!--isCurrentAdchFinal: <%$isCurrentAdchFinal%>-->
 
-<%if $tag_name=="中国商业观察 %>
-<script>
-    (function(a, e, f, g, b, c, d) {a.ClickiTrackerName = b;
-    a[b] = a[b] || function() {(a[b].queue = a[b].queue || []).push(arguments)};
-    a[b].start = +new Date; c = e.createElement(f); d = e.getElementsByTagName(f)[0];
-    c.async = 1; c.src = g; d.parentNode.insertBefore(c, d)
-    })(window, document, 'script', '//stm-cdn.cn.miaozhen.com/clicki.min.js?v='+Math.round(new Date().getTime()/1000/300), 'stm_clicki');
-    stm_clicki('create', 'dc-2200', 'auto');
-    stm_clicki('send', 'pageview');
-</script>
-<%else%>
+<%if $tag_name == "中国商业观察"%>
+    <script>
+        (function(a, e, f, g, b, c, d) {a.ClickiTrackerName = b;
+        a[b] = a[b] || function() {(a[b].queue = a[b].queue || []).push(arguments)};
+        a[b].start = +new Date; c = e.createElement(f); d = e.getElementsByTagName(f)[0];
+        c.async = 1; c.src = g; d.parentNode.insertBefore(c, d)
+        })(window, document, 'script', '//stm-cdn.cn.miaozhen.com/clicki.min.js?v='+Math.round(new Date().getTime()/1000/300), 'stm_clicki');
+        stm_clicki('create', 'dc-2200', 'auto');
+        stm_clicki('send', 'pageview');
+    </script>
+<%elseif $keys != "" && preg_match("/宝珀/is",$keys)%>
+    <!-- This is a ruanwen: keys: <%$keys%> -->
+<%/if%>
