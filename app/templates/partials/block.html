@@ -337,6 +337,8 @@
 						<%assign var="lockClass" value=""%>
 					<%/if%>
 
+
+
 					<%*<!--If editor ticked prefer sponsor image, get image and link from database -->*%>
 					<%if $item.preferSponsorImage == "yes" && $itemMainTag != ""%>
 						<%assign var="tagInteractive" value=$interactivemodel->get_interactive_by_field_search("find_in_set('特别报导',tag) and (cshortleadbody = '`$itemMainTag`' or cheadline = '`$itemMainTag`' or find_in_set('`$itemMainTag`',tag))",0,1,999999999,10800)%>
@@ -397,6 +399,9 @@
 						<%assign var="itemType" value=$item.type|default:$item.itemtype|default:$feedType%>
 						<%if $itemType == "photo"%>
 							<%assign var="itemType" value="photonews"%>
+						<%/if%>
+						<%if $itemType == "premium" && $inSponsor == "yes"%>
+							<%assign var="itemType" value="story"%>
 						<%/if%>
 						
 						<%assign var="itemClass" value=""%>
@@ -1123,7 +1128,7 @@
 								<%/foreach%>
 							<%/if%>
 							<%*<!--MARK: Only story needs to show date here-->*%>
-							<%if $itemT != "" && $itemType == "story" && $isInWhiteList == "no"%>
+							<%if $inSponsor != "yes" && $itemT != "" && $itemType == "story" && $isInWhiteList == "no"%>
 								<%assign var="dateData" value=" data-date=\"`$itemT`\""%>
 							<%else%>
 								<%assign var="dateData" value=""%>
@@ -1146,7 +1151,9 @@
 							<%/if%>
 						<%/if%> 
 						<%*<!--end  $smarty.get.webview == "ftcapp"-->*%>
-
+						<%if $inSponsor == "yes"%>
+							<%assign var="lockClass" value=""%>
+						<%/if%>
 
 						<%if $listType == "videos" && $i>5%>
 							<%*<!--Only display first 6 in video package-->*%>
