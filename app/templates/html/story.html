@@ -414,15 +414,6 @@
 	<%assign var="hide590" value="no"%>
 	<%assign var="hideBanner" value="no"%>
 
-<%elseif preg_match("/中国商业观察/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20180620 && date("Ymd",$smarty.now) <= 20181101%>
-	<%assign var=breadcrum value="<a href=\"/tag/中国商业观察\">宝珀·中国商业观察</a>"%>
-	<%assign var="adchannelID" value="5069"%>
-	<%assign var="hideMPU1" value="no"%>
-	<%assign var="hideMPU2" value="no"%>
-	<%assign var="hideMPU3" value="no"%>
-	<%assign var="hide590" value="no"%>
-	<%assign var="hideBanner" value="no"%>
-
 <%elseif preg_match("/创新经济-物流4.0/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20180306 && date("Ymd",$smarty.now) <= 20180406%>
 	<%assign var=breadcrum value="<a href=\"/tag/创新经济-物流4.0\">创新经济-物流4.0</a>"%>
 	<%assign var="adchannelID" value="5061"%>
@@ -701,6 +692,16 @@
 
 <%if preg_match("/恐怖袭击/is",$keys)%>
 	<%assign var="adchannelID" value="2065"%>
+
+<%elseif preg_match("/中国商业观察/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20180620 && date("Ymd",$smarty.now) <= 20181101%>
+	<%assign var=breadcrum value="<a href=\"/tag/中国商业观察\">宝珀·中国商业观察</a>"%>
+	<%assign var="adchannelID" value="5069"%>
+	<%assign var="hideMPU1" value="no"%>
+	<%assign var="hideMPU2" value="no"%>
+	<%assign var="hideMPU3" value="no"%>
+	<%assign var="hide590" value="no"%>
+	<%assign var="hideBanner" value="no"%>
+	
 <%elseif (preg_match("/management|economy|markets/is",$story.topic) || preg_match("/经济|房地产/is",$keys)) && date("Ymd",$smarty.now) <= 20170817%>
 	<%assign var="randNum" value =0|mt_rand:2 %>
 	<%if $randNum == 0 %>
@@ -1061,9 +1062,9 @@
 		<%assign var="story_content" value=$story_content|regex_replace:"/[\r\t\n]/":""|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1<script type=\"text/javascript\">document.write (writeAdNew({devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],pattern:'MPU',position:'Middle2',container:'mpuInStory'}));</script><p>"%>		
 	<%/if%>
 
-
+	<%* <!--
 	<%assign var="story_content" value=$story_content|regex_replace:"/[\r\t\n]/":""|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1<div class=\"in-story-recommend P-only\" id=\"in-story-recommend\"></div><p>"%>
-
+	--> *%>
 
 
 <%/if%>
@@ -1414,6 +1415,17 @@
 		<%if $smarty.get.webview != "ftcapp"%>
 			<%$languageSwitch%>
 		<%/if%>
+	 
+		<div class="toprecommend-part" id="recommend-top-part">
+			<div class="toprecommend-container">
+				<h2 class="toprecommend-title">
+						<a class="list-link" href="#">为您推荐</a>
+				</h2>
+				<ul id="story-recommend-top" class="toprecommend-list">
+				</ul> 
+			</div>
+		</div>
+		
 		<%*<!-- hide Leaderboard for some channel -->*%>
 		<%if !preg_match("/品味|艺术投资|腕表|游艇|极致人生/is",$keys) && $smarty.get.hideheader != "yes"%>
 			<%*<%include file="next/partials/banner-new.html"%>*%>

@@ -497,7 +497,7 @@ function stickyBottomUpdate() {
     //language switch
   if (typeof gLanguageSwitchOffsetY === 'number' && gLanguageSwitchOffsetY > gNavOffsetY) {
     if (scrollTop + gNavOffsetY >= gLanguageSwitchOffsetY ) {
-      console.log ('should show language switch');
+      //console.log ('should show language switch');
       htmlClassNew += ' audio-sticky';
     }
   } else if (typeof gShareOffsetY === 'number' && gShareOffsetY > gNavOffsetY) {
