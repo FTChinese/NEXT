@@ -12,7 +12,9 @@ var ajaxUrl_relativesData;//for Relatives
 */
 var message = {};
 var recommendLoaded = false;
-var recommendTop = document.getElementById('story-recommend-top')
+var recommendTop = document.getElementById('story-recommend-top');
+var recommendTopPart = document.getElementById('recommend-top-part');
+var showRecommendTop = recommendTopPart && recommendTopPart.offsetHeight > 0;
 var recommendBottom = document.getElementById('story-recommend-bottom');
 var recommendVersion;
 var uluAdPosition = getRandomInt(1, 5);//表征底部为您推荐的第几个位置用于展示uluAd，第1个位置记为1 ,此时随机为1,2,3,4
@@ -308,19 +310,20 @@ function recommendPayLoad(recommenddata, addata){
     var tryToInsertAd = 0;//表征还未尝试插入广告，每次都会尝试插入一次，插入完成或因广告信息缺失没有插入的话都更新为1
     var setUluAdPosition = 0;//表征是否已判断底部推荐位广告的位置，只判断1次，判断后就置为1
 
+    var bottomItemCount = 0;
 
     for (var i=0; i<recommenddata.length; i++) {
         var itemClass = 'XL3 L3 M6 S6 P12';
         var itemTop = '';
         var itemTopClass = 'PT';
         
-        if (itemCount % 4 === 0) {
+        if (bottomItemCount % 4 === 0) {
             itemTopClass += ' XLT LT';
         }
-        if (itemCount % 2 === 0) {
+        if (bottomItemCount % 2 === 0) {
             itemTopClass += ' MT ST';
         }
-        if (itemTopClass !== '' && itemCount >0) {
+        if (itemTopClass !== '' && bottomItemCount >0) {
             itemTop = '<div class="' + itemTopClass + '"></div>';
         }
 
@@ -384,10 +387,11 @@ function recommendPayLoad(recommenddata, addata){
                 }
                 tryToInsertAd = 1;
                 i--;//尝试插入广告的行为势必会经历一次循环，该循环等于recommenddata[1]还没有用，就i--下次还是用recommenddata[1]
+                bottomItemCount++;
             } else if(recommenddata[i]) {
                 
                 if(itemImage && itemImage !== ''){
-                    if(i<=3) {
+                    if( showRecommendTop && i<=3) {
                         oneItem = `<li class="toprecommend-item">
                             <div class="toprecommend-item-content">
                                 <div class="toprecommend-item-title">
@@ -407,13 +411,16 @@ function recommendPayLoad(recommenddata, addata){
                     } else {
                         oneItem = itemTop + '<div class="item-container ' + itemClass + ' has-image no-lead"><div class="item-inner"><h2 class="item-headline"><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el="'+itemT+'/story/'+itemId+'" target="_blank" href="'+link+'">'+itemHeadline+'</a></h2><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el="'+itemT+'/story/'+itemId+'" class="image" target="_blank" href="'+link+'"><figure class="loading" data-url="'+itemImage+'"></figure></a><div class="item-bottom"></div></div></div>';
                         recommendBottomItemHTML += oneItem;
+                        bottomItemCount++;
                     }
                     itemCount += 1;
                 }
             }
         }
     }
-    recommendTop.innerHTML = recommendTopItemHTML;
+    if (showRecommendTop) {
+        recommendTop.innerHTML = recommendTopItemHTML;
+    }
     recommendBottom.innerHTML = recommendBottomItemHTML;
 
    
