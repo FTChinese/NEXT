@@ -60,6 +60,11 @@
         <%/foreach%>
     <%/if%>
 <%/foreach%>
+
+<%if $p.meta.inSponsor == "yes"%>
+    <%assign var="inSponsor" value="yes"%>
+<%/if%>
+            
 <%assign var="itemIdsArray" value=$itemIds|replace:"'":""%>
 
 <%if $p.meta.hideDownloadButton == "yes"%>

@@ -337,9 +337,7 @@
 						<%assign var="lockClass" value=""%>
 					<%/if%>
 
-					<%if $inSponsor == "yes"%>
-						<%assign var="lockClass" value=""%>
-					<%/if%>
+
 
 					<%*<!--If editor ticked prefer sponsor image, get image and link from database -->*%>
 					<%if $item.preferSponsorImage == "yes" && $itemMainTag != ""%>
@@ -401,6 +399,9 @@
 						<%assign var="itemType" value=$item.type|default:$item.itemtype|default:$feedType%>
 						<%if $itemType == "photo"%>
 							<%assign var="itemType" value="photonews"%>
+						<%/if%>
+						<%if $itemType == "premium" && $inSponsor == "yes"%>
+							<%assign var="itemType" value="story"%>
 						<%/if%>
 						
 						<%assign var="itemClass" value=""%>
@@ -1127,7 +1128,7 @@
 								<%/foreach%>
 							<%/if%>
 							<%*<!--MARK: Only story needs to show date here-->*%>
-							<%if $itemT != "" && $itemType == "story" && $isInWhiteList == "no"%>
+							<%if $inSponsor != "yes" && $itemT != "" && $itemType == "story" && $isInWhiteList == "no"%>
 								<%assign var="dateData" value=" data-date=\"`$itemT`\""%>
 							<%else%>
 								<%assign var="dateData" value=""%>
@@ -1150,7 +1151,9 @@
 							<%/if%>
 						<%/if%> 
 						<%*<!--end  $smarty.get.webview == "ftcapp"-->*%>
-
+						<%if $inSponsor == "yes"%>
+							<%assign var="lockClass" value=""%>
+						<%/if%>
 
 						<%if $listType == "videos" && $i>5%>
 							<%*<!--Only display first 6 in video package-->*%>
