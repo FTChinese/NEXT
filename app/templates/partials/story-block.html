@@ -43,14 +43,18 @@
 			<%/if%>
 			<%if $smarty.get.paywall == "1" || $paywall == "1"|| $smarty.get.paywall == "2"|| $paywall == "2"%>
 				<%*<!--MARK: show first two paragraphs. -->*%>
-				<%if $page_action != "ce"%>
+				
 				<div class="story-body">
 					<div id="story-body-container">
-						<%$story_content|regex_replace:"/[\r\t\n]/":""|regex_replace:"/(\<p\>.*?\<p\>.*?)\<p\>.*$/":"\\1"%>
+						<%if $page_action != "ce"%>
+							<%$story_content|regex_replace:"/[\r\t\n]/":""|regex_replace:"/(\<p\>.*?\<p\>.*?)\<p\>.*$/":"\\1"%>
+						<%else%>
+							<%$story_content|regex_replace:"/[\r\t\n]/":""|regex_replace:"/(\<div class=leftp\>.*?\<div class=leftp\>.*?\<div class=leftp\>.*?\<div class=leftp\>.*?)\<div class=leftp\>.*$/":"\\1"%>
+						<%/if%>
 					</div>
 					<div class="clearfloat"></div>
 				</div>
-				<%/if%>
+				
 				<%include file="next/partials/subscribe-hint.html"%>
 			<%else%>
 				<div class="story-body">
