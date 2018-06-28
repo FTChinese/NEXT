@@ -931,10 +931,10 @@ delegate.on('click', '.close-img', function(){
 
 var deleteWarn = GetCookie('DSW') || '';
 var warnContent = document.querySelector('.warn-content');
-if(deleteWarn){
-  warnContent.style.display = 'none';
-}else{
-  if(warnContent){
+if(warnContent){
+  if(deleteWarn){
+    warnContent.style.display = 'none';
+  }else{ 
     warnContent.style.display = 'block';
   }
 }
