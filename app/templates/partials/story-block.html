@@ -81,7 +81,6 @@
 			</div>
 			<div class="clearfloat"></div>
 		</div>
-		<!--topic: <%$mainTopic%>-->
 		<%if $smarty.get.showcomment == "yes" || (date("Ymd",$smarty.now) >= 20171101 && !preg_match("/politics/is",$mainTopic) && $story.id != "001076592" && $smarty.get.screencapture != "yes")%>
 			<h2 class="list-title"><a class="list-link" href="#">读者评论</a></h2>
 			<div id="allcomments" class="allcomments container"></div>
@@ -113,8 +112,12 @@
 			        <input type="password" name="password"  class="user_id textinput password" id="password1"/>
 			        <input type="submit" value="登录后发表评论" class="comment_btn submitbutton button ui-light-btn" onclick="login(1)"/> 
 			        <div class="topmargin statusmsg"></div>
-			        <div class="centerButton"><button class="ui-light-btn" onclick='register()'>免费注册</button></div>
-			        <a class="social-login-wechat" href="weixinlogin://www.ftchinese.com/"><div class="centerButton"><button class="ui-light-btn">微信登录</button></div></a>
+			        <%if $smarty.get.webview == "ftcapp"%>
+				        <div class="centerButton"><button class="ui-light-btn" onclick='register()'>免费注册</button></div>
+				        <a class="social-login-wechat" href="weixinlogin://www.ftchinese.com/"><div class="centerButton"><button class="ui-light-btn">微信登录</button></div></a>
+			        <%else%>
+			        	<div class="centerButton"><a href="http://user.ftchinese.com/register" target="_blank"><button class="ui-light-btn">免费注册</button></a></div>
+			        <%/if%>
 			    </div>
 			</div>
 
