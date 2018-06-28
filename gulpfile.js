@@ -209,7 +209,8 @@ gulp.task('html', gulp.series('styles', () => {
     .pipe($.useref({searchPath: ['.tmp', 'app', '.']}))
     .pipe($.if('*.js', $.uglify()))
     .on('error', (err) => {
-      if (err instanceof GulpUglifyError) {
+      //if (err instanceof GulpUglifyError) {
+      if(err) {
         console.log(err.fileName);
         console.log(err.cause);
         console.log(err.line);

@@ -14,7 +14,7 @@ var message = {};
 var recommendLoaded = false;
 var recommendTop = document.getElementById('story-recommend-top');
 var recommendTopPart = document.getElementById('recommend-top-part');
-var showRecommendTop = recommendTopPart && recommendTopPart.offsetHeight > 0;
+var showRecommendTop = recommendTopPart && recommendTopPart.offsetHeight > 0 && recommendTop;
 var recommendBottom = document.getElementById('story-recommend-bottom');
 var recommendVersion;
 var uluAdPosition = getRandomInt(1, 5);//表征底部为您推荐的第几个位置用于展示uluAd，第1个位置记为1 ,此时随机为1,2,3,4
@@ -297,18 +297,18 @@ function recommendPayLoad(recommenddata, addata){
  
     var maxItem = 8;//规定下方推荐文章区域显示多少个
     var itemCount = 0;//记录某item位于下方推荐文章区域的第几个
-    var recommendTopItemHTML = ''
+    var recommendTopItemHTML = '';
     var recommendBottomItemHTML = '';//下方推荐文章区域的innerHTML
     var eventAction = 'Click' + recommendVersion;
     //var recommendDiv = document.getElementById('in-story-recommend');//文章内部推荐的那篇文章预期的元素
 
  
     //MARK:一块文章item的信息定义
-    var itemHeadline,itemImage,itemId,itemT,itemLead,itemTag,link,oneItem,oneImage;
+    var itemHeadline,itemImage,itemId,itemT,itemLead,itemTag,link,oneItem;
 
     //var insertedInstory = 0;//表征是否已经成功插入了文章内容中间的推荐块
     var tryToInsertAd = 0;//表征还未尝试插入广告，每次都会尝试插入一次，插入完成或因广告信息缺失没有插入的话都更新为1
-    var setUluAdPosition = 0;//表征是否已判断底部推荐位广告的位置，只判断1次，判断后就置为1
+    //var setUluAdPosition = 0;//表征是否已判断底部推荐位广告的位置，只判断1次，判断后就置为1
 
     var bottomItemCount = 0;
 
@@ -377,11 +377,7 @@ function recommendPayLoad(recommenddata, addata){
 
                 if(adImage && adImage !== '') {
                     console.log('c');
-                    if(i<=3) {
-                        recommendTopItemHTML += adItem;
-                    } else {
-                        recommendBottomItemHTML += adItem;
-                    }
+                    recommendBottomItemHTML += adItem;
                     itemCount++;
                     gThereIsUluAd = 1;
                 }
@@ -392,21 +388,7 @@ function recommendPayLoad(recommenddata, addata){
                 
                 if(itemImage && itemImage !== ''){
                     if( showRecommendTop && i<=3) {
-                        oneItem = `<li class="toprecommend-item">
-                            <div class="toprecommend-item-content">
-                                <div class="toprecommend-item-title">
-                                    <a href="${link}">
-                                        ${itemHeadline}
-                                    </a>
-                                </div>
-                                <div class="toprecommend-item-image">
-                                    <a href="${link}">
-                                        <img src="${itemImage}">
-                                    </a>
-                                </div>
-                            </div>
-                        </li>
-                        `;
+                        oneItem = '<li class="toprecommend-item"><div class="toprecommend-item-content"><div class="toprecommend-item-title"><a href="'+link+ '">'+itemHeadline+'</a></div><div class="toprecommend-item-image"><a href="'+link+'"><img src="'+itemImage+'"></a></div></div></li>';
                         recommendTopItemHTML += oneItem;
                     } else {
                         oneItem = itemTop + '<div class="item-container ' + itemClass + ' has-image no-lead"><div class="item-inner"><h2 class="item-headline"><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el="'+itemT+'/story/'+itemId+'" target="_blank" href="'+link+'">'+itemHeadline+'</a></h2><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el="'+itemT+'/story/'+itemId+'" class="image" target="_blank" href="'+link+'"><figure class="loading" data-url="'+itemImage+'"></figure></a><div class="item-bottom"></div></div></div>';
@@ -421,8 +403,9 @@ function recommendPayLoad(recommenddata, addata){
     if (showRecommendTop) {
         recommendTop.innerHTML = recommendTopItemHTML;
     }
-    recommendBottom.innerHTML = recommendBottomItemHTML;
-
+    if (recommendBottom) {
+        recommendBottom.innerHTML = recommendBottomItemHTML;
+    }
    
     bindFeedbackEvent();
     document.getElementById('story-recommend-container').style.display = 'block';
