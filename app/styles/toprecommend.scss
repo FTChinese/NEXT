@@ -11,9 +11,9 @@
 }
 .toprecommend-container {
 	margin:0 auto;
-	min-width: 240px;
 	max-width: 1220px;
 	padding: 0 20px;	
+	height: 100%;
 }
 .toprecommend-title {
 	font-size: 16px;
@@ -33,19 +33,20 @@
   font-size: 0;
 	margin-top: 8px;
 	margin-bottom: 0px;
+	height: 59px;
 	@media (min-width: 740px) {
 	  margin-left: -20px;
 	}
 }
 .toprecommend-item {//flex元素
 	display: inline-block;
-  width: 25%;
+	width: 25%;
+	height: 100%;
   padding-left: 20px;
 
 }
 .toprecommend-item-content {
 	padding-bottom: 12px;
-	display: flex;
 	font-size: 14px;
 	line-height: 16px;
 	position: relative;
@@ -54,14 +55,9 @@
 	-webkit-font-smoothing: antialiased;
 }
 .toprecommend-item-title {
-	-webkit-box-flex: 1;
-	-webkit-flex: 1 0 0%;
-	-ms-flex: 1 0 0%;
-	flex: 1 0 0%;
-	-webkit-box-ordinal-group: 3;
-	-webkit-order: 2;
-	-ms-flex-order: 2;
-	order: 2;
+	width: 70%;
+	left: 30%;
+	position: absolute;
 	a {
     font-size: 14px;
     line-height: 16px;
@@ -77,9 +73,8 @@
 }
 .toprecommend-item-image {
 	width: 30%;
-	-webkit-flex-shrink: 0;
-	-ms-flex-negative: 0;
-	flex-shrink: 0;
+	left: 0;
+	position: absolute;
 	padding: 4px 10px 0 0;
 	img {
 		display: block;
