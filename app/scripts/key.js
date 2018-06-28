@@ -445,3 +445,44 @@ function getUrlParams(key){
     return value;
 }
 window.ccodeValue = getUrlParams('ccode') || getUrlParams('utm_campaign') || GetCookie('ccode');
+
+
+/**
+ * 跟踪页面停留时间
+ * 根据url不同，secondTime值初始化一次，post一次，刷新一次再重新记录一次。不一定要存储在localStorage
+ */
+
+// function getBrowserTime(){
+//     var secondTime = 0;
+//     window.setInterval(function () {
+//         secondTime++;
+//     }, 1000);
+
+//     SetCookie ('BTRefer', document.referrer , 1 , '/' , '');
+
+//     window.onbeforeunload = function() {
+//         if(!GetCookie('BTRefer')){
+//             var tjT = JSON.parse(localStorage.getItem('jsArr')); //tjT输出的是数组
+//             if(tjT){
+//                 tjT[tjT.length-1].time += secondTime;
+//                 var jsArr= JSON.stringify(tjT);
+//                 localStorage.setItem('jsArr', jsArr);
+//             }
+//         } else {
+//             var tjArr = localStorage.getItem('jsArr') ? localStorage.getItem('jsArr') : '[{}]';
+//             var dataArr = {
+//                 'url' : location.href,
+//                 'time' : secondTime,
+//                 'refer' : document.referrer,
+//                 'timeIn' : new Date().getTime(),
+//                 'timeOut' : new Date().getTime() + (secondTime * 1000),
+//                 'userId' : GetCookie('USER_ID') || null
+//             };
+//             tjArr = JSON.parse(tjArr);
+//             tjArr.push(dataArr);
+//             tjArr= JSON.stringify(tjArr);
+//             localStorage.setItem('jsArr', tjArr);
+//         }
+//     };
+// }
+// getBrowserTime();
