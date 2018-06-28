@@ -1143,17 +1143,24 @@
 								<%assign var="lockClass" value="locked"%>
 							<%/if%>
 							<%assign var="itemData" value=" data-id=\"`$itemDataId`\" data-type=\"`$itemDataType`\"`$audioData``$caudioData``$eaudioData``$subTypeData``$dateData`"%>
-							<%assign var="itemClass" value="`$itemClass` item-container-app"%>
+							<%if $itemDataId != "" && $itemDataType != "" && $itemDataType != "manual"%>
+								<%assign var="itemClass" value="`$itemClass` item-container-app"%>
+							<%/if%>
 							<%*<!-- MARK: Show full text for premium content for internal use only!  -->*%>
 							<%if $smarty.get.showfulltext == "yes"%>
 								<!--showfull text is yes-->
 								<%assign var="itemLink" value=" href=\"/`$itemType`/`$itemId`?webview=ftcapp&screencapture=yes&ad=no\""%>
+							<%/if%>
+
+							<%if $itemDataId == "" || $itemDataType == "manual"%>
+								<%assign var="itemData" value=""%>
 							<%/if%>
 						<%/if%> 
 						<%*<!--end  $smarty.get.webview == "ftcapp"-->*%>
 						<%if $inSponsor == "yes"%>
 							<%assign var="lockClass" value=""%>
 						<%/if%>
+
 
 						<%if $listType == "videos" && $i>5%>
 							<%*<!--Only display first 6 in video package-->*%>
@@ -1504,7 +1511,11 @@
 					<div class="side-list<%$firstChildClass%><%$lastChildClass%> <%$list.sideOption%>">
 						<%if $list.title && $list.title != ""%>
 							<h2 class="list-title">
-								<a href="<%$list.url|default:"#"%>"><%$list.title%></a>
+								<%if $list.url != ""%>
+									<a href="<%$list.url%>"><%$list.title%></a>
+								<%else%>
+									<%$list.title%>
+								<%/if%>
 							</h2>
 						<%/if%>
 						<%if $list.items|@count==0 && $list.feedItems != "" && $list.feedItems != "0"%>
@@ -1617,8 +1628,12 @@
 									<%assign var="audioUrl" value=""%>
 									<%assign var="audioData" value=""%>
 								<%/if%>
-								<%assign var="itemClass" value="`$itemClass` item-container-app"%>
 								<%assign var="itemData" value=" data-id=\"`$item.id`\" data-type=\"`$itemType`\"`$audioData`"%>
+								<%if $item.id == "" || $itemType == "manual"%>
+									<%assign var="itemData" value=""%>
+								<%else%>
+									<%assign var="itemClass" value="`$itemClass` item-container-app"%>
+								<%/if%>
 							<%/if%>
 
 							<div class="item-container <%$itemClass%> <%$hasImage%>"<%$itemData%>><div class="item-inner">
