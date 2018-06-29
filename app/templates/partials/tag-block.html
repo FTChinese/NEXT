@@ -348,7 +348,9 @@
 					<%/if%>
 
 					<%if $pageType=="special"%>
-						<%if preg_match("/\//is",$item.cshortleadbody)%>
+						<%if $item.cskylinetext != "" %>
+							<%assign var="itemLink" value=$item.cskylinetext%>
+						<%elseif preg_match("/\//is",$item.cshortleadbody)%>
 							<%assign var="itemLink" value=$item.cshortleadbody%>
 						<%else%>
 							<%assign var="itemLink" value="/tag/`$item.cshortleadbody`"%>
