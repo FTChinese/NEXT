@@ -92,19 +92,24 @@ if (window.parent.document.getElementById(window.parentId)) {
                     parentIframe.parentNode.style.height = adHeight + 'px';
                 }
             }
-            window.parent.stickyBottomPrepare();
+            try {
+                window.parent.stickyBottomPrepare();
+            } catch (ignore) {
+
+            }
         } catch (err) {
             setTimeout (function(){
-                window.parent.stickyBottomPrepare();
+                try {
+                    window.parent.stickyBottomPrepare();
+                } catch (ignore) {
+                    
+                }
             }, 3000);
         }
     } else if (adFullWidth === true) {
         try {
             window.parent.stickyBottomPrepare();
         } catch (ignore) {
-            setTimeout (function(){
-                window.parent.stickyBottomPrepare();
-            }, 3000);
         }
     }
 
