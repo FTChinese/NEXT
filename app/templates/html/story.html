@@ -891,18 +891,18 @@
 
 <%if $page_action=="en" && $eshortleadbody != ""%>
 	<%assign var="languageOptions" value="<a class=\"icon-right icon-ch\" href=\"`$eshortleadbody`\"><button>中文</button></a>"%>
-	<%assign var="languageSwitch" value="<div class=\"language-switch-placeholder\" id=\"language-switch-placeholder\"><div class=\"language-switch-container\"><div class=\"language-switch-inner\"><a href=\"/story/`$story.id`\">中文</a><a class=\"on\">英文</a><a href=\"/story/`$story.id`/ce\">对照</a></div></div></div>"%>
+	<%assign var="languageSwitch" value="<div class=\"language-switch-placeholder\" id=\"language-switch-placeholder\"><div class=\"language-switch-container\"><div class=\"language-switch-inner\"><a href=\"/story/`$story.id`?ccode=LanguageSwitch\">中文</a><a class=\"on\">英文</a><a href=\"/story/`$story.id`/ce?ccode=LanguageSwitch\">对照</a></div></div></div>"%>
 <%elseif ($page_action=="en" || $page_action=="ce") && $story.id%>
 	<%assign var="languageOptions" value="<a class=\"icon-right icon-ch\" href=\"/story/`$story.id`\"><button>中文</button></a>"%>
 	<%if $page_action=="en"%>
-		<%assign var="languageSwitch" value="<div class=\"language-switch-placeholder\" id=\"language-switch-placeholder\"><div class=\"language-switch-container\"><div class=\"language-switch-inner\"><a href=\"/story/`$story.id`\">中文</a><a class=\"on\">英文</a><a href=\"/story/`$story.id`/ce\">对照</a></div></div></div>"%>
+		<%assign var="languageSwitch" value="<div class=\"language-switch-placeholder\" id=\"language-switch-placeholder\"><div class=\"language-switch-container\"><div class=\"language-switch-inner\"><a href=\"/story/`$story.id`?ccode=LanguageSwitch\">中文</a><a class=\"on\">英文</a><a href=\"/story/`$story.id`?ccode=LanguageSwitch/ce\">对照</a></div></div></div>"%>
 	<%else%>
-		<%assign var="languageSwitch" value="<div class=\"language-switch-placeholder\" id=\"language-switch-placeholder\"><div class=\"language-switch-container\"><div class=\"language-switch-inner\"><a href=\"/story/`$story.id`\">中文</a><a  href=\"/story/`$story.id`/en\">英文</a><a class=\"on\">对照</a></div></div></div>"%>
+		<%assign var="languageSwitch" value="<div class=\"language-switch-placeholder\" id=\"language-switch-placeholder\"><div class=\"language-switch-container\"><div class=\"language-switch-inner\"><a href=\"/story/`$story.id`?ccode=LanguageSwitch\">中文</a><a  href=\"/story/`$story.id`/en?ccode=LanguageSwitch\">英文</a><a class=\"on\">对照</a></div></div></div>"%>
 	<%/if%>
 <%elseif $story.show_english == "yes" || $story.ebody != ""%>
 	<%*<!--MARK: Show English and Billigual Button to All-->*%>
 	<%assign var="languageOptions" value="<a class=\"icon-right icon-ch\" href=\"/story/`$story.id`/ce\"><button>对照</button></a><a class=\"icon-right icon-ch\" href=\"/story/`$story.id`/en\"><button>英文</button></a>"%>
-	<%assign var="languageSwitch" value="<div class=\"language-switch-placeholder\" id=\"language-switch-placeholder\"><div class=\"language-switch-container\"><div class=\"language-switch-inner\"><a class=\"on\">中文</a><a href=\"/story/`$story.id`/en\">英文</a><a href=\"/story/`$story.id`/ce\">对照</a></div></div></div>"%>
+	<%assign var="languageSwitch" value="<div class=\"language-switch-placeholder\" id=\"language-switch-placeholder\"><div class=\"language-switch-container\"><div class=\"language-switch-inner\"><a class=\"on\">中文</a><a href=\"/story/`$story.id`/en?ccode=LanguageSwitch\">英文</a><a href=\"/story/`$story.id`/ce?ccode=LanguageSwitch\">对照</a></div></div></div>"%>
 <%/if%>
 
 
