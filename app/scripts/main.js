@@ -39,9 +39,7 @@ var videos = document.querySelectorAll('figure.loading-video');
 var videosLazy = [];
 var videosLoadStatus = 0;
 var viewables = [];//存储要记录track In View的元素
-
-
-
+var gShowLanguageSwitchOnly;
 
 function findTop(obj) {
   var curtop = 0;
@@ -658,7 +656,7 @@ function stickyBottom() {
 
 
 function setResizeClass() {
-  if (htmlClass.indexOf(' resized') < 0) {
+  if (htmlClass.indexOf(' resized') < 0 && gShowLanguageSwitchOnly === false) {
     htmlClass += ' resized';
     document.documentElement.className = htmlClass;
   }
@@ -689,6 +687,23 @@ function validHTMLCode() {
   }
 }
 
+function checkLanguageSwitch() {
+  var referralUrl = document.referrer || '';
+  var hostName = window.location.hostname || '';
+  var fromInSite = (referralUrl !== '' && hostName !== '' && referralUrl.indexOf(hostName) >= 0);
+  var hasLanguageSwitch;
+  if (document.querySelector('.language-switch-inner')) {
+    hasLanguageSwitch = true;
+  } else {
+    hasLanguageSwitch = false;
+  }
+  if (fromInSite && hasLanguageSwitch) {
+    document.documentElement.className += ' show-language-switch-only audio-sticky';
+    gShowLanguageSwitchOnly = true;
+  } else {
+    gShowLanguageSwitchOnly = false;
+  }
+}
 
 try {
   delegate = new Delegate(document.body);
@@ -711,22 +726,14 @@ if (gNavOffsetY === 0) {
 var addEvent =  window.attachEvent||window.addEventListener;
 var eventResize = window.attachEvent ? 'onresize' : 'resize';
 var eventScroll = window.attachEvent ? 'onscroll' : 'scroll';
-// console.log (gAudioOffsetY);
-// disable sticky scroll on touch devices
-if ((gNavOffsetY > 30 && w > 490 && isTouchDevice() === false) || document.getElementById('audio-placeholder')) {
+
+checkLanguageSwitch();
+
+// MARK: - disable sticky scroll on touch devices
+if (((gNavOffsetY > 30 && w > 490 && isTouchDevice() === false) || document.getElementById('audio-placeholder')) && gShowLanguageSwitchOnly === false) {
   try {
     stickyBottomPrepare();
     stickyAdsPrepare();
-
-
-    // if (isTouchDevice() === true) {
-    //   addEvent('touchmove', function() {
-    //     stickyBottom();
-    //   });
-    //   addEvent('touchend', function() {
-    //     stickyBottom();
-    //   });
-    // }
     addEvent(eventScroll, function(){
         stickyBottom();
     });

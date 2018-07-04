@@ -82,7 +82,7 @@ ul,li{
 	}
 	.language-switch-container {
 		top: 0;
-		padding-top: 4px;
+		padding-top: 8px;
 	}
 }
 .language-switch-inner {
@@ -93,8 +93,8 @@ ul,li{
 	a {
 		color: $teal;
 		display: table-cell;
-		height: $navHeight - 8 - 2;
-		line-height: $navHeight - 8 - 2;
+		height: $navHeight - 16 - 2;
+		line-height: $navHeight - 16 - 2;
 		padding: 0 $defaultPadding/2;
 		border: 1px solid $teal;
 		&.on {
@@ -103,6 +103,18 @@ ul,li{
 		}
 	}
 }
+.show-language-switch-only {
+	.header-container, .o-nav__placeholder, .subscription-promo-container {
+		display: none;
+	}
+	body {
+		padding-top: $navHeight;
+	}
+	.toprecommend-part {
+		margin-top: 0;
+	}
+}
+
 audio {
 	width: 100%;
 	//margin-bottom: $defaultPadding/2;
