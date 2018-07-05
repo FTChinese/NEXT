@@ -16,7 +16,7 @@ var gRecomendInViewNoted = false;
 
 var gInstoryAdHasTrackInview = false;
 
-//var ftItemId = window.FTStoryid || window.interactiveId || '';
+var ftItemId = window.FTStoryid || window.interactiveId || '';
 var defaultPadding = 30;
 var hasSideWidth = 690;
 var sectionsWithSide = document.querySelectorAll('.block-container.has-side');

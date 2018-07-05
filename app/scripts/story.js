@@ -185,7 +185,7 @@ function getRec(data) {
     /* The jsonP callback function for thirdPartAPIUrl(即用jsonp请求优路科技的接口后的回调函数)
     * @param data: the response data of the thirdPartAPIUrl(即jsonp请求优路科技接口后的xhr.responseText) 
     */
-    // console.log('ulu'+JSON.stringify(data));
+     //console.log('ulu'+JSON.stringify(data));
     /*
     * 数组data的其中一个item（文章）形如：
     {
