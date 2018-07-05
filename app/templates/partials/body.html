@@ -29,8 +29,8 @@
         <%if $b == 0%>
             <%*<!--MARK: Smarty 2 doesn't support global scoop in included files. -->*%>
             <%if $smarty.get.subscription == "member" || $smarty.get.subscription == "premium" || $smarty.get.subscription == "other"%>
-                <%assign var="reports" value=$storymodel->getPremiumStory(0, 2)%>
-                <%assign var="interactives" value=$interactivemodel->get_interactive_by_field_search("(find_in_set('速读',tag) or find_in_set('英语电台',tag))",0,2,30,10800)%>
+                <%assign var="reports" value=$storymodel->getPremiumStory(0, 3)%>
+                <%assign var="interactives" value=$interactivemodel->get_interactive_by_field_search("(find_in_set('速读',tag) or find_in_set('英语电台',tag))",0,3,30,10800)%>
                 <div class="block-container no-side">
                     <div class="block-inner">
                         <div class="content-container">
@@ -47,7 +47,6 @@
                                         <%include file="next/partials/subscriptions-warnings.html"%>
                                         <div class="items">
                                             <%assign var="i" value=0%>
-
                                             <%foreach from=$reports item="report"%>
                                                 <%assign var="itemType" value="premium"%>
                                                 <%include file="next/partials/subscriptions-one-item.html"%>
