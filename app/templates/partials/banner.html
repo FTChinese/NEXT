@@ -32,7 +32,8 @@
                     data-o-ads-formats-default="false" 
                     data-o-ads-formats-small="false" 
                     data-o-ads-formats-medium="FtcLeaderboard"
-                    data-o-ads-formats-large="FtcLeaderboard" data-o-ads-targeting="pos=top1;"></div>
+                    data-o-ads-formats-large="FtcLeaderboard" data-o-ads-targeting="pos=top1;">
+                    </div>
                 <%else%>                
                     <script type="text/javascript">
                         document.write(writeAdNew({
@@ -48,37 +49,67 @@
                     </script>
                 <%/if%>
             <%elseif $bannerCount == 1%>
-                <script>
-                    document.write(writeAdNew({
-                        devices: ['PC'],
-                        pattern:'Banner',
-                        position:'Num1'
-                    }));
-                    var adChannelId = getAdChannelId();
-                    if (adChannelId!= '5048') {
+                <%if $smarty.get.newdb == "yes"%>
+                    <div class="o-ads ftc-banner" data-o-ads-name="banner1-pc"
+                    data-o-ads-center="true" 
+                    data-o-ads-formats-default="false" 
+                    data-o-ads-formats-small="false" 
+                    data-o-ads-formats-medium="FtcBanner"
+                    data-o-ads-formats-large="FtcBanner" data-o-ads-targeting="pos=top2;">
+                    </div>
+                <%else%>
+                    <script>
                         document.write(writeAdNew({
-                            devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
+                            devices: ['PC'],
+                            pattern:'Banner',
+                            position:'Num1'
+                        }));
+                        var adChannelId = getAdChannelId();
+                        if (adChannelId!= '5048') {
+                            document.write(writeAdNew({
+                                devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
+                                pattern:'Banner',
+                                position:'Num2'
+                            }));
+                        }
+                    </script>
+                <%/if%>
+            <%elseif $bannerCount == 2 %>
+                <%if $smarty.get.newdb == "yes"%>
+                    <div class="o-ads ftc-banner" data-o-ads-name="banner2-pc"
+                    data-o-ads-center="true" 
+                    data-o-ads-formats-default="false" 
+                    data-o-ads-formats-small="false" 
+                    data-o-ads-formats-medium="FtcBanner"
+                    data-o-ads-formats-large="FtcBanner" data-o-ads-targeting="pos=top3;">
+                    </div>
+                <%else%>
+                    <script>
+                        document.write(writeAdNew({
+                            devices: ['PC'],
                             pattern:'Banner',
                             position:'Num2'
                         }));
-                    }
-                </script>
-            <%elseif $bannerCount == 2 %>
-                <script>
-                    document.write(writeAdNew({
-                        devices: ['PC'],
-                        pattern:'Banner',
-                        position:'Num2'
-                    }));
-                </script>
+                    </script>
+                <%/if%>
             <%elseif $bannerCount == 3 %>
-                <script>
-                    document.write(writeAdNew({
-                        devices: ['PC'],
-                        pattern:'Banner',
-                        position:'Num3'
-                    }));
-                </script>
+                <%if $smarty.get.newdb == "yes"%>
+                    <div class="o-ads ftc-banner" data-o-ads-name="banner3-pc"
+                    data-o-ads-center="true" 
+                    data-o-ads-formats-default="false" 
+                    data-o-ads-formats-small="false" 
+                    data-o-ads-formats-medium="FtcBanner"
+                    data-o-ads-formats-large="FtcBanner" data-o-ads-targeting="pos=top4;">
+                    </div>
+                <%else%>
+                    <script>
+                        document.write(writeAdNew({
+                            devices: ['PC'],
+                            pattern:'Banner',
+                            position:'Num3'
+                        }));
+                    </script>
+                <%/if%>
             <%/if%>        
         <%else%>
             <div class="bn-ph<%$figureClass%>">
