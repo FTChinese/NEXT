@@ -25,9 +25,8 @@
         </div>
     <%else%>
         <%if $section.image == ""%>
-            <script type="text/javascript">
-                var bannerCount = '<%$bannerCount%>';
-                if(bannerCount == 0) {
+            <%if $bannerCount == 0%>
+                <script type="text/javascript">
                     document.write(writeAdNew({
                         devices: ['PC'],
                         pattern:'Leaderboard',
@@ -37,8 +36,10 @@
                         devices: ['iPhoneWeb', 'AndroidWeb','iPhoneApp','AndroidApp'],
                         pattern:'Banner',
                         position:'Num1'
-                        }));
-                } else if(bannerCount == 1) {
+                    }));
+                </script>
+            <%elseif $bannerCount == 1%>
+                <script>
                     document.write(writeAdNew({
                         devices: ['PC'],
                         pattern:'Banner',
@@ -52,21 +53,24 @@
                             position:'Num2'
                         }));
                     }
-                } else if(bannerCount == 2) {
+                </script>
+            <%elseif $bannerCount == 2 %>
+                <script>
                     document.write(writeAdNew({
                         devices: ['PC'],
                         pattern:'Banner',
                         position:'Num2'
                     }));
-                } else if(bannerCount == 3) {
+                </script>
+            <%elseif bannerCount == 3 %>
+                <script>
                     document.write(writeAdNew({
                         devices: ['PC'],
                         pattern:'Banner',
                         position:'Num3'
                     }));
-                }
-                
-            </script>
+                </script>
+            <%/if%>        
         <%else%>
             <div class="bn-ph<%$figureClass%>">
             <div class="banner-container">
