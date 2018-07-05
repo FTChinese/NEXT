@@ -245,7 +245,9 @@
 
 
 				<%assign var="i" value=0%>
+				<!--feed repeat check: <%$feedRepeatCheck%>-->
 				<%if $feedRepeatCheck == "yes"%>
+					<!--feed repeat check: <%$itemsArray|@print_r%>-->
 					<%foreach from=$itemsArray item=item%>
 						<%if $i < $list.feedItems%>
 							<%if $feedType == "all"%>
