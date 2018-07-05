@@ -1,4 +1,5 @@
 /* jshint devel:true */
+/*exported gThereIsUluAd, ftItemId, checkInView*/
 var containerTop = [];
 var mainHeight = [];
 var sideHeight = [];
