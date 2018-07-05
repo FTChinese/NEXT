@@ -25,8 +25,51 @@
         <%/if%>
     <%elseif $section.type == "block" && $b < $maxB%>
         <%if $b == 0%>
+            <%*<!--MARK: Smarty 2 doesn't support global scoop in included files. -->*%>
             <%if $smarty.get.subscription == "member" || $smarty.get.subscription == "premium" || $smarty.get.subscription == "other"%>
-                <%include file="next/partials/subscriptions.html"%>
+                <%assign var="reports" value=$storymodel->getPremiumStory(0, 2)%>
+                <%assign var="interactives" value=$interactivemodel->get_interactive_by_field_search("(find_in_set('速读',tag) or find_in_set('英语电台',tag))",0,2,30,10800)%>
+                <div class="block-container no-side">
+                    <div class="block-inner">
+                        <div class="content-container">
+                            <div class="content-inner">
+                                <div class="list-container">
+                                    <div class="list-inner">
+                                        <h2 class="list-title"><a class="list-link" href="/channel/exclusive.html">
+                                        <%if $smarty.get.subscription == "member" || $smarty.get.subscription == "premium"%>
+                                            我的订阅
+                                        <%else%>
+                                            FT独家
+                                        <%/if%>
+                                        </a></h2>
+                                        <%include file="next/partials/subscriptions-warnings.html"%>
+                                        <div class="items">
+                                            <%assign var="i" value=0%>
+                                            <%assign var="$premiumContentIds" value=""%>
+                                            <%foreach from=$reports item="report"%>
+                                                <%assign var="itemType" value="premium"%>
+                                                <%include file="next/partials/subscriptions-one-item.html"%>
+                                                <%assign var="$premiumContentIds" value="`$premiumContentIds`,'`$report.id`'"%>
+                                                <%assign var="i" value=$i+1%>
+                                            <%/foreach%>
+                                            <%foreach from=$interactives item="report"%>
+                                                <%assign var="itemType" value="interactive"%>
+                                                <%include file="next/partials/subscriptions-one-item.html"%>
+                                                <%assign var="$premiumContentIds" value="`$premiumContentIds`,'`$report.id`'"%>
+                                                <%assign var="i" value=$i+1%>
+                                            <%/foreach%>
+                                            <div class="clearfloat"></div>
+                                        </div>
+                                        <h2 class="list-title"><a class="list-link">今日焦点</a></h2>
+                                    </div>
+                                </div>
+                                <div class="clearfloat block-bottom"></div>
+                            </div>
+                        </div>
+                        <div class="clearfloat"></div>
+                    </div>
+                </div>
+                <%assign var="i" value=0%>
             <%else%>
                 <%include file="next/partials/subscriptions-web.html"%>
             <%/if%>
