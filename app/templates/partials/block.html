@@ -23,9 +23,7 @@
 <%/foreach%>
 <div class="block-container <%if ($section.side != "" && $section.side != "none" && $section.side != "Narrow") || $sideListCount > 0 %><%assign var="sectionHasSide" value="yes"%>has-side<%if $section.sideAlign !== ""%> side-<%$section.sideAlign|default:"right"%><%/if%><%else%><%assign var="sectionHasSide" value="no"%>no-side<%/if%><%if $section.side == "HotVideos"%> side-video<%/if%><%if $section.side == "Narrow"%> narrow-block<%/if%>"><div class="block-inner">
 	<div class="content-container">
-
 		<%include file="next/partials/full-screen-subscribe-hint.html"%>
-
 		<div class="content-inner">
 	<%if $section.title != ""%>
 		<div class="block-title"><%$section.title%></div>
@@ -175,7 +173,6 @@
 				<%if $list.feedType == "myFT"%>
 					<%easyapi command="31005" assign="myftArrays" topnum=30%>
 					<%assign var="itemsArray" value=$myftArrays.odatalist%>
-						<!--Premium Content checking -->
 				<%elseif $list.feedType == "hot"%>
 					<%assign var="itemsArray" value=$storymodel->get_hot_story(7,40,true)%>
 					<%assign var="feedType" value=$list.feedType%>
@@ -271,8 +268,13 @@
 					<%assign var="i" value=0%>
 					<%*<!--Display Only <%$listItemCount%> Items That should display: <%$feedType%>/<%$feedImage%>/<%$feedRepeatCheck%>-->*%>
 				<%else%>
-					<%assign var="listItemCount" value=$itemsArray|@count%>
-					<%*<!--Display Only <%$listItemCount%> Items without Image: <%$feedType%>/<%$feedImage%>/<%$feedRepeatCheck%>-->*%>
+					<%foreach from=$itemsArray item=item%>
+						<%assign var="itemId" value=$item.id|default:$item.photonewsid%>
+						<%if !in_array($itemId, explode(',',$premiumContentIds))%>
+							<%assign var="i" value=$i+1%>
+						<%/if%>
+					<%/foreach%>
+					<%assign var="listItemCount" value=$i%>
 				<%/if%>
 
 				<%if $list.float === "ScoreBoard"%>
@@ -399,7 +401,7 @@
 						d. 当前item配图，或者当前list不要求必须出图
 					-->
 					*%>
-					<%if ($feedRepeatCheck != "yes" && !in_array($itemId, explode(',',$premiumContentIds)) || (($feedImage != "necessary" || $itemImage != "") && $list.feedItems>0 && $i<$list.feedItems && !in_array($itemId, explode(',',$itemIdsArray)))%>
+					<%if ($feedRepeatCheck != "yes" && !in_array($itemId, explode(',',$premiumContentIds))) || (($feedImage != "necessary" || $itemImage != "") && $list.feedItems>0 && $i<$list.feedItems && !in_array($itemId, explode(',',$itemIdsArray)))%>
 						<%assign var="itemType" value=$item.type|default:$item.itemtype|default:$feedType%>
 						<%if $itemType == "photo"%>
 							<%assign var="itemType" value="photonews"%>
@@ -1252,7 +1254,6 @@
 							<div class="item-container <%$itemClass%> <%$hasImage%>"<%$itemData%>><div class="item-inner">
 								<h2 class="item-headline"><%$itemTag%><a target="_blank"<%$itemLink%> class="item-headline-link <%$lockClass%>"><%$itemHeadline%></a></h2>
 								<%if $item.relatives|@count > 0 && $item.relatives[0].type == "video" &&  $item.preferSponsorImage != "yes"%>
-									<!--test 1-->
 									<div class="image">
 										<figure class="loading-video" data-vid="<%$item.relatives[0].id%>"></figure>
 									</div>
@@ -1261,10 +1262,7 @@
 										<figure class="loading-video" data-vid="<%$itemId%>" data-item-type="<%$itemType%>"></figure>
 									</div>
 								<%elseif $itemImage != "" && $hasImage === "has-image"%>
-									<!-- a formy viewtop -->
-									<a class="image" target="_blank"<%$itemImageLink%>
-										<%if $videoId === "viewtopVideo" && $videoIdIndex == 1 %>id="viewtopVideo"<%/if%>
-									 >
+									<a class="image" target="_blank"<%$itemImageLink%> <%if $videoId === "viewtopVideo" && $videoIdIndex == 1 %>id="viewtopVideo"<%/if%>>
 										<figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure>
 									</a>
 								<%/if%>

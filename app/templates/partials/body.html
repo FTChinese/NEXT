@@ -8,6 +8,8 @@
 <%if $smarty.get.maxB != ""%>
     <%assign var="maxB" value=$smarty.get.maxB|intval%>
 <%/if%>
+<%assign var="premiumContentIds" value="0000"%>
+
 <%foreach from=$p.sections item=section%>
     <%if $section.type == "header"%>
         <%if $pageId != "" && $pageId != "home"%>
@@ -45,22 +47,23 @@
                                         <%include file="next/partials/subscriptions-warnings.html"%>
                                         <div class="items">
                                             <%assign var="i" value=0%>
-                                            <%assign var="$premiumContentIds" value=""%>
+
                                             <%foreach from=$reports item="report"%>
                                                 <%assign var="itemType" value="premium"%>
                                                 <%include file="next/partials/subscriptions-one-item.html"%>
-                                                <%assign var="$premiumContentIds" value="`$premiumContentIds`,'`$report.id`'"%>
+                                                <%assign var="premiumContentIds" value="`$premiumContentIds`,`$report.id`"%>
                                                 <%assign var="i" value=$i+1%>
                                             <%/foreach%>
                                             <%foreach from=$interactives item="report"%>
                                                 <%assign var="itemType" value="interactive"%>
                                                 <%include file="next/partials/subscriptions-one-item.html"%>
-                                                <%assign var="$premiumContentIds" value="`$premiumContentIds`,'`$report.id`'"%>
+                                                <%assign var="premiumContentIds" value="`$premiumContentIds`,`$report.id`"%>
                                                 <%assign var="i" value=$i+1%>
                                             <%/foreach%>
                                             <div class="clearfloat"></div>
                                         </div>
                                         <h2 class="list-title"><a class="list-link">今日焦点</a></h2>
+                                        <!--premiumContentIds: <%$premiumContentIds%>-->
                                     </div>
                                 </div>
                                 <div class="clearfloat block-bottom"></div>
