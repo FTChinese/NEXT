@@ -134,34 +134,35 @@ function checkInView(obj) {
 }
 
 function trackViewables() {
-  try {
-    // blocks in view
-    var ec = window.gPageId || 'Other Page';
-    for (var j=0; j<viewables.length; j++) {
-      if (viewables[j] !== '' && viewables[j].viewed === false) {
-        if (checkInView(viewables[j]) === true) {
-          var k = j;
-          viewables[k].viewed = 'pending';
-          setTimeout((function(k) {
-              return function() {
-                if (checkInView(viewables[k]) === true) {
-                  viewables[k].viewed = true;
-                  ga('send','event', ec, 'In View', viewables[k].id, {'nonInteraction':1});
-                  if (viewables[k].adch !== '' && viewables[k].adPosition !== '') {
-                    ga('send','event', 'Ad In View', viewables[k].adch, viewables[k].adPosition, {'nonInteraction':1});
-                    //playVideoInIframe(viewables[k].adch + '' + viewables[k].adPosition);
-                  }
-                } else {
-                  viewables[k].viewed = false;
-                }
-              };
-          })(k), viewables[k].time);
-        }
-      }
-    }
-  } catch (ignore) {
+  // MARK: - Stop Tracking viewables for lack of GA quota
+  // try {
+  //   // blocks in view
+  //   var ec = window.gPageId || 'Other Page';
+  //   for (var j=0; j<viewables.length; j++) {
+  //     if (viewables[j] !== '' && viewables[j].viewed === false) {
+  //       if (checkInView(viewables[j]) === true) {
+  //         var k = j;
+  //         viewables[k].viewed = 'pending';
+  //         setTimeout((function(k) {
+  //             return function() {
+  //               if (checkInView(viewables[k]) === true) {
+  //                 viewables[k].viewed = true;
+  //                 ga('send','event', ec, 'In View', viewables[k].id, {'nonInteraction':1});
+  //                 if (viewables[k].adch !== '' && viewables[k].adPosition !== '') {
+  //                   ga('send','event', 'Ad In View', viewables[k].adch, viewables[k].adPosition, {'nonInteraction':1});
+  //                   //playVideoInIframe(viewables[k].adch + '' + viewables[k].adPosition);
+  //                 }
+  //               } else {
+  //                 viewables[k].viewed = false;
+  //               }
+  //             };
+  //         })(k), viewables[k].time);
+  //       }
+  //     }
+  //   }
+  // } catch (ignore) {
 
-  }
+  // }
 }
 
 
@@ -613,12 +614,14 @@ function stickyBottomUpdate() {
       if (window.ftItemId === undefined) {
         window.ftItemId = '';
       }
-      ga('send','event','Story Recommend', 'Seen' + window.recommendVersion, ftItemId, {'nonInteraction':1});
-      
+      // MARK: - stop tracking for lack of GA quota
+      //ga('send','event','Story Recommend', 'Seen' + window.recommendVersion, ftItemId, {'nonInteraction':1});
+
+      // MARK: - stop tracking for lack of GA quota
       // MARK: If there is uluAd, send another ga 'seen' eventAction
-      if(gThereIsUluAd === 1) {
-        ga('send','event','Story Recommend With Ad', 'Seen' + window.recommendVersion, ftItemId, {'nonInteraction':1});
-      }
+      // if(gThereIsUluAd === 1) {
+      //   ga('send','event','Story Recommend With Ad', 'Seen' + window.recommendVersion, ftItemId, {'nonInteraction':1});
+      // }
       
       gRecomendInViewNoted = true;
       //console.log ('in view');
@@ -682,7 +685,10 @@ function validHTMLCode() {
       }
     }
     if (validateFail === true) {
-      ga('send','event','CatchError', 'Page Validation Fail', window.location.href, {'nonInteraction':1});
+      // MARK: - Stop Tracking For lack of GA quota
+      //ga('send','event','CatchError', 'Page Validation Fail', window.location.href, {'nonInteraction':1});
+      ga('send','event','CatchError', 'Page Validation Fail', 'Some Page', {'nonInteraction':1});
+
     }
   }
 }
@@ -826,7 +832,8 @@ try {
     var ea = this.getAttribute('data-ea') || '';
     var el = this.getAttribute('data-el') || '';
     if (ec !== '' && ea !== '') {
-      ga('send','event',ec, ea, el);
+      // MARK: stop tracking for lack of GA quota
+      //ga('send','event',ec, ea, el);
       //console.log (ec + ea + el);
 
       // MARK: If there is a cooperative adverising in bottom Recommend Section, these code to send img.src to third part
@@ -844,10 +851,12 @@ try {
               failAction = 'Fail' + retryTime;
             }
             uluAdImage.onload = function() {
-              ga('send','event','uluAd',seccessAction,uluAdUrl);
+              // MARK: Stop Tracking for GA quota
+              //ga('send','event','uluAd',seccessAction,uluAdUrl);
             };
             uluAdImage.onerror = function() {
-              ga('send','event','uluAd',failAction,uluAdUrl);
+              // MARK: Stop Tracking for GA quota
+              //ga('send','event','uluAd',failAction,uluAdUrl);
               retryTime++;
               if(retryTime<=5) {
                 uluAdSendOneTime();
@@ -855,9 +864,9 @@ try {
             };
             uluAdImage.src = uluAdUrl;
           };
-
           uluAdSendOneTime();
-          ga('send','event','uluAd','Request',uluAdUrl);
+          // MARK: Stop Tracking for GA quota
+          //ga('send','event','uluAd','Request',uluAdUrl);
       }
     }
   });
