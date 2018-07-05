@@ -10,7 +10,7 @@ function postVal(obj) {
             if (xhrpw.status === 200) {
                 console.log('请求成功:');
             } else {
-                alert('请求失败！');
+                console.log('请求失败！');
             }
         };
         xhrpw.send(JSON.stringify(obj));
