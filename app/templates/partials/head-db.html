@@ -1,0 +1,24 @@
+<script src="https://www.ft.com/__origami/service/build/v2/bundles/js?modules=o-ads@8.3.0"></script>
+<script src='https://www.googletagservices.com/tag/js/gpt.js'></script>
+<%assign var="zone" value=$pageId|default:$subnav|default:$topnav|default:"home" %>
+<!-- zone: <%$zone%>-->
+<script data-o-ads-config="" type="application/json">
+{
+	"gpt": {
+        "network": 80682004,
+        "site": "ftchinese",
+        "zone": "<%$zone%>"
+    },
+    "formats": {
+        "FtcLeaderboard" : {
+            "sizes":[[1200, 120], [1200, 400], [1200, 250], [969, 90], [969, 400], [969, 250]]
+        },
+        "FtcBanner": {
+            "sizes":[[1200, 120], [969, 90]]
+        },
+        "FtcMobileBanner": {
+            "sizes": [[414, 104]]
+        }
+    }
+}
+</script>
