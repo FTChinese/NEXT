@@ -268,13 +268,17 @@
 					<%assign var="i" value=0%>
 					<%*<!--Display Only <%$listItemCount%> Items That should display: <%$feedType%>/<%$feedImage%>/<%$feedRepeatCheck%>-->*%>
 				<%else%>
+
 					<%foreach from=$itemsArray item=item%>
 						<%assign var="itemId" value=$item.id|default:$item.photonewsid%>
 						<%if !in_array($itemId, explode(',',$premiumContentIds))%>
 							<%assign var="i" value=$i+1%>
 						<%/if%>
 					<%/foreach%>
-					<%assign var="listItemCount" value=$i%>
+
+					<%assign var="listItemCount" value=$itemsArray|@count%>
+					<%assign var="i" value=0%>
+					<!--listItemCount: <%$listItemCount%>, i: <%$i%>-->
 				<%/if%>
 
 				<%if $list.float === "ScoreBoard"%>
