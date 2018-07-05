@@ -26,7 +26,7 @@
     <%else%>
         <%if $section.image == ""%>
             <%if $bannerCount == 0%>
-                <%if smarty.get.newdb == "yes"%>
+                <%if $smarty.get.newdb == "yes"%>
                     <div class="o-ads ftc-banner" data-o-ads-name="leaderboard"
                     data-o-ads-center="true" 
                     data-o-ads-formats-default="false" 
@@ -71,7 +71,7 @@
                         position:'Num2'
                     }));
                 </script>
-            <%elseif bannerCount == 3 %>
+            <%elseif $bannerCount == 3 %>
                 <script>
                     document.write(writeAdNew({
                         devices: ['PC'],

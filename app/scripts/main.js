@@ -10,12 +10,12 @@ var gAudioOffsetY;
 var gLanguageSwitchOffsetY;
 var gRecomendOffsetY;
 var gRecomendInViewNoted = false;
-var gThereIsUluAd = 0;//MARK：表征底部为你推荐是否确实插入了联合广告，插入的话就计为1，这是为了方便统计曝光次数
+//var gThereIsUluAd = 0;//MARK：表征底部为你推荐是否确实插入了联合广告，插入的话就计为1，这是为了方便统计曝光次数
 //  var gShareHeight = 38;
 
 var gInstoryAdHasTrackInview = false;
 
-var ftItemId = window.FTStoryid || window.interactiveId || '';
+//var ftItemId = window.FTStoryid || window.interactiveId || '';
 var defaultPadding = 30;
 var hasSideWidth = 690;
 var sectionsWithSide = document.querySelectorAll('.block-container.has-side');
@@ -124,7 +124,7 @@ function loadVideosLazy () {
     videosLoadStatus = 1;
   }
 }
-
+/*
 function checkInView(obj) {
   if (scrollTop + bodyHeight > obj.top + obj.height * obj.minimum && scrollTop < obj.top + obj.height && obj.height>0 && !document.hidden) {
     return true;
@@ -132,6 +132,7 @@ function checkInView(obj) {
     return false;
   }
 }
+*/
 
 function trackViewables() {
   // MARK: - Stop Tracking viewables for lack of GA quota
