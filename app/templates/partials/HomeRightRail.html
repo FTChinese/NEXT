@@ -87,13 +87,26 @@
 		
 
 		<%if $smarty.get.ad != "no" && $noAd != "true"%>	
-			<script type="text/javascript">
-				document.write (writeAdNew({
-					devices: ['PC', 'PadWeb', 'PadApp'],
-					pattern:'MPU',
-					position:'Right1'
-				}));
-			</script>
+			<%if $smarty.get.newdb == "yes"%>
+				<div 
+				data-o-ads-name="mpu-right1"
+				class="o-ads"  
+				data-o-ads-formats-default="false" 
+				data-o-ads-formats-small="false" 
+				data-o-ads-formats-medium="MediumRectangle"
+				data-o-ads-formats-large="MediumRectangle"
+				data-o-ads-targeting="pos=right1;"
+				>
+				</div>
+			<%else%>
+				<script type="text/javascript">
+					document.write (writeAdNew({
+						devices: ['PC', 'PadWeb', 'PadApp'],
+						pattern:'MPU',
+						position:'Right1'
+					}));
+				</script>
+			<%/if%>
 		<%/if%>
 
 		<div class="interactives">
@@ -180,7 +193,18 @@
 		</div>
 
 		<%if $smarty.get.ad != "no" && $noAd != "true"%>
-	
+			<%if $smarty.get.newdb == "yes"%>
+				<div 
+				data-o-ads-name="mpu-right2"
+				class="o-ads ftc-mpu"  
+				data-o-ads-formats-default="false" 
+				data-o-ads-formats-small="false" 
+				data-o-ads-formats-medium="MediumRectangle"
+				data-o-ads-formats-large="MediumRectangle"
+				data-o-ads-targeting="pos=right2;"
+				>
+				</div>
+			<%else%>
 				<script type="text/javascript">
 				document.write (writeAdNew({
 				devices: ['PC', 'PadWeb', 'PadApp'],
@@ -188,6 +212,7 @@
 				position:'Right2'
 				}));
 				</script>
+			<%/if%>
 		<%/if%>
 
 		<%assign var="ftintelligence" value=$interactivemodel->get_interactive_by_field_search("find_in_set('FT研究院',tag) and find_in_set('报告',tag)",0,4,1000,10800)%>
@@ -319,6 +344,18 @@
 		<div class="P-hide" style="padding-top: 15px;"></div>
 
 		<%if $smarty.get.ad != "no" && $noAd != "true"%>
+			<%if $smarty.get.newdb == "yes"%>
+				<div 
+				data-o-ads-name="mpu-right1"
+				class="o-ads"  
+				data-o-ads-formats-default="false" 
+				data-o-ads-formats-small="false" 
+				data-o-ads-formats-medium="MediumRectangle"
+				data-o-ads-formats-large="MediumRectangle"
+				data-o-ads-targeting="pos=right1;"
+				>
+				</div>
+			<%else%>
 				<script type="text/javascript">
 					document.write (writeAdNew({
 						devices: ['PC', 'PadWeb', 'PadApp'],
@@ -326,6 +363,7 @@
 						position:'Right1'
 					}));
 				</script>
+			<%/if%>
 		<%/if%>
 
 		<div id="iap-ebooks"></div>
@@ -506,13 +544,26 @@
 
 
 		<%if $smarty.get.ad != "no" && $noAd != "true"%>
-			<script type="text/javascript">
-				document.write (writeAdNew({
-				devices: ['PC', 'PadWeb', 'PadApp'],
-				pattern:'MPU',
-				position:'Right2'
-				}));
-			</script>
+			<%if $smarty.get.newdb == "yes"%>
+				<div 
+				data-o-ads-name="mpu-right2"
+				class="o-ads ftc-mpu"  
+				data-o-ads-formats-default="false" 
+				data-o-ads-formats-small="false" 
+				data-o-ads-formats-medium="MediumRectangle"
+				data-o-ads-formats-large="MediumRectangle"
+				data-o-ads-targeting="pos=right2;"
+				>
+				</div>
+			<%else%>
+				<script type="text/javascript">
+					document.write (writeAdNew({
+					devices: ['PC', 'PadWeb', 'PadApp'],
+					pattern:'MPU',
+					position:'Right2'
+					}));
+				</script>
+			<%/if%>
 		<%/if%>
 
 
