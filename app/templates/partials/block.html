@@ -245,9 +245,7 @@
 
 
 				<%assign var="i" value=0%>
-				<!--feed repeat check: <%$feedRepeatCheck%>-->
 				<%if $feedRepeatCheck == "yes"%>
-					<!--feed repeat check: <%$itemsArray|@print_r%>-->
 					<%foreach from=$itemsArray item=item%>
 						<%if $i < $list.feedItems%>
 							<%if $feedType == "all"%>
@@ -399,7 +397,7 @@
 						d. 当前item配图，或者当前list不要求必须出图
 					-->
 					*%>
-					<%if $feedRepeatCheck != "yes" || (($feedImage != "necessary" || $itemImage != "") && $list.feedItems>0 && $i<$list.feedItems && !in_array($itemId, explode(',',$itemIdsArray)))%>
+					<%if ($feedRepeatCheck != "yes" && $itemId != "001076572") || (($feedImage != "necessary" || $itemImage != "") && $list.feedItems>0 && $i<$list.feedItems && !in_array($itemId, explode(',',$itemIdsArray)))%>
 						<%assign var="itemType" value=$item.type|default:$item.itemtype|default:$feedType%>
 						<%if $itemType == "photo"%>
 							<%assign var="itemType" value="photonews"%>
