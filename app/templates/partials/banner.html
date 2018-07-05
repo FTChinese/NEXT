@@ -26,18 +26,27 @@
     <%else%>
         <%if $section.image == ""%>
             <%if $bannerCount == 0%>
-                <script type="text/javascript">
-                    document.write(writeAdNew({
-                        devices: ['PC'],
-                        pattern:'Leaderboard',
-                        position:'Num1'
-                    }));
-                    document.write(writeAdNew({
-                        devices: ['iPhoneWeb', 'AndroidWeb','iPhoneApp','AndroidApp'],
-                        pattern:'Banner',
-                        position:'Num1'
-                    }));
-                </script>
+                <%if smarty.get.newdb == "yes"%>
+                    <div class="o-ads ftc-banner" data-o-ads-name="leaderboard"
+                    data-o-ads-center="true" 
+                    data-o-ads-formats-default="false" 
+                    data-o-ads-formats-small="false" 
+                    data-o-ads-formats-medium="FtcLeaderboard"
+                    data-o-ads-formats-large="FtcLeaderboard" data-o-ads-targeting="pos=top1;"></div>
+                <%else%>                
+                    <script type="text/javascript">
+                        document.write(writeAdNew({
+                            devices: ['PC'],
+                            pattern:'Leaderboard',
+                            position:'Num1'
+                        }));
+                        document.write(writeAdNew({
+                            devices: ['iPhoneWeb', 'AndroidWeb','iPhoneApp','AndroidApp'],
+                            pattern:'Banner',
+                            position:'Num1'
+                        }));
+                    </script>
+                <%/if%>
             <%elseif $bannerCount == 1%>
                 <script>
                     document.write(writeAdNew({
