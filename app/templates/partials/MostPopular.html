@@ -19,12 +19,25 @@
 		</ul>
 	</div>
 	<%if $smarty.get.ad != "no" && $noAd != "true"%>
-		<script type="text/javascript">
-			document.write (writeAdNew({
-					devices: ['PC'],
-					pattern:'MPU',
-					position:'Middle1'
-			}));
-		</script>
+		<%if $smarty.get.newdb == "yes"%>
+			<div 
+			data-o-ads-name="mpu-middle1"
+			class="o-ads ftc-mpu"  
+			data-o-ads-formats-default="false" 
+			data-o-ads-formats-small="false" 
+			data-o-ads-formats-medium="MediumRectangle"
+			data-o-ads-formats-large="MediumRectangle"
+			data-o-ads-targeting="pos=middle1;"
+			>
+			</div>
+		<%else%>
+			<script type="text/javascript">
+				document.write (writeAdNew({
+						devices: ['PC'],
+						pattern:'MPU',
+						position:'Middle1'
+				}));
+			</script>
+		<%/if%>
   <%/if%>
 </div></div>
