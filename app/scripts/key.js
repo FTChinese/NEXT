@@ -76,8 +76,8 @@ function trackerNew() {
     var trackerpage; 
     var pagePara;
     var ftcteam1;
-    var i;
-    var keyTagArray;
+    //var i;
+    //var keyTagArray;
     var username=GetCookie('USER_NAME') || GetCookie('USER_NAME_FT') || '';
     var userId = GetCookie('USER_ID') || '';
     var ccodeCookie=GetCookie('ccode') || '';
@@ -332,13 +332,14 @@ function trackerNew() {
         } else {
             if (window.gAutoStart === undefined) {ga('send', 'pageview');}
         }
-	    if (typeof window.FTStoryid === 'string' && typeof keyTag === 'string' && keyTag.indexOf(',')>=0) {
-	        keyTagArray=keyTag.split(',');
-	        for (i = 0; i < keyTagArray.length; i++) {
-	            ga('send','event','Story Tag',keyTagArray[i],window.FTStoryid,{'nonInteraction':1});
-	        }
-	    }
-    }, 1);//old 300
+        // MARK: - Stop tracking for lack of GA quota
+	    // if (typeof window.FTStoryid === 'string' && typeof keyTag === 'string' && keyTag.indexOf(',')>=0) {
+	    //     keyTagArray=keyTag.split(',');
+	    //     for (i = 0; i < keyTagArray.length; i++) {
+	    //         ga('send','event','Story Tag',keyTagArray[i],window.FTStoryid,{'nonInteraction':1});
+	    //     }
+	    // }
+    }, 1);
 }
 
 

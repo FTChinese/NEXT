@@ -1,15 +1,15 @@
 <%assign var="itemTopClass" value=""%>
 <%assign var="itemTop" value=""%>
-<%if $i%4 === 0%>
-	<%assign var="itemTopClass" value="XLT"%>
+<%if $i%3 === 0%>
+	<%assign var="itemTopClass" value="XLT LT"%>
 <%/if%>
 <%if $i%2 === 0%>
-	<%assign var="itemTopClass" value="`$itemTopClass` ST"%>
+	<%assign var="itemTopClass" value="`$itemTopClass` MT ST"%>
 <%/if%>
 <%assign var="itemTopClass" value="`$itemTopClass` PT"%>
-<%assign var="XL" value="XL3"%>
-<%assign var="L" value="L3"%>
-<%assign var="M" value="M3"%>
+<%assign var="XL" value="XL4"%>
+<%assign var="L" value="L4"%>
+<%assign var="M" value="M6"%>
 <%assign var="S" value="S6"%>
 <%assign var="P" value="P12"%>
 <%assign var="itemClass" value="`$XL` `$L` `$M` `$S` `$P`"%>
@@ -33,14 +33,6 @@
 <%assign var="itemTagsString" value=$itemTagsString|replace:" ":","%>
 <%assign var="itemTags" value=","|explode:$itemTagsString%>
 <%assign var="itemTag" value=$itemTags[0]%>
-
-
-
-
-
-
-
-
 
 <%if $report.ftid != ""%>
 	<%assign var="audioData" value=" data-eaudio=\"https://s3-us-west-2.amazonaws.com/ftlabs-audio-rss-bucket.prod/`$report.ftid`.mp3\""%>
