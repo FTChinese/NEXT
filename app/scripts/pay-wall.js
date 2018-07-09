@@ -151,20 +151,20 @@ function showPaywallHint(){
 showPaywallHint();
 
 
-function openHint(){
+function openHint() {
   var para = location.search.substring(1);
   var url = location.href;
   if (para.indexOf('issue=EditorChoice')>=0 || url.indexOf('speedread')>=0 ){
-      var paywallHintContainer = document.getElementById('paywall-hint-container');
-      var dataHints = document.querySelectorAll('[data-hint="dataHint"]');
-      if(dataHints.length>0){
-        for (var i = 0,len=dataHints.length; i < len; i++) {  
-          dataHints[i].onclick = function(){   
-            paywallHintContainer.style.display = 'block';
-          };
-        }
+    var paywallHintContainer = document.getElementById('paywall-hint-container');
+    var dataHints = document.querySelectorAll('[data-hint="dataHint"]');
+    if(dataHints.length>0){
+      for (var i = 0,len=dataHints.length; i < len; i++) {  
+        dataHints[i].onclick = function(){   
+          paywallHintContainer.style.display = 'block';
+          ga('send','event','Web Privileges', 'Display', window.gSubscriptionEventLabel);
+        };
       }
-
+    }
   }
 }
 
