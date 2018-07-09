@@ -1314,15 +1314,29 @@
 										<div id="iap-highlight"></div>
 									<%/if%>
 									<%if $i == 1%>
-										<div class="hide-iframe">
-											<script type="text/javascript">
-													document.write(writeAdNew({
-															devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
-															pattern:'Information',
-															position:'Num1'
-													}));
-											</script>
-										</div>
+										<%if $smarty.get.newdb == "yes"%>
+											<div 
+											data-o-ads-name="db-infoflow1"
+											class="o-ads"  
+											data-o-ads-formats-default="false" 
+											data-o-ads-formats-small="FtcInfoFlow" 
+											data-o-ads-formats-medium="false"
+											data-o-ads-formats-large="false"
+											data-o-ads-formats-extra="false"
+											data-o-ads-targeting="pos=info1;"
+											>
+											</div>
+										<%else%>
+											<div class="hide-iframe">
+												<script type="text/javascript">
+														document.write(writeAdNew({
+																devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
+																pattern:'Information',
+																position:'Num1'
+														}));
+												</script>
+											</div>
+										<%/if%>
 									<%/if%>
 									<%if $i == 8%>
 										<%if $smarty.get.ad != "no" && $noAd != "true"%>
