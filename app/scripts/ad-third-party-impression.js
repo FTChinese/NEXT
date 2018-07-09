@@ -73,7 +73,8 @@ function sendImpToThirdParty(Imp, AdName, AssID) {
                     failActionName = 'Fail on Retry'+reRryTimes;
                 }
                 sendEvent(this.title, failActionName, this.alt);
-                sendEvent('Fail UA String', AssID, window.parent.adReachability());
+                // MARK: - Stop Tracking for lack of GA Quota
+                //sendEvent('Fail UA String', AssID, window.parent.adReachability());
 
                 if (typeof window.uaString === 'string') {
                     //MAKR: Baidu Analytics
