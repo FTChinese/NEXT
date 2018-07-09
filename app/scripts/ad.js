@@ -18,27 +18,28 @@ function getSearchVars() {
 
 /* jshint ignore:start */
 function trackAd(adAction, adLabel, reachabilityStatus) {
-  var adLoadTime;
-  var adTimeSpent;
-  if (typeof window.ga === 'function') {
-    adLoadTime = new Date().getTime();
-    adTimeSpent = adLoadTime - window.adStartTime;
-    ga('send','event','Third Party Ad', adAction + ' - all', adLabel, {'nonInteraction':1});
-    ga('send', 'timing', 'Third Party Ad', adAction, adTimeSpent, adLabel);
-    // console.log (reachabilityStatus);
-    if (reachabilityStatus !== undefined && reachabilityStatus !== '') {
-      ga('send','event','Third Party Ad', adAction + ' - ' + reachabilityStatus, adLabel, {'nonInteraction':1});
-    }
-    if (typeof window.startTime === 'number') {
-      adLoadTime = new Date().getTime();
-      adTimeSpent = adLoadTime - window.startTime;
-      ga('send', 'timing', 'Third Party Ad', adAction + ' VS Page Start', adTimeSpent, adLabel);
-    }
-    try {
-      //console.log (adAction + ' - ' + reachabilityStatus + ' ' + adLabel + ': ' + adTimeSpent);
-    } catch (ignore) {
-    }
-  }
+  // MARK: Stop tracking for lack of GA quota
+  // var adLoadTime;
+  // var adTimeSpent;
+  // if (typeof window.ga === 'function') {
+  //   adLoadTime = new Date().getTime();
+  //   adTimeSpent = adLoadTime - window.adStartTime;
+  //   ga('send','event','Third Party Ad', adAction + ' - all', adLabel, {'nonInteraction':1});
+  //   ga('send', 'timing', 'Third Party Ad', adAction, adTimeSpent, adLabel);
+  //   // console.log (reachabilityStatus);
+  //   if (reachabilityStatus !== undefined && reachabilityStatus !== '') {
+  //     ga('send','event','Third Party Ad', adAction + ' - ' + reachabilityStatus, adLabel, {'nonInteraction':1});
+  //   }
+  //   if (typeof window.startTime === 'number') {
+  //     adLoadTime = new Date().getTime();
+  //     adTimeSpent = adLoadTime - window.startTime;
+  //     ga('send', 'timing', 'Third Party Ad', adAction + ' VS Page Start', adTimeSpent, adLabel);
+  //   }
+  //   try {
+  //     //console.log (adAction + ' - ' + reachabilityStatus + ' ' + adLabel + ': ' + adTimeSpent);
+  //   } catch (ignore) {
+  //   }
+  // }
 }
 
 function checkAd(adOptions, adDomContainer) {
@@ -187,7 +188,8 @@ function checkAdLoad() {
 }
 
 function adLoadStatus(eventAction, eventLabel) {
-  ga('send','event', 'Ad Load', eventAction, eventLabel, {'nonInteraction':1});
+  // MARK: Stop tracking for lack of GA quota
+  //ga('send','event', 'Ad Load', eventAction, eventLabel, {'nonInteraction':1});
 }
 
 function setDolphinSlot(key){

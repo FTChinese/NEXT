@@ -9,7 +9,8 @@
 				<h2 class="item-headline"><a href="<%$section.click%>" onclick="recordClickEventForHouseAd(this)" data-event-category="<%$pageIdForTextLink%>" target=_blank><%$section.title%></a></h2>
 				</div></div>
 				<script>
-					ga('send', 'event', 'House Ad: <%$pageIdForTextLink%>', 'Show', '<%$section.title%>');
+					// MARK: - Stop Tracking for Lack of GA Quota
+					//ga('send', 'event', 'House Ad: <%$pageIdForTextLink%>', 'Show', '<%$section.title%>');
 				</script>
 			<%/if%>
 	    <%/if%>
@@ -20,7 +21,8 @@
 			eventCategory = 'House Ad: ' + eventCategory;
 			var eventAction = 'Click';
 			var eventLabel = ele.href || '';
-			ga('send', 'event', eventCategory, eventAction, eventLabel);
+			// MARK: - Stop Tracking for Lack of GA Quota
+			//ga('send', 'event', eventCategory, eventAction, eventLabel);
 		}
 	</script>
 <%/if%>

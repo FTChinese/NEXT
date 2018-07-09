@@ -168,7 +168,8 @@ video::-webkit-media-controls-panel {
     <div id="n-ad-container">
         <script>
             function removeAd() {
-                window.parent.sendEvent('Ad Impression: Error', adDeviceId+adChannelId, adPositionId, {'nonInteraction':1});
+                // MARK: - Stop Tracking for Lack of GA Quota
+                //window.parent.sendEvent('Ad Impression: Error', adDeviceId+adChannelId, adPositionId, {'nonInteraction':1});
             }
             function loaded() {
                 if (window.isHouseAd === true) {

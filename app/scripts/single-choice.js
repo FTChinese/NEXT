@@ -51,7 +51,8 @@
 		quizAnswered = true;
 		document.getElementById('answer-explain').innerHTML = answerExplain;
 		try {
-			ga('send','event', 'Quiz', document.querySelector('.story-headline').innerHTML + '(' + quizId + '/' + quizLevel + ')', rightOrWrong);
+			// MARK: - Stop Tracking for lack of GA quota
+			//ga('send','event', 'Quiz', document.querySelector('.story-headline').innerHTML + '(' + quizId + '/' + quizLevel + ')', rightOrWrong);
 			stickyBottomPrepare();
 			stickyAdsPrepare();
 		} catch (ignore) {
