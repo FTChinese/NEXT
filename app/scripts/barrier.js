@@ -63,11 +63,12 @@ function createBarrier() {
 }
 
 function recordAction(type, category) {
-	try {
-		ga('send', 'event', type, category, window.FTStoryid);
-	} catch(err) {
-		console.log('send', 'event', type, category)
-	}
+	// MARK: - Stop tracking for lack of GA quota
+	// try {
+	// 	ga('send', 'event', type, category, window.FTStoryid);
+	// } catch(err) {
+	// 	console.log('send', 'event', type, category)
+	// }
 }
 
 function barrierOnBottom(className) {
@@ -143,11 +144,12 @@ function abTest() {
 		barrierElt.style.display = 'block';
 	};
 
-	try {
-		ga('send', 'event', barrierType, 'Pop Out', window.FTStoryid, {'nonInteraction':1});
-	} catch(err) {
-		console.log('send', 'event', barrierType,  'Pop Out');
-	}
+	// MARK: - Stop tracking for lack of GA quota
+	// try {
+	// 	ga('send', 'event', barrierType, 'Pop Out', window.FTStoryid, {'nonInteraction':1});
+	// } catch(err) {
+	// 	console.log('send', 'event', barrierType,  'Pop Out');
+	// }
 
 	barrierElt.onclick = function(e) {
 		var eventKey = e.target.className;

@@ -30,7 +30,8 @@
 			eventCategory = 'House Ad: ' + eventCategory;
 			var eventAction = 'Click';
 			var eventLabel = ele.href || '';
-			ga('send', 'event', eventCategory, eventAction, eventLabel);
+			// MARK: - Stop Tracking for Lack of GA Quota
+			//ga('send', 'event', eventCategory, eventAction, eventLabel);
 		}
 	</script>
 <%/if%>

@@ -160,7 +160,8 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
     <!-- link click -->
     <script>
         function linkClickGa(e){
-            ga('send','event','AdClick', $(e).attr("href"), "An");
+            // MARK: - Stop Tracking for Lack of GA Quota
+            //ga('send','event','AdClick', $(e).attr("href"), "An");
         }
     </script>
     <!-- End link click -->

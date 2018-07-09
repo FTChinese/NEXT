@@ -26,10 +26,12 @@
 												<%/if%>
 												var trackVideoImpression = new Image();
 												trackVideoImpression.onload = function() {
-													window.ga('send', 'event', 'testvideo impression', 'SuccessOnIphoneApp', trackImp, {'nonInteraction': 1});
+													// MARK: - Stop Tracking for Lack of GA Quota
+													//window.ga('send', 'event', 'testvideo impression', 'SuccessOnIphoneApp', trackImp, {'nonInteraction': 1});
 												}
 												trackVideoImpression.onerror = function() {
-													window.ga('send', 'event', 'testvideo impression', 'FailOnIphoneApp', trackImp, {'nonInteraction': 1});
+													// MARK: - Stop Tracking for Lack of GA Quota
+													//window.ga('send', 'event', 'testvideo impression', 'FailOnIphoneApp', trackImp, {'nonInteraction': 1});
 												}
 												trackVideoImpression.src = trackImp;
 												hasSendTracking = true;

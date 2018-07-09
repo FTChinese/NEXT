@@ -58,7 +58,8 @@ if (window.gAutoStart === undefined) {
 <%*<!-- link click -->*%>
 <script>
 	function linkClickGa(e){
-		ga('send','event','AdClick', $(e).attr("href"), "An");
+        // MARK: - Stop Tracking for Lack of GA Quota
+		//ga('send','event','AdClick', $(e).attr("href"), "An");
 	}
 </script>
 <%*<!-- End link click -->*%>

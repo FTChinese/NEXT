@@ -122,7 +122,8 @@ ftc_api.jsonp(thirdPartAPIUrl + '&callback=getRec&cki=' + userId + '&v=' + new D
 
 
 // MARK: The rest work jump to getRec
-ga('send','event','Recommend Story API', 'Load' + recommendVersion, '', {'nonInteraction':1});
+// MARK: Stop Tracking for lack of GA Quota
+//ga('send','event','Recommend Story API', 'Load' + recommendVersion, '', {'nonInteraction':1});
     
 
 
@@ -212,7 +213,8 @@ function getRec(data) {
             if(data[i]) {
                 if(data[i].isAd===1) { //把广告数据拎出来,更新全局变量adData
                     adData = data[i];
-                    ga('send','event','Story Recommend With Ad','Got Data', ftItemId, {'nonInteraction':1});//MARK：如果获取的数据里面有广告，则进行一次ga监控；正常不投放的情况下应该数据中间没有广告
+                    // MARK: - Stop Tracking for Lack of GA Quota
+                    //ga('send','event','Story Recommend With Ad','Got Data', ftItemId, {'nonInteraction':1});//MARK：如果获取的数据里面有广告，则进行一次ga监控；正常不投放的情况下应该数据中间没有广告
                 } else { //把文章id拎出来，得到ids
                     var tmpKey = data[i].id;
                     var tmpVal = data[i].parameter;
@@ -240,11 +242,13 @@ function getRec(data) {
             //MARK:jump to  getThirdPartRecommendSuccess  
         } else {
              //console.log(' Data from jsonp is wrong');
-             ga('send','event','Recommend Story API', 'No Data1' + recommendVersion, '', {'nonInteraction':1});
+             // MARK: - Stop Tracking for Lack of GA Quota
+             //ga('send','event','Recommend Story API', 'No Data1' + recommendVersion, '', {'nonInteraction':1});
         }
     } else {
         //console.log('Get data from jsonp failed ');
-        ga('send','event','Recommend Story API', 'Request Fail' + recommendVersion, '', {'nonInteraction':1});
+        // MARK: - Stop Tracking for Lack of GA Quota
+        //ga('send','event','Recommend Story API', 'Request Fail' + recommendVersion, '', {'nonInteraction':1});
     }
 }
 
@@ -262,13 +266,16 @@ function getThirdPartRecommendSuccess(data) {
         if (data.body.odatalist && data.body.odatalist.length > 0) {
             recommendData = data.body.odatalist;
             recommendPayLoad(recommendData, adData);
-            ga('send','event','Recommend Story API', 'Success' + recommendVersion, '', {'nonInteraction':1});
+            // MARK: - Stop Tracking for Lack of GA Quota
+            //ga('send','event','Recommend Story API', 'Success' + recommendVersion, '', {'nonInteraction':1});
         } else {
-            ga('send','event','Recommend Story API', 'No Data2' + recommendVersion, '', {'nonInteraction':1});
+            // MARK: - Stop Tracking for Lack of GA Quota
+            //ga('send','event','Recommend Story API', 'No Data2' + recommendVersion, '', {'nonInteraction':1});
         }
     } else {
     	//console.log('no odatalist');
-        ga('send','event','Recommend Story API', 'Parse Fail' + recommendVersion, data.body.oelement.errorcode, {'nonInteraction':1});
+        // MARK: - Stop Tracking for Lack of GA Quota
+        //ga('send','event','Recommend Story API', 'Parse Fail' + recommendVersion, data.body.oelement.errorcode, {'nonInteraction':1});
     }
 }
 
@@ -276,7 +283,8 @@ function getThirdPartRecommendFailed(){
      /* 当用优路科技接口返回的推荐文章id 来请求我们的接口获取推荐文章的具体信息失败后，调用该函数
      */
     console.log('getThirdPartRecommendFaild');
-    ga('send','event','Recommend Story API', 'Request Fail' + recommendVersion, '', {'nonInteraction':1});
+    // MARK: - Stop Tracking for Lack of GA Quota
+    //ga('send','event','Recommend Story API', 'Request Fail' + recommendVersion, '', {'nonInteraction':1});
 }
 
 
@@ -487,7 +495,8 @@ try {
         var hrefLink = 'http://www.ftchinese.com/index.php/ft/subscription?el='+window.gSubscriptionEventLabel;
         subscribeNow.href = hrefLink;
         subscribeNow.onclick = function(){
-            ga('send','event','Web Privileges','Tap',window.gSubscriptionEventLabel);
+            // MARK: - Stop Tracking for Lack of GA Quota
+            //ga('send','event','Web Privileges','Tap',window.gSubscriptionEventLabel);
         };
     }
     
