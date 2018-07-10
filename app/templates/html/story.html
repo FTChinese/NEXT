@@ -690,10 +690,12 @@
 
 <%assign var="isCurrentAdchFinal" value="yes"%>
 
-<%if preg_match("/恐怖袭击/is",$keys)%>
-	<%assign var="adchannelID" value="2065"%>
 
-<%elseif preg_match("/中国商业观察/is",$keys) && date("Ymd",$smarty.now) >= 20180620 && date("Ymd",$smarty.now) <= 20181101%>
+<%if preg_match("/恐怖袭击/is",$keys) || (preg_match("/china/is",$story.area) && preg_match("/中美贸易战/is",$keys))%>
+	<%assign var="adchannelID" value="2065"%>
+<%/if%>
+
+<%if preg_match("/中国商业观察/is",$keys) && date("Ymd",$smarty.now) >= 20180620 && date("Ymd",$smarty.now) <= 20181101%>
 	<%assign var=breadcrum value="<a href=\"/tag/中国商业观察\">宝珀·中国商业观察</a>"%>
 	<%assign var="adchannelID" value="5069"%>
 	<%assign var="hideMPU1" value="no"%>
