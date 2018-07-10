@@ -206,14 +206,16 @@ video::-webkit-media-controls-panel {
                     try {
                         if (/[0-9]{8}0301$/.test(c)) {
                             //console.log ('about to send request to dolphine: ' + c);
-                            window.parent.sendEvent('Ad Validate: Request', adDeviceId+adChannelId, adPositionId, {'nonInteraction':1});
+                            // MARK: Stop tracking for lack of GA Quota
+                            //window.parent.sendEvent('Ad Validate: Request', adDeviceId+adChannelId, adPositionId, {'nonInteraction':1});
                             var foundChildren = false;
                             var checkChildren = function() {setTimeout(function() {
                                 var childrenItems = document.getElementById('n-ad-container').querySelectorAll('div, img, video, a').length;
                                 if (childrenItems <= 0) {
                                     checkChildren();
                                 } else {
-                                    window.parent.sendEvent('Ad Validate: Success', adDeviceId+adChannelId, adPositionId, {'nonInteraction':1});
+                                    // MARK: Stop tracking for lack of GA Quota
+                                    //window.parent.sendEvent('Ad Validate: Success', adDeviceId+adChannelId, adPositionId, {'nonInteraction':1});
                                 }
                             }, 1000);};
                             checkChildren();
