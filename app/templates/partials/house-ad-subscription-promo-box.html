@@ -24,13 +24,24 @@
 				<%assign var="showImageInMobile" value=""%>
 	    	<%/if%>
 	    	</style>
+	    	<%if preg_match("/ccode=/is",$section.click)%>
+				<%assign var=clickUrl value=$section.click%>
+			<%elseif preg_match("/\?/is",$section.click)%>
+				<%assign var=clickUrl value="`$section.click`&ccode=`$section.ccode`"%>
+			<%else%>
+				<%assign var=clickUrl value="`$section.click`?ccode=`$section.ccode`"%>
+			<%/if%>
 			<div class="subscription-promo-container<%$showImageInMobile%>">
 			    <div class="subscription-promo-inner">
-			        <a href="<%$section.click%>" class="subscription-promo-box">
+			        <a href="<%$clickUrl%>" class="subscription-promo-box">
 			            <div class="subscription-promo-text"><%$section.title%></div>
 			        </a>
 			    </div>
 			</div>
+			<%<!--MARK: Track Promo Box Display-->%>
+			<script type="text/javascript">
+				ga('send','event','Web Privileges', 'Display', <%$section.ccode%>);
+			</script>
 			<%assign var="promoIndex" value=$promoIndex+1%>
 	    <%/if%>
 	<%/foreach%>
