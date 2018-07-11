@@ -7,11 +7,9 @@ function postVal(obj) {
         xhrpw.open('post', '/engagement.php');
         xhrpw.setRequestHeader('Content-Type', 'application/text');
         xhrpw.onload = function () {
-            if (xhrpw.status === 200) {
-                console.log('请求成功:');
-            } else {
-                console.log('请求失败！');
-            }
+            // if (xhrpw.status === 200) {
+                // console.log('请求成功:');
+            // } 
         };
         xhrpw.send(JSON.stringify(obj));
     }
