@@ -89,23 +89,30 @@ function getBrowserTime() {
     if(document.addEventListener){
         function DOMContentLoaded(){
             timeIn = (new Date()).getTime();
+            // SetCookie ('browT', timeIn , 0.001 , '/' , '');
         }
         document.addEventListener( "DOMContentLoaded", DOMContentLoaded, false );
+    }else if (document.attachEvent) {
+        document.attachEvent('onreadystatechange', function () {
+              timeIn = (new Date()).getTime();  
+        });
     }
 
     window.onload = function () {
         getRTC();
-        
+        var timeOut = new Date().getTime();
         var dataArr = {
             'ipAddress': ipAddress,
             'url': location.href,
             'refer': document.referrer,
             'timeIn': timeIn,
-            'timeOut': new Date().getTime(),
+            'timeOut': timeOut,
             'userId': GetCookie('USER_ID') || null,
             'functionName': 'onload'
         };
+        
         postVal(dataArr);
+        
     };
 
     window.onbeforeunload = function () {
@@ -118,6 +125,7 @@ function getBrowserTime() {
             'userId': GetCookie('USER_ID') || null,
             'functionName': 'onbeforeunload'
         };
+        // SetCookie ('browTClose', new Date().getTime() , 0.001 , '/' , '');
         postVal(dataArr);
     };
 }
