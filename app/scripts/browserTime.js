@@ -85,9 +85,17 @@ function getRTC(){
 getRTC();
 function getBrowserTime() {
     var timeIn = '';
+
+    if(document.addEventListener){
+        function DOMContentLoaded(){
+            timeIn = (new Date()).getTime();
+        }
+        document.addEventListener( "DOMContentLoaded", DOMContentLoaded, false );
+    }
+
     window.onload = function () {
         getRTC();
-        timeIn = (new Date()).getTime();
+        
         var dataArr = {
             'ipAddress': ipAddress,
             'url': location.href,
