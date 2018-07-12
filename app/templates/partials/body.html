@@ -83,8 +83,10 @@
         <%/if%>
     <%elseif $section.type == "footer"%>
         <%include file="next/partials/footer.html"%>
-    <%elseif $section.type == "topbelt" && $b < $maxB%>
-        <%include file="next/partials/topbelt.html"%>
+    <%elseif $section.type == "footer"%>
+        <%include file="next/partials/footer.html"%>
+    <%elseif $section.type == "subscriptionPromotion"%>
+        <%include file="next/partials/subscriptionPromotion.html"%>
     <%elseif $section.type == "include" && $section.from != "" && $b < $maxB%>
         <%assign var="includeSide" value=$section.side%>
         <%assign var="includeSideAlign" value=$section.sideAlign%>

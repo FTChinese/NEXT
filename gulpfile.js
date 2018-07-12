@@ -207,9 +207,9 @@ gulp.task('jshint', function () {
 gulp.task('html', gulp.series('styles', () => {
   return gulp.src('app/*.html')
     .pipe($.useref({searchPath: ['.tmp', 'app', '.']}))
+    .on('finish', () => {console.log ('Finished useref')})
     .pipe($.if('*.js', $.uglify()))
     .on('error', (err) => {
-      //if (err instanceof GulpUglifyError) {
       if(err) {
         console.log(err.fileName);
         console.log(err.cause);
