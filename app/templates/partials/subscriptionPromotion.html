@@ -1,5 +1,62 @@
-<style>
 
-</style>
-<%$section.text%>
-<a href="http://www.ftacademy.cn/subscription.html?ccode=<%$section.ccode%>&tap=<%$section.subscriptionType%>"><%$section.buttonTitle%></a>
+<style><%include file="next/styles/main-form-subscription.css"%></style>
+<div class="list-container">
+	<div class="list-inner">
+		<%if $list.title != ""%>
+			<h2 class="list-title">
+				<a class="list-link" href="#"><%$list.title%></a>
+			</h2>
+		<%/if%>
+		<%if $list.description != ""%>
+			<div class="items">
+				<div class="no-image">
+					<div class="item-inner">
+						<div class="item-lead"><%$list.description%></div>
+					</div>
+				</div>
+			</div>
+		<%/if%>
+		<div class="items">
+			<div class="item-container XL12 L12 M12 S12 P12 no-image">
+				<div class="item-inner">
+					<div class="center n-button-container">
+						<a class="n-button-inner subscription-button" href="http://www.ftacademy.cn/subscription.html?ccode=<%$list.ccode%>&tap=<%$list.subscriptionType%>"><%$list.buttonTitle%></a>
+					</div>
+				</div>
+			</div>
+			<div class="overlay-container" id="success-note">
+				<div class="overlay-inner">
+					<div class="overlay-bg" data-parentid="overlay-login"></div>
+					<div class="overlay-content-outer">
+						<div class="overlay-content-inner">
+							<div class="overlay-content">
+								<div class="contact-form-container">
+									<div class="item-lead">非常感谢！请填写您的收件地址。</div>
+									<div><span>收货人：</span><input type="text" placeholder="收货人姓名"></div>
+									<div><span>手机：</span><input type="text" placeholder="准确填写手机号码"></div>
+									<div><span>收货地址：</span><input type="text" placeholder="请填写准确地址"></div>
+									<div><span>备注：</span><input type="text" placeholder="其他要求"></div>
+									<div class="center n-button-container">
+										<button class="n-button-inner subscription-button">提交信息</button>
+									</div>
+								</div>
+								<div class="clearfloat"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	var subscriptionType = '<%$list.subscriptionType%>';
+	function handleIAPResult(actionType, key) {
+		if (actionType === 'buy success' && key === subscriptionType) {
+			document.getElementById('success-note').className += ' on';
+		}
+	}
+	if (window.location.href.indexOf('buy=success')) {
+		handleIAPResult('buy success', subscriptionType);
+	}
+</script>

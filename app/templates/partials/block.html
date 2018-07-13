@@ -1596,6 +1596,11 @@
 								<%elseif $list.feedType == "photo"%>
 									<%assign var="feedType" value="photonews"%>
 									<%assign var="itemsArray" value=$photonewsmodel->get_photonews_by_field_search($list.feedTag,"ORDER BY photonewsid DESC",$list.feedItems)%>
+								<%elseif $list.feedType == "premium"%>
+									<%*<!--Premium Content Should Display -->*%>
+									<%assign var="feedType" value=$list.feedType%>
+									<!--<%*assign var="itemsArray" value=$storymodel->getContentByTag("FT独家",$feedItems)*%>-->
+									<%assign var="itemsArray" value=$storymodel->getPremiumStory(0, $list.feedItems)%>
 								<%/if%>
 							<%else%>
 								<%if $list.feedType == "story"%>
@@ -1610,6 +1615,11 @@
 								<%elseif $list.feedType == "photo"%>
 									<%assign var="feedType" value="photonews"%>
 									<%assign var="itemsArray" value=$photonewsmodel->get_photonews_by_tag($list.feedTag,0,$list.feedItems)%>
+								<%elseif $list.feedType == "premium"%>
+									<%*<!--Premium Content Should Display -->*%>
+									<%assign var="feedType" value=$list.feedType%>
+									<!--<%*assign var="itemsArray" value=$storymodel->getContentByTag("FT独家",$feedItems)*%>-->
+									<%assign var="itemsArray" value=$storymodel->getPremiumStory(0, $list.feedItems)%>
 								<%else%>
 									<%assign var="feedType" value=$list.feedType%>
 									<%assign var="itemsArray" value=$storymodel->getContentByTag($list.feedTag,$list.feedItems)%>
