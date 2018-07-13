@@ -1,7 +1,35 @@
 <script src="https://www.ft.com/__origami/service/build/v2/bundles/js?modules=o-ads@8.3.0"></script>
 <script src='https://www.googletagservices.com/tag/js/gpt.js'></script>
-<%assign var="zone" value=$pageId|default:$subnav|default:$topnav|default:"home" %>
-<!-- zone: <%$zone%> topnav:<%$topnav%> subnav:<%$subnav%> pageId:<%$pageId%>-->
+
+<%assign var="zone" value="home"%>
+<%if $topnav != "" %>
+    <%assign var="zone" value=$topnav %>
+    <%if $subnav != "" %>
+        <%assign var="zone" value="`$zone`/`$subnav`" %>
+        <%if $topnav=="home" && $subnav=="special" && $pageId != ""%>
+            <%assign var="zone" value="`$zone`/`$pageId`" %>
+        <%/if%>
+    <%/if%>
+<%/if%>
+
+<%*<!--<%assign var="zone" value=$pageId|default:$subnav|default:$topnav|default:"home" %>-->*%>
+
+<!-- zone: <%$zone%>-->
+<!-- topnav:<%$topnav%> subnav:<%$subnav%> pageId:<%$pageId%>-->
+
+<%*
+<!--
+        首页(一级):  topnav:       subnav:     pageId:home
+        中国(一级):  topnav:china  subnav:     pageId: 
+        全球(一级):  topnav:world  subnav:     pageId:
+        美国(二级):  topnav:world  subnav:usa  pageId:
+ 中国商业观察(三级):  topnav:home   subnav:     pageId:chinabusinesswatch
+     每日英语(一级):  topnav:english subnav:    pageId:english
+     双语阅读(二级):  topnav:english subnav:ce  pageId:ce
+     热门文章(二级):  topnav:home    subnav:weekly pageId:
+     会议活动(二级):  topnav:home    subnav:event pageId:events
+-->
+*%>
 <script data-o-ads-config="" type="application/json">
 {
 	"gpt": {

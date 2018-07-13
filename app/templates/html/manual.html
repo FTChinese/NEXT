@@ -2,7 +2,9 @@
 <%if $pageId == ""%>
     <%assign var="pageId" value="home"%>
 <%/if%>
-
+<%if $topnav == ""%>
+    <%assign var="topnav" value="home"%>
+<%/if%>
 <%if $storymodel != ""%>
     <%assign var=whitelist value=$storymodel->getWhitelistTag()%>
 <%/if%>
