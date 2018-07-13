@@ -46,6 +46,8 @@
 		<%assign var="listClass" value=""%>
 		<%if $list.feedType == "job"%>
 			<%include file="next/partials/job.html"%>
+		<%elseif $list.type == "subscriptionPromotion"%>
+	        <%include file="next/partials/subscriptionPromotion.html"%>
 		<%elseif $list.type == "" || $list.type == "list"%>
 			<%assign var="listTop" value=""%>
 			<%assign var="listTopClass" value=""%>
