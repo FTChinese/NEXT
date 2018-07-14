@@ -862,6 +862,8 @@
 	<%assign var="topnav" value="english"%>
 	<%assign var="subnav" value="radio"%>
 	<%assign var=breadcrum value="<a href=\"/channel/radio.html\">FT英语电台</a><button class=\"myft-follow plus\" data-tag=\"英语电台\" data-type=\"tag\">关注</button>"%>
+<%elseif preg_match("/中外对话/is",$keys)%>
+	<%assign var=pageTrackerTag value="中外对话"%>
 <%else%>
 	<%assign var="isCurrentAdchFinal" value="no"%>
 <%/if%>
@@ -1261,6 +1263,9 @@
 
 <%assign var="adchannelID" value=$adchannelID|regex_replace:"/^(20)(..)$/":'50${2}'%>
 <%assign var="copyrightStatement" value="版权声明：本文版权归FT中文网所有，未经允许任何单位或个人不得转载，复制或以任何其他方式使用本文全部或部分，侵权必究。"%>
+<%if $pageTrackerTag !== ""%>
+	<%assign var="pageTrackerTag" value="- `$pageTrackerTag` - "%>
+<%/if%>
 
 <!DOCTYPE html>
 <html class="no-js core<%if $smarty.get.webview == "ftcapp"%> is-ftc-app<%/if%>" data-next-app="tag-page">
@@ -1268,7 +1273,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta http-equiv="Content-Language" content="zh-CN"/>
-    <title><%$storyHeadline%> - FT中文网</title>
+    <title><%$storyHeadline%> <%$pageTrackerTag%>- FT中文网</title>
     <META name=keywords content="<%$keys%>">
     <meta content="<%$p.meta.description%>" name="description"/>
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
