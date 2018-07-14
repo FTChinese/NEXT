@@ -173,7 +173,11 @@ video::-webkit-media-controls-panel {
             }
             function loaded() {
                 if (window.isHouseAd === true) {
+                    try {
                     window.parent.sendEvent('Ad Impression: House Ad', adDeviceId+adChannelId, adPositionId, {'nonInteraction':1});
+                    } catch (ignore) {
+                        
+                    }
                 }
             }
             
