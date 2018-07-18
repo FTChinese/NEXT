@@ -90,18 +90,38 @@ ul,li{
 	text-align: center;
 	display: table;
 	border-collapse: collapse;
-	a {
-		color: $teal;
-		display: table-cell;
-		height: $navHeight - 16 - 2;
-		line-height: $navHeight - 16 - 2;
-		padding: 0 $defaultPadding/2;
-		border: 1px solid $teal;
-		&.on {
-			color: white;
-			background-color: $teal;
-		}
+	position: relative;
+}
+a.language-switch {
+	color: $teal;
+	display: table-cell;
+	height: $navHeight - 16 - 2;
+	line-height: $navHeight - 16 - 2;
+	padding: 0 $defaultPadding/2;
+	border: 1px solid $teal;
+	&.on {
+		color: white;
+		background-color: $teal;
 	}
+}
+a.language-switch-left, a.language-switch-right {
+	display: block;
+	position: absolute;
+	height: $navHeight;
+	width: $navHeight;
+	top: 0;
+}
+a.language-switch-left {
+	left: 0;
+}
+a.language-switch-right {
+	right: 0;
+}
+a.language-switch-menu {
+	background-image: url("https://www.ft.com/__origami/service/image/v2/images/raw/fticon-v1:hamburger?source=o-icons&tint=%2333302E,%2333302E&format=svg");
+}
+a.language-switch-share {
+	background-image: url("https://www.ft.com/__origami/service/image/v2/images/raw/fticon-v1:share?source=o-icons&tint=%23000000,%23000000&format=svg");
 }
 .show-language-switch-only {
 	.header-container, .o-nav__placeholder, .subscription-promo-container {
