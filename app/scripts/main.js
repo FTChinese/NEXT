@@ -705,7 +705,7 @@ function checkLanguageSwitch() {
   } else {
     hasLanguageSwitch = false;
   }
-  if (fromInSite && hasLanguageSwitch) {
+  if ((fromInSite || isTouchDevice()) && hasLanguageSwitch) {
     document.documentElement.className += ' show-language-switch-only audio-sticky';
     gShowLanguageSwitchOnly = true;
   } else {
