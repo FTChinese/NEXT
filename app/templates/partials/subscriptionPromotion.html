@@ -73,6 +73,7 @@
 		xhr.onload = function() {
 		    if (xhr.status === 200) {
 		        var info = JSON.parse(xhr.responseText);
+		        console.log (info);
 		        renderOptionList(info);
 		    }
 		};
@@ -87,7 +88,7 @@
 			var id = currentItem.id;
 			var name = currentItem.name;
 			var num = currentItem.num;
-			listHTML +=  '<div class="option-item"><input type="radio" id="' + id + '" name="' + name + '" /><label for="' + id + '">' + name + '</label><span class="option-note">余票 '+ num +'</span></div>';
+			listHTML +=  '<div class="option-item"><input type="radio" id="' + id + '" name="options-list" /><label for="' + id + '">' + name + '</label><span class="option-note">余票 '+ num +'</span></div>';
 		}
 		listContainer.innerHTML = listHTML;
 	}

@@ -26,3 +26,43 @@
     	padding-bottom: $defaultPadding;
     }
 }
+.n-options-container {
+    display: table;
+    margin: 0 auto $defaultPadding auto;
+}
+.option-item {
+    display: table-cell;
+    height: $navHeight;
+    color: $teal;
+    padding: 0 $defaultPadding*2 0 0;
+    position: relative;
+    // background-color: yellow;
+    // border: 1px solid red;
+    input {
+        border-color: $lightGrey;
+        background-color: red;
+        // &[type="radio"]:checked:before {
+        //     content: "";
+        //     display: block;
+        //     position: relative;
+        //     top: 3px;
+        //     left: 3px;
+        //     width: 6px;
+        //     height: 6px;
+        //     border-radius: 50%;
+        //     background: red;
+        // }
+    }
+    label {
+        padding-left: $defaultPadding/4;
+    }
+    span.option-note {
+        font-size: 0.8em;
+        color: $lightGrey;
+        margin: 0;
+        position: absolute;
+        bottom: 0;
+        right: $defaultPadding/2;
+        border-width:0;
+    }
+}
