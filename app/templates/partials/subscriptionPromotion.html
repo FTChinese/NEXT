@@ -50,12 +50,38 @@
 </div>
 <script type="text/javascript">
 	var subscriptionType = '<%$list.subscriptionType%>';
+	var promoCode = '<%$list.ccode%>';
 	function handleIAPResult(actionType, key) {
 		if (actionType === 'buy success' && key === subscriptionType) {
 			document.getElementById('success-note').className += ' on';
 		}
 	}
+	function getOptionList() {
+		var xhr = new XMLHttpRequest();
+		xhr.open('GET', '/index.php/campaign/promo/' + promoCode);
+		xhr.setRequestHeader('Content-Type', 'application/json');
+		xhr.onload = function() {
+		    if (xhr.status === 200) {
+		        var info = JSON.parse(xhr.responseText);
+		        console.log (info);
+		    }
+		};
+		xhr.send();
+	}
+	function reserveItem(id, itemNumber) {
+		var xhr = new XMLHttpRequest();
+		xhr.open('GET', '/index.php/campaign/reserve/' + id + '?num=' + itemNumber);
+		xhr.setRequestHeader('Content-Type', 'application/json');
+		xhr.onload = function() {
+		    if (xhr.status === 200) {
+		        var info = xhr.responseText;
+		        console.log (info);
+		    }
+		};
+		xhr.send();
+	}
 	if (window.location.href.indexOf('&buy=success') > 0) {
 		handleIAPResult('buy success', subscriptionType);
 	}
+	getOptionList()
 </script>
