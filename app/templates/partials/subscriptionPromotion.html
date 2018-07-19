@@ -88,8 +88,9 @@
 			var id = currentItem.id;
 			var name = currentItem.name;
 			var num = currentItem.num;
-			listHTML +=  '<div class="option-item"><input type="radio" id="' + id + '" name="options-list" /><label for="' + id + '">' + name + '</label><span class="option-note">余票 '+ num +'</span></div>';
+			listHTML +=  '<div class="option-item"><input type="radio" id="' + id + '" name="options-list" /><label for="' + id + '">' + name + '<span class="option-note">余票 '+ num +'</span></label></div>';
 		}
+		listHTML = '<div class="n-options-inner">' + listHTML + '</div>';
 		listContainer.innerHTML = listHTML;
 	}
 
