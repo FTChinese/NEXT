@@ -138,10 +138,17 @@
 		    if (xhr.status === 200) {
 		        var info = JSON.parse(xhr.responseText);
 		        if (info.errmsg === 'success') {
-		        	console.log ('success, should go to payment page');
-		        	window.location.href = paymentLink;
+		        	var url = window.location.href;
+		        	if (url.indexOf('webview=ftcapp')) {
+		        		try {
+		        			webkit.messageHandlers.link.postMessage(paymentLink);
+		        		} catch (ignore) {
+		        			window.location.href = paymentLink;
+		        		}
+		        	} else {
+		        		window.location.href = paymentLink;
+		        	}
 		        } else {
-		        	console.log ('not successful! ');
 		        	alert (info.errmsg);
 		        }
 		    }
