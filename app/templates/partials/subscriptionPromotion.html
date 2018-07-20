@@ -49,27 +49,23 @@
 		</div>
 	</div>
 </div>
+
 <script type="text/javascript">
 
 	var subscriptionType = '<%$list.subscriptionType%>';
 	var promoCode = '<%$list.ccode%>';
 	var itemNumber = '<%$list.itemNumber%>';
 	var paymentLink = 'http://www.ftacademy.cn/subscription.html?ccode=<%$list.ccode%>&tap=<%$list.subscriptionType%>';
-	var noteForSuccess = '<%$list.noteForSuccess%>';
-	var noteForFailure = '<%$list.noteForFailure%>';
+	var noteForSuccess = '<%$list.feedbackForSuccess%>';
+	var noteForFailure = '<%$list.feedbackForFailure%>';
 
-	function handleIAPResult(actionType, key) {
-		if (actionType === 'buy success' && key === subscriptionType) {
-			document.getElementById('success-note').className += ' on';
-			var submitButton = document.querySelector('#success-note .subscription-button');
-			if (submitButton !== undefined) {
-				submitButton.onclick = function(e) {
-					submitContactInfoData();
-				};
-			}
-		}
+	// MARK: This is the starting point of all the actions. Follow the functions to understand the workflow. 
+	function kickStart() {
+		getOptionList();
+		handleIAPResult('buy success', subscriptionType);
 	}
 
+	// MARK: - Get the option list to kick start everything. If this fails because of browser support, the user won't lose any money.
 	function getOptionList() {
 		var xhr = new XMLHttpRequest();
 		xhr.open('GET', '/index.php/campaign/promo/' + promoCode);
@@ -84,6 +80,7 @@
 		xhr.send();
 	}
 
+	// MARK: - Show the option list with the data from getOptionList
 	function renderOptionList(options) {
 		var listContainer = document.getElementById('n-options-container');
 		var listHTML = '';
@@ -105,6 +102,7 @@
 		listContainer.innerHTML = listHTML;
 		var submitButton = document.getElementById('payment-button');
 		if (submitButton !== undefined) {
+			// MARK: Only when everything is updated correctly, do we allow the payment button to be clicked
 			submitButton.onclick = function(e) {
 				var checkedRadio = document.querySelector('input[name="options-list"]:checked');
 				var checkedId;
@@ -118,6 +116,7 @@
 					alert ('请先选择您需要的票！');
 				}
 			};
+			// MARK: Only when at least one option is checked, do show the payment button as enabled
 			var options = document.querySelectorAll('input[name="options-list"]');
 			for (var i=0; i<options.length; i++) {
 				options[i].onchange = function() {
@@ -129,9 +128,9 @@
 				}
 			}
 		}
-
 	}
 
+	// MARK: When user click the payment button, reserve the tickets/gifts/awards/items. 
 	function reserveItem(id, itemNumber) {
 		var xhr = new XMLHttpRequest();
 		xhr.open('GET', '/index.php/campaign/reserve/' + id + '?num=' + itemNumber);
@@ -141,6 +140,7 @@
 		        var info = JSON.parse(xhr.responseText);
 		        if (info.errmsg === 'success') {
 		        	var url = window.location.href;
+		        	// MARK: - Launch the payment button only when reservation is successful. 
 		        	if (url.indexOf('webview=ftcapp')) {
 		        		try {
 		        			webkit.messageHandlers.link.postMessage(paymentLink);
@@ -162,15 +162,23 @@
 		xhr.send();
 	}
 
-	function sendAlert(obj) {
-        try {
-			webkit.messageHandlers.alert.postMessage(obj);
-		} catch (error) {
-			alert (obj.message);
+
+	// MARK: - If the user has successfully paid, show the contact form
+	function handleIAPResult(actionType, key) {
+		if (window.location.href.indexOf('&buy=success') > 0) {
+			if (actionType === 'buy success' && key === subscriptionType) {
+				document.getElementById('success-note').className += ' on';
+				var submitButton = document.querySelector('#success-note .subscription-button');
+				if (submitButton !== undefined) {
+					submitButton.onclick = function(e) {
+						submitContactInfoData();
+					};
+				}
+			}
 		}
-	} 
+	}
 
-
+	// MARK: - Submit the contact information when payment is successful. 
 	function submitContactInfoData() {
 		var contactInfoAll = document.querySelectorAll('#success-note .contact-form-container input');
 		var ielement = {cid: promoCode};
@@ -217,10 +225,14 @@
 		xhr.send(JSON.stringify(userData));
 	}
 
-	if (window.location.href.indexOf('&buy=success') > 0) {
-		handleIAPResult('buy success', subscriptionType);
+	// MARK: - A useful helper function to show alert both in web page and FTC iOS native app. 
+	function sendAlert(obj) {
+        try {
+			webkit.messageHandlers.alert.postMessage(obj);
+		} catch (error) {
+			alert (obj.message);
+		}
 	}
 
-	getOptionList();
-
+	kickStart();
 </script>
