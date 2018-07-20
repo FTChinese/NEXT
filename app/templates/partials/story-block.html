@@ -142,13 +142,26 @@
 	<%if $pageType=="singlechoice"%>
 		<div class="side-container"><div class="side-inner">
 			<%if $smarty.get.ad != "no" && $noAd != "true" && $hideMPU1 != "yes"%>
-				<script type="text/javascript">
-					document.write (writeAdNew({
-						devices: ['PC','PadWeb','PadApp'],
-						pattern:'MPU',
-						position:'Right1'
-					}));
-				</script>
+				<%if $smarty.get.newdb == "yes"%>
+					<div 
+					data-o-ads-name="mpu-right1"
+					class="o-ads"  
+					data-o-ads-formats-default="false" 
+					data-o-ads-formats-small="false" 
+					data-o-ads-formats-medium="FtcMpu"
+					data-o-ads-formats-large="FtcMpu"
+					data-o-ads-targeting="pos=right1;"
+					>
+					</div>
+				<%else%>
+					<script type="text/javascript">
+						document.write (writeAdNew({
+							devices: ['PC','PadWeb','PadApp'],
+							pattern:'MPU',
+							position:'Right1'
+						}));
+					</script>
+				<%/if%>
 			<%/if%>
 		</div></div>
 	<%elseif $smarty.get.screencapture != "yes"%>

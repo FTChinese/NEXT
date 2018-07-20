@@ -1510,22 +1510,49 @@
 								<a<%$listLink%>><figure class="loading" data-url="<%$list.image%>"></figure></a>
 							</div>
 						<%else%>
-							<script type="text/javascript">
-								var mpuCount = '<%$sideMpuCount%>';
-								if(mpuCount == 0) {
-									document.write (writeAdNew({
+							<%if $sideMpuCount == 0 %>
+								<%if $smarty.get.newdb == "yes"%>
+									<div 
+									data-o-ads-name="mpu-right1"
+									class="o-ads"  
+									data-o-ads-formats-default="false" 
+									data-o-ads-formats-small="false" 
+									data-o-ads-formats-medium="FtcMpu"
+									data-o-ads-formats-large="FtcMpu"
+									data-o-ads-targeting="pos=right1;"
+									>
+									</div>
+								<%else%>
+									<script type="text/javascript">
+										document.write (writeAdNew({
 											devices: ['PC','PadApp','PadWeb'],
 											pattern:'MPU',
 											position:'Right1'
-									}));
-								} else if(mpuCount == 1){
-									document.write (writeAdNew({
-											devices: ['PC','PadApp','PadWeb'],
-											pattern:'MPU',
-											position:'Right2'
-									}));
-								}
-							</script>
+										}));
+									</script>
+								<%/if%>
+							<%elseif $sideMpuCount == 1%>
+								<%if $smarty.get.newdb == "yes"%>
+									<div 
+									data-o-ads-name="mpu-right2"
+									class="o-ads ftc-mpu"  
+									data-o-ads-formats-default="false" 
+									data-o-ads-formats-small="false" 
+									data-o-ads-formats-medium="FtcMpu"
+									data-o-ads-formats-large="FtcMpu"
+									data-o-ads-targeting="pos=right2;"
+									>
+									</div>
+								<%else%>
+									<script type="text/javascript">
+										document.write (writeAdNew({
+												devices: ['PC','PadApp','PadWeb'],
+												pattern:'MPU',
+												position:'Right2'
+										}));
+									</script>
+								<%/if%>
+							<%/if%>
 						<%/if%>
 				
 						<%assign var="s" value=$s+1%>
