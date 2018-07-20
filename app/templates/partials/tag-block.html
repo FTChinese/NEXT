@@ -418,23 +418,50 @@
 						<%assign var="mpuName" value="taginlinempu"%>
 						<%if $i == 8 || $i == 17%>
 								<%if $i == 8 %>
-									<script type="text/javascript">
-										document.write (writeAdNew({
-											devices: ['iPhoneWeb', 'AndroidWeb','iPhoneApp','AndroidApp'],
-											pattern:'MPU',
-											position:'Middle1'
-										}));
-									</script>
+									<%if $smarty.get.newdb == "yes"%>
+										<div 
+										data-o-ads-name="mpu-middle1"
+										class="o-ads"  
+										data-o-ads-formats-default="false" 
+										data-o-ads-formats-small="FtcMpu" 
+										data-o-ads-formats-medium="false"
+										data-o-ads-formats-large="false"
+										data-o-ads-formats-extra="false"
+										data-o-ads-targeting="pos=middle1;"
+										>
+										</div>
+									<%else%>
+										<script type="text/javascript">
+											document.write (writeAdNew({
+												devices: ['iPhoneWeb', 'AndroidWeb','iPhoneApp','AndroidApp'],
+												pattern:'MPU',
+												position:'Middle1'
+											}));
+										</script>
+									<%/if%>
 								<%elseif $i == 17 %>
 									<%if $tag_name!="高端视点"%>
-									<script type="text/javascript">
-
-										document.write (writeAdNew({
-											devices: ['iPhoneWeb', 'AndroidWeb','iPhoneApp','AndroidApp'],
-											pattern:'MPU',
-											position:'Middle2'
-										}));
-									</script>
+										<%if $smarty.get.newdb == "yes"%>
+											<div 
+											data-o-ads-name="mpu-middle2"
+											class="o-ads"  
+											data-o-ads-formats-default="false" 
+											data-o-ads-formats-small="FtcMpu" 
+											data-o-ads-formats-medium="false"
+											data-o-ads-formats-large="false"
+											data-o-ads-formats-extra="false"
+											data-o-ads-targeting="pos=middle2;"
+											>
+											</div>
+										<%else%>
+											<script type="text/javascript">
+												document.write (writeAdNew({
+													devices: ['iPhoneWeb', 'AndroidWeb','iPhoneApp','AndroidApp'],
+													pattern:'MPU',
+													position:'Middle2'
+												}));
+											</script>
+										<%/if%>
 									<%/if%>
 								<%/if%>
 						<%/if%>
