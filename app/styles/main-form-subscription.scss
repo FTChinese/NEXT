@@ -26,3 +26,91 @@
     	padding-bottom: $defaultPadding;
     }
 }
+.n-options-container {
+    border-width: 1px 0 1px 0;
+    border-style: solid;
+    border-color: $borderColor;
+    margin-bottom: $defaultPadding;
+}
+.n-subscription-container {
+    padding-bottom: $defaultPadding;
+}
+.n-options-inner {
+    display: table;
+    margin: $defaultPadding/2 auto;
+}
+.option-item {
+    display: table-cell;
+    height: $navHeight;
+    color: $teal;
+    padding: 0 $defaultPadding*2 0 $defaultPadding/2;
+    position: relative;
+    input {
+        border-color: $lightGrey;
+        background-color: red;
+        // &[type="radio"]:checked:before {
+        //     content: "";
+        //     display: block;
+        //     position: relative;
+        //     top: 3px;
+        //     left: 3px;
+        //     width: 6px;
+        //     height: 6px;
+        //     border-radius: 50%;
+        //     background: red;
+        // }
+    }
+    label {
+        padding-left: $defaultPadding/4;
+        height: $navHeight;
+    }
+    span.option-note {
+        font-size: 0.618em;
+        color: $lightGrey;
+        margin: 0;
+        position: absolute;
+        bottom: 0;
+        right: $defaultPadding/2;
+        border-width:0;
+    }
+}
+// MARK: - 如果选项过多，一行肯定放不下，所以将来有可能需要对这种情况进行处理
+@media only screen and (max-width: 980px) and (min-width: 691px), only screen and (max-width: 490px) {
+    .n-options-container {
+        border-width: 0;
+    }
+    .n-options-inner {
+        display: block;
+    }
+    .option-item {
+        display: block;
+        height: $navHeight;
+        padding: 0;
+        border-top: 1px solid $borderColor;
+        &:first-child {
+            border-width: 0;
+        }
+        span.option-note {
+            position: static;
+            float: right;
+        }
+        label {
+            width: 100%;
+            display: block;
+            line-height: $navHeight;
+            padding-left: $defaultPadding;
+        }
+        input {
+            display: block;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            height: $navHeight;
+        }
+
+    }
+
+
+
+}
