@@ -91,11 +91,13 @@
 			var name = currentItem.name;
 			var num = currentItem.num;
 			var disableProperty = '';
+			var disableClass = '';
 			num = parseInt(num, 10) || 0;
 			if (num < itemNumber) {
 				disableProperty = ' disabled';
+				disableClass = ' disabled';
 			}
-			listHTML +=  '<div class="option-item"><input type="radio" id="' + id + '" name="options-list" data-num="' + num + '"' + disableProperty + '/><label for="' + id + '">' + name + '<span class="option-note">余票 '+ num +'</span></label></div>';
+			listHTML +=  '<div class="option-item' + disableClass + '"><input type="radio" id="' + id + '" name="options-list" data-num="' + num + '"' + disableProperty + '/><label for="' + id + '">' + name + '<span class="option-note">余票 '+ num +'</span></label></div>';
 		}
 		listHTML = '<div class="n-options-inner">' + listHTML + '</div>';
 		listContainer.innerHTML = listHTML;
