@@ -55,6 +55,8 @@
 	var promoCode = '<%$list.ccode%>';
 	var itemNumber = '<%$list.itemNumber%>';
 	var paymentLink = 'http://www.ftacademy.cn/subscription.html?ccode=<%$list.ccode%>&tap=<%$list.subscriptionType%>';
+	var noteForSuccess = '<%$list.noteForSuccess%>';
+	var noteForFailure = '<%$list.noteForFailure%>';
 
 	function handleIAPResult(actionType, key) {
 		if (actionType === 'buy success' && key === subscriptionType) {
@@ -192,7 +194,16 @@
 		xhr.onload = function() {
 		    if (xhr.status === 200) {
 		        var info = JSON.parse(xhr.responseText);
-		       	console.log (info);
+		        var messageTitleEle = document.querySelector('#success-note .contact-form-container .item-lead');
+		       	if (info && info.body && info.body.oelement && info.body.oelement.errorcode === '0') {
+		       		messageTitleEle.innerHTML = noteForSuccess;
+		       		setTimeout(function(){
+		       			var successNoteClassName = document.getElementById('success-note').className;
+		       			document.getElementById('success-note').className = successNoteClassName.replace(' on', '');
+		       		}, 3000);
+		       	} else {
+		       		messageTitleEle.innerHTML = noteForFailure;
+		       	}
 		    }
 		};
 		xhr.send(JSON.stringify(userData));
