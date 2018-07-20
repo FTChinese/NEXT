@@ -149,12 +149,24 @@
 		        		window.location.href = paymentLink;
 		        	}
 		        } else {
-		        	alert (info.errmsg);
+					var errorMessage = {
+						title: '敬请注意',
+						message: info.errmsg
+					}
+					sendAlert(errorMessage);
 		        }
 		    }
 		};
 		xhr.send();
 	}
+
+	function sendAlert(obj) {
+        try {
+			webkit.messageHandlers.alert.postMessage(obj);
+		} catch (error) {
+			alert (obj.message);
+		}
+	} 
 
 
 	function submitData() {
