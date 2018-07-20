@@ -196,12 +196,20 @@
 		        var info = JSON.parse(xhr.responseText);
 		        var messageTitleEle = document.querySelector('#success-note .contact-form-container .item-lead');
 		       	if (info && info.body && info.body.oelement && info.body.oelement.errorcode === '0') {
+		       		sendAlert({
+		       			title: '成功',
+		       			message: noteForSuccess
+		       		});
 		       		messageTitleEle.innerHTML = noteForSuccess;
 		       		setTimeout(function(){
 		       			var successNoteClassName = document.getElementById('success-note').className;
 		       			document.getElementById('success-note').className = successNoteClassName.replace(' on', '');
 		       		}, 3000);
 		       	} else {
+		       		sendAlert({
+		       			title: '请注意',
+		       			message: noteForFailure
+		       		});
 		       		messageTitleEle.innerHTML = noteForFailure;
 		       	}
 		    }
