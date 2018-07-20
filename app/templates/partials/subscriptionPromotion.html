@@ -21,7 +21,7 @@
 				<div class="item-inner">
 					<div class="center n-button-container n-subscription-container">
 						<div class="n-options-container" id="n-options-container"></div>
-						<a class="n-button-inner subscription-button" id="payment-button"><%$list.buttonTitle%></a>
+						<a class="n-button-inner subscription-button disabled" id="payment-button"><%$list.buttonTitle%></a>
 					</div>
 				</div>
 			</div>
@@ -106,11 +106,10 @@
 						reserveItem(id, itemNumber);
 					}
 				} else {
-					alert ('您还没有选择任何项目');
+					alert ('请先选择您需要的票！');
 				}
 			};
 		}
-
 	}
 
 	function reserveItem(id, itemNumber) {
