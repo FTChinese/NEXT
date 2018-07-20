@@ -7,13 +7,26 @@
 	<%/if%>
 
 	<%if $smarty.get.ad != "no" && $noAd != "true" && $hideMPU1 != "yes"%>
-		<script type="text/javascript">
-			document.write (writeAdNew({
-					devices: ['PC','PadWeb','PadApp'],
-					pattern:'MPU',
-					position:'Right1'
-			}));
-		</script>
+		<%if $smarty.get.newdb == "yes"%>
+			<div 
+			data-o-ads-name="mpu-right1"
+			class="o-ads"  
+			data-o-ads-formats-default="false" 
+			data-o-ads-formats-small="false" 
+			data-o-ads-formats-medium="FtcMpu"
+			data-o-ads-formats-large="FtcMpu"
+			data-o-ads-targeting="pos=right1;"
+			>
+			</div>
+		<%else%>
+			<script type="text/javascript">
+				document.write (writeAdNew({
+						devices: ['PC','PadWeb','PadApp'],
+						pattern:'MPU',
+						position:'Right1'
+				}));
+			</script>
+		<%/if%>
 	<%/if%>
 
 
@@ -67,13 +80,26 @@
 
 
 	<%if $smarty.get.ad != "no" && $noAd != "true" && $hideMPU2 != "yes"%>
-		<script type="text/javascript">
-			document.write (writeAdNew({
-					devices: ['PC','PadWeb','PadApp'],
-					pattern:'MPU',
-					position:'Right2'
-			}));
-		</script>
+		<%if $smarty.get.newdb == "yes"%>
+			<div 
+			data-o-ads-name="mpu-right2"
+			class="o-ads"  
+			data-o-ads-formats-default="false" 
+			data-o-ads-formats-small="false" 
+			data-o-ads-formats-medium="FtcMpu"
+			data-o-ads-formats-large="FtcMpu"
+			data-o-ads-targeting="pos=right2;"
+			>
+			</div>
+		<%else%>
+			<script type="text/javascript">
+				document.write (writeAdNew({
+						devices: ['PC','PadWeb','PadApp'],
+						pattern:'MPU',
+						position:'Right2'
+				}));
+			</script>
+		<%/if%>
 	<%/if%>
 
 	<%if $story.tag|@count>=1%>
