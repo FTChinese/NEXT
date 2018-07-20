@@ -19,9 +19,9 @@
 		<div class="items">
 			<div class="item-container XL12 L12 M12 S12 P12 no-image">
 				<div class="item-inner">
-					<div class="center n-button-container">
+					<div class="center n-button-container n-subscription-container">
 						<div class="n-options-container" id="n-options-container"></div>
-						<a class="n-button-inner subscription-button" href="http://www.ftacademy.cn/subscription.html?ccode=<%$list.ccode%>&tap=<%$list.subscriptionType%>"><%$list.buttonTitle%></a>
+						<a class="n-button-inner subscription-button" id="payment-button"><%$list.buttonTitle%></a>
 					</div>
 				</div>
 			</div>
@@ -53,6 +53,8 @@
 
 	var subscriptionType = '<%$list.subscriptionType%>';
 	var promoCode = '<%$list.ccode%>';
+	var itemNumber = '<%$list.itemNumber%>';
+	var paymentLink = 'http://www.ftacademy.cn/subscription.html?ccode=<%$list.ccode%>&tap=<%$list.subscriptionType%>';
 
 	function handleIAPResult(actionType, key) {
 		if (actionType === 'buy success' && key === subscriptionType) {
@@ -73,7 +75,7 @@
 		xhr.onload = function() {
 		    if (xhr.status === 200) {
 		        var info = JSON.parse(xhr.responseText);
-		        console.log (info);
+		        //console.log (info);
 		        renderOptionList(info);
 		    }
 		};
@@ -92,6 +94,21 @@
 		}
 		listHTML = '<div class="n-options-inner">' + listHTML + '</div>';
 		listContainer.innerHTML = listHTML;
+		var submitButton = document.getElementById('payment-button');
+		if (submitButton !== undefined) {
+			submitButton.onclick = function(e) {
+				var checkedRadio = document.querySelector('input[name="options-list"]:checked');
+				var checkedId;
+				if (checkedRadio !== null) {
+					checkedId = checkedRadio.id;
+					itemNumber = parseInt(itemNumber, 10) || 1;
+					if (checkedId) {
+						reserveItem(id, itemNumber);
+					}
+				}
+			};
+		}
+
 	}
 
 	function reserveItem(id, itemNumber) {
@@ -101,7 +118,13 @@
 		xhr.onload = function() {
 		    if (xhr.status === 200) {
 		        var info = JSON.parse(xhr.responseText);
-		        console.log (info);
+		        if (info.errmsg === 'success') {
+		        	console.log ('success, should go to payment page');
+		        	window.location.href = paymentLink;
+		        } else {
+		        	console.log ('not successful! ');
+		        	alert (info.errmsg);
+		        }
 		    }
 		};
 		xhr.send();

@@ -1,0 +1,46 @@
+<%if $list.url != ""%>
+	<%assign var=listLink value=" href=\"`$list.url`\""%>
+<%else%>
+	<%assign var=listLink value=""%>
+<%/if%>
+<%assign var="image1" value=$list.wideImage|default:$list.mobileImage%>
+<%assign var="image2" value=$list.mobileImage|default:$list.wideImage%>
+<%if $image1 != "" && $image2 != ""%>
+	<%assign var="imageClass" value="static-image"%>
+<%else%>
+	<%assign var="imageClass" value="no-image"%>
+<%/if%>
+<%if $list.wideImage != ""%>
+	<%assign var="wideImageClassForPC" value=" wide-image"%>
+<%else%>
+	<%assign var="wideImageClassForPC" value=""%>
+<%/if%>
+<%if $list.wideImage != "" && $list.mobileImage != ""%>
+	<%assign var="mobileImageClassForPC" value=" wide-image"%>
+<%else%>
+	<%assign var="mobileImageClassForPC" value=""%>
+<%/if%>
+<div class="list-container">
+	<div class="list-inner">
+		<%if $list.title != ""%>
+			<h2 class="list-title">
+				<a class="list-link" href="#"><%$list.title%></a>
+			</h2>
+		<%/if%>
+		<%if $list.text != ""%>
+			<div class="items">
+				<div class="<%$imageClass%>">
+					<div class="item-inner">
+						<%if $imageClass != "no-image"%>
+							<a<%$listLink%> class="P-hide image<%$wideImageClassForPC%>"><figure class="loading" data-url="<%$image1%>"></figure></a>
+							<a<%$listLink%> class="P-only image<%$mobileImageClassForPC%>"><figure class="loading" data-url="<%$image2%>"></figure></a>
+						<%/if%>
+						<div class="item-lead">
+							<p><%$list.text|regex_replace:"/[\r\t\n]+/":"</p><p>"%></p>
+						</div>
+					</div>
+				</div>
+			</div>
+		<%/if%>
+	</div>
+</div>

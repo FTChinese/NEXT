@@ -206,6 +206,10 @@
 .item-lead {
 	color: $lightFontColor;
 	font-size: 0.9em;
+	p, img {
+		margin-bottom: 1em;
+	}
+
 }
 .item-tag {
 	color: $highlightColor;
@@ -249,10 +253,17 @@
 	    color: $lightGrey;
 	}
 }
-.no-image {
+.no-image, .static-image {
 	.item-inner {
 		padding-top: 0;
 	}
+	.image {
+		position: static;
+		margin-bottom: 1em;
+	}
+
+}
+.no-image {
 	.image {
 		display: none;
 	}
@@ -289,6 +300,11 @@
 	&.portrait-img {
 		figure {
 			padding-bottom: 133.33333333%;
+		}
+	}
+	&.wide-image {
+		figure {
+			padding-bottom: 33.333333333%;
 		}
 	}
 }
