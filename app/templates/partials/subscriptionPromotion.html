@@ -140,16 +140,20 @@
 		        var info = JSON.parse(xhr.responseText);
 		        if (info.errmsg === 'success') {
 		        	var url = window.location.href;
+		        	// MARK: Even on iOS app, allow users to pay with Alipay or WeChat
+		        	window.location.href = paymentLink;
+
+
 		        	// MARK: - Launch the payment button only when reservation is successful. 
-		        	if (url.indexOf('webview=ftcapp')) {
-		        		try {
-		        			webkit.messageHandlers.link.postMessage(paymentLink);
-		        		} catch (ignore) {
-		        			window.location.href = paymentLink;
-		        		}
-		        	} else {
-		        		window.location.href = paymentLink;
-		        	}
+		        	// if (url.indexOf('webview=ftcapp')) {
+		        	// 	try {
+		        	// 		webkit.messageHandlers.link.postMessage(paymentLink);
+		        	// 	} catch (ignore) {
+		        	// 		window.location.href = paymentLink;
+		        	// 	}
+		        	// } else {
+		        	// 	window.location.href = paymentLink;
+		        	// }
 		        } else {
 					var errorMessage = {
 						title: '敬请注意',
