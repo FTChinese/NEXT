@@ -27,13 +27,6 @@
         <%/if%>
     <%elseif $section.type == "block" && $b < $maxB%>
         <%if $b == 0%>
-            <%if $supportSubscriptionUpgradePromo == "yes"%>
-                <%if $smarty.get.subscription == "member"%>
-                    <div class="is-subscriber is-standard">
-                        <%include file="next/partials/house-ad-subscription-promo-box.html"%>
-                    </div>
-                <%/if%>
-            <%/if%>
             <%*<!--MARK: Smarty 2 doesn't support global scoop in included files. -->*%>
             <%if $smarty.get.subscription == "member" || $smarty.get.subscription == "premium" || $smarty.get.subscription == "other"%>
                 <%assign var="reports" value=$storymodel->getPremiumStory(0, 3)%>
@@ -68,6 +61,16 @@
                                             <%/foreach%>
                                             <div class="clearfloat"></div>
                                         </div>
+
+
+                                        <%if $supportSubscriptionUpgradePromo == "yes"%>
+                                            <%if $smarty.get.subscription == "member" || $smarty.get.subscription == "premium"%>
+                                                <div class="is-subscriber is-standard">
+                                                    <%include file="next/partials/house-ad-subscription-promo-box.html"%>
+                                                </div>
+                                            <%/if%>
+                                        <%/if%>
+
                                         <h2 class="list-title"><a class="list-link">今日焦点</a></h2>
                                         <!--premiumContentIds: <%$premiumContentIds%>-->
                                     </div>

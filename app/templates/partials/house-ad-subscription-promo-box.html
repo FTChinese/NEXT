@@ -2,7 +2,10 @@
 <%if $nextmodel != ""%>
 	<%assign var="infoForPromo" value=$nextmodel->getPublishJson($pageIdForPromo)|json_decode:true%>
 	<%assign var="promoRendered" value=""%>
-	<%if $smarty.get.showAllPromotion !== "yes"%>
+	<%if $smarty.get.webview == "ftcapp"%>
+		<%assign var="inAppClass" value=" in-app"%>
+	<%/if%>
+	<%if $supportSubscriptionUpgradePromo != "yes"%>
 		<%assign var="promoRendered" value="standardpremium"%>
 	<%/if%>
 	<%foreach from=$infoForPromo.sections item=section%>
@@ -34,7 +37,7 @@
 			<%else%>
 				<%assign var=clickUrl value="`$section.click`?ccode=`$section.ccode`"%>
 			<%/if%>
-			<div class="subscription-promo-container<%$showImageInMobile%> <%$section.promoTarget%>">
+			<div class="subscription-promo-container<%$inAppClass%><%$showImageInMobile%> <%$section.promoTarget%>">
 			    <div class="subscription-promo-inner">
 			        <a href="<%$clickUrl%>" class="subscription-promo-box">
 			            <div class="subscription-promo-text"><%$section.title%></div>
