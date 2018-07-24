@@ -11,17 +11,17 @@
 	    <%if $section.type == "promoBox" && !preg_match("/`$section.promoTarget`/is",$promoRendered)%>
 	    	<style>
 	    	<%if $section.backgroundColor != ""%>
-		    	.subscription-promo-container {
+		    	.subscription-promo-container.<%$section.promoTarget%> {
 		    		background-color: <%$section.backgroundColor%>;
 		    	}
 	    	<%/if%>
-	    	.subscription-promo-box {
+	    	.subscription-promo-box.<%$section.promoTarget%> {
 	    		background-image: url(<%$section.imagePC%>);
 	    	}
 	    	<%if $section.imageMobile != ""%>
 				<%assign var="showImageInMobile" value=" show-image-in-mobile"%>
 				@media only screen and (max-width: 490px) {
-			    	.subscription-promo-box {
+			    	.subscription-promo-box.<%$section.promoTarget%> {
 			    		background-image: url(<%$section.imageMobile%>);
 			    	}
 				}
@@ -36,7 +36,7 @@
 			<%else%>
 				<%assign var=clickUrl value="`$section.click`?ccode=`$section.ccode`"%>
 			<%/if%>
-			<div class="subscription-promo-container<%$showImageInMobile%>">
+			<div class="subscription-promo-container<%$showImageInMobile%> <%$section.promoTarget%>">
 			    <div class="subscription-promo-inner">
 			        <a href="<%$clickUrl%>" class="subscription-promo-box">
 			            <div class="subscription-promo-text"><%$section.title%></div>
