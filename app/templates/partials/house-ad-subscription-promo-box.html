@@ -1,9 +1,14 @@
+
+<%*<!--Since the ensuing action for promo box requires javascript, it might be best to just render promo box with javascript rather than HTML -->*%>
 <%assign var="pageIdForPromo" value="subcription-promo"%>
 <%if $nextmodel != ""%>
 	<%assign var="infoForPromo" value=$nextmodel->getPublishJson($pageIdForPromo)|json_decode:true%>
-	<%assign var="promoIndex" value=0%>
+	<%assign var="promoRendered" value=""%>
+	<%if $smarty.get.showAllPromotion !== "yes"%>
+		<%assign var="promoRendered" value="standardpremium"%>
+	<%/if%>
 	<%foreach from=$infoForPromo.sections item=section%>
-	    <%if $section.type == "promoBox" && $promoIndex == 0%>
+	    <%if $section.type == "promoBox" && !preg_match("/`$section.promoTarget`/is",$promoRendered)%>
 	    	<style>
 	    	<%if $section.backgroundColor != ""%>
 		    	.subscription-promo-container {
@@ -42,7 +47,7 @@
 			<script type="text/javascript">
 				ga('send','event','Web Privileges', 'Display', 'From:<%$section.ccode%>');
 			</script>
-			<%assign var="promoIndex" value=$promoIndex+1%>
+			<%assign var="promoRendered" value="`$promoRendered``$section.promoTarget`"%>
 	    <%/if%>
 	<%/foreach%>
 <%/if%>
