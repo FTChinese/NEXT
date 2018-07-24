@@ -84,8 +84,14 @@ function trackerNew() {
     var screenType=0;
     var deviceName;
     var paywall = GetCookie('paywall');
+    var subscriberClass = '';
     if (paywall !== null) {
-        document.documentElement.className += ' is-subscriber';
+        if (paywall === 'premium') {
+            subscriberClass = ' is-subscriber is-premium';
+        } else {
+            subscriberClass = ' is-subscriber is-standard';
+        }
+        document.documentElement.className += subscriberClass;
     }
     if (w >0) {
         if (w>1220) {
