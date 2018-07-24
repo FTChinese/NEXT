@@ -343,15 +343,10 @@ video::-internal-media-controls-download-button {
 		.show-image-in-mobile.subscription-promo-container {
 			display: none;
 		}
-		&.is-standard {
-			.show-image-in-mobile.subscription-promo-container.standard {
-				display: block;
-			}
-		}
-		&.is-premium {
-			.show-image-in-mobile.subscription-promo-container.premium {
-				display: block;
-			}
+		&.is-standard .show-image-in-mobile.subscription-promo-container.standard, &.is-premium .show-image-in-mobile.subscription-promo-container.premium { 
+			display: block;
+			margin-top: $navHeight + $defaultPadding/4;
+			margin-bottom: - $navHeight - $defaultPadding/4;
 		}
 	}
 	.subscription-promo-box {
