@@ -140,20 +140,17 @@
 		        var info = JSON.parse(xhr.responseText);
 		        if (info.errmsg === 'success') {
 		        	var url = window.location.href;
-		        	// MARK: Even on iOS app, allow users to pay with Alipay or WeChat
-		        	window.location.href = paymentLink;
-
-
 		        	// MARK: - Launch the payment button only when reservation is successful. 
-		        	// if (url.indexOf('webview=ftcapp')) {
-		        	// 	try {
-		        	// 		webkit.messageHandlers.link.postMessage(paymentLink);
-		        	// 	} catch (ignore) {
-		        	// 		window.location.href = paymentLink;
-		        	// 	}
-		        	// } else {
-		        	// 	window.location.href = paymentLink;
-		        	// }
+		        	// MARK: - It is not a good practice to use web view for payment in native app. If we want to involve payment method other than Apple IAP, we should use native code to do this. 
+		        	if (url.indexOf('webview=ftcapp')) {
+		        		try {
+		        			webkit.messageHandlers.link.postMessage(paymentLink);
+		        		} catch (ignore) {
+		        			window.location.href = paymentLink;
+		        		}
+		        	} else {
+		        		window.location.href = paymentLink;
+		        	}
 		        } else {
 					var errorMessage = {
 						title: '敬请注意',
