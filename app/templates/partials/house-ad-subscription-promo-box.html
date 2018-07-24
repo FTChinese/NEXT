@@ -6,7 +6,7 @@
 		<%assign var="promoRendered" value="standardpremium"%>
 	<%/if%>
 	<%foreach from=$infoForPromo.sections item=section%>
-	    <%if $section.type == "promoBox" && !preg_match("/`$section.promoTarget`/is",$promoRendered)%>
+	    <%if $section.type == "promoBox" && $section.status == "on" && !preg_match("/`$section.promoTarget`/is",$promoRendered)%>
 	    	<style>
 	    	<%if $section.backgroundColor != ""%>
 		    	.subscription-promo-container.<%$section.promoTarget%> {
