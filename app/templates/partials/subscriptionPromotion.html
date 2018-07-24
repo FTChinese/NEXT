@@ -62,7 +62,9 @@
 	// MARK: This is the starting point of all the actions. Follow the functions to understand the workflow. 
 	function kickStart() {
 		getOptionList();
-		handleIAPResult('buy success', subscriptionType);
+		if (window.location.href.indexOf('&buy=success') > 0) {
+			handleIAPResult('buy success', subscriptionType);
+		}
 	}
 
 	// MARK: - Get the option list to kick start everything. If this fails because of browser support, the user won't lose any money.
@@ -166,7 +168,6 @@
 
 	// MARK: - If the user has successfully paid, show the contact form
 	function handleIAPResult(actionType, key) {
-		if (window.location.href.indexOf('&buy=success') > 0) {
 			if (actionType === 'buy success' && key === subscriptionType) {
 				document.getElementById('success-note').className += ' on';
 				var submitButton = document.querySelector('#success-note .subscription-button');
@@ -176,7 +177,6 @@
 					};
 				}
 			}
-		}
 	}
 
 	// MARK: - Submit the contact information when payment is successful. 

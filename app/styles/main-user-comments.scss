@@ -1,7 +1,7 @@
 @import "theme-default.scss";
 @import "variables.scss";
 
-button,a.button,input.button {
+button,a.button, input.button {
 	display: inline-block;
     box-sizing: border-box;
     vertical-align: middle;
@@ -9,7 +9,6 @@ button,a.button,input.button {
     text-align: center;
     text-decoration: none;
     font-weight: 600;
-    border-radius: 3px;
     cursor: pointer;
     -webkit-transition: .3s background-color,.15s color ease-out,.15s border-color ease-out;
     transition: .3s background-color,.15s color ease-out,.15s border-color ease-out;
@@ -22,6 +21,7 @@ button,a.button,input.button {
     background-clip: padding-box;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    border-width: 0;
 }
 
 #allcomments {
@@ -30,7 +30,6 @@ button,a.button,input.button {
 }
 
 #allcomments .commentcontainer,.commentcontainer{
-	border-radius:3px;
 	background:#F6EADA;
 	color:#333;
 	margin:15px 0;
@@ -67,18 +66,25 @@ dd.all {text-align:right;margin-bottom:15px;}
 	padding: 0 $defaultPadding/2 $defaultPadding/2 $defaultPadding/2;
 	font-size: 0.9em;
 }
+.centerButton, .container {
+	text-align: center;
+}
 .ui-light-btn {
-	border: 1px solid #A7A59B;
-	color: #333;
-	background: #e9decf;
-	text-shadow: 0 1px 0 #fff;
+	background: #658ABC;
+	color: white;
 	width:100%;
 	font-size:19px;
 	line-height:161.8%;
 	height:auto;
-	padding:5px 9px;
-	border-radius: 3px;
-	margin-bottom: $defaultPadding/4;
+	padding: $defaultPadding/3 9px;
+	margin-bottom: $defaultPadding/2;
+	max-width: 300px;
+	&.stress {
+		background: #316B82;
+	}
+	&.wechat-login {
+		background: #6eb153;
+	}
 }
 .user_id {
 	-webkit-appearance: none;
@@ -90,10 +96,10 @@ dd.all {text-align:right;margin-bottom:15px;}
 	font-size:1.2em;
 	height:28px;
 	width:100%;
-	padding:5px 2%;
-	border:1px solid #E9DECF;
+	padding: $defaultPadding/2 2%;
+	border: 1px solid #E9DECF;
 	margin-bottom:8px;
 	&.password {
-		margin-bottom:14px;
+		margin-bottom: $defaultPadding;
 	}
 }
