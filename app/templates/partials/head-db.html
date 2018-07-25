@@ -12,6 +12,10 @@
     <%/if%>
 <%/if%>
 
+<%if $smarty.get.newzone != "" %>
+    <%*<!-- can be testBeijing, testShanghai, testOverseas-->*%>
+    <%assign var="zone" value=$smarty.get.newzone %>
+<%/if%>
 <%*<!--<%assign var="zone" value=$pageId|default:$subnav|default:$topnav|default:"home" %>-->*%>
 
 <!-- zone: <%$zone%>-->
@@ -30,6 +34,7 @@
      会议活动(二级):  topnav:home    subnav:event pageId:events
 -->
 *%>
+<%*<!-- 目前使用的所有尺寸： 300x250, 300x600, 400x300, 414x104, 414x736, 969x90, 1200x120-->*%>
 <script data-o-ads-config="" type="application/json">
 {
 	"gpt": {
