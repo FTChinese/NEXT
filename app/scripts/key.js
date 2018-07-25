@@ -85,16 +85,16 @@ function updateSubscriberStatus() {
     xhr.onload = function() {
         if (xhr.status === 200) {
             var userInfo = JSON.parse(xhr.responseText);
-            var htmlClass = document.documentElement.className;
-            htmlClass = htmlClass.replace(/\ is\-subscriber/g, '').replace(/\ is\-premium/g, '').replace(/\ is\-standard/g, '');
+            window.htmlClass = document.documentElement.className;
+            window.htmlClass = window.htmlClass.replace(/\ is\-subscriber/g, '').replace(/\ is\-premium/g, '').replace(/\ is\-standard/g, '');
             if (userInfo.paywall === 0) {
                 if (userInfo.premium === 1) {
-                    htmlClass += ' is-subscriber is-premium';
+                    window.htmlClass += ' is-subscriber is-premium';
                 } else {
-                    htmlClass += ' is-subscriber is-standard';
+                    window.htmlClass += ' is-subscriber is-standard';
                 }
             }
-            document.documentElement.className = htmlClass;
+            document.documentElement.className = window.htmlClass;
         }
     };
     xhr.send();
