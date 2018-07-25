@@ -64,10 +64,8 @@
 
 
                                         <%if $supportSubscriptionUpgradePromo == "yes"%>
-                                            <%if $smarty.get.subscription == "member"%>
-                                                <div class="is-subscriber is-standard">
-                                                    <%include file="next/partials/house-ad-subscription-promo-box.html"%>
-                                                </div>
+                                            <%if $smarty.get.subscription == "member" || $smarty.get.subscription == "premium"%>
+                                                <%include file="next/partials/house-ad-subscription-promo-box.html"%>
                                             <%/if%>
                                         <%/if%>
 
