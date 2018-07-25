@@ -35,7 +35,6 @@ function passLoginToNative() {
                 if (userInfo.premium === 1) {
                     message.paywall = 'premium';
                 } else {
-                    htmlClass += ' is-subscriber is-standard';
                     message.paywall = 'standard';
                 }
                 message.paywallExpire = userInfo.paywallExpire || '';
