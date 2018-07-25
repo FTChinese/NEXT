@@ -12,7 +12,7 @@
 	    <%if $section.type == "promoBox" && $section.status == "on" && !preg_match("/`$section.promoTarget`/is",$promoRendered)%>
 	    	<style>
 	    	<%if $section.backgroundColor != ""%>
-		    	.<%$section.promoTarget%> .subscription-promo-container {
+		    	.<%$section.promoTarget%>.subscription-promo-container {
 		    		background-color: <%$section.backgroundColor%>;
 		    	}
 	    	<%/if%>
