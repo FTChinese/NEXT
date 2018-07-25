@@ -64,6 +64,38 @@ function guid() {
     s4() + '-' + s4() + s4() + s4();
 }
 
+function updateSubscriberStatus() {
+    var paywall = GetCookie('paywall');
+    var subscriberClass = '';
+    if (paywall !== null) {
+        if (paywall === 'premium') {
+            subscriberClass = ' is-subscriber is-premium';
+        } else {
+            subscriberClass = ' is-subscriber is-standard';
+        }
+        document.documentElement.className += subscriberClass;
+    }
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/index.php/jsapi/paywall');
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            var userInfo = JSON.parse(xhr.responseText);
+            var htmlClass = document.documentElement.className;
+            htmlClass = htmlClass.replace(/\ is\-subscriber/g, '').replace(/\ is\-premium/g, '').replace(/\ is\-standard/g, '');
+            if (userInfo.paywall === 0) {
+                if (userInfo.premium === 1) {
+                    htmlClass += ' is-subscriber is-premium';
+                } else {
+                    htmlClass += ' is-subscriber is-standard';
+                }
+            }
+            document.documentElement.className = htmlClass;
+        }
+    };
+    xhr.send();
+}
+
 function trackerNew() {
     var l=window.location.href;
     var keyTag; 
@@ -83,16 +115,9 @@ function trackerNew() {
     var ccodeCookie=GetCookie('ccode') || '';
     var screenType=0;
     var deviceName;
-    var paywall = GetCookie('paywall');
-    var subscriberClass = '';
-    if (paywall !== null) {
-        if (paywall === 'premium') {
-            subscriberClass = ' is-subscriber is-premium';
-        } else {
-            subscriberClass = ' is-subscriber is-standard';
-        }
-        document.documentElement.className += subscriberClass;
-    }
+
+    updateSubscriberStatus();
+
     if (w >0) {
         if (w>1220) {
             screenType = 'XL: above 1220';

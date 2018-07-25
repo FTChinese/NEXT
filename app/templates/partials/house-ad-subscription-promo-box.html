@@ -46,7 +46,12 @@
 			</div>
 			<%<!--MARK: Track Promo Box Display-->%>
 			<script type="text/javascript">
-				ga('send','event','Web Privileges', 'Display', 'From:<%$section.ccode%>');
+				var promoTarget = '<%$section.promoTarget%>';
+				var subscriptionPaywallType = GetCookie('paywall') || promoTarget;
+				if (subscriptionPaywallType === promoTarget) {
+					console.log ('From:<%$section.ccode%>');
+					ga('send','event','Web Privileges', 'Display', 'From:<%$section.ccode%>');
+				}
 			</script>
 			<%assign var="promoRendered" value="`$promoRendered``$section.promoTarget`"%>
 	    <%/if%>
