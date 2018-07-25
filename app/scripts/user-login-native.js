@@ -22,7 +22,6 @@ function passLoginToNative() {
     try {
        webkit.messageHandlers.user.postMessage(message);
     } catch (ignore) {
-        
     }
     // MARK: Valid the info with a network request
     var xhr = new XMLHttpRequest();
@@ -31,13 +30,14 @@ function passLoginToNative() {
     xhr.onload = function() {
         if (xhr.status === 200) {
             var userInfo = JSON.parse(xhr.responseText);
+            console.log (userInfo);
             if (userInfo.paywall === 0) {
                 if (userInfo.premium === 1) {
                     message.paywall = 'premium';
                 } else {
                     message.paywall = 'standard';
                 }
-                message.paywallExpire = userInfo.paywallExpire || '';
+                message.paywallExpire = userInfo.expire || '';
             } else {
                 message.paywall = '';
                 message.paywallExpire = '';
