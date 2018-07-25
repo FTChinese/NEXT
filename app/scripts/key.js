@@ -75,6 +75,10 @@ function updateSubscriberStatus() {
         }
         document.documentElement.className += subscriberClass;
     }
+    // MARK: If the user is not logged in, no need to do network check. 
+    if (GetCookie('USER_ID') === null) {
+        return;
+    }
     var xhr = new XMLHttpRequest();
     xhr.open('GET', '/index.php/jsapi/paywall');
     xhr.setRequestHeader('Content-Type', 'application/json');

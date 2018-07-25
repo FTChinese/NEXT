@@ -23,6 +23,10 @@ function passLoginToNative() {
        webkit.messageHandlers.user.postMessage(message);
     } catch (ignore) {
     }
+    // MARK: If the user is not logged in, no need to go on checking API
+    if (userIdForLoginUser === '') {
+        return;
+    }
     // MARK: Valid the info with a network request
     var xhr = new XMLHttpRequest();
     xhr.open('GET', '/index.php/jsapi/paywall');
@@ -30,7 +34,6 @@ function passLoginToNative() {
     xhr.onload = function() {
         if (xhr.status === 200) {
             var userInfo = JSON.parse(xhr.responseText);
-            console.log (userInfo);
             if (userInfo.paywall === 0) {
                 if (userInfo.premium === 1) {
                     message.paywall = 'premium';
