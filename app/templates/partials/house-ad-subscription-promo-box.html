@@ -12,17 +12,17 @@
 	    <%if $section.type == "promoBox" && $section.status == "on" && !preg_match("/`$section.promoTarget`/is",$promoRendered)%>
 	    	<style>
 	    	<%if $section.backgroundColor != ""%>
-		    	.subscription-promo-container.<%$section.promoTarget%> {
+		    	.<%$section.promoTarget%> .subscription-promo-container {
 		    		background-color: <%$section.backgroundColor%>;
 		    	}
 	    	<%/if%>
-	    	.subscription-promo-box.<%$section.promoTarget%> {
+	    	.<%$section.promoTarget%> .subscription-promo-box {
 	    		background-image: url(<%$section.imagePC%>);
 	    	}
 	    	<%if $section.imageMobile != ""%>
 				<%assign var="showImageInMobile" value=" show-image-in-mobile"%>
 				@media only screen and (max-width: 490px) {
-			    	.subscription-promo-box.<%$section.promoTarget%> {
+			    	.<%$section.promoTarget%> .subscription-promo-box {
 			    		background-image: url(<%$section.imageMobile%>);
 			    	}
 				}
