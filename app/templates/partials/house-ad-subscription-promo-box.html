@@ -10,10 +10,8 @@
 		<%*<!--MARK: - In native app, don't ever show promo box for non-subscriber as it is fixed to the bottom -->*%>
 		<%assign var="promoRendered" value="noneSubscriber`$promoRendered`"%>
 	<%/if%>
-	<%assign var="hasPromo" value="no"%>
 	<%foreach from=$infoForPromo.sections item=section%>
 	    <%if $section.type == "promoBox" && $section.status == "on" && !preg_match("/`$section.promoTarget`/is",$promoRendered)%>
-	    	<%assign var="hasPromo" value="yes"%>
 	    	<style>
 	    	<%if $section.backgroundColor != ""%>
 		    	.<%$section.promoTarget%>.subscription-promo-container {
@@ -51,54 +49,4 @@
 			<%assign var="promoRendered" value="`$promoRendered``$section.promoTarget`"%>
 	    <%/if%>
 	<%/foreach%>
-	<%if $hasPromo === "yes"%>
-		<script type="text/javascript">
-			
-			function trackInternalPromos() {
-				var allPromos = document.querySelectorAll('.n-internal-promo');
-				for (var i=0; i<allPromos.length; i++) {
-					var currentPromo = allPromos[i];
-					var promoTarget = currentPromo.getAttribute('data-promo-target');
-					var promoId = currentPromo.getAttribute('data-promo-id');
-					var promoName = currentPromo.getAttribute('data-promo-name');
-					var promoCreative = currentPromo.getAttribute('data-promo-creative');
-					var promoPosition = currentPromo.getAttribute('data-promo-position');
-					// MARK: Use a set timeout to track display. 
-					setTimeout(function() {
-						if (isHidden(currentPromo) === false) {
-							ga('ec:addPromo', {
-							  'id': promoId,
-							  'name': promoName,
-							  'creative': promoCreative,
-							  'position': promoPosition
-							});
-							ga('send','event','Web Privileges', 'Display', 'From:' + promoId);
-						}
-					}, 3000);
-					currentPromo.onclick = function() {
-						ga('ec:addPromo', {
-						  'id': promoId,
-						  'name': promoName,
-						  'creative': promoCreative,
-						  'position': promoPosition
-						});
-						ga('ec:setAction', 'promo_click');
-						var theLink = this.href;
-						ga('send','event','Web Privileges', 'Tap', 'From:' + promoId, {
-						    hitCallback: function() {
-								document.location = theLink;
-						    }
-						});
-						// MARK: If for some reason GA is not accessible, redirectly regardless
-						setTimeout(function(){
-							document.location = theLink;
-						}, 3000);
-						// MARK: Track the event then go to link 
-						return !ga.loaded;
-					};
-				}
-			}
-			trackInternalPromos();
-		</script>
-	<%/if%>
 <%/if%>

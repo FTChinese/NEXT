@@ -13,12 +13,6 @@ function findMoreSpider() {
     }
 }
 
-// MARK: - Check if a dom is actually hidden
-function isHidden(el) {
-    var style = window.getComputedStyle(el);
-    return (style.display === 'none');
-}
-
 function GetCookie(name){
     var start = document.cookie.indexOf(name+'='),
         len = start+name.length+1,
