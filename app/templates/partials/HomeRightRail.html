@@ -57,7 +57,20 @@
 	<%if $smarty.get.webview != "ftcapp"%>
 		<%if in_array(date("Ymd"),explode(",",$ad.Ribbon)) && $smarty.get.ad != "no" && $noAd != "true"%>
 		<%assign var="adchannelID" value = $smarty.get.adchannelID|default:"1000" %>
-		<iframe id="ribbon" class="ad-hidden hide" width="100%" height="60" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="/m/marketing/a.html#adid=1000<%$adchannelID%>0501&slot=986723212&pid=ribbon"></iframe><%*<!--旧的adid是10000009-->*%>
+			<%if $smarty.get.newdb == "yes"%>
+				<div 
+				data-o-ads-name="ribbon"
+				class="o-ads"  
+				data-o-ads-formats-default="false" 
+				data-o-ads-formats-small="false" 
+				data-o-ads-formats-medium="FtcRibbon"
+				data-o-ads-formats-large="FtcRibbon"
+				data-o-ads-targeting="pos=right0;"
+				>
+				</div>
+			<%else%>
+				<iframe id="ribbon" class="ad-hidden hide" width="100%" height="60" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="/m/marketing/a.html#adid=1000<%$adchannelID%>0501&slot=986723212&pid=ribbon"></iframe><%*<!--旧的adid是10000009-->*%>
+			<%/if%>
 		<%/if%>
 
 		<%if date("Ymd",$smarty.now) <= 20160617%>
