@@ -70,7 +70,17 @@
 					} else {
 						console.log ('No Show From:<%$section.ccode%>');
 					}
-				}, 5000);
+					currentBox.querySelector('.subscription-promo-box').onclick = function() {
+						ga('ec:addPromo', {
+						  'id': promoId,
+						  'name': promoName,
+						  'creative': promoCreative,
+						  'position': promoPosition
+						});
+						ga('ec:setAction', 'promo_click');
+						ga('send','event','Web Privileges', 'Tap', 'From:<%$section.ccode%>');
+					};
+				}, 3000);
 			</script>
 			<%assign var="promoRendered" value="`$promoRendered``$section.promoTarget`"%>
 	    <%/if%>
