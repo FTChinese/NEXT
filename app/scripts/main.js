@@ -715,53 +715,51 @@ function checkLanguageSwitch() {
 
 // MARK: - Check if a dom is actually hidden
 function isHidden(el) {
-    var style = window.getComputedStyle(el);
-    return (style.display === 'none');
+    return (el.offsetParent === null);
 }
 
 function trackInternalPromos() {
-  var allPromos = document.querySelectorAll('.n-internal-promo');
-  for (var i=0; i<allPromos.length; i++) {
-    var currentPromo = allPromos[i];
-    var promoId = currentPromo.getAttribute('data-promo-id');
-    var promoName = currentPromo.getAttribute('data-promo-name');
-    var promoCreative = currentPromo.getAttribute('data-promo-creative');
-    var promoPosition = currentPromo.getAttribute('data-promo-position');
-    // MARK: Use a set timeout to track display. 
-    setTimeout(function() {
-      // FIXME: This is a temporary hack
-      if (isHidden(currentPromo.parentNode.parentNode) === false) {
+  // MARK: Use a set timeout to track display. 
+  setTimeout(function() {
+    var allPromos = document.querySelectorAll('.n-internal-promo');
+    for (var i=0; i<allPromos.length; i++) {
+      var currentPromo = allPromos[i];
+      var promoId = currentPromo.getAttribute('data-promo-id');
+      var promoName = currentPromo.getAttribute('data-promo-name');
+      var promoCreative = currentPromo.getAttribute('data-promo-creative');
+      var promoPosition = currentPromo.getAttribute('data-promo-position');
+      if (isHidden(currentPromo) === false) {
         ga('ec:addPromo', {
           'id': promoId,
           'name': promoName,
           'creative': promoCreative,
           'position': promoPosition
         });
-        ga('send','event','Web Privileges', 'Display', 'From:' + promoId);
+        ga('send','event','Web Privileges', 'Display', 'From:' + promoId);    
+        currentPromo.onclick = function() {
+          ga('ec:addPromo', {
+            'id': promoId,
+            'name': promoName,
+            'creative': promoCreative,
+            'position': promoPosition
+          });
+          ga('ec:setAction', 'promo_click');
+          var theLink = this.href;
+          ga('send','event','Web Privileges', 'Tap', 'From:' + promoId, {
+              hitCallback: function() {
+              document.location = theLink;
+              }
+          });
+          // MARK: If for some reason GA is not accessible, redirectly regardless
+          setTimeout(function(){
+            document.location = theLink;
+          }, 3000);
+          // MARK: Track the event then go to link 
+          return !ga.loaded;
+        };
       }
-    }, 3000);
-    currentPromo.onclick = function() {
-      ga('ec:addPromo', {
-        'id': promoId,
-        'name': promoName,
-        'creative': promoCreative,
-        'position': promoPosition
-      });
-      ga('ec:setAction', 'promo_click');
-      var theLink = this.href;
-      ga('send','event','Web Privileges', 'Tap', 'From:' + promoId, {
-          hitCallback: function() {
-          document.location = theLink;
-          }
-      });
-      // MARK: If for some reason GA is not accessible, redirectly regardless
-      setTimeout(function(){
-        document.location = theLink;
-      }, 3000);
-      // MARK: Track the event then go to link 
-      return !ga.loaded;
-    };
-  }
+    }
+  }, 3000);
 }
 
 
