@@ -34,7 +34,7 @@
 								<div class="contact-form-container">
 									<div class="item-lead">非常感谢！请填写您的收件地址。</div>
 									<div><span>收货人：</span><input type="text" placeholder="收货人姓名"></div>
-									<div><span>手机：</span><input placeholder="000-0000-0000" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" required></div>
+									<div><span>手机：</span><input type="tel" placeholder="请准确填写号码"></div>
 									<div><span>收货地址：</span><input type="text" placeholder="请填写准确地址"></div>
 									<div><span>备注：</span><input type="text" placeholder="给FT中文网留言"></div>
 									<div class="center n-button-container">
@@ -49,9 +49,7 @@
 		</div>
 	</div>
 </div>
-
 <script type="text/javascript">
-
 	var subscriptionType = '<%$list.subscriptionType%>';
 	var promoCode = '<%$list.ccode%>';
 	var itemNumber = '<%$list.itemNumber%>';
@@ -65,6 +63,19 @@
 		if (window.location.href.indexOf('&buy=success') > 0) {
 			handleIAPResult('buy success', subscriptionType);
 		}
+		var theInput = document.querySelector('.contact-form-container input[type=tel]');
+		if (theInput !== null) {
+			theInput.onblur = function() {
+				var inputValue = this.value;
+				var validator = /^[0-9]+$/;
+				if (validator.test(inputValue)) {
+					console.log ('it fit!' + inputValue);
+				} else {
+					console.log ('some thing wrong! ' + inputValue);
+				}
+			}
+		}
+
 	}
 
 	// MARK: - Get the option list to kick start everything. If this fails because of browser support, the user won't lose any money.
