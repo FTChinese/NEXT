@@ -43,62 +43,63 @@
 			<%/if%>
 			<div class="subscription-promo-container<%$inAppClass%><%$showImageInMobile%> <%$section.promoTarget%>">
 			    <div class="subscription-promo-inner">
-			        <a href="<%$clickUrl%>" class="subscription-promo-box">
+			        <a href="<%$clickUrl%>" class="subscription-promo-box n-internal-promo" data-promo-target="<%$section.promoTarget%>" data-promo-id="<%$section.promoId%>" data-promo-name="<%$section.title%>" data-promo-creative="<%$section.imagePC%>" data-promo-position="<%$section.type%>">
 			            <div class="subscription-promo-text"><%$section.title%></div>
 			        </a>
 			    </div>
 			</div>
-			<%<!--MARK: Track Promo Box Display  -->%>
-			<script type="text/javascript">
-				// MARK: Use a set timeout to track display. 
-				// TODO: Check Constantly Until Found and Send. 
-				setTimeout(function() {
-					var promoTarget = '<%$section.promoTarget%>';
-					var promoId = '<%$section.ccode%>';
-					var promoName = '<%$section.title%>'; 
-					var promoCreative = '<%$section.imagePC%>';
-					var promoPosition = '<%$section.type%>';
-					trackInternalPromo(promoTarget, promoId, promoName, promoCreative, promoPosition);
-				}, 3000);
-			</script>
 			<%assign var="promoRendered" value="`$promoRendered``$section.promoTarget`"%>
 	    <%/if%>
 	<%/foreach%>
 	<%if $hasPromo === "yes"%>
 		<script type="text/javascript">
-			function trackInternalPromo(promoTarget, promoId, promoName, promoCreative, promoPosition) {
-				var currentBox = document.querySelector('.subscription-promo-container.' + promoTarget);
-				if (isHidden(currentBox) === false) {
-					ga('ec:addPromo', {
-					  'id': promoId,
-					  'name': promoName,
-					  'creative': promoCreative,
-					  'position': promoPosition
-					});
-					ga('send','event','Web Privileges', 'Display', 'From:' + promoId);
-				}
-				currentBox.querySelector('.subscription-promo-box').onclick = function() {
-					ga('ec:addPromo', {
-					  'id': promoId,
-					  'name': promoName,
-					  'creative': promoCreative,
-					  'position': promoPosition
-					});
-					ga('ec:setAction', 'promo_click');
-					var theLink = this.href;
-					ga('send','event','Web Privileges', 'Tap', 'From:' + promoId, {
-					    hitCallback: function() {
-							document.location = theLink;
-					    }
-					});
-					// MARK: If for some reason GA is not accessible, redirectly regardless
-					setTimeout(function(){
-						document.location = theLink;
+			
+			function trackInternalPromos() {
+				var allPromos = document.querySelectorAll('.n-internal-promo');
+				for (var i=0; i<allPromos.length; i++) {
+					var currentPromo = allPromos[i];
+					var promoTarget = currentPromo.getAttribute('data-promo-target');
+					var promoId = currentPromo.getAttribute('data-promo-id');
+					var promoName = currentPromo.getAttribute('data-promo-name');
+					var promoCreative = currentPromo.getAttribute('data-promo-creative');
+					var promoPosition = currentPromo.getAttribute('data-promo-position');
+					// MARK: Use a set timeout to track display. 
+					setTimeout(function() {
+						if (isHidden(currentPromo) === false) {
+							ga('ec:addPromo', {
+							  'id': promoId,
+							  'name': promoName,
+							  'creative': promoCreative,
+							  'position': promoPosition
+							});
+							ga('send','event','Web Privileges', 'Display', 'From:' + promoId);
+						}
 					}, 3000);
-					// MARK: Track the event then go to link 
-					return !ga.loaded;
-				};
+					currentPromo.onclick = function() {
+						ga('ec:addPromo', {
+						  'id': promoId,
+						  'name': promoName,
+						  'creative': promoCreative,
+						  'position': promoPosition
+						});
+						ga('ec:setAction', 'promo_click');
+						var theLink = this.href;
+						ga('send','event','Web Privileges', 'Tap', 'From:' + promoId, {
+						    hitCallback: function() {
+						    	console.log ('new tracking works! ');
+								document.location = theLink;
+						    }
+						});
+						// MARK: If for some reason GA is not accessible, redirectly regardless
+						setTimeout(function(){
+							document.location = theLink;
+						}, 3000);
+						// MARK: Track the event then go to link 
+						return !ga.loaded;
+					};
+				}
 			}
+			trackInternalPromos();
 		</script>
 	<%/if%>
 <%/if%>
