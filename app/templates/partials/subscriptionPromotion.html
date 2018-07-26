@@ -33,10 +33,10 @@
 							<div class="overlay-content">
 								<div class="contact-form-container">
 									<div class="item-lead">非常感谢！请填写您的收件地址。</div>
-									<div><span>收货人：</span><input type="text" placeholder="收货人姓名" class="name"></div>
-									<div><span>手机：</span><input type="tel" placeholder="请准确填写号码" class="tel"></div>
-									<div><span>收货地址：</span><input type="text" placeholder="请填写准确地址" class="address"></div>
-									<div><span>备注：</span><input type="text" placeholder="给FT中文网留言" class="note"></div>
+									<div><span>收货人：</span><input type="text" placeholder="收货人姓名" class="name"><span class="status"></span></div>
+									<div><span>手机：</span><input type="tel" placeholder="请准确填写号码" class="tel"><span class="status"></span></div>
+									<div><span>收货地址：</span><input type="text" placeholder="请填写准确地址" class="address"><span class="status"></span></div>
+									<div><span>备注：</span><input type="text" placeholder="给FT中文网留言" class="note"><span class="status"></span></div>
 									<div class="center n-button-container">
 										<button class="n-button-inner subscription-button">提交信息</button>
 									</div>
@@ -72,12 +72,15 @@
 	function addValidator(inputClass, validator, warningMessage) {
 		var theInput = document.querySelector('.contact-form-container .' + inputClass);
 		if (theInput !== null) {
-			theInput.onblur = function() {
+			theInput.onchange = function() {
 				var inputValue = this.value;
+				var statusEle = this.parentNode.querySelector('.status');
 				this.className = this.className.replace(/ wrong/g, '');
-				if (!validator.test(inputValue)) {
+				if (validator.test(inputValue)) else {
+					statusEle.innerHTML = '';
+				} else {
 					this.className += ' wrong';
-					sendAlert({title: '敬请注意', message: warningMessage});
+					statusEle.innerHTML = warningMessage;
 				}
 			}
 		}
