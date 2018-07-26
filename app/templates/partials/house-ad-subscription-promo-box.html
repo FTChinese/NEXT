@@ -2,17 +2,20 @@
 <%if $nextmodel != ""%>
 	<%assign var="infoForPromo" value=$nextmodel->getPublishJson($pageIdForPromo)|json_decode:true%>
 	<%assign var="promoRendered" value=""%>
-	<%if $smarty.get.webview == "ftcapp"%>
-		<%assign var="inAppClass" value=" in-app"%>
-	<%/if%>
-	<%if $supportSubscriptionUpgradePromo != "yes"%>
+		<%if $supportSubscriptionUpgradePromo != "yes"%>
 		<%assign var="promoRendered" value="standardpremium"%>
 	<%/if%>
+	<%if $smarty.get.webview == "ftcapp"%>
+		<%assign var="inAppClass" value=" in-app"%>
+		<%*<!--MARK: - In native app, don't ever show promo box for non-subscriber as it is fixed to the bottom -->*%>
+		<%assign var="promoRendered" value="noneSubscriber`$promoRendered`"%>
+	<%/if%>
+
 	<%foreach from=$infoForPromo.sections item=section%>
 	    <%if $section.type == "promoBox" && $section.status == "on" && !preg_match("/`$section.promoTarget`/is",$promoRendered)%>
 	    	<style>
 	    	<%if $section.backgroundColor != ""%>
-		    	.<%$section.promoTarget%> .subscription-promo-container {
+		    	.<%$section.promoTarget%>.subscription-promo-container {
 		    		background-color: <%$section.backgroundColor%>;
 		    	}
 	    	<%/if%>
