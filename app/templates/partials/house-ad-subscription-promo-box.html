@@ -10,9 +10,10 @@
 		<%*<!--MARK: - In native app, don't ever show promo box for non-subscriber as it is fixed to the bottom -->*%>
 		<%assign var="promoRendered" value="noneSubscriber`$promoRendered`"%>
 	<%/if%>
-
+	<%assign var="hasPromo" value="no"%>
 	<%foreach from=$infoForPromo.sections item=section%>
 	    <%if $section.type == "promoBox" && $section.status == "on" && !preg_match("/`$section.promoTarget`/is",$promoRendered)%>
+	    	<%assign var="hasPromo" value="yes"%>
 	    	<style>
 	    	<%if $section.backgroundColor != ""%>
 		    	.<%$section.promoTarget%>.subscription-promo-container {
@@ -57,41 +58,47 @@
 					var promoName = '<%$section.title%>'; 
 					var promoCreative = '<%$section.imagePC%>';
 					var promoPosition = '<%$section.type%>';
-					var currentBox = document.querySelector('.subscription-promo-container.' + promoTarget);
-					if (isHidden(currentBox) === false) {
-						ga('ec:addPromo', {               // Promo details provided in a promoFieldObject.
-						  'id': promoId,             // Promotion ID. Required (string).
-						  'name': promoName,          // Promotion name (string).
-						  'creative': promoCreative,   // Creative (string).
-						  'position': promoPosition      // Position  (string).
-						});
-						console.log ('Show From:<%$section.ccode%>');
-						ga('send','event','Web Privileges', 'Display', 'From:<%$section.ccode%>');
-					} else {
-						console.log ('No Show From:<%$section.ccode%>');
-					}
-					currentBox.querySelector('.subscription-promo-box').onclick = function() {
-						ga('ec:addPromo', {
-						  'id': promoId,
-						  'name': promoName,
-						  'creative': promoCreative,
-						  'position': promoPosition
-						});
-						ga('ec:setAction', 'promo_click');
-						var theLink = this.href;
-						ga('send','event','Web Privileges', 'Tap', 'From:<%$section.ccode%>', {
-						    hitCallback: function() {
-								console.log ('go to ' + theLink + ' now! ');
-								document.location = theLink;
-						    }
-						});
-
-						// MARK: Track the event then go to link 
-						return !ga.loaded;
-					};
+					trackInternalPromo(promoTarget, promoId, promoName, promoCreative, promoPosition);
 				}, 3000);
 			</script>
 			<%assign var="promoRendered" value="`$promoRendered``$section.promoTarget`"%>
 	    <%/if%>
 	<%/foreach%>
+	<%if $hasPromo === "yes"%>
+		<script type="text/javascript">
+			function trackInternalPromo(promoTarget, promoId, promoName, promoCreative, promoPosition) {
+				var currentBox = document.querySelector('.subscription-promo-container.' + promoTarget);
+				if (isHidden(currentBox) === false) {
+					ga('ec:addPromo', {
+					  'id': promoId,
+					  'name': promoName,
+					  'creative': promoCreative,
+					  'position': promoPosition
+					});
+					ga('send','event','Web Privileges', 'Display', 'From:' + promoId);
+				}
+				currentBox.querySelector('.subscription-promo-box').onclick = function() {
+					ga('ec:addPromo', {
+					  'id': promoId,
+					  'name': promoName,
+					  'creative': promoCreative,
+					  'position': promoPosition
+					});
+					ga('ec:setAction', 'promo_click');
+					var theLink = this.href;
+					ga('send','event','Web Privileges', 'Tap', 'From:' + promoId, {
+					    hitCallback: function() {
+							document.location = theLink;
+					    }
+					});
+					// MARK: If for some reason GA is not accessible, redirectly regardless
+					setTimeout(function(){
+						document.location = theLink;
+					}, 3000);
+					// MARK: Track the event then go to link 
+					return !ga.loaded;
+				};
+			}
+		</script>
+	<%/if%>
 <%/if%>
