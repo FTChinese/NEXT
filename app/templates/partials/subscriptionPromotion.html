@@ -33,10 +33,10 @@
 							<div class="overlay-content">
 								<div class="contact-form-container">
 									<div class="item-lead">非常感谢！请填写您的收件地址。</div>
-									<div><span>收货人：</span><input type="text" placeholder="收货人姓名"></div>
-									<div><span>手机：</span><input type="tel" placeholder="请准确填写号码"></div>
-									<div><span>收货地址：</span><input type="text" placeholder="请填写准确地址"></div>
-									<div><span>备注：</span><input type="text" placeholder="给FT中文网留言"></div>
+									<div><span>收货人：</span><input type="text" placeholder="收货人姓名" class="name"></div>
+									<div><span>手机：</span><input type="tel" placeholder="请准确填写号码" class="tel"></div>
+									<div><span>收货地址：</span><input type="text" placeholder="请填写准确地址" class="address"></div>
+									<div><span>备注：</span><input type="text" placeholder="给FT中文网留言" class="note"></div>
 									<div class="center n-button-container">
 										<button class="n-button-inner subscription-button">提交信息</button>
 									</div>
@@ -63,19 +63,24 @@
 		if (window.location.href.indexOf('&buy=success') > 0) {
 			handleIAPResult('buy success', subscriptionType);
 		}
-		var theInput = document.querySelector('.contact-form-container input[type=tel]');
+		addValidator('tel', /^[0-9]{11}$/, '请填写11位数字的手机号码，不要使用全角');
+		addValidator('name', /^.{2,}$/, '您的姓名至少要有两个字');
+		addValidator('address', /^.{5,}$/, '地址至少要有5个字');
+	}
+
+
+	function addValidator(inputClass, validator, warningMessage) {
+		var theInput = document.querySelector('.contact-form-container .' + inputClass);
 		if (theInput !== null) {
 			theInput.onblur = function() {
 				var inputValue = this.value;
-				var validator = /^[0-9]+$/;
-				if (validator.test(inputValue)) {
-					console.log ('it fit!' + inputValue);
-				} else {
-					console.log ('some thing wrong! ' + inputValue);
+				this.className = this.className.replace(/ wrong/g, '');
+				if (!validator.test(inputValue)) {
+					this.className += ' wrong';
+					sendAlert({title: '敬请注意', message: warningMessage});
 				}
 			}
 		}
-
 	}
 
 	// MARK: - Get the option list to kick start everything. If this fails because of browser support, the user won't lose any money.
@@ -86,7 +91,6 @@
 		xhr.onload = function() {
 		    if (xhr.status === 200) {
 		        var info = JSON.parse(xhr.responseText);
-		        //console.log (info);
 		        renderOptionList(info);
 		    }
 		};
