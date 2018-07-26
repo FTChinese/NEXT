@@ -729,7 +729,8 @@ function trackInternalPromos() {
     var promoPosition = currentPromo.getAttribute('data-promo-position');
     // MARK: Use a set timeout to track display. 
     setTimeout(function() {
-      if (isHidden(currentPromo) === false) {
+      // FIXME: This is a temporary hack
+      if (isHidden(currentPromo.parentNode.parentNode) === false) {
         ga('ec:addPromo', {
           'id': promoId,
           'name': promoName,
