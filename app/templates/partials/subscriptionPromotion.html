@@ -72,7 +72,7 @@
 	function addValidator(inputClass, validator, warningMessage) {
 		var theInput = document.querySelector('.contact-form-container .' + inputClass);
 		if (theInput !== null) {
-			theInput.onchange = function() {
+			theInput.onblur = function() {
 				var inputValue = this.value;
 				var statusEle = this.parentNode.querySelector('.status');
 				this.className = this.className.replace(/ wrong/g, '');
