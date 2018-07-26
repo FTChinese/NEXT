@@ -49,14 +49,25 @@
 			</div>
 			<%<!--MARK: Track Promo Box Display-->%>
 			<script type="text/javascript">
-				var promoTarget = '<%$section.promoTarget%>';
-				var subscriptionPaywallType = GetCookie('paywall') || promoTarget;
-				if (subscriptionPaywallType === promoTarget) {
+				// var promoTarget = '<%$section.promoTarget%>';
+				// var subscriptionPaywallType = GetCookie('paywall') || promoTarget;
+				// if (subscriptionPaywallType === promoTarget) {
 					console.log ('From:<%$section.ccode%>');
 					ga('send','event','Web Privileges', 'Display', 'From:<%$section.ccode%>');
-				}
+				//}
+				// TODO: Use a set timeout to track display. 
+				setTimeout(function(){
+					var currentBox = document.querySelector('.subscription-promo-container.<%$section.promoTarget%>');
+					console.log (isHidden(currentBox));
+				}, 5000);
 			</script>
 			<%assign var="promoRendered" value="`$promoRendered``$section.promoTarget`"%>
 	    <%/if%>
 	<%/foreach%>
+	<script type="text/javascript">
+		function isHidden(el) {
+		    var style = window.getComputedStyle(el);
+		    return (style.display === 'none')
+		}
+	</script>
 <%/if%>

@@ -339,15 +339,6 @@
 					<%/if%>
 
 
-					<%if $list.feedType == "premium" || $item.type == "premium" || $paywall == "1" || ($item.type == "interactive" && preg_match("/英语电台|速读/is",$itemTagsString))%>
-						<%assign var="lockClass" value="locked"%>
-					<%else%>
-						<%assign var="lockClass" value=""%>
-					<%/if%>
-
-
-
-
 
 					<%*<!--If editor ticked prefer sponsor image, get image and link from database -->*%>
 					<%if $item.preferSponsorImage == "yes" && $itemMainTag != ""%>
@@ -413,11 +404,13 @@
 						<%assign var="itemType" value=$item.type|default:$item.itemtype|default:$feedType%>
 						<%if $itemType == "photo"%>
 							<%assign var="itemType" value="photonews"%>
+						<%elseif preg_match("/accessright/is",$list.feedTag) || ($itemType == "story" && $item.accessright > 0)%>
+							<%*<!--MARK: - If your sql search has accessright, it means you are searching for paid content only.  -->*%>
+							<%assign var="itemType" value="premium"%>
 						<%/if%>
 						<%if $itemType == "premium" && $inSponsor == "yes"%>
 							<%assign var="itemType" value="story"%>
 						<%/if%>
-						
 						<%assign var="itemClass" value=""%>
 						<%assign var="itemTop" value=""%>
 						<%assign var="itemTopClass" value=""%>
@@ -979,10 +972,11 @@
 						<%assign var="itemTimeStamp" value=""%>
 						<%assign var="itemT" value=$item.timeStamp|default:$item.pubdate|default:$item.add_times%>
 						<%assign var="itemT" value=$itemT|regex_replace:"/\.[0-9]+$/i":""%>
+						<%assign var="highlightTime" value=""%>
+						<%math assign="timeDiff" equation="x-y" x=$smarty.now y=$itemT%>
+						<%assign var="timeMath" value=$timeDiff%>
 						<%if $list.showTimeStamp == "all" || $list.showTimeStamp == "new stories" || $list.feedType == "myFT"%>
-							<%assign var="highlightTime" value=""%>
-							<%math assign="timeDiff" equation="x-y" x=$smarty.now y=$itemT%>
-							<%assign var="timeMath" value=$timeDiff%>
+
 							<%if $item.type === "video" && preg_match("/[0-9]+\-[0-9]+\-[0-9]+/is",$itemT)%>
 								<%assign var="highlightTime" value=""%>
 								<%assign var="timeDiff" value=$itemT|date_format:"%Y年%-m月%-d日"%>
@@ -1071,20 +1065,6 @@
 							<%assign var="itemImageLink" value=$itemLink%>
 						<%/if%>
 
-						<%*<!-- Delete the paidpost story, for there is an alternative ad --> *%>
-						<%* 
-						<%if (preg_match("/特别企划|企业公告/is",$itemTagsString) || ($item.customLink != "" && preg_match("/^http/is",$item.customLink) && !preg_match("/ftchinese.com|ft.com|ftacademy/is",$item.customLink)))  && (!preg_match("/event.html|marketing|m\/corp/is",$smarty.server.REQUEST_URI) || preg_match("/preview/is",$smarty.server.REQUEST_URI))%>
-							<%assign var=itemClass value="`$itemClass` paid-post"%>
-							<%if $paidPostStyleLoaded == ""%>
-								<style><%include file="next/styles/main-paid-post.css"%></style>
-								<%assign var=paidPostStyleLoaded value="yes"%>
-							<%/if%>
-							<!--  Found a paid post 004:   -->
-						<%else%>
-							<!--  Not a paid post 004:   -->
-						<%/if%>
-						*%>
-
 
 						<%assign var="itemSubType" value=""%>
 						<%if $itemType == "interactive"%>
@@ -1098,7 +1078,6 @@
 								<%assign var="itemSubType" value="mbagym"%>
 							<%/if%>
 						<%/if%>
-
 
 
 						<%if $smarty.get.webview == "ftcapp"%>
@@ -1171,6 +1150,12 @@
 							<%/if%>
 						<%/if%> 
 						<%*<!--end  $smarty.get.webview == "ftcapp"-->*%>
+
+						<%if $list.feedType == "premium" || $item.type == "premium" || $itemType == "premium" || $paywall == "1" || ($item.type == "interactive" && preg_match("/英语电台|速读/is",$itemTagsString)) || ($itemType == "story" && $timeMath > 60*60*24*7)%>
+							<%assign var="lockClass" value="locked"%>
+						<%else%>
+							<%assign var="lockClass" value=""%>
+						<%/if%>
 						<%if $inSponsor == "yes"%>
 							<%assign var="lockClass" value=""%>
 						<%/if%>
