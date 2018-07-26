@@ -1,4 +1,4 @@
-/* exported DeleteCookie,username,userId,guid,ccodeCookie,addstoryfav, showOverlay, closeOverlay, w, isTouchDevice, trackerNew, paravalue, trackAdClic, checkUserWarnings*/
+/* exported DeleteCookie,isHidden,username,userId,guid,ccodeCookie,addstoryfav, showOverlay, closeOverlay, w, isTouchDevice, trackerNew, paravalue, trackAdClic, checkUserWarnings*/
 var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 var ua = navigator.userAgent || navigator.vendor || '';
 var gIsSpider = (/spider|baidu|bidu|bot|crawler|crawling/i.test(ua)) ? true: false;
@@ -11,6 +11,12 @@ function findMoreSpider() {
     if (gIsSpider === false && /iPhone OS 9\_1 /i.test(ua) && typeof httpspv !== 'function') {
         gIsSpider = true;
     }
+}
+
+// MARK: - Check if a dom is actually hidden
+function isHidden(el) {
+    var style = window.getComputedStyle(el);
+    return (style.display === 'none');
 }
 
 function GetCookie(name){

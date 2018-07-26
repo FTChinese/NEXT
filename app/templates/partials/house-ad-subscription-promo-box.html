@@ -49,12 +49,27 @@
 			</div>
 			<%<!--MARK: Track Promo Box Display-->%>
 			<script type="text/javascript">
-				var promoTarget = '<%$section.promoTarget%>';
-				var subscriptionPaywallType = GetCookie('paywall') || promoTarget;
-				if (subscriptionPaywallType === promoTarget) {
-					console.log ('From:<%$section.ccode%>');
-					ga('send','event','Web Privileges', 'Display', 'From:<%$section.ccode%>');
-				}
+				// MARK: Use a set timeout to track display. 
+				setTimeout(function(){
+					var promoTarget = '<%$section.promoTarget%>';
+					var promoId = '<%$section.ccode%>';
+					var promoName = '<%$section.title%>'; 
+					var promoCreative = '<%$section.imagePC%>';
+					var promoPosition = '<%$section.type%>';
+					var currentBox = document.querySelector('.subscription-promo-container.' + promoTarget);
+					if (isHidden(currentBox) === false) {
+						ga('ec:addPromo', {               // Promo details provided in a promoFieldObject.
+						  'id': promoId,             // Promotion ID. Required (string).
+						  'name': promoName,          // Promotion name (string).
+						  'creative': promoCreative,   // Creative (string).
+						  'position': promoPosition      // Position  (string).
+						});
+						console.log ('Show From:<%$section.ccode%>');
+						ga('send','event','Web Privileges', 'Display', 'From:<%$section.ccode%>');
+					} else {
+						console.log ('No Show From:<%$section.ccode%>');
+					}
+				}, 5000);
 			</script>
 			<%assign var="promoRendered" value="`$promoRendered``$section.promoTarget`"%>
 	    <%/if%>
