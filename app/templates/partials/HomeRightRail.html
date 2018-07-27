@@ -89,12 +89,27 @@
 		<%else%>
 			<div class="links-container P-hide">
 				<h2 class="list-title"><a href="/m/marketing/home.html">会员信息中心</a></h2>
-				<div class="links" id="member-info">
-				<a>...</a><a>...</a><a>...</a>
-				</div>
-				<div class="hide">
-				<iframe width="0" height="0" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src = "/m/marketing/membertext.html"></iframe>
-				</div>
+				<%if	$smarty.get.newdb == "yes" %>
+					<div class="links">
+							<div 
+							data-o-ads-name="membertext1"
+							class="o-ads"  
+							data-o-ads-formats-default="false" 
+							data-o-ads-formats-small="false" 
+							data-o-ads-formats-medium="FtcMembertext"
+							data-o-ads-formats-large="FtcMembertext"
+							data-o-ads-targeting="pos=membertext1;"
+							>
+							</div>
+					</div>
+				<%else%>
+					<div class="links" id="member-info">
+						<a>...</a><a>...</a><a>...</a>
+					</div>
+					<div class="hide">
+						<iframe width="0" height="0" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src = "/m/marketing/membertext.html"></iframe>
+					</div>
+				<%/if>
 			</div>
 		<%/if%>
 		
