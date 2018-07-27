@@ -7,6 +7,7 @@ var bodyHeight;
 var gNavOffsetY=0;
 var gNavHeight = 44;
 var gShareOffsetY;
+var gStickyElementOffsetY;
 var gAudioOffsetY;
 var gLanguageSwitchOffsetY;
 var gRecomendOffsetY;
@@ -451,16 +452,25 @@ function stickyBottomPrepare() {
     gAudioOffsetY = findTop(document.getElementById('audio-placeholder'));
   }
 
+  var stickyElement = document.querySelector('.sticky-element');
+  var stickyElementInner = stickyElement.querySelector('.sticky-element-inner');
+  if (stickyElement && stickyElementInner) {
+    gStickyElementOffsetY = findTop(stickyElement);
+    var stickyElementHeight = stickyElement.offsetHeight;
+    var stickyElementWidth = stickyElementInner.offsetWidth;
+    if (stickyElementHeight > 0 && stickyElementWidth > 0) {
+      stickyElement.style.height = stickyElementHeight + 'px';
+      stickyElementInner.style.height = stickyElementHeight + 'px';
+      stickyElementInner.style.width = stickyElementWidth + 'px';
+    }
+  }
+  
   var languageSwitchEle = document.getElementById('language-switch-placeholder');
   if (languageSwitchEle) {
     gLanguageSwitchOffsetY = findTop(languageSwitchEle);
   }
 
-  
-
   w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-
-
 
   if (sectionsWithSide && sectionsWithSide.length > 0) {
     for (var i=0; i<sectionsWithSide.length; i++) {
@@ -490,7 +500,7 @@ function stickyBottomPrepare() {
 function stickyBottomUpdate() {
 
 
-  var htmlClassNew = htmlClass.replace(/( o-nav-sticky)|( tool-sticky)|( audio-sticky)/g, '');
+  var htmlClassNew = htmlClass.replace(/( o-nav-sticky)|( tool-sticky)|( audio-sticky)|( sticky-element-on)/g, '');
   if (typeof requestAnimationFrame === 'function') {
     requestAnimationFrame(stickyBottomUpdate);
   }
@@ -522,9 +532,12 @@ function stickyBottomUpdate() {
     }
   }
 
-  
-
-
+  //sticky element
+  if (typeof gStickyElementOffsetY === 'number' && gStickyElementOffsetY > gNavOffsetY) {
+    if (scrollTop + gNavHeight >= gStickyElementOffsetY ) {
+      htmlClassNew += ' sticky-element-on';
+    }
+  }
 
   if (htmlClassNew !== htmlClass) {
     htmlClass = htmlClassNew;
