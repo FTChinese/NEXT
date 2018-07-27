@@ -759,9 +759,9 @@ function trackInternalPromos() {
               }
           });
           // MARK: If for some reason GA is not accessible, redirectly regardless
-          setTimeout(function() {
-            openLink(theLink);
-          }, 3000);
+          // setTimeout(function() {
+          //   openLink(theLink);
+          // }, 3000);
           // MARK: Track the event then go to link 
           return !ga.loaded;
         };
