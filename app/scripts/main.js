@@ -718,6 +718,14 @@ function isHidden(el) {
     return (el.offsetParent === null);
 }
 
+function openLink(theLink) {
+  try {
+    webkit.messageHandlers.link.postMessage(theLink);
+  } catch(error) {
+    document.location = theLink;
+  }
+}
+
 function trackInternalPromos() {
   // MARK: Use a set timeout to track display. 
   setTimeout(function() {
@@ -747,12 +755,12 @@ function trackInternalPromos() {
           var theLink = this.href;
           ga('send','event','Web Privileges', 'Tap', 'From:' + promoId, {
               hitCallback: function() {
-              document.location = theLink;
+                openLink(theLink);
               }
           });
           // MARK: If for some reason GA is not accessible, redirectly regardless
-          setTimeout(function(){
-            document.location = theLink;
+          setTimeout(function() {
+            openLink(theLink);
           }, 3000);
           // MARK: Track the event then go to link 
           return !ga.loaded;
