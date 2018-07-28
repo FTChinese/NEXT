@@ -452,9 +452,10 @@ function stickyBottomPrepare() {
     gAudioOffsetY = findTop(document.getElementById('audio-placeholder'));
   }
 
+  var allStickyElementCount = document.querySelectorAll('.sticky-element').length;
   var stickyElement = document.querySelector('.sticky-element');
   var stickyElementInner = stickyElement.querySelector('.sticky-element-inner');
-  if (stickyElement && stickyElementInner) {
+  if (allStickyElementCount === 1 && stickyElement && stickyElementInner) {
     gStickyElementOffsetY = findTop(stickyElement);
     var stickyElementHeight = stickyElement.offsetHeight;
     var stickyElementWidth = stickyElementInner.offsetWidth;
