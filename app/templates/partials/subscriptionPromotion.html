@@ -120,6 +120,8 @@
 		}
 		listHTML = '<div class="n-options-inner">' + listHTML + '</div>';
 		listContainer.innerHTML = listHTML;
+		try {stickyBottomPrepare();} catch (ignore) {}
+
 		var submitButton = document.getElementById('payment-button');
 		if (submitButton !== undefined) {
 			// MARK: Only when everything is updated correctly, do we allow the payment button to be clicked
