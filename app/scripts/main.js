@@ -456,6 +456,9 @@ function stickyBottomPrepare() {
   var stickyElement = document.querySelector('.sticky-element');
   var stickyElementInner = stickyElement.querySelector('.sticky-element-inner');
   if (allStickyElementCount === 1 && stickyElement && stickyElementInner) {
+    // MARK: - Set the height as auto first so that if the page is changed by an ajax callback, we can recalculate the offsetHeight. 
+    stickyElement.style.height = 'auto';
+    stickyElementInner.style.height = 'auto';
     gStickyElementOffsetY = findTop(stickyElement);
     var stickyElementHeight = stickyElement.offsetHeight;
     var stickyElementWidth = stickyElementInner.offsetWidth;
