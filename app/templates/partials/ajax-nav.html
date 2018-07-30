@@ -30,6 +30,9 @@
       <%if $level_2.haschildren%>
       <ol class="nav-sub-items level-3">  
         <%if $level_2.code == "special"%>
+        <%if date("Ymd", $smarty.now) <= 20181231 %>
+          <li><a href="/channel/tradewar.html">中美贸易战</a></li>
+        <%/if%>
         <%if date("Ymd",$smarty.now) >= 20180730 && date("Ymd", $smarty.now) <= 20180828 %>
           <li><a href="/tag/汽车未来">汽车未来</a></li>
         <%/if%>

@@ -142,6 +142,9 @@
                                 <%if $level_2.code == "special"%>
                                   <ol class="nav-sub-items">
                                     <%*<!--特别报导入口修改处，还要修改ajax-nav.html和o-nav.js -->*%>
+                                    <%if date("Ymd", $smarty.now) <= 20181231 %>
+                                      <li><a href="/channel/tradewar.html">中美贸易战</a></li>
+                                    <%/if%>
                                     <%if date("Ymd",$smarty.now) >= 20180730 && date("Ymd", $smarty.now) <= 20180828 %>
                                       <li><a href="/tag/汽车未来">汽车未来</a></li>
                                     <%/if%>

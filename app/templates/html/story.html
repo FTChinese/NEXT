@@ -704,7 +704,7 @@
 	<%assign var="hide590" value="no"%>
 	<%assign var="hideBanner" value="no"%>
 
-<%elseif preg_match("/汽车未来/is",$keys) && date("Ymd",$smarty.now) >= 20180709 && date("Ymd",$smarty.now) <= 20180814%>
+<%elseif preg_match("/汽车未来/is",$keys) && date("Ymd",$smarty.now) <= 20180814%>
 	<%assign var=breadcrum value="<a href=\"/tag/汽车未来\">汽车未来</a>"%>
 	<%assign var="adchannelID" value="5070"%>
 	<%assign var="hideMPU1" value="no"%>
@@ -712,6 +712,9 @@
 	<%assign var="hideMPU3" value="no"%>
 	<%assign var="hide590" value="no"%>
 	<%assign var="hideBanner" value="no"%>
+
+<%elseif preg_match("/中美贸易战/is",$keys) && date("Ymd",$smarty.now) <= 20181231%>
+	<%assign var=breadcrum value="<a href=\"/channel/tradewar.html\">中美贸易战</a>"%>
 
 <%elseif (preg_match("/management|economy|markets/is",$story.topic) || preg_match("/经济|房地产/is",$keys)) && date("Ymd",$smarty.now) <= 20170817%>
 	<%assign var="randNum" value =0|mt_rand:2 %>
