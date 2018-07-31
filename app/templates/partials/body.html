@@ -112,7 +112,7 @@
 <%if $smarty.get.webview == "ftcapp"%>
     <script type="text/javascript">
         window.linksForShare = {
-            'url': '<%$smarty.server.REQUEST_URI%>',
+            'url': window.location.href,
             'title': '<%$p.meta.title%><%if $pageId != "home"%> - FT中文网<%/if%>',
             'lead': '<%$p.meta.description%>',
             'image': ''
