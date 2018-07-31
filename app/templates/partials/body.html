@@ -109,3 +109,13 @@
 <%foreach from=$tagInteractive item=sc%>
     <div style="display: none;" class="specialanchor" tag="<%$sc.cheadline%>" title="<%$sc.cheadline%>" adid="<%$sc.eheadline%>" channel="<%$sc.cskylineheadline%>" hideAd="<%$sc.show_english%>"></div>
 <%/foreach%>
+<%if $smarty.get.webview == "ftcapp"%>
+    <script type="text/javascript">
+        window.linksForShare = {
+            'url': '<%$smarty.server.REQUEST_URI%>',
+            'title': '<%$p.meta.title%><%if $pageId != "home"%> - FT中文网<%/if%>',
+            'lead': '<%$p.meta.description%>',
+            'image': ''
+        };
+    </script>
+<%/if%>

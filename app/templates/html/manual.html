@@ -272,18 +272,6 @@
             <meta property="og:url" content="<%$smarty.server.REQUEST_URI%>" />
             <meta property="og:title" content="<%$p.meta.title%><%if $pageId != "home"%> - FT中文网<%/if%>" />
             <meta property="og:description" content="<%$p.meta.description%>" />
-
-
-            <%if $smarty.get.webview == "ftcapp"%>
-                <script type="text/javascript">
-                    window.linksForShare = {
-                        'url': '<%$smarty.server.REQUEST_URI%>',
-                        'title': '<%$p.meta.title%><%if $pageId != "home"%> - FT中文网<%/if%>',
-                        'lead': '<%$p.meta.description%>',
-                        'image': ''
-                    };
-                </script>
-            <%/if%>
             <script type="text/javascript">
                 <%if $smarty.get.webview == "ftcapp"%>
                     <%include file = "next/scripts/main-ftcapp.js"%>
