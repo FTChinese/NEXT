@@ -1,5 +1,5 @@
 
-<%if $section.subscriptionBoxTarget == "all" || ($section.subscriptionBoxTarget == "campaign" && ($smarty.get.ccode == $section.ccode || $smarty.get.utm_campaign == $section.ccode))%>
+<%if $section.subscriptionBoxTarget == "all"  || ($section.subscriptionBoxTarget == "allCampaigns" && $smarty.get.ccode != "") || ($section.subscriptionBoxTarget == "oneCampaign" && ($smarty.get.ccode == $section.ccode || $smarty.get.utm_campaign == $section.ccode))%>
   <style><%include file="next/styles/main-subscription-box.css"%></style>
   <div id="site-content" class="o-member-container">
       <div class="o-member__heading">

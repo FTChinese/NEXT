@@ -763,7 +763,7 @@ function trackInternalPromos() {
           'creative': promoCreative,
           'position': promoPosition
         });
-        ga('send','event','Web Privileges', 'Display', 'From:' + promoId);    
+        ga('send','event','Web Privileges', 'Display', 'From:' + promoId, {'nonInteraction':1});
         currentPromo.onclick = function() {
           ga('ec:addPromo', {
             'id': promoId,
