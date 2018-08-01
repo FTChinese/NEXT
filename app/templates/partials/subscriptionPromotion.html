@@ -1,45 +1,43 @@
-<%if $hidePromoBox != "yes"%>
-	<style><%include file="next/styles/main-form-subscription.css"%></style>
-	<div class="list-container sticky-element">
-		<div class="list-inner sticky-element-inner">
-			<%if $list.title != ""%>
-				<h2 class="list-title">
-					<a class="list-link" href="#"><%$list.title%></a>
-				</h2>
-			<%/if%>
-			<%if $list.description != ""%>
-				<div class="items">
-					<div class="no-image">
-						<div class="item-inner">
-							<div class="item-lead"><%$list.description%></div>
-						</div>
-					</div>
-				</div>
-			<%/if%>
+<style><%include file="next/styles/main-form-subscription.css"%></style>
+<div class="list-container sticky-element">
+	<div class="list-inner sticky-element-inner">
+		<%if $list.title != ""%>
+			<h2 class="list-title">
+				<a class="list-link" href="#"><%$list.title%></a>
+			</h2>
+		<%/if%>
+		<%if $list.description != ""%>
 			<div class="items">
-				<div class="item-container XL12 L12 M12 S12 P12 no-image">
+				<div class="no-image">
 					<div class="item-inner">
-						<div class="center n-button-container n-subscription-container">
-							<div class="n-options-container" id="n-options-container"></div>
-							<a class="n-button-inner subscription-button disabled" id="payment-button"><%$list.buttonTitle%></a>
-						</div>
+						<div class="item-lead"><%$list.description%></div>
 					</div>
 				</div>
-				<div class="overlay-container" id="success-note">
-					<div class="overlay-inner">
-						<div class="overlay-bg" data-parentid="overlay-login"></div>
-						<div class="overlay-content-outer">
-							<div class="overlay-content-inner">
-								<div class="overlay-content">
-									<div class="contact-form-container">
-										<div class="item-lead">非常感谢！请填写您的收件地址。</div>
-										<div><span>收货人：</span><input type="text" placeholder="收货人姓名" class="name"><span class="status"></span></div>
-										<div><span>手机：</span><input type="tel" placeholder="请准确填写号码" class="tel"><span class="status"></span></div>
-										<div><span>收货地址：</span><input type="text" placeholder="请填写准确地址" class="address"><span class="status"></span></div>
-										<div><span>备注：</span><input type="text" placeholder="给FT中文网留言" class="note"><span class="status"></span></div>
-										<div class="center n-button-container">
-											<button class="n-button-inner subscription-button">提交信息</button>
-										</div>
+			</div>
+		<%/if%>
+		<div class="items">
+			<div class="item-container XL12 L12 M12 S12 P12 no-image">
+				<div class="item-inner">
+					<div class="center n-button-container n-subscription-container">
+						<div class="n-options-container" id="n-options-container"></div>
+						<a class="n-button-inner subscription-button disabled" id="payment-button"><%$list.buttonTitle%></a>
+					</div>
+				</div>
+			</div>
+			<div class="overlay-container" id="success-note">
+				<div class="overlay-inner">
+					<div class="overlay-bg" data-parentid="overlay-login"></div>
+					<div class="overlay-content-outer">
+						<div class="overlay-content-inner">
+							<div class="overlay-content">
+								<div class="contact-form-container">
+									<div class="item-lead">非常感谢！请填写您的收件地址。</div>
+									<div><span>收货人：</span><input type="text" placeholder="收货人姓名" class="name"><span class="status"></span></div>
+									<div><span>手机：</span><input type="tel" placeholder="请准确填写号码" class="tel"><span class="status"></span></div>
+									<div><span>收货地址：</span><input type="text" placeholder="请填写准确地址" class="address"><span class="status"></span></div>
+									<div><span>备注：</span><input type="text" placeholder="给FT中文网留言" class="note"><span class="status"></span></div>
+									<div class="center n-button-container">
+										<button class="n-button-inner subscription-button">提交信息</button>
 									</div>
 								</div>
 							</div>
@@ -49,212 +47,212 @@
 			</div>
 		</div>
 	</div>
-	<script type="text/javascript">
-		var subscriptionType = '<%$list.subscriptionType%>';
-		var promoCode = '<%$list.ccode%>';
-		var itemNumber = '<%$list.itemNumber%>';
-		var paymentLink = 'http://www.ftacademy.cn/subscription.html?ccode=<%$list.ccode%>&tap=<%$list.subscriptionType%>';
-		var noteForSuccess = '<%$list.feedbackForSuccess%>';
-		var noteForFailure = '<%$list.feedbackForFailure%>';
+</div>
+<script type="text/javascript">
+	var subscriptionType = '<%$list.subscriptionType%>';
+	var promoCode = '<%$list.ccode%>';
+	var itemNumber = '<%$list.itemNumber%>';
+	var paymentLink = 'http://www.ftacademy.cn/subscription.html?ccode=<%$list.ccode%>&tap=<%$list.subscriptionType%>';
+	var noteForSuccess = '<%$list.feedbackForSuccess%>';
+	var noteForFailure = '<%$list.feedbackForFailure%>';
 
-		// MARK: This is the starting point of all the actions. Follow the functions to understand the workflow. 
-		function kickStart() {
-			getOptionList();
-			if (window.location.href.indexOf('&buy=success') > 0) {
-				handleIAPResult('buy success', subscriptionType);
-			}
-			addValidator('tel', /^[0-9]{11}$/, '请填写11位数字的手机号码，不要使用全角');
-			addValidator('name', /^.{2,}$/, '您的姓名至少要有两个字');
-			addValidator('address', /^.{5,}$/, '地址至少应该有5个字');
+	// MARK: This is the starting point of all the actions. Follow the functions to understand the workflow. 
+	function kickStart() {
+		getOptionList();
+		if (window.location.href.indexOf('&buy=success') > 0) {
+			handleIAPResult('buy success', subscriptionType);
 		}
+		addValidator('tel', /^[0-9]{11}$/, '请填写11位数字的手机号码，不要使用全角');
+		addValidator('name', /^.{2,}$/, '您的姓名至少要有两个字');
+		addValidator('address', /^.{5,}$/, '地址至少应该有5个字');
+	}
 
 
-		function addValidator(inputClass, validator, warningMessage) {
-			var theInput = document.querySelector('.contact-form-container .' + inputClass);
-			if (theInput !== null) {
-				theInput.onblur = function() {
-					var inputValue = this.value;
-					var statusEle = this.parentNode.querySelector('.status');
-					this.className = this.className.replace(/ wrong/g, '');
-					if (validator.test(inputValue)) {
-						statusEle.innerHTML = '';
-					} else {
-						this.className += ' wrong';
-						statusEle.innerHTML = warningMessage;
-					}
+	function addValidator(inputClass, validator, warningMessage) {
+		var theInput = document.querySelector('.contact-form-container .' + inputClass);
+		if (theInput !== null) {
+			theInput.onblur = function() {
+				var inputValue = this.value;
+				var statusEle = this.parentNode.querySelector('.status');
+				this.className = this.className.replace(/ wrong/g, '');
+				if (validator.test(inputValue)) {
+					statusEle.innerHTML = '';
+				} else {
+					this.className += ' wrong';
+					statusEle.innerHTML = warningMessage;
 				}
 			}
 		}
+	}
 
-		// MARK: - Get the option list to kick start everything. If this fails because of browser support, the user won't lose any money.
-		function getOptionList() {
-			var xhr = new XMLHttpRequest();
-			xhr.open('GET', '/index.php/campaign/promo/' + promoCode);
-			xhr.setRequestHeader('Content-Type', 'application/json');
-			xhr.onload = function() {
-			    if (xhr.status === 200) {
-			        var info = JSON.parse(xhr.responseText);
-			        renderOptionList(info);
-			    }
-			};
-			xhr.send();
+	// MARK: - Get the option list to kick start everything. If this fails because of browser support, the user won't lose any money.
+	function getOptionList() {
+		var xhr = new XMLHttpRequest();
+		xhr.open('GET', '/index.php/campaign/promo/' + promoCode);
+		xhr.setRequestHeader('Content-Type', 'application/json');
+		xhr.onload = function() {
+		    if (xhr.status === 200) {
+		        var info = JSON.parse(xhr.responseText);
+		        renderOptionList(info);
+		    }
+		};
+		xhr.send();
+	}
+
+	// MARK: - Show the option list with the data from getOptionList
+	function renderOptionList(options) {
+		var listContainer = document.getElementById('n-options-container');
+		var listHTML = '';
+		for (var i=0; i<options.length; i++) {
+			var currentItem = options[i];
+			var id = currentItem.id;
+			var name = currentItem.name;
+			var num = currentItem.num;
+			var disableProperty = '';
+			var disableClass = '';
+			num = parseInt(num, 10) || 0;
+			if (num < itemNumber) {
+				disableProperty = ' disabled';
+				disableClass = ' disabled';
+			}
+			listHTML +=  '<div class="option-item' + disableClass + '"><input type="radio" id="' + id + '" name="options-list" data-num="' + num + '"' + disableProperty + '/><label for="' + id + '">' + name + '<span class="option-note">余票 '+ num +'</span></label></div>';
 		}
+		listHTML = '<div class="n-options-inner">' + listHTML + '</div>';
+		listContainer.innerHTML = listHTML;
+		try {stickyBottomPrepare();} catch (ignore) {}
 
-		// MARK: - Show the option list with the data from getOptionList
-		function renderOptionList(options) {
-			var listContainer = document.getElementById('n-options-container');
-			var listHTML = '';
+		var submitButton = document.getElementById('payment-button');
+		if (submitButton !== undefined) {
+			// MARK: Only when everything is updated correctly, do we allow the payment button to be clicked
+			submitButton.onclick = function(e) {
+				var checkedRadio = document.querySelector('input[name="options-list"]:checked');
+				var checkedId;
+				if (checkedRadio !== null) {
+					checkedId = checkedRadio.id;
+					itemNumber = parseInt(itemNumber, 10) || 1;
+					if (checkedId) {
+						reserveItem(checkedId, itemNumber);
+					}
+				} else {
+					alert ('请先选择您需要的票！');
+				}
+			};
+			// MARK: Only when at least one option is checked, do show the payment button as enabled
+			var options = document.querySelectorAll('input[name="options-list"]');
 			for (var i=0; i<options.length; i++) {
-				var currentItem = options[i];
-				var id = currentItem.id;
-				var name = currentItem.name;
-				var num = currentItem.num;
-				var disableProperty = '';
-				var disableClass = '';
-				num = parseInt(num, 10) || 0;
-				if (num < itemNumber) {
-					disableProperty = ' disabled';
-					disableClass = ' disabled';
-				}
-				listHTML +=  '<div class="option-item' + disableClass + '"><input type="radio" id="' + id + '" name="options-list" data-num="' + num + '"' + disableProperty + '/><label for="' + id + '">' + name + '<span class="option-note">余票 '+ num +'</span></label></div>';
-			}
-			listHTML = '<div class="n-options-inner">' + listHTML + '</div>';
-			listContainer.innerHTML = listHTML;
-			try {stickyBottomPrepare();} catch (ignore) {}
-
-			var submitButton = document.getElementById('payment-button');
-			if (submitButton !== undefined) {
-				// MARK: Only when everything is updated correctly, do we allow the payment button to be clicked
-				submitButton.onclick = function(e) {
-					var checkedRadio = document.querySelector('input[name="options-list"]:checked');
-					var checkedId;
-					if (checkedRadio !== null) {
-						checkedId = checkedRadio.id;
-						itemNumber = parseInt(itemNumber, 10) || 1;
-						if (checkedId) {
-							reserveItem(checkedId, itemNumber);
-						}
-					} else {
-						alert ('请先选择您需要的票！');
-					}
-				};
-				// MARK: Only when at least one option is checked, do show the payment button as enabled
-				var options = document.querySelectorAll('input[name="options-list"]');
-				for (var i=0; i<options.length; i++) {
-					options[i].onchange = function() {
-						var submitButton = document.getElementById('payment-button');
-						submitButtonClassName = submitButton.className || '';
-						if (submitButtonClassName.indexOf(' disabled') > 0) {
-							submitButton.className = submitButtonClassName.replace(' disabled', '');
-						}
+				options[i].onchange = function() {
+					var submitButton = document.getElementById('payment-button');
+					submitButtonClassName = submitButton.className || '';
+					if (submitButtonClassName.indexOf(' disabled') > 0) {
+						submitButton.className = submitButtonClassName.replace(' disabled', '');
 					}
 				}
 			}
 		}
+	}
 
-		// MARK: When user click the payment button, reserve the tickets/gifts/awards/items. 
-		function reserveItem(id, itemNumber) {
-			var xhr = new XMLHttpRequest();
-			xhr.open('GET', '/index.php/campaign/reserve/' + id + '?num=' + itemNumber);
-			xhr.setRequestHeader('Content-Type', 'application/json');
-			xhr.onload = function() {
-			    if (xhr.status === 200) {
-			        var info = JSON.parse(xhr.responseText);
-			        if (info.errmsg === 'success') {
-			        	var url = window.location.href;
-			        	// MARK: - Launch the payment button only when reservation is successful. 
-			        	// MARK: - It is not a good practice to use web view for payment in native app. If we want to involve payment method other than Apple IAP, we should use native code to do this. 
-			        	if (url.indexOf('webview=ftcapp')) {
-			        		try {
-			        			webkit.messageHandlers.link.postMessage(paymentLink);
-			        		} catch (ignore) {
-			        			window.location.href = paymentLink;
-			        		}
-			        	} else {
-			        		window.location.href = paymentLink;
-			        	}
-			        } else {
-						var errorMessage = {
-							title: '敬请注意',
-							message: info.errmsg
-						}
-						sendAlert(errorMessage);
-			        }
-			    }
-			};
-			xhr.send();
-		}
-
-
-		// MARK: - If the user has successfully paid, show the contact form
-		function handleIAPResult(actionType, key) {
-				if (actionType === 'buy success' && key === subscriptionType) {
-					document.getElementById('success-note').className += ' on';
-					var submitButton = document.querySelector('#success-note .subscription-button');
-					if (submitButton !== undefined) {
-						submitButton.onclick = function(e) {
-							submitContactInfoData();
-						};
+	// MARK: When user click the payment button, reserve the tickets/gifts/awards/items. 
+	function reserveItem(id, itemNumber) {
+		var xhr = new XMLHttpRequest();
+		xhr.open('GET', '/index.php/campaign/reserve/' + id + '?num=' + itemNumber);
+		xhr.setRequestHeader('Content-Type', 'application/json');
+		xhr.onload = function() {
+		    if (xhr.status === 200) {
+		        var info = JSON.parse(xhr.responseText);
+		        if (info.errmsg === 'success') {
+		        	var url = window.location.href;
+		        	// MARK: - Launch the payment button only when reservation is successful. 
+		        	// MARK: - It is not a good practice to use web view for payment in native app. If we want to involve payment method other than Apple IAP, we should use native code to do this. 
+		        	if (url.indexOf('webview=ftcapp')) {
+		        		try {
+		        			webkit.messageHandlers.link.postMessage(paymentLink);
+		        		} catch (ignore) {
+		        			window.location.href = paymentLink;
+		        		}
+		        	} else {
+		        		window.location.href = paymentLink;
+		        	}
+		        } else {
+					var errorMessage = {
+						title: '敬请注意',
+						message: info.errmsg
 					}
+					sendAlert(errorMessage);
+		        }
+		    }
+		};
+		xhr.send();
+	}
+
+
+	// MARK: - If the user has successfully paid, show the contact form
+	function handleIAPResult(actionType, key) {
+			if (actionType === 'buy success' && key === subscriptionType) {
+				document.getElementById('success-note').className += ' on';
+				var submitButton = document.querySelector('#success-note .subscription-button');
+				if (submitButton !== undefined) {
+					submitButton.onclick = function(e) {
+						submitContactInfoData();
+					};
 				}
-		}
-
-		// MARK: - Submit the contact information when payment is successful. 
-		function submitContactInfoData() {
-			var contactInfoAll = document.querySelectorAll('#success-note .contact-form-container input');
-			var ielement = {cid: promoCode};
-			var currentIndex = 1;
-			ielement['mod' + currentIndex] = GetCookie('USER_ID') || '';
-			for (var i=0; i<contactInfoAll.length; i++) {
-				currentIndex += 1; 
-				ielement['mod' + currentIndex] = contactInfoAll[i].value;
 			}
-	        var userData = {
-	            head: {
-	                transactiontype: "20008"
-	            },
-	            body: {
-	                ielement: ielement
-	            }
-	        };
-	        var xhr = new XMLHttpRequest();
-			xhr.open('POST', '/eaclient/apijson.php');
-			xhr.setRequestHeader('Content-Type', 'application/json');
-			xhr.onload = function() {
-			    if (xhr.status === 200) {
-			        var info = JSON.parse(xhr.responseText);
-			        var messageTitleEle = document.querySelector('#success-note .contact-form-container .item-lead');
-			       	if (info && info.body && info.body.oelement && info.body.oelement.errorcode === '0') {
-			       		sendAlert({
-			       			title: '成功',
-			       			message: noteForSuccess
-			       		});
-			       		messageTitleEle.innerHTML = noteForSuccess;
-			       		setTimeout(function(){
-			       			var successNoteClassName = document.getElementById('success-note').className;
-			       			document.getElementById('success-note').className = successNoteClassName.replace(' on', '');
-			       		}, 3000);
-			       	} else {
-			       		sendAlert({
-			       			title: '请注意',
-			       			message: noteForFailure
-			       		});
-			       		messageTitleEle.innerHTML = noteForFailure;
-			       	}
-			    }
-			};
-			xhr.send(JSON.stringify(userData));
-		}
+	}
 
-		// MARK: - A useful helper function to show alert both in web page and FTC iOS native app. 
-		function sendAlert(obj) {
-	        try {
-				webkit.messageHandlers.alert.postMessage(obj);
-			} catch (error) {
-				alert (obj.message);
-			}
+	// MARK: - Submit the contact information when payment is successful. 
+	function submitContactInfoData() {
+		var contactInfoAll = document.querySelectorAll('#success-note .contact-form-container input');
+		var ielement = {cid: promoCode};
+		var currentIndex = 1;
+		ielement['mod' + currentIndex] = GetCookie('USER_ID') || '';
+		for (var i=0; i<contactInfoAll.length; i++) {
+			currentIndex += 1; 
+			ielement['mod' + currentIndex] = contactInfoAll[i].value;
 		}
+        var userData = {
+            head: {
+                transactiontype: "20008"
+            },
+            body: {
+                ielement: ielement
+            }
+        };
+        var xhr = new XMLHttpRequest();
+		xhr.open('POST', '/eaclient/apijson.php');
+		xhr.setRequestHeader('Content-Type', 'application/json');
+		xhr.onload = function() {
+		    if (xhr.status === 200) {
+		        var info = JSON.parse(xhr.responseText);
+		        var messageTitleEle = document.querySelector('#success-note .contact-form-container .item-lead');
+		       	if (info && info.body && info.body.oelement && info.body.oelement.errorcode === '0') {
+		       		sendAlert({
+		       			title: '成功',
+		       			message: noteForSuccess
+		       		});
+		       		messageTitleEle.innerHTML = noteForSuccess;
+		       		setTimeout(function(){
+		       			var successNoteClassName = document.getElementById('success-note').className;
+		       			document.getElementById('success-note').className = successNoteClassName.replace(' on', '');
+		       		}, 3000);
+		       	} else {
+		       		sendAlert({
+		       			title: '请注意',
+		       			message: noteForFailure
+		       		});
+		       		messageTitleEle.innerHTML = noteForFailure;
+		       	}
+		    }
+		};
+		xhr.send(JSON.stringify(userData));
+	}
 
-		kickStart();
-	</script>
-<%/if%>
+	// MARK: - A useful helper function to show alert both in web page and FTC iOS native app. 
+	function sendAlert(obj) {
+        try {
+			webkit.messageHandlers.alert.postMessage(obj);
+		} catch (error) {
+			alert (obj.message);
+		}
+	}
+
+	kickStart();
+</script>
