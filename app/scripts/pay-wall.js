@@ -176,7 +176,7 @@ function openHint() {
             'id': window.gSubscriptionEventLabel,             
             'name': window.gSubscriptionEventLabel,          
             'creative': location.href,   
-            'position': 'as a member'     
+            'position': 'become a member'     
           });
         };
       }
