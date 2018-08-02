@@ -497,6 +497,14 @@ try {
         subscribeNow.onclick = function(){
             // MARK: - Stop Tracking for Lack of GA Quota
             //ga('send','event','Web Privileges','Tap',window.gSubscriptionEventLabel);
+            // ga('ec:addPromo', {
+            //     'id': window.gSubscriptionEventLabel,
+            //     'name': window.gSubscriptionEventLabel,
+            //     'creative': location.href,
+            //     'position': 'story page'
+            // });
+            // ga('ec:setAction', 'promo_click');
+            // ga('send', 'event', 'Web Privileges', 'Tap', window.gSubscriptionEventLabel);
         };
     }
     
