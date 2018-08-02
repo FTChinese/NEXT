@@ -90,6 +90,7 @@ function updateClientIdLinks() {
             var connector = (link.indexOf('?') > 0) ? '&' : '?';
             var eleClass = ele.className;
             ele.href = link + connector + 'clientId=' + window.gClientId;
+            console.log (ele.href);
             ele.className = eleClass.replace(/o-client-id-link/g, '');
         }
       }

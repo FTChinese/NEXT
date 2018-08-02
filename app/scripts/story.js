@@ -494,12 +494,8 @@ try {
     if(subscribeNow){
         var hrefLink = 'http://www.ftchinese.com/index.php/ft/subscription?el='+window.gSubscriptionEventLabel;
         subscribeNow.href = hrefLink;
-        subscribeNow.onclick = function(){
-            // MARK: - Stop Tracking for Lack of GA Quota
-            //ga('send','event','Web Privileges','Tap',window.gSubscriptionEventLabel);
-        };
+        updateClientIdLinks();
     }
-    
 } catch(ignore) {
 
 }
