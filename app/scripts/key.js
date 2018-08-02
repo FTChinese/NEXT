@@ -297,6 +297,11 @@ function trackerNew() {
         ga('set', 'dimension12', window.subTopic);
     }
 
+    ga(function(tracker) {
+      window.gClientId = tracker.get('clientId');
+      console.log ('client id is ' + window.gClientId);
+    });
+
     //Optimize trackNew
     //console.log('Optimize track new');
     setTimeout(function(){
@@ -344,6 +349,8 @@ function trackerNew() {
         } else {
             if (window.gAutoStart === undefined) {ga('send', 'pageview');}
         }
+
+
         // MARK: - Stop tracking for lack of GA quota
 	    // if (typeof window.FTStoryid === 'string' && typeof keyTag === 'string' && keyTag.indexOf(',')>=0) {
 	    //     keyTagArray=keyTag.split(',');
@@ -352,6 +359,8 @@ function trackerNew() {
 	    //     }
 	    // }
     }, 1);
+
+
 }
 
 
