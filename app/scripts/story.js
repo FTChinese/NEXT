@@ -506,8 +506,8 @@ try {
             // ga('ec:setAction', 'promo_click');
             // ga('send', 'event', 'Web Privileges', 'Tap', window.gSubscriptionEventLabel);
         };
+        updateClientIdLinks();
     }
-    
 } catch(ignore) {
 
 }

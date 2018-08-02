@@ -163,6 +163,10 @@
 		        	var url = window.location.href;
 		        	// MARK: - Launch the payment button only when reservation is successful. 
 		        	// MARK: - It is not a good practice to use web view for payment in native app. If we want to involve payment method other than Apple IAP, we should use native code to do this. 
+		        	if (typeof window.gClientId === 'string') {
+						var connector = (paymentLink.indexOf('?') > 0) ? '&' : '?';
+						paymentLink = paymentLink + connector + 'clientId=' + window.gClientId;
+			     	}
 		        	if (url.indexOf('webview=ftcapp')) {
 		        		try {
 		        			webkit.messageHandlers.link.postMessage(paymentLink);
