@@ -501,7 +501,7 @@ try {
                 'id': window.gSubscriptionEventLabel,
                 'name': window.gSubscriptionEventLabel,
                 'creative': location.href,
-                'position': 'story page'
+                'position': 'as a member'
             });
             ga('ec:setAction', 'promo_click');
             ga('send', 'event', 'Web Privileges', 'Tap', window.gSubscriptionEventLabel);
