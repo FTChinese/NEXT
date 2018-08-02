@@ -299,7 +299,6 @@ function trackerNew() {
 
     ga(function(tracker) {
       window.gClientId = tracker.get('clientId');
-      console.log ('client id is ' + window.gClientId);
     });
 
     //Optimize trackNew
