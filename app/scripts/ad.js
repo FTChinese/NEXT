@@ -305,12 +305,13 @@ function displayPayWallInBody() {
       if (storyBody) {
         var storyId = window.FTStoryid || '';
         window.gSubscriptionEventLabel = 'AdBlocker/story/' + storyId; 
-        var loginHTML = '如果已经是会员，请<a href="http://user.ftchinese.com/login">点击这里</a>登录';
+        var loginHTML = '如果已经是会员，请<a href="http://user.ftchinese.com/login" class="o-client-id-link">点击这里</a>登录';
         var subscribeLink = 'http://www.ftchinese.com/index.php/ft/subscription?el=' + window.gSubscriptionEventLabel;
-        var reason = '<p>亲爱的读者，我们注意到您使用了广告拦截。我们完全理解您这样做的原因！</p><p>但是维持FT中文网的正常运转是需要成本的，如果您喜欢FT中文网，可以：</p><p>1. <a class="highlight" href="' + subscribeLink + '">成为付费会员</a>。这样您可以继续使用广告拦截，同时可以跨平台阅读或收听FT中文网的独家内容、英文原文、以及音频。</p><p>或</p><p>2. 将FT中文网加到您的广告拦截的白名单中，以继续浏览FT中文网的免费内容。</p><p>根据我们了解的信息，国产的浏览器大部分都内置了这一功能，我们建议您更换一个纯净浏览器（例如：Firefox、Chrome等）来打开我们的网页，这样您就可以正常浏览我们的免费文章。感谢您的支持。</p>';
+        var reason = '<p>亲爱的读者，我们注意到您使用了广告拦截。我们完全理解您这样做的原因！</p><p>但是维持FT中文网的正常运转是需要成本的，如果您喜欢FT中文网，可以：</p><p>1. <a class="highlight o-client-id-link" href="' + subscribeLink + '">成为付费会员</a>。这样您可以继续使用广告拦截，同时可以跨平台阅读或收听FT中文网的独家内容、英文原文、以及音频。</p><p>或</p><p>2. 将FT中文网加到您的广告拦截的白名单中，以继续浏览FT中文网的免费内容。</p><p>根据我们了解的信息，国产的浏览器大部分都内置了这一功能，我们建议您更换一个纯净浏览器（例如：Firefox、Chrome等）来打开我们的网页，这样您就可以正常浏览我们的免费文章。感谢您的支持。</p>';
         var subscribeHTML = '<p></p>';
         var finalHTML = '<div><div>' + reason + '</div><div>' + loginHTML +'</div><div>' + subscribeHTML + '</div></div></div>';
         storyBody.innerHTML = finalHTML;
+        updateClientIdLinks();
         ga('send','event','Web Privileges', 'Display', window.gSubscriptionEventLabel);
       }
 }
