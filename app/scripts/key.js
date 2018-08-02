@@ -299,6 +299,15 @@ function trackerNew() {
 
     ga(function(tracker) {
       window.gClientId = tracker.get('clientId');
+      var clientIdLinks = document.querySelectorAll('.o-client-id-link');
+      for (var k = 0; k < clientIdLinks.length; k++) {
+        var ele = clientIdLinks[k];
+        var link = ele.href;
+        if (link && typeof link === 'string') {
+            var connector = (link.indexOf('?') > 0) ? '&' : '?';
+            ele.href = link + connector + 'clientId=' + window.gClientId;
+        }
+      }
     });
 
     //Optimize trackNew
