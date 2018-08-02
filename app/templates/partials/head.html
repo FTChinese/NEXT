@@ -24,7 +24,12 @@ var interactiveId = 'interactive<%$id%>';
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m);a.onload=function(){if(typeof clearEvents==='function'){clearEvents()}}
   })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-ga('create', 'UA-1608715-1', 'auto');
+var userIdForGA = GetCookie('USER_ID');
+if (userIdForGA !== null) {
+    ga('create', 'UA-1608715-1', 'auto', {userId: userIdForGA}); 
+} else {
+    ga('create', 'UA-1608715-1', 'auto'); 
+}
 ga('require', 'displayfeatures');
 ga('require', 'ec');
 if (window.gAutoStart === undefined) {

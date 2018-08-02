@@ -75,29 +75,6 @@ function updateSubscriberStatus() {
         }
         document.documentElement.className += subscriberClass;
     }
-    // MARK: If the user is not logged in, no need to do network check. 
-    if (GetCookie('USER_ID') === null) {
-        return;
-    }
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/index.php/jsapi/paywall');
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.onload = function() {
-        if (xhr.status === 200) {
-            var userInfo = JSON.parse(xhr.responseText);
-            window.htmlClass = document.documentElement.className;
-            window.htmlClass = window.htmlClass.replace(/\ is\-subscriber/g, '').replace(/\ is\-premium/g, '').replace(/\ is\-standard/g, '');
-            if (userInfo.paywall === 0) {
-                if (userInfo.premium === 1) {
-                    window.htmlClass += ' is-subscriber is-premium';
-                } else {
-                    window.htmlClass += ' is-subscriber is-standard';
-                }
-            }
-            document.documentElement.className = window.htmlClass;
-        }
-    };
-    xhr.send();
 }
 
 function trackerNew() {

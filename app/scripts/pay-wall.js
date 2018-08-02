@@ -23,6 +23,16 @@ if(!isReqSuccess && i<3){
                       updateLockClass();
                   }
               }
+            window.htmlClass = document.documentElement.className;
+            window.htmlClass = window.htmlClass.replace(/\ is\-subscriber/g, '').replace(/\ is\-premium/g, '').replace(/\ is\-standard/g, '');
+            if (dataObj.paywall === 0) {
+                if (dataObj.premium === 1) {
+                    window.htmlClass += ' is-subscriber is-premium';
+                } else {
+                    window.htmlClass += ' is-subscriber is-standard';
+                }
+            }
+            document.documentElement.className = window.htmlClass;
           } else {
               isReqSuccess = false;
               i++;

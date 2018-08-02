@@ -1,4 +1,3 @@
-// FIXME: There's an exact same function in the NEXT project. It needs to be handled. 
 function passLoginToNative() {
     // MARK: Use info from cookie for speed
     var message = {};
@@ -34,13 +33,18 @@ function passLoginToNative() {
     xhr.onload = function() {
         if (xhr.status === 200) {
             var userInfo = JSON.parse(xhr.responseText);
+            window.htmlClass = document.documentElement.className;
+            window.htmlClass = window.htmlClass.replace(/\ is\-subscriber/g, '').replace(/\ is\-premium/g, '').replace(/\ is\-standard/g, '');
             if (userInfo.paywall === 0) {
                 if (userInfo.premium === 1) {
                     message.paywall = 'premium';
+                    window.htmlClass += ' is-subscriber is-premium';
                 } else {
                     message.paywall = 'standard';
+                    window.htmlClass += ' is-subscriber is-standard';
                 }
                 message.paywallExpire = userInfo.expire || '';
+                document.documentElement.className = window.htmlClass;
             } else {
                 message.paywall = '';
                 message.paywallExpire = '';
