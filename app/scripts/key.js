@@ -86,7 +86,7 @@ function updateClientIdLinks() {
       for (var k = 0; k < clientIdLinks.length; k++) {
         var ele = clientIdLinks[k];
         var link = ele.href;
-        if (link && typeof link === 'string') {
+        if (link && typeof link === 'string' && link.indexOf('/')>=0) {
             var connector = (link.indexOf('?') > 0) ? '&' : '?';
             var eleClass = ele.className;
             ele.href = link + connector + 'clientId=' + window.gClientId;
