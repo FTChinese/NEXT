@@ -172,6 +172,12 @@ function openHint() {
         dataHints[i].onclick = function(){   
           paywallHintContainer.style.display = 'block';
           ga('send','event','Web Privileges', 'Display', window.gSubscriptionEventLabel);
+          ga('ec:addPromo', {               
+            'id': window.gSubscriptionEventLabel,             
+            'name': window.gSubscriptionEventLabel,          
+            'creative': location.href,   
+            'position': 'become a member'     
+          });
         };
       }
     }
