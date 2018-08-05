@@ -765,6 +765,10 @@ function trackInternalPromos() {
         });
         ga('send','event','Web Privileges', 'Display', 'From:' + promoId, {'nonInteraction':1});
         currentPromo.onclick = function() {
+          var promoId = this.getAttribute('data-promo-id');
+          var promoName = this.getAttribute('data-promo-name');
+          var promoCreative = this.getAttribute('data-promo-creative');
+          var promoPosition = this.getAttribute('data-promo-position');
           ga('ec:addPromo', {
             'id': promoId,
             'name': promoName,
