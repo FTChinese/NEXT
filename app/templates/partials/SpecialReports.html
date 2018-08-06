@@ -29,13 +29,11 @@
 								<%if $i === 0%>
 									<%assign var="itemTop" value=""%>
 								<%/if%>
-
-								<%if preg_match("/\//is",$report.cshortleadbody)%>
-									<%assign var="specialLink" value=$report.cshortleadbody%>
+								<%if $report.cskylinetext != ""%>
+									<%assign var="specialLink" value=$report.cskylinetext%>
 								<%else%>
 									<%assign var="specialLink" value="/tag/`$report.cshortleadbody`"%>
 								<%/if%>
-								
 								<%$itemTop%>
 								<div class="item-container <%$itemClass%> headline-only">
 								    <div class="item-inner">
