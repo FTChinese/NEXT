@@ -109,12 +109,12 @@
 
 <%assign var="tagInteractive" value=$interactivemodel->get_interactive_by_field_search("find_in_set('特别报导',tag) and eheadline != ''",0,5,999999999,10800)%>
 <%foreach from=$tagInteractive item=sc%>
-    <div style="display: none;" class="specialanchor" tag="<%$sc.cshortleadbody%>" title="<%$sc.cheadline%>" adid="<%$sc.eheadline%>" channel="<%$sc.cskylineheadline%>" hideAd="<%$sc.show_english%>" zone="<%$cbyline_description%>"></div>
+    <div style="display: none;" class="specialanchor" tag="<%$sc.cshortleadbody%>" title="<%$sc.cheadline%>" adid="<%$sc.eheadline%>" channel="<%$sc.cskylineheadline%>" hideAd="<%$sc.show_english%>" zone="<%$sc.cbyline_description%>"></div>
 <%/foreach%>
 
 <%assign var="tagInteractive" value=$interactivemodel->get_interactive_by_field_search("find_in_set('品牌安全',tag) and eheadline != ''",0,5,999999999,10800)%>
 <%foreach from=$tagInteractive item=sc%>
-    <div style="display: none;" class="specialanchor" tag="<%$sc.cheadline%>" title="<%$sc.cheadline%>" adid="<%$sc.eheadline%>" channel="<%$sc.cskylineheadline%>" hideAd="<%$sc.show_english%>" zone="<%$cbyline_description%>"></div>
+    <div style="display: none;" class="specialanchor" tag="<%$sc.cheadline%>" title="<%$sc.cheadline%>" adid="<%$sc.eheadline%>" channel="<%$sc.cskylineheadline%>" hideAd="<%$sc.show_english%>" zone="<%$sc.cbyline_description%>"></div>
 <%/foreach%>
 <%if $smarty.get.webview == "ftcapp"%>
     <script type="text/javascript">
