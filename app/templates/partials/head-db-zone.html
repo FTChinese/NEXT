@@ -1,0 +1,126 @@
+<%<!--TODO: Remove the condition when we switch to Google Ad Manager successfully. -->%>
+<%if $smarty.newdb == "yes" || date("Ymd",$smarty.now) >= 20180901%>
+    <%assign var="zone" value="home"%>
+    <%if $topnav != "" %>
+        <%assign var="zone" value=$topnav %>
+        <%if $subnav != "" %>
+            <%assign var="zone" value="`$zone`/`$subnav`" %>
+            <%if $topnav=="home" && $subnav=="special" && $pageId != ""%>
+                <%assign var="zone" value="`$zone`/`$pageId`" %>
+            <%/if%>
+        <%/if%>
+    <%/if%>
+
+    <%if $smarty.get.newzone != "" %>
+        <%*<!-- can be testBeijing, testShanghai, testOverseas-->*%>
+        <%assign var="zone" value=$smarty.get.newzone %>
+    <%/if%>
+    <%*<!--<%assign var="zone" value=$pageId|default:$subnav|default:$topnav|default:"home" %>-->*%>
+
+    <!-- zone: <%$zone%>-->
+    <!-- topnav:<%$topnav%> subnav:<%$subnav%> pageId:<%$pageId%>-->
+
+    <%*
+    <!--
+            首页(一级):  topnav:       subnav:     pageId:home
+            中国(一级):  topnav:china  subnav:     pageId: 
+            全球(一级):  topnav:world  subnav:     pageId:
+            美国(二级):  topnav:world  subnav:usa  pageId:
+     中国商业观察(三级):  topnav:home   subnav:     pageId:chinabusinesswatch
+         每日英语(一级):  topnav:english subnav:    pageId:english
+         双语阅读(二级):  topnav:english subnav:ce  pageId:ce
+         热门文章(二级):  topnav:home    subnav:weekly pageId:
+         会议活动(二级):  topnav:home    subnav:event pageId:events
+    -->
+    *%>
+    <%*<!-- 目前使用的所有尺寸： 300x250, 300x600, 400x300, 414x104, 414x736, 969x90, 1200x120-->*%>
+
+    <script data-o-ads-config="" type="application/json">
+    {
+    	"gpt": {
+            "network": 80682004,
+            "site": "ftchinese",
+            "zone": "<%$zone%>"
+        },
+        "formats": {
+            "FtcLeaderboard" : {
+                "sizes":[[1200, 120], [1200, 400], [1200, 250], [969, 90], [969, 400], [969, 250]]
+            },
+            "FtcBanner": {
+                "sizes":[[1200, 120], [969, 90]]
+            },
+            "FtcMobileBanner": {
+                "sizes": [[414, 104]]
+            },
+            "FtcMpu":{
+                "sizes":[[300, 250], [300, 600]]
+            },
+            "FtcInfoFlow":{
+                "sizes":[[400, 300]]
+            },
+            "FtcMobileFullscreen": {
+                "sizes":[[414, 736]]
+            },
+            "FtcPcFullscreen":{
+                "sizes":[[700, 520]]
+            },
+            "FtcPaidpost":{
+                "sizes":[[280, 350]]
+            },
+            "FtcRibbon":{
+                "sizes":[[300, 60]]
+            },
+            "FtcMembertext":{
+                "sizes":[[300, 47]]
+            }
+        }
+    }
+    </script>
+
+
+    <%*<!--
+    <script>
+        var configJson = JSON.stringify({
+            "gpt": {
+                "network": 80682004,
+                "site": "ftchinese",
+                "zone": "home"
+            },
+            "formats": {
+                "FtcLeaderboard" : {
+                    "sizes":[[1200, 120], [1200, 400], [1200, 250], [969, 90], [969, 400], [969, 250]]
+                },
+                "FtcBanner": {
+                    "sizes":[[1200, 120], [969, 90]]
+                },
+                "FtcMobileBanner": {
+                    "sizes": [[414, 104]]
+                },
+                "FtcMpu":{
+                    "sizes":[[300, 250], [300, 600]]
+                },
+                "FtcInfoFlow":{
+                    "sizes":[[400, 300]]
+                },
+                "FtcMobileFullscreen": {
+                    "sizes":[[414, 736]]
+                },
+                "FtcPcFullscreen":{
+                    "sizes":[[700, 520]]
+                },
+                "FtcPaidpost":{
+                    "sizes":[[280, 350]]
+                },
+                "FtcRibbon":{
+                    "sizes":[[300, 60]]
+                },
+                "FtcMembertext":{
+                    "sizes":[[300, 47]]
+                }
+            }
+        });
+        var configScriptJsonStr = '<scr'+'ipt data-o-ads-config="" type="application/json">'+configJson+'</scr'+'ipt>';
+        document.writeln(configScriptJsonStr);
+    </script>
+    --> *%>
+<%/if%>
