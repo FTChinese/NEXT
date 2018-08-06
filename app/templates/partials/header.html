@@ -1,13 +1,15 @@
 <%if $smarty.get.newdb == "yes" %>
-   <div class="o-ads fullscreen-ad" data-o-ads-name="fullscreen-mobile"
-    data-o-ads-center="true" 
-    data-o-ads-formats-default="false" 
-    data-o-ads-formats-small="FtcMobileFullscreen" 
-    data-o-ads-formats-medium="false"
-    data-o-ads-formats-large="false"
-    data-o-ads-formats-extra="false"
-    data-o-ads-targeting="pos=fullscreen;">
-  </div>  
+    <%if $smarty.get.ad != 'no' && $noAd != "true" && $smarty.get.webview != "ftcapp"%>
+        <div class="o-ads fullscreen-ad" data-o-ads-name="fullscreen-mobile"
+        data-o-ads-center="true" 
+        data-o-ads-formats-default="false" 
+        data-o-ads-formats-small="FtcMobileFullscreen" 
+        data-o-ads-formats-medium="false"
+        data-o-ads-formats-large="false"
+        data-o-ads-formats-extra="false"
+        data-o-ads-targeting="pos=fullscreen;">
+        </div>
+    <%/if%>
 <%else%>
   <%include file="next/partials/pop-ad.html"%>
 <%/if%>
