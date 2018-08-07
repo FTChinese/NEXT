@@ -1,5 +1,5 @@
 <%<!--TODO: Remove the condition when we switch to Google Ad Manager successfully. -->%>
-<%if $smarty.get.newdb == "yes" || date("Ymd",$smarty.now) >= 20180901%>
+<%if $smarty.get.newdb == "yes" && $newdbShow == "yes" || date("Ymd",$smarty.now) >= 20180901%>
     <%assign var="zone" value="home"%>
     <%if $topnav != "" %>
         <%assign var="zone" value=$topnav %>

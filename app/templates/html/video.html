@@ -83,6 +83,13 @@
 <%assign var="twitterUrl" value="http://twitter.com/home?status=`$shareText`...%20`$shareUrl`"%>
 <%assign var="facebookUrl" value="http://www.facebook.com/sharer.php?u=`$shareUrl`&t=`$shareText`"%>
 
+<%assign var="newdbRand" value =0|mt_rand:1000 %>
+<!--newdbRand: <%$newdbRand%>-->
+<%if $newdbRand < 500 %>
+    <%assign var="newdbShow" value="yes"%>
+<%else%>
+    <%assign var="newdbShow" value="no"%>
+<%/if%>
 
 <%if $smarty.get.bodyonly != "yes"%>
     <!DOCTYPE html>
@@ -197,7 +204,7 @@
     <%/if%>
     <%include file="next/partials/nav.html"%>
 
-    <%include file="next/partials/banner-new.html"%>
+    <%include file="next/partials/banner.html"%>
 
     <%assign var="bannerCount" value=$bannerCount+1%>
     <%include file="next/partials/video-block.html"%>
@@ -239,7 +246,7 @@
     <%/if%>
     <%include file="next/partials/nav.html"%>
 
-    <%include file="next/partials/banner-new.html"%>
+    <%include file="next/partials/banner.html"%>
 
     <%assign var="bannerCount" value=$bannerCount+1%>
     <%include file="next/partials/video-block.html"%>

@@ -41,19 +41,13 @@
     <%assign var="isCurrentAdchFinal" value="no"%>
 <%/if%>
 
-
-<%if date("Ymd",$smarty.now) <= 20160804 && $pageId == "home"%>
-    <%assign var="randNum" value =0|mt_rand:3 %>
-    <%if $randNum == 0 %>
-        <%assign var="adchannelID" value="1700"%>
-    <%elseif $randNum == 1 %>
-        <%assign var="adchannelID" value="1400"%>
-    <%elseif $randNum == 2 %>
-        <%assign var="adchannelID" value="1300"%>
-    <%/if%>
+<%assign var="newdbRand" value =0|mt_rand:1000 %>
+<!--newdbRand: <%$newdbRand%>-->
+<%if $newdbRand < 500 %>
+    <%assign var="newdbShow" value="yes"%>
+<%else%>
+    <%assign var="newdbShow" value="no"%>
 <%/if%>
-
-
 
 <%assign var="itemIds" value="'0000'"%>
 <%foreach from=$p.sections item=section%>
@@ -195,7 +189,7 @@
             <%if $pageId == "home"%>
             <script>var gPageId = 'home';</script>
                 <%if $smarty.get.ad != 'no'%>
-                    <%if $smarty.get.newdb == "yes"%>
+                    <%if $smarty.get.newdb == "yes" && $newdbShow == "yes" %>
                         <div 
                         data-o-ads-name="fullscreen-pc"
                         class="o-ads"  

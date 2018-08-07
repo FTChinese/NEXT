@@ -45,6 +45,15 @@
 <%/if%>
 <%assign var="topnav" value="innovation"%>
 <%assign var="subnav" value="innotree"%>     
+
+<%assign var="newdbRand" value =0|mt_rand:1000 %>
+<!--newdbRand: <%$newdbRand%>-->
+<%if $newdbRand < 500 %>
+    <%assign var="newdbShow" value="yes"%>
+<%else%>
+    <%assign var="newdbShow" value="no"%>
+<%/if%>
+
 <!DOCTYPE html>
 <html class="no-js core" data-next-app="tag-page">
   <head>
@@ -125,7 +134,7 @@
     <%include file="next/partials/innotree-header.html"%>
     <%include file="next/partials/nav.html"%>
     <%if $pageTheme != "luxury"%>
-         <%include file="next/partials/banner-new.html"%>
+         <%include file="next/partials/banner.html"%>
     <%/if%>
     <%assign var="bannerCount" value=$bannerCount+1%>
     <%if $pageId=="setting"%>

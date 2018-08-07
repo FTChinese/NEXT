@@ -12,6 +12,13 @@
     <%assign var="showTimeStamp" value="all"%>
 <%/if%>
 
+<%assign var="newdbRand" value =0|mt_rand:1000 %>
+<!--newdbRand: <%$newdbRand%>-->
+<%if $newdbRand < 500 %>
+    <%assign var="newdbShow" value="yes"%>
+<%else%>
+    <%assign var="newdbShow" value="no"%>
+<%/if%>
 
      
 <!DOCTYPE html>
@@ -100,7 +107,7 @@
 
     <%include file="next/partials/nav.html"%>
    
-    <%include file="next/partials/banner-new.html"%>
+    <%include file="next/partials/banner.html"%>
 
     <%assign var="bannerCount" value=$bannerCount+1%>
 
@@ -113,7 +120,7 @@
     
     <%/if%> 
     <%include file="next/partials/property-block.html"%>
-    <%include file="next/partials/banner-new.html"%>
+    <%include file="next/partials/banner.html"%>
     <%include file="next/partials/footer.html"%>
     <%include file="next/partials/QrCode.html"%>
   </body>
