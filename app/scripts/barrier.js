@@ -1,6 +1,8 @@
 /* jshint ignore:start */
 (function (){
 
+var maxStory = 8;
+
 function getRandomIntInclusive(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -46,7 +48,7 @@ function createBarrier() {
 	}, registerElt, loginElt);
 	var messageElt = createElement('p', {
 		'class': 'o-barrier__message'
-	}, '亲爱的读者，您在30天内连续阅读了8篇以上文章，如果您喜欢FT中文网，我们诚邀您登录访问或免费注册为FT中文网的会员。');
+	}, '亲爱的读者，您在30天内连续阅读了' + maxStory + '篇以上文章，如果您喜欢FT中文网，我们诚邀您登录访问或免费注册为FT中文网的会员。');
 	var closeElt = createElement('button', {
 		'class': 'o-barrier__close'
 	}, '阅读完本文以后再注册或登录');
@@ -174,8 +176,7 @@ function abTest() {
   //   }
 	if (typeof window.FTStoryid === 'string' && w > 490 && isTouchDevice() === false) {
 
-		var maxStory = 8;
-		// var maxStory = 1;
+		
 		var storyIdLength = 9;
 		var historyDays = 30;
 		var unixday=Math.round(new Date().getTime()/1000);
