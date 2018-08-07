@@ -16,45 +16,47 @@ div.o-ads{
   }
 }
 */
-.o-ads[data-o-ads-formats-large="FtcBanner"],.o-ads[data-o-ads-formats-large="FtcLeaderboard"]{
-  position: relative;
- 
-  &::after{
-    content: '广告';
-    position: absolute;
-    top: 100%;
-    right:0;
-    font-size: 12px;
-  }
-  @media screen and (min-width:1200px) {
+.o-ads[data-o-ads-loaded] {
+  &[data-o-ads-formats-large="FtcBanner"],&[data-o-ads-formats-large="FtcLeaderboard"]{
+    position: relative;
+  
     &::after{
       content: '广告';
       position: absolute;
       top: 100%;
-      right:calc(50% - 600px);
+      right:0;
       font-size: 12px;
     }
-    &.o-ads--empty::after{
-      content: '';
+    @media screen and (min-width:1200px) {
+      &::after{
+        content: '广告';
+        position: absolute;
+        top: 100%;
+        right:calc(50% - 600px);
+        font-size: 12px;
+      }
+      // &.o-ads--empty::after{
+      //   content: '';
+      // }
     }
-  }
-  &.o-ads--empty::after{
-    content: '';
+    // &.o-ads--empty::after{
+    //   content: '';
+    // }
+
   }
 
-}
-
-.o-ads[data-o-ads-formats-large="FtcMpu"], .o-ads[data-o-ads-formats-small="FtcMpu"]{
-  position: relative;
-  &::after{
-    content: '广告';
-    position: absolute;
-    top: 100%;
-    right:calc(50% - 150px);
-    font-size: 12px;
-  }
-  &.o-ads--empty::after{
-    content: '';
+  &[data-o-ads-formats-large="FtcMpu"], &[data-o-ads-formats-small="FtcMpu"]{
+    position: relative;
+    &::after{
+      content: '广告';
+      position: absolute;
+      top: 100%;
+      right:calc(50% - 150px);
+      font-size: 12px;
+    }
+    // &.o-ads--empty::after{
+    //   content: '';
+    // }
   }
 }
 
