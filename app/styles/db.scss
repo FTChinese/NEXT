@@ -8,14 +8,18 @@ div.o-ads{
   }
   margin-bottom: 30px;
 }
-/*
-.o-ads.o-ads--empty[data-o-ads-formats-small="FtcMobileBanner"] {
+
+.o-ads[data-o-ads-formats-small="FtcMobileBanner"] {
   @media screen and (max-width:776px) {
-    width: 100%;
     padding-top: 25%;
+    background: #F6E9D8;
+    &[data-o-ads-loaded] {
+      padding-top: 0;
+      background: transparent;
+    }
   }
 }
-*/
+
 .o-ads[data-o-ads-loaded] {
   &[data-o-ads-formats-large="FtcBanner"],&[data-o-ads-formats-large="FtcLeaderboard"]{
     position: relative;
