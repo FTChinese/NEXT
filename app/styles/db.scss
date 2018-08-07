@@ -18,6 +18,14 @@ div.o-ads{
 */
 .o-ads[data-o-ads-formats-large="FtcBanner"],.o-ads[data-o-ads-formats-large="FtcLeaderboard"]{
   position: relative;
+ 
+  &::after{
+    content: '广告';
+    position: absolute;
+    top: 100%;
+    right:0;
+    font-size: 12px;
+  }
   @media screen and (min-width:1200px) {
     &::after{
       content: '广告';
@@ -30,16 +38,10 @@ div.o-ads{
       content: '';
     }
   }
-  &::after{
-    content: '广告';
-    position: absolute;
-    top: 100%;
-    right:0;
-    font-size: 12px;
-  }
   &.o-ads--empty::after{
     content: '';
   }
+
 }
 
 .o-ads[data-o-ads-formats-large="FtcMpu"], .o-ads[data-o-ads-formats-small="FtcMpu"]{
