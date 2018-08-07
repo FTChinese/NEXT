@@ -7,6 +7,19 @@ div.o-ads{
     text-align: center;
   }
   margin-bottom: 30px;
+  position: relative;
+  &::after{
+    content: '广告';
+    position: absolute;
+    top: 100%;
+    right:30px;
+    font-size: 12px;
+  }
+}
+.o-ads.o-ads--empty {
+  &::after{
+    content: '';
+  }
 }
 .o-ads[data-o-ads-name="fullscreen-pc"]{
   margin-bottom: 0;
