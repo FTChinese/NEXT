@@ -1,7 +1,7 @@
 /* jshint ignore:start */
 (function (){
 
-var maxStory = 8;
+var maxStory = 7;
 
 function getRandomIntInclusive(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
