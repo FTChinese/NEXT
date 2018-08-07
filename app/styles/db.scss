@@ -7,20 +7,36 @@ div.o-ads{
     text-align: center;
   }
   margin-bottom: 30px;
+}
+
+.o-ads[data-o-ads-formats-large="FtcBanner"],.o-ads[data-o-ads-formats-large="FtcLeaderboard"]{
   position: relative;
   &::after{
     content: '广告';
     position: absolute;
     top: 100%;
-    right:30px;
+    right:calc(50% - 600px);
     font-size: 12px;
   }
-}
-.o-ads.o-ads--empty {
-  &::after{
+  &.o-ads--empty::after{
     content: '';
   }
 }
+
+.o-ads[data-o-ads-formats-large="FtcMpu"], .o-ads[data-o-ads-formats-small="FtcMpu"]{
+  position: relative;
+  &::after{
+    content: '广告';
+    position: absolute;
+    top: 100%;
+    right:calc(50% - 150px);
+    font-size: 12px;
+  }
+  &.o-ads--empty::after{
+    content: '';
+  }
+}
+
 .o-ads[data-o-ads-name="fullscreen-pc"]{
   margin-bottom: 0;
 }
