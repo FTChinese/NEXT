@@ -95,7 +95,7 @@
 											<%/if%>
 
 
-											<%assign var="followSql" value="1=1"%>
+											<%assign var="followSql" value="1>1"%>
 
 											<%if $tagSql != ""%>
 												<%assign var="followSql" value="`$followSql` or `$tagSql`"%>
@@ -114,9 +114,11 @@
 											<%/if%>
 
 											<%assign var="allkeys" value="`$smarty.get.tag``$smarty.get.topic``$smarty.get.area``$smarty.get.industry`"%>
-											<%if  preg_match("/'/is",$allkeys)%>
+											<%if preg_match("/'/is",$allkeys)%>
 												<%assign var="followSql" value="1=1"%>
 											<%/if%>
+
+											<%assign var="followSql" value=$followSql|regex_replace:"/^1>1 or /":""%>
 
 											<%assign var="itemsArray" value=$storymodel->get_story_by_field_search($followSql,$feedStart,$feedItems,999999999,10800)%>
 
@@ -242,6 +244,7 @@
 												"caudio": "<%$item.caudio%>",
 												"eaudio": "<%$item.eaudio%>",
 												"followSql": "<%$followSql%>"
+												<%*<!--"followSql": "<%$followSql%>"-->*%>
 												<%assign var=itemIndex value=$itemIndex+1%>
 											}
 										<%/foreach%>
