@@ -54,6 +54,9 @@ function passLoginToNative() {
             } catch (ignore) {
                 
             }
+            var mainDomain = document.domain.replace(/^[^.]+/g, '');
+            SetCookie('paywall_expire',userInfo.expire,86400*100,'/', mainDomain);
+            SetCookie('paywall',message.paywall,86400*100,'/', mainDomain);
         }
     };
     xhr.send();
