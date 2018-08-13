@@ -6,7 +6,9 @@ div.o-ads{
   div {
     text-align: center;
   }
-  margin-bottom: 30px;
+  &[data-o-ads-loaded^="Ftc"] {
+    margin-bottom: 30px;
+  }
 }
 
 .o-ads[data-o-ads-formats-small="FtcMobileBanner"] {
@@ -20,7 +22,7 @@ div.o-ads{
   }
 }
 
-.o-ads[data-o-ads-loaded] {
+.o-ads[data-o-ads-loaded^="Ftc"] {
   &[data-o-ads-formats-large="FtcBanner"],&[data-o-ads-formats-large="FtcLeaderboard"]{
     position: relative;
   
