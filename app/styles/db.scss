@@ -22,7 +22,8 @@ div.o-ads{
   }
 }
 
-.o-ads[data-o-ads-loaded^="Ftc"] {
+
+.o-ads[data-o-ads-loaded] {
   &[data-o-ads-formats-large="FtcBanner"],&[data-o-ads-formats-large="FtcLeaderboard"]{
     position: relative;
   
@@ -41,14 +42,7 @@ div.o-ads{
         right:calc(50% - 600px);
         font-size: 12px;
       }
-      // &.o-ads--empty::after{
-      //   content: '';
-      // }
     }
-    // &.o-ads--empty::after{
-    //   content: '';
-    // }
-
   }
 
   &[data-o-ads-formats-large="FtcMpu"], &[data-o-ads-formats-small="FtcMpu"]{
@@ -63,6 +57,14 @@ div.o-ads{
     // &.o-ads--empty::after{
     //   content: '';
     // }
+  }
+
+
+//data-o-ads-loaded为false的情况下不出现'广告'字样
+  &[data-o-ads-loaded="false"] {
+    &::after {
+      content:'';
+    }
   }
 }
 
