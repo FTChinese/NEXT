@@ -1135,7 +1135,7 @@
 								<%assign var="itemDataType" value="TryBook"%>
 								<%assign var="lockClass" value="locked"%>
 							<%/if%>
-							<%assign var="itemData" value=" data-id=\"`$itemDataId`\" data-type=\"`$itemDataType`\"`$audioData``$caudioData``$eaudioData``$subTypeData``$dateData`"%>
+							<%assign var="itemData" value=" data-id=\"`$itemDataId`\" data-type=\"`$itemDataType`\"`$audioData``$caudioData``$eaudioData``$subTypeData``$dateData` data-keywords=\"`$itemTagsString`\""%>
 							<%if $itemDataId != "" && $itemDataType != "" && $itemDataType != "manual"%>
 								<%assign var="itemClass" value="`$itemClass` item-container-app"%>
 							<%/if%>
