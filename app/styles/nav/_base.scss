@@ -3,6 +3,12 @@
 		display: none;
 	}
 }
+.hide-on-large-screen {
+	display: none;
+	@include oGridRespondTo($until:L) {
+		display: block;
+	}
+}
 .o-nav__placeholder {
 	padding: 0;
 	margin: 0;
