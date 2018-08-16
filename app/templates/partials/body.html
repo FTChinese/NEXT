@@ -22,6 +22,9 @@
         <%else%>
             <%include file="next/partials/header.html"%>
         <%/if%>
+        <%if $section.showNavigation == "no"%>
+            <%assign var="hideNavOnWideScreen" value="yes"%>
+        <%/if%>
         <%include file="next/partials/nav.html"%>
     <%elseif $section.type == "banner" %>
         <%include file="next/partials/banner.html"%>
