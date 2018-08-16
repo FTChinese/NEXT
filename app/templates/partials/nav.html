@@ -68,9 +68,9 @@
   <%assign var="navData" value=$p.body.odatalist%>
   <%if $topnav == ""%><%assign var="topnav" value="home"%><%/if%>
 
-
+  <!--hide nvation: <%$hideNavOnWideScreen%>-->
   <%if $navData != null && $navData|@count > 0%>
-    <div class="o-nav__placeholder">
+    <div class="o-nav__placeholder<%if $hideNavOnWideScreen == "yes"%> hide-on-large-screen<%/if%>">
       <div class="o-nav">
         <div class="o-nav__outer">
           <div class="o-nav__inner">
