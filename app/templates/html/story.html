@@ -1431,12 +1431,9 @@
   </head>
   <%assign var="bannerCount" value=0%>
   <body class="<%$hideDate%>">
-
   	<%include file="next/partials/pc-roadblock-extra.html"%>
-
   	<%include file="next/partials/wechat-icon.html"%>
   	<script>checkB();</script>
-	<%if $smarty.get.print!="y"%>
 		<%if $PageTitle != ""%>
 			<%include file="next/partials/tag-header.html"%>
 		<%else%>
@@ -1446,7 +1443,6 @@
 		<%if $smarty.get.webview != "ftcapp"%>
 			<%$languageSwitch%>
 		<%/if%>
-	 
 	 	<%if $itemType == "story"%>
 			<div class="toprecommend-part" id="recommend-top-part">
 				<div class="toprecommend-container">
@@ -1458,7 +1454,6 @@
 				</div>
 			</div>
 		<%/if%>
-		
 		<%*<!-- hide Leaderboard for some channel -->*%>
 		<%if !preg_match("/品味|艺术投资|腕表|游艇|极致人生/is",$keys) && $smarty.get.hideheader != "yes"%>
 			<%*<%include file="next/partials/banner-new.html"%>*%>
@@ -1480,12 +1475,7 @@
 		<%include file="next/partials/QrCode.html"%>
 		<%include file="next/partials/story-font.html"%>
 		<%include file="next/partials/story-action.html"%>
-	<%else%>
-		<%include file="include/story/story_print.html"%>
-	<%/if%>
   </body>
-
-
 <%if preg_match("/highcharts/is",$story_content)%>
 <script src="http://static.ftchinese.com/js/jquery-1.10.2.min.js?0"></script>
 <script>
