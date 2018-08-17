@@ -34,7 +34,49 @@
     -->
     *%>
     <%*<!-- 目前使用的所有尺寸： 300x250, 300x600, 400x300, 414x104, 414x736, 969x90, 1200x120-->*%>
-
+    <%if $smarty.get.env == "prod" %>
+    <script data-o-ads-config="" type="application/json">
+        {
+            "gpt": {
+                "network": 5887,
+                "site": "FtChinese",
+                "zone": "<%$zone%>"
+            },
+            "formats": {
+                "FtcLeaderboard" : {
+                    "sizes":[[1200, 120], [1200, 400], [1200, 250], [969, 90], [969, 400], [969, 250]]
+                },
+                "FtcBanner": {
+                    "sizes":[[1200, 120], [969, 90]]
+                },
+                "FtcMobileBanner": {
+                    "sizes": [[4, 1],[414,104]]
+                },
+                "FtcMpu":{
+                    "sizes":[[300, 250], [300, 600]]
+                },
+                "FtcInfoFlow":{
+                    "sizes":[[400, 300]]
+                },
+                "FtcMobileFullscreen": {
+                    "sizes":[[4, 7],[414, 736]]
+                },
+                "FtcPcFullscreen":{
+                    "sizes":[[700, 520]]
+                },
+                "FtcPaidpost":{
+                    "sizes":[[280, 350]]
+                },
+                "FtcRibbon":{
+                    "sizes":[[300, 60]]
+                },
+                "FtcMembertext":{
+                    "sizes":[[300, 47]]
+                }
+            }
+        }
+        </script>  
+    <%else%>
     <script data-o-ads-config="" type="application/json">
     {
     	"gpt": {
@@ -76,7 +118,7 @@
         }
     }
     </script>
-
+    <%/if%>
 
     <%*<!--
     <script>

@@ -216,7 +216,9 @@ gulp.task('html', gulp.series('styles', () => {
         console.log(err.line);
       }
     })
-    .pipe($.if('*.css', $.cssnano()))
+    .pipe($.if('*.css', $.cssnano({
+      normalizeUrl:false
+    })))
     .pipe($.if('*.html', $.htmlmin({collapseWhitespace: true})))
     .pipe(gulp.dest('dist'));
 }));
