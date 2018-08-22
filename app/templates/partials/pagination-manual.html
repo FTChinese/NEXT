@@ -24,7 +24,7 @@
         var currentUrl = window.location.href.replace(/p=[0-9]+/g, '');
         var connector = (currentUrl.indexOf('?') >= 0) ? '&' : '?';
         currentUrl = currentUrl + connector;
-        currentUrl = currentUrl.replace(/\?&/g,'?');
+        currentUrl = currentUrl.replace(/\?&/g,'?').replace(/&+/g,'&');
         for (var i=startIndex; i<=endIndex; i++) {
             if (i === currentIndex) {
                 currentHTML += '<span class="current">' + i + '</span>';
