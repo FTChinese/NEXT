@@ -35,6 +35,8 @@
         <%else%>
             <%assign var="bannerCount" value=$bannerCount+1%>
         <%/if%>
+    <%elseif $section.type == "subscriptionLead" %>
+        <%include file="next/partials/subscription-lead.html"%>
     <%elseif $section.type == "subscriptionBox" %>
         <%include file="next/partials/subscription-box.html"%>
     <%elseif $section.type == "block" && $b < $maxB%>
