@@ -1,5 +1,5 @@
 <%<!--TODO: Remove the condition when we switch to Google Ad Manager successfully. -->%>
-<%if $smarty.get.newdb == "yes" && $newdbShow == "yes" || date("Ymd",$smarty.now) >= 20180901%>
+<%if $smarty.get.newdb == "yes" && $newdbShow == "yes"%>
     <%assign var="zone" value="home"%>
     <%if $topnav != "" %>
         <%assign var="zone" value=$topnav %>
@@ -35,11 +35,99 @@
     *%>
     <%*<!-- 目前使用的所有尺寸： 300x250, 300x600, 400x300, 414x104, 414x736, 969x90, 1200x120-->*%>
     <%if $smarty.get.env == "prod" %>
-    <script data-o-ads-config="" type="application/json">
+        <%*<!--
+        <script data-o-ads-config="" type="application/json">
+            {
+                "gpt": {
+                    "network": 5887,
+                    "site": "FtChinese",
+                    "zone": "<%$zone%>"
+                },
+                "formats": {
+                    "FtcLeaderboard" : {
+                        "sizes":[[1200, 120], [1200, 400], [1200, 250], [969, 90], [969, 400], [969, 250]]
+                    },
+                    "FtcBanner": {
+                        "sizes":[[1200, 120], [969, 90]]
+                    },
+                    "FtcMobileBanner": {
+                        "sizes": [[4, 1],[414,104]]
+                    },
+                    "FtcMpu":{
+                        "sizes":[[300, 250], [300, 600], [300×1050]]
+                    },
+                    "FtcInfoFlow":{
+                        "sizes":[[400, 300]]
+                    },
+                    "FtcMobileFullscreen": {
+                        "sizes":[[4, 7],[414, 736]]
+                    },
+                    "FtcPcFullscreen":{
+                        "sizes":[[700, 520]]
+                    },
+                    "FtcPaidpost":{
+                        "sizes":[[280, 350]]
+                    },
+                    "FtcRibbon":{
+                        "sizes":[[300, 60]]
+                    },
+                    "FtcMembertext":{
+                        "sizes":[[300, 47]]
+                    }
+                }
+            }
+        </script> -->*%>
+        <script>
+            var configJson = JSON.stringify({
+                gpt: {
+                    "network": 5887,
+                    "site": "FtChinese",
+                    "zone": '<%$zone%>'
+                },
+                dfp_targeting: 'cnsex=102',
+                formats: {
+                    "FtcLeaderboard" : {
+                        "sizes":[[1200, 120], [1200, 400], [1200, 250], [969, 90], [969, 400], [969, 250]]
+                    },
+                    "FtcBanner": {
+                        "sizes":[[1200, 120], [969, 90]]
+                    },
+                    "FtcMobileBanner": {
+                        "sizes": [[414, 104]]
+                    },
+                    "FtcMpu":{
+                        "sizes":[[300, 250], [300, 600], [300,1050]]
+                    },
+                    "FtcInfoFlow":{
+                        "sizes":[[400, 300]]
+                    },
+                    "FtcMobileFullscreen": {
+                        "sizes":[[414, 736]]
+                    },
+                    "FtcPcFullscreen":{
+                        "sizes":[[700, 520]]
+                    },
+                    "FtcPaidpost":{
+                        "sizes":[[280, 350]]
+                    },
+                    "FtcRibbon":{
+                        "sizes":[[300, 60]]
+                    },
+                    "FtcMembertext":{
+                        "sizes":[[300, 47]]
+                    }
+                }
+            });
+            var configScriptJsonStr = '<scr'+'ipt data-o-ads-config="" type="application/json">'+configJson+'</scr'+'ipt>';
+            document.writeln(configScriptJsonStr);
+        </script>
+    <%else%>
+        <%*<!--
+        <script data-o-ads-config="" type="application/json">
         {
             "gpt": {
-                "network": 5887,
-                "site": "FtChinese",
+                "network": 80682004,
+                "site": "ftchinese",
                 "zone": "<%$zone%>"
             },
             "formats": {
@@ -53,7 +141,7 @@
                     "sizes": [[4, 1],[414,104]]
                 },
                 "FtcMpu":{
-                    "sizes":[[300, 250], [300, 600]]
+                    "sizes":[[300, 250], [300, 600], [300,1050]]
                 },
                 "FtcInfoFlow":{
                     "sizes":[[400, 300]]
@@ -75,94 +163,55 @@
                 }
             }
         }
-        </script>  
-    <%else%>
-    <script data-o-ads-config="" type="application/json">
-    {
-    	"gpt": {
-            "network": 80682004,
-            "site": "ftchinese",
-            "zone": "<%$zone%>"
-        },
-        "formats": {
-            "FtcLeaderboard" : {
-                "sizes":[[1200, 120], [1200, 400], [1200, 250], [969, 90], [969, 400], [969, 250]]
-            },
-            "FtcBanner": {
-                "sizes":[[1200, 120], [969, 90]]
-            },
-            "FtcMobileBanner": {
-                "sizes": [[4, 1],[414,104]]
-            },
-            "FtcMpu":{
-                "sizes":[[300, 250], [300, 600]]
-            },
-            "FtcInfoFlow":{
-                "sizes":[[400, 300]]
-            },
-            "FtcMobileFullscreen": {
-                "sizes":[[4, 7],[414, 736]]
-            },
-            "FtcPcFullscreen":{
-                "sizes":[[700, 520]]
-            },
-            "FtcPaidpost":{
-                "sizes":[[280, 350]]
-            },
-            "FtcRibbon":{
-                "sizes":[[300, 60]]
-            },
-            "FtcMembertext":{
-                "sizes":[[300, 47]]
-            }
-        }
-    }
-    </script>
+        </script>
+        -->*%>
+
+        <script>
+            var configJson = JSON.stringify({
+                gpt: {
+                    "network": 80682004,
+                    "site": "ftchinese",
+                    "zone": '<%$zone%>'
+                },
+                dfp_targeting: 'cnsex=102',
+                formats: {
+                    "FtcLeaderboard" : {
+                        "sizes":[[1200, 120], [1200, 400], [1200, 250], [969, 90], [969, 400], [969, 250]]
+                    },
+                    "FtcBanner": {
+                        "sizes":[[1200, 120], [969, 90]]
+                    },
+                    "FtcMobileBanner": {
+                        "sizes": [[414, 104]]
+                    },
+                    "FtcMpu":{
+                        "sizes":[[300, 250], [300, 600], [300,1050]]
+                    },
+                    "FtcInfoFlow":{
+                        "sizes":[[400, 300]]
+                    },
+                    "FtcMobileFullscreen": {
+                        "sizes":[[414, 736]]
+                    },
+                    "FtcPcFullscreen":{
+                        "sizes":[[700, 520]]
+                    },
+                    "FtcPaidpost":{
+                        "sizes":[[280, 350]]
+                    },
+                    "FtcRibbon":{
+                        "sizes":[[300, 60]]
+                    },
+                    "FtcMembertext":{
+                        "sizes":[[300, 47]]
+                    }
+                }
+            });
+            var configScriptJsonStr = '<scr'+'ipt data-o-ads-config="" type="application/json">'+configJson+'</scr'+'ipt>';
+            document.writeln(configScriptJsonStr);
+        </script>
     <%/if%>
 
-    <%*<!--
-    <script>
-        var configJson = JSON.stringify({
-            "gpt": {
-                "network": 80682004,
-                "site": "ftchinese",
-                "zone": "home"
-            },
-            "formats": {
-                "FtcLeaderboard" : {
-                    "sizes":[[1200, 120], [1200, 400], [1200, 250], [969, 90], [969, 400], [969, 250]]
-                },
-                "FtcBanner": {
-                    "sizes":[[1200, 120], [969, 90]]
-                },
-                "FtcMobileBanner": {
-                    "sizes": [[414, 104]]
-                },
-                "FtcMpu":{
-                    "sizes":[[300, 250], [300, 600]]
-                },
-                "FtcInfoFlow":{
-                    "sizes":[[400, 300]]
-                },
-                "FtcMobileFullscreen": {
-                    "sizes":[[414, 736]]
-                },
-                "FtcPcFullscreen":{
-                    "sizes":[[700, 520]]
-                },
-                "FtcPaidpost":{
-                    "sizes":[[280, 350]]
-                },
-                "FtcRibbon":{
-                    "sizes":[[300, 60]]
-                },
-                "FtcMembertext":{
-                    "sizes":[[300, 47]]
-                }
-            }
-        });
-        var configScriptJsonStr = '<scr'+'ipt data-o-ads-config="" type="application/json">'+configJson+'</scr'+'ipt>';
-        document.writeln(configScriptJsonStr);
-    </script>
-    --> *%>
+ 
+    
 <%/if%>
