@@ -14,7 +14,7 @@
         var currentIndex = parseInt(p, 10);
         if (typeof currentIndex !== 'number' || p <= 0) {return;}
         var indexLength = (w && w>490) ? 10 : 5;
-        var startIndex = Math.max(1, currentIndex - Math.round(indexLength/2));
+        var startIndex = Math.max(1, currentIndex - Math.floor(indexLength/2));
         var endIndex = startIndex + indexLength -1;
         if (endIndex > maxIndex) {
             endIndex = maxIndex;
