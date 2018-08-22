@@ -695,6 +695,8 @@
 	<%assign var="adchannelID" value="5048"%>
 <%/if%>
 
+
+
 <%if preg_match("/中国商业观察/is",$keys) && date("Ymd",$smarty.now) >= 20180620 && date("Ymd",$smarty.now) <= 20181101%>
 	<%assign var=breadcrum value="<a href=\"/tag/中国商业观察\">宝珀·中国商业观察</a>"%>
 	<%assign var="adchannelID" value="5069"%>
@@ -888,7 +890,11 @@
 
 <%assign var="storyId" value=$story.id|default:$id%>
 
-
+<%if  date("Ymd",$smarty.now) >= 20180827 && date("Ymd",$smarty.now) <= 20181031 %>
+	<%if preg_match("/西门子|电气|工程|自动化|工业|制造业|管理软件|管理系统|数字化|智能化|信息化|工厂|工业4.0|生物科技|生物技术|行业解决方案|数字化产品|研发|创新|生产规模|高效管理|管理效率|数字工厂|潜能|精准控制|精准把控|制造力|能耗|耗能|智能制造|物联网/is",$keys) || preg_match("/西门子|电气|工程|自动化|工业|制造业|管理软件|管理系统|数字化|智能化|信息化|工厂|工业4.0|生物科技|生物技术|行业解决方案|数字化产品|研发|创新|生产规模|高效管理|管理效率|数字工厂|潜能|精准控制|精准把控|制造力|能耗|耗能|智能制造|物联网/is",$storyContent)%>
+		<%assign var="adchannelID" value="5067"%>
+	<%/if%>
+<%/if%>
 
 <%if preg_match("/活动页面/is",$keys)%>
 	<%if preg_match("/\/interactive\/[0-9]+\/en/is",$smarty.server.REQUEST_URI)%>
