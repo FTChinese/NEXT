@@ -173,6 +173,12 @@
 				<%*<!--feed type is <%$feedType%>, feed repeat check is <%$feedRepeatCheck%>-->*%>
 
 				<%assign var="feedStart" value=$list.feedStart|default:0%>
+				<%assign var="pageNumber" value=$smarty.get.p%>
+				<%if $pageNumber > 1%>
+					<!--Page Number is Larger than 1-->
+				<%else%>
+					<!--Page Number is <%$pageNumber%>-->
+				<%/if%>
 				<%assign var="feedTag" value=$list.feedTag%>
 				<%if $list.feedType == "myFT"%>
 					<%easyapi command="31005" assign="myftArrays" topnum=30%>
