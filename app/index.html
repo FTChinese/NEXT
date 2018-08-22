@@ -1635,7 +1635,75 @@ document.write(displayDBAd({
 
 
 <iframe width="0" height="0" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="/m/marketing/memberpic.html" class="hide"></iframe><div class="block-container no-side"><div class="block-inner" id="markets-data">
-</div></div><div class="footer-container"><div class="footer-inner">
+</div></div>
+
+
+
+
+
+
+
+<div class="pagination-container"><div class="pagination-inner">
+
+</div></div>
+
+
+<script type="text/javascript">
+    function addPaginationHTML() {
+        var paginationEle = document.querySelector('.pagination-inner');
+        if (!paginationEle) {return;}
+        var p = paravalue(window.location.href, 'p');
+        if (p === '') {
+            p = 1;
+        }
+        var currentIndex = parseInt(p, 10);
+        if (typeof currentIndex !== 'number' || p <= 0) {return;}
+        var maxIndex = 100;
+        var indexLength = 5;
+        var startIndex = Math.max(1, currentIndex - 2);
+        var endIndex = startIndex + indexLength -1;
+        if (endIndex > maxIndex) {
+            endIndex = maxIndex;
+            startIndex = Math.min(1, endIndex - indexLength + 1);
+        }
+        var currentHTML = '';
+        var currentUrl = window.location.href.replace(/p=[0-9]+/g, '');
+        var connector = (currentUrl.indexOf('?') >= 0) ? '&' : '?';
+        currentUrl = currentUrl + connector;
+        currentUrl = currentUrl.replace(/\?&/g,'?');
+        for (var i=startIndex; i<=endIndex; i++) {
+            if (i === currentIndex) {
+                currentHTML += '<span class="current">' + i + '</span>';
+            } else {
+                currentHTML += '<a href="' + currentUrl + 'p=' + i + '">' + i + '</a>';
+            }
+        }
+        var nextIndex = currentIndex + 1;
+        if (nextIndex <= maxIndex) {
+            currentHTML += '<a href="' + currentUrl + 'p=' + nextIndex + '">&rsaquo;&rsaquo;下一页</a>';
+        }
+        if (endIndex < maxIndex) {
+            currentHTML += '<a href="' + currentUrl + 'p=' + maxIndex + '">&rsaquo;|</a>';
+        }
+        var prevIndex = currentIndex - 1; 
+        if (prevIndex >= 1) {
+            currentHTML = '<a href="' + currentUrl + 'p=' + prevIndex + '">上一页&lsaquo;&lsaquo;</a>' + currentHTML;
+        }
+        if (startIndex > 1) {
+            currentHTML = '<a href="' + currentUrl + 'p=1">|&lsaquo;</a>' + currentHTML;
+        }
+        paginationEle.innerHTML = currentHTML;
+    }
+    addPaginationHTML();
+</script>
+
+
+
+
+
+
+
+<div class="footer-container"><div class="footer-inner">
 <div>
 <a href="/m/corp/aboutus.html">关于我们</a>
 <a href="https://ft.wd3.myworkdayjobs.com/FT_Chinese_External_Careers" target="_blank">加入我们</a>

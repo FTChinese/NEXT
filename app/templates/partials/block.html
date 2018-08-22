@@ -175,9 +175,7 @@
 				<%assign var="feedStart" value=$list.feedStart|default:0%>
 				<%assign var="pageNumber" value=$smarty.get.p%>
 				<%if $pageNumber > 1%>
-					<!--Page Number is Larger than 1-->
-				<%else%>
-					<!--Page Number is <%$pageNumber%>-->
+					<%assign var="feedStart" value=$pageNumber-1%>
 				<%/if%>
 				<%assign var="feedTag" value=$list.feedTag%>
 				<%if $list.feedType == "myFT"%>
@@ -219,9 +217,9 @@
 							<%assign var="feedType" value=$list.feedType%>
 							<%if preg_match("/^[0-9]+$/is",$feedTag)%>
 								<%assign var="videoChannel" value=$feedTag%>
-								<%assign var="itemsArray" value=$videomodel->get_video_by_channel($videoChannel,0,$feedItems)%>
+								<%assign var="itemsArray" value=$videomodel->get_video_by_channel($videoChannel,$feedStart,$feedItems)%>
 							<%else%>
-								<%assign var="itemsArray" value=$videomodel->get_video_by_tag($feedTag,0,$feedItems)%>
+								<%assign var="itemsArray" value=$videomodel->get_video_by_tag($feedTag,$feedStart,$feedItems)%>
 							<%/if%>
 						<%elseif $list.feedType == "photo"%>
 							<%assign var="feedType" value="photonews"%>

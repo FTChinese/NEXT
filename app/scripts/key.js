@@ -45,7 +45,7 @@ function DeleteCookie (name) {
 function paravalue(theurl, thep) {
     var k,thev;
     if (theurl.indexOf(thep + '=')>1) {
-        k=theurl.indexOf(thep) + thep.length + 1;
+        k=theurl.indexOf(thep + '=') + thep.length + 1;
         thev=theurl.substring(k,theurl.length);
         thev=thev.replace(/[\&\#].*/g,'');
     } else {
