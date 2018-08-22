@@ -208,6 +208,11 @@
 
     <%assign var="bannerCount" value=$bannerCount+1%>
     <%include file="next/partials/video-block.html"%>
+
+    <%if $maxPageIndex && $maxPageIndex>1%>
+        <%include file="next/partials/pagination-manual.html"%>
+    <%/if%>
+
     <%include file="next/partials/footer.html"%>
     <%include file="next/partials/QrCode.html"%>
     <%include file="next/partials/story-action.html"%>
@@ -231,8 +236,6 @@
     <%/if%>
     </style>
 
-
-    
     <script type="text/javascript">
         var adChannelId = '<%$adchannelID|default:$adchId%>';
     </script>
@@ -250,6 +253,9 @@
 
     <%assign var="bannerCount" value=$bannerCount+1%>
     <%include file="next/partials/video-block.html"%>
+    <%if $maxPageIndex && $maxPageIndex>1%>
+        <%include file="next/partials/pagination-manual.html"%>
+    <%/if%>
     <%include file="next/partials/footer.html"%>
     <%include file="next/partials/QrCode.html"%>
     <%include file="next/partials/story-action.html"%>
