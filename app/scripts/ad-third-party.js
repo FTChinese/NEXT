@@ -77,13 +77,13 @@ function showTextImageForAd(sourceInfo) {
   
   if (gCanReplaceInstoryWithAd === true && gReplacedInstroyWithAd === false) {
    //正式模式
-    console.log ('show text image for ad!');   
+    //console.log ('show text image for ad!');   
     var adLink = decodeURIComponent(sourceInfo.adLink)||'https://www.hennessy.com/zh-cn/hennessyparadisimperial/campaign.htm?utm_source=Ftchinese%20homepage%20top%20banner&utm_campaign=HPI2017OcttoNovCampaignDigital&utm_content=Ad&utm_term=OcttoNovCampaign&smtid=509415688z2906z1cm6gzacz0z';
     var adTitle = sourceInfo.adTitle || '轩尼诗顶通20171031';
     // MARK: open the resource in an iFrame
     var randomNumber = Math.random();
-    //console.log ('random number is ' + randomNumber);
-    if (randomNumber < 0.009 && window.footerMoreShowed === undefined) {
+    console.log ('random number is ' + randomNumber);
+    if (randomNumber < 0.003 && window.footerMoreShowed === undefined) {
       var w2 = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
       var h2 = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
       var footerEle = document.querySelector('.footer-container');
