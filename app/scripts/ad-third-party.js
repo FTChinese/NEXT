@@ -77,7 +77,7 @@ function showTextImageForAd(sourceInfo) {
   
   if (gCanReplaceInstoryWithAd === true && gReplacedInstroyWithAd === false) {
    //正式模式
-    //console.log ('show text image for ad!');   
+    console.log ('show text image for ad!');   
     var adLink = decodeURIComponent(sourceInfo.adLink)||'https://www.hennessy.com/zh-cn/hennessyparadisimperial/campaign.htm?utm_source=Ftchinese%20homepage%20top%20banner&utm_campaign=HPI2017OcttoNovCampaignDigital&utm_content=Ad&utm_term=OcttoNovCampaign&smtid=509415688z2906z1cm6gzacz0z';
     var adTitle = sourceInfo.adTitle || '轩尼诗顶通20171031';
     // MARK: open the resource in an iFrame
