@@ -1,11 +1,15 @@
-  <div class="container">
+<%if $section.subscriptionBoxTarget == "all"  || ($section.subscriptionBoxTarget == "allCampaigns" && $smarty.get.ccode != "") || ($section.subscriptionBoxTarget == "oneCampaign" && ($smarty.get.ccode == $section.ccode || $smarty.get.utm_campaign == $section.ccode))%>
+  
+  <div class="container subscription-lead">
 
-    <div class="welcome-guide width-cls">
-      <div class="show-image"></div>
+    <div class="welcome-guide width-cls block-inner">
+      
       <div class="words">
         <div class="first"><strong><%$section.title%></strong></div>
         <div class="second"><%$section.lead%></div>
       </div>
+      <div class="show-image"></div>
       <div class="clear-class"></div>
     </div>
   </div>
+<%/if%>

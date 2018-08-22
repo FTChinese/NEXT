@@ -6,4 +6,83 @@
 	.o-member-container {
 		display: none;
 	}	
+	.subscription-lead{
+		display: none;
+	}
 }
+
+@mixin subscription-XL {
+.width-cls{
+   width:100%;
+}
+.welcome-guide {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 30px;
+  .words{
+    width: 100%;
+    padding-top: 30px;
+  }
+}
+}
+
+@mixin subscription-L {
+	.width-cls{
+	width:100%;
+	}
+	.welcome-guide {
+	display: flex;
+    justify-content: space-between;
+	padding: 0 30px;
+	.words{
+		width: 100%;
+		padding-top: 30px;
+	}
+	}
+}
+
+@mixin subscription-M {
+  .width-cls{
+   width:100%;
+  }
+  .welcome-guide {
+    padding: 0 22.5px 0px 22.5px;
+	// padding: 0px;
+    .words{
+	  float: left;
+      font-size:10px; 
+      width: 70%;
+      padding-top: 10px;
+    }
+  }
+}
+@mixin subscription-S {
+  .width-cls {
+    width: 100%;
+    text-align: center; 
+  }
+  .welcome-guide {
+    padding: 0 15px;
+    .words{
+      font-size:14px; 
+      padding: 0px 0px 10px;
+    }
+  }
+}
+
+@media only screen and (min-width: 1221px) {
+  @include subscription-XL;
+}
+@media only screen and (max-width: 1220px) and (min-width: 981px) {
+  @include subscription-L;
+}
+@media only screen and (max-width: 980px) and (min-width: 691px) {
+  @include subscription-M;
+}
+@media only screen and (max-width: 690px) {
+  @include subscription-S;
+}
+@media only screen and (max-width: 350px) {
+  @include subscription-SM;
+}
+
