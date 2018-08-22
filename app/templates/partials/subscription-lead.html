@@ -1,6 +1,6 @@
-
+<%if $section.subscriptionBoxTarget == "all"  || ($section.subscriptionBoxTarget == "allCampaigns" && $smarty.get.ccode != "") || ($section.subscriptionBoxTarget == "oneCampaign" && ($smarty.get.ccode == $section.ccode || $smarty.get.utm_campaign == $section.ccode))%>
   
-  <div class="container">
+  <div class="container subscription-lead">
 
     <div class="welcome-guide width-cls block-inner">
       
@@ -12,4 +12,4 @@
       <div class="clear-class"></div>
     </div>
   </div>
-
+<%/if%>
