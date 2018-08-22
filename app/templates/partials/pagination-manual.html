@@ -1,3 +1,7 @@
+<%assign var="maxPageIndex" value=$section.maxPageNumber|default:0%>
+<%if $maxPageIndex <= 0%>
+	<%assign var="maxPageIndex" value=1%>
+<%/if%>
 <div class="pagination-container"><div class="pagination-inner"></div></div>
 <script type="text/javascript">
     function addPaginationHTML() {
@@ -45,5 +49,7 @@
         }
         paginationEle.innerHTML = currentHTML;
     }
-    addPaginationHTML();
+    <%if $maxPageIndex > 1%>
+    	addPaginationHTML(<%$maxPageIndex%>);
+    <%/if%>
 </script>
