@@ -79,13 +79,10 @@
         </script> -->*%>
         <script>
             var userKv = GetCookie('USER_KV');
-            console.log('userkv:', userKv);
             var dfpTargetingStr = '';
             if (userKv) {
               var userKvObj = parseUserkv(userKv);
-              console.log('userKvObj:', userKvObj);
               dfpTargetingStr = getDfpTargetingStr(userKvObj);
-              console.log('dfpTargetingStr:', dfpTargetingStr);
             } 
             
             var configJson = JSON.stringify({
@@ -104,6 +101,9 @@
                     },
                     "FtcMobileBanner": {
                         "sizes": [[414, 104]]
+                    },
+                    "FtcMobileMpu":{
+                        "sizes":[[300, 250]]
                     },
                     "FtcMpu":{
                         "sizes":[[300, 250], [300, 600], [300,1050]]
@@ -231,6 +231,9 @@
                     },
                     "FtcMobileBanner": {
                         "sizes": [[414, 104]]
+                    },
+                    "FtcMobileMpu":{
+                        "sizes":[[300, 250]]
                     },
                     "FtcMpu":{
                         "sizes":[[300, 250], [300, 600], [300,1050]]
