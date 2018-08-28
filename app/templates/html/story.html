@@ -697,14 +697,7 @@
 
 
 
-<%if preg_match("/中国商业观察/is",$keys) && date("Ymd",$smarty.now) >= 20180620 && date("Ymd",$smarty.now) <= 20181101%>
-	<%assign var=breadcrum value="<a href=\"/tag/中国商业观察\">宝珀·中国商业观察</a>"%>
-	<%assign var="adchannelID" value="5069"%>
-	<%assign var="hideMPU1" value="no"%>
-	<%assign var="hideMPU2" value="no"%>
-	<%assign var="hideMPU3" value="no"%>
-	<%assign var="hide590" value="no"%>
-	<%assign var="hideBanner" value="no"%>
+
 
 <%elseif preg_match("/贸易战/is",$keys) && date("Ymd",$smarty.now) <= 20181231%>
 	<%assign var=breadcrum value="<a href=\"/channel/tradewar.html\">中美贸易战</a>"%>
@@ -896,6 +889,17 @@
 	<%assign var="hide590" value="no"%>
 	<%assign var="hideBanner" value="no"%>
 <%/if%>
+
+<%if preg_match("/中国商业观察/is",$keys) && date("Ymd",$smarty.now) >= 20180620 && date("Ymd",$smarty.now) <= 20181101%>
+	<%assign var=breadcrum value="<a href=\"/tag/中国商业观察\">宝珀·中国商业观察</a>"%>
+	<%assign var="adchannelID" value="5069"%>
+	<%assign var="hideMPU1" value="no"%>
+	<%assign var="hideMPU2" value="no"%>
+	<%assign var="hideMPU3" value="no"%>
+	<%assign var="hide590" value="no"%>
+	<%assign var="hideBanner" value="no"%>
+<%/if%>
+
 <%if preg_match("/活动页面/is",$keys)%>
 	<%if preg_match("/\/interactive\/[0-9]+\/en/is",$smarty.server.REQUEST_URI)%>
 		<%assign var="page_action" value="en"%>
