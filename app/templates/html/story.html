@@ -699,7 +699,7 @@
 
 
 
-<%elseif preg_match("/贸易战/is",$keys) && date("Ymd",$smarty.now) <= 20181231%>
+<%if preg_match("/贸易战/is",$keys) && date("Ymd",$smarty.now) <= 20181231%>
 	<%assign var=breadcrum value="<a href=\"/channel/tradewar.html\">中美贸易战</a>"%>
 
 <%elseif (preg_match("/management|economy|markets/is",$story.topic) || preg_match("/经济|房地产/is",$keys)) && date("Ymd",$smarty.now) <= 20170817%>

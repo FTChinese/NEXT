@@ -396,7 +396,8 @@ function recommendPayLoad(recommenddata, addata){
                 
                 if(itemImage && itemImage !== ''){
                     if( showRecommendTop && i<=3) {
-                        oneItem = '<li class="toprecommend-item"><div class="toprecommend-item-content"><div class="toprecommend-item-title"><a href="'+link+ '">'+itemHeadline+'</a></div><div class="toprecommend-item-image"><a href="'+link+'"><img src="'+itemImage+'"></a></div></div></li>';
+                        var miniItemImage = 'https://www.ft.com/__origami/service/image/v2/images/raw/' + encodeURIComponent(itemImage) + '?source=ftchinese&width=' + 74;
+                        oneItem = '<li class="toprecommend-item"><div class="toprecommend-item-content"><div class="toprecommend-item-title"><a href="'+link+ '">'+itemHeadline+'</a></div><div class="toprecommend-item-image"><a href="'+link+'"><img src="'+ miniItemImage +'"></a></div></div></li>';
                         recommendTopItemHTML += oneItem;
                     } else {
                         oneItem = itemTop + '<div class="item-container ' + itemClass + ' has-image no-lead"><div class="item-inner"><h2 class="item-headline"><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el="'+itemT+'/story/'+itemId+'" target="_blank" href="'+link+'">'+itemHeadline+'</a></h2><a data-ec="Story Recommend" data-ea="'+eventAction+'" data-el="'+itemT+'/story/'+itemId+'" class="image" target="_blank" href="'+link+'"><figure class="loading" data-url="'+itemImage+'"></figure></a><div class="item-bottom"></div></div></div>';
