@@ -9,7 +9,13 @@
 			<%assign var="promoRendered" value="noneSubscriber`$promoRendered`"%>
 		<%/if%>
 		<%foreach from=$infoForPromo.sections item=section%>
-		    <%if $section.type == "promoBox" && ($section.status == "on" || $debug_model == 1) && !preg_match("/`$section.promoTarget`/is",$promoRendered)%>
+			<%assign var="currentDate" value=$smarty.now|date_format:"%Y%m%d"%>
+			<%if $section.dates == "" || preg_match("/`$currentDate`/is",$section.dates)%>
+				<%assign var="isScheduledForToday" value="yes"%>
+			<%else%>
+				<%assign var="isScheduledForToday" value="no"%>
+			<%/if%>
+		    <%if $section.type == "promoBox" && $isScheduledForToday == "yes" && ($section.status == "on" || $debug_model == 1) && !preg_match("/`$section.promoTarget`/is",$promoRendered)%>
 		    	<style>
 		    	<%if $section.backgroundColor != ""%>
 			    	.<%$section.promoTarget%>.subscription-promo-container {
