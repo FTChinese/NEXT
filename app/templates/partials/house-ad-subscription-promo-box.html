@@ -1,15 +1,20 @@
+<!--MARK: Promo Box 1 -->
 <%if $hidePromoBox != "yes"%>
+<!--MARK: Promo Box 2 -->
 	<%assign var="pageIdForPromo" value="subcription-promo"%>
 	<%if $nextmodel != ""%>
+		<!--MARK: Promo Box 3 -->
 		<%assign var="infoForPromo" value=$nextmodel->getPublishJson($pageIdForPromo)|json_decode:true%>
 		<%assign var="promoRendered" value=""%>
 		<%if $smarty.get.webview == "ftcapp"%>
 			<%assign var="inAppClass" value=" in-app"%>
+
 			<%*<!--MARK: - In native app, don't ever show promo box for non-subscriber as it is fixed to the bottom -->*%>
 			<%*assign var="promoRendered" value="noneSubscriber`$promoRendered`"*%>
 			<%assign var="promoRendered" value="`$promoRendered`"%>
 		<%/if%>
 		<%foreach from=$infoForPromo.sections item=section%>
+			<!--MARK: Promo Box 4 -->
 			<%assign var="currentDate" value=$smarty.now|date_format:"%Y%m%d"%>
 			<%if ($section.dates == "" && ($supportSubscriptionPromoBox != "yes" || $section.promoTarget != "noneSubscriber")) || preg_match("/`$currentDate`/is",$section.dates)%>
 				<%assign var="isScheduledForToday" value="yes"%>
