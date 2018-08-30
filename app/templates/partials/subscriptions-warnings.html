@@ -40,11 +40,8 @@
 <%/if%>
 <script>checkUserWarnings();</script>
 
-<!-- Check subscrition promo box for iOS-->
-<%if $supportSubscriptionUpgradePromo == "yes"%>
-	<!-- Should display subscrition promo box for iOS-->
+<%if $supportSubscriptionPromoBox == "yes"%>
     <%if $smarty.get.subscription != "member" && $smarty.get.subscription != "premium"%>
-    	<!-- include subscrition promo box for iOS-->
         <%include file="next/partials/house-ad-subscription-promo-box.html"%>
     <%/if%>
 <%/if%>
