@@ -83,13 +83,34 @@
 <%assign var="twitterUrl" value="http://twitter.com/home?status=`$shareText`...%20`$shareUrl`"%>
 <%assign var="facebookUrl" value="http://www.facebook.com/sharer.php?u=`$shareUrl`&t=`$shareText`"%>
 
-<%assign var="newdbRand" value =0|mt_rand:1000 %>
-<!--newdbRand: <%$newdbRand%>-->
-<%if $newdbRand < 999 %>
-    <%assign var="newdbShow" value="yes"%>
-<%else%>
-    <%assign var="newdbShow" value="no"%>
-<%/if%>
+<%*<!-- Start: Decide if show new db-->*%>
+   <%*<!-- First： The newdbStart -->*%>
+    <%if ($smarty.get.newdb == "yes" && $smarty.get.env == "prod") || date("Ymd", $smarty.now) > 20180903 %>
+       <%assign var=newdbStart value="yes"%>
+    <%else%>
+       <%assign var=newdbStart value="no"%>
+    <%/if%>
+   <%*<!-- Second: The newdbShow -->*%>
+    
+    <%*<!-- 1. Force to show new db ad-->*%>
+    <%if $adchannelID == "5067" %>
+        <%assign var="newdbShow" value="yes"%>
+
+    <%*<!-- 2. Force to show od chuanyang ad-->*%>
+    <%elseif $adchannelID == "5070" || $adchannelID == "5069" %>
+        <%assign var="newdbShow" value="no"%>
+
+    <%*<!-- 3. Show new ad or not depending on gray-->*%>
+    <%else%>
+        <%assign var="newdbRand" value =0|mt_rand:1000 %>
+        <!--newdbRand: <%$newdbRand%>-->
+        <%if $newdbRand < 999 %>
+            <%assign var="newdbShow" value="yes"%>
+        <%else%>
+            <%assign var="newdbShow" value="no"%>
+        <%/if%>
+    <%/if%>
+<%*<!-- End: Decide if show new db-->*%>
 
 <%if $smarty.get.bodyonly != "yes"%>
     <!DOCTYPE html>

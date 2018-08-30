@@ -116,10 +116,12 @@
     <%/if%>
 <%/foreach%>
 
-<%assign var="tagInteractive" value=$interactivemodel->get_interactive_by_field_search("find_in_set('特别报导',tag) and eheadline != ''",0,5,999999999,10800)%>
+<%assign var="tagInteractive" value=$interactivemodel->get_interactive_by_field_search("find_in_set('特别报导',tag) and eheadline != ''",0,7,999999999,10800)%>
 <%foreach from=$tagInteractive item=sc%>
     <div style="display: none;" class="specialanchor" tag="<%$sc.cshortleadbody%>" title="<%$sc.cheadline%>" adid="<%$sc.eheadline%>" channel="<%$sc.cskylineheadline%>" hideAd="<%$sc.show_english%>" zone="<%$sc.cbyline_description%>"></div>
 <%/foreach%>
+<div style="display: none;" class="specialanchor" tag="数字化" title="数字化" adid="5067" channel="" hideAd="no" zone="digital"></div>
+<div style="display: none;" class="specialanchor" tag="创新" title="创新" adid="5067" channel="" hideAd="no" zone="digital"></div>
 
 <%assign var="tagInteractive" value=$interactivemodel->get_interactive_by_field_search("find_in_set('品牌安全',tag) and eheadline != ''",0,5,999999999,10800)%>
 <%foreach from=$tagInteractive item=sc%>
@@ -135,3 +137,12 @@
         };
     </script>
 <%/if%>
+
+<script type="text/javascript">
+    window.newAdData = {
+        forceNewAdTags: [],
+        forceOldAdTags: ['数字化'],
+        grayReleaseTarget: '0'
+    };
+</script>
+

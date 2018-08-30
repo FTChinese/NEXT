@@ -6,14 +6,27 @@
 		<%if $smarty.get.webview == "ftcapp"%>
 			<%assign var="inAppClass" value=" in-app"%>
 			<%*<!--MARK: - In native app, don't ever show promo box for non-subscriber as it is fixed to the bottom -->*%>
-			<%assign var="promoRendered" value="noneSubscriber`$promoRendered`"%>
+			<%*assign var="promoRendered" value="noneSubscriber`$promoRendered`"*%>
+			<%assign var="promoRendered" value="`$promoRendered`"%>
 		<%/if%>
 		<%foreach from=$infoForPromo.sections item=section%>
-		    <%if $section.type == "promoBox" && ($section.status == "on" || $debug_model == 1) && !preg_match("/`$section.promoTarget`/is",$promoRendered)%>
+			<%assign var="currentDate" value=$smarty.now|date_format:"%Y%m%d"%>
+			<%if ($section.dates == "" && ($supportSubscriptionPromoBox != "yes" || $section.promoTarget != "noneSubscriber")) || preg_match("/`$currentDate`/is",$section.dates)%>
+				<%assign var="isScheduledForToday" value="yes"%>
+			<%else%>
+				<%assign var="isScheduledForToday" value="no"%>
+			<%/if%>
+		    <%if $section.type == "promoBox" && $isScheduledForToday == "yes" && ($section.status == "on" || $debug_model == 1) && !preg_match("/`$section.promoTarget`/is",$promoRendered)%>
 		    	<style>
 		    	<%if $section.backgroundColor != ""%>
 			    	.<%$section.promoTarget%>.subscription-promo-container {
 			    		background-color: <%$section.backgroundColor%>;
+			    	}
+		    	<%/if%>
+		    	<%if $section.buttonColor != ""%>
+			    	.<%$section.promoTarget%> .subscription-promo-text {
+			    		background-color: <%$section.buttonColor%>;
+			    		border-color: <%$section.buttonColor%>;
 			    	}
 		    	<%/if%>
 		    	.<%$section.promoTarget%> .subscription-promo-box {
@@ -29,6 +42,14 @@
 				<%else%>
 					<%assign var="showImageInMobile" value=""%>
 		    	<%/if%>
+
+				<%*if $supportSubscriptionPromoBox == "yes" && $section.promoTarget == "noneSubscriber"%>
+				@media only screen and (max-width: 980px) {
+					.subscription-promo-container {
+						position: static;
+					}
+				}
+				<%/if*%>
 		    	</style>
 		    	<%if preg_match("/ccode=/is",$section.click)%>
 					<%assign var=clickUrl value=$section.click%>

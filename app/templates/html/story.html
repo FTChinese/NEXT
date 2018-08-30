@@ -697,25 +697,9 @@
 
 
 
-<%if preg_match("/中国商业观察/is",$keys) && date("Ymd",$smarty.now) >= 20180620 && date("Ymd",$smarty.now) <= 20181101%>
-	<%assign var=breadcrum value="<a href=\"/tag/中国商业观察\">宝珀·中国商业观察</a>"%>
-	<%assign var="adchannelID" value="5069"%>
-	<%assign var="hideMPU1" value="no"%>
-	<%assign var="hideMPU2" value="no"%>
-	<%assign var="hideMPU3" value="no"%>
-	<%assign var="hide590" value="no"%>
-	<%assign var="hideBanner" value="no"%>
 
-<%elseif preg_match("/汽车未来/is",$keys) && date("Ymd",$smarty.now) <= 20180831%>
-	<%assign var=breadcrum value="<a href=\"/tag/汽车未来\">汽车未来</a>"%>
-	<%assign var="adchannelID" value="5070"%>
-	<%assign var="hideMPU1" value="no"%>
-	<%assign var="hideMPU2" value="no"%>
-	<%assign var="hideMPU3" value="no"%>
-	<%assign var="hide590" value="no"%>
-	<%assign var="hideBanner" value="no"%>
 
-<%elseif preg_match("/贸易战/is",$keys) && date("Ymd",$smarty.now) <= 20181231%>
+<%if preg_match("/贸易战/is",$keys) && date("Ymd",$smarty.now) <= 20181231%>
 	<%assign var=breadcrum value="<a href=\"/channel/tradewar.html\">中美贸易战</a>"%>
 
 <%elseif (preg_match("/management|economy|markets/is",$story.topic) || preg_match("/经济|房地产/is",$keys)) && date("Ymd",$smarty.now) <= 20170817%>
@@ -875,14 +859,6 @@
 
 
 
-<%assign var="newdbRand" value =0|mt_rand:1000 %>
-<!--newdbRand: <%$newdbRand%>-->
-<%if $newdbRand < 999 %>
-    <%assign var="newdbShow" value="yes"%>
-<%else%>
-    <%assign var="newdbShow" value="no"%>
-<%/if%>
-
 <%*<!--Important: override tag for sponsored special reports end-->*%>
 
 
@@ -895,6 +871,56 @@
 		<%assign var="adchannelID" value="5067"%>
 	<%/if%>
 <%/if%>
+
+<%if preg_match("/汽车未来/is",$keys) && date("Ymd",$smarty.now) <= 20180831%>
+	<%assign var=breadcrum value="<a href=\"/tag/汽车未来\">汽车未来</a>"%>
+	<%assign var="adchannelID" value="5070"%>
+	<%assign var="hideMPU1" value="no"%>
+	<%assign var="hideMPU2" value="no"%>
+	<%assign var="hideMPU3" value="no"%>
+	<%assign var="hide590" value="no"%>
+	<%assign var="hideBanner" value="no"%>
+<%/if%>
+
+<%if preg_match("/中国商业观察/is",$keys) && date("Ymd",$smarty.now) >= 20180620 && date("Ymd",$smarty.now) <= 20181101%>
+	<%assign var=breadcrum value="<a href=\"/tag/中国商业观察\">宝珀·中国商业观察</a>"%>
+	<%assign var="adchannelID" value="5069"%>
+	<%assign var="hideMPU1" value="no"%>
+	<%assign var="hideMPU2" value="no"%>
+	<%assign var="hideMPU3" value="no"%>
+	<%assign var="hide590" value="no"%>
+	<%assign var="hideBanner" value="no"%>
+<%/if%>
+
+<%*<!-- Start: Decide if show new db-->*%>
+   <%*<!-- First： The newdbStart -->*%>
+    <%if ($smarty.get.newdb == "yes" && $smarty.get.env == "prod") || date("Ymd", $smarty.now) > 20180903 %>
+       <%assign var=newdbStart value="yes"%>
+    <%else%>
+       <%assign var=newdbStart value="no"%>
+    <%/if%>
+   <%*<!-- Second: The newdbShow -->*%>
+    
+    <%*<!-- 1. Force to show new db ad-->*%>
+    <%if $adchannelID == "5067" %>
+        <%assign var="newdbShow" value="yes"%>
+
+    <%*<!-- 2. Force to show od chuanyang ad-->*%>
+    <%elseif $adchannelID == "5070" || $adchannelID == "5069" %>
+        <%assign var="newdbShow" value="no"%>
+
+    <%*<!-- 3. Show new ad or not depending on gray-->*%>
+    <%else%>
+        <%assign var="newdbRand" value =0|mt_rand:1000 %>
+        <!--newdbRand: <%$newdbRand%>-->
+        <%if $newdbRand < 999 %>
+            <%assign var="newdbShow" value="yes"%>
+        <%else%>
+            <%assign var="newdbShow" value="no"%>
+        <%/if%>
+    <%/if%>
+<%*<!-- End: Decide if show new db-->*%>
+
 
 <%if preg_match("/活动页面/is",$keys)%>
 	<%if preg_match("/\/interactive\/[0-9]+\/en/is",$smarty.server.REQUEST_URI)%>
@@ -1067,7 +1093,7 @@
 		<%if $hideMPU3 == "yes" || $noAd == "true" || preg_match("/活动页面/is",$keys)%>
 		    <%assign var="story_content" value=$story_content|replace:"<div id=\"story_main_mpu\"></div>":""%>
 		<%else%>
-			<%if $smarty.get.newdb == "yes" && $newdbShow == "yes"%>
+			<%if $newdbStart == "yes" && $newdbShow == "yes"%>
 				<%assign var="story_content" value==$story_content|replace:"<div id=\"story_main_mpu\"></div>":"`$infoAdCode`<div  data-o-ads-name=\"mpu-middle1\" class=\"o-ads\" data-o-ads-formats-default=\"false\"  data-o-ads-formats-small=\"FtcMobileMpu\"  data-o-ads-formats-medium=\"FtcMpu\" data-o-ads-formats-large=\"FtcMpu\" data-o-ads-formats-extra=\"FtcMpu\" data-o-ads-targeting=\"pos=middle1;\"></div>"%>
 			<%else%>
 				<%assign var="story_content" value==$story_content|replace:"<div id=\"story_main_mpu\"></div>":"`$infoAdCode`<script type=\"text/javascript\">document.write (writeAdNew({devices: ['PC','iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],pattern:'MPU',position:'Middle1',container:'mpuInStory'}));</script>"%>
@@ -1075,7 +1101,7 @@
 		<%/if%>
 	<%elseif $hideMPU3!="yes" && !preg_match("/活动页面/is",$keys) && $noAd != "true"%>
 	<%*<!--在单页的情况下，如果文章没有插图，没有iframe，没有video，没有highcharts, 也没有被强制设为不显示MPU 3，则将MPU_3广告位插入到第五段开头。-->*%>
-		<%if $smarty.get.newdb == "yes" && $newdbShow == "yes"%>
+		<%if $newdbStart == "yes" && $newdbShow == "yes"%>
 			<%assign var="story_content" value=$storyBody|regex_replace:"/[\r\t\n]/":""|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1<div  data-o-ads-name=\"mpu-middle1\" class=\"o-ads\" data-o-ads-formats-default=\"false\"  data-o-ads-formats-small=\"FtcMobileMpu\"  data-o-ads-formats-medium=\"FtcMpu\" data-o-ads-formats-large=\"FtcMpu\" data-o-ads-formats-extra=\"FtcMpu\" data-o-ads-targeting=\"pos=middle1;\"></div><p>"%>
 		<%else%>
 			<%assign var="story_content" value=$storyBody|regex_replace:"/[\r\t\n]/":""|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1<script type=\"text/javascript\">document.write (writeAdNew({devices: ['PC','iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],pattern:'MPU',position:'Middle1',container:'mpuInStory'}));</script><p>"%>
@@ -1086,7 +1112,7 @@
 
 
 	<%if $hideMPU3!="yes" && !preg_match("/活动页面/is",$keys) && $noAd != "true" %>
-		<%if $smarty.get.newdb == "yes" && $newdbShow == "yes"%>
+		<%if $newdbStart == "yes" && $newdbShow == "yes"%>
 			<%assign var="story_content" value=$story_content|regex_replace:"/[\r\t\n]/":""|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1<div data-o-ads-name=\"mpu-middle2\" class=\"o-ads\" data-o-ads-formats-default=\"false\"  data-o-ads-formats-small=\"FtcMobileMpu\"  data-o-ads-formats-medium=\"FtcMpu\" data-o-ads-formats-large=\"FtcMpu\" data-o-ads-formats-extra=\"FtcMpu\" data-o-ads-targeting=\"pos=middle2;\"></div><p>"%>
 		<%else%>
 			<%assign var="story_content" value=$story_content|regex_replace:"/[\r\t\n]/":""|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1<script type=\"text/javascript\">document.write (writeAdNew({devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],pattern:'MPU',position:'Middle2',container:'mpuInStory'}));</script><p>"%>
@@ -1169,7 +1195,7 @@
 		<%/if%>
 		<%if !preg_match("/highcharts/is",$story_content) && !preg_match("/video/is",$story_content) && $hideMPU3!="yes" && $noAd != "true" && !preg_match("/单页/is",$tag)%>
 		<%*<!--在单页的情况下，如果文章没有插图，没有iframe，没有video，没有highcharts, 也没有被强制设为不显示MPU 3，则将MPU_3广告位插入到第五段开头。-->*%>
-			<%if $smarty.get.newdb == "yes" && $newdbShow == "yes"%>
+			<%if $newdbStart == "yes" && $newdbShow == "yes"%>
 				<%assign var="story_content" value=$storyBody|regex_replace:"/[\r\t\n]/":""|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1	<div  data-o-ads-name=\"mpu-middle1\" class=\"o-ads\" data-o-ads-formats-default=\"false\"  data-o-ads-formats-small=\"FtcMobileMpu\"  data-o-ads-formats-medium=\"FtcMpu\" data-o-ads-formats-large=\"FtcMpu\" data-o-ads-formats-extra=\"FtcMpu\" data-o-ads-targeting=\"pos=middle1;\"></div><p>"%>
 			<%else%>
 				<%assign var="story_content"value=$story_content|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1<script type=\"text/javascript\">document.write (writeAdNew({devices: ['PC','iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],pattern:'MPU',position:'Middle1',container:'mpuInStory'}));</script><p>"%>

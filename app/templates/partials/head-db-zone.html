@@ -1,5 +1,5 @@
 <%<!--TODO: Remove the condition when we switch to Google Ad Manager successfully. -->%>
-<%if $smarty.get.newdb == "yes" && $newdbShow == "yes"%>
+<%if $newdbStart == "yes" && $newdbShow == "yes"%>
     <%assign var="zone" value="home"%>
     <%if $topnav != "" %>
         <%assign var="zone" value=$topnav %>
@@ -34,7 +34,7 @@
     -->
     *%>
     <%*<!-- 目前使用的所有尺寸： 300x250, 300x600, 400x300, 414x104, 414x736, 969x90, 1200x120-->*%>
-    <%if $smarty.get.env == "prod" %>
+    
         <%*<!--
         <script data-o-ads-config="" type="application/json">
             {
@@ -169,51 +169,8 @@
                 return targetStr;
             }
         </script>
-    <%else%>
-        <%*<!--
-        <script data-o-ads-config="" type="application/json">
-        {
-            "gpt": {
-                "network": 80682004,
-                "site": "ftchinese",
-                "zone": "<%$zone%>"
-            },
-            "formats": {
-                "FtcLeaderboard" : {
-                    "sizes":[[1200, 120], [1200, 400], [1200, 250], [969, 90], [969, 400], [969, 250]]
-                },
-                "FtcBanner": {
-                    "sizes":[[1200, 120], [969, 90]]
-                },
-                "FtcMobileBanner": {
-                    "sizes": [[4, 1],[414,104]]
-                },
-                "FtcMpu":{
-                    "sizes":[[300, 250], [300, 600], [300,1050]]
-                },
-                "FtcInfoFlow":{
-                    "sizes":[[400, 300]]
-                },
-                "FtcMobileFullscreen": {
-                    "sizes":[[4, 7],[414, 736]]
-                },
-                "FtcPcFullscreen":{
-                    "sizes":[[700, 520]]
-                },
-                "FtcPaidpost":{
-                    "sizes":[[280, 350]]
-                },
-                "FtcRibbon":{
-                    "sizes":[[300, 60]]
-                },
-                "FtcMembertext":{
-                    "sizes":[[300, 47]]
-                }
-            }
-        }
-        </script>
-        -->*%>
-
+    
+    <%*<!-- DB Test System
         <script>
             var configJson = JSON.stringify({
                 gpt: {
@@ -261,8 +218,7 @@
             var configScriptJsonStr = '<scr'+'ipt data-o-ads-config="" type="application/json">'+configJson+'</scr'+'ipt>';
             document.writeln(configScriptJsonStr);
         </script>
-    <%/if%>
 
- 
+    -->*%>
     
 <%/if%>
