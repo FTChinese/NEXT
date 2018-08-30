@@ -1,9 +1,6 @@
-<!--MARK: Promo Box 1 -->
 <%if $hidePromoBox != "yes"%>
-<!--MARK: Promo Box 2 -->
 	<%assign var="pageIdForPromo" value="subcription-promo"%>
 	<%if $nextmodel != ""%>
-		<!--MARK: Promo Box 3 -->
 		<%assign var="infoForPromo" value=$nextmodel->getPublishJson($pageIdForPromo)|json_decode:true%>
 		<%assign var="promoRendered" value=""%>
 		<%if $smarty.get.webview == "ftcapp"%>
@@ -14,13 +11,13 @@
 			<%assign var="promoRendered" value="`$promoRendered`"%>
 		<%/if%>
 		<%foreach from=$infoForPromo.sections item=section%>
-			<!--MARK: Promo Box 4 -->
 			<%assign var="currentDate" value=$smarty.now|date_format:"%Y%m%d"%>
 			<%if ($section.dates == "" && ($supportSubscriptionPromoBox != "yes" || $section.promoTarget != "noneSubscriber")) || preg_match("/`$currentDate`/is",$section.dates)%>
 				<%assign var="isScheduledForToday" value="yes"%>
 			<%else%>
 				<%assign var="isScheduledForToday" value="no"%>
 			<%/if%>
+			<!-- <%$isScheduledForToday%> / rendered: <%$promoRendered%> /   -->
 		    <%if $section.type == "promoBox" && $isScheduledForToday == "yes" && ($section.status == "on" || $debug_model == 1) && !preg_match("/`$section.promoTarget`/is",$promoRendered)%>
 		    	<style>
 		    	<%if $section.backgroundColor != ""%>
@@ -47,14 +44,6 @@
 				<%else%>
 					<%assign var="showImageInMobile" value=""%>
 		    	<%/if%>
-
-				<%*if $supportSubscriptionPromoBox == "yes" && $section.promoTarget == "noneSubscriber"%>
-				@media only screen and (max-width: 980px) {
-					.subscription-promo-container {
-						position: static;
-					}
-				}
-				<%/if*%>
 		    	</style>
 		    	<%if preg_match("/ccode=/is",$section.click)%>
 					<%assign var=clickUrl value=$section.click%>
@@ -63,9 +52,25 @@
 				<%else%>
 					<%assign var=clickUrl value="`$section.click`?ccode=`$section.ccode`"%>
 				<%/if%>
-				<div class="subscription-promo-container<%$inAppClass%><%$showImageInMobile%> <%$section.promoTarget%>">
+				<%if $isInAndroidApp == "yes"%>
+					<!--Is a subscription box? -->
+					<%if preg_match("/http:\/\/www.ftacademy.cn\/subscription.html/is",$clickUrl) %>
+						<!--Is a subscription box -->
+						<%assign var=hrefUrl value=""%>
+						<%assign var="classForAndroid" value=" iap-channel"%>
+						<%assign var="attributeForAndroid" value=" iap-action=\"membership\" iap-title=\"会员\""%>
+					<%else%>
+						<!--Is a subscription box -->
+						<%assign var=hrefUrl value=" href=\"`$clickUrl`\""%>
+						<%assign var="classForAndroid" value=""%>
+						<%assign var="attributeForAndroid" value=""%>
+					<%/if%>
+				<%else%>
+					<%assign var=hrefUrl value=" href=\"`$clickUrl`\""%>
+				<%/if%>
+				<div class="subscription-promo-container<%$inAppClass%><%$showImageInMobile%> <%$section.promoTarget%><%$classForAndroid%>"<%$attributeForAndroid%>>
 				    <div class="subscription-promo-inner">
-				        <a href="<%$clickUrl%>" class="subscription-promo-box n-internal-promo" data-promo-target="<%$section.promoTarget%>" data-promo-id="<%$section.ccode%>" data-promo-name="<%$section.title%>" data-promo-creative="<%$section.imagePC%>" data-promo-position="<%$section.type%>">
+				        <a <%$hrefUrl%> class="subscription-promo-box n-internal-promo" data-promo-target="<%$section.promoTarget%>" data-promo-id="<%$section.ccode%>" data-promo-name="<%$section.title%>" data-promo-creative="<%$section.imagePC%>" data-promo-position="<%$section.type%>">
 				            <div class="subscription-promo-text"><%$section.title%></div>
 				        </a>
 				    </div>
