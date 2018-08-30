@@ -1,0 +1,106 @@
+@import "theme-default.scss";
+@import "variables.scss";
+.subscription-promo-container {
+	height: 56px;
+	background: #14bdcc;
+}
+.subscription-promo-inner {
+	display: table;
+	height: 56px;
+	margin: 0 auto;
+}
+.subscription-promo-box {
+	cursor: pointer;
+    font-size: 16px;
+    line-height: 20px;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: right;
+    padding-right: 310px;
+	background: url("https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fwww.ft.com%2F__assets%2Fcreatives%2Fproduct%2FPrintPackshot-2017-09-07_smallest.png?source=next") right bottom no-repeat;
+    background-size: auto 56px;
+    border-bottom: 0;
+}
+.subscription-promo-text {
+	display: inline-block;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    vertical-align: middle;
+    margin: 0;
+    text-align: center;
+    text-decoration: none;
+    background-clip: border-box;
+    background-size: 21px 21px;
+    min-height: 28px;
+    min-width: 60px;
+    padding: 6px 8px 6px 8px;
+    font-size: 14px;
+    line-height: 14px;
+    background-color: black;
+    color: white;
+    border: 1px solid #0d7680;
+    word-spacing: 1px;
+}
+.subscription-promo-container {
+	&.standard, &.premium {
+		display: none;
+	}
+}
+.is-subscriber {
+	.subscription-promo-container {
+		display:none;
+	}
+	&.is-standard {
+		.subscription-promo-container {
+			&.standard {
+				display: block;
+			}
+		}
+	}
+	&.is-premium {
+		.subscription-promo-container {
+			&.premium {
+				display: block;
+			}
+		}
+	}
+}
+@media only screen and (max-width: 980px) {
+	.subscription-promo-container {
+		position: fixed;
+		width: 100%;
+		bottom: 0;
+		z-index: 999999999;
+		&.standard, &.premium {
+			position: static;
+		}
+	}
+}
+@media only screen and (max-width: 490px) {
+	.subscription-promo-container {
+		display: none;
+	    &.show-image-in-mobile {
+	    	display: block;
+	    	&.standard, &.premium {
+				display: none;
+			}
+		}
+	}
+	.is-subscriber {
+		.show-image-in-mobile.subscription-promo-container {
+			display: none;
+		}
+		&.is-standard .show-image-in-mobile.subscription-promo-container.standard, &.is-premium .show-image-in-mobile.subscription-promo-container.premium { 
+			display: block;
+			margin-top: $navHeight + $defaultPadding/4;
+			margin-bottom: - $navHeight - $defaultPadding/4;
+		}
+		&.is-standard .show-image-in-mobile.subscription-promo-container.standard.in-app, &.is-premium .show-image-in-mobile.subscription-promo-container.premium.in-app { 
+			margin-top: $defaultPadding/2;
+			margin-bottom: $defaultPadding/2;
+		}
+	}
+	.subscription-promo-box {
+		padding-right: 180px;
+	}
+}
