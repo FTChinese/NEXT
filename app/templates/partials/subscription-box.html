@@ -1,5 +1,14 @@
 
 <%if $section.subscriptionBoxTarget == "all"  || ($section.subscriptionBoxTarget == "allCampaigns" && $smarty.get.ccode != "") || ($section.subscriptionBoxTarget == "oneCampaign" && ($smarty.get.ccode == $section.ccode || $smarty.get.utm_campaign == $section.ccode))%>
+
+<%if  (date("Ymd", $smarty.now) >= 20180831) && (date("Ymd", $smarty.now) < 20180901) %>
+    <%assign var=standarPrice value="98.00"%>
+    <%assign var=premiumPrice value="998.00"%>
+<%else%>
+    <%assign var=standarPrice value="198.00"%>
+    <%assign var=premiumPrice value="1,998.00"%>
+<%/if%>
+
   <style><%include file="next/styles/main-subscription-box.css"%></style>
   <div id="site-content" class="o-member-container">
       <div class="o-member__heading">
@@ -25,8 +34,8 @@
             </ul>
             <div class="o-member__subscribe">
               <a class="o-client-id-link" href="http://www.ftacademy.cn/subscription.html?ccode=<%$section.ccode%>&tap=standard"><button class="openSub" id="standard-btn">立即订阅</button></a>
-              <p id="standard_price"> ¥198.00/年</p>
-              <input type="text" value="¥198.00/年" hidden id="regular-member">
+              <p id="standard_price"> ¥<%$standarPrice%>/年</p>
+              <input type="text" value="¥<%$standarPrice%>/年" hidden id="regular-member">
             </div>
           </div>
         </div>
@@ -46,8 +55,8 @@
             <p style="padding: 0.5em 1em 0em 1.5em">注：所有活动门票不可折算现金、不能转让、不含差旅与食宿</p>
             <div class="o-member__subscribe">
               <a class="o-client-id-link" href="http://www.ftacademy.cn/subscription.html?ccode=<%$section.ccode%>&tap=premium"><button class="openSub" id="premium-btn">立即订阅</button></a>
-              <p id="premium_price">¥1,998.00/年</p>
-              <input type="text" value="¥1,998.00/年" hidden>
+              <p id="premium_price">¥<%$premiumPrice%>/年</p>
+              <input type="text" value="¥<%$premiumPrice%>/年" hidden>
             </div>
           </div>
         </div>
