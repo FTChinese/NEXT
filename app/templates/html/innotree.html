@@ -67,12 +67,24 @@
     <%else%>
         <%assign var="newdbRand" value =0|mt_rand:1000 %>
         <!--newdbRand: <%$newdbRand%>-->
-        <%if $newdbRand < 500 %>
+        <%if $newdbRand < 150 %>
             <%assign var="newdbShow" value="yes"%>
         <%else%>
             <%assign var="newdbShow" value="no"%>
         <%/if%>
     <%/if%>
+
+    <%*<!-- Start: iOS native app rules-->*%>
+    <%if $smarty.get.webview == "ftcapp"%>
+        <%if $smarty.get.newdb == "yes"%>
+            <%assign var="newdbShow" value="yes"%>
+            <%assign var="newdbStart" value="yes"%>
+        <%else%>
+            <%assign var="newdbShow" value="no"%>
+            <%assign var="newdbStart" value="no"%>
+        <%/if%>
+    <%/if%>
+    <%*<!-- Start: iOS native app rules-->*%>
 <%*<!-- End: Decide if show new db-->*%>
 
 
