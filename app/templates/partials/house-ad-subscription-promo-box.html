@@ -52,15 +52,17 @@
 				<%else%>
 					<%assign var=clickUrl value="`$section.click`?ccode=`$section.ccode`"%>
 				<%/if%>
-				<%if $isInAndroidApp == "yes"%>
-					<!--Is a subscription box? -->
+				<%if $smarty.get.webview == "ftcapp"%>
 					<%if preg_match("/http:\/\/www.ftacademy.cn\/subscription.html/is",$clickUrl) %>
-						<!--Is a subscription box -->
+						<%assign var=clickUrl value="http://www.ftchinese.com/channel/promo.html?ccode=`$section.ccode`"%>
+					<%/if%>
+				<%/if%>
+				<%if $isInAndroidApp == "yes"%>
+					<%if preg_match("/http:\/\/www.ftacademy.cn\/subscription.html/is",$clickUrl) %>
 						<%assign var=hrefUrl value=""%>
 						<%assign var="classForAndroid" value=" iap-channel"%>
 						<%assign var="attributeForAndroid" value=" iap-action=\"membership\" iap-title=\"会员\""%>
 					<%else%>
-						<!--Is a subscription box -->
 						<%assign var=hrefUrl value=" href=\"`$clickUrl`\""%>
 						<%assign var="classForAndroid" value=""%>
 						<%assign var="attributeForAndroid" value=""%>
