@@ -65,7 +65,7 @@ Test white list:
      
 <%*<!-- Start: Decide if show new db-->*%>
    <%*<!-- First： The newdbStart -->*%>
-    <%if ($smarty.get.newdb == "yes" && $smarty.get.env == "prod") || date("Ymd", $smarty.now) > 20180903 %>
+    <%if ($smarty.get.newdb == "yes" && $smarty.get.env == "prod") || date("Ymd", $smarty.now) >= 20180903 %>
        <%assign var=newdbStart value="yes"%>
     <%else%>
        <%assign var=newdbStart value="no"%>
