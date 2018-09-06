@@ -1,4 +1,4 @@
-/* exported writeAd, slotStr, checkB, sendEvent,clearEvents, writeAdNew,deviceCategory */
+/* exported writeAd, slotStr, checkB, sendEvent,clearEvents, writeAdNew,deviceCategory, deviceType,adChannelId*/
 // MARK: - Sponsored Channel Ids
 
 var gIsLandingPage = false;
