@@ -116,7 +116,15 @@
             <%assign var="newdbStart" value="no"%>
         <%/if%>
     <%/if%>
-    <%*<!-- Start: iOS native app rules-->*%>
+    <%*<!-- End: iOS native app rules-->*%>
+
+    <%*<!-- Start: test rules-->*%>
+    <%if $smarty.get.newzone != ""%>
+        <%assign var="newdbShow" value="yes"%>
+        <%assign var="newdbStart" value="yes"%>
+    <%/if%>
+    <%*<!-- End: test rules-->*%>
+
 <%*<!-- End: Decide if show new db-->*%>
 
 <%if $smarty.get.bodyonly != "yes"%>
