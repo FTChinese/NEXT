@@ -43,7 +43,7 @@ a.vip-redeem-login {
 .code-for-next-year .code-for-next-year.vip-redeem-container {
 	display: block;
 }
-.not-vip .logged-out.not-vip {
+.not-vip .not-vip.vip-redeem-container {
 	display: block;
 }
 @media only screen and (max-width: 490px) {
@@ -80,7 +80,7 @@ a.vip-redeem-login {
 <div class="vip-redeem-container found-code">
 <div class="vip-redeem-content">
 <span>您的免费邀请码是</span>
-<input id="vip-redeem-code" class="vip-redeem-code" value="FTC0889ABCD"></div>
+<input id="vip-redeem-code" class="vip-redeem-code" value=""></div>
 <a class="vip-redeem-button" target="_blank" href="http://event.31huiyi.com/1425483770" onclick="copyRedeemCode()">复制邀请码并前往兑换</a>
 <div class="clearfloat"></div>
 </div>
@@ -107,6 +107,32 @@ a.vip-redeem-login {
 		var userId = GetCookie('USER_ID');
 		if (userId) {
 			redeemCodeOuter.className = 'logged-in';
+			var xhr = new XMLHttpRequest();
+			xhr.open('POST', '/index.php/jsapi/ticketCode');
+			xhr.setRequestHeader('Content-Type', 'application/json');
+			xhr.onload = function() {
+			    if (xhr.status === 200) {
+			        var ticketInfo = JSON.parse(xhr.responseText);
+			        var ticketCode = ticketInfo.ticketCode;
+			        var errcode = ticketInfo.errcode;
+			        var redeemCodeOuter = document.getElementById('redeem-code-all');
+			        if (ticketCode) {
+			        	document.getElementById('vip-redeem-code').value = ticketCode;
+			        	redeemCodeOuter.className = 'found-code';
+			        } else if (errcode) {
+						switch(errcode) {
+						    case 'TC_3':
+						        redeemCodeOuter.className = 'code-for-next-year';
+						        break;
+						    default:
+						        redeemCodeOuter.className = 'not-vip';
+						}
+			        }
+			    }
+			};
+			xhr.send(JSON.stringify({
+			    user_id: userId
+			}));
 		} else {
 			redeemCodeOuter.className = 'logged-out';
 		}
