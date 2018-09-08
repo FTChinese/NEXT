@@ -60,13 +60,13 @@ function addTag(ele) {
 }
 
 function exportData() {
-	// TODO: Should check if the data is correct with all the time stamp. For example, all time stamp should not be null and the numbers should increase. 
+	// TODO: Should check if the data is correct with all the time stamp. For example, no time stamp should be null and the numbers should increase. 
 	var exportedJSONString = JSON.stringify(audioData);
 	document.getElementById('audio-json-text').value = exportedJSONString;
 }
 
 function updateAudioSpeed(speed) {
-	console.log (speed);
+	//console.log (speed);
 	var currentAudio = document.getElementById('current-audio');
 	currentAudio.playbackRate = speed;
 }
