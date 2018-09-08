@@ -37,6 +37,7 @@ function showHightlight(k, l) {
 	var windowHeight = window.innerHeight;
 	var windowTop = window.scrollY;
 	var newScrollY = highlightedTop - 5;
+	//console.log ('k: ' + k + ', l: ' + l);
 	for (var i=0; i<ele.length; i++) {
 		var sectionIndex = ele[i].getAttribute('data-section');
 		sectionIndex = parseInt(sectionIndex, 10);
@@ -63,6 +64,7 @@ function showHightlight(k, l) {
 }
 
 function seekAudio(ele) {
+	//console.log (ele);
 	var section = ele.getAttribute('data-section');
 	var row = ele.getAttribute('data-row');
 	section = parseInt(section, 10);
@@ -100,29 +102,20 @@ function updateAudioTimeForRenderedText(currentTime, data) {
 		for (var l=0; l<data.text[k].length; l++) {
 			var checkTime = data.text[k][l].start;
 			if (checkTime && checkTime>=currentTime) {
-				///console.log (latestIndex);
 				var lastK = lastIndex.k;
 				var lastL = lastIndex.l;
 				if (k !== latestIndex.k || l !== latestIndex.l) {
-					//console.log (lastK + '/' + k + '-' + lastL + '/' + l + ': ' + checkTime + '/' + currentTime);
-					
-
+					//console.log ('K: ' + lastK + '/' + k + '- L: ' + lastL + '/' + l + ': ' + checkTime + '/' + currentTime);
 					//MARK: Handle the output tuple from native side
 					showHightlight(lastK, lastL);
-
-
-
 					latestIndex = {'k':k, 'l':l};
-
-
-					var text = data.text[lastK][lastL].text;
-					if (text) {
-						//console.log (text);
-					}
+					//var text = data.text[lastK][lastL].text;
+					//console.log (text);
 				}
+				// MARK: Only when the checkTime is available, update the lastIndex
+				lastIndex = {'k':k, 'l':l};
 				return;
 			}
-			lastIndex = {'k':k, 'l':l};
 		}
 	}
 }

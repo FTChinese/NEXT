@@ -22,8 +22,7 @@ function startPlay() {
 	var textDataMarked = [];
 	for (var i=0; i<textData.length; i++) {
 		var currentParagraph = textData[i]
-		//.replace(/, /g, ', |')
-		.replace(/\. /g, '. |')
+		.replace(/([\.\?\!][ ”])/g, '$1|')
 		.replace(/。/g, '。|');
 		var currentParagraphData = currentParagraph.split('|');
 		var currentParagraphDataArray = [];
