@@ -82,34 +82,6 @@
 				        </a>
 				    </div>
 				</div>
-				<%*<!--MARK: Hide Banner if Promo Is On-->*%>
-                <%if $smarty.get.subscription == "premium" && $section.promoTarget == "premium" && date("Ymd", $smarty.now) <= 20180926%>
-                    <script type="text/javascript">
-                        var userId = GetCookie('USER_ID');
-                        if (userId && userId !== '') {
-                            var xhr = new XMLHttpRequest();
-                            xhr.open('POST', '/index.php/jsapi/ticketCode');
-                            xhr.setRequestHeader('Content-Type', 'application/json');
-                            xhr.onload = function() {
-                                if (xhr.status === 200) {
-                                    var ticketInfo = JSON.parse(xhr.responseText);
-                                    var ticketCode = ticketInfo.ticketCode;
-                                    var errcode = ticketInfo.errcode;
-                                    if (ticketCode) {
-                                        var topBanner = document.getElementById('banner-1') || document.querySelector('[data-o-ads-name=banner1]');
-                                        topBanner.style.display = 'none';
-                                    } else if (errcode) {
-                                        var promoBox = document.querySelector('.subscription-promo-container.premium');
-                                        promoBox.style.display = 'none';
-                                    }
-                                }
-                            };
-                            xhr.send(JSON.stringify({
-                                user_id: userId
-                            }));
-                        }
-                    </script>
-                <%/if%>
 				<%assign var="promoRendered" value="`$promoRendered``$section.promoTarget`"%>
 		    <%/if%>
 		<%/foreach%>
