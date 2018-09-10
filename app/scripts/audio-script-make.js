@@ -79,6 +79,27 @@ function previewData() {
 	audioHasRendered = true;
 }
 
+function initPage() {
+	var ftid = paravalue(window.location.href, 'ftid');
+	if (ftid !== '') {
+		var xhr = new XMLHttpRequest();
+		xhr.open('GET', '/FTAPI/article.php?pageAction=article&id=' + ftid);
+		xhr.setRequestHeader('Content-Type', 'application/json');
+		xhr.onload = function() {
+		    if (xhr.status === 200) {
+		        var data = JSON.parse(xhr.responseText);
+		        var audioImageUrl = 'https://s3-us-west-2.amazonaws.com/ftlabs-audio-rss-bucket.prod/' + ftid + '.mp3';
+		        var ebody = data.bodyXML.replace(/<[\/]*body>/g, '');
+		        document.getElementById('audio-url').value = audioImageUrl;
+		        document.getElementById('audio-text').value = ebody;
+		    }
+		};
+		xhr.send();
+	}
+}
+
+initPage();
+
 // function renderAudioData(ele) {
 // 	// MARK: render data to html for preview
 // 	var htmlForAudio = '';
