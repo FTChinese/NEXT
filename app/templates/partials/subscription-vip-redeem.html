@@ -104,8 +104,8 @@ a.vip-redeem-login {
 	}
 	function initRedeemCode() {
 		var redeemCodeOuter = document.getElementById('redeem-code-all');
-		var userId = GetCookie('USER_ID');
-		if (userId) {
+		var userId = GetCookie('USER_ID') || paravalue(window.location.href, 'u');
+		if (userId && userId !== '') {
 			redeemCodeOuter.className = 'logged-in';
 			var xhr = new XMLHttpRequest();
 			xhr.open('POST', '/index.php/jsapi/ticketCode');

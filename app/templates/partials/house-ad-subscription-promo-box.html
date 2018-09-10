@@ -77,7 +77,7 @@
 				<%/if%>
 				<div class="subscription-promo-container<%$inAppClass%><%$showImageInMobile%> <%$section.promoTarget%><%$classForAndroid%>"<%$attributeForAndroid%>>
 				    <div class="subscription-promo-inner">
-				        <a <%$hrefUrl%> class="subscription-promo-box n-internal-promo" data-promo-target="<%$section.promoTarget%>" data-promo-id="<%$section.ccode%>" data-promo-name="<%$section.title%>" data-promo-creative="<%$section.imagePC%>" data-promo-position="<%$section.type%>">
+				        <a <%$hrefUrl%> class="subscription-promo-box n-internal-promo" data-promo-target="<%$section.promoTarget%>" data-promo-id="<%$section.ccode%>" data-promo-name="<%$section.title%>" data-promo-creative="<%$section.imagePC%>" data-promo-position="<%$section.type%>" onclick="addUserId(this)">
 				            <div class="subscription-promo-text"><%$section.title%></div>
 				        </a>
 				    </div>
@@ -85,5 +85,15 @@
 				<%assign var="promoRendered" value="`$promoRendered``$section.promoTarget`"%>
 		    <%/if%>
 		<%/foreach%>
+		<script type="text/javascript">
+			function addUserId(ele) {
+				var userId = GetCookie('USER_ID');
+				if (userId && typeof userId === 'string' && userId !== '') {
+					var link = ele.href;
+					var connector = (link.indexOf('?') >= 0) ? '&' : '?';
+					ele.href = link + connector + 'u=' + userId;
+				}
+			}
+		</script>
 	<%/if%>
 <%/if%>
