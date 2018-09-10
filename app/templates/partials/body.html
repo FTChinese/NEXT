@@ -46,6 +46,13 @@
     <%elseif $section.type == "block" && $b < $maxB%>
         <%if $b == 0%>
             <%*<!--MARK: Smarty 2 doesn't support global scoop in included files. -->*%>
+
+            <%if $supportSubscriptionUpgradePromo == "yes"%>
+                <%if $smarty.get.subscription == "member" || $smarty.get.subscription == "premium"%>
+                    <%include file="next/partials/house-ad-subscription-promo-box.html"%>
+                <%/if%>
+            <%/if%>
+
             <%if $smarty.get.subscription == "member" || $smarty.get.subscription == "premium" || $smarty.get.subscription == "other"%>
                 <%assign var="reports" value=$storymodel->getPremiumStory(0, 3)%>
                 <%assign var="interactives" value=$interactivemodel->get_interactive_by_field_search("(find_in_set('速读',tag) or find_in_set('英语电台',tag))",0,3,30,10800)%>
@@ -81,11 +88,7 @@
                                         </div>
 
 
-                                        <%if $supportSubscriptionUpgradePromo == "yes"%>
-                                            <%if $smarty.get.subscription == "member" || $smarty.get.subscription == "premium"%>
-                                                <%include file="next/partials/house-ad-subscription-promo-box.html"%>
-                                            <%/if%>
-                                        <%/if%>
+
 
                                         <h2 class="list-title"><a class="list-link">今日焦点</a></h2>
                                         <!--premiumContentIds: <%$premiumContentIds%>-->
