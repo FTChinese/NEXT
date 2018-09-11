@@ -52,34 +52,6 @@
                     <%include file="next/partials/house-ad-subscription-promo-box.html"%>
                 <%/if%>
             <%/if%>
-            <%*<!--MARK: Hide Banner if Promo Is On-->*%>
-            <%if $smarty.get.subscription == "premium" && date("Ymd", $smarty.now) <= 20180926%>
-                <script type="text/javascript">
-                    var userId = GetCookie('USER_ID');
-                    if (userId && userId !== '') {
-                        var xhr = new XMLHttpRequest();
-                        xhr.open('POST', '/index.php/jsapi/ticketCode');
-                        xhr.setRequestHeader('Content-Type', 'application/json');
-                        xhr.onload = function() {
-                            if (xhr.status === 200) {
-                                var ticketInfo = JSON.parse(xhr.responseText);
-                                var ticketCode = ticketInfo.ticketCode;
-                                var errcode = ticketInfo.errcode;
-                                if (ticketCode) {
-                                    var topBanner = document.getElementById('banner-1') || document.querySelector('[data-o-ads-name=banner1]');
-                                    topBanner.style.display = 'none';
-                                } else if (errcode) {
-                                    var promoBox = document.querySelector('.subscription-promo-container.premium');
-                                    promoBox.style.display = 'none';
-                                }
-                            }
-                        };
-                        xhr.send(JSON.stringify({
-                            user_id: userId
-                        }));
-                    }
-                </script>
-            <%/if%>
             <%if $smarty.get.subscription == "member" || $smarty.get.subscription == "premium" || $smarty.get.subscription == "other"%>
                 <%assign var="reports" value=$storymodel->getPremiumStory(0, 3)%>
                 <%assign var="interactives" value=$interactivemodel->get_interactive_by_field_search("(find_in_set('速读',tag) or find_in_set('英语电台',tag))",0,3,30,10800)%>
