@@ -446,7 +446,7 @@ var adChannelsPC = {
       },//53:移动端测试
       MemberInfo: {
         id:'54',
-        title:'会员信息中心'
+        title:'市场活动'
       },
       InvestUA: {
         id:'55',
