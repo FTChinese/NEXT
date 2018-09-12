@@ -6,6 +6,8 @@
 <%if $story.column!=""%>
 	<%assign var="columninfo" value=$storymodel->get_column_info($story.column)%>
 <%/if%>
+<!--story.topic: <%$story.topic%>-->
+<!--keys: <%$keys%>-->
 <%if preg_match("/letter/is",$story.cheadline)%>
 <%assign var=breadcrum value="<a href=/channel/letter.html>读者有话说</a>"%>
 <%assign var=autoadchannel value="NP_Opinion"%>
@@ -882,6 +884,16 @@
 	<%assign var="hideBanner" value="no"%>
 <%/if%>
 
+<%if preg_match("/FT商学院/is",$keys)%>
+	<%assign var=breadcrum value="<a href=\"/channel/mba.html\">FT商学院</a>"%>
+	<%assign var="adchannelID" value="1701"%>
+	<%assign var="hideMPU1" value="no"%>
+	<%assign var="hideMPU2" value="no"%>
+	<%assign var="hideMPU3" value="no"%>
+	<%assign var="hide590" value="no"%>
+	<%assign var="hideBanner" value="no"%>
+<%/if%>
+
 <%if preg_match("/中国商业观察/is",$keys) && date("Ymd",$smarty.now) >= 20180620 && date("Ymd",$smarty.now) <= 20181101%>
 	<%assign var=breadcrum value="<a href=\"/tag/中国商业观察\">宝珀·中国商业观察</a>"%>
 	<%assign var="adchannelID" value="5069"%>
@@ -913,7 +925,7 @@
     <%else%>
         <%assign var="newdbRand" value =0|mt_rand:1000 %>
         <!--newdbRand: <%$newdbRand%>-->
-        <%if $newdbRand < 200 %>
+        <%if $newdbRand < 100 %>
             <%assign var="newdbShow" value="yes"%>
         <%else%>
             <%assign var="newdbShow" value="no"%>
