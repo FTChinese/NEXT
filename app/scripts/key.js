@@ -73,7 +73,7 @@ function updateSubscriberStatus() {
             return 'VIP';
         } else {
             subscriberClass = ' is-subscriber is-standard';
-            return 'Subscriber'
+            return 'Subscriber';
         }
         document.documentElement.className += subscriberClass;
     }
@@ -239,8 +239,8 @@ function trackerNew() {
         ga('set', 'dimension1', window.FTAdchID);
     }
 
-    if (subscriberType && typeof subscriberType === 'String' && subscriberType !== '') {
-        vtype = subscriberType
+    if (subscriberType && typeof subscriberType === 'string' && subscriberType !== '') {
+        vtype = subscriberType;
     } else if (gIsSpider === true) {
         vtype = 'spider';
     } else if (username === '') {
