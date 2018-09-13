@@ -855,6 +855,8 @@
 	<%assign var=breadcrum value="<a href=\"/channel/radio.html\">FT英语电台</a><button class=\"myft-follow plus\" data-tag=\"英语电台\" data-type=\"tag\">关注</button>"%>
 <%elseif preg_match("/中外对话/is",$keys)%>
 	<%assign var=pageTrackerTag value="中外对话"%>
+<%elseif date("Ymd",$smarty.now) <= 20180924 || preg_match("/食|餐|阿里|马云|饭|菜|吃|软|家|美/is",$storyContent)%>
+	<%assign var="adchannelID" value="1803"%>
 <%else%>
 	<%assign var="isCurrentAdchFinal" value="no"%>
 <%/if%>
@@ -867,6 +869,7 @@
 <%assign var="storyContent" value=$story_content|replace:"<p></p>":""%>
 
 <%assign var="storyId" value=$story.id|default:$id%>
+
 
 <%if  date("Ymd",$smarty.now) >= 20180824 && date("Ymd",$smarty.now) <= 20181031 %>
 	<%if preg_match("/西门子|电气|工程|自动化|工业|制造业|管理软件|管理系统|数字化|智能化|信息化|工厂|工业4.0|生物科技|生物技术|行业解决方案|数字化产品|研发|创新|生产规模|高效管理|管理效率|数字工厂|潜能|精准控制|精准把控|制造力|能耗|耗能|智能制造|物联网/is",$keys) || preg_match("/西门子|电气|工程|自动化|工业|制造业|管理软件|管理系统|数字化|智能化|信息化|工厂|工业4.0|生物科技|生物技术|行业解决方案|数字化产品|研发|创新|生产规模|高效管理|管理效率|数字工厂|潜能|精准控制|精准把控|制造力|能耗|耗能|智能制造|物联网/is",$storyContent)%>
@@ -918,7 +921,7 @@
         <%assign var="newdbShow" value="yes"%>
 
     <%*<!-- 2. Force to show od chuanyang ad-->*%>
-    <%elseif $adchannelID == "5070" || $adchannelID == "5069" || $adchannelID == "5067" || $adchannelID == "5066" %>
+    <%elseif $adchannelID == "5070" || $adchannelID == "5069" || $adchannelID == "5067" || $adchannelID == "5066" || $adchannelID == "1803" %>
         <%assign var="newdbShow" value="no"%>
 
     <%*<!-- 3. Show new ad or not depending on gray-->*%>
