@@ -855,7 +855,7 @@
 	<%assign var=breadcrum value="<a href=\"/channel/radio.html\">FT英语电台</a><button class=\"myft-follow plus\" data-tag=\"英语电台\" data-type=\"tag\">关注</button>"%>
 <%elseif preg_match("/中外对话/is",$keys)%>
 	<%assign var=pageTrackerTag value="中外对话"%>
-<%elseif date("Ymd",$smarty.now) <= 20180924 || preg_match("/食|餐|阿里|马云|饭|菜|吃|软|家|美/is",$storyContent)%>
+<%elseif date("Ymd",$smarty.now) <= 20180924 && preg_match("/食|餐|阿里|马云|饭|菜|吃|软|家|美/is",$storyContent)%>
 	<%assign var="adchannelID" value="1803"%>
 <%else%>
 	<%assign var="isCurrentAdchFinal" value="no"%>
