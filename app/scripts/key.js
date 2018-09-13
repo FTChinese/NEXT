@@ -70,11 +70,14 @@ function updateSubscriberStatus() {
     if (paywall !== null) {
         if (paywall === 'premium') {
             subscriberClass = ' is-subscriber is-premium';
+            return 'VIP';
         } else {
             subscriberClass = ' is-subscriber is-standard';
+            return 'Subscriber'
         }
         document.documentElement.className += subscriberClass;
     }
+    return null;
 }
 
 
@@ -117,7 +120,7 @@ function trackerNew() {
     var screenType=0;
     var deviceName;
 
-    updateSubscriberStatus();
+    var subscriberType = updateSubscriberStatus();
 
     if (w >0) {
         if (w>1220) {
@@ -236,7 +239,9 @@ function trackerNew() {
         ga('set', 'dimension1', window.FTAdchID);
     }
 
-    if (gIsSpider === true) {
+    if (subscriberType && typeof subscriberType === 'String' && subscriberType !== '') {
+        vtype = subscriberType
+    } else if (gIsSpider === true) {
         vtype = 'spider';
     } else if (username === '') {
         vtype = 'visitor';
