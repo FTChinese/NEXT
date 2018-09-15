@@ -1,4 +1,4 @@
-/* exported startPlay, updateAudioTime, addTag, exportData, previewData, updateAudioSpeed */
+/* exported startPlay, updateAudioTime, addTag, finish, exportData, previewData, updateAudioSpeed */
 
 
 
@@ -63,6 +63,17 @@ function exportData() {
 	// TODO: Should check if the data is correct with all the time stamp. For example, no time stamp should be null and the numbers should increase. 
 	var exportedJSONString = JSON.stringify(audioData);
 	document.getElementById('audio-json-text').value = exportedJSONString;
+}
+
+function finish() {
+	var exportedJSONString = JSON.stringify(audioData);
+	if (window.opener) {
+		var audioEle = window.opener.document.getElementById('cbody');
+		if (audioEle) {
+			audioEle.value = exportedJSONString;
+			window.close();
+		}
+	}
 }
 
 function updateAudioSpeed(speed) {

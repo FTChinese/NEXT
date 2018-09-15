@@ -354,6 +354,16 @@ gulp.task('copy:tpl', () => {
     .pipe(gulp.dest(`../testing/${dest}`));
 });
 
+gulp.task('copy:cms', () => {
+  const dest = 'dev_cms/next';
+  return gulp.src(['dist*/**/*'])
+    .on('error', (err) => {
+      console.error(err.stack);
+    })
+    .pipe(gulp.dest(`../${dest}`))
+});
+
+
 gulp.task('copy:p0', () => {
   const dest = 'dev_www/frontend/tpl/corp';
   return gulp.src('app/templates/p0.html')
@@ -457,6 +467,7 @@ gulp.task('copy', gulp.series(
     'copy:marketing', 
     'copy:apipage', 
     'copy:tpl', 
+    'copy:cms',
     'copy:p0', 
     'copy:time'
   )
