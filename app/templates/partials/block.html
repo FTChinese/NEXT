@@ -39,8 +39,6 @@
 	<%/if%>
 	<%assign var="l" value=0%>
 	<%assign var="listLength" value=$section.lists|@count%>
-
-
 	<%foreach from=$section.lists item=list%>
 		<%assign var="listType" value=""%>
 		<%assign var="listClass" value=""%>
@@ -176,10 +174,16 @@
 				<%/if%>
 				<%*<!--feed type is <%$feedType%>, feed repeat check is <%$feedRepeatCheck%>-->*%>
 
+				<%assign var="actualFeedItems" value=$list.feedItems%>
 				<%assign var="feedStart" value=$list.feedStart|default:0%>
 				<%assign var="pageNumber" value=$smarty.get.p%>
 				<%if $pageNumber > 1%>
 					<%assign var="feedStart" value=$pageNumber-1%>
+					<!-- Feed Start 1: <%$feedStart%>-->
+					<%if $actualFeedItems > 0%>
+						<%assign var="feedStart" value=$feedStart*$actualFeedItems%>
+						<!-- Feed Start 2: <%$feedStart%> feed Item: <%$actualFeedItems%>-->
+					<%/if%>
 				<%/if%>
 				<%assign var="feedTag" value=$list.feedTag%>
 				<%if $list.feedType == "myFT"%>
@@ -216,7 +220,10 @@
 							<%assign var="itemsArray" value=$storymodel->get_story_by_tag($feedTag,0,$feedItems)%>
 						<%elseif $list.feedType == "interactive"%>
 							<%assign var="feedType" value=$list.feedType%>
-							<%assign var="itemsArray" value=$interactivemodel->get_interactive_by_tag($feedTag, $feedItems)%>
+							<%assign var="interactiveFeedSQL" value="find_in_set('`$feedTag`', tag)"%>
+							<%assign var="itemsArray" value=$interactivemodel->get_interactive_by_field_search($interactiveFeedSQL,$feedStart,$feedItems,999999999,10800)%>
+							<!--Feed Start 3: <%$interactiveFeedSQL%> <%$feedStart%>-->
+							<%*<!--assign var="itemsArray" value=$interactivemodel->get_interactive_by_tag($feedTag, $feedItems)-->*%>
 						<%elseif $list.feedType == "video"%>
 							<%assign var="feedType" value=$list.feedType%>
 							<%if preg_match("/^[0-9]+$/is",$feedTag)%>
@@ -237,18 +244,11 @@
 						<%else%>
 							<%assign var="feedType" value=$list.feedType%>
 							<%assign var="itemsArray" value=$storymodel->getContentByTag($feedTag,$feedItems)%>
-
-
-
-
-
-
 						<%/if%>
 					<%/if%>
 				<%else%>
 					<%assign var="feedType" value="manual"%>
 					<%assign var="itemsArray" value=$list.items%>
-
 				<%/if%>
 
 
@@ -968,7 +968,7 @@
 						<%if $i === 0%>
 							<%assign var="itemTop" value=""%>
 						<%/if%>
-						<%if $itemImage == "" && $itemType != "video"%>
+						<%if $itemImage == "" && $itemType != "video" && $itemType != "third-party-iframe"%>
 							<%assign var="hasImage" value="no-image"%>
 						<%/if%>
 
@@ -1261,6 +1261,10 @@
 								<%elseif ($itemType === "video" && $listType !== "videos" && $item.preferSponsorImage != "yes") || ($itemType == "interactive" && preg_match("/推广视频|精彩视频|产品视频/is",$item.tag))%>
 									<div class="image">
 										<figure class="loading-video" data-vid="<%$itemId%>" data-item-type="<%$itemType%>"></figure>
+									</div>
+								<%elseif $itemType === "third-party-iframe"%>
+									<div class="image">
+										<figure class="loading-video" data-third-party-frame-url="<%$item.customLink%>"></figure>
 									</div>
 								<%elseif $itemImage != "" && $hasImage === "has-image"%>
 									<a class="image" target="_blank"<%$itemImageLink%> <%if $videoId === "viewtopVideo" && $videoIdIndex == 1 %>id="viewtopVideo"<%/if%>>

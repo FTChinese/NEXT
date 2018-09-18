@@ -292,6 +292,7 @@ function loadImages() {
     var videoId = thisVideo.getAttribute('data-vid');
     var itemType = thisVideo.getAttribute('data-type') || thisVideo.getAttribute('data-item-type') || 'video';
     var autoStart = thisVideo.getAttribute('data-autoplay') || '';
+    var thirdPartyFrameUrl = thisVideo.getAttribute('data-third-party-frame-url');
     var videoWall = '';
     if (autoStart === 'yes') {
       autoStart = 'true';
@@ -299,9 +300,18 @@ function loadImages() {
     } else {
       autoStart = 'false';
     }
+
     if (videoWidth > 0 && videoHeight > 0 && queryString.indexOf('?ad=no') === -1 && hostForVideo !== 'http://www.ftchinese.com') {
+
+      var iFrameUrl;
+      if (thirdPartyFrameUrl) {
+        iFrameUrl = thirdPartyFrameUrl;
+      } else {
+        iFrameUrl = hostForVideo + '/' + itemType + '/'+ videoId +'?i=2&w='+videoWidth+'&h='+videoHeight+'&autostart=' + autoStart + videoWall;
+      }
+
       videosLazy[i] = {
-        ih: '<iframe name="video-frame" id="video-frame" style="width:100%;height:100%;position:absolute;" src="' + hostForVideo + '/' + itemType + '/'+ videoId +'?i=2&w='+videoWidth+'&h='+videoHeight+'&autostart=' + autoStart + videoWall + '" scrolling="no" frameborder="0" allowfullscreen=true></iframe>',
+        ih: '<iframe name="video-frame" id="video-frame" style="width:100%;height:100%;position:absolute;" src="' + iFrameUrl + '" scrolling="no" frameborder="0" allowfullscreen=true></iframe>',
         videoTop: videoTop
       };
     } else {
