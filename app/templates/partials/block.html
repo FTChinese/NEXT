@@ -1249,7 +1249,6 @@
 							<%if $listType === "videos" && preg_match("/高端视点/is",$itemTagsString) %>
 								<%assign var="videoId" value="viewtopVideo" %>
 								<%assign var="videoIdIndex" value=$videoIdIndex+1 %>
-								
 							<%/if%>
 							<%*<!-- Real Item of Block -->*%>
 							<div class="item-container <%$itemClass%> <%$hasImage%>"<%$itemData%>><div class="item-inner">
@@ -1263,9 +1262,15 @@
 										<figure class="loading-video" data-vid="<%$itemId%>" data-item-type="<%$itemType%>"></figure>
 									</div>
 								<%elseif $itemType === "third-party-iframe"%>
-									<div class="image">
-										<figure class="loading-video" data-third-party-frame-url="<%$item.customLink%>"></figure>
-									</div>
+									<%if $supportThirdPartyFrame == "yes"%>
+										<div class="image">
+											<figure class="loading-video" data-third-party-frame-url="<%$itemImage%>"></figure>
+										</div>
+									<%else%>
+										<div class="image">
+											<figure><iframe name="video-frame" id="video-frame" style="width:100%;height:100%;position:absolute;" src="<%$itemImage%>" scrolling="no" frameborder="0" allowfullscreen="true" data-target="legacy"></iframe></figure>
+										</div>
+									<%/if%>
 								<%elseif $itemImage != "" && $hasImage === "has-image"%>
 									<a class="image" target="_blank"<%$itemImageLink%> <%if $videoId === "viewtopVideo" && $videoIdIndex == 1 %>id="viewtopVideo"<%/if%>>
 										<figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure>
@@ -1735,7 +1740,7 @@
 									<%assign var="audioData" value=""%>
 								<%/if%>
 								<%assign var="itemData" value=" data-id=\"`$item.id`\" data-type=\"`$itemType`\"`$audioData`"%>
-								<%if $item.id == "" || $itemType == "manual"%>
+								<%if $item.id == "" || $itemType == "manual" || $itemType == "third-party-iframe"%>
 									<%assign var="itemData" value=""%>
 								<%else%>
 									<%assign var="itemClass" value="`$itemClass` item-container-app"%>

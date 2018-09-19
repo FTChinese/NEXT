@@ -25,6 +25,15 @@
     <%if $v >= 9.8%>
         <%assign var="supportSubscriptionPromoBox" value="yes"%>
     <%/if%>
+    <%if $v >= 10.7%>
+        <%assign var="supportThirdPartyFrame" value="yes"%>
+    <%else%>
+        <%assign var="supportThirdPartyFrame" value="no"%>
+    <%/if%>
+<%/if%>
+<%*<!-- MARK: If it's from a web page, then it is sure to support third party frame -->*%>
+<%if $smarty.get.webview != "ftcapp"%>
+    <%assign var="supportThirdPartyFrame" value="yes"%>
 <%/if%>
 
 <%if $smarty.get.webview == "ftcapp" && $showExclusiveContent == "yes" && $smarty.get.subscription !== "member" && $smarty.get.subscription !== "premium"%>
