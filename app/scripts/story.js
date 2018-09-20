@@ -296,7 +296,7 @@ function recommendPayLoad(recommenddata, addata){
     */
 
     console.log(recommenddata);
-    //console.log(addata);
+    
 
 
     if (window.suppressRecommendation === true) {
@@ -321,6 +321,7 @@ function recommendPayLoad(recommenddata, addata){
     var bottomItemCount = 0;
 
     for (var i=0; i<recommenddata.length; i++) {
+
         var itemClass = 'XL3 L3 M6 S6 P12';
         var itemTop = '';
         var itemTopClass = 'PT';
@@ -346,7 +347,6 @@ function recommendPayLoad(recommenddata, addata){
         if(itemT === undefined || itemT === null) {itemT = '';}
         link = '/story/'+itemId+'?tcode=smartrecommend&ulu-rcmd=' + thirdPartData[itemId];
 
-        
         // MARK:insert the first item into the story body
         /*
         if (i === 0 && recommendDiv) {
@@ -373,6 +373,7 @@ function recommendPayLoad(recommenddata, addata){
                 console.log('a');
             }
             */
+            console.log (tryToInsertAd);
             if(tryToInsertAd === 0 && addata.isAd ===1 && i === uluAdPosition) {
                 ///MARK:第4个位置放来自优路科技的广告（如果有的话）
                 console.log('b');
