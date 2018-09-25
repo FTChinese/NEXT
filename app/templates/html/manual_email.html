@@ -158,6 +158,77 @@ width: 720px !important;
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title><%$p.meta.title%> - FT中文网</title>
+
+<%*<!-- Start: Decide if show new db-->*%>
+	<%*<!-- First： The newdbStart -->*%>
+	<%if ($smarty.get.newdb == "yes" && $smarty.get.env == "prod") || date("Ymd", $smarty.now) >= 20180903 %>
+			<%assign var=newdbStart value="yes"%>
+	<%else%>
+			<%assign var=newdbStart value="no"%>
+	<%/if%>
+	<%*<!-- Second: The newdbShow -->*%>
+
+	<%*<!-- 1. Force to show new db ad-->*%>
+	<%if $adchannelID == "1701" %>
+			<%assign var="newdbShow" value="yes"%>
+
+	<%*<!-- 2. Force to show od chuanyang ad-->*%>
+	<%elseif $adchannelID == "5070" || $adchannelID == "5069" || $adchannelID == "5067" || $adchannelID == "5066" %>
+			<%assign var="newdbShow" value="no"%>
+
+	<%*<!-- 3. Show new ad or not depending on gray-->*%>
+	<%else%>
+			<%assign var="newdbRand" value =0|mt_rand:1000 %>
+			<!--newdbRand: <%$newdbRand%>-->
+			<%if $newdbRand < 1000 %>
+					<%assign var="newdbShow" value="yes"%>
+			<%else%>
+					<%assign var="newdbShow" value="no"%>
+			<%/if%>
+	<%/if%>
+
+	<%*<!-- Start: iOS native app rules-->*%>
+	<%if $smarty.get.webview == "ftcapp"%>
+			<%if $smarty.get.newdb == "yes"%>
+					<%assign var="newdbShow" value="yes"%>
+					<%assign var="newdbStart" value="yes"%>
+			<%else%>
+					<%assign var="newdbShow" value="no"%>
+					<%assign var="newdbStart" value="no"%>
+			<%/if%>
+	<%/if%>
+	<%*<!-- End: iOS native app rules-->*%>
+
+	<%*<!-- Start: test rules-->*%>
+	<%if $smarty.get.newzone != ""%>
+			<%assign var="newdbShow" value="yes"%>
+			<%assign var="newdbStart" value="yes"%>
+	<%/if%>
+	<%*<!-- End: test rules-->*%>
+<%*<!-- End: Decide if show new db-->*%>
+
+
+<% if $newdbStart == "yes" && $newdbShow == "yes" %>
+	<script async src="https://www.ft.com/__origami/service/build/v2/bundles/js?modules=o-ads@8.3.0"></script>
+	<script async src='https://www.googletagservices.com/tag/js/gpt.js'></script>
+
+	<%assign var="zone" value="email/weekly"%>
+	<script data-o-ads-config="" type="application/json">
+		{
+			"gpt": {
+				"network": 5887,
+				"site": "FtChinese",
+				"zone": "<%$zone%>"
+			},
+			"formats": {
+				"FtcMpu":{
+						"sizes":[[300, 250], [300, 600], [300,1050]]
+				}
+			}
+		}
+	</script>
+<%/if%>
+
 </head>
 <!-- htmlmin:ignore -->
 <body style="width:100%;color:#111111;background-color:#FFFFFF;font-family:"Hiragino Sans GB","WenQuanYi Micro Hei","Heiti SC",STHeiti,SimSun,sans-serif;font-size:14px;">
@@ -281,9 +352,27 @@ href="http://www.ftchinese.com" target="_blank"
 <tr><td class="lineH1" style="height: 22px; font-size: 22px; line-height: 22px; padding: 0;">&nbsp;</td></tr>                                          
 <tr>
 <td colspan="3" class="ft-embimg-container" style="font-size: 0; text-align: center; padding: 20px 0 20px 0; background-color:#E9DECE;">
-<a target="_blank"  href='http://www3.ftchinese.com/app/newsletter/go.php?c=20250004&_t=<%$smarty.now|date_format:"%Y%m%d"%>'>
-<img width="300" height="250" border="0" src='http://dualstack.adsame-1421766300.ap-southeast-1.elb.amazonaws.com/s?z=ft&c=20250004&_t=<%$smarty.now|date_format:"%Y%m%d"%>&u=www.ftchinese.com'>
-</a>
+	<!-- /// ad -->
+	<%if $newdbStart == "yes" && $newdbShow == "yes"%>
+		<div 
+		data-o-ads-name="mpu-mostpopular"
+		class="o-ads"  
+		data-o-ads-formats-default="false" 
+		data-o-ads-formats-small="false" 
+		data-o-ads-formats-medium="false"
+		data-o-ads-formats-large="FtcMpu"
+		data-o-ads-formats-extra="FtcMpu"
+		data-o-ads-targeting="cnpos=mostpopular;"
+		data-cy='[{"devices":["PC"],"pattern":"MPU","position":"Middle1"}]'
+		>
+		</div>
+	<%else%>
+		<a target="_blank"  href='http://www3.ftchinese.com/app/newsletter/go.php?c=20250004&_t=<%$smarty.now|date_format:"%Y%m%d"%>'>
+		<img width="300" height="250" border="0" src='http://dualstack.adsame-1421766300.ap-southeast-1.elb.amazonaws.com/s?z=ft&c=20250004&_t=<%$smarty.now|date_format:"%Y%m%d"%>&u=www.ftchinese.com'>
+		</a>
+	<%/if%>
+	<!-- /// end ad -->
+
 </td>
 </tr>
 <tr><td class="lineH1" style="height: 22px; font-size: 22px; line-height: 22px; padding: 0;">&nbsp;</td></tr>
