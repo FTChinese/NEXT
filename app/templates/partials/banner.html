@@ -38,15 +38,7 @@
                     data-cy='[{"devices":["PC"],"pattern":"Leaderboard","position":"Num1"},{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"Banner","position":"Num1"}]'
                     >
                     </div>
-                    <!-- <div class="o-ads db-mobile-banner" data-o-ads-name="banner1-mobile"
-                    data-o-ads-center="true" 
-                    data-o-ads-formats-default="false" 
-                    data-o-ads-formats-small="FtcMobileBanner" 
-                    data-o-ads-formats-medium="false"
-                    data-o-ads-formats-large="false" 
-                    data-o-ads-formats-extra="false"
-                    data-o-ads-targeting="cnpos=top1;">
-                    </div> -->
+                    <script type="text/javascript">ga('send', 'event', 'Ad Switch Tracker', 'GAM', 'banner1', {'nonInteraction': 1});</script>
                 <%else%>                
                     <script type="text/javascript">
                         document.write(writeAdNew({
@@ -59,6 +51,7 @@
                             pattern:'Banner',
                             position:'Num1'
                         }));
+                        ga('send', 'event', 'Ad Switch Tracker', 'Dolphine', 'banner1', {'nonInteraction': 1});
                     </script>
                 <%/if%>
             <%elseif $bannerCount == 1%>
