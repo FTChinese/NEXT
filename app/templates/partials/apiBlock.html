@@ -27,6 +27,10 @@
 </div>
 <script type="text/javascript">
 function renderAPI(number) {
+    var userName = GetCookie('USER_NAME');
+    if (userName === null) {
+        return;
+    }
     var ele = document.getElementById('api-block-' + number);
     var xhr = new XMLHttpRequest();
     var ajaxMethod;
@@ -45,10 +49,12 @@ function renderAPI(number) {
     xhr.onload = function() {
         if (xhr.status === 200) {
             var data = JSON.parse(xhr.responseText);
-            ele.className = ele.className.replace(' hide', '');
             var contentEle = ele.querySelector('.api-block-content');
             var items = data.body.odatalist;
             var itemsHTML = '';
+            if (items.length <= 0) {
+                return;
+            }
             for (var i=0; i<items.length; i++) {
                 var item = items[i];
                 var link = '/' + item.itemtype + '/' + item.id;
@@ -72,10 +78,11 @@ function renderAPI(number) {
                 itemsHTML += topDivHTML + oneItem;
             }
             contentEle.innerHTML = itemsHTML;
+            ele.className = ele.className.replace(' hide', '');
+            ga('send', 'event', 'API Block', 'Display', number, {'nonInteraction': 1});
         }
     };
     xhr.send(JSON.stringify(message));
 }
-renderAPI('31005');
 renderAPI('<%$section.apiNumber%>');
 </script>
