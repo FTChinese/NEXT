@@ -1,0 +1,16 @@
+<!--section: 0-->
+<%if $ads != ""%>
+	<!--section: 1-->
+	<%foreach from=$ads.sections item=section%>
+		<!--section: 2-->
+		<%if $section.title == $adPositionCode%>
+			<!--section:  <%section|var_dump%> -->
+		<%/if%>
+	<%/foreach%>
+	<!--
+	<div class="responseAD" style="max-height: 0px; font-size: 0;line-height: 0;mso-hide: all; display:none; overflow:hidden; text-align: center; ">
+	<a target="_blank" href='http://dolphin.ftimg.net/r?z=ft&c=20260003&_t=<%$smarty.now|date_format:"%Y%m%d"%>'>
+	    <img width="300px" height="250px" border="0" src='http://dolphin.ftimg.net/s?z=ft&c=20260003&_t=<%$smarty.now|date_format:"%Y%m%d"%>&u=www.ftchinese.com' /> </a>
+	</div>
+	-->
+<%/if%>

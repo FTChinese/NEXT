@@ -27,6 +27,10 @@
 </div>
 <script type="text/javascript">
 function renderAPI(number) {
+    var userName = GetCookie('USER_NAME');
+    if (userName === null) {
+        return;
+    }
     var ele = document.getElementById('api-block-' + number);
     var xhr = new XMLHttpRequest();
     var ajaxMethod;
@@ -45,24 +49,26 @@ function renderAPI(number) {
     xhr.onload = function() {
         if (xhr.status === 200) {
             var data = JSON.parse(xhr.responseText);
-            ele.className = ele.className.replace(' hide', '');
             var contentEle = ele.querySelector('.api-block-content');
             var items = data.body.odatalist;
             var itemsHTML = '';
-            var lead = (item.clead.indexOf('.mp3')>0) ? '' : item.clead;
+            if (items.length <= 0) {
+                return;
+            }
             for (var i=0; i<items.length; i++) {
                 var item = items[i];
                 var link = '/' + item.itemtype + '/' + item.id;
                 var itemType = item.itemType;
-                var oneItem = '<div class="item-container XL3 L3 S4 M6 P12 no-image"><div class="item-inner"><h2 class="item-headline"><div class=item-tag><a href="/tag/' + item.tag + '">' + item.tag + '</a><button class="myft-follow plus" data-tag="' + item.tag + '" data-type="tag">关注</button></div><a target="_blank" href="' + link + '" class="item-headline-link ">' + item.cheadline + '</a></h2><a class="image" target="_blank" href="/story/001079537?adchannelID=1400" ><figure class="loading" data-url="http://i.ftimg.net/picture/8/000036808_piclink_272_181.jpg"></figure></a><div class="item-lead">' + lead + '</div><div class="item-bottom"></div></div></div>';
+                var lead = (item.clead.indexOf('.mp3')>0) ? '' : item.clead;
+                var oneItem = '<div class="item-container XL3 L3 M4 S6 P12 no-image"><div class="item-inner"><h2 class="item-headline"><div class=item-tag><a href="/tag/' + item.tag + '">' + item.tag + '</a><button class="myft-follow plus" data-tag="' + item.tag + '" data-type="tag">关注</button></div><a target="_blank" href="' + link + '" class="item-headline-link ">' + item.cheadline + '</a></h2><a class="image" target="_blank" href="/story/001079537?adchannelID=1400" ><figure class="loading" data-url="http://i.ftimg.net/picture/8/000036808_piclink_272_181.jpg"></figure></a><div class="item-lead">' + lead + '</div><div class="item-bottom"></div></div></div>';
                 var topDivClass = '';
                 if (i>0) {
                     topDivClass += 't-' + i + ' PT';
                     if (i%2 === 0) {
-                        topDivClass += ' MT';
+                        topDivClass += ' ST';
                     }
                     if (i%3 === 0) {
-                        topDivClass += ' ST';
+                        topDivClass += ' MT';
                     }
                     if (i%4 === 0) {
                         topDivClass += ' LT XLT'
@@ -72,10 +78,11 @@ function renderAPI(number) {
                 itemsHTML += topDivHTML + oneItem;
             }
             contentEle.innerHTML = itemsHTML;
+            ele.className = ele.className.replace(' hide', '');
+            ga('send', 'event', 'API Block', 'Display', number, {'nonInteraction': 1});
         }
     };
     xhr.send(JSON.stringify(message));
 }
-renderAPI('31005');
 renderAPI('<%$section.apiNumber%>');
 </script>
