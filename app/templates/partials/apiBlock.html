@@ -1,0 +1,81 @@
+<div class="block-container no-side hide" id="api-block-<%$section.apiNumber%>" data-api="<%$section.apiNumber%>" data-item="<%$section.itemNumber%>">
+    <div class="block-inner">
+        <div class="content-container">
+            <div class="content-inner">
+                <div class="list-container">
+                    <div class="list-inner">
+                        <h2 class="list-title">
+							<a class="list-link" href="<%$section.link%>"><%$section.title%></a>
+						</h2>
+                        <%if $section.description != ""%>
+                            <div class="items">
+                                <div class="no-image">
+                                    <div class="item-inner">
+                                        <div class="item-lead"><%$section.description%></div>
+                                    </div>
+                                </div>
+                            </div>
+                        <%/if%>
+                        <div class="items api-block-content"></div>
+                    </div>
+                </div>
+                <div class="clearfloat block-bottom"></div>
+            </div>
+        </div>
+        <div class="clearfloat"></div>
+    </div>
+</div>
+<script type="text/javascript">
+function renderAPI(number) {
+    var ele = document.getElementById('api-block-' + number);
+    var xhr = new XMLHttpRequest();
+    var ajaxMethod;
+    var ajaxUrl;
+    var message = {};
+    message.head = {};
+    message.head.transactiontype = number;
+    message.head.source = 'web';
+    message.body = {};
+    message.body.ielement = {};
+    message.body.ielement.topnum = 12;
+    ajaxMethod = 'POST';
+    ajaxUrl = '/eaclient/apijson.php';
+    xhr.open(ajaxMethod, encodeURI(ajaxUrl));
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            var data = JSON.parse(xhr.responseText);
+            ele.className = ele.className.replace(' hide', '');
+            var contentEle = ele.querySelector('.api-block-content');
+            var items = data.body.odatalist;
+            var itemsHTML = '';
+            for (var i=0; i<items.length; i++) {
+                var item = items[i];
+                var link = '/' + item.itemtype + '/' + item.id;
+                var itemType = item.itemType
+                var oneItem = '<div class="item-container XL3 L3 S4 M6 P12 no-image"><div class="item-inner"><h2 class="item-headline"><div class=item-tag><a href="/tag/' + item.tag + '">' + item.tag + '</a><button class="myft-follow plus" data-tag="' + item.tag + '" data-type="tag">关注</button></div><a target="_blank" href="' + link + '" class="item-headline-link ">' + item.cheadline + '</a></h2><a class="image" target="_blank" href="/story/001079537?adchannelID=1400" ><figure class="loading" data-url="http://i.ftimg.net/picture/8/000036808_piclink_272_181.jpg"></figure></a><div class="item-lead">' + item.clead + '</div><div class="item-bottom"></div></div></div>';
+                var topDivClass = '';
+                if (i>0) {
+                    topDivClass += 't-' + i + ' PT';
+                    if (i%2 === 0) {
+                        topDivClass += ' MT';
+                    }
+                    if (i%3 === 0) {
+                        topDivClass += ' ST';
+                    }
+                    if (i%4 === 0) {
+                        topDivClass += ' LT XLT'
+                    }
+                }
+                var topDivHTML = '<div class="' + topDivClass + '"></div>';
+                itemsHTML += topDivHTML + oneItem;
+            }
+            contentEle.innerHTML = itemsHTML;
+            console.log (data);
+        }
+    };
+    xhr.send(JSON.stringify(message));
+}
+renderAPI('31005');
+renderAPI('<%$section.apiNumber%>');
+</script>
