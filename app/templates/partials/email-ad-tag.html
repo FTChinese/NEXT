@@ -1,16 +1,32 @@
-<!--section: 0-->
 <%if $ads != ""%>
-	<!--section: 1-->
 	<%foreach from=$ads.sections item=section%>
-		<!--section: 2-->
 		<%if $section.title == $adPositionCode%>
-			<!--section:  <%section|var_dump%> -->
+			<%assign var="foundAd" value="no"%>
+			<%foreach from=$section.lists item=ad%>
+				<%assign var="currentDate" value=$smarty.now|date_format:"%Y%m%d"%>
+				<%if ($ad.dates == "" || preg_match("/`$currentDate`/is",$ad.dates)) && $foundAd == "no"%>
+					<%assign var="foundAd" value="yes"%>
+					<!--found: <%$ad.fileName%>-->
+					<%if $adForMobile == "yes"%>
+						<div class="responseAD" style="max-height: 0px; font-size: 0;line-height: 0;mso-hide: all; display:none; overflow:hidden; text-align: center; ">
+					<%/if%>
+						<a target="_blank" href="<%$ad.click%>"><img width="300px" height="250px" border="0" src="<%$ad.fileName%>" /></a>
+					<%if $adForMobile == "yes"%>
+					</div>
+					<%/if%>
+					<div style="display: none;">
+					<%if $ad.impression_1 != ""%>
+						<img width="1" height="1" border="0" src="<%$ad.impression_1%>" />
+					<%/if%>
+					<%if $ad.impression_2 != ""%>
+						<img width="1" height="1" border="0" src="<%$ad.impression_2%>" />
+					<%/if%>
+					<%if $ad.impression_3 != ""%>
+						<img width="1" height="1" border="0" src="<%$ad.impression_3%>" />
+					<%/if%>
+					</div>
+				<%/if%>
+			<%/foreach%>
 		<%/if%>
 	<%/foreach%>
-	<!--
-	<div class="responseAD" style="max-height: 0px; font-size: 0;line-height: 0;mso-hide: all; display:none; overflow:hidden; text-align: center; ">
-	<a target="_blank" href='http://dolphin.ftimg.net/r?z=ft&c=20260003&_t=<%$smarty.now|date_format:"%Y%m%d"%>'>
-	    <img width="300px" height="250px" border="0" src='http://dolphin.ftimg.net/s?z=ft&c=20260003&_t=<%$smarty.now|date_format:"%Y%m%d"%>&u=www.ftchinese.com' /> </a>
-	</div>
-	-->
 <%/if%>
