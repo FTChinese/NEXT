@@ -927,9 +927,9 @@ try {
     var el = this.getAttribute('data-el') || '';
     if (ec !== '' && ea !== '') {
       // MARK: stop tracking for lack of GA quota
-      //ga('send','event',ec, ea, el);
-      //console.log (ec + ea + el);
-
+      if (this.className.className.indexOf('track-click') >= 0) {
+        ga('send','event',ec, ea, el);
+      }
       // MARK: If there is a cooperative adverising in bottom Recommend Section, these code to send img.src to third part
       if (el === 'uluAd') {
           var uluAdImage = new Image();
