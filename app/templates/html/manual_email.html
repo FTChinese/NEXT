@@ -1,4 +1,5 @@
 <%assign var="p" value=$nextmodel->getPublishJson($pageId)|json_decode:true%>
+<%assign var="ads" value=$nextmodel->getPublishJson("emailads")|json_decode:true%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
 <head>
@@ -247,19 +248,11 @@ href="http://www.ftchinese.com" target="_blank"
 				        <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;"> </td></tr>
 				    </table>
 				</div>
-				<%* <!--
 				<%if $s == 0 && $l == 0 && $i ==0%>
-					<table width="100%" cellpadding="0" cellspacing="0">                                     
-						<tr>
-							<td class="ft-embimg-container" style="font-size: 0; text-align: center; padding: 20px 0 20px 0; background-color:#E9DECE;">
-								<a target="_blank"  href='http://www3.ftchinese.com/app/newsletter/go.php?c=20250003&_t=<%$smarty.now|date_format:"%Y%m%d"%>'>
-									<img width="300" height="250" border="0" src='http://dualstack.adsame-1421766300.ap-southeast-1.elb.amazonaws.com/s?z=ft&c=20250003&_t=<%$smarty.now|date_format:"%Y%m%d"%>&u=www.ftchinese.com'>
-								</a>
-							</td>
-						</tr>
-					</table>
+					<%assign var="adPositionCode" value="mpu-1"%>
+					<%assign var="adWrapper" value="weekly-1"%>
+					<%include file="next/partials/email-ad-tag.html"%>
 				<%/if%>
-				--> *%>
 				<%if $s == 0 && $l == 0 && $i==10 && 1>2%>
 					<%include file="email/284x90/code.html"%>
 				<%/if%>
@@ -279,18 +272,9 @@ href="http://www.ftchinese.com" target="_blank"
 </tr>
 </table>
 <table width="100%" cellpadding="0" cellspacing="0">
-<tr><td class="lineH1" style="height: 22px; font-size: 22px; line-height: 22px; padding: 0;">&nbsp;</td></tr>                                          
-<tr>
-<td colspan="3" class="ft-embimg-container" style="font-size: 0; text-align: center; padding: 20px 0 20px 0; background-color:#E9DECE;">
-	<!-- /// ad -->
-	<iframe width="300" height="250" scrolling="no" frameborder="0"  src="https://pubads.g.doubleclick.net/gampad/adx?iu=5887/FtChinese/email/weekly&sz=300x250&c=<%$smarty.now%>&title=middle1&cnpos%3middle1"></iframe>
-		<!-- <a target="_blank"  href='http://www3.ftchinese.com/app/newsletter/go.php?c=20250004&_t=<%$smarty.now|date_format:"%Y%m%d"%>'>
-		<img width="300" height="250" border="0" src='http://dualstack.adsame-1421766300.ap-southeast-1.elb.amazonaws.com/s?z=ft&c=20250004&_t=<%$smarty.now|date_format:"%Y%m%d"%>&u=www.ftchinese.com'>
-		</a> -->
- 	<!-- /// end ad -->
-
-</td>
-</tr>
+	<%assign var="adPositionCode" value="mpu-2"%>
+	<%assign var="adWrapper" value="weekly-2"%>
+	<%include file="next/partials/email-ad-tag.html"%>
 <tr><td class="lineH1" style="height: 22px; font-size: 22px; line-height: 22px; padding: 0;">&nbsp;</td></tr>
 <%assign var="hotTopics" value=$articles.HotTopics%>
 <%assign var="hotTopics" value=$hotTopics|replace:"，":","%>

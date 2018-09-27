@@ -6,13 +6,20 @@
 				<%assign var="currentDate" value=$smarty.now|date_format:"%Y%m%d"%>
 				<%if ($ad.dates == "" || preg_match("/`$currentDate`/is",$ad.dates)) && $foundAd == "no"%>
 					<%assign var="foundAd" value="yes"%>
-					<!--found: <%$ad.fileName%>-->
-					<%if $adForMobile == "yes"%>
+					<%if $adWrapper == "daily-middle"%>
 						<div class="responseAD" style="max-height: 0px; font-size: 0;line-height: 0;mso-hide: all; display:none; overflow:hidden; text-align: center; ">
+					<%elseif $adWrapper == "weekly-1"%>
+						<table width="100%" cellpadding="0" cellspacing="0"><tr><td class="ft-embimg-container" style="font-size: 0; text-align: center; padding: 20px 0 20px 0; background-color:#E9DECE;">
+					<%elseif $adWrapper == "weekly-2"%>
+						<tr><td class="lineH1" style="height: 22px; font-size: 22px; line-height: 22px; padding: 0;">&nbsp;</td></tr><tr><td colspan="3" class="ft-embimg-container" style="font-size: 0; text-align: center; padding: 20px 0 20px 0; background-color:#E9DECE;">
 					<%/if%>
 						<a target="_blank" href="<%$ad.click%>"><img width="300px" height="250px" border="0" src="<%$ad.fileName%>" /></a>
-					<%if $adForMobile == "yes"%>
-					</div>
+					<%if $adWrapper == "daily-middle"%>
+						</div>
+					<%elseif $adWrapper == "weekly-1"%>
+						</td></tr></table>
+					<%elseif $adWrapper == "weekly-2"%>
+						</td></tr>
 					<%/if%>
 					<div style="display: none;">
 					<%if $ad.impression_1 != ""%>

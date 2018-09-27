@@ -114,6 +114,9 @@
 		<%/foreach%>
 		<script type="text/javascript">
 			function addUserId(ele) {
+				if (ele === null) {
+					return;
+				}
 				var userId;
 				if (typeof GetCookie === 'function') {
 					userId = GetCookie('USER_ID');
