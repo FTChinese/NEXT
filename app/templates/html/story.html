@@ -888,6 +888,17 @@
 <%/if%>
 
 
+<%if preg_match("/创新经济/is",$keys) && date("Ymd",$smarty.now) <= 20181231%>
+	<%assign var=breadcrum value="<a href=\"/channel/innovation.html\">创新经济</a>"%>
+	<%assign var="adchannelID" value="2100"%>
+	<%assign var="hideMPU1" value="no"%>
+	<%assign var="hideMPU2" value="no"%>
+	<%assign var="hideMPU3" value="no"%>
+	<%assign var="hide590" value="no"%>
+	<%assign var="hideBanner" value="no"%>
+<%/if%>
+
+
 <%if preg_match("/汽车未来/is",$keys) && date("Ymd",$smarty.now) <= 20180831%>
 	<%assign var=breadcrum value="<a href=\"/tag/汽车未来\">汽车未来</a>"%>
 	<%assign var="adchannelID" value="5070"%>
@@ -1359,8 +1370,12 @@
 	<%assign var="pageTrackerTag" value="- `$pageTrackerTag` "%>
 <%/if%>
 
+<%if preg_match("/FT漫画/is",$keys)%>
+	<%assign var="fullGridClass" value=" full-grid-story"%>
+<%/if%>
+
 <!DOCTYPE html>
-<html class="no-js core<%if $smarty.get.webview == "ftcapp"%> is-ftc-app<%/if%>" data-next-app="tag-page">
+<html class="no-js core<%if $smarty.get.webview == "ftcapp"%> is-ftc-app<%/if%><%$fullGridClass%>" data-next-app="tag-page">
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />

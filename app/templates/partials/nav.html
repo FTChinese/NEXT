@@ -418,8 +418,13 @@
     <li class="nav-item"  data-channel="ftmall">
     <a class="nav-link" href="https://shop193762308.taobao.com/" target="_blank">FT商城</a>
     </li>
+    <%if date("Ymd",$smarty.now) >= 20181008 && date("Ymd",$smarty.now) <= 20181231%>
+    <li class="nav-item"  data-channel="highendproperty">
+    <a class="nav-link" href="/m/corp/preview.html?pageid=property" target="_blank">高端物业</a>
+    </li>
     </ol>
     </li>
+    <%/if%>
     <li class="nav-section"
      data-section="china">
     <button class="nav-section-head mobile">中国</button>
