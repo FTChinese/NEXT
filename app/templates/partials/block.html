@@ -1295,7 +1295,7 @@
 							<%assign var="i" value=$i+1%>
 						<%/if%>
 
-						<%if $smarty.get.ad != "no"%>
+						<%if $smarty.get.ad != "no" && $hideAd != "yes" %>
 							<%*<!--insert 10 bonus MPU for mobile phone temporarily start-->*%>
 							<%if $smarty.get.utm_campaign == "2M161000" || preg_match("/2U16[0-9]+/is",$smarty.get.utm_campaign)%>
 								<%if $pageId == "home"%>
