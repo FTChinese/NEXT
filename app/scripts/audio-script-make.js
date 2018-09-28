@@ -1,4 +1,4 @@
-/* exported startPlay, updateAudioTime, addTag, finish, exportData, previewData, updateAudioSpeed */
+/* exported startPlay, updateAudioTime, addTag, finish, exportData, previewData, updateAudioSpeed, seekTime */
 
 
 
