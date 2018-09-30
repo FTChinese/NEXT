@@ -1168,6 +1168,10 @@
 							<%assign var="lockClass" value=""%>
 						<%/if%>
 
+						<%*<!--MARK: - Convenient for Editing -->*%>
+						<%if $smarty.get.mode == "edit"%>
+							<%assign var="itemLink" value="https://backyard.ftchinese.com/falcon.php/`$itemType`/edit/`$itemId`"%>
+						<%/if%>
 
 						<%if $listType == "videos" && $i>5%>
 							<%*<!--Only display first 6 in video package-->*%>
