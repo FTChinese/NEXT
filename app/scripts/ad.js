@@ -449,9 +449,10 @@ function writeAdNew(obj) {
    */
   
   // MARK: If there's ad=no in the url, return empty string immediately
-  if (location.href.indexOf('ad=no')>0 || window.hideAllAds === true) {
-    return '';
-  }
+  // if (location.href.indexOf('ad=no')>0 || window.hideAllAds === true) {
+  //   return '';
+  // }
+
 
   //MARK: First, get the adid
   
@@ -493,20 +494,24 @@ function writeAdNew(obj) {
   
  
   var iframeSrc = '';
- 
+  var versionNumber = '2018100308';
   if(bannerBG) {
     if (searchVars.testDB === 'yes') {
-      iframeSrc = '/a.html?v=20180619145600' + bannerBG + '#testDB=yes&adid='+ adid + '&pid=' + adid + '&device=' + deviceType + '&pattern=' +  obj.pattern;
+      iframeSrc = '/a.html?v=' + versionNumber + bannerBG + '#testDB=yes&adid='+ adid + '&pid=' + adid + '&device=' + deviceType + '&pattern=' +  obj.pattern;
     } else {
-      iframeSrc = '/a.html?v=20180619145600' + bannerBG + '#adid='+ adid + '&pid=' + adid + '&device=' + deviceType + '&pattern=' +  obj.pattern;
+      iframeSrc = '/a.html?v=2018100302' + versionNumber + bannerBG + '#adid='+ adid + '&pid=' + adid + '&device=' + deviceType + '&pattern=' +  obj.pattern;
     }
   } else {
     if (searchVars.testDB === 'yes') {
-      iframeSrc = '/a.html?v=20180619145600#testDB=yes&adid='+ adid + '&pid=' + adid + '&device=' + deviceType + '&pattern=' +  obj.pattern;
+      iframeSrc = '/a.html?v=' + versionNumber + '#testDB=yes&adid='+ adid + '&pid=' + adid + '&device=' + deviceType + '&pattern=' +  obj.pattern;
     } else {
-      iframeSrc = '/a.html?v=20180619145600#adid='+ adid + '&pid=' + adid + '&device=' + deviceType + '&pattern=' +  obj.pattern;
+      iframeSrc = '/a.html?v=' + versionNumber + '#adid='+ adid + '&pid=' + adid + '&device=' + deviceType + '&pattern=' +  obj.pattern;
     }
     
+  }
+
+  if (location.href.indexOf('ad=no')>0 || window.hideAllAds === true) {
+    iframeSrc = iframeSrc.replace(/a\.html/g, 'b.html');
   }
 
   var iframeId = 'ad-'+adid;

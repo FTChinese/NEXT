@@ -473,6 +473,9 @@ href="http://www.ftchinese.com/m/corp/faq.html" style="text-decoration: none;col
 </table>
 </div>
 <%include file="include/email/tracking.html"%>
+<%if $p.meta.audiencePixelTag != ""%>
+	<img src="<%$p.meta.audiencePixelTag%>" width=1 height=1 border=0/>
+<%/if%>
 </body>
 <!-- htmlmin:ignore -->
 </html>
