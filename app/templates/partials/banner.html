@@ -67,6 +67,7 @@
                     data-o-ads-targeting="cnpos=top2;"
                     data-cy='[{"devices":["PC"],"pattern":"Banner","position":"Num1"},{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"Banner","position":"Num2"}]'>
                     </div>
+                    ga('send', 'event', 'Ad Switch Tracker', 'Dolphine', 'banner2', {'nonInteraction': 1});
                 <%else%>
                     <script>
                         document.write(writeAdNew({
@@ -79,6 +80,7 @@
                             pattern:'Banner',
                             position:'Num2'
                         }));
+                        ga('send', 'event', 'Ad Switch Tracker', 'Dolphine', 'banner2', {'nonInteraction': 1});
                     </script>
                 <%/if%>
             <%elseif $bannerCount == 2 %>
@@ -94,6 +96,7 @@
                     data-cy='[{"devices":["PC"],"pattern":"Banner","position":"Num2"}]'
                     >
                     </div>
+                    <script type="text/javascript">ga('send', 'event', 'Ad Switch Tracker', 'GAM', 'banner3', {'nonInteraction': 1});</script>
                 <%else%>
                     <script>
                         document.write(writeAdNew({
@@ -101,6 +104,7 @@
                             pattern:'Banner',
                             position:'Num2'
                         }));
+                    ga('send', 'event', 'Ad Switch Tracker', 'Dolphine', 'banner3', {'nonInteraction': 1});
                     </script>
                 <%/if%>
             <%elseif $bannerCount == 3 %>
@@ -116,6 +120,7 @@
                     data-cy='[{"devices":["PC"],"pattern":"Banner","position":"Num3"}]'
                     >
                     </div>
+                    <script type="text/javascript">ga('send', 'event', 'Ad Switch Tracker', 'GAM', 'banner4', {'nonInteraction': 1});</script>
                 <%else%>
                     <script>
                         document.write(writeAdNew({
@@ -123,6 +128,7 @@
                             pattern:'Banner',
                             position:'Num3'
                         }));
+                        ga('send', 'event', 'Ad Switch Tracker', 'Dolphine', 'banner4', {'nonInteraction': 1});
                     </script>
                 <%/if%>
             <%/if%>        

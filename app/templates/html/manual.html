@@ -131,6 +131,14 @@
             <%assign var="newdbShow" value="no"%>
             <%assign var="newdbStart" value="no"%>
         <%/if%>
+    <%else%>
+        <%*<!-- Start: If page is served over https, use new db all the time as dolphine doesn't support https-->*%>
+        <%*<!-- Todo: as the php version is too old, there's no info on protocol returned, so this is useless. We got to upgrade our backend! -->*%>
+            <% if $smarty.server.HTTPS == "on"%>
+                <%assign var="newdbShow" value="yes"%>
+                <%assign var="newdbStart" value="yes"%>
+            <%/if%>
+        <%*<!-- End: If page is served over https, use new db all the time -->*%>
     <%/if%>
     <%*<!-- End: iOS native app rules-->*%>
 
@@ -140,6 +148,7 @@
         <%assign var="newdbStart" value="yes"%>
     <%/if%>
     <%*<!-- End: test rules-->*%>
+
 
 <%*<!-- End: Decide if show new db-->*%>
 
@@ -156,9 +165,9 @@
             <%if $pageId == "home" && date("Ymd",$smarty.now) <= 20161231%>
                 <meta http-equiv="refresh" content="1800;url=/?refresh" />
             <%/if%>
-            <link rel="apple-touch-icon-precomposed" href="http://static.ftchinese.com/img/ipad_icon.png" />
+            <link rel="apple-touch-icon-precomposed" href="https://static.ftimg.net/img/ipad_icon.png" />
             <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-            <link rel="preconnect" href="http://static.ftchinese.com" />
+            <link rel="preconnect" href="https://static.ftimg.net" />
             <link rel="preconnect" href="http://i.ftimg.net" />
             <script type="text/javascript">
                 window.errorBuffer = window.errorBuffer || [];
@@ -342,7 +351,7 @@
                 </script>
                 <%if $smarty.get.ad != 'no'%>
                     <%*<!-- disabled for better implementation
-                    <script type="text/javascript" src="http://static.ftchinese.com/n/main-home.js?<%include file="next/timestamp/timestamp.html"%>"></script>
+                    <script type="text/javascript" src="https://static.ftimg.net/n/main-home.js?<%include file="next/timestamp/timestamp.html"%>"></script>
                     -->*%>
                     <div class="hide">
                         <script type="text/javascript">
@@ -360,7 +369,7 @@
             <%/if%>
 
             <%if $pageId == "home" && $smarty.get.showHotClick == "yes"%>
-                <script type="text/javascript" src="http://static.ftchinese.com/n/main-home-click.js?<%include file="next/timestamp/timestamp.html"%>"></script>
+                <script type="text/javascript" src="https://static.ftimg.net/n/main-home-click.js?<%include file="next/timestamp/timestamp.html"%>"></script>
             <%/if%>
         </body>
     </html>
