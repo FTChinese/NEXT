@@ -95,7 +95,8 @@
                 <script type="text/javascript">
                     function sendJSONToFTC(jsonData) {
                         var xhr = new XMLHttpRequest();
-                        xhr.open('POST', '/log/adlog.php');
+                        xhr.open('POST', 'http://www1.ftchinese.com/log/adlog.php');
+                        xhr.withCredentials = true;
                         xhr.setRequestHeader('Content-Type', 'application/json');
                         xhr.send(JSON.stringify(jsonData));
                     }
