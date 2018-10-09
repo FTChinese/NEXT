@@ -2,9 +2,7 @@
   <%assign var="hideBanner" value="yes"%>
 <%/if%>
 
-<%*<!--if $smarty.get.ad != "no" && $noAd != "true" && $hideBanner != "yes"-->*%>
-
-<%if 1 == 1%>
+<%if $smarty.get.ad != "no" && $noAd != "true" && $hideBanner != "yes"%>
     <%if $section.url && $section.url != ""%>
         <%assign var="sectionLink" value=" href=\"`$section.url`\" target=_blank"%>
     <%else%>
@@ -67,7 +65,7 @@
                     data-o-ads-targeting="cnpos=top2;"
                     data-cy='[{"devices":["PC"],"pattern":"Banner","position":"Num1"},{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"Banner","position":"Num2"}]'>
                     </div>
-                    ga('send', 'event', 'Ad Switch Tracker', 'Dolphine', 'banner2', {'nonInteraction': 1});
+                    <script type="text/javascript">ga('send', 'event', 'Ad Switch Tracker', 'GAM', 'banner2', {'nonInteraction': 1});</script>
                 <%else%>
                     <script>
                         document.write(writeAdNew({
@@ -131,7 +129,7 @@
                         ga('send', 'event', 'Ad Switch Tracker', 'Dolphine', 'banner4', {'nonInteraction': 1});
                     </script>
                 <%/if%>
-            <%/if%>        
+            <%/if%>
         <%else%>
             <div class="bn-ph<%$figureClass%>">
             <div class="banner-container">
