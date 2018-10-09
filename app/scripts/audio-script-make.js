@@ -44,7 +44,7 @@ function startPlay() {
 			htmlForAudio += '<tr id="line-'+k+'-'+l+'" data-section="'+k+'" data-row="'+l+'"><td nowrap><input onclick="seekTime(this);" type="text" value="" class="audio-time-stamp"></td><td onclick="addTag(this);return false;" class="audio-line-text">'+ audioData.text[k][l].text+'</td></tr>';
 		}
 	}
-	document.getElementById('audio-player-text-lines').innerHTML = '<table><caption>点击加上时间点位</caption><thead><tr><th><span class="ft-bold">时间</span></th><th><span class="ft-bold">文字</span></th></tr></thead><tbody>' + htmlForAudio + '</tbody></table>';
+	document.getElementById('audio-player-text-lines').innerHTML = '<table class="big-font"><caption>点击加上时间点位</caption><thead><tr><th><span class="ft-bold">时间</span></th><th><span class="ft-bold">文字</span></th></tr></thead><tbody>' + htmlForAudio + '</tbody></table>';
 }
 
 
