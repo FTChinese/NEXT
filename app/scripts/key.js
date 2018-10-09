@@ -85,7 +85,6 @@ function updateClientIdLinks() {
     ga(function(tracker) {
       window.gClientId = tracker.get('clientId');
       var clientIdLinks = document.querySelectorAll('.o-client-id-link');
-      console.log ('client id links length is ' + clientIdLinks.length);
       for (var k = 0; k < clientIdLinks.length; k++) {
         var ele = clientIdLinks[k];
         var link = ele.href;
@@ -93,7 +92,6 @@ function updateClientIdLinks() {
             var connector = (link.indexOf('?') > 0) ? '&' : '?';
             var eleClass = ele.className;
             ele.href = link + connector + 'clientId=' + window.gClientId;
-            console.log (ele.href);
             ele.className = eleClass.replace(/o-client-id-link/g, '');
         }
       }

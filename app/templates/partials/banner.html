@@ -37,7 +37,10 @@
                     data-cy='[{"devices":["PC"],"pattern":"Leaderboard","position":"Num1"},{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"Banner","position":"Num1"}]'
                     >
                     </div>
-                    <script type="text/javascript">ga('send', 'event', 'Ad Switch Tracker', 'GAM', 'banner1', {'nonInteraction': 1});</script>
+                    <script type="text/javascript">
+                        ga('send', 'event', 'Ad Switch Tracker', 'GAM', 'banner1', {'nonInteraction': 1});
+                        //sendJSONToFTC({ec: 'Ad Switch Tracker', ea: 'GAM', el: 'banner1'});
+                    </script>
                 <%else%>                
                     <script type="text/javascript">
                         document.write(writeAdNew({
@@ -51,6 +54,7 @@
                             position:'Num1'
                         }));
                         ga('send', 'event', 'Ad Switch Tracker', 'Dolphine', 'banner1', {'nonInteraction': 1});
+                        //sendJSONToFTC({ec: 'Ad Switch Tracker', ea: 'Dolphine', el: 'banner1'});
                     </script>
                 <%/if%>
             <%elseif $bannerCount == 1%>
@@ -66,6 +70,11 @@
                     data-cy='[{"devices":["PC"],"pattern":"Banner","position":"Num1"},{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"Banner","position":"Num2"}]'>
                     </div>
                     <script type="text/javascript">ga('send', 'event', 'Ad Switch Tracker', 'GAM', 'banner2', {'nonInteraction': 1});</script>
+
+                    <script type="text/javascript">
+                        ga('send', 'event', 'Ad Switch Tracker', 'GAM', 'banner2', {'nonInteraction': 1});
+                        //sendJSONToFTC({ec: 'Ad Switch Tracker', ea: 'GAM', el: 'banner2'});
+                    </script>
                 <%else%>
                     <script>
                         document.write(writeAdNew({
@@ -79,9 +88,19 @@
                             position:'Num2'
                         }));
                         ga('send', 'event', 'Ad Switch Tracker', 'Dolphine', 'banner2', {'nonInteraction': 1});
+                        //sendJSONToFTC({ec: 'Ad Switch Tracker', ea: 'Dolphine', el: 'banner2'});
                     </script>
                 <%/if%>
             <%elseif $bannerCount == 2 %>
+                <script type="text/javascript">
+                    function sendJSONToFTC(jsonData) {
+                        var xhr = new XMLHttpRequest();
+                        xhr.open('POST', '/log/adlog.php');
+                        //xhr.withCredentials = true;
+                        xhr.setRequestHeader('Content-Type', 'application/json');
+                        xhr.send(JSON.stringify(jsonData));
+                    }
+                </script>
                 <%if $newdbStart == "yes" && $newdbShow == "yes"%>
                     <div class="o-ads" data-o-ads-name="banner3"
                     data-o-ads-center="true" 
@@ -94,7 +113,10 @@
                     data-cy='[{"devices":["PC"],"pattern":"Banner","position":"Num2"}]'
                     >
                     </div>
-                    <script type="text/javascript">ga('send', 'event', 'Ad Switch Tracker', 'GAM', 'banner3', {'nonInteraction': 1});</script>
+                    <script type="text/javascript">
+                        ga('send', 'event', 'Ad Switch Tracker', 'GAM', 'banner3', {'nonInteraction': 1});
+                        sendJSONToFTC({ec: 'Ad Switch Tracker', ea: 'GAM', el: 'banner3'});
+                    </script>
                 <%else%>
                     <script>
                         document.write(writeAdNew({
@@ -102,7 +124,8 @@
                             pattern:'Banner',
                             position:'Num2'
                         }));
-                    ga('send', 'event', 'Ad Switch Tracker', 'Dolphine', 'banner3', {'nonInteraction': 1});
+                        ga('send', 'event', 'Ad Switch Tracker', 'Dolphine', 'banner3', {'nonInteraction': 1});
+                        sendJSONToFTC({ec: 'Ad Switch Tracker', ea: 'Dolphine', el: 'banner3'});
                     </script>
                 <%/if%>
             <%elseif $bannerCount == 3 %>
@@ -118,7 +141,10 @@
                     data-cy='[{"devices":["PC"],"pattern":"Banner","position":"Num3"}]'
                     >
                     </div>
-                    <script type="text/javascript">ga('send', 'event', 'Ad Switch Tracker', 'GAM', 'banner4', {'nonInteraction': 1});</script>
+                    <script type="text/javascript">
+                        ga('send', 'event', 'Ad Switch Tracker', 'GAM', 'banner4', {'nonInteraction': 1});
+                        //sendJSONToFTC({ec: 'Ad Switch Tracker', ea: 'GAM', el: 'banner4'});
+                    </script>
                 <%else%>
                     <script>
                         document.write(writeAdNew({
@@ -127,6 +153,7 @@
                             position:'Num3'
                         }));
                         ga('send', 'event', 'Ad Switch Tracker', 'Dolphine', 'banner4', {'nonInteraction': 1});
+                        //sendJSONToFTC({ec: 'Ad Switch Tracker', ea: 'Dolphine', el: 'banner4'});
                     </script>
                 <%/if%>
             <%/if%>
