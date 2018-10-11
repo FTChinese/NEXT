@@ -5,6 +5,9 @@
 	}
 	a {
 		color: $fontColor;
+		&:visited {
+			color: $visitedLink;
+		}
 	}
 	&.fixside {
 		.side-inner {
@@ -168,6 +171,14 @@
 
 .item-container {
 	float: left;
+	&.visited {
+		a.item-headline-link {
+			color: $visitedLink;
+		}
+		.image img {
+			opacity: 0.7;
+		}
+	}
 }
 .item-inner {
 	padding: $figureHeight $defaultPadding/2 $defaultPadding $defaultPadding/2;
