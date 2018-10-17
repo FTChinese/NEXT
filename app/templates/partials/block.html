@@ -1327,59 +1327,53 @@
 										<div id="iap-highlight"></div>
 									<%/if%>
 									<%if $i == 1%>
-										<%if $newdbStart == "yes" && $newdbShow == "yes"%>
-											<div 
-											data-o-ads-name="infoflow1"
-											class="o-ads"  
-											data-o-ads-formats-default="false" 
-											data-o-ads-formats-small="FtcInfoFlow" 
-											data-o-ads-formats-medium="false"
-											data-o-ads-formats-large="false"
-											data-o-ads-formats-extra="false"
-											data-o-ads-targeting="cnpos=info1;"
-											>
-											</div>
-										<%else%>
-											<div class="hide-iframe">
-												<script type="text/javascript">
-														document.write(writeAdNew({
-																devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
-																pattern:'Information',
-																position:'Num1'
-														}));
-												</script>
-											</div>
-										<%/if%>
+										<div 
+										data-o-ads-name="infoflow1"
+										class="o-ads"  
+										data-o-ads-formats-default="false" 
+										data-o-ads-formats-small="FtcInfoFlow" 
+										data-o-ads-formats-medium="false"
+										data-o-ads-formats-large="false"
+										data-o-ads-formats-extra="false"
+										data-o-ads-targeting="cnpos=info1;"
+										>
+										</div>
+										<div class="hide-iframe">
+											<script type="text/javascript">
+													document.write(writeAdNew({
+															devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
+															pattern:'Information',
+															position:'Num1'
+													}));
+											</script>
+										</div>
 									<%/if%>
 									<%if $i == 8%>
 										<%if $smarty.get.ad != "no" && $noAd != "true"%>
-											<%if $newdbStart == "yes" && $newdbShow == "yes"%>
-												<div 
-												data-o-ads-name="mpu-middle1"
-												class="o-ads"  
-												data-o-ads-formats-default="false" 
-												data-o-ads-formats-small="FtcMobileMpu" 
-												data-o-ads-formats-medium="false"
-												data-o-ads-formats-large="false"
-												data-o-ads-formats-extra="false"
-												data-o-ads-targeting="cnpos=middle1;"
-												data-cy='[{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp"],"pattern":"MPU","position":"Middle1"}]'
-												>
-												</div>
-											<%else%>
-												<script type="text/javascript">
-													document.write (writeAdNew({
-															devices: ['iPhoneWeb','AndroidWeb','iPhoneApp'],
-															pattern:'MPU',
-															position:'Middle1'
-													}));
-												</script>
-											<%/if%>
+											<div 
+											data-o-ads-name="mpu-middle1"
+											class="o-ads"  
+											data-o-ads-formats-default="false" 
+											data-o-ads-formats-small="FtcMobileMpu" 
+											data-o-ads-formats-medium="false"
+											data-o-ads-formats-large="false"
+											data-o-ads-formats-extra="false"
+											data-o-ads-targeting="cnpos=middle1;"
+											data-cy='[{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp"],"pattern":"MPU","position":"Middle1"}]'
+											>
+											</div>
+											<script type="text/javascript">
+												document.write (writeAdNew({
+														devices: ['iPhoneWeb','AndroidWeb','iPhoneApp'],
+														pattern:'MPU',
+														position:'Middle1'
+												}));
+											</script>
 										<%/if%>
 									<%/if%>
 
 									<%if $i == 13%>
-										<%if $newdbStart == "yes" && $newdbShow == "yes"%>
+										<%if $smarty.get.ad != "no" && $noAd != "true"%>
 											<div 
 											data-o-ads-name="infoflow2"
 											class="o-ads"  
@@ -1391,7 +1385,6 @@
 											data-o-ads-targeting="cnpos=info2;"
 											>
 											</div>
-										<%else%>
 											<div class="hide-iframe">
 												<script type="text/javascript">
 														document.write(writeAdNew({
@@ -1404,7 +1397,7 @@
 										<%/if%>
 									<%/if%>
 									<%if $i == 18%>
-										<%if $newdbStart == "yes" && $newdbShow == "yes"%>
+										<%if $smarty.get.ad != "no" && $noAd != "true"%>
 											<div 
 											data-o-ads-name="mpu-middle2"
 											class="o-ads" 
@@ -1417,7 +1410,6 @@
 											data-cy='[{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"MPU","position":"Middle2"}]'
 											>
 											</div>
-										<%else%>
 											<script type="text/javascript">
 												document.write (writeAdNew({
 														devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
@@ -1519,49 +1511,43 @@
 							</div>
 						<%else%>
 							<%if $sideMpuCount == 0 %>
-								<%if $newdbStart == "yes" && $newdbShow == "yes"%>
-									<div 
-									data-o-ads-name="mpu-right1"
-									class="o-ads"  
-									data-o-ads-formats-default="false" 
-									data-o-ads-formats-small="false" 
-									data-o-ads-formats-medium="FtcMpu"
-									data-o-ads-formats-large="FtcMpu"
-									data-o-ads-targeting="cnpos=right1;"
-									data-cy='[{"devices":["PC","PadApp","PadWeb"],"pattern":"MPU","position":"Right1"}]'
-									>
-									</div>
-								<%else%>
-									<script type="text/javascript">
-										document.write (writeAdNew({
+								<div 
+								data-o-ads-name="mpu-right1"
+								class="o-ads"  
+								data-o-ads-formats-default="false" 
+								data-o-ads-formats-small="false" 
+								data-o-ads-formats-medium="FtcMpu"
+								data-o-ads-formats-large="FtcMpu"
+								data-o-ads-targeting="cnpos=right1;"
+								data-cy='[{"devices":["PC","PadApp","PadWeb"],"pattern":"MPU","position":"Right1"}]'
+								>
+								</div>
+								<script type="text/javascript">
+									document.write (writeAdNew({
+										devices: ['PC','PadApp','PadWeb'],
+										pattern:'MPU',
+										position:'Right1'
+									}));
+								</script>
+							<%elseif $sideMpuCount == 1%>
+								<div 
+								data-o-ads-name="mpu-right2"
+								class="o-ads ftc-mpu"  
+								data-o-ads-formats-default="false" 
+								data-o-ads-formats-small="false" 
+								data-o-ads-formats-medium="FtcMpu"
+								data-o-ads-formats-large="FtcMpu"
+								data-o-ads-targeting="cnpos=right2;"
+								data-cy='[{"devices":["PC","PadApp","PadWeb"],"pattern":"MPU","position":"Right2"}]'
+								>
+								</div>
+								<script type="text/javascript">
+									document.write (writeAdNew({
 											devices: ['PC','PadApp','PadWeb'],
 											pattern:'MPU',
-											position:'Right1'
-										}));
-									</script>
-								<%/if%>
-							<%elseif $sideMpuCount == 1%>
-								<%if $newdbStart == "yes" && $newdbShow == "yes"%>
-									<div 
-									data-o-ads-name="mpu-right2"
-									class="o-ads ftc-mpu"  
-									data-o-ads-formats-default="false" 
-									data-o-ads-formats-small="false" 
-									data-o-ads-formats-medium="FtcMpu"
-									data-o-ads-formats-large="FtcMpu"
-									data-o-ads-targeting="cnpos=right2;"
-									data-cy='[{"devices":["PC","PadApp","PadWeb"],"pattern":"MPU","position":"Right2"}]'
-									>
-									</div>
-								<%else%>
-									<script type="text/javascript">
-										document.write (writeAdNew({
-												devices: ['PC','PadApp','PadWeb'],
-												pattern:'MPU',
-												position:'Right2'
-										}));
-									</script>
-								<%/if%>
+											position:'Right2'
+									}));
+								</script>
 							<%/if%>
 						<%/if%>
 				

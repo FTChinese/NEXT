@@ -155,27 +155,24 @@
 
 
 <%if $smarty.get.ad != "no" && $noAd != "true" && $hideMPU1 != "yes"%>
-    <%if $newdbStart == "yes" && $newdbShow == "yes"%>
-        <div 
-        data-o-ads-name="mpu-right1"
-        class="o-ads"  
-        data-o-ads-formats-default="false" 
-        data-o-ads-formats-small="false" 
-        data-o-ads-formats-medium="FtcMpu"
-        data-o-ads-formats-large="FtcMpu"
-        data-o-ads-targeting="cnpos=right1;"
-        data-cy='[{"devices":["PC","PadWeb","PadApp"],"pattern":"MPU","position":"Right1"}]'
-        >
-        </div>
-    <%else%>
-		<script type="text/javascript">
-			document.write (writeAdNew({
-				devices: ['PC','PadApp','PadWeb'],
-				pattern:'MPU',
-				position:'Right1'
-			}));
-        </script>
-    <%/if%>
+    <div 
+    data-o-ads-name="mpu-right1"
+    class="o-ads"  
+    data-o-ads-formats-default="false" 
+    data-o-ads-formats-small="false" 
+    data-o-ads-formats-medium="FtcMpu"
+    data-o-ads-formats-large="FtcMpu"
+    data-o-ads-targeting="cnpos=right1;"
+    data-cy='[{"devices":["PC","PadWeb","PadApp"],"pattern":"MPU","position":"Right1"}]'
+    >
+    </div>
+	<script type="text/javascript">
+		document.write (writeAdNew({
+			devices: ['PC','PadApp','PadWeb'],
+			pattern:'MPU',
+			position:'Right1'
+		}));
+    </script>
 <%/if%>
 
 

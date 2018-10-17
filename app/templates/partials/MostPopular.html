@@ -19,27 +19,24 @@
 		</ul>
 	</div>
 	<%if $smarty.get.ad != "no" && $noAd != "true"%>
-		<%if $newdbStart == "yes" && $newdbShow == "yes"%>
-			<div 
-			data-o-ads-name="mpu-mostpopular"
-			class="o-ads"  
-			data-o-ads-formats-default="false" 
-			data-o-ads-formats-small="false" 
-			data-o-ads-formats-medium="false"
-			data-o-ads-formats-large="FtcMpu"
-			data-o-ads-formats-extra="FtcMpu"
-			data-o-ads-targeting="cnpos=mostpopular;"
-			data-cy='[{"devices":["PC"],"pattern":"MPU","position":"Middle1"}]'
-			>
-			</div>
-		<%else%>
-			<script type="text/javascript">
-				document.write (writeAdNew({
-						devices: ['PC'],
-						pattern:'MPU',
-						position:'Middle1'
-				}));
-			</script>
-		<%/if%>
+		<div 
+		data-o-ads-name="mpu-mostpopular"
+		class="o-ads"  
+		data-o-ads-formats-default="false" 
+		data-o-ads-formats-small="false" 
+		data-o-ads-formats-medium="false"
+		data-o-ads-formats-large="FtcMpu"
+		data-o-ads-formats-extra="FtcMpu"
+		data-o-ads-targeting="cnpos=mostpopular;"
+		data-cy='[{"devices":["PC"],"pattern":"MPU","position":"Middle1"}]'
+		>
+		</div>
+		<script type="text/javascript">
+			document.write (writeAdNew({
+					devices: ['PC'],
+					pattern:'MPU',
+					position:'Middle1'
+			}));
+		</script>
   <%/if%>
 </div></div>

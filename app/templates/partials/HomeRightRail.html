@@ -55,7 +55,7 @@
 
 
 	<%if $smarty.get.webview != "ftcapp"%>
-		<%if $smarty.get.ad != "no" && $noAd != "true" && $newdbStart == "yes" && $newdbShow == "yes"%>
+		<%if $smarty.get.ad != "no" && $noAd != "true"%>
 			<div 
 			data-o-ads-name="ribbon"
 			class="o-ads"  
@@ -66,7 +66,6 @@
 			data-o-ads-targeting="cnpos=ribbon;"
 			>
 			</div>
-		<%else%>
 			<%if in_array(date("Ymd"),explode(",",$ad.Ribbon)) && $smarty.get.ad != "no" && $noAd != "true"%>
 				<%assign var="adchannelID" value = $smarty.get.adchannelID|default:"1000" %>
 				<iframe id="ribbon" class="ad-hidden hide" width="100%" height="60" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="/m/marketing/a.html#adid=1000<%$adchannelID%>0501&slot=986723212&pid=ribbon"></iframe><%*<!--旧的adid是10000009-->*%>
@@ -90,7 +89,6 @@
 			<div class="links-container P-hide">
 				<h2 class="list-title"><a href="/m/marketing/home.html">市场活动</a></h2>
 				<%*<!--
-				<%if	$newdbStart == "yes" && $newdbShow == "yes" %>
 					<div class="links">
 							<div 
 							data-o-ads-name="membertext1"
@@ -103,7 +101,6 @@
 							>
 							</div>
 					</div>
-				<%else%>
 				-->*%>
 					<div class="links" id="member-info">
 						<a>...</a><a>...</a><a>...</a>
@@ -117,28 +114,25 @@
 		
 
 		<%if $smarty.get.ad != "no" && $noAd != "true"%>	
-			<%if $newdbStart == "yes" && $newdbShow == "yes"%>
-				<div 
-				data-o-ads-name="mpu-right1"
-				class="o-ads"  
-				data-o-ads-formats-default="false" 
-				data-o-ads-formats-small="false" 
-				data-o-ads-formats-medium="FtcMpu"
-				data-o-ads-formats-large="FtcMpu"
-				data-o-ads-formats-extra="FtcMpu"
-				data-o-ads-targeting="cnpos=right1;"
-				data-cy='[{"devices":["PC","PadWeb","PadApp"],"pattern":"MPU","position":"Right1"}]'
-				>
-				</div>
-			<%else%>
-				<script type="text/javascript">
-					document.write (writeAdNew({
-						devices: ['PC', 'PadWeb', 'PadApp'],
-						pattern:'MPU',
-						position:'Right1'
-					}));
-				</script>
-			<%/if%>
+			<div 
+			data-o-ads-name="mpu-right1"
+			class="o-ads"  
+			data-o-ads-formats-default="false" 
+			data-o-ads-formats-small="false" 
+			data-o-ads-formats-medium="FtcMpu"
+			data-o-ads-formats-large="FtcMpu"
+			data-o-ads-formats-extra="FtcMpu"
+			data-o-ads-targeting="cnpos=right1;"
+			data-cy='[{"devices":["PC","PadWeb","PadApp"],"pattern":"MPU","position":"Right1"}]'
+			>
+			</div>
+			<script type="text/javascript">
+				document.write (writeAdNew({
+					devices: ['PC', 'PadWeb', 'PadApp'],
+					pattern:'MPU',
+					position:'Right1'
+				}));
+			</script>
 		<%/if%>
 
 		<div class="interactives">
@@ -225,28 +219,25 @@
 		</div>
 
 		<%if $smarty.get.ad != "no" && $noAd != "true"%>
-			<%if $newdbStart == "yes" && $newdbShow == "yes"%>
-				<div 
-				data-o-ads-name="mpu-right2"
-				class="o-ads"  
-				data-o-ads-formats-default="false" 
-				data-o-ads-formats-small="false" 
-				data-o-ads-formats-medium="FtcMpu"
-				data-o-ads-formats-large="FtcMpu"
-				data-o-ads-formats-extra="FtcMpu"
-				data-o-ads-targeting="cnpos=right2;"
-				data-cy='[{"devices":["PC","PadWeb","PadApp"],"pattern":"MPU","position":"Right2"}]'
-				>
-				</div>
-			<%else%>
-				<script type="text/javascript">
-				document.write (writeAdNew({
-				devices: ['PC', 'PadWeb', 'PadApp'],
-				pattern:'MPU',
-				position:'Right2'
-				}));
-				</script>
-			<%/if%>
+			<div 
+			data-o-ads-name="mpu-right2"
+			class="o-ads"  
+			data-o-ads-formats-default="false" 
+			data-o-ads-formats-small="false" 
+			data-o-ads-formats-medium="FtcMpu"
+			data-o-ads-formats-large="FtcMpu"
+			data-o-ads-formats-extra="FtcMpu"
+			data-o-ads-targeting="cnpos=right2;"
+			data-cy='[{"devices":["PC","PadWeb","PadApp"],"pattern":"MPU","position":"Right2"}]'
+			>
+			</div>
+			<script type="text/javascript">
+			document.write (writeAdNew({
+			devices: ['PC', 'PadWeb', 'PadApp'],
+			pattern:'MPU',
+			position:'Right2'
+			}));
+			</script>
 		<%/if%>
 
 		<%assign var="ftintelligence" value=$interactivemodel->get_interactive_by_field_search("find_in_set('FT研究院',tag) and find_in_set('报告',tag)",0,4,1000,10800)%>
@@ -378,28 +369,25 @@
 		<div class="P-hide" style="padding-top: 15px;"></div>
 
 		<%if $smarty.get.ad != "no" && $noAd != "true"%>
-			<%if $newdbStart == "yes" && $newdbShow == "yes"%>
-				<div 
-				data-o-ads-name="mpu-right1"
-				class="o-ads"  
-				data-o-ads-formats-default="false" 
-				data-o-ads-formats-small="false" 
-				data-o-ads-formats-medium="FtcMpu"
-				data-o-ads-formats-large="FtcMpu"
-				data-o-ads-formats-extra="FtcMpu"
-				data-o-ads-targeting="cnpos=right1;"
-				data-cy='[{"devices":["PC","PadWeb","PadApp"],"pattern":"MPU","position":"Right1"}]'
-				>
-				</div>
-			<%else%>
-				<script type="text/javascript">
-					document.write (writeAdNew({
-						devices: ['PC', 'PadWeb', 'PadApp'],
-						pattern:'MPU',
-						position:'Right1'
-					}));
-				</script>
-			<%/if%>
+			<div 
+			data-o-ads-name="mpu-right1"
+			class="o-ads"  
+			data-o-ads-formats-default="false" 
+			data-o-ads-formats-small="false" 
+			data-o-ads-formats-medium="FtcMpu"
+			data-o-ads-formats-large="FtcMpu"
+			data-o-ads-formats-extra="FtcMpu"
+			data-o-ads-targeting="cnpos=right1;"
+			data-cy='[{"devices":["PC","PadWeb","PadApp"],"pattern":"MPU","position":"Right1"}]'
+			>
+			</div>
+			<script type="text/javascript">
+				document.write (writeAdNew({
+					devices: ['PC', 'PadWeb', 'PadApp'],
+					pattern:'MPU',
+					position:'Right1'
+				}));
+			</script>
 		<%/if%>
 
 		<div id="iap-ebooks"></div>
@@ -580,28 +568,25 @@
 
 
 		<%if $smarty.get.ad != "no" && $noAd != "true"%>
-			<%if $newdbStart == "yes" && $newdbShow == "yes"%>
-				<div 
-				data-o-ads-name="mpu-right2"
-				class="o-ads ftc-mpu"  
-				data-o-ads-formats-default="false" 
-				data-o-ads-formats-small="false" 
-				data-o-ads-formats-medium="FtcMpu"
-				data-o-ads-formats-large="FtcMpu"
-				data-o-ads-formats-extra="FtcMpu"
-				data-o-ads-targeting="cnpos=right2;"
-				data-cy='[{"devices":["PC","PadWeb","PadApp"],"pattern":"MPU","position":"Right2"}]'
-				>
-				</div>
-			<%else%>
-				<script type="text/javascript">
-					document.write (writeAdNew({
-					devices: ['PC', 'PadWeb', 'PadApp'],
-					pattern:'MPU',
-					position:'Right2'
-					}));
-				</script>
-			<%/if%>
+			<div 
+			data-o-ads-name="mpu-right2"
+			class="o-ads ftc-mpu"  
+			data-o-ads-formats-default="false" 
+			data-o-ads-formats-small="false" 
+			data-o-ads-formats-medium="FtcMpu"
+			data-o-ads-formats-large="FtcMpu"
+			data-o-ads-formats-extra="FtcMpu"
+			data-o-ads-targeting="cnpos=right2;"
+			data-cy='[{"devices":["PC","PadWeb","PadApp"],"pattern":"MPU","position":"Right2"}]'
+			>
+			</div>
+			<script type="text/javascript">
+				document.write (writeAdNew({
+				devices: ['PC', 'PadWeb', 'PadApp'],
+				pattern:'MPU',
+				position:'Right2'
+				}));
+			</script>
 		<%/if%>
 
 

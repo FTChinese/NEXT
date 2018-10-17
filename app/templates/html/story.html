@@ -1149,30 +1149,21 @@
 		<%if $hideMPU3 == "yes" || $noAd == "true" || preg_match("/活动页面/is",$keys)%>
 		    <%assign var="story_content" value=$story_content|replace:"<div id=\"story_main_mpu\"></div>":""%>
 		<%else%>
-			<%if $newdbStart == "yes" && $newdbShow == "yes"%>
-				<%assign var="story_content" value==$story_content|replace:"<div id=\"story_main_mpu\"></div>":"`$infoAdCode`<div  data-o-ads-name=\"mpu-middle1\" class=\"o-ads\" data-o-ads-formats-default=\"false\"  data-o-ads-formats-small=\"FtcMobileMpu\"  data-o-ads-formats-medium=\"false\" data-o-ads-formats-large=\"FtcMpu\" data-o-ads-formats-extra=\"FtcMpu\" data-o-ads-targeting=\"pos=middle1;\" data-cy='[{\"devices\":[\"PC\",\"iPhoneWeb\",\"AndroidWeb\",\"iPhoneApp\",\"AndroidApp\"],\"pattern\":\"MPU\",\"position\":\"Middle1\",\"container\":\"mpuInStory\"}]'></div>"%>
-			<%else%>
-				<%assign var="story_content" value==$story_content|replace:"<div id=\"story_main_mpu\"></div>":"`$infoAdCode`<script type=\"text/javascript\">document.write (writeAdNew({devices: ['PC','iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],pattern:'MPU',position:'Middle1',container:'mpuInStory'}));</script>"%>
-			<%/if%>
+			<%assign var="story_content" value==$story_content|replace:"<div id=\"story_main_mpu\"></div>":"`$infoAdCode`<div  data-o-ads-name=\"mpu-middle1\" class=\"o-ads\" data-o-ads-formats-default=\"false\"  data-o-ads-formats-small=\"FtcMobileMpu\"  data-o-ads-formats-medium=\"false\" data-o-ads-formats-large=\"FtcMpu\" data-o-ads-formats-extra=\"FtcMpu\" data-o-ads-targeting=\"pos=middle1;\" data-cy='[{\"devices\":[\"PC\",\"iPhoneWeb\",\"AndroidWeb\",\"iPhoneApp\",\"AndroidApp\"],\"pattern\":\"MPU\",\"position\":\"Middle1\",\"container\":\"mpuInStory\"}]'></div>"%>
+			<%assign var="story_content" value==$story_content|replace:"<div id=\"story_main_mpu\"></div>":"`$infoAdCode`<script type=\"text/javascript\">document.write (writeAdNew({devices: ['PC','iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],pattern:'MPU',position:'Middle1',container:'mpuInStory'}));</script>"%>
 		<%/if%>
 	<%elseif $hideMPU3!="yes" && !preg_match("/活动页面/is",$keys) && $noAd != "true"%>
 	<%*<!--在单页的情况下，如果文章没有插图，没有iframe，没有video，没有highcharts, 也没有被强制设为不显示MPU 3，则将MPU_3广告位插入到第五段开头。-->*%>
-		<%if $newdbStart == "yes" && $newdbShow == "yes"%>
-			<%assign var="story_content" value=$storyBody|regex_replace:"/[\r\t\n]/":""|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1<div  data-o-ads-name=\"mpu-middle1\" class=\"o-ads\" data-o-ads-formats-default=\"false\"  data-o-ads-formats-small=\"FtcMobileMpu\"  data-o-ads-formats-medium=\"false\" data-o-ads-formats-large=\"FtcMpu\" data-o-ads-formats-extra=\"FtcMpu\" data-o-ads-targeting=\"pos=middle1;\" data-cy='[{\"devices\":[\"PC\",\"iPhoneWeb\",\"AndroidWeb\",\"iPhoneApp\",\"AndroidApp\"],\"pattern\":\"MPU\",\"position\":\"Middle1\",\"container\":\"mpuInStory\"}]'></div><p>"%>
-		<%else%>
-			<%assign var="story_content" value=$storyBody|regex_replace:"/[\r\t\n]/":""|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1<script type=\"text/javascript\">document.write (writeAdNew({devices: ['PC','iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],pattern:'MPU',position:'Middle1',container:'mpuInStory'}));</script><p>"%>
-		<%/if%>
+		<%assign var="story_content" value=$storyBody|regex_replace:"/[\r\t\n]/":""|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1<div  data-o-ads-name=\"mpu-middle1\" class=\"o-ads\" data-o-ads-formats-default=\"false\"  data-o-ads-formats-small=\"FtcMobileMpu\"  data-o-ads-formats-medium=\"false\" data-o-ads-formats-large=\"FtcMpu\" data-o-ads-formats-extra=\"FtcMpu\" data-o-ads-targeting=\"pos=middle1;\" data-cy='[{\"devices\":[\"PC\",\"iPhoneWeb\",\"AndroidWeb\",\"iPhoneApp\",\"AndroidApp\"],\"pattern\":\"MPU\",\"position\":\"Middle1\",\"container\":\"mpuInStory\"}]'></div><p>"%>
+		<%assign var="story_content" value=$storyBody|regex_replace:"/[\r\t\n]/":""|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1<script type=\"text/javascript\">document.write (writeAdNew({devices: ['PC','iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],pattern:'MPU',position:'Middle1',container:'mpuInStory'}));</script><p>"%>
 	<%else%>
 		<%assign var="story_content" value=$storyBody%>
 	<%/if%>
 
 
 	<%if $hideMPU3!="yes" && !preg_match("/活动页面/is",$keys) && $noAd != "true" %>
-		<%if $newdbStart == "yes" && $newdbShow == "yes"%>
-			<%assign var="story_content" value=$story_content|regex_replace:"/[\r\t\n]/":""|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1<div data-o-ads-name=\"mpu-middle2\" class=\"o-ads\" data-o-ads-formats-default=\"false\"  data-o-ads-formats-small=\"FtcMobileMpu\"  data-o-ads-formats-medium=\"false\" data-o-ads-formats-large=\"false\" data-o-ads-formats-extra=\"false\" data-o-ads-targeting=\"pos=middle2;\" data-cy='[{\"devices\":[\"iPhoneWeb\",\"AndroidWeb\",\"iPhoneApp\",\"AndroidApp\"],\"pattern\":\"MPU\",\"position\":\"Middle2\",\"container\":\"mpuInStory\"}]'></div><p>"%>
-		<%else%>
-			<%assign var="story_content" value=$story_content|regex_replace:"/[\r\t\n]/":""|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1<script type=\"text/javascript\">document.write (writeAdNew({devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],pattern:'MPU',position:'Middle2',container:'mpuInStory'}));</script><p>"%>
-		<%/if%>
+		<%assign var="story_content" value=$story_content|regex_replace:"/[\r\t\n]/":""|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1<div data-o-ads-name=\"mpu-middle2\" class=\"o-ads\" data-o-ads-formats-default=\"false\"  data-o-ads-formats-small=\"FtcMobileMpu\"  data-o-ads-formats-medium=\"false\" data-o-ads-formats-large=\"false\" data-o-ads-formats-extra=\"false\" data-o-ads-targeting=\"pos=middle2;\" data-cy='[{\"devices\":[\"iPhoneWeb\",\"AndroidWeb\",\"iPhoneApp\",\"AndroidApp\"],\"pattern\":\"MPU\",\"position\":\"Middle2\",\"container\":\"mpuInStory\"}]'></div><p>"%>
+		<%assign var="story_content" value=$story_content|regex_replace:"/[\r\t\n]/":""|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1<script type=\"text/javascript\">document.write (writeAdNew({devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],pattern:'MPU',position:'Middle2',container:'mpuInStory'}));</script><p>"%>
 	<%/if%>
 
 	<%* <!--
@@ -1251,11 +1242,8 @@
 		<%/if%>
 		<%if !preg_match("/highcharts/is",$story_content) && !preg_match("/video/is",$story_content) && $hideMPU3!="yes" && $noAd != "true" && !preg_match("/单页/is",$tag)%>
 		<%*<!--在单页的情况下，如果文章没有插图，没有iframe，没有video，没有highcharts, 也没有被强制设为不显示MPU 3，则将MPU_3广告位插入到第五段开头。-->*%>
-			<%if $newdbStart == "yes" && $newdbShow == "yes"%>
-				<%assign var="story_content" value=$storyBody|regex_replace:"/[\r\t\n]/":""|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1	<div  data-o-ads-name=\"mpu-middle1\" class=\"o-ads\" data-o-ads-formats-default=\"false\"  data-o-ads-formats-small=\"FtcMobileMpu\"  data-o-ads-formats-medium=\"false\" data-o-ads-formats-large=\"FtcMpu\" data-o-ads-formats-extra=\"FtcMpu\" data-o-ads-targeting=\"pos=middle1;\" data-cy='[{\"devices\":[\"PC\",\"iPhoneWeb\",\"AndroidWeb\",\"iPhoneApp\",\"AndroidApp\"],\"pattern\":\"MPU\",\"position\":\"Middle1\",\"container\":\"mpuInStory\"}]'></div><p>"%>
-			<%else%>
-				<%assign var="story_content"value=$story_content|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1<script type=\"text/javascript\">document.write (writeAdNew({devices: ['PC','iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],pattern:'MPU',position:'Middle1',container:'mpuInStory'}));</script><p>"%>
-			<%/if%>
+			<%assign var="story_content" value=$storyBody|regex_replace:"/[\r\t\n]/":""|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1	<div  data-o-ads-name=\"mpu-middle1\" class=\"o-ads\" data-o-ads-formats-default=\"false\"  data-o-ads-formats-small=\"FtcMobileMpu\"  data-o-ads-formats-medium=\"false\" data-o-ads-formats-large=\"FtcMpu\" data-o-ads-formats-extra=\"FtcMpu\" data-o-ads-targeting=\"pos=middle1;\" data-cy='[{\"devices\":[\"PC\",\"iPhoneWeb\",\"AndroidWeb\",\"iPhoneApp\",\"AndroidApp\"],\"pattern\":\"MPU\",\"position\":\"Middle1\",\"container\":\"mpuInStory\"}]'></div><p>"%>
+			<%assign var="story_content"value=$story_content|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1<script type=\"text/javascript\">document.write (writeAdNew({devices: ['PC','iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],pattern:'MPU',position:'Middle1',container:'mpuInStory'}));</script><p>"%>
 		<%/if%>
 		<%if date("Ymd",$smarty.now) <= 20161230 && $noAd != "true"%>
 			<%assign var="story_content" value=$story_content|regex_replace:"/^(\<p\>.*?)\<p\>/":"\\1<div class=story_main_mpu_vw><script type=\"text/javascript\">document.write (writeAd('storympuVW'));</script></div><p>"%>

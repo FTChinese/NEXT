@@ -42,26 +42,23 @@
     <div class="subscribe-btn" ><a href="#"  id="subscribe-now" class="o-client-id-link">成为会员&#x25BA;</a></div>
     </div>
 </div>
-<%if $newdbStart == "yes" && $newdbShow == "yes"%>
-    <div 
-    data-o-ads-name="mpu-subscribe"
-    class="o-ads"  
-    data-o-ads-formats-default="false" 
-    data-o-ads-formats-small="FtcMobileMpu" 
-    data-o-ads-formats-medium="FtcMpu"
-    data-o-ads-formats-large="FtcMpu"
-    data-o-ads-formats-extra="FtcMpu"
-    data-o-ads-targeting="cnpos=middle1;"
-    data-cy='[{"devices":["PC","iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"MPU","position":"Middle1","container":"mpuInStory"}]'
-    >
-    </div>
-<%else%>
-    <script type="text/javascript">
-        document.write (writeAdNew({
-            devices: ['PC','iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
-            pattern:'MPU',
-            position:'Middle1',
-            container:'mpuInStory'
-        }));
-    </script>
-<%/if%>
+<div 
+data-o-ads-name="mpu-subscribe"
+class="o-ads"  
+data-o-ads-formats-default="false" 
+data-o-ads-formats-small="FtcMobileMpu" 
+data-o-ads-formats-medium="FtcMpu"
+data-o-ads-formats-large="FtcMpu"
+data-o-ads-formats-extra="FtcMpu"
+data-o-ads-targeting="cnpos=middle1;"
+data-cy='[{"devices":["PC","iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"MPU","position":"Middle1","container":"mpuInStory"}]'
+>
+</div>
+<script type="text/javascript">
+    document.write (writeAdNew({
+        devices: ['PC','iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
+        pattern:'MPU',
+        position:'Middle1',
+        container:'mpuInStory'
+    }));
+</script>

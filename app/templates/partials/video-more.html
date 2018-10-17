@@ -228,28 +228,25 @@
 			<%*<!--Insert MPU ads for mobile devices-->*%>
 
 			<%if $i == 4%>
-				<%if $newdbStart == "yes" && $newdbShow == "yes"%>
-					<div 
-					data-o-ads-name="mpu-middle1"
-					class="o-ads"  
-					data-o-ads-formats-default="false" 
-					data-o-ads-formats-small="FtcMobileMpu" 
-					data-o-ads-formats-medium="false"
-					data-o-ads-formats-large="false"
-					data-o-ads-formats-extra="false"
-					data-o-ads-targeting="cnpos=middle1;"
-					data-cy='[{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"MPU","position":"Middle1"}]'
-					>
-					</div>
-				<%else%>
-					<script type="text/javascript">
-						document.write (writeAdNew({
-								devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
-								pattern:'MPU',
-								position:'Middle1'
-						}));
-					</script>
-				<%/if%>
+				<div 
+				data-o-ads-name="mpu-middle1"
+				class="o-ads"  
+				data-o-ads-formats-default="false" 
+				data-o-ads-formats-small="FtcMobileMpu" 
+				data-o-ads-formats-medium="false"
+				data-o-ads-formats-large="false"
+				data-o-ads-formats-extra="false"
+				data-o-ads-targeting="cnpos=middle1;"
+				data-cy='[{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"MPU","position":"Middle1"}]'
+				>
+				</div>
+				<script type="text/javascript">
+					document.write (writeAdNew({
+							devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
+							pattern:'MPU',
+							position:'Middle1'
+					}));
+				</script>
 			<%/if%>
 
 

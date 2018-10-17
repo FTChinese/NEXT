@@ -25,72 +25,66 @@
     <%else%>
         <%if $section.image == ""%>
             <%if $bannerCount == 0%>
-                <%if $newdbStart == "yes" && $newdbShow == "yes"%>
-                    <div class="o-ads" data-o-ads-name="banner1"
-                    data-o-ads-center="true" 
-                    data-o-ads-formats-default="false" 
-                    data-o-ads-formats-small="FtcMobileBanner" 
-                    data-o-ads-formats-medium="false"
-                    data-o-ads-formats-large="FtcLeaderboard"
-                    data-o-ads-formats-extra="FtcLeaderboard"
-                    data-o-ads-targeting="cnpos=top1;"
-                    data-cy='[{"devices":["PC"],"pattern":"Leaderboard","position":"Num1"},{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"Banner","position":"Num1"}]'
-                    >
-                    </div>
-                    <script type="text/javascript">
-                        ga('send', 'event', 'Ad Switch Tracker', 'GAM', 'banner1', {'nonInteraction': 1});
-                        //sendJSONToFTC({ec: 'Ad Switch Tracker', ea: 'GAM', el: 'banner1'});
-                    </script>
-                <%else%>                
-                    <script type="text/javascript">
-                        document.write(writeAdNew({
-                            devices: ['PC'],
-                            pattern:'Leaderboard',
-                            position:'Num1'
-                        }));
-                        document.write(writeAdNew({
-                            devices: ['iPhoneWeb', 'AndroidWeb','iPhoneApp','AndroidApp'],
-                            pattern:'Banner',
-                            position:'Num1'
-                        }));
-                        ga('send', 'event', 'Ad Switch Tracker', 'Dolphine', 'banner1', {'nonInteraction': 1});
-                        //sendJSONToFTC({ec: 'Ad Switch Tracker', ea: 'Dolphine', el: 'banner1'});
-                    </script>
-                <%/if%>
+                <div class="o-ads" data-o-ads-name="banner1"
+                data-o-ads-center="true" 
+                data-o-ads-formats-default="false" 
+                data-o-ads-formats-small="FtcMobileBanner" 
+                data-o-ads-formats-medium="false"
+                data-o-ads-formats-large="FtcLeaderboard"
+                data-o-ads-formats-extra="FtcLeaderboard"
+                data-o-ads-targeting="cnpos=top1;"
+                data-cy='[{"devices":["PC"],"pattern":"Leaderboard","position":"Num1"},{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"Banner","position":"Num1"}]'
+                >
+                </div>
+                <script type="text/javascript">
+                    ga('send', 'event', 'Ad Switch Tracker', 'GAM', 'banner1', {'nonInteraction': 1});
+                    //sendJSONToFTC({ec: 'Ad Switch Tracker', ea: 'GAM', el: 'banner1'});
+                </script>
+                <script type="text/javascript">
+                    document.write(writeAdNew({
+                        devices: ['PC'],
+                        pattern:'Leaderboard',
+                        position:'Num1'
+                    }));
+                    document.write(writeAdNew({
+                        devices: ['iPhoneWeb', 'AndroidWeb','iPhoneApp','AndroidApp'],
+                        pattern:'Banner',
+                        position:'Num1'
+                    }));
+                    ga('send', 'event', 'Ad Switch Tracker', 'Dolphine', 'banner1', {'nonInteraction': 1});
+                    //sendJSONToFTC({ec: 'Ad Switch Tracker', ea: 'Dolphine', el: 'banner1'});
+                </script>
             <%elseif $bannerCount == 1%>
-                <%if $newdbStart == "yes" && $newdbShow == "yes"%>
-                    <div class="o-ads" data-o-ads-name="banner2"
-                    data-o-ads-center="true" 
-                    data-o-ads-formats-default="false"
-                    data-o-ads-formats-small="FtcMobileBanner"
-                    data-o-ads-formats-medium="false"
-                    data-o-ads-formats-large="FtcBanner" 
-                    data-o-ads-formats-extra="FtcBanner"
-                    data-o-ads-targeting="cnpos=top2;"
-                    data-cy='[{"devices":["PC"],"pattern":"Banner","position":"Num1"},{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"Banner","position":"Num2"}]'>
-                    </div>
-                    <script type="text/javascript">ga('send', 'event', 'Ad Switch Tracker', 'GAM', 'banner2', {'nonInteraction': 1});</script>
+                <div class="o-ads" data-o-ads-name="banner2"
+                data-o-ads-center="true" 
+                data-o-ads-formats-default="false"
+                data-o-ads-formats-small="FtcMobileBanner"
+                data-o-ads-formats-medium="false"
+                data-o-ads-formats-large="FtcBanner" 
+                data-o-ads-formats-extra="FtcBanner"
+                data-o-ads-targeting="cnpos=top2;"
+                data-cy='[{"devices":["PC"],"pattern":"Banner","position":"Num1"},{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"Banner","position":"Num2"}]'>
+                </div>
+                <script type="text/javascript">ga('send', 'event', 'Ad Switch Tracker', 'GAM', 'banner2', {'nonInteraction': 1});</script>
 
-                    <script type="text/javascript">
-                        ga('send', 'event', 'Ad Switch Tracker', 'GAM', 'banner2', {'nonInteraction': 1});
-                        //sendJSONToFTC({ec: 'Ad Switch Tracker', ea: 'GAM', el: 'banner2'});
-                    </script>
-                <%else%>
-                    <script>
-                        document.write(writeAdNew({
-                            devices: ['PC'],
-                            pattern:'Banner',
-                            position:'Num1'
-                        }));
-                        document.write(writeAdNew({
-                            devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
-                            pattern:'Banner',
-                            position:'Num2'
-                        }));
-                        ga('send', 'event', 'Ad Switch Tracker', 'Dolphine', 'banner2', {'nonInteraction': 1});
-                        //sendJSONToFTC({ec: 'Ad Switch Tracker', ea: 'Dolphine', el: 'banner2'});
-                    </script>
-                <%/if%>
+                <script type="text/javascript">
+                    ga('send', 'event', 'Ad Switch Tracker', 'GAM', 'banner2', {'nonInteraction': 1});
+                    //sendJSONToFTC({ec: 'Ad Switch Tracker', ea: 'GAM', el: 'banner2'});
+                </script>
+                <script>
+                    document.write(writeAdNew({
+                        devices: ['PC'],
+                        pattern:'Banner',
+                        position:'Num1'
+                    }));
+                    document.write(writeAdNew({
+                        devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
+                        pattern:'Banner',
+                        position:'Num2'
+                    }));
+                    ga('send', 'event', 'Ad Switch Tracker', 'Dolphine', 'banner2', {'nonInteraction': 1});
+                    //sendJSONToFTC({ec: 'Ad Switch Tracker', ea: 'Dolphine', el: 'banner2'});
+                </script>
             <%elseif $bannerCount == 2 %>
                 <script type="text/javascript">
                     function sendJSONToFTC(jsonData) {
@@ -101,61 +95,55 @@
                         xhr.send(JSON.stringify(jsonData));
                     }
                 </script>
-                <%if $newdbStart == "yes" && $newdbShow == "yes"%>
-                    <div class="o-ads" data-o-ads-name="banner3"
-                    data-o-ads-center="true" 
-                    data-o-ads-formats-default="false" 
-                    data-o-ads-formats-small="false" 
-                    data-o-ads-formats-medium="false"
-                    data-o-ads-formats-large="FtcBanner" 
-                    data-o-ads-formats-extra="FtcBanner"
-                    data-o-ads-targeting="cnpos=top3;"
-                    data-cy='[{"devices":["PC"],"pattern":"Banner","position":"Num2"}]'
-                    >
-                    </div>
-                    <script type="text/javascript">
-                        ga('send', 'event', 'Ad Switch Tracker', 'GAM', 'banner3', {'nonInteraction': 1});
-                        sendJSONToFTC({ec: 'Ad Switch Tracker', ea: 'GAM', el: 'banner3'});
-                    </script>
-                <%else%>
-                    <script>
-                        document.write(writeAdNew({
-                            devices: ['PC'],
-                            pattern:'Banner',
-                            position:'Num2'
-                        }));
-                        ga('send', 'event', 'Ad Switch Tracker', 'Dolphine', 'banner3', {'nonInteraction': 1});
-                        sendJSONToFTC({ec: 'Ad Switch Tracker', ea: 'Dolphine', el: 'banner3'});
-                    </script>
-                <%/if%>
+                <div class="o-ads" data-o-ads-name="banner3"
+                data-o-ads-center="true" 
+                data-o-ads-formats-default="false" 
+                data-o-ads-formats-small="false" 
+                data-o-ads-formats-medium="false"
+                data-o-ads-formats-large="FtcBanner" 
+                data-o-ads-formats-extra="FtcBanner"
+                data-o-ads-targeting="cnpos=top3;"
+                data-cy='[{"devices":["PC"],"pattern":"Banner","position":"Num2"}]'
+                >
+                </div>
+                <script type="text/javascript">
+                    ga('send', 'event', 'Ad Switch Tracker', 'GAM', 'banner3', {'nonInteraction': 1});
+                    sendJSONToFTC({ec: 'Ad Switch Tracker', ea: 'GAM', el: 'banner3'});
+                </script>
+                <script>
+                    document.write(writeAdNew({
+                        devices: ['PC'],
+                        pattern:'Banner',
+                        position:'Num2'
+                    }));
+                    ga('send', 'event', 'Ad Switch Tracker', 'Dolphine', 'banner3', {'nonInteraction': 1});
+                    sendJSONToFTC({ec: 'Ad Switch Tracker', ea: 'Dolphine', el: 'banner3'});
+                </script>
             <%elseif $bannerCount == 3 %>
-                <%if $newdbStart == "yes" && $newdbShow == "yes"%>
-                    <div class="o-ads" data-o-ads-name="banner4"
-                    data-o-ads-center="true" 
-                    data-o-ads-formats-default="false" 
-                    data-o-ads-formats-small="false" 
-                    data-o-ads-formats-medium="false"
-                    data-o-ads-formats-large="FtcBanner" 
-                    data-o-ads-formats-extra="FtcBanner"
-                    data-o-ads-targeting="cnpos=top4;"
-                    data-cy='[{"devices":["PC"],"pattern":"Banner","position":"Num3"}]'
-                    >
-                    </div>
-                    <script type="text/javascript">
-                        ga('send', 'event', 'Ad Switch Tracker', 'GAM', 'banner4', {'nonInteraction': 1});
-                        //sendJSONToFTC({ec: 'Ad Switch Tracker', ea: 'GAM', el: 'banner4'});
-                    </script>
-                <%else%>
-                    <script>
-                        document.write(writeAdNew({
-                            devices: ['PC'],
-                            pattern:'Banner',
-                            position:'Num3'
-                        }));
-                        ga('send', 'event', 'Ad Switch Tracker', 'Dolphine', 'banner4', {'nonInteraction': 1});
-                        //sendJSONToFTC({ec: 'Ad Switch Tracker', ea: 'Dolphine', el: 'banner4'});
-                    </script>
-                <%/if%>
+                <div class="o-ads" data-o-ads-name="banner4"
+                data-o-ads-center="true" 
+                data-o-ads-formats-default="false" 
+                data-o-ads-formats-small="false" 
+                data-o-ads-formats-medium="false"
+                data-o-ads-formats-large="FtcBanner" 
+                data-o-ads-formats-extra="FtcBanner"
+                data-o-ads-targeting="cnpos=top4;"
+                data-cy='[{"devices":["PC"],"pattern":"Banner","position":"Num3"}]'
+                >
+                </div>
+                <script type="text/javascript">
+                    ga('send', 'event', 'Ad Switch Tracker', 'GAM', 'banner4', {'nonInteraction': 1});
+                    //sendJSONToFTC({ec: 'Ad Switch Tracker', ea: 'GAM', el: 'banner4'});
+                </script>
+                <script>
+                    document.write(writeAdNew({
+                        devices: ['PC'],
+                        pattern:'Banner',
+                        position:'Num3'
+                    }));
+                    ga('send', 'event', 'Ad Switch Tracker', 'Dolphine', 'banner4', {'nonInteraction': 1});
+                    //sendJSONToFTC({ec: 'Ad Switch Tracker', ea: 'Dolphine', el: 'banner4'});
+                </script>
             <%/if%>
         <%else%>
             <div class="bn-ph<%$figureClass%>">

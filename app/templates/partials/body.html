@@ -1,6 +1,7 @@
 <script>
     window.newAd = true;
 </script>
+<%assign var="shouldDisplayBanner" value="yes"%>
 <%assign var="bannerCount" value=0%>
 <%assign var="mpuCount" value=0%>
 <%assign var="b" value=0%>
@@ -27,7 +28,7 @@
             <%assign var="hideNavOnWideScreen" value="no"%>
         <%/if%>
         <%include file="next/partials/nav.html"%>
-    <%elseif $section.type == "banner" %>
+    <%elseif $section.type == "banner" && $shouldDisplayBanner == "yes"%>
         <%include file="next/partials/banner.html"%>
  
         <%if $section.image && $section.image == ""%>
@@ -44,71 +45,75 @@
         <%include file="next/partials/pagination-manual.html"%>
     <%elseif $section.type == "subscriptionBox" %>
         <%include file="next/partials/subscription-box.html"%>
-    <%elseif $section.type == "block" && $b < $maxB%>
-        <%if $b == 0%>
-            <%*<!--MARK: Smarty 2 doesn't support global scoop in included files. -->*%>
+    <%elseif $section.type == "block"%>
+        <%if $b < $maxB%>
+            <%if $b == 0%>
+                <%*<!--MARK: Smarty 2 doesn't support global scoop in included files. -->*%>
+                <%if $supportSubscriptionUpgradePromo == "yes"%>
+                    <%if $smarty.get.subscription == "member" || $smarty.get.subscription == "premium"%>
+                        <%include file="next/partials/house-ad-subscription-promo-box.html"%>
+                    <%/if%>
+                <%/if%>
+                <%if $smarty.get.subscription == "member" || $smarty.get.subscription == "premium" || $smarty.get.subscription == "other"%>
+                    <%assign var="reports" value=$storymodel->getPremiumStory(0, 3)%>
+                    <%assign var="interactives" value=$interactivemodel->get_interactive_by_field_search("(find_in_set('速读',tag) or find_in_set('英语电台',tag))",0,3,30,10800)%>
+                    <div class="block-container no-side">
+                        <div class="block-inner">
+                            <div class="content-container">
+                                <div class="content-inner">
+                                    <div class="list-container">
+                                        <div class="list-inner">
+                                            <h2 class="list-title"><a class="list-link" href="/channel/exclusive.html">
+                                            <%if $smarty.get.subscription == "member" || $smarty.get.subscription == "premium"%>
+                                                我的订阅
+                                            <%else%>
+                                                FT独家
+                                            <%/if%>
+                                            </a></h2>
+                                            <%include file="next/partials/subscriptions-warnings.html"%>
+                                            <div class="items">
+                                                <%assign var="i" value=0%>
+                                                <%foreach from=$reports item="report"%>
+                                                    <%assign var="itemType" value="premium"%>
+                                                    <%include file="next/partials/subscriptions-one-item.html"%>
+                                                    <%assign var="premiumContentIds" value="`$premiumContentIds`,`$report.id`"%>
+                                                    <%assign var="i" value=$i+1%>
+                                                <%/foreach%>
+                                                <%foreach from=$interactives item="report"%>
+                                                    <%assign var="itemType" value="interactive"%>
+                                                    <%include file="next/partials/subscriptions-one-item.html"%>
+                                                    <%assign var="premiumContentIds" value="`$premiumContentIds`,`$report.id`"%>
+                                                    <%assign var="i" value=$i+1%>
+                                                <%/foreach%>
+                                                <div class="clearfloat"></div>
+                                            </div>
 
-            <%if $supportSubscriptionUpgradePromo == "yes"%>
-                <%if $smarty.get.subscription == "member" || $smarty.get.subscription == "premium"%>
-                    <%include file="next/partials/house-ad-subscription-promo-box.html"%>
+
+
+
+                                            <h2 class="list-title"><a class="list-link">今日焦点</a></h2>
+                                            <!--premiumContentIds: <%$premiumContentIds%>-->
+                                        </div>
+                                    </div>
+                                    <div class="clearfloat block-bottom"></div>
+                                </div>
+                            </div>
+                            <div class="clearfloat"></div>
+                        </div>
+                    </div>
+                    <%assign var="i" value=0%>
+                <%else%>
+                    <%include file="next/partials/subscriptions-web.html"%>
                 <%/if%>
             <%/if%>
-            <%if $smarty.get.subscription == "member" || $smarty.get.subscription == "premium" || $smarty.get.subscription == "other"%>
-                <%assign var="reports" value=$storymodel->getPremiumStory(0, 3)%>
-                <%assign var="interactives" value=$interactivemodel->get_interactive_by_field_search("(find_in_set('速读',tag) or find_in_set('英语电台',tag))",0,3,30,10800)%>
-                <div class="block-container no-side">
-                    <div class="block-inner">
-                        <div class="content-container">
-                            <div class="content-inner">
-                                <div class="list-container">
-                                    <div class="list-inner">
-                                        <h2 class="list-title"><a class="list-link" href="/channel/exclusive.html">
-                                        <%if $smarty.get.subscription == "member" || $smarty.get.subscription == "premium"%>
-                                            我的订阅
-                                        <%else%>
-                                            FT独家
-                                        <%/if%>
-                                        </a></h2>
-                                        <%include file="next/partials/subscriptions-warnings.html"%>
-                                        <div class="items">
-                                            <%assign var="i" value=0%>
-                                            <%foreach from=$reports item="report"%>
-                                                <%assign var="itemType" value="premium"%>
-                                                <%include file="next/partials/subscriptions-one-item.html"%>
-                                                <%assign var="premiumContentIds" value="`$premiumContentIds`,`$report.id`"%>
-                                                <%assign var="i" value=$i+1%>
-                                            <%/foreach%>
-                                            <%foreach from=$interactives item="report"%>
-                                                <%assign var="itemType" value="interactive"%>
-                                                <%include file="next/partials/subscriptions-one-item.html"%>
-                                                <%assign var="premiumContentIds" value="`$premiumContentIds`,`$report.id`"%>
-                                                <%assign var="i" value=$i+1%>
-                                            <%/foreach%>
-                                            <div class="clearfloat"></div>
-                                        </div>
-
-
-
-
-                                        <h2 class="list-title"><a class="list-link">今日焦点</a></h2>
-                                        <!--premiumContentIds: <%$premiumContentIds%>-->
-                                    </div>
-                                </div>
-                                <div class="clearfloat block-bottom"></div>
-                            </div>
-                        </div>
-                        <div class="clearfloat"></div>
-                    </div>
-                </div>
-                <%assign var="i" value=0%>
-            <%else%>
-                <%include file="next/partials/subscriptions-web.html"%>
+            <%include file="next/partials/block.html"%>
+            <%assign var="b" value=$b+1%>
+            <%if $section.side != "" && $section.side != "none"%>
+            <%assign var="mpuCount" value=$mpuCount+1%>
             <%/if%>
-        <%/if%>
-        <%include file="next/partials/block.html"%>
-        <%assign var="b" value=$b+1%>
-        <%if $section.side != "" && $section.side != "none"%>
-        <%assign var="mpuCount" value=$mpuCount+1%>
+        <%else%>
+            <%*<!--MARK: - when block is the last one -->*%>
+            <%assign var="shouldDisplayBanner" value="no"%>
         <%/if%>
     <%elseif $section.type == "footer"%>
         <%include file="next/partials/footer.html"%>
