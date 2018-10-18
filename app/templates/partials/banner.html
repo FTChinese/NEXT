@@ -54,6 +54,16 @@
                     ga('send', 'event', 'Ad Switch Tracker', 'Dolphine', 'banner1', {'nonInteraction': 1});
                     //sendJSONToFTC({ec: 'Ad Switch Tracker', ea: 'Dolphine', el: 'banner1'});
                 </script>
+                <%if date("Ymd",$smarty.now) <= 20181231%>
+                    <style type="text/css">
+                    @media screen and (max-width: 760px) {
+                        .o-ads[data-o-ads-formats-small=FtcMobileBanner] {
+                            padding-top: 0;
+                            margin-bottom: 0;
+                        }
+                    }
+                    </style>
+                <%/if%>
             <%elseif $bannerCount == 1%>
                 <div class="o-ads" data-o-ads-name="banner2"
                 data-o-ads-center="true" 
