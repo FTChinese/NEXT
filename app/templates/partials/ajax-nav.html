@@ -30,57 +30,31 @@
       <%if $level_2.haschildren%>
       <ol class="nav-sub-items level-3">  
         <%if $level_2.code == "special"%>
-        <%if date("Ymd", $smarty.now) <= 20181231 %>
-          <li><a href="/channel/tradewar.html">中美贸易战</a></li>
-        <%/if%>
-        <%if date("Ymd", $smarty.now) >= 20181008 && date("Ymd", $smarty.now) <= 20181231 %>
-          <li><a href="/tag/璀璨星耀">璀璨星耀</a></li>
-        <%/if%>
-        <%if date("Ymd", $smarty.now) <= 20181031 %>
-          <li><a href="/m/corp/preview.html?pageid=huawei2018">+智能 见未来 重塑商业力量</a></li>
-        <%/if%>
-        <%if date("Ymd", $smarty.now) <= 20181030 %>
-          <li><a href="/m/corp/preview.html?pageid=alibaba2018">传承与发展-现代公司治理新篇</a></li>
-        <%/if%>
-        <%if date("Ymd",$smarty.now) >= 20180806 && date("Ymd", $smarty.now) <= 20180930 %>
-          <li><a href="/m/corp/preview.html?pageid=taikang">商业理想主义 专注成就未来</a></li>
-        <%/if%>
-        <%if date("Ymd",$smarty.now) >= 20180730 && date("Ymd", $smarty.now) <= 20180831 %>
-          <li><a href="/tag/汽车未来">汽车未来</a></li>
-        <%/if%>
-        <%if date("Ymd",$smarty.now) >= 20180628 && date("Ymd", $smarty.now) <= 20181031 %>
-          <li><a href="/tag/中国商业观察">中国商业观察</a></li>
-        <%/if%>
-        <%if date("Ymd",$smarty.now) >= 20180611 && date("Ymd", $smarty.now) <= 20180712 %>
-          <li><a href="/tag/新经济公司IPO">新经济公司IPO</a></li>
-        <%/if%>
-          <%if date("Ymd",$smarty.now) >= 20180601 && date("Ymd", $smarty.now) <= 20180630 %>
-            <li><a href="/tag/引领变局之势">引领变局之势</a></li>
+          <%*<!--MARK: Check the next model tag for sponsored special reports start-->*%>
+          <%assign var="pageIdForSponsorshipManagement" value="sponsorshipmanagement"%>
+          <%if $nextmodel != ""%>
+            <%assign var="infoForSponsorships" value=$nextmodel->getPublishJson($pageIdForSponsorshipManagement)|json_decode:true%>
+            <%assign var="currentDate" value=$smarty.now|date_format:"%Y%m%d"%>
+            <%foreach from=$infoForSponsorships.sections item=section%>
+              <%if $section.status == "on" && $section.dates != "" && preg_match("/`$currentDate`/is",$section.dates) && $section.addToNavSpecialReports == "yes"%>
+                <%assign var="sponsorshipLink" value=$section.link%>
+                <%if $sponsorshipLink == "" && $section.tag != ""%>
+                  <%assign var="sponsorshipLink" value="/tag/`$section.tag`"%>
+                <%/if%>
+                <%if $sponsorshipLink != ""%>
+                  <%assign var="sponsorshipLink" value=" href=\"`$sponsorshipLink`\""%>
+                  <li><a<%$sponsorshipLink%>><%$section.title%></a></li>
+                <%/if%>
+              <%/if%>
+            <%/foreach%>
           <%/if%>
-          <%if date("Ymd",$smarty.now) >= 20180402 && date("Ymd",$smarty.now) <= 20180430 %>
-            <li><a href="/tag/2018中国女性力量">2018 She's 中国女性力量</a></li>
-          <%/if%>
-          <%if date("Ymd",$smarty.now) >= 20180307 && date("Ymd",$smarty.now) <= 20180406 %>
-            <li><a href="/tag/创新经济-物流4.0">创新经济-物流4.0</a></li>
-          <%/if%>
-          <%if date("Ymd",$smarty.now) >= 20180129 && date("Ymd",$smarty.now) <= 20180331 %>
-            <li><a href="/tag/经济发展新动力">经济发展新动力</a></li>
-          <%/if%>
-          <%if date("Ymd",$smarty.now) <= 20180401 %>
-          <li><a href="/channel/viewtop.html">高端视点</a></li>
-          <%/if%>
-          <%if date("Ymd",$smarty.now) >= 20171201 && date("Ymd",$smarty.now) <= 20180331 %>
-          <li><a href="/tag/2017年度报告">2017年度报告</a></li>
-          <%/if%>
+          <%*<!--MARK: Check the next model tag for sponsored special reports end-->*%>
           <li><a href="/m/marketing/antfinancial.html">“新四大发明”背后的中国浪潮</a></li>
           <li><a href="/channel/teawithft.html">与FT共进下午茶</a></li>
           <li><a href="/tag/与FT共进午餐">与FT共进午餐</a></li>
           <li><a href="/tag/智慧城市群">西门子·智慧城市群</a></li>
           <li><a href="/m/marketing/creditease.html">未来生活 未来金融</a></li>
-          <li><a href="/channel/2016highlight.html">2016年度好文推荐</a></li>
-          <%if date("Ymd",$smarty.now) >= 20171115%>
           <li><a href="/index.php/ft/property">全球地产</a></li>
-          <%/if%>
         <%else%>   
           <%foreach from=$level_2.children item="level_3"%>
           <li><a href="<%$level_3.link%>"><%$level_3.name%></a></li>

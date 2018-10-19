@@ -881,24 +881,19 @@
 			<%assign var="sponsorKeys" value=$section.storyKeyWords%>
 			<%if $sponsorKeys == ""%>
 				<%assign var="sponsorKeys" value=$section.tag%>
-				<%if $sponsorKeys == ""%>
-					<%assign var="sponsorKeys" value=$section.title%>
-				<%/if%>
 			<%else%>
 				<%assign var="sponsorKeys" value=$sponsorKeys|regex_replace:"/, */":"|"%>
 			<%/if%>
-			<%if preg_match("/`$sponsorKeys`/is",$keys)%>
-				<!--Found: <%$sponsorKeys%>-->
+			<%if $sponsorKeys != "" && preg_match("/`$sponsorKeys`/is",$keys)%>
 				<%assign var="hasFoundSponsorship" value="yes"%>
 				<%assign var="sponsorshipLink" value=$section.link%>
 				<%if $sponsorshipLink == "" && $section.tag != ""%>
 					<%assign var="sponsorshipLink" value="/tag/`$section.tag`"%>
 				<%/if%>
 				<%if $sponsorshipLink != ""%>
-					<%assign var="sponsorshipLink" value=" href=\"`$section.tag`\""%>
+					<%assign var="sponsorshipLink" value=" href=\"`$sponsorshipLink`\""%>
+					<%assign var=breadcrum value="<a`$sponsorshipLink`>`$section.title`</a>"%>
 				<%/if%>
-				<%assign var=breadcrum value="<a`$sponsorshipLink`>`$section.title`</a>"%>
-				<!--bread crumb: <%$breadcrum%>-->
 				<%if preg_match("/^[0-9]{4}$/is",$section.adChannelId)%>
 					<%assign var="adchannelID" value=$section.adChannelId%>
 				<%/if%>
