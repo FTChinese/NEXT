@@ -871,53 +871,7 @@
 <%assign var="storyId" value=$story.id|default:$id%>
 
 
-<%if  date("Ymd",$smarty.now) >= 20180824 && date("Ymd",$smarty.now) <= 20181031 %>
-	<%if preg_match("/西门子|电气|工程|自动化|工业|制造业|管理软件|管理系统|数字化|智能化|信息化|工厂|工业4.0|生物科技|生物技术|行业解决方案|数字化产品|研发|创新|生产规模|高效管理|管理效率|数字工厂|潜能|精准控制|精准把控|制造力|能耗|耗能|智能制造|物联网/is",$keys) || preg_match("/西门子|电气|工程|自动化|工业|制造业|管理软件|管理系统|数字化|智能化|信息化|工厂|工业4.0|生物科技|生物技术|行业解决方案|数字化产品|研发|创新|生产规模|高效管理|管理效率|数字工厂|潜能|精准控制|精准把控|制造力|能耗|耗能|智能制造|物联网/is",$storyContent)%>
-		<%assign var="adchannelID" value="5067"%>
-	<%/if%>
-<%/if%>
 
-<%if preg_match("/璀璨星耀/is",$keys) && date("Ymd",$smarty.now) <= 20181231%>
-	<%assign var=breadcrum value="<a href=\"/tag/璀璨星耀\">璀璨星耀</a>"%>
-	<%assign var="adchannelID" value="5071"%>
-	<%assign var="hideMPU1" value="no"%>
-	<%assign var="hideMPU2" value="no"%>
-	<%assign var="hideMPU3" value="no"%>
-	<%assign var="hide590" value="no"%>
-	<%assign var="hideBanner" value="no"%>
-<%/if%>
-
-
-<%if preg_match("/创新经济/is",$keys) && date("Ymd",$smarty.now) <= 20181231%>
-	<%assign var=breadcrum value="<a href=\"/channel/innovation.html\">创新经济</a>"%>
-	<%assign var="adchannelID" value="2100"%>
-	<%assign var="hideMPU1" value="no"%>
-	<%assign var="hideMPU2" value="no"%>
-	<%assign var="hideMPU3" value="no"%>
-	<%assign var="hide590" value="no"%>
-	<%assign var="hideBanner" value="no"%>
-<%/if%>
-
-
-<%if preg_match("/汽车未来/is",$keys) && date("Ymd",$smarty.now) <= 20180831%>
-	<%assign var=breadcrum value="<a href=\"/tag/汽车未来\">汽车未来</a>"%>
-	<%assign var="adchannelID" value="5070"%>
-	<%assign var="hideMPU1" value="no"%>
-	<%assign var="hideMPU2" value="no"%>
-	<%assign var="hideMPU3" value="no"%>
-	<%assign var="hide590" value="no"%>
-	<%assign var="hideBanner" value="no"%>
-<%/if%>
-
-<%if preg_match("/FT商学院/is",$keys)%>
-	<%assign var=breadcrum value="<a href=\"/channel/mba.html\">FT商学院</a>"%>
-	<%assign var="adchannelID" value="1701"%>
-	<%assign var="hideMPU1" value="no"%>
-	<%assign var="hideMPU2" value="no"%>
-	<%assign var="hideMPU3" value="no"%>
-	<%assign var="hide590" value="no"%>
-	<%assign var="hideBanner" value="no"%>
-<%/if%>
 
 <%if preg_match("/中国商业观察/is",$keys) && date("Ymd",$smarty.now) >= 20180620 && date("Ymd",$smarty.now) <= 20181101%>
 	<%assign var=breadcrum value="<a href=\"/tag/中国商业观察\">宝珀·中国商业观察</a>"%>
@@ -927,7 +881,52 @@
 	<%assign var="hideMPU3" value="no"%>
 	<%assign var="hide590" value="no"%>
 	<%assign var="hideBanner" value="no"%>
+<%elseif preg_match("/璀璨星耀/is",$keys) && date("Ymd",$smarty.now) <= 20181231%>
+	<%assign var=breadcrum value="<a href=\"/tag/璀璨星耀\">璀璨星耀</a>"%>
+	<%assign var="adchannelID" value="5071"%>
+	<%assign var="hideMPU1" value="no"%>
+	<%assign var="hideMPU2" value="no"%>
+	<%assign var="hideMPU3" value="no"%>
+	<%assign var="hide590" value="no"%>
+	<%assign var="hideBanner" value="no"%>
+<%elseif preg_match("/创新经济/is",$keys) && date("Ymd",$smarty.now) <= 20171231%>
+	<%assign var=breadcrum value="<a href=\"/channel/innovation.html\">创新经济</a>"%>
+	<%assign var="adchannelID" value="2100"%>
+	<%assign var="hideMPU1" value="no"%>
+	<%assign var="hideMPU2" value="no"%>
+	<%assign var="hideMPU3" value="no"%>
+	<%assign var="hide590" value="no"%>
+	<%assign var="hideBanner" value="no"%>
+<%elseif preg_match("/汽车未来/is",$keys) && date("Ymd",$smarty.now) <= 20180831%>
+	<%assign var=breadcrum value="<a href=\"/tag/汽车未来\">汽车未来</a>"%>
+	<%assign var="adchannelID" value="5070"%>
+	<%assign var="hideMPU1" value="no"%>
+	<%assign var="hideMPU2" value="no"%>
+	<%assign var="hideMPU3" value="no"%>
+	<%assign var="hide590" value="no"%>
+	<%assign var="hideBanner" value="no"%>
+<%elseif preg_match("/FT商学院/is",$keys)  && date("Ymd",$smarty.now) <= 20170831%>
+	<%assign var=breadcrum value="<a href=\"/channel/mba.html\">FT商学院</a>"%>
+	<%assign var="adchannelID" value="1701"%>
+	<%assign var="hideMPU1" value="no"%>
+	<%assign var="hideMPU2" value="no"%>
+	<%assign var="hideMPU3" value="no"%>
+	<%assign var="hide590" value="no"%>
+	<%assign var="hideBanner" value="no"%>
+<%elseif preg_match("/一带一路/is",$keys)  && date("Ymd",$smarty.now) <= 20181029%>
+	<%assign var=breadcrum value="<a href=\"/tag/一带一路\">一带一路</a>"%>
+	<%assign var="adchannelID" value="5055"%>
+	<%assign var="hideMPU1" value="no"%>
+	<%assign var="hideMPU2" value="no"%>
+	<%assign var="hideMPU3" value="no"%>
+	<%assign var="hide590" value="no"%>
+	<%assign var="hideBanner" value="no"%>
+<%elseif  date("Ymd",$smarty.now) >= 20180824 && date("Ymd",$smarty.now) <= 20181031 %>
+	<%if preg_match("/西门子|电气|工程|自动化|工业|制造业|管理软件|管理系统|数字化|智能化|信息化|工厂|工业4.0|生物科技|生物技术|行业解决方案|数字化产品|研发|创新|生产规模|高效管理|管理效率|数字工厂|潜能|精准控制|精准把控|制造力|能耗|耗能|智能制造|物联网/is",$keys) || preg_match("/西门子|电气|工程|自动化|工业|制造业|管理软件|管理系统|数字化|智能化|信息化|工厂|工业4.0|生物科技|生物技术|行业解决方案|数字化产品|研发|创新|生产规模|高效管理|管理效率|数字工厂|潜能|精准控制|精准把控|制造力|能耗|耗能|智能制造|物联网/is",$storyContent)%>
+		<%assign var="adchannelID" value="5067"%>
+	<%/if%>
 <%/if%>
+
 
 <%*<!-- Start: Decide if show new db-->*%>
    <%*<!-- First： The newdbStart -->*%>
