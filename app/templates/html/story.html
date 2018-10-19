@@ -6,8 +6,7 @@
 <%if $story.column!=""%>
 	<%assign var="columninfo" value=$storymodel->get_column_info($story.column)%>
 <%/if%>
-<!--story.topic: <%$story.topic%>-->
-<!--keys: <%$keys%>-->
+
 <%if preg_match("/letter/is",$story.cheadline)%>
 <%assign var=breadcrum value="<a href=/channel/letter.html>读者有话说</a>"%>
 <%assign var=autoadchannel value="NP_Opinion"%>
@@ -386,7 +385,7 @@
 <%assign var="hide590" value="no"%>
 <%assign var="hideBanner" value="no"%>
 
-<!-- <%$story.tag%> -->
+
 <%elseif preg_match("/经济发展新动力/is",implode(",", $story.tag)) && date("Ymd",$smarty.now) >= 20180119 && date("Ymd",$smarty.now) <= 20180331%>
 	<%assign var=breadcrum value="<a href=\"/tag/经济发展新动力\">经济发展新动力</a>"%>
 	<%assign var="adchannelID" value="5048"%>
@@ -871,8 +870,75 @@
 <%assign var="storyId" value=$story.id|default:$id%>
 
 
+<%*<!--MARK: Check the next model tag for sponsored special reports start-->*%>
+<%assign var="pageIdForSponsorshipManagement" value="sponsorshipmanagement"%>
+<%if $nextmodel != ""%>
+	<%assign var="infoForSponsorships" value=$nextmodel->getPublishJson($pageIdForSponsorshipManagement)|json_decode:true%>
+	<%assign var="hasFoundSponsorship" value="no"%>
+	<%assign var="currentDate" value=$smarty.now|date_format:"%Y%m%d"%>
+	<%foreach from=$infoForSponsorships.sections item=section%>
+		<%if $hasFoundSponsorship == "no" && $section.status == "on" && $section.dates != "" && preg_match("/`$currentDate`/is",$section.dates)%>
+			<%assign var="sponsorKeys" value=$section.storyKeyWords%>
+			<%if $sponsorKeys == ""%>
+				<%assign var="sponsorKeys" value=$section.tag%>
+				<%if $sponsorKeys == ""%>
+					<%assign var="sponsorKeys" value=$section.title%>
+				<%/if%>
+			<%else%>
+				<%assign var="sponsorKeys" value=$sponsorKeys|regex_replace:"/, */":"|"%>
+			<%/if%>
+			<%if preg_match("/`$sponsorKeys`/is",$keys)%>
+				<!--Found: <%$sponsorKeys%>-->
+				<%assign var="hasFoundSponsorship" value="yes"%>
+				<%assign var="sponsorshipLink" value=$section.link%>
+				<%if $sponsorshipLink == "" && $section.tag != ""%>
+					<%assign var="sponsorshipLink" value="/tag/`$section.tag`"%>
+				<%/if%>
+				<%if $sponsorshipLink != ""%>
+					<%assign var="sponsorshipLink" value=" href=\"`$section.tag`\""%>
+				<%/if%>
+				<%assign var=breadcrum value="<a`$sponsorshipLink`>`$section.title`</a>"%>
+				<!--bread crumb: <%$breadcrum%>-->
+				<%if preg_match("/^[0-9]{4}$/is",$section.adChannelId)%>
+					<%assign var="adchannelID" value=$section.adChannelId%>
+				<%/if%>
+				<%if $section.storyMPU1 != "show"%>
+					<%assign var="hideMPU1" value="yes"%>
+				<%else%>
+					<%assign var="hideMPU1" value="no"%>
+				<%/if%>
+				<%if $section.storyMPU2 != "show"%>
+					<%assign var="hideMPU2" value="yes"%>
+				<%else%>
+					<%assign var="hideMPU2" value="no"%>
+				<%/if%>
+				<%if $section.storyMPU3 != "show"%>
+					<%assign var="hideMPU3" value="yes"%>
+				<%else%>
+					<%assign var="hideMPU3" value="no"%>
+				<%/if%>
+				<%if $section.storyBanner != "show"%>
+					<%assign var="hideBanner" value="yes"%>
+				<%else%>
+					<%assign var="hideBanner" value="no"%>
+				<%/if%>
+				<%if $section.story590Banner != "show"%>
+					<%assign var="hide590" value="yes"%>
+				<%else%>
+					<%assign var="hide590" value="no"%>
+				<%/if%>
+				<%if $section.zone != ""%>
+					<%assign var="topnav" value="home"%>
+					<%assign var="subnav" value="special"%>
+					<%assign var="pageId" value=$section.zone%>
+				<%/if%>
+			<%/if%>
+		<%/if%>
+	<%/foreach%>
+<%/if%>
+<%*<!--MARK: Check the next model tag for sponsored special reports end-->*%>
 
-
+<%*<!--
 <%if preg_match("/中国商业观察/is",$keys) && date("Ymd",$smarty.now) >= 20180620 && date("Ymd",$smarty.now) <= 20181101%>
 	<%assign var=breadcrum value="<a href=\"/tag/中国商业观察\">宝珀·中国商业观察</a>"%>
 	<%assign var="adchannelID" value="5069"%>
@@ -926,7 +992,7 @@
 		<%assign var="adchannelID" value="5067"%>
 	<%/if%>
 <%/if%>
-
+-->*%>
 
 <%*<!-- Start: Decide if show new db-->*%>
    <%*<!-- First： The newdbStart -->*%>
@@ -1131,11 +1197,6 @@
 	<%assign var="storyBody" value=$storyBody|regex_replace:"/<div class=[\"]*inlinevideo[\"]* id=[\"]*[\"]* auto[sS]tart=[\"]*([a-zA-Z]+)[\"]* title=\"(.*)\" image=\"(.*)\" vid=\"(.*)\" vsource=\"(.*)\"><\/div>/":"<div class='o-responsive-video-container'><div class='o-responsive-video-wrapper-outer'><div class='o-responsive-video-wrapper-inner'><object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' width='100%' height='100%' id='osmfPlayer'><param name='movie' value='https://static.ftimg.net/player111014/osmfPlayer_3.swf?videoid=\\4&autoplay=false' /><param name='quality' value='high' /><param name='bgcolor' value='#000000' /><param name='allowScriptAccess' value='always' /><param name='allowFullScreen' value='true' /><!--[if !IE]>--><object type='application/x-shockwave-flash' data='https://static.ftimg.net/player111014/osmfPlayer_3.swf?videoid=\\4&autoplay=false' width='100%' height='100%'><param name='quality' value='high' /><param name='bgcolor' value='#000000' /><param name='allowFullScreen' value='true' /><param name='allowScriptAccess' value='always' /><!--<![endif]--><!--[if gte IE 6]>--><video id='nowvideo' src='http://v.ftimg.net/\\5' controls='' width='100%' height='100%'><p>Either scripts and active content are not permitted to run or Adobe Flash Player version10.0.0 or greater is not installed.</p></video><!--<![endif]--><!--[if !IE]>--></object><!--<![endif]--></object></div></div><a class='o-responsive-video-caption' href='/video/\\4' target='_blank'>\\2</a></div>"%>
 
 
-
-
-
-
-	<!-- keys: start-->
 	<%if (in_array("单页",$story.tag) || $smarty.get.full=="y") && $page_action=="en"%>
 		<%assign var="story_content" value=$story.ebody%>
 	<%elseif (!in_array("单页",$story.tag) && $smarty.get.full!="y") || $page_action=="en"%>
