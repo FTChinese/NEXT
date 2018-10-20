@@ -126,16 +126,35 @@
     <%/if%>
 <%/foreach%>
 
+
+<%*<!--MARK: Check the next model tag for sponsored special reports start-->*%>
+<%assign var="pageIdForSponsorshipManagement" value="sponsorshipmanagement"%>
+<%if $nextmodel != ""%>
+  <%assign var="infoForSponsorships" value=$nextmodel->getPublishJson($pageIdForSponsorshipManagement)|json_decode:true%>
+  <%assign var="currentDate" value=$smarty.now|date_format:"%Y%m%d"%>
+  <%foreach from=$infoForSponsorships.sections item=section%>
+    <%if $section.status == "on" && $section.dates != "" && preg_match("/`$currentDate`/is",$section.dates) && ($section.adChannelId != "" || $section.zone != "")%>
+      <div style="display: none;" class="specialanchor" tag="<%$section.tag%>" title="<%$section.title%>" adid="<%$section.adChannelId%>" channel="<%$section.link%>" hideAd="<%$section.hideAd%>" zone="<%$section.zone%>"></div>
+    <%/if%>
+  <%/foreach%>
+<%/if%>
+<%*<!--MARK: Check the next model tag for sponsored special reports end-->*%>
+
+<%*
 <%assign var="tagInteractive" value=$interactivemodel->get_interactive_by_field_search("find_in_set('特别报导',tag) and eheadline != ''",0,7,999999999,10800)%>
 <%foreach from=$tagInteractive item=sc%>
     <div style="display: none;" class="specialanchor" tag="<%$sc.cshortleadbody%>" title="<%$sc.cheadline%>" adid="<%$sc.eheadline%>" channel="<%$sc.cskylineheadline%>" hideAd="<%$sc.show_english%>" zone="<%$sc.cbyline_description%>"></div>
 <%/foreach%>
 <div style="display: none;" class="specialanchor" tag="创新" title="创新" adid="5067" channel="" hideAd="no" zone="digital"></div>
+*%>
 
+<%*
 <%assign var="tagInteractive" value=$interactivemodel->get_interactive_by_field_search("find_in_set('品牌安全',tag) and eheadline != ''",0,5,999999999,10800)%>
 <%foreach from=$tagInteractive item=sc%>
     <div style="display: none;" class="specialanchor" tag="<%$sc.cheadline%>" title="<%$sc.cheadline%>" adid="<%$sc.eheadline%>" channel="<%$sc.cskylineheadline%>" hideAd="<%$sc.show_english%>" zone="<%$sc.cbyline_description%>"></div>
 <%/foreach%>
+*%>
+
 <%if $smarty.get.webview == "ftcapp"%>
     <script type="text/javascript">
         window.linksForShare = {
@@ -149,8 +168,8 @@
 
 <script type="text/javascript">
     window.newAdData = {
-        forceNewAdTags: ['FT商学院'],
-        forceOldAdTags: ['数字化', '汽车未来', '中国商业观察','2018中国女性力量'],
+        forceNewAdTags: [],
+        forceOldAdTags: [],
         grayReleaseTarget: '0'
     };
 </script>
