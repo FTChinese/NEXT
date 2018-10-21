@@ -350,6 +350,22 @@
 
 					<%*<!--If editor ticked prefer sponsor image, get image and link from database -->*%>
 					<%if $item.preferSponsorImage == "yes" && $itemMainTag != ""%>
+						<%assign var="pageIdForSponsorshipManagement" value="sponsorshipmanagement"%>
+					  	<%assign var="infoForSponsorships" value=$nextmodel->getPublishJson($pageIdForSponsorshipManagement)|json_decode:true%>
+						<%assign var="foundSponsorTag" value="no"%>
+						<%foreach from=$infoForSponsorships.sections item=oneTag%>
+							<%if $foundSponsorTag == "no" && $oneTag.status == "on" && $oneTag.dates != "" && preg_match("/`$currentDate`/is",$oneTag.dates) && preg_match("/`$itemMainTag`/is","`$oneTag.tag`,`$oneTag.title`") && $oneTag.imageHighlightBox != ""%>
+								<%assign var="foundSponsorTag" value="no"%>
+								<%assign var="tagImage" value=$oneTag.imageHighlightBox%>
+								<%if $oneTag.link != ""%>
+									<%assign var="itemTagLink" value=$oneTag.link%>
+								<%/if%>								
+							<%/if%>
+						<%/foreach%>
+					<%/if%>
+
+					<%*<!--
+					<%if $item.preferSponsorImage == "yes" && $itemMainTag != ""%>
 						<%assign var="tagInteractive" value=$interactivemodel->get_interactive_by_field_search("find_in_set('特别报导',tag) and (cshortleadbody = '`$itemMainTag`' or cheadline = '`$itemMainTag`' or find_in_set('`$itemMainTag`',tag))",0,1,999999999,10800)%>
 						<%if $tagInteractive|@count >0%>
 							<%assign var="tagImage" value=$tagInteractive[0].story_pic.cover%>
@@ -360,10 +376,7 @@
 							<%/if%>
 						<%/if%>
 					<%/if%>
-
-					<%if $useSafariToOpenSponsorStory == "yes" && preg_match("/2017年度报告/is",$itemTagsString) && date("Ymd",$smarty.now) <= 20171231%>
-						<%assign var="itemTagLink" value="http://cn.ft.com`$itemTagLink`"%>
-					<%/if%>
+					-->*%>
 
 					<%if $itemTag != ""%>
 						<%if $tagCanFollow == "yes"%>

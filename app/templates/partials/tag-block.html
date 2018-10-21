@@ -9,6 +9,87 @@
 	<%/if%>
 <%/if%>
 
+
+<%*<!--MARK: Check the next model tag for sponsored special reports start-->*%>
+<%if $pageType == "special"%>
+	<%assign var="pageIdForSponsorshipManagement" value="sponsorshipmanagement"%>
+	<%if $nextmodel != ""%>
+	  	<%assign var="infoForSponsorships" value=$nextmodel->getPublishJson($pageIdForSponsorshipManagement)|json_decode:true%>
+	  	<%assign var="currentDate" value=$smarty.now|date_format:"%Y%m%d"%>
+		<div class="block-container  <%if $section.side != "" && $section.side != "none"%>has-side<%if $section.sideAlign=="right"%> side-right<%/if%><%else%>no-side<%/if%>">
+		    <div class="block-inner">
+		        <div class="content-container">
+		            <div class="content-inner">
+		                <div class="list-container">
+		                    <div class="list-inner">
+		                        <div class="items">
+									<%assign var="i" value=0%>
+									<%foreach from=$infoForSponsorships.sections item=report%>
+										<%if $i<4 && $report.imageHighlightBox != "" && ($report.link != "" || $report.tag != "")%>
+											<%assign var="itemTopClass" value=""%>
+											<%assign var="itemTop" value=""%>
+											<%if $i%4 === 0%>
+												<%assign var="itemTopClass" value="XLT"%>
+											<%/if%>
+											<%if $i%2 === 0%>
+												<%assign var="itemTopClass" value="`$itemTopClass` ST PT"%>
+											<%/if%>
+											<%assign var="XL" value="XL3"%>
+											<%assign var="L" value="L3"%>
+											<%assign var="M" value="M3"%>
+											<%assign var="S" value="S6"%>
+											<%assign var="P" value="P6"%>
+											<%assign var="itemClass" value="`$XL` `$L` `$M` `$S` `$P`"%>
+											<%if $itemTopClass != ""%>
+												<%assign var="itemTop" value="<div class=\"`$itemTopClass`\"></div>"%>
+											<%/if%>
+											<%if $i === 0%>
+												<%assign var="itemTop" value=""%>
+											<%/if%>
+											<%if $report.link != ""%>
+												<%assign var="specialLink" value=$report.link%>
+											<%else%>
+												<%assign var="specialLink" value="/tag/`$report.tag`"%>
+											<%/if%>
+											<%$itemTop%>
+											<div class="item-container <%$itemClass%> headline-only">
+											    <div class="item-inner">
+											        <a class="image" href="<%$specialLink%>" target=_blank><figure class="loading" data-url="<%$report.imageHighlightBox%>"></figure></a>
+											        <h2 class="item-headline"><a href="<%$specialLink%>" target=_blank><%$report.title%></a></h2>
+											    </div>
+											</div>
+											<%assign var="i" value=$i+1%>
+										<%/if%>
+									<%/foreach%>
+		                            <div class="clearfloat"></div>
+		                        </div>
+		                    </div>
+		                </div>
+
+
+		                <%assign var='channels' value=','|explode:"china,global,opinion,lex,management,lifestyle,economy,business"%>
+
+
+		                <div class="clearfloat block-bottom"></div>
+		            </div>
+		        </div>
+				<%if $section.side != "" && $section.side != "none"%>
+					<%include file="next/partials/`$section.side`.html"%>
+				<%/if%>
+		        <div class="clearfloat"></div>
+		    </div>
+		</div>
+	<%/if%>
+<%/if%>
+<%*<!--MARK: Check the next model tag for sponsored special reports end-->*%>
+
+
+
+
+
+
+
+
 <div class="block-container has-side"><div class="block-inner">
 	<div class="content-container"><div class="content-inner">
 		<div class="list-container"><div class="list-inner">
@@ -354,9 +435,6 @@
 							<%assign var="itemLink" value=$item.cshortleadbody%>
 						<%else%>
 							<%assign var="itemLink" value="/tag/`$item.cshortleadbody`"%>
-						<%/if%>
-						<%if $useSafariToOpenSponsorStory == "yes" && $smarty.get.webview == "ftcapp" && date("Ymd",$smarty.now) <= 20171231 && $item.id == "10719"%>
-							<%assign var="itemLink" value="http://cn.ft.com`$itemLink`"%>
 						<%/if%>
 						<%assign var="itemClass" value="XL4 L4 M12 S12 S-double-width P12 has-image"%>
 					<%else%>

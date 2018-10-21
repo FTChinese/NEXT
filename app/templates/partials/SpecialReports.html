@@ -1,6 +1,8 @@
 <%*<!--MARK: Check the next model tag for sponsored special reports start-->*%>
-<%assign var="pageIdForSponsorshipManagement" value="sponsorshipmanagement"%>
+<!--spcial reports checking-->
 <%if $nextmodel != ""%>
+	<!--spcial reports checking: support next model-->
+	<%assign var="pageIdForSponsorshipManagement" value="sponsorshipmanagement"%>
   	<%assign var="infoForSponsorships" value=$nextmodel->getPublishJson($pageIdForSponsorshipManagement)|json_decode:true%>
   	<%assign var="currentDate" value=$smarty.now|date_format:"%Y%m%d"%>
 	<div class="block-container  <%if $section.side != "" && $section.side != "none"%>has-side<%if $section.sideAlign=="right"%> side-right<%/if%><%else%>no-side<%/if%>">
@@ -76,14 +78,7 @@
 
 
 
-
-
-
-
-
-
-
-
+<%*<!--
 
 <%assign var="reports" value=$interactivemodel->get_interactive_by_field_search("find_in_set('特别报导',tag) and pubdate <= unix_timestamp(now())",0,4,3000,10800)%>
 <div class="block-container  <%if $section.side != "" && $section.side != "none"%>has-side<%if $section.sideAlign=="right"%> side-right<%/if%><%else%>no-side<%/if%>">
@@ -148,3 +143,5 @@
         <div class="clearfloat"></div>
     </div>
 </div>
+
+-->*%>
