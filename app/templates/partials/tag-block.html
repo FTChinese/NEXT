@@ -16,6 +16,8 @@
 	<%if $nextmodel != ""%>
 	  	<%assign var="infoForSponsorships" value=$nextmodel->getPublishJson($pageIdForSponsorshipManagement)|json_decode:true%>
 	  	<%assign var="currentDate" value=$smarty.now|date_format:"%Y%m%d"%>
+	  	<%assign var="allstory" value=$infoForSponsorships.sections%>
+	  	<%* <!--
 		<div class="block-container  <%if $section.side != "" && $section.side != "none"%>has-side<%if $section.sideAlign=="right"%> side-right<%/if%><%else%>no-side<%/if%>">
 		    <div class="block-inner">
 		        <div class="content-container">
@@ -79,13 +81,10 @@
 		        <div class="clearfloat"></div>
 		    </div>
 		</div>
+		-->*%>
 	<%/if%>
 <%/if%>
 <%*<!--MARK: Check the next model tag for sponsored special reports end-->*%>
-
-
-
-
 
 
 
@@ -103,9 +102,9 @@
 			<%assign var="hasImageCount" value=0%>
 			<%assign var="noImageCount" value=0%>
 			<%foreach from=$allstory item=item%>
-				<%assign var="itemImage" value=$item.story_pic.cover|default:$item.story_pic.other|default:$item.story_pic.smallbutton|default:$item.illustration|default:$item.cover|default:$item.thumb_url%>
+				<%assign var="itemImage" value=$item.story_pic.cover|default:$item.story_pic.other|default:$item.story_pic.smallbutton|default:$item.illustration|default:$item.cover|default:$item.thumb_url|default:$item.imageHighlightBox%>
 				<%if $itemImage == ""%>
-					<%assign var="itemImage" value=$item.image.cover|default:$item.image.smallbutton|default:$item.image.other|default:$item.image.bigbutton%>
+					<%assign var="itemImage" value=$item.image.cover|default:$item.image.smallbutton|default:$item.image.other|default:$item.image.bigbutton|default:$item.imageHighlightBox%>
 				<%/if%>
 				<%if $itemImage == ""%>
 					<%assign var="noImageCount" value=$noImageCount+1%>
@@ -131,9 +130,9 @@
 				<%/if%>
 
 
-				<%assign var="itemImage" value=$item.story_pic.cover|default:$item.story_pic.other|default:$item.story_pic.smallbutton|default:$item.illustration|default:$item.cover|default:$item.thumb_url%>
+				<%assign var="itemImage" value=$item.story_pic.cover|default:$item.story_pic.other|default:$item.story_pic.smallbutton|default:$item.illustration|default:$item.cover|default:$item.thumb_url|default:$item.imageHighlightBox%>
 				<%if $itemImage == ""%>
-					<%assign var="itemImage" value=$item.image.cover|default:$item.image.smallbutton|default:$item.image.other|default:$item.image.bigbutton%>
+					<%assign var="itemImage" value=$item.image.cover|default:$item.image.smallbutton|default:$item.image.other|default:$item.image.bigbutton|default:$item.imageHighlightBox%>
 				<%/if%>
 				<%if $itemImage != "" && !preg_match("/^http/is",$itemImage)%>
 					<%assign var="itemImage" value="http://i.ftimg.net/`$itemImage`"%>
@@ -420,7 +419,9 @@
 						<%assign var="itemLead" value=$item.clongleadbody|default:$item.longlead|default:$item.cshortleadbody|default:$item.shortlead%>
 					<%/if%>
 
-					<%assign var="itemHeadline" value=$item.cheadline|default:$item.headline|default:$item.cn_title%>
+					<%assign var="itemHeadline" value=$item.cheadline|default:$item.headline|default:$item.cn_title|default:$item.title|default:$item.tag%>
+
+					<!--Item Headline: <%$itemHeadline%>-->
 
 					<%assign var="itemId" value=$item.id|default:$item.photonewsid%>
 
@@ -429,7 +430,13 @@
 					<%/if%>
 
 					<%if $pageType=="special"%>
-						<%if $item.cskylinetext != "" %>
+						<%if $item.link != "" %>
+							<%assign var="itemLink" value=$item.link%>
+						<%elseif $item.tag != "" %>
+							<%assign var="itemLink" value="/tag/`$item.tag`"%>
+						<%elseif $item.title != "" %>
+							<%assign var="itemLink" value="/tag/`$item.title`"%>
+						<%elseif $item.cskylinetext != "" %>
 							<%assign var="itemLink" value=$item.cskylinetext%>
 						<%elseif preg_match("/\//is",$item.cshortleadbody)%>
 							<%assign var="itemLink" value=$item.cshortleadbody%>
@@ -547,299 +554,305 @@
 			<%/foreach%>
 			<%*<!--Display Stories With Image End-->*%>
 
-
 			<%if $noImageCount > 0 && $pageTheme != "myft"%><div class="XLT LT MT ST PT"></div><%/if%>
+			<%if $pageType != "special"%>
+				<%*<!--Display Stories Without Image-->*%>
+				<%assign var="i" value=0%>
+				<%assign var="allStoiesCount" value=$noImageCount%>
+				<%foreach from=$allstory item=item%>
 
-			<%*<!--Display Stories Without Image-->*%>
-			<%assign var="i" value=0%>
-			<%assign var="allStoiesCount" value=$noImageCount%>
-			<%foreach from=$allstory item=item%>
 
-
-				<%if $item.photonewsid && $item.photonewsid != ""%>
-					<%assign var="itemType" value="photonews"%>
-				<%elseif ($item.video_name && $item.video_name != "") || ($item.cc_vaddress && $item.cc_vaddress != "")%>
-					<%assign var="itemType" value="video"%>
-				<%elseif preg_match("/^[0-9]{9}$/is",$item.id)%>
-					<%assign var="itemType" value="story"%>
-				<%else%>
-					<%assign var="itemType" value="interactive"%>
-				<%/if%>
-
-				<%assign var="itemImage" value=$item.story_pic.cover|default:$item.story_pic.other|default:$item.story_pic.smallbutton|default:$item.illustration|default:$item.cover|default:$item.thumb_url%>
-				<%if $itemImage == ""%>
-					<%assign var="itemImage" value=$item.image.cover|default:$item.image.smallbutton|default:$item.image.other|default:$item.image.bigbutton%>
-				<%/if%>
-
-				<%if $itemImage == "" || $pageTheme == "myft"%>
-					<%assign var="itemClass" value=""%>
-					<%assign var="itemTop" value=""%>
-					<%assign var="itemTopClass" value=""%>
-					<%assign var="XL" value=""%>
-					<%assign var="L" value=""%>
-					<%assign var="M" value=""%>
-					<%assign var="S" value=""%>
-					<%assign var="P" value=""%>
-					<%assign var="hasImage" value="has-image"%>
-					<%assign var="hideImage" value="no"%>
-					<%assign var="hideLead" value="no"%>
-					<%*<!--Has Side: XL Styles-->*%>
-					<%if $pageTheme === "myft"%>
-						<%assign var="hideImage" value="yes"%>
-						<%assign var="XL" value="one-row"%>
-						<%assign var="itemTopClass" value="XLT LT ST MT PT"%>
-					<%elseif $allStoiesCount === 1%>
-						<%assign var="XL" value="XL12"%>
-					<%elseif $allStoiesCount === 2%>
-						<%assign var="XL" value="XL6"%>
-					<%elseif $allStoiesCount % 3 == 0%>
-						<%assign var="XL" value="XL4"%>
-						<%if $i % 3 === 0%>
-							<%assign var="itemTopClass" value="XLT"%>
-						<%/if%>
-					<%elseif $allStoiesCount % 3 == 1%>
-						<%if $i < 4%>
-							<%assign var="XL" value="XL6"%>
-						<%else%>
-							<%assign var="XL" value="XL4"%>
-						<%/if%>
-						<%if $i === 2 || ($i%3 === 1 && $i>3)%>
-							<%assign var="itemTopClass" value="XLT"%>
-						<%/if%>
-					<%elseif $allStoiesCount % 3 == 2%>
-						<%if $i < 2%>
-							<%assign var="XL" value="XL6"%>
-						<%else%>
-							<%assign var="XL" value="XL4"%>
-						<%/if%>
-						<%if $i%3 === 2%>
-							<%assign var="itemTopClass" value="XLT"%>
-						<%/if%>
-					<%/if%>
-					<%*<!--Has Side: XL Styles End-->*%>
-
-					<%*<!--Has Side: L Styles-->*%>
-					<%if $allStoiesCount === 1%>
-						<%assign var="L" value="L12"%>
-					<%elseif $allStoiesCount === 2%>
-						<%assign var="L" value="L6 L-double-width"%>
-					<%elseif $allStoiesCount % 3 == 0%>
-						<%assign var="L" value="L4"%>
-						<%if $i % 3 === 0%>
-							<%assign var="itemTopClass" value="`$itemTopClass` LT"%>
-						<%/if%>
-					<%elseif $allStoiesCount % 3 == 1%>
-						<%if $i < 4%>
-							<%assign var="L" value="L6"%>
-						<%else%>
-							<%assign var="L" value="L4"%>
-						<%/if%>
-						<%if $i === 2 || ($i%3 === 1 && $i>3)%>
-							<%assign var="itemTopClass" value="`$itemTopClass` LT"%>
-						<%/if%>
-					<%elseif $allStoiesCount % 3 == 2%>
-						<%if $i < 2%>
-							<%assign var="L" value="L6"%>
-						<%else%>
-							<%assign var="L" value="L4"%>
-						<%/if%>
-						<%if $i%3 === 2%>
-							<%assign var="itemTopClass" value="`$itemTopClass` LT"%>
-						<%/if%>
-					<%/if%>
-					<%*<!--Has Side: L Styles End-->*%>
-
-					<%*<!--Has Side: M and P Use Single Column-->*%>
-					<%if $i===0%>
-						<%assign var="M" value="M12"%>
-						<%assign var="P" value="P12"%>
+					<%if $item.photonewsid && $item.photonewsid != ""%>
+						<%assign var="itemType" value="photonews"%>
+					<%elseif ($item.video_name && $item.video_name != "") || ($item.cc_vaddress && $item.cc_vaddress != "")%>
+						<%assign var="itemType" value="video"%>
+					<%elseif preg_match("/^[0-9]{9}$/is",$item.id)%>
+						<%assign var="itemType" value="story"%>
 					<%else%>
-						<%assign var="M" value="M12 M-half"%>
-						<%assign var="P" value="P12 P-half"%>
-						<%assign var="itemTopClass" value="`$itemTopClass` MT PT"%>
-					<%/if%>
-					<%*<!--Has Side: M Styles End-->*%>
-
-					<%*<!--Has Side: S Styles-->*%>
-					<%if $allStoiesCount % 2 == 1 && $i===0%>
-						<%assign var="S" value="S12 S-double-width"%>
-					<%else%>
-						<%assign var="S" value="S6"%>
-						<%if ($i%2===0 && $allStoiesCount % 2 == 0) || ($i%2===1 && $allStoiesCount % 2 == 1)%>
-							<%assign var="itemTopClass" value="`$itemTopClass` ST"%>
-						<%/if%>
-					<%/if%>
-					<%*<!--Has Side: S Styles End-->*%>
-
-
-					<%assign var="itemClass" value="`$XL` `$L` `$M` `$S` `$P`"%>
-					<%if $itemTopClass != ""%>
-					<%assign var="itemTop" value="<div class=\"`$itemTopClass`\"></div>"%>
-					<%/if%>
-					<%if $i === 0%>
-						<%assign var="itemTop" value=""%>
+						<%assign var="itemType" value="interactive"%>
 					<%/if%>
 
+					<%assign var="itemImage" value=$item.story_pic.cover|default:$item.story_pic.other|default:$item.story_pic.smallbutton|default:$item.illustration|default:$item.cover|default:$item.thumb_url%>
 					<%if $itemImage == ""%>
-						<%assign var="hasImage" value="no-image"%>
+						<%assign var="itemImage" value=$item.image.cover|default:$item.image.smallbutton|default:$item.image.other|default:$item.image.bigbutton%>
 					<%/if%>
 
-					<%assign var="itemTag" value=""%>
-					<%if $showTag === "yes"%>
-						<%*<!--Sometimes Editors Use Space in Tags-->*%>
-						<%assign var="tagCanFollow" value="yes"%>
-						<%assign var="itemTagsString" value=$item.tag|default:$item.tags|default:$item.tagname%>
-						<%assign var="itemTagsString" value=$itemTagsString|replace:" ":","%>
-						<%assign var="itemTags" value=","|explode:$itemTagsString%>
-						<%assign var="itemTag" value=$itemTags[0]%>
-						<%if $itemTag === "视频"%>
-							<%assign var="itemTagLink" value="/channel/explainer.html"%>
-							<%assign var="tagCanFollow" value="no"%>
-						<%elseif $itemTag === "秒懂"%>
-							<%assign var="itemTagLink" value="/channel/slides.html"%>
-							<%assign var="tagCanFollow" value="no"%>
-						<%elseif $itemTag === "图辑"%>
-							<%assign var="itemTagLink" value="/channel/slides.html"%>
-							<%assign var="tagCanFollow" value="no"%>
-						<%elseif $itemTag === "数据新闻"%>
-							<%assign var="itemTagLink" value="/channel/datanews.html"%>
-						<%elseif $itemTag === "速读"%>
-							<%assign var="itemTagLink" value="/channel/speedread.html"%>
-						<%elseif $itemTag === "FT商学院"%>
-							<%assign var="itemTagLink" value="/channel/mba.html"%>
-						<%elseif $feedType=="columns"%>
-							<%assign var="itemTag" value=$item.author_name_cn%>
-							<%assign var="itemTagLink" value="/column/`$itemId`"%>
-							<%assign var="tagCanFollow" value="no"%>
-						<%else%>
-							<%assign var="itemTagLink" value="/tag/`$itemTag`"%>
-						<%/if%>
-						<%if $tagCanFollow == "yes"%>
-							<%assign var="itemTag" value="<div class=item-tag><a href=\"`$itemTagLink`\">`$itemTag`</a><button class=\"myft-follow plus\" data-tag=\"`$itemTag`\" data-type=\"tag\">关注</button></div>"%>
-						<%else%>
-							<%assign var="itemTag" value="<div class=item-tag><a href=\"`$itemTagLink`\">`$itemTag`</a></div>"%>
-						<%/if%>
-					<%/if%>
-
-
-					<%assign var="itemPubDate" value=$item.pubdate|default:$item.timeStamp%>
-					<%assign var="itemTimeStamp" value=""%>
-					<%if $showTimeStamp === "all" || $showTimeStamp === "new stories"%>
-						<%assign var="highlightTime" value=""%>
-						<%math assign="timeDiff" equation="x-y" x=$smarty.now y=$itemPubDate%>
-						<%if $itemType === "video"%>
-							<%assign var="highlightTime" value=""%>
-							<%assign var="timeDiff" value=$item.timeStamp%>
-						<%elseif $timeDiff < 0%>
-							<%assign var="highlightTime" value=" highlight"%>
-							<%assign var="timeDiff" value="刚刚发布"%>
-						<%elseif $timeDiff < 60*60%>
-							<%assign var="highlightTime" value=" highlight"%>
-							<%assign var="timeDiff" value=$timeDiff/60|intval%>
-							<%assign var="timeDiff" value="`$timeDiff`分钟前"%>
-						<%elseif $timeDiff < 60*60*4%>
-							<%assign var="highlightTime" value=" highlight"%>
-							<%assign var="timeDiff" value=$timeDiff/3600|intval%>
-							<%assign var="timeDiff" value="`$timeDiff`小时前"%>
-						<%elseif $timeDiff < 60*60*24%>
-							<%assign var="highlightTime" value=""%>
-							<%assign var="timeDiff" value=$timeDiff/3600|intval%>
-							<%assign var="timeDiff" value="`$timeDiff`小时前"%>
-						<%elseif $timeDiff < 60*60*24*7%>
-							<%assign var="highlightTime" value=""%>
-							<%assign var="timeDiff" value=$timeDiff/86400|intval%>
-							<%assign var="timeDiff" value="`$timeDiff`天前"%>
-						<%elseif date("Y",$smarty.now) == date("Y",$item.timeStamp)%>
-							<%assign var="highlightTime" value=""%>
-							<%assign var="timeDiff" value=$itemPubDate|date_format:"%-m月%-d日"%>
-						<%else%>
-							<%assign var="highlightTime" value=""%>
-							<%assign var="timeDiff" value=$itemPubDate|date_format:"%Y年%-m月%-d日"%>
-						<%/if%>
-						<%if $showTimeStamp === "all" || $timeDiff < 60*60*4%>
-							<%assign var="itemTimeStamp" value="<div class=\"item-time`$highlightTime`\">`$timeDiff`</div>"%>
-						<%/if%>
-					<%/if%>
-
-					<%if $preferLead === "none"%>
-						<%assign var="hideLead" value="yes"%>
-						<%assign var="itemLead" value=""%>
-					<%elseif $preferLead === "shortlead"%>
-						<%assign var="itemLead" value=$item.cshortleadbody|default:$item.shortlead|default:$item.clongleadbody|default:$item.longlead%>
-					<%else%>
-						<%assign var="itemLead" value=$item.clongleadbody|default:$item.longlead|default:$item.cshortleadbody|default:$item.shortlead%>
-					<%/if%>
-
-					<%assign var="itemHeadline" value=$item.cheadline|default:$item.headline|default:$item.cn_title%>
-
-					<%assign var="itemId" value=$item.id|default:$item.photonewsid%>
-
-					<%if $hideImage === "yes"%>
-						<%assign var="hasImage" value="no-image"%>
-					<%/if%>
-
-
-					<%if $pageType=="special"%>
-						<%if preg_match("/\//is",$item.cshortleadbody)%>
-							<%assign var="itemLink" value=$item.cshortleadbody%>
-						<%else%>
-							<%assign var="itemLink" value="/tag/`$item.cshortleadbody`"%>
-						<%/if%>
-					<%else%>
-						<%assign var="itemLink" value="/`$itemType`/`$itemId`#adchannelID=`$adchannelID`"%>
-					<%/if%>
-
-
-
-					<%if $smarty.get.webview == "ftcapp"%>
-						<%if preg_match("/.mp3$/is",$item.shortlead) || preg_match("/.mp3$/is",$item.cshortleadbody)%>
-							<%assign var="audioUrl" value=$item.shortlead|default:$item.cshortleadbody%>
-							<%assign var="audioData" value=" data-audio=\"`$audioUrl`\""%>
-						<%/if%>
-						<%assign var="itemClass" value="`$itemClass` item-container-app"%>
-						<%assign var="itemData" value=" data-id=\"`$item.id`\" data-type=\"`$itemType`\"`$audioData`"%>
-					<%/if%>
-
-
-
-					<%if $pageTheme === "myft"%>
-						<%$itemTop%>
-						<div class="item-container <%$itemClass%> <%$hasImage%>"<%$itemData%>><div class="item-inner">
-							<%$itemTag%>
-							<h2 class="item-headline"><a target="_blank" href="<%$itemLink%>"><%$itemHeadline%></a></h2>
-							<%if $hideLead === "no"%><div class="item-lead"><%$itemLead|nl2br%></div><%/if%>
-							<div class="icon-right icon-save">
-								<button id="addfavlink<%$itemId%>"><%if $$favstory == ""%>收藏<%else%>删除<%/if%></button>
-							</div>
-							<%$itemTimeStamp%>
-							<div class="item-bottom"></div>
-						</div></div>
-						<%assign var="i" value=$i+1%>
-					<%else%>
-						<%$itemTop%>
-						<div class="item-container <%$itemClass%> <%$hasImage%>"<%$itemData%>><div class="item-inner">
-							<h2 class="item-headline"><%$itemTag%><a class="item-headline-link" target="_blank" href="<%$itemLink%>"><%$itemHeadline%></a></h2>
-							<%if $item.relatives|@count > 0 && $item.relatives[0].type === 'video'%><div class="image"><figure class="loading-video" data-vid="<%$item.relatives[0].id%>"></figure></div><%elseif $itemType === "video" && $listType !== "videos"%><div class="image"><figure class="loading-video" data-vid="<%$itemId%>"></figure></div><%elseif $itemImage != "" && $hasImage === "has-image"%><a class="image" target="_blank" href="<%$itemLink%>"><figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure></a><%/if%>
-							<%if $hideLead === "no"%><div class="item-lead"><%$itemLead%></div><%/if%>
-							<%$itemTimeStamp%>
-							<%if $item.relatives|@count > 0 && $item.showRelativeStoryItems > 0%>
-								<%assign var="r" value=0%>
-								<div class="relative-container">
-									<%foreach from=$item.relatives item=relative%>
-										<%if $r<$item.showRelativeStoryItems%>
-										<h3 class="relative"><a href="/<%$relative.type%>/<%$relative.id%>" target="_blank"><%$relative.headline%></a></h3>
-										<%assign var="r" value=$r+1%>
-										<%/if%>
-									<%/foreach%>
-									<div class="clearfloat"></div>
-								</div>
+					<%if $itemImage == "" || $pageTheme == "myft"%>
+						<%assign var="itemClass" value=""%>
+						<%assign var="itemTop" value=""%>
+						<%assign var="itemTopClass" value=""%>
+						<%assign var="XL" value=""%>
+						<%assign var="L" value=""%>
+						<%assign var="M" value=""%>
+						<%assign var="S" value=""%>
+						<%assign var="P" value=""%>
+						<%assign var="hasImage" value="has-image"%>
+						<%assign var="hideImage" value="no"%>
+						<%assign var="hideLead" value="no"%>
+						<%*<!--Has Side: XL Styles-->*%>
+						<%if $pageTheme === "myft"%>
+							<%assign var="hideImage" value="yes"%>
+							<%assign var="XL" value="one-row"%>
+							<%assign var="itemTopClass" value="XLT LT ST MT PT"%>
+						<%elseif $allStoiesCount === 1%>
+							<%assign var="XL" value="XL12"%>
+						<%elseif $allStoiesCount === 2%>
+							<%assign var="XL" value="XL6"%>
+						<%elseif $allStoiesCount % 3 == 0%>
+							<%assign var="XL" value="XL4"%>
+							<%if $i % 3 === 0%>
+								<%assign var="itemTopClass" value="XLT"%>
 							<%/if%>
-						<div class="item-bottom"></div>
-						</div></div>
-						<%assign var="i" value=$i+1%>
+						<%elseif $allStoiesCount % 3 == 1%>
+							<%if $i < 4%>
+								<%assign var="XL" value="XL6"%>
+							<%else%>
+								<%assign var="XL" value="XL4"%>
+							<%/if%>
+							<%if $i === 2 || ($i%3 === 1 && $i>3)%>
+								<%assign var="itemTopClass" value="XLT"%>
+							<%/if%>
+						<%elseif $allStoiesCount % 3 == 2%>
+							<%if $i < 2%>
+								<%assign var="XL" value="XL6"%>
+							<%else%>
+								<%assign var="XL" value="XL4"%>
+							<%/if%>
+							<%if $i%3 === 2%>
+								<%assign var="itemTopClass" value="XLT"%>
+							<%/if%>
+						<%/if%>
+						<%*<!--Has Side: XL Styles End-->*%>
+
+						<%*<!--Has Side: L Styles-->*%>
+						<%if $allStoiesCount === 1%>
+							<%assign var="L" value="L12"%>
+						<%elseif $allStoiesCount === 2%>
+							<%assign var="L" value="L6 L-double-width"%>
+						<%elseif $allStoiesCount % 3 == 0%>
+							<%assign var="L" value="L4"%>
+							<%if $i % 3 === 0%>
+								<%assign var="itemTopClass" value="`$itemTopClass` LT"%>
+							<%/if%>
+						<%elseif $allStoiesCount % 3 == 1%>
+							<%if $i < 4%>
+								<%assign var="L" value="L6"%>
+							<%else%>
+								<%assign var="L" value="L4"%>
+							<%/if%>
+							<%if $i === 2 || ($i%3 === 1 && $i>3)%>
+								<%assign var="itemTopClass" value="`$itemTopClass` LT"%>
+							<%/if%>
+						<%elseif $allStoiesCount % 3 == 2%>
+							<%if $i < 2%>
+								<%assign var="L" value="L6"%>
+							<%else%>
+								<%assign var="L" value="L4"%>
+							<%/if%>
+							<%if $i%3 === 2%>
+								<%assign var="itemTopClass" value="`$itemTopClass` LT"%>
+							<%/if%>
+						<%/if%>
+						<%*<!--Has Side: L Styles End-->*%>
+
+						<%*<!--Has Side: M and P Use Single Column-->*%>
+						<%if $i===0%>
+							<%assign var="M" value="M12"%>
+							<%assign var="P" value="P12"%>
+						<%else%>
+							<%assign var="M" value="M12 M-half"%>
+							<%assign var="P" value="P12 P-half"%>
+							<%assign var="itemTopClass" value="`$itemTopClass` MT PT"%>
+						<%/if%>
+						<%*<!--Has Side: M Styles End-->*%>
+
+						<%*<!--Has Side: S Styles-->*%>
+						<%if $allStoiesCount % 2 == 1 && $i===0%>
+							<%assign var="S" value="S12 S-double-width"%>
+						<%else%>
+							<%assign var="S" value="S6"%>
+							<%if ($i%2===0 && $allStoiesCount % 2 == 0) || ($i%2===1 && $allStoiesCount % 2 == 1)%>
+								<%assign var="itemTopClass" value="`$itemTopClass` ST"%>
+							<%/if%>
+						<%/if%>
+						<%*<!--Has Side: S Styles End-->*%>
+
+
+						<%assign var="itemClass" value="`$XL` `$L` `$M` `$S` `$P`"%>
+						<%if $itemTopClass != ""%>
+						<%assign var="itemTop" value="<div class=\"`$itemTopClass`\"></div>"%>
+						<%/if%>
+						<%if $i === 0%>
+							<%assign var="itemTop" value=""%>
+						<%/if%>
+
+						<%if $itemImage == ""%>
+							<%assign var="hasImage" value="no-image"%>
+						<%/if%>
+
+						<%assign var="itemTag" value=""%>
+						<%if $showTag === "yes"%>
+							<%*<!--Sometimes Editors Use Space in Tags-->*%>
+							<%assign var="tagCanFollow" value="yes"%>
+							<%assign var="itemTagsString" value=$item.tag|default:$item.tags|default:$item.tagname%>
+							<%assign var="itemTagsString" value=$itemTagsString|replace:" ":","%>
+							<%assign var="itemTags" value=","|explode:$itemTagsString%>
+							<%assign var="itemTag" value=$itemTags[0]%>
+							<%if $itemTag === "视频"%>
+								<%assign var="itemTagLink" value="/channel/explainer.html"%>
+								<%assign var="tagCanFollow" value="no"%>
+							<%elseif $itemTag === "秒懂"%>
+								<%assign var="itemTagLink" value="/channel/slides.html"%>
+								<%assign var="tagCanFollow" value="no"%>
+							<%elseif $itemTag === "图辑"%>
+								<%assign var="itemTagLink" value="/channel/slides.html"%>
+								<%assign var="tagCanFollow" value="no"%>
+							<%elseif $itemTag === "数据新闻"%>
+								<%assign var="itemTagLink" value="/channel/datanews.html"%>
+							<%elseif $itemTag === "速读"%>
+								<%assign var="itemTagLink" value="/channel/speedread.html"%>
+							<%elseif $itemTag === "FT商学院"%>
+								<%assign var="itemTagLink" value="/channel/mba.html"%>
+							<%elseif $feedType=="columns"%>
+								<%assign var="itemTag" value=$item.author_name_cn%>
+								<%assign var="itemTagLink" value="/column/`$itemId`"%>
+								<%assign var="tagCanFollow" value="no"%>
+							<%else%>
+								<%assign var="itemTagLink" value="/tag/`$itemTag`"%>
+							<%/if%>
+							<%if $tagCanFollow == "yes"%>
+								<%assign var="itemTag" value="<div class=item-tag><a href=\"`$itemTagLink`\">`$itemTag`</a><button class=\"myft-follow plus\" data-tag=\"`$itemTag`\" data-type=\"tag\">关注</button></div>"%>
+							<%else%>
+								<%assign var="itemTag" value="<div class=item-tag><a href=\"`$itemTagLink`\">`$itemTag`</a></div>"%>
+							<%/if%>
+						<%/if%>
+
+
+						<%assign var="itemPubDate" value=$item.pubdate|default:$item.timeStamp%>
+						<%assign var="itemTimeStamp" value=""%>
+						<%if $showTimeStamp === "all" || $showTimeStamp === "new stories"%>
+							<%assign var="highlightTime" value=""%>
+							<%math assign="timeDiff" equation="x-y" x=$smarty.now y=$itemPubDate%>
+							<%if $itemType === "video"%>
+								<%assign var="highlightTime" value=""%>
+								<%assign var="timeDiff" value=$item.timeStamp%>
+							<%elseif $timeDiff < 0%>
+								<%assign var="highlightTime" value=" highlight"%>
+								<%assign var="timeDiff" value="刚刚发布"%>
+							<%elseif $timeDiff < 60*60%>
+								<%assign var="highlightTime" value=" highlight"%>
+								<%assign var="timeDiff" value=$timeDiff/60|intval%>
+								<%assign var="timeDiff" value="`$timeDiff`分钟前"%>
+							<%elseif $timeDiff < 60*60*4%>
+								<%assign var="highlightTime" value=" highlight"%>
+								<%assign var="timeDiff" value=$timeDiff/3600|intval%>
+								<%assign var="timeDiff" value="`$timeDiff`小时前"%>
+							<%elseif $timeDiff < 60*60*24%>
+								<%assign var="highlightTime" value=""%>
+								<%assign var="timeDiff" value=$timeDiff/3600|intval%>
+								<%assign var="timeDiff" value="`$timeDiff`小时前"%>
+							<%elseif $timeDiff < 60*60*24*7%>
+								<%assign var="highlightTime" value=""%>
+								<%assign var="timeDiff" value=$timeDiff/86400|intval%>
+								<%assign var="timeDiff" value="`$timeDiff`天前"%>
+							<%elseif date("Y",$smarty.now) == date("Y",$item.timeStamp)%>
+								<%assign var="highlightTime" value=""%>
+								<%assign var="timeDiff" value=$itemPubDate|date_format:"%-m月%-d日"%>
+							<%else%>
+								<%assign var="highlightTime" value=""%>
+								<%assign var="timeDiff" value=$itemPubDate|date_format:"%Y年%-m月%-d日"%>
+							<%/if%>
+							<%if $showTimeStamp === "all" || $timeDiff < 60*60*4%>
+								<%assign var="itemTimeStamp" value="<div class=\"item-time`$highlightTime`\">`$timeDiff`</div>"%>
+							<%/if%>
+						<%/if%>
+
+						<%if $preferLead === "none"%>
+							<%assign var="hideLead" value="yes"%>
+							<%assign var="itemLead" value=""%>
+						<%elseif $preferLead === "shortlead"%>
+							<%assign var="itemLead" value=$item.cshortleadbody|default:$item.shortlead|default:$item.clongleadbody|default:$item.longlead|default:$item.description%>
+						<%else%>
+							<%assign var="itemLead" value=$item.clongleadbody|default:$item.longlead|default:$item.cshortleadbody|default:$item.shortlead|default:$item.description%>
+						<%/if%>
+
+						<%assign var="itemHeadline" value=$item.cheadline|default:$item.headline|default:$item.cn_title|default:$item.title|default:$item.tag%>
+
+						<%assign var="itemId" value=$item.id|default:$item.photonewsid%>
+
+						<%if $hideImage === "yes"%>
+							<%assign var="hasImage" value="no-image"%>
+						<%/if%>
+
+
+						<%if $pageType=="special"%>
+							<%if $item.link != "" %>
+								<%assign var="itemLink" value=$item.link%>
+							<%elseif $item.tag != "" %>
+								<%assign var="itemLink" value="/tag/`$item.tag`"%>
+							<%elseif $item.title != "" %>
+								<%assign var="itemLink" value="/tag/`$item.title`"%>
+							<%elseif preg_match("/\//is",$item.cshortleadbody)%>
+								<%assign var="itemLink" value=$item.cshortleadbody%>
+							<%else%>
+								<%assign var="itemLink" value="/tag/`$item.cshortleadbody`"%>
+							<%/if%>
+						<%else%>
+							<%assign var="itemLink" value="/`$itemType`/`$itemId`#adchannelID=`$adchannelID`"%>
+						<%/if%>
+
+
+
+						<%if $smarty.get.webview == "ftcapp"%>
+							<%if preg_match("/.mp3$/is",$item.shortlead) || preg_match("/.mp3$/is",$item.cshortleadbody)%>
+								<%assign var="audioUrl" value=$item.shortlead|default:$item.cshortleadbody%>
+								<%assign var="audioData" value=" data-audio=\"`$audioUrl`\""%>
+							<%/if%>
+							<%assign var="itemClass" value="`$itemClass` item-container-app"%>
+							<%assign var="itemData" value=" data-id=\"`$item.id`\" data-type=\"`$itemType`\"`$audioData`"%>
+						<%/if%>
+
+
+
+						<%if $pageTheme === "myft"%>
+							<%$itemTop%>
+							<div class="item-container <%$itemClass%> <%$hasImage%>"<%$itemData%>><div class="item-inner">
+								<%$itemTag%>
+								<h2 class="item-headline"><a target="_blank" href="<%$itemLink%>"><%$itemHeadline%></a></h2>
+								<%if $hideLead === "no"%><div class="item-lead"><%$itemLead|nl2br%></div><%/if%>
+								<div class="icon-right icon-save">
+									<button id="addfavlink<%$itemId%>"><%if $$favstory == ""%>收藏<%else%>删除<%/if%></button>
+								</div>
+								<%$itemTimeStamp%>
+								<div class="item-bottom"></div>
+							</div></div>
+							<%assign var="i" value=$i+1%>
+						<%else%>
+							<%$itemTop%>
+							<div class="item-container <%$itemClass%> <%$hasImage%>"<%$itemData%>><div class="item-inner">
+								<h2 class="item-headline"><%$itemTag%><a class="item-headline-link" target="_blank" href="<%$itemLink%>"><%$itemHeadline%></a></h2>
+								<%if $item.relatives|@count > 0 && $item.relatives[0].type === 'video'%><div class="image"><figure class="loading-video" data-vid="<%$item.relatives[0].id%>"></figure></div><%elseif $itemType === "video" && $listType !== "videos"%><div class="image"><figure class="loading-video" data-vid="<%$itemId%>"></figure></div><%elseif $itemImage != "" && $hasImage === "has-image"%><a class="image" target="_blank" href="<%$itemLink%>"><figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure></a><%/if%>
+								<%if $hideLead === "no"%><div class="item-lead"><%$itemLead%></div><%/if%>
+								<%$itemTimeStamp%>
+								<%if $item.relatives|@count > 0 && $item.showRelativeStoryItems > 0%>
+									<%assign var="r" value=0%>
+									<div class="relative-container">
+										<%foreach from=$item.relatives item=relative%>
+											<%if $r<$item.showRelativeStoryItems%>
+											<h3 class="relative"><a href="/<%$relative.type%>/<%$relative.id%>" target="_blank"><%$relative.headline%></a></h3>
+											<%assign var="r" value=$r+1%>
+											<%/if%>
+										<%/foreach%>
+										<div class="clearfloat"></div>
+									</div>
+								<%/if%>
+							<div class="item-bottom"></div>
+							</div></div>
+							<%assign var="i" value=$i+1%>
+						<%/if%>
 					<%/if%>
-				<%/if%>
-			<%/foreach%>
+				<%/foreach%>
+			<%/if%>
 			<%*<!--Display Stories Without Image End-->*%>
 			<div class="clearfloat"></div>
 			</div>
