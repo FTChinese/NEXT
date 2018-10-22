@@ -327,6 +327,16 @@
 						<%assign var="itemType" value="premium"%>
 					<%/if%>
 
+                    <%*<!--MARK: - If it is a premium story, set lock class -->*%>
+                    <%if $list.feedType == "premium" || $item.type == "premium" || $itemType == "premium" || $paywall == "1" || ($item.type == "interactive" && preg_match("/英语电台|速读/is",$itemTagsString)) || ($itemType == "story" && $timeMath > 60*60*24*7)%>
+                        <%assign var="lockClass" value="locked"%>
+                    <%else%>
+                        <%assign var="lockClass" value=""%>
+                    <%/if%>
+                    <%if $inSponsor == "yes"%>
+                        <%assign var="lockClass" value=""%>
+                    <%/if%>
+
 					<%if $itemImage == ""%>
 						<%assign var="hasImage" value="no-image"%>
 					<%/if%>
@@ -503,11 +513,11 @@
 						<%assign var="mpuName" value="taginlinempu"%>
 						<%if $i == 8 || $i == 17%>
 								<%if $i == 8 %>
-									<div 
+									<div
 									data-o-ads-name="mpu-middle1"
-									class="o-ads"  
-									data-o-ads-formats-default="false" 
-									data-o-ads-formats-small="FtcMobileMpu" 
+									class="o-ads"
+									data-o-ads-formats-default="false"
+									data-o-ads-formats-small="FtcMobileMpu"
 									data-o-ads-formats-medium="false"
 									data-o-ads-formats-large="false"
 									data-o-ads-formats-extra="false"
@@ -524,11 +534,11 @@
 									</script>
 								<%elseif $i == 17 %>
 									<%if $tag_name!="高端视点"%>
-										<div 
+										<div
 										data-o-ads-name="mpu-middle2"
-										class="o-ads"  
-										data-o-ads-formats-default="false" 
-										data-o-ads-formats-small="FtcMobileMpu" 
+										class="o-ads"
+										data-o-ads-formats-default="false"
+										data-o-ads-formats-small="FtcMobileMpu"
 										data-o-ads-formats-medium="false"
 										data-o-ads-formats-large="false"
 										data-o-ads-formats-extra="false"
