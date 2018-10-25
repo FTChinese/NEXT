@@ -835,6 +835,7 @@
 	<%assign var="subnav" value="member"%>
 	<%assign var=breadcrum value="<a href=\"/m/marketing/home.html\">市场活动</a>"%>
 <%elseif preg_match("/企业公告/is",$keys)%>
+	<%assign var="useJustifyClass" value=" use-justify"%>
 	<%assign var="topnav" value="home"%>
 	<%if preg_match("/智慧城市/is",$tag)%>
 		<%assign var="adchannelID" value="2056"%>
@@ -1418,7 +1419,7 @@
 <%/if%>
 
 <!DOCTYPE html>
-<html class="no-js core<%if $smarty.get.webview == "ftcapp"%> is-ftc-app<%/if%><%$fullGridClass%>" data-next-app="tag-page">
+<html class="no-js core<%if $smarty.get.webview == "ftcapp"%> is-ftc-app<%/if%><%$fullGridClass%><%$useJustifyClass%>" data-next-app="tag-page">
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -1590,21 +1591,18 @@
 			</div>
 		<%/if%>
 		<%*<!-- hide Leaderboard for some channel -->*%>
-		<%if !preg_match("/品味|艺术投资|腕表|游艇|极致人生/is",$keys) && $smarty.get.hideheader != "yes"%>
-			<%*<%include file="next/partials/banner-new.html"%>*%>
+		<%if (!preg_match("/品味|艺术投资|腕表|游艇|极致人生/is",$keys) && $smarty.get.hideheader != "yes") || $hideBanner == "no"%>
 			<%include file="next/partials/banner.html"%>
 		<%/if%>
 		<%assign var="bannerCount" value=$bannerCount+1%>
-		
 		<%if $info.photonewsid != ""%>
 			<%include file="next/partials/photo-block.html"%>
 		<%else%>
 			<%include file="next/partials/story-block.html"%>
 		<%/if%>
 		<%include file="next/partials/story-recommend.html%>
-		<%if !preg_match("/品味|艺术投资|腕表|游艇|极致人生|高端视点/is",$keys)%>
-				<%*<%include file="next/partials/banner-new.html"%>*%>
-				<%include file="next/partials/banner.html"%>
+		<%if !preg_match("/品味|艺术投资|腕表|游艇|极致人生|高端视点/is",$keys) || $hideBanner == "no"%>
+			<%include file="next/partials/banner.html"%>
 		<%/if%>
 		<%include file="next/partials/footer.html"%>
 		<%include file="next/partials/QrCode.html"%>
