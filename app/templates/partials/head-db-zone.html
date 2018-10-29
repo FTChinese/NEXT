@@ -82,12 +82,18 @@
     </script>
 
     <script>
+        // MARK: - the cookie USER_KV is set from server side when user logs in
         var userKv = GetCookie('USER_KV');
         var dfpTargetingStr = '';
         if (userKv) {
           var userKvObj = parseUserkv(userKv);
           dfpTargetingStr = getDfpTargetingStr(userKvObj);
-        } 
+        }
+        if (gUserType && gUserType !== '') {
+            dfpTargetingStr = 'cnuser=' + gUserType + ';' + dfpTargetingStr;
+        }
+
+        console.log ('Getting user type for google ad manager: ' + window.gUserType);
         
         var configJson = JSON.stringify({
             gpt: {

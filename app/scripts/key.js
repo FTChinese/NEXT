@@ -249,6 +249,8 @@ function trackerNew() {
 
     gUserType = vtype;
 
+    //console.log ('visitor type is set as: ' + gUserType);
+
     if (userId !== '') {
         ga('set', 'dimension14', userId);
         ga('set', 'userId', userId);
