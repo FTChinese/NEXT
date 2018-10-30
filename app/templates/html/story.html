@@ -836,6 +836,7 @@
 	<%assign var=breadcrum value="<a href=\"/m/marketing/home.html\">市场活动</a>"%>
 <%elseif preg_match("/企业公告/is",$keys)%>
 	<%assign var="useJustifyClass" value=" use-justify"%>
+	<%assign var="hideMPU3" value="yes"%>
 	<%assign var="topnav" value="home"%>
 	<%if preg_match("/智慧城市/is",$tag)%>
 		<%assign var="adchannelID" value="2056"%>
@@ -1109,31 +1110,6 @@
 	<%assign var="timeStatus" value="发布于"%>
 <%/if%>
 
-<%*
-<%math assign="timeDiff" equation="x-y" x=$smarty.now y=$timeForStory%>
-<%if $timeDiff < 0%>
-	<%assign var="storyTime" value="刚刚更新"%>
-<%elseif $timeDiff < 60*60%>
-	<%assign var="timeDiff" value=$timeDiff/60|intval%>
-	<%assign var="storyTime" value="`$timeStatus``$timeDiff`分钟前"%>
-<%elseif $timeDiff < 60*60*4%>
-	<%assign var="timeDiff" value=$timeDiff/3600|intval%>
-	<%assign var="storyTime" value="`$timeStatus``$timeDiff`小时前"%>
-<%elseif $timeDiff < 60*60*24%>
-	<%assign var="timeDiff" value=$timeDiff/3600|intval%>
-	<%assign var="storyTime" value="`$timeStatus``$timeDiff`小时前"%>
-<%elseif $timeDiff < 60*60*24*7%>
-	<%assign var="timeDiff" value=$timeDiff/86400|intval%>
-	<%assign var="storyTime" value="`$timeStatus``$timeDiff`天前"%>
-<%elseif date("Y",$smarty.now) == date("Y",$item.timeStamp)%>
-	<%assign var="storyTime" value=$story.last_publish_time|default:$pubdate%>
-	<%assign var="storyTime" value=$storyTime|date_format:"%-m月%-d日"%>
-<%else%>
-	<%assign var="storyTime" value=$story.last_publish_time|default:$pubdate%>
-	<%assign var="storyTime" value=$storyTime|date_format:"%Y年%-m月%-d日"%>
-<%/if%>
-*%>
-
 <%assign var="storyTime" value=$timeForStory|date_format:"%Y年%-m月%-d日 %H:%M"%>
 <%assign var="storyTime" value="`$timeStatus``$storyTime`"%>
 
@@ -1292,24 +1268,15 @@
 	<%else%>
 		<%assign var="story_content" value=$cbody%>
 		<%if !preg_match("/<p>/is",$story_content)%>
-		<%assign var="story_content" value=$story_content|regex_replace:"/[\r\t\n]/":"</p><p>"%>
-		<%assign var="story_content" value="<p>`$story_content`</p>"%>
-		<%assign var="story_content" value=$story_content|regex_replace:"/\<p\>\<\/p\>/":""%>
+			<%assign var="story_content" value=$story_content|regex_replace:"/[\r\t\n]/":"</p><p>"%>
+			<%assign var="story_content" value="<p>`$story_content`</p>"%>
+			<%assign var="story_content" value=$story_content|regex_replace:"/\<p\>\ *\<\/p\>/":""%>
 		<%/if%>
 		<%if !preg_match("/highcharts/is",$story_content) && !preg_match("/video/is",$story_content) && $hideMPU3!="yes" && $noAd != "true" && !preg_match("/单页/is",$tag)%>
 		<%*<!--在单页的情况下，如果文章没有插图，没有iframe，没有video，没有highcharts, 也没有被强制设为不显示MPU 3，则将MPU_3广告位插入到第五段开头。-->*%>
-			<%assign var="story_content" value=$storyBody|regex_replace:"/[\r\t\n]/":""|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1	<div  data-o-ads-name=\"mpu-middle1\" class=\"o-ads\" data-o-ads-formats-default=\"false\"  data-o-ads-formats-small=\"FtcMobileMpu\"  data-o-ads-formats-medium=\"false\" data-o-ads-formats-large=\"FtcMpu\" data-o-ads-formats-extra=\"FtcMpu\" data-o-ads-targeting=\"pos=middle1;\" data-cy='[{\"devices\":[\"PC\",\"iPhoneWeb\",\"AndroidWeb\",\"iPhoneApp\",\"AndroidApp\"],\"pattern\":\"MPU\",\"position\":\"Middle1\",\"container\":\"mpuInStory\"}]'></div><script type=\"text/javascript\">document.write (writeAdNew({devices: ['PC','iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],pattern:'MPU',position:'Middle1',container:'mpuInStory'}));</script><p>"%>
+			<%assign var="story_content" value=$story_content|regex_replace:"/[\r\t\n]/":""|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1	<div  data-o-ads-name=\"mpu-middle1\" class=\"o-ads\" data-o-ads-formats-default=\"false\"  data-o-ads-formats-small=\"FtcMobileMpu\"  data-o-ads-formats-medium=\"false\" data-o-ads-formats-large=\"FtcMpu\" data-o-ads-formats-extra=\"FtcMpu\" data-o-ads-targeting=\"pos=middle1;\" data-cy='[{\"devices\":[\"PC\",\"iPhoneWeb\",\"AndroidWeb\",\"iPhoneApp\",\"AndroidApp\"],\"pattern\":\"MPU\",\"position\":\"Middle1\",\"container\":\"mpuInStory\"}]'></div><script type=\"text/javascript\">document.write (writeAdNew({devices: ['PC','iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],pattern:'MPU',position:'Middle1',container:'mpuInStory'}));</script><p>"%>
 			<%*<!--<%assign var="story_content" value=$story_content|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1<div  data-o-ads-name=\"mpu-middle1\" class=\"o-ads\" data-o-ads-formats-default=\"false\"  data-o-ads-formats-small=\"FtcMobileMpu\"  data-o-ads-formats-medium=\"false\" data-o-ads-formats-large=\"FtcMpu\" data-o-ads-formats-extra=\"FtcMpu\" data-o-ads-targeting=\"pos=middle1;\" data-cy='[{\"devices\":[\"PC\",\"iPhoneWeb\",\"AndroidWeb\",\"iPhoneApp\",\"AndroidApp\"],\"pattern\":\"MPU\",\"position\":\"Middle1\",\"container\":\"mpuInStory\"}]'></div><script type=\"text/javascript\">document.write (writeAdNew({devices: ['PC','iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],pattern:'MPU',position:'Middle1',container:'mpuInStory'}));</script><p>"%>-->*%>
 		<%/if%>
-		<%if date("Ymd",$smarty.now) <= 20161230 && $noAd != "true"%>
-			<%assign var="story_content" value=$story_content|regex_replace:"/^(\<p\>.*?)\<p\>/":"\\1<div class=story_main_mpu_vw><script type=\"text/javascript\">document.write (writeAd('storympuVW'));</script></div><p>"%>
-		<%/if%>
-
-
-
-
-
-
 		<%assign var="storyHeadline" value=$cheadline%>
 		<%if $pageType == "bookinfo"%>
 			<%if $eshortleadbody != ""%>
@@ -1342,10 +1309,8 @@
 			<%assign var="storyBody" value=$storyBody|regex_replace:"/<div class=[\"]*inlinevideo[\"]* id=[\"]*[\"]* auto[sS]tart=[\"]*([a-zA-Z]+)[\"]* title=\"(.*)\" image=\"(.*)\" vid=\"(.*)\" vsource=\"(.*)\"><\/div>/":"<div class='o-responsive-video-container'><div class='o-responsive-video-wrapper-outer'><div class='o-responsive-video-wrapper-inner'><object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' width='100%' height='100%' id='osmfPlayer'><param name='movie' value='https://static.ftimg.net/player111014/osmfPlayer_3.swf?videoid=\\4&autoplay=false' /><param name='quality' value='high' /><param name='bgcolor' value='#000000' /><param name='allowScriptAccess' value='always' /><param name='allowFullScreen' value='true' /><!--[if !IE]>--><object type='application/x-shockwave-flash' data='https://static.ftimg.net/player111014/osmfPlayer_3.swf?videoid=\\4&autoplay=false' width='100%' height='100%'><param name='quality' value='high' /><param name='bgcolor' value='#000000' /><param name='allowFullScreen' value='true' /><param name='allowScriptAccess' value='always' /><!--<![endif]--><!--[if gte IE 6]>--><video id='nowvideo' src='http://v.ftimg.net/\\5' controls='' width='100%' height='100%'><p>Either scripts and active content are not permitted to run or Adobe Flash Player version10.0.0 or greater is not installed.</p></video><!--<![endif]--><!--[if !IE]>--></object><!--<![endif]--></object></div></div><a class='o-responsive-video-caption' href='/video/\\4' target='_blank'>\\2</a></div>"%>
 		<%/if%>
 	<%/if%>
-
-
-
 <%/if%>
+
 
 <%if $shouldReplaceInlineVideo == "yes"%>
 
