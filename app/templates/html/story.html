@@ -1374,6 +1374,12 @@
 				display:none;
 			}
 
+			<%if $smarty.get.showAudioHTML == "yes"%>
+				.audio-placeholder {
+					display: block;
+				}
+			<%/if%>
+
 			<%if $smarty.get.inNavigation == "yes"%>
 				.header-container,.header-inner {
 				    display: none;
@@ -1391,8 +1397,10 @@
 					opacity: 0.9;
 				}
 			<%/if%>
+
 		</style>
 	<%/if%>
+
 
 
 <%/if%>
@@ -1734,17 +1742,6 @@ if (w > 490 && isTouchDevice() === false && document.querySelectorAll('.ce').len
 <%if $audioSrc != "" && preg_match("/url/is",$cbody)%>
 	<script><%include file="next/scripts/main-audio-script-render.js"%></script>
 	<script>window.audioHasRendered = true; renderAudioData(document.getElementById('story-body-container'));</script>
-<%/if%>
-
-<%if 1>2 && $storyId == "001079777" && $smarty.get.from == "timeline"%>
-	<script type="text/javascript">
-		var uaString = navigator.userAgent || navigator.vendor || '';
-		var from = document.referrer || 'direct';
-		if (from === '') {
-			from = 'direct';
-		}
-		window.ga('send', 'event', '001079777', from, uaString, {'nonInteraction': 1});
-	</script>
 <%/if%>
 
 </html>
