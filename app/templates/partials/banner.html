@@ -37,10 +37,6 @@
                 >
                 </div>
                 <script type="text/javascript">
-                    ga('send', 'event', 'Ad Switch Tracker', 'GAM', 'banner1', {'nonInteraction': 1});
-                    //sendJSONToFTC({ec: 'Ad Switch Tracker', ea: 'GAM', el: 'banner1'});
-                </script>
-                <script type="text/javascript">
                     document.write(writeAdNew({
                         devices: ['PC'],
                         pattern:'Leaderboard',
@@ -51,8 +47,6 @@
                         pattern:'Banner',
                         position:'Num1'
                     }));
-                    ga('send', 'event', 'Ad Switch Tracker', 'Dolphine', 'banner1', {'nonInteraction': 1});
-                    //sendJSONToFTC({ec: 'Ad Switch Tracker', ea: 'Dolphine', el: 'banner1'});
                 </script>
                 <%if date("Ymd",$smarty.now) <= 20181231%>
                     <style type="text/css">
@@ -75,12 +69,6 @@
                 data-o-ads-targeting="cnpos=top2;"
                 data-cy='[{"devices":["PC"],"pattern":"Banner","position":"Num1"},{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"Banner","position":"Num2"}]'>
                 </div>
-                <script type="text/javascript">ga('send', 'event', 'Ad Switch Tracker', 'GAM', 'banner2', {'nonInteraction': 1});</script>
-
-                <script type="text/javascript">
-                    ga('send', 'event', 'Ad Switch Tracker', 'GAM', 'banner2', {'nonInteraction': 1});
-                    //sendJSONToFTC({ec: 'Ad Switch Tracker', ea: 'GAM', el: 'banner2'});
-                </script>
                 <script>
                     document.write(writeAdNew({
                         devices: ['PC'],
@@ -92,8 +80,6 @@
                         pattern:'Banner',
                         position:'Num2'
                     }));
-                    ga('send', 'event', 'Ad Switch Tracker', 'Dolphine', 'banner2', {'nonInteraction': 1});
-                    //sendJSONToFTC({ec: 'Ad Switch Tracker', ea: 'Dolphine', el: 'banner2'});
                 </script>
             <%elseif $bannerCount == 2 %>
                 <script type="text/javascript">
@@ -116,18 +102,12 @@
                 data-cy='[{"devices":["PC"],"pattern":"Banner","position":"Num2"}]'
                 >
                 </div>
-                <script type="text/javascript">
-                    ga('send', 'event', 'Ad Switch Tracker', 'GAM', 'banner3', {'nonInteraction': 1});
-                    sendJSONToFTC({ec: 'Ad Switch Tracker', ea: 'GAM', el: 'banner3'});
-                </script>
                 <script>
                     document.write(writeAdNew({
                         devices: ['PC'],
                         pattern:'Banner',
                         position:'Num2'
                     }));
-                    ga('send', 'event', 'Ad Switch Tracker', 'Dolphine', 'banner3', {'nonInteraction': 1});
-                    sendJSONToFTC({ec: 'Ad Switch Tracker', ea: 'Dolphine', el: 'banner3'});
                 </script>
             <%elseif $bannerCount == 3 %>
                 <div class="o-ads" data-o-ads-name="banner4"
@@ -141,18 +121,12 @@
                 data-cy='[{"devices":["PC"],"pattern":"Banner","position":"Num3"}]'
                 >
                 </div>
-                <script type="text/javascript">
-                    ga('send', 'event', 'Ad Switch Tracker', 'GAM', 'banner4', {'nonInteraction': 1});
-                    //sendJSONToFTC({ec: 'Ad Switch Tracker', ea: 'GAM', el: 'banner4'});
-                </script>
                 <script>
                     document.write(writeAdNew({
                         devices: ['PC'],
                         pattern:'Banner',
                         position:'Num3'
                     }));
-                    ga('send', 'event', 'Ad Switch Tracker', 'Dolphine', 'banner4', {'nonInteraction': 1});
-                    //sendJSONToFTC({ec: 'Ad Switch Tracker', ea: 'Dolphine', el: 'banner4'});
                 </script>
             <%/if%>
         <%else%>

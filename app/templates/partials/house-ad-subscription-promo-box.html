@@ -16,7 +16,7 @@
 			<%else%>
 				<%assign var="isScheduledForToday" value="no"%>
 			<%/if%>
-			<%*<!-- <%$isScheduledForToday%> / rendered: <%$promoRendered%> /   -->*%>s
+			<%*<!-- <%$isScheduledForToday%> / rendered: <%$promoRendered%> /   -->*%>
 		    <%if $section.type == "promoBox" && $isScheduledForToday == "yes" && ($section.status == "on" || $debug_model == 1) && !preg_match("/`$section.promoTarget`/is",$promoRendered)%>
 		    	<style>
 		    	<%if $section.backgroundColor != ""%>
