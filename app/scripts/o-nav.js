@@ -136,41 +136,7 @@ function searchRedirect(formEl) {
 	});	
 }
 
-searchRedirect('#search-form');
 
-// callback(error, data)
-var ajax = {
-	getData: function (url, callback) {
-	  var xhr = new XMLHttpRequest();  
-
-	  xhr.onreadystatechange = function() {
-	    if (xhr.readyState === 4) {
-	      if (xhr.status >= 200 && xhr.status < 300 || xhr.status === 304) {
-	        // var type = xhr.getResponseHeader('Content-Type');
-	        // if (type.indexOf('html') !== -1 || xhr.responseXML) {
-	        // 	console.log('HTML or XML');
-	        //   callback(null, xhr.responseXML);
-	        // } else if (type === 'application/json') {
-	        //   callback(null, JSON.parse(xhr.responseText));
-	        // } else {
-	        	// console.log('text');
-	          callback(null, xhr.responseText);
-	        // }
-	      } else {
-	        //console.log('Request was unsuccessful: ' + xhr.status);
-	        callback(xhr.status);
-	      }
-
-	    } else {
-	      //console.log('readyState: ' + xhr.readyState);
-	    }
-	  };
-
-	  xhr.open('GET', url);
-	  // xhr.responseType = 'document';
-	  xhr.send(null);
-	}
-};
 
 // Find .nav-sections which are not the currently loaded page and thus have no .nav-items.level-2
 function getEmptyNavSections(container) {
@@ -202,12 +168,7 @@ function zipObject(objA, objB) {
 	}
 }
 
-var navEl = document.querySelector('.o-nav');
-new Nav(navEl);
-if (navEl) {
-	var searchEl = navEl.querySelector('.o-nav__search');
-	new Toggler(searchEl);
-}
+
 
 
 function stringToDOM(str) {
@@ -223,14 +184,11 @@ function stringToDOM(str) {
 
 	if (navSectionEls.length > 0) {
 		for (var k = 0, len = navSectionEls.length; k< len; k++) {
-
 			var navSectionEl = navSectionEls[k];
-
 			var navSectionName = navSectionEl.getAttribute('data-section');
 			var navItemsEl = navSectionEl.querySelector('.nav-items');
-
 			elCollection[navSectionName] = navItemsEl;
-		}	
+		}
 	} else {
 		var liEls = tmpEl.getElementsByTagName('li');
 
@@ -252,10 +210,49 @@ function stringToDOM(str) {
 	return elCollection;
 }
 
-var emptyNavSections = getEmptyNavSections(navEl);
+var navEl = document.querySelector('.o-nav');
+// MARK: If the page does not have navigation element, no need to do anything
+if (navEl) {
+	searchRedirect('#search-form');
+	// callback(error, data)
+	var ajax = {
+		getData: function (url, callback) {
+		  var xhr = new XMLHttpRequest();
+		  xhr.onreadystatechange = function() {
+		    if (xhr.readyState === 4) {
+		      if (xhr.status >= 200 && xhr.status < 300 || xhr.status === 304) {
+		        // var type = xhr.getResponseHeader('Content-Type');
+		        // if (type.indexOf('html') !== -1 || xhr.responseXML) {
+		        // 	console.log('HTML or XML');
+		        //   callback(null, xhr.responseXML);
+		        // } else if (type === 'application/json') {
+		        //   callback(null, JSON.parse(xhr.responseText));
+		        // } else {
+		        	// console.log('text');
+		          callback(null, xhr.responseText);
+		        // }
+		      } else {
+		        //console.log('Request was unsuccessful: ' + xhr.status);
+		        callback(xhr.status);
+		      }
 
-ajax.getData('/m/corp/ajax-nav.html?hhhh', function(error, data) {
-	if (error) {return error;}
-	var parsedDOM = stringToDOM(data);
-	zipObject(emptyNavSections, parsedDOM);
-});
+		    } else {
+		      //console.log('readyState: ' + xhr.readyState);
+		    }
+		  };
+
+		  xhr.open('GET', url);
+		  // xhr.responseType = 'document';
+		  xhr.send(null);
+		}
+	};
+	new Nav(navEl);
+	var searchEl = navEl.querySelector('.o-nav__search');
+	new Toggler(searchEl);
+	var emptyNavSections = getEmptyNavSections(navEl);
+	ajax.getData('/m/corp/ajax-nav.html?hhhh', function(error, data) {
+		if (error) {return error;}
+		var parsedDOM = stringToDOM(data);
+		zipObject(emptyNavSections, parsedDOM);
+	});
+}
