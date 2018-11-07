@@ -204,9 +204,11 @@ function zipObject(objA, objB) {
 
 var navEl = document.querySelector('.o-nav');
 new Nav(navEl);
+if (navEl) {
+	var searchEl = navEl.querySelector('.o-nav__search');
+	new Toggler(searchEl);
+}
 
-var searchEl = navEl.querySelector('.o-nav__search');
-new Toggler(searchEl);
 
 function stringToDOM(str) {
 	var tmpEl = document.createElement('ol');
