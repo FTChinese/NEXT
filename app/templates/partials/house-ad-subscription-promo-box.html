@@ -56,11 +56,13 @@
 				<%else%>
 					<%assign var=clickUrl value="`$section.click`?ccode=`$section.ccode`"%>
 				<%/if%>
+				<%*<!--
 				<%if $smarty.get.webview == "ftcapp"%>
 					<%if preg_match("/http:\/\/www.ftacademy.cn\/subscription.html/is",$clickUrl) %>
 						<%assign var=clickUrl value="http://www.ftchinese.com/channel/promo.html?ccode=`$section.ccode`"%>
 					<%/if%>
 				<%/if%>
+				-->*%>
 				<%if $isInAndroidApp == "yes"%>
 					<%if preg_match("/http:\/\/www.ftacademy.cn\/subscription.html/is",$clickUrl) %>
 						<%assign var=hrefUrl value=""%>
