@@ -10,8 +10,9 @@
 <%/if%>
 
 
-<%*<!-- MARK: Set features based on version number -->*%>
+<%*<!-- MARK: Set features based on iOS and Android app version number -->*%>
 <%if $smarty.get.v != ""%>
+    <%*<!-- MARK: iOS app -->*%>
     <%assign var="v" value=$smarty.get.v|floatval%>
     <%if $v >= 7.3%>
         <%assign var="showExclusiveContent" value="yes"%>
@@ -30,7 +31,18 @@
     <%else%>
         <%assign var="supportThirdPartyFrame" value="no"%>
     <%/if%>
+<%elseif $smarty.get.android != ""%>
+    <%*<!-- MARK: android app -->*%>
+    <%assign var="androidVersionCode" value=$smarty.get.android|floatval%>
+    <%if $androidVersionCode >= 1%>
+        <%assign var="showExclusiveContent" value="yes"%>
+    <%/if%>
+    <%if $androidVersionCode >= 1%>
+        <%assign var="supportSubscriptionPromoBox" value="yes"%>
+    <%/if%>
 <%/if%>
+
+
 <%*<!-- MARK: If it's from a web page, then it is sure to support third party frame -->*%>
 <%if $smarty.get.webview != "ftcapp"%>
     <%assign var="supportThirdPartyFrame" value="yes"%>
