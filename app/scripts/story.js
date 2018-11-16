@@ -397,7 +397,7 @@ function recommendPayLoad(recommenddata, addata){
                 
                 if(itemImage && itemImage !== ''){
                     if( showRecommendTop && i<=3) {
-                        var miniItemImage = 'https://www.ft.com/__origami/service/image/v2/images/raw/' + encodeURIComponent(itemImage) + '?source=ftchinese&width=' + 74;
+                        var miniItemImage = 'https://www.ft.com/__origami/service/image/v2/images/raw/' + encodeURIComponent(itemImage) + '?source=ftchinese&width=74&height=42';
                         oneItem = '<li class="toprecommend-item"><div class="toprecommend-item-content"><div class="toprecommend-item-title"><a href="'+link+ '">'+itemHeadline+'</a></div><div class="toprecommend-item-image"><a href="'+link+'"><img src="'+ miniItemImage +'"></a></div></div></li>';
                         recommendTopItemHTML += oneItem;
                     } else {
