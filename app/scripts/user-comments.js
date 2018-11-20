@@ -282,7 +282,7 @@ function clickToSubmitComment() {
 // MARK: User Login
 function login(fromwhere) {
     function reportLoginToNative(userId) {
-        var data = {userId: userId, action: 'login'};
+        var data = {action: 'login'};
         try {
             if (webkit) {
                 webkit.messageHandlers.login.postMessage(data);
@@ -313,6 +313,7 @@ function login(fromwhere) {
                 //console.log (l);
                 var k;
                 if (l.status && l.status === 'ok') {
+
                     for (j=0; j < statusMsgDivs.length; j++) {
                         statusMsgDivs[j].innerHTML = '登录成功！';
                     }
@@ -333,13 +334,12 @@ function login(fromwhere) {
                     username = u;
                     if (window.userId === undefined || window.userId === '') {
                         window.userId = GetCookie('USER_ID') || '';
-                    } else {
-                        reportLoginToNative(window.userId);
                     }
                     for (j=0; j < statusMsgDivs.length; j++) {
                         statusMsgDivs[j].innerHTML = '';
                     }
-                    checkLogin();                    
+                    checkLogin(); 
+                    reportLoginToNative();   
                 } else {
                     for (j=0; j < statusMsgDivs.length; j++) {
                         statusMsgDivs[j].innerHTML = '<div class="highlight">'+ l.msg + '</div>';
