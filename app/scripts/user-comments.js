@@ -333,6 +333,7 @@ function login(fromwhere) {
                     username = u;
                     if (window.userId === undefined || window.userId === '') {
                         window.userId = GetCookie('USER_ID') || '';
+                    } else {
                         reportLoginToNative(window.userId);
                     }
                     for (j=0; j < statusMsgDivs.length; j++) {
