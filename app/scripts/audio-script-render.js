@@ -6,11 +6,17 @@ var audioData = {
 	text: [
 	]
 };
+var audioLastSpokenSentenseTime;
 var audioHasRendered = false;
+var lastIndex = {'k':0, 'l':0, 'isLastSentenseHighlighting': false};
+var latestIndex = {'k':0, 'l':0};
 
 function renderAudioData(ele) {
 	var exportedJSONString = document.getElementById('audio-json-text').value;
 	audioData = JSON.parse(exportedJSONString);
+	// MARK: find the start time of last spoken sentense
+	audioLastSpokenSentenseTime = findAudioMaxTime(audioData);
+	//console.log ('audioLastSpokenSentenseTime: ' + audioLastSpokenSentenseTime);
 	// MARK: render data to html for preview
 	var htmlForAudio = '';
 	for (var k=0; k<audioData.text.length; k++) {
@@ -85,37 +91,49 @@ function seekAudio(ele) {
 	}
 }
 
-
 function updateAudioTime(ele) {
 	audioCurrentTime = ele.currentTime;
+	//console.log ('audio current time: ' + audioCurrentTime);
 	if (audioHasRendered === true) {
 		updateAudioTimeForRenderedText(audioCurrentTime, audioData);
 	}
 }
 
-var lastIndex = {'k':0, 'l':0};
-var latestIndex = {'k':0, 'l':0};
 // MARK: this will be writen in SWIFT in the native app
 function updateAudioTimeForRenderedText(currentTime, data) {
-	//console.log ('current time: ' + currentTime);
 	for (var k=0; k<data.text.length; k++) {
 		for (var l=0; l<data.text[k].length; l++) {
 			var checkTime = data.text[k][l].start;
-			if (checkTime && checkTime>=currentTime) {
-				var lastK = lastIndex.k;
-				var lastL = lastIndex.l;
-				if (k !== latestIndex.k || l !== latestIndex.l) {
-					//console.log ('K: ' + lastK + '/' + k + '- L: ' + lastL + '/' + l + ': ' + checkTime + '/' + currentTime);
-					//MARK: Handle the output tuple from native side
-					showHightlight(lastK, lastL);
-					latestIndex = {'k':k, 'l':l};
-					//var text = data.text[lastK][lastL].text;
-					//console.log (text);
+			if (checkTime) {
+				var isSentenseMiddle = (checkTime>=currentTime);
+				var isSentenseLast = (checkTime === audioLastSpokenSentenseTime && checkTime < currentTime);
+				if (isSentenseMiddle || isSentenseLast) {
+					var lastK = lastIndex.k;
+					var lastL = lastIndex.l;
+					var shouldHighlightMiddleSentense = ((k !== latestIndex.k || l !== latestIndex.l) && isSentenseMiddle);
+					var shouldHighlightLastSentense = (isSentenseLast && lastIndex.isLastSentenseHighlighting === false);
+					if (shouldHighlightMiddleSentense || shouldHighlightLastSentense) {
+						showHightlight(lastK, lastL);
+						latestIndex = {'k':k, 'l':l};
+					}
+					// MARK: Only when the checkTime is available, update the lastIndex
+					lastIndex = {'k':k, 'l':l, 'isLastSentenseHighlighting': isSentenseLast};
+					return;
 				}
-				// MARK: Only when the checkTime is available, update the lastIndex
-				lastIndex = {'k':k, 'l':l};
-				return;
 			}
 		}
 	}
+}
+
+function findAudioMaxTime(data) {
+	var t;
+	for (var k=0; k<data.text.length; k++) {
+		for (var l=0; l<data.text[k].length; l++) {
+			var checkTime = data.text[k][l].start;
+			if (checkTime) {
+				t = checkTime;
+			}
+		}
+	}
+	return t;
 }

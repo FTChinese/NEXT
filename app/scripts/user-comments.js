@@ -281,6 +281,16 @@ function clickToSubmitComment() {
 
 // MARK: User Login
 function login(fromwhere) {
+    function reportLoginToNative(userId) {
+        var data = {userId: userId, action: 'login'};
+        try {
+            if (webkit) {
+                webkit.messageHandlers.login.postMessage(data);
+            } else if (Android) {
+                Android.onPageLoaded(JSON.stringify(data));
+            }
+        } catch (ignore) {}
+    }
     var u, p, j;
     if (fromwhere !== undefined) {
         u = document.querySelector('#username'+ fromwhere).value;
@@ -323,6 +333,7 @@ function login(fromwhere) {
                     username = u;
                     if (window.userId === undefined || window.userId === '') {
                         window.userId = GetCookie('USER_ID') || '';
+                        reportLoginToNative(window.userId);
                     }
                     for (j=0; j < statusMsgDivs.length; j++) {
                         statusMsgDivs[j].innerHTML = '';
