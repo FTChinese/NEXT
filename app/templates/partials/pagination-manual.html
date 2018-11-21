@@ -19,7 +19,7 @@
         var endIndex = startIndex + indexLength -1;
         if (endIndex > maxIndex) {
             endIndex = maxIndex;
-            startIndex = Math.min(1, endIndex - indexLength + 1);
+            startIndex = Math.max(1, endIndex - indexLength + 1);
         }
         var currentHTML = '';
         var currentUrl = window.location.href.replace(/p=[0-9]+/g, '');
