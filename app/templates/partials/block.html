@@ -179,13 +179,13 @@
 				<%assign var="pageNumber" value=$smarty.get.p%>
 				<%if $pageNumber > 1%>
 					<%assign var="feedStart" value=$pageNumber-1%>
-					<!-- Feed Start 1: <%$feedStart%>-->
 					<%if $actualFeedItems > 0%>
 						<%assign var="feedStart" value=$feedStart*$actualFeedItems%>
-						<!-- Feed Start 2: <%$feedStart%> feed Item: <%$actualFeedItems%>-->
 					<%/if%>
 				<%/if%>
 				<%assign var="feedTag" value=$list.feedTag%>
+
+
 				<%if $list.feedType == "myFT"%>
 					<%easyapi command="31005" assign="myftArrays" topnum=30%>
 					<%assign var="itemsArray" value=$myftArrays.odatalist%>
@@ -217,12 +217,11 @@
 					<%else%>
 						<%if $list.feedType == "story"%>
 							<%assign var="feedType" value=$list.feedType%>
-							<%assign var="itemsArray" value=$storymodel->get_story_by_tag($feedTag,0,$feedItems)%>
+							<%assign var="itemsArray" value=$storymodel->get_story_by_tag($feedTag,$feedStart,$feedItems)%>
 						<%elseif $list.feedType == "interactive"%>
 							<%assign var="feedType" value=$list.feedType%>
 							<%assign var="interactiveFeedSQL" value="find_in_set('`$feedTag`', tag)"%>
 							<%assign var="itemsArray" value=$interactivemodel->get_interactive_by_field_search($interactiveFeedSQL,$feedStart,$feedItems,999999999,10800)%>
-							<!--Feed Start 3: <%$interactiveFeedSQL%> <%$feedStart%>-->
 							<%*<!--assign var="itemsArray" value=$interactivemodel->get_interactive_by_tag($feedTag, $feedItems)-->*%>
 						<%elseif $list.feedType == "video"%>
 							<%assign var="feedType" value=$list.feedType%>
@@ -238,9 +237,7 @@
 						<%elseif $list.feedType == "premium"%>
 							<%*<!--Premium Content Should Display -->*%>
 							<%assign var="feedType" value=$list.feedType%>
-							<!--<%*assign var="itemsArray" value=$storymodel->getContentByTag("FT独家",$feedItems)*%>-->
 							<%assign var="itemsArray" value=$storymodel->getPremiumStory($feedStart, $feedItems)%>
-							
 						<%else%>
 							<%assign var="feedType" value=$list.feedType%>
 							<%assign var="itemsArray" value=$storymodel->getContentByTag($feedTag,$feedItems)%>
