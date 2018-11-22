@@ -388,13 +388,7 @@ function trackerNew() {
 
 
 function isTouchDevice() {
-    var el = document.createElement('div');
-    el.setAttribute('ongesturestart', 'return;');
-    if (typeof el.ongesturestart === 'function') {
-        return true;
-    } else {
-        return false;
-    }
+ return (('ontouchstart' in window) || (navigator.MaxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0));
 }
 
 function showOverlay(overlayId) {

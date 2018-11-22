@@ -1053,3 +1053,19 @@ if(warnContent){
   }
 }
 
+// MARK: - add link to lead on touch screen
+if (isTouchDevice()) {
+  delegate.on('click', '.item-lead', function(){  
+    var itemContainer = this.parentNode;
+    if (itemContainer) {
+      var itemHeadline = itemContainer.querySelector('.item-headline-link');
+      if (itemHeadline) {
+        var link = itemHeadline.href;
+        if (link && link !== '') {
+          window.location.href = link;
+        }
+      }
+    }
+  });
+}
+
