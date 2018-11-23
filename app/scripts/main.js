@@ -1053,19 +1053,20 @@ if(warnContent){
   }
 }
 
-// MARK: - add link to lead on touch screen
-if (isTouchDevice()) {
-  delegate.on('click', '.item-lead', function(){  
-    var itemContainer = this.parentNode;
+// MARK: - add link to touch screen web page
+if (isTouchDevice() && window.location.href.indexOf('ftcapp') < 0) {
+  var itemLeads = document.querySelectorAll('.item-lead');
+  for (var i=0; i<itemLeads.length; i++) {
+    var itemContainer = itemLeads[i].parentNode;
     if (itemContainer) {
       var itemHeadline = itemContainer.querySelector('.item-headline-link');
       if (itemHeadline) {
         var link = itemHeadline.href;
         if (link && link !== '') {
-          window.location.href = link;
+          itemLeads[i].innerHTML = '<a href="' + link + '">' + itemLeads[i].innerHTML + '</div>';
         }
       }
     }
-  });
+  }
 }
 

@@ -87,10 +87,6 @@
                                                 <%/foreach%>
                                                 <div class="clearfloat"></div>
                                             </div>
-
-
-
-
                                             <h2 class="list-title"><a class="list-link">今日焦点</a></h2>
                                             <!--premiumContentIds: <%$premiumContentIds%>-->
                                         </div>
@@ -135,6 +131,11 @@
   <%foreach from=$infoForSponsorships.sections item=section%>
     <%if $section.status == "on" && $section.dates != "" && preg_match("/`$currentDate`/is",$section.dates) && ($section.adChannelId != "" || $section.zone != "")%>
       <div style="display: none;" class="specialanchor" tag="<%$section.tag%>" title="<%$section.title%>" adid="<%$section.adChannelId%>" channel="<%$section.link%>" hideAd="<%$section.hideAd%>" zone="<%$section.zone%>"></div>
+      <%assign var="tag_name" value=$p.meta.title%>
+      <%if $tag_name != "" && ($tag_name == $section.title || $tag_name == $section.tag)%>
+        <!--tag matched! -->
+        <%$section.sectionPageTrack%>
+      <%/if%>
     <%/if%>
   <%/foreach%>
 <%/if%>
@@ -173,4 +174,8 @@
         grayReleaseTarget: '0'
     };
 </script>
+
+
+
+
 

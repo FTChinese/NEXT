@@ -877,6 +877,7 @@
 <%if $nextmodel != ""%>
 	<%assign var="infoForSponsorships" value=$nextmodel->getPublishJson($pageIdForSponsorshipManagement)|json_decode:true%>
 	<%assign var="hasFoundSponsorship" value="no"%>
+	<%assign var="hasFoundPaidPost" value="no"%>
 	<%assign var="currentDate" value=$smarty.now|date_format:"%Y%m%d"%>
 	<%foreach from=$infoForSponsorships.sections item=section%>
 		<%if $hasFoundSponsorship == "no" && $section.status == "on" && $section.dates != "" && preg_match("/`$currentDate`/is",$section.dates)%>
@@ -929,6 +930,11 @@
 					<%assign var="subnav" value="special"%>
 					<%assign var="pageId" value=$section.zone%>
 				<%/if%>
+			<%/if%>
+			<%assign var="paidPostKey" value=$section.paidPostKey%>
+			<%if $hasFoundPaidPost == "no" && $paidPostKey != "" && preg_match("/`$paidPostKey`/is",$keys)%>
+				<%assign var="paidPostTrack" value=$section.paidPostTrack%>
+				<%assign var="hasFoundPaidPost" value="yes"%>
 			<%/if%>
 		<%/if%>
 	<%/foreach%>
@@ -1272,11 +1278,6 @@
 			<%assign var="story_content" value="<p>`$story_content`</p>"%>
 			<%assign var="story_content" value=$story_content|regex_replace:"/\<p\>\ *\<\/p\>/":""%>
 			<%assign var="story_content" value=$story_content|regex_replace:"/\<p\>\<\/p\>/":""%>
-			<!--
-				ruanwen: 
-				<%$story_content%>
-
-			-->
 		<%/if%>
 		<%if !preg_match("/highcharts/is",$story_content) && !preg_match("/video/is",$story_content) && $hideMPU3!="yes" && $noAd != "true" && !preg_match("/单页/is",$tag)%>
 		<%*<!--在单页的情况下，如果文章没有插图，没有iframe，没有video，没有highcharts, 也没有被强制设为不显示MPU 3，则将MPU_3广告位插入到第五段开头。-->*%>
@@ -1589,6 +1590,7 @@
 		<%include file="next/partials/QrCode.html"%>
 		<%include file="next/partials/story-font.html"%>
 		<%include file="next/partials/story-action.html"%>
+		<%$paidPostTrack%>
   </body>
 <%if preg_match("/highcharts/is",$story_content)%>
 <script src="https://static.ftimg.net/js/jquery-1.10.2.min.js?0"></script>
