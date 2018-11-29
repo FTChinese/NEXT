@@ -988,7 +988,7 @@
 						<%/if%>
 
 						<%assign var="itemTimeStamp" value=""%>
-						<%assign var="itemT" value=$item.timeStamp|default:$item.pubdate|default:$item.add_times%>
+						<%assign var="itemT" value=$item.timeStamp|default:$item.last_publish_time|default:$item.pubdate|default:$item.add_times%>
 						<%assign var="itemT" value=$itemT|regex_replace:"/\.[0-9]+$/i":""%>
 						<%assign var="highlightTime" value=""%>
 						<%math assign="timeDiff" equation="x-y" x=$smarty.now y=$itemT%>
