@@ -12,6 +12,8 @@ function startPlay() {
 	}
 	document.getElementById('audio-player-container').innerHTML = '<audio id="current-audio" preload="true" controls="" ontimeupdate="updateAudioTime(this)"><source src="'+audioUrl+'"><br clear="all"></audio>';
 	audioData.url = audioUrl;
+	var audioSpeed = document.getElementById('audio-speed').value || 1;
+	updateAudioSpeed(audioSpeed);
 	// MARK: get the text from user input
 	var text = document.getElementById('audio-text').value;
 	text = text.replace(/<[pP]>/g, '|')
@@ -99,9 +101,13 @@ function finish() {
 }
 
 function updateAudioSpeed(speed) {
-	//console.log (speed);
+	if (localStorage) {
+		localStorage.setItem('audioSpeed', speed);
+	}
 	var currentAudio = document.getElementById('current-audio');
-	currentAudio.playbackRate = speed;
+	if (currentAudio) {
+		currentAudio.playbackRate = speed;
+	}
 }
 
 function previewData() {
@@ -128,6 +134,10 @@ function initPage() {
 		    }
 		};
 		xhr.send();
+	}
+	if (localStorage) {
+		var audioSpeed = localStorage.getItem('audioSpeed') || 1;
+		document.getElementById('audio-speed').value = audioSpeed;
 	}
 }
 
