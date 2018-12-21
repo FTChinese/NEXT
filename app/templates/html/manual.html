@@ -300,7 +300,11 @@
                                 var paywallTypeForRoadBlock = GetCookie('paywall');
                                 if (paywallTypeForRoadBlock === 'premium' || paywallTypeForRoadBlock === 'standard') {
                                     //fullsc = GetCookie("rb2");
-                                    fullsc = null;
+                                    try {
+                                        DeleteCookie('rb2');
+                                    } catch (ignore) {
+
+                                    }
                                     // 20181221 - Qi Fan
                                 } else {
                                     try {
