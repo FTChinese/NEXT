@@ -57,7 +57,7 @@
 
 <%*<!-- 新版本需要调整从pagemaker获取的频道号adchannelID -->*%>
 <%assign var="adchannelID" value=$adchannelID|regex_replace:"/^(20)(..)$/":'50${2}'%>
-    
+
 
 <%assign var="isCurrentAdchFinal" value="yes"%>
 <%if !isset($adchannelID)||$adchannelID==""%>
@@ -82,7 +82,7 @@
 <%if $p.meta.sponsorMobile == "yes" || $p.meta.inSponsor == "yes"%>
     <%assign var="inSponsor" value="yes"%>
 <%/if%>
-            
+
 <%assign var="itemIdsArray" value=$itemIds|replace:"'":""%>
 
 <%if $p.meta.hideDownloadButton == "yes"%>
@@ -101,7 +101,7 @@
 		<%assign var=pageTitle value=$p.meta.title - FT中文网%>
 	<%else%>
 		<%assign var=pageTitle value=$p.meta.title%>
-	<%/if%>    
+	<%/if%>
 <%else if $pageId == "home"%>
     <%assign var=pageTitle value=FT中文网%>
 <%/if%>
@@ -114,7 +114,7 @@
        <%assign var=newdbStart value="no"%>
     <%/if%>
    <%*<!-- Second: The newdbShow -->*%>
-    
+
     <%*<!-- 1. Force to show new db ad-->*%>
     <%if $adchannelID == "1701" %>
         <%assign var="newdbShow" value="yes"%>
@@ -198,7 +198,7 @@
                     document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/, 'js').replace(/\bcore\b/, 'enhanced');
                 }
             </script>
-            
+
             <%if $pageId == "home"%>
                 <style><%include file="next/styles/main.css"%></style>
             <%elseif $pageType == "job"%>
@@ -225,7 +225,7 @@
             <link rel="icon" type="image/png" href="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=32&height=32" sizes="32x32">
             <link rel="icon" type="image/png" href="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=194&height=194" sizes="194x194">
             <link rel="apple-touch-icon" sizes="180x180" href="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=180&height=180" />
-            
+
             <meta name="msapplication-TileColor" content="#fff1e0" />
             <meta name="msapplication-TileImage" content="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimg%2Ffriend-share-icon.jpg?source=ftchinese&width=144&height=144" />
 
@@ -246,9 +246,9 @@
             <link rel="alternate" type="application/rss+xml" title="FT中文网 - 热门用户评论" href="/rss/hotusercomment" />
             <link rel="search" type="application/opensearchdescription+xml" title="FT中文网财经搜索" href="/opensearch.xml">
             <%include file = "next/partials/loadAdDataByDevice.html"%>
-            
+
             <script type="text/javascript">
-                <%include file = "next/scripts/key.js"%>        
+                <%include file = "next/scripts/key.js"%>
             </script>
             <%include file="next/partials/ie-8-hack.html"%>
             <%if $p.meta.sponsorMobile == "yes" || $p.meta.adid == "2061"%>
@@ -273,11 +273,11 @@
             <script>var gPageId = 'home';</script>
                 <%if $smarty.get.ad != 'no'%>
 
-                        <div 
+                        <div
                         data-o-ads-name="fullscreen-pc"
-                        class="o-ads"  
-                        data-o-ads-formats-default="false" 
-                        data-o-ads-formats-small="false" 
+                        class="o-ads"
+                        data-o-ads-formats-default="false"
+                        data-o-ads-formats-small="false"
                         data-o-ads-formats-medium="FtcPcFullscreen"
                         data-o-ads-formats-large="FtcPcFullscreen"
                         data-o-ads-targeting="cnpos=pcfullscreen;"
@@ -295,11 +295,13 @@
                                     var fullsc = GetCookie("rb2");
                                 <%/if%>
 
-                                
+
 
                                 var paywallTypeForRoadBlock = GetCookie('paywall');
                                 if (paywallTypeForRoadBlock === 'premium' || paywallTypeForRoadBlock === 'standard') {
-                                    fullsc = GetCookie("rb2");
+                                    //fullsc = GetCookie("rb2");
+                                    fullsc = null;
+                                    // 20181221 - Qi Fan
                                 } else {
                                     try {
                                         DeleteCookie('rb2');
@@ -312,8 +314,8 @@
                                 var adchHome = '10001000';
                                 var adPositionHome = '0101';
                                 var fullPageAdchId = adchHome + adPositionHome;
-                                var testFullPageAd = false;                            
-                                
+                                var testFullPageAd = false;
+
                                 if ((fullsc == null && w>490 && isTouchDevice() === false && (todaydate1 == "<%$ad.fullscreen1%>" || todaydate1 == "<%$ad.fullscreen2%>" || todaydate1 == "<%$ad.fullscreen3%>" || todaydate1 == "<%$ad.fullscreen4%>" || todaydate1 == "<%$ad.fullscreen5%>")) || testFullPageAd === true) {
                                     console.log('show full ad');
                                     document.write('<scr' + 'ipt type="text/jav' + 'ascript" src="http://dualstack.adsame-1421766300.ap-southeast-1.elb.amazonaws.com/s?z=ft&amp;c=' + fullPageAdchId + '&amp;slot=645072137&amp;_sex=101&amp;_trip=1&amp;_lux=1&amp;_dc=2&amp;_mm=2&amp;_sz=2&amp;_am=2&amp;_ut='+ window.gUserType +'" charset="gbk"></scr' + 'ipt>');
@@ -359,7 +361,7 @@
             </script>
             <%if $pageId == "home"%>
                 <script type="text/javascript">
-                    <%include file = "next/scripts/main-inline.js"%> 
+                    <%include file = "next/scripts/main-inline.js"%>
                 </script>
                 <%if $smarty.get.ad != 'no'%>
                     <%*<!-- disabled for better implementation
