@@ -692,7 +692,7 @@
 <%assign var="isCurrentAdchFinal" value="yes"%>
 
 
-<%if preg_match("/恐怖袭击/is",$keys) || (preg_match("/china/is",$story.area) && preg_match("/中美贸易战/is",$keys))%>
+<%if preg_match("/恐怖袭击|灾难|空难|自然灾害/is",$keys) || (preg_match("/china/is",$story.area) && preg_match("/中美贸易战/is",$keys))%>
 	<%assign var="adchannelID" value="5048"%>
 <%/if%>
 
