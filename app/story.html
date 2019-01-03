@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="no-js core full-grid-story" data-next-app="front-page">
+<html class="no-js core" data-next-app="front-page">
  <head>
  <meta charset="utf-8" />
  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -194,6 +194,72 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
         })(document, 'script', 'https://static.ftimg.net/js/log.js?v=8&20160412');
     </script>
     <!-- End Log Analytics -->
+
+
+    <script async src="https://www.ft.com/__origami/service/build/v2/bundles/js?modules=o-ads@8.3.0"></script>
+    <script async src='https://www.googletagservices.com/tag/js/gpt.js'></script>
+    <!-- zone: home/special/property-->
+    <!-- topnav:home subnav:special pageId:property-->
+    <script type="text/javascript">
+    function parseUserkv(n){var c={},i=n.split(";");if(0!==i.length)return i.forEach(function(n){var i=n.split("|");2===i.length&&(c[i[0]]=i[1])}),c}function getDfpTargetingStr(n){var c="";return n.sex&&(c+="cnsex="+n.sex+";"),n.cs&&(c+="cncs="+n.cs+";"),n.csp&&(c+="cncsp="+n.csp+";"),n.hi&&(c+="cnhi="+n.hi+";"),n.in&&(c+="cnin="+n.in+";"),n.wf&&(c+="cnwf="+n.wf+";"),c}</script>
+    <script>
+    // MARK: - the cookie USER_KV is set from server side when user logs in
+    var userKv = GetCookie('USER_KV');
+    var dfpTargetingStr = '';
+    if (userKv) {
+    var userKvObj = parseUserkv(userKv);
+    dfpTargetingStr = getDfpTargetingStr(userKvObj);
+    }
+    if (gUserType && gUserType !== '') {
+    dfpTargetingStr = 'cnuser=' + gUserType + ';' + dfpTargetingStr;
+    }
+    //console.log ('Getting user type for google ad manager: ' + window.gUserType);
+    var configJson = JSON.stringify({
+    gpt: {
+    "network": 5887,
+    "site": "FtChinese",
+    "zone": 'home/special/property'
+    },
+    dfp_targeting: dfpTargetingStr,
+    formats: {
+    "FtcLeaderboard" : {
+    "sizes":[[1200, 120], [1200, 400], [1200, 250], [969, 90], [969, 400], [969, 250]]
+    },
+    "FtcBanner": {
+    "sizes":[[1200, 120], [969, 90]]
+    },
+    "FtcMobileBanner": {
+    "sizes": [[414, 104]]
+    },
+    "FtcMobileMpu":{
+    "sizes":[[300, 250]]
+    },
+    "FtcMpu":{
+    "sizes":[[300, 250], [300, 600], [300,1050]]
+    },
+    "FtcInfoFlow":{
+    "sizes":[[400, 300]]
+    },
+    "FtcMobileFullscreen": {
+    "sizes":[[414, 736]]
+    },
+    "FtcPcFullscreen":{
+    "sizes":[[700, 520]]
+    },
+    "FtcPaidpost":{
+    "sizes":[[280, 350]]
+    },
+    "FtcRibbon":{
+    "sizes":[[300, 60]]
+    },
+    "FtcMembertext":{
+    "sizes":[[300, 47]]
+    }
+    }
+    });
+    var configScriptJsonStr = '<scr'+'ipt data-o-ads-config="" type="application/json">'+configJson+'</scr'+'ipt>';
+    document.writeln(configScriptJsonStr);
+    </script>       
 
     
  </head>
@@ -461,20 +527,6 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
     </div>
 </div>
 
-<script type="text/javascript">
-    document.write(writeAdNew({
-        devices: ['PC'],
-        pattern:'Leaderboard',
-        position:'Num1'
-   }));
-</script>
-<script type="text/javascript">
-    document.write(writeAdNew({
-        devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
-        pattern:'Banner',
-        position:'Num1'
-   }));
-</script>
 
 <div class="block-container has-side story-page"><div class="block-inner">
 <div class="content-container"><div class="content-inner">
@@ -518,11 +570,7 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 <div class="story-body" id="story-body"><div id="story-body-container">
 
 
-
-<p>After the Great Recession, global finance was supposed to find a new path.</p>
-<p>In the final part of our month-long look at the decade since the crisis, FT journalists worked with illustrator Joseba Morales to explore whether finance has evolved since the crash.</p>
-<p>Tech-obsessed venture capitalists, QE-hungry central bankers and risk-driven crypto investors have found money and the future is bright. But are things now falling apart?</p>
-<div class="n-content-layout" data-layout-width="full-grid"><figure class="n-content-picture n-content-picture--wide n-content-layout__container"><picture><source media="screen and (max-width: 490px)" srcset="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fcom.ft.imagepublish.upp-prod-us.s3.amazonaws.com%2F80b30f98-c169-11e8-95b1-d36dfef1b89a?source=next&fit=scale-down&quality=highest&width=490"><source media="screen and (min-width: 980px)" srcset="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fcom.ft.imagepublish.upp-prod-us.s3.amazonaws.com%2F7cd1e890-c169-11e8-95b1-d36dfef1b89a?source=next&fit=scale-down&quality=highest&width=1260"><img src="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fcom.ft.imagepublish.upp-prod-us.s3.amazonaws.com%2F7f02855c-c169-11e8-95b1-d36dfef1b89a?source=next&fit=scale-down&quality=highest&width=700" alt="" role="presentation"></picture></figure></div><div class="n-content-layout" data-layout-width="full-grid"><figure class="n-content-picture n-content-picture--wide n-content-layout__container"><picture><source media="screen and (max-width: 490px)" srcset="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fcom.ft.imagepublish.upp-prod-us.s3.amazonaws.com%2Fee62c3ec-c0f3-11e8-95b1-d36dfef1b89a?source=next&fit=scale-down&quality=highest&width=490"><source media="screen and (min-width: 980px)" srcset="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fcom.ft.imagepublish.upp-prod-us.s3.amazonaws.com%2Fec02b940-c0f3-11e8-95b1-d36dfef1b89a?source=next&fit=scale-down&quality=highest&width=1260"><img src="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fcom.ft.imagepublish.upp-prod-us.s3.amazonaws.com%2Ff0796820-c0f3-11e8-95b1-d36dfef1b89a?source=next&fit=scale-down&quality=highest&width=700" alt="" role="presentation"></picture></figure></div><div class="n-content-layout" data-layout-width="full-grid"><figure class="n-content-picture n-content-picture--wide n-content-layout__container"><picture><source media="screen and (max-width: 490px)" srcset="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fcom.ft.imagepublish.upp-prod-us.s3.amazonaws.com%2Fe79c8d2c-c0f3-11e8-95b1-d36dfef1b89a?source=next&fit=scale-down&quality=highest&width=490"><source media="screen and (min-width: 980px)" srcset="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fcom.ft.imagepublish.upp-prod-us.s3.amazonaws.com%2Fe571bcde-c0f3-11e8-95b1-d36dfef1b89a?source=next&fit=scale-down&quality=highest&width=1260"><img src="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fcom.ft.imagepublish.upp-prod-us.s3.amazonaws.com%2Fe9d3a24c-c0f3-11e8-95b1-d36dfef1b89a?source=next&fit=scale-down&quality=highest&width=700" alt="" role="presentation"></picture></figure></div><div class="n-content-layout" data-layout-width="full-grid"><figure class="n-content-picture n-content-picture--wide n-content-layout__container"><picture><source media="screen and (max-width: 490px)" srcset="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fcom.ft.imagepublish.upp-prod-us.s3.amazonaws.com%2Fda8c997e-c0f3-11e8-95b1-d36dfef1b89a?source=next&fit=scale-down&quality=highest&width=490"><source media="screen and (min-width: 980px)" srcset="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fcom.ft.imagepublish.upp-prod-us.s3.amazonaws.com%2Fd18eb226-c0f3-11e8-95b1-d36dfef1b89a?source=next&fit=scale-down&quality=highest&width=1260"><img src="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fcom.ft.imagepublish.upp-prod-us.s3.amazonaws.com%2Fdce48876-c0f3-11e8-95b1-d36dfef1b89a?source=next&fit=scale-down&quality=highest&width=700" alt="" role="presentation"></picture></figure></div><div class="n-content-layout" data-layout-width="full-grid"><figure class="n-content-picture n-content-picture--wide n-content-layout__container"><picture><source media="screen and (max-width: 490px)" srcset="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fcom.ft.imagepublish.upp-prod-us.s3.amazonaws.com%2Fddf448c0-c0f6-11e8-95b1-d36dfef1b89a?source=next&fit=scale-down&quality=highest&width=490"><source media="screen and (min-width: 980px)" srcset="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fcom.ft.imagepublish.upp-prod-us.s3.amazonaws.com%2Fdb777c98-c0f6-11e8-95b1-d36dfef1b89a?source=next&fit=scale-down&quality=highest&width=1260"><img src="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fcom.ft.imagepublish.upp-prod-us.s3.amazonaws.com%2Fe05a724c-c0f6-11e8-95b1-d36dfef1b89a?source=next&fit=scale-down&quality=highest&width=700" alt="" role="presentation"></picture></figure></div><div class="n-content-layout" data-layout-width="full-grid"><figure class="n-content-picture n-content-picture--wide n-content-layout__container"><picture><source media="screen and (max-width: 490px)" srcset="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fcom.ft.imagepublish.upp-prod-us.s3.amazonaws.com%2Fec148ab4-c0f6-11e8-95b1-d36dfef1b89a?source=next&fit=scale-down&quality=highest&width=490"><source media="screen and (min-width: 980px)" srcset="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fcom.ft.imagepublish.upp-prod-us.s3.amazonaws.com%2Fe9c33e4a-c0f6-11e8-95b1-d36dfef1b89a?source=next&fit=scale-down&quality=highest&width=1260"><img src="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fcom.ft.imagepublish.upp-prod-us.s3.amazonaws.com%2Feec47a26-c0f6-11e8-95b1-d36dfef1b89a?source=next&fit=scale-down&quality=highest&width=700" alt="" role="presentation"></picture></figure></div><div class="n-content-layout" data-layout-width="full-grid"><figure class="n-content-picture n-content-picture--wide n-content-layout__container"><picture><source media="screen and (max-width: 490px)" srcset="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fcom.ft.imagepublish.upp-prod-us.s3.amazonaws.com%2Fe525efe0-c0f6-11e8-95b1-d36dfef1b89a?source=next&fit=scale-down&quality=highest&width=490"><source media="screen and (min-width: 980px)" srcset="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fcom.ft.imagepublish.upp-prod-us.s3.amazonaws.com%2Fe2e86cbc-c0f6-11e8-95b1-d36dfef1b89a?source=next&fit=scale-down&quality=highest&width=1260"><img src="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fcom.ft.imagepublish.upp-prod-us.s3.amazonaws.com%2Fe765921a-c0f6-11e8-95b1-d36dfef1b89a?source=next&fit=scale-down&quality=highest&width=700" alt="" role="presentation"></picture></figure></div><div class="n-content-layout" data-layout-width="full-grid"><figure class="n-content-picture n-content-picture--wide n-content-layout__container"><picture><source media="screen and (max-width: 490px)" srcset="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fcom.ft.imagepublish.upp-prod-us.s3.amazonaws.com%2Fd603b182-c0f6-11e8-95b1-d36dfef1b89a?source=next&fit=scale-down&quality=highest&width=490"><source media="screen and (min-width: 980px)" srcset="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fcom.ft.imagepublish.upp-prod-us.s3.amazonaws.com%2Fd3528ce2-c0f6-11e8-95b1-d36dfef1b89a?source=next&fit=scale-down&quality=highest&width=1260"><img src="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fcom.ft.imagepublish.upp-prod-us.s3.amazonaws.com%2Fd8b7083e-c0f6-11e8-95b1-d36dfef1b89a?source=next&fit=scale-down&quality=highest&width=700" alt="" role="presentation"></picture></figure></div><p>This story was inspired by another FT comic, <em>The Optimist, </em>published in 2009, which offered a wry look at the decade leading up to the financial crisis. <a href="/content/3299bc36-c0b9-11e8-95b1-d36dfef1b89a" data-trackable="link">Click here to view the original edition</a>.</p>
+<p>2018年12月中下旬，伴随着中央经济工作会议的召开，在“因城施策，分类指导”的指引下，多地政府开始竞相放松当地楼市政策。12月18日，菏泽成为第一个取消限售的城市。12月19日，广州成为第一个放松楼市政策的一线城市，部分取消商住房销售对象限制。2019年1月1日，媒体称上海、深圳部分银行首套房利率下调，降至95折。各地方政府积极履行城市政府主体责任，虽然放松的数量越来越多，但尚未出现完全松绑的局面，依然贯彻了“房住不炒”的定位。</p><p>然而，令人惊讶的是，在与同行的交流中，得知当前市场中仍有大量的投资者和分析师，对政策宽松的预期十分强烈，这其中就包括了房地产政策。在世界面临百年未有之大变局的当下，房地产驱动经济的老路应该避之唯恐不及，居然还有人意图重走，这是嫌中国目前面临的形势还不够糟糕吗？对于这种荒腔走板的观点，中国应该果断地说不！</p><p><b>老生常谈的逻辑</b></p><p>在与同行的交流中，朋友推演了他所接触的普通投资者的逻辑：过往经验表明，政府不会让房价下跌，经济越差越会挺房价，就算有泡沫也一定会挺房价。只要限购政策一松绑，房价一定会涨，经济下行时期，房地产仍然是最安全最具有投资价值的资产，所以会有更多的钱涌进楼市，房价会继续暴涨。尤其以一线城市的投资者最有信心，这是根据过去近20年房地产调控经历得出的“经验之谈”。而市场上很多分析师也是持有相同观点，认为经济一差，政府就必然要重拾房地产这个夜壶（任志强的比喻），房地产政策大面积松绑可期。</p><div  data-o-ads-name="mpu-middle1" class="o-ads in-article-advert" data-o-ads-formats-default="false"  data-o-ads-formats-small="FtcMobileMpu"  data-o-ads-formats-medium="false" data-o-ads-formats-large="FtcMpu" data-o-ads-formats-extra="FtcMpu" data-o-ads-targeting="cnpos=middle1;" data-cy='[{"devices":["PC","iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"MPU","position":"Middle1","container":"mpuInStory"}]'></div><p><b>房地产泡沫对经济结构的扭曲</b></p><p>过去10多年，作为国民经济的支柱产业，同时也是地方财政收入的最重要来源，房地产也成为了全民公认回报率最高、最稳定的资产，“只涨不跌”、“政府不会让房价下跌”已经逐渐成为大部分普通民众的信仰，但从客观规律来看，这恰恰是房地产存在泡沫的铁证。</p><p>以租金回报率这个指标为例，国际公认的警戒线是4%（对应1:300租售比），根据云房数据研究中心对2017年全国100个城市普通住宅租金回报率的调查来看，只有6个城市的租金回报率在4%以上，近7成城市的租金回报率在3%以下，而包括一线城市在内，有15个城市租金回报率在1.5%-2%之间。而从住房空置率来看，近日，西南财经大学中国家庭金融调查与研究中心发布的《2017中国城镇住房空置分析》报告显示，2017年中国城镇住房空置率达到21.4%（一线城市16.8%，二三线城市22%），近年来持续上升，而国际通用的泡沫警戒线在10%左右。这些都表明中国楼市面临的资产泡沫形势十分严峻。</p><p>在创造了无数房地产千万、亿万富翁（负翁）后，房地产仍在不断拉开有房群体和无房群体的贫富差距，让国民逐渐意识到，做什么行业都不如投资房地产赚钱。名牌大学的毕业生终期一生，可能都要为一套房子而拼搏，而城市原住民一旦被拆迁，却能分得少则数套多则数十套的房产，这滋生了学习无用论、学习好不如炒房早等扭曲价值观的出现。房产殷实的劳动者大多早就丧失了进取心；身背房贷压力的劳动者则放弃了自己的爱好和理想，只为生存（还贷）而活；还没买房的劳动者，面对高耸入云的房价，心中除了压力，可能就只剩下绝望。</p><p>这让本该用于发展实体经济、教育科研的大量资源（人、财、地）流入了以房地产为主要代表的不可贸易领域，而资源配置的失衡也导致中国缺乏自主创新、缺乏经济结构转型升级的动力，因为单单靠房地产和货币增发就能支撑起经济的较快增长，比起容易带来经济放缓和社会阵痛的结构转型而言，要容易得多。但由此带来的后遗症就是，中国可能错过了转型的最佳时机。在技术上，过于依赖国外转移，缺乏自主创新的动力；经济结构上，过度依赖房地产，实业兴邦难敌房地产兴邦。这种略带讽刺的结果也是中国近年来全要素生产率增速持续下降的主要原因。中国社科院学部委员余永定近期就直言称，一定程度上，中国经济是房地产驱动的经济。于是在遇到美国特朗普政府以贸易逆差、贸易公平为幌子发起的贸易战、技术战、战略钳制后，外部冲击引发国内经济下行、失业率上升、信心不振等诸多问题。</p><p>我在上一篇文章<a href="http://www.ftchinese.com/story/001080794" target=_blank>《从中国所处历史发展阶段看2019年宏观政策走向》</a>（以下简称《走向》）曾经描述过中国所处的发展阶段，由改革开放带来的体制释放周期实际可能在前几年就已经结束，中国目前的问题主要还是在国内。若想实现由出口导向型经济向内生增长型经济的转变，关键就是要发展技术，通过技术提升全要素生产率，这需要通过加强自主创新、让市场作为资源配置的决定性力量来实现。可能有人会问，社会资源大量涌向房地产市场，本身也是市场配置资源的一种表现。但问题在于，房地产市场本身并非真正意义上的市场化，政府垄断了土地供给，也就决定了供需的局部失衡，其引发的地价、房价不断上涨甚至只涨不跌的结果，就是资源配置被扭曲的源头。诚然，在10多年前，地方政府通过土地、房子价格的不断上涨获取了大量的财政预算外收入，而这些收入绝大部分都被用于支持基础设施和市政建设，加速了城市的繁荣，提高了国民生活水平。但是当基础设施和市政建设逐渐饱和后，对房地产过度依赖的后遗症就开始不断显现。</p><div data-o-ads-name="mpu-middle2" class="o-ads" data-o-ads-formats-default="false"  data-o-ads-formats-small="FtcMobileMpu"  data-o-ads-formats-medium="false" data-o-ads-formats-large="false" data-o-ads-formats-extra="false" data-o-ads-targeting="cnpos=middle2;" data-cy='[{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"MPU","position":"Middle2","container":"mpuInStory"}]'></div><p><b>房地产泡沫已经到了引发金融风险的边缘</b></p><p>建设银行董事长田国立近期在北大演讲时称，中国的房地产市场过于发达，让欧美都望尘莫及。据统计，美国住房有30万亿美元资产，而中国则达到了40万亿美元。这也让居民部门背上了沉重的债务枷锁。根据国家金融与发展实验室、中国社科院经济研究所、中国社会科学出版社近日联合发布的《中国国家资产负债表2018》的数据，截至2018年三季度，居民债务杠杆率已经上升到52.2%，过去十年间暴涨了34个百分点。而根据国家金融与发展实验室理事长李扬的分析，如果用居民可支配收入代替GDP来计算居民杠杆率，则该数字为85%，正逐步接近美国次贷危机前居民杠杆率103%的水平。与此同时，居民储蓄增速近年来不断下滑，2017年仅7.7%，已经创历史最低，而居民储蓄存款与可支配收入之比也遭到腰斩，从2010年的25.4%下降至2017年的12.7%。这预示着当前金融体系已经蕴含了巨大的系统性风险。事实上，今年以来不断下行并持续创下15年新低的消费数据，也被认为是居民部门住房杠杆过高，透支了居民消费能力的结果。在经济下行期，若仍要走房地产驱动经济的老路，则居民杠杆率势必将以更快的速度上升，居民储蓄会继续下降，经济脆弱性快速提高，泡沫破灭、危机爆发势难避免。</p><p><b>应该果断对房地产依赖说不</b></p><p>正如12月21日结束的中央经济工作会议所强调的，世界面临百年未有之大变局，变局中危和机同生并存。在这种关键时刻，内外部的压力最容易转变成体制改革和经济转型的动力。但若是只求安逸，继续重拾房地产驱动经济的老路，那结果只能是积重难返。当然，这并非是要完全放弃房地产市场的稳定，因为房价如果大幅下滑，弃房者会大量增加，金融体系坏账激增，同样可能引发严重的金融、经济危机。今年以来，受内外部因素影响，经济下行压力较大，市场信心不足，民众预期不稳，房地产市场迅速降温。据国家统计局数据，截至11月，一二三线城市新建商品住宅销售价格同比累计平均涨幅比去年同期回落。而根据我个人的观察，上海和北京二手楼市的中介挂牌价格，均有不同程度的下滑，甚至还有低于买入价出售的例子出现，而以往要排队摇号的一手楼盘，现在摇号人数居然明显低于房子数。从这个角度来看，局部松绑政策以保持房价稳定似乎也就顺理成章了。然而，不能忽视的是，统计局公布的11月二三线城市新房销售价格同比增速均双双突破两位数，涨幅比去年同期扩大6.4和3.6个百分点。从数据上看，价格并无明显下跌的压力，反而将居民杠杆率不断推升到了危险的境地。有意思的是，房价增速放缓，有一定下行压力的一线城市，仅有广州局部松绑了相关政策，而当前迫不及待放松房地产政策的地方政府，基本都是2、3、4线城市。这大概也是本文开头所描述的投资者和分析师们观点的底气所在。当然，客观来看，也不能完全归咎于地方政府，在当前的分税制下，其事权与财权不匹配，依赖房地产带动经济有时也是迫不得已。</p><p>为了避免房价再次被推高、居民不堪重负、泡沫破灭、危机爆发以致社会动荡的局面发生，中央政府应该做好两手准备。一方面，“因城施策”出发点是好的，但对地方执政者的宏观经济视野和执政能力要求较高。应对无限度松绑楼市政策的地方政府加以警惕，否则，局部金融风险一旦暴露，系统性金融风险也难以避免。另一方面，应加速财税体系的改革，勉力平衡地方政府的财权与事权。房地产税应加尽快提上日程，扩大地方政府的收入来源。当前虽不能称为是房地产税实施的好时机，但如果不能阻止地方政府继续实施房地产驱动经济发展的模式，那么最终的结局或者是泡沫破裂、危机发生，或者是大通胀来袭、经济体系崩塌。</p><p>此外，还应注重货币政策的配合，管住流动性，才能管住房产泡沫。在2018年12月27日结束的中国人民银行货币政策委员会季度例会上，对货币政策的描述与此前有所改变，去掉了“保持中性”、“管好货币供给总闸门”等话语，引发了市场的无限猜想。诚然，正如我在《走向》一文中的分析，在当前的经济形势下，货币政策要顾及内外部因素，尤其在一季度中美达成协议之前，大幅宽松的可能不大，而如果加上要防范市场对楼市预期过于高涨的因素，我认为对流动性闸口的控制应该更谨慎。</p><p>因此，在当前的形势下，中国应该果断地对房地产依赖说不，要打消市场预期，避免新一轮房价暴涨局面的出现。在经济下行周期，房价的暴涨是脱离客观规律的，泡沫破灭是唯一的结局。当然，房地产政策只是术，是标，体制改革才是道，是本。在这个历史变局的转折点上，唯有开启新一轮的改革开放，坚持解放思想、实事求是，让市场真正在资源配置中起到决定性作用，提振市场乃至整个社会的信心，方能化险为夷、转危为机。</p><p><i>（作者系国家金融与发展实验室特聘研究员，中国首席经济学家论坛高级研究员，华南理工大学公共政策研究院客座研究员。本文仅代表作者观点。责任编辑邮箱：tao.feng@ftchinese.com）</i></p>
 
 
 

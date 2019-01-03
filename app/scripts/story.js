@@ -295,7 +295,7 @@ function recommendPayLoad(recommenddata, addata){
      * @param addata:TYPE Object, 即获取的ulu合作广告数据
     */
 
-    console.log(recommenddata);
+    //console.log(recommenddata);
     
 
 
@@ -373,7 +373,7 @@ function recommendPayLoad(recommenddata, addata){
                 console.log('a');
             }
             */
-            console.log (tryToInsertAd);
+            //console.log (tryToInsertAd);
             if(tryToInsertAd === 0 && addata.isAd ===1 && i === uluAdPosition) {
                 ///MARK:第4个位置放来自优路科技的广告（如果有的话）
                 console.log('b');

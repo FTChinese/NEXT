@@ -67,7 +67,7 @@ div.o-ads{
     &::after{
       content: '广告';
       position: absolute;
-      top: 100%;
+      bottom: 5px;
       height: 20px;
       right:calc(50% - 150px);
       font-size: 12px;
@@ -91,12 +91,19 @@ div.o-ads{
 }
 .o-ads--empty {
   margin-bottom: 0;
+  display: none;
 }
 .fullscreen-ad {
   position: fixed;
   z-index:99999;
   top:0;
   left:0;
+}
+.in-article-advert[data-o-ads-loaded]{
+  border-color: #cec6b9;
+  border-width: 1px 0;
+  border-style: solid;
+  padding: 25px 0;
 }
 /*
 .db-banner {
