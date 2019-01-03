@@ -164,6 +164,30 @@
 
 <%*<!-- End: Decide if show new db-->*%>
 
+
+
+<%*<!--MARK: Check the next model tag for sponsored special reports start-->*%>
+<%assign var="pageIdForSponsorshipManagement" value="sponsorshipmanagement"%>
+<%assign var="pageIdForBrandSafety" value="brandsafety"%>
+<%if $nextmodel != ""%>
+  <%assign var="infoForSponsorships" value=$nextmodel->getPublishJson($pageIdForSponsorshipManagement)|json_decode:true%>
+  <%assign var="infoForBrandSafety" value=$nextmodel->getPublishJson($pageIdForBrandSafety)|json_decode:true%>
+  <%assign var="currentDate" value=$smarty.now|date_format:"%Y%m%d"%>
+  <%foreach from=$infoForSponsorships.sections item=section%>
+    <%if $section.status == "on" && $section.dates != "" && preg_match("/`$currentDate`/is",$section.dates) && ($section.adChannelId != "" || $section.zone != "")%>
+      <%assign var="tagName" value=$p.meta.title%>
+      <%if $tagName != "" && ($tagName == $section.title || $tagName == $section.tag)%>
+        <%assign var="zone" value=$section.zone%>
+        <%if !preg_match("/special/is",$zone)%>
+            <%assign var="zone" value="home/special/`$zone`"%>
+        <%/if%>
+      <%/if%>
+    <%/if%>
+  <%/foreach%>
+<%/if%>
+<%*<!--MARK: Check the next model tag for sponsored special reports end-->*%>
+
+
 <%if $smarty.get.bodyonly != "yes"%>
     <!DOCTYPE html>
     <html class="no-js core<%if $smarty.get.webview == "ftcapp"%> is-ftc-app<%/if%>" data-next-app="front-page">

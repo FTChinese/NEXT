@@ -1,4 +1,4 @@
-/* exported writeAd, slotStr, checkB, sendEvent,clearEvents, writeAdNew,deviceCategory, deviceType,adChannelId*/
+/* exported obj, bannerBG, writeAd, slotStr, checkB, sendEvent,clearEvents, writeAdNew,deviceCategory, deviceType,adChannelId*/
 // MARK: - Sponsored Channel Ids
 
 var gIsLandingPage = false;
@@ -433,6 +433,10 @@ function isLocal() {
 }
 
 function writeAdNew(obj) {
+  if (obj) {
+    return '';
+  }
+  return '';
   /**
    * @param obj
    * @param obj.devices: TYPE Array, the devices are allowed to show this ad, Eg:['PC','PadWeb','iPhoneWeb','AndroidWeb']
@@ -456,86 +460,86 @@ function writeAdNew(obj) {
 
   //MARK: First, get the adid
   
-  var iframeHTML = '';
-  var debugString = '';
-  var adid = '';
-  var deviceId = '';
-  var adPatternId = '';
-  var adPositionId = '';
-  var adWidth = '';
-  var adHeight = '';
-  var containerType = '';
-  var adDescription = '';
-  var adPatternData;
+  // var iframeHTML = '';
+  // var debugString = '';
+  // var adid = '';
+  // var deviceId = '';
+  // var adPatternId = '';
+  // var adPositionId = '';
+  // var adWidth = '';
+  // var adHeight = '';
+  // var containerType = '';
+  // var adDescription = '';
+  // var adPatternData;
 
-  // MARK: If device does not fit, return immediately
-  if (obj.devices.indexOf(deviceType) < 0) {
-    return '';
-  }
-  deviceId = adDevices[deviceType].id;//get the deviceId
+  // // MARK: If device does not fit, return immediately
+  // if (obj.devices.indexOf(deviceType) < 0) {
+  //   return '';
+  // }
+  // deviceId = adDevices[deviceType].id;//get the deviceId
   
-  if(deviceType === 'PadWeb'|| deviceType === 'PadApp') {
-    adPatternData = window.adPatternsPad;
-  } else if(deviceType === 'iPhoneWeb'|| deviceType === 'iPhoneApp' || deviceType === 'AndroidWeb') {
-    adPatternData = window.adPatternsPhone;
-  } else {
-    adPatternData = window.adPatternsPC;
-  }
+  // if(deviceType === 'PadWeb'|| deviceType === 'PadApp') {
+  //   adPatternData = window.adPatternsPad;
+  // } else if(deviceType === 'iPhoneWeb'|| deviceType === 'iPhoneApp' || deviceType === 'AndroidWeb') {
+  //   adPatternData = window.adPatternsPhone;
+  // } else {
+  //   adPatternData = window.adPatternsPC;
+  // }
 
-  if(adPatternData) {
-    var adPattern = adPatternData[obj.pattern];
-    adPatternId = adPattern.id;
-    adPositionId = adPattern.position[obj.position].id;
-    adWidth = adPattern.width || '100%';
-    adHeight = adPattern.height || '50';
-    containerType = obj.container || adPattern.container || 'none';
-    adid = deviceId + adChannelId + adPatternId + adPositionId;
-  }
+  // if(adPatternData) {
+  //   var adPattern = adPatternData[obj.pattern];
+  //   adPatternId = adPattern.id;
+  //   adPositionId = adPattern.position[obj.position].id;
+  //   adWidth = adPattern.width || '100%';
+  //   adHeight = adPattern.height || '50';
+  //   containerType = obj.container || adPattern.container || 'none';
+  //   adid = deviceId + adChannelId + adPatternId + adPositionId;
+  // }
   
  
-  var iframeSrc = '';
-  var versionNumber = '2018100308';
-  if(bannerBG) {
-    if (searchVars.testDB === 'yes') {
-      iframeSrc = '/a.html?v=' + versionNumber + bannerBG + '#testDB=yes&adid='+ adid + '&pid=' + adid + '&device=' + deviceType + '&pattern=' +  obj.pattern;
-    } else {
-      iframeSrc = '/a.html?v=2018100302' + versionNumber + bannerBG + '#adid='+ adid + '&pid=' + adid + '&device=' + deviceType + '&pattern=' +  obj.pattern;
-    }
-  } else {
-    if (searchVars.testDB === 'yes') {
-      iframeSrc = '/a.html?v=' + versionNumber + '#testDB=yes&adid='+ adid + '&pid=' + adid + '&device=' + deviceType + '&pattern=' +  obj.pattern;
-    } else {
-      iframeSrc = '/a.html?v=' + versionNumber + '#adid='+ adid + '&pid=' + adid + '&device=' + deviceType + '&pattern=' +  obj.pattern;
-    }
+  // var iframeSrc = '';
+  // var versionNumber = '2018100308';
+  // if(bannerBG) {
+  //   if (searchVars.testDB === 'yes') {
+  //     iframeSrc = '/a.html?v=' + versionNumber + bannerBG + '#testDB=yes&adid='+ adid + '&pid=' + adid + '&device=' + deviceType + '&pattern=' +  obj.pattern;
+  //   } else {
+  //     iframeSrc = '/a.html?v=2018100302' + versionNumber + bannerBG + '#adid='+ adid + '&pid=' + adid + '&device=' + deviceType + '&pattern=' +  obj.pattern;
+  //   }
+  // } else {
+  //   if (searchVars.testDB === 'yes') {
+  //     iframeSrc = '/a.html?v=' + versionNumber + '#testDB=yes&adid='+ adid + '&pid=' + adid + '&device=' + deviceType + '&pattern=' +  obj.pattern;
+  //   } else {
+  //     iframeSrc = '/a.html?v=' + versionNumber + '#adid='+ adid + '&pid=' + adid + '&device=' + deviceType + '&pattern=' +  obj.pattern;
+  //   }
     
-  }
+  // }
 
-  if (location.href.indexOf('ad=no')>0 || window.hideAllAds === true) {
-    iframeSrc = iframeSrc.replace(/a\.html/g, 'b.html');
-  }
+  // if (location.href.indexOf('ad=no')>0 || window.hideAllAds === true) {
+  //   iframeSrc = iframeSrc.replace(/a\.html/g, 'b.html');
+  // }
 
-  var iframeId = 'ad-'+adid;
-  iframeHTML = '<iframe class="banner-iframe" data-adch="'+adChannelId+'" data-adPosition="'+ adPatternId + adPositionId+'" id="' + iframeId + '" width="'+ adWidth +'" height="'+ adHeight + '" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="'+ iframeSrc +'" data-src="'+ iframeSrc +'" data-ad-type="'+ adPatternId + adPositionId +'" data-ad-count=0></iframe>';
+  // var iframeId = 'ad-'+adid;
+  // iframeHTML = '<iframe class="banner-iframe" data-adch="'+adChannelId+'" data-adPosition="'+ adPatternId + adPositionId+'" id="' + iframeId + '" width="'+ adWidth +'" height="'+ adHeight + '" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="'+ iframeSrc +'" data-src="'+ iframeSrc +'" data-ad-type="'+ adPatternId + adPositionId +'" data-ad-count=0></iframe>';
 
 
-  if (window.gDebugAd && typeof window.gDebugAd === 'string') { //有两种情况存在gDebugAd：1线上为www7时，如果$debug_model == 1，则存在gDebugAd(参见partials/head.html);2本地测试一定存在gDebugAd
+  // if (window.gDebugAd && typeof window.gDebugAd === 'string') { //有两种情况存在gDebugAd：1线上为www7时，如果$debug_model == 1，则存在gDebugAd(参见partials/head.html);2本地测试一定存在gDebugAd
 
     
-    var topChannelTitle = '';
-    var subChannelTitle = '';
+  //   var topChannelTitle = '';
+  //   var subChannelTitle = '';
     
-    adDescription = deviceType + '-' + topChannelTitle + '-' + subChannelTitle + '-' + obj.pattern + '-' + obj.position;
-    debugString = window.gDebugAd.replace('adcode_for_debug', adid + ': ' + adDescription);
-  }
+  //   adDescription = deviceType + '-' + topChannelTitle + '-' + subChannelTitle + '-' + obj.pattern + '-' + obj.position;
+  //   debugString = window.gDebugAd.replace('adcode_for_debug', adid + ': ' + adDescription);
+  // }
 
-  iframeHTML += debugString;
+  // iframeHTML += debugString;
 
-  if (containerType === 'banner') {
-    iframeHTML = '<div class="bn-ph"><div class="banner-container"><div class="banner-inner"><div class="banner-content">' + iframeHTML + '</div></div></div></div>';
-  } else if (containerType === 'mpu') {
-    iframeHTML = '<div class="mpu-container">' + iframeHTML + '</div>';
-  } else if (containerType === 'mpuInStory') {
-    iframeHTML = '<div class="mpu-container-instory">' + iframeHTML + '</div>';
-  }
-  return iframeHTML;
+  // if (containerType === 'banner') {
+  //   iframeHTML = '<div class="bn-ph"><div class="banner-container"><div class="banner-inner"><div class="banner-content">' + iframeHTML + '</div></div></div></div>';
+  // } else if (containerType === 'mpu') {
+  //   iframeHTML = '<div class="mpu-container">' + iframeHTML + '</div>';
+  // } else if (containerType === 'mpuInStory') {
+  //   iframeHTML = '<div class="mpu-container-instory">' + iframeHTML + '</div>';
+  // }
+  // return iframeHTML;
 }

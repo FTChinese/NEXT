@@ -15,6 +15,10 @@
         <%assign var="hidePromoBox" value="yes"%>
     <%/if%>
 <%/foreach%>
+
+
+
+
 <%foreach from=$p.sections item=section%>
     <%if $section.type == "header"%>
         <%if $pageId != "" && $pageId != "home"%>
@@ -55,8 +59,8 @@
                     <%/if%>
                 <%/if%>
                 <%if $smarty.get.subscription == "member" || $smarty.get.subscription == "premium" || $smarty.get.subscription == "other"%>
-                    <%assign var="reports" value=$storymodel->getPremiumStory(0, 3)%>
-                    <%assign var="interactives" value=$interactivemodel->get_interactive_by_field_search("(find_in_set('速读',tag) or find_in_set('英语电台',tag))",0,3,30,10800)%>
+                    <%assign var="reports" value=$storymodel->getPremiumStory(0, 4)%>
+                    <%assign var="interactives" value=$interactivemodel->get_interactive_by_field_search("(find_in_set('速读',tag) or find_in_set('英语电台',tag))",0,4,30,10800)%>
                     <div class="block-container no-side">
                         <div class="block-inner">
                             <div class="content-container">
@@ -123,19 +127,17 @@
 <%/foreach%>
 
 
+
 <%*<!--MARK: Check the next model tag for sponsored special reports start-->*%>
-<%assign var="pageIdForSponsorshipManagement" value="sponsorshipmanagement"%>
-<%assign var="pageIdForBrandSafety" value="brandsafety"%>
-<%if $nextmodel != ""%>
-  <%assign var="infoForSponsorships" value=$nextmodel->getPublishJson($pageIdForSponsorshipManagement)|json_decode:true%>
-  <%assign var="infoForBrandSafety" value=$nextmodel->getPublishJson($pageIdForBrandSafety)|json_decode:true%>
-  <%assign var="currentDate" value=$smarty.now|date_format:"%Y%m%d"%>
+<%if $infoForSponsorships != "" && $infoForBrandSafety != "" && $currentDate != ""%>
   <%foreach from=$infoForSponsorships.sections item=section%>
     <%if $section.status == "on" && $section.dates != "" && preg_match("/`$currentDate`/is",$section.dates) && ($section.adChannelId != "" || $section.zone != "")%>
       <div style="display: none;" class="specialanchor" tag="<%$section.tag%>" title="<%$section.title%>" adid="<%$section.adChannelId%>" channel="<%$section.link%>" hideAd="<%$section.hideAd%>" zone="<%$section.zone%>"></div>
       <%assign var="tag_name" value=$p.meta.title%>
       <%if $tag_name != "" && ($tag_name == $section.title || $tag_name == $section.tag)%>
-        <!--tag matched! -->
+        <%if preg_match("/special\//is",$zone)%>
+            <%assign var="zone" value="special/`$zone`"%>
+        <%/if%>
         <%$section.sectionPageTrack%>
       <%/if%>
     <%/if%>
