@@ -196,7 +196,7 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
     <!-- End Log Analytics -->
 
 
-    <script async src="https://www.ft.com/__origami/service/build/v2/bundles/js?modules=o-ads@8.3.0"></script>
+    <script async src="https://www.ft.com/__origami/service/build/v2/bundles/js?modules=o-ads@10.2.0"></script>
     <script async src='https://www.googletagservices.com/tag/js/gpt.js'></script>
     <!-- zone: home/special/property-->
     <!-- topnav:home subnav:special pageId:property-->
@@ -268,18 +268,76 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 
 
 
-
-<script>checkB();</script>
-
-<div class="subscription-promo-container show-image-in-mobile">
+<script>var gUaOfPage = navigator.userAgent || navigator.vendor || "";</script><script>checkB();</script>
+<div class="o-ads fullscreen-ad" data-o-ads-name="fullscreen-mobile"
+data-o-ads-center="true" 
+data-o-ads-formats-default="false" 
+data-o-ads-formats-small="FtcMobileFullscreen" 
+data-o-ads-formats-medium="false"
+data-o-ads-formats-large="false"
+data-o-ads-formats-extra="false"
+data-o-ads-targeting="cnpos=mobilefullscreen;">
+</div>
+<style>
+.noneSubscriber.subscription-promo-container {
+background-color: #14bdcc;
+}
+.noneSubscriber .subscription-promo-box {
+background-image: url(http://i.ftimg.net/picture/8/000079338_piclink.jpg);
+}
+@media only screen and (max-width: 490px) {
+.noneSubscriber .subscription-promo-box {
+background-image: url(http://i.ftimg.net/picture/9/000079339_piclink.jpg);
+}
+}
+</style>
+<div class="subscription-promo-container show-image-in-mobile noneSubscriber">
 <div class="subscription-promo-inner">
-<a href="http://www.ftacademy.cn/subscription.html?ccode=ftchomepromobox" class="subscription-promo-box">
+<a  href="http://www.ftacademy.cn/subscription.html?ccode=ftchomepromobox" class="subscription-promo-box n-internal-promo" data-promo-target="noneSubscriber" data-promo-id="ftchomepromobox" data-promo-name="即刻订阅付费资讯" data-promo-creative="http://i.ftimg.net/picture/8/000079338_piclink.jpg" data-promo-position="promoBox">
 <div class="subscription-promo-text">即刻订阅付费资讯</div>
 </a>
 </div>
 </div>
-
-
+<style>
+.standard.subscription-promo-container {
+background-color: #d7c2a0;
+}
+.standard .subscription-promo-box {
+background-image: url(http://i.ftimg.net/picture/6/000079336_piclink.jpg);
+}
+@media only screen and (max-width: 490px) {
+.standard .subscription-promo-box {
+background-image: url(http://i.ftimg.net/picture/7/000079337_piclink.jpg);
+}
+}
+</style>
+<div class="subscription-promo-container show-image-in-mobile standard">
+<div class="subscription-promo-inner">
+<a  href="http://www.ftchinese.com/channel/s.html?id=subscriptionupgrade&001&ccode=FT_UPGRADE_201807" class="subscription-promo-box n-internal-promo" data-promo-target="standard" data-promo-id="FT_UPGRADE_201807" data-promo-name="升级会员获音乐会门票" data-promo-creative="http://i.ftimg.net/picture/6/000079336_piclink.jpg" data-promo-position="promoBox">
+<div class="subscription-promo-text">升级会员获音乐会门票</div>
+</a>
+</div>
+</div>
+<script type="text/javascript">
+function addUserId(ele) {
+if (ele === null) {
+return;
+}
+var userId;
+if (typeof GetCookie === 'function') {
+userId = GetCookie('USER_ID');
+} else {
+userId = getCookie('USER_ID');
+}
+if (userId && typeof userId === 'string' && userId !== '') {
+var link = ele.href;
+var connector = (link.indexOf('?') >= 0) ? '&' : '?';
+ele.href = link + connector + 'u=' + userId;
+}
+}
+var premiumLink = document.querySelector('[data-promo-target=premium]');
+addUserId(premiumLink);
+</script>
 <header class="header-container">
 <div class="header-inner">
 <div class="masthead"></div>
@@ -287,7 +345,7 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 <div class="current-edition">
 <span>简体中文</span>
 <a href="http://big5.ftchinese.com/">繁体中文</a>
-<a href="http://www.ft.com/">英文</a>
+<a href="http://www.ft.com/">FT.com</a>
 </div>
 </div>
 <div class="header-side header-right">
@@ -316,16 +374,20 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 <div class="input-container"><input type="text" class="input-oneline" name="username" id="ft-login-input-username"></div>
 <div class="input-title">密码</div>
 <div class="input-container"><input type="password" class="input-oneline" name="password"></div>
-<div class="input-title input-submit-container"><input type="checkbox" class="checkbox" value="1" checked="checked" name="saveme" id="ft-login-input-remember">记住我
-<input class="input-submit" type="submit" value="提交"></div>
-<div class="input-title"><a href="/users/findpassword" class="blue-link">找回密码</a></div>
-<div class="input-title"><a href="http://user.ftchinese.com/register" class="blue-link">免费注册</a></div>
+<div><input type="checkbox" class="checkbox" value="1" checked="checked" name="saveme" id="ft-login-input-remember">记住我</div>
+<div class="login-btn input-submit-container center">
+<input class="" type="submit" value="登录"></div>
+<div class="center register-find"><a href="http://user.ftchinese.com/register" class="blue-link">免费注册</a><span></span><a href="/users/findpassword" class="blue-link">找回密码</a></div>
+<div class="wx-login-container">
+<div class="center wx-login"><a href="http://www.ftacademy.cn/wxlogin" class="blue-link">微信登录</a></div>
+</div>
 </form>
 </div>
 </div>
 </div>
 </div>
-</div><div class="o-nav__placeholder">
+</div><!--hide nvation: -->
+<div class="o-nav__placeholder">
 <div class="o-nav">
 <div class="o-nav__outer">
 <div class="o-nav__inner">
@@ -335,10 +397,10 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 <span class="search-toggle--close">关闭</span>
 </button>
 <form action="/search/" id="search-form" role="search" data-o-toggler-target>
-<input id="search-term" type="search" name="keys" class="search-input" placeholder="搜索FT中文网" />
+<input id="search-term" type="search" name="keys" class="search-input" placeholder="输入年月日‘xxxx-xx-xx’可搜索该日存档" />
 <input id="type_news" type="hidden" value="type_news" name="ftsearchType" checked />
-<button class="search-button" tabindex="1"><span>搜索</span></button>   
-</form> 
+<button class="search-button" tabindex="1"><span>搜索</span></button>
+</form>
 </div>
 <div class="o-header__masthead-mobile">
 <a href="/" title="前往FT中文网首页"><span>FT中文网</span></a>
@@ -353,29 +415,44 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 <a class="nav-link" href="http://big5.ftchinese.com/">繁体中文版</a>
 </li>
 <li class="nav-item">
-<a class="nav-link" href="http://www.ft.com/">英文版</a>
+<a class="nav-link" href="http://www.ft.com/">FT.com</a>
 </li>
 </ol>
 </li>
-<li class="nav-section"
- data-section="home">
+<li class="nav-section "
+ data-section="home" 
+>
+<!-- top nav-->
 <button class="nav-section-head mobile">首页</button>
 <a class="nav-section-head desktop" href="/">首页</a>
+<!-- end top nav-->
 </li>
-<li class="nav-section"
- data-section="china">
+<!-- End li-->
+<li class="nav-section "
+ data-section="china" 
+>
+<!-- top nav-->
 <button class="nav-section-head mobile">中国</button>
 <a class="nav-section-head desktop" href="/channel/china.html">中国</a>
+<!-- end top nav-->
 </li>
-<li class="nav-section"
- data-section="world">
+<!-- End li-->
+<li class="nav-section "
+ data-section="world" 
+>
+<!-- top nav-->
 <button class="nav-section-head mobile">全球</button>
 <a class="nav-section-head desktop" href="/channel/world.html">全球</a>
+<!-- end top nav-->
 </li>
-<li class="nav-section"
- aria-selected="true" data-section="economy">
+<!-- End li-->
+<li class="nav-section "
+ aria-selected="true" data-section="economy" 
+>
+<!-- top nav-->
 <button class="nav-section-head mobile">经济</button>
 <a class="nav-section-head desktop" href="/channel/economy.html">经济</a>
+<!-- start subnav-->
 <ol class="nav-items">
 <li class="nav-item mobile">
 <a class="nav-link" href="/channel/economy.html">
@@ -385,10 +462,10 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 <li class="nav-item"  data-channel="globaleconomy">
 <a class="nav-link" href="/channel/globaleconomy.html">全球经济</a>
 </li>
-<li class="nav-item" aria-selected="true" data-channel="chinaeconomy">
+<li class="nav-item"  data-channel="chinaeconomy">
 <a class="nav-link" href="/channel/chinaeconomy.html">中国经济</a>
 </li>
-<li class="nav-item"  data-channel="trade">
+<li class="nav-item" aria-selected="true" data-channel="trade">
 <a class="nav-link" href="/channel/trade.html">贸易</a>
 </li>
 <li class="nav-item"  data-channel="environment">
@@ -401,47 +478,90 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 <a class="nav-link" href="/channel/numbers-china.html">中国经济一图览</a>
 </li>
 </ol>
+<!-- end top nav-->
 </li>
-<li class="nav-section"
- data-section="markets">
+<!-- End li-->
+<li class="nav-section "
+ data-section="markets" 
+>
+<!-- top nav-->
 <button class="nav-section-head mobile">金融市场</button>
 <a class="nav-section-head desktop" href="/channel/markets.html">金融市场</a>
+<!-- end top nav-->
 </li>
-<li class="nav-section"
- data-section="business">
+<!-- End li-->
+<li class="nav-section "
+ data-section="business" 
+>
+<!-- top nav-->
 <button class="nav-section-head mobile">商业</button>
 <a class="nav-section-head desktop" href="/channel/business.html">商业</a>
+<!-- end top nav-->
 </li>
-<li class="nav-section"
- data-section="innovation">
+<!-- End li-->
+<li class="nav-section "
+ data-section="innovation" 
+>
+<!-- top nav-->
 <button class="nav-section-head mobile">创新经济</button>
 <a class="nav-section-head desktop" href="/channel/innovation.html">创新经济</a>
+<!-- end top nav-->
 </li>
-<li class="nav-section"
- data-section="opinion">
+<!-- End li-->
+<li class="nav-section "
+ data-section="education" 
+>
+<!-- top nav-->
+<button class="nav-section-head mobile">教育</button>
+<a class="nav-section-head desktop" href="/channel/education.html?newnav=yes">教育</a>
+<!-- end top nav-->
+</li>
+<!-- End li-->
+<li class="nav-section "
+ data-section="opinion" 
+>
+<!-- top nav-->
 <button class="nav-section-head mobile">观点</button>
 <a class="nav-section-head desktop" href="/channel/opinion.html">观点</a>
+<!-- end top nav-->
 </li>
-<li class="nav-section"
- data-section="management">
+<!-- End li-->
+<li class="nav-section "
+ data-section="management" 
+>
+<!-- top nav-->
 <button class="nav-section-head mobile">管理</button>
 <a class="nav-section-head desktop" href="/channel/management.html">管理</a>
+<!-- end top nav-->
 </li>
-<li class="nav-section"
- data-section="lifestyle">
+<!-- End li-->
+<li class="nav-section "
+ data-section="lifestyle" 
+>
+<!-- top nav-->
 <button class="nav-section-head mobile">生活时尚</button>
 <a class="nav-section-head desktop" href="/channel/lifestyle.html">生活时尚</a>
+<!-- end top nav-->
 </li>
-<li class="nav-section"
- data-section="stream">
+<!-- End li-->
+<li class="nav-section "
+ data-section="stream" 
+>
+<!-- top nav-->
 <button class="nav-section-head mobile">视频</button>
 <a class="nav-section-head desktop" href="/channel/stream.html">视频</a>
+<!-- end top nav-->
 </li>
-<li class="nav-section"
- data-section="english">
+<!-- End li-->
+<li class="nav-section "
+ data-section="english" 
+>
+<!-- top nav-->
 <button class="nav-section-head mobile">每日英语</button>
 <a class="nav-section-head desktop" href="/channel/english.html">每日英语</a>
+<!-- end top nav-->
 </li>
+<!-- End li-->
 <li class="nav-section mobile login">
 <ul>
 <li class="nav-item">
@@ -449,7 +569,7 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 </li>
 <li class="nav-item">
 <a class="nav-link" href="http://user.ftchinese.com/register">免费注册</a>
-</li>    
+</li>
 </ul>
 </li>
 <li class="nav-section mobile logout">
@@ -458,11 +578,14 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 <a class="nav-link" href="/users/mystories">我的FT</a>
 </li>
 <li class="nav-item">
+<a class="nav-link" href="/users/setting/vip">会员中心</a>
+</li>
+<li class="nav-item">
 <a class="nav-link" href="/users/setting/index">设置</a>
 </li>
 <li class="nav-item">
 <a class="nav-link" href="http://user.ftchinese.com/logout">登出</a>
-</li>                   
+</li>
 </ul>
 </li>
 </ol>
@@ -484,8 +607,9 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 <li class="tools-section" aria-haspopup="true">
 <span class="tools-section-head">工具</span>
 <ol class="tools-items">
-<li><a href="http://app.ftchinese.com/">移动应用大全</a></li>
+<li><a href="http://app.ftchinese.com/" class="o-client-id-link">移动应用大全</a></li>
 <li><a href="/users/setting/index">基本设置</a></li>
+<li><a href="/users/setting/vip">会员中心</a></li>
 <li><a href="/users/setting/changeicon">修改头像</a></li>
 <li><a href="/users/setting/maillist">邮件订阅</a></li>
 <li><a href="/index.php/snsapi/index">同步微博</a></li>
@@ -499,136 +623,77 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 </ul>
 </div><!-- o-nav__inner -->
 </div><!-- o-nav__outer -->
-<div class="o-nav__meganav-placeholder"></div>   
-</div><!-- o-nav -->  
+<div class="o-nav__meganav-placeholder"></div>
+</div><!-- o-nav -->
 </div><!-- o-nav__placeholder -->
 <div class="site-map">
 <div class="site-map__container">
 <ul class="site-map__items">
 <li><a href="/channel/economy.html">经济</a></li>
-  
-<li><a href="/channel/chinaeconomy.html">中国经济</a></li>
+<li><a href="/channel/trade.html">贸易</a></li>
 </ul>
 </div>
 </div>
 
-
-
-
-<div class="language-switch-placeholder" id="language-switch-placeholder"><div class="language-switch-container"><a class="language-switch-left language-switch-menu" href="/"></a><div class="language-switch-inner"><a class="on language-switch">中文</a><a class="language-switch">英文</a><a class="language-switch">对照</a></div><a class="language-switch-right language-switch-share" onclick="showOverlay('share-legacy')"></a></div></div>
-
 <div class="toprecommend-part" id="recommend-top-part">
-    <div class="toprecommend-container">
-        <h2 class="toprecommend-title">
-            <a class="list-link" href="#">为您推荐</a>
-        </h2>
-        <ul id="story-recommend-top" class="toprecommend-list">
-        </ul> 
-    </div>
+<div class="toprecommend-container">
+<h2 class="toprecommend-title">
+<a class="list-link" href="#">为您推荐</a>
+</h2>
+<ul id="story-recommend-top" class="toprecommend-list">
+</ul> 
 </div>
-
-
+</div>
+<div class="o-ads" data-o-ads-name="banner1"
+data-o-ads-center="true" 
+data-o-ads-formats-default="false" 
+data-o-ads-formats-small="FtcMobileBanner" 
+data-o-ads-formats-medium="false"
+data-o-ads-formats-large="FtcLeaderboard"
+data-o-ads-formats-extra="FtcLeaderboard"
+data-o-ads-targeting="cnpos=top1;"
+data-cy='[{"devices":["PC"],"pattern":"Leaderboard","position":"Num1"},{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"Banner","position":"Num1"}]'
+>
+</div>
 <div class="block-container has-side story-page"><div class="block-inner">
 <div class="content-container"><div class="content-inner">
 <div class="story-container">
-<div class="story-theme"><a target="_blank" href="/tag/香港">香港</a><button class="myft-follow plus" data-tag="香港" data-type="tag">关注</button></div>
-<h1 class="story-headline">香港再度成为全球外派成本最高的城市</h1>
-<div class="story-lead">在咨询公司美世最新发布的外派人员所在城市生活成本年度排行榜上，高昂的房租帮助香港重新登上榜首位置。</div>
-<div class=" story-image image"><figure data-url=http://i.ftimg.net/picture/9/000063189_piclink.jpg class="loading"></figure></div>
+<div class="story-theme"><a target="_blank" href="/tag/中美贸易战">中美贸易战</a><button class="myft-follow plus" data-tag="中美贸易战" data-type="tag">关注</button></div>
+<h1 class="story-headline">贸易战下，崛起的越南电子业</h1>
+<div class="story-lead">黄亦筠：贸易战虽然暂时停火，但电子大厂却急急考虑迁出中国，郭台铭十年前相中的疏散路线，又重新热了起来，中越边境也意外成为电子业的新动脉。</div>
+<div class=" story-image image"><figure data-url=http://i.ftimg.net/picture/4/000082844_piclink.jpg class="loading"></figure></div>
 <div class="story-action-placeholder" id="story-action-placeholder">
 <div class="story-action">
 <div class="action-inner">
-<a class="action-icon icon-wechat" href="/m/corp/qrshare.html?url=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001068131%3Ffull%3Dy&title=香港再度成为全球外派成本最高的城市 - FT中文网" target="_blank"></a>
-<a class="action-icon icon-weibo" href="http://service.weibo.com/share/share.php?appkey=4221537403&url=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001068131%3Ffull%3Dy%26ccode=2G169001&title=【香港再度成为全球外派成本最高的城市】在咨询公司美世最新发布的外派人员所在城市生活成本年度排行榜上，高昂的房租帮助香港重新登上榜首位置。（分享自 @FT中文网）&ralateUid=1698233740&source=&sourceUrl=&content=utf-8&pic=http://i.ftimg.net/picture/9/000063189_piclink.jpg&searchPic=false" target="_blank"></a>
-<a class="action-icon icon-linkedin" href="https://www.linkedin.com/cws/share?url=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001068131%3Ffull%3Dy%26ccode%3D2G169003&original_referer=https%3A%2F%2Fdeveloper.linkedin.com%2Fsites%2Fall%2Fthemes%2Fdlc%2Fsandbox.php%3F&token=&isFramed=true&lang=zh_CN&_ts=1422502780259.2795" target="_blank"></a>
-<a class="action-icon icon-twitter" href="http://twitter.com/home?status=【香港再度成为全球外派成本最高的城市】在咨询公司美世最新发布的外派人员所在城市生活成本年度排行榜上，高昂的房租帮助香港重新登上榜首位置。（分享自 @FT中文网）...%20http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001068131%3Ffull%3Dy" target="_blank"></a>
-<a class="action-icon icon-facebook" href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001068131%3Ffull%3Dy&t=【香港再度成为全球外派成本最高的城市】在咨询公司美世最新发布的外派人员所在城市生活成本年度排行榜上，高昂的房租帮助香港重新登上榜首位置。（分享自 @FT中文网）" target="_blank"></a>
+<a class="action-icon icon-wechat P-hide" href="/m/corp/qrshare.html?url=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001080909%3Ffull%3Dy&title=贸易战下，崛起的越南电子业 - FT中文网" target="_blank"></a>
+<a class="action-icon icon-weibo P-hide" href="http://service.weibo.com/share/share.php?appkey=4221537403&url=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001080909%3Ffull%3Dy?ccode=2G169001&title=【贸易战下，崛起的越南电子业】黄亦筠：贸易战虽然暂时停火，但电子大厂却急急考虑迁出中国，郭台铭十年前相中的疏散路线，又重新热了起来，中越边境也意外成为电子业的新动脉。（分享自 @FT中文网）&ralateUid=1698233740&source=&sourceUrl=&content=utf-8&pic=http://i.ftimg.net/picture/4/000082844_piclink.jpg&searchPic=false" target="_blank"></a>
+<a class="action-icon icon-linkedin P-hide" href="https://www.linkedin.com/cws/share?url=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001080909%3Ffull%3Dy%3Fccode%3D2G169003&original_referer=https%3A%2F%2Fdeveloper.linkedin.com%2Fsites%2Fall%2Fthemes%2Fdlc%2Fsandbox.php%3F&token=&isFramed=true&lang=zh_CN&_ts=1422502780259.2795" target="_blank"></a>
+<a class="action-icon icon-twitter P-hide" href="http://twitter.com/home?status=【贸易战下，崛起的越南电子业】黄亦筠：贸易战虽然暂时停火，但电子大厂却急急考虑迁出中国，郭台铭十年前相中的疏散路线，又重新热了起来，中越边境也意外成为电子业的新动脉。（分享自 @FT中文网）...%20http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001080909%3Ffull%3Dy" target="_blank"></a>
+<a class="action-icon icon-facebook P-hide" href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001080909%3Ffull%3Dy&t=【贸易战下，崛起的越南电子业】黄亦筠：贸易战虽然暂时停火，但电子大厂却急急考虑迁出中国，郭台铭十年前相中的疏散路线，又重新热了起来，中越边境也意外成为电子业的新动脉。（分享自 @FT中文网）" target="_blank"></a>
 
 
-<div class="icon-right icon-save">
-<button id="addfavlink001068131">收藏</button>
+<div class="icon-right icon-save P-hide">
+<button id="addfavlink001080909">收藏</button>
 </div>
-<a class="icon-right icon-action icon-comments" href="/comments/index/001068131" target="_blank"></a>
-<a class="icon-right icon-action icon-print" onclick="window.print()" target="_blank"></a>
+<a class="icon-right icon-action icon-comments" href="/comments/index/001080909" target="_blank"></a>
+<a class="icon-right icon-action icon-print P-hide" onclick="window.print()" target="_blank"></a>
 <a class="icon-right icon-action icon-font-size" onclick="showOverlay('font-setting')"></a>
-<a class="icon-right icon-action icon-share" onclick="showOverlay('share-legacy')"></a>
+<a class="icon-right icon-action icon-share P-hide" onclick="showOverlay('share-legacy')"></a>
 </div>
 </div>
 </div>
 <div class="story-byline">
-<span class="story-time">更新于2分钟前</span>
-<span class="story-author">英国《金融时报》 <a href='/search/%E7%99%BD%E6%9D%B0%E6%98%8E/relative_byline' target=_blank>白杰明</a>  香港报道</span>
+<span class="story-time">更新于2019年1月4日 06:49</span>
+<span class="story-author"> 《天下》杂志主笔 <a href='/search/%E9%BB%84%E4%BA%A6%E7%AD%A0/relative_byline' target=_blank>黄亦筠</a> </span>
 </div>
+<div class="story-body">
 
 
+<div id="story-body-container">
+
+<p>2007年初，越南刚加入世界贸易组织(WTO)不久，鸿海董事长郭台铭曾从深圳龙华厂出发，乘车经广西南宁到北越河内，亲自考察一条300多公里长的跨国运输路线。</p><p>他要利用当时工资不到深圳3分之1的北越，作为鸿海下一个组装制造基地，而零组件则从广东、广西的鸿海厂区运来。</p><p>郭台铭当时判断，从南宁到河内，陆运只需6到8小时，加上深圳龙华到南宁的车程，大约只要13小时，等于晚上从龙华出货，隔天上午就可以抵达越南北宁开始组装。</p><p>“如果是在（台商较多的）越南南部，和中国供应链离得更远，时效上来不及，”一位了解鸿海的人士，透露当时郭台铭策略布局的想法。</p><div  data-o-ads-name="mpu-middle1" class="o-ads in-article-advert" data-o-ads-formats-default="false"  data-o-ads-formats-small="FtcMobileMpu"  data-o-ads-formats-medium="FtcMpu" data-o-ads-formats-large="FtcMpu" data-o-ads-formats-extra="FtcMpu" data-o-ads-targeting="cnpos=middle1;" data-cy='[{"devices":["PC","iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"MPU","position":"Middle1","container":"mpuInStory"}]'></div><p>鸿海因此在北宁买下超过400公顷的大片土地，连未来上游供应链的用地都一并圈下。却没想到隔年2008年就发生全球金融海啸，鸿海北越设厂计划只得停摆。</p><p>事隔12年的此刻，尽管正值中美贸易大战暂时停火，但中美之间的高度不确定性，让台湾电子大厂不敢放缓产线外移的脚步，以规避美国对中国电子产品课以高额的关税。</p><p>于是，这条当年郭台铭相中的电子业疏散路线，又重新热门起来。</p><p>鸿海已有3个厂在北越的北宁和北江，笔记本(Notebook)组装一哥仁宝最近也打算重启设在北越永福的工厂。</p><p>最近3到4个月，来探询北越状况的业者更是络绎不绝。通信设备商启碁甚至悄悄在北宁桂武工业区，租下台商汉达的一个厂房。</p><p>“做美国品牌的，如果晚1到2个月，会影响市场分配。急的人就是先租厂完成生产，假如从买地盖厂到生产，还要至少1年，会来不及，”一名在当地设厂的台湾科技业总经理分析。</p><div data-o-ads-name="mpu-middle2" class="o-ads in-article-advert" data-o-ads-formats-default="false"  data-o-ads-formats-small="FtcMobileMpu"  data-o-ads-formats-medium="false" data-o-ads-formats-large="false" data-o-ads-formats-extra="false" data-o-ads-targeting="cnpos=middle2;" data-cy='[{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"MPU","position":"Middle2","container":"mpuInStory"}]'></div><p>《天下》杂志采访团队亲自重走当年郭台铭的路线，从广西南宁上车，实地体会这条正日益茁壮的电子业大动脉，并借此了解，这波台湾产业史上第三波迁徙潮的速度、规模，以及未来持续性。</p><p><b>场景1：广西南宁—凭祥友谊关 ，中越电子动脉的核心枢纽</b></p><p>车子从南宁开上平坦宽敞的南友高速公路，这是南宁通往中越一级口岸──凭祥的主要干道。</p><p>沿途，一辆辆载着45呎货柜的货车从“一带一路”的标语前呼啸而过。</p><p><img src="http://i.ftimg.net/picture/3/000082843_piclink.jpg" alt=""  /></p><p>不过2个多小时，抵达中越边境──凭祥的友谊关，排队通关直送北越。</p><p>凭祥正是这条全长300多公里，中越电子动脉的核心枢纽。</p><p>从中国长三角、珠三角、重庆、成都等电子业重镇出产的零组件，都得经过这里，再运送到大约150公里之外的越南北宁、北江、永福等地的电子产业园区加工组装。</p><p>“中国目前的陆路口岸中，凭祥是运送电子产品最大的口岸，一天800台货车送电子零件到越南，一个集装箱几千万人民币，很贵重啊，”31岁的广西珉丰跨合国际物流副总程克奇说。他承诺客户，从上海昆山送零件到北宁、北江的三星工厂内，“72小时一定要到。”</p><p>程克奇是湖南人，被派驻在凭祥3年，娶了壮族女孩，他一年经手约一万个从中国送电子产品到北越的货柜，平均每天有近30柜。他指出，这条陆运路线运量年成长率达20%。过去一年多，程克奇目睹自己办公室所在的凭祥海关大楼，冒出许多从深圳来设据点的物流、贸易公司。</p><p><b>场景2：友谊关—河内 进入越南，另一种风景</b></p><p>车子过了中越友谊关，进入越南北部，可明显看出中越两国基础建设水准的落差。</p><p>道路从中国境内高品质的高速公路，一下子缩成了黄沙滚滚的两线普通道路。一长排货柜车几乎占住整个车道，偶有驾驶大胆从逆向车道超车，不时出现惊险画面。结果，170多公里的路，足足开了4个半小时才到河内。</p><p>车子进入距离河内30多公里的北宁新加坡工业区，有专门服务电子业的海关监管仓“ALS东河内集货仓”。这里40个员工，3组人，24小时轮班。</p><p>程克奇从中国运到北越的整柜电子零件产品，就在这里分货，之后送到附近北宁、北江工业区内的电子厂。“富士康组装诺基亚（Nokia）手机的厂 Fushan Technology，就在我们旁边，距离不到5分钟，”ALS越南籍副总监陈杜重庆(Tran Do Trong Khanh)以流利的英语告诉我们。包括富士康、三星在内，50家在地设厂的电子业者都是ALS服务的客户。</p><p>比起海运1周，陆运货柜从广东深圳、东莞、广州、厦门一带，经广西友谊关通往北宁、北江或永福，快则1天、顶多2天就送达，和在中国境内运输时间差距并不大。</p><p><b>9成的三星智能手机在越南北部生产</b></p><p>北越的电子业，始于2007年越南加入WTO。日商佳能(Canon)和韩国三星(Samsung)因此陆续进入北宁设厂。</p><p>三星带来大概200多家协力厂商，光北宁厂区就有12万员工，每天上百台巴士将方圆60公里内的员工载到厂区。此外，多条连外平坦的大道陆续完工，从北宁、北江到河内内排国际机场，只需要40分钟，大大强化了交通基础建设。</p><p>“北越大发展，也不过这十年光景，”早年在三阳旗下的庆丰银行，来越南14年的越南通投资顾问公司总经理卢智生说。</p><p>佳能和三星落地后，台湾科技业者包括鸿海、仁宝也随着来到北越投资。</p><p>像仁宝当年拿下永福省300多公顷的工业区土地，却盖不满14公顷，被越南政府收回200多公顷。鸿海盖了部份厂房，其他土地则开发工业区卖给其他业者，直到2010年才慢慢恢复到目前盖了3个厂、员工4万多人的规模。</p><p><b>仁宝永福厂重启：以组装笔记本为主</b></p><p>在永福省设厂、却闲置多年的仁宝，据当地业者透露，已悄悄有所动作。</p><p>“大概半年前仁宝就开始询问，从重庆、上海、台湾进口原物料，到北越组装，这样的成本到底多少，他们要做移入越南后的成本变化分析，半年前早就在做了，”一名物流运输业者透露。</p><p>2018年9月，仁宝总经理翁宗斌曾公开表示，内部已在评估重启越南厂相关事宜，笔记本(NB)与非笔记本产品都可能改至越南厂生产。一旦确认重启越南厂，4到6个月就能开始生产。</p><p>但因之后贸易战情势不确定，翁宗斌也没有进一步透露越南厂重启后的产能规划。</p><p>我们驱车前往位在永福的仁宝厂。当地人透露，之前一度租给一家印刷厂，后来仁宝收回来自用。偌大空旷的厂区，外观仍保持新颖，建筑风格、施工水准与台厂在中国的厂区，几乎看不出差距。仁宝“Compal”厂房的外墙，高挂着招工布条，上头用越南文写着“男：身高1米6、女：1米5”。下午1点钟声一响，就有工人从厂房内鱼贯走出。</p><p>“以仁宝来说，就算部份移到北越，也只可能是中低阶笔记本做成半成品模组，运去北越组装，因为当地要做供应链垂直整合很困难，目前就是一个backup plant（备援厂），”一名仁宝主管坦言，重点还是在美国客户的政策。</p><p>倘若仁宝未来启动，从华中昆山运零件、半成品到永福生产，实际路径运送时间，并非不可能。</p><p><b>鸿海从南宁到北宁：网通产品</b></p><p>鸿海在北越的投资，虽然因金融海啸而规模大减，但现任鸿海副总裁吕芳铭掌管的网通设备业务，仍在北宁厂生产。主要是地缘优势，当年鸿海的网通产品主要放在广西南宁厂，因此郭台铭顺理成章将北宁厂交给吕芳铭管理，从南宁到北宁，就规划生产网通产品。</p><p>而贸易战一开打，“网通这一块会被课到税，就移过来了，譬如思科这个客户，”熟知鸿海的人士指出。</p><p>加上网通产品性质较敏感，撤出中国的速度较快，北宁的鸿海厂已隐然成为鸿海集团输美网通产品的制造中心。</p><p>鸿海在北越已有自己的机构厂，较复杂的模具也可从龙华走陆路运送到北宁厂内，或同在北宁做机构件的神基子公司汉达精密，也支援出货给鸿海制造网通产品。</p><p>而外界最关心的iPhone，尽管日前外媒包括《路透社》报道，鸿海先是传出去越南、之后再传出去印度，打算将iPhone产品移到当地生产的计划，但鸿海并未进一步证实。</p><p>一名了解鸿海的人士指出，关键在于苹果的意向，“库克没有进一步指示，鸿海也不会有进一步动作，”这名人士坦言。</p><p>有趣的是，虽然鸿海代工的iPhone还没移到越南，但不少在中国颇富盛名的苹果“红色供应链”，却纷纷西进越南。例如北宁旁的北江，就有苹果连接器大厂立讯、iPhone保护玻璃供应商蓝思科技，以及AirPods制造厂歌尔声学。在北江的云中工业区，苹果手机电池供应商、中国国企大厂德赛电池，则在当地扩充电池电量保护板的产线。</p><p>一名德赛的主管级员工遇到我们的询问时表示，产业移转避不了，“贸易战后，有客户因为有7成产品要销往美国，很急着来找我们，要改在越南生产，以后这里还会扩厂，对我们来说也是机会。”</p><p>在这波急急涌出的迁厂潮带动下，部份北越工业区土地开始飙涨。“距离河内51公里的海阳，当地的新坡工业区，4个月前1平方米60块美元，现在涨到90块，主要就是因为中美贸易战，”在北越从事营造的升裕工程董事长洪志华说。</p><p><b>越南，下一个中国？</b></p><p>即便越南在地的工人素质、供应链完备度，在许多科技业者眼中仍无法与中国相比。但他们也坦言，越南这些年下来，“马步蹲得不错，”基础设施已有长足进步。</p><p>例如，《天下》前往仁宝厂区所走的5号快速道路，是条中有绿带隔阻、时速可达100公里的舒适四线大道。这条2014年完工的道路，让河内直通西北山区的老街省的时间，从7小时缩到3.5小时。它在2008年金融危机之后开始兴建，总经费高达15亿美元，其中3分之2来自亚洲开发银行。完工后，当时的老街省党委书记阮文咏(Nguyen Van Vinh)接受当地媒体采访时说，这条路将对吸引外资做出重大贡献。</p><p>眼见外资大举投资，越南学者也呼吁当地政府开始推动“进口替代”政策，建立越南在地的供应链。</p><p>“政府应该要鼓励零件厂来越南生产，这是一个长期计划，越南也希望建立自己的生产卫星体系，”越南经济大学讲师阮克毅说。“当然越南人工技术力还不足，这是仍要补强的地方，”曾到台湾成功大学读博士，2007年回到故乡河内教书，阮克毅正好经历北越这些年的大成长。</p><p>从政经角度来看，越南在这波中美大战之间，巧妙地平衡两国关系，取得对自己最有利的区域政经地位。</p><p>“之前越南总理去美国见特朗普，总书记就立刻拜访中国，”一名台湾制造业董事长观察，即便越南人骨子反中，仍务实地在经济上与中美玩两手策略。</p><p>越南已经签署或生效多项自由贸易协定，包括成为跨太平洋伙伴全面进步协定（CPTPP）第7个成员国，广大的贸易覆盖率，被经济学人智库(EIU)指为此波贸易战下的获益者。</p><p>从企业兹事体大的制造地链移转的选择角度来看，“贸易战让越南成为许多业者眼中的新中国，”台湾亚洲交流基金会研究助理江怀哲说。</p><p>此刻，贸易战90天的停火期，只是一段让企业快速准备好未来的喘息期。这场中越边境的科技业移动潮，也只会更频繁。</p><p>“没有特朗普，中国也缺工很严重，只是特朗普让大家这次移动比较没有悬念，”一名在北宁的台湾科技厂主管务实看待。</p><p><i>（本文仅代表作者观点。原文刊载于<a href="https://www.cw.com.tw/article/articleLogin.action?id=5093523" target=_blank>《天下》杂志网站</a>）</i></p>
 
 
-
-
-
-
-<div class="story-body" id="story-body"><div id="story-body-container">
-
-
-<p>2018年12月中下旬，伴随着中央经济工作会议的召开，在“因城施策，分类指导”的指引下，多地政府开始竞相放松当地楼市政策。12月18日，菏泽成为第一个取消限售的城市。12月19日，广州成为第一个放松楼市政策的一线城市，部分取消商住房销售对象限制。2019年1月1日，媒体称上海、深圳部分银行首套房利率下调，降至95折。各地方政府积极履行城市政府主体责任，虽然放松的数量越来越多，但尚未出现完全松绑的局面，依然贯彻了“房住不炒”的定位。</p><p>然而，令人惊讶的是，在与同行的交流中，得知当前市场中仍有大量的投资者和分析师，对政策宽松的预期十分强烈，这其中就包括了房地产政策。在世界面临百年未有之大变局的当下，房地产驱动经济的老路应该避之唯恐不及，居然还有人意图重走，这是嫌中国目前面临的形势还不够糟糕吗？对于这种荒腔走板的观点，中国应该果断地说不！</p><p><b>老生常谈的逻辑</b></p><p>在与同行的交流中，朋友推演了他所接触的普通投资者的逻辑：过往经验表明，政府不会让房价下跌，经济越差越会挺房价，就算有泡沫也一定会挺房价。只要限购政策一松绑，房价一定会涨，经济下行时期，房地产仍然是最安全最具有投资价值的资产，所以会有更多的钱涌进楼市，房价会继续暴涨。尤其以一线城市的投资者最有信心，这是根据过去近20年房地产调控经历得出的“经验之谈”。而市场上很多分析师也是持有相同观点，认为经济一差，政府就必然要重拾房地产这个夜壶（任志强的比喻），房地产政策大面积松绑可期。</p><div  data-o-ads-name="mpu-middle1" class="o-ads in-article-advert" data-o-ads-formats-default="false"  data-o-ads-formats-small="FtcMobileMpu"  data-o-ads-formats-medium="false" data-o-ads-formats-large="FtcMpu" data-o-ads-formats-extra="FtcMpu" data-o-ads-targeting="cnpos=middle1;" data-cy='[{"devices":["PC","iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"MPU","position":"Middle1","container":"mpuInStory"}]'></div><p><b>房地产泡沫对经济结构的扭曲</b></p><p>过去10多年，作为国民经济的支柱产业，同时也是地方财政收入的最重要来源，房地产也成为了全民公认回报率最高、最稳定的资产，“只涨不跌”、“政府不会让房价下跌”已经逐渐成为大部分普通民众的信仰，但从客观规律来看，这恰恰是房地产存在泡沫的铁证。</p><p>以租金回报率这个指标为例，国际公认的警戒线是4%（对应1:300租售比），根据云房数据研究中心对2017年全国100个城市普通住宅租金回报率的调查来看，只有6个城市的租金回报率在4%以上，近7成城市的租金回报率在3%以下，而包括一线城市在内，有15个城市租金回报率在1.5%-2%之间。而从住房空置率来看，近日，西南财经大学中国家庭金融调查与研究中心发布的《2017中国城镇住房空置分析》报告显示，2017年中国城镇住房空置率达到21.4%（一线城市16.8%，二三线城市22%），近年来持续上升，而国际通用的泡沫警戒线在10%左右。这些都表明中国楼市面临的资产泡沫形势十分严峻。</p><p>在创造了无数房地产千万、亿万富翁（负翁）后，房地产仍在不断拉开有房群体和无房群体的贫富差距，让国民逐渐意识到，做什么行业都不如投资房地产赚钱。名牌大学的毕业生终期一生，可能都要为一套房子而拼搏，而城市原住民一旦被拆迁，却能分得少则数套多则数十套的房产，这滋生了学习无用论、学习好不如炒房早等扭曲价值观的出现。房产殷实的劳动者大多早就丧失了进取心；身背房贷压力的劳动者则放弃了自己的爱好和理想，只为生存（还贷）而活；还没买房的劳动者，面对高耸入云的房价，心中除了压力，可能就只剩下绝望。</p><p>这让本该用于发展实体经济、教育科研的大量资源（人、财、地）流入了以房地产为主要代表的不可贸易领域，而资源配置的失衡也导致中国缺乏自主创新、缺乏经济结构转型升级的动力，因为单单靠房地产和货币增发就能支撑起经济的较快增长，比起容易带来经济放缓和社会阵痛的结构转型而言，要容易得多。但由此带来的后遗症就是，中国可能错过了转型的最佳时机。在技术上，过于依赖国外转移，缺乏自主创新的动力；经济结构上，过度依赖房地产，实业兴邦难敌房地产兴邦。这种略带讽刺的结果也是中国近年来全要素生产率增速持续下降的主要原因。中国社科院学部委员余永定近期就直言称，一定程度上，中国经济是房地产驱动的经济。于是在遇到美国特朗普政府以贸易逆差、贸易公平为幌子发起的贸易战、技术战、战略钳制后，外部冲击引发国内经济下行、失业率上升、信心不振等诸多问题。</p><p>我在上一篇文章<a href="http://www.ftchinese.com/story/001080794" target=_blank>《从中国所处历史发展阶段看2019年宏观政策走向》</a>（以下简称《走向》）曾经描述过中国所处的发展阶段，由改革开放带来的体制释放周期实际可能在前几年就已经结束，中国目前的问题主要还是在国内。若想实现由出口导向型经济向内生增长型经济的转变，关键就是要发展技术，通过技术提升全要素生产率，这需要通过加强自主创新、让市场作为资源配置的决定性力量来实现。可能有人会问，社会资源大量涌向房地产市场，本身也是市场配置资源的一种表现。但问题在于，房地产市场本身并非真正意义上的市场化，政府垄断了土地供给，也就决定了供需的局部失衡，其引发的地价、房价不断上涨甚至只涨不跌的结果，就是资源配置被扭曲的源头。诚然，在10多年前，地方政府通过土地、房子价格的不断上涨获取了大量的财政预算外收入，而这些收入绝大部分都被用于支持基础设施和市政建设，加速了城市的繁荣，提高了国民生活水平。但是当基础设施和市政建设逐渐饱和后，对房地产过度依赖的后遗症就开始不断显现。</p><div data-o-ads-name="mpu-middle2" class="o-ads" data-o-ads-formats-default="false"  data-o-ads-formats-small="FtcMobileMpu"  data-o-ads-formats-medium="false" data-o-ads-formats-large="false" data-o-ads-formats-extra="false" data-o-ads-targeting="cnpos=middle2;" data-cy='[{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"MPU","position":"Middle2","container":"mpuInStory"}]'></div><p><b>房地产泡沫已经到了引发金融风险的边缘</b></p><p>建设银行董事长田国立近期在北大演讲时称，中国的房地产市场过于发达，让欧美都望尘莫及。据统计，美国住房有30万亿美元资产，而中国则达到了40万亿美元。这也让居民部门背上了沉重的债务枷锁。根据国家金融与发展实验室、中国社科院经济研究所、中国社会科学出版社近日联合发布的《中国国家资产负债表2018》的数据，截至2018年三季度，居民债务杠杆率已经上升到52.2%，过去十年间暴涨了34个百分点。而根据国家金融与发展实验室理事长李扬的分析，如果用居民可支配收入代替GDP来计算居民杠杆率，则该数字为85%，正逐步接近美国次贷危机前居民杠杆率103%的水平。与此同时，居民储蓄增速近年来不断下滑，2017年仅7.7%，已经创历史最低，而居民储蓄存款与可支配收入之比也遭到腰斩，从2010年的25.4%下降至2017年的12.7%。这预示着当前金融体系已经蕴含了巨大的系统性风险。事实上，今年以来不断下行并持续创下15年新低的消费数据，也被认为是居民部门住房杠杆过高，透支了居民消费能力的结果。在经济下行期，若仍要走房地产驱动经济的老路，则居民杠杆率势必将以更快的速度上升，居民储蓄会继续下降，经济脆弱性快速提高，泡沫破灭、危机爆发势难避免。</p><p><b>应该果断对房地产依赖说不</b></p><p>正如12月21日结束的中央经济工作会议所强调的，世界面临百年未有之大变局，变局中危和机同生并存。在这种关键时刻，内外部的压力最容易转变成体制改革和经济转型的动力。但若是只求安逸，继续重拾房地产驱动经济的老路，那结果只能是积重难返。当然，这并非是要完全放弃房地产市场的稳定，因为房价如果大幅下滑，弃房者会大量增加，金融体系坏账激增，同样可能引发严重的金融、经济危机。今年以来，受内外部因素影响，经济下行压力较大，市场信心不足，民众预期不稳，房地产市场迅速降温。据国家统计局数据，截至11月，一二三线城市新建商品住宅销售价格同比累计平均涨幅比去年同期回落。而根据我个人的观察，上海和北京二手楼市的中介挂牌价格，均有不同程度的下滑，甚至还有低于买入价出售的例子出现，而以往要排队摇号的一手楼盘，现在摇号人数居然明显低于房子数。从这个角度来看，局部松绑政策以保持房价稳定似乎也就顺理成章了。然而，不能忽视的是，统计局公布的11月二三线城市新房销售价格同比增速均双双突破两位数，涨幅比去年同期扩大6.4和3.6个百分点。从数据上看，价格并无明显下跌的压力，反而将居民杠杆率不断推升到了危险的境地。有意思的是，房价增速放缓，有一定下行压力的一线城市，仅有广州局部松绑了相关政策，而当前迫不及待放松房地产政策的地方政府，基本都是2、3、4线城市。这大概也是本文开头所描述的投资者和分析师们观点的底气所在。当然，客观来看，也不能完全归咎于地方政府，在当前的分税制下，其事权与财权不匹配，依赖房地产带动经济有时也是迫不得已。</p><p>为了避免房价再次被推高、居民不堪重负、泡沫破灭、危机爆发以致社会动荡的局面发生，中央政府应该做好两手准备。一方面，“因城施策”出发点是好的，但对地方执政者的宏观经济视野和执政能力要求较高。应对无限度松绑楼市政策的地方政府加以警惕，否则，局部金融风险一旦暴露，系统性金融风险也难以避免。另一方面，应加速财税体系的改革，勉力平衡地方政府的财权与事权。房地产税应加尽快提上日程，扩大地方政府的收入来源。当前虽不能称为是房地产税实施的好时机，但如果不能阻止地方政府继续实施房地产驱动经济发展的模式，那么最终的结局或者是泡沫破裂、危机发生，或者是大通胀来袭、经济体系崩塌。</p><p>此外，还应注重货币政策的配合，管住流动性，才能管住房产泡沫。在2018年12月27日结束的中国人民银行货币政策委员会季度例会上，对货币政策的描述与此前有所改变，去掉了“保持中性”、“管好货币供给总闸门”等话语，引发了市场的无限猜想。诚然，正如我在《走向》一文中的分析，在当前的经济形势下，货币政策要顾及内外部因素，尤其在一季度中美达成协议之前，大幅宽松的可能不大，而如果加上要防范市场对楼市预期过于高涨的因素，我认为对流动性闸口的控制应该更谨慎。</p><p>因此，在当前的形势下，中国应该果断地对房地产依赖说不，要打消市场预期，避免新一轮房价暴涨局面的出现。在经济下行周期，房价的暴涨是脱离客观规律的，泡沫破灭是唯一的结局。当然，房地产政策只是术，是标，体制改革才是道，是本。在这个历史变局的转折点上，唯有开启新一轮的改革开放，坚持解放思想、实事求是，让市场真正在资源配置中起到决定性作用，提振市场乃至整个社会的信心，方能化险为夷、转危为机。</p><p><i>（作者系国家金融与发展实验室特聘研究员，中国首席经济学家论坛高级研究员，华南理工大学公共政策研究院客座研究员。本文仅代表作者观点。责任编辑邮箱：tao.feng@ftchinese.com）</i></p>
-
-
-
-<p>香港再度成为全球外派成本最高的城市，尽管这块中国领地的经济正面临越来越大的阻力、而且企业还削减了曾经很丰厚的外派津贴。</p>
-<!-- Old Ad:(QUEST:此处应该是story中的第一个MPU吧？)
-<div class=story_main_mpu_vw><script type="text/javascript">document.write (writeAd('storympuVW'));</script></div>
--->
-<!--
-<div class="hide-iframe"><script type="text/javascript">
-window.originalAdId = window.adChannelId;window.adChannelId = '1000';document.write(writeAdNew({devices: ['iPhoneWeb','AndroidWeb'],pattern:'Information',position:'Num1'}));window.adChannelId = window.originalAdId;</script></div>
--->
-
-<script type="text/javascript">
-    document.write (writeAdNew({
-        devices: ['PC','iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
-        pattern:'MPU',
-        position:'Middle1',
-        container:'mpuInStory'
-    }));
-</script>
-<p>香港拥有全球最难以负担的居住成本，高昂的房租帮助这座金融中心在咨询公司美世(Mercer)最新发布的生活成本年度排行榜上回到榜首位置。</p>
-<p>原先排在榜首的是罗安达，即石油资源丰富的安哥拉的首都。货币走软加上大宗商品价格暴跌，导致罗安达的生活成本下降。</p>
-<p>外派成本最高的十个城市，有五个位于亚洲，这突显出企业若想与这个全球经济增长引擎建立联系，得在他们的员工身上下多少血本。在前十名开外的城市中，纽约上升了五位、排名第十一，伦敦则滑落了五位、排名第十七。</p>
-
-<!-- Old ad:
-<div id="story_main_mpu"><script type="text/javascript">document.write (writeAd('storympu'));</script></div>
---> 
-<script type="text/javascript">
-    document.write (writeAdNew({
-        devices: ['PC','iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
-        pattern:'MPU',
-        position:'Middle2',
-        container:'mpuInStory'
-    }));
-</script>
-
-
-<p>美世的马里奥•费拉罗(Mario Ferraro)表示：“许多亚洲城市仍是全球外派成本最高的地方。不过，这并没有妨碍企业向这里派遣人才，因为该地区仍在提供增长潜力，而且对一流人才的需求仍然很大。”</p>
-
-<picture><source media="screen and (max-width: 490px)" srcset="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fcom.ft.imagepublish.upp-prod-us.s3.amazonaws.com%2F231bd746-166c-11e8-9376-4a6390addb44?source=next&amp;quality=highest&amp;width=490 1x, https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fcom.ft.imagepublish.upp-prod-us.s3.amazonaws.com%2F231bd746-166c-11e8-9376-4a6390addb44?source=next&amp;quality=highest&amp;width=490&amp;dpr=2 2x, https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fcom.ft.imagepublish.upp-prod-us.s3.amazonaws.com%2F231bd746-166c-11e8-9376-4a6390addb44?source=next&amp;quality=highest&amp;width=490&amp;dpr=3 3x"><img src="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fcom.ft.imagepublish.upp-prod-us.s3.amazonaws.com%2F24d2a916-166c-11e8-9376-4a6390addb44?source=next&amp;quality=highest&amp;width=700" alt="" role="presentation" data-image-type="graphic" srcset="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fcom.ft.imagepublish.upp-prod-us.s3.amazonaws.com%2F24d2a916-166c-11e8-9376-4a6390addb44?source=next&amp;quality=highest&amp;width=700 1x, https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fcom.ft.imagepublish.upp-prod-us.s3.amazonaws.com%2F24d2a916-166c-11e8-9376-4a6390addb44?source=next&amp;quality=highest&amp;width=700&amp;dpr=2 2x, https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fcom.ft.imagepublish.upp-prod-us.s3.amazonaws.com%2F24d2a916-166c-11e8-9376-4a6390addb44?source=next&amp;quality=highest&amp;width=700&amp;dpr=3 3x" data-component-name="graphic"></picture>
-
-<p>新加坡在榜单上排名第四。对那些瞄准相对快速增长的东南亚地区的投资者来说，新加坡是一个枢纽。东京排名第五，上海第七，北京第十。</p>
-
-
-
-
-<p>但是，由于中国经济正经历结构性放缓，加上世界许多地区增长疲软，一些跨国公司近来一直在削减提供给外派员工的福利，包括住房津贴。</p>
-<p>无论是在充满活力的非洲石油城市生活，还是在亚洲的金融中心生活，许多外派员工都靠这些福利来说服自己离开总部所在地是正确的，因为后者的生活成本一般要低得多。</p>
-<p>香港的问题尤其尖锐，这里拥有一些世上最拥挤、最昂贵的住房。</p>
-
-
-
-<p>过去一年，随着香港感受到中国经济放缓和内地游客减少的影响，香港的房价开始下跌。</p>
-<p>但美国咨询公司Demographia的一项调查显示，截至2015年第三季度，香港房价中值仍达家庭税前年收入中值的19倍。</p>
-<p><table><caption>生活成本最高的城市</caption><thead><tr><th><span class="ft-bold">2016年排名</span></th><th><span class="ft-bold">2015年排名</span></th><th><span class="ft-bold">城市</span></th><th><span class="ft-bold">所在国家</span></th></tr></thead><tbody><tr><td>1</td><td>2</td><td>香港</td><td>中国</td></tr><tr><td>2</td><td>1</td><td>罗安达</td><td>安哥拉</td></tr><tr><td>3</td><td>3</td><td>苏黎士</td><td>瑞士</td></tr><tr><td>4</td><td>4</td><td>新加坡</td><td>新加坡</td></tr><tr><td>5</td><td>11</td><td>东京</td><td>日本</td></tr><tr><td>6</td><td>13</td><td>金沙萨</td><td>刚果民主共和国</td></tr><tr><td>7</td><td>6</td><td>上海</td><td>中国</td></tr><tr><td>8</td><td>5</td><td>日内瓦</td><td>瑞士</td></tr><tr><td>9</td><td>10</td><td>恩贾梅纳</td><td>乍得</td></tr><tr><td>10</td><td>7</td><td>北京</td><td>中国</td></tr></tbody></table></p>
-<!-- <div class="in-story-recommend" id="in-story-recommend"></div> -->
-<p>美世表示，在香港的上佳地段租一套不带家具的两居室公寓，月租金超过6809美元，远高于纽约的5100美元、伦敦的4583美元和新加坡的3129美元。</p>
-<p>虽然房价依然高得令人痛苦，但香港仍是快餐卖得最便宜的地方之一，所以当地有些人称麦当劳(McDonald)是“穷人的福音”。</p>
 
 
 
@@ -661,83 +726,17 @@ window.originalAdId = window.adChannelId;window.adChannelId = '1000';document.wr
 
 
 
-<p>译者/何黎</p>
 
-
-<script type="text/javascript">
-var storyBy = document.getElementById('story-body');
-var setWidth = storyBy.offsetWidth ;
-var setWidth1 = '';
-if (setWidth>450){
-    setWidth1 = 0.499*setWidth+'px';
-}else{
-    setWidth1 = setWidth+'px';
-}
-function writeHtml(width){
-    var iframeHTML = '<div style="background-color: #faeadd;" ><div  style="float: left;width:'+width+';padding: 10px 10px;text-align: center;"><h3 style="padding-bottom: 10px;font-size:1.1em;">希尔顿</h3><div style="padding-bottom: 10px;"><img src="http://com.ft.imagepublish.upp-prod-eu.s3.amazonaws.com/5387c390-02c6-11e8-9650-9c0ad2d7c5b5"></div><div style="text-align: left;">2016年海航斥资65亿美元收购了希尔顿酒店集团25%的股份，这是其进军休闲及酒店业的一部分。</div></div><div style="float: left;width:'+width+';padding: 10px 10px;text-align: center;"><h3 style="padding-bottom: 10px;font-size:1.1em;">Avolon</h3><div style="padding-bottom: 10px;"><img src="http://com.ft.imagepublish.upp-prod-eu.s3.amazonaws.com/4f287362-02c6-11e8-9650-9c0ad2d7c5b5"></div><div style="text-align: left;">这家飞机租赁公司于2015年被收购，由海航在国内的主要融资公司渤海金控对其控股。</div></div><div class="clearfloat"></div></div>';
-    return iframeHTML;
-}
-    document.write (writeHtml(setWidth1));
-</script>
-
-
+</div>
 <div class="clearfloat"></div>
-
-
-
-
-
+</div> 
+<div class="copyrightstatement-container">
+版权声明：本文版权归FT中文网所有，未经允许任何单位或个人不得转载，复制或以任何其他方式使用本文全部或部分，侵权必究。
 </div>
-
-<!-- <div class="subscribe-lock-container" id="subscribe-now-container">
-    <div class="lock-block">
-      <div class="lock-content">成为付费会员，阅读FT独家内容
-      </div>
-      <div class="lock-content">如果已经是会员，请<a href="http://user.ftchinese.com/login">点击这里</a>登录
-      </div>
-      <div class="subscribe-btn" ><a href="#"  id="subscribe-now">成为会员&#x25BA;</a></div>
-    </div>
-</div>  
-
-<div class="subscribe-lock-container" id="download-app-container">
-    <div class="lock-block">
-      <div class="lock-content">使用FT中文网 iOS应用
-      </div>
-      <div class="lock-content">成为付费会员，阅读FT独家内容
-      </div>
-      <div class="subscribe-btn" ><a href="#" target="_blank"  id="open-app">下载应用&#x25BA;</a></div>
-    </div>
-</div>  -->
-
-
-
-
-
-
-<div class="hide-iframe">
-    <script type="text/javascript">
-            window.originalAdChannelId = window.adChannelId;
-            window.adChannelId = '1000';
-            document.write(writeAdNew({
-                    devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
-                    pattern:'Information',
-                    position:'Num1'
-            }));
-            window.adChannelId = window.originalAdChannelId;
-    </script>
-</div>
-
-
 <div class="clearfloat"></div>
 </div>
-</div>
-
-
-
-
 <h2 class="list-title"><a class="list-link" href="#">读者评论</a></h2>
 <div id="allcomments" class="allcomments container"></div>
-
 <div id="logincomment" class="logincomment">
 <form id="storyForm">
 <div class="comment-input-container">
@@ -756,96 +755,98 @@ function writeHtml(width){
 </div>
 </form>
 </div>
-
 <div id="nologincomment" class="nologincomment">
-    <div class="container">
-        <div class="username-label">用户名</div>
-        <input type="text"  autocorrect="off" name="username" id="username1" class="user_id textinput user-name"/>
-        <div class="password-label">密码</div>
-        <input type="password" name="password"  class="user_id textinput password" id="password1"/>
-        <input type="submit" value="登录后发表评论" class="comment_btn submitbutton button ui-light-btn" onclick="login(1)"/> 
-        <div class="topmargin statusmsg"></div>
-        <div class="centerButton"><button class="ui-light-btn stress" onclick='register()'>免费注册</button></div>
-        <a class="social-login-wechat" href="weixinlogin://www.ftchinese.com/"><div class="centerButton"><button class="ui-light-btn wechat-login">微信登录</button></div></a>
-    </div>
+<div class="container">
+<div class="username-label">用户名</div>
+<input type="text"  autocorrect="off" name="username" id="username1" class="user_id textinput user-name"/>
+<div class="password-label">密码</div>
+<input type="password" name="password"  class="user_id textinput password" id="password1"/>
+<input type="submit" value="登录后发表评论" class="comment_btn submitbutton button ui-light-btn" onclick="login(1)"/> 
+<div class="topmargin statusmsg"></div>
+<div class="centerButton"><a href="http://user.ftchinese.com/register" target="_blank"><button class="ui-light-btn stress">免费注册</button></a></div>
 </div>
-
-<!-- build:js scripts/main-user-comments.js -->
-<script type="text/javascript" src="scripts/user-comments.js"></script>
-<script type="text/javascript" src="scripts/user-login-native.js"></script>
+</div>
+<script>
+function loadcomment(e,t,n){var o,r,a,s,l,i,c,d,m="";switch(r="/index.php/c/newcommentsbysort/",a="/index.php/common_comments/newcommentsbysort/",n){case"story":commentfolder="/index.php/c",o="/index.php/c/newcomment/"+e+"?v=1";break;case"storyall1":commentfolder="/index.php/",o=r+e+"/1?limit=0&rows=500";break;case"storyall2":commentfolder="/index.php/c",o=r+e+"/2?limit=0&rows=500";break;case"storyall3":commentfolder="/index.php/c",o=r+e+"/3?limit=0&rows=500";break;case"commonall1":commentfolder="/index.php/common_comments",o=a+e+"/1?limit=0&rows=500";break;case"commonall2":commentfolder="/index.php/common_comments",o=a+e+"/2?limit=0&rows=500";break;case"commonall3":commentfolder="/index.php/common_comments",o=a+e+"/3?limit=0&rows=500";break;default:commentfolder="/index.php/common_comments",o="/index.php/common_comments/newcomment/"+e+"?v=1"}var u=new Date;o=o+"&"+(1e8*u.getFullYear()+1e6*(u.getMonth()+1)+1e4*u.getDate()+100*u.getHours()+u.getMinutes()),r=null,a=null,"localhost"===window.location.hostname&&(o="/api/comments/story.json");try{document.getElementById("cstoryid").value=e,window.readingid=e}catch(e){}var p=document.getElementById(t);p.innerHTML="正在获取本文读者评论的数据...";var y=new XMLHttpRequest;y.onreadystatechange=function(){if(4===this.readyState)if(200===this.status){var o=JSON.parse(this.responseText),r="";if(o.hot)for(var a=0;a<o.hot.length;a++)m="",s="",r+='<div class="commentcontainer">'+m+'<dt><div class="ding"></div><span>'+o.hot[a].dnewdate+"</span><b>"+o.hot[a].nickname.replace(/<[Aa] .+>(.+)<\/[Aa]>/g,"$1")+s+'</b> <font class="grey">'+o.hot[a].user_area+"</font></dt><dd>"+o.hot[a].quote_content+o.hot[a].talk+'</dd><div class="replybox" id=reh'+o.hot[a].id+"></div><dt class='replycomment'><a href='javascript:cmt_reply(\""+o.hot[a].id+'","h");\'>回复</a> <a id=hst'+o.hot[a].id+" href='javascript:voteComment(\""+o.hot[a].id+'","#hst", "support");\'>支持</a>(<font id=\'hsts'+o.hot[a].id+"' color=#BA2636>"+o.hot[a].support_count+"</font>) <a id=hdt"+o.hot[a].id+" href='javascript:voteComment(\""+o.hot[a].id+'","#hdt","disagree");\'>反对</a>(<font id=\'hdtd'+o.hot[a].id+"'>"+o.hot[a].disagree_count+"</font>)</dt></div>";for(var u=0;u<o.result.length;u++)s="",m="",r+="<div class=commentcontainer>"+m+"<dt><span>"+o.result[u].dnewdate+"</span><b>"+o.result[u].nickname.replace(/<[Aa] .+>(.+)<\/[Aa]>/g,"$1")+s+"</b> <font class=grey>"+o.result[u].user_area+"</font><div class=clearfloat></div></dt><dd>"+o.result[u].quote_content+o.result[u].talk+"</dd><div class=replybox id=re"+o.result[u].id+"></div><dt class=replycomment><a href='javascript:cmt_reply(\""+o.result[u].id+'","");\'>回复</a> <a id=st'+o.result[u].id+" href='javascript:voteComment(\""+o.result[u].id+'","#st","support");\'>支持</a>(<font id=\'sts'+o.result[u].id+"'>"+o.result[u].support_count+"</font>) <a id=dt"+o.result[u].id+" href='javascript:voteComment(\""+o.result[u].id+'","#dt","disagree");\'>反对</a>(<font id=\'dtd'+o.result[u].id+"'>"+o.result[u].disagree_count+"</font>)</dt></div>",window.unusedEntryIndex=u;p.innerHTML=r,o.count&&o.count>0||"story"!==n?(init_repeat_cmt(),(o.count>20||o.result.length>20)&&(l=o.count||o.result.length,c=n.indexOf("story")>=0?"story":"common",i=n.indexOf("storyall")>=0?n.replace(/storyall/g,""):1,p.innerHTML+="<div class=fullcomments><span class=viewfullcomments id=viewfullcomments>查看全部<span class=highlight>"+l+'</span>条评论 </span><select class=commentsortby id=commentsortby value="'+i+'"><option value=1 selected>最新的在上方</option><option value=2>最早的在上方</option><option value=3>按热门程度</option></select></div>',document.getElementById("viewfullcomments").onclick=function(){d=document.getElementById("commentsortby").value,loadcomment(e,t,c+"all"+d)},document.getElementById("commentsortby").onchange=function(){d=document.getElementById("commentsortby").value,loadcomment(e,t,c+"all"+d)})):p.innerHTML=""}else p.innerHTML="<span class='error'>很抱歉。由于您与FT服务器之间的连接发生故障，加载评论内容失败。请稍后再尝试。</span>"},y.open("GET",o,!0),y.send()}function init_repeat_cmt(){for(var e,t=document.querySelectorAll(".cmt_quote"),n=0;n<t[n];n++)"DD"===t[n].parentNode.tagName.toUpperCase()?(t[n].id="cmt_quote_"+Math.round(1e6*Math.random()),"cmt_quote"===t[n].childNodes[0].className&&(t[n].childNodes[0].id="cmt_quote_child_"+Math.round(1e6*Math.random()))):"recommendcomment"!==t[n].id&&(t[n].style.display="none");for(var o=document.querySelectorAll('div[id^="cmt_quote_child_"]'),r=0;r<o.length;r++)o[r].style.display="","cmt_quote"===o[r].childNodes[0].className&&(e=document.querySelectorAll("#"+o[r].id+" .cmt_quote").length,document.getElementById(o[r].id).innerHTML="<p onclick=\"showcmt(this)\" class='showcmt'>重复 [ "+e+" ] 条引用已被隐藏,点击展开。</p>"+document.getElementById(o[r].id).innerHTML)}function showcmt(e){document.querySelector("#"+e.parentNode.id+" .cmt_quote").style.display="",e.style.display="none"}function voteComment(e,t,n){t||(t="support"===n?"#st":"#dt");var o=document.querySelector(t+n[0]+e).innerHTML;o=parseInt(o,10)||0,document.querySelector(t+n[0]+e).innerHTML=o+1,document.querySelector(t+e).removeAttribute("href"),document.querySelector(t+e).innerHTML="support"===n?"已支持":"已反对";var r="cmtid="+e+"&action="+n,a=new XMLHttpRequest;a.open("POST",commentfolder+"/addvote/"),a.setRequestHeader("Content-Type","application/x-www-form-urlencoded"),a.send(r)}function cmt_reply(e,t){var n,o;t=t||"";for(var r=document.querySelectorAll(".replybox"),a=0;a<r.length;a++)r[a].innerHTML="";username?(document.querySelector("#re"+t+e).innerHTML='<div id=reply-input-container><b>回复此评论：</b><textarea id="replycontent" class="commentTextArea" rows="3"></textarea><span style="display:none;"><input name="use_nicknamer" type="radio" id="namer" onclick="unuseitr(this);"/><label for="namer">匿名</label><input name="use_nicknamer" type="radio" id="useridr" value="0" onclick="useitr(this);" checked/><label for="useridr">昵称</label> <input type="text" class="user_id textinput" id="nick_namer" value="" /></span><input type="button" value="提交回复" class="comment_btn submitbutton button ui-light-btn" id="addnewcommentr"/></div>',document.querySelector("#nick_namer").value=document.querySelector("#nick_name").value,document.querySelector("#addnewcommentr").onclick=function(){o=0;var n=new XMLHttpRequest;n.onreadystatechange=function(){if(4===this.readyState)if(200===this.status){var n=this.responseText;if("yes"!==n)return void presentAlert("非常抱歉，现在我们的网站遇到一些技术故障。您的留言可能没有发表成功，稍后请您试着重新发表一次。","");document.querySelector("#re"+t+e).innerHTML="",presentAlert("感谢您的参与，您的评论内容已经提交。审核后会立即显示出来！","")}else document.querySelector("#re"+t+e).innerHTML="",presentAlert("很抱歉。由于您的网络的连接发生故障，发表评论失败。稍后请您试着重新发表一次。","")};var r="storyid="+window.readingid+"&topic_object_id="+window.readingid+"&talk="+document.querySelector("#replycontent").value+"&use_nickname="+o+"&NickName="+document.querySelector("#nick_namer").value+"&cmtid="+e+"&type="+t+"&title=&url=";n.open("POST",commentfolder+"/add"),n.setRequestHeader("Content-Type","application/x-www-form-urlencoded"),n.send(r),this.disabled=!0}):(n=document.querySelector("#nologincomment").innerHTML.replace(/username1/g,"username2").replace(/password1/g,"password2").replace(/login\(1\)/g,"login(2)"),document.querySelector("#re"+t+e).innerHTML=n)}function clickToSubmitComment(){document.querySelector("#addnewcomment").onclick=function(){var e=document.querySelectorAll("#name").checked?1:0;console.log("clicked comments"),this.value="正在发布中...",this.disabled=!0;var t=new XMLHttpRequest;t.onreadystatechange=function(){if(4===this.readyState){if("yes"!==this.responseText)return void presentAlert("抱歉,现在我们的网站可能出现了一些小故障.您的留言可能没有发表成功,请您稍后再重新尝试发表一次。","");presentAlert("感谢您的参与，您的评论内容已经发表成功。审核后就会立即显示!",""),document.querySelector("#addnewcomment").value="提交评论",document.querySelector("#addnewcomment").disabled=!1,document.querySelector("#Talk").value=""}};var n;n=/^[0-9]+$/.test(window.FTStoryid)?"storyid="+window.FTStoryid+"&talk="+document.querySelector("#Talk").value+"&use_nickname="+e+"&NickName="+document.querySelector("#nick_name").value:"topic_object_id="+window.FTStoryid+"&talk="+document.querySelector("#Talk").value+"&use_nickname="+e+"&NickName="+document.querySelector("#nick_name").value+"&type=video",t.open("POST",commentfolder+"/add"),t.setRequestHeader("Content-Type","application/x-www-form-urlencoded"),t.send(n)}}function login(e){function t(e){var t={action:"login",userId:e};try{webkit?webkit.messageHandlers.login.postMessage(t):Android&&Android.onPageLoaded(JSON.stringify(t))}catch(e){}}var n,o,r;void 0!==e?(n=document.querySelector("#username"+e).value,o=document.querySelector("#password"+e).value):(n=document.querySelector("#username").value,o=document.querySelector("#password").value);var a=document.querySelectorAll(".statusmsg");for(r=0;r<a.length;r++)a[r].innerHTML="正在登录中...";var s=new XMLHttpRequest;s.onreadystatechange=function(){var e;if(4===this.readyState)if(200===this.status){var o,r=JSON.parse(this.responseText);if(r.status&&"ok"===r.status){for(e=0;e<a.length;e++)a[e].innerHTML="登录成功！";for(var s=document.querySelectorAll(".logincomment, .logincommentc, .nologincomment, .nologincommentc, .logged, .notLogged"),l=0;l<s.length;l++)s[l].style.display="none";var i=document.querySelectorAll(".nick_name,.user_id,.user_Name");for(e=0;e<i;e++)i[e].value=n,i[e].innerHTML=n;var c=document.querySelectorAll(".logincomment, .logincommentc, .logged");for(o=0;o<c.length;o++)c[o].style.display="block";for(username=n,void 0!==window.userId&&""!==window.userId||(window.userId=GetCookie("USER_ID")||""),e=0;e<a.length;e++)a[e].innerHTML="";checkLogin(),t()}else for(e=0;e<a.length;e++)a[e].innerHTML='<div class="highlight">'+r.msg+"</div>"}else for(e=0;e<a.length;e++)a[e].innerHTML='<div class="highlight">对不起，网络故障。请过一段时间再重新尝试。</div>'};var l="username="+n+"&password="+o+"&saveme=1",i=parseInt(1e6*Math.random(),10);s.open("POST","/index.php/users/login/ajax?"+i),s.setRequestHeader("Content-Type","application/x-www-form-urlencoded"),s.send(l)}function socialLogin(e,t){var n="/index.php/users/socialLogin/"+e,o=new XMLHttpRequest;o.onreadystatechange=function(){if(4===this.readyState)if(200===this.status){var e=this.responseText;if("yes"===e)return presentAlert("微信登陆成功",""),username=GetCookie("USER_NAME")||GetCookie("USER_NAME_FT")||"",void checkLogin();presentAlert("登录失败",e+"亲爱的用户，由于FT中文网的服务器未能正确响应，所以您未能成功登录。请稍后再试，或尝试其他登录方式。")}else presentAlert("登录失败","亲爱的用户，由于FT中文网的服务器未能正确响应，所以您未能成功登录。请稍后再试，或尝试其他登录方式。")};var r="socialInfo="+t,a=parseInt(1e6*Math.random(),10);o.open("POST",n+"?"+a),o.setRequestHeader("Content-Type","application/x-www-form-urlencoded"),o.send(r)}function logout(){for(var e=document.querySelectorAll(".logged .statusmsg"),t=0;t<e.length;t++)e[t].innerHTML="正在登出...";var n=new XMLHttpRequest;n.onreadystatechange=function(){if(4===this.readyState&&200===this.status){for(var e=document.querySelectorAll(".logincomment,.nologincomment, .logged, .notLogged"),t=0;t<e.length;t++)e[t].style.display="none";for(var n=document.querySelectorAll(".nologincomment,.notLogged"),o=0;o<n.length;o++)n[o].style.display="block";window.username="",checkLogin()}},n.onerror=function(){checkLogin(),console.log("something went wrong. but we check login any way. ")};var o=parseInt(1e6*Math.random(),10);n.open("GET","/index.php/users/logout?"+o),n.send()}function checkLogin(){window.username=GetCookie("USER_NAME")||GetCookie("USER_NAME_FT"),window.userId=GetCookie("USER_ID");var e,t=document.querySelectorAll(".logincomment, .nologincomment, .logged, .notLogged");for(e=0;e<t.length;e++)t[e].style.display="none";var n=document.querySelectorAll(".logged .statusmsg");for(e=0;e<n.length;e++)n[e].innerHTML="";if(username){for(var o=document.querySelectorAll(".nick_name,.user_id,.user_Name"),r=0;r<o.length;r++)o[r].value=window.username,o[r].innerHTML=window.username;for(var a=document.querySelectorAll(".logincomment,.logged"),s=0;s<a.length;s++)a[s].style.display="block"}else{document.querySelector("#nick_name").value="";for(var l=document.querySelectorAll(".nologincomment,.notLogged"),i=0;i<l.length;i++)l[i].style.display="block"}passLoginToNative()}function presentAlert(e,t){var n={title:e,message:t};try{webkit.messageHandlers.alert.postMessage(n)}catch(e){}}function passLoginToNative(){var e={},t=GetCookie("uniqueVisitorId")||guid(),n=GetCookie("USER_NAME")||GetCookie("USER_NAME_FT")||"",o=GetCookie("USER_ID")||"";e={username:n,userId:o,uniqueVisitorId:t};var r=GetCookie("paywall")||"",a=GetCookie("paywall_expire")||"";""!==r&&(e.paywall=r),""!==a&&(e.paywallExpire=a);try{webkit.messageHandlers.user.postMessage(e)}catch(e){}if(""!==o){var s=new XMLHttpRequest;s.open("GET","/index.php/jsapi/paywall"),s.setRequestHeader("Content-Type","application/json"),s.onload=function(){if(200===s.status){var t=JSON.parse(s.responseText);window.htmlClass=document.documentElement.className,window.htmlClass=window.htmlClass.replace(/\ is\-subscriber/g,"").replace(/\ is\-premium/g,"").replace(/\ is\-standard/g,""),0===t.paywall?(1===t.premium?(e.paywall="premium",window.htmlClass+=" is-subscriber is-premium"):(e.paywall="standard",window.htmlClass+=" is-subscriber is-standard"),e.paywallExpire=t.expire||"",document.documentElement.className=window.htmlClass):(e.paywall="",e.paywallExpire="");try{webkit.messageHandlers.user.postMessage(e)}catch(e){}var n=document.domain.replace(/^[^.]+/g,"");SetCookie("paywall_expire",t.expire,864e4,"/",n),SetCookie("paywall",e.paywall,864e4,"/",n)}},s.send()}}var commentfolder="/index.php/comments";try{passLoginToNative()}catch(e){}</script>
 <script type="text/javascript">
-    loadcomment('00000000', 'allcomments', 'story');
-    checkLogin();
-    clickToSubmitComment();
+loadcomment('001080909', 'allcomments', 'story');
+checkLogin();
+clickToSubmitComment();
 </script>
-<!-- endbuild -->
-
-
-
-
-
-
-
-
 <div class="clearfloat block-bottom"></div>
 </div></div>
 <div class="side-container"><div class="side-inner">
-<!--
-<div class="mpu-container first-child">
-<script type="text/javascript">document.write (writeAd('storympuRight'));</script>
+<div 
+data-o-ads-name="mpu-right1"
+class="o-ads"  
+data-o-ads-formats-default="false" 
+data-o-ads-formats-small="false" 
+data-o-ads-formats-medium="FtcMpu"
+data-o-ads-formats-large="FtcMpu"
+data-o-ads-targeting="cnpos=right1;"
+data-cy='[{"devices":["PC","PadWeb","PadApp"],"pattern":"MPU","position":"Right1"}]'
+>
 </div>
--->
 <script type="text/javascript">
-    document.write (writeAdNew({
-        devices: ['PC','PadWeb','PadApp'],
-        pattern:'MPU',
-        position:'Right1'
-    }));
+document.write (writeAdNew({
+devices: ['PC','PadWeb','PadApp'],
+pattern:'MPU',
+position:'Right1'
+}));
 </script>
+
 <div class="story-box">
 <h2 class="box-title"><a href="/channel/weekly.html">相关文章</a></h2>
 <ul class="top10">
-<li class="mp1"><a target="_blank" href="/story/001065934">香港蝉联“全球房价最难负担城市”</a></li>
-<li class="mp2"><a target="_blank" href="/story/001052192">企业雇员“抵触”新兴经济体</a></li>
-<li class="mp3"><a target="_blank" href="/story/001049734">外派增多令企业疲于应付</a></li>
-<li class="mp4"><a target="_blank" href="/story/001046226">英国投资银行家向往新加坡</a></li>
-<li class="mp5"><a target="_blank" href="/story/001044014">驻外生活百味</a></li>
+<li class="mp1"><a target="_blank" href="/story/001080871">中国工厂因贸易摩擦减少招工</a></li>
+<li class="mp2"><a target="_blank" href="/story/001080725">携程：贸易战影响中国出境游业务</a></li>
+<li class="mp3"><a target="_blank" href="/story/001080814">中国外商投资法草案拟禁止强制技术转让</a></li>
+<li class="mp4"><a target="_blank" href="/story/001080895">2019年全球大事预测（上）</a></li>
 </ul>
 </div>
-<!-- Old Ad:
-<div class="mpu-container">
-<script type="text/javascript">document.write (writeAd('storympuRight'));</script>
+<div 
+data-o-ads-name="mpu-right2"
+class="o-ads"  
+data-o-ads-formats-default="false" 
+data-o-ads-formats-small="false" 
+data-o-ads-formats-medium="false"
+data-o-ads-formats-large="FtcMpu"
+data-o-ads-targeting="cnpos=right2;"
+data-cy='[{"devices":["PC","PadWeb","PadApp"],"pattern":"MPU","position":"Right2"}]'
+>
 </div>
--->
 <script type="text/javascript">
-    document.write (writeAdNew({
-        devices: ['PC','PadWeb','PadApp'],
-        pattern:'MPU',
-        position:'Right2'
-    }));
+document.write (writeAdNew({
+devices: ['PC','PadWeb','PadApp'],
+pattern:'MPU',
+position:'Right2'
+}));
 </script>
-
 <div class="story-box last-child">
 <h2 class="box-title"><a>相关话题</a></h2>
 <ul class="top10">
 <li class="story-theme mp1">
-<a target="_blank" href="/tag/香港">香港</a>
+<a target="_blank" href="/tag/中美贸易战">中美贸易战</a>
 <div class="icon-right">
-<button class="myft-follow plus" data-tag="香港" data-type="tag">关注</button>
+<button class="myft-follow plus" data-tag="中美贸易战" data-type="tag">关注</button>
 </div>
 </li>
 <li class="story-theme">
-<a target="_blank" href="/tag/外派">外派</a>
+<a target="_blank" href="/tag/台商">台商</a>
 <div class="icon-right">
-<button class="myft-follow plus" data-tag="外派" data-type="tag">关注</button>
+<button class="myft-follow plus" data-tag="台商" data-type="tag">关注</button>
+</div>
+</li>
+<li class="story-theme">
+<a target="_blank" href="/tag/越南">越南</a>
+<div class="icon-right">
+<button class="myft-follow plus" data-tag="越南" data-type="tag">关注</button>
 </div>
 </li>
 </ul>
 </div>
 </div></div><div class="clearfloat"></div>
-</div></div>
-
-<div class="block-container no-side" id="story-recommend-container"><div class="block-inner">
+</div></div><div class="block-container no-side" id="story-recommend-container"><div class="block-inner">
 <div class="content-container"><div class="content-inner">
 <div class="list-container"><div class="list-inner">
 <h2 class="list-title"><a class="list-link" href="#">您可能感兴趣的文章</a></h2>
@@ -854,38 +855,31 @@ function writeHtml(width){
 </div></div>
 <div class="clearfloat block-bottom"></div>
 </div></div>
-
-
-<!-- Old Ad:QUEST:旧代码的bn-ph处为什么还有style="display:none;"?
-<div class="bn-ph">
-<div class="banner-container">
-<div class="banner-inner">
-<div class="banner-content">
-<script type="text/javascript">document.write (writeAd('banner'));</script>
+<div class="o-ads" data-o-ads-name="banner2"
+data-o-ads-center="true" 
+data-o-ads-formats-default="false"
+data-o-ads-formats-small="FtcMobileBanner"
+data-o-ads-formats-medium="false"
+data-o-ads-formats-large="FtcBanner" 
+data-o-ads-formats-extra="FtcBanner"
+data-o-ads-targeting="cnpos=top2;"
+data-cy='[{"devices":["PC"],"pattern":"Banner","position":"Num1"},{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"Banner","position":"Num2"}]'>
 </div>
+<div 
+data-o-ads-name="paidpost"
+class="o-ads"  
+data-o-ads-formats-default="false" 
+data-o-ads-formats-small="false"
+data-o-ads-formats-medium="false"
+data-o-ads-formats-large="FtcPaidpost"
+data-o-ads-formats-extra="FtcPaidpost"
+data-o-ads-targeting="cnpos=paidpost;"
+>
 </div>
-</div>
-</div>
--->
-<script type="text/javascript">
-    document.write (writeAdNew({
-        devices: ['PC'],
-        pattern:'Banner',
-        position:'Num1'
-    }));
-</script>
-<script type="text/javascript">
-    document.write (writeAdNew({
-        devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
-        pattern:'Banner',
-        position:'Num2'
-    }));
-</script>
-
 <div class="footer-container"><div class="footer-inner">
 <div>
 <a href="/m/corp/aboutus.html">关于我们</a>
-<a href="/jobs/?from=ft">加入我们</a>
+<a href="https://ft.wd3.myworkdayjobs.com/FT_Chinese_External_Careers" target="_blank">加入我们</a>
 <a href="/m/corp/faq.html">问题回馈</a>
 <a href="/m/corp/contact.html">联系方式</a>
 <a href="/m/corp/partner.html">合作伙伴</a>
@@ -895,37 +889,33 @@ function writeHtml(width){
 <a href="/m/marketing/ftc.html">最新动态</a>
 </div>
 <p>
-<span class="copyright"><b>© The Financial Times Ltd 2016</b></span> 
+<span class="copyright"><b>© The Financial Times Ltd 2019</b></span> 
 <span><acronym title="Financial Times">FT</acronym> and 'Financial Times' are trademarks of The Financial Times Ltd.</span>
 </p>
 </div></div>
-<div class="app-download-container">
-<a href="http://app.ftchinese.com/download.html?utm_source=marketing&utm_medium=campaign&utm_campaign=QRCODE02" target="_blank">
-<div>FT中文网客户端</div>
-<figure class="loading" data-url="http://s.ftimg.net/img/qr/qr90-2.png"></figure>
-<div>点击或扫描下载</div>
-</a>
-</div>
-<div class="app-download-container wechat">
-<a href="#" target="_blank">
-<div>FT中文网微信</div>
-<figure class="loading" data-url="http://i.ftimg.net/picture/6/000060716_piclink.jpg"></figure>
-<div>扫描关注</div>
-</a>
-</div>
-
-<a class="app-download-bar-container" href="http://app.ftchinese.com/download.html?utm_source=marketing&utm_medium=campaign&utm_campaign=WECHAT01">
-<div class="app-download-bar-inner">
-<div class="app-download-bar-image">
-<figure class="loading" data-url="https://static.ftimg.net/img/friend-share-icon.jpg"></figure>
-</div>
-<button class="app-download-bar-button">免费下载</button>
-<div class="app-download-bar-text"><b>FT中文网</b>全球财经精粹，中英对照</div>
-</div>
-</a>
-
-
-<div class="overlay-container" id="font-setting">
+<div style="text-align: center; background-color: #FFFFFF; font-size: 38px; margin: 20px;font-weight:bold;"><a title="刷新本页CDN与服务器缓存" href="/index.php/marketing/flushcache?url=http://www7.ftchinese.com%2Fstory%2F001080909%3FadchannelID%3D%26full%3Dy">刷新本页缓存</a></div>
+<div style="text-align: center; background-color: #FFFFFF; font-size: 38px; margin: 20px;font-weight:bold;"><a title="提取本页的所有链接，便于在谷歌分析中查询流量" onclick="javascript:getAllLinksFromPage(this);">提取本页链接</a></div>
+<script>
+function getAllLinksFromPage(ele) {
+var allLinks = document.querySelectorAll('a[href]');
+var linksArray = [];
+var hostName = window.location.host;
+for (var i=0; i<allLinks.length; i++) {
+var linkText = allLinks[i].href;
+linkText = linkText.replace('http://' + hostName, "");
+if (/story\/|interactive\/|video\/|photonews/.test(linkText)) {
+linkText = linkText.replace(/[\?#].*$/g, '');
+if (linksArray.indexOf(linkText)<0) {
+linksArray.push(linkText);
+}
+}
+}
+ele.innerHTML = '<textarea rows=3 style="width:100%">'+linksArray.join('|')+'</textarea>'
+//alert (linksArray.join('|'));
+}
+</script>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-KP4V3G')</script>
+<img src='http://beacon.krxd.net/event.gif?event_id=KWA6DGT9&event_type=rtg' width=0 height=0 /><div class="overlay-container" id="font-setting">
 <div class="overlay-inner">
 <div class="overlay-bg" data-parentid="font-setting"></div>
 <div class="overlay-content-outer">

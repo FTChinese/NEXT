@@ -3,14 +3,38 @@ div.o-ads{
 }
 
 .o-ads {
+  position: relative;
+  max-width: 100%;
+  // MARK: - Set overflow as hidden so that Google Ad Manager can get the responsive ad right
+  overflow: hidden;
   div {
     text-align: center;
   }
   &[data-o-ads-loaded] {
+    // MARK: - Set overflow as visible so that ad sign will be displayed after ad is loaded
+    overflow: visible;
     margin-bottom: 30px;
   }
-  &[data-o-ads-loaded="false"] {
-    margin-bottom: 0;
+}
+
+.o-ads__outer {
+  position: relative;
+}
+
+// MARK: - The ad sign
+.o-ads__outer::after {
+  .o-ads[data-o-ads-loaded] & {
+    content: '广告';
+    position: absolute;
+    top: 100%;
+    right:5px;
+    font-size: 12px;
+  }
+  .o-ads[data-o-ads-loaded=FtcLeaderboard] & {
+    right:calc(50% - 600px);
+  }
+  .o-ads[data-o-ads-loaded=HalfPage] &, .o-ads[data-o-ads-loaded="MediumRectangle"] &{
+    right:calc(50% - 150px);
   }
 }
 
@@ -19,69 +43,29 @@ div.o-ads{
     margin-top: 15px;
     margin-bottom: 15px;
   }
-  &[data-o-ads-loaded="false"] {
-    margin-top: 0;
-    margin-bottom: 0;
-  }
   iframe {
     margin-bottom: 0;
   }
 }
-// MARK: - placeholder for top banner on mobile to avoid the flash
+
+
+// MARK: - placeholder for 4 by 1 banner on mobile to avoid the flash
 .o-ads[data-o-ads-formats-small="FtcMobileBanner"] {
   @media screen and (max-width:760px) {
     padding-top: 25%;
     background: #F6E9D8;
-    margin-bottom: 30px;
-
+    padding-bottom: 20px;
+    box-sizing: border-box;
     &[data-o-ads-loaded] {
-      padding-top: 0;
       background: transparent;
+      margin-bottom: 0;
     }
-
-  }
-}
-
-.o-ads[data-o-ads-loaded] {
-  &[data-o-ads-formats-large="FtcBanner"],&[data-o-ads-formats-large="FtcLeaderboard"]{
-    position: relative;
-    &::after{
-      content: '广告';
+    .o-ads__outer {
       position: absolute;
-      top: 100%;
-      right:5px;
-      font-size: 12px;
-    }
-    @media screen and (min-width:1200px) {
-      &::after{
-        content: '广告';
-        position: absolute;
-        top: 100%;
-        right:calc(50% - 600px);
-        font-size: 12px;
-      }
-    }
-  }
-  &[data-o-ads-formats-large="FtcMpu"], &[data-o-ads-formats-small="FtcMobileMpu"]{
-    position: relative;
-    &::after{
-      content: '广告';
-      position: absolute;
-      bottom: 5px;
-      height: 20px;
-      right:calc(50% - 150px);
-      font-size: 12px;
-    }
-    // &.o-ads--empty::after{
-    //   content: '';
-    // }
-  }
-
-
-//data-o-ads-loaded为false的情况下不出现'广告'字样
-  &[data-o-ads-loaded="false"] {
-    &::after {
-      content:'';
+      top: 0;
+      bottom: 20px;
+      left: 0;
+      right: 0;
     }
   }
 }
@@ -105,22 +89,8 @@ div.o-ads{
   border-style: solid;
   padding: 25px 0;
 }
-/*
-.db-banner {
-  margin-bottom: 30px;
-  overflow-x: hidden;
-  &div, div {
-    text-align: center;
-  }
-  @media only screen and (max-width: 776px) {
-    margin-bottom: 0;
+.o-ads {
+  &.full-screen-pc, &[data-o-ads-name=fullscreen-pc], &.paid-post, &[data-o-ads-name=paidpost], &[data-o-ads-loaded=false], &.fullscreen-ad {
+    display: none;
   }
 }
-
-.db-mobile-banner {
-  margin-bottom: 30px;
-  @media only screen and (min-width: 777px) {
-    margin-bottom: 0;
-  }
-}
-*/
