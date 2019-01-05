@@ -194,25 +194,25 @@ if (parentIframe && window.hideAdSign && window.hideAdSign !== '') {
 
     
 
-try {
-    // if (document.querySelector('.ad').innerHTML.indexOf('bsch.serving-sys.com/BurstingPipe/adServer.bs?cn=rsb&amp;c=28&amp;pli=22920013&amp;PluID=56&amp;w=969&amp;h=90&amp;') > 0)
-    // {
-    //     parent.window.gCanReplaceInstoryWithAd = true;
-    //     parent.window.gReplacedInstroyWithAd = false;
-    //     var sourceInfo = {
-    //         adLink: 'https://bsch.serving-sys.com/BurstingPipe/adServer.bs?cn=brd&Page=www.ftchinese.com&PluID=56&Pos=5101190044725428&EyeblasterID=53873120&clk=1&sct=1&dg=16449088&dgo=10843710&di=0&pc=&sessionid=1759035421168368094&usercookie=u2=043f732d-40ca-4c03-978e-c74f2beea59b&OptOut=0&rtu=http%3A%2F%2Fclickc.admaster.com.cn%2Fc%2Fa111523%2Cb2738347%2Cc362%2Ci0%2Cm101%2C8a1%2C8b2%2Ch&ebReferrer=http%3A%2F%2Fwww.ftchinese.com%2F',
-    //         adTitle: '轩尼诗顶通'
-    //     };
-    //     window.parent.showTextImageForAd(sourceInfo);
-    // } else 
-    if (document.querySelector('.ad').innerHTML.indexOf('25600715') > 0) {
-        parent.window.gCanReplaceInstoryWithAd = true;
-        parent.window.gReplacedInstroyWithAd = false;
-        var sourceInfo = {
-            adLink: 'https://bsch.serving-sys.com/BurstingPipe/adServer.bs?cn=brd&Page=www.ftchinese.com&PluID=56&Pos=5101190044725428&EyeblasterID=53873120&clk=1&sct=1&dg=16449088&dgo=10843710&di=0&pc=&sessionid=1759035421168368094&usercookie=u2=043f732d-40ca-4c03-978e-c74f2beea59b&OptOut=0&rtu=http%3A%2F%2Fclickc.admaster.com.cn%2Fc%2Fa111523%2Cb2738347%2Cc362%2Ci0%2Cm101%2C8a1%2C8b2%2Ch&ebReferrer=http%3A%2F%2Fwww.ftchinese.com%2F',
-            adTitle: '轩尼诗右侧'
-        };
-        window.parent.showTextImageForAd(sourceInfo);
-    }
-} catch(ignore) {
-}
+// try {
+//     // if (document.querySelector('.ad').innerHTML.indexOf('bsch.serving-sys.com/BurstingPipe/adServer.bs?cn=rsb&amp;c=28&amp;pli=22920013&amp;PluID=56&amp;w=969&amp;h=90&amp;') > 0)
+//     // {
+//     //     parent.window.gCanReplaceInstoryWithAd = true;
+//     //     parent.window.gReplacedInstroyWithAd = false;
+//     //     var sourceInfo = {
+//     //         adLink: 'https://bsch.serving-sys.com/BurstingPipe/adServer.bs?cn=brd&Page=www.ftchinese.com&PluID=56&Pos=5101190044725428&EyeblasterID=53873120&clk=1&sct=1&dg=16449088&dgo=10843710&di=0&pc=&sessionid=1759035421168368094&usercookie=u2=043f732d-40ca-4c03-978e-c74f2beea59b&OptOut=0&rtu=http%3A%2F%2Fclickc.admaster.com.cn%2Fc%2Fa111523%2Cb2738347%2Cc362%2Ci0%2Cm101%2C8a1%2C8b2%2Ch&ebReferrer=http%3A%2F%2Fwww.ftchinese.com%2F',
+//     //         adTitle: '轩尼诗顶通'
+//     //     };
+//     //     window.parent.showTextImageForAd(sourceInfo);
+//     // } else 
+//     if (document.querySelector('.ad').innerHTML.indexOf('25600715') > 0) {
+//         parent.window.gCanReplaceInstoryWithAd = true;
+//         parent.window.gReplacedInstroyWithAd = false;
+//         var sourceInfo = {
+//             adLink: 'https://bsch.serving-sys.com/BurstingPipe/adServer.bs?cn=brd&Page=www.ftchinese.com&PluID=56&Pos=5101190044725428&EyeblasterID=53873120&clk=1&sct=1&dg=16449088&dgo=10843710&di=0&pc=&sessionid=1759035421168368094&usercookie=u2=043f732d-40ca-4c03-978e-c74f2beea59b&OptOut=0&rtu=http%3A%2F%2Fclickc.admaster.com.cn%2Fc%2Fa111523%2Cb2738347%2Cc362%2Ci0%2Cm101%2C8a1%2C8b2%2Ch&ebReferrer=http%3A%2F%2Fwww.ftchinese.com%2F',
+//             adTitle: '轩尼诗右侧'
+//         };
+//         window.parent.showTextImageForAd(sourceInfo);
+//     }
+// } catch(ignore) {
+// }

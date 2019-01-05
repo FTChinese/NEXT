@@ -32,76 +32,77 @@ var gReplacedInstroyWithAd = false;//表征文章内推荐块内容已经用Ad�
 // var textIndex = getRandomInt(0, 5);
 // console.log('textIndex:'+textIndex);
 function adReachability() {
-  var thirdPartyVendors = {
-    'dcR': '_dc',
-    'mmR': '_mm',
-    'szR': '_sz',
-    'amR': '_am'
-  };
-  var adParameter = '';
-  var adReachabilityStatus;
-  for (var k in thirdPartyVendors) {
-      if (thirdPartyVendors.hasOwnProperty(k)) {
-         //user[k] = data[k];
-         //console.log (k + ': ' + thirdPartyVendors[k]);
-         try {
-             if (typeof window.GetCookie === 'function') {
-                adReachabilityStatus = GetCookie(k);
-             } else {
-                adReachabilityStatus = getCookie(k);
-             }
-         } catch(ignore) {
-            adReachabilityStatus = null;
-         }
+  return '';
+  // var thirdPartyVendors = {
+  //   'dcR': '_dc',
+  //   'mmR': '_mm',
+  //   'szR': '_sz',
+  //   'amR': '_am'
+  // };
+  // var adParameter = '';
+  // var adReachabilityStatus;
+  // for (var k in thirdPartyVendors) {
+  //     if (thirdPartyVendors.hasOwnProperty(k)) {
+  //        //user[k] = data[k];
+  //        //console.log (k + ': ' + thirdPartyVendors[k]);
+  //        try {
+  //            if (typeof window.GetCookie === 'function') {
+  //               adReachabilityStatus = GetCookie(k);
+  //            } else {
+  //               adReachabilityStatus = getCookie(k);
+  //            }
+  //        } catch(ignore) {
+  //           adReachabilityStatus = null;
+  //        }
          
-         if (adReachabilityStatus === 'reachable') {
-          adParameter += '&' + thirdPartyVendors[k] + '=1';
-         } else if (window.gIsSpider === true && (k === 'dcR' || k === 'amR')) {
-          // MARK: - If it's spam. Don't use DoubleClick and AdMaster to serve
-          adParameter += '&' + thirdPartyVendors[k] + '=0';
-         } else if (adReachabilityStatus === null) {
-          adParameter += '&' + thirdPartyVendors[k] + '=2';
-         }
-      }
-  }
-  if (typeof window.gUserType !== 'string') {
-    window.gUserType = 'visitor';
-  }
-  adParameter += '&' + '_ut=' + window.gUserType;
-  //console.log (adParameter);
-  return adParameter;
+  //        if (adReachabilityStatus === 'reachable') {
+  //         adParameter += '&' + thirdPartyVendors[k] + '=1';
+  //        } else if (window.gIsSpider === true && (k === 'dcR' || k === 'amR')) {
+  //         // MARK: - If it's spam. Don't use DoubleClick and AdMaster to serve
+  //         adParameter += '&' + thirdPartyVendors[k] + '=0';
+  //        } else if (adReachabilityStatus === null) {
+  //         adParameter += '&' + thirdPartyVendors[k] + '=2';
+  //        }
+  //     }
+  // }
+  // if (typeof window.gUserType !== 'string') {
+  //   window.gUserType = 'visitor';
+  // }
+  // adParameter += '&' + '_ut=' + window.gUserType;
+  // //console.log (adParameter);
+  // return adParameter;
 }
 
 
 function showTextImageForAd(sourceInfo) {
   
-  if (gCanReplaceInstoryWithAd === true && gReplacedInstroyWithAd === false) {
-   //正式模式
-    //console.log ('show text image for ad!');   
-    var adLink = decodeURIComponent(sourceInfo.adLink)||'https://www.hennessy.com/zh-cn/hennessyparadisimperial/campaign.htm?utm_source=Ftchinese%20homepage%20top%20banner&utm_campaign=HPI2017OcttoNovCampaignDigital&utm_content=Ad&utm_term=OcttoNovCampaign&smtid=509415688z2906z1cm6gzacz0z';
-    var adTitle = sourceInfo.adTitle || '轩尼诗顶通20171031';
-    // MARK: open the resource in an iFrame
-    var randomNumber = Math.random();
-    console.log ('random number is ' + randomNumber);
-    if (randomNumber < 0.005 && window.footerMoreShowed === undefined) {
-      var w2 = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-      var h2 = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-      var footerEle = document.querySelector('.footer-container');
-      footerEle.innerHTML += '<div id="footer-more"></div>';
-      var footerMore = document.getElementById('footer-more');
-      footerMore.innerHTML = '<div><iframe id="footer-more-frame" width="' + w2 + '" height="'+ h2 +'" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" style="" src="' + adLink + '"></iframe></div>';
-      ga('send','event','Text and Image Ad', 'click footer', adTitle);
-      window.footerMoreShowed = true;
-      gReplacedInstroyWithAd = true;
-      // var randomNumber1 = Math.random();
-      // if (randomNumber1 < 0.7) {
-      //   setTimeout(function(){
-      //     document.getElementById('footer-more-frame').style.width = '1200px';
-      //     document.getElementById('footer-more-frame').style.height = '3500px';
-      //   }, 2000);
-      // }
-    }
-  }
+  // if (gCanReplaceInstoryWithAd === true && gReplacedInstroyWithAd === false) {
+  //  //正式模式
+  //   //console.log ('show text image for ad!');   
+  //   var adLink = decodeURIComponent(sourceInfo.adLink)||'https://www.hennessy.com/zh-cn/hennessyparadisimperial/campaign.htm?utm_source=Ftchinese%20homepage%20top%20banner&utm_campaign=HPI2017OcttoNovCampaignDigital&utm_content=Ad&utm_term=OcttoNovCampaign&smtid=509415688z2906z1cm6gzacz0z';
+  //   var adTitle = sourceInfo.adTitle || '轩尼诗顶通20171031';
+  //   // MARK: open the resource in an iFrame
+  //   var randomNumber = Math.random();
+  //   console.log ('random number is ' + randomNumber);
+  //   if (randomNumber < 0.005 && window.footerMoreShowed === undefined) {
+  //     var w2 = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+  //     var h2 = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+  //     var footerEle = document.querySelector('.footer-container');
+  //     footerEle.innerHTML += '<div id="footer-more"></div>';
+  //     var footerMore = document.getElementById('footer-more');
+  //     footerMore.innerHTML = '<div><iframe id="footer-more-frame" width="' + w2 + '" height="'+ h2 +'" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" style="" src="' + adLink + '"></iframe></div>';
+  //     ga('send','event','Text and Image Ad', 'click footer', adTitle);
+  //     window.footerMoreShowed = true;
+  //     gReplacedInstroyWithAd = true;
+  //     // var randomNumber1 = Math.random();
+  //     // if (randomNumber1 < 0.7) {
+  //     //   setTimeout(function(){
+  //     //     document.getElementById('footer-more-frame').style.width = '1200px';
+  //     //     document.getElementById('footer-more-frame').style.height = '3500px';
+  //     //   }, 2000);
+  //     // }
+  //   }
+  // }
 }
 
 function getRandomInt(min, max) {
