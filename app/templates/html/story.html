@@ -1232,14 +1232,11 @@
 		    <%assign var="story_content" value=$story_content|replace:"<div id=\"story_main_mpu\"></div>":""%>
 		<%else%>
 			<%assign var="story_content" value==$story_content|replace:"<div id=\"story_main_mpu\"></div>":"`$infoAdCode`<div data-o-ads-name=\"mpu-middle1\" class=\"o-ads in-article-advert\" data-o-ads-formats-default=\"false\"  data-o-ads-formats-small=\"FtcMobileMpu\"  data-o-ads-formats-medium=\"FtcMpu\" data-o-ads-formats-large=\"FtcMpu\" data-o-ads-formats-extra=\"FtcMpu\" data-o-ads-targeting=\"cnpos=middle1;\" data-cy='[{\"devices\":[\"PC\",\"iPhoneWeb\",\"AndroidWeb\",\"iPhoneApp\",\"AndroidApp\"],\"pattern\":\"MPU\",\"position\":\"Middle1\",\"container\":\"mpuInStory\"}]'></div>"%>
-
-			<%*<!--assign var="story_content" value==$story_content|replace:"<div id=\"story_main_mpu\"></div>":"`$infoAdCode`<div data-o-ads-name=\"mpu-middle1\" class=\"o-ads\" data-o-ads-formats-default=\"false\"  data-o-ads-formats-small=\"FtcMobileMpu\"  data-o-ads-formats-medium=\"false\" data-o-ads-formats-large=\"FtcMpu\" data-o-ads-formats-extra=\"FtcMpu\" data-o-ads-targeting=\"cnpos=middle1;\" data-cy='[{\"devices\":[\"PC\",\"iPhoneWeb\",\"AndroidWeb\",\"iPhoneApp\",\"AndroidApp\"],\"pattern\":\"MPU\",\"position\":\"Middle1\",\"container\":\"mpuInStory\"}]'></div><script type=\"text/javascript\">document.write (writeAdNew({devices: ['PC','iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],pattern:'MPU',position:'Middle1',container:'mpuInStory'}));</script>"-->*%>
 			<%*<!--assign var="story_content" value==$story_content|replace:"<div id=\"story_main_mpu\"></div>":"`$infoAdCode`"-->*%>
 		<%/if%>
 	<%elseif $hideMPU3!="yes" && !preg_match("/活动页面/is",$keys) && $noAd != "true"%>
 	<%*<!--在单页的情况下，如果文章没有插图，没有iframe，没有video，没有highcharts, 也没有被强制设为不显示MPU 3，则将MPU_3广告位插入到第五段开头。-->*%>
 		<%assign var="story_content" value=$storyBody|regex_replace:"/[\r\t\n]/":""|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1<div  data-o-ads-name=\"mpu-middle1\" class=\"o-ads in-article-advert\" data-o-ads-formats-default=\"false\"  data-o-ads-formats-small=\"FtcMobileMpu\"  data-o-ads-formats-medium=\"FtcMpu\" data-o-ads-formats-large=\"FtcMpu\" data-o-ads-formats-extra=\"FtcMpu\" data-o-ads-targeting=\"cnpos=middle1;\" data-cy='[{\"devices\":[\"PC\",\"iPhoneWeb\",\"AndroidWeb\",\"iPhoneApp\",\"AndroidApp\"],\"pattern\":\"MPU\",\"position\":\"Middle1\",\"container\":\"mpuInStory\"}]'></div><p>"%>
-		<%*<!--assign var="story_content" value=$storyBody|regex_replace:"/[\r\t\n]/":""|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1<div  data-o-ads-name=\"mpu-middle1\" class=\"o-ads\" data-o-ads-formats-default=\"false\"  data-o-ads-formats-small=\"FtcMobileMpu\"  data-o-ads-formats-medium=\"false\" data-o-ads-formats-large=\"FtcMpu\" data-o-ads-formats-extra=\"FtcMpu\" data-o-ads-targeting=\"cnpos=middle1;\" data-cy='[{\"devices\":[\"PC\",\"iPhoneWeb\",\"AndroidWeb\",\"iPhoneApp\",\"AndroidApp\"],\"pattern\":\"MPU\",\"position\":\"Middle1\",\"container\":\"mpuInStory\"}]'></div><script type=\"text/javascript\">document.write (writeAdNew({devices: ['PC','iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],pattern:'MPU',position:'Middle1',container:'mpuInStory'}));</script><p>"-->*%>
 		<%*<!--<%assign var="story_content" value=$storyBody|regex_replace:"/[\r\t\n]/":""|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1<p>"%>-->*%>
 	<%else%>
 		<%assign var="story_content" value=$storyBody%>
@@ -1248,9 +1245,6 @@
 
 	<%if $hideMPU3!="yes" && !preg_match("/活动页面/is",$keys) && $noAd != "true" %>
 		<%assign var="story_content" value=$story_content|regex_replace:"/[\r\t\n]/":""|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1<div data-o-ads-name=\"mpu-middle2\" class=\"o-ads in-article-advert\" data-o-ads-formats-default=\"false\"  data-o-ads-formats-small=\"FtcMobileMpu\"  data-o-ads-formats-medium=\"false\" data-o-ads-formats-large=\"false\" data-o-ads-formats-extra=\"false\" data-o-ads-targeting=\"cnpos=middle2;\" data-cy='[{\"devices\":[\"iPhoneWeb\",\"AndroidWeb\",\"iPhoneApp\",\"AndroidApp\"],\"pattern\":\"MPU\",\"position\":\"Middle2\",\"container\":\"mpuInStory\"}]'></div><p>"%>
-		<%*<!--
-		<%assign var="story_content" value=$story_content|regex_replace:"/[\r\t\n]/":""|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1<script type=\"text/javascript\">document.write (writeAdNew({devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],pattern:'MPU',position:'Middle2',container:'mpuInStory'}));</script><p>"%>
-		-->*%>
 	<%/if%>
 
 	<%* <!--
@@ -1331,7 +1325,6 @@
 		<%if !preg_match("/highcharts/is",$story_content) && !preg_match("/video/is",$story_content) && $hideMPU3!="yes" && $noAd != "true" && !preg_match("/单页/is",$tag)%>
 		<%*<!--在单页的情况下，如果文章没有插图，没有iframe，没有video，没有highcharts, 也没有被强制设为不显示MPU 3，则将MPU_3广告位插入到第五段开头。-->*%>
 			<%assign var="story_content" value=$story_content|regex_replace:"/[\r\t\n]/":""|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1	<div  data-o-ads-name=\"mpu-middle1\" class=\"o-ads in-article-advert\" data-o-ads-formats-default=\"false\"  data-o-ads-formats-small=\"FtcMobileMpu\"  data-o-ads-formats-medium=\"false\" data-o-ads-formats-large=\"FtcMpu\" data-o-ads-formats-extra=\"FtcMpu\" data-o-ads-targeting=\"cnpos=middle1;\" data-cy='[{\"devices\":[\"PC\",\"iPhoneWeb\",\"AndroidWeb\",\"iPhoneApp\",\"AndroidApp\"],\"pattern\":\"MPU\",\"position\":\"Middle1\",\"container\":\"mpuInStory\"}]'></div><p>"%>
-			<%*<!--<%assign var="story_content" value=$story_content|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1<div  data-o-ads-name=\"mpu-middle1\" class=\"o-ads\" data-o-ads-formats-default=\"false\"  data-o-ads-formats-small=\"FtcMobileMpu\"  data-o-ads-formats-medium=\"false\" data-o-ads-formats-large=\"FtcMpu\" data-o-ads-formats-extra=\"FtcMpu\" data-o-ads-targeting=\"cnpos=middle1;\" data-cy='[{\"devices\":[\"PC\",\"iPhoneWeb\",\"AndroidWeb\",\"iPhoneApp\",\"AndroidApp\"],\"pattern\":\"MPU\",\"position\":\"Middle1\",\"container\":\"mpuInStory\"}]'></div><script type=\"text/javascript\">document.write (writeAdNew({devices: ['PC','iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],pattern:'MPU',position:'Middle1',container:'mpuInStory'}));</script><p>"%>-->*%>
 		<%/if%>
 		<%assign var="storyHeadline" value=$cheadline%>
 		<%if $pageType == "bookinfo"%>
@@ -1598,7 +1591,6 @@
   </head>
   <%assign var="bannerCount" value=0%>
   <body class="<%$hideDate%>">
-  	<%include file="next/partials/pc-roadblock-extra.html"%>
   	<%include file="next/partials/wechat-icon.html"%>
   	<script>checkB();</script>
 		<%if $PageTitle != ""%>
@@ -1680,18 +1672,19 @@ if (document.querySelector('.highcharts[data-chart-id]')) {
 	</script>
 <%/if%>
 <script type="text/javascript" src="https://static.ftimg.net/n/main-sharelinks.js?<%include file="next/timestamp/timestamp.html"%>"></script>
-<%*<!--In Read Ad-->*%>
+
+
+<%*<!--MARK: - In Read Ad is removed. Ad it back only when needed. -->*%>
 <%if $noAd != "true"%>
 <script type="text/javascript">
 // MARK: Don't show inread ad for biligual stories
 if (w > 490 && isTouchDevice() === false && document.querySelectorAll('.ce').length == 0) {
-	var cssVersionNumber = '<%include file="next/timestamp/timestamp.html"%>';
-    document.write ('<scr'+'ipt src="http://dualstack.adsame-1421766300.ap-southeast-1.elb.amazonaws.com/s?z=ft&c=1000' + window.adChannelId + '0901' + slotStr + adReachability() + '" charset="gbk"></scr'+'ipt>');
     // MARK: If a user reads more than n article in 30 days, ask hime/her to register
     document.write ('<scr'+'ipt src="https://static.ftimg.net/n/main-barrier.js?<%include file="next/timestamp/timestamp.html"%>"></scr'+'ipt>');
 }
 </script>
 <%/if%>
+
 
 <%if $smarty.get.teads == "yes"%>
 <script type="text/javascript" class="teads" src="//a.teads.tv/page/84615/tag" async="true"></script>

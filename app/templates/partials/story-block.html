@@ -57,9 +57,7 @@
 				<%if $smarty.get.full != "y" && !in_array("单页",$story.tag)%>
 					<%include file="next/partials/pagination.html"%>
 				<%/if%>
-			<%/if%>
-			
-			<%if date("Ymd",$smarty.now) <= 20180401%>
+			<%/if%>			
 			<div 
 			data-o-ads-name="infoflow1"
 			class="o-ads infoflow"  
@@ -71,21 +69,6 @@
 			data-o-ads-targeting="cnpos=info1;"
 			>
 			</div>
-			<%*<!--
-			<div class="hide-iframe">
-			    <script type="text/javascript">
-			            window.originalAdChannelId = window.adChannelId;
-			            window.adChannelId = '1000';
-			            document.write(writeAdNew({
-			                    devices: ['iPhoneWeb','AndroidWeb','iPhoneApp','AndroidApp'],
-			                    pattern:'Information',
-			                    position:'Num1'
-			            }));
-			            window.adChannelId = window.originalAdChannelId;
-			    </script>
-			</div>
-			-->*%>
-			<%/if%>
 			<div class="copyrightstatement-container">
 				<%$copyrightStatement%>
 			</div>
@@ -157,13 +140,6 @@
 				data-cy='[{"devices":["PC","PadWeb","PadApp"],"pattern":"MPU","position":"Right1"}]'
 				>
 				</div>
-				<script type="text/javascript">
-					document.write (writeAdNew({
-						devices: ['PC','PadWeb','PadApp'],
-						pattern:'MPU',
-						position:'Right1'
-					}));
-				</script>
 			<%/if%>
 		</div></div>
 	<%elseif $smarty.get.screencapture != "yes"%>
