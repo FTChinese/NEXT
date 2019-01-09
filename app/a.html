@@ -20,9 +20,39 @@
     var format;
     var name;
     var adFormats = {
-      "FtcMobileBanner":[[414,104]],
-      "FtcMpu":[[300,250]],
-      "FtcInfoFlow":[[400,300]]
+        "FtcLeaderboard" : {
+        "sizes":[[1200, 120], [1200, 400], [1200, 250], [969, 90], [969, 400], [969, 250]]
+        },
+        "FtcBanner": {
+        "sizes":[[1200, 120], [969, 90]]
+        },
+        "FtcMobileBanner": {
+        "sizes": [[414, 104]]
+        },
+        "FtcMobileMpu":{
+        "sizes":[[300, 250]]
+        },
+        "FtcMpu":{
+        "sizes":[[300, 250], [300, 600], [300,1050]]
+        },
+        "FtcInfoFlow":{
+        "sizes":[[400, 300]]
+        },
+        "FtcMobileFullscreen": {
+        "sizes":[[414, 736]]
+        },
+        "FtcPcFullscreen":{
+        "sizes":[[700, 520]]
+        },
+        "FtcPaidpost":{
+        "sizes":[[280, 350]]
+        },
+        "FtcRibbon":{
+        "sizes":[[300, 60]]
+        },
+        "FtcMembertext":{
+        "sizes":[[300, 47]]
+        }
     }
     if (/^[0-9]{12}$/.test(c)) {
         adChannelId = c.substring(4,8);
@@ -31,6 +61,7 @@
         if (adChannelId !== '1000') {
             zone = '';
         }
+        // MARK: Map the legacy dolphine ad position id to GAM. This is not accurate but no need to put additional time. 
         if (/^01/.test(adPositionId)) {
             pos = 'fullscreen';
         } else if (/^0[23]/.test(adPositionId)) {
@@ -76,8 +107,8 @@
                 name = 'infoflow2';
                 break;
             case 'fullscreen':
-                //format = adFormats['FtcMobileFullscreen'];
-                //name = 'fullscreen-mobile';
+                format = adFormats['FtcMobileFullscreen'];
+                name = 'fullscreen-mobile';
                 break;
             default:
             format = adFormats['FtcMobileBanner'];
@@ -105,7 +136,7 @@
       var dbCode = '<div id="'+ adProps.name +'" style="padding-top:0;"><scr' + 'ipt>googletag.cmd.push(function() { googletag.display("'+ adProps.name +'")})</scr' + 'ipt></div>';
       document.write(dbCode);
       try {
-        window.parent.ga('send', 'event', 'Ad Impression Test: GAM Web App ad.html', adProps.pos, adProps.name, {'nonInteraction':1});
+        window.parent.ga('send', 'event', 'Ad Impression Test: GAM App', adProps.pos, adProps.name, {'nonInteraction':1});
       } catch(ignore) {
 
       }
