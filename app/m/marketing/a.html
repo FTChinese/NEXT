@@ -1,346 +1,115 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<title></title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link rel="preconnect" href="http://dualstack.adsame-1421766300.ap-southeast-1.elb.amazonaws.com" />
-<style type="text/css">
-*{margin:0;padding: 0;}
-html, body{
-    background: #F6E9D8;
-    margin:0 auto;
-    width:100%;
-    height:100%;
-    overflow:hidden;
-}
-.ad{
-    width:100%;
-    overflow:visible;
-    position: relative;
-}
-.ad>div {
-    margin: auto !important;
-    overflow:visible;
-    max-width: 100% !important;
-    display:block !important;
-    width:100%;
-    text-align: center;
-
-}
-.ad>div div {
-    margin: auto !important;
-    display:block !important;
-}
-
-img {
-    max-width: 100% !important;
-    display: block !important;
-    margin: auto !important;
-}
-.top-left {
-    float: left;
-}
-.top-right {
-    float: right;
-}
-video::-internal-media-controls-download-button {
-	display:none;
-}
-video::-webkit-media-controls-enclosure {  
-    overflow:hidden;  
-}  
-video::-webkit-media-controls-panel {  
-    width: calc(100% + 30px);  
-} 
-</style>
-<script>
-
-    //获取url参数 
-    var gSearchVars = {};
-    var searchStr = window.location.hash;
-    for (var index = 0, searchStrArr = searchStr.substr(1).split("&"); index < searchStrArr.length; index++) {
-        var oneKeyValueArr = searchStrArr[index].split("=");
-        gSearchVars[oneKeyValueArr[0]] = oneKeyValueArr.length > 1 ? oneKeyValueArr[1] : "";
-    }
-        
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Page Title</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src='https://www.googletagservices.com/tag/js/gpt.js'></script> <!--TODO:该资源网络不好的时候会获取不到-->
+  <script>
+    var zone = 'home';
+    var adProps = {};
     var k=window.location.href;
     var c = k.replace(/^.*adid=([0-9A-Za-z\-]+).*$/,'$1');
-    //var c = gSearchVars.adid;
-    // console.log('gSearchVars:', gSearchVars);
-    // console.log('c:',c);
-    var d;
-    if (/^[0-9]{4}0001$/.test(c)) {
-        d = c.replace(/([0-9]{4})0001/g,'$10002');
-    } else {
-        d='';
-    }
     var adDeviceId;
     var adChannelId;
     var adPositionId;
-
     var adSize;
     var parentId = k.replace(/^.*pid=([0-9A-Za-z\-]+).*$/,'$1');
+    var pos;
+    var format;
+    var name;
+    var adFormats = {
+      "FtcMobileBanner":[[414,104]],
+      "FtcMpu":[[300,250]],
+      "FtcInfoFlow":[[400,300]]
+    }
     if (/^[0-9]{12}$/.test(c)) {
         adChannelId = c.substring(4,8);
         adPositionId = c.substring(8,12);
         adDeviceId = c.substring(0,4);
-        parentId = 'ad-'+parentId;
-    } else {
-        adChannelId = c.substring(0,4);
-        adPositionId = c.substring(4,8);
-        adDeviceId = '';
-    }
-
-    var refreshParameter = '';
-    if (/&refresh=1/.test(k)) {
-        refreshParameter = '&_refresh=1';
-    } else {
-        refreshParameter = '&_refresh=0';
-    }
-
-    var slotStr = window.parent.slotStr || '';
-
-    var adP = '';
-    try {
-        adP = parent.adReachability();
-    } catch (ignore) {
-    }
-
-    var randNumber = parseInt(Math.random() * 10000000000, 10).toString();
-    var adpatternCode = c.substr(-4,4);
-    if (c === '20220101' || c === '20220102' || c === '20230101' || c === '20230102' || adpatternCode === '0301' || adpatternCode === '0351') {
-        parent.window.gRand = randNumber;
-    }
-    var trString = '&tr=' + c + '_' + randNumber;
-
-    if (gSearchVars && gSearchVars.testDB === 'yes') {
-        var adDeviceType = gSearchVars.device;
-        var adPattern = gSearchVars.pattern;
-        var adSizeArr = [];
-        //var adClass = 'db-ad';
-
-        if (adDeviceType === 'PC') {
-            if(adPattern === 'Leaderboard') {
-                adSizeArr =  [[969, 90], [1200, 120], [1200, 500], 'fluid', [969, 250], [1200, 400], [969, 400]];
-            } else if (adPattern === 'Banner') {
-                adSizeArr = [[969, 90], [1200, 120]];
-            }else if (adPattern === 'MPU') {
-                adSizeArr = [[300, 250], [300, 1050], [300, 600], 'fluid', [810, 600]];
-            }
-        } else if (adDeviceType === 'iPhoneWeb' || adDeviceType === 'AndroidWeb') {
-            if(adPattern === 'Banner') {
-                var deviceWidth = window.parent.innerWidth || window.parent.document.documentElement.clientWidth || window.parent.document.body.clientWidth;
-                var bannerW = deviceWidth;
-                var bannerH = Math.round(bannerW/4);
-                adSizeArr = [[bannerW,bannerH],[414, 104]];
-                //adClass += ' db-mobile-banner';
-
-            } else if (adPattern === 'MPU') {
-                adSizeArr = [[300, 250]];
-            } else if (adPattern === 'Information') {
-                adSizeArr = [[480, 320]];
-                //adClass += ' db-mobile-information';
-
-            } else {
-                adSizeArr = [];
-            }
+        if (adChannelId !== '1000') {
+            zone = '';
         }
-        var adName = 'db-'+c;
+        if (/^01/.test(adPositionId)) {
+            pos = 'fullscreen';
+        } else if (/^0[23]/.test(adPositionId)) {
+            pos = 'top1';
+        } else if (/^0[4]/.test(adPositionId)) {
+            pos = 'middle1';
+        } else if (/^0[8]/.test(adPositionId)) {
+            pos = 'info1';
+        } else {
+            pos = 'middle1';
+        }
+        switch(pos) {
+            case 'top1':
+                format = adFormats.FtcMobileBanner;
+                name = 'banner1';
+                break;
+            case 'top2':
+                format = adFormats.FtcMobileBanner;
+                name = 'banner2';
+                break;
+            case 'middle1':
+                format = adFormats['FtcMpu'];
+                name = 'mpu-middle1';
+                break;
+            case 'middle2':
+                format = adFormats['FtcMpu'];
+                name = 'mpu-middle2';
+                break;
+            case 'right1':
+                format = adFormats['FtcMpu'];
+                name = 'mpu-right1';
+                break;
+            case 'right2':
+                format = adFormats['FtcMpu'];
+                name = 'mpu-right2';
+                break;
+            case 'info1':
+                format = adFormats['FtcInfoFlow'];
+                name = 'infoflow1';
+                break;
+            case 'info2':
+                format = adFormats['FtcInfoFlow'];
+                name = 'infoflow2';
+                break;
+            case 'fullscreen':
+                //format = adFormats['FtcMobileFullscreen'];
+                //name = 'fullscreen-mobile';
+                break;
+            default:
+            format = adFormats['FtcMobileBanner'];
+            name = 'banner1'; 
+        }
+        adProps = {
+            pos: pos,
+            name: name,
+            format: format
+        }
     }
-</script>
-<!--script src='https://www.googletagservices.com/tag/js/gpt.js'></script-->
-<!-- TODO: if it will be used doubleclick in a.html, the loading for gpt should use a local file-->
-<script>
-    if (gSearchVars && gSearchVars.testDB === 'yes' && window.googleTag) {
-        googletag.cmd.push(function() {
-            googletag.defineSlot('/80682004/'+adDeviceType+'-'+adDeviceId +'/' + c,adSizeArr, adName). addService(googletag.pubads());
-            googletag.pubads().enableSingleRequest();
-            googletag.pubads().enableSyncRendering();
-            googletag.enableServices();
-        });
-    }
+ </script>
+ <script>
+    googletag.cmd.push(function() {
+      googletag.defineSlot('/5887/FtChinese/' + zone, adProps.format, adProps.name). addService(googletag.pubads())
+      googletag.pubads().enableSingleRequest();
+      googletag.pubads().setTargeting('cnpos',[adProps.pos]);
+      googletag.enableServices();
+    });
 </script>
 </head>
-<body>
+<body style="width:100%;margin: 0px;padding: 0px;background-color:#fff1e0;">
+  <script>
+    if(adProps.pos) {
+      var dbCode = '<div id="'+ adProps.name +'" style="padding-top:0;"><scr' + 'ipt>googletag.cmd.push(function() { googletag.display("'+ adProps.name +'")})</scr' + 'ipt></div>';
+      document.write(dbCode);
+      try {
+        window.parent.ga('send', 'event', 'Ad Impression Test: GAM Web App ad.html', adProps.pos, adProps.name, {'nonInteraction':1});
+      } catch(ignore) {
 
-<div class="ad">
-    <div id="n-ad-container">
-        <script>
-            function removeAd() {
-                // MARK: - Stop Tracking for Lack of GA Quota
-                //window.parent.sendEvent('Ad Impression: Error', adDeviceId+adChannelId, adPositionId, {'nonInteraction':1});
-            }
-            function loaded() {
-                if (window.isHouseAd === true) {
-                    try {
-                    window.parent.sendEvent('Ad Impression: House Ad', adDeviceId+adChannelId, adPositionId, {'nonInteraction':1});
-                    } catch (ignore) {
-                        
-                    }
-                }
-            }
-            
-            if (/[0-9]{4}19020402/.test(c)) {
-                var parentIframe = window.parent.document.getElementById(parentId);
-                if (parentIframe) {
-                    var adContainer = window.parentIframe.parentNode;
-                    if (adContainer) {
-                        if (/mpu\-container/.test(adContainer.className)) {
-                            adContainer.style.display = 'none';
-                        }
-                    }
-                }
-            } else if(/[0-9]{4}19020302/.test(c)) {
-                var parentIframe = window.parent.document.getElementById(parentId);
-                if (parentIframe) {
-                    var adContainer = window.parentIframe.parentNode.parentNode.parentNode.parentNode;
-                    if (adContainer) {
-                        if (/bn\-ph/.test(adContainer.className)) {
-                            adContainer.style.display = 'none';
-                        }
-                    }
-                }
-            } else {
-                if (gSearchVars && gSearchVars.testDB === 'yes' && window.googleTag) {
-                    document.write('<div id="'+ adName +'" class="db-ad db-mobile-banner"><scr'+'ipt>googletag.cmd.push(function() { googletag.display("'+ adName +'")})</scr'+'ipt></div>');
-                } else {
-
-                    // MARK: - Test Ad validation for Gap
-                    try {
-                        if (/[0-9]{8}0301$/.test(c)) {
-                            //console.log ('about to send request to dolphine: ' + c);
-                            // MARK: Stop tracking for lack of GA Quota
-                            //window.parent.sendEvent('Ad Validate: Request', adDeviceId+adChannelId, adPositionId, {'nonInteraction':1});
-                            var foundChildren = false;
-                            var checkChildren = function() {setTimeout(function() {
-                                var childrenItems = document.getElementById('n-ad-container').querySelectorAll('div, img, video, a').length;
-                                if (childrenItems <= 0) {
-                                    checkChildren();
-                                } else {
-                                    // MARK: Stop tracking for lack of GA Quota
-                                    //window.parent.sendEvent('Ad Validate: Success', adDeviceId+adChannelId, adPositionId, {'nonInteraction':1});
-                                }
-                            }, 1000);};
-                            checkChildren();
-                        }
-                    } catch(ignore){
-
-                    }
-
-                    document.write ('<scr'+'ipt src="http://dualstack.adsame-1421766300.ap-southeast-1.elb.amazonaws.com/s?z=ft&c=' + c + slotStr + trString + adP + '&_fallback=0' + refreshParameter + '" charset="gbk" onerror="removeAd()" onload="loaded()"></scr'+'ipt>');
-                }
-            }
-            
-            // record the ad impression
-            try {
-                window.parent.sendEvent('Ad Impression', adDeviceId+adChannelId, adPositionId, {'nonInteraction':1});
-            } catch (ignore) {
-
-            }
-
-        </script>
-    </div>
-</div>
-
-<div id="ad-bottom"></div>
-
-<script src="https://static.ftimg.net/n/a-domore.js?007"></script>
-
-<script>
-/*
-window.refreshTime = 10;
-window.recoverOriginalUrlTime = 0.1;
-var shouldRunRefresh = Math.random();
-
-if (/1000[0-9]{4}0201|1000[0-9]{4}0411/.test(c) && shouldRunRefresh < 0.05) {
-
-    var parentPathName = '/';
-
-    try {
-        parentPathName = parent.window.location.pathname;
-        if (parent && typeof parent.window.OriginalUrlString === 'string') {
-            parentPathName = parent.window.OriginalUrlString; 
-        } else {
-            parent.window.OriginalUrlString = parentPathName;
-        }
-    } catch (ignore) {
-
+      }
     }
-
-    var trackImpViewtop = 'http://bsch.serving-sys.com/serving/adServer.bs?cn=display&c=19&mc=imp&pli=23613562&PluID=0&ord=__TIME__&rtu=-1&mb=1';
-
-    if(window.parent && !window.parent.trackVideoImpressionViewtop ) {
-        window.parent.trackVideoImpressionViewtop = new Image();
-    }
-    
-
-    setTimeout(function(){
-
-        //video track	
-        window.parent.trackVideoImpressionViewtop.onload = function() {
-                window.parent.ga('send', 'event', 'testvideo impression', 'Success add By Ad', trackImpViewtop, {'nonInteraction': 1});
-        }
-        window.parent.trackVideoImpressionViewtop.onerror = function() {
-                window.parent.ga('send', 'event', 'testvideo impression', 'Fail add By Ad', trackImpViewtop, {'nonInteraction': 1});
-        }
-        window.parent.trackVideoImpressionViewtop.src = trackImpViewtop;
-
-        var adPosition;
-        if (/1000[0-9]{4}0201/.test(c)) {
-            adPosition = '0201';
-        } else {
-            adPosition = '0411';
-        }
-        if ( window.parent.document.getElementById(parentId)) {
-            //console.log('found: ' +parentId);
-            parentIframe = window.parent.document.getElementById(parentId);
-            var divAddedByClient = parentIframe.parentNode.querySelectorAll('div')[0];
-            if (divAddedByClient !== undefined) {
-                divAddedByClient.outerHTML = '';
-                delete divAddedByClient;
-            }
-            parentIframe.style = '';
-            parentIframe.setAttribute('width', '100%');
-            parentIframe.setAttribute('id', 'ad-10001902'+adPosition);
-            try {
-                var parentBannerContentDom = parentIframe.parentNode;
-                var allEyeDivs = parentBannerContentDom.querySelectorAll('div');
-                //console.log (allEyeDivs);
-                for (var eyeDivIndex = 0; eyeDivIndex<allEyeDivs.length; eyeDivIndex++) {
-                    parentBannerContentDom.removeChild(allEyeDivs[eyeDivIndex]);
-                }
-            } catch (ignore) {
-
-            }
-            try {
-                var eyeDivContainer = window.parent.document.getElementById('eyeDiv');
-                if (eyeDivContainer) {
-                    window.parent.document.body.removeChild(eyeDivContainer);
-                }
-            } catch (ignore) {
-
-            }
-        }
-
-        parent.window.history.replaceState({
-            foo: 'bar'
-        }, '', '/channel/viewtop.html');
-
-        var newHref = '/a.html?v=20171214112400#adid=10001902'+adPosition+'&pid=10001902'+adPosition;
-        window.location.href = newHref;
-        //console.log ('url print: change to: ' + newHref);
-        location.reload(false);
-    }, 1000 * 60 * window.refreshTime);
-
-    setTimeout(function() {
-        parent.window.history.replaceState({
-            foo: 'bar'
-        }, '', parentPathName);
-    }, 1000 * 60 * window.recoverOriginalUrlTime);
-}
-*/
-</script>
-
+  </script>
 </body>
 </html>
