@@ -11,6 +11,7 @@
     var adProps = {};
     var k=window.location.href;
     var c = k.replace(/^.*adid=([0-9A-Za-z\-]+).*$/,'$1');
+    var p = k.replace(/^.*pos=([0-9A-Za-z\-]+).*$/,'$1');
     var adDeviceId;
     var adChannelId;
     var adPositionId;
@@ -53,7 +54,7 @@
         "FtcMembertext":{
         "sizes":[[300, 47]]
         }
-    }
+    };
     if (/^[0-9]{12}$/.test(c)) {
         adChannelId = c.substring(4,8);
         adPositionId = c.substring(8,12);
@@ -73,57 +74,59 @@
         } else {
             pos = 'middle1';
         }
-        switch(pos) {
-            case 'top1':
-                format = adFormats.FtcMobileBanner;
-                name = 'banner1';
-                break;
-            case 'top2':
-                format = adFormats.FtcMobileBanner;
-                name = 'banner2';
-                break;
-            case 'middle1':
-                format = adFormats['FtcMpu'];
-                name = 'mpu-middle1';
-                break;
-            case 'middle2':
-                format = adFormats['FtcMpu'];
-                name = 'mpu-middle2';
-                break;
-            case 'right1':
-                format = adFormats['FtcMpu'];
-                name = 'mpu-right1';
-                break;
-            case 'right2':
-                format = adFormats['FtcMpu'];
-                name = 'mpu-right2';
-                break;
-            case 'info1':
-                format = adFormats['FtcInfoFlow'];
-                name = 'infoflow1';
-                break;
-            case 'info2':
-                format = adFormats['FtcInfoFlow'];
-                name = 'infoflow2';
-                break;
-            case 'fullscreen':
-                format = adFormats['FtcMobileFullscreen'];
-                name = 'fullscreen-mobile';
-                break;
-            default:
-            format = adFormats['FtcMobileBanner'];
-            name = 'banner1'; 
-        }
-        adProps = {
-            pos: pos,
-            name: name,
-            format: format
-        }
+    } else {
+        pos = p;
     }
+    switch(pos) {
+        case 'top1':
+            format = adFormats.FtcMobileBanner;
+            name = 'banner1';
+            break;
+        case 'top2':
+            format = adFormats.FtcMobileBanner;
+            name = 'banner2';
+            break;
+        case 'middle1':
+            format = adFormats['FtcMpu'];
+            name = 'mpu-middle1';
+            break;
+        case 'middle2':
+            format = adFormats['FtcMpu'];
+            name = 'mpu-middle2';
+            break;
+        case 'right1':
+            format = adFormats['FtcMpu'];
+            name = 'mpu-right1';
+            break;
+        case 'right2':
+            format = adFormats['FtcMpu'];
+            name = 'mpu-right2';
+            break;
+        case 'info1':
+            format = adFormats['FtcInfoFlow'];
+            name = 'infoflow1';
+            break;
+        case 'info2':
+            format = adFormats['FtcInfoFlow'];
+            name = 'infoflow2';
+            break;
+        case 'fullscreen':
+            format = adFormats['FtcMobileFullscreen'];
+            name = 'fullscreen-mobile';
+            break;
+        default:
+        format = adFormats['FtcMobileBanner'];
+        name = 'banner1'; 
+    }
+    adProps = {
+        pos: pos,
+        name: name,
+        format: format
+    };
  </script>
  <script>
     googletag.cmd.push(function() {
-      googletag.defineSlot('/5887/FtChinese/' + zone, adProps.format, adProps.name). addService(googletag.pubads())
+      googletag.defineSlot('/5887/FtChinese/' + zone, adProps.format , adProps.name). addService(googletag.pubads())
       googletag.pubads().enableSingleRequest();
       googletag.pubads().setTargeting('cnpos',[adProps.pos]);
       googletag.enableServices();
