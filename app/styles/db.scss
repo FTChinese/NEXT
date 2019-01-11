@@ -12,8 +12,12 @@ div.o-ads{
   }
   &[data-o-ads-loaded] {
     // MARK: - Set overflow as visible so that ad sign will be displayed after ad is loaded
-    overflow: visible;
+    //overflow: visible;
     margin-bottom: 30px;
+  }
+  iframe {
+    max-width: 100% !important;
+    overflow: hidden !important;
   }
 }
 
@@ -37,24 +41,25 @@ div.o-ads{
     right:calc(50% - 150px);
   }
   // MARK: - NO AD SIGN FOR RIBBON AD ON HOME PAGE RIGHT TOP
-  .o-ads[data-o-ads-loaded="FtcRibbon"][data-o-ads-loaded] & {
+  .o-ads[data-o-ads-loaded=FtcRibbon][data-o-ads-loaded] & {
     content: '';
   }
 }
 
-.o-ads[data-o-ads-formats-large="FtcRibbon"] {
+.o-ads[data-o-ads-formats-large=FtcRibbon] {
   &[data-o-ads-loaded] {
     margin-top: 15px;
     margin-bottom: 15px;
   }
   iframe {
     margin-bottom: 0;
+    margin-top: 0;
   }
 }
 
 
 // MARK: - placeholder for 4 by 1 banner on mobile to avoid the flash
-.o-ads[data-o-ads-formats-small="FtcMobileBanner"] {
+.o-ads[data-o-ads-formats-small=FtcMobileBanner] {
   @media screen and (max-width:760px) {
     padding-top: 25%;
     background: #F6E9D8;
@@ -74,7 +79,7 @@ div.o-ads{
   }
 }
 
-.o-ads[data-o-ads-name="fullscreen-pc"]{
+.o-ads[data-o-ads-name=fullscreen-pc]{
   margin-bottom: 0;
 }
 .o-ads--empty {
@@ -94,10 +99,10 @@ div.o-ads{
   padding: 25px 0;
 }
 .o-ads {
-  &.full-screen-pc, &[data-o-ads-name=fullscreen-pc], &.paid-post, &.infoflow, &[data-o-ads-name=paidpost], &[data-o-ads-loaded=false], &.fullscreen-ad {
+  &.fullscreen-pc, &.fullscreen-ad, &[data-o-ads-name=fullscreen-pc], &.paid-post, &.infoflow, &[data-o-ads-name=paidpost], &[data-o-ads-loaded=false] {
     display: none;
   }
-  &.fullscreen-ad[data-o-ads-loaded="FtcMobileFullscreen"], &.full-screen-pc[data-o-ads-loaded="FtcPcFullscreen"] {
+  &.fullscreen-ad[data-o-ads-loaded=FtcMobileFullscreen], &.fullscreen-pc[data-o-ads-loaded=FtcPcFullscreen] {
       display: block;
   }
 }

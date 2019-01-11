@@ -160,8 +160,13 @@ video::-internal-media-controls-download-button {
 
 // Paid Post related styles
 .oneStory {
-	margin: 0 -7.5px !important;
+	//margin: 0 -7.5px !important;
+	overflow: hidden !important;
+	.storyInner {
+		padding: $defaultPadding/2 $defaultPadding/2 !important;
+	}
 }
+
 .storyInner {
 	padding: $defaultPadding/2 22.5px !important;
 	border-top:1px solid #e9decf;
@@ -187,6 +192,7 @@ video::-internal-media-controls-download-button {
 		font-size: 0.8em !important;
 	}
 }
+
 .hide-iframe {
 	.banner-iframe,iframe {
 		display: none;
@@ -235,7 +241,10 @@ video::-internal-media-controls-download-button {
 		}
 	}
 	.oneStory {
-		margin: 0 -15px !important;
+		//margin: 0 -15px !important;
+		.storyInner {
+			padding: $defaultPadding/2 $defaultPadding/4 !important;
+		}
 	}
 }
 

@@ -222,6 +222,7 @@ gpt: {
 "site": "FtChinese",
 "zone": 'home'
 },
+collapseEmpty: 'before',
 dfp_targeting: dfpTargetingStr,
 formats: {
 "FtcLeaderboard" : {
@@ -271,57 +272,20 @@ document.writeln(configScriptJsonStr);
 <script>checkB();</script>
 <script>var gUaOfPage = navigator.userAgent || navigator.vendor || "";</script><script>var gPageId = 'home';</script>
 <div data-o-ads-name="fullscreen-pc"
-class="o-ads full-screen-pc"
+class="o-ads fullscreen-pc"
 data-o-ads-formats-default="false"
 data-o-ads-formats-small="false"
 data-o-ads-formats-medium="FtcPcFullscreen"
 data-o-ads-formats-large="FtcPcFullscreen"
 data-o-ads-targeting="cnpos=pcfullscreen;">
 </div>
-<div id=roadblock style="margin:0 auto;position:relative;width:700px;text-align:center;">
-<script type="text/javascript">
-var thisday1 = new Date();
-var todaydate1 = thisday1.getFullYear() + "-" + (thisday1.getMonth() + 1) + "-" + thisday1.getDate();
-var fullsc = GetCookie("rb2");
-var paywallTypeForRoadBlock = GetCookie('paywall');
-if (paywallTypeForRoadBlock === 'premium' || paywallTypeForRoadBlock === 'standard') {
-//fullsc = GetCookie("rb2");
-try {
-DeleteCookie('rb2');
-} catch (ignore) {
-}
-// 20181221 - Qi Fan
-} else {
-try {
-DeleteCookie('rb2');
-} catch (ignore) {
-}
-}
-var loadFullAtEnd = false;
-var adchHome = '10001000';
-var adPositionHome = '0101';
-var fullPageAdchId = adchHome + adPositionHome;
-var testFullPageAd = false;
-if ((fullsc == null && w>490 && isTouchDevice() === false && (todaydate1 == "2018-12-20" || todaydate1 == "2018-12-21" || todaydate1 == "2018-12-25" || todaydate1 == "2018-12-27" || todaydate1 == "2018-12-29")) || testFullPageAd === true) {
-console.log('show full ad');
-document.write('<scr' + 'ipt type="text/jav' + 'ascript" src="http://dualstack.adsame-1421766300.ap-southeast-1.elb.amazonaws.com/s?z=ft&amp;c=' + fullPageAdchId + '&amp;slot=645072137&amp;_sex=101&amp;_trip=1&amp;_lux=1&amp;_dc=2&amp;_mm=2&amp;_sz=2&amp;_am=2&amp;_ut='+ window.gUserType +'" charset="gbk"></scr' + 'ipt>');
-sendEvent('Ad Impression', adchHome, adPositionHome, {'nonInteraction':1});
-} else if (fullsc == null) {
-loadFullAtEnd = true;
-} else if (w>490 && isTouchDevice() === false && (todaydate1 == "2018-12-20" || todaydate1 == "2018-12-21" || todaydate1 == "2018-12-25" || todaydate1 == "2018-12-27" || todaydate1 == "2018-12-29")) {
-sendEvent('Ad Impression Suppress', adchHome, adPositionHome, {'nonInteraction':1});
-} else if (w>490 && isTouchDevice() === false){
-sendEvent('Ad Impression Not Scheduled', adchHome, adPositionHome, {'nonInteraction':1});
-}
-setTimeout(function () {
-stickyBottomPrepare();
-stickyAdsPrepare();
-}, 9000);
-</script>
-</div>
+
+
 <script>
 window.newAd = true;
 </script>
+
+
 <div class="o-ads fullscreen-ad" 
 data-o-ads-name="fullscreen-mobile"
 data-o-ads-center="true" 
@@ -332,6 +296,8 @@ data-o-ads-formats-large="false"
 data-o-ads-formats-extra="false"
 data-o-ads-targeting="cnpos=mobilefullscreen;">
 </div>
+
+
 <style>
 .noneSubscriber.subscription-promo-container {
 background-color: #14bdcc;
@@ -797,9 +763,10 @@ window.gSubscriptionEventLabel = 'Page/home';
 <div class="item-lead">苹果公司警告在华销售疲软，加剧了人们对全球经济健康的担忧。全球股市普遍下跌，市场预期美联储会停止加息。</div><div class="item-time highlight">3小时前</div>
 <div class="item-bottom"></div>
 </div></div>
+
 <div 
 data-o-ads-name="infoflow1"
-class="o-ads"  
+class="o-ads infoflow"  
 data-o-ads-formats-default="false" 
 data-o-ads-formats-small="FtcInfoFlow" 
 data-o-ads-formats-medium="false"
@@ -954,7 +921,7 @@ data-cy='[{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp"],"pattern":"MPU","pos
 </div></div>
 <div 
 data-o-ads-name="infoflow2"
-class="o-ads"  
+class="o-ads infoflow"  
 data-o-ads-formats-default="false" 
 data-o-ads-formats-small="FtcInfoFlow" 
 data-o-ads-formats-medium="false"
