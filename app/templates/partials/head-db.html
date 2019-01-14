@@ -1,10 +1,11 @@
-<%*<!--TODO: For Internet Explorer 6-11, fall back to the a.html to deliver ads -->*%>
+<%*<!--TODO:  Change this into feature detection -->*%>
 <%if $smarty.get.ad != "no" && $hideAd != "yes" && $noAd != "true"%>
 	<script type="text/javascript">
-		//TODO: - Change this into feature detection
 		var isIE = /*@cc_on!@*/false || !!document.documentMode;
 		if (isIE) {
 			document.write('<scr'+ 'ipt src="//cdn.polyfill.io/v2/polyfill.min.js?features=Array.from,Array.prototype.find,IntersectionObserver,fetch,default"></scr' + 'ipt>');
+		} else {
+			
 		}
 	</script>
 	<script async src="https://www.ft.com/__origami/service/build/v2/bundles/js?modules=o-ads@10.2.0"></script>
