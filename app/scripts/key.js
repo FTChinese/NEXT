@@ -1,17 +1,9 @@
 /* exported DeleteCookie,isHidden,username,userId,guid,ccodeCookie,addstoryfav, showOverlay, closeOverlay, w, isTouchDevice, trackerNew, paravalue, trackAdClic, checkUserWarnings*/
 var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 var ua = navigator.userAgent || navigator.vendor || '';
-var gIsSpider = (/spider|baidu|bidu|bot|crawler|crawling/i.test(ua)) ? true: false;
 var gUserType = 'visitor';
 
 
-
-// MARK: - check for hard-to-find spiders such as those disguised as iOS 9 devices
-function findMoreSpider() {
-    if (gIsSpider === false && /iPhone OS 9\_1 /i.test(ua) && typeof httpspv !== 'function') {
-        gIsSpider = true;
-    }
-}
 
 function GetCookie(name){
     var start = document.cookie.indexOf(name+'='),
@@ -239,8 +231,6 @@ function trackerNew() {
 
     if (subscriberType && typeof subscriberType === 'string' && subscriberType !== '') {
         vtype = subscriberType;
-    } else if (gIsSpider === true) {
-        vtype = 'spider';
     } else if (username === '') {
         vtype = 'visitor';
     } else {
@@ -453,7 +443,6 @@ var user_name = GetCookie('USER_NAME') || GetCookie('USER_NAME_FT');
 if (user_name !== null) {
     document.documentElement.className += ' is-member';
 }
-findMoreSpider();
 
 function parseUrlSearch(){
     var para = location.search;
