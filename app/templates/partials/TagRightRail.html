@@ -23,8 +23,6 @@
 			<%/if%>
 			<%$tagabout%>
 		</div>
-	<%else%>
-		<div class="interactives"></div>
 	<%/if%>
 
 	<%if $smarty.get.ad != "no" && $noAd != "true" && $hideMPU1 != "yes"%>
@@ -36,14 +34,24 @@
 		data-o-ads-formats-medium="FtcMpu"
 		data-o-ads-formats-large="FtcMpu"
 		data-o-ads-targeting="cnpos=right1;"
-		data-cy='[{"devices":["PC","PadWeb","PadApp"],"pattern":"MPU","position":"Right1"}]'
+		>
+		</div>
+		<div 
+		data-o-ads-name="mpu-middle5"
+		class="o-ads"  
+		data-o-ads-formats-default="false" 
+		data-o-ads-formats-small="FtcMobileMpu" 
+		data-o-ads-formats-medium="false"
+		data-o-ads-formats-large="false"
+		data-o-ads-formats-extra="false"
+		data-o-ads-targeting="cnpos=middle5;"
 		>
 		</div>
 	<%/if%>
 
 	<%if $storymodel != ""%>
 	    <%if $hideHotStory != "yes"%>
-			<div class="mps P-hide">
+			<div class="mps">
 				<h2 class="list-title"><a href="/channel/weekly.html">热门文章</a></h2>
 				<ul class="top10">
 					<%assign var="i" value=0%>
@@ -78,7 +86,17 @@
 			data-o-ads-formats-medium="FtcMpu"
 			data-o-ads-formats-large="FtcMpu"
 			data-o-ads-targeting="cnpos=right2;"
-			data-cy='[{"devices":["PC","PadWeb","PadApp"],"pattern":"MPU","position":"Right2"}]'
+			>
+			</div>
+			<div 
+			data-o-ads-name="mpu-middle6"
+			class="o-ads"  
+			data-o-ads-formats-default="false" 
+			data-o-ads-formats-small="FtcMobileMpu" 
+			data-o-ads-formats-medium="false"
+			data-o-ads-formats-large="false"
+			data-o-ads-formats-extra="false"
+			data-o-ads-targeting="cnpos=middle6;"
 			>
 			</div>
 		<%/if%>

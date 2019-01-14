@@ -1311,94 +1311,125 @@
 							<%assign var="i" value=$i+1%>
 						<%/if%>
 
-						<%if $smarty.get.ad != "no" && $hideAd != "yes" %>
-							<%*<!--insert 10 bonus MPU for mobile phone temporarily start-->*%>
-							<%if $smarty.get.utm_campaign == "2M161000" || preg_match("/2U16[0-9]+/is",$smarty.get.utm_campaign)%>
-								<%if $pageId == "home"%>
-									<%assign var="mpuName" value="homempu-bonus"%>
-									<%*<!--show bonus MPU every 3 stories-->*%>
-									<%if $i%2 == 1 %>
-											<div class="mpu-container P-only"><script type="text/javascript">document.write (writeAd('<%$mpuName%>'));</script></div>
-									<%/if%>
-								<%/if%>
-							<%*<!--insert 10 bonus MPU for mobile phone temporarily end-->*%>
-
+						<%if $smarty.get.ad != "no" && $hideAd != "yes" && $noAd != "true"%>
 							<%*<!--insert an extra MPU for mobile phone start-->*%>
-							<%elseif $b == 0 && $l == 0 && $list.float != "VideoWall" && $noAd != "true"%>
+							<%if $b == 0 && $l == 0 && $list.float != "VideoWall" && $noAd != "true"%>
 								<%if $pageId == "home"%>
 									<%assign var="mpuName" value="homempu"%>
 								<%else%>
 									<%assign var="mpuName" value="taginlinempu"%>
 								<%/if%>
-								<%if date("Ymd",$smarty.now) <= 20170113 %>
-									<%if $i == 3 || $i == 10 || $i == 18%>
-										<div class="mpu-container P-only"><script type="text/javascript">document.write (writeAd('<%$mpuName%>'));</script></div>
-									<%/if%>
-								<%else%>
-									<%if $i == 3 && $smarty.get.webview == "ftcapp"%>
-										<div id="iap-highlight"></div>
-									<%/if%>
-									<%if $i == 1%>
-										<div 
-										data-o-ads-name="infoflow1"
-										class="o-ads infoflow"  
-										data-o-ads-formats-default="false" 
-										data-o-ads-formats-small="FtcInfoFlow" 
-										data-o-ads-formats-medium="false"
-										data-o-ads-formats-large="false"
-										data-o-ads-formats-extra="false"
-										data-o-ads-targeting="cnpos=info1;"
-										>
-										</div>
-									<%/if%>
-									<%if $i == 8%>
-										<%if $smarty.get.ad != "no" && $noAd != "true"%>
-											<div 
-											data-o-ads-name="mpu-middle1"
-											class="o-ads"  
-											data-o-ads-formats-default="false" 
-											data-o-ads-formats-small="FtcMobileMpu" 
-											data-o-ads-formats-medium="false"
-											data-o-ads-formats-large="false"
-											data-o-ads-formats-extra="false"
-											data-o-ads-targeting="cnpos=middle1;"
-											data-cy='[{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp"],"pattern":"MPU","position":"Middle1"}]'
-											>
-											</div>
-										<%/if%>
-									<%/if%>
+								<%if $i == 3 && $smarty.get.webview == "ftcapp"%>
+									<div id="iap-highlight"></div>
+								<%/if%>
+								<%if $i == 1%>
+									<div 
+									data-o-ads-name="infoflow1"
+									class="o-ads infoflow"  
+									data-o-ads-formats-default="false" 
+									data-o-ads-formats-small="FtcInfoFlow" 
+									data-o-ads-formats-medium="false"
+									data-o-ads-formats-large="false"
+									data-o-ads-formats-extra="false"
+									data-o-ads-targeting="cnpos=info1;"
+									>
+									</div>
+								<%/if%>
+								<%if $i == 8%>
+									<div 
+									data-o-ads-name="mpu-middle1"
+									class="o-ads"  
+									data-o-ads-formats-default="false" 
+									data-o-ads-formats-small="FtcMobileMpu" 
+									data-o-ads-formats-medium="false"
+									data-o-ads-formats-large="false"
+									data-o-ads-formats-extra="false"
+									data-o-ads-targeting="cnpos=middle1;"
+									data-cy='[{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp"],"pattern":"MPU","position":"Middle1"}]'
+									>
+									</div>
+								<%/if%>
+								<%if $i == 13%>
+									<div 
+									data-o-ads-name="infoflow2"
+									class="o-ads infoflow"  
+									data-o-ads-formats-default="false" 
+									data-o-ads-formats-small="FtcInfoFlow" 
+									data-o-ads-formats-medium="false"
+									data-o-ads-formats-large="false"
+									data-o-ads-formats-extra="false"
+									data-o-ads-targeting="cnpos=info2;"
+									>
+									</div>
+								<%/if%>
+								<%if $i == 18%>
+									<div 
+									data-o-ads-name="mpu-middle2"
+									class="o-ads" 
+									data-o-ads-formats-default="false" 
+									data-o-ads-formats-small="FtcMobileMpu" 
+									data-o-ads-formats-medium="false"
+									data-o-ads-formats-large="false"
+									data-o-ads-formats-extra="false"
+									data-o-ads-targeting="cnpos=middle2;"
+									data-cy='[{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"MPU","position":"Middle2"}]'
+									>
+									</div>
+								<%/if%>
 
-									<%if $i == 13%>
-										<%if $smarty.get.ad != "no" && $noAd != "true"%>
-											<div 
-											data-o-ads-name="infoflow2"
-											class="o-ads infoflow"  
-											data-o-ads-formats-default="false" 
-											data-o-ads-formats-small="FtcInfoFlow" 
-											data-o-ads-formats-medium="false"
-											data-o-ads-formats-large="false"
-											data-o-ads-formats-extra="false"
-											data-o-ads-targeting="cnpos=info2;"
-											>
-											</div>
-										<%/if%>
-									<%/if%>
-									<%if $i == 18%>
-										<%if $smarty.get.ad != "no" && $noAd != "true"%>
-											<div 
-											data-o-ads-name="mpu-middle2"
-											class="o-ads" 
-											data-o-ads-formats-default="false" 
-											data-o-ads-formats-small="FtcMobileMpu" 
-											data-o-ads-formats-medium="false"
-											data-o-ads-formats-large="false"
-											data-o-ads-formats-extra="false"
-											data-o-ads-targeting="cnpos=middle2;"
-											data-cy='[{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"MPU","position":"Middle2"}]'
-											>
-											</div>
-										<%/if%>
-									<%/if%>
+								<%if $i == 21%>
+									<div 
+									data-o-ads-name="infoflow3"
+									class="o-ads infoflow"  
+									data-o-ads-formats-default="false" 
+									data-o-ads-formats-small="FtcInfoFlow" 
+									data-o-ads-formats-medium="false"
+									data-o-ads-formats-large="false"
+									data-o-ads-formats-extra="false"
+									data-o-ads-targeting="cnpos=info3;"
+									>
+									</div>
+								<%/if%>
+								<%if $i == 24%>
+									<div 
+									data-o-ads-name="mpu-middle3"
+									class="o-ads" 
+									data-o-ads-formats-default="false" 
+									data-o-ads-formats-small="FtcMobileMpu" 
+									data-o-ads-formats-medium="false"
+									data-o-ads-formats-large="false"
+									data-o-ads-formats-extra="false"
+									data-o-ads-targeting="cnpos=middle3;"
+									data-cy='[{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"MPU","position":"Middle3"}]'
+									>
+									</div>
+								<%/if%>
+								<%if $i == 27%>
+									<div 
+									data-o-ads-name="infoflow4"
+									class="o-ads infoflow"  
+									data-o-ads-formats-default="false" 
+									data-o-ads-formats-small="FtcInfoFlow" 
+									data-o-ads-formats-medium="false"
+									data-o-ads-formats-large="false"
+									data-o-ads-formats-extra="false"
+									data-o-ads-targeting="cnpos=info4;"
+									>
+									</div>
+								<%/if%>
+								<%if $i == 29%>
+									<div 
+									data-o-ads-name="mpu-middle4"
+									class="o-ads" 
+									data-o-ads-formats-default="false" 
+									data-o-ads-formats-small="FtcMobileMpu" 
+									data-o-ads-formats-medium="false"
+									data-o-ads-formats-large="false"
+									data-o-ads-formats-extra="false"
+									data-o-ads-targeting="cnpos=middle4;"
+									data-cy='[{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"MPU","position":"Middle4"}]'
+									>
+									</div>
 								<%/if%>
 							<%/if%>
 							<%*<!--insert an extra MPU for mobile phone end-->*%>

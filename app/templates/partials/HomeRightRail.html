@@ -1,59 +1,4 @@
-<%*<!--
-
-<%assign var="topvideoid" value = $publishednew.v1|escape:javascript|regex_replace:"/^([0-9]+).*$/":"\\1"%>
-
-<%if !preg_match("/^[0-9]+$/is",$topvideoid)%>
-<%assign var="topvideo" value=$videomodel->get_video_by_field_search("(elongleadbody='' or eheadline!='')",0,1,10000,10800)%>
-<%assign var="topvideoid" value = $topvideo[0].id%>
-<%/if%>
-<%assign var="topvideo" value=$videomodel->get_video_by_field_search("id='$topvideoid'",0,1,10000,10800)%>
-<%if !$topvideo[0] || $topvideo[0].id==""%>
-<%$topvideoid%><%$topvideo[0].id%>
-<%assign var="topvideo" value=$videomodel->get_video_by_field_search("(elongleadbody='' or eheadline!='')",0,1,10000,10800)%>
-<%assign var="topvideoid" value = $topvideo[0].id%>
-<%/if%>
-<%assign var="video" value=$videomodel->get_video_by_field_search("(`elongleadbody`='' OR `eheadline`!='') AND `id` != '{$topvideoid}' AND (`id` NOT IN (SELECT `video_id` FROM `video_catalog_rel` WHERE `catalog_id`=31))",0,3,80,10800,0)%>
-
-
--->*%>
-
-
-
-
 <div class="side-container"><div class="side-inner">
-
-	<%*<!--
-	<div class="vidoes">
-		<h2 class="list-title"><a href="/channel/stream.html">视频</a></h2>
-		<div class="video-container">
-			<div class="video-inner">
-				<iframe name="video-frame" id="video-frame" style="width:100%;height:100%;" src="/video/<%$topvideo[0].id%>?i=1&w=360&h=203&autostart=false" scrolling="no" frameborder="0" allowfullscreen=true></iframe>
-			</div>
-		</div>
-		<div class="video-title"><a href="/video/<%$topvideo[0].id%>" target=_blank><%$topvideo[0].cheadline%></a></div>
-		<div id="three-video-part">
-			<div id="video-prevbtn" class="prevbtn-disabled" onclick="video_slide().left()"></div>
-			<div id="video-nextbtn" class="nextbtn-available" onclick="video_slide().right()"></div>
-			<div id="three-video-content">
-				<ul>
-					<li class="on"><a target="video-frame" href="/video/<%$topvideo[0].id%>"><figure class="loading" data-url="<%$topvideo[0].story_pic.bigbutton%>"></figure><p><%$topvideo[0].cheadline%></p></a></li>
-					<%foreach from=$video item=vc name=homepagevideo%>
-					<%if $vc.id != $topvideo[0].id%>
-					<li><a target="video-frame" href="/video/<%$vc.id%>"><figure class="loading" data-url="<%$vc.story_pic.bigbutton%>"></figure><p><%$vc.cheadline%></p></a></li>
-					<%/if%>
-					<%/foreach%>
-				</ul>
-			</div>
-		</div>
-		<div style="height: 30px;clear:both;"></div>
-	</div>
-	-->*%>
-
-
-
-
-
-
 	<%if $smarty.get.webview != "ftcapp"%>
 		<%if $smarty.get.ad != "no" && $noAd != "true"%>
 			<div 
@@ -78,9 +23,6 @@
 				<div class="video-container">
 					<div class="video-inner">
 						<div class="image first-child"><figure class="loading-video" data-item-type="interactive" data-vid="<%$video[0].id%>"></figure></div>
-		<%*
-		<iframe name="video-frame" id="video-frame" style="width:100%;height:100%;" src="/interactive/<%$video[0].id%>?i=1&w=360&h=203&autostart=false" scrolling="no" frameborder="0" allowfullscreen=true></iframe>
-		*%>
 					</div>
 				</div>
 				<div class="video-title"><a href="/interactive/7083" target=_blank><%$video[0].cheadline%></a></div>
@@ -88,31 +30,15 @@
 		<%else%>
 			<div class="links-container P-hide">
 				<h2 class="list-title"><a href="/m/marketing/home.html">市场活动</a></h2>
-				<%*<!--
-					<div class="links">
-							<div 
-							data-o-ads-name="membertext1"
-							class="o-ads"  
-							data-o-ads-formats-default="false" 
-							data-o-ads-formats-small="false" 
-							data-o-ads-formats-medium="FtcMembertext"
-							data-o-ads-formats-large="FtcMembertext"
-							data-o-ads-targeting="cnpos=membertext1;"
-							>
-							</div>
-					</div>
-				-->*%>
-					<div class="links" id="member-info">
-						<a>...</a><a>...</a><a>...</a>
-					</div>
-					<div class="hide">
-						<iframe width="0" height="0" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src = "/m/marketing/membertext.html"></iframe>
-					</div>
-			
+				<div class="links" id="member-info">
+					<a>...</a><a>...</a><a>...</a>
+				</div>
+				<div class="hide">
+					<iframe width="0" height="0" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src = "/m/marketing/membertext.html"></iframe>
+				</div>
 			</div>
 		<%/if%>
 		
-
 		<%if $smarty.get.ad != "no" && $noAd != "true"%>	
 			<div 
 			data-o-ads-name="mpu-right1"
@@ -123,7 +49,17 @@
 			data-o-ads-formats-large="FtcMpu"
 			data-o-ads-formats-extra="FtcMpu"
 			data-o-ads-targeting="cnpos=right1;"
-			data-cy='[{"devices":["PC","PadWeb","PadApp"],"pattern":"MPU","position":"Right1"}]'
+			>
+			</div>
+			<div 
+			data-o-ads-name="mpu-middle5"
+			class="o-ads"  
+			data-o-ads-formats-default="false" 
+			data-o-ads-formats-small="FtcMobileMpu" 
+			data-o-ads-formats-medium="false"
+			data-o-ads-formats-large="false"
+			data-o-ads-formats-extra="false"
+			data-o-ads-targeting="cnpos=middle5;"
 			>
 			</div>
 		<%/if%>
@@ -216,12 +152,23 @@
 			data-o-ads-name="mpu-right2"
 			class="o-ads"  
 			data-o-ads-formats-default="false" 
-			data-o-ads-formats-small="false" 
+			data-o-ads-formats-small="FtcMobileMpu" 
 			data-o-ads-formats-medium="FtcMpu"
 			data-o-ads-formats-large="FtcMpu"
 			data-o-ads-formats-extra="FtcMpu"
 			data-o-ads-targeting="cnpos=right2;"
 			data-cy='[{"devices":["PC","PadWeb","PadApp"],"pattern":"MPU","position":"Right2"}]'
+			>
+			</div>
+			<div 
+			data-o-ads-name="mpu-middle6"
+			class="o-ads"  
+			data-o-ads-formats-default="false" 
+			data-o-ads-formats-small="FtcMobileMpu" 
+			data-o-ads-formats-medium="false"
+			data-o-ads-formats-large="false"
+			data-o-ads-formats-extra="false"
+			data-o-ads-targeting="cnpos=middle6;"
 			>
 			</div>
 		<%/if%>
@@ -364,7 +311,17 @@
 			data-o-ads-formats-large="FtcMpu"
 			data-o-ads-formats-extra="FtcMpu"
 			data-o-ads-targeting="cnpos=right1;"
-			data-cy='[{"devices":["PC","PadWeb","PadApp"],"pattern":"MPU","position":"Right1"}]'
+			>
+			</div>
+			<div 
+			data-o-ads-name="mpu-middle5"
+			class="o-ads"  
+			data-o-ads-formats-default="false" 
+			data-o-ads-formats-small="FtcMobileMpu" 
+			data-o-ads-formats-medium="false"
+			data-o-ads-formats-large="false"
+			data-o-ads-formats-extra="false"
+			data-o-ads-targeting="cnpos=middle5;"
 			>
 			</div>
 		<%/if%>
@@ -556,7 +513,17 @@
 			data-o-ads-formats-large="FtcMpu"
 			data-o-ads-formats-extra="FtcMpu"
 			data-o-ads-targeting="cnpos=right2;"
-			data-cy='[{"devices":["PC","PadWeb","PadApp"],"pattern":"MPU","position":"Right2"}]'
+			>
+			</div>
+			<div 
+			data-o-ads-name="mpu-middle6"
+			class="o-ads"  
+			data-o-ads-formats-default="false" 
+			data-o-ads-formats-small="FtcMobileMpu" 
+			data-o-ads-formats-medium="false"
+			data-o-ads-formats-large="false"
+			data-o-ads-formats-extra="false"
+			data-o-ads-targeting="cnpos=middle6;"
 			>
 			</div>
 		<%/if%>
