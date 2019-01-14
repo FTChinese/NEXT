@@ -1,12 +1,19 @@
+<%*<!--TODO: For Internet Explorer 6-11, fall back to the a.html to deliver ads -->*%>
+<script type="text/javascript">
+	var isIE = /*@cc_on!@*/false || !!document.documentMode;
+	if (isIE) {
+		document.write('<scr'+ 'ipt src="https://cdn.polyfill.io/v2/polyfill.min.js"></scr' + 'ipt>');
+		// MARK: - Create Element.remove() function if not exist
+		if (!('remove' in Element.prototype)) {
+		    Element.prototype.remove = function() {
+		        if (this.parentNode) {
+		            this.parentNode.removeChild(this);
+		        }
+		    };
+		}
+	}
+</script>
+
 <script async src="https://www.ft.com/__origami/service/build/v2/bundles/js?modules=o-ads@10.2.0"></script>
 <script async src='https://www.googletagservices.com/tag/js/gpt.js'></script>
 <%include file="next/partials/head-db-zone.html"%>
-
-<%*<!--TODO: For Internet Explorer 6-11, fall back to the a.html to deliver ads -->*%>
-<script type="text/javascript">
-	var isIE = /*@cc_on!@*/false || !!document.documentMode || location.href.indexOf('olivertestie') >= 0;
-	if (isIE) {
-		document.write('<scr'+ 'ipt src="https://cdn.polyfill.io/v2/polyfill.min.js"></scr' + 'ipt>');
-
-	}
-</script>

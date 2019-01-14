@@ -134,6 +134,15 @@ function initPage() {
 		    }
 		};
 		xhr.send();
+	} else if (window.opener) {
+		var audioUrl = window.opener.document.getElementById('cshortleadbody');
+		if (audioUrl) {
+			document.getElementById('audio-url').value = audioUrl.value;
+		}
+		var audioText = window.opener.document.getElementById('ebody');
+		if (audioText) {
+			document.getElementById('audio-text').value = audioText.value;
+		}
 	}
 	if (localStorage) {
 		var audioSpeed = localStorage.getItem('audioSpeed') || 1;

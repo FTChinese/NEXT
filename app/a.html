@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Page Title</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script src='https://www.googletagservices.com/tag/js/gpt.js'></script> <!--TODO:该资源网络不好的时候会获取不到-->
+  <script src='https://www.googletagservices.com/tag/js/gpt.js'></script>
   <script>
     var zone = 'home';
     var adProps = {};
@@ -21,39 +21,17 @@
     var format;
     var name;
     var adFormats = {
-        "FtcLeaderboard" : {
-        "sizes":[[1200, 120], [1200, 400], [1200, 250], [969, 90], [969, 400], [969, 250]]
-        },
-        "FtcBanner": {
-        "sizes":[[1200, 120], [969, 90]]
-        },
-        "FtcMobileBanner": {
-        "sizes": [[414, 104]]
-        },
-        "FtcMobileMpu":{
-        "sizes":[[300, 250]]
-        },
-        "FtcMpu":{
-        "sizes":[[300, 250], [300, 600], [300,1050]]
-        },
-        "FtcInfoFlow":{
-        "sizes":[[400, 300]]
-        },
-        "FtcMobileFullscreen": {
-        "sizes":[[414, 736]]
-        },
-        "FtcPcFullscreen":{
-        "sizes":[[700, 520]]
-        },
-        "FtcPaidpost":{
-        "sizes":[[280, 350]]
-        },
-        "FtcRibbon":{
-        "sizes":[[300, 60]]
-        },
-        "FtcMembertext":{
-        "sizes":[[300, 47]]
-        }
+        "FtcLeaderboard": [[1200, 120], [1200, 400], [1200, 250], [969, 90], [969, 400], [969, 250]],
+        "FtcBanner": [[1200, 120], [969, 90]],
+        "FtcMobileBanner": [[414, 104]],
+        "FtcMobileMpu": [[300, 250]],
+        "FtcMpu":[[300, 250], [300, 600], [300,1050]],
+        "FtcInfoFlow":[[400, 300]],
+        "FtcMobileFullscreen": [[414, 736]],
+        "FtcPcFullscreen":[[700, 520]],
+        "FtcPaidpost":[[280, 350]],
+        "FtcRibbon":[[300, 60]],
+        "FtcMembertext":[[300, 47]]
     };
     if (/^[0-9]{12}$/.test(c)) {
         adChannelId = c.substring(4,8);
@@ -126,7 +104,7 @@
  </script>
  <script>
     googletag.cmd.push(function() {
-      googletag.defineSlot('/5887/FtChinese/' + zone, adProps.format , adProps.name). addService(googletag.pubads())
+      googletag.defineSlot('/5887/FtChinese/' + zone, adProps.format , adProps.name).addService(googletag.pubads());
       googletag.pubads().enableSingleRequest();
       googletag.pubads().setTargeting('cnpos',[adProps.pos]);
       googletag.enableServices();
