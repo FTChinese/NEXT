@@ -1,11 +1,12 @@
-<%*<!--TODO:  Change this into feature detection -->*%>
+<%*<!--MARK: Load O-ads and Google Ad Manager -->*%>
 <%if $smarty.get.ad != "no" && $hideAd != "yes" && $noAd != "true"%>
 	<script type="text/javascript">
-		var isIE = /*@cc_on!@*/false || !!document.documentMode;
-		if (isIE) {
-			document.write('<scr'+ 'ipt src="//cdn.polyfill.io/v2/polyfill.min.js?features=Array.from,Array.prototype.find,IntersectionObserver,fetch,default"></scr' + 'ipt>');
-		} else {
-			
+		<%include file="next/scripts/ad-polyfill.js"%>
+	</script>
+	<script type="text/javascript">
+		var polyFillCode = getPolyfillCode();
+		if (polyFillCode !== '') {
+			document.write('<scr' + 'ipt src="' + polyFillCode + '"</scr' + 'ipt>');
 		}
 	</script>
 	<script async src="https://www.ft.com/__origami/service/build/v2/bundles/js?modules=o-ads@10.2.0"></script>
