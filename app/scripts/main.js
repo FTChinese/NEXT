@@ -1053,6 +1053,22 @@ if(warnContent){
   }
 }
 
+
+// MARK: - Don't show full screen ads for paid users
+try {
+  if (window.gUserType === 'VIP' || window.gUserType === 'Subscriber') {
+      var fullScreenContainers = document.querySelectorAll('.o-ads.fullscreen-pc, .o-ads.fullscreen-ad');
+      for (var i=0; i<fullScreenContainers.length; i++) {
+        fullScreenContainers[i].setAttribute('data-o-ads-formats-small', 'false');
+        fullScreenContainers[i].setAttribute('data-o-ads-formats-medium', 'false');
+        fullScreenContainers[i].setAttribute('data-o-ads-formats-large', 'false');
+        fullScreenContainers[i].setAttribute('data-o-ads-formats-extra', 'false');
+        fullScreenContainers[i].setAttribute('data-o-ads-formats-default', 'false');
+      }
+  }
+} catch(ignore) {
+}
+
 // MARK: - add link to touch screen web page
 if (isTouchDevice() && window.location.href.indexOf('ftcapp') < 0) {
   var itemLeads = document.querySelectorAll('.item-lead');
