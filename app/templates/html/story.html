@@ -1320,7 +1320,9 @@
         <%assign var="storyHeadline" value=$eheadline|default:$cheadline%>
 	<%else%>
 		<%assign var="story_content" value=$cbody%>
-		<%if !preg_match("/<p>/is",$story_content)%>
+		<%*<!--MARK: - remove all the html code inside a div before determining whether this article already includes <p> tags. -->*%>
+		<%assign var="storyContentWithoutDiv" value=$story_content|regex_replace:"/[\r\t\n]/":""|regex_replace:"/\<div.*\<\/div\>/":""%>
+		<%if !preg_match("/<p>/is",$storyContentWithoutDiv)%>
 			<%assign var="story_content" value=$story_content|regex_replace:"/[\r\t\n]/":"</p><p>"%>
 			<%assign var="story_content" value="<p>`$story_content`</p>"%>
 			<%assign var="story_content" value=$story_content|regex_replace:"/\<p\>\ *\<\/p\>/":""%>
