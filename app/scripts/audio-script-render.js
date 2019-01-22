@@ -1,5 +1,5 @@
 
-/* exported renderAudioData, showHightlight, seekAudio, updateAudioTime*/
+/* exported renderAudioData, showHightlight, seekAudio, updateAudioTime, audioEnded*/
 var audioCurrentTime;
 var audioData = {
 	url: '',
@@ -131,6 +131,13 @@ function updateAudioTime(ele) {
 	//console.log ('audio current time: ' + audioCurrentTime);
 	if (audioHasRendered === true) {
 		updateAudioTimeForRenderedText(audioCurrentTime, audioData);
+	}
+}
+
+function audioEnded() {
+	var highlightedSpans = document.getElementById('story-body-container').querySelectorAll('span.is-current');
+	for (var i=0; i<highlightedSpans.length; i++) {
+		highlightedSpans[i].className = '';
 	}
 }
 

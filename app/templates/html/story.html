@@ -1382,7 +1382,7 @@
 	<%assign var="audioSrc" value=$cshortleadbody|replace:"http://v.ftimg.net/album/":"https://creatives.ftimg.net/album/"%>
 	<%if $audioSrc != ""%>
 		<%if $smarty.get.webview != "ftcapp"%>
-			<%assign var="audioHTML" value="<div class=\"audio-placeholder\" id=\"audio-placeholder\"><div class=\"audio-container\"><audio ontimeupdate=\"updateAudioTime(this)\" id=\"current-audio\" preload=\"none\" controls=\"\"><source src=\"`$audioSrc`\"><br clear='all'></audio></div></div>"%>
+			<%assign var="audioHTML" value="<div class=\"audio-placeholder\" id=\"audio-placeholder\"><div class=\"audio-container\"><audio ontimeupdate=\"updateAudioTime(this)\"  onended=\"audioEnded()\" id=\"current-audio\" preload=\"none\" controls=\"\"><source src=\"`$audioSrc`\"><br clear='all'></audio></div></div>"%>
 		<%else%>
 			<%assign var="audioHTML" value=""%>
 		<%/if%>
