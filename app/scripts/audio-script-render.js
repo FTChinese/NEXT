@@ -27,11 +27,46 @@ function renderAudioData(ele) {
 		htmlForAudio += '</p>';
 	}
 	ele.innerHTML = htmlForAudio;
+	handleInlineVideos(ele);
 	// MARK: Post JSON Data to Native
 	try {
 		webkit.messageHandlers.audioData.postMessage(audioData);
 	} catch(ignore) {
 
+	}
+}
+
+function handleInlineVideos(ele) {
+	//<div class='o-responsive-video-container'><div class='o-responsive-video-wrapper-outer'><div class='o-responsive-video-wrapper-inner'><script src='http://union.bokecc.com/player?vid=6358D162C6D0874A9C33DC5901307461&siteid=922662811F1A49E9&autoStart=false&width=100%&height=100%&playerid=3571A3BF2AEC8829&playertype=1'></script></div></div><a class='o-responsive-video-caption' href='/video/3009" vsource="' target='_blank'>中国科技巨头财富缩水的背后</a></div>
+	//console.log (ele.innerHTML);
+	var inlineVideos = ele.querySelectorAll('.inlinevideo');
+	for (var i=0; i<inlineVideos.length; i++) {
+		var thisVideo = inlineVideos[i];
+		var w = thisVideo.offsetWidth || window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+		var h = parseInt(w*9/16, 10);
+		var ccVideoId = thisVideo.id || '';
+		var ftcVideoId = thisVideo.getAttribute('vid') || '';
+		var title = thisVideo.getAttribute('title') || '';
+		var videoSrc = '';
+		var videoHTML = '';
+		if (ccVideoId !== '') {
+			videoSrc = 'https://p.bokecc.com/playhtml.bo?vid='+ccVideoId+'&siteid=922662811F1A49E9&autoStart=false&playerid=3571A3BF2AEC8829&playertype=1';
+		} else if (ftcVideoId !== '') {
+			videoSrc = '/video/'+ftcVideoId+'?i=2&w='+w+'&h='+h+'&autostart=false';
+		}
+		if (videoSrc !== '') {
+			videoHTML = '<div class="o-responsive-video-wrapper-outer"><div class="o-responsive-video-wrapper-inner"><iframe src="' + videoSrc + '" frameborder="0" style="width:100%;height:100%;" allowfullscreen="true"></iframe></div></div>';
+		}
+		var titleHTML = '';
+		if (title !== '') {
+			if (ftcVideoId !== '') {
+				titleHTML = '<a class="o-responsive-video-caption" href="/video/'+ftcVideoId+'" target="_blank">' + title + '</a>';
+			} else {
+				titleHTML = '<div class="o-responsive-video-caption">' + title + '</div>';
+			}
+		}
+		thisVideo.className = 'o-responsive-video-container';
+		thisVideo.innerHTML = '<div class="o-responsive-video-wrapper-outer"><div class="o-responsive-video-wrapper-inner"><iframe src="https://p.bokecc.com/playhtml.bo?vid='+ccVideoId+'&siteid=922662811F1A49E9&autoStart=false&playerid=3571A3BF2AEC8829&playertype=1" frameborder="0" style="width:100%;height:100%;" allowfullscreen="true"></iframe></div></div>' + titleHTML;
 	}
 }
 
