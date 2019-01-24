@@ -43,7 +43,7 @@ function startPlay() {
 	var htmlForAudio = '';
 	for (var k=0; k<audioData.text.length; k++) {
 		for (var l=0; l<audioData.text[k].length; l++) {
-			htmlForAudio += '<tr id="line-'+k+'-'+l+'" data-section="'+k+'" data-row="'+l+'"><td nowrap><input onclick="seekTime(this);" onchange="changeAudioTime(this)" type="text" value="" class="audio-time-stamp"></td><td onclick="addTag(this);return false;" class="audio-line-text">'+ audioData.text[k][l].text+'</td></tr>';
+			htmlForAudio += '<tr id="line-'+k+'-'+l+'" data-section="'+k+'" data-row="'+l+'"><td nowrap><input onclick="seekTime(this);" onchange="changeAudioTime(this)" onended="audioEnded()" type="text" value="" class="audio-time-stamp"></td><td onclick="addTag(this);return false;" class="audio-line-text">'+ audioData.text[k][l].text+'</td></tr>';
 		}
 	}
 	document.getElementById('audio-player-text-lines').innerHTML = '<table class="big-font"><caption>点击加上时间点位</caption><thead><tr><th><span class="ft-bold">时间</span></th><th><span class="ft-bold">文字</span></th></tr></thead><tbody>' + htmlForAudio + '</tbody></table>';
