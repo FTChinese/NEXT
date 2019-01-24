@@ -1,13 +1,4 @@
 <%assign var="useSafariToOpenSponsorStory" value="no"%>
-<%*<!--
-<%if $smarty.get.v != ""%>
-	<%assign var="v" value=$smarty.get.v|floatval%>
-	<%if $v >= 6.8%>
-		<%assign var="useSafariToOpenSponsorStory" value="no"%>
-	<%/if%>
-<%/if%>
--->*%>
-
 <%if $adchannelID != "1000"%>
     <%assign var="adForceString" value="?adchannelID=$adchannelID"%>
 <%/if%>
@@ -248,12 +239,14 @@
 					<%assign var="itemsArray" value=$list.items%>
 				<%/if%>
 
-
+				<%if $maxItems == 0 || $maxItems == ""%>
+					<%assign var="maxItems" value=999%>
+				<%/if%>
 
 				<%assign var="i" value=0%>
 				<%if $feedRepeatCheck == "yes"%>
 					<%foreach from=$itemsArray item=item%>
-						<%if $i < $list.feedItems%>
+						<%if $i < $list.feedItems && $i < $maxItems%>
 							<%if $feedType == "all"%>
 								<%assign var="itemImage" value=$item.image.cover|default:$item.image.smallbutton|default:$item.image.other|default:$item.image.bigbutton%>
 							<%elseif $feedType == "photonews"%>
@@ -278,7 +271,7 @@
 				<%else%>
 					<%foreach from=$itemsArray item=item%>
 						<%assign var="itemId" value=$item.id|default:$item.photonewsid%>
-						<%if !in_array($itemId, explode(',',$premiumContentIds))%>
+						<%if !in_array($itemId, explode(',',$premiumContentIds)) && $i < $maxItems%>
 							<%assign var="i" value=$i+1%>
 						<%/if%>
 					<%/foreach%>
@@ -406,7 +399,7 @@
 					<%assign var="itemId" value=$item.id|default:$item.photonewsid%>
 
 					<%*<!--
-						符合以下条件的方可显示：
+						在不超过maxItems的前提下，符合以下条件的方可显示：
 						1. 满足以下两个条件的：
 						a. $feedRepeatCheck != "yes": 手动插入的，或是非story, interactive, photo类的auto feed
 						b. $premiumContentIds中没有出现过的：目的是为了避免和subscription.html中已经出现的内容再次出现
@@ -418,7 +411,7 @@
 						d. 当前item配图，或者当前list不要求必须出图
 					-->
 					*%>
-					<%if ($feedRepeatCheck != "yes" && !in_array($itemId, explode(',',$premiumContentIds))) || (($feedImage != "necessary" || $itemImage != "") && $list.feedItems>0 && $i<$list.feedItems && !in_array($itemId, explode(',',$itemIdsArray)))%>
+					<%if $i<$maxItems && (($feedRepeatCheck != "yes" && !in_array($itemId, explode(',',$premiumContentIds))) || (($feedImage != "necessary" || $itemImage != "") && $list.feedItems>0 && $i<$list.feedItems && !in_array($itemId, explode(',',$itemIdsArray))))%>
 						<%assign var="itemType" value=$item.type|default:$item.itemtype|default:$feedType%>
 						<%if $itemType == "photo"%>
 							<%assign var="itemType" value="photonews"%>

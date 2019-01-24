@@ -48,11 +48,7 @@
     <%assign var="supportThirdPartyFrame" value="yes"%>
 <%/if%>
 
-<%if $smarty.get.webview == "ftcapp" && $showExclusiveContent == "yes" && $smarty.get.subscription !== "member" && $smarty.get.subscription !== "premium"%>
-    <%assign var="p" value=$nextmodel->getPublishJsonWithPremium($pageId)|json_decode:true%>
-<%else%>
-    <%assign var="p" value=$nextmodel->getPublishJson($pageId)|json_decode:true%>
-<%/if%>
+<%assign var="p" value=$nextmodel->getPublishJson($pageId)|json_decode:true%>
 <%assign var="adchannelID" value="`$p.meta.adid`"%>
 
 <%*<!-- 新版本需要调整从pagemaker获取的频道号adchannelID -->*%>
