@@ -981,11 +981,21 @@
 						<%/if%>
 
 						<%assign var="itemTimeStamp" value=""%>
-						<%assign var="itemT" value=$item.timeStamp|default:$item.last_publish_time|default:$item.pubdate|default:$item.add_times%>
+						<%*<!--MARK: - The data structure is so inconsistent that we have to handle it here. -->*%>
+						<%if $itemType == "interactive"%>
+							<%*<!--MARK: timeStamp if the interactive is dragged into list mannually, otherwise fileupdatetime from the API -->*%>
+							<%assign var="itemT" value=$item.timeStamp|default:$item.fileupdatetime%>
+						<%else%>
+							<%assign var="itemT" value=$item.timeStamp|default:$item.last_publish_time|default:$item.pubdate|default:$item.add_times%>
+						<%/if%>
 						<%assign var="itemT" value=$itemT|regex_replace:"/\.[0-9]+$/i":""%>
 						<%assign var="highlightTime" value=""%>
 						<%math assign="timeDiff" equation="x-y" x=$smarty.now y=$itemT%>
 						<%assign var="timeMath" value=$timeDiff%>
+
+
+
+
 						<%if $list.showTimeStamp == "all" || $list.showTimeStamp == "new stories" || $list.feedType == "myFT"%>
 
 							<%if $item.type === "video" && preg_match("/[0-9]+\-[0-9]+\-[0-9]+/is",$itemT)%>
