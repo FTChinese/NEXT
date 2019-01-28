@@ -5,7 +5,6 @@
 
 function startPlay() {
 	var audioUrl = document.getElementById('audio-url').value || '';
-	//console.log (audioUrl);
 	if (audioUrl === '') {
 		alert ('请输入正确的音频地址');
 		return;
@@ -16,10 +15,19 @@ function startPlay() {
 	updateAudioSpeed(audioSpeed);
 	// MARK: get the text from user input
 	var text = document.getElementById('audio-text').value;
+	// MARK: don't split inside block quotes
+	var blockRegex = /<blockquote .*<\/blockquote>/g;
+	var blocks = text.match(blockRegex);
+	for (var h=0; h<blocks.length; h++) {
+		var newBlock = blocks[h].replace(/<p>/g, '<start-p>').replace(/<\/p>/g, '<end-p>');
+		text = text.replace(blocks[h], newBlock);
+	}
 	text = text.replace(/<[pP]>/g, '|')
 	.replace(/<\/[pP]>/g, '|')
 	.replace(/[\r\n]/g,'||')
-	.replace(/\|+/g,'|');
+	.replace(/\|+/g,'|')
+	.replace(/start-p/g,'p')
+	.replace(/end-p/g,'/p');
 	var textData = text.split('|');
 	var textDataMarked = [];
 	for (var i=0; i<textData.length; i++) {

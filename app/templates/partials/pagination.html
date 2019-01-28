@@ -2,7 +2,11 @@
 	<div class="pagination-container"><div class="pagination-inner">
 		<%$pagination%>
 		<%if $story.id != ""%>
-			<a href="/story/<%$story.id%>?adchannelID=<%$smarty.get.adchannelID%>&amp;full=y">全文</a>
+			<%assign var="languageSuffix" value=""%>
+			<%if $page_action != ""%>
+				<%assign var="languageSuffix" value="/`$page_action`"%>
+			<%/if%>
+			<a href="/story/<%$story.id%><%$languageSuffix%>?adchannelID=<%$smarty.get.adchannelID%>&amp;full=y">全文</a>
 		<%/if%>
 	</div></div>
 <%/if%>
