@@ -4,6 +4,13 @@
 
 
 function startPlay() {
+	var safeReplaces = [
+		{p: '. ', r: 'english-period'},
+		{p: '! ', r: 'english-question-mark'},
+		{p: '? ', r: 'english-exclaim'},
+		{p: '。', r: 'chinese-period'},
+		{p: '？', r: 'chinese-question-mark'}
+	];
 	var audioUrl = document.getElementById('audio-url').value || '';
 	if (audioUrl === '') {
 		alert ('请输入正确的音频地址');
@@ -18,25 +25,44 @@ function startPlay() {
 	// MARK: don't split inside block quotes
 	var blockRegex = /<blockquote .*<\/blockquote>/g;
 	var blocks = text.match(blockRegex);
-	for (var h=0; h<blocks.length; h++) {
-		var newBlock = blocks[h].replace(/<p>/g, '<start-p>').replace(/<\/p>/g, '<end-p>');
-		text = text.replace(blocks[h], newBlock);
+	if (blocks && blocks.length > 0) {
+		for (var h=0; h<blocks.length; h++) {
+			var newBlock = blocks[h]
+				.replace(/<p>/g, '<start-p>')
+				.replace(/<\/p>/g, '<end-p>');
+			for (var m=0; m<safeReplaces.length; m++) {
+				newBlock = newBlock.replace(safeReplaces[m].p, safeReplaces[m].r);
+			}
+			text = text.replace(blocks[h], newBlock);
+		}
+	}
+	text = text.replace(/[\r\n]/g,'||');
+	// MARK: remove extra line breaks between <p> and </p>
+	var pRegex = /<p>.+?<\/p>/g;
+	var pBlocks = text.match(pRegex);
+	if (pBlocks && pBlocks.length > 0) {
+		for (var g=0; g<pBlocks.length; g++) {
+			var newPBlock = pBlocks[g].replace(/[|]+/g,'');
+			text = text.replace(pBlocks[g], newPBlock);
+		}
 	}
 	text = text.replace(/<[pP]>/g, '|')
-	.replace(/<\/[pP]>/g, '|')
-	.replace(/[\r\n]/g,'||')
-	.replace(/\|+/g,'|')
-	.replace(/start-p/g,'p')
-	.replace(/end-p/g,'/p');
+		.replace(/<\/[pP]>/g, '|')
+		.replace(/\|+/g,'|')
+		.replace(/start-p/g,'p')
+		.replace(/end-p/g,'/p');
 	var textData = text.split('|');
 	var textDataMarked = [];
 	for (var i=0; i<textData.length; i++) {
 		var currentParagraph = textData[i]
 		.replace(/([\.\?\!][ ”])/g, '$1|')
-		.replace(/。/g, '。|');
+		.replace(/[。？]/g, '$1|');
 		var currentParagraphData = currentParagraph.split('|');
 		var currentParagraphDataArray = [];
 		for (var j=0; j<currentParagraphData.length; j++) {
+			for (var n=0; n<safeReplaces.length; n++) {
+				currentParagraphData[j] = currentParagraphData[j].replace(safeReplaces[n].r, safeReplaces[n].p);
+			}
 			var currentLine = {
 				start: null,
 				text: currentParagraphData[j]
@@ -46,7 +72,6 @@ function startPlay() {
 		textDataMarked.push(currentParagraphDataArray);
 	}
 	audioData.text = textDataMarked;
-
 	// MARK: render data into html
 	var htmlForAudio = '';
 	for (var k=0; k<audioData.text.length; k++) {

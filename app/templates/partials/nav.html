@@ -196,6 +196,10 @@
                           <li class="nav-item mobile">
                             <a class="nav-link" href="/users/mystories">频道首页</a>
                           </li>
+                          <li class="nav-item" <%if $subnav=="mysubscription"%>
+                          aria-selected="true"<%assign var=current_sub_page value="订阅"%><%/if%> data-channel="mysubscription">
+                            <a class="nav-link" href="/users/setting/vip">订阅</a>
+                          </li>
                           <li class="nav-item" <%if $subnav=="mystories"%>
                           aria-selected="true"<%assign var=current_sub_page value="文章"%><%/if%> data-channel="mystories">
                             <a class="nav-link" href="/users/mystories">文章</a>
