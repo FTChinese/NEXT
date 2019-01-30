@@ -51,9 +51,12 @@
     if (gUserType && gUserType !== '') {
         dfpTargetingStr = 'cnuser=' + gUserType + ';' + dfpTargetingStr;
     }
-
+    if (window.location.href.indexOf('webview=ftcapp') >= 0) {
+        dfpTargetingStr = 'cnplatform=app;' + dfpTargetingStr;
+    } else {
+        dfpTargetingStr = 'cnplatform=web;' + dfpTargetingStr;
+    }
     //console.log ('Getting user type for google ad manager: ' + window.gUserType);
-    
     var configJson = JSON.stringify({
         gpt: {
             "network": 5887,
