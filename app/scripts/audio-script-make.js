@@ -11,6 +11,22 @@ function startPlay() {
 		{p: '。', r: 'chinese-period'},
 		{p: '？', r: 'chinese-question-mark'}
 	];
+	function handleBlocks(text, regPattern) {
+		var blocks = text.match(regPattern);
+		if (blocks && blocks.length > 0) {
+			for (var h=0; h<blocks.length; h++) {
+				var newBlock = blocks[h]
+					.replace(/<p>/g, '<start-p>')
+					.replace(/<\/p>/g, '<end-p>');
+				for (var m=0; m<safeReplaces.length; m++) {
+					newBlock = newBlock.replace(safeReplaces[m].p, safeReplaces[m].r);
+				}
+				console.log (newBlock);
+				text = text.replace(blocks[h], newBlock);
+			}
+		}
+		return text;
+	}
 	var audioUrl = document.getElementById('audio-url').value || '';
 	if (audioUrl === '') {
 		alert ('请输入正确的音频地址');
@@ -23,19 +39,10 @@ function startPlay() {
 	// MARK: get the text from user input
 	var text = document.getElementById('audio-text').value;
 	// MARK: don't split inside block quotes
-	var blockRegex = /<blockquote .*<\/blockquote>/g;
-	var blocks = text.match(blockRegex);
-	if (blocks && blocks.length > 0) {
-		for (var h=0; h<blocks.length; h++) {
-			var newBlock = blocks[h]
-				.replace(/<p>/g, '<start-p>')
-				.replace(/<\/p>/g, '<end-p>');
-			for (var m=0; m<safeReplaces.length; m++) {
-				newBlock = newBlock.replace(safeReplaces[m].p, safeReplaces[m].r);
-			}
-			text = text.replace(blocks[h], newBlock);
-		}
-	}
+	var blockRegex = /<blockquote .*?<\/blockquote>/g;
+	text = handleBlocks(text, blockRegex);
+	text = handleBlocks(text, /<div .*?<\/div>/g);
+
 	text = text.replace(/[\r\n]/g,'||');
 	// MARK: remove extra line breaks between <p> and </p>
 	var pRegex = /<p>.+?<\/p>/g;
