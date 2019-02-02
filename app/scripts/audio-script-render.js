@@ -86,10 +86,11 @@ function showHightlight(k, l) {
 		rowIndex = parseInt(rowIndex, 10);
 		var currentClass = ele[i].className;
 		var newClass;
+		var addedClass = ' is-current';
 		if (sectionIndex === k && rowIndex === l) {
-			newClass = 'is-current';
+			newClass = (currentClass.indexOf(addedClass) >= 0) ? currentClass : currentClass + addedClass;
 		} else {
-			newClass = '';
+			newClass = currentClass.replace(addedClass, '');
 		}
 		if (newClass !== currentClass) {
 			ele[i].className = newClass;
