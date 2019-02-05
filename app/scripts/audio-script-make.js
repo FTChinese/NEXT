@@ -57,7 +57,10 @@ function startPlay() {
 		.replace(/<\/[pP]>/g, '|')
 		.replace(/\|+/g,'|')
 		.replace(/start-p/g,'p')
-		.replace(/end-p/g,'/p');
+		.replace(/end-p/g,'/p')
+		.replace(/<\/li><li>/g, '</li>|<li>')
+		.replace(/\. /g, '. ')
+		.replace(/\.<\//g, '. </');
 	var textData = text.split('|');
 	var textDataMarked = [];
 	for (var i=0; i<textData.length; i++) {
