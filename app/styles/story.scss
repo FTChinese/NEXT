@@ -424,4 +424,14 @@ a.o-responsive-video-caption:link, a.o-responsive-video-caption:visited, a.o-res
 		padding: 0 !important;
 	}
 }
+// MARK: - When the users is taking a screenshot of the full content, hide all irrelevant content. Radio content uses this too. So the style should be here. 
+.is-screenshot {
+	.side-container, .o-ads, #story-recommend-container, .list-title, .allcomments, .logincomment {
+		display: none!important;
+	}
+	.content-inner {
+		border: 0 !important; 
+		padding: 0 !important;
+	}
+}
 @import "quote-number.scss";
