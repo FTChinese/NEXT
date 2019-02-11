@@ -1175,6 +1175,13 @@
 						<%*<!--MARK: show the lock for paid content-->*%>
 						<%if $list.feedType == "premium" || $item.type == "premium" || $itemType == "premium" || $paywall == "1" || ($itemType == "interactive" && preg_match("/英语电台|速读|会员专享|高端专享/is",$itemTagsString)) || ($itemType == "story" && $timeMath > 60*60*24*7)%>
 							<%assign var="lockClass" value="locked"%>
+							<!--Lock Class On-->
+							<!--
+							list feed type: <%$list.feedType%>
+							item type: <%$list.feedType%>
+							itemType: <%$itemType%>
+							paywall: <%$paywall%>
+							-->
 						<%else%>
 							<%assign var="lockClass" value=""%>
 						<%/if%>
