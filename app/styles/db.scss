@@ -59,14 +59,20 @@ div.o-ads{
 
 
 // MARK: - placeholder for 4 by 1 banner on mobile to avoid the flash
-.o-ads[data-o-ads-formats-small=FtcMobileBanner][data-o-ads-name=banner1] {
+.o-ads[data-o-ads-formats-small=FtcMobileBanner] {
   @media screen and (max-width:760px) {
     padding-top: 25%;
     background: #F6E9D8;
     padding-bottom: 20px;
     box-sizing: border-box;
     margin-bottom: $defaultPadding/2;
+    display: none;
+    // MARK: Display the top banner as a place holder
+    &[data-o-ads-name=banner1] {
+      display: block;
+    }
     &[data-o-ads-loaded] {
+      display: block;
       background: transparent;
       margin-bottom: $defaultPadding/2;
     }
