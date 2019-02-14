@@ -76,6 +76,10 @@
                                             </a></h2>
                                             <%include file="next/partials/subscriptions-warnings.html"%>
                                             <div class="items">
+                                                <%assign var="infoForManualTags" value=""%>
+                                                <%if $nextmodel != ""%>
+                                                    <%assign var="infoForManualTags" value=$nextmodel->getPublishJson("tagmanagement")|json_decode:true%>
+                                                <%/if%>
                                                 <%assign var="i" value=0%>
                                                 <%foreach from=$reports item="report"%>
                                                     <%assign var="itemType" value="premium"%>

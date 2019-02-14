@@ -865,11 +865,9 @@
 
 
 <%*<!--MARK: Check the next model tag for sponsored special reports start-->*%>
-<%assign var="pageIdForSponsorshipManagement" value="sponsorshipmanagement"%>
-<%assign var="pageIdForBrandSafety" value="brandsafety"%>
 <%if $nextmodel != ""%>
-	<%assign var="infoForSponsorships" value=$nextmodel->getPublishJson($pageIdForSponsorshipManagement)|json_decode:true%>
-	<%assign var="infoForBrandSafety" value=$nextmodel->getPublishJson($pageIdForBrandSafety)|json_decode:true%>
+	<%assign var="infoForSponsorships" value=$nextmodel->getPublishJson("sponsorshipmanagement")|json_decode:true%>
+	<%assign var="infoForBrandSafety" value=$nextmodel->getPublishJson("brandsafety")|json_decode:true%>
 	<%assign var="hasFoundSponsorship" value="no"%>
 	<%assign var="hasFoundPaidPost" value="no"%>
 	<%assign var="currentDate" value=$smarty.now|date_format:"%Y%m%d"%>
@@ -987,6 +985,29 @@
 			<%/if%>
 		<%/if%>
 	<%/foreach%>
+	<%if $hasFoundSponsorship == "no"%>
+		<%assign var="infoForManualTags" value=$nextmodel->getPublishJson("tagmanagement")|json_decode:true%>
+		<%assign var="hasFoundManualTag" value="no"%>
+		<%foreach from=$infoForManualTags.sections item=section%>
+			<%if $hasFoundManualTag == "no" && preg_match("/`$section.tag`/is",$keys)%>
+			    <%assign var="hasFoundManualTag" value="yes"%>
+			    <%if $section.topnav != ""%>
+			        <%assign var="topnav" value=$section.topnav%>
+			    <%/if%>
+			    <%if $section.subnav != ""%>
+			        <%assign var="subnav" value=$section.subnav%>
+			    <%/if%>
+			    <%if $section.thirdnav != ""%>
+			        <%assign var="thirdnav" value=$section.thirdnav%>
+			    <%/if%>
+			    <%if $section.link != ""%>
+			        <%assign var="breadcrum" value="<a href=\"`$section.link`\">`$section.title`</a><button class=\"myft-follow plus\" data-tag=\"`$section.tag`\" data-type=\"tag\">关注</button>"%>
+			    <%else%>
+			    	<%assign var="breadcrum" value="<a href=\"/tag/`$section.tag`\">`$section.title`</a><button class=\"myft-follow plus\" data-tag=\"`$section.tag`\" data-type=\"tag\">关注</button>"%>
+			    <%/if%>
+			<%/if%>
+		<%/foreach%>
+	<%/if%>
 <%/if%>
 <%*<!--MARK: Check the next model tag for sponsored special reports end-->*%>
 

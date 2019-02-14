@@ -47,6 +47,7 @@
 <%/if%>
 
 
+<%*<!--
 <%if preg_match("/速读/is",$itemTagsString)%>
 	<%assign var="itemSubType" value="speedreading"%>
 	<%assign var="itemLead" value=$report.cshortleadbody|default:$report.clongleadbody%>
@@ -63,6 +64,39 @@
 	<%assign var="itemMainTag" value=$itemTags[0]%>
 	<%assign var="itemMainTagLink" value="<div class=\"item-tag\"><a href=\"/tag/`$itemMainTag`\">`$itemMainTag`</a></div>"%>
 <%/if%>
+-->*%>
+
+<%assign var="itemSubType" value=""%>
+<%assign var="itemLead" value=$report.clongleadbody|default:$report.cshortleadbody%>
+<%assign var="itemMainTag" value=$itemTags[0]%>
+<%assign var="itemMainTagLink" value="<div class=\"item-tag\"><a href=\"/tag/`$itemMainTag`\">`$itemMainTag`</a></div>"%>
+
+<!--checking infor for manual tags-->
+<%if $infoForManualTags != ""%>
+	<!--There is infor for manual tags-->
+	<%assign var="hasFoundManualTag" value="no"%>
+	<%foreach from=$infoForManualTags.sections item=section%>
+	<%if $hasFoundManualTag == "no" && preg_match("/`$section.tag`/is",$itemTagsString)%>
+	    <%assign var="hasFoundManualTag" value="yes"%>
+	    <%assign var="itemSubType" value=$section.subType%>
+	    <%if $section.preferLead == "shortlead"%>
+	    	<%assign var="itemLead" value=$report.cshortleadbody|default:$report.clongleadbody%>
+	    <%else%>
+	    	<%assign var="itemLead" value=$report.clongleadbody|default:$report.cshortleadbody%>
+	    <%/if%>
+	    <%if $section.tag != ""%>
+	    	<%assign var="itemMainTag" value=$section.tag%>
+	    <%/if%>
+	    <%if $section.link != ""%>
+	        <%assign var="itemMainTagLink" value="<div class=\"item-tag\"><a href=\"`$section.link`\">`$itemMainTag`</a></div>"%>
+	    <%else%>
+	    	<%assign var="itemMainTagLink" value="<div class=\"item-tag\"><a href=\"/tag/`$itemMainTag`\">`$itemMainTag`</a></div>"%>
+	    <%/if%>
+	<%/if%>
+	<%/foreach%>
+<%/if%>
+
+
 
 <%if $itemSubType != ""%>
 	<%assign var="subTypeData" value=" data-sub-type=\"`$itemSubType`\""%>
