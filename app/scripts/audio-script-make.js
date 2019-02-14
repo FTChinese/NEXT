@@ -66,7 +66,7 @@ function startPlay() {
 	for (var i=0; i<textData.length; i++) {
 		var currentParagraph = textData[i]
 		.replace(/([\.\?\!][ ”])/g, '$1|')
-		.replace(/[。？]/g, '$1|');
+		.replace(/([。？])/g, '$1|');
 		var currentParagraphData = currentParagraph.split('|');
 		var currentParagraphDataArray = [];
 		for (var j=0; j<currentParagraphData.length; j++) {

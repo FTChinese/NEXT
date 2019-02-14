@@ -1175,13 +1175,6 @@
 						<%*<!--MARK: show the lock for paid content-->*%>
 						<%if $list.feedType == "premium" || $item.type == "premium" || $itemType == "premium" || $paywall == "1" || ($itemType == "interactive" && preg_match("/英语电台|速读|会员专享|高端专享/is",$itemTagsString)) || ($itemType == "story" && $timeMath > 60*60*24*7)%>
 							<%assign var="lockClass" value="locked"%>
-							<!--Lock Class On-->
-							<!--
-							list feed type: <%$list.feedType%>
-							item type: <%$list.feedType%>
-							itemType: <%$itemType%>
-							paywall: <%$paywall%>
-							-->
 						<%else%>
 							<%assign var="lockClass" value=""%>
 						<%/if%>
@@ -1685,6 +1678,8 @@
 							<%assign var="hideLead" value="no"%>
 							<%if $i===0%>
 								<%assign var="itemClass" value="first"%>
+							<%elseif $list.sideOption == "BigImageAndLead"%>
+								<%assign var="itemClass" value="big-image"%>
 							<%/if%>
 							<%if $list.preferLead === "none"%>
 								<%assign var="hideLead" value="yes"%>
@@ -1744,7 +1739,7 @@
 							<div class="item-container <%$itemClass%> <%$hasImage%>"<%$itemData%>><div class="item-inner">
 								<%if $itemType === "widget"%>
 									<%include file="widgets/`$itemHeadline`"%>
-								<%elseif $list.sideOption == "imageAndLead"%>
+								<%elseif $list.sideOption == "imageAndLead" || $list.sideOption == "BigImageAndLead"%>
 									<%if $itemImage != "" && $hasImage === "has-image"%><a class="image" target="_blank"<%$itemLink%>><figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure></a><%/if%>
 									<%if $itemHeadline != ""%>
 										<h2 class="item-headline"><%$itemTag%><a target="_blank" class="<%$lockClass%>" <%$itemLink%>><%$itemHeadline%></a></h2>
