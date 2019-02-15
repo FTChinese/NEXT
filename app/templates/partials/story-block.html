@@ -74,7 +74,8 @@
 			</div>
 			<div class="clearfloat"></div>
 		</div>
-		<%if $smarty.get.showcomment == "yes" || (date("Ymd",$smarty.now) >= 20171101 && !preg_match("/politics/is",$mainTopic) && $story.id != "001076592" && $smarty.get.screencapture != "yes")%>
+		<%*<!--MARK: - Show comments for only certain types of stories -->*%>
+		<%if $story != "" && $story.id != "" && ($smarty.get.showcomment == "yes" || (!preg_match("/politics/is",$mainTopic) && $story.id != "001076592" && $smarty.get.screencapture != "yes"))%>
 			<h2 class="list-title"><a class="list-link" href="#">读者评论</a></h2>
 			<div id="allcomments" class="allcomments container"></div>
 
