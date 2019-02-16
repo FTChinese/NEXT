@@ -256,4 +256,14 @@ Test white list:
     <%if $showPagination != "no"%>
     <%include file="next/partials/pagination.html"%>
     <%/if%>
+    <%if $smarty.get.webview == "ftcapp"%>
+        <script type="text/javascript">
+            window.linksForShare = {
+                'url': window.location.href,
+                'title': '<%$tagtitle|default:$PageTitle%> - FT中文网',
+                'lead': '<%$pageDescription|default:"英国《金融时报》旗下唯一中文商业财经网站，提供每日不可或缺的商业财经新闻、深度分析以及评论。"%>',
+                'image': ''
+            };
+        </script>
+    <%/if%>
 <%/if%>
