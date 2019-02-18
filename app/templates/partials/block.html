@@ -336,8 +336,7 @@
 						<%assign var="itemTagLink" value="/tag/`$itemTag`"%>
 					<%/if%>
 
-
-
+					<%assign var="itemTagTitle" value=$itemTag%>
 					<%*<!--If editor ticked prefer sponsor image, get image and link from database -->*%>
 					<%if $item.preferSponsorImage == "yes" && $itemMainTag != ""%>
 						<%assign var="pageIdForSponsorshipManagement" value="sponsorshipmanagement"%>
@@ -349,7 +348,10 @@
 								<%assign var="tagImage" value=$oneTag.imageHighlightBox%>
 								<%if $oneTag.link != ""%>
 									<%assign var="itemTagLink" value=$oneTag.link%>
-								<%/if%>								
+								<%/if%>
+								<%if $oneTag.title != ""%>
+									<%assign var="itemTagTitle" value=$oneTag.title%>
+								<%/if%>
 							<%/if%>
 						<%/foreach%>
 					<%/if%>
@@ -370,9 +372,9 @@
 
 					<%if $itemTag != ""%>
 						<%if $tagCanFollow == "yes"%>
-							<%assign var="itemTag" value="<div class=item-tag><a href=\"`$itemTagLink`\">`$itemTag`</a><button class=\"myft-follow plus\" data-tag=\"`$itemTag`\" data-type=\"tag\">关注</button></div>"%>
+							<%assign var="itemTag" value="<div class=item-tag><a href=\"`$itemTagLink`\">`$itemTagTitle`</a><button class=\"myft-follow plus\" data-tag=\"`$itemTag`\" data-type=\"tag\">关注</button></div>"%>
 						<%else%>
-							<%assign var="itemTag" value="<div class=item-tag><a href=\"`$itemTagLink`\">`$itemTag`</a></div>"%>
+							<%assign var="itemTag" value="<div class=item-tag><a href=\"`$itemTagLink`\">`$itemTagTitle`</a></div>"%>
 						<%/if%>
 					<%/if%>
 					<%if $list.showTag !== "yes"%>

@@ -1328,7 +1328,9 @@
 	<%assign var="storyAuthor" value="`$cbyline_description` `$cauthor`"%>
 	<%if $page_action == "en"%>
 		<%assign var="story_content" value=$ebody%>
-		<%if !preg_match("/<p>/is",$story_content)%>
+		<%assign var=storyParagraphs value=$story_content|count_paragraphs%>
+		<%*<!--MARK: - If there's no <p> tag or there are more than 5 paragraphs in the story content-->*%>
+		<%if !preg_match("/<p>/is",$story_content) || $storyParagraphs > 5%>
 			<%assign var="story_content" value=$story_content|regex_replace:"/[\r\t\n]+/":"</p><p>"%>
 			<%assign var="story_content" value="<p>`$story_content`</p>"%>
 		<%/if%>
@@ -1684,6 +1686,7 @@ if (document.querySelector('.highcharts[data-chart-id]')) {
 <![endif]-->
 <script type="text/javascript">
   <%include file="next/scripts/main-story.js"%>
+  <%include file="next/scripts/main-pay-wall.js"%>
 </script>
 <%if $pageType == "singlechoice"%>
 	<script type="text/javascript">
