@@ -1789,4 +1789,7 @@ if (w > 490 && isTouchDevice() === false && document.querySelectorAll('.ce').len
 	<script>window.audioHasRendered = true; renderAudioData(document.getElementById('story-body-container'));</script>
 <%/if%>
 
+<%if $smarty.get.isappinstalled != ""%>
+	<script><%include file="next/scripts/story-wechat-trick.js"%></script>
+<%/if%>
 </html>
