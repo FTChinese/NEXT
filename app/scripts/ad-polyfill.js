@@ -1,5 +1,5 @@
 (function(){
-	var ftOrigamiUrl = 'https://www.ft.com/__origami/service/build/v2/bundles/js?modules=o-ads@10.2.1';
+	var ftOrigamiUrl = (window.location.protocol === 'http:') ? 'http://static.ftchinese.com/n/o-ads.js' : 'https://www.ft.com/__origami/service/build/v2/bundles/js?modules=o-ads@10.2.1';
 	var adCodeLoaded = false;
 	function getPolyfillCode() {
 		var isIE = /*@cc_on!@*/false || !!document.documentMode;
@@ -46,11 +46,14 @@
 	    var s = document.getElementsByTagName('script')[0];
 	    s.parentNode.insertBefore(sc, s);
 	    adCodeLoaded = true;
-	    // try {
-	    // 	console.log ('adCodeLoaded run: ' + src);
-	    // } catch(ignore) {
+	    try {
+		   	ga('send', 'event', 'LoadAdCode', 'Request', src, {'nonInteraction': 1});
+		    s.onload = function(){
+		    	ga('send', 'event', 'LoadAdCode', 'Success', src, {'nonInteraction': 1});
+		    };
+	    } catch(ignore) {
 
-	    // }
+	    }
 	}
 
 	function loadAdCodesAll() {
@@ -73,6 +76,14 @@
 		// }, 2000);
 		var s = document.getElementsByTagName('script')[0];
 		s.parentNode.insertBefore(pf, s);
+		try {
+		   	ga('send', 'event', 'LoadAdCode', 'Request', 'cdn.polyfill.io', {'nonInteraction': 1});
+		    s.onload = function(){
+		    	ga('send', 'event', 'LoadAdCode', 'Success', 'cdn.polyfill.io', {'nonInteraction': 1});
+		    };
+	    } catch(ignore) {
+
+	    }
 	} else {
 		loadAdCodesAll();
 	}

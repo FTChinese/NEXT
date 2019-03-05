@@ -854,7 +854,6 @@ if (((gNavOffsetY > 30 && w > 490 && isTouchDevice() === false) || document.getE
 } else {
   bodyHeight = getBodyHeight();
   addEvent(eventResize, function(){
-      console.log('test:onresize');
       bodyHeight = getBodyHeight();
       //reloadBanners();
       loadImages();

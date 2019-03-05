@@ -51,8 +51,12 @@
     if (gUserType && gUserType !== '') {
         dfpTargetingStr = 'cnuser=' + gUserType + ';' + dfpTargetingStr;
     }
+    window.uaString = navigator.userAgent || navigator.vendor || '';
+    window.isWeChat = (/micromessenger/i.test(window.uaString));
     if (window.location.href.indexOf('webview=ftcapp') >= 0) {
         dfpTargetingStr = 'cnplatform=app;' + dfpTargetingStr;
+    } else if (window.isWeChat) {
+        dfpTargetingStr = 'cnplatform=wechat;' + dfpTargetingStr;
     } else {
         dfpTargetingStr = 'cnplatform=web;' + dfpTargetingStr;
     }

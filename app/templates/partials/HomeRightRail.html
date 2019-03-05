@@ -69,7 +69,7 @@
 
 
 			<div class="interactive-inner">
-			<%assign var="storyall" value=$interactivemodel->get_interactive_by_field_search("(find_in_set('测试',tag) or find_in_set('教程',tag) or (find_in_set('QuizPlus',tag) and (find_in_set('新闻',tag) or find_in_set('热点观察',tag) or find_in_set('FT商学院',tag)) and (scoop = '1' or scoop = '0')) or find_in_set('速读',tag) or find_in_set('英语电台',tag) or find_in_set('数据新闻',tag)) and !find_in_set('广告互动教程',tag) and pubdate <= unix_timestamp(now())",0,5,30,10800)%>
+			<%assign var="storyall" value=$interactivemodel->get_interactive_by_field_search("(find_in_set('测试',tag) or find_in_set('教程',tag) or (find_in_set('QuizPlus',tag) and (find_in_set('新闻',tag) or find_in_set('热点观察',tag) or find_in_set('FT商学院',tag)) and (scoop = '1' or scoop = '0')) or find_in_set('速读',tag) or find_in_set('英语电台',tag) or find_in_set('数据新闻',tag)) and !find_in_set('广告互动教程',tag) and pubdate <= unix_timestamp(now())",0,8,30,10800)%>
 			<%assign var="photoall" value=$photonewsmodel->get_new_photonews(6)%>
 			<%assign var="storycount" value=$storyall|@count%>
 			<%assign var="photocount" value=$photoall|@count%>
@@ -127,7 +127,7 @@
 							<%assign var="i" value=$i+1%>
 						<%/if%>
 						<%assign var="cs" value=$cs+1%>
-					<%elseif $ps<$photocount && ($storyall[$cs].pubdate<$photoall[$cp].add_times || $cs>=$storycount)%>
+					<%elseif $ps<$photocount && 1<0 && ($storyall[$cs].pubdate<$photoall[$cp].add_times || $cs>=$storycount)%>
 						<%if !in_array($photoall[$cp].en_title , explode(',',$echostoryid)) && $photoall[$cp].thumb_url %>
 							<div class="item-container<%if $i===0%> first<%/if%>"><div class="item-inner">
 							<a class="image" href="/photonews/<%$photoall[$cp].photonewsid%>" target=_blank><figure class="loading" data-url="http://i.ftimg.net/<%$photoall[$cp].thumb_url%>"></figure></a>
@@ -395,7 +395,7 @@
 							<%assign var="i" value=$i+1%>
 						<%/if%>
 						<%assign var="cs" value=$cs+1%>
-					<%elseif $ps<$photocount && ($storyall[$cs].pubdate<$photoall[$cp].add_times || $cs>=$storycount)%>
+					<%elseif $ps<$photocount && 1<0 && ($storyall[$cs].pubdate<$photoall[$cp].add_times || $cs>=$storycount)%>
 						<%if !in_array($photoall[$cp].en_title , explode(',',$echostoryid)) && $photoall[$cp].thumb_url %>
 							<div class="item-container<%if $i===0%> first<%/if%>"><div class="item-inner">
 							<a class="image" href="/photonews/<%$photoall[$cp].photonewsid%>" target=_blank><figure class="loading" data-url="http://i.ftimg.net/<%$photoall[$cp].thumb_url%>"></figure></a>

@@ -44,6 +44,10 @@ const origamiModules = [
   {
     source: 'http://www.ft.com/__origami/service/build/v2/bundles/css?modules=o-gallery@^1.7.6',
     dest: './app/origami/o-gallery.css'
+  },
+  {
+    source: 'https://www.ft.com/__origami/service/build/v2/bundles/js?modules=o-ads@10.2.1',
+    dest: './app/origami/o-ads.js'
   }
 ];
 
