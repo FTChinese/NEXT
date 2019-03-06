@@ -14,7 +14,7 @@
 	function sharelinks() {
 		var uaOfPage=navigator.userAgent || navigator.vendor || "", shareWeChat;
 		var sinten = document.title;
-		var shcode="";
+		var shcode = window.location.href;
 		var t1; 
 		var t2;
 		var t3;
@@ -23,7 +23,11 @@
 		var t6;
 		var t7;
 		var topsharelinks = '';
-		shcode=window.location.href;
+		// MARK: Add the gift id to shared url if available
+		if (window.giftId && window.giftId !== '') {
+			var connector = (shcode.indexOf('?')>=0) ? '&' : '?';
+			shcode += connector + 'gift_id=' + window.giftId;
+		}
 		if(shcode.indexOf('shcode')!=-1){
 			shcode=shcode.substring(shcode.indexOf('shcode'));
 			shcode=shcode.replace(/[^\d]/g,'');
