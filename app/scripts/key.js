@@ -143,7 +143,10 @@ function trackerNew() {
 
     //console.log (screenType);
     ccode=paravalue(l,'ccode');
-    if (l.indexOf('isappinstalled')>0  && l.indexOf('code')<0) {
+    if (l.indexOf('gift_id')>0) {
+        vsource='marketing';
+        ccode='GiftArticle';
+    } else if (l.indexOf('isappinstalled')>0  && l.indexOf('code')<0) {
         vsource='marketing';
         ccode='2G178002';
     } else if (l.indexOf('#s=d')>0) {
