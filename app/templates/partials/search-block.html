@@ -43,6 +43,8 @@
 			</script>
 -->*%>
 
+<!--Count Result: <%$count_result%>-->
+
 			<%if $count_result>0%>
 				<%foreach from=$search_result item=sc name=foo%>
 					<div class="XLT LT ST MT PT"></div>
@@ -53,6 +55,13 @@
 						<div class="item-bottom"></div>
 					</div></div>
 				<%/foreach%>
+			<%elseif $count_result<0%>
+				<%*<!--MARK: the server side is very unreliable. Get the keys from browser instead. -->*%>
+				<script type="text/javascript">
+					var newKeys = paravalue(window.location.href, 'keys');
+					//newKeys = encodeURIComponent(newKeys);
+					window.location.href = 'https://www.bing.com/search?q='+newKeys+'+site%3Aftchinese.com&qs=n&form=QBLH&sp=-1&pq='+newKeys+'+site%3Aftchinese.com&sc=1-22&sk=&cvid=ECB975B8D14441D0A04AB19C921AC9BE';
+				</script>
 			<%else%>
 				<div class="no-image"><div class="item-inner">
 				对不起，我们的搜索引擎没有找到完全符合您的搜索条件的结果，您可以更换一下关键词或者搜索条件试试。
