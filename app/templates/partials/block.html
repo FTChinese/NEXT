@@ -1040,10 +1040,16 @@
 							<%assign var="hideLead" value="yes"%>
 							<%assign var="itemLead" value=""%>
 						<%elseif $list.preferLead === "shortlead"%>
-							<%assign var="itemLead" value=$item.shortlead|default:$item.clead|default:$item.longlead|default:$item.cshortleadbody|default:$item.clongleadbody|default:$item.description%>
+							<%assign var="itemLead" value=$item.shortlead|default:$item.cshortleadbody|default:$item.clead|default:$item.description%>
+							<%if $itemLead == "" || preg_match("/http|mp3|\|/is",$itemLead)%>
+								<%assign var="itemLead" value=$item.clongleadbody|default:$item.clead|default:$item.longlead|default:$item.description%>
+							<%/if%>
 							<%assign var="itemLead" value=$itemLead|regex_replace:"/[\n\r]+$/":""%>
 						<%else%>
-							<%assign var="itemLead" value=$item.longlead|default:$item.clead|default:$item.shortlead|default:$item.clongleadbody|default:$item.cshortleadbody|default:$item.description%>
+							<%assign var="itemLead" value=$item.clongleadbody|default:$item.clead|default:$item.longlead|default:$item.description%>
+							<%if $itemLead == "" || preg_match("/http|mp3|\|/is",$itemLead)%>
+								<%assign var="itemLead" value=$item.shortlead|default:$item.cshortleadbody|default:$item.clead|default:$item.description%>
+							<%/if%>
 							<%assign var="itemLead" value=$itemLead|regex_replace:"/[\n\r]+$/":""%>
 						<%/if%>
 
