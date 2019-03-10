@@ -18,12 +18,12 @@
 
 <%assign var="privilegeEventLabel" value="`$privilegeType`/`$itemType`/`$itemId``$privilegeSuffix`"%>
 <script type="text/javascript">
+    window.gPaywallShowed = true;
     if(window.ccodeValue){
         window.gSubscriptionEventLabel = 'From:' + window.ccodeValue + '/' +'<%$privilegeEventLabel|strip_tags|regex_replace:"/[\r\n\t\s]/":""%>';
     }else{
         window.gSubscriptionEventLabel = '<%$privilegeEventLabel|strip_tags|regex_replace:"/[\r\n\t\s]/":""%>';
     }
-
 </script>
 <script type="text/javascript">
     ga('send','event','Web Privileges', 'Display', window.gSubscriptionEventLabel, {'nonInteraction':1});

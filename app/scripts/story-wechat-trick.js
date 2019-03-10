@@ -7,6 +7,7 @@
    	var isWeChat = (/micromessenger/i.test(uaString));
    	var timeInSeconds = 10;
    	var timeString = 't' + timeInSeconds;
+   	// MARK: - If wechat page loading progress bar doesn't finish in 10 seconds, stop refreshing and let it finish, so that user can share the page. 
 	setTimeout(function(){
 		if (pageLoaded === false && isWeChat) {
 			window.stop();
@@ -54,4 +55,14 @@
 			ga('send', 'event', 'WeChatLoadTrack', 'ignore', timeString, {'nonInteraction':1});
 		}
 	}, timeInSeconds * 1000);
+	// MARK: If the user opens a paid content and is required to login, give him the option to view this content with his app. 
+	if (window.gPaywallShowed === true) {
+		var lockContent = document.querySelector('.lock-content');
+		if (lockContent) {
+			console.log ('found: ' + lockContent.innerHTML);
+			var pathname = window.location.pathname;
+			pathname = pathname.replace('interactive', 'gym');
+			window.location.href = 'ftchinese:/' + window.location.pathname;
+		}
+	}
 })();
