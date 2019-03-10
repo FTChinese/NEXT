@@ -1,13 +1,14 @@
 (function(){
-	var pageLoaded = false;
-	var tipContent = '<div style="padding: 0 15px;"><p><b>重要提示：</b></p><p style="margin-bottom: 1em;">亲爱的读者，由于微信不能识别和记录您的FT中文网用户和支付信息，请按照下列说明在手机默认浏览器中打开本页。</p><p style="margin-bottom: 1em;">如果您已经安装FT中文网App或者已经在手机的默认浏览器登录了FT中文网，请点击微信右上角的...按钮，再点击在浏览器中打开。</p><p style="margin-bottom: 1em;"><a href="https://a.app.qq.com/o/simple.jsp?pkgname=com.ft">您也可以下载FT中文网的App</a>，了解FT中文网的更多优秀内容。</p></div>';
-	window.onload = function() {
-		pageLoaded = true;
-	};
 	var uaString = navigator.userAgent || navigator.vendor || '';
+	var pageLoaded = false;
+	var browserName = (/iphone|ipad|ipod/i.test(uaString)) ? 'Safari' : '手机默认浏览器';
+	var tipContent = '<div style="padding: 0 15px;"><p><b>重要提示：</b></p><p style="margin-bottom: 1em;">亲爱的读者，由于微信不能识别和记录您的FT中文网用户和支付信息，请按照下列说明在'+browserName+'中打开本页。</p><p style="margin-bottom: 1em;">如果您已经安装FT中文网App或者已经在手机的默认浏览器登录了FT中文网，请点击<b>微信右上角的...按钮</b>，再点击<b>在'+browserName+'中打开</b>。并<b>允许'+browserName+'跳转到FT中文网的应用。</b></p><p style="margin-bottom: 1em;"><a href="https://a.app.qq.com/o/simple.jsp?pkgname=com.ft">您也可以下载FT中文网的App</a>，了解FT中文网的更多优秀内容。</p></div>';
    	var isWeChat = (/micromessenger/i.test(uaString));
    	var timeInSeconds = 10;
    	var timeString = 't' + timeInSeconds;
+   	window.onload = function() {
+		pageLoaded = true;
+	};
    	function popWeChat() {
 		var tip = document.createElement('DIV');
 		tip.style.padding = '15px';
