@@ -1,8 +1,9 @@
+// MARK: - WeChat's browser has idiosyncrasies that we have to do some hacks to trick it and encourage users/subscribers to go back to our apps/web site.  
 (function(){
 	var uaString = navigator.userAgent || navigator.vendor || '';
 	var pageLoaded = false;
 	var browserName = (/iphone|ipad|ipod/i.test(uaString)) ? 'Safari' : '手机默认浏览器';
-	var tipContent = '<div style="padding: 0 15px;"><p><b>重要提示：</b></p><p style="margin-bottom: 1em;">由于微信不能识别和记录您的FT中文网用户和支付信息，请点击这里在FT中文网App或'+browserName+'中打开本页。</p><p style="margin-bottom: 1em;"><a href="https://a.app.qq.com/o/simple.jsp?pkgname=com.ft">您也可以下载FT中文网的App</a>，了解FT中文网的更多优秀内容。</p></div>';
+	var tipContent = '<div style="padding: 0 15px;"><p><b>重要提示：</b></p><p style="margin-bottom: 1em;">这是一篇需要付费订阅才能阅读的内容。但是由于微信不能识别和记录您的FT中文网用户和支付信息，请点击这里在FT中文网App或'+browserName+'中打开本页，来完成订阅或者使用您已经购买的订阅权限。</p><p style="margin-bottom: 1em;"><a href="https://a.app.qq.com/o/simple.jsp?pkgname=com.ft">您也可以下载FT中文网的App</a>，了解FT中文网的更多优秀内容。</p></div>';
    	var isWeChat = (/micromessenger/i.test(uaString));
    	var timeInSeconds = 10;
    	var timeString = 't' + timeInSeconds;
