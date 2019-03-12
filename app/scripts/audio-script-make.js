@@ -21,7 +21,7 @@ function startPlay() {
 				for (var m=0; m<safeReplaces.length; m++) {
 					newBlock = newBlock.replace(safeReplaces[m].p, safeReplaces[m].r);
 				}
-				console.log (newBlock);
+				//console.log (newBlock);
 				text = text.replace(blocks[h], newBlock);
 			}
 		}
@@ -71,7 +71,7 @@ function startPlay() {
 		var currentParagraphDataArray = [];
 		for (var j=0; j<currentParagraphData.length; j++) {
 			for (var n=0; n<safeReplaces.length; n++) {
-				currentParagraphData[j] = currentParagraphData[j].replace(safeReplaces[n].r, safeReplaces[n].p);
+				currentParagraphData[j] = currentParagraphData[j].replace(safeReplaces[n].r, safeReplaces[n].p).replace(safeReplaces[n].r, safeReplaces[n].p).replace(safeReplaces[n].r, safeReplaces[n].p).replace(safeReplaces[n].r, safeReplaces[n].p).replace(safeReplaces[n].r, safeReplaces[n].p).replace(safeReplaces[n].r, safeReplaces[n].p);
 			}
 			var currentLine = {
 				start: null,
