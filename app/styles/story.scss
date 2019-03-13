@@ -308,7 +308,7 @@ a.o-responsive-video-caption:link, a.o-responsive-video-caption:visited, a.o-res
     @include paginationPhone;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 690px) {
 	.story-box {
 		border: medium none;
 		font-size: 0.9em;
@@ -332,6 +332,42 @@ a.o-responsive-video-caption:link, a.o-responsive-video-caption:visited, a.o-res
 	    	background-color: transparent;
 	    	padding:0;
 	    }
+	}
+}
+
+@media only screen and (max-width: 1024px) {
+	.ce {
+		.content-inner {
+			border: 0 !important; 
+			padding: 0 !important;
+			float: none !important;
+		}
+		.story-container {
+			max-width: 100%;
+			//padding: 0;
+		}
+		.has-side {
+			.block-inner {
+				padding: 0;
+			}
+			.content-container {
+			    float: none;
+			}
+			.content-inner {
+		    	border-right: 0;
+		    	padding-right: 0;
+			}
+		}
+		.side-container {
+			float: none;
+		    width: auto;
+		    background-color: transparent;
+		    margin-left: 0;
+		    padding: 0 0 $defaultPadding/2 0;
+		}
+		.block-inner {
+			padding: 0;
+		}
 	}
 }
 
