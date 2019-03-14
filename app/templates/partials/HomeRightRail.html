@@ -81,7 +81,7 @@
 			<%section name=bothdata loop=$allcount%>
 				<%if $i<4%>
 					<%if $cs<$storycount && ($storyall[$cs].pubdate>=$photoall[$cp].add_times || $ps>=$photocount)%>
-						<%if !in_array($storyall[$cs].id , explode(',',$echostoryid)) && ($storyall[$cs].story_pic.smallbutton || $storyall[$cs].story_pic.bigbutton || $storyall[$cs].story_pic.cover)%>
+						<%if !in_array($storyall[$cs].id, explode(',',$itemIdsArray)) && !in_array($storyall[$cs].id , explode(',',$echostoryid)) && ($storyall[$cs].story_pic.smallbutton || $storyall[$cs].story_pic.bigbutton || $storyall[$cs].story_pic.cover)%>
 							<%assign var="itemSubType" value=""%>
 							<%if preg_match("/速读/is",$storyall[$cs].tag)%>
 								<%assign var="iTag" value="【速读】"%>
@@ -342,7 +342,7 @@
 			<%*<!--两组数据进行合并，重新排序 Start-->*%>
 			<%section name=bothdata loop=$allcount%>
 				<%if $i<4%>
-					<%if $cs<$storycount && ($storyall[$cs].pubdate>=$photoall[$cp].add_times || $ps>=$photocount)%>
+					<%if !in_array($storyall[$cs].id, explode(',',$itemIdsArray)) &&$cs<$storycount && ($storyall[$cs].pubdate>=$photoall[$cp].add_times || $ps>=$photocount)%>
 						<%if !in_array($storyall[$cs].id , explode(',',$echostoryid)) && ($storyall[$cs].story_pic.smallbutton || $storyall[$cs].story_pic.bigbutton || $storyall[$cs].story_pic.cover)%>
 							<%assign var="itemSubType" value=""%>
 							<%if preg_match("/速读/is",$storyall[$cs].tag)%>
