@@ -4,13 +4,13 @@
 <%elseif $page_action == "en" || $page_action == "ce"%>
     <%assign var="privilegeType" value="EnglishText"%>
     <%assign var="privilegeSuffix" value="/`$page_action`"%>
-<%elseif $tag != "" && preg_match("/速读/is",$$tag)%>
+<%elseif $tag != "" && preg_match("/速读/is",$tag)%>
     <%assign var="privilegeType" value="SpeedReading"%>
     <%assign var="privilegeSuffix" value=""%>
-<%elseif $tag != "" && preg_match("/FT研究院/is",$$tag) && preg_match("/会员专享/is",$$tag)%>
+<%elseif $tag != "" && preg_match("/FT研究院/is",$tag) && preg_match("/会员专享/is",$tag)%>
     <%assign var="privilegeType" value="StandardIntelligence"%>
     <%assign var="privilegeSuffix" value=""%>
-<%elseif $tag != "" && preg_match("/FT研究院/is",$$tag) && preg_match("/高端专享/is",$$tag)%>
+<%elseif $tag != "" && preg_match("/FT研究院/is",$tag) && preg_match("/高端专享/is",$tag)%>
     <%assign var="privilegeType" value="PremiumIntelligence"%>
     <%assign var="privilegeSuffix" value=""%>
 <%elseif $smarty.server.REQUEST_URI|strstr:"archive"%>

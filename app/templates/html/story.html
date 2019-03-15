@@ -671,7 +671,7 @@
 	<%assign var="keys" value="`$keys`,`$sc`"%>
 <%/foreach%>
 <%assign var="keys" value="`$keys`,`$tag`"%>
-<%if $smarty.get.ad == "no" || preg_match("/去广告/is",$keys)%>
+<%if $smarty.get.ad == "no" || preg_match("/去广告|会员专享|高端专享/is",$keys)%>
 	<%assign var="noAd" value="true"%>
 <%/if%>
 <%if preg_match("/单页/is",$keys)%>
