@@ -18,17 +18,24 @@
     <%assign var="privilegeSuffix" value=""%>
 <%else%>
     <%assign var="privilegeType" value="ExclusiveContent"%>
+    <%assign var="itemType" value="premium"%>
     <%assign var="privilegeSuffix" value=""%>
 <%/if%>
 
 
 <%assign var="privilegeEventLabel" value="`$privilegeType`/`$itemType`/`$itemId``$privilegeSuffix`"%>
+<%assign var="privilegeEventLabel" value=$privilegeEventLabel|strip_tags|regex_replace:"/[\r\n\t\s]/":""%>
 <script type="text/javascript">
     window.gPaywallShowed = true;
-    if(window.ccodeValue){
-        window.gSubscriptionEventLabel = 'From:' + window.ccodeValue + '/' +'<%$privilegeEventLabel|strip_tags|regex_replace:"/[\r\n\t\s]/":""%>';
-    }else{
-        window.gSubscriptionEventLabel = '<%$privilegeEventLabel|strip_tags|regex_replace:"/[\r\n\t\s]/":""%>';
+    var privilegeEventLabel = '<%$privilegeEventLabel%>' || '';
+    if (privilegeEventLabel === '') {
+        if(window.ccodeValue){
+            window.gSubscriptionEventLabel = 'From:' + window.ccodeValue + '/' + privilegeEventLabel;
+        }else{
+            window.gSubscriptionEventLabel = '';
+        }
+    } else {
+        window.gSubscriptionEventLabel = privilegeEventLabel;
     }
 </script>
 <script type="text/javascript">
