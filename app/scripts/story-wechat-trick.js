@@ -79,8 +79,8 @@
 			pathname = pathname.replace('interactive', 'gym');
 			window.location.href = 'ftchinese:/' + pathname;
 			// MARK: If the page is not redirected, update lockBlock
-			lockBlock.innerHTML = tipContent;
 			if (isWeChat) {
+				lockBlock.innerHTML = tipContent;
 				lockBlock.onclick = function() {
 					popWeChat();
 				};

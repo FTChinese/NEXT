@@ -201,7 +201,8 @@ href="http://www.ftchinese.com" target="_blank"
 <table width="100%" cellpadding="0" cellspacing="0">
 
 
-
+<%assign var="ccode" value=""%>
+<%assign var="discountCode" value=""%>
 <%assign var="s" value=0%>
 <%foreach from=$p.sections item=section%>
     <%if $section.type == "block"%>
@@ -227,17 +228,22 @@ href="http://www.ftchinese.com" target="_blank"
 					<%assign var="imageHeight" value=96%>
 					<%assign var="imageClass" value=""%>
 				<%/if%>
+				<%assign var=ccodePara value=""%>
+				<%if $ccode != ""%>
+					<%assign var=ccodePara value="&ccode=`$ccode`"%>
+				<%/if%>
+				<%assign var=itemLink value="http://www.ftchinese.com/`$item.type`/`$item.id`?s=w`$discountCode``$ccodePara`#s=w"%>
 				<div style="line-height:1.618; ">
 				    <table width="100%" cellpadding="0" cellspacing="0" style="border-bottom:1px solid #E9DECF; line-height:1.618;">
 				        <tr><td class="lineH1" style="height: 5px; font-size: 5px; line-height: 5px; padding: 0;"> </td></tr>
 				        <tr>
 				            <td class="SContent cover" style="font-size:14px;line-height:23px;color:#505050;">
 				                <div class="lineH1_4" style="line-height:40px;font-size:25px;">
-				                    <a target=_blank class="headLine" style="font-weight:bold; text-decoration:none; color:#111;" href="http://www.ftchinese.com/<%$item.type%>/<%$item.id%>#s=w"><%$item.headline%></a>
+				                    <a target=_blank class="headLine" style="font-weight:bold; text-decoration:none; color:#111;" href="<%$itemLink%>"><%$item.headline%></a>
 				                </div>
 								<table cellpadding="0" cellspacing="0" align="left"<%$imageClass%>><tr><td class="lineH1 imgSpace" style="height: 6px; font-size: 0px; line-height: 5px; padding: 0;"> </td></tr><tr><td>
 
-								<a class="coverImgLink" style="" target="_blank" href="http://www.ftchinese.com/<%$item.type%>/<%$item.id%>#s=w">
+								<a class="coverImgLink" style="" target="_blank" href="<%$itemLink%>">
 								<img src="https://www.ft.com/__origami/service/image/v2/images/raw/<%$item.image|replace:"/upload/":"/"|replace:"i.ftimg.net":"i.ftmailbox.com"|escape:"ulr"%>?source=ftchinese&width=<%$imageWidth%>&height=<%$imageHeight%>" border="0" style="width:<%$imageWidth%>px;" align="left" width="<%$imageWidth%>"/>
 								</a>
 
@@ -262,6 +268,49 @@ href="http://www.ftchinese.com" target="_blank"
 			<%assign var="l" value=$l+1%>
         <%/foreach%>
         <%assign var="s" value=$s+1%>
+    <%elseif $section.type == "MainMessage"%>
+    	<%assign var=buttonUrl value=$section.buttonUrl%>
+    	<%if $section.ccode != ""%>
+    		<%assign var=ccode value=$section.ccode%>
+    	<%/if%>
+    	<%if $section.discountCode != ""%>
+    		<%assign var="discountCode" value="&from=`$section.discountCode`"%>
+    	<%/if%>
+    	<%if !preg_match("/ccode/is",$buttonUrl) && $ccode != ""%>
+    		<%assign var=connector value="?"%>
+    		<%if preg_match("/\?/is",$buttonUrl)%>
+    			<%assign var=connector value="&"%>
+    		<%/if%>
+    		<%assign var=buttonUrl value="`$buttonUrl``$connector`ccode=`$ccode`"%>
+    	<%/if%>
+    	<%if $section.discountCode != ""%>
+    		<%assign var=connector value="?"%>
+    		<%if preg_match("/\?/is",$buttonUrl)%>
+    			<%assign var=connector value="&"%>
+    		<%/if%>
+    		<%assign var=buttonUrl value="`$buttonUrl``$connector`from=`$section.discountCode`"%>
+    	<%/if%>
+    	<tr><td  class="SContent cover" style="font-size:18px;line-height:23px;color:#333;font-weight: bold;padding-left:17px;padding-right:17px;"><%$section.title%>：</td></tr>
+    	<tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;"> </td></tr>
+    	<tr><td  class="SContent cover" style="font-size:18px;line-height:23px;color:#333;padding-left:17px;padding-right:17px;"><%$section.content|nl2br%></td></tr>
+    	<tr><td style="height: 15px; font-size: 0px; line-height: 15px; padding: 0;"> </td></tr>
+    	<tr><td  class="SContent cover" style="font-size:18px;line-height:23px;color:#333;padding-left:17px;padding-right:17px;">
+			<table width="100%" cellspacing="0" cellpadding="0">
+			  <tr>
+			      <td align="center">
+			          <table cellspacing="0" cellpadding="0">
+			              <tr>
+			                  <td style="border-radius: 2px;" bgcolor="#0a5e66">
+			                      <a href="<%$buttonUrl%>" target="_blank" style="padding: 8px 12px; border: 1px solid #0a5e66;border-radius: 2px;font-family: Helvetica, Arial, sans-serif;font-size: 14px; color: #ffffff;text-decoration: none;font-weight:bold;display: inline-block;"><%$section.buttonTitle%></a>
+			                  </td>
+			              </tr>
+			          </table>
+			      </td>
+			  </tr>
+			</table>
+    	</td></tr>
+    	<tr><td style="height: 15px; font-size: 0px; line-height: 15px; padding: 0;"> </td></tr>
+    	<%assign var="s" value=$s+1%>
     <%/if%>
 <%/foreach%>
 

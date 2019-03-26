@@ -495,6 +495,10 @@ var openApp = document.getElementById('open-app');
 try {
     if(subscribeNow){
         var hrefLink = 'http://www.ftchinese.com/index.php/ft/subscription?el='+window.gSubscriptionEventLabel;
+        var discountCode = paravalue(window.location.href, 'from');
+        if (discountCode !== '') {
+            hrefLink += '&from=' + discountCode;
+        }
         subscribeNow.href = hrefLink;
         subscribeNow.onclick = function(){
             // MARK: - Stop Tracking for Lack of GA Quota

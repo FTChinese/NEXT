@@ -181,27 +181,28 @@ function getDeviceTpye() {
 }
 
 function getAdChannelId() {
+  return '';
   /**
    * @dependGlob adchID
    * @dependGlob FTadchannelID
    * @dependGlob deviceType
    */
-  var adch = adchID; //TODO:集中channel号码的获取方式，不要head.html等等都有
-  var adchURL = window.location.href.replace(/^.*adchannelID=([0-9]{4}).*$/g,'$1');
-  if (/^[0-9]{4}$/.test(adchURL) && window.isAdchannelIdFinal !== true) { //MARK:如果是从url可以得到4位频道号
-    adch = adchURL;
-  } else if (typeof(window.FTadchannelID)!=='undefined' && window.FTadchannelID ) { //MARK:否则看一下全局变量FTadchannelID是否存在
-    console.log(window.FTadchannelID);
-    adch = window.FTadchannelID;
-  } 
-  //MARK:Mobile情况下的频道要抹去二级频道（一级频道为50的除外）
-  //MARK：1902的移动端卖了广告，所以1902也要除去————移动端子频道分开卖广告是趋势
-  var mobileDeviceTypeArr = ['iPhoneApp','iPhoneWeb','AndroidApp','AndroidWeb','PadApp','PadWeb'];
-  if (adch && mobileDeviceTypeArr.indexOf(deviceType) >= 0 && adch.substring(0,2)!== '50' && adch.substring(2,4)!=='00' && adch !== '1902') {
-    adch = adch.substring(0,2) + '00';
-  }
-  var adChannelId = adch||'1000';
-  return adChannelId;
+  // var adch = adchID; //TODO:集中channel号码的获取方式，不要head.html等等都有
+  // var adchURL = window.location.href.replace(/^.*adchannelID=([0-9]{4}).*$/g,'$1');
+  // if (/^[0-9]{4}$/.test(adchURL) && window.isAdchannelIdFinal !== true) { //MARK:如果是从url可以得到4位频道号
+  //   adch = adchURL;
+  // } else if (typeof(window.FTadchannelID)!=='undefined' && window.FTadchannelID ) { //MARK:否则看一下全局变量FTadchannelID是否存在
+  //   console.log(window.FTadchannelID);
+  //   adch = window.FTadchannelID;
+  // } 
+  // //MARK:Mobile情况下的频道要抹去二级频道（一级频道为50的除外）
+  // //MARK：1902的移动端卖了广告，所以1902也要除去————移动端子频道分开卖广告是趋势
+  // var mobileDeviceTypeArr = ['iPhoneApp','iPhoneWeb','AndroidApp','AndroidWeb','PadApp','PadWeb'];
+  // if (adch && mobileDeviceTypeArr.indexOf(deviceType) >= 0 && adch.substring(0,2)!== '50' && adch.substring(2,4)!=='00' && adch !== '1902') {
+  //   adch = adch.substring(0,2) + '00';
+  // }
+  // var adChannelId = adch||'1000';
+  // return adChannelId;
 }
 
 function getBannerBG() {

@@ -47,25 +47,6 @@
 <%/if%>
 
 
-<%*<!--
-<%if preg_match("/速读/is",$itemTagsString)%>
-	<%assign var="itemSubType" value="speedreading"%>
-	<%assign var="itemLead" value=$report.cshortleadbody|default:$report.clongleadbody%>
-	<%assign var="itemMainTag" value="金融英语速读"%>
-	<%assign var="itemMainTagLink" value="<div class=\"item-tag\"><a href=\"/channel/speedread.html\">`$itemMainTag`</a></div>"%>
-<%elseif preg_match("/英语电台/is",$itemTagsString)%>
-	<%assign var="itemSubType" value="radio"%>
-	<%assign var="itemLead" value=$report.clongleadbody|default:$report.cshortleadbody%>
-	<%assign var="itemMainTag" value="英语电台"%>
-	<%assign var="itemMainTagLink" value="<div class=\"item-tag\"><a href=\"/channel/radio.html\">`$itemMainTag`</a></div>"%>
-<%else%>
-	<%assign var="itemSubType" value=""%>
-	<%assign var="itemLead" value=$report.clongleadbody|default:$report.cshortleadbody%>
-	<%assign var="itemMainTag" value=$itemTags[0]%>
-	<%assign var="itemMainTagLink" value="<div class=\"item-tag\"><a href=\"/tag/`$itemMainTag`\">`$itemMainTag`</a></div>"%>
-<%/if%>
--->*%>
-
 <%assign var="itemSubType" value=""%>
 <%assign var="itemLead" value=$report.clongleadbody|default:$report.cshortleadbody%>
 <%assign var="itemMainTag" value=$itemTags[0]%>
