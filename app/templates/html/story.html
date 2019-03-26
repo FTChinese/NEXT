@@ -1127,8 +1127,11 @@
 	<%/if%>
 <%/if%>
 
-<!--Page Action: <%$page_action%>, eshortleadbody: <%$eshortleadbody%>, story id: <%$story.id%>, story show english: <%$story.show_english%>-->
-<%if $page_action=="en" && $eshortleadbody != ""%>
+<%if $itemType == ""%>
+	<%assign var="itemType" value="story"%>
+<%/if%>
+
+<%if $page_action=="en" && $eshortleadbody != "" && preg_match("/i听粉/is",$keys)%>
 	<%assign var="languageOptions" value="<a class=\"icon-right icon-ch\" href=\"`$eshortleadbody`\"><button>中文</button></a>"%>
 	<%assign var="languageSwitch" value="<div class=\"language-switch-placeholder\" id=\"language-switch-placeholder\"><div class=\"language-switch-container\"><a class=\"language-switch-left language-switch-menu\" href=\"/\"></a><div class=\"language-switch-inner\"><a class=\"language-switch\" href=\"/story/`$story.id`?ccode=LanguageSwitch\">中文</a><a class=\"on language-switch\">英文</a><a class=\"language-switch\" href=\"/story/`$story.id`/ce?ccode=LanguageSwitch\">对照</a></div><a class=\"language-switch-right language-switch-share\" onclick=\"showOverlay('share-legacy')\"></a></div></div>"%>
 <%elseif ($page_action=="en" || $page_action=="ce") && $story.id%>
@@ -1143,6 +1146,7 @@
 	<%assign var="languageOptions" value="<a class=\"icon-right icon-ch\" href=\"/story/`$story.id`/ce\"><button>对照</button></a><a class=\"icon-right icon-ch\" href=\"/story/`$story.id`/en\"><button>英文</button></a>"%>
 	<%assign var="languageSwitch" value="<div class=\"language-switch-placeholder\" id=\"language-switch-placeholder\"><div class=\"language-switch-container\"><a class=\"language-switch-left language-switch-menu\" href=\"/\"></a><div class=\"language-switch-inner\"><a class=\"language-switch on\">中文</a><a class=\"language-switch\" href=\"/story/`$story.id`/en?ccode=LanguageSwitch\">英文</a><a class=\"language-switch\" href=\"/story/`$story.id`/ce?ccode=LanguageSwitch\">对照</a></div><a class=\"language-switch-right language-switch-share\" onclick=\"showOverlay('share-legacy')\"></a></div></div>"%>
 <%/if%>
+
 
 
 <%if $page_action=="en"%>
@@ -1281,9 +1285,7 @@
 
 <%/if%>
 
-<%if $itemType == ""%>
-	<%assign var="itemType" value="story"%>
-<%/if%>
+
 
 <%assign var="itemId" value=$story.id|default:$id%>
 <%assign var="shareTitle" value="`$storyHeadline` - FT中文网"%>
