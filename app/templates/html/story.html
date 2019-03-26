@@ -1127,7 +1127,7 @@
 	<%/if%>
 <%/if%>
 
-
+<!--Page Action: <%$page_action%>, eshortleadbody: <%$eshortleadbody%>, story id: <%$story.id%>, story show english: <%$story.show_english%>-->
 <%if $page_action=="en" && $eshortleadbody != ""%>
 	<%assign var="languageOptions" value="<a class=\"icon-right icon-ch\" href=\"`$eshortleadbody`\"><button>中文</button></a>"%>
 	<%assign var="languageSwitch" value="<div class=\"language-switch-placeholder\" id=\"language-switch-placeholder\"><div class=\"language-switch-container\"><a class=\"language-switch-left language-switch-menu\" href=\"/\"></a><div class=\"language-switch-inner\"><a class=\"language-switch\" href=\"/story/`$story.id`?ccode=LanguageSwitch\">中文</a><a class=\"on language-switch\">英文</a><a class=\"language-switch\" href=\"/story/`$story.id`/ce?ccode=LanguageSwitch\">对照</a></div><a class=\"language-switch-right language-switch-share\" onclick=\"showOverlay('share-legacy')\"></a></div></div>"%>
