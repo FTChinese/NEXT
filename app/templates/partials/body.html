@@ -138,7 +138,7 @@
 <%if $infoForSponsorships != "" && $infoForBrandSafety != "" && $currentDate != ""%>
   <%foreach from=$infoForSponsorships.sections item=section%>
     <%if $section.status == "on" && $section.dates != "" && preg_match("/`$currentDate`/is",$section.dates) && ($section.adChannelId != "" || $section.zone != "")%>
-      <div style="display: none;" class="specialanchor" tag="<%$section.tag%>" title="<%$section.title%>" adid="<%$section.adChannelId%>" channel="<%$section.link%>" hideAd="<%$section.hideAd%>" zone="<%$section.zone%>"></div>
+      <div style="display: none;" class="specialanchor" tag="<%$section.tag%>" title="<%$section.title%>" adid="<%$section.adChannelId%>" channel="<%$section.link%>" hideAd="<%$section.hideAd%>" zone="<%$section.zone%>" storyKeyWords="<%$section.storyKeyWords%>"></div>
       <%assign var="tag_name" value=$p.meta.title%>
       <%if $tag_name != "" && ($tag_name == $section.title || $tag_name == $section.tag)%>
         <%if preg_match("/special\//is",$zone)%>
@@ -150,10 +150,9 @@
   <%/foreach%>
   <%foreach from=$infoForBrandSafety.sections item=section%>
     <%if $section.status == "on" && ($section.dates == "" || preg_match("/`$currentDate`/is",$section.dates)) && ($section.adChannelId != "" || $section.zone != "")%>
-      <div style="display: none;" class="specialanchor" tag="<%$section.tag%>" title="<%$section.title%>" adid="<%$section.adChannelId%>" channel="<%$section.link%>" hideAd="<%$section.hideAd%>" zone="<%$section.zone%>"></div>
+      <div style="display: none;" class="specialanchor" tag="<%$section.tag%>" title="<%$section.title%>" adid="<%$section.adChannelId%>" channel="<%$section.link%>" hideAd="<%$section.hideAd%>" zone="<%$section.zone%>" storyKeyWords="<%$section.storyKeyWords%>"></div>
       <%assign var="tag_name" value=$p.meta.title%>
       <%if $tag_name != "" && ($tag_name == $section.title || $tag_name == $section.tag)%>
-        <!--tag matched! -->
         <%$section.sectionPageTrack%>
       <%/if%>
     <%/if%>
@@ -161,20 +160,6 @@
 <%/if%>
 <%*<!--MARK: Check the next model tag for sponsored special reports end-->*%>
 
-<%*
-<%assign var="tagInteractive" value=$interactivemodel->get_interactive_by_field_search("find_in_set('特别报导',tag) and eheadline != ''",0,7,999999999,10800)%>
-<%foreach from=$tagInteractive item=sc%>
-    <div style="display: none;" class="specialanchor" tag="<%$sc.cshortleadbody%>" title="<%$sc.cheadline%>" adid="<%$sc.eheadline%>" channel="<%$sc.cskylineheadline%>" hideAd="<%$sc.show_english%>" zone="<%$sc.cbyline_description%>"></div>
-<%/foreach%>
-<div style="display: none;" class="specialanchor" tag="创新" title="创新" adid="5067" channel="" hideAd="no" zone="digital"></div>
-*%>
-
-<%*
-<%assign var="tagInteractive" value=$interactivemodel->get_interactive_by_field_search("find_in_set('品牌安全',tag) and eheadline != ''",0,5,999999999,10800)%>
-<%foreach from=$tagInteractive item=sc%>
-    <div style="display: none;" class="specialanchor" tag="<%$sc.cheadline%>" title="<%$sc.cheadline%>" adid="<%$sc.eheadline%>" channel="<%$sc.cskylineheadline%>" hideAd="<%$sc.show_english%>" zone="<%$sc.cbyline_description%>"></div>
-<%/foreach%>
-*%>
 
 <%if $smarty.get.webview == "ftcapp"%>
     <script type="text/javascript">

@@ -858,7 +858,6 @@
 	<%assign var="isCurrentAdchFinal" value="no"%>
 <%/if%>
 
-<!--Keys: <%$keys%>-->
 
 <%*<!--Important: override tag for sponsored special reports end-->*%>
 
@@ -878,12 +877,21 @@
 	<%foreach from=$infoForSponsorships.sections item=section%>
 		<%if $hasFoundSponsorship == "no" && $section.status == "on" && $section.dates != "" && preg_match("/`$currentDate`/is",$section.dates)%>
 			<%assign var="sponsorKeys" value=$section.storyKeyWords%>
+			<%assign var="matchInKeysAndBody" value="no"%>
 			<%if $sponsorKeys == ""%>
+				<%*<!--MARK: - use the regular expresssion to match just keys. -->*%>
 				<%assign var="sponsorKeys" value=$section.tag%>
+				<%if preg_match("/`$sponsorKeys`/is",$keys)%>
+					<%assign var="matchInKeysAndBody" value="yes"%>
+				<%/if%>
 			<%else%>
+				<%*<!--MARK: - use the regular expresssion t match both keys and body. -->*%>
 				<%assign var="sponsorKeys" value=$sponsorKeys|regex_replace:"/, */":"|"%>
+				<%if preg_match("/`$sponsorKeys`/is","`$keys``$storyContent`")%>
+					<%assign var="matchInKeysAndBody" value="yes"%>
+				<%/if%>
 			<%/if%>
-			<%if $sponsorKeys != "" && preg_match("/`$sponsorKeys`/is",$keys)%>
+			<%if $sponsorKeys != "" && $matchInKeysAndBody == "yes"%>
 				<%assign var="hasFoundSponsorship" value="yes"%>
 				<%assign var="sponsorshipLink" value=$section.link%>
 				<%if $sponsorshipLink == "" && $section.tag != ""%>
