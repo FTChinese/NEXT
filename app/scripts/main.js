@@ -80,7 +80,6 @@ function loadImagesLazy () {
   if (figuresLoadStatus ===1 ) {
     return;
   }
-
   var figuresToLoad = 0;
   for (var i=0; i<figuresLazy.length; i++) {
     if (figuresLazy[i] !== '') {
@@ -118,7 +117,6 @@ function loadImagesLazy () {
   if (figuresToLoad === 0) {
     figuresLoadStatus = 1;
   }
-
 }
 
 // Lazy-load videos
