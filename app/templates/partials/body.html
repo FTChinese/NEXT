@@ -137,15 +137,16 @@
 <%*<!--MARK: Check the next model tag for sponsored special reports start-->*%>
 <%if $infoForSponsorships != "" && $infoForBrandSafety != "" && $currentDate != ""%>
   <%foreach from=$infoForSponsorships.sections item=section%>
-    <%if $section.status == "on" && $section.dates != "" && preg_match("/`$currentDate`/is",$section.dates) && ($section.adChannelId != "" || $section.zone != "")%>
-      <div style="display: none;" class="specialanchor" tag="<%$section.tag%>" title="<%$section.title%>" adid="<%$section.adChannelId%>" channel="<%$section.link%>" hideAd="<%$section.hideAd%>" zone="<%$section.zone%>" storyKeyWords="<%$section.storyKeyWords%>"></div>
-      <%assign var="tag_name" value=$p.meta.title%>
-      <%if $tag_name != "" && ($tag_name == $section.title || $tag_name == $section.tag)%>
+    <%if $section.status == "on" && $section.dates != "" && preg_match("/`$currentDate`/is",$section.dates) && $section.zone != "" && ($section.tag != "" || $section.storyKeyWords != "")%>
+        <%*<!--MARK: Only match sections that have either tag or storyKeyWords-->*%>
+        <div style="display: none;" class="specialanchor" tag="<%$section.tag%>" title="<%$section.title%>" adid="<%$section.adChannelId%>" channel="<%$section.link%>" hideAd="<%$section.hideAd%>" zone="<%$section.zone%>" storyKeyWords="<%$section.storyKeyWords%>"></div>
+        <%assign var="tag_name" value=$p.meta.title%>
+        <%if $tag_name != "" && ($tag_name == $section.title || $tag_name == $section.tag)%>
         <%if preg_match("/special\//is",$zone)%>
             <%assign var="zone" value="special/`$zone`"%>
         <%/if%>
         <%$section.sectionPageTrack%>
-      <%/if%>
+        <%/if%>
     <%/if%>
   <%/foreach%>
   <%foreach from=$infoForBrandSafety.sections item=section%>

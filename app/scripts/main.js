@@ -83,7 +83,6 @@ function loadImagesLazy () {
 
   var figuresToLoad = 0;
   for (var i=0; i<figuresLazy.length; i++) {
-
     if (figuresLazy[i] !== '') {
       // console.log (i);
       // console.log (scrollTop);
@@ -93,9 +92,25 @@ function loadImagesLazy () {
         scrollTop = window.scrollY || document.documentElement.scrollTop;
       }
       if (scrollTop + bodyHeight*2 > figuresLazy[i].imageTop) {
-        figures[i].innerHTML = '<img src="' + figuresLazy[i].imageUrl + '" data-backupimage="' + figuresLazy[i].imageUrlBack + '">';
+        //console.log (figuresLazy[i]);
+        var figureImage = document.createElement('IMG');
+        figureImage.src = figuresLazy[i].imageUrl;
+        //figureImage.src = 'http://wwwfa.com/image.jpg';
+        figureImage.setAttribute('data-backupimage', figuresLazy[i].imageUrlBack);
+        figures[i].appendChild(figureImage);
+        //figures[i].innerHTML = '<img src="' + figuresLazy[i].imageUrl + '" data-backupimage="' + figuresLazy[i].imageUrlBack + '">';
         figures[i].className = figuresLazy[i].loadedClass;
         figuresLazy[i] = '';
+        setTimeout(function(){
+          var isFigureImageLoaded = figureImage.complete;
+          var backupImageSrc = figureImage.getAttribute('data-backupimage');
+          var reloaded = figureImage.getAttribute('data-reloaded') || '';
+          if (isFigureImageLoaded === false && backupImageSrc && reloaded !== 'yes') {
+            figureImage.src = backupImageSrc;
+            figureImage.setAttribute('data-reloaded', 'yes');
+            //console.log (figureImage.src + ' complete? ' + isFigureImageLoaded + '. Reloaded? ' + reloaded);
+          }
+        }, 11000);
       }
       figuresToLoad ++;
     }
@@ -197,7 +212,7 @@ function loadImages() {
     var imageHeight = thisFigure.offsetHeight;
     var imageTop = findTop(thisFigure);
     var imageUrl = thisFigure.getAttribute('data-url') || '';
-    var imageUrlBack;
+    var imageUrlBack = imageUrl;
     var figureClass = thisFigure.className || '';
     var fitType = 'cover';
     var figureParentClass = thisFigure.parentNode.className || '';
@@ -256,7 +271,7 @@ function loadImages() {
   //   console.log (imageUrl);
   // console.log (shouldLoadImage);
     if (shouldLoadImage === true) {
-      imageUrlBack = imageUrl.replace('i.ftimg.net', 'i.ftmailbox.com');
+      //imageUrlBack = imageUrl.replace('i.ftimg.net', 'i.ftmailbox.com');
       figuresLazy[i] = {
         imageTop: imageTop,
         imageUrl: imageUrl,
