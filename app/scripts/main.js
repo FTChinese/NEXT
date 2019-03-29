@@ -110,7 +110,7 @@ function loadImagesLazy () {
             figureImage.setAttribute('data-reloaded', 'yes');
             //console.log (figureImage.src + ' complete? ' + isFigureImageLoaded + '. Reloaded? ' + reloaded);
           }
-        }, 11000);
+        }, 5000);
       }
       figuresToLoad ++;
     }
