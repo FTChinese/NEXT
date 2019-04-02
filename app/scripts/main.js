@@ -210,20 +210,20 @@ function loadImages() {
     var imageHeight = thisFigure.offsetHeight;
     var imageTop = findTop(thisFigure);
     var imageUrl = thisFigure.getAttribute('data-url') || '';
-    var imageUrlBack = imageUrl;
+    var imageUrlPart;
+    var imageUrlBack;
     var figureClass = thisFigure.className || '';
     var fitType = 'cover';
     var figureParentClass = thisFigure.parentNode.className || '';
     var shouldLoadImage = false;
     var loadedClass = '';
     var imageServiceHost = 'https://www.ft.com/__origami/service/image/v2/images/raw/';
+    var imageServiceHostFTC = 'https://thumbor.ftacademy.cn/unsafe/';
     var imageExists = true;
-
     if (imageUrl === '') {
       //console.log ('an empty image is here! Break Now! ')
       imageExists = false;
     }
-
     if (isRetinaDevice === true) {
       imageWidth = imageWidth * 2;
       imageHeight = imageHeight * 2;
@@ -244,15 +244,21 @@ function loadImages() {
     if (/brand/.test(figureParentClass)) {
       fitType = 'contain';
     }
-    imageUrl = encodeURIComponent(imageUrl);
-
-
+    imageUrlBack = encodeURIComponent(imageUrl);
+    //http://i.ftimg.net/picture/7/000084727_piclink.jpg
+    if (imageUrl.indexOf('http://i.ftimg.net/') === 0) {
+      imageUrlPart = imageUrl.replace('http://i.ftimg.net/', '');
+    } else {
+      imageUrlPart = imageUrl;
+    }
 
     if (/sponsor/.test(figureClass)) {
-      imageUrl = imageServiceHost + imageUrl + '?source=ftchinese&height=' + imageHeight + '&fit=' + fitType + '&from=next001';
+      imageUrl = imageServiceHostFTC + '0x' + imageHeight + '/' + imageUrlPart;
+      imageUrlBack = imageServiceHost + imageUrlBack + '?source=ftchinese&height=' + imageHeight + '&fit=' + fitType + '&from=next001';
       shouldLoadImage = true;
     } else if (imageWidth > 0 && imageHeight > 0) {
-      imageUrl = imageServiceHost + imageUrl + '?source=ftchinese&width=' + imageWidth + '&height=' + imageHeight + '&fit=' + fitType + '&from=next001';
+      imageUrl = imageServiceHostFTC + imageWidth + 'x' + imageHeight + '/' + imageUrlPart;
+      imageUrlBack = imageServiceHost + imageUrlBack + '?source=ftchinese&width=' + imageWidth + '&height=' + imageHeight + '&fit=' + fitType + '&from=next001';
       shouldLoadImage = true;
     }
 
@@ -269,7 +275,7 @@ function loadImages() {
   //   console.log (imageUrl);
   // console.log (shouldLoadImage);
     if (shouldLoadImage === true) {
-      //imageUrlBack = imageUrl.replace('i.ftimg.net', 'i.ftmailbox.com');
+      // imageUrlBack = imageUrl;
       figuresLazy[i] = {
         imageTop: imageTop,
         imageUrl: imageUrl,
@@ -277,7 +283,7 @@ function loadImages() {
         loadedClass: loadedClass
       };
 
-      //console.log (imageUrl);
+      // console.log (imageUrl);
 
       //thisFigure.innerHTML = '<img src="' + imageUrl + '" data-backupimage="' + imageUrlBack + '">';
       //thisFigure.className = loadedClass;
@@ -903,6 +909,7 @@ try {
       this.setAttribute('data-hide-image-reason', 'failed to load');
       this.style.display = 'none';
     }
+    //console.log ('load image error handled: ' + this.src); 
   });
 } catch (ignore) {
 
@@ -939,8 +946,8 @@ try {
     var el = this.getAttribute('data-el') || '';
     if (ec !== '' && ea !== '') {
       // MARK: stop tracking for lack of GA quota
-      console.log ('yes');
-      console.log (this.className);
+      // console.log ('yes');
+      // console.log (this.className);
       if (this.className.indexOf('track-click') >= 0) {
         ga('send','event',ec, ea, el);
       }
