@@ -239,13 +239,10 @@ function loadImages() {
         loadedClass = 'is-retina';
       }
     }
-    // imageWidth = parseInt (imageWidth, 10);
-    // imageHeight = parseInt (imageHeight, 10);
     if (/brand/.test(figureParentClass)) {
       fitType = 'contain';
     }
     imageUrlBack = encodeURIComponent(imageUrl);
-    //http://i.ftimg.net/picture/7/000084727_piclink.jpg
     if (imageUrl.indexOf('http://i.ftimg.net/') === 0) {
       imageUrlPart = imageUrl.replace('http://i.ftimg.net/', '');
     } else {
