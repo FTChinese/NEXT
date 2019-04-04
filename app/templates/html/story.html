@@ -876,16 +876,20 @@
 	<%assign var="currentDate" value=$smarty.now|date_format:"%Y%m%d"%>
 	<%foreach from=$infoForSponsorships.sections item=section%>
 		<%if $hasFoundSponsorship == "no" && $section.status == "on" && $section.dates != "" && preg_match("/`$currentDate`/is",$section.dates)%>
+			
 			<%assign var="sponsorKeys" value=$section.storyKeyWords%>
 			<%assign var="matchInKeysAndBody" value="no"%>
 			<%if $sponsorKeys == ""%>
 				<%*<!--MARK: - use the regular expresssion to match just keys. -->*%>
+				
 				<%assign var="sponsorKeys" value=$section.tag%>
+				<!--checking without story keys: <%$section.title%>, keys: <%$keys%>, sponsor keys: <%$sponsorKeys%>. -->
 				<%if preg_match("/`$sponsorKeys`/is",$keys)%>
 					<%assign var="matchInKeysAndBody" value="yes"%>
 				<%/if%>
 			<%else%>
-				<%*<!--MARK: - use the regular expresssion t match both keys and body. -->*%>
+				<%*<!--MARK: - use the regular expresssion to match both keys and body. -->*%>
+				<!--checking: <%$section.title%>-->
 				<%assign var="sponsorKeys" value=$sponsorKeys|regex_replace:"/, */":"|"%>
 				<%if preg_match("/`$sponsorKeys`/is","`$keys``$storyContent`")%>
 					<%assign var="matchInKeysAndBody" value="yes"%>
@@ -934,6 +938,7 @@
 					<%assign var="subnav" value="special"%>
 					<%assign var="pageId" value=$section.zone%>
 				<%/if%>
+				<!--Top Nav: <%$topnav%>, sub nav: <%$subnav%>, page id: <%$pageId%>-->
 			<%/if%>
 			<%assign var="paidPostKey" value=$section.paidPostKey%>
 			<%if $hasFoundPaidPost == "no" && $paidPostKey != "" && preg_match("/`$paidPostKey`/is",$keys)%>
