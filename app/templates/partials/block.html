@@ -152,7 +152,7 @@
 
 				<div class="items">
 
-				<%if preg_match("/all|story|interactive|photo|video/is",$list.feedType) && $list.items|@count==0%>
+				<%if preg_match("/all|story|interactive|photo|video|premium/is",$list.feedType) && $list.items|@count==0%>
 					<%if $list.feedImage == "necessary"%>
 						<%assign var="feedImage" value="necessary"%>
 					<%/if%>
@@ -406,7 +406,7 @@
 						a. $feedRepeatCheck != "yes": 手动插入的，或是非story, interactive, photo类的auto feed
 						b. $premiumContentIds中没有出现过的：目的是为了避免和subscription.html中已经出现的内容再次出现
 						或者
-						2. 同时满足下列三种条件：
+						2. 同时满足下列几种条件：
 						a. 在手动插入的item中没有出现过的item；
 						b. feedItems大于0；
 						c. 当前展示的item数量没有超过feedItems；

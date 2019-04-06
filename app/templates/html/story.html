@@ -881,15 +881,12 @@
 			<%assign var="matchInKeysAndBody" value="no"%>
 			<%if $sponsorKeys == ""%>
 				<%*<!--MARK: - use the regular expresssion to match just keys. -->*%>
-				
 				<%assign var="sponsorKeys" value=$section.tag%>
-				<!--checking without story keys: <%$section.title%>, keys: <%$keys%>, sponsor keys: <%$sponsorKeys%>. -->
 				<%if preg_match("/`$sponsorKeys`/is",$keys)%>
 					<%assign var="matchInKeysAndBody" value="yes"%>
 				<%/if%>
 			<%else%>
 				<%*<!--MARK: - use the regular expresssion to match both keys and body. -->*%>
-				<!--checking: <%$section.title%>-->
 				<%assign var="sponsorKeys" value=$sponsorKeys|regex_replace:"/, */":"|"%>
 				<%if preg_match("/`$sponsorKeys`/is","`$keys``$storyContent`")%>
 					<%assign var="matchInKeysAndBody" value="yes"%>
@@ -1416,10 +1413,8 @@
 		<%/if%>
 	<%/if%>
 	<%*<!--MARK: - In one version of the Android app, base url for interactives are set as https. So images need to be changed to https too. -->*%>
-	<%assign var="testStory" value=$story_content|regex_replace:"src=\"http://i.ftimg.net/":"src=\"https://thumbor.ftacademy.cn/unsafe/"%>
-	<!--
-		<%$testStory%>
-	-->
+	<%assign var="story_content" value=$story_content|regex_replace:"/src=\"http:\/\/i\.ftimg\.net\//":"src=\"https://thumbor.ftacademy.cn/unsafe/"%>
+	<%assign var="storyBody" value=$storyBody|regex_replace:"/src=\"http:\/\/i\.ftimg\.net\//":"src=\"https://thumbor.ftacademy.cn/unsafe/"%>
 <%/if%>
 
 

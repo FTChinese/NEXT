@@ -249,7 +249,7 @@ function loadImages() {
       imageUrlPart = imageUrl;
     }
 
-    if (/sponsor/.test(figureClass)) {
+    if (/sponsor|logo/.test(figureClass)) {
       imageUrl = imageServiceHostFTC + '0x' + imageHeight + '/' + imageUrlPart;
       imageUrlBack = imageServiceHost + imageUrlBack + '?source=ftchinese&height=' + imageHeight + '&fit=' + fitType + '&from=next001';
       shouldLoadImage = true;
