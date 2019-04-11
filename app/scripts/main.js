@@ -239,10 +239,20 @@ function loadImages() {
         loadedClass = 'is-retina';
       }
     }
+
+    if (imageUrl.indexOf(imageServiceHost) >= 0) {
+      console.log ('this image is already using imageServiceHost: ' + imageUrl);
+      imageUrl = imageUrl.replace(imageServiceHost, '').replace(/\?.*$/g, '');
+      imageUrl = decodeURIComponent(imageUrl);
+      console.log ('change to the original url: ' + imageUrl);
+    }
+
     if (/brand/.test(figureParentClass)) {
       fitType = 'contain';
     }
     imageUrlBack = encodeURIComponent(imageUrl);
+
+
     if (imageUrl.indexOf('http://i.ftimg.net/') === 0) {
       imageUrlPart = imageUrl.replace('http://i.ftimg.net/', '');
     } else {

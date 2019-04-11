@@ -275,23 +275,28 @@ document.writeln(configScriptJsonStr);
 <!-- test -->
 <script>checkB();</script>
 <script>var gUaOfPage = navigator.userAgent || navigator.vendor || "";</script><script>var gPageId = 'home';</script>
-<div data-o-ads-name="fullscreen-pc"
+<div
+data-o-ads-name="fullscreen-pc"
 class="o-ads fullscreen-pc"
 data-o-ads-formats-default="false"
 data-o-ads-formats-small="false"
 data-o-ads-formats-medium="FtcPcFullscreen"
 data-o-ads-formats-large="FtcPcFullscreen"
-data-o-ads-targeting="cnpos=pcfullscreen;">
+data-o-ads-targeting="cnpos=pcfullscreen;"
+>
 </div>
-
-
+<div id=roadblock style="margin:0 auto;position:relative;width:700px;text-align:center;">
+</div>
+<script type="text/javascript">
+setTimeout(function () {
+stickyBottomPrepare();
+stickyAdsPrepare();
+}, 9000);
+</script>
 <script>
 window.newAd = true;
 </script>
-
-
-<div class="o-ads fullscreen-ad" 
-data-o-ads-name="fullscreen-mobile"
+<div class="o-ads fullscreen-ad" data-o-ads-name="fullscreen-mobile"
 data-o-ads-center="true" 
 data-o-ads-formats-default="false" 
 data-o-ads-formats-small="FtcMobileFullscreen" 
@@ -300,8 +305,6 @@ data-o-ads-formats-large="false"
 data-o-ads-formats-extra="false"
 data-o-ads-targeting="cnpos=mobilefullscreen;">
 </div>
-
-
 <style>
 .noneSubscriber.subscription-promo-container {
 background-color: #14bdcc;
@@ -319,26 +322,6 @@ background-image: url(http://i.ftimg.net/picture/9/000079339_piclink.jpg);
 <div class="subscription-promo-inner">
 <a  href="http://www.ftacademy.cn/subscription.html?ccode=ftchomepromobox" class="subscription-promo-box n-internal-promo" data-promo-target="noneSubscriber" data-promo-id="ftchomepromobox" data-promo-name="即刻订阅付费资讯" data-promo-creative="http://i.ftimg.net/picture/8/000079338_piclink.jpg" data-promo-position="promoBox">
 <div class="subscription-promo-text">即刻订阅付费资讯</div>
-</a>
-</div>
-</div>
-<style>
-.standard.subscription-promo-container {
-background-color: #d7c2a0;
-}
-.standard .subscription-promo-box {
-background-image: url(http://i.ftimg.net/picture/6/000079336_piclink.jpg);
-}
-@media only screen and (max-width: 490px) {
-.standard .subscription-promo-box {
-background-image: url(http://i.ftimg.net/picture/7/000079337_piclink.jpg);
-}
-}
-</style>
-<div class="subscription-promo-container show-image-in-mobile standard">
-<div class="subscription-promo-inner">
-<a  href="http://www.ftchinese.com/channel/s.html?id=subscriptionupgrade&001&ccode=FT_UPGRADE_201807" class="subscription-promo-box n-internal-promo" data-promo-target="standard" data-promo-id="FT_UPGRADE_201807" data-promo-name="升级会员获音乐会门票" data-promo-creative="http://i.ftimg.net/picture/6/000079336_piclink.jpg" data-promo-position="promoBox">
-<div class="subscription-promo-text">升级会员获音乐会门票</div>
 </a>
 </div>
 </div>
@@ -459,9 +442,9 @@ FT中文网首页
 <li class="nav-item"  aria-haspopup="true" data-channel="special">
 <a class="nav-link" href="/channel/special.html">特别报导</a>
 <ol class="nav-sub-items">
-<li><a href="http://www.ftchinese.com/m/corp/preview.html?pageid=consumerfinance">消费金融与经济升级</a></li>
-<li><a href="http://www.ftchinese.com/m/marketing/Emotech2017.html">2018·预见人工智能</a></li>
-<li><a href="/tag/高端物业">高端物业</a></li>
+<li><a href="/tag/女性创业家">凯歌香槟·HER POWER</a></li>
+<li><a href="/channel/innovation.html">创新经济</a></li>
+<li><a href="/channel/tradewar.html">中美贸易战</a></li>
 <li><a href="/m/marketing/antfinancial.html">“新四大发明”背后的中国浪潮</a></li>
 <li><a href="/channel/teawithft.html">与FT共进下午茶</a></li>
 <li><a href="/tag/与FT共进午餐">与FT共进午餐</a></li>
@@ -470,11 +453,11 @@ FT中文网首页
 <li><a href="/index.php/ft/property">全球地产</a></li>
 </ol>
 </li>
-<li class="nav-item"  data-channel="exclusive">
-<a class="nav-link" href="/channel/exclusive.html">独家</a>
+<li class="nav-item"  data-channel="standardsubscription">
+<a class="nav-link" href="/channel/standardsubscription.html">标准订阅</a>
 </li>
-<li class="nav-item"  data-channel="editorchoice">
-<a class="nav-link" href="/channel/editorchoice.html">编辑精选</a>
+<li class="nav-item"  data-channel="premiumsubscription">
+<a class="nav-link" href="/channel/premiumsubscription.html">高端订阅</a>
 </li>
 <li class="nav-item"  data-channel="weekly">
 <a class="nav-link" href="/channel/weekly.html">热门文章</a>
@@ -713,6 +696,19 @@ data-cy='[{"devices":["PC"],"pattern":"Leaderboard","position":"Num1"},{"devices
 </div>
 </div>
 </div>
+<div class="items hide" id="membership-yellow-card-prompt">
+<div class="no-image">
+<div class="item-inner">
+<div class="item-lead">
+<div class="warn">亲爱的会员，您的账户近期在多台设备上异常登录。您的账户仅限您本人使用，如不是您本人操作，可能您的账号已泄漏。请您尽快进行如下操作：</div>
+<div class="warn">1. <a href="https://user.ftchinese.com/setting" target="_blank">修改密码，并妥善保护好新密码</a>。</div>
+<div class="warn">2. <a class="email-link" href="mailto: customer.service@ftchinese.com?subject=Appeal: Warning">点击此处寻求帮助</a>。</div>
+<div class="warn">如三天内未进行上述操作，为了保护您的利益，我们将暂时锁定您的订阅账户。</div>
+</div></div>
+</div>
+</div>
+</div>
+<script>window.gYellowCardUserIds = '5f7e1cf0-f593-4952-890b-c268165277fe,2f4baa03-39ed-425d-960c-37e624374a59';</script>
 <div class="items hide" id="membership-red-card-prompt">
 <div class="no-image">
 <div class="item-inner">
@@ -723,7 +719,7 @@ data-cy='[{"devices":["PC"],"pattern":"Leaderboard","position":"Num1"},{"devices
 </div>
 </div>
 </div>
-<script>window.gRedCardUserIds = 'e1358d1b-ed52-4c80-b921-8bb9a775a3fb';</script>
+<script>window.gRedCardUserIds = '1de65405-982e-4f18-ac7f-b31dd7e58f66,9662de7e-e39d-4fea-b934-2439098f821b,e1358d1b-ed52-4c80-b921-8bb9a775a3fb,d95043bd-2bac-4efe-b14d-04907559e5c9';</script>
 <script>checkUserWarnings();</script>
 </div>
 </div>
@@ -755,19 +751,18 @@ window.gSubscriptionEventLabel = 'Page/home';
 <script type="text/javascript">updateClientIdLinks();</script><div class="content-inner">
   
 <div class="list-container"><div class="list-inner"><div class="items">
-<!--listItemCount: 24, i: 24-->
+<!--listItemCount: 33, i: 33-->
 
  
 
-<div class="item-container XL8 L8 M12 S6 P12 has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/全球股市">全球股市</a><button class="myft-follow plus" data-tag="全球股市" data-type="tag">关注</button></div><a target="_blank" href="/story/001080943" class="item-headline-link ">苹果预警给全球股市带来寒意</a></h2>
-<a class="image" target="_blank" href="/story/001080943" >
-<figure class="loading" data-url="http://i.ftimg.net/picture/7/000082887_piclink.jpg"></figure>
+<div class="item-container XL8 L8 M12 S12 S-double-width P12 has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/资产管理">资产管理</a><button class="myft-follow plus" data-tag="资产管理" data-type="tag">关注</button></div><a target="_blank" href="/premium/001082256" class="item-headline-link locked">中国养老金资产将迎来爆炸式增长</a></h2>
+<a class="image" target="_blank" href="/premium/001082256" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/3/000084953_piclink.jpg"></figure>
 </a>
-<div class="item-lead">苹果公司警告在华销售疲软，加剧了人们对全球经济健康的担忧。全球股市普遍下跌，市场预期美联储会停止加息。</div><div class="item-time highlight">3小时前</div>
+<div class="item-lead">中国养老金资产仅占GDP的1.5%，而英国为100%以上，美国为121%，因此外国资管公司纷纷进军这一领域并不足为奇。</div>
 <div class="item-bottom"></div>
 </div></div>
-
 <div 
 data-o-ads-name="infoflow1"
 class="o-ads infoflow"  
@@ -781,79 +776,79 @@ data-o-ads-targeting="cnpos=info1;"
 </div>
  
  
-<div class=" MT PT"></div>
+<div class=" MT PT ST"></div>
 <div class="item-container XL4 XL-right XL-no-tag L4 L-right L-half L-no-tag M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/中美贸易战">中美贸易战</a><button class="myft-follow plus" data-tag="中美贸易战" data-type="tag">关注</button></div><a target="_blank" href="/premium/001080937" class="item-headline-link locked">中美贸易战对中国是一份战略礼物</a></h2>
-<a class="image" target="_blank" href="/premium/001080937" >
-<figure class="loading" data-url="http://i.ftimg.net/picture/0/000077630_piclink.jpg"></figure>
+<h2 class="item-headline"><div class=item-tag><a href="/tag/资本主义">资本主义</a><button class="myft-follow plus" data-tag="资本主义" data-type="tag">关注</button></div><a target="_blank" href="/premium/001082255" class="item-headline-link locked">FT社评：资本家的改革呼吁并非空谈</a></h2>
+<a class="image" target="_blank" href="/premium/001082255" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/7/000084957_piclink.jpg"></figure>
 </a>
-<div class="item-lead">金刻羽：通过在贸易问题上作出些许让步，中国可避免与美国爆发全面冲突，从而争取时间继续推进经济扩张和改革。</div><div class="item-time highlight">5小时前</div>
-<div class="item-bottom"></div>
-</div></div>
- 
- 
-<div class=" MT PT ST"></div>
-<div class="item-container XL4 XL-right XL-half XL-no-tag L4 L-right L-no-tag L-half M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/投资">投资</a><button class="myft-follow plus" data-tag="投资" data-type="tag">关注</button></div><a target="_blank" href="/premium/001080938" class="item-headline-link locked">2019年投资者应该增加防御性配置</a></h2>
-<a class="image" target="_blank" href="/premium/001080938" >
-<figure class="loading" data-url="http://i.ftimg.net/picture/3/000082833_piclink.jpg"></figure>
-</a>
-<div class="item-lead">沃德：由于美中贸易战的不确定性，投资者2019年面临双向的地缘政治风险，因此需要保持高度的警惕性和灵活性。</div><div class="item-time highlight">4小时前</div>
-<div class="item-bottom"></div>
-</div></div>
- 
- 
-<div class="XLT LT MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/中国经济">中国经济</a><button class="myft-follow plus" data-tag="中国经济" data-type="tag">关注</button></div><a target="_blank" href="/story/001080931" class="item-headline-link ">中国应降低通胀目标</a></h2>
-<a class="image" target="_blank" href="/story/001080931" >
-<figure class="loading" data-url="http://i.ftimg.net/picture/8/000066908_piclink.jpg"></figure>
-</a>
-<div class="item-lead">胡月晓：中国市场上的通胀预期一直未能消退；2008年危机以来，中国社会上对通胀的认识，一直存在偏差：防通缩甚于防通胀。</div><div class="item-time highlight">4小时前</div>
-<div class="item-bottom"></div>
-</div></div>
- 
- 
-<div class=" MT PT ST"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/保险业">保险业</a><button class="myft-follow plus" data-tag="保险业" data-type="tag">关注</button></div><a target="_blank" href="/premium/001080939" class="item-headline-link locked">外国保险商对中国开放市场满怀期待</a></h2>
-<a class="image" target="_blank" href="/premium/001080939" >
-<figure class="loading" data-url="http://i.ftimg.net/picture/4/000082884_piclink.jpg"></figure>
-</a>
-<div class="item-lead">外国保险企业极为看好中国对外资持股比例的放宽。但中国庞大的本土保险企业和逐省批准制度可能会妨碍它们的增长。</div><div class="item-time highlight">4小时前</div>
+<div class="item-lead">摩根大通老板发长信历数资本主义缺陷，桥水创始人警告不平等问题将引发革命，他们的言论显然不仅仅是空洞的公关。</div>
 <div class="item-bottom"></div>
 </div></div>
  
  
 <div class=" MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/公司治理">公司治理</a><button class="myft-follow plus" data-tag="公司治理" data-type="tag">关注</button></div><a target="_blank" href="/premium/001080936" class="item-headline-link locked">股东至上模式的缺陷</a></h2>
-<a class="image" target="_blank" href="/premium/001080936" >
-<figure class="loading" data-url="http://i.ftimg.net/picture/3/000082883_piclink.jpg"></figure>
+<div class="item-container XL4 XL-right XL-half XL-no-tag L4 L-right L-no-tag L-half M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/资本主义">资本主义</a><button class="myft-follow plus" data-tag="资本主义" data-type="tag">关注</button></div><a target="_blank" href="/premium/001082254" class="item-headline-link locked">民主的前景与资本主义的未来</a></h2>
+<a class="image" target="_blank" href="/premium/001082254" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/4/000084954_piclink.jpg"></figure>
 </a>
-<div class="item-lead">普伦德：至少在英国，支持推翻股东至上的呼声越来越高。在衡量公司的表现上面，投资者更加重视环境、社会和治理因素。</div><div class="item-time highlight">4小时前</div>
+<div class="item-lead">沃尔夫：在一个存在环境约束的世界里，我们不能想当然地认定资本主义民主的未来一片光明。</div>
 <div class="item-bottom"></div>
 </div></div>
  
  
 <div class="XLT LT MT PT ST"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/沙特阿拉伯">沙特阿拉伯</a><button class="myft-follow plus" data-tag="沙特阿拉伯" data-type="tag">关注</button></div><a target="_blank" href="/story/001080944" class="item-headline-link ">卡舒吉谋杀案在利雅得开庭</a></h2>
-<a class="image" target="_blank" href="/story/001080944" >
-<figure class="loading" data-url="http://i.ftimg.net/picture/7/000081227_piclink.jpg"></figure>
+<h2 class="item-headline"><div class=item-tag><a href="/tag/美联储">美联储</a><button class="myft-follow plus" data-tag="美联储" data-type="tag">关注</button></div><a target="_blank" href="/story/001082260" class="item-headline-link ">美联储权衡经济前景的“重大不确定性”</a></h2>
+<a class="image" target="_blank" href="/story/001082260" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/5/000084965_piclink.jpg"></figure>
 </a>
-<div class="item-lead">沙特开庭审判杀害记者卡舒吉的嫌犯，但专家指出，开庭审判嫌犯不足以让外界相信沙特真打算将凶犯绳之以法。</div><div class="item-time highlight">3小时前</div>
+<div class="item-lead">3月会议纪要表明，美国央行的政策前景高度不确定，一些官员强调政策展望可能“转向两个方向中的任何一个”。</div><div class="item-time highlight">5小时前</div>
 <div class="item-bottom"></div>
 </div></div>
  
  
 <div class=" MT PT"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/沃尔沃">沃尔沃</a><button class="myft-follow plus" data-tag="沃尔沃" data-type="tag">关注</button></div><a target="_blank" href="/story/001080942" class="item-headline-link ">沃尔沃拟拨备7.8亿美元处理排放问题</a></h2>
-<a class="image" target="_blank" href="/story/001080942" >
-<figure class="loading" data-url="http://i.ftimg.net/picture/1/000080401_piclink.jpg"></figure>
+<h2 class="item-headline"><div class=item-tag><a href="/tag/波音">波音</a><button class="myft-follow plus" data-tag="波音" data-type="tag">关注</button></div><a target="_blank" href="/story/001082259" class="item-headline-link ">波音向中国各航空公司演示改进版飞控系统</a></h2>
+<a class="image" target="_blank" href="/story/001082259" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/4/000084964_piclink.jpg"></figure>
 </a>
-<div class="item-lead">沃尔沃集团已表示，将拨备7.8亿美元，用于支付承认其卡车可能会排放高于法定标准的有毒氮氧化物气体的潜在成本。</div><div class="item-time highlight">3小时前</div>
+<div class="item-lead">据公司发言人称，此次演示会在波音的上海培训基地举行，其间中国民航飞行员使用了737 Max飞机的飞行模拟器。</div><div class="item-time highlight">5小时前</div>
+<div class="item-bottom"></div>
+</div></div>
+ 
+ 
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/法制">法制</a><button class="myft-follow plus" data-tag="法制" data-type="tag">关注</button></div><a target="_blank" href="/story/001082257" class="item-headline-link ">“顾雏军案”再审落下帷幕</a></h2>
+<a class="image" target="_blank" href="/story/001082257" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/8/000084968_piclink.jpg"></figure>
+</a>
+<div class="item-lead">最高法院称，科龙前董事长虚报注册资本的行为“危害不大”，不构成犯罪。最高法院维持顾雏军挪用资金罪判决，但缩短了刑期。</div><div class="item-time highlight">5小时前</div>
+<div class="item-bottom"></div>
+</div></div>
+ 
+ 
+<div class="XLT LT MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/摩根士丹利">摩根士丹利</a><button class="myft-follow plus" data-tag="摩根士丹利" data-type="tag">关注</button></div><a target="_blank" href="/premium/001082258" class="item-headline-link locked">摩根士丹利增持在华合资企业股份</a></h2>
+<a class="image" target="_blank" href="/premium/001082258" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/3/000084963_piclink.jpg"></figure>
+</a>
+<div class="item-lead">这家美国投行在淘宝网上以2500万元人民币买入摩根士丹利华鑫基金管理公司5.5%股份，从而成为后者的最大股东。</div><div class="item-time highlight">5小时前</div>
+<div class="item-bottom"></div>
+</div></div>
+ 
+ 
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/天文">天文</a><button class="myft-follow plus" data-tag="天文" data-type="tag">关注</button></div><a target="_blank" href="/story/001082261" class="item-headline-link ">全球天文学家发布首张黑洞照片</a></h2>
+<a class="image" target="_blank" href="/story/001082261" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/0/000084970_piclink.jpg"></figure>
+</a>
+<div class="item-lead">位于M87星系中心的这个黑洞比太阳大60亿倍，距离地球5300万光年。它的影像是利用全球射电望远镜网络的数据编制而成的。</div><div class="item-time highlight">4小时前</div>
 <div class="item-bottom"></div>
 </div></div>
 <div 
@@ -870,57 +865,57 @@ data-cy='[{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp"],"pattern":"MPU","pos
 </div>
  
  
-<div class=" MT PT ST"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/中国改革">中国改革</a><button class="myft-follow plus" data-tag="中国改革" data-type="tag">关注</button></div><a target="_blank" href="/story/001080935" class="item-headline-link ">中国政企关系40年：评价与反思</a></h2>
-<a class="image" target="_blank" href="/story/001080935" >
-<figure class="loading" data-url="http://i.ftimg.net/picture/6/000082756_piclink.jpg"></figure>
-</a>
-<div class="item-lead">聂辉华：如何认识过去40年中国改革过程中的政企关系？鉴往知来，什么样的政企关系有利于实现可持续的经济发展？</div>
-<div class="item-bottom"></div>
-</div></div>
- 
- 
-<div class="XLT LT MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/中美贸易战">中美贸易战</a><button class="myft-follow plus" data-tag="中美贸易战" data-type="tag">关注</button></div><a target="_blank" href="/story/001080909" class="item-headline-link ">贸易战下，崛起的越南电子业</a></h2>
-<a class="image" target="_blank" href="/story/001080909" >
-<figure class="loading" data-url="http://i.ftimg.net/picture/4/000082844_piclink.jpg"></figure>
-</a>
-<div class="item-lead">黄亦筠：贸易战虽然暂时停火，但电子大厂却急急考虑迁出中国，郭台铭十年前相中的疏散路线，又重新热了起来，中越边境也意外成为电子业的新动脉。</div>
-<div class="item-bottom"></div>
-</div></div>
- 
- 
-<div class=" MT PT ST"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/美食与美酒">美食与美酒</a><button class="myft-follow plus" data-tag="美食与美酒" data-type="tag">关注</button></div><a target="_blank" href="/story/001080879" class="item-headline-link ">梦回唐朝：设计师开的沉浸式夜宴</a></h2>
-<a class="image" target="_blank" href="/story/001080879" >
-<figure class="loading" data-url="http://i.ftimg.net/picture/5/000082865_piclink.jpg"></figure>
-</a>
-<div class="item-lead">郑静：“良设夜宴”每晚一桌，共3小时，中场休息有琵琶曲和投壶游戏。这是一场穿越的《韩熙载夜宴图》？</div>
-<div class="item-bottom"></div>
-</div></div>
- 
- 
 <div class=" MT PT"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/乐尚街">乐尚街</a><button class="myft-follow plus" data-tag="乐尚街" data-type="tag">关注</button></div><a target="_blank" href="/story/001080933" class="item-headline-link ">时装界又爆发“蝴蝶结Style”</a></h2>
-<a class="image" target="_blank" href="/story/001080933" >
-<figure class="loading" data-url="http://i.ftimg.net/picture/1/000082871_piclink.jpg"></figure>
+<h2 class="item-headline"><div class=item-tag><a href="/tag/电商">电商</a><button class="myft-follow plus" data-tag="电商" data-type="tag">关注</button></div><a target="_blank" href="/story/001082247" class="item-headline-link ">网易严选柳晓刚：新的模式需要更长时间的积淀</a></h2>
+<a class="image" target="_blank" href="/story/001082247" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/1/000084961_piclink.jpg"></figure>
 </a>
-<div class="item-lead">蝴蝶结是展现柔美特性的标志设计，60年代、80年代都曾风靡过，如今，它以另一种模样卷土重来。</div>
+<div class="item-lead">从品类到人员的快速扩张，以及最近的裁员传闻，让“严选模式”在媒体上也引起了相当的争论。</div>
 <div class="item-bottom"></div>
 </div></div>
  
  
 <div class="XLT LT MT PT ST"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/channel/mba.html">FT商学院</a><button class="myft-follow plus" data-tag="FT商学院" data-type="tag">关注</button></div><a target="_blank" href="/story/001080940" class="item-headline-link ">社会企业家如何选择MBA课程？</a></h2>
-<a class="image" target="_blank" href="/story/001080940" >
-<figure class="loading" data-url="http://i.ftimg.net/picture/5/000082885_piclink.jpg"></figure>
+<h2 class="item-headline"><div class=item-tag><a href="/tag/中国社会">中国社会</a><button class="myft-follow plus" data-tag="中国社会" data-type="tag">关注</button></div><a target="_blank" href="/story/001082252" class="item-headline-link ">最大的“灰犀牛”会来自哪里？</a></h2>
+<a class="image" target="_blank" href="/story/001082252" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/9/000084949_piclink.jpg"></figure>
 </a>
-<div class="item-lead">弗拉特：希望通过创办社会企业来解决贫困等社会问题的创业者，可以通过恰当的MBA课程培养创业领导力和必备技能，找到未来的道路。</div>
+<div class="item-lead">邓聿文：现实中的“灰犀牛”常被人们忽略，等到由小麻烦变成大风险时，解决起来就要付出更多代价。</div>
+<div class="item-bottom"></div>
+</div></div>
+ 
+ 
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/金融业">金融业</a><button class="myft-follow plus" data-tag="金融业" data-type="tag">关注</button></div><a target="_blank" href="/story/001082211" class="item-headline-link ">上海租界的历史启示：金融中心与政治权力</a></h2>
+<a class="image" target="_blank" href="/story/001082211" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/0/000084960_piclink.jpg"></figure>
+</a>
+<div class="item-lead">马德斌：公共租界的运作模型，就是一个以纳税人为股东的有限公司，成为追求低税与高效的小政府，</div>
+<div class="item-bottom"></div>
+</div></div>
+ 
+ 
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/微软">微软</a><button class="myft-follow plus" data-tag="微软" data-type="tag">关注</button></div><a target="_blank" href="/story/001082250" class="item-headline-link ">微软与中国国防科大合作研究AI技术</a></h2>
+<a class="image" target="_blank" href="/story/001082250" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/7/000084917_piclink.jpg"></figure>
+</a>
+<div class="item-lead">这些合作引起美国智库一些专家的警觉，他们担心相关技术可被中国用于打造监控系统和实施网络审查。</div>
+<div class="item-bottom"></div>
+</div></div>
+ 
+ 
+<div class="XLT LT MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/生活时尚">生活时尚</a><button class="myft-follow plus" data-tag="生活时尚" data-type="tag">关注</button></div><a target="_blank" href="/story/001082253" class="item-headline-link ">大卫•林奇：哥特式艺术跨界</a></h2>
+<a class="image" target="_blank" href="/story/001082253" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/9/000084959_piclink.jpg"></figure>
+</a>
+<div class="item-lead">Louis Hothothot：像大卫•林奇这般在电影、绘画、音乐、文学、设计等多个领域成就斐然的艺术家，举世罕见。</div>
 <div class="item-bottom"></div>
 </div></div>
 <div 
@@ -936,57 +931,57 @@ data-o-ads-targeting="cnpos=info2;"
 </div>
  
  
-<div class=" MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/创业">创业</a><button class="myft-follow plus" data-tag="创业" data-type="tag">关注</button></div><a target="_blank" href="/story/001080941" class="item-headline-link ">从平凡业务中获取创业灵感</a></h2>
-<a class="image" target="_blank" href="/story/001080941" >
-<figure class="loading" data-url="http://i.ftimg.net/picture/6/000082886_piclink.jpg"></figure>
-</a>
-<div class="item-lead">马戈利斯：一些看起来无聊的产品为本质上属于科技公司的企业提供了利润丰厚的市场，比如剃须刀、床垫，甚至燃气锅炉。</div>
-<div class="item-bottom"></div>
-</div></div>
- 
- 
 <div class=" MT PT ST"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/苹果">苹果</a><button class="myft-follow plus" data-tag="苹果" data-type="tag">关注</button></div><a target="_blank" href="/story/001080927" class="item-headline-link ">苹果以中国需求下降为由下调收入预期</a></h2>
-<a class="image" target="_blank" href="/story/001080927" >
-<figure class="loading" data-url="http://i.ftimg.net/picture/4/000082564_piclink.jpg"></figure>
+<h2 class="item-headline"><div class=item-tag><a href="/tag/剃刀边缘">剃刀边缘</a><button class="myft-follow plus" data-tag="剃刀边缘" data-type="tag">关注</button></div><a target="_blank" href="/story/001082251" class="item-headline-link ">在北京的金山上（三）</a></h2>
+<a class="image" target="_blank" href="/story/001082251" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/0/000084950_piclink.jpg"></figure>
 </a>
-<div class="item-lead">苹果将本财季收入预期下调10%，并将这归咎于中国经济疲弱导致的需求下滑，以及发达国家iPhone更新换代情况不理想。</div>
-<div class="item-bottom"></div>
-</div></div>
- 
- 
-<div class="XLT LT MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/金融市场">金融市场</a><button class="myft-follow plus" data-tag="金融市场" data-type="tag">关注</button></div><a target="_blank" href="/premium/001080919" class="item-headline-link locked">2019年决定金融市场的几大问题</a></h2>
-<a class="image" target="_blank" href="/premium/001080919" >
-<figure class="loading" data-url="http://i.ftimg.net/picture/2/000075652_piclink.jpg"></figure>
-</a>
-<div class="item-lead">2018年标志性的波动性为2019年的市场设置了一些关键难题。美国债券市场是否太过悲观？人民币会继续贬值吗？</div>
-<div class="item-bottom"></div>
-</div></div>
- 
- 
-<div class=" MT PT ST"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/2019前瞻">2019前瞻</a><button class="myft-follow plus" data-tag="2019前瞻" data-type="tag">关注</button></div><a target="_blank" href="/premium/001080895" class="item-headline-link locked">2019年全球大事预测（上）</a></h2>
-<a class="image" target="_blank" href="/premium/001080895" >
-<figure class="loading" data-url="http://i.ftimg.net/picture/4/000082834_piclink.jpg"></figure>
-</a>
-<div class="item-lead">中美贸易休战能持久吗？特朗普会被弹劾吗？英国退欧会被拦停吗？俄乌冲突会升级吗？莫迪仍将担任印度总理吗？</div>
+<div class="item-lead">老愚：平生第一回进京，不是作为走马看花的游客，而是以常驻其间的一员的身份，这让我对北京抱有复杂的态度。</div>
 <div class="item-bottom"></div>
 </div></div>
  
  
 <div class=" MT PT"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/全球经济">全球经济</a><button class="myft-follow plus" data-tag="全球经济" data-type="tag">关注</button></div><a target="_blank" href="/premium/001080922" class="item-headline-link locked">2019年全球大事预测（下）</a></h2>
-<a class="image" target="_blank" href="/premium/001080922" >
-<figure class="loading" data-url="http://i.ftimg.net/picture/4/000082834_piclink.jpg"></figure>
+<h2 class="item-headline"><div class=item-tag><a href="/tag/中国经济">中国经济</a><button class="myft-follow plus" data-tag="中国经济" data-type="tag">关注</button></div><a target="_blank" href="/story/001082231" class="item-headline-link ">中国经济复苏中的四大短期挑战</a></h2>
+<a class="image" target="_blank" href="/story/001082231" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/6/000084896_piclink.jpg"></figure>
 </a>
-<div class="item-lead">会发生新的金融危机吗？标普500年末能站上3000点吗？油价会在每桶60美元以下吗？华为在海外会难以立足吗？</div>
+<div class="item-lead">沈建光：中国经济复苏势头看上去良好。但考虑到一些结构性问题仍旧存在，仍有四大挑战值得关注。</div>
+<div class="item-bottom"></div>
+</div></div>
+ 
+ 
+<div class="XLT LT MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/社会">社会</a><button class="myft-follow plus" data-tag="社会" data-type="tag">关注</button></div><a target="_blank" href="/story/001082237" class="item-headline-link ">现在是人类的最好时代，但可能好景不长</a></h2>
+<a class="image" target="_blank" href="/story/001082237" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/0/000084900_piclink.jpg"></figure>
+</a>
+<div class="item-lead">库柏：当下是一段相对美好的时光，但这段时光不会长久。经济衰退、政治乱局、战争、全球变暖都在威胁着人类。</div>
+<div class="item-bottom"></div>
+</div></div>
+ 
+ 
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/健康">健康</a><button class="myft-follow plus" data-tag="健康" data-type="tag">关注</button></div><a target="_blank" href="/story/001082238" class="item-headline-link ">不良饮食是最大的健康风险</a></h2>
+<a class="image" target="_blank" href="/story/001082238" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/1/000084901_piclink.jpg"></figure>
+</a>
+<div class="item-lead">阿胡贾：一项对195个国家饮食习惯的研究表明，不良饮食与世界1/5的死亡有关，远超烟草相关疾病致死人数。</div>
+<div class="item-bottom"></div>
+</div></div>
+ 
+ 
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/中欧贸易">中欧贸易</a><button class="myft-follow plus" data-tag="中欧贸易" data-type="tag">关注</button></div><a target="_blank" href="/premium/001082244" class="item-headline-link locked">中国与欧盟拟明年达成投资协定</a></h2>
+<a class="image" target="_blank" href="/premium/001082244" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/0/000084910_piclink.jpg"></figure>
+</a>
+<div class="item-lead">中国总理与欧盟达成的联合声明还显示，中国愿讨论欧盟的关切，包括中国政府对国内企业的支持及强制技术转让。</div>
 <div class="item-bottom"></div>
 </div></div>
 <div 
@@ -1003,102 +998,219 @@ data-cy='[{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"patter
 </div>
  
  
-<div class="XLT LT MT PT ST"></div>
+<div class="XLT LT MT PT"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/中国经济">中国经济</a><button class="myft-follow plus" data-tag="中国经济" data-type="tag">关注</button></div><a target="_blank" href="/story/001080906" class="item-headline-link ">中国为什么要派发“减税”礼包？</a></h2>
-<a class="image" target="_blank" href="/story/001080906" >
-<figure class="loading" data-url="http://i.ftimg.net/picture/0/000074700_piclink.jpg"></figure>
+<h2 class="item-headline"><div class=item-tag><a href="/tag/一带一路">一带一路</a><button class="myft-follow plus" data-tag="一带一路" data-type="tag">关注</button></div><a target="_blank" href="/premium/001082240" class="item-headline-link locked">杜伊斯堡：“新丝路”上的德国老工业城市</a></h2>
+<a class="image" target="_blank" href="/premium/001082240" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/4/000084904_piclink.jpg"></figure>
 </a>
-<div class="item-lead">周浩：相较于传统刺激政策的“放”，减税更具有“收”的属性。减税落地不仅关乎市场信心，也意味着经济政策框架将出现更具有现代化的调整。</div>
-<div class="item-bottom"></div>
-</div></div>
- 
- 
-<div class=" MT PT"></div>
-<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/房地产">房地产</a><button class="myft-follow plus" data-tag="房地产" data-type="tag">关注</button></div><a target="_blank" href="/story/001080910" class="item-headline-link ">中国应对重拾“房地产依赖”说不</a></h2>
-<a class="image" target="_blank" href="/story/001080910" >
-<figure class="loading" data-url="http://i.ftimg.net/picture/8/000080268_piclink.jpg"></figure>
-</a>
-<div class="item-lead">蔡浩：在经济下行周期，中国应果断对房地产依赖说不，打消市场预期，避免新一轮房价暴涨。当然房地产政策只是术，是标，体制改革才是道，是本。</div>
+<div class="item-lead">在杜伊斯堡，“一带一路”倡议被视作巨大机遇，这个世界最大的内陆港口与中国之间的铁路货运业务发展得很快。</div>
 <div class="item-bottom"></div>
 </div></div>
  
  
 <div class=" MT PT ST"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/channel/explainer.html">视频</a></div><a target="_blank" href="/video/2997" class="item-headline-link ">2018：市场给投资者的四个教训</a></h2>
-<div class="image">
-<figure class="loading-video" data-vid="2997" data-item-type="video"></figure>
+<h2 class="item-headline"><div class=item-tag><a href="/tag/美欧关系">美欧关系</a><button class="myft-follow plus" data-tag="美欧关系" data-type="tag">关注</button></div><a target="_blank" href="/story/001082241" class="item-headline-link ">分析：美国威胁对欧盟产品加征关税可能导致美欧紧张升级</a></h2>
+<a class="image" target="_blank" href="/story/001082241" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/9/000084909_piclink.jpg"></figure>
+</a>
+<div class="item-lead">欧盟担心，一旦美中达成贸易协议，特朗普将对欧盟采取更加咄咄逼人的姿态，以维护他的贸易鹰派总统的形象。</div>
+<div class="item-bottom"></div>
+</div></div>
+ 
+ 
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/全球经济">全球经济</a><button class="myft-follow plus" data-tag="全球经济" data-type="tag">关注</button></div><a target="_blank" href="/story/001082242" class="item-headline-link ">IMF下调今明两年全球增长预测</a></h2>
+<a class="image" target="_blank" href="/story/001082242" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/8/000084908_piclink.jpg"></figure>
+</a>
+<div class="item-lead">国际货币基金组织认为，发达经济体将继续放缓，而新兴经济体将发挥更积极作用，主要得益于中国经济增长企稳。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div 
+data-o-ads-name="infoflow3"
+class="o-ads infoflow"  
+data-o-ads-formats-default="false" 
+data-o-ads-formats-small="FtcInfoFlow" 
+data-o-ads-formats-medium="false"
+data-o-ads-formats-large="false"
+data-o-ads-formats-extra="false"
+data-o-ads-targeting="cnpos=info3;"
+>
 </div>
-<div class="item-lead">2018年，对冲失效、政局动荡、量化紧缩，让许多投资者在资本市场中跌了跤。 最大的一条经验则是，出来混，总是要还的。</div>
+ 
+ 
+<div class="XLT LT MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/中美关系">中美关系</a><button class="myft-follow plus" data-tag="中美关系" data-type="tag">关注</button></div><a target="_blank" href="/story/001082234" class="item-headline-link ">百人会“大辩论”：中国势必成为第一经济体？</a></h2>
+<a class="image" target="_blank" href="/story/001082234" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/8/000084898_piclink.jpg"></figure>
+</a>
+<div class="item-lead">刘裘蒂：中国势必成为世界第一经济体吗？4月初，美国华人精英组织“百人会”在年会上就此组织了一场辩论。</div>
+<div class="item-bottom"></div>
+</div></div>
+ 
+ 
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/贝莱德">贝莱德</a><button class="myft-follow plus" data-tag="贝莱德" data-type="tag">关注</button></div><a target="_blank" href="/premium/001082236" class="item-headline-link locked">贝莱德寻求控股中国资产管理公司</a></h2>
+<a class="image" target="_blank" href="/premium/001082236" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/9/000084899_piclink.jpg"></figure>
+</a>
+<div class="item-lead">全球最大资产管理公司贝莱德试图取得一家中国本土基金公司的控股权，目前正在与中国监管部门“密切接触”。</div>
+<div class="item-bottom"></div>
+</div></div>
+ 
+ 
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/股市">股市</a><button class="myft-follow plus" data-tag="股市" data-type="tag">关注</button></div><a target="_blank" href="/story/001082248" class="item-headline-link ">香港股市市值超越日本位居全球第三</a></h2>
+<a class="image" target="_blank" href="/story/001082248" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/1/000084921_piclink.jpg"></figure>
+</a>
+<div class="item-lead">周三早盘末段，香港股市总市值达到5.78万亿美元，超过了日本。日本股市在今年全球股市反弹期间的表现相对较差。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div 
+data-o-ads-name="mpu-middle3"
+class="o-ads" 
+data-o-ads-formats-default="false" 
+data-o-ads-formats-small="FtcMobileMpu" 
+data-o-ads-formats-medium="false"
+data-o-ads-formats-large="false"
+data-o-ads-formats-extra="false"
+data-o-ads-targeting="cnpos=middle3;"
+data-cy='[{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"MPU","position":"Middle3"}]'
+>
+</div>
+ 
+ 
+<div class="XLT LT MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/沙特阿美">沙特阿美</a><button class="myft-follow plus" data-tag="沙特阿美" data-type="tag">关注</button></div><a target="_blank" href="/premium/001082245" class="item-headline-link locked">沙特阿美首次国际发债获千亿美元认购</a></h2>
+<a class="image" target="_blank" href="/premium/001082245" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/5/000084915_piclink.jpg"></figure>
+</a>
+<div class="item-lead">这家沙特国有石油公司在国际市场的首次发债获得踊跃认购，该公司已将计划筹资额提高至120亿美元，并降低了债券利率。</div>
+<div class="item-bottom"></div>
+</div></div>
+ 
+ 
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/美联储">美联储</a><button class="myft-follow plus" data-tag="美联储" data-type="tag">关注</button></div><a target="_blank" href="/story/001082192" class="item-headline-link ">美债收益率曲线倒挂的成因</a></h2>
+<a class="image" target="_blank" href="/story/001082192" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/5/000084895_piclink.jpg"></figure>
+</a>
+<div class="item-lead">钟正生、张璐：历史上美债收益率曲线倒挂，对经济衰退和美股大跌有一定领先意义。市场或高估了对美国经济衰退的指向性。</div>
+<div class="item-bottom"></div>
+</div></div>
+ 
+ 
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/channel/explainer.html">视频</a></div><a target="_blank" href="/video/3077" class="item-headline-link ">揭秘中国科考船在西太平洋上的隐秘使命</a></h2>
+<div class="image">
+<figure class="loading-video" data-vid="3077" data-item-type="video"></figure>
+</div>
+<div class="item-lead">一年以来，中国科考船前所未有地活跃于美军太平洋基地之间的海域。这些船只仅仅是在进行科考任务吗？FT从GPS定位的轨迹入手，分析科考背后的军事动机。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div 
+data-o-ads-name="infoflow4"
+class="o-ads infoflow"  
+data-o-ads-formats-default="false" 
+data-o-ads-formats-small="FtcInfoFlow" 
+data-o-ads-formats-medium="false"
+data-o-ads-formats-large="false"
+data-o-ads-formats-extra="false"
+data-o-ads-targeting="cnpos=info4;"
+>
+</div>
+ 
+ 
+<div class="XLT LT MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/医药">医药</a><button class="myft-follow plus" data-tag="医药" data-type="tag">关注</button></div><a target="_blank" href="/premium/001082246" class="item-headline-link locked">复星医药获英国干细胞技术公司授权</a></h2>
+<a class="image" target="_blank" href="/premium/001082246" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/4/000084914_piclink.jpg"></figure>
+</a>
+<div class="item-lead">这家中国公司将获得ReNeuron公司两个细胞治疗项目的相关权利，并全额资助这两个项目在中国的开发和商业化。</div>
+<div class="item-bottom"></div>
+</div></div>
+ 
+ 
+<div class=" MT PT"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/区块链">区块链</a><button class="myft-follow plus" data-tag="区块链" data-type="tag">关注</button></div><a target="_blank" href="/premium/001082239" class="item-headline-link locked">大麻是新的比特币？</a></h2>
+<a class="image" target="_blank" href="/premium/001082239" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/2/000084902_piclink.jpg"></figure>
+</a>
+<div class="item-lead">与比特币相比，合法大麻提供了更广泛的投资机会。但一位医用大麻业的支持者表示，胆怯者不适合投资该产业。</div>
+<div class="item-bottom"></div>
+</div></div>
+<div 
+data-o-ads-name="mpu-middle4"
+class="o-ads" 
+data-o-ads-formats-default="false" 
+data-o-ads-formats-small="FtcMobileMpu" 
+data-o-ads-formats-medium="false"
+data-o-ads-formats-large="false"
+data-o-ads-formats-extra="false"
+data-o-ads-targeting="cnpos=middle4;"
+data-cy='[{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"MPU","position":"Middle4"}]'
+>
+</div>
+ 
+ 
+<div class=" MT PT ST"></div>
+<div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
+<h2 class="item-headline"><div class=item-tag><a href="/tag/高端视点">高端视点</a><button class="myft-follow plus" data-tag="高端视点" data-type="tag">关注</button></div><a target="_blank" href="/story/001082232" class="item-headline-link ">品钛魏伟：金融科技为何转向2B？</a></h2>
+<a class="image" target="_blank" href="/story/001082232" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/5/000084875_piclink.jpg"></figure>
+</a>
+<div class="item-lead">品钛CEO魏伟接受FT中文网专访表示，金融这个赛道绝大多数体量还是会被传统金融机构所占据。科技型公司参与金融产业应以2B服务为主流。</div>
 <div class="item-bottom"></div>
 </div></div>
  
  
 <div class="XLT LT MT PT"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/创业投资">创业投资</a><button class="myft-follow plus" data-tag="创业投资" data-type="tag">关注</button></div><a target="_blank" href="/story/001080912" class="item-headline-link ">源码资本曹毅：2019年很多行业将面临收敛</a></h2>
-<a class="image" target="_blank" href="/story/001080912" >
-<figure class="loading" data-url="http://i.ftimg.net/picture/5/000082845_piclink.jpg"></figure>
+<h2 class="item-headline"><div class=item-tag><a href="/tag/市场">市场</a><button class="myft-follow plus" data-tag="市场" data-type="tag">关注</button></div><a target="_blank" href="/story/001082191" class="item-headline-link ">市场如何战胜最可怕的敌人？</a></h2>
+<a class="image" target="_blank" href="/story/001082191" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/4/000084894_piclink.jpg"></figure>
 </a>
-<div class="item-lead">源码资本创始合伙人曹毅认为，2019年很多行业的关键词是收敛。有的是收敛的开始，有的是收敛的加速，有的是收敛基本成型。</div>
+<div class="item-lead">张斌：市场无时无刻不在消灭一个又一个敌人，它潜移默化地改变人的观念，它用技术革新跨越垄断和过度管制。</div>
 <div class="item-bottom"></div>
 </div></div>
  
  
 <div class=" MT PT ST"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/航天">航天</a><button class="myft-follow plus" data-tag="航天" data-type="tag">关注</button></div><a target="_blank" href="/story/001080930" class="item-headline-link ">“新视野”号飞越天体“天涯海角”  传回离地球最远照片</a></h2>
-<a class="image" target="_blank" href="/story/001080930" >
-<figure class="loading" data-url="http://i.ftimg.net/picture/4/000082864_piclink.jpg"></figure>
+<h2 class="item-headline"><div class=item-tag><a href="/tag/创新">创新</a><button class="myft-follow plus" data-tag="创新" data-type="tag">关注</button></div><a target="_blank" href="/story/001082235" class="item-headline-link ">创新者是天生的吗？</a></h2>
+<a class="image" target="_blank" href="/story/001082235" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/3/000084893_piclink.jpg"></figure>
 </a>
-<div class="item-lead">美国“新视野”号探测器于元旦当天近距离飞越“天涯海角”，这是地球飞船飞越的最遥远的天体，其形似一个雪人。</div>
+<div class="item-lead">王军：美国经济学家为我们提供了一个观察创新者的微观视角：创新者是些什么人、他们的家庭出身要紧吗等等。</div>
 <div class="item-bottom"></div>
 </div></div>
  
  
 <div class=" MT PT"></div>
 <div class="item-container XL4 L4 M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/航天">航天</a><button class="myft-follow plus" data-tag="航天" data-type="tag">关注</button></div><a target="_blank" href="/story/001080934" class="item-headline-link ">中国实现人类首次月球背面着陆探测</a></h2>
-<a class="image" target="_blank" href="/story/001080934" >
-<figure class="loading" data-url="http://i.ftimg.net/picture/9/000082879_piclink.jpg"></figure>
+<h2 class="item-headline"><div class=item-tag><a href="/tag/科幻">科幻</a><button class="myft-follow plus" data-tag="科幻" data-type="tag">关注</button></div><a target="_blank" href="/story/001082233" class="item-headline-link ">我们为什么喜欢看科幻？</a></h2>
+<a class="image" target="_blank" href="/story/001082233" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/7/000084897_piclink.jpg"></figure>
 </a>
-<div class="item-lead">嫦娥四号探测器着陆从地球难以观测的月球背面，并发回了着陆点附近的月表图像，实现了通过中继卫星进行地月通信。</div>
+<div class="item-lead">赵潇：科技作品为什么对我们、尤其是年轻人有如此强大的吸引力呢？让我们从科幻作品的特点和分类谈起。</div>
 <div class="item-bottom"></div>
 </div></div>
    <div class="clearfloat"></div>
 </div>
 </div></div>    <div class="clearfloat block-bottom"></div>
 </div>  </div>  <div class="side-container"><div class="side-inner">
-
-
-
-
-
-
-  <div class="side-list BigImageAndLead">
-<h2 class="list-title">
-特别策划
-</h2>
-  <div class="item-container first has-image"><div class="item-inner">
-<a class="image" target="_blank" href="/story/001045256?adchannelID=5069"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000029599_piclink_0_0.jpg"></figure></a><h2 class="item-headline"><a target="_blank" class="" href="/story/001045256?adchannelID=5069">欧美酒庄爱上中国微博</a></h2>
-    
-<div class="item-lead item-description">FT中文网特约撰稿人艾米：欧美酒庄的微博实现了酒庄与中国消费者的无障碍沟通，这在假酒猖獗的中国市场意义重大，但营销效果有待考证。<br>
-</div>
-</div></div><div class="item-container big-image has-image"><div class="item-inner">
-<a class="image" target="_blank" href="/story/001075002?adchannelID=5069"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000073913_piclink.jpg"></figure></a><h2 class="item-headline"><a target="_blank" class="" href="/story/001075002?adchannelID=5069">德国式美食美酒</a></h2>
-    
-<div class="item-lead item-description">谢立：德国雷司令葡萄酒令人叫绝，德式美食则显示了有节制生活的艺术，德国人对身体就像对好车一样精心。</div>
-</div></div>  </div> 
-
-        
-
-
-
-
-
-
 <div 
 data-o-ads-name="ribbon"
 class="o-ads"  
@@ -1128,35 +1240,38 @@ data-o-ads-formats-medium="FtcMpu"
 data-o-ads-formats-large="FtcMpu"
 data-o-ads-formats-extra="FtcMpu"
 data-o-ads-targeting="cnpos=right1;"
-data-cy='[{"devices":["PC","PadWeb","PadApp"],"pattern":"MPU","position":"Right1"}]'
 >
 </div>
-<script type="text/javascript">
-document.write (writeAdNew({
-devices: ['PC', 'PadWeb', 'PadApp'],
-pattern:'MPU',
-position:'Right1'
-}));
-</script>
+<div 
+data-o-ads-name="mpu-middle5"
+class="o-ads"  
+data-o-ads-formats-default="false" 
+data-o-ads-formats-small="FtcMobileMpu" 
+data-o-ads-formats-medium="false"
+data-o-ads-formats-large="false"
+data-o-ads-formats-extra="false"
+data-o-ads-targeting="cnpos=middle5;"
+>
+</div>
 <div class="interactives">
 <h2 class="list-title"><a href="/channel/english.html">每日英语</a></h2>
 <div class="interactive-inner">
 <!---->
 <div class="item-container first"><div class="item-inner">
-<a class="image" href="/interactive/12984" target=_blank><figure class="loading" data-url="http://i.ftimg.net/picture/2/000082862_piclink.jpg"></figure></a>
-<h2 class="item-headline"><a href="/interactive/12984" target=_blank class="item-headline-link">露西-凯拉韦：为什么我要喝酒</a></h2>
+<a class="image" href="/interactive/13280" target=_blank><figure class="loading" data-url="http://i.ftimg.net/picture/1/000084971_piclink.jpg"></figure></a>
+<h2 class="item-headline"><a href="/interactive/13280" target=_blank class="item-headline-link">扎堆上市的是“独角兽”还是“灰犀牛”？</a></h2>
 </div></div>
 <div class="item-container"><div class="item-inner">
-<a class="image" href="/interactive/12983" target=_blank><figure class="loading" data-url="http://i.ftimg.net/picture/1/000082861_piclink.jpg"></figure></a>
-<h2 class="item-headline"><a href="/interactive/12983" target=_blank class="item-headline-link">我的舅舅是黄马甲</a></h2>
+<a class="image" href="/interactive/13279" target=_blank><figure class="loading" data-url="http://i.ftimg.net/picture/5/000084945_piclink.jpg"></figure></a>
+<h2 class="item-headline"><a href="/interactive/13279" target=_blank class="item-headline-link">全球经济进入“同步放缓”</a></h2>
 </div></div>
 <div class="item-container"><div class="item-inner">
-<a class="image" href="/interactive/12982" target=_blank><figure class="loading" data-url="http://i.ftimg.net/picture/0/000082860_piclink.jpg"></figure></a>
-<h2 class="item-headline"><a href="/interactive/12982" target=_blank class="item-headline-link">拒绝冲动购物会让自己感觉更好</a></h2>
+<a class="image" href="/interactive/13276" target=_blank><figure class="loading" data-url="http://i.ftimg.net/picture/6/000084916_piclink.jpg"></figure></a>
+<h2 class="item-headline"><a href="/interactive/13276" target=_blank class="item-headline-link">败给滴滴之后，Uber在亚洲只剩最后一个机会</a></h2>
 </div></div>
 <div class="item-container"><div class="item-inner">
-<a class="image" href="/interactive/12981" target=_blank><figure class="loading" data-url="http://i.ftimg.net/picture/9/000082829_piclink.jpg"></figure></a>
-<h2 class="item-headline"><a href="/interactive/12981" target=_blank class="item-headline-link">以史为鉴：迷信数据的危险</a></h2>
+<a class="image" href="/interactive/13275" target=_blank><figure class="loading" data-url="http://i.ftimg.net/picture/3/000084913_piclink.jpg"></figure></a>
+<h2 class="item-headline"><a href="/interactive/13275" target=_blank class="item-headline-link">苹果为什么要砍掉AirPower？</a></h2>
 </div></div>
 <!---->
 <div class="clearfloat"></div>
@@ -1174,25 +1289,29 @@ data-o-ads-targeting="cnpos=right2;"
 data-cy='[{"devices":["PC","PadWeb","PadApp"],"pattern":"MPU","position":"Right2"}]'
 >
 </div>
-<script type="text/javascript">
-document.write (writeAdNew({
-devices: ['PC', 'PadWeb', 'PadApp'],
-pattern:'MPU',
-position:'Right2'
-}));
-</script>
+<div 
+data-o-ads-name="mpu-middle6"
+class="o-ads"  
+data-o-ads-formats-default="false" 
+data-o-ads-formats-small="FtcMobileMpu" 
+data-o-ads-formats-medium="false"
+data-o-ads-formats-large="false"
+data-o-ads-formats-extra="false"
+data-o-ads-targeting="cnpos=middle6;"
+>
+</div>
 <div class="interactives P-hide">
 <h2 class="list-title"><a href="/m/marketing/intelligence.html">FT研究院</a></h2>
 <div class="item-container first"><div class="item-inner">
-<a class="image" href="/interactive/12963" target=_blank><figure class="loading" data-url="http://i.ftimg.net/picture/2/000082712_piclink.jpg"></figure></a>
-<h2 class="item-headline"><a href="/interactive/12963" target=_blank>多种消费品增速下降，汽车对社消指数增长拖累最多</a></h2>
+<a class="image" href="/interactive/13191" target=_blank><figure class="loading" data-url="http://i.ftimg.net/picture/7/000084727_piclink.jpg"></figure></a>
+<h2 class="item-headline"><a href="/interactive/13191" target=_blank>2019年中国白领收入信心指数近年来首次下降</a></h2>
 </div></div>
 <div id="three-video-part" class="triplet-container">
 <div id="three-video-content">
 <ul>
-<li><a target="_blank" href="/interactive/12964"><figure class="loading" data-url="http://i.ftimg.net/images/2018/12/a217892efb2ddc5ad70a210576d44a08.jpg"></figure><p>2018 年 11 月乘用车销量增速再创新低</p></a></li>
-<li><a target="_blank" href="/interactive/12890"><figure class="loading" data-url="http://i.ftimg.net/images/2018/11/b63fb5c83c75eb7ef4f7f5d2562cf103.jpg"></figure><p>中国市场对跨国车企到底有多重要？</p></a></li>
-<li><a target="_blank" href="/interactive/12878"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000082147_piclink.jpg"></figure><p>报告发布与解读 | 国际化人才趋势下，中国家庭应如何培养子女成才</p></a></li>
+<li><a target="_blank" href="/interactive/13223"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000084511_piclink.jpg"></figure><p>2019 年 2 月中国市场汽车销量未见起色</p></a></li>
+<li><a target="_blank" href="/interactive/13140"><figure class="loading" data-url="http://i.ftimg.net/images/2019/02/e06176bef0ddb78369c24e93213908d2.jpg"></figure><p>调查数据：2019 年，哪些投资品种最被看好？</p></a></li>
+<li><a target="_blank" href="/interactive/13139"><figure class="loading" data-url="http://i.ftimg.net/images/2019/02/539ca9f2103db1cb6aa60413ac7b6b9f.jpg"></figure><p>2019 年 1 月中国市场汽车销量继续下降</p></a></li>
 <div class="clearfloat"></div>
 </ul>
 </div>
@@ -1203,16 +1322,20 @@ position:'Right2'
 <div class="interactive-inner">
 <!---->
 <div class="item-container first"><div class="item-inner">
-<a class="image" href="/interactive/12934" target=_blank><figure class="loading" data-url="http://i.ftimg.net/picture/9/000082529_piclink.jpg"></figure></a>
-<h2 class="item-headline"><a href="/interactive/12934" target=_blank class="item-headline-link">泰康养老模式赢得日本民众青睐</a></h2>
+<a class="image" href="/interactive/13021" target=_blank><figure class="loading" data-url="http://i.ftimg.net/picture/7/000083057_piclink.jpg"></figure></a>
+<h2 class="item-headline"><a href="/interactive/13021" target=_blank class="item-headline-link">资源共享 跨界融合：2019FT中国创新企业俱乐部全新启航！</a></h2>
 </div></div>
 <div class="item-container"><div class="item-inner">
-<a class="image" href="/interactive/12930" target=_blank><figure class="loading" data-url="http://i.ftimg.net/picture/3/000082523_piclink.jpg"></figure></a>
-<h2 class="item-headline"><a href="/interactive/12930" target=_blank class="item-headline-link">中国海事仲裁携手华为云，开启仲裁服务+互联网新时代</a></h2>
+<a class="image" href="/interactive/13196" target=_blank><figure class="loading" data-url="http://i.ftimg.net/picture/9/000080819_piclink.jpg"></figure></a>
+<h2 class="item-headline"><a href="/interactive/13196" target=_blank class="item-headline-link">瑞幸咖啡否认董事长贷款传言 专注快速扩张</a></h2>
 </div></div>
 <div class="item-container"><div class="item-inner">
-<a class="image" href="/interactive/12927" target=_blank><figure class="loading" data-url="http://i.ftimg.net/picture/1/000082271_piclink.jpg"></figure></a>
-<h2 class="item-headline"><a href="/interactive/12927" target=_blank class="item-headline-link">华为云ModelArts深度学习技术再创新高</a></h2>
+<a class="image" href="/interactive/13183" target=_blank><figure class="loading" data-url="http://i.ftimg.net/picture/7/000084127_piclink.jpg"></figure></a>
+<h2 class="item-headline"><a href="/interactive/13183" target=_blank class="item-headline-link">首场FT创新对话：探寻家和生活的另一种可能 | 活动回顾</a></h2>
+</div></div>
+<div class="item-container"><div class="item-inner">
+<a class="image" href="/interactive/13075" target=_blank><figure class="loading" data-url="http://i.ftimg.net/picture/0/000083450_piclink.jpg"></figure></a>
+<h2 class="item-headline"><a href="/interactive/13075" target=_blank class="item-headline-link">走在路上 - 嘉地酒园庄主春节访谈</a></h2>
 </div></div>
 <!---->
 <div class="clearfloat"></div>
@@ -1251,144 +1374,144 @@ window.gSubscriptionEventLabel = 'Page/home';
 <script type="text/javascript">updateClientIdLinks();</script><div class="content-inner">
   
 <div class="list-container"><div class="list-inner"><h2 class="list-title">
-<a class="list-link" href="#">独家</a>
+<a class="list-link" href="/channel/exclusive.html">独家</a>
 </h2>
 <div class="items">
-<!--listItemCount: 12, i: 12-->
-
+       
  
 
 <div class="item-container XL3 L4 M4 S6 P12 has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/premium/001080936" class="item-headline-link locked">股东至上模式的缺陷</a></h2>
-<a class="image" target="_blank" href="/premium/001080936" >
-<figure class="loading" data-url="http://i.ftimg.net/picture/3/000082883_piclink.jpg"></figure>
+<h2 class="item-headline"><div class=item-tag><a href="/tag/中欧关系">中欧关系</a><button class="myft-follow plus" data-tag="中欧关系" data-type="tag">关注</button></div><a target="_blank" href="/premium/001082229" class="item-headline-link locked">FT社评：欧盟不应滑向保护主义</a></h2>
+<a class="image" target="_blank" href="/premium/001082229" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/8/000084868_piclink.jpg"></figure>
 </a>
-<div class="item-lead">普伦德：至少在英国，支持推翻股东至上的呼声越来越高。在衡量公司的表现上面，投资者更加重视环境、社会和治理因素。</div>
+<div class="item-lead">欧盟应警惕中国在欧盟的经济活动。但欧盟需要区分哪些因素真正威胁国家安全，哪些因素不过是暴露了欧盟自身的不足。</div>
 <div class="item-bottom"></div>
 </div></div>
  
  
 <div class=" PT"></div>
 <div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/premium/001080929" class="item-headline-link locked">加密货币基金管理公司呼吁投资者保持耐心</a></h2>
-<a class="image" target="_blank" href="/premium/001080929" >
-<figure class="loading" data-url="http://i.ftimg.net/picture/4/000079794_piclink.jpg"></figure>
+<h2 class="item-headline"><div class=item-tag><a href="/tag/不良贷款">不良贷款</a><button class="myft-follow plus" data-tag="不良贷款" data-type="tag">关注</button></div><a target="_blank" href="/premium/001082228" class="item-headline-link locked">Lex专栏：中国银行业的不良贷款率</a></h2>
+<a class="image" target="_blank" href="/premium/001082228" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/9/000084869_piclink.jpg"></figure>
 </a>
-<div class="item-lead">去年加密货币价格暴跌，许多投资者试图离场，曾预言比特币会涨到5万美元的Pantera Capital发表了致投资者函。</div>
+<div class="item-lead">中国央行现在可能再次为部分银行降准，从而在经济放缓之际支持小微企业。此举将进一步扩大中国不断增长的债务。</div>
 <div class="item-bottom"></div>
 </div></div>
  
  
 <div class=" ST PT"></div>
 <div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/premium/001080928" class="item-headline-link locked">金正恩新年致辞中释放的信号</a></h2>
-<a class="image" target="_blank" href="/premium/001080928" >
-<figure class="loading" data-url="http://i.ftimg.net/picture/3/000082863_piclink.jpg"></figure>
+<h2 class="item-headline"><div class=item-tag><a href="/tag/劳工权益">劳工权益</a><button class="myft-follow plus" data-tag="劳工权益" data-type="tag">关注</button></div><a target="_blank" href="/premium/001082227" class="item-headline-link locked">996.ICU背后的古怪和老套</a></h2>
+<a class="image" target="_blank" href="/premium/001082227" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/7/000084867_piclink.jpg"></figure>
 </a>
-<div class="item-lead">Jongsoo Lee：金正恩的新年致辞是一个信号，表明尽管在无核化问题上进展缓慢，但朝鲜向“正常国家”的过渡已走上正轨。</div>
+<div class="item-lead">希尔：中国科技业员工的雇主应该注意，在仅仅只是鼓励员工加班与强迫他们加班之间，只存在细微的差别。</div>
 <div class="item-bottom"></div>
 </div></div>
  
  
 <div class=" LT MT PT"></div>
 <div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/premium/001080922" class="item-headline-link locked">2019年全球大事预测（下）</a></h2>
-<a class="image" target="_blank" href="/premium/001080922" >
-<figure class="loading" data-url="http://i.ftimg.net/picture/4/000082834_piclink.jpg"></figure>
+<h2 class="item-headline"><div class=item-tag><a href="/tag/黄金">黄金</a><button class="myft-follow plus" data-tag="黄金" data-type="tag">关注</button></div><a target="_blank" href="/premium/001082225" class="item-headline-link locked">中国央行继续买入黄金</a></h2>
+<a class="image" target="_blank" href="/premium/001082225" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/9/000064269_piclink.jpg"></figure>
 </a>
-<div class="item-lead">会发生新的金融危机吗？标普500年末能站上3000点吗？油价会在每桶60美元以下吗？华为在海外会难以立足吗？</div>
+<div class="item-lead">中国人民银行3月买入11.2吨黄金，黄金储备总量达到1885吨。但黄金在中国外汇储备中仍仅占一小部分。</div>
 <div class="item-bottom"></div>
 </div></div>
  
  
 <div class="XLT ST PT"></div>
 <div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/premium/001080921" class="item-headline-link locked">美联储应该抓住区块链的机遇</a></h2>
-<a class="image" target="_blank" href="/premium/001080921" >
-<figure class="loading" data-url="http://i.ftimg.net/picture/7/000082857_piclink.jpg"></figure>
+<h2 class="item-headline"><div class=item-tag><a href="/tag/债务">债务</a><button class="myft-follow plus" data-tag="债务" data-type="tag">关注</button></div><a target="_blank" href="/premium/001082224" class="item-headline-link locked">中国警示小型银行坏账激增</a></h2>
+<a class="image" target="_blank" href="/premium/001082224" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/2/000080522_piclink.jpg"></figure>
 </a>
-<div class="item-lead">普拉萨德：美联储应该接受区块链这种新的金融技术来加强公众对其的信任，并利用它来提高金融市场的效率和稳定性。</div>
+<div class="item-lead">中国审计署称，河南省有42家银行的贷款不良率超过5%“警戒线”，“个别”银行贷款不良率超过40%。</div>
 <div class="item-bottom"></div>
 </div></div>
  
  
 <div class=" PT"></div>
 <div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/premium/001080920" class="item-headline-link locked">不要盲目相信数据</a></h2>
-<a class="image" target="_blank" href="/premium/001080920" >
-<figure class="loading" data-url="http://i.ftimg.net/picture/1/000076051_piclink.jpg"></figure>
+<h2 class="item-headline"><div class=item-tag><a href="/tag/拼多多">拼多多</a><button class="myft-follow plus" data-tag="拼多多" data-type="tag">关注</button></div><a target="_blank" href="/premium/001082221" class="item-headline-link locked">拼多多烧钱押注未来增长</a></h2>
+<a class="image" target="_blank" href="/premium/001082221" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/5/000084865_piclink.jpg"></figure>
 </a>
-<div class="item-lead">桑希尔：离开具体背景，数据往往具有误导性。对于从数据中可以合理得出哪些推论，我们必须非常谨慎。</div>
+<div class="item-lead">每销售1美元就支出1.50美元的拼多多，在上市不到六个月后再度进入资本市场，其财报显示大量烧钱、而收入增长跟不上的局面。</div>
 <div class="item-bottom"></div>
 </div></div>
  
  
 <div class=" LT MT ST PT"></div>
 <div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/premium/001080919" class="item-headline-link locked">2019年决定金融市场的几大问题</a></h2>
-<a class="image" target="_blank" href="/premium/001080919" >
-<figure class="loading" data-url="http://i.ftimg.net/picture/2/000075652_piclink.jpg"></figure>
+<h2 class="item-headline"><div class=item-tag><a href="/tag/全球经济">全球经济</a><button class="myft-follow plus" data-tag="全球经济" data-type="tag">关注</button></div><a target="_blank" href="/premium/001082219" class="item-headline-link locked">2019年全球经济走势仍然乐观</a></h2>
+<a class="image" target="_blank" href="/premium/001082219" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/3/000078263_piclink.jpg"></figure>
 </a>
-<div class="item-lead">2018年标志性的波动性为2019年的市场设置了一些关键难题。美国债券市场是否太过悲观？人民币会继续贬值吗？</div>
+<div class="item-lead">戴维斯：最新预测显示，全球经济正以3.1%的增速扩张，中国的表现将对今年的全球增长起决定性作用。</div>
 <div class="item-bottom"></div>
 </div></div>
  
  
 <div class=" PT"></div>
 <div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/premium/001080911" class="item-headline-link locked">印度农业渴望从中美贸易战中获利</a></h2>
-<a class="image" target="_blank" href="/premium/001080911" >
-<figure class="loading" data-url="http://i.ftimg.net/picture/1/000082841_piclink.jpg"></figure>
+<h2 class="item-headline"><div class=item-tag><a href="/tag/能源">能源</a><button class="myft-follow plus" data-tag="能源" data-type="tag">关注</button></div><a target="_blank" href="/premium/001082218" class="item-headline-link locked">在油气行业工作吧，年轻人！</a></h2>
+<a class="image" target="_blank" href="/premium/001082218" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/2/000064442_piclink.jpg"></figure>
 </a>
-<div class="item-lead">印度希望填补美中贸易战给中国食品供应造成的缺口，对华出口更多大米、糖等农产品，但一些人认为印度在这方面还需提高竞争力。</div>
+<div class="item-lead">巴特勒：在能源企业工作的益处之一是眼界高远。这些公司做规划时会着眼于30至40年的时间。</div>
 <div class="item-bottom"></div>
 </div></div>
  
  
 <div class="XLT ST PT"></div>
 <div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/premium/001080908" class="item-headline-link locked">FT社评：民主党人如何选择特朗普的终结者</a></h2>
-<a class="image" target="_blank" href="/premium/001080908" >
-<figure class="loading" data-url="http://i.ftimg.net/picture/0/000082840_piclink.jpg"></figure>
+<h2 class="item-headline"><div class=item-tag><a href="/tag/社交媒体">社交媒体</a><button class="myft-follow plus" data-tag="社交媒体" data-type="tag">关注</button></div><a target="_blank" href="/premium/001082209" class="item-headline-link locked">FT社评：打击假新闻的法律或被滥用</a></h2>
+<a class="image" target="_blank" href="/premium/001082209" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/6/000084836_piclink.jpg"></figure>
 </a>
-<div class="item-lead">今年西方最重要的民主事件将是一场没有投票的党内选战，20余位美国民主党人将努力向公众证明，自己能在2020年“终结”特朗普。</div>
+<div class="item-lead">像新加坡那样自上而下的反假新闻立法可能遭到滥用，应对假新闻的真正良策是教会民众甄别和拒绝假新闻。</div>
 <div class="item-bottom"></div>
 </div></div>
  
  
 <div class=" LT MT PT"></div>
 <div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/premium/001080904" class="item-headline-link locked">中国整治商店拒收现金行为</a></h2>
-<a class="image" target="_blank" href="/premium/001080904" >
-<figure class="loading" data-url="http://i.ftimg.net/picture/7/000078207_piclink.jpg"></figure>
+<h2 class="item-headline"><div class=item-tag><a href="/tag/美联储">美联储</a><button class="myft-follow plus" data-tag="美联储" data-type="tag">关注</button></div><a target="_blank" href="/premium/001082208" class="item-headline-link locked">FT社评：特朗普必须停止向美联储“塞人”</a></h2>
+<a class="image" target="_blank" href="/premium/001082208" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/5/000084835_piclink.jpg"></figure>
 </a>
-<div class="item-lead">中国央行正在打击拒绝接受纸币和硬币的商户，并试图阻止支付宝和微信支付在零售支付领域占据主导地位。</div>
+<div class="item-lead">如果特朗普的两个支持者加入联邦储备委员会，明年美国大选前降息的压力将会非常大。更重要的是，美联储独立性将受到削弱。</div>
 <div class="item-bottom"></div>
 </div></div>
  
  
 <div class=" ST PT"></div>
 <div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/premium/001080897" class="item-headline-link locked">现代自由主义危机源于市场力量</a></h2>
-<a class="image" target="_blank" href="/premium/001080897" >
-<figure class="loading" data-url="http://i.ftimg.net/picture/3/000065833_piclink.jpg"></figure>
+<h2 class="item-headline"><div class=item-tag><a href="/tag/全球经济">全球经济</a><button class="myft-follow plus" data-tag="全球经济" data-type="tag">关注</button></div><a target="_blank" href="/premium/001082204" class="item-headline-link locked">全球经济进入“同步放缓”阶段</a></h2>
+<a class="image" target="_blank" href="/premium/001082204" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/2/000053872_piclink.jpg"></figure>
 </a>
-<div class="item-lead">明肖：任何不顾60%的家庭的制度最终都会失败。最具讽刺意味的是：自由主义即将因为市场力量而失败。</div>
+<div class="item-lead">布鲁金斯学会-FT全球经济复苏追踪指数显示，去年秋天以来发达及新兴经济体的情绪指标和经济数据一直在恶化。</div>
 <div class="item-bottom"></div>
 </div></div>
  
  
 <div class=" PT"></div>
 <div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/premium/001080896" class="item-headline-link locked">2019年继续应对不确定性</a></h2>
-<a class="image" target="_blank" href="/premium/001080896" >
-<figure class="loading" data-url="http://i.ftimg.net/picture/3/000082833_piclink.jpg"></figure>
+<h2 class="item-headline"><div class=item-tag><a href="/tag/中欧贸易">中欧贸易</a><button class="myft-follow plus" data-tag="中欧贸易" data-type="tag">关注</button></div><a target="_blank" href="/premium/001082203" class="item-headline-link locked">欧盟敦促中国兑现贸易承诺</a></h2>
+<a class="image" target="_blank" href="/premium/001082203" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/2/000084832_piclink.jpg"></figure>
 </a>
-<div class="item-lead">斯里尼瓦桑：新兴市场能带来可观的绝对正回报吗？如果发达市场的波动性不下降，且中国的经济政策缺乏明朗，就不可能。</div>
+<div class="item-lead">本周欧中峰会前夕，欧盟贸易专员马尔姆斯特伦强调，和美国一样，欧洲对欧中双边投资缺乏互惠的现状感到不满。</div>
 <div class="item-bottom"></div>
 </div></div>
-   <div class="clearfloat"></div>
+                                <div class="clearfloat"></div>
 </div>
+<div class="more-link"><a href="/channel/exclusive.html">更多</a></div>
 </div></div>    <div class="clearfloat block-bottom"></div>
 </div>  </div>  <div class="clearfloat"></div>
 </div> </div> <script type="text/javascript">
@@ -1403,7 +1526,7 @@ xhr.send(JSON.stringify(jsonData));
 <div class="o-ads" data-o-ads-name="banner3"
 data-o-ads-center="true" 
 data-o-ads-formats-default="false" 
-data-o-ads-formats-small="false" 
+data-o-ads-formats-small="FtcMobileBanner" 
 data-o-ads-formats-medium="false"
 data-o-ads-formats-large="FtcBanner" 
 data-o-ads-formats-extra="FtcBanner"
@@ -1421,22 +1544,22 @@ data-cy='[{"devices":["PC"],"pattern":"Banner","position":"Num2"}]'
 <h2 class="list-title"><a class="list-link" href="/channel/economy.html">经济</a></h2>
 
 <div class="item-container side-by-side first has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001080915">中美贸易纠纷：90天休战之后？</a></h2>
-<a class="image" target="_blank" href="/story/001080915"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000080289_piclink.jpg"></figure></a><div class="item-lead">何永勤：转眼间，90天休战期已过去三分之一。中方要在三个月内实现承诺的对美采购量几无可能，遑论推进结构性改革。倒计已开始，风暴在聚集。</div><div class="item-bottom"></div>
+<h2 class="item-headline"><a target="_blank" href="/story/001082216">996工作制与中国科技企业的国际化</a></h2>
+<a class="image" target="_blank" href="/story/001082216"><figure class="loading" data-url="http://i.ftimg.net/picture/5/000061855_piclink.jpg"></figure></a><div class="item-lead">刘远举：当不同的经济体在短期内竞争，低人权优势的确是可以发挥作用的，这是竞争的趋低模式。</div><div class="item-bottom"></div>
 </div></div>
 
 <div class="item-container side-by-side "><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001080926">滴滴出行向金融服务领域扩展业务</a></h2>
+<h2 class="item-headline"><a target="_blank" href="/story/001082230">香港“占中”领袖被判有罪</a></h2>
 <div class="item-bottom"></div>
 </div></div>
 
 <div class="item-container side-by-side "><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001080924">中国民营制造业2018年12月出现萎缩</a></h2>
+<h2 class="item-headline"><a target="_blank" href="/story/001082229">FT社评：欧盟不应滑向保护主义</a></h2>
 <div class="item-bottom"></div>
 </div></div>
 
 <div class="item-container side-by-side "><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001080925">中国烟草总公司拟将子公司在香港上市</a></h2>
+<h2 class="item-headline"><a target="_blank" href="/story/001082228">Lex专栏：中国银行业的不良贷款率</a></h2>
 <div class="item-bottom"></div>
 </div></div>
 </div>
@@ -1447,22 +1570,22 @@ data-cy='[{"devices":["PC"],"pattern":"Banner","position":"Num2"}]'
 <h2 class="list-title"><a class="list-link" href="/channel/markets.html">金融市场</a></h2>
 
 <div class="item-container side-by-side first has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001080911">印度农业渴望从中美贸易战中获利</a></h2>
-<a class="image" target="_blank" href="/story/001080911"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000082841_piclink.jpg"></figure></a><div class="item-lead">印度希望填补美中贸易战给中国食品供应造成的缺口，对华出口更多大米、糖等农产品，但一些人认为印度在这方面还需提高竞争力。</div><div class="item-bottom"></div>
+<h2 class="item-headline"><a target="_blank" href="/story/001082225">中国央行继续买入黄金</a></h2>
+<a class="image" target="_blank" href="/story/001082225"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000064269_piclink.jpg"></figure></a><div class="item-lead">中国人民银行3月买入11.2吨黄金，黄金储备总量达到1885吨。但黄金在中国外汇储备中仍仅占一小部分。</div><div class="item-bottom"></div>
 </div></div>
 
 <div class="item-container side-by-side "><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001080896">2019年继续应对不确定性</a></h2>
+<h2 class="item-headline"><a target="_blank" href="/story/001082223">中国扩大散户进入政府债券市场渠道</a></h2>
 <div class="item-bottom"></div>
 </div></div>
 
 <div class="item-container side-by-side "><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001080888">美国股市继续大幅波动</a></h2>
+<h2 class="item-headline"><a target="_blank" href="/story/001082218">在油气行业工作吧，年轻人！</a></h2>
 <div class="item-bottom"></div>
 </div></div>
 
 <div class="item-container side-by-side "><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001080882">从2018年金融市场动荡中总结教训</a></h2>
+<h2 class="item-headline"><a target="_blank" href="/story/001082207">利比亚冲突升级致原油价格创2019年新高</a></h2>
 <div class="item-bottom"></div>
 </div></div>
 </div>
@@ -1473,22 +1596,22 @@ data-cy='[{"devices":["PC"],"pattern":"Banner","position":"Num2"}]'
 <h2 class="list-title"><a class="list-link" href="/channel/technology.html">科技</a></h2>
 
 <div class="item-container side-by-side first has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001080932">人工智能将如何改变医疗行业</a></h2>
-<a class="image" target="_blank" href="/story/001080932"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000063999_piclink.jpg"></figure></a><div class="item-lead">人工智能技术的迅猛发展及其在医疗卫生领域的深度应用，将极大改变我们社会的面貌。</div><div class="item-bottom"></div>
+<h2 class="item-headline"><a target="_blank" href="/story/001082227">996.ICU背后的古怪和老套</a></h2>
+<a class="image" target="_blank" href="/story/001082227"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000084867_piclink.jpg"></figure></a><div class="item-lead">希尔：中国科技业员工的雇主应该注意，在仅仅只是鼓励员工加班与强迫他们加班之间，只存在细微的差别。</div><div class="item-bottom"></div>
 </div></div>
 
 <div class="item-container side-by-side "><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001080921">美联储应该抓住区块链的机遇</a></h2>
+<h2 class="item-headline"><a target="_blank" href="/story/001082222">京东将淘汰“不能拼搏”的员工</a></h2>
 <div class="item-bottom"></div>
 </div></div>
 
 <div class="item-container side-by-side "><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001080920">不要盲目相信数据</a></h2>
+<h2 class="item-headline"><a target="_blank" href="/story/001082221">拼多多烧钱押注未来增长</a></h2>
 <div class="item-bottom"></div>
 </div></div>
 
 <div class="item-container side-by-side "><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001080904">中国整治商店拒收现金行为</a></h2>
+<h2 class="item-headline"><a target="_blank" href="/story/001082196">汽车业应该以波音为鉴</a></h2>
 <div class="item-bottom"></div>
 </div></div>
 </div>
@@ -1499,22 +1622,22 @@ data-cy='[{"devices":["PC"],"pattern":"Banner","position":"Num2"}]'
 <h2 class="list-title"><a class="list-link" href="/channel/lifestyle.html">生活时尚</a></h2>
 
 <div class="item-container side-by-side first has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001080859">瑞士手表开始接纳中国电商</a></h2>
-<a class="image" target="_blank" href="/story/001080859"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000082771_piclink.jpg"></figure></a><div class="item-lead">奢侈手表品牌开始进驻天猫、京东等有效控制假货的平台。三至六线城市的消费者对京东的白手套服务感到惊喜。</div><div class="item-bottom"></div>
+<h2 class="item-headline"><a target="_blank" href="/story/001082195">应青蓝：让艺术成为中国大都市的门面</a></h2>
+<a class="image" target="_blank" href="/story/001082195"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000084756_piclink.jpg"></figure></a><div class="item-lead">2013年，首届Art021艺博会请到了29家画廊；去年，Art021吸引了来自世界各地的103家顶级画廊，成为中国当代艺术界盛事。</div><div class="item-bottom"></div>
 </div></div>
 
 <div class="item-container side-by-side "><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001080858">美奇乐：始于精酿啤酒的商业传奇</a></h2>
+<h2 class="item-headline"><a target="_blank" href="/story/001082176">“悦己消费”成为中国女性的刚需</a></h2>
 <div class="item-bottom"></div>
 </div></div>
 
 <div class="item-container side-by-side "><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001080863">与舒尔茨遗孀回忆“史努比之父”</a></h2>
+<h2 class="item-headline"><a target="_blank" href="/story/001082177">香港巴塞尔艺博会：垄断还是激活？</a></h2>
 <div class="item-bottom"></div>
 </div></div>
 
 <div class="item-container side-by-side "><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001080844">中国创造，在什么阶段？</a></h2>
+<h2 class="item-headline"><a target="_blank" href="/story/001082067">Netflix迷你科幻剧：15分钟注意力极限</a></h2>
 <div class="item-bottom"></div>
 </div></div>
 </div>
@@ -1525,22 +1648,22 @@ data-cy='[{"devices":["PC"],"pattern":"Banner","position":"Num2"}]'
 <h2 class="list-title"><a class="list-link" href="/channel/management.html">商业与管理</a></h2>
 
 <div class="item-container side-by-side first has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001080929">加密货币基金管理公司呼吁投资者保持耐心</a></h2>
-<a class="image" target="_blank" href="/story/001080929"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000079794_piclink.jpg"></figure></a><div class="item-lead">去年加密货币价格暴跌，许多投资者试图离场，曾预言比特币会涨到5万美元的Pantera Capital发表了致投资者函。</div><div class="item-bottom"></div>
+<h2 class="item-headline"><a target="_blank" href="/story/001082224">中国警示小型银行坏账激增</a></h2>
+<a class="image" target="_blank" href="/story/001082224"><figure class="loading" data-url="http://i.ftimg.net/picture/2/000080522_piclink.jpg"></figure></a><div class="item-lead">中国审计署称，河南省有42家银行的贷款不良率超过5%“警戒线”，“个别”银行贷款不良率超过40%。</div><div class="item-bottom"></div>
 </div></div>
 
 <div class="item-container side-by-side "><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001080923">澳大利亚海外留学生飙升</a></h2>
+<h2 class="item-headline"><a target="_blank" href="/story/001082210">如涵的破绽</a></h2>
 <div class="item-bottom"></div>
 </div></div>
 
 <div class="item-container side-by-side "><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001080900">缺乏安全感的超级成功人士</a></h2>
+<h2 class="item-headline"><a target="_blank" href="/story/001082209">FT社评：打击假新闻的法律或被滥用</a></h2>
 <div class="item-bottom"></div>
 </div></div>
 
 <div class="item-container side-by-side "><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001080902">自由职业者的新选择：家庭共享办公</a></h2>
+<h2 class="item-headline"><a target="_blank" href="/story/001082200">让审计工作重拾“审慎”</a></h2>
 <div class="item-bottom"></div>
 </div></div>
 </div>
@@ -1551,22 +1674,22 @@ data-cy='[{"devices":["PC"],"pattern":"Banner","position":"Num2"}]'
 <h2 class="list-title"><a class="list-link" href="/channel/china.html">中国</a></h2>
 
 <div class="item-container side-by-side first has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001080913">水稀缺挑战：资管行业对策及投资人视角</a></h2>
-<a class="image" target="_blank" href="/story/001080913"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000076161_piclink.jpg"></figure></a><div class="item-lead">邱慈观：针对全球水稀缺挑战，金融行业不能直接解决问题，但可以资金驱动有效解决方案，同理投资人也不能直接解决问题，但能以投资方式参与创意方案的开发。</div><div class="item-bottom"></div>
+<h2 class="item-headline"><a target="_blank" href="/story/001082214">沃尔夫：贸易战或改变中国国运</a></h2>
+<a class="image" target="_blank" href="/story/001082214"><figure class="loading" data-url="http://i.ftimg.net/picture/3/000084843_piclink.jpg"></figure></a><div class="item-lead">FT首席经济学家认为，中国如何解决这场贸易纷争，将决定中国的崛起能否继续。他以“阿根廷之殇”为例，警告走向封闭和保护主义可能带来的国运的逆转。</div><div class="item-bottom"></div>
 </div></div>
 
 <div class="item-container side-by-side "><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001080918">写给新年：静待冰雪消融江河奔腾</a></h2>
+<h2 class="item-headline"><a target="_blank" href="/story/001082217">中国的高铁到底有多环保？</a></h2>
 <div class="item-bottom"></div>
 </div></div>
 
 <div class="item-container side-by-side "><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001080917">低生育率探因：房价过高还是社保不足？</a></h2>
+<h2 class="item-headline"><a target="_blank" href="/story/001082215">为什么跟父母谈论理想那么难？</a></h2>
 <div class="item-bottom"></div>
 </div></div>
 
 <div class="item-container side-by-side "><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001080894">在历史三峡的2019，相信未来</a></h2>
+<h2 class="item-headline"><a target="_blank" href="/story/001082212">一周世界舆论聚焦：中美还在斗法，并产生广泛影响</a></h2>
 <div class="item-bottom"></div>
 </div></div>
 </div>
@@ -1578,16 +1701,16 @@ data-cy='[{"devices":["PC"],"pattern":"Banner","position":"Num2"}]'
 <div class="mps">
 <h2 class="list-title"><a href="/channel/weekly.html">热门文章</a></h2>
 <ul class="top10">
-<li class="mp1"><span>1. </span><a target="_blank" href="/story/001080910?dailypop">中国应对重拾“房地产依赖”说不</a></li>
-<li class="mp2"><span>2. </span><a target="_blank" href="/story/001080906?dailypop">中国为什么要派发“减税”礼包？</a></li>
-<li class="mp3"><span>3. </span><a target="_blank" href="/story/001080917?dailypop">低生育率探因：房价过高还是社保不足？</a></li>
-<li class="mp4"><span>4. </span><a target="_blank" href="/story/001080915?dailypop">中美贸易纠纷：90天休战之后？</a></li>
-<li class="mp5"><span>5. </span><a target="_blank" href="/story/001080914?dailypop">中国中小学国际教育遭遇“寒流”</a></li>
-<li class="mp6"><span>6. </span><a target="_blank" href="/story/001080924?dailypop">中国民营制造业2018年12月出现萎缩</a></li>
-<li class="mp7"><span>7. </span><a target="_blank" href="/story/001080922?dailypop">2019年全球大事预测（下）</a></li>
-<li class="mp8"><span>8. </span><a target="_blank" href="/story/001080919?dailypop">2019年决定金融市场的几大问题</a></li>
-<li class="mp9"><span>9. </span><a target="_blank" href="/story/001080912?dailypop">源码资本曹毅：2019年很多行业将面临收敛</a></li>
-<li class="mp10"><span>10. </span><a target="_blank" href="/story/001080923?dailypop">澳大利亚海外留学生飙升</a></li>
+<li class="mp1"><span>1. </span><a target="_blank" href="/story/001082234?dailypop">百人会“大辩论”：中国势必成为第一经济体？</a></li>
+<li class="mp2"><span>2. </span><a target="_blank" href="/story/001082231?dailypop">中国经济复苏中的四大短期挑战</a></li>
+<li class="mp3"><span>3. </span><a target="_blank" href="/story/001082237?dailypop">现在是人类的最好时代，但可能好景不长</a></li>
+<li class="mp4"><span>4. </span><a target="_blank" href="/story/001082238?dailypop">不良饮食是最大的健康风险</a></li>
+<li class="mp5"><span>5. </span><a target="_blank" href="/story/001082244?dailypop">中国与欧盟拟明年达成投资协定</a></li>
+<li class="mp6"><span>6. </span><a target="_blank" href="/story/001082241?dailypop">分析：美国威胁对欧盟产品加征关税可能导致美欧紧张升级</a></li>
+<li class="mp7"><span>7. </span><a target="_blank" href="/story/001082235?dailypop">创新者是天生的吗？</a></li>
+<li class="mp8"><span>8. </span><a target="_blank" href="/story/001082191?dailypop">市场如何战胜最可怕的敌人？</a></li>
+<li class="mp9"><span>9. </span><a target="_blank" href="/story/001082240?dailypop">杜伊斯堡：“新丝路”上的德国老工业城市</a></li>
+<li class="mp10"><span>10. </span><a target="_blank" href="/story/001082243?dailypop">IMF：无协议退欧将使英国陷入衰退</a></li>
 </ul>
 </div>
 <div 
@@ -1602,19 +1725,12 @@ data-o-ads-targeting="cnpos=mostpopular;"
 data-cy='[{"devices":["PC"],"pattern":"MPU","position":"Middle1"}]'
 >
 </div>
-<script type="text/javascript">
-document.write (writeAdNew({
-devices: ['PC'],
-pattern:'MPU',
-position:'Middle1'
-}));
-</script>
 </div></div><div class="clearfloat"></div>
 </div>
 </div><div class="o-ads" data-o-ads-name="banner4"
 data-o-ads-center="true" 
 data-o-ads-formats-default="false" 
-data-o-ads-formats-small="false" 
+data-o-ads-formats-small="FtcMobileBanner" 
 data-o-ads-formats-medium="false"
 data-o-ads-formats-large="FtcBanner" 
 data-o-ads-formats-extra="FtcBanner"
@@ -1648,13 +1764,13 @@ window.gSubscriptionEventLabel = 'Page/home';
 </h2>
 <div class="items">
  
-<div class="item-inner video-package-inner"><div class="image"><figure id="video-package-play" class="loading-video" data-vid="2996"></figure></div><div class="video-package-title"><a href="/video/2996" target=_blank>中国拒收“洋垃圾”之后：澳大利亚隐现垃圾危机</a></div></div>
+<div class="item-inner video-package-inner"><div class="image"><figure id="video-package-play" class="loading-video" data-vid="3076"></figure></div><div class="video-package-title"><a href="/video/3076" target=_blank>品钛魏伟：2C转向2B最大的挑战是商业环境</a></div></div>
  
 
 <div class="item-container XL2 L4 M4 S4 P4 on     has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/video/2996" class="item-headline-link ">中国拒收“洋垃圾”之后：澳大利亚隐现垃圾危机</a></h2>
-<a class="image" target="_blank" href="/video/2996" >
-<figure class="loading" data-url="http://i.ftimg.net/picture/7/000082847_piclink.jpg"></figure>
+<h2 class="item-headline"><a target="_blank" href="/video/3076" class="item-headline-link ">品钛魏伟：2C转向2B最大的挑战是商业环境</a></h2>
+<a class="image" target="_blank" href="/video/3076" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/6/000084876_piclink.jpg"></figure>
 </a>
 
 <div class="item-bottom"></div>
@@ -1663,9 +1779,9 @@ window.gSubscriptionEventLabel = 'Page/home';
  
 
 <div class="item-container XL2 L4 M4 S4 P4     has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/video/2994" class="item-headline-link "> 2018年度全球经济回顾：从乐观增长到危机四伏</a></h2>
-<a class="image" target="_blank" href="/video/2994" >
-<figure class="loading" data-url="http://i.ftimg.net/picture/2/000082792_piclink.jpg"></figure>
+<h2 class="item-headline"><a target="_blank" href="/video/3075" class="item-headline-link ">沃尔夫：决定国运的时刻，中国要避免“阿根廷之殇”</a></h2>
+<a class="image" target="_blank" href="/video/3075" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/7/000084847_piclink.jpg"></figure>
 </a>
 
 <div class="item-bottom"></div>
@@ -1674,9 +1790,9 @@ window.gSubscriptionEventLabel = 'Page/home';
  
 
 <div class="item-container XL2 L4 M4 S4 P4     has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/video/2995" class="item-headline-link ">【秒懂】2018年度人物回顾：“光环褪去”刘强东</a></h2>
-<a class="image" target="_blank" href="/video/2995" >
-<figure class="loading" data-url="http://i.ftimg.net/picture/3/000082793_piclink.jpg"></figure>
+<h2 class="item-headline"><a target="_blank" href="/video/3074" class="item-headline-link ">沃尔夫：西方对中国的观感为何突然变化</a></h2>
+<a class="image" target="_blank" href="/video/3074" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/5/000084845_piclink.jpg"></figure>
 </a>
 
 <div class="item-bottom"></div>
@@ -1685,9 +1801,9 @@ window.gSubscriptionEventLabel = 'Page/home';
  
 <div class=" LT MT ST"></div>
 <div class="item-container XL2 L4 M4 S4 P4    P-hide has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/video/2993" class="item-headline-link ">全球寻家之旅：我只想有个住处</a></h2>
-<a class="image" target="_blank" href="/video/2993" >
-<figure class="loading" data-url="http://i.ftimg.net/picture/9/000082779_piclink.jpg"></figure>
+<h2 class="item-headline"><a target="_blank" href="/video/3073" class="item-headline-link ">沃尔夫：中美为“终战”需要各自做出的努力</a></h2>
+<a class="image" target="_blank" href="/video/3073" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/3/000084843_piclink.jpg"></figure>
 </a>
 
 <div class="item-bottom"></div>
@@ -1696,9 +1812,9 @@ window.gSubscriptionEventLabel = 'Page/home';
  
 
 <div class="item-container XL2 L4 M4 S4 P4    P-hide has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/video/2992" class="item-headline-link ">别了2018：全球新闻大事回顾</a></h2>
-<a class="image" target="_blank" href="/video/2992" >
-<figure class="loading" data-url="http://i.ftimg.net/picture/2/000082772_piclink.jpg"></figure>
+<h2 class="item-headline"><a target="_blank" href="/video/3072" class="item-headline-link ">FT“大并购”专题：中国海外并购骤然退潮</a></h2>
+<a class="image" target="_blank" href="/video/3072" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/8/000084838_piclink.jpg"></figure>
 </a>
 
 <div class="item-bottom"></div>
@@ -1707,9 +1823,9 @@ window.gSubscriptionEventLabel = 'Page/home';
  
 
 <div class="item-container XL2 L4 M4 S4 P4    P-hide has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/video/2991" class="item-headline-link ">【秒懂】2018年度人物回顾：急流勇退的马云</a></h2>
-<a class="image" target="_blank" href="/video/2991" >
-<figure class="loading" data-url="http://i.ftimg.net/picture/1/000082761_piclink.jpg"></figure>
+<h2 class="item-headline"><a target="_blank" href="/video/3071" class="item-headline-link ">新栏目：亚洲科技博览</a></h2>
+<a class="image" target="_blank" href="/video/3071" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/9/000084799_piclink.jpg"></figure>
 </a>
 
 <div class="item-bottom"></div>
@@ -1721,16 +1837,16 @@ window.gSubscriptionEventLabel = 'Page/home';
 <div class="mps">
 <h2 class="list-title"><a href="/channel/stream.html">热门视频</a></h2>
 <ul class="top10">
-<li class="mp1"><span>1. </span><a target="_blank" href="/video/2977">加拿大总理特鲁多回应华为CFO被扣事件</a></li>
-<li class="mp2"><span>2. </span><a target="_blank" href="/video/2986">2018年度人物回顾：夹在家与国之间的任正非</a></li>
-<li class="mp3"><span>3. </span><a target="_blank" href="/video/2973">张首晟：人工智能将会超越人类智慧</a></li>
-<li class="mp4"><span>4. </span><a target="_blank" href="/video/2991">2018年度人物回顾：急流勇退的马云</a></li>
-<li class="mp5"><span>5. </span><a target="_blank" href="/video/2969">陈志武：未来30年，中国需要一场“2.0版”全面改革</a></li>
-<li class="mp6"><span>6. </span><a target="_blank" href="/video/2980">三问“千禧一代”毕业生：什么样的工作最吸引你？</a></li>
-<li class="mp7"><span>7. </span><a target="_blank" href="/video/2992">别了2018：全球新闻大事回顾</a></li>
-<li class="mp8"><span>8. </span><a target="_blank" href="/video/2970">中美贸易战：为何“停战”只是暂时的？</a></li>
-<li class="mp9"><span>9. </span><a target="_blank" href="/video/2987">2018年度人物回顾：重重困局下的华谊王氏兄弟</a></li>
-<li class="mp10"><span>10. </span><a target="_blank" href="/video/2974">“老布什”葬礼片段节选</a></li>
+<li class="mp1"><span>1. </span><a target="_blank" href="/video/3070">贾康：为什么中国应当征收房产税</a></li>
+<li class="mp2"><span>2. </span><a target="_blank" href="/video/3062">一位心理治疗师的育儿经</a></li>
+<li class="mp3"><span>3. </span><a target="_blank" href="/video/3063">中国人在美国：政治改变不了的融合与乡愁</a></li>
+<li class="mp4"><span>4. </span><a target="_blank" href="/video/3061">加拿大总理特鲁多遭遇执政危机</a></li>
+<li class="mp5"><span>5. </span><a target="_blank" href="/video/3060">《外商投资法》通过后：实施细则更受关注</a></li>
+<li class="mp6"><span>6. </span><a target="_blank" href="/video/3056">王石：孤独比死亡更可怕</a></li>
+<li class="mp7"><span>7. </span><a target="_blank" href="/video/3066">“修昔底德陷阱”提出者：宋朝对中美关系的启示</a></li>
+<li class="mp8"><span>8. </span><a target="_blank" href="/video/3068">意官员谈“一带一路”备忘录：意大利不怕“债务陷阱”</a></li>
+<li class="mp9"><span>9. </span><a target="_blank" href="/video/3077">揭秘中国科考船在西太平洋上的隐秘使命</a></li>
+<li class="mp10"><span>10. </span><a target="_blank" href="/video/3054">华为起诉美国政府胜算大吗？</a></li>
 </ul>
 </div>
 </div></div><div class="clearfloat"></div>
@@ -1759,139 +1875,139 @@ window.gSubscriptionEventLabel = 'Page/home';
 <a class="list-link" href="#">评论</a>
 </h2>
 <div class="items">
-      
+              
  
 
 <div class="item-container XL3 L4 M4 S6 P12 has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/人工智能">人工智能</a><button class="myft-follow plus" data-tag="人工智能" data-type="tag">关注</button></div><a target="_blank" href="/story/001080932" class="item-headline-link ">人工智能将如何改变医疗行业</a></h2>
-<a class="image" target="_blank" href="/story/001080932" >
-<figure class="loading" data-url="http://i.ftimg.net/picture/9/000063999_piclink.jpg"></figure>
+<h2 class="item-headline"><div class=item-tag><a href="/tag/企业管理">企业管理</a><button class="myft-follow plus" data-tag="企业管理" data-type="tag">关注</button></div><a target="_blank" href="/story/001082216" class="item-headline-link ">996工作制与中国科技企业的国际化</a></h2>
+<a class="image" target="_blank" href="/story/001082216" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/5/000061855_piclink.jpg"></figure>
 </a>
-<div class="item-lead">人工智能技术的迅猛发展及其在医疗卫生领域的深度应用，将极大改变我们社会的面貌。</div>
+<div class="item-lead">刘远举：当不同的经济体在短期内竞争，低人权优势的确是可以发挥作用的，这是竞争的趋低模式。</div>
 <div class="item-bottom"></div>
 </div></div>
  
  
 <div class=" PT"></div>
 <div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/中美贸易战">中美贸易战</a><button class="myft-follow plus" data-tag="中美贸易战" data-type="tag">关注</button></div><a target="_blank" href="/story/001080915" class="item-headline-link ">中美贸易纠纷：90天休战之后？</a></h2>
-<a class="image" target="_blank" href="/story/001080915" >
-<figure class="loading" data-url="http://i.ftimg.net/picture/9/000080289_piclink.jpg"></figure>
+<h2 class="item-headline"><div class=item-tag><a href="/tag/中欧关系">中欧关系</a><button class="myft-follow plus" data-tag="中欧关系" data-type="tag">关注</button></div><a target="_blank" href="/premium/001082229" class="item-headline-link locked">FT社评：欧盟不应滑向保护主义</a></h2>
+<a class="image" target="_blank" href="/premium/001082229" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/8/000084868_piclink.jpg"></figure>
 </a>
-<div class="item-lead">何永勤：转眼间，90天休战期已过去三分之一。中方要在三个月内实现承诺的对美采购量几无可能，遑论推进结构性改革。倒计已开始，风暴在聚集。</div>
+<div class="item-lead">欧盟应警惕中国在欧盟的经济活动。但欧盟需要区分哪些因素真正威胁国家安全，哪些因素不过是暴露了欧盟自身的不足。</div>
 <div class="item-bottom"></div>
 </div></div>
  
  
 <div class=" ST PT"></div>
 <div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/区块链">区块链</a><button class="myft-follow plus" data-tag="区块链" data-type="tag">关注</button></div><a target="_blank" href="/premium/001080921" class="item-headline-link locked">美联储应该抓住区块链的机遇</a></h2>
-<a class="image" target="_blank" href="/premium/001080921" >
-<figure class="loading" data-url="http://i.ftimg.net/picture/7/000082857_piclink.jpg"></figure>
+<h2 class="item-headline"><div class=item-tag><a href="/tag/劳工权益">劳工权益</a><button class="myft-follow plus" data-tag="劳工权益" data-type="tag">关注</button></div><a target="_blank" href="/premium/001082227" class="item-headline-link locked">996.ICU背后的古怪和老套</a></h2>
+<a class="image" target="_blank" href="/premium/001082227" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/7/000084867_piclink.jpg"></figure>
 </a>
-<div class="item-lead">普拉萨德：美联储应该接受区块链这种新的金融技术来加强公众对其的信任，并利用它来提高金融市场的效率和稳定性。</div>
+<div class="item-lead">希尔：中国科技业员工的雇主应该注意，在仅仅只是鼓励员工加班与强迫他们加班之间，只存在细微的差别。</div>
 <div class="item-bottom"></div>
 </div></div>
  
  
 <div class=" LT MT PT"></div>
 <div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/数据">数据</a><button class="myft-follow plus" data-tag="数据" data-type="tag">关注</button></div><a target="_blank" href="/premium/001080920" class="item-headline-link locked">不要盲目相信数据</a></h2>
-<a class="image" target="_blank" href="/premium/001080920" >
-<figure class="loading" data-url="http://i.ftimg.net/picture/1/000076051_piclink.jpg"></figure>
+<h2 class="item-headline"><div class=item-tag><a href="/tag/全球经济">全球经济</a><button class="myft-follow plus" data-tag="全球经济" data-type="tag">关注</button></div><a target="_blank" href="/premium/001082219" class="item-headline-link locked">2019年全球经济走势仍然乐观</a></h2>
+<a class="image" target="_blank" href="/premium/001082219" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/3/000078263_piclink.jpg"></figure>
 </a>
-<div class="item-lead">桑希尔：离开具体背景，数据往往具有误导性。对于从数据中可以合理得出哪些推论，我们必须非常谨慎。</div>
+<div class="item-lead">戴维斯：最新预测显示，全球经济正以3.1%的增速扩张，中国的表现将对今年的全球增长起决定性作用。</div>
 <div class="item-bottom"></div>
 </div></div>
-   
+ 
  
 <div class="XLT ST PT"></div>
 <div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/水资源">水资源</a><button class="myft-follow plus" data-tag="水资源" data-type="tag">关注</button></div><a target="_blank" href="/story/001080913" class="item-headline-link ">水稀缺挑战：资管行业对策及投资人视角</a></h2>
-<a class="image" target="_blank" href="/story/001080913" >
-<figure class="loading" data-url="http://i.ftimg.net/picture/1/000076161_piclink.jpg"></figure>
+<h2 class="item-headline"><div class=item-tag><a href="/tag/非洲">非洲</a><button class="myft-follow plus" data-tag="非洲" data-type="tag">关注</button></div><a target="_blank" href="/story/001082139" class="item-headline-link ">非洲飞速健康革命背后的隐忧</a></h2>
+<a class="image" target="_blank" href="/story/001082139" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/7/000070837_piclink.jpg"></figure>
 </a>
-<div class="item-lead">邱慈观：针对全球水稀缺挑战，金融行业不能直接解决问题，但可以资金驱动有效解决方案，同理投资人也不能直接解决问题，但能以投资方式参与创意方案的开发。</div>
+<div class="item-lead">皮林：2015年非洲死亡总人数中，只有44%是死于四大传染性疾病。这一数字仍然偏高，但其降速是史上最快的。</div>
 <div class="item-bottom"></div>
 </div></div>
  
  
 <div class=" PT"></div>
 <div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/剃刀边缘">剃刀边缘</a><button class="myft-follow plus" data-tag="剃刀边缘" data-type="tag">关注</button></div><a target="_blank" href="/story/001080918" class="item-headline-link ">写给新年：静待冰雪消融江河奔腾</a></h2>
-<a class="image" target="_blank" href="/story/001080918" >
-<figure class="loading" data-url="http://i.ftimg.net/picture/2/000074142_piclink.jpg"></figure>
+<h2 class="item-headline"><div class=item-tag><a href="/tag/能源">能源</a><button class="myft-follow plus" data-tag="能源" data-type="tag">关注</button></div><a target="_blank" href="/premium/001082218" class="item-headline-link locked">在油气行业工作吧，年轻人！</a></h2>
+<a class="image" target="_blank" href="/premium/001082218" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/2/000064442_piclink.jpg"></figure>
 </a>
-<div class="item-lead">老愚：在萧邦的夜曲声中撰写告别词，似乎颇为相宜。转瞬即成历史，这是对逝去一年的纪念，对永不复来的时光的追悼。</div>
+<div class="item-lead">巴特勒：在能源企业工作的益处之一是眼界高远。这些公司做规划时会着眼于30至40年的时间。</div>
 <div class="item-bottom"></div>
 </div></div>
  
  
 <div class=" LT MT ST PT"></div>
 <div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/人口">人口</a><button class="myft-follow plus" data-tag="人口" data-type="tag">关注</button></div><a target="_blank" href="/story/001080917" class="item-headline-link ">低生育率探因：房价过高还是社保不足？</a></h2>
-<a class="image" target="_blank" href="/story/001080917" >
-<figure class="loading" data-url="http://i.ftimg.net/picture/9/000065789_piclink.jpg"></figure>
+<h2 class="item-headline"><div class=item-tag><a href="/tag/朝鲜核问题">朝鲜核问题</a><button class="myft-follow plus" data-tag="朝鲜核问题" data-type="tag">关注</button></div><a target="_blank" href="/story/001082220" class="item-headline-link ">美国应看到与朝鲜达成适度协议的价值</a></h2>
+<a class="image" target="_blank" href="/story/001082220" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/8/000078148_piclink.jpg"></figure>
 </a>
-<div class="item-lead">张林：一个流行论断是，高房价和还贷压力是导致中国人生育意愿降低的罪魁。但找错了原因，也将很难找到正确解答。</div>
+<div class="item-lead">伯恩斯：当年达成伊朗核协议的经验可以为降低朝鲜核威胁提供一条出路，若能达成一项临时协议将是向前迈出的一小步。</div>
 <div class="item-bottom"></div>
 </div></div>
  
  
 <div class=" PT"></div>
 <div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/2019前瞻">2019前瞻</a><button class="myft-follow plus" data-tag="2019前瞻" data-type="tag">关注</button></div><a target="_blank" href="/story/001080894" class="item-headline-link ">在历史三峡的2019，相信未来</a></h2>
-<a class="image" target="_blank" href="/story/001080894" >
-<figure class="loading" data-url="http://i.ftimg.net/picture/7/000082287_piclink.jpg"></figure>
+<h2 class="item-headline"><div class=item-tag><a href="/tag/中外对话">中外对话</a><button class="myft-follow plus" data-tag="中外对话" data-type="tag">关注</button></div><a target="_blank" href="/story/001082217" class="item-headline-link ">中国的高铁到底有多环保？</a></h2>
+<a class="image" target="_blank" href="/story/001082217" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/5/000078195_piclink.jpg"></figure>
 </a>
-<div class="item-lead">徐瑾：即使2019被认为是周期谷底，我们还是可以仰望一下星空，回望历史，想象未来。这个世界会变好吗？</div>
+<div class="item-lead">环境网站“中外对话”研究员白•莉莉：中国高铁这个全球最大的高速铁路网能否帮助中国实现去碳化目标？</div>
 <div class="item-bottom"></div>
 </div></div>
  
  
 <div class="XLT ST PT"></div>
 <div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/MeToo">MeToo</a><button class="myft-follow plus" data-tag="MeToo" data-type="tag">关注</button></div><a target="_blank" href="/story/001080907" class="item-headline-link ">中国“#Me Too”一周年：历程、成绩与限制</a></h2>
-<a class="image" target="_blank" href="/story/001080907" >
-<figure class="loading" data-url="http://i.ftimg.net/picture/2/000082842_piclink.jpg"></figure>
+<h2 class="item-headline"><div class=item-tag><a href="/tag/父母与子女">父母与子女</a><button class="myft-follow plus" data-tag="父母与子女" data-type="tag">关注</button></div><a target="_blank" href="/story/001082215" class="item-headline-link ">为什么跟父母谈论理想那么难？</a></h2>
+<a class="image" target="_blank" href="/story/001082215" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/1/000084851_piclink.jpg"></figure>
 </a>
-<div class="item-lead">黄雪琴：我回访了18位2018年在中国卷起#ME TOO风暴的举报者，试图了解这场运动是如何发生的，她们遭遇了什么，改变了什么，又受到了什么限制。</div>
+<div class="item-lead">刘韵莹：很多事情无关原则，我们与父母的剑拔弩张恰恰源于对这段亲情关系的无力感。</div>
 <div class="item-bottom"></div>
 </div></div>
  
  
 <div class=" LT MT PT"></div>
 <div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/美国政治">美国政治</a><button class="myft-follow plus" data-tag="美国政治" data-type="tag">关注</button></div><a target="_blank" href="/premium/001080908" class="item-headline-link locked">FT社评：民主党人如何选择特朗普的终结者</a></h2>
-<a class="image" target="_blank" href="/premium/001080908" >
-<figure class="loading" data-url="http://i.ftimg.net/picture/0/000082840_piclink.jpg"></figure>
+<h2 class="item-headline"><div class=item-tag><a href="/tag/如涵">如涵</a><button class="myft-follow plus" data-tag="如涵" data-type="tag">关注</button></div><a target="_blank" href="/story/001082210" class="item-headline-link ">如涵的破绽</a></h2>
+<a class="image" target="_blank" href="/story/001082210" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/0/000076090_piclink.jpg"></figure>
 </a>
-<div class="item-lead">今年西方最重要的民主事件将是一场没有投票的党内选战，20余位美国民主党人将努力向公众证明，自己能在2020年“终结”特朗普。</div>
+<div class="item-lead">陈歆磊、史颖波：一家成功定义了网红电商的公司却屡屡败走资本市场，究其原因，不是输在商业模式而是输在了供应链。</div>
 <div class="item-bottom"></div>
 </div></div>
  
  
 <div class=" ST PT"></div>
 <div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/女性">女性</a><button class="myft-follow plus" data-tag="女性" data-type="tag">关注</button></div><a target="_blank" href="/story/001080899" class="item-headline-link ">英国研究：女性不上大学比男性更吃亏</a></h2>
-<a class="image" target="_blank" href="/story/001080899" >
-<figure class="loading" data-url="http://i.ftimg.net/picture/1/000058571_piclink.jpg"></figure>
+<h2 class="item-headline"><div class=item-tag><a href="/tag/世界形势">世界形势</a><button class="myft-follow plus" data-tag="世界形势" data-type="tag">关注</button></div><a target="_blank" href="/story/001082212" class="item-headline-link ">一周世界舆论聚焦：中美还在斗法，并产生广泛影响</a></h2>
+<a class="image" target="_blank" href="/story/001082212" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/3/000065653_piclink.jpg"></figure>
 </a>
-<div class="item-lead">奥康纳：大学似乎把女性导入不同的人生轨道。没有上过大学的聪明女性可用的劳动力市场选择，可能也不及没有上过大学的聪明程度相仿的男性。</div>
+<div class="item-lead">曹辛：在过去的一周中，世界舆论给予最多篇幅的全球性事件，就是以中美经贸协议谈判为标志的中美大博弈了。</div>
 <div class="item-bottom"></div>
 </div></div>
  
  
 <div class=" PT"></div>
 <div class="item-container XL3 L4 M4 S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><div class=item-tag><a href="/tag/管理">管理</a><button class="myft-follow plus" data-tag="管理" data-type="tag">关注</button></div><a target="_blank" href="/story/001080900" class="item-headline-link ">缺乏安全感的超级成功人士</a></h2>
-<a class="image" target="_blank" href="/story/001080900" >
-<figure class="loading" data-url="http://i.ftimg.net/picture/1/000082831_piclink.jpg"></figure>
+<h2 class="item-headline"><div class=item-tag><a href="/tag/社交媒体">社交媒体</a><button class="myft-follow plus" data-tag="社交媒体" data-type="tag">关注</button></div><a target="_blank" href="/premium/001082209" class="item-headline-link locked">FT社评：打击假新闻的法律或被滥用</a></h2>
+<a class="image" target="_blank" href="/premium/001082209" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/6/000084836_piclink.jpg"></figure>
 </a>
-<div class="item-lead">希尔：专家建议那些超级成功人士要认识到不安全感的原因，按自己的想法来定义成功，享受卓越带来的兴奋感。</div>
+<div class="item-lead">像新加坡那样自上而下的反假新闻立法可能遭到滥用，应对假新闻的真正良策是教会民众甄别和拒绝假新闻。</div>
 <div class="item-bottom"></div>
 </div></div>
-                               <div class="clearfloat"></div>
+                         <div class="clearfloat"></div>
 </div>
 </div></div>    <div class="clearfloat block-bottom"></div>
 </div>  </div>  <div class="clearfloat"></div>
@@ -1924,44 +2040,44 @@ window.gSubscriptionEventLabel = 'Page/home';
  
 
 <div class="item-container XL3 L3 M3 S6 P12 has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/premium/001080686" class="item-headline-link locked">中国对“洋垃圾”关上大门以后</a></h2>
-<a class="image" target="_blank" href="/premium/001080686" >
-<figure class="loading" data-url="http://i.ftimg.net/picture/7/000082557_piclink.jpg"></figure>
+<h2 class="item-headline"><a target="_blank" href="/premium/001082174" class="item-headline-link locked">调查：中美贸易协议不是出口商的万灵丹</a></h2>
+<a class="image" target="_blank" href="/premium/001082174" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/1/000081451_piclink.jpg"></figure>
 </a>
-<div class="item-lead">从2018年起，曾经是全球回收行业中心的中国不再接受进口垃圾，一度兴旺的全球废物贸易突然陷入危机。</div>
+<div class="item-lead">FT《投资参考》调研显示，就算中美签署协议解决贸易纠纷，也不能阻止全球经济放缓对中国出口商的冲击。</div>
 <div class="item-bottom"></div>
 </div></div>
  
  
 
 <div class="item-container XL3 L3 M3 S6 P12 has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001080582" class="item-headline-link locked">图解：全球油价为何上演“过山车”？</a></h2>
-<a class="image" target="_blank" href="/story/001080582" >
-<figure class="loading" data-url="http://i.ftimg.net/picture/4/000066364_piclink.jpg"></figure>
+<h2 class="item-headline"><a target="_blank" href="/premium/001082072" class="item-headline-link locked">“亚洲世纪”即将开启</a></h2>
+<a class="image" target="_blank" href="/premium/001082072" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/6/000084626_piclink.jpg"></figure>
 </a>
-<div class="item-lead">原油基准价格近年来大幅波动，政治领导人纷纷呼吁稳定产量。通过以下图表，带你了解全球油价涨跌的关键原因。</div>
+<div class="item-lead">数据表明，就在明年，亚洲经济规模按购买力平价计算将超过世界其他地区的总和。这将标志着亚洲回到世界中心。</div>
 <div class="item-bottom"></div>
 </div></div>
  
  
 <div class=" ST PT"></div>
 <div class="item-container XL3 L3 M3 S6 P12 has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001080571" class="item-headline-link locked">改革开放40年来中国人生活的变化</a></h2>
-<a class="image" target="_blank" href="/story/001080571" >
-<figure class="loading" data-url="http://i.ftimg.net/picture/7/000082397_piclink.jpg"></figure>
+<h2 class="item-headline"><a target="_blank" href="/premium/001081464" class="item-headline-link locked">调研：中国消费者对华为的偏好度提升</a></h2>
+<a class="image" target="_blank" href="/premium/001081464" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/7/000082467_piclink.jpg"></figure>
 </a>
-<div class="item-lead">本月，中国将迎来“改革开放”40周年。不过，这项政策影响最大的是中国人民自身的生活。</div>
+<div class="item-lead">根据FT《投资参考》的最新调研，在爱国情绪的推动下，华为的品牌人气激增，其销售额也同时提高。</div>
 <div class="item-bottom"></div>
 </div></div>
  
  
 
 <div class="item-container XL3 L3 M3 S6 P12 has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001080446" class="item-headline-link locked">调查：中国烟民为什么难戒烟？</a></h2>
-<a class="image" target="_blank" href="/story/001080446" >
-<figure class="loading" data-url="http://i.ftimg.net/picture/3/000067563_piclink.jpg"></figure>
+<h2 class="item-headline"><a target="_blank" href="/premium/001081338" class="item-headline-link locked">调研：中国出口商表示今年开局不佳</a></h2>
+<a class="image" target="_blank" href="/premium/001081338" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/9/000081429_piclink.jpg"></figure>
 </a>
-<div class="item-lead">FT《投资参考》的最新调研显示，低吸烟成本推高了中国的吸烟率，最富裕城市的吸烟率也正在在上升。</div>
+<div class="item-lead">FT《投资参考》的最新调研显示，由于出口行业失去增长动力，中国出口商的订单和利润从12月份开始放缓。</div>
 <div class="item-bottom"></div>
 </div></div>
                <div class="clearfloat"></div>
@@ -1997,9 +2113,9 @@ window.gSubscriptionEventLabel = 'Page/home';
  
 
 <div class="item-container XL3 L3 M3 S6 P12 has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/interactive/12963" class="item-headline-link locked">多种消费品增速下降，汽车对社消指数增长拖累最多</a></h2>
-<a class="image" target="_blank" href="/interactive/12963" >
-<figure class="loading" data-url="http://i.ftimg.net/picture/2/000082712_piclink.jpg"></figure>
+<h2 class="item-headline"><a target="_blank" href="/interactive/13191" class="item-headline-link locked">2019年中国白领收入信心指数近年来首次下降</a></h2>
+<a class="image" target="_blank" href="/interactive/13191" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/7/000084727_piclink.jpg"></figure>
 </a>
 
 <div class="item-bottom"></div>
@@ -2008,9 +2124,9 @@ window.gSubscriptionEventLabel = 'Page/home';
  
 
 <div class="item-container XL3 L3 M3 S6 P12 has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/interactive/12964" class="item-headline-link locked">2018 年 11 月乘用车销量增速再创新低</a></h2>
-<a class="image" target="_blank" href="/interactive/12964" >
-<figure class="loading" data-url="http://i.ftimg.net/images/2018/12/a217892efb2ddc5ad70a210576d44a08.jpg"></figure>
+<h2 class="item-headline"><a target="_blank" href="/interactive/13223" class="item-headline-link locked">2019 年 2 月中国市场汽车销量未见起色</a></h2>
+<a class="image" target="_blank" href="/interactive/13223" >
+<figure class="loading" data-url="http://i.ftimg.net/picture/1/000084511_piclink.jpg"></figure>
 </a>
 
 <div class="item-bottom"></div>
@@ -2019,9 +2135,9 @@ window.gSubscriptionEventLabel = 'Page/home';
  
 <div class=" ST PT"></div>
 <div class="item-container XL3 L3 M3 S6 P12 has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/interactive/12890" class="item-headline-link locked">中国市场对跨国车企到底有多重要？</a></h2>
-<a class="image" target="_blank" href="/interactive/12890" >
-<figure class="loading" data-url="http://i.ftimg.net/images/2018/11/b63fb5c83c75eb7ef4f7f5d2562cf103.jpg"></figure>
+<h2 class="item-headline"><a target="_blank" href="/interactive/13140" class="item-headline-link locked">调查数据：2019 年，哪些投资品种最被看好？</a></h2>
+<a class="image" target="_blank" href="/interactive/13140" >
+<figure class="loading" data-url="http://i.ftimg.net/images/2019/02/e06176bef0ddb78369c24e93213908d2.jpg"></figure>
 </a>
 
 <div class="item-bottom"></div>
@@ -2030,9 +2146,9 @@ window.gSubscriptionEventLabel = 'Page/home';
  
 
 <div class="item-container XL3 L3 M3 S6 P12 has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/interactive/12878" class="item-headline-link ">报告发布与解读 | 国际化人才趋势下，中国家庭应如何培养子女成才</a></h2>
-<a class="image" target="_blank" href="/interactive/12878" >
-<figure class="loading" data-url="http://i.ftimg.net/picture/7/000082147_piclink.jpg"></figure>
+<h2 class="item-headline"><a target="_blank" href="/interactive/13139" class="item-headline-link locked">2019 年 1 月中国市场汽车销量继续下降</a></h2>
+<a class="image" target="_blank" href="/interactive/13139" >
+<figure class="loading" data-url="http://i.ftimg.net/images/2019/02/539ca9f2103db1cb6aa60413ac7b6b9f.jpg"></figure>
 </a>
 
 <div class="item-bottom"></div>
@@ -2054,15 +2170,29 @@ window.gSubscriptionEventLabel = 'Page/home';
 
 <div class="item-container XL3 L3 M3 S6 P6 headline-only">
 <div class="item-inner">
-<a class="image" href="http://www.ftchinese.com/m/corp/preview.html?pageid=consumerfinance" target=_blank><figure class="loading" data-url="http://i.ftimg.net/picture/6/000082446_piclink.jpg"></figure></a>
-<h2 class="item-headline"><a href="http://www.ftchinese.com/m/corp/preview.html?pageid=consumerfinance" target=_blank>消费金融与经济升级</a></h2>
+<a class="image" href="/tag/女性创业家" target=_blank><figure class="loading" data-url="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fi.ftimg.net%2Fpicture%2F7%2F000083057_piclink.jpg?source=ftchinese&width=670&height=377&fit=cover&from=next001"></figure></a>
+<h2 class="item-headline"><a href="/tag/女性创业家" target=_blank>凯歌香槟·HER POWER</a></h2>
 </div>
 </div>
 
 <div class="item-container XL3 L3 M3 S6 P6 headline-only">
 <div class="item-inner">
-<a class="image" href="http://www.ftchinese.com/m/marketing/Emotech2017.html" target=_blank><figure class="loading" data-url="http://i.ftimg.net//picture/6/000076306_piclink.jpg"></figure></a>
-<h2 class="item-headline"><a href="http://www.ftchinese.com/m/marketing/Emotech2017.html" target=_blank>2018·预见人工智能</a></h2>
+<a class="image" href="/channel/innovation.html" target=_blank><figure class="loading" data-url="http://i.ftimg.net//picture/0/000080680_piclink.jpg"></figure></a>
+<h2 class="item-headline"><a href="/channel/innovation.html" target=_blank>创新经济</a></h2>
+</div>
+</div>
+<div class=" ST PT"></div>
+<div class="item-container XL3 L3 M3 S6 P6 headline-only">
+<div class="item-inner">
+<a class="image" href="http://www.ftchinese.com/channel/teawithft.html" target=_blank><figure class="loading" data-url="http://i.ftimg.net/picture/1/000083291_piclink.jpg"></figure></a>
+<h2 class="item-headline"><a href="http://www.ftchinese.com/channel/teawithft.html" target=_blank>与FT共进下午茶</a></h2>
+</div>
+</div>
+
+<div class="item-container XL3 L3 M3 S6 P6 headline-only">
+<div class="item-inner">
+<a class="image" href="/channel/tradewar.html" target=_blank><figure class="loading" data-url="http://i.ftimg.net/picture/1/000081331_piclink.jpg"></figure></a>
+<h2 class="item-headline"><a href="/channel/tradewar.html" target=_blank>中美贸易战</a></h2>
 </div>
 </div>
 <div class="clearfloat"></div>
@@ -2094,8 +2224,7 @@ window.gSubscriptionEventLabel = 'Page/home';
 </div>
 </div>
 <iframe width="0" height="0" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src = "/m/marketing/memberpic.html" class="hide"></iframe><div class="block-container no-side"><div class="block-inner" id="markets-data">
-</div></div>
-<div 
+</div></div><div 
 data-o-ads-name="paidpost"
 class="o-ads paid-post"  
 data-o-ads-formats-default="false" 
@@ -2103,7 +2232,8 @@ data-o-ads-formats-small="false"
 data-o-ads-formats-medium="false"
 data-o-ads-formats-large="FtcPaidpost"
 data-o-ads-formats-extra="FtcPaidpost"
-data-o-ads-targeting="cnpos=paidpost;">
+data-o-ads-targeting="cnpos=paidpost;"
+>
 </div>
 <div class="footer-container"><div class="footer-inner">
 <div>
