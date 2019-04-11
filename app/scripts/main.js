@@ -219,6 +219,7 @@ function loadImages() {
     var loadedClass = '';
     var imageServiceHost = 'https://www.ft.com/__origami/service/image/v2/images/raw/';
     var imageServiceHostFTC = 'https://thumbor.ftacademy.cn/unsafe/';
+    var ftcStaticServer = 'http://i.ftimg.net/';
     var imageExists = true;
     if (imageUrl === '') {
       //console.log ('an empty image is here! Break Now! ')
@@ -241,10 +242,12 @@ function loadImages() {
     }
 
     if (imageUrl.indexOf(imageServiceHost) >= 0) {
-      console.log ('this image is already using imageServiceHost: ' + imageUrl);
+      // MARK: If the url is already an FT Image Service url
       imageUrl = imageUrl.replace(imageServiceHost, '').replace(/\?.*$/g, '');
       imageUrl = decodeURIComponent(imageUrl);
-      console.log ('change to the original url: ' + imageUrl);
+    } else if (imageUrl.indexOf(imageServiceHostFTC) >= 0) {
+      // MARK: If the url is already an FTC Image Service url
+      imageUrl = imageUrl.replace(imageServiceHostFTC, '').replace(/^[0-9x]+\//g, '').replace(/^(picture)/g, ftcStaticServer + '$1');
     }
 
     if (/brand/.test(figureParentClass)) {
