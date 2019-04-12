@@ -1823,10 +1823,20 @@ if (w > 490 && isTouchDevice() === false && document.querySelectorAll('.ce').len
 
 <%if $audioSrc != "" && preg_match("/url/is",$cbody)%>
 	<script><%include file="next/scripts/main-audio-script-render.js"%></script>
-	<script>window.audioHasRendered = true; renderAudioData(document.getElementById('story-body-container'));</script>
+	<script>
+		window.audioHasRendered = true; 
+		renderAudioData(document.getElementById('story-body-container'));
+	</script>
 <%/if%>
 
-<%if $smarty.get.isappinstalled != ""%>
+<%if $smarty.get.isappinstalled != ""%>  
+	<%if $audioSrc != ""%>
+		<%php%>
+			$audioEncoded = base64_encode($this->get_template_vars('audioSrc')); 
+			$this->assign("audioEncoded", $audioEncoded);
+		<%/php%>
+		<script>window.audioUrl = '<%$audioEncoded%>';</script>
+	<%/if%>
 	<script><%include file="next/scripts/main-story-wechat-trick.js"%></script>
 <%/if%>
 </html>

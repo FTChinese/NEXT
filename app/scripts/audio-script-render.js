@@ -12,27 +12,30 @@ var lastIndex = {'k':0, 'l':0, 'isLastSentenseHighlighting': false};
 var latestIndex = {'k':0, 'l':0};
 
 function renderAudioData(ele) {
-	var exportedJSONString = document.getElementById('audio-json-text').value;
-	audioData = JSON.parse(exportedJSONString);
-	// MARK: find the start time of last spoken sentense
-	audioLastSpokenSentenseTime = findAudioMaxTime(audioData);
-	//console.log ('audioLastSpokenSentenseTime: ' + audioLastSpokenSentenseTime);
-	// MARK: render data to html for preview
-	var htmlForAudio = '';
-	for (var k=0; k<audioData.text.length; k++) {
-		htmlForAudio += '<p>';
-		for (var l=0; l<audioData.text[k].length; l++) {
-			htmlForAudio += '<span id="span-'+k+'-'+l+'" onclick="seekAudio(this)" data-section="'+k+'" data-row="'+l+'">' + audioData.text[k][l].text +'</span>';
+	var audioJSONEle = document.getElementById('audio-json-text');
+	if (audioJSONEle) {
+		var exportedJSONString = audioJSONEle.value;
+		audioData = JSON.parse(exportedJSONString);
+		// MARK: find the start time of last spoken sentense
+		audioLastSpokenSentenseTime = findAudioMaxTime(audioData);
+		//console.log ('audioLastSpokenSentenseTime: ' + audioLastSpokenSentenseTime);
+		// MARK: render data to html for preview
+		var htmlForAudio = '';
+		for (var k=0; k<audioData.text.length; k++) {
+			htmlForAudio += '<p>';
+			for (var l=0; l<audioData.text[k].length; l++) {
+				htmlForAudio += '<span id="span-'+k+'-'+l+'" onclick="seekAudio(this)" data-section="'+k+'" data-row="'+l+'">' + audioData.text[k][l].text +'</span>';
+			}
+			htmlForAudio += '</p>';
 		}
-		htmlForAudio += '</p>';
-	}
-	ele.innerHTML = htmlForAudio;
-	handleInlineVideos(ele);
-	// MARK: Post JSON Data to Native
-	try {
-		webkit.messageHandlers.audioData.postMessage(audioData);
-	} catch(ignore) {
+		ele.innerHTML = htmlForAudio;
+		handleInlineVideos(ele);
+		// MARK: Post JSON Data to Native
+		try {
+			webkit.messageHandlers.audioData.postMessage(audioData);
+		} catch(ignore) {
 
+		}
 	}
 }
 

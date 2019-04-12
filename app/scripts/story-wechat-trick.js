@@ -76,8 +76,17 @@
 		var lockBlock = document.querySelector('.lock-block');
 		if (lockBlock) {
 			var pathname = window.location.pathname;
-			pathname = pathname.replace('interactive', 'gym');
-			window.location.href = 'ftchinese:/' + pathname;
+			var audioParameter = '';
+			if (window.audioUrl && window.audioUrl !== '') {
+				var audioDecoded = window.atob(window.audioUrl);
+				audioParameter = '?audio=' + audioDecoded;
+				pathname = pathname.replace('interactive', 'audio');
+			} else {
+				pathname = pathname.replace('interactive', 'gym');
+			}
+			var jumpTo = 'ftchinese:/' + pathname + audioParameter;
+			//console.log (jumpTo);
+			window.location.href = jumpTo;
 			// MARK: If the page is not redirected, update lockBlock
 			if (isWeChat) {
 				lockBlock.innerHTML = tipContent;
