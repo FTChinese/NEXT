@@ -110,7 +110,7 @@
                 </li>
                 <%foreach from=$navData item="level_1"%>
                   <%if preg_match("/home/is",$level_1.code) || !preg_match("/myft/is",$topnav)%>
-                    <li class="nav-section <%if $level_1.new=="yes"%>nav-section-new<%/if%>"
+                    <li class="nav-section <%$level_1.code%> <%if $level_1.new=="yes"%>nav-section-new<%/if%>"
                       <%if $topnav==$level_1.code%> aria-selected="true"<%assign var=current_page value=$level_1.name%><%assign var=current_link value=$level_1.link%><%/if%> data-section="<%$level_1.code%>" 
                       >
                       <!-- top nav-->

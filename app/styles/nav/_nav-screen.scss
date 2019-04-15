@@ -59,7 +59,14 @@
 				*/
 			}
 		}
-	}	
+	}
+
+	@include oGridRespondTo($from: L, $until: XL) {
+		&.innovation, &.education, &.audio {
+			display: none;
+		}
+	}
+
 }
 
 .nav-section-head.desktop {
@@ -95,7 +102,7 @@
 
 		.nav-section:hover &,
 		.nav-section-head.desktop:hover ~ &{
-			z-index: 5;
+			z-index: 11;
 			display: block;
 		}
 

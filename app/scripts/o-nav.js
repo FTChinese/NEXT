@@ -250,7 +250,11 @@ if (navEl) {
 	var searchEl = navEl.querySelector('.o-nav__search');
 	new Toggler(searchEl);
 	var emptyNavSections = getEmptyNavSections(navEl);
-	ajax.getData('/m/corp/ajax-nav.html?hhhh', function(error, data) {
+	var ajaxNavUrl = '/m/corp/ajax-nav.html';
+	if (window.location.hostname === 'localhost' || window.location.hostname.indexOf('192.168') === 0 || window.location.hostname.indexOf('10.113') === 0 || window.location.hostname.indexOf('127.0') === 0) {
+		ajaxNavUrl = './api/page/ajax-nav.html';
+	}
+	ajax.getData(ajaxNavUrl, function(error, data) {
 		if (error) {return error;}
 		var parsedDOM = stringToDOM(data);
 		zipObject(emptyNavSections, parsedDOM);
