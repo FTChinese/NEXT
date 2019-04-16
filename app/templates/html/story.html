@@ -1235,6 +1235,12 @@
 	<%assign var="storyImageClass" value=""%>
 <%/if%>
 
+<%*<!--MARK: - Requested by editorial team: For stories that are published before 2017, show no image for safety. -->*%>
+<%if $itemType == "story" && date("Ymd",$pubDate) < 20170101 %>
+	<%assign var="storyImage" value=""%>
+<%/if%>
+
+
 
 <%if $storyImage != ""%>
 	<%if $storyImageClass=="right-image"%>
