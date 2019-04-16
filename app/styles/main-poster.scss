@@ -83,7 +83,6 @@ html, body {
 .qrcode-inner {
 	width: 100px;
 	height: 100px;
-	margin: auto;
 	border-width: 2px;
 	border-style: solid;
 	.theme-light-blue & {
@@ -95,6 +94,9 @@ html, body {
 	.theme-dark-blue & {
 		border-color: #1aecff;
 	}
+	.layout-center & {
+		margin: auto;
+	}
 	img {
 		width: 100%;
 		height: 100%;
@@ -102,11 +104,13 @@ html, body {
 }
 .qrcode-title {
 	color: white;
-	text-align: center;
 	font-size: 12px;
 	margin-top: 10px;
 	line-height: 20px;
 	height: 20px;
+	.layout-center & {
+		text-align: center;
+	}
 }
 .titles {
 	position: absolute;
@@ -129,8 +133,10 @@ html, body {
 	text-align: justify;
 	justify-content: center;
 	text-justify: inter-character;
+	margin-bottom: 20px;
 	.layout-center & {
 		position: absolute;
+		margin-bottom: 0;
 		&:after {
 			content: '';
 			display: inline-block;
@@ -154,31 +160,47 @@ html, body {
 	bottom: 0;
 	height: 36px;
 	line-height: 36px;
-	padding: 0 10px;
-	box-sizing: border-box;;
-	.theme-light-blue & {
+	box-sizing: border-box;
+	color: white;
+	.layout-center & {
+		padding: 0 10px;
+	}
+	.theme-light-blue.layout-center & {
 		color: white;
 		background-color: #0b607f;
 	}
-	.theme-blue & {
+	.theme-blue.layout-center & {
 		color: white;
 		background-color: #6bc4d9;
 	}
-	.theme-dark-blue & {
+	.theme-dark-blue.layout-center & {
 		color: #060b2f;
 		background-color: #1aecff;
 	}
 }
 .event-date {
 	position: absolute;
-	bottom: 320px;
-	left: 0;
-	right: 0;
 	margin: 0 auto;
-	text-align: center;
 	font-size: 14px;
 	height: 32px;
 	line-height: 32px;
 	color: white;
+	bottom: 320px;
+	left: 0;
+	right: 0;	
+	text-align: center;
+	.layout-right & {
+		display: none;
+	}
+}
+
+.event-date-1 {
+	color: white;
+	.layout-right & {
+		
+	}
+	.layout-center & {
+		display: none;
+	}
 }
 
