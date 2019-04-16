@@ -229,6 +229,9 @@
 							<%*<!--Premium Content Should Display -->*%>
 							<%assign var="feedType" value=$list.feedType%>
 							<%assign var="itemsArray" value=$storymodel->getPremiumStory($feedStart, $feedItems)%>
+						<%elseif $list.feedType == "audiovideo"%>
+							<%assign var="feedType" value=$list.feedType%>
+							<%assign var="itemsArray" value=$videomodel->get_video_audio(0,$list.feedItems,40,10800)%>
 						<%else%>
 							<%assign var="feedType" value=$list.feedType%>
 							<%assign var="itemsArray" value=$storymodel->getContentByTag($feedTag,$feedItems)%>
@@ -1633,6 +1636,9 @@
 									<%assign var="feedType" value=$list.feedType%>
 									<!--<%*assign var="itemsArray" value=$storymodel->getContentByTag("FT独家",$feedItems)*%>-->
 									<%assign var="itemsArray" value=$storymodel->getPremiumStory(0, $list.feedItems)%>
+								<%elseif $list.feedType == "audiovideo"%>
+									<%assign var="feedType" value=$list.feedType%>
+									<%assign var="itemsArray" value=$videomodel->get_video_audio(0,$list.feedItems,40,10800)%>
 								<%/if%>
 							<%else%>
 								<%if $list.feedType == "story"%>
@@ -1652,6 +1658,10 @@
 									<%assign var="feedType" value=$list.feedType%>
 									<!--<%*assign var="itemsArray" value=$storymodel->getContentByTag("FT独家",$feedItems)*%>-->
 									<%assign var="itemsArray" value=$storymodel->getPremiumStory(0, $list.feedItems)%>
+								<%elseif $list.feedType == "audiovideo"%>
+									<%*<!--Premium Content Should Display -->*%>
+									<%assign var="feedType" value=$list.feedType%>
+									<%assign var="itemsArray" value=$videomodel->get_video_audio(0,$list.feedItems,40,10800)%>
 								<%else%>
 									<%assign var="feedType" value=$list.feedType%>
 									<%assign var="itemsArray" value=$storymodel->getContentByTag($list.feedTag,$list.feedItems)%>
