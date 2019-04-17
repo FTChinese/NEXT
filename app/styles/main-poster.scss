@@ -156,8 +156,8 @@ html, body {
 		width: 200px;
     }
     .layout-bottom & {
-		top: 120px;
-		height: 140px;
+		top: 140px;
+		height: 160px;
 		left: 0;
 		right: 0;
 	}
@@ -196,6 +196,9 @@ html, body {
 .title-second {
 	top: 45px;
 	color: white;
+	.layout-bottom & {
+		top: 55px;
+	}
 }
 .subtitle {
 	bottom: 0;
@@ -203,9 +206,11 @@ html, body {
 	line-height: 36px;
 	box-sizing: border-box;
 	color: white;
-	.layout-center & {
+	// MARK: set layout
+	.layout-center &, .layout-bottom & {
 		padding: 0 10px;
 	}
+	// MARK: - Set colors and backgrounds
 	.theme-light-blue.layout-center & {
 		color: white;
 		background-color: #0b607f;
@@ -243,7 +248,7 @@ html, body {
 		display: none;
     }
     .layout-bottom & {
-		bottom: 470px;
+		bottom: 430px;
     }
     
 }
