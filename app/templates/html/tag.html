@@ -6,14 +6,33 @@
 <%/if%>
 
 
-<%*
-<!--
-Test white list: 
-<%if $whitelist != ""%>
-    <%$whitelist%>
+<%*<!--MARK: Check the next model tag for brand safety-->*%>
+<%if $nextmodel != ""%>
+    <%assign var="infoForBrandSafety" value=$nextmodel->getPublishJson("brandsafety")|json_decode:true%>
+    <%assign var="currentDate" value=$smarty.now|date_format:"%Y%m%d"%>
+    <%assign var="hasFoundBrandSafety" value="no"%>
+    <%foreach from=$infoForBrandSafety.sections item=section%>
+        <%if $hasFoundBrandSafety == "no" && $section.status == "on" && ($section.dates == "" || preg_match("/`$currentDate`/is",$section.dates))%>
+            <%assign var="sponsorKeys" value=$section.storyKeyWords%>
+            <%if $sponsorKeys == ""%>
+                <%assign var="sponsorKeys" value=$section.tag%>
+            <%else%>
+                <%assign var="sponsorKeys" value=$sponsorKeys|regex_replace:"/, */":"|"%>
+            <%/if%>
+            <%assign var="keys" value=""%>
+            <%foreach from=$tagstory item=item%>
+                <%assign var="keys" value="`$keys``$item.cheadline``$item.tag``$item.clongleadbody``$item.cshortleadbody`"%>
+            <%/foreach%>
+            <%if $sponsorKeys != "" && preg_match("/`$sponsorKeys`/is",$keys)%>
+                <%assign var="hasFoundBrandSafety" value="yes"%>
+                <%if $section.cntopic != ""%>
+                    <%assign var="cntopic" value=$section.cntopic%>
+                <%/if%>
+            <%/if%>
+        <%/if%>
+    <%/foreach%>
 <%/if%>
--->
-*%>
+<%*<!--MARK: Check the next model tag for sponsored special reports end-->*%>
 
 
 <%if $tagtitle=="" || $breadcrumb!=""%>

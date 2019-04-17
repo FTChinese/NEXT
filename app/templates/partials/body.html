@@ -140,7 +140,7 @@
   <%foreach from=$infoForSponsorships.sections item=section%>
     <%if $section.status == "on" && $section.dates != "" && preg_match("/`$currentDate`/is",$section.dates) && $section.zone != "" && ($section.tag != "" || $section.storyKeyWords != "")%>
         <%*<!--MARK: Only match sections that have either tag or storyKeyWords-->*%>
-        <div style="display: none;" class="specialanchor" tag="<%$section.tag%>" title="<%$section.title%>" adid="<%$section.adChannelId%>" channel="<%$section.link%>" hideAd="<%$section.hideAd%>" zone="<%$section.zone%>" storyKeyWords="<%$section.storyKeyWords%>"></div>
+        <div style="display: none;" class="specialanchor" tag="<%$section.tag%>" title="<%$section.title%>" adid="<%$section.adChannelId%>" channel="<%$section.link%>" hideAd="<%$section.hideAd%>" zone="<%$section.zone%>" storyKeyWords="<%$section.storyKeyWords%>" cntopic="<%$section.cntopic%>"></div>
         <%assign var="tag_name" value=$p.meta.title%>
         <%if $tag_name != "" && ($tag_name == $section.title || $tag_name == $section.tag)%>
         <%if preg_match("/special\//is",$zone)%>
@@ -151,8 +151,8 @@
     <%/if%>
   <%/foreach%>
   <%foreach from=$infoForBrandSafety.sections item=section%>
-    <%if $section.status == "on" && ($section.dates == "" || preg_match("/`$currentDate`/is",$section.dates)) && ($section.adChannelId != "" || $section.zone != "")%>
-      <div style="display: none;" class="specialanchor" tag="<%$section.tag%>" title="<%$section.title%>" adid="<%$section.adChannelId%>" channel="<%$section.link%>" hideAd="<%$section.hideAd%>" zone="<%$section.zone%>" storyKeyWords="<%$section.storyKeyWords%>"></div>
+    <%if $section.status == "on" && ($section.dates == "" || preg_match("/`$currentDate`/is",$section.dates)) && ($section.zone != "" || $section.cntopic != "")%>
+      <div style="display: none;" class="specialanchor" tag="<%$section.tag%>" title="<%$section.title%>" adid="<%$section.adChannelId%>" channel="<%$section.link%>" hideAd="<%$section.hideAd%>" zone="<%$section.zone%>" storyKeyWords="<%$section.storyKeyWords%>" cntopic="<%$section.cntopic%>"></div>
       <%assign var="tag_name" value=$p.meta.title%>
       <%if $tag_name != "" && ($tag_name == $section.title || $tag_name == $section.tag)%>
         <%$section.sectionPageTrack%>
