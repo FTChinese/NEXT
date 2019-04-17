@@ -17,6 +17,10 @@
     <%*<!-- can be testbeijing, testshanghai, testoverseas-->*%>
     <%assign var="zone" value=$smarty.get.newzone %>
 <%/if%>
+
+<%if $cntopic != ""%>
+    <script type="text/javascript">window.cntopic = '<%$cntopic%>';</script>
+<%/if%>
 <%*<!--<%assign var="zone" value=$pageId|default:$subnav|default:$topnav|default:"home" %>-->*%>
 
 <!-- zone: <%$zone%>-->
@@ -59,6 +63,9 @@
         dfpTargetingStr = 'cnplatform=wechat;' + dfpTargetingStr;
     } else {
         dfpTargetingStr = 'cnplatform=web;' + dfpTargetingStr;
+    }
+    if (window.cntopic && window.cntopic !== '') {
+        dfpTargetingStr = 'cntopic=' + window.cntopic + ';' + dfpTargetingStr;
     }
     //console.log ('Getting user type for google ad manager: ' + window.gUserType);
     var configJson = JSON.stringify({
