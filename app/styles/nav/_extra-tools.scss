@@ -4,7 +4,7 @@
 	margin: 0;
 	padding: 0;
 
-	@include oGridRespondTo(XL) {
+	@include oGridRespondTo(L) {
 		display: block;
 		height: $o-header-sub-nav-height;
 		transition: $o-header-height-transition;
@@ -73,7 +73,7 @@
 			li {
 				border-top: 1px solid #666;
 			}
-			a{
+			a {
 				color: $whiteColor;
 				padding: 0 10px;
 				height: $o-header-sub-nav-height;
@@ -82,7 +82,6 @@
 				display: block;
 				text-decoration: none;
 				white-space: nowrap;
-
 				&:hover {
 					background-color: $darkGreen;
 				}
@@ -95,6 +94,12 @@
 				z-index: 5;
 				display: block;
 			}
+		}
+	}
+	@include oGridRespondTo($from: L, $until: XL) {
+		.tools-section-head {
+			font-size: 12px;
+			padding: 0 2px 0 0;
 		}
 	}
 }
