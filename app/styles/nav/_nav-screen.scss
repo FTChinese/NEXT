@@ -62,9 +62,9 @@
 	}
 
 	@include oGridRespondTo($from: L, $until: XL) {
-		&.innovation, &.education, &.audio {
-			display: none;
-		}
+		// &.innovation, &.education, &.audio {
+		// 	display: none;
+		// }
 	}
 
 }
@@ -87,6 +87,10 @@
 			background-color: $headerTintLight;
 			color: $whiteColor;
 		}
+	}
+	@include oGridRespondTo($from: L, $until: XL) {
+		padding: 0 8px;
+		font-size: 16px;
 	}
 }
 
@@ -201,6 +205,12 @@
 			background-image: url('https://static.ftimg.net/ftc-icons/svg/white/arrow-up-white.svg');
 		}
 	}	
+	@include oGridRespondTo($from: L, $until: XL) {
+		.nav-section[aria-selected=true] &{
+			padding: 0 3px;
+			font-size: 12px;
+		}
+	}
 }
 
 .nav-sub-items {
