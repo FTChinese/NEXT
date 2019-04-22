@@ -120,7 +120,7 @@
 
 											<%assign var="followSql" value=$followSql|regex_replace:"/^1>1 or /":""%>
 
-											<%assign var="itemsArray" value=$storymodel->get_story_by_field_search($followSql,$feedStart,$feedItems,999999999,10800)%>
+											<%assign var="itemsArray" value=$storymodel->get_content_by_field_search($followSql,$feedStart,$feedItems,999999999,10800)%>
 
 
 
@@ -220,7 +220,7 @@
 
 											<%assign var="customLink" value=$item.customLink%>
 
-											<%assign var="itemType" value=$item.type|default:$feedType%>
+											<%assign var="itemType" value=$item.item_type|default:$item.type|default:$feedType%>
 											<%if $itemType == "photo"%>
 												<%assign var="itemType" value="photonews"%>
 											<%elseif $itemType == ""%>
@@ -243,7 +243,8 @@
 												"id": "<%$itemId%>",
 												"caudio": "<%$item.caudio%>",
 												"eaudio": "<%$item.eaudio%>",
-												"followSql": "<%$followSql%>"
+												"followSql": "<%$followSql%>",
+												"sql": "<%$item.sql%>"
 												<%*<!--"followSql": "<%$followSql%>"-->*%>
 												<%assign var=itemIndex value=$itemIndex+1%>
 											}

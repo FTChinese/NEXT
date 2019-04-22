@@ -21,13 +21,23 @@
                 <%if $section.PosterBGImage != ""%>
                      style="background-image: url(<%$section.PosterBGImage%>)"
                 <%/if%>
-            >
+            >   
+                <%if $section.lists|@count > 0%>
+                    <div class="headshots">
+                        <%foreach from=$section.lists item=headshot%>
+                            <div class="headshot" style="background-image: url(<%$headshot.BackgroundImage%>);">
+                                <img src="<%$headshot.Image%>">
+                                <div class="name" style="font-size:12px"><%$headshot.Name%></div>
+                            </div>
+                        <%/foreach%>
+                    </div>
+                <%/if%>
                 <%if $section.PosterMainImage != ""%>
                     <div class="main-image">
                         <img src="<%$section.PosterMainImage%>">
                     </div>
                 <%/if%>
-                <div class="logo-conbtainer">
+                <div class="logo-container">
                     <div class="logo-ft"></div>
                     <%if $section.PosterLayout != "right-2"%>
                         <%if $section.ClientLogo != ""%>
@@ -49,11 +59,17 @@
                         <div class="title event-date-1"><%$section.EventDate%></div>
                     <%/if%>
                 </div>
-                <%if $section.QRUrl != ""%>
-                    <div class="qrcode-container">
-                        <div class="qrcode-inner" data-url="<%$section.QRUrl%>"></div>
-                        <div class="qrcode-title"><%$section.QRTitle%></div>
-                    </div>
+                <%if $section.CallForActionType == "QR"%>
+                    <%if $section.QRUrl != ""%>
+                        <div class="qrcode-container">
+                            <div class="qrcode-inner" data-url="<%$section.QRUrl%>"></div>
+                            <div class="qrcode-title"><%$section.QRTitle%></div>
+                        </div>
+                    <%/if%>
+                <%elseif $section.CallForActionType == "Button"%>
+                    <%if $section.QRUrl != "" && $section.QRTitle != ""%>
+                        <a class="learn_more" href="<%$section.QRUrl%>"><%$section.QRTitle%><span class="triangle"></span></a>
+                    <%/if%>
                 <%/if%>
                 <%if $section.PosterLayout == "right-2"%>
                     <div class="logo-bottom">

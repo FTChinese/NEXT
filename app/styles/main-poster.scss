@@ -17,7 +17,7 @@ html, body {
 .theme-dark-blue {
 	background-color: #060b2f;
 }
-.theme-yellow {
+.theme-pink {
 	background-color: #fff1e0;
 }
 // MARK: - Layout
@@ -30,7 +30,7 @@ html, body {
 	background-repeat: no-repeat;
 	margin: 0 auto 30px auto;
 }
-.logo-conbtainer {
+.logo-container {
 	position: absolute;
 	top: 20px;
 	left: 20px;
@@ -43,7 +43,7 @@ html, body {
 	background-size: cover;
 	background-repeat: no-repeat;
 	float: left;
-	.theme-light-blue &,.theme-yellow &{
+	.theme-light-blue &,.theme-pink &{
 		background-image: url(http://i.ftimg.net/picture/0/000085020_piclink.jpg);
 	}
 	.theme-blue &, .theme-dark-blue & {
@@ -101,7 +101,7 @@ html, body {
         left: 0;
         right: 0;
     }
-    .theme-yellow & {
+    .theme-pink & {
         display: none;
     }
 }
@@ -202,7 +202,7 @@ html, body {
 .title-first {
 	color: white;
     top: 0;
-    .theme-yellow &{
+    .theme-pink &{
         color: #060b2f;
     }
 }
@@ -212,7 +212,7 @@ html, body {
 	.layout-bottom & {
 		top: 55px;
     }
-    .theme-yellow &{
+    .theme-pink &{
         color: #060b2f;
     }
 }
@@ -239,7 +239,7 @@ html, body {
 		color: #060b2f;
 		background-color: #1aecff;
     }
-    .theme-yellow.layout-center & {
+    .theme-pink.layout-center & {
 		color: #060b2f;
 		background-color: #99c6fb;
 	}
@@ -258,7 +258,7 @@ html, body {
 	left: 0;
 	right: 0;	
     text-align: center;
-    .theme-yellow & {
+    .theme-pink & {
         display: none; 
     }
     .theme-dark-blue &,.theme-light-blue &,.theme-blue &{
@@ -299,31 +299,41 @@ html, body {
 	bottom: 20px;
     left: 160px 
 }
-.main-character{
+.headshots{
     position: absolute;
     left: 90px;
     top:120px;
     width: 250px;
     height: 300px;
-    background: url(http://i.ftimg.net/picture/6/000085346_piclink.jpg) no-repeat;
-    background-size: 100% auto;
+
     border-bottom: 8px solid #44d2eb;
 }
-.main-character img{
-    width: 210px;
+.headshot {
+	background-repeat: no-repeat;
+    background-size: cover;
+	width: 210px;
     height: 270px;
     margin-left: 30px;
     margin-top: 30px;
     display: inline-block;
 }
-.character_name {
-    padding:5px 10px;
-    background-color: #44d2eb;
-    position: absolute;
-    right: 185px;
-    top: 200px;
+.headshot { 
+	img{
+		max-width: 100%;
+		max-height: 100%;
+	}
+	.name {
+	    padding:5px 10px;
+	    background-color: #44d2eb;
+	    position: absolute;
+	    right: 185px;
+	    top: 200px;
+	}
 }
+
 .learn_more{
+	display: block;
+	font-size: 16px;
     width: 160px;
     height: 30px;
     line-height: 30px;
@@ -337,6 +347,9 @@ html, body {
 	justify-content: center;
     text-justify: inter-character;
     margin-bottom: 20px;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
 	.layout-center & {
 		position: absolute;
 		margin-bottom: 0;
