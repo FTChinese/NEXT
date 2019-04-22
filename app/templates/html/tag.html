@@ -216,13 +216,8 @@
     <script>checkB();</script>
     <%include file="next/partials/tag-header.html"%>
     <%include file="next/partials/nav.html"%>
-    <%if $pageTheme != "luxury"%>
-        <%*<%include file="next/partials/banner-new.html"%>*%>
-        <%include file="next/partials/banner.html"%>
-        <%assign var="bannerCount" value=$bannerCount+1%>
-    <%/if%>
-    
-
+    <%include file="next/partials/banner.html"%>
+    <%assign var="bannerCount" value=$bannerCount+1%>
     <%if $pageId=="setting"%>
     <%include file="next/partials/setting-block.html"%>
     <%elseif $pageId!=""%>
@@ -237,6 +232,8 @@
     <%if $showPagination != "no"%>
     <%include file="next/partials/pagination.html"%>
     <%/if%>
+    <%include file="next/partials/banner.html"%>
+    <%assign var="bannerCount" value=$bannerCount+1%>
     <%include file="next/partials/footer.html"%>
     <%include file="next/partials/QrCode.html"%>
   </body>
@@ -275,6 +272,8 @@
     <%if $showPagination != "no"%>
     <%include file="next/partials/pagination.html"%>
     <%/if%>
+    <%include file="next/partials/banner.html"%>
+    <%assign var="bannerCount" value=$bannerCount+1%>
     <%if $smarty.get.webview == "ftcapp"%>
         <script type="text/javascript">
             window.linksForShare = {

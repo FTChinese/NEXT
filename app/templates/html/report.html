@@ -59,9 +59,17 @@
           <%assign var="hide590" value="no"%>
         <%/if%>
         <%if $section.zone != ""%>
-          <%assign var="topnav" value="home"%>
-          <%assign var="subnav" value="special"%>
-          <%assign var="pageId" value=$section.zone%>
+          <%if !preg_match("/\//is",$section.zone)%>
+            <%assign var="topnav" value="home"%>
+            <%assign var="subnav" value="special"%>
+            <%assign var="pageId" value=$section.zone%>
+          <%else%>
+            <%assign var="zoneString" value=$section.zone|regex_replace:"/^\//":""%>
+            <%assign var="topnav" value=$zoneString|regex_replace:"/\/.*/":""%>
+            <%assign var="zoneString" value=$zoneString|regex_replace:"/^`$topnav`/":""|regex_replace:"/^\//":""%>
+            <%assign var="subnav" value=$zoneString|regex_replace:"/\/.*/":""%>
+            <%assign var="thirdnav" value=$zoneString|regex_replace:"/^`$subnav`/":""|regex_replace:"/^\//":""%>
+          <%/if%>
         <%/if%>
       <%/if%>
       <%assign var="paidPostKey" value=$section.paidPostKey%>
