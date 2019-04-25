@@ -1458,12 +1458,20 @@
 	<%/if%>
 	<%if $smarty.get.hideheader == "yes"%>
 		<style>
-			.audio-placeholder,.site-map,.overlay-container,.o-nav__placeholder,.story-action-placeholder, .header-inner div {
+			.audio-placeholder,.story-theme,.site-map,.overlay-container,.o-nav__placeholder,.story-action-placeholder, .header-inner div {
 				display:none;
 			}
-			.story-theme {
-				padding-top: 15px;
-			}
+			<%if $smarty.get.v != "" || $smarty.get.android != ""%>
+				<%assign var="v" value=$smarty.get.v|floatval%>
+				<%if $v >= 29%>
+					.story-theme {
+						padding-top: 15px;
+						display: block;
+					}
+				<%/if%>
+			<%/if%>
+
+
 			<%if $smarty.get.showAudioHTML == "yes"%>
 				.audio-placeholder {
 					display: block;
