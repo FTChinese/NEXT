@@ -160,7 +160,6 @@
 <%/if%>
 <%*<!--MARK: Check the next model tag for sponsored special reports end-->*%>
 
-
 <!DOCTYPE html>
 <html lang="zh-Hans" class="enable-scrollmation">
 <head> 
@@ -172,18 +171,20 @@
   <meta name="author" content="<%$cauthor%>"> 
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <meta property="og:title" content="<%$cheadline%>"/>
-  <meta property="og:type" content="article"/>
-  <meta property="og:image" content=""/>
-  <meta property="og:url" content="">
+  <%*<!--Open Graph Start-->*%>
+  <meta property="thumbnail" content="<%$story_pic.cover%>" />
+  <meta property="og:title" content="<%$cheadline%>" />
+  <meta property="og:url" content="/interactive/<%$id%>" />
   <meta property="og:description" content="<%$clongleadbody%>" />
-  <meta property="og:locale" content="zh-Hans">
-  <meta property="og:site_name" content="FT中文网">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:site" content="@FTChinese">
-  <meta name="twitter:title" content="<%$cheadline%>">
-  <meta name="twitter:description" content="<%$clongleadbody%>">
-  <meta name="twitter:image" content="">
+  <meta property="og:image" content="<%$story_pic.cover%>" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="FT中文网" />
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:site" content="@FT中文网" />
+  <meta property="twitter:title" content="<%$cheadline%>" />
+  <meta property="twitter:description" content="<%$clongleadbody%>" />
+  <meta property="twitter:image" content="<%$story_pic.cover%>" />
+  <%*<!--Open Graph End-->*%>
   <title><%$cheadline%> - FT中文网</title>
   <!-- smoosh-->
   <link rel="stylesheet" type="text/css" href="http://interactive.ftchinese.com/ig-template/styles/main.css">
