@@ -9,7 +9,7 @@ html, body {
 
 // MARK: - Themes
 .theme-light-blue {
-	background-color: #5bc4d9;
+	background-color: #6bc4d9;
 }
 .theme-blue {
 	background-color: #0b607f;
@@ -28,12 +28,6 @@ html, body {
 }
 .theme-gold {
     background-color: #ffffff;
-}
-.theme-dark-blue-1 {
-    background-color: #0b607f;
-}
-.theme-light-blue-1 {
-    background-color: #6bc4d9;
 }
 // MARK: - Layout
 .poster-container {
@@ -58,10 +52,10 @@ html, body {
 	background-size: cover;
 	background-repeat: no-repeat;
 	float: left;
-	.theme-light-blue &,.theme-pink &,.theme-gold &{
+	.theme-light-blue &, .theme-pink &, .theme-gold &{
 		background-image: url(http://i.ftimg.net/picture/0/000085020_piclink.jpg);
 	}
-	.theme-blue &, .theme-dark-blue & ,.theme-gray &,.theme-red &,.theme-dark-blue-1 &,.theme-light-blue-1 &{
+	.theme-blue &, .theme-dark-blue &, .theme-gray &, .theme-red & {
 		background-image: url(http://i.ftimg.net/picture/1/000085021_piclink.jpg);
 	}
 }
@@ -116,15 +110,16 @@ html, body {
         left: 0;
         right: 0;
     }
-    .theme-pink & {
-        display: none;
-    }
 }
 .qrcode-inner {
 	width: 100px;
 	height: 100px;
 	border-width: 2px;
 	border-style: solid;
+	img {
+		width: 100%;
+		height: 100%;
+	}
 	.theme-light-blue & {
         border-color: #0b607f;
 	}
@@ -143,10 +138,7 @@ html, body {
 	.layout-center & {
 		margin: auto;
 	}
-	img {
-		width: 100%;
-		height: 100%;
-	}
+
 }
 .qrcode-title {
 	color: white;
@@ -158,6 +150,9 @@ html, body {
 	.layout-center & {
 		text-align: center;
 	}
+	.theme-pink &, .theme-gold & {
+    	color: #333;
+    }
 }
 .titles {
 	position: absolute;
@@ -260,7 +255,7 @@ html, body {
 		color: #060b2f;
 		background-color: #1aecff;
     }
-    .theme-dark-blue.layout-bottom & {
+    .theme-blue.layout-bottom & {
 		color: #060b2f;
 		background-color: #1aecff;
 	}
@@ -280,13 +275,9 @@ html, body {
 		color: #ffffff;
 		background-color: #9b8f67;
     }
-    .theme-dark-blue-1.layout-center & {
+    .theme-dark-blue.layout-center & {
 		color: #ffffff;
 		background-color: #6bc4d9;
-	}
-    .theme-light-blue-1.layout-center & {
-		color: #ffffff;
-		background-color: #0b607f;
 	}
 }
 .event-date {
@@ -299,9 +290,7 @@ html, body {
 	left: 0;
 	right: 0;	
     text-align: center;
-    .theme-dark-blue &,.theme-light-blue &,.theme-blue &{
-        bottom: 320px;
-    }
+    bottom: 320px;
 	.layout-right & {
 		display: none;
     }
@@ -311,24 +300,9 @@ html, body {
     .layout-bottom & {
 		bottom: 430px;
     }
-    .theme-pink & {
-        display: none; 
+    .theme-pink &, .theme-gold & {
+    	color: #333;
     }
-    .theme-gray &{
-        display: none;
-    }
-    .theme-red &{
-        display: none;
-    }
-    .theme-gold &{
-        display: none;
-    }
-    .theme-dark-blue-1 &{
-        display: none;
-    }
-    .theme-light-blue-1 &{
-        display: none;
-    }    
 }
 
 .event-date-1 {
@@ -372,14 +346,17 @@ html, body {
     .theme-gold & {
         border-bottom: 8px solid #fdd6b9;
     }
-    .theme-dark-blue-1 & {
+    .theme-dark-blue & {
         border-bottom: 8px solid #44d2eb;
     }
-    .theme-light-blue-1 & {
+    .theme-blue & {
+        border-bottom: 8px solid #44d2eb;
+    }
+    .theme-light-blue & {
         border-bottom: 8px solid #fdd6b9;
     }
-    
 }
+
 .headshot {
 	background-repeat: no-repeat;
     background-size: cover;
@@ -388,6 +365,27 @@ html, body {
     margin-left: 30px;
     margin-top: 30px;
     display: inline-block;
+    .theme-blue & {
+    	background-image: url('http://i.ftimg.net/picture/6/000085346_piclink.jpg');
+    }
+    .theme-pink & {
+    	background-image: url('http://i.ftimg.net/picture/6/000085346_piclink.jpg');
+    }
+    .theme-gray & {
+    	background-image: url('http://i.ftimg.net/picture/4/000085424_piclink.jpg');
+    }
+    .theme-red & {
+    	background-image: url('http://i.ftimg.net/picture/3/000085423_piclink.jpg');
+    }
+    .theme-dark-blue & {
+    	background-image: url('http://i.ftimg.net/picture/6/000085346_piclink.jpg');
+    }
+    .theme-light-blue & {
+    	background-image: url('http://i.ftimg.net/picture/2/000085422_piclink.jpg');
+    }
+    .theme-gold & {
+    	background-image: url('http://i.ftimg.net/picture/1/000085421_piclink.jpg');
+    }
 }
 .headshot { 
 	img{
@@ -412,10 +410,13 @@ html, body {
         .theme-gold & {
             background-color: #fdd6b9;
         }
-        .theme-dark-blue-1 & {
+        .theme-dark-blue & {
             background-color: #44d2eb;
         }
-        .theme-light-blue-1 & {
+        .theme-blue & {
+            background-color: #44d2eb;
+        }
+        .theme-light-blue & {
             background-color: #fdd6b9;
         }
 	}
@@ -464,11 +465,15 @@ html, body {
         color: #9b8f67;
         border: 1px solid #9b8f67;
     }
-    .theme-dark-blue-1.layout-center & {
+    .theme-dark-blue.layout-center & {
         color: #ffffff;
         border: 1px solid #44d2eb;
     }
-    .theme-light-blue-1.layout-center & {
+    .theme-blue.layout-center & {
+        color: #ffffff;
+        border: 1px solid #44d2eb;
+    }
+    .theme-light-blue.layout-center & {
         color: #ffffff;
         border: 1px solid #ffffff;
     }
@@ -493,11 +498,15 @@ html, body {
         border:5px solid #9b8f67;
         border-color:transparent  transparent transparent #9b8f67;
     }
-    .theme-dark-blue-1.layout-center & {
+    .theme-dark-blue.layout-center & {
         border:5px solid #ffffff;
         border-color:transparent  transparent transparent #ffffff;
     }
-    .theme-light-blue-1.layout-center & {
+    .theme-blue.layout-center & {
+        border:5px solid #ffffff;
+        border-color:transparent  transparent transparent #ffffff;
+    }
+    .theme-light-blue.layout-center & {
         border:5px solid #ffffff;
         border-color:transparent  transparent transparent #ffffff;
     }
