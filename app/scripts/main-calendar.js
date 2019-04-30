@@ -25,6 +25,8 @@ function updateCalendar(theday) {
     }
     prevm = new Date(prevyear + '/' + prevmonth + '/1');
     nextm = new Date(nextyear + '/' + nextmonth + '/1');
+    var ua = navigator.userAgent || navigator.vendor || '';
+    var hostUrl = (/Android/i.test(ua)) ? 'http://www.ftchinese.com' : '';
     var calendarDaysHTML = '';
     for (i = 1; themonth === new Date(theday.getFullYear() + '/' + themonth + '/' + i).getMonth() + 1; i++) {
         if (i === 1) {
@@ -37,13 +39,13 @@ function updateCalendar(theday) {
         currentday = theday.getFullYear() + '-' + themonth + '-' + i;
         if (theday.getFullYear() * 10000 + theday.getMonth() * 100 + i === thisday.getFullYear() * 10000 + thisday.getMonth() * 100 + thisday.getDate()) {
             dateclass = 'highlight';
-            dateLink = ' href="/archiver/'+ currentday + '"';
+            dateLink = ' href="' + hostUrl + '/archiver/'+ currentday + '"';
         } else if (theday.getFullYear() * 10000 + theday.getMonth() * 100 + i > new Date().getFullYear() * 10000 + new Date().getMonth() * 100 + new Date().getDate()) {
             dateclass = 'grey';
             dateLink = '';
         } else {
             dateclass = 'normal';
-            dateLink = ' href="/archiver/'+ currentday + '"';
+            dateLink = ' href="' + hostUrl + '/archiver/'+ currentday + '"';
         }
         calendarDaysHTML += '<div><a value='+ currentday + ' class="' + dateclass + '"'+ dateLink +'>' + i + '</a></div>';
     }
