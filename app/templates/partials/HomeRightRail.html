@@ -347,11 +347,8 @@
 			<%*<!--两组数据进行合并，重新排序 Start-->*%>
 			<%section name=bothdata loop=$allcount%>
 				<%if $i<4%>
-					<!--checking: <%$cs%>. <%$storyall[$cs].cheadline%> -->
 					<%if $cs<$storycount && ($storyall[$cs].pubdate>=$photoall[$cp].add_times || $ps>=$photocount)%>
-						<!--checking 1: <%$storyall[$cs].cheadline%> -->
 						<%if !in_array($storyall[$cs].id, explode(',',$itemIdsArray)) &&!in_array($storyall[$cs].id , explode(',',$echostoryid)) && ($storyall[$cs].story_pic.smallbutton || $storyall[$cs].story_pic.bigbutton || $storyall[$cs].story_pic.cover)%>
-							<!--checking 2: <%$storyall[$cs].cheadline%> -->
 							<%assign var="itemSubType" value=""%>
 							<%if preg_match("/速读/is",$storyall[$cs].tag)%>
 								<%assign var="iTag" value="【速读】"%>
