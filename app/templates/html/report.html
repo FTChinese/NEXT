@@ -227,54 +227,55 @@
   <symbol id="o-icons__cross" viewBox="0 0 1024 1024"><path d="M282 672l64 64 160-160 160 160 64-64-160-160 160-160-64-64-160 160-160-160-64 64 160 160z"/></symbol>
   <symbol id="o-icons__hamburger" viewBox="0 0 1024 1024"><path d="M224 304h576v66H224zm0 175h576v66H224zm0 175h576v66H224z"/></symbol>
 </svg>
-<header class="o-header o-header--theme-dark" data-o-component="o-header">
-    <div class="o-header__container">
-      <div class="o-header__left">
-        <div class="o-header__logo">
-          <a class="o-header__logo-link" href="http://www.ftchinese.com" target="_blank" title="前往FT中文网首页"><span>FT中文网</span><img src="http://interactive.ftchinese.com/bower_components/ftc-logos/static/svg/brand-square.svg" target="_blank"></a>
+<%if $smarty.get.webview != "ftcapp"%>
+  <header class="o-header o-header--theme-dark" data-o-component="o-header">
+      <div class="o-header__container">
+        <div class="o-header__left">
+          <div class="o-header__logo">
+            <a class="o-header__logo-link" href="http://www.ftchinese.com" target="_blank" title="前往FT中文网首页"><span>FT中文网</span><img src="http://interactive.ftchinese.com/bower_components/ftc-logos/static/svg/brand-square.svg" target="_blank"></a>
+          </div>
+          <div class="o-header__series">
+            <span><%$cskylineheadline%></span>
+          </div>
         </div>
-        <div class="o-header__series">
-          <span><%$cskylineheadline%></span>
-        </div>
-      </div>
 
-      <div class="o-header__center">
-        <div class="o-header__title">
-          <span class="o-header__headline"><%$cheadline%></span>
-          <%if $eskylineheadline != ""%>
-            <a class="o-header__edition" href="<%$eskylineheadline%>" target="_blank">English</a>
-          <%/if%>
-        </div>
-        
-      </div>
-
-      <div class="o-header__right" data-o-component="o-toggle">
-        <div class="o-share o-share--theme-dark" data-o-component="o-share"></div>
-
-        <button class="o-header__nav-toggle" data-o-toggle-button aria-controls=".o-header__nav">
-          <span>目录</span>
-          <svg class="o-icons__hamburger">
-            <use xlink:href="#o-icons__hamburger"></use>
-          </svg>
-          <svg class="o-icons__cross">
-            <use xlink:href="#o-icons__cross"></use>
-          </svg>
-        </button>
-        
-        <ol class="o-header__nav" data-o-toggle-target>
-          
-
+        <div class="o-header__center">
+          <div class="o-header__title">
+            <span class="o-header__headline"><%$cheadline%></span>
             <%if $eskylineheadline != ""%>
-            <li class="o-header__nav-item mobile">
               <a class="o-header__edition" href="<%$eskylineheadline%>" target="_blank">English</a>
-            </li>
             <%/if%>
-        </ol>           
-      </div>         
-    </div><!-- o-header__container -->    
+          </div>
+          
+        </div>
 
-</header>
+        <div class="o-header__right" data-o-component="o-toggle">
+          <div class="o-share o-share--theme-dark" data-o-component="o-share"></div>
 
+          <button class="o-header__nav-toggle" data-o-toggle-button aria-controls=".o-header__nav">
+            <span>目录</span>
+            <svg class="o-icons__hamburger">
+              <use xlink:href="#o-icons__hamburger"></use>
+            </svg>
+            <svg class="o-icons__cross">
+              <use xlink:href="#o-icons__cross"></use>
+            </svg>
+          </button>
+          
+          <ol class="o-header__nav" data-o-toggle-target>
+            
+
+              <%if $eskylineheadline != ""%>
+              <li class="o-header__nav-item mobile">
+                <a class="o-header__edition" href="<%$eskylineheadline%>" target="_blank">English</a>
+              </li>
+              <%/if%>
+          </ol>           
+        </div>         
+      </div><!-- o-header__container -->    
+
+  </header>
+<%/if%>
 	
 <article class="article" role="main">
 <%$cbody%>
