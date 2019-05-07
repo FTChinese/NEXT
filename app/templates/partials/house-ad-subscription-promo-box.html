@@ -5,115 +5,116 @@
 		<%assign var="promoRendered" value=""%>
 		<%if $smarty.get.webview == "ftcapp"%>
 			<%assign var="inAppClass" value=" in-app"%>
-
 			<%*<!--MARK: - In native app, don't ever show promo box for non-subscriber as it is fixed to the bottom -->*%>
 			<%assign var="promoRendered" value="`$promoRendered`"%>
 		<%/if%>
-		<%foreach from=$infoForPromo.sections item=section%>
-			<%assign var="currentDate" value=$smarty.now|date_format:"%Y%m%d"%>
-			<%if ($section.dates == "" && ($supportSubscriptionPromoBox != "yes" || $section.promoTarget != "noneSubscriber")) || preg_match("/`$currentDate`/is",$section.dates)%>
-				<%assign var="isScheduledForToday" value="yes"%>
-			<%else%>
-				<%assign var="isScheduledForToday" value="no"%>
-			<%/if%>
-			<%*<!-- <%$isScheduledForToday%> / rendered: <%$promoRendered%> /   -->*%>
-		    <%if $section.type == "promoBox" && $isScheduledForToday == "yes" && ($section.status == "on" || $debug_model == 1) && !preg_match("/`$section.promoTarget`/is",$promoRendered)%>
-		    	<style>
-		    	<%if $section.backgroundColor != ""%>
-			    	.<%$section.promoTarget%>.subscription-promo-container {
-			    		background-color: <%$section.backgroundColor%>;
-			    	}
-		    	<%/if%>
-		    	<%if $section.buttonColor != ""%>
-			    	.<%$section.promoTarget%> .subscription-promo-text {
-			    		background-color: <%$section.buttonColor%>;
-			    		border-color: <%$section.buttonColor%>;
-			    	}
-		    	<%/if%>
-		    	<%if $section.buttonFontColor != ""%>
-			    	.<%$section.promoTarget%> .subscription-promo-text {
-			    		color: <%$section.buttonFontColor%>;
-			    	}
-		    	<%/if%>
-		    	.<%$section.promoTarget%> .subscription-promo-box {
-		    		background-image: url(<%$section.imagePC%>);
-		    	}
-		    	<%if $section.imageMobile != ""%>
-					<%assign var="showImageInMobile" value=" show-image-in-mobile"%>
-					@media only screen and (max-width: 490px) {
-				    	.<%$section.promoTarget%> .subscription-promo-box {
-				    		background-image: url(<%$section.imageMobile%>);
+		<div id="promo-box-container">
+			<%foreach from=$infoForPromo.sections item=section%>
+				<%assign var="currentDate" value=$smarty.now|date_format:"%Y%m%d"%>
+				<%if ($section.dates == "" && ($supportSubscriptionPromoBox != "yes" || $section.promoTarget != "noneSubscriber")) || preg_match("/`$currentDate`/is",$section.dates)%>
+					<%assign var="isScheduledForToday" value="yes"%>
+				<%else%>
+					<%assign var="isScheduledForToday" value="no"%>
+				<%/if%>
+				<%*<!-- <%$isScheduledForToday%> / rendered: <%$promoRendered%> /   -->*%>
+			    <%if $section.type == "promoBox" && $isScheduledForToday == "yes" && ($section.status == "on" || $debug_model == 1) && !preg_match("/`$section.promoTarget`/is",$promoRendered)%>
+			    	<style>
+			    	<%if $section.backgroundColor != ""%>
+				    	.<%$section.promoTarget%>.subscription-promo-container {
+				    		background-color: <%$section.backgroundColor%>;
 				    	}
-					}
-				<%else%>
-					<%assign var="showImageInMobile" value=""%>
-		    	<%/if%>
-		    	</style>
-		    	<%if preg_match("/ccode=/is",$section.click)%>
-					<%assign var=clickUrl value=$section.click%>
-				<%elseif preg_match("/\?/is",$section.click)%>
-					<%assign var=clickUrl value="`$section.click`&ccode=`$section.ccode`"%>
-				<%else%>
-					<%assign var=clickUrl value="`$section.click`?ccode=`$section.ccode`"%>
-				<%/if%>
-				<%*<!--
-				<%if $smarty.get.webview == "ftcapp"%>
-					<%if preg_match("/http:\/\/www.ftacademy.cn\/subscription.html/is",$clickUrl) %>
-						<%assign var=clickUrl value="http://www.ftchinese.com/channel/promo.html?ccode=`$section.ccode`"%>
+			    	<%/if%>
+			    	<%if $section.buttonColor != ""%>
+				    	.<%$section.promoTarget%> .subscription-promo-text {
+				    		background-color: <%$section.buttonColor%>;
+				    		border-color: <%$section.buttonColor%>;
+				    	}
+			    	<%/if%>
+			    	<%if $section.buttonFontColor != ""%>
+				    	.<%$section.promoTarget%> .subscription-promo-text {
+				    		color: <%$section.buttonFontColor%>;
+				    	}
+			    	<%/if%>
+			    	.<%$section.promoTarget%> .subscription-promo-box {
+			    		background-image: url(<%$section.imagePC%>);
+			    	}
+			    	<%if $section.imageMobile != ""%>
+						<%assign var="showImageInMobile" value=" show-image-in-mobile"%>
+						@media only screen and (max-width: 490px) {
+					    	.<%$section.promoTarget%> .subscription-promo-box {
+					    		background-image: url(<%$section.imageMobile%>);
+					    	}
+						}
+					<%else%>
+						<%assign var="showImageInMobile" value=""%>
+			    	<%/if%>
+			    	</style>
+			    	<%if preg_match("/ccode=/is",$section.click)%>
+						<%assign var=clickUrl value=$section.click%>
+					<%elseif preg_match("/\?/is",$section.click)%>
+						<%assign var=clickUrl value="`$section.click`&ccode=`$section.ccode`"%>
+					<%else%>
+						<%assign var=clickUrl value="`$section.click`?ccode=`$section.ccode`"%>
 					<%/if%>
-				<%/if%>
-				-->*%>
-				<%if $isInAndroidApp == "yes"%>
-					<%if preg_match("/http:\/\/www.ftacademy.cn\/subscription.html/is",$clickUrl) %>
-						<%assign var=hrefUrl value=""%>
-						<%assign var="classForAndroid" value=" iap-channel"%>
-						<%assign var="attributeForAndroid" value=" iap-action=\"membership\" iap-title=\"会员\""%>
+					<%*<!--
+					<%if $smarty.get.webview == "ftcapp"%>
+						<%if preg_match("/http:\/\/www.ftacademy.cn\/subscription.html/is",$clickUrl) %>
+							<%assign var=clickUrl value="http://www.ftchinese.com/channel/promo.html?ccode=`$section.ccode`"%>
+						<%/if%>
+					<%/if%>
+					-->*%>
+					<%if $isInAndroidApp == "yes"%>
+						<%if preg_match("/http:\/\/www.ftacademy.cn\/subscription.html/is",$clickUrl) %>
+							<%assign var=hrefUrl value=""%>
+							<%assign var="classForAndroid" value=" iap-channel"%>
+							<%assign var="attributeForAndroid" value=" iap-action=\"membership\" iap-title=\"会员\""%>
+						<%else%>
+							<%assign var=hrefUrl value=" href=\"`$clickUrl`\""%>
+							<%assign var="classForAndroid" value=""%>
+							<%assign var="attributeForAndroid" value=""%>
+						<%/if%>
 					<%else%>
 						<%assign var=hrefUrl value=" href=\"`$clickUrl`\""%>
-						<%assign var="classForAndroid" value=""%>
-						<%assign var="attributeForAndroid" value=""%>
 					<%/if%>
-				<%else%>
-					<%assign var=hrefUrl value=" href=\"`$clickUrl`\""%>
-				<%/if%>
-				<div class="subscription-promo-container<%$inAppClass%><%$showImageInMobile%> <%$section.promoTarget%><%$classForAndroid%>"<%$attributeForAndroid%>>
-				    <div class="subscription-promo-inner">
-				        <a <%$hrefUrl%> class="subscription-promo-box n-internal-promo" data-promo-target="<%$section.promoTarget%>" data-promo-id="<%$section.ccode%>" data-promo-name="<%$section.title%>" data-promo-creative="<%$section.imagePC%>" data-promo-position="<%$section.type%>">
-				            <div class="subscription-promo-text"><%$section.title%></div>
-				        </a>
-				    </div>
-				</div>
-				<%*<!--MARK: Hide Banner if Promo Is On-->*%>
-                <%if $smarty.get.subscription == "premium" && $section.promoTarget == "premium" && date("Ymd", $smarty.now) <= 20180926%>
-                    <script type="text/javascript">
-                        var userId = GetCookie('USER_ID');
-                        if (userId && userId !== '') {
-                            var xhr = new XMLHttpRequest();
-                            xhr.open('POST', '/index.php/jsapi/ticketCode');
-                            xhr.setRequestHeader('Content-Type', 'application/json');
-                            xhr.onload = function() {
-                                if (xhr.status === 200) {
-                                    var ticketInfo = JSON.parse(xhr.responseText);
-                                    var ticketCode = ticketInfo.ticketCode;
-                                    var errcode = ticketInfo.errcode;
-                                    if (ticketCode) {
-                                        var topBanner = document.querySelector('[data-id=banner-1]') || document.querySelector('[data-o-ads-name=banner1]');
-                                        topBanner.style.display = 'none';
-                                    } else if (errcode) {
-                                        var promoBox = document.querySelector('.subscription-promo-container.premium');
-                                        promoBox.style.display = 'none';
-                                    }
-                                }
-                            };
-                            xhr.send(JSON.stringify({
-                                user_id: userId
-                            }));
-                        }
-                    </script>
-                <%/if%>
-				<%assign var="promoRendered" value="`$promoRendered``$section.promoTarget`"%>
-		    <%/if%>
-		<%/foreach%>
+					<div class="subscription-promo-container<%$inAppClass%><%$showImageInMobile%> <%$section.promoTarget%><%$classForAndroid%>"<%$attributeForAndroid%>>
+					    <div class="subscription-promo-inner">
+					        <a <%$hrefUrl%> class="subscription-promo-box n-internal-promo" data-promo-target="<%$section.promoTarget%>" data-promo-id="<%$section.ccode%>" data-promo-name="<%$section.title%>" data-promo-creative="<%$section.imagePC%>" data-promo-position="<%$section.type%>">
+					            <div class="subscription-promo-text"><%$section.title%></div>
+					        </a>
+					    </div>
+					</div>
+					<%*<!--MARK: Hide Banner if Promo Is On-->*%>
+	                <%if $smarty.get.subscription == "premium" && $section.promoTarget == "premium" && date("Ymd", $smarty.now) <= 20180926%>
+	                    <script type="text/javascript">
+	                        var userId = GetCookie('USER_ID');
+	                        if (userId && userId !== '') {
+	                            var xhr = new XMLHttpRequest();
+	                            xhr.open('POST', '/index.php/jsapi/ticketCode');
+	                            xhr.setRequestHeader('Content-Type', 'application/json');
+	                            xhr.onload = function() {
+	                                if (xhr.status === 200) {
+	                                    var ticketInfo = JSON.parse(xhr.responseText);
+	                                    var ticketCode = ticketInfo.ticketCode;
+	                                    var errcode = ticketInfo.errcode;
+	                                    if (ticketCode) {
+	                                        var topBanner = document.querySelector('[data-id=banner-1]') || document.querySelector('[data-o-ads-name=banner1]');
+	                                        topBanner.style.display = 'none';
+	                                    } else if (errcode) {
+	                                        var promoBox = document.querySelector('.subscription-promo-container.premium');
+	                                        promoBox.style.display = 'none';
+	                                    }
+	                                }
+	                            };
+	                            xhr.send(JSON.stringify({
+	                                user_id: userId
+	                            }));
+	                        }
+	                    </script>
+	                <%/if%>
+					<%assign var="promoRendered" value="`$promoRendered``$section.promoTarget`"%>
+			    <%/if%>
+			<%/foreach%>
+		</div>
 		<script type="text/javascript">
 			function addUserId(ele) {
 				if (ele === null) {
