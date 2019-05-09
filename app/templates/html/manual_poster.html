@@ -23,11 +23,16 @@
                 <%/if%>
             >   
                 <%if $section.lists|@count > 0%>
-                    <div class="headshots">
-                        <%foreach from=$section.lists item=headshot%>
-                            <div class="headshot"<%if $headshot.BackgroundImage != ""%> style="background-image: url(<%$headshot.BackgroundImage%>);"<%/if%>>
+                    <div class="headshots" data-headshots-count="<%$section.lists|@count%>">
+                        <%foreach from=$section.lists item=headshot key=index%>
+                            <div class="headshot mask-<%$headshot.Mask%>" data-headshot-index="<%$index%>" <%if $headshot.BackgroundImage != ""%> style="background-image: url(<%$headshot.BackgroundImage%>);"<%/if%>>
                                 <img src="<%$headshot.Image%>">
-                                <div class="name" style="font-size:12px"><%$headshot.Name%></div>
+                                <div class="name" style="font-size:12px">
+                                    <%$headshot.Name%>
+                                    <%if $headshot.Title != ""%>
+                                        <div class="headshot-title"><%$headshot.Title%></div>
+                                    <%/if%>
+                                </div>
                             </div>
                         <%/foreach%>
                     </div>
@@ -45,9 +50,10 @@
                         <%/if%>
                     <%/if%>
                 </div>
-                <%if $section.PosterLayout != "right-2" && $section.PosterMainImage != "" %>
-                    <div class="event-date"><%$section.EventDate%></div>
+                <%if $section.PosterCaption != ""%>
+                    <div class="introduction"><%$section.PosterCaption|nl2br%></div>
                 <%/if%>
+                <div class="event-date"><%$section.EventDate%></div>
                 <div class="titles" style="width: <%$section.TitleWidth%>px;">
                     <div class="title title-first" style="font-size: <%$section.FirstTitleFont%>px;"><%$section.FirstTitle|nl2br%></div>
                     <%if $section.PosterLayout == "right-2"%>

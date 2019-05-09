@@ -54,6 +54,23 @@
 
 <%assign var="topnav" value="stream"%>
 
+
+<%*<!--MARK: This has to be replicated to multiple templates as this version of smarty doesn't support global scoop in included file-->*%>
+<%if $topnav == ""%>
+    <%assign var="topnav" value="home"%>
+<%/if%>
+<%if $smarty.get.topnav != ""%>
+    <%assign var="topnav" value=$smarty.get.topnav%>
+<%/if%>
+<%if $smarty.get.subnav != ""%>
+    <%assign var="subnav" value=$smarty.get.subnav%>
+<%/if%>
+<%if $smarty.get.thirdnav != ""%>
+    <%assign var="thirdnav" value=$smarty.get.thirdnav%>
+<%/if%>
+<%*<!--MARK: End-->*%>
+
+
 <%if $cheadline == ""%>
     <%assign var="cheadline" value=$video[0].cheadline%>
     <%assign var="cc_vaddress" value=$video[0].cc_vaddress%>

@@ -1,5 +1,12 @@
-<%if $adchannelID != "1000"%>
-    <%assign var="adForceString" value="#adchannelID=$adchannelID"%>
+<%assign var="adForceString" value=""%>
+<%if $topnav != "home" && $topnav != ""%>
+    <%assign var="adForceString" value="?topnav=`$topnav`"%>
+    <%if $subnav != ""%>
+    	<%assign var="adForceString" value="`$adForceString`&subnav=`$subnav`"%>
+	    <%if $thirdnav != ""%>
+	    	<%assign var="adForceString" value="`$adForceString`&thirdnav=`$thirdnav`"%>
+	    <%/if%>
+    <%/if%>
 <%/if%>
 <%assign var="useSafariToOpenSponsorStory" value="yes"%>
 <%if $smarty.get.v != ""%>
@@ -399,7 +406,7 @@
 						<%/if%>
 						<%assign var="itemClass" value="XL4 L4 M12 S12 S-double-width P12 has-image"%>
 					<%else%>
-						<%assign var="itemLink" value="/`$itemType`/`$itemId`#adchannelID=`$adchannelID`"%>
+						<%assign var="itemLink" value="/`$itemType`/`$itemId``$adForceString`"%>
 					<%/if%>
 
 
@@ -802,7 +809,7 @@
 								<%assign var="itemLink" value="/tag/`$item.cshortleadbody`"%>
 							<%/if%>
 						<%else%>
-							<%assign var="itemLink" value="/`$itemType`/`$itemId`#adchannelID=`$adchannelID`"%>
+							<%assign var="itemLink" value="/`$itemType`/`$itemId``$adForceString`"%>
 						<%/if%>
 
 

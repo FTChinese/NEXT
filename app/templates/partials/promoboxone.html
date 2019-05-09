@@ -1,4 +1,4 @@
-<%assign var="pageIdForPromo" value="subcription-promo-test"%>
+<%assign var="pageIdForPromo" value="subcription-promo"%>
 <%if $nextmodel != ""%>
 	<%assign var="infoForPromo" value=$nextmodel->getPublishJson($pageIdForPromo)|json_decode:true%>
 	<%assign var="subscriptionType" value=$smarty.get.type%>
@@ -10,8 +10,22 @@
 		<%if ($section.dates == "" && ($supportSubscriptionPromoBox != "yes" || $section.promoTarget != "noneSubscriber")) || preg_match("/`$currentDate`/is",$section.dates)%>
 			<%assign var="isScheduledForToday" value="yes"%>
 		<%/if%>
-		<!-- <%$isScheduledForToday%> / found: <%$foundPromo%> /   -->
-	    <%if $foundPromo == "no" && $section.type == "promoBox" && $isScheduledForToday == "yes" && ($section.status == "on" || $debug_model == 1)%>
+		<%assign var="passExpirationCheck" value="no"%>
+		<%if $section.DaysToExpiration == ""%>
+			<%assign var="passExpirationCheck" value="yes"%>
+		<%elseif $expire != ""%>
+			<%assign var="daysToExpiration" value=$section.DaysToExpiration|floatval%>
+			<%math assign="daysLeft" equation="(x-y)/(24*60*60)" x=$expire|floatval y=$smarty.now %>
+			<!--Days Left: <%$daysLeft%>, DaysToExpiration: <%$daysToExpiration%>-->
+			<%*<!--MARK: this is easier to understand than using mathematics-->*%>
+			<%if $daysToExpiration >= 0 && $daysLeft >= 0 && $daysLeft <= $daysToExpiration%>
+				<%assign var="passExpirationCheck" value="yes"%>
+			<%elseif $daysToExpiration < 0 && $daysLeft < 0 && $daysLeft >= $daysToExpiration%>
+				<%assign var="passExpirationCheck" value="yes"%>
+			<%/if%>
+		<%/if%>
+		<!-- passExpirationCheck: <%$passExpirationCheck%>; <%$isScheduledForToday%> / found: <%$foundPromo%> /   -->
+	    <%if $foundPromo == "no" && $section.type == "promoBox" && $isScheduledForToday == "yes" && $passExpirationCheck == "yes" && $subscriptionType == $section.promoTarget && ($section.status == "on" || $debug_model == 1)%>
 	    	<%assign var="foundPromo" value="yes"%>
 	    	<style>
 	    	<%if $section.backgroundColor != ""%>

@@ -2,6 +2,7 @@
 <%if $pageId == ""%>
     <%assign var="pageId" value="home"%>
 <%/if%>
+<%*<!--MARK: This has to be replicated to multiple templates as this version of smarty doesn't support global scoop in included file-->*%>
 <%if $topnav == ""%>
     <%assign var="topnav" value="home"%>
 <%/if%>
@@ -14,6 +15,8 @@
 <%if $smarty.get.thirdnav != ""%>
     <%assign var="thirdnav" value=$smarty.get.thirdnav%>
 <%/if%>
+<%*<!--MARK: End-->*%>
+
 <%if $storymodel != ""%>
     <%assign var=whitelist value=$storymodel->getWhitelistTag()%>
 <%/if%>

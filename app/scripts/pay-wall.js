@@ -25,8 +25,8 @@ if(!isReqSuccess && i<3){
               }
             window.htmlClass = document.documentElement.className;
             window.htmlClass = window.htmlClass.replace(/\ is\-subscriber/g, '').replace(/\ is\-premium/g, '').replace(/\ is\-standard/g, '');
+            var subscriptionType = 'noneSubscriber';
             if (dataObj.paywall === 0) {
-                var subscriptionType;
                 if (dataObj.premium === 1) {
                     window.htmlClass += ' is-subscriber is-premium';
                     subscriptionType = 'premium';
@@ -34,24 +34,26 @@ if(!isReqSuccess && i<3){
                     window.htmlClass += ' is-subscriber is-standard';
                     subscriptionType = 'standard';
                 }
-                var expireDate = '';
-                if (dataObj.expire) {
-                  expireDate = dataObj.expire;
-                }
-                var xhr = new XMLHttpRequest();
-                xhr.open('get', '/m/corp/partial.html?include=promoboxone&type=' + subscriptionType + '&expire=' + expireDate);
-                xhr.setRequestHeader('Content-Type', 'application/text');
-                xhr.onload = function() {
-                  if (xhr.status === 200) {
-                    var data = xhr.responseText;
-                    if (data !== '') {
-                      var promoboxContainer = document.getElementById('promo-box-container');
-                      promoboxContainer.innerHTML = data;
-                    }
-                  }
-                };
-                xhr.send(null);
             }
+            var expireDate = '';
+            if (dataObj.expire) {
+              expireDate = dataObj.expire;
+            }
+            // Test: Change expire date for testing
+            //expireDate = Math.round((new Date('2019-05-03 00:00:00')).getTime() / 1000);
+            var xhr = new XMLHttpRequest();
+            xhr.open('get', '/m/corp/partial.html?include=promoboxone&type=' + subscriptionType + '&expire=' + expireDate);
+            xhr.setRequestHeader('Content-Type', 'application/text');
+            xhr.onload = function() {
+              if (xhr.status === 200) {
+                var data = xhr.responseText;
+                if (data !== '') {
+                  var promoboxContainer = document.getElementById('promo-box-container');
+                  promoboxContainer.innerHTML = data;
+                }
+              }
+            };
+            xhr.send(null);
             document.documentElement.className = window.htmlClass;
           } else {
               isReqSuccess = false;

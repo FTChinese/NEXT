@@ -1036,6 +1036,23 @@
 <%/if%>
 <%*<!--MARK: Check the next model tag for sponsored special reports end-->*%>
 
+
+<%*<!--MARK: This has to be replicated to multiple templates as this version of smarty doesn't support global scoop in included file-->*%>
+<%if $topnav == ""%>
+    <%assign var="topnav" value="home"%>
+<%/if%>
+<%if $smarty.get.topnav != ""%>
+    <%assign var="topnav" value=$smarty.get.topnav%>
+<%/if%>
+<%if $smarty.get.subnav != ""%>
+    <%assign var="subnav" value=$smarty.get.subnav%>
+<%/if%>
+<%if $smarty.get.thirdnav != ""%>
+    <%assign var="thirdnav" value=$smarty.get.thirdnav%>
+<%/if%>
+<%*<!--MARK: End-->*%>
+
+
 <%*<!--
 <%if preg_match("/中国商业观察/is",$keys) && date("Ymd",$smarty.now) >= 20180620 && date("Ymd",$smarty.now) <= 20181101%>
 	<%assign var=breadcrum value="<a href=\"/tag/中国商业观察\">宝珀·中国商业观察</a>"%>

@@ -1,6 +1,13 @@
 <%assign var="useSafariToOpenSponsorStory" value="no"%>
-<%if $adchannelID != "1000"%>
-    <%assign var="adForceString" value="?adchannelID=$adchannelID"%>
+<%assign var="adForceString" value=""%>
+<%if $topnav != "home" && $topnav != ""%>
+    <%assign var="adForceString" value="?topnav=`$topnav`"%>
+    <%if $subnav != ""%>
+    	<%assign var="adForceString" value="`$adForceString`&subnav=`$subnav`"%>
+	    <%if $thirdnav != ""%>
+	    	<%assign var="adForceString" value="`$adForceString`&thirdnav=`$thirdnav`"%>
+	    <%/if%>
+    <%/if%>
 <%/if%>
 <%assign var="listHasFloat" value="none"%>
 <%assign var="sideListCount" value=0%>
