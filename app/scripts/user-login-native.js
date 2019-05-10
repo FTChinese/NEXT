@@ -51,6 +51,8 @@ function passLoginToNative() {
                 message.paywall = '';
                 message.paywallExpire = '';
             }
+            message.ccode = userInfo.campaign_code || '';
+            message.duration = userInfo.latest_duration || '';
             try {
                webkit.messageHandlers.user.postMessage(message);
             } catch (ignore) {
