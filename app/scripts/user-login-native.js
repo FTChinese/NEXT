@@ -4,10 +4,12 @@ function passLoginToNative() {
     var uniqueId = GetCookie('uniqueVisitorId') || guid();
     var userNameForLogin = GetCookie('USER_NAME') || GetCookie('USER_NAME_FT') || '';
     var userIdForLoginUser = GetCookie('USER_ID') || '';
+    var ccode = GetCookie('ccode') || '';
     message = {
         'username': userNameForLogin,
         'userId': userIdForLoginUser,
-        'uniqueVisitorId': uniqueId
+        'uniqueVisitorId': uniqueId,
+        'ccode': ccode
     };
     // MARK: Get subscription: standard/premium
     var paywall = GetCookie('paywall') || '';

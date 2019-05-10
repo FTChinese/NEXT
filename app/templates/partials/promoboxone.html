@@ -4,12 +4,31 @@
 	<%assign var="subscriptionType" value=$smarty.get.type%>
 	<%assign var="foundPromo" value="no"%>
 	<%assign var="expire" value=$smarty.get.expire%>
+	<%assign var="ccode" value=$smarty.get.ccode%>
+	<%assign var="duration" value=$smarty.get.duration%>
+	<%assign var="platform" value=$smarty.get.platform%>
+	<%if $smarty.get.webview == "ftcapp"%>
+		<%if $smarty.get.android != ""%>
+			<%assign var="platform" value="AndroidApp"%>
+		<%else%>
+			<%assign var="platform" value="iOSApp"%>
+		<%/if%>
+		<%if $smarty.get.subscription == "member"%>
+			<%assign var="subscriptionType" value="standard"%>
+		<%elseif $smarty.get.subscription == "premium"%>
+			<%assign var="subscriptionType" value="premium"%>
+		<%else%>
+			<%assign var="subscriptionType" value="noneSubscriber"%>
+		<%/if%>
+	<%/if%>
+	<%assign var="pendingRenewal" value=$smarty.get.pendingRenewal%>
 	<%foreach from=$infoForPromo.sections item=section%>
 		<%assign var="currentDate" value=$smarty.now|date_format:"%Y%m%d"%>
 		<%assign var="isScheduledForToday" value="no"%>
 		<%if ($section.dates == "" && ($supportSubscriptionPromoBox != "yes" || $section.promoTarget != "noneSubscriber")) || preg_match("/`$currentDate`/is",$section.dates)%>
 			<%assign var="isScheduledForToday" value="yes"%>
 		<%/if%>
+		<%*<!--MARK: This way it's easier to explain the logic to other people. -->*%>
 		<%assign var="passExpirationCheck" value="no"%>
 		<%if $section.DaysToExpiration == ""%>
 			<%assign var="passExpirationCheck" value="yes"%>
@@ -24,8 +43,43 @@
 				<%assign var="passExpirationCheck" value="yes"%>
 			<%/if%>
 		<%/if%>
-		<!-- passExpirationCheck: <%$passExpirationCheck%>; <%$isScheduledForToday%> / found: <%$foundPromo%> /   -->
-	    <%if $foundPromo == "no" && $section.type == "promoBox" && $isScheduledForToday == "yes" && $passExpirationCheck == "yes" && $subscriptionType == $section.promoTarget && ($section.status == "on" || $debug_model == 1)%>
+		<%assign var="passDurationCheck" value="no"%>
+		<%if $section.Duration == ""%>
+			<%assign var="passDurationCheck" value="yes"%>
+		<%elseif $section.Duration == $duration%>
+			<%assign var="passDurationCheck" value="yes"%>
+		<%/if%>
+
+		<%assign var="passSubscriberSource" value="no"%>
+		<%if $section.SubscriberSource == "All" || $section.SubscriberSource == ""%>
+			<%assign var="passSubscriberSource" value="yes"%>
+		<%else%>
+			<%assign var="subscriberSource" value="2C"%>
+			<%if preg_match("/^7S/is",$ccode)%>
+				<%assign var="subscriberSource" value="2B"%>
+			<%/if%>
+			<!--ccode: <%$ccode%>; current subscriberSource: <%$subscriberSource%>; required subscriberSource: <%$section.SubscriberSource%>-->
+			<%if $subscriberSource == $section.SubscriberSource%>
+				<%assign var="passSubscriberSource" value="yes"%>
+			<%/if%>
+		<%/if%>
+
+		<%assign var="passPlatform" value="no"%>
+		<%if $section.ProductPlatform == ""%>
+			<%assign var="passPlatform" value="yes"%>
+		<%elseif $platform != "" && preg_match("/`$platform`/is",$section.ProductPlatform)%>
+			<%assign var="passPlatform" value="yes"%>
+		<%/if%>
+
+		<%assign var="passRenewal" value="no"%>
+		<%if $section.RenewalStatus == ""%>
+			<%assign var="passRenewal" value="yes"%>
+		<%elseif $pendingRenewal == $section.RenewalStatus%>
+			<%assign var="passRenewal" value="yes"%>
+		<%/if%>
+
+		<!-- passExpirationCheck: <%$passExpirationCheck%>; isScheduledForToday: <%$isScheduledForToday%>; passSubscriberSource: <%$passSubscriberSource%>; passDurationCheck: <%$passDurationCheck%>; pass platform: <%$passPlatform%>; pass renewal: <%$passRenewal%> -->
+	    <%if $foundPromo == "no" && $section.type == "promoBox" && $isScheduledForToday == "yes" && $passExpirationCheck == "yes" && $passDurationCheck == "yes" && $passSubscriberSource == "yes" && $passPlatform == "yes"  && $passRenewal == "yes" && $subscriptionType == $section.promoTarget && ($section.status == "on" || $debug_model == 1)%>
 	    	<%assign var="foundPromo" value="yes"%>
 	    	<style>
 	    	<%if $section.backgroundColor != ""%>
@@ -85,7 +139,6 @@
 			        </a>
 			    </div>
 			</div>
-
 	    <%/if%>
 	<%/foreach%>
 <%/if%>

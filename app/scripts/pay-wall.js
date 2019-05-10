@@ -39,10 +39,31 @@ if(!isReqSuccess && i<3){
             if (dataObj.expire) {
               expireDate = dataObj.expire;
             }
+            var ccode = dataObj.campaign_code || '';
+            var duration = dataObj.latest_duration || '';
+            var platform = 'WebSite';
+            var pendingRenewal = '';
+            var ua = navigator.userAgent || navigator.vendor || '';
+            if (window.location.href.indexOf('webview=ftcapp')>=0) {
+              if (/iphone|ipod|ipad/i.test(ua)) {
+                platform = 'iOSApp';
+                try {
+                  pendingRenewal = paravalue(window.location.href, 'pendingRenewal');
+                  console.log ('p: ' + pendingRenewal);
+                } catch (ignore) {}
+              } else {
+                platform = 'AndroidApp';
+              }
+            }
+            
             // Test: Change expire date for testing
-            //expireDate = Math.round((new Date('2019-05-03 00:00:00')).getTime() / 1000);
+            //expireDate = Math.round((new Date('2019-05-12 00:00:00')).getTime() / 1000);
+            //duration = 'monthly';
+            //ccode = '7SXXXXX';
+            // platform = 'iOSApp';
+            // pendingRenewal = 'On';
             var xhr = new XMLHttpRequest();
-            xhr.open('get', '/m/corp/partial.html?include=promoboxone&type=' + subscriptionType + '&expire=' + expireDate);
+            xhr.open('get', '/m/corp/partial.html?include=promoboxone&type=' + subscriptionType + '&expire=' + expireDate + '&ccode=' + ccode + '&duration=' + duration + '&platform=' + platform + '&pendingRenewal=' + pendingRenewal);
             xhr.setRequestHeader('Content-Type', 'application/text');
             xhr.onload = function() {
               if (xhr.status === 200) {
