@@ -101,6 +101,11 @@
 	    	.<%$section.promoTarget%> .subscription-promo-box {
 	    		background-image: url(<%$section.imagePC%>);
 	    	}
+	    	<%if $section.CountdownColor != "" && $section.ShowCountdown=="yes"%>
+				.<%$section.promoTarget%> .countdown {
+				    color: <%$section.CountdownColor%>;
+				}
+	    	<%/if%>
 	    	<%if $section.imageMobile != ""%>
 				<%assign var="showImageInMobile" value=" show-image-in-mobile"%>
 				@media only screen and (max-width: 490px) {
@@ -132,10 +137,19 @@
 			<%else%>
 				<%assign var=hrefUrl value=" href=\"`$clickUrl`\""%>
 			<%/if%>
-			<div class="subscription-promo-container<%$inAppClass%><%$showImageInMobile%> <%$section.promoTarget%><%$classForAndroid%>"<%$attributeForAndroid%>>
+			<%assign var=daysToExpirationString value=""%>
+			<%if $expire != ""%>
+				<%assign var=daysToExpirationString value=" data-expire-day=\"`$expire`\""%>
+			<%/if%>
+			<div class="subscription-promo-container<%$inAppClass%><%$showImageInMobile%> <%$section.promoTarget%><%$classForAndroid%>"<%$attributeForAndroid%><%$daysToExpirationString%>>
 			    <div class="subscription-promo-inner">
 			        <a <%$hrefUrl%> class="subscription-promo-box n-internal-promo" data-promo-target="<%$section.promoTarget%>" data-promo-id="<%$section.ccode%>" data-promo-name="<%$section.title%>" data-promo-creative="<%$section.imagePC%>" data-promo-position="<%$section.type%>">
 			            <div class="subscription-promo-text"><%$section.title%></div>
+			            <%if $section.CountdownColor != "" && $section.ShowCountdown=="yes"%>
+							<div class="countdown countdown-hour"></div>
+							<div class="countdown countdown-minute"></div>
+							<div class="countdown countdown-second"></div>
+						<%/if%>
 			        </a>
 			    </div>
 			</div>

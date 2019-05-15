@@ -20,6 +20,7 @@
 	background: url("https://static.ftimg.net/img/promoboxbg.png") right bottom no-repeat;
     background-size: auto 56px;
     border-bottom: 0;
+    position: relative;
 }
 .subscription-promo-text {
 	display: inline-block;
@@ -70,6 +71,27 @@
 			}
 		}
 	}
+}
+.countdown {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 50px;
+	height: 56px;
+	line-height: 56px;
+	text-align: center;
+	font-size: 25px;
+	font-family: helvetica;
+	color: $darkGrey;
+}
+.countdown-hour {
+	right: 234px;
+}
+.countdown-minute {
+	right: 174px;
+}
+.countdown-second {
+	right: 114px;
 }
 // .has-expire-date {
 // 	&.is-standard {
@@ -144,5 +166,14 @@
 	}
 	.subscription-promo-box {
 		padding-right: 180px;
+	}
+	.countdown-hour {
+		right: 122px;
+	}
+	.countdown-minute {
+		right: 62px;
+	}
+	.countdown-second {
+		right: 2px;
 	}
 }

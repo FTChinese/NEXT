@@ -57,7 +57,7 @@ if(!isReqSuccess && i<3){
             }
             
             // Test: Change expire date for testing
-            //expireDate = Math.round((new Date('2019-05-12 00:00:00')).getTime() / 1000);
+            //expireDate = Math.round((new Date('2019-05-17 00:20:00')).getTime() / 1000);
             //duration = 'monthly';
             //ccode = '7SXXXXX';
             // platform = 'iOSApp';
@@ -71,6 +71,7 @@ if(!isReqSuccess && i<3){
                 if (data !== '') {
                   var promoboxContainer = document.getElementById('promo-box-container');
                   promoboxContainer.innerHTML = data;
+                  startCountdown(promoboxContainer, expireDate);
                 }
               }
             };
@@ -90,7 +91,27 @@ if(!isReqSuccess && i<3){
 }
 
 
-
+function startCountdown(promoboxContainer, expireDate) {
+  if (expireDate > 0) {
+    var hourEle = promoboxContainer.querySelector('.countdown-hour');
+    var minuteEle = promoboxContainer.querySelector('.countdown-minute');
+    var secondEle = promoboxContainer.querySelector('.countdown-second');
+    if (hourEle && minuteEle && secondEle) {
+      setInterval(function() {
+        var nowTime = Math.round((new Date()).getTime() / 1000);
+        var leftTime = expireDate - nowTime;
+        var leftHours = Math.ceil(leftTime/3600);
+        var leftMinutes = Math.ceil((leftTime % 3600)/60);
+        leftMinutes = ('0'+leftMinutes).slice(-2);
+        var leftSeconds = leftTime % 60;
+        leftSeconds = ('0'+leftSeconds).slice(-2);
+        hourEle.innerHTML = leftHours;
+        minuteEle.innerHTML = leftMinutes;
+        secondEle.innerHTML = leftSeconds;
+      }, 1000);
+    }
+  }
+}
 function isEditorChoiceChannel(){
   var para = location.search.substring(1);
   var isEditorChoiceChannel = (para.indexOf('issue=EditorChoice')>=0) ? true : false;
