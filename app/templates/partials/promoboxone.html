@@ -35,7 +35,7 @@
 		<%elseif $expire != ""%>
 			<%assign var="daysToExpiration" value=$section.DaysToExpiration|floatval%>
 			<%math assign="daysLeft" equation="(x-y)/(24*60*60)" x=$expire|floatval y=$smarty.now %>
-			<!--Days Left: <%$daysLeft%>, DaysToExpiration: <%$daysToExpiration%>-->
+			<%*<!--Days Left: <%$daysLeft%>, DaysToExpiration: <%$daysToExpiration%>-->*%>
 			<%*<!--MARK: this is easier to understand than using mathematics-->*%>
 			<%if $daysToExpiration >= 0 && $daysLeft >= 0 && $daysLeft <= $daysToExpiration%>
 				<%assign var="passExpirationCheck" value="yes"%>
@@ -58,7 +58,7 @@
 			<%if preg_match("/^7S/is",$ccode)%>
 				<%assign var="subscriberSource" value="2B"%>
 			<%/if%>
-			<!--ccode: <%$ccode%>; current subscriberSource: <%$subscriberSource%>; required subscriberSource: <%$section.SubscriberSource%>-->
+			<%*<!--ccode: <%$ccode%>; current subscriberSource: <%$subscriberSource%>; required subscriberSource: <%$section.SubscriberSource%>-->*%>
 			<%if $subscriberSource == $section.SubscriberSource%>
 				<%assign var="passSubscriberSource" value="yes"%>
 			<%/if%>
@@ -79,9 +79,19 @@
 		<%/if%>
 
 
-		<!-- passExpirationCheck: <%$passExpirationCheck%>; isScheduledForToday: <%$isScheduledForToday%>; passSubscriberSource: <%$passSubscriberSource%>; passDurationCheck: <%$passDurationCheck%>; pass platform: <%$passPlatform%>; pass renewal: <%$passRenewal%> -->
+		<%*<!-- passExpirationCheck: <%$passExpirationCheck%>; isScheduledForToday: <%$isScheduledForToday%>; passSubscriberSource: <%$passSubscriberSource%>; passDurationCheck: <%$passDurationCheck%>; pass platform: <%$passPlatform%>; pass renewal: <%$passRenewal%> -->*%>
 	    <%if $foundPromo == "no" && $section.type == "promoBox" && $isScheduledForToday == "yes" && $passExpirationCheck == "yes" && $passDurationCheck == "yes" && $passSubscriberSource == "yes" && $passPlatform == "yes"  && $passRenewal == "yes" && $subscriptionType == $section.promoTarget && $section.lists|@count > 0 && ($section.status == "on" || $debug_model == 1)%>
 	    	<%assign var="foundPromo" value="yes"%>
+	    	<%*<!--MARK: - Get the final action (list) based on weight and status -->*%>
+	    	<%assign var=weightCount value=0%>
+	    	<%foreach from=$section.lists item=list%>
+	    		<%if $list.weight > 0 && ($list.status == "on" || $debug_model == 1)%>
+	    			<%assign var=weightCount value=$weightCount+1%>
+	    		<%/if%>
+	    	<%/foreach%>
+
+	    	<!--Weight Count: <%$weightCount%>-->
+
 	    	<style>
 	    	<%if $section.backgroundColor != ""%>
 		    	.<%$section.promoTarget%>.subscription-promo-container {
