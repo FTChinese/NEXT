@@ -78,8 +78,9 @@
 			<%assign var="passRenewal" value="yes"%>
 		<%/if%>
 
+
 		<!-- passExpirationCheck: <%$passExpirationCheck%>; isScheduledForToday: <%$isScheduledForToday%>; passSubscriberSource: <%$passSubscriberSource%>; passDurationCheck: <%$passDurationCheck%>; pass platform: <%$passPlatform%>; pass renewal: <%$passRenewal%> -->
-	    <%if $foundPromo == "no" && $section.type == "promoBox" && $isScheduledForToday == "yes" && $passExpirationCheck == "yes" && $passDurationCheck == "yes" && $passSubscriberSource == "yes" && $passPlatform == "yes"  && $passRenewal == "yes" && $subscriptionType == $section.promoTarget && ($section.status == "on" || $debug_model == 1)%>
+	    <%if $foundPromo == "no" && $section.type == "promoBox" && $isScheduledForToday == "yes" && $passExpirationCheck == "yes" && $passDurationCheck == "yes" && $passSubscriberSource == "yes" && $passPlatform == "yes"  && $passRenewal == "yes" && $subscriptionType == $section.promoTarget && $section.lists|@count > 0 && ($section.status == "on" || $debug_model == 1)%>
 	    	<%assign var="foundPromo" value="yes"%>
 	    	<style>
 	    	<%if $section.backgroundColor != ""%>
