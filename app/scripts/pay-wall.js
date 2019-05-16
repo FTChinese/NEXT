@@ -90,7 +90,6 @@ if(!isReqSuccess && i<3){
     }
 }
 
-
 function startCountdown(promoboxContainer, expireDate) {
   if (expireDate > 0) {
     var hourEle = promoboxContainer.querySelector('.countdown-hour');
@@ -100,8 +99,10 @@ function startCountdown(promoboxContainer, expireDate) {
       setInterval(function() {
         var nowTime = Math.round((new Date()).getTime() / 1000);
         var leftTime = expireDate - nowTime;
-        var leftHours = Math.ceil(leftTime/3600);
-        var leftMinutes = Math.ceil((leftTime % 3600)/60);
+        var leftHours = Math.floor(leftTime / 3600);
+        leftHours = (leftHours > 999) ? 999 : leftHours;
+        leftHours = ('0'+leftHours).slice(-2);
+        var leftMinutes = Math.floor(leftTime / 60) % 60;
         leftMinutes = ('0'+leftMinutes).slice(-2);
         var leftSeconds = leftTime % 60;
         leftSeconds = ('0'+leftSeconds).slice(-2);
@@ -112,13 +113,13 @@ function startCountdown(promoboxContainer, expireDate) {
     }
   }
 }
+
+
 function isEditorChoiceChannel(){
   var para = location.search.substring(1);
   var isEditorChoiceChannel = (para.indexOf('issue=EditorChoice')>=0) ? true : false;
   return isEditorChoiceChannel;
 }
-
-
 
 var userId1 = GetCookie('USER_ID') ;
 if (userId1 !== null) {
