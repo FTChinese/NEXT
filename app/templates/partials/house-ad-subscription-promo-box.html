@@ -16,50 +16,85 @@
 				<%else%>
 					<%assign var="isScheduledForToday" value="no"%>
 				<%/if%>
+				<%assign var="passActionCheck" value="no"%>
+				<%foreach from=$section.lists item=list%>
+					<%if $list.weight > 0 && ($list.status == "on" || $debug_model == 1)%>
+						<%assign var="passActionCheck" value="yes"%>
+					<%/if%>
+				<%/foreach%>
 				<%*<!-- <%$isScheduledForToday%> / rendered: <%$promoRendered%> /   -->*%>
-			    <%if $section.type == "promoBox" && $isScheduledForToday == "yes" && $section.promoTarget == "noneSubscriber" && $section.DaysToExpiration == "" && ($section.status == "on" || $debug_model == 1) && !preg_match("/`$section.promoTarget`/is",$promoRendered)%>
+			    <%if $section.type == "promoBox" && $isScheduledForToday == "yes" && $section.promoTarget == "noneSubscriber" && $passActionCheck == "yes" && $section.DaysToExpiration == "" && ($section.status == "on" || $debug_model == 1) && !preg_match("/`$section.promoTarget`/is",$promoRendered)%>
+			    	
+			    	<%*<!--MARK: - Get the final action (list) based on weight and status -->*%>
+			    	<%assign var=weightCount value=0%>
+			    	<%foreach from=$section.lists item=list%>
+			    		<%if $list.weight > 0 && ($list.status == "on" || $debug_model == 1)%>
+			    			<%assign var=weightCount value=$weightCount+$list.weight%>
+			    		<%/if%>
+			    	<%/foreach%>
+			    	<%*<!--Weight Count: <%$weightCount%>-->*%>
+			    	<%assign var=picked value=1|mt_rand:$weightCount%>
+		    		<%*<!--Random Picked: <%$picked%>-->*%>
+		    		<%assign var=i value=0%>
+		    		<%assign var="foundAction" value="no"%>
+		    		<%assign var="index" value=0%>
+		    		<%assign var="l" value=""%>
+		    		<%foreach from=$section.lists item=list key=key%>
+		    			<%if $foundAction == "no" && $list.weight > 0 && ($list.status == "on" || $debug_model == 1)%>
+		    				<%assign var=i value=$i+$list.weight%>
+		    				<%if $i>=$picked%>
+		    					<%*<!--Found Match in <%$key%>/<%$i%> for <%$list.Name%>, weight: <%$list.weight%>-->*%>
+		    					<%assign var="foundAction" value="yes"%>
+		    					<%assign var="index" value=$key%>
+		    					<%assign var="l" value=$list%>
+		    				<%/if%>
+		    			<%/if%>
+		    		<%/foreach%>
+		    		<%*<!--Use the index of <%$index%>-->*%>
+		    		<%*<!--<%$l|@print_r%>-->*%>
+
 			    	<style>
-			    	<%if $section.backgroundColor != ""%>
+			    	<%if $l.backgroundColor != ""%>
 				    	.<%$section.promoTarget%>.subscription-promo-container {
-				    		background-color: <%$section.backgroundColor%>;
+				    		background-color: <%$l.backgroundColor%>;
 				    	}
 			    	<%/if%>
-			    	<%if $section.buttonColor != ""%>
+			    	<%if $l.buttonColor != ""%>
 				    	.<%$section.promoTarget%> .subscription-promo-text {
-				    		background-color: <%$section.buttonColor%>;
-				    		border-color: <%$section.buttonColor%>;
+				    		background-color: <%$l.buttonColor%>;
+				    		border-color: <%$l.buttonColor%>;
 				    	}
 			    	<%/if%>
-			    	<%if $section.buttonFontColor != ""%>
+			    	<%if $l.buttonFontColor != ""%>
 				    	.<%$section.promoTarget%> .subscription-promo-text {
-				    		color: <%$section.buttonFontColor%>;
+				    		color: <%$l.buttonFontColor%>;
 				    	}
 			    	<%/if%>
 			    	.<%$section.promoTarget%> .subscription-promo-box {
-			    		background-image: url(<%$section.imagePC%>);
+			    		background-image: url(<%$l.imagePC%>);
 			    	}
-			    	<%if $section.imageMobile != ""%>
+			    	<%if $l.imageMobile != ""%>
 						<%assign var="showImageInMobile" value=" show-image-in-mobile"%>
 						@media only screen and (max-width: 490px) {
 					    	.<%$section.promoTarget%> .subscription-promo-box {
-					    		background-image: url(<%$section.imageMobile%>);
+					    		background-image: url(<%$l.imageMobile%>);
 					    	}
 						}
 					<%else%>
 						<%assign var="showImageInMobile" value=""%>
 			    	<%/if%>
 			    	</style>
-			    	<%if preg_match("/ccode=/is",$section.click)%>
-						<%assign var=clickUrl value=$section.click%>
-					<%elseif preg_match("/\?/is",$section.click)%>
-						<%assign var=clickUrl value="`$section.click`&ccode=`$section.ccode`"%>
+			    	<%if preg_match("/ccode=/is",$l.click)%>
+						<%assign var=clickUrl value=$l.click%>
+					<%elseif preg_match("/\?/is",$l.click)%>
+						<%assign var=clickUrl value="`$l.click`&ccode=`$l.ccode`"%>
 					<%else%>
-						<%assign var=clickUrl value="`$section.click`?ccode=`$section.ccode`"%>
+						<%assign var=clickUrl value="`$l.click`?ccode=`$l.ccode`"%>
 					<%/if%>
 					<%*<!--
 					<%if $smarty.get.webview == "ftcapp"%>
 						<%if preg_match("/http:\/\/www.ftacademy.cn\/subscription.html/is",$clickUrl) %>
-							<%assign var=clickUrl value="http://www.ftchinese.com/channel/promo.html?ccode=`$section.ccode`"%>
+							<%assign var=clickUrl value="http://www.ftchinese.com/channel/promo.html?ccode=`$l.ccode`"%>
 						<%/if%>
 					<%/if%>
 					-->*%>
@@ -78,16 +113,24 @@
 					<%/if%>
 					<div class="subscription-promo-container<%$inAppClass%><%$showImageInMobile%> <%$section.promoTarget%><%$classForAndroid%>"<%$attributeForAndroid%>>
 					    <div class="subscription-promo-inner">
-					        <a <%$hrefUrl%> class="subscription-promo-box n-internal-promo" data-promo-target="<%$section.promoTarget%>" data-promo-id="<%$section.ccode%>" data-promo-name="<%$section.title%>" data-promo-creative="<%$section.imagePC%>" data-promo-position="<%$section.type%>">
-					            <div class="subscription-promo-text"><%$section.title%></div>
+					        <a <%$hrefUrl%> class="subscription-promo-box n-internal-promo" data-promo-target="<%$section.promoTarget%>" data-promo-id="<%$l.ccode%>" data-promo-name="<%$l.title%>" data-promo-creative="<%$l.imagePC%>" data-promo-position="<%$section.type%>">
+					            <div class="subscription-promo-text"><%$l.title%></div>
 					        </a>
 					    </div>
 					</div>
+					<%if $l.ccode != ""%>
+						<script type="text/javascript">
+							window.userId = GetCookie('USER_ID') || '';
+							if (window.userId === '') {
+								ga('send', 'event', 'PromoBox', 'Display', '<%$l.ccode%>', {'nonInteraction': 1});
+							}
+						</script>
+					<%/if%>
 					<%*<!--MARK: Hide Banner if Promo Is On-->*%>
 	                <%if $smarty.get.subscription == "premium" && $section.promoTarget == "premium" && date("Ymd", $smarty.now) <= 20180926%>
 	                    <script type="text/javascript">
-	                        var userId = GetCookie('USER_ID');
-	                        if (userId && userId !== '') {
+	                        window.userId = GetCookie('USER_ID');
+	                        if (window.userId && window.userId !== '') {
 	                            var xhr = new XMLHttpRequest();
 	                            xhr.open('POST', '/index.php/jsapi/ticketCode');
 	                            xhr.setRequestHeader('Content-Type', 'application/json');

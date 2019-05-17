@@ -49,7 +49,7 @@ if(!isReqSuccess && i<3){
                 platform = 'iOSApp';
                 try {
                   pendingRenewal = paravalue(window.location.href, 'pendingRenewal');
-                  console.log ('p: ' + pendingRenewal);
+                  //console.log ('p: ' + pendingRenewal);
                 } catch (ignore) {}
               } else {
                 platform = 'AndroidApp';
@@ -57,7 +57,7 @@ if(!isReqSuccess && i<3){
             }
             
             // Test: Change expire date for testing
-            //expireDate = Math.round((new Date('2019-05-17 00:20:00')).getTime() / 1000);
+            expireDate = Math.round((new Date('2019-05-23 00:20:00')).getTime() / 1000);
             //duration = 'monthly';
             //ccode = '7SXXXXX';
             // platform = 'iOSApp';
@@ -72,6 +72,7 @@ if(!isReqSuccess && i<3){
                   var promoboxContainer = document.getElementById('promo-box-container');
                   promoboxContainer.innerHTML = data;
                   startCountdown(promoboxContainer, expireDate);
+                  sendTracking(promoboxContainer);
                 }
               }
             };
@@ -114,6 +115,15 @@ function startCountdown(promoboxContainer, expireDate) {
   }
 }
 
+function sendTracking(promoboxContainer) {
+  var boxEle = promoboxContainer.querySelector('.subscription-promo-box');
+  if (boxEle) {
+    var ccode = boxEle.getAttribute('data-promo-id');
+    if (ccode && ccode !== '') {
+      ga('send', 'event', 'PromoBox', 'Display', ccode, {'nonInteraction': 1});
+    }
+  }
+}
 
 function isEditorChoiceChannel(){
   var para = location.search.substring(1);
@@ -127,7 +137,7 @@ if (userId1 !== null) {
 }
 
 
-// 过滤出包含locked的item-headline数组
+// MARK: - 过滤出包含locked的item-headline数组
 function getPayStory(className){
   var itemHeadline = document.querySelectorAll('.item-headline');
   var getPayHeadline = [];

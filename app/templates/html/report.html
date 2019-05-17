@@ -1785,6 +1785,14 @@
     .o-ads[data-o-ads-loaded=false] {
       display: none;
     }
+    /* MARK: - These code will ensure fixed background works properly on iOS app */
+    .text-over-media__media.background-fixed .ig-background {
+      -moz-transform: translateZ(0);
+      -webkit-transform: translateZ(0);
+      -webkit-backface-visibility: hidden;
+      -moz-backface-visibility: hidden;
+    }
+    
 
     <%*<!--
     .o-ads.mpu {
