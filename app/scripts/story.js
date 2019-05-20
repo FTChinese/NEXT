@@ -24,8 +24,8 @@ var uluAdPosition = getRandomInt(1, 5);//表征底部为您推荐的第几个位
 
 
 //var ftItemId = window.FTStoryid || window.interactiveId || '';//Defined in main.js as Global Variables
-var thirdPartAPIUrl = '//uluai.com.cn/rcmd/getRtCmd?siteId=5002&num=12&itemId=' + ftItemId + '&position='+uluAdPosition;//FTStoryid为'001068131'
-var thirdPartFeedbackUrl = '//uluai.com.cn/rcmd/rec/click?siteId=5002&itemId=' + ftItemId + '&position='+uluAdPosition;
+var thirdPartAPIUrl = '//tj.qipus.cn/rcmd/getRtCmd?siteId=5002&num=12&itemId=' + ftItemId + '&position='+uluAdPosition;//FTStoryid为'001068131'
+var thirdPartFeedbackUrl = '//tj.qipus.cn/rcmd/rec/click?siteId=5002&itemId=' + ftItemId + '&position='+uluAdPosition;
 
 var thirdPartData = [];
 var userId;
