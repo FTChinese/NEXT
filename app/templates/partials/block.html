@@ -380,9 +380,10 @@
 					<%/if%>
 					-->*%>
 
-					<!--item tag link: <%$itemTagLink%>-->
+					<%*<!--item tag link: <%$itemTagLink%>-->*%>
 					<%if $itemTag != ""%>
-						<%if $tagCanFollow == "yes"%>
+						<%*<!--MARK: MyFT is broken on web site, hide it now. -->*%>
+						<%if $tagCanFollow == "yes" && 1<0%>
 							<%assign var="itemTag" value="<div class=item-tag><a href=\"`$itemTagLink`\">`$itemTagTitle`</a><button class=\"myft-follow plus\" data-tag=\"`$itemTag`\" data-type=\"tag\">关注</button></div>"%>
 						<%else%>
 							<%assign var="itemTag" value="<div class=item-tag><a href=\"`$itemTagLink`\">`$itemTagTitle`</a></div>"%>
@@ -724,8 +725,10 @@
 								<%elseif $listItemCount === 2%>
 									<%assign var="L" value="L6 L-double-width"%>
 								<%elseif $listItemCount % 2 === 0 && $l === 0%>
-									<%if $i <= 1 %>
+									<%if $i == 0 %>
 										<%assign var="L" value="L12"%>
+									<%elseif $i == 1 %>
+										<%assign var="L" value="L12 L-half"%>
 									<%else%>
 										<%assign var="L" value="L6 L-half"%>
 									<%/if%>
