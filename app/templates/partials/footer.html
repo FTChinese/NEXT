@@ -125,7 +125,7 @@ data-o-ads-targeting="cnpos=paidpost;"
 <div style="text-align: center; background-color: #FFFFFF; font-size: 38px; margin: 20px;font-weight:bold;"><a title="提取本页的所有链接，便于在谷歌分析中查询流量" onclick="javascript:getAllLinksFromPage(this);">提取本页链接</a></div>
 <script>
 	function getAllLinksFromPage(ele) {
-		var allLinks = document.querySelectorAll('a[href]');
+		var allLinks = document.querySelectorAll('.item-container a[href]');
 		var linksArray = [];
 		var hostName = window.location.host;
 		for (var i=0; i<allLinks.length; i++) {
@@ -139,7 +139,6 @@ data-o-ads-targeting="cnpos=paidpost;"
 		}
 		}
 		ele.innerHTML = '<textarea rows=3 style="width:100%">'+linksArray.join('|')+'</textarea>'
-		//alert (linksArray.join('|'));
 	}
 </script>
 <%/if%>
