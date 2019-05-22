@@ -57,7 +57,7 @@ if(!isReqSuccess && i<3){
             }
             
             // Test: Change expire date for testing
-            //expireDate = Math.round((new Date('2019-05-23 00:20:00')).getTime() / 1000);
+            //expireDate = Math.round((new Date('2019-06-23 00:20:00')).getTime() / 1000);
             //duration = 'monthly';
             //ccode = '7SXXXXX';
             // platform = 'iOSApp';
