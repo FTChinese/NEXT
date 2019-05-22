@@ -33,7 +33,6 @@
 
 
 
-
 <div class="block-container has-side"><div class="block-inner">
 	<div class="content-container"><div class="content-inner">
 		<div class="list-container"><div class="list-inner">
@@ -180,7 +179,53 @@
 					<%/if%>
 					<%*<!--Has Side: XL Styles End-->*%>
 
+
+
 					<%*<!--Has Side: L Styles-->*%>
+					<%if $allStoiesCount === 1%>
+						<%assign var="L" value="L12"%>
+					<%elseif $allStoiesCount === 2%>
+						<%assign var="L" value="L6 L-double-width"%>
+					<%elseif $allStoiesCount % 2 === 0 && $l === 0%>
+						<%if $i == 0 %>
+							<%assign var="L" value="L12"%>
+						<%elseif $i == 1 %>
+							<%assign var="L" value="L12 L-half"%>
+						<%else%>
+							<%assign var="L" value="L6 L-half"%>
+						<%/if%>
+						<%if $i % 2 === 0 || $i<=1%>
+							<%assign var="itemTopClass" value="`$itemTopClass` LT"%>
+						<%/if%>
+					<%elseif $allStoiesCount % 2 === 1 && $l === 0%>
+						<%if $i === 0 %>
+							<%assign var="L" value="L12"%>
+						<%else%>
+							<%assign var="L" value="L6 L-half"%>
+						<%/if%>
+						<%if $i % 2 === 1 || $i===0%>
+							<%assign var="itemTopClass" value="`$itemTopClass` LT"%>
+						<%/if%>
+					<%elseif $allStoiesCount % 2 === 0%>
+						<%assign var="L" value="L6 L-half"%>
+						<%if $i % 2 === 0%>
+							<%assign var="itemTopClass" value="`$itemTopClass` LT"%>
+						<%/if%>
+					<%elseif $allStoiesCount % 2 === 1%>
+						<%if $i === 0 %>
+							<%assign var="L" value="L12"%>
+						<%else%>
+							<%assign var="L" value="L6 L-half"%>
+						<%/if%>
+						<%if $i % 2 === 1 || $i === 0%>
+							<%assign var="itemTopClass" value="`$itemTopClass` LT"%>
+						<%/if%>
+					<%/if%>
+					<%*<!--Has Side: L Styles End-->*%>
+
+
+
+					<%*<!--
 					<%if $allStoiesCount === 1%>
 						<%assign var="L" value="L12"%>
 					<%elseif $allStoiesCount === 2%>
@@ -237,7 +282,9 @@
 							<%assign var="itemTopClass" value="`$itemTopClass` LT-clear-right"%>
 						<%/if%>
 					<%/if%>
-					<%*<!--Has Side: L Styles End-->*%>
+					-->*%>
+
+
 
 					<%*<!--Has Side: M and P Use Single Column-->*%>
 					<%if $i===0%>
