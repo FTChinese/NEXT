@@ -69,6 +69,12 @@ html, body {
         margin-left: 20px;
 	    margin-top: 4px;
     }
+    .layout-center-2 &{
+	    margin-top: 4px;
+    }
+    .layout-center-2 &{
+	    margin-top: 4px;
+    }
     .layout-right &{
         margin-left: 20px;
 	    margin-top: 4px;
@@ -81,6 +87,12 @@ html, body {
         margin-left: 20px;
 	    margin-top: 4px;
     }
+}
+.logo-event1 {
+    float: left;
+    height: 22px;
+    margin-left: 15px;
+    margin-top: 7px;
 }
 .main-image {
 	position: absolute;
@@ -95,11 +107,15 @@ html, body {
 }
 .qrcode-container {
 	position: absolute;
-	width: 130px;
+	width: 160px;
 	height: 130px;
 	bottom: 20px;
 	margin: auto;
 	.layout-center & {
+		left: 0;
+		right: 0;
+    }
+    .layout-center-2 & {
 		left: 0;
 		right: 0;
 	}
@@ -141,7 +157,9 @@ html, body {
 	.layout-center & {
 		margin: auto;
 	}
-
+    .layout-center-2 & {
+		margin: auto;
+	}
 }
 .qrcode-title {
 	color: white;
@@ -149,9 +167,15 @@ html, body {
 	margin-top: 10px;
 	line-height: 20px;
 	height: 20px;
-	overflow: hidden;
+    .layout-bottom &,.layout-right &,.layout-right-2 &{
+        overflow: hidden;
+    }
 	.layout-center & {
+        overflow: hidden;
 		text-align: center;
+    }
+    .layout-center-2 & {
+        text-align: center; 
 	}
 	.theme-pink &, .theme-gold & {
     	color: #333;
@@ -165,6 +189,12 @@ html, body {
 		height: 140px;
 		left: 0;
 		right: 0;
+    }
+    .layout-center-2 & {
+		bottom: 170px;
+		height: 560px;
+		left: 0;
+        right: 0;
 	}
 	.layout-right & {
 		top: 120px;
@@ -201,6 +231,16 @@ html, body {
 			width: 100%;
 			height: 0px;
 		}
+    }
+    .layout-center-2 & {
+		position: absolute;
+		margin-bottom: 0;
+		&:after {
+			content: '';
+			display: inline-block;
+			width: 100%;
+			height: 0px;
+		}
 	}
 	.layout-bottom & {
         position: absolute;
@@ -222,12 +262,19 @@ html, body {
     .theme-gold &{
         color: #9b8f67;
     }
+    .layout-center-2 & {
+        margin-top: 10px;
+    }
 }
 .title-second {
 	top: 45px;
 	color: white;
 	.layout-bottom & {
 		top: 55px;
+    }
+    .layout-center-2 & {
+        top: 490px;
+        text-align: center;
     }
     .theme-pink &{
         color: #060b2f;
@@ -243,9 +290,13 @@ html, body {
 	box-sizing: border-box;
 	color: white;
 	// MARK: set layout
-	.layout-center &, .layout-bottom & {
+	.layout-center &, .layout-bottom &,.layout-center-2 & {
 		padding: 0 10px;
-	}
+    }
+    .layout-center-2 & {
+        bottom: 90px;
+        text-align: center;
+    }
 	// MARK: - Set colors and backgrounds
 	.theme-light-blue.layout-center & {
 		color: white;
@@ -264,6 +315,10 @@ html, body {
 		background-color: #1aecff;
 	}
     .theme-pink.layout-center & {
+		color: #060b2f;
+		background-color: #99c6fb;
+    }
+    .theme-pink.layout-center-2 & {
 		color: #060b2f;
 		background-color: #99c6fb;
     }
@@ -302,6 +357,9 @@ html, body {
 	.layout-right & {
 		display: none;
     }
+    .layout-center-2 & {
+		display: none;
+    }
     .layout-right-2 & {
 		display: none;
     }
@@ -316,6 +374,9 @@ html, body {
 .event-date-1 {
 	color: white;
 	.layout-center & {
+		display: none;
+    }
+    .layout-center-2 & {
 		display: none;
     }
     .layout-bottom & {
@@ -641,11 +702,19 @@ html, body {
 }
 
 .introduction{
-    padding: 5px 10px;
     position: absolute;
     left: 50%;
     top: 365px;
-    background-color: #44d2eb;
+    .layout-bottom &,.layout-center &,.layout-right &,.layout-right-2 & {
+        background-color: #44d2eb;
+        padding: 5px 10px;
+    }
+    .layout-center-2 & {
+        left: 40%;
+        top: 450px;
+        font-size: 12px;
+
+    }
 }
 .learn_more{
 	display: block;
@@ -665,6 +734,16 @@ html, body {
     text-decoration: none;
     cursor: pointer;
 	.layout-center & {
+		position: absolute;
+		margin-bottom: 0;
+		&:after {
+			content: '';
+			display: inline-block;
+			width: 100%;
+			height: 0px;
+		}
+    }
+    .layout-center-2 & {
 		position: absolute;
 		margin-bottom: 0;
 		&:after {
