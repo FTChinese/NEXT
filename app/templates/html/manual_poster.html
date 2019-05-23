@@ -43,7 +43,9 @@
                     </div>
                 <%/if%>
                 <div class="logo-container">
-                    <div class="logo-ft"></div>
+                    <%if $section.HideLogo != "yes"%>
+                        <div class="logo-ft"></div>
+                    <%/if%>
                     <%if $section.PosterLayout != "right-2"%>
                         <%if $section.ClientLogo != ""%>
                             <img src="<%$section.ClientLogo%>" class="logo-event">
@@ -67,7 +69,10 @@
                     <%/if%>
                     <div class="title title-second" style="font-size: <%$section.SecondTitleFont%>px;"><%$section.SecondTitle|nl2br%></div>
                     <%if $section.PosterLayout != "right-2"%>
-                        <div class="title subtitle" style="font-size: <%$section.SubTitleFont%>px;"><%$section.SubTitle|nl2br%></div>
+                        <div class="title subtitle" style="
+                            font-size: <%$section.SubTitleFont%>px;
+                            <%if $section.SubTitleBG != ""%>background-color: <%$section.SubTitleBG%><%/if%>
+                        "><%$section.SubTitle|nl2br%></div>
                         <div class="title event-date-1"><%$section.EventDate%></div>
                     <%/if%>
                 </div>
