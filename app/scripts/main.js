@@ -858,8 +858,8 @@ var eventScroll = window.attachEvent ? 'onscroll' : 'scroll';
 
 checkLanguageSwitch();
 
-// MARK: - disable sticky scroll on touch devices
-if (((gNavOffsetY > 30 && w > 490 && isTouchDevice() === false) || document.getElementById('audio-placeholder')) && gShowLanguageSwitchOnly === false) {
+// MARK: - disable sticky scroll on touch devices, 
+if (((gNavOffsetY > 30 && w > 490/* && isTouchDevice() === false*/) || document.getElementById('audio-placeholder')) && gShowLanguageSwitchOnly === false) {
   try {
     stickyBottomPrepare();
     stickyAdsPrepare();
