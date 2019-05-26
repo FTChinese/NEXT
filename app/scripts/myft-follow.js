@@ -2,12 +2,12 @@
 
 // click events
 try {
-    var eleFollow;
+    //var eleFollow;
     var key = 'my-ft-follow';
     delegate.on('click', '.myft-follow', function(){
         // MARK: - Since our server side developers can't figure out why the server-based MyFT doesn't work, use client side technology to enable this. 
         var isFollowed = (this.className.indexOf(' plus')>0) ? false : true;
-        var currentButtonText = this.innerHTML;
+        //var currentButtonText = this.innerHTML;
         if (!localStorage) {
             alert ('亲爱的读者，您的浏览器不支持localStorage，请您更换现代浏览器来使用关注的功能。');
             return;
@@ -17,7 +17,7 @@ try {
         var dataTag = this.getAttribute('data-tag') || '';
         var dataType = this.getAttribute('data-type') || 'tag';
         if (dataTag === '') {
-            alert ('亲爱的读者，我们无法识别您关注的标签，请您刷新页面重新试试。')
+            alert ('亲爱的读者，我们无法识别您关注的标签，请您刷新页面重新试试。');
             return;
         }
         if (typeof savedFollowListJSON[dataType] !== 'object') {
@@ -28,7 +28,7 @@ try {
                 savedFollowListJSON[dataType].push(dataTag);
             }
         } else {
-            var newSavedTags = []
+            var newSavedTags = [];
             for (var i=0; i<savedFollowListJSON[dataType].length; i++) {
                 if (savedFollowListJSON[dataType][i] !== dataTag) {
                     newSavedTags.push(savedFollowListJSON[dataType][i]);
@@ -125,7 +125,7 @@ try {
 } catch (ignore) {
 
 }
-
+/*
 function contains(a, obj) {
     if (a && a.length>0 && obj && obj.value && obj.tag) {
         for (var i = 0; i < a.length; i++) {
@@ -143,6 +143,7 @@ function contains(a, obj) {
     }
     return false;
 }
+*/
 
 function checkFollow() {
     if (!localStorage) {
@@ -153,8 +154,8 @@ function checkFollow() {
     var savedFollowListJSON = JSON.parse(savedFollowList) || {};
     var followButtons = document.querySelectorAll('button.myft-follow');
     for (var i=0; i < followButtons.length; i++) {
-        dataType = followButtons[i].getAttribute('data-type');
-        dataTag = followButtons[i].getAttribute('data-tag');
+        var dataType = followButtons[i].getAttribute('data-type');
+        var dataTag = followButtons[i].getAttribute('data-tag');
         if (typeof savedFollowListJSON[dataType] !== 'object') {
             continue;
         }
