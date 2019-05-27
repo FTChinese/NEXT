@@ -106,6 +106,11 @@
 				<%/if%>
 			<%/if%>  <%* <!--end SideBySide -->*%>
 
+			<%if $list.feedType === "myFTNew"%>
+				<%assign var="listClass" value="`$listClass` list-my-ft"%>
+				<%assign var="isMyFTOn" value="yes"%>
+			<%/if%>
+
 			<%assign var="prev" value=$l-1%>
 			<%if $listTopClass !== "" && $l > 0%>
 				<%assign var="listTop" value="<div class=\"`$listTopClass`\"></div>"%>
@@ -190,6 +195,9 @@
 				<%elseif $list.feedType == "hot"%>
 					<%assign var="itemsArray" value=$storymodel->get_hot_story(7,40,true)%>
 					<%assign var="feedType" value=$list.feedType%>
+				<%elseif $list.feedType == "myFTNew"%>
+					<%assign var="feedType" value=$list.feedType%>
+					<%assign var="itemsArray" value=$storymodel->get_content_by_field_search('1>0',$feedStart,$feedItems,999999999,10800)%>
 				<%elseif $list.feedType == "ftc_columns"%>
 					<%assign var="itemsArray" value=$storymodel->get_column_list("cn")%>
 					<%assign var="feedType" value="columns"%>
@@ -383,7 +391,7 @@
 					<%*<!--item tag link: <%$itemTagLink%>-->*%>
 					<%if $itemTag != ""%>
 						<%*<!--MARK: MyFT is broken on web site, hide it now. -->*%>
-						<%if $tagCanFollow == "yes" && 1<0%>
+						<%if $tagCanFollow == "yes"%>
 							<%assign var="itemTag" value="<div class=item-tag><a href=\"`$itemTagLink`\">`$itemTagTitle`</a><button class=\"myft-follow plus\" data-tag=\"`$itemTag`\" data-type=\"tag\">关注</button></div>"%>
 						<%else%>
 							<%assign var="itemTag" value="<div class=item-tag><a href=\"`$itemTagLink`\">`$itemTagTitle`</a></div>"%>
@@ -1131,6 +1139,10 @@
 						<%/if%> 
 						<%*<!--end  $smarty.get.webview == "ftcapp"-->*%>
 
+						<%if $list.feedType == "myFTNew"%>
+							<%assign var="itemData" value=" data-keywords=\"`$itemTagsString`\""%>
+						<%/if%>
+
 						<%*<!--MARK: show the lock for paid content-->*%>
 						<%if $list.feedType == "premium" || $item.type == "premium" || $itemType == "premium" || $paywall == "1" || ($itemType == "interactive" && preg_match("/英语电台|速读|会员专享|高端专享/is",$itemTagsString)) || ($itemType == "story" && $timeMath > 60*60*24*7)%>
 							<%assign var="lockClass" value="locked"%>
@@ -1765,3 +1777,11 @@
 	<div class="clearfloat"></div>
 </div> <%*<!--end class="block-inner" -->*%>
 </div> <%*<!--end class="block-container -->*%>
+
+
+<%*<!--MARK: - Current smarty doesn't support global scope. So set the myft-display.js here.  -->*%>
+<%if $isMyFTOn == "yes"%>
+    <script type="text/javascript">
+        <%include file = "next/scripts/myft-display.js"%>
+    </script>
+<%/if%>
