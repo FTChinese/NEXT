@@ -434,7 +434,9 @@
 					-->
 					*%>
 					<%if $i<$maxItems && (($feedRepeatCheck != "yes" && !in_array($itemId, explode(',',$premiumContentIds))) || (($feedImage != "necessary" || $itemImage != "") && $list.feedItems>0 && $i<$list.feedItems && !in_array($itemId, explode(',',$itemIdsArray))))%>
-						<%assign var="itemType" value=$item.type|default:$item.itemtype|default:$feedType%>
+						<%*<!--<%$item|@print_r%>-->*%>
+						<%assign var="itemType" value=$item.item_type|default:$item.type|default:$item.itemtype|default:$feedType%>
+						<!--<%$itemType%>: <%$item.item_type%>: <%$item.version%>-->
 						<%if $itemType == "photo"%>
 							<%assign var="itemType" value="photonews"%>
 						<%elseif preg_match("/accessright/is",$list.feedTag) || ($itemType == "story" && $item.accessright > 0)%>
