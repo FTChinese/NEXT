@@ -1,5 +1,5 @@
 
-<%if $section.subscriptionBoxTarget == "all"  || ($section.subscriptionBoxTarget == "allCampaigns" && $smarty.get.ccode != "") || ($section.subscriptionBoxTarget == "oneCampaign" && ($smarty.get.ccode == $section.ccode || $smarty.get.utm_campaign == $section.ccode))%>
+<%if ($section.subscriptionBoxTarget == "all"  || ($section.subscriptionBoxTarget == "allCampaigns" && $smarty.get.ccode != "") || ($section.subscriptionBoxTarget == "oneCampaign" && ($smarty.get.ccode == $section.ccode || $smarty.get.utm_campaign == $section.ccode))) && $smarty.get.android == ""%>
 
 <%if  (date("Ymd", $smarty.now) >= 20180831) && (date("Ymd", $smarty.now) < 20180901) %>
     <%assign var=standarPrice value="98.00"%>

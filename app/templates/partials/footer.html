@@ -141,6 +141,81 @@ data-o-ads-targeting="cnpos=paidpost;"
 		ele.innerHTML = '<textarea rows=3 style="width:100%">'+linksArray.join('|')+'</textarea>'
 	}
 </script>
+
+<style>
+#promo-box-preview {
+	padding: 15px;
+}
+#promo-box-preview label {
+	width: 120px;
+	display: inline-block;
+}
+#promo-box-preview div {
+	line-height: 1.7em;
+}
+#promo-box-preview select, #promo-box-preview input {
+	width: 120px;
+}
+</style>
+<div style="text-align: center; background-color: #FFFFFF; font-size: 38px; margin: 20px;font-weight:bold;"><a title="预览Promo Box的效果" onclick="javascript:previewPromoBox();">预览Promo Box</a></div>
+
+<script type="text/javascript">
+	function previewPromoBox() {
+		var firstBanner = document.querySelector('[data-o-ads-name="banner1"]');
+		var newNode = document.createElement('DIV');
+		var formHTML = '<div><b>模拟各种会员身份：</b></div>';
+		formHTML += '<div><label>Type: </label><select data-key="promoTarget" class="o-input-text"><option value="noneSubscriber">noneSubscriber</option><option value="standard" selected="">standard</option><option value="premium">premium</option></select></div>';
+		formHTML += '<div><label>Source: </label><select data-key="SubscriberSource" class="o-input-text"><option value="2C" selected="">2C</option><option value="2B">2B</option><option value="All">All</option></select></div>';
+		formHTML += '<div><label>Durtion: </label><select data-key="Duration" class="o-input-text"><option value=""></option><option value="yearly" selected="">yearly</option><option value="monthly">monthly</option></select></div>';
+		formHTML += '<div><label>Platform: </label><select data-key="Platform" class="o-input-text"><option value="WebSite">Web Site</option><option value="iOSApp">iOS App</option><option value="AndroidApp">Android App</option></select></div>';
+		formHTML += '<div><label>Expire: </label><input data-key="ExpireDate" type="text" value="" placeholder="YYYY-MM-DD"></div>';
+		formHTML += '<div><label>Renewal: </label><select data-key="PendingRenewal" class="o-input-text"><option value="">No Matter</option><option value="On">On</option><option value="Off">Off</option></select></div>';
+		formHTML += '<div><button onclick="refreshPromoBoxPreview();">Done</button></div>';
+		formHTML = '<div style="padding: 15px;" id="promo-box-preview">' + formHTML + '</div>';
+		newNode.innerHTML = formHTML;
+		var existingPromoBoxPreview = document.getElementById('promo-box-preview');
+		if (existingPromoBoxPreview) {
+			existingPromoBoxPreview.parentNode.removeChild(existingPromoBoxPreview);
+		}
+		firstBanner.parentNode.insertBefore(newNode, firstBanner);
+		window.scrollTo(0, 0);
+	}
+	function refreshPromoBoxPreview() {
+        window.htmlClass = document.documentElement.className;
+        window.htmlClass = window.htmlClass.replace(/\ is\-subscriber/g, '').replace(/\ is\-premium/g, '').replace(/\ is\-standard/g, '');
+        var subscriptionType = document.querySelector('[data-key="promoTarget"]').value;
+        if (subscriptionType === 'premium') {
+            window.htmlClass += ' is-subscriber is-premium';
+            subscriptionType = 'premium';
+        } else if (subscriptionType === 'standard'){
+            window.htmlClass += ' is-subscriber is-standard';
+            subscriptionType = 'standard';
+        }
+      	var ccode = (document.querySelector('[data-key="SubscriberSource"]').value === '2C') ? '00000000' : '7SXXXXX';
+      	var expireDateString = document.querySelector('[data-key="ExpireDate"]').value;
+        var expireDate = Math.round((new Date(expireDateString + ' 00:00:00')).getTime() / 1000);
+        var duration = document.querySelector('[data-key="Duration"]').value;
+        var platform = document.querySelector('[data-key="Platform"]').value;
+        var pendingRenewal = document.querySelector('[data-key="PendingRenewal"]').value;
+        var xhr = new XMLHttpRequest();
+        xhr.open('get', '/m/corp/partial.html?include=promoboxone&type=' + subscriptionType + '&expire=' + expireDate + '&ccode=' + ccode + '&duration=' + duration + '&platform=' + platform + '&pendingRenewal=' + pendingRenewal);
+        xhr.setRequestHeader('Content-Type', 'application/text');
+        xhr.onload = function() {
+          if (xhr.status === 200) {
+            var data = xhr.responseText;
+            if (data !== '') {
+              var promoboxContainer = document.getElementById('promo-box-container');
+              promoboxContainer.innerHTML = data;
+              startCountdown(promoboxContainer, expireDate);
+              //sendTracking(promoboxContainer);
+            }
+          }
+        };
+        xhr.send(null);
+        document.documentElement.className = window.htmlClass;
+	}
+</script>
+
 <%/if%>
 
 
