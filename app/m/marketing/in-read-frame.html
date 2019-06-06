@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Ad</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<style>
+body {
+	margin:0;
+	padding:0;
+}
+</style>
+</head>
+
+<body>
+<script>
+var inreadAd = {
+    'minSlot': 7,
+    'video': 'https://ig.ft.com/sites/land-rush-investment/myanmar/media/myanmar_blinkie_7.mp4.mp4',
+    'poster': 'http://interactive.ftchinese.com/images/myanmar/mpv-shot0001.jpg',
+    'vid': '',
+    'iframeSrc': '',
+    'click': 'http://www.ft.com',
+    'slot': '.story-body p', 
+    'displayTime': 2000000, 
+    'played': false,
+    'h': 0,
+    't':0,
+    'htmlCode': '',
+    'id': 'inread-ad-container',
+    'displayed': false,
+    'sound': 'off',
+    'impression': '',
+    'forceWidth': null,
+    'forceHeight': null
+};
+var parentWindow = window.parent || window;
+parentWindow.inreadAd = inreadAd;
+var src;
+if (window.location.hostname === 'localhost' || window.location.hostname.indexOf('192.168') === 0 || window.location.hostname.indexOf('10.113') === 0 || window.location.hostname.indexOf('127.0') === 0) {
+    src = '/scripts/inread.js';
+} else {
+	src = 'https://static.ftimg.net/n/inread.js';
+}
+var script = parentWindow.document.createElement('script');
+script.setAttribute('src', src);
+parentWindow.document.head.appendChild(script);
+var adFrame;
+var adFrameMostOuterContainer;
+if(window !== window.parent) {
+    adFrame = window.parent.document.getElementById(window.name);
+    if(/^google_ads_iframe_/.test(window.name)){
+        adFrameMostOuterContainer = adFrame.parentNode.parentNode.parentNode.parentNode;
+        adFrameMostOuterContainer.nextElementSibling.style.borderTopWidth = 0;
+    } else { //for android webapp
+        adFrameMostOuterContainer = adFrame;
+    }
+    adFrameMostOuterContainer.style.display = 'none';
+}
+</script>
+
+</body>
+</html>
