@@ -50,9 +50,10 @@
 											"preferSponsorImage": "<%$item.preferSponsorImage|regex_replace:"/[\n\r\"]/":""%>",
 											"headline": "<%$item.headline|regex_replace:"/[\n\r\"]/":""%>",
 											"image": "<%$item.image|regex_replace:"/[\n\r\"]/":""%>",
+											"tag": "<%$item.tag|regex_replace:"/[\n\r\"]/":""%>",
 											"longlead": "<%$item.longlead|regex_replace:"/[\n\r\"]/":""%>",
 											"shortlead": "<%$item.shortlead|regex_replace:"/[\n\r\"]/":""%>",
-											"tag": "<%$item.tag|regex_replace:"/[\n\r\"]/":""%>",
+											"industry": "<%$item.industry|regex_replace:"/[\n\r\"]/":""%>",
 											"customLink": "<%$item.customLink|regex_replace:"/[\n\r\"]/":""%>",
 											"showRelativeStoryItems": "<%$item.showRelativeStoryItems%>",
 											"timeStamp": "<%$item.timeStamp%>",
@@ -212,6 +213,10 @@
 												"longlead": "<%$itemLead%>",
 												"shortlead": "<%$itemShortLead%>",
 												"tag": "<%$itemTag%>",
+												"topic": "<%$item.topic|regex_replace:"/[\n\r\"]/":""%>",
+												"area": "<%$item.area|regex_replace:"/[\n\r\"]/":""%>",
+												"industry": "<%$item.industry|regex_replace:"/[\n\r\"]/":""%>",
+												"author": "<%$item.cauthor|regex_replace:"/[\n\r\"]/":""%>",
 												"customLink": "<%$customLink%>",
 												"timeStamp": "<%$itemT%>",
 												"type": "<%$itemType%>",
@@ -231,6 +236,14 @@
 						<%/if%>
 					<%/foreach%>
 				]
+			}
+			<%assign var=sectionIndex value=$sectionIndex+1%>
+		<%elseif $section.type == "Tags"%>
+			<%if $sectionIndex>0%>,<%/if%>
+			{
+				"type": "<%$section.type%>",
+				"ImportantTags": "<%$section.ImportantTags%>",
+				"ReservedTags": "<%$section.ReservedTags%>"
 			}
 			<%assign var=sectionIndex value=$sectionIndex+1%>
 		<%/if%>

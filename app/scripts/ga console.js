@@ -1,3 +1,63 @@
+// MARK: - Show iOS App connection fail rate on Google Analytics Realtime
+function calculateRadio() {
+	var trs = document.getElementById('ID-eventPanel-Table').querySelectorAll('tbody tr');
+	var appLaunches = 0;
+	var failCount = 0;
+	for (const tr of trs) {
+		var ec = '';
+		for (const td of tr.querySelectorAll('td')) {
+			var span = td.querySelector('span');
+			if (span) {
+				var h = td.querySelector('span').innerHTML;
+				if (['iPhone App Launch', 'CatchError'].indexOf(h) >= 0) {
+					ec = h;
+				}
+			} else {
+				var v = td.innerHTML;
+				if (ec !== '' && /^[0-9,]+$/.test(v)) {
+					v = v.replace(/,/g, '');
+					var value = parseInt(v, 10);
+					if (value > 0) {
+						if (ec === 'iPhone App Launch' && appLaunches === 0) {
+							appLaunches = value;
+						} else if (ec === 'CatchError') {
+							// console.log (value);
+							// console.log (td);
+							failCount += value;
+						}
+					}
+				}
+			}
+		}
+	}
+	if (appLaunches > 0 && failCount > 0) {
+		const failPercentage = Math.round(10000 * (failCount / appLaunches)) / 100; 
+		const failPer = failPercentage + '%';
+		console.clear();
+		console.log (appLaunches + ' Launches and ' + failCount + ' Failures. ');
+		console.log ('Fail/Launch is now: ' + failPer);
+	}
+}
+
+setInterval(function() {
+	calculateRadio();
+}, 10000);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function printRate() {
 var tableRows = document.getElementById('ID-eventPanel-Table').querySelectorAll('tbody tr');
 //console.log (tableRows);
