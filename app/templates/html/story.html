@@ -943,7 +943,6 @@
 						<%assign var="thirdnav" value=$zoneString|regex_replace:"/^`$subnav`/":""|regex_replace:"/^\//":""%>
 					<%/if%>
 				<%/if%>
-				<!--Top Nav: <%$topnav%>, sub nav: <%$subnav%>, third nav: <%$thirdnav%>, page id: <%$pageId%>-->
 			<%/if%>
 			<%assign var="paidPostKey" value=$section.paidPostKey%>
 			<%if $hasFoundPaidPost == "no" && $paidPostKey != "" && preg_match("/`$paidPostKey`/is",$keys)%>
@@ -1037,7 +1036,12 @@
 <%*<!--MARK: Check the next model tag for sponsored special reports end-->*%>
 
 
+
+
 <%*<!--MARK: This has to be replicated to multiple templates as this version of smarty doesn't support global scoop in included file-->*%>
+
+
+
 <%if $topnav == ""%>
     <%assign var="topnav" value="home"%>
 <%/if%>
@@ -1155,6 +1159,7 @@
     <%/if%>
     <%*<!-- End: test rules-->*%>
 <%*<!-- End: Decide if show new db-->*%>
+
 
 
 <%if preg_match("/活动页面/is",$keys)%>

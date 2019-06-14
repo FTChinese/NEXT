@@ -1,5 +1,6 @@
 <%<!--TODO: Remove the condition when we switch to Google Ad Manager successfully. -->%>
 <%<!--MARK: look for o-ads for all the ad units -->%>
+
 <%if $zone == ""%>
     <%assign var="zone" value="home"%>
     <%if $topnav != "" %>
@@ -13,10 +14,14 @@
     <%/if%>
 <%/if%>
 
+
+
 <%if $smarty.get.newzone != "" %>
     <%*<!-- can be testbeijing, testshanghai, testoverseas-->*%>
     <%assign var="zone" value=$smarty.get.newzone %>
 <%/if%>
+
+
 
 <%if $cntopic != ""%>
     <script type="text/javascript">window.cntopic = '<%$cntopic%>';</script>
