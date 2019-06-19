@@ -48,6 +48,14 @@ const origamiModules = [
   {
     source: 'https://www.ft.com/__origami/service/build/v2/bundles/js?modules=o-ads@10.2.1',
     dest: './app/origami/o-ads.js'
+  },
+  {
+    source: 'https://www.ft.com/__origami/service/build/v2/bundles/css?modules=o-grid@^4.5.1,o-colors@^4.8.5,o-typography@^5.10.1,o-table@^7.2.1&brand=internal',
+    dest: './app/origami/o-table.css'
+  },
+  {
+    source: 'https://www.ft.com/__origami/service/build/v2/bundles/js?modules=o-table@^7.2.1',
+    dest: './app/origami/o-table.js'
   }
 ];
 
