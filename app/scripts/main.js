@@ -12,6 +12,7 @@ var gAudioOffsetY;
 var gLanguageSwitchOffsetY;
 var gRecomendOffsetY;
 var gRecomendInViewNoted = false;
+var gStoryBodyBottomOffsetY;
 //var gThereIsUluAd = 0;//MARK：表征底部为你推荐是否确实插入了联合广告，插入的话就计为1，这是为了方便统计曝光次数
 //  var gShareHeight = 38;
 
@@ -491,6 +492,11 @@ function stickyBottomPrepare() {
     gAudioOffsetY = findTop(document.getElementById('audio-placeholder'));
   }
 
+  var storyBodyContainer = document.getElementById('story-body-container');
+  if (storyBodyContainer) {
+    gStoryBodyBottomOffsetY = findTop(storyBodyContainer) + storyBodyContainer.offsetHeight;
+  }
+
   var allStickyElementCount = document.querySelectorAll('.sticky-element').length;
   var stickyElement = document.querySelector('.sticky-element');
   var stickyElementInner;
@@ -698,6 +704,7 @@ function stickyBottomUpdate() {
   loadImagesLazy();
   loadVideosLazy();
   trackViewables();
+  trackQualityRead();
 }
 
 
@@ -833,6 +840,37 @@ function trackInternalPromos() {
   }, 3000);
 }
 
+
+function trackRead(ec, metricValue) {
+  if (ftItemId !== '' && window[ec] !== true) {
+    var ea;
+    var el;
+    if (/^interactive\//.test(ftItemId)) {
+      ea = 'interactive';
+    } else {
+      ea = 'story';
+    }
+    el = ftItemId.replace(/[^0-9]+/g, '');
+    ga('set', metricValue, '1');
+    ga('send','event', ec, ea, el, {'nonInteraction':1});
+    window[ec] = true;
+  }
+}
+
+function trackQualityRead() {
+  //console.log ('scroll: ' + scrollTop + ', body height: ' + bodyHeight + ', story body bottom: ' + gStoryBodyBottomOffsetY);
+  if (gStoryBodyBottomOffsetY === undefined) {
+    return;
+  }
+  var storyScrollDistance = gStoryBodyBottomOffsetY - bodyHeight;
+  if (storyScrollDistance > 0) {
+    if (scrollTop >= storyScrollDistance) {
+      trackRead('Read To End', 'metric5');
+    } else if (scrollTop >= storyScrollDistance/2) {
+      trackRead('Read To Half', 'metric4');
+    }
+  }
+}
 
 try {
   delegate = new Delegate(document.body);
@@ -1115,3 +1153,4 @@ if (isTouchDevice() && window.location.href.indexOf('ftcapp') < 0) {
   }
 }
 
+trackRead('Start Read', 'metric3');
