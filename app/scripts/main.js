@@ -841,19 +841,11 @@ function trackInternalPromos() {
 }
 
 
-function trackRead(ec, metricValue) {
-  if (ftItemId !== '' && window[ec] !== true) {
-    var ea;
-    var el;
-    if (/^interactive\//.test(ftItemId)) {
-      ea = 'interactive';
-    } else {
-      ea = 'story';
-    }
-    el = ftItemId.replace(/[^0-9]+/g, '');
+function trackRead(ea, metricValue) {
+  if (ftItemId !== '' && window[ea] !== true) {
     ga('set', metricValue, '1');
-    ga('send','event', ec, ea, el, {'nonInteraction':1});
-    window[ec] = true;
+    ga('send','event', 'Quality Read', ea, ftItemId, {'nonInteraction':1});
+    window[ea] = true;
   }
 }
 
