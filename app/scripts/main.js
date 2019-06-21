@@ -860,6 +860,8 @@ function trackQualityRead() {
       trackRead('Read To End', 'metric5');
     } else if (scrollTop >= storyScrollDistance/2) {
       trackRead('Read To Half', 'metric4');
+    } else if (scrollTop >= bodyHeight) {
+      trackRead('Read A Screen', 'metric6');
     }
   }
 }
