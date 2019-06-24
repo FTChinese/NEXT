@@ -861,9 +861,9 @@ function trackQualityRead() {
       trackRead('Read To Half', 'metric4');
     }
   }
-  if (scrollTop >= bodyHeight) {
-    trackRead('Read A Screen', 'metric6');
-  }
+  // if (scrollTop >= bodyHeight) {
+  //   trackRead('Read A Screen', 'metric6');
+  // }
 
 }
 
