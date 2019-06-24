@@ -151,6 +151,7 @@ function checkInView(obj) {
 */
 
 function trackViewables() {
+  trackQualityRead();
   // MARK: - Stop Tracking viewables for lack of GA quota
   // try {
   //   // blocks in view
@@ -551,7 +552,6 @@ function stickyBottomPrepare() {
 
 function stickyBottomUpdate() {
 
-
   var htmlClassNew = htmlClass.replace(/( o-nav-sticky)|( tool-sticky)|( audio-sticky)|( sticky-element-on)/g, '');
   if (typeof requestAnimationFrame === 'function') {
     requestAnimationFrame(stickyBottomUpdate);
@@ -704,7 +704,6 @@ function stickyBottomUpdate() {
   loadImagesLazy();
   loadVideosLazy();
   trackViewables();
-  trackQualityRead();
 }
 
 
@@ -861,10 +860,11 @@ function trackQualityRead() {
     } else if (scrollTop >= storyScrollDistance/2) {
       trackRead('Read To Half', 'metric4');
     }
-    if (scrollTop >= bodyHeight) {
-      trackRead('Read A Screen', 'metric6');
-    }
   }
+  if (scrollTop >= bodyHeight) {
+    trackRead('Read A Screen', 'metric6');
+  }
+
 }
 
 try {
