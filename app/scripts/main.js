@@ -842,8 +842,12 @@ function trackInternalPromos() {
 
 function trackRead(ea, metricValue) {
   if (ftItemId !== '' && window[ea] !== true) {
+    if (window.privilegeEventLabel && window.gUserType !== 'Subscriber' && window.gUserType !== 'VIP') {
+      return;
+    }
+    var el = window.privilegeEventLabel || ftItemId;
     ga('set', metricValue, '1');
-    ga('send','event', 'Quality Read', ea, ftItemId, {'nonInteraction':1});
+    ga('send','event', 'Quality Read', ea, el, {'nonInteraction':1});
     window[ea] = true;
   }
 }
@@ -1149,3 +1153,8 @@ if (isTouchDevice() && window.location.href.indexOf('ftcapp') < 0) {
 }
 
 trackRead('Start Read', 'metric3');
+// MARK: - only the web site story page has privilegeEventLabel for now
+if (privilegeEventLabel !== undefined && (window.gUserType === 'Subscriber' || window.gUserType === 'VIP')) {
+  window.privilegeEventCategory = window.privilegeEventCategory || 'Web Privileges';
+  ga('send','event', window.privilegeEventCategory, 'Read', privilegeEventLabel, {'nonInteraction':1});
+}

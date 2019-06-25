@@ -1544,6 +1544,37 @@
 	<%assign var="fullGridClass" value=" full-grid-story"%>
 <%/if%>
 
+<%*<!--MARK: - Set property for paid content. -->*%>
+<%if $hasAudio == "yes"%>
+    <%assign var="privilegeType" value="Radio"%>
+    <%assign var="privilegeSuffix" value=""%>
+<%elseif $page_action == "en" || $page_action == "ce"%>
+    <%assign var="privilegeType" value="EnglishText"%>
+    <%assign var="privilegeSuffix" value="/`$page_action`"%>
+<%elseif $tag != "" && preg_match("/速读/is",$tag)%>
+    <%assign var="privilegeType" value="SpeedReading"%>
+    <%assign var="privilegeSuffix" value=""%>
+<%elseif $tag != "" && preg_match("/FT研究院/is",$tag) && preg_match("/会员专享/is",$tag)%>
+    <%assign var="privilegeType" value="StandardIntelligence"%>
+    <%assign var="privilegeSuffix" value=""%>
+<%elseif $tag != "" && preg_match("/FT研究院/is",$tag) && preg_match("/高端专享/is",$tag)%>
+    <%assign var="privilegeType" value="PremiumIntelligence"%>
+    <%assign var="privilegeSuffix" value=""%>
+<%elseif $smarty.server.REQUEST_URI|strstr:"archive"%>
+    <%assign var="privilegeType" value="Archive"%>
+    <%assign var="privilegeSuffix" value=""%>
+<%elseif $story.accessright != "" &&  $story.accessright != "0"%>
+    <%assign var="privilegeType" value="ExclusiveContent"%>
+    <%assign var="itemType" value="premium"%>
+    <%assign var="privilegeSuffix" value=""%>
+<%/if%>
+<%if $privilegeType != ""%>
+	<%assign var="privilegeEventLabel" value="`$privilegeType`/`$itemType`/`$itemId``$privilegeSuffix`"%>
+	<%assign var="privilegeEventLabel" value=$privilegeEventLabel|strip_tags|regex_replace:"/[\r\n\t\s]/":""%>
+<%/if%>
+
+
+
 <!DOCTYPE html>
 <html class="no-js core<%if $smarty.get.webview == "ftcapp"%> is-ftc-app<%/if%><%$fullGridClass%><%$useJustifyClass%><%if $smarty.get.device == "iPad"%> is-ipad-app<%/if%>" data-next-app="tag-page">
   <head>
@@ -1565,6 +1596,10 @@
     document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/, 'js').replace(/\bcore\b/, 'enhanced');
     }
     </script>
+
+    <%if $privilegeEventLabel !== ""%>
+    	<script type="text/javascript">var privilegeEventLabel = '<%$privilegeEventLabel%>';</script>
+    <%/if%>
 
     <%if $pageType == "job"%>
     	<style><%include file="next/styles/main-story-job.css"%></style>

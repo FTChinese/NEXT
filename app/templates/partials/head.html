@@ -9,7 +9,7 @@ if(typeof startTime === "undefined"){
 <%if $autostart=="false"%>
     var gAutoStart = false;
 <%/if%>
-<%if $itemType == "story" && $storyId != ""%>
+<%if ($itemType == "story" || $itemType == "premium") && $storyId != ""%>
 var FTStoryid = '<%$storyId%>';
 <%elseif $itemType == "interactive" && $id != ""%>
 var interactiveId = 'interactive<%$id%>';
