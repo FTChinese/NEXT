@@ -919,6 +919,7 @@ if (((gNavOffsetY > 30 && w > 490/* && isTouchDevice() === false*/) || document.
     stickyAdsPrepare();
     addEvent(eventScroll, function(){
         stickyBottom();
+        trackViewables();
     });
     addEvent(eventResize, function(){
         stickyBottomPrepare();
