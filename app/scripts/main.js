@@ -932,6 +932,7 @@ if (((gNavOffsetY > 30 && w > 490/* && isTouchDevice() === false*/) || document.
 
   }
 } else {
+  stickyBottomPrepare();
   bodyHeight = getBodyHeight();
   addEvent(eventResize, function(){
       bodyHeight = getBodyHeight();
