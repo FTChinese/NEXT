@@ -862,14 +862,14 @@ function trackRead(ea, metricValue) {
 }
 
 function trackQualityRead() {
-  var info = {action: 'test'};
-  if (webkit) {webkit.messageHandlers.qualityread.postMessage(info);}
+  // var info = {action: 'test'};
+  // if (webkit) {webkit.messageHandlers.qualityread.postMessage(info);}
   //console.log ('scroll: ' + scrollTop + ', body height: ' + bodyHeight + ', story body bottom: ' + gStoryBodyBottomOffsetY);
   if (gStoryBodyBottomOffsetY === undefined) {
     return;
   }
-  info.action = 'test2';
-  if (webkit) {webkit.messageHandlers.qualityread.postMessage(info);}
+  // info.action = 'test2';
+  // if (webkit) {webkit.messageHandlers.qualityread.postMessage(info);}
   var storyScrollDistance = gStoryBodyBottomOffsetY - bodyHeight;
   if (storyScrollDistance > 0) {
     if (scrollTop >= storyScrollDistance) {
