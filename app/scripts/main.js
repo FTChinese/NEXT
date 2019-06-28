@@ -152,7 +152,7 @@ function checkInView(obj) {
 
 function trackViewables() {
     var info = {
-      action: 'test';
+      action: 'test'
     };
     if (webkit) {
       webkit.messageHandlers.qualityread.postMessage(info);
