@@ -151,14 +151,6 @@ function checkInView(obj) {
 */
 
 function trackViewables() {
-    var info = {
-      action: 'test'
-    };
-    if (webkit) {
-      webkit.messageHandlers.qualityread.postMessage(info);
-    } else if (Android) {
-      Android.qualityread(JSON.stringify(info));
-    }
   trackQualityRead();
   // MARK: - Stop Tracking viewables for lack of GA quota
   // try {
