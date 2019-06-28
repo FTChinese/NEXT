@@ -112,7 +112,7 @@
 												<%assign var="followSql" value="1=1"%>
 											<%/if%>
 											<%assign var="followSql" value=$followSql|regex_replace:"/^1>1 or /":""%>
-											<%*<!--<%assign var="followSql" value="(`$followSql` and (find_in_set('英语电台', tag) or find_in_set('速读', tag) or find_in_set('FT研究院', tag) or find_in_set('会员专享', tag) or find_in_set('高端专享', tag) or find_in_set('i听粉', tag)))"%>-->*%>
+											<%*<!--<%assign var="followSql" value="(`$followSql` and (find_in_set('英语电台', tag) or find_in_set('速读', tag) or find_in_set('FT研究院', tag) or find_in_set('会员专享', tag) or find_in_set('高端专享', tag) or find_in_set('音频', tag)))"%>-->*%>
 											<%assign var="itemsArray" value=$storymodel->get_content_by_field_search($followSql,$feedStart,$feedItems,999999999,10800)%>
 										<%elseif $list.feedType == "hot"%>
 											<%assign var="itemsArray" value=$storymodel->get_hot_story(7,$feedItems,true)%>
@@ -185,7 +185,7 @@
 											<%/if%>
 											<%assign var="itemLead" value=$item.clongleadbody|default:$item.cshortleadbody%>
 											<%assign var="itemLead" value=$itemLead|regex_replace:"/[\n\r\"]/":""%>
-											<%if preg_match("/http.*.mp3/is",$item.cshortleadbody) && preg_match("/英语电台|i听粉/is",$itemTag)%>
+											<%if preg_match("/http.*.mp3/is",$item.cshortleadbody) && preg_match("/英语电台|音频/is",$itemTag)%>
 												<%assign var="itemShortLead" value=$item.cshortleadbody|regex_replace:"/[\n\r\"]/":""%>
 											<%elseif preg_match("/速读/is",$itemTag)%>
 												<%assign var="itemShortLead" value=$item.cshortleadbody|regex_replace:"/[\n\r\"]/":""%>

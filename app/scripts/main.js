@@ -849,6 +849,15 @@ function trackRead(ea, metricValue) {
     ga('set', metricValue, '1');
     ga('send','event', 'Quality Read', ea, el, {'nonInteraction':1});
     window[ea] = true;
+  } else {
+    var info = {
+      action: ea
+    };
+    if (webkit) {
+      webkit.messageHandlers.qualityread.postMessage(info);
+    } else if (Android) {
+      Android.qualityread(JSON.stringify(info));
+    }
   }
 }
 

@@ -336,6 +336,8 @@
 					<%elseif $itemTag === "秒懂"%>
 						<%assign var="itemTagLink" value="/channel/slides.html"%>
 						<%assign var="tagCanFollow" value="no"%>
+					<%elseif $itemTag === "音频"%>
+						<%assign var="itemTagLink" value="/channel/audio.html"%>
 					<%elseif $itemTag === "图辑"%>
 						<%assign var="itemTagLink" value="/channel/slides.html"%>
 						<%assign var="tagCanFollow" value="no"%>
@@ -1060,7 +1062,7 @@
 						<%if $itemType == "interactive"%>
 							<%if preg_match("/速读/is",$itemTagsString) %>
 								<%assign var="itemSubType" value="speedreading"%>
-							<%elseif preg_match("/电台|i听粉/is",$itemTagsString) %>
+							<%elseif preg_match("/电台|音频/is",$itemTagsString) %>
 								<%assign var="itemSubType" value="radio"%>
 							<%elseif preg_match("/数据新闻/is",$itemTagsString) %>
 								<%assign var="itemSubType" value="datanews"%>

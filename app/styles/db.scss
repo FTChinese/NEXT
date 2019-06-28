@@ -7,13 +7,16 @@ div.o-ads{
   max-width: 100%;
   // MARK: - Set overflow as hidden so that Google Ad Manager can get the responsive ad right
   overflow: hidden;
+
   div {
     text-align: center;
   }
   &[data-o-ads-loaded] {
-    // MARK: - Set overflow as visible so that ad sign will be displayed after ad is loaded
-    //overflow: visible;
     margin-bottom: 30px;
+    // MARK: - Show MPU Ad Sign by setting overflow as visible
+    &[data-o-ads-formats-small="FtcMobileMpu"] {
+      overflow: visible;
+    }
   }
   iframe {
     max-width: 100% !important;
