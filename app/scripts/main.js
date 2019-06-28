@@ -846,10 +846,14 @@ function trackRead(ea, metricValue) {
     var info = {
       action: ea
     };
-    if (webkit) {
-      webkit.messageHandlers.qualityread.postMessage(info);
-    } else if (Android) {
-      Android.qualityread(JSON.stringify(info));
+    try {
+      if (webkit) {
+        webkit.messageHandlers.qualityread.postMessage(info);
+      } else if (Android) {
+        Android.qualityread(JSON.stringify(info));
+      }
+    } catch (ignore) {
+      
     }
     if (window.privilegeEventLabel && window.gUserType !== 'Subscriber' && window.gUserType !== 'VIP') {
       return;
@@ -862,14 +866,10 @@ function trackRead(ea, metricValue) {
 }
 
 function trackQualityRead() {
-  // var info = {action: 'test'};
-  // if (webkit) {webkit.messageHandlers.qualityread.postMessage(info);}
   //console.log ('scroll: ' + scrollTop + ', body height: ' + bodyHeight + ', story body bottom: ' + gStoryBodyBottomOffsetY);
   if (gStoryBodyBottomOffsetY === undefined) {
     return;
   }
-  // info.action = 'test2';
-  // if (webkit) {webkit.messageHandlers.qualityread.postMessage(info);}
   var storyScrollDistance = gStoryBodyBottomOffsetY - bodyHeight;
   if (storyScrollDistance > 0) {
     if (scrollTop >= storyScrollDistance) {
