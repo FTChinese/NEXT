@@ -842,14 +842,7 @@ function trackInternalPromos() {
 
 function trackRead(ea, metricValue) {
   if (ftItemId !== '' && window[ea] !== true) {
-    if (window.privilegeEventLabel && window.gUserType !== 'Subscriber' && window.gUserType !== 'VIP') {
-      return;
-    }
-    var el = window.privilegeEventLabel || ftItemId;
-    ga('set', metricValue, '1');
-    ga('send','event', 'Quality Read', ea, el, {'nonInteraction':1});
-    window[ea] = true;
-  } else {
+    // MARK: - Try to send this info to native app first
     var info = {
       action: ea
     };
@@ -858,6 +851,13 @@ function trackRead(ea, metricValue) {
     } else if (Android) {
       Android.qualityread(JSON.stringify(info));
     }
+    if (window.privilegeEventLabel && window.gUserType !== 'Subscriber' && window.gUserType !== 'VIP') {
+      return;
+    }
+    var el = window.privilegeEventLabel || ftItemId;
+    ga('set', metricValue, '1');
+    ga('send','event', 'Quality Read', ea, el, {'nonInteraction':1});
+    window[ea] = true;
   }
 }
 
