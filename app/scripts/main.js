@@ -855,15 +855,12 @@ function trackRead(ea, metricValue) {
     } catch (ignore) {
       
     }
-    if (window.privilegeEventLabel && window.gUserType !== 'Subscriber' && window.gUserType !== 'VIP') {
+    if (window.privilegeEventLabel !== undefined && window.gUserType !== 'Subscriber' && window.gUserType !== 'VIP') {
       return;
     }
     var el = window.privilegeEventLabel || ftItemId;
     ga('set', metricValue, '1');
     ga('send','event', 'Quality Read', ea, el, {'nonInteraction':1});
-    if (ea === 'Start Read' && window.privilegeEventLabel) {
-      ga('send','event', 'Web Privileges', 'Read', el, {'nonInteraction':1});
-    }
     window[ea] = true;
   }
 }
@@ -1172,7 +1169,7 @@ if (isTouchDevice() && window.location.href.indexOf('ftcapp') < 0) {
 
 trackRead('Start Read', 'metric3');
 // MARK: - only the web site story page has privilegeEventLabel for now
-if (privilegeEventLabel !== undefined && (window.gUserType === 'Subscriber' || window.gUserType === 'VIP')) {
+if (window.privilegeEventLabel !== undefined && (window.gUserType === 'Subscriber' || window.gUserType === 'VIP')) {
   window.privilegeEventCategory = window.privilegeEventCategory || 'Web Privileges';
-  ga('send','event', window.privilegeEventCategory, 'Read', privilegeEventLabel, {'nonInteraction':1});
+  ga('send','event', window.privilegeEventCategory, 'Read', window.privilegeEventLabel, {'nonInteraction':1});
 }
