@@ -861,6 +861,9 @@ function trackRead(ea, metricValue) {
     var el = window.privilegeEventLabel || ftItemId;
     ga('set', metricValue, '1');
     ga('send','event', 'Quality Read', ea, el, {'nonInteraction':1});
+    if (ea === 'Start Read' && window.privilegeEventLabel) {
+      ga('send','event', 'Web Privileges', 'Read', el, {'nonInteraction':1});
+    }
     window[ea] = true;
   }
 }
