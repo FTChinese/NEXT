@@ -1,5 +1,5 @@
 
-/* exported renderAudioData, showHightlight, seekAudio, updateAudioTime, audioEnded*/
+/* exported renderAudioData, showHightlight, seekAudio, updateAudioTime, audioEnded, scrubLeft, scrubEle*/
 var audioCurrentTime;
 var audioData = {
 	url: '',
@@ -10,6 +10,15 @@ var audioLastSpokenSentenseTime;
 var audioHasRendered = false;
 var lastIndex = {'k':0, 'l':0, 'isLastSentenseHighlighting': false};
 var latestIndex = {'k':0, 'l':0};
+var currentAudio = document.getElementById('current-audio');
+var playButton = document.querySelector('.control__play');
+var pauseButton = document.querySelector('.control__pause');
+var currentTimeEle = document.querySelector('.audio-time-text');
+var progressBarEle = document.querySelector('.audio-time-progress__fill');
+var scrubEle = document.querySelector('.audio-time-progress__scrub');
+var progressBarContainer = document.querySelector('.audio-time-progress');
+var transformStyle = GetVendorPrefix(['transform', 'msTransform', 'MozTransform', 'WebkitTransform', 'OTransform']);
+var progressBarWidth;
 
 function renderAudioData(ele) {
 	var audioJSONEle = document.getElementById('audio-json-text');
@@ -133,6 +142,20 @@ function seekAudio(ele) {
 function updateAudioTime(ele) {
 	audioCurrentTime = ele.currentTime;
 	//console.log ('audio current time: ' + audioCurrentTime);
+	if (currentTimeEle) {
+		var duration = ele.duration;
+		if (audioCurrentTime > 0 && audioCurrentTime < duration) {
+			currentTimeEle.innerHTML = getMinuteSecond(audioCurrentTime);
+			if (progressBarEle) {
+				var currentProgress = audioCurrentTime/duration;
+				var scrubLeft = progressBarWidth * currentProgress - scrubEle.offsetWidth/2;
+				progressBarEle.style[transformStyle] = 'scaleX(' + currentProgress + ')';
+				scrubEle.style.left = scrubLeft + 'px';
+				//console.log ('progess bar width: ' +  progressBarWidth + ', scrubLeft: ' + scrubLeft);
+				//progressBarEle.style[transformStyle] = 'scaleX(0.5)'
+			}
+		}
+	}
 	if (audioHasRendered === true) {
 		updateAudioTimeForRenderedText(audioCurrentTime, audioData);
 	}
@@ -183,3 +206,117 @@ function findAudioMaxTime(data) {
 	}
 	return t;
 }
+
+function getMinuteSecond(seconds) {
+	if (seconds > 0) {
+		var s = Math.floor(seconds);
+		var secondPart = s % 60;
+		if (secondPart < 10)  {
+			secondPart = '0' + secondPart;
+		}
+		var minutePart = Math.floor(s / 60);
+		if (minutePart < 10) {
+			minutePart = '0' + minutePart;
+		}
+		//console.log (s + ' is ' + minutePart + ':' + secondPart);
+		return minutePart + ':' + secondPart;
+	}
+	return '00:00';
+}
+
+function GetVendorPrefix(arrayOfPrefixes) {
+	var tmp = document.createElement('div');
+	var result = '';
+	for (var i = 0; i < arrayOfPrefixes.length; i++) {
+		if (typeof tmp.style[arrayOfPrefixes[i]] !== 'undefined') {
+			result = arrayOfPrefixes[i];
+			break;
+		} else {
+			result = null;
+		}
+	}
+	return result;
+}
+
+function canPlay(ele) {
+	var duration = ele.duration;
+	var totalTime = document.querySelector('.audio-time-text__total');
+	if (totalTime) {
+		totalTime.innerHTML = getMinuteSecond(duration);
+	}
+}
+
+function playerToggle(ele, action) {
+	ele.setAttribute('disabled', true);
+	if (action === 'play') {
+		currentAudio.play();
+		pauseButton.removeAttribute('disabled');
+	} else {
+		currentAudio.pause();
+		playButton.removeAttribute('disabled');
+	}
+}
+
+function progessBarClick(e) {
+	function findLeft(obj) {
+	  var curleft = 0;
+	  if (obj && obj.offsetParent) {
+	    do {
+	      curleft += obj.offsetLeft;
+	    } while ((obj = obj.offsetParent));
+	    return curleft;
+	  }
+	}
+	var clickedX = e.clientX - findLeft(e.target);
+	var fullX = e.target.offsetWidth;
+	if (clickedX > 0 && fullX > clickedX && currentAudio && currentAudio.duration > 0) {
+		var currentProgress = clickedX / fullX; 
+		var newTime = currentAudio.duration * currentProgress;
+		currentAudio.currentTime = newTime;
+		currentAudio.play();
+		var scrubLeft = clickedX - scrubEle.offsetWidth/2;
+		progressBarEle.style[transformStyle] = 'scaleX(' + currentProgress + ')';
+		scrubEle.style.left = scrubLeft + 'px';
+		playButton.setAttribute('disabled', true);
+		pauseButton.removeAttribute('disabled');
+		// console.log (e.target.offsetLeft);
+		// console.log (clickedX + '/' + fullX);
+		// console.log ('go to: ' + newTime);
+	}
+}
+
+function initAudioPlayer() {
+	if (currentAudio) {
+		if (playButton) {
+			playButton.onclick = function() {
+				playerToggle(this, 'play');
+			};
+		}
+		if (pauseButton) {
+			pauseButton.onclick = function() {
+				playerToggle(this, 'pause');
+			};
+		}
+		currentAudio.oncanplay = function() {
+			canPlay(this);
+		};
+		if (progressBarContainer) {
+			progressBarContainer.addEventListener('click', progessBarClick, false);
+			progressBarContainer.addEventListener('mouseover', function() {
+				progressBarWidth = progressBarEle.offsetWidth;
+				scrubEle.style[transformStyle] = 'scaleX(1)';
+			});
+			progressBarContainer.addEventListener('mouseout', function() {
+				scrubEle.style[transformStyle] = 'scaleX(0)';
+			});
+		}
+		progressBarWidth = progressBarEle.offsetWidth;
+		window.addEventListener('resize', function() {
+			progressBarWidth = progressBarEle.offsetWidth;
+		});
+	}
+}
+
+initAudioPlayer();
+
+

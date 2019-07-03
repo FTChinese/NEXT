@@ -59,14 +59,141 @@ ul,li{
 	text-decoration: underline;
 	font-weight: bold;
 }
-// audio
+
+
+
+// MARK: - audio
 .audio-placeholder {
 	height: $navHeight;
 	margin-bottom: $defaultPadding/2;
 }
+.audio-container {
+	color: #33302e;
+    background-color: #f2e5da;
+    height: 100%;
+}
+.audio-controls {
+	width: 100%;
+	height: 100%;
+	position: relative;
+}
+.audio-control {
+	float: left;
+	text-indent: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    background: transparent;
+    border: 0;
+    padding: 0;
+    display: block;
+    width: $navHeight;
+    height: $navHeight;
+    background-size: 28px 28px;
+    background-position: 50%;
+    background-color: transparent;
+    vertical-align: baseline;
+    background-repeat: no-repeat;
+    &:disabled {
+	    display: none;
+	    pointer-events: none;
+	}
+}
+.control__play {
+	background-image: url(https://www.ft.com/__origami/service/image/v2/images/raw/fticon-v1:play?source=o-icons&tint=%2333302E,%2333302E&format=svg);
+}
+.control__pause {
+	background-image: url(https://www.ft.com/__origami/service/image/v2/images/raw/fticon-v1:pause?source=o-icons&tint=%2333302E,%2333302E&format=svg);
+
+}
+.audio-time-text {
+	float: left;
+	display: table-cell;
+    width: $navHeight;
+    height: $navHeight;
+    line-height: $navHeight;
+    overflow: hidden;
+    white-space: nowrap;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    font-family: MetricWeb, sans-serif;
+    font-size: 14px;
+    text-align: center;
+    //padding-right: 10px;
+}
+.audio-time-text__current {
+	float: left; 
+	text-align: left;
+}
+.audio-time-text__total {
+	//padding-left: 10px;
+	float: right;
+}
+.audio-time-progress {
+	display: block;
+	position: absolute;
+	left: $navHeight + $navHeight;
+	right: $navHeight;
+	top: 0;
+	bottom: 0;
+	margin: auto;
+	cursor: pointer;
+	-webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.audio-time-progress__background {
+    height: $audioProgressHeight;
+    width: 100%;
+    background: #ccc1b7;
+    display: block;
+    margin-top: ($navHeight - $audioProgressHeight)/2;
+}
+.audio-time-progress__fill {
+	height: $audioProgressHeight;
+    width: 100%;
+    background: $darkGreen;
+    display: block;
+    position: absolute;
+    top: ($navHeight - $audioProgressHeight)/2;
+    left: 0;
+    -webkit-transform-origin: left;
+    -ms-transform-origin: left;
+    transform-origin: left;
+    -webkit-transform: scaleX(0);
+    -ms-transform: scaleX(0);
+    transform: scaleX(0);
+    pointer-events: none;
+}
+
+.audio-time-progress__scrub {
+    width: $audioScrubHeight;
+    height: $audioScrubHeight;
+    border-radius: 50%;
+    background-color: #12a5b3;
+    position: absolute;
+    top: ($navHeight - $audioScrubHeight)/2;
+    left: -$audioScrubHeight/2;
+    -webkit-transform-origin: center;
+    -ms-transform-origin: center;
+    transform-origin: center;
+    -webkit-transform: scale(0, 0);
+    -ms-transform: scale(0, 0);
+    transform: scale(0, 0);
+    -webkit-transition: -webkit-transform 0.1s ease-out;
+    transition: -webkit-transform 0.1s ease-out;
+    transition: transform 0.1s ease-out;
+    transition: transform 0.1s ease-out, -webkit-transform 0.1s ease-out;
+    pointer-events: none;
+}
+
 .language-switch-container {
 	display: none;
 }
+
 .audio-sticky {
 	.audio-container, .language-switch-container {
 		position: fixed;
@@ -89,6 +216,8 @@ ul,li{
 		padding-top: 8px;
 	}
 }
+
+
 .sticky-element-on {
 	.sticky-element-inner {
 		position: fixed;

@@ -47,6 +47,8 @@ function filterMyFTItems() {
     for (var i=0; i<allItems.length; i++) {
         var item = allItems[i];
         var itemKeywords = item.getAttribute('data-keywords') || '';
+        var itemAuthors = item.getAttribute('data-author') || '';
+        itemKeywords += ',' + itemAuthors; 
         itemKeywords = itemKeywords.replace(/,+/g, ',').replace(/,$/, '');
         var itemKeywordsArray = itemKeywords.split(',');
         for (var itemType in savedFollowListJSON) {

@@ -703,7 +703,24 @@ data-cy='[{"devices":["PC"],"pattern":"Leaderboard","position":"Num1"},{"devices
 <div class="story-body">
 
 
+<div class="audio-placeholder" id="audio-placeholder"><div class="audio-container"><div class="audio-controls"><button class="audio-control control__play">Play</button><button class="audio-control control__pause" disabled=true>Pause</button><span class="audio-time-text__current audio-time-text">00:00</span><span class="audio-time-text__total audio-time-text">05:15</span><div class="audio-time-progress"><span class="audio-time-progress__background"></span><span class="audio-time-progress__fill"></span><span class="audio-time-progress__scrub"></span></div></div><audio id="current-audio" class="audio-player hide" ontimeupdate="updateAudioTime(this)" onended="audioEnded()" src="https://s3-us-west-2.amazonaws.com/ftlabs-audio-rss-bucket.prod/d7c955ac-3213-11e8-ac48-10c6fdc22f03.mp3"></audio></div></div>
+
+<!--
+<div class="audio-placeholder" id="audio-placeholder"><div class="audio-container"><audio ontimeupdate="updateAudioTime(this)" onended="audioEnded()" id="current-audio" preload="none" controls=""><source src="https://creatives.ftimg.net/album/24b8b7b2-9272-11e9-aea1-2b1d33ac3271.mp3"><br clear="all"></audio></div></div>
+-->
+
+
+
+
 <div id="story-body-container">
+
+
+
+
+
+
+
+
 
 <p><b>【编者按】今天是中国经济学家茅于轼先生90岁生日。我们编发他的自述文章，通过他的人生历程回顾中国近一个世纪的社会变迁，聆听他从经济学角度反思中国40年改革开放之得失，以及他对中国下一步转型的期待与嘱托。</b></p>
 
@@ -1195,6 +1212,9 @@ var downloadAppContainerId = document.getElementById('download-app-container');
 
 
 </script>
+
+
+<script type="text/javascript" src="scripts/audio-script-render.js"></script>
 
 </html>
 

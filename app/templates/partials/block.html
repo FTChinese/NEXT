@@ -1144,7 +1144,8 @@
 						<%*<!--end  $smarty.get.webview == "ftcapp"-->*%>
 
 						<%if $list.feedType == "myFTNew"%>
-							<%assign var="itemData" value=" data-keywords=\"`$itemTagsString`\""%>
+							<%assign var="itemAuthor" value=$item.cauthor%>
+							<%assign var="itemData" value=" data-keywords=\"`$itemTagsString`\" data-author=\"`$itemAuthor`\""%>
 						<%/if%>
 
 						<%*<!--MARK: show the lock for paid content-->*%>
@@ -1182,7 +1183,7 @@
 								<h2 class="item-headline"><a target="_blank"<%$itemLink%> class="item-headline-link <%$lockClass%>"><%$itemHeadline%></a></h2>
 								<%if $hideLead === "no"%><div class="item-lead"><%$itemLead|nl2br%></div><%/if%>
 								</div>
-								<%if $itemType == "story"%>
+								<%if $itemType == "story" || $itemType == "premium"%>
 									<div class="icon-right icon-save">
 										<button id="addfavlink<%$itemId%>">收藏</button>
 									</div>

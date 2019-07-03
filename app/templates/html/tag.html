@@ -80,8 +80,8 @@
 
 <%*<!--MARK: MyFT is broken on web site, hide it for now. -->*%>
 <%if $tag_name != ""%>
-<%assign var="itemTag" value="<div class=\"no-image\"><div class=\"item-inner\"><div class=item-tag><a href=\"#\">`$tagtitle`</a></div></div></div>"%>
-<%*<!--assign var="itemTag" value="<div class=\"no-image\"><div class=\"item-inner\"><div class=item-tag><a href=\"#\">`$tagtitle`</a><button class=\"myft-follow plus\" data-tag=\"`$tag_name`\" data-type=\"tag\">关注</button></div></div></div>"-->*%>
+<%*<!--assign var="itemTag" value="<div class=\"no-image\"><div class=\"item-inner\"><div class=item-tag><a href=\"#\">`$tagtitle`</a></div></div></div>"-->*%>
+<%assign var="itemTag" value="<div class=\"no-image\"><div class=\"item-inner\"><div class=item-tag><a href=\"#\">`$tagtitle`</a><button class=\"myft-follow plus\" data-tag=\"`$tag_name`\" data-type=\"`$data_type`\">关注</button></div></div></div>"%>
 <%/if%>
      
 <%*<!-- Start: Decide if show new db-->*%>
