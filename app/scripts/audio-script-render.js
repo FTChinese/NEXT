@@ -83,13 +83,32 @@ function handleInlineVideos(ele) {
 }
 
 function showHightlight(k, l) {
+	function findTop(obj) {
+	  var curtop = 0;
+	  if (obj && obj.offsetParent) {
+	    do {
+	      curtop += obj.offsetTop;
+	    } while ((obj = obj.offsetParent));
+	    return curtop;
+	  }
+	}
 	var ele = document.getElementById('story-body-container').querySelectorAll('span');
 	var highlightedEle = document.getElementById('span-' + k + '-' + l);
-	var highlightedTop = highlightedEle.offsetTop;
+	//var highlightedTop = highlightedEle.offsetTop;
+	var highlightedTop = findTop(highlightedEle);
 	var highlightedHeight = highlightedEle.offsetHeight;
 	var windowHeight = window.innerHeight;
 	var windowTop = window.scrollY;
 	var newScrollY = highlightedTop - 5;
+	var headerEle = document.querySelector('header');
+	var bottomFixedHeight = 0;
+	if (headerEle) {
+		newScrollY -= 101;
+	}
+	if (document.documentElement.className.indexOf('is-ftc-app')>=0 && currentAudio) {
+		bottomFixedHeight = 44;
+	}
+	//console.log (bottomFixedHeight);
 	//console.log ('k: ' + k + ', l: ' + l);
 	for (var i=0; i<ele.length; i++) {
 		var sectionIndex = ele[i].getAttribute('data-section');
@@ -108,7 +127,7 @@ function showHightlight(k, l) {
 			ele[i].className = newClass;
 		}
 	}
-	if (windowTop > newScrollY || windowTop + windowHeight < highlightedTop + highlightedHeight) {
+	if (windowTop > newScrollY || windowTop + windowHeight < highlightedTop + highlightedHeight + bottomFixedHeight) {
 		if (typeof webkit !== 'undefined') {
 			webkit.messageHandlers.scrollTo.postMessage(newScrollY);
 		} else {
