@@ -8,7 +8,6 @@ var audioData = {
 };
 var audioLastSpokenSentenseTime;
 var audioHasRendered = false;
-var lastIndex = {'k':0, 'l':0, 'isLastSentenseHighlighting': false};
 var latestIndex = {'k':0, 'l':0};
 var currentAudio = document.getElementById('current-audio');
 var playButton = document.querySelector('.control__play');
@@ -19,6 +18,7 @@ var scrubEle = document.querySelector('.audio-time-progress__scrub');
 var progressBarContainer = document.querySelector('.audio-time-progress');
 var transformStyle = GetVendorPrefix(['transform', 'msTransform', 'MozTransform', 'WebkitTransform', 'OTransform']);
 var progressBarWidth;
+var isProgressTouched = false;
 
 function renderAudioData(ele) {
 	var audioJSONEle = document.getElementById('audio-json-text');
@@ -169,7 +169,9 @@ function updateAudioTime(ele) {
 				var currentProgress = audioCurrentTime/duration;
 				var scrubLeft = progressBarWidth * currentProgress - scrubEle.offsetWidth/2;
 				progressBarEle.style[transformStyle] = 'scaleX(' + currentProgress + ')';
-				scrubEle.style.left = scrubLeft + 'px';
+				if (isProgressTouched === false) {
+					scrubEle.style.left = scrubLeft + 'px';
+				}
 				//console.log ('progess bar width: ' +  progressBarWidth + ', scrubLeft: ' + scrubLeft);
 				//progressBarEle.style[transformStyle] = 'scaleX(0.5)'
 			}
@@ -189,6 +191,7 @@ function audioEnded() {
 
 // MARK: this will be writen in SWIFT in the native app
 function updateAudioTimeForRenderedText(currentTime, data) {
+	var lastIndex = {'k':0, 'l':0, 'isLastSentenseHighlighting': false};
 	for (var k=0; k<data.text.length; k++) {
 		for (var l=0; l<data.text[k].length; l++) {
 			var checkTime = data.text[k][l].start;
@@ -203,11 +206,12 @@ function updateAudioTimeForRenderedText(currentTime, data) {
 					if (shouldHighlightMiddleSentense || shouldHighlightLastSentense) {
 						showHightlight(lastK, lastL);
 						latestIndex = {'k':k, 'l':l};
+						//console.log ('current time: ' + currentTime + ', lastK: ' + lastK + ', lastL: ' + lastL);
 					}
-					// MARK: Only when the checkTime is available, update the lastIndex
-					lastIndex = {'k':k, 'l':l, 'isLastSentenseHighlighting': isSentenseLast};
 					return;
 				}
+				// MARK: Only when the checkTime is available, update the lastIndex
+				lastIndex = {'k':k, 'l':l, 'isLastSentenseHighlighting': isSentenseLast};
 			}
 		}
 	}
@@ -276,16 +280,18 @@ function playerToggle(ele, action) {
 	}
 }
 
+
+function findLeft(obj) {
+  var curleft = 0;
+  if (obj && obj.offsetParent) {
+    do {
+      curleft += obj.offsetLeft;
+    } while ((obj = obj.offsetParent));
+    return curleft;
+  }
+}
+
 function progessBarClick(e) {
-	function findLeft(obj) {
-	  var curleft = 0;
-	  if (obj && obj.offsetParent) {
-	    do {
-	      curleft += obj.offsetLeft;
-	    } while ((obj = obj.offsetParent));
-	    return curleft;
-	  }
-	}
 	var clickedX = e.clientX - findLeft(e.target);
 	var fullX = e.target.offsetWidth;
 	if (clickedX > 0 && fullX > clickedX && currentAudio && currentAudio.duration > 0) {
@@ -304,6 +310,47 @@ function progessBarClick(e) {
 	}
 }
 
+function progressTouchStart(e) {
+	isProgressTouched = true; 
+	scrubEle.style[transformStyle] = 'scaleX(1)';
+	progressTouchMove(e);
+	e.preventDefault();
+}
+
+function progressTouchMove(e) {
+	isProgressTouched = true; 
+	var clickedX = e.changedTouches[0].clientX - findLeft(e.target);
+	var fullX = e.target.offsetWidth;
+	if (clickedX > 0 && fullX > clickedX && currentAudio && currentAudio.duration > 0) {
+		var scrubLeft = clickedX - scrubEle.offsetWidth/2;
+		scrubEle.style.left = scrubLeft + 'px';
+	}
+	e.preventDefault();
+}
+
+function progressTouchEnd(e) {
+	isProgressTouched = false; 
+	var clickedX = e.changedTouches[0].clientX - findLeft(e.target);
+	var fullX = e.target.offsetWidth;
+	if (clickedX > 0 && fullX > clickedX && currentAudio && currentAudio.duration > 0) {
+		var currentProgress = clickedX / fullX; 
+		var newTime = currentAudio.duration * currentProgress;
+		var scrubLeft = clickedX - scrubEle.offsetWidth/2;
+		scrubEle.style.left = scrubLeft + 'px';
+		progressBarEle.style[transformStyle] = 'scaleX(' + currentProgress + ')';
+		currentAudio.currentTime = newTime;
+	}
+	scrubEle.style[transformStyle] = 'scaleX(0)';
+	e.preventDefault();
+}
+
+
+function progressTouchCancel(e) {
+	isProgressTouched = false;
+	scrubEle.style[transformStyle] = 'scaleX(0)';
+	e.preventDefault();
+}
+
 function initAudioPlayer() {
 	if (currentAudio) {
 		if (playButton) {
@@ -320,19 +367,27 @@ function initAudioPlayer() {
 			canPlay(this);
 		};
 		if (progressBarContainer) {
-			progressBarContainer.addEventListener('click', progessBarClick, false);
-			progressBarContainer.addEventListener('mouseover', function() {
-				progressBarWidth = progressBarEle.offsetWidth;
-				scrubEle.style[transformStyle] = 'scaleX(1)';
-			});
-			progressBarContainer.addEventListener('mouseout', function() {
-				scrubEle.style[transformStyle] = 'scaleX(0)';
-			});
+			if (isTouchDevice()) {
+				progressBarContainer.addEventListener('touchstart', progressTouchStart, false);
+				progressBarContainer.addEventListener('touchmove', progressTouchMove, false);
+				progressBarContainer.addEventListener('touchend', progressTouchEnd, false);
+				progressBarContainer.addEventListener('touchcancel', progressTouchCancel, false);
+			} else {
+				progressBarContainer.addEventListener('click', progessBarClick, false);
+				progressBarContainer.addEventListener('mouseover', function() {
+					progressBarWidth = progressBarEle.offsetWidth;
+					scrubEle.style[transformStyle] = 'scaleX(1)';
+				});
+				progressBarContainer.addEventListener('mouseout', function() {
+					scrubEle.style[transformStyle] = 'scaleX(0)';
+				});
+			}
 		}
 		progressBarWidth = progressBarEle.offsetWidth;
 		window.addEventListener('resize', function() {
 			progressBarWidth = progressBarEle.offsetWidth;
 		});
+
 	}
 }
 
