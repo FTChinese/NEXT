@@ -1,5 +1,5 @@
 
-/* exported renderAudioData, showHightlight, seekAudio, updateAudioTime, audioEnded, scrubLeft, scrubEle*/
+/* exported renderAudioData, showHightlight, seekAudio, updateAudioTime, audioEnded*/
 var audioCurrentTime;
 var audioData = {
 	url: '',
