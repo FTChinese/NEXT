@@ -8,7 +8,6 @@ var audioData = {
 };
 var audioLastSpokenSentenseTime;
 var audioHasRendered = false;
-var latestIndex = {'k':0, 'l':0};
 var currentAudio = document.getElementById('current-audio');
 var playButton = document.querySelector('.control__play');
 var pauseButton = document.querySelector('.control__pause');
@@ -189,9 +188,12 @@ function audioEnded() {
 	}
 }
 
+
+// MARK: Use global variables so that you can fire showHightlight function only when necessary
+var lastIndex = {k:0, l:0, isLastSentenseHighlighting: false};
+var latestIndex = {k:0, l:0};
 // MARK: this will be writen in SWIFT in the native app
 function updateAudioTimeForRenderedText(currentTime, data) {
-	var lastIndex = {'k':0, 'l':0, 'isLastSentenseHighlighting': false};
 	for (var k=0; k<data.text.length; k++) {
 		for (var l=0; l<data.text[k].length; l++) {
 			var checkTime = data.text[k][l].start;
@@ -204,13 +206,21 @@ function updateAudioTimeForRenderedText(currentTime, data) {
 					var shouldHighlightMiddleSentense = ((k !== latestIndex.k || l !== latestIndex.l) && isSentenseMiddle);
 					var shouldHighlightLastSentense = (isSentenseLast && lastIndex.isLastSentenseHighlighting === false);
 					if (shouldHighlightMiddleSentense || shouldHighlightLastSentense) {
-						showHightlight(lastK, lastL);
+						if (shouldHighlightLastSentense) {
+							showHightlight(k, l);
+							// lastIndex = {'k':k, 'l':l, 'isLastSentenseHighlighting': true};
+							// console.log ('is sentense last 1? ' + isSentenseLast);
+							// console.log ('current time: ' + currentTime + ', k: ' + k + ', l: ' + l);
+						} else {
+							showHightlight(lastK, lastL);
+							//console.log ('current time: ' + currentTime + ', lastK: ' + lastK + ', lastL: ' + lastL);
+						}
 						latestIndex = {'k':k, 'l':l};
-						//console.log ('current time: ' + currentTime + ', lastK: ' + lastK + ', lastL: ' + lastL);
 					}
 					return;
 				}
 				// MARK: Only when the checkTime is available, update the lastIndex
+				// console.log ('check time: ' + checkTime + ', audio last spoken sentense time: ' + audioLastSpokenSentenseTime + ' current time: ' + currentTime);
 				lastIndex = {'k':k, 'l':l, 'isLastSentenseHighlighting': isSentenseLast};
 			}
 		}
@@ -365,6 +375,14 @@ function initAudioPlayer() {
 		}
 		currentAudio.oncanplay = function() {
 			canPlay(this);
+		};
+		currentAudio.onplay = function() {
+			pauseButton.removeAttribute('disabled');
+			playButton.setAttribute('disabled', true);
+		};
+		currentAudio.onpause = function() {
+			playButton.removeAttribute('disabled');
+			pauseButton.setAttribute('disabled', true);
 		};
 		if (progressBarContainer) {
 			if (isTouchDevice()) {
