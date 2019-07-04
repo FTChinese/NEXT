@@ -355,7 +355,9 @@
 					<%else%>
 						<%assign var="itemTagLink" value="/tag/`$itemTag`"%>
 					<%/if%>
-
+					<%if $smarty.get.webview === "ftcapp"%>
+						<%assign var="tagCanFollow" value="no"%>
+					<%/if%>
 					<%assign var="itemTagTitle" value=$itemTag%>
 					<%*<!--If editor ticked prefer sponsor image, get image and link from database -->*%>
 					<%if $item.preferSponsorImage == "yes" && $itemMainTag != ""%>
