@@ -73,11 +73,6 @@
 										<%assign var="feedStart" value=$list.feedStart|default:0%>
 										<%assign var="feedTag" value=$list.feedTag%>
 										<%if $list.feedType == "myFT"%>
-
-
-
-
-
 											<%if $smarty.get.tag != ""%>
 												<%assign var="tagSql" value=$smarty.get.tag|replace:",":"', tag) or find_in_set('"%>
 												<%assign var="tagSql" value="find_in_set('`$tagSql`', tag)"%>
@@ -87,12 +82,16 @@
 												<%assign var="topicSql" value="find_in_set('`$topicSql`', topic)"%>
 											<%/if%>
 											<%if $smarty.get.area != ""%>
-											<%assign var="areaSql" value=$smarty.get.area|replace:",":"', area) or find_in_set('"%>
-											<%assign var="areaSql" value="find_in_set('`$areaSql`', area)"%>
+												<%assign var="areaSql" value=$smarty.get.area|replace:",":"', area) or find_in_set('"%>
+												<%assign var="areaSql" value="find_in_set('`$areaSql`', area)"%>
 											<%/if%>
 											<%if $smarty.get.industry != ""%>
-											<%assign var="industrySql" value=$smarty.get.industry|replace:",":"', industry) or find_in_set('"%>
-											<%assign var="industrySql" value="find_in_set('`$industrySql`', industry)"%>
+												<%assign var="industrySql" value=$smarty.get.industry|replace:",":"', industry) or find_in_set('"%>
+												<%assign var="industrySql" value="find_in_set('`$industrySql`', industry)"%>
+											<%/if%>
+											<%if $smarty.get.author != ""%>
+												<%assign var="authorSql" value=$smarty.get.author|replace:",":"', cauthor) or find_in_set('"%>
+												<%assign var="authorSql" value="find_in_set('`$authorSql`', cauthor)"%>
 											<%/if%>
 											<%assign var="followSql" value="1>1"%>
 											<%if $tagSql != ""%>
@@ -107,12 +106,16 @@
 											<%if $industrySql != ""%>
 												<%assign var="followSql" value="`$followSql` or `$industrySql`"%>
 											<%/if%>
-											<%assign var="allkeys" value="`$smarty.get.tag``$smarty.get.topic``$smarty.get.area``$smarty.get.industry`"%>
+											<%if $authorSql != ""%>
+												<%assign var="followSql" value="`$followSql` or `$authorSql`"%>
+											<%/if%>
+											<%assign var="allkeys" value="`$smarty.get.tag``$smarty.get.topic``$smarty.get.area``$smarty.get.industry``$smarty.get.author`"%>
 											<%if preg_match("/'/is",$allkeys)%>
 												<%assign var="followSql" value="1=1"%>
 											<%/if%>
 											<%assign var="followSql" value=$followSql|regex_replace:"/^1>1 or /":""%>
 											<%*<!--<%assign var="followSql" value="(`$followSql` and (find_in_set('英语电台', tag) or find_in_set('速读', tag) or find_in_set('FT研究院', tag) or find_in_set('会员专享', tag) or find_in_set('高端专享', tag) or find_in_set('音频', tag)))"%>-->*%>
+											<%*<!--<%$followSql%>-->*%>
 											<%assign var="itemsArray" value=$storymodel->get_content_by_field_search($followSql,$feedStart,$feedItems,999999999,10800)%>
 										<%elseif $list.feedType == "hot"%>
 											<%assign var="itemsArray" value=$storymodel->get_hot_story(7,$feedItems,true)%>
@@ -208,24 +211,23 @@
 											<%if $itemIndex>0%>,<%/if%>
 											{
 												"preferSponsorImage": "",
-												"headline": "<%$itemHeadline%>",
-												"image": "<%$itemImage%>",
-												"longlead": "<%$itemLead%>",
-												"shortlead": "<%$itemShortLead%>",
-												"tag": "<%$itemTag%>",
-												"topic": "<%$item.topic|regex_replace:"/[\n\r\"]/":""%>",
-												"area": "<%$item.area|regex_replace:"/[\n\r\"]/":""%>",
-												"industry": "<%$item.industry|regex_replace:"/[\n\r\"]/":""%>",
-												"author": "<%$item.cauthor|regex_replace:"/[\n\r\"]/":""%>",
-												"customLink": "<%$customLink%>",
+												"headline": "<%$itemHeadline|regex_replace:"/[\n\r\"]/":""|escape:"html"%>",
+												"image": "<%$itemImage|regex_replace:"/[\n\r\"]/":""|escape:"html"%>",
+												"longlead": "<%$itemLead|regex_replace:"/[\n\r\"]/":""|escape:"html"%>",
+												"shortlead": "<%$itemShortLead|regex_replace:"/[\n\r\"]/":""|escape:"html"%>",
+												"tag": "<%$itemTag|regex_replace:"/[\n\r\"]/":""|escape:"html"%>",
+												"topic": "<%$item.topic|regex_replace:"/[\n\r\"]/":""|escape:"html"%>",
+												"area": "<%$item.area|regex_replace:"/[\n\r\"]/":""|escape:"html"%>",
+												"industry": "<%$item.industry|regex_replace:"/[\n\r\"]/":""|escape:"html"%>",
+												"author": "<%$item.cauthor|regex_replace:"/[\n\r\"]/":""|escape:"html"%>",
+												"customLink": "<%$customLink|regex_replace:"/[\n\r\"]/":""|escape:"html"%>",
 												"timeStamp": "<%$itemT%>",
 												"type": "<%$itemType%>",
 												"id": "<%$itemId%>",
-												"caudio": "<%$item.caudio%>",
-												"eaudio": "<%$item.eaudio%>",
-												"followSql": "<%$followSql%>",
-												"version": "<%$item.version%>",
-												"followSql": "<%$followSql%>"
+												"caudio": "<%$item.caudio|regex_replace:"/[\n\r\"]/":""|escape:"html"%>",
+												"eaudio": "<%$item.eaudio|regex_replace:"/[\n\r\"]/":""|escape:"html"%>",
+												"version": "<%$item.version|escape:"html"%>",
+												"followSql": "<%$followSql|regex_replace:"/[\n\r\"]/":""|escape:"html"%>"
 												<%assign var=itemIndex value=$itemIndex+1%>
 											}
 										<%/foreach%>

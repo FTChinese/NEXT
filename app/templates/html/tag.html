@@ -1,6 +1,8 @@
 <%if $storymodel != ""%>
 <%assign var=taginfo value=$storymodel->get_tag_describes($tag_name)%>
-<%assign var=tagtitle value=$taginfo.tag_title%>
+<%if $tagtitle == ""%>
+    <%assign var=tagtitle value=$taginfo.tag_title%>
+<%/if%>
 <%assign var=tagabout value=$taginfo.tag_desc|default:$PageIntro%>
 <%assign var=whitelist value=$storymodel->getWhitelistTag()%>
 <%/if%>
@@ -78,9 +80,7 @@
 <%assign var="allstory" value=$tagstory%>
 <%/if%>
 
-<%*<!--MARK: MyFT is broken on web site, hide it for now. -->*%>
 <%if $tag_name != ""%>
-<%*<!--assign var="itemTag" value="<div class=\"no-image\"><div class=\"item-inner\"><div class=item-tag><a href=\"#\">`$tagtitle`</a></div></div></div>"-->*%>
 <%assign var="itemTag" value="<div class=\"no-image\"><div class=\"item-inner\"><div class=item-tag><a href=\"#\">`$tagtitle`</a><button class=\"myft-follow plus\" data-tag=\"`$tag_name`\" data-type=\"`$data_type`\">关注</button></div></div></div>"%>
 <%/if%>
      
