@@ -342,13 +342,14 @@ function progressTouchMove(e) {
 }
 
 function progressTouchEnd(e) {
+	console.log ('touche end fired! ');
 	if (isProgressTouched === false) {
 		return;
 	}
 	isProgressTouched = false; 
 	var clickedX = e.changedTouches[0].clientX - findLeft(e.target);
-	clickedX = Math.min(Math.max(clickedX, 0), currentAudio.duration);
 	var fullX = e.target.offsetWidth;
+	clickedX = Math.min(Math.max(clickedX, 0), fullX);
 	if (clickedX >= 0 && fullX >= clickedX && currentAudio && currentAudio.duration >= 0) {
 		var currentProgress = clickedX / fullX; 
 		var newTime = currentAudio.duration * currentProgress;
