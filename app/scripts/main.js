@@ -872,9 +872,11 @@ function trackQualityRead() {
   }
   var storyScrollDistance = gStoryBodyBottomOffsetY - bodyHeight;
   if (storyScrollDistance > 0) {
-    if (scrollTop >= storyScrollDistance) {
-      trackRead('Read To End', 'metric5');
-    } else if (scrollTop >= storyScrollDistance/2) {
+    // if (scrollTop >= storyScrollDistance) {
+    //   trackRead('Read To End', 'metric5');
+    // } else 
+    // MARK: - GA has a limit! stop tracking read to end! 
+    if (scrollTop >= storyScrollDistance/2) {
       trackRead('Read To Half', 'metric4');
     }
   }
@@ -1166,8 +1168,8 @@ if (isTouchDevice() && window.location.href.indexOf('ftcapp') < 0) {
     }
   }
 }
-
-trackRead('Start Read', 'metric3');
+// MARK: - GA has a hit limit! Stop tracking start read! 
+//trackRead('Start Read', 'metric3');
 // MARK: - only the web site story page has privilegeEventLabel for now
 if (window.privilegeEventLabel !== undefined && (window.gUserType === 'Subscriber' || window.gUserType === 'VIP')) {
   window.privilegeEventCategory = window.privilegeEventCategory || 'Web Privileges';
