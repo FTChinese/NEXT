@@ -329,21 +329,27 @@ function progressTouchStart(e) {
 }
 
 function progressTouchMove(e) {
-	isProgressTouched = true; 
+	if (isProgressTouched === false) {
+		return;
+	}
 	var clickedX = e.changedTouches[0].clientX - findLeft(e.target);
 	var fullX = e.target.offsetWidth;
 	if (clickedX > 0 && fullX > clickedX && currentAudio && currentAudio.duration > 0) {
 		var scrubLeft = clickedX - scrubEle.offsetWidth/2;
 		scrubEle.style.left = scrubLeft + 'px';
 	}
-	e.preventDefault();
+	//e.preventDefault();
 }
 
 function progressTouchEnd(e) {
+	if (isProgressTouched === false) {
+		return;
+	}
 	isProgressTouched = false; 
 	var clickedX = e.changedTouches[0].clientX - findLeft(e.target);
+	clickedX = Math.min(Math.max(clickedX, 0), currentAudio.duration);
 	var fullX = e.target.offsetWidth;
-	if (clickedX > 0 && fullX > clickedX && currentAudio && currentAudio.duration > 0) {
+	if (clickedX >= 0 && fullX >= clickedX && currentAudio && currentAudio.duration >= 0) {
 		var currentProgress = clickedX / fullX; 
 		var newTime = currentAudio.duration * currentProgress;
 		var scrubLeft = clickedX - scrubEle.offsetWidth/2;
@@ -357,7 +363,10 @@ function progressTouchEnd(e) {
 
 
 function progressTouchCancel(e) {
-	isProgressTouched = false;
+	if (isProgressTouched === false) {
+		return;
+	}
+	isProgressTouched = false; 
 	scrubEle.style[transformStyle] = 'scaleX(0)';
 	e.preventDefault();
 }
@@ -396,9 +405,9 @@ function initAudioPlayer() {
 		if (progressBarContainer) {
 			if (isTouchDevice()) {
 				progressBarContainer.addEventListener('touchstart', progressTouchStart, false);
-				progressBarContainer.addEventListener('touchmove', progressTouchMove, false);
-				progressBarContainer.addEventListener('touchend', progressTouchEnd, false);
-				progressBarContainer.addEventListener('touchcancel', progressTouchCancel, false);
+				window.addEventListener('touchmove', progressTouchMove, false);
+				window.addEventListener('touchend', progressTouchEnd, false);
+				window.addEventListener('touchcancel', progressTouchCancel, false);
 			} else {
 				progressBarContainer.addEventListener('click', progessBarClick, false);
 				progressBarContainer.addEventListener('mouseover', function() {
