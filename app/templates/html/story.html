@@ -1470,7 +1470,7 @@
 	<%assign var="audioSrc" value=$cshortleadbody|replace:"http://v.ftimg.net/album/":"https://creatives.ftimg.net/album/"%>
 	<%if $audioSrc != ""%>
 		<%if $smarty.get.webview != "ftcapp" || $smarty.get.android != ""%>
-			<%assign var="audioHTML" value="<div class=\"audio-placeholder\" id=\"audio-placeholder\"><div class=\"audio-container\"><div class=\"audio-controls\"><button class=\"audio-control control__play\">Play</button><button class=\"audio-control control__pause\" disabled=true>Pause</button><span class=\"audio-time-text__current audio-time-text\">00:00</span><span class=\"audio-time-text__total audio-time-text\">05:15</span><div class=\"audio-time-progress\"><span class=\"audio-time-progress__background\"></span><span class=\"audio-time-progress__fill\"></span><span class=\"audio-time-progress__scrub\"></span></div></div><audio id=\"current-audio\" class=\"audio-player hide\" ontimeupdate=\"updateAudioTime(this)\" onended=\"audioEnded()\" src=\"`$audioSrc`\"></audio></div></div>"%>
+			<%assign var="audioHTML" value="<div class=\"audio-placeholder\" id=\"audio-placeholder\"><div class=\"audio-container\"><div class=\"audio-controls\"><button class=\"audio-control control__play\">Play</button><button class=\"audio-control control__pause\" disabled=true>Pause</button><span class=\"audio-time-text__current audio-time-text\">00:00</span><span class=\"audio-time-text__total audio-time-text\"></span><div class=\"audio-time-progress\"><span class=\"audio-time-progress__background\"></span><span class=\"audio-time-progress__fill\"></span><span class=\"audio-time-progress__scrub\"></span></div></div><audio id=\"current-audio\" class=\"audio-player hide\" ontimeupdate=\"updateAudioTime(this)\" onended=\"audioEnded()\" src=\"`$audioSrc`\" preload=\"auto\"></audio></div></div>"%>
 			<%*<!--assign var="audioHTML" value="<div class=\"audio-placeholder\" id=\"audio-placeholder\"><div class=\"audio-container\"><audio ontimeupdate=\"updateAudioTime(this)\"  onended=\"audioEnded()\" id=\"current-audio\" preload=\"none\" controls=\"\"><source src=\"`$audioSrc`\"><br clear='all'></audio></div></div>"-->*%>
 		<%else%>
 			<%assign var="audioHTML" value=""%>
@@ -1911,7 +1911,7 @@ if (w > 490 && isTouchDevice() === false && document.querySelectorAll('.ce').len
 <%/if%>
 
 
-<%if $audioSrc != "" && preg_match("/url/is",$cbody)%>
+<%if $audioSrc != ""%>
 	<script><%include file="next/scripts/main-audio-script-render.js"%></script>
 	<script>
 		window.audioHasRendered = true; 

@@ -12,6 +12,7 @@ var currentAudio = document.getElementById('current-audio');
 var playButton = document.querySelector('.control__play');
 var pauseButton = document.querySelector('.control__pause');
 var currentTimeEle = document.querySelector('.audio-time-text');
+var totalTimeEle = document.querySelector('.audio-time-text__total');
 var progressBarEle = document.querySelector('.audio-time-progress__fill');
 var scrubEle = document.querySelector('.audio-time-progress__scrub');
 var progressBarContainer = document.querySelector('.audio-time-progress');
@@ -163,7 +164,6 @@ function updateAudioTime(ele) {
 	if (currentTimeEle) {
 		var duration = ele.duration;
 		if (audioCurrentTime > 0 && audioCurrentTime < duration) {
-			currentTimeEle.innerHTML = getMinuteSecond(audioCurrentTime);
 			if (progressBarEle) {
 				var currentProgress = audioCurrentTime/duration;
 				var scrubLeft = progressBarWidth * currentProgress - scrubEle.offsetWidth/2;
@@ -174,6 +174,8 @@ function updateAudioTime(ele) {
 				//console.log ('progess bar width: ' +  progressBarWidth + ', scrubLeft: ' + scrubLeft);
 				//progressBarEle.style[transformStyle] = 'scaleX(0.5)'
 			}
+			currentTimeEle.innerHTML = getMinuteSecond(audioCurrentTime);
+			totalTimeEle.innerHTML = getMinuteSecond(duration);
 		}
 	}
 	if (audioHasRendered === true) {
@@ -271,11 +273,10 @@ function GetVendorPrefix(arrayOfPrefixes) {
 	return result;
 }
 
-function canPlay(ele) {
-	var duration = ele.duration;
-	var totalTime = document.querySelector('.audio-time-text__total');
-	if (totalTime) {
-		totalTime.innerHTML = getMinuteSecond(duration);
+function updateTotalTime() {
+	var duration = currentAudio.duration;
+	if (totalTimeEle) {
+		totalTimeEle.innerHTML = getMinuteSecond(duration);
 	}
 }
 
@@ -374,13 +375,21 @@ function initAudioPlayer() {
 			};
 		}
 		currentAudio.oncanplay = function() {
-			canPlay(this);
+			updateTotalTime();
 		};
+		currentAudio.ondurationchange = function() {
+			updateTotalTime();
+		};
+		currentAudio.addEventListener('loadedmetadata',function(){
+		    updateTotalTime();
+		},false);
 		currentAudio.onplay = function() {
+			updateTotalTime();
 			pauseButton.removeAttribute('disabled');
 			playButton.setAttribute('disabled', true);
 		};
 		currentAudio.onpause = function() {
+			updateTotalTime();
 			playButton.removeAttribute('disabled');
 			pauseButton.setAttribute('disabled', true);
 		};
@@ -405,7 +414,11 @@ function initAudioPlayer() {
 		window.addEventListener('resize', function() {
 			progressBarWidth = progressBarEle.offsetWidth;
 		});
-
+		// MARK: - If audio is available on a mobile web page, hide the promo box. 
+		var promoBoxEle = document.querySelector('.subscription-promo-container');
+		if (promoBoxEle && promoBoxEle.classList) {
+			promoBoxEle.classList.remove('show-image-in-mobile');
+		}
 	}
 }
 
