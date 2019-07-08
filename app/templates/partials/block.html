@@ -474,6 +474,16 @@
 								<%assign var="P" value="P-hide"%>
 							<%/if%>
 							<%assign var="hideLead" value="yes"%>
+						<%elseif $list.float === "ItemsWithSameImage"%>
+							<%if $i === 0%>
+								<%assign var="hideImage" value="no"%>
+								<%assign var="XL" value="XL12 L12 M12 S12 P12"%>
+								<%assign var="itemTopClass" value=""%>
+							<%else%>
+								<%assign var="hideImage" value="yes"%>
+								<%assign var="XL" value="one-row"%>
+								<%assign var="itemTopClass" value="XLT LT ST MT PT"%>
+							<%/if%>
 						<%elseif $list.float === "myFT"%>
 							<%assign var="hideImage" value="yes"%>
 							<%assign var="XL" value="one-row"%>
