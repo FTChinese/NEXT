@@ -7,8 +7,11 @@
         <%assign var="zone" value=$topnav %>
         <%if $subnav != "" %>
             <%assign var="zone" value="`$zone`/`$subnav`" %>
-            <%if $topnav=="home" && $subnav=="special" && $pageId != ""%>
-                <%assign var="zone" value="`$zone`/`$pageId`" %>
+            <%if $thirdnav == ""%>
+                <%assign var="thirdnav" value=$pageId%>
+            <%/if%>
+            <%if $topnav=="home" && $subnav=="special" && $thirdnav != ""%>
+                <%assign var="zone" value="`$zone`/`$thirdnav`" %>
             <%/if%>
         <%/if%>
     <%/if%>
