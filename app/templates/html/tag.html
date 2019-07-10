@@ -131,7 +131,14 @@ MARK: Check the next model tag for sponsored special reports end-->*%>
 <%/if%>
 
 <%if $tag_name != ""%>
-<%assign var="itemTag" value="<div class=\"no-image\"><div class=\"item-inner\"><div class=item-tag><a href=\"#\">`$tagtitle`</a><button class=\"myft-follow plus\" data-tag=\"`$tag_name`\" data-type=\"`$data_type`\">关注</button></div></div></div>"%>
+    <%if $smarty.get.id != ""%>
+        <%assign var="tagCode" value=$smarty.get.id|unescape:"html"%>
+        <!--Tag Code 1: <%$tagCode%>-->
+    <%else%>
+        <%assign var="tagCode" value=$tag_name%>
+        <!--Tag Code 2: <%$tagCode%>-->
+    <%/if%>
+    <%assign var="itemTag" value="<div class=\"no-image\"><div class=\"item-inner\"><div class=item-tag><a href=\"#\">`$tagtitle`</a><button class=\"myft-follow plus\" data-tag=\"`$tag_name`\" data-type=\"`$data_type`\">关注</button></div></div></div>"%>
 <%/if%>
      
 <%*<!-- Start: Decide if show new db-->*%>
