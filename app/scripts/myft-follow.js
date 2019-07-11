@@ -156,6 +156,10 @@ function checkFollow() {
     for (var i=0; i < followButtons.length; i++) {
         var dataType = followButtons[i].getAttribute('data-type');
         var dataTag = followButtons[i].getAttribute('data-tag');
+        if (dataTag.indexOf('%')>=0) {
+            dataTag = decodeURIComponent(dataTag);
+            followButtons[i].setAttribute('data-tag', dataTag);
+        }
         if (typeof savedFollowListJSON[dataType] !== 'object') {
             continue;
         }
@@ -167,42 +171,5 @@ function checkFollow() {
             followButtons[i].className = followButtons[i].className.replace(/ tick/g, ' plus');            
         }
     }
-    //console.log (savedFollowListJSON);
-    // var xhr = new XMLHttpRequest();
-    // var ajaxMethod;
-    // var ajaxUrl;
-    // var message = {};
-    // message.head = {};
-    // message.head.transactiontype = '31004';
-    // message.head.source = 'web';
-    // message.body = {};
-    // message.body.ielement = {};
-    // if (/127\.0|localhost|192\.168/.test(window.location.href)) {
-    //     ajaxMethod = 'GET';
-    //     ajaxUrl = '/api/page/recommend.json';
-    // } else {
-    //     ajaxMethod = 'POST';
-    //     ajaxUrl = '/eaclient/apijson.php';
-    // }
-    // xhr.open(ajaxMethod, encodeURI(ajaxUrl));
-    // xhr.setRequestHeader('Content-Type', 'application/json');
-    // xhr.onload = function() {
-    //     if (xhr.status === 200) {
-    //         var data = JSON.parse(xhr.responseText);
-    //         //console.log (data);
-    //         var followButtons = document.querySelectorAll('button.myft-follow');
-    //         for (var i=0; i < followButtons.length; i++) {
-    //             var thisObj = {};
-    //             thisObj.type = followButtons[i].getAttribute('data-type');
-    //             thisObj.value = followButtons[i].getAttribute('data-tag');
-    //             if (contains(data.body.odatalist, thisObj) === true) {
-    //                 followButtons[i].innerHTML = '已关注';
-    //                 followButtons[i].className = followButtons[i].className.replace(/ plus/g, ' tick');
-    //             }
-    //         }
-    //     }
-    // };
-    // xhr.send(JSON.stringify(message));
 }
-
 checkFollow();

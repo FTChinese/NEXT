@@ -75,6 +75,9 @@
     if (window.cntopic && window.cntopic !== '') {
         dfpTargetingStr = 'cntopic=' + window.cntopic + ';' + dfpTargetingStr;
     }
+    if (window.languagePreference && window.languagePreference >= 0) {
+        dfpTargetingStr = 'cnlp=' + window.languagePreference + ';' + dfpTargetingStr;
+    }
     //console.log ('Getting user type for google ad manager: ' + window.gUserType);
     var configJson = JSON.stringify({
         gpt: {
