@@ -111,7 +111,9 @@ function trackerNew() {
     var deviceName;
 
     var subscriberType = updateSubscriberStatus();
-
+    if (window.languagePreference === undefined) {
+        window.languagePreference = GetCookie('LanguagePreference') || 0;
+    }
     if (w >0) {
         if (w>1220) {
             screenType = 'XL: above 1220';

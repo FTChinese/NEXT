@@ -565,3 +565,22 @@ document.addEventListener('copy', function(e) {
     e.preventDefault();
 });
 
+// MARK: Language Switch
+var languageSwitches = document.querySelectorAll('.language-switch');
+for (var i=0; i<languageSwitches.length; i++) {
+    languageSwitches[i].onclick = function() {
+        var h = this.innerHTML;
+        var index;
+        switch (h) {
+            case '对照': 
+                index = 2;
+                break;
+            case '英文': 
+                index = 1;
+                break;
+            default: 
+                index = 0;
+        }
+        SetCookie('LanguagePreference',index,'','/');
+    };
+}
