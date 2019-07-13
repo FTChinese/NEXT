@@ -52,9 +52,7 @@
 <%assign var="itemMainTag" value=$itemTags[0]%>
 <%assign var="itemMainTagLink" value="<div class=\"item-tag\"><a href=\"/tag/`$itemMainTag`\">`$itemMainTag`</a></div>"%>
 
-<!--checking infor for manual tags-->
 <%if $infoForManualTags != ""%>
-	<!--There is infor for manual tags-->
 	<%assign var="hasFoundManualTag" value="no"%>
 	<%foreach from=$infoForManualTags.sections item=section%>
 	<%if $hasFoundManualTag == "no" && preg_match("/`$section.tag`/is",$itemTagsString)%>
@@ -85,6 +83,11 @@
 	<%assign var="subTypeData" value=""%>
 <%/if%>
 
+
+<%if $i == $eventInfoPosition%>
+	<%$eventInfoHTML%>
+<%/if%>
+
 <%$itemTop%>
 
 <%if $supportBackgroundDowndingWhenBlocked == "yes" || $smarty.get.isBG == ""%>
@@ -110,4 +113,11 @@
 		    </div>
 		</div>
 <%/if%>
+
+
+
+
+
+
+
 <%*<!--/if-->*%>
