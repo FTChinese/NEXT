@@ -37,7 +37,21 @@
 		padding: 0 $defaultPadding/3;
 	}
 }
-
+.story-headline-large {
+    font-size: $largeHeadlineFontSize;
+    line-height: $captionLineHeight;
+    font-weight: 700;
+    margin: 0 0 $defaultPadding/2;
+    position: relative;
+    &:after {
+		content: '';
+	    padding-top: $defaultPadding/2;
+	    padding-bottom: 0;
+	    display: block;
+	    width: $headlineUnderlineWidth;
+	    border-bottom: $headlineUnderlineHeight solid #000;
+    }
+}
 
 #story_main_mpu, .story_main_mpu_vw, .mpu-container-instory {
 	width: 100%;
