@@ -1579,6 +1579,7 @@
 <%if $privilegeType != ""%>
 	<%assign var="privilegeEventLabel" value="`$privilegeType`/`$itemType`/`$itemId``$privilegeSuffix`"%>
 	<%assign var="privilegeEventLabel" value=$privilegeEventLabel|strip_tags|regex_replace:"/[\r\n\t\s]/":""%>
+	<%assign var=storyHeadlineClass value=" story-headline-large"%>
 <%/if%>
 
 

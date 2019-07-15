@@ -80,6 +80,29 @@
                                                 <%assign var="infoForManualTags" value=""%>
                                                 <%if $nextmodel != ""%>
                                                     <%assign var="infoForManualTags" value=$nextmodel->getPublishJson("tagmanagement")|json_decode:true%>
+<%*<!--MARK: - Event Info Start -->*%>
+<%if $supportEventInfoFlow == "yes"%>
+    <%assign var="eventinfoflow" value=$nextmodel->getPublishJson("eventinfoflow")|json_decode:true%>
+    <%if $eventinfoflow != ""%>
+        <%assign var="hasFoundEventInfo" value="no"%>
+        <%if $smarty.get.subscription == "member"%>
+            <%assign var=subscriptionTypeValue value="standard"%>
+        <%else%> 
+            <%assign var=subscriptionTypeValue value="premium"%>
+        <%/if%>
+        <%assign var="eventInfoHTML" value=""%>
+        <%assign var="eventInfoPosition" value="7"%>
+        <%foreach from=$eventinfoflow.sections item=s%>
+        <%if $hasFoundEventInfo == "no" && $s.subscription == $subscriptionTypeValue && ($s.status == "on" || $debug_model == 1)%>
+            <%assign var="hasFoundEventInfo" value="yes"%>
+            <%assign var="eventInfoHTML" value="<div class=\"PT P-only\"></div><div class=\"item-container item-container-app P-only P12\"><div class=\"item-inner\"><div class=\"item-tag\"><a href=\"`$s.tagLink`\">`$s.tag`</a></div><h2 class=\"item-headline\"><a href=\"`$s.click`\" class=\"item-headline-link unlocked\" target=\"_blank\">`$s.title`</a></h2><a href=\"`$s.click`\" target=\"_blank\" class=\"image\"><figure class=\"loading\" data-url=\"`$s.image`\"></figure></a><div class=\"item-lead\"><a href=\"`$s.click`\" target=\"_blank\">`$s.lead`</a></div><div class=\"item-bottom\"></div></div></div>"%>
+            <%assign var="eventInfoPosition" value=$s.position%>
+        <%/if%>
+        <%/foreach%>
+    <%/if%>
+<%/if%>
+<%*<!--MARK: - Event Info Start -->*%>
+
                                                 <%/if%>
                                                 <%assign var="i" value=0%>
                                                 <%foreach from=$reports item="report"%>
@@ -97,7 +120,6 @@
                                                 <div class="clearfloat"></div>
                                             </div>
                                             <h2 class="list-title"><a class="list-link">今日焦点</a></h2>
-                                            <!--premiumContentIds: <%$premiumContentIds%>-->
                                         </div>
                                     </div>
                                     <div class="clearfloat block-bottom"></div>
