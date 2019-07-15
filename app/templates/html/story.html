@@ -1026,9 +1026,13 @@
 			    <%/if%>
 			    <%if $section.link != ""%>
 			        <%assign var="breadcrum" value="<a href=\"`$section.link`\">`$section.title`</a><button class=\"myft-follow plus\" data-tag=\"`$section.tag`\" data-type=\"tag\">关注</button>"%>
+			        <%assign var="themeLink" value=$section.link%>
 			    <%else%>
 			    	<%assign var="breadcrum" value="<a href=\"/tag/`$section.tag`\">`$section.title`</a><button class=\"myft-follow plus\" data-tag=\"`$section.tag`\" data-type=\"tag\">关注</button>"%>
+			        <%assign var="themeLink" value="/tag/`$section.tag`"%>
 			    <%/if%>
+			    <%assign var="themeTitle" value=$section.title%>
+			    <%assign var="themeTag" value=$section.tag%>
 			<%/if%>
 		<%/foreach%>
 	<%/if%>
