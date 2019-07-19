@@ -43,9 +43,7 @@
     <%else%>
         <%assign var="supportThirdPartyFrame" value="no"%>
     <%/if%>
-    <%if $v >= 44%>
-        <%assign var="supportEventInfoFlow" value="yes"%>
-    <%/if%>
+
 <%elseif $smarty.get.android != ""%>
     <%*<!-- MARK: android app -->*%>
     <%assign var="androidVersionCode" value=$smarty.get.android|floatval%>
@@ -55,6 +53,10 @@
     <%if $androidVersionCode >= 1%>
         <%assign var="supportSubscriptionPromoBox" value="yes"%>
     <%/if%>
+<%/if%>
+
+<%if $smarty.get.eventinfo == "yes"%>
+    <%assign var="supportEventInfoFlow" value="yes"%>
 <%/if%>
 
 

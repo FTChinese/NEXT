@@ -1551,6 +1551,31 @@
 							<%include file="next/partials/`$list.fromSide`.html"%>
 						</div>
 						<%assign var="s" value=$s+1%>
+				<%elseif $list.type == "SideInfo"%>
+						<%if $list.InfoType == "author"%>
+							<%assign var=sideInfoTitle value="关于`$list.title`"%>
+						<%else%>
+							<%assign var=sideInfoTitle value=$list.title%>
+						<%/if%>
+						<%if $list.link != ""%>
+							<%assign var=sideInfoLink value=" href=\"`$list.link`\""%>
+						<%elseif $list.InfoType == "author"%>
+							<%assign var=sideInfoLink value=" href=\"/author/`$list.title`\""%>
+						<%else%>
+							<%assign var=sideInfoLink value=""%>
+						<%/if%>
+						<div class="side-list<%$firstChildClass%><%$lastChildClass%>">
+							<div class="list-title">
+								<a<%$sideInfoLink%>><%$sideInfoTitle%></a>
+							</div>
+							<div class="item-lead item-description">
+								<%if $list.HeadImage != ""%>
+									<a class="image square-icon" target="_blank"><figure class="loading" data-url="<%$list.HeadImage%>"></figure></a>
+								<%/if%>
+								<%$list.Detail%>
+							</div>
+						</div>
+						<%assign var="s" value=$s+1%>
 				<%elseif $list.type == "SideRanking"%>
 					<%if $list.feedType == "video"%>
 						<%assign var="defaultTitle" value="热门视频"%>

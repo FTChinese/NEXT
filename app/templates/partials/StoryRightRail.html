@@ -83,6 +83,23 @@
 	<%/if%>
 
 
+	<%if $themeInfo != ""%>
+		<%if $themeInfo.lists != ""%>
+			<%foreach from=$themeInfo.lists item=l%>
+				<%if $l.type == "AuthorInfo"%>
+					<div class="story-box">
+						<h2 class="box-title"><a>关于<%$l.Name%></a></h2>
+						<%if $l.HeadImage != ""%>
+							<a class="image square-icon" target="_blank"><figure class="loading" data-url="<%$l.HeadImage%>"></figure></a>
+						<%/if%>
+						<%$l.AuthorIntro%>
+					</div>
+				<%/if%>
+			<%/foreach%>
+		<%/if%>
+	<%/if%>
+
+
 	<%if $smarty.get.ad != "no" && $noAd != "true" && $hideMPU2 != "yes"%>
 		<div 
 		data-o-ads-name="mpu-right2"
