@@ -22,6 +22,11 @@
                 <%assign var="useFlowLayoutForTitles" value="yes"%>
                 <%assign var="titlesClassMore" value=" use-flow-layout"%>
             <%/if%>
+            <%if $section.LogoType == "FTC"%>
+                <%assign var="logoClass" value="logo-ftc"%>
+            <%else%>
+                <%assign var="logoClass" value="logo-ft"%>
+            <%/if%>
             <div class="poster-container theme-<%$section.PosterTheme%> layout-<%$section.PosterLayout%>" 
                 <%if $section.PosterBGImage != ""%>
                      style="background-image: url(<%$section.PosterBGImage%>)"
@@ -49,7 +54,7 @@
                 <%/if%>
                 <div class="logo-container">
                     <%if $section.HideLogo != "yes"%>
-                        <div class="logo-ft"></div>
+                        <div class="<%$logoClass%>"></div>
                     <%/if%>
                     <%if $section.PosterLayout != "right-2"%>
                         <%if $section.ClientLogo != ""%>
