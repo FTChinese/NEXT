@@ -237,9 +237,10 @@ html, body {
 			width: 100%;
 			height: 0px;
 		}
-	}
+    }
+
 	.layout-bottom & {
-        position: absolute;
+        // position: absolute;
 		margin-bottom: 0;
 		&:after {
 			content: '';
@@ -252,6 +253,9 @@ html, body {
 .title-first {
 	color: white;
     top: 0;
+    .use-flow-layout & {
+        margin-top: 0;
+    }
     .theme-pink &{
         color: #060b2f;
     }
@@ -264,7 +268,11 @@ html, body {
 }
 .title-second {
 	top: 45px;
-	color: white;
+    color: white;
+    .use-flow-layout & {
+        margin-top: -10px;
+    }
+    
 	.layout-bottom & {
 		top: 55px;
     }
@@ -279,13 +287,31 @@ html, body {
         color: #9b8f67;
     }
 }
+.title-second-more {
+	top: 45px;
+    color: white;
+    .use-flow-layout & {
+        margin-top: -30px;
+    }
+    .theme-pink &{
+        color: #060b2f;
+    }
+    .theme-gold &{
+        color:#9b8f67;
+    }
+}
 .subtitle {
 	bottom: 0;
 	height: 36px;
 	line-height: 36px;
 	box-sizing: border-box;
 	color: white;
-	// MARK: set layout
+    // MARK: set layout
+    .use-flow-layout & {
+        width:80%;
+        margin: 0 auto;
+        margin-top: 17px;
+    }
 	.layout-center &, .layout-bottom &,.layout-center-2 & {
 		padding: 0 10px;
     }
