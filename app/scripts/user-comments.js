@@ -417,6 +417,16 @@ function logout() {
     var randomNumber = parseInt(Math.random()*1000000, 10);
     xmlhttp.open('GET', '/index.php/users/logout?' + randomNumber);
     xmlhttp.send();
+    // MARK: This function is also used in iOS app. However, when the base url, such as www.ftchinese.com is blocked, the logout function will fail. So when user try to logout, send the action info to native app and handle it accordingly. 
+    try {
+        if (webkit) {
+            var message = {
+                action: 'logout',
+                href: location.href
+            };
+            webkit.messageHandlers.logout.postMessage(message);
+        }
+    } catch (ignore) {}
 }
 
 function checkLogin() {
