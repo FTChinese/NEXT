@@ -188,8 +188,8 @@
     <script type="text/javascript">
         window.linksForShare = {
             'url': window.location.href,
-            'title': '<%$p.meta.title%><%if $pageId != "home"%> - FT中文网<%/if%>',
-            'lead': '<%$p.meta.description%>',
+            'title': '<%$p.meta.title|replace:"'":"&apos;"%><%if $pageId != "home"%> - FT中文网<%/if%>',
+            'lead': '<%$p.meta.description|replace:"'":"&apos;"%>',
             'image': ''
         };
     </script>

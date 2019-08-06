@@ -294,21 +294,23 @@ href="http://www.ftchinese.com" target="_blank"
     	<tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;"> </td></tr>
     	<tr><td  class="SContent cover" style="font-size:18px;line-height:23px;color:#333;padding-left:17px;padding-right:17px;"><%$section.content|nl2br%></td></tr>
     	<tr><td style="height: 15px; font-size: 0px; line-height: 15px; padding: 0;"> </td></tr>
-    	<tr><td  class="SContent cover" style="font-size:18px;line-height:23px;color:#333;padding-left:17px;padding-right:17px;">
-			<table width="100%" cellspacing="0" cellpadding="0">
-			  <tr>
-			      <td align="center">
-			          <table cellspacing="0" cellpadding="0">
-			              <tr>
-			                  <td style="border-radius: 2px;" bgcolor="#0a5e66">
-			                      <a href="<%$buttonUrl%>" target="_blank" style="padding: 8px 12px; border: 1px solid #0a5e66;border-radius: 2px;font-family: Helvetica, Arial, sans-serif;font-size: 14px; color: #ffffff;text-decoration: none;font-weight:bold;display: inline-block;"><%$section.buttonTitle%></a>
-			                  </td>
-			              </tr>
-			          </table>
-			      </td>
-			  </tr>
-			</table>
-    	</td></tr>
+    	<%if $section.buttonTitle != ""%>
+	    	<tr><td  class="SContent cover" style="font-size:18px;line-height:23px;color:#333;padding-left:17px;padding-right:17px;">
+				<table width="100%" cellspacing="0" cellpadding="0">
+				  <tr>
+				      <td align="center">
+				          <table cellspacing="0" cellpadding="0">
+				              <tr>
+				                  <td style="border-radius: 2px;" bgcolor="#0a5e66">
+				                      <a href="<%$buttonUrl%>" target="_blank" style="padding: 8px 12px; border: 1px solid #0a5e66;border-radius: 2px;font-family: Helvetica, Arial, sans-serif;font-size: 14px; color: #ffffff;text-decoration: none;font-weight:bold;display: inline-block;"><%$section.buttonTitle%></a>
+				                  </td>
+				              </tr>
+				          </table>
+				      </td>
+				  </tr>
+				</table>
+	    	</td></tr>
+    	<%/if%>
     	<tr><td style="height: 15px; font-size: 0px; line-height: 15px; padding: 0;"> </td></tr>
     	<%assign var="s" value=$s+1%>
     <%/if%>
