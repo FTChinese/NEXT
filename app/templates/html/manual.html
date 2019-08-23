@@ -2,18 +2,28 @@
 <%if $pageId == ""%>
     <%assign var="pageId" value="home"%>
 <%/if%>
+<%assign var="p" value=$nextmodel->getPublishJson($pageId)|json_decode:true%>
+
 <%*<!--MARK: This has to be replicated to multiple templates as this version of smarty doesn't support global scoop in included file-->*%>
 <%if $topnav == ""%>
-    <%assign var="topnav" value="home"%>
+    <%if $p.meta.topnav != ""%>
+        <%assign var="topnav" value=$p.meta.topnav%>
+    <%else%>
+        <%assign var="topnav" value="home"%>
+    <%/if%>
 <%/if%>
 <%if $smarty.get.topnav != ""%>
     <%assign var="topnav" value=$smarty.get.topnav%>
 <%/if%>
 <%if $smarty.get.subnav != ""%>
     <%assign var="subnav" value=$smarty.get.subnav%>
+<%elseif $p.meta.subnav != ""%>
+    <%assign var="subnav" value=$p.meta.subnav%>
 <%/if%>
 <%if $smarty.get.thirdnav != ""%>
     <%assign var="thirdnav" value=$smarty.get.thirdnav%>
+<%elseif $p.meta.thirdnav != ""%>
+    <%assign var="thirdnav" value=$p.meta.thirdnav%>
 <%/if%>
 <%*<!--MARK: End-->*%>
 
@@ -65,7 +75,6 @@
     <%assign var="supportThirdPartyFrame" value="yes"%>
 <%/if%>
 
-<%assign var="p" value=$nextmodel->getPublishJson($pageId)|json_decode:true%>
 <%assign var="adchannelID" value="`$p.meta.adid`"%>
 
 <%*<!-- 新版本需要调整从pagemaker获取的频道号adchannelID -->*%>
