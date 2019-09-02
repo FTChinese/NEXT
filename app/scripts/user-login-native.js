@@ -58,9 +58,11 @@ function passLoginToNative() {
             } catch (ignore) {
                 
             }
-            var mainDomain = document.domain.replace(/^[^.]+/g, '');
-            SetCookie('paywall_expire',userInfo.expire,86400*100,'/', mainDomain);
-            SetCookie('paywall',message.paywall,86400*100,'/', mainDomain);
+            //var mainDomain = document.domain.replace(/^[^.]+/g, '');
+            //console.log ('save User expire: ' + userInfo.expire); 
+            SetCookie('paywall_expire',userInfo.expire,86400*100,'/');
+            SetCookie('paywall',message.paywall,86400*100,'/');
+            //console.log ('get User expire: ' + GetCookie('paywall_expire'));
         }
     };
     xhr.send();

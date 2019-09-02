@@ -26,7 +26,7 @@
 <meta content="FT中文网智能手机HTML 5应用" name="description"/>
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-<link rel="apple-touch-icon-precomposed" href="https://static.ftimg.net/img/ipad_icon.png" />
+<link rel="apple-touch-icon-precomposed" href="https://dhgxl8qk9zgzr.cloudfront.net/img/ipad_icon.png" />
 <meta name="viewport" id="vp" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" />
 <meta name="viewport" id="vp" content="initial-scale=1.0,user-scalable=no,maximum-scale=1" media="(device-height: 568px)" />
 <style>
@@ -42,7 +42,7 @@ html,body{background:#000;height:100%;min-height:100%;}
     left: 0;
     background-size: 40px!important;
     opacity: 1;
-    background: url(https://static.ftimg.net/icons/svg/fticon-v1_play.svg) rgba(0, 0, 0, 0.9) no-repeat center center;
+    background: url(https://dhgxl8qk9zgzr.cloudfront.net/icons/svg/fticon-v1_play.svg) rgba(0, 0, 0, 0.9) no-repeat center center;
 }
 </style>
 <script type="text/javascript"><%include file = "next/scripts/cookie.js"%></script>
@@ -82,7 +82,7 @@ html,body{background:#000;height:100%;min-height:100%;}
     JSONP.src = 'http://p.bokecc.com/servlet/getvideofile?[ASRANDOM]&vid=' + vid + '&siteid=' + siteid + '&divid=&callback=video&useragent=' + useragent;
     document.getElementsByTagName('head')[0].appendChild(JSONP);
     function video(obj) {
-        document.getElementById('video').innerHTML = '<video id="mpu-video" src="' + obj.copies[0].playurl + '" width="' + v_width + '" height="' + v_height + '" airplay="deny" x-webkit-airplay="deny" playsinline webkit-playsinline>Your browser does not support the <code>video</code> element.</video><div id="sound-button" style="width:36px; height:36px; position:absolute; top:0; left:0px; z-index:16; background-color:#FFF; cursor:pointer; border:none; padding:0px; margin:0px; background: url(https://static.ftimg.net/ftc-icons/png/ic_volume_up_white_18pt.png) rgba(0,0,0,0.618) no-repeat 50% 50%; " onclick="switchSound(this)"></div>';
+        document.getElementById('video').innerHTML = '<video id="mpu-video" src="' + obj.copies[0].playurl + '" width="' + v_width + '" height="' + v_height + '" airplay="deny" x-webkit-airplay="deny" playsinline webkit-playsinline>Your browser does not support the <code>video</code> element.</video><div id="sound-button" style="width:36px; height:36px; position:absolute; top:0; left:0px; z-index:16; background-color:#FFF; cursor:pointer; border:none; padding:0px; margin:0px; background: url(https://dhgxl8qk9zgzr.cloudfront.net/ftc-icons/png/ic_volume_up_white_18pt.png) rgba(0,0,0,0.618) no-repeat 50% 50%; " onclick="switchSound(this)"></div>';
         var v = document.getElementById('mpu-video');
         var soundButton = document.getElementById('sound-button');
         v.controls = true;
@@ -117,11 +117,11 @@ html,body{background:#000;height:100%;min-height:100%;}
         var v = document.getElementById('mpu-video');
         if (ele.className == 'sound-on') {
             ele.className = '';
-            ele.style.backgroundImage = 'url(https://static.ftimg.net/ftc-icons/png/ic_volume_up_white_18pt.png)';
+            ele.style.backgroundImage = 'url(https://dhgxl8qk9zgzr.cloudfront.net/ftc-icons/png/ic_volume_up_white_18pt.png)';
             v.muted = true;
         } else {
             ele.className = 'sound-on';
-            ele.style.backgroundImage = 'url(https://static.ftimg.net/ftc-icons/png/ic_volume_off_white_18pt.png)';
+            ele.style.backgroundImage = 'url(https://dhgxl8qk9zgzr.cloudfront.net/ftc-icons/png/ic_volume_off_white_18pt.png)';
             v.muted = false;
         }
     }
@@ -146,16 +146,16 @@ html,body{background:#000;height:100%;min-height:100%;}
     <%if $smarty.get.vid != ""%>
         <script src="http://p.bokecc.com/player?vid=<%$smarty.get.vid%>&siteid=922662811F1A49E9&autoStart=<%$autostart%>&width=<%$w%>&height=<%$h%>&playerid=3571A3BF2AEC8829&playertype=1" type="text/javascript"></script>
     <%elseif $cc_vaddress && $cc_vaddress!=""%>
-      <script src="http://union.bokecc.com/player?vid=<%$cc_vaddress%>&siteid=922662811F1A49E9&autoStart=<%$autostart%>&width=<%$w%>&height=<%$h%>&playerid=3571A3BF2AEC8829&playertype=1" type="text/javascript"></script>
+      <script src="https://union.bokecc.com/player?vid=<%$cc_vaddress%>&siteid=922662811F1A49E9&autoStart=<%$autostart%>&width=<%$w%>&height=<%$h%>&playerid=3571A3BF2AEC8829&playertype=1" type="text/javascript"></script>
     <%else%>
     <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="<%$w%>" height="<%$h%>" id="osmfPlayer">
-        <param name="movie" value="https://static.ftimg.net/player111014/osmfPlayer_3.swf?videoid=<%$id%>&autoplay=<%$autostart%>" />
+        <param name="movie" value="https://dhgxl8qk9zgzr.cloudfront.net/player111014/osmfPlayer_3.swf?videoid=<%$id%>&autoplay=<%$autostart%>" />
         <param name="quality" value="high" />
         <param name="bgcolor" value="#000000" />
         <param name="allowScriptAccess" value="always" />
         <param name="allowFullScreen" value="true" />
         <!--[if !IE]>-->
-        <object type="application/x-shockwave-flash" data="https://static.ftimg.net/player111014/osmfPlayer_3.swf?videoid=<%$id%>&autoplay=<%$autostart%>" width="<%$w%>" height="<%$h%>">
+        <object type="application/x-shockwave-flash" data="https://dhgxl8qk9zgzr.cloudfront.net/player111014/osmfPlayer_3.swf?videoid=<%$id%>&autoplay=<%$autostart%>" width="<%$w%>" height="<%$h%>">
             <param name="quality" value="high" />
             <param name="bgcolor" value="#000000" />
             <param name="allowFullScreen" value="true" />
