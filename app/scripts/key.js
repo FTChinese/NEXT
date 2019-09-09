@@ -74,10 +74,9 @@ function updateSubscriberStatus() {
 
 
 function updateClientIdLinks() {
-    ga(function(tracker) {
-      window.gClientId = tracker.get('clientId');
-      var clientIdLinks = document.querySelectorAll('.o-client-id-link');
-      for (var k = 0; k < clientIdLinks.length; k++) {
+    window.gClientId = GetCookie('_ga');
+    var clientIdLinks = document.querySelectorAll('.o-client-id-link');
+    for (var k = 0; k < clientIdLinks.length; k++) {
         var ele = clientIdLinks[k];
         var link = ele.href;
         if (link && typeof link === 'string' && link.indexOf('/')>=0) {
@@ -86,11 +85,12 @@ function updateClientIdLinks() {
             ele.href = link + connector + 'clientId=' + window.gClientId;
             ele.className = eleClass.replace(/o-client-id-link/g, '');
         }
-      }
-    });
+    }
 }
 
 function trackerNew() {
+    var gaMeasurementId = 'UA-1608715-1';
+    var gTagParameters = {};
     var l=window.location.href;
     var keyTag; 
     var vsource; 
@@ -114,6 +114,8 @@ function trackerNew() {
     if (window.languagePreference === undefined) {
         window.languagePreference = GetCookie('LanguagePreference') || 0;
     }
+    gTagParameters.linker.domains = ['ftacademy.cn', 'ft.com', 'ftchinese.com'];
+
     if (w >0) {
         if (w>1220) {
             screenType = 'XL: above 1220';
@@ -126,7 +128,7 @@ function trackerNew() {
         } else {
             screenType = 'Phone: under 491';
         }
-        ga('set', 'dimension18', screenType);
+        gTagParameters.dimension18 = screenType;
     }
     
     if (/ipad/i.test(ua)) {
@@ -141,7 +143,7 @@ function trackerNew() {
         deviceName = 'Desktop';
     }
     deviceName = 'Page by ' + deviceName;
-    ga('set', 'contentGroup4', deviceName);
+    gTagParameters.contentGroup4 = deviceName;
 
     //console.log (screenType);
     ccode=paravalue(l,'ccode');
@@ -211,27 +213,23 @@ function trackerNew() {
         usource='Zacker';
         umedium='referral';
     } 
-    try{
-        ga('set', 'AllowAnchor', true);
+    try {
+        gTagParameters.AllowAnchor = true;
         if (ccode!=='' && l.indexOf('utm_campaign')<0) {
-            ga('set', 'campaignName', ccode);
-            ga('set', 'campaignSource', usource);
-            ga('set', 'campaignMedium', umedium);
+            gTagParameters.campaign = {name: ccode, source: usource, medium: umedium};
             l=window.location.href;
         }
-    }catch(ignore){
-    
-    }
+    } catch(ignore) {}
     if (typeof window.interactiveType === 'string') {
         try{
-            ga('set', 'contentGroup1', window.interactiveType); 
+            gTagParameters.contentGroup1 = window.interactiveType;
         }catch(ignore){
         
         }
     }
 
     if (window.FTAdchID !== undefined && window.FTAdchID !== null && window.FTAdchID !== '') {
-        ga('set', 'dimension1', window.FTAdchID);
+        gTagParameters.dimension1 = window.FTAdchID;
     }
 
     if (subscriberType && typeof subscriberType === 'string' && subscriberType !== '') {
@@ -247,12 +245,11 @@ function trackerNew() {
     //console.log ('visitor type is set as: ' + gUserType);
 
     if (userId !== '') {
-        ga('set', 'dimension14', userId);
-        ga('set', 'userId', userId);
+        gTagParameters.dimension14 = userId;
+        gTagParameters.user_id = userId;
     }
-    
-    ga('set', 'dimension2', vtype);
-    ga('set', 'dimension13', vsource);
+    gTagParameters.dimension2 = vtype;
+    gTagParameters.dimension13 = vsource;
 
     try {
         keyTag=window.gKeyTag;
@@ -289,32 +286,32 @@ function trackerNew() {
     } else {
         pagetype='Other';
     }
-    ga('set', 'dimension4', pagetype);
+    gTagParameters.dimension4 = pagetype;
 
     if (window.ftcteam === undefined || window.ftcteam === null || window.ftcteam === '') {
         if (ftcteam1!==''){
-            ga('set', 'dimension5', ftcteam1);
+            gTagParameters.dimension5 = ftcteam1;
         }
     } else {
-        ga('set', 'dimension5', window.ftcteam);
+        gTagParameters.dimension5 = window.ftcteam
     }
     if (window.gauthor !== undefined && window.gauthor !== null && window.gauthor !== '') {
-        ga('set', 'dimension6', window.gauthor);
+        gTagParameters.dimension6 = window.gauthor;
     }
     if (window.storyGenre !== undefined && window.storyGenre !== null && window.storyGenre !== '') {
-        ga('set', 'dimension8', window.storyGenre);
+        gTagParameters.dimension8 = window.storyGenre;
     }
     if (window.storyArea !== undefined && window.storyArea !== null && window.storyArea !== '') {
-        ga('set', 'dimension9', window.storyArea);
+        gTagParameters.dimension9 = window.storyArea;
     }
     if (window.storyIndustry !== undefined && window.storyIndustry !== null && window.storyIndustry !== '') {
-        ga('set', 'dimension10', window.storyIndustry);
+        gTagParameters.dimesion10 = window.storyIndustry;
     }
     if (window.mainTopic !== undefined && window.mainTopic !== null && window.mainTopic !== '') {
-        ga('set', 'dimension11', window.mainTopic);
+        gTagParameters.dimension11 = window.mainTopic;
     }
     if (window.subTopic !== undefined && window.subTopic !== null && window.subTopic !== '') {
-        ga('set', 'dimension12', window.subTopic);
+        gTagParameters.dimension12 = window.subTopic;
     }
 
 
@@ -324,15 +321,10 @@ function trackerNew() {
     //console.log('Optimize track new');
     setTimeout(function(){
         if (window.isBlocked === 'yes' || window.bBlocked === 'yes') {
-            ga('set', 'dimension16', 'yes');
+            gTagParameters.dimension16 = 'yes';
         } else if (window.isBlocked === 'no'){
-            ga('set', 'dimension16', 'no');
+            gTagParameters.dimension16 = 'no';
         }
-
-        // if (typeof window.bBlocked === 'string' ) {
-        //     ga('send','event', 'home', 'In View Error Catch: 026', window.isBlocked + '/' + window.bBlocked, {'nonInteraction':1});
-        // }
-
         if (window.bpage !== undefined && window.bpage !== 0 && window.bpage !== null) {
             trackerpage=l;
             if (window.virtualPage !== undefined){
@@ -344,7 +336,7 @@ function trackerNew() {
                 trackerpage=trackerpage + '?' + window.metaInfo;
             }
             trackerpage='/barrier/'+window.bpage+'/'+trackerpage;
-            ga('send', 'pageview', trackerpage);
+            gtag('config', gaMeasurementId, gTagParameters);
         } else if (window.virtualPage !== undefined){
             pagePara=l;
             pagePara=pagePara.replace(/^.*\/(story|video|interactive)\/[0-9]+/g,'').replace(/^.*\.com[\/]*/g,'').replace(/search\/.*$/g,'');
@@ -363,19 +355,15 @@ function trackerNew() {
                     pagePara=pagePara.replace(/\?/g,'&');
                 }
             }
-            if (window.gAutoStart === undefined) {ga('send', 'pageview', window.virtualPage+pagePara);}
+            if (window.gAutoStart === undefined) {
+                gTagParameters.page_path = window.virtualPage+pagePara;
+                gtag('config', gaMeasurementId, gTagParameters);
+            }
         } else {
-            if (window.gAutoStart === undefined) {ga('send', 'pageview');}
+            if (window.gAutoStart === undefined) {
+                gtag('config', gaMeasurementId, gTagParameters);
+            }
         }
-
-
-        // MARK: - Stop tracking for lack of GA quota
-	    // if (typeof window.FTStoryid === 'string' && typeof keyTag === 'string' && keyTag.indexOf(',')>=0) {
-	    //     keyTagArray=keyTag.split(',');
-	    //     for (i = 0; i < keyTagArray.length; i++) {
-	    //         ga('send','event','Story Tag',keyTagArray[i],window.FTStoryid,{'nonInteraction':1});
-	    //     }
-	    // }
     }, 1);
 
 
@@ -409,7 +397,11 @@ function showWarningMessage(warningType) {
         if (emailLink) {
             emailLink.href = 'mailto: subscriber.service@ftchinese.com?subject=Appeal For ' + window.userId;
         }
-        ga('send','event', 'Subscription Warning: ' + warningType, 'Show', window.userId, {'nonInteraction':1});
+        gtag('event', 'Show', {
+          'event_label': window.userId,
+          'event_category': 'Subscription Warning: ' + warningType,
+          'non_interaction': true
+        });
     }
 }
 
