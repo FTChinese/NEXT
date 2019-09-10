@@ -120,7 +120,7 @@ function sendTracking(promoboxContainer) {
   if (boxEle) {
     var ccode = boxEle.getAttribute('data-promo-id');
     if (ccode && ccode !== '') {
-      ga('send', 'event', 'PromoBox', 'Display', ccode, {'nonInteraction': 1});
+      gtag('event', 'Display', {'event_label': ccode, 'event_category': 'PromoBox', 'non_interaction': true});
     }
   }
 }
@@ -246,13 +246,13 @@ function openHint() {
       for (var i = 0,len=dataHints.length; i < len; i++) {  
         dataHints[i].onclick = function(){   
           paywallHintContainer.style.display = 'block';
-          ga('send','event','Web Privileges', 'Display', window.gSubscriptionEventLabel);
           ga('ec:addPromo', {               
             'id': window.gSubscriptionEventLabel,             
             'name': window.gSubscriptionEventLabel,          
             'creative': location.href,   
             'position': 'become a member'     
           });
+          gtag('event', 'Display', {'event_label': window.gSubscriptionEventLabel, 'event_category': 'Web Privileges'});
         };
       }
     }

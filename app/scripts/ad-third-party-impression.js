@@ -15,7 +15,7 @@ function sendImpToThirdParty(Imp, AdName, AssID) {
             var eventLabel = arguments[2] || '';
             var asRandom = 'G' + Math.round(Math.random() * 1000000000000);
             try {
-                window.parent.ga('send', 'event', eventCategory, eventAction, eventLabel, {'nonInteraction': 1});
+                window.parent.gtag('event', eventAction, {'event_label': eventLabel, 'event_category': eventCategory, 'non_interaction': true});
             } catch (ignore) {
                 var gaServerTracker = new Image();
                 gaServerTracker.src = 'http://www.ftchinese.com/index.php/ft/hit/' + AssID + '/2?ec=' + eventCategory + '&ea=' + eventAction + '&el=' + encodeURIComponent(eventLabel) + '&r=' + asRandom;

@@ -152,35 +152,6 @@ function checkInView(obj) {
 
 function trackViewables() {
   trackQualityRead();
-  // MARK: - Stop Tracking viewables for lack of GA quota
-  // try {
-  //   // blocks in view
-  //   var ec = window.gPageId || 'Other Page';
-  //   for (var j=0; j<viewables.length; j++) {
-  //     if (viewables[j] !== '' && viewables[j].viewed === false) {
-  //       if (checkInView(viewables[j]) === true) {
-  //         var k = j;
-  //         viewables[k].viewed = 'pending';
-  //         setTimeout((function(k) {
-  //             return function() {
-  //               if (checkInView(viewables[k]) === true) {
-  //                 viewables[k].viewed = true;
-  //                 ga('send','event', ec, 'In View', viewables[k].id, {'nonInteraction':1});
-  //                 if (viewables[k].adch !== '' && viewables[k].adPosition !== '') {
-  //                   ga('send','event', 'Ad In View', viewables[k].adch, viewables[k].adPosition, {'nonInteraction':1});
-  //                   //playVideoInIframe(viewables[k].adch + '' + viewables[k].adPosition);
-  //                 }
-  //               } else {
-  //                 viewables[k].viewed = false;
-  //               }
-  //             };
-  //         })(k), viewables[k].time);
-  //       }
-  //     }
-  //   }
-  // } catch (ignore) {
-
-  // }
 }
 
 
@@ -438,11 +409,6 @@ function viewablesInit() {
         if (j === 0) {
           window.bBlocked = 'yes';
         }
-        // if (j === 0) {
-        //   setTimeout(function(){
-        //     ga('send','event', 'home', 'In View Error Catch: 019', window.isBlocked + ': ' + sections[0].offsetTop +'/' + sections[4].offsetTop + ',' + sections[4].offsetHeight + '/' + sections[4].style.display +'/'+ sections[4].className, {'nonInteraction':1});
-        //   }, 1000);
-        // }
       }
      
       sections[j].setAttribute('data-id', sectionType + '-' + sectionTypes[sectionType]);
@@ -681,17 +647,7 @@ function stickyBottomUpdate() {
       if (window.ftItemId === undefined) {
         window.ftItemId = '';
       }
-      // MARK: - stop tracking for lack of GA quota
-      //ga('send','event','Story Recommend', 'Seen' + window.recommendVersion, ftItemId, {'nonInteraction':1});
-
-      // MARK: - stop tracking for lack of GA quota
-      // MARK: If there is uluAd, send another ga 'seen' eventAction
-      // if(gThereIsUluAd === 1) {
-      //   ga('send','event','Story Recommend With Ad', 'Seen' + window.recommendVersion, ftItemId, {'nonInteraction':1});
-      // }
-      
       gRecomendInViewNoted = true;
-      //console.log ('in view');
     }
   }
 
@@ -751,12 +707,6 @@ function validHTMLCode() {
         validateFail = true;
       }
     }
-    if (validateFail === true) {
-      // MARK: - Stop Tracking For lack of GA quota
-      //ga('send','event','CatchError', 'Page Validation Fail', window.location.href, {'nonInteraction':1});
-      ga('send','event','CatchError', 'Page Validation Fail', 'Some Page', {'nonInteraction':1});
-
-    }
   }
 }
 
@@ -802,37 +752,38 @@ function trackInternalPromos() {
       var promoCreative = currentPromo.getAttribute('data-promo-creative');
       var promoPosition = currentPromo.getAttribute('data-promo-position');
       if (isHidden(currentPromo) === false) {
-        ga('ec:addPromo', {
-          'id': promoId,
-          'name': promoName,
-          'creative': promoCreative,
-          'position': promoPosition
+        gtag('event', 'view_promotion', {
+          "promotions": [
+            {
+              "id": promoId,
+              "name": promoName,
+              "creative_name": promoCreative,
+              "creative_slot": promoPosition
+            }
+          ]
         });
-        ga('send','event','Web Privileges', 'Display', 'From:' + promoId, {'nonInteraction':1});
+        gtag('event', 'Display', {'event_label': 'From:' + promoId, 'event_category': 'Web Privileges', 'non_interaction': true});
         currentPromo.onclick = function() {
           var promoId = this.getAttribute('data-promo-id');
           var promoName = this.getAttribute('data-promo-name');
           var promoCreative = this.getAttribute('data-promo-creative');
           var promoPosition = this.getAttribute('data-promo-position');
-          ga('ec:addPromo', {
+          gtag('event', 'select_content', {
             'id': promoId,
             'name': promoName,
             'creative': promoCreative,
             'position': promoPosition
           });
-          ga('ec:setAction', 'promo_click');
           var theLink = this.href;
-          ga('send','event','Web Privileges', 'Tap', 'From:' + promoId, {
-              hitCallback: function() {
-                openLink(theLink);
-              }
+          gtag('event', 'Tap', {
+            'event_label': 'From:' + promoId, 
+            'event_category': 'Web Privileges', 
+            'event_callback': function() {
+              openLink(theLink);
+            }
           });
-          // MARK: If for some reason GA is not accessible, redirectly regardless
-          // setTimeout(function() {
-          //   openLink(theLink);
-          // }, 3000);
           // MARK: Track the event then go to link 
-          return !ga.loaded;
+          return false;
         };
       }
     }
@@ -859,8 +810,12 @@ function trackRead(ea, metricValue) {
       return;
     }
     var el = window.privilegeEventLabel || ftItemId;
-    ga('set', metricValue, '1');
-    ga('send','event', 'Quality Read', ea, el, {'nonInteraction':1});
+    //ga('set', metricValue, '1');
+    // TODO: Test if quality read works
+    gtag('config', gaMeasurementId, {
+      'custom_map': {'metric1': metricValue}
+    });
+    gtag('event', ea, {'event_label': el, 'event_category': 'Quality Read', 'non_interaction': true});
     window[ea] = true;
   }
 }
@@ -1013,7 +968,7 @@ try {
       // console.log ('yes');
       // console.log (this.className);
       if (this.className.indexOf('track-click') >= 0) {
-        ga('send','event',ec, ea, el);
+        gtag('event', ea, {'event_label': el, 'event_category': ec});
       }
       // MARK: If there is a cooperative adverising in bottom Recommend Section, these code to send img.src to third part
       if (el === 'uluAd') {
@@ -1030,12 +985,8 @@ try {
               failAction = 'Fail' + retryTime;
             }
             uluAdImage.onload = function() {
-              // MARK: Stop Tracking for GA quota
-              //ga('send','event','uluAd',seccessAction,uluAdUrl);
             };
             uluAdImage.onerror = function() {
-              // MARK: Stop Tracking for GA quota
-              //ga('send','event','uluAd',failAction,uluAdUrl);
               retryTime++;
               if(retryTime<=5) {
                 uluAdSendOneTime();
@@ -1044,8 +995,6 @@ try {
             uluAdImage.src = uluAdUrl;
           };
           uluAdSendOneTime();
-          // MARK: Stop Tracking for GA quota
-          //ga('send','event','uluAd','Request',uluAdUrl);
       }
     }
   });
@@ -1173,5 +1122,5 @@ if (isTouchDevice() && window.location.href.indexOf('ftcapp') < 0) {
 // MARK: - only the web site story page has privilegeEventLabel for now
 if (window.privilegeEventLabel !== undefined && (window.gUserType === 'Subscriber' || window.gUserType === 'VIP')) {
   window.privilegeEventCategory = window.privilegeEventCategory || 'Web Privileges';
-  ga('send','event', window.privilegeEventCategory, 'Read', window.privilegeEventLabel, {'nonInteraction':1});
+  gtag('event', 'Read', {'event_label': window.privilegeEventLabel, 'event_category': window.privilegeEventCategory, 'non_interaction': true});
 }

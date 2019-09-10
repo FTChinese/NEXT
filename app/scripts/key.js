@@ -2,7 +2,7 @@
 var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 var ua = navigator.userAgent || navigator.vendor || '';
 var gUserType = 'visitor';
-
+var gaMeasurementId = 'UA-1608715-1';
 
 
 function GetCookie(name){
@@ -89,7 +89,6 @@ function updateClientIdLinks() {
 }
 
 function trackerNew() {
-    var gaMeasurementId = 'UA-1608715-1';
     var gTagParameters = {};
     var l=window.location.href;
     var keyTag; 
@@ -293,7 +292,7 @@ function trackerNew() {
             gTagParameters.dimension5 = ftcteam1;
         }
     } else {
-        gTagParameters.dimension5 = window.ftcteam
+        gTagParameters.dimension5 = window.ftcteam;
     }
     if (window.gauthor !== undefined && window.gauthor !== null && window.gauthor !== '') {
         gTagParameters.dimension6 = window.gauthor;
@@ -397,11 +396,7 @@ function showWarningMessage(warningType) {
         if (emailLink) {
             emailLink.href = 'mailto: subscriber.service@ftchinese.com?subject=Appeal For ' + window.userId;
         }
-        gtag('event', 'Show', {
-          'event_label': window.userId,
-          'event_category': 'Subscription Warning: ' + warningType,
-          'non_interaction': true
-        });
+        gtag('event', 'Show', {'event_label': window.userId, 'event_category': 'Subscription Warning: ' + warningType, 'non_interaction': true});
     }
 }
 

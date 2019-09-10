@@ -42,7 +42,7 @@ var eventsToSend = [];
 
 function sendEvent(ec, ea, el, ei) {
   try {
-    ga('send','event',ec, ea, el, ei);
+    gtag('event', ea, {'event_label': el, 'event_category': ec, 'value': ei});
   } catch (ignore) {
     // push this to an array for GA to send after loading JS
     eventsToSend.push({
@@ -57,7 +57,7 @@ function sendEvent(ec, ea, el, ei) {
 function clearEvents() {
   var l = eventsToSend.length;
   for (var i=0; i<l; i++) {
-    ga('send', 'event', eventsToSend[i].ec, eventsToSend[i].ea, eventsToSend[i].el, eventsToSend[i].ei);
+    gtag('event', eventsToSend[i].ea, {'event_label': eventsToSend[i].el, 'event_category': eventsToSend[i].ec, 'value': eventsToSend[i].ei});
   }
   eventsToSend = [];
   window.gaLoaded = true;
@@ -116,7 +116,7 @@ function displayPayWallInBody() {
         var finalHTML = '<div><div>' + reason + '</div><div>' + loginHTML +'</div><div>' + subscribeHTML + '</div></div></div>';
         storyBody.innerHTML = finalHTML;
         updateClientIdLinks();
-        ga('send','event','Web Privileges', 'Display', window.gSubscriptionEventLabel);
+        gtag('event', 'Display', {'event_label': window.gSubscriptionEventLabel, 'event_category': 'Web Privileges'});
       }
 }
 

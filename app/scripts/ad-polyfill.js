@@ -47,9 +47,9 @@
 	    s.parentNode.insertBefore(sc, s);
 	    adCodeLoaded = true;
 	    try {
-		   	ga('send', 'event', 'LoadAdCode', 'Request', src, {'nonInteraction': 1});
+		   	gtag('event', 'Request', {'event_label': src, 'event_category': 'LoadAdCode', 'non_interaction': true});
 		    s.onload = function(){
-		    	ga('send', 'event', 'LoadAdCode', 'Success', src, {'nonInteraction': 1});
+		    	gtag('event', 'Success', {'event_label': src, 'event_category': 'LoadAdCode', 'non_interaction': true});
 		    };
 	    } catch(ignore) {
 
@@ -77,9 +77,9 @@
 		var s = document.getElementsByTagName('script')[0];
 		s.parentNode.insertBefore(pf, s);
 		try {
-		   	ga('send', 'event', 'LoadAdCode', 'Request', 'cdn.polyfill.io', {'nonInteraction': 1});
+		   	gtag('event', 'Request', {'event_label': 'cdn.polyfill.io', 'event_category': 'LoadAdCode', 'non_interaction': true});
 		    s.onload = function(){
-		    	ga('send', 'event', 'LoadAdCode', 'Success', 'cdn.polyfill.io', {'nonInteraction': 1});
+		    	gtag('event', 'Success', {'event_label': 'cdn.polyfill.io', 'event_category': 'LoadAdCode', 'non_interaction': true});
 		    };
 	    } catch(ignore) {
 

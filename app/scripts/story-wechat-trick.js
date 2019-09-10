@@ -42,7 +42,7 @@
 					        }
 					    }
 					}
-					ga('send', 'event', 'WeChatLoadTrack', 'reload ad', timeString, {'nonInteraction':1});
+					gtag('event', 'reload ad', {'event_label': timeString, 'event_category': 'WeChatLoadTrack', 'non_interaction': true});
 				}
 				// MARK: - check the images that uses FT Image service. If loading is not complete, use the original image, which might be quite big in size, but we'll accept that. Anyway, the extra traffic data usage will be attributed to WeChat. 
 				var images = document.querySelectorAll('img');
@@ -61,14 +61,14 @@
 					}
 				}
 				if (imageReloaded) {
-					ga('send', 'event', 'WeChatLoadTrack', 'reload image', timeString, {'nonInteraction':1});
+					gtag('event', 'reload image', {'event_label': timeString, 'event_category': 'WeChatLoadTrack', 'non_interaction': true});
 				}
 			}, 1000);
-			ga('send', 'event', 'WeChatLoadTrack', 'stop', timeString, {'nonInteraction':1});
+			gtag('event', 'stop', {'event_label': timeString, 'event_category': 'WeChatLoadTrack', 'non_interaction': true});
 		} else if (pageLoaded) {
-			ga('send', 'event', 'WeChatLoadTrack', 'success', timeString, {'nonInteraction':1});
+			gtag('event', 'success', {'event_label': timeString, 'event_category': 'WeChatLoadTrack', 'non_interaction': true});
 		} else {
-			ga('send', 'event', 'WeChatLoadTrack', 'ignore', timeString, {'nonInteraction':1});
+			gtag('event', 'ignore', {'event_label': timeString, 'event_category': 'WeChatLoadTrack', 'non_interaction': true});
 		}
 	}, timeInSeconds * 1000);
 	// MARK: If the user opens a paid content and is required to login, give him the option to view this content with his app. 

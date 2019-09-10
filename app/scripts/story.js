@@ -122,8 +122,7 @@ ftc_api.jsonp(thirdPartAPIUrl + '&callback=getRec&cki=' + userId + '&v=' + new D
 
 
 // MARK: The rest work jump to getRec
-// MARK: Stop Tracking for lack of GA Quota
-//ga('send','event','Recommend Story API', 'Load' + recommendVersion, '', {'nonInteraction':1});
+
     
 
 
@@ -213,8 +212,6 @@ function getRec(data) {
             if(data[i]) {
                 if(data[i].isAd===1) { //把广告数据拎出来,更新全局变量adData
                     adData = data[i];
-                    // MARK: - Stop Tracking for Lack of GA Quota
-                    //ga('send','event','Story Recommend With Ad','Got Data', ftItemId, {'nonInteraction':1});//MARK：如果获取的数据里面有广告，则进行一次ga监控；正常不投放的情况下应该数据中间没有广告
                 } else { //把文章id拎出来，得到ids
                     var tmpKey = data[i].id;
                     var tmpVal = data[i].parameter;
@@ -240,15 +237,7 @@ function getRec(data) {
 
             ftc_api.call(message, getThirdPartRecommendSuccess, getThirdPartRecommendFailed);//用message（含优路科技提供的推荐文章id)来请求我们的接口，请求成功后回调函数为getThirdPartRecommendSuccess，请求失败后回调函数为getThirdPartRecommendFaild
             //MARK:jump to  getThirdPartRecommendSuccess  
-        } else {
-             //console.log(' Data from jsonp is wrong');
-             // MARK: - Stop Tracking for Lack of GA Quota
-             //ga('send','event','Recommend Story API', 'No Data1' + recommendVersion, '', {'nonInteraction':1});
         }
-    } else {
-        //console.log('Get data from jsonp failed ');
-        // MARK: - Stop Tracking for Lack of GA Quota
-        //ga('send','event','Recommend Story API', 'Request Fail' + recommendVersion, '', {'nonInteraction':1});
     }
 }
 
@@ -266,16 +255,7 @@ function getThirdPartRecommendSuccess(data) {
         if (data.body.odatalist && data.body.odatalist.length > 0) {
             recommendData = data.body.odatalist;
             recommendPayLoad(recommendData, adData);
-            // MARK: - Stop Tracking for Lack of GA Quota
-            //ga('send','event','Recommend Story API', 'Success' + recommendVersion, '', {'nonInteraction':1});
-        } else {
-            // MARK: - Stop Tracking for Lack of GA Quota
-            //ga('send','event','Recommend Story API', 'No Data2' + recommendVersion, '', {'nonInteraction':1});
         }
-    } else {
-    	//console.log('no odatalist');
-        // MARK: - Stop Tracking for Lack of GA Quota
-        //ga('send','event','Recommend Story API', 'Parse Fail' + recommendVersion, data.body.oelement.errorcode, {'nonInteraction':1});
     }
 }
 
@@ -283,8 +263,6 @@ function getThirdPartRecommendFailed(){
      /* 当用优路科技接口返回的推荐文章id 来请求我们的接口获取推荐文章的具体信息失败后，调用该函数
      */
     console.log('getThirdPartRecommendFaild');
-    // MARK: - Stop Tracking for Lack of GA Quota
-    //ga('send','event','Recommend Story API', 'Request Fail' + recommendVersion, '', {'nonInteraction':1});
 }
 
 
@@ -501,8 +479,6 @@ try {
         }
         subscribeNow.href = hrefLink;
         subscribeNow.onclick = function(){
-            // MARK: - Stop Tracking for Lack of GA Quota
-            //ga('send','event','Web Privileges','Tap',window.gSubscriptionEventLabel);
             ga('ec:addPromo', {
                 'id': window.gSubscriptionEventLabel,
                 'name': window.gSubscriptionEventLabel,
@@ -510,7 +486,7 @@ try {
                 'position': 'become a member'
             });
             ga('ec:setAction', 'promo_click');
-            ga('send', 'event', 'Web Privileges', 'Tap', window.gSubscriptionEventLabel);
+            gtag('event', 'Tap', {'event_label': window.gSubscriptionEventLabel, 'event_category': 'Web Privileges'});
         };
         updateClientIdLinks();
     }
@@ -560,7 +536,7 @@ document.addEventListener('copy', function(e) {
     // MARK: in the event label, only record up to 1000 to save quota
     var eventLabel = Math.min(Math.floor(copyTextLength/100) * 100, 1000);
     ga('set', 'metric2', copyTextLength);
-    ga('send','event','Copy Story', ftItemId, eventLabel, {'nonInteraction':1});
+    gtag('event', ftItemId, {'event_label': eventLabel, 'event_category': 'Copy Story'});
     if (copyTextLength >= 200) {
         e.clipboardData.setData('text/plain', copyRight + text);
         e.preventDefault();
