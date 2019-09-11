@@ -107,13 +107,32 @@ function trackerNew() {
     var ccodeCookie=GetCookie('ccode') || '';
     var screenType=0;
     var deviceName;
-
     var subscriberType = updateSubscriberStatus();
     if (window.languagePreference === undefined) {
         window.languagePreference = GetCookie('LanguagePreference') || 0;
     }
     gTagParameters.linker.domains = ['ftacademy.cn', 'ft.com', 'ftchinese.com'];
-
+    gTagParameters.custom_map = {
+        'metric1': 'engagement_score',
+        'metric2': 'copy_text',
+        'metric4': 'read_to_half',
+        'dimension2': 'user_type',
+        'dimension4': 'page_type',
+        'dimension5': 'ftc_team',
+        'dimension6': 'author',
+        'dimension7': 'phone_version',
+        'dimension8': 'story_genre',
+        'dimension9': 'story_area',
+        'dimension10': 'story_industry',
+        'dimension11': 'main_topic',
+        'dimension12': 'sub_topic',
+        'dimension13': 'visiting_source',
+        'dimension14': 'user_id',
+        'dimension15': 'reader_type',
+        'dimension16': 'use_block',
+        'dimension17': 'prefer_language',
+        'dimension18': 'screen_type'
+    };
     if (w >0) {
         if (w>1220) {
             screenType = 'XL: above 1220';
@@ -126,7 +145,7 @@ function trackerNew() {
         } else {
             screenType = 'Phone: under 491';
         }
-        gTagParameters.dimension18 = screenType;
+        gTagParameters.screen_type = screenType;
     }
     
     if (/ipad/i.test(ua)) {
@@ -226,10 +245,6 @@ function trackerNew() {
         }
     }
 
-    if (window.FTAdchID !== undefined && window.FTAdchID !== null && window.FTAdchID !== '') {
-        gTagParameters.dimension1 = window.FTAdchID;
-    }
-
     if (subscriberType && typeof subscriberType === 'string' && subscriberType !== '') {
         vtype = subscriberType;
     } else if (username === '') {
@@ -243,11 +258,10 @@ function trackerNew() {
     //console.log ('visitor type is set as: ' + gUserType);
 
     if (userId !== '') {
-        gTagParameters.dimension14 = userId;
         gTagParameters.user_id = userId;
     }
-    gTagParameters.dimension2 = vtype;
-    gTagParameters.dimension13 = vsource;
+    gTagParameters.user_type = vtype;
+    gTagParameters.visiting_source = vsource;
 
     try {
         keyTag=window.gKeyTag;
@@ -284,32 +298,32 @@ function trackerNew() {
     } else {
         pagetype='Other';
     }
-    gTagParameters.dimension4 = pagetype;
+    gTagParameters.page_type = pagetype;
 
     if (window.ftcteam === undefined || window.ftcteam === null || window.ftcteam === '') {
         if (ftcteam1!==''){
-            gTagParameters.dimension5 = ftcteam1;
+            gTagParameters.ftc_team = ftcteam1;
         }
     } else {
-        gTagParameters.dimension5 = window.ftcteam;
+        gTagParameters.ftc_team = window.ftcteam;
     }
     if (window.gauthor !== undefined && window.gauthor !== null && window.gauthor !== '') {
-        gTagParameters.dimension6 = window.gauthor;
+        gTagParameters.author = window.gauthor;
     }
     if (window.storyGenre !== undefined && window.storyGenre !== null && window.storyGenre !== '') {
-        gTagParameters.dimension8 = window.storyGenre;
+        gTagParameters.story_genre = window.storyGenre;
     }
     if (window.storyArea !== undefined && window.storyArea !== null && window.storyArea !== '') {
-        gTagParameters.dimension9 = window.storyArea;
+        gTagParameters.story_area = window.storyArea;
     }
     if (window.storyIndustry !== undefined && window.storyIndustry !== null && window.storyIndustry !== '') {
-        gTagParameters.dimesion10 = window.storyIndustry;
+        gTagParameters.story_industry = window.storyIndustry;
     }
     if (window.mainTopic !== undefined && window.mainTopic !== null && window.mainTopic !== '') {
-        gTagParameters.dimension11 = window.mainTopic;
+        gTagParameters.main_topic = window.mainTopic;
     }
     if (window.subTopic !== undefined && window.subTopic !== null && window.subTopic !== '') {
-        gTagParameters.dimension12 = window.subTopic;
+        gTagParameters.sub_topic = window.subTopic;
     }
 
 
@@ -319,9 +333,9 @@ function trackerNew() {
     //console.log('Optimize track new');
     setTimeout(function(){
         if (window.isBlocked === 'yes' || window.bBlocked === 'yes') {
-            gTagParameters.dimension16 = 'yes';
+            gTagParameters.use_block = 'yes';
         } else if (window.isBlocked === 'no'){
-            gTagParameters.dimension16 = 'no';
+            gTagParameters.use_block = 'no';
         }
         if (window.bpage !== undefined && window.bpage !== 0 && window.bpage !== null) {
             trackerpage=l;

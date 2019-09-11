@@ -120,19 +120,18 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 
 
     <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-1608715-1"></script>
     <script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-    ga('create', 'UA-1608715-1');
-    ga('require', 'displayfeatures');
-    try {
-    trackerNew();
-    trackAdClick();
-    }catch(err){
-    ga('send', 'pageview');
-    }
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        if (window.gAutoStart === undefined) {
+            try {
+                trackerNew();
+            }catch(err){
+                gtag('config', 'UA-1608715-1');
+            }
+        }
     </script>
     <!-- End Google Analytics -->
 
@@ -140,7 +139,7 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
     <script>
         function linkClickGa(e){
             // MARK: Keep this as it is a rare event
-            ga('send','event','AdClick', $(e).attr("href"), "An");
+            gtag('event', $(e).attr("href"), {'event_label': "An", 'event_category': 'AdClick'});
         }
     </script>
     <!-- End link click -->

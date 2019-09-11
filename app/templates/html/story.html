@@ -1379,9 +1379,9 @@
 	<%assign var="story_content" value="<b>工作地点：</b>`$jobinfo.workaddr`<br><b>职位类型：</b>`$jobinfo.position`<br><b>所属行业：</b>`$jobinfo.workfield`<br><b>职位描述及要求：</b><br>`$jobinfo.detail`<br>"%>
 
     <%if $source=='1002' %>
-    	<%assign var="jobApply" value="<br>招聘方的Email：<a onclick=\"ga('send','event','Jobsite', 'Send Email', 'Resume')\" href=\"mailto:`$jobinfo.email`?\">`$jobinfo.email`</a>（邮件标题请以“姓名+研究人才来源（境内或境外）”命名，注明来源于FT中文网）<br><a onclick=\"ga('send','event','Jobsite', 'Send Email', 'Resume');\" href=\"mailto:`$jobinfo.email｀?\" class=\"rejob\">发送简历</a><br><form action=\"/index.php/marketing/send_recommend_jobsite_email2/`$jobinfo.num`\" method=\"post\"><b>推荐给朋友：</b><br>朋友电子邮件：<input type=\"text\" class=\"myemail\" name=\"email2\"><br>我的电子邮件：<input type=\"text\" class=\"myemail\" name=\"email1\"><br><input onclick=\"ga('send','event','Jobsite', 'Send Email', 'Recommend');\" type=\"submit\" value=\"发送邮件\" class=\"sendemail\"></form>"%>
+    	<%assign var="jobApply" value="<br>招聘方的Email：<a onclick=\"gtag('event', 'Send Email', {'event_label': 'Resume', 'event_category': 'Jobsite'})\" href=\"mailto:`$jobinfo.email`?\">`$jobinfo.email`</a>（邮件标题请以“姓名+研究人才来源（境内或境外）”命名，注明来源于FT中文网）<br><a onclick=\"gtag('event', 'Send Email', {'event_label': 'Resume', 'event_category': 'Jobsite'});\" href=\"mailto:`$jobinfo.email｀?\" class=\"rejob\">发送简历</a><br><form action=\"/index.php/marketing/send_recommend_jobsite_email2/`$jobinfo.num`\" method=\"post\"><b>推荐给朋友：</b><br>朋友电子邮件：<input type=\"text\" class=\"myemail\" name=\"email2\"><br>我的电子邮件：<input type=\"text\" class=\"myemail\" name=\"email1\"><br><input onclick=\"gtag('event', 'Send Email', {'event_label': 'Recommend', 'event_category': 'Jobsite'});\" type=\"submit\" value=\"发送邮件\" class=\"sendemail\"></form>"%>
     <%else%>
-    	<%assign var="jobApply" value="<br>招聘方的Email：<a onclick=\"ga('send','event','Jobsite', 'Send Email', 'Resume');\" href=\"mailto:`$jobinfo.email`?subject=Resume from FTChinese.com&body=To whom it concerns,%0a%0dHere's my resume for the position on FTChinese.com as below: %0a%0dhttps://cn.ft.com/jobshow/`$jobinfo.num`%0a%0dbest regards,%0a%0d\">`$jobinfo.email`</a>(请在您的邮件中注明来源于FT中文网)<br><a onclick=\"ga('send','event','Jobsite', 'Send Email', 'Resume');\" href=\"mailto:`$jobinfo.email`?subject=Resume from FTChinese.com&body=To whom it concerns,%0a%0dHere's my resume for the position on FTChinese.com as below: %0a%0dhttps://cn.ft.com/jobshow/`$jobinfo.num`%0a%0dbest regards,%0a%0d\" class=\"rejob\">发送简历</a><br><form action=\"/index.php/marketing/send_recommend_jobsite_email/`$jobinfo.num`\" method=\"post\"><b>推荐给朋友：</b><br>朋友电子邮件：<input type=\"text\" class=\"myemail\" name=\"email2\"><br>我的电子邮件：<input type=\"text\" class=\"myemail\" name=\"email1\"><br><input onclick=\"ga('send','event','Jobsite', 'Send Email', 'Recommend');\" type=\"submit\" value=\"发送邮件\" class=\"sendemail\"></form>"%>
+    	<%assign var="jobApply" value="<br>招聘方的Email：<a onclick=\"gtag('event', 'Send Email', {'event_label': 'Resume', 'event_category': 'Jobsite'});\" href=\"mailto:`$jobinfo.email`?subject=Resume from FTChinese.com&body=To whom it concerns,%0a%0dHere's my resume for the position on FTChinese.com as below: %0a%0dhttps://cn.ft.com/jobshow/`$jobinfo.num`%0a%0dbest regards,%0a%0d\">`$jobinfo.email`</a>(请在您的邮件中注明来源于FT中文网)<br><a onclick=\"gtag('event', 'Send Email', {'event_label': 'Resume', 'event_category': 'Jobsite'});\" href=\"mailto:`$jobinfo.email`?subject=Resume from FTChinese.com&body=To whom it concerns,%0a%0dHere's my resume for the position on FTChinese.com as below: %0a%0dhttps://cn.ft.com/jobshow/`$jobinfo.num`%0a%0dbest regards,%0a%0d\" class=\"rejob\">发送简历</a><br><form action=\"/index.php/marketing/send_recommend_jobsite_email/`$jobinfo.num`\" method=\"post\"><b>推荐给朋友：</b><br>朋友电子邮件：<input type=\"text\" class=\"myemail\" name=\"email2\"><br>我的电子邮件：<input type=\"text\" class=\"myemail\" name=\"email1\"><br><input onclick=\"gtag('event', 'Send Email', {'event_label': 'Recommend', 'event_category': 'Jobsite'});\" type=\"submit\" value=\"发送邮件\" class=\"sendemail\"></form>"%>
     <%/if%>
     <%assign var="story_content" value=$story_content|regex_replace:"/[\n]/":"<br>"%>
     <%assign var="story_content" value="`$story_content``$jobApply`"%>
@@ -1898,19 +1898,13 @@ if (w > 490 && isTouchDevice() === false && document.querySelectorAll('.ce').len
 	}
 	function sendVideoPlayTrackingCode() {
 		if (!hasSendTracking) {
-			//var trackImp = 'http://bsch.serving-sys.com/serving/adServer.bs?cn=display&c=19&mc=imp&pli=23613159&PluID=0&ord=__TIME__&rtu=-1&mb=1';
-			<%if date("Ymd",$smarty.now) >= 20180507 %>
-				var trackImp = 'http://bsch.serving-sys.com/serving/adServer.bs?cn=display&c=19&mc=imp&pli=24934762&PluID=0&ord=__TIME__&rtu=-1&mb=1';
-			<%else%>
-				var trackImp = 'http://bsch.serving-sys.com/serving/adServer.bs?cn=display&c=19&mc=imp&pli=23613562&PluID=0&ord=__TIME__&rtu=-1&mb=1';
-			<%/if%>
-		
+			var trackImp = 'http://bsch.serving-sys.com/serving/adServer.bs?cn=display&c=19&mc=imp&pli=24934762&PluID=0&ord=__TIME__&rtu=-1&mb=1';		
 			var trackVideoImpression = new Image();
 			trackVideoImpression.onload = function() {
-				window.ga('send', 'event', 'testvideo impression', 'SuccessOnIphoneApp', trackImp, {'nonInteraction': 1});
+				window.gtag('event', 'SuccessOnIphoneApp', {'event_label': trackImp, 'event_category': 'testvideo impression', 'non_interaction': true});
 			}
 			trackVideoImpression.onerror = function() {
-				window.ga('send', 'event', 'testvideo impression', 'FailOnIphoneApp', trackImp, {'nonInteraction': 1});
+				window.gtag('event', 'FailOnIphoneApp', {'event_label': trackImp, 'event_category': 'testvideo impression', 'non_interaction': true});
 			}
 			trackVideoImpression.src = trackImp;
 			hasSendTracking = true;

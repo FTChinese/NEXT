@@ -19,19 +19,13 @@
 		            </div>
 	            </a>
 				<script>
-					ga('send', 'event', 'House Ad: <%$pageIdForTextLink%>', 'Show', '<%$section.title%>');
+					gtag('event', 'Show', {'event_label': '<%$section.title%>', 'event_category': 'House Ad: <%$pageIdForTextLink%>'});
 				</script>
 			<%/if%>
 	    <%/if%>
 	<%/foreach%>
 	<script>
 		function recordClickEventForHouseAd(ele) {
-			var eventCategory = ele.getAttribute('data-event-category') || '';
-			eventCategory = 'House Ad: ' + eventCategory;
-			var eventAction = 'Click';
-			var eventLabel = ele.href || '';
-			// MARK: - Stop Tracking for Lack of GA Quota
-			//ga('send', 'event', eventCategory, eventAction, eventLabel);
 		}
 	</script>
 <%/if%>

@@ -535,9 +535,7 @@
     </div>
     </div>
     <script>
-      // MARK: - Stop Tracking for Lack of GA Quota
-      //ga('send','event', 'CatchError', 'JSON File: Navigation', '<%$smarty.server.SERVER_ADDR%>: ' + window.location.href, {'nonInteraction':1});
-      ga('send','event', 'CatchError', 'JSON File: Navigation', '', {'nonInteraction':1});
+      gtag('event', 'JSON File: Navigation', {'event_label': '', 'event_category': 'CatchError', 'non_interaction': true});
     </script>
   <%/if%>
 

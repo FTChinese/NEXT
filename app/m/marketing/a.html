@@ -117,11 +117,6 @@
     if(adProps.pos) {
       var dbCode = '<div id="'+ adProps.name +'" style="padding-top:0;"><scr' + 'ipt>googletag.cmd.push(function() { googletag.display("'+ adProps.name +'")})</scr' + 'ipt></div>';
       document.write(dbCode);
-      try {
-        window.parent.ga('send', 'event', 'Ad Impression Test: GAM App', adProps.pos, adProps.name, {'nonInteraction':1});
-      } catch(ignore) {
-
-      }
     }
   </script>
 </body>

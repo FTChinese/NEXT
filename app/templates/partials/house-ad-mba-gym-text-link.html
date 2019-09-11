@@ -8,21 +8,11 @@
 				<a class="image" href="<%$section.click%>" target=_blank onclick="recordClickEventForHouseAd(this)" data-event-category="<%$pageIdForTextLink%>"><figure class="loading" data-url="<%$section.fileName%>"></figure></a>
 				<h2 class="item-headline"><a href="<%$section.click%>" onclick="recordClickEventForHouseAd(this)" data-event-category="<%$pageIdForTextLink%>" target=_blank><%$section.title%></a></h2>
 				</div></div>
-				<script>
-					// MARK: - Stop Tracking for Lack of GA Quota
-					//ga('send', 'event', 'House Ad: <%$pageIdForTextLink%>', 'Show', '<%$section.title%>');
-				</script>
 			<%/if%>
 	    <%/if%>
 	<%/foreach%>
 	<script>
 		function recordClickEventForHouseAd(ele) {
-			var eventCategory = ele.getAttribute('data-event-category') || '';
-			eventCategory = 'House Ad: ' + eventCategory;
-			var eventAction = 'Click';
-			var eventLabel = ele.href || '';
-			// MARK: - Stop Tracking for Lack of GA Quota
-			//ga('send', 'event', eventCategory, eventAction, eventLabel);
 		}
 	</script>
 <%/if%>

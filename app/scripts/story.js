@@ -539,7 +539,7 @@ document.addEventListener('copy', function(e) {
     // MARK: in the event label, only record up to 1000 to save quota
     var eventLabel = Math.min(Math.floor(copyTextLength/100) * 100, 1000);
     var parameters = {
-        'metric2': copyTextLength,
+        'copy_text': copyTextLength,
         'send_page_view': false
     };
     gtag('config', gaMeasurementId, parameters);

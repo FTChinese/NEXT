@@ -122,7 +122,7 @@
 						<script type="text/javascript">
 							window.userId = GetCookie('USER_ID') || '';
 							if (window.userId === '') {
-								ga('send', 'event', 'PromoBox', 'Display', '<%$l.ccode%>', {'nonInteraction': 1});
+								gtag('event', 'Display', {'event_label': '<%$l.ccode%>', 'event_category': 'PromoBox', 'non_interaction': true});
 							}
 						</script>
 					<%/if%>

@@ -79,7 +79,7 @@ function renderAPI(number) {
             }
             contentEle.innerHTML = itemsHTML;
             ele.className = ele.className.replace(' hide', '');
-            ga('send', 'event', 'API Block', 'Display', number, {'nonInteraction': 1});
+            gtag('event', 'Display', {'event_label': number, 'event_category': 'API Block', 'non_interaction': true});
         }
     };
     xhr.send(JSON.stringify(message));

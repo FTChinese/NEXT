@@ -18,20 +18,11 @@
 										var hasSendTracking = false;
 										videoRealSection.onclick = function() {
 											if (!hasSendTracking) {
-												//var trackImp = 'http://bsch.serving-sys.com/serving/adServer.bs?cn=display&c=19&mc=imp&pli=23613159&PluID=0&ord=__TIME__&rtu=-1&mb=1';
-												<%if date("Ymd",$smarty.now) >= 20180507 %>
-													var trackImp = 'http://bsch.serving-sys.com/serving/adServer.bs?cn=display&c=19&mc=imp&pli=24934762&PluID=0&ord=__TIME__&rtu=-1&mb=1';
-												<%else%>
-													var trackImp = 'http://bsch.serving-sys.com/serving/adServer.bs?cn=display&c=19&mc=imp&pli=23613562&PluID=0&ord=__TIME__&rtu=-1&mb=1';
-												<%/if%>
+												var trackImp = 'http://bsch.serving-sys.com/serving/adServer.bs?cn=display&c=19&mc=imp&pli=24934762&PluID=0&ord=__TIME__&rtu=-1&mb=1';
 												var trackVideoImpression = new Image();
 												trackVideoImpression.onload = function() {
-													// MARK: - Stop Tracking for Lack of GA Quota
-													//window.ga('send', 'event', 'testvideo impression', 'SuccessOnIphoneApp', trackImp, {'nonInteraction': 1});
 												}
 												trackVideoImpression.onerror = function() {
-													// MARK: - Stop Tracking for Lack of GA Quota
-													//window.ga('send', 'event', 'testvideo impression', 'FailOnIphoneApp', trackImp, {'nonInteraction': 1});
 												}
 												trackVideoImpression.src = trackImp;
 												hasSendTracking = true;
