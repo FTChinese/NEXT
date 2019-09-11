@@ -1,22 +1,22 @@
 /* exported isIE, initSlideShow*/
 
 function recordpv2() {
-var hasad='';
-var ads = document.querySelectorAll('.mpu-container iframe, .banner-content iframe');
-var i;
-for (i=0; i<ads.length; i++) {
-ads[i].contentWindow.location.reload(true);
-hasad = 1;
-}
-if (hasad===1) {
-try{
-ga('send', 'pageview');
-fa('send', 'pageview');
-imgLog(logurl);
-}catch(err){
-console.log ('ga not sent');
-}
-}
+    var hasad='';
+    var ads = document.querySelectorAll('.mpu-container iframe, .banner-content iframe');
+    var i;
+    for (i=0; i<ads.length; i++) {
+        ads[i].contentWindow.location.reload(true);
+        hasad = 1;
+    }
+    if (hasad===1) {
+        try{
+            gtag('config', gaMeasurementId);
+            fa('send', 'pageview');
+            imgLog(logurl);
+        }catch(err){
+            console.log ('google analytics page view not sent');
+        }
+    }
 }
 
 //(function(d) {var b = d.getElementsByTagName('body')[0];b.className = b.className + ' demo-js';})(document);

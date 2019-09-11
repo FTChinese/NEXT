@@ -479,13 +479,16 @@ try {
         }
         subscribeNow.href = hrefLink;
         subscribeNow.onclick = function(){
-            ga('ec:addPromo', {
+            gtag('event', 'select_content', {
+            promotions: [
+              {
                 'id': window.gSubscriptionEventLabel,
                 'name': window.gSubscriptionEventLabel,
-                'creative': location.href,
-                'position': 'become a member'
+                'creative_name': location.href,
+                'creative_slot': 'become a member'
+              }
+            ]
             });
-            ga('ec:setAction', 'promo_click');
             gtag('event', 'Tap', {'event_label': window.gSubscriptionEventLabel, 'event_category': 'Web Privileges'});
         };
         updateClientIdLinks();
@@ -535,7 +538,11 @@ document.addEventListener('copy', function(e) {
     var copyRight = '请使用文章顶部或底部的共享按钮来进行共享文章的链接。未经允许复制文章内容分享给他人是违反FT中文网条款和条件以及版权政策的行为。发送电子邮件至licensing@ftchinese.com以购买其他权利。有关更多信息，请访问http://www.ftchinese.com/m/corp/copyright.html。\r\n\r\n' + location.href + '\r\n\r\n';
     // MARK: in the event label, only record up to 1000 to save quota
     var eventLabel = Math.min(Math.floor(copyTextLength/100) * 100, 1000);
-    ga('set', 'metric2', copyTextLength);
+    var parameters = {
+        'metric2': copyTextLength,
+        'send_page_view': false
+    };
+    gtag('config', gaMeasurementId, parameters);
     gtag('event', ftItemId, {'event_label': eventLabel, 'event_category': 'Copy Story'});
     if (copyTextLength >= 200) {
         e.clipboardData.setData('text/plain', copyRight + text);

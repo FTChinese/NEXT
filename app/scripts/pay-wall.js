@@ -246,11 +246,15 @@ function openHint() {
       for (var i = 0,len=dataHints.length; i < len; i++) {  
         dataHints[i].onclick = function(){   
           paywallHintContainer.style.display = 'block';
-          ga('ec:addPromo', {               
-            'id': window.gSubscriptionEventLabel,             
-            'name': window.gSubscriptionEventLabel,          
-            'creative': location.href,   
-            'position': 'become a member'     
+          gtag('event', 'view_promotion', {
+            promotions: [
+              {
+                id: window.gSubscriptionEventLabel,
+                name: window.gSubscriptionEventLabel,
+                creative_name: location.href,
+                creative_slot: 'become a member'
+              }
+            ]
           });
           gtag('event', 'Display', {'event_label': window.gSubscriptionEventLabel, 'event_category': 'Web Privileges'});
         };

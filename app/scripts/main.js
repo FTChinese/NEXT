@@ -753,12 +753,12 @@ function trackInternalPromos() {
       var promoPosition = currentPromo.getAttribute('data-promo-position');
       if (isHidden(currentPromo) === false) {
         gtag('event', 'view_promotion', {
-          "promotions": [
+          promotions: [
             {
-              "id": promoId,
-              "name": promoName,
-              "creative_name": promoCreative,
-              "creative_slot": promoPosition
+              id: promoId,
+              name: promoName,
+              creative_name: promoCreative,
+              creative_slot: promoPosition
             }
           ]
         });
@@ -769,17 +769,29 @@ function trackInternalPromos() {
           var promoCreative = this.getAttribute('data-promo-creative');
           var promoPosition = this.getAttribute('data-promo-position');
           gtag('event', 'select_content', {
-            'id': promoId,
-            'name': promoName,
-            'creative': promoCreative,
-            'position': promoPosition
+            promotions: [
+              {
+                'id': promoId,
+                'name': promoName,
+                'creative_name': promoCreative,
+                'creative_slot': promoPosition
+              }
+            ]
           });
           var theLink = this.href;
+          var linkClicked = false;
+          function openLinkOnce() {
+              if (!linkClicked) {
+                openLink(theLink);
+                linkClicked = true;
+              }
+          }
+          setTimeout(openLinkOnce, 1000);
           gtag('event', 'Tap', {
             'event_label': 'From:' + promoId, 
             'event_category': 'Web Privileges', 
             'event_callback': function() {
-              openLink(theLink);
+              openLinkOnce();
             }
           });
           // MARK: Track the event then go to link 
@@ -791,7 +803,7 @@ function trackInternalPromos() {
 }
 
 
-function trackRead(ea, metricValue) {
+function trackRead(ea, metricName) {
   if (ftItemId !== '' && window[ea] !== true) {
     // MARK: - Try to send this info to native app first
     var info = {
@@ -810,12 +822,10 @@ function trackRead(ea, metricValue) {
       return;
     }
     var el = window.privilegeEventLabel || ftItemId;
-    //ga('set', metricValue, '1');
-    // TODO: Test if quality read works
-    gtag('config', gaMeasurementId, {
-      'custom_map': {'metric1': metricValue}
-    });
-    gtag('event', ea, {'event_label': el, 'event_category': 'Quality Read', 'non_interaction': true});
+    var parameters = {'send_page_view': false};
+    parameters[metricName] = 1;
+    gtag('config', gaMeasurementId, parameters);
+    gtag('event', ea, {'event_label': el, 'event_category': 'Quality Read'});
     window[ea] = true;
   }
 }

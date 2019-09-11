@@ -4,7 +4,6 @@ var ua = navigator.userAgent || navigator.vendor || '';
 var gUserType = 'visitor';
 var gaMeasurementId = 'UA-1608715-1';
 
-
 function GetCookie(name){
     var start = document.cookie.indexOf(name+'='),
         len = start+name.length+1,
