@@ -88,6 +88,8 @@ function updateClientIdLinks() {
 }
 
 function trackerNew() {
+    
+
     var gTagParameters = {};
     var l=window.location.href;
     var keyTag; 
@@ -111,7 +113,7 @@ function trackerNew() {
     if (window.languagePreference === undefined) {
         window.languagePreference = GetCookie('LanguagePreference') || 0;
     }
-    gTagParameters.linker.domains = ['ftacademy.cn', 'ft.com', 'ftchinese.com'];
+    gTagParameters.linker = {domains: ['ftacademy.cn', 'ft.com', 'ftchinese.com']};
     gTagParameters.custom_map = {
         'metric1': 'engagement_score',
         'metric2': 'copy_text',
@@ -127,7 +129,7 @@ function trackerNew() {
         'dimension11': 'main_topic',
         'dimension12': 'sub_topic',
         'dimension13': 'visiting_source',
-        'dimension14': 'user_id',
+        'dimension14': 'cm_user_id',
         'dimension15': 'reader_type',
         'dimension16': 'use_block',
         'dimension17': 'prefer_language',
@@ -207,6 +209,9 @@ function trackerNew() {
     }else {
         vsource='Other';
     }
+
+    
+
     try{
         if (ccode!=='' && ccode!==ccodeCookie) {
             SetCookie('ccode',ccode,86400*100,'/','.ftchinese.com');
@@ -259,6 +264,7 @@ function trackerNew() {
 
     if (userId !== '') {
         gTagParameters.user_id = userId;
+        gTagParameters.cm_user_id = userId;
     }
     gTagParameters.user_type = vtype;
     gTagParameters.visiting_source = vsource;
@@ -328,6 +334,8 @@ function trackerNew() {
 
 
     updateClientIdLinks();
+
+
 
     //Optimize trackNew
     //console.log('Optimize track new');
