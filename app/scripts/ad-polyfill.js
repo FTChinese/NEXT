@@ -46,14 +46,6 @@
 	    var s = document.getElementsByTagName('script')[0];
 	    s.parentNode.insertBefore(sc, s);
 	    adCodeLoaded = true;
-	    try {
-		   	gtag('event', 'Request', {'event_label': src, 'event_category': 'LoadAdCode', 'non_interaction': true});
-		    s.onload = function(){
-		    	gtag('event', 'Success', {'event_label': src, 'event_category': 'LoadAdCode', 'non_interaction': true});
-		    };
-	    } catch(ignore) {
-
-	    }
 	}
 
 	function loadAdCodesAll() {
@@ -76,14 +68,6 @@
 		// }, 2000);
 		var s = document.getElementsByTagName('script')[0];
 		s.parentNode.insertBefore(pf, s);
-		try {
-		   	gtag('event', 'Request', {'event_label': 'cdn.polyfill.io', 'event_category': 'LoadAdCode', 'non_interaction': true});
-		    s.onload = function(){
-		    	gtag('event', 'Success', {'event_label': 'cdn.polyfill.io', 'event_category': 'LoadAdCode', 'non_interaction': true});
-		    };
-	    } catch(ignore) {
-
-	    }
 	} else {
 		loadAdCodesAll();
 	}
