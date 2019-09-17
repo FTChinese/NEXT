@@ -19,9 +19,6 @@
 					polyfillFeatures.push('Array.prototype.find');
 				}
 			}
-			// if (typeof IntersectionObserver !== 'function') {
-			// 	polyfillFeatures.push('IntersectionObserver');
-			// }
 			if (typeof fetch !== 'function') {
 				polyfillFeatures.push('fetch');
 			}
@@ -35,7 +32,6 @@
 		}
 		return '';
 	}
-
 	function loadAdCode(src) {
 		if (adCodeLoaded) {
 			return;
@@ -47,13 +43,10 @@
 	    s.parentNode.insertBefore(sc, s);
 	    adCodeLoaded = true;
 	}
-
 	function loadAdCodesAll() {
 		loadAdCode(ftOrigamiUrl);
 	}
-
 	var polyFillCode = getPolyfillCode();
-
 	if (polyFillCode !== '') {
 		var pf = document.createElement('script');
 		pf.src = getPolyfillCode();
@@ -62,15 +55,9 @@
 		pf.onload = function() {
 			loadAdCodesAll();
 		};
-		//MARK: - if the polyfill doesn't load successfully after a while, load the ad codes any way. 
-		// setTimeout(function() {
-		// 	loadAdCodesAll();
-		// }, 2000);
 		var s = document.getElementsByTagName('script')[0];
 		s.parentNode.insertBefore(pf, s);
 	} else {
 		loadAdCodesAll();
 	}
-
-
 })();
