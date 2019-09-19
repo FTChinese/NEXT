@@ -1208,6 +1208,13 @@
 	<%/if%>
 <%elseif $page_action=="ce"%>
 	<%assign var="storyHeadline" value="`$story.eheadline`<br>`$story.cheadline`"%>
+<%elseif $page_action == "user_comment"%>
+	<%assign var="fullWidthStoryClass" value=" full-width"%>
+	<%if $comment_id%>
+		<%assign var="storyHeadline" value="`$view_comment.nickname`读者评论: `$story.cheadline`"%>
+	<%else%>
+		<%assign var="storyHeadline" value="读者评论: `$story.cheadline`"%>
+	<%/if%>
 <%else%>
 	<%assign var="storyHeadline" value=$story.cheadline|default:$cheadline%>
 <%/if%>
@@ -1222,6 +1229,10 @@
 	<%assign var="storyLead" value=$story.cskylinetext%>
 <%else%>
 	<%assign var="storyLead" value=$clongleadbody|default:$cshortleadbody%>
+<%/if%>
+
+<%if $page_action=="user_comment"%>
+	<%assign var="comments_count" value="评论总数: [`$count`条] <a href=\"/rss/hotusercomment\" target=\"_blank\" title=\"RSS 订阅热门读者评论\"><img src=\"http://static.ftchinese.com/img/rss.gif\" /></a>"%>
 <%/if%>
 
 <%assign var="shareLead" value=$storyLead%>

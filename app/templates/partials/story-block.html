@@ -19,41 +19,75 @@
 <%/if%>
 <div class="block-container has-side story-page"><div class="block-inner">
 	<div class="content-container"><div class="content-inner">
-		<div class="story-container<%$storyLanguage%>">
+		<div class="story-container<%$storyLanguage%><%$fullWidthStoryClass%>">
 			<div class="story-theme"><%$breadcrum%></div>
 			<h1 class="story-headline<%$storyHeadlineClass%>"><%$storyHeadline%></h1>
 			<%$storyLead%>
 			<%$storyImageTop%>
-			<div class="story-action-placeholder" id="story-action-placeholder">
-			    <div class="story-action">
-			        <div class="action-inner">
-			            <a class="action-icon icon-wechat P-hide" href="<%$wechatUrl%>" target="_blank"></a>
-			            <a class="action-icon icon-weibo P-hide" href="<%$sinaUrl%>" target="_blank"></a>
-			            <a class="action-icon icon-linkedin P-hide" href="<%$linkedInUrl%>" target="_blank"></a>
-			            <a class="action-icon icon-twitter P-hide" href="<%$twitterUrl%>" target="_blank"></a>
-			            <a class="action-icon icon-facebook P-hide" href="<%$facebookUrl%>" target="_blank"></a>
-			            <%$languageOptions%>
-			            <%$buyButton%>
-			            <%if $itemType == "story"%>
-				            <div class="icon-right icon-save P-hide">
-				                <button id="addfavlink<%$story.id%>">收藏</button>
-				            </div>
-				            <a class="icon-right icon-action icon-comments" href="/comments/index/<%$story.id%>" target="_blank"></a>
-							<a class="icon-right icon-action icon-print P-hide" onclick="window.print()" target="_blank"></a>
-			            <%/if%>
-			            <a class="icon-right icon-action icon-font-size" onclick="showOverlay('font-setting')"></a>
-			            <a class="icon-right icon-action icon-share P-hide" onclick="showOverlay('share-legacy')"></a>
-			        </div>
-			    </div>
-			</div>
+			<%if $page_action != "user_comment"%>
+				<div class="story-action-placeholder" id="story-action-placeholder">
+				    <div class="story-action">
+				        <div class="action-inner">
+				            <a class="action-icon icon-wechat P-hide" href="<%$wechatUrl%>" target="_blank"></a>
+				            <a class="action-icon icon-weibo P-hide" href="<%$sinaUrl%>" target="_blank"></a>
+				            <a class="action-icon icon-linkedin P-hide" href="<%$linkedInUrl%>" target="_blank"></a>
+				            <a class="action-icon icon-twitter P-hide" href="<%$twitterUrl%>" target="_blank"></a>
+				            <a class="action-icon icon-facebook P-hide" href="<%$facebookUrl%>" target="_blank"></a>
+				            <%$languageOptions%>
+				            <%$buyButton%>
+				            <%if $itemType == "story"%>
+					            <div class="icon-right icon-save P-hide">
+					                <button id="addfavlink<%$story.id%>">收藏</button>
+					            </div>
+					            <a class="icon-right icon-action icon-comments" href="/comments/index/<%$story.id%>" target="_blank"></a>
+								<a class="icon-right icon-action icon-print P-hide" onclick="window.print()" target="_blank"></a>
+				            <%/if%>
+				            <a class="icon-right icon-action icon-font-size" onclick="showOverlay('font-setting')"></a>
+				            <a class="icon-right icon-action icon-share P-hide" onclick="showOverlay('share-legacy')"></a>
+				        </div>
+				    </div>
+				</div>
+			<%/if%>
 			<div class="story-byline">
-				<span class="story-time"><%$storyTime%></span>
-				<span class="story-author"><%$storyAuthor%></span>
+				<%if $page_action == "user_comment"%>
+					<div class="story-time"><%$comments_count%></div>
+				<%else%>
+					<span class="story-time"><%$storyTime%></span>
+					<span class="story-author"><%$storyAuthor%></span>
+				<%/if%>
 			</div>
 			<%if $smarty.get.page != "" && $smarty.get.page != 1 && !in_array("单页",$story.tag)%>
 				<%include file="next/partials/pagination.html"%>
 			<%/if%>
-			<%if $smarty.get.paywall == "1" || $paywall == "1"|| $smarty.get.paywall == "2"|| $paywall == "2"%>
+			<%if $page_action == "user_comment"%>
+				<div class="story-body">
+					<div id="story-body-container">
+						<div id="allcomments" class="columncontent">
+						    <%foreach from=$comments item=sc%>
+
+								<div class="commentcontainer">
+									<dt><span><%cmtdate date=$sc.dnewdate%></span><b><%$sc.nickname%></b> <font class="grey"><%$sc.user_area%></font><div class="clearfloat"></div></dt>
+									<dd>
+										<%$sc.quote_content%>
+										<%$sc.talk%>
+									</dd>
+									<div class="replybox" id="re<%$sc.id%>"></div>
+									<dt class="replycomment">
+										<a href='javascript:cmt_reply("<%$sc.id%>","");'>回复</a> <a id=st<%$sc.id%> href='javascript:voteComment("<%$sc.id%>", "#st", "support");'>支持</a>(<font id="sts<%$sc.id%>"><%$sc.support_count%></font>) <a id=dt<%$sc.id%> href='javascript:voteComment("<%$sc.id%>", "#dt", "disagree");'>反对</a>(<font id="dtd<%$sc.id%>"><%$sc.disagree_count%></font>)
+								        <%if $debug_model == "1"%>
+								        	<a href="https://backyard.ftchinese.com/falcon.php/common_comments/editcomments/<%$sc.id%>" target="_blank" title="编辑这条评论" style="color: red;">编辑</a>
+									    	<a href="https://backyard.ftchinese.com/falcon.php/common_comments/delcomments/<%$sc.id%>" target="_blank" title="删除这条评论" style="color: red;">删除</a>
+									    <%/if%>
+									</dt>
+								</div>
+		
+						    <%/foreach%>
+						</div>
+						<div class=pagination><%$pagination%></div>
+					</div>
+					<div class="clearfloat"></div>
+				</div> 
+			<%elseif $smarty.get.paywall == "1" || $paywall == "1"|| $smarty.get.paywall == "2"|| $paywall == "2"%>
 				<%*<!--MARK: show first two paragraphs. -->*%>
 				<div class="story-body">
 					<div id="story-body-container">
@@ -88,61 +122,69 @@
 			data-o-ads-targeting="cnpos=info3;"
 			>
 			</div>
-			<div class="copyrightstatement-container">
-				<%$copyrightStatement%>
-			</div>
+			<%if $page_action != "user_comment"%>
+				<div class="copyrightstatement-container">
+					<%$copyrightStatement%>
+				</div>
+			<%/if%>
 			<div class="clearfloat"></div>
+
+
+			<%*<!--MARK: - Show comments for only certain types of stories -->*%>
+			<%if $story != "" && $story.id != "" && ($smarty.get.showcomment == "yes" || (!preg_match("/politics/is",$mainTopic) && $story.id != "001076592" && $smarty.get.screencapture != "yes"))%>
+				<%if $page_action != "user_comment"%>
+					<h2 class="list-title"><a class="list-link" href="#">读者评论</a></h2>
+					<div id="allcomments" class="allcomments container"></div>
+				<%/if%>
+				<div id="logincomment" class="logincomment">
+				<form id="storyForm">
+				<div class="comment-input-container">
+				<div class=container>
+				<div style="margin:5px 0;">FT中文网欢迎读者发表评论，部分评论会被选进《读者有话说》栏目。我们保留编辑与出版的权利。</div>
+				<textarea name="Talk" id="Talk" class="commentTextArea" width="100%" rows="3"></textarea>
+				<span style="display:none">
+				<input name="use_nickname" type="hidden" id="name" onclick="unuseit(this);"/>
+				<label for="name" style="display:none">匿名</label>
+				<input name="use_nickname" type="radio" id="userid" value="0" onclick="useit(this);" checked/>
+				<input type="text"  autocorrect="off" class="user_id textinput nick_name" name="NickName" id="nick_name" value=""/>
+				</span>
+				<input type="button" value="提交评论" class="comment_btn submitbutton button ui-light-btn" id="addnewcomment"/>
+				<input type="hidden" name="storyid"  id=cstoryid value=""/>
+				</div>
+				</div>
+				</form>
+				</div>
+
+				<div id="nologincomment" class="nologincomment">
+				    <div class="container">
+				        <div class="username-label">用户名</div>
+				        <input type="text"  autocorrect="off" name="username" id="username1" class="user_id textinput user-name"/>
+				        <div class="password-label">密码</div>
+				        <input type="password" name="password"  class="user_id textinput password" id="password1"/>
+				        <input type="submit" value="登录后发表评论" class="comment_btn submitbutton button ui-light-btn" onclick="login(1)"/> 
+				        <div class="topmargin statusmsg"></div>
+				        <%if $smarty.get.webview == "ftcapp"%>
+					        <div class="centerButton"><button class="ui-light-btn stress" onclick='register()'>免费注册</button></div>
+					        <a class="social-login-wechat" href="weixinlogin://www.ftchinese.com/"><div class="centerButton"><button class="ui-light-btn wechat-login">微信登录</button></div></a>
+				        <%else%>
+				        	<div class="centerButton"><a href="http://user.ftchinese.com/register" target="_blank"><button class="ui-light-btn stress">免费注册</button></a></div>
+				        <%/if%>
+				    </div>
+				</div>
+
+				<script>
+					<%include file="next/scripts/main-user-comments.js"%>
+				</script>
+				<script type="text/javascript">
+					<%if $page_action != "user_comment"%>
+				    	loadcomment('<%$story.id%>', 'allcomments', 'story');
+				    <%/if%>
+				    checkLogin();
+				    clickToSubmitComment();
+				</script>
+			<%/if%>
+		
 		</div>
-		<%*<!--MARK: - Show comments for only certain types of stories -->*%>
-		<%if $story != "" && $story.id != "" && ($smarty.get.showcomment == "yes" || (!preg_match("/politics/is",$mainTopic) && $story.id != "001076592" && $smarty.get.screencapture != "yes"))%>
-			<h2 class="list-title"><a class="list-link" href="#">读者评论</a></h2>
-			<div id="allcomments" class="allcomments container"></div>
-
-			<div id="logincomment" class="logincomment">
-			<form id="storyForm">
-			<div class="comment-input-container">
-			<div class=container>
-			<div style="margin:5px 0;">FT中文网欢迎读者发表评论，部分评论会被选进《读者有话说》栏目。我们保留编辑与出版的权利。</div>
-			<textarea name="Talk" id="Talk" class="commentTextArea" width="100%" rows="3"></textarea>
-			<span style="display:none">
-			<input name="use_nickname" type="hidden" id="name" onclick="unuseit(this);"/>
-			<label for="name" style="display:none">匿名</label>
-			<input name="use_nickname" type="radio" id="userid" value="0" onclick="useit(this);" checked/>
-			<input type="text"  autocorrect="off" class="user_id textinput nick_name" name="NickName" id="nick_name" value=""/>
-			</span>
-			<input type="button" value="提交评论" class="comment_btn submitbutton button ui-light-btn" id="addnewcomment"/>
-			<input type="hidden" name="storyid"  id=cstoryid value=""/>
-			</div>
-			</div>
-			</form>
-			</div>
-
-			<div id="nologincomment" class="nologincomment">
-			    <div class="container">
-			        <div class="username-label">用户名</div>
-			        <input type="text"  autocorrect="off" name="username" id="username1" class="user_id textinput user-name"/>
-			        <div class="password-label">密码</div>
-			        <input type="password" name="password"  class="user_id textinput password" id="password1"/>
-			        <input type="submit" value="登录后发表评论" class="comment_btn submitbutton button ui-light-btn" onclick="login(1)"/> 
-			        <div class="topmargin statusmsg"></div>
-			        <%if $smarty.get.webview == "ftcapp"%>
-				        <div class="centerButton"><button class="ui-light-btn stress" onclick='register()'>免费注册</button></div>
-				        <a class="social-login-wechat" href="weixinlogin://www.ftchinese.com/"><div class="centerButton"><button class="ui-light-btn wechat-login">微信登录</button></div></a>
-			        <%else%>
-			        	<div class="centerButton"><a href="http://user.ftchinese.com/register" target="_blank"><button class="ui-light-btn stress">免费注册</button></a></div>
-			        <%/if%>
-			    </div>
-			</div>
-
-			<script>
-				<%include file="next/scripts/main-user-comments.js"%>
-			</script>
-			<script type="text/javascript">
-			    loadcomment('<%$story.id%>', 'allcomments', 'story');
-			    checkLogin();
-			    clickToSubmitComment();
-			</script>
-		<%/if%>
 	<div class="clearfloat block-bottom"></div>
 	</div></div>
 

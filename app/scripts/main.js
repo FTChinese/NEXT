@@ -529,14 +529,16 @@ function stickyBottomUpdate() {
       //console.log ('should show language switch');
       htmlClassNew += ' audio-sticky';
     }
-  } else if (typeof gShareOffsetY === 'number' && gShareOffsetY > gNavOffsetY) {
+  }
+   else if (typeof gShareOffsetY === 'number' && gShareOffsetY > gNavOffsetY) {
     if (scrollTop >= gShareOffsetY) {
       htmlClassNew += ' tool-sticky';
     } else 
     if (scrollTop >= gNavHeight) {
       htmlClassNew += ' o-nav-sticky'; 
     }
-  } else {
+  } 
+  else {
     if (scrollTop >= gNavOffsetY) {
       htmlClassNew += ' o-nav-sticky';
     }
