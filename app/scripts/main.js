@@ -6,7 +6,8 @@ var sideHeight = [];
 var bodyHeight;
 var gNavOffsetY=0;
 var gNavHeight = 44;
-var gShareOffsetY;
+var gShareFixTop = 80;
+var gBlockPadding = 30;
 var gShareOffsetHeight;
 var gStoryContentOffsetY;
 var gStoryContentOffsetHeight;
@@ -16,13 +17,7 @@ var gLanguageSwitchOffsetY;
 var gRecomendOffsetY;
 var gRecomendInViewNoted = false;
 var gStoryBodyBottomOffsetY;
-var gShareFixTop = 80;
-var gBlockPadding = 30;
-//var gThereIsUluAd = 0;//MARK：表征底部为你推荐是否确实插入了联合广告，插入的话就计为1，这是为了方便统计曝光次数
-//  var gShareHeight = 38;
-
 var gInstoryAdHasTrackInview = false;
-
 var ftItemId = window.FTStoryid || window.interactiveId || '';
 var defaultPadding = 30;
 var hasSideWidth = 690;
@@ -456,10 +451,7 @@ function stickyBottomPrepare() {
   if (typeof recommendInner === 'object') {
     gRecomendOffsetY = findTop(recommendInner);
   }
-  var sharePlaceHolder = document.getElementById('story-action-placeholder');
-  if (sharePlaceHolder) {
-    gShareOffsetY = findTop(sharePlaceHolder);
-  }
+
   var shareActionsEle = document.querySelector('.story-action .action-inner');
   if (shareActionsEle) {
     gShareOffsetHeight = shareActionsEle.offsetHeight;
@@ -562,13 +554,13 @@ function stickyBottomUpdate() {
     htmlClassNew += ' audio-sticky';
   }
 
-  if (typeof gShareOffsetY === 'number') {
+  if (typeof gStoryContentOffsetY === 'number') {
     // console.log ('scrollTop: ' + scrollTop + ', gShareOffsetHeight: ' + gShareOffsetHeight + ', gStoryContentOffsetY: ' + gStoryContentOffsetY + ', gStoryContentOffsetHeight: ' + gStoryContentOffsetHeight);
     // console.log (gStoryContentOffsetHeight + gStoryContentOffsetY - gShareOffsetHeight - gShareFixTop - gBlockPadding - scrollTop);
     if (scrollTop >= gStoryContentOffsetHeight + gStoryContentOffsetY - gShareOffsetHeight - gShareFixTop - gBlockPadding) {
       htmlClassNew += ' tool-bottom';
     } else 
-    if (scrollTop >= gShareOffsetY - gShareFixTop) {
+    if (scrollTop >= gStoryContentOffsetY - gShareFixTop) {
       htmlClassNew += ' tool-sticky';
     }
   }
