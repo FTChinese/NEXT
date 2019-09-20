@@ -460,12 +460,12 @@ function stickyBottomPrepare() {
   if (sharePlaceHolder) {
     gShareOffsetY = findTop(sharePlaceHolder);
   }
-  var shareActionsEle = document.querySelector('.story-action');
+  var shareActionsEle = document.querySelector('.story-action .action-inner');
   if (shareActionsEle) {
     gShareOffsetHeight = shareActionsEle.offsetHeight;
   }
 
-  var storyContainerEle = document.querySelector('.content-container');
+  var storyContainerEle = document.querySelector('.story-page');
   if (storyContainerEle) {
     gStoryContentOffsetY = findTop(storyContainerEle);
     gStoryContentOffsetHeight = storyContainerEle.offsetHeight;
@@ -541,29 +541,35 @@ function stickyBottomUpdate() {
   }
 
     //language switch
-  if (typeof gLanguageSwitchOffsetY === 'number' && gLanguageSwitchOffsetY > gNavOffsetY) {
-    if (scrollTop + gNavOffsetY >= gLanguageSwitchOffsetY ) {
-      //console.log ('should show language switch');
-      htmlClassNew += ' audio-sticky';
+  if  (gShowLanguageSwitchOnly === false) {
+    if (typeof gLanguageSwitchOffsetY === 'number' && gLanguageSwitchOffsetY > gNavOffsetY) {
+      if (scrollTop + gNavOffsetY >= gLanguageSwitchOffsetY ) {
+        //console.log ('should show language switch');
+        htmlClassNew += ' audio-sticky';
+      }
+    } else {
+      if (scrollTop >= gNavOffsetY) {
+        htmlClassNew += ' o-nav-sticky';
+      }
+    }
+    //sticky audio player
+    if (typeof gAudioOffsetY === 'number' && gAudioOffsetY > gNavOffsetY) {
+      if (scrollTop + gNavOffsetY >= gAudioOffsetY ) {
+        htmlClassNew += ' audio-sticky';
+      }
     }
   } else {
-    if (scrollTop >= gNavOffsetY) {
-      htmlClassNew += ' o-nav-sticky';
-    }
+    htmlClassNew += ' audio-sticky';
   }
 
-  if (typeof gShareOffsetY === 'number' && gShareOffsetY > gNavOffsetY) {
-    if (scrollTop + gShareOffsetHeight + gShareFixTop + gStoryContentOffsetY >= gStoryContentOffsetHeight + gNavOffsetY + gBlockPadding) {
+  if (typeof gShareOffsetY === 'number') {
+    // console.log ('scrollTop: ' + scrollTop + ', gShareOffsetHeight: ' + gShareOffsetHeight + ', gStoryContentOffsetY: ' + gStoryContentOffsetY + ', gStoryContentOffsetHeight: ' + gStoryContentOffsetHeight);
+    // console.log (gStoryContentOffsetHeight + gStoryContentOffsetY - gShareOffsetHeight - gShareFixTop - gBlockPadding - scrollTop);
+    if (scrollTop >= gStoryContentOffsetHeight + gStoryContentOffsetY - gShareOffsetHeight - gShareFixTop - gBlockPadding) {
       htmlClassNew += ' tool-bottom';
-    } else if (scrollTop >= gShareOffsetY - gShareFixTop) {
+    } else 
+    if (scrollTop >= gShareOffsetY - gShareFixTop) {
       htmlClassNew += ' tool-sticky';
-    }
-  }
-
-  //sticky audio player
-  if (typeof gAudioOffsetY === 'number' && gAudioOffsetY > gNavOffsetY) {
-    if (scrollTop + gNavOffsetY >= gAudioOffsetY ) {
-      htmlClassNew += ' audio-sticky';
     }
   }
 
@@ -578,9 +584,6 @@ function stickyBottomUpdate() {
     htmlClass = htmlClassNew;
     document.documentElement.className = htmlClass;
   }
-
-
-
 
   // sticky sides
   if (sectionsWithSideLength > 0 && w > hasSideWidth) {
@@ -886,7 +889,7 @@ var eventScroll = window.attachEvent ? 'onscroll' : 'scroll';
 checkLanguageSwitch();
 
 // MARK: - disable sticky scroll on touch devices, 
-if (((gNavOffsetY > 30 && w > 490/* && isTouchDevice() === false*/) || document.getElementById('audio-placeholder')) && gShowLanguageSwitchOnly === false) {
+if (((gNavOffsetY > 30 && w > 490/* && isTouchDevice() === false*/) || document.getElementById('audio-placeholder'))) {
   try {
     stickyBottomPrepare();
     stickyAdsPrepare();
