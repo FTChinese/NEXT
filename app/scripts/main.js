@@ -7,12 +7,17 @@ var bodyHeight;
 var gNavOffsetY=0;
 var gNavHeight = 44;
 var gShareOffsetY;
+var gShareOffsetHeight;
+var gStoryContentOffsetY;
+var gStoryContentOffsetHeight;
 var gStickyElementOffsetY;
 var gAudioOffsetY;
 var gLanguageSwitchOffsetY;
 var gRecomendOffsetY;
 var gRecomendInViewNoted = false;
 var gStoryBodyBottomOffsetY;
+var gShareFixTop = 80;
+var gBlockPadding = 30;
 //var gThereIsUluAd = 0;//MARK：表征底部为你推荐是否确实插入了联合广告，插入的话就计为1，这是为了方便统计曝光次数
 //  var gShareHeight = 38;
 
@@ -451,9 +456,21 @@ function stickyBottomPrepare() {
   if (typeof recommendInner === 'object') {
     gRecomendOffsetY = findTop(recommendInner);
   }
-  if (document.getElementById('story-action-placeholder')) {
-    gShareOffsetY = findTop(document.getElementById('story-action-placeholder'));
+  var sharePlaceHolder = document.getElementById('story-action-placeholder');
+  if (sharePlaceHolder) {
+    gShareOffsetY = findTop(sharePlaceHolder);
   }
+  var shareActionsEle = document.querySelector('.story-action');
+  if (shareActionsEle) {
+    gShareOffsetHeight = shareActionsEle.offsetHeight;
+  }
+
+  var storyContainerEle = document.querySelector('.content-container');
+  if (storyContainerEle) {
+    gStoryContentOffsetY = findTop(storyContainerEle);
+    gStoryContentOffsetHeight = storyContainerEle.offsetHeight;
+  }
+
 
   if (document.getElementById('audio-placeholder')) {
     gAudioOffsetY = findTop(document.getElementById('audio-placeholder'));
@@ -517,8 +534,8 @@ function stickyBottomPrepare() {
 }
 
 function stickyBottomUpdate() {
-
-  var htmlClassNew = htmlClass.replace(/( o-nav-sticky)|( tool-sticky)|( audio-sticky)|( sticky-element-on)/g, '');
+  // MARK: - It's important to clean all the existing known classes
+  var htmlClassNew = htmlClass.replace(/( o-nav-sticky)|( tool-sticky)|( audio-sticky)|( sticky-element-on)|( tool-bottom)/g, '');
   if (typeof requestAnimationFrame === 'function') {
     requestAnimationFrame(stickyBottomUpdate);
   }
@@ -529,21 +546,19 @@ function stickyBottomUpdate() {
       //console.log ('should show language switch');
       htmlClassNew += ' audio-sticky';
     }
-  }
-   else if (typeof gShareOffsetY === 'number' && gShareOffsetY > gNavOffsetY) {
-    if (scrollTop >= gShareOffsetY) {
-      htmlClassNew += ' tool-sticky';
-    } else 
-    if (scrollTop >= gNavHeight) {
-      htmlClassNew += ' o-nav-sticky'; 
-    }
-  } 
-  else {
+  } else {
     if (scrollTop >= gNavOffsetY) {
       htmlClassNew += ' o-nav-sticky';
     }
   }
 
+  if (typeof gShareOffsetY === 'number' && gShareOffsetY > gNavOffsetY) {
+    if (scrollTop + gShareOffsetHeight + gShareFixTop + gStoryContentOffsetY >= gStoryContentOffsetHeight + gNavOffsetY + gBlockPadding) {
+      htmlClassNew += ' tool-bottom';
+    } else if (scrollTop >= gShareOffsetY - gShareFixTop) {
+      htmlClassNew += ' tool-sticky';
+    }
+  }
 
   //sticky audio player
   if (typeof gAudioOffsetY === 'number' && gAudioOffsetY > gNavOffsetY) {
