@@ -59,19 +59,17 @@ var interactiveId = 'interactive<%$id%>';
 
 
 <%*<!-- Log Analytics -->*%>
-<%if 1>0 || $smarty.server.HTTP_HOST != "cn.ft.com"%>
-    <script>
-    if (window.gAutoStart === undefined) {
-        (function(d, s, u, j, x) {
-            j = d.createElement(s),
-            x = d.getElementsByTagName(s)[0];
-            j.async = true;
-            j.src = u;
-            x.parentNode.insertBefore(j, x)
-        })(document, 'script', 'https://dhgxl8qk9zgzr.cloudfront.net/js/log.js?v=<%include file="next/timestamp/timestamp.html"%>');
-    }
-    </script>
-<%/if%>
+<script>
+if (window.gAutoStart === undefined) {
+    (function(d, s, u, j, x) {
+        j = d.createElement(s),
+        x = d.getElementsByTagName(s)[0];
+        j.async = true;
+        j.src = u;
+        x.parentNode.insertBefore(j, x)
+    })(document, 'script', 'https://dhgxl8qk9zgzr.cloudfront.net/js/log.js?v=<%include file="next/timestamp/timestamp.html"%>');
+}
+</script>
 <%*<!-- End Log Analytics -->*%>
 
 
