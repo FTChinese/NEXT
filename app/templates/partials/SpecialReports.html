@@ -15,7 +15,7 @@
 	                        <div class="items">
 								<%assign var="i" value=0%>
 								<%foreach from=$infoForSponsorships.sections item=report%>
-									<%if $i<4 && $report.status == "on" && $report.dates != "" && preg_match("/`$currentDate`/is",$report.dates) && $report.imageHighlightBox != "" && ($report.link != "" || $report.tag != "")%>
+									<%if $i<4 && $report.status == "on" && (($report.dates != "" && preg_match("/`$currentDate`/is",$report.dates)) || ($report.dates == "" && $report.placeholder == "yes"))  && $report.imageHighlightBox != "" && ($report.link != "" || $report.tag != "")%>
 										<%assign var="itemTopClass" value=""%>
 										<%assign var="itemTop" value=""%>
 										<%if $i%4 === 0%>
