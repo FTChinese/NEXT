@@ -118,12 +118,12 @@
 }
 
 
-@media screen and (min-width: 1260px) {
+@media screen and (min-width: 1400px) {
 	.story-action-placeholder {
 		height: 0;
 		position: absolute;
 		top: 0; 
-		left: $defaultPadding;
+		left: -$shareButtonWidth;
 		.story-action {
 			border: 0;
 		}
@@ -133,15 +133,15 @@
 			border-style: solid;
 			border-color: #807973;
 			background-size: 24px;
-			width: 40px;
-			height: 40px;
+			width: $shareButtonWidth;
+			height: $shareButtonWidth;
 			margin: 0;
 			&:first-child {
 				border-width: 1px;
 			}
-			&.icon-ch {
-				display: none;
-			}
+			// &.icon-ch {
+			// 	display: none;
+			// }
 			button {
 				white-space: nowrap;
 				width: 100%;
@@ -161,7 +161,7 @@
 			.story-action {
 				position: fixed;
 			    top: 80px;
-			    left: 0;
+			    left: -($shareButtonWidth+$defaultPadding)*2; 
 			    right: 0; 
 			    margin: auto;
 			    border: 0;
@@ -179,6 +179,7 @@
 			}
 		}
 	}
+
 	.tool-bottom {
 		.story-action-placeholder {
 			top: auto;

@@ -326,7 +326,7 @@
 					<%assign var="itemMainTag" value=""%>
 					<%assign var="tagCanFollow" value="yes"%>
 					<%assign var="itemTagsString" value=$item.tag|default:$item.tags|default:$item.tagname%>
-					<%assign var="itemTagsString" value=$itemTagsString|replace:" ":","%>
+					<%assign var="itemTagsString" value=$itemTagsString|replace:", ":","%>
 					<%assign var="itemTags" value=","|explode:$itemTagsString%>
 					<%assign var="itemTag" value=$itemTags[0]%>
 					<%assign var="tagImage" value=""%>
