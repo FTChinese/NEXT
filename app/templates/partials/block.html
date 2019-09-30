@@ -1080,7 +1080,9 @@
 								<%assign var="itemSubType" value="radio"%>
 							<%elseif preg_match("/数据新闻/is",$itemTagsString) %>
 								<%assign var="itemSubType" value="datanews"%>
-							<%elseif preg_match("/FT商学院/is",$itemTagsString) %>
+							<%elseif preg_match("/深度阅读/is",$itemTagsString) %>
+								<%assign var="itemSubType" value="htmlbook"%>
+							<%elseif preg_match("/MBA训练营|教程/is",$itemTagsString) %>
 								<%assign var="itemSubType" value="mbagym"%>
 							<%/if%>
 						<%/if%>
@@ -1118,6 +1120,7 @@
 							<%else%>
 								<%assign var="subTypeData" value=""%>
 							<%/if%>
+
 							<%assign var=isInWhiteList value="no"%>
 							<%if $whitelist != ""%>
 								<%foreach from=$itemTags item=tag%>
