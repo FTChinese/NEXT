@@ -9,7 +9,7 @@
 			<div class="no-image"">
 				<div class="item-inner">
 					<div class="item-lead">
-						<form onsubmit="return applyEvent(this)" class="event-application" data-event-id="<%$list.EventName%>" data-description="<%$list.description%>" data-subscription-type="<%$subscriptionType%>" data-success-note="<%$SuccessNote%>" data-hide-form-info="<%$list.HideFormInfo%>">
+						<form onsubmit="return applyEvent(this)" class="event-application" data-event-id="<%$list.EventId%>" data-description="<%$list.description%>" data-subscription-type="<%$subscriptionType%>" data-success-note="<%$SuccessNote%>" data-hide-form-info="<%$list.HideFormInfo%>" data-event-paticipants="<%$list.Tickets%>">
 							正在获取相关信息...
 						</form>
 					</div>
@@ -21,96 +21,238 @@
 
 <script type="text/javascript">
 
-function getEventApplicationForm() {
-	var formEle = document.querySelector('.event-application');
-	var userId = GetCookie('USER_ID');
-	if (userId === null || userId === undefined) {
-		formEle.innerHTML = '您尚未登录，请<a onclick="showOverlay(\'overlay-login\')">点击这里登录</a>后再报名。';
-		return;
-	}
-	var xhr = new XMLHttpRequest();
-	var ajaxMethod = 'GET';
-	var ajaxUrl = '/index.php/jsapi/paywall';
-	xhr.open(ajaxMethod, encodeURI(ajaxUrl));
-	xhr.setRequestHeader('Content-Type', 'application/json');
-	xhr.onload = function() {
-	  if (xhr.status === 200) {
-	      var data = JSON.parse(xhr.responseText);
-	      // TEST: 
-	      data = {
-			paywall: 1,
-			premium: 0,
-			standard: 0,
-			firstName: '杰夫',
-			lastName: '贝索斯',
-			mobile: '13300003330',
-			title: 'CEO',
-			email: 'degang.guo@deyunshe.com',
-			company: '亚马逊'
-	      };
-	      var formInfo = [
-	      	{id: 'email', title: '邮件', default: data.email, type: 'email'},
-	      	{id: 'backupEmail', title: '备用邮件', default: data.backupEmail || '', type: 'email'},
-	      	{id: 'lastName', title: '姓', default: data.lastName},
-	      	{id: 'firstName', title: '名', default: data.firstName},
-	      	{id: 'mobile', title: '手机号', default: data.mobile, type: 'tel'},
-	      	{id: 'title', title: '职务', default: data.title},
-	      	{id: 'company', title: '公司', default: data.company},
-	      	{id: 'number', title: '参会人数', default: '', type: 'number'}
-	      ];
-	      var description = formEle.getAttribute('data-description') || '';
-	      var eventId = formEle.getAttribute('data-event-id') || '';
-	      var formHTML = '';
-	      formHTML += '<p>' + description + '</p>';
-	      formHTML += '<input type="hidden" class="input-oneline" id="eventId" value="' + eventId + '">';
-	      for (var i=0; i<formInfo.length; i++) {
-	      	var dataType = formInfo[i].type || 'text';
-	      	formHTML += '<div>' + formInfo[i].title + '</div>'
-	      	formHTML += '<p><input type="' + dataType + '" class="input-oneline" id="' + formInfo[i].id + '" value="' + formInfo[i].default + '" placeholder="' + formInfo[i].title +'"></p>';
-	      }
-	      formHTML += '<div style="margin: 0;" class="login-btn input-submit-container center"><input type="submit" value="报名"></div>';
-	      formHTML = '<div style="max-width: 450px;margin: auto;">' + formHTML + '</div>';
-	      formEle.innerHTML = formHTML;
-	  } 
-	};
-	xhr.send();
-}
+
+
 var isSubmitting = false;
-function applyEvent(ele) {
-	if (isSubmitting) {
-		alert ('请不要重复提交！');
-		return false;
-	}
-	isSubmitting = true;
-	var xhr = new XMLHttpRequest();
-	xhr.open('POST', '/users/');
-	xhr.setRequestHeader('Content-Type', 'application/text');
-	xhr.onload = function() {
-	  if (xhr.status === 200) {
-	      var data = xhr.responseText;
-	      if (data === 'ok' || data === '') {
-	          var successNote = document.querySelector('.event-application').getAttribute('.data-success-note') || '提交成功！';
-	          alert (successNote);
-	      }
-	  } else if (xhr.status !== 200) {
-	  	
-	      //alert('Request failed.  Returned status of ' + xhr.status);
-	  }
-	  isSubmitting = false;
-	};
-	var eventInfo = {};
-	var inputs = document.querySelectorAll('.event-application .input-oneline');
-	for (var i=0; i<inputs.length; i++) {
-		var id = inputs[i].id;
-		var value = inputs[i].value;
-		eventInfo[id] = value;
-	}
-	xhr.send(JSON.stringify({
-	  eventInfo
-	}));
-	console.log (eventInfo);
-	return false;
+var eventInfoGroupKey = 'event-info-group';
+
+function getEventApplicationForm() {
+    function renderForm(formInfo) {
+        var formHTML = '';
+        var paticipants = formEle.getAttribute('data-event-paticipants') || '1';
+        paticipants = parseInt(paticipants, 10) || 1;
+        var formMultiplier = {id: 'number', title: '参会人数', default: '1', type: 'select', onchange: 'showGroupFrom'};
+        for (var j=0; j<paticipants; j++) {
+            formHTML += '<div class="' + eventInfoGroupKey + '">';
+            if (j>0) {
+                var k = j + 1;
+                formHTML += '<div class="item-headline">第' + k + '位参会者</div>';
+            }
+            for (var i=0; i<formInfo.length; i++) {
+                formHTML += renderItem(formInfo[i], j);
+            }
+            if (j===0) {
+                formHTML += renderItem(formMultiplier, j);
+            }
+            formHTML += '</div>';
+        }
+        return formHTML;
+    }
+    function renderItem(item, loopIndex) {
+        var dataType = item.type || 'text';
+        var loopSuffix = (loopIndex === 0) ? '' : '-'+loopIndex;
+        var itemDefault = (loopIndex === 0) ? item.default : '';
+        var onchangeTag = (item.onchange) ? 'onchange="' + item.onchange + '(this)"' : '';
+        formHTML = '<div>' + item.title + '</div>';
+        if (dataType == 'select') {
+            var optionsHTML = '';
+            var object = map[item.id];
+            for (var property in object) {
+              if (object.hasOwnProperty(property)) {
+                var selectedOption = (itemDefault === property) ? ' selected' : '';
+                optionsHTML += '<option value="' + property + '"'+ selectedOption +'>' + object[property] + '</option>';
+              }
+            }
+            formHTML += '<p><select class="input-oneline" id="' + item.id + loopSuffix + '"' + onchangeTag + '>' + optionsHTML + '</select></p>';
+        } else {
+            formHTML += '<p><input type="' + dataType + '" class="input-oneline" id="' + item.id + loopSuffix + '" value="' + itemDefault + '" placeholder="' + item.title +'"></p>';
+        }
+        return formHTML;
+    }
+    var map = {
+        'number': {
+            '1': '一位',
+            '2': '两位'
+        },
+        'title': {
+            '0': "请选择..", 
+            '101': "企业主/合伙人", 
+            '102': "主席/总裁/副总裁/CEO/总经理/执行董事", 
+            '103': "CFO", 
+            '104': "COO", 
+            '105': "CIO", 
+            '106': "CTO", 
+            '107': "总监(如：财务总监、研究总监、市场总监等)", 
+            '108': "政府官员", 
+            '109': "经理/主管 （有下属）", 
+            '110': "经理/主管 （无下属）", 
+            '111': "顾问/咨询", 
+            '112': "专业人员（如:工程师、程序师、律师、研发人员等）", 
+            '113': "教授/教师", 
+            '114': "办公室职员", 
+            '115': "学生", 
+            '116': "全职主妇", 
+            '197': "其他"
+        }
+    };
+    var formEle = document.querySelector('.event-application');
+    var userId = GetCookie('USER_ID');
+    if (userId === null || userId === undefined) {
+        formEle.innerHTML = '您尚未登录，请<a onclick="showOverlay(\'overlay-login\')">点击这里登录</a>后再报名。';
+        return;
+    }
+    var xhr = new XMLHttpRequest();
+    var ajaxMethod = 'GET';
+    var ajaxUrl = '/index.php/user/get_user_info_for_event';
+    xhr.open(ajaxMethod, encodeURI(ajaxUrl));
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            var data = JSON.parse(xhr.responseText);
+            var formInfo = [
+                {id: 'email', title: '邮件', default: data.email || '', type: 'email'},
+                {id: 'backupEmail', title: '备用邮件', default: data.backupEmail || '', type: 'email'},
+                {id: 'lastName', title: '姓', default: data.lastName || ''},
+                {id: 'firstName', title: '名', default: data.firstName || ''},
+                {id: 'mobile', title: '手机号', default: data.mobile || '', type: 'tel'},
+                {id: 'title', title: '职务', default: data.title || '', type: 'select'},
+                {id: 'company', title: '公司', default: data.company || ''}
+            ];
+            var description = formEle.getAttribute('data-description') || '';
+            var eventId = formEle.getAttribute('data-event-id') || '';
+            var formHTML = '';
+            formHTML += '<p>' + description + '</p>';
+            formHTML += '<input type="hidden" class="input-oneline" id="eventId" value="' + eventId + '">';
+            formHTML += renderForm(formInfo);
+            formHTML += '<div style="margin: 0;" class="login-btn input-submit-container center"><input type="submit" value="报名"></div>';
+            formHTML = '<div style="max-width: 450px;margin: auto;">' + formHTML + '</div>';
+            formEle.innerHTML = formHTML;
+            showGroup(1);
+        } 
+    };
+    xhr.send();
 }
-getEventApplicationForm();
+
+function applyEvent(ele) {
+    if (isSubmitting) {
+        alert ('请不要重复提交！');
+        return false;
+    }
+    isSubmitting = true;
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/index.php/user/signup', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+          var data = JSON.parse(xhr.responseText);
+          alert (data.message);
+          // if (data === 'ok' || data === '') {
+          //     var successNote = document.querySelector('.event-application').getAttribute('.data-success-note') || '提交成功！';
+          //     alert (successNote);
+          // }
+      } else if (xhr.status !== 200) {
+        
+          //alert('Request failed.  Returned status of ' + xhr.status);
+      }
+      isSubmitting = false;
+    };
+    var eventInfo = {};
+    var inputs = document.querySelectorAll('.event-application .input-oneline');
+    for (var i=0; i<inputs.length; i++) {
+        var id = inputs[i].id;
+        var value = inputs[i].value;
+        var n = i + 1; 
+        var mod = 'mod' + n;
+        eventInfo[mod] = value;
+        // MARK: - update user info
+        if (/\-[0-9]+$/.test(id) === false) {
+            eventInfo[id] = value;
+        }
+    }
+    xhr.send(JSON.stringify(eventInfo));
+    //console.log (eventInfo);
+    return false;
+}
+
+function loginOnAcademy() {
+    var u = document.getElementById('ft-login-input-username').value;
+    var p = document.querySelector('[name=password]').value;
+    var s = 1;
+    var postData = JSON.stringify({'username': u, 'password': p, 'saveme': s});
+    var req = new XMLHttpRequest();
+    if (req) {
+        req.open('POST', './index.php/user/login', true);
+        req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+        req.send(postData);
+        //document.getElementById("message").innerHTML = '';
+        req.onreadystatechange = function () {
+            if (req.readyState == 4) {
+                if (req.status == 200) {
+                    if (req.responseText) {
+                        r = JSON.parse(req.responseText);
+                        if (typeof (r["status"]) !== "undefined" && r["status"] === 'error') {
+                            //document.getElementById("message").innerHTML = r["message"];
+                            alert (r["message"]);
+                        } else if (typeof (r["status"]) !== "undefined" && r["status"] === 'ok') {
+                            //document.getElementById("message").innerHTML = '登录成功';
+                            closeOverlay('overlay-login');
+                            getEventApplicationForm();
+                            //window.location = './demo_signup.html';
+                        }
+                    }
+                }
+            }
+        };
+    }
+}
+
+function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
+}
+
+function updateLoginOnAcademy() {
+    if (location.host != 'www.ftacademy.cn') {
+        return;
+    }
+    var ft = getCookie('ft');
+    if (ft) {
+        getEventApplicationForm();
+    } else {
+        showOverlay('overlay-login');
+    }
+    var loginForm = document.getElementById('overlay-login').querySelector('form');
+    if (loginForm) {
+        loginForm.onsubmit = function() {
+            loginOnAcademy();
+            return false;
+        }
+    }
+}
+function showGroupFrom(ele) {
+    var n = ele.value;
+    showGroup(n)
+    
+}
+
+function showGroup(i) {
+    var n = parseInt(i, 10);
+    n = Math.max(1, n);
+    var ele = document.querySelectorAll('.' + eventInfoGroupKey);
+    for (var i=0; i<ele.length; i++) {
+        ele[i].style.display = (i<n) ? 'block' : 'none';
+    }
+}
+
+
+
+updateLoginOnAcademy();
+
 
 </script>
