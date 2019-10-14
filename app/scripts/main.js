@@ -763,6 +763,7 @@ function trackInternalPromos() {
       var promoName = currentPromo.getAttribute('data-promo-name');
       var promoCreative = currentPromo.getAttribute('data-promo-creative');
       var promoPosition = currentPromo.getAttribute('data-promo-position');
+      var eventCategory = currentPromo.getAttribute('data-event-category') || 'Web Privileges';
       if (isHidden(currentPromo) === false) {
         gtag('event', 'view_promotion', {
           promotions: [
@@ -774,12 +775,13 @@ function trackInternalPromos() {
             }
           ]
         });
-        gtag('event', 'Display', {'event_label': 'From:' + promoId, 'event_category': 'Web Privileges', 'non_interaction': true});
+        gtag('event', 'Display', {'event_label': 'From:' + promoId, 'event_category': eventCategory, 'non_interaction': true});
         currentPromo.onclick = function() {
           var promoId = this.getAttribute('data-promo-id');
           var promoName = this.getAttribute('data-promo-name');
           var promoCreative = this.getAttribute('data-promo-creative');
           var promoPosition = this.getAttribute('data-promo-position');
+          var eventCategory = this.getAttribute('data-event-category') || 'Web Privileges';
           gtag('event', 'select_content', {
             promotions: [
               {
@@ -792,22 +794,30 @@ function trackInternalPromos() {
           });
           var theLink = this.href;
           var linkClicked = false;
+          var linkTarget = this.getAttribute('target');
           function openLinkOnce() {
               if (!linkClicked) {
                 openLink(theLink);
                 linkClicked = true;
               }
           }
-          setTimeout(openLinkOnce, 1000);
-          gtag('event', 'Tap', {
-            'event_label': 'From:' + promoId, 
-            'event_category': 'Web Privileges', 
-            'event_callback': function() {
-              openLinkOnce();
-            }
-          });
-          // MARK: Track the event then go to link 
-          return false;
+          if (theLink && !linkTarget) {
+            setTimeout(openLinkOnce, 1000);
+            gtag('event', 'Tap', {
+              'event_label': 'From:' + promoId, 
+              'event_category': eventCategory, 
+              'event_callback': function() {
+                openLinkOnce();
+              }
+            });
+            // MARK: Track the event then go to link 
+            return false;
+          } else {
+            gtag('event', 'Tap', {
+              'event_label': 'From:' + promoId, 
+              'event_category': eventCategory
+            });
+          }
         };
       }
     }

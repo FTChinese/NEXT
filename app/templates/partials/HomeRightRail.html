@@ -28,6 +28,42 @@
 				<div class="video-title"><a href="/interactive/7083" target=_blank><%$video[0].cheadline%></a></div>
 			</div>
 		<%else%>
+
+		<%if $smarty.get.disableDolphine == "yes"%>
+
+		    <%*<!--MARK: Check the next model tag for sponsored special reports start-->*%>
+		    <!--spcial reports checking-->
+		    <%if $nextmodel != ""%>
+		        <!--spcial reports checking: support next model-->
+		        <%assign var="pageIdForSponsorshipManagement" value="textpromo"%>
+		        <%assign var="infoForSponsorships" value=$nextmodel->getPublishJson($pageIdForSponsorshipManagement)|json_decode:true%>
+		        <%assign var="currentDate" value=$smarty.now|date_format:"%Y%m%d"%>
+				<div class="links-container P-hide">
+					<h2 class="list-title"><a href="/m/marketing/home.html">市场活动</a></h2>
+					<div class="links" id="member-info">
+                        <%assign var="i" value=0%>
+                        <%foreach from=$infoForSponsorships.sections item=report%>
+                            <%if $i<3 && $report.status == "on" && (($report.dates != "" && preg_match("/`$currentDate`/is",$report.dates)) || ($report.dates == "" && $report.placeholder == "yes")) && ($report.link != "" || $report.tag != "")%>
+                                <%if $report.link != ""%>
+                                    <%assign var="specialLink" value=$report.link%>
+                                <%else%>
+                                    <%assign var="specialLink" value="/tag/`$report.tag`"%>
+                                <%/if%>
+                                <%if $report.PromoId != ""%>
+                                	<%assign var="trackingTag" value=" class=\"n-internal-promo\" data-promo-id=\"`$report.PromoId`\" data-promo-name=\"`$report.title`\" data-promo-creative=\"`$report.imageHighlightBox`\" data-promo-position=\"Home Textlink\" data-event-category=\"Home Textlink\""%>
+                                <%else%>
+                                	<%assign var="trackingTag" value=""%>
+                                <%/if%>
+                                <a href="<%$specialLink%>" target="_blank"<%$trackingTag%>><%$report.title%></a>
+                                <%assign var="i" value=$i+1%>
+                            <%/if%>
+                        <%/foreach%>
+					</div>
+				</div>
+		    <%/if%>
+		    <%*<!--MARK: Check the next model tag for sponsored special reports end-->*%>
+
+		<%else%>
 			<div class="links-container P-hide">
 				<h2 class="list-title"><a href="/m/marketing/home.html">市场活动</a></h2>
 				<div class="links" id="member-info">
@@ -37,6 +73,9 @@
 					<iframe width="0" height="0" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src = "/m/marketing/membertext.html"></iframe>
 				</div>
 			</div>
+		<%/if%>
+
+
 		<%/if%>
 		
 		<%if $smarty.get.ad != "no" && $noAd != "true"%>	
