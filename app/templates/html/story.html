@@ -1,3 +1,4 @@
+<!-- test body only 3 -->
 <%assign var="adchannelID" value="`$p.meta.adid`"%>
 <%if !isset($adchannelID)||$adchannelID==""%>
     <%assign var="adchannelID" value="1100"%>
@@ -1431,7 +1432,7 @@
 		<%/if%>
 		<%if !preg_match("/highcharts/is",$story_content) && !preg_match("/video/is",$story_content) && $hideMPU3!="yes" && $noAd != "true" && !preg_match("/单页/is",$tag)%>
 		<%*<!--在单页的情况下，如果文章没有插图，没有iframe，没有video，没有highcharts, 也没有被强制设为不显示MPU 3，则将MPU_3广告位插入到第五段开头。-->*%>
-			<%assign var="story_content" value=$story_content|regex_replace:"/[\r\t\n]/":""|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1	<div  data-o-ads-name=\"mpu-middle1\" class=\"o-ads in-article-advert\" data-o-ads-formats-default=\"false\"  data-o-ads-formats-small=\"FtcMobileMpu\"  data-o-ads-formats-medium=\"false\" data-o-ads-formats-large=\"FtcMpu\" data-o-ads-formats-extra=\"FtcMpu\" data-o-ads-targeting=\"cnpos=middle1;\" data-cy='[{\"devices\":[\"PC\",\"iPhoneWeb\",\"AndroidWeb\",\"iPhoneApp\",\"AndroidApp\"],\"pattern\":\"MPU\",\"position\":\"Middle1\",\"container\":\"mpuInStory\"}]'></div><p>"%>
+			<%assign var="story_content" value=$story_content|regex_replace:"/[\r\t\n]/":""|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1<div data-o-ads-name=\"mpu-middle1\" class=\"o-ads in-article-advert\" data-o-ads-formats-default=\"false\"  data-o-ads-formats-small=\"FtcMobileMpu\"  data-o-ads-formats-medium=\"false\" data-o-ads-formats-large=\"FtcMpu\" data-o-ads-formats-extra=\"FtcMpu\" data-o-ads-targeting=\"cnpos=middle1;\" data-cy='[{\"devices\":[\"PC\",\"iPhoneWeb\",\"AndroidWeb\",\"iPhoneApp\",\"AndroidApp\"],\"pattern\":\"MPU\",\"position\":\"Middle1\",\"container\":\"mpuInStory\"}]'></div><p>"%>
 		<%/if%>
 		<%assign var="storyHeadline" value=$cheadline%>
 		<%if $pageType == "bookinfo"%>
@@ -1534,12 +1535,8 @@
 					opacity: 0.9;
 				}
 			<%/if%>
-
 		</style>
 	<%/if%>
-
-
-
 <%/if%>
 
 
@@ -1592,8 +1589,6 @@
 	<%assign var="privilegeEventLabel" value=$privilegeEventLabel|strip_tags|regex_replace:"/[\r\n\t\s]/":""%>
 	<%assign var=storyHeadlineClass value=" story-headline-large"%>
 <%/if%>
-
-
 <%if $smarty.get.bodyonly != "yes"%>
 <%<!--body only start-->%>
 <!DOCTYPE html>
@@ -1753,9 +1748,9 @@
 	<%$paidPostTrack%>
   </head>
   <%assign var="bannerCount" value=0%>
-  <body class="<%$hideDate%><%$storyLanguage%>">
 <%<!--body only end-->%>
 <%/if%>
+  <body class="<%$hideDate%><%$storyLanguage%>">
   	<%include file="next/partials/wechat-icon.html"%>
   	<script>checkB();</script>
 		<%if $PageTitle != ""%>
@@ -1796,10 +1791,9 @@
 		<%include file="next/partials/QrCode.html"%>
 		<%include file="next/partials/story-font.html"%>
 		<%include file="next/partials/story-action.html"%>
-
+  </body>
 <%if $smarty.get.bodyonly != "yes"%>
 <%<!--body only start-->%>
-  </body>
 <%if preg_match("/highcharts/is",$story_content)%>
 <script src="https://dhgxl8qk9zgzr.cloudfront.net/js/jquery-1.10.2.min.js?0"></script>
 <script>
