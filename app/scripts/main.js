@@ -831,6 +831,9 @@ function trackRead(ea, metricName) {
     var info = {
       action: ea
     };
+    if (window.privilegeEventLabel !== undefined && window.gUserType !== 'Subscriber' && window.gUserType !== 'VIP') {
+      return;
+    }
     try {
       if (webkit) {
         webkit.messageHandlers.qualityread.postMessage(info);
@@ -839,9 +842,6 @@ function trackRead(ea, metricName) {
       }
     } catch (ignore) {
       
-    }
-    if (window.privilegeEventLabel !== undefined && window.gUserType !== 'Subscriber' && window.gUserType !== 'VIP') {
-      return;
     }
     var el = window.privilegeEventLabel || ftItemId;
     var parameters = {'send_page_view': false};

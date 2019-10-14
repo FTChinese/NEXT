@@ -1595,7 +1595,8 @@
 <%/if%>
 
 
-
+<%if $smarty.get.bodyonly != "yes"%>
+<%<!--body only start-->%>
 <!DOCTYPE html>
 <html class="no-js core<%if $smarty.get.webview == "ftcapp"%> is-ftc-app<%/if%><%$fullGridClass%><%$useJustifyClass%><%if $smarty.get.device == "iPad"%> is-ipad-app<%/if%>" data-next-app="tag-page">
   <head>
@@ -1754,6 +1755,8 @@
   </head>
   <%assign var="bannerCount" value=0%>
   <body class="<%$hideDate%><%$storyLanguage%>">
+<%<!--body only end-->%>
+<%/if%>
   	<%include file="next/partials/wechat-icon.html"%>
   	<script>checkB();</script>
 		<%if $PageTitle != ""%>
@@ -1794,6 +1797,9 @@
 		<%include file="next/partials/QrCode.html"%>
 		<%include file="next/partials/story-font.html"%>
 		<%include file="next/partials/story-action.html"%>
+
+<%if $smarty.get.bodyonly != "yes"%>
+<%<!--body only start-->%>
   </body>
 <%if preg_match("/highcharts/is",$story_content)%>
 <script src="https://dhgxl8qk9zgzr.cloudfront.net/js/jquery-1.10.2.min.js?0"></script>
@@ -1899,7 +1905,7 @@ if (w > 490 && isTouchDevice() === false && document.querySelectorAll('.ce').len
 				}
 			} else if (/OS [0-9]+\_/i.test(uaString) && (/iPhone/i.test(uaString) || /iPod/i.test(uaString))) {
 				deviceType = 'iPhoneWeb';
-				if(searchVars.webview && searchVars.webview === 'ftcapp') {
+				if(searchVars.webview && searchVars.webview === 'ftcapp') {ody
 					deviceType = 'iPhoneApp';
 				}
 			} else if (/Android|micromessenger/i.test(uaString) || w1 <= 490) {
@@ -1944,3 +1950,5 @@ if (w > 490 && isTouchDevice() === false && document.querySelectorAll('.ce').len
 	<script><%include file="next/scripts/main-story-wechat-trick.js"%></script>
 <%/if%>
 </html>
+<%<!--body only end-->%>
+<%/if%>
