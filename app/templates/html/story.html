@@ -1,4 +1,4 @@
-<!-- test body only 3 -->
+<!--body only 12-->
 <%assign var="adchannelID" value="`$p.meta.adid`"%>
 <%if !isset($adchannelID)||$adchannelID==""%>
     <%assign var="adchannelID" value="1100"%>
@@ -1499,44 +1499,6 @@
 			<%assign var="audioHTML" value="`$audioHTML`<textarea class=\"hide\" id=\"audio-json-text\">`$cbody`</textarea>"%>
 		<%/if%>
 	<%/if%>
-	<%if $smarty.get.hideheader == "yes"%>
-		<style>
-			.audio-placeholder,.story-theme,.site-map,.overlay-container,.o-nav__placeholder,.story-action-placeholder, .header-inner div {
-				display:none;
-			}
-			<%if $smarty.get.v != "" || $smarty.get.android != ""%>
-				<%assign var="v" value=$smarty.get.v|floatval%>
-				<%if $v >= 29%>
-					.story-theme {
-						display: block;
-					}
-				<%/if%>
-			<%/if%>
-			<%if $smarty.get.showAudioHTML == "yes"%>
-				.audio-placeholder {
-					display: block;
-				}
-			<%/if%>
-
-			<%if $smarty.get.inNavigation == "yes"%>
-				.header-container,.header-inner {
-				    display: none;
-				}
-			<%else%>
-				.header-container,.header-inner {
-				    height: 20px!important;
-				    display:block!important;
-				}
-				.header-container {
-					background-color: transparent !important;
-				}
-				.header-inner {
-					background-color: #FFF1E0!important;
-					opacity: 0.9;
-				}
-			<%/if%>
-		</style>
-	<%/if%>
 <%/if%>
 
 
@@ -1748,9 +1710,49 @@
 	<%$paidPostTrack%>
   </head>
   <%assign var="bannerCount" value=0%>
-<%<!--body only end-->%>
-<%/if%>
   <body class="<%$hideDate%><%$storyLanguage%>">
+<%<!--body only end-->%><%/if%>
+	<%*<!-- MARK: FT Radio: Handle Audio Content -->*%>
+	<%if $hasAudio == "yes" && 1<0%>
+		<%if $smarty.get.hideheader == "yes"%>
+			<style>
+				.audio-placeholder,.story-theme,.site-map,.overlay-container,.o-nav__placeholder,.story-action-placeholder, .header-inner div {
+					display:none;
+				}
+				<%if $smarty.get.v != "" || $smarty.get.android != ""%>
+					<%assign var="v" value=$smarty.get.v|floatval%>
+					<%if $v >= 29%>
+						.story-theme {
+							display: block;
+						}
+					<%/if%>
+				<%/if%>
+				<%if $smarty.get.showAudioHTML == "yes"%>
+					.audio-placeholder {
+						display: block;
+					}
+				<%/if%>
+
+				<%if $smarty.get.inNavigation == "yes"%>
+					.header-container,.header-inner {
+					    display: none;
+					}
+				<%else%>
+					.header-container,.header-inner {
+					    height: 20px!important;
+					    display:block!important;
+					}
+					.header-container {
+						background-color: transparent !important;
+					}
+					.header-inner {
+						background-color: #FFF1E0!important;
+						opacity: 0.9;
+					}
+				<%/if%>
+			</style>
+		<%/if%>
+	<%/if%>
   	<%include file="next/partials/wechat-icon.html"%>
   	<script>checkB();</script>
 		<%if $PageTitle != ""%>
@@ -1791,9 +1793,9 @@
 		<%include file="next/partials/QrCode.html"%>
 		<%include file="next/partials/story-font.html"%>
 		<%include file="next/partials/story-action.html"%>
-  </body>
 <%if $smarty.get.bodyonly != "yes"%>
 <%<!--body only start-->%>
+  </body>
 <%if preg_match("/highcharts/is",$story_content)%>
 <script src="https://dhgxl8qk9zgzr.cloudfront.net/js/jquery-1.10.2.min.js?0"></script>
 <script>
