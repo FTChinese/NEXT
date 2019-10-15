@@ -1,13 +1,10 @@
-<!--body only 12-->
 <%assign var="adchannelID" value="`$p.meta.adid`"%>
 <%if !isset($adchannelID)||$adchannelID==""%>
     <%assign var="adchannelID" value="1100"%>
 <%/if%>
-
 <%if $story.column!=""%>
 	<%assign var="columninfo" value=$storymodel->get_column_info($story.column)%>
 <%/if%>
-
 <%if preg_match("/letter/is",$story.cheadline)%>
 <%assign var=breadcrum value="<a href=/channel/letter.html>读者有话说</a>"%>
 <%assign var=autoadchannel value="NP_Opinion"%>
@@ -1552,7 +1549,6 @@
 	<%assign var=storyHeadlineClass value=" story-headline-large"%>
 <%/if%>
 <%if $smarty.get.bodyonly != "yes"%>
-<%<!--body only start-->%>
 <!DOCTYPE html>
 <html class="no-js core<%if $smarty.get.webview == "ftcapp"%> is-ftc-app<%/if%><%$fullGridClass%><%$useJustifyClass%><%if $smarty.get.device == "iPad"%> is-ipad-app<%/if%>" data-next-app="tag-page">
   <head>
