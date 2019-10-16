@@ -1548,7 +1548,7 @@
 	<%assign var="privilegeEventLabel" value=$privilegeEventLabel|strip_tags|regex_replace:"/[\r\n\t\s]/":""%>
 	<%assign var=storyHeadlineClass value=" story-headline-large"%>
 <%/if%>
-<%if $smarty.get.bodyonly != "yes"%>
+<%if $smarty.get.bodyonly != "yes" || $smarty.get.android != ""%>
 <!DOCTYPE html>
 <html class="no-js core<%if $smarty.get.webview == "ftcapp"%> is-ftc-app<%/if%><%$fullGridClass%><%$useJustifyClass%><%if $smarty.get.device == "iPad"%> is-ipad-app<%/if%>" data-next-app="tag-page">
   <head>
@@ -1789,7 +1789,14 @@
 		<%include file="next/partials/QrCode.html"%>
 		<%include file="next/partials/story-font.html"%>
 		<%include file="next/partials/story-action.html"%>
-<%if $smarty.get.bodyonly != "yes"%>
+
+		<%if 1>2%>
+		<div>Test Message</div>
+		<p><%$smarty.server.HTTP_HOST%></p>
+		<p><%$smarty.server.REQUEST_URI%></p>
+		<%/if%>
+
+<%if $smarty.get.bodyonly != "yes" || $smarty.get.android != ""%>
 <%<!--body only start-->%>
   </body>
 <%if preg_match("/highcharts/is",$story_content)%>
