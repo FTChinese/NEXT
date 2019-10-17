@@ -145,11 +145,15 @@ function applyEvent(ele) {
     xhr.onload = function() {
       if (xhr.status === 200) {
           var data = JSON.parse(xhr.responseText);
-          alert (data.message);
-          // if (data === 'ok' || data === '') {
-          //     var successNote = document.querySelector('.event-application').getAttribute('.data-success-note') || '提交成功！';
-          //     alert (successNote);
-          // }
+          //alert (data.message);
+          if (data.status === 'success') {
+              var statusNote = document.querySelector('.event-application').getAttribute('.data-success-note') || '提交成功！';
+              alert (statusNote);
+          }
+          if (data.status === 'unqualified') {
+              var statusNote = document.querySelector('.event-application').getAttribute('.data-hide-form-info') || '您没有参与资格！';
+              alert (statusNote);
+          }
       } else if (xhr.status !== 200) {
         
           //alert('Request failed.  Returned status of ' + xhr.status);
