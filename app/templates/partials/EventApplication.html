@@ -147,11 +147,11 @@ function applyEvent(ele) {
           var data = JSON.parse(xhr.responseText);
           //alert (data.message);
           if (data.status === 'success') {
-              var statusNote = document.querySelector('.event-application').getAttribute('.data-success-note') || '提交成功！';
+              var statusNote = document.querySelector('.event-application').getAttribute('data-success-note') || '提交成功！';
               alert (statusNote);
           }
           if (data.status === 'unqualified') {
-              var statusNote = document.querySelector('.event-application').getAttribute('.data-hide-form-info') || '您没有参与资格！';
+              var statusNote = document.querySelector('.event-application').getAttribute('data-hide-form-info') || '您没有参与资格！';
               alert (statusNote);
           }
       } else if (xhr.status !== 200) {
@@ -185,7 +185,7 @@ function loginOnAcademy() {
     var postData = JSON.stringify({'username': u, 'password': p, 'saveme': s});
     var req = new XMLHttpRequest();
     if (req) {
-        req.open('POST', './index.php/user/login', true);
+        req.open('POST', '/index.php/user/login', true);
         req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
         req.send(postData);
         //document.getElementById("message").innerHTML = '';
@@ -194,6 +194,11 @@ function loginOnAcademy() {
                 if (req.status == 200) {
                     if (req.responseText) {
                         r = JSON.parse(req.responseText);
+                        if (r["status"] === 'unqualified') {
+                            var statusNote = document.querySelector('.event-application').getAttribute('data-hide-form-info') || '您没有参与资格！';
+                            alert (statusNote);
+                            return;
+                        }
                         if (typeof (r["status"]) !== "undefined" && r["status"] === 'error') {
                             //document.getElementById("message").innerHTML = r["message"];
                             alert (r["message"]);
@@ -222,10 +227,7 @@ function getCookie(name) {
 }
 
 function updateLoginOnAcademy() {
-    if (location.host != 'www.ftacademy.cn') {
-        return;
-    }
-    var ft = getCookie('ft');
+    var ft = (location.host === 'www.ftacademy.cn') ? getCookie('ft') : getCookie('USER_NAME');
     if (ft) {
         getEventApplicationForm();
     } else {
@@ -239,6 +241,7 @@ function updateLoginOnAcademy() {
         }
     }
 }
+
 function showGroupFrom(ele) {
     var n = ele.value;
     showGroup(n)
