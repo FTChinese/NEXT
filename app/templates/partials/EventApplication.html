@@ -9,7 +9,7 @@
 			<div class="no-image"">
 				<div class="item-inner">
 					<div class="item-lead">
-						<form onsubmit="return applyEvent(this)" class="event-application" data-event-id="<%$list.EventId%>" data-description="<%$list.description%>" data-subscription-type="<%$subscriptionType%>" data-success-note="<%$SuccessNote%>" data-hide-form-info="<%$list.HideFormInfo%>" data-event-paticipants="<%$list.Tickets%>">
+						<form onsubmit="return applyEvent(this)" class="event-application" data-event-id="<%$list.EventId%>" data-description="<%$list.description%>" data-subscription-type="<%$list.subscriptionType%>" data-success-note="<%$list.SuccessNote%>" data-hide-form-info="<%$list.HideFormInfo%>" data-event-paticipants="<%$list.Tickets%>">
 							正在获取相关信息...
 						</form>
 					</div>
@@ -124,7 +124,8 @@ function getEventApplicationForm() {
             formHTML += '<p>' + description + '</p>';
             formHTML += '<input type="hidden" class="input-oneline" id="eventId" value="' + eventId + '">';
             formHTML += renderForm(formInfo);
-            formHTML += '<div style="margin: 0;" class="login-btn input-submit-container center"><input type="submit" value="报名"></div>';
+            formHTML += '<div style="margin: 0;" class="login-btn input-submit-container center"><input class="ui-light-btn" type="submit" value="报名" style="-webkit-appearance: none;"></div>';
+            formHTML += '<div style="margin: 0" id="form-application-status"></div>';
             formHTML = '<div style="max-width: 450px;margin: auto;">' + formHTML + '</div>';
             formEle.innerHTML = formHTML;
             showGroup(1);
@@ -134,47 +135,52 @@ function getEventApplicationForm() {
 }
 
 function applyEvent(ele) {
+    var statusEle = document.getElementById('form-application-status');
     if (isSubmitting) {
-        alert ('请不要重复提交！');
+        statusEle.innerHTML = '请不要重复提交！';
         return false;
-    }
+    }    
+    statusEle.innerHTML = '正在提交中...';
     isSubmitting = true;
     var xhr = new XMLHttpRequest();
     xhr.open('POST', '/index.php/user/signup', true);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onload = function() {
-      if (xhr.status === 200) {
-          var data = JSON.parse(xhr.responseText);
-          //alert (data.message);
-          if (data.status === 'success') {
-              var statusNote = document.querySelector('.event-application').getAttribute('data-success-note') || '提交成功！';
-              alert (statusNote);
-          }
-          if (data.status === 'unqualified') {
-              var statusNote = document.querySelector('.event-application').getAttribute('data-hide-form-info') || '您没有参与资格！';
-              alert (statusNote);
-          }
-      } else if (xhr.status !== 200) {
-        
-          //alert('Request failed.  Returned status of ' + xhr.status);
-      }
-      isSubmitting = false;
+        if (xhr.status === 200) {
+            var data = JSON.parse(xhr.responseText);
+            if (data.status === 'success') {
+            var statusNote = document.querySelector('.event-application').getAttribute('data-success-note') || '提交成功！';
+            statusEle.innerHTML = statusNote;
+            } else if (data.status === 'unqualified') {
+            var statusNote = document.querySelector('.event-application').getAttribute('data-hide-form-info') || '您没有参与资格！';
+            statusEle.innerHTML = statusNote;
+            } else {
+            statusEle.innerHTML = data.message;
+            }
+        } else if (xhr.status !== 200) {
+            if (location.host === 'www.ftacademy.cn') {
+                var statusNote = '您现在似乎无法连接到我们的服务器，请<a href="https://www.ftacademy.cn/annual_forum_2019.html">点击这里更换一个域名试试</a>';
+                statusEle.innerHTML = statusNote;
+            } else {
+                statusEle.innerHTML = '未能成功提交，请稍后再试';
+            }
+        }
+        isSubmitting = false;
     };
     var eventInfo = {};
     var inputs = document.querySelectorAll('.event-application .input-oneline');
     for (var i=0; i<inputs.length; i++) {
-        var id = inputs[i].id;
-        var value = inputs[i].value;
-        var n = i + 1; 
-        var mod = 'mod' + n;
-        eventInfo[mod] = value;
-        // MARK: - update user info
-        if (/\-[0-9]+$/.test(id) === false) {
-            eventInfo[id] = value;
-        }
+    var id = inputs[i].id;
+    var value = inputs[i].value;
+    var n = i + 1; 
+    var mod = 'mod' + n;
+    eventInfo[mod] = value;
+    // MARK: - update user info
+    if (/\-[0-9]+$/.test(id) === false) {
+    eventInfo[id] = value;
+    }
     }
     xhr.send(JSON.stringify(eventInfo));
-    //console.log (eventInfo);
     return false;
 }
 
@@ -184,11 +190,19 @@ function loginOnAcademy() {
     var s = 1;
     var postData = JSON.stringify({'username': u, 'password': p, 'saveme': s});
     var req = new XMLHttpRequest();
+    var statusEle = document.getElementById('login-in-status-note');
+    if (statusEle === null) {
+        var registerFind = document.querySelector('.register-find');
+        if (registerFind) {
+            statusEle = document.createElement("DIV");
+            statusEle.className = 'login-in-status-note';
+            registerFind.parentNode.insertBefore(statusEle, registerFind);
+        }
+    }
     if (req) {
         req.open('POST', '/index.php/user/login', true);
         req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
         req.send(postData);
-        //document.getElementById("message").innerHTML = '';
         req.onreadystatechange = function () {
             if (req.readyState == 4) {
                 if (req.status == 200) {
@@ -196,18 +210,20 @@ function loginOnAcademy() {
                         r = JSON.parse(req.responseText);
                         if (r["status"] === 'unqualified') {
                             var statusNote = document.querySelector('.event-application').getAttribute('data-hide-form-info') || '您没有参与资格！';
-                            alert (statusNote);
+                            statusEle.innerHTML = statusNote;
                             return;
                         }
                         if (typeof (r["status"]) !== "undefined" && r["status"] === 'error') {
-                            //document.getElementById("message").innerHTML = r["message"];
-                            alert (r["message"]);
+                            statusEle.innerHTML = r["message"];
                         } else if (typeof (r["status"]) !== "undefined" && r["status"] === 'ok') {
-                            //document.getElementById("message").innerHTML = '登录成功';
                             closeOverlay('overlay-login');
                             getEventApplicationForm();
-                            //window.location = './demo_signup.html';
                         }
+                    }
+                } else {
+                    if (location.host === 'www.ftacademy.cn') {
+                        var statusNote = '您现在似乎无法连接到我们的服务器，请<a href="https://www.ftacademy.cn/annual_forum_2019.html">点击这里更换一个域名试试</a>';
+                        statusEle.innerHTML = statusNote;
                     }
                 }
             }
