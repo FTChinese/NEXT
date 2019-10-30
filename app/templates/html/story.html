@@ -1481,9 +1481,9 @@
 
 <%*<!-- MARK: FT Radio: Handle Audio Content -->*%>
 <%if $hasAudio == "yes"%>
-	<%assign var="audioSrc" value=$cshortleadbody|replace:"http://v.ftimg.net/album/":"https://creatives.ftimg.net/album/"%>
+	<%assign var="audioSrc" value=$cshortleadbody|replace:"http://v.ftimg.net/album/":"https://creatives.ftacademy.cn/album/"%>
 	<%if $audioSrc != ""%>
-		<%if $smarty.get.webview != "ftcapp" || $smarty.get.android != ""%>
+		<%if $smarty.get.webview != "ftcapp" || $smarty.get.android != "" || $smarty.get.utm_medium == "androidmarket" || $smarty.get.utm_mediu == "androidmarket"%>
 			<%assign var="audioHTML" value="<div class=\"audio-placeholder\" id=\"audio-placeholder\"><div class=\"audio-container\"><div class=\"audio-controls\"><button class=\"audio-control control__play\">Play</button><button class=\"audio-control control__pause\" disabled=true>Pause</button><span class=\"audio-time-text__current audio-time-text\">00:00</span><span class=\"audio-time-text__total audio-time-text\"></span><div class=\"audio-time-progress\"><span class=\"audio-time-progress__background\"></span><span class=\"audio-time-progress__fill\"></span><span class=\"audio-time-progress__scrub\"></span></div></div><audio id=\"current-audio\" class=\"audio-player hide\" ontimeupdate=\"updateAudioTime(this)\" onended=\"audioEnded()\" src=\"`$audioSrc`\" preload=\"auto\"></audio></div></div>"%>
 			<%if $debug_model == 1%>
 				<%assign var="audioHTML" value="<div>类型：</div><div><input type=\"text\" value=\"audio\" style=\"width: 100%; display: block; margin-bottom: 15px;\"></div><div>中文标题：</div><div><input type=\"text\" value=\"`$cheadline`\" style=\"width: 100%; display: block; margin-bottom: 15px;\"></div><div>描述：</div><div><input type=\"text\" value=\"`$clongleadbody`\" style=\"width: 100%; display: block; margin-bottom: 15px;\"></div<div>音频地址：</div><div><input type=\"text\" value=\"`$audioSrc`\" style=\"width: 100%; display: block; margin-bottom: 15px;\"></div>`$audioHTML`"%>
@@ -1796,7 +1796,7 @@
 		<p><%$smarty.server.REQUEST_URI%></p>
 		<%/if%>
 
-<%if $smarty.get.bodyonly != "yes" || $smarty.get.android != ""%>
+<%if $smarty.get.bodyonly != "yes" || $smarty.get.android != "" || $smarty.get.utm_medium == "androidmarket" || $smarty.get.utm_mediu == "androidmarket"%>
 <%<!--body only start-->%>
   </body>
 <%if preg_match("/highcharts/is",$story_content)%>
