@@ -336,6 +336,27 @@
 		}
 	}
 }
+.is-audio {
+	figure {
+		&:after {
+			content: "";
+			position: absolute;
+			right: 0;
+			top:0;
+			background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="white" d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+		    background-image: url(https://dhgxl8qk9zgzr.cloudfront.net/icons/png/fticon-v1_audio.png) \9;
+		    width: 34px;
+		    height: 34px;
+		    display: inline-block;
+		    background-repeat: no-repeat;
+		    background-size: 24px;
+		    background-position: 50%;
+		    background-color: transparent;
+		    vertical-align: baseline;
+		    background-color: #000;
+		}
+	}
+}
 .resized {
 	.image {
 		figure {
@@ -634,6 +655,9 @@
 	//padding: 0 $defaultPadding/2;
 	.side-container & {
 		padding-bottom: $defaultPadding;
+	}
+	.side-list & {
+		padding: 0 $defaultPadding/2;
 	}
 }
 .smallest {

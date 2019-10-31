@@ -5,6 +5,9 @@
 <%if $story.column!=""%>
 	<%assign var="columninfo" value=$storymodel->get_column_info($story.column)%>
 <%/if%>
+<%if $smarty.get.android != "" || $smarty.get.utm_medium == "androidmarket" || $smarty.get.utm_mediu == "androidmarket"%>
+	<%assign var=isAndroidApp value="yes"%>
+<%/if%>
 <%if preg_match("/letter/is",$story.cheadline)%>
 <%assign var=breadcrum value="<a href=/channel/letter.html>读者有话说</a>"%>
 <%assign var=autoadchannel value="NP_Opinion"%>
@@ -1483,13 +1486,16 @@
 <%if $hasAudio == "yes"%>
 	<%assign var="audioSrc" value=$cshortleadbody|replace:"http://v.ftimg.net/album/":"https://creatives.ftacademy.cn/album/"%>
 	<%if $audioSrc != ""%>
-		<%if $smarty.get.webview != "ftcapp" || $smarty.get.android != "" || $smarty.get.utm_medium == "androidmarket" || $smarty.get.utm_mediu == "androidmarket"%>
+		<!--check 1: <%$isAndroidApp%>-->
+		<%if $isAndroidApp == "yes" || $smarty.get.webview != "ftcapp"%>
+			<!--check 2-->
 			<%assign var="audioHTML" value="<div class=\"audio-placeholder\" id=\"audio-placeholder\"><div class=\"audio-container\"><div class=\"audio-controls\"><button class=\"audio-control control__play\">Play</button><button class=\"audio-control control__pause\" disabled=true>Pause</button><span class=\"audio-time-text__current audio-time-text\">00:00</span><span class=\"audio-time-text__total audio-time-text\"></span><div class=\"audio-time-progress\"><span class=\"audio-time-progress__background\"></span><span class=\"audio-time-progress__fill\"></span><span class=\"audio-time-progress__scrub\"></span></div></div><audio id=\"current-audio\" class=\"audio-player hide\" ontimeupdate=\"updateAudioTime(this)\" onended=\"audioEnded()\" src=\"`$audioSrc`\" preload=\"auto\"></audio></div></div>"%>
 			<%if $debug_model == 1%>
 				<%assign var="audioHTML" value="<div>类型：</div><div><input type=\"text\" value=\"audio\" style=\"width: 100%; display: block; margin-bottom: 15px;\"></div><div>中文标题：</div><div><input type=\"text\" value=\"`$cheadline`\" style=\"width: 100%; display: block; margin-bottom: 15px;\"></div><div>描述：</div><div><input type=\"text\" value=\"`$clongleadbody`\" style=\"width: 100%; display: block; margin-bottom: 15px;\"></div<div>音频地址：</div><div><input type=\"text\" value=\"`$audioSrc`\" style=\"width: 100%; display: block; margin-bottom: 15px;\"></div>`$audioHTML`"%>
 			<%/if%>
 			<%*<!--assign var="audioHTML" value="<div class=\"audio-placeholder\" id=\"audio-placeholder\"><div class=\"audio-container\"><audio ontimeupdate=\"updateAudioTime(this)\"  onended=\"audioEnded()\" id=\"current-audio\" preload=\"none\" controls=\"\"><source src=\"`$audioSrc`\"><br clear='all'></audio></div></div>"-->*%>
 		<%else%>
+			<!--check 3-->
 			<%assign var="audioHTML" value=""%>
 		<%/if%>
 		<%if preg_match("/url/is",$cbody)%>
@@ -1548,9 +1554,9 @@
 	<%assign var="privilegeEventLabel" value=$privilegeEventLabel|strip_tags|regex_replace:"/[\r\n\t\s]/":""%>
 	<%assign var=storyHeadlineClass value=" story-headline-large"%>
 <%/if%>
-<%if $smarty.get.bodyonly != "yes" || $smarty.get.android != ""%>
+<%if $smarty.get.bodyonly != "yes" || $isAndroidApp == "yes"%>
 <!DOCTYPE html>
-<html class="no-js core<%if $smarty.get.webview == "ftcapp"%> is-ftc-app<%/if%><%$fullGridClass%><%$useJustifyClass%><%if $smarty.get.device == "iPad"%> is-ipad-app<%/if%>" data-next-app="tag-page">
+<html class="no-js core<%if $isAndroidApp == "yes"%> is-android-app<%/if%><%if $smarty.get.webview == "ftcapp"%> is-ftc-app<%/if%><%$fullGridClass%><%$useJustifyClass%><%if $smarty.get.device == "iPad"%> is-ipad-app<%/if%>">
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -1561,7 +1567,11 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 	<meta name="robots" content="noarchive">
     <link rel="apple-touch-icon-precomposed" href="https://dhgxl8qk9zgzr.cloudfront.net/img/ipad_icon.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <%if $isAndroidApp == "yes"%>
+    	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
+    <%else%>
+    	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <%/if%>
     <link rel="preconnect" href="https://dhgxl8qk9zgzr.cloudfront.net" />
     <link rel="preconnect" href="http://i.ftimg.net" />
     <script>
@@ -1796,7 +1806,7 @@
 		<p><%$smarty.server.REQUEST_URI%></p>
 		<%/if%>
 
-<%if $smarty.get.bodyonly != "yes" || $smarty.get.android != "" || $smarty.get.utm_medium == "androidmarket" || $smarty.get.utm_mediu == "androidmarket"%>
+<%if $smarty.get.bodyonly != "yes" || $isAndroidApp == "yes"%>
 <%<!--body only start-->%>
   </body>
 <%if preg_match("/highcharts/is",$story_content)%>

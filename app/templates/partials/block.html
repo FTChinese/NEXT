@@ -442,7 +442,6 @@
 					<%if $i<$maxItems && (($feedRepeatCheck != "yes" && !in_array($itemId, explode(',',$premiumContentIds))) || (($feedImage != "necessary" || $itemImage != "") && $list.feedItems>0 && $i<$list.feedItems && !in_array($itemId, explode(',',$itemIdsArray))))%>
 						<%*<!--<%$item|@print_r%>-->*%>
 						<%assign var="itemType" value=$item.item_type|default:$item.type|default:$item.itemtype|default:$feedType%>
-						<!--<%$itemType%>: <%$item.item_type%>: <%$item.version%>-->
 						<%if $itemType == "photo"%>
 							<%assign var="itemType" value="photonews"%>
 						<%elseif preg_match("/accessright/is",$list.feedTag) || ($itemType == "story" && $item.accessright > 0)%>
@@ -1087,6 +1086,9 @@
 							<%/if%>
 						<%/if%>
 
+						<%if $itemSubType == "radio"%>
+							<%assign var="itemClass" value="`$itemClass` is-audio"%>
+						<%/if%>
 
 						<%if $smarty.get.webview == "ftcapp"%>
 							<%if preg_match("/.mp3$/is",$item.shortlead) || preg_match("/.mp3$/is",$item.cshortleadbody)%>
@@ -1620,7 +1622,7 @@
 								<%if $list.url != ""%>
 									<a href="<%$list.url%>"><%$list.title%></a>
 								<%else%>
-									<%$list.title%>
+									<a href="#"><%$list.title%></a>
 								<%/if%>
 							</h2>
 						<%/if%>
