@@ -90,8 +90,13 @@ function updateClientIdLinks() {
 }
 
 function trackerNew() {
+    function sendData(gTagParameters, firebaseParameters) {
+        gtag('config', gaMeasurementId, gTagParameters);
+        gtag('config', gaMeasurementId2, firebaseParameters);
+    }
     // TODO: Should send two different sets of code to google analytics and firebase
     var gTagParameters = {};
+    var firebaseParameters = {};
     var l=window.location.href;
     var keyTag; 
     var vsource; 
@@ -255,9 +260,11 @@ function trackerNew() {
     if (userId !== '') {
         gTagParameters.user_id = userId;
         gTagParameters.cm_user_id = userId;
+        firebaseParameters.user_id = userId;
     }
     gTagParameters.user_type = vtype;
     gTagParameters.visiting_source = vsource;
+
 
     try {
         keyTag=window.gKeyTag;
@@ -342,8 +349,7 @@ function trackerNew() {
             trackerpage=trackerpage + '?' + window.metaInfo;
         }
         trackerpage='/barrier/'+window.bpage+'/'+trackerpage;
-        gtag('config', gaMeasurementId, gTagParameters);
-        gtag('config', gaMeasurementId2, gTagParameters);
+        sendData(gTagParameters, firebaseParameters);
     } else if (window.virtualPage !== undefined){
         pagePara=l;
         pagePara=pagePara.replace(/^.*\/(story|video|interactive)\/[0-9]+/g,'').replace(/^.*\.com[\/]*/g,'').replace(/search\/.*$/g,'');
@@ -364,13 +370,11 @@ function trackerNew() {
         }
         if (window.gAutoStart === undefined) {
             gTagParameters.page_path = window.virtualPage+pagePara;
-            gtag('config', gaMeasurementId, gTagParameters);
-            gtag('config', gaMeasurementId2, gTagParameters);
+            sendData(gTagParameters, firebaseParameters);
         }
     } else {
         if (window.gAutoStart === undefined) {
-            gtag('config', gaMeasurementId, gTagParameters);
-            gtag('config', gaMeasurementId2, gTagParameters);
+            sendData(gTagParameters, firebaseParameters);
         }
     }
 }
