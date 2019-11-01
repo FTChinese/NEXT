@@ -3,6 +3,8 @@ var w = window.innerWidth || document.documentElement.clientWidth || document.bo
 var ua = navigator.userAgent || navigator.vendor || '';
 var gUserType = 'visitor';
 var gaMeasurementId = 'UA-1608715-1';
+var gaMeasurementId2 = 'G-PDY0XG13PH';
+//var gaMeasurementId = 'G-PDY0XG13PH';
 
 function GetCookie(name){
     var start = document.cookie.indexOf(name+'='),
@@ -88,8 +90,7 @@ function updateClientIdLinks() {
 }
 
 function trackerNew() {
-    
-
+    // TODO: Should send two different sets of code to google analytics and firebase
     var gTagParameters = {};
     var l=window.location.href;
     var keyTag; 
@@ -102,8 +103,7 @@ function trackerNew() {
     var trackerpage; 
     var pagePara;
     var ftcteam1;
-    //var i;
-    //var keyTagArray;
+    var userProperties = {};
     var username=GetCookie('USER_NAME') || GetCookie('USER_NAME_FT') || '';
     var userId = GetCookie('USER_ID') || '';
     var ccodeCookie=GetCookie('ccode') || '';
@@ -163,8 +163,6 @@ function trackerNew() {
     }
     deviceName = 'Page by ' + deviceName;
     gTagParameters.contentGroup4 = deviceName;
-
-    //console.log (screenType);
     ccode=paravalue(l,'ccode');
     if (l.indexOf('gift_id')>0) {
         vsource='marketing';
@@ -209,9 +207,6 @@ function trackerNew() {
     }else {
         vsource='Other';
     }
-
-    
-
     try{
         if (ccode!=='' && ccode!==ccodeCookie) {
             SetCookie('ccode',ccode,86400*100,'/','.ftchinese.com');
@@ -249,7 +244,6 @@ function trackerNew() {
         
         }
     }
-
     if (subscriberType && typeof subscriberType === 'string' && subscriberType !== '') {
         vtype = subscriberType;
     } else if (username === '') {
@@ -257,11 +251,7 @@ function trackerNew() {
     } else {
         vtype = 'member';
     }
-
     gUserType = vtype;
-
-    //console.log ('visitor type is set as: ' + gUserType);
-
     if (userId !== '') {
         gTagParameters.user_id = userId;
         gTagParameters.cm_user_id = userId;
@@ -331,62 +321,58 @@ function trackerNew() {
     if (window.subTopic !== undefined && window.subTopic !== null && window.subTopic !== '') {
         gTagParameters.sub_topic = window.subTopic;
     }
-
-
     updateClientIdLinks();
-
-
-
-    //Optimize trackNew
-    //console.log('Optimize track new');
-    setTimeout(function(){
-        if (window.isBlocked === 'yes' || window.bBlocked === 'yes') {
-            gTagParameters.use_block = 'yes';
-        } else if (window.isBlocked === 'no'){
-            gTagParameters.use_block = 'no';
+    userProperties = {
+       'UserType': vtype
+    };
+    gtag('set', 'user_properties', userProperties);
+    if (window.isBlocked === 'yes' || window.bBlocked === 'yes') {
+        gTagParameters.use_block = 'yes';
+    } else if (window.isBlocked === 'no'){
+        gTagParameters.use_block = 'no';
+    }
+    if (window.bpage !== undefined && window.bpage !== 0 && window.bpage !== null) {
+        trackerpage=l;
+        if (window.virtualPage !== undefined){
+            trackerpage=window.virtualPage;
+        } else {
+            trackerpage=trackerpage.replace(/^.*\/story/g,'story');
         }
-        if (window.bpage !== undefined && window.bpage !== 0 && window.bpage !== null) {
-            trackerpage=l;
-            if (window.virtualPage !== undefined){
-                trackerpage=window.virtualPage;
-            } else {
-                trackerpage=trackerpage.replace(/^.*\/story/g,'story');
-            }
-            if (window.metaInfo !== undefined){
-                trackerpage=trackerpage + '?' + window.metaInfo;
-            }
-            trackerpage='/barrier/'+window.bpage+'/'+trackerpage;
-            gtag('config', gaMeasurementId, gTagParameters);
-        } else if (window.virtualPage !== undefined){
-            pagePara=l;
-            pagePara=pagePara.replace(/^.*\/(story|video|interactive)\/[0-9]+/g,'').replace(/^.*\.com[\/]*/g,'').replace(/search\/.*$/g,'');
-            if (window.metaInfo !== undefined){            
-                if (/\?.*\#/i.test(pagePara)) {
-                    pagePara=pagePara.replace(/#/g,'&' + window.metaInfo +'#');
-                } else if (pagePara.indexOf('?') >=0){
-                    pagePara=pagePara + '&' + window.metaInfo;
-                } else if (pagePara.indexOf('#') >=0) {
-                    pagePara=pagePara.replace(/#/g,'?' + window.metaInfo +'#');
-                }else {
-                    pagePara=pagePara + '?' + window.metaInfo;
-                }
-            } else {
-                if (/\?/i.test(pagePara)) {
-                    pagePara=pagePara.replace(/\?/g,'&');
-                }
-            }
-            if (window.gAutoStart === undefined) {
-                gTagParameters.page_path = window.virtualPage+pagePara;
-                gtag('config', gaMeasurementId, gTagParameters);
+        if (window.metaInfo !== undefined){
+            trackerpage=trackerpage + '?' + window.metaInfo;
+        }
+        trackerpage='/barrier/'+window.bpage+'/'+trackerpage;
+        gtag('config', gaMeasurementId, gTagParameters);
+        gtag('config', gaMeasurementId2, gTagParameters);
+    } else if (window.virtualPage !== undefined){
+        pagePara=l;
+        pagePara=pagePara.replace(/^.*\/(story|video|interactive)\/[0-9]+/g,'').replace(/^.*\.com[\/]*/g,'').replace(/search\/.*$/g,'');
+        if (window.metaInfo !== undefined){            
+            if (/\?.*\#/i.test(pagePara)) {
+                pagePara=pagePara.replace(/#/g,'&' + window.metaInfo +'#');
+            } else if (pagePara.indexOf('?') >=0){
+                pagePara=pagePara + '&' + window.metaInfo;
+            } else if (pagePara.indexOf('#') >=0) {
+                pagePara=pagePara.replace(/#/g,'?' + window.metaInfo +'#');
+            }else {
+                pagePara=pagePara + '?' + window.metaInfo;
             }
         } else {
-            if (window.gAutoStart === undefined) {
-                gtag('config', gaMeasurementId, gTagParameters);
+            if (/\?/i.test(pagePara)) {
+                pagePara=pagePara.replace(/\?/g,'&');
             }
         }
-    }, 1);
-
-
+        if (window.gAutoStart === undefined) {
+            gTagParameters.page_path = window.virtualPage+pagePara;
+            gtag('config', gaMeasurementId, gTagParameters);
+            gtag('config', gaMeasurementId2, gTagParameters);
+        }
+    } else {
+        if (window.gAutoStart === undefined) {
+            gtag('config', gaMeasurementId, gTagParameters);
+            gtag('config', gaMeasurementId2, gTagParameters);
+        }
+    }
 }
 
 
