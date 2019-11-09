@@ -1097,6 +1097,10 @@
 							<%else%>
 								<%assign var="audioUrl" value=""%>
 								<%assign var="audioData" value=""%>
+								<%*<!--MARK: - Some the editor will mark the item as an audio, but it has no audio file. -->*%>
+								<%if $itemSubType == "radio"%>
+									<%assign var="itemSubType" value=""%>
+								<%/if%>
 							<%/if%>
 							<%if preg_match("/.mp3$/is",$item.caudio)%>
 								<%assign var="caudioUrl" value=$item.caudio%>
