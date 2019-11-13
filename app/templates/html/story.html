@@ -876,8 +876,8 @@
 	<%assign var="hasFoundPaidPost" value="no"%>
 	<%assign var="currentDate" value=$smarty.now|date_format:"%Y%m%d"%>
 	<%foreach from=$infoForSponsorships.sections item=section%>
-		<%if $hasFoundSponsorship == "no" && $section.status == "on" && $section.dates != "" && preg_match("/`$currentDate`/is",$section.dates)%>
-			
+		<%if $hasFoundSponsorship == "no" && $section.status == "on" && (($section.dates != "" && preg_match("/`$currentDate`/is",$section.dates)) || ($section.dates == "" && $section.placeholder == "yes"))%>
+			<!--Check the next model tag for sponsored special reports start 2 -->
 			<%assign var="sponsorKeys" value=$section.storyKeyWords%>
 			<%assign var="matchInKeysAndBody" value="no"%>
 			<%if $sponsorKeys == ""%>
