@@ -24,7 +24,7 @@
 	<%foreach from=$allstory item=item%>
 		<%assign var="itemImage" value=$item.illustration|default:$item.cover|default:$item.thumb_url%>
 		<%if $itemImage != ""%>
-			<%assign var="itemImage" value="http://i.ftimg.net/`$itemImage`"%>
+			<%assign var="itemImage" value="https://thumbor.ftacademy.cn/unsafe/`$itemImage`"%>
 		<%/if%>
 
 		<%if $itemImage != "" && $item.photonewsid != $info.photonewsid && $i<12%>

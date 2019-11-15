@@ -79,7 +79,7 @@
 					<%assign var="itemImage" value=$item.image.cover|default:$item.image.smallbutton|default:$item.image.other|default:$item.image.bigbutton|default:$item.imageHighlightBox%>
 				<%/if%>
 				<%if $itemImage != "" && !preg_match("/^http/is",$itemImage)%>
-					<%assign var="itemImage" value="http://i.ftimg.net/`$itemImage`"%>
+					<%assign var="itemImage" value="https://thumbor.ftacademy.cn/unsafe/`$itemImage`"%>
 				<%/if%>
 
 				<%if $itemImage != "" && $pageTheme != "myft" && ($pageType != "special" || $item.status != "off")%>

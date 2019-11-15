@@ -192,7 +192,7 @@ function loadImages() {
     var loadedClass = '';
     var imageServiceHost = 'https://www.ft.com/__origami/service/image/v2/images/raw/';
     var imageServiceHostFTC = 'https://thumbor.ftacademy.cn/unsafe/';
-    var ftcStaticServer = 'http://i.ftimg.net/';
+    var ftcStaticServer = 'https://thumbor.ftacademy.cn/unsafe/';
     var imageExists = true;
     if (imageUrl === '') {
       //console.log ('an empty image is here! Break Now! ')
@@ -229,8 +229,8 @@ function loadImages() {
     imageUrlBack = encodeURIComponent(imageUrl);
 
 
-    if (imageUrl.indexOf('http://i.ftimg.net/') === 0) {
-      imageUrlPart = imageUrl.replace('http://i.ftimg.net/', '');
+    if (imageUrl.indexOf('https://thumbor.ftacademy.cn/unsafe/') === 0) {
+      imageUrlPart = imageUrl.replace('https://thumbor.ftacademy.cn/unsafe/', '');
     } else {
       imageUrlPart = imageUrl;
     }

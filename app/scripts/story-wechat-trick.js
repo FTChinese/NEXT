@@ -19,7 +19,7 @@
 		tipOverlay.style.bottom = '0';
 		tipOverlay.style.background = '#FFF1E0';
 		tipOverlay.style.zIndex = 99999999999999;
-		var tipImageUrl = (/iphone|ipad|ipod/i.test(uaString)) ? 'http://i.ftimg.net/picture/2/000084162_piclink.jpg' : 'http://i.ftimg.net/picture/3/000084163_piclink.jpg';
+		var tipImageUrl = (/iphone|ipad|ipod/i.test(uaString)) ? 'https://thumbor.ftacademy.cn/unsafe/picture/2/000084162_piclink.jpg' : 'https://thumbor.ftacademy.cn/unsafe/picture/3/000084163_piclink.jpg';
 		tipOverlay.innerHTML = '<img src="'+ tipImageUrl +'" max-width="100%">';
 		document.body.appendChild(tipOverlay);
    	}
