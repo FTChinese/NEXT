@@ -12,7 +12,7 @@
 <%assign var="listHasFloat" value="none"%>
 <%assign var="sideListCount" value=0%>
 <%foreach from=$section.lists item=list%>
-	<%if $list.float === "left" || $list.float === "right" || $list.float === "SideBySide"%>
+	<%if $list.float === "left" || $list.float === "right" || $list.float === "SideBySide" || $list.float === "SplitList"%>
 	<%assign var="listHasFloat" value="`$list.float`"%>
 	<%/if%>
 	<%if $list.type != "" && $list.type != "list"%>
@@ -106,7 +106,26 @@
 				<%else%>
 					<%assign var="listClass" value=" XL-oneline"%>
 				<%/if%>
-			<%/if%>  <%* <!--end SideBySide -->*%>
+			<%elseif $listHasFloat === "SplitList"%>
+				<%*<!--Layout of SplitList-->*%>
+				<%if $list.float === "SplitList"%>
+					<%if $sectionHasSide == "yes"%>
+						<%assign var="listClass" value=" split-list"%>
+						<%if $l%2 === 0 %>
+							<%assign var="listTopClass" value="`$listTopClass` XLC LC"%>
+						<%/if%>
+						<%assign var="listTopClass" value="`$listTopClass` MC SC PC"%>
+					<%else%>
+						<%assign var="listClass" value=" split-list"%>
+						<%if $l%2 === 0 %>
+							<%assign var="listTopClass" value="`$listTopClass` XLC LC MC SC"%>
+						<%/if%>
+						<%assign var="listTopClass" value="`$listTopClass` PC"%>
+					<%/if%>
+				<%else%>
+					<%assign var="listClass" value=" XL-oneline"%>
+				<%/if%>
+			<%/if%>  <%* <!--end SplitList -->*%>
 
 			<%if $list.feedType === "myFTNew"%>
 				<%assign var="listClass" value="`$listClass` list-my-ft"%>
@@ -128,7 +147,7 @@
 			<%/if%>
 			<%$listTop%>
 			<%*<!--combine side lists-->*%>
-			<%if $listHasFloat === "none" || $listHasFloat === "SideBySide" || $l==0 || ($prev >= 0 && $list.float != $section.lists[$prev].float)%><div class="list-container<%$listClass%>"><div class="list-inner"><%/if%>
+			<%if $listHasFloat === "none" || $listHasFloat === "SideBySide" || $listHasFloat === "SplitList" || $l==0 || ($prev >= 0 && $list.float != $section.lists[$prev].float)%><div class="list-container<%$listClass%>"><div class="list-inner"><%/if%>
 				<%if $list.title != ""%>
 					<h2 class="list-title">
 						<a class="list-link<%if $list.title == " "%> empty<%/if%>" href="<%$listUrl%>"><%$list.title%></a>
@@ -814,7 +833,7 @@
 
 
 						<%else%>
-							<%*<!--No Side: XL Styles-->*%>
+							<%*<!--No Side Start-->*%>
 							<%if $list.float === "SideBySide"%>
 								<%if $i > 0%>
 									<%assign var="XL" value="side-by-side"%>
@@ -823,123 +842,135 @@
 								<%else%>
 									<%assign var="XL" value="side-by-side first"%>
 								<%/if%>
-							<%elseif $listItemCount === 1%>
-
-							<%elseif $listItemCount === 3%>
-
-							<%elseif $listItemCount % 4 == 0%>
-								<%assign var="XL" value="XL3"%>
-								<%if $i % 4 === 0%>
-									<%assign var="itemTopClass" value="XLT"%>
+							<%elseif $list.float === "SplitList"%>
+								<%assign var="XL" value="item-split-list"%>
+								<%assign var="hideImage" value="no"%>
+								<%if $i>0%>
+									<%if $i%2===0%>
+										<%assign var="itemTopClass" value="`$itemTopClass` XLT LT"%>
+									<%/if%>
+									<%assign var="itemTopClass" value="`$itemTopClass` MT ST PT"%>
 								<%/if%>
-							<%elseif $listItemCount % 4 == 1%>
-								<%if $i === ($listItemCount - 1) %>
-									<%assign var="XL" value="XL3 XL-half XL-lower"%>
-								<%elseif $i === ($listItemCount - 2) %>
-									<%assign var="XL" value="XL3 XL-half"%>
-								<%else%>
-									<%assign var="XL" value="XL3"%>
-								<%/if%>
-								<%if $i !== ($listItemCount - 1) && $i%4===0%>
-									<%assign var="itemTopClass" value="XLT"%>
-								<%/if%>
-							<%elseif $listItemCount % 4 == 2%>
-								<%if $i===0 || $i===1%>
-									<%assign var="XL" value="XL6"%>
-								<%else%>
-									<%assign var="XL" value="XL3"%>
-								<%/if%>
-								<%if $i===2 || ($i>4 && $i%4===2)%>
-									<%assign var="itemTopClass" value="XLT"%>
-								<%/if%>
-							<%elseif $listItemCount % 4 == 3%>
-								<%if $i===0 || $i===1%>
-									<%assign var="XL" value="XL6"%>
-								<%elseif $i === ($listItemCount - 1) %>
-									<%assign var="XL" value="XL3 XL-half XL-lower"%>
-								<%elseif $i === ($listItemCount - 2) %>
-									<%assign var="XL" value="XL3 XL-half"%>
-								<%else%>
-									<%assign var="XL" value="XL3"%>
-								<%/if%>
-								<%if $i===2 || ($i>4 && $i%4===2 && $i<$listItemCount-2)%>
-									<%assign var="itemTopClass" value="XLT"%>
-								<%/if%>
-							<%/if%>
-							<%*<!--No Side: XL Styles End-->*%>
-
-							<%*<!--No Side: L and M Styles-->*%>
-							<%if $listItemCount === 1%>
-
-							<%elseif $listItemCount === 3%>
-
-							<%elseif $listItemCount === 4%>
-								<%assign var="L" value="L3"%>
-								<%assign var="M" value="M3"%>
-							<%elseif $listItemCount % 3 == 0%>
-								<%assign var="L" value="L4"%>
-								<%assign var="M" value="M4"%>
-								<%if $i % 3 === 0%>
-									<%assign var="itemTopClass" value="`$itemTopClass` LT MT"%>
-								<%/if%>
-							<%elseif $listItemCount % 3 == 1%>
-								<%if $i === ($listItemCount - 1) %>
-									<%assign var="L" value="L4 L-half L-lower"%>
-									<%assign var="M" value="M4 M-half M-lower"%>
-								<%elseif $i === ($listItemCount - 2) %>
-									<%assign var="L" value="L4 L-half"%>
-									<%assign var="M" value="M4 M-half"%>
-								<%else%>
-									<%assign var="L" value="L4"%>
-									<%assign var="M" value="M4"%>
-								<%/if%>
-								<%if $i !== ($listItemCount - 1) && $i%3===0%>
-									<%assign var="itemTopClass" value="`$itemTopClass` LT MT"%>
-								<%/if%>
-							<%elseif $listItemCount % 3 == 2%>
-								<%if $i>=($listItemCount - 2)%>
-									<%assign var="L" value="L6 L-double-width"%>
-									<%assign var="M" value="M6 M-double-width"%>
-								<%else%>
-									<%assign var="L" value="L4"%>
-									<%assign var="M" value="M4"%>
-								<%/if%>
-								<%if $i%3===0%>
-									<%assign var="itemTopClass" value="`$itemTopClass` LT MT"%>
-								<%/if%>
-							<%/if%>
-							<%*<!--No Side: L and M Styles End-->*%>
-
-							<%*<!--No Side: S Styles-->*%>
-							<%if $listItemCount === 4%>
-								<%assign var="S" value="S6"%>
-								<%if $i===2 %>
-									<%assign var="itemTopClass" value="`$itemTopClass` ST"%>
-								<%/if%>
-							<%elseif $listItemCount % 2 == 1 && $i===0%>
-								<%assign var="S" value="S12 S-double-width"%>
 							<%else%>
-								<%assign var="S" value="S6"%>
-								<%if ($i%2===0 && $listItemCount % 2 == 0) || ($i%2===1 && $listItemCount % 2 == 1)%>
-									<%assign var="itemTopClass" value="`$itemTopClass` ST"%>
-								<%/if%>
-							<%/if%>
-							<%*<!--No Side: S Styles End-->*%>
+								<%*<!--No Side: XL Styles-->*%>
+								<%if $listItemCount === 1%>
 
-							<%*<!--No Side: P Use Single Column-->*%>
-							<%if $listItemCount === 4%>
-								<%assign var="P" value="P12"%>
-								<%if $i===2 %>
+								<%elseif $listItemCount === 3%>
+
+								<%elseif $listItemCount % 4 == 0%>
+									<%assign var="XL" value="XL3"%>
+									<%if $i % 4 === 0%>
+										<%assign var="itemTopClass" value="XLT"%>
+									<%/if%>
+								<%elseif $listItemCount % 4 == 1%>
+									<%if $i === ($listItemCount - 1) %>
+										<%assign var="XL" value="XL3 XL-half XL-lower"%>
+									<%elseif $i === ($listItemCount - 2) %>
+										<%assign var="XL" value="XL3 XL-half"%>
+									<%else%>
+										<%assign var="XL" value="XL3"%>
+									<%/if%>
+									<%if $i !== ($listItemCount - 1) && $i%4===0%>
+										<%assign var="itemTopClass" value="XLT"%>
+									<%/if%>
+								<%elseif $listItemCount % 4 == 2%>
+									<%if $i===0 || $i===1%>
+										<%assign var="XL" value="XL6"%>
+									<%else%>
+										<%assign var="XL" value="XL3"%>
+									<%/if%>
+									<%if $i===2 || ($i>4 && $i%4===2)%>
+										<%assign var="itemTopClass" value="XLT"%>
+									<%/if%>
+								<%elseif $listItemCount % 4 == 3%>
+									<%if $i===0 || $i===1%>
+										<%assign var="XL" value="XL6"%>
+									<%elseif $i === ($listItemCount - 1) %>
+										<%assign var="XL" value="XL3 XL-half XL-lower"%>
+									<%elseif $i === ($listItemCount - 2) %>
+										<%assign var="XL" value="XL3 XL-half"%>
+									<%else%>
+										<%assign var="XL" value="XL3"%>
+									<%/if%>
+									<%if $i===2 || ($i>4 && $i%4===2 && $i<$listItemCount-2)%>
+										<%assign var="itemTopClass" value="XLT"%>
+									<%/if%>
+								<%/if%>
+								<%*<!--No Side: XL Styles End-->*%>
+
+								<%*<!--No Side: L and M Styles-->*%>
+								<%if $listItemCount === 1%>
+
+								<%elseif $listItemCount === 3%>
+
+								<%elseif $listItemCount === 4%>
+									<%assign var="L" value="L3"%>
+									<%assign var="M" value="M3"%>
+								<%elseif $listItemCount % 3 == 0%>
+									<%assign var="L" value="L4"%>
+									<%assign var="M" value="M4"%>
+									<%if $i % 3 === 0%>
+										<%assign var="itemTopClass" value="`$itemTopClass` LT MT"%>
+									<%/if%>
+								<%elseif $listItemCount % 3 == 1%>
+									<%if $i === ($listItemCount - 1) %>
+										<%assign var="L" value="L4 L-half L-lower"%>
+										<%assign var="M" value="M4 M-half M-lower"%>
+									<%elseif $i === ($listItemCount - 2) %>
+										<%assign var="L" value="L4 L-half"%>
+										<%assign var="M" value="M4 M-half"%>
+									<%else%>
+										<%assign var="L" value="L4"%>
+										<%assign var="M" value="M4"%>
+									<%/if%>
+									<%if $i !== ($listItemCount - 1) && $i%3===0%>
+										<%assign var="itemTopClass" value="`$itemTopClass` LT MT"%>
+									<%/if%>
+								<%elseif $listItemCount % 3 == 2%>
+									<%if $i>=($listItemCount - 2)%>
+										<%assign var="L" value="L6 L-double-width"%>
+										<%assign var="M" value="M6 M-double-width"%>
+									<%else%>
+										<%assign var="L" value="L4"%>
+										<%assign var="M" value="M4"%>
+									<%/if%>
+									<%if $i%3===0%>
+										<%assign var="itemTopClass" value="`$itemTopClass` LT MT"%>
+									<%/if%>
+								<%/if%>
+								<%*<!--No Side: L and M Styles End-->*%>
+
+								<%*<!--No Side: S Styles-->*%>
+								<%if $listItemCount === 4%>
+									<%assign var="S" value="S6"%>
+									<%if $i===2 %>
+										<%assign var="itemTopClass" value="`$itemTopClass` ST"%>
+									<%/if%>
+								<%elseif $listItemCount % 2 == 1 && $i===0%>
+									<%assign var="S" value="S12 S-double-width"%>
+								<%else%>
+									<%assign var="S" value="S6"%>
+									<%if ($i%2===0 && $listItemCount % 2 == 0) || ($i%2===1 && $listItemCount % 2 == 1)%>
+										<%assign var="itemTopClass" value="`$itemTopClass` ST"%>
+									<%/if%>
+								<%/if%>
+								<%*<!--No Side: S Styles End-->*%>
+
+								<%*<!--No Side: P Use Single Column-->*%>
+								<%if $listItemCount === 4%>
+									<%assign var="P" value="P12"%>
+									<%if $i===2 %>
+										<%assign var="itemTopClass" value="`$itemTopClass` PT"%>
+									<%/if%>
+								<%elseif $l===0 && $i===0%>
+									<%assign var="P" value="P12"%>
+								<%else%>
+									<%assign var="P" value="P12 P-half"%>
 									<%assign var="itemTopClass" value="`$itemTopClass` PT"%>
 								<%/if%>
-							<%elseif $l===0 && $i===0%>
-								<%assign var="P" value="P12"%>
-							<%else%>
-								<%assign var="P" value="P12 P-half"%>
-								<%assign var="itemTopClass" value="`$itemTopClass` PT"%>
+								<%*<!--No Side: P Use Single Column End-->*%>
 							<%/if%>
-							<%*<!--No Side: P Use Single Column End-->*%>
-
+							<%*<!--No Side End-->*%>
 						<%/if%>
 
 						<%assign var="itemClass" value="`$XL` `$L` `$M` `$S` `$P`"%>
@@ -1315,7 +1346,7 @@
 
 						<%if $smarty.get.ad != "no" && $hideAd != "yes" && $noAd != "true"%>
 							<%*<!--insert an extra MPU for mobile phone start-->*%>
-							<%if $b == 0 && $l == 0 && $list.float != "VideoWall" && $noAd != "true"%>
+							<%if $b == 0 && $l == 0 && $list.float != "VideoWall" && $noAd != "true" && $list.float != "SplitList"%>
 								<%if $pageId == "home"%>
 									<%assign var="mpuName" value="homempu"%>
 								<%else%>
@@ -1477,7 +1508,7 @@
 			<%/if%>
 			<%assign var="next" value=$l+1%>
 			<%*<!--combine side lists-->*%>
-			<%if $listHasFloat === "none" || $listHasFloat === "SideBySide" || $l === $section.lists|@count-1 || ($next < $section.lists|@count && $list.float != $section.lists[$next].float)%></div></div><%/if%>
+			<%if $listHasFloat === "none" || $listHasFloat === "SideBySide" || $listHasFloat === "SplitList" || $l === $section.lists|@count-1 || ($next < $section.lists|@count && $list.float != $section.lists[$next].float)%></div></div><%/if%>
 			<%assign var="l" value=$l+1%>
 		<%/if%> <%* <!--end $list.feedType -->*%>
         <%if ($list.name == "[iframe]" || $list.name == "[video]") && $list.url != ""%>
