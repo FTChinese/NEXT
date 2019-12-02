@@ -375,6 +375,18 @@
             <%if $pageId == "home" && $smarty.get.showHotClick == "yes"%>
                 <script type="text/javascript" src="https://dhgxl8qk9zgzr.cloudfront.net/n/main-home-click.js?<%include file="next/timestamp/timestamp.html"%>"></script>
             <%/if%>
+            <%*<!--MARK: - Wake up heroku to check if editor's choice is updated during weekends. -->*%>
+            <%if $pageId == "premiumsubscription"%>
+                <%if date("G",$smarty.now) == 9 && (date("D",$smarty.now) == 'Sat' || date("D",$smarty.now) == 'Sun')%>
+                    <script type="text/javascript">
+                        var d = new Date();
+                        var n = d.getMinutes() + 100 * d.getHours() + 10000 * d.getDate() + 1000000 * (d.getMonth() + 1) + 10000000000 * d.getFullYear();
+                        var url2 = 'https://ftcbot.herokuapp.com/?f=ftchome&t=' + n;
+                        var image2 = new Image();
+                        window.image2.src = url2;
+                    </script>
+                <%/if%>
+            <%/if%>
         </body>
     </html>
 <%else%>
