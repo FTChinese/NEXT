@@ -267,7 +267,7 @@
 							<%assign var="itemsArray" value=$storymodel->getPremiumStory($feedStart, $feedItems)%>
 						<%elseif $list.feedType == "audiovideo"%>
 							<%assign var="feedType" value=$list.feedType%>
-							<%assign var="itemsArray" value=$videomodel->get_video_audio(0,$list.feedItems,40,10800)%>
+							<%assign var="itemsArray" value=$videomodel->get_video_audio($feedStart,$list.feedItems,3000,10800)%>
 						<%else%>
 							<%assign var="feedType" value=$list.feedType%>
 							<%assign var="itemsArray" value=$storymodel->getContentByTag($feedTag,$feedItems)%>

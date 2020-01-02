@@ -246,7 +246,7 @@ href="http://www.ftchinese.com" target="_blank"
 <%foreach from=$topics item=topic%>
 <%if $topic!=""%>
 <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
-<tr><td style="width: 3%;" class="contentPadding">&nbsp;</td><td class="ft-header-bar" style="background-color:#E9DECE;font-size:13px;font-weight:bold;padding:5px 17px 4px 17px;text-transform:uppercase;width:100%;"><a href="https://cn.ft.com/tag/<%$topic|escape:"url"%>" style="color:#333333;text-decoration:none;" target=_blank><%$topic%></a></td><td style="width: 3%;" class="contentPadding">&nbsp;</td></tr>
+<tr><td style="width: 3%;" class="contentPadding">&nbsp;</td><td class="ft-header-bar" style="background-color:#E9DECE;font-size:13px;font-weight:bold;padding:5px 17px 4px 17px;text-transform:uppercase;width:100%;"><a href="http://www.ftchinese.com/tag/<%$topic|escape:"url"%>" style="color:#333333;text-decoration:none;" target=_blank><%$topic%></a></td><td style="width: 3%;" class="contentPadding">&nbsp;</td></tr>
 <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
 <tr><td style="width: 3%;" class="contentPadding">&nbsp;</td><td style="font-size:14px;line-height:25px;color:#505050;padding-left:17px;padding-right:17px;" class="subhead textPadding lineH">
 <%assign var="allstories" value=$storymodel->get_story_by_field_search("tag like '%`$topic`%'",0,5,15,10800)%>
@@ -254,7 +254,7 @@ href="http://www.ftchinese.com" target="_blank"
 <%foreach from=$allstories item=sc%>
 <div class="lineH" style="line-height:161.8%;">
 <div class="lineH1_4" style="line-height:35px;font-size:25px;">
-<a target=_blank style="FONT-WEIGHT:bold;TEXT-DECORATION:none;color:#111;" href="https://cn.ft.com/story/<%$sc.id%>#s=w"><%$sc.cheadline%></a>
+<a target=_blank style="FONT-WEIGHT:bold;TEXT-DECORATION:none;color:#111;" href="http://www.ftchinese.com/story/<%$sc.id%>#s=w"><%$sc.cheadline%></a>
 </div>
 <%$sc.clongleadbody|default:$sc.cshortleadbody|default:$sc.cskylinetext%>
 <div style="height:8px;font-size:6px;"><br /></div>
@@ -276,7 +276,7 @@ href="http://www.ftchinese.com" target="_blank"
 <div style="color:#9b164f;font-weight:bold;" class="hotArticleList">
 <%assign var="mp" value=$storymodel->get_hot_story(7,10) %>
 <%foreach item=sc from=$mp name=popular%>
-<%$smarty.foreach.popular.iteration%>.&nbsp;<a  target=_blank style="FONT-WEIGHT:normal;TEXT-DECORATION:none;color:#2E6E9E;" href="https://cn.ft.com/story/<%$sc.storyid%>#s=n"><%$sc.cheadline%></a><div style="height:8px;font-size:6px;"><br /></div>
+<%$smarty.foreach.popular.iteration%>.&nbsp;<a  target=_blank style="FONT-WEIGHT:normal;TEXT-DECORATION:none;color:#2E6E9E;" href="http://www.ftchinese.com/story/<%$sc.storyid%>#s=n"><%$sc.cheadline%></a><div style="height:8px;font-size:6px;"><br /></div>
 <%/foreach%>
 </div>
 <div style="height:8px;font-size:6px;"><br /></div>
@@ -297,14 +297,14 @@ href="http://www.ftchinese.com" target="_blank"
 <tr>
 <td style="line-height: 16px;">
 <a
-href="https://cn.ft.com/users/setting/maillist" style="text-decoration: none;  line-height: 16px;" target="_blank"
+href="http://www.ftchinese.com/users/setting/maillist" style="text-decoration: none;  line-height: 16px;" target="_blank"
 >
 <img src="http://img.ed4.net/financialtimesc/images/2013/Responsive/emailsettings-v2.png" alt="" style="width: 26px; height: 26px; border: 0 none;" />
 </a>
 </td>
 <td style="padding-left:5px;color:#2E6E9E;line-height:16px;" target="_blank" nowrap>
 <a  class="lineH1_2"
-href="https://cn.ft.com/users/setting/maillist" style="text-decoration:none;font-size:12px;line-height:16px;color:#2E6E9E;" target="_blank">设置邮件</a>
+href="http://www.ftchinese.com/users/setting/maillist" style="text-decoration:none;font-size:12px;line-height:16px;color:#2E6E9E;" target="_blank">设置邮件</a>
 </td>
 </tr>
 </table>
@@ -377,7 +377,7 @@ href="http://user.qzone.qq.com/622006290" style="text-decoration: none; font-siz
 </td>
 <td>
 <a
-href="https://cn.ft.com/m/corp/follow.html" style="text-decoration: none; font-size: 12px; display: block;" target="_blank"
+href="http://www.ftchinese.com/m/corp/follow.html" style="text-decoration: none; font-size: 12px; display: block;" target="_blank"
 ><img src="https://dhgxl8qk9zgzr.cloudfront.net/img/wechat48.png" style="border: 0 none; display: block;" width="24" height="24" alt="微信"/></a>
 </td>
 </tr>
@@ -394,22 +394,22 @@ href="https://cn.ft.com/m/corp/follow.html" style="text-decoration: none; font-s
 <tr>
 <td class="ft-email-bar lineH1_4" style="text-align: center;font-size: 12px;line-height: 17px;color: #98948F;">
 <a
-href="https://cn.ft.com/m/corp/aboutus.html" style="text-decoration: none;color: #98948F;" target="_blank"
+href="http://www.ftchinese.com/m/corp/aboutus.html" style="text-decoration: none;color: #98948F;" target="_blank"
 >关于我们</a> |
 <a
-href="https://cn.ft.com/jobs/?from=ft" style="text-decoration: none; color: #98948F;" target="_blank"
+href="http://www.ftchinese.com/jobs/?from=ft" style="text-decoration: none; color: #98948F;" target="_blank"
 >加入我们</a> |
 <a
-href="https://cn.ft.com/m/corp/contact.html" style="text-decoration: none; color: #98948F;" target="_blank"
+href="http://www.ftchinese.com/m/corp/contact.html" style="text-decoration: none; color: #98948F;" target="_blank"
 >联系方式</a> |
 <a
-href="https://cn.ft.com/m/corp/service.html" target="_blank" style="text-decoration: none;color: #98948F;"
+href="http://www.ftchinese.com/m/corp/service.html" target="_blank" style="text-decoration: none;color: #98948F;"
 >服务条款</a> |
 <a
-href="https://cn.ft.com/m/corp/sales.html" style="text-decoration: none;color: #98948F;" target="_blank"
+href="http://www.ftchinese.com/m/corp/sales.html" style="text-decoration: none;color: #98948F;" target="_blank"
 >广告业务</a> |
 <a
-href="https://cn.ft.com/m/corp/faq.html" style="text-decoration: none;color: #98948F;" target="_blank"
+href="http://www.ftchinese.com/m/corp/faq.html" style="text-decoration: none;color: #98948F;" target="_blank"
 >问题回馈</a>
 </td>
 </tr>
