@@ -34,9 +34,12 @@
 <%assign var="itemTags" value=","|explode:$itemTagsString%>
 <%assign var="itemTag" value=$itemTags[0]%>
 
+<%*<!--
 <%if $report.ftid != ""%>
 	<%assign var="audioData" value=" data-eaudio=\"https://s3-us-west-2.amazonaws.com/ftlabs-audio-rss-bucket.prod/`$report.ftid`.mp3\""%>
-<%elseif preg_match("/.mp3$/is",$report.cshortleadbody)%>
+-->*%>
+
+<%if preg_match("/.mp3$/is",$report.cshortleadbody)%>
 	<%assign var="audioUrl" value=$report.cshortleadbody%>
 	<%assign var="audioData" value=" data-audio=\"`$audioUrl`\""%>
 <%elseif preg_match("/.mp3$/is",$report.eshortleadbody)%>
