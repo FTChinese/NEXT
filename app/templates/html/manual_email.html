@@ -221,8 +221,78 @@ href="http://www.ftchinese.com" target="_blank"
 				<tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
 			<%/if%>
 			<tr><td style="font-size:14px;line-height:25px;color:#505050;padding-left:17px;padding-right:17px;" class="subhead textPadding lineH">
+
+			<%*<!--MARK: Support SQL-->*%>
+			<%if $list.feedType == "myFT"%>
+				<%easyapi command="31005" assign="myftArrays" topnum=30%>
+				<%assign var="itemsArray" value=$myftArrays.odatalist%>
+			<%elseif $list.feedType == "hot"%>
+				<%assign var="itemsArray" value=$storymodel->get_hot_story(7,40,true)%>
+				<%assign var="feedType" value=$list.feedType%>
+			<%elseif $list.feedType == "myFTNew"%>
+				<%assign var="feedType" value=$list.feedType%>
+				<%assign var="itemsArray" value=$storymodel->get_content_by_field_search('1>0',$feedStart,$feedItems,999999999,10800)%>
+			<%elseif $list.feedType == "ftc_columns"%>
+				<%assign var="itemsArray" value=$storymodel->get_column_list("cn")%>
+				<%assign var="feedType" value="columns"%>
+			<%elseif $list.feedType == "ft_columns"%>
+				<%assign var="itemsArray" value=$storymodel->get_column_list("en")%>
+				<%assign var="feedType" value="columns"%>
+			<%elseif $list.items|@count==0 && $list.feedItems != "" && $list.feedItems != "0"%>
+				<%if preg_match("/like|find_in_set|=|\(| in /is",$feedTag)%>
+					<%if $list.feedType == "story"%>
+						<%assign var="feedType" value=$list.feedType%>
+						<%assign var="feedTag" value="(`$feedTag`) and eskylinetext not like '%低调%'"%>
+						<%assign var="itemsArray" value=$storymodel->get_story_by_field_search($feedTag,$feedStart,$feedItems,999999999,10800)%>
+					<%elseif $list.feedType == "interactive"%>
+						<%assign var="feedType" value=$list.feedType%>
+						<%assign var="itemsArray" value=$interactivemodel->get_interactive_by_field_search($feedTag,$feedStart,$feedItems,999999999,10800)%>
+					<%elseif $list.feedType == "video"%>
+						<%assign var="feedType" value=$list.feedType%>
+						<%assign var="itemsArray" value=$videomodel->get_video_by_field_search($feedTag,$feedStart,$feedItems,9999999999999,10800)%>
+					<%elseif $list.feedType == "photo"%>
+						<%assign var="feedType" value="photonews"%>
+						<%assign var="itemsArray" value=$photonewsmodel->get_photonews_by_field_search($feedTag,"ORDER BY photonewsid DESC",$feedItems)%>
+					<%/if%>
+				<%else%>
+					<%if $list.feedType == "story"%>
+						<%assign var="feedType" value=$list.feedType%>
+						<%assign var="itemsArray" value=$storymodel->get_story_by_tag($feedTag,$feedStart,$feedItems)%>
+					<%elseif $list.feedType == "interactive"%>
+						<%assign var="feedType" value=$list.feedType%>
+						<%assign var="interactiveFeedSQL" value="find_in_set('`$feedTag`', tag)"%>
+						<%assign var="itemsArray" value=$interactivemodel->get_interactive_by_field_search($interactiveFeedSQL,$feedStart,$feedItems,999999999,10800)%>
+						<%*<!--assign var="itemsArray" value=$interactivemodel->get_interactive_by_tag($feedTag, $feedItems)-->*%>
+					<%elseif $list.feedType == "video"%>
+						<%assign var="feedType" value=$list.feedType%>
+						<%if preg_match("/^[0-9]+$/is",$feedTag)%>
+							<%assign var="videoChannel" value=$feedTag%>
+							<%assign var="itemsArray" value=$videomodel->get_video_by_channel($videoChannel,$feedStart,$feedItems)%>
+						<%else%>
+							<%assign var="itemsArray" value=$videomodel->get_video_by_tag($feedTag,$feedStart,$feedItems)%>
+						<%/if%>
+					<%elseif $list.feedType == "photo"%>
+						<%assign var="feedType" value="photonews"%>
+						<%assign var="itemsArray" value=$photonewsmodel->get_photonews_by_tag($feedTag,0,$feedItems)%>
+					<%elseif $list.feedType == "premium"%>
+						<%*<!--Premium Content Should Display -->*%>
+						<%assign var="feedType" value=$list.feedType%>
+						<%assign var="itemsArray" value=$storymodel->getPremiumStory($feedStart, $feedItems)%>
+					<%elseif $list.feedType == "audiovideo"%>
+						<%assign var="feedType" value=$list.feedType%>
+						<%assign var="itemsArray" value=$videomodel->get_video_audio($feedStart,$list.feedItems,3000,10800)%>
+					<%else%>
+						<%assign var="feedType" value=$list.feedType%>
+						<%assign var="itemsArray" value=$storymodel->getContentByTag($feedTag,$feedItems)%>
+					<%/if%>
+				<%/if%>
+			<%else%>
+				<%assign var="feedType" value="manual"%>
+				<%assign var="itemsArray" value=$list.items%>
+			<%/if%>
+			
 			<%assign var="i" value=0%>
-			<%foreach from=$list.items item=item%>
+			<%foreach from=$itemsArray item=item%>
 				<%if $s == 0 && $l == 0 && $i ==0%>
 					<%assign var="imageWidth" value=414%>
 					<%assign var="imageHeight" value=233%>
