@@ -1155,16 +1155,16 @@ if (window.privilegeEventLabel !== undefined && (window.gUserType === 'Subscribe
 
 function setProgress(percent) {
   if (window.circle === null || window.circle === undefined || percent === window.currentPercent) {return;}
-  const offset = circumference - percent / 100 * circumference;
-  circle.style.strokeDashoffset = offset;
-  window.currentPercent = offset
+  var offset = window.circumference - percent / 100 * window.circumference; 
+  window.circle.style.strokeDashoffset = offset; 
+  window.currentPercent = offset; 
   if (percent >= 100) {
     window.hasFinishedReading = true;
-    circle.style.fill = '#990f3d';
-    circle.style.stroke = 'transparent';
+    window.circle.style.fill = '#990f3d';
+    window.circle.style.stroke = 'transparent';
   } else {
-    circle.style.fill = '#f2dfce';
-    circle.style.stroke = '#990f3d';
+    window.circle.style.fill = '#f2dfce';
+    window.circle.style.stroke = '#990f3d';
   }
   if (window.hasFinishedReading === true) {
     document.querySelector('.progress-tick-path').style.fill = (percent >= 100) ? 'white' : '#990f3d';
@@ -1172,15 +1172,17 @@ function setProgress(percent) {
 }
 
 function initProgressCircle() {
-  window.circle = document.querySelector('circle');
-  if (window.circle === null || window.circle === undefined) {return;}
-  var radius = circle.r.baseVal.value;
-  window.circumference = radius * 2 * Math.PI;
-  circle.style.strokeDasharray = `${circumference} ${circumference}`;
-  circle.style.strokeDashoffset = `${circumference}`;
-  setProgress(0);
-  circle.style.stroke = '#990f3d';
-  circle.style.fill = '#f2dfce';
+  if (window.cutsTheMustard) {
+    window.circle = document.querySelector('circle');
+    if (window.circle === null || window.circle === undefined) {return;}
+    var radius = window.circle.r.baseVal.value;
+    window.circumference = radius * 2 * Math.PI;
+    window.circle.style.strokeDasharray = circumference + ' ' + circumference;
+    window.circle.style.strokeDashoffset = window.circumference;
+    setProgress(0);
+    window.circle.style.stroke = '#990f3d';
+    window.circle.style.fill = '#f2dfce';
+  }
 }
 
 initProgressCircle();
