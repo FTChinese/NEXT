@@ -1177,7 +1177,7 @@ function initProgressCircle() {
     if (window.circle === null || window.circle === undefined) {return;}
     var radius = window.circle.r.baseVal.value;
     window.circumference = radius * 2 * Math.PI;
-    window.circle.style.strokeDasharray = circumference + ' ' + circumference;
+    window.circle.style.strokeDasharray = window.circumference + ' ' + window.circumference;
     window.circle.style.strokeDashoffset = window.circumference;
     setProgress(0);
     window.circle.style.stroke = '#990f3d';
