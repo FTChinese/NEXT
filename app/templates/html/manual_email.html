@@ -223,6 +223,9 @@ href="http://www.ftchinese.com" target="_blank"
 			<tr><td style="font-size:14px;line-height:25px;color:#505050;padding-left:17px;padding-right:17px;" class="subhead textPadding lineH">
 
 			<%*<!--MARK: Support SQL-->*%>
+			<%assign var="feedTag" value=$list.feedTag%>
+			<%assign var="feedStart" value=$list.feedStart|default:0%>
+			<%assign var="feedItems" value=$list.feedItems%>
 			<%if $list.feedType == "myFT"%>
 				<%easyapi command="31005" assign="myftArrays" topnum=30%>
 				<%assign var="itemsArray" value=$myftArrays.odatalist%>
@@ -290,7 +293,7 @@ href="http://www.ftchinese.com" target="_blank"
 				<%assign var="feedType" value="manual"%>
 				<%assign var="itemsArray" value=$list.items%>
 			<%/if%>
-			
+
 			<%assign var="i" value=0%>
 			<%foreach from=$itemsArray item=item%>
 				<%if $s == 0 && $l == 0 && $i ==0%>
@@ -306,23 +309,45 @@ href="http://www.ftchinese.com" target="_blank"
 				<%if $ccode != ""%>
 					<%assign var=ccodePara value="&ccode=`$ccode`"%>
 				<%/if%>
-				<%assign var=itemLink value="http://www.ftchinese.com/`$item.type`/`$item.id`?s=w`$discountCode``$ccodePara`#s=w"%>
+				
+				<%assign var="itemType" value=$item.item_type|default:$item.type|default:$item.itemtype|default:$feedType%>
+				<%assign var="itemId" value=$item.id|default:$item.photonewsid%>
+				<%if $feedType == "all"%>
+					<%assign var="itemImage" value=$item.image.cover|default:$item.image.smallbutton|default:$item.image.other|default:$item.image.bigbutton%>
+				<%elseif $feedType == "photonews"%>
+					<%assign var="itemImage" value=$item.illustration|default:$item.cover|default:$item.thumb_url%>
+					<%if $itemImage != ""%>
+						<%assign var="itemImage" value="https://thumbor.ftacademy.cn/unsafe/`$itemImage`"%>
+					<%/if%>
+				<%else%>
+					<%assign var="itemImage" value=$item.image|default:$item.story_pic.cover|default:$item.story_pic.smallbutton|default:$item.story_pic.other|default:$item.story_pic.bigbutton%>
+				<%/if%>
+				<%assign var="itemHeadline" value=$item.headline|default:$item.cheadline|default:$item.cn_title%>
+				<%assign var=itemLink value="http://www.ftchinese.com/`$itemType`/`$itemId`?s=w`$discountCode``$ccodePara`#s=w"%>
+				<%if $list.preferLead === "none"%>
+					<%assign var="hideLead" value="yes"%>
+					<%assign var="itemLead" value=""%>
+				<%elseif $list.preferLead === "shortlead"%>
+					<%assign var="itemLead" value=$item.shortlead|default:$item.longlead|default:$item.cshortleadbody|default:$item.clongleadbody%>
+				<%else%>
+					<%assign var="itemLead" value=$item.longlead|default:$item.shortlead|default:$item.clongleadbody|default:$item.cshortleadbody%>
+				<%/if%>
 				<div style="line-height:1.618; " class="item-container">
 				    <table width="100%" cellpadding="0" cellspacing="0" style="border-bottom:1px solid #E9DECF; line-height:1.618;">
 				        <tr><td class="lineH1" style="height: 5px; font-size: 5px; line-height: 5px; padding: 0;"> </td></tr>
 				        <tr>
 				            <td class="SContent cover" style="font-size:14px;line-height:23px;color:#505050;">
 				                <div class="lineH1_4" style="line-height:40px;font-size:25px;">
-				                    <a target=_blank class="headLine" style="font-weight:bold; text-decoration:none; color:#111;" href="<%$itemLink%>"><%$item.headline%></a>
+				                    <a target=_blank class="headLine" style="font-weight:bold; text-decoration:none; color:#111;" href="<%$itemLink%>"><%$itemHeadline%></a>
 				                </div>
 								<table cellpadding="0" cellspacing="0" align="left"<%$imageClass%>><tr><td class="lineH1 imgSpace" style="height: 6px; font-size: 0px; line-height: 5px; padding: 0;"> </td></tr><tr><td>
 
 								<a class="coverImgLink" style="" target="_blank" href="<%$itemLink%>">
-								<img src="https://thumbor.ftacademy.cn/unsafe/<%$imageWidth%>x<%$imageHeight%>/<%$item.image|replace:"/upload/":"/"%>" border="0" style="width:<%$imageWidth%>px;" align="left" width="<%$imageWidth%>"/>
+								<img src="https://thumbor.ftacademy.cn/unsafe/<%$imageWidth%>x<%$imageHeight%>/<%$itemImage|replace:"/upload/":"/"%>" border="0" style="width:<%$imageWidth%>px;" align="left" width="<%$imageWidth%>"/>
 								</a>
 
 								</td><td style="width:10px"> </td></tr><tr><td class="lineH1 imgSpace" style="height: 5px; font-size: 0px; line-height: 5px; padding: 0;"> </td></tr></table>
-								<%$item.longlead|default:$item.shortlead%>
+								<%$itemLead%>
 				            </td>
 				        </tr>
 				        <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;"> </td></tr>

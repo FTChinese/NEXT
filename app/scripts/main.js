@@ -863,6 +863,9 @@ function trackQualityRead() {
     if (scrollTop >= storyScrollDistance/2) {
       trackRead('Read To Half', 'read_to_half');
     }
+    //console.log('Scroll Top: ' + scrollTop + ', Story Scroll Distance: ' + storyScrollDistance);
+    var scrollPercentage = parseInt(100 * scrollTop / storyScrollDistance, 10);
+    setProgress(scrollPercentage);
   }
 }
 
@@ -1148,3 +1151,37 @@ if (window.privilegeEventLabel !== undefined && (window.gUserType === 'Subscribe
   window.privilegeEventCategory = window.privilegeEventCategory || 'Web Privileges';
   gtag('event', 'Read', {'event_label': window.privilegeEventLabel, 'event_category': window.privilegeEventCategory, 'non_interaction': true});
 }
+
+
+function setProgress(percent) {
+  if (window.circle === null || window.circle === undefined || percent === window.currentPercent) {return;}
+  const offset = circumference - percent / 100 * circumference;
+  circle.style.strokeDashoffset = offset;
+  window.currentPercent = offset
+  if (percent >= 100) {
+    window.hasFinishedReading = true;
+    circle.style.fill = '#990f3d';
+    circle.style.stroke = 'transparent';
+  } else {
+    circle.style.fill = '#f2dfce';
+    circle.style.stroke = '#990f3d';
+  }
+  if (window.hasFinishedReading === true) {
+    document.querySelector('.progress-tick-path').style.fill = (percent >= 100) ? 'white' : '#990f3d';
+  }
+}
+
+function initProgressCircle() {
+  window.circle = document.querySelector('circle');
+  if (window.circle === null || window.circle === undefined) {return;}
+  var radius = circle.r.baseVal.value;
+  window.circumference = radius * 2 * Math.PI;
+  circle.style.strokeDasharray = `${circumference} ${circumference}`;
+  circle.style.strokeDashoffset = `${circumference}`;
+  setProgress(0);
+  circle.style.stroke = '#990f3d';
+  circle.style.fill = '#f2dfce';
+}
+
+initProgressCircle();
+
