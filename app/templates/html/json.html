@@ -197,6 +197,8 @@
 											<%/if%>
 											<%assign var="itemHeadline" value=$item.headline|default:$item.cheadline|default:$item.cn_title%>
 											<%assign var="itemHeadline" value=$itemHeadline|regex_replace:"/[\n\r\"]/":""%>
+											<%assign var="itemEHeadline" value=$item.eheadline|default:""%>
+											<%assign var="itemEHeadline" value=$itemEHeadline|regex_replace:"/[\n\r\"]/":""%>
 											<%assign var="itemT" value=$item.timeStamp|default:$item.pubdate|default:$item.add_times%>
 											<%assign var="itemT" value=$itemT|regex_replace:"/\.[0-9]+$/i":""%>
 											<%assign var="customLink" value=$item.customLink%>
@@ -211,6 +213,7 @@
 											{
 												"preferSponsorImage": "",
 												"headline": "<%$itemHeadline|regex_replace:"/[\n\r\"]/":""|escape:"html"%>",
+												"eheadline": "<%$itemEHeadline|regex_replace:"/[\n\r\"]/":""|escape:"html"%>",
 												"image": "<%$itemImage|regex_replace:"/[\n\r\"]/":""|escape:"html"%>",
 												"longlead": "<%$itemLead|regex_replace:"/[\n\r\"]/":""|escape:"html"%>",
 												"shortlead": "<%$itemShortLead|regex_replace:"/[\n\r\"]/":""|escape:"html"%>",
