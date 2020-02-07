@@ -352,7 +352,7 @@
 							<%assign var="timeDiff" value=$itemPubDate|date_format:"%Y年%-m月%-d日"%>
 						<%/if%>
 						<%if $showTimeStamp === "all" || $timeDiff < 60*60*4%>
-							<%assign var="itemTimeStamp" value="<div class=\"item-time`$highlightTime`\">`$timeDiff`</div>"%>
+							<%assign var="itemTimeStamp" value="<div class=\"item-time`$highlightTime`\" data-time=\"`$itemPubDate`\">`$timeDiff`</div>"%>
 						<%/if%>
 					<%/if%>
 
@@ -775,7 +775,7 @@
 								<%assign var="timeDiff" value=$itemPubDate|date_format:"%Y年%-m月%-d日"%>
 							<%/if%>
 							<%if $showTimeStamp === "all" || $timeDiff < 60*60*4%>
-								<%assign var="itemTimeStamp" value="<div class=\"item-time`$highlightTime`\">`$timeDiff`</div>"%>
+								<%assign var="itemTimeStamp" value="<div class=\"item-time`$highlightTime`\" data-time=\"`$itemPubDate`\">`$timeDiff`</div>"%>
 							<%/if%>
 						<%/if%>
 
