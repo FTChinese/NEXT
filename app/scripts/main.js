@@ -1184,6 +1184,4 @@ function initProgressCircle() {
     window.circle.style.fill = '#f2dfce';
   }
 }
-
 initProgressCircle();
-
