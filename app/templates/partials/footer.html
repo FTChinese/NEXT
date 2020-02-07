@@ -5,6 +5,14 @@
 </script>
 <%/if%>
 
+<%*<!--MARK: Require log in for subscriber site -->*%>
+<%if $smarty.server.HTTP_HOST=="www.chineseft.com"%>
+	<script type="text/javascript">
+	  <%include file="next/scripts/main-require-login.js"%>
+	</script>
+<%/if%>
+
+
 <%*<!--MARK: The new paid post needs to be inserted before the default one so that posisions will be calculated correctly. -->*%>
 <div 
 data-o-ads-name="paidpost2"
