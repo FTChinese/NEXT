@@ -1192,7 +1192,6 @@ initProgressCircle();
     var attributeName = 'data-time';
     var allTimeStamps = document.querySelectorAll('[' + attributeName + ']');
     for (var i=0; i<allTimeStamps.length; i++) {
-      //console.log (allTimeStamps[i]);
       var ele = allTimeStamps[i];
       var pubdate = parseInt(ele.getAttribute(attributeName), 10);
       var date = new Date();
@@ -1201,7 +1200,17 @@ initProgressCircle();
       var currentTime = ele.innerHTML;
       var newTime = currentTime;
       if (timeDiff < 0) {return;}
-      if (timeDiff < 60 * 60) {
+      var theDate = new Date(pubdate * 1000);
+      var year = theDate.getFullYear();
+      var month = theDate.getMonth() + 1;
+      var day = theDate.getDate();
+      var pad = '00';
+      var hour = (pad + theDate.getHours()).slice(-pad.length);
+      var minute = (pad + theDate.getMinutes()).slice(-pad.length);
+      if (ele.className === 'story-time') {
+        var prefix = (currentTime.indexOf('更新于') === 0) ? '更新于' : '发布于';
+        newTime = prefix + year + '年' + month + '月' + day + '日' + ' ' + hour + ':' + minute;
+      } else if (timeDiff < 60 * 60) {
         var minutes = Math.floor(timeDiff / 60);
         newTime = minutes + '分钟前';
       } else if (timeDiff < 60 * 60 * 24) {
@@ -1211,10 +1220,6 @@ initProgressCircle();
         var days = Math.floor(timeDiff / 86400);
         newTime = days + '天前';
       } else {
-        var theDate = new Date(pubdate * 1000);
-        var year = theDate.getFullYear();
-        var month = theDate.getMonth() + 1;
-        var day = theDate.getDate();
         newTime = year + '年' + month + '月' + day + '日';
       }
       if (newTime !== currentTime) {
