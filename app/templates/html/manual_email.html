@@ -3,7 +3,7 @@
 	<%assign var="ads" value=$nextmodel->getPublishJson("emailads")|json_decode:true%>
 <%/if%>
 <%assign var="mainDomain" value="http://www.ftchinese.com/"%>
-<%if $smarty.get.to = "vip"%>
+<%if $smarty.get.to == "vip"%>
 	<%assign var="mainDomain" value="https://www.chineseft.com/"%>
 <%/if%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
