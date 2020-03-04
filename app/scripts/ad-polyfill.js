@@ -1,5 +1,5 @@
 (function(){
-	var ftOrigamiUrl = (window.location.protocol === 'http:') ? 'http://static.ftchinese.com/n/o-ads.js' : 'https://www.ft.com/__origami/service/build/v2/bundles/js?modules=o-ads@10.2.1';
+	var ftOrigamiUrl = 'https://dhgxl8qk9zgzr.cloudfront.net/n/o-ads.js';
 	var adCodeLoaded = false;
 	function getPolyfillCode() {
 		var isIE = /*@cc_on!@*/false || !!document.documentMode;
