@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>B2B Subscription</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- build:css styles/main-pop-ad.css -->
+        <link rel="stylesheet" href="styles/main-admin.css">
+        <!-- endbuild -->
+    </head>
+    <body>
+        <div class="page-container">
+            <!--<b>Customer Name</b>: 4614d3d3467465a7 (Cookie - c_n)<br><b>Token</b>: 7600fb61d8c28be7db21520d513f2321 (Cookie - token)<br>-->
+            <div class="page-title">Add New Users</div>
+            <div class="page-description">There are two ways to add new users: </div>
+            <div class="page-description">1. Batch Import New Users From a CSV File</div>
+            <form method="post" action="http://10.99.10.12/index.php/btob/adduser" target="_blank" enctype ="multipart/form-data" name="btobForm">               
+                <div>
+                    <input type="file" name="email_file" id="file" class="inputfile" />
+                    <label for="file" class='inputfile-label'><strong>Choose a CSV File</strong></label>
+                    <input type="submit" value="Upload" class="upload-button">
+                </div>
+                <div></div>
+            </form>
+            <form method="post" action="http://10.99.10.12/index.php/btob/adduser" target="_blank" enctype ="multipart/form-data" name="btobForm"> 
+            <div class="page-description">2. Add the email address directly</div> 
+            <div><textarea name="email_list" rows="10" placeholder="Just Paste Emails Here"></textarea></div>
+            <div><input type="text" name="password" placeholder="Set Initial Password"><input type="submit" value="Submit" class="add-button"></div>
+            </form>
+            Select Type:
+            <select name="vip_type"><option value="standard" selected="selected">Standard</option><option value="premium" checked>Premium</option></select>
+            添加用户<input type="radio" name="act" value="addUser" checked="checked" onclick="document.btobForm.action='http://10.99.10.12/index.php/btob/adduser'">
+            --
+            删除用户<input type="radio" name="act" value="delUser" onclick="document.btobForm.action='http://10.99.10.12/index.php/btob/deluser'">
+        </div>
+
+<!-- build:js scripts/admin.js -->
+<script type="text/javascript" src="scripts/admin.js"></script>
+<!-- endbuild -->
+
+                    </body>
+</html>
