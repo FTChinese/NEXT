@@ -24,7 +24,7 @@
         }
         var emailListData = emailList.join('\n');
         var xhr = new XMLHttpRequest();
-        var url = 'http://10.99.10.12/index.php/btob/deluser';
+        var url = '/index.php/btob/deluser';
         xhr.open('POST', url);
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhr.onload = function() {
