@@ -11,7 +11,7 @@
     <body>
         <div class="page-container">
             <!--<b>Customer Name</b>: 4614d3d3467465a7 (Cookie - c_n)<br><b>Token</b>: 7600fb61d8c28be7db21520d513f2321 (Cookie - token)<br>-->
-            <div class="page-title">Add New Users</div>
+            <div class="page-title">Create New Accounts</div>
             <div class="page-description">There are two ways to add new users: </div>
             <div class="page-description">1. Batch Import New Users From a CSV File</div>
             <form method="post" action="http://10.99.10.12/index.php/btob/adduser" target="_blank" enctype ="multipart/form-data" name="btobForm">               
@@ -22,19 +22,50 @@
                 </div>
                 <div></div>
             </form>
+
             <form method="post" action="http://10.99.10.12/index.php/btob/adduser" target="_blank" enctype ="multipart/form-data" name="btobForm"> 
-            <div class="page-description">2. Add the email address directly</div> 
-            <div><textarea name="email_list" rows="10" placeholder="Just Paste Emails Here"></textarea></div>
+            <div class="page-description">2. Add emails directly</div> 
+            <div><textarea name="email_list" rows="10" placeholder="Paste emails here, each address a line"></textarea></div>
             <div><input type="text" name="password" placeholder="Set Initial Password"><input type="submit" value="Submit" class="add-button"></div>
             </form>
+
+            <div class="page-title">Manage Current Accounts</div>
+            <div class="o-table-container n-content-layout" data-layout-width="full-grid">
+                <div class="o-table-overlay-wrapper n-content-layout__container">
+                    <div class="o-table-scroll-wrapper">
+                        <table class="o-table o-table--horizontal-lines o-table--responsive-overflow" data-o-component="o-table" data-o-table-responsive="overflow">
+                            <thead>
+                                <tr>
+                                    <th data-column-default-sort="ascending" scope="col" role="columnheader" data-o-table-data-type="number" class="o-forms-input--checkbox"><input type="checkbox"></th>
+                                    <th data-column-default-sort="ascending" scope="col" role="columnheader" data-o-table-data-type="number">Email</th>
+                                    <th data-column-width scope="col" role="columnheader" data-o-table-data-type="number">Name</th>
+                                    <th data-column-width scope="col" role="columnheader" data-o-table-data-type="number"><a class="remove-user">Remove</a></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td class="o-table__cell--numeric"><input type="checkbox"></td><td class="o-table__cell--numeric">oliver.wang@ft.com</td><td class="o-table__cell--numeric">Oliver Wang</td><td class="o-table__cell--numeric"><a class="remove-user">Remove</a></td></tr>
+                                <tr><td class="o-table__cell--numeric"><input type="checkbox"></td><td class="o-table__cell--numeric">kevin.wang@ft.com</td><td class="o-table__cell--numeric">Kevin Wang</td><td class="o-table__cell--numeric"><a class="remove-user">Remove</a></td></tr>
+                                <tr><td class="o-table__cell--numeric"><input type="checkbox"></td><td class="o-table__cell--numeric">jack.ma@ft.com</td><td class="o-table__cell--numeric">Jack Ma</td><td class="o-table__cell--numeric"><a class="remove-user">Remove</a></td></tr>
+                                <tr><td class="o-table__cell--numeric"><input type="checkbox"></td><td class="o-table__cell--numeric">mary.chen@ft.com</td><td class="o-table__cell--numeric">Mary Chen</td><td class="o-table__cell--numeric"><a class="remove-user">Remove</a></td></tr>
+                                <tr><td class="o-table__cell--numeric"><input type="checkbox"></td><td class="o-table__cell--numeric">kate.luo@ft.com</td><td class="o-table__cell--numeric">Kate Luo</td><td class="o-table__cell--numeric"><a class="remove-user">Remove</a></td></tr>
+                                <tr><td class="o-table__cell--numeric"><input type="checkbox"></td><td class="o-table__cell--numeric">alan.zhang@ft.com</td><td class="o-table__cell--numeric">Alan Zhang</td><td class="o-table__cell--numeric"><a class="remove-user">Remove</a></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!--
             Select Type:
             <select name="vip_type"><option value="standard" selected="selected">Standard</option><option value="premium" checked>Premium</option></select>
             添加用户<input type="radio" name="act" value="addUser" checked="checked" onclick="document.btobForm.action='http://10.99.10.12/index.php/btob/adduser'">
             --
             删除用户<input type="radio" name="act" value="delUser" onclick="document.btobForm.action='http://10.99.10.12/index.php/btob/deluser'">
+            -->
         </div>
 
 <!-- build:js scripts/admin.js -->
+<script type="text/javascript" src="scripts/dom-delegate.js"></script>
 <script type="text/javascript" src="scripts/admin.js"></script>
 <!-- endbuild -->
 

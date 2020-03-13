@@ -13,24 +13,23 @@
 @import "mixins.scss";
 @import "common.scss";
 @import "header.scss";
+@import "main-table.scss";
+
 
 body {
   padding: 0 $defaultPadding/2;
-  background-color: $bannerBG;
   font-size: 16px;
 }
 // admin styles
 .page-container {
   max-width: 768px;
-  padding: 0 $defaultPadding/2;
   margin: 0 auto;
-  background-color: $defaultPink;
 }
 .page-title {
   font-size:20px;
   font-weight:bold;
   padding:14px 0 0 0;
-  margin-bottom: 0;
+  margin-bottom: $defaultPadding/2;
 }
 .page-description {
   margin-bottom: 1em;
@@ -104,6 +103,23 @@ form {
 }
 .add-button {
   float: right;
+}
+table.o-table {
+  th, td {
+    &:first-child {
+      width: 24px;
+      text-align: center!important;
+      padding: 0;
+    }
+    &:last-child {
+      width: 80px;
+      text-align: center!important;
+      padding: 0;
+    }
+  }
+}
+.remove-user {
+  cursor: default;
 }
 // input {
 //   &[type=file] {
