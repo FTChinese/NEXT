@@ -1,6 +1,6 @@
 .story-container {
 	padding: 0 $defaultPadding/2;
-	max-width: 700px;
+	max-width: $storyMaxWidth;
 	margin: auto;
 	&.ce, &.biggest, &.bigger, &.full-width {
 		max-width: 100%;
@@ -181,6 +181,14 @@
 				bottom: 0;
 				position: absolute;
 			}
+		}
+	}
+
+	.audio-sticky { 
+		.audio-container {
+			width: $storyMaxWidth - $defaultPadding;
+			left: auto;
+			right: auto;
 		}
 	}
 
