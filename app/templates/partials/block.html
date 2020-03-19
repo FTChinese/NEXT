@@ -387,7 +387,7 @@
 					  	<%assign var="infoForSponsorships" value=$nextmodel->getPublishJson($pageIdForSponsorshipManagement)|json_decode:true%>
 						<%assign var="foundSponsorTag" value="no"%>
 						<%foreach from=$infoForSponsorships.sections item=oneTag%>
-							<%if $foundSponsorTag == "no" && $oneTag.status == "on" && $oneTag.dates != "" && preg_match("/`$currentDate`/is",$oneTag.dates) && preg_match("/`$itemMainTag`/is","`$oneTag.tag`,`$oneTag.title`") && $oneTag.imageHighlightBox != ""%>
+							<%if $foundSponsorTag == "no" && $oneTag.status == "on" && $oneTag.dates != "" && preg_match("/`$currentDate`/is",$oneTag.dates) && ($itemMainTag == $oneTag.tag || $itemMainTag == $oneTag.title) && $oneTag.imageHighlightBox != ""%>
 								<%assign var="foundSponsorTag" value="yes"%>
 								<%assign var="hasFoundSponsorInfo" value="yes"%>
 								<%assign var="tagImage" value=$oneTag.imageHighlightBox%>
@@ -404,7 +404,7 @@
 					  	<%assign var="infoForSponsorships" value=$nextmodel->getPublishJson("tagmanagement")|json_decode:true%>
 						<%assign var="foundSponsorTag" value="no"%>
 						<%foreach from=$infoForSponsorships.sections item=oneTag%>
-							<%if $foundSponsorTag == "no" && preg_match("/`$itemMainTag`/is","`$oneTag.tag`,`$oneTag.title`")%>
+							<%if $foundSponsorTag == "no" && ($itemMainTag == $oneTag.tag || $itemMainTag == $oneTag.tag)%>
 								<%assign var="foundSponsorTag" value="yes"%>
 								<%if $oneTag.link != ""%>
 									<%assign var="itemTagLink" value=$oneTag.link%>
