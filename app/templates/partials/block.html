@@ -1214,9 +1214,10 @@
 							<%/if%>
 
 
-
-							<%if $useCorpToRenderStory === "yes" && (itemType == "story" || itemType == "premium")%>
-								<!--useCorpToRenderStory-->
+							<!-- check user corp: <%$useCorpToRenderStory%>, item type: <%$itemType%>-->
+							<%if $useCorpToRenderStory == "yes" && ($itemType == "story" || $itemType == "premium")%>
+								<%assign var="itemData" value=""%>
+								<%assign var="itemLink" value=" href=\"http://www.ftchinese.com/m/corp/c.html?id=`$itemId`&webview=ftcapp\""%>
 							<%/if%>
 
 						<%/if%> 
