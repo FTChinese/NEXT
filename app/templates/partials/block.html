@@ -1212,6 +1212,13 @@
 							<%if $itemDataId == "" || $itemDataType == "manual"%>
 								<%assign var="itemData" value=""%>
 							<%/if%>
+
+
+
+							<%if $useCorpToRenderStory === "yes" && (itemType == "story" || itemType == "premium")%>
+								<!--useCorpToRenderStory-->
+							<%/if%>
+
 						<%/if%> 
 						<%*<!--end  $smarty.get.webview == "ftcapp"-->*%>
 
