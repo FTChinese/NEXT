@@ -1057,7 +1057,7 @@
 								<%assign var="timeDiff" value=$itemT|date_format:"%Y年%-m月%-d日"%>
 							<%/if%>
 							<%if $list.showTimeStamp === "all" || ($timeMath < 60*60*6 && $timeMath > 0)%>
-								<%assign var="itemTimeStamp" value="<div class=\"item-time`$highlightTime`\" data-time=\"`$itemT`\">`$timeDiff`</div>"%>
+								<%assign var="itemTimeStamp" value="<div class=\"item-time`$highlightTime`\" data-time=\"`$itemT`\" data-pubdate=\"`$item.pubdate`\" data-fileupdatetime=\"`$item.fileupdatetime`\" data-last-publish-time=\"`$item.last_publish_time`\">`$timeDiff`</div>"%>
 							<%/if%>
 						<%/if%>
 
