@@ -23,6 +23,7 @@
             return;
         }
         var emailListData = emailList.join('\n');
+        console.log (emailListData);
         var xhr = new XMLHttpRequest();
         var url = '/index.php/btob/deluser';
         xhr.open('POST', url);
@@ -36,8 +37,9 @@
             }
         };
         var parameters = [
-            {key: 'email_list', value: emailListData}
+            'email_list=' + emailListData
         ].join('&');
+        //console.log (parameters);
         xhr.send(encodeURI(parameters));
     });
 
