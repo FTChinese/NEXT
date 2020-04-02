@@ -267,78 +267,79 @@
 
 
 
-
-		<div class="videos">
-			<h2 class="list-title"><a href="/m/marketing/businesscase.html">中国商业案例精选</a></h2>
-			<div class="interactive-inner">
-			<%assign var="storyall" value=$interactivemodel->get_interactive_by_field_search("find_in_set('精选',tag) and find_in_set('商业案例',tag)",0,4,1000,10800)%>
-			<%assign var="photoall" value=$photonewsmodel->get_photonews_by_field_search("find_in_set('商业案例',tags)", "ORDER BY add_times DESC", 6)%>
-			<%assign var="storycount" value=$storyall|@count%>
-			<%assign var="photocount" value=$photoall|@count%>
-			<%assign var="allcount" value=$photocount+$storycount%>
-			<%assign var="cs" value=0%>
-			<%assign var="cp" value=0%>
-			<%assign var="i" value=0%>
-			<!--<%*两组数据进行合并，重新排序 Start*%>-->
-			<%section name=bothdata loop=$allcount%>
-				<%if $i<4%>
-					<%if $cs<$storycount && ($storyall[$cs].pubdate>=$photoall[$cp].add_times || $ps>=$photocount)%>
-						<%if !in_array($storyall[$cs].id , explode(',',$echostoryid)) && ($storyall[$cs].story_pic.smallbutton || $storyall[$cs].story_pic.bigbutton || $storyall[$cs].story_pic.cover)%>
-							<%if preg_match("/速读/is",$storyall[$cs].tag)%>
-							<%assign var="iTag" value="【速读】"%>
-							<%elseif preg_match("/测试|QuizPlus/is",$storyall[$cs].tag)%>
-							<%assign var="iTag" value="【小测】"%>
-							<%elseif preg_match("/英语电台/is",$storyall[$cs].tag)%>
-							<%assign var="iTag" value="【电台】"%>
-							<%elseif preg_match("/数据新闻/is",$storyall[$cs].tag)%>
-							<%assign var="iTag" value="【数据】"%>
-							<%elseif preg_match("/教程/is",$storyall[$cs].tag)%>
-							<%assign var="iTag" value="【教程】"%>
-							<%else%>
-							<%assign var="iTag" value=""%>
-							<%/if%>
-
-							<%if $smarty.get.webview == "ftcapp"%>
-								<%if preg_match("/.mp3$/is",$storyall[$cs].cshortleadbody)%>
-									<%assign var="audioUrl" value=$storyall[$cs].cshortleadbody%>
-									<%assign var="audioData" value=" data-audio=\"`$audioUrl`\""%>
+		<%if date("Ymd",$smarty.now) >= 20200401%>
+			<div class="videos">
+				<h2 class="list-title"><a href="/m/marketing/businesscase.html">中国商业案例精选</a></h2>
+				<div class="interactive-inner">
+				<%assign var="storyall" value=$interactivemodel->get_interactive_by_field_search("find_in_set('精选',tag) and find_in_set('商业案例',tag)",0,4,1000,10800)%>
+				<%assign var="photoall" value=$photonewsmodel->get_photonews_by_field_search("find_in_set('商业案例',tags)", "ORDER BY add_times DESC", 6)%>
+				<%assign var="storycount" value=$storyall|@count%>
+				<%assign var="photocount" value=$photoall|@count%>
+				<%assign var="allcount" value=$photocount+$storycount%>
+				<%assign var="cs" value=0%>
+				<%assign var="cp" value=0%>
+				<%assign var="i" value=0%>
+				<!--<%*两组数据进行合并，重新排序 Start*%>-->
+				<%section name=bothdata loop=$allcount%>
+					<%if $i<4%>
+						<%if $cs<$storycount && ($storyall[$cs].pubdate>=$photoall[$cp].add_times || $ps>=$photocount)%>
+							<%if !in_array($storyall[$cs].id , explode(',',$echostoryid)) && ($storyall[$cs].story_pic.smallbutton || $storyall[$cs].story_pic.bigbutton || $storyall[$cs].story_pic.cover)%>
+								<%if preg_match("/速读/is",$storyall[$cs].tag)%>
+								<%assign var="iTag" value="【速读】"%>
+								<%elseif preg_match("/测试|QuizPlus/is",$storyall[$cs].tag)%>
+								<%assign var="iTag" value="【小测】"%>
+								<%elseif preg_match("/英语电台/is",$storyall[$cs].tag)%>
+								<%assign var="iTag" value="【电台】"%>
+								<%elseif preg_match("/数据新闻/is",$storyall[$cs].tag)%>
+								<%assign var="iTag" value="【数据】"%>
+								<%elseif preg_match("/教程/is",$storyall[$cs].tag)%>
+								<%assign var="iTag" value="【教程】"%>
+								<%else%>
+								<%assign var="iTag" value=""%>
 								<%/if%>
-								<%assign var="sideItemClass" value=" item-container-app"%>
-								<%assign var="itemData" value=" data-id=\"`$storyall[$cs].id`\" data-type=\"interactive\"`$audioData`"%>
-							<%/if%>
-							<%*<!--
-							<%if $i===0%>
-								<%assign var="interactiveLink" value="/m/marketing/businesscase.html"%>
-							<%else%>
+
+								<%if $smarty.get.webview == "ftcapp"%>
+									<%if preg_match("/.mp3$/is",$storyall[$cs].cshortleadbody)%>
+										<%assign var="audioUrl" value=$storyall[$cs].cshortleadbody%>
+										<%assign var="audioData" value=" data-audio=\"`$audioUrl`\""%>
+									<%/if%>
+									<%assign var="sideItemClass" value=" item-container-app"%>
+									<%assign var="itemData" value=" data-id=\"`$storyall[$cs].id`\" data-type=\"interactive\"`$audioData`"%>
+								<%/if%>
+								<%*<!--
+								<%if $i===0%>
+									<%assign var="interactiveLink" value="/m/marketing/businesscase.html"%>
+								<%else%>
+									<%assign var="interactiveLink" value="/interactive/`$storyall[$cs].id`"%>
+								<%/if%>
+								-->*%>
 								<%assign var="interactiveLink" value="/interactive/`$storyall[$cs].id`"%>
+								<div class="item-container<%if $i===0%> first<%/if%><%$sideItemClass%>"<%$itemData%>><div class="item-inner">
+								<a class="image" href="<%$interactiveLink%>" target=_blank><figure class="loading" data-url="<%$storyall[$cs].story_pic.cover|default:$storyall[$cs].story_pic.smallbutton|default:$storyall[$cs].story_pic.bigbutton%>"></figure></a>
+								<h2 class="item-headline"><a href="<%$interactiveLink%>" target=_blank class="item-headline-link"><%*$iTag*%><%$storyall[$cs].cheadline%></a></h2>
+								</div></div>
+								<%assign var="echostoryid" value=`$storyall[$cs].id`,$echostoryid%>
+								<%assign var="i" value=$i+1%>
 							<%/if%>
-							-->*%>
-							<%assign var="interactiveLink" value="/interactive/`$storyall[$cs].id`"%>
-							<div class="item-container<%if $i===0%> first<%/if%><%$sideItemClass%>"<%$itemData%>><div class="item-inner">
-							<a class="image" href="<%$interactiveLink%>" target=_blank><figure class="loading" data-url="<%$storyall[$cs].story_pic.cover|default:$storyall[$cs].story_pic.smallbutton|default:$storyall[$cs].story_pic.bigbutton%>"></figure></a>
-							<h2 class="item-headline"><a href="<%$interactiveLink%>" target=_blank class="item-headline-link"><%*$iTag*%><%$storyall[$cs].cheadline%></a></h2>
-							</div></div>
-							<%assign var="echostoryid" value=`$storyall[$cs].id`,$echostoryid%>
-							<%assign var="i" value=$i+1%>
+							<%assign var="cs" value=$cs+1%>
+						<%elseif $ps<$photocount && ($storyall[$cs].pubdate<$photoall[$cp].add_times || $cs>=$storycount)%>
+							<%if !in_array($photoall[$cp].en_title , explode(',',$echostoryid)) && $photoall[$cp].thumb_url %>
+								<div class="item-container<%if $i===0%> first<%/if%>"><div class="item-inner">
+								<a class="image" href="/photonews/<%$photoall[$cp].photonewsid%>" target=_blank><figure class="loading" data-url="https://thumbor.ftacademy.cn/unsafe/<%$photoall[$cp].thumb_url%>"></figure></a>
+								<h2 class="item-headline"><a href="/photonews/<%$photoall[$cp].photonewsid%>" target=_blank>【图辑】<%$photoall[$cp].cn_title%></a></h2>
+								</div></div>
+								<%assign var="echostoryid" value=`$photoall[$cp].en_title`,$echostoryid%>
+								<%assign var="i" value=$i+1%>
+							<%/if%>
+							<%assign var="cp" value=$cp+1%>
 						<%/if%>
-						<%assign var="cs" value=$cs+1%>
-					<%elseif $ps<$photocount && ($storyall[$cs].pubdate<$photoall[$cp].add_times || $cs>=$storycount)%>
-						<%if !in_array($photoall[$cp].en_title , explode(',',$echostoryid)) && $photoall[$cp].thumb_url %>
-							<div class="item-container<%if $i===0%> first<%/if%>"><div class="item-inner">
-							<a class="image" href="/photonews/<%$photoall[$cp].photonewsid%>" target=_blank><figure class="loading" data-url="https://thumbor.ftacademy.cn/unsafe/<%$photoall[$cp].thumb_url%>"></figure></a>
-							<h2 class="item-headline"><a href="/photonews/<%$photoall[$cp].photonewsid%>" target=_blank>【图辑】<%$photoall[$cp].cn_title%></a></h2>
-							</div></div>
-							<%assign var="echostoryid" value=`$photoall[$cp].en_title`,$echostoryid%>
-							<%assign var="i" value=$i+1%>
-						<%/if%>
-						<%assign var="cp" value=$cp+1%>
 					<%/if%>
-				<%/if%>
-			<%/section%>
-			<!--<%*两组数据进行合并，重新排序 End*%>-->
-			<div class="clearfloat"></div>
+				<%/section%>
+				<!--<%*两组数据进行合并，重新排序 End*%>-->
+				<div class="clearfloat"></div>
+				</div>
 			</div>
-		</div>
+		<%/if%>
 
 
 	<%else%>
@@ -605,6 +606,7 @@
 		</div>
 
 
+		<%if date("Ymd",$smarty.now) >= 20200401%>
 		<div class="videos P-only">
 			<h2 class="list-title"><a href="/m/marketing/businesscase.html">中国商业案例精选</a></h2>
 			<div class="interactive-inner">
@@ -668,6 +670,7 @@
 			<div class="clearfloat"></div>
 			</div>
 		</div>
+		<%/if%>
 
 
 		<div class="clearfloat"></div>
