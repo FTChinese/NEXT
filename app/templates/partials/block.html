@@ -1200,7 +1200,7 @@
 								<%assign var="lockClass" value="locked"%>
 							<%/if%>
 							<%assign var="itemData" value=" data-id=\"`$itemDataId`\" data-type=\"`$itemDataType`\"`$audioData``$caudioData``$eaudioData``$subTypeData``$dateData` data-keywords=\"`$itemTagsString`\""%>
-							<%if $itemDataId != "" && $itemDataType != "" && $itemDataType != "manual"%>
+							<%if $itemDataId != "" && $itemDataType != "" && $itemDataType != "manual" && $useCorpToRenderStory != "yes"%>
 								<%assign var="itemClass" value="`$itemClass` item-container-app"%>
 							<%/if%>
 							<%*<!-- MARK: Show full text for premium content for internal use only!  -->*%>
@@ -1217,7 +1217,7 @@
 							<!-- check user corp: <%$useCorpToRenderStory%>, item type: <%$itemType%>-->
 							<%if $useCorpToRenderStory == "yes" && ($itemType == "story" || $itemType == "premium")%>
 								<%assign var="itemData" value=""%>
-								<%assign var="itemLink" value=" href=\"http://www.ftchinese.com/m/corp/c.html?id=`$itemId`&webview=ftcapp\""%>
+								<%assign var="itemLink" value=" href=\"/m/corp/preview.html?pageid=`$itemId`&webview=ftcapp\""%>
 							<%/if%>
 
 						<%/if%> 

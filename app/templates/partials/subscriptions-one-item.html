@@ -93,7 +93,18 @@
 
 <%$itemTop%>
 
-<%if $supportBackgroundDowndingWhenBlocked == "yes" || $smarty.get.isBG == ""%>
+<%if $useCorpToRenderStory == "yes" && ($itemType == "story" || $itemType == "premium")%>
+	<%*<!--MARK: If the user is using a version 98 of ios app -->*%>
+	<div class="item-container <%$itemClass%>">
+	    <div class="item-inner">
+	    	<%$itemMainTagLink%>
+	        <h2 class="item-headline"><a href="/m/corp/preview.html?pageid=<%$report.id%>&webview=ftcapp" class="item-headline-link unlocked" target=_blank><%$report.cheadline%></a></h2>
+	        <a href="/m/corp/preview.html?pageid=<%$report.id%>&webview=ftcapp" class="image"><figure class="loading" data-url="<%$report.story_pic.cover|default:$report.story_pic.smallbutton|default:$report.story_pic.bigbutton|default:$report.story_pic.other%>"></figure></a>
+	        <div class="item-lead"><%$itemLead%></div>
+	        <div class="item-bottom"></div>
+	    </div>
+	</div>
+<%elseif $supportBackgroundDowndingWhenBlocked == "yes" || $smarty.get.isBG == ""%>
 	<%*<!--MARK: If the user is using a normal launch or if his/her app version is at least 7.6, give him the normal page. -->*%>
 	<div class="item-container item-container-app <%$itemClass%>" data-id="<%$report.id%>" data-type="<%$itemType%>"<%$audioData%><%$subTypeData%> data-keywords="<%$itemTagsString%>">
 	    <div class="item-inner">
