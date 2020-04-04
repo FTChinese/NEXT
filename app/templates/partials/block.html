@@ -484,12 +484,6 @@
 							<%*<!--MARK: - If your sql search has accessright, it means you are searching for paid content only.  -->*%>
 							<%assign var="itemType" value="premium"%>
 						<%/if%>
-
-						<%*<!--MARK: - Since our database is broken, don't show paywall for iOS user today. This code block can be removed after 20200405-->*%>
-						<%if $itemType == "premium" && date("Ymd", $smarty.now) <= 20200405%>
-							<%assign var="inSponsor" value="yes"%>
-						<%/if%>
-
 						<%if $itemType == "premium" && $inSponsor == "yes"%>
 							<%assign var="itemType" value="story"%>
 						<%/if%>
