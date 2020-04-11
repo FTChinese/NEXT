@@ -406,6 +406,39 @@
         <%if $pageId != "home"%>
             document.title = '<%$p.meta.title%>';
         <%/if%>
+
+        <%*<!--MARK: - paywall api was broken, the following code allow every logged-user to access premium subscription. Remove after 2020/5/5 -->*%>
+        <%if date("Ymd", $smarty.now) <= 20200405 %>
+        function openUpPremium() {
+            for (var key of ['paywall', 'paywall_expire']) {
+                var value = GetCookie(key);
+                if (!value || value === '' || value === 'undefined') {
+                    DeleteCookie(key);
+                }
+            }
+            var uniqueId = GetCookie('uniqueVisitorId') || guid();
+            if (uniqueId && uniqueId !== '') {
+                var userNameForLogin = GetCookie('USER_NAME') || GetCookie('USER_NAME_FT') || '';
+                var userIdForLoginUser = GetCookie('USER_ID') || '';
+                var ccode = GetCookie('ccode') || '';
+                var message = {
+                    'username': userNameForLogin,
+                    'userId': userIdForLoginUser,
+                    'uniqueVisitorId': uniqueId,
+                    'ccode': ccode,
+                    'paywall': 'premium',
+                    'paywall_expire': '1617638400',
+                    'source': 'openUpPremium'
+                };
+                try {
+                webkit.messageHandlers.user.postMessage(message);
+                } catch (ignore) {
+                }
+            }
+        }
+        openUpPremium();
+        setInterval(function(){openUpPremium();}, 30000);
+        <%/if%>
     </script>
     <%include file="next/partials/head-db-zone.html"%>
     <%include file="next/partials/body.html"%>

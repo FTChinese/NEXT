@@ -1514,10 +1514,13 @@
 <%/if%>
 <%assign var=gauthor value=$story.cauthor|regex_replace:"[\n\r]":""%>
 <%assign var="storyBody" value=$storyBody|replace:"<p><p>":"<p>"|replace:"</p></p>":"</p>"%>
-
-
 <%assign var="adchannelID" value=$adchannelID|regex_replace:"/^(20)(..)$/":'50${2}'%>
-<%assign var="copyrightStatement" value="版权声明：本文版权归FT中文网所有，未经允许任何单位或个人不得转载，复制或以任何其他方式使用本文全部或部分，侵权必究。"%>
+
+<%*<!--MARK: If a copy right statement is not in the story content, show the default one. -->*%>
+<%if !preg_match("/copyrightstatement/is",$story_content)%>
+	<%assign var="copyrightStatement" value="版权声明：本文版权归FT中文网所有，未经允许任何单位或个人不得转载，复制或以任何其他方式使用本文全部或部分，侵权必究。"%>
+<%/if%>
+
 <%if $pageTrackerTag !== ""%>
 	<%assign var="pageTrackerTag" value="- `$pageTrackerTag` "%>
 <%/if%>
