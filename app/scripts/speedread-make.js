@@ -1,5 +1,7 @@
+// MARK: - This is internal tool, we are free to use the latest javascript, thus no need to do jshint, which is for legacy frontend stuff
+/* jshint ignore:start */
 function start() {
-    const englishText = document.getElementById('english-text');
+    var englishText = document.getElementById('english-text');
     document.getElementById('story-body-container').innerHTML = englishText.value;
     englishText.style.display = 'none';
     document.getElementById('start-button').style.display = 'none';
@@ -7,19 +9,20 @@ function start() {
 }
 
 function finish() {
-    const splitter = '-|-';
-    const englishWords = document.getElementById('english-words').value.replace(/[\n\r]+/g, splitter).split(splitter);
-    const chineseWords = document.getElementById('chinese-words').value.replace(/[\n\r]+/g, splitter).split(splitter);
+    var splitter = '-|-';
+    var englishWords = document.getElementById('english-words').value.replace(/[\n\r]+/g, splitter).split(splitter);
+    var chineseWords = document.getElementById('chinese-words').value.replace(/[\n\r]+/g, splitter).split(splitter);
     var words = [];
-    for (const [index, englishWord] of englishWords.entries()) {
-        const chineseWord = chineseWords[index];
+    for (var i=0; i < englishWords.length; i++) {
+        var chineseWord = chineseWords[i];
+        var englishWord = englishWords[i];
         if (chineseWord && englishWord && englishWord !== '' && chineseWord !== '') {
-            words.push(`${englishWord}|${chineseWord}`);
+            words.push(englishWord + '|' + chineseWord);
         }
     }
-    const finalWords = words.join('\n');
+    var finalWords = words.join('\n');
     if (window.opener) {
-        const questions = document.getElementById('questions-text').value;
+        var questions = document.getElementById('questions-text').value;
         window.opener.document.getElementById('cbody').value = questions;
         window.opener.document.getElementById('clongleadbody').value = finalWords;
         window.close();
@@ -27,9 +30,10 @@ function finish() {
 }
 
 if (window.opener) {
-    const englishText = window.opener.document.getElementById('ebody').value;
+    var englishText = window.opener.document.getElementById('ebody').value;
     document.getElementById('english-text').value = englishText;
-    const questions = window.opener.document.getElementById('cbody').value;
+    var questions = window.opener.document.getElementById('cbody').value;
     document.getElementById('questions-text').value = questions;
     start();
 }
+/* jshint ignore:end */

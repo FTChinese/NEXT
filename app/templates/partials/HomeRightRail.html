@@ -154,7 +154,7 @@
 							<%else%>
 								<%assign var="subTypeData" value=""%>
 							<%/if%>
-
+							<%assign var="audioData" value=""%>
 							<%if $smarty.get.webview == "ftcapp"%>
 								<%if preg_match("/.mp3$/is",$storyall[$cs].cshortleadbody)%>
 									<%assign var="audioUrl" value=$storyall[$cs].cshortleadbody%>
@@ -297,7 +297,7 @@
 								<%else%>
 								<%assign var="iTag" value=""%>
 								<%/if%>
-
+								<%assign var="audioData" value=""%>
 								<%if $smarty.get.webview == "ftcapp"%>
 									<%if preg_match("/.mp3$/is",$storyall[$cs].cshortleadbody)%>
 										<%assign var="audioUrl" value=$storyall[$cs].cshortleadbody%>
@@ -636,7 +636,7 @@
 							<%else%>
 							<%assign var="iTag" value=""%>
 							<%/if%>
-
+							<%assign var="audioData" value=""%>
 							<%if $smarty.get.webview == "ftcapp"%>
 								<%if preg_match("/.mp3$/is",$storyall[$cs].cshortleadbody)%>
 									<%assign var="audioUrl" value=$storyall[$cs].cshortleadbody%>
