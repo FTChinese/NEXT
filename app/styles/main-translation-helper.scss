@@ -1,0 +1,62 @@
+@import "main-story.scss";
+@import "main-table.scss";
+@import "main-user-comments.scss";
+body {
+    overflow: hidden;
+}
+
+.container {
+    height: 100vh;
+    width: 100vw;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+}
+
+.body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    overflow: hidden;
+}
+#story-body-container p {
+    padding-right: $navHeight;
+}
+p.chinese-translation {
+    cursor: pointer;
+    &.selected {
+        background: transparent;
+        cursor: default;
+    }
+}
+.content {
+    overflow-y: scroll;
+    padding: $defaultPadding/2;
+}
+.sidebar {
+    display: none;
+    padding: 0 $defaultPadding/2;
+    grid-template-rows: $defaultPadding 1fr $navHeight*2;
+    .commentTextArea {
+        height: 100%;
+        box-sizing: border-box;
+        margin: auto;
+    }
+}
+.title-text-box {
+    display: grid;
+    grid-template-rows: $defaultPadding 1fr;
+}
+.title {
+    font-weight: bold;
+    line-height: $defaultPadding;
+}
+.centerButton {
+    padding-top: $navHeight/2;
+}
+// #story-body-container {
+//     max-width: 600px;
+// }
+// .questions-container {
+//     //position: fixed;
+
+// }

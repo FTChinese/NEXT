@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html class="no-js core" data-next-app="front-page">
+ <head>
+ <meta charset="utf-8" />
+ <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+ <title>翻译工具</title>
+ <meta http-equiv="Content-Language" content="zh-CN"/>
+ <meta content="加快翻译速度" name="description"/>
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+
+
+
+<!-- build:css styles/main-translation-helper.css -->
+<link rel="stylesheet" href="styles/main-translation-helper.css">
+<!-- endbuild -->
+
+ </head>
+<body>
+
+
+
+<div class="container">
+    <div class="body">
+        <div class="content">
+            <textarea placeholder="英文原文" class="commentTextArea" width="100%" rows="3" id="english-text">When Roger Roth received an email from the Chinese government asking him to sponsor a bill in the Wisconsin state legislature praising China’s response to coronavirus, he thought it must be a hoax. The sender had even appended a pre-written resolution full of Communist party talking points and dubious claims for the Wisconsin senate president to put to a vote.
+
+I’ve never heard of a foreign government approaching a state legislature and asking them to pass a piece of legislation,” Mr Roth told me last week. “I thought this couldn’t be real.” Then he discovered it was indeed sent by China’s consul-general in Chicago. “I was astonished . . .[and] wrote a letter back: ‘dear consul general, NUTS’.” 
+
+It is impossible to see this episode as anything but another disastrous own goal in Beijing’s attempts to boost its global standing in the time of coronavirus. 
+
+From the deplorable treatment of African citizens in southern China to the export of faulty medical equipment, or the official endorsement of conspiracy theories blaming the US military for the outbreak, most of the Communist party’s efforts to control the international narrative have backfired.
+
+Some assume the west’s chaotic and early response allows China to step into the global governance vacuum. Even allowing for questionable data, China has so far reported under 5,000 deaths, versus almost 30,000 in the US and nearly 20,000 each in Italy and Spain. But Beijing’s attempts to take advantage of the situation are more likely to leave it isolated and distrusted on the world stage when the crisis recedes.</textarea>
+            <div id="translations">
+                <textarea placeholder="译文1" class="commentTextArea chinese-translation" width="100%" rows="3">罗杰·罗斯（Roger Roth）收到中国政府的一封电子邮件，要求他赞助威斯康星州立法机关的一项法案，称赞中国对冠状病毒的反应，但他认为这一定是骗局。发件人甚至还附加了一份预先写好的决议，其中充斥着共产党的要点以及对威斯康星州参议院主席进行表决的可疑主张。
+
+    我从未听说外国政府会向州议会提出要求，并要求他们通过一项立法。”罗斯上周告诉我。 “我认为这不是真实的。”然后他发现这确实是中国驻芝加哥总领事馆寄来的。 “我很惊讶。 。 。[并]回信：“亲爱的总领事，NUTS。”
+
+    在北京试图提高其在冠状病毒时代的全球地位的尝试中，将这一事件看作是另一个灾难性的目标是不可能的。
+
+    从对中国南部非洲公民的恶劣待遇到出口有缺陷的医疗设备，或对阴谋论的官方支持，谴责美国军方爆发疫情，中共为控制国际叙事所做的大部分努力都事与愿违。
+
+    一些人认为西方的混乱和早期反应使中国步入全球治理真空。即使考虑到可疑的数据，迄今为止，中国的死亡人数还不到5,000人，而美国接近30,000人，意大利和西班牙分别接近20,000人。但是，在危机消退之际，北京试图利用这种局势的尝试更有可能使其在世界舞台上与世隔绝和不信任。</textarea>
+                <textarea placeholder="译文2" class="commentTextArea chinese-translation" width="100%" rows="3" id="chinese-text-0">当罗杰-罗斯收到一封来自中国政府的电子邮件，要求他在威斯康星州议会提出一项法案，赞扬中国对冠状病毒的反应，他认为这一定是个骗局。发信人甚至还附上了一份预先写好的决议书，上面写满了共产党的谈话要点和可疑的主张，让威斯康星州参议院议长付诸表决。
+
+    我从来没有听说过有外国政府接近一个州的立法机构，要求他们通过一项立法，"罗斯先生上周告诉我。"我以为这不可能是真的。" 然后，他发现这封信确实是中国驻芝加哥总领事寄来的。"我大吃一惊...........[并]回信说：'亲爱的总领事，NUTS'。" 
+
+    我们不可能把这一事件看成是北京在冠状病毒时期试图提升其全球地位的另一个灾难性的自身目标。 
+
+    从非洲公民在中国南方受到的可悲待遇，到出口有问题的医疗设备，再到官方认可指责美国军方是疫情爆发的阴谋论，中共控制国际叙事的大部分努力都适得其反。
+
+    有人认为，西方的混乱和提前反应，让中国得以步入全球治理真空。即使考虑到值得商榷的数据，中国迄今报告的死亡人数还不到5000人，而美国的死亡人数接近3万人，意大利和西班牙的死亡人数也分别接近2万人。但北京试图借势而为，更有可能在危机消退后，让中国在世界舞台上孤立无援，不被信任。</textarea>
+            </div>
+            <input type="button" onclick="start()" value="开始" id="start-button">
+            <div class="story-body"><div id="story-body-container"></div></div>
+        </div>
+        <div class="sidebar">
+            <div class="title">从左边点选合适的译文并继续润色</div>
+            <div><textarea placeholder="译文" class="commentTextArea" width="100%" id="final-translation"></textarea></div>
+            <div class="centerButton"><input type="button" value="完成并关闭" onclick="finish()" class="submitbutton button ui-light-btn"></div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+
+<!-- build:js scripts/main-translation-helper.js -->
+<script type="text/javascript" src="scripts/key.js"></script>
+<script type="text/javascript" src="scripts/translation-helper.js"></script>
+<!-- endbuild -->
+
+
+
+
+</html>
