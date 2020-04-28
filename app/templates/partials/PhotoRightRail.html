@@ -2,7 +2,7 @@
 
 	<%assign var="firstChildClass" value=" first-child"%>
     <%if (!preg_match("/<img/is",$info.leadbody) && $info.leadbody|count_characters < 300) || !preg_match("/市场活动/is",$info.tags)%>
-		<div class="story-box">
+		<div class="story-box P-hide">
 			<h2 class="box-title"><a>编者按</a></h2>
 			<div class="top10"><%$info.leadbody|replace:"<br>":""%></div>
 			<%assign var="firstChildClass" value=" last-child"%>
