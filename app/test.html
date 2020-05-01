@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html class="js enhanced" data-next-app="front-page">
+ <head>
+ <meta charset="utf-8" />
+ <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+ <title>FT中文网</title>
+ <meta http-equiv="Content-Language" content="zh-CN"/>
+ <meta content="<%$p.meta.description%>" name="description"/>
+ <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+ <link rel="apple-touch-icon-precomposed" href="https://dhgxl8qk9zgzr.cloudfront.net/img/ipad_icon.png" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <link rel="preconnect" href="https://dhgxl8qk9zgzr.cloudfront.net" />
+ <link rel="preconnect" href="https://thumbor.ftacademy.cn/unsafe" />
+
+
+
+
+ </head>
+<body></body>
+<script>
+    window.myJsonpCallback = function(data) {
+        // handle requested data from server
+        console.log (data);
+    };
+
+    var scriptEl = document.createElement('script');
+    scriptEl.setAttribute('src',
+        'https://en.wikipedia.org/w/api.php?action=query&generator=random&prop=extracts&exchars=500&format=json&callback=myJsonpCallback&requestid=53509');
+    document.head.appendChild(scriptEl);
+</script>
+
+</html>
+
