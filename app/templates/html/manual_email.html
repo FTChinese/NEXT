@@ -3,8 +3,10 @@
 	<%assign var="ads" value=$nextmodel->getPublishJson("emailads")|json_decode:true%>
 <%/if%>
 <%assign var="mainDomain" value="http://www.ftchinese.com/"%>
+<%assign var="registerDomain" value="http://user.ftchinese.com/"%>
 <%if $smarty.get.to == "vip"%>
 	<%assign var="mainDomain" value="https://www.chineseft.com/"%>
+	<%assign var="registerDomain" value="https://user.chineseft.com/"%>
 <%/if%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
@@ -536,7 +538,7 @@ href="http://service.weibo.com/share/share.php?appkey=4221537403&url=http%3A%2F%
 <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
 <tr>
 <td style="background-color: #F6E8D7; padding: 6px 8px; text-align: center;">
-<a href="http://user.ftchinese.com/register" style="text-decoration: none; color: #2E6E9E; font-size: 12px;"  target="_blank"
+<a href="<%$registerDomain%>register" style="text-decoration: none; color: #2E6E9E; font-size: 12px;"  target="_blank"
 >免费注册FT中文网</a>
 </td>
 </tr>

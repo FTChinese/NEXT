@@ -53,6 +53,7 @@ function passLoginToNative() {
             }
             message.ccode = userInfo.campaign_code || '';
             message.duration = userInfo.latest_duration || '';
+            message.source = userInfo.source || '';
             try {
                webkit.messageHandlers.user.postMessage(message);
             } catch (ignore) {
