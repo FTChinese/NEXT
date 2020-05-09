@@ -34,13 +34,14 @@
         <%include file="next/partials/nav.html"%>
     <%elseif $section.type == "banner" && $shouldDisplayBanner == "yes"%>
         <%include file="next/partials/banner.html"%>
- 
         <%if $section.image && $section.image == ""%>
         <%else%>
             <%assign var="bannerCount" value=$bannerCount+1%>
         <%/if%>
     <%elseif $section.type == "SubscriptionQa" %>
         <%include file="next/partials/subscription-qa.html"%>
+    <%elseif $section.type == "cover" %>
+        <%include file="next/partials/cover.html"%>
     <%elseif $section.type == "apiBlock" %>
         <%include file="next/partials/apiBlock.html"%>
     <%elseif $section.type == "subscriptionLead" %>

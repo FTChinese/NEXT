@@ -12,14 +12,17 @@
 <%assign var="listHasFloat" value="none"%>
 <%assign var="sideListCount" value=0%>
 <%foreach from=$section.lists item=list%>
-	<%if $list.float === "left" || $list.float === "right" || $list.float === "SideBySide" || $list.float === "SplitList"%>
+	<%if $list.float === "left" || $list.float === "right" || $list.float === "SideBySide" || $list.float === "SplitList" || $list.float === "BiligualFullText"%>
 	<%assign var="listHasFloat" value="`$list.float`"%>
 	<%/if%>
 	<%if $list.type != "" && $list.type != "list"%>
 		<%assign var="sideListCount" value=$sideListCount+1%>
 	<%/if%>
 <%/foreach%>
-<div class="block-container <%if ($section.side != "" && $section.side != "none" && $section.side != "Narrow") || $sideListCount > 0 %><%assign var="sectionHasSide" value="yes"%>has-side<%if $section.sideAlign !== ""%> side-<%$section.sideAlign|default:"right"%><%/if%><%else%><%assign var="sectionHasSide" value="no"%>no-side<%/if%><%if $section.side == "HotVideos"%> side-video<%/if%><%if $section.side == "Narrow"%> narrow-block<%/if%>"><div class="block-inner">
+<%if $listHasFloat == "BiligualFullText"%>
+	<style><%include file="next/styles/main-bilingual-full-text.css"%></style>
+<%/if%>
+<div class="block-container<%if $section.boxBackground != ""%> <%$section.boxBackground%><%/if%> <%if ($section.side != "" && $section.side != "none" && $section.side != "Narrow") || $sideListCount > 0 %><%assign var="sectionHasSide" value="yes"%>has-side<%if $section.sideAlign !== ""%> side-<%$section.sideAlign|default:"right"%><%/if%><%else%><%assign var="sectionHasSide" value="no"%>no-side<%/if%><%if $section.side == "HotVideos"%> side-video<%/if%><%if $section.side == "Narrow"%> narrow-block<%/if%>"><div class="block-inner">
 	<div class="content-container">
 		<%include file="next/partials/full-screen-subscribe-hint.html"%>
 		<div class="content-inner">
@@ -125,7 +128,12 @@
 				<%else%>
 					<%assign var="listClass" value=" XL-oneline"%>
 				<%/if%>
-			<%/if%>  <%* <!--end SplitList -->*%>
+			<%elseif $list.float === "BiligualFullText"%>
+				<%*<!--Layout of BiligualFullText-->*%>
+				<%assign var="listClass" value=" XL-oneline XL-list-oneline L-list-oneline"%>
+				<%assign var="listTopClass" value=""%>
+				<%* <!--end BiligualFullText -->*%>
+			<%/if%>  
 
 			<%if $list.feedType === "myFTNew"%>
 				<%assign var="listClass" value="`$listClass` list-my-ft"%>
@@ -1013,6 +1021,8 @@
 						<%if $itemType == "interactive"%>
 							<%*<!--MARK: timeStamp if the interactive is dragged into list mannually, otherwise fileupdatetime from the API -->*%>
 							<%assign var="itemT" value=$item.timeStamp|default:$item.fileupdatetime%>
+						<%elseif $list.float == "BiligualFullText"%>
+							<%assign var="itemT" value=$item.eskylineheadline|default:$item.fileupdatetime%>
 						<%else%>
 							<%assign var="itemT" value=$item.timeStamp|default:$item.last_publish_time|default:$item.pubdate|default:$item.add_times%>
 						<%/if%>
@@ -1024,7 +1034,7 @@
 
 
 
-						<%if $list.showTimeStamp == "all" || $list.showTimeStamp == "new stories" || $list.feedType == "myFT"%>
+						<%if $list.showTimeStamp == "all" || $list.showTimeStamp == "new stories" || $list.feedType == "myFT" || $list.float == "BiligualFullText"%>
 
 							<%if $item.type === "video" && preg_match("/[0-9]+\-[0-9]+\-[0-9]+/is",$itemT)%>
 								<%assign var="highlightTime" value=""%>
@@ -1314,6 +1324,16 @@
 						<%elseif $itemType === "widget"%>
 							<div class="item-container <%$itemClass%> no-image"><div class="item-inner">
 								<%include file="widgets/`$itemHeadline`"%>
+							</div></div>
+							<%assign var="i" value=$i+1%>
+						<%elseif $list.float === "BiligualFullText"%>
+							<%assign var="cheadline" value=$item.cheadline%>
+							<div class="item-container no-image bilingual-full-text<%if preg_match("/translation_confirmed/is",$itemTagsString)%> translation-confirmed<%/if%>" data-id="<%$itemId%>" data-ft-id="<%$item.eshortleadbody%>"><div class="item-inner">
+								<div class="time-container" data-original-time="<%$item.eskylineheadline%>"><%$itemTimeStamp%></div>
+								<div class="translation-disclaimer"></div>
+								<div class="title-container"><div class="original"><%$item.eheadline%></div><div class="translations"><%$item.cheadline%></div></div>
+								<div class="byline-container"><div class="original"><%$item.eauthor%></div><div><%$item.cauthor%></div></div>
+								<div class="body-container"><div class="original"><%$item.ebody%></div><div class="translations"><%$item.cbody%></div></div>
 							</div></div>
 							<%assign var="i" value=$i+1%>
 						<%else%>
@@ -1894,5 +1914,11 @@
 <%if $isMyFTOn == "yes"%>
     <script type="text/javascript">
         <%include file = "next/scripts/myft-display.js"%>
+    </script>
+<%/if%>
+<%*<!--MARK: - Support Bilingual Full Text such as Coronavirus Latest -->*%>
+<%if $listHasFloat == "BiligualFullText"%>
+	<script type="text/javascript">
+        <%include file="next/scripts/main-bilingual-full-text.js"%>
     </script>
 <%/if%>

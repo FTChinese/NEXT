@@ -1,8 +1,8 @@
 // MARK: - This is internal tool, we are free to use the latest javascript, thus no need to do jshint, which is for legacy frontend stuff
 /* jshint ignore:start */
 // MARK: - This has to pass through the gulp testing, so no const or for of loops, or any other modern features. 
+var splitter = '-|-';
 function convertTextToArray(t) {
-    var splitter = '-|-'
     var newText = t.replace(/[\r\n]+/g, splitter);
     return newText.split(splitter);
 }
@@ -47,14 +47,24 @@ function start() {
 
 function finish() {
     console.log ('paste the chinese text back! ');
+    if (window.opener) {
+        var result = document.getElementById('final-translation').value;
+        window.opener.document.getElementById('cbody').value = result;
+        window.opener.document.getElementById('tag').value += ',translation_confirmed';
+        window.close();
+    }
 }
 
 if (window.opener) {
-    console.log ('Start translations! ');
-    // var englishText = window.opener.document.getElementById('ebody').value;
-    // document.getElementById('english-text').value = englishText;
-    // var questions = window.opener.document.getElementById('cbody').value;
-    // document.getElementById('questions-text').value = questions;
-    // start();
+    var englishText = window.opener.document.getElementById('ebody').value;
+    document.getElementById('english-text').value = englishText;
+    var translationText = window.opener.document.getElementById('cbody').value;
+    translations = translationText.split(splitter);
+    var translationsHTML = '';
+    for (var k=0; k<translations.length; k++) {
+        translationsHTML += '<textarea class="commentTextArea chinese-translation" width="100%" rows="3">' + translations[k] + '</textarea>'
+    }
+    document.getElementById('translations').innerHTML = translationsHTML;
+    start();
 }
 /* jshint ignore:end */
