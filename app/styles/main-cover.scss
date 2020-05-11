@@ -1,0 +1,79 @@
+@import "theme-default.scss";
+@import "variables.scss";
+.cover-tag {
+	font-size: 1.2em;
+	font-weight: bold;
+	padding: $defaultPadding/2;
+}
+.cover-title {
+	font-size: 1.6em;
+	font-weight: bold;
+	padding: 0 $defaultPadding/2 $defaultPadding/2;
+}
+.cover-lead {
+	padding: 0 $defaultPadding/2 $defaultPadding/2;
+	line-height: $goldenRatio;
+}
+.cover-inner {
+	.image {
+		position: static;
+		padding: 0 $defaultPadding/2 $defaultPadding/2;
+	}
+}
+.dark-grey {
+    background-color: $darkGrey;
+    color: white;
+}
+.crimson {
+	background-color: $crimson;
+	color: white;
+}
+.cover-inner {
+	max-width: $maxWidth - $defaultPadding;
+	margin: auto;
+}
+.live-status--inprogress {
+	padding-left: $defaultPadding + 10px;
+	position: relative;
+	&:before {
+		content: "";
+		position: absolute;
+		display: block;
+		width: 10px;
+		height: 10px;
+		border-radius: 50%;
+		background-color:white;
+		margin-right: 4px;
+		top: $defaultPadding/2 + 8px;
+		left: $defaultPadding/2;
+		transform: scale(1);
+		animation: pulse 1.7s ease infinite;
+	}
+}
+
+@keyframes pulse {
+	0% {
+		transform: scale(0.95);
+		box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7);
+	}
+
+	70% {
+		transform: scale(1);
+		box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+	}
+
+	100% {
+		transform: scale(0.95);
+		box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+	}
+}
+
+@media only screen and (min-width: 690px) {
+	.cover-inner {
+		display: grid;
+        grid-template-columns: 1fr 1fr;
+        .image {
+			padding-top: $defaultPadding/2;
+		}
+	}
+}
