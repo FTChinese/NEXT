@@ -1,5 +1,8 @@
 (function(){
     delegate.on('click', '.quizlist li', function(){
+        if (document.querySelector('.speedread-questions').className.indexOf('answered') >= 0) {
+            return;
+        }
         var all = this.parentElement.querySelectorAll('li');
         for (var i=0; i<all.length; i++) {
             all[i].className = '';
@@ -29,6 +32,15 @@
         console.log (score);
         var percentScore = Math.round(100 * score / all.length);
         console.log (percentScore + '%');
+        var result = document.createElement('DIV');
+        result.innerHTML = '<div class="subtitle">' + percentScore + '%</div>';
+        document.querySelector('.speedread-questions').insertBefore(result, null);
+        var newScrollY = findTop(result) - 100;
+        if (typeof webkit !== 'undefined') {
+			webkit.messageHandlers.scrollTo.postMessage(newScrollY);
+		} else {
+			window.scrollTo({'behavior': 'smooth', 'top': newScrollY});
+		}
     });
     var checkButton = document.createElement('DIV');
     checkButton.className = 'centerButton check-quiz-container';
