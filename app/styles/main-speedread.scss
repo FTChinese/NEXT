@@ -1,0 +1,51 @@
+@import "theme-default.scss";
+@import "variables.scss";
+@import "mixins.scss";
+.speedread-questions {
+    span {
+        display: block;
+        margin-bottom: 1em;
+        .pagetitle, .rightanswer {
+            display: none;
+        }
+        .pageintro {
+            font-weight: bold;
+            line-height: $goldenRatio;
+        }
+    }
+    &.answered {
+        .check-quiz-container {
+            display: none;
+        }
+    }
+}
+.quizlist {
+    li {
+        padding: $defaultPadding/3 $defaultPadding;
+        position: relative;
+        &:before {
+            content: "";
+            position: absolute;
+            top: 17px;
+            left: 8px;
+            width: 10px;
+            height: 10px;
+            border: 2px solid $lightGrey;
+            -webkit-border-radius: 10px;
+            -moz-border-radius: 10px;
+            border-radius: 10px;
+        }
+        &.choosen {
+            background-color: $bannerBG;
+            &:before {
+                background-color: $lightGrey;
+            }
+            &.is-wrong {
+                color: $wrong;
+            }
+        }
+        &.right-answer {
+            color: $correct;
+        }
+    }
+}

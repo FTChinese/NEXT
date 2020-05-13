@@ -119,6 +119,46 @@
 					<div class="clearfloat"></div>
 				</div>
 				<%include file="next/partials/subscribe-hint.html"%>
+			<%elseif $interactiveType == "Speedread"%>
+				<div class="story-body">
+					<%$audioHTML%>
+					<%$storyImageInline%>
+					<div id="story-body-container">
+						<div class="subtitle sticky-title">词汇：</div>
+						<div class="table-wrap">
+						  <table class="o-table o-table--horizontal-lines">
+							<thead>
+							  <tr>
+								<th>英文</th>
+								<th>解释</th>
+							  </tr>
+							</thead>
+							<tbody>
+							  <tr>
+								<td class="o-table-first-column">
+								  <%$clongleadbody|regex_replace:"/[\r\t\n]+/":"
+									</td>
+									</tr>
+									<tr>
+									<td class=o-table-first-column>"|replace:"|":"</td>
+									<td>"%>
+								</td>
+							  </tr>
+							</tbody>
+						  </table>
+						</div>
+						<div class="subtitle sticky-title">阅读文章：</div>
+						<%$story_content%>
+						<div class="subtitle sticky-title">回答文章：</div>
+						<div class="speedread-questions">
+							<%$cbody|replace:"请移动鼠标":"请触摸"|replace:" onclick=\"quizcheck(this)\"":""%>
+						</div>
+					</div>
+					<div class="clearfloat"></div>
+				</div> 
+				<%if $smarty.get.full != "y" && !in_array("单页",$story.tag)%>
+					<%include file="next/partials/pagination.html"%>
+				<%/if%>
 			<%else%>
 				<div class="story-body">
 					<%$audioHTML%>

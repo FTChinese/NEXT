@@ -1609,7 +1609,7 @@
     	<style><%include file="next/styles/main-story.css"%></style>
     <%/if%>
 
-    <%if preg_match("/o\-table\-container/is",$story_content)%>
+    <%if preg_match("/o\-table\-container/is",$story_content) || $interactiveType == "Speedread"%>
     	<style><%include file="next/styles/o-table.css"%></style>
     	<script><%include file="next/scripts/o-table.js"%></script>
     	<%assign var=hideMPU3 value="yes"%>
