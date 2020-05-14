@@ -22,6 +22,10 @@
             background-color: $bannerBG;
             padding: $defaultPadding/4;
             margin: $defaultPadding/4 0;
+            &:before {
+                content: 'TIP: ';
+                font-weight: bold;
+            }
         }
     }
 }
@@ -48,10 +52,24 @@
             }
             &.is-wrong {
                 color: $wrong;
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' x='0' y='0' width='24' height='24' viewBox='0 0 24 24' enable-background='new 0 0 24 24'%3E%3Cpolygon fill='%239e2f50' points='18.597,6.381 17.618,5.403 12,11.022 6.381,5.404 5.404,6.381 11.022,12 5.403,17.619 6.381,18.598 12,12.979 17.618,18.596 18.597,17.619 12.979,12 '/%3E%3C/svg%3E");
+                &:before {
+                    display: none;
+                }
+            }
+            &.right-answer {
+                &:before {
+                    display: none;
+                }
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' x='0' y='0' width='24' height='24' viewBox='0 0 24 24' enable-background='new 0 0 24 24' slick-uniqueid='3'%3E%3Cdiv xmlns=''%3E%3Ca xmlns='http://www.w3.org/2000/svg' id='slick_uniqueid'/%3E%3C/div%3E%3Cpolygon fill='%23207824' points='22.361,3.997 9.357,17.001 2.113,9.757 1.134,10.735 8.378,17.979 9.357,18.958 10.335,17.979 23.34,4.975 '/%3E%3C/svg%3E");
             }
         }
         &.right-answer {
             color: $correct;
+        }
+        &.right-answer, &.is-wrong {
+            background-repeat: no-repeat;
+            background-position: 5px 50%;
         }
     }
 }
