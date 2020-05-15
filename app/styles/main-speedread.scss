@@ -1,6 +1,12 @@
 @import "theme-default.scss";
 @import "variables.scss";
 @import "mixins.scss";
+.speedread-article-container, .speedread-questions-container {
+    display: none;
+    .speedread-started & {
+        display: block;
+    }
+}
 .speedread-questions {
     span {
         display: block;
@@ -36,7 +42,9 @@
         &:before {
             content: "";
             position: absolute;
-            top: 17px;
+            margin: auto;
+            top: 0;
+            bottom: 0;
             left: 8px;
             width: 10px;
             height: 10px;
@@ -72,4 +80,19 @@
             background-position: 5px 50%;
         }
     }
+}
+.speedread-feedback-title {
+    font-size: 1.4em;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 0.5em;
+}
+// .speedread-feedback-text {
+//     margin-bottom: 10em;
+// }
+.speedread-feedback-container {
+    background-color: $darkGreen;
+    color: white;
+    margin-bottom: 1em;
+    padding: $defaultPadding/2;
 }

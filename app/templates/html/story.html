@@ -1590,6 +1590,7 @@
     	<script type="text/javascript">var privilegeEventLabel = '<%$privilegeEventLabel%>';</script>
     <%/if%>
 
+    
     <%if $pageType == "job"%>
     	<style><%include file="next/styles/main-story-job.css"%></style>
     <%elseif preg_match("/极致人生/is",$keys)%>
@@ -1602,11 +1603,13 @@
 		-->
 		*%>
 		
-    <%else%>
-    	<%if $pageType == "singlechoice"%>
+	<%else%>
+		<style><%include file="next/styles/main-story.css"%></style>
+		<%if $interactiveType == "Speedread"%>
+    		<style><%include file="next/styles/main-speedread.css"%></style>
+    	<%elseif $pageType == "singlechoice"%>
     		<style><%include file="next/styles/main-quiz.css"%></style>
     	<%/if%>
-    	<style><%include file="next/styles/main-story.css"%></style>
     <%/if%>
 
     <%if preg_match("/o\-table\-container/is",$story_content) || $interactiveType == "Speedread"%>
@@ -1951,6 +1954,10 @@ if (w > 490 && isTouchDevice() === false && document.querySelectorAll('.ce').len
 		window.audioHasRendered = true; 
 		renderAudioData(document.getElementById('story-body-container'));
 	</script>
+<%/if%>
+
+<%if $interactiveType == "Speedread"%>
+	<script><%include file="next/scripts/main-speedread.js"%></script>
 <%/if%>
 
 <%if $smarty.get.isappinstalled != ""%>  

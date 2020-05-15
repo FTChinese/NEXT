@@ -147,15 +147,19 @@
 							</tbody>
 						  </table>
 						</div>
-						<div class="subtitle sticky-title">阅读文章：</div>
-						<%$story_content%>
-						<div class="subtitle sticky-title">回答文章：</div>
-						<div class="speedread-questions">
-							<%$cbody|replace:"请移动鼠标":"请触摸"|replace:" onclick=\"quizcheck(this)\"":""%>
+						<div class="speedread-article-container">
+							<div class="subtitle sticky-title">阅读文章：</div>
+							<%$story_content%>
+						</div>
+						<div class="speedread-questions-container">
+							<div class="subtitle sticky-title">回答文章：</div>
+							<div class="speedread-questions">
+								<%$cbody|replace:"请移动鼠标":"请触摸"|replace:" onclick=\"quizcheck(this)\"":""%>
+							</div>
 						</div>
 					</div>
 					<div class="clearfloat"></div>
-				</div> 
+				</div>
 				<%if $smarty.get.full != "y" && !in_array("单页",$story.tag)%>
 					<%include file="next/partials/pagination.html"%>
 				<%/if%>
