@@ -21,6 +21,37 @@
 <%/foreach%>
 <%if $listHasFloat == "BiligualFullText"%>
 	<style><%include file="next/styles/main-bilingual-full-text.css"%></style>
+	<div class="overlay-container" id="overlay-news-preference">
+	<div class="overlay-inner">
+	<div class="overlay-bg-fixed" data-parentid="overlay-login"></div>
+	<div class="overlay-content-outer">
+	<div class="overlay-content-inner">
+	<div class="overlay-content">
+	<div class="overlay-title">请选择您的译文显示偏好</div>
+	<span class="preference-selection" id="translation-display-preference">
+		<div data-translation="none">
+			<b>不显示中文</b>
+			<p>只显示英文部分，隐藏中文译文</p>
+		</div>
+		<div data-translation="human">
+			<b>只显示人工确认的译文</b>
+			<p>只显示人工已经确认的译文，可能多数新闻仅有英文部分</p>
+		</div>
+		<div data-translation="both">
+			<b>显示所有译文</b>
+			<p>在没有人工译文的情况下显示机器翻译的译文作为参考</p>
+		</div>
+	</span>
+	<div class="wx-login-container">
+		<div class="login-btn input-submit-container center">
+			<input id="confirm-translation-preference" class="disabled" type="submit" value="确定">
+		</div>
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
 <%/if%>
 <div class="block-container<%if $section.boxBackground != ""%> <%$section.boxBackground%><%/if%> <%if ($section.side != "" && $section.side != "none" && $section.side != "Narrow") || $sideListCount > 0 %><%assign var="sectionHasSide" value="yes"%>has-side<%if $section.sideAlign !== ""%> side-<%$section.sideAlign|default:"right"%><%/if%><%else%><%assign var="sectionHasSide" value="no"%>no-side<%/if%><%if $section.side == "HotVideos"%> side-video<%/if%><%if $section.side == "Narrow"%> narrow-block<%/if%>"><div class="block-inner">
 	<div class="content-container">
@@ -1328,7 +1359,7 @@
 							<%assign var="i" value=$i+1%>
 						<%elseif $list.float === "BiligualFullText"%>
 							<%assign var="cheadline" value=$item.cheadline%>
-							<div class="item-container no-image bilingual-full-text<%if preg_match("/translation_confirmed/is",$itemTagsString)%> translation-confirmed<%/if%>" data-id="<%$itemId%>" data-ft-id="<%$item.eshortleadbody%>"><div class="item-inner">
+							<div class="item-container no-image bilingual-full-text translation-<%if preg_match("/translation_confirmed/is",$itemTagsString)%>confirmed<%else%>machine<%/if%>" data-id="<%$itemId%>" data-ft-id="<%$item.eshortleadbody%>"><div class="item-inner">
 								<div class="time-container" data-original-time="<%$item.eskylineheadline%>"><%$itemTimeStamp%></div>
 								<div class="translation-disclaimer"></div>
 								<div class="title-container"><div class="original"><%$item.eheadline%></div><div class="translations"><%$item.cheadline%></div></div>

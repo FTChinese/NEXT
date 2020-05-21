@@ -1167,7 +1167,7 @@
 
 
 
-<%if preg_match("/活动页面/is",$keys)%>
+<%if preg_match("/活动页面|企业公告/is",$keys)%>
 	<%if preg_match("/\/interactive\/[0-9]+\/en/is",$smarty.server.REQUEST_URI)%>
 		<%assign var="page_action" value="en"%>
 		<%assign var="languageOptions" value="<a class=\"icon-right icon-ch\" href=\"/interactive/`$id`/ce\"><button>对照</button></a><a class=\"icon-right icon-ch\" href=\"/interactive/`$id`\"><button>中文</button></a>"%>
@@ -1602,7 +1602,7 @@
 			<script type="text/javascript">console.log("afternoonteaWithFT");</script>
 		-->
 		*%>
-		
+		w
 	<%else%>
 		<style><%include file="next/styles/main-story.css"%></style>
 		<%if $interactiveType == "Speedread"%>

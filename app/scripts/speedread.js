@@ -3,7 +3,9 @@
         var newScrollY = findTop(ele) - 80;
         if (typeof webkit !== 'undefined') {
 			webkit.messageHandlers.scrollTo.postMessage(newScrollY);
-		} else {
+		} else if (typeof Android !== 'undefined') {
+            Android.onScrollTo(0, newScrollY);
+        } else {
             try {
                 window.scrollTo({'behavior': 'smooth', 'top': newScrollY});
             } catch (ignore) {
@@ -21,6 +23,11 @@
         }
         this.className = 'choosen';
     });
+    delegate.on('click', '.rightanswer', function(){
+        this.style.position = 'static';
+    });
+    
+
     delegate.on('click', '.check-quiz-button', function(){
         var all = document.querySelectorAll('.quizlist');
         var score = 0;
@@ -41,16 +48,16 @@
             }
         }
         document.querySelector('.speedread-questions').className += ' answered';
-        var percentScore = (percentScore >= 60) ? Math.round(100 * score / all.length) : 0;
+        var percentScore = Math.round(100 * score / all.length);
         // MARK: - Calculate WPM
         var speedreadEndTime = new Date();
         var spentMinutes = (speedreadEndTime.getTime() - window.speedReadStartTime.getTime())/(1000 * 60);
         var wordCount = document.querySelector('.speedread-article-container').innerText.split(' ').length;
-        var wpm = parseInt(wordCount/spentMinutes, 10);
+        var wpm = (percentScore >= 60) ? parseInt(wordCount/spentMinutes, 10) : 0;
         // console.log (`spentMinutes: ${spentMinutes}, wordCount: ${wordCount}, wpm: ${wpm}, score: ${percentScore}`);
         // MARK: - Create Feedback to User
         var speedreadFeedback = {
-            bad:'壮士别灰心！功名不可一蹴而就！建议您点击后退，仔细查看答错的题目，并和原文对照，同时听读背诵生词部分。提高准确率和阅读理解能力是当下的首要目标，不可一味追求速度。成功没有捷径，江湖险恶，要记得“天天练功”哦！</b>',
+            bad:'壮士别灰心！功名不可一蹴而就！回答问题的正确率需要达到60%以上才会有WPM（每分钟阅读单词数）值。建议您点击后退，仔细查看答错的题目，并和原文对照，同时听读背诵生词部分。提高准确率和阅读理解能力是当下的首要目标，不可一味追求速度。成功没有捷径，江湖险恶，要记得“天天练功”哦！</b>',
             slow:'看得出你是非常认真来进行这次训练的，如果你坚持的话，你会获得非常大的提高。目前你的阅读速度偏低，可能是因为英文不是你的母语。不过，请不要放慢阅读速度。研究表明，阅读速度越快的人，其理解的正确率反而越高。因此，您可以同时提高您的阅读速度和理解能力。给你一点建议：<br><b>1. 一定要改掉默念的习惯<br>2. 不要一个词一个词的看，要学会把一个语义群当作一个整体来看。比如“an emergency $180bn injection of dollar”这个语义群，你要学会把他当作一个整体来看。<br>3. 看DVD的时候，切换到英文字幕。</b>',
             read:'用正常语速来朗读一篇文章，平均速度是每分钟140词。这说明你的阅读速度比朗读还要慢。建议您：<b>1. 每一段的第一句话往往是最重要的。<br>2. “速读”最忌讳的就是“读”，不要一边看一边默念。<br>3. 在今后的训练中，不要回头去看已经读过的部分。</b>',
             normal:'您的阅读速度已经超过了正常语速，说明你已经开始有些速读的感觉了。美国大学生的最低阅读速度为每分钟250词，加把劲你就可以赶上了。建议您：<b><br>1. 养成习惯，读过的部分不要回头去看，这样会影响速读。<br>2. 加强“扫描”的训练，让自己的眼睛能“一目一行”。</b>',

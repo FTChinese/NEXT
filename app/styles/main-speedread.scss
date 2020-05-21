@@ -11,6 +11,7 @@
     span {
         display: block;
         margin-bottom: 1em;
+        position: relative;
         .pagetitle, .rightanswer {
             display: none;
         }
@@ -25,9 +26,16 @@
         }
         .rightanswer {
             display: block;
-            background-color: $bannerBG;
+            background-color: $darkGreen;
+            color: white;
             padding: $defaultPadding/4;
             margin: $defaultPadding/4 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            z-index: 1;
             &:before {
                 content: 'TIP: ';
                 font-weight: bold;
