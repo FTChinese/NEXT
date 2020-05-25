@@ -94,7 +94,6 @@ function trackerNew() {
         gtag('config', gaMeasurementId, gTagParameters);
         gtag('config', gaMeasurementId2, firebaseParameters);
     }
-    // TODO: Should send two different sets of code to google analytics and firebase
     var gTagParameters = {};
     var firebaseParameters = {};
     var l=window.location.href;
@@ -256,13 +255,27 @@ function trackerNew() {
     } else {
         vtype = 'member';
     }
+    // MARK: Android native app will pass user info by injecting a javascript object. 
+    if (window.androidUserInfo) {
+        userId = window.androidUserInfo.id || userId;
+        username = window.androidUserInfo.userName || username;
+        if (window.androidUserInfo.isMember) {
+            if (window.androidUserInfo.membership.tier === 'premium') {
+                vtype = 'VIP';
+            } else {
+                vtype = 'Subscriber';
+            }
+        } else {
+            vtype = 'member';
+        }
+    }
     gUserType = vtype;
     if (userId !== '') {
         gTagParameters.user_id = userId;
         gTagParameters.cm_user_id = userId;
         firebaseParameters.user_id = userId;
     }
-    gTagParameters.user_type = vtype;
+    gTagParameters.user_type = gUserType;
     gTagParameters.visiting_source = vsource;
 
 
