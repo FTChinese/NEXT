@@ -167,7 +167,7 @@ function trackerNew() {
     }
     deviceName = 'Page by ' + deviceName;
     gTagParameters.contentGroup4 = deviceName;
-    ccode=paravalue(l,'ccode');
+    ccode = paravalue(l,'ccode');
     if (l.indexOf('gift_id')>0) {
         vsource='marketing';
         ccode='GiftArticle';
@@ -208,10 +208,10 @@ function trackerNew() {
     } else if (ccode==='') {
         ccode=GetCookie('ccode') || '';
         vsource='Other';
-    }else {
+    } else {
         vsource='Other';
     }
-    try{
+    try {
         if (ccode!=='' && ccode!==ccodeCookie) {
             SetCookie('ccode',ccode,86400*100,'/','.ftchinese.com');
             SetCookie('ccode',ccode,86400*100,'/');
@@ -277,8 +277,6 @@ function trackerNew() {
     }
     gTagParameters.user_type = gUserType;
     gTagParameters.visiting_source = vsource;
-
-
     try {
         keyTag=window.gKeyTag;
         keyTag=keyTag.replace(/白底|靠右|单页|插图|透明|高清|置顶|沉底|资料|突发/g,'').replace(/,+/g,',');
