@@ -939,8 +939,15 @@ if (typeof SVGRect === 'undefined') {
   document.documentElement.className += ' no-svg';
 }
 
-loadImages();//MARK:Here is where to loadImages really,which is called with no events fired
+// MARK: loadImages called with no events fired
+loadImages();
 viewablesInit();
+
+// MARK: - Sometimes loadImages just doesn't fire as we expected. For example, when you have a image that's supposed to be displayed only to premium users. This hacking deals with blank image areas at the top of the page. Sorry! 
+var refreshTimes = [1000, 3000, 5000, 10000, 20000];
+for (var i=0; i<refreshTimes.length; i++) {
+    setTimeout(function(){loadImages();}, refreshTimes[i]);
+}
 
 // MARK: - A cool trick to handle images that fail to load
 try {

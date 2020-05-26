@@ -1,5 +1,12 @@
 @import "theme-default.scss";
 @import "variables.scss";
+.cover-container {
+	display: none;
+	margin-bottom: $defaultPadding;
+}
+.is-premium .cover-container.premium, .is-subscriber .cover-container.subscriber, .cover-container.all{
+	display: block;
+}
 .cover-tag {
 	font-size: 1.2em;
 	font-weight: bold;
@@ -9,6 +16,7 @@
 	font-size: 1.6em;
 	font-weight: bold;
 	padding: 0 $defaultPadding/2 $defaultPadding/2;
+	display: block;
 }
 .cover-lead {
 	padding: 0 $defaultPadding/2 $defaultPadding/2;
@@ -28,6 +36,12 @@
 .crimson {
 	background-color: $crimson;
 	color: white;
+	a, a:link, a:hover, a:visited {
+		color: white;
+	}
+	.image figure {
+		background-color: $crimson;
+	}
 }
 .cover-inner {
 	max-width: $maxWidth - $defaultPadding;

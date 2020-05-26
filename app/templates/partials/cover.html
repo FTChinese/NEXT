@@ -1,11 +1,15 @@
 <style><%include file="next/styles/main-cover.css"%></style>
-<div class="cover-container no-side <%$section.boxBackground%>"><div class="cover-inner">
+<%assign var="sectionLink" value=""%>
+<%if $section.link != "" %>
+    <%assign var="sectionLink" value=" href=\"`$section.link`\""%>
+<%/if%>
+<div class="cover-container no-side <%$section.boxBackground%> <%$section.VisibleOnlyTo%>"><div class="cover-inner">
     <div class="cover-text">
         <div class="cover-tag<%if $section.liveStatus == "on"%> live-status--inprogress<%/if%>"><%$section.tag%></div>
-        <div class="cover-title"><%$section.title%></div>
+        <a<%$sectionLink%> class="cover-title"><%$section.title%></a>
         <div class="cover-lead"><%$section.lead%></div>
     </div>
-    <div class="image" target="_blank">
+    <a<%$sectionLink%> class="image" target="_blank">
         <figure class="loading" data-url="<%$section.image%>"></figure>
-    </div>
+    </a>
 </div></div>
