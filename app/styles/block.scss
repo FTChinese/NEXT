@@ -109,6 +109,14 @@
 		}
 	}
 }
+.block-container {
+	&.premium, &.subscriber {
+		display: none;
+	}
+}
+.is-premium .block-container.premium, .is-subscriber .block-container.subscriber {
+	display: block;
+}
 .block-inner {
 	max-width: $maxWidth;
 	padding: 0 $defaultPadding/2;

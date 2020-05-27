@@ -1,15 +1,17 @@
-<style><%include file="next/styles/main-cover.css"%></style>
-<%assign var="sectionLink" value=""%>
-<%if $section.link != "" %>
-    <%assign var="sectionLink" value=" href=\"`$section.link`\""%>
+<%if $section.status == "on"%>
+    <style><%include file="next/styles/main-cover.css"%></style>
+    <%assign var="sectionLink" value=""%>
+    <%if $section.link != "" %>
+        <%assign var="sectionLink" value=" href=\"`$section.link`\""%>
+    <%/if%>
+    <div class="cover-container no-side <%$section.boxBackground%> <%$section.VisibleOnlyTo%>"><div class="cover-inner">
+        <div class="cover-text">
+            <div class="cover-tag<%if $section.liveStatus == "on"%> live-status--inprogress<%/if%>"><%$section.tag%></div>
+            <a<%$sectionLink%> class="cover-title"><%$section.title%></a>
+            <div class="cover-lead"><a<%$sectionLink%>><%$section.lead%></a></div>
+        </div>
+        <a<%$sectionLink%> class="image" target="_blank">
+            <figure class="loading" data-url="<%$section.image%>"></figure>
+        </a>
+    </div></div>
 <%/if%>
-<div class="cover-container no-side <%$section.boxBackground%> <%$section.VisibleOnlyTo%>"><div class="cover-inner">
-    <div class="cover-text">
-        <div class="cover-tag<%if $section.liveStatus == "on"%> live-status--inprogress<%/if%>"><%$section.tag%></div>
-        <a<%$sectionLink%> class="cover-title"><%$section.title%></a>
-        <div class="cover-lead"><%$section.lead%></div>
-    </div>
-    <a<%$sectionLink%> class="image" target="_blank">
-        <figure class="loading" data-url="<%$section.image%>"></figure>
-    </a>
-</div></div>

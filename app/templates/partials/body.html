@@ -18,7 +18,7 @@
 
 
 
-
+<%assign var="subscriptionsWarningsShowed" value=""%>
 <%foreach from=$p.sections item=section%>
     <%if $section.type == "header"%>
         <%if $pageId != "" && $pageId != "home"%>
@@ -41,6 +41,10 @@
     <%elseif $section.type == "SubscriptionQa" %>
         <%include file="next/partials/subscription-qa.html"%>
     <%elseif $section.type == "cover" %>
+        <%if $subscriptionsWarningsShowed != "yes"%>
+            <%include file="next/partials/subscriptions-warnings.html"%>
+            <%assign var="subscriptionsWarningsShowed" value="yes"%>
+        <%/if%>
         <%include file="next/partials/cover.html"%>
     <%elseif $section.type == "apiBlock" %>
         <%include file="next/partials/apiBlock.html"%>
@@ -60,10 +64,13 @@
                     <%/if%>
                 <%/if%>
                 <%*<!--MARK: Show a My Subsciption Block for paid subscribers in apps -->*%>
-                <%if 1>0 && ($smarty.get.subscription == "member" || $smarty.get.subscription == "premium" || $smarty.get.subscription == "other")%>
+                <%if $smarty.get.subscription == "member" || $smarty.get.subscription == "premium" || $smarty.get.subscription == "other"%>
                     <%assign var="reports" value=$storymodel->getPremiumStory(0, 4)%>
                     <%assign var="interactives" value=$interactivemodel->get_interactive_by_field_search("(find_in_set('速读',tag) or find_in_set('英语电台',tag))",0,4,30,10800)%>
-                    <%include file="next/partials/subscriptions-warnings.html"%>
+                    <%if $subscriptionsWarningsShowed != "yes"%>
+                        <%include file="next/partials/subscriptions-warnings.html"%>
+                        <%assign var="subscriptionsWarningsShowed" value="yes"%>
+                    <%/if%>
                     <div class="block-container no-side">
                         <div class="block-inner">
                             <div class="content-container">
@@ -130,7 +137,10 @@
                     </div>
                     <%assign var="i" value=0%>
                 <%else%>
-                    <%include file="next/partials/subscriptions-web.html"%>
+                    <%if $subscriptionsWarningsShowed != "yes"%>
+                        <%include file="next/partials/subscriptions-web.html"%>
+                        <%assign var="subscriptionsWarningsShowed" value="yes"%>
+                    <%/if%>
                 <%/if%>
             <%/if%>
             <%include file="next/partials/block.html"%>
@@ -149,6 +159,14 @@
     <%elseif $section.type == "footer"%>
         <%include file="next/partials/footer.html"%>
     <%elseif $section.type == "include" && $section.from != "" && $b < $maxB%>
+        <%if $section.from == "Premium-Cover"%>
+            <%if $smarty.get.subscription == "member" || $smarty.get.subscription == "premium" || $smarty.get.subscription == "other"%>
+                <%if $subscriptionsWarningsShowed != "yes"%>
+                    <%include file="next/partials/subscriptions-warnings.html"%>
+                    <%assign var="subscriptionsWarningsShowed" value="yes"%>
+                <%/if%>
+            <%/if%>
+        <%/if%>
         <%assign var="includeSide" value=$section.side%>
         <%assign var="includeSideAlign" value=$section.sideAlign%>
         <%include file="next/partials/`$section.from`.html"%>

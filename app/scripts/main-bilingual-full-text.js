@@ -77,6 +77,12 @@
             setTranslation(translationPreference);
         } else {
             document.getElementById('overlay-news-preference').className += ' on';
+            var preferenceElements = document.querySelectorAll('#translation-display-preference div');
+            var confirmButton = document.getElementById('confirm-translation-preference');
+            if (preferenceElements.length > 1 && confirmButton) {
+                preferenceElements[1].className += ' selected';
+                confirmButton.className = confirmButton.className.replace(/disabled/g, '').trim();
+            }
         }
         document.querySelector('.cover-lead').innerHTML += '<div class="changePreference">修改我对译文的偏好</div>';
         var leftTopBoxes = document.querySelectorAll('.visitor-box, .member-box');
@@ -115,7 +121,11 @@
     });
 
     delegate.on('click', '#confirm-translation-preference', function(){
-        if (this.className.indexOf('disabled') >=0) {return;}
+        if (this.className.indexOf('disabled') >=0) {
+            alert('您还没有选择您对译文的偏好！');
+            this.value = '请先选择再确定';
+            return;
+        }
         var selectedPreference = document.querySelector('.preference-selection div.selected');
         var translationPreference = selectedPreference.getAttribute('data-translation');
         SetCookie('translation',translationPreference,'','/',null);
@@ -124,7 +134,7 @@
         var c = preferenceSetting.className;
         preferenceSetting.className = c.replace(/ on/g, '');
     });
-
+    
     delegate.on('click', '.changePreference, .change-translation-preference, .btn-change-translation-preference', function(){
         document.getElementById('overlay-news-preference').className += ' on';
         var translationPreference = GetCookie('translation');

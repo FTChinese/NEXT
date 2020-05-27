@@ -1,0 +1,12 @@
+<%*<!--MARK: Check the next model for coronavirus latest start-->*%>
+<%if $pageId == "test" && $nextmodel != ""%>
+	<style><%include file="next/styles/main-cover.css"%></style>
+	<%assign var="infoForSponsorships" value=$nextmodel->getPublishJson("premiumcover")|json_decode:true%>
+	<%foreach from=$infoForSponsorships.sections item=section%>
+		<%if $section.type == "cover"%>
+			<%assign var="sectionLink" value=""%>
+			<%include file="next/partials/cover.html"%>
+		<%/if%>
+	<%/foreach%>
+<%/if%>
+<%*<!--MARK: Check the next model for coronavirus latest start-->*%>

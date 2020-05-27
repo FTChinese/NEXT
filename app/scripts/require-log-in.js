@@ -1,6 +1,6 @@
 // MARK: - Only subscribers can visit any page on chineseft.com
 (function(){
-	if (location.hostname === 'www.chineseft.com') {
+	if (location.hostname === 'www.chineseft.com' && /^\/users\/findpassword|\/users\/register$/.test(location.pathname) === false) {
 		var userId = GetCookie('USER_ID');
 		var paywall = GetCookie('paywall');
 		if (userId === null) {

@@ -53,7 +53,11 @@
 	</div>
 	</div>
 <%/if%>
-<div class="block-container<%if $section.boxBackground != ""%> <%$section.boxBackground%><%/if%> <%if ($section.side != "" && $section.side != "none" && $section.side != "Narrow") || $sideListCount > 0 %><%assign var="sectionHasSide" value="yes"%>has-side<%if $section.sideAlign !== ""%> side-<%$section.sideAlign|default:"right"%><%/if%><%else%><%assign var="sectionHasSide" value="no"%>no-side<%/if%><%if $section.side == "HotVideos"%> side-video<%/if%><%if $section.side == "Narrow"%> narrow-block<%/if%>"><div class="block-inner">
+<%assign var="visibleOnlyClass" value=""%>
+<%if $smarty.get.webview != "ftcapp"%>
+	<%assign var="visibleOnlyClass" value=" `$section.VisibleOnlyTo`"%>
+<%/if%>
+<div class="block-container<%if $section.boxBackground != ""%> <%$section.boxBackground%><%/if%> <%if ($section.side != "" && $section.side != "none" && $section.side != "Narrow") || $sideListCount > 0 %><%assign var="sectionHasSide" value="yes"%>has-side<%if $section.sideAlign !== ""%> side-<%$section.sideAlign|default:"right"%><%/if%><%else%><%assign var="sectionHasSide" value="no"%>no-side<%/if%><%if $section.side == "HotVideos"%> side-video<%/if%><%if $section.side == "Narrow"%> narrow-block<%/if%><%$visibleOnlyClass%>"><div class="block-inner">
 	<div class="content-container">
 		<%include file="next/partials/full-screen-subscribe-hint.html"%>
 		<div class="content-inner">
