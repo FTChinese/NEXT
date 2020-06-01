@@ -695,12 +695,42 @@
 		</div>
 
 		<%if $smarty.get.v != "" || $smarty.get.android != ""%>
-		<%assign var="v" value=$smarty.get.v|floatval%>
+			<%assign var="v" value=$smarty.get.v|floatval%>
 			<%if $v >= 6.3 || $smarty.get.android != ""%>
 				<div class="links-container">
 					<h2 class="list-title"><a>往期查询</a></h2>
 					<div id="archive-calendar" class="calendar"></div>
 				</div>
+				<div id="android-log">Android Log</div>
+				<script>
+					var vtype = 'unknown visitor';
+					setInterval(function(){
+						if (window.androidUserInfo) {
+							try {
+								if (window.androidUserInfo.isMember) {
+									if (window.androidUserInfo.membership.tier === 'premium') {
+										vtype = 'VIP';
+									} else {
+										vtype = 'Subscriber';
+									}
+								} else {
+									vtype = 'member';
+								}
+							} catch(err) {
+								vtype = 'error in android';
+							}
+						} else {
+							vtype = 'no info on android';
+						}
+						document.getElementById('android-log').innerHTML = vtype;
+					}, 10000);
+				</script>
+				<div id="android-log-html">Unknown</div>
+				<script>
+					setInterval(function(){
+						document.getElementById('android-log-html').innerHTML = document.documentElement.className;
+					}, 10002);
+				</script>
 			<%/if%>
 		<%/if%>
 
@@ -714,6 +744,7 @@
 				<h2 class="item-headline"><a href="mailto:ftchinese.feedback@gmail.com?subject=Feedback about FTC Web App - from home page">通过电子邮件反馈</a></h2>
 			</div></div>
 		</div>
+
 
 	<%/if%>
 

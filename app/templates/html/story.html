@@ -1277,7 +1277,10 @@
 	<%assign var="storyImage" value=$story_pic.cover%>
 	<%assign var="storyImageClass" value=""%>
 <%/if%>
-
+<%assign var="storyImage" value=$storyImage|replace:"http://creatives.ftacademy.cn/picture/":"https://thumbor.ftacademy.cn/unsafe/picture/"%>
+<%assign var="storyImage" value=$storyImage|replace:"https://creatives.ftacademy.cn/picture/":"https://thumbor.ftacademy.cn/unsafe/picture/"%>
+<%assign var="storyImage" value=$storyImage|replace:"http://i.ftimg.net/picture/":"https://thumbor.ftacademy.cn/unsafe/picture/"%>
+<%assign var="storyImage" value=$storyImage|replace:"https://i.ftimg.net/picture/":"https://thumbor.ftacademy.cn/unsafe/picture/"%>
 <%*<!--MARK: - Requested by editorial team: For stories that are published before 2017, show no image for safety. -->*%>
 <%if $itemType == "story" && date("Ymd",$pubDate) < 20170101 %>
 	<%assign var="storyImage" value=""%>
