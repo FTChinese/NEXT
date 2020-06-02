@@ -1252,6 +1252,12 @@
 	<%assign var="timeStatus" value="发布于"%>
 <%/if%>
 
+<%if $itemType == "story" && $page_action=="en"%>
+	<%if preg_match("/^[0-9]+$/is",$story.eskylineheadline)%>
+		<%assign var="timeForStory" value=$story.eskylineheadline%>
+		<%assign var="timeStatus" value="发布于"%>
+	<%/if%>
+<%/if%>
 
 
 <%assign var="storyTime" value=$timeForStory|date_format:"%Y年%-m月%-d日 %H:%M"%>
