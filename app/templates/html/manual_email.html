@@ -376,7 +376,10 @@ href="http://www.ftchinese.com" target="_blank"
     <%elseif $section.type == "MainMessage"%>
     	<%assign var=buttonUrl value=$section.buttonUrl%>
     	<%if $section.ccode != ""%>
-    		<%assign var=ccode value=$section.ccode%>
+			<%assign var=ccode value=$section.ccode%>
+		<%elseif $smarty.get.ccode != ""%>
+			<%*<!--MARK: - If ccode is not set, check the ccode in the url parameter-->*%>
+			<%assign var=ccode value=$smarty.get.ccode%>
     	<%/if%>
     	<%if $section.discountCode != ""%>
     		<%assign var="discountCode" value="&from=`$section.discountCode`"%>
@@ -408,9 +411,13 @@ href="http://www.ftchinese.com" target="_blank"
 				      <td align="center">
 				          <table cellspacing="0" cellpadding="0">
 				              <tr>
-				                  <td style="border-radius: 2px;" bgcolor="#0a5e66">
-				                      <a href="<%$buttonUrl%>" target="_blank" style="padding: 8px 12px; border: 1px solid #0a5e66;border-radius: 2px;font-family: Helvetica, Arial, sans-serif;font-size: 14px; color: #ffffff;text-decoration: none;font-weight:bold;display: inline-block;"><%$section.buttonTitle%></a>
-				                  </td>
+								<%if $smarty.get.to == 'iosapp'%>
+									<td><%include file="next/partials/subscription-box-ios.html"%></td>
+								<%else%>
+									<td style="border-radius: 2px;" bgcolor="#0a5e66">
+										<a href="<%$buttonUrl%>" target="_blank" style="padding: 8px 12px; border: 1px solid #0a5e66;border-radius: 2px;font-family: Helvetica, Arial, sans-serif;font-size: 14px; color: #ffffff;text-decoration: none;font-weight:bold;display: inline-block;"><%$section.buttonTitle%></a>
+									</td>
+								<%/if%>
 				              </tr>
 				          </table>
 				      </td>
@@ -421,7 +428,7 @@ href="http://www.ftchinese.com" target="_blank"
     	<tr><td style="height: 15px; font-size: 0px; line-height: 15px; padding: 0;"> </td></tr>
     	<%*<!--MARK: - A placeholder of keywords so that iOS app will pass validation. This can be removed after Dec. 1st, 2020, when 99% of users have updated to the latest version. -->*%>
     	<div class="item-container"></div>
-    	<%assign var="s" value=$s+1%>
+		<%assign var="s" value=$s+1%>
     <%/if%>
 <%/foreach%>
 
