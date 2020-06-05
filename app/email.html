@@ -1,0 +1,802 @@
+
+	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+    <html>
+    <head>
+ 
+    <style>
+    * {padding:0;margin:0;border:0;}
+    .lineH{line-height: 1.618 !important;}
+    .lineH1{line-height: 1 !important;}
+    .lineH1_2{line-height: 1.2 !important;}
+    .lineH1_4{line-height: 1.4 !important;}
+    html{-webkit-text-size-adjust: none;}
+    .videosubhead p {padding-top: 10px;}
+    img,div,p,table,td,tr{max-width:100%;}
+    .mainTD{width:100%;max-width:100%;}
+    @media all and (max-width: 500px) {
+    .coverImgLinkContain{float:none !important;margin:5px auto !important;}
+    }
+    @media all and (max-width: 450px) {
+    .mainTD{width:100%;max-width:450px;}
+    #wrapperInner,
+    #containerTable {
+    *width: 400px !important;
+    _width: 400px !important;
+    width: 100% !important;
+    }
+    .whiteBorder {
+    width: 0 !important;
+    font-size: 0 !important;
+    }
+    .otherHeadlines {
+    font-size:17px !important;line-height:1.2 !important;color:#505050 !important;
+    }
+    .otherHeadlines a,
+    .otherHeadlinesLink {
+    color:#505050 !important;text-decoration:none !important;display:block !important;
+    }
+    .ft-logo {
+    font-size:26px !important;line-height:1.2 !important;height:26px !important;text-align:center !important;
+    }
+    .ft-logo-briefing {
+    font-size:5px !important;line-height:1 !important;height:5px !important;
+    }
+    .ft-desc {
+    font-size:13px !important;line-height:1.2 !important;color:#505050 !important;text-align:center !important;font-weight:bold !important;
+    }
+    .ft-header-bar {
+    border: solid 1px #A7A59B !important;
+    border-width: 1px 0 !important;
+    font-weight:normal !important;
+    padding: 7px 14px !important;
+    color:#000 !important;background-color:#E9DECE !important;font-size:19px !important; line-height:1.4 !important; font-weight:normal !important;width:100% !important;
+    }
+    .topHeadline {
+    font-size:21px !important;line-height:1.1 !important;color:#333 !important;
+    }
+    .topHeadline a {
+    color:#333 !important;text-decoration:none !important;display:block !important;
+    }
+    .subhead {
+    font-size:18px !important;line-height:1.4 !important;color:#505050 !important;
+    }
+    .hotArticleList{font-size:20px !important;}
+    .dotsSeparator {
+    margin-left: 10px !important;
+    margin-right: 10px !important;
+    }
+    .textPadding {
+    padding-left:10px !important;padding-right:10px !important;
+    }
+    .videoImageLink {
+    color:#505050 !important;text-decoration:none !important;display:block !important;
+    }
+    .headLine{font-size:19px !important;line-height:1.618 !important; color: #000;}
+    .cover .headLine{font-size:26px !important;line-height:1.618 !important;}
+    .SContent{font-size:16px !important;line-height:1.618 !important; color: #777;}
+    .cover{font-size:16px !important;line-height:1.618 !important;}
+    .imgSpace{height:6px !important;font-size: 0 !important;}
+    .largeViewBar,.HSpace{display: none !important;}
+    .tableBorder{border:0 !important;}
+    }
+    @media all and (min-width: 451px) {
+    .mainTD{width:100%;max-width:450px;}
+    #wrapperInner,#containerTable {
+    *width: 400px !important;
+    _width: 400px !important;
+    width: 100% !important;
+    }
+    .whiteBorder {
+    width: 0 !important;
+    font-size: 0 !important;
+    }
+    .openInBrowserGap {
+    height: 10px !important; font-size: 8px !important; line-height: 1.2 !important; padding: 0 !important;
+    }
+    .contentPadding {
+    width: 45px !important;
+    }
+    .bottomContentPadding {
+    height: 43px !important; font-size: 43px !important; line-height: 1 !important; padding: 0 !important;
+    }
+    .otherHeadlines {
+    font-size:21px !important;line-height:1.1 !important;color:#505050 !important;
+    }
+    .otherHeadlines a,.otherHeadlinesLink {
+    color:#505050 !important;text-decoration:none !important;
+    }
+    .ft-logo {
+    font-size:53px !important;line-height:1 !important;height:53px !important;text-align:center !important;
+    }
+    .ft-logo-briefing {
+    font-size:2px !important;line-height:1 !important;height:2px !important;
+    }
+    .ft-desc {
+    font-size:13px !important;line-height:1.2 !important;color:#505050 !important;text-align:center !important;font-weight:bold !important;
+    }
+    .ft-header-bar {
+    color:#000 !important;
+    background: #E9DECF !important;
+    border: solid 1px #A7A59B !important;
+    border-width: 1px 0 !important;
+    line-height:1.4 !important;
+    font-size:19px !important;
+    font-weight:normal !important;
+    padding: 7px 14px !important;
+    width:100% !important;
+    }
+    .topHeadline {
+    font-size:28px !important;line-height:1.1 !important;color:#333 !important;
+    }
+    .topHeadline a {
+    color:#333 !important;text-decoration:none !important;
+    }
+    .subhead {
+    font-size:14px !important;line-height:1.4 !important;color:#505050 !important;
+    }
+    .dotsSeparator {
+    margin-left: 17px !important;
+    margin-right: 17px !important;
+    }
+    .textPadding {
+    padding-left:17px !important;padding-right:17px !important;
+    }
+    .videoImageLink {
+    color:#505050 !important;text-decoration:none !important;
+    }
+    }
+    @media all and (min-width: 720px) {
+    .mainTD{width:100%;max-width:720px;}
+    #wrapperInner,
+    #containerTable {
+    width: 720px !important;
+    }
+    }
+    @media only screen and (max-width: 720px) and (min-width: 501px){
+    .coverImgLinkContain{max-width: 50% !important;}
+    }
+    </style>
+    <link rel="stylesheet" href="styles/main-subscription-box.css">
+
+    <!-- build:css styles/main-subscription-box-ios.css -->
+    <link rel="stylesheet" href="styles/main-subscription-box-ios.css">
+    <!-- endbuild -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>FT中文网感恩老会员，限时续订5折大促！ - FT中文网</title>
+    </head>
+    <!-- htmlmin:ignore -->
+    <body class="is-html-email" style="width:100%;color:#111111;background-color:#FFFFFF;font-family:"Hiragino Sans GB","WenQuanYi Micro Hei","Heiti SC",STHeiti,SimSun,sans-serif;font-size:14px;">
+    <div id="wrapper" style="margin: 0 auto; text-align: center;">
+    <div style="font-size:1px;color:#FFF;display:none;"> &nbsp;&nbsp;&nbsp;卢斯：希拉里和特朗普都反对TPP。如果TPP死于美国之手，美国的亚洲盟友将期望中国在经济领域挑起领导角色。 </div>
+    <table border="0" cellspacing="0" cellpadding="0" id="containerTable" style="background-color:#ffffff; display: table; margin: 0 auto; text-align: center; width: 720px; *width: 720px; _width: 720px;" align="center">
+    <tr>
+    <td class="mainTD" style="width: 720px;">
+    <table border="0" cellspacing="0" cellpadding="0" align="left" style="text-align: left;">
+    <tr>
+    <td style="width:1%;" class="whiteBorder">&nbsp;</td>
+    <td class="mainCol">
+    <table class="tableBorder" border="0" cellspacing="0" cellpadding="0" style="background-color: #FFF1E0; border: 2px solid #f7f7f7; text-align: left;" align="left">
+    <tr><td class="lineH1" style="height: 3px; font-size: 3px; line-height: 3px; padding: 0;">&nbsp;</td></tr>
+    <tr><td class="lineH1_2" style="text-align: center; font-size: 11px; line-height: 13px;  color: #505050;">如果您无法正常显示邮件, <a
+    href="/m/corp/preview.html?pageid=winbackemail20200618&view=email&to=iosapp" style="color: #2e6e9e; text-decoration: none;"
+    >请点击此处</a></td></tr>
+    <tr><td class="lineH1 openInBrowserGap" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
+    <tr><td style="padding-left: 10px; padding-right: 10px;">
+    <table border="0" cellspacing="0" cellpadding="0" style="width: 100%;">
+    <tr><td class="ft-logo lineH1" style="font-size:43px;line-height:43px;height:43px;text-align:center; width: 100%;">
+    <a
+    href="http://www.ftchinese.com" target="_blank"
+    ><img id="ft-logo-img" src="https://dhgxl8qk9zgzr.cloudfront.net/img/ftcLogoHD.png" width="172" height="36" style="width: 172px;height: 36px; color: #091523; font-size: 25px; border: 0 none;" alt="FT中文网" title="FT中文网" /></a>
+    </td></tr>
+    <tr><td style="font-size:4px;line-height:4px;height:4px;" class="ft-logo-briefing lineH1">&nbsp;</td></tr>
+    <tr><td class="ft-desc lineH1_2" style="font-size:13px;line-height:16px;color:#505050;text-align:center;font-weight:bold;">2020年06月04日</td></tr>
+    </table>
+    </td></tr>
+    <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
+    <tr><td>
+    <table width="100%" cellpadding="0" cellspacing="0">
+    <tr>
+    <td style="width: 3%;" class="contentPadding largeViewBar">&nbsp;</td>
+    <td>
+    <table width="100%" cellpadding="0" cellspacing="0">
+    <tr><td  class="SContent cover" style="font-size:18px;line-height:23px;color:#333;font-weight: bold;padding-left:17px;padding-right:17px;">尊敬的读者 ：</td></tr>
+    <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;"> </td></tr>
+    <tr><td  class="SContent cover" style="font-size:18px;line-height:23px;color:#333;padding-left:17px;padding-right:17px;">您好！ <br />
+    <br />
+    当下新冠疫情肆虐，全球生产与消费均被按下暂停键。史诗级的股市熔断与石油危机更让全球经济雪上加霜。疫情的破坏力之强，必将深刻改变全球经济生态。国际货币基金组织（IMF） 在最新一期《世界经济展望报告》中预测全球经济遭受“大萧条”以来最严重衰退，且情形可能更糟糕。同时，IMF警告说如果冠状病毒徘徊不去或者卷土重来，世界经济的收缩幅度和复苏步伐将比预期的更糟。<br />
+    <br />
+    身处“至暗时刻”，我们每一个人的生计和生活都受到前所未有的冲击，甚至无法计量的损失。世界已经无法恢复到危机前的状态，所有组织和个人都必须做好准备适应另一种“新常态”。同时，学会与危机共生的机构与个人，也必将有机会如凤凰涅槃，再次攀登巅峰！<br />
+    <br />
+    在此特殊时刻，来自英国《金融时报》（FT）全球600多位专家记者的及时、权威的报道与分析，已成为各行业从业者必不可少的服务。凭借FT丰富的全球报道资源，FT中文网每日实时为中国精英读者提供全面、客观、独立的报道，深入分析新冠疫情对全球经济、金融市场、企业经营、个人工作与生活的影响。在文末，我们还为您甄选出过去90天内来自FT重要的中英双语报道与分析，还原全球重大事件背后的真相，展望后疫情时代的发展与趋势。<br />
+    <br />
+    <br />
+    我们诚挚邀请您再次成为FT中文网订阅会员，及时获取来自FT屡获殊荣的全球报道与分析，以及FT中文网专栏作家的点评与观点。<b> 同时，为了给付费会员提供更便捷的阅读体验，我们近期推出FT中文网会员专属平台，付费订阅后，即可体验。 </b><br />
+    <br />
+    现在续订FT中文网年度会员订阅服务，<b><font color="#9e2f50">立享限时5折特惠价格。</font></b> <br />
+    <br />
+    年度标准会员订阅：<b>限时5折，仅售¥128/年</b>（<font color="grey"><del>原价：¥258/年</del></font>) <br />
+    年度高端会员订阅：<b>限时5折，仅售¥998/年</b>（<font color="grey"><del>原价：¥1,998/年</del></font>）<br />
+    <br />
+    FT中文网老会员专属限时特惠，全年最低价，立即购买！<br />
+    <br />
+    <b>活动注意事项：</b><br />
+    <span style="color:grey">1. 促销时间：6月15日-6月28日</span><br />
+    <span style="color: grey">2. 本次促销价格仅针对老会员续订</span><br />
+    <span style="color: grey">3. 本次促销不支持App Store内购付款</span><br />
+    <span style="color: grey">4. 付费订阅为虚拟内容服务，一经订阅成功概不退款，请谨慎购买</span><br />
+    <span style="color:grey">5. 本次活动的最终解释权归FT中文网所有</span><br />
+    <br />
+    <br />
+    你准备好了吗？ 后危机时代的全新挑战与机遇已经到来。 <br />
+    <br />
+    FT中文网期待您的加入，将一如既往为您提供高质量、客观、独家的报道，并竭诚为您服务。<br />
+    <br />
+    如果对我们的内容、产品与服务有任何建议或意见，或需找回用户名与密码，可以通过客服邮箱与我们联系<a href="mailto:subscriber.service@ftchinese.com">subscriber.service@ftchinese.com</a>，我们诚挚地期待与您的交流和互动！<br />
+    <br />
+    祝夏安！ <br />
+    <br />
+    张延<br />
+    FT中文网出版人 </td></tr>
+    <tr><td style="height: 15px; font-size: 0px; line-height: 15px; padding: 0;"> </td></tr>
+    <tr><td  class="SContent cover" style="font-size:18px;line-height:23px;color:#333;padding-left:17px;padding-right:17px;">
+    <table width="100%" cellspacing="0" cellpadding="0">
+    <tr>
+    <td align="center">
+    <table cellspacing="0" cellpadding="0">
+    <tr>
+    <td>
+    <div id="site-content" class="o-member-container">
+    <div class="o-member__heading">
+    <p id="heading-hint">尊敬的读者 </p>
+    </div>
+    <div class="o-member-row">
+    <div class="o-member-outer">
+    <div class="o-member o-member__standard">
+    <div class="o-member_content">
+    <h2 class="o-member__title">年度标准会员</h2>
+    <div class="o-member__border"></div>
+    <ul class="o-member__benefits">
+    <li> 专享订阅内容每日仅需0.7元</li>
+    <li> 精选深度分析</li>
+    <li> 中英双语内容</li>
+    <li> 金融英语速读训练</li>
+    <li> 英语原声电台</li>
+    <li> FT研究院专题报告（不含行业报告）</li>
+    <li> 无限浏览7日前所有历史文章（近8万篇）</li>
+    </ul>
+    <div class="o-member__subscribe">
+    <a data-key="standard"><button class="openSub" id="standard-btn">立即订阅</button></a>
+    <p class="data-price" id="standard_price">¥/年</p>
+    <input type="text" value="¥/年" hidden="" id="regular-member">
+    </div>
+    </div>
+    </div>
+    </div>
+    <div class="o-member-outer">
+    <div class="o-member o-member__premium">
+    <div class="o-member_content">
+    <h2 class="o-member__title">高端会员</h2>
+    <div class="o-member__border"></div>
+    <ul class="o-member__benefits">
+    <li> 专享订阅内容每日仅需5.5元</li>
+    <li> 享受“标准会员”所有权益</li>
+    <li> 编辑精选，总编/各版块主编每周五为您推荐本周必读资讯，分享他们的思考与观点</li>
+    <li> FT研究院专题报告和行业报告</li>
+    <li> FT中文网2020年度论坛门票2张</li>
+    </ul>
+    <p style="padding: 0.5em 1em 0em 1.5em;">注：所有活动门票不可折算现金、不能转让、不含差旅与食宿</p>
+    <div class="o-member__subscribe">
+    <a data-key="premium"><button class="openSub" id="premium-btn">立即订阅</button></a>
+    <p class="data-price" id="premium_price">¥/年</p>
+    <input type="text" value="¥/年" hidden="">
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div></td>
+    </tr>
+    </table>
+    </td>
+    </tr>
+    </table>
+    </td></tr>
+    <tr><td style="height: 15px; font-size: 0px; line-height: 15px; padding: 0;"> </td></tr>
+    <div class="item-container"></div>
+    <tr><td class="ft-header-bar" style="color:#333333;background-color:#E9DECE;font-size:13px;font-weight:bold;padding:5px 17px 4px 17px;text-transform:uppercase;width:100%;">全球新冠疫情</td></tr>
+    <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
+    <tr><td style="font-size:14px;line-height:25px;color:#505050;padding-left:17px;padding-right:17px;" class="subhead textPadding lineH">
+    <div style="line-height:1.618; " class="item-container">
+    <table width="100%" cellpadding="0" cellspacing="0" style="border-bottom:1px solid #E9DECF; line-height:1.618;">
+    <tr><td class="lineH1" style="height: 5px; font-size: 5px; line-height: 5px; padding: 0;"> </td></tr>
+    <tr>
+    <td class="SContent cover" style="font-size:14px;line-height:23px;color:#505050;">
+    <div class="lineH1_4" style="line-height:40px;font-size:25px;">
+    <a target=_blank class="headLine" style="font-weight:bold; text-decoration:none; color:#111;" href="http://www.ftchinese.com/story/001086884?s=w&from=ft_renewal#s=w">每日更新：全球新冠疫情追踪</a>
+    </div>
+    <table cellpadding="0" cellspacing="0" align="left"><tr><td class="lineH1 imgSpace" style="height: 6px; font-size: 0px; line-height: 5px; padding: 0;"> </td></tr><tr><td>
+    <a class="coverImgLink" style="" target="_blank" href="http://www.ftchinese.com/story/001086884?s=w&from=ft_renewal#s=w">
+    <img src="https://thumbor.ftacademy.cn/unsafe/167x96/https://thumbor.ftacademy.cn/unsafe/picture/7/000094097_piclink.jpg" border="0" style="width:167px;" align="left" width="167"/>
+    </a>
+    </td><td style="width:10px"> </td></tr><tr><td class="lineH1 imgSpace" style="height: 5px; font-size: 0px; line-height: 5px; padding: 0;"> </td></tr></table>
+    美国逐步解除疫情封锁，但有22州的新增病例正快速增长，西部加州、以及南方阿拉巴马州、阿肯色州成为新的疫情中心。
+    </td>
+    </tr>
+    <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;"> </td></tr>
+    </table>
+    </div>
+    <div style="line-height:1.618; " class="item-container">
+    <table width="100%" cellpadding="0" cellspacing="0" style="border-bottom:1px solid #E9DECF; line-height:1.618;">
+    <tr><td class="lineH1" style="height: 5px; font-size: 5px; line-height: 5px; padding: 0;"> </td></tr>
+    <tr>
+    <td class="SContent cover" style="font-size:14px;line-height:23px;color:#505050;">
+    <div class="lineH1_4" style="line-height:40px;font-size:25px;">
+    <a target=_blank class="headLine" style="font-weight:bold; text-decoration:none; color:#111;" href="http://www.ftchinese.com/premium/001086156?s=w&from=ft_renewal#s=w">FT社评：新冠病毒导致全球化逆转</a>
+    </div>
+    <table cellpadding="0" cellspacing="0" align="left"><tr><td class="lineH1 imgSpace" style="height: 6px; font-size: 0px; line-height: 5px; padding: 0;"> </td></tr><tr><td>
+    <a class="coverImgLink" style="" target="_blank" href="http://www.ftchinese.com/premium/001086156?s=w&from=ft_renewal#s=w">
+    <img src="https://thumbor.ftacademy.cn/unsafe/167x96/https://thumbor.ftacademy.cn/unsafe/picture/1/000092431_piclink.jpg" border="0" style="width:167px;" align="left" width="167"/>
+    </a>
+    </td><td style="width:10px"> </td></tr><tr><td class="lineH1 imgSpace" style="height: 5px; font-size: 0px; line-height: 5px; padding: 0;"> </td></tr></table>
+    新冠病毒疫情的蔓延相当于一次去全球化实验。全球经济增长还要承受多重的打击，将取决于该病毒能在多短时间内得到遏制。
+    </td>
+    </tr>
+    <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;"> </td></tr>
+    </table>
+    </div>
+    <div style="line-height:1.618; " class="item-container">
+    <table width="100%" cellpadding="0" cellspacing="0" style="border-bottom:1px solid #E9DECF; line-height:1.618;">
+    <tr><td class="lineH1" style="height: 5px; font-size: 5px; line-height: 5px; padding: 0;"> </td></tr>
+    <tr>
+    <td class="SContent cover" style="font-size:14px;line-height:23px;color:#505050;">
+    <div class="lineH1_4" style="line-height:40px;font-size:25px;">
+    <a target=_blank class="headLine" style="font-weight:bold; text-decoration:none; color:#111;" href="http://www.ftchinese.com/story/001087424?s=w&from=ft_renewal#s=w">新冠疫情将永久改变西方社会</a>
+    </div>
+    <table cellpadding="0" cellspacing="0" align="left"><tr><td class="lineH1 imgSpace" style="height: 6px; font-size: 0px; line-height: 5px; padding: 0;"> </td></tr><tr><td>
+    <a class="coverImgLink" style="" target="_blank" href="http://www.ftchinese.com/story/001087424?s=w&from=ft_renewal#s=w">
+    <img src="https://thumbor.ftacademy.cn/unsafe/167x96/https://thumbor.ftacademy.cn/unsafe/picture/0/000094890_piclink.jpg" border="0" style="width:167px;" align="left" width="167"/>
+    </a>
+    </td><td style="width:10px"> </td></tr><tr><td class="lineH1 imgSpace" style="height: 5px; font-size: 0px; line-height: 5px; padding: 0;"> </td></tr></table>
+    库柏：自3月以来，西方社会发生了一些应该可持续的变化，它们将节省时间或金钱，并能缓解碳排放、孤独和无家可归等可怕现实。
+    </td>
+    </tr>
+    <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;"> </td></tr>
+    </table>
+    </div>
+    <div style="line-height:1.618; " class="item-container">
+    <table width="100%" cellpadding="0" cellspacing="0" style="border-bottom:1px solid #E9DECF; line-height:1.618;">
+    <tr><td class="lineH1" style="height: 5px; font-size: 5px; line-height: 5px; padding: 0;"> </td></tr>
+    <tr>
+    <td class="SContent cover" style="font-size:14px;line-height:23px;color:#505050;">
+    <div class="lineH1_4" style="line-height:40px;font-size:25px;">
+    <a target=_blank class="headLine" style="font-weight:bold; text-decoration:none; color:#111;" href="http://www.ftchinese.com/premium/001086981?s=w&from=ft_renewal#s=w">中国口罩企业家于晓宁大赚19亿美元</a>
+    </div>
+    <table cellpadding="0" cellspacing="0" align="left"><tr><td class="lineH1 imgSpace" style="height: 6px; font-size: 0px; line-height: 5px; padding: 0;"> </td></tr><tr><td>
+    <a class="coverImgLink" style="" target="_blank" href="http://www.ftchinese.com/premium/001086981?s=w&from=ft_renewal#s=w">
+    <img src="https://thumbor.ftacademy.cn/unsafe/167x96/https://thumbor.ftacademy.cn/unsafe/picture/9/000093869_piclink.jpg" border="0" style="width:167px;" align="left" width="167"/>
+    </a>
+    </td><td style="width:10px"> </td></tr><tr><td class="lineH1 imgSpace" style="height: 5px; font-size: 0px; line-height: 5px; padding: 0;"> </td></tr></table>
+    新冠疫情的爆发导致熔喷料需求大幅上升，于晓宁的道恩股份作为生产该材料的主要公司，股价在六周里飙升了417%。
+    </td>
+    </tr>
+    <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;"> </td></tr>
+    </table>
+    </div>
+    </td></tr>
+    <tr><td class="ft-header-bar" style="color:#333333;background-color:#E9DECE;font-size:13px;font-weight:bold;padding:5px 17px 4px 17px;text-transform:uppercase;width:100%;">全球经济</td></tr>
+    <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
+    <tr><td style="font-size:14px;line-height:25px;color:#505050;padding-left:17px;padding-right:17px;" class="subhead textPadding lineH">
+    <div style="line-height:1.618; " class="item-container">
+    <table width="100%" cellpadding="0" cellspacing="0" style="border-bottom:1px solid #E9DECF; line-height:1.618;">
+    <tr><td class="lineH1" style="height: 5px; font-size: 5px; line-height: 5px; padding: 0;"> </td></tr>
+    <tr>
+    <td class="SContent cover" style="font-size:14px;line-height:23px;color:#505050;">
+    <div class="lineH1_4" style="line-height:40px;font-size:25px;">
+    <a target=_blank class="headLine" style="font-weight:bold; text-decoration:none; color:#111;" href="http://www.ftchinese.com/story/001087252?s=w&from=ft_renewal#s=w">如何度过眼前这场危机？</a>
+    </div>
+    <table cellpadding="0" cellspacing="0" align="left"><tr><td class="lineH1 imgSpace" style="height: 6px; font-size: 0px; line-height: 5px; padding: 0;"> </td></tr><tr><td>
+    <a class="coverImgLink" style="" target="_blank" href="http://www.ftchinese.com/story/001087252?s=w&from=ft_renewal#s=w">
+    <img src="https://thumbor.ftacademy.cn/unsafe/167x96/https://thumbor.ftacademy.cn/unsafe/picture/2/000094562_piclink.jpg" border="0" style="width:167px;" align="left" width="167"/>
+    </a>
+    </td><td style="width:10px"> </td></tr><tr><td class="lineH1 imgSpace" style="height: 5px; font-size: 0px; line-height: 5px; padding: 0;"> </td></tr></table>
+    沃尔夫：在大流行病中，没有一个国家是一座孤岛。我们如何才能以最小的代价度过这场可怕的灾难？
+    </td>
+    </tr>
+    <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;"> </td></tr>
+    </table>
+    </div>
+    <div style="line-height:1.618; " class="item-container">
+    <table width="100%" cellpadding="0" cellspacing="0" style="border-bottom:1px solid #E9DECF; line-height:1.618;">
+    <tr><td class="lineH1" style="height: 5px; font-size: 5px; line-height: 5px; padding: 0;"> </td></tr>
+    <tr>
+    <td class="SContent cover" style="font-size:14px;line-height:23px;color:#505050;">
+    <div class="lineH1_4" style="line-height:40px;font-size:25px;">
+    <a target=_blank class="headLine" style="font-weight:bold; text-decoration:none; color:#111;" href="http://www.ftchinese.com/premium/001086568?s=w&from=ft_renewal#s=w">FT社评：新冠病毒曝露本轮牛市弱点</a>
+    </div>
+    <table cellpadding="0" cellspacing="0" align="left"><tr><td class="lineH1 imgSpace" style="height: 6px; font-size: 0px; line-height: 5px; padding: 0;"> </td></tr><tr><td>
+    <a class="coverImgLink" style="" target="_blank" href="http://www.ftchinese.com/premium/001086568?s=w&from=ft_renewal#s=w">
+    <img src="https://thumbor.ftacademy.cn/unsafe/167x96/https://thumbor.ftacademy.cn/unsafe/picture/5/000093205_piclink.jpg" border="0" style="width:167px;" align="left" width="167"/>
+    </a>
+    </td><td style="width:10px"> </td></tr><tr><td class="lineH1 imgSpace" style="height: 5px; font-size: 0px; line-height: 5px; padding: 0;"> </td></tr></table>
+    虽然过往疫情中市场的反应通常是先下跌再快速反弹，但由于本轮牛市存在早已需要修正的问题，此次疫情的长期影响尚不可知。
+    </td>
+    </tr>
+    <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;"> </td></tr>
+    </table>
+    </div>
+    <div style="line-height:1.618; " class="item-container">
+    <table width="100%" cellpadding="0" cellspacing="0" style="border-bottom:1px solid #E9DECF; line-height:1.618;">
+    <tr><td class="lineH1" style="height: 5px; font-size: 5px; line-height: 5px; padding: 0;"> </td></tr>
+    <tr>
+    <td class="SContent cover" style="font-size:14px;line-height:23px;color:#505050;">
+    <div class="lineH1_4" style="line-height:40px;font-size:25px;">
+    <a target=_blank class="headLine" style="font-weight:bold; text-decoration:none; color:#111;" href="http://www.ftchinese.com/story/001087584?s=w&from=ft_renewal#s=w">全球供应链中断可能导致1970年代滞胀重现</a>
+    </div>
+    <table cellpadding="0" cellspacing="0" align="left"><tr><td class="lineH1 imgSpace" style="height: 6px; font-size: 0px; line-height: 5px; padding: 0;"> </td></tr><tr><td>
+    <a class="coverImgLink" style="" target="_blank" href="http://www.ftchinese.com/story/001087584?s=w&from=ft_renewal#s=w">
+    <img src="https://thumbor.ftacademy.cn/unsafe/167x96/https://thumbor.ftacademy.cn/unsafe/picture/0/000089580_piclink.jpg" border="0" style="width:167px;" align="left" width="167"/>
+    </a>
+    </td><td style="width:10px"> </td></tr><tr><td class="lineH1 imgSpace" style="height: 5px; font-size: 0px; line-height: 5px; padding: 0;"> </td></tr></table>
+    罗奇：被压抑需求的释放可能将引发一轮市场意料不到的通胀飙升。全球供应链中断也为这一结果埋下了种子。
+    </td>
+    </tr>
+    <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;"> </td></tr>
+    </table>
+    </div>
+    <div style="line-height:1.618; " class="item-container">
+    <table width="100%" cellpadding="0" cellspacing="0" style="border-bottom:1px solid #E9DECF; line-height:1.618;">
+    <tr><td class="lineH1" style="height: 5px; font-size: 5px; line-height: 5px; padding: 0;"> </td></tr>
+    <tr>
+    <td class="SContent cover" style="font-size:14px;line-height:23px;color:#505050;">
+    <div class="lineH1_4" style="line-height:40px;font-size:25px;">
+    <a target=_blank class="headLine" style="font-weight:bold; text-decoration:none; color:#111;" href="http://www.ftchinese.com/premium/001086864?s=w&from=ft_renewal#s=w">疫情次生影响严重冲击中国房地产业</a>
+    </div>
+    <table cellpadding="0" cellspacing="0" align="left"><tr><td class="lineH1 imgSpace" style="height: 6px; font-size: 0px; line-height: 5px; padding: 0;"> </td></tr><tr><td>
+    <a class="coverImgLink" style="" target="_blank" href="http://www.ftchinese.com/premium/001086864?s=w&from=ft_renewal#s=w">
+    <img src="https://thumbor.ftacademy.cn/unsafe/167x96/https://thumbor.ftacademy.cn/unsafe/picture/0/000093640_piclink.jpg" border="0" style="width:167px;" align="left" width="167"/>
+    </a>
+    </td><td style="width:10px"> </td></tr><tr><td class="lineH1 imgSpace" style="height: 5px; font-size: 0px; line-height: 5px; padding: 0;"> </td></tr></table>
+    中国为遏制新冠疫情而封城的次生影响来袭，处于震中的是房地产行业，2月份前100家房企销售业绩下降44%。
+    </td>
+    </tr>
+    <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;"> </td></tr>
+    </table>
+    </div>
+    </td></tr>
+    <tr><td class="ft-header-bar" style="color:#333333;background-color:#E9DECE;font-size:13px;font-weight:bold;padding:5px 17px 4px 17px;text-transform:uppercase;width:100%;">负油价之战</td></tr>
+    <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
+    <tr><td style="font-size:14px;line-height:25px;color:#505050;padding-left:17px;padding-right:17px;" class="subhead textPadding lineH">
+    <div style="line-height:1.618; " class="item-container">
+    <table width="100%" cellpadding="0" cellspacing="0" style="border-bottom:1px solid #E9DECF; line-height:1.618;">
+    <tr><td class="lineH1" style="height: 5px; font-size: 5px; line-height: 5px; padding: 0;"> </td></tr>
+    <tr>
+    <td class="SContent cover" style="font-size:14px;line-height:23px;color:#505050;">
+    <div class="lineH1_4" style="line-height:40px;font-size:25px;">
+    <a target=_blank class="headLine" style="font-weight:bold; text-decoration:none; color:#111;" href="http://www.ftchinese.com/premium/001087346?s=w&from=ft_renewal#s=w">FT社评：负油价暴露出经济受到的重创</a>
+    </div>
+    <table cellpadding="0" cellspacing="0" align="left"><tr><td class="lineH1 imgSpace" style="height: 6px; font-size: 0px; line-height: 5px; padding: 0;"> </td></tr><tr><td>
+    <a class="coverImgLink" style="" target="_blank" href="http://www.ftchinese.com/premium/001087346?s=w&from=ft_renewal#s=w">
+    <img src="https://thumbor.ftacademy.cn/unsafe/167x96/https://thumbor.ftacademy.cn/unsafe/picture/6/000094736_piclink.jpg" border="0" style="width:167px;" align="left" width="167"/>
+    </a>
+    </td><td style="width:10px"> </td></tr><tr><td class="lineH1 imgSpace" style="height: 5px; font-size: 0px; line-height: 5px; padding: 0;"> </td></tr></table>
+    新冠疫情扭曲了石油市场，低贱的油价反映出各国封锁措施对经济的严重损害，同时也预示了未来石油“没落”的前景。
+    </td>
+    </tr>
+    <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;"> </td></tr>
+    </table>
+    </div>
+    <div style="line-height:1.618; " class="item-container">
+    <table width="100%" cellpadding="0" cellspacing="0" style="border-bottom:1px solid #E9DECF; line-height:1.618;">
+    <tr><td class="lineH1" style="height: 5px; font-size: 5px; line-height: 5px; padding: 0;"> </td></tr>
+    <tr>
+    <td class="SContent cover" style="font-size:14px;line-height:23px;color:#505050;">
+    <div class="lineH1_4" style="line-height:40px;font-size:25px;">
+    <a target=_blank class="headLine" style="font-weight:bold; text-decoration:none; color:#111;" href="http://www.ftchinese.com/premium/001087384?s=w&from=ft_renewal#s=w">“布偶与鲨鱼”：负油价之战是如何上演的？</a>
+    </div>
+    <table cellpadding="0" cellspacing="0" align="left"><tr><td class="lineH1 imgSpace" style="height: 6px; font-size: 0px; line-height: 5px; padding: 0;"> </td></tr><tr><td>
+    <a class="coverImgLink" style="" target="_blank" href="http://www.ftchinese.com/premium/001087384?s=w&from=ft_renewal#s=w">
+    <img src="https://thumbor.ftacademy.cn/unsafe/167x96/https://thumbor.ftacademy.cn/unsafe/picture/4/000075444_piclink.jpg" border="0" style="width:167px;" align="left" width="167"/>
+    </a>
+    </td><td style="width:10px"> </td></tr><tr><td class="lineH1 imgSpace" style="height: 5px; font-size: 0px; line-height: 5px; padding: 0;"> </td></tr></table>
+    本周初石油市场上演了一边倒的战斗，业余散户投资者和日内交易员在最大的输家行列，顶尖大宗商品交易商和石油基金则是赢家。
+    </td>
+    </tr>
+    <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;"> </td></tr>
+    </table>
+    </div>
+    <div style="line-height:1.618; " class="item-container">
+    <table width="100%" cellpadding="0" cellspacing="0" style="border-bottom:1px solid #E9DECF; line-height:1.618;">
+    <tr><td class="lineH1" style="height: 5px; font-size: 5px; line-height: 5px; padding: 0;"> </td></tr>
+    <tr>
+    <td class="SContent cover" style="font-size:14px;line-height:23px;color:#505050;">
+    <div class="lineH1_4" style="line-height:40px;font-size:25px;">
+    <a target=_blank class="headLine" style="font-weight:bold; text-decoration:none; color:#111;" href="http://www.ftchinese.com/premium/001087172?s=w&from=ft_renewal#s=w">分析：史上最大减产协议为什么无力支撑油价？</a>
+    </div>
+    <table cellpadding="0" cellspacing="0" align="left"><tr><td class="lineH1 imgSpace" style="height: 6px; font-size: 0px; line-height: 5px; padding: 0;"> </td></tr><tr><td>
+    <a class="coverImgLink" style="" target="_blank" href="http://www.ftchinese.com/premium/001087172?s=w&from=ft_renewal#s=w">
+    <img src="https://thumbor.ftacademy.cn/unsafe/167x96/https://thumbor.ftacademy.cn/unsafe/picture/1/000091841_piclink.jpg" border="0" style="width:167px;" align="left" width="167"/>
+    </a>
+    </td><td style="width:10px"> </td></tr><tr><td class="lineH1 imgSpace" style="height: 5px; font-size: 0px; line-height: 5px; padding: 0;"> </td></tr></table>
+    欧佩克与俄罗斯同意合计将石油日产量削减1000万桶，但交易员认为这抵不过疫情期间封锁措施导致的石油需求减少。
+    </td>
+    </tr>
+    <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;"> </td></tr>
+    </table>
+    </div>
+    <div style="line-height:1.618; " class="item-container">
+    <table width="100%" cellpadding="0" cellspacing="0" style="border-bottom:1px solid #E9DECF; line-height:1.618;">
+    <tr><td class="lineH1" style="height: 5px; font-size: 5px; line-height: 5px; padding: 0;"> </td></tr>
+    <tr>
+    <td class="SContent cover" style="font-size:14px;line-height:23px;color:#505050;">
+    <div class="lineH1_4" style="line-height:40px;font-size:25px;">
+    <a target=_blank class="headLine" style="font-weight:bold; text-decoration:none; color:#111;" href="http://www.ftchinese.com/premium/001087358?s=w&from=ft_renewal#s=w">油价暴跌给股市敲响警钟</a>
+    </div>
+    <table cellpadding="0" cellspacing="0" align="left"><tr><td class="lineH1 imgSpace" style="height: 6px; font-size: 0px; line-height: 5px; padding: 0;"> </td></tr><tr><td>
+    <a class="coverImgLink" style="" target="_blank" href="http://www.ftchinese.com/premium/001087358?s=w&from=ft_renewal#s=w">
+    <img src="https://thumbor.ftacademy.cn/unsafe/167x96/https://thumbor.ftacademy.cn/unsafe/picture/6/000094196_piclink.jpg" border="0" style="width:167px;" align="left" width="167"/>
+    </a>
+    </td><td style="width:10px"> </td></tr><tr><td class="lineH1 imgSpace" style="height: 5px; font-size: 0px; line-height: 5px; padding: 0;"> </td></tr></table>
+    马丁：市场在以最清楚、最纯粹的方式表明，全球经济深陷困境，而目前投资者对企业和经济的复苏可能抱着过于乐观的态度。
+    </td>
+    </tr>
+    <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;"> </td></tr>
+    </table>
+    </div>
+    </td></tr>
+    <tr><td class="ft-header-bar" style="color:#333333;background-color:#E9DECE;font-size:13px;font-weight:bold;padding:5px 17px 4px 17px;text-transform:uppercase;width:100%;">企业与就业</td></tr>
+    <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
+    <tr><td style="font-size:14px;line-height:25px;color:#505050;padding-left:17px;padding-right:17px;" class="subhead textPadding lineH">
+    <div style="line-height:1.618; " class="item-container">
+    <table width="100%" cellpadding="0" cellspacing="0" style="border-bottom:1px solid #E9DECF; line-height:1.618;">
+    <tr><td class="lineH1" style="height: 5px; font-size: 5px; line-height: 5px; padding: 0;"> </td></tr>
+    <tr>
+    <td class="SContent cover" style="font-size:14px;line-height:23px;color:#505050;">
+    <div class="lineH1_4" style="line-height:40px;font-size:25px;">
+    <a target=_blank class="headLine" style="font-weight:bold; text-decoration:none; color:#111;" href="http://www.ftchinese.com/premium/001086751?s=w&from=ft_renewal#s=w">新冠疫情是否会引发企业债务危机？</a>
+    </div>
+    <table cellpadding="0" cellspacing="0" align="left"><tr><td class="lineH1 imgSpace" style="height: 6px; font-size: 0px; line-height: 5px; padding: 0;"> </td></tr><tr><td>
+    <a class="coverImgLink" style="" target="_blank" href="http://www.ftchinese.com/premium/001086751?s=w&from=ft_renewal#s=w">
+    <img src="https://thumbor.ftacademy.cn/unsafe/167x96/https://thumbor.ftacademy.cn/unsafe/picture/9/000093519_piclink.jpg" border="0" style="width:167px;" align="left" width="167"/>
+    </a>
+    </td><td style="width:10px"> </td></tr><tr><td class="lineH1 imgSpace" style="height: 5px; font-size: 0px; line-height: 5px; padding: 0;"> </td></tr></table>
+    10年来企业一直在贪婪地获取廉价债务，而新冠疫情造成市场波动，宣告风险已难以再推迟，清算之日将要到来。
+    </td>
+    </tr>
+    <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;"> </td></tr>
+    </table>
+    </div>
+    <div style="line-height:1.618; " class="item-container">
+    <table width="100%" cellpadding="0" cellspacing="0" style="border-bottom:1px solid #E9DECF; line-height:1.618;">
+    <tr><td class="lineH1" style="height: 5px; font-size: 5px; line-height: 5px; padding: 0;"> </td></tr>
+    <tr>
+    <td class="SContent cover" style="font-size:14px;line-height:23px;color:#505050;">
+    <div class="lineH1_4" style="line-height:40px;font-size:25px;">
+    <a target=_blank class="headLine" style="font-weight:bold; text-decoration:none; color:#111;" href="http://www.ftchinese.com/premium/001087514?s=w&from=ft_renewal#s=w">欧美国家将面临第二波失业潮</a>
+    </div>
+    <table cellpadding="0" cellspacing="0" align="left"><tr><td class="lineH1 imgSpace" style="height: 6px; font-size: 0px; line-height: 5px; padding: 0;"> </td></tr><tr><td>
+    <a class="coverImgLink" style="" target="_blank" href="http://www.ftchinese.com/premium/001087514?s=w&from=ft_renewal#s=w">
+    <img src="https://thumbor.ftacademy.cn/unsafe/167x96/https://thumbor.ftacademy.cn/unsafe/picture/8/000093998_piclink.jpg" border="0" style="width:167px;" align="left" width="167"/>
+    </a>
+    </td><td style="width:10px"> </td></tr><tr><td class="lineH1 imgSpace" style="height: 5px; font-size: 0px; line-height: 5px; padding: 0;"> </td></tr></table>
+    本周公布的数据显示劳动力市场遭受巨大冲击。经济学家警告，即使政府解除封锁，第二波失业潮也可能冲击发达国家。
+    </td>
+    </tr>
+    <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;"> </td></tr>
+    </table>
+    </div>
+    <div style="line-height:1.618; " class="item-container">
+    <table width="100%" cellpadding="0" cellspacing="0" style="border-bottom:1px solid #E9DECF; line-height:1.618;">
+    <tr><td class="lineH1" style="height: 5px; font-size: 5px; line-height: 5px; padding: 0;"> </td></tr>
+    <tr>
+    <td class="SContent cover" style="font-size:14px;line-height:23px;color:#505050;">
+    <div class="lineH1_4" style="line-height:40px;font-size:25px;">
+    <a target=_blank class="headLine" style="font-weight:bold; text-decoration:none; color:#111;" href="http://www.ftchinese.com/premium/001086588?s=w&from=ft_renewal#s=w">新冠疫情可能给工作场所带来持久变化</a>
+    </div>
+    <table cellpadding="0" cellspacing="0" align="left"><tr><td class="lineH1 imgSpace" style="height: 6px; font-size: 0px; line-height: 5px; padding: 0;"> </td></tr><tr><td>
+    <a class="coverImgLink" style="" target="_blank" href="http://www.ftchinese.com/premium/001086588?s=w&from=ft_renewal#s=w">
+    <img src="https://thumbor.ftacademy.cn/unsafe/167x96/https://thumbor.ftacademy.cn/unsafe/picture/2/000093262_piclink.jpg" border="0" style="width:167px;" align="left" width="167"/>
+    </a>
+    </td><td style="width:10px"> </td></tr><tr><td class="lineH1 imgSpace" style="height: 5px; font-size: 0px; line-height: 5px; padding: 0;"> </td></tr></table>
+    围绕着供应链上下游，甚至竞争对手之间所展开的新型协作方式，可能是这场疫情所带来的重要影响之一。
+    </td>
+    </tr>
+    <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;"> </td></tr>
+    </table>
+    </div>
+    <div style="line-height:1.618; " class="item-container">
+    <table width="100%" cellpadding="0" cellspacing="0" style="border-bottom:1px solid #E9DECF; line-height:1.618;">
+    <tr><td class="lineH1" style="height: 5px; font-size: 5px; line-height: 5px; padding: 0;"> </td></tr>
+    <tr>
+    <td class="SContent cover" style="font-size:14px;line-height:23px;color:#505050;">
+    <div class="lineH1_4" style="line-height:40px;font-size:25px;">
+    <a target=_blank class="headLine" style="font-weight:bold; text-decoration:none; color:#111;" href="http://www.ftchinese.com/premium/001086330?s=w&from=ft_renewal#s=w">在不确定的世界把握好你的事业</a>
+    </div>
+    <table cellpadding="0" cellspacing="0" align="left"><tr><td class="lineH1 imgSpace" style="height: 6px; font-size: 0px; line-height: 5px; padding: 0;"> </td></tr><tr><td>
+    <a class="coverImgLink" style="" target="_blank" href="http://www.ftchinese.com/premium/001086330?s=w&from=ft_renewal#s=w">
+    <img src="https://thumbor.ftacademy.cn/unsafe/167x96/https://thumbor.ftacademy.cn/unsafe/picture/9/000092759_piclink.jpg" border="0" style="width:167px;" align="left" width="167"/>
+    </a>
+    </td><td style="width:10px"> </td></tr><tr><td class="lineH1 imgSpace" style="height: 5px; font-size: 0px; line-height: 5px; padding: 0;"> </td></tr></table>
+    对于那些刚刚踏入职场的人，获得一份终身工作或职业不再有保证，甚至不再令人向往。他们该如何为未来几十年制定规划？
+    </td>
+    </tr>
+    <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;"> </td></tr>
+    </table>
+    </div>
+    </td></tr>
+    </table>
+    </td>
+    <td style="width: 3%;" class="contentPadding largeViewBar">&nbsp;</td>
+    </tr>
+    </table>
+    <table width="100%" cellpadding="0" cellspacing="0">
+    <tr><td class="lineH1" style="height: 22px; font-size: 22px; line-height: 22px; padding: 0;">&nbsp;</td></tr><tr><td colspan="3" class="ft-embimg-container" style="font-size: 0; text-align: center; padding: 20px 0 20px 0; background-color:#E9DECE;">
+    <a target="_blank" href="http://1t.click/a8H4"><img width="300px" height="250px" border="0" src="https://thumbor.ftacademy.cn/unsafe/http://creatives.ftchinese.com/ads/beijing/201910/300_250_1011.jpg" /></a>
+    </td></tr>
+    <div style="display: none;">
+    </div>
+    <tr><td class="lineH1" style="height: 22px; font-size: 22px; line-height: 22px; padding: 0;">&nbsp;</td></tr>
+    <tr>
+    <td style="width: 3%;" class="contentPadding">&nbsp;</td>
+    <td style="font-size:14px;line-height:25px;color:#505050;padding-left:17px;padding-right:17px;" class="subhead textPadding lineH">
+    </td>
+    <td style="width: 3%;" class="contentPadding">&nbsp;</td>
+    </tr>
+    <tr>
+    <td style="width: 3%;" class="contentPadding">&nbsp;</td>
+    <td>
+    <table width="100%" cellpadding="0" cellspacing="0">
+    <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
+    <tr>
+    <td style="padding: 0 12px 6px 12px;">
+    <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+    <tr>
+    <td style="width: 50%; background-color: #F6E8D7; padding: 6px 8px; border-radius: 2px;" valign="middle">
+    <table border="0" cellpadding="0" cellspacing="0">
+    <tr>
+    <td style="line-height: 16px;">
+    <a
+    href="http://www.ftchinese.com/users/setting/maillist" style="text-decoration: none;  line-height: 16px;" target="_blank"
+    >
+    <img src="http://img.ed4.net/financialtimesc/images/2013/Responsive/emailsettings-v2.png" alt="" style="width: 26px; height: 26px; border: 0 none;" />
+    </a>
+    </td>
+    <td style="padding-left:5px;color:#2E6E9E;line-height:16px;" target="_blank" nowrap>
+    <a  class="lineH1_2"
+    href="http://www.ftchinese.com/users/setting/maillist" style="text-decoration:none;font-size:12px;line-height:16px;color:#2E6E9E;" target="_blank">设置邮件</a>
+    </td>
+    </tr>
+    </table>
+    </td>
+    <td style="width: 7px; height: 100%;">&nbsp;&nbsp;</td>
+    <td style="width: 50%; background-color: #F6E8D7; padding: 6px 8px; border-radius: 2px;" valign="middle">
+    <table border="0" cellpadding="0" cellspacing="0">
+    <tr>
+    <td style="line-height: 16px;">
+    <a
+    href="http://service.weibo.com/share/share.php?appkey=4221537403&url=http%3A%2F%2Fwww.ftchinese.com%2Fm%2Femail%2Fweek&title=FT%E4%B8%AD%E6%96%87%E7%BD%91%E4%B8%80%E5%91%A8%E7%B2%BE%E9%80%89&ralateUid=1698233740&source=&sourceUrl=&content=utf-8&pic=" style="text-decoration: none;  line-height: 16px;" target="_blank"
+    >
+    <img src="http://img.ed4.net/financialtimesc/images/2013/Responsive/forward-v2.png" alt="" style="width: 26px; height: 26px; border: 0 none;" />
+    </a>
+    </td>
+    <td style="padding-left: 5px; color: #2E6E9E;  line-height: 16px;" nowrap>
+    <a
+    href="http://www.ftchinese.com/users/findpassword" class="lineH1_2" style="text-decoration: none; font-size: 12px; line-height: 16px;  color: #2E6E9E;" target="_blank"
+    >找回密码</a>
+    </td>
+    </tr>
+    </table>
+    </td>
+    </tr>
+    <tr><td class="lineH1" style="height: 7px; font-size: 7px; line-height: 7px; padding: 0;">&nbsp;</td></tr>
+    </table>
+    <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+    <tr>
+    <td class="lineH1" style="height: 7px; font-size: 7px; line-height: 7px; padding: 0;">&nbsp;</td>
+    </tr>
+    </table>
+    <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+    <tr>
+    <td style="background-color: #F6E8D7; padding: 6px 8px; text-align: center;">
+    <a href="http://user.ftchinese.com/register" style="text-decoration: none; color: #2E6E9E; font-size: 12px;"  target="_blank"
+    >免费注册FT中文网</a>
+    </td>
+    </tr>
+    </table>
+    <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+    <tr>
+    <td class="lineH1" style="height: 7px; font-size: 7px; line-height: 7px; padding: 0;">&nbsp;</td>
+    </tr>
+    </table>
+    <table border="0" cellpadding="0" cellspacing="0" style="width: 100%; border-top: 1px dotted #C0C0C0; border-bottom: 1px dotted #C0C0C0;">
+    <tr>
+    <td align="center" style="padding: 4px 0;">
+    <table border="0" cellpadding="0" cellspacing="0" align="center">
+    <tr>
+    <td valign="middle">
+    <span style="font-size: 12px; color: #505050; ">关注FT中文网</span>
+    </td>
+    <td style="padding-left: 10px; width: 160px;">
+    <table border="0" cellpadding="0" cellspacing="0" align="left" valign="middle" style="width: 150px;">
+    <tr>
+    <td>
+    <a
+    href="http://weibo.com/ftchinese" style="text-decoration: none; font-size: 12px; display: block;" target="_blank"
+    ><img src="https://thumbor.ftacademy.cn/unsafe/picture/8/000031298_piclink_24_24.jpg" style="border: 0 none; display: block;" width="24" height="24" alt="新浪微博"/></a>
+    </td>
+    <td>
+    <a
+    href="http://e.t.qq.com/ftchinese" style="text-decoration: none; font-size: 12px; display: block;" target="_blank"
+    ><img src="https://thumbor.ftacademy.cn/unsafe/picture/6/000031296_piclink_24_24.jpg" style="border: 0 none; display: block;" width="24" height="24" alt="腾讯微博"/></a>
+    </td>
+    <td>
+    <a
+    href="http://user.qzone.qq.com/622006290" style="text-decoration: none; font-size: 12px; display: block;" target="_blank"
+    ><img src="https://thumbor.ftacademy.cn/unsafe/picture/2/000031292_piclink_24_24.jpg" style="border: 0 none; display: block;" width="24" height="24" alt="QQ空间"/></a>
+    </td>
+    <td>
+    <a
+    href="http://www.ftchinese.com/m/corp/follow.html" style="text-decoration: none; font-size: 12px; display: block;" target="_blank"
+    ><img src="https://dhgxl8qk9zgzr.cloudfront.net/img/wechat48.png" style="border: 0 none; display: block;" width="24" height="24" alt="微信"/></a>
+    </td>
+    </tr>
+    </table>
+    </td>
+    </tr>
+    </table>
+    </td>
+    </tr>
+    </table>
+    </td>
+    </tr>
+    <tr><td class="lineH1" style="height: 22px; font-size: 22px; line-height: 22px; padding: 0;">&nbsp;</td></tr>
+    <tr>
+    <td class="ft-email-bar lineH1_4" style="text-align: center;font-size: 12px;line-height: 17px;color: #98948F;">
+    <a
+    href="http://www.ftchinese.com/m/corp/aboutus.html" style="text-decoration: none;color: #98948F;" target="_blank"
+    >关于我们</a> |
+    <a
+    href="http://www.ftchinese.com/jobs/?from=ft" style="text-decoration: none; color: #98948F;" target="_blank"
+    >加入我们</a> |
+    <a
+    href="http://www.ftchinese.com/m/corp/contact.html" style="text-decoration: none; color: #98948F;" target="_blank"
+    >联系方式</a> |
+    <a
+    href="http://www.ftchinese.com/m/corp/service.html" target="_blank" style="text-decoration: none;color: #98948F;"
+    >服务条款</a> |
+    <a
+    href="http://www.ftchinese.com/m/corp/sales.html" style="text-decoration: none;color: #98948F;" target="_blank"
+    >广告业务</a> |
+    <a
+    href="http://www.ftchinese.com/m/corp/faq.html" style="text-decoration: none;color: #98948F;" target="_blank"
+    >问题回馈</a>
+    </td>
+    </tr>
+    <tr><td class="lineH1" style="height: 34px; font-size: 34px; line-height: 34px; padding: 0;">&nbsp;</td></tr>
+    <tr><td class="ft-copyright lineH1_4" style="font-size: 12px;line-height: 17px;padding: 5px 5px 0 5px;text-align: center;color: #505050;">
+    &copy; THE FINANCIAL TIMES LTD 2020
+    </td></tr>
+    </table>
+    </td>
+    <td style="width: 3%;" class="contentPadding largeViewBar">&nbsp;</td>
+    </tr>
+    </table>
+    </td></tr>
+    <tr><td style="height: 28px; font-size: 28px; line-height: 28px; padding: 0;" class="bottomContentPadding lineH1">&nbsp;</td></tr>
+    </table>
+    </td>
+    <td style="width:1%;" class="whiteBorder">&nbsp;</td>
+    </tr>
+    </table>
+    </td>
+    </tr>
+    </table>
+    </div>
+    <img src="http://m.ftchinese.com/track/ga.php?utmac=MO-1608715-1&utmn=2020060411&utmr=-&utmp=%2Fm%2Fcorp%2Fpreview.html%3Fpageid%3Dwinbackemail20200618%26view%3Demail%26to%3Diosapp&utmdt=FT中文网感恩老会员，限时续订5折大促！&guid=ON" />
+    <img src="http://fa.ftchinese.com/log/collect.php?tid=UA-XXXX-Y&t=pageview&dl=%2Fm%2Fcorp%2Fpreview.html%3Fpageid%3Dwinbackemail20200618%26view%3Demail%26to%3Diosapp&dr=&un=" />
+    <img src="http://www1.ftchinese.com/log/new_log.php?id=&adch=&tpages=1&refer=&vpage=%2Fm%2Fcorp%2Fpreview.html%3Fpageid%3Dwinbackemail20200618%26view%3Demail%26to%3Diosapp&utmn=2020060411" />
+    
+    </body>
+    <!-- htmlmin:ignore -->
+    </html>
