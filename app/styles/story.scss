@@ -515,9 +515,14 @@ a.o-responsive-video-caption:link, a.o-responsive-video-caption:visited, a.o-res
 		padding: 0 !important;
 	}
 }
-// MARK: - When the users is taking a screenshot of the full content, hide all irrelevant content. Radio content uses this too. So the style should be here. 
+/* MARK:
+When a subscriber is taking a screenshot of the full content, hide all irrelevant content. 
+Radio content uses this too. So the style should be here. 
+At the request of the boss, ads will be displayed when user captures the screen. 
+This results in wasted space and memory for subscribers' device and does not increase ad delivery. 
+*/
 .is-screenshot {
-	.side-container, .o-ads, #story-recommend-container, .list-title, .allcomments, .logincomment {
+	.side-container, /*.o-ads, */#story-recommend-container, .list-title, .allcomments, .logincomment {
 		display: none!important;
 	}
 	.content-inner {
