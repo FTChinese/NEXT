@@ -49,15 +49,6 @@ var isPremium = false;
 
 // paywallDataObj = {"paywall":0,"premium":1,"standard":1,"expire":1623394745,"source":"ftc"};
 
-
-// if (window.androidUserInfo) {
-//   try {
-//       if (window.androidUserInfo.isMember) {
-//           paywall = (window.androidUserInfo.membership.tier === 'premium') ? 'premium' : 'subscriber';
-//       }
-//   } catch(ignore) {}
-// }
-
 function payWall() {
   var dataObj = {paywall: 1, premium: 0, standard: 0};
   if (window.androidUserInfo) {
