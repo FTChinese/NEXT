@@ -63,8 +63,14 @@
     	<%include file="next/partials/promoboxone.html"%>
     <%/if%>
     -->*%>
-    <%*<!--MARK: - Don't remove this, it's used in iOS app-->*%>
-    <!--PromoBoxPlaceHolder-->
+    
+    <%if $smarty.get.android != ""%>
+    	<%*<!--MARK: - Android App Promo Box-->*%>
+    	<div id="promo-box-container"></div>
+    <%else%>
+    	<%*<!--MARK: - Don't remove this, it's used in iOS app-->*%>
+	    <!--PromoBoxPlaceHolder-->
+    <%/if%>
 <%/if%>
 
 

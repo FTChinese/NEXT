@@ -1,8 +1,82 @@
 var isReqSuccess = false;
 var i = 0;
 var isPremium = false;
-function payWall(){
-  if(!isReqSuccess && i<3) {
+
+var androidUserInfo = {
+  "displayName": "Faker",
+  "email": "faker@example.org",
+  "id": "0c726d53-2ec3-41e2-aa8c-5c4b0e23876a",
+  "isVerified": false,
+  "loginMethod": "email",
+  "membership": {
+    "autoRenew": false,
+    "cycle": "year",
+    "expireDate": "2020-08-22",
+    "id": "mmb_DYBOVDytt1PH",
+    "payMethod": "alipay",
+    "tier": "standard",
+    "vip": false
+  },
+  "userName": "Faker"
+};
+
+
+// interface Account {
+//   id: string; // FTC UUID
+//   unionId: string | null; // Present if user logged in with Wechat, or linked to Wechat account.
+//   stripeId: string | null; // Only if membership is purchased via Stripe.
+//   userName: string | null;
+//   email: string;
+//   isVerified: boolean; // Whether email is verified.
+//   avatarUrl: string | null; // FTC avatar. No used now.
+//   loginMethod: "email" | "wechat"; // Will be `email` if use logged in with email + password, or wechat if user logged in with Wechat. It won't be changed during the lifecycle of being logged in, even if user linked FTC account with wechat account.
+//   wechat: {
+//       nickname: string | null; // Wechat nickname
+//       avatarUrl: string | null; // Wechat avatar url.
+//   };
+//   membership: {
+//       id: string | null;
+//       tier: "standard" | "premium" | "vip" | null; // `vip` is not available until API finished migration.
+//       cycle: "month" | "year" | null;
+//       expireDate: string | null;
+//       payMethod: "alipay" | "wechat" | "stripe" | "apple" | "b2b",
+//       autoRenew: boolean; // Default false.
+//       status: "active" | "canceled" | "incomplete" | "incomplate_expired" | "past_due" | "trialing" | "unpaid" | null;
+//       vip: boolean; // Deprecated. Will be moved to `tier` as an enum value `vip`
+//   }
+// }
+
+
+// paywallDataObj = {"paywall":0,"premium":1,"standard":1,"expire":1623394745,"source":"ftc"};
+
+
+// if (window.androidUserInfo) {
+//   try {
+//       if (window.androidUserInfo.isMember) {
+//           paywall = (window.androidUserInfo.membership.tier === 'premium') ? 'premium' : 'subscriber';
+//       }
+//   } catch(ignore) {}
+// }
+
+function payWall() {
+  var dataObj = {paywall: 1, premium: 0, standard: 0};
+  if (window.androidUserInfo) {
+    if (window.androidUserInfo.membership) {
+      var expireDate = new Date(window.androidUserInfo.membership.expireDate);
+      var todayDate = new Date();
+      if (expireDate >= todayDate) {
+        console.log(expireDate);
+        dataObj = {paywall: 1, standard: 1};
+        dataObj.premium = (window.androidUserInfo.membership.tier === 'premium') ? 1 : 0;
+      }
+      dataObj.expire = parseInt(expireDate.getTime()/1000, 10);
+      dataObj.source = (window.androidUserInfo.membership.vip) ? 'ftc' : '';
+    }
+    console.log(dataObj);
+    handleSubscriptionInfo(dataObj);
+  } else if (!isReqSuccess && i<3) {
+    var userId1 = GetCookie('USER_ID') ;
+    if (userId1 === null) {return;}
     var xhrpw = new XMLHttpRequest();
     xhrpw.open('get', '/index.php/jsapi/paywall');
     xhrpw.setRequestHeader('Content-Type', 'application/text');
@@ -10,7 +84,7 @@ function payWall(){
       if (xhrpw.status === 200) {
         isReqSuccess = true;
         var data = xhrpw.responseText;
-        var dataObj = JSON.parse(data); 
+        dataObj = JSON.parse(data); 
         handleSubscriptionInfo(dataObj);
       } else {
         isReqSuccess = false;
@@ -130,10 +204,7 @@ function isEditorChoiceChannel(){
   return isEditorChoiceChannel;
 }
 
-var userId1 = GetCookie('USER_ID') ;
-if (userId1 !== null) {
-  payWall(); 
-}
+payWall();
 
 
 // MARK: - 过滤出包含locked的item-headline数组
