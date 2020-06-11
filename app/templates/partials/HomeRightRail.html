@@ -701,36 +701,52 @@
 					<h2 class="list-title"><a>往期查询</a></h2>
 					<div id="archive-calendar" class="calendar"></div>
 				</div>
-				<div id="android-log">Android Log</div>
-				<script>
-					var vtype = 'unknown visitor';
-					setInterval(function(){
-						if (window.androidUserInfo) {
-							try {
-								if (window.androidUserInfo.isMember) {
-									if (window.androidUserInfo.membership.tier === 'premium') {
-										vtype = 'VIP';
+				<%if $smarty.get.android != ""%>
+					<div id="android-log">Android Log</div>
+					<script>
+						var vtype = 'unknown visitor';
+						setInterval(function(){
+							if (window.androidUserInfo) {
+								try {
+									if (window.androidUserInfo.isMember) {
+										if (window.androidUserInfo.membership.tier === 'premium') {
+											vtype = 'VIP';
+										} else {
+											vtype = 'Subscriber';
+										}
 									} else {
-										vtype = 'Subscriber';
+										vtype = 'member';
 									}
-								} else {
-									vtype = 'member';
+								} catch(err) {
+									vtype = 'error in android';
 								}
-							} catch(err) {
-								vtype = 'error in android';
+							} else {
+								vtype = 'no info on android';
 							}
-						} else {
-							vtype = 'no info on android';
-						}
-						document.getElementById('android-log').innerHTML = vtype;
-					}, 10000);
-				</script>
-				<div id="android-log-html">Unknown</div>
-				<script>
-					setInterval(function(){
-						document.getElementById('android-log-html').innerHTML = document.documentElement.className;
-					}, 10002);
-				</script>
+							document.getElementById('android-log').innerHTML = vtype;
+						}, 10000);
+					</script>
+					<script>
+						(function(){
+						    if (window.androidUserInfo) {
+					            if (window.androidUserInfo.isMember) {
+					            	var tier = window.androidUserInfo.membership.tier
+					                var htmlClassName = (tier === 'premium') ? 'is-premium' : 'is-standard';
+					                htmlClassName += ' is-subscriber';
+					                document.documentElement.className = htmlClassName;
+					            }
+						    }
+						})();
+					</script>
+					<div id="android-log-html">Unknown</div>
+					<script>
+						var checkTime = 0;
+						setInterval(function(){
+							checkTime += 1;
+							document.getElementById('android-log-html').innerHTML = document.documentElement.className + ' ' + checkTime;
+						}, 10002);
+					</script>
+				<%/if%>
 			<%/if%>
 		<%/if%>
 
