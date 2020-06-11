@@ -2,23 +2,23 @@ var isReqSuccess = false;
 var i = 0;
 var isPremium = false;
 
-var androidUserInfo = {
-  "displayName": "Faker",
-  "email": "faker@example.org",
-  "id": "0c726d53-2ec3-41e2-aa8c-5c4b0e23876a",
-  "isVerified": false,
-  "loginMethod": "email",
-  "membership": {
-    "autoRenew": false,
-    "cycle": "year",
-    "expireDate": "2020-08-22",
-    "id": "mmb_DYBOVDytt1PH",
-    "payMethod": "alipay",
-    "tier": "standard",
-    "vip": false
-  },
-  "userName": "Faker"
-};
+// var androidUserInfo = {
+//   "displayName": "Faker",
+//   "email": "faker@example.org",
+//   "id": "0c726d53-2ec3-41e2-aa8c-5c4b0e23876a",
+//   "isVerified": false,
+//   "loginMethod": "email",
+//   "membership": {
+//     "autoRenew": false,
+//     "cycle": "year",
+//     "expireDate": "2020-08-22",
+//     "id": "mmb_DYBOVDytt1PH",
+//     "payMethod": "alipay",
+//     "tier": "standard",
+//     "vip": false
+//   },
+//   "userName": "Faker"
+// };
 
 
 // interface Account {
@@ -65,8 +65,7 @@ function payWall() {
       var expireDate = new Date(window.androidUserInfo.membership.expireDate);
       var todayDate = new Date();
       if (expireDate >= todayDate) {
-        console.log(expireDate);
-        dataObj = {paywall: 1, standard: 1};
+        dataObj = {paywall: 0, standard: 1};
         dataObj.premium = (window.androidUserInfo.membership.tier === 'premium') ? 1 : 0;
       }
       dataObj.expire = parseInt(expireDate.getTime()/1000, 10);
