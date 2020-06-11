@@ -1,94 +1,93 @@
-
 var isReqSuccess = false;
 var i = 0;
 var isPremium = false;
-function payWall(){  
-if(!isReqSuccess && i<3){
-      var xhrpw = new XMLHttpRequest();
-      xhrpw.open('get', '/index.php/jsapi/paywall');
-      xhrpw.setRequestHeader('Content-Type', 'application/text');
-      xhrpw.onload = function() {
-          if (xhrpw.status === 200) {
-            isReqSuccess = true;
-              var data = xhrpw.responseText;
-              var dataObj = JSON.parse(data); 
-              if (dataObj.paywall >= 1) {      
-                  updateUnlockClass();
-              }else{
-                  // updateLockClass();
-                  isPremium = (dataObj.premium >= 1) ? true : false ;  
-                  if(!isPremium && isEditorChoiceChannel()){
-                      updateUnlockClass();
-                  } else {
-                      updateLockClass();
-                  }
-              }
-            window.htmlClass = document.documentElement.className;
-            window.htmlClass = window.htmlClass.replace(/\ is\-subscriber/g, '').replace(/\ is\-premium/g, '').replace(/\ is\-standard/g, '');
-            var subscriptionType = 'noneSubscriber';
-            if (dataObj.paywall === 0) {
-                if (dataObj.premium === 1) {
-                    window.htmlClass += ' is-subscriber is-premium';
-                    subscriptionType = 'premium';
-                } else {
-                    window.htmlClass += ' is-subscriber is-standard';
-                    subscriptionType = 'standard';
-                }
-            }
-            var expireDate = '';
-            if (dataObj.expire) {
-              expireDate = dataObj.expire;
-            }
-            var ccode = dataObj.campaign_code || '';
-            var duration = dataObj.latest_duration || '';
-            var platform = 'WebSite';
-            var pendingRenewal = '';
-            var ua = navigator.userAgent || navigator.vendor || '';
-            if (window.location.href.indexOf('webview=ftcapp')>=0) {
-              if (/iphone|ipod|ipad/i.test(ua)) {
-                platform = 'iOSApp';
-                try {
-                  pendingRenewal = paravalue(window.location.href, 'pendingRenewal');
-                  //console.log ('p: ' + pendingRenewal);
-                } catch (ignore) {}
-              } else {
-                platform = 'AndroidApp';
-              }
-            }
-            
-            // Test: Change expire date for testing
-            //expireDate = Math.round((new Date('2019-06-01 00:20:00')).getTime() / 1000);
-            //duration = 'monthly';
-            //ccode = '7SXXXXX';
-            // platform = 'iOSApp';
-            // pendingRenewal = 'On';
-            var xhr = new XMLHttpRequest();
-            xhr.open('get', '/m/corp/partial.html?include=promoboxone&type=' + subscriptionType + '&expire=' + expireDate + '&ccode=' + ccode + '&duration=' + duration + '&platform=' + platform + '&pendingRenewal=' + pendingRenewal);
-            xhr.setRequestHeader('Content-Type', 'application/text');
-            xhr.onload = function() {
-              if (xhr.status === 200) {
-                var data = xhr.responseText;
-                if (data !== '') {
-                  var promoboxContainer = document.getElementById('promo-box-container');
-                  promoboxContainer.innerHTML = data;
-                  startCountdown(promoboxContainer, expireDate);
-                  sendTracking(promoboxContainer);
-                }
-              }
-            };
-            xhr.send(null);
-            document.documentElement.className = window.htmlClass;
-          } else {
-              isReqSuccess = false;
-              i++;
-              setTimeout(function() {
-                  payWall(); 
-              }, 500); 
-              console.log('fail to request:'+i);
-          }
-      };
-      xhrpw.send(null);
+function payWall(){
+  if(!isReqSuccess && i<3) {
+    var xhrpw = new XMLHttpRequest();
+    xhrpw.open('get', '/index.php/jsapi/paywall');
+    xhrpw.setRequestHeader('Content-Type', 'application/text');
+    xhrpw.onload = function() {
+      if (xhrpw.status === 200) {
+        isReqSuccess = true;
+        var data = xhrpw.responseText;
+        var dataObj = JSON.parse(data); 
+        handleSubscriptionInfo(dataObj);
+      } else {
+        isReqSuccess = false;
+        i += 1;
+        setTimeout(function(){payWall();}, 500); 
+      }
+    };
+    xhrpw.send(null);
+  }
+}
+
+function handleSubscriptionInfo(dataObj) {
+  if (dataObj.paywall >= 1) {
+    updateUnlockClass();
+  } else {
+    isPremium = (dataObj.premium >= 1) ? true : false ;  
+    if(!isPremium && isEditorChoiceChannel()){
+      updateUnlockClass();
+    } else {
+      updateLockClass();
     }
+  }
+  window.htmlClass = document.documentElement.className;
+  window.htmlClass = window.htmlClass.replace(/\ is\-subscriber/g, '').replace(/\ is\-premium/g, '').replace(/\ is\-standard/g, '');
+  var subscriptionType = 'noneSubscriber';
+  if (dataObj.paywall === 0) {
+    if (dataObj.premium === 1) {
+      window.htmlClass += ' is-subscriber is-premium';
+      subscriptionType = 'premium';
+    } else {
+      window.htmlClass += ' is-subscriber is-standard';
+      subscriptionType = 'standard';
+    }
+  }
+  var expireDate = '';
+  if (dataObj.expire) {
+    expireDate = dataObj.expire;
+  }
+  var ccode = dataObj.campaign_code || '';
+  var duration = dataObj.latest_duration || '';
+  var platform = 'WebSite';
+  var pendingRenewal = '';
+  var ua = navigator.userAgent || navigator.vendor || '';
+  if (window.location.href.indexOf('webview=ftcapp')>=0) {
+    if (/iphone|ipod|ipad/i.test(ua)) {
+    platform = 'iOSApp';
+    try {
+    pendingRenewal = paravalue(window.location.href, 'pendingRenewal');
+    //console.log ('p: ' + pendingRenewal);
+    } catch (ignore) {}
+    } else {
+    platform = 'AndroidApp';
+    }
+  }
+
+  // Test: Change expire date for testing
+  //expireDate = Math.round((new Date('2019-06-01 00:20:00')).getTime() / 1000);
+  //duration = 'monthly';
+  //ccode = '7SXXXXX';
+  // platform = 'iOSApp';
+  // pendingRenewal = 'On';
+  var xhr = new XMLHttpRequest();
+  xhr.open('get', '/m/corp/partial.html?include=promoboxone&type=' + subscriptionType + '&expire=' + expireDate + '&ccode=' + ccode + '&duration=' + duration + '&platform=' + platform + '&pendingRenewal=' + pendingRenewal);
+  xhr.setRequestHeader('Content-Type', 'application/text');
+  xhr.onload = function() {
+    if (xhr.status === 200) {
+      var data = xhr.responseText;
+      if (data !== '') {
+        var promoboxContainer = document.getElementById('promo-box-container');
+        promoboxContainer.innerHTML = data;
+        startCountdown(promoboxContainer, expireDate);
+        sendTracking(promoboxContainer);
+      }
+    }
+  };
+  xhr.send(null);
+  document.documentElement.className = window.htmlClass;
 }
 
 function startCountdown(promoboxContainer, expireDate) {
@@ -155,9 +154,6 @@ function getPayStory(className){
   return getPayHeadline;
 }
 
-
-
-
 function updateLockClass(){
   var getPayHeadline = getPayStory('locked');
   if (getPayHeadline.length>0){
@@ -167,6 +163,7 @@ function updateLockClass(){
     }
   }
 }
+
 function updateUnlockClass(){
     var getPayHeadline = getPayStory('unlocked');
     if (getPayHeadline.length>0){
@@ -184,7 +181,6 @@ function hasClass(ele, cls) {
   }else{
     return new RegExp(' ' + cls + ' ').test(' ' + ele.className + ' ');
   }
-
 }
  
 function addClass(ele, cls) {
@@ -231,8 +227,8 @@ function showPaywallHint(){
           paywallHintContainer.style.display = 'none';
       };
   }
-
 }
+
 showPaywallHint();
 
 
@@ -264,4 +260,3 @@ function openHint() {
 }
 
 openHint();
-
