@@ -375,7 +375,7 @@ href="http://www.ftchinese.com" target="_blank"
 				        <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;"> </td></tr>
 				    </table>
 				</div>
-				<%if $s == 0 && $l == 0 && $i ==0%>
+				<%if $s == 0 && $l == 0 && $i ==0 && $smarty.get.to != "vip" && $smarty.get.to != "iosapp"%>
 					<%assign var="adPositionCode" value="mpu-1"%>
 					<%assign var="adWrapper" value="weekly-1"%>
 					<%include file="next/partials/email-ad-tag.html"%>
@@ -391,12 +391,13 @@ href="http://www.ftchinese.com" target="_blank"
         <%assign var="s" value=$s+1%>
     <%elseif $section.type == "MainMessage"%>
     	<%assign var=buttonUrl value=$section.buttonUrl%>
-    	<%if $section.ccode != ""%>
-			<%assign var=ccode value=$section.ccode%>
-		<%elseif $smarty.get.ccode != ""%>
-			<%*<!--MARK: - If ccode is not set, check the ccode in the url parameter-->*%>
+    	<%if $smarty.get.ccode != ""%>
+			<%*<!--MARK: - check the ccode in the url parameter first-->*%>
 			<%assign var=ccode value=$smarty.get.ccode%>
-    	<%/if%>
+		<%elseif $section.ccode != ""%>
+			<%*<!--MARK: - if not found, check the ccode in section setting-->*%>
+			<%assign var=ccode value=$section.ccode%>
+		<%/if%>
     	<%if $section.discountCode != ""%>
     		<%assign var="discountCode" value="&from=`$section.discountCode`"%>
     	<%/if%>
@@ -455,7 +456,7 @@ href="http://www.ftchinese.com" target="_blank"
 </tr>
 </table>
 <table width="100%" cellpadding="0" cellspacing="0">
-	<%if $smarty.get.to != "iosapp"%>
+	<%if $smarty.get.to != "iosapp" && $smarty.get.to != "vip"%>
 		<%assign var="adPositionCode" value="mpu-2"%>
 		<%assign var="adWrapper" value="weekly-2"%>
 		<%include file="next/partials/email-ad-tag.html"%>
@@ -511,7 +512,7 @@ href="http://www.ftchinese.com" target="_blank"
 <td style="width: 3%;" class="contentPadding">&nbsp;</td>
 <td>
 <table width="100%" cellpadding="0" cellspacing="0">
-<%if $smarty.get.to != "iosapp"%>
+<%if $smarty.get.to != "iosapp" && $smarty.get.to != "vip"%>
 	<tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
 	<tr>
 	<td style="padding: 0 12px 6px 12px;">

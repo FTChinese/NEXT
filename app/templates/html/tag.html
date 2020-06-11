@@ -6,6 +6,7 @@
 <%assign var=tagabout value=$taginfo.tag_desc|default:$PageIntro%>
 <%assign var=whitelist value=$storymodel->getWhitelistTag()%>
 <%/if%>
+<%assign var=tagName value=$tag_name%>
 
 
 
@@ -20,19 +21,7 @@
 <%assign var="pageIdForSponsorshipManagement" value="sponsorshipmanagement"%>
 <%assign var="pageIdForBrandSafety" value="brandsafety"%>
 <%if $nextmodel != ""%>
-    <%assign var="infoForSponsorships" value=$nextmodel->getPublishJson($pageIdForSponsorshipManagement)|json_decode:true%>
-    <%assign var="infoForBrandSafety" value=$nextmodel->getPublishJson($pageIdForBrandSafety)|json_decode:true%>
-    <%assign var="currentDate" value=$smarty.now|date_format:"%Y%m%d"%>
-    <%foreach from=$infoForSponsorships.sections item=section%>
-    <%if $section.status == "on" && $section.dates != "" && preg_match("/`$currentDate`/is",$section.dates) && ($section.adChannelId != "" || $section.zone != "")%>
-      <%if $tagName != "" && ($tagName == $section.title || $tagName == $section.tag)%>
-        <%assign var="zone" value=$section.zone%>
-        <%if !preg_match("/special/is",$zone)%>
-            <%assign var="zone" value="home/special/`$zone`"%>
-        <%/if%>
-      <%/if%>
-    <%/if%>
-    <%/foreach%>
+
 
     <%assign var="hasFoundBrandSafety" value="no"%>
     <%foreach from=$infoForBrandSafety.sections item=section%>
@@ -57,11 +46,28 @@ MARK: Check the next model tag for sponsored special reports end-->*%>
 
 
 
-
-<%*<!--MARK: Check the next model tag for brand safety -->
+<%*<!--MARK: Check the next model tag for brand safety -->*%>
 <%if $nextmodel != ""%>
-    <%assign var="infoForBrandSafety" value=$nextmodel->getPublishJson("brandsafety")|json_decode:true%>
+    <%assign var="infoForSponsorships" value=$nextmodel->getPublishJson("sponsorshipmanagement")|json_decode:true%>
     <%assign var="currentDate" value=$smarty.now|date_format:"%Y%m%d"%>
+    <%assign var="hasFoundSponsorshipInfo" value="no"%>
+    <%foreach from=$infoForSponsorships.sections item=section%>
+    <%if $section.status == "on" && $section.dates != "" && preg_match("/`$currentDate`/is",$section.dates) && $section.zone != ""%>
+      <%if $tagName != "" && ($tagName == $section.title || $tagName == $section.tag) && $hasFoundSponsorshipInfo == "no"%>
+        <%if $section.title != ""%>
+            <%assign var=tagtitle value=$section.title%>
+        <%/if%>
+        <%assign var="zone" value=$section.zone%>
+        <%if !preg_match("/special/is",$zone)%>
+            <%assign var="zone" value="home/special/`$zone`"%>
+        <%/if%>
+        <%assign var="hasFoundSponsorshipInfo" value="yes"%>
+      <%/if%>
+    <%/if%>
+    <%/foreach%>
+
+
+    <%assign var="infoForBrandSafety" value=$nextmodel->getPublishJson("brandsafety")|json_decode:true%>
     <%assign var="hasFoundBrandSafety" value="no"%>
     <%foreach from=$infoForBrandSafety.sections item=section%>
         <%if $hasFoundBrandSafety == "no" && $section.status == "on" && ($section.dates == "" || preg_match("/`$currentDate`/is",$section.dates))%>
@@ -136,7 +142,6 @@ MARK: Check the next model tag for sponsored special reports end-->*%>
         <!-- tag code 1: <%$tagCode%> -->
     <%else%>
         <%assign var="tagCode" value=$tag_name%>
-        <!-- tag code 2: <%$tagCode%> -->
     <%/if%>
     <%assign var="itemTag" value="<div class=\"no-image\"><div class=\"item-inner\"><div class=item-tag><a href=\"#\">`$tagtitle`</a><button class=\"myft-follow plus\" data-tag=\"`$tagCode`\" data-type=\"`$data_type`\">关注</button></div></div></div>"%>
 <%/if%>
@@ -203,6 +208,8 @@ MARK: Check the next model tag for sponsored special reports end-->*%>
     <%assign var="thirdnav" value=$smarty.get.thirdnav%>
 <%/if%>
 <%*<!--MARK: End-->*%>
+
+
 
 
 <%if $smarty.get.bodyonly != "yes"%>

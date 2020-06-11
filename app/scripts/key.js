@@ -487,4 +487,11 @@ function getUrlParams(key){
     return value;
 }
 window.ccodeValue = getUrlParams('ccode') || getUrlParams('utm_campaign') || GetCookie('ccode');
-
+window.addEventListener('message', function(event){
+    var ec = event.data.ec;
+    var ea = event.data.ea;
+    var el = event.data.el;
+    if (ec && ea && el) {
+        gtag('event', ea, {'event_label': el, 'event_category': ec, 'non_interaction': true});
+    }
+}, false);

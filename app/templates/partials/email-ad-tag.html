@@ -1,4 +1,4 @@
-<%if $ads != ""%>
+<%if $ads != "" && $smarty.get.to != "vip" && $smarty.get.to != "iosapp"%>
 	<%foreach from=$ads.sections item=section%>
 		<%if $section.title == $adPositionCode%>
 			<%assign var="foundAd" value="no"%>
