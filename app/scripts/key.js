@@ -58,7 +58,19 @@ function guid() {
 }
 
 function updateSubscriberStatus() {
-    var paywall = GetCookie('paywall');
+    var paywall = null;
+    // MARK: - On Android Native App, use window.androidUserInfo for subscription information
+    if (window.androidUserInfo) {
+        try {
+            if (window.androidUserInfo.isMember) {
+                paywall = (window.androidUserInfo.membership.tier === 'premium') ? 'premium' : 'subscriber';
+            }
+        } catch(ignore) {}
+    }
+    // MARK: - Otherwise, use cookie for subscription information
+    if (paywall === null) {
+        paywall = GetCookie('paywall');
+    }
     var subscriberClass = '';
     if (paywall !== null) {
         if (paywall === 'premium') {
