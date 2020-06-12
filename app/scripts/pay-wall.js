@@ -62,7 +62,7 @@ function payWall() {
       dataObj.expire = parseInt(expireDate.getTime()/1000, 10);
       dataObj.source = (window.androidUserInfo.membership.vip) ? 'ftc' : '';
     }
-    console.log(dataObj);
+    // console.log(dataObj);
     handleSubscriptionInfo(dataObj);
   } else if (!isReqSuccess && i<3) {
     var userId1 = GetCookie('USER_ID') ;
@@ -109,7 +109,6 @@ function handleSubscriptionInfo(dataObj) {
       subscriptionType = 'standard';
     }
   }
-  if (dataObj.)
   var expireDate = '';
   if (dataObj.expire) {
     expireDate = dataObj.expire;
