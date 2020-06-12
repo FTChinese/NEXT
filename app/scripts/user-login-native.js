@@ -12,7 +12,7 @@ function passLoginToNative() {
         uniqueVisitorId: uniqueId,
         ccode: ccode,
         source: paywallSource,
-        testCode: '001001'
+        infoSource: 'cookie'
     };
     // MARK: Get subscription: standard/premium
     var paywall = GetCookie('paywall') || '';
@@ -48,16 +48,15 @@ function passLoginToNative() {
                     message.paywall = 'standard';
                     window.htmlClass += ' is-subscriber is-standard';
                 }
-                message.paywallExpire = userInfo.expire || '';
                 document.documentElement.className = window.htmlClass;
             } else {
                 message.paywall = '';
-                message.paywallExpire = '';
             }
+            message.paywallExpire = userInfo.expire || '';
             message.ccode = userInfo.campaign_code || '';
             message.duration = userInfo.latest_duration || '';
             message.source = userInfo.source || '';
-            message.testCode = '001002';
+            message.infoSource = 'jsapi/paywall';
             try {
                webkit.messageHandlers.user.postMessage(message);
             } catch (ignore) {
