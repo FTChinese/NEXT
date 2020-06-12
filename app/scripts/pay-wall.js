@@ -109,6 +109,7 @@ function handleSubscriptionInfo(dataObj) {
       subscriptionType = 'standard';
     }
   }
+  if (dataObj.)
   var expireDate = '';
   if (dataObj.expire) {
     expireDate = dataObj.expire;
@@ -120,13 +121,13 @@ function handleSubscriptionInfo(dataObj) {
   var ua = navigator.userAgent || navigator.vendor || '';
   if (window.location.href.indexOf('webview=ftcapp')>=0) {
     if (/iphone|ipod|ipad/i.test(ua)) {
-    platform = 'iOSApp';
-    try {
-    pendingRenewal = paravalue(window.location.href, 'pendingRenewal');
-    //console.log ('p: ' + pendingRenewal);
-    } catch (ignore) {}
+      platform = 'iOSApp';
+      try {
+        pendingRenewal = paravalue(window.location.href, 'pendingRenewal');
+        //console.log ('p: ' + pendingRenewal);
+      } catch (ignore) {}
     } else {
-    platform = 'AndroidApp';
+      platform = 'AndroidApp';
     }
   }
 
@@ -193,9 +194,6 @@ function isEditorChoiceChannel(){
   var isEditorChoiceChannel = (para.indexOf('issue=EditorChoice')>=0) ? true : false;
   return isEditorChoiceChannel;
 }
-
-payWall();
-
 
 // MARK: - 过滤出包含locked的item-headline数组
 function getPayStory(className){
@@ -290,9 +288,6 @@ function showPaywallHint(){
   }
 }
 
-showPaywallHint();
-
-
 function openHint() {
   var para = location.search.substring(1);
   var url = location.href;
@@ -320,4 +315,6 @@ function openHint() {
   }
 }
 
+payWall();
+showPaywallHint();
 openHint();
