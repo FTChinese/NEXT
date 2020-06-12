@@ -11,7 +11,8 @@ function passLoginToNative() {
         userId: userIdForLoginUser,
         uniqueVisitorId: uniqueId,
         ccode: ccode,
-        source: paywallSource
+        source: paywallSource,
+        testCode: '001001'
     };
     // MARK: Get subscription: standard/premium
     var paywall = GetCookie('paywall') || '';
@@ -56,6 +57,7 @@ function passLoginToNative() {
             message.ccode = userInfo.campaign_code || '';
             message.duration = userInfo.latest_duration || '';
             message.source = userInfo.source || '';
+            message.testCode = '001002';
             try {
                webkit.messageHandlers.user.postMessage(message);
             } catch (ignore) {
