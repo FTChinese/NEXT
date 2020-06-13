@@ -14,7 +14,7 @@
             .replace(/^(http.*)$/g, '<a href="$1" target="_blank">' + linkTitle + '</a>')
             .replace(/^(&gt;|>)\s*(.*)$/g, '<blockquote class="n-content-blockquote"><p>$2</p></blockquote>');
             if (p.indexOf('ITV') >= 0) {
-                console.log (p);
+                //console.log (p);
             }
             if (/[\.。] *$/.test(p)) {
                 foundTitle = true;
@@ -42,7 +42,6 @@
             var secondsDiff = Math.floor(nowTimeStamp - publishTimeStamp);
             var display = {};
             var s = '';
-            console.log (secondsDiff);
             if (secondsDiff < 60) {
                 display = {en: secondsDiff + ' seconds ago', ch: secondsDiff + '秒前'};
             } else if (secondsDiff < 60 * 60) {
@@ -64,7 +63,6 @@
                 var day = publishTime.getDate();
                 display = {en: year + '-' + month + '-' + day, ch: year + '年' + month + '月' + day + '日'};
             }
-            console.log (display);
             timeContainers[m].innerHTML = '<div class="item-time highlight original">' + display.en + '</div><div class="item-time highlight">' + display.ch + '</div>';
         }
     }

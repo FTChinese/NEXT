@@ -1,5 +1,5 @@
 <%*<!--MARK: Check the next model for coronavirus latest start-->*%>
-<%if $nextmodel != ""%>
+<%if $nextmodel != "" && date("D",$smarty.now) != 'Sat' && date("D",$smarty.now) != 'Sun'%>
 	<style><%include file="next/styles/main-cover.css"%></style>
 	<%assign var="infoForSponsorships" value=$nextmodel->getPublishJson("premiumcover")|json_decode:true%>
 	<%foreach from=$infoForSponsorships.sections item=section%>
