@@ -144,9 +144,11 @@ function handleSubscriptionInfo(dataObj) {
       var data = xhr.responseText;
       if (data !== '') {
         var promoboxContainer = document.getElementById('promo-box-container');
-        promoboxContainer.innerHTML = data;
-        startCountdown(promoboxContainer, expireDate);
-        sendTracking(promoboxContainer);
+        if (promoboxContainer) {
+          promoboxContainer.innerHTML = data;
+          startCountdown(promoboxContainer, expireDate);
+          sendTracking(promoboxContainer);
+        }
       }
     }
   };
