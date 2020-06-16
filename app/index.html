@@ -1236,6 +1236,45 @@ data-o-ads-targeting="cnpos=middle6;"
 </div>
 </div>
 </div>
+
+
+<div class="clearfloat"></div>
+<div class="side-list last-child headlineOnly">
+  <h2 class="list-title">
+  <a href="#">帮助与反馈</a>
+  </h2>
+  <div class="item-container first-headline no-image"><div class="item-inner">
+    <h2 class="item-headline first"><a href="http://www.ftchinese.com/m/corp/preview.html?pageid=ioshelp">常见问题</a></h2>	
+    <h2 class="item-headline"><a href="mailto:ftchinese.feedback@gmail.com?subject=Feedback about FTC Web App - from home page">通过电子邮件反馈</a></h2>
+      <style>
+        #offer-info {padding: 15px;}
+        #offer-info div {margin-bottom: 15px;}
+        #offer-code {height: 32px;}
+        #offer-link {font-weight: bold;color: #0d7680;}
+      </style>
+      <h2 class="item-headline"><a id="offer-redeem">兑换活动优惠</a></h2>
+      <div id="offer-info"></div>
+      <script>
+        document.getElementById('offer-redeem').onclick = function(){
+          document.getElementById('offer-info').innerHTML = '<div id="offer-status">您好，请输入您的兑换码：</div><div class="offer-code-container"><input id="offer-code" type="text" style="width: 100%"></div><div class="login-btn input-submit-container center offer-code-container"><input id="offer-code-confirm" type="submit" value="确定"></div>';
+          document.getElementById('offer-code-confirm').onclick = function() {
+            if (document.getElementById('offer-code').value.toLowerCase() === 'winback') {
+              document.getElementById('offer-status').innerHTML = '<a id="offer-link" href="http://www.ftchinese.com/m/corp/preview.html?pageid=winbackemail20200618&view=email&to=iosapp&ccode=2CWinbackApple20200618">请您点击这个链接继续进行兑换</a>';
+              var eles = document.querySelector('.offer-code-container');
+              for (var i=0; i<eles.length; i++) {
+                eles[i].style.display = 'none';
+              }
+            } else {
+              document.getElementById('offer-status').innerHTML = '对不起，现在没有适合您的优惠活动';
+            }
+          }
+        }
+      </script>
+  </div></div>
+</div>
+
+
+
 <div class="videos">
 <h2 class="list-title"><a href="/m/marketing/businesscase.html">中国商业案例精选</a></h2>
 <div class="interactive-inner">
