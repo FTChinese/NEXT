@@ -149,7 +149,8 @@ function trackerNew() {
         'dimension15': 'reader_type',
         'dimension16': 'use_block',
         'dimension17': 'prefer_language',
-        'dimension18': 'screen_type'
+        'dimension18': 'screen_type',
+        'dimension20': 'translation_preference'
     };
     if (w >0) {
         if (w>1220) {
@@ -360,6 +361,10 @@ function trackerNew() {
         gTagParameters.use_block = 'yes';
     } else if (window.isBlocked === 'no'){
         gTagParameters.use_block = 'no';
+    }
+    var translationPreference = GetCookie('translation');
+    if (translationPreference) {
+        gTagParameters.translation_preference = translationPreference;
     }
     if (window.bpage !== undefined && window.bpage !== 0 && window.bpage !== null) {
         trackerpage=l;
