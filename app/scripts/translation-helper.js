@@ -11,8 +11,8 @@ function convertTextToArray(t) {
     var englishInfoDiv = document.createElement('DIV');
     englishInfoDiv.innerHTML = newText;
     var htmlTexts = [];
-    for (const child of englishInfoDiv.children) {
-        htmlTexts.push(child.outerHTML);
+    for (var i=0; i<englishInfoDiv.children.length; i++) {
+        htmlTexts.push(englishInfoDiv.children[i].outerHTML);
     }
     return htmlTexts;
 }
@@ -42,33 +42,35 @@ function confirmTranslation(ele) {
     ele.classList.add('selected');
     ele.title = '';
     var finalTranslationEle = ele.parentNode.parentNode.querySelector('textarea');
-    const prefix = (finalTranslationEle.value === '') ? '' : '\n\n';
+    var prefix = (finalTranslationEle.value === '') ? '' : '\n\n';
     finalTranslationEle.value += prefix + text;
 }
 
 function start() {
     var englishText = document.getElementById('english-text');
     var translationInfoEle = document.getElementById('translation-info');
-    const translationInfoString = translationInfoEle.value;
+    var translationInfoString = translationInfoEle.value;
     var storyBodyEle = document.getElementById('story-body-container');
     if (translationInfoString !== '') {
-        const translationInfo = JSON.parse(translationInfoString);
+        var translationInfo = JSON.parse(translationInfoString);
         var englishEle = document.createElement('DIV');
         englishEle.innerHTML = englishText.value;
         var k = '';
-        for (const info of translationInfo) {
-            var infoHTML = ''
-            const id = info.id;
-            const englishHTML = englishEle.querySelector(`#${id}`).innerHTML;
-            infoHTML += `<div class="info-original">${englishHTML}</div>`;
-            for (const translation of info.translations) {
-                const t = (/<.+>/g.test(translation)) ? tidyHTML(translation) : translation;
-                infoHTML += `<div onclick="confirmTranslation(this)" class="info-translation" title="click to confirm this translation to the right">${t}</div>`;
+        for (var i=0; i<translationInfo.length; i++) {
+            var info = translationInfo[i];
+            var infoHTML = '';
+            var id = info.id;
+            var englishHTML = englishEle.querySelector('#' + id).innerHTML;
+            infoHTML += '<div class="info-original">' + englishHTML + '</div>';
+            for (var j=0; j<info.translations.length; j++) {
+                var translation = info.translations[j];
+                var t = (/<.+>/g.test(translation)) ? tidyHTML(translation) : translation;
+                infoHTML += '<div onclick="confirmTranslation(this)" class="info-translation" title="click to confirm this translation to the right">' + t + '</div>';
             }
-            infoHTML = `<div class="info-container"><div>${infoHTML}</div><div><textarea data-info-id="${id}" placeholder="点选右边的翻译版本，您也可以继续编辑"></textarea></div></div><hr>`;
+            infoHTML = '<div class="info-container"><div>' + infoHTML + '</div><div><textarea data-info-id="' + id + '" placeholder="点选右边的翻译版本，您也可以继续编辑"></textarea></div></div><hr>';
             k += infoHTML;
         }
-        k += `<div class="centerButton"><input type="button" value="完成并关闭" onclick="finishTranslation()" class="submitbutton button ui-light-btn"></div>`;
+        k += '<div class="centerButton"><input type="button" value="完成并关闭" onclick="finishTranslation()" class="submitbutton button ui-light-btn"></div>';
         storyBodyEle.innerHTML = k;
         document.querySelector('.body').classList.add('full-grid');
     } else {
@@ -112,13 +114,14 @@ function finish() {
 
 function finishTranslation() {
     console.log('Finish Translation! ');
-    const t = document.getElementById('english-text').value;
+    var t = document.getElementById('english-text').value;
     var newText = t.trim().replace(/^[\n\r\s]+/, '').replace(/[\n\r\s]+$/, '');
     var englishInfoDiv = document.createElement('DIV');
     englishInfoDiv.innerHTML = newText;
-    for (const ele of document.querySelectorAll('[data-info-id]')) {
-        const id = ele.getAttribute('data-info-id');
-        var infoEle = englishInfoDiv.querySelector(`#${id}`);
+    for (var i=0; i<document.querySelectorAll('[data-info-id]').length; i++) {
+        var ele = document.querySelectorAll('[data-info-id]')[i];
+        var id = ele.getAttribute('data-info-id');
+        var infoEle = englishInfoDiv.querySelector('#' + id);
         if (infoEle) {
             infoEle.innerHTML = ele.value;
         }
