@@ -133,12 +133,16 @@ if (window.opener) {
     var englishText = window.opener.document.getElementById('ebody').value;
     document.getElementById('english-text').value = englishText;
     var translationText = window.opener.document.getElementById('cbody').value;
-    translations = translationText.split(splitter);
-    var translationsHTML = '';
-    for (var k=0; k<translations.length; k++) {
-        translationsHTML += '<textarea class="commentTextArea chinese-translation" width="100%" rows="3">' + translations[k] + '</textarea>'
+    if (/translations/.test(translationText)) {
+        document.getElementById('translation-info').value = translationText;
+    } else {
+        translations = translationText.split(splitter);
+        var translationsHTML = '';
+        for (var k=0; k<translations.length; k++) {
+            translationsHTML += '<textarea class="commentTextArea chinese-translation" width="100%" rows="3">' + translations[k] + '</textarea>'
+        }
+        document.getElementById('translations').innerHTML = translationsHTML;
     }
-    document.getElementById('translations').innerHTML = translationsHTML;
     start();
 }
 /* jshint ignore:end */
