@@ -56,6 +56,21 @@ function start() {
         var englishEle = document.createElement('DIV');
         englishEle.innerHTML = englishText.value;
         var k = '';
+        var cheadlineForTranslation;
+        var clongleadbodyForTranslation;
+        if (window.opener && window.opener.titles) {
+            for (var j=0; j<window.opener.titles.length; j++) {
+                var info = window.opener.titles[j];
+                var infoHTML = '<div class="info-original">' + info.original + '</div>';
+                var id = info.id;
+                var translations = info.translations.split(splitter);
+                for (var m=0; m<translations.length; m++) {
+                    infoHTML += '<div onclick="confirmTranslation(this)" class="info-translation" title="click to confirm this translation to the right">' + translations[m] + '</div>';
+                }
+                infoHTML = '<div class="info-container"><div>' + infoHTML + '</div><div><textarea data-info-id="' + id + '" placeholder="点选右边的翻译版本，您也可以继续编辑"></textarea></div></div><hr>';
+                k += infoHTML;
+            }
+        }
         for (var i=0; i<translationInfo.length; i++) {
             var info = translationInfo[i];
             var infoHTML = '';
@@ -112,12 +127,28 @@ function finish() {
     }
 }
 
+function getCleanText(ele) {
+    var cleanTexts = [];
+    for (var i=0; i<ele.children.length; i++) {
+        var child = ele.children[i];
+        if (child.tagName.toUpperCase() === 'P') {
+            cleanTexts.push(child.innerHTML);
+        } else {
+            cleanTexts.push(child.outerHTML);
+        }
+    }
+    return cleanTexts.join('\n\n');
+}
+
 function finishTranslation() {
     console.log('Finish Translation! ');
     var t = document.getElementById('english-text').value;
     var newText = t.trim().replace(/^[\n\r\s]+/, '').replace(/[\n\r\s]+$/, '');
     var englishInfoDiv = document.createElement('DIV');
     englishInfoDiv.innerHTML = newText;
+    var cleanEnglishText = getCleanText(englishInfoDiv);
+    var titles = ['cheadline', 'clongleadbody'];
+    var titlesInfo = [];
     for (var i=0; i<document.querySelectorAll('[data-info-id]').length; i++) {
         var ele = document.querySelectorAll('[data-info-id]')[i];
         var id = ele.getAttribute('data-info-id');
@@ -125,17 +156,39 @@ function finishTranslation() {
         if (infoEle) {
             infoEle.innerHTML = ele.value;
         }
+        for (var m=0; m<titles.length; m++) {
+            if (titles[m] === id) {
+                console.log(ele);
+                titlesInfo.push({id: id, value: ele.value});
+            }
+        }
     }
+    var cleanChineseText = getCleanText(englishInfoDiv);
     if (window.opener) {
-        window.opener.document.getElementById('cbody').value = englishInfoDiv.innerHTML;
+        var cbodyEles = window.opener.document.querySelectorAll('textarea.bodybox, #cbody');
+        for (var j=0; j<cbodyEles.length; j++) {
+            var cbodyEle = cbodyEles[j];
+            cbodyEle.disabled = false;
+            cbodyEle.value = cleanChineseText;
+        }
+        ebodyEle = window.opener.document.getElementById('ebody');
+        ebodyEle.disabled = false;
+        ebodyEle.value = cleanEnglishText;
+        for (var k=0; k<titlesInfo.length; k++) {
+            var id = titlesInfo[k].id;
+            var value = titlesInfo[k].value;
+            window.opener.document.getElementById(id).disabled = false;
+            window.opener.document.getElementById(id).value = value;
+        }
+        window.opener.document.querySelector('.translation-helper').style.display = 'none';
         window.close();
     }
 }
 
 if (window.opener) {
-    var englishText = window.opener.document.getElementById('ebody').value;
+    var englishText = window.opener.ebodyForTranslation || window.opener.document.getElementById('ebody').value;
     document.getElementById('english-text').value = englishText;
-    var translationText = window.opener.document.getElementById('cbody').value;
+    var translationText = window.opener.cbodyForTranslation || window.opener.document.getElementById('cbody').value;
     if (/translations/.test(translationText)) {
         document.getElementById('translation-info').value = translationText;
     } else {
