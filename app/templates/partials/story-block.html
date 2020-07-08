@@ -23,7 +23,8 @@
 			<div class="story-theme"><%$breadcrum%></div>
 			<h1 class="story-headline<%$storyHeadlineClass%>"><%$storyHeadline%></h1>
 			<%$storyLead%>
-			<%if $cc_vaddress && $cc_vaddress!=""%>
+			<%*<!--MARK: Only show video to paid subscriber-->*%>
+			<%if $cc_vaddress && $cc_vaddress!="" && $smarty.get.paywall != "1" && $paywall != "1" && $smarty.get.paywall != "2" && $paywall != "2"%>
 				<div class="video-player" target="_blank" id="video-player"><div class="video-player-inner">
 					<script type="text/javascript">
 					var thisVideo = document.getElementById('video-player');

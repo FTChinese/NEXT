@@ -2,12 +2,16 @@
 /* jshint ignore:start */
 // MARK: - This has to pass through the gulp testing, so no const or for of loops, or any other modern features. 
 var splitter = '-|-';
+var startTime = new Date();
+if (window.opener && window.opener.userName) {
+    window.userName = window.opener.userName;
+} else {
+    window.userName = '';
+}
 function convertTextToArray(t) {
     var newText = t.trim().replace(/^[\n\r\s]+/, '').replace(/[\n\r\s]+$/, '');
     newText = newText.replace(/[\r\n]+/g, splitter);
-    if (newText.split(splitter).length > 1) {
-        return newText.split(splitter);
-    }
+    if (newText.split(splitter).length > 1) {return newText.split(splitter);}
     var englishInfoDiv = document.createElement('DIV');
     englishInfoDiv.innerHTML = newText;
     var htmlTexts = [];
@@ -16,16 +20,17 @@ function convertTextToArray(t) {
     }
     return htmlTexts;
 }
+
 function addTranslation(ele) {
-    if (ele.className.indexOf(' selected')>=0) {
-        return;
-    }
+    if (ele.className.indexOf(' selected')>=0) {return;}
     var text = ele.innerHTML;
     ele.className += ' selected';
     ele.title = '';
     var finalTranslationEle = document.getElementById('final-translation');
     var prefix = (finalTranslationEle.value === '') ? '' : '\n\n';
     finalTranslationEle.value += prefix + text;
+    var ea = ele.getAttribute('data-translation-index');
+    gtag('event', ea, {'event_label': window.userName, 'event_category': 'Translation Helper', 'non_interaction': false});
 }
 
 function tidyHTML(html) {
@@ -44,6 +49,8 @@ function confirmTranslation(ele) {
     var finalTranslationEle = ele.parentNode.parentNode.querySelector('textarea');
     var prefix = (finalTranslationEle.value === '') ? '' : '\n\n';
     finalTranslationEle.value += prefix + text;
+    var ea = ele.getAttribute('data-translation-index');
+    gtag('event', ea, {'event_label': window.userName, 'event_category': 'Translation Helper', 'non_interaction': false});
 }
 
 function start() {
@@ -65,7 +72,7 @@ function start() {
                 var id = info.id;
                 var translations = info.translations.split(splitter);
                 for (var m=0; m<translations.length; m++) {
-                    infoHTML += '<div onclick="confirmTranslation(this)" class="info-translation" title="click to confirm this translation to the right">' + translations[m] + '</div>';
+                    infoHTML += '<div onclick="confirmTranslation(this)" data-translation-index="' + m + '"  class="info-translation" title="click to confirm this translation to the right">' + translations[m] + '</div>';
                 }
                 infoHTML = '<div class="info-container"><div>' + infoHTML + '</div><div><textarea data-info-id="' + id + '" placeholder="点选右边的翻译版本，您也可以继续编辑"></textarea></div></div><hr>';
                 k += infoHTML;
@@ -80,7 +87,7 @@ function start() {
             for (var j=0; j<info.translations.length; j++) {
                 var translation = info.translations[j];
                 var t = (/<.+>/g.test(translation)) ? tidyHTML(translation) : translation;
-                infoHTML += '<div onclick="confirmTranslation(this)" class="info-translation" title="click to confirm this translation to the right">' + t + '</div>';
+                infoHTML += '<div onclick="confirmTranslation(this)" data-translation-index="' + j + '" class="info-translation" title="click to confirm this translation to the right">' + t + '</div>';
             }
             infoHTML = '<div class="info-container"><div>' + infoHTML + '</div><div><textarea data-info-id="' + id + '" placeholder="点选右边的翻译版本，您也可以继续编辑"></textarea></div></div><hr>';
             k += infoHTML;
@@ -102,7 +109,7 @@ function start() {
             for (var k=0; k<translationsArray.length; k++) {
                 var currentTranslationArray = translationsArray[k];
                 if (currentTranslationArray[j]) {
-                    p += '<div onclick="addTranslation(this)" class="chinese-translation" title="click to add this translation to the right">' + currentTranslationArray[j] + '</div>';
+                    p += '<div onclick="addTranslation(this)" data-translation-index="' + k + '" class="chinese-translation" title="click to add this translation to the right">' + currentTranslationArray[j] + '</div>';
                 }
             }
             p += '<hr>';
@@ -117,14 +124,31 @@ function start() {
     document.querySelector('.sidebar').style.display = 'grid';
 }
 
+function trackFinishTimeAndClose() {
+    var finishTime = new Date();
+    var spentTime = Math.round(finishTime.getTime() - startTime.getTime());
+    gtag('event', 'timing_complete', {
+        'name' : 'finish',
+        'value' : spentTime,
+        'event_category' : "Quick Translation",
+        'event_callback': function() {
+            console.log('Spent ' + spentTime + ' miliseconds! ');
+            if (window.opener) {window.close();}
+        }
+    });
+    setTimeout(function(){
+        if(window.opener) {window.close();}
+    }, 3000);
+}
+
 function finish() {
     console.log ('paste the chinese text back! ');
     if (window.opener) {
         var result = document.getElementById('final-translation').value;
         window.opener.document.getElementById('cbody').value = result;
         window.opener.document.getElementById('tag').value += ',translation_confirmed';
-        window.close();
     }
+    trackFinishTimeAndClose();
 }
 
 function getCleanText(ele) {
@@ -140,8 +164,34 @@ function getCleanText(ele) {
     return cleanTexts.join('\n\n');
 }
 
+function formatDuration(seconds) {
+    if (seconds === 0) {return 'now';}
+    var formats = [
+        {name: 'second', up: 60},
+        {name: 'minute', up: 60},
+        {name: 'hour', up: 24},
+        {name: 'day', up: 365},
+        {name: 'year'}
+    ]
+    var v = seconds;
+    var times = [];
+    for (var i=0; i<formats.length; i++) {
+        var up = formats[i].up;
+        var name = formats[i].name;
+        var value = (up) ? v % up : v;
+        if (value>0) {
+            var suffix = (value>1) ? 's' : '';
+            times.push(value + ' ' + name + suffix);
+        }
+        v = Math.floor(v/up);
+        if (v === 0) {break;}
+    }
+    times = times.reverse();
+    result = times.join(', ').replace(/, ([^,]+)$/, ' and $1');
+    return result;
+}
+
 function finishTranslation() {
-    console.log('Finish Translation! ');
     var t = document.getElementById('english-text').value;
     var newText = t.trim().replace(/^[\n\r\s]+/, '').replace(/[\n\r\s]+$/, '');
     var englishInfoDiv = document.createElement('DIV');
@@ -154,7 +204,7 @@ function finishTranslation() {
         var id = ele.getAttribute('data-info-id');
         var infoEle = englishInfoDiv.querySelector('#' + id);
         if (infoEle) {
-            infoEle.innerHTML = ele.value;
+            infoEle.innerHTML = ele.value.trim().replace(/^[\n\r\s]+/, '').replace(/[\n\r\s]+$/, '');
         }
         for (var m=0; m<titles.length; m++) {
             if (titles[m] === id) {
@@ -180,9 +230,23 @@ function finishTranslation() {
             window.opener.document.getElementById(id).disabled = false;
             window.opener.document.getElementById(id).value = value;
         }
-        window.opener.document.querySelector('.translation-helper').style.display = 'none';
-        window.close();
+        var translationHelperButton = window.opener.document.querySelector('.translation-helper');
+        if (translationHelperButton) {
+            var finishTime = new Date();
+            var spentTime = Math.round((finishTime.getTime() - startTime.getTime())/1000);
+            translationHelperButton.innerHTML = 'Translation finished in ' + formatDuration(spentTime) + '. ';
+            setTimeout(function(){translationHelperButton.style.display = 'none';}, 6000);
+        }
+        // MARK: - In the workflow, there's a weird requirement that a translator have to use a select menu to indicate that the translation is finished. This is totally stupid so I'll just automate it. 
+        var completeSelects = window.opener.document.querySelectorAll('select');
+        for (var l=0; l<completeSelects.length; l++) {
+            currentSelect = completeSelects[l];
+            if (currentSelect.id && currentSelect.id.indexOf('complete_') === 0) {
+                currentSelect.value = 1;
+            }
+        }
     }
+    trackFinishTimeAndClose();
 }
 
 if (window.opener) {
