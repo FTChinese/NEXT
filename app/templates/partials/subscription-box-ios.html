@@ -5,15 +5,33 @@
 <%assign var=standardPriceDaily value="0.7"%>
 <%assign var=premiumPriceDaily value="5.5"%>
 <%assign var=hasDiscount value=""%>
-
+<%assign var=standardOfferId value=""%>
+<%assign var=premiumOfferId value=""%>
 <%if $section.discountCode == "ft_win_back"%>
   <%assign var=hasDiscount value="yes"%>
   <%assign var=standardPriceValue value="128"%>
   <%assign var=premiumPriceValue value="998"%>
   <%assign var=standardPriceDaily value="0.3"%>
   <%assign var=premiumPriceDaily value="2.8"%>
+  <%assign var=standardOfferId value="standard_win_back_offer_2020"%>
+  <%assign var=premiumOfferId value="premium_win_back_offer_2020"%>
+<%elseif $section.discountCode == "ft_renewal"%>
+  <%assign var=hasDiscount value="yes"%>
+  <%assign var=standardPriceValue value="198"%>
+  <%assign var=premiumPriceValue value="1498"%>
+  <%assign var=standardPriceDaily value="0.5"%>
+  <%assign var=premiumPriceDaily value="4.2"%>
+  <%assign var=standardOfferId value="standard_retention_offer_2020"%>
+  <%assign var=premiumOfferId value="premium_retention_offer_2020"%>
+<%elseif $section.discountCode == "ft_discount"%>
+  <%assign var=hasDiscount value="yes"%>
+  <%assign var=standardPriceValue value="218"%>
+  <%assign var=premiumPriceValue value="1698"%>
+  <%assign var=standardPriceDaily value="0.6"%>
+  <%assign var=premiumPriceDaily value="4.6"%>
+  <%assign var=standardOfferId value="standard_discount_offer_2020"%>
+  <%assign var=premiumOfferId value="premium_discount_offer_2020"%>
 <%/if%>
-
 <%if $hasDiscount == "yes"%>
   <%assign var=standardPrice value="¥`$standardPriceValue`/年 <del>(原价`$standardPrice`)</del>"%>
   <%assign var=premiumPrice value="¥`$premiumPriceValue`/年 <del>(原价`$premiumPrice`)</del>"%>
@@ -44,7 +62,7 @@
             </ul>
             <p style="padding: 0.5em 1em 0em 1.5em;">注：所有活动门票不可折算现金、不能转让、不含差旅与食宿</p>
             <div class="o-member__subscribe">
-              <a href="subscribe://premium/<%$premiumPriceValue%>"><button class="openSub" id="premium-btn">立即订阅</button></a>
+              <a href="subscribe://premium/<%$premiumPriceValue%>/<%$premiumOfferId%>"><button class="openSub" id="premium-btn">立即订阅</button></a>
               <p class="data-price" id="premium_price"><%$premiumPrice%></p>
             </div>
           </div>
@@ -66,7 +84,7 @@
               <li> 无限浏览7日前所有历史文章（近8万篇）</li>
             </ul>
             <div class="o-member__subscribe">
-              <a href="subscribe://standard/<%$standardPriceValue%>"><button class="openSub" id="standard-btn">立即订阅</button></a>
+              <a href="subscribe://standard/<%$standardPriceValue%>/<%$standardOfferId%>"><button class="openSub" id="standard-btn">立即订阅</button></a>
               <p class="data-price" id="standard_price"><%$standardPrice%></p>
             </div>
           </div>
