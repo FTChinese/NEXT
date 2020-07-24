@@ -715,43 +715,11 @@
 					<div id="archive-calendar" class="calendar"></div>
 				</div>
 				<%if $smarty.get.android != "" && 1>2%>
-					<div id="android-log">Android Log</div>
-					<script>
-						var vtype = 'unknown visitor';
-						setInterval(function(){
-							if (window.androidUserInfo) {
-								try {
-									if (window.androidUserInfo.isMember) {
-										if (window.androidUserInfo.membership.tier === 'premium') {
-											vtype = 'VIP';
-										} else {
-											vtype = 'Subscriber';
-										}
-									} else {
-										vtype = 'member';
-									}
-								} catch(err) {
-									vtype = 'error in android';
-								}
-							} else {
-								vtype = 'no info on android';
-							}
-							document.getElementById('android-log').innerHTML = vtype;
-						}, 10000);
-					</script>
-					<div id="android-log-html">Unknown</div>
-					<script>
-						var checkTime = 0;
-						setInterval(function(){
-							checkTime += 1;
-							document.getElementById('android-log-html').innerHTML = document.documentElement.className + ' ' + checkTime;
-						}, 10002);
-					</script>
-					<div>
-						<textarea style="max-width:100%;" rows=3>
-							<%$smarty.server.HTTP_HOST%><%$smarty.server.REQUEST_URI%>
-						</textarea>
-					</div>
+					<div id="android-log">Android Test</div>
+					<p><a href="http://www.ftchinese.com/archiver/2020-04-08">测试1</a></p>
+					<p><a href="/archiver/2020-04-08">测试2</a></p>
+					<p><a href="http://www.ftchinese.com/tag/与FT共进午餐">测试3</a></p>
+					<p><a href="/tag/与FT共进午餐">测试4</a></p>
 				<%/if%>
 			<%/if%>
 		<%/if%>

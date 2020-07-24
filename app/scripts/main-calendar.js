@@ -25,8 +25,9 @@ function updateCalendar(theday) {
     }
     prevm = new Date(prevyear + '/' + prevmonth + '/1');
     nextm = new Date(nextyear + '/' + nextmonth + '/1');
-    var ua = navigator.userAgent || navigator.vendor || '';
-    var hostUrl = (/Android/i.test(ua)) ? 'http://www.ftchinese.com' : '';
+    // var ua = navigator.userAgent || navigator.vendor || '';
+    // var hostUrl = (/Android/i.test(ua)) ? 'http://www.ftchinese.com' : '';
+    var hostUrl = '';
     var calendarDaysHTML = '';
     for (i = 1; themonth === new Date(theday.getFullYear() + '/' + themonth + '/' + i).getMonth() + 1; i++) {
         if (i === 1) {
