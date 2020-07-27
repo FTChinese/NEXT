@@ -1108,6 +1108,16 @@ delegate.on('click', '.close-img', function(){
 
 });
 
+delegate.on('click', '.item-lead', function(){  
+  if (this.classList.contains('expanded')) {
+    this.classList.remove('expanded');
+  } else {
+    this.classList.add('expanded');
+  }
+});
+
+
+
 trackInternalPromos();
 
 var deleteWarn = GetCookie('DSW') || '';
