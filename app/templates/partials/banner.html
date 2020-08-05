@@ -20,7 +20,14 @@
 
     <%if $section.image && $section.image != "" && $section.fit == ""%>
         <div class="block-image-container">
-            <a<%$sectionLink%> class="track-click" data-ec="House Ad" data-ea="Click" data-el="<%$section.url%>"><img src="<%$section.image%>"></a>
+            <a<%$sectionLink%> class="track-click" data-ec="House Ad" data-ea="Click" data-el="<%$section.url%>">
+                <%if $section.highImpactImage == ""%>
+                    <img src="<%$section.image%>">
+                <%else%>
+                    <img class="P-hide" src="<%$image1%>">
+                    <img class="P-only" src="<%$image2%>">
+                <%/if%>
+            </a>
         </div>
     <%else%>
         <%if $section.image == ""%>
