@@ -1223,6 +1223,22 @@
 	<%assign var="storyLead" value="`$elongleadbody`<br>`$clongleadbody`"%>
 <%elseif $preferLead == "none"%>
 	<%assign var="storyLead" value=""%>
+<%elseif $page_action=="en"%>
+	<%if $story && $story.eshortleadbody%>
+		<%assign var="storyLead" value=$story.eshortleadbody%>
+	<%elseif $story%>
+		<%assign var="storyLead" value=$story.clongleadbody%>
+	<%else%>
+		<%assign var="storyLead" value=$elongleadbody|default:$eshortleadbody%>
+	<%/if%>
+<%elseif $page_action=="ce"%>
+	<%if $story && $story.eshortleadbody%>
+		<%assign var="storyLead" value="`$story.eshortleadbody`<br>`$story.clongleadbody`"%>
+	<%elseif $story%>
+		<%assign var="storyLead" value=$story.clongleadbody%>
+	<%else%>
+		<%assign var="storyLead" value="`$elongleadbody`<br>`$clongleadbody`"%>
+	<%/if%>
 <%elseif $story.cshortleadbody && $story.cshortleadbody != ""%>
 	<%assign var="storyLead" value=$story.cshortleadbody%>
 <%elseif $story.clongleadbody && $story.clongleadbody != ""%>
