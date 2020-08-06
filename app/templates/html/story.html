@@ -1219,6 +1219,8 @@
 
 <%if $interactiveType == "Speedread"%>
 	<%assign var="storyLead" value=$cshortleadbody%>
+<%elseif preg_match("/英语电台/is",$keys)%>
+	<%assign var="storyLead" value="`$elongleadbody`<br>`$clongleadbody`"%>
 <%elseif $preferLead == "none"%>
 	<%assign var="storyLead" value=""%>
 <%elseif $story.cshortleadbody && $story.cshortleadbody != ""%>
@@ -1427,7 +1429,11 @@
 			<%assign var="story_content" value=$story_content|regex_replace:"/[\r\t\n]+/":"</p><p>"%>
 			<%assign var="story_content" value="<p>`$story_content`</p>"%>
 		<%/if%>
-		<%assign var="storyHeadline" value=$eheadline|default:$cheadline%>
+		<%if preg_match("/英语电台/is",$keys)%>
+			<%assign var="storyHeadline" value="`$eheadline`<br>`$cheadline`"%>
+		<%else%>
+			<%assign var="storyHeadline" value=$eheadline|default:$cheadline%>
+		<%/if%>
     <%elseif $page_action == "ce"%>
         <%assign var="story_content" value=""%>
         <%foreach item=body from=$storyce%>
