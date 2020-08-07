@@ -1,11 +1,6 @@
 @import "theme-default.scss";
 @import "variables.scss";
-.contact-form-container {
-    background-color: rgba(255,255,255,0.5);
-    border: 1px dashed $teal;
-    max-width: 450px;
-    margin: 0 auto;
-    color: $teal;
+.contact-form-container, .subscription-form-container {
     div {
     	//margin-bottom: 1em;
     }
@@ -22,6 +17,8 @@
     	border-style: solid;
     	border-color: $teal;
     	background-color: transparent;
+        -webkit-appearance: none;
+        border-radius: 0;
     	color: $lightGrey;
     	padding: $defaultPadding/4 0;
         &.wrong {
@@ -32,6 +29,16 @@
     	padding-top: $defaultPadding;
     	padding-bottom: $defaultPadding;
     }
+}
+.contact-form-container {
+    background-color: rgba(255,255,255,0.5);
+    border: 1px dashed $teal;
+    max-width: 450px;
+    margin: 0 auto;
+    color: $teal;
+}
+.subscription-form-container {
+    padding: $defaultPadding/2 0;
 }
 .n-options-container {
     border-width: 1px 0 1px 0;

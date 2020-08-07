@@ -791,6 +791,171 @@ window.gSubscriptionEventLabel = 'Page/home';
 </div>
 <script type="text/javascript">updateClientIdLinks();</script><div class="content-inner">
   
+
+
+
+<div class="list-container">
+  <div class="list-inner">
+      <h2 class="list-title">
+        <a class="list-link" href="#">确认您的信息</a>
+      </h2>
+      <div class="items">
+        <div class="no-image">
+          <div class="item-inner">
+            <div class="item-lead">感谢您购买FT中文网的订阅服务，请确认或填写您的重要联系信息，以保证我们能就订阅事宜联系到您。这非常重要！
+</div>
+          </div>
+        </div>
+      </div>
+    <div class="items">
+      <div class="no-image">
+        <div class="item-inner">
+          <div class="subscription-form-container">
+            <div><span>邮件：</span><input type="email" placeholder="请准确填写" class="email"><span class="status"></span></div>
+            <div><span>手机：</span><input type="tel" placeholder="请准确填写号码" class="tel"><span class="status"></span></div>
+            <div><span>地址：</span><input type="text" placeholder="请填写准确地址" class="address"><span class="status"></span></div>
+            <div><span>姓：</span><input type="text" placeholder="" class="last-name"><span class="status"></span></div>
+            <div><span>名：</span><input type="text" placeholder="" class="first-name"><span class="status"></span></div>
+            <div class="center n-button-container">
+              <button class="n-button-inner subscription-button" id="subscription-button">确认</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  (function(){
+    
+    var isSubmiting = false;
+
+    function kickStart() {
+      addValidator('tel', /^[0-9\ ]{8,}$/, '请填写数字的手机号码，不要使用全角或符号');
+      addValidator('email', /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, '请填写格式正确的邮件地址');
+    }
+
+    function addValidator(inputClass, validator, warningMessage) {
+      var theInput = document.querySelector('.subscription-form-container .' + inputClass);
+      if (theInput !== null) {
+        theInput.onblur = function() {
+          var inputValue = this.value;
+          var statusEle = this.parentNode.querySelector('.status');
+          this.className = this.className.replace(/ wrong/g, '');
+          if (validator.test(inputValue)) {
+            statusEle.innerHTML = '';
+          } else {
+            this.className += ' wrong';
+            statusEle.innerHTML = warningMessage;
+          }
+        }
+      }
+    }
+
+    function getExistingInfo() {
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', '/index.php/campaign/promo/' + promoCode);
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.onload = function() {
+          if (xhr.status === 200) {
+              var info = JSON.parse(xhr.responseText);
+              console.log(info);
+          }
+      };
+      xhr.send();
+    }
+
+    function finishSubmit() {
+      isSubmiting = false;
+      document.getElementById('subscription-button').innerHTML = '再次提交';
+      sendAlert({
+        title: '成功',
+        message: '您可以开始使用您的订阅服务了！'
+      });
+      markSuccess();
+    }
+
+    function sendAlert(obj) {
+      try {
+        webkit.messageHandlers.alert.postMessage(obj);
+      } catch (error) {
+        alert (obj.message);
+      }
+    }
+
+    function markSuccess() {
+      var userdefault = {
+        key: 'Need To Confirm Info',
+        value: false
+      }
+      try {
+        webkit.messageHandlers.userdefault.postMessage(userdefault);
+      } catch (error) {
+        DeleteCookie('NeedToConfirmInfo');
+      }
+    }
+
+    document.getElementById('subscription-button').onclick = function(){
+      if (isSubmiting) return;
+      this.innerHTML = '提交中...';
+      isSubmiting = true;
+      var contactInfoAll = document.querySelectorAll('.subscription-form-container input');
+      console.log('Wait for the API to be developed! ');
+
+      setTimeout(function(){
+        finishSubmit();
+      }, 10000);
+      // var ielement = {cid: promoCode};
+      // var currentIndex = 1;
+      // ielement['mod' + currentIndex] = GetCookie('USER_ID') || '';
+      // for (var i=0; i<contactInfoAll.length; i++) {
+      //   currentIndex += 1; 
+      //   ielement['mod' + currentIndex] = contactInfoAll[i].value;
+      // }
+      // var userData = {
+      //     head: {
+      //         transactiontype: "20008"
+      //     },
+      //     body: {
+      //         ielement: ielement
+      //     }
+      // };
+      // var xhr = new XMLHttpRequest();
+      // xhr.open('POST', '/eaclient/apijson.php');
+      // xhr.setRequestHeader('Content-Type', 'application/json');
+      // xhr.onload = function() {
+      //     if (xhr.status === 200) {
+      //         var info = JSON.parse(xhr.responseText);
+      //         var messageTitleEle = document.querySelector('#success-note .contact-form-container .item-lead');
+      //         if (info && info.body && info.body.oelement && info.body.oelement.errorcode === '0') {
+      //           sendAlert({
+      //             title: '成功',
+      //             message: noteForSuccess
+      //           });
+      //           messageTitleEle.innerHTML = noteForSuccess;
+      //           setTimeout(function(){
+      //             var successNoteClassName = document.getElementById('success-note').className;
+      //             document.getElementById('success-note').className = successNoteClassName.replace(' on', '');
+      //           }, 3000);
+      //         } else {
+      //           sendAlert({
+      //             title: '请注意',
+      //             message: noteForFailure
+      //           });
+      //           messageTitleEle.innerHTML = noteForFailure;
+      //         }
+      //     }
+      // };
+      // xhr.send(JSON.stringify(userData));
+    }
+
+    kickStart();
+
+  })();
+</script>
+
+
 <div class="list-container"><div class="list-inner"><div class="items">
 <!--listItemCount: 24, i: 24-->
 
