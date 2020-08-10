@@ -16,70 +16,74 @@
 	</div>
 <%/if%>
 
-<div class="items hide" id="membership-login-prompt">
-	<div class="no-image">
-		<div class="item-inner">
-			<div class="item-lead">您还没有登录。如果您希望更方便地享受您购买的会员服务，<a href="screen://myft/account">请点击此处登录或注册新用户。</a></div>
-		</div>
-	</div>
-</div>
 
-<div class="items hide" id="subscriber-contact-confirm">
-    <div class="no-image">
-        <div class="item-inner">
-            <div class="item-lead">为保障您的订阅权益，<a href="http://www.ftchinese.com/m/corp/preview.html?pageid=subscriptioninfoconfirm&to=all">请点击此处确认您的联系方式</a></div>
+<%if $hidePromoBox != "yes"%>
+    <div class="items hide" id="membership-login-prompt">
+    	<div class="no-image">
+    		<div class="item-inner">
+    			<div class="item-lead"><a href="screen://myft/account">您还没有登录。如果您希望更方便地享受您购买的会员服务，请点击此处登录或注册新用户。</a></div>
+    		</div>
+    	</div>
+    </div>
+
+    <div class="items hide" id="subscriber-contact-confirm">
+        <div class="no-image">
+            <div class="item-inner">
+                <div class="item-lead"><a href="http://www.ftchinese.com/m/corp/preview.html?pageid=subscriptioninfoconfirm&to=all">为保障您的订阅权益，请点击此处确认您的联系方式</a></div>
+            </div>
         </div>
     </div>
-</div>
 
-<%if $yellowCardIds !== ""%>
-	<div class="items hide" id="membership-yellow-card-prompt">
-		<div class="no-image">
-			<div class="item-inner">
-				<div class="item-lead">
-					<div class="warn">亲爱的会员，您的账户近期在多台设备上异常登录。您的账户仅限您本人使用，如不是您本人操作，可能您的账号已泄漏。请您尽快进行如下操作：</div>
-					<div class="warn">1. <a href="https://user.ftchinese.com/setting" target="_blank">修改密码，并妥善保护好新密码</a>。</div>
-					<div class="warn">2. <a class="email-link" href="mailto: customer.service@ftchinese.com?subject=Appeal: Warning">点击此处寻求帮助</a>。</div>
-					<div class="warn">为了保护您的利益，我们已经暂时锁定您的订阅账户，如有疑问，请联系客服。</div>
-				</div></div>
-			</div>
-		</div>
-	</div>
-	<script>window.gYellowCardUserIds = '<%$yellowCardIds%>';</script>
-<%/if%>
-<%if $redCardIds !== ""%>
-	<div class="items hide" id="membership-red-card-prompt">
-		<div class="no-image">
-			<div class="item-inner">
-				<div class="item-lead"><div class="warn">
-					亲爱的会员，您的账号近期在多台设备上频繁异常登录。您的账户仅限您本人使用。为了保证您的利益，该账户已被暂时锁定。您可以：
-<a class="email-link" href="mailto: customer.service@ftchinese.com?subject=Appeal: Red Warning">点击此处与我们联系进行认证</a>。
-				</div></div>
-			</div>
-		</div>
-	</div>
-	<script>window.gRedCardUserIds = '<%$redCardIds%>';</script>
-<%/if%>
-<script>checkUserWarnings();</script>
+    <%if $yellowCardIds !== ""%>
+    	<div class="items hide" id="membership-yellow-card-prompt">
+    		<div class="no-image">
+    			<div class="item-inner">
+    				<div class="item-lead">
+    					<div class="warn">亲爱的会员，您的账户近期在多台设备上异常登录。您的账户仅限您本人使用，如不是您本人操作，可能您的账号已泄漏。请您尽快进行如下操作：</div>
+    					<div class="warn">1. <a href="https://user.ftchinese.com/setting" target="_blank">修改密码，并妥善保护好新密码</a>。</div>
+    					<div class="warn">2. <a class="email-link" href="mailto: customer.service@ftchinese.com?subject=Appeal: Warning">点击此处寻求帮助</a>。</div>
+    					<div class="warn">为了保护您的利益，我们已经暂时锁定您的订阅账户，如有疑问，请联系客服。</div>
+    				</div></div>
+    			</div>
+    		</div>
+    	</div>
+    	<script>window.gYellowCardUserIds = '<%$yellowCardIds%>';</script>
+    <%/if%>
+    <%if $redCardIds !== ""%>
+    	<div class="items hide" id="membership-red-card-prompt">
+    		<div class="no-image">
+    			<div class="item-inner">
+    				<div class="item-lead"><div class="warn">
+    					亲爱的会员，您的账号近期在多台设备上频繁异常登录。您的账户仅限您本人使用。为了保证您的利益，该账户已被暂时锁定。您可以：
+    <a class="email-link" href="mailto: customer.service@ftchinese.com?subject=Appeal: Red Warning">点击此处与我们联系进行认证</a>。
+    				</div></div>
+    			</div>
+    		</div>
+    	</div>
+    	<script>window.gRedCardUserIds = '<%$redCardIds%>';</script>
+    <%/if%>
+    <script>checkUserWarnings();</script>
 
-<%if $supportSubscriptionPromoBox == "yes"%>
-	<%*<!--
-    <%if $smarty.get.subscription != "member" && $smarty.get.subscription != "premium"%>
-        <%include file="next/partials/house-ad-subscription-promo-box.html"%>
+
+
+    <%if $supportSubscriptionPromoBox == "yes"%>
+    	<%*<!--
+        <%if $smarty.get.subscription != "member" && $smarty.get.subscription != "premium"%>
+            <%include file="next/partials/house-ad-subscription-promo-box.html"%>
+        <%/if%>
+
+        <%if $debug_model == 1%>
+        	<%include file="next/partials/promoboxone.html"%>
+        <%/if%>
+        -->*%>
+        
+        <%if $smarty.get.android != ""%>
+        	<%*<!--MARK: - Android App Promo Box-->*%>
+        	<div id="promo-box-container"></div>
+        <%else%>
+        	<%*<!--MARK: - Don't remove this, it's used in iOS app-->*%>
+    	    <!--PromoBoxPlaceHolder-->
+        <%/if%>
     <%/if%>
 
-    <%if $debug_model == 1%>
-    	<%include file="next/partials/promoboxone.html"%>
-    <%/if%>
-    -->*%>
-    
-    <%if $smarty.get.android != ""%>
-    	<%*<!--MARK: - Android App Promo Box-->*%>
-    	<div id="promo-box-container"></div>
-    <%else%>
-    	<%*<!--MARK: - Don't remove this, it's used in iOS app-->*%>
-	    <!--PromoBoxPlaceHolder-->
-    <%/if%>
 <%/if%>
-
-
