@@ -19,11 +19,16 @@
 			<div class="no-image">
 				<div class="item-inner">
 					<div class="subscription-form-container">
-						<div><span>邮件：</span><input type="email" placeholder="请准确填写您的邮件地址" class="email"><span class="status"></span></div>
-						<div><span>手机：</span><input type="tel" placeholder="请准确填写号码" class="tel"><span class="status"></span></div>
-						<div><span>地址：</span><input type="text" placeholder="请填写准确地址" class="address"><span class="status"></span></div>
-						<div><span>姓：</span><input type="text" placeholder="" class="last-name"><span class="status"></span></div>
-						<div><span>名：</span><input type="text" placeholder="" class="first-name"><span class="status"></span></div>
+						<div><span>邮件：</span><input type="email" placeholder="请准确填写您的邮件地址" class="email" id="email"><span class="status"></span></div>
+						<div><span>手机：</span><input type="tel" placeholder="请准确填写号码" class="tel" id="mobile_phone_no"><span class="status"></span></div>
+            <%if $list.InfoCollection == "detail"%>
+              <div><span>地址：</span><input type="text" placeholder="请填写准确地址" class="address" id="address"><span class="status"></span></div>
+              <div><span>姓：</span><input type="text" placeholder="" class="last-name" id="last_name"><span class="status"></span></div>
+              <div><span>名：</span><input type="text" placeholder="" class="first-name" id="first_name"><span class="status"></span></div>
+            <%/if%>
+            <div class="item-lead terms">
+              请您阅读我们的<a href="/m/corp/service.html" target="_blank">用户注册协议</a>和<a href="/m/corp/service.html#privacy" target="_blank">隐私权保护政策</a>，点击下方按钮即视为您接受。
+            </div>
 						<div class="center n-button-container">
 							<button class="n-button-inner subscription-button" id="subscription-button">确认并提交</button>
 						</div>
@@ -36,10 +41,10 @@
 
 <script type="text/javascript">
     var isSubmiting = false;
-
     function kickStart() {
       addValidator('tel', /^[0-9\ ]{8,}$/, '请填写数字的手机号码，不要使用全角或符号');
       addValidator('email', /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, '请填写格式正确的邮件地址');
+      getExistingInfo();
     }
 
     function addValidator(inputClass, validator, warningMessage) {
@@ -61,12 +66,17 @@
 
     function getExistingInfo() {
       var xhr = new XMLHttpRequest();
-      xhr.open('GET', '/index.php/campaign/promo/' + promoCode);
+      xhr.open('GET', '/index.php/user/info/');
       xhr.setRequestHeader('Content-Type', 'application/json');
       xhr.onload = function() {
           if (xhr.status === 200) {
+              /* console.log(xhr.responseText); */
               var info = JSON.parse(xhr.responseText);
-              console.log(info);
+              var inputs = document.querySelectorAll('.subscription-form-container input');
+              for (var i=0; i<inputs.length; i++) {
+                var id = inputs[i].id;
+                if (id && info[id]) inputs[i].value = info[id];
+              }
           }
       };
       xhr.send();
@@ -106,55 +116,23 @@
       if (isSubmiting) return;
       this.innerHTML = '提交中...';
       isSubmiting = true;
-      var contactInfoAll = document.querySelectorAll('.subscription-form-container input');
-      console.log('Wait for the API to be developed! ');
-
-      setTimeout(function(){
-        finishSubmit();
-      }, 10000);
-      // var ielement = {cid: promoCode};
-      // var currentIndex = 1;
-      // ielement['mod' + currentIndex] = GetCookie('USER_ID') || '';
-      // for (var i=0; i<contactInfoAll.length; i++) {
-      //   currentIndex += 1; 
-      //   ielement['mod' + currentIndex] = contactInfoAll[i].value;
-      // }
-      // var userData = {
-      //     head: {
-      //         transactiontype: "20008"
-      //     },
-      //     body: {
-      //         ielement: ielement
-      //     }
-      // };
-      // var xhr = new XMLHttpRequest();
-      // xhr.open('POST', '/eaclient/apijson.php');
-      // xhr.setRequestHeader('Content-Type', 'application/json');
-      // xhr.onload = function() {
-      //     if (xhr.status === 200) {
-      //         var info = JSON.parse(xhr.responseText);
-      //         var messageTitleEle = document.querySelector('#success-note .contact-form-container .item-lead');
-      //         if (info && info.body && info.body.oelement && info.body.oelement.errorcode === '0') {
-      //           sendAlert({
-      //             title: '成功',
-      //             message: noteForSuccess
-      //           });
-      //           messageTitleEle.innerHTML = noteForSuccess;
-      //           setTimeout(function(){
-      //             var successNoteClassName = document.getElementById('success-note').className;
-      //             document.getElementById('success-note').className = successNoteClassName.replace(' on', '');
-      //           }, 3000);
-      //         } else {
-      //           sendAlert({
-      //             title: '请注意',
-      //             message: noteForFailure
-      //           });
-      //           messageTitleEle.innerHTML = noteForFailure;
-      //         }
-      //     }
-      // };
-      // xhr.send(JSON.stringify(userData));
+      var userData = {}
+      var inputs = document.querySelectorAll('.subscription-form-container input');
+      for (var i=0; i<inputs.length; i++) {
+        var id = inputs[i].id;
+        var value = inputs[i].value;
+        userData[id] = value;
+      }
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', '/index.php/user/confirminfo');
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.onload = function() {
+          if (xhr.status === 200) {
+              var result = JSON.parse(xhr.responseText);
+              if (result.status === 'success') finishSubmit();
+          }
+      };
+      xhr.send(JSON.stringify(userData));
     }
-
     kickStart();
 </script>

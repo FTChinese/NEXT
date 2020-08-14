@@ -75,6 +75,7 @@
 	<%/if%>
 	<%assign var="l" value=0%>
 	<%assign var="listLength" value=$section.lists|@count%>
+	<%assign var="foundConfirmForm" value="no"%>
 	<%foreach from=$section.lists item=list%>
 		<%assign var="listType" value=""%>
 		<%assign var="listClass" value=""%>
@@ -83,7 +84,10 @@
 		<%elseif $list.type == "subscriptionPromotion"%>
 	        <%include file="next/partials/subscriptionPromotion.html"%>
 		<%elseif $list.type == "SubscriptionInfoConfirm"%>
-	        <%include file="next/partials/SubscriptionInfoConfirm.html"%>
+			<%if $foundConfirmForm == "no" && (preg_match("/`$currentDate`/is",$list.dates) || $list.dates == "")%>
+				<%assign var="foundConfirmForm" value="yes"%>
+				<%include file="next/partials/SubscriptionInfoConfirm.html"%>
+			<%/if%>
 		<%elseif $list.type == "listWithText"%>
 	        <%include file="next/partials/listWithText.html"%>
 		<%elseif $list.type == "EventApplication"%>
