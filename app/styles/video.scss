@@ -70,21 +70,36 @@
 }
 //mobile phones portrait
 @media only screen and (max-width: 490px) {
-.video-list-container {
-	.item-inner {
-		padding: 0 0 $defaultPadding 0;
+	.video-list-container {
+		.item-inner {
+			padding: 0 0 $defaultPadding 0;
+		}
+		.items {
+			padding: 0;
+		}
+		.story-headline, .story-action, .story-byline, .story-lead{
+			padding-left: $defaultPadding/2;
+			padding-right: $defaultPadding/2;
+		}
 	}
-	.items {
-		padding: 0;
-	}
-	.story-headline, .story-action, .story-byline, .story-lead{
-		padding-left: $defaultPadding/2;
-		padding-right: $defaultPadding/2;
+
+	.video-body-container {
+		padding: 0 $defaultPadding/2;
 	}
 }
 
-.video-body-container {
-	padding: 0 $defaultPadding/2;
-}
-
+// MARK: - Try to Address CC Video bugs for iPad
+@media only screen and (max-width: 1024px) and (min-width: 768px){
+	.side-container { 
+		display: none; 
+	}
+	.has-side {
+		.content-inner {
+			border: 0; 
+			padding: 0;
+		}
+		.block-inner {
+			padding-right:$defaultPadding/2;
+		}
+	}
 }
