@@ -39,7 +39,9 @@
 <%assign var=standardPriceValue value=$standardPriceValue|replace:",":""%>
 <%assign var=premiumPriceValue value=$premiumPriceValue|replace:",":""%>
 <style><%include file="next/styles/main-fixed-buttons.css"%></style>
-
+<%if $smarty.get.ccode != ""%>
+    <%assign var="ccode" value=$smarty.get.ccode%>
+<%/if%>
 <%assign var="standardBuyLink" value="http://www.ftacademy.cn/subscription.html?from=`$section.discountCode`&ccode=`$ccode`&tap=standard"%>
 <%assign var="premiumBuyLink" value="http://www.ftacademy.cn/subscription.html?from=`$section.discountCode`&ccode=`$ccode`&tap=premium"%>
 <%if $smarty.get.webview == "ftcapp" && $smarty.get.android == ""%>
