@@ -1,0 +1,25 @@
+@import "theme-default.scss";
+@import "variables.scss";
+.list-for-image-container {
+    img {
+        // MARK: - Change this so that image won't have a margin
+        display: block;
+    }
+}
+@media only screen and (min-width: 768px) {
+    .list-for-image-container {
+        display: grid;
+        // grid-gap: 15px;
+        // background-color: $lightPink;
+    }
+}
+@media only screen and (min-width: 768px) and (max-width: 1023px) {
+    .list-for-image-container {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+@media only screen and (min-width: 1024px) {
+    .list-for-image-container {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}

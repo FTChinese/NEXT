@@ -154,11 +154,13 @@
         <%/if%>
     <%elseif $section.type == "footer"%>
         <%include file="next/partials/footer.html"%>
+    <%elseif $section.type == "FixedButtons"%>
+        <%include file="next/partials/FixedButtons.html"%>
     <%elseif $section.type == "page"%>
         <%include file="next/partials/page.html"%>
     <%elseif $section.type == "footer"%>
         <%include file="next/partials/footer.html"%>
-    <%elseif $section.type == "include" && $section.from != "" && $b < $maxB%>
+    <%elseif $section.type == "include" && $section.from != "" && ($b < $maxB || $section.from == "Premium-Cover")%>
         <%if $section.from == "Premium-Cover"%>
             <%if $smarty.get.subscription == "member" || $smarty.get.subscription == "premium" || $smarty.get.subscription == "other"%>
                 <%if $subscriptionsWarningsShowed != "yes"%>

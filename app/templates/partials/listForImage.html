@@ -1,0 +1,7 @@
+<%if $list.url != ""%>
+	<%assign var=listLink value=" href=\"`$list.url`\""%>
+<%else%>
+	<%assign var=listLink value=""%>
+<%/if%>
+<%assign var="image" value=$list.image%>
+<a<%$listLink%>><img src="<%$image%>"></a>

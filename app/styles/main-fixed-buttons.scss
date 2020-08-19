@@ -1,0 +1,39 @@
+.fixed-buttons {
+    position: fixed;
+    bottom: 0;
+    left:0;
+    right:0;
+    width: 100%;
+    height: 50px;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 140px 140px;
+    column-gap: 15px;
+    justify-content: center; 
+    align-items: center;
+    background-color: rgba($color: #000000, $alpha: 0.7);
+    button {
+        color: white;
+        width: 100%;
+        height: 38px;
+        border-radius: 8px;
+        letter-spacing: 3px;
+    }
+}
+
+#promo-box-container {
+    display: none!important;
+}
+
+@media only screen and (min-width: 491px) {
+    .fixed-buttons {
+        grid-template-columns: 240px 240px;
+        column-gap: 30px;
+        height: 80px;
+        button {
+            width: 100%;
+            height: 50px;
+            font-size: 1.4em;
+        }
+    }
+}
