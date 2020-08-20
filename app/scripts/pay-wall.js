@@ -113,6 +113,7 @@ function handleSubscriptionInfo(dataObj) {
   if (dataObj.expire) {
     expireDate = dataObj.expire;
   }
+  SetCookie('expire', expireDate);
   var ccode = dataObj.campaign_code || '';
   var duration = dataObj.latest_duration || '';
   var platform = 'WebSite';

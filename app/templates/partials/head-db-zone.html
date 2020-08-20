@@ -78,6 +78,14 @@
     if (window.languagePreference && window.languagePreference >= 0) {
         dfpTargetingStr = 'cnlp=' + window.languagePreference + ';' + dfpTargetingStr;
     }
+    var expireDate = GetCookie('expire');
+    if (expireDate) {
+        var todayDate = (new Date().getTime()) / 1000;
+        var remainingDays = (expireDate - todayDate) / (60 * 60 * 24);
+        if (remainingDays >= 0 && remainingDays <= 300) {
+            dfpTargetingStr = 'cnex=300;' + dfpTargetingStr;
+        }
+    }
     //console.log ('Getting user type for google ad manager: ' + window.gUserType);
     var configJson = JSON.stringify({
         gpt: {
