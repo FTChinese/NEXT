@@ -1108,15 +1108,10 @@ delegate.on('click', '.close-img', function(){
 
 });
 
-delegate.on('click', '.item-lead', function(){  
-  if (this.classList.contains('expanded')) {
-    this.classList.remove('expanded');
-  } else {
-    this.classList.add('expanded');
-  }
+delegate.on('click', '.item-container:not([data-id]) .item-lead', function(){
+  if (this.querySelector('a')) {return;}
+  this.classList.toggle('expanded');
 });
-
-
 
 trackInternalPromos();
 

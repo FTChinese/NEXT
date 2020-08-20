@@ -18,7 +18,13 @@
     <%assign var="image1" value=$section.image|default:$section.highImpactImage%>
     <%assign var="image2" value=$section.highImpactImage|default:$section.image%>
 
-    <%if $section.image && $section.image != "" && $section.fit == ""%>
+    <%if $section.highImpactImage != "" && $section.image == "" && $section.fit == ""%>
+        <div class="block-image-container">
+            <a<%$sectionLink%> class="track-click" data-ec="House Ad" data-ea="Click" data-el="<%$section.url%>">
+                <img class="P-only" src="<%$section.highImpactImage%>">
+            </a>
+        </div>
+    <%elseif $section.image && $section.image != "" && $section.fit == ""%>
         <div class="block-image-container">
             <a<%$sectionLink%> class="track-click" data-ec="House Ad" data-ea="Click" data-el="<%$section.url%>">
                 <%if $section.highImpactImage == ""%>
