@@ -64,9 +64,7 @@
     <%/if%>
     <script>checkUserWarnings();</script>
 
-
-
-    <%if $supportSubscriptionPromoBox == "yes"%>
+	<%if $supportSubscriptionPromoBox == "yes"%>
     	<%*<!--
         <%if $smarty.get.subscription != "member" && $smarty.get.subscription != "premium"%>
             <%include file="next/partials/house-ad-subscription-promo-box.html"%>
@@ -78,8 +76,9 @@
         -->*%>
         
         <%if $smarty.get.android != ""%>
-        	<%*<!--MARK: - Android App Promo Box-->*%>
-        	<div id="promo-box-container"></div>
+			<%*<!--MARK: - Android App Promo Box-->*%>
+			<div id="promo-box-container"></div>
+			<script type="text/javascript"><%include file="next/scripts/main-android-app-pay-wall.js"%></script>
         <%else%>
         	<%*<!--MARK: - Don't remove this, it's used in iOS app-->*%>
     	    <!--PromoBoxPlaceHolder-->

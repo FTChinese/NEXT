@@ -1165,25 +1165,13 @@
     <%*<!-- End: test rules-->*%>
 <%*<!-- End: Decide if show new db-->*%>
 
-
-
-<%if preg_match("/活动页面|企业公告|双语阅读/is",$keys)%>
-	<%if preg_match("/\/interactive\/[0-9]+\/en/is",$smarty.server.REQUEST_URI)%>
-		<%assign var="page_action" value="en"%>
-		<%assign var="languageOptions" value="<a class=\"icon-right icon-ch\" href=\"/interactive/`$id`/ce\"><button>对照</button></a><a class=\"icon-right icon-ch\" href=\"/interactive/`$id`\"><button>中文</button></a>"%>
-	<%elseif preg_match("/\/interactive\/[0-9]+\/ce/is",$smarty.server.REQUEST_URI)%>
-		<%assign var="page_action" value="ce"%>
-		<%assign var="languageOptions" value="<a class=\"icon-right icon-ch\" href=\"/interactive/`$id`\"><button>中文</button></a><a class=\"icon-right icon-ch\" href=\"/interactive/`$id`/en\"><button>英文</button></a>"%>
-	<%elseif $ebody != ""%>
-		<%assign var="languageOptions" value="<a class=\"icon-right icon-ch\" href=\"/interactive/`$id`/en\"><button>英文</button></a><a class=\"icon-right icon-ch\" href=\"/interactive/`$id`/ce\"><button>对照</button></a>"%>
-	<%/if%>
+<%assign var="isMachineTranslation" value="no"%>
+<%if preg_match("/\"translations\":/is",$cbody)%>
+	<%assign var="isMachineTranslation" value="yes"%>
 <%/if%>
 
-<%if $itemType == ""%>
-	<%assign var="itemType" value="story"%>
-<%/if%>
-
-<%if $page_action=="en" && $eshortleadbody != "" && !preg_match("/音频/is",$keys)%>
+<%*<!--MARK: - Calculate page_action, language options and switches-->*%>
+<%if $page_action=="en" && $eshortleadbody != "" && !preg_match("/音频/is",$keys) && $isMachineTranslation == "no"%>
 	<%assign var="languageOptions" value="<a class=\"icon-right icon-ch\" href=\"`$eshortleadbody`\"><button>中文</button></a>"%>
 	<%assign var="languageSwitch" value="<div class=\"language-switch-placeholder\" id=\"language-switch-placeholder\"><div class=\"language-switch-container\"><a class=\"language-switch-left language-switch-menu\" href=\"/\"></a><div class=\"language-switch-inner\"><a class=\"language-switch\" href=\"/story/`$story.id`?ccode=LanguageSwitch\">中文</a><a class=\"on language-switch\">英文</a><a class=\"language-switch\" href=\"/story/`$story.id`/ce?ccode=LanguageSwitch\">对照</a></div><a class=\"language-switch-right language-switch-share\" onclick=\"showOverlay('share-legacy')\"></a></div></div>"%>
 <%elseif ($page_action=="en" || $page_action=="ce") && $story.id%>
@@ -1197,9 +1185,31 @@
 	<%*<!--MARK: Show English and Billigual Button to All-->*%>
 	<%assign var="languageOptions" value="<a class=\"icon-right icon-ch\" href=\"/story/`$story.id`/ce\"><button>对照</button></a><a class=\"icon-right icon-ch\" href=\"/story/`$story.id`/en\"><button>英文</button></a>"%>
 	<%assign var="languageSwitch" value="<div class=\"language-switch-placeholder\" id=\"language-switch-placeholder\"><div class=\"language-switch-container\"><a class=\"language-switch-left language-switch-menu\" href=\"/\"></a><div class=\"language-switch-inner\"><a class=\"language-switch on\">中文</a><a class=\"language-switch\" href=\"/story/`$story.id`/en?ccode=LanguageSwitch\">英文</a><a class=\"language-switch\" href=\"/story/`$story.id`/ce?ccode=LanguageSwitch\">对照</a></div><a class=\"language-switch-right language-switch-share\" onclick=\"showOverlay('share-legacy')\"></a></div></div>"%>
+<%elseif preg_match("/活动页面|企业公告|双语阅读/is",$keys)%>
+	<%if preg_match("/\/interactive\/[0-9]+\/en/is",$smarty.server.REQUEST_URI)%>
+		<%assign var="page_action" value="en"%>
+		<%if $isMachineTranslation == "yes"%>
+			<%assign var="languageOptions" value="<a class=\"icon-right icon-ch\" href=\"/interactive/`$id`/ce\"><button>对照</button></a>"%>
+		<%else%>
+			<%assign var="languageOptions" value="<a class=\"icon-right icon-ch\" href=\"/interactive/`$id`/ce\"><button>对照</button></a>"%>
+		<%/if%>
+	<%elseif preg_match("/\/interactive\/[0-9]+\/ce/is",$smarty.server.REQUEST_URI) || $isMachineTranslation == "yes"%>
+		<%assign var="page_action" value="ce"%>
+		<%if $isMachineTranslation == "yes"%>
+			<%assign var="languageOptions" value="<a class=\"icon-right icon-ch\" href=\"/interactive/`$id`/en\"><button>英文</button></a>"%>
+		<%else%>
+			<%assign var="languageOptions" value="<a class=\"icon-right icon-ch\" href=\"/interactive/`$id`\"><button>中文</button></a><a class=\"icon-right icon-ch\" href=\"/interactive/`$id`/en\"><button>英文</button></a>"%>
+		<%/if%>
+	<%elseif $ebody != ""%>
+		<%assign var="languageOptions" value="<a class=\"icon-right icon-ch\" href=\"/interactive/`$id`/en\"><button>英文</button></a><a class=\"icon-right icon-ch\" href=\"/interactive/`$id`/ce\"><button>对照</button></a>"%>
+	<%/if%>
 <%/if%>
 
-<%if $page_action=="ce" || $interactiveType == "Speedread"%>
+<%*<!--MARK: - Calculate story headline-->*%>
+<%if $page_action=="ce" && $isMachineTranslation == "yes"%>
+	<%assign var="newCheadline" value=$cheadline|regex_replace:"/\-\|\-.*$/":""%>
+	<%assign var="storyHeadline" value="`$eheadline`<br>`$newCheadline`"%>
+<%elseif $page_action=="ce" || $interactiveType == "Speedread"%>
 	<%assign var="storyHeadline" value="`$story.eheadline`<br>`$story.cheadline`"%>
 <%elseif $page_action=="en"%>
 	<%assign var="storyHeadline" value=$story.eheadline|default:$eheadline|default:$cheadline|default:$story.cheadline%>
@@ -1237,7 +1247,8 @@
 	<%elseif $story%>
 		<%assign var="storyLead" value=$story.clongleadbody%>
 	<%else%>
-		<%assign var="storyLead" value="`$elongleadbody`<br>`$clongleadbody`"%>
+		<%assign var="newLead" value=$clongleadbody|regex_replace:"/\-\|\-.*$/":""%>
+		<%assign var="storyLead" value="`$elongleadbody`<br>`$newLead`"%>
 	<%/if%>
 <%elseif $story.cshortleadbody && $story.cshortleadbody != ""%>
 	<%assign var="storyLead" value=$story.cshortleadbody%>
@@ -1270,13 +1281,16 @@
 	<%assign var="timeStatus" value="发布于"%>
 <%/if%>
 
+<%if $itemType == ""%>
+	<%assign var="itemType" value="story"%>
+<%/if%>
+
 <%if $itemType == "story" && $page_action=="en"%>
 	<%if preg_match("/^[0-9]+$/is",$story.eskylineheadline)%>
 		<%assign var="timeForStory" value=$story.eskylineheadline%>
 		<%assign var="timeStatus" value="发布于"%>
 	<%/if%>
 <%/if%>
-
 
 <%assign var="storyTime" value=$timeForStory|date_format:"%Y年%-m月%-d日 %H:%M"%>
 <%assign var="storyTime" value="`$timeStatus``$storyTime`"%>
@@ -1286,7 +1300,6 @@
 <%else%>
 	<%assign var="storyAuthor" value="`$story.cbyline_description` `$story.cauthor_html_format`"%>
 <%/if%>
-
 
 <%if ($page==1 || $page =="") && $page_action != "ce" && $story_pic.smallbutton && (in_array("插图",$story.tag) || $imageType == "portrait")%>
 	<%assign var="storyImage" value=$story_pic.smallbutton%>
@@ -1370,7 +1383,6 @@
 		<%assign var="story_content" value=$storyBody%>
 	<%/if%>
 
-
 	<%if $hideMPU3!="yes" && !preg_match("/活动页面/is",$keys) && $noAd != "true" && !preg_match("/o\-table\-container/is",$story_content)%>
 		<%assign var="story_content" value=$story_content|regex_replace:"/[\r\t\n]/":""|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1<div data-o-ads-name=\"mpu-middle2\" class=\"o-ads in-article-advert\" data-o-ads-formats-default=\"false\"  data-o-ads-formats-small=\"FtcMobileMpu\"  data-o-ads-formats-medium=\"false\" data-o-ads-formats-large=\"false\" data-o-ads-formats-extra=\"false\" data-o-ads-targeting=\"cnpos=middle2;\" data-cy='[{\"devices\":[\"iPhoneWeb\",\"AndroidWeb\",\"iPhoneApp\",\"AndroidApp\"],\"pattern\":\"MPU\",\"position\":\"Middle2\",\"container\":\"mpuInStory\"}]'></div><p>"%>
 		<%*<!--MARK: - Extra MPU positions for bonus-->*%>
@@ -1383,7 +1395,6 @@
 	<%* <!--
 	<%assign var="story_content" value=$story_content|regex_replace:"/[\r\t\n]/":""|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1<div class=\"in-story-recommend P-only\" id=\"in-story-recommend\"></div><p>"%>
 	--> *%>
-
 
 <%/if%>
 
@@ -1415,7 +1426,7 @@
 
 
 
-
+<%*<!--MARK: - Override for different types of interactive -->*%>
 <%if $pageType=="job"%>
 	<%assign var="storyHeadline" value="`$jobinfo.company`招聘`$jobinfo.position_name`"%>
 	<%assign var="storyTime" value=$jobinfo.pubtime%>
@@ -1450,7 +1461,10 @@
 		<%else%>
 			<%assign var="storyHeadline" value=$eheadline|default:$cheadline%>
 		<%/if%>
-    <%elseif $page_action == "ce"%>
+	<%elseif $page_action=="ce" && $isMachineTranslation == "yes"%>
+		<%*<!--MARK: - Output hidden texts for machine translations -->*%>
+		<%assign var="story_content" value="<textarea id=\"translations-ch\" style=\"display: none\">`$cbody`</textarea><textarea id=\"translations-en\" style=\"display: none\">`$ebody`</textarea>"%>
+	<%elseif $page_action == "ce"%>
         <%assign var="story_content" value=""%>
         <%foreach item=body from=$storyce%>
         <%assign var="story_content" value="`$story_content`<div class=leftp>`$body.l`</div><div class=rightp>`$body.r`</div><div class=clearfloat></div>"%>
@@ -1558,7 +1572,7 @@
 	<%assign var="pageTrackerTag" value="- `$pageTrackerTag` "%>
 <%/if%>
 
-<%if preg_match("/FT漫画/is",$keys) || preg_match("/full\-grid/is",$story_content)%>
+<%if preg_match("/FT漫画/is",$keys) || preg_match("/full\-grid/is",$story_content) || ($page_action=="ce" && $isMachineTranslation == "yes")%>
 	<%assign var="fullGridClass" value=" full-grid-story"%>
 <%/if%>
 
@@ -1634,7 +1648,6 @@
 			<script type="text/javascript">console.log("afternoonteaWithFT");</script>
 		-->
 		*%>
-		w
 	<%else%>
 		<style><%include file="next/styles/main-story.css"%></style>
 		<%if $interactiveType == "Speedread"%>
@@ -1847,6 +1860,9 @@
 		<p><%$smarty.server.REQUEST_URI%></p>
 		<%/if%>
 
+		<%if $page_action=="ce" && $isMachineTranslation == "yes"%>
+			<script type="text/javascript"><%include file="next/scripts/main-render-machine-translation.js"%></script>
+		<%/if%>
 <%if $smarty.get.bodyonly != "yes" || $isAndroidApp == "yes"%>
 <%<!--body only start-->%>
   </body>

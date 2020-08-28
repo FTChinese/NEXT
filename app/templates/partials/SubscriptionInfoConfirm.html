@@ -10,7 +10,7 @@
 			<div class="items">
 				<div class="no-image">
 					<div class="item-inner">
-						<div class="item-lead"><%$list.description%></div>
+						<div class="item-lead" id="subscription-form-description"><%$list.description%></div>
 					</div>
 				</div>
 			</div>
@@ -45,6 +45,15 @@
       addValidator('tel', /^[0-9\ ]{8,}$/, '请填写数字的手机号码，不要使用全角或符号');
       addValidator('email', /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, '请填写格式正确的邮件地址');
       getExistingInfo();
+      showApplePurchaseInfo();
+    }
+
+    function showApplePurchaseInfo() {
+      if (webkit && webkit.messageHandlers) {
+        var message = '<div class="important-info">如您当前的订阅尚未到期，将在当前订阅到期后扣款。请勿关闭自动续费，以保证续费时按照您见到的金额扣款。 </div>';
+        var info = document.getElementById('subscription-form-description');
+        info.innerHTML = message + info.innerHTML;
+      }
     }
 
     function addValidator(inputClass, validator, warningMessage) {
@@ -84,7 +93,11 @@
 
     function finishSubmit() {
       isSubmiting = false;
-      document.getElementById('subscription-button').innerHTML = '再次提交';
+      if (window.location.search.indexOf('webview=ftcapp')>=0) {
+        document.getElementById('subscription-button').innerHTML = '再次提交';
+      } else {
+        document.getElementById('subscription-button').parentElement.innerHTML = '<a href="/">提交成功，点击进入订户专享网站</a>';
+      }
       sendAlert({
         title: '成功',
         message: '您已经成功提交了信息'

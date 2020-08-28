@@ -192,8 +192,11 @@
 			<%if $expire != ""%>
 				<%assign var=daysToExpirationString value=" data-expire-day=\"`$expire`\""%>
 			<%/if%>
+			<%if $smarty.get.platform == "AndroidApp"%>
+				<%assign var="inAppClass" value=" in-app"%>
+			<%/if%>
 			<div class="subscription-promo-container<%$inAppClass%><%$showImageInMobile%> <%$section.promoTarget%><%$classForAndroid%>"<%$attributeForAndroid%><%$daysToExpirationString%>>
-			    <div class="subscription-promo-inner">
+				<div class="subscription-promo-inner">
 			        <a <%$hrefUrl%> class="subscription-promo-box n-internal-promo" data-promo-target="<%$section.promoTarget%>" data-promo-id="<%$l.ccode%>" data-promo-name="<%$l.title%>" data-promo-creative="<%$l.imagePC%>" data-promo-position="<%$section.type%>">
 			            <div class="subscription-promo-text"><%$l.title%></div>
 			            <%if $l.CountdownColor != "" && $l.ShowCountdown=="yes"%>

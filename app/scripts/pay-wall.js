@@ -119,7 +119,7 @@ function handleSubscriptionInfo(dataObj) {
   var platform = 'WebSite';
   var pendingRenewal = '';
   var ua = navigator.userAgent || navigator.vendor || '';
-  if (window.location.href.indexOf('webview=ftcapp')>=0) {
+  if (window.location.href.indexOf('webview=ftcapp')>=0 || typeof androidUserInfo !== 'undefined') {
     if (/iphone|ipod|ipad/i.test(ua)) {
       platform = 'iOSApp';
       try {
@@ -138,7 +138,8 @@ function handleSubscriptionInfo(dataObj) {
   // platform = 'iOSApp';
   // pendingRenewal = 'On';
   var xhr = new XMLHttpRequest();
-  xhr.open('get', '/m/corp/partial.html?include=promoboxone&type=' + subscriptionType + '&expire=' + expireDate + '&ccode=' + ccode + '&duration=' + duration + '&platform=' + platform + '&pendingRenewal=' + pendingRenewal);
+  var url = '/m/corp/partial.html?include=promoboxone&type=' + subscriptionType + '&expire=' + expireDate + '&ccode=' + ccode + '&duration=' + duration + '&platform=' + platform + '&pendingRenewal=' + pendingRenewal;
+  xhr.open('get', url);
   xhr.setRequestHeader('Content-Type', 'application/text');
   xhr.onload = function() {
     if (xhr.status === 200) {
