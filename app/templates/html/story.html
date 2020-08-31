@@ -1663,7 +1663,11 @@
     	<%assign var=hideMPU3 value="yes"%>
     <%elseif preg_match("/<table/is",$story_content)%>
     	<style><%include file="next/styles/main-table.css"%></style>
-    <%/if%>
+	<%/if%>
+	
+	<%if $page_action=="ce" && $isMachineTranslation == "yes"%>
+		<style><%include file="next/styles/main-translation-disclaimer.css"%></style>
+	<%/if%>
 
     <%if $smarty.get.webview == "ftcapp"%>
         <style><%include file="next/styles/main-ftc-app.css"%></style>

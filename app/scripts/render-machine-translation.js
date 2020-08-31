@@ -36,6 +36,13 @@
         finalHTML += '<div class="rightp">' + rightHTML + '</div>';
         finalHTML += '<div class="clearfloat"></div>';
     }
+    // MARK: Show the disclaimer for machine translation
     document.querySelector('#story-body-container').innerHTML = finalHTML;
-    // TODO: Show the disclaimer for machine translation
+    var storyContainer = document.querySelector('.story-container');
+    var storyHeadline = document.querySelector('.story-headline');
+    if (storyContainer && storyHeadline) {
+        var translationDisclaimer = document.createElement('DIV');
+        translationDisclaimer.className = 'translation-disclaimer';
+        storyContainer.insertBefore(translationDisclaimer, storyHeadline);
+    }
 })();

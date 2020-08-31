@@ -1,5 +1,6 @@
 @import "theme-default.scss";
 @import "variables.scss";
+@import "main-translation-disclaimer.scss";
 div, a, p {
     /* These are technically the same, but use both */
     overflow-wrap: break-word;
@@ -64,38 +65,7 @@ div, a, p {
     }
 }
 
-.translation-disclaimer {
-    position: -webkit-sticky; /* Safari */
-    position: sticky;
-    top: $navHeight + 25px + 5px;
-    width: 100%;
-    &:before {
-        content: '机器翻译，仅供参考';
-        position: absolute;
-        right: 0;
-        top: -25px;
-        background-color: $lightPink;
-        color: $red;
-        border: 1px solid $red;
-        padding: 0 $defaultPadding/2;
-        text-align: center;
-        font-size: 14px;
-        font-weight: bold;
-        line-height: 28px;
-        height: 28px;
-        pointer-events: none;
-        border-radius: 14px;
-    }
-    .translation-confirmed & {
-        &:before {
-            display: none;
-            // content: '翻译已确认';
-            // color: white;
-            // background-color: $darkGreen;
-            // border-color: $darkGreen;
-        }
-    }
-}
+
 
 .body-container {
     div {

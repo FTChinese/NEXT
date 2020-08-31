@@ -82,7 +82,9 @@
     if (expireDate) {
         var todayDate = (new Date().getTime()) / 1000;
         var remainingDays = (expireDate - todayDate) / (60 * 60 * 24);
-        if (remainingDays >= 0 && remainingDays <= 300) {
+        if (remainingDays > 300) {
+            dfpTargetingStr = 'cnex=gt300;' + dfpTargetingStr;
+        } else if (remainingDays >= 0 && remainingDays <= 300) {
             dfpTargetingStr = 'cnex=300;' + dfpTargetingStr;
         }
     }

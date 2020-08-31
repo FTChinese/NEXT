@@ -267,7 +267,7 @@
 						<%/if%>
 					<%/if%>
 					<%assign var="feedTag" value=$list.feedTag%>
-
+					
 
 					<%if $list.feedType == "myFT"%>
 						<%easyapi command="31005" assign="myftArrays" topnum=30%>
@@ -400,6 +400,7 @@
 
 
 						<%assign var="itemHeadline" value=$item.headline|default:$item.cheadline|default:$item.cn_title%>
+						<%assign var="itemHeadline" value=$itemHeadline|regex_replace:"/\-\|\-.*$/":""%>
 						<%assign var="itemTag" value=""%>
 						<%assign var="itemMainTag" value=""%>
 						<%assign var="tagCanFollow" value="yes"%>
@@ -1144,12 +1145,17 @@
 								<%assign var="hasImage" value="no-image"%>
 							<%/if%>
 							<%assign var="listLanguage" value=$list.language%>
-							<%if $listLanguage != "" && $itemType == "story"%>
+							<%assign var="eheadline" value=""%>
+							<%if $listLanguage != ""%>
 								<%assign var="listLanguage" value="/`$listLanguage`"%>
-							<%else%>
-								<%assign var="listLanguage" value=""%>
+								<%assign var="eheadline" value=$item.eheadline%>
 							<%/if%>
-
+							<%if $listLanguage == "/ce" && $eheadline != ""%>
+								<%assign var="itemLead" value=$itemHeadline%>
+								<%assign var="itemHeadline" value=$eheadline%>							
+							<%elseif $listLanguage == "/en" && $eheadline != ""%>
+								<%assign var="itemHeadline" value=$eheadline%>
+							<%/if%>
 							<%if $feedType=="columns"%>
 								<%assign var="itemType" value="column"%>
 							<%/if%>
