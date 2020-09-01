@@ -26,32 +26,40 @@
     .translation-confirmed & {
         &:before {
             display: none;
-            // content: '翻译已确认';
-            // color: white;
-            // background-color: $darkGreen;
-            // border-color: $darkGreen;
         }
     }
-
 }
 
+.can-switch-translations {
+    cursor: pointer;
+}
+
+.rightp {
+    .is-text-only, .is-mixed {
+        color: $lightGrey;
+    }
+}
 .story-container {
     .translation-disclaimer {
-        top: $navHeight + 25px + 25px;
+        height: $navHeight;
+        top: $navHeight + 5px;
         &:before {
-            top: -38px;
+            top: 0;
+            content: '点击中文段落，切换到不同的机器翻译'
         }
     }
 }
 
-
-@media only screen and (min-width: 768px) {
-    .story-container {
-        .translation-disclaimer {
-            top: $navHeight + 44px + 5px;
-            &:before {
-                top: -44px;
-            }
-        }
-    }
+.top-translation-disclaimer {
+    font-size: 1.2em;
+    font-weight: bold;
+    background-color: $red;
+    text-align: center;
+    padding: $defaultPadding/2;
+    color: white;
+    margin: $defaultPadding/2 0;
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    top: $navHeight;
+    z-index: 1;
 }

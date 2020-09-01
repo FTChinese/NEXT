@@ -29,6 +29,11 @@
                 if (id && translationDict[id] && translationDict[id].length > 0) {
                     var translationIndex = (translationDict[id].length > 1) ? 1 : 0;
                     translationChildren[k].innerHTML = translationDict[id][translationIndex].replace(/<< \/ a>/g,'</a>');
+                    translationChildren[k].setAttribute('current-index', translationIndex);
+                    if (translationDict[id].length > 1) {
+                        translationChildren[k].className += ' can-switch-translations';
+                        translationChildren[k].setAttribute('title', '点击切换到不同的机器翻译');
+                    }
                 }
             }
         }
@@ -37,12 +42,33 @@
         finalHTML += '<div class="clearfloat"></div>';
     }
     // MARK: Show the disclaimer for machine translation
-    document.querySelector('#story-body-container').innerHTML = finalHTML;
-    var storyContainer = document.querySelector('.story-container');
-    var storyHeadline = document.querySelector('.story-headline');
-    if (storyContainer && storyHeadline) {
+    var storyContainer = document.getElementById('story-body-container');
+    storyContainer.innerHTML = finalHTML;
+    var storyTopper = document.querySelector('.story-topper');
+    if (storyTopper) {
+        var topDisclaimer = document.createElement('DIV');
+        topDisclaimer.innerHTML = '中文为机器翻译，仅供参考';
+        topDisclaimer.className = 'top-translation-disclaimer';
+        storyTopper.insertBefore(topDisclaimer, storyTopper.children[0]);
+    }
+    // var storyHeadline = document.querySelector('.story-headline');
+    if (storyContainer) {
         var translationDisclaimer = document.createElement('DIV');
         translationDisclaimer.className = 'translation-disclaimer';
-        storyContainer.insertBefore(translationDisclaimer, storyHeadline);
+        storyContainer.parentElement.insertBefore(translationDisclaimer, storyContainer);
     }
+
+    // MARK: - Allow users to switch translations by clicking
+    document.addEventListener('DOMContentLoaded', function() {
+        delegate.on('click', '[current-index]', function() {
+            var id = this.id;
+            var counts = translationDict[id].length;
+            if (counts<2) {return;}
+            var currentIndex = parseInt(this.getAttribute('current-index'), 10);
+            var newIndex = (currentIndex + 1) % counts;
+            this.innerHTML = translationDict[id][newIndex];
+            this.setAttribute('current-index', newIndex);      
+        });
+    });
+
 })();
