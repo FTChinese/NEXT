@@ -1129,12 +1129,14 @@
 								<%assign var="itemLead" value=""%>
 							<%elseif $list.preferLead === "shortlead"%>
 								<%assign var="itemLead" value=$item.shortlead|default:$item.cshortleadbody|default:$item.clead|default:$item.description%>
+								<%assign var="itemLead" value=$itemLead|regex_replace:"/\-\|\-.*$/":""%>
 								<%if $itemLead == "" || preg_match("/http|mp3|\|/is",$itemLead)%>
 									<%assign var="itemLead" value=$item.clongleadbody|default:$item.clead|default:$item.longlead|default:$item.description%>
 								<%/if%>
 								<%assign var="itemLead" value=$itemLead|regex_replace:"/[\n\r]+$/":""%>
 							<%else%>
 								<%assign var="itemLead" value=$item.clongleadbody|default:$item.clead|default:$item.longlead|default:$item.description%>
+								<%assign var="itemLead" value=$itemLead|regex_replace:"/\-\|\-.*$/":""%>
 								<%if $itemLead == "" || preg_match("/http|mp3|\|/is",$itemLead)%>
 									<%assign var="itemLead" value=$item.shortlead|default:$item.cshortleadbody|default:$item.clead|default:$item.description%>
 								<%/if%>
@@ -1159,6 +1161,7 @@
 							<%if $feedType=="columns"%>
 								<%assign var="itemType" value="column"%>
 							<%/if%>
+
 
 							<%if ($memberType != "premium" && $smarty.server.REQUEST_URI|strstr:"EditorChoice-") || ($pageId == "speedread" && !$memberType)%>
 								<%assign var="itemLink" value=" data-hint=\"dataHint\" "%>
