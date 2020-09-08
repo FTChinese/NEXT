@@ -1310,16 +1310,18 @@
 <%elseif ($page==1 || $page =="") && $page_action != "ce" && $story_pic.smallbutton && $pageType != "singlechoice"%>
 	<%assign var="storyImage" value=$story_pic.smallbutton%>
 	<%assign var="storyImageClass" value=""%>
-<%elseif ($page==1 || $page =="") && $story_pic.cover%>
-	<%assign var="storyImage" value=$story_pic.cover%>
+<%elseif ($page==1 || $page =="")%>
+	<%assign var="storyImage" value=$story_pic.cover|default:$story_pic.smallbutton%>
 	<%assign var="storyImageClass" value=""%>
+<%else%>
+
 <%/if%>
 <%assign var="storyImage" value=$storyImage|replace:"http://creatives.ftacademy.cn/picture/":"https://thumbor.ftacademy.cn/unsafe/picture/"%>
 <%assign var="storyImage" value=$storyImage|replace:"https://creatives.ftacademy.cn/picture/":"https://thumbor.ftacademy.cn/unsafe/picture/"%>
 <%assign var="storyImage" value=$storyImage|replace:"http://i.ftimg.net/picture/":"https://thumbor.ftacademy.cn/unsafe/picture/"%>
 <%assign var="storyImage" value=$storyImage|replace:"https://i.ftimg.net/picture/":"https://thumbor.ftacademy.cn/unsafe/picture/"%>
-<%*<!--MARK: - Requested by editorial team: For stories that are published before 2017, show no image for safety. -->*%>
-<%if $itemType == "story" && date("Ymd",$pubDate) < 20170101 %>
+<%*<!--MARK: - Requested by editorial team: For stories that are published before 2017, show no image for safety. Machine Translated stories that are marked as no copy right will also no show image.  -->*%>
+<%if ($itemType == "story" && date("Ymd",$pubDate) < 20170101) || preg_match("/NoCopyrightCover/is",$keys)%>
 	<%assign var="storyImage" value=""%>
 <%/if%>
 

@@ -1863,7 +1863,7 @@
 								<%assign var="hasImage" value="no-image"%>
 							<%/if%>
 
-							<%if $list.sideOption == "headlineOnly"%>
+							<%if $list.sideOption == "headlineOnly" || $list.sideOption == "MachineTranslation"%>
 								<%assign var="hasImage" value="no-image"%>
 								<%if $i == 0%>
 									<%assign var="itemClass" value="first-headline"%>
@@ -1871,6 +1871,7 @@
 									<%assign var="itemClass" value=""%>
 								<%/if%>
 							<%/if%>
+
 
 							<%if $list.sideOption == "headShot"%>
 								<%if $i == 0%>
@@ -1945,7 +1946,11 @@
 									</div>
 									<div class=clearfloat></div>
 									<%/if%>	
-									
+								<%elseif $list.sideOption == "MachineTranslation"%>
+									<%assign var="itemHeadline" value=$item.eheadline%>
+									<%assign var="itemLead" value=$item.cheadline|regex_replace:"/\-\|\-.*$/":""%>
+									<h2 class="item-headline <%$lockClass%>"><a target="_blank"<%$itemLink%>><%$itemHeadline%></a></h2>
+									<div class="item-lead item-subheadline"><%$itemLead|nl2br%></div>
 								<%else%>
 									<%if $itemImage != "" && $hasImage === "has-image"%><a class="image" target="_blank"<%$itemLink%>><figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure></a><%/if%>
 									<%if $itemHeadline != ""%>
