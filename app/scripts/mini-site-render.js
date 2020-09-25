@@ -33,12 +33,13 @@ delegate.on('click', '.speaker', function(){
     if (!detail) {return;}
     var content = detail.querySelector('.overlay-content-detail')
     if (!content) {return;}
-    var name = '<div class="name">' + this.querySelector('.speaker-name').innerHTML + '</div>';
-    // if (!infoDict.speakers[name]) {return;}
-    // var image = '<img src="' + infoDict.speakers[name].image + '">';
-    // var title = '<div class="title">' + infoDict.speakers[name].title + '</div>';
-    // var intro = '<div class="intro">' + infoDict.speakers[name].intro + '</div>';
-    // content.innerHTML = image + name + title + intro;
+    var key = this.querySelector('.speaker-name').innerHTML;
+    if (!infoDict.speakers[key]) {return;}
+    var name = '<div class="name">' + key + '</div>';
+    var image = '<img src="' + infoDict.speakers[key].image + '">';
+    var title = '<div class="title">' + infoDict.speakers[key].title + '</div>';
+    var intro = '<div class="intro">' + infoDict.speakers[key].intro + '</div>';
+    content.innerHTML = name + title + image + intro;
     detail.classList.add('on');
 });
 
@@ -216,7 +217,7 @@ function renderSections(index) {
             var speakersHTML = renderSpeakers(sections[j].speakers);
             var details = renderDetails(sections[j].details);
 
-            tabHTML += '<div class="section-container section-' + type + '"' + style + '>' + startTime + '<div class="section-inner">' + timeStamp + title + link + subtitle + question + answer + speakersHTML + details + '</div></div>';
+            tabHTML += '<div class="section-container section-' + type + '"' + style + '>' + startTime + '<div class="section-inner">' + timeStamp + title + link + subtitle + question + answer + speakersHTML + '</div></div>' + details;
         }
     }
     return tabHTML;
