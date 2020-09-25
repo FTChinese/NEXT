@@ -853,8 +853,6 @@
 	<%assign var=breadcrum value="<a href=\"/channel/radio.html\">FT英语电台</a><button class=\"myft-follow plus\" data-tag=\"英语电台\" data-type=\"tag\">关注</button>"%>
 <%elseif preg_match("/中外对话/is",$keys)%>
 	<%assign var=pageTrackerTag value="中外对话"%>
-<%elseif date("Ymd",$smarty.now) <= 20180924 && preg_match("/食|餐|阿里|马云|饭|菜|吃|软|家|美/is",$storyContent)%>
-	<%assign var="adchannelID" value="1803"%>
 <%else%>
 	<%assign var="isCurrentAdchFinal" value="no"%>
 <%/if%>
@@ -1062,6 +1060,11 @@
 <%*<!--MARK: End-->*%>
 
 
+
+<%if preg_match("/视频直播/is",$keys)%>
+	<%assign var=breadcrum value=$cshortleadbody%>
+<%/if%>
+
 <%*<!--
 <%if preg_match("/中国商业观察/is",$keys) && date("Ymd",$smarty.now) >= 20180620 && date("Ymd",$smarty.now) <= 20181101%>
 	<%assign var=breadcrum value="<a href=\"/tag/中国商业观察\">宝珀·中国商业观察</a>"%>
@@ -1231,6 +1234,8 @@
 	<%assign var="storyLead" value=$cshortleadbody%>
 <%elseif preg_match("/英语电台/is",$keys)%>
 	<%assign var="storyLead" value="`$elongleadbody`<br>`$clongleadbody`"%>
+<%elseif preg_match("/视频直播/is",$keys)%>
+	<%assign var="storyLead" value=$clongleadbody%>
 <%elseif $preferLead == "none"%>
 	<%assign var="storyLead" value=""%>
 <%elseif $page_action=="en"%>
@@ -1337,9 +1342,19 @@
 
 
 <%assign var="cc_vaddress" value=""%>
-<%if preg_match("/英语电台/is",$keys) && $eskylinetext != "" && preg_match("/^[A-Za-z0-9]+$/is",$eskylinetext)%>
+<%if preg_match("/英语电台|视频直播/is",$keys) && $eskylinetext != "" && preg_match("/^[A-Za-z0-9]+$/is",$eskylinetext)%>
 	<%assign var="cc_vaddress" value=$eskylinetext%>
 <%/if%>
+
+<%assign var="cc_room_id" value=""%>
+<%if preg_match("/视频直播/is",$keys) && $eskylineheadline != ""%>
+	<%assign var="cc_room_id" value=$eskylineheadline%>
+<%/if%>
+<%assign var="cc_room_pass" value=""%>
+<%if preg_match("/视频直播/is",$keys) && $eshortleadbody != ""%>
+	<%assign var="cc_room_pass" value=$eshortleadbody%>
+<%/if%>
+
 
 <%assign var="storyBody" value=$story.cbody|default:$cbody%>
 <%assign var="storyBody" value=$storyBody|regex_replace:"/<p>[_-]+<\/p>/":"<hr/><br/>"%>
@@ -1446,6 +1461,8 @@
 	<%assign var="storyHeadline" value="`$cheadline`：`$eheadline`"%>
 	<%assign var="story_content" value="<div class=\"quiz-container\"></div>"%>
 	<%assign var="breadcrum" value="小测试"%>
+<%elseif preg_match("/视频直播/is",$keys)%>
+	<%assign var="story_content" value="`$cbody``$ebody`"%>
 <%elseif $itemType=="interactive" || $pageType=="interactive"%>
 	<%assign var="storyAuthor" value="`$cbyline_description` `$cauthor`"%>
 	<%if $page_action == "en"%>
@@ -1574,7 +1591,7 @@
 	<%assign var="pageTrackerTag" value="- `$pageTrackerTag` "%>
 <%/if%>
 
-<%if preg_match("/FT漫画/is",$keys) || preg_match("/full\-grid/is",$story_content) || ($page_action=="ce" && $isMachineTranslation == "yes")%>
+<%if preg_match("/FT漫画|视频直播/is",$keys) || preg_match("/full\-grid/is",$story_content) || ($page_action=="ce" && $isMachineTranslation == "yes")%>
 	<%assign var="fullGridClass" value=" full-grid-story"%>
 <%/if%>
 
@@ -1641,7 +1658,7 @@
     
     <%if $pageType == "job"%>
     	<style><%include file="next/styles/main-story-job.css"%></style>
-    <%elseif preg_match("/极致人生/is",$keys)%>
+    <%elseif preg_match("/极致人生|视频直播/is",$keys)%>
     	<style><%include file="next/styles/main-story-luxury.css"%></style>
 			<script type="text/javascript">var pageTheme = 'luxury';</script>
 		<%* <!--
@@ -1669,6 +1686,10 @@
 	
 	<%if $page_action=="ce" && $isMachineTranslation == "yes"%>
 		<style><%include file="next/styles/main-translation-disclaimer.css"%></style>
+	<%/if%>
+
+	<%if preg_match("/视频直播/is",$keys) %>
+		<style><%include file="next/styles/main-broadcast.css"%></style>
 	<%/if%>
 
     <%if $smarty.get.webview == "ftcapp"%>

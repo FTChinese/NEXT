@@ -168,7 +168,7 @@ width: 720px !important;
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title><%$p.meta.title%> - FT中文网</title>
 <%*<!--MARK: - Send the info to iOS native app for correct display-->*%>
-<%if $smarty.get.to == "iosapp"%>
+<%if $smarty.get.to == "iosapp" || $smarty.get.to == "noneiosapp"%>
 	<script type="text/javascript">
 		window.linksForShare = {
 			'url': 'http://www.ftchinese.com/',
@@ -178,7 +178,7 @@ width: 720px !important;
 		};
 	</script>
 <%/if%>
-<%if $smarty.get.to == "iosapp"%>
+<%if $smarty.get.to == "iosapp" || $smarty.get.to == "noneiosapp"%>
 	<%assign var=bodyColor value="#FFF1E0"%>
 <%else%>
 	<%assign var=bodyColor value="#FFFFFF"%>
@@ -404,7 +404,7 @@ href="http://www.ftchinese.com" target="_blank"
 				        <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;"> </td></tr>
 				    </table>
 				</div>
-				<%if $s == 0 && $l == 0 && $i ==0 && $smarty.get.to != "vip" && $smarty.get.to != "iosapp"%>
+				<%if $s == 0 && $l == 0 && $i ==0 && $smarty.get.to != "vip" && $smarty.get.to != "iosapp" && $smarty.get.to != "noneiosapp"%>
 					<%assign var="adPositionCode" value="mpu-1"%>
 					<%assign var="adWrapper" value="weekly-1"%>
 					<%include file="next/partials/email-ad-tag.html"%>
@@ -476,6 +476,9 @@ href="http://www.ftchinese.com" target="_blank"
     	<%*<!--MARK: - A placeholder of keywords so that iOS app will pass validation. This can be removed after Dec. 1st, 2020, when 99% of users have updated to the latest version. -->*%>
     	<div class="item-container"></div>
 		<%assign var="s" value=$s+1%>
+	<%elseif $section.type == "FixedButtons" && ($smarty.get.to == "iosapp" || $smarty.get.to == "noneiosapp")%>
+		<%include file="next/partials/FixedButtons.html"%>
+		<%assign var="s" value=$s+1%>
     <%/if%>
 <%/foreach%>
 
@@ -486,7 +489,7 @@ href="http://www.ftchinese.com" target="_blank"
 </tr>
 </table>
 <table width="100%" cellpadding="0" cellspacing="0">
-	<%if $smarty.get.to != "iosapp" && $smarty.get.to != "vip"%>
+	<%if $smarty.get.to != "iosapp" && $smarty.get.to != "noneiosapp" && $smarty.get.to != "vip"%>
 		<%assign var="adPositionCode" value="mpu-2"%>
 		<%assign var="adWrapper" value="weekly-2"%>
 		<%include file="next/partials/email-ad-tag.html"%>
@@ -549,7 +552,7 @@ href="http://www.ftchinese.com" target="_blank"
 <td style="width: 3%;" class="contentPadding">&nbsp;</td>
 <td>
 <table width="100%" cellpadding="0" cellspacing="0">
-<%if $smarty.get.to != "iosapp" && $smarty.get.to != "vip"%>
+<%if $smarty.get.to != "iosapp" && $smarty.get.to != "noneiosapp" && $smarty.get.to != "vip"%>
 	<tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
 	<tr>
 	<td style="padding: 0 12px 6px 12px;">

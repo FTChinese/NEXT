@@ -70,7 +70,7 @@ var openApp = document.getElementById('open-app');
 // MARK: never assume a dom exists. 
 try {
     if(subscribeNow){
-        var hrefLink = 'http://www.ftchinese.com/index.php/ft/subscription?el='+window.gSubscriptionEventLabel;
+        var hrefLink = '/index.php/ft/subscription?el='+window.gSubscriptionEventLabel;
         var discountCode = paravalue(window.location.href, 'from');
         if (discountCode !== '') {
             hrefLink += '&from=' + discountCode;

@@ -25,13 +25,44 @@
     gtag('event', 'Display', {'event_label': window.gSubscriptionEventLabel, 'event_category': 'Web Privileges', 'non_interaction': true});
 </script>
 
+<%assign var="productPricings" value=$nextmodel->getPublishJson("productpricing")|json_decode:true%>
+<%assign var="hasFoundProductPricing" value="no"%>
+<%assign var="productTitle" value=""%>
+<%assign var="forMemberShip" value=""%>
+
+<%foreach from=$productPricings.sections item=section%>
+    <%if $hasFoundProductPricing == "no" && preg_match("/`$section.KeyWord`/is",$keys) && $section.status == "on"%>
+        <%assign var="hasFoundProductPricing" value="yes"%>
+        <%assign var="productTitle" value=$section.title%>
+        <%if $section.ForStandard == 0 || $section.ForStandard == "0"%>
+            <%assign var="forMemberShip" value="会员"%>
+        <%elseif $section.ForPremium == 0 || $section.ForPremium == "0"%>
+            <%assign var="forMemberShip" value="高端会员"%>
+        <%/if%>
+    <%/if%>
+<%/foreach%>
+
 <div class="subscribe-lock-container" id="subscribe-now-container">
     <div class="lock-block">
-    <div class="lock-content">成为付费会员，阅读FT独家内容</div>
-    <div class="lock-content">如果已经是会员，请<a href="http://user.ftchinese.com/login" class="o-client-id-link">点击这里</a>登录</div>
-    <div class="subscribe-btn" ><a href="#"  id="subscribe-now" class="o-client-id-link">成为会员&#x25BA;</a></div>
+        <%if $productTitle == ""%>
+            <div class="lock-content">成为付费会员，阅读FT独家内容</div>
+            <div class="lock-content">如您已经是会员，<a href="#" onclick="showOverlay('overlay-login')" class="o-client-id-link">请点击这里登录</a></div>
+            <div class="subscribe-btn" ><a href="#"  id="subscribe-now" class="o-client-id-link">成为会员&#x25BA;</a></div>
+        <%elseif $forMemberShip != ""%>
+            <div class="lock-content"><b><%$productTitle%></b></div>
+            <div class="lock-content">是需要单独付费的独家内容</div>
+            <div class="lock-content">如您已经是<%$forMemberShip%>，<a href="#" onclick="showOverlay('overlay-login')" class="o-client-id-link">请点击这里登录</a></div>
+            <div class="subscribe-btn" ><a href="#"  id="subscribe-now" class="o-client-id-link">成为<%$forMemberShip%>或单独购买&#x25BA;</a></div>
+        <%else%>
+            <div class="lock-content"><%$productTitle%>是需要单独付费的独家内容</div>
+            <div class="subscribe-btn" ><a href="#"  id="subscribe-now" class="o-client-id-link">立即购买&#x25BA;</a></div>
+        <%/if%>
     </div>
 </div>
+
+
+
+
 <div 
 data-o-ads-name="mpu-subscribe"
 class="o-ads"  

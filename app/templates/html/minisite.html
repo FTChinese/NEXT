@@ -1,0 +1,51 @@
+<%if $smarty.get.android != "" || $smarty.get.utm_medium == "androidmarket" || $smarty.get.utm_mediu == "androidmarket"%>
+	<%assign var=isAndroidApp value="yes"%>
+<%/if%>
+<!DOCTYPE html>
+<html class="no-js core">
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta http-equiv="Content-Language" content="zh-CN"/>
+		<title><%$cheadline%> - FT中文网</title>
+		<META name=keywords content="<%$keys%>">
+		<meta content="<%$description%>" name="description"/>
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+		<meta name="robots" content="noarchive">
+		<link rel="apple-touch-icon-precomposed" href="https://dhgxl8qk9zgzr.cloudfront.net/img/ipad_icon.png" />
+		<%if $isAndroidApp == "yes"%>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
+		<%else%>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<%/if%>
+		<link rel="preconnect" href="https://dhgxl8qk9zgzr.cloudfront.net" />
+		<link rel="preconnect" href="https://thumbor.ftacademy.cn/unsafe" />
+		<script>
+		window.cutsTheMustard = (typeof Function.prototype.bind !== 'undefined');
+		if (window.cutsTheMustard) {
+		document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/, 'js').replace(/\bcore\b/, 'enhanced');
+		}
+		</script>
+		<link rel="icon" type="image/png" href="https://dhgxl8qk9zgzr.cloudfront.net/img/friend-share-icon.jpg" sizes="32x32">
+		<link rel="icon" type="image/png" href="https://dhgxl8qk9zgzr.cloudfront.net/img/friend-share-icon.jpg" sizes="194x194">
+		<link rel="apple-touch-icon" sizes="180x180" href="https://dhgxl8qk9zgzr.cloudfront.net/img/friend-share-icon.jpg" />
+		<meta name="msapplication-TileColor" content="#fff1e0" />
+		<meta name="msapplication-TileImage" content="https://dhgxl8qk9zgzr.cloudfront.net/img/friend-share-icon.jpg" />
+		<style><%include file="next/styles/main-mini-site.css"%></style>
+		<script type="text/javascript"><%include file="next/scripts/key.js"%></script>
+		<%include file="next/partials/head.html"%>
+	</head>
+	<%assign var="bannerCount" value=0%>
+	<body>
+	...
+	</body>
+
+	<script type="text/javascript">
+		(function(){
+			var pageInfo = <%$cbody|replace:"\n":""%>;
+			<%include file="next/scripts/main-mini-site.js"%>
+		})();
+	</script>
+	<script type="text/javascript"></script>
+
+</html>

@@ -34,6 +34,8 @@
 						document.write('<scr' + 'ipt src="https://union.bokecc.com/player?vid=<%$cc_vaddress%>&siteid=922662811F1A49E9&autoStart=false&width=' + video_width + '&height=' + video_height + '&playerid=3571A3BF2AEC8829&playertype=1" type="text/javascript"></sc' + 'ript>');
 						</script>
 					</div></div>
+				<%elseif $cc_room_id != "" && $smarty.get.paywall != "1" && $paywall != "1" && $smarty.get.paywall != "2" && $paywall != "2"%>
+					<%include file="next/partials/broadcast.html"%>
 				<%else%>
 					<%$storyImageTop%>
 				<%/if%>
@@ -80,14 +82,16 @@
 						</div>
 					</div>
 				<%/if%>
-				<div class="story-byline">
-					<%if $page_action == "user_comment"%>
-						<div class="story-time"><%$comments_count%></div>
-					<%else%>
-						<span class="story-time" data-time="<%$timeForStory%>"><%$storyTime%></span>
-						<span class="story-author"><%$storyAuthor%></span>
-					<%/if%>
-				</div>
+				<%if !preg_match("/视频直播/is",$keys)%>
+					<div class="story-byline">
+						<%if $page_action == "user_comment"%>
+							<div class="story-time"><%$comments_count%></div>
+						<%else%>
+							<span class="story-time" data-time="<%$timeForStory%>"><%$storyTime%></span>
+							<span class="story-author"><%$storyAuthor%></span>
+						<%/if%>
+					</div>
+				<%/if%>
 				<%if $smarty.get.page != "" && $smarty.get.page != 1 && !in_array("单页",$story.tag)%>
 					<%include file="next/partials/pagination.html"%>
 				<%/if%>

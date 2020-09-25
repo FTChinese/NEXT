@@ -1,0 +1,131 @@
+<%*<!--TODO: Check paywall status, if not allowed, show nothing here -->*%>
+<script src="//view.csslcloud.net/js/jquery-1.9.0.min.js" type="text/javascript"></script>
+<script src="//view.csslcloud.net/js/sdk/3.4.0/liveSDK.js" type="text/javascript"></script>
+
+
+<!-- pay wall: <%$paywall%> -->
+
+
+<div class="video-player" target="_blank" id="video-player"><div class="video-player-inner broadcast-inner">
+    <div id="livePlayer"></div>
+</div></div>
+
+<div id="drawPanel"></div>
+
+<script type="text/javascript">
+
+$(function(){
+    DWLive.init({
+      userid: '922662811F1A49E9',//必须参数
+      roomid: '<%$cc_room_id%>',//必须参数
+      // groupid: "groupid", //可选
+      // viewername: 'name',//可选
+      viewertoken: '<%$cc_room_pass%>',//如果直播间设置为密码验证，必选
+      // viewercustomua: 'android',//可选
+      language: 'en',//可选
+      pcH5Live:true,//可选
+      // viewercustominfo: '{"exportInfos": [ {"key": "城市", "value": "北京"}, {"key": "姓名", "value": "哈哈"}]}',//可选
+      fastMode:true//可选参数，默认为true
+  });
+    // 开始直播
+    DWLive.onLiveStart = function(j){
+        console.log(j);
+    }
+
+    // 停止直播
+    DWLive.onLiveEnd = function(j){
+        console.log(j);
+    }
+
+    // 在线人数
+    DWLive.onUserCountMessage = function(j){
+        console.log(j);
+    }
+
+   // 开始直播后显示公告
+    DWLive.onAnnouncementShow = function (j) {
+        console.log(j);
+    };
+
+    // 修改公告,发布公告
+    DWLive.onAnnouncementRelease = function (j) {
+        console.log(j);
+    };
+
+    // 删除公告
+    DWLive.onAnnouncementRemove = function (j) {
+        console.log(j);
+    };
+
+    // 接收公聊
+    DWLive.onPublicChatMessage = function(j){
+        console.log(j);
+
+        DWLive.barrage(j,'0xff0000'); // 发送弹幕
+    }
+
+    // 接收私聊
+    DWLive.onPrivateChatMessage = function(j){
+        console.log(j);
+    }
+
+    // 接收私聊回复
+    DWLive.onPrivateAnswer = function(j){
+        console.log(j);
+    }
+
+    // 提问
+    DWLive.onQuestion = function(j){
+        console.log(j);
+    }
+
+    // 接收回答
+    DWLive.onAnswer = function(j){
+        console.log(j);
+    }
+
+    // 直播间布局配置
+    DWLive.onRoomSetting = function (data) {
+        var t = data.layout_video_main;
+        if (t === 'true') {
+            Ui.toggleVideo(true);
+        } else {
+            Ui.toggleVideo(false);
+        }
+    };
+
+    // 通知
+    DWLive.onInformation = function(j){ // 禁言
+        console.log(j);
+    }
+
+    // 用户禁言后群发消息
+    DWLive.HDBanChatBroadcastWithData = function(data) {
+      console.log("用户禁言后群发消息", data);
+  };
+
+  // 用户进出提示语
+  DWLive.HDUserRemindWithAction = function(data) {
+    if (e.remindAction === 1) {
+      console.log("进入直播间", data);
+    } else if (e.remindAction === 0) {
+      console.log("退出直播间", data);
+    }
+  };
+
+    $(".btnsend").click(function(){
+        var msg = $(".chatinput").val();
+        DWLive.sendPublicChatMsg(msg); // 发送公聊
+    })
+
+    $(".qasend").click(function(){
+        var msg = $(".qainput").val();
+        DWLive.sendQuestionMsg(msg); // 发送问题
+    })
+
+    $(".setsound").click(function(){
+       DWLive.setSound(0.5);  // 设置音量(0-1)
+    })
+})
+
+</script>
