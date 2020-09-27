@@ -31,7 +31,7 @@ delegate.on('click', '.tabs-switch', function(){
 delegate.on('click', '.speaker', function(){
     var detail = document.getElementById('overlay-content');
     if (!detail) {return;}
-    var content = detail.querySelector('.overlay-content-detail')
+    var content = detail.querySelector('.overlay-content-detail');
     if (!content) {return;}
     var key = this.querySelector('.speaker-name').innerHTML;
     if (!infoDict.speakers[key]) {return;}
