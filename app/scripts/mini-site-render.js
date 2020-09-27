@@ -229,6 +229,25 @@ function renderSections(index) {
     return tabHTML;
 }
 
+function renderFooter() {
+    var decoration = '';
+    var items = '';
+    if (pageInfo.footer) {
+        if (pageInfo.footer.decoration) {
+            decoration = '<div class="footer-decoration" style="background-image: url('+ pageInfo.footer.decoration +')"></div>';
+        }
+        if (pageInfo.footer.items) {
+            for (var i=0; i<pageInfo.footer.items.length; i++) {
+                var item = pageInfo.footer.items[i];
+                items += '<a href="' + item.url +'">' + item.title + '</a>';
+            }
+            items = '<div>' + items + '</div>';
+        }
+    }
+    var copyright = '<p><span class="copyright"><b>© The Financial Times Ltd '+ (new Date()).getFullYear() +'</b></span><span><acronym title="Financial Times">FT</acronym> and \'Financial Times\' are trademarks of The Financial Times Ltd.</span></p>';
+    return decoration + '<div class="footer-container" data-id="footer-1"><div class="footer-inner">' + items + copyright + '</div></div>';
+}
+
 function renderPage() {
     updateInfoDict();
     var finalHTML = renderHeader();
@@ -238,6 +257,7 @@ function renderPage() {
         sectionsHTML = renderSections(0);
     }
     finalHTML += '<div class="sections">' + sectionsHTML + '</div>';
+    finalHTML += renderFooter();
     document.getElementById('mini-site-content').innerHTML = finalHTML;
 }
 
