@@ -172,7 +172,6 @@ function renderSections(index) {
     var sections = tab.sections;
     if (sections) {
         if (tab.type === 'speakers') {
-            // console.log('speakers! ')
             var speakers = [];
             for (var m=0; m<sections.length; m++) {
                 if (!sections[m].name) {continue;}
@@ -180,6 +179,7 @@ function renderSections(index) {
             }
             return '<div class="speakers-section-container">' + renderSpeakers(speakers) + '</div>';
         }
+        var dateStamp = '';
         for (var j=0; j<sections.length; j++) {
             var type = sections[j].style || 'default';
             var url = sections[j].url;
@@ -209,15 +209,21 @@ function renderSections(index) {
             var dateTime = sections[j].time;
             var timeStamp = '';
             var startTime = '';
+            var currentDateStamp = '';
             if (dateTime) {
+                currentDateStamp = '<div class="speaker-date-stamp">' + dateTime.replace(/ .*$/g, '') + '</div>';
+                if (currentDateStamp !== dateStamp) {
+                    dateStamp = currentDateStamp;
+                } else {
+                    currentDateStamp = '';
+                }
                 timeStamp = '<div class="time-stamp">' + dateTime.replace(/^.*? /g, '') + '</div>';
                 startTime = '<div class="start-time">' + dateTime.replace(/^.*? /g, '').replace(/\-.*$/g, '') + '</div>';
             }
             var style = (sections[j].background) ? ' style="background-image: linear-gradient(to right, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(' + sections[j].background + ')"' : '';
             var speakersHTML = renderSpeakers(sections[j].speakers);
             var details = renderDetails(sections[j].details);
-
-            tabHTML += '<div class="section-container section-' + type + '"' + style + '>' + startTime + '<div class="section-inner">' + timeStamp + title + link + subtitle + question + answer + speakersHTML + '</div></div>' + details;
+            tabHTML += currentDateStamp + '<div class="section-container section-' + type + '"' + style + '>' + startTime + '<div class="section-inner">' + timeStamp + title + link + subtitle + question + answer + speakersHTML + '</div></div>' + details;
         }
     }
     return tabHTML;
