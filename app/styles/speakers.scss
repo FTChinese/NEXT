@@ -17,11 +17,13 @@
     img {
         width: 100px;
         height: 100px;
+        float: left;
+        margin-right: $defaultPadding/2;
     }
 }
 .speaker {
-    display: grid;
-    grid-template-columns: 120px 1fr;
+    // display: grid;
+    // grid-template-columns: 120px 1fr;
     padding-bottom: $defaultPadding/2;
     margin-bottom: $defaultPadding/2;
     border-bottom: 1px solid $borderColor;
@@ -30,7 +32,17 @@
     &:last-child {
         border-width: 0;
     }
+    .content {
+        min-height: 100px;
+    }
 }
+@supports (display: grid) {
+    // .speaker {
+    //     display: grid;
+    //     grid-template-columns: 120px 1fr;
+    // }
+}
+
 .speaker-name {
     font-weight: bold;
 }
@@ -65,33 +77,44 @@
     }
 }
 @media all and (min-width: 490px) {
-    .speakers-container {
-        display: grid;
-        justify-items: center;
-        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-        grid-gap: 1rem;
-        img {
-            width: 160px;
-            height: 160px;
-        }
-    }
-    .speaker {
-        display: block;
-        border-bottom-width: 0;
-        padding: 0;
-    }
-    .speakers-section-container {
+    @supports (display: grid) {
         .speakers-container {
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            display: grid;
+            justify-items: center;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            grid-gap: 1rem;
+        }
+        .speaker {
+            display: block;
+            border-bottom-width: 0;
+            padding: 0;
+            .content {
+                min-height: 0;
+            }
             img {
-                width: 300px;
-                height: 300px;
+                width: 160px;
+                height: 160px;
+                margin: 0 0 $defaultPadding/4 0;
+                float: none;
             }
         }
-    }
-    .section-session {
-        .speakers-container {
-            justify-items: start;
+        .speakers-section-container {
+            .speakers-container {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                img {
+                    width: 300px;
+                    height: 300px;
+                }
+            }
+        }
+        .section-session {
+            .speakers-container {
+                justify-items: start;
+            }
+            .speaker {
+                padding: 0;
+                margin-bottom: 0;
+            }
         }
     }
 }
