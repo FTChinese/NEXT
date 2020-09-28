@@ -221,7 +221,6 @@ function renderSections(index) {
                 videoWidth = parseInt(Math.min(1200-60, videoWidth), 10);
                 var videoHeight = parseInt(videoWidth * 9 / 16, 10);
                 video = '<iframe class="section-video-frame" src="' + host + '/m/corp/video.html?vid=' + video + '&w=' + videoWidth + '&h=' + videoHeight + '" width="' + videoWidth + '" height="' + videoHeight + '"  frameBorder="0" scrolling="no">' + '</iframe>';
-                hasMoreContent = true;
             }
             var dateTime = sections[j].time;
             var timeStamp = '';
