@@ -55,13 +55,14 @@ $headerHeight: 2 * $navHeight;
         max-height: 500px;
     }
 }
-.header-nav {
+.header-nav, a.header-account {
     padding: $defaultPadding/2 0;
     text-align: center;
     color: white;
     font-size: 1.2em;
     font-weight: bold;
     cursor: pointer;
+    display: block;
     &.is-current {
         color: $gold;
     }
@@ -77,6 +78,7 @@ $headerHeight: 2 * $navHeight;
     display: inline-block;
     cursor: pointer;
 }
+
 .header-button-container {
     text-align: center;
 }
@@ -105,5 +107,14 @@ $headerHeight: 2 * $navHeight;
     }
     .header-button {
         display: inline;
+    }
+    a.header-account {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        height: $headerHeight;
+        line-height: $headerHeight;
+        padding: 0 $defaultPadding/2;
     }
 }

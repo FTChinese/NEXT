@@ -97,7 +97,14 @@ function renderHeader() {
             buttonHTML += '<div class="header-button-container"><a class="header-button" href="' + buttons[k].url + '">' + buttons[k].title + '</a></div>';
         }
     }
-    tabsHTML = '<div class="tabs-container">' + tabsHTML + buttonHTML + '</div>';
+    var loginHTML = '';
+    if (window.username && window.username !== '') {
+        loginHTML = '<a href="/users/logout" class="header-account">登出</a>';
+    } else {
+        loginHTML = '<a onclick="showOverlay(\'overlay-login\')" class="header-account">登入</a>';
+    }
+    // loginHTML = '<div class="header-account-container">' + loginHTML + '</div>';
+    tabsHTML = '<div class="tabs-container">' + tabsHTML + loginHTML + buttonHTML + '</div>';
     headerHTML += tabsHTML;
     headerHTML = '<div class="header-placeholder"><div class="header-container"><div class="header-inner">' + headerHTML + '</div></div></div>';
     return headerHTML;
