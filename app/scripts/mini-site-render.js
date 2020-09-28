@@ -213,6 +213,16 @@ function renderSections(index) {
             if (answer !== '') {
                 answer = '<div class="section-answer">'+answer+'</div>';
             }
+            
+            var video = sections[j].video || '';
+            if (video !== '') {
+                var host = (window.location.host.indexOf('localhost') === 0) ? 'http://www.ftchinese.com' : '';
+                var videoWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+                videoWidth = parseInt(Math.min(1200-60, videoWidth), 10);
+                var videoHeight = parseInt(videoWidth * 9 / 16, 10);
+                video = '<iframe class="section-video-frame" src="' + host + '/m/corp/video.html?vid=' + video + '&w=' + videoWidth + '&h=' + videoHeight + '" width="' + videoWidth + '" height="' + videoHeight + '"  frameBorder="0" scrolling="no">' + '</iframe>';
+                hasMoreContent = true;
+            }
             var dateTime = sections[j].time;
             var timeStamp = '';
             var startTime = '';
@@ -230,7 +240,11 @@ function renderSections(index) {
             var style = (sections[j].background) ? ' style="background-image: linear-gradient(to right, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(' + sections[j].background + ')"' : '';
             var speakersHTML = renderSpeakers(sections[j].speakers);
             var details = renderDetails(sections[j].details);
-            tabHTML += currentDateStamp + '<div class="section-container section-' + type + '"' + style + '>' + startTime + '<div class="section-inner">' + timeStamp + title + link + subtitle + question + answer + speakersHTML + '</div></div>' + details;
+            var hasMoreContent = '';
+            if (details !== '' || video !== '') {
+                hasMoreContent = ' has-more-content';
+            }
+            tabHTML += currentDateStamp + '<div class="section-container section-' + type + hasMoreContent + '"' + style + '>' + startTime + '<div class="section-inner">' + timeStamp + title + link + subtitle + question + answer + speakersHTML + '</div></div>' + video + details;
         }
     }
     return tabHTML;
