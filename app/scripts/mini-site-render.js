@@ -1,7 +1,7 @@
 var delegate = new Delegate(document.body);
 var tabsDict;
 var infoDict;
-
+var host = (window.location.host.indexOf('localhost') === 0) ? 'http://www.ftchinese.com' : '';
 delegate.on('click', '.header-nav', function(){
     var index = this.getAttribute('data-index');
     var currentTabs = document.querySelectorAll('.header-nav.is-current');
@@ -35,19 +35,45 @@ delegate.on('click', '.speaker', function(){
     if (!content) {return;}
     var key = this.querySelector('.speaker-name').innerHTML;
     if (!infoDict.speakers[key]) {return;}
+    // if (!infoDict.speakers[key]['intro'] || infoDict.speakers[key]['intro'] === '') {return;}
     var name = '<div class="name">' + key + '</div>';
     var image = '<img src="' + infoDict.speakers[key].image + '">';
     var title = '<div class="title">' + infoDict.speakers[key].title + '</div>';
     var intro = '<div class="intro">' + infoDict.speakers[key].intro + '</div>';
-    content.innerHTML = name + title + image + intro;
+    var sessions = [];
+    if (pageInfo.tabs) {
+        for (var i=0; i<pageInfo.tabs.length; i++) {
+            if (!pageInfo.tabs[i].sections) {continue;}
+            for (var j=0; j<pageInfo.tabs[i].sections.length; j++) {
+                var section = pageInfo.tabs[i].sections[j];
+                if (section.style !== 'session') {continue;}
+                var speakers = section.speakers;
+                if (!speakers) {continue;}
+                if (speakers.indexOf(key) < 0) {continue;}
+                sessions.push(section);
+            }
+        }
+    }
+    var sessionsHTML = '';
+    for (var k=0; k<sessions.length; k++) {
+        sessionsHTML += '<a class="speaker-session" href="' + sessions[k].url + '" target="_blank">' + sessions[k].title + '</a>';
+    }
+    if (sessionsHTML !== '') {
+        sessionsHTML = '<b class="speaker-session-title">相关议程：</b>' + sessionsHTML;
+    }
+    content.innerHTML =  image + name + title + intro + sessionsHTML;
     detail.classList.add('on');
 });
-
 
 delegate.on('click', '.overlay-close, .overlay-bg', function(){
     var parentId = this.getAttribute('data-parentid');
     closeOverlay(parentId);
 });
+
+function pad(str, max) {
+    str = str.toString();
+    return str.length < max ? pad('0' + str, max) : str;
+}
 
 function updateInfoDict() {
     if (!infoDict) {infoDict = {};}
@@ -116,7 +142,12 @@ function renderSpeakers(speakers) {
     if (speakers && infoDict.speakers) {
         for (var k=0; k<speakers.length; k++) {
             var speaker = infoDict.speakers[speakers[k]];
-            speakersHTML += '<div class="speaker"><image src="' + speaker.image + '"/><div class="content"><div class="speaker-name">' + speaker.name + '</div><div class="speaker-intro">' + speaker.title + '</div></div></div>';
+            if (!speaker) {continue;}
+            var image = '';
+            if (speaker.image) {
+                image = '<image src="' + speaker.image + '"/>';
+            }
+            speakersHTML += '<div class="speaker">' + image + '<div class="content"><div class="speaker-name">' + speaker.name + '</div><div class="speaker-intro">' + speaker.title + '</div></div></div>';
         }
     }
     if (speakersHTML !== '') {
@@ -177,6 +208,7 @@ function renderSections(index) {
     var tabHTML = '';
     var tab = tabsDict[index];
     var sections = tab.sections;
+    var location = pageInfo.location || '';
     if (sections) {
         if (tab.type === 'speakers') {
             var speakers = [];
@@ -191,19 +223,21 @@ function renderSections(index) {
             var type = sections[j].style || 'default';
             var url = sections[j].url;
             var link = '';
-            if (type === 'session' && url) {
-                var id = url.replace(/^.*\//g, '').replace(/\?.*$/g, '');
-                if (/^[0-9]+$/.test(id)) {
-                    link = '<a href="/interactive/' + id + '" class="watch-button">观看</a>';
-                }
+            var dateTime = sections[j].time;
+            var timeStamp = '';
+            var startTime = '';
+            var currentDateStamp = '';
+            var follow = '';
+            var title = '';
+            var eventTitle = sections[j].title || '';
+            var id = '';
+            if (eventTitle !== '') {
+                title = '<div class="section-title">'+eventTitle+'</div>';
             }
-            var title = sections[j].title || '';
-            if (title !== '') {
-                title = '<div class="section-title">'+title+'</div>';
-            }
-            var subtitle = sections[j].subtitle || '';
-            if (subtitle !== '') {
-                subtitle = '<div class="section-subtitle">'+subtitle+'</div>';
+            var subtitle = '';
+            var eventSubtitle = sections[j].subtitle || '';
+            if (eventSubtitle !== '') {
+                subtitle = '<div class="section-subtitle">'+eventSubtitle+'</div>';
             }
             var question = sections[j].question || '';
             if (question !== '') {
@@ -213,19 +247,43 @@ function renderSections(index) {
             if (answer !== '') {
                 answer = '<div class="section-answer">'+answer+'</div>';
             }
-            
+            var text = sections[j].text || '';
+            if (text !== '') {
+                var texts = text.split('\n');
+                var textHTML = '';
+                for (var n=0; n<texts.length; n++) {
+                    textHTML += '<p>' + texts[n] + '</p>';
+                }
+                text = '<div class="section-text">' + textHTML + '</div>';
+            }
+            var signature = sections[j].signature || '';
+            if (signature !== '') {
+                signature = '<img class="section-signature" src="' + signature + '">';
+            }
+            var name = sections[j].name || '';
+            if (name !== '') {
+                name = '<div class="section-name">' + name + '</div>';
+            }
+            var jobTitle = sections[j].jobTitle || '';
+            if (jobTitle !== '') {
+                jobTitle = '<div class="section-job-title">' + jobTitle + '</div>';
+            }
             var video = sections[j].video || '';
             if (video !== '') {
-                var host = (window.location.host.indexOf('localhost') === 0) ? 'http://www.ftchinese.com' : '';
                 var videoWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
                 videoWidth = parseInt(Math.min(1200-60, videoWidth), 10);
                 var videoHeight = parseInt(videoWidth * 9 / 16, 10);
                 video = '<iframe class="section-video-frame" src="' + host + '/m/corp/video.html?vid=' + video + '&w=' + videoWidth + '&h=' + videoHeight + '" width="' + videoWidth + '" height="' + videoHeight + '"  frameBorder="0" scrolling="no">' + '</iframe>';
             }
-            var dateTime = sections[j].time;
-            var timeStamp = '';
-            var startTime = '';
-            var currentDateStamp = '';
+
+
+            var style = (sections[j].background) ? ' style="background-image: linear-gradient(to right, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(' + sections[j].background + ')"' : '';
+            var speakersHTML = renderSpeakers(sections[j].speakers);
+            var details = renderDetails(sections[j].details);
+            var hasMoreContent = '';
+            if (details !== '' || video !== '') {
+                hasMoreContent = ' has-more-content';
+            }
             if (dateTime) {
                 currentDateStamp = '<div class="speaker-date-stamp">' + dateTime.replace(/ .*$/g, '') + '</div>';
                 if (currentDateStamp !== dateStamp) {
@@ -236,14 +294,32 @@ function renderSections(index) {
                 timeStamp = '<div class="time-stamp">' + dateTime.replace(/^.*? /g, '') + '</div>';
                 startTime = '<div class="start-time">' + dateTime.replace(/^.*? /g, '').replace(/\-.*$/g, '') + '</div>';
             }
-            var style = (sections[j].background) ? ' style="background-image: linear-gradient(to right, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(' + sections[j].background + ')"' : '';
-            var speakersHTML = renderSpeakers(sections[j].speakers);
-            var details = renderDetails(sections[j].details);
-            var hasMoreContent = '';
-            if (details !== '' || video !== '') {
-                hasMoreContent = ' has-more-content';
+            if (type === 'session' && url) {
+                id = url.replace(/^.*\//g, '').replace(/\?.*$/g, '');
+                if (/^[0-9]+$/.test(id)) {
+                    link = '<a href="/interactive/' + id + '" class="watch-button" target="_blank">观看</a>';
+                }
             }
-            tabHTML += currentDateStamp + '<div class="section-container section-' + type + hasMoreContent + '"' + style + '>' + startTime + '<div class="section-inner">' + timeStamp + title + link + subtitle + question + answer + speakersHTML + '</div></div>' + video + details;
+            // MARK: - Assume all events are Beijing Time
+            if (dateTime && type === 'session' && url) {
+                var eventDate =  dateTime.replace(/ .*$/g, '').replace(/[年月]/g, '-').replace(/[日]/g, '').trim();
+                var eventStartTime = dateTime.replace(/^.*? /g, '').replace(/\-.*$/g, '').trim();
+                var eventEndTime = dateTime.replace(/^.*? /g, '').replace(/^.*\-/g, '').trim();
+                // console.log(eventDate + ' ' + eventStartTime + ' GMT+0800');
+                var eventStart = new Date(eventDate + ' ' + eventStartTime + ' GMT+0800');
+                var eventEnd = new Date(eventDate + ' ' + eventEndTime + ' GMT+0800');
+                var ymd = eventStart.getUTCFullYear() * 10000 + (eventStart.getUTCMonth() + 1) * 100 + eventStart.getUTCDate();
+                var his = eventStart.getUTCHours() * 10000 + eventStart.getUTCMinutes() * 100 + eventStart.getUTCSeconds();
+                his = pad(his, 6);
+                var ymdend = eventEnd.getUTCFullYear() * 10000 + (eventEnd.getUTCMonth() + 1) * 100 + eventEnd.getUTCDate();
+                var hisend = eventEnd.getUTCHours() * 10000 + eventEnd.getUTCMinutes() * 100 + eventEnd.getUTCSeconds();
+                hisend = pad(hisend, 6);
+                var eventUrl = host + '/event.php?ymd=' + ymd + '&his=' + his + '&ymdend=' + ymdend + '&hisend=' + hisend + '&event=' + encodeURIComponent(eventTitle) + '&id=' + id + '&location=' + location + '&description=' + encodeURIComponent(eventSubtitle);
+                // console.log(eventUrl);
+                //https://www.chineseft.com/event.php?ymd=20200928&his=100000&ymdend=20200928&hisend=110000&event=2020FT%E4%B8%AD%E6%96%87%E7%BD%91%E5%B9%B4%E5%BA%A6%E8%AE%BA%E5%9D%9B&id=200299&location=%E5%8D%83%E7%A6%A7%E5%A4%A7%E9%85%92%E5%BA%97&description=%E8%AF%B7%E4%B8%8D%E8%A6%81%E9%94%99%E8%BF%87
+                follow = '<a class="section-follow" href="' + eventUrl + '" target="_blank"></a>';
+            }
+            tabHTML += currentDateStamp + '<div class="section-container section-' + type + hasMoreContent + '"' + style + '>' + startTime + '<div class="section-inner">' + follow + timeStamp + title + link + subtitle + text + signature + name + jobTitle + question + answer + speakersHTML + '</div></div>' + video + details;
         }
     }
     return tabHTML;
