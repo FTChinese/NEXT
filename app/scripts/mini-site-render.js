@@ -2,6 +2,9 @@ var delegate = new Delegate(document.body);
 var tabsDict;
 var infoDict;
 var host = (window.location.host.indexOf('localhost') === 0) ? 'http://www.ftchinese.com' : '';
+var hasBought = false;
+var subscriptionType = '';
+
 delegate.on('click', '.header-nav', function(){
     var index = this.getAttribute('data-index');
     var currentTabs = document.querySelectorAll('.header-nav.is-current');
@@ -92,6 +95,145 @@ function updateInfoDict() {
                 infoDict[type][key] = sections[j];
             }
         }
+    }
+}
+
+function updateActionButtons() {
+    var privilege = pageInfo.privilege;
+
+    function updateHTML() {
+        var html = '';
+        var buttonText = '';
+        var buttonUrl = '';
+        if (hasBought === false && privilege) {
+            buttonText = privilege.button || '';
+            buttonUrl = privilege.url || '';
+        } else {
+            if (pageInfo.startTime && pageInfo.endTime) {
+                var eventStart = new Date(pageInfo.startTime);
+                var startTime = eventStart.getTime();
+                var eventEnd = new Date(pageInfo.endTime);
+                var endTime = eventEnd.getTime();
+                var nowTime = new Date().getTime();
+                if (startTime && endTime && startTime > nowTime && endTime > startTime) {
+                    var ymd = eventStart.getUTCFullYear() * 10000 + (eventStart.getUTCMonth() + 1) * 100 + eventStart.getUTCDate();
+                    var his = eventStart.getUTCHours() * 10000 + eventStart.getUTCMinutes() * 100 + eventStart.getUTCSeconds();
+                    his = pad(his, 6);
+                    var ymdend = eventEnd.getUTCFullYear() * 10000 + (eventEnd.getUTCMonth() + 1) * 100 + eventEnd.getUTCDate();
+                    var hisend = eventEnd.getUTCHours() * 10000 + eventEnd.getUTCMinutes() * 100 + eventEnd.getUTCSeconds();
+                    hisend = pad(hisend, 6);
+                    var eventTitle = pageInfo.title || '';
+                    var location = pageInfo.location || '';
+                    buttonUrl = host + '/event.php?ymd=' + ymd + '&his=' + his + '&ymdend=' + ymdend + '&hisend=' + hisend + '&event=' + encodeURIComponent(eventTitle) + '&location=' + location;
+                    buttonText = '添加到日历';
+                } else if (privilege.fallback) {
+                    buttonUrl = privilege.fallback.url || '';
+                    buttonText = privilege.fallback.button || '';
+                }
+            }
+        }
+        if (buttonText !== '' && buttonUrl !== '') {
+            html = '<a href="' + buttonUrl + '" class="section-button">' + buttonText + '</a>';
+        }
+        if (pageInfo.actions) {
+            for (var i=0; i<pageInfo.actions.length; i++) {
+                var target = pageInfo.actions[i].target;
+                if (!pageInfo.actions[i].url || !pageInfo.actions[i].button) {continue;}
+                console.log('subscription type: ' + subscriptionType);
+                if (!target || target === subscriptionType) {
+                    html += '<a href="' + pageInfo.actions[i].url + '" class="section-button">' + pageInfo.actions[i].button + '</a>';
+                }
+            }
+        }
+        // MARK: - Use a time out so that the dom element will be updated
+        setTimeout(function(){
+            var actionButtonEles = document.querySelectorAll('.action-buttons-container');
+            for (var i=0; i<actionButtonEles.length; i++) {
+                actionButtonEles[i].innerHTML = html;
+            }
+        }, 0);
+    }
+    if (hasBought === false && typeof privilege === 'object') {
+        var productPricingUrl = (location.hostname === 'localhost') ? '/api/page/productpricing.json' : '/index.php/jsapi/productpricing';
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', productPricingUrl);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.onload = function() {
+            if (xhr.status !== 200) {
+                updateHTML();
+                return;
+            }
+            var data = JSON.parse(xhr.responseText);
+            var product;
+            if (data && data.sections) {
+                for (var i=0; i<data.sections.length; i++) {
+                    var section = data.sections[i];
+                    if (section.status === 'on' && privilege.type === section.PrivilegeType && privilege.key === section.KeyWord) {
+                        product = section;
+                        break;
+                    }
+                }
+            }
+            // MARK: If you can't find a product privilege match, then the hasBought variable will not be changed
+            if (!product) {
+                updateHTML();
+                return;
+            }
+            // MARK: - Check if the user's subscription includes this product
+            var paywallUrl = (location.hostname === 'localhost') ? '/api/page/paywall.json' : '/index.php/jsapi/paywall';
+            var xhr1 = new XMLHttpRequest();
+            xhr1.open('GET', paywallUrl);
+            xhr1.setRequestHeader('Content-Type', 'application/json');
+            xhr1.onload = function() {
+                if (xhr1.status !== 200) {
+                    updateHTML();
+                    return;
+                }
+                var paywallData = JSON.parse(xhr1.responseText);
+                var priceKey = 'Full';
+                if (paywallData && paywallData.paywall === 0) {
+                    if (paywallData.premium === 1) {
+                        priceKey = 'ForPremium';
+                        subscriptionType = 'premium';
+                    } else if (paywallData.standard === 1) {
+                        priceKey = 'ForStandard';
+                        subscriptionType = 'standard';
+                    }
+                }
+                if (section[priceKey] === '0' ) {
+                    hasBought = true;
+                    updateHTML();
+                    return;
+                }
+                // MARK: - Now check if the user has bought the product separately! 
+                var productsUrl = (location.hostname === 'localhost') ? '/api/page/products.json' : '/index.php/jsapi/products';
+                var xhr2 = new XMLHttpRequest();
+                xhr2.open('GET', productsUrl);
+                xhr2.setRequestHeader('Content-Type', 'application/json');
+                xhr2.onload = function() {
+                    if (xhr2.status !== 200) {
+                        updateHTML();
+                        return;
+                    }
+                    var productsData = JSON.parse(xhr2.responseText);
+                    var isProductBought = false;
+                    for (var m=0; m<productsData.length; m++) {
+                        var tag = (productsData[m].t === 'T') ? 'tag' : productsData[m].t;
+                        if (tag === privilege.type && productsData[m].k === privilege.key) {
+                            isProductBought = true;
+                            break;
+                        }
+                    }
+                    hasBought = isProductBought;
+                    updateHTML();
+                };
+                xhr2.send();
+            };
+            xhr1.send();
+        };
+        xhr.send();
+    } else {
+        updateHTML();
     }
 }
 
@@ -319,7 +461,12 @@ function renderSections(index) {
                 //https://www.chineseft.com/event.php?ymd=20200928&his=100000&ymdend=20200928&hisend=110000&event=2020FT%E4%B8%AD%E6%96%87%E7%BD%91%E5%B9%B4%E5%BA%A6%E8%AE%BA%E5%9D%9B&id=200299&location=%E5%8D%83%E7%A6%A7%E5%A4%A7%E9%85%92%E5%BA%97&description=%E8%AF%B7%E4%B8%8D%E8%A6%81%E9%94%99%E8%BF%87
                 follow = '<a class="section-follow" href="' + eventUrl + '" target="_blank"></a>';
             }
-            tabHTML += currentDateStamp + '<div class="section-container section-' + type + hasMoreContent + '"' + style + '>' + startTime + '<div class="section-inner">' + follow + timeStamp + title + link + subtitle + text + signature + name + jobTitle + question + answer + speakersHTML + '</div></div>' + video + details;
+            var actionButtons = '';
+            if (sections[j].showActionButton === true) {
+                actionButtons = '<div class="action-buttons-container"></div>';
+                updateActionButtons();
+            }
+            tabHTML += currentDateStamp + '<div class="section-container section-' + type + hasMoreContent + '"' + style + '>' + startTime + '<div class="section-inner">' + follow + timeStamp + title + link + subtitle + text + actionButtons + signature + name + jobTitle + question + answer + speakersHTML + '</div></div>' + video + details;
         }
     }
     return tabHTML;

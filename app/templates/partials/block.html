@@ -586,7 +586,7 @@
 								<%assign var="hideImage" value="yes"%>
 								<%assign var="XL" value="one-row"%>
 								<%assign var="itemTopClass" value="XLT LT ST MT PT"%>
-							<%elseif $list.float === "Headshot"%>
+							<%elseif $list.float === "Headshot" ||  $list.float === "HeadshotSquare"%>
 								<%assign var="XL" value="one-row headshot-lead"%>
 								<%assign var="itemTopClass" value="XLT LT ST MT PT"%>
 							<%elseif $list.float === "Card" || $list.float === "eBook"%>
@@ -1355,6 +1355,27 @@
 								<%$itemTop%>
 								<div class="item-container <%$itemClass%> <%$hasImage%>"<%$itemData%>><div class="item-inner">
 									<a class="image portrait-img" target="_blank"<%$itemLink%>><figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure></a>
+									<%$itemTag%>
+									<div class="item-headline-lead">
+									<h2 class="item-headline"><a target="_blank"<%$itemLink%> class="item-headline-link <%$lockClass%>"><%$itemHeadline%></a></h2>
+									<%if $hideLead === "no"%><div class="item-lead"><%$itemLead|nl2br%></div><%/if%>
+									</div>
+									<%$itemTimeStamp%>
+									<div class="item-bottom"></div>
+								</div></div>
+								<%assign var="i" value=$i+1%>
+							<%elseif $list.float === "HeadshotSquare"%>
+								<%if $list.feedItems > 0 && $list.feedItems < $list.items|@count && $list.feedItems <= $i%>
+									<%assign var="showMoreButton" value="yes"%>
+									<%assign var="itemClass" value="`$itemClass` hide"%>
+									<%if $itemTopClass != ""%>
+										<%assign var="itemClass" value="`$itemClass` "%>
+										<%assign var="itemTop" value="<div class=\"`$itemTopClass` hide\"></div>"%>
+									<%/if%>
+								<%/if%>
+								<%$itemTop%>
+								<div class="item-container <%$itemClass%> <%$hasImage%>"<%$itemData%>><div class="item-inner">
+									<a class="image square-img" target="_blank"<%$itemLink%>><figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure></a>
 									<%$itemTag%>
 									<div class="item-headline-lead">
 									<h2 class="item-headline"><a target="_blank"<%$itemLink%> class="item-headline-link <%$lockClass%>"><%$itemHeadline%></a></h2>

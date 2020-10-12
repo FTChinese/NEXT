@@ -39,6 +39,8 @@
         <%elseif $section.ForPremium == 0 || $section.ForPremium == "0"%>
             <%assign var="forMemberShip" value="高端会员"%>
         <%/if%>
+        <%*<!--MARK: - If the content is supposed to be sold seperately, don't show overlay for login on chineseft.com -->*%>
+        <script type="text/javascript">window.hasFoundProductPricing = true; </script>
     <%/if%>
 <%/foreach%>
 

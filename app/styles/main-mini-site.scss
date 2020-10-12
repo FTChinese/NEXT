@@ -41,7 +41,7 @@ $yellow: rgb(252, 208, 177);
       color: white;
       font-size: 2.2em;
       font-weight: bold;
-      margin-bottom: 1em;
+      margin-bottom: $defaultPadding;
       max-width: $maxWidth/2;
   }
   .section-subtitle {
@@ -49,6 +49,7 @@ $yellow: rgb(252, 208, 177);
       font-size: 1.8em;
       max-width: $maxWidth/2;
       line-height: $goldenRatio;
+      margin-bottom: $defaultPadding;
   }
 }
 .section-cover {
@@ -253,6 +254,19 @@ $yellow: rgb(252, 208, 177);
   &.has-more-content {
     padding-bottom: 0;
   }
+}
+
+// .action-buttons-container {
+//   padding-top: 1em;
+// }
+.section-button, a.section-button {
+  color: black;
+  background-color: white;
+  font-weight: bold;
+  font-size: 1.8em;
+  display: inline-block;
+  padding: $defaultPadding/2 $defaultPadding;
+  margin: 0 $defaultPadding $defaultPadding 0;
 }
 
 @media all and (min-width: 600px) {
