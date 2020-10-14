@@ -4,6 +4,10 @@
 <%/if%>
 <%assign var="p" value=$nextmodel->getPublishJson($pageId)|json_decode:true%>
 
+<%if $p.meta.requirelogin == "no"%>
+    <%assign var="requirelogin" value="no"%>
+<%/if%>
+
 <%*<!--MARK: This has to be replicated to multiple templates as this version of smarty doesn't support global scoop in included file-->*%>
 <%if $topnav == ""%>
     <%if $p.meta.topnav != ""%>

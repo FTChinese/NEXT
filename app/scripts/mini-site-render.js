@@ -122,7 +122,7 @@ function updateActionButtons() {
                     var ymdend = eventEnd.getUTCFullYear() * 10000 + (eventEnd.getUTCMonth() + 1) * 100 + eventEnd.getUTCDate();
                     var hisend = eventEnd.getUTCHours() * 10000 + eventEnd.getUTCMinutes() * 100 + eventEnd.getUTCSeconds();
                     hisend = pad(hisend, 6);
-                    var eventTitle = pageInfo.title || '';
+                    var eventTitle = pageInfo.title || pageInfo.pagetitle || '';
                     var location = pageInfo.location || '';
                     buttonUrl = host + '/event.php?ymd=' + ymd + '&his=' + his + '&ymdend=' + ymdend + '&hisend=' + hisend + '&event=' + encodeURIComponent(eventTitle) + '&location=' + location;
                     buttonText = '添加到日历';
@@ -139,7 +139,7 @@ function updateActionButtons() {
             for (var i=0; i<pageInfo.actions.length; i++) {
                 var target = pageInfo.actions[i].target;
                 if (!pageInfo.actions[i].url || !pageInfo.actions[i].button) {continue;}
-                console.log('subscription type: ' + subscriptionType);
+                // console.log('subscription type: ' + subscriptionType);
                 if (!target || target === subscriptionType) {
                     html += '<a href="' + pageInfo.actions[i].url + '" class="section-button">' + pageInfo.actions[i].button + '</a>';
                 }
