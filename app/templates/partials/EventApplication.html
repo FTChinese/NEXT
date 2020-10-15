@@ -192,7 +192,7 @@ function loginOnAcademy() {
     var s = 1;
     var postData = JSON.stringify({'username': u, 'password': p, 'saveme': s});
     var req = new XMLHttpRequest();
-    var statusEle = document.getElementById('login-in-status-note');
+    var statusEle = document.querySelector('.login-in-status-note');
     if (statusEle === null) {
         var registerFind = document.querySelector('.register-find');
         if (registerFind) {

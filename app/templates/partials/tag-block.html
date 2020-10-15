@@ -602,11 +602,7 @@
 						<%assign var="hideImage" value="no"%>
 						<%assign var="hideLead" value="no"%>
 						<%*<!--Has Side: XL Styles-->*%>
-						<%if $pageTheme === "myft"%>
-							<%assign var="hideImage" value="yes"%>
-							<%assign var="XL" value="one-row"%>
-							<%assign var="itemTopClass" value="XLT LT ST MT PT"%>
-						<%elseif $allStoiesCount === 1%>
+						<%if $allStoiesCount === 1%>
 							<%assign var="XL" value="XL12"%>
 						<%elseif $allStoiesCount === 2%>
 							<%assign var="XL" value="XL6"%>
@@ -689,6 +685,15 @@
 						<%/if%>
 						<%*<!--Has Side: S Styles End-->*%>
 
+						<%if $pageTheme === "myft"%>
+							<%assign var="hideImage" value="yes"%>
+							<%assign var="XL" value="one-row"%>
+							<%assign var="L" value=""%>
+							<%assign var="M" value=""%>
+							<%assign var="S" value=""%>
+							<%assign var="P" value=""%>
+							<%assign var="itemTopClass" value="XLT LT ST MT PT"%>
+						<%/if%>
 
 						<%assign var="itemClass" value="`$XL` `$L` `$M` `$S` `$P`"%>
 						<%if $itemTopClass != ""%>
@@ -816,7 +821,6 @@
 
 
 						<%assign var="itemSubType" value=""%>
-						<!--item type: <%$itemType%>, tag: <%$itemTagsString%>, sub type: <%$itemSubType%>-->
 						<%if $itemType == "interactive"%>
 							<%if preg_match("/速读/is",$itemTagsString) %>
 								<%assign var="itemSubType" value="speedreading"%>
@@ -827,7 +831,6 @@
 							<%elseif preg_match("/FT商学院|MBA训练营|教程/is",$itemTagsString) %>
 								<%assign var="itemSubType" value="mbagym"%>
 							<%/if%>
-							<!--tag: <%$itemTagsString%>, sub type: <%$itemSubType%>-->
 						<%/if%>
 
 

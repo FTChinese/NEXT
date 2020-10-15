@@ -124,7 +124,7 @@ function updateActionButtons() {
                     hisend = pad(hisend, 6);
                     var eventTitle = pageInfo.title || pageInfo.pagetitle || '';
                     var location = pageInfo.location || '';
-                    buttonUrl = host + '/event.php?ymd=' + ymd + '&his=' + his + '&ymdend=' + ymdend + '&hisend=' + hisend + '&event=' + encodeURIComponent(eventTitle) + '&location=' + location;
+                    buttonUrl = host + '/event.php?isad=1&ymd=' + ymd + '&his=' + his + '&ymdend=' + ymdend + '&hisend=' + hisend + '&event=' + encodeURIComponent(eventTitle) + '&location=' + location;
                     buttonText = '添加到日历';
                 } else if (privilege.fallback) {
                     buttonUrl = privilege.fallback.url || '';
@@ -456,9 +456,7 @@ function renderSections(index) {
                 var ymdend = eventEnd.getUTCFullYear() * 10000 + (eventEnd.getUTCMonth() + 1) * 100 + eventEnd.getUTCDate();
                 var hisend = eventEnd.getUTCHours() * 10000 + eventEnd.getUTCMinutes() * 100 + eventEnd.getUTCSeconds();
                 hisend = pad(hisend, 6);
-                var eventUrl = host + '/event.php?ymd=' + ymd + '&his=' + his + '&ymdend=' + ymdend + '&hisend=' + hisend + '&event=' + encodeURIComponent(eventTitle) + '&id=' + id + '&location=' + location + '&description=' + encodeURIComponent(eventSubtitle);
-                // console.log(eventUrl);
-                //https://www.chineseft.com/event.php?ymd=20200928&his=100000&ymdend=20200928&hisend=110000&event=2020FT%E4%B8%AD%E6%96%87%E7%BD%91%E5%B9%B4%E5%BA%A6%E8%AE%BA%E5%9D%9B&id=200299&location=%E5%8D%83%E7%A6%A7%E5%A4%A7%E9%85%92%E5%BA%97&description=%E8%AF%B7%E4%B8%8D%E8%A6%81%E9%94%99%E8%BF%87
+                var eventUrl = host + '/event.php?isad=1&ymd=' + ymd + '&his=' + his + '&ymdend=' + ymdend + '&hisend=' + hisend + '&event=' + encodeURIComponent(eventTitle) + '&id=' + id + '&location=' + location + '&description=' + encodeURIComponent(eventSubtitle);
                 follow = '<a class="section-follow" href="' + eventUrl + '" target="_blank"></a>';
             }
             var actionButtons = '';
