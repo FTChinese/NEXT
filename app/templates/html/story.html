@@ -1,6 +1,3 @@
-<!--pay wall 3: <%$paywall%>-->
-<!--test print: <%$testprint%>-->
-<!--test print 1: <%$testprint1%>-->
 <%assign var="adchannelID" value="`$p.meta.adid`"%>
 <%if !isset($adchannelID)||$adchannelID==""%>
     <%assign var="adchannelID" value="1100"%>
@@ -1191,7 +1188,7 @@
 	<%*<!--MARK: Show English and Billigual Button to All-->*%>
 	<%assign var="languageOptions" value="<a class=\"icon-right icon-ch\" href=\"/story/`$story.id`/ce\"><button>对照</button></a><a class=\"icon-right icon-ch\" href=\"/story/`$story.id`/en\"><button>英文</button></a>"%>
 	<%assign var="languageSwitch" value="<div class=\"language-switch-placeholder\" id=\"language-switch-placeholder\"><div class=\"language-switch-container\"><a class=\"language-switch-left language-switch-menu\" href=\"/\"></a><div class=\"language-switch-inner\"><a class=\"language-switch on\">中文</a><a class=\"language-switch\" href=\"/story/`$story.id`/en?ccode=LanguageSwitch\">英文</a><a class=\"language-switch\" href=\"/story/`$story.id`/ce?ccode=LanguageSwitch\">对照</a></div><a class=\"language-switch-right language-switch-share\" onclick=\"showOverlay('share-legacy')\"></a></div></div>"%>
-<%elseif preg_match("/活动页面|企业公告|双语阅读/is",$keys)%>
+<%elseif preg_match("/活动页面|企业公告|双语阅读/is",$keys) && !preg_match("/数据新闻/is",$keys)%>
 	<%if preg_match("/\/interactive\/[0-9]+\/en/is",$smarty.server.REQUEST_URI)%>
 		<%assign var="page_action" value="en"%>
 		<%if $isMachineTranslation == "yes"%>
@@ -1512,8 +1509,9 @@
 		<%*<!--MARK: - remove all the html code inside a div before determining whether this article already includes <p> tags. -->*%>
 		<%assign var="storyContentWithoutDiv" value=$story_content|regex_replace:"/[\r\t\n]/":""|regex_replace:"/\<div.*\<\/div\>/":""%>
 		<%if !preg_match("/<p>/is",$storyContentWithoutDiv)%>
-			<%assign var="story_content" value=$story_content|regex_replace:"/[\r\t\n]/":"</p><p>"%>
-			<%assign var="story_content" value="<p>`$story_content`</p>"%>
+			<%assign var="story_content" value=$story_content|regex_replace:"/[\r\t\n]+/":"</p>\n<p>"%>
+			<%assign var="story_content" value="\n<p>`$story_content`</p>\n"%>
+			<%assign var="story_content" value=$story_content|regex_replace:"/\<p\>(\<div.*\<\/div\>)[\r\t\n]*<\/p\>/":"\\1"%>
 			<%assign var="story_content" value=$story_content|regex_replace:"/\<p\>\ *\<\/p\>/":""%>
 			<%assign var="story_content" value=$story_content|regex_replace:"/\<p\>\<\/p\>/":""%>
 		<%/if%>
