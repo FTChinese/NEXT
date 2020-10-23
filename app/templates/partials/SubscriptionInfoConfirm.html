@@ -20,8 +20,12 @@
 				<div class="item-inner">
 					<div class="subscription-form-container">
 						<div><span>邮件：</span><input type="email" placeholder="请准确填写您的邮件地址" class="email" id="email"><span class="status"></span></div>
-						<div><span>手机：</span><input type="tel" placeholder="请准确填写号码" class="tel" id="mobile_phone_no"><span class="status"></span></div>
-            <%if $list.InfoCollection == "detail"%>
+            <%assign var=telType value="tel"%>
+            <%if $list.InfoCollection == "china_only"%>
+              <%assign var=telType value="chinamobile"%>
+            <%/if%>
+            <div><span>手机：</span><input type="<%$telType%>" placeholder="请准确填写号码" class="<%$telType%>" id="mobile_phone_no"><span class="status"></span></div>
+            <%if $list.InfoCollection != "basic"%>
               <div><span>地址：</span><input type="text" placeholder="请填写准确地址" class="address" id="address"><span class="status"></span></div>
               <div><span>姓：</span><input type="text" placeholder="" class="last-name" id="last_name"><span class="status"></span></div>
               <div><span>名：</span><input type="text" placeholder="" class="first-name" id="first_name"><span class="status"></span></div>
@@ -41,35 +45,58 @@
 
 <script type="text/javascript">
     var isSubmiting = false;
+    var validators = {
+      chinamobile: {
+        reg: /^[0-9]{11}$/,
+        warning: '请填写11位数字的中国大陆手机号码，不要使用任何其他符号'
+      },
+      tel: {
+        reg: /^[0-9\ ]{8,}$/,
+        warning: '请填写数字的手机号码，不要使用全角或符号'
+      },
+      email: {
+        reg: /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+        warning: '请填写格式正确的邮件地址'
+      }
+    };
+
     function kickStart() {
-      addValidator('tel', /^[0-9\ ]{8,}$/, '请填写数字的手机号码，不要使用全角或符号');
-      addValidator('email', /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, '请填写格式正确的邮件地址');
+      var inputs = document.querySelectorAll('.subscription-form-container input');
+      for (var i=0; i<inputs.length; i++) {
+        inputs[i].onblur = function() {
+          validateInput(this);
+        }
+      }
       getExistingInfo();
       showApplePurchaseInfo();
     }
 
     function showApplePurchaseInfo() {
-      if (webkit && webkit.messageHandlers) {
+      if (typeof webkit === 'object' && webkit.messageHandlers) {
         var message = '<div class="important-info">如您当前的订阅尚未到期，将在当前订阅到期后扣款。请勿关闭自动续费，以保证续费时按照您见到的金额扣款。 </div>';
         var info = document.getElementById('subscription-form-description');
         info.innerHTML = message + info.innerHTML;
       }
     }
 
-    function addValidator(inputClass, validator, warningMessage) {
-      var theInput = document.querySelector('.subscription-form-container .' + inputClass);
-      if (theInput !== null) {
-        theInput.onblur = function() {
-          var inputValue = this.value;
-          var statusEle = this.parentNode.querySelector('.status');
-          this.className = this.className.replace(/ wrong/g, '');
-          if (validator.test(inputValue)) {
-            statusEle.innerHTML = '';
-          } else {
-            this.className += ' wrong';
-            statusEle.innerHTML = warningMessage;
-          }
-        }
+    function validateInput(ele) {
+      var inputValue = ele.value;
+      var statusEle = ele.parentNode.querySelector('.status');
+      var key = ele.getAttribute('type');
+      if (!key) {return;}
+      var v = validators[key];
+      if (!v) {return;}
+      var validator = v.reg;
+      var warningMessage = v.warning;
+      
+      ele.className = ele.className.replace(/ wrong/g, '');
+      if (validator.test(inputValue)) {
+        statusEle.innerHTML = '';
+        return true;
+      } else {
+        this.className += ' wrong';
+        statusEle.innerHTML = warningMessage;
+        return false;
       }
     }
 
@@ -127,25 +154,26 @@
 
     document.getElementById('subscription-button').onclick = function(){
       if (isSubmiting) return;
-      this.innerHTML = '提交中...';
-      isSubmiting = true;
       var userData = {}
       var inputs = document.querySelectorAll('.subscription-form-container input');
       for (var i=0; i<inputs.length; i++) {
+        if (validateInput(inputs[i]) === false) {return;}
         var id = inputs[i].id;
         var value = inputs[i].value;
         userData[id] = value;
       }
+      this.innerHTML = '提交中...';
+      isSubmiting = true;
       var xhr = new XMLHttpRequest();
       xhr.open('POST', '/index.php/user/confirminfo');
       xhr.setRequestHeader('Content-Type', 'application/json');
       xhr.onload = function() {
-          if (xhr.status === 200) {
-              var result = JSON.parse(xhr.responseText);
-              if (result.status === 'success') finishSubmit();
-          }
+        if (xhr.status === 200) {return;}
+        var result = JSON.parse(xhr.responseText);
+        if (result.status === 'success') {finishSubmit();}
       };
       xhr.send(JSON.stringify(userData));
     }
+
     kickStart();
 </script>
