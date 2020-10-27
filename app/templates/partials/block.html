@@ -92,7 +92,7 @@
 			<%elseif $list.type == "subscriptionPromotion"%>
 				<%include file="next/partials/subscriptionPromotion.html"%>
 			<%elseif $list.type == "SubscriptionInfoConfirm"%>
-				<%if $foundConfirmForm == "no" && (preg_match("/`$currentDate`/is",$list.dates) || $list.dates == "") && ($list.status == "on" || $debug_model == 1) && ($list.membership == "" || ($smarty.get.membership != "" && preg_match("/`$smarty.get.membership`/is",$list.membership)))%>
+				<%if $foundConfirmForm == "no" && (preg_match("/`$currentDate`/is",$list.dates) || $list.dates == "") && ($list.status == "on" || $debug_model == 1) && ($list.membership == "" || ($smarty.get.membership != "" && preg_match("/`$smarty.get.membership`/is",$list.membership))) && ($list.action == "" || ($smarty.get.action != "" && preg_match("/`$smarty.get.action`/is",$list.action)))%>
 					<%assign var="foundConfirmForm" value="yes"%>
 					<%include file="next/partials/SubscriptionInfoConfirm.html"%>
 				<%/if%>
