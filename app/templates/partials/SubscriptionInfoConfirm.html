@@ -21,16 +21,16 @@
 					<div class="subscription-form-container">
 						<div><span>邮件：</span><input type="email" placeholder="请准确填写您的邮件地址" class="email" id="email"><span class="status"></span></div>
             <%assign var=telType value="tel"%>
+            <%assign var=countryType value=""%>
             <%if $list.InfoCollection == "china_only"%>
               <%assign var=telType value="chinamobile"%>
+              <%assign var=countryType value="china_only"%>
             <%/if%>
             <div><span>手机：</span><input type="<%$telType%>" placeholder="请准确填写号码" class="<%$telType%>" id="mobile_phone_no"><span class="status"></span></div>
             <%if $list.InfoCollection != "basic"%>
-              <%if $list.InfoCollection == "china_only"%>
-                <div><span>居住地：</span><select type="text" placeholder="请选择" class="country" id="country"></select><span class="status"></span></div>
-                <div><span>省份：</span><select type="text" placeholder="请选择" class="state" id="state"></select><span class="status"></span></div>
-                <div><span>城市：</span><select type="text" placeholder="请选择" class="city" id="city"></select><span class="status"></span></div>
-              <%/if%>
+              <div><span>居住地：</span><select type="<%$countryType%>" placeholder="请选择" class="country" id="country"></select><span class="status"></span></div>
+              <div><span>省份：</span><select placeholder="请选择" class="state" id="state"></select><span class="status"></span></div>
+              <div><span>城市：</span><select placeholder="请选择" class="city" id="city"></select><span class="status"></span></div>
               <div><span>地址：</span><input type="text" placeholder="请填写准确地址" class="address" id="address"><span class="status"></span></div>
               <div><span>姓：</span><input type="text" placeholder="" class="last-name" id="last_name"><span class="status"></span></div>
               <div><span>名：</span><input type="text" placeholder="" class="first-name" id="first_name"><span class="status"></span></div>
@@ -97,6 +97,7 @@
       stateEle.setAttribute('disabled', true);
       cityEle.setAttribute('disabled', true);
       currentCountry = undefined;
+
       // MARK: - When the country select is changed
       countryEle.onchange = function() {
         var provinces = [];
@@ -120,6 +121,7 @@
         cityEle.innerHTML = emptyOptionHTML;
         cityEle.setAttribute('disabled', true);
       };
+
       // MARK: - When the privince select is changed
       stateEle.onchange = function() {
         var provinces = locations[currentCountry].provinces;
@@ -259,9 +261,16 @@
       } else {
         document.getElementById('subscription-button').parentElement.innerHTML = '<a href="/">提交成功，点击进入订户专享网站</a>';
       }
+      // MARK: -  It is highly unlikely that a future campaign targets countries other than China. So we don't need to think about general use cases, at least for now. 
+      var message = '您已经成功提交了信息。';
+      var countryEle = document.getElementById('country');
+      var chinaCode = '101';
+      if (countryEle && countryEle.getAttribute('type') === 'china_only' && countryEle.value !== chinaCode) {
+        message += '但是活动的礼品仅针对中国大陆地区，您的订阅权益不受影响！';
+      }
       sendAlert({
         title: '成功',
-        message: '您已经成功提交了信息'
+        message: message
       });
       markSuccess();
     }
