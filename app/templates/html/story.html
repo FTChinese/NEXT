@@ -1442,7 +1442,6 @@
 <%assign var="facebookUrl" value="http://www.facebook.com/sharer.php?u=`$shareUrl`&t=`$shareText`"%>
 
 
-
 <%*<!--MARK: - Override for different types of interactive -->*%>
 <%if $pageType=="job"%>
 	<%assign var="storyHeadline" value="`$jobinfo.company`招聘`$jobinfo.position_name`"%>
@@ -1462,7 +1461,14 @@
 	<%assign var="story_content" value="<div class=\"quiz-container\"></div>"%>
 	<%assign var="breadcrum" value="小测试"%>
 <%elseif preg_match("/视频直播/is",$keys)%>
-	<%assign var="story_content" value="`$cbody``$ebody`"%>
+	<%if $ebyline_description != ""%>
+		<%assign var="minisite" value=$interactivemodel->get_interactive_info($ebyline_description)%>
+		<%assign var="minisiteInfo" value=$minisite.cbody|json_decode:1%>
+		<!--3. <%$minisiteInfo.location%>-->
+		<%assign var="story_content" value="......"%>
+	<%else%>
+		<%assign var="story_content" value="`$cbody``$ebody`"%>
+	<%/if%>
 <%elseif $itemType=="interactive" || $pageType=="interactive"%>
 	<%assign var="storyAuthor" value="`$cbyline_description` `$cauthor`"%>
 	<%if $page_action == "en"%>

@@ -41,6 +41,11 @@
 						<div class="center n-button-container">
 							<button class="n-button-inner subscription-button" id="subscription-button">确认并提交</button>
 						</div>
+            <%if $v >= "125"%>
+            <div class="center n-button-container">
+              <button class="n-button-inner later-button" id="later-button">以后再说</button>
+            </div>
+            <%/if%>
 					</div>
 				</div>
 			</div>
@@ -318,7 +323,14 @@
         if (result.status === 'success') {finishSubmit();}
       };
       xhr.send(JSON.stringify(userData));
-    }
+    };
+
+    document.getElementById('later-button').onclick = function(){
+      if (isSubmiting) {return;}
+      if (typeof webkit === 'object' && webkit.messageHandlers) {
+        webkit.messageHandlers.action.postMessage('pop');
+      }
+    };
 
     kickStart();
 </script>
