@@ -5,19 +5,23 @@ var host = (window.location.host.indexOf('localhost') === 0) ? 'http://www.ftchi
 var hasBought = false;
 var subscriptionType = '';
 
-delegate.on('click', '.header-nav', function(){
-    var index = this.getAttribute('data-index');
+function goToTab(index, ele) {
     var currentTabs = document.querySelectorAll('.header-nav.is-current');
     for (var i=0; i<currentTabs.length; i++) {
         currentTabs[i].className = currentTabs[i].className.replace(' is-current', '');
     }
-    this.className += ' is-current';
+    ele.className += ' is-current';
     var sections = document.querySelector('.sections');
     if (!sections) {return;}
-    sections.innerHTML = renderSections(index);
+    sections.innerHTML = renderSections(parseInt(index, 10));
     var tabsContainer = document.querySelector('.tabs-container');
     if (!tabsContainer) {return;}
     tabsContainer.className = tabsContainer.className.replace(' on', '');
+}
+
+delegate.on('click', '.header-nav', function(){
+    var index = this.getAttribute('data-index');
+    goToTab(index, this);
 });
 
 delegate.on('click', '.tabs-switch', function(){
@@ -500,6 +504,13 @@ function renderPage() {
     finalHTML += '<div class="sections">' + sectionsHTML + '</div>';
     finalHTML += renderFooter();
     document.getElementById('mini-site-content').innerHTML = finalHTML;
+    if (window.location.hash && window.location.hash !== '' && window.location.hash.indexOf('tab=') >=0) {
+        var tabIndex = parseInt(window.location.hash.replace(/^.*tab=/g, '').replace(/&.*$/g, ''), 10);
+        var eles = document.querySelectorAll('.header-nav');
+        if (eles.length > tabIndex) {
+            goToTab(tabIndex, eles[tabIndex]);
+        }
+    }
 }
 
 renderPage();

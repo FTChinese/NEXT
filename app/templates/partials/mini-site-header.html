@@ -1,0 +1,36 @@
+<div class="header-placeholder">
+    <div class="header-container">
+        <div class="header-inner">
+            <%foreach from=$minisiteInfo.logos item=logo%>
+                <a class="header-logo" href="<%$logo.url%>"><img src="<%$logo.image%>"></a>
+            <%/foreach%>            
+            <div class="tabs-switch"></div>
+            <div class="tabs-container">
+                <%foreach from=$minisiteInfo.tabs item=tab key=index%>
+                    <div class="header-nav"><a href="/interactive/<%$minisiteId%>#tab=<%$index%>" target="_blank"><%$tab.title%></a></div>
+                <%/foreach%>
+                <a onclick="showOverlay('overlay-login')" class="header-account header-account-login">登入</a>
+                <a href="/users/logout" class="header-account header-account-logout">登出</a>
+                <div class="header-button-container">
+                    <%foreach from=$minisiteInfo.buttons item=button%>
+                        <a class="header-button" href="<%$button.url%>"><%$button.title%></a>
+                    <%/foreach%>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<%include file="next/partials/login-overlay.html"%>
+
+<script>
+    document.querySelector('.tabs-switch').onclick = function(){
+        var tabsContainer = document.querySelector('.tabs-container');
+        if (!tabsContainer) {return;}
+        var c = tabsContainer.className;
+        if (c.indexOf(' on') >= 0) {
+            tabsContainer.className = c.replace(' on', '');
+        } else {
+            tabsContainer.className = c + ' on';
+        }
+    };
+</script>

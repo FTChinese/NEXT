@@ -181,6 +181,23 @@
 				<%if $smarty.get.full != "y" && !in_array("单页",$story.tag)%>
 					<%include file="next/partials/pagination.html"%>
 				<%/if%>
+			<%elseif $minisiteInfo != ""%>
+				<div class="story-body">
+					<%$audioHTML%>
+					<%$storyImageInline%>
+					<div id="story-body-container">
+					<%foreach from=$minisiteInfo.tabs item=tab%>
+						<%if $tab.type == "sessions"%>
+							<%foreach from=$tab.sections item=section%>
+								<%assign var="timeStamp" value=$section.time|regex_replace:"/^[\S]+ /":""%>
+								<%assign var="startTime" value=$timeStamp|regex_replace:"/ \-.+$/":""%>
+								<div class="section-container section-session"><div class="start-time"><%$startTime%></div><div class="section-inner"><div class="time-stamp"><%$timeStamp%></div><div class="section-title"><%$section.title%></div></div></div>
+							<%/foreach%>
+						<%/if%>
+					<%/foreach%>
+					</div>
+					<div class="clearfloat"></div>
+				</div>
 			<%else%>
 				<div class="story-body">
 					<%$audioHTML%>

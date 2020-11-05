@@ -1441,7 +1441,8 @@
 <%assign var="twitterUrl" value="http://twitter.com/home?status=`$shareText`...%20`$shareUrl`"%>
 <%assign var="facebookUrl" value="http://www.facebook.com/sharer.php?u=`$shareUrl`&t=`$shareText`"%>
 
-
+<%assign var="minisiteInfo" value=""%>
+<%assign var="minisiteId" value=""%>
 <%*<!--MARK: - Override for different types of interactive -->*%>
 <%if $pageType=="job"%>
 	<%assign var="storyHeadline" value="`$jobinfo.company`招聘`$jobinfo.position_name`"%>
@@ -1462,10 +1463,11 @@
 	<%assign var="breadcrum" value="小测试"%>
 <%elseif preg_match("/视频直播/is",$keys)%>
 	<%if $ebyline_description != ""%>
+		<%assign var="minisiteId" value=$ebyline_description%>
 		<%assign var="minisite" value=$interactivemodel->get_interactive_info($ebyline_description)%>
 		<%assign var="minisiteInfo" value=$minisite.cbody|json_decode:1%>
-		<!--3. <%$minisiteInfo.location%>-->
-		<%assign var="story_content" value="......"%>
+		<!--0. <%$minisiteInfo.location%>-->
+		<%assign var="story_content" value=""%>
 	<%else%>
 		<%assign var="story_content" value="`$cbody``$ebody`"%>
 	<%/if%>
@@ -1716,7 +1718,11 @@
 
     <%if $smarty.get.webview == "ftcapp"%>
         <style><%include file="next/styles/main-ftc-app.css"%></style>
-    <%/if%>
+	<%/if%>
+	
+	<%if $minisiteInfo != ""%>
+		<style><%include file="next/styles/main-mini-site.css"%></style>
+	<%/if%>
 
     <link rel="icon" type="image/png" href="https://dhgxl8qk9zgzr.cloudfront.net/img/friend-share-icon.jpg" sizes="32x32">
     <link rel="icon" type="image/png" href="https://dhgxl8qk9zgzr.cloudfront.net/img/friend-share-icon.jpg" sizes="194x194">
@@ -1866,14 +1872,18 @@
 	<%/if%>
   	<%include file="next/partials/wechat-icon.html"%>
   	<script>checkB();</script>
-		<%if $PageTitle != ""%>
+		<%if $minisiteInfo != ""%>
+			<%include file="next/partials/mini-site-header.html"%>
+	  	<%elseif $PageTitle != ""%>
 			<%include file="next/partials/tag-header.html"%>
 		<%else%>
 			<%include file="next/partials/header.html"%>
 		<%/if%>
-		<%include file="next/partials/nav.html"%>
-		<%if $smarty.get.webview != "ftcapp"%>
-			<%$languageSwitch%>
+		<%if $minisiteInfo == ""%>
+			<%include file="next/partials/nav.html"%>
+			<%if $smarty.get.webview != "ftcapp"%>
+				<%$languageSwitch%>
+			<%/if%>
 		<%/if%>
 		<%*<!--MARK: - Ulu's recommendation is no longer up to date Comment out -->*%>
 	 	<%if $itemType == "story" && 1>2%>
