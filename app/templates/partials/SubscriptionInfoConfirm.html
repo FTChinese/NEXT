@@ -300,6 +300,9 @@
       }
     }
 
+
+    kickStart();
+
     document.getElementById('subscription-button').onclick = function(){
       if (isSubmiting) return;
       var userData = {}
@@ -325,12 +328,15 @@
       xhr.send(JSON.stringify(userData));
     };
 
-    document.getElementById('later-button').onclick = function(){
-      if (isSubmiting) {return;}
-      if (typeof webkit === 'object' && webkit.messageHandlers) {
-        webkit.messageHandlers.action.postMessage('pop');
-      }
-    };
+    // MARK: - Must verify that later-button exists before binding click event. 
+    var laterButton = document.getElementById('later-button');
+    if (laterButton) {
+      laterButton.onclick = function(){
+        if (isSubmiting) {return;}
+        if (typeof webkit === 'object' && webkit.messageHandlers) {
+          webkit.messageHandlers.action.postMessage('pop');
+        }
+      };
+    }
 
-    kickStart();
 </script>

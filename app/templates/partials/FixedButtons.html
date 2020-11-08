@@ -51,8 +51,27 @@
     <div class="item-container"></div>
 <%/if%>
 
+<%assign var=buttonsContainerBG value=""%>
+<%if $section.backgroundColor != ""%>
+  <%assign var=buttonsContainerBG value=" style=\"background-color: `$section.backgroundColor`\""%>
+<%/if%>
+<%assign var=leftButtonBG value="#9e2f50"%>
+<%if $section.leftButtonBG != ""%>
+  <%assign var=leftButtonBG value=$section.leftButtonBG%>
+<%/if%>
+<%assign var=leftButtonColor value="white"%>
+<%if $section.leftButtonColor != ""%>
+  <%assign var=leftButtonColor value=$section.leftButtonColor%>
+<%/if%>
+<%if $section.rightButtonBG != "#50a2b1"%>
+  <%assign var=rightButtonBG value=$section.rightButtonBG%>
+<%/if%>
+<%assign var=rightButtonColor value="white"%>
+<%if $section.rightButtonColor != ""%>
+  <%assign var=rightButtonColor value=$section.rightButtonColor%>
+<%/if%>
 
-<div class="fixed-buttons-placeholder"></div><div class="fixed-buttons">
-    <a href="<%$standardBuyLink%>" target="_blank"><button style="background-color: #9e2f50;">订阅标准会员</button></a>
-    <a href="<%$premiumBuyLink%>" target="_blank"><button style="background-color: #50a2b1;">订阅高端会员</button></a>
+<div class="fixed-buttons-placeholder"></div><div class="fixed-buttons"<%$buttonsContainerBG%>>
+    <a href="<%$standardBuyLink%>" target="_blank"><button style="background-color: <%$leftButtonBG%>; color: <%$leftButtonColor%>">订阅标准会员</button></a>
+    <a href="<%$premiumBuyLink%>" target="_blank"><button style="background-color: <%$rightButtonBG%>; color: <%$rightButtonColor%>">订阅高端会员</button></a>
 </div></div>
