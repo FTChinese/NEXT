@@ -142,8 +142,27 @@
       xhr.onload = function() {
           if (xhr.status === 200) {
               var result = JSON.parse(xhr.responseText);
-              if (result.status === 'success') finishSubmit();
+              if (result.status === 'success') {
+                finishSubmit();
+              } else if (result.status === 'error' && result.message) {
+                sendAlert({
+                  title: '温馨提示',
+                  message: '服务器端返回了错误提示：' + result.message + '。请包涵并重试。如果此错误多次出现，请截屏给我们的客服。'
+                });
+              } else {
+                sendAlert({
+                  title: '未知错误',
+                  message: '信息提交不成功，请稍后再再试，或截屏给我们的客服。'
+                });
+              }
+          } else {
+            sendAlert({
+              title: '服务器错误',
+              message: '信息提交失败，服务器返回的状态为' + xhr.status + '，请稍后再再试，或截屏给我们的客服。'
+            });
           }
+          isSubmiting = false;
+          document.getElementById('subscription-button').innerHTML = '重新提交';
       };
       xhr.send(JSON.stringify(userData));
     }
