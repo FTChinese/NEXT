@@ -85,6 +85,17 @@
       getExistingInfo();
       showApplePurchaseInfo();
       initLocationForm();
+      var userId = GetCookie('USER_ID');
+      if (userId === null) {
+        setTimeout(function(){
+          showOverlay('overlay-login');
+          document.querySelector('.overlay-title').innerHTML = '请先登录';
+          document.querySelector('.register-find').innerHTML = '<a href="https://www.ftacademy.cn/subscription.html">购买会员</a><span></span><a href="/users/findpassword">找回密码</a>';
+          document.querySelector('.wx-login').style.marginTop = '15px';
+          var overlayBG = document.querySelector('.overlay-bg');
+          overlayBG.className = 'overlay-bg-fixed';
+        }, 0);
+      }
     }
 
     function initLocationForm() {
