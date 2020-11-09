@@ -18,9 +18,14 @@
 @import "variables.scss";
 @import "mixins.scss";
 @import "common.scss";
+@import "header-input.scss";
 @import "mini-site-header.scss";
 @import 'speakers.scss';
 @import 'overlay.scss';
+@import 'footer.scss';
+
+$yellow: rgb(252, 208, 177);
+
 .section-fixed {
   height: 780px;
   background-repeat: no-repeat;
@@ -36,7 +41,7 @@
       color: white;
       font-size: 2.2em;
       font-weight: bold;
-      margin-bottom: 1em;
+      margin-bottom: $defaultPadding;
       max-width: $maxWidth/2;
   }
   .section-subtitle {
@@ -44,6 +49,7 @@
       font-size: 1.8em;
       max-width: $maxWidth/2;
       line-height: $goldenRatio;
+      margin-bottom: $defaultPadding;
   }
 }
 
@@ -78,7 +84,6 @@
       text-align: center;
   }
 }
-
 .section-default {
   margin-top: $defaultPadding;
   padding: $defaultPadding;
@@ -99,7 +104,6 @@
   }
 }
 
-
 .section-session {
   padding: $defaultPadding/2;
   max-width: $maxWidth;
@@ -108,12 +112,27 @@
     border: 1px solid #CFD3DB;
     background: rgba(201, 218, 248, 0.25);
     padding: $defaultPadding/2;
+    position: relative;
     >div {
       max-width: 768px;
     }
   }
+  .section-follow {
+    display: block;
+    width: $defaultPadding * 0.75;
+    height: $defaultPadding * 0.75;
+    top: $defaultPadding/2;
+    left: -$defaultPadding * 0.75 * 0.5;
+    border: 1px solid $yellow;
+    background-color: white;
+    position: absolute;
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' viewBox='0 0 24 24' width='24'%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3Cpath fill='%23fcd0b1' d='M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: $defaultPadding * 0.6;
+    background-position: 50% 50%;
+  }
   .start-time {
-    background: rgb(252, 208, 177);
+    background: $yellow;
     display: inline-block;
     padding: 5px 8px;
     border-radius: 5px;
@@ -154,14 +173,7 @@
     font-size: 0.9em;
     margin-bottom: 1em;
   }
-  .speaker {
-    padding: 0 0 $defaultPadding/2 0;
-    &:last-child {
-      padding: 0;
-    }
-  }
 }
-
 .partner {
   max-width: 500px;
   margin: $defaultPadding auto;
@@ -171,7 +183,6 @@
     margin: $defaultPadding/2 auto;
   }
 }
-
 .section-qa {
   max-width: $maxWidthL;
   margin: $defaultPadding auto;
@@ -183,6 +194,86 @@
 }
 .section-answer {
   font-size: 1.2em;
+}
+.section-video-frame {
+  margin: 0 auto $defaultPadding auto;
+  display: block;
+}
+.footer-decoration {
+  width: 100%;
+  padding-top: 60px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 50% 50%;
+  margin-bottom: $defaultPadding/2;
+}
+
+.section-letter {
+  padding: $defaultPadding/2;
+  margin-bottom: 1em;
+  .section-inner {
+    max-width: $maxWidthL;
+    padding: $defaultPadding/2;
+    margin: auto;
+    background-color: $defaultPink;
+  }
+  .section-title {
+    font-weight: bold;
+    font-size: 1.8em;
+    text-align: center;
+    color: $crimson;
+    margin-bottom: 1em;
+  }
+  .section-text {
+    p {
+      margin-bottom: 1em;
+      color: $lightFontColor;
+      line-height: $goldenRatio;
+      font-size: 1.2em;
+      text-indent: 2em;
+    }
+  }
+  .section-signature {
+    max-width: 100px;
+    display: block;
+    margin: 0 0 0 auto;
+  }
+  .section-name {
+    text-align: right;
+    font-weight: bold;
+    font-size: 1.2em;
+  }
+  .section-job-title {
+    text-align: right;
+    font-weight: bold;
+    font-size: 1.2em;
+    color: $crimson;
+  }
+}
+
+.section-container {
+  &.has-more-content {
+    padding-bottom: 0;
+  }
+}
+
+// .action-buttons-container {
+//   padding-top: 1em;
+// }
+.section-button, a.section-button {
+  color: black;
+  background-color: white;
+  font-weight: bold;
+  font-size: 1.8em;
+  display: inline-block;
+  padding: $defaultPadding/2 $defaultPadding;
+  margin: 0 $defaultPadding $defaultPadding 0;
+}
+
+@media all and (max-width: 600px) {
+  .section-fixed {
+    background-attachment: scroll;
+  }
 }
 
 @media all and (min-width: 600px) {
@@ -213,6 +304,12 @@
   .multiple-partners {
     .partner {
       max-width: 300px;
+    }
+  }
+  .section-letter {
+    padding: $defaultPadding;
+    .section-inner {
+      padding: $defaultPadding;
     }
   }
 

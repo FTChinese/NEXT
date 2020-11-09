@@ -19,12 +19,15 @@
 	</div>
 </div>
 
+
+
 <script type="text/javascript">
 
 
 
 var isSubmitting = false;
 var eventInfoGroupKey = 'event-info-group';
+var isOnNativeApp = (window.location.href.indexOf('webview=ftcapp') >= 0) ? true : false;
 
 function getEventApplicationForm() {
     function renderForm(formInfo) {
@@ -50,10 +53,16 @@ function getEventApplicationForm() {
     }
     function renderItem(item, loopIndex) {
         var dataType = item.type || 'text';
+        var required = '';
+        var requiredMark = '';
+        if (item.require === true) {
+            required = ' data-required="yes"';
+            requiredMark = '<span style="color: #9E2F50;">* </span>';
+        }
         var loopSuffix = (loopIndex === 0) ? '' : '-'+loopIndex;
         var itemDefault = (loopIndex === 0) ? item.default : '';
         var onchangeTag = (item.onchange) ? 'onchange="' + item.onchange + '(this)"' : '';
-        formHTML = '<div>' + item.title + '</div>';
+        formHTML = '<div>' + requiredMark + item.title + '</div>';
         if (dataType == 'select') {
             var optionsHTML = '';
             var object = map[item.id];
@@ -63,9 +72,9 @@ function getEventApplicationForm() {
                 optionsHTML += '<option value="' + property + '"'+ selectedOption +'>' + object[property] + '</option>';
               }
             }
-            formHTML += '<p><select class="input-oneline" id="' + item.id + loopSuffix + '"' + onchangeTag + '>' + optionsHTML + '</select></p>';
+            formHTML += '<p><select ' + required + ' class="input-oneline" id="' + item.id + loopSuffix + '"' + onchangeTag + '>' + optionsHTML + '</select></p>';
         } else {
-            formHTML += '<p><input type="' + dataType + '" class="input-oneline" id="' + item.id + loopSuffix + '" value="' + itemDefault + '" placeholder="' + item.title +'"></p>';
+            formHTML += '<p><input ' + required + ' type="' + dataType + '" class="input-oneline" id="' + item.id + loopSuffix + '" value="' + itemDefault + '" placeholder="' + item.title +'"></p>';
         }
         return formHTML;
     }
@@ -98,7 +107,8 @@ function getEventApplicationForm() {
     var formEle = document.querySelector('.event-application');
     var userId = GetCookie('USER_ID');
     if (userId === null || userId === undefined) {
-        formEle.innerHTML = '您尚未登录，请<a onclick="showOverlay(\'overlay-login\')">点击这里登录</a>后再报名。';
+        var linkBehavior = (isOnNativeApp) ? ' href="screen://myft/account"' : ' onclick="showOverlay(\'overlay-login\')"';
+        formEle.innerHTML = '您尚未登录，请<a ' + linkBehavior + ' style="color: #9E2F50;font-weight:bold;">点击这里登录</a>后再报名。<div style="position: fixed; bottom: 0; left: 0; right: 0; width: 100%; height: 60px; background-color: rgba(0,0,0,.7); z-index: 1;"><a ' + linkBehavior + ' style="display: block;margin: auto;background: #9E2F50;height: 44px;line-height: 44px;padding: 0 15px;color: #fff;height: 44px;border-radius: 8px;letter-spacing: 3px;width: 200px;margin-top: 8px;text-align: center;">登录</a></div>';
         return;
     }
     var xhr = new XMLHttpRequest();
@@ -110,11 +120,11 @@ function getEventApplicationForm() {
         if (xhr.status === 200) {
             var data = JSON.parse(xhr.responseText);
             var formInfo = [
-                {id: 'email', title: '邮件', default: data.email || '', type: 'email'},
+                {id: 'email', title: '邮件', default: data.email || '', type: 'email', require: true},
                 {id: 'backupEmail', title: '备用邮件', default: data.backupEmail || '', type: 'email'},
-                {id: 'lastName', title: '姓', default: data.lastName || ''},
-                {id: 'firstName', title: '名', default: data.firstName || ''},
-                {id: 'mobile', title: '手机号', default: data.mobile || '', type: 'tel'},
+                {id: 'lastName', title: '姓', default: data.lastName || '', require: true},
+                {id: 'firstName', title: '名', default: data.firstName || '', require: true},
+                {id: 'mobile', title: '手机号', default: data.mobile || '', type: 'tel', require: true},
                 {id: 'title', title: '职务', default: data.title || '', type: 'select'},
                 {id: 'company', title: '公司', default: data.company || ''}
             ];
@@ -136,10 +146,43 @@ function getEventApplicationForm() {
 
 function applyEvent(ele) {
     var statusEle = document.getElementById('form-application-status');
+    statusEle.style.marginTop = '15px';
+    statusEle.style.color = '#9E2F50';
     if (isSubmitting) {
         statusEle.innerHTML = '请不要重复提交！';
         return false;
-    }    
+    }
+    var inputs = document.querySelectorAll('.event-application .input-oneline');
+    var errorMessages = [];
+    for (var m=0; m<inputs.length; m++) {
+        var required = inputs[m].getAttribute('data-required');
+        if (required !== 'yes') {continue;}
+        var inputGroup = inputs[m].parentNode.parentNode;
+        if (inputGroup.style.display === 'none') {continue;} 
+        var inputValue = inputs[m].value;
+        var inputType = inputs[m].type;
+        var inputTitle = inputs[m].getAttribute('placeholder');
+        if (inputType === 'text') {
+            if (inputValue === '') {
+                errorMessages.push(inputTitle);
+            }
+        }
+        if (inputType === 'email') {
+            const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            if (re.test(String(inputValue).toLowerCase()) === false) {
+                errorMessages.push(inputTitle);
+            }
+        }
+        if (inputType === 'tel') {
+            if (inputValue.length < 0 || /^[0-9\s\(\)]+$/.test(inputValue) === false) {
+                errorMessages.push(inputTitle);
+            }
+        }
+    }
+    if (errorMessages.length > 0) {
+        statusEle.innerHTML = '请正确填写如下信息：' + errorMessages.join('、');
+        return false;
+    }
     statusEle.innerHTML = '正在提交中...';
     isSubmitting = true;
     var xhr = new XMLHttpRequest();
@@ -149,13 +192,13 @@ function applyEvent(ele) {
         if (xhr.status === 200) {
             var data = JSON.parse(xhr.responseText);
             if (data.status === 'success') {
-            var statusNote = document.querySelector('.event-application').getAttribute('data-success-note') || '提交成功！';
-            statusEle.innerHTML = statusNote;
+                var statusNote = document.querySelector('.event-application').getAttribute('data-success-note') || '提交成功！';
+                statusEle.innerHTML = statusNote;
             } else if (data.status === 'unqualified') {
-            var statusNote = document.querySelector('.event-application').getAttribute('data-hide-form-info') || '您没有参与资格！';
-            statusEle.innerHTML = statusNote;
+                var statusNote = document.querySelector('.event-application').getAttribute('data-hide-form-info') || '您没有参与资格！';
+                statusEle.innerHTML = statusNote;
             } else {
-            statusEle.innerHTML = data.message;
+                statusEle.innerHTML = data.message;
             }
         } else if (xhr.status !== 200) {
             if (location.host === 'www.ftacademy.cn') {
@@ -168,17 +211,16 @@ function applyEvent(ele) {
         isSubmitting = false;
     };
     var eventInfo = {};
-    var inputs = document.querySelectorAll('.event-application .input-oneline');
     for (var i=0; i<inputs.length; i++) {
-    var id = inputs[i].id;
-    var value = inputs[i].value;
-    var n = i + 1; 
-    var mod = 'mod' + n;
-    eventInfo[mod] = value;
-    // MARK: - update user info
-    if (/\-[0-9]+$/.test(id) === false) {
-    eventInfo[id] = value;
-    }
+        var id = inputs[i].id;
+        var value = inputs[i].value;
+        var n = i + 1; 
+        var mod = 'mod' + n;
+        eventInfo[mod] = value;
+        // MARK: - update user info
+        if (/\-[0-9]+$/.test(id) === false) {
+            eventInfo[id] = value;
+        }
     }
     xhr.send(JSON.stringify(eventInfo));
     return false;
@@ -190,7 +232,7 @@ function loginOnAcademy() {
     var s = 1;
     var postData = JSON.stringify({'username': u, 'password': p, 'saveme': s});
     var req = new XMLHttpRequest();
-    var statusEle = document.getElementById('login-in-status-note');
+    var statusEle = document.querySelector('.login-in-status-note');
     if (statusEle === null) {
         var registerFind = document.querySelector('.register-find');
         if (registerFind) {
@@ -244,11 +286,11 @@ function getCookie(name) {
 
 function updateLoginOnAcademy() {
     var ft = (location.host === 'www.ftacademy.cn') ? getCookie('ft') : getCookie('USER_NAME');
-    if (ft) {
-        getEventApplicationForm();
-    } else {
-        showOverlay('overlay-login');
-    }
+    getEventApplicationForm();
+    // if (!ft) {
+    //     showOverlay('overlay-login');
+    // }
+    if (!document.getElementById('overlay-login')) {return;}
     var loginForm = document.getElementById('overlay-login').querySelector('form');
     if (loginForm) {
         loginForm.onsubmit = function() {

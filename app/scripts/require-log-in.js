@@ -1,6 +1,6 @@
 // MARK: - Only subscribers can visit any page on chineseft.com
 (function(){
-	if (/chineseft\.com/.test(location.hostname) === false) {return;}
+	if ((/chineseft\.com/.test(location.hostname) === false && /ftchineselive\.com/.test(location.hostname) === false) || window.hasFoundProductPricing === true) {return;}
 	var isUserPage = /^\/users\/findpassword|\/users\/register$/.test(location.pathname);
 	var isContactConfirmPage = /pageid=subscriptioninfoconfirm/.test(location.search);
 	if (isUserPage || isContactConfirmPage) {return;}
@@ -20,7 +20,7 @@
 			showOverlay('overlay-login');
 			var userName = GetCookie('USER_NAME') || '';
 			document.querySelector('.overlay-title').innerHTML = '订户专享网站';
-			document.querySelector('.overlay-content form').innerHTML = '<div class="input-title">亲爱的用户您好，这个网站是付费订户专享，您当前使用的用户名' + userName + '并非用户。如果您是刚刚付款成功，请等待一分钟后刷新本页。否则请登出之后更换用户名或者访问FT中文网主站。</div><div style="padding: 0 0 15px 0;"><div class="login-btn input-submit-container center"><a class="n-button-inner" href="/users/logout">登出</a></div></div><div style="padding: 0 0 15px 0;"><div class="login-btn input-submit-container center"><a class="n-button-inner" href="http://www.ftchinese.com/">免费网站</a></div></div>';
+			document.querySelector('.overlay-content form').innerHTML = '<div class="input-title">亲爱的用户您好，这个网站是付费订户专享，您当前使用的用户名' + userName + '并非订户。如果您是刚刚付款成功，请等待一分钟后刷新本页。否则请登出之后更换用户名或者访问FT中文网主站。</div><div style="padding: 0 0 15px 0;"><div class="login-btn input-submit-container center"><a class="n-button-inner" href="/users/logout">登出</a></div></div><div style="padding: 0 0 15px 0;"><div class="login-btn input-submit-container center"><a class="n-button-inner" href="http://www.ftchinese.com/">免费网站</a></div></div>';
 			var overlayBG = document.querySelector('.overlay-bg');
 			overlayBG.className = 'overlay-bg-fixed';
 		}, 0);

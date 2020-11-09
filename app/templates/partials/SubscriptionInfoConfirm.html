@@ -20,8 +20,17 @@
 				<div class="item-inner">
 					<div class="subscription-form-container">
 						<div><span>邮件：</span><input type="email" placeholder="请准确填写您的邮件地址" class="email" id="email"><span class="status"></span></div>
-						<div><span>手机：</span><input type="tel" placeholder="请准确填写号码" class="tel" id="mobile_phone_no"><span class="status"></span></div>
-            <%if $list.InfoCollection == "detail"%>
+            <%assign var=telType value="tel"%>
+            <%assign var=countryType value=""%>
+            <%if $list.InfoCollection == "china_only"%>
+              <%assign var=telType value="chinamobile"%>
+              <%assign var=countryType value="china_only"%>
+            <%/if%>
+            <div><span>手机：</span><input type="<%$telType%>" placeholder="请准确填写号码" class="<%$telType%>" id="mobile_phone_no"><span class="status"></span></div>
+            <%if $list.InfoCollection != "basic"%>
+              <div><span>居住地：</span><select type="<%$countryType%>" placeholder="请选择" class="country" id="country"></select><span class="status"></span></div>
+              <div><span>省份：</span><select placeholder="请选择" class="state" id="state"></select><span class="status"></span></div>
+              <div><span>城市：</span><select placeholder="请选择" class="city" id="city"></select><span class="status"></span></div>
               <div><span>地址：</span><input type="text" placeholder="请填写准确地址" class="address" id="address"><span class="status"></span></div>
               <div><span>姓：</span><input type="text" placeholder="" class="last-name" id="last_name"><span class="status"></span></div>
               <div><span>名：</span><input type="text" placeholder="" class="first-name" id="first_name"><span class="status"></span></div>
@@ -32,6 +41,11 @@
 						<div class="center n-button-container">
 							<button class="n-button-inner subscription-button" id="subscription-button">确认并提交</button>
 						</div>
+            <%if $v >= "125"%>
+            <div class="center n-button-container">
+              <button class="n-button-inner later-button" id="later-button">以后再说</button>
+            </div>
+            <%/if%>
 					</div>
 				</div>
 			</div>
@@ -40,37 +54,144 @@
 </div>
 
 <script type="text/javascript">
+    var locations = [{"code":"101","name":"中国大陆","provinces":[{"code":"101","name":"北京","cities":[{"code":"10101","name":"北京"}]},{"code":"102","name":"天津","cities":[{"code":"10201","name":"天津"}]},{"code":"103","name":"河北","cities":[{"code":"10301","name":"石家庄"},{"code":"10302","name":"唐山"},{"code":"10303","name":"保定"},{"code":"10304","name":"邯郸"},{"code":"10305","name":"廊坊"},{"code":"10306","name":"秦皇岛"},{"code":"10307","name":"沧州"},{"code":"10308","name":"邢台"},{"code":"10399","name":"其它城市"}]},{"code":"104","name":"山西","cities":[{"code":"10401","name":"太原"},{"code":"10402","name":"大同"},{"code":"10403","name":"运城"},{"code":"10404","name":"忻州"},{"code":"10499","name":"其它城市"}]},{"code":"105","name":"内蒙古","cities":[{"code":"10501","name":"呼和浩特"},{"code":"10599","name":"其它城市"}]},{"code":"206","name":"上海","cities":[{"code":"20601","name":"上海"}]},{"code":"207","name":"江苏","cities":[{"code":"20701","name":"南京"},{"code":"20702","name":"苏州"},{"code":"20703","name":"无锡"},{"code":"20704","name":"南通"},{"code":"20705","name":"扬州"},{"code":"20706","name":"镇江"},{"code":"20707","name":"常州"},{"code":"20708","name":"盐城"},{"code":"20709","name":"泰州"},{"code":"20710","name":"徐州"},{"code":"20799","name":"其它城市"}]},{"code":"208","name":"浙江","cities":[{"code":"20801","name":"杭州"},{"code":"20802","name":"温州"},{"code":"20803","name":"宁波"},{"code":"20804","name":"嘉兴"},{"code":"20805","name":"台州"},{"code":"20806","name":"绍兴"},{"code":"20807","name":"湖州"},{"code":"20808","name":"丽水"},{"code":"20809","name":"金华"},{"code":"20899","name":"其它城市"}]},{"code":"209","name":"山东","cities":[{"code":"20901","name":"济南"},{"code":"20902","name":"青岛"},{"code":"20903","name":"济宁"},{"code":"20904","name":"聊城"},{"code":"20905","name":"烟台"},{"code":"20906","name":"淄博"},{"code":"20907","name":"德州"},{"code":"20908","name":"潍坊"},{"code":"20909","name":"临沂"},{"code":"20910","name":"威海"},{"code":"20911","name":"东营"},{"code":"20912","name":"枣庄"},{"code":"20999","name":"其它城市"}]},{"code":"210","name":"福建","cities":[{"code":"21001","name":"福州"},{"code":"21002","name":"厦门"},{"code":"21003","name":"泉州"},{"code":"21004","name":"漳州"},{"code":"21005","name":"龙岩"},{"code":"21099","name":"其它城市"}]},{"code":"211","name":"安徽","cities":[{"code":"21101","name":"合肥"},{"code":"21102","name":"芜湖"},{"code":"21103","name":"淮南"},{"code":"21104","name":"巢湖"},{"code":"21105","name":"阜阳"},{"code":"21106","name":"宿州"},{"code":"21107","name":"黄山"},{"code":"21108","name":"安庆"},{"code":"21199","name":"其它城市"}]},{"code":"212","name":"江西","cities":[{"code":"21201","name":"南昌"},{"code":"21202","name":"九江"},{"code":"21203","name":"宜春"},{"code":"21204","name":"赣州"},{"code":"21205","name":"萍乡"},{"code":"21299","name":"其它城市"}]},{"code":"313","name":"湖北","cities":[{"code":"31301","name":"武汉"},{"code":"31302","name":"十堰"},{"code":"31303","name":"黄冈"},{"code":"31304","name":"襄樊"},{"code":"31305","name":"宜昌"},{"code":"31399","name":"其它城市"}]},{"code":"314","name":"湖南","cities":[{"code":"31401","name":"长沙"},{"code":"31402","name":"衡阳"},{"code":"31499","name":"其它城市"}]},{"code":"315","name":"河南","cities":[{"code":"31501","name":"郑州"},{"code":"31502","name":"洛阳"},{"code":"31503","name":"驻马店"},{"code":"31504","name":"许昌"},{"code":"31505","name":"平顶山"},{"code":"31506","name":"三门峡"},{"code":"31599","name":"其它城市"}]},{"code":"416","name":"广东","cities":[{"code":"41601","name":"广州"},{"code":"41602","name":"深圳"},{"code":"41603","name":"东莞"},{"code":"41604","name":"佛山"},{"code":"41605","name":"珠海"},{"code":"41606","name":"中山"},{"code":"41607","name":"惠州"},{"code":"41608","name":"江门"},{"code":"41609","name":"汕头"},{"code":"41610","name":"韶关"},{"code":"41611","name":"湛江"},{"code":"41612","name":"茂名"},{"code":"41613","name":"肇庆"},{"code":"41699","name":"其它城市"}]},{"code":"417","name":"广西壮族自治区","cities":[{"code":"41701","name":"南宁"},{"code":"41702","name":"玉林"},{"code":"41703","name":"柳州"},{"code":"41799","name":"其它城市"}]},{"code":"418","name":"海南","cities":[{"code":"41801","name":"海口"},{"code":"41802","name":"三亚"},{"code":"41899","name":"其它城市"}]},{"code":"519","name":"辽宁","cities":[{"code":"51901","name":"沈阳"},{"code":"51902","name":"大连"},{"code":"51903","name":"丹东"},{"code":"51904","name":"鞍山"},{"code":"51905","name":"抚顺"},{"code":"51999","name":"其它城市"}]},{"code":"520","name":"黑龙江","cities":[{"code":"52001","name":"哈尔滨"},{"code":"52002","name":"大庆"},{"code":"52099","name":"其它城市"}]},{"code":"521","name":"吉林","cities":[{"code":"52101","name":"长春"},{"code":"52102","name":"吉林"},{"code":"52199","name":"其它城市"}]},{"code":"622","name":"陕西","cities":[{"code":"62201","name":"西安"},{"code":"62202","name":"宝鸡"},{"code":"62299","name":"其它城市"}]},{"code":"623","name":"新疆维吾尔族自治区","cities":[{"code":"62301","name":"乌鲁木齐"},{"code":"62399","name":"其它城市"}]},{"code":"624","name":"甘肃","cities":[{"code":"62401","name":"兰州"},{"code":"62499","name":"其它城市"}]},{"code":"625","name":"宁夏回族自治区","cities":[{"code":"62501","name":"银川"},{"code":"62599","name":"其它城市"}]},{"code":"626","name":"青海","cities":[{"code":"62601","name":"西宁"},{"code":"62699","name":"其它城市"}]},{"code":"727","name":"四川","cities":[{"code":"72701","name":"成都"},{"code":"72702","name":"德阳"},{"code":"72703","name":"广元"},{"code":"72704","name":"绵阳"},{"code":"72705","name":"内江"},{"code":"72799","name":"其它城市"}]},{"code":"728","name":"重庆","cities":[{"code":"72801","name":"重庆"}]},{"code":"729","name":"云南","cities":[{"code":"72901","name":"昆明"},{"code":"72902","name":"曲靖"},{"code":"72903","name":"玉溪"},{"code":"72999","name":"其它城市"}]},{"code":"730","name":"贵州","cities":[{"code":"73001","name":"贵阳"},{"code":"73099","name":"其它城市"}]},{"code":"731","name":"西藏自治区","cities":[{"code":"73101","name":"拉萨"},{"code":"73199","name":"其它城市"}]}]},{"code":"102","name":"香港特别行政区"},{"code":"103","name":"澳门特别行政区"},{"code":"104","name":"中国台湾"},{"code":"105","name":"亚洲其它国家"},{"code":"106","name":"欧洲"},{"code":"107","name":"美洲"},{"code":"108","name":"非洲"},{"code":"197","name":"其它国家"}];
     var isSubmiting = false;
+    // MARK: - Index for current country needs to be global as multiple operations are referencing it
+    var currentCountry;
+
+
+    var validators = {
+      chinamobile: {
+        reg: /^[0-9]{11}$/,
+        warning: '请填写11位数字的中国大陆手机号码，不要使用任何其他符号'
+      },
+      tel: {
+        reg: /^[0-9\ ]{8,}$/,
+        warning: '请填写数字的手机号码，不要使用全角或符号'
+      },
+      email: {
+        reg: /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+        warning: '请填写格式正确的邮件地址'
+      }
+    };
+
     function kickStart() {
-      addValidator('tel', /^[0-9\ ]{8,}$/, '请填写数字的手机号码，不要使用全角或符号');
-      addValidator('email', /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, '请填写格式正确的邮件地址');
+      var inputs = document.querySelectorAll('.subscription-form-container input');
+      for (var i=0; i<inputs.length; i++) {
+        inputs[i].onblur = function() {
+          validateInput(this);
+        }
+      }
       getExistingInfo();
       showApplePurchaseInfo();
+      initLocationForm();
+    }
+
+    function initLocationForm() {
+      var countryEle = document.getElementById('country');
+      var defaultOptionHTML = '<option value="0" selected>请选择</option>';
+      var emptyOptionHTML = '<option value="0" selected></option>';
+      if (!countryEle) {return;}
+      var stateEle = document.getElementById('state');
+      var cityEle = document.getElementById('city');
+      var countryHTML = defaultOptionHTML;
+      for (var i=0; i<locations.length; i++) {
+        countryHTML += '<option value="' + locations[i].code + '">' + locations[i].name + '</option>';
+      }
+      countryEle.innerHTML = countryHTML;
+      stateEle.setAttribute('disabled', true);
+      cityEle.setAttribute('disabled', true);
+      currentCountry = undefined;
+
+      // MARK: - When the country select is changed
+      countryEle.onchange = function() {
+        var provinces = [];
+        for (var i=0; i<locations.length; i++) {
+          if (this.value !== locations[i].code) {continue;}
+          currentCountry = i;
+          provinces = locations[i].provinces || [];
+          break;
+        }
+        if (provinces.length > 0) {
+          var optionHTML = defaultOptionHTML;
+          for (var m=0; m<provinces.length; m++) {
+            optionHTML += '<option value="' + provinces[m].code + '">' + provinces[m].name + '</option>';
+          }
+          stateEle.innerHTML = optionHTML;
+          stateEle.removeAttribute('disabled');
+        } else {
+          stateEle.innerHTML = emptyOptionHTML;
+          stateEle.setAttribute('disabled', true);
+        }
+        cityEle.innerHTML = emptyOptionHTML;
+        cityEle.setAttribute('disabled', true);
+      };
+
+      // MARK: - When the privince select is changed
+      stateEle.onchange = function() {
+        var provinces = locations[currentCountry].provinces;
+        var cities = [];
+        for (var i=0; i<provinces.length; i++) {
+          if (this.value !== provinces[i].code) {continue;}
+          cities = provinces[i].cities || [];
+          break;
+        }
+        if (cities.length === 0) {
+          cityEle.innerHTML = emptyOptionHTML;
+          cityEle.setAttribute('disabled', true);
+        } else if (cities.length === 1) {
+          cityEle.innerHTML = '<option value="' + cities[0].code + '" selected>' + cities[0].name + '</option>';
+          cityEle.setAttribute('disabled', true);
+        } else {
+          var optionHTML = defaultOptionHTML;
+          for (var n=0; n<cities.length; n++) {
+            optionHTML += '<option value="' + cities[n].code + '">' + cities[n].name + '</option>';
+          }
+          cityEle.innerHTML = optionHTML;
+          cityEle.removeAttribute('disabled');
+        }
+      };
     }
 
     function showApplePurchaseInfo() {
-      if (webkit && webkit.messageHandlers) {
+      if (typeof webkit === 'object' && webkit.messageHandlers) {
         var message = '<div class="important-info">如您当前的订阅尚未到期，将在当前订阅到期后扣款。请勿关闭自动续费，以保证续费时按照您见到的金额扣款。 </div>';
         var info = document.getElementById('subscription-form-description');
         info.innerHTML = message + info.innerHTML;
       }
     }
 
-    function addValidator(inputClass, validator, warningMessage) {
-      var theInput = document.querySelector('.subscription-form-container .' + inputClass);
-      if (theInput !== null) {
-        theInput.onblur = function() {
-          var inputValue = this.value;
-          var statusEle = this.parentNode.querySelector('.status');
-          this.className = this.className.replace(/ wrong/g, '');
-          if (validator.test(inputValue)) {
-            statusEle.innerHTML = '';
-          } else {
-            this.className += ' wrong';
-            statusEle.innerHTML = warningMessage;
-          }
-        }
+    function validateInput(ele) {
+      var inputValue = ele.value;
+      var statusEle = ele.parentNode.querySelector('.status');
+      var key = ele.getAttribute('type');
+      if (!key) {return;}
+      var v = validators[key];
+      if (!v) {return;}
+      var validator = v.reg;
+      var warningMessage = v.warning;
+      
+      ele.className = ele.className.replace(/ wrong/g, '');
+      if (validator.test(inputValue)) {
+        statusEle.innerHTML = '';
+        return true;
+      } else {
+        ele.className += ' wrong';
+        statusEle.innerHTML = warningMessage;
+        return false;
       }
+    }
+
+    function validateSelect(ele) {
+      var value = ele.value;
+      var statusEle = ele.parentNode.querySelector('.status');
+      if (ele.disabled === false && ele.value === '0') {
+        var name = ele.parentNode.querySelector('span').innerText.replace(/[:：]$/g, '');
+        statusEle.innerHTML = '请正确选择' + name;
+        return false;
+      }
+      statusEle.innerHTML = '';
+      return true;
     }
 
     function getExistingInfo() {
@@ -78,15 +199,62 @@
       xhr.open('GET', '/index.php/user/info/');
       xhr.setRequestHeader('Content-Type', 'application/json');
       xhr.onload = function() {
-          if (xhr.status === 200) {
-              /* console.log(xhr.responseText); */
-              var info = JSON.parse(xhr.responseText);
-              var inputs = document.querySelectorAll('.subscription-form-container input');
-              for (var i=0; i<inputs.length; i++) {
-                var id = inputs[i].id;
-                if (id && info[id]) inputs[i].value = info[id];
-              }
+          if (xhr.status !== 200) {return;}
+          var info = JSON.parse(xhr.responseText);
+          var inputs = document.querySelectorAll('.subscription-form-container input');
+          for (var i=0; i<inputs.length; i++) {
+            var id = inputs[i].id;
+            if (id && info[id]) inputs[i].value = info[id];
           }
+          // MARK: - Show country
+          var countryEle = document.getElementById('country');
+          if (!countryEle || !info.country || info.country === '' || info.country === '0') {return;}
+          currentCountry = undefined;
+          for (var i=0; i<locations.length; i++) {
+            if (info.country !== locations[i].code) {continue;}
+            currentCountry = i;
+            break;
+          }
+          if (currentCountry === undefined) {return;}
+          countryEle.value = info.country;
+          // MARK: - Show state(province)
+          var stateEle = document.getElementById('state');
+          var country = locations[currentCountry];
+          var provinces = country.provinces;
+          if (!provinces || provinces.length === 0) {return;}
+          var stateIndex;
+          var defaultOptionHTML = '<option value="0" selected>请选择</option>';
+          var optionHTML = defaultOptionHTML;
+          for (var j=0; j<provinces.length; j++) {
+            optionHTML += '<option value="' + provinces[j].code + '">' + provinces[j].name + '</option>';
+            if (info.state !== provinces[j].code) {continue;}
+            stateIndex = j;
+          }
+          stateEle.innerHTML = optionHTML;
+          stateEle.removeAttribute('disabled');
+          if (stateIndex === undefined) {return;}
+          stateEle.value = info.state;
+          // MARK: - Show city
+          var cityEle = document.getElementById('city');
+          var province = provinces[stateIndex];
+          var cities = province.cities;
+          if (!cities || cities.length === 0) {return;}
+          if (cities.length === 1) {
+            // MARK: - If there is only one city to select from 
+            cityEle.innerHTML = '<option selected value="' + cities[0].code + '">' + cities[0].name + '</option>';
+            return;
+          }
+          var cityIndex;
+          optionHTML = defaultOptionHTML;
+          for (var m=0; m<cities.length; m++) {
+            optionHTML += '<option value="' + cities[m].code + '">' + cities[m].name + '</option>';
+            if (info.city !== cities[m].code) {continue;}
+            cityIndex = m;
+          }
+          cityEle.innerHTML = optionHTML;
+          cityEle.removeAttribute('disabled');
+          if (cityIndex === undefined) {return;}
+          cityEle.value = info.city;
       };
       xhr.send();
     }
@@ -98,9 +266,16 @@
       } else {
         document.getElementById('subscription-button').parentElement.innerHTML = '<a href="/">提交成功，点击进入订户专享网站</a>';
       }
+      // MARK: -  It is highly unlikely that a future campaign targets countries other than China. So we don't need to think about general use cases, at least for now. 
+      var message = '您已经成功提交了信息。';
+      var countryEle = document.getElementById('country');
+      var chinaCode = '101';
+      if (countryEle && countryEle.getAttribute('type') === 'china_only' && countryEle.value !== chinaCode) {
+        message += '但是活动的礼品仅针对中国大陆地区，您的订阅权益不受影响！';
+      }
       sendAlert({
         title: '成功',
-        message: '您已经成功提交了信息'
+        message: message
       });
       markSuccess();
     }
@@ -125,17 +300,23 @@
       }
     }
 
+
+    kickStart();
+
     document.getElementById('subscription-button').onclick = function(){
       if (isSubmiting) return;
-      this.innerHTML = '提交中...';
-      isSubmiting = true;
       var userData = {}
-      var inputs = document.querySelectorAll('.subscription-form-container input');
+      var inputs = document.querySelectorAll('.subscription-form-container input, .subscription-form-container select');
       for (var i=0; i<inputs.length; i++) {
+        var tagName = inputs[i].tagName.toLowerCase();
+        if (tagName === 'input' && validateInput(inputs[i]) === false) {return;}
+        if (tagName === 'select' && validateSelect(inputs[i]) === false) {return;}
         var id = inputs[i].id;
         var value = inputs[i].value;
         userData[id] = value;
       }
+      this.innerHTML = '提交中...';
+      isSubmiting = true;
       var xhr = new XMLHttpRequest();
       xhr.open('POST', '/index.php/user/confirminfo');
       xhr.setRequestHeader('Content-Type', 'application/json');
@@ -165,6 +346,17 @@
           document.getElementById('subscription-button').innerHTML = '重新提交';
       };
       xhr.send(JSON.stringify(userData));
+    };
+
+    // MARK: - Must verify that later-button exists before binding click event. 
+    var laterButton = document.getElementById('later-button');
+    if (laterButton) {
+      laterButton.onclick = function(){
+        if (isSubmiting) {return;}
+        if (typeof webkit === 'object' && webkit.messageHandlers) {
+          webkit.messageHandlers.action.postMessage('pop');
+        }
+      };
     }
-    kickStart();
+
 </script>

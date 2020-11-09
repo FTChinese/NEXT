@@ -1,5 +1,12 @@
 @import "theme-default.scss";
 @import "variables.scss";
+.speaker-date-stamp {
+    max-width: $maxWidth;
+    margin: 0 auto;
+    font-weight: bold;
+    padding: $defaultPadding/2 0 0 $defaultPadding/2;
+    font-size: 1.1em;
+}
 .speakers-section-container {
     max-width: $maxWidth;
     margin: $defaultPadding auto;
@@ -7,14 +14,17 @@
 }
 .speakers-container {
     max-width: $maxWidth - $defaultPadding;
+    margin: 0 auto;
     img {
         width: 100px;
         height: 100px;
+        float: left;
+        margin-right: $defaultPadding/2;
     }
 }
 .speaker {
-    display: grid;
-    grid-template-columns: 120px 1fr;
+    // display: grid;
+    // grid-template-columns: 120px 1fr;
     padding-bottom: $defaultPadding/2;
     margin-bottom: $defaultPadding/2;
     border-bottom: 1px solid $borderColor;
@@ -23,13 +33,25 @@
     &:last-child {
         border-width: 0;
     }
+    .content {
+        min-height: 100px;
+    }
 }
+
 .speaker-name {
     font-weight: bold;
 }
 .speaker-intro {
     color: $lightGrey;
     font-weight: 0.8em;
+}
+.section-session {
+    .speakers-container {
+        margin: 0;
+    }
+    .speaker {
+        padding: 0 0 $defaultPadding/2 0;
+    }
 }
 #overlay-content {
     .overlay-content {
@@ -56,29 +78,58 @@
         padding: 0;
 
     }
-}
-@media all and (min-width: 490px) {
-    .speakers-container {
-        display: grid;
-        justify-items: center;
-        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-        grid-gap: 1rem;
-        img {
-            width: 160px;
-            height: 160px;
-        }
-    }
-    .speaker {
+    .speaker-session-title {
         display: block;
-        border-bottom-width: 0;
-        padding: 0;
+        margin: $defaultPadding/2 0;
     }
-    .speakers-section-container {
+    .speaker-session {
+        display: block;
+        margin-bottom: 1em;
+    }
+}
+
+@media all and (min-width: 490px) {
+    @supports (display: grid) {
         .speakers-container {
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            display: grid;
+            justify-items: center;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            grid-gap: 1rem;
+        }
+        .speaker {
+            display: block;
+            border-bottom-width: 0;
+            padding: 0;
+            .content {
+                min-height: 0;
+                max-width: 160px;
+            }
             img {
-                width: 300px;
-                height: 300px;
+                width: 160px;
+                height: 160px;
+                margin: 0 0 $defaultPadding/4 0;
+                float: none;
+            }
+        }
+        .speakers-section-container {
+            .speakers-container {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                .content {
+                    max-width: 300px;
+                }
+                img {
+                    width: 300px;
+                    height: 300px;
+                }
+            }
+        }
+        .section-session {
+            .speakers-container {
+                justify-items: start;
+            }
+            .speaker {
+                padding: 0;
+                margin-bottom: 0;
             }
         }
     }

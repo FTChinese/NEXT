@@ -18,6 +18,9 @@ $headerHeight: 2 * $navHeight;
     max-width: $maxWidth;
     margin: 0 auto;
     position: relative;
+    a {
+        color: $darkGrey;
+    }
 }
 .header-logo {
     display: block;
@@ -55,17 +58,43 @@ $headerHeight: 2 * $navHeight;
         max-height: 500px;
     }
 }
-.header-nav {
+.header-nav, a.header-account {
     padding: $defaultPadding/2 0;
     text-align: center;
     color: white;
     font-size: 1.2em;
     font-weight: bold;
     cursor: pointer;
+    display: block;
     &.is-current {
         color: $gold;
+        border-bottom-width: 0;
+    }
+    a {
+        color: white;
+        &:hover, &:active {
+            color: $gold;
+        }
+    }
+    &.header-account-login {
+        display: block;
+    }
+    &.header-account-logout {
+        display: none;
     }
 }
+
+.is-member {
+    a.header-account {
+        &.header-account-login {
+            display: none;
+        }
+        &.header-account-logout {
+            display: block;
+        }
+    }
+}
+
 .header-button {
     padding: $defaultPadding/2;
     background-color: white;
@@ -77,8 +106,13 @@ $headerHeight: 2 * $navHeight;
     display: inline-block;
     cursor: pointer;
 }
+
 .header-button-container {
     text-align: center;
+}
+
+.story-theme {
+    padding-top: $defaultPadding/2;
 }
 
 @media all and (min-width: 1024px) {
@@ -105,5 +139,21 @@ $headerHeight: 2 * $navHeight;
     }
     .header-button {
         display: inline;
+    }
+    a.header-account {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        height: $headerHeight;
+        line-height: $headerHeight;
+        padding: 0 $defaultPadding/2;
+    }
+}
+
+
+@media all and (max-width: 61.24em) {
+    .header-container {
+        display: block!important;
     }
 }

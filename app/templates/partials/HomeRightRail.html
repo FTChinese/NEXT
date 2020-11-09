@@ -40,7 +40,7 @@
 			        <%assign var="infoForSponsorships" value=$nextmodel->getPublishJson($pageIdForSponsorshipManagement)|json_decode:true%>
 			        <%assign var="currentDate" value=$smarty.now|date_format:"%Y%m%d"%>
 					<div class="links-container P-hide">
-						<h2 class="list-title"><a href="/m/marketing/home.html">重要信息</a></h2>
+						<h2 class="list-title"><a href="/m/marketing/home.html">市场活动</a></h2>
 						<div class="links" id="member-info">
 	                        <%assign var="i" value=0%>
 	                        <%foreach from=$infoForSponsorships.sections item=report%>
@@ -109,7 +109,7 @@
 
 
 			<div class="interactive-inner">
-			<%assign var="storyall" value=$interactivemodel->get_interactive_by_field_search("(find_in_set('测试',tag) or find_in_set('教程',tag) or (find_in_set('QuizPlus',tag) and (find_in_set('新闻',tag) or find_in_set('热点观察',tag) or find_in_set('FT商学院',tag)) and (scoop = '1' or scoop = '0')) or find_in_set('速读',tag) or find_in_set('英语电台',tag) or find_in_set('每日一词',tag) or find_in_set('数据新闻',tag)) and !find_in_set('广告互动教程',tag) and pubdate <= unix_timestamp(now())",0,8,30,10800)%>
+			<%assign var="storyall" value=$interactivemodel->get_interactive_by_field_search("(find_in_set('测试',tag) or find_in_set('教程',tag) or (find_in_set('QuizPlus',tag) and (find_in_set('新闻',tag) or find_in_set('热点观察',tag) or find_in_set('FT商学院',tag)) and (scoop = '1' or scoop = '0')) or find_in_set('速读',tag) or find_in_set('英语电台',tag) or find_in_set('每日一词',tag)) and !find_in_set('广告互动教程',tag) and pubdate <= unix_timestamp(now())",0,8,30,10800)%>
 			<%assign var="photoall" value=$photonewsmodel->get_new_photonews(6)%>
 			<%assign var="storycount" value=$storyall|@count%>
 			<%assign var="photocount" value=$photoall|@count%>
@@ -755,6 +755,9 @@
 					  }
 					}
 				  </script>
+				<%/if%>
+				<%if $v == "125" && 1>2%>
+					<h2 class="item-headline"><a href="http://www.ftchinese.com/m/corp/preview.html?pageid=subscriptioninfoconfirm&to=all&membership=standard&action=buy">测试</a></h2>
 				<%/if%>
 			</div></div>
 		</div>

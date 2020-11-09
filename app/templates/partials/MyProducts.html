@@ -1,0 +1,73 @@
+<div class="list-container">
+	<div class="list-inner">
+		<%if $list.title != ""%>
+			<h2 class="list-title">
+				<a class="list-link" href="#"><%$list.title%></a>
+			</h2>
+		<%/if%>
+		<div class="items">
+			<div class="no-image"">
+				<div class="item-inner">
+					<div class="item-lead" id="my-products-description">
+						<%$list.description%>
+					</div>
+				</div>
+			</div>
+        </div>
+        
+
+        <div class="items">             
+            <div id="my-products-container"></div>
+            
+
+            <div class="clearfloat"></div>
+        </div>
+
+	</div>
+</div>
+
+<script>
+    (function(){
+        var productPricingUrl = '/index.php/jsapi/productpricing';
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', productPricingUrl);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.onload = function() {
+            if (xhr.status !== 200) {return;}
+            var data = JSON.parse(xhr.responseText);
+            var sections = data.sections;
+            if (!sections) {return;}
+            var productsUrl = '/index.php/jsapi/products';
+            var xhr2 = new XMLHttpRequest();
+            xhr2.open('GET', productsUrl);
+            xhr2.setRequestHeader('Content-Type', 'application/json');
+            xhr2.onload = function() {
+                if (xhr2.status !== 200) {return;}
+                var products = JSON.parse(xhr2.responseText);
+                var dict = {};
+                for (var m=0; m<sections.length; m++) {
+                    var key = sections[m].KeyWord;
+                    dict[key] = sections[m];
+                }
+                var html = '';
+                for (var i=0; i<products.length; i++) {
+                    var key = products[i].k;
+                    var type = products[i].t;
+                    if (type === 'T') {
+                        var product = dict[key];
+                        var title = product.title;
+                        var subtitle = product.subtitle;
+                        var link = product.link;
+                        html += '<div class="item-container one-row no-image"><div class="item-inner"><div class="item-headline-lead"><h2 class="item-headline"><a target="_blank" href="' + link + '" class="item-headline-link ">' + title + '</a></h2><div class="item-lead">' + subtitle + '</div></div><div class="item-bottom"></div></div></div>';
+                    }
+                }
+                if (html === '') {
+                    document.getElementById('my-products-description').innerHTML = '<%$list.fallback%>';
+                }
+                document.getElementById('my-products-container').innerHTML = html;
+            };
+            xhr2.send();
+        };
+        xhr.send();
+    })();
+</script>

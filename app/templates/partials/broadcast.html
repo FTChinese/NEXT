@@ -26,7 +26,7 @@ $(function(){
       pcH5Live:true,//可选
       // viewercustominfo: '{"exportInfos": [ {"key": "城市", "value": "北京"}, {"key": "姓名", "value": "哈哈"}]}',//可选
       fastMode:true//可选参数，默认为true
-  });
+    });
     // 开始直播
     DWLive.onLiveStart = function(j){
         console.log(j);
@@ -87,11 +87,11 @@ $(function(){
     // 直播间布局配置
     DWLive.onRoomSetting = function (data) {
         var t = data.layout_video_main;
-        if (t === 'true') {
-            Ui.toggleVideo(true);
-        } else {
-            Ui.toggleVideo(false);
-        }
+        // if (t === 'true') {
+        //     Ui.toggleVideo(true);
+        // } else {
+        //     Ui.toggleVideo(false);
+        // }
     };
 
     // 通知
@@ -102,16 +102,16 @@ $(function(){
     // 用户禁言后群发消息
     DWLive.HDBanChatBroadcastWithData = function(data) {
       console.log("用户禁言后群发消息", data);
-  };
+    };
 
   // 用户进出提示语
-  DWLive.HDUserRemindWithAction = function(data) {
-    if (e.remindAction === 1) {
-      console.log("进入直播间", data);
-    } else if (e.remindAction === 0) {
-      console.log("退出直播间", data);
-    }
-  };
+    DWLive.HDUserRemindWithAction = function(data) {
+        if (e.remindAction === 1) {
+        console.log("进入直播间", data);
+        } else if (e.remindAction === 0) {
+        console.log("退出直播间", data);
+        }
+    };
 
     $(".btnsend").click(function(){
         var msg = $(".chatinput").val();

@@ -1,0 +1,135 @@
+<%assign var="infoForElection" value=$nextmodel->getPublishJson("uselectionrealtimedata")|json_decode:true%>
+
+<%assign var="latestVotes" value=$infoForElection.meta.title%>
+
+<%if $latestVotes != "" && $latestVotes != "0 0"%>
+
+
+
+<style>
+    .mini-dashboard__chart{position:relative;padding-top:40px}.mini-dashboard__panel--president .mini-dashboard__chart:not(.mini-dashboard__chart--final){position:relative;padding-top:1.6em}.mini-dashboard__bar-container{width:100%;height:2em;background:#e9decf}.mini-dashboard__best-guess>.mini-dashboard__bar-container,.mini-dashboard__initial>.mini-dashboard__bar-container{height:10px;margin-top:.25em}.mini-dashboard__bar-fill{padding:0;height:2em;line-height:2em;white-space:nowrap}.mini-dashboard__initial .mini-dashboard__bar-fill{height:10px}.mini-dashboard__bar-fill--dem{background-color:#1056b6;float:left;text-align:left}.mini-dashboard__bar-fill--rep{background-color:#ed4748;float:right;text-align:right}.mini-dashboard__bar-fill--ind{background-color:#9a9a9a;float:left}.mini-dashboard__bar-fill--dem-contested{float:left;background-image:url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxMCcgaGVpZ2h0PScxMCc+ICA8cmVjdCB3aWR0aD0nMTAnIGhlaWdodD0nMTAnIGZpbGw9JyNmZmYxZTAnLz4gIDxwYXRoIGQ9J00tMSwxIGwyLC0yICAgICAgICAgICBNMCwxMCBsMTAsLTEwICAgICAgICAgICBNOSwxMSBsMiwtMicgc3Ryb2tlPScjMDA5NGNiJyBzdHJva2Utd2lkdGg9JzEnLz48L3N2Zz4=);border:1px solid #1056b6}.mini-dashboard__bar-fill--rep-contested{float:right;background-image:url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxMCcgaGVpZ2h0PScxMCc+ICA8cmVjdCB3aWR0aD0nMTAnIGhlaWdodD0nMTAnIGZpbGw9JyNmZmYxZTAnLz4gIDxwYXRoIGQ9J00tMSwxIGwyLC0yICAgICAgICAgICBNMCwxMCBsMTAsLTEwICAgICAgICAgICBNOSwxMSBsMiwtMicgc3Ryb2tlPScjRjEyQzQ5JyBzdHJva2Utd2lkdGg9JzEnLz48L3N2Zz4=);border:1px solid #ed4748}.mini-dashboard__head-icons{display:inline-block;margin-top:10px}.mini-dashboard__head-icons--dem{margin-right:20px}.mini-dashboard__head-icons--rep{margin-left:20px}.mini-dashboard__head-icons img{width:80px}.media-bars{box-shadow:0 0 1px 1px rgba(0,0,0,.15);background:#f6e9d8;padding:10px;margin:1em 0}.media-bars .article-figure{padding-bottom:0;margin-bottom:1em}.media-bars .article-figure__content a{color:#333;border-bottom:none}.media-bars .article-figure__content a:hover{border-bottom:1px solid #333}.media-bars .article-figure__heading{margin-top:0}.media-bars .mini-dashboard__chart{padding-top:5px;margin-bottom:1em}.media-bars .mini-dashboard__finish-line{top:-17px}.media-bars .mini-dashboard__finish-line .mini-dashboard__majoritylabel,.media-bars .mini-dashboard__finish-line .mini-dashboard__triangle{visibility:hidden}.media-bars #mediaorg-resultbar-1 .mini-dashboard__finish-line .mini-dashboard__majoritylabel,.media-bars #mediaorg-resultbar-1 .mini-dashboard__finish-line .mini-dashboard__triangle{visibility:visible}.media-bars .mini-dashboard__bar-labels{position:absolute;left:0;top:8px;width:100%}.media-bars .mini-dashboard__bar-labels .data-label{display:block;font-size:1.3em;color:#fff;font-weight:400}.media-bars .mini-dashboard__bar-label__party{display:none}.media-bars .mini-dashboard__bar-label-dem{position:absolute;top:0;left:5px}.media-bars .mini-dashboard__bar-label-rep{position:absolute;top:0;right:5px}.house-bars{margin-top:1.6em}.house-bars .mini-dashboard__bar-labels,.senate-bars .mini-dashboard__bar-labels{position:absolute;left:0;top:-10px;width:100%}.house-bars .mini-dashboard__bar-label,.senate-bars .mini-dashboard__bar-label{text-transform:uppercase;font-size:1em;color:#535353;font-weight:lighter}.house-bars .mini-dashboard__bar-labels .data-label,.senate-bars .mini-dashboard__bar-labels .data-label{display:block;font-size:2em}.house-bars .mini-dashboard__bar-label-dem .data-label,.senate-bars .mini-dashboard__bar-label-dem .data-label{color:#1056b6}.house-bars .mini-dashboard__bar-label-rep .data-label,.senate-bars .mini-dashboard__bar-label-rep .data-label{color:#ed4748}.president-bars .mini-dashboard__bar-label-dem,.president-bars .mini-dashboard__bar-label-rep{height:2em;line-height:1.65em;margin-top:10px}.house-bars .mini-dashboard__bar-label-dem,.house-bars .mini-dashboard__bar-label-rep,.senate-bars .mini-dashboard__bar-label-dem,.senate-bars .mini-dashboard__bar-label-rep{line-height:1.3em}.president-bars .mini-dashboard__bar-label-dem{float:right}.house-bars .mini-dashboard__bar-label-dem,.senate-bars .mini-dashboard__bar-label-dem{display:inline-block;float:left}.president-bars .mini-dashboard__bar-label-container-dem{text-align:right}.house-bars .mini-dashboard__bar-label-container-dem,.senate-bars .mini-dashboard__bar-label-container-dem{text-align:left}.mini-dashboard__bar-label-rep{display:inline-block}.president-bars .mini-dashboard__bar-label-rep{float:left}.house-bars .mini-dashboard__bar-label-rep,.senate-bars .mini-dashboard__bar-label-rep{float:right;text-align:right}.president-bars .mini-dashboard__bar-label-container-rep{text-align:left}.house-bars .mini-dashboard__bar-label-container-rep,.senate-bars .mini-dashboard__bar-label-container-rep{text-align:right}@media (max-width:979px){.mini-dashboard__head-icons img{width:70px}}@media (max-width:739px){.president-bars .mini-dashboard__bar-label-dem,.president-bars .mini-dashboard__bar-label-rep{float:none;display:inline-block}.president-bars .mini-dashboard__bar-label-container{margin-bottom:-12px}.president-bars .mini-dashboard__bar-label-container-dem{text-align:left}.president-bars .mini-dashboard__bar-label-container-rep{text-align:right}.president-bars .mini-dashboard__head-icons--dem{margin-right:8px}.president-bars .mini-dashboard__head-icons--rep{margin-left:5px}.president-bars .mini-dashboard__bar-label-dem,.president-bars .mini-dashboard__bar-label-rep{margin-top:12px}.president-bars .mini-dashboard__head-icons{margin-top:-10px}}@media (max-width:489px){.president-bars .mini-dashboard__head-icons{display:none}.president-bars .mini-dashboard__bar-label-dem,.president-bars .mini-dashboard__bar-label-rep{height:3em}}.national-bar-container-group-sums{font-size:2.8em}.national-bar-container-group-sums-dem{color:#1056b6}.national-bar-container-group-sums-rep{color:#ed4748}.mini-dashboard__legend{line-height:24px;height:20px;font-size:.75em}.mini-dashboard__legend-item{height:16px;width:32px;float:left;margin-right:.25em;margin-top:4px}.mini-dashboard__legend-item--dem-contested{background-image:url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxMCcgaGVpZ2h0PScxMCc+ICA8cmVjdCB3aWR0aD0nMTAnIGhlaWdodD0nMTAnIGZpbGw9JyNmZmYxZTAnLz4gIDxwYXRoIGQ9J00tMSwxIGwyLC0yICAgICAgICAgICBNMCwxMCBsMTAsLTEwICAgICAgICAgICBNOSwxMSBsMiwtMicgc3Ryb2tlPScjMDA5NGNiJyBzdHJva2Utd2lkdGg9JzEnLz48L3N2Zz4=);border:1px solid #1056b6}.mini-dashboard__legend-item--rep-contested{background-image:url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxMCcgaGVpZ2h0PScxMCc+ICA8cmVjdCB3aWR0aD0nMTAnIGhlaWdodD0nMTAnIGZpbGw9JyNmZmYxZTAnLz4gIDxwYXRoIGQ9J00tMSwxIGwyLC0yICAgICAgICAgICBNMCwxMCBsMTAsLTEwICAgICAgICAgICBNOSwxMSBsMiwtMicgc3Ryb2tlPScjRjEyQzQ5JyBzdHJva2Utd2lkdGg9JzEnLz48L3N2Zz4=);border:1px solid #ed4748}.mini-dashboard__best-guess .mini-dashboard__bar-fill{background-image:url(data:image/svg+xml;base64,ICA8c3ZnIHhtbG5zPSdodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2Zycgd2lkdGg9JzEwJyBoZWlnaHQ9JzEwJz4gIDxyZWN0IHdpZHRoPScxMCcgaGVpZ2h0PScxMCcgZmlsbD0ndHJhbnNwYXJlbnQnLz4gIDxwYXRoIGQ9J00tMSwxIGwyLC0yICAgICAgICAgICBNMCwxMCBsMTAsLTEwICAgICAgICAgICBNOSwxMSBsMiwtMicgc3Ryb2tlPScjZmZmMWUwJyBzdHJva2Utd2lkdGg9JzMnLz4gIDwvc3ZnPg==);height:inherit}.mini-dashboard__best-guess .mini-dashboard__bar-fill--dem,.mini-dashboard__initial .mini-dashboard__bar-fill--dem{border:1px solid #1056b6;box-sizing:border-box}.mini-dashboard__best-guess .mini-dashboard__bar-fill--rep,.mini-dashboard__initial .mini-dashboard__bar-fill--rep{border:1px solid #ed4748;box-sizing:border-box}.mini-dashboard__finish-line{text-align:center;color:#333;position:absolute;left:0;right:0;top:18px;margin:0 auto;font-size:.85em;pointer-events:none}.mini-dashboard__panel--president .mini-dashboard__finish-line{top:5px}.mini-dashboard__finish-line>hr{margin:0 auto;border:0;background:#555}.mini-dashboard__triangle{width:0;height:0;border-style:solid;border-width:7px 5px 0;border-color:#555 transparent transparent;margin:0 auto}.mini-dashboard__footnote{font-size:.75em;padding-top:3px;text-align:left;color:#505050;float:left}.mini-dashboard__panel--senate .mini-dashboard__footnote{margin-top:-18px}.mini-dashboard__chart--final .mini-dashboard__footnote{line-height:2.5em}.data-bar{transition-property:width}#state-results .article-figure__subheading{margin-bottom:1.5em}.state-results *{box-sizing:border-box}.state-results__legend{display:inline-block;background:#e9decf;border-radius:3px}.body .state-results__legend{margin:0 0 20px;padding:2px 15px 7px;list-style:none}.state-results__legend>li{display:inline-block}.body .state-results__legend>li{margin:0;padding:0;font:400 14px/1.4 MetricWeb,sans-serif}.body .state-results__legend>li:not(:last-child){margin-right:25px}.state-results__legend>li>span{content:'';width:14px;height:14px;display:inline-block;margin-right:5px;position:relative;top:3px}.state-results__sections{display:-ms-flexbox;display:flex;-ms-flex-pack:justify;justify-content:space-between;-ms-flex-align:baseline;align-items:baseline;clear:both}.state-results__sections:after,.state-results__sections:before{content:'';display:table}.state-results__sections:after{clear:both}.state-results__section{-ms-flex:2;flex:2;overflow:hidden;position:relative;margin:0 3px}.state-results__section>h4{text-transform:uppercase;color:#505050;font:400 11px/1.4 MetricWeb,sans-serif;margin:0 0 5px;border-bottom:1px solid #999;text-align:center}.state-results__section>h4>span{display:inline-block;padding-bottom:5px}.state-results__section--left{-ms-flex-order:1;order:1}.state-results__section--middle{-ms-flex:1;flex:1;background:#fff;-ms-flex-order:2;order:2;border:4px solid #fff}.state-results__section--middle>h4{border-bottom:0;color:#333;font-weight:600}.state-results__section--middle>h4>span{border-bottom:1px solid #333}.state-results__section--right{-ms-flex-order:3;order:3}.state-results__bucket-pair{display:-ms-flexbox;display:flex}.state-results__section--left .state-results__bucket-pair{-ms-flex-direction:row-reverse;flex-direction:row-reverse}.state-results__bucket{position:relative;-ms-flex:1;flex:1}.state-results__bucket>ul{margin:0;padding:0;list-style:none}.state-results__section--left .state-results__bucket:last-child,.state-results__section--right .state-results__bucket:first-child{margin-right:6px}.state-results__bucket__header{height:18px;overflow:hidden;overflow:0}.state-results__bucket__header>h5{margin:0;text-align:center;text-transform:uppercase;font:400 11px MetricWeb,sans-serif;color:#777}@media (min-width:370px){.state-results__section--middle{border:6px solid #fff;margin:0 5px}}@media (min-width:400px){.state-results__section--middle{border:10px solid #fff;margin:0 8px}}@media (max-width:46.24em){.state-results__section--left .state-results__bucket:last-child,.state-results__section--right .state-results__bucket:first-child{margin-right:2px}.state-results__bucket>ul{display:-ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap;-ms-flex-line-pack:start;align-content:flex-start}.state-results__section--right .state-results__bucket>ul{-ms-flex-direction:row-reverse;flex-direction:row-reverse}.state-results__state{width:33.33333%;overflow:hidden;text-align:center;position:relative}.body .state-results__state{margin:0;padding:33.33333% 0 0}.state-results__mini-result__wrap-1{display:block;position:absolute;top:0;left:0;width:100%;height:100%;padding:0 1px 1px 0}.state-results__mini-result__wrap-2{display:-ms-flexbox;display:flex;width:100%;height:100%;-ms-flex-align:center;align-items:center;-ms-flex-pack:center;justify-content:center}.state-results__mini-result__label{font:600 10px MetricWeb,sans-serif;font-size:3vw;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.state-results__mini-result__label>small{font-size:.7em;position:relative;top:5%;margin-left:.05em}.state-results__detailed-result{display:none}}@media (min-width:30.625em){.state-results__section>h4{font-size:14px;line-height:2}.state-results__section>h4>span{padding:0 4px}.state-results__bucket__header{height:24px}.state-results__bucket__header>h5{font-size:14px}.state-results__mini-result__wrap-1{padding:0 2px 2px 0}.state-results__mini-result__label{font-size:14px}}@media (min-width:46.25em){.state-results__section--middle{border-width:8px 8px 16px}.state-results__bucket__header{border-bottom:1px solid #bbb;margin-bottom:15px}.state-results__bucket--T .state-results__bucket__header{border-bottom-color:#fff}.state-results__section--left .state-results__bucket:last-child,.state-results__section--right .state-results__bucket:first-child{margin-right:12px}.state-results__state{font:400 13px MetricWeb,sans-serif}.state-results__section--middle .state-results__state{font-weight:700;color:#333}.body .state-results__state{margin:0;padding:0}.state-results__mini-result{display:none}.state-results__detailed-result{position:relative;display:block;height:16px;margin:2px 0}.state-results__detailed-result__label{width:50px;overflow:hidden;position:absolute;left:0;top:0;text-align:right;padding-right:5px;white-space:nowrap}.state-results__detailed-result__label>small{font-size:80%;margin-left:1px;position:relative;top:.15em}.state-results__detailed-result__bar-wrap{position:relative;margin-left:50px;height:16px;display:block;width:70px;width:10vw}.state-results__detailed-result__bar{display:block;position:absolute;left:0;height:16px;min-width:1px}.state-results__detailed-result__votes{position:absolute;right:2px;top:0}.state-results__state--CA[data-called] .state-results__detailed-result__votes{color:#fff}}@media (min-width:61.25em){.state-results__section--middle{border-width:8px 24px 16px}.state-results__state{font-size:14px}.state-results__detailed-result__bar-wrap{width:65px;width:6.5vw}}@media (min-width:76.25em){.state-results__detailed-result__bar-wrap{width:100px;width:7vw;max-width:100px}}html{box-sizing:border-box}*,:after,:before{box-sizing:inherit}.o-share ul{box-sizing:initial}.ecresultslist__cell--dem{background-color:#1056b6}.ecresultslist__cell--rep{background-color:#ed4748}.o-typography-lead{font:20px/1.4 Georgia,serif;color:#333}.o-typography-lead a{text-decoration:none;color:#27757b;border-bottom:1px dotted #27757b}.o-typography-lead a:hover{color:#505050;border-bottom-color:transparent}.article__main{margin-top:1.6em}.article__main .suggested-reads{margin:3em 0;padding:23px 0 33px}.toss-up{float:right;background-color:#e9decf;border-radius:3px;padding:10px 10px 8px;color:#333;font-size:17px}.toss-up-legend{width:30px;height:15px;margin-right:4px}.dot-map .toss-up-legend{border:1px solid #a7a59b;background-color:#fff}.plain-map .toss-up-legend{border:1px solid #333;background-color:#fff1e0}.toss-up-label,.toss-up-legend{display:inline-block}.toss-up-label{position:relative;top:-2px}.standard-map{display:none}.ec-map{display:block}.dot-map .article-figure__heading,.dot-map h2.article-figure__sectionheading{margin-top:0;margin-bottom:.3em}.dot-map .article-figure__subheading{margin-top:0}.map__footnote{text-align:left;color:#777;font-size:14px;margin-top:10px;display:block}.dot-map svg{position:relative;top:-20px}@media (max-width:739px){.dot-map svg{position:relative;top:-10px}.standard-map{display:block}.ec-map{display:none}}@media (max-width:489px){.mini-dashboard__bar-label-dem span{font-size:.85em}.article__main{margin-top:0}.article__main.suggested-reads{margin:3.5em 0 1.5em}.o-typography-lead{font:18px/1.4 Georgia,serif}.dot-map svg{position:relative;top:0}}.advert--reserve-90,.advert--reserve-250,.o-ads--reserve-90,.o-ads--reserve-250{box-sizing:content-box}.house-bars{margin-top:1.2em}.house-bars .article-figure__heading{color:#333}.mini-dashboard__centernote{text-align:center;font-size:14px}
+    
+    
+    .is-in-swift .header {
+        padding-top: 0;
+    }
+    #homecontent .list-title {
+        padding-left: 15px;
+    }
+    </style>
+    
+    
+
+    <div class="block-container dark-green no-side all"><div class="block-inner"><div class="content-container"><div class="list-container"><div class="list-inner">
+
+        <div class="list-title"><a class="list-link" href="/tag/2020美国大选">2020美国大选实时选情</a></div>
+
+
+        <div class="items"><div class="no-image"><div class="item-inner"><div class="item-lead">
+
+            <div>
+            <div class="o-grid-row result-bars president-bars">
+            <div data-o-grid-colspan="5 S5 M3" style="float:left;">
+            <div class="mini-dashboard__bar-label-container mini-dashboard__bar-label-container-dem">
+                <div class="mini-dashboard__head-icons mini-dashboard__head-icons--dem"><img src="https://creatives.ftacademy.cn//picture/1/000105341_piclink.svg"></div>
+                <div class="mini-dashboard__bar-label-dem">
+                <span class="national-bar-container-keys">拜登</span>
+                <div id="president-datalabel-biden" class="data-label national-bar-container-group-sums national-bar-container-group-sums-dem">131</div>
+                </div>
+            </div>
+            </div>
+            
+            <div data-o-grid-colspan="5 M3 push2 Mpush6" style="float:right;">
+            <div class="mini-dashboard__bar-label-container mini-dashboard__bar-label-container-rep">
+                <div class="mini-dashboard__bar-label-rep">
+                <span class="national-bar-container-keys">特朗普</span>
+                <div id="president-datalabel-trump" class="data-label national-bar-container-group-sums national-bar-container-group-sums-rep">168</div>
+                </div>
+                <div class="mini-dashboard__head-icons mini-dashboard__head-icons--rep"><img src="https://creatives.ftacademy.cn//picture/2/000105342_piclink.svg"></div>
+            </div>
+            </div>
+            
+            
+            <div class="clearfloat"></div>
+            
+            <div data-o-grid-colspan="12 M6 L6 Mpull3 Lpull3">
+            <div class="mini-dashboard__chart ">
+                <div class="mini-dashboard__bars">
+                <div class="mini-dashboard__bar-container">
+                    <div id="president-bar-biden" style="width: 24.3494%;" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--dem"></div>
+                    <div id="president-bar-trump" style="width: 31.2268%;" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--rep"></div>
+                </div>
+                </div>
+                
+                <div class="mini-dashboard__best-guess" style="display:none;">
+                <div class="mini-dashboard__bar-container">
+                    <div style="width: 50.56%;" id="president-bestguessbar-biden" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--dem"></div>
+                    <div style="width: 23.15%;" id="president-bestguessbar-trump" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--rep"></div>
+                </div>
+                </div>
+                <span class="mini-dashboard__finish-line">
+                270张选举人票
+                <div class="mini-dashboard__triangle"></div>
+                <hr width="1" size="24" noshade="">
+                </span>
+                <div class="mini-dashboard__centernote" style="display:none;">民调预测</div>
+                
+                </div>
+            </div>
+            </div>
+            </div>
+            
+            <div id="current-votes" style="display:none;"><%$latestVotes%></div>
+            <div id="best-guesses" style="display:none;"><%$infoForElection.meta.description%></div>
+        
+        </div></div></div>
+    </div></div></div></div></div>
+
+    <script>
+
+    function updateElectionVotes(currentVotes, bestGuesses) {
+        var votes = currentVotes.split(' ');
+        var bidenVote = parseInt(votes[0], 10);
+        var trumpVote = parseInt(votes[1], 10);
+        var bidenPercentage = bidenVote/540;
+        var trumpPercentage = trumpVote/540;
+        bidenPercentage = bidenPercentage * 100;
+        trumpPercentage = trumpPercentage * 100;
+        bidenPercentage += '%';
+        trumpPercentage += '%';
+        document.getElementById('president-datalabel-trump').innerHTML = trumpVote;
+        document.getElementById('president-datalabel-biden').innerHTML = bidenVote;
+        document.getElementById('president-bar-biden').style.width = bidenPercentage;
+        document.getElementById('president-bar-trump').style.width = trumpPercentage;
+        var guesses = bestGuesses.split(' ');
+        var bidenGuess = parseInt(guesses[0], 10);
+        var trumpGuess = parseInt(guesses[1], 10);
+        bidenPercentage = bidenGuess/540;
+        trumpPercentage = trumpGuess/540;
+        bidenPercentage = bidenPercentage * 100;
+        trumpPercentage = trumpPercentage * 100;
+        bidenPercentage += '%';
+        trumpPercentage += '%';
+        document.getElementById('president-bestguessbar-biden').style.width = bidenPercentage;
+        document.getElementById('president-bestguessbar-trump').style.width = trumpPercentage;
+    }
+    var currentVotes = document.getElementById('current-votes').innerHTML;
+    var bestGuesses = document.getElementById('best-guesses').innerHTML;
+    updateElectionVotes(currentVotes, bestGuesses);
+    setInterval(function(){
+        var xhr = new XMLHttpRequest();
+        const apiUrl = '/index.php/jsapi/uselectionrealtimedata';
+        xhr.open('GET', apiUrl);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                var data = JSON.parse(xhr.responseText);
+                updateElectionVotes(data.meta.title, data.meta.description);
+            }
+        };
+        xhr.send();
+    }, 300000);
+
+    </script>
+
+    <%/if%>

@@ -1,4 +1,3 @@
-
 <%if $smarty.get.gift_id != "" && date("Ymd", $smarty.now) < 20180903%>
 	<!--Gift ID Status: <%$gift_id_status%>-->
 	<div class="block-container no-side"><div class="block-inner">
@@ -25,6 +24,7 @@
 				<h1 class="story-headline<%$storyHeadlineClass%>"><%$storyHeadline%></h1>
 				<%$storyLead%>
 				<%*<!--MARK: Only show video to paid subscriber-->*%>
+				<!--pay wall 1: <%$paywall%>-->
 				<%if $cc_vaddress && $cc_vaddress!="" && $smarty.get.paywall != "1" && $paywall != "1" && $smarty.get.paywall != "2" && $paywall != "2"%>
 					<div class="video-player" target="_blank" id="video-player"><div class="video-player-inner">
 						<script type="text/javascript">
@@ -181,6 +181,23 @@
 				<%if $smarty.get.full != "y" && !in_array("单页",$story.tag)%>
 					<%include file="next/partials/pagination.html"%>
 				<%/if%>
+			<%elseif $minisiteInfo != ""%>
+				<div class="story-body">
+					<%$audioHTML%>
+					<%$storyImageInline%>
+					<div id="story-body-container">
+					<%foreach from=$minisiteInfo.tabs item=tab%>
+						<%if $tab.type == "sessions"%>
+							<%foreach from=$tab.sections item=section%>
+								<%assign var="timeStamp" value=$section.time|regex_replace:"/^[\S]+ /":""%>
+								<%assign var="startTime" value=$timeStamp|regex_replace:"/ \-.+$/":""%>
+								<div class="section-container section-session"><div class="start-time"><%$startTime%></div><div class="section-inner"><div class="time-stamp"><%$timeStamp%></div><div class="section-title"><%$section.title%></div></div></div>
+							<%/foreach%>
+						<%/if%>
+					<%/foreach%>
+					</div>
+					<div class="clearfloat"></div>
+				</div>
 			<%else%>
 				<div class="story-body">
 					<%$audioHTML%>
