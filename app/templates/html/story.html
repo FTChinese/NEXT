@@ -1306,12 +1306,6 @@
 	<%assign var="storyAuthor" value="`$story.cbyline_description` `$story.cauthor_html_format`"%>
 <%/if%>
 
-
-
-
-
-
-
 <%assign var=imageType value=""%>
 <%if ($page==1 || $page =="") && $page_action != "ce" && $story_pic.smallbutton && (in_array("插图",$story.tag) || $imageType == "portrait")%>
 	<%assign var="storyImage" value=$story_pic.smallbutton%>
@@ -1336,7 +1330,9 @@
 	<%assign var="storyImageClass" value=""%>
 <%/if%>
 
-
+<!--
+	<%$story_pic|@print_r%>
+-->
 <%assign var=imageCaption value=""%>
 <%if $imageType != "" && $story_pic.captions%>
 	<%if $imageType == "smallbutton" && ($story_pic.captions.smallbutton || $story_pic.captions.other)%>
@@ -1368,16 +1364,6 @@
 		<%assign var="storyImageTop" value="<div class=\"`$storyImageClass` story-image image\"><figure data-url=`$storyImage` class=\"loading\"></figure>`$imageCaption`</div>"%>
 	<%/if%>
 <%/if%>
-
-
-
-
-
-
-
-
-
-
 
 
 <%assign var="cc_vaddress" value=""%>
