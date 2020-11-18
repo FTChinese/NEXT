@@ -1306,21 +1306,50 @@
 	<%assign var="storyAuthor" value="`$story.cbyline_description` `$story.cauthor_html_format`"%>
 <%/if%>
 
+
+
+
+
+
+
+<%assign var=imageType value=""%>
 <%if ($page==1 || $page =="") && $page_action != "ce" && $story_pic.smallbutton && (in_array("插图",$story.tag) || $imageType == "portrait")%>
 	<%assign var="storyImage" value=$story_pic.smallbutton%>
 	<%assign var="storyImageClass" value="right-image"%>
+	<%assign var=imageType value="smallbutton"%>
 <%elseif ($page==1 || $page =="") && $page_action != "ce" && $story_pic.skyline%>
 	<%assign var="storyImage" value=$story_pic.skyline%>
 	<%assign var="storyImageClass" value="right-image-small"%>
+	<%assign var=imageType value="skyline"%>
 <%elseif ($page==1 || $page =="") && $page_action != "ce" && $story_pic.smallbutton && $pageType != "singlechoice"%>
 	<%assign var="storyImage" value=$story_pic.smallbutton%>
 	<%assign var="storyImageClass" value=""%>
+	<%assign var=imageType value="smallbutton"%>
 <%elseif ($page==1 || $page =="")%>
-	<%assign var="storyImage" value=$story_pic.cover|default:$story_pic.smallbutton%>
+	<%if $story_pic.cover%>
+		<%assign var="storyImage" value=$story_pic.cover%>
+		<%assign var=imageType value="cover"%>
+	<%elseif $story_pic.smallbutton%>
+		<%assign var="storyImage" value=$story_pic.smallbutton%>
+		<%assign var=imageType value="smallbutton"%>
+	<%/if%>
 	<%assign var="storyImageClass" value=""%>
-<%else%>
-
 <%/if%>
+
+
+<%assign var=imageCaption value=""%>
+<%if $imageType != "" && $story_pic.captions%>
+	<%if $imageType == "smallbutton" && ($story_pic.captions.smallbutton || $story_pic.captions.other)%>
+		<%assign var=imageCaption value=$story_pic.captions.smallbutton|default:$story_pic.captions.other%>
+	<%elseif $imageType == "cover" && $story_pic.captions.cover%>
+		<%assign var=imageCaption value=$story_pic.captions.cover%>
+	<%/if%>
+<%/if%>
+<%if $imageCaption != ""%>
+	<%assign var=imageCaption value="<div class=\"caption\">`$imageCaption`</div>"%>
+<%/if%>
+
+
 <%assign var="storyImage" value=$storyImage|replace:"http://creatives.ftacademy.cn/picture/":"https://thumbor.ftacademy.cn/unsafe/picture/"%>
 <%assign var="storyImage" value=$storyImage|replace:"https://creatives.ftacademy.cn/picture/":"https://thumbor.ftacademy.cn/unsafe/picture/"%>
 <%assign var="storyImage" value=$storyImage|replace:"http://i.ftimg.net/picture/":"https://thumbor.ftacademy.cn/unsafe/picture/"%>
@@ -1332,13 +1361,23 @@
 
 <%if $storyImage != ""%>
 	<%if $storyImageClass=="right-image"%>
-		<%assign var="storyImageInline" value="<div class=\"leftPic image portrait-img\"><figure class=\"loading\" data-url=`$storyImage`></figure></div>"%>
+		<%assign var="storyImageInline" value="<div class=\"leftPic image portrait-img\"><figure class=\"loading\" data-url=`$storyImage`></figure>`$imageCaption`</div>"%>
 	<%elseif $storyImageClass=="right-image-small"%>
-		<%assign var="storyImageInline" value="<div class=\"left-pic-small image portrait-img\"><figure class=\"loading\" data-url=`$storyImage`></figure></div>"%>
+		<%assign var="storyImageInline" value="<div class=\"left-pic-small image portrait-img\"><figure class=\"loading\" data-url=`$storyImage`></figure>`$imageCaption`</div>"%>
 	<%else%>
-		<%assign var="storyImageTop" value="<div class=\"`$storyImageClass` story-image image\"><figure data-url=`$storyImage` class=\"loading\"></figure></div>"%>
+		<%assign var="storyImageTop" value="<div class=\"`$storyImageClass` story-image image\"><figure data-url=`$storyImage` class=\"loading\"></figure>`$imageCaption`</div>"%>
 	<%/if%>
 <%/if%>
+
+
+
+
+
+
+
+
+
+
 
 
 <%assign var="cc_vaddress" value=""%>
