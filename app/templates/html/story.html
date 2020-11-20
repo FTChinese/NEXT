@@ -1330,19 +1330,9 @@
 	<%assign var="storyImageClass" value=""%>
 <%/if%>
 
-<!--
-	<%$story_pic|@print_r%>
--->
-<%assign var=imageCaption value=""%>
-<%if $imageType != "" && $story_pic.captions%>
-	<%if $imageType == "smallbutton" && ($story_pic.captions.smallbutton || $story_pic.captions.other)%>
-		<%assign var=imageCaption value=$story_pic.captions.smallbutton|default:$story_pic.captions.other%>
-	<%elseif $imageType == "cover" && $story_pic.captions.cover%>
-		<%assign var=imageCaption value=$story_pic.captions.cover%>
-	<%/if%>
-<%/if%>
-<%if $imageCaption != ""%>
-	<%assign var=imageCaption value="<div class=\"caption\">`$imageCaption`</div>"%>
+
+<%if $story_pic && $story_pic.caption && $story_pic.caption != ""%>
+	<%assign var=imageCaption value="<div class=\"caption\">`$story_pic.caption`</div>"%>
 <%/if%>
 
 
