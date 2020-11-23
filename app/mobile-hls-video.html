@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Mobile HLS video</title>
+</head>
+<body>
+<h1>Mobile HLS video</h1>
+<ul>
+    <li>移动端可直接通过 &lt;video&gt; 标签来播放 <code>.m3u8</code> 格式的视频</li>
+    <li>PC端需要通过其他手段(例如 videojs-contrib-hls)来解码 <code>.m3u8</code> 格式的视频, 才能够通过 &lt;video&gt; 标签或者 flash 来播放</li>
+</ul>
+
+<h2>移动端播放 HLS(<code>.m3u8</code>) 视频</h2>
+
+<video width="300" height="200" 
+       playsinline webkit-playsinline
+       autoplay controls preload="auto"
+       x-webkit-airplay="true" x5-video-player-fullscreen="true" x5-video-player-typ="h5">
+    <source src="https://live.fortune-net.cn/cast/jjulBLtT.m3u8?auth_key=1606690292-0-0-29b9e9ba795f553464316ff07436cb8c" type="application/x-mpegURL">
+</video>
+
+<h2>参考</h2>
+<p><a href="https://m.zhanqi.tv/1128054">xx直播</a></p>
+<pre>&lt;video class="vjs-tech" width="100%" height="100%"
+    controls="controls" autoplay="autoplay"
+    x-webkit-airplay="true" x5-video-player-fullscreen="true"
+    preload="auto" playsinline="true" webkit-playsinline
+    x5-video-player-typ="h5"&gt;
+    &lt;source type="application/x-mpegURL" src="http://dlhls.cdn.zhanqi.tv/zqlive/22578_yKdJM.m3u8"&gt;
+&lt;/video&gt;</pre>
+</body>
+</html>

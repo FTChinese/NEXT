@@ -1,0 +1,29 @@
+<html>
+  <body>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <video id="video" controls></video>
+    <script>
+        //var streamUrl = 'https://live.fortune-net.cn/cast/jjulBLtT.m3u8?auth_key=1606690292-0-0-29b9e9ba795f553464316ff07436cb8c';
+        var streamUrl = 'https://bizzabo-demo-res.cloudinary.com/video/upload/c_limit,w_1920,h_1080,vc_h264:high:4.0,br_8500k/v1599125505/139477/d0lttqogxw2okhlcoacm.m3u8';
+    if(Hls.isSupported())
+    {
+        var video = document.getElementById('video');
+        var hls = new Hls();
+        hls.loadSource(streamUrl);
+        hls.attachMedia(video);
+        hls.on(Hls.Events.MANIFEST_PARSED,function()
+        {
+            video.play();
+        });
+    }
+    else if (video.canPlayType('application/vnd.apple.mpegurl'))
+    {
+        video.src = streamUrl;
+        video.addEventListener('canplay',function()
+        {
+            video.play();
+        });
+    }
+    </script>
+  </body>
+</html>
