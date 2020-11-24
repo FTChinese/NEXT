@@ -1,0 +1,30 @@
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
+<div class="video-player" target="_blank" id="video-player"><div class="video-player-inner broadcast-inner">
+    <div id="livePlayer"><video id="video" controls></video></div>
+</div></div>
+
+
+<script>
+    //var streamUrl = 'https://live.fortune-net.cn/cast/jjulBLtT.m3u8?auth_key=1606690292-0-0-29b9e9ba795f553464316ff07436cb8c';
+    var streamUrl = '<%$liveStreamUrl%>';
+if(Hls.isSupported())
+{
+    var video = document.getElementById('video');
+    var hls = new Hls();
+    hls.loadSource(streamUrl);
+    hls.attachMedia(video);
+    hls.on(Hls.Events.MANIFEST_PARSED,function()
+    {
+        video.play();
+    });
+}
+else if (video.canPlayType('application/vnd.apple.mpegurl'))
+{
+    video.src = streamUrl;
+    video.addEventListener('canplay',function()
+    {
+        video.play();
+    });
+}
+</script>

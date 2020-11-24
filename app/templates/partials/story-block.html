@@ -23,7 +23,7 @@
 				<div class="story-theme"><%$breadcrum%></div>
 				<h1 class="story-headline<%$storyHeadlineClass%>"><%$storyHeadline%></h1>
 				<%$storyLead%>
-				<%*<!--MARK: Only show video to paid subscriber-->*%>
+				<%*<!--MARK: Show CC video only to paid subscriber-->*%>
 				<!--pay wall 1: <%$paywall%>-->
 				<%if $cc_vaddress && $cc_vaddress!="" && $smarty.get.paywall != "1" && $paywall != "1" && $smarty.get.paywall != "2" && $paywall != "2"%>
 					<script type="text/javascript">window.hasFoundProductPricing = true; </script>
@@ -38,6 +38,9 @@
 				<%elseif $cc_room_id != "" && $smarty.get.paywall != "1" && $paywall != "1" && $smarty.get.paywall != "2" && $paywall != "2"%>
         			<script type="text/javascript">window.hasFoundProductPricing = true; </script>
 					<%include file="next/partials/broadcast.html"%>
+				<%elseif $liveStreamUrl != ""%>
+					<%*<!--MARK: Show live stream Url to everyone for free-->*%>
+					<%include file="next/partials/livestream.html"%>
 				<%else%>
 					<%$storyImageTop%>
 				<%/if%>
