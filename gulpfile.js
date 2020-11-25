@@ -190,13 +190,13 @@ gulp.task('styles', function () {
       precision: 10,
       includePaths: ['bower_components']
     }).on('error', $.sass.logError))
-    .pipe($.postcss([
-      cssnext({ 
-        features: {
-          colorRgba: false
-        }
-      })
-    ]))
+    // .pipe($.postcss([
+    //   cssnext({ 
+    //     features: {
+    //       colorRgba: false
+    //     }
+    //   })
+    // ]))
     .pipe($.sourcemaps.write('./'))
     .pipe(gulp.dest(DEST))
     .pipe(browserSync.stream({match: '**/**/*.css'})); 
@@ -248,7 +248,6 @@ gulp.task('images', function () {
 gulp.task('serve', 
   gulp.parallel(
     'styles', 
-
     function serve() {
     browserSync.init({
       server: {
