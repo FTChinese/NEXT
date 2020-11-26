@@ -42,13 +42,18 @@
 		color: white;
 		&:before {
 			color: white;
+
+			animation-name: spin;
+			animation-duration: 4000ms;
+			animation-iteration-count: infinite;
+			animation-timing-function: linear;
 		}
 	}
 }
 .is-music {
 	background: rgba(175,81,108,.15);
 	line-height: 25px;
-	padding: 5px 10px 5px 25px;
+	padding: 5px 10px 5px 35px;
 	display: block;
 	position: relative;
 	&:before {
@@ -56,14 +61,23 @@
 		position: absolute;
 		left: 0;
 		top: 0;
-		width: 25px;
-		height: 25px;
-		line-height: 25px;
+		width: 35px;
+		height: 35px;
+		line-height: 35px;
 		text-align: center;
 		display: block;
-		padding-top: 5px;
+		border: 0;
 	}
 }
+
+@keyframes spin { 
+	from { 
+		transform: rotate(0deg); 
+	} to { 
+		transform: rotate(360deg); 
+	}
+}
+
 .use-justify {
 	.story-body {
 		p {
