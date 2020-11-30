@@ -1364,7 +1364,7 @@
 <%assign var="cc_room_id" value=""%>
 <%assign var="liveStreamUrl" value=""%>
 <%if preg_match("/视频直播/is",$keys) && $eskylineheadline != ""%>
-	<%if preg_match("/\.m3u8$/is", $eskylineheadline)%>
+	<%if preg_match("/\.m3u8/is", $eskylineheadline)%>
 		<%assign var="liveStreamUrl" value=$eskylineheadline%>
 	<%else%>
 		<%assign var="cc_room_id" value=$eskylineheadline%>
