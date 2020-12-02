@@ -85,13 +85,10 @@
 		<%assign var="passPlatform" value="no"%>
 		<%if $section.ProductPlatform == ""%>
 			<%assign var="passPlatform" value="yes"%>
-			<!--1-->
 		<%elseif $platform != "" && preg_match("/`$platform`/is",$section.ProductPlatform)%>
 			<%assign var="passPlatform" value="yes"%>
-			<!--2-->
 		<%/if%>
 
-		<!--passPlatform: <%$passPlatform%>, Platform: <%$platform%>, $section.ProductPlatform: <%$section.ProductPlatform%> -->
 
 		<%assign var="passRenewal" value="no"%>
 		<%if $section.RenewalStatus == "" || $section.RenewalStatus == "All" %>
