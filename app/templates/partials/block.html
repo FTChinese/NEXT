@@ -232,16 +232,24 @@
 					</div>
 					<%/if%>
 
+					<%if $list.sponsorLogoUrl != ""%>
+						<%assign var=stickTop value="44px"%>
+						<%if $smarty.get.webview === "ftcapp"%>
+							<%assign var=stickTop value="0"%>
+						<%/if%>
+						<style>.sponsor-logo-sticky{position:sticky;top:<%$stickTop%>;z-index:1;}</style>
+						<a href="<%$list.sponsorLink%>" target="_blank"><img class="sponsor-logo-sticky" src="<%$list.sponsorLogoUrl%>"></a>
+					<%/if%>
 
-					<%if $list.sponsorAdId != ""%>
-					<div class="sponsor-container"><div class="bn-ph"><div class="banner-container">
-					<div class="banner-inner">
-					<div style="line-height:90px;text-align:center;font-size:2em;background-color:black;color: white;">IBM</div>
-					</div>
-					<%*<!--
-					<iframe id="mpu3Frame" name="mpu3Frame" width="100%" height="90" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="/m/marketing/<%$adFileName%>.html#adid=<%$p.meta.adid%><%$banners[$bannerCount]%>&slot=986723212"></iframe>
-					-->*%>
-					</div></div></div>
+					<%if $list.sponsorAdId != "" && 0>1%>
+						<div class="sponsor-container"><div class="bn-ph"><div class="banner-container">
+						<div class="banner-inner">
+						<div style="line-height:90px;text-align:center;font-size:2em;background-color:black;color: white;">IBM</div>
+						</div>
+						<%*<!--
+						<iframe id="mpu3Frame" name="mpu3Frame" width="100%" height="90" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="/m/marketing/<%$adFileName%>.html#adid=<%$p.meta.adid%><%$banners[$bannerCount]%>&slot=986723212"></iframe>
+						-->*%>
+						</div></div></div>
 					<%/if%>
 
 					<div class="items">
