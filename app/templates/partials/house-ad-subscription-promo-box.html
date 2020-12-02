@@ -1,5 +1,4 @@
 <%if $hidePromoBox != "yes"%>
-	<!--passPlatform: house-ad-subscription-promo-box-->
 	<%assign var="pageIdForPromo" value="subcription-promo"%>
 	<%if $nextmodel != ""%>
 		<%assign var="infoForPromo" value=$nextmodel->getPublishJson($pageIdForPromo)|json_decode:true%>
@@ -8,6 +7,16 @@
 			<%assign var="inAppClass" value=" in-app"%>
 			<%*<!--MARK: - In native app, don't ever show promo box for non-subscriber as it is fixed to the bottom -->*%>
 			<%assign var="promoRendered" value="`$promoRendered`"%>
+		<%/if%>
+		<%assign var="platform" value=$smarty.get.platform%>
+		<%if $smarty.get.webview == "ftcapp"%>
+			<%if $smarty.get.android != ""%>
+				<%assign var="platform" value="AndroidApp"%>
+			<%else%>
+				<%assign var="platform" value="iOSApp"%>
+			<%/if%>
+		<%else%>
+			<%assign var="platform" value="WebSite"%>
 		<%/if%>
 		<div id="promo-box-container">
 			<%foreach from=$infoForPromo.sections item=section%>
@@ -23,8 +32,19 @@
 						<%assign var="passActionCheck" value="yes"%>
 					<%/if%>
 				<%/foreach%>
+				
+				<%assign var="passPlatform" value="no"%>
+				<%if $section.ProductPlatform == ""%>
+					<%assign var="passPlatform" value="yes"%>
+				<%elseif $platform != "" && preg_match("/`$platform`/is",$section.ProductPlatform)%>
+					<%assign var="passPlatform" value="yes"%>
+				<%/if%>
+		
+				<%*<!--passPlatform: <%$passPlatform%>, Platform: <%$platform%>, $section.ProductPlatform: <%$section.ProductPlatform%> -->*%>
+
+				
 				<%*<!-- <%$isScheduledForToday%> / rendered: <%$promoRendered%> /   -->*%>
-			    <%if $section.type == "promoBox" && $isScheduledForToday == "yes" && $section.promoTarget == "noneSubscriber" && $passActionCheck == "yes" && $section.DaysToExpiration == "" && ($section.status == "on" || $debug_model == 1) && !preg_match("/`$section.promoTarget`/is",$promoRendered)%>
+			    <%if $passPlatform == "yes" && $section.type == "promoBox" && $isScheduledForToday == "yes" && $section.promoTarget == "noneSubscriber" && $passActionCheck == "yes" && $section.DaysToExpiration == "" && ($section.status == "on" || $debug_model == 1) && !preg_match("/`$section.promoTarget`/is",$promoRendered)%>
 			    	
 			    	<%*<!--MARK: - Get the final action (list) based on weight and status -->*%>
 			    	<%assign var=weightCount value=0%>
