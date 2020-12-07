@@ -58,7 +58,7 @@ MARK: Check the next model tag for sponsored special reports end-->*%>
             <%assign var=tagtitle value=$section.title%>
         <%/if%>
         <%assign var="zone" value=$section.zone%>
-        <%if !preg_match("/special/is",$zone)%>
+        <%if !preg_match("/\//is",$zone)%>
             <%assign var="zone" value="home/special/`$zone`"%>
         <%/if%>
         <%assign var="hasFoundSponsorshipInfo" value="yes"%>
