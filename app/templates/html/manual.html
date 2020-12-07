@@ -279,7 +279,7 @@
                     document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/, 'js').replace(/\bcore\b/, 'enhanced');
                 }
             </script>
-
+            <%*<!--MARK: - Switch between different themes-->*%>
             <%if $pageId == "home"%>
                 <style><%include file="next/styles/main.css"%></style>
             <%elseif $pageType == "job"%>
@@ -405,6 +405,11 @@
         </body>
     </html>
 <%else%>
+    <%*<!--MARK: - Use Themes for app-->*%>
+    <%if $p.meta.theme == "ebook"%>
+        <style><%include file="next/styles/main-ebook.css"%></style>
+        <script type="text/javascript">var pageTheme = 'ebook';</script>
+    <%/if%>
     <script type="text/javascript">
         var adchIDNew = window.location.href.replace(/^.*adchannelID=([0-9]{4}).*$/g,'$1');
         if (/^[0-9]{4}$/.test(adchIDNew)) {
