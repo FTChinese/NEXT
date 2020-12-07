@@ -237,8 +237,8 @@
 						<%if $smarty.get.webview === "ftcapp"%>
 							<%assign var=stickTop value="0"%>
 						<%/if%>
-						<style>.sponsor-logo-sticky{position:sticky;top:<%$stickTop%>;z-index:1;}</style>
-						<a href="<%$list.sponsorLink%>" target="_blank"><img class="sponsor-logo-sticky" src="<%$list.sponsorLogoUrl%>"></a>
+						<style>.sponsor-logo-sticky{position:sticky;top:<%$stickTop%>;z-index:1;display:block;}</style>
+						<a href="<%$list.sponsorLink%>" target="_blank" class="sponsor-logo-sticky"><img src="<%$list.sponsorLogoUrl%>"></a>
 					<%/if%>
 
 					<%if $list.sponsorAdId != "" && 0>1%>
