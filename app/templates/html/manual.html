@@ -216,7 +216,7 @@
       <%assign var="tagName" value=$p.meta.title%>
       <%if $tagName != "" && ($tagName == $section.title || $tagName == $section.tag)%>
         <%assign var="zone" value=$section.zone%>
-        <%if !preg_match("/special/is",$zone)%>
+        <%if !preg_match("/\//is",$zone)%>
             <%assign var="zone" value="home/special/`$zone`"%>
         <%/if%>
       <%/if%>
@@ -405,7 +405,7 @@
         </body>
     </html>
 <%else%>
-    <%*<!--MARK: - Use Themes for app-->*%>
+    <%*<!--MARK: - Use Themes for app only for eBook (dark mode sponsored by Audi) -->*%>
     <%if $p.meta.theme == "ebook"%>
         <style><%include file="next/styles/main-ebook.css"%></style>
         <script type="text/javascript">var pageTheme = 'ebook';</script>
