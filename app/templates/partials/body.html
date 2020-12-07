@@ -6,7 +6,7 @@
 <%assign var="mpuCount" value=0%>
 <%assign var="b" value=0%>
 <%assign var="maxB" value=100%>
-<%if $smarty.get.maxB != ""%>
+<%if $smarty.get.maxB != "" && date("Ymd",$smarty.now) >= 20210101%>
     <%assign var="maxB" value=$smarty.get.maxB|intval%>
 <%/if%>
 <%assign var="premiumContentIds" value="0000"%>
