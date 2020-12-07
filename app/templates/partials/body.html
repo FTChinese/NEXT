@@ -6,8 +6,11 @@
 <%assign var="mpuCount" value=0%>
 <%assign var="b" value=0%>
 <%assign var="maxB" value=100%>
-<%if $smarty.get.maxB != "" && date("Ymd",$smarty.now) >= 20210101%>
+<%if $smarty.get.maxB != ""%>
     <%assign var="maxB" value=$smarty.get.maxB|intval%>
+<%/if%>
+<%if $maxB == 1 && date("Ymd",$smarty.now) < 20210101%>
+    <%assign var="maxB" value=3%>
 <%/if%>
 <%assign var="premiumContentIds" value="0000"%>
 <%foreach from=$p.sections item=section%>
