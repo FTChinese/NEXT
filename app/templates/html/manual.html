@@ -1,6 +1,13 @@
 
 <%if $pageId == ""%>
-    <%assign var="pageId" value="home"%>
+    <%*<!--MARK: - Two Sponsored Special Mini-Sites/Reports-->*%>
+    <%if $smarty.server.HTTP_HOST=="www.lunchwithft.com"%>
+        <%assign var="pageId" value="lunchwiththeft"%>
+    <%elseif $smarty.server.HTTP_HOST=="www.leshangavenue.com"%>
+        <%assign var="pageId" value="pursuit"%>
+    <%else%>
+        <%assign var="pageId" value="home"%>
+    <%/if%>
 <%/if%>
 <%assign var="p" value=$nextmodel->getPublishJson($pageId)|json_decode:true%>
 
@@ -218,7 +225,6 @@
         <%assign var="zone" value=$section.zone%>
         <%if !preg_match("/\//is",$zone)%>
             <%assign var="zone" value="home/special/`$zone`"%>
-            <!--Zone: <%$zone%>-->
         <%/if%>
       <%/if%>
     <%/if%>
