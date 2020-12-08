@@ -366,10 +366,21 @@
 			@include doubleWidth;
 		}
 	}
-
-
 	.block-container.fixmain.side-left .content-inner, .block-container.bottommain.side-left .content-inner {
 		width: $maxWidth - 1.5 * $defaultPadding - $sideWidth;
+	}
+}
+@mixin NoneXL {
+	.block-container {
+		&.fixmain, &.bottommain {
+			.content-container {
+				right: $sideWidth + $defaultPadding;
+				max-width: 100%;
+			}
+			.content-inner {
+				margin-left: $sideWidth + $defaultPadding * 1.5;
+			}
+		}
 	}
 }
 @mixin L {
@@ -454,6 +465,31 @@
 	}
 	.item-inner {
 		padding-bottom: $defaultPadding/2;
+	}
+}
+@mixin iPadPortrait {
+	.item-tag {
+	    padding-bottom: $defaultPadding/4;
+	}
+	.item-inner {
+		padding-left: $defaultPadding/4;
+		padding-right: $defaultPadding/4; 
+	}
+	.image {
+		left: $defaultPadding/4;
+		right: $defaultPadding/4;
+	}
+	.list-title {
+		margin: 0 $defaultPadding/4 $defaultPadding/2 $defaultPadding/4;
+	}
+	.side-by-side .item-inner {
+		padding: 0 $defaultPadding/4 $defaultPadding/2 $defaultPadding/4;
+	}
+	.has-side .block-inner {
+		padding-right: 3*$defaultPadding/4;
+	}
+	.has-side.side-left .block-inner {
+		padding-left: 3*$defaultPadding/4;
 	}
 }
 @mixin M {
@@ -576,6 +612,111 @@
 	.video-package {
 		.ST {
 			padding-top: $defaultPadding/3;
+		}
+	}
+}
+
+@mixin S1 {
+	.has-side {
+		.block-inner {
+			padding: 0;
+		}
+		.content-container {
+		    float: none;
+		    margin-bottom: $defaultPadding/2;
+		}
+		.content-inner {
+	    	border-right: 0;
+	    	padding-right: 0;
+		}
+		&.side-left {
+			.block-inner {
+				padding: 0;		
+			}
+			.content-container {
+				float: none;
+				padding: 0 $defaultPadding/2;
+			}
+			.content-inner {
+				border-left: 0;
+				padding-right: 0;
+				padding-left: 0;
+			}
+			.side-container {
+				float: none;
+				margin-right: 0;
+			}
+		}
+	}
+	.side-container {
+		float: none;
+	    width: auto;
+	    background-color: transparent;
+	    margin-left: 0;
+	    padding: 0 0 $defaultPadding/2 0;
+		.item-inner {
+			padding: 0 $defaultPadding/2 $defaultPadding/2 $defaultPadding/2;
+			.item-headline {
+				font-size: 1em;
+			}
+		}
+	}
+	.block-inner {
+		padding: 0;
+	}
+	.item-inner {
+		padding-left: $defaultPadding/2;
+		padding-right: $defaultPadding/2;
+	}
+	.list-title {
+		@include itemTitleMobile;
+		font-size: 1.1em;
+		clear: both;
+		position: relative;
+		a.list-link {
+			line-height: $listTitleHeight;
+			position: static;
+			height: auto;
+			left: auto;
+			padding-right: 5px;
+			background-color: transparent;
+		}
+		a.right-link {
+			right: $defaultPadding/2;
+			display: block;
+		}
+		a.sponsor-link figure {
+			height: $defaultPadding;
+			background-color: transparent;
+			position: absolute;
+			right: $defaultPadding/2;
+			top: 0;
+			bottom: 0;
+			margin: auto;
+			padding-left: 0;
+		}
+		&:before {
+			display: none;
+		}
+	}
+	.items {
+		padding: 0 $defaultPadding/2;
+	}
+	.links {
+    	padding: 0 $defaultPadding/2;
+    	font-size: 1em;
+	}
+	.side-by-side {
+		.items {
+			padding: 0;
+		}
+		.list-title {
+			margin: 0 $defaultPadding/2 $defaultPadding/2 $defaultPadding/2;
+		}
+	}
+	.video-package {
+		.items {
+			padding: 0 0.75*$defaultPadding;
 		}
 	}
 }
