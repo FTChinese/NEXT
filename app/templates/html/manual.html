@@ -1,10 +1,13 @@
 
+<%assign var="showNavigation" value="yes"%>
 <%if $pageId == ""%>
     <%*<!--MARK: - Two Sponsored Special Mini-Sites/Reports-->*%>
     <%if $smarty.server.HTTP_HOST=="www.lunchwithft.com"%>
         <%assign var="pageId" value="lunchwiththeft"%>
+        <%assign var="showNavigation" value="no"%>
     <%elseif $smarty.server.HTTP_HOST=="www.leshangavenue.com"%>
         <%assign var="pageId" value="pursuit"%>
+        <%assign var="showNavigation" value="no"%>
     <%else%>
         <%assign var="pageId" value="home"%>
     <%/if%>
