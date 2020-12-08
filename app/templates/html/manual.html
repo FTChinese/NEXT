@@ -1,5 +1,6 @@
 
 <%assign var="showNavigation" value="yes"%>
+<%assign var="requirelogin" value=""%>
 <%if $pageId == ""%>
     <%*<!--MARK: - Two Sponsored Special Mini-Sites/Reports-->*%>
     <%if $smarty.server.HTTP_HOST=="www.lunchwithft.com"%>
@@ -7,16 +8,14 @@
         <%assign var="showNavigation" value="no"%>
     <%elseif $smarty.server.HTTP_HOST=="www.leshangavenue.com"%>
         <%assign var="pageId" value="pursuit"%>
-        <%assign var="showNavigation" value="no"%>
+        <%assign var="showNavigation" value="no"%>        
     <%else%>
         <%assign var="pageId" value="home"%>
     <%/if%>
 <%/if%>
+
 <%assign var="p" value=$nextmodel->getPublishJson($pageId)|json_decode:true%>
 
-<%if $p.meta.requirelogin == "no"%>
-    <%assign var="requirelogin" value="no"%>
-<%/if%>
 
 <%*<!--MARK: This has to be replicated to multiple templates as this version of smarty doesn't support global scoop in included file-->*%>
 <%if $topnav == ""%>
@@ -229,6 +228,8 @@
         <%if !preg_match("/\//is",$zone)%>
             <%assign var="zone" value="home/special/`$zone`"%>
         <%/if%>
+        <%*<!-- MARK: - If it is an active sponsored topic, don't require login -->*%>
+        <%assign var="requirelogin" value="no"%>
       <%/if%>
     <%/if%>
     <%/foreach%>

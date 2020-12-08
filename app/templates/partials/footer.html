@@ -6,12 +6,11 @@
 <%/if%>
 
 <%*<!--MARK: Require log in for subscriber site -->*%>
-<%if ($smarty.server.HTTP_HOST=="www.chineseft.com" || $smarty.server.HTTP_HOST=="www.ftchineselive.com") && $requirelogin != "no"%>
+<%if ($smarty.server.HTTP_HOST=="www.chineseft.com" || $smarty.server.HTTP_HOST=="www.ftchineselive.com" || $smarty.server.HTTP_HOST=="www.leshangavenue.com" || $smarty.server.HTTP_HOST=="www.lunchwithft.com") && $requirelogin != "no"%>
 	<script type="text/javascript">
 	  <%include file="next/scripts/main-require-login.js"%>
 	</script>
 <%/if%>
-
 
 <%*<!--MARK: The new paid post needs to be inserted before the default one so that posisions will be calculated correctly. -->*%>
 <div 
