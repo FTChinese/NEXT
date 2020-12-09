@@ -526,7 +526,6 @@ function stickyBottomPrepare() {
 }
 
 function addStickyStyles() {
-  console.log('Add Sticky Classes');
   var sideContainers = document.querySelectorAll('.side-container');
   for (var i=0; i<sideContainers.length; i++) {
     sideContainers[i].classList.add('is-sticky-top');
