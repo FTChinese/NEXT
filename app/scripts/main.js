@@ -903,7 +903,7 @@ var eventScroll = window.attachEvent ? 'onscroll' : 'scroll';
 checkLanguageSwitch();
 
 // MARK: - Use pure CSS sticky when possible
-var supportStickyPosition = typeof CSS === 'function' && CSS.supports && CSS.supports("position", "sticky");
+var supportStickyPosition = typeof CSS === 'function' && CSS.supports && CSS.supports('position', 'sticky');
 if (((gNavOffsetY > 30 && w > 490 && supportStickyPosition === false) || document.getElementById('audio-placeholder'))) {
   try {
     stickyBottomPrepare();

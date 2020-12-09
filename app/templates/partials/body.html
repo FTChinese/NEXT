@@ -21,6 +21,13 @@
 
 
 
+<%assign var="blockCount" value=0%>
+<%foreach from=$p.sections item=section%>
+    <%if $section.type == "block"%>
+        <%assign var="blockCount" value=$blockCount+1%>
+    <%/if%>
+<%/foreach%>
+
 <%assign var="subscriptionsWarningsShowed" value=""%>
 <%foreach from=$p.sections item=section%>
     <%if $section.type == "header"%>
