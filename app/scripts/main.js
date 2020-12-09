@@ -499,7 +499,6 @@ function stickyBottomPrepare() {
   }
 
   w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-
   if (sectionsWithSide && sectionsWithSide.length > 0) {
     for (var i=0; i<sectionsWithSide.length; i++) {
       sectionClassName[i] = sectionsWithSide[i].className;       
@@ -518,14 +517,24 @@ function stickyBottomPrepare() {
         minHeight[i] = Math.min(mainHeight[i], sideHeight[i]);
         maxHeight[i] = Math.max(mainHeight[i], sideHeight[i]);
       }
-      //sectionsWithSide[i].querySelector('.side-inner').style.backgroundColor = 'grey';
     }
   }
-
   viewablesInit();
+  if (document.querySelector('.header-container') === null) {
+    document.documentElement.classList.add('has-no-header');
+  }
+}
+
+function addStickyStyles() {
+  console.log('Add Sticky Classes');
+  var sideContainers = document.querySelectorAll('.side-container');
+  for (var i=0; i<sideContainers.length; i++) {
+    sideContainers[i].classList.add('is-sticky-top');
+  }
 }
 
 function stickyBottomUpdate() {
+
   // MARK: - It's important to clean all the existing known classes
   var htmlClassNew = htmlClass.replace(/( o-nav-sticky)|( tool-sticky)|( audio-sticky)|( sticky-element-on)|( tool-bottom)/g, '');
   if (typeof requestAnimationFrame === 'function') {
@@ -893,8 +902,9 @@ var eventScroll = window.attachEvent ? 'onscroll' : 'scroll';
 
 checkLanguageSwitch();
 
-// MARK: - disable sticky scroll on touch devices, 
-if (((gNavOffsetY > 30 && w > 490/* && isTouchDevice() === false*/) || document.getElementById('audio-placeholder'))) {
+// MARK: - Use pure CSS sticky when possible
+var supportStickyPosition = typeof CSS === 'function' && CSS.supports && CSS.supports("position", "sticky");
+if (((gNavOffsetY > 30 && w > 490 && supportStickyPosition === false) || document.getElementById('audio-placeholder'))) {
   try {
     stickyBottomPrepare();
     stickyAdsPrepare();
@@ -905,7 +915,6 @@ if (((gNavOffsetY > 30 && w > 490/* && isTouchDevice() === false*/) || document.
     addEvent(eventResize, function(){
         stickyBottomPrepare();
         stickyAdsPrepare();
-        //reloadBanners();
         setResizeClass();
         loadImages();
     });
@@ -918,10 +927,10 @@ if (((gNavOffsetY > 30 && w > 490/* && isTouchDevice() === false*/) || document.
   }
 } else {
   stickyBottomPrepare();
+  addStickyStyles();
   bodyHeight = getBodyHeight();
   addEvent(eventResize, function(){
       bodyHeight = getBodyHeight();
-      //reloadBanners();
       loadImages();
       setResizeClass();
   });

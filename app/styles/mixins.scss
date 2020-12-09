@@ -492,6 +492,28 @@
 		padding-left: 3*$defaultPadding/4;
 	}
 }
+@mixin HasSide {
+	.is-sticky-top {
+		position: sticky;
+		top: $navHeight;
+	}
+}
+@mixin FullNavigation {
+	.o-nav__placeholder {
+		position: sticky!important;
+		top: 0;
+	}
+	.is-sticky-top {
+		top: $navHeight + $subNavHeight;
+	}
+}
+@mixin HasNoHeader {
+	.has-no-header {
+		.is-sticky-top {
+			top: 0;
+		}
+	}
+}
 @mixin M {
 	.M3 {
 		width: 25%;
