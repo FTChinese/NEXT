@@ -43,63 +43,72 @@
 				<%else%>
 					<%$storyImageTop%>
 				<%/if%>
-				<%if $page_action != "user_comment"%>
-					<div class="story-action-placeholder" id="story-action-placeholder">
-						<div class="story-action">
-							<div class="action-inner">
-								<a class="action-icon icon-wechat P-hide" href="<%$wechatUrl%>" target="_blank"></a>
-								<a class="action-icon icon-weibo P-hide" href="<%$sinaUrl%>" target="_blank"></a>
-								<a class="action-icon icon-linkedin P-hide" href="<%$linkedInUrl%>" target="_blank"></a>
-								<a class="action-icon icon-twitter P-hide" href="<%$twitterUrl%>" target="_blank"></a>
-								<a class="action-icon icon-facebook P-hide" href="<%$facebookUrl%>" target="_blank"></a>
-								<%$languageOptions%>
-								<%$buyButton%>
-								<%if $itemType == "story" || $itemType == "premium"%>
-									<div class="icon-right icon-save P-hide">
-										<button id="addfavlink<%$story.id%>">收藏</button>
-									</div>
-									<a class="icon-right icon-action icon-comments" href="/comments/index/<%$story.id%>" target="_blank"></a>
-									<a class="icon-right icon-action icon-print P-hide" onclick="window.print()" target="_blank"></a>
-								<%/if%>
-								<a class="icon-right icon-action icon-font-size" onclick="showOverlay('font-setting')"></a>
-								<a class="icon-right icon-action icon-share P-hide" onclick="showOverlay('share-legacy')"></a>
-								<div class="progress-container">
-									<svg
-									class="progress-ring"
-									height="40"
-									width="40"
-									>
-									<circle
-										class="progress-ring__circle"
-										stroke-width="2"
-										stroke="transparent"
-										r="18"
-										cx="20"
-										cy="20"
-									/>
-									</svg>
-									<svg class="pregress-tick" width="24" height="24" viewBox="0 0 24 24">
-										<path fill="none" d="M0 0h24v24H0z"/><path class="progress-tick-path" fill="transparent" d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
-									</svg>
+			</div>
+			
+
+
+
+			<%if $page_action != "user_comment"%>
+			<div class="story-tools">
+				<div class="story-action-placeholder" id="story-action-placeholder">
+					<div class="story-action">
+						<div class="action-inner">
+							<a class="action-icon icon-wechat P-hide" href="<%$wechatUrl%>" target="_blank"></a>
+							<a class="action-icon icon-weibo P-hide" href="<%$sinaUrl%>" target="_blank"></a>
+							<a class="action-icon icon-linkedin P-hide" href="<%$linkedInUrl%>" target="_blank"></a>
+							<a class="action-icon icon-twitter P-hide" href="<%$twitterUrl%>" target="_blank"></a>
+							<a class="action-icon icon-facebook P-hide" href="<%$facebookUrl%>" target="_blank"></a>
+							<%$languageOptions%>
+							<%$buyButton%>
+							<%if $itemType == "story" || $itemType == "premium"%>
+								<div class="icon-right icon-save P-hide">
+									<button id="addfavlink<%$story.id%>">收藏</button>
 								</div>
+								<a class="icon-right icon-action icon-comments" href="/comments/index/<%$story.id%>" target="_blank"></a>
+								<a class="icon-right icon-action icon-print P-hide" onclick="window.print()" target="_blank"></a>
+							<%/if%>
+							<a class="icon-right icon-action icon-font-size" onclick="showOverlay('font-setting')"></a>
+							<a class="icon-right icon-action icon-share P-hide" onclick="showOverlay('share-legacy')"></a>
+							<div class="progress-container">
+								<svg
+								class="progress-ring"
+								height="40"
+								width="40"
+								>
+								<circle
+									class="progress-ring__circle"
+									stroke-width="2"
+									stroke="transparent"
+									r="18"
+									cx="20"
+									cy="20"
+								/>
+								</svg>
+								<svg class="pregress-tick" width="24" height="24" viewBox="0 0 24 24">
+									<path fill="none" d="M0 0h24v24H0z"/><path class="progress-tick-path" fill="transparent" d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+								</svg>
 							</div>
 						</div>
 					</div>
-				<%/if%>
-				<%if !preg_match("/视频直播/is",$keys)%>
-					<div class="story-byline">
-						<%if $page_action == "user_comment"%>
-							<div class="story-time"><%$comments_count%></div>
-						<%else%>
-							<span class="story-time" data-time="<%$timeForStory%>"><%$storyTime%></span>
-							<span class="story-author"><%$storyAuthor%></span>
-						<%/if%>
-					</div>
-				<%/if%>
-				<%if $smarty.get.page != "" && $smarty.get.page != 1 && !in_array("单页",$story.tag)%>
-					<%include file="next/partials/pagination.html"%>
+				</div>
+			</div>
+			<%/if%>
+			<%if !preg_match("/视频直播/is",$keys)%>
+			<div class="story-byline">
+				<%if $page_action == "user_comment"%>
+					<div class="story-time"><%$comments_count%></div>
+				<%else%>
+					<span class="story-time" data-time="<%$timeForStory%>"><%$storyTime%></span>
+					<span class="story-author"><%$storyAuthor%></span>
 				<%/if%>
 			</div>
+			<%/if%>
+			<%if $smarty.get.page != "" && $smarty.get.page != 1 && !in_array("单页",$story.tag)%>
+				<%include file="next/partials/pagination.html"%>
+			<%/if%>
+
+
+
 			<%if $page_action == "user_comment"%>
 				<div class="story-body">
 					<div id="story-body-container">
