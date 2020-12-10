@@ -522,6 +522,7 @@ function stickyBottomPrepare() {
   viewablesInit();
   if (document.querySelector('.header-container') === null) {
     document.documentElement.classList.add('has-no-header');
+    htmlClass = document.documentElement.className;
   }
 }
 
@@ -537,10 +538,17 @@ function addStickyStyles() {
   }
 }
 
+function addAudioStickyStyles() {
+  var audioPlaceHolder = document.getElementById('audio-placeholder');
+  if (audioPlaceHolder) {
+    audioPlaceHolder.classList.add('is-sticky-top');
+  }
+}
+
 function stickyBottomUpdate() {
 
   // MARK: - It's important to clean all the existing known classes
-  var htmlClassNew = htmlClass.replace(/( o-nav-sticky)|( tool-sticky)|( audio-sticky)|( sticky-element-on)|( tool-bottom)/g, '');
+  var htmlClassNew = htmlClass.replace(/( o-nav-sticky)|( tool-sticky)|( sticky-element-on)|( tool-bottom)/g, '');
   if (typeof requestAnimationFrame === 'function') {
     requestAnimationFrame(stickyBottomUpdate);
   }
@@ -548,23 +556,12 @@ function stickyBottomUpdate() {
     //language switch
   if  (gShowLanguageSwitchOnly === false) {
     if (typeof gLanguageSwitchOffsetY === 'number' && gLanguageSwitchOffsetY > gNavOffsetY) {
-      if (scrollTop + gNavOffsetY >= gLanguageSwitchOffsetY ) {
-        //console.log ('should show language switch');
-        htmlClassNew += ' audio-sticky';
-      }
+
     } else {
       if (scrollTop >= gNavOffsetY) {
         htmlClassNew += ' o-nav-sticky';
       }
     }
-    //sticky audio player
-    if (typeof gAudioOffsetY === 'number' && gAudioOffsetY > gNavOffsetY) {
-      if (scrollTop + gNavOffsetY >= gAudioOffsetY ) {
-        htmlClassNew += ' audio-sticky';
-      }
-    }
-  } else {
-    htmlClassNew += ' audio-sticky';
   }
 
   if (typeof gStoryContentOffsetY === 'number') {
@@ -746,7 +743,7 @@ function checkLanguageSwitch() {
     hasLanguageSwitch = false;
   }
   if ((fromInSite || isTouchDevice()) && hasLanguageSwitch) {
-    document.documentElement.className += ' show-language-switch-only audio-sticky';
+    document.documentElement.className += ' show-language-switch-only';
     gShowLanguageSwitchOnly = true;
   } else {
     gShowLanguageSwitchOnly = false;
@@ -905,10 +902,10 @@ var eventResize = window.attachEvent ? 'onresize' : 'resize';
 var eventScroll = window.attachEvent ? 'onscroll' : 'scroll';
 
 checkLanguageSwitch();
-
+addAudioStickyStyles();
 // MARK: - Use pure CSS sticky when possible
 var supportStickyPosition = typeof CSS === 'function' && CSS.supports && CSS.supports('position', 'sticky');
-if (((gNavOffsetY > 30 && w > 490 && supportStickyPosition === false) || document.getElementById('audio-placeholder'))) {
+if (gNavOffsetY > 30 && w > 490 && supportStickyPosition === false) {
   try {
     stickyBottomPrepare();
     stickyAdsPrepare();

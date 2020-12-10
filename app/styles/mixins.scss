@@ -498,6 +498,17 @@
 		top: $navHeight;
 	}
 }
+@mixin AudioStickyTop {
+	.audio-placeholder.is-sticky-top {
+		position: sticky;
+		top: $navHeight;
+	}
+	.has-no-header {
+		.audio-placeholder.is-sticky-top {
+			top: 0;
+		}
+	}
+}
 @mixin FullNavigation {
 	.o-nav__placeholder {
 		position: sticky!important;
