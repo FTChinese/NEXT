@@ -526,9 +526,14 @@ function stickyBottomPrepare() {
 }
 
 function addStickyStyles() {
+  // MARK: - If this is run, it means the browser supports position sticky. Then it must support classList. 
   var sideContainers = document.querySelectorAll('.side-container');
   for (var i=0; i<sideContainers.length; i++) {
     sideContainers[i].classList.add('is-sticky-top');
+  }
+  var storyContainer = document.querySelector('.story-container');
+  if (storyContainer) {
+    storyContainer.classList.add('show-sticky-tools');
   }
 }
 
