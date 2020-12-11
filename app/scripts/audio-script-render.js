@@ -103,7 +103,7 @@ function showHightlight(k, l) {
 	var headerEle = document.querySelector('header');
 	var bottomFixedHeight = 0;
 	if (headerEle) {
-		newScrollY -= 131;
+		newScrollY -= 136;
 	}
 	if (document.documentElement.className.indexOf('is-ftc-app')>=0 && currentAudio) {
 		bottomFixedHeight = 44;
