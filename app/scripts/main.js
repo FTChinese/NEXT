@@ -732,23 +732,23 @@ function validHTMLCode() {
   }
 }
 
-function checkLanguageSwitch() {
-  var referralUrl = document.referrer || '';
-  var hostName = window.location.hostname || '';
-  var fromInSite = (referralUrl !== '' && hostName !== '' && referralUrl.indexOf(hostName) >= 0);
-  var hasLanguageSwitch;
-  if (document.querySelector('.language-switch-inner')) {
-    hasLanguageSwitch = true;
-  } else {
-    hasLanguageSwitch = false;
-  }
-  if ((fromInSite || isTouchDevice()) && hasLanguageSwitch) {
-    document.documentElement.className += ' show-language-switch-only';
-    gShowLanguageSwitchOnly = true;
-  } else {
-    gShowLanguageSwitchOnly = false;
-  }
-}
+// function checkLanguageSwitch() {
+//   var referralUrl = document.referrer || '';
+//   var hostName = window.location.hostname || '';
+//   var fromInSite = (referralUrl !== '' && hostName !== '' && referralUrl.indexOf(hostName) >= 0);
+//   var hasLanguageSwitch;
+//   if (document.querySelector('.language-switch-inner')) {
+//     hasLanguageSwitch = true;
+//   } else {
+//     hasLanguageSwitch = false;
+//   }
+//   if ((fromInSite || isTouchDevice()) && hasLanguageSwitch) {
+//     document.documentElement.className += ' show-language-switch-only';
+//     gShowLanguageSwitchOnly = true;
+//   } else {
+//     gShowLanguageSwitchOnly = false;
+//   }
+// }
 
 // MARK: - Check if a dom is actually hidden
 function isHidden(el) {
@@ -901,7 +901,7 @@ var addEvent =  window.attachEvent||window.addEventListener;
 var eventResize = window.attachEvent ? 'onresize' : 'resize';
 var eventScroll = window.attachEvent ? 'onscroll' : 'scroll';
 
-checkLanguageSwitch();
+// checkLanguageSwitch();
 addAudioStickyStyles();
 // MARK: - Use pure CSS sticky when possible
 var supportStickyPosition = typeof CSS === 'function' && CSS.supports && CSS.supports('position', 'sticky');
