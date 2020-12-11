@@ -511,11 +511,12 @@
 }
 @mixin FullNavigation {
 	.o-nav__placeholder {
-		position: sticky!important;
+		position: sticky;
 		top: 0;
 	}
 	.is-sticky-top {
 		top: $navHeight + $subNavHeight;
+		z-index: 1;
 	}
 }
 @mixin HasNoHeader {

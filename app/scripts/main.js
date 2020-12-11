@@ -42,7 +42,6 @@ var videos = document.querySelectorAll('figure.loading-video');
 var videosLazy = [];
 var videosLoadStatus = 0;
 var viewables = [];//存储要记录track In View的元素
-var gShowLanguageSwitchOnly;
 
 function findTop(obj) {
   var curtop = 0;
@@ -554,15 +553,14 @@ function stickyBottomUpdate() {
   }
 
     //language switch
-  if  (gShowLanguageSwitchOnly === false) {
-    if (typeof gLanguageSwitchOffsetY === 'number' && gLanguageSwitchOffsetY > gNavOffsetY) {
+  if (typeof gLanguageSwitchOffsetY === 'number' && gLanguageSwitchOffsetY > gNavOffsetY) {
 
-    } else {
-      if (scrollTop >= gNavOffsetY) {
-        htmlClassNew += ' o-nav-sticky';
-      }
+  } else {
+    if (scrollTop >= gNavOffsetY) {
+      htmlClassNew += ' o-nav-sticky';
     }
   }
+  
 
   if (typeof gStoryContentOffsetY === 'number') {
     // console.log ('scrollTop: ' + scrollTop + ', gShareOffsetHeight: ' + gShareOffsetHeight + ', gStoryContentOffsetY: ' + gStoryContentOffsetY + ', gStoryContentOffsetHeight: ' + gStoryContentOffsetHeight);
@@ -704,9 +702,9 @@ function stickyBottom() {
 
 
 function setResizeClass() {
-  if (htmlClass.indexOf(' resized') < 0 && gShowLanguageSwitchOnly === false) {
-    htmlClass += ' resized';
-    document.documentElement.className = htmlClass;
+  if (htmlClass.indexOf(' resized') < 0) {
+    document.documentElement.className += ' resized';
+    htmlClass = document.documentElement.className;
   }
 }
 
@@ -732,23 +730,18 @@ function validHTMLCode() {
   }
 }
 
-// function checkLanguageSwitch() {
-//   var referralUrl = document.referrer || '';
-//   var hostName = window.location.hostname || '';
-//   var fromInSite = (referralUrl !== '' && hostName !== '' && referralUrl.indexOf(hostName) >= 0);
-//   var hasLanguageSwitch;
-//   if (document.querySelector('.language-switch-inner')) {
-//     hasLanguageSwitch = true;
-//   } else {
-//     hasLanguageSwitch = false;
-//   }
-//   if ((fromInSite || isTouchDevice()) && hasLanguageSwitch) {
-//     document.documentElement.className += ' show-language-switch-only';
-//     gShowLanguageSwitchOnly = true;
-//   } else {
-//     gShowLanguageSwitchOnly = false;
-//   }
-// }
+function checkLanguageSwitch() {
+  var hasLanguageSwitch;
+  if (document.querySelector('.language-switch-inner')) {
+    hasLanguageSwitch = true;
+  } else {
+    hasLanguageSwitch = false;
+  }
+  if (hasLanguageSwitch) {
+    document.documentElement.className += ' has-language-switch';
+    
+  }
+}
 
 // MARK: - Check if a dom is actually hidden
 function isHidden(el) {
@@ -901,7 +894,7 @@ var addEvent =  window.attachEvent||window.addEventListener;
 var eventResize = window.attachEvent ? 'onresize' : 'resize';
 var eventScroll = window.attachEvent ? 'onscroll' : 'scroll';
 
-// checkLanguageSwitch();
+checkLanguageSwitch();
 addAudioStickyStyles();
 // MARK: - Use pure CSS sticky when possible
 var supportStickyPosition = typeof CSS === 'function' && CSS.supports && CSS.supports('position', 'sticky');
