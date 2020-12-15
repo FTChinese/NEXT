@@ -376,34 +376,59 @@ href="http://www.ftchinese.com" target="_blank"
 				<%else%>
 					<%assign var="itemLead" value=$item.longlead|default:$item.shortlead|default:$item.clongleadbody|default:$item.cshortleadbody%>
 				<%/if%>
-				<div style="line-height:1.618; " class="item-container">
-				    <table width="100%" cellpadding="0" cellspacing="0" style="border-bottom:1px solid #E9DECF; line-height:1.618;">
-				        <tr><td class="lineH1" style="height: 5px; font-size: 5px; line-height: 5px; padding: 0;"> </td></tr>
-				        <tr>
-				            <td class="SContent cover" style="font-size:14px;line-height:23px;color:#505050;">
-				                <div class="lineH1_4" style="line-height:40px;font-size:25px;">
-				                    <a class="headLine" style="font-weight:bold; text-decoration:none; color:#111;" <%$itemHref%>><%$itemHeadline%></a>
-								</div>
-								<%if $itemImage != ""%>
-									<table cellpadding="0" cellspacing="0" align="left"<%$imageClass%>>
-										<tr><td class="lineH1 imgSpace" style="height: 6px; font-size: 0px; line-height: 5px; padding: 0;"> </td></tr>
-										<tr>
-											<td>
-											<a class="coverImgLink" <%$itemHref%>>
-												<img src="https://thumbor.ftacademy.cn/unsafe/<%$imageWidth%>x<%$imageHeight%>/<%$itemImage|replace:"/upload/":"/"%>" border="0" style="width:<%$imageWidth%>px;" align="left" width="<%$imageWidth%>"/>
-											</a>
-											</td>
-											<td style="width:10px"> </td>
-										</tr>
-										<tr><td class="lineH1 imgSpace" style="height: 5px; font-size: 0px; line-height: 5px; padding: 0;"> </td></tr>
-									</table>
-								<%/if%>
-								<%$itemLead|nl2br%>
-				            </td>
-				        </tr>
-				        <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;"> </td></tr>
-				    </table>
-				</div>
+				<%if $list.ShowBodyMail == "yes"%>
+					<div style="line-height:1.618; " class="item-container">
+						<table width="100%" cellpadding="0" cellspacing="0" style="border-bottom:1px solid #E9DECF; line-height:1.618;">
+							<tr><td class="lineH1" style="height: 5px; font-size: 5px; line-height: 5px; padding: 0;"> </td></tr>
+							<tr>
+								<td class="SContent cover" style="font-size:14px;line-height:23px;color:#505050;">
+									<div class="lineH1_4" style="line-height:40px;font-size:25px;">
+										<a class="headLine" style="font-weight:bold; text-decoration:none; color:#111;" <%$itemHref%>><%$itemHeadline%></a>
+									</div>
+									<%if $itemImage != ""%>
+										<div>
+											<img src="<%$itemImage|replace:"/upload/":"/"%>" border="0" align="left" width="<%$imageWidth%>"/>
+										</div>
+									<%/if%>
+									<%assign var="stories" value=$storymodel->get_story_by_field_search($itemId,0,1,999999999,10800)%>
+									<%assign var="story" value=$stories[0]%>
+									<%assign var="storyBody" value=$story.cbody|regex_replace:"/<p>[_-]+<\/p>/":"<hr/><br/>"%>
+									<%$storyBody%>
+								</td>
+							</tr>
+							<tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;"> </td></tr>
+						</table>
+					</div>
+				<%else%>
+					<div style="line-height:1.618; " class="item-container">
+						<table width="100%" cellpadding="0" cellspacing="0" style="border-bottom:1px solid #E9DECF; line-height:1.618;">
+							<tr><td class="lineH1" style="height: 5px; font-size: 5px; line-height: 5px; padding: 0;"> </td></tr>
+							<tr>
+								<td class="SContent cover" style="font-size:14px;line-height:23px;color:#505050;">
+									<div class="lineH1_4" style="line-height:40px;font-size:25px;">
+										<a class="headLine" style="font-weight:bold; text-decoration:none; color:#111;" <%$itemHref%>><%$itemHeadline%></a>
+									</div>
+									<%if $itemImage != ""%>
+										<table cellpadding="0" cellspacing="0" align="left"<%$imageClass%>>
+											<tr><td class="lineH1 imgSpace" style="height: 6px; font-size: 0px; line-height: 5px; padding: 0;"> </td></tr>
+											<tr>
+												<td>
+												<a class="coverImgLink" <%$itemHref%>>
+													<img src="https://thumbor.ftacademy.cn/unsafe/<%$imageWidth%>x<%$imageHeight%>/<%$itemImage|replace:"/upload/":"/"%>" border="0" style="width:<%$imageWidth%>px;" align="left" width="<%$imageWidth%>"/>
+												</a>
+												</td>
+												<td style="width:10px"> </td>
+											</tr>
+											<tr><td class="lineH1 imgSpace" style="height: 5px; font-size: 0px; line-height: 5px; padding: 0;"> </td></tr>
+										</table>
+									<%/if%>
+									<%$itemLead|nl2br%>
+								</td>
+							</tr>
+							<tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;"> </td></tr>
+						</table>
+					</div>
+				<%/if%>
 				<%if $s == 0 && $l == 0 && $i ==0 && $smarty.get.to != "vip" && $smarty.get.to != "iosapp" && $smarty.get.to != "noneiosapp"%>
 					<%assign var="adPositionCode" value="mpu-1"%>
 					<%assign var="adWrapper" value="weekly-1"%>
