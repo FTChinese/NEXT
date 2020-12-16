@@ -8,12 +8,25 @@
 	<%assign var="mainDomain" value="https://www.chineseft.com/"%>
 	<%assign var="registerDomain" value="https://user.chineseft.com/"%>
 <%/if%>
+
+<%assign var="foundDomain" value="no"%>
+<%foreach from=$p.sections item=section%>
+	<%if $section.type == "MailTracking" && $foundDomain == "no"%>
+		<%assign var="mainDomain" value=$section.domain%>
+		<%if !preg_match("/\/$/is",$mainDomain)%>
+			<%assign var="mainDomain" value="`$mainDomain`/"%>
+		<%/if%>
+		<%assign var="registerDomain" value="https://user.chineseft.com/"%>
+		<%assign var="foundDomain" value="yes"%>
+	<%/if%>
+<%/foreach%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
 <head>
 <style>
 * {padding:0;margin:0;border:0;}
-.lineH{line-height: 1.618 !important;}
+.lineH, p{line-height: 1.618 !important;}
 .lineH1{line-height: 1 !important;}
 .lineH1_2{line-height: 1.2 !important;}
 .lineH1_4{line-height: 1.4 !important;}
@@ -248,6 +261,9 @@ href="http://www.ftchinese.com" target="_blank"
 <%assign var="ccode" value=""%>
 <%assign var="discountCode" value=""%>
 <%assign var="s" value=0%>
+
+
+
 <%foreach from=$p.sections item=section%>
     <%if $section.type == "block"%>
     	<%assign var="l" value=0%>
@@ -381,19 +397,24 @@ href="http://www.ftchinese.com" target="_blank"
 						<table width="100%" cellpadding="0" cellspacing="0" style="border-bottom:1px solid #E9DECF; line-height:1.618;">
 							<tr><td class="lineH1" style="height: 5px; font-size: 5px; line-height: 5px; padding: 0;"> </td></tr>
 							<tr>
-								<td class="SContent cover" style="font-size:14px;line-height:23px;color:#505050;">
+								<td class="SContent cover" style="font-size:18px;line-height:23px;color:#333333;">
 									<div class="lineH1_4" style="line-height:40px;font-size:25px;">
 										<a class="headLine" style="font-weight:bold; text-decoration:none; color:#111;" <%$itemHref%>><%$itemHeadline%></a>
 									</div>
+									<br>
 									<%if $itemImage != ""%>
 										<div>
-											<img src="<%$itemImage|replace:"/upload/":"/"%>" border="0" align="left" width="<%$imageWidth%>"/>
+											<img src="<%$itemImage|replace:"/upload/":"/"%>" border="0"/>
 										</div>
+										<br>
 									<%/if%>
-									<%assign var="stories" value=$storymodel->get_story_by_field_search($itemId,0,1,999999999,10800)%>
-									<%assign var="story" value=$stories[0]%>
+									<%assign var="story" value=$storymodel->getStoryInfo($itemId)%>
+									<%assign var="storyAuthor" value="`$story.cbyline_description` `$story.cauthor`"%>
+									<div style="color: #505050;"><%$storyAuthor%></div>
+									<br>
 									<%assign var="storyBody" value=$story.cbody|regex_replace:"/<p>[_-]+<\/p>/":"<hr/><br/>"%>
-									<%$storyBody%>
+									<%$storyBody|nl2br%>
+									<br>
 								</td>
 							</tr>
 							<tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;"> </td></tr>
@@ -728,7 +749,23 @@ href="http://www.ftchinese.com" target="_blank"
 </tr>
 </table>
 </div>
-<%include file="include/email/tracking.html"%>
+
+
+<%assign var="foundDomain" value="no"%>
+<%foreach from=$p.sections item=section%>
+	<%if $section.type == "MailTracking"%>
+		<%assign var="mainDomain" value=$section.domain%>
+		<%if !preg_match("/\/$/is",$mainDomain)%>
+			<%assign var="mainDomain" value="`$mainDomain`/"%>
+		<%/if%>
+		<%assign var="foundDomain" value="yes"%>
+		<img src="<%$mainDomain%>ga.php?utmac=MO-1608715-1&utmn=<%$smarty.now|date_format:"%G%m%d%H"%>&utmr=-&utmp=<%"`$section.path`?source=email"|escape:'url'%>&utmdt=<%$section.title%>&guid=ON" />
+	<%/if%>
+<%/foreach%>
+<%if $foundDomain == "no"%>
+	<%include file="include/email/tracking.html"%>
+<%/if%>
+
 <%if $p.meta.audiencePixelTag != ""%>
 	<img src="<%$p.meta.audiencePixelTag%>" width=1 height=1 border=0/>
 <%/if%>
