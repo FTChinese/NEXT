@@ -472,7 +472,9 @@
 										<%assign var="itemTagLink" value=$oneTag.link%>
 										<%assign var="trackLink" value=$oneTag.link%>
 									<%/if%>
-									<script>gtag('config', gaMeasurementId, {'page_path': '<%$trackLink%>?from=home'});</script>
+									<%if date("Ymd",$smarty.now) < 20210101%>
+										<script>gtag('config', gaMeasurementId, {'page_path': '<%$trackLink%>?from=home'});</script>
+									<%/if%>
 									<%if $oneTag.title != ""%>
 										<%assign var="itemTagTitle" value=$oneTag.title%>
 									<%/if%>
