@@ -467,11 +467,12 @@
 									<%assign var="foundSponsorTag" value="yes"%>
 									<%assign var="hasFoundSponsorInfo" value="yes"%>
 									<%assign var="tagImage" value=$oneTag.imageHighlightBox%>
-									<!--oneTag: <%$oneTag|@print_r%>-->
+									<%assign var="trackLink" value="/tag/`$oneTag.tag`"%>
 									<%if $oneTag.link != ""%>
 										<%assign var="itemTagLink" value=$oneTag.link%>
-										<script>gtag('config', gaMeasurementId, {'page_path': '<%$itemTagLink%>?from=home'});</script>
+										<%assign var="trackLink" value=$oneTag.link%>
 									<%/if%>
+									<script>gtag('config', gaMeasurementId, {'page_path': '<%$trackLink%>?from=home'});</script>
 									<%if $oneTag.title != ""%>
 										<%assign var="itemTagTitle" value=$oneTag.title%>
 									<%/if%>
