@@ -469,6 +469,7 @@
 									<%assign var="tagImage" value=$oneTag.imageHighlightBox%>
 									<%if $oneTag.link != ""%>
 										<%assign var="itemTagLink" value=$oneTag.link%>
+										<script>gtag('config', gaMeasurementId, {'page_path': '<%$itemTagLink%>?from=home'});</script>
 									<%/if%>
 									<%if $oneTag.title != ""%>
 										<%assign var="itemTagTitle" value=$oneTag.title%>
