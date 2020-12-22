@@ -496,6 +496,9 @@
 	.is-sticky-top {
 		position: sticky;
 		top: $navHeight;
+		&.home-right-rail-page {
+			top: -420px;
+		} 
 	}
 }
 @mixin AudioStickyTop {
@@ -519,16 +522,13 @@
 		z-index: 1;
 		&.home-right-rail-page {
 			top: -400px;
-		}
+		} 
 	}
 }
 @mixin HasNoHeader {
 	.has-no-header {
 		.is-sticky-top {
 			top: 0;
-			&.home-right-rail-app {
-				top: -265px;
-			}
 		}
 	}
 }
