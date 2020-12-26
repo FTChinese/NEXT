@@ -1208,7 +1208,16 @@ initProgressCircle();
     var allTimeStamps = document.querySelectorAll('[' + attributeName + ']');
     for (var i=0; i<allTimeStamps.length; i++) {
       var ele = allTimeStamps[i];
-      var pubdate = parseInt(ele.getAttribute(attributeName), 10);
+      var timeValue = ele.getAttribute(attributeName);
+      if (timeValue === undefined || timeValue === '') {
+        ele.innerHTML = '';
+        continue;
+      }
+      var pubdate = parseInt(timeValue, 10);
+      if (pubdate.isNaN) {
+        ele.innerHTML = '';
+        continue;
+      }
       var date = new Date();
       var nowDate = date.getTime() / 1000;
       var timeDiff = nowDate - pubdate;

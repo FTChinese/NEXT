@@ -1092,7 +1092,7 @@
 							<%assign var="itemT" value=""%>
 							<%*<!--MARK: - The data structure is so inconsistent that we have to handle it here. -->*%>
 							<%if $itemType == "interactive"%>
-								<%*<!--MARK: timeStamp if the interactive is dragged into list mannually, otherwise fileupdatetime from the API -->*%>
+								<%*<!--MARK: timeStamp if the interactive is dragged into list mannually, otherwise fileupdatetime from the API. If the feedType is all, you won't get the value because Video doesn't support this. -->*%>
 								<%assign var="itemT" value=$item.timeStamp|default:$item.fileupdatetime%>
 							<%elseif $list.float == "BiligualFullText"%>
 								<%assign var="itemT" value=$item.eskylineheadline|default:$item.fileupdatetime%>
