@@ -20,6 +20,11 @@
     <%/if%>
 <%/if%>
 
+<%*<!--MARK: event pages don't need the overlay-->*%>
+<%if preg_match("/rewired|event/is",$pageId) %>
+    <%assign var="requirelogin" value="no"%>
+<%/if%>
+
 <%assign var="p" value=$nextmodel->getPublishJson($pageId)|json_decode:true%>
 
 

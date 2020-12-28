@@ -1379,6 +1379,9 @@
 	<%assign var="cc_room_pass" value=$eshortleadbody%>
 <%/if%>
 
+<%if preg_match("/视频直播|活动页面|企业公告|线下活动|换脑/is", $keys)%>
+	<%assign var="requirelogin" value="no"%>
+<%/if%>
 
 <%assign var="storyBody" value=$story.cbody|default:$cbody%>
 <%assign var="storyBody" value=$storyBody|regex_replace:"/<p>[_-]+<\/p>/":"<hr/><br/>"%>
