@@ -847,7 +847,7 @@
 	<%assign var="topnav" value="home"%>
 	<%assign var="subnav" value="boomear"%>
 	<%assign var=breadcrum value="<a href=\"/m/corp/preview.html?pageid=boomear\">BoomEar艺术播客</a><button class=\"myft-follow plus\" data-tag=\"BoomEar艺术播客\" data-type=\"tag\">关注</button>"%>
-<%elseif preg_match("/英语电台/is",$keys)%>
+<%elseif preg_match("/英语电台|SpeedReadAudio/is",$keys)%>
 	<%assign var="topnav" value="english"%>
 	<%assign var="subnav" value="radio"%>
 	<%assign var=breadcrum value="<a href=\"/channel/radio.html\">FT英语电台</a><button class=\"myft-follow plus\" data-tag=\"英语电台\" data-type=\"tag\">关注</button>"%>
@@ -1233,7 +1233,7 @@
 
 <%if $interactiveType == "Speedread"%>
 	<%assign var="storyLead" value=$cshortleadbody%>
-<%elseif preg_match("/英语电台/is",$keys)%>
+<%elseif preg_match("/英语电台|SpeedReadAudio/is",$keys)%>
 	<%assign var="storyLead" value="`$elongleadbody`<br>`$clongleadbody`"%>
 <%elseif preg_match("/视频直播/is",$keys)%>
 	<%assign var="storyLead" value=$clongleadbody%>
@@ -1358,7 +1358,7 @@
 
 
 <%assign var="cc_vaddress" value=""%>
-<%if preg_match("/英语电台|视频直播/is",$keys) && $eskylinetext != "" && preg_match("/^[A-Za-z0-9]+$/is",$eskylinetext)%>
+<%if preg_match("/英语电台|视频直播|SpeedReadAudio/is",$keys) && $eskylinetext != "" && preg_match("/^[A-Za-z0-9]+$/is",$eskylinetext)%>
 	<%assign var="cc_vaddress" value=$eskylinetext%>
 <%/if%>
 
@@ -1510,7 +1510,7 @@
 			<%assign var="story_content" value=$story_content|regex_replace:"/[\r\t\n]+/":"</p><p>"%>
 			<%assign var="story_content" value="<p>`$story_content`</p>"%>
 		<%/if%>
-		<%if preg_match("/英语电台/is",$keys)%>
+		<%if preg_match("/英语电台|SpeedReadAudio/is",$keys)%>
 			<%assign var="storyHeadline" value="`$eheadline`<br>`$cheadline`"%>
 		<%else%>
 			<%assign var="storyHeadline" value=$eheadline|default:$cheadline%>
