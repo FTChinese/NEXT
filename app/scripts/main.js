@@ -1253,3 +1253,14 @@ initProgressCircle();
   } catch(ignore) {}
 })();
 
+
+setTimeout(function(){
+  if (typeof oAds !== 'object') {return;}
+  document.body.addEventListener('oAds.rendered',function(e){
+    if (!e.detail || e.detail.name !== 'mpu-right1') {return;}
+    // console.log(e.detail.gpt);
+    if (e.detail.gpt.isEmpty) {
+      document.documentElement.classList.add('mpu-right1-empty');
+    }
+  }, false);
+}, 100);
