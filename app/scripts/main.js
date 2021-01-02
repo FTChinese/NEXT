@@ -1260,7 +1260,7 @@ setTimeout(function(){
     if (!e.detail || e.detail.name !== 'mpu-right1') {return;}
     // console.log(e.detail.gpt);
     if (e.detail.gpt.isEmpty) {
-      document.documentElement.classList.add('mpu-right1-empty');
+      document.body.classList.add('mpu-right1-empty');
     }
   }, false);
 }, 100);
