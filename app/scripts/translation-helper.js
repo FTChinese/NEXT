@@ -40,15 +40,30 @@ function tidyHTML(html) {
 }
 
 function confirmTranslation(ele) {
-    if (ele.className.indexOf(' selected')>=0) {
-        return;
-    }
+    if (ele.className.indexOf(' selected')>=0) {return;}
     var text = ele.innerHTML;
     ele.classList.add('selected');
     ele.title = '';
     var finalTranslationEle = ele.parentNode.parentNode.querySelector('textarea');
     var prefix = (finalTranslationEle.value === '') ? '' : '\n\n';
-    finalTranslationEle.value += prefix + text;
+    var translatedText = prefix + text;
+    finalTranslationEle.value += translatedText;
+    var infoContainers = document.querySelectorAll('.info-container');
+    var originalText = ele.parentNode.parentNode.querySelector('.info-original');
+    // MARK: - You only need to translate once for the same phrase
+    for (var i=0; i < infoContainers.length; i++) {
+        var containerEle = infoContainers[i];
+        var textEle = containerEle.querySelector('textarea');
+        var originalEle = containerEle.querySelector('.info-original');
+        if (originalText.innerHTML !== originalEle.innerHTML || textEle.value !== '') {continue;}
+        textEle.value = translatedText;
+        var infoTranslations = containerEle.querySelectorAll('.info-translation');
+        for (var j=0; j<infoTranslations.length; j++) {
+            var translationEle = infoTranslations[j];
+            if (translationEle.innerHTML !== text) {continue;}
+            translationEle.classList.add('selected');
+        }
+    }
     var ea = ele.getAttribute('data-translation-index');
     gtag('event', ea, {'event_label': window.userName, 'event_category': 'Translation Helper', 'non_interaction': false});
 }
@@ -63,8 +78,6 @@ function start() {
         var englishEle = document.createElement('DIV');
         englishEle.innerHTML = englishText.value;
         var k = '';
-        var cheadlineForTranslation;
-        var clongleadbodyForTranslation;
         if (window.opener && window.opener.titles) {
             for (var j=0; j<window.opener.titles.length; j++) {
                 var info = window.opener.titles[j];
@@ -122,6 +135,21 @@ function start() {
     document.getElementById('translations').style.display = 'none';
     translationInfoEle.style.display = 'none';
     document.querySelector('.sidebar').style.display = 'grid';
+    // MARK: - If all three translations are the same, select directly
+    var containers = document.querySelectorAll('.info-container')
+    for (var m=0; m<containers.length; m++) {
+        var container = containers[m];
+        var translations = new Set();
+        var translationEles = container.querySelectorAll('.info-translation')
+        for (var n=0; n<translationEles.length; n++) {
+            var translation = translationEles[n];
+            translations.add(translation.innerHTML);
+        }
+        if (translations.size !== 1) {continue;}
+        var value = translationEles[0].innerHTML;
+        container.querySelector('textarea').value = value;
+        container.querySelector('.info-translation').classList.add('selected');
+    }
 }
 
 function trackFinishTimeAndClose() {
@@ -249,10 +277,10 @@ function finishTranslation() {
     trackFinishTimeAndClose();
 }
 
-if (window.opener) {
-    var englishText = window.opener.ebodyForTranslation || window.opener.document.getElementById('ebody').value;
+if (window.opener || translationTask) {
+    var englishText = translationTask.ebody || window.opener.ebodyForTranslation || window.opener.document.getElementById('ebody').value;
+    var translationText = translationTask.cbody || window.opener.cbodyForTranslation || window.opener.document.getElementById('cbody').value;
     document.getElementById('english-text').value = englishText;
-    var translationText = window.opener.cbodyForTranslation || window.opener.document.getElementById('cbody').value;
     if (/translations/.test(translationText)) {
         document.getElementById('translation-info').value = translationText;
     } else {
