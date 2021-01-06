@@ -278,8 +278,15 @@ function finishTranslation() {
 }
 
 if (window.opener || translationTask) {
-    var englishText = translationTask.ebody || window.opener.ebodyForTranslation || window.opener.document.getElementById('ebody').value;
-    var translationText = translationTask.cbody || window.opener.cbodyForTranslation || window.opener.document.getElementById('cbody').value;
+    var englishText;
+    var translationText;
+    if (typeof translationTask === 'object') {
+        englishText = translationTask.ebody;
+        translationText = translationTask.cbody;
+    } else {
+        englishText = window.opener.ebodyForTranslation || window.opener.document.getElementById('ebody').value;
+        translationText = window.opener.cbodyForTranslation || window.opener.document.getElementById('cbody').value;
+    }
     document.getElementById('english-text').value = englishText;
     if (/translations/.test(translationText)) {
         document.getElementById('translation-info').value = translationText;
