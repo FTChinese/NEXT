@@ -7,7 +7,27 @@
 	    height: .8em;
 	    background-position: 50% 50%;
 	    background-repeat: no-repeat;
-	    background-size: contain;
+		background-size: contain;
+	}
+	&.vip {
+		&:after {
+			content: '高端专享';
+			width: auto;
+			height: auto;
+			font-size: 12px;
+			line-height: 1em;
+			font-weight: 600;
+			text-align: center;
+			display: inline-block;
+			box-sizing: border-box;
+			// MARK: - Use a negative top margin so that the sign is visually aligned middle
+			margin: -4px 0 0 5px;
+			text-decoration: none;
+			padding: 3px 7px;
+			border: 1px solid transparent;
+			vertical-align: middle;
+			color: white;
+		}
 	}
 }
 .interactives {
@@ -19,10 +39,21 @@
 	&:after {
 		background-image: url(data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjNTU1NTU1IiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMCAwaDI0djI0SDB6IiBmaWxsPSJub25lIi8+PHBhdGggZD0iTTE4IDhoLTFWNmMwLTIuNzYtMi4yNC01LTUtNVM3IDMuMjQgNyA2djJINmMtMS4xIDAtMiAuOS0yIDJ2MTBjMCAxLjEuOSAyIDIgMmgxMmMxLjEgMCAyLS45IDItMlYxMGMwLTEuMS0uOS0yLTItMnptLTYgOWMtMS4xIDAtMi0uOS0yLTJzLjktMiAyLTIgMiAuOSAyIDItLjkgMi0yIDJ6bTMuMS05SDguOVY2YzAtMS43MSAxLjM5LTMuMSAzLjEtMy4xIDEuNzEgMCAzLjEgMS4zOSAzLjEgMy4xdjJ6Ii8+PC9zdmc+);
 	}
+	&.vip {
+		&:after {
+			background: black;
+			
+		}
+	}
 }
 .item-headline-link.unlocked, .item-headline .unlocked {
 	&:after {
 		background-image: url(data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjMjc3NTdiIiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMCAwaDI0djI0SDB6IiBmaWxsPSJub25lIi8+PHBhdGggZD0iTTEyIDE3YzEuMSAwIDItLjkgMi0ycy0uOS0yLTItMi0yIC45LTIgMiAuOSAyIDIgMnptNi05aC0xVjZjMC0yLjc2LTIuMjQtNS01LTVTNyAzLjI0IDcgNmgxLjljMC0xLjcxIDEuMzktMy4xIDMuMS0zLjEgMS43MSAwIDMuMSAxLjM5IDMuMSAzLjF2Mkg2Yy0xLjEgMC0yIC45LTIgMnYxMGMwIDEuMS45IDIgMiAyaDEyYzEuMSAwIDItLjkgMi0yVjEwYzAtMS4xLS45LTItMi0yem0wIDEySDZWMTBoMTJ2MTB6Ii8+PC9zdmc+);
+	}
+	&.vip {
+		&:after {
+			background: $darkGreen;
+		}
 	}
 }
 .no-svg {
