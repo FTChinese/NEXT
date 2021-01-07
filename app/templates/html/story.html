@@ -1665,6 +1665,9 @@
 <%elseif $tag != "" && preg_match("/FT研究院/is",$tag) && preg_match("/高端专享/is",$tag)%>
     <%assign var="privilegeType" value="PremiumIntelligence"%>
     <%assign var="privilegeSuffix" value=""%>
+<%elseif $tag != "" && preg_match("/FT商学院/is",$tag) && preg_match("/高端专享/is",$tag)%>
+    <%assign var="privilegeType" value="PremiumMBA"%>
+    <%assign var="privilegeSuffix" value=""%>
 <%elseif $smarty.server.REQUEST_URI|strstr:"archive"%>
     <%assign var="privilegeType" value="Archive"%>
     <%assign var="privilegeSuffix" value=""%>

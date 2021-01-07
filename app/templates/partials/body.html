@@ -76,7 +76,13 @@
                 <%*<!--MARK: Show a My Subsciption Block for paid subscribers in apps -->*%>
                 <%if $smarty.get.subscription == "member" || $smarty.get.subscription == "premium" || $smarty.get.subscription == "other"%>
                     <%assign var="reports" value=$storymodel->getPremiumStory(0, 4)%>
-                    <%assign var="interactives" value=$interactivemodel->get_interactive_by_field_search("(find_in_set('速读',tag) or find_in_set('英语电台',tag))",0,4,30,10800)%>
+
+                    <%assign var="interactives" value=""%>
+                    <%if $smarty.get.subscription == "premium"%>
+                        <%assign var="interactives" value=$interactivemodel->get_interactive_by_field_search("(find_in_set('速读',tag) or find_in_set('英语电台',tag) or find_in_set('高端专享', tag))",0,4,30,10800)%>
+                    <%else%>
+                        <%assign var="interactives" value=$interactivemodel->get_interactive_by_field_search("(find_in_set('速读',tag) or find_in_set('英语电台',tag))",0,4,30,10800)%>
+                    <%/if%>
                     <%if $subscriptionsWarningsShowed != "yes"%>
                         <%include file="next/partials/subscriptions-warnings.html"%>
                         <%assign var="subscriptionsWarningsShowed" value="yes"%>

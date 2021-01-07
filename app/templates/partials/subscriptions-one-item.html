@@ -78,7 +78,10 @@
 	<%/foreach%>
 <%/if%>
 
-
+<%assign var="vipClass" value=""%>
+<%if preg_match("/高端专享/is",$itemTagsString)%>
+	<%assign var="vipClass" value=" vip"%>
+<%/if%>
 
 <%if $itemSubType != ""%>
 	<%assign var="subTypeData" value=" data-sub-type=\"`$itemSubType`\""%>
@@ -98,7 +101,7 @@
 	<div class="item-container <%$itemClass%>">
 	    <div class="item-inner">
 	    	<%$itemMainTagLink%>
-	        <h2 class="item-headline"><a href="/m/corp/preview.html?pageid=<%$report.id%>&webview=ftcapp" class="item-headline-link unlocked" target=_blank><%$report.cheadline%></a></h2>
+	        <h2 class="item-headline"><a href="/m/corp/preview.html?pageid=<%$report.id%>&webview=ftcapp" class="item-headline-link unlocked<%$vipClass%>" target=_blank><%$report.cheadline%></a></h2>
 	        <a href="/m/corp/preview.html?pageid=<%$report.id%>&webview=ftcapp" class="image"><figure class="loading" data-url="<%$report.story_pic.cover|default:$report.story_pic.smallbutton|default:$report.story_pic.bigbutton|default:$report.story_pic.other%>"></figure></a>
 	        <div class="item-lead"><%$itemLead%></div>
 	        <div class="item-bottom"></div>
@@ -109,7 +112,7 @@
 	<div class="item-container item-container-app <%$itemClass%>" data-id="<%$report.id%>" data-type="<%$itemType%>"<%$audioData%><%$subTypeData%> data-keywords="<%$itemTagsString%>">
 	    <div class="item-inner">
 	    	<%$itemMainTagLink%>
-	        <h2 class="item-headline"><a class="item-headline-link unlocked" target=_blank><%$report.cheadline%></a></h2>
+	        <h2 class="item-headline"><a class="item-headline-link unlocked<%$vipClass%>" target=_blank><%$report.cheadline%></a></h2>
 	        <a class="image"><figure class="loading" data-url="<%$report.story_pic.cover|default:$report.story_pic.smallbutton|default:$report.story_pic.bigbutton|default:$report.story_pic.other%>"></figure></a>
 	        <div class="item-lead"><%$itemLead%></div>
 	        <div class="item-bottom"></div>
@@ -120,7 +123,7 @@
 		<div class="item-container <%$itemClass%>" <%$audioData%> data-keywords="<%$itemTagsString%>">
 		    <div class="item-inner">
 		    	<%$itemMainTagLink%>
-		    	<h2 class="item-headline"><a href="http://www.ftchinese.com/<%$itemType%>/<%$report.id%>?webview=ftcapp" class="item-headline-link unlocked" target=_blank><%$report.cheadline%></a></h2>
+		    	<h2 class="item-headline"><a href="http://www.ftchinese.com/<%$itemType%>/<%$report.id%>?webview=ftcapp" class="item-headline-link unlocked<%$vipClass%>" target=_blank><%$report.cheadline%></a></h2>
 		        <a class="image" href="http://www.ftchinese.com/<%$itemType%>/<%$report.id%>?webview=ftcapp"><figure class="loading" data-url="<%$report.story_pic.cover|default:$report.story_pic.smallbutton|default:$report.story_pic.other%>"></figure></a>
 		        <div class="item-lead"><a href="http://www.ftchinese.com/<%$itemType%>/<%$report.id%>?webview=ftcapp"><%$report.clongleadbody|default:$report.cshortleadbody%></a></div>
 		        <div class="item-bottom"></div>
