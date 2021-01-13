@@ -34,10 +34,7 @@
 <%assign var="itemTags" value=","|explode:$itemTagsString%>
 <%assign var="itemTag" value=$itemTags[0]%>
 
-<%*<!--
-<%if $report.ftid != ""%>
-	<%assign var="audioData" value=" data-eaudio=\"https://s3-us-west-2.amazonaws.com/ftlabs-audio-rss-bucket.prod/`$report.ftid`.mp3\""%>
--->*%>
+
 
 <%if preg_match("/.mp3$/is",$report.cshortleadbody)%>
 	<%assign var="audioUrl" value=$report.cshortleadbody%>
@@ -53,6 +50,7 @@
 <%assign var="itemSubType" value=""%>
 <%assign var="itemLead" value=$report.clongleadbody|default:$report.cshortleadbody%>
 <%assign var="itemMainTag" value=$itemTags[0]%>
+
 <%assign var="itemMainTagLink" value="<div class=\"item-tag\"><a href=\"/tag/`$itemMainTag`\">`$itemMainTag`</a></div>"%>
 
 <%if $infoForManualTags != ""%>
@@ -120,15 +118,15 @@
 	</div>
 <%else%>
 	<%*<!--MARK: Otherwise, just links -->*%>
-		<div class="item-container <%$itemClass%>" <%$audioData%> data-keywords="<%$itemTagsString%>">
-		    <div class="item-inner">
-		    	<%$itemMainTagLink%>
-		    	<h2 class="item-headline"><a href="http://www.ftchinese.com/<%$itemType%>/<%$report.id%>?webview=ftcapp" class="item-headline-link unlocked<%$vipClass%>" target=_blank><%$report.cheadline%></a></h2>
-		        <a class="image" href="http://www.ftchinese.com/<%$itemType%>/<%$report.id%>?webview=ftcapp"><figure class="loading" data-url="<%$report.story_pic.cover|default:$report.story_pic.smallbutton|default:$report.story_pic.other%>"></figure></a>
-		        <div class="item-lead"><a href="http://www.ftchinese.com/<%$itemType%>/<%$report.id%>?webview=ftcapp"><%$report.clongleadbody|default:$report.cshortleadbody%></a></div>
-		        <div class="item-bottom"></div>
-		    </div>
+	<div class="item-container <%$itemClass%>" <%$audioData%> data-keywords="<%$itemTagsString%>">
+		<div class="item-inner">
+			<%$itemMainTagLink%>
+			<h2 class="item-headline"><a href="http://www.ftchinese.com/<%$itemType%>/<%$report.id%>?webview=ftcapp" class="item-headline-link unlocked<%$vipClass%>" target=_blank><%$report.cheadline%></a></h2>
+			<a class="image" href="http://www.ftchinese.com/<%$itemType%>/<%$report.id%>?webview=ftcapp"><figure class="loading" data-url="<%$report.story_pic.cover|default:$report.story_pic.smallbutton|default:$report.story_pic.other%>"></figure></a>
+			<div class="item-lead"><a href="http://www.ftchinese.com/<%$itemType%>/<%$report.id%>?webview=ftcapp"><%$report.clongleadbody|default:$report.cshortleadbody%></a></div>
+			<div class="item-bottom"></div>
 		</div>
+	</div>
 <%/if%>
 
 
