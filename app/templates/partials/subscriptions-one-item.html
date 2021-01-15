@@ -34,9 +34,10 @@
 <%assign var="itemTags" value=","|explode:$itemTagsString%>
 <%assign var="itemTag" value=$itemTags[0]%>
 
-
-
-<%if preg_match("/.mp3$/is",$report.cshortleadbody)%>
+<%*<!--MARK: - For FT商学院 Videos，don't show audio part at all. -->*%>
+<%if preg_match("/FT商学院/is",$itemTagsString) && preg_match("/原声视频/is",$itemTagsString)%>
+	<%assign var="audioData" value=""%>
+<%elseif preg_match("/.mp3$/is",$report.cshortleadbody)%>
 	<%assign var="audioUrl" value=$report.cshortleadbody%>
 	<%assign var="audioData" value=" data-audio=\"`$audioUrl`\""%>
 <%elseif preg_match("/.mp3$/is",$report.eshortleadbody)%>

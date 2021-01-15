@@ -1342,7 +1342,7 @@
 <%assign var="storyImage" value=$storyImage|replace:"http://i.ftimg.net/picture/":"https://thumbor.ftacademy.cn/unsafe/picture/"%>
 <%assign var="storyImage" value=$storyImage|replace:"https://i.ftimg.net/picture/":"https://thumbor.ftacademy.cn/unsafe/picture/"%>
 <%*<!--MARK: - Requested by editorial team: For stories that are published before 2017, show no image for safety. Machine Translated stories that are marked as no copy right will also no show image.  -->*%>
-<%if ($itemType == "story" && date("Ymd",$pubDate) < 20170101) || preg_match("/NoCopyrightCover/is",$keys)%>
+<%if ($itemType == "story" && date("Ymd",$pubDate) < 20170101) || (preg_match("/NoCopyrightCover/is",$keys) && !preg_match("/FT商学院/is",$keys))%>
 	<%assign var="storyImage" value=""%>
 <%/if%>
 
@@ -1358,7 +1358,7 @@
 
 
 <%assign var="cc_vaddress" value=""%>
-<%if preg_match("/英语电台|视频直播|SpeedReadAudio/is",$keys) && $eskylinetext != "" && preg_match("/^[A-Za-z0-9]+$/is",$eskylinetext)%>
+<%if preg_match("/英语电台|视频直播|原声视频|SpeedReadAudio/is",$keys) && $eskylinetext != "" && preg_match("/^[A-Za-z0-9]+$/is",$eskylinetext)%>
 	<%assign var="cc_vaddress" value=$eskylinetext%>
 <%/if%>
 
@@ -1520,6 +1520,10 @@
 		<%else%>
 			<%assign var="storyAuthor" value="`$cbyline_description` `$cauthor`"%>
 		<%/if%>
+	<%elseif preg_match("/原声视频/is",$keys) && preg_match("/FT商学院/is",$keys)%>
+		<%assign var="story_content" value=""%>
+		<%assign var="storyHeadline" value=$cheadline%>
+		<%assign var="storyAuthor" value="`$cbyline_description` `$cauthor`"%>
 	<%elseif $page_action=="ce" && $isMachineTranslation == "yes"%>
 		<%*<!--MARK: - Output hidden texts for machine translations -->*%>
 		<%assign var="story_content" value="<textarea id=\"translations-ch\" style=\"display: none\">`$cbody`</textarea><textarea id=\"translations-en\" style=\"display: none\">`$ebody`</textarea>"%>
