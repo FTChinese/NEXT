@@ -291,7 +291,21 @@ if (window.opener || typeof window.subtitleInfo === 'object') {
     }
     // MARK: - Update english and translation text for video subtitles
     if (typeof window.subtitleInfo === 'object') {
-        
+        const infos = window.subtitleInfo.text;
+        var englishTexts = [];
+        var translations = [];
+        var n = 0;
+        for (const p of infos) {
+            for (const s of p) {
+                const id = `id-${n}`;
+                englishTexts.push(`<p id="${id}">${s.text}</p>`);
+                const t = s.translations || [];
+                translations.push({id: `${id}`, translations: t});
+                n += 1;
+            }
+        }
+        englishText = englishTexts.join('');
+        translationText = JSON.stringify(translations);
     }
     document.getElementById('english-text').value = englishText;
     if (/translations/.test(translationText)) {
