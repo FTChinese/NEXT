@@ -277,16 +277,14 @@ function finishTranslation() {
     trackFinishTimeAndClose();
 }
 
-if (window.opener || translationTask) {
+if (window.opener) {
     var englishText;
     var translationText;
-    if (typeof translationTask === 'object') {
-        englishText = translationTask.ebody;
-        translationText = translationTask.cbody;
-    } else {
-        englishText = window.opener.ebodyForTranslation || window.opener.document.getElementById('ebody').value;
-        translationText = window.opener.cbodyForTranslation || window.opener.document.getElementById('cbody').value;
-    }
+    englishText = window.opener.ebodyForTranslation || window.opener.document.getElementById('ebody').value;
+    translationText = window.opener.cbodyForTranslation || window.opener.document.getElementById('cbody').value;
+
+
+
     document.getElementById('english-text').value = englishText;
     if (/translations/.test(translationText)) {
         document.getElementById('translation-info').value = translationText;
@@ -294,7 +292,7 @@ if (window.opener || translationTask) {
         translations = translationText.split(splitter);
         var translationsHTML = '';
         for (var k=0; k<translations.length; k++) {
-            translationsHTML += '<textarea class="commentTextArea chinese-translation" width="100%" rows="3">' + translations[k] + '</textarea>'
+            translationsHTML += '<textarea class="commentTextArea chinese-translation" width="100%" rows="3">' + translations[k] + '</textarea>';
         }
         document.getElementById('translations').innerHTML = translationsHTML;
     }
