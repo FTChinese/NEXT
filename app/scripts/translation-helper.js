@@ -303,7 +303,7 @@ function finishTranslationForVideo() {
         if (cbodyEle) {
             cbodyEle.value = JSON.stringify(window.subtitleInfo);
             window.opener.document.getElementById('cshortleadbody').value = '';
-            window.opener.document.getElementById('tag').value = '原声视频,PendingSubtitle';
+            window.opener.document.getElementById('tag').value = 'FT商学院,原声视频,中英字幕,PendingSubtitle';
         }
     } else {
         console.log(window.subtitleInfo);
