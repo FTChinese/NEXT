@@ -1321,7 +1321,7 @@
 							<%/if%>
 
 							<%*<!--MARK: show the lock for paid content-->*%>
-							<%if $list.feedType == "premium" || $item.type == "premium" || $itemType == "premium" || $paywall == "1" || ($itemType == "interactive" && preg_match("/英语电台|速读|会员专享|高端专享/is",$itemTagsString)) || ($itemType == "story" && $timeMath > 60*60*24*7)%>
+							<%if $list.feedType == "premium" || $item.type == "premium" || $itemType == "premium" || $paywall == "1" || ($itemType == "interactive" && preg_match("/英语电台|速读|会员专享|高端专享/is",$itemTagsString)) || ($itemType == "story" && $timeMath > 60*60*24*2)%>
 								<%assign var="lockClass" value="locked"%>
 								<%if preg_match("/高端专享/is",$itemTagsString)%>
 									<%assign var="lockClass" value="locked vip"%>
