@@ -267,6 +267,10 @@ function finishTranslationForArticle() {
             window.opener.document.getElementById(id).disabled = false;
             window.opener.document.getElementById(id).value = value;
         }
+        var tagEle = window.opener.document.getElementById('tag');
+        if (tagEle) {
+            tagEle.value += ',AITranslation';
+        }
         var translationHelperButton = window.opener.document.querySelector('.translation-helper');
         if (translationHelperButton) {
             var finishTime = new Date();

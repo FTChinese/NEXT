@@ -1627,6 +1627,10 @@
 <%/if%>
 
 
+<%assign var="translationDisclaimer" value=""%>
+<%if preg_match("/AITranslation/is",$keys) && $page_action != "en"%>
+	<%assign var="translationDisclaimer" value="<div class=\"copyrightstatement-container\">为了第一时间为您呈现此信息，中文内容为机器翻译，仅供参考。</div>"%>
+<%/if%>
 
 <%if $story.original=="yes"%>
 	<%assign var=ftcteam value="Original"%>
