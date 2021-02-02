@@ -1445,7 +1445,6 @@
 
 
 <%assign var="itemId" value=$story.id|default:$id%>
-<%assign var="shareTitle" value="`$storyHeadline` - FT中文网"%>
 
 <%*<!--MARK: If the user is using big5.ftchinese.com, serverHost should be set to big5.ftchinese.com -->*%>
 <%assign var="serverHost" value="www.ftchinese.com"%>
@@ -1598,6 +1597,8 @@
 	<%assign var="storyBody" value=$storyBody|regex_replace:"/src=\"http:\/\/i\.ftimg\.net\//":"src=\"https://thumbor.ftacademy.cn/unsafe/"%>
 <%/if%>
 
+<%assign var="pageHeadline" value=$storyHeadline|replace:"<br>":" | "%>
+<%assign var="shareTitle" value="`$pageHeadline` - FT中文网"%>
 
 <%if $shouldReplaceInlineVideo == "yes"%>
 
@@ -1649,8 +1650,8 @@
 	<%assign var="copyrightStatement" value="版权声明：本文版权归FT中文网所有，未经允许任何单位或个人不得转载，复制或以任何其他方式使用本文全部或部分，侵权必究。"%>
 <%/if%>
 
-<%if $pageTrackerTag !== ""%>
-	<%assign var="pageTrackerTag" value="- `$pageTrackerTag` "%>
+<%if $pageTrackerTag != ""%>
+	<%assign var="pageTrackerTag" value=" - `$pageTrackerTag` "%>
 <%/if%>
 
 <%if preg_match("/FT漫画|视频直播|数据新闻/is",$keys) || preg_match("/full\-grid/is",$story_content) || ($page_action=="ce" && $isMachineTranslation == "yes")%>
@@ -1689,6 +1690,8 @@
 	<%assign var="privilegeEventLabel" value=$privilegeEventLabel|strip_tags|regex_replace:"/[\r\n\t\s]/":""%>
 	<%assign var=storyHeadlineClass value=" story-headline-large"%>
 <%/if%>
+
+
 <%if $smarty.get.bodyonly != "yes" || $isAndroidApp == "yes"%>
 <!DOCTYPE html>
 <html class="no-js core<%if $isAndroidApp == "yes"%> is-android-app<%/if%><%if $smarty.get.webview == "ftcapp"%> is-ftc-app<%/if%><%$fullGridClass%><%$useJustifyClass%><%if $smarty.get.device == "iPad"%> is-ipad-app<%/if%>">
@@ -1696,7 +1699,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta http-equiv="Content-Language" content="zh-CN"/>
-    <title><%$storyHeadline%> <%$pageTrackerTag%>- FT中文网</title>
+    <title><%$pageHeadline%> <%$pageTrackerTag%>- FT中文网</title>
     <META name=keywords content="<%$keys%>">
     <meta content="<%$p.meta.description%>" name="description"/>
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
@@ -1725,13 +1728,7 @@
     	<style><%include file="next/styles/main-story-job.css"%></style>
     <%elseif preg_match("/极致人生|视频直播/is",$keys)%>
     	<style><%include file="next/styles/main-story-luxury.css"%></style>
-			<script type="text/javascript">var pageTheme = 'luxury';</script>
-		<%* <!--
-		<%elseif  preg_match("/与FT共进下午茶/is",$keys) %>
-			<style><%include file="next/styles/main-story-afternoonteaWithFT.css"%></style>
-			<script type="text/javascript">console.log("afternoonteaWithFT");</script>
-		-->
-		*%>
+		<script type="text/javascript">var pageTheme = 'luxury';</script>
 	<%else%>
 		<style><%include file="next/styles/main-story.css"%></style>
 		<%if $interactiveType == "Speedread"%>

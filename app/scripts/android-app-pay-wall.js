@@ -53,12 +53,26 @@
         document.documentElement.className = window.htmlClass;
     }
 
+    var checked = false;
+
     function checkAndroidUser() {
-        if (typeof androidUserInfo === 'undefined') {
-            setTimeout(function() {checkAndroidUser();}, 10000);
+        setTimeout (function(){
+            var debugEle = document.querySelector('#android-text-debug');
+            if (debugEle) {
+                document.querySelector('#android-text-debug').innerHTML = 'k: ' + window.androidUserInfo;
+            }
+        }, 2000);
+        if (typeof androidUserInfo === 'undefined' && checked === false) {
+            setTimeout(function() {checkAndroidUser();}, 2000);
+            checked = true;
             return;
         }
-        payWall();			
+        if (typeof androidUserInfo === 'undefined') {
+            var dataObj = {paywall: 1};
+            handleSubscriptionInfo(dataObj);
+        } else {
+            payWall();
+        }
     }
     checkAndroidUser();
 
