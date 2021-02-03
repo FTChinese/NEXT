@@ -266,6 +266,15 @@
 <%/if%>
 <%*<!--MARK: Check the next model tag for sponsored special reports end-->*%>
 
+<%*<!--MARK: If a page is a marketing page, don't show overlay-->*%>
+<%if $p.sections%>
+    <%foreach from=$p.sections item=section%>
+        <%if $section.type == "FixedButtons"%>
+            <%assign var="requirelogin" value="no"%>
+        <%/if%>
+    <%/foreach%>
+<%/if%>
+
 
 <%if $smarty.get.bodyonly != "yes"%>
     <!DOCTYPE html>

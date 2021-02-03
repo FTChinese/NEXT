@@ -1270,7 +1270,7 @@
 	<%assign var="comments_count" value="评论总数: [`$count`条] <a href=\"/rss/hotusercomment\" target=\"_blank\" title=\"RSS 订阅热门读者评论\"><img src=\"https://dhgxl8qk9zgzr.cloudfront.net/img/rss.gif\" /></a>"%>
 <%/if%>
 
-<%assign var="shareLead" value=$storyLead%>
+<%assign var="shareLead" value=$storyLead|replace:"<br>":" | "%>
 <%if $storyLead != ""%>
 	<%assign var="storyLead" value="<div class=\"story-lead\">`$storyLead`</div>"%>
 <%/if%>
