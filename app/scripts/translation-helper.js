@@ -152,9 +152,47 @@ function start() {
     }
 }
 
+function recordTimeInfo(spentTime) {
+    if (!window.opener || typeof window.subtitleInfo === 'object') {return;}
+    if (window.opener.window.location.href.indexOf('/ia/') === -1) {return;}
+    var targetEle = window.opener.document.getElementById('eskylinetext');
+    if (!targetEle) {return;}
+    var allSelectedItems = document.querySelectorAll('[data-translation-index].selected');
+    var selections = {};
+    for (var i=0; i<allSelectedItems.length; i++) {
+        var item = allSelectedItems[i];
+        var index = item.getAttribute('data-translation-index');
+        if (!selections[index]) {selections[index] = 0;}
+        selections[index] += 1;
+    }
+    var infoContainers = document.querySelectorAll('.info-container');
+    var adoptionsCount = 0;
+    var chineseWordCount = 0;
+    var englishWordCount = 0;
+    for (var j=0; j<infoContainers.length; j++) {
+        var infoContainer = infoContainers[j];
+        var final = infoContainer.querySelector('textarea').value;
+        chineseWordCount += final.length;
+        var english = infoContainer.querySelector('.info-original').innerHTML;
+        englishWordCount += english.length;
+        var foundMatch = false;
+        var translationOptions = infoContainer.querySelectorAll('.info-translation');
+        for (var m=0; m<translationOptions.length; m++) {
+            if (final !== translationOptions[m].innerHTML) {continue;}
+            foundMatch = true;
+            break;
+        }
+        if (foundMatch) {adoptionsCount += 1;}
+    }
+    var seconds = Math.round(spentTime/1000);
+    var result = {seconds: seconds, adopt: adoptionsCount, total: infoContainers.length, chinese: chineseWordCount, english: englishWordCount, translator: window.userName};
+    window.opener.document.getElementById('eskylinetext').value = JSON.stringify(result);
+}
+
 function trackFinishTimeAndClose() {
     var finishTime = new Date();
     var spentTime = Math.round(finishTime.getTime() - startTime.getTime());
+    recordTimeInfo(spentTime);
     gtag('event', 'timing_complete', {
         'name' : 'finish',
         'value' : spentTime,
