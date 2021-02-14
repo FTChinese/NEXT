@@ -156,7 +156,8 @@ function recordTimeInfo(spentTime) {
     if (!window.opener || typeof window.subtitleInfo === 'object') {return;}
     if (window.opener.window.location.href.indexOf('/ia/') === -1) {return;}
     var targetEle = window.opener.document.getElementById('eskylinetext');
-    if (!targetEle) {return;}
+    // MARK: - Check if the target input is already used by other purposes. 
+    if (!targetEle || targetEle.value !== '') {return;}
     var allSelectedItems = document.querySelectorAll('[data-translation-index].selected');
     var selections = {};
     for (var i=0; i<allSelectedItems.length; i++) {
