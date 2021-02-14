@@ -187,7 +187,6 @@ function recordTimeInfo(spentTime) {
     var seconds = Math.round(spentTime/1000);
     var result = {seconds: seconds, adopt: adoptionsCount, total: infoContainers.length, chinese: chineseWordCount, english: englishWordCount, translator: window.userName};
     window.opener.document.getElementById('eskylinetext').value = JSON.stringify(result);
-    window.opener.document.getElementById('tag').value += ',MT_Counted';
 }
 
 function trackFinishTimeAndClose() {
