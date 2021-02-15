@@ -8,7 +8,20 @@ if (window.opener && window.opener.userName) {
 } else {
     window.userName = '';
 }
+
+// MARK: - Equivalent to php's str_word_count, which is used by the FTC's CMS workflow statistics
+function str_word_count(str) {
+    if (typeof str !== 'string') {return 0;}
+    var words = str.replace(/([(\\\.\+\*\?\[\^\]\$\(\)\{\}\=\!<>\|\:])/g, '')
+        .replace(/(^\s*)|(\s*$)/gi,"")
+        .replace(/[0-9]/gi,"")
+        .replace(/[ ]{2,}/gi," ")
+        .replace(/\n /,"\n");
+    return words.split(' ').length;
+}
+
 function convertTextToArray(t) {
+    if (typeof t !== 'string') {return [];}
     var newText = t.trim().replace(/^[\n\r\s]+/, '').replace(/[\n\r\s]+$/, '');
     newText = newText.replace(/[\r\n]+/g, splitter);
     if (newText.split(splitter).length > 1) {return newText.split(splitter);}
@@ -171,11 +184,13 @@ function recordTimeInfo(spentTime) {
     var chineseWordCount = 0;
     var englishWordCount = 0;
     for (var j=0; j<infoContainers.length; j++) {
+        console.log(j);
         var infoContainer = infoContainers[j];
         var final = infoContainer.querySelector('textarea').value;
-        chineseWordCount += final.length;
+        // MARK: - Count only Chinese characters
+        chineseWordCount += (final.match(/\p{Unified_Ideograph}/ug) || []).length;
         var english = infoContainer.querySelector('.info-original').innerHTML;
-        englishWordCount += english.length;
+        englishWordCount += str_word_count(english);
         var foundMatch = false;
         var translationOptions = infoContainer.querySelectorAll('.info-translation');
         for (var m=0; m<translationOptions.length; m++) {

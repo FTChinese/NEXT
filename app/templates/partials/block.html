@@ -1438,7 +1438,7 @@
 									<div class="translation-disclaimer"></div>
 									<div class="title-container"><div class="original"><%$item.eheadline%></div><div class="translations"><%$item.cheadline%></div></div>
 									<div class="byline-container"><div class="original"><%$item.eauthor%></div><div><%$item.cauthor%></div></div>
-									<div class="body-container"><div class="original"><%$item.ebody%></div><div class="translations"><%$item.cbody%></div></div>
+									<div class="body-container"><div class="original"><%$item.ebody%></div><div class="translations"><%$item.cbody|regex_replace:"/\-\|\-[\s\S]*$/i":""%></div></div>
 								</div></div>
 								<%assign var="i" value=$i+1%>
 							<%else%>
