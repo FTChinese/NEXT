@@ -1,33 +1,33 @@
-<%assign var=standardPriceValue value="258"%>
+<%assign var=standardPriceValue value="298"%>
 <%assign var=premiumPriceValue value="1,998"%>
 <%assign var=standardPrice value="¥`$standardPriceValue`/年"%>
 <%assign var=premiumPrice value="¥`$premiumPriceValue`/年"%>
-<%assign var=standardPriceDaily value="0.7"%>
+<%assign var=standardPriceDaily value="0.8"%>
 <%assign var=premiumPriceDaily value="5.5"%>
 <%assign var=hasDiscount value=""%>
 <%assign var=standardOfferId value=""%>
 <%assign var=premiumOfferId value=""%>
 <%if $section.discountCode == "ft_win_back"%>
   <%assign var=hasDiscount value="yes"%>
-  <%assign var=standardPriceValue value="128"%>
+  <%assign var=standardPriceValue value="148"%>
   <%assign var=premiumPriceValue value="998"%>
-  <%assign var=standardPriceDaily value="0.3"%>
+  <%assign var=standardPriceDaily value="0.4"%>
   <%assign var=premiumPriceDaily value="2.8"%>
   <%assign var=standardOfferId value="standard_win_back_offer_2021"%>
   <%assign var=premiumOfferId value="premium_win_back_offer_2020"%>
 <%elseif $section.discountCode == "ft_renewal"%>
   <%assign var=hasDiscount value="yes"%>
-  <%assign var=standardPriceValue value="198"%>
+  <%assign var=standardPriceValue value="218"%>
   <%assign var=premiumPriceValue value="1498"%>
-  <%assign var=standardPriceDaily value="0.5"%>
+  <%assign var=standardPriceDaily value="0.6"%>
   <%assign var=premiumPriceDaily value="4.2"%>
   <%assign var=standardOfferId value="standard_retention_offer_2021"%>
   <%assign var=premiumOfferId value="premium_retention_offer_2020"%>
 <%elseif $section.discountCode == "ft_discount"%>
   <%assign var=hasDiscount value="yes"%>
-  <%assign var=standardPriceValue value="218"%>
+  <%assign var=standardPriceValue value="258"%>
   <%assign var=premiumPriceValue value="1698"%>
-  <%assign var=standardPriceDaily value="0.6"%>
+  <%assign var=standardPriceDaily value="0.7"%>
   <%assign var=premiumPriceDaily value="4.6"%>
   <%assign var=standardOfferId value="standard_discount_offer_2021"%>
   <%assign var=premiumOfferId value="premium_discount_offer_2020"%>
@@ -56,8 +56,8 @@
               <li> 专享订阅内容每日仅需<%$premiumPriceDaily%>元</li>
               <li> 享受“标准会员”所有权益</li>
               <li> 编辑精选，总编/各版块主编每周五为您推荐本周必读资讯，分享他们的思考与观点</li>
-              <li> FT研究院专题报告和行业报告</li>
-              <li> FT中文网2020年度论坛门票2张</li>
+              <li> FT商学院高端专享</li>
+              <li> FT中文网2021年度论坛门票2张</li>
             </ul>
             <p style="padding: 0.5em 1em 0em 1.5em;">注：所有活动门票不可折算现金、不能转让、不含差旅与食宿</p>
             <div class="o-member__subscribe">
@@ -79,8 +79,7 @@
               <li> 中英双语内容</li>
               <li> 金融英语速读训练</li>
               <li> 英语原声电台</li>
-              <li> FT研究院专题报告（不含行业报告）</li>
-              <li> 无限浏览7日前所有历史文章（近8万篇）</li>
+              <li> 无限浏览2日前所有历史文章（近9万篇）</li>
             </ul>
             <div class="o-member__subscribe">
               <a href="subscribe://standard/<%$standardPriceValue%>?offer=<%$standardOfferId%>&ccode=<%$ccode%>"><button class="openSub" id="standard-btn" data-offer-id="<%$standardOfferId%>">立即订阅</button></a>

@@ -206,6 +206,27 @@
 			</div>
 		<%/if%>
 
+
+		<%assign var="ftacademyPC" value=$interactivemodel->get_interactive_by_field_search("find_in_set('FT商学院',tag)",0,4,1000,10800)%>
+		<div class="interactives P-hide">
+			<h2 class="list-title"><a href="/channel/mba.html">FT商学院</a></h2>
+			<div class="item-container first"><div class="item-inner">
+			<a class="image" href="/interactive/<%$ftacademyPC[0].id%>" target=_blank><figure class="loading" data-url="<%$ftacademyPC[0].story_pic.cover|default:$ftacademyPC[0].story_pic.smallbutton%>"></figure></a>
+			<h2 class="item-headline"><a href="/interactive/<%$ftacademyPC[0].id%>" target=_blank><%$ftacademyPC[0].cheadline%></a></h2>
+			</div></div>
+
+			<%foreach from=$ftacademyPC item=vc name=homepageftacademy%>
+			<%if $vc.id != $ftacademyPC[0].id%>
+			<div class="item-container"><div class="item-inner">
+				<a class="image" href="/interactive/<%$vc.id%>" target="_blank"><figure class="loading" data-url="<%$vc.story_pic.smallbutton|default:$vc.story_pic.cover%>"></figure></a>
+				<h2 class="item-headline"><a href="/interactive/<%$vc.id%>" target="_blank" class="item-headline-link"><%$vc.cheadline%></a></h2>
+			</div></div>
+			<%/if%>
+			<%/foreach%>
+
+		</div>
+
+
 		<%assign var="ftintelligence" value=$interactivemodel->get_interactive_by_field_search("find_in_set('FT研究院',tag) and find_in_set('报告',tag)",0,4,1000,10800)%>
 		<div class="interactives P-hide">
 			<h2 class="list-title"><a href="/m/marketing/intelligence.html">FT研究院</a></h2>
@@ -573,6 +594,7 @@
 		<%/if%>
 
 
+
 		<%assign var="ftintelligence" value=$interactivemodel->get_interactive_by_field_search("find_in_set('FT研究院',tag) and find_in_set('报告',tag)",0,4,1000,10800)%>
 		<div class="videos P-only">
 			<h2 class="list-title"><a href="/m/marketing/intelligence.html?webview=ftcapp">FT研究院</a></h2>
@@ -593,6 +615,9 @@
 				</div>
 			</div>
 		</div>
+
+
+
 
 
 		<%if date("Ymd",$smarty.now) >= 20200401%>
