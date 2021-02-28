@@ -361,7 +361,10 @@ function finishTranslationForVideo() {
         if (cbodyEle) {
             cbodyEle.value = JSON.stringify(window.subtitleInfo);
             window.opener.document.getElementById('cshortleadbody').value = '';
-            window.opener.document.getElementById('tag').value = 'FT商学院,原声视频,中英字幕,PendingSubtitle';
+            // MARK: 
+            // - PendingSubtitle will be searched by FTC Bot to upload biligual subtitles to CC Video. 
+            // - This process will only be used for FT Academy as the video team has indicated that they will not use this to speed up translation. 
+            window.opener.document.getElementById('tag').value = 'FT商学院,高端专享,原声视频,中英字幕,PendingSubtitle';
         }
     } else {
         console.log(window.subtitleInfo);
