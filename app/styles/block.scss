@@ -412,17 +412,134 @@
 		line-height: $iconWidth;
 	}
 }
-.large-card {
-	float: left;
-	width: 50%;
 
+
+.large-card-title-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	color: $titleColor;
+	margin: $defaultPadding 0;
 }
-@media only screen and (max-width: 490px) {
-	.large-card {
-		float: none;
-		width: 100%;
+
+.large-card-title {
+	font-weight:bold;
+	font-size: 3em;
+	span {
+		display: block;
+		line-height: 120%;
+	}
+	.highlight {
+		color: #FFF1E0;
 	}
 }
+
+.large-card-description {
+	font-weight: bold;
+	font-size: 1.2em;
+	line-height: $goldenRatio;
+}
+
+@media only screen and (max-width: 690px) {
+	.large-card-title-grid {
+		display: block;
+		padding: 0 $defaultPadding/2;
+	}
+	.large-card-title {
+		span {
+			display: inline;
+		}
+	}
+}
+
+
+.large-card-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(280px, 1fr));
+	column-gap: $defaultPadding * 2;
+    grid-column-gap: $defaultPadding * 2;
+    row-gap: $defaultPadding * 2;
+    grid-row-gap: $defaultPadding * 2;
+	margin-bottom: $defaultPadding;
+	
+}
+.large-card {
+	&.item-container {
+		float: none;
+		background-color: $bannerBG;
+	}
+	.item-inner {
+		padding: 39.375% 0 $defaultPadding 0;
+	}
+	&:nth-child(odd) {
+		&.item-container {
+			background-color: #ffec1a;
+		}
+		.item-headline a, .item-lead, .item-lead a {
+			color: $darkGrey;
+		}
+	}
+	&:nth-child(even) {
+		&.item-container {
+			background-color: #593380;
+		}
+		.item-headline a, .item-lead, .item-lead a {
+			color: white;
+		}
+		.item-headline:after {
+			background-color: white;
+		}
+	}
+	.image {
+		left:0;
+		right: 0;
+		margin: auto;
+		figure {
+			padding-bottom: 39.375%;
+			margin: auto;
+		}
+		&:before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left:0;
+			right:0;
+			height: 50%;
+			background-color: $defaultPink;
+		}
+	}
+	figure {
+		width: 70%;
+	}
+	.item-headline {
+		font-size: 1.4em;
+		font-weight: bold;
+		padding-top: $defaultPadding/2;
+		text-align: center;
+		&:after {
+			content: '';
+			display: block;
+			margin: 10px auto 12px;
+			width: 60px;
+			height: 8px;
+			background: $darkGrey;
+		}
+	}
+	.item-lead {
+		color: $darkGrey;
+		padding: 0 $defaultPadding;
+		font-weight: bold;
+	}
+}
+
+@media only screen and (max-width: 600px) {
+	.large-card-grid {
+		display: block;
+	}
+	.large-card {
+		margin-bottom: $defaultPadding;
+	}
+}
+
 .headshot-title {
 	.item-inner {
 		padding: 0 $defaultPadding/2 $defaultPadding $headshotWidth+$defaultPadding;
