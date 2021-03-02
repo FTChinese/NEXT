@@ -1342,7 +1342,7 @@
 <%assign var="storyImage" value=$storyImage|replace:"http://i.ftimg.net/picture/":"https://thumbor.ftacademy.cn/unsafe/picture/"%>
 <%assign var="storyImage" value=$storyImage|replace:"https://i.ftimg.net/picture/":"https://thumbor.ftacademy.cn/unsafe/picture/"%>
 <%*<!--MARK: - Requested by editorial team: For stories that are published before 2017, show no image for safety. Machine Translated stories that are marked as no copy right will also no show image.  -->*%>
-<%if ($itemType == "story" && date("Ymd",$pubDate) < 20170101) || (preg_match("/NoCopyrightCover/is",$keys) && !preg_match("/FT商学院/is",$keys))%>
+<%if ($itemType == "story" && date("Ymd",$pubDate) < 20170101) || (preg_match("/NoCopyrightCover/is",$keys))%>
 	<%assign var="storyImage" value=""%>
 <%/if%>
 
