@@ -209,19 +209,47 @@
 
 		<%assign var="ftacademyPC" value=$interactivemodel->get_interactive_by_field_search("find_in_set('FT商学院',tag)",0,4,1000,10800)%>
 		<div class="interactives P-hide">
+			
 			<h2 class="list-title"><a href="/channel/mba.html">FT商学院</a></h2>
-			<div class="item-container first"><div class="item-inner">
-			<a class="image" href="/interactive/<%$ftacademyPC[0].id%>" target=_blank><figure class="loading" data-url="<%$ftacademyPC[0].story_pic.cover|default:$ftacademyPC[0].story_pic.smallbutton%>"></figure></a>
-			<h2 class="item-headline"><a href="/interactive/<%$ftacademyPC[0].id%>" target=_blank><%$ftacademyPC[0].cheadline%></a></h2>
+			<%assign var="hasImage" value="yes"%>
+			<%if preg_match("/NoCopyrightCover/is",$ftacademyPC[0].tag)%>
+				<%assign var="hasImage" value="no"%>
+			<%/if%>
+			<%assign var="vip" value=""%>
+			<%if preg_match("/高端专享/is",$ftacademyPC[0].tag)%>
+				<%assign var="vip" value=" locked vip"%>
+			<%elseif preg_match("/订户专享/is",$ftacademyPC[0].tag)%>
+				<%assign var="vip" value=" locked"%>
+			<%/if%>
+			<div class="item-container first<%if $hasImage == "no"%> no-image<%/if%>"><div class="item-inner">
+			<%if $hasImage == "yes"%>
+				<a class="image" href="/interactive/<%$ftacademyPC[0].id%>" target=_blank><figure class="loading" data-url="<%$ftacademyPC[0].story_pic.cover|default:$ftacademyPC[0].story_pic.smallbutton%>"></figure></a>
+			<%/if%>
+			<h2 class="item-headline"><a href="/interactive/<%$ftacademyPC[0].id%>" class="item-headline-link<%$vip%>" target=_blank><%$ftacademyPC[0].cheadline%></a></h2>
+			<%if $hasImage == "no"%>
+				<div class="item-lead"><%$ftacademyPC[0].clongleadbody|default:$ftacademyPC[0].cshortleadbody%></div>
+			<%/if%>
 			</div></div>
 
 			<%foreach from=$ftacademyPC item=vc name=homepageftacademy%>
-			<%if $vc.id != $ftacademyPC[0].id%>
-			<div class="item-container"><div class="item-inner">
-				<a class="image" href="/interactive/<%$vc.id%>" target="_blank"><figure class="loading" data-url="<%$vc.story_pic.smallbutton|default:$vc.story_pic.cover%>"></figure></a>
-				<h2 class="item-headline"><a href="/interactive/<%$vc.id%>" target="_blank" class="item-headline-link"><%$vc.cheadline%></a></h2>
-			</div></div>
-			<%/if%>
+				<%if $vc.id != $ftacademyPC[0].id%>
+					<%assign var="hasImage" value="yes"%>
+					<%if preg_match("/NoCopyrightCover/is",$vc.tag)%>
+						<%assign var="hasImage" value="no"%>
+					<%/if%>
+					<%assign var="vip" value=""%>
+					<%if preg_match("/高端专享/is",$vc.tag)%>
+						<%assign var="vip" value=" locked vip"%>
+					<%elseif preg_match("/订户专享/is",$vc.tag)%>
+						<%assign var="vip" value=" locked"%>
+					<%/if%>
+					<div class="item-container"><div class="item-inner">
+						<%if $hasImage == "yes"%>
+							<a class="image" href="/interactive/<%$vc.id%>" target="_blank"><figure class="loading" data-url="<%$vc.story_pic.smallbutton|default:$vc.story_pic.cover%>"></figure></a>
+						<%/if%>
+						<h2 class="item-headline"><a href="/interactive/<%$vc.id%>" target="_blank" class="item-headline-link<%$vip%>"><%$vc.cheadline%></a></h2>
+					</div></div>
+				<%/if%>
 			<%/foreach%>
 
 		</div>
