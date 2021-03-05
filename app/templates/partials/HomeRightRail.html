@@ -98,7 +98,7 @@
 
 
 			<div class="interactive-inner">
-			<%assign var="storyall" value=$interactivemodel->get_interactive_by_field_search("(find_in_set('测试',tag) or find_in_set('教程',tag) or (find_in_set('QuizPlus',tag) and (find_in_set('新闻',tag) or find_in_set('热点观察',tag) or find_in_set('FT商学院',tag)) and (scoop = '1' or scoop = '0')) or find_in_set('速读',tag) or find_in_set('英语电台',tag) or find_in_set('每日一词',tag)) and !find_in_set('广告互动教程',tag) and pubdate <= unix_timestamp(now())",0,8,30,10800)%>
+			<%assign var="storyall" value=$interactivemodel->get_interactive_by_field_search("(find_in_set('速读',tag) or find_in_set('英语电台',tag) or find_in_set('每日一词',tag)) and !find_in_set('广告互动教程',tag) and pubdate <= unix_timestamp(now())",0,8,30,10800)%>
 			<%assign var="photoall" value=$photonewsmodel->get_new_photonews(6)%>
 			<%assign var="storycount" value=$storyall|@count%>
 			<%assign var="photocount" value=$photoall|@count%>
@@ -223,7 +223,7 @@
 			<%/if%>
 			<div class="item-container first<%if $hasImage == "no"%> no-image<%/if%>"><div class="item-inner">
 			<%if $hasImage == "yes"%>
-				<a class="image" href="/interactive/<%$ftacademyPC[0].id%>" target=_blank><figure class="loading" data-url="<%$ftacademyPC[0].story_pic.cover|default:$ftacademyPC[0].story_pic.smallbutton%>"></figure></a>
+				<a class="image" href="/interactive/<%$ftacademyPC[0].id%>" target=_blank><figure class="loading" data-url="<%$ftacademyPC[0].story_pic.cover|default:$ftacademyPC[0].story_pic.smallbutton|default:$ftacademyPC[0].story_pic.bigbutton%>"></figure></a>
 			<%/if%>
 			<h2 class="item-headline"><a href="/interactive/<%$ftacademyPC[0].id%>" class="item-headline-link<%$vip%>" target=_blank><%$ftacademyPC[0].cheadline%></a></h2>
 			<%if $hasImage == "no"%>
@@ -245,7 +245,7 @@
 					<%/if%>
 					<div class="item-container"><div class="item-inner">
 						<%if $hasImage == "yes"%>
-							<a class="image" href="/interactive/<%$vc.id%>" target="_blank"><figure class="loading" data-url="<%$vc.story_pic.smallbutton|default:$vc.story_pic.cover%>"></figure></a>
+							<a class="image" href="/interactive/<%$vc.id%>" target="_blank"><figure class="loading" data-url="<%$vc.story_pic.smallbutton|default:$vc.story_pic.cover|default:$vc.story_pic.bigbutton%>"></figure></a>
 						<%/if%>
 						<h2 class="item-headline"><a href="/interactive/<%$vc.id%>" target="_blank" class="item-headline-link<%$vip%>"><%$vc.cheadline%></a></h2>
 					</div></div>
