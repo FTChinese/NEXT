@@ -221,14 +221,12 @@
 			<%elseif preg_match("/订户专享/is",$ftacademyPC[0].tag)%>
 				<%assign var="vip" value=" locked"%>
 			<%/if%>
-			<div class="item-container first<%if $hasImage == "no"%> no-image<%/if%>"><div class="item-inner">
+			<div class="item-container first static-image<%if $hasImage == "no"%> no-image<%/if%>"><div class="item-inner">
 			<%if $hasImage == "yes"%>
 				<a class="image" href="/interactive/<%$ftacademyPC[0].id%>" target=_blank><figure class="loading" data-url="<%$ftacademyPC[0].story_pic.cover|default:$ftacademyPC[0].story_pic.smallbutton|default:$ftacademyPC[0].story_pic.bigbutton%>"></figure></a>
 			<%/if%>
 			<h2 class="item-headline"><a href="/interactive/<%$ftacademyPC[0].id%>" class="item-headline-link<%$vip%>" target=_blank><%$ftacademyPC[0].cheadline%></a></h2>
-			<%if $hasImage == "no"%>
-				<div class="item-lead"><%$ftacademyPC[0].clongleadbody|default:$ftacademyPC[0].cshortleadbody%></div>
-			<%/if%>
+			<div class="item-lead"><%$ftacademyPC[0].clongleadbody|default:$ftacademyPC[0].cshortleadbody%></div>
 			</div></div>
 
 			<%foreach from=$ftacademyPC item=vc name=homepageftacademy%>
@@ -244,10 +242,13 @@
 						<%assign var="vip" value=" locked"%>
 					<%/if%>
 					<div class="item-container"><div class="item-inner">
-						<%if $hasImage == "yes"%>
-							<a class="image" href="/interactive/<%$vc.id%>" target="_blank"><figure class="loading" data-url="<%$vc.story_pic.smallbutton|default:$vc.story_pic.cover|default:$vc.story_pic.bigbutton%>"></figure></a>
-						<%/if%>
 						<h2 class="item-headline"><a href="/interactive/<%$vc.id%>" target="_blank" class="item-headline-link<%$vip%>"><%$vc.cheadline%></a></h2>
+						<div class="item-lead">
+							<%if $hasImage == "yes"%>
+								<a class="image" href="/interactive/<%$vc.id%>" target="_blank"><figure class="loading" data-url="<%$vc.story_pic.smallbutton|default:$vc.story_pic.cover|default:$vc.story_pic.bigbutton%>"></figure></a>
+							<%/if%>
+							<%$vc.clongleadbody|default:$vc.cshortleadbody%>
+						</div>
 					</div></div>
 				<%/if%>
 			<%/foreach%>

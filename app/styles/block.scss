@@ -303,12 +303,15 @@
 	.item-inner {
 		padding-top: 0;
 	}
+}
+
+.static-image {
 	.image {
 		position: static;
-		margin-bottom: 1em;
+		margin-bottom: $defaultPadding/4;
 	}
-
 }
+
 .no-image {
 	.image {
 		display: none;
@@ -659,7 +662,13 @@
 	.interactives {
 		padding-bottom: $defaultPadding;
 		.item-headline {
-			padding: $defaultPadding/2 $defaultPadding/2 0 $defaultPadding/2;
+			padding: $defaultPadding/2 $defaultPadding/2 $defaultPadding/4 $defaultPadding/2;
+		}
+		.item-lead {
+			padding: 0 $defaultPadding/2 0 $defaultPadding/2;
+			.image {
+				padding: 3px 0 0 $defaultPadding/6;
+			}
 		}
 	}
 	.videos {
@@ -709,9 +718,12 @@
 					font-weight: normal;
 				}
 			}
+			.item-lead {
+				padding: 0 0 0 0;
+			}
 		}
 		&.first {
-			&.no-image {
+			&.no-image, &.static-image {
 				.item-inner {
 					padding: 0 $defaultPadding/2;
 				}
