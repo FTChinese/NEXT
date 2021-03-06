@@ -231,10 +231,6 @@
 
 			<%foreach from=$ftacademyPC item=vc name=homepageftacademy%>
 				<%if $vc.id != $ftacademyPC[0].id%>
-					<%assign var="hasImage" value="yes"%>
-					<%if preg_match("/NoCopyrightCover/is",$vc.tag)%>
-						<%assign var="hasImage" value="no"%>
-					<%/if%>
 					<%assign var="vip" value=""%>
 					<%if preg_match("/高端专享/is",$vc.tag)%>
 						<%assign var="vip" value=" locked vip"%>
@@ -244,9 +240,6 @@
 					<div class="item-container"><div class="item-inner">
 						<h2 class="item-headline"><a href="/interactive/<%$vc.id%>" target="_blank" class="item-headline-link<%$vip%>"><%$vc.cheadline%></a></h2>
 						<div class="item-lead">
-							<%if $hasImage == "yes"%>
-								<a class="image" href="/interactive/<%$vc.id%>" target="_blank"><figure class="loading" data-url="<%$vc.story_pic.smallbutton|default:$vc.story_pic.cover|default:$vc.story_pic.bigbutton%>"></figure></a>
-							<%/if%>
 							<%$vc.clongleadbody|default:$vc.cshortleadbody%>
 						</div>
 					</div></div>
