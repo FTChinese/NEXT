@@ -2,23 +2,29 @@
 <%if $hideQR != "yes"%>
     <%include file="next/partials/house-ad-subscription-promo-box.html"%>
 <%/if%>
+<%assign var="logoUrl" value="https://dhgxl8qk9zgzr.cloudfront.net/images/masthead36.png"%>
+<%if $p.meta.theme == "partner_content"%>
+  <%assign var="logoUrl" value="https://thumbor.ftacademy.cn/unsafe/0x114/https://dhgxl8qk9zgzr.cloudfront.net/img/png/brand-ftc-masthead.png"%>
+<%/if%>
 <header class="header-container">
   <div class="header-inner">
     <div class="header-title"><%$PageTitle|default:$tagtitle|default:$p.meta.title|default:"FT中文网"%></div>
     <a href="/" class="header-side header-left">
-      <div class="header-brand"><figure class="loading logo" data-url="https://dhgxl8qk9zgzr.cloudfront.net/images/masthead36.png"></figure></div>
+      <div class="header-brand"><figure class="loading logo" data-url="<%$logoUrl%>"></figure></div>
     </a>
-    <div class="header-side header-right">
-        <span class="visitor-box">
-            <a onclick="showOverlay('overlay-login')">登录</a>
-            <a class="more last" href="http://user.ftchinese.com/register">免费注册</a>
-        </span>
-        <span class="member-box">
-            <a href="/channel/myftlocal.html">我的FT</a>
-            <a id="ft-login-your-account" href="/users/cp">设置</a>
-            <a id="ft-login-logout" href="/users/logout">登出</a>
-        </span>
-    </div>
+    <%if $showLogin !== "no"%>
+      <div class="header-side header-right">
+          <span class="visitor-box">
+              <a onclick="showOverlay('overlay-login')">登录</a>
+              <a class="more last" href="http://user.ftchinese.com/register">免费注册</a>
+          </span>
+          <span class="member-box">
+              <a href="/channel/myftlocal.html">我的FT</a>
+              <a id="ft-login-your-account" href="/users/cp">设置</a>
+              <a id="ft-login-logout" href="/users/logout">登出</a>
+          </span>
+      </div>
+    <%/if%>
   </div>
 </header>
 <%include file="next/partials/login-overlay.html"%>

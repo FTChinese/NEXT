@@ -968,6 +968,9 @@
 					padding-top: 0;
 				}
 			}
+			.item-lead {
+				padding: 0 0 $defaultPadding/4 0;
+			}
 			.item-inner {
 				border-top-style: solid;
 				padding: 0;
@@ -1001,87 +1004,25 @@
 						//padding-top: $defaultPadding/2;
 						font-size: 1.1em;
 					}
+					&.no-image, &.static-image {
+						.item-headline {
+							padding: 0 0 $defaultPadding/4 0;
+							
+						}
+						.item-inner {
+							padding: 0 0 $defaultPadding/4 0;
+						}
+					}
 				}
 			}
-			.item-inner {
-				border-color: #4e4f53;
-			}
 			.item-headline {
-				padding: $defaultPadding/3 $defaultPadding/2 0 0;
+				padding: $defaultPadding/3 $defaultPadding/2 $defaultPadding/3 0;
 				font-weight: normal;
 			}
 			.image {
 				padding: 10px 0 10px 10px;
 			}
 		}
-		.interactives {
-			background-color: #31353d;
-			margin-bottom: $defaultPadding;
-			padding-bottom: 0;
-			.interactive-inner {
-				margin: 0;
-				.item-inner {
-					border-color: rgba(255,255,255,0.2);
-					margin: 0 $defaultPadding/2;
-				}
-				.image {
-					width: 122px;
-				}
-				.item-headline {
-					display: table;
-					height: 83px;
-					padding: 0;
-					a {
-						color: #FFFFFF;
-						display: table-cell;
-						vertical-align: middle;
-					}
-				}
-				.item-container {
-					&.first {
-						.item-inner {
-							margin: 0;
-						}
-						.item-headline {
-							background: transparent;
-							display: block;
-							height: auto;
-							a {
-								color: #FFFFFF;
-								display: inline-block;
-							}
-						}
-						.image {
-							width: 100%;
-						}
-					}
-				}
-				.item-lead {
-					color: #FFFFFF;
-				}
-				.item-headline-link.locked:after {
-					background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z" fill="#FFFFFF"/></svg>');
-				}
-				.item-headline-link.unlocked:after {
-					background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M12 17c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm6-9h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6h1.9c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm0 12H6V10h12v10z" fill="#FFFFFF"/></svg>');
-				}
-			}
-			.list-title  {
-				border-width: 0;
-				margin: 0;
-				padding: $defaultPadding/3 $defaultPadding/2;
-				a {
-					color: #FFFFFF;
-					&:after {
-					    background-image: url(https://dhgxl8qk9zgzr.cloudfront.net/icons/svg/fticon-v1_arrow-right.svg);
-					    background-image: url(https://dhgxl8qk9zgzr.cloudfront.net/icons/png/fticon-v1_arrow-right.png) \9;
-					}
-				}
-			}
-		}
-		// iframe {
-		// 	//display: none;
-		// }
 	}
 	.side-list  {
 		.item-description {

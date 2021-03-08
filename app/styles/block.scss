@@ -303,12 +303,15 @@
 	.item-inner {
 		padding-top: 0;
 	}
+}
+
+.static-image {
 	.image {
 		position: static;
-		margin-bottom: 1em;
+		margin-bottom: $defaultPadding/4;
 	}
-
 }
+
 .no-image {
 	.image {
 		display: none;
@@ -412,6 +415,134 @@
 		line-height: $iconWidth;
 	}
 }
+
+
+.large-card-title-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	color: $titleColor;
+	margin: $defaultPadding 0;
+}
+
+.large-card-title {
+	font-weight:bold;
+	font-size: 3em;
+	span {
+		display: block;
+		line-height: 120%;
+	}
+	.highlight {
+		color: #FCD0B1;
+	}
+}
+
+.large-card-description {
+	font-weight: bold;
+	font-size: 1.2em;
+	line-height: $goldenRatio;
+}
+
+@media only screen and (max-width: 690px) {
+	.large-card-title-grid {
+		display: block;
+		padding: 0 $defaultPadding/2;
+	}
+	.large-card-title {
+		span {
+			display: inline;
+		}
+	}
+}
+
+
+.large-card-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(280px, 1fr));
+	column-gap: $defaultPadding * 2;
+    grid-column-gap: $defaultPadding * 2;
+    row-gap: $defaultPadding * 2;
+    grid-row-gap: $defaultPadding * 2;
+	margin-bottom: $defaultPadding;
+	
+}
+.large-card {
+	&.item-container {
+		float: none;
+		background-color: $bannerBG;
+	}
+	.item-inner {
+		padding: 39.375% 0 $defaultPadding 0;
+	}
+	&:nth-child(odd) {
+		&.item-container {
+			background-color: #ffec1a;
+		}
+		.item-headline a, .item-lead, .item-lead a {
+			color: $darkGrey;
+		}
+	}
+	&:nth-child(even) {
+		&.item-container {
+			background-color: #593380;
+		}
+		.item-headline a, .item-lead, .item-lead a {
+			color: white;
+		}
+		.item-headline:after {
+			background-color: white;
+		}
+	}
+	.image {
+		left:0;
+		right: 0;
+		margin: auto;
+		figure {
+			padding-bottom: 39.375%;
+			margin: auto;
+		}
+		&:before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left:0;
+			right:0;
+			height: 50%;
+			background-color: $defaultPink;
+		}
+	}
+	figure {
+		width: 70%;
+	}
+	.item-headline {
+		font-size: 1.4em;
+		font-weight: bold;
+		padding-top: $defaultPadding;
+		text-align: center;
+		&:after {
+			content: '';
+			display: block;
+			margin: 10px auto $defaultPadding/2;
+			width: 60px;
+			height: 8px;
+			background: $darkGrey;
+		}
+	}
+	.item-lead {
+		color: $darkGrey;
+		padding: 0 $defaultPadding;
+		font-weight: bold;
+	}
+}
+
+@media only screen and (max-width: 600px) {
+	.large-card-grid {
+		display: block;
+	}
+	.large-card {
+		margin-bottom: $defaultPadding;
+	}
+}
+
 .headshot-title {
 	.item-inner {
 		padding: 0 $defaultPadding/2 $defaultPadding $headshotWidth+$defaultPadding;
@@ -507,6 +638,7 @@
 	.item-container {
 		float: none;
 		width: 100%;
+		clear: both;
 	}
 	.item-inner {
 		padding: 0 0 $defaultPadding/2 0;
@@ -530,7 +662,13 @@
 	.interactives {
 		padding-bottom: $defaultPadding;
 		.item-headline {
-			padding: $defaultPadding/2 $defaultPadding/2 0 $defaultPadding/2;
+			padding: $defaultPadding/2 $defaultPadding/2 $defaultPadding/4 $defaultPadding/2;
+		}
+		.item-lead {
+			padding: 0 $defaultPadding/2 0 $defaultPadding/2;
+			.image {
+				padding: 3px 0 0 $defaultPadding/6;
+			}
 		}
 	}
 	.videos {
@@ -540,7 +678,7 @@
 		position: static;
 		float:right;
 		width: 82px;
-		padding: 2px 0 0 5px;
+		padding: $defaultPadding/2 0 $defaultPadding/2 $defaultPadding/6;
 		clear: right;
 		&.first-child {
 			float:none;
@@ -578,6 +716,25 @@
 				a {
 					color: white;
 					font-weight: normal;
+				}
+			}
+			.item-lead {
+				padding: 0 0 0 0;
+			}
+		}
+		&.first {
+			&.no-image, &.static-image {
+				.item-inner {
+					padding: 0 $defaultPadding/2;
+				}
+				.item-headline {
+					background-color: transparent;
+					padding: 0 0 $defaultPadding/4 0;
+					position: static;
+					a {
+						font-weight: bold;
+						color: $darkGrey;
+					}
 				}
 			}
 		}

@@ -29,8 +29,12 @@
 <%/foreach%>
 
 <%assign var="subscriptionsWarningsShowed" value=""%>
+<%assign var="showLogin" value="yes"%>
 <%foreach from=$p.sections item=section%>
     <%if $section.type == "header"%>
+        <%if $section.showLogin == "no"%>
+            <%assign var="showLogin" value="no"%>
+        <%/if%>
         <%if $pageId != "" && $pageId != "home"%>
             <%include file="next/partials/tag-header.html"%>
         <%else%>

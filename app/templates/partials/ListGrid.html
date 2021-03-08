@@ -1,0 +1,25 @@
+<%if $list.title != "" && $list.description != ""%>
+    <div class="large-card-title-grid">
+        <div class="large-card-title"><%$list.title%></div>
+        <div class="large-card-description"><%$list.description%></div>
+    </div>
+<%/if%>
+
+<div class="large-card-grid">
+    <%foreach from=$list.items item=item%>
+        <%assign var=itemLink value=$item.customLink%>
+        <%if $itemLink != ""%>
+            <%assign var=itemLink value=" href=\"`$itemLink`\""%>
+        <%/if%>
+        <%assign var=itemImage value=$item.image%>
+        <%assign var=itemHeadline value=$item.headline%>
+        <%assign var=itemLead value=$item.longlead|default:$item.shortlead%>
+        <div class="item-container large-card"><div class="item-inner">
+            <a class="image" target="_blank"<%$itemLink%>><figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure></a>
+            <div class="item-headline-lead">
+                <h2 class="item-headline"><a target="_blank"<%$itemLink%> class="item-headline-link <%$lockClass%>"><%$itemHeadline%></a></h2>
+                <div class="item-lead"><%$itemLead|nl2br%></div>
+            </div>
+        </div></div>
+    <%/foreach%>
+</div>
