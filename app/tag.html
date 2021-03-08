@@ -84,6 +84,11 @@
 <link rel="stylesheet" href="styles/main-ebook.css">
 <!-- endbuild -->
 
+<!-- build:css styles/main-partner-content.css -->
+<link rel="stylesheet" href="styles/main-partner-content.css">
+<!-- endbuild -->
+
+
 <script type="text/javascript">
 if(typeof startTime === "undefined"){
 var startTime=new Date().getTime();
@@ -140,71 +145,12 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 <script>var gUaOfPage = navigator.userAgent || navigator.vendor || "";</script><script>
 window.newAd = true;
 </script>
-<div id="promo-box-container">
-<style>
-.noneSubscriber.subscription-promo-container {
-background-color: #14bdcc;
-}
-.noneSubscriber .subscription-promo-box {
-background-image: url(https://thumbor.ftacademy.cn/unsafe/picture/0/000079340_piclink.jpg);
-}
-@media only screen and (max-width: 490px) {
-.noneSubscriber .subscription-promo-box {
-background-image: url(https://thumbor.ftacademy.cn/unsafe/picture/1/000079341_piclink.jpg);
-}
-}
-</style>
-<div class="subscription-promo-container show-image-in-mobile noneSubscriber">
-<div class="subscription-promo-inner">
-<a  href="http://www.ftchinese.com/channel/tradewar.html?ccode=tradewarpromobox" class="subscription-promo-box n-internal-promo" data-promo-target="noneSubscriber" data-promo-id="tradewarpromobox" data-promo-name="付费专享中美贸易战专题" data-promo-creative="https://thumbor.ftacademy.cn/unsafe/picture/0/000079340_piclink.jpg" data-promo-position="promoBox">
-<div class="subscription-promo-text">付费专享中美贸易战专题</div>
-</a>
-</div>
-</div>
-<script type="text/javascript">
-window.userId = GetCookie('USER_ID') || '';
-if (window.userId === '') {
-gtag('event', 'Display', {'event_label': 'tradewarpromobox', 'event_category': 'PromoBox', 'non_interaction': true});
-}
-</script>
-</div>
-<script type="text/javascript">
-function addUserId(ele) {
-if (ele === null) {
-return;
-}
-var userId;
-if (typeof GetCookie === 'function') {
-userId = GetCookie('USER_ID');
-} else {
-userId = getCookie('USER_ID');
-}
-if (userId && typeof userId === 'string' && userId !== '') {
-var link = ele.href;
-var connector = (link.indexOf('?') >= 0) ? '&' : '?';
-ele.href = link + connector + 'u=' + userId;
-}
-}
-var premiumLink = document.querySelector('[data-promo-target=premium]');
-addUserId(premiumLink);
-</script>
 <header class="header-container">
 <div class="header-inner">
-<div class="header-title">聚焦港股</div>
+<div class="header-title">Cytiva</div>
 <a href="/" class="header-side header-left">
 <div class="header-brand"><figure class="loading logo" data-url="https://dhgxl8qk9zgzr.cloudfront.net/images/masthead36.png"></figure></div>
 </a>
-<div class="header-side header-right">
-<span class="visitor-box">
-<a onclick="showOverlay('overlay-login')">登录</a>
-<a class="more last" href="http://user.ftchinese.com/register">免费注册</a>
-</span>
-<span class="member-box">
-<a href="/channel/myftlocal.html">我的FT</a>
-<a id="ft-login-your-account" href="/users/cp">设置</a>
-<a id="ft-login-logout" href="/users/logout">登出</a>
-</span>
-</div>
 </div>
 </header>
 <div class="overlay-container" id="overlay-login">
@@ -232,8 +178,8 @@ addUserId(premiumLink);
 </div>
 </div>
 </div>
-</div><!--hide nvation: no-->
-<div class="o-nav__placeholder">
+</div><!--hide nvation: yes-->
+<div class="o-nav__placeholder hide-on-large-screen">
 <div class="o-nav">
 <div class="o-nav__outer">
 <div class="o-nav__inner">
@@ -281,6 +227,7 @@ FT中文网首页
 <li class="nav-item"  aria-haspopup="true" data-channel="special">
 <a class="nav-link" href="/channel/special.html">特别报导</a>
 <ol class="nav-sub-items">
+<li><a href="/tag/中国经济">展望后疫情时代中国经济</a></li>
 <li><a href="/m/marketing/antfinancial.html">“新四大发明”背后的中国浪潮</a></li>
 <li><a href="/channel/teawithft.html">与FT共进下午茶</a></li>
 <li><a href="/tag/与FT共进午餐">与FT共进午餐</a></li>
@@ -516,45 +463,6 @@ FT中文网首页
 <div class="content-inner">
 <div class="list-container">
 <div class="list-inner">
-<div class="items hide" id="membership-login-prompt">
-<div class="no-image">
-<div class="item-inner">
-<div class="item-lead"><a href="screen://myft/account">您还没有登录。如果您希望更方便地享受您购买的会员服务，请点击此处登录或注册新用户。</a></div>
-</div>
-</div>
-</div>
-<div class="items hide" id="subscriber-contact-confirm">
-<div class="no-image">
-<div class="item-inner">
-<div class="item-lead"><a href="http://www.ftchinese.com/m/corp/preview.html?pageid=subscriptioninfoconfirm&to=all">为保障您的订阅权益，请点击此处确认您的联系方式</a></div>
-</div>
-</div>
-</div>
-<div class="items hide" id="membership-yellow-card-prompt">
-<div class="no-image">
-<div class="item-inner">
-<div class="item-lead">
-<div class="warn">亲爱的会员，您的账户近期在多台设备上异常登录。您的账户仅限您本人使用，如不是您本人操作，可能您的账号已泄漏。请您尽快进行如下操作：</div>
-<div class="warn">1. <a href="https://user.ftchinese.com/setting" target="_blank">修改密码，并妥善保护好新密码</a>。</div>
-<div class="warn">2. <a class="email-link" href="mailto: customer.service@ftchinese.com?subject=Appeal: Warning">点击此处寻求帮助</a>。</div>
-<div class="warn">为了保护您的利益，我们已经暂时锁定您的订阅账户，如有疑问，请联系客服。</div>
-</div></div>
-</div>
-</div>
-</div>
-<script>window.gYellowCardUserIds = '';</script>
-<div class="items hide" id="membership-red-card-prompt">
-<div class="no-image">
-<div class="item-inner">
-<div class="item-lead"><div class="warn">
-亲爱的会员，您的账号近期在多台设备上频繁异常登录。您的账户仅限您本人使用。为了保证您的利益，该账户已被暂时锁定。您可以：
-<a class="email-link" href="mailto: customer.service@ftchinese.com?subject=Appeal: Red Warning">点击此处与我们联系进行认证</a>。
-</div></div>
-</div>
-</div>
-</div>
-<script>window.gRedCardUserIds = '';</script>
-<script>checkUserWarnings();</script>
 </div>
 </div>
 <div class="clearfloat block-bottom"></div>
@@ -563,21 +471,20 @@ FT中文网首页
 <div class="clearfloat"></div>
 </div>
 </div>
-<div class="block-container dark-green has-side side-right all"><div class="block-inner">
+<div class="block-container dark-green no-side all"><div class="block-inner">
 <div class="content-container">
 <div class="content-inner">
-  
 
 <div class="list-container"><div class="list-inner"><div class="items">
 
  
 
-<div class="item-container XL8 L12 M12 S12 S-double-width P12 has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/premium/001089304" class="item-headline-link locked">8月中国出口同比增9.5% 高于预期</a></h2>
-<a class="image" target="_blank" href="/premium/001089304" >
-<figure class="loading" data-url="http://creatives.ftacademy.cn/picture/6/000093366_piclink.jpg"></figure>
+<div class="item-container XL3 L3 S4 M6 P12     has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/interactive/33039" class="item-headline-link ">【特别策划】五福新年新趋势</a></h2>
+<a class="image" target="_blank" href="/interactive/33039" >
+<figure class="loading" data-url="http://i.ftimg.net//picture/1/000110911_piclink.png"></figure>
 </a>
-<div class="item-lead">这是今年以来最高增幅，并超出增长7.5%的预期。中国出口连续3个月同比增长，令人期望受疫情重创的国际贸易能迎来更广泛的复苏。</div>
+<div class="item-lead"></div>
 <div class="item-bottom"></div>
 </div></div>
 <div 
@@ -593,314 +500,140 @@ data-o-ads-targeting="cnpos=info1;"
 </div>
  
  
-<div class=" LT MT PT ST"></div>
-<div class="item-container XL4 XL-right XL-no-tag L6 L-half M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001089287" class="item-headline-link ">通胀是未来最大变数</a></h2>
-<a class="image" target="_blank" href="/story/001089287" >
-<figure class="loading" data-url="http://creatives.ftacademy.cn/picture/1/000100421_piclink.jpg"></figure>
+<div class=" PT"></div>
+<div class="item-container XL3 L3 S4 M6 P12     has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/interactive/32288" class="item-headline-link ">楼市里的婚姻游戏</a></h2>
+<a class="image" target="_blank" href="/interactive/32288" >
+<figure class="loading" data-url="http://i.ftimg.net//picture/7/000111107_piclink.jpg"></figure>
 </a>
-<div class="item-lead">胡伟俊：首先，如果出现通胀的趋势性上行，将对全球金融市场产生极大影响。其次，几乎不可能预测通胀是否会出现趋势性上行。</div>
+<div class="item-lead">当调控内容屡屡指向“假结婚”，这场蔓延十余年的楼市婚姻游戏，或许有望迎来大结局。</div>
 <div class="item-bottom"></div>
 </div></div>
- 
- 
-<div class=" MT PT"></div>
-<div class="item-container XL4 XL-right XL-half XL-no-tag L6 L-half M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001089286" class="item-headline-link ">如何看待人民币汇率？</a></h2>
-<a class="image" target="_blank" href="/story/001089286" >
-<figure class="loading" data-url="http://creatives.ftacademy.cn/picture/7/000100417_piclink.jpg"></figure>
-</a>
-<div class="item-lead">周浩：有时汇率问题非常“全球化”，有时又非常“本土化”；有时汇率非常“基本面”，有时又非常“情绪面”。</div>
-<div class="item-bottom"></div>
-</div></div>
-            <div class="clearfloat"></div>
-</div>
-</div></div>     <div class="clearfloat block-bottom"></div>
-</div>  </div>  <div class="side-container"><div class="side-inner">
-	
-  <div class="side-list first-child last-child MachineTranslation">
-<h2 class="list-title">
-<a href="#">港股快报</a>
-</h2>
-  <div class="item-container first-headline no-image"><div class="item-inner">
-<h2 class="item-headline "><a target="_blank" href="/interactive/23019">Nongfu/IPOs: double bubble</a></h2>
-<div class="item-lead item-subheadline">农副/ IPO：双重泡沫</div>
-</div></div><div class="item-container  no-image"><div class="item-inner">
-<h2 class="item-headline "><a target="_blank" href="/interactive/23041">Australian reporters flee China after diplomatic stand-off </a></h2>
-<div class="item-lead item-subheadline">外交对峙后澳大利亚记者逃离中国</div>
-</div></div><div class="item-container  no-image"><div class="item-inner">
-<h2 class="item-headline "><a target="_blank" href="/interactive/23039">Bottled water IPO makes founder China’s second-richest person</a></h2>
-<div class="item-lead item-subheadline">瓶装水IPO使创始人成为中国第二富豪</div>
-</div></div><div class="item-container  no-image"><div class="item-inner">
-<h2 class="item-headline "><a target="_blank" href="/interactive/23040">SoftBank shares fall again on concerns over huge options bet</a></h2>
-<div class="item-lead item-subheadline">软银股价再度下跌，原因是人们担心巨大的期权押注</div>
-</div></div><div class="item-container  no-image"><div class="item-inner">
-<h2 class="item-headline "><a target="_blank" href="/interactive/23031">South Korea struggles to lure factories home from China</a></h2>
-<div class="item-lead item-subheadline">韩国努力吸引来自中国的工厂</div>
-</div></div>  </div>      	
-</div>  </div>  <div class="clearfloat"></div>
-</div> </div> <div class="block-container dark-green has-side side-right all"><div class="block-inner">
-<div class="content-container">
-<div class="content-inner">
   
-
-<div class="list-container"><div class="list-inner"><h2 class="list-title">
-<a class="list-link" href="#">宏观基本面</a>
-</h2>
-<div class="items">
-
  
-
-<div class="item-container XL4 L4 S12 M6 P12     has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/interactive/23030" class="item-headline-link locked">特朗普让美国经济与中国“脱钩”</a></h2>
-<a class="image" target="_blank" href="/interactive/23030" >
-<figure class="loading" data-url="http://i.ftimg.net//picture/6/000100436_piclink.jpg"></figure>
+<div class=" MT PT"></div>
+<div class="item-container XL3 L3 S4 M6 P12     has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/interactive/30743" class="item-headline-link ">连界董事长王玥：投资人要坚持做“艰难但正确”的事</a></h2>
+<a class="image" target="_blank" href="/interactive/30743" >
+<figure class="loading" data-url="http://i.ftimg.net//picture/2/000109952_piclink.png"></figure>
 </a>
-<div class="item-lead">总统誓言结束对北京的依赖，因为他在竞选连任中提出反华言论</div>
+<div class="item-lead">贯穿2020年全年的新冠疫情，催生了大量传统企业、传统业务的转型需求以及对创新人才的渴望。然而，随着科技行业在疫情中异军突起，中国国内的大量优质人才和资源愈发向北京、上海、深圳和杭州等一线城市聚集，而坐落于这些城市以外的企业如何才能更好地利用创新高地的资源？</div>
 <div class="item-bottom"></div>
 </div></div>
  
  
 <div class=" ST PT"></div>
-<div class="item-container XL4 L4 S12 M6 P12     has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/interactive/23031" class="item-headline-link locked">韩国努力吸引来自中国的工厂</a></h2>
-<a class="image" target="_blank" href="/interactive/23031" >
-<figure class="loading" data-url="http://i.ftimg.net//picture/8/000100438_piclink.jpg"></figure>
+<div class="item-container XL3 L3 S4 M6 P12     has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/interactive/30383" class="item-headline-link ">2021已至，中国经济“双循环”时代将开启，“新IT”有哪些用武之地？</a></h2>
+<a class="image" target="_blank" href="/interactive/30383" >
+<figure class="loading" data-url="http://i.ftimg.net//picture/5/000109675_piclink.png"></figure>
 </a>
-<div class="item-lead">中小企业部长表示，政府将扩大激励措施以应对增长放缓</div>
+<div class="item-lead"></div>
+<div class="item-bottom"></div>
+</div></div>
+  
+ 
+<div class=" XLT LT MT PT"></div>
+<div class="item-container XL3 L3 S4 M6 P12     has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/interactive/30194" class="item-headline-link ">视界2021：新IT赋能的数智化新世界</a></h2>
+<a class="image" target="_blank" href="/interactive/30194" >
+<figure class="loading" data-url="http://i.ftimg.net//picture/5/000109505_piclink.jpg"></figure>
+</a>
+<div class="item-lead"></div>
+<div class="item-bottom"></div>
+</div></div>
+   
+ 
+<div class=" PT"></div>
+<div class="item-container XL3 L3 S4 M6 P12     has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/interactive/29739" class="item-headline-link ">物企上市潮年底再迎高峰，“破发”成新关键词</a></h2>
+<a class="image" target="_blank" href="/interactive/29739" >
+<figure class="loading" data-url="http://i.ftimg.net//picture/2/000108942_piclink.jpeg"></figure>
+</a>
+<div class="item-lead">2020年挂牌上市的16家物企中 ，有8家出现开盘首日破发。</div>
 <div class="item-bottom"></div>
 </div></div>
  
  
-<div class=" MT ST PT"></div>
-<div class="item-container XL4 L4 S12 M6 P12     has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/premium/001089304" class="item-headline-link locked">8月中国出口同比增9.5% 高于预期</a></h2>
-<a class="image" target="_blank" href="/premium/001089304" >
-<figure class="loading" data-url="http://creatives.ftacademy.cn/picture/6/000093366_piclink.jpg"></figure>
+<div class=" ST MT PT"></div>
+<div class="item-container XL3 L3 S4 M6 P12     has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/interactive/29522" class="item-headline-link ">港交所拟提高上市门槛，中小房企冲刺最后一跃</a></h2>
+<a class="image" target="_blank" href="/interactive/29522" >
+<figure class="loading" data-url="http://i.ftimg.net//picture/9/000108739_piclink.png"></figure>
 </a>
-<div class="item-lead">这是今年以来最高增幅，并超出增长7.5%的预期。中国出口连续3个月同比增长，令人期望受疫情重创的国际贸易能迎来更广泛的复苏。</div>
+<div class="item-lead">在港交所门槛提高和 “三道红线”的双重预期压力下，中小房企冲刺IPO的需求变得更加迫切。</div>
 <div class="item-bottom"></div>
 </div></div>
  
  
-<div class=" XLT LT ST PT"></div>
-<div class="item-container XL4 L4 S12 M6 P12     has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001089286" class="item-headline-link ">如何看待人民币汇率？</a></h2>
-<a class="image" target="_blank" href="/story/001089286" >
-<figure class="loading" data-url="http://creatives.ftacademy.cn/picture/7/000100417_piclink.jpg"></figure>
+<div class=" PT"></div>
+<div class="item-container XL3 L3 S4 M6 P12     has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/interactive/29517" class="item-headline-link ">快仓完成亿级美元C+轮融资，物流AMR要让人类不再搬运</a></h2>
+<a class="image" target="_blank" href="/interactive/29517" >
+<figure class="loading" data-url="http://i.ftimg.net//picture/1/000108731_piclink.jpg"></figure>
 </a>
-<div class="item-lead">周浩：有时汇率问题非常“全球化”，有时又非常“本土化”；有时汇率非常“基本面”，有时又非常“情绪面”。</div>
+<div class="item-lead">快仓近年来的成长性一直不俗，2017-2019年营业收入累计增长近10倍，2020年全年订单量预计为去年全年的300%以上。</div>
 <div class="item-bottom"></div>
 </div></div>
- 
- 
-<div class=" MT ST PT"></div>
-<div class="item-container XL4 L4 S12 M6 P12     has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001089287" class="item-headline-link ">通胀是未来最大变数</a></h2>
-<a class="image" target="_blank" href="/story/001089287" >
-<figure class="loading" data-url="http://creatives.ftacademy.cn/picture/1/000100421_piclink.jpg"></figure>
-</a>
-<div class="item-lead">胡伟俊：首先，如果出现通胀的趋势性上行，将对全球金融市场产生极大影响。其次，几乎不可能预测通胀是否会出现趋势性上行。</div>
-<div class="item-bottom"></div>
-</div></div>
- 
- 
-<div class=" ST PT"></div>
-<div class="item-container XL4 L4 S12 M6 P12     has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/interactive/23006" class="item-headline-link locked">8月中国出口超预期，增长9.5％</a></h2>
-<a class="image" target="_blank" href="/interactive/23006" >
-<figure class="loading" data-url="http://i.ftimg.net//picture/8/000100408_piclink.jpg"></figure>
-</a>
-<div class="item-lead">今年任何一个月的最高增长都强调冠状病毒后的恢复</div>
-<div class="item-bottom"></div>
-</div></div>
-                     <div class="clearfloat"></div>
-</div>
-</div></div>   
-
-<div class="list-container"><div class="list-inner"><h2 class="list-title">
-<a class="list-link" href="#">金融市场</a>
-</h2>
-<div class="items">
-
- 
-
-<div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/premium/001089143" class="item-headline-link locked">CLO：酝酿中的下一场金融危机？</a></h2>
-<a class="image" target="_blank" href="/premium/001089143" >
-<figure class="loading" data-url="http://creatives.ftacademy.cn/picture/1/000099721_piclink.jpg"></figure>
-</a>
-<div class="item-lead">贷款抵押债券的市场规模在过去十年急剧扩张，但新冠疫情下贷款质量下降和违约率上升，让人担心抛售潮出现并对整体经济产生影响。</div>
-<div class="item-bottom"></div>
-</div></div>
- 
- 
-<div class=" MT PT"></div>
-<div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/premium/001088409" class="item-headline-link locked">退市多于上市，新交所如何挑战港交所？</a></h2>
-<a class="image" target="_blank" href="/premium/001088409" >
-<figure class="loading" data-url="http://creatives.ftacademy.cn/picture/8/000096748_piclink.jpg"></figure>
-</a>
-<div class="item-lead">数年来新加坡交易所的上市公司数量不增反减，加上若干公司治理丑闻和业务被抢走，一些分析师甚至认为其面临生存危机。</div>
-<div class="item-bottom"></div>
-</div></div>
- 
- 
-<div class=" LT MT PT ST"></div>
-<div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001088208" class="item-headline-link locked">2020年下半年全球经济展望：调整的快与慢</a></h2>
-<a class="image" target="_blank" href="/story/001088208" >
-<figure class="loading" data-url="http://creatives.ftacademy.cn/picture/2/000093462_piclink.jpg"></figure>
-</a>
-<div class="item-lead">程实、王宇哲：疫情冲击之下，全球经济复苏动力换档，金融市场波动和调整的来源更替，政策潮水退去后风险也将渐次显现。</div>
-<div class="item-bottom"></div>
-</div></div>
- 
- 
-<div class="XLT MT PT"></div>
-<div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/premium/001088086" class="item-headline-link locked">FT社评：市场这波反弹根基不牢</a></h2>
-<a class="image" target="_blank" href="/premium/001088086" >
-<figure class="loading" data-url="http://creatives.ftacademy.cn/picture/4/000096044_piclink.jpg"></figure>
-</a>
-<div class="item-lead">股票等高风险资产近期出现反弹，既可能是因为投资者对经济复苏力度感到乐观，也可能是因为他们实在找不到什么别的资产好投。</div>
-<div class="item-bottom"></div>
-</div></div>
- 
- 
-<div class=" LT MT PT ST"></div>
-<div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/premium/001087988" class="item-headline-link locked">华尔街策略师开始看跌美元</a></h2>
-<a class="image" target="_blank" href="/premium/001087988" >
-<figure class="loading" data-url="http://creatives.ftacademy.cn/picture/3/000095903_piclink.jpg"></figure>
-</a>
-<div class="item-lead">高盛、摩根大通、德银和花旗近日都主张，美元长期涨势可能终于走到尽头。分析师们注意到美元的几个支撑最近消失或开始摇晃。</div>
-<div class="item-bottom"></div>
-</div></div>
- 
- 
-<div class=" MT PT"></div>
-<div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/premium/001087987" class="item-headline-link locked">铁矿石成为精英大宗商品</a></h2>
-<a class="image" target="_blank" href="/premium/001087987" >
-<figure class="loading" data-url="http://creatives.ftacademy.cn/picture/5/000091175_piclink.jpg"></figure>
-</a>
-<div class="item-lead">霍尔、博尔：随着投资者日益希望将大宗商品纳入其系统化投资策略，铁矿石市场将吸引金融操盘手的更多关注。</div>
-<div class="item-bottom"></div>
-</div></div>
-                     <div class="clearfloat"></div>
-</div>
-</div></div>   
-
-<div class="list-container"><div class="list-inner"><h2 class="list-title">
-<a class="list-link" href="#">楼市</a>
-</h2>
-<div class="items">
-
- 
-
-<div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001088803" class="item-headline-link locked">2020年中资本市场回顾与展望</a></h2>
-<a class="image" target="_blank" href="/story/001088803" >
-<figure class="loading" data-url="http://creatives.ftacademy.cn/picture/7/000098407_piclink.jpg"></figure>
-</a>
-<div class="item-lead">李海涛：债券配置机会不大，理财产品收益率也将下行；经济恢复、流动性充分下的股市是一个配置选择；楼市有回升趋势；长期来看，美元堪忧。</div>
-<div class="item-bottom"></div>
-</div></div>
- 
- 
-<div class=" MT PT"></div>
-<div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001088802" class="item-headline-link locked">我们的下一代会比千禧一代过的更好吗？</a></h2>
-<a class="image" target="_blank" href="/story/001088802" >
-<figure class="loading" data-url="http://creatives.ftacademy.cn/picture/7/000089387_piclink.jpg"></figure>
-</a>
-<div class="item-lead">伍治坚：每一个个体的命运，都和他出生及长大的时代紧密联系，个人的成功，有一部分取决于自身努力，但也有另一部分取决于他生于何时何处。</div>
-<div class="item-bottom"></div>
-</div></div>
- 
- 
-<div class=" LT MT PT ST"></div>
-<div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001087436" class="item-headline-link locked">资本专制、市场分层和楼市泡沫</a></h2>
-<a class="image" target="_blank" href="/story/001087436" >
-<figure class="loading" data-url="http://creatives.ftacademy.cn/picture/8/000094938_piclink.jpg"></figure>
-</a>
-<div class="item-lead">胡月晓：楼市泡沫和市场分层互为促进。 各方利益纠葛强化资本专制势力，最终结果是整个社会支付房价上涨的成本。楼市治理理念如何更新？</div>
-<div class="item-bottom"></div>
-</div></div>
- 
- 
-<div class="XLT MT PT"></div>
-<div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001085600" class="item-headline-link locked">香港买房者拉升英国高档住房市场</a></h2>
-<a class="image" target="_blank" href="/story/001085600" >
-<figure class="loading" data-url="http://creatives.ftacademy.cn/picture/8/000087368_piclink.jpg"></figure>
-</a>
-<div class="item-lead">大批香港买家为沉寂近五年的伦敦豪宅市场注入活力，由于担心香港动乱，他们到处于“脱欧”进程中的英国寻找避风港。</div>
-<div class="item-bottom"></div>
-</div></div>
- 
- 
-<div class=" LT MT PT ST"></div>
-<div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001085132" class="item-headline-link locked">家装销量下跌的背后：投资需求</a></h2>
-<a class="image" target="_blank" href="/story/001085132" >
-<figure class="loading" data-url="http://creatives.ftacademy.cn/picture/5/000089005_piclink.jpg"></figure>
-</a>
-<div class="item-lead">刘渊：不论是全国还是一二线大城市，2015年以来的销售面积都是持续增长的。那么为什么楼市销售没有回落，家装行业的销量却大幅下降了？</div>
-<div class="item-bottom"></div>
-</div></div>
- 
- 
-<div class=" MT PT"></div>
-<div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001083221" class="item-headline-link locked">中美贸易战对房地产业的冲击</a></h2>
-<a class="image" target="_blank" href="/story/001083221" >
-<figure class="loading" data-url="http://creatives.ftacademy.cn/picture/9/000085169_piclink.jpg"></figure>
-</a>
-<div class="item-lead">萧齐：当我们考虑贸易战背景下的“宏观冲击”，不应仅仅考虑中美贸易战对房地产业的影响，还要考虑房地产业的波动会怎样反向影响政府决策。</div>
-<div class="item-bottom"></div>
-</div></div>
-                     <div class="clearfloat"></div>
-</div>
-</div></div>       <div class="clearfloat block-bottom"></div>
-</div>  </div>  <div class="side-container"><div class="side-inner">
-	
-      <div class="side-list first-child leadOnly">
-<h2 class="list-title">
-<a href="#">频道介绍</a>
-</h2>
-  <div class="item-container first has-image"><div class="item-inner">
-<div class="item-lead item-description">本板块整合英国《金融时报》Financial Times、FT中文网，以及FT旗下众多媒体平台精华报道与分析，把握全球与中国创投领域最新动态。侧重互联网、新技术驱动的创新企业、新兴商业模式、投资资讯、创业领袖等。内容形式以独家报道、深度分析、企业领袖专访、视频故事与短纪录片，以及数据与多媒体沉浸式报道。</div>
-</div></div>  </div>    <div 
-data-o-ads-name="mpu-right1"
+<div 
+data-o-ads-name="mpu-middle1"
 class="o-ads"  
 data-o-ads-formats-default="false" 
-data-o-ads-formats-small="false" 
-data-o-ads-formats-medium="FtcMpu"
-data-o-ads-formats-large="FtcMpu"
-data-o-ads-targeting="cnpos=right1;"
-data-cy='[{"devices":["PC","PadApp","PadWeb"],"pattern":"MPU","position":"Right1"}]'
+data-o-ads-formats-small="FtcMobileMpu" 
+data-o-ads-formats-medium="false"
+data-o-ads-formats-large="false"
+data-o-ads-formats-extra="false"
+data-o-ads-targeting="cnpos=middle1;"
+data-cy='[{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp"],"pattern":"MPU","position":"Middle1"}]'
 >
 </div>
-  <div class="mps last-child">
-<h2 class="list-title"><a href="#">热门文章</a></h2>
-<ul class="top10">
-							
-<li class="mp1"><span>1. </span><a target="_blank" href="/story/001089272">特朗普是怎么追上拜登的？</a></li>
-<li class="mp2"><span>2. </span><a target="_blank" href="/story/001089281">有望接替安倍的菅义伟</a></li>
-<li class="mp3"><span>3. </span><a target="_blank" href="/story/001089292">中印喜马拉雅边境摩擦危险至极</a></li>
-<li class="mp4"><span>4. </span><a target="_blank" href="/story/001089273">后特朗普时代的共和党迈向何方？</a></li>
-<li class="mp5"><span>5. </span><a target="_blank" href="/story/001089271">一周世界舆论聚焦：安倍后的中日关系有望保持现状，但需小心维护</a></li>
-<li class="mp6"><span>6. </span><a target="_blank" href="/story/001089284">德国暗示北溪2号可能产生变数</a></li>
-<li class="mp7"><span>7. </span><a target="_blank" href="/story/001089280">一家印度小实验室的成长之路</a></li>
-<li class="mp8"><span>8. </span><a target="_blank" href="/story/001089293">伊朗计划与中国结成战略合作伙伴</a></li>
-<li class="mp9"><span>9. </span><a target="_blank" href="/story/001089282">美国出台财政刺激新措施的希望变得渺茫</a></li>
-<li class="mp10"><span>10. </span><a target="_blank" href="/story/001089274">大阪世博会奇特会徽传达了什么信息？</a></li>
-</ul>
+ 
+ 
+<div class=" XLT LT MT PT"></div>
+<div class="item-container XL3 L3 S4 M6 P12     has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/interactive/29347" class="item-headline-link ">“科技创新前沿的创业者”系列（一）：访谈蓝箭航天创始人、首席执行官张昌武</a></h2>
+<a class="image" target="_blank" href="/interactive/29347" >
+<figure class="loading" data-url="http://i.ftimg.net//picture/4/000108494_piclink.jpg"></figure>
+</a>
+<div class="item-lead"></div>
+<div class="item-bottom"></div>
+</div></div>
+ 
+ 
+<div class=" ST PT"></div>
+<div class="item-container XL3 L3 S4 M6 P12     has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/interactive/29209" class="item-headline-link ">从起点到原点 香山壹號院再续传奇</a></h2>
+<a class="image" target="_blank" href="/interactive/29209" >
+<figure class="loading" data-url="http://i.ftimg.net//picture/1/000108391_piclink.jpg"></figure>
+</a>
+<div class="item-lead">融创中国重回西山，除了对天赋沃土与典藏风貌的偏爱，更有融创北京精妙的战略布局。</div>
+<div class="item-bottom"></div>
+</div></div>
+  
+ 
+<div class=" MT PT"></div>
+<div class="item-container XL3 L3 S4 M6 P12     has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/interactive/27875" class="item-headline-link ">房企血拼双十一：前海限量版宅地上新，“国家队”拼单补货</a></h2>
+<a class="image" target="_blank" href="/interactive/27875" >
+<figure class="loading" data-url="http://i.ftimg.net//picture/1/000106751_piclink.jpg"></figure>
+</a>
+<div class="item-lead">当红、橙两档房企忙于降负债收缩投资时，绿档房企正在逆势补仓，积极扩储。</div>
+<div class="item-bottom"></div>
+</div></div>
+  
+ 
+<div class=" PT"></div>
+<div class="item-container XL3 L3 S4 M6 P12     has-image"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" href="/interactive/27213" class="item-headline-link ">武汉公积金新政落地 北漂一族回乡置业延期</a></h2>
+<a class="image" target="_blank" href="/interactive/27213" >
+<figure class="loading" data-url="http://i.ftimg.net//picture/7/000105907_piclink.jpg"></figure>
+</a>
+<div class="item-lead">疫情后武汉楼市快速复苏，购房投资需求大量释放同时，新房库存亦连创新高。</div>
+<div class="item-bottom"></div>
+</div></div>
+                                 <div class="clearfloat"></div>
 </div>
-    	
+</div></div>    <div class="clearfloat block-bottom"></div>
 </div>  </div>  <div class="clearfloat"></div>
 </div> </div> <div 
 data-o-ads-name="paidpost2"
@@ -937,10 +670,140 @@ data-o-ads-targeting="cnpos=paidpost;"
 <a href="/m/marketing/ftc.html">最新动态</a>
 </div>
 <p>
-<span class="copyright"><b>© The Financial Times Ltd 2020</b></span> 
+<span class="copyright"><b>© The Financial Times Ltd 2021</b></span> 
 <span><acronym title="Financial Times">FT</acronym> and 'Financial Times' are trademarks of The Financial Times Ltd.</span>
 </p>
 </div></div>
+<div class="debug-model-container">
+<div style="text-align: center; background-color: #FFFFFF; font-size: 38px; margin: 20px;font-weight:bold;"><a title="刷新本页CDN与服务器缓存" href="/index.php/marketing/flushcache?url=http://www.ftchinese.com%2Fm%2Fcorp%2Fpreview.html%3Fpageid%3Dcytiva%26to%3Dall">刷新本页缓存</a></div>
+<div style="text-align: center; background-color: #FFFFFF; font-size: 38px; margin: 20px;font-weight:bold;"><a title="提取本页的所有链接，便于在谷歌分析中查询流量" onclick="javascript:getAllLinksFromPage(this);">提取本页链接</a></div>
+<script>
+function getAllLinksFromPage(ele) {
+var allLinks = document.querySelectorAll('.item-container a[href]');
+var linksArray = [];
+var hostName = window.location.host;
+for (var i=0; i<allLinks.length; i++) {
+var linkText = allLinks[i].href;
+linkText = linkText.replace('http://' + hostName, "");
+if (/story\/|interactive\/|video\/|photonews/.test(linkText)) {
+linkText = linkText.replace(/[\?#].*$/g, '');
+if (linksArray.indexOf(linkText)<0) {
+linksArray.push(linkText);
+}
+}
+}
+ele.innerHTML = '<textarea rows=3 style="width:100%">'+linksArray.join('|')+'</textarea>'
+}
+</script>
+<style>
+#promo-box-preview {
+padding: 15px;
+}
+#promo-box-preview label {
+width: 120px;
+display: inline-block;
+}
+#promo-box-preview div {
+line-height: 1.7em;
+}
+#promo-box-preview select, #promo-box-preview input {
+width: 120px;
+}
+</style>
+<div style="text-align: center; background-color: #FFFFFF; font-size: 38px; margin: 20px;font-weight:bold;"><a title="预览Promo Box的效果" onclick="javascript:previewPromoBox();">预览Promo Box</a></div>
+<script type="text/javascript">
+function previewPromoBox() {
+var firstBanner = document.querySelector('[data-o-ads-name="banner1"]');
+var newNode = document.createElement('DIV');
+var formHTML = '<div><b>模拟各种会员身份：</b></div>';
+formHTML += '<div><label>Type: </label><select data-key="promoTarget" class="o-input-text"><option value="noneSubscriber">noneSubscriber</option><option value="standard" selected="">standard</option><option value="premium">premium</option></select></div>';
+formHTML += '<div><label>Source: </label><select data-key="SubscriberSource" class="o-input-text"><option value="2C" selected="">2C</option><option value="2B">2B</option><option value="All">All</option></select></div>';
+formHTML += '<div><label>Durtion: </label><select data-key="Duration" class="o-input-text"><option value=""></option><option value="yearly" selected="">yearly</option><option value="monthly">monthly</option></select></div>';
+formHTML += '<div><label>Platform: </label><select data-key="Platform" class="o-input-text"><option value="WebSite">Web Site</option><option value="iOSApp">iOS App</option><option value="AndroidApp">Android App</option></select></div>';
+formHTML += '<div><label>Expire: </label><input data-key="ExpireDate" type="text" value="" placeholder="YYYY-MM-DD"></div>';
+formHTML += '<div><label>Renewal: </label><select data-key="PendingRenewal" class="o-input-text"><option value="">No Matter</option><option value="On">On</option><option value="Off">Off</option></select></div>';
+formHTML += '<div><button onclick="refreshPromoBoxPreview();">Done</button></div>';
+formHTML = '<div style="padding: 15px;" id="promo-box-preview">' + formHTML + '</div>';
+newNode.innerHTML = formHTML;
+var existingPromoBoxPreview = document.getElementById('promo-box-preview');
+if (existingPromoBoxPreview) {
+existingPromoBoxPreview.parentNode.removeChild(existingPromoBoxPreview);
+}
+firstBanner.parentNode.insertBefore(newNode, firstBanner);
+window.scrollTo(0, 0);
+}
+function refreshPromoBoxPreview() {
+window.htmlClass = document.documentElement.className;
+window.htmlClass = window.htmlClass.replace(/\ is\-subscriber/g, '').replace(/\ is\-premium/g, '').replace(/\ is\-standard/g, '');
+var subscriptionType = document.querySelector('[data-key="promoTarget"]').value;
+if (subscriptionType === 'premium') {
+window.htmlClass += ' is-subscriber is-premium';
+subscriptionType = 'premium';
+} else if (subscriptionType === 'standard'){
+window.htmlClass += ' is-subscriber is-standard';
+subscriptionType = 'standard';
+}
+var ccode = (document.querySelector('[data-key="SubscriberSource"]').value === '2C') ? '00000000' : '7SXXXXX';
+var expireDateString = document.querySelector('[data-key="ExpireDate"]').value;
+var expireDate = Math.round((new Date(expireDateString + ' 00:00:00')).getTime() / 1000);
+var duration = document.querySelector('[data-key="Duration"]').value;
+var platform = document.querySelector('[data-key="Platform"]').value;
+var pendingRenewal = document.querySelector('[data-key="PendingRenewal"]').value;
+var xhr = new XMLHttpRequest();
+xhr.open('get', '/m/corp/partial.html?include=promoboxone&type=' + subscriptionType + '&expire=' + expireDate + '&ccode=' + ccode + '&duration=' + duration + '&platform=' + platform + '&pendingRenewal=' + pendingRenewal);
+xhr.setRequestHeader('Content-Type', 'application/text');
+xhr.onload = function() {
+if (xhr.status === 200) {
+var data = xhr.responseText;
+if (data !== '') {
+var promoboxContainer = document.getElementById('promo-box-container');
+if (promoboxContainer) {
+promoboxContainer.innerHTML = data;
+startCountdown(promoboxContainer, expireDate);
+//sendTracking(promoboxContainer);
+}
+}
+}
+};
+xhr.send(null);
+document.documentElement.className = window.htmlClass;
+}
+</script>
+</div>
+<img src='https://beacon.krxd.net/event.gif?event_id=KWA6DGT9&event_type=rtg' width=0 height=0 />
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-app.js"></script>
+<!-- TODO: Add SDKs for Firebase products that you want to use
+https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-analytics.js"></script>
+<script>
+// Your web app's Firebase configuration
+var firebaseConfig = {
+apiKey: "AIzaSyCB4QkzRm1oUl9-XA6kl8ob58FI3C6iDY0",
+authDomain: "ftchineseiphone.firebaseapp.com",
+databaseURL: "https://ftchineseiphone.firebaseio.com",
+projectId: "ftchineseiphone",
+storageBucket: "ftchineseiphone.appspot.com",
+messagingSenderId: "342601113715",
+appId: "1:342601113715:web:6d7016e26b94e3854fca06",
+measurementId: "G-PT4E4NGVJV"
+};
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+firebase.analytics();
+</script><div style="display: none;" class="specialanchor" tag="中国经济" title="展望后疫情时代中国经济" adid="" channel="" hideAd="no" zone="Post-pandemic" storyKeyWords="中国经济,人民币,展望2021,中国股市" cntopic=""></div>
+<div style="display: none;" class="specialanchor" tag="高端物业" title="高端物业" adid="" channel="" hideAd="no" zone="business/property" storyKeyWords="" cntopic=""></div>
+<div style="display: none;" class="specialanchor" tag="FT商学院" title="FT商学院" adid="" channel="/channel/mba.html" hideAd="no" zone="mba" storyKeyWords="" cntopic=""></div>
+<div style="display: none;" class="specialanchor" tag="新型冠状病毒" title="新型冠状病毒疫情" adid="" channel="" hideAd="no" zone="coronavirus" storyKeyWords="" cntopic=""></div>
+<div style="display: none;" class="specialanchor" tag="换脑" title="换脑 - ReWired 跨年对话" adid="" channel="" hideAd="no" zone="rewired" storyKeyWords="" cntopic=""></div>
+<div style="display: none;" class="specialanchor" tag="" title="奔驰维权" adid="" channel="" hideAd="no" zone="" storyKeyWords="奔驰维权,消费者权益,西安车主" cntopic="benzprotest"></div>
+<div style="display: none;" class="specialanchor" tag="" title="恐怖袭击" adid="5048" channel="" hideAd="no" zone="disaster" storyKeyWords="恐怖袭击" cntopic=""></div>
+<div style="display: none;" class="specialanchor" tag="灾难" title="灾难" adid="5048" channel="" hideAd="no" zone="disaster" storyKeyWords="" cntopic=""></div>
+<div style="display: none;" class="specialanchor" tag="空难" title="空难" adid="5048" channel="" hideAd="no" zone="disaster" storyKeyWords="" cntopic=""></div>
+<div style="display: none;" class="specialanchor" tag="自然灾害" title="自然灾害" adid="5048" channel="" hideAd="no" zone="disaster" storyKeyWords="" cntopic=""></div>
+<div style="display: none;" class="specialanchor" tag="车祸" title="车祸" adid="5048" channel="" hideAd="no" zone="disaster" storyKeyWords="" cntopic=""></div>
+<div style="display: none;" class="specialanchor" tag="地震" title="地震" adid="5048" channel="" hideAd="no" zone="disaster" storyKeyWords="" cntopic=""></div>
+<div style="display: none;" class="specialanchor" tag="逃犯条例" title="逃犯条例" adid="5048" channel="" hideAd="no" zone="disaster" storyKeyWords="" cntopic=""></div>
 
 
 
