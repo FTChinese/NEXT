@@ -1,3 +1,11 @@
+<%assign var="showNavigation" value="yes"%>
+<%assign var="requirelogin" value=""%>
+<%*<!--MARK: - Member Center Configuration-->*%>
+<%if $smarty.server.HTTP_HOST=="www.ftchinesemember.com"%>
+	<%assign var="showNavigation" value="no"%>
+	<%assign var="requirelogin" value="no"%>
+<%/if%>
+
 <%assign var="adchannelID" value="`$p.meta.adid`"%>
 <%if !isset($adchannelID)||$adchannelID==""%>
     <%assign var="adchannelID" value="1100"%>
