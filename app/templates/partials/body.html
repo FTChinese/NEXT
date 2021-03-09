@@ -35,7 +35,7 @@
         <%if $section.showLogin == "no"%>
             <%assign var="showLogin" value="no"%>
         <%/if%>
-        <%if $pageId != "" && $pageId != "home"%>
+        <%if $pageId != "" && $pageId != "home" && p.meta.theme != "partner_content"%>
             <%include file="next/partials/tag-header.html"%>
         <%else%>
             <%include file="next/partials/header.html"%>

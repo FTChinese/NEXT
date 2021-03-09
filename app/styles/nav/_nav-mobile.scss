@@ -79,7 +79,7 @@
 			content: '';
 			padding-left: 1em;
 			margin-right: -15px;
-			@include oHeaderIcon('white/arrow-right-white', 10);
+			@include oHeaderIcon($arrowRight, 10);
 		}
 
 		&[aria-selected=true] {
@@ -189,7 +189,7 @@
 	@include oGridRespondTo(L) {
 		display: none;
 	}
-	background-color: $headerTint;
+	background-color: transparent;
 	color: $whiteColor;
 
 	box-sizing: border-box;
@@ -210,16 +210,18 @@
 		display: none;
 	}
 
+	
+
 	@include oGridRespondTo($until:L) {
 		&:before {
 			content: '';
 			vertical-align: middle;
-			@include oHeaderIcon('white/hamburger-white', 20);
+			@include oHeaderIcon($hamberger, 20);
 		}
 
 		&[aria-pressed=true]{
 			&:before {
-				@include oHeaderIcon('white/cross-white', 20);
+				@include oHeaderIcon($cross, 20);
 			}
 
 		}		

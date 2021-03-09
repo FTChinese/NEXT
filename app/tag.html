@@ -144,12 +144,34 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 <script>var gUaOfPage = navigator.userAgent || navigator.vendor || "";</script><script>
 window.newAd = true;
 </script>
+<style>
+.header-container, .o-nav {
+border-bottom: 1px solid #ccc1b7;
+}
+@media (max-width: 61.24em) {
+    .o-nav {
+        position: static;
+    }
+}
+
+</style>
 <header class="header-container">
 <div class="header-inner">
-<div class="header-title">Cytiva</div>
+<div class="header-title">特别企划</div>
 <a href="/" class="header-side header-left">
-<div class="header-brand"><figure class="loading logo" data-url="https://dhgxl8qk9zgzr.cloudfront.net/images/masthead36.png"></figure></div>
+<div class="header-brand"><figure class="loading logo" data-url="https://thumbor.ftacademy.cn/unsafe/0x114/https://dhgxl8qk9zgzr.cloudfront.net/img/png/brand-ftc-masthead.png"></figure></div>
 </a>
+<div class="header-side header-right">
+<span class="visitor-box">
+<a onclick="showOverlay('overlay-login')">登录</a>
+<a class="more last" href="http://user.ftchinese.com/register">免费注册</a>
+</span>
+<span class="member-box">
+<a href="/channel/myftlocal.html">我的FT</a>
+<a id="ft-login-your-account" href="/users/cp">设置</a>
+<a id="ft-login-logout" href="/users/logout">登出</a>
+</span>
+</div>
 </div>
 </header>
 <div class="overlay-container" id="overlay-login">
@@ -470,15 +492,200 @@ FT中文网首页
 <div class="clearfloat"></div>
 </div>
 </div>
+
+
+
+
+<style>
+    .partner-container {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 0;
+        background: white;
+        z-index: 99999;
+        height: 35px;
+        border-bottom: 5px solid #ccc;
+        box-sizing: content-box;
+    }
+    .partner-inner {
+        height: 100%;
+        max-width: 1230px;
+        margin: auto;
+        position: relative;
+    }
+    .partner-inner .main-content {
+        text-align: center;
+        color: #355778;
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 25px;
+    }
+    .partner-inner .main-content::after {
+        content: '';
+        display: inline-block;
+        background-image: url('https://ft-bc-cms.herokuapp.com/_resources/themes/simpleBC/dist/static/pcHeader/information_hover.png?m=1611672393');
+        width: 17px;
+        height: 17px;
+        background-size: cover;
+        background-repeat: no-repeat;
+        margin-left: 5px;
+    }
+    .partner-inner .left-icon {
+        position: absolute;
+        line-height: 35px;
+        left: 15px;
+        top: 0;
+        bottom: 0;
+        color: #939598;
+        font-size: 20px;
+        text-transform: uppercase;
+        font-weight: 600;
+    }
+
+    .partner-inner .right-icon {
+        position: absolute;
+        line-height: 35px;
+        right: 15px;
+        top: 0;
+        bottom: 0;
+        color: #939598;
+    }
+    .partner-inner .right-icon::after {
+        content: '';
+        display: inline-block;
+        width: 13px;
+        height: 17px;
+        background-image: url('https://ft-bc-cms.herokuapp.com/_resources/themes/simpleBC/dist/static/pcHeader/btn_export.png?m=1611672393');
+        background-size: contain;
+        background-repeat: no-repeat;
+        margin-left: 5px;
+    }
+</style>
+<div class="partner-container">
+    <div class="partner-inner">
+        <div class="main-content">特别企划</div>
+        <div class="left-icon">CYTIVA</div>
+        <div class="right-icon">分享</div>
+    </div>
+</div>
+
+
+
+
+<!--MARK: This style is downloaded only when needed. -->
+<style>
+    .video-hero {
+        width: 100%;
+        height: 500px;
+        position: relative;
+        margin-bottom: 30px;
+        background-color: #dfdee0;
+    }
+    .video-hero video {
+        position: absolute;
+        top: 0;
+        bottom:0;
+        left: 0;
+        right: 0;
+        height: 100%;
+        width: 100%;
+        max-width: 1200px;
+        margin: auto;
+    }
+    .hero_main-content {
+        position: absolute;
+        top: 0;
+        bottom:0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
+        margin: auto;
+        background-size: cover;
+    }
+    .hero_main-content-outer {
+        max-width: 1200px;
+        width: 100%;
+        height: 100%;
+        margin: auto;
+        display: table;
+    }
+    .hero_main-content-wrapper {
+        display: table-cell;
+        vertical-align: middle;
+        margin: auto;
+    }
+    .hero_main-content-title h1 {
+        color: white;
+        line-height: 140%;
+        font-size: 70px;
+    }
+    #vt-control {
+        background: #FFFFFF66 0% 0% no-repeat;
+        border-radius: 100%;
+        opacity: 0.7;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        background-image: url("https://www.ft.com/partnercontent/cytiva/assets/play-button.svg");
+        width: 70px;
+        height: 70px;
+        display: block;
+        cursor: pointer;
+    }
+
+</style>
+<div class="video-hero">
+    <video id="video" poster="https://www.ft.com/partnercontent/images/cytiva/hub/video_hero2.jpg" loop="" controls>  
+        <source src="https://www.ft.com/partnercontent/cytiva/assets/CYTIVA_EDIT_13_720p.mp4" type="video/mp4">
+        <track label="English" kind="subtitles" srclang="en" src="16147829136810.vtt" default>
+    </video>
+    <div class="hero_main-content" style="background-image: url('https://www.ft.com/partnercontent/images/cytiva/hub/video_hero2.jpg')">
+        <div class="hero_main-content-outer">
+            <div class="hero_main-content-wrapper">
+                <div class="hero_main-content-title">
+                    <h1>全球生物制药<br>弹性指数</h1>
+                </div>
+                <a id="vt-control" title="Play"></a>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.querySelector('#vt-control').onclick = function() {
+        var video = document.querySelector('#video');
+        if (!video) {return;}
+        document.querySelector('.hero_main-content').style.display = 'none';
+        video.play();
+    };
+</script>
+
+
+
+
+
+
+
+
+
 <div class="block-container dark-green no-side all"><div class="block-inner">
 <div class="content-container">
 <div class="content-inner">
-
-<div class="large-card-title-grid">
-  <div class="large-card-title"><span>关于</span><span class="highlight">FT中文网</span></div>
-  <div class="large-card-description">FT中文网是英国《金融时报》集团旗下唯一的中文商业财经网站，旨在为中国商业菁英和决策者们提供每日不可或缺的商业财经新闻、深度分析以及评论。</div>
+<div class="list-container list-with-text">
+<div class="list-inner">
+<div class="items">
+<div class="no-image">
+<div class="item-inner">
+<div class="item-lead">
+<p>在经历了近年来最严重的公共卫生危机之后，在应对Covid-19大流行的过程中，制药和生物制药行业在全球人口生活中的作用变得越来越重要。</p><p>Cytiva的全球生物制药弹性指数——基于对1000多名生物制药高管的调查——在生物制药健康至关重要之际，从5个关键支柱全面审视了该行业。最新数据显示，要确保其未来的安全，还有很多工作要做。</p><p>要深入研究该指数的重点和关键发现，请查看每篇文章的支柱标题，并仔细查看下面的交互式数据可视化。</p><p>高收入国家和低收入国家之间的差距需要弥合，以避免关键药品供应短缺，而全球供应链的中断暴露出国内市场缺乏对人才和制造业的支持。</p><p>但通过领先专家的见解，该行业可以开辟一条道路，走向更具弹性的未来。这是制药和生物制药面临的最大挑战。</p>
 </div>
+</div>
+</div>
+</div>
+</div>
+</div> 
+<div class="list-container"><div class="list-inner"><div class="items">
 
+ 
 
 <div class="item-container XL3 L3 S4 M6 P12     has-image"><div class="item-inner">
 <h2 class="item-headline"><a target="_blank" href="/interactive/33039" class="item-headline-link ">【特别策划】五福新年新趋势</a></h2>
@@ -805,9 +1012,6 @@ firebase.analytics();
 <div style="display: none;" class="specialanchor" tag="车祸" title="车祸" adid="5048" channel="" hideAd="no" zone="disaster" storyKeyWords="" cntopic=""></div>
 <div style="display: none;" class="specialanchor" tag="地震" title="地震" adid="5048" channel="" hideAd="no" zone="disaster" storyKeyWords="" cntopic=""></div>
 <div style="display: none;" class="specialanchor" tag="逃犯条例" title="逃犯条例" adid="5048" channel="" hideAd="no" zone="disaster" storyKeyWords="" cntopic=""></div>
-
-
-
 
 
 </body>
