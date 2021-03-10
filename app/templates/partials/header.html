@@ -11,6 +11,18 @@
 <%/if%>
 <%include file="next/partials/pop-ad.html"%>
 <%if $smarty.get.webview != "ftcapp"%>
+<%if $p.meta.theme == "partner_content"%>
+    <style>
+      .header-container, .o-nav {
+        border-bottom: 1px solid #ccc1b7;
+      }
+      @media (max-width: 61.24em) {
+        .o-nav {
+            position: static;
+        }
+      }
+    </style>
+    <%/if%>
     <%if date("Ymd",$smarty.now) < 20180801 && $pageId == "home"%>
         <div class="warn-content"><span>为适应法律法规和英国《金融时报》中文网业务的更新，我们修订了新版用户协议（服务条款）包含隐私保护政策，敬请您<a  href="/m/corp/service.html">点击查阅</a>。</span><span class="close-img"></span></div>
     <%/if%>

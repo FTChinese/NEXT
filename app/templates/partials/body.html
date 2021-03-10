@@ -35,8 +35,9 @@
         <%if $section.showLogin == "no"%>
             <%assign var="showLogin" value="no"%>
         <%/if%>
-        <!--theme: <%$p.meta.theme%>-->
-        <%if $pageId != "" && $pageId != "home"%>
+        <%if $p.meta.theme == "partner_content"%>
+            <%include file="next/partials/header.html"%>
+        <%elseif $pageId != "" && $pageId != "home"%>
             <%include file="next/partials/tag-header.html"%>
         <%else%>
             <%include file="next/partials/header.html"%>
@@ -175,6 +176,12 @@
         <%/if%>
     <%elseif $section.type == "footer"%>
         <%include file="next/partials/footer.html"%>
+    <%elseif $section.type == "partnerBanner"%>
+        <%include file="next/partials/partner-banner.html"%>
+    <%elseif $section.type == "hero"%>
+        <%include file="next/partials/hero.html"%>
+    <%elseif $section.type == "SeamlessFrame"%>
+        <%include file="next/partials/seamless-frame.html"%>
     <%elseif $section.type == "FixedButtons"%>
         <%include file="next/partials/FixedButtons.html"%>
     <%elseif $section.type == "page"%>

@@ -284,6 +284,22 @@
 		text-align: left;
 	}
 }
+
+a.read-more {
+	display: inline-block;
+    border: 1px solid #00886F;
+    color: #00886F;
+    text-align: center;
+    text-transform: uppercase;
+    padding: $defaultPadding/3 $defaultPadding/1.5;
+    font-weight: bold;
+	margin-top: $defaultPadding/2;
+	&:active, &:hover {
+		background-color: #00886F;
+		color: white;
+	}
+}
+
 .item-bottom {
 	clear: both;
 }
@@ -421,7 +437,18 @@
 	display: grid;
 	grid-template-columns: 1fr 1fr;
 	color: $titleColor;
-	margin: $defaultPadding 0;
+	margin: $defaultPadding $defaultPadding/2;
+	.sponsor-logo {
+		position: relative;
+		img {
+			height: 50px;
+			position: absolute;
+			top:0;
+			bottom:0;
+			right:0;
+			margin: auto;
+		}
+	}
 }
 
 .large-card-title {
@@ -454,6 +481,17 @@
 	}
 }
 
+.card-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+	grid-gap: 1rem;
+	gap: 1rem;
+	.item-container {
+		.item-headline {
+			font-size: 1.2em;
+		}
+	}
+}
 
 .large-card-grid {
 	display: grid;
@@ -463,82 +501,82 @@
     row-gap: $defaultPadding * 2;
     grid-row-gap: $defaultPadding * 2;
 	margin-bottom: $defaultPadding;
-	
-}
-.large-card {
-	&.item-container {
-		float: none;
-		background-color: $bannerBG;
-	}
-	.item-inner {
-		padding: 39.375% 0 $defaultPadding 0;
-	}
-	&:nth-child(odd) {
+	.item-container {
 		&.item-container {
-			background-color: #ffec1a;
+			float: none;
+			background-color: $bannerBG;
 		}
-		.item-headline a, .item-lead, .item-lead a {
-			color: $darkGrey;
+		.item-inner {
+			padding: 39.375% 0 $defaultPadding 0;
 		}
-	}
-	&:nth-child(even) {
-		&.item-container {
-			background-color: #593380;
+		&:nth-child(odd) {
+			&.item-container {
+				background-color: #ffec1a;
+			}
+			.item-headline a, .item-lead, .item-lead a {
+				color: $darkGrey;
+			}
 		}
-		.item-headline a, .item-lead, .item-lead a {
-			color: white;
+		&:nth-child(even) {
+			&.item-container {
+				background-color: #593380;
+			}
+			.item-headline a, .item-lead, .item-lead a {
+				color: white;
+			}
+			.item-headline:after {
+				background-color: white;
+			}
 		}
-		.item-headline:after {
-			background-color: white;
-		}
-	}
-	.image {
-		left:0;
-		right: 0;
-		margin: auto;
-		figure {
-			padding-bottom: 39.375%;
-			margin: auto;
-		}
-		&:before {
-			content: '';
-			position: absolute;
-			top: 0;
+		.image {
 			left:0;
-			right:0;
-			height: 50%;
-			background-color: $defaultPink;
+			right: 0;
+			margin: auto;
+			figure {
+				padding-bottom: 39.375%;
+				margin: auto;
+			}
+			&:before {
+				content: '';
+				position: absolute;
+				top: 0;
+				left:0;
+				right:0;
+				height: 50%;
+				background-color: $defaultPink;
+			}
 		}
-	}
-	figure {
-		width: 70%;
-	}
-	.item-headline {
-		font-size: 1.4em;
-		font-weight: bold;
-		padding-top: $defaultPadding;
-		text-align: center;
-		&:after {
-			content: '';
-			display: block;
-			margin: 10px auto $defaultPadding/2;
-			width: 60px;
-			height: 8px;
-			background: $darkGrey;
+		figure {
+			width: 70%;
 		}
-	}
-	.item-lead {
-		color: $darkGrey;
-		padding: 0 $defaultPadding;
-		font-weight: bold;
+		.item-headline {
+			font-size: 1.4em;
+			font-weight: bold;
+			padding-top: $defaultPadding;
+			text-align: center;
+			&:after {
+				content: '';
+				display: block;
+				margin: 10px auto $defaultPadding/2;
+				width: 60px;
+				height: 8px;
+				background: $darkGrey;
+			}
+		}
+		.item-lead {
+			color: $darkGrey;
+			padding: 0 $defaultPadding;
+			font-weight: bold;
+		}
 	}
 }
+
 
 @media only screen and (max-width: 600px) {
 	.large-card-grid {
 		display: block;
 	}
-	.large-card {
+	.large-card-grid .item-container {
 		margin-bottom: $defaultPadding;
 	}
 }
@@ -719,7 +757,10 @@
 				}
 			}
 			.item-lead {
-				padding: 0 0 0 0;
+				padding: 0;
+				&.item-description {
+					padding: 0 $defaultPadding/2;
+				}
 			}
 		}
 		&.first {

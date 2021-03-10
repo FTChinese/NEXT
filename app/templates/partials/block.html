@@ -85,7 +85,7 @@
 		<%assign var="listLength" value=$section.lists|@count%>
 		<%assign var="foundConfirmForm" value="no"%>
 		<%foreach from=$section.lists item=list%>
-			<%if $list.float === "LargeCard"%>
+			<%if $list.float === "LargeCard" || $list.float === "GridCard"%>
 				<%*<!--MARK: - Start to use CSS grid for any new styles -->*%>
 				<%include file="next/partials/ListGrid.html"%>
 			<%else%>

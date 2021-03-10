@@ -1,24 +1,45 @@
-<%if $list.title != "" && $list.description != ""%>
+<!--List Grid Included-->
+
+<%if $list.title != ""%>
     <div class="large-card-title-grid">
         <div class="large-card-title"><%$list.title%></div>
-        <div class="large-card-description"><%$list.description%></div>
+        <%if $list.description != ""%>
+            <div class="large-card-description"><%$list.description%></div>
+        <%/if%>
+        <%if $list.sponsorLogoUrl != ""%>
+            <%assign var="sponsorLink" value=""%>
+            <%if $list.sponsorLink != ""%>
+                <%assign var="sponsorLink" value=" href=\"`$list.sponsorLink`\""%>
+            <%/if%>
+            <a<%$sponsorLink%> class="sponsor-logo"><img src="<%$list.sponsorLogoUrl%>"></a>
+        <%/if%>
     </div>
 <%/if%>
 
-<div class="large-card-grid">
+<%assign var="gridClass" value="card-grid"%>
+<%if $list.float == "LargeCard"%>
+    <%assign var="gridClass" value="large-card-grid"%>
+<%/if%>
+<div class="<%$gridClass%>">
     <%foreach from=$list.items item=item%>
         <%assign var=itemLink value=$item.customLink%>
+        <%if $itemLink == ""%>
+            <%assign var=itemLink value="/`$item.type`/`$item.id`"%>
+        <%/if%>
         <%if $itemLink != ""%>
             <%assign var=itemLink value=" href=\"`$itemLink`\""%>
         <%/if%>
         <%assign var=itemImage value=$item.image%>
         <%assign var=itemHeadline value=$item.headline%>
         <%assign var=itemLead value=$item.longlead|default:$item.shortlead%>
-        <div class="item-container large-card"><div class="item-inner">
+        <div class="item-container"><div class="item-inner">
             <a class="image" target="_blank"<%$itemLink%>><figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure></a>
             <div class="item-headline-lead">
                 <h2 class="item-headline"><a target="_blank"<%$itemLink%> class="item-headline-link <%$lockClass%>"><%$itemHeadline%></a></h2>
                 <div class="item-lead"><%$itemLead|nl2br%></div>
+                <%if $list.readMore != ""%>
+                    <a class="read-more" target="_blank"<%$itemLink%>><%$list.readMore%></a>
+                <%/if%>
             </div>
         </div></div>
     <%/foreach%>

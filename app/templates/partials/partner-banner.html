@@ -1,0 +1,123 @@
+<style>
+    .partner-container {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 0;
+        background: white;
+        z-index: 99999;
+        height: 35px;
+        border-bottom: 5px solid #ccc;
+        box-sizing: content-box;
+    }
+    .partner-inner {
+        height: 100%;
+        max-width: 1230px;
+        margin: auto;
+        position: relative;
+    }
+    .partner-inner .main-content {
+        text-align: center;
+        color: #355778;
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 25px;
+        cursor: pointer;
+    }
+    .partner-inner .main-content::after {
+        content: '';
+        display: inline-block;
+        background-image: url('https://ft-bc-cms.herokuapp.com/_resources/themes/simpleBC/dist/static/pcHeader/information_hover.png?m=1611672393');
+        width: 17px;
+        height: 17px;
+        background-size: cover;
+        background-repeat: no-repeat;
+        margin-left: 5px;
+    }
+    .partner-inner .left-icon {
+        position: absolute;
+        line-height: 35px;
+        left: 15px;
+        top: 0;
+        bottom: 0;
+        color: #939598;
+        font-size: 20px;
+        text-transform: uppercase;
+        font-weight: 600;
+    }
+
+    .partner-inner .right-icon {
+        position: absolute;
+        line-height: 35px;
+        right: 15px;
+        top: 0;
+        bottom: 0;
+        color: #939598;
+    }
+    .partner-inner .right-icon::before {
+        content: '分享';
+        display: inline-block;
+    }
+    .partner-inner .right-icon::after {
+        content: '';
+        display: inline-block;
+        width: 13px;
+        height: 17px;
+        background-image: url('https://ft-bc-cms.herokuapp.com/_resources/themes/simpleBC/dist/static/pcHeader/btn_export.png?m=1611672393');
+        background-size: contain;
+        background-repeat: no-repeat;
+        margin-left: 5px;
+    }
+    .partner-inner .explain {
+        display: none;
+        position: absolute;
+        background: #fff;
+        -webkit-box-shadow: 0 1px 4px rgb(77 72 69 / 15%), 0 8px 14px rgb(77 72 69 / 20%);
+        box-shadow: 0 1px 4px rgb(77 72 69 / 15%), 0 8px 14px rgb(77 72 69 / 20%);
+        top: 55px;
+        max-width: 325px;
+        width: 100%;
+        right: 50%;
+        -webkit-transform: translate(50%);
+        transform: translate(50%);
+        padding: 15px;
+        text-align: center;
+    }
+    .partner-inner .explain.on {
+        display: block;
+    }
+    .explain-btn {
+        position: absolute;
+        cursor: pointer;
+        right: 5px;
+        top: 0;
+    }
+    .explain-btn img {
+        height: 10px;
+    }
+    @media only screen and (max-width: 490px) {
+        .partner-inner .right-icon::before {
+            display: none;
+        }
+    }
+</style>
+<div class="partner-container">
+    <div class="partner-inner">
+        <div class="main-content"><%$section.title%></div>
+        <div class="left-icon"><%$section.sponsor%>></div>
+        <div class="right-icon"></div>
+        <div class="explain">
+            <div class="explain-btn">
+                <img src="https://ft-bc-cms.herokuapp.com/_resources/themes/simpleBC/dist/static/pcHeader/close.svg?m=1611672393">
+            </div>
+            <%$section.disclaimer%></div>
+    </div>
+</div>
+<script>
+    function toggleExplain() {
+        var explainEle = document.querySelector('.partner-inner .explain');
+        if (!explainEle) {return;}
+        explainEle.classList.toggle('on');
+    }
+    document.querySelector('.main-content').onclick = toggleExplain;
+    document.querySelector('.explain-btn').onclick = toggleExplain;
+</script>
