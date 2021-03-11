@@ -1274,6 +1274,7 @@
 	<%assign var="storyLead" value=$clongleadbody|default:$cshortleadbody%>
 <%/if%>
 
+
 <%if $page_action=="user_comment"%>
 	<%assign var="comments_count" value="评论总数: [`$count`条] <a href=\"/rss/hotusercomment\" target=\"_blank\" title=\"RSS 订阅热门读者评论\"><img src=\"https://dhgxl8qk9zgzr.cloudfront.net/img/rss.gif\" /></a>"%>
 <%/if%>
@@ -1641,7 +1642,7 @@
 
 
 <%assign var="translationDisclaimer" value=""%>
-<!--MARK: - Remove this after May 2021-->
+<%*<!--MARK: - Remove this after May 2021-->*%>
 <%if preg_match("/AITranslation/is",$keys) && $page_action != "en" && 1>2%>
 	<%assign var="translationDisclaimer" value="<div class=\"copyrightstatement-container\">为了第一时间为您呈现此信息，中文内容为机器翻译，仅供参考。</div>"%>
 <%/if%>
@@ -1667,7 +1668,7 @@
 	<%assign var="pageTrackerTag" value=" - `$pageTrackerTag` "%>
 <%/if%>
 
-<%if preg_match("/FT漫画|视频直播|数据新闻/is",$keys) || preg_match("/full\-grid/is",$story_content) || ($page_action=="ce" && $isMachineTranslation == "yes")%>
+<%if preg_match("/FT漫画|视频直播|数据新闻|partner\_content/is",$keys) || preg_match("/full\-grid/is",$story_content) || ($page_action=="ce" && $isMachineTranslation == "yes")%>
 	<%assign var="fullGridClass" value=" full-grid-story"%>
 <%/if%>
 
@@ -1742,6 +1743,17 @@
     <%elseif preg_match("/极致人生|视频直播/is",$keys)%>
     	<style><%include file="next/styles/main-story-luxury.css"%></style>
 		<script type="text/javascript">var pageTheme = 'luxury';</script>
+	<%elseif preg_match("/partner\_content/is",$keys)%>
+		<%assign var="showNavigation" value="no"%>
+		<%assign var="hideNavOnWideScreen" value="yes"%>
+		<%assign var="theme" value="partner_container"%>
+		<%assign var=hideQR value="yes"%>
+	    <%assign var=hidePromoBox value="yes"%>
+		<%if $nextmodel != "" && $eskylineheadline != ""%>
+			<%assign var="p" value=$nextmodel->getPublishJson($eskylineheadline)|json_decode:true%>
+		<%/if%>
+    	<style><%include file="next/styles/main-story-partner-content.css"%></style>
+		<script type="text/javascript">var pageTheme = 'partnerContent';</script>
 	<%else%>
 		<style><%include file="next/styles/main-story.css"%></style>
 		<%if $interactiveType == "Speedread"%>
@@ -1929,6 +1941,13 @@
 			<%include file="next/partials/tag-header.html"%>
 		<%else%>
 			<%include file="next/partials/header.html"%>
+		<%/if%>
+		<%if preg_match("/partner\_content/is",$keys) && $p != "" && $p.sections != ""%>
+			<%foreach from=$p.sections item="section"%>
+				<%if $section.type == "partnerBanner"%>
+					<%include file="next/partials/partner-banner.html"%>
+				<%/if%>
+			<%/foreach%>
 		<%/if%>
 		<%if $minisiteInfo == ""%>
 			<%include file="next/partials/nav.html"%>

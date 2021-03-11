@@ -16,6 +16,13 @@
 		</div></div>
 	</div>
 <%/if%>
+<%assign var="heroImage" value=""%>
+<!--hero: 3-->
+<%if preg_match("/partner\_content/is",$keys) && $story_pic.cover && $story_pic.cover != ""%>
+	<!--hero: 2-->
+	<%assign var="heroImage" value=$story_pic.cover%>
+	<%include file="next/partials/story-hero-image.html"%>
+<%/if%>
 <div class="block-container has-side story-page"><div class="block-inner">
 	<div class="content-container"><div class="content-inner">
 		<div class="story-container<%$storyLanguage%><%$fullWidthStoryClass%>">
