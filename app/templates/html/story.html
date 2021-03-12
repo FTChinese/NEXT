@@ -1942,18 +1942,18 @@
 		<%else%>
 			<%include file="next/partials/header.html"%>
 		<%/if%>
+		<%if $minisiteInfo == ""%>
+			<%include file="next/partials/nav.html"%>
+			<%if $smarty.get.webview != "ftcapp"%>
+				<%$languageSwitch%>
+			<%/if%>
+		<%/if%>
 		<%if preg_match("/partner\_content/is",$keys) && $p != "" && $p.sections != ""%>
 			<%foreach from=$p.sections item="section"%>
 				<%if $section.type == "partnerBanner"%>
 					<%include file="next/partials/partner-banner.html"%>
 				<%/if%>
 			<%/foreach%>
-		<%/if%>
-		<%if $minisiteInfo == ""%>
-			<%include file="next/partials/nav.html"%>
-			<%if $smarty.get.webview != "ftcapp"%>
-				<%$languageSwitch%>
-			<%/if%>
 		<%/if%>
 		<%*<!--MARK: - Ulu's recommendation is no longer up to date Comment out -->*%>
 	 	<%if $itemType == "story" && 1>2%>
