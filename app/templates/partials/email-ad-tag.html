@@ -1,10 +1,13 @@
-<%if 1>2 %>
+<%if 1<2 %>
 	<%foreach from=$ads.sections item=section%>
 		<%if $section.title == $adPositionCode%>
 			<%assign var="foundAd" value="no"%>
+			<!--email: 4-->
 			<%foreach from=$section.lists item=ad%>
 				<%assign var="currentDate" value=$smarty.now|date_format:"%Y%m%d"%>
+				<!--email: 5-->
 				<%if ($ad.dates == "" || preg_match("/`$currentDate`/is",$ad.dates)) && $foundAd == "no"%>
+					<!--email: 6-->
 					<%assign var="foundAd" value="yes"%>
 					<%if $adWrapper == "daily-middle"%>
 						<div class="responseAD" style="max-height: 0px; font-size: 0;line-height: 0;mso-hide: all; display:none; overflow:hidden; text-align: center; ">
