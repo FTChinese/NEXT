@@ -5,6 +5,37 @@
 	<%assign var="showNavigation" value="no"%>
 	<%assign var="requirelogin" value="no"%>
 <%/if%>
+<%*<!--MARK: - get as much as possible info of Speedread Audio from the source -->*%>
+<%if preg_match("/双语电台/is",$tag)%>
+	<%assign var="pageType" value="BilligualAudio"%>
+	<%assign var="sourceType" value=$cskylinetext%>
+	<%assign var="sourceId" value=$cskylineheadline%>
+	<%if $sourceType === "story"%>
+		<%assign var="itemSource" value=$storymodel->getStoryInfo($sourceId)%>
+		<%assign var="mainTag" value=$itemSource.tag|regex_replace:"/[,，].*$/":""%>
+	<%elseif $sourceType === "interactive"%>
+		<%assign var="itemSource" value=$interactivemodel->get_interactive_info($sourceId)%>
+	<%/if%>
+	<%if preg_match("/\/interactive\/[0-9]+\/en/is",$smarty.server.REQUEST_URI)%>
+		<%assign var="page_action" value="en"%>
+	<%/if%>
+	<%assign var="fileupdatetime" value=$itemSource.fileupdatetime%>
+	<%assign var="clongleadbody" value=$itemSource.clongleadbody%>
+	<%assign var="elongleadbody" value=$itemSource.elongleadbody|default:$itemSource.eshortleadbody%>
+	<%assign var="ebyline" value=$itemSource.ebyline%>
+	<%assign var="cbyline_description" value=$itemSource.cbyline_description%>
+	<%assign var="cauthor" value=$itemSource.cauthor%>
+	<%assign var="cbyline_status" value=$itemSource.cbyline_status%>
+	<%assign var="ebyline_description" value=$itemSource.ebyline_description%>
+	<%assign var="tag" value=$itemSource.tag%>
+	<%assign var="genre" value=$itemSource.genre%>
+	<%assign var="topic" value=$itemSource.topic%>
+	<%assign var="industry" value=$itemSource.industry%>
+	<%assign var="area" value=$itemSource.area%>
+	<%assign var="pubdate" value=$itemSource.pubdate%>
+	<%assign var="last_publish_time" value=$itemSource.last_publish_time%>
+	<%assign var="story_pic" value=$itemSource.story_pic%>
+<%/if%>
 
 <%assign var="adchannelID" value="`$p.meta.adid`"%>
 <%if !isset($adchannelID)||$adchannelID==""%>
@@ -670,8 +701,11 @@
 
 <%assign var="channelname" value="<span class=channel id=storybread> `$breadcrum`</span>"%>
 
-<%if $story.tag|@count > 0%>
-	<%assign var=breadcrum value="<a target=\"_blank\" href=\"/tag/`$story.tag[0]`\">`$story.tag[0]`</a><button class=\"myft-follow plus\" data-tag=\"`$story.tag[0]`\" data-type=\"tag\">关注</button>"%>
+<%if $story && $story.tag && $story.tag|@count > 0%>
+	<%assign var="mainTag" value=$story.tag[0]%>
+<%/if%>
+<%if $mainTag && $mainTag != ""%>
+	<%assign var=breadcrum value="<a target=\"_blank\" href=\"/tag/`$mainTag`\">`$mainTag`</a><button class=\"myft-follow plus\" data-tag=\"`$mainTag`\" data-type=\"tag\">关注</button>"%>
 <%/if%>
 
 <%*<!--Important: override tag for sponsored special reports start-->*%>
@@ -1183,7 +1217,13 @@
 <%/if%>
 
 <%*<!--MARK: - Calculate page_action, language options and switches-->*%>
-<%if $page_action=="en" && $eshortleadbody != "" && !preg_match("/音频/is",$keys) && $isMachineTranslation == "no"%>
+<%if $pageType=="BilligualAudio"%>
+	<%if $page_action == "en"%>
+		<%assign var="languageOptions" value="<a class=\"icon-right icon-ch\" href=\"/interactive/`$id`\"><button>中文</button></a>"%>
+	<%elseif $eheadline != ""%>
+		<%assign var="languageOptions" value="<a class=\"icon-right icon-ch\" href=\"/interactive/`$id`/en\"><button>英文</button></a>"%>
+	<%/if%>
+<%elseif $page_action=="en" && $eshortleadbody != "" && !preg_match("/音频/is",$keys) && $isMachineTranslation == "no"%>
 	<%assign var="languageOptions" value="<a class=\"icon-right icon-ch\" href=\"`$eshortleadbody`\"><button>中文</button></a>"%>
 	<%assign var="languageSwitch" value="<div class=\"language-switch-placeholder\" id=\"language-switch-placeholder\"><div class=\"language-switch-container\"><a class=\"language-switch-left language-switch-menu\" href=\"/\"></a><div class=\"language-switch-inner\"><a class=\"language-switch\" href=\"/story/`$story.id`?ccode=LanguageSwitch\">中文</a><a class=\"on language-switch\">英文</a><a class=\"language-switch\" href=\"/story/`$story.id`/ce?ccode=LanguageSwitch\">对照</a></div><a class=\"language-switch-right language-switch-share\" onclick=\"showOverlay('share-legacy')\"></a></div></div>"%>
 <%elseif ($page_action=="en" || $page_action=="ce") && $story.id%>
@@ -1513,6 +1553,7 @@
 		<%assign var="storyAuthor" value="`$cbyline_description` `$eauthor`"%>
 	<%/if%>
 	<%if $page_action == "en"%>
+		
 		<%assign var="story_content" value=$ebody%>
 		<%assign var="story_content" value=$story_content|regex_replace:"/<div class=[\"]*inlinevideo[\"]* id=[\"]*([A-Za-z0-9]+)[\"]* auto[sS]tart=[\"]*([a-zA-Z]+)[\"]* title=\"(.*)\" image=\"(.*)\" vid=\"(.*)\"><\/div>/":"<div class='o-responsive-video-container'><div class='o-responsive-video-wrapper-outer'><div class='o-responsive-video-wrapper-inner'><script src='https://union.bokecc.com/player?vid=\\1&siteid=922662811F1A49E9&autoStart=\\2&width=100%&height=100%&playerid=3571A3BF2AEC8829&playertype=1'></script></div></div><a class='o-responsive-video-caption' href='/video/\\5' target='_blank'>\\3</a></div>"%>
 		<%assign var="story_content" value=$story_content|regex_replace:"/<div class=[\"]*inlinevideo[\"]* id=[\"]*[\"]* auto[sS]tart=[\"]*([a-zA-Z]+)[\"]* title=\"(.*)\" image=\"(.*)\" vid=\"(.*)\" vsource=\"(.*)\"><\/div>/":"<div class='o-responsive-video-container'><div class='o-responsive-video-wrapper-outer'><div class='o-responsive-video-wrapper-inner'><object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' width='100%' height='100%' id='osmfPlayer'><param name='movie' value='https://dhgxl8qk9zgzr.cloudfront.net/player111014/osmfPlayer_3.swf?videoid=\\4&autoplay=false' /><param name='quality' value='high' /><param name='bgcolor' value='#000000' /><param name='allowScriptAccess' value='always' /><param name='allowFullScreen' value='true' /><!--[if !IE]>--><object type='application/x-shockwave-flash' data='https://dhgxl8qk9zgzr.cloudfront.net/player111014/osmfPlayer_3.swf?videoid=\\4&autoplay=false' width='100%' height='100%'><param name='quality' value='high' /><param name='bgcolor' value='#000000' /><param name='allowFullScreen' value='true' /><param name='allowScriptAccess' value='always' /><!--<![endif]--><!--[if gte IE 6]>--><video id='nowvideo' src='http://v.ftimg.net/\\5' controls='' width='100%' height='100%'><p>Either scripts and active content are not permitted to run or Adobe Flash Player version10.0.0 or greater is not installed.</p></video><!--<![endif]--><!--[if !IE]>--></object><!--<![endif]--></object></div></div><a class='o-responsive-video-caption' href='/video/\\4' target='_blank'>\\2</a></div>"%>
@@ -1623,7 +1664,12 @@
 
 <%*<!-- MARK: FT Radio: Handle Audio Content -->*%>
 <%if $hasAudio == "yes"%>
-	<%assign var="audioSrc" value=$cshortleadbody|replace:"http://v.ftimg.net/album/":"https://creatives.ftacademy.cn/album/"%>
+	<%if $pageType=="BilligualAudio" && $page_action == "en"%>
+		<%assign var="audioSrc" value=$eshortleadbody%>
+	<%else%>
+		<%assign var="audioSrc" value=$cshortleadbody%>
+	<%/if%>
+	<%assign var="audioSrc" value=$audioSrc|replace:"http://v.ftimg.net/album/":"https://creatives.ftacademy.cn/album/"%>
 	<%if $audioSrc != ""%>
 		<%if $isAndroidApp == "yes" || $smarty.get.webview != "ftcapp"%>
 			<%assign var="audioHTML" value="<div class=\"audio-placeholder\" id=\"audio-placeholder\"><div class=\"audio-container\"><div class=\"audio-controls\"><button class=\"audio-control control__play\">Play</button><button class=\"audio-control control__pause\" disabled=true>Pause</button><span class=\"audio-time-text__current audio-time-text\">00:00</span><span class=\"audio-time-text__total audio-time-text\"></span><div class=\"audio-time-progress\"><span class=\"audio-time-progress__background\"></span><span class=\"audio-time-progress__fill\"></span><span class=\"audio-time-progress__scrub\"></span></div></div><audio id=\"current-audio\" class=\"audio-player hide\" ontimeupdate=\"updateAudioTime(this)\" onended=\"audioEnded()\" src=\"`$audioSrc`\" preload=\"auto\"></audio></div></div>"%>
@@ -1634,7 +1680,9 @@
 		<%else%>
 			<%assign var="audioHTML" value=""%>
 		<%/if%>
-		<%if preg_match("/url/is",$cbody)%>
+		<%if $pageType=="BilligualAudio" && $page_action == "en"%>
+			<%assign var="audioHTML" value="`$audioHTML`<textarea class=\"hide\" id=\"audio-json-text\">`$ebody`</textarea>"%>
+		<%elseif preg_match("/url/is",$cbody)%>
 			<%assign var="audioHTML" value="`$audioHTML`<textarea class=\"hide\" id=\"audio-json-text\">`$cbody`</textarea>"%>
 		<%/if%>
 	<%/if%>
