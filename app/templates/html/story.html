@@ -1544,7 +1544,18 @@
 		<!--0. <%$minisiteInfo.location%>-->
 		<%assign var="story_content" value=""%>
 	<%else%>
-		<%assign var="story_content" value="`$cbody``$ebody`"%>
+		<%assign var="story_content" value="`$cbody`"%>
+		<%*<!--MARK: - remove all the html code inside a div before determining whether this article already includes <p> tags. -->*%>
+		<%assign var="storyContentWithoutDiv" value=$cbody|regex_replace:"/[\r\t\n]/":""|regex_replace:"/\<div.*\<\/div\>/":""%>
+		<%if !preg_match("/<p>/is",$storyContentWithoutDiv)%>
+			<%assign var="story_content" value=$story_content|regex_replace:"/[\r\t\n]+/":"</p>\n<p>"%>
+			<%assign var="story_content" value="\n<p>`$story_content`</p>\n"%>
+			<%assign var="story_content" value=$story_content|regex_replace:"/\<p\>(\<div.*\<\/div\>)[\r\t\n]*<\/p\>/":"\\1"%>
+			<%assign var="story_content" value=$story_content|regex_replace:"/\<p\>\ *\<\/p\>/":""%>
+			<%assign var="story_content" value=$story_content|regex_replace:"/\<p\>\<\/p\>/":""%>
+		<%else%>
+			<%assign var="story_content" value="`$cbody`$ebody`"%>
+		<%/if%>
 	<%/if%>
 <%elseif $itemType=="interactive" || $pageType=="interactive"%>
 	<%assign var="storyAuthor" value="`$cbyline_description` `$cauthor`"%>

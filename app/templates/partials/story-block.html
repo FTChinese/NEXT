@@ -30,7 +30,7 @@
 					<h1 class="story-headline<%$storyHeadlineClass%>"><%$storyHeadline%></h1>
 					<%$storyLead%>
 					<%*<!--MARK: Show CC video only to paid subscriber-->*%>
-					<%if $cc_vaddress && $cc_vaddress!="" && $smarty.get.paywall != "1" && $paywall != "1" && $smarty.get.paywall != "2" && $paywall != "2"%>
+					<%if $cc_vaddress && $cc_vaddress!="" && (($smarty.get.paywall != "1" && $paywall != "1" && $smarty.get.paywall != "2" && $paywall != "2") || !preg_match("/专享/is",$keys))%>
 						<script type="text/javascript">window.hasFoundProductPricing = true; </script>
 						<div class="video-player" target="_blank" id="video-player"><div class="video-player-inner">
 							<script type="text/javascript">
@@ -40,7 +40,7 @@
 							document.write('<scr' + 'ipt src="https://union.bokecc.com/player?vid=<%$cc_vaddress%>&siteid=922662811F1A49E9&autoStart=false&width=' + video_width + '&height=' + video_height + '&playerid=3571A3BF2AEC8829&playertype=1" type="text/javascript"></sc' + 'ript>');
 							</script>
 						</div></div>
-					<%elseif $cc_room_id != "" && $smarty.get.paywall != "1" && $paywall != "1" && $smarty.get.paywall != "2" && $paywall != "2"%>
+					<%elseif $cc_room_id != "" && (($smarty.get.paywall != "1" && $paywall != "1" && $smarty.get.paywall != "2" && $paywall != "2") || !preg_match("/专享/is",$keys))%>
 						<script type="text/javascript">window.hasFoundProductPricing = true; </script>
 						<%include file="next/partials/broadcast.html"%>
 					<%elseif $liveStreamUrl != ""%>
@@ -111,6 +111,7 @@
 			<%/if%>
 
 			<%if $page_action == "user_comment"%>
+				<!--oli: 2-->
 				<div class="story-body">
 					<div id="story-body-container">
 						<div id="allcomments" class="columncontent">
@@ -140,6 +141,7 @@
 				</div> 
 			<%elseif $smarty.get.paywall == "1" || $paywall == "1"|| $smarty.get.paywall == "2"|| $paywall == "2"%>
 				<%*<!--MARK: show first two paragraphs. -->*%>
+				<!--oli: 3-->
 				<div class="story-body">
 					<div id="story-body-container">
 						<%if $page_action != "ce"%>
@@ -196,6 +198,7 @@
 					<%include file="next/partials/pagination.html"%>
 				<%/if%>
 			<%elseif $minisiteInfo != ""%>
+			<!--oli: 4-->
 				<div class="story-body">
 					<%$audioHTML%>
 					<%$storyImageInline%>
@@ -213,6 +216,7 @@
 					<div class="clearfloat"></div>
 				</div>
 			<%else%>
+				<!--oli: 5-->
 				<div class="story-body">
 					<%$audioHTML%>
 					<%$storyImageInline%>
