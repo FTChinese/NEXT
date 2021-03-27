@@ -1796,7 +1796,6 @@
     	<script type="text/javascript">var privilegeEventLabel = '<%$privilegeEventLabel%>';</script>
     <%/if%>
 
-    
     <%if $pageType == "job"%>
     	<style><%include file="next/styles/main-story-job.css"%></style>
     <%elseif preg_match("/极致人生|视频直播/is",$keys)%>
@@ -1810,6 +1809,7 @@
 	    <%assign var=hidePromoBox value="yes"%>
 		<%if $nextmodel != "" && $eskylineheadline != ""%>
 			<%assign var="p" value=$nextmodel->getPublishJson($eskylineheadline)|json_decode:true%>
+			<%assign var="breadcrum" value="<a href=\"/channel/page/`$eskylineheadline`\">`$p.meta.title`</a>"%>
 		<%/if%>
     	<style><%include file="next/styles/main-story-partner-content.css"%></style>
 		<script type="text/javascript">var pageTheme = 'partnerContent';</script>

@@ -17,8 +17,8 @@
 	</div>
 <%/if%>
 <%assign var="heroImage" value=""%>
-<%if preg_match("/partner\_content/is",$keys) && $story_pic.cover && $story_pic.cover != ""%>
-	<%assign var="heroImage" value=$story_pic.cover%>
+<%if preg_match("/partner\_content/is",$keys) && $story_pic.smallbutton && $story_pic.smallbutton != ""%>
+	<%assign var="heroImage" value=$story_pic.smallbutton%>
 	<%include file="next/partials/story-hero-image.html"%>
 <%/if%>
 <div class="block-container has-side story-page"><div class="block-inner">
@@ -111,7 +111,6 @@
 			<%/if%>
 
 			<%if $page_action == "user_comment"%>
-				<!--oli: 2-->
 				<div class="story-body">
 					<div id="story-body-container">
 						<div id="allcomments" class="columncontent">
@@ -141,7 +140,6 @@
 				</div> 
 			<%elseif $smarty.get.paywall == "1" || $paywall == "1"|| $smarty.get.paywall == "2"|| $paywall == "2"%>
 				<%*<!--MARK: show first two paragraphs. -->*%>
-				<!--oli: 3-->
 				<div class="story-body">
 					<div id="story-body-container">
 						<%if $page_action != "ce"%>
@@ -198,7 +196,6 @@
 					<%include file="next/partials/pagination.html"%>
 				<%/if%>
 			<%elseif $minisiteInfo != ""%>
-			<!--oli: 4-->
 				<div class="story-body">
 					<%$audioHTML%>
 					<%$storyImageInline%>
@@ -216,7 +213,6 @@
 					<div class="clearfloat"></div>
 				</div>
 			<%else%>
-				<!--oli: 5-->
 				<div class="story-body">
 					<%$audioHTML%>
 					<%$storyImageInline%>
