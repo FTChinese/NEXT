@@ -1822,12 +1822,21 @@
     	<%/if%>
     <%/if%>
 
+
+	<%**<!--MARK: - Only load rare components when necessary -->-->%>
     <%if preg_match("/o\-table\-container/is",$story_content) || $interactiveType == "Speedread"%>
     	<style><%include file="next/styles/o-table.css"%></style>
     	<script><%include file="next/scripts/o-table.js"%></script>
     	<%assign var=hideMPU3 value="yes"%>
     <%elseif preg_match("/<table/is",$story_content)%>
     	<style><%include file="next/styles/main-table.css"%></style>
+	<%/if%>
+
+	<!--toggle content 1 -->
+	<%if preg_match("/toggle\-container/is",$story_content)%>
+    	<style><%include file="next/styles/main-toggle-content.css"%></style>
+    	<script><%include file="next/scripts/main-toggle-content.js"%></script>
+		<!--toggle content: 2 -->
 	<%/if%>
 	
 	<%if $page_action=="ce" && $isMachineTranslation == "yes"%>

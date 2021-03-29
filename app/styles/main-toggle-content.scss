@@ -1,0 +1,45 @@
+
+.toggle-content {
+    max-height: 0;
+    overflow: hidden;
+    -webkit-transition: max-height 0.5s ease-in-out;
+    transition: max-height 0.5s ease-in-out;
+}
+.toggle-title {
+    color: #00886F;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.4em;
+    cursor: pointer;
+}
+.toggle-container {
+    &.on {
+        .toggle-content {
+            max-height: 3000px;
+        }
+    }
+}
+
+    
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(startYposition);
+    } 
+    100% {
+        opacity: 1;
+        transform: translateY(endYposition);
+    }
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+        transform: translateY(startYposition);
+    } 
+    100% {
+        opacity: 0;
+        transform: translateY(endYposition);
+    }
+}

@@ -333,6 +333,22 @@
 	<%elseif $smarty.get.screencapture != "yes"%>
 		<%include file="next/partials/StoryRightRail.html"%>
 	<%/if%>
-
 	<div class="clearfloat"></div>
 </div></div>
+
+<%if $p != ""%>
+<%foreach from=$p.sections item=section%>
+	<%if $section.type == "block"%>
+		<div class="block-container<%if $section.boxBackground != ""%> <%$section.boxBackground%><%/if%> <%if ($section.side != "" && $section.side != "none" && $section.side != "Narrow") || $sideListCount > 0 %><%assign var="sectionHasSide" value="yes"%>has-side<%if $section.sideAlign !== ""%> side-<%$section.sideAlign|default:"right"%><%/if%><%else%><%assign var="sectionHasSide" value="no"%>no-side<%/if%><%if $section.side == "HotVideos"%> side-video<%/if%><%if $section.side == "Narrow"%> narrow-block<%/if%><%$visibleOnlyClass%>"><div class="block-inner">
+		<div class="content-container">
+			<%foreach from=$section.lists item=list%>
+				<%if $list.float === "LargeCard" || $list.float === "GridCard"%>
+					<%*<!--MARK: - Start to use CSS grid for any new styles -->*%>
+					<%include file="next/partials/ListGrid.html"%>
+				<%/if%>
+			<%/foreach%>
+		</div>
+		</div></div>
+	<%/if%>
+<%/foreach%>
+<%/if%>
