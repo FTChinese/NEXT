@@ -85,15 +85,26 @@
     .partner-inner .explain.on {
         display: block;
     }
+    .partner-inner .shares {
+        cursor: pointer;
+    }
     .partner-inner .share {
         display: none;
         position: absolute;
-        right: 20px;
-        bottom: -122px;
-        height: auto;
-        left: auto;
-        width: auto;
-        top: 30px;
+        background: #fff;
+        -webkit-box-shadow: 0 1px 4px rgb(77 72 69 / 15%), 0 8px 14px rgb(77 72 69 / 20%);
+        box-shadow: 0 1px 4px rgb(77 72 69 / 15%), 0 8px 14px rgb(77 72 69 / 20%);
+        top: 55px;
+        max-width: 325px;
+        width: 100%;
+        right: 50%;
+        -webkit-transform: translate(50%);
+        transform: translate(50%);
+        padding: 15px;
+        text-align: center;
+    }
+    .partner-inner .share.on {
+        display: block;
     }
     .explain-btn, .share-btn {
         position: absolute;
@@ -107,6 +118,11 @@
     .share-title {
         font-weight: bold;
         text-align: center;
+    }
+    .pc__share-more-btn__link {
+        display: inline-block;
+        width: 40px;
+        margin: 15px;
     }
     @media only screen and (max-width: 490px) {
         .partner-inner .right-icon::before {
@@ -129,11 +145,45 @@
             <div class="share-btn">
                 <img src="https://ft-bc-cms.herokuapp.com/_resources/themes/simpleBC/dist/static/pcHeader/close.svg?m=1611672393">
             </div>
-            <div class="share-title">
-                分享
+            <div class="share-title">分享</div>
+            <div class="pc__share-more-btn">
+                <div class="pc__share-more-btn__link -fb">
+                  <a href="https://www.facebook.com/sharer/sharer.php?u=http://www.ftchinese.com/channel/page/cytiva" target="_blank">
+                    <div class="pc__share-more-link-btn">
+                      <div class="pc__share-more-link-btn-img">
+                        <img src="https://ft-bc-cms.herokuapp.com/_resources/themes/simpleBC/dist/static/social/facebook.png?m=1611672393">
+                      </div>
+                    </div>
+                  </a>
+                </div>
+                <div class="pc__share-more-btn__link -tw">
+                  <a href="https://twitter.com/share?url=http://www.ftchinese.com/channel/page/cytiva&amp;text=The+Global+Biopharma+Resilience+Index&amp;related=ftcompanies&amp;via=ft_content" target="_blank">
+                    <div class="pc__share-more-link-btn">
+                      <div class="pc__share-more-link-btn-img">
+                        <img src="https://ft-bc-cms.herokuapp.com/_resources/themes/simpleBC/dist/static/social/twitter.png?m=1611672393">
+                      </div>
+                    </div>
+                  </a>
+                </div>
+                <div class="pc__share-more-btn__link -li">
+                  <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http://www.ftchinese.com/channel/page/cytiva&amp;title=The+Global+Biopharma+Resilience+Index&amp;summary=&amp;source=@ft_content" target="_blank">
+                  <div class="pc__share-more-link-btn">
+                    <div class="pc__share-more-link-btn-img">
+                      <img src="https://ft-bc-cms.herokuapp.com/_resources/themes/simpleBC/dist/static/social/linkedin.png?m=1611672393">
+                    </div>
+                  </div>
+                </a>
+                </div>
+                <div class="pc__share-more-btn__link -wa">
+                    <a href="whatsapp://send?text=The+Global+Biopharma+Resilience+Index-http://www.ftchinese.com/channel/page/cytiva" target="_blank">
+                    <div class="pc__share-more-link-btn">
+                        <div class="pc__share-more-link-btn-img">
+                        <img src="https://ft-bc-cms.herokuapp.com/_resources/themes/simpleBC/dist/static/social/whatsapp.png?m=1611672393">
+                        </div>
+                    </div>
+                    </a>
+                </div>
             </div>
-
-            
         </div>
     </div>
 </div>
@@ -144,8 +194,14 @@
         if (!ele) {return;}
         ele.classList.toggle('on');
     }
-    document.querySelector('.main-content').onclick = toggleEle('explain');
-    document.querySelector('.explain-btn').onclick = toggleEle('explain');
-    document.querySelector('.right-icon.shares').onclick = toggleEle('share');
-    document.querySelector('.share-btn').onclick = toggleEle('share');
+    function toggleExplain() {
+        toggleEle('explain');
+    }
+    function toggleShare() {
+        toggleEle('share');
+    }
+    document.querySelector('.main-content').onclick = toggleExplain;
+    document.querySelector('.explain-btn').onclick = toggleExplain;
+    document.querySelector('.right-icon.shares').onclick = toggleShare;
+    document.querySelector('.share-btn').onclick = toggleShare;
 </script>
