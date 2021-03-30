@@ -1765,6 +1765,7 @@
 <%/if%>
 
 
+
 <%if $smarty.get.bodyonly != "yes" || $isAndroidApp == "yes"%>
 <!DOCTYPE html>
 <html class="no-js core<%if $isAndroidApp == "yes"%> is-android-app<%/if%><%if $smarty.get.webview == "ftcapp"%> is-ftc-app<%/if%><%$fullGridClass%><%$useJustifyClass%><%if $smarty.get.device == "iPad"%> is-ipad-app<%/if%>">
@@ -1823,7 +1824,7 @@
     <%/if%>
 
 
-	<%**<!--MARK: - Only load rare components when necessary -->-->%>
+	<%*<!-- MARK: - Only load rare components when necessary -->*%>
     <%if preg_match("/o\-table\-container/is",$story_content) || $interactiveType == "Speedread"%>
     	<style><%include file="next/styles/o-table.css"%></style>
     	<script><%include file="next/scripts/o-table.js"%></script>
@@ -1832,11 +1833,11 @@
     	<style><%include file="next/styles/main-table.css"%></style>
 	<%/if%>
 
-	<!--toggle content 1 -->
+	<!-- toggle content 1 -->
 	<%if preg_match("/toggle\-container/is",$story_content)%>
     	<style><%include file="next/styles/main-toggle-content.css"%></style>
     	<script><%include file="next/scripts/main-toggle-content.js"%></script>
-		<!--toggle content: 2 -->
+		<!-- toggle content: 2 -->
 	<%/if%>
 	
 	<%if $page_action=="ce" && $isMachineTranslation == "yes"%>

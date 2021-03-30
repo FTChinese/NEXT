@@ -85,14 +85,28 @@
     .partner-inner .explain.on {
         display: block;
     }
-    .explain-btn {
+    .partner-inner .share {
+        display: none;
+        position: absolute;
+        right: 20px;
+        bottom: -122px;
+        height: auto;
+        left: auto;
+        width: auto;
+        top: 30px;
+    }
+    .explain-btn, .share-btn {
         position: absolute;
         cursor: pointer;
         right: 5px;
         top: 0;
     }
-    .explain-btn img {
+    .explain-btn img, .share-btn img {
         height: 10px;
+    }
+    .share-title {
+        font-weight: bold;
+        text-align: center;
     }
     @media only screen and (max-width: 490px) {
         .partner-inner .right-icon::before {
@@ -104,20 +118,34 @@
     <div class="partner-inner">
         <div class="main-content"><%$section.title%></div>
         <div class="left-icon"><%$section.sponsor%>></div>
-        <div class="right-icon"></div>
+        <div class="right-icon shares"></div>
         <div class="explain">
             <div class="explain-btn">
                 <img src="https://ft-bc-cms.herokuapp.com/_resources/themes/simpleBC/dist/static/pcHeader/close.svg?m=1611672393">
             </div>
-            <%$section.disclaimer%></div>
+            <%$section.disclaimer%>
+        </div>
+        <div class="share">
+            <div class="share-btn">
+                <img src="https://ft-bc-cms.herokuapp.com/_resources/themes/simpleBC/dist/static/pcHeader/close.svg?m=1611672393">
+            </div>
+            <div class="share-title">
+                分享
+            </div>
+
+            
+        </div>
     </div>
 </div>
 <script>
-    function toggleExplain() {
-        var explainEle = document.querySelector('.partner-inner .explain');
-        if (!explainEle) {return;}
-        explainEle.classList.toggle('on');
+    function toggleEle(className) {
+        var ele = document.querySelector('.partner-inner .' + className);
+        console.log(ele);
+        if (!ele) {return;}
+        ele.classList.toggle('on');
     }
-    document.querySelector('.main-content').onclick = toggleExplain;
-    document.querySelector('.explain-btn').onclick = toggleExplain;
+    document.querySelector('.main-content').onclick = toggleEle('explain');
+    document.querySelector('.explain-btn').onclick = toggleEle('explain');
+    document.querySelector('.right-icon.shares').onclick = toggleEle('share');
+    document.querySelector('.share-btn').onclick = toggleEle('share');
 </script>
