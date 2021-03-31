@@ -1299,19 +1299,29 @@
 											<%assign var="itemDataType" value="TryBook"%>
 											<%assign var="lockClass" value="locked"%>
 										<%/if%>
+
 										<%assign var="itemData" value=" data-id=\"`$itemDataId`\" data-type=\"`$itemDataType`\"`$audioData``$caudioData``$eaudioData``$subTypeData``$dateData` data-keywords=\"`$itemTagsString`\""%>
-										<%if $itemDataId != "" && $itemDataType != "" && $itemDataType != "manual" && $useCorpToRenderStory != "yes"%>
+
+										<%*<!--MARK: - Some time the ad sales requested to extend the home page just to squeeze in more ads. There's nothing we can do about it. But to minimize the damage by not prefetch stories of the extended parts.  -->*%>
+										<%assign var="isExtendedStoryOnHome" value="no"%>
+										<%if $pageId == "home" && $b >= 1 && ($itemType == "story" || $itemType == "premium")%>
+											<%assign var="isExtendedStoryOnHome" value="yes"%>
+										<%/if%>
+										<%*<!--page id: <%$pageId%>, b: <%$b%>, maxB: <%$maxB%>, isExtendedStoryOnHome: <%$isExtendedStoryOnHome%>, version: 7-->*%>
+										<%if $itemDataId == "" || $itemDataType == "manual" || $isExtendedStoryOnHome == "yes"%>
+											<%assign var="itemData" value=""%>
+										<%/if%>
+
+										<%if $itemDataId != "" && $itemDataType != "" && $itemDataType != "manual" && $useCorpToRenderStory != "yes" && $isExtendedStoryOnHome == "no"%>
 											<%assign var="itemClass" value="`$itemClass` item-container-app"%>
 										<%/if%>
 										<%*<!-- MARK: Show full text for premium content for internal use only!  -->*%>
 										<%if $smarty.get.showfulltext == "yes"%>
-											<!--showfull text is yes-->
 											<%assign var="itemLink" value=" href=\"/`$itemType`/`$itemId`?webview=ftcapp&screencapture=yes&ad=no\""%>
 										<%/if%>
 
-										<%if $itemDataId == "" || $itemDataType == "manual"%>
-											<%assign var="itemData" value=""%>
-										<%/if%>
+										
+
 
 
 										<%*<!-- check user corp: <%$useCorpToRenderStory%>, item type: <%$itemType%>-->*%>
