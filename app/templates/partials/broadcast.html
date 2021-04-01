@@ -4,10 +4,16 @@
 
 
 <!-- pay wall: <%$paywall%> -->
-
+<!--Play Background: 1, image: <%$storyImage%>-->
+<style>
+    .live-player {
+        background-size: cover;
+        background-position: center;
+    }
+</style>
 
 <div class="video-player" target="_blank" id="video-player"><div class="video-player-inner broadcast-inner">
-    <div id="livePlayer" class="live-player"></div>
+    <div id="livePlayer" class="live-player" style="background-image: url(<%$storyImage%>);"></div>
 </div></div>
 
 <div id="drawPanel"></div>
