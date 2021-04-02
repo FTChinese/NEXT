@@ -424,9 +424,10 @@ a.o-responsive-video-caption:link, a.o-responsive-video-caption:visited, a.o-res
 	.side-container { 
  		display: none; 
 	}
-	.story-body {
+	.story-body, #story-body-container {
 		float: none;
 		clear: both;
+		max-width: 100%;
 	}
 	.story-container {
 		max-width: 100%;
@@ -434,6 +435,9 @@ a.o-responsive-video-caption:link, a.o-responsive-video-caption:visited, a.o-res
 			max-width: 700px;
 			margin-left: auto;
 			margin-right: auto;
+			&.story-body {
+				max-width: 100%;
+			}
 		}
 		[data-layout-width="full-grid"] {
 			max-width: 100%;
