@@ -297,7 +297,7 @@
 							<%assign var="feedType" value=$list.feedType%>
 						<%elseif $list.feedType == "myFTNew"%>
 							<%assign var="feedType" value=$list.feedType%>
-							<%assign var="itemsArray" value=$storymodel->get_content_by_field_search('1>0',$feedStart,$feedItems,999999999,10800)%>
+							<%assign var="itemsArray" value=$storymodel->get_content_by_field_search('1>0',$feedStart,$feedItems,600,10800)%>
 						<%elseif $list.feedType == "ftc_columns"%>
 							<%assign var="itemsArray" value=$storymodel->get_column_list("cn")%>
 							<%assign var="feedType" value="columns"%>
@@ -309,13 +309,13 @@
 								<%if $list.feedType == "story"%>
 									<%assign var="feedType" value=$list.feedType%>
 									<%assign var="feedTag" value="(`$feedTag`) and eskylinetext not like '%低调%'"%>
-									<%assign var="itemsArray" value=$storymodel->get_story_by_field_search($feedTag,$feedStart,$feedItems,999999999,10800)%>
+									<%assign var="itemsArray" value=$storymodel->get_story_by_field_search($feedTag,$feedStart,$feedItems,600,10800)%>
 								<%elseif $list.feedType == "interactive"%>
 									<%assign var="feedType" value=$list.feedType%>
-									<%assign var="itemsArray" value=$interactivemodel->get_interactive_by_field_search($feedTag,$feedStart,$feedItems,999999999,10800)%>
+									<%assign var="itemsArray" value=$interactivemodel->get_interactive_by_field_search($feedTag,$feedStart,$feedItems,600,10800)%>
 								<%elseif $list.feedType == "video"%>
 									<%assign var="feedType" value=$list.feedType%>
-									<%assign var="itemsArray" value=$videomodel->get_video_by_field_search($feedTag,$feedStart,$feedItems,9999999999999,10800)%>
+									<%assign var="itemsArray" value=$videomodel->get_video_by_field_search($feedTag,$feedStart,$feedItems,600,10800)%>
 								<%elseif $list.feedType == "photo"%>
 									<%assign var="feedType" value="photonews"%>
 									<%assign var="itemsArray" value=$photonewsmodel->get_photonews_by_field_search($feedTag,"ORDER BY photonewsid DESC",$feedItems)%>
@@ -327,7 +327,7 @@
 								<%elseif $list.feedType == "interactive"%>
 									<%assign var="feedType" value=$list.feedType%>
 									<%assign var="interactiveFeedSQL" value="find_in_set('`$feedTag`', tag)"%>
-									<%assign var="itemsArray" value=$interactivemodel->get_interactive_by_field_search($interactiveFeedSQL,$feedStart,$feedItems,999999999,10800)%>
+									<%assign var="itemsArray" value=$interactivemodel->get_interactive_by_field_search($interactiveFeedSQL,$feedStart,$feedItems,600,10800)%>
 									<%*<!--assign var="itemsArray" value=$interactivemodel->get_interactive_by_tag($feedTag, $feedItems)-->*%>
 								<%elseif $list.feedType == "video"%>
 									<%assign var="feedType" value=$list.feedType%>
@@ -346,7 +346,7 @@
 									<%assign var="itemsArray" value=$storymodel->getPremiumStory($feedStart, $feedItems)%>
 								<%elseif $list.feedType == "audiovideo"%>
 									<%assign var="feedType" value=$list.feedType%>
-									<%assign var="itemsArray" value=$videomodel->get_video_audio($feedStart,$list.feedItems,3000,10800)%>
+									<%assign var="itemsArray" value=$videomodel->get_video_audio($feedStart,$list.feedItems,600,10800)%>
 								<%else%>
 									<%assign var="feedType" value=$list.feedType%>
 									<%*<!--MARK: - Note that getContentByTag's argument is different from other functions -->*%>
@@ -507,7 +507,7 @@
 
 								<%*<!--
 								<%if $item.preferSponsorImage == "yes" && $itemMainTag != ""%>
-									<%assign var="tagInteractive" value=$interactivemodel->get_interactive_by_field_search("find_in_set('特别报导',tag) and (cshortleadbody = '`$itemMainTag`' or cheadline = '`$itemMainTag`' or find_in_set('`$itemMainTag`',tag))",0,1,999999999,10800)%>
+									<%assign var="tagInteractive" value=$interactivemodel->get_interactive_by_field_search("find_in_set('特别报导',tag) and (cshortleadbody = '`$itemMainTag`' or cheadline = '`$itemMainTag`' or find_in_set('`$itemMainTag`',tag))",0,1,600,10800)%>
 									<%if $tagInteractive|@count >0%>
 										<%assign var="tagImage" value=$tagInteractive[0].story_pic.cover%>
 										<%if $tagInteractive[0].cskylinetext != ""%>
@@ -1838,13 +1838,13 @@
 							<%if preg_match("/like|find_in_set|=|\(| in /is",$list.feedTag)%>
 								<%if $list.feedType == "story"%>
 									<%assign var="feedType" value=$list.feedType%>
-									<%assign var="itemsArray" value=$storymodel->get_story_by_field_search($list.feedTag,0,$list.feedItems,999999999,10800)%>
+									<%assign var="itemsArray" value=$storymodel->get_story_by_field_search($list.feedTag,0,$list.feedItems,600,10800)%>
 								<%elseif $list.feedType == "interactive"%>
 									<%assign var="feedType" value=$list.feedType%>
-									<%assign var="itemsArray" value=$interactivemodel->get_interactive_by_field_search($list.feedTag,0,$list.feedItems,999999999,10800)%>
+									<%assign var="itemsArray" value=$interactivemodel->get_interactive_by_field_search($list.feedTag,0,$list.feedItems,600,10800)%>
 								<%elseif $list.feedType == "video"%>
 									<%assign var="feedType" value=$list.feedType%>
-									<%assign var="itemsArray" value=$videomodel->get_video_by_field_search($list.feedTag,0,$list.feedItems,9999999999999,10800)%>
+									<%assign var="itemsArray" value=$videomodel->get_video_by_field_search($list.feedTag,0,$list.feedItems,600,10800)%>
 								<%elseif $list.feedType == "photo"%>
 									<%assign var="feedType" value="photonews"%>
 									<%assign var="itemsArray" value=$photonewsmodel->get_photonews_by_field_search($list.feedTag,"ORDER BY photonewsid DESC",$list.feedItems)%>
