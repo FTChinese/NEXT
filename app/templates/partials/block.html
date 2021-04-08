@@ -288,8 +288,11 @@
 						<%/if%>
 						<%assign var="feedTag" value=$list.feedTag%>
 						
-
-						<%if $list.feedType == "myFT"%>
+						<%if $list.feedItems == "" || $list.feedItems == "0" || $list.feedItems == 0%>
+							<%*<!--MARK: - If feedItems is not set, no need to run sql request. -->*%>
+							<%assign var="feedType" value="manual"%>
+							<%assign var="itemsArray" value=$list.items%>
+						<%elseif $list.feedType == "myFT"%>
 							<%easyapi command="31005" assign="myftArrays" topnum=30%>
 							<%assign var="itemsArray" value=$myftArrays.odatalist%>
 						<%elseif $list.feedType == "hot"%>
