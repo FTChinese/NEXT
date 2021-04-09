@@ -392,6 +392,20 @@ href="http://www.ftchinese.com" target="_blank"
 				<%else%>
 					<%assign var="itemLead" value=$item.longlead|default:$item.shortlead|default:$item.clongleadbody|default:$item.cshortleadbody%>
 				<%/if%>
+
+				<%assign var="listLanguage" value=$list.language%>
+				<%assign var="eheadline" value=""%>
+				<%if $listLanguage != ""%>
+					<%assign var="listLanguage" value="/`$listLanguage`"%>
+					<%assign var="eheadline" value=$item.eheadline%>
+				<%/if%>
+				<%if $listLanguage == "/ce" && $eheadline != ""%>
+					<%assign var="itemLead" value=$itemHeadline%>
+					<%assign var="itemHeadline" value=$eheadline%>							
+				<%elseif $listLanguage == "/en" && $eheadline != ""%>
+					<%assign var="itemHeadline" value=$eheadline%>
+				<%/if%>
+				
 				<%if $list.ShowBodyMail == "yes"%>
 					<div style="line-height:1.618; " class="item-container">
 						<table width="100%" cellpadding="0" cellspacing="0" style="border-bottom:1px solid #E9DECF; line-height:1.618;">
@@ -525,6 +539,8 @@ href="http://www.ftchinese.com" target="_blank"
 	<%elseif $section.type == "FixedButtons" && ($smarty.get.to == "iosapp" || $smarty.get.to == "noneiosapp")%>
 		<%include file="next/partials/FixedButtons.html"%>
 		<%assign var="s" value=$s+1%>
+	<%elseif $section.type == "page"%>
+        <%include file="next/partials/page.html"%>
     <%/if%>
 <%/foreach%>
 
