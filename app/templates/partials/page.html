@@ -1,14 +1,20 @@
 <!-- page included: <%$section.id%> / <%$section.blocks%>-->
-<%assign var="p" value=$nextmodel->getPublishJson($section.id)|json_decode:true%>
-<%assign var="currentBlock" value=0%>
-<%assign var="maxItems" value=$section.maxItems%>
-<%assign var="maxSection" value=$section.blocks%>
-<%if $maxSection == 0 || $maxSection == ""%>
-	<%assign var="maxSection" value=100%>
+<%if $nextmodel != ""%>
+	<%assign var="p1" value=$nextmodel->getPublishJson($section.id)|json_decode:true%>
+	<%assign var="currentBlock" value=0%>
+	<%assign var="maxItems" value=$section.maxItems%>
+	<%assign var="maxSection" value=$section.blocks%>
+	<%if $maxSection == 0 || $maxSection == ""%>
+		<%assign var="maxSection" value=100%>
+	<%/if%>
+	<%foreach from=$p1.sections item=section%>
+		<%if $section.type == "block" && $currentBlock < $maxSection%>
+			<%if $smarty.get.view == "email"%>
+				<%include file="next/partials/block_email.html"%>
+			<%else%>
+				<%include file="next/partials/block.html"%>
+			<%/if%>
+			<%assign var="currentBlock" value=$currentBlock+1%>
+		<%/if%>
+	<%/foreach%>
 <%/if%>
-<%foreach from=$p.sections item=section%>
-    <%if $section.type == "block" && $currentBlock < $maxSection%>
-    	<%include file="next/partials/block.html"%>
-    	<%assign var="currentBlock" value=$currentBlock+1%>
-    <%/if%>
-<%/foreach%>
