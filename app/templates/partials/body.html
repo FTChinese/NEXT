@@ -264,7 +264,8 @@
 
 
 <%*<!--MARK: Check the next model tag for sponsored special reports start-->*%>
-<%if $infoForSponsorships != "" && $infoForBrandSafety != "" && $currentDate != ""%>
+<%*<!--MARK: This should only be displayed when user is visiting an app home or channel page. -->*%>
+<%if $infoForSponsorships != "" && $infoForBrandSafety != "" && $currentDate != "" && $smarty.get.webview == "ftcapp"%>
   <%foreach from=$infoForSponsorships.sections item=section%>
     <%if $section.status == "on" && (($section.dates != "" && preg_match("/`$currentDate`/is",$section.dates)) || ($section.dates == "" && $section.placeholder == "yes")) && $section.zone != "" && ($section.tag != "" || $section.storyKeyWords != "")%>
         <%*<!--MARK: Only match sections that have either tag or storyKeyWords-->*%>
