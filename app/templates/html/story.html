@@ -12,7 +12,9 @@
 	<%assign var="sourceId" value=$cskylineheadline%>
 	<%if $sourceType === "story"%>
 		<%assign var="itemSource" value=$storymodel->getStoryInfo($sourceId)%>
-		<%assign var="mainTag" value=$itemSource.tag|regex_replace:"/[,，].*$/":""%>
+		<%assign var="tag" value=$itemSource.tag%>
+		<%*<!--MARK: - There's a bug with this version smarty so that have to replace twice. Otherwise, the characters will come out garbled. Try "伊朗" -->*%>
+		<%assign var="mainTag" value=$tag|replace:"/，/":","|regex_replace:"/,.*$/":""%>
 	<%elseif $sourceType === "interactive"%>
 		<%assign var="itemSource" value=$interactivemodel->get_interactive_info($sourceId)%>
 	<%/if%>
