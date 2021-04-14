@@ -344,13 +344,13 @@
               } else {
                 sendAlert({
                   title: '未知错误',
-                  message: '信息提交不成功，请稍后再再试，或截屏给我们的客服。'
+                  message: '信息提交不成功，请稍后再试，或截屏给我们的客服。\n（' + xhr.responseText + ')'
                 });
               }
           } else {
             sendAlert({
               title: '服务器错误',
-              message: '信息提交失败，服务器返回的状态为' + xhr.status + '，请稍后再再试，或截屏给我们的客服。'
+              message: '信息提交失败，服务器返回的状态为' + xhr.status + '，请稍后再试，或截屏给我们的客服。'
             });
           }
           isSubmiting = false;

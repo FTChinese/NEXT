@@ -231,6 +231,8 @@
 												"eaudio": "<%$item.eaudio|regex_replace:"/[\n\r\"]/":""|escape:"html"%>",
 												"version": "<%$item.version|escape:"html"%>",
 												"tag_code": "<%$item.tag_code%>",
+												"ftid": "<%$item.ftid|default:$item.eskylineheadline%>",
+												<%if $itemType == "story" && $item.eskylineheadline != ""%>"english_publish_time": "<%$item.eskylineheadline%>",<%/if%>
 												"author_code": "<%$item.author_code|regex_replace:"/[\n\r\"]/":""%>",
 												"followSql": "<%*$followSql|regex_replace:"/[\n\r\"]/":""|escape:"html"*%>"
 												<%assign var=itemIndex value=$itemIndex+1%>
