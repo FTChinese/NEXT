@@ -331,7 +331,9 @@
 									<%assign var="feedType" value=$list.feedType%>
 									<%assign var="interactiveFeedSQL" value="find_in_set('`$feedTag`', tag)"%>
 									<%assign var="itemsArray" value=$interactivemodel->get_interactive_by_field_search($interactiveFeedSQL,$feedStart,$feedItems,600,10800)%>
-									<%*<!--assign var="itemsArray" value=$interactivemodel->get_interactive_by_tag($feedTag, $feedItems)-->*%>
+								<%elseif $list.feedType == "aiaudio"%>
+									<%assign var="feedType" value=$list.feedType%>
+									<%assign var="itemsArray" value=$interactivemodel->get_ai_audios($list.language, $list.feedStart, $list.feedItems)%>
 								<%elseif $list.feedType == "video"%>
 									<%assign var="feedType" value=$list.feedType%>
 									<%if preg_match("/^[0-9]+$/is",$feedTag)%>
@@ -397,7 +399,6 @@
 								<%/if%>
 							<%/foreach%>
 							<%assign var="listItemCount" value=$i%>
-							<!--listItemCount: <%$listItemCount%>, i: <%$i%>-->
 						<%/if%>
 						<%assign var="i" value=0%>
 
@@ -576,6 +577,8 @@
 									<%assign var="itemType" value=$item.item_type|default:$item.type|default:$item.itemtype|default:$feedType%>
 									<%if $itemType == "photo"%>
 										<%assign var="itemType" value="photonews"%>
+									<%elseif $itemType == "aiaudio"%>
+										<%assign var="itemType" value="interactive"%>
 									<%elseif preg_match("/accessright/is",$list.feedTag) || ($itemType == "story" && $item.accessright > 0)%>
 										<%*<!--MARK: - If your sql search has accessright, it means you are searching for paid content only.  -->*%>
 										<%assign var="itemType" value="premium"%>
@@ -1247,7 +1250,17 @@
 									<%/if%>
 
 									<%if $smarty.get.webview == "ftcapp"%>
-										<%if preg_match("/.mp3$/is",$item.shortlead) || preg_match("/.mp3$/is",$item.cshortleadbody)%>
+										<%if preg_match("/双语电台/is",$itemTagsString)%>
+											<%if preg_match("/en|ce/is",$listLanguage) && preg_match("/.mp3$/is",$item.eshortleadbody)%>
+												<%assign var="audioUrl" value=$item.eshortleadbody%>
+												<%assign var="itemSubType" value="bilingual_audio_english"%>
+											<%elseif preg_match("/.mp3$/is",$item.cshortleadbody)%>
+												<%assign var="audioUrl" value=$item.cshortleadbody%>
+												<%assign var="itemSubType" value="bilingual_audio_chinese"%>
+											<%/if%>
+											<%*<!--MARK: - Pass the data-language parameter to native app -->*%>
+											<%assign var="audioData" value=" data-audio=\"`$audioUrl`\""%>
+										<%elseif preg_match("/.mp3$/is",$item.shortlead) || preg_match("/.mp3$/is",$item.cshortleadbody)%>
 											<%assign var="audioUrl" value=$item.shortlead|default:$item.cshortleadbody%>
 											<%assign var="audioData" value=" data-audio=\"`$audioUrl`\""%>
 										<%else%>
@@ -1871,6 +1884,9 @@
 								<%elseif $list.feedType == "interactive"%>
 									<%assign var="feedType" value=$list.feedType%>
 									<%assign var="itemsArray" value=$interactivemodel->get_interactive_by_tag($list.feedTag, $list.feedItems)%>
+								<%elseif $list.feedType == "aiaudio"%>
+									<%assign var="feedType" value=$list.feedType%>
+									<%assign var="itemsArray" value=$interactivemodel->get_ai_audios($list.language, $list.feedStart, $list.feedItems)%>
 								<%elseif $list.feedType == "video"%>
 									<%assign var="feedType" value=$list.feedType%>
 									<%assign var="itemsArray" value=$videomodel->get_video_by_tag($list.feedTag,0,$list.feedItems)%>
