@@ -1218,26 +1218,7 @@
 	<%assign var="isMachineTranslation" value="yes"%>
 <%/if%>
 
-<%*
-<!--
-story audio: 0
-Array
-(
-    [ai_audio_e] => https://creatives.ftacademy.cn/album/38163-1618794146.mp3
-    [ai_audio_c] => https://creatives.ftacademy.cn/album/38163-cn-1618794226.mp3
-    [interactive_id] => 38204
-)
-1
--->
-*%>
-<!--story audio: 0-->
-<%if $story_audio != "" && $story_audio.interactive_id != ""%>
-	<!--story audio: 1-->
-	<%if $page_action == "en" && preg_match("/.mp3$/is",$story_audio.ai_audio_e)%>
-		<!--story audio: 2-->
-		<%assign var="audioButton" value="<a class=\"icon-right icon-audio\" href=\"/interactive/`$story_audio.interactive_id`\"></a>"%>
-	<%/if%>
-<%/if%>
+
 
 <%*<!--MARK: - Calculate page_action, language options and switches-->*%>
 <%if $pageType=="BilligualAudio"%>
@@ -1277,6 +1258,16 @@ Array
 		<%/if%>
 	<%elseif $ebody != ""%>
 		<%assign var="languageOptions" value="<a class=\"icon-right icon-ch\" href=\"/interactive/`$id`/en\"><button>英文</button></a><a class=\"icon-right icon-ch\" href=\"/interactive/`$id`/ce\"><button>对照</button></a>"%>
+	<%/if%>
+<%/if%>
+
+<%*<!--MARK: - Calculate audio button after language options are calculated above -->*%>
+<%assign var="audioButton" value=""%>
+<%if $story_audio != "" && $story_audio.interactive_id != ""%>
+	<%if $page_action == "en" && preg_match("/.mp3$/is",$story_audio.ai_audio_e)%>
+		<%assign var="audioButton" value="<a class=\"icon-right icon-action icon-audio\" href=\"/interactive/`$story_audio.interactive_id`/en\"></a>"%>
+	<%elseif preg_match("/.mp3$/is",$story_audio.ai_audio_c)%>
+		<%assign var="audioButton" value="<a class=\"icon-right icon-action icon-audio\" href=\"/interactive/`$story_audio.interactive_id`\"></a>"%>
 	<%/if%>
 <%/if%>
 
