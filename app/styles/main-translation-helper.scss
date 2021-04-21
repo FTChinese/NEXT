@@ -11,6 +11,27 @@ body {
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr;
+    .preview & {
+        display: none;
+    }
+}
+
+.preview-container {
+    height: 100vh;
+    width: 100vw;
+    overflow: scroll;
+    font-size: 1.2em;
+    .preview-content {
+        max-width: 768px;
+        margin: 15px auto;
+        padding-bottom: 60px;
+    }
+    p {
+        margin-bottom: 1em;
+    }
+    * {
+        line-height: 1.618em;
+    }
 }
 
 .body {
@@ -76,6 +97,24 @@ p.chinese-translation {
 }
 .centerButton {
     padding-top: $navHeight/2;
+    &.bottom-button {
+        padding-top: 0;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        background-color: rgba($color: #000000, $alpha: 0.7);
+        .button {
+            width: 45%;
+            max-width: 280px;
+            margin: 15px;
+        }
+    }
+    .button {
+        max-width: 45%;
+    }
+}
+.story-body {
+    margin-bottom: 60px;
 }
 hr {
     width: 100%;

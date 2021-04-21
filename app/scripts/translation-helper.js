@@ -118,8 +118,13 @@ function start() {
             infoHTML = '<div class="info-container"><div>' + infoHTML + '</div><div><textarea data-info-id="' + id + '" placeholder="点选右边的翻译版本，您也可以继续编辑"></textarea></div></div><hr>';
             k += infoHTML;
         }
-        k += '<div class="centerButton"><input type="button" value="完成并关闭" onclick="finishTranslation()" class="submitbutton button ui-light-btn"></div>';
         storyBodyEle.innerHTML = k;
+        if (document.querySelectorAll('.bottom-button').length === 0) {
+            var bottomButton = document.createElement('DIV');
+            bottomButton.className = 'centerButton bottom-button';
+            bottomButton.innerHTML = '<input type="button" value="预览" onclick="preview(this)" class="submitbutton button ui-light-btn"><input type="button" value="完成并关闭" onclick="finishTranslation()" class="submitbutton button ui-light-btn">';
+            document.body.appendChild(bottomButton);
+        }
         document.querySelector('.body').classList.add('full-grid');
     } else {
         var englishTextArray = convertTextToArray(englishText.value);
@@ -129,6 +134,7 @@ function start() {
             var translationText = translationEles[i].value;
             translationsArray.push(convertTextToArray(translationText));
         }
+        console.log(translationsArray);
         var p = '';
         for (var j=0; j<englishTextArray.length; j++) {
             p += '<div>' + englishTextArray[j] + '</div>';
@@ -371,12 +377,50 @@ function finishTranslationForVideo() {
     }
 }
 
-if (window.opener || typeof window.subtitleInfo === 'object') {
+function preview(buttonEle) {
+    var t = document.getElementById('english-text').value;
+    var newText = t.trim().replace(/^[\n\r\s]+/, '').replace(/[\n\r\s]+$/, '');
+    var englishInfoDiv = document.createElement('DIV');
+    englishInfoDiv.innerHTML = newText;
+    for (var i=0; i<document.querySelectorAll('[data-info-id]').length; i++) {
+        var ele = document.querySelectorAll('[data-info-id]')[i];
+        var id = ele.getAttribute('data-info-id');
+        var infoEle = englishInfoDiv.querySelector('#' + id);
+        if (infoEle) {
+            infoEle.innerHTML = ele.value.trim().replace(/^[\n\r\s]+/, '').replace(/[\n\r\s]+$/, '');
+        }
+    }
+    var translations = englishInfoDiv.innerHTML;
+    console.log(translations);
+
+    var previewContainer;
+    if (document.querySelectorAll('.preview-container').length === 0) {
+        previewContainer = document.createElement('DIV');
+        previewContainer.className = 'preview-container';
+        document.body.appendChild(previewContainer);
+    }
+    previewContainer = document.querySelector('.preview-container');
+    previewContainer.innerHTML = '<div class="preview-content">' + translations + '</div>';
+    document.body.classList.toggle('preview');
+    if (document.body.classList.contains('preview')) {
+        buttonEle.value = '编辑';
+    } else {
+        buttonEle.value = '预览';
+    }
+}
+
+if (window.opener || typeof window.subtitleInfo === 'object' || window.isTestOn) {
     var englishText;
     var translationText;
     if (window.opener) {
         englishText = window.opener.ebodyForTranslation || window.opener.document.getElementById('ebody').value;
         translationText = window.opener.cbodyForTranslation || window.opener.document.getElementById('cbody').value;
+        if (/caption/.test(translationText) && /translations/.test(translationText) && /\"end\":/.test(translationText)) {
+            window.subtitleInfo = JSON.parse(translationText);
+        }
+    } else if (window.isTestOn && window.testEnglishBody && window.testChineseBody) {
+        englishText = window.testEnglishBody;
+        translationText = JSON.stringify(window.testChineseBody);
         if (/caption/.test(translationText) && /translations/.test(translationText) && /\"end\":/.test(translationText)) {
             window.subtitleInfo = JSON.parse(translationText);
         }

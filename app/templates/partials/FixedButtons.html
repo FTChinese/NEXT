@@ -48,8 +48,16 @@
 <%assign var="standardBuyLink" value="http://www.ftacademy.cn/subscription.html?from=`$section.discountCode`&ccode=`$ccode`&tap=standard"%>
 <%assign var="premiumBuyLink" value="http://www.ftacademy.cn/subscription.html?from=`$section.discountCode`&ccode=`$ccode`&tap=premium"%>
 <%if $smarty.get.webview == "ftcapp" && $smarty.get.android == ""%>
-    <%assign var="standardBuyLink" value="subscribe://standard/`$standardPriceValue`?offer=`$standardOfferId`&ccode=`$ccode`"%>
-    <%assign var="premiumBuyLink" value="subscribe://premium/`$premiumPriceValue`?offer=`$premiumOfferId`&ccode=`$ccode`"%>
+    <%assign var="standardOfferPara" value=""%>
+    <%assign var="premiumOfferPara" value=""%>
+    <%if $standardOfferId != ""%>
+      <%assign var="standardOfferPara" value="&offer=`$standardOfferId`"%>
+    <%/if%>
+    <%if $premiumOfferId != ""%>
+      <%assign var="premiumOfferPara" value="&offer=`$premiumOfferId`"%>
+    <%/if%>
+    <%assign var="standardBuyLink" value="subscribe://standard/`$standardPriceValue`?ccode=`$ccode``$standardOfferPara`"%>
+    <%assign var="premiumBuyLink" value="subscribe://premium/`$premiumPriceValue`?ccode=`$ccode``$premiumOfferPara`"%>
     <%*<!--MARK: For ios html validation-->*%>
     <div class="item-container"></div>
 <%/if%>
