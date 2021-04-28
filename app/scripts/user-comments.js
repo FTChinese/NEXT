@@ -458,6 +458,11 @@ function checkLogin() {
             eles3[l].style.display = 'block';
         }        
     }
+    // MARK: - This only applies to iOS app
+    var wechatFTCBindingEle = document.getElementById('wechat-ftc-binding');
+    if (wechatFTCBindingEle && typeof window.userId === 'string' && window.userId.indexOf('ogfvw') === 0) {
+        wechatFTCBindingEle.innerHTML = '<a href="wechatftcbinding://' + window.userId + '" class="button ui-light-btn">绑定邮箱</a>';
+    }
     passLoginToNative();
 }
 
