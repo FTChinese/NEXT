@@ -461,7 +461,6 @@ function checkLogin() {
     // MARK: - This only applies to iOS app
     var wechatFTCBindingEle = document.getElementById('wechat-ftc-binding');
     if (wechatFTCBindingEle && typeof window.userId === 'string' && window.userId.indexOf('ogfvw') === 0) {
-        href="http://www.ftchinese.com/m/corp/preview.html?pageid=subscriptioninfoconfirm&to=all" class="button ui-light-btn"
         wechatFTCBindingEle.href = 'wechatftcbinding://' + window.userId;
         wechatFTCBindingEle.className = 'button ui-light-btn';
         wechatFTCBindingEle.innerHTML = '绑定邮箱';
