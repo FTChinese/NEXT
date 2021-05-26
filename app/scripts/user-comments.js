@@ -461,8 +461,9 @@ function checkLogin() {
     // MARK: - This only applies to iOS app
     var wechatFTCBindingEle = document.getElementById('wechat-ftc-binding');
     if (wechatFTCBindingEle && typeof window.userId === 'string' && window.userId.indexOf('ogfvw') === 0) {
-        wechatFTCBindingEle.href = 'wechatftcbinding://' + window.userId;
-        wechatFTCBindingEle.className = 'button ui-light-btn';
+        // wechatFTCBindingEle.href = 'wechatftcbinding://' + window.userId;
+        wechatFTCBindingEle.className = 'button ui-light-btn wechat-binding';
+        wechatFTCBindingEle.onclick = window.weChatBinding;
         wechatFTCBindingEle.innerHTML = '绑定邮箱';
     }
     passLoginToNative();
