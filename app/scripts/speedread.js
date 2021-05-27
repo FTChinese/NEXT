@@ -92,8 +92,20 @@
     checkButton.className = 'centerButton check-quiz-container';
     checkButton.innerHTML = '<button class="ui-light-btn stress check-quiz-button">提交答案</button>';
     document.querySelector('.speedread-questions').insertBefore(checkButton, null);
-    var startButton = document.createElement('DIV');
-    startButton.className = 'centerButton start-reading-container';
-    startButton.innerHTML = '<button class="ui-light-btn stress start-reading-button">开始阅读</button>';
-    document.getElementById('story-body-container').insertBefore(startButton, null);
+    if (typeof window.gKeyTag === 'string' && window.gKeyTag.indexOf('速读')>=0) {
+        var startButton = document.createElement('DIV');
+        startButton.className = 'centerButton start-reading-container';
+        startButton.innerHTML = '<button class="ui-light-btn stress start-reading-button">开始阅读</button>';
+        document.getElementById('story-body-container').insertBefore(startButton, null);
+    } else {
+        // MARK: Shuffle all the options for non-speedread articles such as FT Academy or FT stories
+        var quizes = document.querySelectorAll('.quizlist');
+        for (var k=0; k<quizes.length; k++) {
+            var ul = quizes[k];
+            for (var i = ul.children.length; i >= 0; i--) {
+                var j = Math.floor(Math.random() * i);
+                ul.appendChild(ul.children[j]);
+            }
+        }
+    }
 })();

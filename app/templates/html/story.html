@@ -1830,9 +1830,7 @@
 		<script type="text/javascript">var pageTheme = 'partnerContent';</script>
 	<%else%>
 		<style><%include file="next/styles/main-story.css"%></style>
-		<%if $interactiveType == "Speedread"%>
-    		<style><%include file="next/styles/main-speedread.css"%></style>
-    	<%elseif $pageType == "singlechoice"%>
+		<%if $pageType == "singlechoice"%>
     		<style><%include file="next/styles/main-quiz.css"%></style>
     	<%/if%>
     <%/if%>
@@ -1847,11 +1845,13 @@
     	<style><%include file="next/styles/main-table.css"%></style>
 	<%/if%>
 
-	<!-- toggle content 1 -->
+	<%if preg_match("/speedread\-questions/is",$cbody) || $interactiveType == "Speedread"%>
+		<style><%include file="next/styles/main-speedread.css"%></style>
+	<%/if%>
+
 	<%if preg_match("/toggle\-container/is",$story_content)%>
     	<style><%include file="next/styles/main-toggle-content.css"%></style>
     	<script><%include file="next/scripts/main-toggle-content.js"%></script>
-		<!-- toggle content: 2 -->
 	<%/if%>
 	
 	<%if $page_action=="ce" && $isMachineTranslation == "yes"%>
@@ -2219,7 +2219,7 @@ if (w > 490 && isTouchDevice() === false && document.querySelectorAll('.ce').len
 	</script>
 <%/if%>
 
-<%if $interactiveType == "Speedread"%>
+<%if preg_match("/speedread\-questions/is",$cbody) || $interactiveType == "Speedread"%>
 	<script><%include file="next/scripts/main-speedread.js"%></script>
 <%/if%>
 
