@@ -464,6 +464,11 @@ function checkLogin() {
         wechatFTCBindingEle.className = 'button ui-light-btn wechat-binding';
         wechatFTCBindingEle.innerHTML = '绑定邮箱';
     }
+    var phoneFTCBindingEle = document.getElementById('phone-ftc-binding');
+    if (phoneFTCBindingEle && typeof window.userId === 'string' && window.userId.indexOf('phone') === 0) {
+        phoneFTCBindingEle.className = 'button ui-light-btn phone-binding';
+        phoneFTCBindingEle.innerHTML = '绑定邮箱';
+    }
     passLoginToNative();
 }
 
