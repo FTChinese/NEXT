@@ -54,7 +54,6 @@
         var spentMinutes = (speedreadEndTime.getTime() - window.speedReadStartTime.getTime())/(1000 * 60);
         var wordCount = document.querySelector('.speedread-article-container').innerText.split(' ').length;
         var wpm = (percentScore >= 60) ? parseInt(wordCount/spentMinutes, 10) : 0;
-        // console.log (`spentMinutes: ${spentMinutes}, wordCount: ${wordCount}, wpm: ${wpm}, score: ${percentScore}`);
         // MARK: - Create Feedback to User
         var speedreadFeedback = {
             bad:'壮士别灰心！功名不可一蹴而就！回答问题的正确率需要达到60%以上才会有WPM（每分钟阅读单词数）值。建议您点击后退，仔细查看答错的题目，并和原文对照，同时听读背诵生词部分。提高准确率和阅读理解能力是当下的首要目标，不可一味追求速度。成功没有捷径，江湖险恶，要记得“天天练功”哦！</b>',
