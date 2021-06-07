@@ -494,12 +494,12 @@ var phoneLoginStatusDict = {
 var phoneLoginStatus = phoneLoginStatusDict.start;
 
 function binding(from) {
-    var status = document.getElementById(`${from}-binding-status`);
-    var email = document.getElementById(`${from}-binding-email`).value;
-    var password = document.getElementById(`${from}-binding-password`).value;
+    var status = document.getElementById(from + '-binding-status');
+    var email = document.getElementById(from + '-binding-email').value;
+    var password = document.getElementById(from + '-binding-password').value;
     status.innerHTML = '正在向服务器发送信息...';
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', `/index.php/jsapi/${from}Binding`);
+    xhr.open('POST', '/index.php/jsapi/' + from + 'Binding');
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.onload = function() {
         if (xhr.status === 200) {
@@ -507,15 +507,15 @@ function binding(from) {
             if (userInfo.status && userInfo.status === 'success') {
                 status.innerHTML = '绑定成功';
                 document.querySelector('.logincomment').style.display = 'block';
-                document.querySelector(`#${from}-ftc-binding-container`).style.display = 'none';
-                document.querySelector(`#${from}-ftc-binding`).style.display = 'none';
+                document.getElementById(from + '-ftc-binding-container').style.display = 'none';
+                document.querySelector(from + '-ftc-binding').style.display = 'none';
             } else if (userInfo.errmsg) {
-                status.innerHTML = `服务器返回错误信息：${userInfo.errmsg}，请重新尝试`;
+                status.innerHTML = '服务器返回错误信息：' + userInfo.errmsg + '，请重新尝试';
             } else {
-                status.innerHTML = `服务器返回未知错误：${xhr.responseText}`;
+                status.innerHTML = '服务器返回未知错误：' + xhr.responseText;
             }
         } else {
-            status.innerHTML = `服务器返回错误代码：${xhr.status}`;
+            status.innerHTML = '服务器返回错误代码：' + xhr.status;
         }
     };
     xhr.onerror = function(err) {
@@ -540,7 +540,7 @@ function getCapchaForPhoneLogin() {
             var result = JSON.parse(xhr.responseText);
             if (!result.status || result.status !== 'success') {
                 var errorMessage = result.errmsg || '出现未知错误，但服务器返回的信息不包含错误详情(errmsg)，如多次出现这种情况，请截屏给客服';
-                status.innerHTML = `服务器返回错误信息，请您重试一次：${errorMessage}`;
+                status.innerHTML = '服务器返回错误信息，请您重试一次：' + errorMessage;
                 phoneLoginStatus = phoneLoginStatusDict.start;
             }
             status.innerHTML = '验证码已经成功发送，请注意检查您的短信，在5分钟内完成登录';
@@ -548,7 +548,7 @@ function getCapchaForPhoneLogin() {
             document.getElementById('phone-login-submit-button').value = '登录';
             phoneLoginStatus = phoneLoginStatusDict.login;
          } else {
-            status.innerHTML = `服务器返回错误代码：${xhr.status}，请重新尝试`;
+            status.innerHTML = '服务器返回错误代码：' + xhr.status + '，请重新尝试';
             phoneLoginStatus = phoneLoginStatusDict.start;
         }
     };
