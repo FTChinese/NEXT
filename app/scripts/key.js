@@ -538,9 +538,12 @@ function binding(from) {
             var userInfo = JSON.parse(xhr.responseText);
             if (userInfo.status && userInfo.status === 'success') {
                 status.innerHTML = '绑定成功';
-                document.querySelector('.logincomment').style.display = 'block';
-                document.getElementById(from + '-ftc-binding-container').style.display = 'none';
-                document.querySelector(from + '-ftc-binding').style.display = 'none';
+                var loginEle = document.querySelector('.logincomment');
+                if (loginEle) {
+                    loginEle.style.display = 'block';
+                }
+                var queries = ['#' + from + '-ftc-binding-container', '#' + from + '-ftc-binding'];
+                hideElements(queries);
                 try {window.updateSubscriberStatus();} catch (ignore) {}
                 try {window.payWall();} catch (ignore) {}
                 try {window.closeOverlay('overlay-login');} catch(ignore){}
