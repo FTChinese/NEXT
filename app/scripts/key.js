@@ -1,4 +1,4 @@
-/* exported DeleteCookie,isHidden,username,userId,guid,ccodeCookie,addstoryfav, showOverlay, closeOverlay, w, isTouchDevice, trackerNew, paravalue, trackAdClic, checkUserWarnings*/
+/* exported DeleteCookie,isHidden,username,userId,guid,ccodeCookie,addstoryfav, showOverlay, closeOverlay, w, isTouchDevice, trackerNew, paravalue, trackAdClic, checkUserWarnings, binding, phoneLogin, resetPhoneLogin, showPhoneFTCBinding, showPhoneLogin*/
 var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 var ua = navigator.userAgent || navigator.vendor || '';
 var gUserType = 'visitor';
@@ -73,14 +73,16 @@ function updateSubscriberStatus() {
     }
     var subscriberClass = '';
     if (paywall !== null) {
+        var result;
         if (paywall === 'premium') {
             subscriberClass = ' is-subscriber is-premium';
-            return 'VIP';
+            result = 'VIP';
         } else {
             subscriberClass = ' is-subscriber is-standard';
-            return 'Subscriber';
+            result = 'Subscriber';
         }
         document.documentElement.className += subscriberClass;
+        if (result) {return result;}
     }
     return null;
 }
@@ -512,3 +514,182 @@ window.addEventListener('message', function(event){
         gtag('event', ea, {'event_label': el, 'event_category': ec, 'non_interaction': true});
     }
 }, false);
+
+
+// MARK: - SMS login and binding will be used in every page
+var phoneLoginStatusDict = {
+    start: 'start',
+    login: 'login',
+    sendingVerification: 'sending request for verification',
+    sendingLoginInfo: 'sending login information'
+};
+var phoneLoginStatus = phoneLoginStatusDict.start;
+
+function binding(from) {
+    var status = document.getElementById(from + '-binding-status');
+    var email = document.getElementById(from + '-binding-email').value;
+    var password = document.getElementById(from + '-binding-password').value;
+    status.innerHTML = '正在向服务器发送信息...';
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/index.php/jsapi/' + from + 'Binding');
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            var userInfo = JSON.parse(xhr.responseText);
+            if (userInfo.status && userInfo.status === 'success') {
+                status.innerHTML = '绑定成功';
+                document.querySelector('.logincomment').style.display = 'block';
+                document.getElementById(from + '-ftc-binding-container').style.display = 'none';
+                document.querySelector(from + '-ftc-binding').style.display = 'none';
+                try {window.updateSubscriberStatus();} catch (ignore) {}
+                try {window.payWall();} catch (ignore) {}
+                try {window.closeOverlay('overlay-login');} catch(ignore){}
+            } else if (userInfo.errmsg) {
+                status.innerHTML = '服务器返回错误信息：' + userInfo.errmsg + '，请重新尝试';
+            } else {
+                status.innerHTML = '服务器返回未知错误：' + xhr.responseText;
+            }
+        } else {
+            status.innerHTML = '服务器返回错误代码：' + xhr.status;
+        }
+    };
+    xhr.onerror = function(err) {
+        status.innerHTML = err.toString();
+    };
+    xhr.send(JSON.stringify({
+        email: email,
+        password: password
+    }));
+}
+
+function getCapchaForPhoneLogin() {
+    var status = document.getElementById('phone-login-status');
+    var phone = document.getElementById('phone-number').value;
+    status.innerHTML = '发送信息中，请注意查看短信...';
+    phoneLoginStatus = phoneLoginStatusDict.sendingVerification;
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/users/login/captcha');
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            var result = JSON.parse(xhr.responseText);
+            if (!result.status || result.status !== 'success') {
+                var errorMessage = result.errmsg || '出现未知错误，但服务器返回的信息不包含错误详情(errmsg)，如多次出现这种情况，请截屏给客服';
+                status.innerHTML = '服务器返回错误信息，请您重试一次：' + errorMessage;
+                phoneLoginStatus = phoneLoginStatusDict.start;
+            }
+            status.innerHTML = '验证码已经成功发送，请注意检查您的短信，在5分钟内完成登录';
+            document.getElementById('phone-captcha').style.display = 'block';
+            document.getElementById('phone-login-submit-button').value = '登录';
+            phoneLoginStatus = phoneLoginStatusDict.login;
+         } else {
+            status.innerHTML = '服务器返回错误代码：' + xhr.status + '，请重新尝试';
+            phoneLoginStatus = phoneLoginStatusDict.start;
+        }
+    };
+    xhr.onerror = function(err) {
+        status.innerHTML = err.toString();
+    };
+    xhr.send(JSON.stringify({
+        mobile_phone_no: phone
+    }));
+}
+
+function submitPhoneLogin() {
+    function reportLoginToNative() {
+        var data = {action: 'login', userId: window.userId};
+        try {
+            if (webkit) {
+                webkit.messageHandlers.login.postMessage(data);
+            } else if (Android) {
+                Android.onPageLoaded(JSON.stringify(data));
+            }
+        } catch (ignore) {}
+    }
+    var u, p;
+    u = document.querySelector('#phone-number').value;
+    p = document.querySelector('#phone-captcha').value;
+    var statusMsgDiv = document.getElementById('phone-login-status');
+    statusMsgDiv.innerHTML = '正在登录中...';
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState !== 4) { return;}
+        if (this.status !== 200) {
+            statusMsgDiv.innerHTML = '<div class="highlight">对不起，网络故障。请过一段时间再重新尝试。</div>';
+            return;
+        }
+        var l = JSON.parse(this.responseText);
+        if (!l.status || l.status !== 'ok') {
+            statusMsgDiv.innerHTML = '<div class="highlight">'+ l.msg + '</div>';
+            return;
+        }
+        statusMsgDiv.innerHTML = '登录成功！';
+        username = u;
+        if (window.userId === undefined || window.userId === '') {
+            window.userId = GetCookie('USER_ID') || '';
+        }
+        try {window.updateSubscriberStatus();} catch (ignore) {}
+        try {window.payWall();} catch (ignore) {}
+        try {window.closeOverlay('overlay-login');} catch(ignore){}
+        try {window.checkLogin();window.paywall();} catch (ignore) {}
+        reportLoginToNative();
+        document.getElementById('phone-login-container').style.display = 'none';
+        var loginContainer = document.getElementById('overlay-login-container');
+        if (loginContainer) {loginContainer.style.display = 'block';}
+        document.documentElement.classList.add('is-member');
+    };
+    var params = 'username='+ u + '&password=' + p + '&saveme=1';
+    var randomNumber = parseInt(Math.random()*1000000, 10);
+    xmlhttp.open('POST', '/index.php/users/login/ajax?' + randomNumber);
+    xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xmlhttp.send(params);
+}
+
+function phoneLogin() {
+    if (phoneLoginStatus === phoneLoginStatusDict.start) {
+        getCapchaForPhoneLogin();
+    } else if (phoneLoginStatus === phoneLoginStatusDict.sendingVerification || phoneLoginStatus === phoneLoginStatusDict.sendingLoginInfo) {
+        return;
+    } else if (phoneLoginStatus === phoneLoginStatusDict.login) {
+        submitPhoneLogin();
+    }
+}
+
+function resetPhoneLogin() {
+    if (phoneLoginStatusDict.start === phoneLoginStatus) {return;}
+    phoneLoginStatus = phoneLoginStatusDict.start;
+    document.getElementById('phone-login-submit-button').value = '获取验证码';
+    document.getElementById('phone-login-status').innerHTML = '';
+}
+
+function cleanFields() {
+    var ids = ['phone-binding-email', 'phone-binding-password', 'wechat-binding-email', 'wechat-binding-password', 'phone-number', 'phone-captcha'];
+    for (var i=0; i<ids.length; i++) {
+        var ele = document.getElementById(ids[i]);
+        if (!ele) {continue;}
+        ele.value = '';
+    }
+}
+
+function hideElements(queries) {
+    for (var i=0; i<queries.length; i++) {
+        var ele = document.querySelector(queries[i]);
+        if (!ele) {continue;}
+        ele.style.display = 'none';
+    }
+}
+
+function showPhoneFTCBinding() {
+    var hideEles = ['.nologincomment', '.logincomment', '#overlay-login-container', '#overlay-login-form'];
+    hideElements(hideEles);
+    document.querySelector('#phone-ftc-binding-container').style.display = 'block';
+    cleanFields();
+}
+
+function showPhoneLogin() {
+    var hideEles = ['.nologincomment', '.logincomment', '#phone-captcha', '#overlay-login-container'];
+    hideElements(hideEles);
+    document.querySelector('#phone-login-container').style.display = 'block';
+    phoneLoginStatus = 'start';
+    cleanFields();
+}

@@ -5,23 +5,38 @@
             <div class="overlay-content-inner">
                 <div class="overlay-content">
                     <div class="overlay-title">登录<i class="overlay-close" data-parentid="overlay-login">×</i></div>
-                    <form method="post" action="/users/login">
-                    <div class="input-title" id="login-reason"></div>
-                    <div class="input-title">电子邮件/用户名</div>
-                    <div class="input-container"><input type="text" class="input-oneline" name="username" id="ft-login-input-username"></div>
-                    <div class="input-title">密码</div>
-                    <div class="input-container"><input type="password" class="input-oneline" name="password"></div>
-                    <div><input type="checkbox" class="checkbox" value="1" checked="checked" name="saveme" id="ft-login-input-remember">记住我</div>
-
-                    <div class="login-btn input-submit-container center">
-                    <input class="" type="submit" value="登录"></div>
-
-                    <div class="center register-find"><a href="https://user.ftchinese.com/register" class="blue-link">免费注册</a><span></span><a href="https://profile.ftchinese.com/users/findpassword" class="blue-link">找回密码</a></div>
-
-                    <div class="wx-login-container">
-                    <div class="center wx-login"><a href="https://www.ftacademy.cn/wxlogin" class="blue-link">微信登录</a></div>
-                    </div>
+                    <form method="post" action="/users/login" id="overlay-login-form">
+                        <span id="overlay-login-container">
+                            <div class="input-title" id="login-reason"></div>
+                            <div class="input-title">电子邮件/用户名</div>
+                            <div class="input-container"><input type="text" class="input-oneline" name="username" id="ft-login-input-username"></div>
+                            <div class="input-title">密码</div>
+                            <div class="input-container"><input type="password" class="input-oneline" name="password"></div>
+                            <div><input type="checkbox" class="checkbox" value="1" checked="checked" name="saveme" id="ft-login-input-remember">记住我</div>
+                            <div class="login-btn input-submit-container center"><input class="" type="submit" value="登录"></div>
+                            <div class="center register-find"><a href="https://user.ftchinese.com/register" class="blue-link">免费注册</a><span></span><a href="https://profile.ftchinese.com/users/findpassword" class="blue-link">找回密码</a></div>
+                            <div class="phone-login-container" id="phone-login-trigger" style="display: none;">
+                                <div class="center phone-login"><a onclick="showPhoneLogin()" class="blue-link">短信登录</a></div>
+                            </div>
+                            <div class="wx-login-container">
+                            <div class="center wx-login"><a href="https://www.ftacademy.cn/wxlogin" class="blue-link">微信登录</a></div>
+                            </div>
+                        </span>
                     </form>
+                    <span id="phone-ftc-binding-container">
+                        <div>请输入邮箱和密码进行绑定操作：</div>
+                        <div><input placeholder="请输入邮箱" type="email" autocorrect="off" id="phone-binding-email" class="input-oneline"/></div>
+                        <div><input placeholder="请输入密码" type="password" class="input-oneline" id="phone-binding-password"/></div>
+                        <div class="topmargin statusmsg" id="phone-binding-status"></div>
+                        <div><input type="button" value="绑定" class="n-button-inner" onclick="binding('phone')"/></div>
+                    </span>
+                    <span id="phone-login-container">
+                        <div class="user-name-container">请输入手机号码，通过短信验证（目前仅支持中国大陆地区的手机号）：</div>
+                        <div><input onkeyup="resetPhoneLogin()" placeholder="请输入中国大陆的手机号码" type="tel" autocorrect="off" name="phone" id="phone-number" class="input-oneline"/></div>
+                        <div><input placeholder="请输入验证码"  pattern="\d*" maxlength="6" name="phonecapcha"  class="input-oneline" id="phone-captcha"/></div>
+                        <div class="topmargin statusmsg" id="phone-login-status"></div>
+                        <div><input id="phone-login-submit-button" type="button" value="获取验证码" class="n-button-inner" onclick="phoneLogin()"/></div>
+                    </span>
                 </div>
             </div>
         </div>

@@ -1264,3 +1264,10 @@ setTimeout(function(){
     }
   }, false);
 }, 100);
+
+
+// MARK: - test phone login
+var phoneLoginTrigger = document.getElementById('phone-login-trigger');
+if (phoneLoginTrigger && window.location.href.indexOf('showphonelogin=yes') >= 0) {
+    phoneLoginTrigger.style.display = 'block';
+}
