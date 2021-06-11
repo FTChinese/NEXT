@@ -106,7 +106,7 @@
 	    <div class="item-inner">
 	    	<%$itemMainTagLink%>
 	        <h2 class="item-headline"><a href="/m/corp/preview.html?pageid=<%$report.id%>&webview=ftcapp" class="item-headline-link unlocked<%$vipClass%>" target=_blank><%$report.cheadline%></a></h2>
-	        <a href="/m/corp/preview.html?pageid=<%$report.id%>&webview=ftcapp" class="image"><figure class="loading" data-url="<%$report.story_pic.cover|default:$report.story_pic.smallbutton|default:$report.story_pic.bigbutton|default:$report.story_pic.other%>"></figure></a>
+	        <a href="/m/corp/preview.html?pageid=<%$report.id%>&webview=ftcapp" class="image"><figure class="loading" data-url="<%$report.story_pic.cover|default:$report.story_pic.smallbutton|default:$report.story_pic.bigbutton|default:$report.story_pic.other|replace:"http://i.ftimg.net/picture/":"https://thumbor.ftacademy.cn/unsafe/picture/"%>"></figure></a>
 	        <div class="item-lead"><%$itemLead%></div>
 	        <div class="item-bottom"></div>
 	    </div>
@@ -117,7 +117,7 @@
 	    <div class="item-inner">
 	    	<%$itemMainTagLink%>
 	        <h2 class="item-headline"><a class="item-headline-link unlocked<%$vipClass%>" target=_blank><%$report.cheadline%></a></h2>
-	        <a class="image"><figure class="loading" data-url="<%$report.story_pic.cover|default:$report.story_pic.smallbutton|default:$report.story_pic.bigbutton|default:$report.story_pic.other%>"></figure></a>
+	        <a class="image"><figure class="loading" data-url="<%$report.story_pic.cover|default:$report.story_pic.smallbutton|default:$report.story_pic.bigbutton|default:$report.story_pic.other|replace:"http://i.ftimg.net/picture/":"https://thumbor.ftacademy.cn/unsafe/picture/"%>"></figure></a>
 	        <div class="item-lead"><%$itemLead%></div>
 	        <div class="item-bottom"></div>
 	    </div>
@@ -128,17 +128,9 @@
 		<div class="item-inner">
 			<%$itemMainTagLink%>
 			<h2 class="item-headline"><a href="http://www.ftchinese.com/<%$itemType%>/<%$report.id%>?webview=ftcapp" class="item-headline-link unlocked<%$vipClass%>" target=_blank><%$report.cheadline%></a></h2>
-			<a class="image" href="http://www.ftchinese.com/<%$itemType%>/<%$report.id%>?webview=ftcapp"><figure class="loading" data-url="<%$report.story_pic.cover|default:$report.story_pic.smallbutton|default:$report.story_pic.other%>"></figure></a>
+			<a class="image" href="http://www.ftchinese.com/<%$itemType%>/<%$report.id%>?webview=ftcapp"><figure class="loading" data-url="<%$report.story_pic.cover|default:$report.story_pic.smallbutton|default:$report.story_pic.other|replace:"http://i.ftimg.net/picture/":"https://thumbor.ftacademy.cn/unsafe/picture/"%>"></figure></a>
 			<div class="item-lead"><a href="http://www.ftchinese.com/<%$itemType%>/<%$report.id%>?webview=ftcapp"><%$report.clongleadbody|default:$report.cshortleadbody%></a></div>
 			<div class="item-bottom"></div>
 		</div>
 	</div>
 <%/if%>
-
-
-
-
-
-
-
-<%*<!--/if-->*%>

@@ -380,6 +380,7 @@
 									<%else%>
 										<%assign var="itemImage" value=$item.image|default:$item.story_pic.cover|default:$item.story_pic.smallbutton|default:$item.story_pic.other|default:$item.story_pic.bigbutton%>
 									<%/if%>
+									<%assign var="itemImage" value=$itemImage|replace:"http://i.ftimg.net/picture/":"https://thumbor.ftacademy.cn/unsafe/picture/"%>
 									<%assign var="itemId" value=$item.id|default:$item.photonewsid%>
 									<%if ($itemImage != "" || $feedImage != "necessary") && !in_array($itemId, explode(',',$itemIdsArray))%>
 										<%assign var="i" value=$i+1%>
@@ -557,6 +558,7 @@
 								<%else%>
 									<%assign var="itemImage" value=$item.image|default:$item.story_pic.cover|default:$item.story_pic.smallbutton|default:$item.story_pic.other|default:$item.story_pic.bigbutton%>
 								<%/if%>
+								<%assign var="itemImage" value=$itemImage|replace:"http://i.ftimg.net/picture/":"https://thumbor.ftacademy.cn/unsafe/picture/"%>
 								<%assign var="itemId" value=$item.id|default:$item.photonewsid%>
 
 								<%*<!--
@@ -1925,6 +1927,7 @@
 							<%else%>
 								<%assign var="itemImage" value=$item.image|default:$item.story_pic.cover|default:$item.story_pic.smallbutton|default:$item.story_pic.other|default:$item.story_pic.bigbutton%>
 							<%/if%>
+							<%assign var="itemImage" value=$itemImage|replace:"http://i.ftimg.net/picture/":"https://thumbor.ftacademy.cn/unsafe/picture/"%>
 							<%assign var="itemType" value=$item.type|default:$feedType%>
 							<%if $itemType == "photo"%>
 								<%assign var="itemType" value="photonews"%>
