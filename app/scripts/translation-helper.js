@@ -81,6 +81,8 @@ function confirmTranslation(ele) {
     gtag('event', ea, {'event_label': window.userName, 'event_category': 'Translation Helper', 'non_interaction': false});
 }
 
+
+
 function start() {
     var englishText = document.getElementById('english-text');
     var translationInfoEle = document.getElementById('translation-info');
@@ -122,7 +124,7 @@ function start() {
         if (document.querySelectorAll('.bottom-button').length === 0) {
             var bottomButton = document.createElement('DIV');
             bottomButton.className = 'centerButton bottom-button';
-            bottomButton.innerHTML = '<input type="button" value="预览" onclick="preview(this)" class="submitbutton button ui-light-btn"><input type="button" value="完成并关闭" onclick="finishTranslation()" class="submitbutton button ui-light-btn">';
+            bottomButton.innerHTML = '<input type="button" value="全局替换" onclick="showReplace(this)" class="submitbutton button ui-light-btn"><input type="button" value="预览" onclick="preview(this)" class="submitbutton button ui-light-btn"><input type="button" value="完成并关闭" onclick="finishTranslation()" class="submitbutton button ui-light-btn">';
             document.body.appendChild(bottomButton);
         }
         document.querySelector('.body').classList.add('full-grid');
@@ -391,8 +393,6 @@ function preview(buttonEle) {
         }
     }
     var translations = englishInfoDiv.innerHTML;
-    console.log(translations);
-
     var previewContainer;
     if (document.querySelectorAll('.preview-container').length === 0) {
         previewContainer = document.createElement('DIV');
@@ -406,6 +406,56 @@ function preview(buttonEle) {
         buttonEle.value = '编辑';
     } else {
         buttonEle.value = '预览';
+    }
+}
+
+function showReplace(buttonEle) {
+    var from = window.getSelection().toString() || '';
+    var replaceContainer;
+    if (!document.querySelector('.replace-container')) {
+        replaceContainer = document.createElement('DIV');
+        replaceContainer.className = 'replace-container';
+        document.body.appendChild(replaceContainer);
+    }
+    replaceContainer = document.querySelector('.replace-container');
+    replaceContainer.innerHTML = '<div class="replace-content"><input placeholder="旧译名" type="text" class="replace-from" value="' + from + '"><input placeholder="新译名" type="text" class="replace-to"><button onclick="replaceAll()">全部替换</button></div>';
+    document.body.classList.toggle('show-replace');
+    if (document.body.classList.contains('show-replace')) {
+        buttonEle.value = '隐藏替换';
+    } else {
+        buttonEle.value = '全文替换';
+    }
+}
+
+function replaceAll() {
+    var from = document.querySelector('.replace-from').value;
+    if (from === '') {
+        alert('旧译名不能为空!');
+        return;
+    }
+    var to = document.querySelector('.replace-to').value;
+    if (to === from) {return;}
+    var allTranslationDivs = document.querySelectorAll('.info-translation');
+    var allTranslationTexts = document.querySelectorAll('.info-container textarea');
+    var replaceCount = 0;
+    for (var i=0; i<allTranslationDivs.length; i++) {
+        var currentDiv = allTranslationDivs[i];
+        while (currentDiv.innerHTML.indexOf(from) >= 0) {
+            currentDiv.innerHTML = currentDiv.innerHTML.replace(from, to);
+            replaceCount += 1;
+        }
+    }
+    for (var j=0; j<allTranslationTexts.length; j++) {
+        var currentTextArea = allTranslationTexts[j];
+        while (currentTextArea.value.indexOf(from) >= 0) {
+            currentTextArea.value = currentTextArea.value.replace(from, to);
+            replaceCount += 1;
+        }
+    }
+    if (replaceCount > 0) {
+        alert('完成了' + replaceCount + '次替换！如您对此功能有进一步的要求和建议，比如，希望我们的机器翻译结果能“记住”正确的译法，请告诉Oliver');
+    } else {
+        alert('在译文中没有找到“' + from + '”，请检查一下您的输入是否正确');
     }
 }
 
