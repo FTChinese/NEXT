@@ -443,6 +443,10 @@ function replaceAll() {
         while (currentDiv.innerHTML.indexOf(from) >= 0) {
             currentDiv.innerHTML = currentDiv.innerHTML.replace(from, to);
             replaceCount += 1;
+            // MARK: - avoid infinite loop with this
+            if (to.indexOf(from) >= 0) {
+                break;
+            }
         }
     }
     for (var j=0; j<allTranslationTexts.length; j++) {
@@ -450,6 +454,10 @@ function replaceAll() {
         while (currentTextArea.value.indexOf(from) >= 0) {
             currentTextArea.value = currentTextArea.value.replace(from, to);
             replaceCount += 1;
+            // MARK: - avoid infinite loop with this
+            if (to.indexOf(from) >= 0) {
+                break;
+            }
         }
     }
     if (replaceCount > 0) {
