@@ -115,6 +115,13 @@ function start() {
             for (var j=0; j<info.translations.length; j++) {
                 var translation = info.translations[j];
                 var t = (/<.+>/g.test(translation)) ? tidyHTML(translation) : translation;
+                
+                
+                if (/^<picture>.*<\/picture>/.test(englishHTML) && !/^<picture>.*<\/picture>/.test(t)) {
+                    t = englishHTML.replace(/(^<picture>.*<\/picture>)(.*)$/g, '$1') + t;
+                }
+
+
                 infoHTML += '<div onclick="confirmTranslation(this)" data-translation-index="' + j + '" class="info-translation" title="click to confirm this translation to the right">' + t + '</div>';
             }
             infoHTML = '<div class="info-container"><div>' + infoHTML + '</div><div><textarea data-info-id="' + id + '" placeholder="点选右边的翻译版本，您也可以继续编辑"></textarea></div></div><hr>';
