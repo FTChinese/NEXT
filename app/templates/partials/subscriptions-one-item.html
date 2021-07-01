@@ -100,7 +100,18 @@
 
 <%$itemTop%>
 
-<%if $useCorpToRenderStory == "yes" && ($itemType == "story" || $itemType == "premium")%>
+<%if $smarty.get.webview != "ftcapp" && $highlightFTAcademy == "top"%>
+	<%*<!--MARK: If the user is not using an app. Add the second condition to avoid unexpected outcome.  -->*%>
+	<div class="item-container <%$itemClass%>" <%$audioData%> data-keywords="<%$itemTagsString%>">
+		<div class="item-inner">
+			<%$itemMainTagLink%>
+			<h2 class="item-headline"><a href="/<%$itemType%>/<%$report.id%>" class="item-headline-link unlocked<%$vipClass%>" target=_blank><%$report.cheadline%></a></h2>
+			<a class="image" href="/<%$itemType%>/<%$report.id%>" target="_blank"><figure class="loading" data-url="<%$report.story_pic.cover|default:$report.story_pic.smallbutton|default:$report.story_pic.other|replace:"http://i.ftimg.net/picture/":"https://thumbor.ftacademy.cn/unsafe/picture/"%>"></figure></a>
+			<div class="item-lead"><a href="/<%$itemType%>/<%$report.id%>" target="_blank"><%$report.clongleadbody|default:$report.cshortleadbody%></a></div>
+			<div class="item-bottom"></div>
+		</div>
+	</div>
+<%elseif $useCorpToRenderStory == "yes" && ($itemType == "story" || $itemType == "premium")%>
 	<%*<!--MARK: If the user is using a version 98 of ios app -->*%>
 	<div class="item-container <%$itemClass%>">
 	    <div class="item-inner">

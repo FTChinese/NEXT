@@ -1,4 +1,107 @@
-<!--List Grid Included-->
+<%*<!--MARK: - Get list items from different types of sources-->*%>
+<%assign var="feedType" value="manual"%>
+<%assign var="itemsArray" value=$list.items%>
+<%if $list.items|@count==0 && $list.feedItems != "" && $list.feedItems != "0"%>
+    <%if preg_match("/all|story|interactive|photo|video|premium/is",$list.feedType) && $list.items|@count==0%>
+        <%if $list.feedImage == "necessary"%>
+            <%assign var="feedImage" value="necessary"%>
+        <%/if%>
+        <%assign var="feedRepeatCheck" value="yes"%>
+        <%assign var="feedItems" value=$list.feedItems*4%>
+    <%else%>
+        <%assign var="feedImage" value="optional"%>
+        <%assign var="feedRepeatCheck" value="no"%>
+        <%assign var="feedItems" value=$list.feedItems%>
+    <%/if%>
+    
+    <%assign var="actualFeedItems" value=$list.feedItems%>
+    <%assign var="feedStart" value=$list.feedStart|default:0%>
+    <%assign var="pageNumber" value=$smarty.get.p%>
+    <%if $pageNumber > 1%>
+        <%assign var="feedStart" value=$pageNumber-1%>
+        <%if $actualFeedItems > 0%>
+            <%assign var="feedStart" value=$feedStart*$actualFeedItems%>
+        <%/if%>
+    <%/if%>
+    <%assign var="feedTag" value=$list.feedTag%>
+    <%if preg_match("/like|find_in_set|=|\(| in /is",$feedTag)%>
+        <%if $list.feedType == "story"%>
+            <%assign var="feedType" value=$list.feedType%>
+            <%assign var="feedTag" value="(`$feedTag`) and eskylinetext not like '%低调%'"%>
+            <%assign var="itemsArray" value=$storymodel->get_story_by_field_search($feedTag,$feedStart,$feedItems,600,10800)%>
+        <%elseif $list.feedType == "interactive"%>
+            <%assign var="feedType" value=$list.feedType%>
+            <%assign var="itemsArray" value=$interactivemodel->get_interactive_by_field_search($feedTag,$feedStart,$feedItems,600,10800)%>
+        <%elseif $list.feedType == "video"%>
+            <%assign var="feedType" value=$list.feedType%>
+            <%assign var="itemsArray" value=$videomodel->get_video_by_field_search($feedTag,$feedStart,$feedItems,600,10800)%>
+        <%elseif $list.feedType == "photo"%>
+            <%assign var="feedType" value="photonews"%>
+            <%assign var="itemsArray" value=$photonewsmodel->get_photonews_by_field_search($feedTag,"ORDER BY photonewsid DESC",$feedItems)%>
+        <%/if%>
+    <%else%>
+        <%if $list.feedType == "story"%>
+            <%assign var="feedType" value=$list.feedType%>
+            <%assign var="itemsArray" value=$storymodel->get_story_by_tag($feedTag,$feedStart,$feedItems)%>
+        <%elseif $list.feedType == "interactive"%>
+            <%assign var="feedType" value=$list.feedType%>
+            <%assign var="interactiveFeedSQL" value="find_in_set('`$feedTag`', tag)"%>
+            <%assign var="itemsArray" value=$interactivemodel->get_interactive_by_field_search($interactiveFeedSQL,$feedStart,$feedItems,600,10800)%>
+        <%elseif $list.feedType == "aiaudio"%>
+            <%assign var="feedType" value=$list.feedType%>
+            <%assign var="itemsArray" value=$interactivemodel->get_ai_audios($list.language, $list.feedStart, $list.feedItems)%>
+        <%elseif $list.feedType == "video"%>
+            <%assign var="feedType" value=$list.feedType%>
+            <%if preg_match("/^[0-9]+$/is",$feedTag)%>
+                <%assign var="videoChannel" value=$feedTag%>
+                <%assign var="itemsArray" value=$videomodel->get_video_by_channel($videoChannel,$feedStart,$feedItems)%>
+            <%else%>
+                <%assign var="itemsArray" value=$videomodel->get_video_by_tag($feedTag,$feedStart,$feedItems)%>
+            <%/if%>
+        <%elseif $list.feedType == "photo"%>
+            <%assign var="feedType" value="photonews"%>
+            <%assign var="itemsArray" value=$photonewsmodel->get_photonews_by_tag($feedTag,0,$feedItems)%>
+        <%elseif $list.feedType == "premium"%>
+            <%*<!--Premium Content Should Display -->*%>
+            <%assign var="feedType" value=$list.feedType%>
+            <%assign var="itemsArray" value=$storymodel->getPremiumStory($feedStart, $feedItems)%>
+        <%elseif $list.feedType == "audiovideo"%>
+            <%assign var="feedType" value=$list.feedType%>
+            <%assign var="itemsArray" value=$videomodel->get_video_audio($feedStart,$list.feedItems,600,10800)%>
+        <%else%>
+            <%assign var="feedType" value=$list.feedType%>
+            <%*<!--MARK: - Note that getContentByTag's argument is different from other functions -->*%>
+            <%assign var="itemsArray" value=$storymodel->getContentByTag($feedTag,$feedItems,$feedStart)%>
+        <%/if%>
+    <%/if%>
+
+    <%php%>
+        $originalItems = $this->get_template_vars('itemsArray');
+        $itemType = $this->get_template_vars('feedType');
+        $imageTypes = array("cover", "smallbutton", "other", "bigbutton");
+        $backgrounds = array('blue', '', 'dark-grey', 'yellow', 'purple', 'light-blue', 'dark-green');
+        $noImageIndex = 0;
+        foreach ($originalItems as &$item) {
+            $item["type"] = $itemType;
+            $item["headline"] = $item["cheadline"];
+            $item["longlead"] = $item["clongleadbody"];
+            $hideImage = isset($item["tag"]) && preg_match("/NoCopyrightCover/", $item["tag"]);
+            if (isset($item["story_pic"]) && !$hideImage) {
+                $sp = $item["story_pic"];
+                foreach ($imageTypes as $imageType) {
+                    if (!isset($sp[$imageType]) || $sp[$imageType] === '') {continue;}
+                    $item["image"] = $sp[$imageType];
+                    break;
+                }
+            } else {
+                $noImageIndex = $noImageIndex % count($backgrounds);
+                $item["background"] = $backgrounds[$noImageIndex] === '' ? '' : ' ' . $backgrounds[$noImageIndex];
+                $noImageIndex += 1;
+            }
+        }
+        $this->assign("itemsArray", $originalItems);
+    <%/php%>
+<%/if%>
 
 <%if $list.title != ""%>
     <div class="large-card-title-grid">
@@ -20,27 +123,332 @@
 <%if $list.float == "LargeCard"%>
     <%assign var="gridClass" value="large-card-grid"%>
 <%/if%>
+
+<%*<!--MARK: - Render the items-->*%>
 <div class="<%$gridClass%>">
-    <%foreach from=$list.items item=item%>
-        <%assign var=itemLink value=$item.customLink%>
-        <%if $itemLink == ""%>
-            <%assign var=itemLink value="/`$item.type`/`$item.id`"%>
+    <%foreach from=$itemsArray item=item%>
+        <%assign var=itemType value=$item.type%>
+        <%assign var=itemImage value=$item.image%>
+        <%assign var=imageClass value=""%>
+        <%if $itemImage == ""%>
+            <%assign var=imageClass value=" no-image`$item.background`"%>
         <%/if%>
+        <%assign var=itemHeadline value=$item.headline%>
+        <%assign var=itemLead value=$item.longlead|default:$item.shortlead%>
+        <%if $item.customLink != ""%>
+            <%assign var=itemLink value=$item.customLink%>
+        <%else%>
+            <%assign var=itemLink value="/`$itemType`/`$item.id`"%>
+        <%/if%>
+
+        <%*<!--MARK: handle item tag start-->*%>
+        <%assign var="itemTag" value=""%>
+        <%assign var="itemMainTag" value=""%>
+        <%assign var="tagCanFollow" value="yes"%>
+        <%assign var="itemTagsString" value=$item.tag|default:$item.tags|default:$item.tagname%>
+        <%assign var="itemTagsString" value=$itemTagsString|replace:", ":","%>
+        <%assign var="itemTags" value=","|explode:$itemTagsString%>
+        <%assign var="itemTag" value=$itemTags[0]%>
+        <%assign var="tagImage" value=""%>
+        <%assign var="itemMainTag" value=$itemTags[0]%>
+        <%*<!--Sometimes Editors Use Space in Tags-->*%>
+        <%if $itemTag === "视频"%>
+            <%assign var="itemTagLink" value="/channel/explainer.html"%>
+            <%assign var="tagCanFollow" value="no"%>
+        <%elseif $itemTag === "秒懂"%>
+            <%assign var="itemTagLink" value="/channel/slides.html"%>
+            <%assign var="tagCanFollow" value="no"%>
+        <%elseif $itemTag === "音频"%>
+            <%assign var="itemTagLink" value="/channel/audio.html"%>
+        <%elseif $itemTag === "图辑"%>
+            <%assign var="itemTagLink" value="/channel/slides.html"%>
+            <%assign var="tagCanFollow" value="no"%>
+        <%elseif $itemTag === "数据新闻"%>
+            <%assign var="itemTagLink" value="/channel/datanews.html"%>
+        <%elseif $itemTag === "速读"%>
+            <%assign var="itemTagLink" value="/channel/speedread.html"%>
+        <%elseif $itemTag === "FT商学院"%>
+            <%assign var="itemTagLink" value="/channel/mba.html"%>
+        <%elseif $feedType=="columns"%>
+            <%assign var="itemTag" value=$item.author_name_cn%>
+            <%assign var="itemTagLink" value="/column/`$itemId`"%>
+            <%assign var="tagCanFollow" value="no"%>
+            <%assign var="itemHeadline" value=$itemHeadline|replace:"《":""|replace:"》":""%>
+        <%else%>
+            <%assign var="itemTagLink" value="/tag/`$itemTag`"%>
+        <%/if%>
+        <%if $smarty.get.webview === "ftcapp"%>
+            <%assign var="tagCanFollow" value="no"%>
+        <%/if%>
+        <%assign var="itemTagTitle" value=$itemTag%>
+        <%*<!--If editor ticked prefer sponsor image, get image and link from database -->*%>
+        <%assign var="hasFoundSponsorInfo" value="no"%>
+        <%if $item.preferSponsorImage == "yes" && $itemMainTag != ""%>
+            <%assign var="pageIdForSponsorshipManagement" value="sponsorshipmanagement"%>
+            <%if $infoForSponsorships == ""%>
+                <%assign var="infoForSponsorships" value=$nextmodel->getPublishJson($pageIdForSponsorshipManagement)|json_decode:true%>
+            <%/if%>
+            <%assign var="foundSponsorTag" value="no"%>
+            <%foreach from=$infoForSponsorships.sections item=oneTag%>
+                <%if $foundSponsorTag == "no" && $oneTag.status == "on" && $oneTag.dates != "" && preg_match("/`$currentDate`/is",$oneTag.dates) && ($itemMainTag == $oneTag.tag || $itemMainTag == $oneTag.title) && $oneTag.imageHighlightBox != ""%>
+                    <%assign var="foundSponsorTag" value="yes"%>
+                    <%assign var="hasFoundSponsorInfo" value="yes"%>
+                    <%assign var="tagImage" value=$oneTag.imageHighlightBox%>
+                    <%assign var="trackLink" value="/tag/`$oneTag.tag`"%>
+                    <%if $oneTag.link != ""%>
+                        <%assign var="itemTagLink" value=$oneTag.link%>
+                        <%assign var="trackLink" value=$oneTag.link%>
+                    <%/if%>
+                    <%if date("Ymd",$smarty.now) < 20210101%>
+                        <script>gtag('config', gaMeasurementId, {'page_path': '<%$trackLink%>?from=home'});</script>
+                    <%/if%>
+                    <%if $oneTag.title != ""%>
+                        <%assign var="itemTagTitle" value=$oneTag.title%>
+                    <%/if%>
+                <%/if%>
+            <%/foreach%>
+        <%/if%>
+        <%if $hasFoundSponsorInfo == "no" && $itemMainTag != ""%>
+            <%if $infoForTagmanagement == ""%>
+                <%assign var="infoForTagmanagement" value=$nextmodel->getPublishJson("tagmanagement")|json_decode:true%>
+            <%/if%>
+            <%assign var="foundSponsorTag" value="no"%>
+            <%foreach from=$infoForTagmanagement.sections item=oneTag%>
+                <%if $foundSponsorTag == "no" && ($itemMainTag == $oneTag.tag || $itemMainTag == $oneTag.tag)%>
+                    <%assign var="foundSponsorTag" value="yes"%>
+                    <%if $oneTag.link != ""%>
+                        <%assign var="itemTagLink" value=$oneTag.link%>
+                    <%/if%>
+                    <%if $oneTag.title != ""%>
+                        <%assign var="itemTagTitle" value=$oneTag.title%>
+                    <%/if%>
+                <%/if%>
+            <%/foreach%>
+        <%/if%>
+        <%if $itemTag != ""%>
+            <%*<!--MARK: MyFT is broken on web site, hide it now. -->*%>
+            <%if $tagCanFollow == "yes"%>
+                <%assign var="itemTag" value="<div class=item-tag><a href=\"`$itemTagLink`\">`$itemTagTitle`</a><button class=\"myft-follow plus\" data-tag=\"`$itemTag`\" data-type=\"tag\">关注</button></div>"%>
+            <%else%>
+                <%assign var="itemTag" value="<div class=item-tag><a href=\"`$itemTagLink`\">`$itemTagTitle`</a></div>"%>
+            <%/if%>
+        <%/if%>
+        <%if $list.showTag !== "yes" && $itemImage != ""%>
+            <%assign var="itemTag" value=""%>
+        <%/if%>
+        <%*<!--MARK: handle item tag end-->*%>
+
+
+        <%*<!--MARK: - calculate item item stamp start-->*%>
+        <%assign var="itemTimeStamp" value=""%>
+        <%assign var="itemT" value=""%>
+        <%*<!--MARK: - The data structure is so inconsistent that we have to handle it here. -->*%>
+        <%if $itemType == "interactive"%>
+            <%*<!--MARK: timeStamp if the interactive is dragged into list mannually, otherwise fileupdatetime from the API. If the feedType is all, you won't get the value because Video doesn't support this. -->*%>
+            <%assign var="itemT" value=$item.timeStamp|default:$item.fileupdatetime|default:$item.last_publish_time|default:$item.pubdate%>
+        <%elseif $list.float == "BiligualFullText"%>
+            <%assign var="itemT" value=$item.eskylineheadline|default:$item.fileupdatetime%>
+        <%else%>
+            <%assign var="itemT" value=$item.timeStamp|default:$item.last_publish_time|default:$item.pubdate|default:$item.add_times%>
+        <%/if%>
+        <%assign var="itemT" value=$itemT|regex_replace:"/\.[0-9]+$/i":""%>
+        <%*<!--MARK: - calculate item item stamp end-->*%>
+
+        <!--item time 1: <%$itemT%>-->
+        <%assign var="highlightTime" value=""%>
+        <%math assign="timeDiff" equation="x-y" x=$smarty.now y=$itemT%>
+        <%assign var="timeMath" value=$timeDiff%>
+        <%if $list.showTimeStamp == "all" || $list.showTimeStamp == "new stories" || $itemImage == ""%>
+            <%if $timeDiff < 0%>
+                <%assign var="highlightTime" value=" highlight"%>
+                <%assign var="timeDiff" value="刚刚发布"%>
+            <%elseif $timeDiff < 60*60%>
+                <%assign var="highlightTime" value=" highlight"%>
+                <%assign var="timeDiff" value=$timeDiff/60|intval%>
+                <%assign var="timeDiff" value="`$timeDiff`分钟前"%>
+            <%elseif $timeDiff < 60*60*6%>
+                <%assign var="highlightTime" value=" highlight"%>
+                <%assign var="timeDiff" value=$timeDiff/3600|intval%>
+                <%assign var="timeDiff" value="`$timeDiff`小时前"%>
+            <%elseif $timeDiff < 60*60*24%>
+                <%assign var="highlightTime" value=""%>
+                <%assign var="timeDiff" value=$timeDiff/3600|intval%>
+                <%assign var="timeDiff" value="`$timeDiff`小时前"%>
+            <%elseif $timeDiff < 60*60*24*7%>
+                <%assign var="highlightTime" value=""%>
+                <%assign var="timeDiff" value=$timeDiff/86400|intval%>
+                <%assign var="timeDiff" value="`$timeDiff`天前"%>
+            <%elseif date("Y",$smarty.now) == date("Y",$item.timeStamp)%>
+                <%assign var="highlightTime" value=""%>
+                <%assign var="timeDiff" value=$itemT|date_format:"%-m月%-d日"%>
+            <%else%>
+                <%assign var="highlightTime" value=""%>
+                <%assign var="timeDiff" value=$itemT|date_format:"%Y年%-m月%-d日"%>
+            <%/if%>
+            <%if $list.showTimeStamp === "all" || ($timeMath < 60*60*6 && $timeMath > 0) || $itemImage == ""%>
+                <%assign var="itemTimeStamp" value="<div class=\"item-time`$highlightTime`\" data-time=\"`$itemT`\" data-pubdate=\"`$item.pubdate`\" data-fileupdatetime=\"`$item.fileupdatetime`\" data-last-publish-time=\"`$item.last_publish_time`\">`$timeDiff`</div>"%>
+            <%/if%>
+        <%/if%>
+        <%*<!--item item stamp end 01-->*%>
+
+
+        <%*<!--MARK: show the lock for paid content start-->*%>
+        <%if $list.feedType == "premium" || $item.type == "premium" || $itemType == "premium" || $paywall == "1" || ($itemType == "interactive" && preg_match("/英语电台|速读|会员专享|高端专享/is",$itemTagsString)) || ($itemType == "story" && $timeMath > 60*60*24*2)%>
+            <%assign var="lockClass" value="locked"%>
+            <%if preg_match("/高端专享/is",$itemTagsString)%>
+                <%assign var="lockClass" value="locked vip"%>
+            <%/if%>
+        <%else%>
+            <%assign var="lockClass" value=""%>
+        <%/if%>
+
+        <%if $inSponsor == "yes"%>
+            <%assign var="lockClass" value=""%>
+        <%/if%>
+        <%*<!--MARK: show the lock for paid content end-->*%>
+
+
+        <%*<!--MARK: - Handle data tags for native apps start-->*%>
+        <%assign var="itemClass" value=$imageClass%>
+        <%assign var="itemSubType" value=""%>
+        <%if $itemType == "interactive"%>
+            <%if preg_match("/速读/is",$itemTagsString) %>
+                <%assign var="itemSubType" value="speedreading"%>
+            <%elseif preg_match("/电台|音频/is",$itemTagsString) %>
+                <%assign var="itemSubType" value="radio"%>
+            <%elseif preg_match("/双语阅读/is",$itemTagsString) %>
+                <%assign var="itemSubType" value="bilingual"%>
+            <%elseif preg_match("/数据新闻/is",$itemTagsString) %>
+                <%assign var="itemSubType" value="datanews"%>
+            <%elseif preg_match("/深度阅读/is",$itemTagsString) %>
+                <%assign var="itemSubType" value="htmlbook"%>
+            <%elseif preg_match("/MBA训练营|教程/is",$itemTagsString) %>
+                <%assign var="itemSubType" value="mbagym"%>
+            <%/if%>
+        <%/if%>
+        <%if $itemSubType == "radio"%>
+            <%assign var="itemClass" value="`$itemClass` is-audio"%>
+        <%/if%>
+        <%if $smarty.get.webview == "ftcapp"%>
+            <%if preg_match("/双语电台/is",$itemTagsString)%>
+                <%if preg_match("/en|ce/is",$listLanguage) && preg_match("/.mp3$/is",$item.eshortleadbody)%>
+                    <%assign var="audioUrl" value=$item.eshortleadbody%>
+                    <%assign var="itemSubType" value="bilingual_audio_english"%>
+                <%elseif preg_match("/.mp3$/is",$item.cshortleadbody)%>
+                    <%assign var="audioUrl" value=$item.cshortleadbody%>
+                    <%assign var="itemSubType" value="bilingual_audio_chinese"%>
+                <%/if%>
+                <%*<!--MARK: - Pass the data-language parameter to native app -->*%>
+                <%assign var="audioData" value=" data-audio=\"`$audioUrl`\""%>
+            <%elseif preg_match("/.mp3$/is",$item.shortlead) || preg_match("/.mp3$/is",$item.cshortleadbody)%>
+                <%assign var="audioUrl" value=$item.shortlead|default:$item.cshortleadbody%>
+                <%assign var="audioData" value=" data-audio=\"`$audioUrl`\""%>
+            <%else%>
+                <%assign var="audioUrl" value=""%>
+                <%assign var="audioData" value=""%>
+                <%*<!--MARK: - Some the editor will mark the item as an audio, but it has no audio file. -->*%>
+                <%if $itemSubType == "radio"%>
+                    <%assign var="itemSubType" value=""%>
+                <%/if%>
+            <%/if%>
+            <%if preg_match("/.mp3$/is",$item.caudio)%>
+                <%assign var="caudioUrl" value=$item.caudio%>
+                <%assign var="caudioData" value=" data-caudio=\"`$caudioUrl`\""%>
+            <%else%>
+                <%assign var="caudioUrl" value=""%>
+                <%assign var="caudioData" value=""%>
+            <%/if%>
+
+            <%if preg_match("/.mp3$/is",$item.eaudio)%>
+                <%assign var="eaudioUrl" value=$item.eaudio%>
+                <%assign var="eaudioData" value=" data-eaudio=\"`$eaudioUrl`\""%>
+            <%elseif preg_match("/.mp3$/is",$item.eshortleadbody)%>
+                <%assign var="eaudioUrl" value=$item.eshortleadbody%>
+                <%assign var="eaudioData" value=" data-eaudio=\"`$eaudioUrl`\""%>
+            <%else%>
+                <%assign var="eaudioUrl" value=""%>
+                <%assign var="eaudioData" value=""%>
+            <%/if%>
+            <%if $itemSubType != ""%>
+                <%assign var="subTypeData" value=" data-sub-type=\"`$itemSubType`\""%>
+            <%else%>
+                <%assign var="subTypeData" value=""%>
+            <%/if%>
+            <%assign var=isInWhiteList value="no"%>
+            <%if $whitelist != ""%>
+                <%foreach from=$itemTags item=tag%>
+                    <%if preg_match("/`$tag`/is",$whitelist)%>
+                        <%assign var=isInWhiteList value="yes"%>
+                    <%/if%>
+                <%/foreach%>
+            <%/if%>
+            <%*<!--MARK: Only story needs to show date here-->*%>
+            <%if $inSponsor != "yes" && $itemT != "" && $itemType == "story" && $isInWhiteList == "no"%>
+                <%assign var="dateData" value=" data-date=\"`$itemT`\""%>
+            <%else%>
+                <%assign var="dateData" value=""%>
+            <%/if%>
+            <%assign var="itemDataId" value=$item.id|default:$item.customLink%>
+            <%if $itemDataId == "" && $item.customLink != ""%>
+                <%assign var="itemDataId" value=$item.customLink%>
+            <%/if%>
+            <%assign var="itemDataType" value=$itemType%>
+            <%if $smarty.get.try == "yes" && ($i>2 || ($l>0 && $i>0))%>
+                <%assign var="itemDataType" value="TryBook"%>
+                <%assign var="lockClass" value="locked"%>
+            <%/if%>
+            <%assign var="itemData" value=" data-id=\"`$itemDataId`\" data-type=\"`$itemDataType`\"`$audioData``$caudioData``$eaudioData``$subTypeData``$dateData` data-keywords=\"`$itemTagsString`\""%>
+            <%assign var="itemLink" value=""%>
+            <%*<!--MARK: - Some time the ad sales requested to extend the home page just to squeeze in more ads. There's nothing we can do about it. But to minimize the damage by not prefetch stories of the extended parts.  -->*%>
+            <%assign var="isExtendedStoryOnHome" value="no"%>
+            <%if $pageId == "home" && $b >= 1 && ($itemType == "story" || $itemType == "premium")%>
+                <%assign var="isExtendedStoryOnHome" value="yes"%>
+            <%/if%>
+            <%*<!--page id: <%$pageId%>, b: <%$b%>, maxB: <%$maxB%>, isExtendedStoryOnHome: <%$isExtendedStoryOnHome%>, version: 7-->*%>
+            <%if $itemDataId == "" || $itemDataType == "manual" || $isExtendedStoryOnHome == "yes"%>
+                <%assign var="itemData" value=""%>
+            <%/if%>
+            <%if $itemDataId != "" && $itemDataType != "" && $itemDataType != "manual" && $useCorpToRenderStory != "yes" && $isExtendedStoryOnHome == "no"%>
+                <%assign var="itemClass" value="`$itemClass` item-container-app"%>
+            <%/if%>
+            <%*<!-- MARK: Show full text for premium content for internal use only!  -->*%>
+            <%if $smarty.get.showfulltext == "yes"%>
+                <%assign var="itemLink" value=" href=\"/`$itemType`/`$itemId`?webview=ftcapp&screencapture=yes&ad=no\""%>
+            <%/if%>
+            <%*<!-- check user corp: <%$useCorpToRenderStory%>, item type: <%$itemType%>-->*%>
+            <!--item link 1: <%$itemLink%>-->
+            <%if $useCorpToRenderStory == "yes" && ($itemType == "story" || $itemType == "premium")%>
+                <%assign var="itemData" value=""%>
+                <%assign var="itemLink" value=" href=\"/m/corp/preview.html?pageid=`$itemId`&webview=ftcapp\""%>
+                <!--item link 2: <%$itemLink%>-->
+            <%/if%>
+        <%/if%> 
+        <%*<!--MARK: - Handle data tags for native apps end-->*%>
+
+        <%*<!--MARK: - Handle item link start-->*%>
+        <!--item link 3: <%$itemLink%>-->
         <%if $itemLink != ""%>
             <%assign var=itemLink value=" href=\"`$itemLink`\""%>
         <%/if%>
-        <%assign var=itemImage value=$item.image%>
-        <%assign var=itemHeadline value=$item.headline%>
-        <%assign var=itemLead value=$item.longlead|default:$item.shortlead%>
-        <div class="item-container"><div class="item-inner">
-            <a class="image" target="_blank"<%$itemLink%>><figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure></a>
+        <%*<!--MARK: - Handle item link end-->*%>
+
+
+        <div class="item-container<%$imageClass%>"<%$itemData%>><div class="item-inner">
+            <%if $itemImage != ""%>
+                <a class="image" target="_blank"<%$itemLink%>><figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure></a>
+            <%/if%>
             <div class="item-headline-lead">
-                <h2 class="item-headline"><a target="_blank"<%$itemLink%> class="item-headline-link <%$lockClass%>"><%$itemHeadline%></a></h2>
+                <h2 class="item-headline">
+                    <%$itemTag%>
+                    <a target="_blank"<%$itemLink%> class="item-headline-link <%$lockClass%>"><%$itemHeadline%></a>
+                </h2>
                 <div class="item-lead"><%$itemLead|nl2br%></div>
+                <%$itemTimeStamp%>
                 <%if $list.readMore != ""%>
                     <a class="read-more" target="_blank"<%$itemLink%>><%$list.readMore%></a>
                 <%/if%>
             </div>
         </div></div>
+
     <%/foreach%>
 </div>

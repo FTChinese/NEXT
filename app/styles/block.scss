@@ -490,8 +490,80 @@ a.read-more, .story-body a.read-more {
 		.item-headline {
 			font-size: 1.2em;
 		}
+		&.no-image {
+			padding: 0 $defaultPadding/2 $defaultPadding $defaultPadding/2;
+			.item-inner {
+				// position: relative;
+				height: 100%;
+				background-color: $pinkBGFT;
+				padding-top: $defaultPadding/2;
+				
+				display: flex;
+				flex-direction: column;
+				flex-grow: 1;
+				flex-basis: auto;
+
+			}
+			&.blue, &.purple, &.dark-grey, &.dark-green {
+				.item-headline-link, .item-lead, .item-lead a, .item-tag a, button.myft-follow, .item-time {
+					color: white;
+				}
+				button.myft-follow {
+					border-color: white;
+					&.plus::before {
+						background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0'%3F%3E%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cstyle%3E*%7Bfill:%23ffffff!important%7D%3C/style%3E%3Cpath d='M5.053 0v5.053H0v1.894h5.053V12h1.894V6.947H12V5.053H6.947V0H5.053z' fill='%23333' fill-rule='evenodd'/%3E%3C/svg%3E%0A");
+					}
+				}
+			}
+			&.blue {
+				.item-inner {
+					background-color: $blueBGFT;
+				}
+			}
+			&.purple {
+				.item-inner {
+					background-color: $purpleBGFT;
+				}
+			}
+			&.dark-grey {
+				.item-inner {
+					background-color: $darkGrey;
+				}
+			}
+			&.dark-green {
+				.item-inner {
+					background-color: $darkGreen;
+				}
+			}
+			&.light-blue {
+				.item-inner {
+					background-color: $lightBlueBGFT;
+				}
+			}
+			&.yellow {
+				.item-inner {
+					background-color: $yellowBGFT;
+				}
+			}
+			.item-headline-lead {
+				height: 100%;
+				display: flex;
+				flex-direction: column;
+				flex-grow: 1;
+				flex-basis: auto;
+			}
+			.item-headline {
+				font-size: 1.8em;
+				flex-grow: 1;
+			}
+			.item-lead {
+				font-size: 1.2em;
+			}
+		}
 	}
 }
+
+
 
 .large-card-grid {
 	display: grid;
@@ -511,7 +583,7 @@ a.read-more, .story-body a.read-more {
 		}
 		&:nth-child(odd) {
 			&.item-container {
-				background-color: #ffec1a;
+				background-color: $yellowBGFT;
 			}
 			.item-headline a, .item-lead, .item-lead a {
 				color: $darkGrey;
@@ -519,7 +591,7 @@ a.read-more, .story-body a.read-more {
 		}
 		&:nth-child(even) {
 			&.item-container {
-				background-color: #593380;
+				background-color:$purpleBGFT;
 			}
 			.item-headline a, .item-lead, .item-lead a {
 				color: white;
@@ -571,6 +643,36 @@ a.read-more, .story-body a.read-more {
 	}
 }
 
+@media only screen and (max-width: 1220px) and (min-width: 981px) {
+	.card-grid .item-container.no-image  {
+		padding: 0 $defaultPadding/2 $defaultPadding/2 $defaultPadding/2;
+	}
+}
+
+@media only screen and (max-width: 980px) and (min-width: 691px) {
+	.card-grid .item-container.no-image  {
+		padding: 0 $defaultPadding/4 $defaultPadding/2 $defaultPadding/4;
+	}
+}
+
+@media only screen and (max-width: 690px) {
+	.card-grid .item-container.no-image  {
+		padding: 0 $defaultPadding/4 $defaultPadding $defaultPadding/4;
+	}
+}
+
+@media only screen and (max-width: 490px) {
+	.card-grid .item-container.no-image{
+		&.blue, &.purple, &.dark-green, &.dark-grey {
+			.item-tag a:before {
+				background: white;
+			}
+		}
+	}
+	.card-grid .item-container.no-image  {
+		padding: 0 0 $defaultPadding 0;
+	}
+}
 
 @media only screen and (max-width: 600px) {
 	.large-card-grid {

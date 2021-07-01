@@ -73,14 +73,8 @@
     <%elseif $section.type == "block"%>
         <%if $b < $maxB%>
             <%if $b == 0%>
-                <%*<!--MARK: Smarty 2 doesn't support global scoop in included files. -->*%>
-                <%if $supportSubscriptionUpgradePromo == "yes"%>
-                    <%if $smarty.get.subscription == "member" || $smarty.get.subscription == "premium"%>
-                        
-                    <%/if%>
-                <%/if%>
                 <%*<!--MARK: Show a My Subsciption Block for paid subscribers in apps -->*%>
-                <%if $smarty.get.subscription == "member" || $smarty.get.subscription == "premium" || $smarty.get.subscription == "other"%>
+                <%if $smarty.get.subscription == "member" || $smarty.get.subscription == "premium"%>
                     <%assign var="reports" value=$storymodel->getPremiumStory(0, 4)%>
                     <%assign var="interactives" value=""%>
                     <%if $smarty.get.subscription == "premium"%>
@@ -140,6 +134,35 @@
                                                     <%assign var="premiumContentIds" value="`$premiumContentIds`,`$report.id`"%>
                                                     <%assign var="i" value=$i+1%>
                                                 <%/foreach%>
+                                                <%foreach from=$interactives item="report"%>
+                                                    <%assign var="itemType" value="interactive"%>
+                                                    <%include file="next/partials/subscriptions-one-item.html"%>
+                                                    <%assign var="premiumContentIds" value="`$premiumContentIds`,`$report.id`"%>
+                                                    <%assign var="i" value=$i+1%>
+                                                <%/foreach%>
+                                                <div class="clearfloat"></div>
+                                            </div>
+                                            <h2 class="list-title"><a class="list-link">今日焦点</a></h2>
+                                        </div>
+                                    </div>
+                                    <div class="clearfloat block-bottom"></div>
+                                </div>
+                            </div>
+                            <div class="clearfloat"></div>
+                        </div>
+                    </div>
+                    <%assign var="i" value=0%>
+                <%elseif $highlightFTAcademy == "top"%>
+                    <%assign var="interactives" value=$interactivemodel->get_interactive_by_field_search("find_in_set('FT商学院',tag)",0,4,5,10800)%>
+                    <div class="block-container no-side">
+                        <div class="block-inner">
+                            <div class="content-container">
+                                <div class="content-inner">
+                                    <div class="list-container">
+                                        <div class="list-inner">
+                                            <h2 class="list-title"><a class="list-link" href="/channel/mba.html">FT商学院</a></h2>
+                                            <div class="items">
+                                                <%assign var="i" value=0%>
                                                 <%foreach from=$interactives item="report"%>
                                                     <%assign var="itemType" value="interactive"%>
                                                     <%include file="next/partials/subscriptions-one-item.html"%>

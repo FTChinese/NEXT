@@ -87,6 +87,7 @@
 		<%foreach from=$section.lists item=list%>
 			<%if $list.float === "LargeCard" || $list.float === "GridCard"%>
 				<%*<!--MARK: - Start to use CSS grid for any new styles -->*%>
+				<!--List Grid: 1-->
 				<%include file="next/partials/ListGrid.html"%>
 			<%else%>
 				<%assign var="listType" value=""%>
@@ -363,6 +364,23 @@
 							<%assign var="itemsArray" value=$list.items%>
 						<%/if%>
 
+
+						<%*<!--MARK: Highlight FT Academy-->*%>
+						<%if $b == 0 && $l == 0 && $highlightFTAcademy == "feed"%>
+							<%assign var="ftAcademyItems" value=$interactivemodel->get_interactive_by_field_search("find_in_set('FT商学院', tag)",0,1,2,10800)%>
+							<%php%>
+								$originalItems = $this->get_template_vars('itemsArray');
+								$insertedItems = $this->get_template_vars('ftAcademyItems');
+								if (count($originalItems) > 3 && count($insertedItems) > 0) {
+									foreach ($insertedItems as &$insertedItem) {
+										$insertedItem["type"] = 'interactive';
+									}
+									array_splice( $originalItems, 1, 0, $insertedItems);
+									$this->assign("itemsArray", $originalItems);
+								}
+							<%/php%>
+						<%/if%>
+
 						<%if $maxItems == 0 || $maxItems == ""%>
 							<%assign var="maxItems" value=96%>
 						<%/if%>
@@ -425,7 +443,7 @@
 						<%if $pageNumber > 1 && $feedType == "manual"%>
 							<%assign var="shouldShowListItems" value="no"%>
 						<%/if%>
-						
+
 						<%if $shouldShowListItems == "yes"%>
 							<%foreach from=$itemsArray item=item%>
 								<%assign var="itemHeadline" value=$item.headline|default:$item.cheadline|default:$item.cn_title%>
@@ -2005,7 +2023,7 @@
 									<%if $itemImage != "" && $hasImage === "has-image"%><a class="image" target="_blank"<%$itemLink%>><figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure></a><%/if%>
 									<%if $itemHeadline != ""%>
 										<h2 class="item-headline"><%$itemTag%><a target="_blank" class="<%$lockClass%>" <%$itemLink%>><%$itemHeadline%></a></h2>
-									<%/if%>	
+									<%/if%>
 									<div class="item-lead item-description"><%$itemLead|nl2br%></div>
 								<%elseif $list.sideOption == "originalImage"%>
 									<style>

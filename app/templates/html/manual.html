@@ -55,6 +55,7 @@
 <%/if%>
 <%*<!--MARK: End-->*%>
 
+
 <%if $storymodel != ""%>
     <%assign var=whitelist value=$storymodel->getWhitelistTag()%>
 <%/if%>
@@ -89,7 +90,6 @@
     <%if $v <= 119%>
         <style>.block-image-container {padding: 0;}</style>
     <%/if%>
-
 <%elseif $smarty.get.android != ""%>
     <%*<!-- MARK: android app -->*%>
     <%assign var="androidVersionCode" value=$smarty.get.android|floatval%>
@@ -100,6 +100,16 @@
         <%assign var="supportSubscriptionPromoBox" value="yes"%>
     <%/if%>
 <%/if%>
+
+<%*<!--MARK: Highlight FT Academy-->*%>
+<%if ($p.meta.HighlightFTAcademy == "yes" || $pageId == "home") && $smarty.get.subscription != "member" && $smarty.get.subscription != "premium"%>
+    <%if date("w", $smarty.now) == 0 || date("w", $smarty.now) == 6%>
+        <%assign var="highlightFTAcademy" value="top"%>
+    <%else%>
+        <%assign var="highlightFTAcademy" value="feed"%>
+    <%/if%>
+<%/if%>
+
 
 <%if $smarty.get.eventinfo == "yes"%>
     <%assign var="supportEventInfoFlow" value="yes"%>
