@@ -119,6 +119,16 @@
     </div>
 <%/if%>
 
+<%if $list.description != ""%>
+    <div class="items">
+        <div class="no-image">
+            <div class="item-inner">
+                <div class="item-lead"><%$list.description%></div>
+            </div>
+        </div>
+    </div>
+<%/if%>
+
 <%assign var="gridClass" value="card-grid"%>
 <%if $list.float == "LargeCard"%>
     <%assign var="gridClass" value="large-card-grid"%>

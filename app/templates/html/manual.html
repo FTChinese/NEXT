@@ -102,7 +102,7 @@
 <%/if%>
 
 <%*<!--MARK: Highlight FT Academy-->*%>
-<%if ($p.meta.HighlightFTAcademy == "yes" || $pageId == "home") && $smarty.get.subscription != "member" && $smarty.get.subscription != "premium"%>
+<%if $p.meta.HighlightFTAcademy == "yes" && $smarty.get.subscription != "premium"%>
     <%if date("w", $smarty.now) == 0 || date("w", $smarty.now) == 6%>
         <%assign var="highlightFTAcademy" value="top"%>
     <%else%>
@@ -447,6 +447,23 @@
                     </script>
                 <%/if%>
             <%/if%>
+            
+            <%*<!--MARK: - IE fallback for grid card start -->*%>
+            <%assign var="hasGridCard" value="no"%>
+            <%foreach from=$p.sections item=section%>
+                <%if $section.type == "block" && $hasGridCard == "no"%>
+                    <%foreach from=$section.lists item=list%>
+                        <%if $list.float == "GridCard"%>
+                            <%assign var="hasGridCard" value="yes"%>
+                        <%/if%>
+                    <%/foreach%>
+                <%/if%>
+            <%/foreach%>
+            <%if $hasGridCard == "yes"%>
+                <script type="text/javascript"><%include file="next/scripts/main-ie-grid-polyfill.js"%></script>
+            <%/if%>
+            <%*<!--MARK: - IE fallback for grid card end -->*%>
+
         </body>
     </html>
 <%else%>
