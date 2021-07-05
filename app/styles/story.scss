@@ -48,6 +48,29 @@ h2 {
 		}
 	}
 }
+
+
+@supports (display: flex) {
+	.story-box {
+		.top10 {
+			li {
+				&.story-theme {
+					display: flex;
+					align-items: center;
+					a {
+						flex: 2;
+					}
+				}
+			}
+		}
+	}
+	.icon-right {
+		float: none;
+		white-space: nowrap;
+	}
+}
+
+
 .box-title {
 	margin: 0 0 $defaultPadding;
 	font-size: 18px;

@@ -103,10 +103,10 @@
 
 <%*<!--MARK: Highlight FT Academy-->*%>
 <%if $p.meta.HighlightFTAcademy == "yes" && $smarty.get.subscription != "premium"%>
-    <%if date("w", $smarty.now) == 0 || date("w", $smarty.now) == 6%>
-        <%assign var="highlightFTAcademy" value="top"%>
-    <%else%>
+    <%if (date("w", $smarty.now) != 0 && date("w", $smarty.now) != 6) || $smarty.get.subscription == "member"%>
         <%assign var="highlightFTAcademy" value="feed"%>
+    <%else%>
+        <%assign var="highlightFTAcademy" value="top"%>
     <%/if%>
 <%/if%>
 
@@ -387,7 +387,7 @@
             <script>checkB();</script>
             <%include file="next/partials/wechat-icon.html"%>
             <%if $pageId == "home"%>
-            <script>var gPageId = 'home';</script>
+                <script>var gPageId = 'home';</script>
                 <%if $smarty.get.ad != 'no'%>
                     <div
                     data-o-ads-name="fullscreen-pc"

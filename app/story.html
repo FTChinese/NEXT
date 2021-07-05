@@ -295,19 +295,76 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 
     
  </head>
- <body class="full-grid-story">
+ <body>
 
-    <script>var gUaOfPage = navigator.userAgent || navigator.vendor || "";</script><script>checkB();</script>
+
+
+
+
+    <div class="o-ads fullscreen-ad" data-o-ads-name="fullscreen-mobile"
+data-o-ads-center="true" 
+data-o-ads-formats-default="false" 
+data-o-ads-formats-small="FtcMobileFullscreen" 
+data-o-ads-formats-medium="false"
+data-o-ads-formats-large="false"
+data-o-ads-formats-extra="false"
+data-o-ads-targeting="cnpos=mobilefullscreen;">
+</div>
+<div id="promo-box-container">
 <style>
-.header-container, .o-nav {
-border-bottom: 1px solid #ccc1b7;
+.noneSubscriber.subscription-promo-container {
+background-color: #88233f;
 }
-@media (max-width: 61.24em) {
-.o-nav {
-position: static;
+.noneSubscriber .subscription-promo-text {
+background-color: #282c32;
+border-color: #282c32;
+}
+.noneSubscriber .subscription-promo-text {
+color: #ffffff;
+}
+.noneSubscriber .subscription-promo-box {
+background-image: url(https://thumbor.ftacademy.cn/unsafe/picture/9/000111019_piclink.png);
+}
+@media only screen and (max-width: 490px) {
+.noneSubscriber .subscription-promo-box {
+background-image: url(https://thumbor.ftacademy.cn/unsafe/picture/3/000111023_piclink.png);
 }
 }
 </style>
+<div class="subscription-promo-container show-image-in-mobile noneSubscriber">
+<div class="subscription-promo-inner">
+<a  href="https://www.ftacademy.cn/subscription.html?ccode=ftcpromoboxweb" class="subscription-promo-box n-internal-promo" data-promo-target="noneSubscriber" data-promo-id="ftcpromoboxweb" data-promo-name="即刻订阅付费资讯" data-promo-creative="https://thumbor.ftacademy.cn/unsafe/picture/9/000111019_piclink.png" data-promo-position="promoBox">
+<div class="subscription-promo-text">即刻订阅付费资讯</div>
+</a>
+</div>
+</div>
+<script type="text/javascript">
+window.userId = GetCookie('USER_ID') || '';
+if (window.userId === '') {
+gtag('event', 'Display', {'event_label': 'ftcpromoboxweb', 'event_category': 'PromoBox', 'non_interaction': true});
+}
+</script>
+</div>
+<script type="text/javascript">
+function addUserId(ele) {
+if (ele === null) {
+return;
+}
+var userId;
+if (typeof GetCookie === 'function') {
+userId = GetCookie('USER_ID');
+} else {
+userId = getCookie('USER_ID');
+}
+if (userId && typeof userId === 'string' && userId !== '') {
+var link = ele.href;
+var connector = (link.indexOf('?') >= 0) ? '&' : '?';
+ele.href = link + connector + 'u=' + userId;
+}
+}
+var premiumLink = document.querySelector('[data-promo-target=premium]');
+addUserId(premiumLink);
+</script>
 <header class="header-container">
 <div class="header-inner">
 <div class="masthead"></div>
@@ -338,54 +395,44 @@ position: static;
 <div class="overlay-content-inner">
 <div class="overlay-content">
 <div class="overlay-title">登录<i class="overlay-close" data-parentid="overlay-login">×</i></div>
-<form method="post" action="/users/login">
+<form method="post" action="/users/login" id="overlay-login-form">
 <span id="overlay-login-container">
-    <div class="input-title" id="login-reason"></div>
-    <div class="input-title">电子邮件/用户名</div>
-    <div class="input-container"><input type="text" class="input-oneline" name="username" id="ft-login-input-username"></div>
-    <div class="input-title">密码</div>
-    <div class="input-container"><input type="password" class="input-oneline" name="password"></div>
-    <div><input type="checkbox" class="checkbox" value="1" checked="checked" name="saveme" id="ft-login-input-remember">记住我</div>
-    <div class="login-btn input-submit-container center">
-    <input class="" type="submit" value="登录"></div>
-    <div class="center register-find"><a href="https://user.ftchinese.com/register" class="blue-link">免费注册</a><span></span><a href="https://profile.ftchinese.com/users/findpassword" class="blue-link">找回密码</a></div>
-
-    <div class="phone-login-container">
-        <div class="center phone-login"><a onclick="showPhoneLogin()" class="blue-link">短信登录</a></div>
-    </div>
-
-    <div class="wx-login-container">
-    <div class="center wx-login"><a href="https://www.ftacademy.cn/wxlogin" class="blue-link">微信登录</a></div>
-    </div>
+<div class="input-title" id="login-reason"></div>
+<div class="input-title">电子邮件/用户名</div>
+<div class="input-container"><input type="text" class="input-oneline" name="username" id="ft-login-input-username"></div>
+<div class="input-title">密码</div>
+<div class="input-container"><input type="password" class="input-oneline" name="password"></div>
+<div><input type="checkbox" class="checkbox" value="1" checked="checked" name="saveme" id="ft-login-input-remember">记住我</div>
+<div class="login-btn input-submit-container center"><input class="" type="submit" value="登录"></div>
+<div class="center register-find"><a href="https://user.ftchinese.com/register" class="blue-link">免费注册</a><span></span><a href="https://profile.ftchinese.com/users/findpassword" class="blue-link">找回密码</a></div>
+<div class="phone-login-container" id="phone-login-trigger">
+<div class="center phone-login"><a onclick="showPhoneLogin()" class="blue-link">短信登录</a></div>
+</div>
+<div class="wx-login-container">
+<div class="center wx-login"><a href="https://www.ftacademy.cn/wxlogin" class="blue-link">微信登录</a></div>
+</div>
 </span>
-
+</form>
 <span id="phone-ftc-binding-container">
-    <div class="container">
-        <span class="user-name-container">请输入邮箱和密码进行绑定操作：</span>
-        <input placeholder="请输入邮箱" type="email" autocorrect="off" id="phone-binding-email" class="user_id textinput user-name"/>
-        <input placeholder="请输入密码" type="password" class="user_id textinput password" id="phone-binding-password"/>
-        <span class="topmargin statusmsg" id="phone-binding-status"></span>
-        <input type="submit" value="绑定" class="comment_btn submitbutton button ui-light-btn" onclick="binding('phone')"/> 
-    </div>
+<div>请输入邮箱和密码进行绑定操作：</div>
+<div><input placeholder="请输入邮箱" type="email" autocorrect="off" id="phone-binding-email" class="input-oneline"/></div>
+<div><input placeholder="请输入密码" type="password" class="input-oneline" id="phone-binding-password"/></div>
+<div class="topmargin statusmsg" id="phone-binding-status"></div>
+<div><input type="button" value="绑定" class="n-button-inner" onclick="binding('phone')"/></div>
 </span>
 <span id="phone-login-container">
-    <div class="container">
-        <span class="user-name-container">请输入手机号码，通过短信验证（目前仅支持中国大陆地区的手机号）：</span>
-        <input onkeyup="resetPhoneLogin()" placeholder="请输入中国大陆的手机号码" type="tel" autocorrect="off" name="phone" id="phone-number" class="user_id textinput user-name"/>
-        <input placeholder="请输入验证码"  pattern="\d*" maxlength="6" name="phonecapcha"  class="user_id textinput password" id="phone-captcha"/>
-        <span class="topmargin statusmsg" id="phone-login-status"></span>
-        <input id="phone-login-submit-button" type="submit" value="获取验证码" class="comment_btn submitbutton button ui-light-btn" onclick="phoneLogin()"/> 
-    </div>
+<div class="user-name-container">请输入手机号码，通过短信验证（目前仅支持中国大陆地区的手机号）：</div>
+<div><input onkeyup="resetPhoneLogin()" placeholder="请输入中国大陆的手机号码" type="tel" autocorrect="off" name="phone" id="phone-number" class="input-oneline"/></div>
+<div><input placeholder="请输入验证码"  pattern="\d*" maxlength="6" name="phonecapcha"  class="input-oneline" id="phone-captcha"/></div>
+<div class="topmargin statusmsg" id="phone-login-status"></div>
+<div><input id="phone-login-submit-button" type="button" value="获取验证码" class="n-button-inner" onclick="phoneLogin()"/></div>
 </span>
-
-
-</form>
 </div>
 </div>
 </div>
 </div>
-</div><!--hide nvation: yes-->
-<div class="o-nav__placeholder hide-on-large-screen">
+</div><!--hide nvation: -->
+<div class="o-nav__placeholder">
 <div class="o-nav">
 <div class="o-nav__outer">
 <div class="o-nav__inner">
@@ -430,11 +477,10 @@ position: static;
 FT中文网首页
 </a>
 </li>
-<li class="nav-item"  aria-haspopup="true" data-channel="special">
+<li class="nav-item" aria-selected="true" aria-haspopup="true" data-channel="special">
 <a class="nav-link" href="/channel/special.html">特别报导</a>
 <ol class="nav-sub-items">
-<li><a href="/m/corp/preview.html?pageid=ft_rewired">特别策划 - 换脑Rewired</a></li>
-<li><a href="/tag/中国经济">展望后疫情时代中国经济</a></li>
+<li><a href="/tag/后疫情时代的独角兽之路">后疫情时代的独角兽之路</a></li>
 <li><a href="/m/marketing/antfinancial.html">“新四大发明”背后的中国浪潮</a></li>
 <li><a href="/channel/teawithft.html">与FT共进下午茶</a></li>
 <li><a href="/tag/与FT共进午餐">与FT共进午餐</a></li>
@@ -664,327 +710,76 @@ FT中文网首页
 <div class="o-nav__meganav-placeholder"></div>
 </div><!-- o-nav -->
 </div><!-- o-nav__placeholder -->
-
-<style>
-.partner-container {
-position: -webkit-sticky;
-position: sticky;
-top: 0;
-background: white;
-z-index: 99999;
-height: 35px;
-border-bottom: 5px solid #ccc;
-box-sizing: content-box;
-}
-.partner-inner {
-height: 100%;
-max-width: 1230px;
-margin: auto;
-position: relative;
-}
-.partner-inner .main-content {
-text-align: center;
-color: #355778;
-font-weight: 700;
-text-transform: uppercase;
-font-size: 25px;
-cursor: pointer;
-}
-.partner-inner .main-content::after {
-content: '';
-display: inline-block;
-background-image: url('https://ft-bc-cms.herokuapp.com/_resources/themes/simpleBC/dist/static/pcHeader/information_hover.png?m=1611672393');
-width: 17px;
-height: 17px;
-background-size: cover;
-background-repeat: no-repeat;
-margin-left: 5px;
-}
-.partner-inner .left-icon {
-position: absolute;
-line-height: 35px;
-left: 15px;
-top: 0;
-bottom: 0;
-color: #939598;
-font-size: 20px;
-text-transform: uppercase;
-font-weight: 600;
-}
-.partner-inner .right-icon {
-position: absolute;
-line-height: 35px;
-right: 15px;
-top: 0;
-bottom: 0;
-color: #939598;
-}
-.partner-inner .right-icon::before {
-content: '分享';
-display: inline-block;
-}
-.partner-inner .right-icon::after {
-content: '';
-display: inline-block;
-width: 13px;
-height: 17px;
-background-image: url('https://ft-bc-cms.herokuapp.com/_resources/themes/simpleBC/dist/static/pcHeader/btn_export.png?m=1611672393');
-background-size: contain;
-background-repeat: no-repeat;
-margin-left: 5px;
-}
-.partner-inner .explain {
-display: none;
-position: absolute;
-background: #fff;
--webkit-box-shadow: 0 1px 4px rgb(77 72 69 / 15%), 0 8px 14px rgb(77 72 69 / 20%);
-box-shadow: 0 1px 4px rgb(77 72 69 / 15%), 0 8px 14px rgb(77 72 69 / 20%);
-top: 55px;
-max-width: 325px;
-width: 100%;
-right: 50%;
--webkit-transform: translate(50%);
-transform: translate(50%);
-padding: 15px;
-text-align: center;
-}
-.partner-inner .explain.on {
-display: block;
-}
-.explain-btn {
-position: absolute;
-cursor: pointer;
-right: 5px;
-top: 0;
-}
-.explain-btn img {
-height: 10px;
-}
-@media only screen and (max-width: 490px) {
-.partner-inner .right-icon::before {
-display: none;
-}
-}
-</style>
-<div class="partner-container">
-<div class="partner-inner">
-<div class="main-content">特别企划</div>
-<div class="left-icon">CYTIVA></div>
-<div class="right-icon"></div>
-<div class="explain">
-<div class="explain-btn">
-<img src="https://ft-bc-cms.herokuapp.com/_resources/themes/simpleBC/dist/static/pcHeader/close.svg?m=1611672393">
+<div class="language-switch-placeholder" id="language-switch-placeholder"><div class="language-switch-container"><a class="language-switch-left language-switch-menu" href="/"></a><div class="language-switch-inner"><a class="language-switch on">中文</a><a class="language-switch" href="/story/001093079/en?ccode=LanguageSwitch">英文</a><a class="language-switch" href="/story/001093079/ce?ccode=LanguageSwitch">对照</a></div><a class="language-switch-right language-switch-share" onclick="showOverlay('share-legacy')"></a></div></div>
+<div class="o-ads" data-o-ads-name="banner1"
+data-o-ads-center="true" 
+data-o-ads-formats-default="false" 
+data-o-ads-formats-small="FtcMobileBanner" 
+data-o-ads-formats-medium="false"
+data-o-ads-formats-large="FtcLeaderboard"
+data-o-ads-formats-extra="FtcLeaderboard"
+data-o-ads-targeting="cnpos=top1;"
+data-cy='[{"devices":["PC"],"pattern":"Leaderboard","position":"Num1"},{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"Banner","position":"Num1"}]'
+>
 </div>
-这项研究是由英国《金融时报》集团旗下、英国《金融时报》营销服务公司旗下Longitude进行的;英国《金融时报》提供的商业思想领导力。</div>
-</div>
-</div>
-<script>
-function toggleExplain() {
-var explainEle = document.querySelector('.partner-inner .explain');
-if (!explainEle) {return;}
-explainEle.classList.toggle('on');
-}
-document.querySelector('.main-content').onclick = toggleExplain;
-document.querySelector('.explain-btn').onclick = toggleExplain;
-</script><style>
-.story-hero-image {
-height: 250px;
-width: 100%;
-background-repeat: no-repeat;
-background-size: cover;
-background-color: #dfdee0;
-}
-.story-hero-content {
-width: 100%;
-background-color: #f2f2f2;
-padding: 30px 0;
-margin-bottom: 30px;
-}
-.story-hero-topper-container {
-max-width: 740px;
-margin: auto;
-}
-.story-hero-topper-inner {
-padding: 0 15px;
-}
-.story-theme a {
-color: #00886F;
-}
-@media all and (max-width: 490px) {
-.story-hero-image { 
-height: 140px;
-}
-}
-</style>
-<div class="story-hero-image" style="background-image: url(http://i.ftimg.net/picture/0/000113710_piclink.jpg)"></div>
-<div class="story-hero-content">
-<div class="story-hero-topper-container">
-<div class="story-hero-topper-inner">
-<div class="story-theme"><a href="/channel/page/cytiva">全球生物制药弹性指数</a></div>
-<h1 class="story-headline">生物制药2021：对弹性的反思</h1>
-<div class="story-lead">在危机时代，生物制药行业能否承受全球冲击？</div>
-</div>
-</div>
-</div><div class="block-container has-side story-page"><div class="block-inner">
+<div class="block-container has-side story-page"><div class="block-inner">
 <div class="content-container"><div class="content-inner">
 <div class="story-container">
+<div class="story-topper">
+<div class="story-theme"><a href="/tag/后疫情时代的独角兽之路">后疫情时代的独角兽之路</a></div>
+<h1 class="story-headline">字节跳动开始在国际市场出售AI技术</h1>
+<div class="story-lead">随着该公司在IPO之前拓宽营收来源，名为BytePlus的新部门在6月成立，让海外企业有机会利用TikTok的算法和其他软件。</div>
+<div class=" story-image image"><figure data-url=https://thumbor.ftacademy.cn/unsafe/picture/8/000120288_piclink.jpg class="loading"></figure></div>
+</div>
+<div class="story-tools">
+<div class="story-action-placeholder" id="story-action-placeholder">
+<div class="story-action">
+<div class="action-inner">
+<a class="action-icon icon-wechat P-hide" href="/m/corp/qrshare.html?url=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001093079%3Ffull%3Dy%26gift_id%3D2b705a0b2e674c0fa8c3d813bf9c147b263bcff4&title=" target="_blank"></a>
+<a class="action-icon icon-weibo P-hide" href="http://service.weibo.com/share/share.php?appkey=4221537403&url=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001093079%3Ffull%3Dy%26gift_id%3D2b705a0b2e674c0fa8c3d813bf9c147b263bcff4%26ccode%3D2G169001&title=【字节跳动开始在国际市场出售AI技术】随着该公司在IPO之前拓宽营收来源，名为BytePlus的新部门在6月成立，让海外企业有机会利用TikTok的算法和其他软件。（分享自 @FT中文网）&ralateUid=1698233740&source=&sourceUrl=&content=utf-8&pic=https://thumbor.ftacademy.cn/unsafe/picture/8/000120288_piclink.jpg&searchPic=false" target="_blank"></a>
+<a class="action-icon icon-linkedin P-hide" href="https://www.linkedin.com/cws/share?url=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001093079%3Ffull%3Dy%26gift_id%3D2b705a0b2e674c0fa8c3d813bf9c147b263bcff4%26ccode%3D2G169003&original_referer=https%3A%2F%2Fdeveloper.linkedin.com%2Fsites%2Fall%2Fthemes%2Fdlc%2Fsandbox.php%3F&token=&isFramed=true&lang=zh_CN&_ts=1422502780259.2795" target="_blank"></a>
+<a class="action-icon icon-twitter P-hide" href="http://twitter.com/home?status=【字节跳动开始在国际市场出售AI技术】随着该公司在IPO之前拓宽营收来源，名为BytePlus的新部门在6月成立，让海外企业有机会利用TikTok的算法和其他软件。（分享自 @FT中文网）...%20http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001093079%3Ffull%3Dy%26gift_id%3D2b705a0b2e674c0fa8c3d813bf9c147b263bcff4" target="_blank"></a>
+<a class="action-icon icon-facebook P-hide" href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001093079%3Ffull%3Dy%26gift_id%3D2b705a0b2e674c0fa8c3d813bf9c147b263bcff4&t=【字节跳动开始在国际市场出售AI技术】随着该公司在IPO之前拓宽营收来源，名为BytePlus的新部门在6月成立，让海外企业有机会利用TikTok的算法和其他软件。（分享自 @FT中文网）" target="_blank"></a>
+<a class="icon-right icon-ch" href="/story/001093079/ce"><button>对照</button></a><a class="icon-right icon-ch" href="/story/001093079/en"><button>英文</button></a>
+
+<div class="icon-right icon-save P-hide">
+<button id="addfavlink001093079">收藏</button>
+</div>
+<a class="icon-right icon-action icon-comments" href="/comments/index/001093079" target="_blank"></a>
+<a class="icon-right icon-action icon-print P-hide" onclick="window.print()" target="_blank"></a>
+<a class="icon-right icon-action icon-font-size" onclick="showOverlay('font-setting')"></a>
+<a class="icon-right icon-action icon-audio" href="/interactive/43651"></a>
+<div class="progress-container">
+<svg
+class="progress-ring"
+height="40"
+width="40"
+>
+<circle
+class="progress-ring__circle"
+stroke-width="2"
+stroke="transparent"
+r="18"
+cx="20"
+cy="20"
+/>
+</svg>
+<svg class="pregress-tick" width="24" height="24" viewBox="0 0 24 24">
+<path fill="none" d="M0 0h24v24H0z"/><path class="progress-tick-path" fill="transparent" d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+</svg>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="story-byline">
+<span class="story-time" data-time="1625449521">更新于2021年7月5日 09:45</span>
+<span class="story-author"> 英国《金融时报》 <a href='/author/%E8%92%82%E5%A7%86%E2%80%A2%E5%B8%83%E6%8B%89%E5%BE%B7%E8%82%96' target=_blank>蒂姆•布拉德肖</a> 伦敦报道</span>
+</div>
 <div class="story-body">
 
 
-<div id="story-body-container">
-<p>在近代，生物制药行业的健康和弹性从未像现在这样如此重要。但 2020 年揭示了一个行业一些令人不安的真相，这个行业已经成为一个全球化的生产、贸易和分销体系。现在，全球供应链的优势是否被过度依赖少数国家的基本药物和活性成分所抵消？</p>
-<p>今年 4 月，在欧洲因冠状病毒病例迅速激增而陷入恐慌的一个月后，对严重药物短缺的担忧开始蔓延，欧盟卫生专员 Stella Kyriakides 敦促欧盟“减少对其他国家的依赖”。前一个月，世界上最大的仿制药供应国印度当局下令该国的制药公司停止出口 26 种药物和药物成分。</p>
-<p>空管限制和人才阻碍为生物制药行业带来了严重冲击。这并不足以为奇，因为该行业已经习惯于一个庞大的流程网络，将从仿制药到生物仿制药和其他生物制品的一切产品推向市场。</p>
-<p>“这其中蕴藏着巨大的政治利益。”欧洲药品总干事 Adrian van den Hoven 说。“任何与你交谈的政治家、卫生部长或工业部长都会说，‘这是头等大事。我想让整个行业更具弹性’。”</p>
-<p>但 van den Hoven 也指出，整个行业存在“难以理解”的痛点，更不用说公共和私营部门如何解决这些问题了。“困难在于说，‘如何做才能真正让供应链具有弹性，或者确保制造业获取更多投资？’”他说。“你还能追求什么？”</p>
-<p>那么，各国及其各自的生物制药行业准备如何满足对关键药物的激增需求呢？</p>
-<div class="subtitle">介绍全球生物制药弹性指数</div>
-
-<p>为了评估全球生物制药行业的实力及其能力，Cytiva 创建了全球生物制药弹性指数。该指数根据五个因素针对 20 个国家进行评分和排名 - 供应链弹性、人才收纳的途径、研发生态系统的优势、制造过程的质量和灵活性，以及政府政策在支持该行业方面的有效性。每个国家的总体指数得分代表了其生物制药产业的实力。</p>
-<p>该指数基于对来自 20 个国家的 1100 多名制药和生物制药高管和医疗保健政策制定者的调查数据。 </p>
-<div class='o-responsive-video-container'><div class='o-responsive-video-wrapper-outer'><div class='o-responsive-video-wrapper-inner'><script src='https://union.bokecc.com/player?vid=CC05B370EE513BC29C33DC5901307461&siteid=922662811F1A49E9&autoStart=false&width=100%&height=100%&playerid=3571A3BF2AEC8829&playertype=1'></script></div></div><a class='o-responsive-video-caption' href='/video/" vsource="' target='_blank'></a></div>
-
-<div class="speedread-questions">
-<span>
-    <div class="pagetitle">单选题</div>
-    <div class="pageintro is-text-only" id="id-20">周六在火星上着陆的中国“天问一号”无人驾驶任务的名称是什么意思？</div>
-    <div>
-    <div class="rightanswer">
-    <div class="is-text-only" id="id-21">该探测器于去年7月23日由长征五号火箭从中国南部海南省的文昌发射台发射进入太空。</div>
-    
-    <div class="is-translated">相关内容：<a href="/story/001092508" target="_blank">中国首次火星探测任务成功着陆火星</a></div>
-    </div>
-    <ul class="quizlist">
-    <li onclick="quizcheck(this)" value="0" class="is-text-only" id="id-22">与星星说话</li>
-    <li onclick="quizcheck(this)" value="0" class="is-text-only" id="id-23">在天空中书写</li>
-    <li onclick="quizcheck(this)" value="1" class="is-text-only" id="id-24">向天堂提问</li>
-    
-    </ul>
-    </div>
-    </span>
-    
-    <span>
-    <div class="pagetitle">单选题</div>
-    <div class="pageintro is-text-only" id="id-0">哪家公司率先推出增强现实(AR)眼镜？</div>
-    <div>
-    <div class="rightanswer">
-    <div>Snap成为首家推出增强现实(AR)眼镜的美国领先科技公司。增强现实眼镜被许多人视为下一代重要计算平台。Snap击败了Facebook和苹果(Apple)等一众竞争对手，率先推出该产品。</div>
-    <div><img src="https://thumbor.ftacademy.cn/unsafe/450x0/picture/1/000117711_piclink.jpg"></div>
-    <div class="is-translated">相关内容：<a href="/story/001092586" target="_blank">Snap领先对手发布增强现实眼镜</a></div>
-    </div>
-    <ul class="quizlist">
-    <li onclick="quizcheck(this)" value="1">Snap</li>
-    <li onclick="quizcheck(this)" value="0">苹果</li>
-    <li onclick="quizcheck(this)" value="0">Facebook</li>
-    </ul>
-    </div>
-    </span>
-    
-    
-    <span>
-    <div class="pagetitle">单选题</div>
-    <div class="pageintro is-text-only" id="id-0">腾讯第一季度营收同比增长25%，主要得益于哪项业务的强劲增长？</div>
-    <div>
-    <div class="rightanswer">
-    <div>腾讯第一季度营收同比增长25%，至1350亿元人民币（合210亿美元），这主要得益于其金融科技和企业服务业务的强劲增长，包括其无处不在的移动支付平台微信支付(WeChat Pay)。</div>
-    <div><img src="https://thumbor.ftacademy.cn/unsafe/450x0/picture/0/000117710_piclink.jpg"></div>
-    <div class="is-translated">相关内容：<a href="/story/001092579" target="_blank">腾讯第一季度营收增长25%</a></div>
-    </div>
-    <ul class="quizlist">
-    <li onclick="quizcheck(this)" value="0">AR游戏</li>
-    <li onclick="quizcheck(this)" value="0">短视频广告</li>
-    <li onclick="quizcheck(this)" value="1">金融科技和企业服务</li>
-    </ul>
-    </div>
-    </span>
-</div>
-
-<div class="subtitle">收入差距：按国家划分的弹性</div>
-
-<p>在该指数涵盖的 20 个国家中，美国以 7.12 的指数排名第一，瑞士 (7.08) 和英国 (7.01) 分别位居第二和第三。排在最后的是印度尼西亚 (5.91)、泰国 (5.93) 和南非 (5.95)。</p>
-<p>或许不足为奇的是，这些分数显示了高收入经济体和中高收入到中低收入经济体（由世界银行定义）之间的明显差距。然而，当我们按人均国民总收入 (GNI) 绘制指数得分时（见图表 1），出现了一个更为微妙的情况。</p>
-<p>图表 1 右上角的象限突出显示，在 GNI 和指数得分方面，美国和瑞士明显领先。这表明他们的生物制药产业正在蓬勃发展，他们的人口不太可能经历基本药物的短缺。</p>
-<p>相比之下，图表左下角的象限显示了一组“有风险”的国家，这些国家属于低收入类别，指数得分也较低。其中许多国家人口众多，例如，印度尼西亚和巴西各有 2 亿多人口，这意味着，如果国家的生物制药行业受到严重干扰，更多的人将面临无法获得重要药物的风险。</p>
-<p>然而，尽管人均 GNI 相对较低，一些国家的生物制药弹性与高收入国家相当。如该图右下角象限所示，印度、中国和俄罗斯在该指数上的得分高于同一收入等级的其他国家。这表明他们的生物制药产业正在蓬勃发展。</p>
-<p>生物制药行业能从这些佼佼者身上学到什么？ </p>
-<p>印度收入最高的上市生物制药公司 Biocon 的创始人兼董事长 Kiran Mazumdar-Shaw 认为，印度开发生物制药的方法为供应链弹性提供了一个模板，其他国家可以效仿。</p>
-<p>她表示：“我认为公司的商业模式需要全球化”。“今天，印度能够满足低收入和中等收入国家的大量人口需求，是因为我们的高容量、低价值的方法，这是我们所做的每一件事的内在要求。无论是疫苗、仿制药还是生物药物，我们都在大规模发展我们的业务。相比之下，如果你看看美国和欧洲正在发生的情况，就疫苗供应延迟或疫苗短缺而言，这在很大程度上是由于西方模式仅满足了少数人口的需求。”</p>
-<div class="pic"><img src="https://thumbor.ftacademy.cn/unsafe/picture/6/000114536_piclink.png">图表 1: 按人均国民总收入划分的指数得分</div>
-
-<div class="subtitle">详细得分：生物制药行业最强和最薄弱的环节在哪里？</div>
-
-<p>按支柱查看指数结果（见图表 2）使我们能够确定生物制药行业最强大的环节以及各国需要改进的环节。加强各支柱的表现将有助于解决图表 1 所示的一些不平衡，并最终增加基本药物的供应，同时加快新疗法的开发。</p>
-<p>该行业最薄弱的是人才库，低于均值的差距最大（见图表 2）。这是封锁限制的一个症状，限制了行业领导者在多大程度上可以撒网寻找技能人才。他们未来的劳动力来自哪里？</p>
-<div class="pic"><img src="https://thumbor.ftacademy.cn/unsafe/picture/7/000114537_piclink.jpg">图表 2: 弹性指数支柱得分</div>
-
-<p>调查结果显示，该行业在其他领域也有很大的提升空间：制造业的敏捷性是大多数国家低于平均水平的另一个支柱，而研发生态系统的管理也略有下降。协作和创新方面也存在弱点，可能会危及安全。</p>
-<p>世界上最大的生物制药公司 Roche 深知行业各方面合作的重要性。“我们合成如此多的材料，因此我们的供应商至关重要。”Roche 全球技术开发主管 Jerry Cacia 说。“这就是为什么我们与供应商有如此紧密的合作关系 - 因为他们对我们为患者生产的产品至关重要。我们希望确保在整个生态系统中保持强有力的合作伙伴关系：不仅是生产药品的公司之间，还包括他们的供应商和开发生产药品所需技术的个人之间。”</p>
-<p>相对较低的指数得分可能令人惊讶，因为全球协同努力在创纪录的时间内生产了多种新冠肺炎疫苗。但这种结果是例外，而不是常规。van den Hoven 表示，部分挑战在于监管审批：例如，在美国和欧洲建立和运营生物制品生产基地的努力，通常要经过漫长的程序才能获得批准。但是新冠大流行期间的努力表明政府可以迅速采取行动。</p>
-<p>“在新冠期间，有一些快速的程序，只是因为政府想要扩大规模。”他说。“因此，他们通过使用更多的 IT 工具来加快某些批准程序，或者给予临时批准，例如根据地塞米松等药物的紧急使用规则。”</p>
-<p>这不完全是坏消息。尽管 2020 年遭遇了严重的阻碍，但供应链得分高于平均值，政府政策和监管也是如此 - 这在传统上是一个障碍。疫苗的加速推出可能已经向该行业发出信号，即在某种程度上，当风险很高时，它可以依靠政策制定者。</p>
-<p>对一些国家来说，这种大流行病也凸显了扩大国内生物制药生产的必要性。“我们不应该减少全球化，但我们应该确保我们有足够的能力帮助生物制药公司在英国本土生产，然后当他们发现有效果的药品时，就会成为全球药物经销商。”伦敦国王学院药理学教授 Clive Page 表示。“在未来 10 年，我认为英国将大力推进生物制药制造的规模化，使我们能够推进创新，并确保我们能更好地控制创新。”</p>
-<p>在过去的二十年里，生物制药充分利用了全球供应链管理的革命，为患者带来了许多好处。然而，Cytiva 的研究表明，面对新冠肺炎，政策制定者和生物制药高管不再认为这种方法具有弹性。</p>
-<p>这项研究和由此产生的全球生物制药弹性指数指出了需要商界领袖、行业团体和政治家关注的领域，他们希望建立强大的国内生物制药行业。</p>
-<p><a href="https://www.cytivalifesciences.com/en/us" target="_blank" rel="noreferrer" class="read-more">访问网站</a></p>
-<p><div class="toggle-container"></p>
-<div class="toggle-title" data-hide-text="隐藏研究方法">查看研究方法</div>
-
-<p><div class="toggle-content"></p>
-<p>Cytiva全球生物制药弹性指数根据1,165名来自二十个不同国家的受访者调查数据建立，其中95%的受访者为制药和生物制药领域的高管，5%的受访者为公共健康领域的政策制定者。该指数的结果基于五个不同支柱下的十九个不同的指标，如下所示：</p>
-<div class="subtitle">支柱一: 供应链弹性</div>
-
-<div class="bullet-point">对一个国家来说，有多容易出现药品短缺?</div>
-
-<div class="bullet-point">对进口的依赖程度有多大?</div>
-
-<div class="bullet-point">在供应短缺的情况下，国家提振供应的能力?</div>
-
-<div class="bullet-point">更换供应商的难易程度?</div>
-
-<div class="subtitle">支柱二: 人才库</div>
-
-<div class="bullet-point">人才能不能很容易地获取?</div>
-
-<div class="bullet-point">对海外人才的依赖程度有多大?</div>
-
-<div class="bullet-point">是否有足够的教育和培训来培养人才?</div>
-
-<div class="bullet-point" style="margin-bottom: 1em;">劳动法规对海外人才吸引的友善度?</div>
-
-<div class="subtitle">支柱三: 研发生态</div>
-
-<div class="bullet-point">在研发领域找到合作伙伴进行合作的难易度?</div>
-
-<div class="bullet-point">现有的研发能力是否足够?</div>
-
-<div class="bullet-point">行业参与者之间是否有良性合作来推动创新?</div>
-
-<div class="bullet-point" style="margin-bottom: 1em;">研发生态在应对Covid-19疫情时的支持程度有多大?</div>
-
-<div class="subtitle">支柱四: 制造业的灵活性</div>
-
-<div class="bullet-point">现有的生产能力是否足以满足当前的需求?</div>
-
-<div class="bullet-point">实现制造业的灵活性存在哪些障碍?</div>
-
-<div class="bullet-point">合同生产商在质量、适应性和响应速度方面的效率?</div>
-
-<div class="bullet-point" style="margin-bottom: 1em;">制造过程对新技术的采用的开放程度?</div>
-
-
-<div class="subtitle">支柱五: 政府政策和法规</div>
-
-<div class="bullet-point">政府机构行业弹性保障的力度?</div>
-
-<div class="bullet-point">政府有什么政策来促进行业的诚信?</div>
-
-<div class="bullet-point" style="margin-bottom: 1em;">政府有多少资金支持?</div>
-
-<p>根据调研对象对这些问题的回答，由0到10给评分。0分为完全失败，10分为表现出色。</p>
-<p>然后，这些分数被加总并取平均值，以提供一个总体指标分数，以及上述五个支柱中的每个单项分数。这些分数代表了生物制药行业总体表现以及在这五个分领域中的表现。</div>
-</div>
-</p>
-</div>
+<div id="story-body-container"><p>字节跳动(ByteDance)正向中国以外的网站和应用出售其高人气视频应用TikTok背后的一些人工智能技术，其背景是该公司在各方期待已久的首次公开发行(IPO)之前拓宽营收来源。</p><p>名为BytePlus的新部门在6月悄悄成立，其客户已经遍布世界各地，包括美国。</p><p>根据其网站，早期客户包括美国时尚应用Goat、新加坡旅游预订网站WeGo、以及印尼在线购物初创公司Chilibeli。TikTok也被列为其客户之一。</p><p>BytePlus让企业有机会利用TikTok的一部分秘诀：向用户推荐它认为他们会喜欢的视频、从而促使用户滚动查看更多视频的算法。企业可以利用这项技术，为自己的客户提供个性化应用和服务。</p><div data-o-ads-name="mpu-middle1" class="o-ads in-article-advert" data-o-ads-formats-default="false"  data-o-ads-formats-small="FtcMobileMpu"  data-o-ads-formats-medium="FtcMpu" data-o-ads-formats-large="FtcMpu" data-o-ads-formats-extra="FtcMpu" data-o-ads-targeting="cnpos=middle1;" data-cy='[{"devices":["PC","iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"MPU","position":"Middle1","container":"mpuInStory"}]'></div><p>提供的其他软件包括文本和语音的自动翻译、实时视频效果以及一套数据分析和管理工具。</p><p>当用户在镜头前跳舞或做动作时，其计算机视觉技术可以探测和跟踪人体从头到脚的18个点；BytePlus推荐美容或时尚应用可以利用该技术。</p><p>根据员工的领英(LinkedIn)个人资料，字节跳动的新部门已在其主要所在地新加坡——以及伦敦和香港——从微软(Microsoft)和IBM等企业技术(enterprise technology)公司招聘员工。</p><p>2014年毕业于天津大学计算机科学专业、已在字节跳动工作六年的何天一，自6月起在领英上显示自己为BytePlus在新加坡的负责人。标题为“你好，世界！”(Hello, World!)的一段15秒宣传视频上月在领英上发布。</p><p>BytePlus的工具集似乎与亚马逊网络服务(Amazon Web Services)、谷歌(Google)、IBM和微软等公司，以及阿里巴巴(Alibaba)、百度(Baidu)和腾讯(Tencent)等其他中国公司的人工智能服务竞争。</p><p>BytePlus在国际市场亮相之前，字节跳动已在中国推出类似的B2B服务。火山引擎(Volcengine)的客户包括京东(JD.com)、Vivo和吉利(Geely)。</p><div data-o-ads-name="mpu-middle2" class="o-ads in-article-advert" data-o-ads-formats-default="false"  data-o-ads-formats-small="FtcMobileMpu"  data-o-ads-formats-medium="false" data-o-ads-formats-large="false" data-o-ads-formats-extra="false" data-o-ads-targeting="cnpos=middle2;" data-cy='[{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"MPU","position":"Middle2","container":"mpuInStory"}]'></div><p>字节跳动的第一款面向企业的产品是2019年推出的企业协作应用飞书(Lark)，作为Slack或微软Teams的替代品。该公司深耕企业技术领域之际，随着在线受众趋向饱和，TikTok及抖音的快速增长看似将要触及上限。字节跳动正在试验一系列新产品，包括手机游戏和视频编辑应用，以求在中国乃至全球市场开拓TikTok之外的其他业务。</p><p>在线记录显示，字节跳动已申请在美国注册与BytePlus和火山引擎相关的商标，尽管尚不清楚该公司是否已在美国开设办事处。</p><p>BytePlus的隐私政策似乎表明，它已在英国和欧洲成立独立于TikTok的公司。在英国，它指定的《通用数据保护条例》(GDPR)代表是Cosmo Technology Private Limited，而在欧洲，负责的组织是位于都柏林的Mikros Information Technology Ireland Limited。</p><p>Cosmo和Mikros分别于今年2月和3月注册为新公司。英国和爱尔兰公司注册处的文件并未明确提及BytePlus或其与TikTok有同一家母公司的事实，尽管字节跳动创始人张一鸣在Cosmo的文件中被列为“具有重大控制权的人士”。</p><p>字节跳动拒绝对其BytePlus计划发表评论。</p><div data-o-ads-name="mpu-middle3" class="o-ads in-article-advert" data-o-ads-formats-default="false"  data-o-ads-formats-small="FtcMobileMpu"  data-o-ads-formats-medium="false" data-o-ads-formats-large="false" data-o-ads-formats-extra="false" data-o-ads-targeting="cnpos=middle3;" data-cy='[{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"MPU","position":"Middle3","container":"mpuInStory"}]'></div><p>译者/何黎</p></div>
 <div class="clearfloat"></div>
 </div> 
 			
@@ -1003,6 +798,44 @@ data-o-ads-targeting="cnpos=info3;"
 版权声明：本文版权归FT中文网所有，未经允许任何单位或个人不得转载，复制或以任何其他方式使用本文全部或部分，侵权必究。
 </div>
 <div class="clearfloat"></div>
+<h2 class="list-title"><a class="list-link" href="#">读者评论</a></h2>
+<div id="allcomments" class="allcomments container"></div>
+<div id="logincomment" class="logincomment">
+<form id="storyForm">
+<div class="comment-input-container">
+<div class=container>
+<div style="margin:5px 0;">FT中文网欢迎读者发表评论，部分评论会被选进《读者有话说》栏目。我们保留编辑与出版的权利。</div>
+<textarea name="Talk" id="Talk" class="commentTextArea" width="100%" rows="3"></textarea>
+<span style="display:none">
+<input name="use_nickname" type="hidden" id="name" onclick="unuseit(this);"/>
+<label for="name" style="display:none">匿名</label>
+<input name="use_nickname" type="radio" id="userid" value="0" onclick="useit(this);" checked/>
+<input type="text"  autocorrect="off" class="user_id textinput nick_name" name="NickName" id="nick_name" value=""/>
+</span>
+<input type="button" value="提交评论" class="comment_btn submitbutton button ui-light-btn" id="addnewcomment"/>
+<input type="hidden" name="storyid"  id=cstoryid value=""/>
+</div>
+</div>
+</form>
+</div>
+<div id="nologincomment" class="nologincomment">
+<div class="container">
+<div class="username-label">用户名</div>
+<input type="text"  autocorrect="off" name="username" id="username1" class="user_id textinput user-name"/>
+<div class="password-label">密码</div>
+<input type="password" name="password"  class="user_id textinput password" id="password1"/>
+<input type="submit" value="登录后发表评论" class="comment_btn submitbutton button ui-light-btn" onclick="login(1)"/> 
+<div class="topmargin statusmsg"></div>
+<div class="centerButton"><a href="http://user.ftchinese.com/register" target="_blank"><button class="ui-light-btn stress">免费注册</button></a></div>
+</div>
+</div>
+<script>
+function loadcomment(e,t,n){var o,r,a,i,s,l,c,d,m="";switch(r="/index.php/c/newcommentsbysort/",a="/index.php/common_comments/newcommentsbysort/",n){case"story":commentfolder="/index.php/c",o="/index.php/c/newcomment/"+e+"?v=1";break;case"storyall1":commentfolder="/index.php/",o=r+e+"/1?limit=0&rows=500";break;case"storyall2":commentfolder="/index.php/c",o=r+e+"/2?limit=0&rows=500";break;case"storyall3":commentfolder="/index.php/c",o=r+e+"/3?limit=0&rows=500";break;case"commonall1":commentfolder="/index.php/common_comments",o=a+e+"/1?limit=0&rows=500";break;case"commonall2":commentfolder="/index.php/common_comments",o=a+e+"/2?limit=0&rows=500";break;case"commonall3":commentfolder="/index.php/common_comments",o=a+e+"/3?limit=0&rows=500";break;default:commentfolder="/index.php/common_comments",o="/index.php/common_comments/newcomment/"+e+"?v=1"}var u=new Date;o=o+"&"+(1e8*u.getFullYear()+1e6*(u.getMonth()+1)+1e4*u.getDate()+100*u.getHours()+u.getMinutes()),r=null,a=null,"localhost"===window.location.hostname&&(o="/api/comments/story.json");try{document.getElementById("cstoryid").value=e,window.readingid=e}catch(e){}var p=document.getElementById(t);p.innerHTML="正在获取本文读者评论的数据...";var y=new XMLHttpRequest;y.onreadystatechange=function(){if(4===this.readyState)if(200===this.status){var o=JSON.parse(this.responseText),r="";if(o.hot)for(var a=0;a<o.hot.length;a++)m="",i="",r+='<div class="commentcontainer">'+m+'<dt><div class="ding"></div><span>'+o.hot[a].dnewdate+"</span><b>"+o.hot[a].nickname.replace(/<[Aa] .+>(.+)<\/[Aa]>/g,"$1")+i+'</b> <font class="grey">'+o.hot[a].user_area+"</font></dt><dd>"+o.hot[a].quote_content+o.hot[a].talk+'</dd><div class="replybox" id=reh'+o.hot[a].id+"></div><dt class='replycomment'><a href='javascript:cmt_reply(\""+o.hot[a].id+'","h");\'>回复</a> <a id=hst'+o.hot[a].id+" href='javascript:voteComment(\""+o.hot[a].id+'","#hst", "support");\'>支持</a>(<font id=\'hsts'+o.hot[a].id+"' color=#BA2636>"+o.hot[a].support_count+"</font>) <a id=hdt"+o.hot[a].id+" href='javascript:voteComment(\""+o.hot[a].id+'","#hdt","disagree");\'>反对</a>(<font id=\'hdtd'+o.hot[a].id+"'>"+o.hot[a].disagree_count+"</font>)</dt></div>";for(var u=0;u<o.result.length;u++)i="",m="",r+="<div class=commentcontainer>"+m+"<dt><span>"+o.result[u].dnewdate+"</span><b>"+o.result[u].nickname.replace(/<[Aa] .+>(.+)<\/[Aa]>/g,"$1")+i+"</b> <font class=grey>"+o.result[u].user_area+"</font><div class=clearfloat></div></dt><dd>"+o.result[u].quote_content+o.result[u].talk+"</dd><div class=replybox id=re"+o.result[u].id+"></div><dt class=replycomment><a href='javascript:cmt_reply(\""+o.result[u].id+'","");\'>回复</a> <a id=st'+o.result[u].id+" href='javascript:voteComment(\""+o.result[u].id+'","#st","support");\'>支持</a>(<font id=\'sts'+o.result[u].id+"'>"+o.result[u].support_count+"</font>) <a id=dt"+o.result[u].id+" href='javascript:voteComment(\""+o.result[u].id+'","#dt","disagree");\'>反对</a>(<font id=\'dtd'+o.result[u].id+"'>"+o.result[u].disagree_count+"</font>)</dt></div>",window.unusedEntryIndex=u;p.innerHTML=r,o.count&&o.count>0||"story"!==n?(init_repeat_cmt(),(o.count>20||o.result.length>20)&&(s=o.count||o.result.length,c=n.indexOf("story")>=0?"story":"common",l=n.indexOf("storyall")>=0?n.replace(/storyall/g,""):1,p.innerHTML+="<div class=fullcomments><span class=viewfullcomments id=viewfullcomments>查看全部<span class=highlight>"+s+'</span>条评论 </span><select class=commentsortby id=commentsortby value="'+l+'"><option value=1 selected>最新的在上方</option><option value=2>最早的在上方</option><option value=3>按热门程度</option></select></div>',document.getElementById("viewfullcomments").onclick=function(){d=document.getElementById("commentsortby").value,loadcomment(e,t,c+"all"+d)},document.getElementById("commentsortby").onchange=function(){d=document.getElementById("commentsortby").value,loadcomment(e,t,c+"all"+d)})):p.innerHTML=""}else p.innerHTML="<span class='error'>很抱歉。由于您与FT服务器之间的连接发生故障，加载评论内容失败。请稍后再尝试。</span>"},y.open("GET",o,!0),y.send()}function init_repeat_cmt(){for(var e,t=document.querySelectorAll(".cmt_quote"),n=0;n<t[n];n++)"DD"===t[n].parentNode.tagName.toUpperCase()?(t[n].id="cmt_quote_"+Math.round(1e6*Math.random()),"cmt_quote"===t[n].childNodes[0].className&&(t[n].childNodes[0].id="cmt_quote_child_"+Math.round(1e6*Math.random()))):"recommendcomment"!==t[n].id&&(t[n].style.display="none");for(var o=document.querySelectorAll('div[id^="cmt_quote_child_"]'),r=0;r<o.length;r++)o[r].style.display="","cmt_quote"===o[r].childNodes[0].className&&(e=document.querySelectorAll("#"+o[r].id+" .cmt_quote").length,document.getElementById(o[r].id).innerHTML="<p onclick=\"showcmt(this)\" class='showcmt'>重复 [ "+e+" ] 条引用已被隐藏,点击展开。</p>"+document.getElementById(o[r].id).innerHTML)}function showcmt(e){document.querySelector("#"+e.parentNode.id+" .cmt_quote").style.display="",e.style.display="none"}function voteComment(e,t,n){t||(t="support"===n?"#st":"#dt");var o=document.querySelector(t+n[0]+e).innerHTML;o=parseInt(o,10)||0,document.querySelector(t+n[0]+e).innerHTML=o+1,document.querySelector(t+e).removeAttribute("href"),document.querySelector(t+e).innerHTML="support"===n?"已支持":"已反对";var r="cmtid="+e+"&action="+n,a=new XMLHttpRequest;a.open("POST",commentfolder+"/addvote/"),a.setRequestHeader("Content-Type","application/x-www-form-urlencoded"),a.send(r)}function cmt_reply(e,t){var n,o;t=t||"";for(var r=document.querySelectorAll(".replybox"),a=0;a<r.length;a++)r[a].innerHTML="";username?(document.querySelector("#re"+t+e).innerHTML='<div id=reply-input-container><b>回复此评论：</b><textarea id="replycontent" class="commentTextArea" rows="3"></textarea><span style="display:none;"><input name="use_nicknamer" type="radio" id="namer" onclick="unuseitr(this);"/><label for="namer">匿名</label><input name="use_nicknamer" type="radio" id="useridr" value="0" onclick="useitr(this);" checked/><label for="useridr">昵称</label> <input type="text" class="user_id textinput" id="nick_namer" value="" /></span><input type="button" value="提交回复" class="comment_btn submitbutton button ui-light-btn" id="addnewcommentr"/></div>',document.querySelector("#nick_namer").value=document.querySelector("#nick_name").value,document.querySelector("#addnewcommentr").onclick=function(){o=0;var n=new XMLHttpRequest;n.onreadystatechange=function(){if(4===this.readyState)if(200===this.status){var n=this.responseText;if("yes"!==n)return void presentAlert("非常抱歉，现在我们的网站遇到一些技术故障。您的留言可能没有发表成功，稍后请您试着重新发表一次。","");document.querySelector("#re"+t+e).innerHTML="",presentAlert("感谢您的参与，您的评论内容已经提交。审核后会立即显示出来！","")}else document.querySelector("#re"+t+e).innerHTML="",presentAlert("很抱歉。由于您的网络的连接发生故障，发表评论失败。稍后请您试着重新发表一次。","")};var r="storyid="+window.readingid+"&topic_object_id="+window.readingid+"&talk="+document.querySelector("#replycontent").value+"&use_nickname="+o+"&NickName="+document.querySelector("#nick_namer").value+"&cmtid="+e+"&type="+t+"&title=&url=";n.open("POST",commentfolder+"/add"),n.setRequestHeader("Content-Type","application/x-www-form-urlencoded"),n.send(r),this.disabled=!0}):(n=document.querySelector("#nologincomment").innerHTML.replace(/username1/g,"username2").replace(/password1/g,"password2").replace(/login\(1\)/g,"login(2)"),document.querySelector("#re"+t+e).innerHTML=n)}function clickToSubmitComment(){document.querySelector("#addnewcomment").onclick=function(){var e=document.querySelectorAll("#name").checked?1:0;console.log("clicked comments"),this.value="正在发布中...",this.disabled=!0;var t=new XMLHttpRequest;t.onreadystatechange=function(){if(4===this.readyState){if("yes"!==this.responseText)return void presentAlert("抱歉,现在我们的网站可能出现了一些小故障.您的留言可能没有发表成功,请您稍后再重新尝试发表一次。","");presentAlert("感谢您的参与，您的评论内容已经发表成功。审核后就会立即显示!",""),document.querySelector("#addnewcomment").value="提交评论",document.querySelector("#addnewcomment").disabled=!1,document.querySelector("#Talk").value=""}};var n;n=/^[0-9]+$/.test(window.FTStoryid)?"storyid="+window.FTStoryid+"&talk="+document.querySelector("#Talk").value+"&use_nickname="+e+"&NickName="+document.querySelector("#nick_name").value:"topic_object_id="+window.FTStoryid+"&talk="+document.querySelector("#Talk").value+"&use_nickname="+e+"&NickName="+document.querySelector("#nick_name").value+"&type=video",t.open("POST",commentfolder+"/add"),t.setRequestHeader("Content-Type","application/x-www-form-urlencoded"),t.send(n)}}function login(e){function t(e){var t={action:"login",userId:e};try{webkit?webkit.messageHandlers.login.postMessage(t):Android&&Android.onPageLoaded(JSON.stringify(t))}catch(e){}}var n,o,r;void 0!==e?(n=document.querySelector("#username"+e).value,o=document.querySelector("#password"+e).value):(n=document.querySelector("#username").value,o=document.querySelector("#password").value);var a=document.querySelectorAll(".statusmsg");for(r=0;r<a.length;r++)a[r].innerHTML="正在登录中...";var i=new XMLHttpRequest;i.onreadystatechange=function(){var e;if(4===this.readyState)if(200===this.status){var o,r=JSON.parse(this.responseText);if(r.status&&"ok"===r.status){for(e=0;e<a.length;e++)a[e].innerHTML="登录成功！";for(var i=document.querySelectorAll(".logincomment, .logincommentc, .nologincomment, .nologincommentc, .logged, .notLogged"),s=0;s<i.length;s++)i[s].style.display="none";var l=document.querySelectorAll(".nick_name,.user_id,.user_Name");for(e=0;e<l;e++)l[e].value=n,l[e].innerHTML=n;var c=document.querySelectorAll(".logincomment, .logincommentc, .logged");for(o=0;o<c.length;o++)c[o].style.display="block";for(username=n,void 0!==window.userId&&""!==window.userId||(window.userId=GetCookie("USER_ID")||""),e=0;e<a.length;e++)a[e].innerHTML="";checkLogin(),t()}else for(e=0;e<a.length;e++)a[e].innerHTML='<div class="highlight">'+r.msg+"</div>"}else for(e=0;e<a.length;e++)a[e].innerHTML='<div class="highlight">对不起，网络故障。请过一段时间再重新尝试。</div>'};var s="username="+n+"&password="+o+"&saveme=1",l=parseInt(1e6*Math.random(),10);i.open("POST","/index.php/users/login/ajax?"+l),i.setRequestHeader("Content-Type","application/x-www-form-urlencoded"),i.send(s)}function socialLogin(e,t){var n="/index.php/users/socialLogin/"+e,o=new XMLHttpRequest;o.onreadystatechange=function(){if(4===this.readyState)if(200===this.status){var e=this.responseText;if("yes"===e)return presentAlert("微信登陆成功",""),username=GetCookie("USER_NAME")||GetCookie("USER_NAME_FT")||"",void checkLogin();presentAlert("登录失败",e+"亲爱的用户，由于FT中文网的服务器未能正确响应，所以您未能成功登录。请稍后再试，或尝试其他登录方式。")}else presentAlert("登录失败","亲爱的用户，由于FT中文网的服务器未能正确响应，所以您未能成功登录。请稍后再试，或尝试其他登录方式。")};var r="socialInfo="+t,a=parseInt(1e6*Math.random(),10);o.open("POST",n+"?"+a),o.setRequestHeader("Content-Type","application/x-www-form-urlencoded"),o.send(r)}function logout(){for(var e=document.querySelectorAll(".logged .statusmsg"),t=0;t<e.length;t++)e[t].innerHTML="正在登出...";var n=new XMLHttpRequest;n.onreadystatechange=function(){if(4===this.readyState&&200===this.status){for(var e=document.querySelectorAll(".logincomment,.nologincomment, .logged, .notLogged"),t=0;t<e.length;t++)e[t].style.display="none";for(var n=document.querySelectorAll(".nologincomment,.notLogged"),o=0;o<n.length;o++)n[o].style.display="block";window.username="",checkLogin()}},n.onerror=function(){checkLogin(),console.log("something went wrong. but we check login any way. ")};var o=parseInt(1e6*Math.random(),10);n.open("GET","/index.php/users/logout?"+o),n.send();try{if(webkit){var r={action:"logout",href:location.href};webkit.messageHandlers.logout.postMessage(r)}}catch(e){}}function checkLogin(){window.username=GetCookie("USER_NAME")||GetCookie("USER_NAME_FT"),window.userId=GetCookie("USER_ID");var e,t=document.querySelectorAll(".logincomment, .nologincomment, .logged, .notLogged");for(e=0;e<t.length;e++)t[e].style.display="none";var n=document.querySelectorAll(".logged .statusmsg");for(e=0;e<n.length;e++)n[e].innerHTML="";if(username){for(var o=document.querySelectorAll(".nick_name,.user_id,.user_Name"),r=0;r<o.length;r++)o[r].value=window.username,o[r].innerHTML=window.username;for(var a=document.querySelectorAll(".logincomment,.logged"),i=0;i<a.length;i++)a[i].style.display="block"}else{document.querySelector("#nick_name").value="";for(var s=document.querySelectorAll(".nologincomment,.notLogged"),l=0;l<s.length;l++)s[l].style.display="block"}var c=document.getElementById("wechat-ftc-binding");c&&"string"==typeof window.userId&&0===window.userId.indexOf("ogfvw")&&null===GetCookie("WX_UNION_ID")&&(c.className="button ui-light-btn wechat-binding",c.innerHTML="绑定邮箱");var d=document.getElementById("phone-ftc-binding");d&&"string"==typeof window.userId&&0===window.userId.indexOf("phone")&&(d.className="button ui-light-btn phone-binding",d.innerHTML="绑定邮箱"),passLoginToNative()}function presentAlert(e,t){var n={title:e,message:t};try{webkit.messageHandlers.alert.postMessage(n)}catch(e){}}function passLoginToNative(){var e={},t=GetCookie("uniqueVisitorId")||guid(),n=GetCookie("USER_NAME")||GetCookie("USER_NAME_FT")||"",o=GetCookie("USER_ID")||"",r=GetCookie("paywall_source")||"",a=GetCookie("ccode")||"";e={username:n,userId:o,uniqueVisitorId:t,ccode:a,source:r,infoSource:"cookie"};var i=GetCookie("paywall")||"",s=GetCookie("paywall_expire")||"";""!==i&&(e.paywall=i),""!==s&&(e.paywallExpire=s);try{webkit.messageHandlers.user.postMessage(e)}catch(e){}if(""!==o){var l=new XMLHttpRequest;l.open("GET","/index.php/jsapi/paywall"),l.setRequestHeader("Content-Type","application/json"),l.onload=function(){if(200===l.status){var t=JSON.parse(l.responseText);window.htmlClass=document.documentElement.className,window.htmlClass=window.htmlClass.replace(/\ is\-subscriber/g,"").replace(/\ is\-premium/g,"").replace(/\ is\-standard/g,""),0===t.paywall?(1===t.premium?(e.paywall="premium",window.htmlClass+=" is-subscriber is-premium"):(e.paywall="standard",window.htmlClass+=" is-subscriber is-standard"),document.documentElement.className=window.htmlClass):e.paywall="",e.paywallExpire=t.expire||"",e.ccode=t.campaign_code||"",e.duration=t.latest_duration||"",e.source=t.source||"",e.infoSource="jsapi/paywall";try{webkit.messageHandlers.user.postMessage(e)}catch(e){}SetCookie("paywall_expire",t.expire,864e4,"/"),SetCookie("paywall",e.paywall,864e4,"/"),SetCookie("paywall_source",e.source,864e4,"/"),console.log("get User expire: "+GetCookie("paywall_expire"))}},l.send()}}var commentfolder="/index.php/comments";try{passLoginToNative()}catch(e){}</script>
+<script type="text/javascript">
+loadcomment('001093079', 'allcomments', 'story');
+checkLogin();
+clickToSubmitComment();
+</script>
 </div>
 <div class="clearfloat block-bottom"></div>
 </div></div>
@@ -1018,81 +851,60 @@ data-o-ads-targeting="cnpos=info4;"
 >
 </div>
 <div class="side-container"><div class="side-inner">
+<div 
+data-o-ads-name="mpu-right1"
+class="o-ads"  
+data-o-ads-formats-default="false" 
+data-o-ads-formats-small="false" 
+data-o-ads-formats-medium="FtcMpu"
+data-o-ads-formats-large="FtcMpu"
+data-o-ads-targeting="cnpos=right1;"
+data-cy='[{"devices":["PC","PadWeb","PadApp"],"pattern":"MPU","position":"Right1"}]'
+>
+</div>
+
 <div class="story-box">
-<h2 class="box-title"><a href="/channel/weekly.html">热门文章</a></h2>
+<h2 class="box-title"><a href="/channel/weekly.html">相关文章</a></h2>
 <ul class="top10">
-<li class="mp1"><span>1. </span><a target="_blank" href="/story/001091946?dailypop">苏伊士堵塞令航运公司股价上涨</a></li>
-<li class="mp2"><span>2. </span><a target="_blank" href="/story/001091943?dailypop">格林希尔：从70亿美元到一文不值</a></li>
-<li class="mp3"><span>3. </span><a target="_blank" href="/story/001091932?dailypop">中国对美直接投资的历史回顾与现实展望</a></li>
-<li class="mp4"><span>4. </span><a target="_blank" href="/story/001091937?dailypop">英国汉学家蓝诗玲谈新译《西游记》</a></li>
-<li class="mp5"><span>5. </span><a target="_blank" href="/story/001091929?dailypop">图表：亚洲日益主导制造业</a></li>
-<li class="mp6"><span>6. </span><a target="_blank" href="/story/001091902?dailypop">安克雷奇会谈：“实力地位”与中美的体系之争</a></li>
-<li class="mp7"><span>7. </span><a target="_blank" href="/story/001091918?dailypop">蚂蚁集团寻求重振估值</a></li>
-<li class="mp8"><span>8. </span><a target="_blank" href="/story/001091944?dailypop">欧洲车企仍坚持“准时制”零部件供应模式</a></li>
-<li class="mp9"><span>9. </span><a target="_blank" href="/story/001091933?dailypop">印度暂停疫苗出口 影响数十国家</a></li>
-<li class="mp10"><span>10. </span><a target="_blank" href="/story/001091945?dailypop">必须恢复对阿斯利康疫苗的信心</a></li>
+<li class="mp1"><a target="_blank" href="/story/001092892">字节跳动去年营收增长111%</a></li>
+<li class="mp2"><a target="_blank" href="/story/001091829">字节跳动在新加坡大举招人</a></li>
+</ul>
+</div>
+<div 
+data-o-ads-name="mpu-right2"
+class="o-ads"  
+data-o-ads-formats-default="false" 
+data-o-ads-formats-small="false" 
+data-o-ads-formats-medium="false"
+data-o-ads-formats-large="FtcMpu"
+data-o-ads-targeting="cnpos=right2;"
+data-cy='[{"devices":["PC","PadWeb","PadApp"],"pattern":"MPU","position":"Right2"}]'
+>
+</div>
+<div class="story-box last-child">
+<h2 class="box-title"><a>相关话题</a></h2>
+<ul class="top10">
+<li class="story-theme mp1">
+<a target="_blank" href="/tag/字节跳动">字节跳动</a>
+<div class="icon-right">
+<button class="myft-follow plus" data-tag="字节跳动" data-type="tag">关注</button>
+</div>
+</li>
+<li class="story-theme">
+<a target="_blank" href="/tag/TikTok人工智能">TikTok人工智能</a>
+<div class="icon-right">
+<button class="myft-follow plus" data-tag="TikTok人工智能" data-type="tag">关注</button>
+</div>
+</li>
+<li class="story-theme">
+<a target="_blank" href="/tag/后疫情时代的独角兽之路">后疫情时代的中国科技公司独角兽之路</a>
+<div class="icon-right">
+<button class="myft-follow plus" data-tag="后疫情时代的独角兽之路" data-type="tag">关注话题</button>
+</div>
+</li>
 </ul>
 </div>
 </div></div><div class="clearfloat"></div>
-</div></div>
-<div class="block-container dark-green no-side"><div class="block-inner">
-<div class="content-container">
-<!--List Grid Included-->
-<div class="large-card-title-grid">
-<div class="large-card-title">探索精彩内容</div>
-<a href="https://www.cytivalifesciences.com/en/us" class="sponsor-logo"><img src="https://www.ft.com/partnercontent/cytiva/assets/Cytiva.svg"></a>
-</div>
-<div class="card-grid">
-<div class="item-container"><div class="item-inner">
-<a class="image" target="_blank" href="/interactive/35129"><figure class="loading" data-url="https://thumbor.ftacademy.cn/unsafe//picture/9/000113709_piclink.jpg"></figure></a>
-<div class="item-headline-lead">
-<h2 class="item-headline"><a target="_blank" href="/interactive/35129" class="item-headline-link ">生物制药2021：对弹性的反思</a></h2>
-<div class="item-lead">在危机时代，生物制药行业能否承受全球冲击？</div>
-<a class="read-more" target="_blank" href="/interactive/35129">详情</a>
-</div>
-</div></div>
-<div class="item-container"><div class="item-inner">
-<a class="image" target="_blank" href="/interactive/36476"><figure class="loading" data-url="https://thumbor.ftacademy.cn/unsafe/picture/0/000114680_piclink.jpg"></figure></a>
-<div class="item-headline-lead">
-<h2 class="item-headline"><a target="_blank" href="/interactive/36476" class="item-headline-link ">全球还是本地？生物制药的供应链挑战</a></h2>
-<div class="item-lead">药品短缺很普遍，这是一个不可逆转的现实。</div>
-<a class="read-more" target="_blank" href="/interactive/36476">详情</a>
-</div>
-</div></div>
-<div class="item-container"><div class="item-inner">
-<a class="image" target="_blank" href="/interactive/36477"><figure class="loading" data-url="https://thumbor.ftacademy.cn/unsafe//picture/3/000114563_piclink.jpeg"></figure></a>
-<div class="item-headline-lead">
-<h2 class="item-headline"><a target="_blank" href="/interactive/36477" class="item-headline-link ">生物制药寻求本土人才</a></h2>
-<div class="item-lead">尽管人才对所有行业都至关重要，但对制药和生物制药来说尤其如此，这使得本地人才储备不足成为一个现实问题。<br />
-</div>
-<a class="read-more" target="_blank" href="/interactive/36477">详情</a>
-</div>
-</div></div>
-<div class="item-container"><div class="item-inner">
-<a class="image" target="_blank" href="/interactive/36478"><figure class="loading" data-url="https://thumbor.ftacademy.cn/unsafe//picture/8/000114568_piclink.jpeg"></figure></a>
-<div class="item-headline-lead">
-<h2 class="item-headline"><a target="_blank" href="/interactive/36478" class="item-headline-link ">生物制药研发需要大力合作</a></h2>
-<div class="item-lead">反思新冠肺炎大流行得到的所有教训中，有一点可能将持续存在：合作。</div>
-<a class="read-more" target="_blank" href="/interactive/36478">详情</a>
-</div>
-</div></div>
-<div class="item-container"><div class="item-inner">
-<a class="image" target="_blank" href="/interactive/36480"><figure class="loading" data-url="https://thumbor.ftacademy.cn/unsafe//picture/3/000114573_piclink.jpeg"></figure></a>
-<div class="item-headline-lead">
-<h2 class="item-headline"><a target="_blank" href="/interactive/36480" class="item-headline-link ">将生物制药的制造转移到快车道</a></h2>
-<div class="item-lead">正如过去一年所显示的那样，面对致命疾病，既有可塑性又能迅速行动的能力是一种强大的资产。</div>
-<a class="read-more" target="_blank" href="/interactive/36480">详情</a>
-</div>
-</div></div>
-<div class="item-container"><div class="item-inner">
-<a class="image" target="_blank" href="/interactive/36483"><figure class="loading" data-url="https://thumbor.ftacademy.cn/unsafe//picture/8/000114578_piclink.jpeg"></figure></a>
-<div class="item-headline-lead">
-<h2 class="item-headline"><a target="_blank" href="/interactive/36483" class="item-headline-link ">让政策为生物制药行业服务</a></h2>
-<div class="item-lead">一家世界领先的制药公司如何确保在患者真正需要的时候为他们提供真正需要的药物？</div>
-<a class="read-more" target="_blank" href="/interactive/36483">详情</a>
-</div>
-</div></div>
-</div></div>
 </div></div>
 <div class="block-container no-side story-recommend-container" id="story-recommend-container"><div class="block-inner">
 <div class="content-container"><div class="content-inner">
@@ -1103,6 +915,16 @@ data-o-ads-targeting="cnpos=info4;"
 </div></div>
 <div class="clearfloat block-bottom"></div>
 </div></div>
+<div class="o-ads" data-o-ads-name="banner2"
+data-o-ads-center="true" 
+data-o-ads-formats-default="false"
+data-o-ads-formats-small="FtcMobileBanner"
+data-o-ads-formats-medium="false"
+data-o-ads-formats-large="FtcBanner" 
+data-o-ads-formats-extra="FtcBanner"
+data-o-ads-targeting="cnpos=top2;"
+data-cy='[{"devices":["PC"],"pattern":"Banner","position":"Num1"},{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"Banner","position":"Num2"}]'>
+</div>
 <div 
 data-o-ads-name="paidpost2"
 class="o-ads paid-post"  
@@ -1142,102 +964,6 @@ data-o-ads-targeting="cnpos=paidpost;"
 <span><acronym title="Financial Times">FT</acronym> and 'Financial Times' are trademarks of The Financial Times Ltd.</span>
 </p>
 </div></div>
-<div class="debug-model-container">
-<div style="text-align: center; background-color: #FFFFFF; font-size: 38px; margin: 20px;font-weight:bold;"><a title="刷新本页CDN与服务器缓存" href="/index.php/marketing/flushcache?url=http://www.ftchinese.com%2Finteractive%2F35129">刷新本页缓存</a></div>
-<div style="text-align: center; background-color: #FFFFFF; font-size: 38px; margin: 20px;font-weight:bold;"><a title="提取本页的所有链接，便于在谷歌分析中查询流量" onclick="javascript:getAllLinksFromPage(this);">提取本页链接</a></div>
-<script>
-function getAllLinksFromPage(ele) {
-var allLinks = document.querySelectorAll('.item-container a[href]');
-var linksArray = [];
-var hostName = window.location.host;
-for (var i=0; i<allLinks.length; i++) {
-var linkText = allLinks[i].href;
-linkText = linkText.replace('http://' + hostName, "");
-if (/story\/|interactive\/|video\/|photonews/.test(linkText)) {
-linkText = linkText.replace(/[\?#].*$/g, '');
-if (linksArray.indexOf(linkText)<0) {
-linksArray.push(linkText);
-}
-}
-}
-ele.innerHTML = '<textarea rows=3 style="width:100%">'+linksArray.join('|')+'</textarea>'
-}
-</script>
-<style>
-#promo-box-preview {
-padding: 15px;
-}
-#promo-box-preview label {
-width: 120px;
-display: inline-block;
-}
-#promo-box-preview div {
-line-height: 1.7em;
-}
-#promo-box-preview select, #promo-box-preview input {
-width: 120px;
-}
-</style>
-<div style="text-align: center; background-color: #FFFFFF; font-size: 38px; margin: 20px;font-weight:bold;"><a title="预览Promo Box的效果" onclick="javascript:previewPromoBox();">预览Promo Box</a></div>
-<script type="text/javascript">
-function previewPromoBox() {
-var firstBanner = document.querySelector('[data-o-ads-name="banner1"]');
-var newNode = document.createElement('DIV');
-var formHTML = '<div><b>模拟各种会员身份：</b></div>';
-formHTML += '<div><label>Type: </label><select data-key="promoTarget" class="o-input-text"><option value="noneSubscriber">noneSubscriber</option><option value="standard" selected="">standard</option><option value="premium">premium</option></select></div>';
-formHTML += '<div><label>Source: </label><select data-key="SubscriberSource" class="o-input-text"><option value="2C" selected="">2C</option><option value="2B">2B</option><option value="All">All</option></select></div>';
-formHTML += '<div><label>Durtion: </label><select data-key="Duration" class="o-input-text"><option value=""></option><option value="yearly" selected="">yearly</option><option value="monthly">monthly</option></select></div>';
-formHTML += '<div><label>Platform: </label><select data-key="Platform" class="o-input-text"><option value="WebSite">Web Site</option><option value="iOSApp">iOS App</option><option value="AndroidApp">Android App</option></select></div>';
-formHTML += '<div><label>Expire: </label><input data-key="ExpireDate" type="text" value="" placeholder="YYYY-MM-DD"></div>';
-formHTML += '<div><label>Renewal: </label><select data-key="PendingRenewal" class="o-input-text"><option value="">No Matter</option><option value="On">On</option><option value="Off">Off</option></select></div>';
-formHTML += '<div><button onclick="refreshPromoBoxPreview();">Done</button></div>';
-formHTML = '<div style="padding: 15px;" id="promo-box-preview">' + formHTML + '</div>';
-newNode.innerHTML = formHTML;
-var existingPromoBoxPreview = document.getElementById('promo-box-preview');
-if (existingPromoBoxPreview) {
-existingPromoBoxPreview.parentNode.removeChild(existingPromoBoxPreview);
-}
-firstBanner.parentNode.insertBefore(newNode, firstBanner);
-window.scrollTo(0, 0);
-}
-function refreshPromoBoxPreview() {
-window.htmlClass = document.documentElement.className;
-window.htmlClass = window.htmlClass.replace(/\ is\-subscriber/g, '').replace(/\ is\-premium/g, '').replace(/\ is\-standard/g, '');
-var subscriptionType = document.querySelector('[data-key="promoTarget"]').value;
-if (subscriptionType === 'premium') {
-window.htmlClass += ' is-subscriber is-premium';
-subscriptionType = 'premium';
-} else if (subscriptionType === 'standard'){
-window.htmlClass += ' is-subscriber is-standard';
-subscriptionType = 'standard';
-}
-var ccode = (document.querySelector('[data-key="SubscriberSource"]').value === '2C') ? '00000000' : '7SXXXXX';
-var expireDateString = document.querySelector('[data-key="ExpireDate"]').value;
-var expireDate = Math.round((new Date(expireDateString + ' 00:00:00')).getTime() / 1000);
-var duration = document.querySelector('[data-key="Duration"]').value;
-var platform = document.querySelector('[data-key="Platform"]').value;
-var pendingRenewal = document.querySelector('[data-key="PendingRenewal"]').value;
-var xhr = new XMLHttpRequest();
-xhr.open('get', '/m/corp/partial.html?include=promoboxone&type=' + subscriptionType + '&expire=' + expireDate + '&ccode=' + ccode + '&duration=' + duration + '&platform=' + platform + '&pendingRenewal=' + pendingRenewal);
-xhr.setRequestHeader('Content-Type', 'application/text');
-xhr.onload = function() {
-if (xhr.status === 200) {
-var data = xhr.responseText;
-if (data !== '') {
-var promoboxContainer = document.getElementById('promo-box-container');
-if (promoboxContainer) {
-promoboxContainer.innerHTML = data;
-startCountdown(promoboxContainer, expireDate);
-//sendTracking(promoboxContainer);
-}
-}
-}
-};
-xhr.send(null);
-document.documentElement.className = window.htmlClass;
-}
-</script>
-</div>
 <img src='https://beacon.krxd.net/event.gif?event_id=KWA6DGT9&event_type=rtg' width=0 height=0 />
 <!-- The core Firebase JS SDK is always required and must be listed first -->
 <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-app.js"></script>
@@ -1290,6 +1016,11 @@ firebase.analytics();
 </div>
 </div>
 </div>
+
+
+
+
+
 
 
  </body>

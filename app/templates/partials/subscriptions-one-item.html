@@ -83,9 +83,14 @@
 <%/if%>
 
 <%assign var="vipClass" value=""%>
+<%assign var="lockClass" value=""%>
 <%if preg_match("/高端专享/is",$itemTagsString)%>
 	<%assign var="vipClass" value=" vip"%>
+	<%assign var="lockClass" value="unlocked"%>
 <%/if%>
+
+
+
 
 <%if $itemSubType != ""%>
 	<%assign var="subTypeData" value=" data-sub-type=\"`$itemSubType`\""%>
@@ -98,16 +103,16 @@
 	<%$eventInfoHTML%>
 <%/if%>
 
+
 <%$itemTop%>
 
 <%if $smarty.get.webview != "ftcapp" && $highlightFTAcademy == "top"%>
 	<%*<!--MARK: If the user is not using an app. Add the second condition to avoid unexpected outcome.  -->*%>
 	<div class="item-container <%$itemClass%>" <%$audioData%> data-keywords="<%$itemTagsString%>">
 		<div class="item-inner">
-			<%$itemMainTagLink%>
-			<h2 class="item-headline"><a href="/<%$itemType%>/<%$report.id%>" class="item-headline-link unlocked<%$vipClass%>" target=_blank><%$report.cheadline%></a></h2>
-			<a class="image" href="/<%$itemType%>/<%$report.id%>" target="_blank"><figure class="loading" data-url="<%$report.story_pic.cover|default:$report.story_pic.smallbutton|default:$report.story_pic.other|replace:"http://i.ftimg.net/picture/":"https://thumbor.ftacademy.cn/unsafe/picture/"%>"></figure></a>
-			<div class="item-lead"><a href="/<%$itemType%>/<%$report.id%>" target="_blank"><%$report.clongleadbody|default:$report.cshortleadbody%></a></div>
+			<h2 class="item-headline"><a href="/<%$itemType%>/<%$report.id%>" class="item-headline-link <%$lockClass%><%$vipClass%>" target=_blank><%$report.cheadline%></a></h2>
+			<a class="image" href="/<%$itemType%>/<%$report.id%>" target="_blank"><figure class="loading" data-url="<%$report.story_pic.cover|default:$report.story_pic.smallbutton|default:$report.story_pic.other|default:$report.story_pic.bigbutton|replace:"http://i.ftimg.net/picture/":"https://thumbor.ftacademy.cn/unsafe/picture/"%>"></figure></a>
+			<div class="item-lead"><%$report.clongleadbody|default:$report.cshortleadbody%></div>
 			<div class="item-bottom"></div>
 		</div>
 	</div>
@@ -140,7 +145,7 @@
 			<%$itemMainTagLink%>
 			<h2 class="item-headline"><a href="http://www.ftchinese.com/<%$itemType%>/<%$report.id%>?webview=ftcapp" class="item-headline-link unlocked<%$vipClass%>" target=_blank><%$report.cheadline%></a></h2>
 			<a class="image" href="http://www.ftchinese.com/<%$itemType%>/<%$report.id%>?webview=ftcapp"><figure class="loading" data-url="<%$report.story_pic.cover|default:$report.story_pic.smallbutton|default:$report.story_pic.other|replace:"http://i.ftimg.net/picture/":"https://thumbor.ftacademy.cn/unsafe/picture/"%>"></figure></a>
-			<div class="item-lead"><a href="http://www.ftchinese.com/<%$itemType%>/<%$report.id%>?webview=ftcapp"><%$report.clongleadbody|default:$report.cshortleadbody%></a></div>
+			<div class="item-lead"><%$report.clongleadbody|default:$report.cshortleadbody%></div>
 			<div class="item-bottom"></div>
 		</div>
 	</div>
