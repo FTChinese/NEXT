@@ -11,6 +11,63 @@ body {
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr;
+    .preview & {
+        display: none;
+    }
+}
+
+.preview-container {
+    height: 100vh;
+    width: 100vw;
+    overflow: scroll;
+    font-size: 1.2em;
+    .preview-content {
+        max-width: 768px;
+        margin: 15px auto;
+        padding-bottom: 60px;
+    }
+    p {
+        margin-bottom: 1em;
+    }
+    * {
+        line-height: 1.618em;
+    }
+}
+
+.replace-container {
+    height: $navHeight;
+    width: 100%;
+    position: absolute;
+    bottom: 80px;
+    left: 0;
+    right: 0;
+    display: none;
+    background-color: rgba($color: #000000, $alpha: 0.7);
+    color: white;
+    font-size: 1.2em;
+    .replace-content {
+        margin: $defaultPadding/4 auto 0 auto;
+        display: grid;
+        grid-template-columns: 200px 200px 180px;
+        justify-content: center;
+        column-gap: $defaultPadding;
+        input, button {
+            height: $navHeight;
+            font-size: 1.2em;
+            padding: 0 $defaultPadding/4;
+        }
+        button {
+            background: white;
+        }
+
+    }
+    * {
+        line-height: 1.618em;
+    }
+    .show-replace & {
+        display: block;
+    }
+
 }
 
 .body {
@@ -41,6 +98,9 @@ body {
     border-top: 1px solid #505050;
     padding: 15px 44px 15px 15px;
     cursor: pointer;
+    picture {
+        display: none;
+    }
 }
 #story-body-container p {
     padding-right: $navHeight;
@@ -76,6 +136,24 @@ p.chinese-translation {
 }
 .centerButton {
     padding-top: $navHeight/2;
+    &.bottom-button {
+        padding-top: 0;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        background-color: rgba($color: #000000, $alpha: 0.7);
+        .button {
+            width: 45%;
+            max-width: 280px;
+            margin: 15px;
+        }
+    }
+    .button {
+        max-width: 45%;
+    }
+}
+.story-body {
+    margin-bottom: 60px;
 }
 hr {
     width: 100%;

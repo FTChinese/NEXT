@@ -20,7 +20,6 @@
 		<%assign var="foundDomain" value="yes"%>
 	<%/if%>
 <%/foreach%>
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
 <head>
@@ -266,203 +265,7 @@ href="http://www.ftchinese.com" target="_blank"
 
 <%foreach from=$p.sections item=section%>
     <%if $section.type == "block"%>
-    	<%assign var="l" value=0%>
-        <%foreach from=$section.lists item=list%>
-        	<%if $list.title != ""%>
-	        	<tr><td class="ft-header-bar" style="color:#333333;background-color:#E9DECE;font-size:13px;font-weight:bold;padding:5px 17px 4px 17px;text-transform:uppercase;width:100%;"><%$list.title%></td></tr>
-				<tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
-			<%/if%>
-			<%if $list.description != ""%>
-	        	<tr><td  class="SContent cover" style="font-size:14px;line-height:23px;color:#505050;">&nbsp;&nbsp;<%$list.description%></td></tr>
-				<tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
-			<%/if%>
-			<tr><td style="font-size:14px;line-height:25px;color:#505050;padding-left:17px;padding-right:17px;" class="subhead textPadding lineH">
-
-			<%*<!--MARK: Support SQL-->*%>
-			<%assign var="feedTag" value=$list.feedTag%>
-			<%assign var="feedStart" value=$list.feedStart|default:0%>
-			<%assign var="feedItems" value=$list.feedItems%>
-			<%if $list.feedType == "myFT"%>
-				<%easyapi command="31005" assign="myftArrays" topnum=30%>
-				<%assign var="itemsArray" value=$myftArrays.odatalist%>
-			<%elseif $list.feedType == "hot"%>
-				<%assign var="itemsArray" value=$storymodel->get_hot_story(7,40,true)%>
-				<%assign var="feedType" value=$list.feedType%>
-			<%elseif $list.feedType == "myFTNew"%>
-				<%assign var="feedType" value=$list.feedType%>
-				<%assign var="itemsArray" value=$storymodel->get_content_by_field_search('1>0',$feedStart,$feedItems,999999999,10800)%>
-			<%elseif $list.feedType == "ftc_columns"%>
-				<%assign var="itemsArray" value=$storymodel->get_column_list("cn")%>
-				<%assign var="feedType" value="columns"%>
-			<%elseif $list.feedType == "ft_columns"%>
-				<%assign var="itemsArray" value=$storymodel->get_column_list("en")%>
-				<%assign var="feedType" value="columns"%>
-			<%elseif $list.items|@count==0 && $list.feedItems != "" && $list.feedItems != "0"%>
-				<%if preg_match("/like|find_in_set|=|\(| in /is",$feedTag)%>
-					<%if $list.feedType == "story"%>
-						<%assign var="feedType" value=$list.feedType%>
-						<%assign var="feedTag" value="(`$feedTag`) and eskylinetext not like '%低调%'"%>
-						<%assign var="itemsArray" value=$storymodel->get_story_by_field_search($feedTag,$feedStart,$feedItems,999999999,10800)%>
-					<%elseif $list.feedType == "interactive"%>
-						<%assign var="feedType" value=$list.feedType%>
-						<%assign var="itemsArray" value=$interactivemodel->get_interactive_by_field_search($feedTag,$feedStart,$feedItems,999999999,10800)%>
-					<%elseif $list.feedType == "video"%>
-						<%assign var="feedType" value=$list.feedType%>
-						<%assign var="itemsArray" value=$videomodel->get_video_by_field_search($feedTag,$feedStart,$feedItems,9999999999999,10800)%>
-					<%elseif $list.feedType == "photo"%>
-						<%assign var="feedType" value="photonews"%>
-						<%assign var="itemsArray" value=$photonewsmodel->get_photonews_by_field_search($feedTag,"ORDER BY photonewsid DESC",$feedItems)%>
-					<%/if%>
-				<%else%>
-					<%if $list.feedType == "story"%>
-						<%assign var="feedType" value=$list.feedType%>
-						<%assign var="itemsArray" value=$storymodel->get_story_by_tag($feedTag,$feedStart,$feedItems)%>
-					<%elseif $list.feedType == "interactive"%>
-						<%assign var="feedType" value=$list.feedType%>
-						<%assign var="interactiveFeedSQL" value="find_in_set('`$feedTag`', tag)"%>
-						<%assign var="itemsArray" value=$interactivemodel->get_interactive_by_field_search($interactiveFeedSQL,$feedStart,$feedItems,999999999,10800)%>
-						<%*<!--assign var="itemsArray" value=$interactivemodel->get_interactive_by_tag($feedTag, $feedItems)-->*%>
-					<%elseif $list.feedType == "video"%>
-						<%assign var="feedType" value=$list.feedType%>
-						<%if preg_match("/^[0-9]+$/is",$feedTag)%>
-							<%assign var="videoChannel" value=$feedTag%>
-							<%assign var="itemsArray" value=$videomodel->get_video_by_channel($videoChannel,$feedStart,$feedItems)%>
-						<%else%>
-							<%assign var="itemsArray" value=$videomodel->get_video_by_tag($feedTag,$feedStart,$feedItems)%>
-						<%/if%>
-					<%elseif $list.feedType == "photo"%>
-						<%assign var="feedType" value="photonews"%>
-						<%assign var="itemsArray" value=$photonewsmodel->get_photonews_by_tag($feedTag,0,$feedItems)%>
-					<%elseif $list.feedType == "premium"%>
-						<%*<!--Premium Content Should Display -->*%>
-						<%assign var="feedType" value=$list.feedType%>
-						<%assign var="itemsArray" value=$storymodel->getPremiumStory($feedStart, $feedItems)%>
-					<%elseif $list.feedType == "audiovideo"%>
-						<%assign var="feedType" value=$list.feedType%>
-						<%assign var="itemsArray" value=$videomodel->get_video_audio($feedStart,$list.feedItems,3000,10800)%>
-					<%else%>
-						<%assign var="feedType" value=$list.feedType%>
-						<%assign var="itemsArray" value=$storymodel->getContentByTag($feedTag,$feedItems)%>
-					<%/if%>
-				<%/if%>
-			<%else%>
-				<%assign var="feedType" value="manual"%>
-				<%assign var="itemsArray" value=$list.items%>
-			<%/if%>
-
-			<%assign var="i" value=0%>
-			<%foreach from=$itemsArray item=item%>
-				<%if $s == 0 && $l == 0 && $i ==0%>
-					<%assign var="imageWidth" value=414%>
-					<%assign var="imageHeight" value=233%>
-					<%assign var="imageClass" value=" class=\"coverImgLinkContain\""%>
-				<%else%>
-					<%assign var="imageWidth" value=167%>
-					<%assign var="imageHeight" value=96%>
-					<%assign var="imageClass" value=""%>
-				<%/if%>
-				<%assign var=ccodePara value=""%>
-				<%if $ccode != ""%>
-					<%assign var=ccodePara value="&ccode=`$ccode`"%>
-				<%/if%>
-				
-				<%assign var="itemType" value=$item.item_type|default:$item.type|default:$item.itemtype|default:$feedType%>
-				<%assign var="itemId" value=$item.id|default:$item.photonewsid%>
-				<%if $feedType == "all"%>
-					<%assign var="itemImage" value=$item.image.cover|default:$item.image.smallbutton|default:$item.image.other|default:$item.image.bigbutton%>
-				<%elseif $feedType == "photonews"%>
-					<%assign var="itemImage" value=$item.illustration|default:$item.cover|default:$item.thumb_url%>
-					<%if $itemImage != ""%>
-						<%assign var="itemImage" value="https://thumbor.ftacademy.cn/unsafe/`$itemImage`"%>
-					<%/if%>
-				<%else%>
-					<%assign var="itemImage" value=$item.image|default:$item.story_pic.cover|default:$item.story_pic.smallbutton|default:$item.story_pic.other|default:$item.story_pic.bigbutton%>
-				<%/if%>
-				<%assign var="itemHeadline" value=$item.headline|default:$item.cheadline|default:$item.cn_title%>
-				<%assign var=itemLink value="`$mainDomain``$itemType`/`$itemId`?s=w`$discountCode``$ccodePara`#s=w"%>
-				<%assign var=itemHref value=" href=\"`$itemLink`\""%>
-				<%if $itemId == ""%>
-					<%assign var=itemHref value=""%>
-				<%/if%>
-				<%if $list.preferLead === "none"%>
-					<%assign var="hideLead" value="yes"%>
-					<%assign var="itemLead" value=""%>
-				<%elseif $list.preferLead === "shortlead"%>
-					<%assign var="itemLead" value=$item.shortlead|default:$item.longlead|default:$item.cshortleadbody|default:$item.clongleadbody%>
-				<%else%>
-					<%assign var="itemLead" value=$item.longlead|default:$item.shortlead|default:$item.clongleadbody|default:$item.cshortleadbody%>
-				<%/if%>
-				<%if $list.ShowBodyMail == "yes"%>
-					<div style="line-height:1.618; " class="item-container">
-						<table width="100%" cellpadding="0" cellspacing="0" style="border-bottom:1px solid #E9DECF; line-height:1.618;">
-							<tr><td class="lineH1" style="height: 5px; font-size: 5px; line-height: 5px; padding: 0;"> </td></tr>
-							<tr>
-								<td class="SContent cover" style="font-size:18px;line-height:23px;color:#333333;">
-									<div class="lineH1_4" style="line-height:40px;font-size:25px;">
-										<a class="headLine" style="font-weight:bold; text-decoration:none; color:#111;" <%$itemHref%>><%$itemHeadline%></a>
-									</div>
-									<br>
-									<%if $itemImage != ""%>
-										<div>
-											<img src="<%$itemImage|replace:"/upload/":"/"%>" border="0"/>
-										</div>
-										<br>
-									<%/if%>
-									<%assign var="story" value=$storymodel->getStoryInfo($itemId)%>
-									<%assign var="storyAuthor" value="`$story.cbyline_description` `$story.cauthor`"%>
-									<div style="color: #505050;"><%$storyAuthor%></div>
-									<br>
-									<%assign var="storyBody" value=$story.cbody|regex_replace:"/<p>[_-]+<\/p>/":"<hr/><br/>"%>
-									<%$storyBody|nl2br%>
-									<br>
-								</td>
-							</tr>
-							<tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;"> </td></tr>
-						</table>
-					</div>
-				<%else%>
-					<div style="line-height:1.618; " class="item-container">
-						<table width="100%" cellpadding="0" cellspacing="0" style="border-bottom:1px solid #E9DECF; line-height:1.618;">
-							<tr><td class="lineH1" style="height: 5px; font-size: 5px; line-height: 5px; padding: 0;"> </td></tr>
-							<tr>
-								<td class="SContent cover" style="font-size:14px;line-height:23px;color:#505050;">
-									<div class="lineH1_4" style="line-height:40px;font-size:25px;">
-										<a class="headLine" style="font-weight:bold; text-decoration:none; color:#111;" <%$itemHref%>><%$itemHeadline%></a>
-									</div>
-									<%if $itemImage != ""%>
-										<table cellpadding="0" cellspacing="0" align="left"<%$imageClass%>>
-											<tr><td class="lineH1 imgSpace" style="height: 6px; font-size: 0px; line-height: 5px; padding: 0;"> </td></tr>
-											<tr>
-												<td>
-												<a class="coverImgLink" <%$itemHref%>>
-													<img src="https://thumbor.ftacademy.cn/unsafe/<%$imageWidth%>x<%$imageHeight%>/<%$itemImage|replace:"/upload/":"/"%>" border="0" style="width:<%$imageWidth%>px;" align="left" width="<%$imageWidth%>"/>
-												</a>
-												</td>
-												<td style="width:10px"> </td>
-											</tr>
-											<tr><td class="lineH1 imgSpace" style="height: 5px; font-size: 0px; line-height: 5px; padding: 0;"> </td></tr>
-										</table>
-									<%/if%>
-									<%$itemLead|nl2br%>
-								</td>
-							</tr>
-							<tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;"> </td></tr>
-						</table>
-					</div>
-				<%/if%>
-				<%if $s == 0 && $l == 0 && $i ==0 && $smarty.get.to != "vip" && $smarty.get.to != "iosapp" && $smarty.get.to != "noneiosapp"%>
-					<%assign var="adPositionCode" value="mpu-1"%>
-					<%assign var="adWrapper" value="weekly-1"%>
-					<%include file="next/partials/email-ad-tag.html"%>
-				<%/if%>
-				<%if $s == 0 && $l == 0 && $i==10 && 1>2%>
-					<%include file="email/284x90/code.html"%>
-				<%/if%>
-				<%assign var="i" value=$i+1%>
-			<%/foreach%>
-			</td></tr>
-			<%assign var="l" value=$l+1%>
-        <%/foreach%>
+		<%include file="next/partials/block_email.html"%>
         <%assign var="s" value=$s+1%>
     <%elseif $section.type == "MainMessage"%>
     	<%assign var=buttonUrl value=$section.buttonUrl%>
@@ -524,6 +327,9 @@ href="http://www.ftchinese.com" target="_blank"
 		<%assign var="s" value=$s+1%>
 	<%elseif $section.type == "FixedButtons" && ($smarty.get.to == "iosapp" || $smarty.get.to == "noneiosapp")%>
 		<%include file="next/partials/FixedButtons.html"%>
+		<%assign var="s" value=$s+1%>
+	<%elseif $section.type == "page"%>
+        <%include file="next/partials/page.html"%>
 		<%assign var="s" value=$s+1%>
     <%/if%>
 <%/foreach%>

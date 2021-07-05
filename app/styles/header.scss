@@ -18,7 +18,7 @@
 	background-size: auto $mastheadHeight;
 	background-repeat: no-repeat;
 	background-position: center;
-	background-image: url(https://dhgxl8qk9zgzr.cloudfront.net/images/masthead36.png);
+	background-image: $mastHead;
 	//background-image: url(https://next-geebee.ft.com/image/v1/images/raw/http%3A%2F%2Fnext-geebee.ft.com%2Fassets%2Ficons%2Fbrand-ft-masthead.svg?source=next&tint=%23FFFFFF,%23FFFFFF&format=svg);
 }
 .header-side {
@@ -31,7 +31,7 @@
 	font-size: 14px;
 	display: block;
 	a {
-		color: $whiteColor;
+		color: $headerColor;
 		height: 100%;
 		line-height: $headerHeight;
 		cursor: pointer;
@@ -52,7 +52,7 @@
 	    content: '';
 	    display: inline-block;
 	    margin-left: 10px;
-	    border-top: 8px solid #fff;
+	    border-top: 8px solid $headerColor;
 	    border-left: 6px solid transparent;
 	    border-right: 6px solid transparent;
 	}
@@ -66,7 +66,7 @@
 	&.on {
 		.current-edition {
 			position: absolute;
-			background-color: $lightGrey;
+			background-color: $headerTintLight;
 			height: auto;
 			//line-height: 140%;
 			left: -$defaultPadding/3;
@@ -154,7 +154,7 @@
 
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
 	.masthead {
-		background-image: url(https://dhgxl8qk9zgzr.cloudfront.net/images/masthead72.png);
+		background-image: $mastHead;
 	}
 }
 
@@ -162,9 +162,6 @@
 @media only screen and (-webkit-min-device-pixel-ratio: 2) and (max-width: 490px), 
         only screen and (min-resolution: 192dpi) and (max-width: 490px) {
 	.masthead {
-		background-image: url(https://dhgxl8qk9zgzr.cloudfront.net/images/masthead2.png);
+		background-image: $mastHead;
 	}
 }
-
-
-

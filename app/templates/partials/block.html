@@ -16,7 +16,7 @@
 	<%if $list.float === "left" || $list.float === "right" || $list.float === "SideBySide" || $list.float === "SplitList" || $list.float === "BiligualFullText"%>
 	<%assign var="listHasFloat" value="`$list.float`"%>
 	<%/if%>
-	<%if $list.type != "" && $list.type != "list" && $list.type != "listForImage"%>
+	<%if $list.type != "" && $list.type != "list" && $list.type != "listForImage" && $list.type != "listWithText"%>
 		<%assign var="sideListCount" value=$sideListCount+1%>
 	<%/if%>
 	<%if $list.type == "listForImage"%>
@@ -85,8 +85,9 @@
 		<%assign var="listLength" value=$section.lists|@count%>
 		<%assign var="foundConfirmForm" value="no"%>
 		<%foreach from=$section.lists item=list%>
-			<%if $list.float === "LargeCard"%>
+			<%if $list.float === "LargeCard" || $list.float === "GridCard"%>
 				<%*<!--MARK: - Start to use CSS grid for any new styles -->*%>
+				<!--List Grid: 1-->
 				<%include file="next/partials/ListGrid.html"%>
 			<%else%>
 				<%assign var="listType" value=""%>
@@ -288,8 +289,11 @@
 						<%/if%>
 						<%assign var="feedTag" value=$list.feedTag%>
 						
-
-						<%if $list.feedType == "myFT"%>
+						<%if $list.feedItems == "" || $list.feedItems == "0" || $list.feedItems == 0%>
+							<%*<!--MARK: - If feedItems is not set, no need to run sql request. -->*%>
+							<%assign var="feedType" value="manual"%>
+							<%assign var="itemsArray" value=$list.items%>
+						<%elseif $list.feedType == "myFT"%>
 							<%easyapi command="31005" assign="myftArrays" topnum=30%>
 							<%assign var="itemsArray" value=$myftArrays.odatalist%>
 						<%elseif $list.feedType == "hot"%>
@@ -297,7 +301,7 @@
 							<%assign var="feedType" value=$list.feedType%>
 						<%elseif $list.feedType == "myFTNew"%>
 							<%assign var="feedType" value=$list.feedType%>
-							<%assign var="itemsArray" value=$storymodel->get_content_by_field_search('1>0',$feedStart,$feedItems,999999999,10800)%>
+							<%assign var="itemsArray" value=$storymodel->get_content_by_field_search('1>0',$feedStart,$feedItems,600,10800)%>
 						<%elseif $list.feedType == "ftc_columns"%>
 							<%assign var="itemsArray" value=$storymodel->get_column_list("cn")%>
 							<%assign var="feedType" value="columns"%>
@@ -309,13 +313,13 @@
 								<%if $list.feedType == "story"%>
 									<%assign var="feedType" value=$list.feedType%>
 									<%assign var="feedTag" value="(`$feedTag`) and eskylinetext not like '%低调%'"%>
-									<%assign var="itemsArray" value=$storymodel->get_story_by_field_search($feedTag,$feedStart,$feedItems,999999999,10800)%>
+									<%assign var="itemsArray" value=$storymodel->get_story_by_field_search($feedTag,$feedStart,$feedItems,600,10800)%>
 								<%elseif $list.feedType == "interactive"%>
 									<%assign var="feedType" value=$list.feedType%>
-									<%assign var="itemsArray" value=$interactivemodel->get_interactive_by_field_search($feedTag,$feedStart,$feedItems,999999999,10800)%>
+									<%assign var="itemsArray" value=$interactivemodel->get_interactive_by_field_search($feedTag,$feedStart,$feedItems,600,10800)%>
 								<%elseif $list.feedType == "video"%>
 									<%assign var="feedType" value=$list.feedType%>
-									<%assign var="itemsArray" value=$videomodel->get_video_by_field_search($feedTag,$feedStart,$feedItems,9999999999999,10800)%>
+									<%assign var="itemsArray" value=$videomodel->get_video_by_field_search($feedTag,$feedStart,$feedItems,600,10800)%>
 								<%elseif $list.feedType == "photo"%>
 									<%assign var="feedType" value="photonews"%>
 									<%assign var="itemsArray" value=$photonewsmodel->get_photonews_by_field_search($feedTag,"ORDER BY photonewsid DESC",$feedItems)%>
@@ -327,8 +331,10 @@
 								<%elseif $list.feedType == "interactive"%>
 									<%assign var="feedType" value=$list.feedType%>
 									<%assign var="interactiveFeedSQL" value="find_in_set('`$feedTag`', tag)"%>
-									<%assign var="itemsArray" value=$interactivemodel->get_interactive_by_field_search($interactiveFeedSQL,$feedStart,$feedItems,999999999,10800)%>
-									<%*<!--assign var="itemsArray" value=$interactivemodel->get_interactive_by_tag($feedTag, $feedItems)-->*%>
+									<%assign var="itemsArray" value=$interactivemodel->get_interactive_by_field_search($interactiveFeedSQL,$feedStart,$feedItems,600,10800)%>
+								<%elseif $list.feedType == "aiaudio"%>
+									<%assign var="feedType" value=$list.feedType%>
+									<%assign var="itemsArray" value=$interactivemodel->get_ai_audios($list.language, $list.feedStart, $list.feedItems)%>
 								<%elseif $list.feedType == "video"%>
 									<%assign var="feedType" value=$list.feedType%>
 									<%if preg_match("/^[0-9]+$/is",$feedTag)%>
@@ -346,7 +352,7 @@
 									<%assign var="itemsArray" value=$storymodel->getPremiumStory($feedStart, $feedItems)%>
 								<%elseif $list.feedType == "audiovideo"%>
 									<%assign var="feedType" value=$list.feedType%>
-									<%assign var="itemsArray" value=$videomodel->get_video_audio($feedStart,$list.feedItems,3000,10800)%>
+									<%assign var="itemsArray" value=$videomodel->get_video_audio($feedStart,$list.feedItems,600,10800)%>
 								<%else%>
 									<%assign var="feedType" value=$list.feedType%>
 									<%*<!--MARK: - Note that getContentByTag's argument is different from other functions -->*%>
@@ -358,8 +364,25 @@
 							<%assign var="itemsArray" value=$list.items%>
 						<%/if%>
 
+
+						<%*<!--MARK: Highlight FT Academy-->*%>
+						<%if $b == 0 && $l == 0 && $highlightFTAcademy == "feed"%>
+							<%assign var="ftAcademyItems" value=$interactivemodel->get_interactive_by_field_search("find_in_set('FT商学院', tag)",0,1,2,10800)%>
+							<%php%>
+								$originalItems = $this->get_template_vars('itemsArray');
+								$insertedItems = $this->get_template_vars('ftAcademyItems');
+								if (count($originalItems) > 3 && count($insertedItems) > 0) {
+									foreach ($insertedItems as &$insertedItem) {
+										$insertedItem["type"] = 'interactive';
+									}
+									array_splice( $originalItems, 1, 0, $insertedItems);
+									$this->assign("itemsArray", $originalItems);
+								}
+							<%/php%>
+						<%/if%>
+
 						<%if $maxItems == 0 || $maxItems == ""%>
-							<%assign var="maxItems" value=999%>
+							<%assign var="maxItems" value=96%>
 						<%/if%>
 						<%assign var="i" value=0%>
 						<%if $feedRepeatCheck == "yes"%>
@@ -375,6 +398,7 @@
 									<%else%>
 										<%assign var="itemImage" value=$item.image|default:$item.story_pic.cover|default:$item.story_pic.smallbutton|default:$item.story_pic.other|default:$item.story_pic.bigbutton%>
 									<%/if%>
+									<%assign var="itemImage" value=$itemImage|replace:"http://i.ftimg.net/picture/":"https://thumbor.ftacademy.cn/unsafe/picture/"%>
 									<%assign var="itemId" value=$item.id|default:$item.photonewsid%>
 									<%if ($itemImage != "" || $feedImage != "necessary") && !in_array($itemId, explode(',',$itemIdsArray))%>
 										<%assign var="i" value=$i+1%>
@@ -394,7 +418,6 @@
 								<%/if%>
 							<%/foreach%>
 							<%assign var="listItemCount" value=$i%>
-							<!--listItemCount: <%$listItemCount%>, i: <%$i%>-->
 						<%/if%>
 						<%assign var="i" value=0%>
 
@@ -420,7 +443,7 @@
 						<%if $pageNumber > 1 && $feedType == "manual"%>
 							<%assign var="shouldShowListItems" value="no"%>
 						<%/if%>
-						
+
 						<%if $shouldShowListItems == "yes"%>
 							<%foreach from=$itemsArray item=item%>
 								<%assign var="itemHeadline" value=$item.headline|default:$item.cheadline|default:$item.cn_title%>
@@ -468,7 +491,9 @@
 								<%assign var="hasFoundSponsorInfo" value="no"%>
 								<%if $item.preferSponsorImage == "yes" && $itemMainTag != ""%>
 									<%assign var="pageIdForSponsorshipManagement" value="sponsorshipmanagement"%>
-									<%assign var="infoForSponsorships" value=$nextmodel->getPublishJson($pageIdForSponsorshipManagement)|json_decode:true%>
+									<%if $infoForSponsorships == ""%>
+										<%assign var="infoForSponsorships" value=$nextmodel->getPublishJson($pageIdForSponsorshipManagement)|json_decode:true%>
+									<%/if%>
 									<%assign var="foundSponsorTag" value="no"%>
 									<%foreach from=$infoForSponsorships.sections item=oneTag%>
 										<%if $foundSponsorTag == "no" && $oneTag.status == "on" && $oneTag.dates != "" && preg_match("/`$currentDate`/is",$oneTag.dates) && ($itemMainTag == $oneTag.tag || $itemMainTag == $oneTag.title) && $oneTag.imageHighlightBox != ""%>
@@ -490,9 +515,11 @@
 									<%/foreach%>
 								<%/if%>
 								<%if $hasFoundSponsorInfo == "no" && $itemMainTag != ""%>
-									<%assign var="infoForSponsorships" value=$nextmodel->getPublishJson("tagmanagement")|json_decode:true%>
+									<%if $infoForTagmanagement == ""%>
+										<%assign var="infoForTagmanagement" value=$nextmodel->getPublishJson("tagmanagement")|json_decode:true%>
+									<%/if%>
 									<%assign var="foundSponsorTag" value="no"%>
-									<%foreach from=$infoForSponsorships.sections item=oneTag%>
+									<%foreach from=$infoForTagmanagement.sections item=oneTag%>
 										<%if $foundSponsorTag == "no" && ($itemMainTag == $oneTag.tag || $itemMainTag == $oneTag.tag)%>
 											<%assign var="foundSponsorTag" value="yes"%>
 											<%if $oneTag.link != ""%>
@@ -507,7 +534,7 @@
 
 								<%*<!--
 								<%if $item.preferSponsorImage == "yes" && $itemMainTag != ""%>
-									<%assign var="tagInteractive" value=$interactivemodel->get_interactive_by_field_search("find_in_set('特别报导',tag) and (cshortleadbody = '`$itemMainTag`' or cheadline = '`$itemMainTag`' or find_in_set('`$itemMainTag`',tag))",0,1,999999999,10800)%>
+									<%assign var="tagInteractive" value=$interactivemodel->get_interactive_by_field_search("find_in_set('特别报导',tag) and (cshortleadbody = '`$itemMainTag`' or cheadline = '`$itemMainTag`' or find_in_set('`$itemMainTag`',tag))",0,1,600,10800)%>
 									<%if $tagInteractive|@count >0%>
 										<%assign var="tagImage" value=$tagInteractive[0].story_pic.cover%>
 										<%if $tagInteractive[0].cskylinetext != ""%>
@@ -549,6 +576,7 @@
 								<%else%>
 									<%assign var="itemImage" value=$item.image|default:$item.story_pic.cover|default:$item.story_pic.smallbutton|default:$item.story_pic.other|default:$item.story_pic.bigbutton%>
 								<%/if%>
+								<%assign var="itemImage" value=$itemImage|replace:"http://i.ftimg.net/picture/":"https://thumbor.ftacademy.cn/unsafe/picture/"%>
 								<%assign var="itemId" value=$item.id|default:$item.photonewsid%>
 
 								<%*<!--
@@ -569,6 +597,8 @@
 									<%assign var="itemType" value=$item.item_type|default:$item.type|default:$item.itemtype|default:$feedType%>
 									<%if $itemType == "photo"%>
 										<%assign var="itemType" value="photonews"%>
+									<%elseif $itemType == "aiaudio"%>
+										<%assign var="itemType" value="interactive"%>
 									<%elseif preg_match("/accessright/is",$list.feedTag) || ($itemType == "story" && $item.accessright > 0)%>
 										<%*<!--MARK: - If your sql search has accessright, it means you are searching for paid content only.  -->*%>
 										<%assign var="itemType" value="premium"%>
@@ -613,7 +643,7 @@
 										<%/if%>
 									<%elseif $list.float === "myFT"%>
 										<%assign var="hideImage" value="yes"%>
-										<%assign var="XL" value="one-row"%>
+										<%assign var="XL" value=""%>
 										<%assign var="itemTopClass" value="XLT LT ST MT PT"%>
 									<%elseif $list.float === "Headshot" ||  $list.float === "HeadshotSquare"%>
 										<%assign var="XL" value="one-row headshot-lead"%>
@@ -1224,6 +1254,8 @@
 											<%assign var="itemSubType" value="speedreading"%>
 										<%elseif preg_match("/电台|音频/is",$itemTagsString) %>
 											<%assign var="itemSubType" value="radio"%>
+										<%elseif preg_match("/双语阅读/is",$itemTagsString) %>
+											<%assign var="itemSubType" value="bilingual"%>
 										<%elseif preg_match("/数据新闻/is",$itemTagsString) %>
 											<%assign var="itemSubType" value="datanews"%>
 										<%elseif preg_match("/深度阅读/is",$itemTagsString) %>
@@ -1238,7 +1270,17 @@
 									<%/if%>
 
 									<%if $smarty.get.webview == "ftcapp"%>
-										<%if preg_match("/.mp3$/is",$item.shortlead) || preg_match("/.mp3$/is",$item.cshortleadbody)%>
+										<%if preg_match("/双语电台/is",$itemTagsString)%>
+											<%if preg_match("/en|ce/is",$listLanguage) && preg_match("/.mp3$/is",$item.eshortleadbody)%>
+												<%assign var="audioUrl" value=$item.eshortleadbody%>
+												<%assign var="itemSubType" value="bilingual_audio_english"%>
+											<%elseif preg_match("/.mp3$/is",$item.cshortleadbody)%>
+												<%assign var="audioUrl" value=$item.cshortleadbody%>
+												<%assign var="itemSubType" value="bilingual_audio_chinese"%>
+											<%/if%>
+											<%*<!--MARK: - Pass the data-language parameter to native app -->*%>
+											<%assign var="audioData" value=" data-audio=\"`$audioUrl`\""%>
+										<%elseif preg_match("/.mp3$/is",$item.shortlead) || preg_match("/.mp3$/is",$item.cshortleadbody)%>
 											<%assign var="audioUrl" value=$item.shortlead|default:$item.cshortleadbody%>
 											<%assign var="audioData" value=" data-audio=\"`$audioUrl`\""%>
 										<%else%>
@@ -1297,19 +1339,29 @@
 											<%assign var="itemDataType" value="TryBook"%>
 											<%assign var="lockClass" value="locked"%>
 										<%/if%>
+
 										<%assign var="itemData" value=" data-id=\"`$itemDataId`\" data-type=\"`$itemDataType`\"`$audioData``$caudioData``$eaudioData``$subTypeData``$dateData` data-keywords=\"`$itemTagsString`\""%>
-										<%if $itemDataId != "" && $itemDataType != "" && $itemDataType != "manual" && $useCorpToRenderStory != "yes"%>
+
+										<%*<!--MARK: - Some time the ad sales requested to extend the home page just to squeeze in more ads. There's nothing we can do about it. But to minimize the damage by not prefetch stories of the extended parts.  -->*%>
+										<%assign var="isExtendedStoryOnHome" value="no"%>
+										<%if $pageId == "home" && $b >= 1 && ($itemType == "story" || $itemType == "premium")%>
+											<%assign var="isExtendedStoryOnHome" value="yes"%>
+										<%/if%>
+										<%*<!--page id: <%$pageId%>, b: <%$b%>, maxB: <%$maxB%>, isExtendedStoryOnHome: <%$isExtendedStoryOnHome%>, version: 7-->*%>
+										<%if $itemDataId == "" || $itemDataType == "manual" || $isExtendedStoryOnHome == "yes"%>
+											<%assign var="itemData" value=""%>
+										<%/if%>
+
+										<%if $itemDataId != "" && $itemDataType != "" && $itemDataType != "manual" && $useCorpToRenderStory != "yes" && $isExtendedStoryOnHome == "no"%>
 											<%assign var="itemClass" value="`$itemClass` item-container-app"%>
 										<%/if%>
 										<%*<!-- MARK: Show full text for premium content for internal use only!  -->*%>
 										<%if $smarty.get.showfulltext == "yes"%>
-											<!--showfull text is yes-->
 											<%assign var="itemLink" value=" href=\"/`$itemType`/`$itemId`?webview=ftcapp&screencapture=yes&ad=no\""%>
 										<%/if%>
 
-										<%if $itemDataId == "" || $itemDataType == "manual"%>
-											<%assign var="itemData" value=""%>
-										<%/if%>
+										
+
 
 
 										<%*<!-- check user corp: <%$useCorpToRenderStory%>, item type: <%$itemType%>-->*%>
@@ -1826,13 +1878,13 @@
 							<%if preg_match("/like|find_in_set|=|\(| in /is",$list.feedTag)%>
 								<%if $list.feedType == "story"%>
 									<%assign var="feedType" value=$list.feedType%>
-									<%assign var="itemsArray" value=$storymodel->get_story_by_field_search($list.feedTag,0,$list.feedItems,999999999,10800)%>
+									<%assign var="itemsArray" value=$storymodel->get_story_by_field_search($list.feedTag,0,$list.feedItems,600,10800)%>
 								<%elseif $list.feedType == "interactive"%>
 									<%assign var="feedType" value=$list.feedType%>
-									<%assign var="itemsArray" value=$interactivemodel->get_interactive_by_field_search($list.feedTag,0,$list.feedItems,999999999,10800)%>
+									<%assign var="itemsArray" value=$interactivemodel->get_interactive_by_field_search($list.feedTag,0,$list.feedItems,600,10800)%>
 								<%elseif $list.feedType == "video"%>
 									<%assign var="feedType" value=$list.feedType%>
-									<%assign var="itemsArray" value=$videomodel->get_video_by_field_search($list.feedTag,0,$list.feedItems,9999999999999,10800)%>
+									<%assign var="itemsArray" value=$videomodel->get_video_by_field_search($list.feedTag,0,$list.feedItems,600,10800)%>
 								<%elseif $list.feedType == "photo"%>
 									<%assign var="feedType" value="photonews"%>
 									<%assign var="itemsArray" value=$photonewsmodel->get_photonews_by_field_search($list.feedTag,"ORDER BY photonewsid DESC",$list.feedItems)%>
@@ -1852,6 +1904,9 @@
 								<%elseif $list.feedType == "interactive"%>
 									<%assign var="feedType" value=$list.feedType%>
 									<%assign var="itemsArray" value=$interactivemodel->get_interactive_by_tag($list.feedTag, $list.feedItems)%>
+								<%elseif $list.feedType == "aiaudio"%>
+									<%assign var="feedType" value=$list.feedType%>
+									<%assign var="itemsArray" value=$interactivemodel->get_ai_audios($list.language, $list.feedStart, $list.feedItems)%>
 								<%elseif $list.feedType == "video"%>
 									<%assign var="feedType" value=$list.feedType%>
 									<%assign var="itemsArray" value=$videomodel->get_video_by_tag($list.feedTag,0,$list.feedItems)%>
@@ -1890,6 +1945,7 @@
 							<%else%>
 								<%assign var="itemImage" value=$item.image|default:$item.story_pic.cover|default:$item.story_pic.smallbutton|default:$item.story_pic.other|default:$item.story_pic.bigbutton%>
 							<%/if%>
+							<%assign var="itemImage" value=$itemImage|replace:"http://i.ftimg.net/picture/":"https://thumbor.ftacademy.cn/unsafe/picture/"%>
 							<%assign var="itemType" value=$item.type|default:$feedType%>
 							<%if $itemType == "photo"%>
 								<%assign var="itemType" value="photonews"%>
@@ -1967,7 +2023,7 @@
 									<%if $itemImage != "" && $hasImage === "has-image"%><a class="image" target="_blank"<%$itemLink%>><figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure></a><%/if%>
 									<%if $itemHeadline != ""%>
 										<h2 class="item-headline"><%$itemTag%><a target="_blank" class="<%$lockClass%>" <%$itemLink%>><%$itemHeadline%></a></h2>
-									<%/if%>	
+									<%/if%>
 									<div class="item-lead item-description"><%$itemLead|nl2br%></div>
 								<%elseif $list.sideOption == "originalImage"%>
 									<style>

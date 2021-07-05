@@ -458,6 +458,17 @@ function checkLogin() {
             eles3[l].style.display = 'block';
         }        
     }
+    // MARK: - This only applies to iOS app
+    var wechatFTCBindingEle = document.getElementById('wechat-ftc-binding');
+    if (wechatFTCBindingEle && typeof window.userId === 'string' && window.userId.indexOf('ogfvw') === 0 && GetCookie('WX_UNION_ID') === null) {
+        wechatFTCBindingEle.className = 'button ui-light-btn wechat-binding';
+        wechatFTCBindingEle.innerHTML = '绑定邮箱';
+    }
+    var phoneFTCBindingEle = document.getElementById('phone-ftc-binding');
+    if (phoneFTCBindingEle && typeof window.userId === 'string' && window.userId.indexOf('phone') === 0) {
+        phoneFTCBindingEle.className = 'button ui-light-btn phone-binding';
+        phoneFTCBindingEle.innerHTML = '绑定邮箱';
+    }
     passLoginToNative();
 }
 

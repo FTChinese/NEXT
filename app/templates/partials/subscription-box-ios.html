@@ -1,3 +1,4 @@
+<!--MARK: - This version of smarty doesn't support global scoop for included files. So When price is changed, you need to replicate this. -->
 <%assign var=standardPriceValue value="298"%>
 <%assign var=premiumPriceValue value="1,998"%>
 <%assign var=standardPrice value="¥`$standardPriceValue`/年"%>
@@ -39,6 +40,17 @@
 <%assign var=standardPriceValue value=$standardPriceValue|replace:",":""%>
 <%assign var=premiumPriceValue value=$premiumPriceValue|replace:",":""%>
 
+
+<%assign var="standardOfferPara" value=""%>
+<%assign var="premiumOfferPara" value=""%>
+<%if $standardOfferId != ""%>
+  <%assign var="standardOfferPara" value="&offer=`$standardOfferId`"%>
+<%/if%>
+<%if $premiumOfferId != ""%>
+  <%assign var="premiumOfferPara" value="&offer=`$premiumOfferId`"%>
+<%/if%>
+
+
 <style><%include file="next/styles/main-subscription-box-ios.css"%></style>
 <div id="site-content" class="o-member-container">
   <%*<!-- MARK: - Removed because not necessary
@@ -61,7 +73,7 @@
             </ul>
             <p style="padding: 0.5em 1em 0em 1.5em;">注：所有活动门票不可折算现金、不能转让、不含差旅与食宿</p>
             <div class="o-member__subscribe">
-              <a href="subscribe://premium/<%$premiumPriceValue%>?offer=<%$premiumOfferId%>&ccode=<%$ccode%>"><button class="openSub" id="premium-btn" data-offer-id="<%$premiumOfferId%>">立即订阅</button></a>
+              <a href="subscribe://premium/<%$premiumPriceValue%>?ccode=<%$ccode%><%$premiumOfferPara%>"><button class="openSub" id="premium-btn" data-offer-id="<%$premiumOfferId%>">立即订阅</button></a>
               <p class="data-price" id="premium_price"><%$premiumPrice%></p>
             </div>
           </div>
@@ -82,7 +94,7 @@
               <li> 无限浏览2日前所有历史文章（近9万篇）</li>
             </ul>
             <div class="o-member__subscribe">
-              <a href="subscribe://standard/<%$standardPriceValue%>?offer=<%$standardOfferId%>&ccode=<%$ccode%>"><button class="openSub" id="standard-btn" data-offer-id="<%$standardOfferId%>">立即订阅</button></a>
+              <a href="subscribe://standard/<%$standardPriceValue%>?ccode=<%$ccode%><%$standardOfferPara%>"><button class="openSub" id="standard-btn" data-offer-id="<%$standardOfferId%>">立即订阅</button></a>
               <p class="data-price" id="standard_price"><%$standardPrice%></p>
             </div>
           </div>

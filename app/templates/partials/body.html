@@ -9,7 +9,7 @@
 <%if $smarty.get.maxB != ""%>
     <%assign var="maxB" value=$smarty.get.maxB|intval%>
 <%/if%>
-<%if $maxB == 1 && date("Ymd",$smarty.now) < 20210211%>
+<%if $maxB == 1 && date("Ymd",$smarty.now) < 20210401%>
     <%assign var="maxB" value=4%>
 <%/if%>
 <%assign var="premiumContentIds" value="0000"%>
@@ -35,7 +35,9 @@
         <%if $section.showLogin == "no"%>
             <%assign var="showLogin" value="no"%>
         <%/if%>
-        <%if $pageId != "" && $pageId != "home"%>
+        <%if $p.meta.theme == "partner_content"%>
+            <%include file="next/partials/header.html"%>
+        <%elseif $pageId != "" && $pageId != "home"%>
             <%include file="next/partials/tag-header.html"%>
         <%else%>
             <%include file="next/partials/header.html"%>
@@ -71,21 +73,15 @@
     <%elseif $section.type == "block"%>
         <%if $b < $maxB%>
             <%if $b == 0%>
-                <%*<!--MARK: Smarty 2 doesn't support global scoop in included files. -->*%>
-                <%if $supportSubscriptionUpgradePromo == "yes"%>
-                    <%if $smarty.get.subscription == "member" || $smarty.get.subscription == "premium"%>
-                        
-                    <%/if%>
-                <%/if%>
                 <%*<!--MARK: Show a My Subsciption Block for paid subscribers in apps -->*%>
-                <%if $smarty.get.subscription == "member" || $smarty.get.subscription == "premium" || $smarty.get.subscription == "other"%>
+                <%if $smarty.get.subscription == "member" || $smarty.get.subscription == "premium"%>
                     <%assign var="reports" value=$storymodel->getPremiumStory(0, 4)%>
-
                     <%assign var="interactives" value=""%>
                     <%if $smarty.get.subscription == "premium"%>
-                        <%assign var="interactives" value=$interactivemodel->get_interactive_by_field_search("(find_in_set('速读',tag) or find_in_set('英语电台',tag) or find_in_set('高端专享', tag))",0,4,30,10800)%>
+                        <%assign var="premiumSearch" value="(find_in_set('速读',tag) or find_in_set('英语电台',tag) or (find_in_set('高端专享', tag) and find_in_set('FT商学院', tag) and !find_in_set('双语电台', tag)))"%>
+                        <%assign var="interactives" value=$interactivemodel->get_interactive_by_field_search($premiumSearch,0,4,7,10800)%>
                     <%else%>
-                        <%assign var="interactives" value=$interactivemodel->get_interactive_by_field_search("(find_in_set('速读',tag) or find_in_set('英语电台',tag))",0,4,30,10800)%>
+                        <%assign var="interactives" value=$interactivemodel->get_interactive_by_field_search("(find_in_set('速读',tag) or find_in_set('英语电台',tag))",0,4,7,10800)%>
                     <%/if%>
                     <%if $subscriptionsWarningsShowed != "yes"%>
                         <%include file="next/partials/subscriptions-warnings.html"%>
@@ -156,6 +152,35 @@
                         </div>
                     </div>
                     <%assign var="i" value=0%>
+                <%elseif $highlightFTAcademy == "top"%>
+                    <%assign var="interactives" value=$interactivemodel->get_interactive_by_field_search("find_in_set('FT商学院',tag)",0,4,5,10800)%>
+                    <div class="block-container no-side">
+                        <div class="block-inner">
+                            <div class="content-container">
+                                <div class="content-inner">
+                                    <div class="list-container">
+                                        <div class="list-inner">
+                                            <h2 class="list-title"><a class="list-link" href="/channel/mba.html">FT商学院</a></h2>
+                                            <div class="items">
+                                                <%assign var="i" value=0%>
+                                                <%foreach from=$interactives item="report"%>
+                                                    <%assign var="itemType" value="interactive"%>
+                                                    <%include file="next/partials/subscriptions-one-item.html"%>
+                                                    <%assign var="premiumContentIds" value="`$premiumContentIds`,`$report.id`"%>
+                                                    <%assign var="i" value=$i+1%>
+                                                <%/foreach%>
+                                                <div class="clearfloat"></div>
+                                            </div>
+                                            <h2 class="list-title"><a class="list-link">今日焦点</a></h2>
+                                        </div>
+                                    </div>
+                                    <div class="clearfloat block-bottom"></div>
+                                </div>
+                            </div>
+                            <div class="clearfloat"></div>
+                        </div>
+                    </div>
+                    <%assign var="i" value=0%>
                 <%else%>
                     <%if $subscriptionsWarningsShowed != "yes"%>
                         <%include file="next/partials/subscriptions-web.html"%>
@@ -174,6 +199,12 @@
         <%/if%>
     <%elseif $section.type == "footer"%>
         <%include file="next/partials/footer.html"%>
+    <%elseif $section.type == "partnerBanner"%>
+        <%include file="next/partials/partner-banner.html"%>
+    <%elseif $section.type == "hero"%>
+        <%include file="next/partials/hero.html"%>
+    <%elseif $section.type == "SeamlessFrame"%>
+        <%include file="next/partials/seamless-frame.html"%>
     <%elseif $section.type == "FixedButtons"%>
         <%include file="next/partials/FixedButtons.html"%>
     <%elseif $section.type == "page"%>
@@ -256,7 +287,8 @@
 
 
 <%*<!--MARK: Check the next model tag for sponsored special reports start-->*%>
-<%if $infoForSponsorships != "" && $infoForBrandSafety != "" && $currentDate != ""%>
+<%*<!--MARK: This should only be displayed when user is visiting an app home or channel page. -->*%>
+<%if $infoForSponsorships != "" && $infoForBrandSafety != "" && $currentDate != "" && $smarty.get.webview == "ftcapp"%>
   <%foreach from=$infoForSponsorships.sections item=section%>
     <%if $section.status == "on" && (($section.dates != "" && preg_match("/`$currentDate`/is",$section.dates)) || ($section.dates == "" && $section.placeholder == "yes")) && $section.zone != "" && ($section.tag != "" || $section.storyKeyWords != "")%>
         <%*<!--MARK: Only match sections that have either tag or storyKeyWords-->*%>

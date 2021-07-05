@@ -1,38 +1,38 @@
-
 <%assign var="showNavigation" value="yes"%>
 <%assign var="requirelogin" value=""%>
 <%if $pageId == ""%>
     <%*<!--MARK: - Two Sponsored Special Mini-Sites/Reports-->*%>
     <%if $smarty.server.HTTP_HOST=="www.lunchwithft.com"%>
         <%assign var="pageId" value="lunchwiththeft"%>
-        <%assign var="showNavigation" value="no"%>
         <%assign var="requirelogin" value="no"%>
     <%elseif $smarty.server.HTTP_HOST=="www.leshangavenue.com"%>
         <%assign var="pageId" value="pursuit"%>
-        <%assign var="showNavigation" value="no"%>
         <%assign var="requirelogin" value="no"%>       
     <%elseif $smarty.server.HTTP_HOST=="www.ftchineselive.com"%>
         <%assign var="pageId" value="events"%>
-        <%assign var="showNavigation" value="no"%>
         <%assign var="requirelogin" value="no"%>      
     <%elseif $smarty.server.HTTP_HOST=="www.ftchinesemember.com"%>
         <%assign var="pageId" value="memberclub"%>
-        <%assign var="showNavigation" value="no"%>
         <%assign var="requirelogin" value="no"%>      
     <%else%>
         <%assign var="pageId" value="home"%>
     <%/if%>
 <%/if%>
 
-<%*<!--MARK: event pages don't need the overlay-->*%>
-<%if preg_match("/rewired|event/is",$pageId) %>
+<%*<!--MARK: - hide navigations for all these domains-->*%>
+<%if $smarty.server.HTTP_HOST=="www.ftchinesemember.com" || $smarty.server.HTTP_HOST=="www.lunchwithft.com" || $smarty.server.HTTP_HOST=="www.leshangavenue.com" || $smarty.server.HTTP_HOST=="www.ftchineselive.com"%>
+    <%assign var="showNavigation" value="no"%>
+<%/if%>
+
+<%*<!--MARK: - event pages don't need the overlay-->*%>
+<%if preg_match("/rewired|event|Age_of_Longevity/is",$pageId) %>
     <%assign var="requirelogin" value="no"%>
 <%/if%>
 
 <%assign var="p" value=$nextmodel->getPublishJson($pageId)|json_decode:true%>
 
 
-<%*<!--MARK: This has to be replicated to multiple templates as this version of smarty doesn't support global scoop in included file-->*%>
+<%*<!--MARK: - This has to be replicated to multiple templates as this version of smarty doesn't support global scoop in included file-->*%>
 <%if $topnav == ""%>
     <%if $p.meta.topnav != ""%>
         <%assign var="topnav" value=$p.meta.topnav%>
@@ -54,6 +54,7 @@
     <%assign var="thirdnav" value=$p.meta.thirdnav%>
 <%/if%>
 <%*<!--MARK: End-->*%>
+
 
 <%if $storymodel != ""%>
     <%assign var=whitelist value=$storymodel->getWhitelistTag()%>
@@ -89,7 +90,6 @@
     <%if $v <= 119%>
         <style>.block-image-container {padding: 0;}</style>
     <%/if%>
-
 <%elseif $smarty.get.android != ""%>
     <%*<!-- MARK: android app -->*%>
     <%assign var="androidVersionCode" value=$smarty.get.android|floatval%>
@@ -100,6 +100,16 @@
         <%assign var="supportSubscriptionPromoBox" value="yes"%>
     <%/if%>
 <%/if%>
+
+<%*<!--MARK: Highlight FT Academy-->*%>
+<%if $p.meta.HighlightFTAcademy == "yes" && $smarty.get.subscription != "premium"%>
+    <%if (date("w", $smarty.now) != 0 && date("w", $smarty.now) != 6) || $smarty.get.subscription == "member"%>
+        <%assign var="highlightFTAcademy" value="feed"%>
+    <%else%>
+        <%assign var="highlightFTAcademy" value="top"%>
+    <%/if%>
+<%/if%>
+
 
 <%if $smarty.get.eventinfo == "yes"%>
     <%assign var="supportEventInfoFlow" value="yes"%>
@@ -279,7 +289,6 @@
     <%/foreach%>
 <%/if%>
 
-
 <%if $smarty.get.bodyonly != "yes"%>
     <!DOCTYPE html>
     <html class="no-js core<%if $smarty.get.webview == "ftcapp"%> is-ftc-app<%/if%><%if $smarty.get.device == "iPad"%> is-ipad-app<%/if%>" data-next-app="front-page">
@@ -333,6 +342,8 @@
                 <style><%include file="next/styles/main-technology.css"%></style>
             <%elseif $p.meta.theme == "education"%>
                 <style><%include file="next/styles/main-education.css"%></style>
+            <%elseif $p.meta.theme == "partner_content"%>
+                <style><%include file="next/styles/main-partner-content.css"%></style>
             <%elseif $p.meta.theme == "lifestyle"%>
                 <style><%include file="next/styles/main-lifestyle.css"%></style>
             <%elseif $p.meta.theme == "partner_content"%>
@@ -375,11 +386,10 @@
             <meta property="og:description" content="<%$p.meta.description%>" />
         </head>
         <body>
-            <!-- test -->
             <script>checkB();</script>
             <%include file="next/partials/wechat-icon.html"%>
             <%if $pageId == "home"%>
-            <script>var gPageId = 'home';</script>
+                <script>var gPageId = 'home';</script>
                 <%if $smarty.get.ad != 'no'%>
                     <div
                     data-o-ads-name="fullscreen-pc"
@@ -439,6 +449,23 @@
                     </script>
                 <%/if%>
             <%/if%>
+            
+            <%*<!--MARK: - IE fallback for grid card start -->*%>
+            <%assign var="hasGridCard" value="no"%>
+            <%foreach from=$p.sections item=section%>
+                <%if $section.type == "block" && $hasGridCard == "no"%>
+                    <%foreach from=$section.lists item=list%>
+                        <%if $list.float == "GridCard"%>
+                            <%assign var="hasGridCard" value="yes"%>
+                        <%/if%>
+                    <%/foreach%>
+                <%/if%>
+            <%/foreach%>
+            <%if $hasGridCard == "yes"%>
+                <script type="text/javascript"><%include file="next/scripts/main-ie-grid-polyfill.js"%></script>
+            <%/if%>
+            <%*<!--MARK: - IE fallback for grid card end -->*%>
+
         </body>
     </html>
 <%else%>

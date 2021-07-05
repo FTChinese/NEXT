@@ -213,27 +213,24 @@ function loadImages() {
       }
     }
 
+
+
     if (imageUrl.indexOf(imageServiceHost) >= 0) {
       // MARK: If the url is already an FT Image Service url
       imageUrl = imageUrl.replace(imageServiceHost, '').replace(/\?.*$/g, '');
       imageUrl = decodeURIComponent(imageUrl);
     } else if (imageUrl.indexOf(imageServiceHostFTC) >= 0) {
       // MARK: If the url is already an FTC Image Service url
-      imageUrl = imageUrl.replace(imageServiceHostFTC, '').replace(/^[0-9x]+\//g, '').replace(/^(picture)/g, ftcStaticServer + '$1');
+      imageUrl = imageUrl.replace(imageServiceHostFTC, '')
+        .replace(/^[0-9x]+\//g, '')
+        .replace(/^(picture)/g, ftcStaticServer + '$1');
+      
     }
-
     if (/brand/.test(figureParentClass)) {
       fitType = 'contain';
     }
     imageUrlBack = encodeURIComponent(imageUrl);
-
-
-    if (imageUrl.indexOf('https://thumbor.ftacademy.cn/unsafe/') === 0) {
-      imageUrlPart = imageUrl.replace('https://thumbor.ftacademy.cn/unsafe/', '');
-    } else {
-      imageUrlPart = imageUrl;
-    }
-
+    imageUrlPart = imageUrl.replace(/^(https:\/\/thumbor\.ftacademy\.cn\/unsafe\/)|(http:\/\/i\.ftimg\.net\/)/g, '');
     if (/sponsor|logo/.test(figureClass)) {
       imageUrl = imageServiceHostFTC + '0x' + imageHeight + '/' + imageUrlPart;
       imageUrlBack = imageServiceHost + imageUrlBack + '?source=ftchinese&height=' + imageHeight + '&fit=' + fitType + '&from=next001';
@@ -243,11 +240,9 @@ function loadImages() {
       imageUrlBack = imageServiceHost + imageUrlBack + '?source=ftchinese&width=' + imageWidth + '&height=' + imageHeight + '&fit=' + fitType + '&from=next001';
       shouldLoadImage = true;
     }
-
     if (window.gNoImageWithData === 'On' && window.gConnectionType === 'data') {
       shouldLoadImage = false;
     }
-
     // MARK: If the image doesn't even exist, it should not be loaded
     if (imageExists === false) {
       //console.log ('the image does not exist! ')

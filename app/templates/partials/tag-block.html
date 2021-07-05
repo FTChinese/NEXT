@@ -824,6 +824,8 @@
 						<%if $itemType == "interactive"%>
 							<%if preg_match("/速读/is",$itemTagsString) %>
 								<%assign var="itemSubType" value="speedreading"%>
+							<%elseif preg_match("/双语阅读/is",$itemTagsString) %>
+								<%assign var="itemSubType" value="bilingual"%>
 							<%elseif preg_match("/电台|音频/is",$itemTagsString) %>
 								<%assign var="itemSubType" value="radio"%>
 							<%elseif preg_match("/数据新闻/is",$itemTagsString) %>

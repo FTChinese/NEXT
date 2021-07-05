@@ -13,22 +13,45 @@
                         <div class="list-inner">
                             <h2 class="list-title"><a class="list-link" href="/m/marketing/home.html">市场活动</a></h2>
                             <div class="items">
+                                <%assign var="totalItems" value=0%>
+                                <%foreach from=$infoForSponsorships.sections item=report%>
+                                <%if $i<4 && $report.status == "on" && (($report.dates != "" && preg_match("/`$currentDate`/is",$report.dates)) || ($report.dates == "" && $report.placeholder == "yes"))  && $report.imageHighlightBox != "" && ($report.link != "" || $report.tag != "")%>
+                                    <%assign var="totalItems" value=$totalItems+1%>
+                                <%/if%>
+                                <%/foreach%>
+                                <!--total items 1: <%$totalItems%>-->
+                                
                                 <%assign var="i" value=0%>
                                 <%foreach from=$infoForSponsorships.sections item=report%>
                                     <%if $i<4 && $report.status == "on" && (($report.dates != "" && preg_match("/`$currentDate`/is",$report.dates)) || ($report.dates == "" && $report.placeholder == "yes"))  && $report.imageHighlightBox != "" && ($report.link != "" || $report.tag != "")%>
                                         <%assign var="itemTopClass" value=""%>
                                         <%assign var="itemTop" value=""%>
-                                        <%if $i%4 === 0%>
-                                            <%assign var="itemTopClass" value="XLT"%>
-                                        <%/if%>
-                                        <%if $i%2 === 0%>
+
+                                        <%if $totalItems == 3%>
+                                            <%if $i%3 === 0%>
+                                                <%assign var="itemTopClass" value="XLT"%>
+                                            <%/if%>
                                             <%assign var="itemTopClass" value="`$itemTopClass` ST PT"%>
+                                            <%assign var="XL" value="XL4"%>
+                                            <%assign var="L" value="L4"%>
+                                            <%assign var="M" value="M4"%>
+                                            <%assign var="S" value="S12"%>
+                                            <%assign var="P" value="P12"%>
+                                        <%else%>
+                                            <%if $i%4 === 0%>
+                                                <%assign var="itemTopClass" value="XLT"%>
+                                            <%/if%>
+                                            <%if $i%2 === 0%>
+                                                <%assign var="itemTopClass" value="`$itemTopClass` ST PT"%>
+                                            <%/if%>
+                                            <%assign var="XL" value="XL3"%>
+                                            <%assign var="L" value="L3"%>
+                                            <%assign var="M" value="M3"%>
+                                            <%assign var="S" value="S6"%>
+                                            <%assign var="P" value="P6"%>
                                         <%/if%>
-                                        <%assign var="XL" value="XL3"%>
-                                        <%assign var="L" value="L3"%>
-                                        <%assign var="M" value="M3"%>
-                                        <%assign var="S" value="S6"%>
-                                        <%assign var="P" value="P6"%>
+
+
                                         <%assign var="itemClass" value="`$XL` `$L` `$M` `$S` `$P`"%>
                                         <%if $report.PromoId != ""%>
                                             <%assign var="itemClass" value="`$itemClass` n-internal-promo"%>

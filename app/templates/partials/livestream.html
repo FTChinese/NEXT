@@ -1,7 +1,13 @@
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-
+<!--Play Background: 1, image: <%$storyImage%>-->
+<style>
+    .live-player {
+        background-size: cover;
+        background-position: center;
+    }
+</style>
 <div class="video-player" target="_blank" id="video-player"><div class="video-player-inner broadcast-inner">
-    <div id="livePlayer" class="live-player">
+    <div id="livePlayer" class="live-player" style="background-image: url(<%$storyImage%>);">
         <video id="video" controls></video>
     </div>
 </div></div>

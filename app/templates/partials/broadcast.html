@@ -1,13 +1,19 @@
 <%*<!--MARK: Check paywall status, if not allowed, show nothing here -->*%>
 <script src="//view.csslcloud.net/js/jquery-1.9.0.min.js" type="text/javascript"></script>
-<script src="//view.csslcloud.net/js/sdk/3.4.0/liveSDK.js" type="text/javascript"></script>
+<script src="//view.csslcloud.net/js/sdk/3.6.0/liveSDK.js" type="text/javascript"></script>
 
 
 <!-- pay wall: <%$paywall%> -->
-
+<!--Play Background: 1, image: <%$storyImage%>-->
+<style>
+    .live-player {
+        background-size: cover;
+        background-position: center;
+    }
+</style>
 
 <div class="video-player" target="_blank" id="video-player"><div class="video-player-inner broadcast-inner">
-    <div id="livePlayer" class="live-player"></div>
+    <div id="livePlayer" class="live-player" style="background-image: url(<%$storyImage%>);"></div>
 </div></div>
 
 <div id="drawPanel"></div>
@@ -125,7 +131,8 @@ $(function(){
 
     $(".setsound").click(function(){
        DWLive.setSound(0.5);  // 设置音量(0-1)
-    })
-})
+    });
+
+});
 
 </script>

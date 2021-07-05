@@ -63,7 +63,7 @@ function passLoginToNative() {
                 
             }
             //var mainDomain = document.domain.replace(/^[^.]+/g, '');
-            console.log ('save User expire: ' + userInfo.expire); 
+            // console.log ('save User expire: ' + userInfo.expire); 
             SetCookie('paywall_expire',userInfo.expire,86400*100,'/');
             SetCookie('paywall',message.paywall,86400*100,'/');
             SetCookie('paywall_source',message.source,86400*100,'/');
