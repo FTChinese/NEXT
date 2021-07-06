@@ -52,7 +52,7 @@
 			<ul class="top10">
 			<%assign var="i" value=0%>
 			<%assign var="sqlString" value="find_in_set('`$themeTag`', tag) and id != '`$itemId`'"%>
-			<%assign var="mp" value=$storymodel->get_content_by_field_search($sqlString,0,10,999999999,10800)%>			
+			<%assign var="mp" value=$storymodel->get_content_by_field_search($sqlString,0,10,400,10800)%>			
 			<%foreach from=$mp item=sc%>
 				<%assign var="i" value=$i+1%>
 				<li class="mp<%$i%>"><a target="_blank" href="/<%$sc.item_type%>/<%$sc.id%>"><%$sc.cheadline%></a></li>
