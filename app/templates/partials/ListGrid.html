@@ -7,7 +7,7 @@
             <%assign var="feedImage" value="necessary"%>
         <%/if%>
         <%assign var="feedRepeatCheck" value="yes"%>
-        <%assign var="feedItems" value=$list.feedItems*4%>
+        <%assign var="feedItems" value=$list.feedItems%>
     <%else%>
         <%assign var="feedImage" value="optional"%>
         <%assign var="feedRepeatCheck" value="no"%>
@@ -46,7 +46,7 @@
         <%elseif $list.feedType == "interactive"%>
             <%assign var="feedType" value=$list.feedType%>
             <%assign var="interactiveFeedSQL" value="find_in_set('`$feedTag`', tag)"%>
-            <%assign var="itemsArray" value=$interactivemodel->get_interactive_by_field_search($interactiveFeedSQL,$feedStart,$feedItems,600,10800)%>
+            <%assign var="itemsArray" value=$interactivemodel->get_interactive_by_field_search($interactiveFeedSQL,$feedStart,$feedItems,600,10800)%>            
         <%elseif $list.feedType == "aiaudio"%>
             <%assign var="feedType" value=$list.feedType%>
             <%assign var="itemsArray" value=$interactivemodel->get_ai_audios($list.language, $list.feedStart, $list.feedItems)%>
