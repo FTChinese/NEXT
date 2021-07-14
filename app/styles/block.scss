@@ -481,11 +481,20 @@ a.read-more, .story-body a.read-more {
 	}
 }
 
+$gridCellWidth: 310px;
+
 .card-grid {
 	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
-	grid-template-rows: repeat(auto-fill, minmax(310px, 1fr));
+	grid-template-columns: repeat(auto-fill, minmax($gridCellWidth, 1fr));
+	grid-template-rows: repeat(auto-fill, minmax($gridCellWidth, 1fr));
 	.item-container {
+		&.right-column {
+			grid-column-start: -2;
+			grid-row-start: 2;
+			.top10 {
+				padding: 0;
+			}
+		}
 		.item-headline {
 			font-size: 1.2em;
 		}

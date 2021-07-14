@@ -78,7 +78,7 @@
                     <%assign var="reports" value=$storymodel->getPremiumStory(0, 4)%>
                     <%assign var="interactives" value=""%>
                     <%if $smarty.get.subscription == "premium"%>
-                        <%assign var="premiumSearch" value="(find_in_set('速读',tag) or find_in_set('英语电台',tag) or (find_in_set('高端专享', tag) and find_in_set('FT商学院', tag) and !find_in_set('双语电台', tag)))"%>
+                        <%assign var="premiumSearch" value="(find_in_set('速读',tag) or find_in_set('英语电台',tag) or (find_in_set('高端专享', tag) and find_in_set('FT商学院', tag) and !find_in_set('双语电台', tag)))"%>                        
                         <%assign var="interactives" value=$interactivemodel->get_interactive_by_field_search($premiumSearch,0,4,7,10800)%>
                     <%else%>
                         <%assign var="interactives" value=$interactivemodel->get_interactive_by_field_search("(find_in_set('速读',tag) or find_in_set('英语电台',tag))",0,4,7,10800)%>

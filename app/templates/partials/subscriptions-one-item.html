@@ -78,7 +78,9 @@
 <%/if%>
 
 <%*<!--MARK: - Most bilingual interactive articles have FT商学院 in the tag. But FT商学院 might not be a bilingual subtype. So infoForManualTags won't be able to come up with the bilingual subtype. -->*%>
-<%if preg_match("/双语阅读/is",$itemTagsString)%>
+<%if preg_match("/原声视频/is",$itemTagsString)%>
+	<%assign var="itemSubType" value=""%>
+<%elseif preg_match("/双语阅读/is",$itemTagsString)%>
 	<%assign var="itemSubType" value="bilingual"%>
 <%/if%>
 
@@ -91,11 +93,9 @@
 
 
 
-
+<%assign var="subTypeData" value=""%>
 <%if $itemSubType != ""%>
-	<%assign var="subTypeData" value=" data-sub-type=\"`$itemSubType`\""%>
-<%else%>
-	<%assign var="subTypeData" value=""%>
+	<%assign var="subTypeData" value=" data-sub-type=\"`$itemSubType`\""%>	
 <%/if%>
 
 
