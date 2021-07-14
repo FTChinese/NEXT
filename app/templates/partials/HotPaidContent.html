@@ -1,0 +1,6 @@
+<div class="side-container"><div class="side-inner">
+	<%assign var="HotPaidContents" value=$interactivemodel->get_interactive_by_field_search("find_in_set('HotPaidContent', tag)",0,1,7,10800)%>
+	<%if count($HotPaidContents) > 0 %>
+		<%$HotPaidContents[0].cbody%>
+	<%/if%>
+</div></div>
