@@ -2,25 +2,25 @@
 <%assign var="feedType" value="manual"%>
 <%assign var="itemsArray" value=$list.items%>
 <%if $list.items|@count==0 && $list.feedItems != "" && $list.feedItems != "0"%>
-    <%if preg_match("/all|story|interactive|photo|video|premium/is",$list.feedType) && $list.items|@count==0%>
-        <%if $list.feedImage == "necessary"%>
-            <%assign var="feedImage" value="necessary"%>
-        <%/if%>
-        <%assign var="feedRepeatCheck" value="yes"%>
-        <%assign var="feedItems" value=$list.feedItems%>
-    <%else%>
-        <%assign var="feedImage" value="optional"%>
-        <%assign var="feedRepeatCheck" value="no"%>
-        <%assign var="feedItems" value=$list.feedItems%>
-    <%/if%>
-    
-    <%assign var="actualFeedItems" value=$list.feedItems%>
+    <%assign var="feedItems" value=$list.feedItems%>
     <%assign var="feedStart" value=$list.feedStart|default:0%>
     <%assign var="pageNumber" value=$smarty.get.p%>
     <%if $pageNumber > 1%>
         <%assign var="feedStart" value=$pageNumber-1%>
-        <%if $actualFeedItems > 0%>
-            <%assign var="feedStart" value=$feedStart*$actualFeedItems%>
+        <%if $feedItems > 0%>
+            <%assign var="feedStart" value=$feedStart*$feedItems%>
+        <%/if%>
+    <%/if%>
+    <%*<!--MARK: - If there's an insert, the insert only appears on first page-->*%>
+    <%assign var="insertItemCount" value=0%>
+    <%if $list.Insert != ''%>
+        <%assign var="insertItemCount" value=2%>
+    <%/if%>
+    <%if $insertItemCount > 0%>
+        <%if $pageNumber > 1%>
+            <%assign var="feedStart" value=$feedStart-$insertItemCount%>
+        <%else%>
+            <%assign var="feedItems" value=$feedItems-$insertItemCount%>
         <%/if%>
     <%/if%>
     <%assign var="feedTag" value=$list.feedTag%>
@@ -461,4 +461,19 @@
         </div></div>
 
     <%/foreach%>
+
+    <%*<!--MARK: - Display the inserted Item -->*%>
+    <%if $insertItemCount > 0 && ($pageNumber <= 1 || $pageNumber == "")%>
+        <%assign var="insertedItems" value=$interactivemodel->get_interactive_by_field_search("find_in_set('`$list.Insert`', tag)",0,1,7,10800)%>
+        <%foreach from=$insertedItems item=item%>
+            <div class="item-container white no-image right-column"><div class="item-inner">
+                <div class="item-title"><%$item.cheadline%></div>
+                <%if $smarty.get.webview == "ftcapp"%>
+                    <%$item.ebody%>
+                <%else%>
+                    <%$item.cbody%>
+                <%/if%>
+            </div></div>
+        <%/foreach%>
+    <%/if%>
 </div>
