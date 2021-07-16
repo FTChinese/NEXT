@@ -200,26 +200,12 @@ function isEditorChoiceChannel(){
   return isEditorChoiceChannel;
 }
 
-// MARK: - 过滤出包含locked的item-headline数组
-function getPayStory(className){
-  var itemHeadline = document.querySelectorAll('.item-headline');
-  var getPayHeadline = [];
-  // 循环itemHeadline长度数量
-  for (var i = 0; i < itemHeadline.length; i++) {
-        var childNodes = itemHeadline[i].children;
-        // 循环childNodes长度数量
-        for (var j = 0; j < childNodes.length; j++) {
-          if (hasClass(childNodes[j],className)){
-            getPayHeadline.push(childNodes[j]);
-          }
-        }
-  }
-  // console.log('getPayHeadline len:'+getPayHeadline.length);
-  return getPayHeadline;
+function getPaidItems(className){
+  return document.querySelectorAll('.item-headline .' + className + ', .item-headline-link.' + className);
 }
 
 function updateLockClass(){
-  var getPayHeadline = getPayStory('locked');
+  var getPayHeadline = getPaidItems('locked');
   if (getPayHeadline.length>0){
     for (var k = 0; k < getPayHeadline.length; k++) {
       removeClass(getPayHeadline[k], 'locked');
@@ -229,7 +215,7 @@ function updateLockClass(){
 }
 
 function updateUnlockClass(){
-    var getPayHeadline = getPayStory('unlocked');
+    var getPayHeadline = getPaidItems('unlocked');
     if (getPayHeadline.length>0){
       for (var k = 0; k < getPayHeadline.length; k++) {
         removeClass(getPayHeadline[k], 'unlocked');
@@ -246,13 +232,13 @@ function hasClass(ele, cls) {
     return new RegExp(' ' + cls + ' ').test(' ' + ele.className + ' ');
   }
 }
- 
+
 function addClass(ele, cls) {
   if (!hasClass(ele, cls)) {
     ele.className = ele.className === '' ? cls : ele.className + ' ' + cls;
   }
 }
- 
+
 function removeClass(ele, cls) {
   if (hasClass(ele, cls)) {
     var newClass = ' ' + ele.className.replace(/[\t\r\n]/g, '') + ' ';
@@ -263,31 +249,12 @@ function removeClass(ele, cls) {
   }
 }
 
-// 过滤出包含a的子节点，然后用过滤出的节点增加class
-// function getHeadlineA(ele,clsName){
-//     var childNodes = ele.children;   //HTMLCollection
-//     for (let i = 0; i < childNodes.length; i++) {
-//       if (childNodes[i].tagName.toLowerCase()==='a'){
-//         addClass(childNodes[i], clsName);
-//       }
-//     } 
-// }
-
 function showPaywallHint(){
-  // var parameter = window.location.search.substr(1);
   var subscribeNowContainerId = document.getElementById('paywall-hint-container');
   if(subscribeNowContainerId){
-      // if (parameter==='paywall=1'){
-      //     subscribeNowContainerId.style.display = 'block';
-      // }else{
-      //     subscribeNowContainerId.style.display = 'none';
-      // }
-
       var paywallOverlayShadow = document.getElementById('paywall-overlay-shadow');
       var paywallHintContainer = document.getElementById('paywall-hint-container');
-
       paywallOverlayShadow.onclick = function(){
-          // paywallHintContainer.innerHTML = '';
           paywallHintContainer.style.display = 'none';
       };
   }
