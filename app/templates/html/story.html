@@ -1342,13 +1342,18 @@
 	<%assign var="storyLead" value="<div class=\"story-lead\">`$storyLead`</div>"%>
 <%/if%>
 
-<%assign var=pubDate value=$story.pubdate|default:$fileupdatetime%>
+<%assign var=pubDate value=$story.pubdate|default:$pubdate|default:$fileupdatetime%>
 <%assign var=lastPublish value=$story.last_publish_time|default:$fileupdatetime%>
-
 
 <%if $lastPublish > $pubDate%>
 	<%assign var="timeForStory" value=$lastPublish%>
-	<%assign var="timeStatus" value="更新于"%>
+	<%if $lastPublish - $pubDate > 86400%>
+		<%assign var="timeStatus" value="更新于"%>
+		<%assign var="pubDateStamp" value=$pubDate|date_format:"%Y年%-m月%-d日"%>
+		<%assign var="timeStatus" value="发布于`$pubDateStamp` 更新于"%>
+	<%else%>
+		<%assign var="timeStatus" value="更新于"%>
+	<%/if%>
 <%else%>
 	<%assign var="timeForStory" value=$pubDate%>
 	<%assign var="timeStatus" value="发布于"%>

@@ -1227,7 +1227,7 @@ initProgressCircle();
       var hour = (pad + theDate.getHours()).slice(-pad.length);
       var minute = (pad + theDate.getMinutes()).slice(-pad.length);
       if (ele.className === 'story-time') {
-        var prefix = (currentTime.indexOf('更新于') === 0) ? '更新于' : '发布于';
+        var prefix = (currentTime.indexOf('更新于') >= 0) ? currentTime.replace(/(更新于).*$/g, '$1') : '发布于';
         newTime = prefix + year + '年' + month + '月' + day + '日' + ' ' + hour + ':' + minute;
       } else if (timeDiff < 60 * 60) {
         var minutes = Math.floor(timeDiff / 60);
