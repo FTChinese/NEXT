@@ -82,6 +82,8 @@
 	<%assign var="itemSubType" value=""%>
 <%elseif preg_match("/双语阅读/is",$itemTagsString)%>
 	<%assign var="itemSubType" value="bilingual"%>
+<%elseif preg_match("/MBA训练营|教程/is",$itemTagsString) %>
+	<%assign var="itemSubType" value="mbagym"%>
 <%/if%>
 
 <%assign var="vipClass" value=""%>
@@ -104,14 +106,18 @@
 <%/if%>
 
 
+<%assign var="itemLink" value=" href=\"/`$itemType`/`$report.id`\""%>
+
+
+
 <%$itemTop%>
 
 <%if $smarty.get.webview != "ftcapp" && $highlightFTAcademy == "top"%>
 	<%*<!--MARK: If the user is not using an app. Add the second condition to avoid unexpected outcome.  -->*%>
 	<div class="item-container <%$itemClass%>" <%$audioData%> data-keywords="<%$itemTagsString%>">
 		<div class="item-inner">
-			<h2 class="item-headline"><a href="/<%$itemType%>/<%$report.id%>" class="item-headline-link <%$lockClass%><%$vipClass%>" target=_blank><%$report.cheadline%></a></h2>
-			<a class="image" href="/<%$itemType%>/<%$report.id%>" target="_blank"><figure class="loading" data-url="<%$report.story_pic.cover|default:$report.story_pic.smallbutton|default:$report.story_pic.other|default:$report.story_pic.bigbutton|replace:"http://i.ftimg.net/picture/":"https://thumbor.ftacademy.cn/unsafe/picture/"%>"></figure></a>
+			<h2 class="item-headline"><a<%$itemLink%> class="item-headline-link <%$lockClass%><%$vipClass%>" target=_blank><%$report.cheadline%></a></h2>
+			<a class="image"<%$itemLink%> target="_blank"><figure class="loading" data-url="<%$report.story_pic.cover|default:$report.story_pic.smallbutton|default:$report.story_pic.other|default:$report.story_pic.bigbutton|replace:"http://i.ftimg.net/picture/":"https://thumbor.ftacademy.cn/unsafe/picture/"%>"></figure></a>
 			<div class="item-lead"><%$report.clongleadbody|default:$report.cshortleadbody%></div>
 			<div class="item-bottom"></div>
 		</div>
@@ -129,11 +135,20 @@
 	</div>
 <%elseif $supportBackgroundDowndingWhenBlocked == "yes" || $smarty.get.isBG == ""%>
 	<%*<!--MARK: If the user is using a normal launch or if his/her app version is at least 7.6, give him the normal page. -->*%>
-	<div class="item-container item-container-app <%$itemClass%>" data-id="<%$report.id%>" data-type="<%$itemType%>"<%$audioData%><%$subTypeData%> data-keywords="<%$itemTagsString%>">
+	<%*<!--MARK: - Fix FTC Android App bug start-->*%>
+	<assign var="itemClass" value="item-container-app `$itemClass`"%>
+	<%assign var=itemLink value=""%>
+	<%if $displayMBAGymWithCorp == "yes" && $itemSubType == "mbagym"%>
+		<%assign var=itemLink value=" href=\"/m/corp/interactive.html?id=`$report.id`\""%>
+		<%assign var=itemData value=""%>
+		<%assign var=itemClass value=$itemClass|replace:"item-container-app":""%>
+	<%/if%>
+	<%*<!--MARK: - Fix FTC Android App bug end-->*%>
+	<div class="item-container <%$itemClass%>" data-id="<%$report.id%>" data-type="<%$itemType%>"<%$audioData%><%$subTypeData%> data-keywords="<%$itemTagsString%>">
 	    <div class="item-inner">
 	    	<%$itemMainTagLink%>
-	        <h2 class="item-headline"><a class="item-headline-link unlocked<%$vipClass%>" target=_blank><%$report.cheadline%></a></h2>
-	        <a class="image"><figure class="loading" data-url="<%$report.story_pic.cover|default:$report.story_pic.smallbutton|default:$report.story_pic.bigbutton|default:$report.story_pic.other|replace:"http://i.ftimg.net/picture/":"https://thumbor.ftacademy.cn/unsafe/picture/"%>"></figure></a>
+	        <h2 class="item-headline"><a <%$itemLink%> class="item-headline-link unlocked<%$vipClass%>" target=_blank><%$report.cheadline%></a></h2>
+	        <a <%$itemLink%> class="image"><figure class="loading" data-url="<%$report.story_pic.cover|default:$report.story_pic.smallbutton|default:$report.story_pic.bigbutton|default:$report.story_pic.other|replace:"http://i.ftimg.net/picture/":"https://thumbor.ftacademy.cn/unsafe/picture/"%>"></figure></a>
 	        <div class="item-lead"><%$itemLead%></div>
 	        <div class="item-bottom"></div>
 	    </div>

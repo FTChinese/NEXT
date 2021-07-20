@@ -62,6 +62,7 @@
 
 
 <%*<!-- MARK: Set features based on iOS and Android app version number -->*%>
+<%assign var="displayMBAGymWithCorp" value="no"%>
 <%if $smarty.get.v != ""%>
     <%*<!-- MARK: iOS app -->*%>
     <%assign var="v" value=$smarty.get.v|floatval%>
@@ -99,11 +100,16 @@
     <%if $androidVersionCode >= 1%>
         <%assign var="supportSubscriptionPromoBox" value="yes"%>
     <%/if%>
+    <%if $androidVersionCode <= 64%>
+        <%assign var="displayMBAGymWithCorp" value="yes"%>
+    <%/if%>
 <%/if%>
 
 <%*<!--MARK: Highlight FT Academy-->*%>
 <%if $p.meta.HighlightFTAcademy == "yes" && $smarty.get.subscription != "premium"%>
-    <%if (date("w", $smarty.now) != 0 && date("w", $smarty.now) != 6) || $smarty.get.subscription == "member"%>
+    <%if $smarty.get.highlightFTAcademy == "top"%>
+        <%assign var="highlightFTAcademy" value="top"%>
+    <%elseif (date("w", $smarty.now) != 0 && date("w", $smarty.now) != 6) || $smarty.get.subscription == "member"%>
         <%assign var="highlightFTAcademy" value="feed"%>
     <%else%>
         <%assign var="highlightFTAcademy" value="top"%>

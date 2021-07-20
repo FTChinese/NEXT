@@ -137,6 +137,7 @@
 <%*<!--MARK: - Render the items-->*%>
 <div class="<%$gridClass%>">
     <%foreach from=$itemsArray item=item%>
+        <%assign var=itemId value=$item.id%>
         <%assign var=itemType value=$item.type%>
         <%assign var=itemImage value=$item.image%>
         <%assign var=imageClass value=""%>
@@ -441,6 +442,14 @@
             <%assign var=itemLink value=" href=\"`$itemLink`\""%>
         <%/if%>
         <%*<!--MARK: - Handle item link end-->*%>
+
+        <%*<!--MARK: - Fix FTC Android App bug start-->*%>
+        <%if $displayMBAGymWithCorp == "yes" && $itemSubType == "mbagym"%>
+            <%assign var=itemLink value=" href=\"/m/corp/interactive.html?id=`$itemId`\""%>
+            <%assign var=itemData value=""%>
+            <%assign var=itemClass value=$itemClass|replace:"item-container-app":""%>
+        <%/if%>
+        <%*<!--MARK: - Fix FTC Android App bug end-->*%>
 
 
         <div class="item-container <%$itemClass%>"<%$itemData%>><div class="item-inner">

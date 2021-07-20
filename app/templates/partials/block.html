@@ -1391,6 +1391,16 @@
 										<%assign var="itemLink" value=" href=\"https://backyard.ftchinese.com/falcon.php/story/edit/`$itemId`\""%>
 									<%/if%>
 
+
+									<%*<!--MARK: - Fix FTC Android App bug start-->*%>
+									<%if $displayMBAGymWithCorp == "yes" && $itemSubType == "mbagym"%>
+										<%assign var=itemLink value=" href=\"/m/corp/interactive.html?id=`$itemId`\""%>
+										<%assign var=itemImageLink value=$itemLink%>
+										<%assign var=itemData value=""%>
+										<%assign var=itemClass value=$itemClass|replace:"item-container-app":""%>
+									<%/if%>
+									<%*<!--MARK: - Fix FTC Android App bug end-->*%>
+
 									<%if $listType == "videos" && $i>5%>
 										<%*<!--Only display first 6 in video package-->*%>
 									<%elseif $list.float === "ScoreBoard"%>
