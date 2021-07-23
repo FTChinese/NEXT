@@ -46,6 +46,9 @@
               <button class="n-button-inner skip-button" id="skip-button" onclick="skipContactInfo()"><%$list.SkipButton%></button>
             </div>
             <%/if%>
+            <%if $smarty.get.android != "" && 1<0%>
+              <div id="android-debug-info">Android Debug Info...</div>
+            <%/if%>
 					</div>
 				</div>
 			</div>
@@ -378,9 +381,30 @@
       }
     }
 
+    function testAndroid() {
+      setTimeout(function(){
+        var androidDebugEle = document.getElementById('android-debug-info');
+        if (!androidDebugEle) {return;}
+        var debugInfo = window.location.href;
+        var userId = GetCookie('USER_ID') || 'No User Id';
+        debugInfo += '<br>Id: ' + userId + '<br>';
+        if (window.androidUserInfo) {
+          try {
+            debugInfo += JSON.stringify(androidUserInfo);
+          } catch(err) {
+            debugInfo += err.toString();
+          }
+        } else {
+          debugInfo += 'No Android Info';
+        }
+        androidDebugEle.innerHTML = debugInfo;
+      }, 10000);
+    }
+
     kickStart();
 
     gtag('event', 'Show', {'event_label': userId, 'event_category': 'ContactInfo', 'non_interaction': true});
 
+    testAndroid();
 
 </script>
