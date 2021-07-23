@@ -1514,7 +1514,7 @@
 											<%assign var="videoIdIndex" value=$videoIdIndex+1 %>
 										<%/if%>
 										<%*<!-- Real Item of Block -->*%>
-										<div class="item-container <%$itemClass%> <%$hasImage%>"<%$itemData%>><div class="item-inner">
+										<div class="item-container <%$itemClass%> <%$hasImage%>"<%$itemData%> data-update="<%$itemT%>"><div class="item-inner">
 											<h2 class="item-headline"><%$itemTag%><a target="_blank"<%$itemLink%> class="item-headline-link <%$lockClass%>"><%$itemHeadline%></a></h2>
 											<%if $item.relatives|@count > 0 && $item.relatives[0].type == "video" &&  $item.preferSponsorImage != "yes"%>
 												<div class="image">

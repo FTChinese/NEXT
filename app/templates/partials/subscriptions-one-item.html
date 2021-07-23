@@ -136,7 +136,7 @@
 <%elseif $supportBackgroundDowndingWhenBlocked == "yes" || $smarty.get.isBG == ""%>
 	<%*<!--MARK: If the user is using a normal launch or if his/her app version is at least 7.6, give him the normal page. -->*%>
 	<%*<!--MARK: - Fix FTC Android App bug start-->*%>
-	<assign var="itemClass" value="item-container-app `$itemClass`"%>
+	<%assign var="itemClass" value="item-container-app `$itemClass`"%>
 	<%assign var=itemLink value=""%>
 	<%if $displayMBAGymWithCorp == "yes" && $itemSubType == "mbagym"%>
 		<%assign var=itemLink value=" href=\"/m/corp/interactive.html?id=`$report.id`\""%>

@@ -39,11 +39,11 @@
               请您阅读我们的<a href="/m/corp/service.html" target="_blank">用户注册协议</a>和<a href="/m/corp/service.html#privacy" target="_blank">隐私权保护政策</a>，点击下方按钮即视为您接受。
             </div>
 						<div class="center n-button-container">
-							<button class="n-button-inner subscription-button" id="subscription-button">确认并提交</button>
+							<button class="n-button-inner subscription-button" id="subscription-button" onclick="submitContactInfo()">确认并提交</button>
 						</div>
-            <%if $v >= "125"%>
+            <%if $list.SkipButton != "" && ($v >= "125" || $v == "")%>
             <div class="center n-button-container">
-              <button class="n-button-inner later-button" id="later-button">以后再说</button>
+              <button class="n-button-inner skip-button" id="skip-button" onclick="skipContactInfo()"><%$list.SkipButton%></button>
             </div>
             <%/if%>
 					</div>
@@ -54,12 +54,13 @@
 </div>
 
 <script type="text/javascript">
+    var iosAppVersion = '<%$v%>';  
+</script>
+<script type="text/javascript">
     var locations = [{"code":"101","name":"中国大陆","provinces":[{"code":"101","name":"北京","cities":[{"code":"10101","name":"北京"}]},{"code":"102","name":"天津","cities":[{"code":"10201","name":"天津"}]},{"code":"103","name":"河北","cities":[{"code":"10301","name":"石家庄"},{"code":"10302","name":"唐山"},{"code":"10303","name":"保定"},{"code":"10304","name":"邯郸"},{"code":"10305","name":"廊坊"},{"code":"10306","name":"秦皇岛"},{"code":"10307","name":"沧州"},{"code":"10308","name":"邢台"},{"code":"10399","name":"其它城市"}]},{"code":"104","name":"山西","cities":[{"code":"10401","name":"太原"},{"code":"10402","name":"大同"},{"code":"10403","name":"运城"},{"code":"10404","name":"忻州"},{"code":"10499","name":"其它城市"}]},{"code":"105","name":"内蒙古","cities":[{"code":"10501","name":"呼和浩特"},{"code":"10599","name":"其它城市"}]},{"code":"206","name":"上海","cities":[{"code":"20601","name":"上海"}]},{"code":"207","name":"江苏","cities":[{"code":"20701","name":"南京"},{"code":"20702","name":"苏州"},{"code":"20703","name":"无锡"},{"code":"20704","name":"南通"},{"code":"20705","name":"扬州"},{"code":"20706","name":"镇江"},{"code":"20707","name":"常州"},{"code":"20708","name":"盐城"},{"code":"20709","name":"泰州"},{"code":"20710","name":"徐州"},{"code":"20799","name":"其它城市"}]},{"code":"208","name":"浙江","cities":[{"code":"20801","name":"杭州"},{"code":"20802","name":"温州"},{"code":"20803","name":"宁波"},{"code":"20804","name":"嘉兴"},{"code":"20805","name":"台州"},{"code":"20806","name":"绍兴"},{"code":"20807","name":"湖州"},{"code":"20808","name":"丽水"},{"code":"20809","name":"金华"},{"code":"20899","name":"其它城市"}]},{"code":"209","name":"山东","cities":[{"code":"20901","name":"济南"},{"code":"20902","name":"青岛"},{"code":"20903","name":"济宁"},{"code":"20904","name":"聊城"},{"code":"20905","name":"烟台"},{"code":"20906","name":"淄博"},{"code":"20907","name":"德州"},{"code":"20908","name":"潍坊"},{"code":"20909","name":"临沂"},{"code":"20910","name":"威海"},{"code":"20911","name":"东营"},{"code":"20912","name":"枣庄"},{"code":"20999","name":"其它城市"}]},{"code":"210","name":"福建","cities":[{"code":"21001","name":"福州"},{"code":"21002","name":"厦门"},{"code":"21003","name":"泉州"},{"code":"21004","name":"漳州"},{"code":"21005","name":"龙岩"},{"code":"21099","name":"其它城市"}]},{"code":"211","name":"安徽","cities":[{"code":"21101","name":"合肥"},{"code":"21102","name":"芜湖"},{"code":"21103","name":"淮南"},{"code":"21104","name":"巢湖"},{"code":"21105","name":"阜阳"},{"code":"21106","name":"宿州"},{"code":"21107","name":"黄山"},{"code":"21108","name":"安庆"},{"code":"21199","name":"其它城市"}]},{"code":"212","name":"江西","cities":[{"code":"21201","name":"南昌"},{"code":"21202","name":"九江"},{"code":"21203","name":"宜春"},{"code":"21204","name":"赣州"},{"code":"21205","name":"萍乡"},{"code":"21299","name":"其它城市"}]},{"code":"313","name":"湖北","cities":[{"code":"31301","name":"武汉"},{"code":"31302","name":"十堰"},{"code":"31303","name":"黄冈"},{"code":"31304","name":"襄樊"},{"code":"31305","name":"宜昌"},{"code":"31399","name":"其它城市"}]},{"code":"314","name":"湖南","cities":[{"code":"31401","name":"长沙"},{"code":"31402","name":"衡阳"},{"code":"31499","name":"其它城市"}]},{"code":"315","name":"河南","cities":[{"code":"31501","name":"郑州"},{"code":"31502","name":"洛阳"},{"code":"31503","name":"驻马店"},{"code":"31504","name":"许昌"},{"code":"31505","name":"平顶山"},{"code":"31506","name":"三门峡"},{"code":"31599","name":"其它城市"}]},{"code":"416","name":"广东","cities":[{"code":"41601","name":"广州"},{"code":"41602","name":"深圳"},{"code":"41603","name":"东莞"},{"code":"41604","name":"佛山"},{"code":"41605","name":"珠海"},{"code":"41606","name":"中山"},{"code":"41607","name":"惠州"},{"code":"41608","name":"江门"},{"code":"41609","name":"汕头"},{"code":"41610","name":"韶关"},{"code":"41611","name":"湛江"},{"code":"41612","name":"茂名"},{"code":"41613","name":"肇庆"},{"code":"41699","name":"其它城市"}]},{"code":"417","name":"广西壮族自治区","cities":[{"code":"41701","name":"南宁"},{"code":"41702","name":"玉林"},{"code":"41703","name":"柳州"},{"code":"41799","name":"其它城市"}]},{"code":"418","name":"海南","cities":[{"code":"41801","name":"海口"},{"code":"41802","name":"三亚"},{"code":"41899","name":"其它城市"}]},{"code":"519","name":"辽宁","cities":[{"code":"51901","name":"沈阳"},{"code":"51902","name":"大连"},{"code":"51903","name":"丹东"},{"code":"51904","name":"鞍山"},{"code":"51905","name":"抚顺"},{"code":"51999","name":"其它城市"}]},{"code":"520","name":"黑龙江","cities":[{"code":"52001","name":"哈尔滨"},{"code":"52002","name":"大庆"},{"code":"52099","name":"其它城市"}]},{"code":"521","name":"吉林","cities":[{"code":"52101","name":"长春"},{"code":"52102","name":"吉林"},{"code":"52199","name":"其它城市"}]},{"code":"622","name":"陕西","cities":[{"code":"62201","name":"西安"},{"code":"62202","name":"宝鸡"},{"code":"62299","name":"其它城市"}]},{"code":"623","name":"新疆维吾尔族自治区","cities":[{"code":"62301","name":"乌鲁木齐"},{"code":"62399","name":"其它城市"}]},{"code":"624","name":"甘肃","cities":[{"code":"62401","name":"兰州"},{"code":"62499","name":"其它城市"}]},{"code":"625","name":"宁夏回族自治区","cities":[{"code":"62501","name":"银川"},{"code":"62599","name":"其它城市"}]},{"code":"626","name":"青海","cities":[{"code":"62601","name":"西宁"},{"code":"62699","name":"其它城市"}]},{"code":"727","name":"四川","cities":[{"code":"72701","name":"成都"},{"code":"72702","name":"德阳"},{"code":"72703","name":"广元"},{"code":"72704","name":"绵阳"},{"code":"72705","name":"内江"},{"code":"72799","name":"其它城市"}]},{"code":"728","name":"重庆","cities":[{"code":"72801","name":"重庆"}]},{"code":"729","name":"云南","cities":[{"code":"72901","name":"昆明"},{"code":"72902","name":"曲靖"},{"code":"72903","name":"玉溪"},{"code":"72999","name":"其它城市"}]},{"code":"730","name":"贵州","cities":[{"code":"73001","name":"贵阳"},{"code":"73099","name":"其它城市"}]},{"code":"731","name":"西藏自治区","cities":[{"code":"73101","name":"拉萨"},{"code":"73199","name":"其它城市"}]}]},{"code":"102","name":"香港特别行政区"},{"code":"103","name":"澳门特别行政区"},{"code":"104","name":"中国台湾"},{"code":"105","name":"亚洲其它国家"},{"code":"106","name":"欧洲"},{"code":"107","name":"美洲"},{"code":"108","name":"非洲"},{"code":"197","name":"其它国家"}];
     var isSubmiting = false;
     // MARK: - Index for current country needs to be global as multiple operations are referencing it
     var currentCountry;
-
-
     var validators = {
       chinamobile: {
         reg: /^[0-9]{11}$/,
@@ -76,26 +77,33 @@
     };
 
     function kickStart() {
-      var inputs = document.querySelectorAll('.subscription-form-container input');
-      for (var i=0; i<inputs.length; i++) {
-        inputs[i].onblur = function() {
-          validateInput(this);
+      try {
+        var inputs = document.querySelectorAll('.subscription-form-container input');
+        for (var i=0; i<inputs.length; i++) {
+          inputs[i].onblur = function() {
+            validateInput(this);
+          }
         }
-      }
-      getExistingInfo();
-      showApplePurchaseInfo();
-      initLocationForm();
-      var userId = GetCookie('USER_ID');
-      if (userId === null) {
-        setTimeout(function(){
-          showOverlay('overlay-login');
-          document.querySelector('.overlay-title').innerHTML = '请先登录';
-          document.querySelector('.register-find').innerHTML = '<a href="https://www.ftacademy.cn/subscription.html">购买会员</a><span></span><a href="/users/findpassword">找回密码</a>';
-          document.querySelector('.wx-login').style.marginTop = '15px';
-          var overlayBG = document.querySelector('.overlay-bg');
-          overlayBG.className = 'overlay-bg-fixed';
-        }, 0);
-      }
+        getExistingInfo();
+        showApplePurchaseInfo();
+        initLocationForm();
+        var userId = GetCookie('USER_ID');
+        if (userId === null) {
+          setTimeout(function(){
+            if (document.getElementById('overlay-login')) {
+              showOverlay('overlay-login');
+              document.querySelector('.overlay-title').innerHTML = '请先登录';
+              document.querySelector('.register-find').innerHTML = '<a href="https://www.ftacademy.cn/subscription.html">购买会员</a><span></span><a href="/users/findpassword">找回密码</a>';
+              document.querySelector('.wx-login').style.marginTop = '15px';
+              var overlayBG = document.querySelector('.overlay-bg');
+              overlayBG.className = 'overlay-bg-fixed';
+            } else if (typeof webkit === 'object' && webkit.messageHandlers) {
+              var loginHTML = '<div class="overlay-container on" id="overlay-login"><div class="overlay-inner"><div class="overlay-bg" data-parentid="overlay-login"></div><div class="overlay-content-outer"><div class="overlay-content-inner"><div class="overlay-content"><div class="overlay-title">登录<i class="overlay-close" data-parentid="overlay-login">×</i></div><form method="post" action="/users/login" id="overlay-login-form"><span id="overlay-login-container"><div>请先登录再填写信息：</div><div class="wx-login-container"><div class="center wx-login"><a href="screen://myft/account" class="blue-link">登录</a></div></div></span></form></div></div></div></div></div>';
+              document.body.innerHTML += loginHTML;
+            }
+          }, 0);
+        }
+      } catch(ignore) {}
     }
 
     function initLocationForm() {
@@ -311,10 +319,7 @@
       }
     }
 
-
-    kickStart();
-
-    document.getElementById('subscription-button').onclick = function(){
+    function submitContactInfo() {
       if (isSubmiting) return;
       var userData = {}
       var inputs = document.querySelectorAll('.subscription-form-container input, .subscription-form-container select');
@@ -357,17 +362,25 @@
           document.getElementById('subscription-button').innerHTML = '重新提交';
       };
       xhr.send(JSON.stringify(userData));
-    };
-
-    // MARK: - Must verify that later-button exists before binding click event. 
-    var laterButton = document.getElementById('later-button');
-    if (laterButton) {
-      laterButton.onclick = function(){
-        if (isSubmiting) {return;}
-        if (typeof webkit === 'object' && webkit.messageHandlers) {
-          webkit.messageHandlers.action.postMessage('pop');
-        }
-      };
     }
+
+    function skipContactInfo(){
+      if (isSubmiting) {return;}
+      var iosAppVersionNumber = parseInt(iosAppVersion, 10);
+      // MARK: - Handle the tracking to ios native app if version number is no less than 168
+      if (typeof webkit === 'object' && webkit.messageHandlers && iosAppVersionNumber >= 168) {
+        webkit.messageHandlers.action.postMessage('skip');
+      } else {
+        this.innerHTML = '记录中...';
+        gtag('event', 'Skip', {'event_label': userId, 'event_category': 'ContactInfo', 'event_callback': function() {
+          skipButton.style.display = 'none';  
+        }});
+      }
+    }
+
+    kickStart();
+
+    gtag('event', 'Show', {'event_label': userId, 'event_category': 'ContactInfo', 'non_interaction': true});
+
 
 </script>
