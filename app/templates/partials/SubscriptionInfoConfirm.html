@@ -31,7 +31,7 @@
               <div><span>居住地：</span><select type="<%$countryType%>" placeholder="请选择" class="country" id="country"></select><span class="status"></span></div>
               <div><span>省份：</span><select placeholder="请选择" class="state" id="state"></select><span class="status"></span></div>
               <div><span>城市：</span><select placeholder="请选择" class="city" id="city"></select><span class="status"></span></div>
-              <div><span>地址：</span><input type="text" placeholder="请填写准确地址" class="address" id="address"><span class="status"></span></div>
+              <div><span>地址：</span><input type="address" placeholder="请填写准确地址" class="address" id="address"><span class="status"></span></div>
               <div><span>姓：</span><input type="text" placeholder="" class="last-name" id="last_name"><span class="status"></span></div>
               <div><span>名：</span><input type="text" placeholder="" class="first-name" id="first_name"><span class="status"></span></div>
             <%/if%>
@@ -43,10 +43,10 @@
 						</div>
             <%if $list.SkipButton != "" && ($v >= "125" || $v == "")%>
             <div class="center n-button-container">
-              <button class="n-button-inner skip-button" id="skip-button" onclick="skipContactInfo()"><%$list.SkipButton%></button>
+              <button class="n-button-inner skip-button" id="skip-button" onclick="skipContactInfo(this)"><%$list.SkipButton%></button>
             </div>
             <%/if%>
-            <%if $smarty.get.android != "" && 1<0%>
+            <%if $smarty.get.android != ""%>
               <div id="android-debug-info">Android Debug Info...</div>
             <%/if%>
 					</div>
@@ -62,7 +62,28 @@
 <%if $smarty.get.android != ""%>
 <script type="text/javascript">
 var isAndroidApp = true;
-var androidSecret = 'WeLiveInFinancialTimes';
+var androidSecret = 'ftchinese';
+function requestExistingInfoFromAndroidApp() {
+  // MARK: - Check this Every Two Seconds
+  if (window.androidUserInfo) {
+    var loginData = {
+      user_id: androidUserInfo.id,
+      secret: MD5(androidUserInfo.id+androidSecret)
+    };
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/index.php/user/signin');
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onload = function() {
+        if (xhr.status !== 200) {return;}
+        var result = JSON.parse(xhr.responseText);
+        if (result.status !== 'success') {return;}
+        requestExistingInfo();
+    };
+    xhr.send(JSON.stringify(loginData));
+  } else {
+    setTimeout(function(){requestExistingInfoFromAndroidApp()}, 2000);
+  }
+}
 var MD5 = function (string) {
 
 function RotateLeft(lValue, iShiftBits) {
@@ -286,6 +307,14 @@ for (k=0;k<x.length;k+=16) {
       email: {
         reg: /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
         warning: '请填写格式正确的邮件地址'
+      },
+      address: {
+        reg: /^.{2,}$/,
+        warning: '请填写正确的地址'
+      },
+      text: {
+        reg: /^.+$/,
+        warning: '请填写这里'
       }
     };
 
@@ -301,7 +330,7 @@ for (k=0;k<x.length;k+=16) {
         showApplePurchaseInfo();
         initLocationForm();
         var userId = GetCookie('USER_ID');
-        if (userId === null) {
+        if (userId === null && (typeof isAndroidApp === 'undefined' || !window.isAndroidApp)) {
           setTimeout(function(){
             if (document.getElementById('overlay-login')) {
               showOverlay('overlay-login');
@@ -316,7 +345,10 @@ for (k=0;k<x.length;k+=16) {
             }
           }, 0);
         }
-      } catch(ignore) {}
+      } catch(err) {
+        console.log(err);
+      }
+      gtag('event', 'Show', {'event_label': userId, 'event_category': 'ContactInfo', 'non_interaction': true});
     }
 
     function initLocationForm() {
@@ -491,33 +523,9 @@ for (k=0;k<x.length;k+=16) {
       xhr.send();
     }
 
-    function requestExistingInfoFromAndroidApp() {
-      // MARK: - Check this Every Two Seconds
-      if (window.androidUserInfo) {
-        var loginData = {
-          id: androidUserInfo.id,
-          auth: MD5(id+androidSecret)
-        };
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/index.php/user/authenticate');
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.onload = function() {
-            if (xhr.status === 200) {
-                var result = JSON.parse(xhr.responseText);
-                if (result.status === 'success') {
-                  requestExistingInfo();
-                }
-            }
-        };
-        xhr.send(JSON.stringify(loginData));
-      } else {
-        setTimeout(function(){requestExistingInfoFromAndroidApp()}, 2000);
-      }
-    }
-
     function getExistingInfo() {
       var userId = GetCookie('USER_ID');
-      if (isAndroidApp && userId === null) {
+      if (typeof isAndroidApp === 'boolean' && isAndroidApp && userId === null) {
         requestExistingInfoFromAndroidApp();
       } else {
         requestExistingInfo();
@@ -526,7 +534,8 @@ for (k=0;k<x.length;k+=16) {
 
     function finishSubmit() {
       isSubmiting = false;
-      if (window.location.search.indexOf('webview=ftcapp')>=0) {
+      var isNativeApp = window.location.search.indexOf('webview=ftcapp')>=0 || (typeof Android === 'object' && Android.wvAlert);
+      if (isNativeApp) {
         document.getElementById('subscription-button').innerHTML = '再次提交';
       } else {
         document.getElementById('subscription-button').parentElement.innerHTML = '<a href="/">提交成功，点击进入订户专享网站</a>';
@@ -546,9 +555,14 @@ for (k=0;k<x.length;k+=16) {
     }
 
     function sendAlert(obj) {
-      try {
+      if (typeof webkit !== 'undefined' && webkit.messageHandlers && webkit.messageHandlers.alert) {
+        // MARK: - iOS Native App
         webkit.messageHandlers.alert.postMessage(obj);
-      } catch (error) {
+      } else if (typeof Android === 'object' && Android.wvAlert) {
+        // MARK: - Android Native App
+        Android.wvAlert(obj.message);
+      } else {
+        // MARK: - Web Page or natives apps that doesn't support the above methods
         alert (obj.message);
       }
     }
@@ -562,6 +576,11 @@ for (k=0;k<x.length;k+=16) {
         webkit.messageHandlers.userdefault.postMessage(userdefault);
       } catch (error) {
         DeleteCookie('NeedToConfirmInfo');
+      }
+      // MARK: - Hide the skip button
+      var skipButton = document.getElementById('skip-button');
+      if (skipButton) {
+        skipButton.style.display = 'none';
       }
     }
 
@@ -610,16 +629,28 @@ for (k=0;k<x.length;k+=16) {
       xhr.send(JSON.stringify(userData));
     }
 
-    function skipContactInfo(){
+    function skipContactInfo(skipButton){
       if (isSubmiting) {return;}
       var iosAppVersionNumber = parseInt(iosAppVersion, 10);
       // MARK: - Handle the tracking to ios native app if version number is no less than 168
       if (typeof webkit === 'object' && webkit.messageHandlers && iosAppVersionNumber >= 168) {
         webkit.messageHandlers.action.postMessage('skip');
       } else {
-        this.innerHTML = '记录中...';
+        var skipButtonText = skipButton.innerHTML;
+        if (typeof Android === 'undefined') {
+          var confirmDialogue = confirm('确定要' + skipButtonText + '吗？');
+          if (confirmDialogue === false) {return;}     
+        }
+
+        
+        skipButton.innerHTML = '记录中...';
         gtag('event', 'Skip', {'event_label': userId, 'event_category': 'ContactInfo', 'event_callback': function() {
-          skipButton.style.display = 'none';  
+          skipButton.style.display = 'none';
+          if (typeof Android === 'object' && Android.wvClosePage) {
+            Android.wvClosePage();
+          } else {
+            window.location.href = '/';
+          }
         }});
       }
     }
@@ -631,7 +662,7 @@ for (k=0;k<x.length;k+=16) {
         var debugInfo = window.location.href;
         var userId = GetCookie('USER_ID') || 'No User Id';
         debugInfo += '<br>Id: ' + userId + '<br>';
-        if (window.androidUserInfo) {
+        if (typeof androidUserInfo === 'object') {
           try {
             debugInfo += JSON.stringify(androidUserInfo);
           } catch(err) {
@@ -640,14 +671,12 @@ for (k=0;k<x.length;k+=16) {
         } else {
           debugInfo += 'No Android Info';
         }
+        debugInfo += '<br>isAndroidApp: ' + window.isAndroidApp;
         androidDebugEle.innerHTML = debugInfo;
       }, 10000);
     }
 
     kickStart();
-
-    gtag('event', 'Show', {'event_label': userId, 'event_category': 'ContactInfo', 'non_interaction': true});
-
-    testAndroid();
+    
 
 </script>
