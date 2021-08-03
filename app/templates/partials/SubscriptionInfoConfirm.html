@@ -340,7 +340,11 @@ for (k=0;k<x.length;k+=16) {
               var overlayBG = document.querySelector('.overlay-bg');
               overlayBG.className = 'overlay-bg-fixed';
             } else if (typeof webkit === 'object' && webkit.messageHandlers) {
-              var loginHTML = '<div class="overlay-container on" id="overlay-login"><div class="overlay-inner"><div class="overlay-bg" data-parentid="overlay-login"></div><div class="overlay-content-outer"><div class="overlay-content-inner"><div class="overlay-content"><div class="overlay-title">登录<i class="overlay-close" data-parentid="overlay-login">×</i></div><form method="post" action="/users/login" id="overlay-login-form"><span id="overlay-login-container"><div>请先登录再填写信息：</div><div class="wx-login-container"><div class="center wx-login"><a href="screen://myft/account" class="blue-link">登录</a></div></div></span></form></div></div></div></div></div>';
+              var skipButtonText = '以后再说';
+              if (document.querySelector('skip-button') && document.querySelector('skip-button').innerText !== '') {
+                skipButtonText = document.querySelector('skip-button').innerText;
+              }
+              var loginHTML = '<div class="overlay-container on" id="overlay-login"><div class="overlay-inner"><div class="overlay-bg" data-parentid="overlay-login"></div><div class="overlay-content-outer"><div class="overlay-content-inner"><div class="overlay-content"><div class="overlay-title">登录<i class="overlay-close" data-parentid="overlay-login">×</i></div><form method="post" action="/users/login" id="overlay-login-form"><span id="overlay-login-container"><div>请先登录再填写信息：</div><div class="wx-login-container"><div class="center wx-login"><a href="screen://myft/account" class="blue-link">登录</a></div></div><div class="wx-login-container"><div class="center wx-login"><a onclick="skipContactInfo(this)" class="blue-link">' + skipButtonText +  '</a></div></div></span></form></div></div></div></div></div>';
               document.body.innerHTML += loginHTML;
             }
           }, 0);
