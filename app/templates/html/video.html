@@ -5,11 +5,8 @@
 <%foreach item=t from=$tag%>
 <%assign var=mytag value="`$mytag`,`$t.tag`"%>
 <%/foreach%>
+
 <%*<!--MARK: Change Ad Channel Id based on tag: <%$mytag|var_dump%>-->*%>
-<%*<!--MARK: catelogname: <%$catalogname%>-->*%>
-<%if preg_match("/高端视点/",$mytag)%>
-    <%assign var=adchId value="1902"%>
-<%/if%>
 
 <%if $itemType == ""%>
     <%assign var="itemType" value="video"%>
@@ -53,6 +50,183 @@
 <%/if%>
 
 <%assign var="topnav" value="stream"%>
+
+
+
+<%assign var="keys" value=$mytag%>
+<%*<!--MARK: Check the next model tag for sponsored special reports start-->*%>
+<%if $nextmodel != ""%>
+	<%assign var="infoForSponsorships" value=$nextmodel->getPublishJson("sponsorshipmanagement")|json_decode:true%>
+	<%assign var="infoForBrandSafety" value=$nextmodel->getPublishJson("brandsafety")|json_decode:true%>
+	<%assign var="hasFoundSponsorship" value="no"%>
+	<%assign var="hasFoundPaidPost" value="no"%>
+	<%assign var="currentDate" value=$smarty.now|date_format:"%Y%m%d"%>
+	<%foreach from=$infoForSponsorships.sections item=section%>
+		<%if $hasFoundSponsorship == "no" && $section.status == "on" && (($section.dates != "" && preg_match("/`$currentDate`/is",$section.dates)) || ($section.dates == "" && $section.placeholder == "yes"))%>
+            <%assign var="sponsorKeys" value=$section.storyKeyWords%>
+			<%assign var="matchInKeysAndBody" value="no"%>
+			<%if $sponsorKeys == ""%>
+				<%*<!--MARK: - use the regular expresssion to match just keys. -->*%>
+				<%assign var="sponsorKeys" value=$section.tag%>
+				<%if preg_match("/`$sponsorKeys`/is",$keys)%>
+					<%assign var="matchInKeysAndBody" value="yes"%>
+				<%/if%>
+			<%else%>
+				<%*<!--MARK: - use the regular expresssion to match both keys and body. -->*%>
+				<%assign var="sponsorKeys" value=$sponsorKeys|regex_replace:"/, */":"|"%>
+				<%if preg_match("/`$sponsorKeys`/is","`$keys``$storyContent`")%>
+					<%assign var="matchInKeysAndBody" value="yes"%>
+				<%/if%>
+			<%/if%>
+			<%if $sponsorKeys != "" && $matchInKeysAndBody == "yes"%>
+				<%assign var="hasFoundSponsorship" value="yes"%>
+				<%assign var="sponsorshipLink" value=$section.link%>
+				<%if $sponsorshipLink == "" && $section.tag != ""%>
+					<%assign var="sponsorshipLink" value="/tag/`$section.tag`"%>
+				<%/if%>
+				<%if $sponsorshipLink != ""%>
+					<%assign var="sponsorshipLink" value=" href=\"`$sponsorshipLink`\""%>
+					<%assign var=breadcrum value="<a`$sponsorshipLink`>`$section.title`</a>"%>
+				<%/if%>
+				<%if preg_match("/^[0-9]{4}$/is",$section.adChannelId)%>
+					<%assign var="adchannelID" value=$section.adChannelId%>
+				<%/if%>
+				<%if $section.storyMPU1 != "show"%>
+					<%assign var="hideMPU1" value="yes"%>
+				<%else%>
+					<%assign var="hideMPU1" value="no"%>
+				<%/if%>
+				<%if $section.storyMPU2 != "show"%>
+					<%assign var="hideMPU2" value="yes"%>
+				<%else%>
+					<%assign var="hideMPU2" value="no"%>
+				<%/if%>
+				<%if $section.storyMPU3 != "show"%>
+					<%assign var="hideMPU3" value="yes"%>
+				<%else%>
+					<%assign var="hideMPU3" value="no"%>
+				<%/if%>
+				<%if $section.storyBanner != "show"%>
+					<%assign var="hideBanner" value="yes"%>
+				<%else%>
+					<%assign var="hideBanner" value="no"%>
+				<%/if%>
+				<%if $section.story590Banner != "show"%>
+					<%assign var="hide590" value="yes"%>
+				<%else%>
+					<%assign var="hide590" value="no"%>
+				<%/if%>
+				<%if $section.zone != ""%>
+					<%if !preg_match("/\//is",$section.zone)%>
+						<%assign var="topnav" value="home"%>
+						<%assign var="subnav" value="special"%>
+						<%assign var="pageId" value=$section.zone%>
+					<%else%>
+						<%assign var="zoneString" value=$section.zone|regex_replace:"/^\//":""%>
+						<%assign var="topnav" value=$zoneString|regex_replace:"/\/.*/":""%>
+						<%assign var="zoneString" value=$zoneString|regex_replace:"/^`$topnav`/":""|regex_replace:"/^\//":""%>
+						<%assign var="subnav" value=$zoneString|regex_replace:"/\/.*/":""%>
+						<%assign var="thirdnav" value=$zoneString|regex_replace:"/^`$subnav`/":""|regex_replace:"/^\//":""%>
+					<%/if%>
+				<%/if%>
+				<%assign var="requirelogin" value="no"%>
+			<%/if%>
+			<%assign var="paidPostKey" value=$section.paidPostKey%>
+			<%if $hasFoundPaidPost == "no" && $paidPostKey != "" && preg_match("/`$paidPostKey`/is",$keys)%>
+				<%assign var="paidPostTrack" value=$section.paidPostTrack%>
+				<%assign var="hasFoundPaidPost" value="yes"%>
+			<%/if%>
+		<%/if%>
+	<%/foreach%>
+	<%assign var="hasFoundBrandSafety" value="no"%>
+	<%foreach from=$infoForBrandSafety.sections item=section%>
+		<%if $hasFoundBrandSafety == "no" && $section.status == "on" && ($section.dates == "" || preg_match("/`$currentDate`/is",$section.dates))%>
+			<%assign var="sponsorKeys" value=$section.storyKeyWords%>
+			<%if $sponsorKeys == ""%>
+				<%assign var="sponsorKeys" value=$section.tag%>
+			<%else%>
+				<%assign var="sponsorKeys" value=$sponsorKeys|regex_replace:"/, */":"|"%>
+			<%/if%>
+			<%if $sponsorKeys != "" && preg_match("/`$sponsorKeys`/is",$keys)%>
+				<%assign var="hasFoundBrandSafety" value="yes"%>
+				<%assign var="sponsorshipLink" value=$section.link%>
+				<%if $sponsorshipLink == "" && $section.tag != ""%>
+					<%assign var="sponsorshipLink" value="/tag/`$section.tag`"%>
+				<%/if%>
+				<%if $sponsorshipLink != ""%>
+					<%assign var="sponsorshipLink" value=" href=\"`$sponsorshipLink`\""%>
+					<%assign var=breadcrum value="<a`$sponsorshipLink`>`$section.title`</a>"%>
+				<%/if%>
+				<%if preg_match("/^[0-9]{4}$/is",$section.adChannelId)%>
+					<%assign var="adchannelID" value=$section.adChannelId%>
+				<%/if%>
+				<%if $section.storyMPU1 != "show"%>
+					<%assign var="hideMPU1" value="yes"%>
+				<%else%>
+					<%assign var="hideMPU1" value="no"%>
+				<%/if%>
+				<%if $section.storyMPU2 != "show"%>
+					<%assign var="hideMPU2" value="yes"%>
+				<%else%>
+					<%assign var="hideMPU2" value="no"%>
+				<%/if%>
+				<%if $section.storyMPU3 != "show"%>
+					<%assign var="hideMPU3" value="yes"%>
+				<%else%>
+					<%assign var="hideMPU3" value="no"%>
+				<%/if%>
+				<%if $section.storyBanner != "show"%>
+					<%assign var="hideBanner" value="yes"%>
+				<%else%>
+					<%assign var="hideBanner" value="no"%>
+				<%/if%>
+				<%if $section.story590Banner != "show"%>
+					<%assign var="hide590" value="yes"%>
+				<%else%>
+					<%assign var="hide590" value="no"%>
+				<%/if%>
+				<%if $section.zone != ""%>
+					<%assign var="topnav" value="home"%>
+					<%assign var="subnav" value="special"%>
+					<%assign var="pageId" value=$section.zone%>
+				<%/if%>
+				<%if $section.cntopic != ""%>
+					<%assign var="cntopic" value=$section.cntopic%>
+				<%/if%>
+			<%/if%>
+		<%/if%>
+	<%/foreach%>
+	<%if $hasFoundSponsorship == "no"%>
+		<%assign var="infoForManualTags" value=$nextmodel->getPublishJson("tagmanagement")|json_decode:true%>
+		<%assign var="hasFoundManualTag" value="no"%>
+		<%foreach from=$infoForManualTags.sections item=section%>
+			<%if $hasFoundManualTag == "no" && preg_match("/`$section.tag`/is",$keys)%>
+			    <%assign var="hasFoundManualTag" value="yes"%>
+			    <%if $section.topnav != ""%>
+			        <%assign var="topnav" value=$section.topnav%>
+			    <%/if%>
+			    <%if $section.subnav != ""%>
+			        <%assign var="subnav" value=$section.subnav%>
+			    <%/if%>
+			    <%if $section.thirdnav != ""%>
+			        <%assign var="thirdnav" value=$section.thirdnav%>
+			    <%/if%>
+			    <%if $section.link != ""%>
+			        <%assign var="breadcrum" value="<a href=\"`$section.link`\">`$section.title`</a><button class=\"myft-follow plus\" data-tag=\"`$section.tag`\" data-type=\"tag\">关注</button>"%>
+			        <%assign var="themeLink" value=$section.link%>
+			    <%else%>
+			    	<%assign var="breadcrum" value="<a href=\"/tag/`$section.tag`\">`$section.title`</a><button class=\"myft-follow plus\" data-tag=\"`$section.tag`\" data-type=\"tag\">关注</button>"%>
+			        <%assign var="themeLink" value="/tag/`$section.tag`"%>
+			    <%/if%>
+			    <%assign var="themeTitle" value=$section.title%>
+			    <%assign var="themeTag" value=$section.tag%>
+			    <%assign var="themeInfo" value=$section%>
+			<%/if%>
+		<%/foreach%>
+	<%/if%>
+<%/if%>
+<%*<!--MARK: Check the next model tag for sponsored special reports end-->*%>
+
 
 
 <%*<!--MARK: This has to be replicated to multiple templates as this version of smarty doesn't support global scoop in included file-->*%>

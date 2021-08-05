@@ -28,13 +28,13 @@
         <%if $list.feedType == "story"%>
             <%assign var="feedType" value=$list.feedType%>
             <%assign var="feedTag" value="(`$feedTag`) and eskylinetext not like '%低调%'"%>
-            <%assign var="itemsArray" value=$storymodel->get_story_by_field_search($feedTag,$feedStart,$feedItems,3650,10800)%>
+            <%assign var="itemsArray" value=$storymodel->get_story_by_field_search($feedTag,$feedStart,$feedItems,1001,10800)%>
         <%elseif $list.feedType == "interactive"%>
             <%assign var="feedType" value=$list.feedType%>
-            <%assign var="itemsArray" value=$interactivemodel->get_interactive_by_field_search($feedTag,$feedStart,$feedItems,3650,10800)%>
+            <%assign var="itemsArray" value=$interactivemodel->get_interactive_by_field_search($feedTag,$feedStart,$feedItems,1001,10800)%>
         <%elseif $list.feedType == "video"%>
             <%assign var="feedType" value=$list.feedType%>
-            <%assign var="itemsArray" value=$videomodel->get_video_by_field_search($feedTag,$feedStart,$feedItems,3650,10800)%>
+            <%assign var="itemsArray" value=$videomodel->get_video_by_field_search($feedTag,$feedStart,$feedItems,1001,10800)%>
         <%elseif $list.feedType == "photo"%>
             <%assign var="feedType" value="photonews"%>
             <%assign var="itemsArray" value=$photonewsmodel->get_photonews_by_field_search($feedTag,"ORDER BY photonewsid DESC",$feedItems)%>
@@ -46,7 +46,7 @@
         <%elseif $list.feedType == "interactive"%>
             <%assign var="feedType" value=$list.feedType%>
             <%assign var="interactiveFeedSQL" value="find_in_set('`$feedTag`', tag)"%>
-            <%assign var="itemsArray" value=$interactivemodel->get_interactive_by_field_search($interactiveFeedSQL,$feedStart,$feedItems,3650,10800)%>            
+            <%assign var="itemsArray" value=$interactivemodel->get_interactive_by_field_search($interactiveFeedSQL,$feedStart,$feedItems,1001,10800)%>            
         <%elseif $list.feedType == "aiaudio"%>
             <%assign var="feedType" value=$list.feedType%>
             <%assign var="itemsArray" value=$interactivemodel->get_ai_audios($list.language, $list.feedStart, $list.feedItems)%>
@@ -67,7 +67,7 @@
             <%assign var="itemsArray" value=$storymodel->getPremiumStory($feedStart, $feedItems)%>
         <%elseif $list.feedType == "audiovideo"%>
             <%assign var="feedType" value=$list.feedType%>
-            <%assign var="itemsArray" value=$videomodel->get_video_audio($feedStart,$list.feedItems,3650,10800)%>
+            <%assign var="itemsArray" value=$videomodel->get_video_audio($feedStart,$list.feedItems,1001,10800)%>
         <%else%>
             <%assign var="feedType" value=$list.feedType%>
             <%*<!--MARK: - Note that getContentByTag's argument is different from other functions -->*%>

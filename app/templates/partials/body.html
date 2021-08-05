@@ -224,6 +224,13 @@
         <%assign var="includeSideAlign" value=$section.sideAlign%>
         <%include file="next/partials/`$section.from`.html"%>
     <%elseif $section.type == "MainMessage"%>
+        <style>
+            @media all and (max-width: 490px) {
+                .main-message-container {
+                    padding: 0!important;
+                }
+            }
+        </style>
     	<%assign var=buttonUrl value=$section.buttonUrl%>
     	<%if $smarty.get.ccode != ""%>
 			<%*<!--MARK: - check the ccode in the url parameter first-->*%>
@@ -249,7 +256,15 @@
     		<%/if%>
     		<%assign var=buttonUrl value="`$buttonUrl``$connector`from=`$section.discountCode`"%>
         <%/if%>
-        <table style="max-width: 600px; margin: 30px auto;">
+        <%assign var=containerStyle value=""%>
+        <%assign var=tableStyle value="max-width: 600px; margin: 30px auto;"%>
+
+        <%if $section.BackgroundImage != ""%>
+            <%assign var=containerStyle value="background-image: linear-gradient(to right, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(`$section.BackgroundImage`); padding: 30px; margin-bottom: 30px;"%>
+            <%assign var=tableStyle value="max-width: 1024px; margin: 30px auto; padding: 30px 0 0 0; background: #fff1e5;"%>
+        <%/if%>
+        <div style="<%$containerStyle%>" class="main-message-container">
+        <table style="<%$tableStyle%>">
     	<%if $section.title != ""%>
     		<tr><td  class="SContent cover" style="font-size:18px;line-height:23px;color:#333;font-weight: bold;padding-left:17px;padding-right:17px;"><%$section.title%>：</td></tr>
     	<%/if%>
@@ -280,6 +295,7 @@
     	<%/if%>
         <tr><td style="height: 15px; font-size: 0px; line-height: 15px; padding: 0;"> </td></tr>
         </table>
+        </div>
     	<%*<!--MARK: - A placeholder of keywords so that iOS app will pass validation. This can be removed after Dec. 1st, 2020, when 99% of users have updated to the latest version. -->*%>
     	<div class="item-container"></div>
     <%/if%>
