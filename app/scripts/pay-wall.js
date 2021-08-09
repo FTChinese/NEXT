@@ -215,11 +215,14 @@ function updateLockClass(){
 }
 
 function updateUnlockClass(){
-    var getPayHeadline = getPaidItems('unlocked');
-    if (getPayHeadline.length>0){
-      for (var k = 0; k < getPayHeadline.length; k++) {
-        removeClass(getPayHeadline[k], 'unlocked');
-        addClass(getPayHeadline[k], 'locked');
+    var paidHeadlines = getPaidItems('unlocked');
+    if (paidHeadlines.length>0){
+      for (var k = 0; k < paidHeadlines.length; k++) {
+        if (paidHeadlines[k].className.indexOf('whitelist') >= 0) {
+          continue;
+        }
+        removeClass(paidHeadlines[k], 'unlocked');
+        addClass(paidHeadlines[k], 'locked');
       }
     }
 }

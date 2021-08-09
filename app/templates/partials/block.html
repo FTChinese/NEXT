@@ -1263,6 +1263,15 @@
 										<%assign var="itemClass" value="`$itemClass` is-audio"%>
 									<%/if%>
 
+									<%assign var=isInWhiteList value="no"%>
+									<%if $whitelist != ""%>
+										<%foreach from=$itemTags item=tag%>
+											<%if preg_match("/`$tag`/is",$whitelist)%>
+												<%assign var=isInWhiteList value="yes"%>
+											<%/if%>
+										<%/foreach%>
+									<%/if%>
+
 									<%if $smarty.get.webview == "ftcapp"%>
 										<%if preg_match("/双语电台/is",$itemTagsString)%>
 											<%if preg_match("/en|ce/is",$listLanguage) && preg_match("/.mp3$/is",$item.eshortleadbody)%>
@@ -1308,15 +1317,6 @@
 											<%assign var="subTypeData" value=" data-sub-type=\"`$itemSubType`\""%>
 										<%else%>
 											<%assign var="subTypeData" value=""%>
-										<%/if%>
-
-										<%assign var=isInWhiteList value="no"%>
-										<%if $whitelist != ""%>
-											<%foreach from=$itemTags item=tag%>
-												<%if preg_match("/`$tag`/is",$whitelist)%>
-													<%assign var=isInWhiteList value="yes"%>
-												<%/if%>
-											<%/foreach%>
 										<%/if%>
 										<%*<!--MARK: Only story needs to show date here-->*%>
 										<%if $inSponsor != "yes" && $itemT != "" && $itemType == "story" && $isInWhiteList == "no"%>
@@ -1384,6 +1384,12 @@
 
 									<%if $inSponsor == "yes"%>
 										<%assign var="lockClass" value=""%>
+									<%else%>
+										<!--Not In Sponsor-->
+									<%/if%>
+
+									<%if $isInWhiteList == "yes" && lockClass != ""%>
+										<%assign var="lockClass" value="unlocked whitelist"%>
 									<%/if%>
 
 									<%*<!--MARK: - Convenient for Editing -->*%>
@@ -1836,34 +1842,38 @@
 						</div>
 						<%assign var="s" value=$s+1%>
 				<%elseif $list.type == "SideRanking"%>
-					<%if $list.feedType == "video"%>
-						<%assign var="defaultTitle" value="热门视频"%>
-						<%assign var="feedType" value="video"%>
-						<%assign var="mp" value=$videomodel->get_hot_video(30,10) %>
+					<%if $list.RankingBy == ""%>
+						<%if $list.feedType == "video"%>
+							<%assign var="defaultTitle" value="热门视频"%>
+							<%assign var="feedType" value="video"%>
+							<%assign var="mp" value=$videomodel->get_hot_video(30,10) %>
+						<%else%>
+							<%assign var="defaultTitle" value="热门文章"%>
+							<%assign var="feedType" value="story"%>
+							<%*easyapi command="60006"*%>
+							<%*assign var="mp" value=$data.odatalist*%>
+							<%assign var="mp" value=$storymodel->get_hot_story(1,10) %>
+						<%/if%>
+						<%if $list.feedItems == 0%>
+							<%assign var="feedItems" value=10%>
+						<%else%>
+							<%assign var="feedItems" value=$list.feedItems%>
+						<%/if%>
+						<div class="mps<%$firstChildClass%><%$lastChildClass%>">
+							<h2 class="list-title"><a href="<%$list.url|default:"#"%>"><%$list.title|default:$defaultTitle%></a></h2>
+							<ul class="top10">
+								<%assign var="i" value=0%>							
+								<%foreach item=sc from=$mp%>
+									<%if $i<$feedItems%>
+										<%assign var="i" value=$i+1%>
+										<li class="mp<%$i%>"><span><%$i%>. </span><a target="_blank" href="/<%$feedType%>/<%$sc.storyid|default:$sc.id%>"><%$sc.cheadline|default:$sc.title%></a></li>
+									<%/if%>
+								<%/foreach%>
+							</ul>
+						</div>
 					<%else%>
-						<%assign var="defaultTitle" value="热门文章"%>
-						<%assign var="feedType" value="story"%>
-						<%*easyapi command="60006"*%>
-						<%*assign var="mp" value=$data.odatalist*%>
-						<%assign var="mp" value=$storymodel->get_hot_story(1,10) %>
+						<%include file="next/partials/`$list.RankingBy`.html"%>
 					<%/if%>
-					<%if $list.feedItems == 0%>
-						<%assign var="feedItems" value=10%>
-					<%else%>
-						<%assign var="feedItems" value=$list.feedItems%>
-					<%/if%>
-					<div class="mps<%$firstChildClass%><%$lastChildClass%>">
-						<h2 class="list-title"><a href="<%$list.url|default:"#"%>"><%$list.title|default:$defaultTitle%></a></h2>
-						<ul class="top10">
-							<%assign var="i" value=0%>							
-							<%foreach item=sc from=$mp%>
-								<%if $i<$feedItems%>
-									<%assign var="i" value=$i+1%>
-									<li class="mp<%$i%>"><span><%$i%>. </span><a target="_blank" href="/<%$feedType%>/<%$sc.storyid|default:$sc.id%>"><%$sc.cheadline|default:$sc.title%></a></li>
-								<%/if%>
-							<%/foreach%>
-						</ul>
-					</div>
 					<%assign var="s" value=$s+1%>
 					<%*<!--end SideRanking -->*%>
 				<%elseif $list.type == "SideWithItems"%>

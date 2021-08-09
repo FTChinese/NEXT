@@ -138,12 +138,13 @@
 						<div class=pagination><%$pagination%></div>
 					</div>
 					<div class="clearfloat"></div>
-				</div> 
+				</div>
 			<%elseif $smarty.get.paywall == "1" || $paywall == "1"|| $smarty.get.paywall == "2"|| $paywall == "2"%>
 				<%*<!--MARK: show first two paragraphs. -->*%>
 				<div class="story-body">
 					<div id="story-body-container">
-						<%if $page_action != "ce"%>
+						<%if preg_match("/\"start\":/is",$story_content)%>
+						<%elseif $page_action != "ce"%>
 							<%$story_content|regex_replace:"/[\r\t\n]/":""|regex_replace:"/(\<p\>.*?\<p\>.*?)\<p\>.*$/":"\\1"%>
 						<%else%>
 							<%$story_content|regex_replace:"/[\r\t\n]/":""|regex_replace:"/(\<div class=leftp\>.*?\<div class=leftp\>.*?\<div class=leftp\>.*?\<div class=leftp\>.*?)\<div class=leftp\>.*$/":"\\1"%>
