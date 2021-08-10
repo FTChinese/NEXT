@@ -800,13 +800,17 @@ data-o-ads-targeting="cnpos=info3;"
 <div class="clearfloat"></div>
 <h2 class="list-title"><a class="list-link" href="#">读者评论</a></h2>
 <div id="allcomments" class="allcomments container"></div>
-<div id="logincomment" class="logincomment">
+<div id="nologincomment" class="nologincomment">
 <form id="storyForm">
 <div class="comment-input-container">
 <div class=container>
+<div style="margin:5px 0;">
+    用户名：<span id="comment-user-name">FT读者</span>
+    <input type="checkbox" id="anonymous-checkbox" name="anonimous-checkbox"><label for="anonymous-checkbox">匿名发表</label>
+</div>
 <div style="margin:5px 0;">FT中文网欢迎读者发表评论，部分评论会被选进《读者有话说》栏目。我们保留编辑与出版的权利。</div>
 <textarea name="Talk" id="Talk" class="commentTextArea" width="100%" rows="3"></textarea>
-<span style="display:none">
+<span style="display: none;">
 <input name="use_nickname" type="hidden" id="name" onclick="unuseit(this);"/>
 <label for="name" style="display:none">匿名</label>
 <input name="use_nickname" type="radio" id="userid" value="0" onclick="useit(this);" checked/>
@@ -818,7 +822,7 @@ data-o-ads-targeting="cnpos=info3;"
 </div>
 </form>
 </div>
-<div id="nologincomment" class="nologincomment">
+<div id="logincomment" class="logincomment">
 <div class="container">
 <div class="username-label">用户名</div>
 <input type="text"  autocorrect="off" name="username" id="username1" class="user_id textinput user-name"/>

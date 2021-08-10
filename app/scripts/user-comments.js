@@ -235,11 +235,10 @@ function cmt_reply(id,ctype) {
 
 function clickToSubmitComment() {
     document.querySelector('#addnewcomment').onclick = function() {
-        var usenickname = document.querySelectorAll('#name').checked ? 1 : 0;
-        console.log('clicked comments');
+        // MARK: - Just pass the nickname to our server
+        var isAnomymous = (document.querySelector('#anonymous-checkbox') && document.querySelector('#anonymous-checkbox').checked) ? 1 : 0;
         this.value = '正在发布中...';
         this.disabled = true;
-
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
             if (this.readyState === 4) {
@@ -255,21 +254,13 @@ function clickToSubmitComment() {
             }
         };
         var params;
-
-
-//         topic_object_id:r_interactive_10420
-// use_nickname:0
-// NickName:
-// title:亟待变革的美国足球
-// url:http://www.ftchinese.com/interactive/10420
-// type:video
-
+        var talk = document.querySelector('#Talk').value;
+        var nickname = (isAnomymous === 1) ? '匿名用户' : document.querySelector('#nick_name').value;
         if (/^[0-9]+$/.test(window.FTStoryid)) {
-            params = 'storyid='+ window.FTStoryid +'&talk=' + document.querySelector('#Talk').value + '&use_nickname=' + usenickname + '&NickName=' + document.querySelector('#nick_name').value;
+            params = 'storyid='+ window.FTStoryid +'&talk=' + talk + '&use_nickname=' + isAnomymous + '&NickName=' + nickname;
         } else {
-            params = 'topic_object_id='+ window.FTStoryid +'&talk=' + document.querySelector('#Talk').value + '&use_nickname=' + usenickname + '&NickName=' + document.querySelector('#nick_name').value + '&type=video';
+            params = 'topic_object_id='+ window.FTStoryid +'&talk=' + talk + '&use_nickname=' + isAnomymous + '&NickName=' + nickname + '&type=video';
         }
-
         xmlhttp.open('POST', commentfolder + '/add');
         xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xmlhttp.send(params);
@@ -442,7 +433,7 @@ function checkLogin() {
         statusMsg[i].innerHTML = ''; 
     }
     if (!!username) {
-        var nameEles = document.querySelectorAll('.nick_name,.user_id,.user_Name');
+        var nameEles = document.querySelectorAll('.nick_name,.user_id,.user_Name,#comment-user-name');
         for (var j=0; j<nameEles.length; j++) {
             nameEles[j].value = window.username;
             nameEles[j].innerHTML = window.username;
