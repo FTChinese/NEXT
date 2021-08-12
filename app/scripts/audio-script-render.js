@@ -33,7 +33,9 @@ function renderAudioData(ele) {
 		for (var k=0; k<audioData.text.length; k++) {
 			htmlForAudio += '<p>';
 			for (var l=0; l<audioData.text[k].length; l++) {
-				htmlForAudio += '<span id="span-'+k+'-'+l+'" onclick="seekAudio(this)" data-section="'+k+'" data-row="'+l+'">' + audioData.text[k][l].text +'</span>';
+				var t = audioData.text[k][l].text.replace(/<strong>([^<]+)$/g, '<strong>$1</strong>').replace(/^<\/strong>/g, '');
+				audioData.text[k][l].text = t;
+				htmlForAudio += '<span id="span-'+k+'-'+l+'" onclick="seekAudio(this)" data-section="'+k+'" data-row="'+l+'">' + t +'</span>';
 			}
 			htmlForAudio += '</p>';
 		}
