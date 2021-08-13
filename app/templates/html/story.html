@@ -2091,23 +2091,30 @@
 <%<!--body only start-->%>
   </body>
 <%if preg_match("/highcharts/is",$story_content)%>
-<script src="https://dhgxl8qk9zgzr.cloudfront.net/js/jquery-1.10.2.min.js?0"></script>
-<script>
-if (document.querySelector('.highcharts[data-chart-id]')) {
-    var gChartId = document.querySelector('.highcharts[data-chart-id]').getAttribute('data-chart-id') || '';
-    if (gChartId !== '') {
-        (function (d) {
-                var js, s = d.getElementsByTagName('script')[0];
-                js = d.createElement('script');
-                js.async = true;
-                js.src = 'http://www.ftchinese.com/index.php/ft/interactive/' + gChartId + '?type=js&' + new Date().getTime();
-                s.parentNode.insertBefore(js, s);
-        })(window.document);
-    }
-}
-</script>
+	<script src="https://dhgxl8qk9zgzr.cloudfront.net/js/jquery-1.10.2.min.js?0"></script>
+	<script>
+	if (document.querySelector('.highcharts[data-chart-id]')) {
+		var gChartId = document.querySelector('.highcharts[data-chart-id]').getAttribute('data-chart-id') || '';
+		if (gChartId !== '') {
+			(function (d) {
+					var js, s = d.getElementsByTagName('script')[0];
+					js = d.createElement('script');
+					js.async = true;
+					js.src = 'http://www.ftchinese.com/index.php/ft/interactive/' + gChartId + '?type=js&' + new Date().getTime();
+					s.parentNode.insertBefore(js, s);
+			})(window.document);
+		}
+	}
+	</script>
 <%/if%>
 
+<%if preg_match("/flourish-embed/is",$story_content)%>
+	<script src="https://public.flourish.studio/resources/embed.js" async></script>
+<%/if%>
+
+<%if preg_match("/twitter-tweet/is",$story_content)%>
+	<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<%/if%>
 
 <!--[if lte IE 8]>
 <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>

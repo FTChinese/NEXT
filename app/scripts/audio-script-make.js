@@ -53,7 +53,9 @@ function startPlay() {
 			text = text.replace(pBlocks[g], newPBlock);
 		}
 	}
-	text = text.replace(/<[pP]>/g, '|')
+	text = text
+		.replace(/(<\/p><p>)(<\/strong>)/g, '$2$1')
+		.replace(/<[pP]>/g, '|')
 		.replace(/<\/[pP]>/g, '|')
 		.replace(/\|+/g,'|')
 		.replace(/start-p/g,'p')
