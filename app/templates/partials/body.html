@@ -153,7 +153,12 @@
                     </div>
                     <%assign var="i" value=0%>
                 <%elseif $highlightFTAcademy == "top"%>
-                    <%assign var="interactives" value=$interactivemodel->get_interactive_by_field_search("find_in_set('FT商学院',tag)",0,4,5,10800)%>
+                    <%assign var="highlightFTAcademyItems" value=4%>
+                    <%if date("w", $smarty.now) == 0%>
+                        <%assign var="highlightFTAcademyItems" value=8%>
+                    <%/if%>
+                    <!--highlightFTAcademyItems: <%$highlightFTAcademyItems%>-->
+                    <%assign var="interactives" value=$interactivemodel->get_interactive_by_field_search("find_in_set('FT商学院',tag)",0,$highlightFTAcademyItems,5,10800)%>
                     <div class="block-container no-side">
                         <div class="block-inner">
                             <div class="content-container">

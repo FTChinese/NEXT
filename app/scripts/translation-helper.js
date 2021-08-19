@@ -333,7 +333,10 @@ function finishTranslationForArticle() {
             window.opener.document.getElementById(id).value = value;
         }
         var tagEle = window.opener.document.getElementById('tag');
-        if (tagEle) {
+        // MARK: - A list of good translation reviewer whose quality is so good that there's no need to display that AI disclaimer
+        var goodTranslators = 'oliver.zhang,tracy.zhang,feng.wang';
+        var isGoodTranslator = typeof window.userName === 'string' && goodTranslators.indexOf(window.userName)>=0;
+        if (tagEle && isGoodTranslator === false) {
             tagEle.value += ',AITranslation';
         }
         var translationHelperButton = window.opener.document.querySelector('.translation-helper');
