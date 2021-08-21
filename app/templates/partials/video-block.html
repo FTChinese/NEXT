@@ -78,11 +78,11 @@
 								<span class="story-time"><%$pubdate|date_format:"%Y年%m月%d日"%></span>
 								<span class="story-author">
 									<%$cdescribe%> <%if $cbyline != "0" && $cbyline != ""%><a href="/search/?keys=<%$cbyline%>&type=relative_byline&category=video"><%$cbyline%></a><%/if%> 
-				                    <%if $eshortleadbody && $eshortleadbody!="" && $eshortleadbody!=null%> [<a href=<%$eshortleadbody%> target=_blank>作者微博</a>]
-				                    <%elseif preg_match("/盛立宇/is",$cbyline)%> 【<a href=http://weibo.com/u/1773028931 target=_blank>作者微博</a>】
+				                    <%if $eshortleadbody && $eshortleadbody!="" && $eshortleadbody!=null%> 
+										[<a href=<%$eshortleadbody%> target=_blank>作者微博</a>]
 				                    <%/if%>
 				                </span>
-				                <%if $smarty.get.webview == "ftcapp" && $pageType == "channel"%>
+				                <%if $smarty.get.webview == "ftcapp" && $pageType == "channel" && $smarty.get.android == ""%>
 				                	<script type="text/javascript">
 				                		window.linksForShare = {
 				                			'url': 'http://www.ftchinese.com/video/<%$id%>',

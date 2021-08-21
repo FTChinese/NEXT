@@ -87,16 +87,7 @@ function payWall() {
 }
 
 function handleSubscriptionInfo(dataObj) {
-  if (dataObj.paywall >= 1) {
-    updateUnlockClass();
-  } else {
-    isPremium = (dataObj.premium >= 1) ? true : false ;  
-    if(!isPremium && isEditorChoiceChannel()){
-      updateUnlockClass();
-    } else {
-      updateLockClass();
-    }
-  }
+  updateLockClass(dataObj);
   window.htmlClass = document.documentElement.className;
   window.htmlClass = window.htmlClass.replace(/\ is\-subscriber/g, '').replace(/\ is\-premium/g, '').replace(/\ is\-standard/g, '');
   var subscriptionType = 'noneSubscriber';
@@ -194,63 +185,35 @@ function sendTracking(promoboxContainer) {
   }
 }
 
-function isEditorChoiceChannel(){
-  var para = location.search.substring(1);
-  var isEditorChoiceChannel = (para.indexOf('issue=EditorChoice')>=0) ? true : false;
-  return isEditorChoiceChannel;
-}
 
-function getPaidItems(className){
-  return document.querySelectorAll('.item-headline .' + className + ', .item-headline-link.' + className);
-}
-
-function updateLockClass(){
-  var getPayHeadline = getPaidItems('locked');
-  if (getPayHeadline.length>0){
-    for (var k = 0; k < getPayHeadline.length; k++) {
-      removeClass(getPayHeadline[k], 'locked');
-      addClass(getPayHeadline[k], 'unlocked');
-    }
+function updateLockClass(dataObj){
+  function keepLock(ele, keep, remove) {
+    ele.classList.remove(remove);
+    ele.classList.add(keep);
   }
-}
-
-function updateUnlockClass(){
-    var paidHeadlines = getPaidItems('unlocked');
-    if (paidHeadlines.length>0){
-      for (var k = 0; k < paidHeadlines.length; k++) {
-        if (paidHeadlines[k].className.indexOf('whitelist') >= 0) {
-          continue;
-        }
-        removeClass(paidHeadlines[k], 'unlocked');
-        addClass(paidHeadlines[k], 'locked');
+  var userTier;
+  if (dataObj.paywall >= 1) {
+    userTier = 'free';
+  } else {
+    isPremium = (dataObj.premium >= 1) ? true : false ;  
+    userTier = isPremium ? 'premium' : 'standard';
+  }
+  var headlines = document.querySelectorAll('.locked, .unlocked');
+  for (var k = 0; k < headlines.length; k++) {
+    if (userTier === 'premium') {
+      keepLock(headlines[k], 'unlocked', 'locked');
+    } else if (userTier === 'free') {
+      keepLock(headlines[k], 'locked', 'unlocked');
+    } else if (userTier === 'standard') {
+      if (headlines[k].classList.contains('vip')) {
+        keepLock(headlines[k], 'locked', 'unlocked');
+      } else {
+        keepLock(headlines[k], 'unlocked', 'locked');
       }
     }
-}
-
-function hasClass(ele, cls) {
-  cls = cls || '';
-  if (cls.replace(/\s/g, '').length === 0) {
-    return false; 
-  }else{
-    return new RegExp(' ' + cls + ' ').test(' ' + ele.className + ' ');
   }
 }
 
-function addClass(ele, cls) {
-  if (!hasClass(ele, cls)) {
-    ele.className = ele.className === '' ? cls : ele.className + ' ' + cls;
-  }
-}
-
-function removeClass(ele, cls) {
-  if (hasClass(ele, cls)) {
-    var newClass = ' ' + ele.className.replace(/[\t\r\n]/g, '') + ' ';
-    while (newClass.indexOf(' ' + cls + ' ') >= 0) {
-      newClass = newClass.replace(' ' + cls + ' ', ' ');
-    }
-    ele.className = newClass.replace(/^\s+|\s+$/g, '');
-  }
-}
 
 function showPaywallHint(){
   var subscribeNowContainerId = document.getElementById('paywall-hint-container');
