@@ -336,6 +336,9 @@
             <%elseif $p.meta.theme == "ebook"%>
                 <style><%include file="next/styles/main-ebook.css"%></style>
                 <script type="text/javascript">var pageTheme = 'ebook';</script>
+            <%elseif $p.meta.theme == "black"%>
+                <style><%include file="next/styles/main-black.css"%></style>
+                <script type="text/javascript">var pageTheme = 'black';</script>
             <%elseif $p.meta.theme == "luxury"%>
                 <style><%include file="next/styles/main-luxury.css"%></style>
                 <script type="text/javascript">var pageTheme = 'luxury';</script>
@@ -475,9 +478,9 @@
     </html>
 <%else%>
     <%*<!--MARK: - Use Themes for app only for eBook (dark mode sponsored by Audi) -->*%>
-    <%if $p.meta.theme == "ebook"%>
-        <style><%include file="next/styles/main-ebook.css"%></style>
-        <script type="text/javascript">var pageTheme = 'ebook';</script>
+    <%if $p.meta.theme == "black"%>
+        <style><%include file="next/styles/main-black.css"%></style>
+        <script type="text/javascript">var pageTheme = 'black';</script>
     <%/if%>
     <script type="text/javascript">
         var adchIDNew = window.location.href.replace(/^.*adchannelID=([0-9]{4}).*$/g,'$1');

@@ -11,41 +11,30 @@
 			overlayBG.className = 'overlay-bg-fixed';
 		}, 0);
 	}
-	if (/chineseft\.com|ftchineselive\.com|lunchwithft\.com|leshangavenue\.com/.test(location.hostname) === false || window.hasFoundProductPricing === true) {return;}
-	var isUserPage = /^\/users\/findpassword|\/users\/register$/.test(location.pathname);
-	var isContactConfirmPage = /pageid=subscriptioninfoconfirm/.test(location.search);
-	if (isUserPage || isContactConfirmPage) {return;}
-	var userId = GetCookie('USER_ID');
-	var paywall = GetCookie('paywall');
-	if (userId === null) {
-		setTimeout(function(){
-			showOverlay('overlay-login');
-			document.querySelector('.overlay-title').innerHTML = '订户专享网站';
-			document.querySelector('.register-find').innerHTML = '<a href="https://www.ftacademy.cn/subscription.html">购买会员</a><span></span><a href="/users/findpassword">找回密码</a>';
-			document.querySelector('.wx-login').style.marginTop = '15px';
-			var overlayBG = document.querySelector('.overlay-bg');
-			overlayBG.className = 'overlay-bg-fixed';
-		}, 0);
-	} else if (paywall === null) {
-		showPayWallForMember(userId);
-	}
-	// MARK: the api jsapi/paywall is not accurate, especially when a user purchased on Apple IAP, disable it for now until the server side fixed it. 
-	//  else {
-	// 	// MARK: Valid the info with a network request
-	// 	var xhr = new XMLHttpRequest();
-	// 	xhr.open('GET', '/index.php/jsapi/paywall');
-	// 	xhr.setRequestHeader('Content-Type', 'application/json');
-	// 	xhr.onload = function() {
-	// 		if (xhr.status !== 200) {return;}
-	// 		var userInfo = JSON.parse(xhr.responseText);
-	// 		if (userInfo.paywall === 0) {return;}
-	// 		showPayWallForMember(userId);
-	// 	};
-	// 	xhr.send();
-	// }
-	var shareIcons = document.querySelectorAll('.icon-share, .icon-wechat, .icon-weibo, .icon-linkedin, .icon-twitter, .icon-facebook');
-	for (var i=0; i < shareIcons.length; i++) {
-		var icon = shareIcons[i];
-		icon.parentNode.removeChild(icon);
-	}
+	setTimeout(function(){
+		if (/chineseft\.com|ftchineselive\.com|lunchwithft\.com|leshangavenue\.com/.test(location.hostname) === false || window.hasFoundProductPricing === true) {return;}
+		var isUserPage = /^\/users\/findpassword|\/users\/register$/.test(location.pathname);
+		var isContactConfirmPage = /pageid=subscriptioninfoconfirm/.test(location.search);
+		if (isUserPage || isContactConfirmPage) {return;}
+		var userId = GetCookie('USER_ID') || GetCookie('USER_ID_FT');
+		var paywall = GetCookie('paywall');
+		if (userId === null && paywall === null) {
+			// MARK: - The server side has a bug where sometimes cookie for user id might be empty but payment is not null. In that case, don't pop out the overlay. 
+			setTimeout(function(){
+				showOverlay('overlay-login');
+				document.querySelector('.overlay-title').innerHTML = '订户专享网站';
+				document.querySelector('.register-find').innerHTML = '<a href="https://www.ftacademy.cn/subscription.html">购买会员</a><span></span><a href="/users/findpassword">找回密码</a>';
+				document.querySelector('.wx-login').style.marginTop = '15px';
+				var overlayBG = document.querySelector('.overlay-bg');
+				overlayBG.className = 'overlay-bg-fixed';
+			}, 0);
+		} else if (paywall === null) {
+			showPayWallForMember(userId);
+		}
+		var shareIcons = document.querySelectorAll('.icon-share, .icon-wechat, .icon-weibo, .icon-linkedin, .icon-twitter, .icon-facebook');
+		for (var i=0; i < shareIcons.length; i++) {
+			var icon = shareIcons[i];
+			icon.parentNode.removeChild(icon);
+		}
+	}, 1000);
 })();
