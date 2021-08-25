@@ -81,6 +81,18 @@ function updateSubscriberStatus() {
             subscriberClass = ' is-subscriber is-standard';
             result = 'Subscriber';
         }
+        // MARK: - Check the expire date to decide if the subscriber has churned. Since the cookie might not be reliable, we need to be very careful. 
+        var expire = GetCookie('expire');
+        if (typeof result === 'string' && typeof expire === 'string') {
+            var expireTimeStamp = parseInt(expire, 10);
+            if (expireTimeStamp > 0) {
+                var nowTimeStamp = new Date().getTime()/1000;
+                if (nowTimeStamp > expireTimeStamp) {
+                    result = 'Churned' + result;
+                    subscriberClass = '';
+                }
+            } 
+        }
         document.documentElement.className += subscriberClass;
         if (result) {return result;}
     }

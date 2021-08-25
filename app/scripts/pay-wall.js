@@ -95,13 +95,12 @@ function handleSubscriptionInfo(dataObj) {
     if (dataObj.premium === 1) {
       window.htmlClass += ' is-subscriber is-premium';
       subscriptionType = 'premium';
-      SetCookie('paywall', subscriptionType);
     } else {
       window.htmlClass += ' is-subscriber is-standard';
-      subscriptionType = 'standard';
-      SetCookie('paywall', subscriptionType);
+      subscriptionType = 'standard';      
     }
   }
+  SetCookie('paywall', subscriptionType);
   var expireDate = '';
   if (dataObj.expire) {
     expireDate = dataObj.expire;
