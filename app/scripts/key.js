@@ -61,13 +61,16 @@ function updateSubscriberStatus() {
     var paywall = null;
     // MARK: - On Android Native App, use window.androidUserInfo for subscription information
     if (window.androidUserInfo) {
-        if (window.androidUserInfo.isMember) {
+        if (window.androidUserInfo.membership && window.androidUserInfo.membership.tier) {
             paywall = (window.androidUserInfo.membership.tier === 'premium') ? 'premium' : 'subscriber';
-        } else {
-            // MARK: - Not an active subscriber
-            if (window.androidUserInfo.membership && window.androidUserInfo.membership.tier) {
-                var churnedUserType = (window.androidUserInfo.membership.tier === 'premium') ? 'VIP' : 'Subscriber';
-                return 'Churned' + churnedUserType;
+            var androidExpireDate = window.androidUserInfo.membership.expireDate;
+            if (typeof androidExpireDate === 'string' && !window.androidUserInfo.membership.vip) {
+                var androidExpireDateStamp = new Date(androidExpireDate).getTime() + 24 * 60 * 60 * 1000;
+                var nowTimeStamp = new Date().getTime();
+                if (nowTimeStamp > androidExpireDateStamp) {
+                    var churnedUserType = (paywall === 'premium') ? 'VIP' : 'Subscriber';
+                    return 'Churned' + churnedUserType;
+                }
             }
         }
     }

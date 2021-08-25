@@ -834,6 +834,10 @@
 				if (window.configJson) {
 					androidDebugInfo = JSON.stringify(window.configJson);
 				}
+				if (window.androidUserInfo) {
+					androidDebugInfo += '<br>' + JSON.stringify(window.androidUserInfo);
+					androidDebugInfo += '<br><br>------<br>' + updateSubscriberStatus();
+				}
 				document.getElementById('android-text-debug').innerHTML = androidDebugInfo;
 			</script>
 			<%/if%>
