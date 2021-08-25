@@ -782,17 +782,6 @@
 					<p><a href="http://www.ftchinese.com/m/corp/preview.html?pageid=subscriptioninfoconfirm&to=all">测试3</a></p>
 				<%/if%>
 
-				<%if $smarty.get.android != "" && 1<0 %>
-					<script>
-						// document.write('Android Test');
-						// setTimeout(function(){
-						// 	if (window.androidUserInfo) {
-							// MARK: - This will cause problem! 
-						// 		document.write(JSON.stringify(window.androidUserInfo));
-						// 	}
-						// }, 10000);
-					</script>
-				<%/if%>
 			<%/if%>
 		<%/if%>
 
@@ -839,8 +828,14 @@
 			<%if $smarty.get.android != ""%>
 			<div class="item-container first-headline no-image"><div class="item-inner">
 				<h2 class="item-headline first"><a href="https://www.ftchinese.com/m/corp/preview.html?pageid=subscriptioninfoconfirm&to=all&001"></a></h2>
-				<h2>版本：<%$smarty.get.android%></h2>
 			</div></div>
+			<script>
+				var androidDebugInfo = 'Android App';
+				if (window.androidUserInfo) {
+					androidDebugInfo = JSON.stringify(window.androidUserInfo);
+				}
+				// document.getElementById('android-text-debug').innerHTML = androidDebugInfo;
+			</script>
 			<%/if%>
 		</div>
 		
