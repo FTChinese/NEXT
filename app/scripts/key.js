@@ -59,6 +59,7 @@ function guid() {
 
 function updateSubscriberStatus() {
     var paywall = null;
+    var nowTimeStamp = new Date().getTime()/1000;
     // MARK: - On Android Native App, use window.androidUserInfo for subscription information
     if (window.androidUserInfo) {
         if (window.androidUserInfo.membership && window.androidUserInfo.membership.tier) {
@@ -66,7 +67,6 @@ function updateSubscriberStatus() {
             var androidExpireDate = window.androidUserInfo.membership.expireDate;
             if (typeof androidExpireDate === 'string' && !window.androidUserInfo.membership.vip) {
                 var androidExpireDateStamp = new Date(androidExpireDate).getTime() + 24 * 60 * 60 * 1000;
-                var nowTimeStamp = new Date().getTime();
                 if (nowTimeStamp > androidExpireDateStamp) {
                     var churnedUserType = (paywall === 'premium') ? 'VIP' : 'Subscriber';
                     return 'Churned' + churnedUserType;
@@ -93,7 +93,6 @@ function updateSubscriberStatus() {
         if (typeof result === 'string' && typeof expire === 'string') {
             var expireTimeStamp = parseInt(expire, 10);
             if (expireTimeStamp > 0) {
-                var nowTimeStamp = new Date().getTime()/1000;
                 if (nowTimeStamp > expireTimeStamp) {
                     result = 'Churned' + result;
                     subscriberClass = '';
