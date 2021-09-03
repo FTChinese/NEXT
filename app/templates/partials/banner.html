@@ -2,6 +2,8 @@
   <%assign var="hideBanner" value="yes"%>
 <%/if%>
 
+
+
 <%if $smarty.get.ad != "no" && $noAd != "true" && $hideBanner != "yes"%>
     <%if $section.url && $section.url != ""%>
         <%assign var="sectionLink" value=" href=\"`$section.url`\" target=_blank"%>
@@ -22,14 +24,44 @@
         <%assign var="blockStyle" value=" style=\"max-width: `$section.maxWidth`px; margin: auto;\""%>
     <%/if%>
 
+    <%assign var="stickyClass" value=""%>
+    <%if $section.sticky != ""%>
+        <%assign var="stickyClass" value=" banner-sticky-`$section.sticky`"%>
+        <%assign var="stickyTopMobile" value="44"%>
+        <%if $smarty.get.webview == "ftcapp"%>
+            <%assign var="stickyTopMobile" value="0"%>
+        <%/if%>
+        <style>
+            .banner-sticky-all {
+                position:sticky;
+                top:0;
+                z-index:2;
+            }
+            @media only screen and (max-width: 490px) {
+                .banner-sticky-mobile, .banner-sticky-all {
+                    position:sticky;
+                    top: <%$stickyTopMobile%>px;
+                    z-index:2;
+                }
+            }
+            @media only screen and (min-width: 491px) {
+                .banner-sticky-pc, .banner-sticky-all {
+                    position:sticky;
+                    top:0;
+                    z-index:2;
+                }
+            }
+        </style>
+    <%/if%>
+
     <%if $section.highImpactImage != "" && $section.image == "" && $section.fit == ""%>
-        <div class="block-image-container"<%$blockStyle%>>
+        <div class="block-image-container<%$stickyClass%>"<%$blockStyle%>>
             <a<%$sectionLink%> class="track-click" data-ec="House Ad" data-ea="Click" data-el="<%$section.url%>">
                 <img class="P-only" src="<%$section.highImpactImage%>">
             </a>
         </div>
     <%elseif $section.image && $section.image != "" && $section.fit == ""%>
-        <div class="block-image-container"<%$blockStyle%>>
+        <div class="block-image-container<%$stickyClass%>"<%$blockStyle%>>
             <a<%$sectionLink%> class="track-click" data-ec="House Ad" data-ea="Click" data-el="<%$section.url%>">
                 <%if $section.highImpactImage == ""%>
                     <img src="<%$section.image%>">

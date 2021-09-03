@@ -302,7 +302,7 @@
             <meta http-equiv="X-UA-Compatible" content="IE=edge" />
             <title><%$pageTitle%></title>
             <meta http-equiv="Content-Language" content="zh-CN"/>
-            <meta content="<%$p.meta.description%>" name="description"/>
+            <meta content="<%$p.meta.description|strip_tags:false%>" name="description"/>
             <meta name="apple-mobile-web-app-status-bar-style" content="black" />
             <%if $pageId == "home" && date("Ymd",$smarty.now) <= 20181231%>
                 <meta http-equiv="refresh" content="1800;url=/?refresh" />
