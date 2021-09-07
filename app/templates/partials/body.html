@@ -128,18 +128,33 @@
                                                     <%*<!--MARK: - Event Info Start -->*%>
                                                 <%/if%>
                                                 <%assign var="i" value=0%>
-                                                <%foreach from=$reports item="report"%>
-                                                    <%assign var="itemType" value="premium"%>
-                                                    <%include file="next/partials/subscriptions-one-item.html"%>
-                                                    <%assign var="premiumContentIds" value="`$premiumContentIds`,`$report.id`"%>
-                                                    <%assign var="i" value=$i+1%>
-                                                <%/foreach%>
-                                                <%foreach from=$interactives item="report"%>
-                                                    <%assign var="itemType" value="interactive"%>
-                                                    <%include file="next/partials/subscriptions-one-item.html"%>
-                                                    <%assign var="premiumContentIds" value="`$premiumContentIds`,`$report.id`"%>
-                                                    <%assign var="i" value=$i+1%>
-                                                <%/foreach%>
+                                                <%if (date("w", $smarty.now) == 0 || date("w", $smarty.now) == 6) && $smarty.get.subscription == "premium" %>
+                                                    <%foreach from=$interactives item="report"%>
+                                                        <%assign var="itemType" value="interactive"%>
+                                                        <%include file="next/partials/subscriptions-one-item.html"%>
+                                                        <%assign var="premiumContentIds" value="`$premiumContentIds`,`$report.id`"%>
+                                                        <%assign var="i" value=$i+1%>
+                                                    <%/foreach%>
+                                                    <%foreach from=$reports item="report"%>
+                                                        <%assign var="itemType" value="premium"%>
+                                                        <%include file="next/partials/subscriptions-one-item.html"%>
+                                                        <%assign var="premiumContentIds" value="`$premiumContentIds`,`$report.id`"%>
+                                                        <%assign var="i" value=$i+1%>
+                                                    <%/foreach%>
+                                                <%else%>
+                                                    <%foreach from=$reports item="report"%>
+                                                        <%assign var="itemType" value="premium"%>
+                                                        <%include file="next/partials/subscriptions-one-item.html"%>
+                                                        <%assign var="premiumContentIds" value="`$premiumContentIds`,`$report.id`"%>
+                                                        <%assign var="i" value=$i+1%>
+                                                    <%/foreach%>
+                                                    <%foreach from=$interactives item="report"%>
+                                                        <%assign var="itemType" value="interactive"%>
+                                                        <%include file="next/partials/subscriptions-one-item.html"%>
+                                                        <%assign var="premiumContentIds" value="`$premiumContentIds`,`$report.id`"%>
+                                                        <%assign var="i" value=$i+1%>
+                                                    <%/foreach%>
+                                                <%/if%>
                                                 <div class="clearfloat"></div>
                                             </div>
                                             <h2 class="list-title"><a class="list-link">今日焦点</a></h2>
