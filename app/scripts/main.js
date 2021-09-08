@@ -156,7 +156,7 @@ function trackViewables() {
 
 
 // Init responsive images loading
-function loadImages() {
+function runLoadImages() {
 
   var i;
   var queryString = window.location.search;
@@ -269,7 +269,15 @@ function loadImages() {
     }
   }
 
-
+  function loadImages() {
+    if (typeof Android === 'undefined') {
+      runLoadImages();
+    } else {
+      setTimeout(function(){
+        runLoadImages();
+      }, 500);
+    }
+  }
 
   // load responsive videos
   videos = document.querySelectorAll('figure.loading-video');
