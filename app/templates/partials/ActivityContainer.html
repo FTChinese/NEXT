@@ -1115,216 +1115,253 @@
 }
 </style>
 
-<%if $list.title != ""%>
 
+<%%>
+
+
+
+
+
+
+
+
+
+
+<!-- 活动介绍: <%$list.ItemLayout%>-->
+<%if $list.ItemLayout == "introduction"%>
+<div class="<%$list.ItemLayout%>">
+    <%foreach from=$list.items item=item%>
+        <div class="caption"><%$item.headline%></div>    
+    <%/foreach%>
+</div>
 <%/if%>
-<div id="box">
-        <!-- 背景图 -->
-        <div class="header-img"></div>
-        <!-- 文字说明 -->
-        <div class="content">
-            <!-- 活动介绍 -->
-            <div class="introduction">
-                <div class="caption">六一将至，FT中文网甄选2套儿童书籍作为心定高端会员的礼物--《门萨思维谜题》圈3册与《DK儿童大百科》圈5册。</div>
-                <div class="caption">教育无痕，陪伴孩子，做学习型父母，与他共同成长。</div>
-                <div class="caption">一起看DK百科，太空，自然，动物，科学，历史，潜移默化扩展各领域知识；</div>
-                <div class="caption">一起看DK百科，太空，自然，动物，科学，历史，潜移默化扩展各领域知识；</div>
-                <div class="caption">一起看DK百科，太空，自然，动物，科学，历史，潜移默化扩展各领域知识；</div>
-                <div class="caption">家庭教育，润物无声；市场投资，顺势而为。</div>
-                <div class="caption">130起看DK百科，太空，自然，动物，科学，历史，潜移默化扩展各领域知识起看DK百科，太空，自然，动物，科学，历史，潜移默化扩展各领域知识起看DK百科，太空，自然，动物，科学，历史，潜移默化扩展各领域知识</div>
-                <div class="caption">希望全球视野的FT中文网，能带带你站在高海拔的地方俯瞰世界，起看DK百科，太空，自然，动物，科学，历史，潜移默化扩展各领域知识</div>
+
+
+
+
+
+
+<%*
+
+
+
+<!-- 背景图 -->
+<div class="header-img"></div>
+<!-- 文字说明 -->
+
+
+
+
+<!-- 会员权益 -->
+<h2 class="member-title">FT中文网会员权益</h2>
+
+
+<!-- 会员标准 -->
+<div class="standard-member">
+    <div class="price">
+        <p class="price-left">标准会员</p>
+        <p class="price-right">¥<span class="right-bold">298</span>/年</p>
+    </div>
+    <div class="standard">
+        <div class="standard-detail">
+            <div class="detail-img">
+                <img src="../image/icon-1.png"    class="detailImg" alt="">
             </div>
-            <!-- 会员权益 -->
-            <h2 class="member-title">FT中文网会员权益</h2>
-            <!-- 会员标准 -->
-            <div class="standard-member">
-                <div class="price">
-                    <p class="price-left">标准会员</p>
-                    <p class="price-right">¥<span class="right-bold">298</span>/年</p>
-                </div>
-                <div class="standard">
-                    <div class="standard-detail">
-                        <div class="detail-img">
-                            <img src="../image/icon-1.png"    class="detailImg" alt="">
-                        </div>
-                        <div class="detail-topic">
-                            <p class="topic-name">精选深度分析</p>
-                            <p class="topic-content">只给你专业、全面、平衡、可靠的咨询</p>
-                        </div>
-                    </div>
-                    <div class="standard-detail">
-                        <div class="detail-img">
-                            <img src="../image/icon-1.png"    class="detailImg" alt="">
-                        </div>
-                        <div class="detail-topic">
-                            <p class="topic-name">中英双语内容</p>
-                            <p class="topic-content">中文/英文/对照，三种模式，一键切换</p>
-                        </div>
-                    </div>
-                    <div class="standard-detail">
-                        <div class="detail-img">
-                            <img src="../image/icon-1.png"    class="detailImg" alt="">
-                        </div>
-                        <div class="detail-topic">
-                            <p class="topic-name">英语原声电台</p>
-                            <p class="topic-content">碎片时间，囊括全球市场瞬息万变</p>
-                        </div>
-                    </div>
-                    <div class="standard-detail">
-                        <div class="detail-img">
-                            <img src="../image/icon-1.png"    class="detailImg" alt="">
-                        </div>
-                        <div class="detail-topic">
-                            <p class="topic-name">金融英语速读训练</p>
-                            <p class="topic-content">每日一练，不断迭代</p>
-                        </div>
-                    </div>
-                    <div class="standard-detail">
-                        <div class="detail-img">
-                            <img src="../image/icon-1.png"    class="detailImg" alt="">
-                        </div>
-                        <div class="detail-topic">
-                            <p class="topic-name">9万历史文章</p>
-                            <p class="topic-content">重温历史数据与专家分析，助你把握机遇</p>
-                        </div>
-                    </div>
-                </div>
+            <div class="detail-topic">
+                <p class="topic-name">精选深度分析</p>
+                <p class="topic-content">只给你专业、全面、平衡、可靠的咨询</p>
             </div>
-            <div class="high-member">
-                <div class="price high-price">
-                    <p class="price-left">高端会员</p>
-                    <p class="price-right">¥<span class="right-bold">1998</span>/年</p>
-                </div>
-                <div class="high">
-                    <p class="high-title">享受<span class="title-span">标&nbsp;准&nbsp;会&nbsp;员</span>所有权益</p>
-                    <div class="high-detail">
-                        <div class="detail-img">
-                            <img src="../image/icon-2.png"   class="detailImg" alt="">
-                        </div>
-                        <div class="highTopic">
-                            <p class="high-name">编辑精选</p>
-                            <p class="high-content">每周五，总编/各模板主编为您推荐本周必读资讯分享他们的思考与观点</p>
-                        </div>
-                    </div>
-                    <div class="high-detail">
-                        <div class="detail-img">
-                            <img src="../image/icon-2.png"   class="detailImg" alt="">
-                        </div>
-                        <div class="highTopic">
-                            <p class="high-name">FT商学院高端专享内容</p>
-                            <p class="high-content">提升战略格局与投资视野</p>
-                        </div>
-                    </div>
-                    <div class="high-detail">
-                        <div class="detail-img">
-                            <img src="../image/icon-2.png"   class="detailImg" alt="">
-                        </div>
-                        <div class="highTopic">
-                            <p class="high-name">论坛门票</p>
-                            <p class="high-content">FT中文网2021年论坛门票2张</p>
-                            <p class="high-notice">注：所有活动门票不可折算现金、不能转让、不含差旅与食宿</p>
-                        </div>
-                    </div>
-                    <div class="detail-warn">*付费后请关注欢迎邮件，内有会员专属服务平台访问方式及功能服务介绍</div>
-                </div>
+        </div>
+        <div class="standard-detail">
+            <div class="detail-img">
+                <img src="../image/icon-1.png"    class="detailImg" alt="">
             </div>
-            <!-- 谁可以参加 -->
-            <div class="join">
-                <div class="join-title"><p>谁可以参加&nbsp;+&nbsp;如何参加？</p></div>
-                <div class="join-content">
-                    <h2>新订高端会员</h2>
-                    <p class="join-success">支付成功后，按提示填写物流信息</p>
-                    <p class="join-warn">*现有会员请关注邮箱或官网不定期老会员专享活动</p>
-                    <p class="join-warn">*配送地址仅限中过大陆</p>
-                </div>
+            <div class="detail-topic">
+                <p class="topic-name">中英双语内容</p>
+                <p class="topic-content">中文/英文/对照，三种模式，一键切换</p>
             </div>
-            <!-- 赠送介绍 -->
-            <div class="giveaways">
-                <div class="giveaways-title">赠品介绍</div>
-                <div class="giveaways-content">
-                </div>
+        </div>
+        <div class="standard-detail">
+            <div class="detail-img">
+                <img src="../image/icon-1.png"    class="detailImg" alt="">
             </div>
-            <!-- 活动须知 -->
-            <div class="notice">
-                <div class="notice-title">活动须知</div>
-                <div class="notice-content">
-                    <div class="notice-detail">
-                        <div class="noticeImg">
-                            <img src="../image/icon-3.png" alt="">
-                        </div>
-                        <p>活动时间：2021年5月13-23日24点（北京时间）</p>
-                    </div>
-                    <div class="notice-detail">
-                        <div class="noticeImg">
-                            <img src="../image/icon-3.png" alt="">
-                        </div>
-                        <p>现有会员（含升级/续订）、标准会员、实体订阅卡、企业机构会员和Stripe支付会员均不参加本次活动</p>
-                    </div>
-                    <div class="notice-detail">
-                        <div class="noticeImg">
-                            <img src="../image/icon-3.png" alt="">
-                        </div>
-                        <p>赠品配送地址仅限中国大陆，海外及港澳台地区订户可请大陆好友代收；5月底顺丰发出</p> 
-                    </div>
-                    <div class="notice-detail">
-                        <div class="noticeImg">
-                            <img src="../image/icon-3.png" alt="">
-                        </div>
-                        <p>安卓系统手机用户请通过华为市场更新应用至最新版本；iOS（iPhone、iPad）系统用户请通过苹果App Store应用市场更新应用至最新版本</p> 
-                    </div>
-                    <div class="notice-detail">
-                        <div class="noticeImg">
-                            <img src="../image/icon-3.png" alt="">
-                        </div>
-                        <p>通过iOS内购支付的会员，次年自动续订为原价</p> 
-                    </div>
-                    <div class="notice-detail">
-                        <div class="noticeImg">
-                            <img src="../image/icon-3.png" alt="">
-                        </div>
-                        <p>更多会员专属服务，请关注系统推送欢迎邮件</p>
-                    </div>
-                    <div class="notice-detail">
-                        <div class="noticeImg">
-                            <img src="../image/icon-3.png" alt="">
-                        </div>
-                        <p>联系客服：subscriber.service@ftchinese.com 电话/微信： 18501972480；(工作日9:30-17:30)</p>
-                    </div>
-                    <div class="notice-detail">
-                        <div class="noticeImg">
-                            <img src="../image/icon-3.png" alt="">
-                        </div>
-                        <p>付费订阅为虚拟内容服务，一经订阅成功概不退款，请谨慎购买</p>
-                    </div>
-                    <div class="notice-detail">
-                        <div class="noticeImg">
-                            <img src="../image/icon-3.png" alt="">
-                        </div>
-                        <p>本次活动的最终解释权归FT中文网所有</p>
-                    </div>
-                </div>
+            <div class="detail-topic">
+                <p class="topic-name">英语原声电台</p>
+                <p class="topic-content">碎片时间，囊括全球市场瞬息万变</p>
             </div>
-            <!-- 企业机构会员 -->
-            <div class="company">
-                <div class="company-title">企业机构会员</div>
-                <div class="company-content">
-                    <p class="company-detail">同一机构、同时订阅5个高端会员及以上</p>
-                    <p class="company-detail">可享有如下服务，具体请联系fan.qi@ftchinese.com </p>
-                    <div class="company-serice">
-                        <div class="service-detail">
-                            <img src="../image/icon-4.png" alt="">
-                            <p>享受更灵活、更优惠的定制化权益</p>
-                        </div>
-                        <div class="service-detail">
-                            <img src="../image/icon-5.png" alt="">
-                            <p>享受售前/售后专属服务</p>
-                        </div>
-                    </div>
-                    <p class="company-warn">*企业机构会员不参加本次活动</p>
-                </div>
+        </div>
+        <div class="standard-detail">
+            <div class="detail-img">
+                <img src="../image/icon-1.png"    class="detailImg" alt="">
+            </div>
+            <div class="detail-topic">
+                <p class="topic-name">金融英语速读训练</p>
+                <p class="topic-content">每日一练，不断迭代</p>
+            </div>
+        </div>
+        <div class="standard-detail">
+            <div class="detail-img">
+                <img src="../image/icon-1.png"    class="detailImg" alt="">
+            </div>
+            <div class="detail-topic">
+                <p class="topic-name">9万历史文章</p>
+                <p class="topic-content">重温历史数据与专家分析，助你把握机遇</p>
             </div>
         </div>
     </div>
+</div>
 
 
 
+<div class="high-member">
+    <div class="price high-price">
+        <p class="price-left">高端会员</p>
+        <p class="price-right">¥<span class="right-bold">1998</span>/年</p>
+    </div>
+    <div class="high">
+        <p class="high-title">享受<span class="title-span">标&nbsp;准&nbsp;会&nbsp;员</span>所有权益</p>
+        <div class="high-detail">
+            <div class="detail-img">
+                <img src="../image/icon-2.png"   class="detailImg" alt="">
+            </div>
+            <div class="highTopic">
+                <p class="high-name">编辑精选</p>
+                <p class="high-content">每周五，总编/各模板主编为您推荐本周必读资讯分享他们的思考与观点</p>
+            </div>
+        </div>
+        <div class="high-detail">
+            <div class="detail-img">
+                <img src="../image/icon-2.png"   class="detailImg" alt="">
+            </div>
+            <div class="highTopic">
+                <p class="high-name">FT商学院高端专享内容</p>
+                <p class="high-content">提升战略格局与投资视野</p>
+            </div>
+        </div>
+        <div class="high-detail">
+            <div class="detail-img">
+                <img src="../image/icon-2.png"   class="detailImg" alt="">
+            </div>
+            <div class="highTopic">
+                <p class="high-name">论坛门票</p>
+                <p class="high-content">FT中文网2021年论坛门票2张</p>
+                <p class="high-notice">注：所有活动门票不可折算现金、不能转让、不含差旅与食宿</p>
+            </div>
+        </div>
+        <div class="detail-warn">*付费后请关注欢迎邮件，内有会员专属服务平台访问方式及功能服务介绍</div>
+    </div>
+</div>
+
+
+
+<!-- 谁可以参加 -->
+<div class="join">
+    <div class="join-title"><p>谁可以参加&nbsp;+&nbsp;如何参加？</p></div>
+    <div class="join-content">
+        <h2>新订高端会员</h2>
+        <p class="join-success">支付成功后，按提示填写物流信息</p>
+        <p class="join-warn">*现有会员请关注邮箱或官网不定期老会员专享活动</p>
+        <p class="join-warn">*配送地址仅限中过大陆</p>
+    </div>
+</div>
+
+
+
+
+<!-- 赠送介绍 -->
+<div class="giveaways">
+    <div class="giveaways-title">赠品介绍</div>
+    <div class="giveaways-content">
+    </div>
+</div>
+
+
+
+
+<!-- 活动须知 -->
+<div class="notice">
+    <div class="notice-title">活动须知</div>
+    <div class="notice-content">
+        <div class="notice-detail">
+            <div class="noticeImg">
+                <img src="../image/icon-3.png" alt="">
+            </div>
+            <p>活动时间：2021年5月13-23日24点（北京时间）</p>
+        </div>
+        <div class="notice-detail">
+            <div class="noticeImg">
+                <img src="../image/icon-3.png" alt="">
+            </div>
+            <p>现有会员（含升级/续订）、标准会员、实体订阅卡、企业机构会员和Stripe支付会员均不参加本次活动</p>
+        </div>
+        <div class="notice-detail">
+            <div class="noticeImg">
+                <img src="../image/icon-3.png" alt="">
+            </div>
+            <p>赠品配送地址仅限中国大陆，海外及港澳台地区订户可请大陆好友代收；5月底顺丰发出</p> 
+        </div>
+        <div class="notice-detail">
+            <div class="noticeImg">
+                <img src="../image/icon-3.png" alt="">
+            </div>
+            <p>安卓系统手机用户请通过华为市场更新应用至最新版本；iOS（iPhone、iPad）系统用户请通过苹果App Store应用市场更新应用至最新版本</p> 
+        </div>
+        <div class="notice-detail">
+            <div class="noticeImg">
+                <img src="../image/icon-3.png" alt="">
+            </div>
+            <p>通过iOS内购支付的会员，次年自动续订为原价</p> 
+        </div>
+        <div class="notice-detail">
+            <div class="noticeImg">
+                <img src="../image/icon-3.png" alt="">
+            </div>
+            <p>更多会员专属服务，请关注系统推送欢迎邮件</p>
+        </div>
+        <div class="notice-detail">
+            <div class="noticeImg">
+                <img src="../image/icon-3.png" alt="">
+            </div>
+            <p>联系客服：subscriber.service@ftchinese.com 电话/微信： 18501972480；(工作日9:30-17:30)</p>
+        </div>
+        <div class="notice-detail">
+            <div class="noticeImg">
+                <img src="../image/icon-3.png" alt="">
+            </div>
+            <p>付费订阅为虚拟内容服务，一经订阅成功概不退款，请谨慎购买</p>
+        </div>
+        <div class="notice-detail">
+            <div class="noticeImg">
+                <img src="../image/icon-3.png" alt="">
+            </div>
+            <p>本次活动的最终解释权归FT中文网所有</p>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- 企业机构会员 -->
+<div class="company">
+    <div class="company-title">企业机构会员</div>
+    <div class="company-content">
+        <p class="company-detail">同一机构、同时订阅5个高端会员及以上</p>
+        <p class="company-detail">可享有如下服务，具体请联系fan.qi@ftchinese.com </p>
+        <div class="company-serice">
+            <div class="service-detail">
+                <img src="../image/icon-4.png" alt="">
+                <p>享受更灵活、更优惠的定制化权益</p>
+            </div>
+            <div class="service-detail">
+                <img src="../image/icon-5.png" alt="">
+                <p>享受售前/售后专属服务</p>
+            </div>
+        </div>
+        <p class="company-warn">*企业机构会员不参加本次活动</p>
+    </div>
+</div>
+
+
+
+*%>
