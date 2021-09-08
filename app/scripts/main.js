@@ -268,17 +268,6 @@ function runLoadImages() {
       figuresLazy[i] = '';
     }
   }
-
-  function loadImages() {
-    if (typeof Android === 'undefined') {
-      runLoadImages();
-    } else {
-      setTimeout(function(){
-        runLoadImages();
-      }, 500);
-    }
-  }
-
   // load responsive videos
   videos = document.querySelectorAll('figure.loading-video');
   videosLazy = [];
@@ -328,6 +317,17 @@ function runLoadImages() {
   loadVideosLazy ();
   trackViewables();
 }
+
+function loadImages() {
+  if (typeof Android === 'undefined') {
+    runLoadImages();
+  } else {
+    setTimeout(function(){
+      runLoadImages();
+    }, 500);
+  }
+}
+
 
 function viewablesInit() {
   if (sections.length > 0 && typeof window.gPageId === 'string' && window.gPageId !== '') {
