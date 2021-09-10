@@ -12,17 +12,13 @@
     }
      /* 文字介绍 */
     .introduction{
+        display: block;
         width: 800px;
-        margin: 0 auto;
+        margin: 60px auto;
+        position:relative;
         background-color: #d7f3ff;
         border-radius: 8px;
         font-size: 20px;
-        margin: 0 20px;
-        padding: 30px 80px 90px 80px;
-    }
-    .caption {
-        line-height: 40px;
-        margin-bottom: 20px;
     }
     .introduction-title{
         width: 65%;
@@ -43,28 +39,30 @@
     .introduction-content{
         width: 90%;
         margin: 0 auto;
-        padding: 70px 0 30px 0;
+        padding: 60px 40px;
     }
-    .introduction-detail{
-        line-height: 30px;
-        display: flex;
-        justify-content: flex-start;
-        align-items: baseline;
+    .caption{
+        line-height: 40px;
+        margin-bottom: 20px;
     }
     .introductionImg{
         width: 16px;
+        height: 16px;
+        display: inline-block;
         margin-right: 20px;
+    }
+    .captionImage{
+        width:100%;
+        height:auto;
     }
 
    /* 会员权益 */
-    .memberRights{
+    .standardMemberRights,premiumMemberRights{
         width: 800px;
-        margin: 0 auto;
+        margin: 40px auto;
         border-radius: 8px;
-        padding: 30px 80px;
         position: relative;
         background-color: #d7f3ff;
-        margin: 30px 20px;
     }
     .price{
         width: 80%;
@@ -160,7 +158,6 @@
 }
 
 
-
 </style>
 
 
@@ -180,25 +177,46 @@
     </div>
 <%/if%>
 
+
+
 <!-- 内容介绍-左对齐: <%$list.ItemLayout%>-->
 <%if $list.ItemLayout == "introduction"%>
     <div class="<%$list.ItemLayout%>">
-        <%foreach from=$list.items item=item%>
-            <div class="introduction-title"><%$item.tag%></div>
-                <div class="introduction-content">
-                    <div class="introduction-detail">
-                        <div class="introductionImg">
-                            <%$item.image%>
-                        </div>
-                        <p class="caption"><%$item.headline%></p>
-                    </div>
-                </div>
-            </div>
-    <%/foreach%>
+        <div class="introduction-title"><%$item.headline%></div>
+        <div class="introduction-content">
+            <%foreach from=$list.items item=item%>
+                <div class="caption"><img src="<%$item.image%>" alt="" class="captionImage"><%$item.headline%></div>
+            <%/foreach%>
+        </div>
 <%/if%>
 
-<!-- 会员权益介绍-居中: <%$list.ItemLayout%>-->
-<%if $list.ItemLayout == "memberRights"%>
+<!-- 标准会员权益介绍-居中: <%$list.ItemLayout%>-->
+<%if $list.ItemLayout == "standardMemberRights"%>
+    <div class="<%$list.ItemLayout%>">
+        <div class="price">
+            <img src="<%$item.image%>" alt="" class="priceImage">
+        </div>
+        <div class="member">
+            <%foreach from=$list.items item=item%>
+                <div class="member-detail">
+                    <div class="member-img">
+                        <img src="<%$item.image%>" alt="" class="memberImage">
+                    </div>
+                    <div class="member-topic">
+                        <p class="topic-name"><%$item.shortlead%></p>
+                        <p class="topic-content"><%$item.longlead%></p>
+                        <p class="topic-notice"><%$item.tag%></p>
+                    </div>
+                </div>
+            <%/foreach%>
+            <div class="detail-warn"><%$item.longlead%></div>
+        </div>
+    </div>
+<%/if%>
+
+
+<!-- 标准会员权益介绍-居中: <%$list.ItemLayout%>-->
+<%if $list.ItemLayout == "premiumMemberRights"%>
     <div class="<%$list.ItemLayout%>">
         <div class="price">
             <img src="<%$item.image%>" alt="" class="priceImage">
@@ -211,18 +229,19 @@
                         <img src="<%$item.image%>" alt="" class="memberImage">
                     </div>
                     <div class="member-topic">
-                        <p class="topic-name"><%$item.longlead%></p>
-                        <p class="topic-content"><%$item.shortlead%></p>
-                        <p class="topic-notice"><%$item.shortlead%></p>
+                        <p class="topic-name"><%$item.shortlead%></p>
+                        <p class="topic-content"><%$item.longlead%></p>
+                        <p class="topic-notice"><%$item.tag%></p>
                     </div>
                 </div>
             <%/foreach%>
-            <div class="detail-warn"><%$item.longlead%></div>
+            <div class="detail-warn"></div>
         </div>
     </div>
 <%/if%>
 
 
 <%*
+
 
 *%>
