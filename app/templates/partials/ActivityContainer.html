@@ -1,17 +1,16 @@
 <style>
 @media only screen and (min-width: 1024px) {
-    /* 图片 */
-    .HeadImage{
+     /* 图片 */
+    .headerImage{
         width: 1024px;
         height: 320px;
         margin: 0 auto;
     }
-    .bgImage{
+    .headImage{
         width:100%;
         height:100%;
     }
-
-    /* 活动介绍 */
+     /* 文字介绍 */
     .introduction{
         width: 800px;
         margin: 0 auto;
@@ -25,22 +24,40 @@
         line-height: 40px;
         margin-bottom: 20px;
     }
-
-    /* 会员权益 */
-    .memberRights{
-        width: 800px;
+    .introduction-title{
+        width: 65%;
+        height: 66px;
+        line-height: 66px;
+        font-size: 42px;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: -33px;
+        margin: auto;
+        z-index: 1;
+        background-color: #78bfdd;
+        color: #010101;
+        border-radius: 25px;
+        text-align: center;
+    }
+    .introduction-content{
+        width: 90%;
         margin: 0 auto;
-        background-color: #d7f3ff;
-        border-radius: 8px;
-        font-size: 20px;
-        margin: 0 20px;
-        padding: 30px 80px;
+        padding: 70px 0 30px 0;
+    }
+    .introduction-detail{
+        line-height: 30px;
+        display: flex;
+        justify-content: flex-start;
+        align-items: baseline;
+    }
+    .introductionImg{
+        width: 16px;
+        margin-right: 20px;
     }
 
-
-    /*  会员标准 */
-    /* 标准会员 */
-    .standardMember{
+   /* 会员权益 */
+    .memberRights{
         width: 800px;
         margin: 0 auto;
         border-radius: 8px;
@@ -49,7 +66,6 @@
         background-color: #d7f3ff;
         margin: 30px 20px;
     }
-    /* 标题 */
     .price{
         width: 80%;
         height: 180px;
@@ -71,64 +87,13 @@
         height:100%;
     }
     /* 内容 */
-    .standard{
-        width: 80%;
-        padding: 140px 0 40px 70px;
-        margin: 0 auto;
-    }
-    .standard-detail{
-        height: 106px;
-        margin-bottom: 64px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-    .detail-img{
-        width: 104px;
-        height: 104px;
-        border-radius: 6px;
-    }
-    .detailImg{
-        width: 100%;
-        height: auto;
-    }
-    .detail-topic{
-        width: 90%;
-        height: inherit;
-        margin-left: 45px;
-    }
-    .topic-name {
-        height: 30px;
-        line-height: 30px;
-        font-size: 28px;
-        margin: 15px 0 20px 0;
-        color: #8b2123;
-    }
-    .topic-content{
-        height: 24px;
-        line-height: 24px;
-        font-size: 20px;
-        color: #657278;
-    }
-    /* 高端会员 */
-    .premiumMember{
-        position: relative;
-        background-color: #d7f3ff;
-        border-radius: 8px;
-        margin: 160px 20px 30px 20px;
-    }
-    .premium-price{
-        background-color: #112041;
-    }
-
-    /* 内容 */
-    .premium{
+    .member{
         width: 80%;
         padding: 120px 0 40px 25px;
         margin: 0 auto;
     }
-    /* 标题 */
-    .premium-title{
+     /* 标题 */
+    .member-title{
         height: 45px;
         line-height: 45px;
         font-size: 30px;
@@ -146,33 +111,40 @@
         border-radius: 25px;
         color: #fff;
     }
-    /* 内容 */
-    .premium-detail{
-        height: 130px;
+      /* 内容 */
+    .member-detail{
         margin-bottom: 64px;
         padding-left: 20px;
         display: flex;
         justify-content: space-around;
     }
-    .premiumTopic{
+    .member-img{
+        width: 104px;
+        height: 104px;
+        border-radius: 6px;
+    }
+    .memberImage{
+        width: 100%;
+        height: auto;
+    }
+    .memberTopic{
         width: 90%;
-        height: inherit;
         margin-left: 45px;
     }
     /* 右边内容 */
-    .premium-name {
+    .topic-name {
         height: 30px;
         line-height: 30px;
         font-size: 28px;
         margin: 5px 0 15px 0;
         color: #112041;
     }
-    .premium-content{
+    .topic-content{
         line-height: 40px;
         font-size: 22px;
         color: #657278;
     }
-    .premium-notice{
+    .topic-notice{
         height: 18px;
         line-height: 18px;
         font-size: 14px;
@@ -185,187 +157,6 @@
         padding-left: 20px;
         font-weight: bold;
     }
-    /* 如何参加 */
-    .join{
-        position: relative;
-        background-color: #d7f3ff;
-        border-radius: 8px;
-        font-size: 24px;
-        margin: 100px 20px 30px 20px;
-    }
-    /* 标题 */
-    .join-title{
-        width: 65%;
-        height: 66px;
-        line-height: 66px;
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: -33px;
-        margin: auto;
-        z-index: 1;
-        background-color: #78bfdd;
-        color: #010101;
-        border-radius: 25px;
-        text-align: center;
-    }
-    .join-title > p{
-        margin: 0 auto;
-        height: 42px;
-        font-size: 40px;
-        padding-left: 10px;
-    }
-    .join-content{
-        margin: 0 auto;
-        padding: 50px 0 30px 0;
-        text-align: center;
-    }
-    .join-content > h2{
-        height: 42px;
-        line-height: 42px;
-        font-size: 40px;
-        font-weight: normal;
-        margin-bottom: 0;
-    }
-    .join-success{
-        line-height: 35px;
-        font-size: 30px;
-        margin: 25px 0 45px 0;
-    }
-    .join-warn{
-        height: 20px;
-        line-height: 20px;
-        font-size: 14px;
-    }
-
-
-    /* 赠品介绍 */
-    .giveaways{
-        position: relative;
-        background-color: #d7f3ff;
-        border-radius: 8px;
-        margin: 100px 20px 30px 20px;
-    }
-    /* 标题 */
-    .giveaways-title{
-        width: 65%;
-        height: 66px;
-        line-height: 66px;
-        font-size: 42px;
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: -33px;
-        margin: auto;
-        z-index: 1;
-        background-color: #78bfdd;
-        color: #010101;
-        border-radius: 25px;
-        text-align: center;
-    }
-    .giveaways-content{
-        width: 90%;
-        height: 300px;
-        margin: 0 auto;
-        padding: 70px 0 30px 0;
-        text-align: center;
-        background-color: #0f1f43;
-    }
-
-
-    /*  活动须知 */
-    .activityDescription{
-        position: relative;
-        background-color: #d7f3ff;
-        border-radius: 8px;
-        font-size: 20px;
-        margin: 100px 20px 30px 20px;
-    }
-    /* 标题 */
-    .notice-title{
-        width: 65%;
-        height: 66px;
-        line-height: 66px;
-        font-size: 42px;
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: -33px;
-        margin: auto;
-        z-index: 1;
-        background-color: #78bfdd;
-        color: #010101;
-        border-radius: 25px;
-        text-align: center;
-    }
-    .notice-content{
-        width: 90%;
-        margin: 0 auto;
-        padding: 70px 0 30px 0;
-    }
-    .notice-detail{
-        line-height: 30px;
-        display: flex;
-        justify-content: flex-start;
-        align-items: baseline;
-    }
-    .notice-detail > p {
-        line-height: 40px;
-    }
-    .noticeImg{
-        width: 16px;
-        margin-right: 20px;
-    }
-
-
-
-    /* 企业机构会员 */
-    .company{
-        position: relative;
-        background-color: #d7f3ff;
-        border-radius: 8px;
-        font-size: 20px;
-        margin: 100px 20px 0 20px;
-    }
-    /* 标题 */
-    .company-title{
-        width: 65%;
-        height: 66px;
-        line-height: 66px;
-        font-size: 42px;
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: -33px;
-        margin: auto;
-        z-index: 1;
-        background-color: #78bfdd;
-        color: #010101;
-        border-radius: 25px;
-        text-align: center;
-    }
-    .company-content{
-        margin: 0 auto;
-        padding: 70px 0 30px 0;
-        text-align: center;
-    }
-    .company-detail{
-        margin-bottom: 40px;
-    }
-    .company-serice{
-        display: flex;
-        justify-content: space-around;
-    }
-    .service-detail > img {
-        width: 75px;
-        height: 80px;
-        margin-bottom: 30px;
-    }
-    .company-warn{
-        font-size: 14px;
-        margin-top: 50px;
-    }
-
 }
 
 
@@ -383,157 +174,55 @@
 
 
 <!-- 背景图: <%$list.ItemLayout%>-->
-<%if $list.ItemLayout == "HeadImage"%>
+<%if $list.ItemLayout == "headerImage"%>
     <div class="<%$list.ItemLayout%>">
-        <%$item.image%>
+        <img src="<%$item.image%>" alt="" class="headImage">
     </div>
 <%/if%>
 
-<!-- 活动介绍: <%$list.ItemLayout%>-->
+<!-- 内容介绍-左对齐: <%$list.ItemLayout%>-->
 <%if $list.ItemLayout == "introduction"%>
     <div class="<%$list.ItemLayout%>">
         <%foreach from=$list.items item=item%>
-            <div class="caption"><%$item.headline%></div>
-            <div class="caption"><%$item.%>longlead</div> 
-            <div class="caption"><%$item.image%></div>
-            <div class="caption"><%$item.tag%></div>
-            <div class="caption"><%$item.customLink%></div>
-        <%/foreach%>
-    </div>
+            <div class="introduction-title"><%$item.tag%></div>
+                <div class="introduction-content">
+                    <div class="introduction-detail">
+                        <div class="introductionImg">
+                            <%$item.image%>
+                        </div>
+                        <p class="caption"><%$item.headline%></p>
+                    </div>
+                </div>
+            </div>
+    <%/foreach%>
 <%/if%>
-<!-- FT会员权益: <%$list.ItemLayout%>-->
+
+<!-- 会员权益介绍-居中: <%$list.ItemLayout%>-->
 <%if $list.ItemLayout == "memberRights"%>
     <div class="<%$list.ItemLayout%>">
-        <div class="caption"><%$item.longlead%></div>
-    </div>
-<%/if%>
-
-<!-- 标准会员: <%$list.ItemLayout%>-->
-<%if $list.ItemLayout == "standardMember"%>
-    <div class="<%$list.ItemLayout%>">
         <div class="price">
-            <div class="priceImage"><%$item.image%></div>
+            <img src="<%$item.image%>" alt="" class="priceImage">
         </div>
-        <div class="standard">
+        <div class="member">
+            <p class="member-title">享受<span class="title-span">标&nbsp;准&nbsp;会&nbsp;员</span>所有权益</p>
             <%foreach from=$list.items item=item%>
-                <div class="standard-detail">
-                    <div class="detail-img">
-                        <%$item.image%>
+                <div class="member-detail">
+                    <div class="member-img">
+                        <img src="<%$item.image%>" alt="" class="memberImage">
                     </div>
-                    <div class="detail-topic">
+                    <div class="member-topic">
                         <p class="topic-name"><%$item.longlead%></p>
                         <p class="topic-content"><%$item.shortlead%></p>
+                        <p class="topic-notice"><%$item.shortlead%></p>
                     </div>
                 </div>
             <%/foreach%>
+            <div class="detail-warn"><%$item.longlead%></div>
         </div>
     </div>
 <%/if%>
-
-<!-- 高端会员: <%$list.ItemLayout%>-->
-<%if $list.ItemLayout == "premiumMember"%>
-    <div class="<%$list.ItemLayout%>">
-        <div class="price">
-            <div class="priceImage"><%$item.image%></div>
-        </div>
-        <div class="premium">
-            <p class="premium-title"><%$item.longlead%><span class="title-span"><%$item.shortlead%></span><%$item.longlead%></p>
-            <%foreach from=$list.items item=item%>
-                <div class="premium-detail">
-                    <div class="detail-img">
-                        <%$item.image%>
-                    </div>
-                    <div class="premiumTopic">
-                        <p class="premium-name"><%$item.longlead%></p>
-                        <p class="premium-content"><%$item.shortlead%></p>
-                        <p class="premium-notice"><%$item.shortlead%></p>
-                    </div>
-                </div>
-            <%/foreach%>
-            <div class="detail-warn">*<%$item.longlead%></div>
-        </div>
-    </div>
-<%/if%>
-
-<!-- 活动须知: <%$list.ItemLayout%>-->
-<%if $list.ItemLayout == "activityDescription"%>
-    <div class="<%$list.ItemLayout%>">
-        <div class="notice-title"><%$item.headline%></div>
-        <%foreach from=$list.items item=item%>
-            <div class="notice-detail">
-                <div class="noticeImg">
-                    <%$item.image%>
-                </div>
-                <p><%$item.headline%></p>
-            </div>
-        <%/foreach%>
-    </div>
-<%/if%>
-
-
 
 
 <%*
-
-
-
-
-
-
-
-
-
-
-<!-- 谁可以参加 -->
-<div class="join">
-    <div class="join-title"><p>谁可以参加&nbsp;+&nbsp;如何参加？</p></div>
-    <div class="join-content">
-        <h2>新订高端会员</h2>
-        <p class="join-success">支付成功后，按提示填写物流信息</p>
-        <p class="join-warn">*现有会员请关注邮箱或官网不定期老会员专享活动</p>
-        <p class="join-warn">*配送地址仅限中过大陆</p>
-    </div>
-</div>
-
-
-
-
-<!-- 赠送介绍 -->
-<div class="giveaways">
-    <div class="giveaways-title">赠品介绍</div>
-    <div class="giveaways-content">
-    </div>
-</div>
-
-
-
-
-<!-- 活动须知 -->
-
-
-
-
-
-<!-- 企业机构会员 -->
-<div class="company">
-    <div class="company-title">企业机构会员</div>
-    <div class="company-content">
-        <p class="company-detail">同一机构、同时订阅5个高端会员及以上</p>
-        <p class="company-detail">可享有如下服务，具体请联系fan.qi@ftchinese.com </p>
-        <div class="company-serice">
-            <div class="service-detail">
-                <img src="../image/icon-4.png" alt="">
-                <p>享受更灵活、更优惠的定制化权益</p>
-            </div>
-            <div class="service-detail">
-                <img src="../image/icon-5.png" alt="">
-                <p>享受售前/售后专属服务</p>
-            </div>
-        </div>
-        <p class="company-warn">*企业机构会员不参加本次活动</p>
-    </div>
-</div>
-
-
 
 *%>
