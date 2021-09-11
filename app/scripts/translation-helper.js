@@ -3,6 +3,7 @@
 // MARK: - This has to pass through the gulp testing, so no var or for of loops, or any other modern features. 
 var splitter = '-|-';
 var startTime = new Date();
+var localStorageKey = 'translation';
 if (window.opener && window.opener.userName) {
     window.userName = window.opener.userName;
 } else {
@@ -127,7 +128,7 @@ function start() {
         if (document.querySelectorAll('.bottom-button').length === 0) {
             var bottomButton = document.createElement('DIV');
             bottomButton.className = 'centerButton bottom-button';
-            bottomButton.innerHTML = '<input type="button" value="全局替换" onclick="showReplace(this)" class="submitbutton button ui-light-btn"><input type="button" value="预览" onclick="preview(this)" class="submitbutton button ui-light-btn"><input type="button" value="完成并关闭" onclick="finishTranslation()" class="submitbutton button ui-light-btn">';
+            bottomButton.innerHTML = '<input type="button" value="全局替换" onclick="showReplace(this)" class="submitbutton button ui-light-btn"><input type="button" value="预览" onclick="preview(this)" class="submitbutton button ui-light-btn"><input type="button" value="备份" onclick="saveToLocal()" class="submitbutton button ui-light-btn"><input type="button" value="恢复" onclick="restoreFromLocal()" class="submitbutton button ui-light-btn"><input type="button" value="完成并关闭" onclick="finishTranslation()" class="submitbutton button ui-light-btn">';
             document.body.appendChild(bottomButton);
         }
         document.querySelector('.body').classList.add('full-grid');
@@ -285,6 +286,9 @@ function formatDuration(seconds) {
 }
 
 function finishTranslation() {
+    try {
+        saveToLocal(true);
+    }catch(ignore){}
     if (typeof window.subtitleInfo === 'object') {
         finishTranslationForVideo();
     } else {
@@ -412,6 +416,37 @@ function preview(buttonEle) {
         buttonEle.value = '编辑';
     } else {
         buttonEle.value = '预览';
+    }
+}
+
+function saveToLocal(force) {
+    if (!force) {
+        if (!confirm('覆盖之前保存在本地的版本，确定吗？')) {return;}
+    }
+    var storyBodyConttainerEle = document.getElementById('story-body-container');
+    if (!storyBodyConttainerEle) {return;}
+    var textareas = storyBodyConttainerEle.querySelectorAll('textarea');
+    for (var i=0; i<textareas.length; i++) {
+        textareas[i].innerHTML = textareas[i].value;
+    }
+    var saved = storyBodyConttainerEle.innerHTML;
+    try {
+        localStorage.setItem(localStorageKey, saved);
+    } catch(err) {
+        alert('由于浏览器的问题，无法在本地保存您的工作，请把这个错误信息截屏给技术人员\n' + err.toString());
+    }
+}
+
+function restoreFromLocal() {
+    if (!confirm('恢复到上次保存在本地的版本，会丢失现在的所有修改，确定吗？')) {return;}
+    var storyBodyConttainerEle = document.getElementById('story-body-container');
+    if (!storyBodyConttainerEle) {return;}
+    try {
+        var saved = localStorage.getItem(localStorageKey);
+        console.log(saved);
+        storyBodyConttainerEle.innerHTML = saved;
+    } catch(err) {
+        alert('很可能是由于浏览器的问题，无法从本地恢复您的工作，请把这个错误信息截屏给技术人员\n' + err.toString());
     }
 }
 
