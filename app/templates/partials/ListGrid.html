@@ -38,6 +38,10 @@
         <%elseif $list.feedType == "photo"%>
             <%assign var="feedType" value="photonews"%>
             <%assign var="itemsArray" value=$photonewsmodel->get_photonews_by_field_search($feedTag,"ORDER BY photonewsid DESC",$feedItems)%>
+        <%else%>
+            <%assign var="feedType" value=$list.feedType%>
+            <%assign var="feedTag" value="(`$feedTag`) and eskylinetext not like '%低调%'"%>
+            <%assign var="itemsArray" value=$storymodel->get_content_by_field_search($feedTag,$feedStart,$feedItems,600,10800)%>
         <%/if%>
     <%else%>
         <%if $list.feedType == "story"%>
@@ -82,7 +86,11 @@
         $backgrounds = array('blue', '', 'dark-grey', 'yellow', 'purple', 'light-blue', 'dark-green');
         $noImageIndex = 0;
         foreach ($originalItems as &$item) {
-            $item["type"] = $itemType;
+            if (isset($item["item_type"]) && $item["item_type"] != "") {
+                $item["type"] = $item["item_type"];
+            } else {
+                $item["type"] = $itemType;
+            }
             $item["headline"] = $item["cheadline"];
             $item["longlead"] = $item["clongleadbody"];
             $hideImage = isset($item["tag"]) && preg_match("/NoCopyrightCover/", $item["tag"]);

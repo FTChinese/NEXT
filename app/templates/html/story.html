@@ -1060,7 +1060,13 @@
 		<%assign var="infoForManualTags" value=$nextmodel->getPublishJson("tagmanagement")|json_decode:true%>
 		<%assign var="hasFoundManualTag" value="no"%>
 		<%foreach from=$infoForManualTags.sections item=section%>
-			<%if $hasFoundManualTag == "no" && preg_match("/`$section.tag`/is",$keys)%>
+			<%assign var="sponsorKeys" value=$section.storyKeyWords%>
+			<%if $sponsorKeys == ""%>
+				<%assign var="sponsorKeys" value=$section.tag%>
+			<%else%>
+				<%assign var="sponsorKeys" value=$sponsorKeys|regex_replace:"/, */":"|"%>
+			<%/if%>
+			<%if $hasFoundManualTag == "no" && $sponsorKeys != "" && preg_match("/`$sponsorKeys`/is",$keys)%>
 			    <%assign var="hasFoundManualTag" value="yes"%>
 			    <%if $section.topnav != ""%>
 			        <%assign var="topnav" value=$section.topnav%>

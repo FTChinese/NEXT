@@ -325,6 +325,10 @@
 								<%elseif $list.feedType == "photo"%>
 									<%assign var="feedType" value="photonews"%>
 									<%assign var="itemsArray" value=$photonewsmodel->get_photonews_by_field_search($feedTag,"ORDER BY photonewsid DESC",$feedItems)%>
+								<%else%>
+									<%assign var="feedType" value=$list.feedType%>
+									<%assign var="feedTag" value="(`$feedTag`) and eskylinetext not like '%低调%'"%>
+									<%assign var="itemsArray" value=$storymodel->get_content_by_field_search($feedTag,$feedStart,$feedItems,600,10800)%>
 								<%/if%>
 							<%else%>
 								<%if $list.feedType == "story"%>
@@ -445,7 +449,6 @@
 						<%if $pageNumber > 1 && $feedType == "manual"%>
 							<%assign var="shouldShowListItems" value="no"%>
 						<%/if%>
-
 						<%if $shouldShowListItems == "yes"%>
 							<%foreach from=$itemsArray item=item%>
 								<%assign var="itemHeadline" value=$item.headline|default:$item.cheadline|default:$item.cn_title%>
@@ -498,7 +501,24 @@
 									<%/if%>
 									<%assign var="foundSponsorTag" value="no"%>
 									<%foreach from=$infoForSponsorships.sections item=oneTag%>
-										<%if $foundSponsorTag == "no" && $oneTag.status == "on" && $oneTag.dates != "" && preg_match("/`$currentDate`/is",$oneTag.dates) && ($itemMainTag == $oneTag.tag || $itemMainTag == $oneTag.title) && $oneTag.imageHighlightBox != ""%>
+										<%assign var="matchedTag" value="no"%>
+										<%if $foundSponsorTag == "no" && $oneTag.status == "on" && $oneTag.dates != "" && preg_match("/`$currentDate`/is",$oneTag.dates) && $oneTag.imageHighlightBox != ""%>
+											<%assign var="sponsorKeys" value=$oneTag.storyKeyWords%>
+											<%if $sponsorKeys == ""%>
+												<%assign var="sponsorKeys" value=$oneTag.tag%>
+											<%else%>
+												<%assign var="sponsorKeys" value=$sponsorKeys|regex_replace:"/, */":"|"%>
+											<%/if%>
+											
+											<%foreach from=$itemTags item=oneItemTag%>
+												<%if $matchedTag == "no" && preg_match("/`$sponsorKeys`/is",$oneItemTag)%>
+													<%assign var="matchedTag" value="yes"%>
+													<%assign var="itemMainTag" value=$oneTag.tag%>
+													<%assign var="itemTag" value=$oneTag.tag%>
+												<%/if%>
+											<%/foreach%>
+										<%/if%>
+										<%if $foundSponsorTag == "no" && $oneTag.status == "on" && $oneTag.dates != "" && preg_match("/`$currentDate`/is",$oneTag.dates) && ($itemMainTag == $oneTag.tag || $itemMainTag == $oneTag.title || $matchedTag == "yes") && $oneTag.imageHighlightBox != ""%>
 											<%assign var="foundSponsorTag" value="yes"%>
 											<%assign var="hasFoundSponsorInfo" value="yes"%>
 											<%assign var="tagImage" value=$oneTag.imageHighlightBox%>
@@ -506,15 +526,51 @@
 											<%if $oneTag.link != ""%>
 												<%assign var="itemTagLink" value=$oneTag.link%>
 												<%assign var="trackLink" value=$oneTag.link%>
-											<%/if%>
-											<%if date("Ymd",$smarty.now) < 20210101%>
-												<script>gtag('config', gaMeasurementId, {'page_path': '<%$trackLink%>?from=home'});</script>
+											<%elseif $oneTag.tag != ""%>
+												<%assign var="itemTagLink" value="/tag/`$oneTag.tag`"%>
 											<%/if%>
 											<%if $oneTag.title != ""%>
 												<%assign var="itemTagTitle" value=$oneTag.title%>
 											<%/if%>
 										<%/if%>
 									<%/foreach%>
+									<%assign var="pageIdForTagManagement" value="tagmanagement"%>
+									<%if $infoForTagmanagement == ""%>
+										<%assign var="infoForTagmanagement" value=$nextmodel->getPublishJson($pageIdForTagManagement)|json_decode:true%>
+									<%/if%>
+									<%if $foundSponsorTag == "no"%>
+										<%foreach from=$infoForTagmanagement.sections item=oneTag%>
+											<%assign var="sponsorKeys" value=$oneTag.storyKeyWords%>
+											<%if $sponsorKeys == ""%>
+												<%assign var="sponsorKeys" value=$oneTag.tag%>
+											<%else%>
+												<%assign var="sponsorKeys" value=$sponsorKeys|regex_replace:"/, */":"|"%>
+											<%/if%>
+											<%assign var="matchedTag" value="no"%>
+											<%foreach from=$itemTags item=oneItemTag%>
+												<%if $matchedTag == "no" && preg_match("/`$sponsorKeys`/is",$oneItemTag)%>
+													<%assign var="matchedTag" value="yes"%>
+													<%assign var="itemMainTag" value=$oneTag.tag%>
+													<%assign var="itemTag" value=$oneTag.tag%>
+												<%/if%>
+											<%/foreach%>
+											<%if $foundSponsorTag == "no" && ($itemMainTag == $oneTag.tag || $itemMainTag == $oneTag.title || $matchedTag == "yes") && $oneTag.imageHighlightBox != ""%>
+												<%assign var="foundSponsorTag" value="yes"%>
+												<%assign var="hasFoundSponsorInfo" value="yes"%>
+												<%assign var="tagImage" value=$oneTag.imageHighlightBox%>
+												<%assign var="trackLink" value="/tag/`$oneTag.tag`"%>
+												<%if $oneTag.link != ""%>
+													<%assign var="itemTagLink" value=$oneTag.link%>
+													<%assign var="trackLink" value=$oneTag.link%>
+												<%elseif $oneTag.tag != ""%>
+													<%assign var="itemTagLink" value="/tag/`$oneTag.tag`"%>
+												<%/if%>
+												<%if $oneTag.title != ""%>
+													<%assign var="itemTagTitle" value=$oneTag.title%>
+												<%/if%>
+											<%/if%>
+										<%/foreach%>
+									<%/if%>
 								<%/if%>
 								<%if $hasFoundSponsorInfo == "no" && $itemMainTag != ""%>
 									<%if $infoForTagmanagement == ""%>
@@ -566,7 +622,12 @@
 								<%elseif $tagImage != ""%>
 									<%assign var="itemImage" value=$tagImage%>
 								<%elseif $feedType == "all"%>
-									<%assign var="itemImage" value=$item.image.cover|default:$item.image.smallbutton|default:$item.image.other|default:$item.image.bigbutton%>
+									<!--story pic: <%$item.story_pic|@print_r%>--->
+									<%assign var="itemImage" value=$item.image.cover|default:$item.image.smallbutton|default:$item.image.other|default:$item.image.bigbutton|default:$item.story_pic.cover|default:$item.story_pic.smallbutton|default:$item.story_pic.other|default:$item.story_pic.bigbutton%>
+									<%*<!--MARK: - Don't try to optimize this! If you write this in one line, it won't work. This is one of the strange things about smarty. -->*%>
+									<%if $itemImage == ""%>
+										<%assign var="itemImage" value=$item.story_pic.cover|default:$item.story_pic.smallbutton|default:$item.story_pic.other|default:$item.story_pic.bigbutton%>
+									<%/if%>
 								<%elseif $feedType == "columns"%>
 									<%assign var="columninfo" value=$storymodel->get_column_info($item.id)%>
 									<%assign var="itemImage" value=$columninfo.piclink%>
@@ -1387,7 +1448,6 @@
 									<%if $inSponsor == "yes"%>
 										<%assign var="lockClass" value=""%>
 									<%else%>
-										<!--Not In Sponsor-->
 									<%/if%>
 
 									<%if $isInWhiteList == "yes" && lockClass != ""%>
