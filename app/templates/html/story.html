@@ -1986,6 +1986,26 @@
 	-->*%>
 
 	<%$paidPostTrack%>
+
+	<%if $smarty.get.taboola == "on"%>
+		<script type="text/javascript">
+		window._taboola = window._taboola || [];
+		_taboola.push({article:'auto'});
+		!function (e, f, u, i) {
+			if (!document.getElementById(i)){
+			e.async = 1;
+			e.src = u;
+			e.id = i;
+			f.parentNode.insertBefore(e, f);
+			}
+		}(document.createElement('script'),
+		document.getElementsByTagName('script')[0],
+		'//cdn.taboola.com/libtrc/ft-ftchinese/loader.js',
+		'tb_loader_script');
+		if(window.performance && typeof window.performance.mark == 'function')
+			{window.performance.mark('tbl_ic');}
+		</script>
+	<%/if%>
   </head>
   <%assign var="bannerCount" value=0%>
   <body class="<%$hideDate%><%$storyLanguage%>">
@@ -2095,6 +2115,14 @@
 		<%/if%>
 <%if $smarty.get.bodyonly != "yes" || $isAndroidApp == "yes"%>
 <%<!--body only start-->%>
+
+		<%if $smarty.get.taboola == "on"%>
+			<script type="text/javascript">
+			window._taboola = window._taboola || [];
+			_taboola.push({flush: true});
+			</script>
+		<%/if%>
+
   </body>
 <%if preg_match("/highcharts/is",$story_content)%>
 	<script src="https://dhgxl8qk9zgzr.cloudfront.net/js/jquery-1.10.2.min.js?0"></script>
