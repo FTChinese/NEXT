@@ -249,26 +249,29 @@
 
 
 			<%if $smarty.get.taboola == "on"%>
-				<div id="taboola-desktop-below-article-thumbnails"></div>
-				<script type="text/javascript">
-				window._taboola = window._taboola || [];
-				_taboola.push({
-					mode: 'alternating-thumbnails-a',
-					container: 'taboola-desktop-below-article-thumbnails',
-					placement: 'Desktop Below article thumbnails',
-					target_type: 'mix'
-				});
-				</script>
-				<div id="taboola-mobile-below-article-feed"></div>
-				<script type="text/javascript">
-				window._taboola = window._taboola || [];
-				_taboola.push({
-					mode: 'alternating-thumbnails-a',
-					container: 'taboola-mobile-below-article-feed',
-					placement: 'Mobile below article feed',
-					target_type: 'mix'
-				});
-				</script>
+				<%if $smarty.get.device == "desktop"%>
+					<div id="taboola-desktop-below-article-thumbnails"></div>
+					<script type="text/javascript">
+					window._taboola = window._taboola || [];
+					_taboola.push({
+						mode: 'alternating-thumbnails-a',
+						container: 'taboola-desktop-below-article-thumbnails',
+						placement: 'Desktop Below article thumbnails',
+						target_type: 'mix'
+					});
+					</script>
+				<%else%>
+					<div id="taboola-mobile-below-article-feed"></div>
+					<script type="text/javascript">
+					window._taboola = window._taboola || [];
+					_taboola.push({
+						mode: 'alternating-thumbnails-a',
+						container: 'taboola-mobile-below-article-feed',
+						placement: 'Mobile below article feed',
+						target_type: 'mix'
+					});
+					</script>
+				<%/if%>
 			<%/if%>
 
 			<%*<!--MARK: - Show comments for only certain types of stories -->*%>
