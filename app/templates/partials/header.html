@@ -27,6 +27,10 @@
         <div class="warn-content"><span>为适应法律法规和英国《金融时报》中文网业务的更新，我们修订了新版用户协议（服务条款）包含隐私保护政策，敬请您<a  href="/m/corp/service.html">点击查阅</a>。</span><span class="close-img"></span></div>
     <%/if%>
     <%include file="next/partials/house-ad-subscription-promo-box.html"%>
+    <%assign var="registerUrl" value="http://user.ftchinese.com/register"%>
+    <%if 1<0 && $smarty.server.HTTP_HOST!="www.ftchinese.com"%>
+      <%assign var="registerUrl" value="users/register?i=4"%>
+    <%/if%>
     <header class="header-container">
       <div class="header-inner">
         <div class="masthead"></div>
@@ -45,7 +49,7 @@
         <div class="header-side header-right">
             <span class="visitor-box">
                 <a onclick="showOverlay('overlay-login')">登录</a>
-                <a class="more last" href="http://user.ftchinese.com/register">免费注册</a>
+                <a class="more last" href="<%$registerUrl%>">注册</a>
             </span>
             <span class="member-box">
                 <a href="/channel/myftlocal.html">我的FT</a>
