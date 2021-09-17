@@ -108,7 +108,7 @@
 <%if $p.meta.HighlightFTAcademy == "yes" && $smarty.get.subscription != "premium"%>
     <%if $smarty.get.highlightFTAcademy == "top"%>
         <%assign var="highlightFTAcademy" value="top"%>
-    <%elseif (date("w", $smarty.now) != 0 && date("w", $smarty.now) != 6) || $smarty.get.subscription == "member"%>
+    <%elseif (date("w", $smarty.now) != 0 && date("w", $smarty.now) != 1) || $smarty.get.subscription == "member"%>
         <%assign var="highlightFTAcademy" value="feed"%>
     <%else%>
         <%assign var="highlightFTAcademy" value="top"%>
