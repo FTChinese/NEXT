@@ -18,12 +18,22 @@ a {
 
 @media only screen and (min-width: 1024px) {
      /* 图片 */
-    .headerImage{
-        width: 1024px;
+    .headerBigImage{
+        width: inherit;
         height: auto;
         margin: 0 auto;
     }
-    .headImage{
+    .bigImage{
+        width:100%;
+        height:100%;
+    }
+
+    .headerSmallImage{
+        width: 800px;
+        height: auto;
+        margin: 0 auto;
+    }
+    .smallImage{
         width:100%;
         height:100%;
     }
@@ -51,10 +61,18 @@ a {
         text-align: center;
         color: #010101;
     }
+    .containerTitleImage{
+        width: 100%;
+        height: 100%;
+        border-radius: 25px;
+    }
     .container-content{
-        padding: 60px 40px;
+        padding-top: 60px;
         text-align: center;
         font-size: 20px;
+    }
+    .noTitle-content{
+        padding-top: 40px;
     }
     .captionImage{
         display: block;
@@ -64,7 +82,7 @@ a {
     }
     .caption{
         line-height: 30px;
-        margin-bottom: 20px;
+        margin: 0 20px 20px 20px;
         display: flex;
         align-items: baseline;
         justify-content: flex-start;
@@ -72,7 +90,7 @@ a {
     .pointImage{
         width: 16px;
         height: 16px;
-        margin-right: 20px;
+        margin-right: 10px;
     }
     .caption > p{
         line-height: 40px;
@@ -162,11 +180,11 @@ a {
 
     .member-price{
         width: 85%;
-        height: 155px;
+        height: auto;
         position: absolute;
         left: 0;
         right: 0;
-        top: -90px;
+        top: -80px;
         margin: auto;
         z-index: 1;
         border-radius: 10px;
@@ -279,13 +297,23 @@ a {
 }
 
 @media only screen and (max-width: 768px) {
-     /* 图片 */
-    .headerImage{
+       /* 图片 */
+    .headerBigImage{
         width: inherit;
         height: auto;
         margin: 0 auto;
     }
-    .headImage{
+    .bigImage{
+        width:100%;
+        height:100%;
+    }
+
+    .headerSmallImage{
+        width: inherit;
+        height: auto;
+        margin: 0 auto;
+    }
+    .smallImage{
         width:100%;
         height:100%;
     }
@@ -313,10 +341,18 @@ a {
         text-align: center;
         color: #010101;
     }
+    .containerTitleImage{
+        width: 100%;
+        height: 100%;
+        border-radius: 25px;
+    }
     .container-content{
-        padding: 40px 20px;
+        padding-top: 40px;
         text-align: center;
         font-size: 18px;
+    }
+    .noTitle-content{
+        padding-top: 20px;
     }
 
 
@@ -329,15 +365,15 @@ a {
     }
     .caption{
         line-height: 30px;
-        margin-bottom: 20px;
+        margin: 0 10px 20px 10px;
         display: flex;
         align-items: baseline;
         justify-content: flex-start;
     }
     .pointImage{
-        width: 14px;
-        height: 14px;
-        margin-right: 10px;
+        width: 12px;
+        height: 12px;
+        margin-right: 5px;
     }
     .caption > p{
         line-height: 40px;
@@ -429,7 +465,7 @@ a {
 
     .member-price{
         width: 90%;
-        height: 80px;
+        height: auto;
         position: absolute;
         left: 0;
         right: 0;
@@ -557,10 +593,16 @@ a {
 
 
 
-<!-- 背景图: <%$list.ItemLayout%>-->
-<%if $list.ItemLayout == "headerImage"%>
+<!-- 背景图-大图: <%$list.ItemLayout%>-->
+<%if $list.ItemLayout == "headerBigImage"%>
     <div class="<%$list.ItemLayout%>">
-        <img src="<%$list.HeadImage%>" alt="" class="headImage">
+        <img src="<%$list.HeadImage%>" alt="" class="bigImage">
+    </div>
+<%/if%>
+<!-- 背景图-小图: <%$list.ItemLayout%>-->
+<%if $list.ItemLayout == "headerSmallImage"%>
+    <div class="<%$list.ItemLayout%>">
+        <img src="<%$list.ItemImage%>" alt="" class="smallImage">
     </div>
 <%/if%>
 
@@ -612,10 +654,10 @@ a {
     </div>
 <%/if%>
 
-<!-- 内容介绍-左对齐: <%$list.ItemLayout%>-->
-<%if $list.ItemLayout == "introduction-icon"%>
+<!-- 内容介绍-标题为文字: <%$list.ItemLayout%>-->
+<%if $list.ItemLayout == "headline-word"%>
     <div class="<%$list.ItemLayout%>  container" style="background-color: <%$list.BackgroundColor%>">
-        <div class="container-title  introduction-title" style="background-color: <%$list.TitleColor%>"><%$list.title%></div>
+        <div class="container-title" style="background-color: <%$list.TitleColor%>"><%$list.title%></div>
         <div class="container-content">
             <%foreach from=$list.items item=item%>
                 <div class="caption">
@@ -628,13 +670,31 @@ a {
     </div>
 <%/if%>
 
-<!-- 内容介绍-左对齐: <%$list.ItemLayout%>-->
-<%if $list.ItemLayout == "introduction"%>
+<!-- 内容介绍-标题为图片: <%$list.ItemLayout%>-->
+<%if $list.ItemLayout == "headline-photo"%>
     <div class="<%$list.ItemLayout%>  container" style="background-color: <%$list.BackgroundColor%>">
-        <div class="container-title  introduction-title" style="background-color: <%$list.TitleColor%>"><%$list.title%></div>
+        <div class="container-title">
+            <img src="<%$list.TitleImage%>" alt="" class="containerTitleImage">
+        </div>
         <div class="container-content">
             <%foreach from=$list.items item=item%>
                 <div class="caption">
+                    <img src="<%$item.image%>" alt="" class="pointImage">
+                    <p><%$item.longlead%></p>
+                </div>
+            <%/foreach%>
+            <img src="<%$list.ItemImage%>" alt="" class="captionImage">
+        </div>
+    </div>
+<%/if%>
+
+<!-- 内容介绍-小图标和标题都没有: <%$list.ItemLayout%>-->
+<%if $list.ItemLayout == "introduction"%>
+    <div class="<%$list.ItemLayout%>  container" style="background-color: <%$list.BackgroundColor%>">
+        <div class="container-content noTitle-content">
+            <%foreach from=$list.items item=item%>
+                <div class="caption">
+                    <img src="<%$item.image%>" alt="" class="pointImage">
                     <p><%$item.longlead%></p>
                 </div>
             <%/foreach%>
@@ -648,7 +708,7 @@ a {
 <!-- 谁可以参加 内容介绍-居中对齐: <%$list.ItemLayout%>-->
 <%if $list.ItemLayout == "join"%>
     <div class="<%$list.ItemLayout%> container"  style="background-color: <%$list.BackgroundColor%>">
-        <div class="container-title join-title" style="background-color: <%$list.TitleColor%>"><%$list.title%></div>
+        <div class="container-title" style="background-color: <%$list.TitleColor%>"><%$list.title%></div>
         <div class="container-content">
             <%foreach from=$list.items item=item%>
                 <p class="join-name"><%$item.tag%></p>
@@ -663,7 +723,7 @@ a {
 <!-- 企业机构会员-居中对齐: <%$list.ItemLayout%>-->
 <%if $list.ItemLayout == "memberCompanies"%>
     <div class="<%$list.ItemLayout%> container"  style="background-color: <%$list.BackgroundColor%>">
-        <div class="container-title memberCompanies-title" style="background-color: <%$list.TitleColor%>"><%$list.title%></div>
+        <div class="container-title" style="background-color: <%$list.TitleColor%>"><%$list.title%></div>
         <div class="container-content memberCompanies-content">
             <p class="company-detail">同一机构、同时订阅5个高端会员及以上</p>
             <p class="company-detail">可享有如下服务，具体请联系fan.qi@ftchinese.com </p>
@@ -685,7 +745,7 @@ a {
 <!-- 赠品介绍 内容介绍-居中对齐: <%$list.ItemLayout%>-->
 <%if $list.ItemLayout == "giveaways"%>
     <div class="<%$list.ItemLayout%>  container"  style="background-color: <%$list.BackgroundColor%>">
-        <div class="container-title giveaways-title" style="background-color: <%$list.TitleColor%>"><%$list.title%></div>
+        <div class="container-title" style="background-color: <%$list.TitleColor%>"><%$list.title%></div>
         <div class="container-content">
             <%foreach from=$list.items item=item%>
                 <div class="giveaways-detail">
