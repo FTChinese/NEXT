@@ -47,12 +47,16 @@
 			</ul>
 		</div>
 	<%elseif $themeTag != "" && $themeTitle != "" && $themeLink != "" && $storymodel != ""%>
-		<div class="story-box">
+		<div class="story-box with-theme">
 			<h2 class="box-title"><a href="<%$themeLink%>"><%$themeTitle%></a></h2>
 			<ul class="top10">
 			<%assign var="i" value=0%>
-			<%assign var="sqlString" value="find_in_set('`$themeTag`', tag) and id != '`$itemId`'"%>
-			<%assign var="mp" value=$storymodel->get_content_by_field_search($sqlString,0,10,400,10800)%>			
+			<%if $themeTag == "英语电台"%>
+				<%assign var="mp" value=$storymodel->getContentByTag($themeTag,10)%>
+			<%else%>
+				<%assign var="sqlString" value="find_in_set('`$themeTag`', tag) and id != '`$itemId`'"%>
+				<%assign var="mp" value=$storymodel->get_content_by_field_search($sqlString,0,10,400,10800)%>
+			<%/if%>		
 			<%foreach from=$mp item=sc%>
 				<%assign var="i" value=$i+1%>
 				<li class="mp<%$i%>"><a target="_blank" href="/<%$sc.item_type%>/<%$sc.id%>"><%$sc.cheadline%></a></li>
