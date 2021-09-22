@@ -571,5 +571,15 @@ This results in wasted space and memory for subscribers' device and does not inc
 		padding: 0 !important;
 	}
 }
+
+// MARK: - Side-by-side portrait images
+@media only screen and (min-width: 691px) {
+	[data-layout-width="full-grid"] .n-content-layout__container {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		column-gap: $defaultPadding/2;
+	}
+}
+
 @import "quote-number.scss";
 @import "story-progress.scss";
