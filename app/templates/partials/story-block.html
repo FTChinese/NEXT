@@ -34,10 +34,26 @@
 						<script type="text/javascript">window.hasFoundProductPricing = true; </script>
 						<div class="video-player" target="_blank" id="video-player"><div class="video-player-inner">
 							<script type="text/javascript">
-							var thisVideo = document.getElementById('video-player');
-							var video_width = thisVideo.offsetWidth;
-							var video_height = Math.round(video_width*9/16);
-							document.write('<scr' + 'ipt src="https://union.bokecc.com/player?vid=<%$cc_vaddress%>&siteid=922662811F1A49E9&autoStart=false&width=' + video_width + '&height=' + video_height + '&playerid=3571A3BF2AEC8829&playertype=1" type="text/javascript"></sc' + 'ript>');
+							var thisVideo;
+							var video_width;
+							var video_height;
+							if (typeof Android === 'undefined' && window.location.href.indexOf('AndroidApp=on') === -1) {
+								thisVideo = document.getElementById('video-player');
+								video_width = thisVideo.offsetWidth;
+								video_height = Math.round(video_width*9/16);
+								document.write('<scr' + 'ipt src="https://union.bokecc.com/player?vid=<%$cc_vaddress%>&siteid=922662811F1A49E9&autoStart=true&width=' + video_width + '&height=' + video_height + '&playerid=3571A3BF2AEC8829&playertype=1" type="text/javascript"></sc' + 'ript>');
+							} else {
+								document.write('<iframe id="cciframe_<%$cc_vaddress%>" src="" frameborder="0"></iframe>');
+								setTimeout(function(){
+									thisVideo = document.getElementById('video-player');
+									video_width = thisVideo.offsetWidth;
+									video_height = Math.round(video_width*9/16);
+									var videoFrameEle = document.getElementById('cciframe_<%$cc_vaddress%>');
+									videoFrameEle.style.height = video_height + 'px';
+									videoFrameEle.style.width = video_width + 'px';
+									videoFrameEle.src = 'https://p.bokecc.com/playhtml.bo?vid=<%$cc_vaddress%>&siteid=922662811F1A49E9&autoStart=true&playerid=FBEC69EC8BB76FC8&playertype=2';
+								}, 500);
+							}
 							</script>
 						</div></div>
 					<%elseif $cc_room_id != "" && (($smarty.get.paywall != "1" && $paywall != "1" && $smarty.get.paywall != "2" && $paywall != "2") || !preg_match("/专享/is",$keys))%>
