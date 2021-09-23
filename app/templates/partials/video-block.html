@@ -9,26 +9,26 @@
 		                    <div class="video-player" target="_blank" id="video-player"><div class="video-player-inner">
 		                        <%if $cc_vaddress && $cc_vaddress!=""%>
 		                            <script type="text/javascript">
-		                            var thisVideo = document.getElementById('video-player');
-		                            var video_width = thisVideo.offsetWidth;
-		                            var video_height = Math.round(video_width*9/16);
-									document.write('<scr' + 'ipt src="https://union.bokecc.com/player?vid=<%$cc_vaddress%>&siteid=922662811F1A49E9&autoStart=true&width=' + video_width + '&height=' + video_height + '&playerid=3571A3BF2AEC8829&playertype=1" type="text/javascript"></sc' + 'ript>');
-									<%if $smarty.get.webview == "ftcapp" && preg_match("/高端视点/",$PageTitle) %>
-										var videoRealSection = thisVideo.querySelector('.video-player-inner');
-										var hasSendTracking = false;
-										videoRealSection.onclick = function() {
-											if (!hasSendTracking) {
-												var trackImp = 'http://bsch.serving-sys.com/serving/adServer.bs?cn=display&c=19&mc=imp&pli=24934762&PluID=0&ord=__TIME__&rtu=-1&mb=1';
-												var trackVideoImpression = new Image();
-												trackVideoImpression.onload = function() {
-												}
-												trackVideoImpression.onerror = function() {
-												}
-												trackVideoImpression.src = trackImp;
-												hasSendTracking = true;
-											}
-										}
-									<%/if%>
+										var thisVideo;
+										var video_width;
+										var video_height;
+									if (typeof Android === 'undefined') {
+										thisVideo = document.getElementById('video-player');
+										video_width = thisVideo.offsetWidth;
+										video_height = Math.round(video_width*9/16);
+										document.write('<scr' + 'ipt src="https://union.bokecc.com/player?vid=<%$cc_vaddress%>&siteid=922662811F1A49E9&autoStart=true&width=' + video_width + '&height=' + video_height + '&playerid=3571A3BF2AEC8829&playertype=1" type="text/javascript"></sc' + 'ript>');
+									} else {
+										document.write('<iframe id="cciframe_<%$cc_vaddress%>" src="" frameborder="0" height="280" width="350"></iframe>');
+										setTimeout(function(){
+											thisVideo = document.getElementById('video-player');
+											video_width = thisVideo.offsetWidth;
+											video_height = Math.round(video_width*9/16);
+											var videoFrameEle = document.getElementById('cciframe_<%$cc_vaddress%>');
+											videoFrameEle.style.height = video_height;
+											videoFrameEle.style.width = video_width;
+											videoFrameEle.src = 'https://p.bokecc.com/playhtml.bo?vid=<%$cc_vaddress%>&siteid=922662811F1A49E9&autoStart=true&playerid=FBEC69EC8BB76FC8&playertype=2';
+										}, 500);
+									}
 									</script>
 		                        <%else%>
 		                            <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" id="osmfPlayer">
