@@ -128,7 +128,7 @@
                                                     <%*<!--MARK: - Event Info Start -->*%>
                                                 <%/if%>
                                                 <%assign var="i" value=0%>
-                                                <%if (date("w", $smarty.now) == 0 || date("w", $smarty.now) == 6) && $smarty.get.subscription == "premium" %>
+                                                <%if $isPublicHoliday == "yes" && $smarty.get.subscription == "premium" %>
                                                     <%foreach from=$interactives item="report"%>
                                                         <%assign var="itemType" value="interactive"%>
                                                         <%include file="next/partials/subscriptions-one-item.html"%>

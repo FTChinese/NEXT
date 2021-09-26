@@ -1,0 +1,13 @@
+<%*<!--MARK: - Get both interactive and stories -->*%>
+<%assign var="HotPaidContents" value=$interactivemodel->get_interactive_by_field_search("find_in_set('HotContentByPageViews', tag)",0,1,7,10800)%>
+<%if count($HotPaidContents) > 0 %>
+    <%if $boxTitleClass == ""%>
+        <%assign var="boxTitleClass" value="list-title"%>
+    <%/if%>
+    <h2 class="<%$boxTitleClass%>"><a href="/channel/weekly.html"><%$HotPaidContents[0].cheadline%></a></h2>
+    <%if $smarty.get.webview == "ftcapp"%>
+        <%$HotPaidContents[0].ebody%>
+    <%else%>
+        <%$HotPaidContents[0].cbody%>
+    <%/if%>
+<%/if%>
