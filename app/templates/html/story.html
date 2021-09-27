@@ -1779,6 +1779,9 @@
 <%elseif $tag != "" && preg_match("/FT商学院/is",$tag) && preg_match("/高端专享/is",$tag)%>
     <%assign var="privilegeType" value="PremiumMBA"%>
     <%assign var="privilegeSuffix" value=""%>
+<%elseif $tag != "" && preg_match("/会员专享/is",$tag)%>
+    <%assign var="privilegeType" value="ExclusiveContent"%>
+    <%assign var="privilegeSuffix" value=""%>
 <%elseif $smarty.server.REQUEST_URI|strstr:"archive"%>
     <%assign var="privilegeType" value="Archive"%>
     <%assign var="privilegeSuffix" value=""%>
@@ -1987,7 +1990,7 @@
 
 	<%$paidPostTrack%>
 
-	<%if $smarty.get.taboola == "on"%>
+	<%if $smarty.get.taboola == "on" || $smarty.server.HTTP_HOST=="www.ftchinese.com"%>
 		<script type="text/javascript">
 		window._taboola = window._taboola || [];
 		_taboola.push({article:'auto'});
@@ -2116,7 +2119,7 @@
 <%if $smarty.get.bodyonly != "yes" || $isAndroidApp == "yes"%>
 <%<!--body only start-->%>
 
-		<%if $smarty.get.taboola == "on"%>
+		<%if $smarty.get.taboola == "on" || $smarty.server.HTTP_HOST=="www.ftchinese.com"%>
 			<script type="text/javascript">
 			window._taboola = window._taboola || [];
 			_taboola.push({flush: true});

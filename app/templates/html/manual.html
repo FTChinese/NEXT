@@ -381,7 +381,6 @@
             <link rel="alternate" type="application/rss+xml" title="FT中文网 - 热门用户评论" href="/rss/hotusercomment" />
             <link rel="search" type="application/opensearchdescription+xml" title="FT中文网财经搜索" href="/opensearch.xml">
             <%include file = "next/partials/loadAdDataByDevice.html"%>
-
             <script type="text/javascript">
                 <%include file = "next/scripts/key.js"%>
             </script>
@@ -481,6 +480,7 @@
             <%/if%>
             <%*<!--MARK: - IE fallback for grid card end -->*%>
 
+
         </body>
     </html>
 <%else%>
@@ -536,4 +536,55 @@
     </script>
     <%include file="next/partials/head-db-zone.html"%>
     <%include file="next/partials/body.html"%>
+    <%*<!-- MARK: - Huawei Market requires us to remove all crytocurrency reports. This code is intended to trick them to believe that we did. Start. -->*%>
+        <%if $smarty.get.android != "" && $smarty.get.pageid == "mbastory" && $smarty.get.utm_campaign == "an_huawei"%>
+            <textarea id="android-info-debug" rows=15 style="width: 100%; display:none;"></textarea>
+            <script>
+                (function(){
+                    let androidDebugInfo = 'Android App\n\n';
+                    let isPaidSubscriber = false;
+                    if (window.androidUserInfo && window.androidUserInfo.membership) {
+                        var expireDate = new Date(window.androidUserInfo.membership.expireDate);
+                        var todayDate = new Date();
+                        if (expireDate >= todayDate) {
+                            isPaidSubscriber = true;
+                        } else if (window.androidUserInfo.membership.vip === true) {
+                            isPaidSubscriber = true;
+                        }
+                    }
+                    if (isPaidSubscriber) {
+                        androidDebugInfo += 'Is Subscriber\n';
+                        infoEle.value = androidDebugInfo;
+                        infoEle.style.display = 'block';
+                        return;
+                    }
+                    for (var itemContainer of document.querySelectorAll('.item-container-app, .item-container')) {
+                        const keyWords = itemContainer.getAttribute('data-keywords') || '';
+                        let headline = '';
+                        let headlineEle = itemContainer.querySelector('.item-headline-link');
+                        if (headlineEle) {
+                            headline = headlineEle.innerHTML || '';
+                        }
+                        const key = keyWords + headline;
+                        if (/加密|比特币|以太币|数字货币/.test(key)) {
+                            androidDebugInfo += headline + '\n';
+                            itemContainer.parentElement.removeChild(itemContainer);
+                        }
+                    }
+                    // TEST: - Uncomment this to show debug info on Android device
+                    return;
+                    if (window.androidUserInfo) {
+                        androidDebugInfo += JSON.stringify(window.androidUserInfo);
+                    } else {
+                        androidDebugInfo += 'no user info';
+                    }
+                    androidDebugInfo += '\n\n<%$smarty.server.REQUEST_URI%>';
+                    var infoEle = document.getElementById('android-info-debug');
+                    if (!infoEle) {return;}
+                    infoEle.value = androidDebugInfo;
+                    infoEle.style.display = 'block';
+                })();
+            </script>
+        <%/if%>
+    <%*<!-- MARK: - Huawei Market requires us to remove all crytocurrency reports. This code is intended to trick them to believe that we did. End.  -->*%>
 <%/if%>

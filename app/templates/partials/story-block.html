@@ -263,8 +263,8 @@
 			<%/if%>
 			<div class="clearfloat"></div>
 
-
-			<%if $smarty.get.taboola == "on"%>
+			<!-- story privilegeType: <%$privilegeType%> -->
+			<%if $smarty.get.taboola == "on" || ($smarty.server.HTTP_HOST=="www.ftchinese.com" && $privilegeType == "")%>
 				<%if $smarty.get.device == "desktop"%>
 					<div id="taboola-desktop-below-article-thumbnails"></div>
 					<script type="text/javascript">
