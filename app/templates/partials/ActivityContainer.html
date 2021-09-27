@@ -42,7 +42,7 @@ a {
     .container{
         display: block;
         width: 800px;
-        margin:40px auto 80px auto;
+        margin: 60px auto;
         position:relative;
         border-radius: 8px;
     }
@@ -63,11 +63,13 @@ a {
     }
     .title-photo{
         width: 80%;
+        border-radius: 25px;
     }
     .containerTitleImage{
-        width: 100%;
+        display: block;
+        width: 90%;
         height: 100%;
-        border-radius: 25px;
+        margin: 0 auto;
     }
     .container-content{
         padding: 60px 0 30px 0;
@@ -99,18 +101,18 @@ a {
         margin-right: 10px;
     }
     .caption > p{
-        line-height: 50px;
+        line-height: 40px;
     }
 
      /* 如何参加 */
     .join-name{
         line-height: 42px;
-        font-size: 36px;
+        font-size: 40px;
     }
     .join-success{
         line-height: 35px;
-        font-size: 28px;
-        margin: 20px 0 35px 0;
+        font-size: 30px;
+        margin: 25px 0 45px 0;
     }
     .join-remind{
         height: 20px;
@@ -155,7 +157,7 @@ a {
         text-align: center;
     }
     .giveawaysImage{
-        width: 600px;
+        width: 500px;
         height: auto;
     }
     .giveaways-name{
@@ -169,7 +171,6 @@ a {
         line-height: 20px;
         font-size: 14px;
         margin-bottom: 80px;
-        padding: 0 10px;
     }
     .giveaways-explanation{
         text-align: left;
@@ -229,12 +230,12 @@ a {
     /* 右边内容 */
     .standardTopic-name {
         line-height: 30px;
-        font-size: 24px;
+        font-size: 28px;
         margin: 5px 0 15px 0;
     }
     .standardTopic-content{
         line-height: 40px;
-        font-size: 18px;
+        font-size: 22px;
         color: #657278;
     }
 
@@ -282,12 +283,12 @@ a {
     /* 右边内容 */
     .premiumTopic-name {
         line-height: 30px;
-        font-size: 24px;
+        font-size: 28px;
         margin: 5px 0 15px 0;
     }
     .premiumTopic-content{
         line-height: 40px;
-        font-size: 20px;
+        font-size: 22px;
         color: #657278;
     }
     .premiumTopic-notice{
@@ -330,7 +331,7 @@ a {
     .container{
         ddisplay: block;
         width: inherit;
-        margin: 20px 10px 60px 10px;
+        margin: 10px 10px 60px 10px;
         position:relative;
         border-radius: 8px;
     }
@@ -351,23 +352,23 @@ a {
     }
     .title-photo{
         width: 90%;
-    }
-    .containerTitleImage{
-        width: 100%;
-        height: 100%;
         border-radius: 25px;
     }
+    .containerTitleImage{
+        display: block;
+        width: 90%;
+        height: 100%;
+        margin: 0 auto;
+    }
     .container-content{
-        padding: 30px 0 20px 0;
+        padding: 40px 0;
         text-align: center;
         font-size: 18px;
-    }
-    .noTitle-content{
-        padding: 5px 0 20px 0;
     }
     .title-content{
         padding: 5px 0 20px 0;
     }
+
 
      /* introduction */
     .captionImage{
@@ -395,22 +396,19 @@ a {
      /* 如何参加 */
     .join-name{
         line-height: 42px;
-        font-size: 24px;
+        font-size: 28px;
     }
     .join-success{
         line-height: 15px;
-        margin: 12px 0 24px 0;
+        margin: 25px 0;
     }
     .join-remind{
         line-height: 20px;
-        font-size: 8px;
+        font-size: 10px;
     }
 
 
     /* 企业机构会员 */
-    .memberCompanies-content{
-        font-size: 14px;
-    }
     .company-detail {
         margin-bottom: 20px;
     }
@@ -424,7 +422,7 @@ a {
     }
     .service-detail{
         text-align: center;
-        font-size: 12px;
+        font-size: 13px;
     }
     .companyImage {
         margin: 0 auto;
@@ -441,7 +439,7 @@ a {
         height: auto;
     }
     .company-remind{
-        font-size: 8px;
+        font-size: 10px;
     }
 
       /* 赠品介绍 */
@@ -461,14 +459,13 @@ a {
     }
     .giveaways-remind{
         line-height: 20px;
-        font-size: 8px;
+        font-size: 10px;
         margin-bottom: 80px;
-        padding: 0 10px;
     }
     .giveaways-explanation{
         text-align: left;
         line-height: 40px;
-        padding: 0 15px;
+        padding: 0 30px;
     }
 
    /* 公共部分 */
@@ -619,7 +616,7 @@ a {
 <!-- 背景图-小图: <%$list.ItemLayout%>-->
 <%if $list.ItemLayout == "headerSmallImage"%>
     <div class="<%$list.ItemLayout%>">
-        <img src="<%$list.ItemImage%>" alt="" class="smallImage">
+        <img src="<%$list.HeadImage%>" alt="" class="smallImage">
     </div>
 <%/if%>
 
@@ -690,7 +687,7 @@ a {
 <!-- 内容介绍-标题为图片: <%$list.ItemLayout%>-->
 <%if $list.ItemLayout == "headline-photo"%>
     <div class="<%$list.ItemLayout%>  container" style="background-color: <%$list.BackgroundColor%>">
-        <div class="container-title title-photo">
+        <div class="container-title title-photo" style="background-color: <%$list.TitleColor%>">
             <img src="<%$list.TitleImage%>" alt="" class="containerTitleImage">
         </div>
         <div class="container-content title-content">
