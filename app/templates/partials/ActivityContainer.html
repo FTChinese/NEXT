@@ -154,7 +154,10 @@ a {
 
       /* 赠品介绍 */
     .giveaways-detail{
-        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 80px;
     }
     .giveawaysImage{
         width: 500px;
@@ -170,7 +173,6 @@ a {
     .giveaways-remind{
         line-height: 20px;
         font-size: 14px;
-        margin-bottom: 80px;
     }
     .giveaways-explanation{
         text-align: left;
@@ -329,7 +331,7 @@ a {
     /* 带框的标题+ 文字 ------内容介绍 */
        /* 公共部分 */
     .container{
-        ddisplay: block;
+        display: block;
         width: inherit;
         margin: 10px 10px 60px 10px;
         position:relative;
@@ -444,7 +446,10 @@ a {
 
       /* 赠品介绍 */
     .giveaways-detail{
-        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 80px;
     }
     .giveawaysImage{
         width: 240px;
@@ -460,7 +465,6 @@ a {
     .giveaways-remind{
         line-height: 20px;
         font-size: 10px;
-        margin-bottom: 80px;
     }
     .giveaways-explanation{
         text-align: left;
@@ -607,20 +611,18 @@ a {
 
 
 
-<!-- 背景图-大图: <%$list.ItemLayout%>-->
 <%if $list.ItemLayout == "headerBigImage"%>
     <div class="<%$list.ItemLayout%>">
         <img src="<%$list.HeadImage%>" alt="" class="bigImage">
     </div>
 <%/if%>
-<!-- 背景图-小图: <%$list.ItemLayout%>-->
+
 <%if $list.ItemLayout == "headerSmallImage"%>
     <div class="<%$list.ItemLayout%>">
         <img src="<%$list.HeadImage%>" alt="" class="smallImage">
     </div>
 <%/if%>
 
-<!-- 标准会员权益介绍-居中: <%$list.ItemLayout%>-->
 <%if $list.ItemLayout == "standardMemberRights"%>
     <div class="<%$list.ItemLayout%> memberContainer" style="background-color: <%$list.BackgroundColor%>">
         <div class="member-price">
@@ -642,8 +644,6 @@ a {
     </div>
 <%/if%>
 
-
-<!-- 高端会员权益介绍-居中: <%$list.ItemLayout%>-->
 <%if $list.ItemLayout == "premiumMemberRights"%>
     <div class="<%$list.ItemLayout%> memberContainer" style="background-color: <%$list.BackgroundColor%>" >
         <div class="member-price">
@@ -668,7 +668,6 @@ a {
     </div>
 <%/if%>
 
-<!-- 内容介绍-标题为文字: <%$list.ItemLayout%>-->
 <%if $list.ItemLayout == "headline-word"%>
     <div class="<%$list.ItemLayout%>  container" style="background-color: <%$list.BackgroundColor%>">
         <div class="container-title" style="background-color: <%$list.TitleColor%>"><%$list.title%></div>
@@ -684,7 +683,6 @@ a {
     </div>
 <%/if%>
 
-<!-- 内容介绍-标题为图片: <%$list.ItemLayout%>-->
 <%if $list.ItemLayout == "headline-photo"%>
     <div class="<%$list.ItemLayout%>  container" style="background-color: <%$list.BackgroundColor%>">
         <div class="container-title title-photo" style="background-color: <%$list.TitleColor%>">
@@ -702,7 +700,6 @@ a {
     </div>
 <%/if%>
 
-<!-- 内容介绍-小图标和标题都没有: <%$list.ItemLayout%>-->
 <%if $list.ItemLayout == "introduction"%>
     <div class="<%$list.ItemLayout%>  container" style="background-color: <%$list.BackgroundColor%>">
         <div class="container-content noTitle-content">
@@ -719,7 +716,6 @@ a {
 
 
 
-<!-- 谁可以参加 内容介绍-居中对齐: <%$list.ItemLayout%>-->
 <%if $list.ItemLayout == "join"%>
     <div class="<%$list.ItemLayout%> container"  style="background-color: <%$list.BackgroundColor%>">
         <div class="container-title" style="background-color: <%$list.TitleColor%>"><%$list.title%></div>
@@ -734,7 +730,23 @@ a {
     </div>
 <%/if%>
 
-<!-- 企业机构会员-居中对齐: <%$list.ItemLayout%>-->
+<%if $list.ItemLayout == "giveaways"%>
+    <div class="<%$list.ItemLayout%>  container" style="background-color: <%$list.BackgroundColor%>">
+        <div class="container-title" style="background-color: <%$list.TitleColor%>"><%$list.title%></div>
+        <div class="container-content">
+            <%foreach from=$list.items item=item%>
+                <div class="giveaways-detail">
+                    <img src="<%$item.image%>" alt="" class="giveawaysImage">
+                    <p class="giveaways-name"><%$item.headline%></p>
+                    <p class="giveaways-explanation"><%$item.longlead%></p>
+                    <p class="giveaways-remind"><%$item.shortlead%></p>
+                </div>
+            <%/foreach%>
+        </div>
+    </div>
+<%/if%>
+
+
 <%if $list.ItemLayout == "memberCompanies"%>
     <div class="<%$list.ItemLayout%> container"  style="background-color: <%$list.BackgroundColor%>">
         <div class="container-title" style="background-color: <%$list.TitleColor%>"><%$list.title%></div>
@@ -756,21 +768,8 @@ a {
     </div>
 <%/if%>
 
-<!-- 赠品介绍 内容介绍-居中对齐: <%$list.ItemLayout%>-->
-<%if $list.ItemLayout == "giveaways"%>
-    <div class="<%$list.ItemLayout%>  container"  style="background-color: <%$list.BackgroundColor%>">
-        <div class="container-title" style="background-color: <%$list.TitleColor%>"><%$list.title%></div>
-        <div class="container-content">
-            <%foreach from=$list.items item=item%>
-                <div class="giveaways-detail">
-                    <img src="<%$item.image%>" alt="" class="giveawaysImage">
-                    <p class="giveaways-name"><%$item.headline%></p>
-                    <p class="giveaways-explanation"><%$item.longlead%></p>
-                    <p class="giveaways-remind"><%$item.shortlead%></p>
-            <%/foreach%>
-        </div>
-    </div>
-<%/if%>
+
+
 
 
 
