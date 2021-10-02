@@ -238,15 +238,17 @@ width: 720px !important;
 
 <tr><td class="lineH1 openInBrowserGap" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
 <tr><td style="padding-left: 10px; padding-right: 10px;">
-<table border="0" cellspacing="0" cellpadding="0" style="width: 100%;">
-<tr><td class="ft-logo lineH1" style="font-size:43px;line-height:43px;height:43px;text-align:center; width: 100%;">
-<a
-href="http://www.ftchinese.com" target="_blank"
-><img id="ft-logo-img" src="https://dhgxl8qk9zgzr.cloudfront.net/img/ftcLogoHD.png" width="172" height="36" style="width: 172px;height: 36px; color: #091523; font-size: 25px; border: 0 none;" alt="FT中文网" title="FT中文网" /></a>
-</td></tr>
-<tr><td style="font-size:4px;line-height:4px;height:4px;" class="ft-logo-briefing lineH1">&nbsp;</td></tr>
-<tr><td class="ft-desc lineH1_2" style="font-size:13px;line-height:16px;color:#505050;text-align:center;font-weight:bold;"><%$smarty.now|date_format:"%Y年%m月%d日"%></td></tr>
-</table>
+<%if $smarty.get.webview != "ftcapp"%>
+	<table border="0" cellspacing="0" cellpadding="0" style="width: 100%;">
+	<tr><td class="ft-logo lineH1" style="font-size:43px;line-height:43px;height:43px;text-align:center; width: 100%;">
+	<a
+	href="http://www.ftchinese.com" target="_blank"
+	><img id="ft-logo-img" src="https://dhgxl8qk9zgzr.cloudfront.net/img/ftcLogoHD.png" width="172" height="36" style="width: 172px;height: 36px; color: #091523; font-size: 25px; border: 0 none;" alt="FT中文网" title="FT中文网" /></a>
+	</td></tr>
+	<tr><td style="font-size:4px;line-height:4px;height:4px;" class="ft-logo-briefing lineH1">&nbsp;</td></tr>
+	<tr><td class="ft-desc lineH1_2" style="font-size:13px;line-height:16px;color:#505050;text-align:center;font-weight:bold;"><%$smarty.now|date_format:"%Y年%m月%d日"%></td></tr>
+	</table>
+<%/if%>
 </td></tr>
 <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
 <tr><td>

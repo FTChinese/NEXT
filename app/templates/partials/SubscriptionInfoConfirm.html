@@ -553,11 +553,7 @@ for (k=0;k<x.length;k+=16) {
       if (countryEle && countryEle.getAttribute('type') === 'china_only' && countryEle.value !== chinaCode) {
         message += '但是活动的礼品仅针对中国大陆地区，您的订阅权益不受影响！';
       }
-      sendAlert({
-        title: '成功',
-        message: message
-      });
-      markSuccess();
+      markSuccess(message);
     }
 
     function sendAlert(obj) {
@@ -573,14 +569,16 @@ for (k=0;k<x.length;k+=16) {
       }
     }
 
-    function markSuccess() {
+    function markSuccess(message) {
       var userdefault = {
         key: 'Need To Confirm Info',
         value: false
-      }
+      };
       try {
         webkit.messageHandlers.userdefault.postMessage(userdefault);
+        sendAlert({title: '成功', message: message});
       } catch (error) {
+        sendAlert({title: '成功', message: message + '\n如果在您的首页上仍然显示提醒您更新的信息，请截屏给我们的客服。'});
         DeleteCookie('NeedToConfirmInfo');
       }
       // MARK: - Hide the skip button
