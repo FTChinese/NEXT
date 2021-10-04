@@ -3,6 +3,11 @@
 <%if $nextmodel != ""%>
 	<%assign var="infoForPromo" value=$nextmodel->getPublishJson($pageIdForPromo)|json_decode:true%>
 	<%assign var="subscriptionType" value=$smarty.get.type%>
+	<%assign var="noneSubscriberStatus" value=$smarty.get.noneSubscriberStatus%>
+	<%assign var="promoTargets" value=$subscriptionType%>
+	<%if $noneSubscriberStatus != ""%>
+		<%assign var="promoTargets" value="`$subscriptionType`|`$noneSubscriberStatus`"%>
+	<%/if%>
 	<%assign var="foundPromo" value="no"%>
 	<%assign var="expire" value=$smarty.get.expire%>
 	<%assign var="ccode" value=$smarty.get.ccode%>
@@ -106,7 +111,7 @@
 
 
 		<%*<!-- passExpirationCheck: <%$passExpirationCheck%>; isScheduledForToday: <%$isScheduledForToday%>; passSubscriberSource: <%$passSubscriberSource%>; passDurationCheck: <%$passDurationCheck%>; pass platform: <%$passPlatform%>; pass renewal: <%$passRenewal%> -->*%>
-	    <%if $foundPromo == "no" && $section.type == "promoBox" && $isScheduledForToday == "yes" && $passExpirationCheck == "yes" && $passDurationCheck == "yes" && $passSubscriberSource == "yes" && $passPlatform == "yes"  && $passRenewal == "yes" && $subscriptionType == $section.promoTarget && $passActionCheck == "yes" && ($section.status == "on" || $debug_model == 1)%>
+	    <%if $foundPromo == "no" && $section.type == "promoBox" && $isScheduledForToday == "yes" && $passExpirationCheck == "yes" && $passDurationCheck == "yes" && $passSubscriberSource == "yes" && $passPlatform == "yes"  && $passRenewal == "yes" && preg_match("/`$promoTargets`/is",$section.promoTarget) && $passActionCheck == "yes" && ($section.status == "on" || $debug_model == 1)%>
 	    	<%assign var="foundPromo" value="yes"%>
 	    	<%*<!--MARK: - Get the final action (list) based on weight and status -->*%>
 	    	<%assign var=weightCount value=0%>

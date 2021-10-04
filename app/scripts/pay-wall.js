@@ -66,7 +66,12 @@ function payWall() {
     handleSubscriptionInfo(dataObj);
   } else if (!isReqSuccess && i<3) {
     var userId1 = GetCookie('USER_ID') ;
-    if (userId1 === null) {return;}
+    if (userId1 === null) {
+      // MARK: - Unlogged-in Web and Android users
+      dataObj = {paywall:1, premium:0, standard:0};
+      handleSubscriptionInfo(dataObj);
+      return;
+    }
     var xhrpw = new XMLHttpRequest();
     xhrpw.open('get', '/index.php/jsapi/paywall');
     xhrpw.setRequestHeader('Content-Type', 'application/text');
@@ -91,6 +96,7 @@ function handleSubscriptionInfo(dataObj) {
   window.htmlClass = document.documentElement.className;
   window.htmlClass = window.htmlClass.replace(/\ is\-subscriber/g, '').replace(/\ is\-premium/g, '').replace(/\ is\-standard/g, '');
   var subscriptionType = 'noneSubscriber';
+  var noneSubscriberStatus;
   if (dataObj.paywall === 0) {
     if (dataObj.premium === 1) {
       window.htmlClass += ' is-subscriber is-premium';
@@ -99,8 +105,11 @@ function handleSubscriptionInfo(dataObj) {
       window.htmlClass += ' is-subscriber is-standard';
       subscriptionType = 'standard';      
     }
+    SetCookie('paywall', subscriptionType);
+  } else {
+    // MARK: - Get none-subscriber status: new and churned
+    noneSubscriberStatus = dataObj.expire ? 'churned' : 'new';
   }
-  SetCookie('paywall', subscriptionType);
   var expireDate = '';
   if (dataObj.expire) {
     expireDate = dataObj.expire;
@@ -130,7 +139,8 @@ function handleSubscriptionInfo(dataObj) {
   // platform = 'iOSApp';
   // pendingRenewal = 'On';
   var xhr = new XMLHttpRequest();
-  var url = '/m/corp/partial.html?include=promoboxone&type=' + subscriptionType + '&expire=' + expireDate + '&ccode=' + ccode + '&duration=' + duration + '&platform=' + platform + '&pendingRenewal=' + pendingRenewal;
+  var noneSubscriberParameter = (typeof noneSubscriberStatus === 'string') ? '&noneSubscriberStatus=' + noneSubscriberStatus : ''; 
+  var url = '/m/corp/partial.html?include=promoboxone&type=' + subscriptionType + '&expire=' + expireDate + '&ccode=' + ccode + '&duration=' + duration + '&platform=' + platform + '&pendingRenewal=' + pendingRenewal + noneSubscriberParameter;
   xhr.open('get', url);
   xhr.setRequestHeader('Content-Type', 'application/text');
   xhr.onload = function() {

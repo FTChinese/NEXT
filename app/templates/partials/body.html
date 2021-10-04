@@ -168,11 +168,6 @@
                     </div>
                     <%assign var="i" value=0%>
                 <%elseif $highlightFTAcademy == "top"%>
-                    <%assign var="highlightFTAcademyItems" value=4%>
-                    <%if date("w", $smarty.now) == 0%>
-                        <%assign var="highlightFTAcademyItems" value=8%>
-                    <%/if%>
-                    <!--highlightFTAcademyItems: <%$highlightFTAcademyItems%>-->
                     <%assign var="interactives" value=$interactivemodel->get_interactive_by_field_search("find_in_set('FT商学院',tag)",0,$highlightFTAcademyItems,5,10800)%>
                     <div class="block-container no-side">
                         <div class="block-inner">
@@ -206,6 +201,10 @@
                         <%include file="next/partials/subscriptions-web.html"%>
                         <%assign var="subscriptionsWarningsShowed" value="yes"%>
                     <%/if%>
+                <%/if%>
+                <%if $subscriptionsWarningsShowed != "yes"%>
+                    <%include file="next/partials/subscriptions-warnings.html"%>
+                    <%assign var="subscriptionsWarningsShowed" value="yes"%>
                 <%/if%>
             <%/if%>
             <%include file="next/partials/block.html"%>

@@ -16,7 +16,6 @@
 	</div>
 <%/if%>
 
-
 <%if $hidePromoBox != "yes"%>
     <div class="items hide" id="membership-login-prompt">
     	<div class="no-image">
@@ -64,17 +63,8 @@
     <%/if%>
     <script>checkUserWarnings();</script>
 
-	<%if $supportSubscriptionPromoBox == "yes"%>
-    	<%*<!--
-        <%if $smarty.get.subscription != "member" && $smarty.get.subscription != "premium"%>
-            <%include file="next/partials/house-ad-subscription-promo-box.html"%>
-        <%/if%>
 
-        <%if $debug_model == 1%>
-        	<%include file="next/partials/promoboxone.html"%>
-        <%/if%>
-        -->*%>
-        
+	<%if $supportSubscriptionPromoBox == "yes"%>
         <%if $smarty.get.android != ""%>
 			<%*<!--MARK: - Android App Promo Box-->*%>
 			<div id="promo-box-container"></div>

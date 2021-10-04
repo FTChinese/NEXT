@@ -43,7 +43,7 @@
 				<%*<!--passPlatform: <%$passPlatform%>, Platform: <%$platform%>, $section.ProductPlatform: <%$section.ProductPlatform%> -->*%>
 
 				
-				<%*<!-- <%$isScheduledForToday%> / rendered: <%$promoRendered%> /   -->*%>
+				<%*<!-- isScheduledForToday: <%$isScheduledForToday%> / rendered: <%$promoRendered%> -->*%>
 			    <%if $passPlatform == "yes" && $section.type == "promoBox" && $isScheduledForToday == "yes" && $section.promoTarget == "noneSubscriber" && $passActionCheck == "yes" && $section.DaysToExpiration == "" && ($section.status == "on" || $debug_model == 1) && !preg_match("/`$section.promoTarget`/is",$promoRendered)%>
 			    	
 			    	<%*<!--MARK: - Get the final action (list) based on weight and status -->*%>

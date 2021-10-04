@@ -109,9 +109,19 @@
     <%*<!--MARK: Show FT Academy on top during public holidays and weekends-->*%>
     <%assign var="isPublicHoliday" value="no"%>
     <%if date("Ymd", $smarty.now) == 20210925 || date("Ymd", $smarty.now) == 20210926%>
+        <%*<!--MARK: When weekend days are working days in China because of long public holidays exchanges such as Chinese new year, National day, etc... -->*%>
         <%assign var="isPublicHoliday" value="no"%>
+    <%elseif date("Ymd", $smarty.now) >= 20211001 && date("Ymd", $smarty.now) <= 20211007%>
+        <%assign var="isPublicHoliday" value="yes"%>
     <%elseif date("w", $smarty.now) == 0 || date("w", $smarty.now) == 6%>
         <%assign var="isPublicHoliday" value="yes"%>
+    <%/if%>
+    <%*<!--MARK: Show 8 FT Academy on top starting from the second day of public holidays and weekends-->*%>
+    <%assign var="highlightFTAcademyItems" value=4%>
+    <%if date("Ymd", $smarty.now) >= 20211002 && date("Ymd", $smarty.now) <= 20211007%>
+        <%assign var="highlightFTAcademyItems" value=8%>
+    <%elseif date("w", $smarty.now) == 0%>
+        <%assign var="highlightFTAcademyItems" value=8%>
     <%/if%>
     <%if $smarty.get.highlightFTAcademy == "top"%>
         <%*<!--MARK: Use parameter to test-->*%>
