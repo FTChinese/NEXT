@@ -104,8 +104,7 @@
     <%/if%>
 <%/if%>
 
-<%*<!--MARK: Highlight FT Academy-->*%>
-<%if $p.meta.HighlightFTAcademy == "yes" && $smarty.get.subscription != "premium"%>
+<%if $pageId == "home"%>
     <%*<!--MARK: Show FT Academy on top during public holidays and weekends-->*%>
     <%assign var="isPublicHoliday" value="no"%>
     <%if date("Ymd", $smarty.now) == 20210925 || date("Ymd", $smarty.now) == 20210926%>
@@ -123,10 +122,7 @@
     <%elseif date("w", $smarty.now) == 0%>
         <%assign var="highlightFTAcademyItems" value=8%>
     <%/if%>
-    <%if $smarty.get.highlightFTAcademy == "top"%>
-        <%*<!--MARK: Use parameter to test-->*%>
-        <%assign var="highlightFTAcademy" value="top"%>
-    <%elseif $isPublicHoliday == "no" || $smarty.get.subscription == "member"%>
+    <%if $isPublicHoliday == "no" || $smarty.get.subscription == "member" || $smarty.get.subscription == "premium"%>
         <%assign var="highlightFTAcademy" value="feed"%>
     <%else%>
         <%assign var="highlightFTAcademy" value="top"%>

@@ -90,10 +90,11 @@
 <%assign var="lockClass" value=""%>
 <%if preg_match("/高端专享/is",$itemTagsString)%>
 	<%assign var="vipClass" value=" vip"%>
-	<%assign var="lockClass" value="unlocked"%>
+	<%assign var="lockClass" value="locked"%>
+<%elseif preg_match("/会员专享/is",$itemTagsString)%>
+	<%assign var="vipClass" value=""%>
+	<%assign var="lockClass" value="locked"%>
 <%/if%>
-
-
 
 <%assign var="subTypeData" value=""%>
 <%if $itemSubType != ""%>
