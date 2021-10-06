@@ -105,9 +105,33 @@
 <%/if%>
 
 <%if $pageId == "home"%>
+    <%*<!--MARK: Check if the editorial team has published a new story on cover during public holidays and weekends-->*%>
+    <%assign var="itemT" value=""%>
+    <%assign var="foundCoverStory" value="no"%>
+    <%foreach from=$p.sections item=section%>
+        <%if $section.type == "block" && $foundCoverStory == "no"%>
+            <%foreach from=$section.lists item=list%>
+                <%foreach from=$list.items item=item%>
+                    <%if $foundCoverStory == "no"%>
+                        <%assign var="itemT" value=$item.timeStamp|default:$item.fileupdatetime|default:$item.last_publish_time|default:$item.pubdate%>
+                        <%assign var="foundCoverStory" value="yes"%>
+                    <%/if%>
+                <%/foreach%>
+            <%/foreach%>
+        <%/if%>
+    <%/foreach%>
+    <%assign var="hasPublishedNewCoverStory" value="no"%>
+    <%if $itemT != ""%>
+        <%assign var="itemT" value=$itemT|regex_replace:"/\.[0-9]+$/i":""%>
+        <%math assign="timeDiff" equation="x-y" x=$smarty.now y=$itemT%>
+        <%assign var="timeMath" value=$timeDiff%>
+        <%if $timeMath <= 60*60*12%>
+            <%assign var="hasPublishedNewCoverStory" value="yes"%>
+        <%/if%>
+    <%/if%>
     <%*<!--MARK: Show FT Academy on top during public holidays and weekends-->*%>
     <%assign var="isPublicHoliday" value="no"%>
-    <%if date("Ymd", $smarty.now) == 20210925 || date("Ymd", $smarty.now) == 20210926%>
+    <%if $hasPublishedNewCoverStory == "yes" || date("Ymd", $smarty.now) == 20210925 || date("Ymd", $smarty.now) == 20210926%>
         <%*<!--MARK: When weekend days are working days in China because of long public holidays exchanges such as Chinese new year, National day, etc... -->*%>
         <%assign var="isPublicHoliday" value="no"%>
     <%elseif date("Ymd", $smarty.now) >= 20211001 && date("Ymd", $smarty.now) <= 20211007%>
