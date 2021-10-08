@@ -25,13 +25,16 @@
     	</div>
     </div>
 
-    <div class="items hide" id="subscriber-contact-confirm">
-        <div class="no-image">
-            <div class="item-inner">
-                <div class="item-lead"><a href="http://www.ftchinese.com/m/corp/preview.html?pageid=subscriptioninfoconfirm&to=all">为保障您的订阅权益，请点击此处确认您的联系方式</a></div>
-            </div>
-        </div>
-    </div>
+	<%*<!--MARK: - Hide this reminder for a while until we figure why it doesn't hide after user updated information -->*%>
+	<%if date("Ymd",$smarty.now) >= 20211103%>
+		<div class="items hide" id="subscriber-contact-confirm">
+			<div class="no-image">
+				<div class="item-inner">
+					<div class="item-lead"><a href="http://www.ftchinese.com/m/corp/preview.html?pageid=subscriptioninfoconfirm&to=all">为保障您的订阅权益，请点击此处确认您的联系方式</a></div>
+				</div>
+			</div>
+		</div>
+	<%/if%>
 
     <%if $yellowCardIds !== ""%>
     	<div class="items hide" id="membership-yellow-card-prompt">

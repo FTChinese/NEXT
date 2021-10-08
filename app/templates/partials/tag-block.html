@@ -265,7 +265,7 @@
 					<%assign var="itemT" value=$item.timeStamp|default:$item.last_publish_time|default:$item.pubdate|default:$item.add_times%>
 					<%assign var="itemT" value=$itemT|regex_replace:"/\.[0-9]+$/i":""%>
 					<%math assign="timeMath" equation="x-y" x=$smarty.now y=$itemT%>
-                    <%if $list.feedType == "premium" || $item.type == "premium" || $item.accessright == "2" || $itemType == "premium" || $paywall == "1" || ($item.type == "interactive" && preg_match("/英语电台|速读|会员专享|高端专享/is",$itemTagsString)) || ($itemType == "story" && $timeMath > 60*60*24*2)%>
+                    <%if $list.feedType == "premium" || $item.type == "premium" || $item.accessright == "2" || $itemType == "premium" || $paywall == "1" || ($item.type == "interactive" && preg_match("/英语电台|速读|会员专享|高端专享/is",$itemTagsString)) || ($itemType == "story" && $timeMath > 60*60*24)%>
                         <%assign var="lockClass" value="locked"%>
                     <%else%>
                         <%assign var="lockClass" value=""%>
