@@ -4,7 +4,7 @@
 <%/if%>
 <%assign var="mainDomain" value="https://dbdzmnhotmzi1.cloudfront.net/"%>
 <%assign var="registerDomain" value="http://user.ftchinese.com/"%>
-<%if $smarty.get.to == "vip"%>
+<%if $smarty.get.to == "vip" || $smarty.get.to == "premium" || $smarty.get.to == "standard"%>
 	<%assign var="mainDomain" value="https://www.chineseft.com/"%>
 	<%assign var="registerDomain" value="https://user.chineseft.com/"%>
 <%/if%>
@@ -35,6 +35,8 @@ img,div,p,table,td,tr{max-width:100%;}
 .mainTD{width:100%;max-width:100%;}
 @media all and (max-width: 500px) {
 .coverImgLinkContain{float:none !important;margin:5px auto !important;}
+.P-Only {display: block!important;}
+.P-Hide {display: none!important;}
 }
 @media all and (min-width: 501px) {
 .coverImgLinkContain{max-width: 50%;}
@@ -94,8 +96,8 @@ padding-left:10px !important;padding-right:10px !important;
 .videoImageLink {
 color:#505050 !important;text-decoration:none !important;display:block !important;
 }
-.headLine{font-size:19px !important;line-height:1.618 !important; color: #000;}
-.cover .headLine{font-size:26px !important;line-height:1.618 !important;}
+.headLine{font-size:19px !important;line-height:1.4 !important; color: #000;}
+.cover .headLine{font-size:20px !important;line-height:1.4 !important;}
 .SContent{font-size:16px !important;line-height:1.618 !important; color: #777;}
 .cover{font-size:16px !important;line-height:1.618 !important;}
 .imgSpace{height:6px !important;font-size: 0 !important;}
@@ -273,63 +275,71 @@ width: 720px !important;
 		<%include file="next/partials/block_email.html"%>
         <%assign var="s" value=$s+1%>
     <%elseif $section.type == "MainMessage"%>
-    	<%assign var=buttonUrl value=$section.buttonUrl%>
-    	<%if $smarty.get.ccode != ""%>
-			<%*<!--MARK: - check the ccode in the url parameter first-->*%>
-			<%assign var=ccode value=$smarty.get.ccode%>
-		<%elseif $section.ccode != ""%>
-			<%*<!--MARK: - if not found, check the ccode in section setting-->*%>
-			<%assign var=ccode value=$section.ccode%>
+		<%assign var="currentDate" value=$smarty.now|date_format:"%Y%m%d"%>
+		<%if ($debug_model == 1 || $section.status != "off") && ($section.dates == "" || preg_match("/`$currentDate`/is",$section.dates))%>
+			<%assign var=buttonUrl value=$section.buttonUrl%>
+			<%if $smarty.get.ccode != ""%>
+				<%*<!--MARK: - check the ccode in the url parameter first-->*%>
+				<%assign var=ccode value=$smarty.get.ccode%>
+			<%elseif $section.ccode != ""%>
+				<%*<!--MARK: - if not found, check the ccode in section setting-->*%>
+				<%assign var=ccode value=$section.ccode%>
+			<%/if%>
+			<%if $section.discountCode != ""%>
+				<%assign var="discountCode" value="&from=`$section.discountCode`"%>
+			<%/if%>
+			<%if !preg_match("/ccode/is",$buttonUrl) && $ccode != ""%>
+				<%assign var=connector value="?"%>
+				<%if preg_match("/\?/is",$buttonUrl)%>
+					<%assign var=connector value="&"%>
+				<%/if%>
+				<%assign var=buttonUrl value="`$buttonUrl``$connector`ccode=`$ccode`"%>
+			<%/if%>
+			<%if $section.discountCode != ""%>
+				<%assign var=connector value="?"%>
+				<%if preg_match("/\?/is",$buttonUrl)%>
+					<%assign var=connector value="&"%>
+				<%/if%>
+				<%assign var=buttonUrl value="`$buttonUrl``$connector`from=`$section.discountCode`"%>
+			<%/if%>
+			<%if $section.title != ""%>
+				<%if $s > 0%>
+					<tr><td class="ft-header-bar" style="color:#333333;background-color:#E9DECE;font-size:13px;font-weight:bold;padding:5px 17px 4px 17px;text-transform:uppercase;width:100%;"><%$section.title%></td></tr>
+				<tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
+				<%else%>
+					<tr><td  class="SContent cover" style="font-size:18px;line-height:23px;color:#333;font-weight: bold;padding-left:17px;padding-right:17px;"><%$section.title%>：</td></tr>
+				<%/if%>
+			<%/if%>
+			<tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;"> </td></tr>
+			<tr><td  class="SContent cover" style="font-size:18px;line-height:23px;color:#333;padding-left:17px;padding-right:17px;"><%$section.content|nl2br%></td></tr>
+			<tr><td style="height: 15px; font-size: 0px; line-height: 15px; padding: 0;"> </td></tr>
+			<%if $section.buttonTitle != ""%>
+				<tr><td  class="SContent cover" style="font-size:18px;line-height:23px;color:#333;padding-left:17px;padding-right:17px;">
+					<table width="100%" cellspacing="0" cellpadding="0">
+						<tr><td style="height: 15px; font-size: 0px; line-height: 15px; padding: 0;">&nbsp;</td></tr>
+						<tr>
+							<td align="center">
+								<table cellspacing="0" cellpadding="0">
+									<tr>
+									<%if $smarty.get.to == 'iosapp'%>
+										<td><%include file="next/partials/subscription-box-ios.html"%></td>
+									<%else%>
+										<td style="border-radius: 2px;" bgcolor="#0a5e66">
+											<a href="<%$buttonUrl%>" target="_blank" style="padding: 8px 12px; border: 1px solid #0a5e66;border-radius: 2px;font-family: Helvetica, Arial, sans-serif;font-size: 14px; color: #ffffff;text-decoration: none;font-weight:bold;display: inline-block;"><%$section.buttonTitle%></a>
+										</td>
+									<%/if%>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</td></tr>
+			<%/if%>
+			<tr><td style="height: 15px; font-size: 0px; line-height: 15px; padding: 0;"> </td></tr>
+			<%*<!--MARK: - A placeholder of keywords so that iOS app will pass validation. This can be removed after Dec. 1st, 2020, when 99% of users have updated to the latest version. -->*%>
+			<div class="item-container"></div>
+			<%assign var="s" value=$s+1%>
 		<%/if%>
-    	<%if $section.discountCode != ""%>
-    		<%assign var="discountCode" value="&from=`$section.discountCode`"%>
-    	<%/if%>
-    	<%if !preg_match("/ccode/is",$buttonUrl) && $ccode != ""%>
-    		<%assign var=connector value="?"%>
-    		<%if preg_match("/\?/is",$buttonUrl)%>
-    			<%assign var=connector value="&"%>
-    		<%/if%>
-    		<%assign var=buttonUrl value="`$buttonUrl``$connector`ccode=`$ccode`"%>
-    	<%/if%>
-    	<%if $section.discountCode != ""%>
-    		<%assign var=connector value="?"%>
-    		<%if preg_match("/\?/is",$buttonUrl)%>
-    			<%assign var=connector value="&"%>
-    		<%/if%>
-    		<%assign var=buttonUrl value="`$buttonUrl``$connector`from=`$section.discountCode`"%>
-    	<%/if%>
-    	<%if $section.title != ""%>
-    		<tr><td  class="SContent cover" style="font-size:18px;line-height:23px;color:#333;font-weight: bold;padding-left:17px;padding-right:17px;"><%$section.title%>：</td></tr>
-    	<%/if%>
-    	<tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;"> </td></tr>
-    	<tr><td  class="SContent cover" style="font-size:18px;line-height:23px;color:#333;padding-left:17px;padding-right:17px;"><%$section.content|nl2br%></td></tr>
-    	<tr><td style="height: 15px; font-size: 0px; line-height: 15px; padding: 0;"> </td></tr>
-    	<%if $section.buttonTitle != ""%>
-	    	<tr><td  class="SContent cover" style="font-size:18px;line-height:23px;color:#333;padding-left:17px;padding-right:17px;">
-				<table width="100%" cellspacing="0" cellpadding="0">
-					<tr><td style="height: 15px; font-size: 0px; line-height: 15px; padding: 0;">&nbsp;</td></tr>
-					<tr>
-						<td align="center">
-							<table cellspacing="0" cellpadding="0">
-								<tr>
-								<%if $smarty.get.to == 'iosapp'%>
-									<td><%include file="next/partials/subscription-box-ios.html"%></td>
-								<%else%>
-									<td style="border-radius: 2px;" bgcolor="#0a5e66">
-										<a href="<%$buttonUrl%>" target="_blank" style="padding: 8px 12px; border: 1px solid #0a5e66;border-radius: 2px;font-family: Helvetica, Arial, sans-serif;font-size: 14px; color: #ffffff;text-decoration: none;font-weight:bold;display: inline-block;"><%$section.buttonTitle%></a>
-									</td>
-								<%/if%>
-								</tr>
-							</table>
-						</td>
-					</tr>
-				</table>
-	    	</td></tr>
-    	<%/if%>
-    	<tr><td style="height: 15px; font-size: 0px; line-height: 15px; padding: 0;"> </td></tr>
-    	<%*<!--MARK: - A placeholder of keywords so that iOS app will pass validation. This can be removed after Dec. 1st, 2020, when 99% of users have updated to the latest version. -->*%>
-    	<div class="item-container"></div>
-		<%assign var="s" value=$s+1%>
 	<%elseif $section.type == "FixedButtons" && ($smarty.get.to == "iosapp" || $smarty.get.to == "noneiosapp")%>
 		<%include file="next/partials/FixedButtons.html"%>
 		<%assign var="s" value=$s+1%>
@@ -346,7 +356,7 @@ width: 720px !important;
 </tr>
 </table>
 <table width="100%" cellpadding="0" cellspacing="0">
-	<%if $smarty.get.to != "iosapp" && $smarty.get.to != "noneiosapp" && $smarty.get.to != "vip"%>
+	<%if $smarty.get.to != "iosapp" && $smarty.get.to != "noneiosapp" && $smarty.get.to != "vip" && $smarty.get.to != "standard" && $smarty.get.to != "premium"%>
 		<%assign var="adPositionCode" value="mpu-2"%>
 		<%assign var="adWrapper" value="weekly-2"%>
 		<%include file="next/partials/email-ad-tag.html"%>
@@ -409,7 +419,7 @@ width: 720px !important;
 <td style="width: 3%;" class="contentPadding">&nbsp;</td>
 <td>
 <table width="100%" cellpadding="0" cellspacing="0">
-<%if $smarty.get.to != "iosapp" && $smarty.get.to != "noneiosapp" && $smarty.get.to != "vip"%>
+<%if $smarty.get.to != "iosapp" && $smarty.get.to != "noneiosapp"%>
 	<tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
 	<tr>
 	<td style="padding: 0 12px 6px 12px;">

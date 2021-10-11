@@ -1,4 +1,3 @@
-<!--block email 002 -->
 <%assign var="l" value=0%>
 <%if $maxItems == 0 || $maxItems == ""%>
     <%assign var="maxItems" value=96%>
@@ -21,6 +20,70 @@
     <%if $list.feedType == "myFT"%>
         <%easyapi command="31005" assign="myftArrays" topnum=30%>
         <%assign var="itemsArray" value=$myftArrays.odatalist%>
+    <%elseif $list.feedType == "DailyEmail" || $list.feedType == "DailyEmailPremium"%>
+        <%assign var="homeData" value=$nextmodel->getPublishJson("home")|json_decode:true%>
+        <%assign var="premiumData" value=""%>
+        <%if $list.feedType == "DailyEmailPremium"%>
+            <%assign var="premiumData" value=$interactivemodel->get_interactive_by_field_search("find_in_set('FT商学院', tag)",0,8,2,10800)%>
+        <%/if%>
+        <%php%>
+            $homeData = $this->get_template_vars('homeData');
+            $premiumData = $this->get_template_vars('premiumData');
+            $itemsArray = [];
+            if ($homeData["sections"]) {
+                foreach ($homeData["sections"] as $section) {
+                    if ($section["type"] !== 'block') {continue;}
+                    $itemsArray = $section["lists"][0]["items"];
+                    break;
+                }
+                if ($premiumData != "") {
+                    $premiumCount = count($premiumData);
+                    $premiumIndex = 0;
+                    $items = [];
+                    foreach ($itemsArray as $key=>$item) {
+                        $updateTime = intval($item["timeStamp"]);
+                        while ($key > 0 && $premiumIndex < $premiumCount) {
+                            $premiumItem =  $premiumData[$premiumIndex];
+                            $premiumItem["type"] = "interactive";
+                            $premiumItem["mainTag"] = "FT商学院";
+                            $premiumItem["mainTagLink"] = "/channel/mba.html"; 
+                            $premiumUpdateTime = intval($premiumItem["fileupdatetime"]);
+                            $premiumItem["timeStamp"] = $premiumUpdateTime;
+                            if ($premiumUpdateTime > $updateTime) {
+                                array_push($items, $premiumItem);
+                                $premiumIndex += 1;
+                            } else {
+                                break;
+                            }
+                        }
+                        array_push($items, $item);
+                    }
+                    $itemsArray = $items;
+                }
+                // MARK: - 适当减少显示的条数：依据日期以及数量，只显示过去24小时的内容，周一显示过去72小时内容，最多显示20条，始终显示头版
+                $items = [];
+                $date = date_create();
+                $now = date_timestamp_get($date);
+                $days = (date('w') == 1) ? 3 : 1;
+                $cutTime = $now - $days * 24 * 60 * 60;
+                $maxItems = 30;
+                foreach ($itemsArray as $key=>$item) {
+                    if ($key === 0) {
+                        // MARK: - Always use the cover story
+                        array_push($items, $item);
+                        continue;
+                    }
+                    if (count($items) >= $maxItems) {break;}
+                    $updateTime = intval($item["timeStamp"]);
+                    if ($updateTime >= $cutTime) {
+                        array_push($items, $item);
+                        continue;
+                    }
+                }
+                $itemsArray = $items;
+                $this->assign("itemsArray", $itemsArray);
+            }
+        <%/php%>
     <%elseif $list.feedType == "hot"%>
         <%assign var="itemsArray" value=$storymodel->get_hot_story(7,40,true)%>
         <%assign var="feedType" value=$list.feedType%>
@@ -120,7 +183,15 @@
             <%if $item.customLink != ""%>
                 <%assign var=itemLink value="`$mainDomain``$item.customLink`#s=w"%>
             <%/if%>
-            <!--version: 1, itemLink: <%$itemLink%>, custom link: <%$item.customLink%>-->
+            <%if $item.mainTag != ""%>
+                <%assign var=itemMainTag value="<div><a style=\"font-size:14px;color:#9E2f50;font-weight:bold;text-decoration:none;\" href=\"`$mainDomain``$item.mainTagLink`\">`$item.mainTag`</a></div>"%>
+            <%elseif $list.showTag == "yes"%>
+                <%*<!--MARK: - There's a bug with this version smarty so that have to replace twice. Otherwise, the characters will come out garbled. Try "伊朗" -->*%>
+                <%assign var="itemMainTag" value=$item.tag|replace:"/，/":","|regex_replace:"/,.*$/":""%>
+                <%assign var="itemMainTag" value="<div><a style=\"font-size:14px;color:#9E2f50;font-weight:bold;text-decoration:none;\" href=\"`$mainDomain`tag/`$itemMainTag`\">`$itemMainTag`</a></div>"%>
+            <%else%>
+                <%assign var=itemMainTag value=""%>
+            <%/if%>
             <%assign var=itemHref value=" href=\"`$itemLink`\""%>
             <%if $itemId == "" && item.customLink == ""%>
                 <%assign var=itemHref value=""%>
@@ -146,8 +217,41 @@
             <%elseif $listLanguage == "/en" && $eheadline != ""%>
                 <%assign var="itemHeadline" value=$eheadline%>
             <%/if%>
-            
+
+
+            <%*<!--MARK: Show different marks for different types of subscribers/users-->*%>
+            <%assign var="tier" value=""%>
+            <%if preg_match("/高端专享/is",$item.tag)%>
+                <%assign var="tier" value="premium"%>
+            <%elseif $item.type == "premium" || preg_match("/会员专享|英语电台/is",$item.tag)%>
+                <%assign var="tier" value="standard"%>
+            <%/if%>
+            <%assign var="tierMark" value=""%>
+            <%if $smarty.get.to == "premium"%>
+                <%*<!--MARK: Nothing needs to be done here-->*%>
+            <%elseif $smarty.get.to == "standard"%>
+                <%if $tier == "premium"%>
+                    <%assign var="tierMark" value="premium"%>
+                <%/if%>
+            <%else%>
+                <%if $tier == "premium"%>
+                    <%assign var="tierMark" value="premium"%>
+                <%elseif $tier == "standard"%>
+                    <%assign var="tierMark" value="standard"%>
+                <%/if%>
+            <%/if%>
+            <%*<!-- MARK: - https://kontent.ai/blog/emails-inline-tags-vertical-alignment-outlook -->*%>
+            <%assign var="markTemplate" value="&nbsp;<!--[if mso]><span style=\"vertical-align:-4px;\"><v:rect style=\"height:20px;v-text-anchor:middle;color:#FFFFFF;width:70px;mso-wrap-style:none;\" stroke=\"f\" fillcolor=\"#000000\" xmlns:v=&quot;urn:schemas-microsoft-com:vml&quot; xmlns:w=&quot;urn:schemas-microsoft-com:office:word&quot;><w:anchorlock/><v:textbox inset=\"0,0,0,0\"><center><![endif]--><span style=\"font-size: 12px;margin:0;padding:0 3px;margin-top:-4px;vertical-align:middle;display:inline-block;font-weight: bold;line-height: 20px;height:20px;white-space: nowrap;color: #FFFFFF;background: #000000\"><!--[if mso]>&nbsp;<span style=\"font-size:12px\"><![endif]--><!--MarkName--><!--[if mso]>&nbsp;</span><![endif]--></span><!--[if mso]></center></v:textbox></v:rect></span><![endif]-->"%>
+            <%if $tierMark == "premium"%>
+                <%assign var="tierMark" value=$markTemplate|replace:"<!--MarkName-->":"高端专享"%>
+            <%elseif $tierMark == "standard"%>
+                <%assign var="tierMark" value=$markTemplate|replace:"<!--MarkName-->":"会员专享"%>
+            <%else%>
+                <%assign var="tierMark" value=""%>
+            <%/if%>
+
             <%if $list.ShowBodyMail == "yes"%>
+                <%*<!--MARK: Show the full text of article-->*%>
                 <div style="line-height:1.618; " class="item-container">
                     <table width="100%" cellpadding="0" cellspacing="0" style="border-bottom:1px solid #E9DECF; line-height:1.618;">
                         <tr><td class="lineH1" style="height: 5px; font-size: 5px; line-height: 5px; padding: 0;"> </td></tr>
@@ -157,7 +261,7 @@
                                     <a class="headLine" style="font-weight:bold; text-decoration:none; color:#111;" <%$itemHref%>><%$itemHeadline%></a>
                                 </div>
                                 <br>
-                                <%if $itemImage != ""%>
+                                <%if $itemImage != "" && $smarty.get.showImage != "no"%>
                                     <div>
                                         <img src="<%$itemImage|replace:"/upload/":"/"%>" border="0"/>
                                     </div>
@@ -181,22 +285,34 @@
                         <tr><td class="lineH1" style="height: 5px; font-size: 5px; line-height: 5px; padding: 0;"> </td></tr>
                         <tr>
                             <td class="SContent cover" style="font-size:14px;line-height:23px;color:#505050;">
-                                <div class="lineH1_4" style="line-height:28px;font-size:20px;">
-                                    <a class="headLine" style="font-weight:bold; text-decoration:none; color:#111;" <%$itemHref%>><%$itemHeadline%></a>
-                                </div>
-                                <%if $itemImage != ""%>
+                                <%if $itemImage != "" && $smarty.get.showImage != "no"%>
+                                    <%assign var="itemImage" value="https://thumbor.ftacademy.cn/unsafe/`$imageWidth`x`$imageHeight`/`$itemImage`"%>
+                                    <%assign var="itemImage" value=$itemImage|replace:"/upload/":"/"|replace:"/https://thumbor.ftacademy.cn/unsafe/":"/"|replace:"//picture":"/picture"%>
+                                    <div class="lineH1_4 P-Only" style="line-height:28px;font-size:20px;display:none;">
+                                        <%$itemMainTag%>
+                                        <a class="headLine" style="font-weight:bold; text-decoration:none; color:#111;" <%$itemHref%>><%$itemHeadline%></a><%$tierMark%>
+                                    </div>
                                     <table cellpadding="0" cellspacing="0" align="left"<%$imageClass%>>
                                         <tr><td class="lineH1 imgSpace" style="height: 6px; font-size: 0px; line-height: 5px; padding: 0;"> </td></tr>
                                         <tr>
                                             <td>
                                             <a class="coverImgLink" <%$itemHref%>>
-                                                <img src="https://thumbor.ftacademy.cn/unsafe/<%$imageWidth%>x<%$imageHeight%>/<%$itemImage|replace:"/upload/":"/"%>" border="0" style="width:<%$imageWidth%>px;" align="left" width="<%$imageWidth%>"/>
+                                                <img src="<%$itemImage%>" border="0" style="width:<%$imageWidth%>px;" align="left" width="<%$imageWidth%>"/>
                                             </a>
                                             </td>
                                             <td style="width:10px"> </td>
                                         </tr>
                                         <tr><td class="lineH1 imgSpace" style="height: 5px; font-size: 0px; line-height: 5px; padding: 0;"> </td></tr>
                                     </table>
+                                    <div class="lineH1_4 P-Hide" style="line-height:28px;font-size:20px;">
+                                        <%$itemMainTag%>
+                                        <a class="headLine" style="font-weight:bold; text-decoration:none; color:#111;" <%$itemHref%>><%$itemHeadline%></a><%$tierMark%>
+                                    </div>
+                                <%else%>
+                                    <div class="lineH1_4" style="line-height:28px;font-size:20px;">
+                                        <%$itemMainTag%>
+                                        <a class="headLine" style="font-weight:bold; text-decoration:none; color:#111;" <%$itemHref%>><%$itemHeadline%></a><%$tierMark%>
+                                    </div>
                                 <%/if%>
                                 <%$itemLead|nl2br%>
                             </td>
