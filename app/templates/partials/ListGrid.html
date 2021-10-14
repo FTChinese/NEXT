@@ -78,7 +78,6 @@
             <%assign var="itemsArray" value=$storymodel->getContentByTag($feedTag,$feedItems,$feedStart)%>
         <%/if%>
     <%/if%>
-
     <%php%>
         $originalItems = $this->get_template_vars('itemsArray');
         $itemType = $this->get_template_vars('feedType');
@@ -88,6 +87,8 @@
         foreach ($originalItems as &$item) {
             if (isset($item["item_type"]) && $item["item_type"] != "") {
                 $item["type"] = $item["item_type"];
+            } else if (isset($item["type"]) && $item["type"] != "") {
+                $item["type"] = $item["type"];
             } else {
                 $item["type"] = $itemType;
             }
@@ -96,6 +97,13 @@
             $hideImage = isset($item["tag"]) && preg_match("/NoCopyrightCover/", $item["tag"]);
             if (isset($item["story_pic"]) && !$hideImage) {
                 $sp = $item["story_pic"];
+                foreach ($imageTypes as $imageType) {
+                    if (!isset($sp[$imageType]) || $sp[$imageType] === '') {continue;}
+                    $item["image"] = $sp[$imageType];
+                    break;
+                }
+            } else if (isset($item["image"]) && !$hideImage) {
+                $sp = $item["image"];
                 foreach ($imageTypes as $imageType) {
                     if (!isset($sp[$imageType]) || $sp[$imageType] === '') {continue;}
                     $item["image"] = $sp[$imageType];

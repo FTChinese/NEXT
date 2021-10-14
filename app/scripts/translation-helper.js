@@ -482,7 +482,8 @@ function replaceAll() {
     for (var i=0; i<allTranslationDivs.length; i++) {
         var currentDiv = allTranslationDivs[i];
         while (currentDiv.innerHTML.indexOf(from) >= 0) {
-            currentDiv.innerHTML = currentDiv.innerHTML.replace(from, to);
+            const fromRegex = new RegExp(from, "g");
+            currentDiv.innerHTML = currentDiv.innerHTML.replace(fromRegex, to);
             replaceCount += 1;
             // MARK: - avoid infinite loop with this
             if (to.indexOf(from) >= 0) {

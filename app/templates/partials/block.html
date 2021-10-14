@@ -87,7 +87,6 @@
 		<%foreach from=$section.lists item=list%>
 			<%if $list.float === "LargeCard" || $list.float === "GridCard"%>
 				<%*<!--MARK: - Start to use CSS grid for any new styles -->*%>
-				<!--List Grid: 1-->
 				<%include file="next/partials/ListGrid.html"%>
 			<%else%>
 				<%assign var="listType" value=""%>
@@ -382,7 +381,16 @@
 										$insertedItem["type"] = 'interactive';
 									}
 									array_splice( $originalItems, 1, 0, $insertedItems);
-									$this->assign("itemsArray", $originalItems);
+									$newIds = [];
+									$newItems = [];
+									foreach ($originalItems as $item) {
+										$found_key = array_search($item["id"], $newIds);
+										if (!$found_key) {
+											array_push($newItems, $item);
+											array_push($newIds, $item["id"]);
+										}
+									}
+									$this->assign("itemsArray", $newItems);
 								}
 							<%/php%>
 						<%/if%>
