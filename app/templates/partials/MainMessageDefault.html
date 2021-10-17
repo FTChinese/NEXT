@@ -1,0 +1,72 @@
+<style>
+    @media all and (max-width: 490px) {
+        .main-message-container {
+            padding: 0!important;
+        }
+    }
+</style>
+<%assign var=buttonUrl value=$section.buttonUrl%>
+<%if $smarty.get.ccode != ""%>
+    <%*<!--MARK: - check the ccode in the url parameter first-->*%>
+    <%assign var=ccode value=$smarty.get.ccode%>
+<%elseif $section.ccode != ""%>
+    <%*<!--MARK: - if not found, check the ccode in section setting-->*%>
+    <%assign var=ccode value=$section.ccode%>
+<%/if%>
+<%if $section.discountCode != ""%>
+    <%assign var="discountCode" value="&from=`$section.discountCode`"%>
+<%/if%>
+<%if !preg_match("/ccode/is",$buttonUrl) && $ccode != ""%>
+    <%assign var=connector value="?"%>
+    <%if preg_match("/\?/is",$buttonUrl)%>
+        <%assign var=connector value="&"%>
+    <%/if%>
+    <%assign var=buttonUrl value="`$buttonUrl``$connector`ccode=`$ccode`"%>
+<%/if%>
+<%if $section.discountCode != ""%>
+    <%assign var=connector value="?"%>
+    <%if preg_match("/\?/is",$buttonUrl)%>
+        <%assign var=connector value="&"%>
+    <%/if%>
+    <%assign var=buttonUrl value="`$buttonUrl``$connector`from=`$section.discountCode`"%>
+<%/if%>
+<%assign var=containerStyle value=""%>
+<%assign var=tableStyle value="max-width: 600px; margin: 30px auto;"%>
+
+<%if $section.BackgroundImage != ""%>
+    <%assign var=containerStyle value="background-image: linear-gradient(to right, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(`$section.BackgroundImage`); padding: 30px; margin-bottom: 30px;"%>
+    <%assign var=tableStyle value="max-width: 1024px; margin: 30px auto; padding: 30px 0 0 0; background: #fff1e5;"%>
+<%/if%>
+<div style="<%$containerStyle%>" class="main-message-container">
+<table style="<%$tableStyle%>">
+<%if $section.title != ""%>
+    <tr><td  class="SContent cover" style="font-size:18px;line-height:23px;color:#333;font-weight: bold;padding-left:17px;padding-right:17px;"><%$section.title%>：</td></tr>
+<%/if%>
+<tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;"> </td></tr>
+<tr><td  class="SContent cover" style="font-size:18px;line-height:23px;color:#333;padding-left:17px;padding-right:17px;"><%$section.content|nl2br%></td></tr>
+<tr><td style="height: 15px; font-size: 0px; line-height: 15px; padding: 0;"> </td></tr>
+<%if $section.buttonTitle != ""%>
+    <tr><td  class="SContent cover" style="font-size:18px;line-height:23px;color:#333;padding-left:17px;padding-right:17px;">
+        <table width="100%" cellspacing="0" cellpadding="0">
+            <tr><td style="height: 15px; font-size: 0px; line-height: 15px; padding: 0;">&nbsp;</td></tr>
+            <tr>
+                <td align="center">
+                    <table cellspacing="0" cellpadding="0">
+                        <tr>
+                        <%if $smarty.get.to == 'iosapp'%>
+                            <td><%include file="next/partials/subscription-box-ios.html"%></td>
+                        <%else%>
+                            <td style="border-radius: 2px;" bgcolor="#0a5e66">
+                                <a href="<%$buttonUrl%>" target="_blank" style="padding: 8px 12px; border: 1px solid #0a5e66;border-radius: 2px;font-family: Helvetica, Arial, sans-serif;font-size: 14px; color: #ffffff;text-decoration: none;font-weight:bold;display: inline-block;"><%$section.buttonTitle%></a>
+                            </td>
+                        <%/if%>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </td></tr>
+<%/if%>
+<tr><td style="height: 15px; font-size: 0px; line-height: 15px; padding: 0;"> </td></tr>
+</table>
+</div>

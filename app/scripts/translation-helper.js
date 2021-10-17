@@ -481,15 +481,9 @@ function replaceAll() {
     var replaceCount = 0;
     for (var i=0; i<allTranslationDivs.length; i++) {
         var currentDiv = allTranslationDivs[i];
-        while (currentDiv.innerHTML.indexOf(from) >= 0) {
-            const fromRegex = new RegExp(from, "g");
-            currentDiv.innerHTML = currentDiv.innerHTML.replace(fromRegex, to);
-            replaceCount += 1;
-            // MARK: - avoid infinite loop with this
-            if (to.indexOf(from) >= 0) {
-                break;
-            }
-        }
+        const fromRegex = new RegExp(from, "g");
+        currentDiv.innerHTML = currentDiv.innerHTML.replace(fromRegex, to);
+        replaceCount += 1;
     }
     for (var j=0; j<allTranslationTexts.length; j++) {
         var currentTextArea = allTranslationTexts[j];

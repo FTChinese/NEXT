@@ -1,0 +1,109 @@
+<style>
+    .special-report-container {
+        width: 100%;
+        height: 600px;
+        position: relative;
+        background-color: <%$section.BackgroundColor%>;
+        margin-bottom: 30px;
+        <%if $smarty.get.webview != "ftcapp"%>margin-top: -30px;<%/if%>
+    }
+    .special-report-image {
+        position: absolute;
+        width: 50%;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        background-image: url(<%$section.BackgroundImage%>);
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: 50%;
+    }
+
+
+    .special-report-inner {
+        max-width: 1200px;
+        height: 100%;
+        margin: auto;
+    }
+    .special-report-intro {
+        display: table;
+        width: 50%;
+        height: 100%;
+        color: white;
+        font-size: 32px;
+    }
+    .special-report-intro-container {
+        display: table-cell;
+        vertical-align: middle;
+        text-align: right;
+        padding: 0 30px 0 0;
+    }
+    .special-report-tag a {
+        color: white;
+        text-decoration: none;
+    }
+    .special-report-title {
+        margin-bottom: 1em;
+    }
+    .special-report-title:after {
+        content: "";
+        display: block;
+        border-bottom: 1px solid white;
+        width: 200px;
+        max-width: 100%;
+        padding-top: .416em;
+    }
+    .special-report-content {
+        font-size: 18px;
+    }
+
+    @media all and (max-width: 1300px) {
+        .special-report-container {
+            height: 550px;
+        }
+    }
+
+    @media all and (max-width: 1270px) {
+        .special-report-container {
+            height: 450px;
+        }
+        .special-report-intro-container {
+        padding: 0 30px;
+        }
+    }
+
+    @media all and (max-width: 739px) {
+        .special-report-container {
+            height: auto;
+        }
+        .special-report-image {
+            position: static;
+            height: auto;
+            width: 100%;
+            padding-top: 61.8%;
+        }
+        .special-report-intro {
+            width: 100%;
+        }
+        .special-report-intro-container {
+            padding: 30px;
+        }
+    }
+    @media all and (max-width: 490px) {
+        .special-report-image {
+            background-image: url(<%$section.MobileBackgroundImage|default:$section.BackgroundImage%>);
+        }
+    }
+</style>
+<div class="special-report-container">
+    <div class="special-report-inner">
+        <div class="special-report-intro">
+            <div class="special-report-intro-container">
+                <div class="special-report-tag"><a href="<%$section.TagLink%>"><%$section.Tag%></a></div>
+                <div class="special-report-title"><%$section.title%></div>
+                <div class="special-report-content"><%$section.content%></div>
+            </div>
+        </div>
+    </div>
+    <div class="special-report-image"></div>
+</div>
