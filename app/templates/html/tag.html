@@ -302,18 +302,20 @@ MARK: Check the next model tag for sponsored special reports end-->*%>
     <%include file="next/partials/banner.html"%>
     <%assign var="bannerCount" value=$bannerCount+1%>
     <%if $pageId=="setting"%>
-    <%include file="next/partials/setting-block.html"%>
+        <%include file="next/partials/setting-block.html"%>
     <%elseif $pageId!=""%>
-    <%include file="next/partials/`$pageId`.html"%>
+        <%include file="next/partials/`$pageId`.html"%>
     <%elseif $pageType=="search"%>
-    <%include file="next/partials/search-block.html"%>
+        <%include file="next/partials/search-block.html"%>
     <%elseif $pageType=="findpassword"%>
-    <%include file="next/partials/findpassword.html"%>
+        <%include file="next/partials/findpassword.html"%>
+    <%elseif $preferListGrid == "yes"%>
+        <%include file="next/partials/tag-block-grid.html"%>
     <%else%>
-    <%include file="next/partials/tag-block.html"%>
+        <%include file="next/partials/tag-block.html"%>
     <%/if%>
     <%if $showPagination != "no"%>
-    <%include file="next/partials/pagination.html"%>
+        <%include file="next/partials/pagination.html"%>
     <%/if%>
     <%include file="next/partials/banner.html"%>
     <%assign var="bannerCount" value=$bannerCount+1%>
@@ -340,17 +342,18 @@ MARK: Check the next model tag for sponsored special reports end-->*%>
     <%*<%include file="next/partials/banner-new.html"%>*%>
     <%include file="next/partials/banner.html"%>
     <%assign var="bannerCount" value=$bannerCount+1%>
-
     <%if $pageId=="setting"%>
-    <%include file="next/partials/setting-block.html"%>
+        <%include file="next/partials/setting-block.html"%>
     <%elseif $pageId!=""%>
-    <%include file="next/partials/`$pageId`.html"%>
+        <%include file="next/partials/`$pageId`.html"%>
     <%elseif $pageType=="search"%>
-    <%include file="next/partials/search-block.html"%>
+        <%include file="next/partials/search-block.html"%>
     <%elseif $pageType=="findpassword"%>
-    <%include file="next/partials/findpassword.html"%>
+        <%include file="next/partials/findpassword.html"%>
+    <%elseif $preferListGrid == "yes"%>
+        <%include file="next/partials/tag-block-grid.html"%>
     <%else%>
-    <%include file="next/partials/tag-block.html"%>
+        <%include file="next/partials/tag-block.html"%>
     <%/if%>
     <%if $showPagination != "no"%>
     <%include file="next/partials/pagination.html"%>

@@ -1,0 +1,47 @@
+<%assign var="adForceString" value=""%>
+<%if $topnav != "home" && $topnav != ""%>
+    <%assign var="adForceString" value="?topnav=`$topnav`"%>
+    <%if $subnav != ""%>
+    	<%assign var="adForceString" value="`$adForceString`&subnav=`$subnav`"%>
+	    <%if $thirdnav != ""%>
+	    	<%assign var="adForceString" value="`$adForceString`&thirdnav=`$thirdnav`"%>
+	    <%/if%>
+    <%/if%>
+<%/if%>
+<%assign var="useSafariToOpenSponsorStory" value="yes"%>
+<%if $smarty.get.v != ""%>
+	<%assign var="v" value=$smarty.get.v|floatval%>
+	<%if $v >= 6.8%>
+		<%assign var="useSafariToOpenSponsorStory" value="no"%>
+	<%/if%>
+<%/if%>
+
+
+<%$sectionPageTrack%>
+
+
+<%*<!--MARK: Check the next model tag for sponsored special reports start-->*%>
+<%if $pageType == "special"%>
+	<%assign var="pageIdForSponsorshipManagement" value="sponsorshipmanagement"%>
+	<%if $nextmodel != ""%>
+	  	<%assign var="infoForSponsorships" value=$nextmodel->getPublishJson($pageIdForSponsorshipManagement)|json_decode:true%>
+	  	<%assign var="currentDate" value=$smarty.now|date_format:"%Y%m%d"%>
+	  	<%assign var="allstory" value=$infoForSponsorships.sections%>
+	<%/if%>
+<%/if%>
+<%*<!--MARK: Check the next model tag for sponsored special reports end-->*%>
+
+
+<div class="block-container no-side"><div class="block-inner">
+	<div class="content-container"><div class="content-inner">
+		<div class="list-container"><div class="list-inner">
+			<%php%>
+				$allstory = $this->get_template_vars('allstory');
+				$list = [];
+				$list['items'] = $allstory;
+				$this->assign("list", $list);
+			<%/php%>
+			<%include file="next/partials/ListGrid.html"%>
+		</div></div>
+	</div></div>
+</div></div>

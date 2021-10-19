@@ -260,7 +260,7 @@
                 <%assign var="itemTag" value="<div class=item-tag><a href=\"`$itemTagLink`\">`$itemTagTitle`</a></div>"%>
             <%/if%>
         <%/if%>
-        <%if $list.showTag !== "yes" && $itemImage != ""%>
+        <%if ($list.showTag !== "yes" && $showTag !== "yes") && $itemImage != ""%>
             <%assign var="itemTag" value=""%>
         <%/if%>
         <%*<!--MARK: handle item tag end-->*%>

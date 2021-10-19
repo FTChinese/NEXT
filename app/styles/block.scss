@@ -688,9 +688,26 @@ $gridCellWidth: 310px;
 			}
 		}
 	}
-	.card-grid .item-container.no-image  {
-		padding: 0 0 $defaultPadding 0;
+	.card-grid .item-container  {
+		&.no-image {
+			padding: 0 0 $defaultPadding 0;
+		}
 	}
+	.card-grid .item-inner {
+		padding-left: 0;
+		padding-right: 0;
+		.image {
+			left: 0;
+			right: 0;
+		}
+	}
+	.card-grid .item-headline-lead {
+		padding: $defaultPadding/2 $defaultPadding/4 $defaultPadding/2 $defaultPadding/4; 
+	}
+	.card-grid .item-container.no-image .item-inner {
+		padding: $defaultPadding/4;
+	}
+
 }
 
 @media only screen and (max-width: 600px) {
