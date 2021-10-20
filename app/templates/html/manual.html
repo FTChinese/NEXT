@@ -477,6 +477,7 @@
             <%if $pageId == "home"%>
                 <script type="text/javascript">
                     <%include file = "next/scripts/main-inline.js"%>
+                    <%include file = "next/scripts/main-smart-home-page.js"%>
                 </script>
             <%/if%>
             <%if $debug_model == 1 && $pageId != "home"%>
@@ -571,6 +572,11 @@
     </script>
     <%include file="next/partials/head-db-zone.html"%>
     <%include file="next/partials/body.html"%>
+    <%if $pageId == "home"%>
+        <script type="text/javascript">
+            <%include file = "next/scripts/main-smart-home-page.js"%>
+        </script>
+    <%/if%>
     <%*<!-- MARK: - Huawei Market requires us to remove all crytocurrency reports. This code is intended to trick them to believe that we did. Start. -->*%>
         <%if $smarty.get.android != "" && $smarty.get.pageid == "mbastory" && $smarty.get.utm_campaign == "an_huawei"%>
             <textarea id="android-info-debug" rows=15 style="width: 100%; display:none;"></textarea>
