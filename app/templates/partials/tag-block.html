@@ -264,14 +264,7 @@
 					<%assign var="itemT" value=$item.timeStamp|default:$item.last_publish_time|default:$item.pubdate|default:$item.add_times%>
 					<%assign var="itemT" value=$itemT|regex_replace:"/\.[0-9]+$/i":""%>
 					<%math assign="timeMath" equation="x-y" x=$smarty.now y=$itemT%>
-                    <%if $list.feedType == "premium" || $item.type == "premium" || $item.accessright == "2" || $itemType == "premium" || $paywall == "1" || ($item.type == "interactive" && preg_match("/英语电台|速读|会员专享|高端专享/is",$itemTagsString)) || ($itemType == "story" && $timeMath > 60*60*24)%>
-                        <%assign var="lockClass" value="locked"%>
-                    <%else%>
-                        <%assign var="lockClass" value=""%>
-                    <%/if%>
-                    <%if $inSponsor == "yes"%>
-                        <%assign var="lockClass" value=""%>
-                    <%/if%>
+
 					<%if $itemImage == ""%>
 						<%assign var="hasImage" value="no-image"%>
 					<%/if%>
@@ -316,7 +309,7 @@
 					<%/if%>
 
 
-					<%assign var="itemPubDate" value=$item.last_publish_time|default:$item.pubdate|default:$item.timeStamp|default:$item.add_times%>
+					<%assign var="itemPubDate" value=$item.fileupdatetime|default:$item.last_publish_time|default:$item.pubdate|default:$item.timeStamp|default:$item.add_times%>
 					<%assign var="itemTimeStamp" value=""%>
 					<%if $showTimeStamp === "all" || $showTimeStamp === "new stories"%>
 						<%assign var="highlightTime" value=""%>
@@ -367,6 +360,20 @@
 					<%assign var="itemHeadline" value=$item.cheadline|default:$item.headline|default:$item.cn_title|default:$item.title|default:$item.tag%>
 					<%assign var="itemId" value=$item.id|default:$item.photonewsid%>
 
+					<%*<!--MARK: show the lock for paid content-->*%>
+					<%if $list.feedType == "premium" || $item.type == "premium" || $itemType == "premium" || $paywall == "1" || ($itemType == "interactive" && preg_match("/英语电台|速读|会员专享|高端专享/is",$itemTagsString)) || ($itemType == "story" && $timeMath > 60*60*24)%>
+						<%assign var="lockClass" value="locked"%>
+						<%if preg_match("/高端专享/is",$itemTagsString)%>
+							<%assign var="lockClass" value="locked vip"%>
+						<%/if%>
+					<%else%>
+						<%assign var="lockClass" value=""%>
+					<%/if%>
+
+                    <%if $inSponsor == "yes"%>
+                        <%assign var="lockClass" value=""%>
+                    <%/if%>
+
 					<%if $hideImage === "yes"%>
 						<%assign var="hasImage" value="no-image"%>
 					<%/if%>
@@ -397,6 +404,8 @@
 							<%assign var="itemSubType" value="speedreading"%>
 						<%elseif preg_match("/电台|音频/is",$itemTagsString) %>
 							<%assign var="itemSubType" value="radio"%>
+						<%elseif preg_match("/双语阅读/is",$itemTagsString) %>
+							<%assign var="itemSubType" value="bilingual"%>
 						<%elseif preg_match("/数据新闻/is",$itemTagsString) %>
 							<%assign var="itemSubType" value="datanews"%>
 						<%elseif preg_match("/深度阅读/is",$itemTagsString) %>
@@ -405,11 +414,14 @@
 							<%assign var="itemSubType" value="mbagym"%>
 						<%/if%>
 					<%/if%>
-					<%if $itemSubType != ""%>
-						<%assign var="subTypeData" value=" data-sub-type=\"`$itemSubType`\""%>
-					<%else%>
-						<%assign var="subTypeData" value=""%>
+
+					<%if $itemSubType == "radio"%>
+						<%assign var="itemClass" value="`$itemClass` is-audio"%>
 					<%/if%>
+
+
+
+
 					<%if $smarty.get.webview == "ftcapp"%>
 						<%if preg_match("/.mp3$/is",$item.shortlead) || preg_match("/.mp3$/is",$item.cshortleadbody)%>
 							<%assign var="audioUrl" value=$item.shortlead|default:$item.cshortleadbody%>
@@ -431,7 +443,12 @@
 							<%assign var="dateData" value=""%>
 						<%/if%>
 						<%assign var="itemClass" value="`$itemClass` item-container-app"%>
-						<%assign var="itemData" value=" data-id=\"`$item.id`\" data-type=\"`$itemType`\"`$audioData``$subTypeData``$dateData`"%>
+						<%if $itemSubType != ""%>
+							<%assign var="subTypeData" value=" data-sub-type=\"`$itemSubType`\""%>
+						<%else%>
+							<%assign var="subTypeData" value=""%>
+						<%/if%>
+						<%assign var="itemData" value=" data-id=\"`$item.id`\" data-type=\"`$itemType`\"`$audioData``$subTypeData``$dateData` data-keywords=\"`$itemTagsString`\""%>
 					<%/if%>
 
 					<%$itemTop%>

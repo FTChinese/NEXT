@@ -10,11 +10,14 @@
     height: 50px;
     overflow: hidden;
     display: grid;
-    grid-template-columns: 140px 140px;
+    grid-template-columns: repeat(auto-fill, minmax(1fr, 240px));
+    grid-auto-flow: column;
     column-gap: 15px;
     justify-content: center; 
     align-items: center;
     background-color: rgba($color: #000000, $alpha: 0.7);
+    padding: 0 15px;
+    box-sizing: border-box;
     z-index: 1;
     button {
         color: white;
@@ -34,7 +37,6 @@
         height: 80px;
     }
     .fixed-buttons {
-        grid-template-columns: 240px 240px;
         column-gap: 30px;
         height: 80px;
         button {
