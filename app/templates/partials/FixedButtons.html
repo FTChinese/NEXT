@@ -83,6 +83,12 @@
 <%/if%>
 
 <div class="fixed-buttons-placeholder"></div><div class="fixed-buttons"<%$buttonsContainerBG%>>
-    <a href="<%$standardBuyLink%>" target="_blank"><button style="background-color: <%$leftButtonBG%>; color: <%$leftButtonColor%>">订阅标准会员</button></a>
-    <a href="<%$premiumBuyLink%>" target="_blank"><button style="background-color: <%$rightButtonBG%>; color: <%$rightButtonColor%>">订阅高端会员</button></a>
+    <%if $section.lists && $section.lists|@count > 0%>
+      <%foreach from=$section.lists item=button%>
+        <a href="<%$button.click%>" target="_blank"><button style="background-color: <%$button.BackgroundColor%>; color: <%$button.buttonColor%>"><%$button.title%></button></a>
+      <%/foreach%>
+    <%else%>
+      <a href="<%$standardBuyLink%>" target="_blank"><button style="background-color: <%$leftButtonBG%>; color: <%$leftButtonColor%>">订阅标准会员</button></a>
+      <a href="<%$premiumBuyLink%>" target="_blank"><button style="background-color: <%$rightButtonBG%>; color: <%$rightButtonColor%>">订阅高端会员</button></a>
+    <%/if%>
 </div></div>
