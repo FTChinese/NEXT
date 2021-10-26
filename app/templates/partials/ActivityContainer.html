@@ -16,27 +16,7 @@ a {
     background-color: transparent;
 }
 
-@media only screen and (min-width: 1024px) {
-     /* 图片 */
-    .headerBigImage{
-        width: inherit;
-        height: auto;
-        margin: 0 auto;
-    }
-    .bigImage{
-        width:100%;
-        height:100%;
-    }
-
-    .headerSmallImage{
-        width: 800px;
-        height: auto;
-        margin: 0 auto;
-    }
-    .smallImage{
-        width:100%;
-        height:100%;
-    }
+@media only screen and (min-width: 981px) {
     /* 带框的标题+ 文字 ------内容介绍 */
        /* 公共部分 */
     .container{
@@ -107,7 +87,7 @@ a {
      /* 如何参加 */
     .join-name{
         line-height: 42px;
-        font-size: 40px;
+        font-size: 34px;
     }
     .join-success{
         line-height: 35px;
@@ -247,7 +227,7 @@ a {
     .premium-title{
         margin-top: 60px;
         line-height: 45px;
-        font-size: 30px;
+        font-size: 36px;
         text-align: center;
     }
     .title-span{
@@ -306,28 +286,551 @@ a {
         margin-top: 64px;
     }
 }
-
-@media only screen and (max-width: 768px) {
-       /* 图片 */
-    .headerBigImage{
-        width: inherit;
-        height: auto;
+@media only screen and (min-width: 691px) and (max-width: 980px) {
+    /* 带框的标题+ 文字 ------内容介绍 */
+       /* 公共部分 */
+    .container{
+        display: block;
+        width: 680px;
+        margin: 60px auto;
+        position:relative;
+        border-radius: 8px;
+    }
+    .container-title{
+        width: 65%;
+        height: 56px;
+        line-height: 56px;
+        font-size: 30px;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: -28px;
+        margin: auto;
+        z-index: 1;
+        border-radius: 25px;
+        text-align: center;
+        color: #010101;
+    }
+    .title-photo{
+        width: 80%;
+        border-radius: 25px;
+    }
+    .containerTitleImage{
+        display: block;
+        width: 90%;
+        height: 100%;
         margin: 0 auto;
     }
-    .bigImage{
+    .container-content{
+        padding: 60px 0 30px 0;
+        text-align: center;
+        font-size: 20px;
+    }
+    .title-content{
+        padding: 40px 0 20px 0;
+    }
+    .noTitle-content{
+        padding: 20px 0;
+    }
+    .captionImage{
+        display: block;
+        width: 500px;
+        height: auto;
+        margin: 20px auto;
+    }
+    .caption{
+        line-height: 30px;
+        margin: 20px 20px 0 20px;
+        display: flex;
+        align-items: baseline;
+        justify-content: flex-start;
+    }
+    .pointImage{
+        width: 16px;
+        height: 16px;
+        margin-right: 10px;
+    }
+    .caption > p{
+        line-height: 40px;
+    }
+
+     /* 如何参加 */
+    .join-name{
+        line-height: 42px;
+        font-size: 28px;
+    }
+    .join-success{
+        line-height: 35px;
+        font-size: 24px;
+        margin: 25px 0 45px 0;
+    }
+    .join-remind{
+        height: 20px;
+        line-height: 20px;
+        font-size: 14px;
+    }
+
+
+    /* 企业机构会员 */
+    .company-detail {
+        margin-bottom: 20px;
+    }
+    .company-service{
+        margin: 40px 0;
+        display: flex;
+        justify-content: space-around;
+    }
+    .service-detail{
+        text-align: center;
+    }
+    .companyImage {
+        margin: 0 auto;
+        width: 70px;
+        height: 70px;
+        border-radius: 6px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 30px;
+    }
+    .companyImage > img {
+        width: auto;
+        height: auto;
+    }
+    .company-remind{
+        font-size: 14px;
+        margin-top: 50px
+    }
+
+      /* 赠品介绍 */
+    .giveaways-detail{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 80px;
+    }
+    .giveawaysImage{
+        width: 500px;
+        height: auto;
+    }
+    .giveaways-name{
+        font-size: 24px;
+        font-weight: bold;
+        padding: 0 30px;
+        line-height: 40px;
+        margin: 30px 0;
+    }
+    .giveaways-remind{
+        line-height: 20px;
+        font-size: 14px;
+    }
+    .giveaways-explanation{
+        text-align: left;
+        line-height: 40px;
+        padding: 0 30px;
+    }
+
+   /* 公共部分 */
+    .memberContainer {
+        width: 680px;
+        margin: 140px auto 80px auto;
+        border-radius: 8px;
+        position: relative;
+    }
+
+    .member-price{
+        width: 85%;
+        height: auto;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: -70px;
+        margin: auto;
+        z-index: 1;
+        border-radius: 10px;
+    }
+    .priceImage{
         width:100%;
         height:100%;
     }
-
-    .headerSmallImage{
-        width: inherit;
+    .member-content{
+        padding: 80px 100px;
+    }
+    /* 标准会员权益 */
+      /* 内容 */
+    .standardMember-detail{
+        margin-top: 64px;
+        display: flex;
+    }
+    .memberImage{
+        flex: none;
+        width: 94px;
+        height: 94px;
+        border-radius: 6px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .memberImage > img {
+        width: auto;
         height: auto;
+    }
+    .standardTopic{
+        flex: 1;
+        margin-left: 40px;
+    }
+    /* 右边内容 */
+    .standardTopic-name {
+        line-height: 30px;
+        font-size: 22px;
+        margin: 5px 0 15px 0;
+    }
+    .standardTopic-content{
+        line-height: 40px;
+        font-size: 18px;
+        color: #657278;
+    }
+
+
+    /* 高端会员权益 */
+     /* 标题 */
+    .premium-title{
+        margin-top: 60px;
+        line-height: 45px;
+        font-size: 30px;
+        text-align: center;
+    }
+    .title-span{
+        margin: 0 5px;
+        padding: 0 5px;
+        display: inline-block;
+        width: 180px;
+        height: inherit;
+        line-height: inherit;
+        background-color: #841b20;
+        border-radius: 25px;
+    }
+      /* 内容 */
+    .premiumMember-details{
+        margin-top: 64px;
+        display: flex;;
+    }
+    .premiumImage{
+        flex: none;
+        width: 94px;
+        height: 94px;
+        border-radius: 6px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .premiumImage > img {
+        width: auto;
+        height: auto;
+    }
+    .premiumTopic{
+        flex: 1;
+        margin-left: 40px;
+    }
+    /* 右边内容 */
+    .premiumTopic-name {
+        line-height: 30px;
+        font-size: 22px;
+        margin: 5px 0 15px 0;
+    }
+    .premiumTopic-content{
+        line-height: 40px;
+        font-size: 18px;
+        color: #657278;
+    }
+    .premiumTopic-notice{
+        line-height: 18px;
+        font-size: 14px;
+        margin-top: 30px;
+    }
+    .premiumMember-remind{
+        text-align: center;
+        line-height: 20px;
+        font-size: 12px;
+        font-weight: bold;
+        margin-top: 64px;
+    }
+}
+@media only screen and (min-width: 491px) and (max-width: 690px) {
+    /* 带框的标题+ 文字 ------内容介绍 */
+       /* 公共部分 */
+    .container{
+        display: block;
+        width: inherit;
+        margin: 10px 20px 60px 20px;
+        position:relative;
+        border-radius: 8px;
+    }
+    .container-title{
+        width: 70%;
+        height: 46px;
+        line-height: 46px;
+        font-size: 24px;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: -23px;
+        margin: auto;
+        z-index: 1;
+        border-radius: 25px;
+        text-align: center;
+        color: #010101;
+    }
+    .title-photo{
+        width: 90%;
+        border-radius: 25px;
+    }
+    .containerTitleImage{
+        display: block;
+        width: 90%;
+        height: 100%;
         margin: 0 auto;
     }
-    .smallImage{
+    .container-content{
+        padding: 40px 0;
+        text-align: center;
+        font-size: 18px;
+    }
+    .noTitle-content{
+        padding: 10px 0;
+    }
+    .title-content{
+        padding: 15px 0 20px 0;
+    }
+
+
+     /* introduction */
+    .captionImage{
+        display: block;
+        width: 280px;
+        height: auto;
+        margin: 20px auto;
+    }
+    .caption{
+        line-height: 30px;
+        margin: 20px 10px 0 10px;
+        display: flex;
+        align-items: baseline;
+        justify-content: flex-start;
+    }
+    .pointImage{
+        width: 12px;
+        height: 12px;
+        margin-right: 5px;
+    }
+    .caption > p{
+        line-height: 40px;
+    }
+
+     /* 如何参加 */
+    .join-name{
+        line-height: 42px;
+        font-size: 22px;
+    }
+    .join-success{
+        line-height: 15px;
+        margin: 25px 0;
+    }
+    .join-remind{
+        line-height: 20px;
+        font-size: 10px;
+    }
+
+
+    /* 企业机构会员 */
+    .company-detail {
+        margin-bottom: 20px;
+    }
+    .memberCompanies-content{
+        padding: 40px 0;
+    }
+    .company-service{
+        margin: 20px 0;
+        display: flex;
+        justify-content: space-around;
+    }
+    .service-detail{
+        text-align: center;
+        font-size: 13px;
+    }
+    .companyImage {
+        margin: 0 auto;
+        width: 40px;
+        height: 40px;
+        border-radius: 6px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 30px;
+    }
+    .companyImage > img {
+        width: 50%;
+        height: auto;
+    }
+    .company-remind{
+        font-size: 10px;
+    }
+
+      /* 赠品介绍 */
+    .giveaways-detail{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 80px;
+    }
+    .giveawaysImage{
+        width: 240px;
+        height: auto;
+    }
+    .giveaways-name{
+        font-size: 18px;
+        font-weight: bold;
+        padding: 0 30px;
+        line-height: 40px;
+        margin: 30px 0;
+    }
+    .giveaways-remind{
+        line-height: 20px;
+        font-size: 10px;
+    }
+    .giveaways-explanation{
+        text-align: left;
+        line-height: 40px;
+        padding: 0 30px;
+    }
+
+   /* 公共部分 */
+    .memberContainer {
+        width: inherit;
+        margin: 80px 20px 60px 20px;
+        border-radius: 8px;
+        position: relative;
+    }
+
+    .member-price{
+        width: 80%;
+        height: auto;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: -50px;
+        margin: auto;
+        z-index: 1;
+        border-radius: 5px;
+    }
+    .priceImage{
         width:100%;
         height:100%;
     }
+    .member-content{
+        padding: 60px 70px;
+    }
+    /* 标准会员权益 */
+      /* 内容 */
+    .standardMember-detail{
+        margin-top: 44px;
+        display: flex;
+    }
+    .memberImage{
+        flex: none;
+        width: 72px;
+        height: 72px;
+        border-radius: 6px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .memberImage > img {
+        width: 50%;
+        height: auto;
+    }
+    .standardTopic{
+        flex: 1;
+        margin-left: 35px;
+    }
+    /* 右边内容 */
+    .standardTopic-name {
+        line-height: 20px;
+        font-size: 20px;
+        margin: 5px 0 20px 0;
+    }
+    .standardTopic-content{
+        line-height: 20px;
+        font-size: 14px;
+        color: #657278;
+    }
+
+
+    /* 高端会员权益 */
+     /* 标题 */
+    .premium-title{
+        height: 30px
+        line-height: 30px;
+        font-size: 24px;
+        text-align: center;
+        margin-top: 60px;
+    }
+    .title-span{
+        margin: 0 5px;
+        padding: 0 5px;
+        display: inline-block;
+        width: 120px;
+        height: inherit;
+        line-height: inherit;
+        border-radius: 25px;
+    }
+      /* 内容 */
+    .premiumMember-details{
+        margin-top: 44px;
+        display: flex;
+    }
+    .premiumImage{
+        flex: none;
+        margin-top: 5px;
+        width: 72px;
+        height: 72px;
+        border-radius: 6px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .premiumImage > img {
+        width: 50%;
+        height: auto;
+    }
+    .premiumTopic{
+        flex: 1;
+        margin-left: 35px;
+    }
+    /* 右边内容 */
+    .premiumTopic-name {
+        line-height: 30px;
+        font-size: 18px;
+        margin: 5px 0;
+    }
+    .premiumTopic-content{
+        line-height: 30px;
+        font-size: 14px;
+        color: #657278;
+    }
+    .premiumTopic-notice{
+        line-height: 20px;
+        font-size: 12px;
+        margin-top: 10px;
+    }
+    .premiumMember-remind{
+        line-height: 20px;
+        font-size: 10px;
+        font-weight: bold;
+        margin-top: 44px;
+    }
+}
+@media only screen and (max-width: 490px) {
     /* 带框的标题+ 文字 ------内容介绍 */
        /* 公共部分 */
     .container{
@@ -367,6 +870,9 @@ a {
         text-align: center;
         font-size: 18px;
     }
+    .noTitle-content{
+        padding: 10px 0;
+    }
     .title-content{
         padding: 5px 0 20px 0;
     }
@@ -398,7 +904,7 @@ a {
      /* 如何参加 */
     .join-name{
         line-height: 42px;
-        font-size: 28px;
+        font-size: 24px;
     }
     .join-success{
         line-height: 15px;
@@ -611,17 +1117,6 @@ a {
 
 
 
-<%if $list.ItemLayout == "headerBigImage"%>
-    <div class="<%$list.ItemLayout%>">
-        <img src="<%$list.HeadImage%>" alt="" class="bigImage">
-    </div>
-<%/if%>
-
-<%if $list.ItemLayout == "headerSmallImage"%>
-    <div class="<%$list.ItemLayout%>">
-        <img src="<%$list.HeadImage%>" alt="" class="smallImage">
-    </div>
-<%/if%>
 
 <%if $list.ItemLayout == "standardMemberRights"%>
     <div class="<%$list.ItemLayout%> memberContainer" style="background-color: <%$list.BackgroundColor%>">
