@@ -3,9 +3,12 @@
     var actions = {
         doNotMiss: 'Do Not Miss',
         justIn: 'Just In',
-        noUpdate: 'No Update',
+        noUpdateForLong: 'No Update For Long',
+        rightOnTime: 'Right On time',
         firstTime: 'First Time'
     };
+
+    var noUpdateHour = 8;
 
     function doNotMiss() {
         console.log('The user probably has missed some thing since last vist, show them! ');
@@ -27,6 +30,7 @@
     }
 
     function implementExperimentA(value) {
+        var now = Math.round(new Date().getTime()/1000);
         console.log('implementExperimentA: ' + value);
         // MARK: - In order to support old browsers, use javascript without the new fancy stuff. 
         var key = 'prev_h_v';
@@ -58,14 +62,15 @@
                 ea = actions.doNotMiss;
             } else if (prevTime < latestItemTime) {
                 ea = actions.justIn;
-            } else {
-                ea = actions.noUpdate;
+            } else if (now > latestItemTime && now - latestItemTime < noUpdateHour * 3600) {
+                ea = actions.rightOnTime;
+            } else if (now > latestItemTime) {
+                ea = actions.noUpdateForLong;
             }
         } else {
             ea = actions.firstTime;
         }
         implementAction(ea, value);
-        var now = Math.round(new Date().getTime()/1000);
         SetCookie(key, now);
     }
 

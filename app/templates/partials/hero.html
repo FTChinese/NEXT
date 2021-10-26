@@ -1,4 +1,3 @@
-<!--MARK: This style is downloaded only when needed. -->
 <style>
     .video-hero {
         width: 100%;
@@ -29,6 +28,7 @@
         height: 100%;
         margin: auto;
         background-size: cover;
+        background-position: 50% 0;
     }
     .hero_main-content-outer {
         max-width: 1200px;
@@ -66,31 +66,36 @@
     }
 
 </style>
+
 <div class="video-hero">
     <!-- <video id="video" poster="https://www.ft.com/partnercontent/images/cytiva/hub/video_hero2.jpg" loop="" controls>  
         <source src="https://www.ft.com/partnercontent/cytiva/assets/CYTIVA_EDIT_13_720p.mp4" type="video/mp4">
         <track label="English" kind="subtitles" srclang="en" src="16147829136810.vtt" default>
     </video> -->
-
+    <%if $section.vid != ""%>
     <script src="https://p.bokecc.com/player?vid=<%$section.vid%>&siteid=922662811F1A49E9&autoStart=false&width=100%&height=100%&playerid=FBEC69EC8BB76FC8&playertype=2" type="text/javascript"></script>
-
+    <%/if%>
     <div class="hero_main-content" style="background-image: url('<%$section.image%>')">
         <div class="hero_main-content-outer">
             <div class="hero_main-content-wrapper">
                 <div class="hero_main-content-title">
                     <h1><%$section.title%></h1>
                 </div>
-                <a id="vt-control" title="Play"></a>
+                <%if $section.vid != ""%>
+                    <a id="vt-control" title="Play"></a>
+                <%/if%>
             </div>
         </div>
     </div>
 </div>
-<script>
-    document.querySelector('#vt-control').onclick = function() {
-        var video = document.querySelector('video');
-        if (!video) {return;}
-        document.querySelector('.hero_main-content').style.display = 'none';
-        document.querySelector('.CCH5playerContainer').style.display = 'block';
-        video.play();
-    };
-</script>
+<%if $section.vid != ""%>
+    <script>
+        document.querySelector('#vt-control').onclick = function() {
+            var video = document.querySelector('video');
+            if (!video) {return;}
+            document.querySelector('.hero_main-content').style.display = 'none';
+            document.querySelector('.CCH5playerContainer').style.display = 'block';
+            video.play();
+        };
+    </script>
+<%/if%>
