@@ -1740,7 +1740,7 @@
 <%elseif $story.original != ""%>
 	<%assign var=ftcteam value="Translation"%>
 <%/if%>
-<%assign var=gauthor value=$story.cauthor|regex_replace:"[\n\r]":""%>
+<%assign var=gauthor value=$story.cauthor|regex_replace:"/[\n\r]/":""%>
 <%assign var="storyBody" value=$storyBody|replace:"<p><p>":"<p>"|replace:"</p></p>":"</p>"%>
 <%*<!--MARK: - Remove extra <p> and </p> tags around <h1></h1>-->*%>
 <%assign var="story_content" value=$story_content|regex_replace:"/<p>(<h[0-9][^<]+<\/h[0-9]>)<\/p>/":"\\1"%>

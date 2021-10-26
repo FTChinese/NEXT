@@ -56,7 +56,9 @@
     .special-report-content {
         font-size: 18px;
     }
-
+    .special-report-content p {
+        margin-bottom: 1em;
+    }
     @media all and (max-width: 1300px) {
         .special-report-container {
             height: 550px;
@@ -99,9 +101,16 @@
     <div class="special-report-inner">
         <div class="special-report-intro">
             <div class="special-report-intro-container">
-                <div class="special-report-tag"><a href="<%$section.TagLink%>"><%$section.Tag%></a></div>
-                <div class="special-report-title"><%$section.title%></div>
-                <div class="special-report-content"><%$section.content%></div>
+                <%if $section.Tag != ""%>
+                    <div class="special-report-tag"><a href="<%$section.TagLink%>"><%$section.Tag%></a></div>
+                <%/if%>
+                <%if $section.title != ""%>
+                    <div class="special-report-title"><%$section.title%></div>
+                <%/if%>
+                <%if $section.content != ""%>
+                    <%assign var=content value=$section.content|regex_replace:"/[\r\n]+/":"</p><p>"%>
+                    <div class="special-report-content"><p><%$content%></p></div>
+                <%/if%>
             </div>
         </div>
     </div>
