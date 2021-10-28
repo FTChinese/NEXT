@@ -1,13 +1,15 @@
-<%assign var="HotPaidContents" value=$interactivemodel->get_interactive_by_field_search("find_in_set('HotFTAcademy', tag)",0,1,7,10800)%>
-<%if count($HotPaidContents) > 0 %>
-	<div class="side-container"><div class="side-inner">
-		<div class="mps">
-		<h2 class="list-title"><a href="/channel/weekly.html"><%$HotPaidContents[0].cheadline%></a></h2>
-		<%if $smarty.get.webview == "ftcapp"%>
-			<%$HotPaidContents[0].ebody%>
-		<%else%>
-			<%$HotPaidContents[0].cbody%>
-		<%/if%>
-		</div>
-	</div></div>
+<%if $interactivemodel != ""%>
+	<%assign var="HotPaidContents" value=$interactivemodel->get_interactive_by_field_search("find_in_set('HotFTAcademy', tag)",0,1,7,10800)%>
+	<%if count($HotPaidContents) > 0 %>
+		<div class="side-container"><div class="side-inner">
+			<div class="mps">
+			<h2 class="list-title"><a href="/channel/weekly.html"><%$HotPaidContents[0].cheadline%></a></h2>
+			<%if $smarty.get.webview == "ftcapp"%>
+				<%$HotPaidContents[0].ebody%>
+			<%else%>
+				<%$HotPaidContents[0].cbody%>
+			<%/if%>
+			</div>
+		</div></div>
+	<%/if%>
 <%/if%>

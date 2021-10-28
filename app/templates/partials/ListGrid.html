@@ -120,19 +120,13 @@
 <%/if%>
 
 <%if $list.title != ""%>
-    <div class="large-card-title-grid">
-        <div class="large-card-title"><%$list.title%></div>
-        <%if $list.description != ""%>
-            <div class="large-card-description"><%$list.description%></div>
-        <%/if%>
-        <%if $list.sponsorLogoUrl != ""%>
-            <%assign var="sponsorLink" value=""%>
-            <%if $list.sponsorLink != ""%>
-                <%assign var="sponsorLink" value=" href=\"`$list.sponsorLink`\""%>
-            <%/if%>
-            <a<%$sponsorLink%> class="sponsor-logo"><img src="<%$list.sponsorLogoUrl%>"></a>
-        <%/if%>
-    </div>
+    <div class="list-container"><div class="list-inner"><h2 class="list-title">
+        <a class="list-link" href="<%$list.url%>"><%$list.title%></a>
+        </h2>
+        <div class="items">
+        <div class="clearfloat"></div>
+        </div>
+    </div></div>
 <%/if%>
 
 <%if $list.description != ""%>
@@ -161,7 +155,6 @@
             <%assign var=imageClass value=" no-image`$item.background`"%>
         <%/if%>
         <%assign var=itemHeadline value=$item.headline%>
-        <%assign var=itemLead value=$item.longlead|default:$item.shortlead%>
         <%if $item.customLink != ""%>
             <%assign var=itemLink value=$item.customLink%>
         <%else%>
@@ -277,6 +270,10 @@
             <%assign var="itemT" value=$item.eskylineheadline|default:$item.fileupdatetime%>
         <%else%>
             <%assign var="itemT" value=$item.timeStamp|default:$item.last_publish_time|default:$item.pubdate|default:$item.add_times%>
+        <%/if%>
+        <%*<!--MARK: - If an item is set to be released at a future time, the pubdate would be later than itemT-->*%>
+        <%if $item.pubdate != "" && $item.pubdate > $itemT%>
+            <%assign var="itemT" value=$item.pubdate%>
         <%/if%>
         <%assign var="itemT" value=$itemT|regex_replace:"/\.[0-9]+$/i":""%>
         <%*<!--MARK: - calculate item item stamp end-->*%>
@@ -467,6 +464,12 @@
         <%/if%>
         <%*<!--MARK: - Fix FTC Android App bug end-->*%>
 
+        <%assign var=itemLead value=$item.longlead|default:$item.shortlead%>
+        <%if preg_match("/速读/is",$itemTagsString)%>
+            <%assign var=itemLead value=$item.cshortleadbody|default:$item.shortlead|default:$item.longlead%>
+            <!--shortlead: <%$item.shortlead%>, longlead: <%$item.longlead%>-->
+        <%/if%>
+
 
         <div class="item-container <%$itemClass%>"<%$itemData%> data-update="<%$itemT%>"><div class="item-inner">
             <%if $itemImage != ""%>
@@ -502,3 +505,7 @@
         <%/foreach%>
     <%/if%>
 </div>
+
+<%if $list.moreLink != ""%>
+    <div class="more-link"><a href="<%$list.moreLink%>">更多</a></div>
+<%/if%>

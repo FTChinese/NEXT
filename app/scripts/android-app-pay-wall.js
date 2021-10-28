@@ -54,7 +54,7 @@
         var xhr = new XMLHttpRequest();
         var noneSubscriberParameter = (typeof noneSubscriberStatus === 'string') ? '&noneSubscriberStatus=' + noneSubscriberStatus : ''; 
         var url = '/m/corp/partial.html?include=promoboxone&type=' + subscriptionType + '&expire=' + expireDate + '&ccode=' + ccode + '&duration=' + duration + '&platform=' + platform + '&pendingRenewal=' + pendingRenewal + noneSubscriberParameter;
-        console.log(url);
+        // console.log(url);
         xhr.open('get', url);
         xhr.setRequestHeader('Content-Type', 'application/text');
         xhr.onload = function() {

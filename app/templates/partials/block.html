@@ -1201,6 +1201,11 @@
 									<%else%>
 										<%assign var="itemT" value=$item.timeStamp|default:$item.last_publish_time|default:$item.pubdate|default:$item.add_times%>
 									<%/if%>
+									<%*<!--MARK: - If an item is set to be released at a future time, the pubdate would be later than itemT-->*%>
+									<%if $item.pubdate != "" && $item.pubdate > $itemT%>
+										<%assign var="itemT" value=$item.pubdate%>
+									<%/if%>
+
 									<%assign var="itemT" value=$itemT|regex_replace:"/\.[0-9]+$/i":""%>
 									<%assign var="highlightTime" value=""%>
 									<%math assign="timeDiff" equation="x-y" x=$smarty.now y=$itemT%>
