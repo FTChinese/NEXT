@@ -501,6 +501,11 @@ $gridCellWidth: 310px;
 				padding: 0;
 			}
 		}
+		&.right-top-column {
+			grid-column-end: -1;
+			grid-row-start: 1;
+			grid-row-end: 2;
+		}
 		.item-headline {
 			font-size: 1.2em;
 		}
@@ -858,24 +863,6 @@ $gridCellWidth: 310px;
 	.videos {
 		padding-bottom: $defaultPadding;
 	}
-	.image {
-		position: static;
-		float:right;
-		width: 82px;
-		padding: $defaultPadding/2 0 $defaultPadding/2 $defaultPadding/6;
-		clear: right;
-		&.first-child {
-			float:none;
-			width: 100%;
-			padding: 0;
-		}
-		&.square-icon {
-			figure {
-				padding-bottom: 100%;
-				background-color: transparent;
-			}
-		}
-	}
 	.item-container {
 		&.first, &.big-image {
 			position: relative;
@@ -1008,6 +995,28 @@ $gridCellWidth: 310px;
 		}
 	}
 }
+
+.side-container, .intro-container {
+	.image {
+		position: static;
+		float:right;
+		width: 82px;
+		padding: $defaultPadding/2 0 $defaultPadding/2 $defaultPadding/6;
+		clear: right;
+		&.first-child {
+			float:none;
+			width: 100%;
+			padding: 0;
+		}
+		&.square-icon {
+			figure {
+				padding-bottom: 100%;
+				background-color: transparent;
+			}
+		}
+	}
+}
+
 .item-description {
 	.side-container & {
 		padding-bottom: $defaultPadding;

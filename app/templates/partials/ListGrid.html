@@ -78,38 +78,45 @@
             <%assign var="itemsArray" value=$storymodel->getContentByTag($feedTag,$feedItems,$feedStart)%>
         <%/if%>
     <%/if%>
+<%/if%>
+
+
+<%if $itemsArray && $itemsArray|@count>0%>
     <%php%>
         $originalItems = $this->get_template_vars('itemsArray');
         $itemType = $this->get_template_vars('feedType');
         $imageTypes = array("cover", "smallbutton", "other", "bigbutton");
         $backgrounds = array('blue', '', 'dark-grey', 'yellow', 'purple', 'light-blue', 'dark-green');
         $noImageIndex = 0;
+        $badImages = ['http://creatives.ftacademy.cn/picture/9/000085029_piclink.jpg'];
         foreach ($originalItems as &$item) {
             if (isset($item["item_type"]) && $item["item_type"] != "") {
                 $item["type"] = $item["item_type"];
             } else if (isset($item["type"]) && $item["type"] != "") {
                 $item["type"] = $item["type"];
+            } else if ($itemType === 'manual') {
+                $item["type"] = 'story';
             } else {
                 $item["type"] = $itemType;
             }
-            $item["headline"] = $item["cheadline"];
-            $item["longlead"] = $item["clongleadbody"];
             $hideImage = isset($item["tag"]) && preg_match("/NoCopyrightCover/", $item["tag"]);
             if (isset($item["story_pic"]) && !$hideImage) {
                 $sp = $item["story_pic"];
                 foreach ($imageTypes as $imageType) {
-                    if (!isset($sp[$imageType]) || $sp[$imageType] === '') {continue;}
+                    if (!isset($sp[$imageType]) || $sp[$imageType] === '' || in_array($sp[$imageType], $badImages)) {continue;}
                     $item["image"] = $sp[$imageType];
                     break;
                 }
             } else if (isset($item["image"]) && !$hideImage) {
                 $sp = $item["image"];
                 foreach ($imageTypes as $imageType) {
-                    if (!isset($sp[$imageType]) || $sp[$imageType] === '') {continue;}
+                    if (!isset($sp[$imageType]) || $sp[$imageType] === '' || in_array($sp[$imageType], $badImages)) {continue;}
                     $item["image"] = $sp[$imageType];
                     break;
                 }
-            } else {
+            }
+            // MARK: - The item might not have image because but not limited to: 1) the current image in database doesn't have copyright or 2) the current image in database is a placeholder because the FTChinese editorial team has mass-deleted images out of fear of copyright infringement around 2017. (Check with Wang Feng and Wang Yang for details. )
+            if (!isset($item["image"]) || $item["image"] == "" || $hideImage) {
                 $noImageIndex = $noImageIndex % count($backgrounds);
                 $item["background"] = $backgrounds[$noImageIndex] === '' ? '' : ' ' . $backgrounds[$noImageIndex];
                 $noImageIndex += 1;
@@ -144,6 +151,8 @@
     <%assign var="gridClass" value="large-card-grid"%>
 <%/if%>
 
+
+
 <%*<!--MARK: - Render the items-->*%>
 <div class="<%$gridClass%>">
     <%foreach from=$itemsArray item=item%>
@@ -154,7 +163,7 @@
         <%if $itemImage == ""%>
             <%assign var=imageClass value=" no-image`$item.background`"%>
         <%/if%>
-        <%assign var=itemHeadline value=$item.headline%>
+        <%assign var=itemHeadline value=$item.headline|default:$item.cheadline%>
         <%if $item.customLink != ""%>
             <%assign var=itemLink value=$item.customLink%>
         <%else%>
@@ -278,11 +287,10 @@
         <%assign var="itemT" value=$itemT|regex_replace:"/\.[0-9]+$/i":""%>
         <%*<!--MARK: - calculate item item stamp end-->*%>
 
-        <!--item time 1: <%$itemT%>-->
         <%assign var="highlightTime" value=""%>
         <%math assign="timeDiff" equation="x-y" x=$smarty.now y=$itemT%>
         <%assign var="timeMath" value=$timeDiff%>
-        <%if $list.showTimeStamp == "all" || $list.showTimeStamp == "new stories" || $itemImage == ""%>
+        <%if $list.showTimeStamp == "all" || $list.showTimeStamp == "new stories" || $itemImage == "" || $showTimeStamp == "all" || $showTimeStamp == "new stories"%>
             <%if $timeDiff < 0%>
                 <%assign var="highlightTime" value=" highlight"%>
                 <%assign var="timeDiff" value="刚刚发布"%>
@@ -309,7 +317,7 @@
                 <%assign var="highlightTime" value=""%>
                 <%assign var="timeDiff" value=$itemT|date_format:"%Y年%-m月%-d日"%>
             <%/if%>
-            <%if $list.showTimeStamp === "all" || ($timeMath < 60*60*6 && $timeMath > 0) || $itemImage == ""%>
+            <%if $list.showTimeStamp === "all" || $showTimeStamp == "all" || ($timeMath < 60*60*6 && $timeMath > 0) || $itemImage == ""%>
                 <%assign var="itemTimeStamp" value="<div class=\"item-time`$highlightTime`\" data-time=\"`$itemT`\" data-pubdate=\"`$item.pubdate`\" data-fileupdatetime=\"`$item.fileupdatetime`\" data-last-publish-time=\"`$item.last_publish_time`\">`$timeDiff`</div>"%>
             <%/if%>
         <%/if%>
@@ -440,17 +448,14 @@
                 <%assign var="itemLink" value=" href=\"/`$itemType`/`$itemId`?webview=ftcapp&screencapture=yes&ad=no\""%>
             <%/if%>
             <%*<!-- check user corp: <%$useCorpToRenderStory%>, item type: <%$itemType%>-->*%>
-            <!--item link 1: <%$itemLink%>-->
             <%if $useCorpToRenderStory == "yes" && ($itemType == "story" || $itemType == "premium")%>
                 <%assign var="itemData" value=""%>
                 <%assign var="itemLink" value=" href=\"/m/corp/preview.html?pageid=`$itemId`&webview=ftcapp\""%>
-                <!--item link 2: <%$itemLink%>-->
             <%/if%>
         <%/if%> 
         <%*<!--MARK: - Handle data tags for native apps end-->*%>
 
         <%*<!--MARK: - Handle item link start-->*%>
-        <!--item link 3: <%$itemLink%>-->
         <%if $itemLink != ""%>
             <%assign var=itemLink value=" href=\"`$itemLink`\""%>
         <%/if%>
@@ -464,7 +469,7 @@
         <%/if%>
         <%*<!--MARK: - Fix FTC Android App bug end-->*%>
 
-        <%assign var=itemLead value=$item.longlead|default:$item.shortlead%>
+        <%assign var=itemLead value=$item.longlead|default:$item.clongleadbody|default:$item.shortlead|default:$item.cshortleadbody%>
         <%if preg_match("/速读/is",$itemTagsString)%>
             <%assign var=itemLead value=$item.cshortleadbody|default:$item.shortlead|default:$item.longlead%>
             <!--shortlead: <%$item.shortlead%>, longlead: <%$item.longlead%>-->
@@ -503,6 +508,18 @@
                 <%/if%>
             </div></div>
         <%/foreach%>
+    <%elseif $tagabout != "" && ($smarty.get.page == "" || $smarty.get.page == "1")%>
+        <div class="item-container white no-image right-top-column intro-container"><div class="item-inner">
+            <%if $PageIntroTitle != ""%>
+                <div class="item-title"><%$PageIntroTitle%></div>
+            <%/if%>
+            <div>
+                <%if $PageIntroIMG != ""%>
+                    <a class="image square-icon" target="_blank" style="display: block;"><figure class="loading" data-url="<%$PageIntroIMG%>"></figure></a>
+                <%/if%>
+                <%$tagabout%>
+            </div>
+        </div></div>
     <%/if%>
 </div>
 

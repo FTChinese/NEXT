@@ -1409,6 +1409,11 @@
 	<%assign var="storyImageClass" value=""%>
 <%/if%>
 
+<%%*<!--MARK: Don't show the placeholder image in story body-->*%>
+<%if preg_match("/000085029_piclink/is",$storyImage)%>
+	<%assign var="storyImage" value=""%>
+<%/if%>
+
 
 <%if $story_pic && $story_pic.caption && $story_pic.caption != ""%>
 	<%assign var=imageCaption value="<div class=\"caption\">`$story_pic.caption`</div>"%>
