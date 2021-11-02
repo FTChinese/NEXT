@@ -370,7 +370,8 @@
 						<%assign var="lockClass" value=""%>
 					<%/if%>
 
-                    <%if $inSponsor == "yes"%>
+					<%*<!--MARK: if a sponsorship is just a placeholder, it's not paid for by a sponsor. Show the pay wall lock. -->*%>
+                    <%if $inSponsor == "yes" && $isPlaceHolder != "yes"%>
                         <%assign var="lockClass" value=""%>
                     <%/if%>
 

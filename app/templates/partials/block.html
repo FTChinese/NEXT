@@ -711,6 +711,14 @@
 											<%assign var="XL" value="one-row"%>
 											<%assign var="itemTopClass" value="XLT LT ST MT PT"%>
 										<%/if%>
+									<%elseif $list.float === "ItemsWithSameBigImage"%>
+										<%assign var="hideImage" value="no"%>
+										<%assign var="XL" value="XL12 L12 M12 S12 P12"%>
+										<%if $i === 0%>
+											<%assign var="itemTopClass" value=""%>
+										<%else%>
+											<%assign var="itemTopClass" value="XLT LT ST MT PT"%>
+										<%/if%>
 									<%elseif $list.float === "myFT"%>
 										<%assign var="hideImage" value="yes"%>
 										<%assign var="XL" value=""%>
@@ -1456,15 +1464,13 @@
 									<%else%>
 										<%assign var="lockClass" value=""%>
 									<%/if%>
-
-									<%if $inSponsor == "yes"%>
+									<%if $inSponsor == "yes" || $itemType == "manual" || $itemType == ""%>
 										<%assign var="lockClass" value=""%>
-									<%else%>
 									<%/if%>
-
-									<%if $isInWhiteList == "yes" && lockClass != ""%>
+									<%if $isInWhiteList == "yes" && $lockClass != ""%>
 										<%assign var="lockClass" value="unlocked whitelist"%>
 									<%/if%>
+
 
 									<%*<!--MARK: - Convenient for Editing -->*%>
 									<%if $smarty.get.mode == "edit"%>
