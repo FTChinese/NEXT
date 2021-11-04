@@ -33,10 +33,10 @@
         <%if $button.click == ""%>
           <%assign var="click" value=$nextmodel->getBuyLink($button.subscription, $button.duration, $button.discountCode, $section.ccode)%>
         <%/if%>
-        <a href="<%$click%>" target="_blank"><button style="background-color: <%$button.BackgroundColor%>; color: <%$button.buttonColor%>"><%$button.title%></button></a>
+        <a href="<%$click%>" target="_blank"><button style="background-color: <%$button.BackgroundColor%>; color: <%$button.buttonColor%>!important;"><%$button.title%></button></a>
       <%/foreach%>
     <%else%>
-      <a href="<%$standardBuyLink%>" target="_blank"><button style="background-color: <%$leftButtonBG%>; color: <%$leftButtonColor%>">订阅标准会员</button></a>
-      <a href="<%$premiumBuyLink%>" target="_blank"><button style="background-color: <%$rightButtonBG%>; color: <%$rightButtonColor%>">订阅高端会员</button></a>
+      <a href="<%$standardBuyLink%>" target="_blank"><button style="background-color: <%$leftButtonBG%>; color: <%$leftButtonColor%>!important;">订阅标准会员</button></a>
+      <a href="<%$premiumBuyLink%>" target="_blank"><button style="background-color: <%$rightButtonBG%>; color: <%$rightButtonColor%>!important;">订阅高端会员</button></a>
     <%/if%>
 </div></div>
