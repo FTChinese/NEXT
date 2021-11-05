@@ -153,6 +153,7 @@
 
 
 
+
 <%*<!--MARK: - Render the items-->*%>
 <div class="<%$gridClass%>">
     <%foreach from=$itemsArray item=item%>
@@ -457,6 +458,14 @@
 
         <%*<!--MARK: - Handle item link start-->*%>
         <%if $itemLink != ""%>
+            <%*<!--MARK: - Add the marker information for special operations in links-->*%>
+            <%if $marker != ""%>
+                <%if preg_match("/\?/is",$itemLink)%>
+                    <%assign var="itemLink" value="`$itemLink`&marker=`$marker`&full=y"%>
+                <%else%>
+                    <%assign var="itemLink" value="`$itemLink`?marker=`$marker`&full=y"%>
+                <%/if%>
+            <%/if%>
             <%assign var=itemLink value=" href=\"`$itemLink`\""%>
         <%/if%>
         <%*<!--MARK: - Handle item link end-->*%>
