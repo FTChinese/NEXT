@@ -379,24 +379,46 @@ a.read-more, .story-body a.read-more {
 		}
 	}
 }
-.is-audio {
+// MARK: - Show the video and audio button at the left bottom corner, the height is about 28% of the figure, which should always be 16/9
+.is-audio, .is-video {
 	figure {
 		&:after {
 			content: "";
 			position: absolute;
-			right: 0;
-			top:0;
-			background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="white" d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
-		    background-image: url(https://dhgxl8qk9zgzr.cloudfront.net/icons/png/fticon-v1_audio.png) \9;
-		    width: 34px;
-		    height: 34px;
+			// MARK: - You don't want the audio/video icon to be too small or too big, in case you make a mistake elsewhere
+		    min-width: 24px;
+		    min-height: 24px;
+			max-width: 80px;
+			max-height: 80px;
+			// MARK: - Assuming the figure is always 16/9 ratio. The bottom square's height can be calculated by this: height * 9 / 16
+			width: 15.75%; 
+			height: 28%;
+			left: 0;
+			bottom:0;
 		    display: inline-block;
 		    background-repeat: no-repeat;
-		    background-size: 24px;
 		    background-position: 50%;
 		    background-color: transparent;
 		    vertical-align: baseline;
 		    background-color: #000;
+		}
+	}
+}
+.is-audio {
+	figure {
+		&:after {
+			background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="white" d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+		    background-image: url(https://dhgxl8qk9zgzr.cloudfront.net/icons/png/fticon-v1_audio.png) \9;
+			background-size: 70%;
+		}
+	}
+}
+.is-video {
+	figure {
+		&:after {
+			background-image: url('data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTAyNCAxMDI0IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxzdHlsZT4qe2ZpbGw6I0ZGRkZGRiFpbXBvcnRhbnQ7fTwvc3R5bGU+PHBhdGggZD0iTTcxNi44IDUxMmwtMzg0LTI1NnY1MTJ6IiBmaWxsPSIjMDAwIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiLz48L3N2Zz4K');
+		    background-image: url(https://dhgxl8qk9zgzr.cloudfront.net/icons/png/fticon-v1_play.png) \9;
+			background-size: 100%;
 		}
 	}
 }

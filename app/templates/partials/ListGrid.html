@@ -359,7 +359,9 @@
                 <%assign var="itemSubType" value="mbagym"%>
             <%/if%>
         <%/if%>
-        <%if $itemSubType == "radio"%>
+        <%if $itemType == "video"%>
+            <%assign var="itemClass" value="`$itemClass` is-video"%>
+        <%elseif $itemSubType == "radio"%>
             <%assign var="itemClass" value="`$itemClass` is-audio"%>
         <%/if%>
         <%if $smarty.get.webview == "ftcapp"%>
