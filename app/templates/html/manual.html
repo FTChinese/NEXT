@@ -130,6 +130,7 @@
     <%assign var="hasPublishedNewCoverStory" value="no"%>
     <%if $itemT != ""%>
         <%assign var="itemT" value=$itemT|regex_replace:"/\.[0-9]+$/i":""%>
+        <%assign var="coverStoryTime" value=$itemT%>
         <%math assign="timeDiff" equation="x-y" x=$smarty.now y=$itemT%>
         <%assign var="timeMath" value=$timeDiff%>
         <%if $timeMath <= 60*60*12%>
@@ -145,13 +146,6 @@
         <%assign var="isPublicHoliday" value="yes"%>
     <%elseif date("w", $smarty.now) == 0 || date("w", $smarty.now) == 6%>
         <%assign var="isPublicHoliday" value="yes"%>
-    <%/if%>
-    <%*<!--MARK: Show 8 FT Academy on top starting from the second day of public holidays and weekends-->*%>
-    <%assign var="highlightFTAcademyItems" value=4%>
-    <%if date("Ymd", $smarty.now) >= 20211002 && date("Ymd", $smarty.now) <= 20211007%>
-        <%assign var="highlightFTAcademyItems" value=8%>
-    <%elseif date("w", $smarty.now) == 0%>
-        <%assign var="highlightFTAcademyItems" value=8%>
     <%/if%>
     <%if $isPublicHoliday == "no" || $smarty.get.subscription == "member" || $smarty.get.subscription == "premium"%>
         <%assign var="highlightFTAcademy" value="feed"%>

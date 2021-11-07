@@ -168,7 +168,23 @@
                     </div>
                     <%assign var="i" value=0%>
                 <%elseif $highlightFTAcademy == "top"%>
-                    <%assign var="interactives" value=$interactivemodel->get_interactive_by_field_search("find_in_set('FT商学院',tag)",0,$highlightFTAcademyItems,5,10800)%>
+                    <%assign var="interactives" value=$interactivemodel->get_interactive_by_field_search("find_in_set('FT商学院',tag)",0,8,5,10800)%>
+                    <%php%>
+                        // MARK: - PHP is better suited for complex situation here
+                        $interactives = $this->get_template_vars('interactives');
+                        $coverStoryTime = $this->get_template_vars('coverStoryTime');
+                        $highlightFTAcademyItems = 4;
+                        $l = count($interactives);
+                        if ($l >= 8 && $coverStoryTime > 0) {
+                            // MARK: - fileupdatetime and pubdate are sure to be int
+                            $fifthItemUpdateTime = max($interactives[4]["fileupdatetime"], $interactives[4]["pubdate"]);
+                            if (isset($fifthItemUpdateTime) && $fifthItemUpdateTime >= $coverStoryTime) {
+                                $highlightFTAcademyItems = 8;
+                            }
+                        }
+                        $interactives = array_slice($interactives, 0, $highlightFTAcademyItems);
+			            $this->assign("interactives", $interactives);
+                    <%/php%>
                     <div class="block-container no-side">
                         <div class="block-inner">
                             <div class="content-container">

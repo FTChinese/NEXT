@@ -274,47 +274,48 @@ hr {
 .card-container {
 	background-color: #ffebd9;
 	padding: $defaultPadding/2;
+	margin-bottom: 1em;
 }
 #story-recommend-container {
 	display: none;
 }
 .timeline-container {
-.n-content-layout__slot {
-    flex-basis: 100%;
-    padding-left: 30px;
-    margin-left: 0;
-    margin-top: 0;
-    margin-bottom: 0;
-	padding-top: 28px;	
-    position: relative;
-	&::before {
-		content: "";
-		width: 2px;
-		background: #000;
-		height: 100%;
-		display: block;
-		position: absolute;
-		left: 5px;
-		top: 0;	
-		min-width: 0;
-	    max-width: 100%;
-	}
-	.n-content-heading-5 {
+	.n-content-layout__slot {
+		flex-basis: 100%;
+		padding-left: 30px;
+		margin-left: 0;
+		margin-top: 0;
+		margin-bottom: 0;
+		padding-top: 28px;	
 		position: relative;
-		strong::before {
+		&::before {
 			content: "";
+			width: 2px;
+			background: #000;
+			height: 100%;
+			display: block;
 			position: absolute;
-			top: 6px;
-			left: -28px;
-			height: 8px;
-			width: 8px;
-			border-radius: 50%;
-			background-color: #000;
+			left: 5px;
+			top: 0;	
+			min-width: 0;
+			max-width: 100%;
+		}
+		.n-content-heading-5 {
+			position: relative;
+			strong::before {
+				content: "";
+				position: absolute;
+				top: 6px;
+				left: -28px;
+				height: 8px;
+				width: 8px;
+				border-radius: 50%;
+				background-color: #000;
+			}
 		}
 	}
-		
 }
-}
+
 //responsive videos
 .o-responsive-video-container {
 	width: 100%;
@@ -578,6 +579,17 @@ This results in wasted space and memory for subscribers' device and does not inc
 		display: grid;
 		grid-template-columns: 1fr 1fr;
 		column-gap: $defaultPadding/2;
+	}
+	[data-layout-width="true"] {
+		.n-content-layout__container {
+			display: flex;
+			flex-wrap: wrap;
+			width: 100%;
+			padding-top: 4px;
+		}
+		.n-content-layout__slot {
+			flex: 1 1 1px;
+		}
 	}
 }
 
