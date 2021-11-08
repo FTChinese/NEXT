@@ -1,4 +1,14 @@
 <div class="side-container"><div class="side-inner">
+
+	<!--column info: -->
+	<%if $columninfo != ""%>
+		<div class="story-box">
+			<h2 class="box-title"><a href="/column/<%$columninfo.id%>"><%$columninfo.headline|replace:"》":""|replace:"《":""%></a></h2>
+			<a href="/column/<%$columninfo.id%>" class="image square-icon" target="_blank" style="display: block;"><figure class="loading" data-url="<%$columninfo.piclink%>"></figure></a>
+			<%$columninfo.description%>
+		</div>
+	<%/if%>
+
 	<%if $tagabout != ""%>
 		<div class="story-box">
 			<h2 class="box-title">编者按</h2>
@@ -25,17 +35,17 @@
 		<%easyapi command="10008" storyid=$story.id debug=false %>
 	<%/if%>
 	<%if $data.odatalist|@count>0%>
-		<%assign var="i" value=0%>
-		<div class="story-box">
-			<h2 class="box-title"><a href="/channel/weekly.html">相关文章</a></h2>
-			<ul class="top10">
-				<%foreach from=$data.odatalist item=sc%>
-					<%assign var="i" value=$i+1%>
-					<li class="mp<%$i%>"><a target="_blank" href="/story/<%$sc.storyid%>"><%$sc.cheadline%></a></li>
-				<%/foreach%>
-			</ul>
-		</div>
-	<%elseif $relative_story|@count>0%>
+		<%assign var="relative_story" value=$data.odatalist%>
+	<%/if%>
+	<%assign var="has_relative_story" value="no"%>
+	<%if $relative_story|@count>0%>
+		<%foreach from=$relative_story item=sc%>
+			<%if $sc.storyid != $story.id%>
+				<%assign var="has_relative_story" value="yes"%>
+			<%/if%>
+		<%/foreach%>
+	<%/if%>
+	<%if $has_relative_story == "yes"%>
 		<%assign var="i" value=0%>
 		<div class="story-box">
 			<h2 class="box-title"><a href="/channel/weekly.html">相关文章</a></h2>
