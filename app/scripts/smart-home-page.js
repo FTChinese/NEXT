@@ -30,7 +30,7 @@
         }
         function run(value) {
             console.log('Experiment value: ' + value);
-            if (value !== '1') {
+            if (value !== '1' || value === '1') {
                 return;
             }
             var children = mainItemsContainer.children;
@@ -80,7 +80,7 @@
             }, 1000);
         }
         gtag('event', 'optimize.callback', {
-            name: 'ElERWv3KTXGrLzD7uYvshw',
+            name: 'Q7dV4H9-SM-ymQDV58aneQ',
             callback: run
         });
         // TEST: - Locally Developing

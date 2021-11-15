@@ -1,5 +1,15 @@
-<%assign var="standardBuyLink" value=$nextmodel->getBuyLink("standard", "yearly", $section.discountCode, $section.ccode)%>
-<%assign var="premiumBuyLink" value=$nextmodel->getBuyLink("premium", "yearly", $section.discountCode, $section.ccode)%>
+<%*<!--MARK: - Don't do this using PHP's get, the memcache will messy it up. -->*%>
+<%assign var="isiOS" value="no"%>
+<%if $smarty.get.webview == "ftcapp" && $smarty.get.android == ""%>
+  <%assign var="isiOS" value="yes"%>
+<%/if%>
+<%assign var="ccode" value=$section.ccode%>
+<%if $smarty.get.ccode != ""%>
+  <%assign var="ccode" value=$smarty.get.ccode%>
+<%/if%>
+
+<%assign var="standardBuyLink" value=$nextmodel->getBuyLink("standard", "yearly", $section.discountCode, $ccode, $isiOS)%>
+<%assign var="premiumBuyLink" value=$nextmodel->getBuyLink("premium", "yearly", $section.discountCode, $ccode, $isiOS)%>
 <%if $smarty.get.webview == "ftcapp" && $smarty.get.android == ""%>
     <%*<!--MARK: For ios html validation-->*%>
     <div class="item-container"></div>
@@ -31,9 +41,9 @@
       <%foreach from=$section.lists item=button%>
         <%assign var="click" value=$button.click%>
         <%if $button.click == ""%>
-          <%assign var="click" value=$nextmodel->getBuyLink($button.subscription, $button.duration, $button.discountCode, $section.ccode)%>
+          <%assign var="click" value=$nextmodel->getBuyLink($button.subscription, $button.duration, $button.discountCode, $ccode, $isiOS)%>
         <%/if%>
-        <a href="<%$click%>" target="_blank"><button style="background-color: <%$button.BackgroundColor%>; color: <%$button.buttonColor%>!important;"><%$button.title%></button></a>
+        <a href="<%$click%>" target="_blank" class="fixed-button-link" data-subscription="<%$button.subscription%>" data-duration="<%$button.duration%>" data-discountCode="<%$button.discountCode%>" data-ccode="<%$ccode%>"><button style="background-color: <%$button.BackgroundColor%>; color: <%$button.buttonColor%>!important;"><%$button.title%></button></a>
       <%/foreach%>
     <%else%>
       <a href="<%$standardBuyLink%>" target="_blank"><button style="background-color: <%$leftButtonBG%>; color: <%$leftButtonColor%>!important;">订阅标准会员</button></a>

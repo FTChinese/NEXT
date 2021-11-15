@@ -338,7 +338,7 @@ function finishTranslationForArticle() {
         }
         var tagEle = window.opener.document.getElementById('tag');
         // MARK: - A list of good translation reviewer whose quality is so good that there's no need to display that AI disclaimer
-        var goodTranslators = 'oliver.zhang';
+        var goodTranslators = 'someone.else';
         var isGoodTranslator = typeof window.userName === 'string' && goodTranslators.indexOf(window.userName)>=0;
         if (tagEle && isGoodTranslator === false) {
             window.opener.document.getElementById('tag').value += ',AITranslation';
