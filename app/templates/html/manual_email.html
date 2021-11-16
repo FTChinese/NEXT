@@ -22,12 +22,32 @@
 <%/foreach%>
 
 <%assign var="tableBorder" value="#f7f7f7"%>
+<%assign var="logoPosition" value="center"%>
+<%assign var="descPosition" value="center"%>
 <%assign var="containerWidth" value="720"%>
+<%assign var="contentPaddingDisplay" value="block"%>
+<%assign var="barColor" value="#333333"%>
+<%assign var="barBackgroundColor" value="#E9DECE"%>
+<%assign var="barBorderColor" value="#A7A59B"%>
+<%assign var="barHeight" value="initial"%>
+<%assign var="barVertical" value="initial"%>
+<%assign var="subheadMargin" value="initial"%>
+<%assign var="subheadBackground" value="initial"%>
 <%if $p.meta.theme == "myFT"%>
 	<%assign var=bodyColor value="#FFF1E0"%>
 	<%assign var="tableBorder" value="transparent"%>
 	<%assign var="containerWidth" value="640"%>
-<%elseif $smarty.get.to == "iosapp" || $smarty.get.to == "noneiosapp"%>
+    <%assign var="logoPosition" value="left"%>
+    <%assign var="descPosition" value="left"%>
+    <%assign var="contentPaddingDisplay" value="none !important"%>
+    <%assign var="barColor" value="#ffffff"%>
+    <%assign var="barBackgroundColor" value="#8a213e"%>
+    <%assign var="barBorderColor" value="#8a213e"%>
+    <%assign var="barHeight" value="200px"%>
+    <%assign var="barVertical" value="initial"%>
+    <%assign var="subheadMargin" value="0 30px"%>
+    <%assign var="subheadBackground" value="#fff"%>
+    <%elseif $smarty.get.to == "iosapp" || $smarty.get.to == "noneiosapp"%>
 	<%assign var=bodyColor value="#FFF1E0"%>
 <%else%>
 	<%assign var=bodyColor value="#FFFFFF"%>
@@ -75,20 +95,27 @@ font-size:17px !important;line-height:1.2 !important;color:#505050 !important;
 color:#505050 !important;text-decoration:none !important;display:block !important;
 }
 .ft-logo {
-font-size:26px !important;line-height:1.2 !important;height:26px !important;text-align:center !important;
+font-size:26px !important;line-height:1.2 !important;height:26px !important;text-align:<%$logoPosition%> !important;
 }
 .ft-logo-briefing {
 font-size:5px !important;line-height:1 !important;height:5px !important;
 }
 .ft-desc {
-font-size:13px !important;line-height:1.2 !important;color:#505050 !important;text-align:center !important;font-weight:bold !important;
+font-size:13px !important;line-height:1.2 !important;color:#505050 !important;text-align:<%$descPosition%> !important;font-weight:bold !important;
 }
 .ft-header-bar {
-border: solid 1px #A7A59B !important;
+border: solid 1px <%$barBorderColor%> !important;
 border-width: 1px 0 !important;
 font-weight:normal !important;
 padding: 7px 14px !important;
-color:#000 !important;background-color:#E9DECE !important;font-size:19px !important; line-height:1.4 !important; font-weight:normal !important;width:100% !important;
+color:<%$barColor%> !important;
+background-color:<%$barBackgroundColor%> !important;
+font-size:19px !important;
+line-height:1.4 !important;
+font-weight:normal !important;
+width:100% !important;
+height: <%$barHeight%> !important;
+vertical-align: <%$barVertical%> !important;
 }
 .topHeadline {
 font-size:21px !important;line-height:1.1 !important;color:#333 !important;
@@ -97,7 +124,7 @@ font-size:21px !important;line-height:1.1 !important;color:#333 !important;
 color:#333 !important;text-decoration:none !important;display:block !important;
 }
 .subhead {
-font-size:18px !important;line-height:1.4 !important;color:#505050 !important;
+font-size:18px !important;line-height:1.4 !important;color:#505050 !important; display:block; margin:<%$subheadMargin%>; background-color: <%$subheadBackground%>;
 }
 .hotArticleList{font-size:20px !important;}
 .dotsSeparator {
@@ -134,6 +161,7 @@ height: 10px !important; font-size: 8px !important; line-height: 1.2 !important;
 }
 .contentPadding {
 width: 45px !important;
+display: <%$contentPaddingDisplay%>
 }
 .bottomContentPadding {
 height: 43px !important; font-size: 43px !important; line-height: 1 !important; padding: 0 !important;
@@ -145,24 +173,26 @@ font-size:21px !important;line-height:1.1 !important;color:#505050 !important;
 color:#505050 !important;text-decoration:none !important;
 }
 .ft-logo {
-font-size:53px !important;line-height:1 !important;height:53px !important;text-align:center !important;
+font-size:53px !important;line-height:1 !important;height:53px !important;text-align:<%$logoPosition%> !important;
 }
 .ft-logo-briefing {
 font-size:2px !important;line-height:1 !important;height:2px !important;
 }
 .ft-desc {
-font-size:13px !important;line-height:1.2 !important;color:#505050 !important;text-align:center !important;font-weight:bold !important;
+font-size:13px !important;line-height:1.2 !important;color:#505050 !important;text-align:<%$descPosition%> !important;font-weight:bold !important;
 }
 .ft-header-bar {
-color:#000 !important;
-background: #E9DECF !important;
-border: solid 1px #A7A59B !important;
+color:<%$barColor%> !important;
+background: <%$barBackgroundColor%> !important;
+border: solid 1px <%$barBorderColor%> !important;
 border-width: 1px 0 !important;
 line-height:1.4 !important;
 font-size:19px !important;
 font-weight:normal !important;
 padding: 7px 14px !important;
 width:100% !important;
+height: <%$barHeight%>;
+vertical-align: <%$barVertical%>;
 }
 .topHeadline {
 font-size:28px !important;line-height:1.1 !important;color:#333 !important;
@@ -171,7 +201,7 @@ font-size:28px !important;line-height:1.1 !important;color:#333 !important;
 color:#333 !important;text-decoration:none !important;
 }
 .subhead {
-font-size:14px !important;line-height:1.4 !important;color:#505050 !important;
+font-size:14px !important;line-height:1.4 !important;color:#505050 !important;display:block; display:block; margin:<%$subheadMargin%>; background-color: <%$subheadBackground%>;
 }
 .dotsSeparator {
 margin-left: 17px !important;
@@ -254,13 +284,13 @@ width: <%$containerWidth%>px !important;
 <tr><td style="padding-left: 10px; padding-right: 10px;">
 <%if $smarty.get.webview != "ftcapp"%>
 	<table border="0" cellspacing="0" cellpadding="0" style="width: 100%;">
-	<tr><td class="ft-logo lineH1" style="font-size:43px;line-height:43px;height:43px;text-align:center; width: 100%;">
+	<tr><td class="ft-logo lineH1" style="font-size:43px;line-height:43px;height:43px;text-align: <%$logoPosition%>; width: 100%;">
 	<a
 	href="http://www.ftchinese.com" target="_blank"
 	><img id="ft-logo-img" src="https://dhgxl8qk9zgzr.cloudfront.net/img/ftcLogoHD.png" width="172" height="36" style="width: 172px;height: 36px; color: #091523; font-size: 25px; border: 0 none;" alt="FT中文网" title="FT中文网" /></a>
 	</td></tr>
 	<tr><td style="font-size:4px;line-height:4px;height:4px;" class="ft-logo-briefing lineH1">&nbsp;</td></tr>
-	<tr><td class="ft-desc lineH1_2" style="font-size:13px;line-height:16px;color:#505050;text-align:center;font-weight:bold;"><%$smarty.now|date_format:"%Y年%m月%d日"%></td></tr>
+	<tr><td class="ft-desc lineH1_2" style="font-size:13px;line-height:16px;color:#505050;text-align:<%$descPosition%>;font-weight:bold;"><%$smarty.now|date_format:"%Y年%m月%d日"%></td></tr>
 	</table>
 <%/if%>
 </td></tr>
@@ -268,7 +298,7 @@ width: <%$containerWidth%>px !important;
 <tr><td>
 <table width="100%" cellpadding="0" cellspacing="0">
 <tr>
-<td style="width: 3%;" class="contentPadding largeViewBar">&nbsp;</td>
+<td style="width: 3%;" class="contentPadding largeViewBar" style="display: <%$contentPaddingDisplay%>">&nbsp;</td>
 <td>
 <table width="100%" cellpadding="0" cellspacing="0">
 
@@ -313,8 +343,8 @@ width: <%$containerWidth%>px !important;
 			<%/if%>
 			<%if $section.title != ""%>
 				<%if $s > 0%>
-					<tr><td class="ft-header-bar" style="color:#333333;background-color:#E9DECE;font-size:13px;font-weight:bold;padding:5px 17px 4px 17px;text-transform:uppercase;width:100%;"><%$section.title%></td></tr>
-				<tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
+					<tr><td class="ft-header-bar" style="color: <%$barColor%>;background-color:<%$barBackgroundColor%>; font-size:13px;font-weight:bold;padding:5px 17px 4px 17px;text-transform:uppercase;width:100%; height: <%$barHeight%>; vertical-align: <%$barVertical%>"><%$section.title%></td></tr>
+				    <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
 				<%else%>
 					<tr><td  class="SContent cover" style="font-size:18px;line-height:23px;color:#333;font-weight: bold;padding-left:17px;padding-right:17px;"><%$section.title%>：</td></tr>
 				<%/if%>
@@ -359,7 +389,7 @@ width: <%$containerWidth%>px !important;
 
 </table>
 </td>
-<td style="width: 3%;" class="contentPadding largeViewBar">&nbsp;</td>
+<td style="width: 3%;" class="contentPadding largeViewBar"  style="display: <%$contentPaddingDisplay%>">&nbsp;</td>
 </tr>
 </table>
 <table width="100%" cellpadding="0" cellspacing="0">
@@ -379,9 +409,9 @@ width: <%$containerWidth%>px !important;
 <%foreach from=$topics item=topic%>
 <%if $topic!=""%>
 <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
-<tr><td style="width: 3%;" class="contentPadding">&nbsp;</td><td class="ft-header-bar" style="background-color:#E9DECE;font-size:13px;font-weight:bold;padding:5px 17px 4px 17px;text-transform:uppercase;width:100%;"><a href="<%$mainDomain%>tag/<%$topic|escape:"url"%>" style="color:#333333;text-decoration:none;" target=_blank><%$topic%></a></td><td style="width: 3%;" class="contentPadding">&nbsp;</td></tr>
+<tr><td style="width: 3%; display: <%$contentPaddingDisplay%>" class="contentPadding"  >&nbsp;</td><td class="ft-header-bar" style="background-color: <%$barBackgroundColor%>;font-size:13px;font-weight:bold;padding:5px 17px 4px 17px;text-transform:uppercase;width:100%; height: <%$barHeight%>; vertical-align: <%$barVertical%>"><a href="<%$mainDomain%>tag/<%$topic|escape:"url"%>" style="color:#333333;text-decoration:none;" target=_blank><%$topic%></a></td><td style="width: 3%; display: <%$contentPaddingDisplay%>" class="contentPadding">&nbsp;</td></tr>
 <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
-<tr><td style="width: 3%;" class="contentPadding">&nbsp;</td><td style="font-size:14px;line-height:25px;color:#505050;padding-left:17px;padding-right:17px;" class="subhead textPadding lineH">
+<tr><td style="width: 3%;" class="contentPadding">&nbsp;</td><td style="font-size:14px;line-height:25px;color:#505050;padding-left:17px;padding-right:17px; display:block; margin:<%$subheadMargin%>; background-color: <%$subheadBackground%>;" class="subhead textPadding lineH">
 <%assign var="allstories" value=$storymodel->get_story_by_field_search("tag like '%`$topic`%'",0,5,15,10800)%>
 
 <%foreach from=$allstories item=sc%>
@@ -403,7 +433,7 @@ width: <%$containerWidth%>px !important;
 
 <tr>
 <td style="width: 3%;" class="contentPadding">&nbsp;</td>
-<td style="font-size:14px;line-height:25px;color:#505050;padding-left:17px;padding-right:17px;" class="subhead textPadding lineH">
+<td style="font-size:14px;line-height:25px;color:#505050;padding-left:17px;padding-right:17px;  display:block; margin:<%$subheadMargin%>; background-color: <%$subheadBackground%>;" class="subhead textPadding lineH">
 <%*<!--
 <div style="height:8px;font-size:6px;"><br /></div>
 <div style="font-size:1px;border-bottom:3px solid #beb39e"></div>
