@@ -309,12 +309,8 @@ width: <%$containerWidth%> !important;
         <%assign var="s" value=$s+1%>
     <%elseif $section.type == "MainMessage"%>
 		<%assign var="currentDate" value=$smarty.now|date_format:"%Y%m%d"%>
-<<<<<<< HEAD
-		<%if ($debug_model == 1 || $section.status != "off") && ($section.dates == "" || preg_match("/`$currentDate`/is",$section.dates))%>
-=======
 		<%*<!--MARK: - main message only appear once-->*%>
 		<%if $foundMainMessage == "no" && ($debug_model == 1 || $section.status != "off") && ($section.dates == "" || preg_match("/`$currentDate`/is",$section.dates)) && ($section.subscriptionType == "" || $section.subscriptionType == $smarty.get.to)%>
->>>>>>> 7a2dc97ceb777aa1f0647d8cf6651bcac0b33906
 			<%assign var=buttonUrl value=$section.buttonUrl%>
 			<%assign var="foundMainMessage" value="yes"%>
 			<%if $smarty.get.ccode != ""%>
