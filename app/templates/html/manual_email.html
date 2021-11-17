@@ -24,38 +24,25 @@
 <%assign var="tableBorder" value="#f7f7f7"%>
 <%assign var="logoPosition" value="center"%>
 <%assign var="descPosition" value="center"%>
-<%assign var="containerWidth" value="720"%>
+<%assign var="containerWidth" value="720px"%>
 <%assign var="contentPaddingDisplay" value="block"%>
-
 <%assign var="barColor" value="#333333"%>
-<%assign var="barBorderWidth" value="1"%>
 <%assign var="barBackgroundColor" value="#E9DECE"%>
 <%assign var="barBorderColor" value="#A7A59B"%>
-
-<%assign var="firstBarColor" value="#333333"%>
-<%assign var="firstBarBackgroundColor" value="#E9DECE"%>
-<%assign var="firstBarBorderColor" value="#A7A59B"%>
-<%assign var="firstBarHeight" value="initial"%>
-<%assign var="firstBarVertical" value="initial"%>
-
+<%assign var="barBorderWidth" value="1px 0"%>
 <%assign var="subheadMargin" value="initial"%>
 <%assign var="subheadBackground" value="initial"%>
 <%if $p.meta.theme == "myFT"%>
 	<%assign var=bodyColor value="#FFF1E0"%>
 	<%assign var="tableBorder" value="transparent"%>
-	<%assign var="containerWidth" value="inhert"%>
+	<%assign var="containerWidth" value="inherit"%>
     <%assign var="logoPosition" value="left"%>
     <%assign var="descPosition" value="left"%>
     <%assign var="contentPaddingDisplay" value="none !important"%>
-    <%assign var="barColor" value="#blue"%>
-    <%assign var="barBorderWidth" value="10"%>
-    <%assign var="barBackgroundColor" value="#fff"%>
-    <%assign var="barBorderColor" value="#333333"%>
-    <%assign var="firstBarColor" value="#ffffff"%>
-    <%assign var="firstBarBorderColor" value="#8a213e"%>
-    <%assign var="firstBarBackgroundColor" value="#8a213e"%>
-    <%assign var="firstBarHeight" value="200"%>
-    <%assign var="firstBarVertical" value="initial"%>
+    <%assign var="barColor" value="#333333"%>
+    <%assign var="barBackgroundColor" value="#ffffff"%>
+    <%assign var="barBorderColor" value="#000"%>
+    <%assign var="barBorderWidth" value="8px 0 0 0"%>
     <%assign var="subheadMargin" value="0 30px"%>
     <%assign var="subheadBackground" value="#fff"%>
     <%elseif $smarty.get.to == "iosapp" || $smarty.get.to == "noneiosapp"%>
@@ -116,7 +103,7 @@ font-size:13px !important;line-height:1.2 !important;color:#505050 !important;te
 }
 .ft-header-bar {
 border: solid 1px <%$barBorderColor%> !important;
-border-width: <%$barBorderWidth%>px 0 !important;
+border-width: <%$barBorderWidth%> !important;
 font-weight:normal !important;
 padding: 7px 14px !important;
 color:<%$barColor%> !important;
@@ -125,13 +112,6 @@ font-size:19px !important;
 line-height:1.4 !important;
 font-weight:normal !important;
 width:100% !important;
-}
-.ft-header-bar :first-child{
-border: solid 1px <%$firstBarBorderColor%> !important;
-color:<%$firstBarColor%> !important;
-background-color:<%$firstBarBackgroundColor%> !important;
-height: <%$firstBarHeight%>px;
-vertical-align: <%$firstBarVertical%>;
 }
 .topHeadline {
 font-size:21px !important;line-height:1.1 !important;color:#333 !important;
@@ -197,25 +177,16 @@ font-size:2px !important;line-height:1 !important;height:2px !important;
 .ft-desc {
 font-size:13px !important;line-height:1.2 !important;color:#505050 !important;text-align:<%$descPosition%> !important;font-weight:bold !important;
 }
-
 .ft-header-bar {
+color:<%$barColor%> !important;
+background: <%$barBackgroundColor%> !important;
 border: solid 1px <%$barBorderColor%> !important;
-border-width: <%$barBorderWidth%>px 0 !important;
+border-width:  <%$barBorderWidth%> !important;
+line-height:1.4 !important;
+font-size:19px !important;
 font-weight:normal !important;
 padding: 7px 14px !important;
-color:<%$barColor%> !important;
-background-color:<%$barBackgroundColor%> !important;
-font-size:19px !important;
-line-height:1.4 !important;
-font-weight:normal !important;
 width:100% !important;
-}
-.ft-header-bar :first-child{
-border: solid 1px <%$firstBarBorderColor%> !important;
-color:<%$firstBarColor%> !important;
-background-color:<%$firstBarBackgroundColor%> !important;
-height: <%$firstBarHeight%>px;
-vertical-align: <%$firstBarVertical%>;
 }
 .topHeadline {
 font-size:28px !important;line-height:1.1 !important;color:#333 !important;
@@ -237,14 +208,14 @@ padding-left:17px !important;padding-right:17px !important;
 color:#505050 !important;text-decoration:none !important;
 }
 }
-@media all and (min-width: <%$containerWidth%>px) {
-.mainTD{width:100%;max-width:<%$containerWidth%>px;}
+@media all and (min-width: <%$containerWidth%>) {
+.mainTD{width:100%;max-width:<%$containerWidth%>;}
 #wrapperInner,
 #containerTable {
-width: <%$containerWidth%>px !important;
+width: <%$containerWidth%> !important;
 }
 }
-@media only screen and (max-width: <%$containerWidth%>px) and (min-width: 501px){
+@media only screen and (max-width: <%$containerWidth%>) and (min-width: 501px){
 .coverImgLinkContain{max-width: 50% !important;}
 }
 </style>
@@ -286,9 +257,9 @@ width: <%$containerWidth%>px !important;
 -->*%>
 
 
-<table border="0" cellspacing="0" cellpadding="0" id="containerTable" style="background-color:#ffffff; display: table; margin: 0 auto; text-align: center; width: <%$containerWidth%>px; *width: <%$containerWidth%>px; _width: <%$containerWidth%>px;" align="center">
+<table border="0" cellspacing="0" cellpadding="0" id="containerTable" style="background-color:#ffffff; display: table; margin: 0 auto; text-align: center; width: <%$containerWidth%>; *width: <%$containerWidth%>; _width: <%$containerWidth%>;" align="center">
 <tr>
-<td class="mainTD" style="width: <%$containerWidth%>px;">
+<td class="mainTD" style="width: <%$containerWidth%>;">
 <table border="0" cellspacing="0" cellpadding="0" align="left" style="text-align: left;">
 <tr>
 <td style="width:1%;" class="whiteBorder">&nbsp;</td>
@@ -338,7 +309,7 @@ width: <%$containerWidth%>px !important;
         <%assign var="s" value=$s+1%>
     <%elseif $section.type == "MainMessage"%>
 		<%assign var="currentDate" value=$smarty.now|date_format:"%Y%m%d"%>
-		<%if ($debug_model == 1 || $section.status != "off") && ($section.dates == "" || preg_match("/`$currentDate`/is",$section.dates)) && ($section.subscriptionType == "" || $section.subscriptionType == $smarty.get.to)%>
+		<%if ($debug_model == 1 || $section.status != "off") && ($section.dates == "" || preg_match("/`$currentDate`/is",$section.dates))%>
 			<%assign var=buttonUrl value=$section.buttonUrl%>
 			<%if $smarty.get.ccode != ""%>
 				<%*<!--MARK: - check the ccode in the url parameter first-->*%>
@@ -366,14 +337,14 @@ width: <%$containerWidth%>px !important;
 			<%/if%>
 			<%if $section.title != ""%>
 				<%if $s > 0%>
-					<tr><td class="ft-header-bar" style="color: <%$barColor%>;background-color:<%$barBackgroundColor%>; font-size:13px;font-weight:bold;padding:5px 17px 4px 17px;text-transform:uppercase;width:100%;"><%$section.title%></td></tr>
+					<tr><td class="ft-header-bar" style="color: <%$barColor%>;background-color:<%$barBackgroundColor%>;border-width: <%$barBorderWidth%>; border: 1px <%$barBorderColor%> solid; font-size:13px;font-weight:bold;padding:5px 17px 4px 17px;text-transform:uppercase;width:100%;"><%$section.title%></td></tr>
 				    <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
 				<%else%>
-					<tr><td  class="SContent cover message-title" style="font-size:18px;line-height:23px;color:#333;font-weight: bold;padding-left:17px;padding-right:17px;"><%$section.title%>：</td></tr>
+					<tr><td  class="SContent cover" style="font-size:18px;line-height:23px;color:#333;font-weight: bold;padding-left:17px;padding-right:17px;"><%$section.title%>：</td></tr>
 				<%/if%>
 			<%/if%>
 			<tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
-			<tr><td  class="SContent cover message-content" style="font-size:18px;line-height:23px;color:#333;padding-left:17px;padding-right:17px;"><%$section.content|nl2br%></td></tr>
+			<tr><td  class="SContent cover" style="font-size:18px;line-height:23px;color:#333;padding-left:17px;padding-right:17px;"><%$section.content|nl2br%></td></tr>
 			<tr><td style="height: 15px; font-size: 0px; line-height: 15px; padding: 0;">&nbsp;</td></tr>
 			<%if $section.buttonTitle != ""%>
 				<tr><td  class="SContent cover" style="font-size:18px;line-height:23px;color:#333;padding-left:17px;padding-right:17px;">
@@ -432,7 +403,7 @@ width: <%$containerWidth%>px !important;
 <%foreach from=$topics item=topic%>
 <%if $topic!=""%>
 <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
-<tr><td style="width: 3%; display: <%$contentPaddingDisplay%>" class="contentPadding"  >&nbsp;</td><td class="ft-header-bar" style="background-color: <%$barBackgroundColor%>;font-size:13px;font-weight:bold;padding:5px 17px 4px 17px;text-transform:uppercase;width:100%;"><a href="<%$mainDomain%>tag/<%$topic|escape:"url"%>" style="color:#333333;text-decoration:none;" target=_blank><%$topic%></a></td><td style="width: 3%; display: <%$contentPaddingDisplay%>" class="contentPadding">&nbsp;</td></tr>
+<tr><td style="width: 3%; display: <%$contentPaddingDisplay%>" class="contentPadding"  >&nbsp;</td><td class="ft-header-bar" style="background-color: <%$barBackgroundColor%>;font-size:13px;font-weight:bold;padding:5px 17px 4px 17px;text-transform:uppercase;width:100%; border-width:  <%$barBorderWidth%>; border: 1px <%$barBorderColor%> solid; "><a href="<%$mainDomain%>tag/<%$topic|escape:"url"%>" style="color:#333333;text-decoration:none;" target=_blank><%$topic%></a></td><td style="width: 3%; display: <%$contentPaddingDisplay%>" class="contentPadding">&nbsp;</td></tr>
 <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
 <tr><td style="width: 3%;" class="contentPadding">&nbsp;</td><td style="font-size:14px;line-height:25px;color:#505050;padding-left:17px;padding-right:17px; display:block; margin:<%$subheadMargin%>; background-color: <%$subheadBackground%>;" class="subhead textPadding lineH">
 <%assign var="allstories" value=$storymodel->get_story_by_field_search("tag like '%`$topic`%'",0,5,15,10800)%>
