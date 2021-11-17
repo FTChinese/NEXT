@@ -1430,12 +1430,21 @@
 <%/if%>
 
 <%if $storyImage != ""%>
+	<%*<!--MARK: - Check if the image belongs to FT -->*%>
+	<!--story pic getty: <%$story_pic.Getty|@print_r%>-->
+	<%assign var="noneFTImageClass" value=""%>
+	<%if $story_pic.Getty && $story_pic.Getty != ""%>
+		<%assign var="getty" value=$story_pic.Getty%>
+		<%if $getty.smallbutton != "" || $getty.other != "" || $getty.cover != "" || $getty.bigbutton != ""%>
+			<%assign var="noneFTImageClass" value=" none-ft-image"%>
+		<%/if%>
+	<%/if%>
 	<%if $storyImageClass=="right-image"%>
-		<%assign var="storyImageInline" value="<div class=\"leftPic image portrait-img\"><figure class=\"loading\" data-url=`$storyImage`></figure>`$imageCaption`</div>"%>
+		<%assign var="storyImageInline" value="<div class=\"leftPic image portrait-img`$noneFTImageClass`\"><figure class=\"loading\" data-url=`$storyImage`></figure>`$imageCaption`</div>"%>
 	<%elseif $storyImageClass=="right-image-small"%>
-		<%assign var="storyImageInline" value="<div class=\"left-pic-small image portrait-img\"><figure class=\"loading\" data-url=`$storyImage`></figure>`$imageCaption`</div>"%>
+		<%assign var="storyImageInline" value="<div class=\"left-pic-small image portrait-img`$noneFTImageClass`\"><figure class=\"loading\" data-url=`$storyImage`></figure>`$imageCaption`</div>"%>
 	<%else%>
-		<%assign var="storyImageTop" value="<div class=\"`$storyImageClass` story-image image\"><figure data-url=`$storyImage` class=\"loading\"></figure>`$imageCaption`</div>"%>
+		<%assign var="storyImageTop" value="<div class=\"`$storyImageClass` story-image image`$noneFTImageClass`\"><figure data-url=`$storyImage` class=\"loading\"></figure>`$imageCaption`</div>"%>
 	<%/if%>
 <%/if%>
 
