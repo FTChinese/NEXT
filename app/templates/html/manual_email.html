@@ -302,15 +302,21 @@ width: <%$containerWidth%> !important;
 <%assign var="s" value=0%>
 
 
-
+<%assign var="foundMainMessage" value="no"%>
 <%foreach from=$p.sections item=section%>
     <%if $section.type == "block"%>
 		<%include file="next/partials/block_email.html"%>
         <%assign var="s" value=$s+1%>
     <%elseif $section.type == "MainMessage"%>
 		<%assign var="currentDate" value=$smarty.now|date_format:"%Y%m%d"%>
+<<<<<<< HEAD
 		<%if ($debug_model == 1 || $section.status != "off") && ($section.dates == "" || preg_match("/`$currentDate`/is",$section.dates))%>
+=======
+		<%*<!--MARK: - main message only appear once-->*%>
+		<%if $foundMainMessage == "no" && ($debug_model == 1 || $section.status != "off") && ($section.dates == "" || preg_match("/`$currentDate`/is",$section.dates)) && ($section.subscriptionType == "" || $section.subscriptionType == $smarty.get.to)%>
+>>>>>>> 7a2dc97ceb777aa1f0647d8cf6651bcac0b33906
 			<%assign var=buttonUrl value=$section.buttonUrl%>
+			<%assign var="foundMainMessage" value="yes"%>
 			<%if $smarty.get.ccode != ""%>
 				<%*<!--MARK: - check the ccode in the url parameter first-->*%>
 				<%assign var=ccode value=$smarty.get.ccode%>
@@ -338,7 +344,7 @@ width: <%$containerWidth%> !important;
 			<%if $section.title != ""%>
 				<%if $s > 0%>
 					<tr><td class="ft-header-bar" style="color: <%$barColor%>;background-color:<%$barBackgroundColor%>;border-width: <%$barBorderWidth%>; border: 1px <%$barBorderColor%> solid; font-size:13px;font-weight:bold;padding:5px 17px 4px 17px;text-transform:uppercase;width:100%;"><%$section.title%></td></tr>
-				    <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
+				    <tr><td class="lineH1" style="height: 10px;background-color: <%$emptyLineH1Color%>; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
 				<%else%>
 					<tr><td  class="SContent cover" style="font-size:18px;line-height:23px;color:#333;font-weight: bold;padding-left:17px;padding-right:17px;"><%$section.title%>：</td></tr>
 				<%/if%>
