@@ -83,6 +83,11 @@
 
 <%if $itemsArray && $itemsArray|@count>0%>
     <%php%>
+        $marker = $this->get_template_vars('marker');
+        $shouldHideNoneFTImage = false;
+        if ($marker === 'hsbcselect') {
+            $shouldHideNoneFTImage = true;
+        }
         $originalItems = $this->get_template_vars('itemsArray');
         $itemType = $this->get_template_vars('feedType');
         $imageTypes = array("cover", "smallbutton", "other", "bigbutton");
@@ -100,6 +105,13 @@
                 $item["type"] = $itemType;
             }
             $hideImage = isset($item["tag"]) && preg_match("/NoCopyrightCover/", $item["tag"]);
+            if ($shouldHideNoneFTImage === true && isset($item["story_pic"]) && isset($item["story_pic"]["Getty"])) {
+                // MARK: - Here it is a string! Not an array! 
+                $getty = $item["story_pic"]["Getty"];
+                if ($getty !== '') {
+                    $hideImage = true;
+                }
+            }
             if (isset($item["story_pic"]) && !$hideImage) {
                 $sp = $item["story_pic"];
                 foreach ($imageTypes as $imageType) {
