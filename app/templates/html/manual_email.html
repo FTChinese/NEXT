@@ -26,25 +26,36 @@
 <%assign var="descPosition" value="center"%>
 <%assign var="containerWidth" value="720"%>
 <%assign var="contentPaddingDisplay" value="block"%>
+
 <%assign var="barColor" value="#333333"%>
+<%assign var="barBorderWidth" value="1"%>
 <%assign var="barBackgroundColor" value="#E9DECE"%>
 <%assign var="barBorderColor" value="#A7A59B"%>
-<%assign var="barHeight" value="initial"%>
-<%assign var="barVertical" value="initial"%>
+
+<%assign var="firstBarColor" value="#333333"%>
+<%assign var="firstBarBackgroundColor" value="#E9DECE"%>
+<%assign var="firstBarBorderColor" value="#A7A59B"%>
+<%assign var="firstBarHeight" value="initial"%>
+<%assign var="firstBarVertical" value="initial"%>
+
 <%assign var="subheadMargin" value="initial"%>
 <%assign var="subheadBackground" value="initial"%>
 <%if $p.meta.theme == "myFT"%>
 	<%assign var=bodyColor value="#FFF1E0"%>
 	<%assign var="tableBorder" value="transparent"%>
-	<%assign var="containerWidth" value="640"%>
+	<%assign var="containerWidth" value="inhert"%>
     <%assign var="logoPosition" value="left"%>
     <%assign var="descPosition" value="left"%>
     <%assign var="contentPaddingDisplay" value="none !important"%>
-    <%assign var="barColor" value="#ffffff"%>
-    <%assign var="barBackgroundColor" value="#8a213e"%>
-    <%assign var="barBorderColor" value="#8a213e"%>
-    <%assign var="barHeight" value="200px"%>
-    <%assign var="barVertical" value="initial"%>
+    <%assign var="barColor" value="#blue"%>
+    <%assign var="barBorderWidth" value="10"%>
+    <%assign var="barBackgroundColor" value="#fff"%>
+    <%assign var="barBorderColor" value="#333333"%>
+    <%assign var="firstBarColor" value="#ffffff"%>
+    <%assign var="firstBarBorderColor" value="#8a213e"%>
+    <%assign var="firstBarBackgroundColor" value="#8a213e"%>
+    <%assign var="firstBarHeight" value="200"%>
+    <%assign var="firstBarVertical" value="initial"%>
     <%assign var="subheadMargin" value="0 30px"%>
     <%assign var="subheadBackground" value="#fff"%>
     <%elseif $smarty.get.to == "iosapp" || $smarty.get.to == "noneiosapp"%>
@@ -105,7 +116,7 @@ font-size:13px !important;line-height:1.2 !important;color:#505050 !important;te
 }
 .ft-header-bar {
 border: solid 1px <%$barBorderColor%> !important;
-border-width: 1px 0 !important;
+border-width: <%$barBorderWidth%>px 0 !important;
 font-weight:normal !important;
 padding: 7px 14px !important;
 color:<%$barColor%> !important;
@@ -114,8 +125,13 @@ font-size:19px !important;
 line-height:1.4 !important;
 font-weight:normal !important;
 width:100% !important;
-height: <%$barHeight%> !important;
-vertical-align: <%$barVertical%> !important;
+}
+.ft-header-bar :first-child{
+border: solid 1px <%$firstBarBorderColor%> !important;
+color:<%$firstBarColor%> !important;
+background-color:<%$firstBarBackgroundColor%> !important;
+height: <%$firstBarHeight%>px;
+vertical-align: <%$firstBarVertical%>;
 }
 .topHeadline {
 font-size:21px !important;line-height:1.1 !important;color:#333 !important;
@@ -181,18 +197,25 @@ font-size:2px !important;line-height:1 !important;height:2px !important;
 .ft-desc {
 font-size:13px !important;line-height:1.2 !important;color:#505050 !important;text-align:<%$descPosition%> !important;font-weight:bold !important;
 }
+
 .ft-header-bar {
-color:<%$barColor%> !important;
-background: <%$barBackgroundColor%> !important;
 border: solid 1px <%$barBorderColor%> !important;
-border-width: 1px 0 !important;
-line-height:1.4 !important;
-font-size:19px !important;
+border-width: <%$barBorderWidth%>px 0 !important;
 font-weight:normal !important;
 padding: 7px 14px !important;
+color:<%$barColor%> !important;
+background-color:<%$barBackgroundColor%> !important;
+font-size:19px !important;
+line-height:1.4 !important;
+font-weight:normal !important;
 width:100% !important;
-height: <%$barHeight%>;
-vertical-align: <%$barVertical%>;
+}
+.ft-header-bar :first-child{
+border: solid 1px <%$firstBarBorderColor%> !important;
+color:<%$firstBarColor%> !important;
+background-color:<%$firstBarBackgroundColor%> !important;
+height: <%$firstBarHeight%>px;
+vertical-align: <%$firstBarVertical%>;
 }
 .topHeadline {
 font-size:28px !important;line-height:1.1 !important;color:#333 !important;
@@ -343,7 +366,7 @@ width: <%$containerWidth%>px !important;
 			<%/if%>
 			<%if $section.title != ""%>
 				<%if $s > 0%>
-					<tr><td class="ft-header-bar" style="color: <%$barColor%>;background-color:<%$barBackgroundColor%>; font-size:13px;font-weight:bold;padding:5px 17px 4px 17px;text-transform:uppercase;width:100%; height: <%$barHeight%>; vertical-align: <%$barVertical%>"><%$section.title%></td></tr>
+					<tr><td class="ft-header-bar" style="color: <%$barColor%>;background-color:<%$barBackgroundColor%>; font-size:13px;font-weight:bold;padding:5px 17px 4px 17px;text-transform:uppercase;width:100%;"><%$section.title%></td></tr>
 				    <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
 				<%else%>
 					<tr><td  class="SContent cover" style="font-size:18px;line-height:23px;color:#333;font-weight: bold;padding-left:17px;padding-right:17px;"><%$section.title%>：</td></tr>
@@ -409,7 +432,7 @@ width: <%$containerWidth%>px !important;
 <%foreach from=$topics item=topic%>
 <%if $topic!=""%>
 <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
-<tr><td style="width: 3%; display: <%$contentPaddingDisplay%>" class="contentPadding"  >&nbsp;</td><td class="ft-header-bar" style="background-color: <%$barBackgroundColor%>;font-size:13px;font-weight:bold;padding:5px 17px 4px 17px;text-transform:uppercase;width:100%; height: <%$barHeight%>; vertical-align: <%$barVertical%>"><a href="<%$mainDomain%>tag/<%$topic|escape:"url"%>" style="color:#333333;text-decoration:none;" target=_blank><%$topic%></a></td><td style="width: 3%; display: <%$contentPaddingDisplay%>" class="contentPadding">&nbsp;</td></tr>
+<tr><td style="width: 3%; display: <%$contentPaddingDisplay%>" class="contentPadding"  >&nbsp;</td><td class="ft-header-bar" style="background-color: <%$barBackgroundColor%>;font-size:13px;font-weight:bold;padding:5px 17px 4px 17px;text-transform:uppercase;width:100%;"><a href="<%$mainDomain%>tag/<%$topic|escape:"url"%>" style="color:#333333;text-decoration:none;" target=_blank><%$topic%></a></td><td style="width: 3%; display: <%$contentPaddingDisplay%>" class="contentPadding">&nbsp;</td></tr>
 <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
 <tr><td style="width: 3%;" class="contentPadding">&nbsp;</td><td style="font-size:14px;line-height:25px;color:#505050;padding-left:17px;padding-right:17px; display:block; margin:<%$subheadMargin%>; background-color: <%$subheadBackground%>;" class="subhead textPadding lineH">
 <%assign var="allstories" value=$storymodel->get_story_by_field_search("tag like '%`$topic`%'",0,5,15,10800)%>
