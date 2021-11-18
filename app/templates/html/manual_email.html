@@ -20,26 +20,21 @@
 		<%assign var="foundDomain" value="yes"%>
 	<%/if%>
 <%/foreach%>
+
 <%assign var="tableBorder" value="#f7f7f7"%>
 <%assign var="logoPosition" value="center"%>
 <%assign var="descPosition" value="center"%>
 <%assign var="containerWidth" value="720px"%>
-<%if $smarty.get.width != ""%>
-	<%assign var="containerWidth" value="`$smarty.get.width`px"%>
-<%/if%>
-<%assign var="contentPaddingDisplay" value="block"%>
 <%assign var="barColor" value="#333333"%>
 <%assign var="barBackgroundColor" value="#E9DECE"%>
 <%assign var="barBorderColor" value="#A7A59B"%>
 <%assign var="barBorderWidth" value="1px 0"%>
 <%assign var="subheadBackground" value="initial"%>
 <%assign var="emptyLineH1Color" value="initial"%>
-<%assign var="paddingValue" value="10"%>
 <%assign var="lineH1Height" value="10"%>
+<%assign var="lineH1BGColor" value="initial"%>
 <%assign var="tableMargin" value="initial"%>
-<%assign var="lineH1Background" value="initial"%>
-<%assign var="tableWidth" value="initial"%>
-<%assign var="tableMargins" value="initial"%>
+<%assign var="contentPaddingWidth" value="45px"%>
 <%if $p.meta.theme == "myFT"%>
 	<%assign var=bodyColor value="#FFF1E0"%>
 	<%assign var="tableBorder" value="transparent"%>
@@ -52,12 +47,10 @@
     <%assign var="barBorderWidth" value="8px 0 0 0"%>
     <%assign var="subheadBackground" value="#fff"%>
     <%assign var="emptyLineH1Color" value="#fff"%>
-    <%assign var="paddingValue" value="40"%>
     <%assign var="lineH1Height" value="400"%>
-    <%assign var="lineH1Background" value="#8a213e"%>
+    <%assign var="lineH1BGColor" value="#8a213e"%>
     <%assign var="tableMargin" value="-390"%>
-    <%assign var="tableWidth" value="80%"%>
-    <%assign var="tableMargins" value="auto"%>
+    <%assign var="contentPaddingWidth" value="10%"%>
     <%elseif $smarty.get.to == "iosapp" || $smarty.get.to == "noneiosapp"%>
 	<%assign var=bodyColor value="#FFF1E0"%>
 <%else%>
@@ -169,7 +162,7 @@ font-size: 0 !important;
 height: 10px !important; font-size: 8px !important; line-height: 1.2 !important; padding: 0 !important;
 }
 .contentPadding {
-width: 45px !important;
+width: <%$contentPaddingWidth%> !important;
 }
 .bottomContentPadding {
 height: 43px !important; font-size: 43px !important; line-height: 1 !important; padding: 0 !important;
@@ -287,7 +280,7 @@ width: <%$containerWidth%> !important;
 <%/if%>
 
 <tr><td class="lineH1 openInBrowserGap" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
-<tr><td style="padding-left: <%$paddingValue%>px; padding-right: <%$paddingValue%>px;">
+<tr><td style="padding-left: 10px; padding-right: 10px;">
 <%if $smarty.get.webview != "ftcapp"%>
 	<table border="0" cellspacing="0" cellpadding="0" style="width: 100%;">
 	<tr><td class="ft-logo lineH1" style="font-size:43px;line-height:43px;height:43px;text-align: <%$logoPosition%>; width: 100%;">
@@ -300,13 +293,13 @@ width: <%$containerWidth%> !important;
 	</table>
 <%/if%>
 </td></tr>
-<tr><td class="lineH1" style="height: <%$lineH1Height%>px; background-color: <%$lineH1Background%>; font-size: 10px; line-height: 10px; padding: 0; ">&nbsp;</td></tr>
+<tr><td class="lineH1" style="height: <%$lineH1Height%>px; background-color: <%$lineH1BGColor%>; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
 <tr><td>
-<table width="100%" cellpadding="0" cellspacing="0">
+<table width="100%" cellpadding="0" cellspacing="0" style="margin-top: <%$tableMargin%>px;">
 <tr>
 <td style="width: 3%;" class="contentPadding largeViewBar">&nbsp;</td>
 <td>
-<table width="100%" cellpadding="0" cellspacing="0" style="margin-top:<%$tableMargin%>px;  width: <%$tableWidth%>; margin-left: <%$tableMargins%>; margin-right: <%$tableMargins%>;">
+<table width="100%" cellpadding="0" cellspacing="0">
 
 
 <%assign var="ccode" value=""%>
@@ -324,9 +317,7 @@ width: <%$containerWidth%> !important;
 		<%*<!--MARK: - main message only appear once-->*%>
 		<%if $foundMainMessage == "no" && ($debug_model == 1 || $section.status != "off") && ($section.dates == "" || preg_match("/`$currentDate`/is",$section.dates)) && ($section.subscriptionType == "" || $section.subscriptionType == $smarty.get.to)%>
 			<%assign var=buttonUrl value=$section.buttonUrl%>
-			<%if $smarty.get.mainMessageRepeat == "no"%>
-				<%assign var="foundMainMessage" value="yes"%>
-			<%/if%>
+			<%assign var="foundMainMessage" value="yes"%>
 			<%if $smarty.get.ccode != ""%>
 				<%*<!--MARK: - check the ccode in the url parameter first-->*%>
 				<%assign var=ccode value=$smarty.get.ccode%>
