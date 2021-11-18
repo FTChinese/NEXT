@@ -25,6 +25,9 @@
 <%assign var="logoPosition" value="center"%>
 <%assign var="descPosition" value="center"%>
 <%assign var="containerWidth" value="720px"%>
+<%if $smarty.get.width != ""%>
+	<%assign var="containerWidth" value="`$smarty.get.width`px"%>
+<%/if%>
 <%assign var="contentPaddingDisplay" value="block"%>
 <%assign var="barColor" value="#333333"%>
 <%assign var="barBackgroundColor" value="#E9DECE"%>
