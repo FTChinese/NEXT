@@ -312,7 +312,9 @@ width: <%$containerWidth%> !important;
 		<%*<!--MARK: - main message only appear once-->*%>
 		<%if $foundMainMessage == "no" && ($debug_model == 1 || $section.status != "off") && ($section.dates == "" || preg_match("/`$currentDate`/is",$section.dates)) && ($section.subscriptionType == "" || $section.subscriptionType == $smarty.get.to)%>
 			<%assign var=buttonUrl value=$section.buttonUrl%>
-			<%assign var="foundMainMessage" value="yes"%>
+			<%if $smarty.get.mainMessageRepeat == "no"%>
+				<%assign var="foundMainMessage" value="yes"%>
+			<%/if%>
 			<%if $smarty.get.ccode != ""%>
 				<%*<!--MARK: - check the ccode in the url parameter first-->*%>
 				<%assign var=ccode value=$smarty.get.ccode%>
