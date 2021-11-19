@@ -30,11 +30,11 @@
 <%assign var="barBorderColor" value="#A7A59B"%>
 <%assign var="barBorderWidth" value="1px 0"%>
 <%assign var="subheadBackground" value="initial"%>
-<%assign var="emptyLineH1Color" value="initial"%>
 <%assign var="lineH1Height" value="10"%>
 <%assign var="lineH1BGColor" value="initial"%>
 <%assign var="tableMargin" value="initial"%>
 <%assign var="contentPaddingWidth" value="45px"%>
+<%assign var="lineH1Hidden" value="block"%>
 <%if $p.meta.theme == "myFT"%>
 	<%assign var=bodyColor value="#FFF1E0"%>
 	<%assign var="tableBorder" value="transparent"%>
@@ -46,11 +46,11 @@
     <%assign var="barBorderColor" value="#000"%>
     <%assign var="barBorderWidth" value="8px 0 0 0"%>
     <%assign var="subheadBackground" value="#fff"%>
-    <%assign var="emptyLineH1Color" value="#fff"%>
     <%assign var="lineH1Height" value="400"%>
     <%assign var="lineH1BGColor" value="#8a213e"%>
     <%assign var="tableMargin" value="-390"%>
     <%assign var="contentPaddingWidth" value="10%"%>
+    <%assign var="lineH1Hidden" value="none"%>
     <%elseif $smarty.get.to == "iosapp" || $smarty.get.to == "noneiosapp"%>
 	<%assign var=bodyColor value="#FFF1E0"%>
 <%else%>
@@ -65,6 +65,7 @@
 * {padding:0;margin:0;border:0;}
 .lineH, p{line-height: 1.618 !important;}
 .lineH1{line-height: 1 !important;}
+.hidden
 .lineH1_2{line-height: 1.2 !important;}
 .lineH1_4{line-height: 1.4 !important;}
 html{-webkit-text-size-adjust: none;}
@@ -345,12 +346,12 @@ width: <%$containerWidth%> !important;
 			<%if $section.title != ""%>
 				<%if $s > 0%>
 					<tr><td class="ft-header-bar" style="color: <%$barColor%>;background-color:<%$barBackgroundColor%>;border-width: <%$barBorderWidth%>; border: 1px <%$barBorderColor%> solid; font-size:13px;font-weight:bold;padding:5px 17px 4px 17px;text-transform:uppercase;width:100%;"><%$section.title%></td></tr>
-				    <tr><td class="lineH1" style="height: 10px;background-color: <%$emptyLineH1Color%>; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
+				    <tr><td class="lineH1 hidden" style="display: <%$lineH1Hidden%>;height: 10px;font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
 				<%else%>
 					<tr><td  class="SContent cover message-title" style="font-size:18px;line-height:23px;color:#333;font-weight: bold;padding-left:17px;padding-right:17px;"><%$section.title%>：</td></tr>
 				<%/if%>
 			<%/if%>
-			<tr><td class="lineH1" style="height: 10px; background-color: <%$emptyLineH1Color%>; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
+			<tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
 			<tr><td  class="SContent cover message-content" style="font-size:18px;line-height:23px;color:#333;padding-left:17px;padding-right:17px;"><%$section.content|nl2br%></td></tr>
 			<tr><td style="height: 15px; font-size: 0px; line-height: 15px; padding: 0;">&nbsp;</td></tr>
 			<%if $section.buttonTitle != ""%>
@@ -411,7 +412,7 @@ width: <%$containerWidth%> !important;
 <%if $topic!=""%>
 <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
 <tr><td style="width: 3%;" class="contentPadding"  >&nbsp;</td><td class="ft-header-bar" style="background-color: <%$barBackgroundColor%>;font-size:13px;font-weight:bold;padding:5px 17px 4px 17px;text-transform:uppercase;width:100%; border-width:  <%$barBorderWidth%>; border: 1px <%$barBorderColor%> solid; "><a href="<%$mainDomain%>tag/<%$topic|escape:"url"%>" style="color:#333333;text-decoration:none;" target=_blank><%$topic%></a></td><td style="width: 3%;" class="contentPadding">&nbsp;</td></tr>
-<tr><td class="lineH1" style="height: 10px; font-size: 10px; background-color: <%$emptyLineH1Color%>; line-height: 10px; padding: 0;">&nbsp;</td></tr>
+<tr><td class="lineH1 hidden" style="display: <%$lineH1Hidden%>; height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
 <tr><td style="width: 3%;" class="contentPadding">&nbsp;</td><td style="font-size:14px;line-height:25px;color:#505050;padding-left:17px;padding-right:17px;background-color: <%$subheadBackground%>;" class="subhead textPadding lineH">
 <%assign var="allstories" value=$storymodel->get_story_by_field_search("tag like '%`$topic`%'",0,5,15,10800)%>
 
