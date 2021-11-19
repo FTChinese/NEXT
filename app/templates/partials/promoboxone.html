@@ -115,7 +115,6 @@
 			$promoTargets: <%$promoTargets%>, $section.promoTarget: <%$section.promoTarget%>, $passActionCheck: <%$passActionCheck%>, $section.status: <%$section.status%>
 		-->*%>
 	    <%if $foundPromo == "no" && $section.type == "promoBox" && $isScheduledForToday == "yes" && $passExpirationCheck == "yes" && $passDurationCheck == "yes" && $passSubscriberSource == "yes" && $passPlatform == "yes"  && $passRenewal == "yes" && preg_match("/`$promoTargets`/is",$section.promoTarget) && $passActionCheck == "yes" && ($section.status == "on" || $debug_model == 1)%>
-			<!--Found it-->
 	    	<%assign var="foundPromo" value="yes"%>
 	    	<%*<!--MARK: - Get the final action (list) based on weight and status -->*%>
 	    	<%assign var=weightCount value=0%>
