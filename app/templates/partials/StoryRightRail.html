@@ -61,17 +61,13 @@
 			<h2 class="box-title"><a href="<%$themeLink%>"><%$themeTitle%></a></h2>
 			<ul class="top10">
 			<%assign var="i" value=0%>
-			
-			<%if $themeTag == "英语电台" || $themeTag == "i听粉" || $themeTag == "麦可林学英语"%>
-				<%*<!--MARK: - these two tags doesn't work in SQL query, maybe because of our server configuration bug -->*%>
-				<%assign var="mp" value=$storymodel->getContentByTag($themeTag,10)%>
-			<%else%>
-				<%assign var="sqlString" value="(find_in_set('`$themeTag`', tag) and id != '`$itemId`')"%>
-				<%assign var="mp" value=$storymodel->get_content_by_field_search($sqlString,0,10,400,10800)%>
-			<%/if%>		
+			<%*<!--MARK: - these two tags doesn't work in SQL query, maybe because of our server configuration bug -->*%>
+			<%assign var="mp" value=$storymodel->getContentByTag($themeTag,10)%>	
 			<%foreach from=$mp item=sc%>
-				<%assign var="i" value=$i+1%>
-				<li class="mp<%$i%>"><a target="_blank" href="/<%$sc.item_type%>/<%$sc.id%>"><%$sc.cheadline%></a></li>
+				<%if $itemId != $sc.id%>
+					<%assign var="i" value=$i+1%>
+					<li class="mp<%$i%>"><a target="_blank" href="/<%$sc.item_type%>/<%$sc.id%>"><%$sc.cheadline%></a></li>
+				<%/if%>
 			<%/foreach%>
 			</ul>
 		</div>
