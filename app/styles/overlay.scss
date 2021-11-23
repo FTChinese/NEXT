@@ -1,4 +1,6 @@
 //overlay
+@use "sass:math";
+
 @import "o-grid/main";
 
 .overlay-container {
@@ -50,19 +52,19 @@
 	margin: auto;
 	//padding: $defaultPadding;
 	div {
-		padding: $defaultPadding/2;
+		padding: $defaultPadding*0.5;
 		// border-top: 1px dotted $borderColor;
 		&.first-child, &.overlay-title {
 			border-top: 0; 
 		}
 		&.input-title {
 			border-top: 0;
-			padding: $defaultPadding/2 $defaultPadding/2 $defaultPadding/4 $defaultPadding/2;
+			padding: $defaultPadding*0.5 $defaultPadding*0.5 $defaultPadding*0.25 $defaultPadding*0.5;
 			
 		}
 		&.input-container {
 			border-top: 0;
-			padding: 0 $defaultPadding/2;
+			padding: 0 $defaultPadding*0.5;
 		}
 	}
 }
@@ -93,7 +95,7 @@
 	cursor: pointer;
 	&.subscription-button {
 		background-color: $teal;
-		padding: $defaultPadding/3 $defaultPadding;
+		padding: math.div($defaultPadding, 3) $defaultPadding;
 		&.disabled {
 			background-color: $disabledButtonColor;
 		}
@@ -135,8 +137,8 @@
 	display: block;
 	position: absolute;
 	padding:0;
-	top: $defaultPadding/2;
-	right: $defaultPadding/2;
+	top: $defaultPadding*0.5;
+	right: $defaultPadding*0.5;
     font-size: 43px;
     font-family: 'Arial';
     font-weight: 400;

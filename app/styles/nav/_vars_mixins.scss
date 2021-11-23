@@ -1,3 +1,5 @@
+@use "sass:math";
+
 $o-header-is-silent: true !default;
 
 $o-header-top-height: 70px;
@@ -15,8 +17,8 @@ $o-header-height: $o-header-top-height + $o-header-bottom-height + $o-header-sub
 
 $o-header-mobile-width: 5;
 
-$o-header-mobile-left-width: percentage($o-header-mobile-width / $o-grid-columns);
-$o-header-mobile-right-width: percentage(($o-grid-columns - $o-header-mobile-width) / $o-grid-columns);
+$o-header-mobile-left-width: percentage(math.div($o-header-mobile-width, $o-grid-columns));
+$o-header-mobile-right-width: percentage(math.div($o-grid-columns - $o-header-mobile-width, $o-grid-columns));
 
 $o-nav-head-mobile-height: 40px;
 

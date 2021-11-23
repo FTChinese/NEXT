@@ -1,3 +1,5 @@
+@use "sass:math";
+
 @import "theme-default.scss";
 @import "variables.scss";
 @import "mixins.scss";
@@ -28,8 +30,8 @@
             display: block;
             background-color: $bannerBG;
             // color: white;
-            padding: $defaultPadding/4;
-            margin: $defaultPadding/4 0;
+            padding: $defaultPadding*0.25;
+            margin: $defaultPadding*0.25 0;
             // position: absolute;
             // top: 0;
             // left: 0;
@@ -45,7 +47,7 @@
 }
 .quizlist {
     li {
-        padding: $defaultPadding/3 $defaultPadding;
+        padding: math.div($defaultPadding, 3) $defaultPadding;
         position: relative;
         &:before {
             content: "";
@@ -102,5 +104,5 @@
     background-color: $darkGreen;
     color: white;
     margin-bottom: 1em;
-    padding: $defaultPadding/2;
+    padding: $defaultPadding*0.5;
 }

@@ -26,10 +26,6 @@
 		background-color: transparent;
 	}
 
-	@include oGridTargetIE8 {
-		position: relative;
-		z-index: 1;
-	}
 }
 
 .o-nav {
@@ -89,12 +85,6 @@
 
 	@include oGridRespondTo(L) {
 		padding: 0 30px;
-	}
-
-	@include oGridTargetIE8 {
-		padding-left: oGridGutter($o-grid-fixed-layout);
-		padding-right: oGridGutter($o-grid-fixed-layout);
-		width: oGridGetMaxWidthForLayout($o-grid-fixed-layout, $grid-mode: 'fixed');
 	}
 }
 

@@ -1,3 +1,5 @@
+@use "sass:math";
+
 * {
 	margin:0;
 	padding:0;
@@ -69,7 +71,7 @@ ul,li{
 		position: static;
 		float:right;
 		width: 82px;
-		padding: $defaultPadding/2 0 $defaultPadding/2 $defaultPadding/6;
+		padding: $defaultPadding*0.5 0 $defaultPadding*0.5 math.div($defaultPadding, 6);
 		clear: right;
 		&.first-child {
 			float:none;
@@ -77,7 +79,7 @@ ul,li{
 			padding: 0;
 		}
 		&.square-icon {
-			padding: 0 0 $defaultPadding/6 $defaultPadding/6;
+			padding: 0 0 math.div($defaultPadding, 6) math.div($defaultPadding, 6);
 			figure {
 				padding-bottom: 100%;
 				background-color: transparent;
@@ -89,7 +91,7 @@ ul,li{
 // MARK: - audio
 .audio-placeholder {
 	height: $navHeight;
-	margin-bottom: $defaultPadding/2;
+	margin-bottom: $defaultPadding*0.5;
 	.is-ftc-app & {
 		position: fixed;
 	    bottom: 0;
@@ -200,7 +202,7 @@ ul,li{
     width: 100%;
     background: #ccc1b7;
     display: block;
-    margin-top: ($navHeight - $audioProgressHeight)/2;
+    margin-top: ($navHeight - $audioProgressHeight)*0.5;
 }
 .audio-time-progress__fill {
 	height: $audioProgressHeight;
@@ -208,7 +210,7 @@ ul,li{
     background: $darkGreen;
     display: block;
     position: absolute;
-    top: ($navHeight - $audioProgressHeight)/2;
+    top: ($navHeight - $audioProgressHeight)*0.5;
     left: 0;
     -webkit-transform-origin: left;
     -ms-transform-origin: left;
@@ -225,8 +227,8 @@ ul,li{
     border-radius: 50%;
     background-color: #12a5b3;
     position: absolute;
-    top: ($navHeight - $audioScrubHeight)/2;
-    left: -$audioScrubHeight/2;
+    top: ($navHeight - $audioScrubHeight)*0.5;
+    left: -$audioScrubHeight*0.5;
     -webkit-transform-origin: center;
     -ms-transform-origin: center;
     transform-origin: center;
@@ -270,7 +272,7 @@ a.language-switch {
 	display: table-cell;
 	height: $navHeight - 16 - 2;
 	line-height: $navHeight - 16 - 2;
-	padding: 0 $defaultPadding/2;
+	padding: 0 $defaultPadding*0.5;
 	border: 1px solid $teal;
 	&.on {
 		color: white;
@@ -346,9 +348,9 @@ button {
 	    color: #990f3d;
 	    border-radius: 26px;
 		position:relative;
-		padding-left: $followButtonSignWidth + $followButtonPadding + $followButtonPadding/2;
+		padding-left: $followButtonSignWidth + $followButtonPadding + $followButtonPadding*0.5;
 		padding-right: $followButtonPadding;
-		margin: 0 0 0 $defaultPadding/2;
+		margin: 0 0 0 $defaultPadding*0.5;
 		&.tick {
 			background-color: #990f3d;
 			color: #ffffff;

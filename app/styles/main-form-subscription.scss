@@ -1,3 +1,5 @@
+@use "sass:math";
+
 @import "theme-default.scss";
 @import "variables.scss";
 .contact-form-container, .subscription-form-container {
@@ -20,13 +22,13 @@
         -webkit-appearance: none;
         border-radius: 0;
     	color: $lightGrey;
-    	padding: $defaultPadding/4 0;
+    	padding: $defaultPadding*0.25 0;
         &.wrong {
             background-color: $wrong;
         }
     }
     .n-button-container {
-    	padding-top: $defaultPadding/2;
+    	padding-top: $defaultPadding*0.5;
     }
 }
 .contact-form-container {
@@ -37,9 +39,9 @@
     color: $teal;
 }
 .subscription-form-container {
-    padding: $defaultPadding/2 0;
+    padding: $defaultPadding*0.5 0;
     >div {
-        margin-bottom: $defaultPadding/3;
+        margin-bottom: math.div($defaultPadding, 3);
     }
     select {
         width: 100%;
@@ -48,7 +50,7 @@
     }
     input {
         font-size: 18px;
-        padding: $defaultPadding/4;
+        padding: $defaultPadding*0.25;
     }
 }
 .n-options-container {
@@ -62,13 +64,13 @@
 // }
 .n-options-inner {
     display: table;
-    margin: $defaultPadding/2 auto;
+    margin: $defaultPadding*0.5 auto;
 }
 .option-item {
     display: table-cell;
     height: $navHeight;
     color: $teal;
-    padding: 0 $defaultPadding*2 0 $defaultPadding/2;
+    padding: 0 $defaultPadding*2 0 $defaultPadding*0.5;
     position: relative;
     &.disabled {
         color: $lightGrey;
@@ -78,7 +80,7 @@
         background-color: red;
     }
     label {
-        padding-left: $defaultPadding/4;
+        padding-left: $defaultPadding*0.25;
         height: $navHeight;
     }
     span.option-note {
@@ -87,7 +89,7 @@
         margin: 0;
         position: absolute;
         bottom: 0;
-        right: $defaultPadding/2;
+        right: $defaultPadding*0.5;
         border-width:0;
     }
 }

@@ -1,3 +1,5 @@
+@use "sass:math";
+
 @import "theme-default.scss";
 @import "variables.scss";
 
@@ -26,10 +28,10 @@ button,a.button, input.button {
 }
 
 #allcomments {
-	padding: 0 $defaultPadding/2 $defaultPadding/2 $defaultPadding/2;
+	padding: 0 $defaultPadding*0.5 $defaultPadding*0.5 $defaultPadding*0.5;
 	font-size: 0.85em;
 	.story-container & {
-		padding: 0 0 $defaultPadding/2 0;
+		padding: 0 0 $defaultPadding*0.5 0;
 	}
 }
 
@@ -62,17 +64,17 @@ dd.all {text-align:right;margin-bottom:15px;}
 .commentTextArea{
 	width:100%;
 	font-size:1.2em;
-	padding: $defaultPadding/4;
+	padding: $defaultPadding*0.25;
 	border:1px solid #E9DECF;
-	margin: $defaultPadding/4 0;
+	margin: $defaultPadding*0.25 0;
 	-webkit-appearance: none;
 	border-radius: 0;
 }
 .container {
-	padding: 0 $defaultPadding/2 $defaultPadding/2 $defaultPadding/2;
+	padding: 0 $defaultPadding*0.5 $defaultPadding*0.5 $defaultPadding*0.5;
 	font-size: 0.9em;
 	.story-container & {
-		padding: 0 0 $defaultPadding/2 0;
+		padding: 0 0 $defaultPadding*0.5 0;
 	}
 }
 .centerButton, .container {
@@ -87,8 +89,8 @@ dd.all {text-align:right;margin-bottom:15px;}
 	font-size:19px;
 	line-height:161.8%;
 	height:auto;
-	padding: $defaultPadding/3 9px;
-	margin-bottom: $defaultPadding/2;
+	padding: math.div($defaultPadding, 3) 9px;
+	margin-bottom: $defaultPadding*0.5;
 	max-width: 300px;
 	-webkit-appearance: none;
 	&.stress {
@@ -109,7 +111,7 @@ dd.all {text-align:right;margin-bottom:15px;}
 	font-size:1.2em;
 	height:28px;
 	width:100%;
-	padding: $defaultPadding/2 2%;
+	padding: $defaultPadding*0.5 2%;
 	border: 1px solid #E9DECF;
 	margin-bottom:8px;
 	&.password {
@@ -119,7 +121,7 @@ dd.all {text-align:right;margin-bottom:15px;}
 
 #comment-user-name {
 	// display: inline-block;
-	padding-right: $defaultPadding/2;
+	padding-right: $defaultPadding*0.5;
 }
 #anonymous-checkbox {
 	margin-right: 5px;

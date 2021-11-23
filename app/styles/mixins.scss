@@ -1,3 +1,5 @@
+@use "sass:math";
+
 @mixin paginationPhone {
 	.pagination-inner {
 		text-align: left;
@@ -7,7 +9,7 @@
 		line-height: $mastheadHeight;
 		span, a {
 			padding-left: 0;
-			padding-right: $defaultPadding/4;
+			padding-right: $defaultPadding*0.25;
 			font-weight: normal;
 		}
 	}
@@ -27,7 +29,7 @@
 	}
 	.select-item {
 		width: 100%;
-		padding: 0 0 $defaultPadding/2 44px;
+		padding: 0 0 $defaultPadding*0.5 44px;
 		float: none;
 		//margin-bottom: $defaultPadding/2;
 		select {
@@ -43,13 +45,13 @@
 	position: static;
     float: left;
     width: 50%;
-    padding: 0 $defaultPadding/2 0 0;
+    padding: 0 $defaultPadding*0.5 0 0;
     //clear: left;
 }
 @mixin coverRight {
 	float: right;
 	width: 50%;
-	padding-left: $defaultPadding/2;
+	padding-left: $defaultPadding*0.5;
 	clear: right;
 }
 @mixin doubleWidth {
@@ -66,12 +68,12 @@
 @mixin coverImageLeftBig {
     float: left;
     width: 66.66666666%;
-    padding-right: $defaultPadding/2;
+    padding-right: $defaultPadding*0.5;
 }
 @mixin coverRightSmall {
 	float: right;
 	width: 33.33333333%;
-	padding-left: $defaultPadding/2;
+	padding-left: $defaultPadding*0.5;
 }
 @mixin coverRightSingle {
 	float: none;
@@ -82,13 +84,13 @@
 	clear: both;
 	border-top: 1px dotted $borderColor;
 	padding: $defaultPadding 0 0 0;
-	margin: 0 $defaultPadding/2;
+	margin: 0 $defaultPadding*0.5;
 }
 @mixin itemTopPhone {
 	clear: both;
 	border-top: 1px solid $borderColor;
 	padding: $defaultPadding 0 0 0;
-	margin: 0 $defaultPadding/4;
+	margin: 0 $defaultPadding*0.25;
 }
 @mixin itemTitleMobile {
 	position: static;
@@ -153,7 +155,7 @@
 }
 @mixin footerInner {
 	//height: $headerHeight;
-	padding: $defaultPadding/2 $defaultPadding;
+	padding: $defaultPadding*0.5 $defaultPadding;
 	position: relative;
 	max-width: $maxWidth;
 	margin: auto;
@@ -167,7 +169,7 @@
 	bottom: 0;
 	background-color: $opaque;
 	color: white;
-	padding-bottom: $defaultPadding/2;
+	padding-bottom: $defaultPadding*0.5;
 	width: 100%;
 	a {
 		color: white;
@@ -198,13 +200,13 @@
 		position: static;
 		float:left;
 		width: 118px;
-		padding: 3px $defaultPadding/3 3px 0;
+		padding: 3px math.div($defaultPadding, 3) 3px 0;
 	}
 	&.no-image .image {
 		display: none;
 	}
 	.item-tag {
-		padding-bottom: $defaultPadding/4;
+		padding-bottom: $defaultPadding*0.25;
 		a {
 			&:before {
 				display: none;
@@ -293,7 +295,7 @@
 	}
 	.XLC {
 		clear: both;
-		padding-top: $defaultPadding/2;
+		padding-top: $defaultPadding*0.5;
 	}
 	.XLT-clear-right {
 		clear: right;
@@ -332,15 +334,15 @@
 		width: 33.3333333%;
 		.list-inner {
 			border-right: 1px solid $borderColor;
-			padding-right: $defaultPadding/2;
-			margin-right: $defaultPadding/2;
+			padding-right: $defaultPadding*0.5;
+			margin-right: $defaultPadding*0.5;
 			//background-color: $bannerBG;
 		}
 		.item-inner {
-			padding-bottom: $defaultPadding/2;
+			padding-bottom: $defaultPadding*0.5;
 		}
 		.XLT {
-			padding-top: $defaultPadding/2;
+			padding-top: $defaultPadding*0.5;
 		}
 	}
 	.XL-list-oneline {
@@ -386,7 +388,7 @@
 @mixin L {
 	.block-container.fixmain.side-left .content-inner, .block-container.bottommain.side-left .content-inner {
 		left: 0;
-		right: $defaultPadding/2;
+		right: $defaultPadding*0.5;
 	}
 	.L2 {
 		width: 16.6666666667%;
@@ -417,7 +419,7 @@
 	}
 	.LT {
 		@include itemTop;
-		padding-top: $defaultPadding/2;
+		padding-top: $defaultPadding*0.5;
 	}
 	.L-half {
 		@include half;
@@ -430,7 +432,7 @@
 	}
 	.LC {
 		clear: both;
-		padding-top: $defaultPadding/2;
+		padding-top: $defaultPadding*0.5;
 	}
 	.L-right {
 		clear:right;
@@ -460,36 +462,36 @@
 	}
 	.video-package {
 		.LT {
-			padding-top: $defaultPadding/3;
+			padding-top: math.div($defaultPadding, 3);
 		}
 	}
 	.item-inner {
-		padding-bottom: $defaultPadding/2;
+		padding-bottom: $defaultPadding*0.5;
 	}
 }
 @mixin iPadPortrait {
 	.item-tag {
-	    padding-bottom: $defaultPadding/4;
+	    padding-bottom: $defaultPadding*0.25;
 	}
 	.item-inner {
-		padding-left: $defaultPadding/4;
-		padding-right: $defaultPadding/4; 
+		padding-left: $defaultPadding*0.25;
+		padding-right: $defaultPadding*0.25; 
 	}
 	.image {
-		left: $defaultPadding/4;
-		right: $defaultPadding/4;
+		left: $defaultPadding*0.25;
+		right: $defaultPadding*0.25;
 	}
 	.list-title {
-		margin: 0 $defaultPadding/4 $defaultPadding/2 $defaultPadding/4;
+		margin: 0 $defaultPadding*0.25 $defaultPadding*0.5 $defaultPadding*0.25;
 	}
 	.side-by-side .item-inner {
-		padding: 0 $defaultPadding/4 $defaultPadding/2 $defaultPadding/4;
+		padding: 0 $defaultPadding*0.25 $defaultPadding*0.5 $defaultPadding*0.25;
 	}
 	.has-side .block-inner {
-		padding-right: 3*$defaultPadding/4;
+		padding-right: 3*$defaultPadding*0.25;
 	}
 	.has-side.side-left .block-inner {
-		padding-left: 3*$defaultPadding/4;
+		padding-left: 3*$defaultPadding*0.25;
 	}
 }
 @mixin HasSide {
@@ -504,6 +506,13 @@
 		.is-sticky-top {
 			&.home-right-rail-page {
 				top: -132px;
+			}
+		}
+	}
+	.mpu-right1-600 {
+		.is-sticky-top {
+			&.home-right-rail-page {
+				top: -775px;
 			}
 		}
 	}
@@ -538,6 +547,13 @@
 			}
 		}
 	}
+	.mpu-right1-600 {
+		.is-sticky-top {
+			&.home-right-rail-page {
+				top: -762px;
+			}
+		}
+	}
 }
 @mixin HasNoHeader {
 	.has-no-header {
@@ -569,7 +585,7 @@
 	}
 	.MT {
 		@include itemTop;
-		padding-top: $defaultPadding/2;
+		padding-top: $defaultPadding*0.5;
 	}
 	.M-half {
 		@include half;
@@ -585,7 +601,7 @@
 	}
 	.MC {
 		clear: both;
-		padding-top: $defaultPadding/2;
+		padding-top: $defaultPadding*0.5;
 	}
 	.M-right {
 		clear:right;
@@ -612,11 +628,11 @@
 	}
 	.video-package {
 		.MT {
-			padding-top: $defaultPadding/3;
+			padding-top: math.div($defaultPadding, 3);
 		}
 	}
 	.item-inner {
-		padding-bottom: $defaultPadding/2;
+		padding-bottom: $defaultPadding*0.5;
 	}
 }
 
@@ -645,7 +661,7 @@
 	}
 	.SC {
 		clear: both;
-		padding-top: $defaultPadding/2;
+		padding-top: $defaultPadding*0.5;
 	}
 	.S-no-image {
 		@include noImage;
@@ -665,7 +681,7 @@
 	}
 	.video-package {
 		.ST {
-			padding-top: $defaultPadding/3;
+			padding-top: math.div($defaultPadding, 3);
 		}
 	}
 }
@@ -677,7 +693,7 @@
 		}
 		.content-container {
 		    float: none;
-		    margin-bottom: $defaultPadding/2;
+		    margin-bottom: $defaultPadding*0.5;
 		}
 		.content-inner {
 	    	border-right: 0;
@@ -689,7 +705,7 @@
 			}
 			.content-container {
 				float: none;
-				padding: 0 $defaultPadding/2;
+				padding: 0 $defaultPadding*0.5;
 			}
 			.content-inner {
 				border-left: 0;
@@ -707,9 +723,9 @@
 	    width: auto;
 	    background-color: transparent;
 	    margin-left: 0;
-	    padding: 0 0 $defaultPadding/2 0;
+	    padding: 0 0 $defaultPadding*0.5 0;
 		.item-inner {
-			padding: 0 $defaultPadding/2 $defaultPadding/2 $defaultPadding/2;
+			padding: 0 $defaultPadding*0.5 $defaultPadding*0.5 $defaultPadding*0.5;
 			.item-headline {
 				font-size: 1em;
 			}
@@ -719,8 +735,8 @@
 		padding: 0;
 	}
 	.item-inner {
-		padding-left: $defaultPadding/2;
-		padding-right: $defaultPadding/2;
+		padding-left: $defaultPadding*0.5;
+		padding-right: $defaultPadding*0.5;
 	}
 	.list-title {
 		@include itemTitleMobile;
@@ -736,14 +752,14 @@
 			background-color: transparent;
 		}
 		a.right-link {
-			right: $defaultPadding/2;
+			right: $defaultPadding*0.5;
 			display: block;
 		}
 		a.sponsor-link figure {
 			height: $defaultPadding;
 			background-color: transparent;
 			position: absolute;
-			right: $defaultPadding/2;
+			right: $defaultPadding*0.5;
 			top: 0;
 			bottom: 0;
 			margin: auto;
@@ -754,10 +770,10 @@
 		}
 	}
 	.items {
-		padding: 0 $defaultPadding/2;
+		padding: 0 $defaultPadding*0.5;
 	}
 	.links {
-    	padding: 0 $defaultPadding/2;
+    	padding: 0 $defaultPadding*0.5;
     	font-size: 1em;
 	}
 	.side-by-side {
@@ -765,7 +781,7 @@
 			padding: 0;
 		}
 		.list-title {
-			margin: 0 $defaultPadding/2 $defaultPadding/2 $defaultPadding/2;
+			margin: 0 $defaultPadding*0.5 $defaultPadding*0.5 $defaultPadding*0.5;
 		}
 	}
 	.video-package {
@@ -785,7 +801,7 @@
 	}
 	.item-tag {
 		font-size: 17px;
-		padding-bottom: $defaultPadding/2;
+		padding-bottom: $defaultPadding*0.5;
 		line-height: 1em;
 		a {
 			display: inline-block;
@@ -838,14 +854,14 @@
 	}
 	.PT {
 		@include itemTopPhone;
-		padding-top: $defaultPadding/2;
+		padding-top: $defaultPadding*0.5;
 	}
 	.P-half {
 		@include halfPhone;
 	}
 	.PC {
 		clear: both;
-		padding-top: $defaultPadding/2;
+		padding-top: $defaultPadding*0.5;
 	}
 	.P-no-image {
 		@include noImage;
@@ -871,34 +887,34 @@
 	}
 	.video-package {
 		.PT {
-			padding-top: $defaultPadding/3;
+			padding-top: math.div($defaultPadding, 3);
 		}
 		.items {
-			padding: 0 $defaultPadding/4 $defaultPadding/2 $defaultPadding/4;
+			padding: 0 $defaultPadding*0.25 $defaultPadding*0.5 $defaultPadding*0.25;
 		}
 	}
 	.items {
-		padding: 0 $defaultPadding/4;
+		padding: 0 $defaultPadding*0.25;
 	}
 	.item-inner {
-		padding-bottom: $defaultPadding/2;
-		padding-left: $defaultPadding/4;
-		padding-right: $defaultPadding/4;
+		padding-bottom: $defaultPadding*0.5;
+		padding-left: $defaultPadding*0.25;
+		padding-right: $defaultPadding*0.25;
 	}
 	.image {
-		left: $defaultPadding/4;
-		right: $defaultPadding/4;
+		left: $defaultPadding*0.25;
+		right: $defaultPadding*0.25;
 	}
 	.item-time {
-		padding-top: $defaultPadding/4;
+		padding-top: $defaultPadding*0.25;
 	}
 	.list-title, .side-container .list-title{
 		font-size: 1.2em;
 		background: transparent;
 		border-width: 8px 0 0 0;
 		border-color: #333;
-		margin-left: $defaultPadding/2;
-		margin-right: $defaultPadding/2;
+		margin-left: $defaultPadding*0.5;
+		margin-right: $defaultPadding*0.5;
 		padding-left: 0;
 		padding-right: 0;
 		a:after {
@@ -955,7 +971,7 @@
 	}
 
 	.headshot-title .item-inner {
-		padding-bottom: $defaultPadding/2;
+		padding-bottom: $defaultPadding*0.5;
 	}
 
 	.side-container {
@@ -963,13 +979,13 @@
 			.item-headline {
 				font-size: 1em;
 				font-weight: bold;
-				padding: $defaultPadding/2 $defaultPadding/2 0 $defaultPadding/2;
+				padding: $defaultPadding*0.5 $defaultPadding*0.5 0 $defaultPadding*0.5;
 				&.first {
 					padding-top: 0;
 				}
 			}
 			.item-lead {
-				padding: 0 0 $defaultPadding/4 0;
+				padding: 0 0 $defaultPadding*0.25 0;
 			}
 			.item-inner {
 				border-top-style: solid;
@@ -980,10 +996,10 @@
 				padding: 5px 0 5px 0;
 			}
 			&.first {
-				padding: 0 $defaultPadding/2;
+				padding: 0 $defaultPadding*0.5;
 				.item-headline {
 					width: auto;
-					padding: $defaultPadding/3 $defaultPadding/2;
+					padding: math.div($defaultPadding, 3) $defaultPadding*0.5;
 					font-size: 1em;
 					position: static;
 				}
@@ -994,29 +1010,29 @@
 			}
 		}
 		.interactive-inner {
-			margin: 0 $defaultPadding/2;
+			margin: 0 $defaultPadding*0.5;
 			.item-container {
 				&.first {
 					padding: 0;
 					margin-bottom: 0;
 					.item-headline {
-						padding: $defaultPadding/3 $defaultPadding/2;
+						padding: math.div($defaultPadding, 3) $defaultPadding*0.5;
 						//padding-top: $defaultPadding/2;
 						font-size: 1.1em;
 					}
 					&.no-image, &.static-image {
 						.item-headline {
-							padding: 0 0 $defaultPadding/4 0;
+							padding: 0 0 $defaultPadding*0.25 0;
 							
 						}
 						.item-inner {
-							padding: 0 0 $defaultPadding/4 0;
+							padding: 0 0 $defaultPadding*0.25 0;
 						}
 					}
 				}
 			}
 			.item-headline {
-				padding: $defaultPadding/3 $defaultPadding/2 $defaultPadding/3 0;
+				padding: math.div($defaultPadding, 3) $defaultPadding*0.5 math.div($defaultPadding, 3) 0;
 				font-weight: normal;
 			}
 			.image {
@@ -1029,7 +1045,7 @@
 			padding: 0;
 		}
 		.item-subheadline {
-			padding-bottom: $defaultPadding/2;
+			padding-bottom: $defaultPadding*0.5;
 		}
 	}
 }

@@ -1256,17 +1256,24 @@ initProgressCircle();
   } catch(ignore) {}
 })();
 
-
-setTimeout(function(){
-  console.log(1);
-  if (typeof oAds !== 'object') {return;}
-  console.log(2);
+function updateStickyRightRail() {
+  // MARK: - If the oAds is not an object yet, check again in 0.5 second
+  if (typeof oAds !== 'object') {
+    setTimeout(function(){
+      updateStickyRightRail();
+    }, 500);
+    return;
+  }
   document.body.addEventListener('oAds.rendered',function(e){
     if (!e.detail || e.detail.name !== 'mpu-right1') {return;}
-    console.log('updated mpu right: ');
-    console.log(e.detail.gpt);
+    // console.log('updated mpu right: ');
+    // console.log(e.detail.gpt);
     if (e.detail.gpt.isEmpty) {
       document.body.classList.add('mpu-right1-empty');
+    } else if (e.detail.gpt.size && e.detail.gpt.size.length >= 2 && e.detail.gpt.size[1] === 600) {
+      document.body.classList.add('mpu-right1-600');
     }
   }, false);
-}, 100);
+}
+
+updateStickyRightRail();

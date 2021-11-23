@@ -1,3 +1,5 @@
+@use "sass:math";
+
 @import "variables.scss";
 @import "main-user-comments.scss";
 @include narrowSide;
@@ -36,10 +38,10 @@ h2 {
 	//border: 1px solid $borderColor;
 	margin-bottom: $defaultPadding;
 	.top10 {
-		padding: 0 0 $defaultPadding/2 0;
+		padding: 0 0 $defaultPadding*0.5 0;
 		li {
 			&.story-theme {
-				padding: 0 0 2*$defaultPadding/3 0;
+				padding: 0 0 math.div(2*$defaultPadding, 3) 0;
 				border-width: 0;
 				a {
 					color: black;
@@ -92,7 +94,7 @@ h2 {
     font-size: $largeHeadlineFontSize;
     line-height: 1.4em;
     font-weight: bold;
-    margin: 0 0 $defaultPadding/2;
+    margin: 0 0 $defaultPadding*0.5;
     position: relative;
 	/* These are technically the same, but use both */
 	overflow-wrap: break-word;
@@ -104,7 +106,7 @@ h2 {
 	word-break: break-word;
     &:after {
 		content: '';
-	    padding-top: $defaultPadding/2;
+	    padding-top: $defaultPadding*0.5;
 	    padding-bottom: 0;
 	    display: block;
 	    width: $headlineUnderlineWidth;
@@ -142,7 +144,7 @@ h2 {
 .pagination-inner {
 	text-align: right;
 	line-height: $mastheadHeight;
-	padding-bottom: $defaultPadding/2;
+	padding-bottom: $defaultPadding*0.5;
 	span, a {
 		padding-left: $defaultPadding;
 		font-weight: bold;
@@ -182,7 +184,7 @@ h1 {
 }
 .story-body {
 	h1, h2, h3, h4 {
-		margin-bottom: $defaultPadding/2;
+		margin-bottom: $defaultPadding*0.5;
 	}
 	h1 {
 		margin-top: $defaultPadding;
@@ -198,7 +200,7 @@ h4 {
 	float:right;
 }
 .leftPic{
-	margin:3px $defaultPadding/2 0 0;
+	margin:3px $defaultPadding*0.5 0 0;
 	float:left;
 }
 .leftPic,.rightPic {
@@ -213,7 +215,7 @@ h4 {
 	}
 }
 .left-pic-small {
-	margin:3px $defaultPadding/2 0 0;
+	margin:3px $defaultPadding*0.5 0 0;
 	float:left;
 	font-size:12px;
 	color:#4d4845;
@@ -273,7 +275,7 @@ hr {
 }
 .card-container {
 	background-color: #ffebd9;
-	padding: $defaultPadding/2;
+	padding: $defaultPadding*0.5;
 	margin-bottom: 1em;
 }
 #story-recommend-container {
@@ -364,7 +366,7 @@ a.o-responsive-video-caption:link, a.o-responsive-video-caption:visited, a.o-res
 	color: $darkGrey;
 	font-weight: bold;
 	font-size: 0.85em;
-	padding-bottom: $defaultPadding/4;
+	padding-bottom: $defaultPadding*0.25;
 	display:block;
 	&:after {
 		content: "";
@@ -381,16 +383,16 @@ a.o-responsive-video-caption:link, a.o-responsive-video-caption:visited, a.o-res
 	border-width: 1px 1px 0 1px;
 	border-style: solid;
 	border-color: $borderColor;
-	padding: $defaultPadding/4;
+	padding: $defaultPadding*0.25;
 	.headline {
 		font-weight:bold;
-		padding-bottom: $defaultPadding/4;
+		padding-bottom: $defaultPadding*0.25;
 		//padding: $defaultPadding/4;
 	}
 	.lead {
 		color: $lightGrey;
 		font-size: 0.85em;
-		padding-bottom: $defaultPadding/4;
+		padding-bottom: $defaultPadding*0.25;
 	}
 	a:link, a:visited, a:active, a:hover {
 		color: $darkGrey;
@@ -431,7 +433,7 @@ a.o-responsive-video-caption:link, a.o-responsive-video-caption:visited, a.o-res
 .ft-asset {
 	img {
 		display: block;
-		margin: 0 auto $defaultPadding/2 auto;
+		margin: 0 auto $defaultPadding*0.5 auto;
 	}
 }
 
@@ -477,7 +479,7 @@ a.o-responsive-video-caption:link, a.o-responsive-video-caption:visited, a.o-res
 		text-align: center;
 		font-size: 14px;
 		border-radius: 1px;
-		padding: 0 $defaultPadding/2;
+		padding: 0 $defaultPadding*0.5;
 	  }
     }
 }
@@ -578,7 +580,7 @@ This results in wasted space and memory for subscribers' device and does not inc
 	[data-layout-width="full-grid"] .n-content-layout__container {
 		display: grid;
 		grid-template-columns: 1fr 1fr;
-		column-gap: $defaultPadding/2;
+		column-gap: $defaultPadding*0.5;
 	}
 	[data-layout-width="true"] {
 		.n-content-layout__container {

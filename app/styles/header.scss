@@ -1,3 +1,5 @@
+@use "sass:math";
+
 @import "header-input.scss";
 .header-container {
 	@include headerContainer;
@@ -69,15 +71,15 @@
 			background-color: $headerTintLight;
 			height: auto;
 			//line-height: 140%;
-			left: -$defaultPadding/3;
-			padding-left: $defaultPadding/3;
-			padding-right: $defaultPadding/3;
+			left: math.div(-$defaultPadding, 3);
+			padding-left: math.div($defaultPadding, 3);
+			padding-right: math.div($defaultPadding, 3);
 			a {
 				display: block;
 				height: auto;
 				line-height: 140%;
 				border-top: 1px dotted white;
-				padding: $defaultPadding/2 0;
+				padding: $defaultPadding*0.5 0;
 			}
 			z-index: 9999999999999;
 		}
