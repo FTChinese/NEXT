@@ -1280,6 +1280,9 @@
 									<%if $hideImage === "yes"%>
 										<%assign var="hasImage" value="no-image"%>
 									<%/if%>
+									<%if preg_match("/精彩视频/is", $itemTagsString) %>
+										<%assign var="hasImage" value="has-image"%>
+									<%/if%>
 									<%assign var="listLanguage" value=$list.language%>
 									<%assign var="eheadline" value=""%>
 									<%if $listLanguage != ""%>
@@ -2065,6 +2068,10 @@
 
 							<%if $hideImage === "yes"%>
 								<%assign var="hasImage" value="no-image"%>
+							<%/if%>
+
+							<%if preg_match("/推广视频|精彩视频|产品视频/is", $itemTagsString) %>
+								<%assign var="hasImage" value="has-image"%>
 							<%/if%>
 
 							<%if $list.sideOption == "headlineOnly" || $list.sideOption == "MachineTranslation"%>
