@@ -34,7 +34,7 @@ const cssnext = require('postcss-cssnext');
 const merge = require('merge-stream');
 const source = require('vinyl-source-stream');
 const lazypipe = require('lazypipe');
-const sass = require('node-sass');
+const sass = require('gulp-dart-sass');
 
 const origamiModules = [
   {
@@ -185,11 +185,11 @@ gulp.task('styles', function () {
     .pipe($.changed(DEST)) 
     .pipe($.plumber()) 
     .pipe($.sourcemaps.init({loadMaps:true})) 
-    .pipe($.sass({ 
+    .pipe(sass.sync({ 
       outputStyle: 'expanded',
       precision: 10,
-      includePaths: ['bower_components']
-    }).on('error', $.sass.logError))
+      includePaths: ['.', 'bower_components']
+    }).on('error', sass.logError))
     // .pipe($.postcss([
     //   cssnext({ 
     //     features: {

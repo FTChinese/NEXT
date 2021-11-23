@@ -1258,7 +1258,9 @@ initProgressCircle();
 
 
 setTimeout(function(){
+  console.log(1);
   if (typeof oAds !== 'object') {return;}
+  console.log(2);
   document.body.addEventListener('oAds.rendered',function(e){
     if (!e.detail || e.detail.name !== 'mpu-right1') {return;}
     console.log('updated mpu right: ');
