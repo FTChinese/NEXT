@@ -118,6 +118,15 @@
 		<%assign var="allTags" value=","|explode:$myTag%>
 	<%/if%>
 
+	<%php%>
+		function shouldKeep($tag) {
+			$reservedWords = ["去广告","单页","透明","置顶","白底","靠右","沉底","资料","突发","插图","高清","interactive_search","高清","科技","QuizPlus","单选题","SurveyPlus","置顶","低调","精华","小测","生活时尚","测试","视频","新闻","FTLifeOfASong","Podcast","播音员朗读","AI合成","科技","双语阅读","高端专享","订户专享","会员专享","双语电台","NoCopyrightCover","AITranslation","FTArticle","IsEdited", ""];
+			return !in_array($tag, $reservedWords);
+		}
+		$allTags = $this->get_template_vars('allTags');
+		$allTags = array_filter($allTags, "shouldKeep");
+		$this->assign("allTags", $allTags);
+	<%/php%>
 
 	<%if $allTags|@count>=1%>
 		<div class="story-box last-child">
@@ -127,24 +136,22 @@
 				<%assign var="i" value=0%>
 				<%foreach from=$allTags item=sc%>
 					<%assign var="i" value=$i+1%>
-					<%if $sc != "白底" && $sc != "置顶" && $sc != "靠右" && $sc != "单页" && $sc != "去广告" && $sc != "沉底" && $sc != "资料" && $sc != "突发" && $sc != "插图" && $sc != "透明" && $sc != "高清" && $sc != "IsEdited" && $sc != ""%>
-						<%assign var="tagTitle" value=$sc%>
-						<%if infoForSponsorships != ""%>
-						<%assign var="hasFoundSponsorship" value="no"%>
-						<%assign var="hasFoundPaidPost" value="no"%>
-						<%foreach from=$infoForSponsorships.sections item=section%>
-							<%if $hasFoundSponsorship == "no" && $section.status == "on" && $section.dates != "" && preg_match("/`$currentDate`/is",$section.dates) && $section.tag == $sc && $section.title != ""%>
-								<%assign var="tagTitle" value=$section.title|default:$sc%>
-							<%/if%>
-						<%/foreach%>
+					<%assign var="tagTitle" value=$sc%>
+					<%if infoForSponsorships != ""%>
+					<%assign var="hasFoundSponsorship" value="no"%>
+					<%assign var="hasFoundPaidPost" value="no"%>
+					<%foreach from=$infoForSponsorships.sections item=section%>
+						<%if $hasFoundSponsorship == "no" && $section.status == "on" && $section.dates != "" && preg_match("/`$currentDate`/is",$section.dates) && $section.tag == $sc && $section.title != ""%>
+							<%assign var="tagTitle" value=$section.title|default:$sc%>
 						<%/if%>
-						<li class="story-theme<%if $i==1%> mp1<%/if%>">
-							<a target="_blank" href="/tag/<%$sc%>"><%$tagTitle%></a>
-							<div class="icon-right">
-								<button class="myft-follow plus" data-tag="<%$sc%>" data-type="tag">关注</button>
-							</div>
-						</li>
+					<%/foreach%>
 					<%/if%>
+					<li class="story-theme<%if $i==1%> mp1<%/if%>">
+						<a target="_blank" href="/tag/<%$sc%>"><%$tagTitle%></a>
+						<div class="icon-right">
+							<button class="myft-follow plus" data-tag="<%$sc%>" data-type="tag">关注</button>
+						</div>
+					</li>
 				<%/foreach%>
 			</ul>
 		</div>
