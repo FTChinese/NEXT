@@ -40,7 +40,7 @@
 			white-space: nowrap;
 			line-height: $o-header-sub-nav-height;
 			font-size: 14px;
-			color: $whiteColor;
+			color: $headerColor;
 			padding: 0 5px 0 0;
 		}
 
@@ -56,8 +56,7 @@
 		.tools-section:hover .tools-section-head,
 		.tools-section-head:hover {
 			&:after {
-				background-image: url('https://dhgxl8qk9zgzr.cloudfront.net/ftc-icons/png/white/arrow-up-white.png');
-				background-image: url('https://dhgxl8qk9zgzr.cloudfront.net/ftc-icons/svg/white/arrow-up-white.svg');				
+				@include oHeaderIcon($arrowUp, 10);
 			}
 		}
 
@@ -76,7 +75,7 @@
 				border-top: 1px solid #666;
 			}
 			a {
-				color: $whiteColor;
+				color: $headerColor;
 				padding: 0 10px;
 				height: $o-header-sub-nav-height;
 				line-height: $o-header-sub-nav-height;
@@ -86,6 +85,7 @@
 				white-space: nowrap;
 				&:hover {
 					background-color: $darkGreen;
+					color: white;
 				}
 			}
 		}

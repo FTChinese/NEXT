@@ -124,9 +124,7 @@ MARK: Check the next model tag for sponsored special reports end-->*%>
 *%>
 
 <%*<!-- 设置$showTimeStamp，决定每篇文章的时间显示方式-->*%>
-<%if $pageTheme == "afternoonteaWithFT" %>
-    <%assign var="showTimeStamp" value="hide"%>
-<%elseif $showTimeStamp == ""%>
+<%if $showTimeStamp == ""%>
     <%assign var="showTimeStamp" value="all"%>
 <%/if%>
 
@@ -252,10 +250,6 @@ MARK: Check the next model tag for sponsored special reports end-->*%>
         <style><%include file="next/styles/main-education.css"%></style>
     <%elseif $pageTheme == "lifestyle"%>
         <style><%include file="next/styles/main-lifestyle.css"%></style>
-    <%*
-    <%elseif $pageTheme == "afternoonteaWithFT"%>
-        <style><%include file="next/styles/main-afternoonteaWithFT.css"%></style>
-    *%>
     <%else%>
         <style><%include file="next/styles/main-tag.css"%></style>
     <%/if%>

@@ -3,18 +3,20 @@
     <%include file="next/partials/house-ad-subscription-promo-box.html"%>
 <%/if%>
 <%assign var="logoUrl" value="https://dhgxl8qk9zgzr.cloudfront.net/images/masthead36.png"%>
-<%if $p.meta.theme == "partner_content"%>
+<%if $p.meta.theme == "partner_content" || $p.meta.theme == "pink"%>
   <%assign var="logoUrl" value="https://thumbor.ftacademy.cn/unsafe/0x114/https://dhgxl8qk9zgzr.cloudfront.net/img/png/brand-ftc-masthead.png"%>
-  <style>
-    .header-container, .o-nav {
-      border-bottom: 1px solid #ccc1b7;
-    }
-    @media (max-width: 61.24em) {
-      .o-nav {
-          position: static;
+  <%if $p.meta.theme == "partner_content"%>
+    <style>
+      .header-container, .o-nav {
+        border-bottom: 1px solid #ccc1b7;
       }
-    }
-  </style>
+      @media (max-width: 61.24em) {
+        .o-nav {
+            position: static;
+        }
+      }
+    </style>
+  <%/if%>
 <%/if%>
 <header class="header-container">
   <div class="header-inner">

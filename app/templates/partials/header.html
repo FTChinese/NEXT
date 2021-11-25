@@ -1,63 +1,57 @@
 <%if $smarty.get.ad != 'no' && $noAd != "true" && $smarty.get.webview != "ftcapp"%>
-    <div class="o-ads fullscreen-ad" data-o-ads-name="fullscreen-mobile"
-    data-o-ads-center="true" 
-    data-o-ads-formats-default="false" 
-    data-o-ads-formats-small="FtcMobileFullscreen" 
-    data-o-ads-formats-medium="false"
-    data-o-ads-formats-large="false"
-    data-o-ads-formats-extra="false"
-    data-o-ads-targeting="cnpos=mobilefullscreen;">
-    </div>
+  <div class="o-ads fullscreen-ad" data-o-ads-name="fullscreen-mobile"
+  data-o-ads-center="true" 
+  data-o-ads-formats-default="false" 
+  data-o-ads-formats-small="FtcMobileFullscreen" 
+  data-o-ads-formats-medium="false"
+  data-o-ads-formats-large="false"
+  data-o-ads-formats-extra="false"
+  data-o-ads-targeting="cnpos=mobilefullscreen;">
+  </div>
 <%/if%>
 <%include file="next/partials/pop-ad.html"%>
 <%if $smarty.get.webview != "ftcapp"%>
-    <%if $p.meta.theme == "partner_content" || $theme == "partner_content"%>
-    <style>
-      .header-container, .o-nav {
-        border-bottom: 1px solid #ccc1b7;
+  <%if $p.meta.theme == "partner_content" || $theme == "partner_content"%>
+  <style>
+    .header-container, .o-nav {
+      border-bottom: 1px solid #ccc1b7;
+    }
+    @media (max-width: 61.24em) {
+      .o-nav {
+          position: static;
       }
-      @media (max-width: 61.24em) {
-        .o-nav {
-            position: static;
-        }
-      }
-    </style>
-    <%/if%>
-    <%if date("Ymd",$smarty.now) < 20180801 && $pageId == "home"%>
-        <div class="warn-content"><span>为适应法律法规和英国《金融时报》中文网业务的更新，我们修订了新版用户协议（服务条款）包含隐私保护政策，敬请您<a  href="/m/corp/service.html">点击查阅</a>。</span><span class="close-img"></span></div>
-    <%/if%>
-    <%include file="next/partials/house-ad-subscription-promo-box.html"%>
-    <%assign var="registerUrl" value="http://user.ftchinese.com/register"%>
-    <%if 1<0 && $smarty.server.HTTP_HOST!="www.ftchinese.com"%>
-      <%assign var="registerUrl" value="users/register?i=4"%>
-    <%/if%>
-    <header class="header-container">
-      <div class="header-inner">
-        <div class="masthead"></div>
-        <div class="header-side header-left expandable">
-          <div class="current-edition">
-            <%if $curr_lang == "big5"%>
-                <span>繁体中文</span>
-                <a href="http://www.ftchinese.com/">简体中文</a>
-            <%else%>
-                <span>简体中文</span>
-                <a href="http://big5.ftchinese.com/">繁体中文</a>
-            <%/if%>
-            <a href="http://www.ft.com/">FT.com</a>
-          </div>
-        </div>
-        <div class="header-side header-right">
-            <span class="visitor-box">
-                <a onclick="showOverlay('overlay-login')">登录</a>
-                <a class="more last" href="<%$registerUrl%>">注册</a>
-            </span>
-            <span class="member-box">
-                <a href="/channel/myftlocal.html">我的FT</a>
-                <a id="ft-login-your-account" href="/users/cp">设置</a>
-                <a id="ft-login-logout" href="/users/logout">登出</a>
-            </span>
+    }
+  </style>
+  <%/if%>
+  <%include file="next/partials/house-ad-subscription-promo-box.html"%>
+  <%assign var="registerUrl" value="http://user.ftchinese.com/register"%>
+  <header class="header-container">
+    <div class="header-inner">
+      <div class="masthead"></div>
+      <div class="header-side header-left expandable">
+        <div class="current-edition">
+          <%if $curr_lang == "big5"%>
+              <span>繁体中文</span>
+              <a href="http://www.ftchinese.com/">简体中文</a>
+          <%else%>
+              <span>简体中文</span>
+              <a href="http://big5.ftchinese.com/">繁体中文</a>
+          <%/if%>
+          <a href="http://www.ft.com/">FT.com</a>
         </div>
       </div>
-    </header>
-    <%include file="next/partials/login-overlay.html"%>
+      <div class="header-side header-right">
+          <span class="visitor-box">
+              <a onclick="showOverlay('overlay-login')">登录</a>
+              <a class="more last" href="<%$registerUrl%>">注册</a>
+          </span>
+          <span class="member-box">
+              <a href="/channel/myftlocal.html">我的FT</a>
+              <a id="ft-login-your-account" href="/users/cp">设置</a>
+              <a id="ft-login-logout" href="/users/logout">登出</a>
+          </span>
+      </div>
+    </div>
+  </header>
+  <%include file="next/partials/login-overlay.html"%>
 <%/if%>
