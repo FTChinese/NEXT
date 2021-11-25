@@ -722,7 +722,7 @@
 <%if preg_match("/单页/is",$keys)%>
 	<%assign var="suppressRecommendation" value="yes"%>
 <%/if%>
-<%assign var="keys" value=$keys|regex_replace:"/白底|靠右|单页|去广告|插图|透明|高清|置顶|沉底|资料|突发/":""%>
+<%assign var="keys" value=$keys|regex_replace:"/白底|靠右|单页|去广告|插图|透明|高清|置顶|沉底|资料|突发|NoCopyrightCover|IsEdited/":""%>
 <%assign var="keys" value=$keys|regex_replace:"/,+/":","%>
 <%assign var="keys" value=$keys|regex_replace:"/^,/":""%>
 <%assign var="keys" value=$keys|regex_replace:"/,$/":""%>
@@ -1989,6 +1989,46 @@
     </script>
 
 	<%include file="next/partials/loadAdDataByDevice.html"%>
+	<%assign var="shouldShowPayWall" value="no"%>
+	<%if ($smarty.get.paywall == "1" || $paywall == "1"|| $smarty.get.paywall == "2"|| $paywall == "2") && $debug_model != 1%>
+		<%assign var="shouldShowPayWall" value="yes"%>
+	<%/if%>
+	<%php%>
+		// MARK: - This should be here not in the libs because of complex caches in libs
+		// Sets the ID of the experiment on variations of this web page.
+		// $experimentId = 'gebRhOqBQuWgOAPMCWPAgw';
+		$experimentId = '';
+		$variationId = 0;
+		$tag = $this->get_template_vars('tag');
+		$eskylinetext = $this->get_template_vars('eskylinetext');
+		$shouldShowPayWall = $this->get_template_vars('shouldShowPayWall');
+		$isUserInternal = (isset($_COOKIE["paywall_source"]) && $_COOKIE["paywall_source"] === 'ftc') ? true : false;
+		$isUserTester = (isset($_COOKIE["USER_NAME"]) && $_COOKIE["USER_NAME"] === 'BLAY') ? true : false;
+		$isAITranslation = (preg_match("/AITranslation/i", $tag)) ? true : false;
+		$isHighQualityTranslation = (preg_match("/oliver.zhang/i", $eskylinetext)) ? true : false;
+		$experiments = [];
+		if (($isUserInternal === false || $isUserTester === true) && $isAITranslation === true && $isHighQualityTranslation === true && $shouldShowPayWall == "no") {
+			$experimentId = 'gebRhOqBQuWgOAPMCWPAgw';
+			$variationId = rand(0, 1);
+			// MARK: - For the same user, keep the same practice
+			if (isset($_COOKIE[$experimentId])) {
+				$variationId = $_COOKIE[$experimentId];
+			}
+			setcookie($experimentId, $variationId);
+			// echo '<!--variationId: ' . $variationId . ', experimentId: ' . $experimentId . '-->';
+			$experiments[] = array(
+				'id' => $experimentId,
+				'variant' => $variationId
+			);
+			if ($variationId == 1) {
+				$this->assign("translationDisclaimer", "");
+			} else if ($variationId == 2) {
+				//$this->assign("translationDisclaimer", "<div class=\"copyrightstatement-container\">为最快速度发布有价值的信息，本文是在机器翻译的基础上进行编辑加工。</div>");
+			}
+		}
+		$this->assign("experiments", $experiments);
+		//echo '<!--shouldShowPayWall: ' . (int)$shouldShowPayWall . ', isHighQualityTranslation: ' . (int)$isHighQualityTranslation .  ', variationId: ' . $variationId . ', tag: ' . $tag . ', eskylinetext: ' . $eskylinetext . ', isUserInternal: '. (int)$isUserInternal . ', isAITranslation: ' . (int)$isAITranslation . '-->';
+	<%/php%>
 	<%include file="next/partials/experiments.html"%>
     <script type="text/javascript"><%include file="next/scripts/key.js"%></script>
     <%include file="next/partials/ie-8-hack.html"%>

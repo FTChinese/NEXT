@@ -315,7 +315,7 @@ function trackerNew() {
     gTagParameters.visiting_source = vsource;
     try {
         keyTag=window.gKeyTag;
-        keyTag=keyTag.replace(/白底|靠右|单页|插图|透明|高清|置顶|沉底|资料|突发/g,'').replace(/,+/g,',');
+        keyTag=keyTag.replace(/白底|靠右|单页|插图|透明|高清|置顶|沉底|资料|突发|NoCopyrightCover|IsEdited/g,'').replace(/,+/g,',');
     } catch(ignore){    
     }
     pagetype='';

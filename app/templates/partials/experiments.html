@@ -1,0 +1,17 @@
+<%assign var="hasExperiment" value="no"%>
+<script type="text/javascript">
+    var gExperiments = [];
+    <%if $experiments != ""%>
+        <%foreach from=$experiments item="experiment"%>
+            <%assign var="hasExperiment" value="yes"%>
+            gExperiments.push({id: '<%$experiment.id%>', variant: <%$experiment.variant%>});
+        <%/foreach%>
+    <%/if%>
+    // if (gExperiments.length > 0) {
+    //     console.log('variant: ', gExperiments[0].variant);
+    // }
+</script>
+
+<%if $hasExperiment == "yes"%>
+    <script src="https://www.googleoptimize.com/optimize.js?id=OPT-NQJDTMS"></script>
+<%/if%>

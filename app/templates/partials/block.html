@@ -1350,9 +1350,10 @@
 									<%/if%>
 
 									<%assign var=isInWhiteList value="no"%>
-									<%if $whitelist != ""%>
+									<%*<!--MARK: - white list only applies to none-premium story-->*%>
+									<%if $whitelist != "" && !preg_match("/高端专享|会员专享/is",$itemTagsString) && $itemType != "premium"%>
 										<%foreach from=$itemTags item=tag%>
-											<%if preg_match("/`$tag`/is",$whitelist)%>
+											<%if preg_match("/\|`$tag`\|/is","|`$whitelist`|")%>
 												<%assign var=isInWhiteList value="yes"%>
 											<%/if%>
 										<%/foreach%>
@@ -1473,7 +1474,6 @@
 									<%if $isInWhiteList == "yes" && $lockClass != ""%>
 										<%assign var="lockClass" value="unlocked whitelist"%>
 									<%/if%>
-
 
 									<%*<!--MARK: - Convenient for Editing -->*%>
 									<%if $smarty.get.mode == "edit"%>
