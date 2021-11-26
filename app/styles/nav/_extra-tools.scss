@@ -70,9 +70,16 @@
 			z-index: 1;
 			display: none;
 			background-color: $headerTintLight;
-
+			@if variable-exists(navBorderOptional) {
+				border-left: 1px solid $navBorderOptional;
+				border-right: 1px solid $navBorderOptional;
+				border-bottom: 1px solid $navBorderOptional;
+			}
 			li {
 				border-top: 1px solid #666;
+				@if variable-exists(navBorderOptional) {
+					border-top-width: 0;
+				}
 			}
 			a {
 				color: $headerColor;

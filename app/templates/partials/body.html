@@ -35,7 +35,11 @@
         <%if $section.showLogin == "no"%>
             <%assign var="showLogin" value="no"%>
         <%/if%>
-        <%if $p.meta.theme == "partner_content"%>
+        <%if $section.headerType == "Home"%>
+            <%include file="next/partials/header.html"%>
+        <%elseif $section.headerType == "Channel"%>
+            <%include file="next/partials/tag-header.html"%>
+        <%elseif $p.meta.theme == "partner_content"%>
             <%include file="next/partials/header.html"%>
         <%elseif $pageId != "" && $pageId != "home"%>
             <%include file="next/partials/tag-header.html"%>
