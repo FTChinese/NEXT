@@ -20,6 +20,28 @@
 		&:hover,
 		&[aria-selected=true] {
 			background-color: $headerTintLight;
+			@if variable-exists(navBorderOptional) {
+				.nav-section-head.desktop {
+					@include oGridRespondTo(L) {
+						position: relative;
+						overflow: visible;
+						&:after {
+							content: '';
+							position: absolute;
+							top:0;
+							left: 0;
+							right: 0;
+							bottom: 0px;
+							z-index: 2;
+							border-top: 1px solid $navBorderOptional;
+							border-left: 1px solid $navBorderOptional;
+							border-right: 1px solid $navBorderOptional;
+							border-bottom: 1px solid $headerTintLight;
+							background-color: transparent;
+						}
+					}
+				}
+			}
 		}
 
 		&.mobile {		
@@ -39,8 +61,8 @@
 				position: absolute;
 				right: 0;
 				top: 2px;
-    		height: 9px;
-        width: 21px;
+    			height: 9px;
+        		width: 21px;
 				background-image: url(https://dhgxl8qk9zgzr.cloudfront.net/ftc-icons/png/new-nav.png);
 				background-size: contain;
 				background-repeat: no-repeat;
@@ -79,7 +101,6 @@
 		color: $headerColor;
 		font-size: 17px;
 		transition: $o-header-background-transition;
-
 		&:hover {
 			background-color: $headerTintLight;
 			color: $headerColor;
@@ -105,7 +126,22 @@
 		.nav-section-head.desktop:hover ~ &{
 			z-index: 11;
 			display: block;
+			@if variable-exists(navBorderOptional) {
+				border-left: 1px solid $navBorderOptional;
+				border-right: 1px solid $navBorderOptional;
+				border-bottom: 1px solid $navBorderOptional;
+			}
 		}
+		// MARK: - This is the only working way to target, using the :not selector will not work
+		@if variable-exists(navBorderOptional) {
+			.nav-section[aria-selected="true"]:hover &,
+			.nav-section-head.desktop[aria-selected="true"]:hover ~ &{
+				border-left-width: 0;
+				border-right-width: 0;
+				border-bottom-width: 0;
+			}
+		}
+
 
 		.o-nav-sticky .nav-section:hover &,
 		.o-nav-sticky .nav-section-head.desktop:hover ~ & {
@@ -128,12 +164,13 @@
 .nav-item {
 	@include oGridRespondTo(L) {
 		box-sizing: border-box;
-
 		position: relative;
 		min-width: 100%;
 		display: block;
 		border-top: 1px solid #666;
-
+		@if variable-exists(navBorderOptional) {
+			border-top-width: 0;
+		}
 		.nav-section[aria-selected="true"] & {
 			display: inline-block;
 			width: auto;
@@ -219,15 +256,19 @@
 		left: 100%;
 		top: 0;
 		min-width: 100%;
-
 		display: none;
-
 		background-color: $headerTintLight;
-
+		@if variable-exists(navBorderOptional) {
+			border-left: 1px solid $navBorderOptional;
+			border-right: 1px solid $navBorderOptional;
+			border-bottom: 1px solid $navBorderOptional;
+		}
 		li {
 			border-top: 1px solid #666;
+			@if variable-exists(navBorderOptional) {
+				border-top-width: 0;
+			}
 		}
-
 		a{
 			color: $headerColor;
 			padding: 0 20px;

@@ -55,6 +55,21 @@
 			transition: $o-header-height-transition;
 			// @include oColorsFor(o-header-sub-nav, background);
 			background-color: $headerTintLight;
+			@if variable-exists(navBorderOptional) {
+				border-bottom: 1px solid $navBorderOptional;
+			}
+		}
+		@if variable-exists(navBorderOptional) {
+			&:before {
+				content: '';
+				position: absolute;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				height: 0;
+				z-index: 1;
+				border-bottom: 1px solid $navBorderOptional;
+			}
 		}
 		.o-nav-sticky & {
 			position: fixed;
