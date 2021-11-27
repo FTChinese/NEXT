@@ -244,7 +244,8 @@
 				<%if $smarty.get.full != "y" && !in_array("单页",$story.tag)%>
 					<%include file="next/partials/pagination.html"%>
 				<%/if%>
-			<%/if%>			
+			<%/if%>
+			<%*	<!--MARK: This is removed requested by Sunny Sun on Nov 27th, 2021 -->
 			<div 
 			data-o-ads-name="infoflow3"
 			class="o-ads infoflow"  
@@ -256,6 +257,7 @@
 			data-o-ads-targeting="cnpos=info3;"
 			>
 			</div>
+			*%>
 			<%if $page_action != "user_comment"%>
 				<div class="copyrightstatement-container">
 					<%$copyrightStatement%>
