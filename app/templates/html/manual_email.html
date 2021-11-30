@@ -29,12 +29,10 @@
 <%assign var="barBackgroundColor" value="#E9DECE"%>
 <%assign var="barBorderColor" value="#A7A59B"%>
 <%assign var="barBorderWidth" value="1px 0"%>
-<%assign var="subheadBackground" value="initial"%>
-<%assign var="lineH1Height" value="10"%>
-<%assign var="lineH1BGColor" value="initial"%>
-<%assign var="tableMargin" value="initial"%>
 <%assign var="contentPaddingWidth" value="45px"%>
 <%assign var="lineH1Hidden" value="block"%>
+<%assign var="logoPadding" value="10"%>
+<%assign var="logoTableWidth" value="initial"%>
 <%if $p.meta.theme == "myFT"%>
 	<%assign var=bodyColor value="#FFF1E0"%>
 	<%assign var="tableBorder" value="transparent"%>
@@ -45,12 +43,10 @@
     <%assign var="barBackgroundColor" value="#ffffff"%>
     <%assign var="barBorderColor" value="#000"%>
     <%assign var="barBorderWidth" value="8px 0 0 0"%>
-    <%assign var="subheadBackground" value="#fff"%>
-    <%assign var="lineH1Height" value="400"%>
-    <%assign var="lineH1BGColor" value="#8a213e"%>
-    <%assign var="tableMargin" value="-390"%>
     <%assign var="contentPaddingWidth" value="10%"%>
     <%assign var="lineH1Hidden" value="none"%>
+    <%assign var="logoPadding" value="0"%>
+    <%assign var="logoTableWidth" value="640px"%>
     <%elseif $smarty.get.to == "iosapp" || $smarty.get.to == "noneiosapp"%>
 	<%assign var=bodyColor value="#FFF1E0"%>
 <%else%>
@@ -127,7 +123,7 @@ font-size:21px !important;line-height:1.1 !important;color:#333 !important;
 color:#333 !important;text-decoration:none !important;display:block !important;
 }
 .subhead {
-font-size:18px !important;line-height:1.4 !important;color:#505050 !important; background-color: <%$subheadBackground%>;
+font-size:18px !important;line-height:1.4 !important;color:#505050 !important;
 }
 .hotArticleList{font-size:20px !important;}
 .dotsSeparator {
@@ -201,7 +197,7 @@ font-size:28px !important;line-height:1.1 !important;color:#333 !important;
 color:#333 !important;text-decoration:none !important;
 }
 .subhead {
-font-size:14px !important;line-height:1.4 !important;color:#505050 !important;display:block; background-color: <%$subheadBackground%>;
+font-size:14px !important;line-height:1.4 !important;color:#505050 !important;display:block;
 }
 .dotsSeparator {
 margin-left: 17px !important;
@@ -281,9 +277,9 @@ width: <%$containerWidth%> !important;
 <%/if%>
 
 <tr><td class="lineH1 openInBrowserGap" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
-<tr><td style="padding-left: 10px; padding-right: 10px;">
+<tr><td style="padding-left: <%$logoPadding%>px; padding-right: <%$logoPadding%>px;" align="center">
 <%if $smarty.get.webview != "ftcapp"%>
-	<table border="0" cellspacing="0" cellpadding="0" style="width: 100%;">
+	<table border="0" cellspacing="0" cellpadding="0"  width="100%" style="max-width:<%$logoTableWidth%>;">
 	<tr><td class="ft-logo lineH1" style="font-size:43px;line-height:43px;height:43px;text-align: <%$logoPosition%>; width: 100%;">
 	<a
 	href="http://www.ftchinese.com" target="_blank"
@@ -294,9 +290,9 @@ width: <%$containerWidth%> !important;
 	</table>
 <%/if%>
 </td></tr>
-<tr><td class="lineH1" style="height: <%$lineH1Height%>px; background-color: <%$lineH1BGColor%>; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
+<tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
 <tr><td>
-<table width="100%" cellpadding="0" cellspacing="0" style="margin-top: <%$tableMargin%>px;">
+<table width="100%" cellpadding="0" cellspacing="0">
 <tr>
 <td style="width: 3%;" class="contentPadding largeViewBar">&nbsp;</td>
 <td>
@@ -415,7 +411,7 @@ width: <%$containerWidth%> !important;
 <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
 <tr><td style="width: 3%;" class="contentPadding"  >&nbsp;</td><td class="ft-header-bar" style="background-color: <%$barBackgroundColor%>;font-size:13px;font-weight:bold;padding:5px 17px 4px 17px;text-transform:uppercase;width:100%; border-width:  <%$barBorderWidth%>; border: 1px <%$barBorderColor%> solid; "><a href="<%$mainDomain%>tag/<%$topic|escape:"url"%>" style="color:#333333;text-decoration:none;" target=_blank><%$topic%></a></td><td style="width: 3%;" class="contentPadding">&nbsp;</td></tr>
 <tr><td class="lineH1 hidden" style="display: <%$lineH1Hidden%>; height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
-<tr><td style="width: 3%;" class="contentPadding">&nbsp;</td><td style="font-size:14px;line-height:25px;color:#505050;padding-left:17px;padding-right:17px;background-color: <%$subheadBackground%>;" class="subhead textPadding lineH">
+<tr><td style="width: 3%;" class="contentPadding">&nbsp;</td><td style="font-size:14px;line-height:25px;color:#505050;padding-left:17px;padding-right:17px;" class="subhead textPadding lineH">
 <%assign var="allstories" value=$storymodel->get_story_by_field_search("tag like '%`$topic`%'",0,5,15,10800)%>
 
 <%foreach from=$allstories item=sc%>
@@ -437,7 +433,7 @@ width: <%$containerWidth%> !important;
 
 <tr>
 <td style="width: 3%;" class="contentPadding">&nbsp;</td>
-<td style="font-size:14px;line-height:25px;color:#505050;padding-left:17px;padding-right:17px;background-color: <%$subheadBackground%>;" class="subhead textPadding lineH">
+<td style="font-size:14px;line-height:25px;color:#505050;padding-left:17px;padding-right:17px;" class="subhead textPadding lineH">
 <%*<!--
 <div style="height:8px;font-size:6px;"><br /></div>
 <div style="font-size:1px;border-bottom:3px solid #beb39e"></div>
