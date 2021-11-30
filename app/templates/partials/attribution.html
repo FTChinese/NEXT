@@ -1,0 +1,33 @@
+<%assign var="itemType" value=""%>
+<%assign var="itemId" value=""%>
+<%if $smarty.get.story != ""%>
+  <%assign var="itemType" value="story"%>
+  <%assign var="itemId" value=$smarty.get.story%>
+<%elseif $smarty.get.interactive != ""%>
+  <%assign var="itemType" value="interactive"%>
+  <%assign var="itemId" value=$smarty.get.interactive%>
+<%elseif $smarty.get.premium != ""%>
+  <%assign var="itemType" value="premium"%>
+  <%assign var="itemId" value=$smarty.get.premium%>
+<%elseif $smarty.get.video != ""%>
+  <%assign var="itemType" value="video"%>
+  <%assign var="itemId" value=$smarty.get.video%>
+<%/if%>
+
+<%if $itemType != "" && $itemId != ""%>
+    <%assign var="contentInfo" value=$storymodel->getContentById($itemId)%>
+    <div class="block-container dark-green no-side all" <%if $hideNavOnWideScreen == "yes"%>style="margin-top: 1em"<%/if%>><div class="block-inner">
+        <div class="content-container">
+        <div class="content-inner">
+        <div class="items">
+        <div class="no-image">
+        <div class="item-inner" style="padding-bottom: 0;">
+        <div class="item-lead">成为FT中文网订阅会员，即可阅读：</div>
+        <div class="item-title" style="margin-bottom: 0;"><%$contentInfo.cheadline%></div>
+        </div>
+        </div>
+        </div>
+           <div class="clearfloat block-bottom"></div>
+        </div>  </div>  <div class="clearfloat"></div>
+    </div> </div>
+<%/if%>

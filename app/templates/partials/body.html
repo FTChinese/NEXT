@@ -52,6 +52,9 @@
             <%assign var="hideNavOnWideScreen" value="no"%>
         <%/if%>
         <%include file="next/partials/nav.html"%>
+        <%if $section.showAttribution == "yes"%>
+            <%include file="next/partials/attribution.html"%>
+        <%/if%>
     <%elseif $section.type == "banner" && $shouldDisplayBanner == "yes"%>
         <%include file="next/partials/banner.html"%>
         <%if $section.image && $section.image == ""%>

@@ -7,9 +7,24 @@
 <%if $smarty.get.ccode != ""%>
   <%assign var="ccode" value=$smarty.get.ccode%>
 <%/if%>
+<%assign var="itemType" value=""%>
+<%assign var="itemId" value=""%>
+<%if $smarty.get.story != ""%>
+  <%assign var="itemType" value="story"%>
+  <%assign var="itemId" value=$smarty.get.story%>
+<%elseif $smarty.get.interactive != ""%>
+  <%assign var="itemType" value="interactive"%>
+  <%assign var="itemId" value=$smarty.get.interactive%>
+<%elseif $smarty.get.premium != ""%>
+  <%assign var="itemType" value="premium"%>
+  <%assign var="itemId" value=$smarty.get.premium%>
+<%elseif $smarty.get.video != ""%>
+  <%assign var="itemType" value="video"%>
+  <%assign var="itemId" value=$smarty.get.video%>
+<%/if%>
 
-<%assign var="standardBuyLink" value=$nextmodel->getBuyLink("standard", "yearly", $section.discountCode, $ccode, $isiOS)%>
-<%assign var="premiumBuyLink" value=$nextmodel->getBuyLink("premium", "yearly", $section.discountCode, $ccode, $isiOS)%>
+<%assign var="standardBuyLink" value=$nextmodel->getBuyLink("standard", "yearly", $section.discountCode, $ccode, $isiOS, $itemType, $itemId)%>
+<%assign var="premiumBuyLink" value=$nextmodel->getBuyLink("premium", "yearly", $section.discountCode, $ccode, $isiOS, $itemType, $itemId)%>
 <%if $smarty.get.webview == "ftcapp" && $smarty.get.android == ""%>
     <%*<!--MARK: For ios html validation-->*%>
     <div class="item-container"></div>
@@ -41,7 +56,7 @@
       <%foreach from=$section.lists item=button%>
         <%assign var="click" value=$button.click%>
         <%if $button.click == ""%>
-          <%assign var="click" value=$nextmodel->getBuyLink($button.subscription, $button.duration, $button.discountCode, $ccode, $isiOS)%>
+          <%assign var="click" value=$nextmodel->getBuyLink($button.subscription, $button.duration, $button.discountCode, $ccode, $isiOS, $itemType, $itemId)%>
         <%/if%>
         <a href="<%$click%>" target="_blank" class="fixed-button-link" data-subscription="<%$button.subscription%>" data-duration="<%$button.duration%>" data-discountCode="<%$button.discountCode%>" data-ccode="<%$ccode%>"><button style="background-color: <%$button.BackgroundColor%>; color: <%$button.buttonColor%>!important;"><%$button.title%></button></a>
       <%/foreach%>
