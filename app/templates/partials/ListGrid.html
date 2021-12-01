@@ -112,7 +112,10 @@
                     $hideImage = true;
                 }
             }
-            if (isset($item["story_pic"]) && !$hideImage) {
+            echo '<!--hideImage? ' . $hideImage . '-->';
+            if ($hideImage === true) {
+                $item["image"] = '';
+            } else if (isset($item["story_pic"]) && !$hideImage) {
                 $sp = $item["story_pic"];
                 foreach ($imageTypes as $imageType) {
                     if (!isset($sp[$imageType]) || $sp[$imageType] === '' || in_array($sp[$imageType], $badImages)) {continue;}
@@ -127,6 +130,7 @@
                     break;
                 }
             }
+            echo '<!--item item: ' . $item["image"] . '-->';
             // MARK: - The item might not have image because but not limited to: 1) the current image in database doesn't have copyright or 2) the current image in database is a placeholder because the FTChinese editorial team has mass-deleted images out of fear of copyright infringement around 2017. (Check with Wang Feng and Wang Yang for details. )
             if (!isset($item["image"]) || $item["image"] == "" || $hideImage) {
                 $noImageIndex = $noImageIndex % count($backgrounds);

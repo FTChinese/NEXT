@@ -1265,16 +1265,31 @@ function updateStickyRightRail() {
     }, 500);
     return;
   }
+  // MARK: - Only need to check if these two ads are rendered
+  var neededAds = ['mpu-right1', 'ribbon'];
+  // MARK: - Update the sticky header only once
+  var updatedSticky = false;
   document.body.addEventListener('oAds.rendered',function(e){
-    if (!e.detail || e.detail.name !== 'mpu-right1') {return;}
-    // console.log('updated mpu right: ');
-    // console.log(e.detail.gpt);
-    if (!e.detail.gpt.isEmpty) {
-      document.body.classList.remove('mpu-right1-empty');
-      if (e.detail.gpt.size && e.detail.gpt.size.length >= 2 && e.detail.gpt.size[1] === 600) {
-        document.body.classList.add('mpu-right1-600');
+    if (!e.detail || updatedSticky) {return;}
+    for (var i=0; i<neededAds.length; i++) {
+      if (e.detail.name === neededAds[i]) {
+        neededAds.splice(i, 1);
+        break;
       }
     }
+    if (neededAds.length > 0) {return;}
+    var homerightRail = document.querySelector('.home-right-rail-page');
+    if (!homerightRail) {return;}    
+    var homerightRailTop = parseInt(window.getComputedStyle(homerightRail).getPropertyValue('top').replace(/px/, ''), 10);
+    var interactiveContainer = homerightRail.querySelector('.interactives');
+    if (!interactiveContainer) {return;}
+    var homerightRailOffsetTop = interactiveContainer.parentElement.children[0].offsetTop;
+    var interactiveContainerOffsetTop = interactiveContainer.offsetTop;
+    var interactiveContainerOffsetHeight = interactiveContainerOffsetTop - homerightRailOffsetTop;
+    if (interactiveContainerOffsetHeight <= 0) {return;}
+    var stickyTopAfterAdRender = homerightRailTop - interactiveContainerOffsetHeight;
+    homerightRail.style.top = stickyTopAfterAdRender + 'px';
+    updatedSticky = true;
   }, false);
 }
 
