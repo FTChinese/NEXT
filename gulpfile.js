@@ -56,7 +56,12 @@ const origamiModules = [
   {
     source: 'https://www.ft.com/__origami/service/build/v2/bundles/js?modules=o-table@^7.2.1',
     dest: './app/origami/o-table.js'
+  },
+  {
+    source: 'https://www.googletagservices.com/tag/js/gpt.js',
+    dest: '../dev_www/frontend/static/js/gpt.js'
   }
+  
 ];
 
 // fetch contents from `origamiModules.source` and write to `origamiModules.dest`.
@@ -67,9 +72,13 @@ gulp.task('origami', () => {
   // After getting response from url, return a new object consisting of url's content and file name to write.
       return got(module.source)
         .then(response => {
+          var body = response.body;
+          if (module.source.indexOf('o-ads') >= 0) {
+            body = body.replace(/www\.googletagservices\.com/g, 'dhgxl8qk9zgzr.cloudfront.net');
+          }
           return {
             dest: module.dest,
-            body: response.body
+            body: body
           }
         }, (error) => {
   // return error if network failed.          
