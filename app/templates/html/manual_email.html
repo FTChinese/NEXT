@@ -1,24 +1,24 @@
 <%assign var="p" value=$nextmodel->getPublishJson($pageId)|json_decode:true%>
 <%if $p.meta.hideAd != "yes"%>
-    <%assign var="ads" value=$nextmodel->getPublishJson("emailads")|json_decode:true%>
+	<%assign var="ads" value=$nextmodel->getPublishJson("emailads")|json_decode:true%>
 <%/if%>
 <%assign var="mainDomain" value="https://dbdzmnhotmzi1.cloudfront.net/"%>
 <%assign var="registerDomain" value="http://user.ftchinese.com/"%>
 <%if $smarty.get.to == "vip" || $smarty.get.to == "premium" || $smarty.get.to == "standard"%>
-    <%assign var="mainDomain" value="https://www.chineseft.com/"%>
-    <%assign var="registerDomain" value="https://user.chineseft.com/"%>
+	<%assign var="mainDomain" value="https://www.chineseft.com/"%>
+	<%assign var="registerDomain" value="https://user.chineseft.com/"%>
 <%/if%>
 
 <%assign var="foundDomain" value="no"%>
 <%foreach from=$p.sections item=section%>
-    <%if $section.type == "MailTracking" && $foundDomain == "no"%>
-        <%assign var="mainDomain" value=$section.domain%>
-        <%if !preg_match("/\/$/is",$mainDomain)%>
-            <%assign var="mainDomain" value="`$mainDomain`/"%>
-        <%/if%>
-        <%assign var="registerDomain" value="https://user.chineseft.com/"%>
-        <%assign var="foundDomain" value="yes"%>
-    <%/if%>
+	<%if $section.type == "MailTracking" && $foundDomain == "no"%>
+		<%assign var="mainDomain" value=$section.domain%>
+		<%if !preg_match("/\/$/is",$mainDomain)%>
+			<%assign var="mainDomain" value="`$mainDomain`/"%>
+		<%/if%>
+		<%assign var="registerDomain" value="https://user.chineseft.com/"%>
+		<%assign var="foundDomain" value="yes"%>
+	<%/if%>
 <%/foreach%>
 
 <%assign var="tableBorder" value="#f7f7f7"%>
@@ -40,14 +40,14 @@
 <%assign var="footerListColor" value="#98948F"%>
 <%assign var="backEmailColor" value="#333333"%>
 <%assign var="brandColor" value="#505050"%>
-<%assign var="footerTableWidth" value="initial"%>
-<%assign var="footerTableMaxWidth" value="initial"%>
+<%assign var="tableWidth" value="initial"%>
+<%assign var="tableMaxWidth" value="initial"%>
 <%assign var="attentionFTBorder" value="#C0C0C0"%>
 <%assign var="largeViewBarDisplay" value="none"%>
 <%if $p.meta.theme == "myFT"%>
-    <%assign var=bodyColor value="#FFF1E0"%>
-    <%assign var="tableBorder" value="transparent"%>
-    <%assign var="containerWidth" value="inherit"%>
+	<%assign var=bodyColor value="#FFF1E0"%>
+	<%assign var="tableBorder" value="transparent"%>
+	<%assign var="containerWidth" value="inherit"%>
     <%assign var="logoPosition" value="left"%>
     <%assign var="descPosition" value="left"%>
     <%assign var="barColor" value="#333333"%>
@@ -65,14 +65,14 @@
     <%assign var="footerListColor" value="#ffffff"%>
     <%assign var="backEmailColor" value="#ffffff"%>
     <%assign var="brandColor" value="#ffffff"%>
-    <%assign var="footerTableWidth" value="100%"%>
-    <%assign var="footerTableMaxWidth" value="640px"%>
+    <%assign var="tableWidth" value="100%"%>
+    <%assign var="tableMaxWidth" value="640px"%>
     <%assign var="attentionFTBorder" value="#272b33"%>
     <%assign var="largeViewBarDisplay" value="block"%>
     <%elseif $smarty.get.to == "iosapp" || $smarty.get.to == "noneiosapp"%>
-    <%assign var=bodyColor value="#FFF1E0"%>
+	<%assign var=bodyColor value="#FFF1E0"%>
 <%else%>
-    <%assign var=bodyColor value="#FFFFFF"%>
+	<%assign var=bodyColor value="#FFFFFF"%>
 <%/if%>
 
 
@@ -248,14 +248,14 @@ width: <%$containerWidth%> !important;
 <title><%$p.meta.title%> - FT中文网</title>
 <%*<!--MARK: - Send the info to iOS native app for correct display-->*%>
 <%if $smarty.get.to == "iosapp" || $smarty.get.to == "noneiosapp"%>
-    <script type="text/javascript">
-        window.linksForShare = {
-            'url': 'http://www.ftchinese.com/',
-            'title': '<%$p.meta.title%>',
-            'lead': '<%$p.meta.description%>',
-            'image': ''
-        };
-    </script>
+	<script type="text/javascript">
+		window.linksForShare = {
+			'url': 'http://www.ftchinese.com/',
+			'title': '<%$p.meta.title%>',
+			'lead': '<%$p.meta.description%>',
+			'image': ''
+		};
+	</script>
 <%/if%>
 </head>
 <!-- htmlmin:ignore -->
@@ -265,7 +265,7 @@ width: <%$containerWidth%> !important;
 
 <%*<!--
 
-    <%assign var="articles" value=$publishhtml->get_publish_html("weekly")%>
+	<%assign var="articles" value=$publishhtml->get_publish_html("weekly")%>
 
 -->*%>
 
@@ -292,24 +292,24 @@ width: <%$containerWidth%> !important;
 
 <%*<!--MARK: - Remove this after August 30, 2020 -->*%>
 <%if 1<0 && $smarty.get.to != "iosapp"%>
-    <tr><td class="lineH1" style="height: 3px; font-size: 3px; line-height: 3px; padding: 0;">&nbsp;</td></tr>
-    <tr><td class="lineH1_2" style="text-align: center; font-size: 11px; line-height: 13px;  color: #505050;">如果您无法正常显示邮件, <a
-    href="<%$smarty.server.HTTP_HOST%><%$smarty.server.REQUEST_URI%>" style="color: #2e6e9e; text-decoration: none;"
-    >请点击此处</a></td></tr>
+	<tr><td class="lineH1" style="height: 3px; font-size: 3px; line-height: 3px; padding: 0;">&nbsp;</td></tr>
+	<tr><td class="lineH1_2" style="text-align: center; font-size: 11px; line-height: 13px;  color: #505050;">如果您无法正常显示邮件, <a
+	href="<%$smarty.server.HTTP_HOST%><%$smarty.server.REQUEST_URI%>" style="color: #2e6e9e; text-decoration: none;"
+	>请点击此处</a></td></tr>
 <%/if%>
 
 <tr><td class="lineH1 openInBrowserGap" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
 <tr><td style="padding-left: <%$logoPadding%>px; padding-right: <%$logoPadding%>px;" align="center">
 <%if $smarty.get.webview != "ftcapp"%>
-    <table border="0" cellspacing="0" cellpadding="0"  width="100%" style="max-width:<%$logoTableWidth%>;">
-    <tr><td class="ft-logo lineH1" style="font-size:43px;line-height:43px;height:43px;text-align: <%$logoPosition%>; width: 100%;">
-    <a
-    href="http://www.ftchinese.com" target="_blank"
-    ><img id="ft-logo-img" src="https://dhgxl8qk9zgzr.cloudfront.net/img/ftcLogoHD.png" width="172" height="36" style="width: 172px;height: 36px; color: #091523; font-size: 25px; border: 0 none;" alt="FT中文网" title="FT中文网" /></a>
-    </td></tr>
-    <tr><td style="font-size:4px;line-height:4px;height:4px;" class="ft-logo-briefing lineH1">&nbsp;</td></tr>
-    <tr><td class="ft-desc lineH1_2" style="font-size:13px;line-height:16px;color:#505050;text-align:<%$descPosition%>;font-weight:bold;"><%$smarty.now|date_format:"%Y年%m月%d日"%></td></tr>
-    </table>
+	<table border="0" cellspacing="0" cellpadding="0"  width="100%" style="max-width:<%$logoTableWidth%>;">
+	<tr><td class="ft-logo lineH1" style="font-size:43px;line-height:43px;height:43px;text-align: <%$logoPosition%>; width: 100%;">
+	<a
+	href="http://www.ftchinese.com" target="_blank"
+	><img id="ft-logo-img" src="https://dhgxl8qk9zgzr.cloudfront.net/img/ftcLogoHD.png" width="172" height="36" style="width: 172px;height: 36px; color: #091523; font-size: 25px; border: 0 none;" alt="FT中文网" title="FT中文网" /></a>
+	</td></tr>
+	<tr><td style="font-size:4px;line-height:4px;height:4px;" class="ft-logo-briefing lineH1">&nbsp;</td></tr>
+	<tr><td class="ft-desc lineH1_2" style="font-size:13px;line-height:16px;color:#505050;text-align:<%$descPosition%>;font-weight:bold;"><%$smarty.now|date_format:"%Y年%m月%d日"%></td></tr>
+	</table>
 <%/if%>
 </td></tr>
 <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
@@ -329,82 +329,82 @@ width: <%$containerWidth%> !important;
 <%assign var="foundMainMessage" value="no"%>
 <%foreach from=$p.sections item=section%>
     <%if $section.type == "block"%>
-        <%include file="next/partials/block_email.html"%>
+		<%include file="next/partials/block_email.html"%>
         <%assign var="s" value=$s+1%>
     <%elseif $section.type == "MainMessage"%>
-        <%assign var="currentDate" value=$smarty.now|date_format:"%Y%m%d"%>
-        <%*<!--MARK: - main message only appear once if specified-->*%>
-        <%if $foundMainMessage == "no" && ($debug_model == 1 || $section.status != "off") && ($section.dates == "" || preg_match("/`$currentDate`/is",$section.dates)) && ($section.subscriptionType == "" || $section.subscriptionType == $smarty.get.to)%>
-            <%assign var=buttonUrl value=$section.buttonUrl%>
-            <%if $smarty.get.mainMessageRepeat == "no"%>
-                <%assign var="foundMainMessage" value="yes"%>
-            <%/if%>
-            <%if $smarty.get.ccode != ""%>
-                <%*<!--MARK: - check the ccode in the url parameter first-->*%>
-                <%assign var=ccode value=$smarty.get.ccode%>
-            <%elseif $section.ccode != ""%>
-                <%*<!--MARK: - if not found, check the ccode in section setting-->*%>
-                <%assign var=ccode value=$section.ccode%>
-            <%/if%>
-            <%if $section.discountCode != ""%>
-                <%assign var="discountCode" value="&from=`$section.discountCode`"%>
-            <%/if%>
-            <%if !preg_match("/ccode/is",$buttonUrl) && $ccode != ""%>
-                <%assign var=connector value="?"%>
-                <%if preg_match("/\?/is",$buttonUrl)%>
-                    <%assign var=connector value="&"%>
-                <%/if%>
-                <%assign var=buttonUrl value="`$buttonUrl``$connector`ccode=`$ccode`"%>
-            <%/if%>
-            <%if $section.discountCode != ""%>
-                <%assign var=connector value="?"%>
-                <%if preg_match("/\?/is",$buttonUrl)%>
-                    <%assign var=connector value="&"%>
-                <%/if%>
-                <%assign var=buttonUrl value="`$buttonUrl``$connector`from=`$section.discountCode`"%>
-            <%/if%>
-            <%if $section.title != ""%>
-                <%if $s > 0%>
-                    <tr><td class="ft-header-bar" style="color: <%$barColor%>;background-color:<%$barBackgroundColor%>;border-width: <%$barBorderWidth%>; border: 1px <%$barBorderColor%> solid; font-size:13px;font-weight:bold;padding:5px 17px 4px 17px;text-transform:uppercase;width:100%;"><%$section.title%></td></tr>
-                    <tr><td class="lineH1 hidden" style="display: <%$lineH1Hidden%>;height: 10px;font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
-                <%else%>
-                    <tr><td  class="SContent cover message-title" style="font-size:18px;line-height:23px;color:#333;font-weight: bold;padding-left:17px;padding-right:17px;"><%$section.title%>：</td></tr>
-                <%/if%>
-            <%/if%>
-            <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
-            <tr><td  class="SContent cover message-content" style="font-size:18px;line-height:23px;color:#333;padding-left:17px;padding-right:17px;"><%$section.content|nl2br%></td></tr>
-            <tr><td style="height: 15px; font-size: 0px; line-height: 15px; padding: 0;">&nbsp;</td></tr>
-            <%if $section.buttonTitle != ""%>
-                <tr><td  class="SContent cover" style="font-size:18px;line-height:23px;color:#333;padding-left:17px;padding-right:17px;">
-                    <table width="100%" cellspacing="0" cellpadding="0">
-                        <tr><td style="height: 15px; font-size: 0px; line-height: 15px; padding: 0;">&nbsp;</td></tr>
-                        <tr>
-                            <td align="center">
-                                <table cellspacing="0" cellpadding="0">
-                                    <tr>
-                                    <%if $smarty.get.to == 'iosapp'%>
-                                        <td><%include file="next/partials/subscription-box-ios.html"%></td>
-                                    <%else%>
-                                        <td style="border-radius: 2px;" bgcolor="#0a5e66">
-                                            <a href="<%$buttonUrl%>" target="_blank" style="padding: 8px 12px; border: 1px solid #0a5e66;border-radius: 2px;font-family: Helvetica, Arial, sans-serif;font-size: 14px; color: #ffffff;text-decoration: none;font-weight:bold;display: inline-block;"><%$section.buttonTitle%></a>
-                                        </td>
-                                    <%/if%>
-                                    </tr>
-                                </table>
-                            </td>
-                        </tr>
-                    </table>
-                </td></tr>
-            <%/if%>
-            <tr><td style="height: 15px; font-size: 0px; line-height: 15px; padding: 0;">&nbsp;</td></tr>
-            <%assign var="s" value=$s+1%>
-        <%/if%>
-    <%elseif $section.type == "FixedButtons" && ($smarty.get.to == "iosapp" || $smarty.get.to == "noneiosapp")%>
-        <%include file="next/partials/FixedButtons.html"%>
-        <%assign var="s" value=$s+1%>
-    <%elseif $section.type == "page"%>
+		<%assign var="currentDate" value=$smarty.now|date_format:"%Y%m%d"%>
+		<%*<!--MARK: - main message only appear once if specified-->*%>
+		<%if $foundMainMessage == "no" && ($debug_model == 1 || $section.status != "off") && ($section.dates == "" || preg_match("/`$currentDate`/is",$section.dates)) && ($section.subscriptionType == "" || $section.subscriptionType == $smarty.get.to)%>
+			<%assign var=buttonUrl value=$section.buttonUrl%>
+			<%if $smarty.get.mainMessageRepeat == "no"%>
+				<%assign var="foundMainMessage" value="yes"%>
+			<%/if%>
+			<%if $smarty.get.ccode != ""%>
+				<%*<!--MARK: - check the ccode in the url parameter first-->*%>
+				<%assign var=ccode value=$smarty.get.ccode%>
+			<%elseif $section.ccode != ""%>
+				<%*<!--MARK: - if not found, check the ccode in section setting-->*%>
+				<%assign var=ccode value=$section.ccode%>
+			<%/if%>
+			<%if $section.discountCode != ""%>
+				<%assign var="discountCode" value="&from=`$section.discountCode`"%>
+			<%/if%>
+			<%if !preg_match("/ccode/is",$buttonUrl) && $ccode != ""%>
+				<%assign var=connector value="?"%>
+				<%if preg_match("/\?/is",$buttonUrl)%>
+					<%assign var=connector value="&"%>
+				<%/if%>
+				<%assign var=buttonUrl value="`$buttonUrl``$connector`ccode=`$ccode`"%>
+			<%/if%>
+			<%if $section.discountCode != ""%>
+				<%assign var=connector value="?"%>
+				<%if preg_match("/\?/is",$buttonUrl)%>
+					<%assign var=connector value="&"%>
+				<%/if%>
+				<%assign var=buttonUrl value="`$buttonUrl``$connector`from=`$section.discountCode`"%>
+			<%/if%>
+			<%if $section.title != ""%>
+				<%if $s > 0%>
+					<tr><td class="ft-header-bar" style="color: <%$barColor%>;background-color:<%$barBackgroundColor%>;border-width: <%$barBorderWidth%>; border: 1px <%$barBorderColor%> solid; font-size:13px;font-weight:bold;padding:5px 17px 4px 17px;text-transform:uppercase;width:100%;"><%$section.title%></td></tr>
+				    <tr><td class="lineH1 hidden" style="display: <%$lineH1Hidden%>;height: 10px;font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
+				<%else%>
+					<tr><td  class="SContent cover message-title" style="font-size:18px;line-height:23px;color:#333;font-weight: bold;padding-left:17px;padding-right:17px;"><%$section.title%>：</td></tr>
+				<%/if%>
+			<%/if%>
+			<tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
+			<tr><td  class="SContent cover message-content" style="font-size:18px;line-height:23px;color:#333;padding-left:17px;padding-right:17px;"><%$section.content|nl2br%></td></tr>
+			<tr><td style="height: 15px; font-size: 0px; line-height: 15px; padding: 0;">&nbsp;</td></tr>
+			<%if $section.buttonTitle != ""%>
+				<tr><td  class="SContent cover" style="font-size:18px;line-height:23px;color:#333;padding-left:17px;padding-right:17px;">
+					<table width="100%" cellspacing="0" cellpadding="0">
+						<tr><td style="height: 15px; font-size: 0px; line-height: 15px; padding: 0;">&nbsp;</td></tr>
+						<tr>
+							<td align="center">
+								<table cellspacing="0" cellpadding="0">
+									<tr>
+									<%if $smarty.get.to == 'iosapp'%>
+										<td><%include file="next/partials/subscription-box-ios.html"%></td>
+									<%else%>
+										<td style="border-radius: 2px;" bgcolor="#0a5e66">
+											<a href="<%$buttonUrl%>" target="_blank" style="padding: 8px 12px; border: 1px solid #0a5e66;border-radius: 2px;font-family: Helvetica, Arial, sans-serif;font-size: 14px; color: #ffffff;text-decoration: none;font-weight:bold;display: inline-block;"><%$section.buttonTitle%></a>
+										</td>
+									<%/if%>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</td></tr>
+			<%/if%>
+			<tr><td style="height: 15px; font-size: 0px; line-height: 15px; padding: 0;">&nbsp;</td></tr>
+			<%assign var="s" value=$s+1%>
+		<%/if%>
+	<%elseif $section.type == "FixedButtons" && ($smarty.get.to == "iosapp" || $smarty.get.to == "noneiosapp")%>
+		<%include file="next/partials/FixedButtons.html"%>
+		<%assign var="s" value=$s+1%>
+	<%elseif $section.type == "page"%>
         <%include file="next/partials/page.html"%>
-        <%assign var="s" value=$s+1%>
+		<%assign var="s" value=$s+1%>
     <%/if%>
 <%/foreach%>
 
@@ -415,11 +415,11 @@ width: <%$containerWidth%> !important;
 </tr>
 </table>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
-    <%if $smarty.get.to != "iosapp" && $smarty.get.to != "noneiosapp" && $smarty.get.to != "vip" && $smarty.get.to != "standard" && $smarty.get.to != "premium"%>
-        <%assign var="adPositionCode" value="mpu-2"%>
-        <%assign var="adWrapper" value="weekly-2"%>
-        <%include file="next/partials/email-ad-tag.html"%>
-    <%/if%>
+	<%if $smarty.get.to != "iosapp" && $smarty.get.to != "noneiosapp" && $smarty.get.to != "vip" && $smarty.get.to != "standard" && $smarty.get.to != "premium"%>
+		<%assign var="adPositionCode" value="mpu-2"%>
+		<%assign var="adWrapper" value="weekly-2"%>
+		<%include file="next/partials/email-ad-tag.html"%>
+	<%/if%>
 <tr><td class="lineH1" style="height: 22px; font-size: 22px; line-height: 22px; padding: 0;">&nbsp;</td></tr>
 
 
@@ -477,128 +477,128 @@ width: <%$containerWidth%> !important;
 <tr style="background:<%$footerBGColor%>" >
 <td style="width: 3%;" class="contentPadding">&nbsp;</td>
 <td align="center">
-<table width="100%" cellpadding="0" cellspacing="0" border="0" width="<%$footerTableWidth%>" style="max-width: <%$footerTableMaxWidth%>;">
+<table width="100%" cellpadding="0" cellspacing="0" border="0" width="<%$tableWidth%>" style="max-width: <%$tableMaxWidth%>;">
 <%if $smarty.get.to != "iosapp" && $smarty.get.to != "noneiosapp"%>
-    <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
-    <tr>
-    <td style="padding: 0 12px 6px 12px;">
-    <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
-    <tr>
-    <td style="width: 50%; background-color: #F6E8D7; padding: 6px 8px; border-radius: 2px;" valign="middle" align="center">
-    <table border="0" cellpadding="0" cellspacing="0" >
-    <tr>
-    <td style="padding-left:5px;color:#2E6E9E;line-height:16px;" target="_blank" nowrap>
-    <a  class="lineH1_2"
-    href="<%$mainDomain%>users/setting/maillist" style="text-decoration:none;font-size:12px;line-height:16px;color:#2E6E9E;" target="_blank">设置邮件</a>
-    </td>
-    </tr>
-    </table>
-    </td>
-    <td style="width: 7px; height: 100%;">&nbsp;&nbsp;</td>
-    <td style="width: 50%; background-color: #F6E8D7; padding: 6px 8px; border-radius: 2px;" valign="middle" align="center">
-    <table border="0" cellpadding="0" cellspacing="0">
-    <tr>
-    <td style="padding-left: 5px; color: #2E6E9E;  line-height: 16px;" nowrap>
-    <a
-    href="<%$mainDomain%>users/findpassword" class="lineH1_2" style="text-decoration: none; font-size: 12px; line-height: 16px;  color:#2E6E9E;" target="_blank"
-    >找回密码</a>
-    </td>
-    </tr>
-    </table>
-    </td>
-    </tr>
-    <tr><td class="lineH1" style="height: 7px; font-size: 7px; line-height: 7px; padding: 0;">&nbsp;</td></tr>
-    </table>
+	<tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
+	<tr>
+	<td style="padding: 0 12px 6px 12px;">
+	<table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+	<tr>
+	<td style="width: 50%; background-color: #F6E8D7; padding: 6px 8px; border-radius: 2px;" valign="middle" align="center">
+	<table border="0" cellpadding="0" cellspacing="0" >
+	<tr>
+	<td style="padding-left:5px;color:#2E6E9E;line-height:16px;" target="_blank" nowrap>
+	<a  class="lineH1_2"
+	href="<%$mainDomain%>users/setting/maillist" style="text-decoration:none;font-size:12px;line-height:16px;color:#2E6E9E;" target="_blank">设置邮件</a>
+	</td>
+	</tr>
+	</table>
+	</td>
+	<td style="width: 7px; height: 100%;">&nbsp;&nbsp;</td>
+	<td style="width: 50%; background-color: #F6E8D7; padding: 6px 8px; border-radius: 2px;" valign="middle" align="center">
+	<table border="0" cellpadding="0" cellspacing="0">
+	<tr>
+	<td style="padding-left: 5px; color: #2E6E9E;  line-height: 16px;" nowrap>
+	<a
+	href="<%$mainDomain%>users/findpassword" class="lineH1_2" style="text-decoration: none; font-size: 12px; line-height: 16px;  color:#2E6E9E;" target="_blank"
+	>找回密码</a>
+	</td>
+	</tr>
+	</table>
+	</td>
+	</tr>
+	<tr><td class="lineH1" style="height: 7px; font-size: 7px; line-height: 7px; padding: 0;">&nbsp;</td></tr>
+	</table>
 
-    <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
-    <tr>
-    <td class="lineH1" style="height: 7px; font-size: 7px; line-height: 7px; padding: 0;">&nbsp;</td>
-    </tr>
-    </table>
+	<table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+	<tr>
+	<td class="lineH1" style="height: 7px; font-size: 7px; line-height: 7px; padding: 0;">&nbsp;</td>
+	</tr>
+	</table>
 
-    <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
-    <tr>
-    <td style="background-color: #F6E8D7; padding: 6px 8px; text-align: center;">
-    <a href="<%$registerDomain%>register" style="text-decoration: none; color:#2E6E9E; font-size: 12px;"  target="_blank"
-    >免费注册FT中文网</a>
-    </td>
-    </tr>
-    </table>
-    <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
-    <tr>
-    <td class="lineH1" style="height: 7px; font-size: 7px; line-height: 7px; padding: 0;">&nbsp;</td>
-    </tr>
-    </table>
+	<table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+	<tr>
+	<td style="background-color: #F6E8D7; padding: 6px 8px; text-align: center;">
+	<a href="<%$registerDomain%>register" style="text-decoration: none; color:#2E6E9E; font-size: 12px;"  target="_blank"
+	>免费注册FT中文网</a>
+	</td>
+	</tr>
+	</table>
+	<table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+	<tr>
+	<td class="lineH1" style="height: 7px; font-size: 7px; line-height: 7px; padding: 0;">&nbsp;</td>
+	</tr>
+	</table>
 
-    <table border="0" cellpadding="0" cellspacing="0" style="width: 100%; border-top: 1px dotted <%$attentionFTBorder%>; border-bottom: 1px dotted <%$attentionFTBorder%>;">
-    <tr>
-    <td align="center" style="padding: 4px 0;">
-    <table border="0" cellpadding="0" cellspacing="0" align="center">
-    <tr>
-    <td valign="middle">
-    <span style="font-size: 12px; color: <%$attentionFT%>; ">关注FT中文网</span>
-    </td>
-    <td style="padding-left: 10px; width: 160px;">
-    <table border="0" cellpadding="0" cellspacing="0" align="left" valign="middle" style="width: 180px;">
-    <tr>
-    <td>
-    <a
-    href="http://weibo.com/ftchinese" style="text-decoration: none; font-size: 12px; display: block;" target="_blank"
-    ><img src="https://dhgxl8qk9zgzr.cloudfront.net/img/png/social-weibo.png" style="border: 0 none; display: block;" width="24" height="24" alt="新浪微博"/></a>
-    </td>
-    <td>
-    <a
-    href="<%$mainDomain%>m/corp/follow.html" style="text-decoration: none; font-size: 12px; display: block;" target="_blank"
-    ><img src="https://dhgxl8qk9zgzr.cloudfront.net/img/png/social-wechat.png" style="border: 0 none; display: block;" width="24" height="24" alt="微信"/></a>
-    </td>
-    <td>
-        <a
-        href="https://www.linkedin.com/company/4865254?trk=hp-feed-company-name" style="text-decoration: none; font-size: 12px; display: block;" target="_blank"
-        ><img src="https://dhgxl8qk9zgzr.cloudfront.net/icons/png/ftsocial_linkedin.png" style="border: 0 none; display: block;" width="24" height="24" alt="领英"/></a>
-    </td>
-    <td>
-        <a
-        href="https://twitter.com/FTChinese" style="text-decoration: none; font-size: 12px; display: block;" target="_blank"
-        ><img src="https://dhgxl8qk9zgzr.cloudfront.net/icons/png/ftsocial_twitter.png" style="border: 0 none; display: block;" width="24" height="24" alt="Twitter"/></a>
-    </td>
-    <td>
-        <a
-        href="https://www.facebook.com/financialtimeschinese" style="text-decoration: none; font-size: 12px; display: block;" target="_blank"
-        ><img src="https://dhgxl8qk9zgzr.cloudfront.net/icons/png/ftsocial_facebook.png" style="border: 0 none; display: block;" width="24" height="24" alt="Facebook"/></a>
-    </td>
-    </tr>
-    </table>
-    </td>
-    </tr>
-    </table>
-    </td>
-    </tr>
-    </table>
-    </td>
-    </tr>
-    <tr><td class="lineH1" style="height: 22px; font-size: 22px; line-height: 22px; padding: 0;">&nbsp;</td></tr>
-    <tr>
-    <td class="ft-email-bar lineH1_4" style="text-align: center;font-size: 12px;line-height: 17px;color:<%$footerListColor%>;">
-    <a
-    href="<%$mainDomain%>m/corp/aboutus.html" style="text-decoration: none;color: <%$footerListColor%>;" target="_blank"
-    >关于我们</a> |
-    <a
-    href="<%$mainDomain%>jobs/?from=ft" style="text-decoration: none; color: <%$footerListColor%>;" target="_blank"
-    >加入我们</a> |
-    <a
-    href="<%$mainDomain%>m/corp/contact.html" style="text-decoration: none; color:<%$footerListColor%>;" target="_blank"
-    >联系方式</a> |
-    <a
-    href="<%$mainDomain%>m/corp/service.html" target="_blank" style="text-decoration: none;color: <%$footerListColor%>;"
-    >服务条款</a> |
-    <a
-    href="<%$mainDomain%>m/corp/sales.html" style="text-decoration: none;color: <%$footerListColor%>;" target="_blank"
-    >广告业务</a> |
-    <a
-    href="<%$mainDomain%>m/corp/faq.html" style="text-decoration: none;color:<%$footerListColor%>;" target="_blank"
-    >问题回馈</a>
-    </td>
-    </tr>
+	<table border="0" cellpadding="0" cellspacing="0" style="width: 100%; border-top: 1px dotted <%$attentionFTBorder%>; border-bottom: 1px dotted <%$attentionFTBorder%>;">
+	<tr>
+	<td align="center" style="padding: 4px 0;">
+	<table border="0" cellpadding="0" cellspacing="0" align="center">
+	<tr>
+	<td valign="middle">
+	<span style="font-size: 12px; color: <%$attentionFT%>; ">关注FT中文网</span>
+	</td>
+	<td style="padding-left: 10px; width: 160px;">
+	<table border="0" cellpadding="0" cellspacing="0" align="left" valign="middle" style="width: 180px;">
+	<tr>
+	<td>
+	<a
+	href="http://weibo.com/ftchinese" style="text-decoration: none; font-size: 12px; display: block;" target="_blank"
+	><img src="https://dhgxl8qk9zgzr.cloudfront.net/img/png/social-weibo.png" style="border: 0 none; display: block;" width="24" height="24" alt="新浪微博"/></a>
+	</td>
+	<td>
+	<a
+	href="<%$mainDomain%>m/corp/follow.html" style="text-decoration: none; font-size: 12px; display: block;" target="_blank"
+	><img src="https://dhgxl8qk9zgzr.cloudfront.net/img/png/social-wechat.png" style="border: 0 none; display: block;" width="24" height="24" alt="微信"/></a>
+	</td>
+	<td>
+		<a
+		href="https://www.linkedin.com/company/4865254?trk=hp-feed-company-name" style="text-decoration: none; font-size: 12px; display: block;" target="_blank"
+		><img src="https://dhgxl8qk9zgzr.cloudfront.net/icons/png/ftsocial_linkedin.png" style="border: 0 none; display: block;" width="24" height="24" alt="领英"/></a>
+	</td>
+	<td>
+		<a
+		href="https://twitter.com/FTChinese" style="text-decoration: none; font-size: 12px; display: block;" target="_blank"
+		><img src="https://dhgxl8qk9zgzr.cloudfront.net/icons/png/ftsocial_twitter.png" style="border: 0 none; display: block;" width="24" height="24" alt="Twitter"/></a>
+	</td>
+	<td>
+		<a
+		href="https://www.facebook.com/financialtimeschinese" style="text-decoration: none; font-size: 12px; display: block;" target="_blank"
+		><img src="https://dhgxl8qk9zgzr.cloudfront.net/icons/png/ftsocial_facebook.png" style="border: 0 none; display: block;" width="24" height="24" alt="Facebook"/></a>
+	</td>
+	</tr>
+	</table>
+	</td>
+	</tr>
+	</table>
+	</td>
+	</tr>
+	</table>
+	</td>
+	</tr>
+	<tr><td class="lineH1" style="height: 22px; font-size: 22px; line-height: 22px; padding: 0;">&nbsp;</td></tr>
+	<tr>
+	<td class="ft-email-bar lineH1_4" style="text-align: center;font-size: 12px;line-height: 17px;color:<%$footerListColor%>;">
+	<a
+	href="<%$mainDomain%>m/corp/aboutus.html" style="text-decoration: none;color: <%$footerListColor%>;" target="_blank"
+	>关于我们</a> |
+	<a
+	href="<%$mainDomain%>jobs/?from=ft" style="text-decoration: none; color: <%$footerListColor%>;" target="_blank"
+	>加入我们</a> |
+	<a
+	href="<%$mainDomain%>m/corp/contact.html" style="text-decoration: none; color:<%$footerListColor%>;" target="_blank"
+	>联系方式</a> |
+	<a
+	href="<%$mainDomain%>m/corp/service.html" target="_blank" style="text-decoration: none;color: <%$footerListColor%>;"
+	>服务条款</a> |
+	<a
+	href="<%$mainDomain%>m/corp/sales.html" style="text-decoration: none;color: <%$footerListColor%>;" target="_blank"
+	>广告业务</a> |
+	<a
+	href="<%$mainDomain%>m/corp/faq.html" style="text-decoration: none;color:<%$footerListColor%>;" target="_blank"
+	>问题回馈</a>
+	</td>
+	</tr>
 <%/if%>
 <tr><td class="lineH1" style="height: 34px; font-size: 34px; line-height: 34px; padding: 0;">&nbsp;</td></tr>
 <tr><td style="font-size: 14px;line-height: 17px;padding: 5px 5px 0 5px;text-align: center;color:<%$backEmailColor%>;">您已经订阅了本邮件，如果您想退订，请<a style="color:#0a5e66;TEXT-DECORATION: none" href="http://newsletter.ftimg.online/unsubscribe.html?email=$$data.email$$" target="_blank">点击此处</a>，进行退订操作。</td></tr>
@@ -626,668 +626,21 @@ width: <%$containerWidth%> !important;
 
 <%assign var="foundDomain" value="no"%>
 <%foreach from=$p.sections item=section%>
-    <%if $section.type == "MailTracking"%>
-        <%assign var="mainDomain" value=$section.domain%>
-        <%if !preg_match("/\/$/is",$mainDomain)%>
-            <%assign var="mainDomain" value="`$mainDomain`/"%>
-        <%/if%>
-        <%assign var="foundDomain" value="yes"%>
-        <img src="<%$mainDomain%>ga.php?utmac=MO-1608715-1&utmn=<%$smarty.now|date_format:"%G%m%d%H"%>&utmr=-&utmp=<%"`$section.path`?source=email"|escape:'url'%>&utmdt=<%$section.title%>&guid=ON" />
-    <%/if%>
+	<%if $section.type == "MailTracking"%>
+		<%assign var="mainDomain" value=$section.domain%>
+		<%if !preg_match("/\/$/is",$mainDomain)%>
+			<%assign var="mainDomain" value="`$mainDomain`/"%>
+		<%/if%>
+		<%assign var="foundDomain" value="yes"%>
+		<img src="<%$mainDomain%>ga.php?utmac=MO-1608715-1&utmn=<%$smarty.now|date_format:"%G%m%d%H"%>&utmr=-&utmp=<%"`$section.path`?source=email"|escape:'url'%>&utmdt=<%$section.title%>&guid=ON" />
+	<%/if%>
 <%/foreach%>
 <%if $foundDomain == "no"%>
-    <%include file="include/email/tracking.html"%>
+	<%include file="include/email/tracking.html"%>
 <%/if%>
 
 <%if $p.meta.audiencePixelTag != ""%>
-    <img src="<%$p.meta.audiencePixelTag%>" width=1 height=1 border=0/>
-<%/if%>
-</body>
-<!-- htmlmin:ignore -->
-</html>
-<%assign var="p" value=$nextmodel->getPublishJson($pageId)|json_decode:true%>
-<%if $p.meta.hideAd != "yes"%>
-    <%assign var="ads" value=$nextmodel->getPublishJson("emailads")|json_decode:true%>
-<%/if%>
-<%assign var="mainDomain" value="https://dbdzmnhotmzi1.cloudfront.net/"%>
-<%assign var="registerDomain" value="http://user.ftchinese.com/"%>
-<%if $smarty.get.to == "vip" || $smarty.get.to == "premium" || $smarty.get.to == "standard"%>
-    <%assign var="mainDomain" value="https://www.chineseft.com/"%>
-    <%assign var="registerDomain" value="https://user.chineseft.com/"%>
-<%/if%>
-
-<%assign var="foundDomain" value="no"%>
-<%foreach from=$p.sections item=section%>
-    <%if $section.type == "MailTracking" && $foundDomain == "no"%>
-        <%assign var="mainDomain" value=$section.domain%>
-        <%if !preg_match("/\/$/is",$mainDomain)%>
-            <%assign var="mainDomain" value="`$mainDomain`/"%>
-        <%/if%>
-        <%assign var="registerDomain" value="https://user.chineseft.com/"%>
-        <%assign var="foundDomain" value="yes"%>
-    <%/if%>
-<%/foreach%>
-
-<%assign var="tableBorder" value="#f7f7f7"%>
-<%assign var="logoPosition" value="center"%>
-<%assign var="descPosition" value="center"%>
-<%assign var="containerWidth" value="720px"%>
-<%assign var="barColor" value="#333333"%>
-<%assign var="barBackgroundColor" value="#E9DECE"%>
-<%assign var="barBorderColor" value="#A7A59B"%>
-<%assign var="barBorderWidth" value="1px 0"%>
-<%assign var="contentPaddingWidth" value="45px"%>
-<%assign var="lineH1Hidden" value="block"%>
-<%assign var="logoPadding" value="10"%>
-<%assign var="logoTableWidth" value="initial"%>
-<%assign var="tableBorderWidth" value="initial"%>
-<%assign var="contentPaddingDisplay" value="block"%>
-<%assign var="footerBGColor" value="initial"%>
-<%assign var="attentionFT" value="#505050"%>
-<%assign var="footerListColor" value="#98948F"%>
-<%assign var="backEmailColor" value="#333333"%>
-<%assign var="brandColor" value="#505050"%>
-<%assign var="footerTableWidth" value="initial"%>
-<%assign var="footerTableMaxWidth" value="initial"%>
-<%assign var="attentionFTBorder" value="#C0C0C0"%>
-<%assign var="largeViewBarDisplay" value="none"%>
-<%if $p.meta.theme == "myFT"%>
-    <%assign var=bodyColor value="#FFF1E0"%>
-    <%assign var="tableBorder" value="transparent"%>
-    <%assign var="containerWidth" value="inherit"%>
-    <%assign var="logoPosition" value="left"%>
-    <%assign var="descPosition" value="left"%>
-    <%assign var="barColor" value="#333333"%>
-    <%assign var="barBackgroundColor" value="#ffffff"%>
-    <%assign var="barBorderColor" value="#000"%>
-    <%assign var="barBorderWidth" value="8px 0 0 0"%>
-    <%assign var="contentPaddingWidth" value="10%"%>
-    <%assign var="lineH1Hidden" value="none"%>
-    <%assign var="logoPadding" value="0"%>
-    <%assign var="logoTableWidth" value="640px"%>
-    <%assign var="tableBorderWidth" value="100%"%>
-    <%assign var="contentPaddingDisplay" value="none"%>
-    <%assign var="footerBGColor" value="#272b33"%>
-    <%assign var="attentionFT" value="#ffffff"%>
-    <%assign var="footerListColor" value="#ffffff"%>
-    <%assign var="backEmailColor" value="#ffffff"%>
-    <%assign var="brandColor" value="#ffffff"%>
-    <%assign var="footerTableWidth" value="100%"%>
-    <%assign var="footerTableMaxWidth" value="640px"%>
-    <%assign var="attentionFTBorder" value="#272b33"%>
-    <%assign var="largeViewBarDisplay" value="block"%>
-    <%elseif $smarty.get.to == "iosapp" || $smarty.get.to == "noneiosapp"%>
-    <%assign var=bodyColor value="#FFF1E0"%>
-<%else%>
-    <%assign var=bodyColor value="#FFFFFF"%>
-<%/if%>
-
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html>
-<head>
-<style>
-* {padding:0;margin:0;border:0;}
-.lineH, p{line-height: 1.618 !important;}
-.lineH1{line-height: 1 !important;}
-.hidden
-.lineH1_2{line-height: 1.2 !important;}
-.lineH1_4{line-height: 1.4 !important;}
-html{-webkit-text-size-adjust: none;}
-.videosubhead p {padding-top: 10px;}
-img,div,p,table,td,tr{max-width:100%;}
-.mainTD{width:100%;max-width:100%;}
-@media all and (max-width: 500px) {
-.coverImgLinkContain{float:none !important;margin:5px auto !important;}
-.P-Only {display: block!important;}
-.P-Hide {display: none!important;}
-}
-@media all and (min-width: 501px) {
-.coverImgLinkContain{max-width: 50%;}
-}
-@media all and (max-width: 450px) {
-.mainTD{width:100%;max-width:450px;}
-#wrapperInner,
-#containerTable {
-*width: 400px !important;
-_width: 400px !important;
-width: 100% !important;
-}
-.whiteBorder {
-width: 0 !important;
-font-size: 0 !important;
-}
-.otherHeadlines {
-font-size:17px !important;line-height:1.2 !important;color:#505050 !important;
-}
-.otherHeadlines a,
-.otherHeadlinesLink {
-color:#505050 !important;text-decoration:none !important;display:block !important;
-}
-.ft-logo {
-font-size:26px !important;line-height:1.2 !important;height:26px !important;text-align:<%$logoPosition%> !important;
-}
-.ft-logo-briefing {
-font-size:5px !important;line-height:1 !important;height:5px !important;
-}
-.ft-desc {
-font-size:13px !important;line-height:1.2 !important;color:#505050 !important;text-align:<%$descPosition%> !important;font-weight:bold !important;
-}
-.ft-header-bar {
-border: solid 1px <%$barBorderColor%> !important;
-border-width: <%$barBorderWidth%> !important;
-font-weight:normal !important;
-padding: 7px 14px !important;
-color:<%$barColor%> !important;
-background-color:<%$barBackgroundColor%> !important;
-font-size:19px !important;
-line-height:1.4 !important;
-font-weight:normal !important;
-width:100% !important;
-}
-.topHeadline {
-font-size:21px !important;line-height:1.1 !important;color:#333 !important;
-}
-.topHeadline a {
-color:#333 !important;text-decoration:none !important;display:block !important;
-}
-.subhead {
-font-size:18px !important;line-height:1.4 !important;color:#505050 !important;
-}
-.hotArticleList{font-size:20px !important;}
-.dotsSeparator {
-margin-left: 10px !important;
-margin-right: 10px !important;
-}
-.textPadding {
-padding-left:10px !important;padding-right:10px !important;
-}
-.videoImageLink {
-color:#505050 !important;text-decoration:none !important;display:block !important;
-}
-.headLine{font-size:19px !important;line-height:1.4 !important; color: #000;}
-.cover .headLine{font-size:20px !important;line-height:1.4 !important;}
-.SContent{font-size:16px !important;line-height:1.618 !important; color: #777;}
-.cover{font-size:16px !important;line-height:1.618 !important;}
-.imgSpace{height:6px !important;font-size: 0 !important;}
-.largeViewBar,.HSpace{display: <%$largeViewBarDisplay%> !important;}
-.tableBorder{border:0 !important;}
-}
-@media all and (min-width: 451px) {
-.mainTD{width:100%;max-width:450px;}
-#wrapperInner,#containerTable {
-*width: 400px !important;
-_width: 400px !important;
-width: 100% !important;
-}
-.whiteBorder {
-width: 0 !important;
-font-size: 0 !important;
-}
-.openInBrowserGap {
-height: 10px !important; font-size: 8px !important; line-height: 1.2 !important; padding: 0 !important;
-}
-.contentPadding {
-width: <%$contentPaddingWidth%> !important;
-}
-.bottomContentPadding {
-height: 43px !important; font-size: 43px !important; line-height: 1 !important; padding: 0 !important;
-}
-.otherHeadlines {
-font-size:21px !important;line-height:1.1 !important;color:#505050 !important;
-}
-.otherHeadlines a,.otherHeadlinesLink {
-color:#505050 !important;text-decoration:none !important;
-}
-.ft-logo {
-font-size:53px !important;line-height:1 !important;height:53px !important;text-align:<%$logoPosition%> !important;
-}
-.ft-logo-briefing {
-font-size:2px !important;line-height:1 !important;height:2px !important;
-}
-.ft-desc {
-font-size:13px !important;line-height:1.2 !important;color:#505050 !important;text-align:<%$descPosition%> !important;font-weight:bold !important;
-}
-.ft-header-bar {
-color:<%$barColor%> !important;
-background: <%$barBackgroundColor%> !important;
-border: solid 1px <%$barBorderColor%> !important;
-border-width:  <%$barBorderWidth%> !important;
-line-height:1.4 !important;
-font-size:19px !important;
-font-weight:normal !important;
-padding: 7px 14px !important;
-width:100% !important;
-}
-.topHeadline {
-font-size:28px !important;line-height:1.1 !important;color:#333 !important;
-}
-.topHeadline a {
-color:#333 !important;text-decoration:none !important;
-}
-.subhead {
-font-size:14px !important;line-height:1.4 !important;color:#505050 !important;display:block;
-}
-.dotsSeparator {
-margin-left: 17px !important;
-margin-right: 17px !important;
-}
-.textPadding {
-padding-left:17px !important;padding-right:17px !important;
-}
-.videoImageLink {
-color:#505050 !important;text-decoration:none !important;
-}
-}
-@media all and (min-width: <%$containerWidth%>) {
-.mainTD{width:100%;max-width:<%$containerWidth%>;}
-#wrapperInner,
-#containerTable {
-width: <%$containerWidth%> !important;
-}
-}
-@media only screen and (max-width: <%$containerWidth%>) and (min-width: 501px){
-.coverImgLinkContain{max-width: 50% !important;}
-}
-</style>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title><%$p.meta.title%> - FT中文网</title>
-<%*<!--MARK: - Send the info to iOS native app for correct display-->*%>
-<%if $smarty.get.to == "iosapp" || $smarty.get.to == "noneiosapp"%>
-    <script type="text/javascript">
-        window.linksForShare = {
-            'url': 'http://www.ftchinese.com/',
-            'title': '<%$p.meta.title%>',
-            'lead': '<%$p.meta.description%>',
-            'image': ''
-        };
-    </script>
-<%/if%>
-</head>
-<!-- htmlmin:ignore -->
-<body class="is-html-email" style="width:100%;color:#111111;background-color:<%$bodyColor%>;font-family:"Hiragino Sans GB","WenQuanYi Micro Hei","Heiti SC",STHeiti,SimSun,sans-serif;font-size:14px;">
-
-
-
-<%*<!--
-
-    <%assign var="articles" value=$publishhtml->get_publish_html("weekly")%>
-
--->*%>
-
-
-
-<%assign var="pageTitle" value=$p.meta.title%>
-<div id="wrapper" style="margin: 0 auto; text-align: center;">
-
-
-<%*<!--
-
-<div style="font-size:1px;color:#FFF;display:none;"><%$articles.TopPick|regex_replace:"/<a.*<\/a>/":""|strip_tags|regex_replace:"/[\r\n\t\s]/":""%></div>
--->*%>
-
-
-<table border="0" cellspacing="0" cellpadding="0" id="containerTable" style="background-color:#ffffff; display: table; margin: 0 auto; text-align: center; width: <%$containerWidth%>; *width: <%$containerWidth%>; _width: <%$containerWidth%>;" align="center">
-<tr>
-<td class="mainTD" style="width: <%$containerWidth%>;">
-<table border="0" cellspacing="0" cellpadding="0" align="left" width="<%$tableBorderWidth%>" style="text-align: left; width:<%$tableBorderWidth%>">
-<tr>
-<td style="width:1%;" class="whiteBorder">&nbsp;</td>
-<td class="mainCol">
-<table class="tableBorder" border="0" cellspacing="0" cellpadding="0" style="background-color: #FFF1E0; border: 2px solid <%$tableBorder%>; text-align: left; width: <%$tableBorderWidth%>;" align="left" width=" <%$tableBorderWidth%>">
-
-<%*<!--MARK: - Remove this after August 30, 2020 -->*%>
-<%if 1<0 && $smarty.get.to != "iosapp"%>
-    <tr><td class="lineH1" style="height: 3px; font-size: 3px; line-height: 3px; padding: 0;">&nbsp;</td></tr>
-    <tr><td class="lineH1_2" style="text-align: center; font-size: 11px; line-height: 13px;  color: #505050;">如果您无法正常显示邮件, <a
-    href="<%$smarty.server.HTTP_HOST%><%$smarty.server.REQUEST_URI%>" style="color: #2e6e9e; text-decoration: none;"
-    >请点击此处</a></td></tr>
-<%/if%>
-
-<tr><td class="lineH1 openInBrowserGap" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
-<tr><td style="padding-left: <%$logoPadding%>px; padding-right: <%$logoPadding%>px;" align="center">
-<%if $smarty.get.webview != "ftcapp"%>
-    <table border="0" cellspacing="0" cellpadding="0"  width="100%" style="max-width:<%$logoTableWidth%>;">
-    <tr><td class="ft-logo lineH1" style="font-size:43px;line-height:43px;height:43px;text-align: <%$logoPosition%>; width: 100%;">
-    <a
-    href="http://www.ftchinese.com" target="_blank"
-    ><img id="ft-logo-img" src="https://dhgxl8qk9zgzr.cloudfront.net/img/ftcLogoHD.png" width="172" height="36" style="width: 172px;height: 36px; color: #091523; font-size: 25px; border: 0 none;" alt="FT中文网" title="FT中文网" /></a>
-    </td></tr>
-    <tr><td style="font-size:4px;line-height:4px;height:4px;" class="ft-logo-briefing lineH1">&nbsp;</td></tr>
-    <tr><td class="ft-desc lineH1_2" style="font-size:13px;line-height:16px;color:#505050;text-align:<%$descPosition%>;font-weight:bold;"><%$smarty.now|date_format:"%Y年%m月%d日"%></td></tr>
-    </table>
-<%/if%>
-</td></tr>
-<tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
-<tr><td>
-<table width="100%" cellpadding="0" cellspacing="0">
-<tr>
-<td style="width: 3%; display:<%$contentPaddingDisplay%>;" class="contentPadding largeViewBar">&nbsp;</td>
-<td>
-<table width="100%" cellpadding="0" cellspacing="0">
-
-
-<%assign var="ccode" value=""%>
-<%assign var="discountCode" value=""%>
-<%assign var="s" value=0%>
-
-
-<%assign var="foundMainMessage" value="no"%>
-<%foreach from=$p.sections item=section%>
-    <%if $section.type == "block"%>
-        <%include file="next/partials/block_email.html"%>
-        <%assign var="s" value=$s+1%>
-    <%elseif $section.type == "MainMessage"%>
-        <%assign var="currentDate" value=$smarty.now|date_format:"%Y%m%d"%>
-        <%*<!--MARK: - main message only appear once if specified-->*%>
-        <%if $foundMainMessage == "no" && ($debug_model == 1 || $section.status != "off") && ($section.dates == "" || preg_match("/`$currentDate`/is",$section.dates)) && ($section.subscriptionType == "" || $section.subscriptionType == $smarty.get.to)%>
-            <%assign var=buttonUrl value=$section.buttonUrl%>
-            <%if $smarty.get.mainMessageRepeat == "no"%>
-                <%assign var="foundMainMessage" value="yes"%>
-            <%/if%>
-            <%if $smarty.get.ccode != ""%>
-                <%*<!--MARK: - check the ccode in the url parameter first-->*%>
-                <%assign var=ccode value=$smarty.get.ccode%>
-            <%elseif $section.ccode != ""%>
-                <%*<!--MARK: - if not found, check the ccode in section setting-->*%>
-                <%assign var=ccode value=$section.ccode%>
-            <%/if%>
-            <%if $section.discountCode != ""%>
-                <%assign var="discountCode" value="&from=`$section.discountCode`"%>
-            <%/if%>
-            <%if !preg_match("/ccode/is",$buttonUrl) && $ccode != ""%>
-                <%assign var=connector value="?"%>
-                <%if preg_match("/\?/is",$buttonUrl)%>
-                    <%assign var=connector value="&"%>
-                <%/if%>
-                <%assign var=buttonUrl value="`$buttonUrl``$connector`ccode=`$ccode`"%>
-            <%/if%>
-            <%if $section.discountCode != ""%>
-                <%assign var=connector value="?"%>
-                <%if preg_match("/\?/is",$buttonUrl)%>
-                    <%assign var=connector value="&"%>
-                <%/if%>
-                <%assign var=buttonUrl value="`$buttonUrl``$connector`from=`$section.discountCode`"%>
-            <%/if%>
-            <%if $section.title != ""%>
-                <%if $s > 0%>
-                    <tr><td class="ft-header-bar" style="color: <%$barColor%>;background-color:<%$barBackgroundColor%>;border-width: <%$barBorderWidth%>; border: 1px <%$barBorderColor%> solid; font-size:13px;font-weight:bold;padding:5px 17px 4px 17px;text-transform:uppercase;width:100%;"><%$section.title%></td></tr>
-                    <tr><td class="lineH1 hidden" style="display: <%$lineH1Hidden%>;height: 10px;font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
-                <%else%>
-                    <tr><td  class="SContent cover message-title" style="font-size:18px;line-height:23px;color:#333;font-weight: bold;padding-left:17px;padding-right:17px;"><%$section.title%>：</td></tr>
-                <%/if%>
-            <%/if%>
-            <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
-            <tr><td  class="SContent cover message-content" style="font-size:18px;line-height:23px;color:#333;padding-left:17px;padding-right:17px;"><%$section.content|nl2br%></td></tr>
-            <tr><td style="height: 15px; font-size: 0px; line-height: 15px; padding: 0;">&nbsp;</td></tr>
-            <%if $section.buttonTitle != ""%>
-                <tr><td  class="SContent cover" style="font-size:18px;line-height:23px;color:#333;padding-left:17px;padding-right:17px;">
-                    <table width="100%" cellspacing="0" cellpadding="0">
-                        <tr><td style="height: 15px; font-size: 0px; line-height: 15px; padding: 0;">&nbsp;</td></tr>
-                        <tr>
-                            <td align="center">
-                                <table cellspacing="0" cellpadding="0">
-                                    <tr>
-                                    <%if $smarty.get.to == 'iosapp'%>
-                                        <td><%include file="next/partials/subscription-box-ios.html"%></td>
-                                    <%else%>
-                                        <td style="border-radius: 2px;" bgcolor="#0a5e66">
-                                            <a href="<%$buttonUrl%>" target="_blank" style="padding: 8px 12px; border: 1px solid #0a5e66;border-radius: 2px;font-family: Helvetica, Arial, sans-serif;font-size: 14px; color: #ffffff;text-decoration: none;font-weight:bold;display: inline-block;"><%$section.buttonTitle%></a>
-                                        </td>
-                                    <%/if%>
-                                    </tr>
-                                </table>
-                            </td>
-                        </tr>
-                    </table>
-                </td></tr>
-            <%/if%>
-            <tr><td style="height: 15px; font-size: 0px; line-height: 15px; padding: 0;">&nbsp;</td></tr>
-            <%assign var="s" value=$s+1%>
-        <%/if%>
-    <%elseif $section.type == "FixedButtons" && ($smarty.get.to == "iosapp" || $smarty.get.to == "noneiosapp")%>
-        <%include file="next/partials/FixedButtons.html"%>
-        <%assign var="s" value=$s+1%>
-    <%elseif $section.type == "page"%>
-        <%include file="next/partials/page.html"%>
-        <%assign var="s" value=$s+1%>
-    <%/if%>
-<%/foreach%>
-
-
-</table>
-</td>
-<td style="width: 3%;display:<%$contentPaddingDisplay%>" class="contentPadding largeViewBar">&nbsp;</td>
-</tr>
-</table>
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
-    <%if $smarty.get.to != "iosapp" && $smarty.get.to != "noneiosapp" && $smarty.get.to != "vip" && $smarty.get.to != "standard" && $smarty.get.to != "premium"%>
-        <%assign var="adPositionCode" value="mpu-2"%>
-        <%assign var="adWrapper" value="weekly-2"%>
-        <%include file="next/partials/email-ad-tag.html"%>
-    <%/if%>
-<tr><td class="lineH1" style="height: 22px; font-size: 22px; line-height: 22px; padding: 0;">&nbsp;</td></tr>
-
-
-
-<%*<!--
-<%assign var="hotTopics" value=$articles.HotTopics%>
-<%assign var="hotTopics" value=$hotTopics|replace:"，":","%>
-<%assign var="topics" value=","|explode:$hotTopics%>
-<%foreach from=$topics item=topic%>
-<%if $topic!=""%>
-<tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
-<tr><td style="width: 3%;" class="contentPadding"  >&nbsp;</td><td class="ft-header-bar" style="background-color: <%$barBackgroundColor%>;font-size:13px;font-weight:bold;padding:5px 17px 4px 17px;text-transform:uppercase;width:100%; border-width:  <%$barBorderWidth%>; border: 1px <%$barBorderColor%> solid; "><a href="<%$mainDomain%>tag/<%$topic|escape:"url"%>" style="color:#333333;text-decoration:none;" target=_blank><%$topic%></a></td><td style="width: 3%;" class="contentPadding">&nbsp;</td></tr>
-<tr><td class="lineH1 hidden" style="display: <%$lineH1Hidden%>; height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
-<tr><td style="width: 3%;" class="contentPadding">&nbsp;</td><td style="font-size:14px;line-height:25px;color:#505050;padding-left:17px;padding-right:17px;" class="subhead textPadding lineH">
-<%assign var="allstories" value=$storymodel->get_story_by_field_search("tag like '%`$topic`%'",0,5,15,10800)%>
-
-<%foreach from=$allstories item=sc%>
-<div class="lineH" style="line-height:161.8%;">
-<div class="lineH1_4" style="line-height:35px;font-size:25px;">
-<a target=_blank style="FONT-WEIGHT:bold;TEXT-DECORATION:none;color:#111;" href="<%$mainDomain%>story/<%$sc.id%>#s=w"><%$sc.cheadline%></a>
-</div>
-<%$sc.clongleadbody|default:$sc.cshortleadbody|default:$sc.cskylinetext%>
-<div style="height:8px;font-size:6px;"><br /></div>
-</div>
-<%assign var=i value=$i+1%>
-<%/foreach%>
-</td><td style="width: 3%;" class="contentPadding">&nbsp;</td></tr>
-<%/if%>
-
-<%/foreach%>
-
--->*%>
-
-<tr style="background:<%$footerBGColor%>" >
-<td style="width: 3%;" class="contentPadding">&nbsp;</td>
-<td style="font-size:14px;line-height:25px;color:#505050;padding-left:17px;padding-right:17px;" class="subhead textPadding lineH">
-<%*<!--
-<div style="height:8px;font-size:6px;"><br /></div>
-<div style="font-size:1px;border-bottom:3px solid #beb39e"></div>
-<div style="height:8px;font-size:6px;"><br /></div>
-<div style="color:#111;"><b>一周热门文章</b></div>
-<div style="height:8px;font-size:6px;"><br /></div>
-<div style="color:#9b164f;font-weight:bold;" class="hotArticleList">
-<%assign var="mp" value=$storymodel->get_hot_story(7,10) %>
-<%foreach item=sc from=$mp name=popular%>
-<%$smarty.foreach.popular.iteration%>.&nbsp;<a  target=_blank style="FONT-WEIGHT:normal;TEXT-DECORATION:none;color:#2E6E9E;" href="<%$mainDomain%>story/<%$sc.storyid%>#s=n"><%$sc.cheadline%></a><div style="height:8px;font-size:6px;"><br /></div>
-<%/foreach%>
-</div>
-<div style="height:8px;font-size:6px;"><br /></div>
--->
-*%>
-</td>
-<td style="width: 3%;" class="contentPadding">&nbsp;</td>
-</tr>
-<tr style="background:<%$footerBGColor%>" >
-<td style="width: 3%;" class="contentPadding">&nbsp;</td>
-<td align="center">
-<table width="100%" cellpadding="0" cellspacing="0" border="0" width="<%$footerTableWidth%>" style="max-width: <%$footerTableMaxWidth%>;">
-<%if $smarty.get.to != "iosapp" && $smarty.get.to != "noneiosapp"%>
-    <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
-    <tr>
-    <td style="padding: 0 12px 6px 12px;">
-    <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
-    <tr>
-    <td style="width: 50%; background-color: #F6E8D7; padding: 6px 8px; border-radius: 2px;" valign="middle" align="center">
-    <table border="0" cellpadding="0" cellspacing="0" >
-    <tr>
-    <td style="padding-left:5px;color:#2E6E9E;line-height:16px;" target="_blank" nowrap>
-    <a  class="lineH1_2"
-    href="<%$mainDomain%>users/setting/maillist" style="text-decoration:none;font-size:12px;line-height:16px;color:#2E6E9E;" target="_blank">设置邮件</a>
-    </td>
-    </tr>
-    </table>
-    </td>
-    <td style="width: 7px; height: 100%;">&nbsp;&nbsp;</td>
-    <td style="width: 50%; background-color: #F6E8D7; padding: 6px 8px; border-radius: 2px;" valign="middle" align="center">
-    <table border="0" cellpadding="0" cellspacing="0">
-    <tr>
-    <td style="padding-left: 5px; color: #2E6E9E;  line-height: 16px;" nowrap>
-    <a
-    href="<%$mainDomain%>users/findpassword" class="lineH1_2" style="text-decoration: none; font-size: 12px; line-height: 16px;  color:#2E6E9E;" target="_blank"
-    >找回密码</a>
-    </td>
-    </tr>
-    </table>
-    </td>
-    </tr>
-    <tr><td class="lineH1" style="height: 7px; font-size: 7px; line-height: 7px; padding: 0;">&nbsp;</td></tr>
-    </table>
-
-    <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
-    <tr>
-    <td class="lineH1" style="height: 7px; font-size: 7px; line-height: 7px; padding: 0;">&nbsp;</td>
-    </tr>
-    </table>
-
-    <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
-    <tr>
-    <td style="background-color: #F6E8D7; padding: 6px 8px; text-align: center;">
-    <a href="<%$registerDomain%>register" style="text-decoration: none; color:#2E6E9E; font-size: 12px;"  target="_blank"
-    >免费注册FT中文网</a>
-    </td>
-    </tr>
-    </table>
-    <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
-    <tr>
-    <td class="lineH1" style="height: 7px; font-size: 7px; line-height: 7px; padding: 0;">&nbsp;</td>
-    </tr>
-    </table>
-
-    <table border="0" cellpadding="0" cellspacing="0" style="width: 100%; border-top: 1px dotted <%$attentionFTBorder%>; border-bottom: 1px dotted <%$attentionFTBorder%>;">
-    <tr>
-    <td align="center" style="padding: 4px 0;">
-    <table border="0" cellpadding="0" cellspacing="0" align="center">
-    <tr>
-    <td valign="middle">
-    <span style="font-size: 12px; color: <%$attentionFT%>; ">关注FT中文网</span>
-    </td>
-    <td style="padding-left: 10px; width: 160px;">
-    <table border="0" cellpadding="0" cellspacing="0" align="left" valign="middle" style="width: 180px;">
-    <tr>
-    <td>
-    <a
-    href="http://weibo.com/ftchinese" style="text-decoration: none; font-size: 12px; display: block;" target="_blank"
-    ><img src="https://dhgxl8qk9zgzr.cloudfront.net/img/png/social-weibo.png" style="border: 0 none; display: block;" width="24" height="24" alt="新浪微博"/></a>
-    </td>
-    <td>
-    <a
-    href="<%$mainDomain%>m/corp/follow.html" style="text-decoration: none; font-size: 12px; display: block;" target="_blank"
-    ><img src="https://dhgxl8qk9zgzr.cloudfront.net/img/png/social-wechat.png" style="border: 0 none; display: block;" width="24" height="24" alt="微信"/></a>
-    </td>
-    <td>
-        <a
-        href="https://www.linkedin.com/company/4865254?trk=hp-feed-company-name" style="text-decoration: none; font-size: 12px; display: block;" target="_blank"
-        ><img src="https://dhgxl8qk9zgzr.cloudfront.net/icons/png/ftsocial_linkedin.png" style="border: 0 none; display: block;" width="24" height="24" alt="领英"/></a>
-    </td>
-    <td>
-        <a
-        href="https://twitter.com/FTChinese" style="text-decoration: none; font-size: 12px; display: block;" target="_blank"
-        ><img src="https://dhgxl8qk9zgzr.cloudfront.net/icons/png/ftsocial_twitter.png" style="border: 0 none; display: block;" width="24" height="24" alt="Twitter"/></a>
-    </td>
-    <td>
-        <a
-        href="https://www.facebook.com/financialtimeschinese" style="text-decoration: none; font-size: 12px; display: block;" target="_blank"
-        ><img src="https://dhgxl8qk9zgzr.cloudfront.net/icons/png/ftsocial_facebook.png" style="border: 0 none; display: block;" width="24" height="24" alt="Facebook"/></a>
-    </td>
-    </tr>
-    </table>
-    </td>
-    </tr>
-    </table>
-    </td>
-    </tr>
-    </table>
-    </td>
-    </tr>
-    <tr><td class="lineH1" style="height: 22px; font-size: 22px; line-height: 22px; padding: 0;">&nbsp;</td></tr>
-    <tr>
-    <td class="ft-email-bar lineH1_4" style="text-align: center;font-size: 12px;line-height: 17px;color:<%$footerListColor%>;">
-    <a
-    href="<%$mainDomain%>m/corp/aboutus.html" style="text-decoration: none;color: <%$footerListColor%>;" target="_blank"
-    >关于我们</a> |
-    <a
-    href="<%$mainDomain%>jobs/?from=ft" style="text-decoration: none; color: <%$footerListColor%>;" target="_blank"
-    >加入我们</a> |
-    <a
-    href="<%$mainDomain%>m/corp/contact.html" style="text-decoration: none; color:<%$footerListColor%>;" target="_blank"
-    >联系方式</a> |
-    <a
-    href="<%$mainDomain%>m/corp/service.html" target="_blank" style="text-decoration: none;color: <%$footerListColor%>;"
-    >服务条款</a> |
-    <a
-    href="<%$mainDomain%>m/corp/sales.html" style="text-decoration: none;color: <%$footerListColor%>;" target="_blank"
-    >广告业务</a> |
-    <a
-    href="<%$mainDomain%>m/corp/faq.html" style="text-decoration: none;color:<%$footerListColor%>;" target="_blank"
-    >问题回馈</a>
-    </td>
-    </tr>
-<%/if%>
-<tr><td class="lineH1" style="height: 34px; font-size: 34px; line-height: 34px; padding: 0;">&nbsp;</td></tr>
-<tr><td style="font-size: 14px;line-height: 17px;padding: 5px 5px 0 5px;text-align: center;color:<%$backEmailColor%>;">您已经订阅了本邮件，如果您想退订，请<a style="color:#0a5e66;TEXT-DECORATION: none" href="http://newsletter.ftimg.online/unsubscribe.html?email=$$data.email$$" target="_blank">点击此处</a>，进行退订操作。</td></tr>
-
-<tr><td class="ft-copyright lineH1_4" style="font-size: 12px;line-height: 17px;padding: 5px 5px 0 5px;text-align: center;color:<%$brandColor%>;">
-&copy; THE FINANCIAL TIMES LTD <%$smarty.now|date_format:"%Y"%>
-</td></tr>
-</table>
-</td>
-<td style="width: 3%;" class="contentPadding largeViewBar">&nbsp;</td>
-</tr>
-</table>
-</td></tr>
-<tr><td style="background:<%$footerBGColor%>;height: 28px; font-size: 28px; line-height: 28px; padding: 0;" class="bottomContentPadding lineH1">&nbsp;</td></tr>
-</table>
-</td>
-<td style="width:1%;" class="whiteBorder">&nbsp;</td>
-</tr>
-</table>
-</td>
-</tr>
-</table>
-</div>
-
-
-<%assign var="foundDomain" value="no"%>
-<%foreach from=$p.sections item=section%>
-    <%if $section.type == "MailTracking"%>
-        <%assign var="mainDomain" value=$section.domain%>
-        <%if !preg_match("/\/$/is",$mainDomain)%>
-            <%assign var="mainDomain" value="`$mainDomain`/"%>
-        <%/if%>
-        <%assign var="foundDomain" value="yes"%>
-        <img src="<%$mainDomain%>ga.php?utmac=MO-1608715-1&utmn=<%$smarty.now|date_format:"%G%m%d%H"%>&utmr=-&utmp=<%"`$section.path`?source=email"|escape:'url'%>&utmdt=<%$section.title%>&guid=ON" />
-    <%/if%>
-<%/foreach%>
-<%if $foundDomain == "no"%>
-    <%include file="include/email/tracking.html"%>
-<%/if%>
-
-<%if $p.meta.audiencePixelTag != ""%>
-    <img src="<%$p.meta.audiencePixelTag%>" width=1 height=1 border=0/>
+	<img src="<%$p.meta.audiencePixelTag%>" width=1 height=1 border=0/>
 <%/if%>
 </body>
 <!-- htmlmin:ignore -->
