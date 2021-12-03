@@ -26,13 +26,12 @@
 <%assign var="descPosition" value="center"%>
 <%assign var="containerWidth" value="720px"%>
 <%assign var="barColor" value="#333333"%>
+<%assign var="barPadding" value="7px 14px 7px 14px"%>
 <%assign var="barBackgroundColor" value="#E9DECE"%>
 <%assign var="barBorderColor" value="#A7A59B"%>
 <%assign var="barBorderWidth" value="1px 0"%>
 <%assign var="contentPaddingWidth" value="45px"%>
-<%assign var="lineH1Hidden" value="block"%>
 <%assign var="logoPadding" value="10"%>
-<%assign var="logoTableWidth" value="initial"%>
 <%assign var="tableBorderWidth" value="initial"%>
 <%assign var="contentPaddingDisplay" value="block"%>
 <%assign var="footerBGColor" value="initial"%>
@@ -43,21 +42,19 @@
 <%assign var="tableWidth" value="initial"%>
 <%assign var="tableMaxWidth" value="initial"%>
 <%assign var="attentionFTBorder" value="#C0C0C0"%>
-<%assign var="largeViewBarDisplay" value="none"%>
 <%if $p.meta.theme == "myFT"%>
     <%assign var=bodyColor value="#FFF1E0"%>
     <%assign var="tableBorder" value="transparent"%>
     <%assign var="containerWidth" value="inherit"%>
     <%assign var="logoPosition" value="left"%>
     <%assign var="descPosition" value="left"%>
-    <%assign var="barColor" value="#333333"%>
+    <%assign var="barColor" value="#0000EE"%>
+    <%assign var="barPadding" value="5px 0px 5px 0px"%>
     <%assign var="barBackgroundColor" value="#ffffff"%>
     <%assign var="barBorderColor" value="#000"%>
     <%assign var="barBorderWidth" value="8px 0 0 0"%>
     <%assign var="contentPaddingWidth" value="10%"%>
-    <%assign var="lineH1Hidden" value="none"%>
     <%assign var="logoPadding" value="0"%>
-    <%assign var="logoTableWidth" value="640px"%>
     <%assign var="tableBorderWidth" value="100%"%>
     <%assign var="contentPaddingDisplay" value="none"%>
     <%assign var="footerBGColor" value="#272b33"%>
@@ -68,7 +65,6 @@
     <%assign var="tableWidth" value="100%"%>
     <%assign var="tableMaxWidth" value="640px"%>
     <%assign var="attentionFTBorder" value="#272b33"%>
-    <%assign var="largeViewBarDisplay" value="block"%>
     <%elseif $smarty.get.to == "iosapp" || $smarty.get.to == "noneiosapp"%>
     <%assign var=bodyColor value="#FFF1E0"%>
 <%else%>
@@ -130,7 +126,7 @@ font-size:13px !important;line-height:1.2 !important;color:#505050 !important;te
 border: solid 1px <%$barBorderColor%> !important;
 border-width: <%$barBorderWidth%> !important;
 font-weight:normal !important;
-padding: 7px 14px !important;
+padding:<%$barPadding%> !important;
 color:<%$barColor%> !important;
 background-color:<%$barBackgroundColor%> !important;
 font-size:19px !important;
@@ -182,6 +178,7 @@ height: 10px !important; font-size: 8px !important; line-height: 1.2 !important;
 }
 .contentPadding {
 width: <%$contentPaddingWidth%> !important;
+display: <%$contentPaddingDisplay%> !important;
 }
 .bottomContentPadding {
 height: 43px !important; font-size: 43px !important; line-height: 1 !important; padding: 0 !important;
@@ -209,7 +206,7 @@ border-width:  <%$barBorderWidth%> !important;
 line-height:1.4 !important;
 font-size:19px !important;
 font-weight:normal !important;
-padding: 7px 14px !important;
+padding: <%$barPadding%> !important;
 width:100% !important;
 }
 .topHeadline {
@@ -301,7 +298,7 @@ width: <%$containerWidth%> !important;
 <tr><td class="lineH1 openInBrowserGap" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
 <tr><td style="padding-left: <%$logoPadding%>px; padding-right: <%$logoPadding%>px;" align="center">
 <%if $smarty.get.webview != "ftcapp"%>
-    <table border="0" cellspacing="0" cellpadding="0"  width="100%" style="max-width:<%$logoTableWidth%>;">
+    <table border="0" cellspacing="0" cellpadding="0"  width="<%$tableWidth%>" style="max-width:<%$tableMaxWidth%>;">
     <tr><td class="ft-logo lineH1" style="font-size:43px;line-height:43px;height:43px;text-align: <%$logoPosition%>; width: 100%;">
     <a
     href="http://www.ftchinese.com" target="_blank"
@@ -365,8 +362,8 @@ width: <%$containerWidth%> !important;
             <%/if%>
             <%if $section.title != ""%>
                 <%if $s > 0%>
-                    <tr><td class="ft-header-bar" style="color: <%$barColor%>;background-color:<%$barBackgroundColor%>;border-width: <%$barBorderWidth%>; border: 1px <%$barBorderColor%> solid; font-size:13px;font-weight:bold;padding:5px 17px 4px 17px;text-transform:uppercase;width:100%;"><%$section.title%></td></tr>
-                    <tr><td class="lineH1 hidden" style="display: <%$lineH1Hidden%>;height: 10px;font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
+                    <tr><td class="ft-header-bar" style="color: <%$barColor%>;background-color:<%$barBackgroundColor%>;border-width: <%$barBorderWidth%>; border: 1px <%$barBorderColor%> solid; font-size:13px;font-weight:bold;padding:<%$barPadding%>;text-transform:uppercase;width:100%;"><%$section.title%></td></tr>
+                    <tr><td class="lineH1 hidden" style="height: 10px;font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
                 <%else%>
                     <tr><td  class="SContent cover message-title" style="font-size:18px;line-height:23px;color:#333;font-weight: bold;padding-left:17px;padding-right:17px;"><%$section.title%>：</td></tr>
                 <%/if%>
@@ -431,8 +428,12 @@ width: <%$containerWidth%> !important;
 <%foreach from=$topics item=topic%>
 <%if $topic!=""%>
 <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
-<tr><td style="width: 3%;" class="contentPadding"  >&nbsp;</td><td class="ft-header-bar" style="background-color: <%$barBackgroundColor%>;font-size:13px;font-weight:bold;padding:5px 17px 4px 17px;text-transform:uppercase;width:100%; border-width:  <%$barBorderWidth%>; border: 1px <%$barBorderColor%> solid; "><a href="<%$mainDomain%>tag/<%$topic|escape:"url"%>" style="color:#333333;text-decoration:none;" target=_blank><%$topic%></a></td><td style="width: 3%;" class="contentPadding">&nbsp;</td></tr>
-<tr><td class="lineH1 hidden" style="display: <%$lineH1Hidden%>; height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
+<tr>
+<td style="width: 3%; display: <%$contentPaddingDisplay%>;" class="contentPadding"  >&nbsp;</td>
+<td class="ft-header-bar" style="background-color: <%$barBackgroundColor%>;font-size:13px;font-weight:bold;padding:<%$barPadding%>;text-transform:uppercase;width:100%; border-width:  <%$barBorderWidth%>; border: 1px <%$barBorderColor%> solid; "><a href="<%$mainDomain%>tag/<%$topic|escape:"url"%>" style="color:#333333;text-decoration:none;" target=_blank><%$topic%></a></td>
+<td style="width: 3%; display: <%$contentPaddingDisplay%>;" class="contentPadding">&nbsp;</td>
+</tr>
+<tr><td class="lineH1 hidden" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
 <tr><td style="width: 3%;" class="contentPadding">&nbsp;</td><td style="font-size:14px;line-height:25px;color:#505050;padding-left:17px;padding-right:17px;" class="subhead textPadding lineH">
 <%assign var="allstories" value=$storymodel->get_story_by_field_search("tag like '%`$topic`%'",0,5,15,10800)%>
 
@@ -608,7 +609,7 @@ width: <%$containerWidth%> !important;
 </td></tr>
 </table>
 </td>
-<td style="width: 3%;" class="contentPadding largeViewBar">&nbsp;</td>
+<td style="width: 3%; " class="contentPadding largeViewBar">&nbsp;</td>
 </tr>
 </table>
 </td></tr>
@@ -645,4 +646,3 @@ width: <%$containerWidth%> !important;
 </body>
 <!-- htmlmin:ignore -->
 </html>
-
