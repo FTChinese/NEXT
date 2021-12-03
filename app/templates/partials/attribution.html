@@ -15,19 +15,52 @@
 <%/if%>
 
 <%if $itemType != "" && $itemId != ""%>
-    <%assign var="contentInfo" value=$storymodel->getContentById($itemId)%>
-    <div class="block-container dark-green no-side all" <%if $hideNavOnWideScreen == "yes"%>style="margin-top: 1em"<%/if%>><div class="block-inner">
-        <div class="content-container">
-        <div class="content-inner">
-        <div class="items">
-        <div class="no-image">
-        <div class="item-inner" style="padding-bottom: 0;">
-        <div class="item-lead">成为FT中文网订阅会员，即可阅读：</div>
-        <div class="item-title" style="margin-bottom: 0;"><%$contentInfo.cheadline%></div>
-        </div>
-        </div>
-        </div>
-           <div class="clearfloat block-bottom"></div>
-        </div>  </div>  <div class="clearfloat"></div>
-    </div> </div>
+  <%assign var="contentInfo" value=$storymodel->getContentById($itemId)%>
+  <style>
+    .item-quotes {
+      color: #9a2f3e;
+      padding: 1em 2em;
+    }
+    .item-quotes::before, .item-quotes::after {
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: 50%;
+      background-color: transparent;
+      position: absolute;
+    }
+    .item-quotes::after {
+      display: inline-block;
+      content: "";
+      vertical-align: baseline;
+      width: 2.5em;
+      height: 2.5em;
+      background-image: url(https://dhgxl8qk9zgzr.cloudfront.net/img/svg/quotes_right.svg);
+    }
+    .item-quotes::before {
+      display: inline-block;
+      vertical-align: baseline;
+      width: 2.5em;
+      height: 2.5em;
+      content: "";
+      top: 1em;
+      left: 0;
+      background-image: url(https://dhgxl8qk9zgzr.cloudfront.net/img/svg/quotes_left.svg);
+    }
+  </style>
+  <div class="block-container dark-green no-side all" <%if $hideNavOnWideScreen == "yes"%>style="margin-top: 1em"<%/if%>><div class="block-inner">
+      <div class="content-container">
+      <div class="content-inner">
+      <div class="items">
+      <div class="no-image">
+      <div class="item-inner" style="padding-bottom: 0;">
+      <div class="item-lead">成为FT中文网订阅会员，即可阅读：</div>
+      <div class="item-title item-quotes" style="margin-bottom: 0;"><%$contentInfo.cheadline%></div>
+      </div>
+      </div>
+      </div>
+          <div class="clearfloat block-bottom"></div>
+      </div>  </div>  <div class="clearfloat"></div>
+  </div> </div>
 <%/if%>
+
+

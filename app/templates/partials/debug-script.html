@@ -1,0 +1,47 @@
+<div id="ad-debug-info" style="margin-top: 80px;">获取诊断信息中，请等待这里有变化再截屏...</div>
+<script>
+  var version = 9;
+  for (var s of document.scripts) {
+    s.onerror = function () {
+      this.setAttribute('data-status', 'failed');
+    }
+    s.onload = function() {
+      this.setAttribute('data-status', 'loaded');
+    }
+  }
+  setInterval(function(){
+    var html = `<div>等下面所有的链接都变成红色或者绿色之后，请截屏给我看一下：</div><div>版本号：${version}</div>`;
+    for (var s of document.scripts) {
+      s.onerror = function () {
+        this.setAttribute('data-status', 'failed');
+      }
+      s.onload = function() {
+        this.setAttribute('data-status', 'loaded');
+      }
+      var status = s.getAttribute('data-status');
+      var color = 'grey';
+      if (status === 'loaded') {
+        color = 'green';
+      } else if (status === 'failed') {
+        color = 'red';
+      }
+      if (s.src && s.src !== '' && html.indexOf(s.src) === -1) {
+        html += `<div style="color: ${color};font-size:12px;">${s.src}</div>`;
+      }
+      if (color === 'grey' && s.src && s.src !== '') {
+        var head= document.getElementsByTagName('head')[0];
+        var script= document.createElement('script');
+        script.src= s.src;
+        s.parentElement.removeChild(s);
+        script.onerror = function () {
+          this.setAttribute('data-status', 'failed');
+        }
+        script.onload = function() {
+          this.setAttribute('data-status', 'loaded');
+        }
+        head.appendChild(script);
+      }
+    }
+    document.getElementById('ad-debug-info').innerHTML = html;
+  }, 5000);
+</script>
