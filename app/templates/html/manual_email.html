@@ -42,6 +42,7 @@
 <%assign var="tableWidth" value="initial"%>
 <%assign var="tableMaxWidth" value="initial"%>
 <%assign var="attentionFTBorder" value="#C0C0C0"%>
+<%assign var="textPaddingValue" value="10"%>
 <%if $p.meta.theme == "myFT"%>
     <%assign var=bodyColor value="#FFF1E0"%>
     <%assign var="tableBorder" value="transparent"%>
@@ -65,6 +66,7 @@
     <%assign var="tableWidth" value="100%"%>
     <%assign var="tableMaxWidth" value="640px"%>
     <%assign var="attentionFTBorder" value="#272b33"%>
+    <%assign var="textPaddingValue" value="17"%>
     <%elseif $smarty.get.to == "iosapp" || $smarty.get.to == "noneiosapp"%>
     <%assign var=bodyColor value="#FFF1E0"%>
 <%else%>
@@ -149,7 +151,7 @@ margin-left: 10px !important;
 margin-right: 10px !important;
 }
 .textPadding {
-padding-left:10px !important;padding-right:10px !important;
+padding-left:<%$textPaddingValue%>px !important;padding-right:<%$textPaddingValue%>px !important;
 }
 .videoImageLink {
 color:#505050 !important;text-decoration:none !important;display:block !important;
@@ -326,7 +328,7 @@ width: <%$containerWidth%> !important;
 <%assign var="foundMainMessage" value="no"%>
 <%foreach from=$p.sections item=section%>
     <%if $section.type == "block"%>
-        <%include file="next/partials/block_email.html"%>
+        <%include file="next/partials/block_new_email.html"%>
         <%assign var="s" value=$s+1%>
     <%elseif $section.type == "MainMessage"%>
         <%assign var="currentDate" value=$smarty.now|date_format:"%Y%m%d"%>

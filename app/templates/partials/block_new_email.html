@@ -1,0 +1,425 @@
+<%assign var="l" value=0%>
+<%if $maxItems == 0 || $maxItems == ""%>
+    <%assign var="maxItems" value=96%>
+<%/if%>
+<%foreach from=$section.lists item=list name=email%>
+    <%if $list.title != ""%>
+        <%if $smarty.foreach.email.index == 0%>
+            <tr>
+                <td align="center" style="background:#990F3D;" >
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width: 640px;">
+                        <tr>
+                            <td class="ft-header-bar" style="color:#ffffff !important;background-color:#990F3D !important;font-size:13px;font-weight:bold;padding:10px 0px 5px 0px !important;border: none !important;text-transform:uppercase;width:100%;"><%$list.title%></td>
+                        </tr>
+                        <tr><td class="lineH1" style="height: 10px;  display:none; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
+                    </table>
+                </td>
+            </tr>
+        <%else%>
+            <tr>
+                <td align="center" style="background:#FFF1E0;" >
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width: 640px;background-color:#ffffff;padding: 0 17px 0 17px">
+                        <tr><td class="ft-header-bar" style="color:#333333;font-size:13px;font-weight:bold;padding:5px 0px 5px 0px;text-transform:uppercase;width:100%;"><%$list.title%></td></tr>
+                        <tr><td class="lineH1" style="display: none;height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
+                    </table>
+                </td>
+            </tr>
+        <%/if%>
+    <%/if%>
+    <%if $list.description != ""%>
+        <tr><td  class="SContent cover" style="font-size:14px;line-height:23px;color:#505050;padding: 0 15px;"><%$list.description%></td></tr>
+        <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
+    <%/if%>
+    
+    <tr>
+        <%if $smarty.foreach.email.index == 0%>
+            <td style="font-size:14px;line-height:25px;color:#505050;padding-left:0 !important;padding-right:0 !important;" class="subhead textPadding lineH">
+        <%else%>
+            <td align="center">
+                <table  cellpadding="0" cellspacing="0" align="center" style="max-width: 640px; background: #ffffff;">
+                    <tr>
+                        <td style="font-size:14px;line-height:25px;color:#505050;padding-left:17px;padding-right:17px;" class="subhead textPadding lineH">
+              
+        <%/if%>
+
+        <%*<!--<td style="font-size:14px;line-height:25px;color:#505050;padding-left:0;padding-right:0;" class="subhead textPadding lineH"> -->*%>
+            <%*<!--MARK: Support SQL-->*%>
+            <%assign var="feedTag" value=$list.feedTag%>
+            <%assign var="feedStart" value=$list.feedStart|default:0%>
+            <%assign var="feedItems" value=$list.feedItems%>
+            <%if $list.feedType == "myFT"%>
+                <%easyapi command="31005" assign="myftArrays" topnum=30%>
+                <%assign var="itemsArray" value=$myftArrays.odatalist%>
+            <%elseif $list.feedType == "DailyEmail" || $list.feedType == "DailyEmailPremium"%>
+                <%assign var="homeData" value=$nextmodel->getPublishJson("home")|json_decode:true%>
+                <%assign var="premiumData" value=""%>
+                <%if $list.feedType == "DailyEmailPremium"%>
+                    <%assign var="premiumData" value=$interactivemodel->get_interactive_by_field_search("find_in_set('FT商学院', tag)",0,8,2,10800)%>
+                <%/if%>
+                <%php%>
+                    $homeData = $this->get_template_vars('homeData');
+                    $premiumData = $this->get_template_vars('premiumData');
+                    $itemsArray = [];
+                    if ($homeData["sections"]) {
+                        foreach ($homeData["sections"] as $section) {
+                            if ($section["type"] !== 'block') {continue;}
+                            $itemsArray = $section["lists"][0]["items"];
+                            break;
+                        }
+                        if ($premiumData != "") {
+                            $premiumCount = count($premiumData);
+                            $premiumIndex = 0;
+                            $items = [];
+                            foreach ($itemsArray as $key=>$item) {
+                                $updateTime = intval($item["timeStamp"]);
+                                while ($key > 0 && $premiumIndex < $premiumCount) {
+                                    $premiumItem =  $premiumData[$premiumIndex];
+                                    $premiumItem["type"] = "interactive";
+                                    $premiumItem["mainTag"] = "FT商学院";
+                                    $premiumItem["mainTagLink"] = "/channel/mba.html"; 
+                                    $premiumUpdateTime = intval($premiumItem["fileupdatetime"]);
+                                    $premiumItem["timeStamp"] = $premiumUpdateTime;
+                                    if ($premiumUpdateTime > $updateTime) {
+                                        array_push($items, $premiumItem);
+                                        $premiumIndex += 1;
+                                    } else {
+                                        break;
+                                    }
+                                }
+                                array_push($items, $item);
+                            }
+                            $itemsArray = $items;
+                        }
+                        // MARK: - 适当减少显示的条数：依据日期以及数量，只显示过去24小时的内容，周一显示过去72小时内容，最多显示20条，始终显示头版
+                        $items = [];
+                        $date = date_create();
+                        $now = date_timestamp_get($date);
+                        $days = (date('w') == 1) ? 3 : 1;
+                        $cutTime = $now - $days * 24 * 60 * 60;
+                        $maxItems = 30;
+                        foreach ($itemsArray as $key=>$item) {
+                            if ($key === 0) {
+                                // MARK: - Always use the cover story
+                                array_push($items, $item);
+                                continue;
+                            }
+                            if (count($items) >= $maxItems) {break;}
+                            $updateTime = intval($item["timeStamp"]);
+                            if ($updateTime >= $cutTime) {
+                                array_push($items, $item);
+                                continue;
+                            }
+                        }
+                        $itemsArray = $items;
+                        $this->assign("itemsArray", $itemsArray);
+                    }
+                <%/php%>
+            <%elseif $list.feedType == "hot"%>
+                <%assign var="itemsArray" value=$storymodel->get_hot_story(7,40,true)%>
+                <%assign var="feedType" value=$list.feedType%>
+            <%elseif $list.feedType == "myFTNew"%>
+                <%assign var="feedType" value=$list.feedType%>
+                <%assign var="itemsArray" value=$storymodel->get_content_by_field_search('1>0',$feedStart,$feedItems,999999999,10800)%>
+            <%elseif $list.feedType == "ftc_columns"%>
+                <%assign var="itemsArray" value=$storymodel->get_column_list("cn")%>
+                <%assign var="feedType" value="columns"%>
+            <%elseif $list.feedType == "ft_columns"%>
+                <%assign var="itemsArray" value=$storymodel->get_column_list("en")%>
+                <%assign var="feedType" value="columns"%>
+            <%elseif $list.items|@count==0 && $list.feedItems != "" && $list.feedItems != "0"%>
+                <%if preg_match("/like|find_in_set|=|\(| in /is",$feedTag)%>
+                    <%if $list.feedType == "story"%>
+                        <%assign var="feedType" value=$list.feedType%>
+                        <%assign var="feedTag" value="(`$feedTag`) and eskylinetext not like '%低调%'"%>
+                        <%assign var="itemsArray" value=$storymodel->get_story_by_field_search($feedTag,$feedStart,$feedItems,999999999,10800)%>
+                    <%elseif $list.feedType == "interactive"%>
+                        <%assign var="feedType" value=$list.feedType%>
+                        <%assign var="itemsArray" value=$interactivemodel->get_interactive_by_field_search($feedTag,$feedStart,$feedItems,999999999,10800)%>
+                    <%elseif $list.feedType == "video"%>
+                        <%assign var="feedType" value=$list.feedType%>
+                        <%assign var="itemsArray" value=$videomodel->get_video_by_field_search($feedTag,$feedStart,$feedItems,9999999999999,10800)%>
+                    <%elseif $list.feedType == "photo"%>
+                        <%assign var="feedType" value="photonews"%>
+                        <%assign var="itemsArray" value=$photonewsmodel->get_photonews_by_field_search($feedTag,"ORDER BY photonewsid DESC",$feedItems)%>
+                    <%/if%>
+                <%else%>
+                    <%if $list.feedType == "story"%>
+                        <%assign var="feedType" value=$list.feedType%>
+                        <%assign var="itemsArray" value=$storymodel->get_story_by_tag($feedTag,$feedStart,$feedItems)%>
+                    <%elseif $list.feedType == "interactive"%>
+                        <%assign var="feedType" value=$list.feedType%>
+                        <%assign var="interactiveFeedSQL" value="find_in_set('`$feedTag`', tag)"%>
+                        <%assign var="itemsArray" value=$interactivemodel->get_interactive_by_field_search($interactiveFeedSQL,$feedStart,$feedItems,999999999,10800)%>
+                        <%*<!--assign var="itemsArray" value=$interactivemodel->get_interactive_by_tag($feedTag, $feedItems)-->*%>
+                    <%elseif $list.feedType == "video"%>
+                        <%assign var="feedType" value=$list.feedType%>
+                        <%if preg_match("/^[0-9]+$/is",$feedTag)%>
+                            <%assign var="videoChannel" value=$feedTag%>
+                            <%assign var="itemsArray" value=$videomodel->get_video_by_channel($videoChannel,$feedStart,$feedItems)%>
+                        <%else%>
+                            <%assign var="itemsArray" value=$videomodel->get_video_by_tag($feedTag,$feedStart,$feedItems)%>
+                        <%/if%>
+                    <%elseif $list.feedType == "photo"%>
+                        <%assign var="feedType" value="photonews"%>
+                        <%assign var="itemsArray" value=$photonewsmodel->get_photonews_by_tag($feedTag,0,$feedItems)%>
+                    <%elseif $list.feedType == "premium"%>
+                        <%*<!--Premium Content Should Display -->*%>
+                        <%assign var="feedType" value=$list.feedType%>
+                        <%assign var="itemsArray" value=$storymodel->getPremiumStory($feedStart, $feedItems)%>
+                    <%elseif $list.feedType == "audiovideo"%>
+                        <%assign var="feedType" value=$list.feedType%>
+                        <%assign var="itemsArray" value=$videomodel->get_video_audio($feedStart,$list.feedItems,3000,10800)%>
+                    <%else%>
+                        <%assign var="feedType" value=$list.feedType%>
+                        <%assign var="itemsArray" value=$storymodel->getContentByTag($feedTag,$feedItems)%>
+                    <%/if%>
+                <%/if%>
+            <%else%>
+                <%assign var="feedType" value="manual"%>
+                <%assign var="itemsArray" value=$list.items%>
+            <%/if%>
+
+            <%assign var="i" value=0%>
+            <%foreach from=$itemsArray item=item%>
+                <%if $i < $maxItems%>
+                    <%if $s == 0 && $l == 0 && $i ==0%>
+                        <%assign var="imageWidth" value=600%>
+                        <%assign var="imageHeight" value=338%>
+                        <%assign var="imageClass" value=" class=\"coverImgLinkContain\""%>
+                    <%else%>
+                        <%assign var="imageWidth" value=167%>
+                        <%assign var="imageHeight" value=96%>
+                        <%assign var="imageClass" value=""%>
+                    <%/if%>
+                    <%assign var=ccodePara value=""%>
+                    <%if $ccode != ""%>
+                        <%assign var=ccodePara value="&ccode=`$ccode`"%>
+                    <%/if%>
+                    
+                    <%assign var="itemType" value=$item.item_type|default:$item.type|default:$item.itemtype|default:$feedType%>
+                    <%assign var="itemId" value=$item.id|default:$item.photonewsid%>
+                    <%if $feedType == "all"%>
+                        <%assign var="itemImage" value=$item.image.cover|default:$item.image.smallbutton|default:$item.image.other|default:$item.image.bigbutton%>
+                    <%elseif $feedType == "photonews"%>
+                        <%assign var="itemImage" value=$item.illustration|default:$item.cover|default:$item.thumb_url%>
+                        <%if $itemImage != ""%>
+                            <%assign var="itemImage" value="https://thumbor.ftacademy.cn/unsafe/`$itemImage`"%>
+                        <%/if%>
+                    <%else%>
+                        <%assign var="itemImage" value=$item.image|default:$item.story_pic.cover|default:$item.story_pic.smallbutton|default:$item.story_pic.other|default:$item.story_pic.bigbutton%>
+                    <%/if%>
+                    <%assign var="itemHeadline" value=$item.headline|default:$item.cheadline|default:$item.cn_title%>
+                    <%assign var=itemLink value="`$mainDomain``$itemType`/`$itemId`?s=w`$discountCode``$ccodePara`#s=w"%>
+                    <%if $item.customLink != ""%>
+                        <%assign var=itemLink value="`$mainDomain``$item.customLink`#s=w"%>
+                    <%/if%>
+                    <%if $item.mainTag != ""%>
+                        <%assign var=itemMainTag value="<div><a style=\"font-size:14px;color:#9E2f50;font-weight:bold;text-decoration:none;\" href=\"`$mainDomain``$item.mainTagLink`\">`$item.mainTag`</a></div>"%>
+                    <%elseif $list.showTag == "yes"%>
+                        <%*<!--MARK: - There is a bug with this version smarty so that have to replace twice. Otherwise, the characters will come out garbled. Try "伊朗" -->*%>
+                        <%assign var="itemMainTag" value=$item.tag|replace:"/，/":","|regex_replace:"/,.*$/":""%>
+                        <%assign var="itemMainTag" value="<div><a style=\"font-size:14px;color:#9E2f50;font-weight:bold;text-decoration:none;\" href=\"`$mainDomain`tag/`$itemMainTag`\">`$itemMainTag`</a></div>"%>
+                    <%else%>
+                        <%assign var=itemMainTag value=""%>
+                    <%/if%>
+                    <%assign var=itemHref value=" href=\"`$itemLink`\""%>
+                    <%if $itemId == "" && item.customLink == ""%>
+                        <%assign var=itemHref value=""%>
+                    <%/if%>
+                    <%if $list.preferLead === "none"%>
+                        <%assign var="hideLead" value="yes"%>
+                        <%assign var="itemLead" value=""%>
+                    <%elseif $list.preferLead === "shortlead"%>
+                        <%assign var="itemLead" value=$item.shortlead|default:$item.longlead|default:$item.cshortleadbody|default:$item.clongleadbody%>
+                    <%else%>
+                        <%assign var="itemLead" value=$item.longlead|default:$item.shortlead|default:$item.clongleadbody|default:$item.cshortleadbody%>
+                    <%/if%>
+
+                    <%assign var="listLanguage" value=$list.language%>
+                    <%assign var="eheadline" value=""%>
+                    <%if $listLanguage != ""%>
+                        <%assign var="listLanguage" value="/`$listLanguage`"%>
+                        <%assign var="eheadline" value=$item.eheadline%>
+                    <%/if%>
+                    <%if $listLanguage == "/ce" && $eheadline != ""%>
+                        <%assign var="itemLead" value=$itemHeadline%>
+                        <%assign var="itemHeadline" value=$eheadline%>							
+                    <%elseif $listLanguage == "/en" && $eheadline != ""%>
+                        <%assign var="itemHeadline" value=$eheadline%>
+                    <%/if%>
+
+
+                    <%*<!--MARK: Show different marks for different types of subscribers/users-->*%>
+                    <%assign var="tier" value=""%>
+                    <%if preg_match("/高端专享/is",$item.tag)%>
+                        <%assign var="tier" value="premium"%>
+                    <%elseif $item.type == "premium" || preg_match("/会员专享|英语电台/is",$item.tag)%>
+                        <%assign var="tier" value="standard"%>
+                    <%/if%>
+                    <%assign var="tierMark" value=""%>
+                    <%if $smarty.get.to == "premium"%>
+                        <%*<!--MARK: Nothing needs to be done here-->*%>
+                    <%elseif $smarty.get.to == "standard"%>
+                        <%if $tier == "premium"%>
+                            <%assign var="tierMark" value="premium"%>
+                        <%/if%>
+                    <%else%>
+                        <%if $tier == "premium"%>
+                            <%assign var="tierMark" value="premium"%>
+                        <%elseif $tier == "standard"%>
+                            <%assign var="tierMark" value="standard"%>
+                        <%/if%>
+                    <%/if%>
+                    <%*<!-- MARK: - https://kontent.ai/blog/emails-inline-tags-vertical-alignment-outlook -->*%>
+                    <%assign var="markTemplate" value="&nbsp;<!--[if mso]><span style=\"vertical-align:-4px;\"><v:rect style=\"height:20px;v-text-anchor:middle;color:#FFFFFF;width:70px;mso-wrap-style:none;\" stroke=\"f\" fillcolor=\"#000000\" xmlns:v=&quot;urn:schemas-microsoft-com:vml&quot; xmlns:w=&quot;urn:schemas-microsoft-com:office:word&quot;><w:anchorlock/><v:textbox inset=\"0,0,0,0\"><center><![endif]--><span style=\"font-size: 12px;margin:0;padding:0 3px;margin-top:-4px;vertical-align:middle;display:inline-block;font-weight: bold;line-height: 20px;height:20px;white-space: nowrap;color: #FFFFFF;background: #000000\"><!--[if mso]>&nbsp;<span style=\"font-size:12px\"><![endif]--><!--MarkName--><!--[if mso]>&nbsp;</span><![endif]--></span><!--[if mso]></center></v:textbox></v:rect></span><![endif]-->"%>
+                    <%if $tierMark == "premium"%>
+                        <%assign var="tierMark" value=$markTemplate|replace:"<!--MarkName-->":"高端专享"%>
+                    <%elseif $tierMark == "standard"%>
+                        <%assign var="tierMark" value=$markTemplate|replace:"<!--MarkName-->":"会员专享"%>
+                    <%else%>
+                        <%assign var="tierMark" value=""%>
+                    <%/if%>
+
+                    <%if $list.ShowBodyMail == "yes"%>
+                        <%*<!--MARK: Show the full text of article-->*%>
+                        <div style="line-height:1.618; " class="item-container">
+                            <table width="100%" cellpadding="0" cellspacing="0" style="border-bottom:1px solid #E9DECF; line-height:1.618;">
+                                <tr><td class="lineH1" style="height: 5px; font-size: 5px; line-height: 5px; padding: 0;">&nbsp;</td></tr>
+                                <tr>
+                                    <td class="SContent cover" style="font-size:18px;line-height:23px;color:#333333;">
+                                        <div class="lineH1_4" style="line-height:28px;font-size:20px;">
+                                            <a class="headLine" style="font-weight:bold; text-decoration:none; color:#111;" <%$itemHref%>><%$itemHeadline%></a>
+                                        </div>
+                                        <br>
+                                        <%if $itemImage != "" && $smarty.get.showImage != "no"%>
+                                            <div>
+                                                <img src="<%$itemImage|replace:"/upload/":"/"%>" border="0"/>
+                                            </div>
+                                            <br>
+                                        <%/if%>
+                                        <%assign var="story" value=$storymodel->getStoryInfo($itemId)%>
+                                        <%assign var="storyAuthor" value="`$story.cbyline_description` `$story.cauthor`"%>
+                                        <div style="color: #505050;"><%$storyAuthor%></div>
+                                        <br>
+                                        <%assign var="storyBody" value=$story.cbody|regex_replace:"/<p>[_-]+<\/p>/":"<hr/><br/>"%>
+                                        <%$storyBody|nl2br%>
+                                        <br>
+                                    </td>
+                                </tr>
+                                <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
+                            </table>
+                        </div>
+                    <%else%>
+                        <div style="line-height:1.618; " class="item-container">
+                            <table width="100%" cellpadding="0" cellspacing="0" style="border-bottom:1px solid #E9DECF; line-height:1.618;">
+                                <tr><td class="lineH1" style="height: 5px; font-size: 5px; line-height: 5px; padding: 0;">&nbsp;</td></tr>
+                                <tr>
+                                    <td class="SContent cover" style="font-size:14px;line-height:23px;color:#505050;">
+                                         <%if $smarty.foreach.email.index == 0%>
+                                        <%if $itemImage != "" && $smarty.get.showImage != "no"%>
+                                            <%assign var="itemImage" value="https://thumbor.ftacademy.cn/unsafe/`$imageWidth`x`$imageHeight`/`$itemImage`"%>
+                                            <%assign var="itemImage" value=$itemImage|replace:"/upload/":"/"|replace:"/https://thumbor.ftacademy.cn/unsafe/":"/"|replace:"//picture":"/picture"%>
+                                            <div class="lineH1_4 P-Only" style="line-height:28px;font-size:20px;display:none;">
+                                                <%$itemMainTag%>
+                                                <a class="headLine" style="font-weight:bold; text-decoration:none; color:#111;" <%$itemHref%>><%$itemHeadline%></a><%$tierMark%>
+                                            </div>
+                                          
+                                                <tr  width="100%"  style="background: #990F3D;">
+                                                    <td align="center">
+                                                        <table cellpadding="0" cellspacing="0" align="center" <%$imageClass%>  style="max-width: 640px; background: #ffffff;padding:17px 17px 0">
+                                                            <tr><td class="lineH1 imgSpace" style="height: 6px; font-size: 0px; line-height: 5px; padding: 0;">&nbsp;</td></tr>
+                                                            <tr>
+                                                                <td>
+                                                                <a class="coverImgLink" <%$itemHref%>>
+                                                                    <img src="<%$itemImage%>" border="0" style="width:<%$imageWidth%>px !important;" align="center" width="<%$imageWidth%> !important"/>
+                                                                </a>
+                                                                </td>
+                                                                <td style="width:10px">&nbsp;</td>
+                                                            </tr>
+                                                            <tr><td class="lineH1 imgSpace" style="height: 5px; font-size: 0px; line-height: 5px; padding: 0;">&nbsp;</td></tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            <tr  width="100%">
+                                                <td align="center">
+                                                    <table cellpadding="0" cellspacing="0" align="center" style="max-width: 640px; background: #ffffff;padding:17px 17px 0">
+                                            <tr  width="100%">
+                                                            <td>
+                                            <div class="lineH1_4 P-Hide" style="line-height:28px;font-size:20px;">
+                                                <%$itemMainTag%>
+                                                <a class="headLine" style="font-weight:bold; text-decoration:none; color:#111;" <%$itemHref%>><%$itemHeadline%></a><%$tierMark%>
+                                            </div>
+                                        <%else%>
+                                            <div class="lineH1_4" style="line-height:28px;font-size:20px;">
+                                                <%$itemMainTag%>
+                                                <a class="headLine" style="font-weight:bold; text-decoration:none; color:#111;" <%$itemHref%>><%$itemHeadline%></a><%$tierMark%>
+                                            </div>
+                                            </td>
+                                                        </tr>
+                                        <%/if%>
+                                                        <tr  width="100%">
+                                                            <td>
+                                                                <%$itemLead|nl2br%>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                    <%else%>
+                                        <%if $itemImage != "" && $smarty.get.showImage != "no"%>
+                                            <%assign var="itemImage" value="https://thumbor.ftacademy.cn/unsafe/`$imageWidth`x`$imageHeight`/`$itemImage`"%>
+                                            <%assign var="itemImage" value=$itemImage|replace:"/upload/":"/"|replace:"/https://thumbor.ftacademy.cn/unsafe/":"/"|replace:"//picture":"/picture"%>
+                                            <div class="lineH1_4 P-Only" style="line-height:28px;font-size:20px;display:none;">
+                                                <%$itemMainTag%>
+                                                <a class="headLine" style="font-weight:bold; text-decoration:none; color:#111;" <%$itemHref%>><%$itemHeadline%></a><%$tierMark%>
+                                            </div>
+                                            <table cellpadding="0" cellspacing="0" align="left"<%$imageClass%>>
+                                                <tr><td class="lineH1 imgSpace" style="height: 6px; font-size: 0px; line-height: 5px; padding: 0;">&nbsp;</td></tr>
+                                                <tr>
+                                                    <td>
+                                                    <a class="coverImgLink" <%$itemHref%>>
+                                                        <img src="<%$itemImage%>" border="0" style="width:<%$imageWidth%>px;" align="left" width="<%$imageWidth%>"/>
+                                                    </a>
+                                                    </td>
+                                                    <td style="width:10px">&nbsp;</td>
+                                                </tr>
+                                                <tr><td class="lineH1 imgSpace" style="height: 5px; font-size: 0px; line-height: 5px; padding: 0;">&nbsp;</td></tr>
+                                            </table>
+                                            <div class="lineH1_4 P-Hide" style="line-height:28px;font-size:20px;">
+                                                <%$itemMainTag%>
+                                                <a class="headLine" style="font-weight:bold; text-decoration:none; color:#111;" <%$itemHref%>><%$itemHeadline%></a><%$tierMark%>
+                                            </div>
+                                        <%else%>
+                                            <div class="lineH1_4" style="line-height:28px;font-size:20px;">
+                                                <%$itemMainTag%>
+                                                <a class="headLine" style="font-weight:bold; text-decoration:none; color:#111;" <%$itemHref%>><%$itemHeadline%></a><%$tierMark%>
+                                            </div>
+                                        <%/if%>
+                                        <%$itemLead|nl2br%>
+                                    <%/if%>
+                                    </td>
+                                </tr>
+                                <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
+                            </table>
+                        </div>
+                    <%/if%>
+                    <%if $s == 0 && $l == 0 && $i ==0 && $smarty.get.to != "vip" && $smarty.get.to != "iosapp" && $smarty.get.to != "noneiosapp"%>
+                        <%assign var="adPositionCode" value="mpu-1"%>
+                        <%assign var="adWrapper" value="weekly-1"%>
+                        <%include file="next/partials/email-ad-tag.html"%>
+                    <%/if%>
+                    <%if $s == 0 && $l == 0 && $i==10 && 1>2%>
+                        <%include file="email/284x90/code.html"%>
+                    <%/if%>
+                    <%assign var="i" value=$i+1%>
+                <%/if%>
+            <%/foreach%>
+        </td>
+        <%if $smarty.foreach.email.index != 0%>
+                    </tr>
+                </table>
+            </td>
+        <%/if%>
+    </tr>
+    <%assign var="l" value=$l+1%>
+<%/foreach%>
