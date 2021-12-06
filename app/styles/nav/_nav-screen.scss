@@ -209,6 +209,7 @@
 		.nav-item[aria-selected=true] & {
 			background-color: $darkGreen;
 			color: $whiteColor;
+
 		}
 
 		.nav-item[aria-haspopup=true] &:after{
@@ -238,6 +239,19 @@
 		.nav-section[aria-selected=true] .nav-item[aria-haspopup=true]:hover &:after{
 			@include oHeaderIcon($arrowUp, 10);
 		}
+
+		@if variable-exists(arrowUpWhite) {
+			.nav-section[aria-selected=true] .nav-item[aria-haspopup=true] &:hover:after{
+				@include oHeaderIcon($arrowUpWhite, 10);	
+			}
+		}
+
+		@if variable-exists(arrowRightWhite) {
+			.nav-item[aria-haspopup=true] &:hover:after {
+				@include oHeaderIcon($arrowRightWhite, 10);
+			}
+		}
+
 	}	
 	@include oGridRespondTo($from: L, $until: XL) {
 		.nav-section[aria-selected=true] &{
