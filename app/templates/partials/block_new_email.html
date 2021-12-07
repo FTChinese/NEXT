@@ -32,17 +32,8 @@
     <%/if%>
 
     <tr>
-        <%if $smarty.foreach.email.index == 0%>
-            <td style="font-size:14px;line-height:25px;color:#505050;padding-left:0 !important;padding-right:0 !important;" class="subhead textPadding lineH">
-        <%else%>
-            <td align="center">
-                <table  cellpadding="0" cellspacing="0" align="center" style="max-width: 640px; background: #ffffff;">
-                    <tr>
-                        <td style="font-size:14px;line-height:25px;color:#505050;padding-left:17px;padding-right:17px;" class="subhead textPadding lineH">
-              
-        <%/if%>
 
-        <%*<!--<td style="font-size:14px;line-height:25px;color:#505050;padding-left:0;padding-right:0;" class="subhead textPadding lineH"> -->*%>
+        <td style="font-size:14px;line-height:25px;color:#505050;padding-left:0 !important;padding-right:0 !important;" class="subhead textPadding lineH">
             <%*<!--MARK: Support SQL-->*%>
             <%assign var="feedTag" value=$list.feedTag%>
             <%assign var="feedStart" value=$list.feedStart|default:0%>
@@ -310,124 +301,131 @@
                             </table>
                         </div>
                     <%else%>
-                        <div style="line-height:1.618; " class="item-container">
-                            <table width="100%" cellpadding="0" cellspacing="0" style="line-height:1.618;">
-                                <tr><td class="lineH1" style="display:none; height: 5px; font-size: 5px; line-height: 5px; padding: 0;">&nbsp;</td></tr>
-                                <tr>
-                                    <%if $smarty.foreach.email.index == 0%>
-                                        <td align="center">
-                                            <table width="100%" cellpadding="0" cellspacing="0" style="max-width:640px; background-color: #ffffff; padding:17px 17px 0 17px;" >
-                                                <tr>
-                                                    <td class="SContent cover" align="center" style="font-size:14px;line-height:23px;color:#505050;">
-                                                        <%if $itemImage != "" && $smarty.get.showImage != "no"%>
-                                                            <%assign var="itemImage" value="https://thumbor.ftacademy.cn/unsafe/`$imageWidth`x`$imageHeight`/`$itemImage`"%>
-                                                            <%assign var="itemImage" value=$itemImage|replace:"/upload/":"/"|replace:"/https://thumbor.ftacademy.cn/unsafe/":"/"|replace:"//picture":"/picture"%>
-                                                            <table cellpadding="0" cellspacing="0"  width="100%" cellpadding="0" cellspacing="0" style="max-width:640px; background-color: #ffffff; padding:0 17px 0 17px ;">
-                                                                <tr>
-                                                                    <td>
-                                                                        <div class="lineH1_4 P-Only" style="line-height:28px;font-size:20px;display:none;">
-                                                                            <%$itemMainTag%>
-                                                                            <a class="headLine" style="font-weight:bold; text-decoration:none; color:#111;" <%$itemHref%>><%$itemHeadline%></a><%$tierMark%>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                            </table>
-                                                            <table width="100%" cellpadding="0" cellspacing="0" width="100%" >
-                                                                <tr style="background-color: #990F3D;">
-                                                                    <td align="center">
-                                                                        <table cellpadding="0" cellspacing="0" align="center"<%$imageClass%> width="100%" cellpadding="0" cellspacing="0" style="max-width:640px; background-color: #ffffff; padding:0 17px 0 17px ;">
-                                                                            <tr><td class="lineH1 imgSpace" style="display: none;height: 6px; font-size: 0px; line-height: 5px; padding: 0;">&nbsp;</td></tr>
-                                                                            <tr>
-                                                                                <td>
-                                                                                <a class="coverImgLink" <%$itemHref%>>
-                                                                                    <img src="<%$itemImage%>" border="0" style="width:<%$imageWidth%>px;" align="left" width="<%$imageWidth%>"/>
-                                                                                </a>
-                                                                                </td>
-                                                                                <td style="width:10px; display: none;">&nbsp;</td>
-                                                                            </tr>
-                                                                            <tr><td class="lineH1 imgSpace" style="display: none;height: 5px; font-size: 0px; line-height: 5px; padding: 0;">&nbsp;</td></tr>
-                                                                        </table>
-                                                                    </td>
-                                                                </tr>
-                                                            </table>
-                                                    
-                                                            <table cellpadding="0" cellspacing="0"  width="100%" cellpadding="0" cellspacing="0" style="max-width:640px; background-color: #ffffff; padding:0 17px 0 17px ;">
-                                                                <tr>
-                                                                    <td>
-                                                                        <div class="lineH1_4 P-Hide" style="line-height:28px;font-size:20px;">
-                                                                            <%$itemMainTag%>
-                                                                            <a class="headLine" style="font-weight:bold; text-decoration:none; color:#111;" <%$itemHref%>><%$itemHeadline%></a><%$tierMark%>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                            </table>
-                                                        <%else%>
-                                                            <table cellpadding="0" cellspacing="0"  width="100%" cellpadding="0" cellspacing="0" style="max-width:640px; background-color: #ffffff; padding:17px 17px 0 17px ;">
-                                                                <tr>
-                                                                    <td>
-                                                                        <div class="lineH1_4" style="line-height:28px;font-size:20px;">
-                                                                            <%$itemMainTag%>
-                                                                            <a class="headLine" style="font-weight:bold; text-decoration:none; color:#111;" <%$itemHref%>><%$itemHeadline%></a><%$tierMark%>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                            </table>
-                                                        <%/if%>
-                                                        <table cellpadding="0" cellspacing="0"  width="100%" cellpadding="0" cellspacing="0" style="max-width:640px; background-color: #ffffff; padding:17px 17px 0 17px ;">
-                                                            <tr>
-                                                                <td>
-                                                                    <%$itemLead|nl2br%>
-                                                                </td>
-                                                            </tr>
-                                                        </table>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </td>
-                                    <%else%>
-                                        <td align="center">
-                                            <table width="100%" cellpadding="0" cellspacing="0" style="max-width:640px; background-color: #ffffff; padding:17px 17px 0 17px;" >
-                                                <tr>
-                                                    <td class="SContent cover" style="font-size:14px;line-height:23px;color:#505050;">
-                                                        <%if $itemImage != "" && $smarty.get.showImage != "no"%>
-                                                            <%assign var="itemImage" value="https://thumbor.ftacademy.cn/unsafe/`$imageWidth`x`$imageHeight`/`$itemImage`"%>
-                                                            <%assign var="itemImage" value=$itemImage|replace:"/upload/":"/"|replace:"/https://thumbor.ftacademy.cn/unsafe/":"/"|replace:"//picture":"/picture"%>
-                                                            <div class="lineH1_4 P-Only" style="line-height:28px;font-size:20px;display:none;">
+                        <%if $s == 0 && $l == 0 && $i ==0%>
+                            <div style="line-height:1.618; " class="item-container">
+                                <table width="100%" cellpadding="0" cellspacing="0" style="line-height:1.618;">
+                                    <tr><td class="lineH1" style="background-color:#990F3D; height: 5px; font-size: 5px; line-height: 5px; padding: 0;">&nbsp;</td></tr>
+                                    <tr>
+                                        <td class="SContent cover" align="center" style="font-size:14px;line-height:23px;color:#505050;">
+                                            <%if $itemImage != "" && $smarty.get.showImage != "no"%>
+                                                <%assign var="itemImage" value="https://thumbor.ftacademy.cn/unsafe/`$imageWidth`x`$imageHeight`/`$itemImage`"%>
+                                                <%assign var="itemImage" value=$itemImage|replace:"/upload/":"/"|replace:"/https://thumbor.ftacademy.cn/unsafe/":"/"|replace:"//picture":"/picture"%>
+                                                <table  width="100%" cellpadding="0" align="center" cellspacing="0" border="0" style="max-width: 640px; background-color: #ffffff;">
+                                                    <tr>
+                                                        <td align="left">
+                                                            <div class="lineH1_4 P-Only" style="line-height:28px;font-size:20px;display:none; padding: 17px 17px 0">
                                                                 <%$itemMainTag%>
                                                                 <a class="headLine" style="font-weight:bold; text-decoration:none; color:#111;" <%$itemHref%>><%$itemHeadline%></a><%$tierMark%>
                                                             </div>
-                                                            <table cellpadding="0" cellspacing="0" align="left"<%$imageClass%>>
-                                                                <tr><td class="lineH1 imgSpace" style="height: 6px; font-size: 0px; line-height: 5px; padding: 0;">&nbsp;</td></tr>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                <table  width="100%" cellpadding="0" cellspacing="0" border="0" >
+                                                    <tr style="background-color:#990F3D;">
+                                                        <td align="center">
+                                                            <table cellpadding="0" cellspacing="0"  align="center" <%$imageClass%> style="max-width: 640px; background-color: #ffffff; padding: 20px 20px 0 20px">
+                                                                <tr><td class="lineH1 imgSpace" style="display:none; height: 6px; font-size: 0px; line-height: 5px; padding: 0;">&nbsp;</td></tr>
                                                                 <tr>
                                                                     <td>
                                                                     <a class="coverImgLink" <%$itemHref%>>
                                                                         <img src="<%$itemImage%>" border="0" style="width:<%$imageWidth%>px;" align="left" width="<%$imageWidth%>"/>
                                                                     </a>
                                                                     </td>
-                                                                    <td style="width:10px">&nbsp;</td>
+                                                                    <td style="display:none; width:10px;">&nbsp;</td>
                                                                 </tr>
-                                                                <tr><td class="lineH1 imgSpace" style="height: 5px; font-size: 0px; line-height: 5px; padding: 0;">&nbsp;</td></tr>
+                                                                <tr><td class="lineH1 imgSpace" style="display:none; height: 5px; font-size: 0px; line-height: 5px; padding: 0;">&nbsp;</td></tr>
                                                             </table>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                <table   width="100%" cellpadding="0" align="center" cellspacing="0" style="max-width: 640px; background-color: #ffffff; padding: 17px 17px 0">
+                                                    <tr>
+                                                        <td align="left">
                                                             <div class="lineH1_4 P-Hide" style="line-height:28px;font-size:20px;">
                                                                 <%$itemMainTag%>
                                                                 <a class="headLine" style="font-weight:bold; text-decoration:none; color:#111;" <%$itemHref%>><%$itemHeadline%></a><%$tierMark%>
                                                             </div>
-                                                        <%else%>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            <%else%>
+                                                <table   width="100%" cellpadding="0"  align="center" cellspacing="0" style="max-width: 640px; background-color: #ffffff; padding: 17px 17px 0">
+                                                    <tr>
+                                                        <td align="left">
                                                             <div class="lineH1_4" style="line-height:28px;font-size:20px;">
                                                                 <%$itemMainTag%>
                                                                 <a class="headLine" style="font-weight:bold; text-decoration:none; color:#111;" <%$itemHref%>><%$itemHeadline%></a><%$tierMark%>
                                                             </div>
-                                                        <%/if%>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            <%/if%>
+                                            <table   width="100%" cellpadding="0" align="center" cellspacing="0" style="max-width: 640px; background-color: #ffffff; padding:5px 17px 17px 17px;">
+                                                <tr>
+                                                    <td align="left">
                                                         <%$itemLead|nl2br%>
                                                     </td>
                                                 </tr>
                                             </table>
                                         </td>
-                                    <%/if%>
+                                    </tr>
+                                    <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
+                                </table>
+                            </div>
+                        <%else%>
+                            <table  width="100%" cellpadding="0" cellspacing="0" border="0" >
+                                <tr>
+                                    <td align="center">
+                                        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width: 640px; background-color: #ffffff; padding: 0 17px 0 17px">
+                                            <tr>
+                                                <td>
+                                                    <div style="line-height:1.618; " class="item-container">
+                                                        <table width="100%" cellpadding="0" cellspacing="0" style="border-bottom:1px solid #E9DECF; line-height:1.618;">
+                                                            <tr><td class="lineH1" style="height: 5px; font-size: 5px; line-height: 5px; padding: 0;">&nbsp;</td></tr>
+                                                            <tr>
+                                                                <td class="SContent cover" style="font-size:14px;line-height:23px;color:#505050;">
+                                                                    <%if $itemImage != "" && $smarty.get.showImage != "no"%>
+                                                                        <%assign var="itemImage" value="https://thumbor.ftacademy.cn/unsafe/`$imageWidth`x`$imageHeight`/`$itemImage`"%>
+                                                                        <%assign var="itemImage" value=$itemImage|replace:"/upload/":"/"|replace:"/https://thumbor.ftacademy.cn/unsafe/":"/"|replace:"//picture":"/picture"%>
+                                                                        <div class="lineH1_4 P-Only" style="line-height:28px;font-size:20px;display:none;">
+                                                                            <%$itemMainTag%>
+                                                                            <a class="headLine" style="font-weight:bold; text-decoration:none; color:#111;" <%$itemHref%>><%$itemHeadline%></a><%$tierMark%>
+                                                                        </div>
+                                                                        <table cellpadding="0" cellspacing="0" align="left"<%$imageClass%>>
+                                                                            <tr><td class="lineH1 imgSpace" style="height: 6px; font-size: 0px; line-height: 5px; padding: 0;">&nbsp;</td></tr>
+                                                                            <tr>
+                                                                                <td>
+                                                                                <a class="coverImgLink" <%$itemHref%>>
+                                                                                    <img src="<%$itemImage%>" border="0" style="width:<%$imageWidth%>px;" align="left" width="<%$imageWidth%>"/>
+                                                                                </a>
+                                                                                </td>
+                                                                                <td style="width:10px">&nbsp;</td>
+                                                                            </tr>
+                                                                            <tr><td class="lineH1 imgSpace" style="height: 5px; font-size: 0px; line-height: 5px; padding: 0;">&nbsp;</td></tr>
+                                                                        </table>
+                                                                        <div class="lineH1_4 P-Hide" style="line-height:28px;font-size:20px;">
+                                                                            <%$itemMainTag%>
+                                                                            <a class="headLine" style="font-weight:bold; text-decoration:none; color:#111;" <%$itemHref%>><%$itemHeadline%></a><%$tierMark%>
+                                                                        </div>
+                                                                    <%else%>
+                                                                        <div class="lineH1_4" style="line-height:28px;font-size:20px;">
+                                                                            <%$itemMainTag%>
+                                                                            <a class="headLine" style="font-weight:bold; text-decoration:none; color:#111;" <%$itemHref%>><%$itemHeadline%></a><%$tierMark%>
+                                                                        </div>
+                                                                    <%/if%>
+                                                                    <%$itemLead|nl2br%>
+                                                                </td>
+                                                            </tr>
+                                                            <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
+                                                        </table>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
                                 </tr>
-                                <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
                             </table>
-                        </div>
+                        <%/if%>
                     <%/if%>
                     <%if $s == 0 && $l == 0 && $i ==0 && $smarty.get.to != "vip" && $smarty.get.to != "iosapp" && $smarty.get.to != "noneiosapp"%>
                         <%assign var="adPositionCode" value="mpu-1"%>
@@ -441,11 +439,6 @@
                 <%/if%>
             <%/foreach%>
         </td>
-        <%if $smarty.foreach.email.index != 0%>
-                    </tr>
-                </table>
-            </td>
-        <%/if%>
     </tr>
     <%assign var="l" value=$l+1%>
 <%/foreach%>
