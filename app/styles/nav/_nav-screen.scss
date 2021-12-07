@@ -239,12 +239,13 @@
 		}
 
 		.nav-section[aria-selected=true] .nav-item[aria-haspopup=true] &:hover:after,
-		.nav-section[aria-selected=true] .nav-item[aria-haspopup=true]:hover &:after{
+		.nav-section[aria-selected=true] .nav-item[aria-haspopup=true]:hover &:after {
 			@include oHeaderIcon($arrowUp, 10);
 		}
 
 		@if variable-exists(arrowUpWhite) {
-			.nav-section[aria-selected=true] .nav-item[aria-haspopup=true] &:hover:after{
+			.nav-section[aria-selected=true] .nav-item[aria-haspopup=true] &:hover:after, 
+			.nav-section[aria-selected=true] .nav-item[aria-haspopup=true]:hover &:after {
 				@include oHeaderIcon($arrowUpWhite, 10);	
 			}
 		}

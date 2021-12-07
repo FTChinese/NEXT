@@ -83,18 +83,40 @@
 
 <%if $itemsArray && $itemsArray|@count>0%>
     <%php%>
+        function getSpecialReport($item) {
+            if (isset($item["status"]) && $item["status"] === "on" && isset($item["imageHighlightBox"]) && $item["imageHighlightBox"] !== "" ) {
+                return true;
+            }
+            return false;
+        }
         $marker = $this->get_template_vars('marker');
+        $pageType = $this->get_template_vars('pageType');
         $shouldHideNoneFTImage = false;
         if ($marker === 'hsbcselect') {
             $shouldHideNoneFTImage = true;
         }
         $originalItems = $this->get_template_vars('itemsArray');
+        if ($pageType === 'special') {
+            $originalItems = array_filter($originalItems, "getSpecialReport");
+        }
         $itemType = $this->get_template_vars('feedType');
         $imageTypes = array("cover", "smallbutton", "other", "bigbutton");
         $backgrounds = array('blue', '', 'dark-grey', 'yellow', 'purple', 'light-blue', 'dark-green');
         $noImageIndex = 0;
         $badImages = ['http://creatives.ftacademy.cn/picture/9/000085029_piclink.jpg'];
         foreach ($originalItems as &$item) {
+            if ($pageType === 'special') {
+                $item["headline"] = $item["title"];
+                $item["image"] = $item["imageHighlightBox"];
+                if ($item["link"] !== "") {
+                    $item["customLink"] = $item["link"];
+                } else if ($item["tag"] !== "") {
+                    $item["customLink"] = "/tag/" . $item["tag"];
+                } else if ($item["zone"] !== "") {
+                    $item["customLink"] = "/m/corp/preview.html?pageid=" . $item["zone"];
+                }
+                continue;
+            }
             if (isset($item["item_type"]) && $item["item_type"] != "") {
                 $item["type"] = $item["item_type"];
             } else if (isset($item["type"]) && $item["type"] != "") {
@@ -112,7 +134,6 @@
                     $hideImage = true;
                 }
             }
-            echo '<!--hideImage? ' . $hideImage . '-->';
             if ($hideImage === true) {
                 $item["image"] = '';
             } else if (isset($item["story_pic"]) && !$hideImage) {
