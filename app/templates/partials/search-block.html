@@ -69,8 +69,8 @@
 						<%assign var="timeMath" value=$timeDiff%>
 						<%if $timeMath > 60*60*24 %>
 							<%assign var="headlineClass" value="`$headlineClass` locked"%>
-						<%else%>
-							<!--<%*$sc|@print_r*%>-->
+						<%elseif $sc.accessright == 1%>						
+							<%assign var="headlineClass" value="`$headlineClass` locked"%>
 						<%/if%>	
 					<%/if%>
 					<%assign var="itemId" value=$sc.id%>
