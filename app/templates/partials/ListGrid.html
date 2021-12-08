@@ -83,11 +83,14 @@
 
 <%if $itemsArray && $itemsArray|@count>0%>
     <%php%>
-        function getSpecialReport($item) {
-            if (isset($item["status"]) && $item["status"] === "on" && isset($item["imageHighlightBox"]) && $item["imageHighlightBox"] !== "" ) {
-                return true;
+        // MARK: - Define the function only once, because this file might be included many times. At the same time, you want all the codes to be here, not in some other places. 
+        if (function_exists('getSpecialReport') === false) {
+            function getSpecialReport($item) {
+                if (isset($item["status"]) && $item["status"] === "on" && isset($item["imageHighlightBox"]) && $item["imageHighlightBox"] !== "" ) {
+                    return true;
+                }
+                return false;
             }
-            return false;
         }
         $marker = $this->get_template_vars('marker');
         $pageType = $this->get_template_vars('pageType');
@@ -151,7 +154,6 @@
                     break;
                 }
             }
-            echo '<!--item item: ' . $item["image"] . '-->';
             // MARK: - The item might not have image because but not limited to: 1) the current image in database doesn't have copyright or 2) the current image in database is a placeholder because the FTChinese editorial team has mass-deleted images out of fear of copyright infringement around 2017. (Check with Wang Feng and Wang Yang for details. )
             if (!isset($item["image"]) || $item["image"] == "" || $hideImage) {
                 $noImageIndex = $noImageIndex % count($backgrounds);

@@ -226,7 +226,10 @@
 			right: auto;
 			top: auto;
 			margin: 0 0 0 5px;
-			@if variable-exists(arrowDownWhite) {
+		}
+		@if variable-exists(arrowDownWhite) {
+			.nav-section[aria-selected=true] .nav-item[aria-haspopup=true]:hover &:after,
+			.nav-section[aria-selected=true] .nav-item[aria-haspopup=true][aria-selected=true] &:after {
 				@include oHeaderIcon($arrowDownWhite, 10);
 			}
 		}
