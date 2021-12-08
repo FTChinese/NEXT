@@ -10,6 +10,35 @@ if (window.opener && window.opener.userName) {
     window.userName = '';
 }
 
+var delegate = new Delegate(document.body);
+
+// MARK: - Links in translated text
+delegate.on('click', '.info-original a[href], .info-translation a[href]', function(event){
+    try {
+        var textArea = this.closest(".info-container").querySelector('textarea');
+        var selectionStart = textArea.selectionStart;
+        var selectionEnd = textArea.selectionEnd;
+        var text = textArea.value;
+        if (selectionEnd > selectionStart) {
+            var textBefore = text.substring(0, selectionStart);
+            var textSelected = text.substring(selectionStart, selectionEnd);
+            var textAfter = text.substring(selectionEnd, text.length);
+            var newText = textBefore + '<a href="' + this.href + '" targe="_blank">' + textSelected + '</a>' + textAfter;
+            textArea.value = newText;
+        } else {
+            alert('请选中右边文本框的相应的文本内容来添加链接！');
+        }
+    } catch(ignore){
+        alert('请选中右边文本框的相应的文本内容来添加链接！');
+    }
+    event.stopImmediatePropagation();
+    return false;
+});
+
+delegate.on('click', '.info-translation', function(event){
+    confirmTranslation(this);
+});
+
 // MARK: - Equivalent to php's str_word_count, which is used by the FTC's CMS workflow statistics
 function str_word_count(str) {
     if (typeof str !== 'string') {return 0;}
@@ -119,7 +148,7 @@ function start() {
                 if (/^<picture>.*<\/picture>/.test(englishHTML) && !/^<picture>.*<\/picture>/.test(t)) {
                     t = englishHTML.replace(/(^<picture>.*<\/picture>)(.*)$/g, '$1') + t;
                 }
-                infoHTML += '<div onclick="confirmTranslation(this)" data-translation-index="' + j + '" class="info-translation" title="click to confirm this translation to the right">' + t + '</div>';
+                infoHTML += '<div data-translation-index="' + j + '" class="info-translation" title="click to confirm this translation to the right">' + t + '</div>';
             }
             infoHTML = '<div class="info-container"><div>' + infoHTML + '</div><div><textarea data-info-id="' + id + '" placeholder="点选右边的翻译版本，您也可以继续编辑"></textarea></div></div><hr>';
             k += infoHTML;
@@ -174,6 +203,12 @@ function start() {
         var value = translationEles[0].innerHTML;
         container.querySelector('textarea').value = value;
         container.querySelector('.info-translation').classList.add('selected');
+    }
+    // MARK: - Open all links in new tab
+    var allLinks = document.querySelectorAll('.info-translation a[href]');
+    for (var n=0; n<allLinks.length; n++) {
+        allLinks[n].setAttribute('target', '_blank');
+        allLinks[n].closest(".info-container").querySelector('textarea').setAttribute('placeholder', '在点选左边把文字填写到这里之后，可以尝试选择部分文字，然后点击左边的链接，就可以方便地添加链接。');
     }
 }
 
