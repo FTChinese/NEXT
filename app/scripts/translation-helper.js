@@ -23,7 +23,7 @@ delegate.on('click', '.info-original a[href], .info-translation a[href]', functi
             var textBefore = text.substring(0, selectionStart);
             var textSelected = text.substring(selectionStart, selectionEnd);
             var textAfter = text.substring(selectionEnd, text.length);
-            var newText = textBefore + '<a href="' + this.href + '" targe="_blank">' + textSelected + '</a>' + textAfter;
+            var newText = textBefore + '<a href="' + this.getAttribute('href') + '" targe="_blank">' + textSelected + '</a>' + textAfter;
             textArea.value = newText;
         } else {
             alert('请选中右边文本框的相应的文本内容来添加链接！');
@@ -38,6 +38,23 @@ delegate.on('click', '.info-original a[href], .info-translation a[href]', functi
 delegate.on('click', '.info-translation', function(event){
     confirmTranslation(this);
 });
+
+delegate.on('click', '.translation-suggestion', function(event){
+    var textArea = this.closest(".info-container").querySelector('textarea');
+    var selectionStart = textArea.selectionStart;
+    var selectionEnd = textArea.selectionEnd;
+    var text = textArea.value;
+    if (selectionStart <= selectionEnd && selectionStart >= 0) {
+        var textBefore = text.substring(0, selectionStart);
+        var newText = this.getAttribute('data-translation');
+        var textAfter = text.substring(selectionEnd, text.length);
+        var newText = textBefore + newText + textAfter;
+        textArea.value = newText;
+    } else {
+        alert('请选中右边文本框的相应的文本内容来快捷填写！');
+    }
+});
+
 
 // MARK: - Equivalent to php's str_word_count, which is used by the FTC's CMS workflow statistics
 function str_word_count(str) {
@@ -362,7 +379,7 @@ function finishTranslationForArticle() {
             cbodyEle.disabled = false;
             cbodyEle.value = cleanChineseText;
         }
-        ebodyEle = window.opener.document.getElementById('ebody');
+        var ebodyEle = window.opener.document.getElementById('ebody');
         ebodyEle.disabled = false;
         ebodyEle.value = cleanEnglishText;
         for (var k=0; k<titlesInfo.length; k++) {
@@ -389,12 +406,47 @@ function finishTranslationForArticle() {
         // MARK: - In the workflow, there's a weird requirement that a translator have to use a select menu to indicate that the translation is finished. This is totally stupid so I'll just automate it. 
         var completeSelects = window.opener.document.querySelectorAll('select');
         for (var l=0; l<completeSelects.length; l++) {
-            currentSelect = completeSelects[l];
+            var currentSelect = completeSelects[l];
             if (currentSelect.id && currentSelect.id.indexOf('complete_') === 0) {
                 currentSelect.value = 1;
             }
         }
+        showGlossarySuggestions();
     }
+}
+
+function showGlossarySuggestions() {
+    var ebodyEle = window.opener.document.getElementById('ebody');
+    var ebody = ebodyEle.value;
+    var div = document.createElement('DIV');
+    div.innerHTML = ebody;
+    ebody = div.innerText;
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/falcon.php/glossary/ajax_get_suggestions');
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onload = function() {
+        if (xhr.status !== 200) {return;}
+        var suggestions = JSON.parse(xhr.responseText);
+        var infoOriginals = document.querySelectorAll('.info-original');
+        for (var i = 0; i < infoOriginals.length; i++) {
+            var infoOriginal = infoOriginals[i];
+            var englishText = infoOriginal.innerText;
+            for (var j = 0; j < suggestions.length; j++) {
+                var suggestion = suggestions[j];
+                var en_title = suggestion.en_title;
+                var chinese_title = suggestion.chinese_title;
+                if (!en_title || !chinese_title || englishText.indexOf(en_title) === -1) {continue;}
+                var suggestionEle = document.createElement('DIV');
+                suggestionEle.innerHTML = en_title + ': ' + chinese_title;
+                suggestionEle.className = 'translation-suggestion';
+                suggestionEle.setAttribute('data-translation', chinese_title);
+                suggestionEle.setAttribute('title', '点击这里快速将“' + chinese_title + '”插入到下面文本框中');
+                infoOriginal.parentElement.append(suggestionEle);
+            }
+        }
+        // console.log(suggestions);
+    };
+    xhr.send(encodeURI('post_text=' + ebody));
 }
 
 function finishTranslationForVideo() {
