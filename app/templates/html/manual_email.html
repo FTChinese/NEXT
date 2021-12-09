@@ -46,6 +46,10 @@
 <%assign var="coverImgLinkContainMargin" value="5px auto"%>
 <%assign var="buttonPadding" value="0 12px 6px 12px"%>
 <%assign var="footerPadding" value="initial"%>
+<%assign var="contentPaddingValue" value="3%"%>
+<%assign var="contentPaddingNone" value="initial"%>
+<%assign var="whiteBorderWidth" value="1%"%>
+<%assign var="whiteBorderNone" value="initial"%>
 <%if $p.meta.theme == "myFT"%>
     <%assign var=bodyColor value="#FFF1E0"%>
     <%assign var="tableBorder" value="transparent"%>
@@ -73,6 +77,10 @@
     <%assign var="coverImgLinkContainMargin" value="0"%>
     <%assign var="buttonPadding" value="5px 0 6px 0"%>
     <%assign var="footerPadding" value="15px"%>
+    <%assign var="contentPaddingValue" value="0"%>
+    <%assign var="contentPaddingNone" value="0"%>
+    <%assign var="whiteBorderWidth" value="0"%>
+    <%assign var="whiteBorderNone" value="0"%>
     <%elseif $smarty.get.to == "iosapp" || $smarty.get.to == "noneiosapp"%>
     <%assign var=bodyColor value="#FFF1E0"%>
 <%else%>
@@ -93,6 +101,8 @@ html{-webkit-text-size-adjust: none;}
 .videosubhead p {padding-top: 10px;}
 img,div,p,table,td,tr{max-width:100%;}
 .mainTD{width:100%;max-width:100%;}
+.P-Only {display: none;}
+.P-Hide {display: block;}
 @media all and (max-width: 500px) {
 .coverImgLinkContain{float:none !important;margin:<%$coverImgLinkContainMargin%>!important;}
 .P-Only {display: block!important;}
@@ -110,7 +120,8 @@ _width: 400px !important;
 width: 100% !important;
 }
 .whiteBorder {
-display:<%$contentPaddingDisplay%> !important;
+line-height:<%$whiteBorderNone%>;
+border:<%$whiteBorderNone%>;
 width: 0 !important;
 font-size: 0 !important;
 }
@@ -178,7 +189,8 @@ _width: 400px !important;
 width: 100% !important;
 }
 .whiteBorder {
-display:<%$contentPaddingDisplay%> !important;
+line-height:<%$whiteBorderNone%>;
+border:<%$whiteBorderNone%>;
 width: 0 !important;
 font-size: 0 !important;
 }
@@ -188,6 +200,9 @@ height: 10px !important; font-size: 8px !important; line-height: 1.2 !important;
 .contentPadding {
 display: <%$contentPaddingDisplay%> !important;
 width: <%$contentPaddingWidth%> !important;
+line-height:<%$contentPaddingNone%>;
+border:<%$contentPaddingNone%>;
+font-size:<%$contentPaddingNone%>;
 }
 .bottomContentPadding {
 height: 43px !important; font-size: 43px !important; line-height: 1 !important; padding: 0 !important;
@@ -289,7 +304,7 @@ width: <%$containerWidth%> !important;
 <td class="mainTD" style="width: <%$containerWidth%>;">
 <table border="0" cellspacing="0" cellpadding="0" align="left" width="<%$tableBorderWidth%>" style="text-align: left; width:<%$tableBorderWidth%>">
 <tr>
-<td style="display:<%$contentPaddingDisplay%> !important; width:1%;"  class="whiteBorder">&nbsp;</td>
+<td style="width:<%$whiteBorderWidth%>; line-height:<%$whiteBorderNone%>; border:<%$whiteBorderNone%>; font-size:<%$whiteBorderNone%>"  class="whiteBorder">&nbsp;</td>
 <td class="mainCol">
 <table class="tableBorder" border="0" cellspacing="0" cellpadding="0" style="background-color: #FFF1E0; border: 2px solid <%$tableBorder%>; text-align: left; width: <%$tableBorderWidth%>;" align="left" width=" <%$tableBorderWidth%>">
 
@@ -319,7 +334,7 @@ width: <%$containerWidth%> !important;
 <tr><td>
 <table width="100%" cellpadding="0" cellspacing="0">
 <tr>
-<td style=" display:<%$contentPaddingDisplay%> !important; width: 3%;" class="contentPadding largeViewBar">&nbsp;</td>
+<td style="width: <%$contentPaddingValue%>; line-height:<%$contentPaddingNone%>; border:<%$contentPaddingNone%>; font-size:<%$contentPaddingNone%>;" class="contentPadding largeViewBar">&nbsp;</td>
 <td>
 <table width="100%" cellpadding="0" cellspacing="0">
 
@@ -374,7 +389,7 @@ width: <%$containerWidth%> !important;
             <%if $section.title != ""%>
                 <%if $s > 0%>
                     <tr><td class="ft-header-bar" style="color: <%$barColor%>;background-color:<%$barBackgroundColor%>;border-width: <%$barBorderWidth%>; border: 1px <%$barBorderColor%> solid; font-size:19px;font-weight:bold;padding:<%$barPadding%>;text-transform:uppercase;width:100%;"><%$section.title%></td></tr>
-                    <tr><td class="lineH1" style="display: <%$contentPaddingDisplay%> !important;height: 10px;font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
+                    <tr><td class="lineH1" style="display: <%$contentPaddingDisplay%> !important; height: 10px;font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
                 <%else%>
                     <tr><td  class="SContent cover message-title" style="font-size:18px;line-height:23px;color:#333;font-weight: bold;padding-left:17px;padding-right:17px;"><%$section.title%>：</td></tr>
                 <%/if%>
@@ -419,7 +434,7 @@ width: <%$containerWidth%> !important;
 
 </table>
 </td>
-<td style="display:<%$contentPaddingDisplay%> !important; width: 3%;" class="contentPadding largeViewBar">&nbsp;</td>
+<td style="width: <%$contentPaddingValue%>; line-height:<%$contentPaddingNone%>; border:<%$contentPaddingNone%>; font-size:<%$contentPaddingNone%>;" class="contentPadding largeViewBar">&nbsp;</td>
 </tr>
 </table>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
@@ -440,11 +455,11 @@ width: <%$containerWidth%> !important;
 <%if $topic!=""%>
 <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
 <tr>
-<td style="width: 3%; display: <%$contentPaddingDisplay%> !important;" class="contentPadding"  >&nbsp;</td>
+<td style="width: <%$contentPaddingValue%>; line-height:<%$contentPaddingNone%>; border:<%$contentPaddingNone%>; font-size:<%$contentPaddingNone%>;" class="contentPadding"  >&nbsp;</td>
 <td class="ft-header-bar" style=" background-color: <%$barBackgroundColor%>;font-size:19px;font-weight:bold;padding:<%$barPadding%>;text-transform:uppercase;width:100%; border-width:  <%$barBorderWidth%>; border: 1px <%$barBorderColor%> solid; "><a href="<%$mainDomain%>tag/<%$topic|escape:"url"%>" style="color:#333333;text-decoration:none;" target=_blank><%$topic%></a></td>
-<td style="width: 3%; display: <%$contentPaddingDisplay%> !important;" class="contentPadding">&nbsp;</td>
+<td style="width: <%$contentPaddingValue%>; line-height:<%$contentPaddingNone%>; border:<%$contentPaddingNone%>; font-size:<%$contentPaddingNone%>;" class="contentPadding">&nbsp;</td>
 </tr>
-<tr><td class="lineH1" style="display:<%$contentPaddingDisplay%> !important; height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
+<tr><td class="lineH1" style="display: <%$contentPaddingDisplay%> !important; height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
 <tr><td style="width: 3%;" class="contentPadding">&nbsp;</td><td style="font-size:14px;line-height:25px;color:#505050;padding-left:17px;padding-right:17px;" class="subhead textPadding lineH">
 <%assign var="allstories" value=$storymodel->get_story_by_field_search("tag like '%`$topic`%'",0,5,15,10800)%>
 
@@ -620,14 +635,14 @@ width: <%$containerWidth%> !important;
 </td></tr>
 </table>
 </td>
-<td style="width: 3%; " class="contentPadding largeViewBar">&nbsp;</td>
+<td style="width: <%$contentPaddingValue%>; line-height:<%$contentPaddingNone%>; border:<%$contentPaddingNone%>; font-size:<%$contentPaddingNone%>;" class="contentPadding">&nbsp;</td>
 </tr>
 </table>
 </td></tr>
 <tr><td style="background:<%$footerBGColor%>;height: 28px; font-size: 28px; line-height: 28px; padding: 0;" class="bottomContentPadding lineH1">&nbsp;</td></tr>
 </table>
 </td>
-<td style="display:<%$contentPaddingDisplay%> !important; width:1%; " class="whiteBorder">&nbsp;</td>
+<td style="width:<%$whiteBorderWidth%>; line-height:<%$whiteBorderNone%>; border:<%$whiteBorderNone%>; font-size:<%$whiteBorderNone%>" class="whiteBorder">&nbsp;</td>
 </tr>
 </table>
 </td>
