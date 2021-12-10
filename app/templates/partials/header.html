@@ -28,7 +28,11 @@
   <%/if%>
   <%include file="next/partials/house-ad-subscription-promo-box.html"%>
   <%assign var="registerUrl" value="http://user.ftchinese.com/register"%>
-  <header class="header-container">
+  <%assign var="languageClass" value=""%>
+  <%if $curr_lang == "big5"%>
+    <%assign var="languageClass" value=" is-big5"%>
+  <%/if%>
+  <header class="header-container<%$languageClass%>">
     <div class="header-inner">
       <div class="masthead"></div>
       <div class="header-side header-left expandable">

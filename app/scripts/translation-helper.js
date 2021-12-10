@@ -227,6 +227,7 @@ function start() {
         allLinks[n].setAttribute('target', '_blank');
         allLinks[n].closest(".info-container").querySelector('textarea').setAttribute('placeholder', '在点选左边把文字填写到这里之后，可以尝试选择部分文字，然后点击左边的链接，就可以方便地添加链接。');
     }
+    showGlossarySuggestions();
 }
 
 function recordTimeInfo(spentTime) {
@@ -411,12 +412,13 @@ function finishTranslationForArticle() {
                 currentSelect.value = 1;
             }
         }
-        showGlossarySuggestions();
     }
 }
 
 function showGlossarySuggestions() {
+    if (!window.opener) {return;}
     var ebodyEle = window.opener.document.getElementById('ebody');
+    if (!ebodyEle) {return;}
     var ebody = ebodyEle.value;
     var div = document.createElement('DIV');
     div.innerHTML = ebody;
@@ -437,7 +439,7 @@ function showGlossarySuggestions() {
                 var chinese_title = suggestion.chinese_title;
                 if (!en_title || !chinese_title || englishText.indexOf(en_title) === -1) {continue;}
                 var suggestionEle = document.createElement('DIV');
-                suggestionEle.innerHTML = en_title + ': ' + chinese_title;
+                suggestionEle.innerHTML = en_title + ': <b>' + chinese_title + '</b>';
                 suggestionEle.className = 'translation-suggestion';
                 suggestionEle.setAttribute('data-translation', chinese_title);
                 suggestionEle.setAttribute('title', '点击这里快速将“' + chinese_title + '”插入到下面文本框中');

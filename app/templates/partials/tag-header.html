@@ -5,6 +5,11 @@
 <%if $hideQR != "yes"%>
     <%include file="next/partials/house-ad-subscription-promo-box.html"%>
 <%/if%>
+<%assign var="languageClass" value=""%>
+<%if $curr_lang == "big5"%>
+  <%assign var="languageClass" value=" is-big5"%>
+<%/if%>
+<%*<!--MARK: - Should have 4 types of logos -->*%>
 <%assign var="logoUrl" value="https://dhgxl8qk9zgzr.cloudfront.net/images/masthead36.png"%>
 <%if $p == "" || $p.meta.theme == "partner_content" || $p.meta.theme == "pink" || $p.meta.theme == "default"%>
   <%assign var="logoUrl" value="https://thumbor.ftacademy.cn/unsafe/0x114/https://dhgxl8qk9zgzr.cloudfront.net/img/png/brand-ftc-masthead.png"%>
@@ -21,7 +26,7 @@
     </style>
   <%/if%>
 <%/if%>
-<header class="header-container">
+<header class="header-container<%$languageClass%>">
   <div class="header-inner">
     <div class="header-title"><%$PageTitle|default:$tagtitle|default:$p.meta.title|default:"FT中文网"%></div>
     <a href="/" class="header-side header-left">
