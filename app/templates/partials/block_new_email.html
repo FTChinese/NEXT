@@ -307,6 +307,7 @@
                                     <tr>
                                         <td class="SContent cover" align="center" style="font-size:14px;line-height:23px;color:#505050;">
                                             <%if $itemImage != "" && $smarty.get.showImage != "no"%>
+                                                <%assign var="itemImage" value=$itemImage|regex_replace:"/^http:\/\/i\.ftimg\.net\//":""%>
                                                 <%assign var="itemImage" value="https://thumbor.ftacademy.cn/unsafe/`$imageWidth`x`$imageHeight`/`$itemImage`"%>
                                                 <%assign var="itemImage" value=$itemImage|replace:"/upload/":"/"|replace:"/https://thumbor.ftacademy.cn/unsafe/":"/"|replace:"//picture":"/picture"%>
                                                 <table  width="100%" cellpadding="0" cellspacing="0" border="0" >
