@@ -390,7 +390,8 @@
                                                             <tr><td class="lineH1" style="height: 5px; font-size: 5px; line-height: 5px; padding: 0;">&nbsp;</td></tr>
                                                             <tr>
                                                                 <td class="SContent cover" style="font-size:14px;line-height:23px;color:#505050;">
-                                                                    <%if $itemImage != "" && $smarty.get.showImage != "no"%>
+                                                                    <%if $itemImage != "" && $smarty.get.showImage != "no"%>                                                                                                                
+                                                                        <%assign var="itemImage" value=$itemImage|regex_replace:"/^http:\/\/i\.ftimg\.net\//":""%>
                                                                         <%assign var="itemImage" value="https://thumbor.ftacademy.cn/unsafe/`$imageWidth`x`$imageHeight`/`$itemImage`"%>
                                                                         <%assign var="itemImage" value=$itemImage|replace:"/upload/":"/"|replace:"/https://thumbor.ftacademy.cn/unsafe/":"/"|replace:"//picture":"/picture"%>
                                                                         <div class="lineH1_4 P-Only" style="line-height:28px;font-size:20px;display:none;">
