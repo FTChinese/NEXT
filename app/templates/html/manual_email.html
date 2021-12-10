@@ -25,11 +25,13 @@
 <%assign var="logoPosition" value="center"%>
 <%assign var="descPosition" value="center"%>
 <%assign var="containerWidth" value="720px"%>
-<%assign var="barColor" value="#333333"%>
 <%assign var="barPadding" value="7px 14px 7px 14px"%>
+<%assign var="barFontSize" value="19px"%>
+<%assign var="barColor" value="#333333"%>
 <%assign var="barBackgroundColor" value="#E9DECE"%>
 <%assign var="barBorderColor" value="#A7A59B"%>
 <%assign var="barBorderWidth" value="1px 0"%>
+<%assign var="barFontWeight" value="normal"%>
 <%assign var="contentPaddingWidth" value="45px"%>
 <%assign var="logoPadding" value="10"%>
 <%assign var="tableBorderWidth" value="initial"%>
@@ -56,11 +58,13 @@
     <%assign var="containerWidth" value="100%"%>
     <%assign var="logoPosition" value="left"%>
     <%assign var="descPosition" value="left"%>
-    <%assign var="barColor" value="#0000EE"%>
     <%assign var="barPadding" value="5px 0px 5px 0px"%>
+    <%assign var="barFontSize" value="24px"%>
+    <%assign var="barColor" value="#000000"%>
     <%assign var="barBackgroundColor" value="#ffffff"%>
     <%assign var="barBorderColor" value="#000"%>
     <%assign var="barBorderWidth" value="8px 0 0 0"%>
+    <%assign var="barFontWeight" value="bold"%>
     <%assign var="contentPaddingWidth" value="10%"%>
     <%assign var="logoPadding" value="0"%>
     <%assign var="tableBorderWidth" value="100%"%>
@@ -148,9 +152,9 @@ font-weight:normal !important;
 padding:<%$barPadding%> !important;
 color:<%$barColor%> !important;
 background-color:<%$barBackgroundColor%> !important;
-font-size:19px !important;
+font-size:<%$barFontSize%> !important;
 line-height:1.4 !important;
-font-weight:normal !important;
+font-weight:<%$barFontWeight%> !important;
 width:100% !important;
 }
 .topHeadline {
@@ -228,8 +232,8 @@ background: <%$barBackgroundColor%> !important;
 border: solid 1px <%$barBorderColor%> !important;
 border-width:  <%$barBorderWidth%> !important;
 line-height:1.4 !important;
-font-size:19px !important;
-font-weight:normal !important;
+font-size:<%$barFontSize%> !important;
+font-weight:<%$barFontWeight%> !important;
 padding: <%$barPadding%> !important;
 width:100% !important;
 }
@@ -388,7 +392,7 @@ width: <%$containerWidth%> !important;
             <%/if%>
             <%if $section.title != ""%>
                 <%if $s > 0%>
-                    <tr><td class="ft-header-bar" style="color: <%$barColor%>;background-color:<%$barBackgroundColor%>;border-width: <%$barBorderWidth%>; border: 1px <%$barBorderColor%> solid; font-size:19px;font-weight:bold;padding:<%$barPadding%>;text-transform:uppercase;width:100%;"><%$section.title%></td></tr>
+                    <tr><td class="ft-header-bar" style="color:<%$barColor%>;background-color:<%$barBackgroundColor%>;border-width: <%$barBorderWidth%>; border: 1px <%$barBorderColor%> solid;font-size:<%$barFontSize%> !important;font-weight:bold;padding:<%$barPadding%>;text-transform:uppercase;width:100%;"><%$section.title%></td></tr>
                     <tr><td class="lineH1" style="display: <%$contentPaddingDisplay%> !important; height: 10px;font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
                 <%else%>
                     <tr><td  class="SContent cover message-title" style="font-size:18px;line-height:23px;color:#333;font-weight: bold;padding-left:17px;padding-right:17px;"><%$section.title%>：</td></tr>
@@ -456,7 +460,7 @@ width: <%$containerWidth%> !important;
 <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
 <tr>
 <td style="width: <%$contentPaddingValue%>; line-height:<%$contentPaddingNone%>; border:<%$contentPaddingNone%>; font-size:<%$contentPaddingNone%>;" class="contentPadding"  >&nbsp;</td>
-<td class="ft-header-bar" style=" background-color: <%$barBackgroundColor%>;font-size:19px;font-weight:bold;padding:<%$barPadding%>;text-transform:uppercase;width:100%; border-width:  <%$barBorderWidth%>; border: 1px <%$barBorderColor%> solid; "><a href="<%$mainDomain%>tag/<%$topic|escape:"url"%>" style="color:#333333;text-decoration:none;" target=_blank><%$topic%></a></td>
+<td class="ft-header-bar" style="color:<%$barColor%>; background-color: <%$barBackgroundColor%>;font-size:<%$barFontSize%>;font-weight:bold;padding:<%$barPadding%>;text-transform:uppercase;width:100%; border-width:  <%$barBorderWidth%>; border: 1px <%$barBorderColor%> solid; "><a href="<%$mainDomain%>tag/<%$topic|escape:"url"%>" style="color:#333333;text-decoration:none;" target=_blank><%$topic%></a></td>
 <td style="width: <%$contentPaddingValue%>; line-height:<%$contentPaddingNone%>; border:<%$contentPaddingNone%>; font-size:<%$contentPaddingNone%>;" class="contentPadding">&nbsp;</td>
 </tr>
 <tr><td class="lineH1" style="display: <%$contentPaddingDisplay%> !important; height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
