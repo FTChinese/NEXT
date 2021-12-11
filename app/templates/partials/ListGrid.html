@@ -403,7 +403,8 @@
         <%elseif $itemSubType == "radio"%>
             <%assign var="itemClass" value="`$itemClass` is-audio"%>
         <%/if%>
-        <%if $smarty.get.webview == "ftcapp"%>
+        <!--item type: <%$itemType%>-->
+        <%if $smarty.get.webview == "ftcapp" && $itemType != "sponsorship"%>
             <%if preg_match("/双语电台/is",$itemTagsString)%>
                 <%if preg_match("/en|ce/is",$listLanguage) && preg_match("/.mp3$/is",$item.eshortleadbody)%>
                     <%assign var="audioUrl" value=$item.eshortleadbody%>
