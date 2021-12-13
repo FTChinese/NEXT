@@ -48,40 +48,44 @@
 
 			<%if $count_result>0%>
 				<%foreach from=$search_result item=sc name=foo%>
-					<%assign var="headlineClass" value="item-headline-link"%>
-					<%assign var="itemType" value="story"%>
-					<%if $sc.isvideo=="1"%>
-						<%assign var="itemType" value="video"%>
-					<%elseif $sc.type == 'interactive'%>
-						<%assign var="itemType" value="interactive"%>
-					<%elseif $sc.type == 'photonews'%>
-						<%assign var="itemType" value="photonews"%>
-					<%/if%>
-					<%if $itemType == 'interactive'%>
-						<%if preg_match("/高端专享/is",$sc.tag)%>
-							<%assign var="headlineClass" value="`$headlineClass` vip locked"%>
-						<%elseif preg_match("/会员专享|英语电台|速读/is",$sc.tag)%>
-							<%assign var="headlineClass" value="`$headlineClass` locked"%>
-						<%/if%>
-					<%elseif $itemType == 'story'%>
-						<%assign var="itemT" value=$sc.last_publish_time|default:$sc.pubdate%>
-						<%math assign="timeDiff" equation="x-y" x=$smarty.now y=$itemT%>
-						<%assign var="timeMath" value=$timeDiff%>
-						<%if $timeMath > 60*60*24 || $sc.accessright == 1%>
-							<%assign var="headlineClass" value="`$headlineClass` locked"%>
-						<%/if%>
-					<%/if%>
 					<%assign var="itemId" value=$sc.id%>
 					<%if $sc.type == 'photonews'%>
 						<%assign var="itemId" value=$sc.photonewsid%>
 					<%/if%>
-					<div class="XLT LT ST MT PT"></div>
-					<div class="item-container one-row no-image"><div class="item-inner">
-						<h2 class="item-headline"><a class="<%$headlineClass%>" href="/<%$itemType%>/<%$itemId%>" target=_blank><%$sc.cheadline|regex_replace:"/\<br\>/":""%></a></h2>
-						<div class="item-lead"><%$sc.cbody|default:$sc.clongleadbody%></div>
-						<a class="item-time" href="/archiver/<%$sc.pubdate|date_format:"%Y-%m-%d"%>" target=_blank><%$sc.pubdate|date_format:"%Y-%m-%d"%></a>
-						<div class="item-bottom"></div>
-					</div></div>
+					<%*<!--MARK: The search result array might have some empty results, which doesn't need to be displayed-->*%>
+					<%if $itemId != ""%>
+						<%assign var="headlineClass" value="item-headline-link"%>
+						<%assign var="itemType" value="story"%>
+						<%if $sc.isvideo=="1"%>
+							<%assign var="itemType" value="video"%>
+						<%elseif $sc.type == 'interactive'%>
+							<%assign var="itemType" value="interactive"%>
+						<%elseif $sc.type == 'photonews'%>
+							<%assign var="itemType" value="photonews"%>
+						<%/if%>
+						<%if $itemType == 'interactive'%>
+							<%if preg_match("/高端专享/is",$sc.tag)%>
+								<%assign var="headlineClass" value="`$headlineClass` vip locked"%>
+							<%elseif preg_match("/会员专享|英语电台|速读/is",$sc.tag)%>
+								<%assign var="headlineClass" value="`$headlineClass` locked"%>
+							<%/if%>
+						<%elseif $itemType == 'story'%>
+							<%assign var="itemT" value=$sc.last_publish_time|default:$sc.pubdate%>
+							<%math assign="timeDiff" equation="x-y" x=$smarty.now y=$itemT%>
+							<%assign var="timeMath" value=$timeDiff%>
+							<%if $timeMath > 60*60*24 || $sc.accessright == 1%>
+								<%assign var="headlineClass" value="`$headlineClass` locked"%>
+							<%/if%>
+						<%/if%>
+
+						<div class="XLT LT ST MT PT"></div>
+						<div class="item-container one-row no-image"><div class="item-inner">
+							<h2 class="item-headline"><a class="<%$headlineClass%>" href="/<%$itemType%>/<%$itemId%>" target=_blank><%$sc.cheadline|regex_replace:"/\<br\>/":""%></a></h2>
+							<div class="item-lead"><%$sc.cbody|default:$sc.clongleadbody%></div>
+							<a class="item-time" href="/archiver/<%$sc.pubdate|date_format:"%Y-%m-%d"%>" target=_blank><%$sc.pubdate|date_format:"%Y-%m-%d"%></a>
+							<div class="item-bottom"></div>
+						</div></div>
+					<%/if%>
 				<%/foreach%>
 			<%elseif $count_result<=0%>
 				<%*<!--MARK: the server side is very unreliable. Get the keys from browser instead. -->*%>

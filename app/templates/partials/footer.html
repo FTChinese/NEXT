@@ -204,38 +204,36 @@ data-o-ads-targeting="cnpos=paidpost;"
 </div>
 <%/if%>
 
-
-
-<%*<!--  MARK: Tracking Code added by Youlu Technology -->*%>
-<%*<!--
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-KP4V3G')</script>
--->*%>
+<script>
+	function async(u, c) {
+		var d = document, t = 'script',
+			o = d.createElement(t),
+			s = d.getElementsByTagName(t)[0];
+		o.src = u;
+		if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+		s.parentNode.insertBefore(o, s);
+	}
+	  // Your web app's Firebase configuration
+	var firebaseConfig = {
+		apiKey: "AIzaSyCB4QkzRm1oUl9-XA6kl8ob58FI3C6iDY0",
+		authDomain: "ftchineseiphone.firebaseapp.com",
+		databaseURL: "https://ftchineseiphone.firebaseio.com",
+		projectId: "ftchineseiphone",
+		storageBucket: "ftchineseiphone.appspot.com",
+		messagingSenderId: "342601113715",
+		appId: "1:342601113715:web:6d7016e26b94e3854fca06",
+		measurementId: "G-PT4E4NGVJV"
+	};
+	//MARK: - The core Firebase JS SDK is always required and must be listed first
+	async('https://www.gstatic.com/firebasejs/7.2.2/firebase-app.js', function() {
+		// MARK: - TODO: Add SDKs for Firebase products that you want to use: https://firebase.google.com/docs/web/setup#available-libraries
+    	async('https://www.gstatic.com/firebasejs/7.2.2/firebase-analytics.js', function() {
+    		// Initialize Firebase
+			firebase.initializeApp(firebaseConfig);
+			firebase.analytics();
+		});
+	});
+</script>
 
 <%*<!--  MARK: Krux Tracking Code -->*%>
 <img src='https://beacon.krxd.net/event.gif?event_id=KWA6DGT9&event_type=rtg' width=0 height=0 />
-
-
-
-<!-- The core Firebase JS SDK is always required and must be listed first -->
-<script async src="https://www.gstatic.com/firebasejs/7.2.2/firebase-app.js"></script>
-
-<!-- TODO: Add SDKs for Firebase products that you want to use
-     https://firebase.google.com/docs/web/setup#available-libraries -->
-<script async src="https://www.gstatic.com/firebasejs/7.2.2/firebase-analytics.js"></script>
-
-<script>
-  // Your web app's Firebase configuration
-  var firebaseConfig = {
-    apiKey: "AIzaSyCB4QkzRm1oUl9-XA6kl8ob58FI3C6iDY0",
-    authDomain: "ftchineseiphone.firebaseapp.com",
-    databaseURL: "https://ftchineseiphone.firebaseio.com",
-    projectId: "ftchineseiphone",
-    storageBucket: "ftchineseiphone.appspot.com",
-    messagingSenderId: "342601113715",
-    appId: "1:342601113715:web:6d7016e26b94e3854fca06",
-    measurementId: "G-PT4E4NGVJV"
-  };
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-  firebase.analytics();
-</script>
