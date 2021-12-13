@@ -68,7 +68,6 @@
   <%assign var="navData" value=$p.body.odatalist%>
   <%if $topnav == ""%><%assign var="topnav" value="home"%><%/if%>
 
-  <!--hide nvation: <%$hideNavOnWideScreen%>-->
   <%if $navData != null && $navData|@count > 0%>
     <div class="o-nav__placeholder<%if $hideNavOnWideScreen == "yes"%> hide-on-large-screen<%/if%>">
       <div class="o-nav">
@@ -113,11 +112,11 @@
                     <li class="nav-section <%$level_1.code%> <%if $level_1.new=="yes"%>nav-section-new<%/if%>"
                       <%if $topnav==$level_1.code%> aria-selected="true"<%assign var=current_page value=$level_1.name%><%assign var=current_link value=$level_1.link%><%/if%> data-section="<%$level_1.code%>"
                       >
-                      <!-- top nav-->
+                      <%*<!-- top nav-->*%>
                       <button class="nav-section-head mobile"><%$level_1.name%></button>
                       <a class="nav-section-head desktop" href="<%$level_1.link%>"><%$level_1.name%></a>
                       <%if $topnav==$level_1.code%>
-                        <!-- start subnav-->
+                        <%*<!-- start subnav-->*%>
                         <ol class="nav-items">
                           <li class="nav-item mobile">
                             <a class="nav-link" href="<%$level_1.link%>">
@@ -182,10 +181,10 @@
                           <%/if%>
                         </ol>
                       <%/if%>
-                      <!-- end top nav-->
+                      <%*<!-- end top nav-->*%>
                     </li>
 
-                    <!-- End li-->
+                    <%*<!-- End li-->*%>
 
                     <%if preg_match("/home/is",$level_1.code) && preg_match("/myft/is",$topnav)%>
                       <li class="nav-section" aria-selected="true"<%assign var=current_page value="我的FT"%><%assign var=current_link value="/users/setting/vip"%> data-section="myft">
