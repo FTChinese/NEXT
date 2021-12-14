@@ -153,6 +153,28 @@ function start() {
                 k += infoHTML;
             }
         }
+        var existingTranslationDict = {};
+        if (window.opener && window.opener.checkUpdate === true) {
+            var cbodyEle = window.opener.document.getElementById('cbody');
+            var ebodyEle = window.opener.document.getElementById('ebody');
+            if (cbodyEle && ebodyEle) {
+                var cbody = cbodyEle.value;
+                var ebody = ebodyEle.value;
+                var chineseParagraphs = cbody.split('\n');
+                var englishParagraphs = ebody.split('\n');
+                // console.log(`englishParagraphs: ${englishParagraphs.length}, chineseParagraphs: ${chineseParagraphs.length}`);
+                if (englishParagraphs.length > 0 && chineseParagraphs.length > 0) {
+                    for (var l=0; l<englishParagraphs.length; l++) {
+                        var englishParagraph = englishParagraphs[l];
+                        if (englishParagraph === '' || l >= chineseParagraphs.length) {continue;}
+                        var chineseParagraph = chineseParagraphs[l];
+                        existingTranslationDict[englishParagraph] = chineseParagraph;
+                    }
+                }
+            }
+        }
+        console.log(existingTranslationDict);
+
         for (var i=0; i<translationInfo.length; i++) {
             var info = translationInfo[i];
             var infoHTML = '';
@@ -167,7 +189,12 @@ function start() {
                 }
                 infoHTML += '<div data-translation-index="' + j + '" class="info-translation" title="click to confirm this translation to the right">' + t + '</div>';
             }
-            infoHTML = '<div class="info-container"><div>' + infoHTML + '</div><div><textarea data-info-id="' + id + '" placeholder="点选右边的翻译版本，您也可以继续编辑"></textarea></div></div><hr>';
+            var j1 = info.translations.length;
+            var t1 = existingTranslationDict[englishHTML] || '';
+            if (t1 !== '') {
+                infoHTML += '<div data-translation-index="' + j1 + '" class="info-translation selected" title="click to confirm this translation to the right">' + t1 + '</div>';
+            }
+            infoHTML = '<div class="info-container"><div>' + infoHTML + '</div><div><textarea data-info-id="' + id + '" placeholder="点选右边的翻译版本，您也可以继续编辑">' + t1 + '</textarea></div></div><hr>';
             k += infoHTML;
         }
         storyBodyEle.innerHTML = k;
