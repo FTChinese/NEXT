@@ -289,17 +289,17 @@
     <%assign var="infoForBrandSafety" value=$nextmodel->getPublishJson($pageIdForBrandSafety)|json_decode:true%>
     <%assign var="currentDate" value=$smarty.now|date_format:"%Y%m%d"%>
     <%foreach from=$infoForSponsorships.sections item=section%>
-    <%if $section.status == "on" && $section.dates != "" && preg_match("/`$currentDate`/is",$section.dates) && ($section.adChannelId != "" || $section.zone != "")%>
-      <%assign var="tagName" value=$p.meta.title%>
-      <%if $tagName != "" && ($tagName == $section.title || $tagName == $section.tag)%>
-        <%assign var="zone" value=$section.zone%>
-        <%if !preg_match("/\//is",$zone)%>
-            <%assign var="zone" value="home/special/`$zone`"%>
+        <%if $section.status == "on" && $section.dates != "" && preg_match("/`$currentDate`/is",$section.dates) && ($section.adChannelId != "" || $section.zone != "")%>
+            <%assign var="tagName" value=$p.meta.title%>
+            <%if $tagName != "" && ($tagName == $section.title || $tagName == $section.tag)%>
+                <%assign var="zone" value=$section.zone%>
+                <%if !preg_match("/\//is",$zone)%>
+                    <%assign var="zone" value="home/special/`$zone`"%>
+                <%/if%>
+                <%*<!-- MARK: - If it is an active sponsored topic, don't require login -->*%>
+                <%assign var="requirelogin" value="no"%>
+            <%/if%>
         <%/if%>
-        <%*<!-- MARK: - If it is an active sponsored topic, don't require login -->*%>
-        <%assign var="requirelogin" value="no"%>
-      <%/if%>
-    <%/if%>
     <%/foreach%>
 
     <%assign var="hasFoundBrandSafety" value="no"%>

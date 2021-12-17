@@ -1,6 +1,5 @@
 <%<!--TODO: Remove the condition when we switch to Google Ad Manager successfully. -->%>
 <%<!--MARK: look for o-ads for all the ad units -->%>
-
 <%if $zone == ""%>
     <%assign var="zone" value="home"%>
     <%if $topnav != "" %>
@@ -12,6 +11,9 @@
             <%/if%>
             <%if $topnav=="home" && $subnav=="special" && $thirdnav != ""%>
                 <%assign var="zone" value="`$zone`/`$thirdnav`" %>
+                <%if $hasPayingSponsor == "no"%>
+                    <%assign var="zone" value=$topnav %>
+                <%/if%>
             <%/if%>
         <%/if%>
     <%/if%>

@@ -9,7 +9,7 @@
 <%if $smarty.get.maxB != ""%>
     <%assign var="maxB" value=$smarty.get.maxB|intval%>
 <%/if%>
-<%if $maxB == 1 && date("Ymd",$smarty.now) < 20210401%>
+<%if $maxB == 1 && date("Ymd",$smarty.now) <= 20211231%>
     <%assign var="maxB" value=4%>
 <%/if%>
 <%assign var="premiumContentIds" value="0000"%>
@@ -281,11 +281,17 @@
   <%foreach from=$infoForSponsorships.sections item=section%>
     <%if $section.status == "on" && (($section.dates != "" && preg_match("/`$currentDate`/is",$section.dates)) || ($section.dates == "" && $section.placeholder == "yes")) && $section.zone != "" && ($section.tag != "" || $section.storyKeyWords != "")%>
         <%*<!--MARK: Only match sections that have either tag or storyKeyWords-->*%>
-        <div style="display: none;" class="specialanchor" tag="<%$section.tag%>" title="<%$section.title%>" adid="<%$section.adChannelId%>" channel="<%$section.link%>" hideAd="<%$section.hideAd%>" zone="<%$section.zone%>" storyKeyWords="<%$section.storyKeyWords%>" cntopic="<%$section.cntopic%>"></div>
+        <%if $section.dates == ""%>
+            <%assign var="hasPayingSponsor" value="no"%>
+        <%else%>
+            <%assign var="hasPayingSponsor" value="yes"%> 
+        <%/if%>
+        <div style="display: none;" class="specialanchor" tag="<%$section.tag%>" title="<%$section.title%>" adid="<%$section.adChannelId%>" channel="<%$section.link%>" hideAd="<%$section.hideAd%>" zone="<%$section.zone%>" storyKeyWords="<%$section.storyKeyWords%>" cntopic="<%$section.cntopic%>" hasPayingSponsor="<%$hasPayingSponsor%>"></div>
         <%assign var="tag_name" value=$p.meta.title%>
         <%if $tag_name != "" && ($tag_name == $section.title || $tag_name == $section.tag)%>
         <%if preg_match("/special\//is",$zone)%>
             <%assign var="zone" value="special/`$zone`"%>
+
         <%/if%>
         <%$section.sectionPageTrack%>
         <%/if%>
@@ -314,8 +320,5 @@
         };
     </script>
 <%/if%>
-
-
-
 
 

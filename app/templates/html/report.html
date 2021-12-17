@@ -70,6 +70,9 @@
             <%assign var="subnav" value=$zoneString|regex_replace:"/\/.*/":""%>
             <%assign var="thirdnav" value=$zoneString|regex_replace:"/^`$subnav`/":""|regex_replace:"/^\//":""%>
           <%/if%>
+          <%if $section.dates == ""%>
+            <%assign var="hasPayingSponsor" value="no"%>
+          <%/if%>
         <%/if%>
       <%/if%>
       <%assign var="paidPostKey" value=$section.paidPostKey%>
