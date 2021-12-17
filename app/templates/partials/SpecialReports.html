@@ -1,7 +1,5 @@
 <%*<!--MARK: Check the next model tag for sponsored special reports start-->*%>
-<!--spcial reports checking-->
 <%if $nextmodel != ""%>
-	<!--spcial reports checking: support next model-->
 	<%assign var="pageIdForSponsorshipManagement" value="sponsorshipmanagement"%>
   	<%assign var="infoForSponsorships" value=$nextmodel->getPublishJson($pageIdForSponsorshipManagement)|json_decode:true%>
   	<%assign var="currentDate" value=$smarty.now|date_format:"%Y%m%d"%>

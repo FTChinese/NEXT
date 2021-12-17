@@ -1,7 +1,5 @@
 <%*<!--MARK: Check the next model tag for sponsored special reports start-->*%>
-<!--spcial reports checking-->
 <%if $nextmodel != ""%>
-    <!--spcial reports checking: support next model-->
     <%assign var="pageIdForSponsorshipManagement" value="internalpromos"%>
     <%assign var="infoForSponsorships" value=$nextmodel->getPublishJson($pageIdForSponsorshipManagement)|json_decode:true%>
     <%assign var="currentDate" value=$smarty.now|date_format:"%Y%m%d"%>
@@ -18,9 +16,7 @@
                                 <%if $i<4 && $report.status == "on" && (($report.dates != "" && preg_match("/`$currentDate`/is",$report.dates)) || ($report.dates == "" && $report.placeholder == "yes"))  && $report.imageHighlightBox != "" && ($report.link != "" || $report.tag != "")%>
                                     <%assign var="totalItems" value=$totalItems+1%>
                                 <%/if%>
-                                <%/foreach%>
-                                <!--total items 1: <%$totalItems%>-->
-                                
+                                <%/foreach%>                                
                                 <%assign var="i" value=0%>
                                 <%foreach from=$infoForSponsorships.sections item=report%>
                                     <%if $i<4 && $report.status == "on" && (($report.dates != "" && preg_match("/`$currentDate`/is",$report.dates)) || ($report.dates == "" && $report.placeholder == "yes"))  && $report.imageHighlightBox != "" && ($report.link != "" || $report.tag != "")%>

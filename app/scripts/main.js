@@ -1266,7 +1266,7 @@ function updateStickyRightRail() {
     return;
   }
   // MARK: - Only need to check if these two ads are rendered
-  var neededAds = ['mpu-right1', 'ribbon'];
+  var neededAds = ['mpu-right1', 'ribbon', 'mpu-right2'];
   // MARK: - Update the sticky header only once
   var updatedSticky = false;
   document.body.addEventListener('oAds.rendered',function(e){
@@ -1281,7 +1281,7 @@ function updateStickyRightRail() {
     var homerightRail = document.querySelector('.home-right-rail-page');
     if (!homerightRail) {return;}    
     var homerightRailTop = parseInt(window.getComputedStyle(homerightRail).getPropertyValue('top').replace(/px/, ''), 10);
-    var interactiveContainer = homerightRail.querySelector('.interactives');
+    var interactiveContainer = homerightRail.querySelector('.ft-academy-container');
     if (!interactiveContainer) {return;}
     var homerightRailOffsetTop = interactiveContainer.parentElement.children[0].offsetTop;
     var interactiveContainerOffsetTop = interactiveContainer.offsetTop;

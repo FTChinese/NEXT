@@ -36,9 +36,7 @@
 			</div>
 		<%else%>
 			<%*<!--MARK: Check the next model tag for sponsored special reports start-->*%>
-			<!--spcial reports checking-->
 			<%if $nextmodel != ""%>
-				<!--spcial reports checking: support next model-->
 				<%assign var="pageIdForSponsorshipManagement" value="textpromo"%>
 				<%assign var="infoForSponsorships" value=$nextmodel->getPublishJson($pageIdForSponsorshipManagement)|json_decode:true%>
 				<%assign var="currentDate" value=$smarty.now|date_format:"%Y%m%d"%>
@@ -214,7 +212,7 @@
 				<%assign var="startIndex" value=1%>
 			<%/if%>
 			<%assign var="ftacademyPC" value=$interactivemodel->get_interactive_by_field_search("find_in_set('FT商学院',tag)",$startIndex,4,1000,10800)%>
-			<div class="interactives P-hide">
+			<div class="interactives P-hide ft-academy-container">
 				<h2 class="list-title"><a href="/channel/mba.html">FT商学院</a></h2>
 				<%assign var="hasImage" value="yes"%>
 				<%if preg_match("/NoCopyrightCover/is",$ftacademyPC[0].tag)%>

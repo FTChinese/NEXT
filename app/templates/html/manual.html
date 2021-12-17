@@ -332,7 +332,27 @@
     <%/foreach%>
 <%/if%>
 
+<%php%>
+    $isUserInternal = (isset($_COOKIE["paywall_source"]) && $_COOKIE["paywall_source"] === 'ftc') ? true : false;
+    $isUserTester = (isset($_COOKIE["USER_NAME"]) && $_COOKIE["USER_NAME"] === 'BLAY') ? true : false;
+    $subscriptionType = 'free';
+    if (isset($_COOKIE["paywall"]) && isset($_COOKIE["paywall_expire"])) {
+        $payWallExpire = intval($_COOKIE["paywall_expire"]);
+        if ($payWallExpire > time()) {
+            $subscriptionType = $_COOKIE["paywall"];
+        }
+    }
+    $this->assign("isUserInternal", $isUserInternal);
+    $this->assign("isUserTester", $isUserTester);
+    $this->assign("subscriptionType", $subscriptionType);
+<%/php%>
 <%if $smarty.get.bodyonly != "yes"%>
+    <%*<!--
+        version: 7
+        isUserInternal: <%$isUserInternal%>
+        isUserTester: <%$isUserTester%>
+        subscriptionType: <%$subscriptionType%>
+    -->*%>
     <!DOCTYPE html>
     <html class="no-js core<%if $smarty.get.webview == "ftcapp"%> is-ftc-app<%/if%><%if $smarty.get.device == "iPad"%> is-ipad-app<%/if%>" data-next-app="front-page">
         <head>
@@ -343,7 +363,19 @@
             <meta content="<%$p.meta.description|strip_tags:false%>" name="description"/>
             <meta name="apple-mobile-web-app-status-bar-style" content="black" />
             <%if $pageId == "home" && date("Ymd",$smarty.now) <= 20211231 && date("Ymd",$smarty.now) >= 20211217%>
-                <meta http-equiv="refresh" content="360;url=/?refresh" />
+                <%assign var="refreshInSeconds" value="360"%>
+                <%if $isUserTester === true%>
+                    <%assign var="refreshInSeconds" value="0"%>
+                <%elseif $isUserInternal === true%>
+                    <%assign var="refreshInSeconds" value="360"%>
+                <%elseif $subscriptionType == "premium"%>
+                    <%assign var="refreshInSeconds" value="0"%>
+                <%elseif $subscriptionType == "standard"%>
+                    <%assign var="refreshInSeconds" value="1800"%>
+                <%/if%>
+                <%if $refreshInSeconds != "0"%>
+                    <meta http-equiv="refresh" content="<%$refreshInSeconds%>;url=/?refresh" />
+                <%/if%>
             <%/if%>
             <link rel="apple-touch-icon-precomposed" href="https://d19jtp7o05v915.cloudfront.net/img/ipad_icon.png" />
             <meta name="viewport" content="width=device-width, initial-scale=1.0" />
