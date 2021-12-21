@@ -625,7 +625,7 @@ function getCapchaForPhoneLogin() {
 
 function submitPhoneLogin() {
     function reportLoginToNative() {
-        var data = {action: 'login', userId: window.userId};
+        var data = {action: 'login', userId: window.userId, method: 'phone'};
         try {
             if (webkit) {
                 webkit.messageHandlers.login.postMessage(data);
