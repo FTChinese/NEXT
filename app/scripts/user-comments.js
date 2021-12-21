@@ -273,7 +273,7 @@ function clickToSubmitComment() {
 // MARK: User Login
 function login(fromwhere) {
     function reportLoginToNative(userId) {
-        var data = {action: 'login', userId: userId};
+        var data = {action: 'login', userId: userId, method: 'email'};
         try {
             if (webkit) {
                 webkit.messageHandlers.login.postMessage(data);

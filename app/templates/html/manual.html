@@ -334,6 +334,9 @@
 
 <%php%>
     $isUserInternal = (isset($_COOKIE["paywall_source"]) && $_COOKIE["paywall_source"] === 'ftc') ? true : false;
+    if (isset($_COOKIE["USER_ID"]) && ($_COOKIE["USER_ID"] == 'JTSix1VjQeQ_f6' || $_COOKIE["USER_ID"] == '123e1716-427e-496d-a93c-783d0cb8b077')) {
+        $isUserInternal = true;
+    }
     $isUserTester = (isset($_COOKIE["USER_NAME"]) && $_COOKIE["USER_NAME"] === 'BLAY') ? true : false;
     $subscriptionType = 'free';
     if (isset($_COOKIE["paywall"]) && isset($_COOKIE["paywall_expire"])) {
