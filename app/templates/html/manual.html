@@ -555,6 +555,10 @@
             <%*<!--MARK: - IE fallback for grid card end -->*%>
 
 
+
+
+
+
         </body>
     </html>
 <%else%>
@@ -615,8 +619,27 @@
             <%include file = "next/scripts/main-smart-home-page.js"%>
         </script>
     <%/if%>
+
+
+    <%if $smarty.get.android != "" && $smarty.get.pageid == "mbavideo"%>
+        <div>Video Test For Android App: </div>
+        <video controls width="320" height="180">
+
+            <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.webm"
+                    type="video/webm">
+
+            <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
+                    type="video/mp4">
+
+            Sorry, your browser doesn't support embedded videos.
+        </video>
+        <div style="height: 200px"></div>
+    <%/if%>
+
+
+
     <%*<!-- MARK: - Huawei Market requires us to remove all crytocurrency reports. This code is intended to trick them to believe that we did. Start. -->*%>
-        <%if $smarty.get.android != "" && $smarty.get.pageid == "mbastory" && $smarty.get.utm_campaign == "an_huawei"%>
+        <%if $smarty.get.android != "" && $smarty.get.pageid == "mbastory" && $smarty.get.utm_campaign == "an_huawei" && 1<0%>
             <textarea id="android-info-debug" rows=15 style="width: 100%; display:none;"></textarea>
             <script>
                 (function(){
