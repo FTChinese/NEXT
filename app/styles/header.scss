@@ -21,7 +21,12 @@
 	background-repeat: no-repeat;
 	background-position: center;
 	background-image: $mastHead;
-	//background-image: url(https://next-geebee.ft.com/image/v1/images/raw/http%3A%2F%2Fnext-geebee.ft.com%2Fassets%2Ficons%2Fbrand-ft-masthead.svg?source=next&tint=%23FFFFFF,%23FFFFFF&format=svg);
+
+}
+@if variable-exists(mastHeadBig5) {
+	.is-big5 .masthead {
+		background-image: $mastHeadBig5;
+	}
 }
 .header-side {
 	position: absolute;
@@ -158,6 +163,11 @@
 	.masthead {
 		background-image: $mastHead;
 	}
+	@if variable-exists(mastHeadBig5) {
+		.is-big5 .masthead {
+			background-image: $mastHeadBig5;
+		}
+	}
 }
 
 
@@ -165,5 +175,10 @@
         only screen and (min-resolution: 192dpi) and (max-width: 490px) {
 	.masthead {
 		background-image: $mastHead;
+	}
+	@if variable-exists(mastHeadBig5) {
+		.is-big5 .masthead {
+			background-image: $mastHeadBig5;
+		}
 	}
 }

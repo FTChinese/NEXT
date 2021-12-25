@@ -10,3 +10,11 @@
 		@include oHeaderLogo($o-header-logo-mobile-height);
 	}
 }
+
+@if variable-exists(mastHeadBig5) {
+	.is-big5 .o-header__masthead-mobile {
+		> a {
+			background-image: $mastHeadBig5;
+		}
+	}
+}
