@@ -875,6 +875,27 @@ function trackQualityRead() {
   }
 }
 
+function checkFullGridItem() {
+  try {
+    if (!document.querySelector('.full-grid-story')) {return;}
+    var fullGridItems = document.querySelectorAll('[data-layout-width="full-grid"]');
+    var bodyHeight = getBodyHeight();
+    var isFullGridItemInView = false;
+    for (var i=0; i<fullGridItems.length; i++) {
+      var itemHeight = fullGridItems[i].offsetHeight;
+      var itemTop = findTop(fullGridItems[i]);
+      isFullGridItemInView = (scrollTop + bodyHeight >= itemTop && itemTop + itemHeight >= scrollTop);
+      if (isFullGridItemInView) {break;}
+    }
+    var isFullGridItemInViewClass = 'full-grid-item-in-view';
+    if (isFullGridItemInView) {
+      document.documentElement.classList.add(isFullGridItemInViewClass);
+    } else {
+      document.documentElement.classList.remove(isFullGridItemInViewClass);
+    }
+  } catch (ignore){}
+}
+
 try {
   delegate = new Delegate(document.body);
 } catch (ignore) {
@@ -908,6 +929,7 @@ if (gNavOffsetY > 30 && w > 490 && supportStickyPosition === false) {
     addEvent(eventScroll, function(){
         stickyBottom();
         trackViewables();
+        checkFullGridItem();
     });
     addEvent(eventResize, function(){
         stickyBottomPrepare();
@@ -936,6 +958,7 @@ if (gNavOffsetY > 30 && w > 490 && supportStickyPosition === false) {
       loadImagesLazy();
       loadVideosLazy();
       trackViewables();
+      checkFullGridItem();
   });
 }
 

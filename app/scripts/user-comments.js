@@ -362,7 +362,13 @@ function socialLogin(socialName, socialInfo) {
                     presentAlert('微信登陆成功', ''); 
                     username = GetCookie('USER_NAME') || GetCookie('USER_NAME_FT') || '';
                     checkLogin();
-                    // send an even to GA
+                    // MARK: - If this user only logins in with wechat, show WeChat binding immediately
+                    var wechatFTCBindingEle = document.getElementById('wechat-ftc-binding');
+                    if (wechatFTCBindingEle && typeof window.userId === 'string') {
+                    // if (wechatFTCBindingEle && typeof window.userId === 'string' && window.userId.indexOf('ogfvw') === 0 && GetCookie('WX_UNION_ID') === null) {
+                        showWechatFTCBinding();
+                    }
+                    // send an event to GA
                     return;
                 }
                 // if return data is not correct
