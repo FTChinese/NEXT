@@ -359,14 +359,15 @@ function socialLogin(socialName, socialInfo) {
                 var data = this.responseText;
                 if (data === 'yes') {
                     // show this in the interface so that users know login is successful
-                    presentAlert('微信登陆成功', ''); 
                     username = GetCookie('USER_NAME') || GetCookie('USER_NAME_FT') || '';
                     checkLogin();
                     // MARK: - If this user only logins in with wechat, show WeChat binding immediately
                     var wechatFTCBindingEle = document.getElementById('wechat-ftc-binding');
                     if (wechatFTCBindingEle && typeof window.userId === 'string') {
                     // if (wechatFTCBindingEle && typeof window.userId === 'string' && window.userId.indexOf('ogfvw') === 0 && GetCookie('WX_UNION_ID') === null) {
-                        showWechatFTCBinding();
+                        showWechatFTCBinding('最后一步，请输入邮箱和密码进行绑定操作：');
+                    } else {
+                        presentAlert('微信登陆成功', ''); 
                     }
                     // send an event to GA
                     return;
