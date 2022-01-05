@@ -111,7 +111,7 @@
     <%/if%>
 <%/if%>
 
-<%if $pageId == "home"%>
+<%if $pageId == "home" || $p.meta.HighlightFTAcademy == "yes"%>
     <%*<!--MARK: Check if the editorial team has published a new story on cover during public holidays and weekends-->*%>
     <%assign var="itemT" value=""%>
     <%assign var="foundCoverStory" value="no"%>
@@ -345,10 +345,14 @@
             $subscriptionType = $_COOKIE["paywall"];
         }
     }
+    if (isset($_GET['subscription']) && $_GET['subscription'] != '') {
+        $subscriptionType = $_GET['subscription'];
+    }
     $this->assign("isUserInternal", $isUserInternal);
     $this->assign("isUserTester", $isUserTester);
     $this->assign("subscriptionType", $subscriptionType);
 <%/php%>
+
 <%if $smarty.get.bodyonly != "yes"%>
     <%*<!--
         version: 7

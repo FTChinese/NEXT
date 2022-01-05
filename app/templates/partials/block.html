@@ -372,20 +372,54 @@
 
 						<%*<!--MARK: Highlight FT Academy-->*%>
 						<%if $b == 0 && $l == 0 && $highlightFTAcademy == "feed"%>
-							<%assign var="ftAcademyItems" value=$interactivemodel->get_interactive_by_field_search("find_in_set('FT商学院', tag)",0,1,2,10800)%>
+							<%assign var="insertItemCount" value=1%>
+							<%if $subscriptionType == "premium" && ($isUserInternal === false || $isUserTester === true) && $smarty.get.v == "203"%>
+								<%assign var="insertItemCount" value=6%>
+							<%/if%>
+							<%assign var="ftAcademyItems" value=$interactivemodel->get_interactive_by_field_search("find_in_set('FT商学院', tag) and publish_status = 'queue'",0,$insertItemCount,2,10800)%>
 							<%php%>
 								$originalItems = $this->get_template_vars('itemsArray');
 								$insertedItems = $this->get_template_vars('ftAcademyItems');
+								$pageId = $this->get_template_vars('pageId');
+								// MARK: - PHP values don't pass accoss included files, get these values from template first
+								$subscriptionType = $this->get_template_vars('subscriptionType');
+								$isUserInternal = $this->get_template_vars('isUserInternal');
+								$isUserTester = $this->get_template_vars('isUserTester');
 								if (count($originalItems) > 3 && count($insertedItems) > 0) {
 									foreach ($insertedItems as &$insertedItem) {
 										$insertedItem["type"] = 'interactive';
 									}
-									array_splice( $originalItems, 1, 0, $insertedItems);
+									// MARK: - Insert just the first FT Academy item
+									$firstInsertedItemArray = array_slice($insertedItems, 0, 1, true);
+									array_splice( $originalItems, 1, 0, $firstInsertedItemArray);
 									$newIds = [];
 									$newItems = [];
-									foreach ($originalItems as $item) {
+									// MARK: - Don't show repeated items
+									$premiumIndex = 1;
+									$premiumCount = count($insertedItems);
+									foreach ($originalItems as $key=>$item) {
+										if ($premiumCount > 1) {
+											$updateTime = intval($item["timeStamp"]);
+											while ($key > 2 && $premiumIndex < $premiumCount) {
+												$premiumItem =  $insertedItems[$premiumIndex];
+												$premiumItem["type"] = "interactive";
+												$premiumItem["mainTag"] = "FT商学院";
+												$premiumItem["mainTagLink"] = "/channel/mba.html"; 
+												$premiumUpdateTime = intval($premiumItem["fileupdatetime"]);
+												$premiumItem["timeStamp"] = $premiumUpdateTime;
+												$found_key = array_search($premiumItem["id"], $newIds);
+												if ($premiumUpdateTime > $updateTime && $found_key === false) {
+													array_push($newItems, $premiumItem);
+													array_push($newIds, $premiumItem["id"]);
+													$premiumIndex += 1;
+												} else {
+													break;
+												}
+											}
+										}
 										$found_key = array_search($item["id"], $newIds);
-										if (!$found_key) {
+										// MARK: - array_search return false when none found
+										if ($found_key === false) {
 											array_push($newItems, $item);
 											array_push($newIds, $item["id"]);
 										}

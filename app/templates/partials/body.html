@@ -80,8 +80,8 @@
     <%elseif $section.type == "block"%>
         <%if $b < $maxB%>
             <%if $b == 0%>
-                <%*<!--MARK: Show a My Subsciption Block for paid subscribers in apps -->*%>
-                <%if $smarty.get.subscription == "member" || $smarty.get.subscription == "premium"%>
+                <%*<!--MARK: No need to show a My Subsciption Block for paid subscribers in apps any more because almost all content are hehind pay wall nowsdays. Remove the bock after March 31st, 2022-->*%>
+                <%if ($smarty.get.subscription == "member" || $smarty.get.subscription == "premium") && 1 > 2%>
                     <%assign var="reports" value=$storymodel->getPremiumStory(0, 4)%>
                     <%assign var="interactives" value=""%>
                     <%if $smarty.get.subscription == "premium"%>
