@@ -373,7 +373,7 @@
 						<%*<!--MARK: Highlight FT Academy-->*%>
 						<%if $b == 0 && $l == 0 && $highlightFTAcademy == "feed"%>
 							<%assign var="insertItemCount" value=1%>
-							<%if $subscriptionType == "premium" && ($isUserInternal === false || $isUserTester === true) && $smarty.get.v == "203"%>
+							<%if $subscriptionType == "premium" && ($isUserInternal === false || $isUserTester === true)%>
 								<%assign var="insertItemCount" value=6%>
 							<%/if%>
 							<%assign var="ftAcademyItems" value=$interactivemodel->get_interactive_by_field_search("find_in_set('FT商学院', tag) and publish_status = 'queue'",0,$insertItemCount,2,10800)%>
