@@ -207,33 +207,52 @@
 		<%/if%>
 
 		<%if $highlightFTAcademy != "top"%>
-			<%assign var="startIndex" value=0%>
-			<%if $highlightFTAcademy == "feed"%>
-				<%assign var="startIndex" value=1%>
+			<%if $ftAcademyItems == ""%>
+				<%assign var="ftAcademySqlQuery" value="find_in_set('FT商学院',tag)"%>
+				<%assign var="ftAcademyItems" value=$interactivemodel->get_interactive_by_field_search($ftAcademySqlQuery,0,12,7,10800)%>
 			<%/if%>
-			<%assign var="ftacademyPC" value=$interactivemodel->get_interactive_by_field_search("find_in_set('FT商学院',tag)",$startIndex,4,1000,10800)%>
+			<%php%>
+				$itemsArray = $this->get_template_vars('itemsArray');
+				$ftAcademyItems = $this->get_template_vars('ftAcademyItems');
+				if (is_array($itemsArray)) {
+					$itemIds = [];
+					foreach ($itemsArray as $item) {
+						if (!isset($item["type"]) || !isset($item["id"]) || $item["id"] === "" || $item["type"] !== "interactive") {continue;}
+						array_push($itemIds, $item["id"]);
+					}
+					$newFTacademyPC = [];
+					foreach ($ftAcademyItems as $item) {
+						$found_key = array_search($item["id"], $itemIds);
+						if ($found_key !== false) {continue;}
+						array_push($newFTacademyPC, $item);
+					}
+					$ftAcademyItems = $newFTacademyPC;
+				}
+				$ftAcademyItems = array_slice($ftAcademyItems, 0, 4, true);
+				$this->assign("ftAcademyItems", $ftAcademyItems);
+			<%/php%>
 			<div class="interactives P-hide ft-academy-container">
 				<h2 class="list-title"><a href="/channel/mba.html">FT商学院</a></h2>
 				<%assign var="hasImage" value="yes"%>
-				<%if preg_match("/NoCopyrightCover/is",$ftacademyPC[0].tag)%>
+				<%if preg_match("/NoCopyrightCover/is",$ftAcademyItems[0].tag)%>
 					<%assign var="hasImage" value="no"%>
 				<%/if%>
 				<%assign var="vip" value=""%>
-				<%if preg_match("/高端专享/is",$ftacademyPC[0].tag)%>
+				<%if preg_match("/高端专享/is",$ftAcademyItems[0].tag)%>
 					<%assign var="vip" value=" locked vip"%>
-				<%elseif preg_match("/订户专享/is",$ftacademyPC[0].tag)%>
+				<%elseif preg_match("/订户专享/is",$ftAcademyItems[0].tag)%>
 					<%assign var="vip" value=" locked"%>
 				<%/if%>
 				<div class="item-container first static-image<%if $hasImage == "no"%> no-image<%/if%>"><div class="item-inner">
 				<%if $hasImage == "yes"%>
-					<a class="image" href="/interactive/<%$ftacademyPC[0].id%>" target=_blank><figure class="loading" data-url="<%$ftacademyPC[0].story_pic.cover|default:$ftacademyPC[0].story_pic.smallbutton|default:$ftacademyPC[0].story_pic.bigbutton|replace:"http://i.ftimg.net/picture/":"https://thumbor.ftacademy.cn/unsafe/picture/"%>"></figure></a>
+					<a class="image" href="/interactive/<%$ftAcademyItems[0].id%>" target=_blank><figure class="loading" data-url="<%$ftAcademyItems[0].story_pic.cover|default:$ftAcademyItems[0].story_pic.smallbutton|default:$ftAcademyItems[0].story_pic.bigbutton|replace:"http://i.ftimg.net/picture/":"https://thumbor.ftacademy.cn/unsafe/picture/"%>"></figure></a>
 				<%/if%>
-				<h2 class="item-headline"><a href="/interactive/<%$ftacademyPC[0].id%>" class="item-headline-link<%$vip%>" target=_blank><%$ftacademyPC[0].cheadline%></a></h2>
-				<div class="item-lead"><%$ftacademyPC[0].clongleadbody|default:$ftacademyPC[0].cshortleadbody%></div>
+				<h2 class="item-headline"><a href="/interactive/<%$ftAcademyItems[0].id%>" class="item-headline-link<%$vip%>" target=_blank><%$ftAcademyItems[0].cheadline%></a></h2>
+				<div class="item-lead"><%$ftAcademyItems[0].clongleadbody|default:$ftAcademyItems[0].cshortleadbody%></div>
 				</div></div>
 
-				<%foreach from=$ftacademyPC item=vc name=homepageftacademy%>
-					<%if $vc.id != $ftacademyPC[0].id%>
+				<%foreach from=$ftAcademyItems item=vc name=homepageftacademy%>
+					<%if $vc.id != $ftAcademyItems[0].id%>
 						<%assign var="vip" value=""%>
 						<%if preg_match("/高端专享/is",$vc.tag)%>
 							<%assign var="vip" value=" locked vip"%>
@@ -510,10 +529,81 @@
 			</div>
 		</div>
 
-		<%if $highlightFTAcademy != "top" && $smarty.get.subscription != "premium"%>
+		<%if $highlightFTAcademy != "top"%>
 			<div class="interactives">
 				<h2 class="list-title"><a href="/channel/mba.html?webview=ftcapp">FT商学院</a></h2>
 				<div class="interactive-inner">
+			
+			
+			
+				<%if $ftAcademyItems == ""%>
+					<%assign var="ftAcademySqlQuery" value="find_in_set('FT商学院',tag)"%>
+					<%assign var="ftAcademyItems" value=$interactivemodel->get_interactive_by_field_search($ftAcademySqlQuery,0,12,7,10800)%>
+				<%/if%>
+				<%php%>
+					$itemsArray = $this->get_template_vars('itemsArray');
+					$ftAcademyItems = $this->get_template_vars('ftAcademyItems');
+					if (is_array($itemsArray)) {
+						$itemIds = [];
+						foreach ($itemsArray as $item) {
+							if (!isset($item["type"]) || !isset($item["id"]) || $item["id"] === "" || $item["type"] !== "interactive") {continue;}
+							array_push($itemIds, $item["id"]);
+						}
+						$newFTacademyPC = [];
+						foreach ($ftAcademyItems as $item) {
+							$found_key = array_search($item["id"], $itemIds);
+							if ($found_key !== false) {continue;}
+							array_push($newFTacademyPC, $item);
+						}
+						$ftAcademyItems = $newFTacademyPC;
+					}
+					$ftAcademyItems = array_slice($ftAcademyItems, 0, 4, true);
+					$this->assign("ftAcademyItems", $ftAcademyItems);
+				<%/php%>
+				
+				<%foreach from=$ftAcademyItems item=item key=i%>
+					<%assign var="itemSubType" value=""%>
+					<%if preg_match("/速读/is",$item.tag)%>
+						<%assign var="itemSubType" value="speedreading"%>
+					<%elseif preg_match("/双语阅读/is",$item.tag) %>
+						<%assign var="itemSubType" value="bilingual"%>
+					<%elseif preg_match("/FT商学院/is",$item.tag) && 1<0 %>
+						<%assign var="itemSubType" value="mbagym"%>
+					<%elseif preg_match("/英语电台/is", $item.tag)%>
+						<%assign var="itemSubType" value="radio"%>
+					<%elseif preg_match("/音频/is",$item.tag)%>
+						<%assign var="itemSubType" value="radio"%>
+					<%elseif preg_match("/数据新闻/is",$item.tag)%>
+						<%assign var="itemSubType" value="datanews"%>
+					<%elseif preg_match("/教程/is",$item.tag)%>
+						<%assign var="itemSubType" value="mbagym"%>
+					<%/if%>
+					<%if $itemSubType != ""%>
+						<%assign var="subTypeData" value=" data-sub-type=\"`$itemSubType`\""%>
+					<%else%>
+						<%assign var="subTypeData" value=""%>
+					<%/if%>
+					<%if preg_match("/.mp3$/is",$item.cshortleadbody)%>
+						<%assign var="audioUrl" value=$item.cshortleadbody%>
+						<%assign var="audioData" value=" data-audio=\"`$audioUrl`\""%>
+					<%else%>
+						<%assign var="audioUrl" value=""%>
+						<%assign var="audioData" value=""%>
+					<%/if%>
+					<%assign var="sideItemClass" value=" item-container-app"%>
+					<%assign var="itemLink" value=" href=\"/interactive/`$item.id`\""%>
+					<%assign var="itemData" value=" data-id=\"`$item.id`\" data-type=\"interactive\"`$audioData``$subTypeData`"%>
+					<div class="item-container<%if $i===0%> first<%/if%><%$sideItemClass%>"<%$itemData%>><div class="item-inner">
+						<a class="image"<%$itemLink%> target=_blank><figure class="loading" data-url="<%$item.story_pic.cover|default:$item.story_pic.smallbutton|default:$item.story_pic.bigbutton|replace:"http://i.ftimg.net/picture/":"https://thumbor.ftacademy.cn/unsafe/picture/"%>"></figure></a>
+						<h2 class="item-headline"><a<%$itemLink%> target=_blank class="item-headline-link"><%$item.cheadline%></a></h2>
+					</div></div>
+				<%/foreach%>
+			
+				
+			
+				
+				<%*<!--Deprecated: Remove after March 31st, 2022. 两组数据进行合并，重新排序 Start-->*%>
+				<%if 1>2%>
 				<%assign var="startIndex" value=0%>
 				<%if $highlightFTAcademy == "feed"%>
 					<%assign var="startIndex" value=1%>
@@ -526,12 +616,12 @@
 				<%assign var="cs" value=0%>
 				<%assign var="cp" value=0%>
 				<%assign var="i" value=0%>
-				<%*<!--两组数据进行合并，重新排序 Start-->*%>
+				
 				<%section name=bothdata loop=$allcount%>
 					<%if $i<4%>
 						<%if $cs<$storycount && ($storyall[$cs].pubdate>=$photoall[$cp].add_times || $ps>=$photocount)%>
 							<%if !in_array($storyall[$cs].id , explode(',',$echostoryid)) && ($storyall[$cs].story_pic.smallbutton || $storyall[$cs].story_pic.bigbutton || $storyall[$cs].story_pic.cover)%>
-
+			
 								<%assign var="itemSubType" value=""%>
 								<%if preg_match("/速读/is",$storyall[$cs].tag)%>
 									<%assign var="iTag" value="【速读】"%>
@@ -558,15 +648,15 @@
 								<%else%>
 									<%assign var="iTag" value=""%>
 								<%/if%>
-
+			
 								<%if $itemSubType != ""%>
 									<%assign var="subTypeData" value=" data-sub-type=\"`$itemSubType`\""%>
 								<%else%>
 									<%assign var="subTypeData" value=""%>
 								<%/if%>
-
-
-
+			
+			
+			
 								<%if $smarty.get.webview == "ftcapp"%>
 									<%if preg_match("/.mp3$/is",$storyall[$cs].cshortleadbody)%>
 										<%assign var="audioUrl" value=$storyall[$cs].cshortleadbody%>
@@ -607,13 +697,19 @@
 						<%/if%>
 					<%/if%>
 				<%/section%>
+				<%/if%>
 				<%*<!--两组数据进行合并，重新排序 End-->*%>
-
+			
+			
+			
+			
+			
+			
 				<%*<!--House Ad For Marketing-->*%>
 				<%assign var="pageIdForTextLink" value="mbagymtextlink"%>
 				<%include file="next/partials/house-ad-mba-gym-text-link.html"%>
 				<%*<!--House Ad For Marketing End-->*%>
-
+			
 				<div class="clearfloat"></div>
 				</div>
 			</div>
@@ -645,8 +741,8 @@
 			</div>
 		<%/if%>
 
-
-
+		<%*<!--MARK: - This has not updated for more than a year, hide it. Remove it after March 31st, 2022 -->*%>
+		<%if 1>2%>
 		<%assign var="ftintelligence" value=$interactivemodel->get_interactive_by_field_search("find_in_set('FT研究院',tag) and find_in_set('报告',tag)",0,4,1000,10800)%>
 		<div class="videos P-only">
 			<h2 class="list-title"><a href="/m/marketing/intelligence.html?webview=ftcapp">FT研究院</a></h2>
@@ -667,12 +763,11 @@
 				</div>
 			</div>
 		</div>
+		<%/if%>
 
 
 
 
-
-		<%if date("Ymd",$smarty.now) >= 20200401%>
 		<div class="videos P-only">
 			<h2 class="list-title"><a href="/m/marketing/businesscase.html">中国商业案例精选</a></h2>
 			<div class="interactive-inner">
@@ -736,7 +831,6 @@
 			<div class="clearfloat"></div>
 			</div>
 		</div>
-		<%/if%>
 
 		<div class="clearfloat"></div>
 
