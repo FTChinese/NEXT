@@ -147,7 +147,9 @@
     <%elseif date("w", $smarty.now) == 0 || date("w", $smarty.now) == 6%>
         <%assign var="isPublicHoliday" value="yes"%>
     <%/if%>
-    <%if $isPublicHoliday == "no" || $smarty.get.subscription == "member" || $smarty.get.subscription == "premium"%>
+    <%*<!--MARK: - highlight FT Academy on public holidays for all users -->*%>
+    <%*<!--if $isPublicHoliday == "no" || $smarty.get.subscription == "member" || $smarty.get.subscription == "premium"-->*%>
+    <%if $isPublicHoliday == "no"%>
         <%assign var="highlightFTAcademy" value="feed"%>
     <%else%>
         <%assign var="highlightFTAcademy" value="top"%>

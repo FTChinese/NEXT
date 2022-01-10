@@ -160,6 +160,10 @@
                 $item["background"] = $backgrounds[$noImageIndex] === '' ? '' : ' ' . $backgrounds[$noImageIndex];
                 $noImageIndex += 1;
             }
+            // MARK: - If item image is set to the bad image, hide it
+            if (isset($item["image"]) && in_array($item["image"], $badImages)) {
+                $item["image"] = "";
+            }
         }
         $this->assign("itemsArray", $originalItems);
     <%/php%>
@@ -536,7 +540,7 @@
                     <%$itemTag%>
                     <a target="_blank"<%$itemLink%> class="item-headline-link <%$lockClass%>"><%$itemHeadline%></a>
                 </h2>
-                <div class="item-lead"><%$itemLead|nl2br%></div>
+                <div class="item-lead"><%$itemLead|regex_replace:"/[\r\n]/" : ""%></div>
                 <%$itemTimeStamp%>
                 <%if $list.readMore != ""%>
                     <a class="read-more" target="_blank"<%$itemLink%>><%$list.readMore%></a>
