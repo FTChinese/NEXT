@@ -60,11 +60,6 @@ function passLoginToNative() {
             if (userInfo.expire && userInfo.expire > 0) {
                 message.paywallExpire = userInfo.expire.toString();
             }
-            message.source = "olivertest6";
-            try {
-                webkit.messageHandlers.user.postMessage(message);
-            } catch (ignore) {
-            }
             message.ccode = userInfo.campaign_code || '';
             message.duration = userInfo.latest_duration || '';
             message.source = userInfo.source || '';
