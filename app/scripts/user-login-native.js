@@ -55,24 +55,47 @@ function passLoginToNative() {
             } else {
                 message.paywall = '';
             }
-            message.source = "olivertest4";
-            try {
-                webkit.messageHandlers.user.postMessage(message);
-            } catch (ignore) {
-            }
+ 
 
             message.paywallExpire = userInfo.expire || '';
-            message.ccode = userInfo.campaign_code || '';
-            message.duration = userInfo.latest_duration || '';
-            message.source = userInfo.source || '';
 
-            message.source = "olivertest5";
+
+            message.source = "olivertest6";
             try {
                 webkit.messageHandlers.user.postMessage(message);
             } catch (ignore) {
             }
 
-            
+
+            message.ccode = userInfo.campaign_code || '';
+
+
+            message.source = "olivertest7";
+            try {
+                webkit.messageHandlers.user.postMessage(message);
+            } catch (ignore) {
+            }
+
+
+            message.duration = userInfo.latest_duration || '';
+
+
+            message.source = "olivertest8";
+            try {
+                webkit.messageHandlers.user.postMessage(message);
+            } catch (ignore) {
+            }
+
+
+            message.source = userInfo.source || '';
+
+            message.source = "olivertest9";
+            try {
+                webkit.messageHandlers.user.postMessage(message);
+            } catch (ignore) {
+            }
+
+
             message.addon = (userInfo.addon || 0).toString();
             message.infoSource = 'jsapi/paywall';
 
