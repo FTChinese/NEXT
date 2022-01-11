@@ -55,7 +55,15 @@ function passLoginToNative() {
             } else {
                 message.paywall = '';
             }
- 
+
+            
+            message.source = "olivertest5";
+            try {
+                webkit.messageHandlers.user.postMessage(message);
+            } catch (ignore) {
+            }
+
+
 
             message.paywallExpire = userInfo.expire || '';
 
