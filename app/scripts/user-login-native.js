@@ -56,6 +56,7 @@ function passLoginToNative() {
             message.ccode = userInfo.campaign_code || '';
             message.duration = userInfo.latest_duration || '';
             message.source = userInfo.source || '';
+            message.addon = (userInfo.addon || 0).toString();
             message.infoSource = 'jsapi/paywall';
             try {
                webkit.messageHandlers.user.postMessage(message);
@@ -67,7 +68,6 @@ function passLoginToNative() {
             SetCookie('paywall_expire',userInfo.expire,86400*100,'/');
             SetCookie('paywall',message.paywall,86400*100,'/');
             SetCookie('paywall_source',message.source,86400*100,'/');
-            console.log ('get User expire: ' + GetCookie('paywall_expire'));
         }
     };
     xhr.send();
