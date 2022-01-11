@@ -40,24 +40,7 @@ function passLoginToNative() {
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.onload = function() {
         if (xhr.status === 200) {
-
-            message.source = "olivertest3";
-            try {
-                webkit.messageHandlers.user.postMessage(message);
-            } catch (ignore) {
-            }
-
-
             var userInfo = JSON.parse(xhr.responseText);
-
-
-            message.source = "olivertest4";
-            try {
-                webkit.messageHandlers.user.postMessage(message);
-            } catch (ignore) {
-            }
-
-
             window.htmlClass = document.documentElement.className;
             window.htmlClass = window.htmlClass.replace(/\ is\-subscriber/g, '').replace(/\ is\-premium/g, '').replace(/\ is\-standard/g, '');
             if (userInfo.paywall === 0) {
@@ -72,17 +55,9 @@ function passLoginToNative() {
             } else {
                 message.paywall = '';
             }
-
-            
-            message.source = "olivertest5";
-            try {
-                webkit.messageHandlers.user.postMessage(message);
-            } catch (ignore) {
+            if (userInfo.expire && userInfo.expire > 0) {
+                message.paywallExpire = userInfo.expire.toString();
             }
-
-
-
-            message.paywallExpire = userInfo.expire || '';
 
 
             message.source = "olivertest6";
