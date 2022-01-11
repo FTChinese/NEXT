@@ -5,6 +5,7 @@ function passLoginToNative() {
     var userNameForLogin = GetCookie('USER_NAME') || GetCookie('USER_NAME_FT') || '';
     var userIdForLoginUser = GetCookie('USER_ID') || '';
     var paywallSource = GetCookie('paywall_source') || '';
+    var addon = GetCookie('addon') || '0';
     var ccode = GetCookie('ccode') || '';
     message = {
         username: userNameForLogin,
@@ -12,7 +13,8 @@ function passLoginToNative() {
         uniqueVisitorId: uniqueId,
         ccode: ccode,
         source: paywallSource,
-        infoSource: 'cookie'
+        infoSource: 'cookie',
+        addon: addon
     };
     // MARK: Get subscription: standard/premium
     var paywall = GetCookie('paywall') || '';
@@ -58,50 +60,16 @@ function passLoginToNative() {
             if (userInfo.expire && userInfo.expire > 0) {
                 message.paywallExpire = userInfo.expire.toString();
             }
-
-
             message.source = "olivertest6";
             try {
                 webkit.messageHandlers.user.postMessage(message);
             } catch (ignore) {
             }
-
-
             message.ccode = userInfo.campaign_code || '';
-
-
-            message.source = "olivertest7";
-            try {
-                webkit.messageHandlers.user.postMessage(message);
-            } catch (ignore) {
-            }
-
-
             message.duration = userInfo.latest_duration || '';
-
-
-            message.source = "olivertest8";
-            try {
-                webkit.messageHandlers.user.postMessage(message);
-            } catch (ignore) {
-            }
-
-
             message.source = userInfo.source || '';
-
-            message.source = "olivertest9";
-            try {
-                webkit.messageHandlers.user.postMessage(message);
-            } catch (ignore) {
-            }
-
-
             message.addon = (userInfo.addon || 0).toString();
             message.infoSource = 'jsapi/paywall';
-
-
-
-
             try {
                webkit.messageHandlers.user.postMessage(message);
             } catch (ignore) {
@@ -112,6 +80,7 @@ function passLoginToNative() {
             SetCookie('paywall_expire',userInfo.expire,86400*100,'/');
             SetCookie('paywall',message.paywall,86400*100,'/');
             SetCookie('paywall_source',message.source,86400*100,'/');
+            SetCookie('addon',message.addon,86400*100,'/');
         }
     };
     xhr.send();
