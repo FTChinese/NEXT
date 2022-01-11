@@ -56,7 +56,7 @@ function passLoginToNative() {
             message.ccode = userInfo.campaign_code || '';
             message.duration = userInfo.latest_duration || '';
             message.source = userInfo.source || '';
-            message.addon = 'something';
+            message.addon = (userInfo.addon || 0).toString();
             message.infoSource = 'jsapi/paywall';
             try {
                webkit.messageHandlers.user.postMessage(message);
