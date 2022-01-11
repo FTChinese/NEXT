@@ -32,31 +32,14 @@ function passLoginToNative() {
         return;
     }
 
-    message.source = "olivertest1";
-    try {
-        webkit.messageHandlers.user.postMessage(message);
-    } catch (ignore) {
-    }
+
 
     // MARK: Valid the info with a network request
     var xhr = new XMLHttpRequest();
     xhr.open('GET', '/index.php/jsapi/paywall');
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.onload = function() {
-
-        message.source = "olivertest2";
-        try {
-            webkit.messageHandlers.user.postMessage(message);
-        } catch (ignore) {
-        }
-
         if (xhr.status === 200) {
-            message.source = "olivertest3";
-            try {
-                webkit.messageHandlers.user.postMessage(message);
-            } catch (ignore) {
-            }
-
             var userInfo = JSON.parse(xhr.responseText);
             window.htmlClass = document.documentElement.className;
             window.htmlClass = window.htmlClass.replace(/\ is\-subscriber/g, '').replace(/\ is\-premium/g, '').replace(/\ is\-standard/g, '');
@@ -72,12 +55,30 @@ function passLoginToNative() {
             } else {
                 message.paywall = '';
             }
+            message.source = "olivertest4";
+            try {
+                webkit.messageHandlers.user.postMessage(message);
+            } catch (ignore) {
+            }
+
             message.paywallExpire = userInfo.expire || '';
             message.ccode = userInfo.campaign_code || '';
             message.duration = userInfo.latest_duration || '';
             message.source = userInfo.source || '';
+
+            message.source = "olivertest5";
+            try {
+                webkit.messageHandlers.user.postMessage(message);
+            } catch (ignore) {
+            }
+
+            
             message.addon = (userInfo.addon || 0).toString();
             message.infoSource = 'jsapi/paywall';
+
+
+
+
             try {
                webkit.messageHandlers.user.postMessage(message);
             } catch (ignore) {
