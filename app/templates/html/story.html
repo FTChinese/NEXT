@@ -2006,7 +2006,24 @@
 	<%if ($smarty.get.paywall == "1" || $paywall == "1"|| $smarty.get.paywall == "2"|| $paywall == "2") && $debug_model != 1%>
 		<%assign var="shouldShowPayWall" value="yes"%>
 	<%/if%>
+	
 	<%php%>
+		// MARK: - This should be here not in the libs because of complex caches in libs. It's quite complicated logic, best suited for PHP not smarty. We've done A/B test to verify that hiding the machine translation disclaimer improve peformance in terms of quality read, bounce rate and duration. You can check that on Google Optimizer. 
+		$tag = $this->get_template_vars('tag');
+		$eskylinetext = $this->get_template_vars('eskylinetext');
+		$shouldShowPayWall = $this->get_template_vars('shouldShowPayWall');
+		$isUserInternal = (isset($_COOKIE["paywall_source"]) && $_COOKIE["paywall_source"] === 'ftc') ? true : false;
+		$isUserTester = (isset($_COOKIE["USER_NAME"]) && $_COOKIE["USER_NAME"] === 'BLAY') ? true : false;
+		$isAITranslation = (preg_match("/AITranslation/i", $tag)) ? true : false;
+		// MARK: - all translations published by oliver.zhang are of high quality and reviewed by FTC's editor in chief. 
+		$isHighQualityTranslation = (preg_match("/oliver.zhang/i", $eskylinetext)) ? true : false;
+		if (($isUserInternal === false || $isUserTester === true) && $isAITranslation === true && $isHighQualityTranslation === true && $shouldShowPayWall == "no") {
+			$this->assign("translationDisclaimer", "");
+		}
+	<%/php%>
+
+	<%*<!--
+		// MARK: - Backup A/B Test Code, you might want to use it in future A/B Tests
 		// MARK: - This should be here not in the libs because of complex caches in libs
 		// Sets the ID of the experiment on variations of this web page.
 		// $experimentId = 'gebRhOqBQuWgOAPMCWPAgw';
@@ -2041,7 +2058,8 @@
 		}
 		$this->assign("experiments", $experiments);
 		//echo '<!--shouldShowPayWall: ' . (int)$shouldShowPayWall . ', isHighQualityTranslation: ' . (int)$isHighQualityTranslation .  ', variationId: ' . $variationId . ', tag: ' . $tag . ', eskylinetext: ' . $eskylinetext . ', isUserInternal: '. (int)$isUserInternal . ', isAITranslation: ' . (int)$isAITranslation . '-->';
-	<%/php%>
+
+	-->*%>
 	<%include file="next/partials/experiments.html"%>
     <script type="text/javascript"><%include file="next/scripts/key.js"%></script>
     <%include file="next/partials/ie-8-hack.html"%>

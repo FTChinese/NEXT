@@ -62,11 +62,11 @@
 			<ul class="top10">
 			<%assign var="i" value=0%>
 			<%*<!--MARK: - these two tags doesn't work in SQL query, maybe because of our server configuration bug -->*%>
-			<%assign var="mp" value=$storymodel->getContentByTag($themeTag,10)%>	
+			<%assign var="mp" value=$storymodel->getContentByTag($themeTag,10)%>
 			<%foreach from=$mp item=sc%>
 				<%if $itemId != $sc.id%>
 					<%assign var="i" value=$i+1%>
-					<li class="mp<%$i%>"><a target="_blank" href="/<%$sc.item_type%>/<%$sc.id%>"><%$sc.cheadline%></a></li>
+					<li class="mp<%$i%>"><a target="_blank" href="/<%$sc.type|default:$sc.item_type%>/<%$sc.id%>"><%$sc.cheadline%></a></li>
 				<%/if%>
 			<%/foreach%>
 			</ul>
