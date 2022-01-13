@@ -7,6 +7,7 @@ function passLoginToNative() {
     var paywallSource = GetCookie('paywall_source') || '';
     var addon = GetCookie('addon') || '0';
     var ccode = GetCookie('ccode') || '';
+    var wxUnionId = GetCookie('WX_UNION_ID') || '';
     message = {
         username: userNameForLogin,
         userId: userIdForLoginUser,
@@ -14,7 +15,8 @@ function passLoginToNative() {
         ccode: ccode,
         source: paywallSource,
         infoSource: 'cookie',
-        addon: addon
+        addon: addon,
+        wxUnionId: wxUnionId
     };
     // MARK: Get subscription: standard/premium
     var paywall = GetCookie('paywall') || '';
@@ -33,9 +35,6 @@ function passLoginToNative() {
     if (userIdForLoginUser === '') {
         return;
     }
-
-
-
     // MARK: Valid the info with a network request
     var xhr = new XMLHttpRequest();
     xhr.open('GET', '/index.php/jsapi/paywall');

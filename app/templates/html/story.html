@@ -2006,7 +2006,7 @@
 	<%if ($smarty.get.paywall == "1" || $paywall == "1"|| $smarty.get.paywall == "2"|| $paywall == "2") && $debug_model != 1%>
 		<%assign var="shouldShowPayWall" value="yes"%>
 	<%/if%>
-	
+
 	<%php%>
 		// MARK: - This should be here not in the libs because of complex caches in libs. It's quite complicated logic, best suited for PHP not smarty. We've done A/B test to verify that hiding the machine translation disclaimer improve peformance in terms of quality read, bounce rate and duration. You can check that on Google Optimizer. 
 		$tag = $this->get_template_vars('tag');
@@ -2020,6 +2020,7 @@
 		if (($isUserInternal === false || $isUserTester === true) && $isAITranslation === true && $isHighQualityTranslation === true && $shouldShowPayWall == "no") {
 			$this->assign("translationDisclaimer", "");
 		}
+		//echo '<!--shouldShowPayWall: ' . (int)$shouldShowPayWall . ', isHighQualityTranslation: ' . (int)$isHighQualityTranslation .  ', tag: ' . $tag . ', eskylinetext: ' . $eskylinetext . ', isUserInternal: '. (int)$isUserInternal . ', isAITranslation: ' . (int)$isAITranslation . '-->';
 	<%/php%>
 
 	<%*<!--
