@@ -258,10 +258,22 @@
 					<%/if%>
 
                     <%*<!--MARK: - If it is a premium story, set lock class -->*%>
-
-
-                    <%*<!--MARK: - come out with the time so that archive stories will display locks -->*%>
-					<%assign var="itemT" value=$item.timeStamp|default:$item.last_publish_time|default:$item.pubdate|default:$item.add_times%>
+					<%assign var="itemT" value=""%>
+					<%*<!--MARK: - The data structure is so inconsistent that we have to handle it here. -->*%>
+					<%if $itemInfo != ""%>
+						<%assign var="itemT" value=$itemInfo.fileupdatetime|default:$itemInfo.last_publish_time|default:$itemInfo.pubdate%>
+					<%elseif $itemType == "interactive"%>
+						<%*<!--MARK: timeStamp if the interactive is dragged into list mannually, otherwise fileupdatetime from the API. If the feedType is all, you won't get the value because Video doesn't support this. -->*%>
+						<%assign var="itemT" value=$item.timeStamp|default:$item.fileupdatetime|default:$item.last_publish_time|default:$item.pubdate%>
+					<%elseif $list.float == "BiligualFullText"%>
+						<%assign var="itemT" value=$item.eskylineheadline|default:$item.fileupdatetime%>
+					<%else%>
+						<%assign var="itemT" value=$item.timeStamp|default:$item.last_publish_time|default:$item.pubdate|default:$item.add_times%>
+					<%/if%>
+					<%*<!--MARK: - If an item is set to be released at a future time, the pubdate would be later than itemT-->*%>
+					<%if $item.pubdate != "" && $item.pubdate > $itemT%>
+						<%assign var="itemT" value=$item.pubdate%>
+					<%/if%>
 					<%assign var="itemT" value=$itemT|regex_replace:"/\.[0-9]+$/i":""%>
 					<%math assign="timeMath" equation="x-y" x=$smarty.now y=$itemT%>
 

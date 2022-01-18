@@ -1248,7 +1248,6 @@
 									<%if $item.pubdate != "" && $item.pubdate > $itemT%>
 										<%assign var="itemT" value=$item.pubdate%>
 									<%/if%>
-
 									<%assign var="itemT" value=$itemT|regex_replace:"/\.[0-9]+$/i":""%>
 									<%assign var="highlightTime" value=""%>
 									<%math assign="timeDiff" equation="x-y" x=$smarty.now y=$itemT%>
@@ -1256,12 +1255,10 @@
 
 
 									<%if $list.showTimeStamp == "all" || $list.showTimeStamp == "new stories" || $list.feedType == "myFT" || $list.float == "BiligualFullText"%>
-
 										<%if $item.type === "video" && preg_match("/[0-9]+\-[0-9]+\-[0-9]+/is",$itemT)%>
 											<%assign var="highlightTime" value=""%>
 											<%assign var="timeDiff" value=$itemT|date_format:"%Y年%-m月%-d日"%>
 											<%assign var="timeMath" value=0%>
-											
 										<%elseif $timeDiff < 0%>
 											<%assign var="highlightTime" value=" highlight"%>
 											<%assign var="timeDiff" value="刚刚发布"%>
