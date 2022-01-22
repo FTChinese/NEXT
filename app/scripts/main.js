@@ -878,7 +878,7 @@ function trackQualityRead() {
 function checkFullGridItem() {
   try {
     if (!document.querySelector('.full-grid-story')) {return;}
-    var fullGridItems = document.querySelectorAll('[data-layout-width="full-grid"]');
+    var fullGridItems = document.querySelectorAll('[data-layout-width="full-grid"], blockquote');
     var bodyHeight = getBodyHeight();
     var isFullGridItemInView = false;
     for (var i=0; i<fullGridItems.length; i++) {

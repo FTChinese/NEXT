@@ -319,10 +319,16 @@ function finish() {
     console.log ('paste the chinese text back! ');
     if (window.opener) {
         var result = document.getElementById('final-translation').value;
-        window.opener.document.getElementById('cbody').value = result;
+        window.opener.document.getElementById('cbody').value = tidyUpChineseText(result);
         window.opener.document.getElementById('tag').value += ',translation_confirmed';
     }
     trackFinishTimeAndClose();
+}
+
+function tidyUpChineseText(text) {
+    var result = text.replace(/[\(（)]([A-z\s\d\.,]+)[\)）]/g, '($1)'); // Use the correct English brackets
+
+    return result;
 }
 
 function getCleanText(ele) {
