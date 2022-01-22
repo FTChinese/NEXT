@@ -327,7 +327,6 @@ function finish() {
 
 function tidyUpChineseText(text) {
     var result = text.replace(/[\(（)]([A-z\s\d\.,]+)[\)）]/g, '($1)'); // Use the correct English brackets
-
     return result;
 }
 
@@ -341,7 +340,8 @@ function getCleanText(ele) {
             cleanTexts.push(child.outerHTML);
         }
     }
-    return cleanTexts.join('\n\n');
+    var text = cleanTexts.join('\n\n');
+    return tidyUpChineseText(text);
 }
 
 function formatDuration(seconds) {
