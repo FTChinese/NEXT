@@ -300,668 +300,614 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
  </head>
  <body>
     <script>var gUaOfPage = navigator.userAgent || navigator.vendor || "";</script><script>checkB();</script>
-    <div id="promo-box-container">
-    <style>
-    .noneSubscriber.subscription-promo-container {
-    background-color: #88233f;
-    }
-    .noneSubscriber .subscription-promo-text {
-    background-color: #282c32;
-    border-color: #282c32;
-    }
-    .noneSubscriber .subscription-promo-text {
-    color: #ffffff;
-    }
-    .noneSubscriber .subscription-promo-box {
-    background-image: url(https://thumbor.ftacademy.cn/unsafe/picture/9/000111019_piclink.png);
-    }
-    @media only screen and (max-width: 490px) {
-    .noneSubscriber .subscription-promo-box {
-    background-image: url(https://thumbor.ftacademy.cn/unsafe/picture/3/000111023_piclink.png);
-    }
-    }
-    </style>
-    <div class="subscription-promo-container show-image-in-mobile noneSubscriber">
-    <div class="subscription-promo-inner">
-    <a  href="https://www.ftacademy.cn/subscription.html?ccode=2CAcquisitionWebPBoxNon" class="subscription-promo-box n-internal-promo" data-promo-target="noneSubscriber" data-promo-id="2CAcquisitionWebPBoxNon" data-promo-name="仅0.8元/天 立即订阅" data-promo-creative="https://thumbor.ftacademy.cn/unsafe/picture/9/000111019_piclink.png" data-promo-position="promoBox">
-    <div class="subscription-promo-text">仅0.8元/天 立即订阅</div>
-    </a>
-    </div>
-    </div>
-    <script type="text/javascript">
-    window.userId = GetCookie('USER_ID') || '';
-    if (window.userId === '') {
-    gtag('event', 'Display', {'event_label': '2CAcquisitionWebPBoxNon', 'event_category': 'PromoBox', 'non_interaction': true});
-    }
-    </script>
-    </div>
-    <script type="text/javascript">
-    function addUserId(ele) {
-    if (ele === null) {
-    return;
-    }
-    var userId;
-    if (typeof GetCookie === 'function') {
-    userId = GetCookie('USER_ID');
-    } else {
-    userId = getCookie('USER_ID');
-    }
-    if (userId && typeof userId === 'string' && userId !== '') {
-    var link = ele.href;
-    var connector = (link.indexOf('?') >= 0) ? '&' : '?';
-    ele.href = link + connector + 'u=' + userId;
-    }
-    }
-    var premiumLink = document.querySelector('[data-promo-target=premium]');
-    addUserId(premiumLink);
-    </script>
-    <header class="header-container">
-    <div class="header-inner">
-    <div class="masthead"></div>
-    <div class="header-side header-left expandable">
-    <div class="current-edition">
-    <span>简体中文</span>
-    <a href="http://big5.ftchinese.com/interactive/57569?exclusive">繁体中文</a>
-    <a href="http://www.ft.com/">FT.com</a>
-    </div>
-    </div>
-    <div class="header-side header-right">
-    <span class="visitor-box">
-    <a onclick="showOverlay('overlay-login')">登录</a>
-    <a class="more last" href="http://user.ftchinese.com/register">注册</a>
-    </span>
-    <span class="member-box">
-    <a href="/channel/myftlocal.html">我的FT</a>
-    <a id="ft-login-your-account" href="/users/cp">设置</a>
-    <a id="ft-login-logout" href="/users/logout">登出</a>
-    </span>
-    </div>
-    </div>
-    </header>
-    <div class="overlay-container" id="overlay-login">
-    <div class="overlay-inner">
-    <div class="overlay-bg" data-parentid="overlay-login"></div>
-    <div class="overlay-content-outer">
-    <div class="overlay-content-inner">
-    <div class="overlay-content">
-    <div class="overlay-title">登录<i class="overlay-close" data-parentid="overlay-login">×</i></div>
-    <form method="post" action="/users/login" id="overlay-login-form">
-    <span id="overlay-login-container">
-    <div class="input-title" id="login-reason"></div>
-    <div class="input-title">电子邮件/用户名</div>
-    <div class="input-container"><input type="text" class="input-oneline" name="username" id="ft-login-input-username"></div>
-    <div class="input-title">密码</div>
-    <div class="input-container"><input type="password" class="input-oneline" name="password"></div>
-    <div><input type="checkbox" class="checkbox" value="1" checked="checked" name="saveme" id="ft-login-input-remember">记住我</div>
-    <div class="login-btn input-submit-container center"><input class="" type="submit" value="登录"></div>
-    <div class="center register-find"><a href="https://user.ftchinese.com/register" class="blue-link">免费注册</a><span></span><a href="https://profile.ftchinese.com/users/findpassword" class="blue-link">找回密码</a></div>
-    <div class="phone-login-container" id="phone-login-trigger">
-    <div class="center phone-login"><a onclick="showPhoneLogin()" class="blue-link">短信登录</a></div>
-    </div>
-    <div class="wx-login-container">
-    <div class="center wx-login"><a href="https://www.ftacademy.cn/wxlogin" class="blue-link">微信登录</a></div>
-    </div>
-    </span>
-    </form>
-    <span id="phone-ftc-binding-container">
-    <div>请输入邮箱和密码进行绑定操作：</div>
-    <div><input placeholder="请输入邮箱" type="email" autocorrect="off" id="phone-binding-email" class="input-oneline"/></div>
-    <div><input placeholder="请输入密码" type="password" class="input-oneline" id="phone-binding-password"/></div>
-    <div class="topmargin statusmsg" id="phone-binding-status"></div>
-    <div><input type="button" value="绑定" class="n-button-inner" onclick="binding('phone')"/></div>
-    </span>
-    <span id="phone-login-container">
-    <div class="user-name-container">请输入手机号码，通过短信验证（目前仅支持中国大陆地区的手机号）：</div>
-    <div><input onkeyup="resetPhoneLogin()" placeholder="请输入中国大陆的手机号码" type="tel" autocorrect="off" name="phone" id="phone-number" class="input-oneline"/></div>
-    <div><input placeholder="请输入验证码"  pattern="\d*" maxlength="6" name="phonecapcha"  class="input-oneline" id="phone-captcha"/></div>
-    <div class="topmargin statusmsg" id="phone-login-status"></div>
-    <div>请您阅读我们的<a class="agreeDetail" href="/m/corp/service.html" target="_blank">用户注册协议</a>和<a class="agreeDetail" href="/m/corp/service.html#privacy" target="_blank">隐私权保护政策</a>，点击下方按钮即视为您接受。</div>
-    <div><input id="phone-login-submit-button" type="button" value="获取验证码" class="n-button-inner" onclick="phoneLogin()"/></div>
-    </span>
-    </div>
-    </div>
-    </div>
-    </div>
-    </div><div class="o-nav__placeholder">
-    <div class="o-nav">
-    <div class="o-nav__outer">
-    <div class="o-nav__inner">
-    <div class="o-nav__search"  data-o-component="o-toggler">
-    <button class="o-nav__search-toggle" data-o-toggler-button aria-controls="search-form">
-    <span class="search-toggle--open">搜索</span>
-    <span class="search-toggle--close">关闭</span>
-    </button>
-    <form action="/search/" id="search-form" role="search" data-o-toggler-target>
-    <input id="search-term" type="search" name="keys" class="search-input" placeholder="输入年月日‘xxxx-xx-xx’可搜索该日存档" />
-    <input id="type_news" type="hidden" value="type_news" name="ftsearchType" checked />
-    <button class="search-button" tabindex="1"><span>搜索</span></button>
-    </form>
-    </div>
-    <div class="o-header__masthead-mobile">
-    <a href="/" title="前往FT中文网首页"><span>FT中文网</span></a>
-    </div>
-    <nav class="o-nav__container" role="navigation">
-    <button class="nav-toggle" data-o-nav-togglable><span>Menu</span></button>
-    <ol class="o-nav__meganav">
-    <li class="nav-section mobile">
-    <button class="nav-section-head mobile" aria-selected="true">切换版本</button>
-    <ol class="nav-items">
-    <li class="nav-item">
-    <a class="nav-link" href="http://big5.ftchinese.com/">繁体中文版</a>
-    </li>
-    <li class="nav-item">
-    <a class="nav-link" href="http://www.ft.com/">FT.com</a>
-    </li>
-    </ol>
-    </li>
-    <li class="nav-section home "
-     data-section="home"
-    >
-    <button class="nav-section-head mobile">首页</button>
-    <a class="nav-section-head desktop" href="/">首页</a>
-    </li>
-    <li class="nav-section china "
-     data-section="china"
-    >
-    <button class="nav-section-head mobile">中国</button>
-    <a class="nav-section-head desktop" href="/channel/china.html">中国</a>
-    </li>
-    <li class="nav-section world "
-     data-section="world"
-    >
-    <button class="nav-section-head mobile">全球</button>
-    <a class="nav-section-head desktop" href="/channel/world.html">全球</a>
-    </li>
-    <li class="nav-section economy "
-     data-section="economy"
-    >
-    <button class="nav-section-head mobile">经济</button>
-    <a class="nav-section-head desktop" href="/channel/economy.html">经济</a>
-    </li>
-    <li class="nav-section markets "
-     data-section="markets"
-    >
-    <button class="nav-section-head mobile">金融市场</button>
-    <a class="nav-section-head desktop" href="/channel/markets.html">金融市场</a>
-    </li>
-    <li class="nav-section business "
-     data-section="business"
-    >
-    <button class="nav-section-head mobile">商业</button>
-    <a class="nav-section-head desktop" href="/channel/business.html">商业</a>
-    </li>
-    <li class="nav-section innovation "
-     data-section="innovation"
-    >
-    <button class="nav-section-head mobile">创新经济</button>
-    <a class="nav-section-head desktop" href="/channel/innovation.html">创新经济</a>
-    </li>
-    <li class="nav-section education "
-     data-section="education"
-    >
-    <button class="nav-section-head mobile">教育</button>
-    <a class="nav-section-head desktop" href="/channel/education.html?newnav=yes">教育</a>
-    </li>
-    <li class="nav-section opinion "
-     data-section="opinion"
-    >
-    <button class="nav-section-head mobile">观点</button>
-    <a class="nav-section-head desktop" href="/channel/opinion.html">观点</a>
-    </li>
-    <li class="nav-section management "
-     aria-selected="true" data-section="management"
-    >
-    <button class="nav-section-head mobile">管理</button>
-    <a class="nav-section-head desktop" href="/channel/management.html">管理</a>
-    <ol class="nav-items">
-    <li class="nav-item mobile">
-    <a class="nav-link" href="/channel/management.html">
-    频道首页
-    </a>
-    </li>
-    <li class="nav-item" aria-selected="true" data-channel="mba">
-    <a class="nav-link" href="/channel/mba.html">FT商学院</a>
-    </li>
-    <li class="nav-item"  data-channel="career">
-    <a class="nav-link" href="/channel/career.html">职场</a>
-    </li>
-    <li class="nav-item"  data-channel="leadership">
-    <a class="nav-link" href="/channel/leadership.html">领导力</a>
-    </li>
-    <li class="nav-item"  data-channel="wealth">
-    <a class="nav-link" href="/tag/%E8%B4%A2%E5%AF%8C%E7%AE%A1%E7%90%86">财富管理</a>
-    </li>
-    <li class="nav-item"  data-channel="people">
-    <a class="nav-link" href="/channel/people.html">人物</a>
-    </li>
-    </ol>
-    </li>
-    <li class="nav-section lifestyle "
-     data-section="lifestyle"
-    >
-    <button class="nav-section-head mobile">生活时尚</button>
-    <a class="nav-section-head desktop" href="/channel/lifestyle.html">生活时尚</a>
-    </li>
-    <li class="nav-section stream "
-     data-section="stream"
-    >
-    <button class="nav-section-head mobile">视频</button>
-    <a class="nav-section-head desktop" href="/channel/stream.html">视频</a>
-    </li>
-    <li class="nav-section audio "
-     data-section="audio"
-    >
-    <button class="nav-section-head mobile">音频</button>
-    <a class="nav-section-head desktop" href="/channel/audio.html">音频</a>
-    </li>
-    <li class="nav-section english "
-     data-section="english"
-    >
-    <button class="nav-section-head mobile">每日英语</button>
-    <a class="nav-section-head desktop" href="/channel/english.html">每日英语</a>
-    </li>
-    <li class="nav-section rewired "
-     data-section="rewired"
-    >
-    <button class="nav-section-head mobile">换脑ReWired</button>
-    <a class="nav-section-head desktop" href="/channel/rewired.html">换脑ReWired</a>
-    </li>
-    <li class="nav-section mobile login">
-    <ul>
-    <li class="nav-item">
-    <a class="nav-link" href="http://user.ftchinese.com/login">登录</a>
-    </li>
-    <li class="nav-item">
-    <a class="nav-link" href="http://user.ftchinese.com/register">免费注册</a>
-    </li>
-    </ul>
-    </li>
-    <li class="nav-section mobile logout">
-    <ul>
-    <li class="nav-item">
-    <a class="nav-link" href="/channel/myftlocal.html">我的FT</a>
-    </li>
-    <li class="nav-item">
-    <a class="nav-link" href="/users/setting/vip">会员中心</a>
-    </li>
-    <li class="nav-item">
-    <a class="nav-link" href="/users/setting/index">设置</a>
-    </li>
-    <li class="nav-item">
-    <a class="nav-link" href="/users/logout">登出</a>
-    </li>
-    </ul>
-    </li>
-    </ol>
-    </nav>
-    <ul class="o-nav__extra-tools">
-    <li class="tools-section" aria-haspopup="true">
-    <a class="tools-section-head" href="http://www.ftchinese.com/m/corp/follow.html">关注我们</a>
-    <ol class="tools-items">
-    <li><a href="http://www.ftchinese.com/m/corp/follow.html" target="_blank">微信公众号</a></li>
-    <li><a href="http://weibo.com/ftchinese" target="_blank">新浪微博</a></li>
-    <li><a href="http://www.ftchinese.com/m/corp/follow.html" target="_blank">Flipboard</a></li>
-    <li><a href="https://twitter.com/FTChinese" target="_blank">Twitter</a></li>
-    <li><a href="https://www.facebook.com/financialtimeschinese" target="_blank">Facebook</a></li>
-    <li><a href="https://www.linkedin.com/company/4865254?trk=hp-feed-company-name" target="_blank">LinkedIn</a></li>
-    </ol>
-    </li>
-    <li class="tools-section" aria-haspopup="true">
-    <span class="tools-section-head">工具</span>
-    <ol class="tools-items">
-    <li><a href="http://app.ftchinese.com/" class="o-client-id-link">移动应用大全</a></li>
-    <li><a href="/users/setting/index">基本设置</a></li>
-    <li><a href="/users/setting/vip">会员中心</a></li>
-    <li><a href="/users/setting/changeicon">修改头像</a></li>
-    <li><a href="/users/setting/maillist">邮件订阅</a></li>
-    <li><a href="/index.php/snsapi/index">同步微博</a></li>
-    <li><a href="/users/commentstory">我的评论</a></li>
-    <li><a href="/users/favstorylist">管理收藏</a></li>
-    </ol>
-    </li>
-    <li class="tools-section">
-    <a class="tools-section-head follow__rss" href="/channel/rss.html" title="RSS"><span>RSS</span></a>
-    </li>
-    </ul>
-    </div><!-- o-nav__inner -->
-    </div><!-- o-nav__outer -->
-    <div class="o-nav__meganav-placeholder"></div>
-    </div><!-- o-nav -->
-    </div>
-    <div class="block-container has-side story-page"><div class="block-inner">
-    <div class="content-container"><div class="content-inner">
-    <div class="story-container">
-    <div class="story-topper">
-    <div class="story-theme"><a href="/channel/mba.html">FT商学院</a><button class="myft-follow plus" data-tag="FT商学院" data-type="tag">关注</button></div>
-    <h1 class="story-headline story-headline-large">年度图表：用数据可视化来理解2021年</h1>
-    <div class="story-lead">可视化在讲述和理解故事方面已变得越来越重要。</div>
-    <div class=" story-image image"><figure data-url=https://thumbor.ftacademy.cn/unsafe/picture/1/000133721_piclink.jpg class="loading"></figure></div>
-    </div>
-    <div class="story-tools">
-    <div class="story-action-placeholder" id="story-action-placeholder">
-    <div class="story-action">
-    <div class="action-inner">
-    <a class="action-icon icon-wechat P-hide" href="/m/corp/qrshare.html?url=http%3A%2F%2Fwww.ftchinese.com%2Finteractive%2F57569%3Ffull%3Dy%26gift_id%3D1ea3f6442e674c0fa8c3d813720f899135438bb9&title=" target="_blank"></a>
-    <a class="action-icon icon-weibo P-hide" href="http://service.weibo.com/share/share.php?appkey=4221537403&url=http%3A%2F%2Fwww.ftchinese.com%2Finteractive%2F57569%3Ffull%3Dy%26gift_id%3D1ea3f6442e674c0fa8c3d813720f899135438bb9%26ccode%3D2G169001&title=【年度图表：用数据可视化来理解2021年】可视化在讲述和理解故事方面已变得越来越重要。（分享自 @FT中文网）&ralateUid=1698233740&source=&sourceUrl=&content=utf-8&pic=https://thumbor.ftacademy.cn/unsafe/picture/1/000133721_piclink.jpg&searchPic=false" target="_blank"></a>
-    <a class="action-icon icon-linkedin P-hide" href="https://www.linkedin.com/cws/share?url=http%3A%2F%2Fwww.ftchinese.com%2Finteractive%2F57569%3Ffull%3Dy%26gift_id%3D1ea3f6442e674c0fa8c3d813720f899135438bb9%26ccode%3D2G169003&original_referer=https%3A%2F%2Fdeveloper.linkedin.com%2Fsites%2Fall%2Fthemes%2Fdlc%2Fsandbox.php%3F&token=&isFramed=true&lang=zh_CN&_ts=1422502780259.2795" target="_blank"></a>
-    <a class="action-icon icon-twitter P-hide" href="http://twitter.com/home?status=【年度图表：用数据可视化来理解2021年】可视化在讲述和理解故事方面已变得越来越重要。（分享自 @FT中文网）...%20http%3A%2F%2Fwww.ftchinese.com%2Finteractive%2F57569%3Ffull%3Dy%26gift_id%3D1ea3f6442e674c0fa8c3d813720f899135438bb9" target="_blank"></a>
-    <a class="action-icon icon-facebook P-hide" href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.ftchinese.com%2Finteractive%2F57569%3Ffull%3Dy%26gift_id%3D1ea3f6442e674c0fa8c3d813720f899135438bb9&t=【年度图表：用数据可视化来理解2021年】可视化在讲述和理解故事方面已变得越来越重要。（分享自 @FT中文网）" target="_blank"></a>
-    <a class="icon-right icon-ch" href="/interactive/57569/en"><button>英文</button></a><a class="icon-right icon-ch" href="/interactive/57569/ce"><button>对照</button></a>
-    
-    <a class="icon-right icon-action icon-font-size" onclick="showOverlay('font-setting')"></a>
-    <a class="icon-right icon-action icon-audio" href="/interactive/57574"></a>
-    <div class="progress-container">
-    <svg
-    class="progress-ring"
-    height="40"
-    width="40"
-    >
-    <circle
-    class="progress-ring__circle"
-    stroke-width="2"
-    stroke="transparent"
-    r="18"
-    cx="20"
-    cy="20"
-    />
-    </svg>
-    <svg class="pregress-tick" width="24" height="24" viewBox="0 0 24 24">
-    <path fill="none" d="M0 0h24v24H0z"/><path class="progress-tick-path" fill="transparent" d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
-    </svg>
-    </div>
-    </div>
-    </div>
-    </div>
-    </div>
-    <div class="story-byline">
-    <span class="story-time" data-time="1640793600" pub-date="1640793600">发布于2021年12月30日 00:00</span>
-    <span class="story-author"> </span>
-    </div>
-    <div class="story-body">
-    
-    
-    <div id="story-body-container">
-    <div class="print-only">来自FT中文网的温馨提示：如您对FT中文网的内容感兴趣，请在苹果应用商店或华为应用市场搜索“FT中文网”，下载FT中文网的官方应用，付费订阅。祝您使用愉快！</div>    
-    <div class="copyrightstatement-container">为了第一时间为您呈现此信息，中文内容为机器翻译，并辅以少量人工干预，仅供参考。</div>
-    
-    <p>从新冠疫情到气候变化，从技术扫盲到人类面临的灾难，我们生活在一个视觉报道越来越受欢迎的时代。</p>
-    <p>图和书面文字一样，有着丰富并具有表达力的语言。<a href="https://twitter.com/ftdata" targe="_blank">FT的数据团队</a>从2021年创作的数千份数据中选出的这些图，可能会引发敬畏、钦佩、震惊和恐惧等不同的情绪。</p>
-    <p>今天我们选出的这些图，来自完全不同的话题，但他们都是为了讲清楚主题的来龙去脉。否则的话，信息是没有意义的，决定也是错误的。一张图片可能胜过千言万语。但在当今的时代，它们的价值可能还会高得多。</p>
-    <p><em class="is-text-only" id="id-3">艾伦·史密斯，视觉和数据新闻主管</em></p>
-    <h1 class="is-text-only" id="id-4">不一样的动力飞行</h1>
-    <p>1903年12月17日，莱特兄弟实现了动力飞机的首次飞行，奥维尔·莱特(Orville Wright)驾驶他们的莱特飞行器，在12秒内飞行了36米。2021年4月19日，莱特兄弟的第一架飞机上的一小块机翼材料创造了历史，因为它竟然在另一个星球上完成了第二次飞行。它被粘在美国国家航空航天局(Nasa)的Ingenuity号火星直升机上，完成了39.1秒的飞行，垂直上升到火星表面3米的高度。这是人类技术成就的完美展示。</p>
-    <p>“毅力”号火星车于2020年7月搭乘阿特拉斯5号火箭离开地球，而Ingenuity号则被固定在“毅力”号下方，抵达了火星。到莱特兄弟首飞118周年时，Ingenuity号已经飞行了18次，飞行时间总计超过30分钟，行程近4公里。</p>
-    <div class="pic"><picture><source media="screen and (max-width: 490px)" srcset="https://www.ft.com/__origami/service/image/v2/images/raw/https://d6c748xw2pzm8.cloudfront.net/prod/c17d4e60-6d53-11eb-a12b-673126bc4568-mobile.png?source=ftchinese&amp;fit=scale-down&amp;width=980"><img src="https://www.ft.com/__origami/service/image/v2/images/raw/https://d6c748xw2pzm8.cloudfront.net/prod/c17d4e60-6d53-11eb-a12b-673126bc4568-standard.png?source=ftchinese&amp;fit=scale-down&amp;width=1400"></picture></div>
-    
-    <p>在将这一成就形象化时，技术也发挥了作用。现在，使用iPad和苹果铅笔(Apple Pencil)创建3D模型的速度更快、更灵活，而且不仅仅是简单地画一幅插图。这是一个模型的交互视图，上面的艺术品就是从这个模型中衍生出来的。</p>
-    <p><em class="is-text-only" id="id-8">伊恩·博特，制图艺术家</em></p>
-    <div class="flourish-embed" data-src="story/1074816?hideSignature"></div>
-    
-    <h1 class="is-text-only" id="id-9">战胜赔率</h1>
-    <p>艾玛·拉杜卡努(Emma Raducanu)首次参加温布尔登网球公开赛时只有18岁，世界排名第338位，她成为20多年来首位进入女子单打第四轮的英国外卡选手。</p>
-    <p>为了在锦标赛的历史背景下展现她的非凡成就，需要从80多个PDF文件中提取外卡选手的名字，并将其与1977年以来他们在温布尔登比赛中的表现进行匹配——外卡制度是在这一年引入的。正如图片的标题所表明的那样，大多数外卡选手都无法通过第一轮。</p>
-    <div class="pic" data-layout-width="full-grid"><picture><source media="screen and (min-width: 980px)" srcset="https://www.ft.com/__origami/service/image/v2/images/raw/https://d6c748xw2pzm8.cloudfront.net/prod/2db4dfe0-e0d0-11eb-b56c-394cf436dfa3-fullwidth.png?source=ftchinese&amp;fit=scale-down&amp;width=1960"><source media="screen and (max-width: 490px)" srcset="https://www.ft.com/__origami/service/image/v2/images/raw/https://d6c748xw2pzm8.cloudfront.net/prod/2db4dfe0-e0d0-11eb-b56c-394cf436dfa3-mobile.png?source=ftchinese&amp;fit=scale-down&amp;width=980"><img src="https://www.ft.com/__origami/service/image/v2/images/raw/https://d6c748xw2pzm8.cloudfront.net/prod/2db4dfe0-e0d0-11eb-b56c-394cf436dfa3-standard.png?source=ftchinese&amp;fit=scale-down&amp;width=1400"></picture></div>
-    
-    <p>但这张图也暗示了另一个问题。世界上许多排名较低的选手在财务上都难以收支平衡。外卡制度在将网球运动边缘的选手带到精英舞台上发挥着重要作用，外卡选手们赢得的奖金，即使是在较低的回合中，也可以支持未来的巡回赛。</p>
-    <p>拉杜卡努表示，她的温网奖金将有助于资助她参加其他赛事。这确实有用。两个月后，在美国网球公开赛上，她成为公开赛时代首个获得大满贯头衔的资格赛单打选手，并在今年结束时排进世界前20名。</p>
-    <p><em class="is-text-only" id="id-14">克里斯·坎贝尔，视觉记者，帕特里克·马图林，高级统计记者</em></p>
-    <h1 class="is-text-only" id="id-15">致命的地标</h1>
-    <p><a href="/interactive/54736" targe="_blank">11月24日晚</a>，英吉利海峡成为连接欧洲大陆和英国的迁徙路线上最致命的悲剧之一的发生地。一艘载有30名难民的临时充气小艇倾覆，造成船上27人死亡。这是自联合国移民机构IOM于2014年开始记录数据以来，英吉利海峡造成最多人死亡的灾难。</p>
-    <div class="flourish-embed" data-src="visualisation/7938249?hideSignature"></div>
-    
-    <p>这条非常引人注目的路线，越来越受到渴望到达英国的人们的青睐。到11月25日为止，至少有26611人在2021年间穿越了这条路线，比2020年增加了三倍。这给许多人留下了一个错误的印象，即寻求到达英国海岸的人数激增。事实上，该国的庇护申请在2002年达到峰值84132份后，在2020年下降到29456份。</p>
-    <p>疫情封锁意味着，由于旅行限制增加，前往英国的传统航线——通过飞机或客运渡轮或卡车——被切断。因此，寻求逃离冲突、贫困或迫害的人们越来越多地尝试乘坐不适合航海的小船。自2014年以来，据估计共有196名移民在英吉利海峡死亡或失踪，仅今年就有44人死亡。</p>
-    <p>费德里卡·科科，统计记者</p>
-    <h1 class="is-text-only" id="id-20">气候变化的烟雾信号</h1>
-    <p>我的职责之一是制作每周的气候图表，但只选择一张图表来总结2021年的情况是很难的。欧洲和中国遭遇洪水，加拿大和西北太平洋地区遭遇致命热浪，美国南部和中西部遭遇美国历史上“持续时间最长、死亡人数最多”的龙卷风，这只是今年最极端的天气事件之一。</p>
-    <p>整个夏天，野火才是人们关注的焦点。虽然美国和南欧的大火占据了大部分头条新闻，但偏远的西伯利亚萨哈共和国的大火仍在肆虐。</p>
-    <div class="pic"><picture><source media="screen and (max-width: 490px)" srcset="https://www.ft.com/__origami/service/image/v2/images/raw/https://d6c748xw2pzm8.cloudfront.net/prod/f18abca0-16d1-11ec-9267-effd1e8084d3-mobile.png?source=ftchinese&amp;fit=scale-down&amp;width=980"><img src="https://www.ft.com/__origami/service/image/v2/images/raw/https://d6c748xw2pzm8.cloudfront.net/prod/f18abca0-16d1-11ec-9267-effd1e8084d3-standard.png?source=ftchinese&amp;fit=scale-down&amp;width=1400"></picture></div>
-    
-    <p>根据欧盟观测项目哥白尼(Copernicus)的数据，2021年夏季，西伯利亚野火向大气中释放的碳几乎是北美野火的三倍。俄罗斯野火产生的浓烟一度穿过北极，袭击了格陵兰岛和加拿大。</p>
-    <p>气候科学家表示，随着全球变暖导致地球持续升温，这些极端天气事件可能会变得更加常见。与此同时，一些气候科学家估计，各国在去年11月举行的COP26气候峰会上做出的乐观承诺和设定的净零目标，只有50%的可能性，到本世纪30年代初，将全球变暖幅度保持在比工业化前水平高出1.5摄氏度的水平。</p>
-    <p><em class="is-text-only" id="id-25">史蒂文·伯纳德，资深视觉记者</em></p>
-    <h1 class="is-text-only" id="id-26">绘制疫情地图</h1>
-    <p>在美国报道新冠疫情意味着在海量数据中筛选，以确定最相关的指标来讲述手头的情况，这项任务每天都在随着疫情的迅速演变而变化。线形图和条形图等视觉工具对于传达病例和死亡数字等预期指标至关重要，但它们往往无法显示各个国家之间巨大的差距。</p>
-    <div class="pic"><picture><source media="screen and (max-width: 490px)" srcset="https://www.ft.com/__origami/service/image/v2/images/raw/https://d6c748xw2pzm8.cloudfront.net/prod/34ae01d0-4cc5-11ec-ac92-8bceb1afe23d-mobile.png?source=ftchinese&amp;fit=scale-down&amp;width=980"><img src="https://www.ft.com/__origami/service/image/v2/images/raw/https://d6c748xw2pzm8.cloudfront.net/prod/34ae01d0-4cc5-11ec-ac92-8bceb1afe23d-standard.png?source=ftchinese&amp;fit=scale-down&amp;width=1400"></picture></div>
-    
-    <p>秋季，在意识到疫苗接种率和病例数之间的预期反比关系在美国的部分地区破裂后，我使用了双变量图表来强调这一点——它采用了跨两种颜色刻度的颜色组合网格来显示变量之间的关系。</p>
-    <p>通过对美国各州8月和11月的疫苗接种率和病例或住院率首先采用双变量色标，就有可能为这两个变量的每一个可能的交叉点附加一种颜色。例如，蓝绿色代表高疫苗接种率、低病例率的州。</p>
-    <p>通过创建这个色标网格--加上必要的注释来引导读者--可以直观地看到美国不同地区新冠疫苗接种和记录的病例之间的关系是如何变化的，从而描绘出一幅更生动、更细致的病毒传播图。</p>
-    <p><em class="is-text-only" id="id-31">凯特琳·吉尔伯特，数据记者</em></p>
-    <h1 class="is-text-only" id="id-32">互联世界</h1>
-    <p>欧洲是如何获得天然气的？去年秋季，从政界人士到消费者和天然气公司，这个问题对所有人来说都变得尖锐起来，因为欧洲大陆正努力应对一场供应危机，这场危机有可能破坏欧盟和英国从疫情中复苏的经济。</p>
-    <p>在一些国家，价格飙升至一年前水平的近5倍，而库存如此之低，以至于人们担心，哪怕比正常情况略冷一点的冬天，也会削减工业供应，而家庭将为此付出代价。</p>
-    <p>通过挖掘欧洲天然气网络地图和可视化纵横交错的管道，我们准确地揭示了<a href="https://ig.ft.com/europes-gas-crisis-pipelines-explainer/" targe="_blank">欧洲大陆是如何供应天然气的</a>，并强调了其对俄罗斯的依赖。</p>
-    <p>但为了展示这个故事的地缘政治复杂性，我们必须超越地图，而这张桑基(Sankey)图是突出亚洲巨大的天然气消费的一个好方法。过去10年，仅中国的煤炭需求就翻了一番，随着中国试图减少煤炭使用，预计需求还将进一步加速增长。日本和韩国为了减排也转向了天然气，这进一步给欧洲带来了压力。</p>
-    <div class="flourish-embed" data-src="visualisation/7696812?hideSignature"></div>
-    
-    <p>绘制欧洲天然气网络地图也使我们能够向读者展示“互联世界”的物理复杂性——提醒人们，无论技术进步如何，供应链、贸易路线和管道对维持全球经济仍然至关重要。</p>
-    <p><em class="is-text-only" id="id-38">山姆·乔纳，视觉故事编辑</em> </p>
-    
-    </div>
-    <div class="clearfloat"></div>
-    </div>
-    <div class="copyrightstatement-container">
-    版权声明：本文版权归FT中文网所有，未经允许任何单位或个人不得转载，复制或以任何其他方式使用本文全部或部分，侵权必究。
-    </div>
-    <div class="clearfloat"></div>
-    <!-- story privilegeType: PremiumMBA -->
-    </div>
-    <div class="clearfloat block-bottom"></div>
-    </div></div>
-    <div 
-    data-o-ads-name="infoflow4"
-    class="o-ads infoflow"  
-    data-o-ads-formats-default="false" 
-    data-o-ads-formats-small="FtcInfoFlow" 
-    data-o-ads-formats-medium="false"
-    data-o-ads-formats-large="false"
-    data-o-ads-formats-extra="false"
-    data-o-ads-targeting="cnpos=info4;"
-    >
-    </div>
-    <div class="side-container"><div class="side-inner">
-    <!--column info: -->
-    <div class="story-box with-theme">
-    <h2 class="box-title"><a href="/channel/mba.html">FT商学院</a></h2>
-    <ul class="top10">
-        
-    <li class="mp1"><a target="_blank" href="//57553">Lex专栏：特斯拉一骑绝尘</a></li>
-    <li class="mp2"><a target="_blank" href="//57538">Libor将在元旦这天被彻底遗忘</a></li>
-    <li class="mp3"><a target="_blank" href="//57486">交易员转而求助于防范美国市场下跌的衍生品</a></li>
-    <li class="mp4"><a target="_blank" href="//57091">尼克·布鲁姆：“混合工作将会继续存在下去”</a></li>
-    <li class="mp5"><a target="_blank" href="//57473">里拉贬值令土耳其流失年轻人才</a></li>
-    <li class="mp6"><a target="_blank" href="//57432">中韩家长为什么青睐济州岛的国际学校？</a></li>
-    <li class="mp7"><a target="_blank" href="//57341">大流行给我们带来了严峻的商业教训</a></li>
-    <li class="mp8"><a target="_blank" href="//57343">普信CEO：在牛市中要警惕“难以预测的冒险”</a></li>
-    <li class="mp9"><a target="_blank" href="//57284">连续两年实现创纪录增长，ETF资产规模逼近10万亿美元</a></li>
-    <li class="mp10"><a target="_blank" href="//57337">图图大主教：1931-2021</a></li>
-    </ul>
-    </div>
-    <div class="story-box last-child">
-    <h2 class="box-title"><a>相关话题</a></h2>
-    <ul class="top10">
-    <li class="story-theme mp1">
-    <a target="_blank" href="/tag/FT商学院">FT商学院</a>
-    <div class="icon-right">
-    <button class="myft-follow plus" data-tag="FT商学院" data-type="tag">关注</button>
-    </div>
-    </li>
-    <li class="story-theme">
-    <a target="_blank" href="/tag/新型冠状病毒">新型冠状病毒</a>
-    <div class="icon-right">
-    <button class="myft-follow plus" data-tag="新型冠状病毒" data-type="tag">关注</button>
-    </div>
-    </li>
-    <li class="story-theme">
-    <a target="_blank" href="/tag/气候变化">气候变化</a>
-    <div class="icon-right">
-    <button class="myft-follow plus" data-tag="气候变化" data-type="tag">关注</button>
-    </div>
-    </li>
-    <li class="story-theme">
-    <a target="_blank" href="/tag/体育运动">体育运动</a>
-    <div class="icon-right">
-    <button class="myft-follow plus" data-tag="体育运动" data-type="tag">关注</button>
-    </div>
-    </li>
-    <li class="story-theme">
-    <a target="_blank" href="/tag/天然气">天然气</a>
-    <div class="icon-right">
-    <button class="myft-follow plus" data-tag="天然气" data-type="tag">关注</button>
-    </div>
-    </li>
-    <li class="story-theme">
-    <a target="_blank" href="/tag/科学">科学</a>
-    <div class="icon-right">
-    <button class="myft-follow plus" data-tag="科学" data-type="tag">关注</button>
-    </div>
-    </li>
-    <li class="story-theme">
-    <a target="_blank" href="/tag/FT大视野">FT大视野</a>
-    <div class="icon-right">
-    <button class="myft-follow plus" data-tag="FT大视野" data-type="tag">关注</button>
-    </div>
-    </li>
-    <li class="story-theme">
-    <a target="_blank" href="/tag/苹果">苹果</a>
-    <div class="icon-right">
-    <button class="myft-follow plus" data-tag="苹果" data-type="tag">关注</button>
-    </div>
-    </li>
-    <li class="story-theme">
-    <a target="_blank" href="/tag/联合国">联合国</a>
-    <div class="icon-right">
-    <button class="myft-follow plus" data-tag="联合国" data-type="tag">关注</button>
-    </div>
-    </li>
-    <li class="story-theme">
-    <a target="_blank" href="/tag/自然资源">自然资源</a>
-    <div class="icon-right">
-    <button class="myft-follow plus" data-tag="自然资源" data-type="tag">关注</button>
-    </div>
-    </li>
-    <li class="story-theme">
-    <a target="_blank" href="/tag/数据可视化">数据可视化</a>
-    <div class="icon-right">
-    <button class="myft-follow plus" data-tag="数据可视化" data-type="tag">关注</button>
-    </div>
-    </li>
-    </ul>
-    </div>
-    </div></div><div class="clearfloat"></div>
-    </div></div>
-    <div class="block-container no-side story-recommend-container" id="story-recommend-container"><div class="block-inner">
-    <div class="content-container"><div class="content-inner">
-    <div class="list-container"><div class="list-inner">
-    <h2 class="list-title"><a class="list-link" href="#">您可能感兴趣的文章</a></h2>
-    <div class="items" id="story-recommend-bottom"></div>
-    </div></div>
-    </div></div>
-    <div class="clearfloat block-bottom"></div>
-    </div></div>
-    <script type="text/javascript">
-    !function(){function e(e){setTimeout(function(){showOverlay("overlay-login");var t=GetCookie("USER_NAME")||"",i=/^phone/.test(e)?'<div style="padding: 0 0 15px 0;"><div class="login-btn input-submit-container center"><a class="n-button-inner" id="phone-ftc-binding" onclick="showPhoneFTCBinding()">关联邮箱</a></div></div>':"";document.querySelector(".overlay-title").innerHTML=n,document.querySelector(".overlay-content form").innerHTML='<div class="input-title">亲爱的用户您好，这个网站是付费订户专享，您当前使用的用户名'+t+'并非订户。如果您是刚刚付款成功，请等待一分钟后刷新本页。否则请登出之后更换用户名或者访问FT中文网主站。</div><div style="padding: 0 0 15px 0;"><div class="login-btn input-submit-container center"><a class="n-button-inner" href="/users/logout">登出</a></div></div><div style="padding: 0 0 15px 0;"><div class="login-btn input-submit-container center"><a class="n-button-inner" href="http://www.ftchinese.com/">免费网站</a></div></div>'+i,document.querySelector(".overlay-bg").className="overlay-bg-fixed"},0)}var n="FT中文网付费会员专享网站";setTimeout(function(){if(!1!==/chineseft\.com|ftchineselive\.com|lunchwithft\.com|leshangavenue\.com/.test(location.hostname)&&!0!==window.hasFoundProductPricing){var t=/^\/users\/findpassword|\/users\/register$/.test(location.pathname),i=/pageid=subscriptioninfoconfirm/.test(location.search);if(!t&&!i){var o=GetCookie("USER_ID")||GetCookie("USER_ID_FT"),r=GetCookie("paywall");null===o&&null===r?setTimeout(function(){showOverlay("overlay-login"),document.querySelector(".overlay-title").innerHTML=n,document.querySelector(".register-find").innerHTML='<a href="https://www.ftacademy.cn/subscription.html">购买会员</a><span></span><a href="/users/findpassword">找回密码</a>',document.querySelector(".wx-login").style.marginTop="15px",document.querySelector(".overlay-bg").className="overlay-bg-fixed"},0):null===r&&e(o);for(var a=document.querySelectorAll(".icon-share, .icon-wechat, .icon-weibo, .icon-linkedin, .icon-twitter, .icon-facebook"),c=0;c<a.length;c++){var s=a[c];s.parentNode.removeChild(s)}}}},1e3)}();</script>
-    <div 
-    data-o-ads-name="paidpost2"
-    class="o-ads paid-post"  
-    data-o-ads-formats-default="false" 
-    data-o-ads-formats-small="false"
-    data-o-ads-formats-medium="false"
-    data-o-ads-formats-large="FtcPaidpost"
-    data-o-ads-formats-extra="FtcPaidpost"
-    data-o-ads-targeting="cnpos=paidpost2;"
-    >
-    </div>
-    <div 
-    data-o-ads-name="paidpost"
-    class="o-ads paid-post"  
-    data-o-ads-formats-default="false" 
-    data-o-ads-formats-small="false"
-    data-o-ads-formats-medium="false"
-    data-o-ads-formats-large="FtcPaidpost"
-    data-o-ads-formats-extra="FtcPaidpost"
-    data-o-ads-targeting="cnpos=paidpost;"
-    >
-    </div>
-    <div class="footer-container"><div class="footer-inner">
-    <div>
-    <a href="/m/corp/aboutus.html">关于我们</a>
-    <a href="https://ft.wd3.myworkdayjobs.com/FT_Chinese_External_Careers" target="_blank">加入我们</a>
-    <a href="/m/corp/faq.html">问题回馈</a>
-    <a href="/m/corp/contact.html">联系方式</a>
-    <a href="/m/corp/partner.html">合作伙伴</a>
-    <a href="/m/corp/service.html">服务条款</a>
-    <a href="/m/corp/sales.html">广告业务 </a>
-    <a href="/m/corp/copyright.html">版权声明</a>
-    <a href="/m/marketing/ftc.html">最新动态</a>
-    </div>
-    <p>
-    <span class="copyright"><b>© The Financial Times Ltd 2021</b></span> 
-    <span><acronym title="Financial Times">FT</acronym> and 'Financial Times' are trademarks of The Financial Times Ltd.</span>
-    </p>
-    </div></div>
-    <script>
-    function async(u, c) {
-    var d = document, t = 'script',
-    o = d.createElement(t),
-    s = d.getElementsByTagName(t)[0];
-    o.src = u;
-    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
-    s.parentNode.insertBefore(o, s);
-    }
-    // Your web app's Firebase configuration
-    var firebaseConfig = {
-    apiKey: "AIzaSyCB4QkzRm1oUl9-XA6kl8ob58FI3C6iDY0",
-    authDomain: "ftchineseiphone.firebaseapp.com",
-    databaseURL: "https://ftchineseiphone.firebaseio.com",
-    projectId: "ftchineseiphone",
-    storageBucket: "ftchineseiphone.appspot.com",
-    messagingSenderId: "342601113715",
-    appId: "1:342601113715:web:6d7016e26b94e3854fca06",
-    measurementId: "G-PT4E4NGVJV"
-    };
-    //MARK: - The core Firebase JS SDK is always required and must be listed first
-    async('https://www.gstatic.com/firebasejs/7.2.2/firebase-app.js', function() {
-    // MARK: - TODO: Add SDKs for Firebase products that you want to use: https://firebase.google.com/docs/web/setup#available-libraries
-    async('https://www.gstatic.com/firebasejs/7.2.2/firebase-analytics.js', function() {
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    firebase.analytics();
-    });
-    });
-    </script>
-    <img src='https://beacon.krxd.net/event.gif?event_id=KWA6DGT9&event_type=rtg' width=0 height=0 /><div class="overlay-container" id="font-setting">
-    <div class="overlay-inner">
-    <div class="overlay-bg" data-parentid="font-setting"></div>
-    <div class="overlay-content-outer">
-    <div class="overlay-content-inner">
-    <div class="overlay-content">
-    <div class="overlay-title">设置字号<i class="overlay-close" data-parentid="font-setting">×</i></div>
-    <span class="font-options" id="font-options">
-    <div class="smallest first-child" data-font="0.8">最小</div>
-    <div class="smaller" data-font="0.9">较小</div>
-    <div class="normal" data-font="1">默认</div>
-    <div class="bigger" data-font="1.2">较大</div>
-    <div class="biggest" data-font="1.6">最大</div>
-    </span>
-    </div>
-    </div>
-    </div>
-    </div>
-    </div><div class="overlay-container" id="share-legacy">
-    <div class="overlay-inner">
-    <div class="overlay-bg" data-parentid="share-legacy"></div>
-    <div class="overlay-content-outer">
-    <div class="overlay-content-inner">
-    <div class="overlay-content">
-    <div class="overlay-title">分享<i class="overlay-close" data-parentid="share-legacy">×</i></div>
-    <span id="sharelinks"></span>
-    </div>
-    </div>
-    </div>
-    </div>
-    </div>
+<div id="promo-box-container">
+<style>
+.noneSubscriber.subscription-promo-container {
+background-color: #88233f;
+}
+.noneSubscriber .subscription-promo-text {
+background-color: #282c32;
+border-color: #282c32;
+}
+.noneSubscriber .subscription-promo-text {
+color: #ffffff;
+}
+.noneSubscriber .subscription-promo-box {
+background-image: url(https://thumbor.ftacademy.cn/unsafe/picture/9/000111019_piclink.png);
+}
+@media only screen and (max-width: 490px) {
+.noneSubscriber .subscription-promo-box {
+background-image: url(https://thumbor.ftacademy.cn/unsafe/picture/3/000111023_piclink.png);
+}
+}
+</style>
+<div class="subscription-promo-container show-image-in-mobile noneSubscriber">
+<div class="subscription-promo-inner">
+<a  href="https://www.ftacademy.cn/subscription.html?ccode=2CAcquisitionWebPBoxNon" class="subscription-promo-box n-internal-promo" data-promo-target="noneSubscriber" data-promo-id="2CAcquisitionWebPBoxNon" data-promo-name="仅0.8元/天 立即订阅" data-promo-creative="https://thumbor.ftacademy.cn/unsafe/picture/9/000111019_piclink.png" data-promo-position="promoBox">
+<div class="subscription-promo-text">仅0.8元/天 立即订阅</div>
+</a>
+</div>
+</div>
+<script type="text/javascript">
+window.userId = GetCookie('USER_ID') || '';
+if (window.userId === '') {
+gtag('event', 'Display', {'event_label': '2CAcquisitionWebPBoxNon', 'event_category': 'PromoBox', 'non_interaction': true});
+}
+</script>
+</div>
+<script type="text/javascript">
+function addUserId(ele) {
+if (ele === null) {
+return;
+}
+var userId;
+if (typeof GetCookie === 'function') {
+userId = GetCookie('USER_ID');
+} else {
+userId = getCookie('USER_ID');
+}
+if (userId && typeof userId === 'string' && userId !== '') {
+var link = ele.href;
+var connector = (link.indexOf('?') >= 0) ? '&' : '?';
+ele.href = link + connector + 'u=' + userId;
+}
+}
+var premiumLink = document.querySelector('[data-promo-target=premium]');
+addUserId(premiumLink);
+</script>
+<header class="header-container">
+<div class="header-inner">
+<div class="masthead"></div>
+<div class="header-side header-left expandable">
+<div class="current-edition">
+<span>简体中文</span>
+<a href="http://big5.ftchinese.com/interactive/59359?exclusive">繁体中文</a>
+<a href="http://www.ft.com/">FT.com</a>
+</div>
+</div>
+<div class="header-side header-right">
+<span class="visitor-box">
+<a onclick="showOverlay('overlay-login')">登录</a>
+<a class="more last" href="http://user.ftchinese.com/register">注册</a>
+</span>
+<span class="member-box">
+<a href="/channel/myftlocal.html">我的FT</a>
+<a id="ft-login-your-account" href="/users/cp">设置</a>
+<a id="ft-login-logout" href="/users/logout">登出</a>
+</span>
+</div>
+</div>
+</header>
+<div class="overlay-container" id="overlay-login">
+<div class="overlay-inner">
+<div class="overlay-bg" data-parentid="overlay-login"></div>
+<div class="overlay-content-outer">
+<div class="overlay-content-inner">
+<div class="overlay-content">
+<div class="overlay-title">登录<i class="overlay-close" data-parentid="overlay-login">×</i></div>
+<form method="post" action="/users/login" id="overlay-login-form">
+<span id="overlay-login-container">
+<div class="input-title" id="login-reason"></div>
+<div class="input-title">电子邮件/用户名</div>
+<div class="input-container"><input type="text" class="input-oneline" name="username" id="ft-login-input-username"></div>
+<div class="input-title">密码</div>
+<div class="input-container"><input type="password" class="input-oneline" name="password"></div>
+<div><input type="checkbox" class="checkbox" value="1" checked="checked" name="saveme" id="ft-login-input-remember">记住我</div>
+<div class="login-btn input-submit-container center"><input class="" type="submit" value="登录"></div>
+<div class="center register-find"><a href="https://user.ftchinese.com/register" class="blue-link">免费注册</a><span></span><a href="https://profile.ftchinese.com/users/findpassword" class="blue-link">找回密码</a></div>
+<div class="phone-login-container" id="phone-login-trigger">
+<div class="center phone-login"><a onclick="showPhoneLogin()" class="blue-link">短信登录</a></div>
+</div>
+<div class="wx-login-container">
+<div class="center wx-login"><a href="https://www.ftacademy.cn/wxlogin" class="blue-link">微信登录</a></div>
+</div>
+</span>
+</form>
+<span id="phone-ftc-binding-container">
+<div>请输入邮箱和密码进行绑定操作：</div>
+<div><input placeholder="请输入邮箱" type="email" autocorrect="off" id="phone-binding-email" class="input-oneline"/></div>
+<div><input placeholder="请输入密码" type="password" class="input-oneline" id="phone-binding-password"/></div>
+<div class="topmargin statusmsg" id="phone-binding-status"></div>
+<div><input type="button" value="绑定" class="n-button-inner" onclick="binding('phone')"/></div>
+</span>
+<span id="phone-login-container">
+<div class="user-name-container">请输入手机号码，通过短信验证（目前仅支持中国大陆地区的手机号）：</div>
+<div><input onkeyup="resetPhoneLogin()" placeholder="请输入中国大陆的手机号码" type="tel" autocorrect="off" name="phone" id="phone-number" class="input-oneline"/></div>
+<div><input placeholder="请输入验证码"  pattern="\d*" maxlength="6" name="phonecapcha"  class="input-oneline" id="phone-captcha"/></div>
+<div class="topmargin statusmsg" id="phone-login-status"></div>
+<div>请您阅读我们的<a class="agreeDetail" href="/m/corp/service.html" target="_blank">用户注册协议</a>和<a class="agreeDetail" href="/m/corp/service.html#privacy" target="_blank">隐私权保护政策</a>，点击下方按钮即视为您接受。</div>
+<div><input id="phone-login-submit-button" type="button" value="获取验证码" class="n-button-inner" onclick="phoneLogin()"/></div>
+</span>
+</div>
+</div>
+</div>
+</div>
+</div><div class="o-nav__placeholder">
+<div class="o-nav">
+<div class="o-nav__outer">
+<div class="o-nav__inner">
+<div class="o-nav__search"  data-o-component="o-toggler">
+<button class="o-nav__search-toggle" data-o-toggler-button aria-controls="search-form">
+<span class="search-toggle--open">搜索</span>
+<span class="search-toggle--close">关闭</span>
+</button>
+<form action="/search/" id="search-form" role="search" data-o-toggler-target>
+<input id="search-term" type="search" name="keys" class="search-input" placeholder="输入年月日‘xxxx-xx-xx’可搜索该日存档" />
+<input id="type_news" type="hidden" value="type_news" name="ftsearchType" checked />
+<button class="search-button" tabindex="1"><span>搜索</span></button>
+</form>
+</div>
+<div class="o-header__masthead-mobile">
+<a href="/" title="前往FT中文网首页"><span>FT中文网</span></a>
+</div>
+<nav class="o-nav__container" role="navigation">
+<button class="nav-toggle" data-o-nav-togglable><span>Menu</span></button>
+<ol class="o-nav__meganav">
+<li class="nav-section mobile">
+<button class="nav-section-head mobile" aria-selected="true">切换版本</button>
+<ol class="nav-items">
+<li class="nav-item">
+<a class="nav-link" href="http://big5.ftchinese.com/">繁体中文版</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="http://www.ft.com/">FT.com</a>
+</li>
+</ol>
+</li>
+<li class="nav-section home "
+ data-section="home"
+>
+<button class="nav-section-head mobile">首页</button>
+<a class="nav-section-head desktop" href="/">首页</a>
+</li>
+<li class="nav-section china "
+ data-section="china"
+>
+<button class="nav-section-head mobile">中国</button>
+<a class="nav-section-head desktop" href="/channel/china.html">中国</a>
+</li>
+<li class="nav-section world "
+ data-section="world"
+>
+<button class="nav-section-head mobile">全球</button>
+<a class="nav-section-head desktop" href="/channel/world.html">全球</a>
+</li>
+<li class="nav-section economy "
+ data-section="economy"
+>
+<button class="nav-section-head mobile">经济</button>
+<a class="nav-section-head desktop" href="/channel/economy.html">经济</a>
+</li>
+<li class="nav-section markets "
+ data-section="markets"
+>
+<button class="nav-section-head mobile">金融市场</button>
+<a class="nav-section-head desktop" href="/channel/markets.html">金融市场</a>
+</li>
+<li class="nav-section business "
+ data-section="business"
+>
+<button class="nav-section-head mobile">商业</button>
+<a class="nav-section-head desktop" href="/channel/business.html">商业</a>
+</li>
+<li class="nav-section innovation "
+ data-section="innovation"
+>
+<button class="nav-section-head mobile">创新经济</button>
+<a class="nav-section-head desktop" href="/channel/innovation.html">创新经济</a>
+</li>
+<li class="nav-section education "
+ data-section="education"
+>
+<button class="nav-section-head mobile">教育</button>
+<a class="nav-section-head desktop" href="/channel/education.html?newnav=yes">教育</a>
+</li>
+<li class="nav-section opinion "
+ data-section="opinion"
+>
+<button class="nav-section-head mobile">观点</button>
+<a class="nav-section-head desktop" href="/channel/opinion.html">观点</a>
+</li>
+<li class="nav-section management "
+ aria-selected="true" data-section="management"
+>
+<button class="nav-section-head mobile">管理</button>
+<a class="nav-section-head desktop" href="/channel/management.html">管理</a>
+<ol class="nav-items">
+<li class="nav-item mobile">
+<a class="nav-link" href="/channel/management.html">
+频道首页
+</a>
+</li>
+<li class="nav-item" aria-selected="true" data-channel="mba">
+<a class="nav-link" href="/channel/mba.html">FT商学院</a>
+</li>
+<li class="nav-item"  data-channel="career">
+<a class="nav-link" href="/channel/career.html">职场</a>
+</li>
+<li class="nav-item"  data-channel="leadership">
+<a class="nav-link" href="/channel/leadership.html">领导力</a>
+</li>
+<li class="nav-item"  data-channel="wealth">
+<a class="nav-link" href="/tag/%E8%B4%A2%E5%AF%8C%E7%AE%A1%E7%90%86">财富管理</a>
+</li>
+<li class="nav-item"  data-channel="people">
+<a class="nav-link" href="/channel/people.html">人物</a>
+</li>
+</ol>
+</li>
+<li class="nav-section lifestyle "
+ data-section="lifestyle"
+>
+<button class="nav-section-head mobile">生活时尚</button>
+<a class="nav-section-head desktop" href="/channel/lifestyle.html">生活时尚</a>
+</li>
+<li class="nav-section stream "
+ data-section="stream"
+>
+<button class="nav-section-head mobile">视频</button>
+<a class="nav-section-head desktop" href="/channel/stream.html">视频</a>
+</li>
+<li class="nav-section audio "
+ data-section="audio"
+>
+<button class="nav-section-head mobile">音频</button>
+<a class="nav-section-head desktop" href="/channel/audio.html">音频</a>
+</li>
+<li class="nav-section english "
+ data-section="english"
+>
+<button class="nav-section-head mobile">每日英语</button>
+<a class="nav-section-head desktop" href="/channel/english.html">每日英语</a>
+</li>
+<li class="nav-section rewired "
+ data-section="rewired"
+>
+<button class="nav-section-head mobile">换脑ReWired</button>
+<a class="nav-section-head desktop" href="/channel/rewired.html">换脑ReWired</a>
+</li>
+<li class="nav-section mobile login">
+<ul>
+<li class="nav-item">
+<a class="nav-link" href="http://user.ftchinese.com/login">登录</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="http://user.ftchinese.com/register">免费注册</a>
+</li>
+</ul>
+</li>
+<li class="nav-section mobile logout">
+<ul>
+<li class="nav-item">
+<a class="nav-link" href="/channel/myftlocal.html">我的FT</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="/users/setting/vip">会员中心</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="/users/setting/index">设置</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="/users/logout">登出</a>
+</li>
+</ul>
+</li>
+</ol>
+</nav>
+<ul class="o-nav__extra-tools">
+<li class="tools-section" aria-haspopup="true">
+<a class="tools-section-head" href="http://www.ftchinese.com/m/corp/follow.html">关注我们</a>
+<ol class="tools-items">
+<li><a href="http://www.ftchinese.com/m/corp/follow.html" target="_blank">微信公众号</a></li>
+<li><a href="http://weibo.com/ftchinese" target="_blank">新浪微博</a></li>
+<li><a href="http://www.ftchinese.com/m/corp/follow.html" target="_blank">Flipboard</a></li>
+<li><a href="https://twitter.com/FTChinese" target="_blank">Twitter</a></li>
+<li><a href="https://www.facebook.com/financialtimeschinese" target="_blank">Facebook</a></li>
+<li><a href="https://www.linkedin.com/company/4865254?trk=hp-feed-company-name" target="_blank">LinkedIn</a></li>
+</ol>
+</li>
+<li class="tools-section" aria-haspopup="true">
+<span class="tools-section-head">工具</span>
+<ol class="tools-items">
+<li><a href="http://app.ftchinese.com/" class="o-client-id-link">移动应用大全</a></li>
+<li><a href="/users/setting/index">基本设置</a></li>
+<li><a href="/users/setting/vip">会员中心</a></li>
+<li><a href="/users/setting/changeicon">修改头像</a></li>
+<li><a href="/users/setting/maillist">邮件订阅</a></li>
+<li><a href="/index.php/snsapi/index">同步微博</a></li>
+<li><a href="/users/commentstory">我的评论</a></li>
+<li><a href="/users/favstorylist">管理收藏</a></li>
+</ol>
+</li>
+<li class="tools-section">
+<a class="tools-section-head follow__rss" href="/channel/rss.html" title="RSS"><span>RSS</span></a>
+</li>
+</ul>
+</div><!-- o-nav__inner -->
+</div><!-- o-nav__outer -->
+<div class="o-nav__meganav-placeholder"></div>
+</div><!-- o-nav -->
+</div>
+<div class="block-container has-side story-page"><div class="block-inner">
+<div class="content-container"><div class="content-inner">
+<div class="story-container">
+<div class="story-topper">
+<div class="story-theme"><a href="/channel/mba.html">FT商学院</a><button class="myft-follow plus" data-tag="FT商学院" data-type="tag">关注</button></div>
+<h1 class="story-headline story-headline-large">《尤利西斯》是20世纪最伟大的小说吗？</h1>
+<div class="story-lead">在过去的100年里，《尤利西斯》的重要性与日俱增，它多次被宣布为20世纪最伟大的小说之一，甚至有不少人认为应该把“之一”去掉。</div>
+<div class=" story-image image"><figure data-url=https://thumbor.ftacademy.cn/unsafe/picture/2/000135292_piclink.jpg class="loading"></figure></div>
+</div>
+<div class="story-tools">
+<div class="story-action-placeholder" id="story-action-placeholder">
+<div class="story-action">
+<div class="action-inner">
+<a class="action-icon icon-wechat P-hide" href="/m/corp/qrshare.html?url=http%3A%2F%2Fwww.ftchinese.com%2Finteractive%2F59359%3Ffull%3Dy%26gift_id%3D0733fa7b2e674c0fa8c3d813af132c24e02c3766&title=" target="_blank"></a>
+<a class="action-icon icon-weibo P-hide" href="http://service.weibo.com/share/share.php?appkey=4221537403&url=http%3A%2F%2Fwww.ftchinese.com%2Finteractive%2F59359%3Ffull%3Dy%26gift_id%3D0733fa7b2e674c0fa8c3d813af132c24e02c3766%26ccode%3D2G169001&title=【《尤利西斯》是20世纪最伟大的小说吗？】在过去的100年里，《尤利西斯》的重要性与日俱增，它多次被宣布为20世纪最伟大的小说之一，甚至有不少人认为应该把“之一”去掉。（分享自 @FT中文网）&ralateUid=1698233740&source=&sourceUrl=&content=utf-8&pic=https://thumbor.ftacademy.cn/unsafe/picture/2/000135292_piclink.jpg&searchPic=false" target="_blank"></a>
+<a class="action-icon icon-linkedin P-hide" href="https://www.linkedin.com/cws/share?url=http%3A%2F%2Fwww.ftchinese.com%2Finteractive%2F59359%3Ffull%3Dy%26gift_id%3D0733fa7b2e674c0fa8c3d813af132c24e02c3766%26ccode%3D2G169003&original_referer=https%3A%2F%2Fdeveloper.linkedin.com%2Fsites%2Fall%2Fthemes%2Fdlc%2Fsandbox.php%3F&token=&isFramed=true&lang=zh_CN&_ts=1422502780259.2795" target="_blank"></a>
+<a class="action-icon icon-twitter P-hide" href="http://twitter.com/home?status=【《尤利西斯》是20世纪最伟大的小说吗？】在过去的100年里，《尤利西斯》的重要性与日俱增，它多次被宣布为20世纪最伟大的小说之一，甚至有不少人认为应该把“之一”去掉。（分享自 @FT中文网）...%20http%3A%2F%2Fwww.ftchinese.com%2Finteractive%2F59359%3Ffull%3Dy%26gift_id%3D0733fa7b2e674c0fa8c3d813af132c24e02c3766" target="_blank"></a>
+<a class="action-icon icon-facebook P-hide" href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.ftchinese.com%2Finteractive%2F59359%3Ffull%3Dy%26gift_id%3D0733fa7b2e674c0fa8c3d813af132c24e02c3766&t=【《尤利西斯》是20世纪最伟大的小说吗？】在过去的100年里，《尤利西斯》的重要性与日俱增，它多次被宣布为20世纪最伟大的小说之一，甚至有不少人认为应该把“之一”去掉。（分享自 @FT中文网）" target="_blank"></a>
+<a class="icon-right icon-ch" href="/interactive/59359/en"><button>英文</button></a><a class="icon-right icon-ch" href="/interactive/59359/ce"><button>对照</button></a>
+
+<a class="icon-right icon-action icon-font-size" onclick="showOverlay('font-setting')"></a>
+<a class="icon-right icon-action icon-audio" href="/interactive/59394"></a>
+<div class="progress-container">
+<svg
+class="progress-ring"
+height="40"
+width="40"
+>
+<circle
+class="progress-ring__circle"
+stroke-width="2"
+stroke="transparent"
+r="18"
+cx="20"
+cy="20"
+/>
+</svg>
+<svg class="pregress-tick" width="24" height="24" viewBox="0 0 24 24">
+<path fill="none" d="M0 0h24v24H0z"/><path class="progress-tick-path" fill="transparent" d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+</svg>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="story-byline">
+<span class="story-time" data-time="1642730889" pub-date="1642694400">更新于2022年1月21日 10:08</span>
+<span class="story-author"> 科尔姆·托宾</span>
+</div>
+<div class="story-body">
+
+
+<div id="story-body-container">
+<div class="print-only">来自FT中文网的温馨提示：如您对FT中文网的内容感兴趣，请在苹果应用商店或华为应用市场搜索“FT中文网”，下载FT中文网的官方应用，付费订阅。祝您使用愉快！</div>    
+
+
+<p>1922年，就在英国人将都柏林城堡的钥匙交给迈克尔·柯林斯(Michael Collins)和他的爱尔兰新政府两周后，詹姆斯·乔伊斯(James Joyce)的《尤利西斯》(Ulysses)首次出版。那一年另一件伟大的文学事件是艾略特(TS Eliot)的《荒原》(The Waste Land)。</p>
+<p>乔伊斯的小说与艾略特的长诗有很多相似之处——它通过相互竞争的叙事形式，包括模仿、神话和不同的声音，来描写城市生活的原始。从某种程度上，《荒原》为叙事诗敲响了丧钟，正如尤利西斯开始扼杀单一视角、无所不知的作者声音——为从弗吉尼亚·伍尔夫(Virginia Woolf)到塞缪尔·贝克特(Samuel Beckett)的“现代主义”写作浪潮打响了发令枪，这全面改写了文学如何被处理和呈现的规则。</p>
+<p>《尤利西斯》正在庆祝它的百年诞辰，在过去的100年里，它的重要性与日俱增，在此期间，它多次被宣布为20世纪最伟大的小说之一，甚至有不少人认为应该把“之一”去掉。</p>
+<p>随着后殖民研究和性别研究在学术界风靡一时，《尤利西斯》是检验任何理论的完美方法。对于历史学家来说，它为都柏林提供了一幅相对和平时期的迷人画面，只有很小的变化迹象。对文学评论家来说，这本书简直是天赐之物，里面充满了模式、文字游戏、恶搞和晦涩的引用。对于普通读者来说，它就像跑马拉松给普通运动员带来的声望一样。对那些读过这本书的人来说，读完这本书是一个挑战，当然也是一件值得骄傲的事。</p>
+<p><blockquote class="n-content-pullquote"><div class="n-content-pullquote__content"><p class="is-text-only" id="id-4">乔伊斯把《尤利西斯》着重放在了爱尔兰的首都。他不像其他人那样崇拜爱尔兰神话</p><footer class="n-content-pullquote__footer"></footer></div>
+</blockquote></p>
+<p>乔伊斯1914年在意大利东北部边境港口城市里雅斯特(Trieste)开始创作《尤利西斯》，1921年在巴黎完成。在写这本书的时候，他所熟悉的世界正在被撕裂。乔伊斯很幸运，在战争开始时没有被奥地利人拘禁。1915年，他带着妻子和家人逃到苏黎世。第二年，都柏林——这座他试图通过小说令其永生不朽的城市——的中心被炸得粉碎。他最亲密的朋友之一在都柏林复活节起义中丧生；在还是一名学生的时候，乔伊斯就认识了帕特里克·皮尔斯(Patrick Pearse)，皮尔斯作为起义的领导人之一被处决。</p>
+<p>当然，在乔伊斯的小说中没有提及战争或叛乱，小说的背景设定在都柏林的某一天——1904年6月16日。但《尤利西斯》创作的时期，在爱尔兰，任何写作都有被认为有着特殊的涵义。即使是带有私密或个人背景的文学作品，也可能被解读为对爱尔兰辩论的干预。就威廉·巴特勒·叶芝(WB Yeats)而言，这不仅体现在他的公开诗歌如“1913年9月”或“1916年复活节”中，而且也体现在他关于失去的爱情的诗歌中，这些诗歌暗示着，被爱的人代表着一个失去的国家。</p>
+<div class="pic no-copyright is-mixed" id="id-7"><picture><img src="https://www.ft.com/__origami/service/image/v2/images/raw/https://d1e00ek4ebabms.cloudfront.net/production/440f4864-1242-4a18-aa94-08e4586ddd3e.jpg?source=ftchinese&amp;fit=scale-down&amp;width=1400"></picture>20世纪20年代，詹姆斯·乔伊斯在巴黎的莎士比亚书店与店主西尔维娅·比奇(Sylvia Beach)见面，当时乔伊斯被爱尔兰当权派视为被驱逐者</div>
+
+<p>但这并不全是关于失去的东西，因为这场辩论实际上是关于未来的。1904年，很明显，爱尔兰将成为第一个脱离大英帝国的国家。问题是：怎么做？爱尔兰会成为一个什么样的国家？</p>
+<p>《尤利西斯》本身，其风格的慷慨，内容的丰富，人物的公开感性，对权威的缺乏虔诚和尊重，其将一个思想自由的世界主义犹太男子置于中心，可以被解读为对爱尔兰独立的支持，这本书的基调是描绘独立后爱尔兰人生活的蓝图。</p>
+<p>当其他作家，如JM辛格、WB叶芝和都柏林阿比剧院的创始人格雷戈里夫人，不遗余力地赞美农民生活和爱尔兰西部的风景时，乔伊斯却把《尤利西斯》的场景放在了首都。他不像其他人那样崇拜爱尔兰神话。这部小说借用了荷马的《奥德赛》(Homer 's Odyssey)的结构，并尝试了任何用英语写作的人都可以使用的风格。有几次，当小说使用我们可能称之为凯尔特语气的时候，只是为了嘲笑它们。</p>
+<div class="n-content-layout" data-layout-name="auto" data-layout-width="full-grid"><div class="n-content-layout__container"><div class="n-content-layout__slot pic is-mixed" data-slot-width="true" id="id-11"><picture><img alt="" data-copyright=" Getty Images" data-image-type="image" longdesc="Dublin in 1911 at a time when Ireland was edging closer to leaving the British empire" src="https://d1e00ek4ebabms.cloudfront.net/production/fb42ff46-6a75-401d-acef-e6cff3e6298b.jpg"></picture>1911年的都柏林，当时爱尔兰正逐渐脱离大英帝国</div>
+<div class="n-content-layout__slot pic is-mixed" data-slot-width="true" id="id-12"><picture><img alt="" data-copyright=" Getty Images" data-image-type="image" longdesc="Dublin in 1911 at a time when Ireland was edging closer to leaving the British empire" src="https://www.ft.com/__origami/service/image/v2/images/raw/https%3A%2F%2Fd1e00ek4ebabms.cloudfront.net%2Fproduction%2Fe07b9640-0e71-44b4-a885-307c3d9cd325.jpg?fit=scale-down&amp;source=next&amp;width=700"></picture>与乔伊斯不同的是，许多独立前的爱尔兰作家坚持传统观念</div>
+</div>
+</div>
+
+<p>小说的核心人物是利奥波德·布鲁姆(Leopold Bloom)，他有着丰富的心灵和非凡的注意和观察能力。布鲁姆是一个从事广告销售的现代人。他的妻子莫莉是一名歌手，她与一名为她组织音乐会的男子有染。这部小说共有18集，其中大部分是基于荷马史诗《奥德赛》的章节，讲述了布卢姆和一位名叫斯蒂芬·德达勒斯(Stephen Dedalus)的年轻诗人在城市里四处走动的故事。</p>
+<p>乔伊斯对情节甚至心理没有他对语言感兴趣。他试图找到一种方法来呈现布鲁姆的思想，捕捉他飞逝的思想和迷途的记忆和沉思。尤利西斯不仅开创性地将史诗与普通人联系起来，使当天在都柏林发生的不起眼的时刻显得闪闪发光，还探索叙事提供的每一种可能性，包括在结尾处莫莉的第一人称精彩独白。</p>
+<p>《尤利西斯》并没有像在乔伊斯之前的许多爱尔兰小说家那样，试图让爱尔兰对英国读者来说充满异国情调，或令人胆战心惊。虽然书中有大量的歌唱，但没有人演奏爱尔兰传统音乐或用盖尔语唱歌。他们唱歌剧咏叹调、音乐厅歌曲和民族主义民谣。乔伊斯并没有让他们变得更像爱尔兰人。</p>
+<p>他想让都柏林正常化，以确保这些人物不被他们的爱尔兰特性所束缚或孤立，而是因为他们的机智、感性的内心生活以及他们看待世界的方式而令人难忘。</p>
+<p>此外，乔伊斯将都柏林置于一部不朽小说的中心，却没有兴趣向外界解释爱尔兰。任何一位爱尔兰小说家都知道乔伊斯面临的问题：对于那些对爱尔兰读者来说完全熟悉，但对局外人来说却完全神秘的历史人物和事件的名字，你会怎么处理？如果你是一位英国作家，你不需要解释足球或格莱斯顿（Gladstone，前英国首相）。如果你是一位爱尔兰作家，当你提到爱尔兰曲棍球或奥康奈尔(O’Connell，爱尔兰民族主义运动的主要代表)时，谁会知道你在说什么？</p>
+<p>乔伊斯对作为局外人的读者不加考虑。在乔伊斯的想象中，他的首要读者是爱尔兰人，即使他的书是在法国出版的。</p>
+<p>利奥波德·布鲁姆既不是新教徒也不是天主教徒，既不是民族主义者也不是统一主义者。他回避了关于爱尔兰的简单争论。但在其中有一段情节中，他的人文主义和心灵的甜美受到了同胞们的考验。</p>
+<p>在第12集《独眼巨人》中，布鲁姆在一家名为巴尼·基尔南的酒吧里讨论了爱尔兰和国家地位。他将国家定义为“生活在同一个地方的同一群人”，但随后又将其细化为“也生活在不同地方的人”。当被问及他的祖国时，他简单地回答道：“爱尔兰……我出生在这里。爱尔兰。”后来，当他抱怨他的犹太同胞在其他地方受到迫害时，他对用“武力”来抵抗这种迫害的建议感到畏缩：“但这没有用……武力，仇恨，历史，所有这些。这不是男人和女人的生活，侮辱和仇恨。”</p>
+<p><blockquote class="n-content-pullquote"><div class="n-content-pullquote__content"><p class="is-text-only" id="id-21">乔伊斯对作为局外人的读者不加考虑。在乔伊斯的想象中，他的首要读者是爱尔兰人</p><footer class="n-content-pullquote__footer"></footer></div>
+</blockquote></p>
+<p>乔伊斯写这本书是在1916年的起义和一战的大屠杀之后。他意识到，1904年的时候，几乎没有人会想到“武力、仇恨、历史”和这个国家的观念会在十年内造成如此大的破坏。通过让布鲁姆坚定地反对狂热主义和暴力，乔伊斯把历史推回到了过去，提供了另一种选择，让布鲁姆的尖刻雄辩变得更加有力，而酒吧里他周围的陈词滥调和哗笑让他的观点显得更加有力。</p>
+<p>“独眼巨人”有其内在的暴力。在整个情节中，当男人们在酒吧里交谈时，乔伊斯以恶搞当时爱尔兰流行的话语类型的形式，引入了精心设计的干预。其中一段是报纸上的一篇文章，描述了一个社交场合——但这个场合根本就不是社交场合；那是1803年，爱国者罗伯特·埃米特(Robert Emmet)在都柏林被公开处决。在1904年的大多数爱尔兰人看来，这一事件是极其庄严的，在1922年《尤利西斯》(Ulysses)出版时还是这样。</p>
+<div class="pic is-mixed" id="id-24"><picture><img src="https://www.ft.com/__origami/service/image/v2/images/raw/https://d1e00ek4ebabms.cloudfront.net/production/2ef96016-c117-471c-a453-07d4d1d9a396.jpg?source=ftchinese&amp;fit=scale-down&amp;width=1400"></picture>玛丽莲·梦露在1955年读《尤利西斯》</div>
+
+<p>他恶搞了这位爱国者的处决现场，列出了一个荒唐的旁观者名单——“Señor Hidalgo Caballero Don Pecadillo y Palabras y Paternoster de la Malora de la Malaria”和“Hokopoko Harakiri”，以此来对抗统治着这个国家的死亡崇拜。</p>
+<p>如果没有人注意到乔伊斯是在1916年的反叛之后写作这一段的，你可以看到，他把爱国者埃米特的刽子手命名为“汤姆金·<strong>麦克斯韦</strong>·弗伦什曼·汤姆林森”(Tomkin-Maxwell ffrenchmullan Tomlinson)，在唐·吉福(Don Gifford)和罗伯特·J·塞德曼(Robert J Seidman)所著的《尤利西斯评注》中，这个名字被解释为“一个虚构的名字，暗示此人刻意伪造其‘上流家庭’的背景。”然而，对于一个爱尔兰读者，<strong>麦克斯韦</strong>这个名字的用意是显而易见的。<strong>约翰·麦克斯韦(John Maxwell)爵士</strong>是1916年爱尔兰的军事总督，正是他下令处决了这些领导人。</p>
+<div class="n-content-big-number"><span class="n-content-big-number__title is-text-only" id="id-27">6月16日</span><span class="n-content-big-number__content is-text-only" id="id-28">《尤利西斯》的背景日期，现在每年在都柏林作为“布鲁姆日”进行庆祝。</span></div>
+
+<p>通过取笑那些被认为是令人难以忘怀的悲剧，乔伊斯使自己站在了公认观点的对立面。通过把处决弄得如此滑稽可笑，他暗示，一个充斥着烈士和爱国纪念活动的历史版本，是虚伪和笨拙的。</p>
+<p>在后面的一集《太阳的公牛》中，乔伊斯在一家妇产医院里设置了一个场景，那里奇怪地聚集了一群人。这一集的文字是由英国散文历史上的一些片段组成的。1920年3月，乔伊斯在写这一集的时候，写信给一位朋友，谈到了这一技巧，其中包括“最早的英语头韵、单音节和盎格鲁-撒克逊语”，然后又引用了伊丽莎白时代编年史、弥尔顿、佩皮斯等，最后以“可怕的混乱”结束。</p>
+<p>安东尼·伯吉斯(Anthony Burgess)说，这一集是他自己最想写的一集：“这是属于作家的章节，淋漓尽致地体现了英语写作的最高境界。”</p>
+<p>《尤利西斯》充满了讽刺、低俗搞笑和高度严肃。这本书在作者40岁生日当天出版，标志着一位爱尔兰作家对英语小说的再造。这部正式小说的幽默、对外部世界的包容和开放，以及对想象力自主的坚持，都给1922年即将变得孤立和不安全的爱尔兰上了一课。在《尤利西斯》中，乔伊斯提出了爱尔兰从帝国中崛起的另一种方式，让利奥波德·布鲁姆和莫莉·布鲁姆成为爱尔兰的公民。当然，爱尔兰忽略了他，甚至没有正式禁止他的书。</p>
+<p>尽管乔伊斯的书受到好评，爱尔兰政府仍然对乔伊斯心存怀疑。诗人伊凡·博兰(Eavan Boland)写道，1930年代中期，她的父亲担任爱尔兰的外交官的时候，和爱尔兰总理埃蒙·德瓦莱拉(Eamon de Valera)一起在瑞士，而乔伊斯正好和德瓦莱拉去了同一家眼科诊所。当时乔伊斯邀请他们一起共进晚餐。德瓦莱拉拒绝了。1941年乔伊斯在苏黎世去世后，英国驻伯尔尼大使在葬礼上发表了讲话，但爱尔兰并没有派出官方代表出席葬礼。</p>
+<div class="pic is-mixed" id="id-34"><picture><img src="https://www.ft.com/__origami/service/image/v2/images/raw/https://d1e00ek4ebabms.cloudfront.net/production/e375a0ef-715f-48f1-a736-2c10b3f32c36.jpg?source=ftchinese&amp;fit=scale-down&amp;width=1400"></picture>1996年，都柏林，身着爱德华七世时期服装的狂欢者庆祝“布鲁姆日”</div>
+
+<p>在阿瑟·施莱辛格(Arthur Schlesinger)去世前不久，我曾与他谈起约翰·F·肯尼迪(John F Kennedy) 1963年6月对爱尔兰的访问。他告诉我，肯尼迪在都柏林议会联合大厦发表演讲时，故意提到了詹姆斯·乔伊斯，以此来推动爱尔兰政府和爱尔兰人民接受乔伊斯是一个伟大的作家，一个伟大的爱尔兰人。</p>
+<p>1954年，在现在被称为布鲁姆日的6月16日，一些作家按照布鲁姆和德达勒斯的路线，去都柏林朝圣。在过去的几十年里，在布鲁姆日，这座城市到处都是穿着爱德华七世时期服装的人，他们在表演《尤利西斯》中的场景。这位昔日的“弃儿”如今正处于一场具有巨大国际吸引力的全国性文化庆典的中心，这种吸引力是不可忽视的——几乎……</p>
+<p>有一年，因为太忙，我忘了那天是“布鲁姆日”。在市中心的一家超市外，我拿着两袋食品，被一大群穿戴整齐的乔伊斯粉丝搭讪。他们问我装扮的是书中的什么角色。我告诉他们，我根本没有装扮成书中的任何人，只是一个平凡日子里城市里的普通人。我们最终一致认为，这完全符合乔伊斯伟大小说的精神。</p>
+<p><em class="is-text-only" id="id-38">科尔姆·托伊宾最近的小说是</em><a href="https://www.ft.com/content/fcf1de1e-2f13-4592-9266-aeadc360f767"><em class="is-text-only" id="id-39">《魔术师》</em></a><em class="is-text-only" id="id-40">(维京/斯克里布纳尔出版社)</em></p>
+<p>&nbsp;<em class="is-text-only" id="id-41">在Facebook上加入我们的在线读书小组</em><a href="https://www.facebook.com/groups/139838140082304/"><em class="is-text-only" id="id-42">FT图书咖啡馆</em></a></p>
+
+</div>
+<div class="clearfloat"></div>
+</div>
+<div class="copyrightstatement-container">
+版权声明：本文版权归FT中文网所有，未经允许任何单位或个人不得转载，复制或以任何其他方式使用本文全部或部分，侵权必究。
+</div>
+<div class="clearfloat"></div>
+<!-- story privilegeType: PremiumMBA -->
+</div>
+<div class="clearfloat block-bottom"></div>
+</div></div>
+<div 
+data-o-ads-name="infoflow4"
+class="o-ads infoflow"  
+data-o-ads-formats-default="false" 
+data-o-ads-formats-small="FtcInfoFlow" 
+data-o-ads-formats-medium="false"
+data-o-ads-formats-large="false"
+data-o-ads-formats-extra="false"
+data-o-ads-targeting="cnpos=info4;"
+>
+</div>
+<div class="side-container"><div class="side-inner">
+<!--column info: -->
+<div class="story-box with-theme">
+<h2 class="box-title"><a href="/channel/mba.html">FT商学院</a></h2>
+<ul class="top10">
+<li class="mp1"><a target="_blank" href="/interactive/59607">股神巴菲特能反超凯蒂•伍德吗？</a></li>
+<li class="mp2"><a target="_blank" href="/interactive/59604">为什么观鸟比疯狂刷剧更好？</a></li>
+<li class="mp3"><a target="_blank" href="/interactive/59503">全球股市创下一年多来最差一周</a></li>
+<li class="mp4"><a target="_blank" href="/interactive/59562">为什么游戏是大型科技公司的新战场</a></li>
+<li class="mp5"><a target="_blank" href="/interactive/59542">德国国债收益率短暂“转正”意味着什么？</a></li>
+<li class="mp6"><a target="_blank" href="/interactive/59598">一周新闻小测：2022年01月15日</a></li>
+<li class="mp7"><a target="_blank" href="/interactive/59592">银行投资者面临新的“黑盒子”窘境</a></li>
+<li class="mp8"><a target="_blank" href="/interactive/59480">纪念虎年的精彩腕表</a></li>
+<li class="mp9"><a target="_blank" href="/interactive/59472">《贝尔法斯特》：童年纯真的颂歌</a></li>
+<li class="mp10"><a target="_blank" href="/interactive/59483">动视丑闻给了微软出击之机</a></li>
+</ul>
+</div>
+<div class="story-box last-child">
+<h2 class="box-title"><a>相关话题</a></h2>
+<ul class="top10">
+<li class="story-theme mp1">
+<a target="_blank" href="/tag/FT商学院">FT商学院</a>
+<div class="icon-right">
+<button class="myft-follow plus" data-tag="FT商学院" data-type="tag">关注</button>
+</div>
+</li>
+<li class="story-theme">
+<a target="_blank" href="/tag/小说">小说</a>
+<div class="icon-right">
+<button class="myft-follow plus" data-tag="小说" data-type="tag">关注</button>
+</div>
+</li>
+<li class="story-theme">
+<a target="_blank" href="/tag/约翰·F·肯尼迪">约翰·F·肯尼迪</a>
+<div class="icon-right">
+<button class="myft-follow plus" data-tag="约翰·F·肯尼迪" data-type="tag">关注</button>
+</div>
+</li>
+</ul>
+</div>
+</div></div><div class="clearfloat"></div>
+</div></div>
+<div class="block-container no-side story-recommend-container" id="story-recommend-container"><div class="block-inner">
+<div class="content-container"><div class="content-inner">
+<div class="list-container"><div class="list-inner">
+<h2 class="list-title"><a class="list-link" href="#">您可能感兴趣的文章</a></h2>
+<div class="items" id="story-recommend-bottom"></div>
+</div></div>
+</div></div>
+<div class="clearfloat block-bottom"></div>
+</div></div>
+<script type="text/javascript">
+!function(){function e(e){setTimeout(function(){showOverlay("overlay-login");var t=GetCookie("USER_NAME")||"",i=/^phone/.test(e)?'<div style="padding: 0 0 15px 0;"><div class="login-btn input-submit-container center"><a class="n-button-inner" id="phone-ftc-binding" onclick="showPhoneFTCBinding()">关联邮箱</a></div></div>':"";document.querySelector(".overlay-title").innerHTML=n,document.querySelector(".overlay-content form").innerHTML='<div class="input-title">亲爱的用户您好，这个网站是付费订户专享，您当前使用的用户名'+t+'并非订户。如果您是刚刚付款成功，请等待一分钟后刷新本页。否则请登出之后更换用户名或者访问FT中文网主站。</div><div style="padding: 0 0 15px 0;"><div class="login-btn input-submit-container center"><a class="n-button-inner" href="/users/logout">登出</a></div></div><div style="padding: 0 0 15px 0;"><div class="login-btn input-submit-container center"><a class="n-button-inner" href="http://www.ftchinese.com/">免费网站</a></div></div>'+i,document.querySelector(".overlay-bg").className="overlay-bg-fixed"},0)}var n="FT中文网付费会员专享网站";setTimeout(function(){if(!1!==/chineseft\.com|ftchineselive\.com|lunchwithft\.com|leshangavenue\.com/.test(location.hostname)&&!0!==window.hasFoundProductPricing){var t=/^\/users\/findpassword|\/users\/register$/.test(location.pathname),i=/pageid=subscriptioninfoconfirm/.test(location.search);if(!t&&!i){var o=GetCookie("USER_ID")||GetCookie("USER_ID_FT"),r=GetCookie("paywall");null===o&&null===r?setTimeout(function(){showOverlay("overlay-login"),document.querySelector(".overlay-title").innerHTML=n,document.querySelector(".register-find").innerHTML='<a href="https://www.ftacademy.cn/subscription.html">购买会员</a><span></span><a href="/users/findpassword">找回密码</a>',document.querySelector(".wx-login").style.marginTop="15px",document.querySelector(".overlay-bg").className="overlay-bg-fixed"},0):null===r&&e(o);for(var a=document.querySelectorAll(".icon-share, .icon-wechat, .icon-weibo, .icon-linkedin, .icon-twitter, .icon-facebook"),c=0;c<a.length;c++){var s=a[c];s.parentNode.removeChild(s)}}}},1e3)}();</script>
+<div 
+data-o-ads-name="paidpost2"
+class="o-ads paid-post"  
+data-o-ads-formats-default="false" 
+data-o-ads-formats-small="false"
+data-o-ads-formats-medium="false"
+data-o-ads-formats-large="FtcPaidpost"
+data-o-ads-formats-extra="FtcPaidpost"
+data-o-ads-targeting="cnpos=paidpost2;"
+>
+</div>
+<div 
+data-o-ads-name="paidpost"
+class="o-ads paid-post"  
+data-o-ads-formats-default="false" 
+data-o-ads-formats-small="false"
+data-o-ads-formats-medium="false"
+data-o-ads-formats-large="FtcPaidpost"
+data-o-ads-formats-extra="FtcPaidpost"
+data-o-ads-targeting="cnpos=paidpost;"
+>
+</div>
+<div class="footer-container"><div class="footer-inner">
+<div>
+<a href="/m/corp/aboutus.html">关于我们</a>
+<a href="https://ft.wd3.myworkdayjobs.com/FT_Chinese_External_Careers" target="_blank">加入我们</a>
+<a href="/m/corp/faq.html">问题回馈</a>
+<a href="/m/corp/contact.html">联系方式</a>
+<a href="/m/corp/partner.html">合作伙伴</a>
+<a href="/m/corp/service.html">服务条款</a>
+<a href="/m/corp/sales.html">广告业务 </a>
+<a href="/m/corp/copyright.html">版权声明</a>
+<a href="/m/marketing/ftc.html">最新动态</a>
+</div>
+<p>
+<span class="copyright"><b>© The Financial Times Ltd 2022</b></span> 
+<span><acronym title="Financial Times">FT</acronym> and 'Financial Times' are trademarks of The Financial Times Ltd.</span>
+</p>
+</div></div>
+<script>
+function async(u, c) {
+var d = document, t = 'script',
+o = d.createElement(t),
+s = d.getElementsByTagName(t)[0];
+o.src = u;
+if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+s.parentNode.insertBefore(o, s);
+}
+// Your web app's Firebase configuration
+var firebaseConfig = {
+apiKey: "AIzaSyCB4QkzRm1oUl9-XA6kl8ob58FI3C6iDY0",
+authDomain: "ftchineseiphone.firebaseapp.com",
+databaseURL: "https://ftchineseiphone.firebaseio.com",
+projectId: "ftchineseiphone",
+storageBucket: "ftchineseiphone.appspot.com",
+messagingSenderId: "342601113715",
+appId: "1:342601113715:web:6d7016e26b94e3854fca06",
+measurementId: "G-PT4E4NGVJV"
+};
+//MARK: - The core Firebase JS SDK is always required and must be listed first
+async('https://www.gstatic.com/firebasejs/7.2.2/firebase-app.js', function() {
+// MARK: - TODO: Add SDKs for Firebase products that you want to use: https://firebase.google.com/docs/web/setup#available-libraries
+async('https://www.gstatic.com/firebasejs/7.2.2/firebase-analytics.js', function() {
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+firebase.analytics();
+});
+});
+</script>
+<img src='https://beacon.krxd.net/event.gif?event_id=KWA6DGT9&event_type=rtg' width=0 height=0 /><div class="overlay-container" id="font-setting">
+<div class="overlay-inner">
+<div class="overlay-bg" data-parentid="font-setting"></div>
+<div class="overlay-content-outer">
+<div class="overlay-content-inner">
+<div class="overlay-content">
+<div class="overlay-title">设置字号<i class="overlay-close" data-parentid="font-setting">×</i></div>
+<span class="font-options" id="font-options">
+<div class="smallest first-child" data-font="0.8">最小</div>
+<div class="smaller" data-font="0.9">较小</div>
+<div class="normal" data-font="1">默认</div>
+<div class="bigger" data-font="1.2">较大</div>
+<div class="biggest" data-font="1.6">最大</div>
+</span>
+</div>
+</div>
+</div>
+</div>
+</div><div class="overlay-container" id="share-legacy">
+<div class="overlay-inner">
+<div class="overlay-bg" data-parentid="share-legacy"></div>
+<div class="overlay-content-outer">
+<div class="overlay-content-inner">
+<div class="overlay-content">
+<div class="overlay-title">分享<i class="overlay-close" data-parentid="share-legacy">×</i></div>
+<span id="sharelinks"></span>
+</div>
+</div>
+</div>
+</div>
+</div>
 
 
 
