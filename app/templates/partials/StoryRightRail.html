@@ -61,12 +61,22 @@
 			<h2 class="box-title"><a href="<%$themeLink%>"><%$themeTitle%></a></h2>
 			<ul class="top10">
 			<%assign var="i" value=0%>
-			<%*<!--MARK: - these two tags doesn't work in SQL query, maybe because of our server configuration bug -->*%>
 			<%assign var="mp" value=$storymodel->getContentByTag($themeTag,10)%>
 			<%foreach from=$mp item=sc%>
 				<%if $itemId != $sc.id%>
 					<%assign var="i" value=$i+1%>
-					<li class="mp<%$i%>"><a target="_blank" href="/<%$sc.type|default:$sc.item_type%>/<%$sc.id%>"><%$sc.cheadline%></a></li>
+					<%assign var="itemType" value=$sc.type|default:$sc.item_type%>
+					<%assign var="itemLink" value="/`$itemType`/`$sc.id`"%>
+					<%if $smarty.get.webview == "ftcapp"%>
+						<%*<!--MARK: - Handle Sub Types of Themes such as Radio and Billigual -->*%>
+						<%if preg_match("/.mp3$/is",$sc.cshortleadbody)%>
+							<%assign var="audioUrl" value=$sc.cshortleadbody%>
+							<%assign var="itemLink" value="ftchinese://radio/`$sc.id`?source=StoryRightRail&audio=`$audioUrl`"%>
+						<%elseif $themeSubType == "bilingual"%>
+							<%assign var="itemLink" value="ftchinese://bilingual/`$sc.id`?source=StoryRightRail"%>
+						<%/if%>
+					<%/if%>
+					<li class="mp<%$i%>"><a target="_blank" href="<%$itemLink%>"><%$sc.cheadline%></a></li>
 				<%/if%>
 			<%/foreach%>
 			</ul>
