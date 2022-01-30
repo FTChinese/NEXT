@@ -555,7 +555,7 @@
 									<%assign var="foundSponsorTag" value="no"%>
 									<%foreach from=$infoForSponsorships.sections item=oneTag%>
 										<%assign var="matchedTag" value="no"%>
-										<%if $foundSponsorTag == "no" && $oneTag.status == "on" && $oneTag.dates != "" && preg_match("/`$currentDate`/is",$oneTag.dates) && $oneTag.imageHighlightBox != ""%>
+										<%if $foundSponsorTag == "no" && $oneTag.status == "on"  && $oneTag.imageHighlightBox != ""%>
 											<%assign var="sponsorKeys" value=$oneTag.storyKeyWords%>
 											<%if $sponsorKeys == ""%>
 												<%assign var="sponsorKeys" value=$oneTag.tag%>
@@ -571,7 +571,7 @@
 												<%/if%>
 											<%/foreach%>
 										<%/if%>
-										<%if $foundSponsorTag == "no" && $oneTag.status == "on" && $oneTag.dates != "" && preg_match("/`$currentDate`/is",$oneTag.dates) && ($itemMainTag == $oneTag.tag || $itemMainTag == $oneTag.title || $matchedTag == "yes") && $oneTag.imageHighlightBox != ""%>
+										<%if $foundSponsorTag == "no" && $oneTag.status == "on" && ($itemMainTag == $oneTag.tag || $itemMainTag == $oneTag.title || $matchedTag == "yes") && $oneTag.imageHighlightBox != ""%>
 											<%assign var="foundSponsorTag" value="yes"%>
 											<%assign var="hasFoundSponsorInfo" value="yes"%>
 											<%assign var="tagImage" value=$oneTag.imageHighlightBox%>
