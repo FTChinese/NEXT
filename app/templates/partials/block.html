@@ -1310,7 +1310,9 @@
 										<%/if%>
 										<%assign var="itemLead" value=$itemLead|regex_replace:"/[\n\r]+$/":""%>
 									<%/if%>
-
+									<%if preg_match("/http|mp3|\|/is",$itemLead)%>
+										<%assign var="itemLead" value=""%>
+									<%/if%>
 									<%if $hideImage === "yes"%>
 										<%assign var="hasImage" value="no-image"%>
 									<%/if%>
