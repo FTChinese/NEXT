@@ -124,6 +124,8 @@
                 $item["type"] = $item["item_type"];
             } else if (isset($item["type"]) && $item["type"] != "") {
                 $item["type"] = $item["type"];
+            } else if (isset($item["customLink"]) && $item["customLink"] !== '') {
+                $item["type"] = 'page';
             } else if ($itemType === 'manual') {
                 $item["type"] = 'story';
             } else {
@@ -407,7 +409,6 @@
         <%elseif $itemSubType == "radio"%>
             <%assign var="itemClass" value="`$itemClass` is-audio"%>
         <%/if%>
-        <!--item type: <%$itemType%>-->
         <%if $smarty.get.webview == "ftcapp" && $itemType != "sponsorship"%>
             <%if preg_match("/双语电台/is",$itemTagsString)%>
                 <%if preg_match("/en|ce/is",$listLanguage) && preg_match("/.mp3$/is",$item.eshortleadbody)%>
