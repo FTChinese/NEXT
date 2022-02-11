@@ -1417,7 +1417,7 @@
 	<%assign var="storyImageClass" value=""%>
 <%/if%>
 
-<%%*<!--MARK: Don't show the placeholder image in story body-->*%>
+<%*<!--MARK: Don't show the placeholder image in story body-->*%>
 <%if preg_match("/000085029_piclink/is",$storyImage)%>
 	<%assign var="storyImage" value=""%>
 <%/if%>
@@ -1541,7 +1541,6 @@
 	--> *%>
 
 <%/if%>
-
 
 
 <%assign var="itemId" value=$story.id|default:$id%>
@@ -1816,6 +1815,14 @@
 	<%assign var="privilegeEventLabel" value="`$privilegeType`/`$itemType`/`$itemId``$privilegeSuffix`"%>
 	<%assign var="privilegeEventLabel" value=$privilegeEventLabel|strip_tags|regex_replace:"/[\r\n\t\s]/":""%>
 	<%assign var=storyHeadlineClass value=" story-headline-large"%>
+<%/if%>
+
+
+
+<%*<!--MARK: Don't show cover image if story starts with an image-->*%>
+<%if preg_match("/$[\r\n\t\s]*<div class=\"pic/ism",$story_content)%>
+	<%assign var="storyImage" value=""%>
+	<%assign var="storyImageTop" value=""%>
 <%/if%>
 
 
