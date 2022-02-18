@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Language" content="zh-CN"/>
 <meta content="<%$p.meta.description%>" name="description"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-<link rel="apple-touch-icon-precomposed" href="https://d19jtp7o05v915.cloudfront.net/img/ipad_icon.png" />
+<link rel="apple-touch-icon-precomposed" href="https://d39nylm5k3hqco.cloudfront.net/img/ipad_icon.png" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
 <body>
@@ -46,7 +46,7 @@ JSONP.type = 'text/javascript';
 JSONP.src = 'http://p.bokecc.com/servlet/getvideofile?[ASRANDOM]&vid=' + vid + '&siteid=' + siteid + '&divid=&callback=video&useragent=' + useragent;
 document.getElementsByTagName('head')[0].appendChild(JSONP);
 function video(obj) {
-    document.getElementById('video').innerHTML = '<video id="mpu-video" src="' + obj.copies[0].playurl + '" width="' + v_width + '" height="' + v_height + '" airplay="deny" x-webkit-airplay="deny" playsinline webkit-playsinline>Your browser does not support the <code>video</code> element.</video><div id="sound-button" style="width:36px; height:36px; position:absolute; top:0; left:0px; z-index:16; background-color:#FFF; cursor:pointer; border:none; padding:0px; margin:0px; background: url(https://d19jtp7o05v915.cloudfront.net/ftc-icons/png/ic_volume_up_white_18pt.png) rgba(0,0,0,0.618) no-repeat 50% 50%; " onclick="switchSound(this)"></div>';
+    document.getElementById('video').innerHTML = '<video id="mpu-video" src="' + obj.copies[0].playurl + '" width="' + v_width + '" height="' + v_height + '" airplay="deny" x-webkit-airplay="deny" playsinline webkit-playsinline>Your browser does not support the <code>video</code> element.</video><div id="sound-button" style="width:36px; height:36px; position:absolute; top:0; left:0px; z-index:16; background-color:#FFF; cursor:pointer; border:none; padding:0px; margin:0px; background: url(https://d39nylm5k3hqco.cloudfront.net/ftc-icons/png/ic_volume_up_white_18pt.png) rgba(0,0,0,0.618) no-repeat 50% 50%; " onclick="switchSound(this)"></div>';
     var v = document.getElementById('mpu-video');
     var soundButton = document.getElementById('sound-button');
     v.controls = true;
@@ -79,11 +79,11 @@ function switchSound(ele) {
     var v = document.getElementById('mpu-video');
     if (ele.className == 'sound-on') {
         ele.className = '';
-        ele.style.backgroundImage = 'url(https://d19jtp7o05v915.cloudfront.net/ftc-icons/png/ic_volume_up_white_18pt.png)';
+        ele.style.backgroundImage = 'url(https://d39nylm5k3hqco.cloudfront.net/ftc-icons/png/ic_volume_up_white_18pt.png)';
         v.muted = true;
     } else {
         ele.className = 'sound-on';
-        ele.style.backgroundImage = 'url(https://d19jtp7o05v915.cloudfront.net/ftc-icons/png/ic_volume_off_white_18pt.png)';
+        ele.style.backgroundImage = 'url(https://d39nylm5k3hqco.cloudfront.net/ftc-icons/png/ic_volume_off_white_18pt.png)';
         v.muted = false;
     }
 }
