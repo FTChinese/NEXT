@@ -173,7 +173,7 @@ function start() {
                 }
             }
         }
-        console.log(existingTranslationDict);
+        console.log(JSON.stringify(existingTranslationDict));
 
         for (var i=0; i<translationInfo.length; i++) {
             var info = translationInfo[i];
