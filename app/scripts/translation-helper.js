@@ -13,7 +13,7 @@ if (window.opener && window.opener.userName) {
 var delegate = new Delegate(document.body);
 
 // MARK: - Links in translated text
-delegate.on('click', '.info-original a[href], .info-translation a[href]', function(event){
+delegate.on('click', '.info-original a[href], .info-translation a[href], .info-original strong, .info-translation strong', function(event){
     try {
         var textArea = this.closest(".info-container").querySelector('textarea');
         var selectionStart = textArea.selectionStart;
@@ -23,7 +23,13 @@ delegate.on('click', '.info-original a[href], .info-translation a[href]', functi
             var textBefore = text.substring(0, selectionStart);
             var textSelected = text.substring(selectionStart, selectionEnd);
             var textAfter = text.substring(selectionEnd, text.length);
-            var newText = textBefore + '<a href="' + this.getAttribute('href') + '" targe="_blank">' + textSelected + '</a>' + textAfter;
+            var t = this.tagName.toLowerCase();
+            var newText;
+            if (t === 'a' && this.getAttribute('href')) {
+                newText = textBefore + '<a href="' + this.getAttribute('href') + '" targe="_blank">' + textSelected + '</a>' + textAfter;
+            } else {
+                newText = textBefore + '<' + t + '>' + textSelected + '</' + t + '>' + textAfter;
+            }
             textArea.value = newText;
         } else {
             alert('请选中右边文本框的相应的文本内容来添加链接！');
