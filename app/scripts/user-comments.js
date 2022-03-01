@@ -353,6 +353,7 @@ function login(fromwhere) {
 function socialLogin(socialName, socialInfo) {
     var socialLoginUrl = '/index.php/users/socialLogin/' + socialName;
     var xmlhttp = new XMLHttpRequest();
+    var serverErrorMessage = '亲爱的用户，由于FT中文网服务器未能正确响应，您未能成功登录。请联系客服协助，客服添加微信公众号：小T服务在线';
     xmlhttp.onreadystatechange = function() {
         if (this.readyState === 4) {
             if (this.status === 200) {
@@ -373,9 +374,9 @@ function socialLogin(socialName, socialInfo) {
                     return;
                 }
                 // if return data is not correct
-                presentAlert('登录失败', data + '亲爱的用户，由于FT中文网的服务器未能正确响应，所以您未能成功登录。请稍后再试，或尝试其他登录方式。');                 
+                presentAlert('登录失败', data + serverErrorMessage);                 
             } else { 
-                presentAlert('登录失败', '亲爱的用户，由于FT中文网的服务器未能正确响应，所以您未能成功登录。请稍后再试，或尝试其他登录方式。'); 
+                presentAlert('登录失败', serverErrorMessage); 
             }
         }
     };
