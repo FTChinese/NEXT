@@ -26,7 +26,9 @@
     <%assign var="zone" value=$smarty.get.newzone %>
 <%/if%>
 
-
+<%if !preg_match("/^[a-zA-Z\/]+$/is",$zone)%>
+    <%assign var="zone" value="home"%>
+<%/if%>
 
 <%if $cntopic != ""%>
     <script type="text/javascript">window.cntopic = '<%$cntopic%>';</script>
