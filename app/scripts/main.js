@@ -879,7 +879,7 @@ function checkFullGridItem() {
   try {
     if (!document.querySelector('.full-grid-story')) {return;}
     // MARK: - There might be other full grid items, add them when needed
-    var fullGridItems = document.querySelectorAll('[data-layout-width="full-grid"], blockquote, .n-content-big-number');
+    var fullGridItems = document.querySelectorAll('[data-layout-width="full-grid"], blockquote, .n-content-big-number, [data-table-layout-largescreen="full-grid"]');
     var bodyHeight = getBodyHeight();
     var isFullGridItemInView = false;
     console.log(fullGridItems);
