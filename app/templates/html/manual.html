@@ -389,9 +389,9 @@
                     <meta http-equiv="refresh" content="<%$refreshInSeconds%>;url=/?refresh" />
                 <%/if%>
             <%/if%>
-            <link rel="apple-touch-icon-precomposed" href="https://d39nylm5k3hqco.cloudfront.net/img/ipad_icon.png" />
+            <link rel="apple-touch-icon-precomposed" href="https://d28dmc8fp041dv.cloudfront.net/img/ipad_icon.png" />
             <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-            <link rel="preconnect" href="https://d39nylm5k3hqco.cloudfront.net" />
+            <link rel="preconnect" href="https://d28dmc8fp041dv.cloudfront.net" />
             <link rel="preconnect" href="https://thumbor.ftacademy.cn/unsafe" />
             <script type="text/javascript">
                 window.errorBuffer = window.errorBuffer || [];
@@ -445,11 +445,11 @@
             <%else%>
                 <style><%include file="next/styles/main-tag.css"%></style>
             <%/if%>
-            <link rel="icon" type="image/png" href="https://d39nylm5k3hqco.cloudfront.net/img/friend-share-icon.jpg" sizes="32x32">
-            <link rel="icon" type="image/png" href="https://d39nylm5k3hqco.cloudfront.net/img/friend-share-icon.jpg" sizes="194x194">
-            <link rel="apple-touch-icon" sizes="180x180" href="https://d39nylm5k3hqco.cloudfront.net/img/friend-share-icon.jpg" />
+            <link rel="icon" type="image/png" href="https://d28dmc8fp041dv.cloudfront.net/img/friend-share-icon.jpg" sizes="32x32">
+            <link rel="icon" type="image/png" href="https://d28dmc8fp041dv.cloudfront.net/img/friend-share-icon.jpg" sizes="194x194">
+            <link rel="apple-touch-icon" sizes="180x180" href="https://d28dmc8fp041dv.cloudfront.net/img/friend-share-icon.jpg" />
             <meta name="msapplication-TileColor" content="#fff1e0" />
-            <meta name="msapplication-TileImage" content="https://d39nylm5k3hqco.cloudfront.net/img/friend-share-icon.jpg" />
+            <meta name="msapplication-TileImage" content="https://d28dmc8fp041dv.cloudfront.net/img/friend-share-icon.jpg" />
             <script type="text/javascript">var startTime = new Date().getTime();</script>
             <meta content="FT中文网" name="application-name" /><meta content="app-id=443870811" name="apple-itunes-app" />
             <link rel="alternate" type="application/rss+xml" title="FT中文网 - 每日更新" href="/rss/feed" />
@@ -532,7 +532,7 @@
             <%/if%>
 
             <%if $pageId == "home" && $smarty.get.showHotClick == "yes"%>
-                <script type="text/javascript" src="https://d39nylm5k3hqco.cloudfront.net/n/main-home-click.js?<%include file="next/timestamp/timestamp.html"%>"></script>
+                <script type="text/javascript" src="https://d28dmc8fp041dv.cloudfront.net/n/main-home-click.js?<%include file="next/timestamp/timestamp.html"%>"></script>
             <%/if%>
             <%*<!--MARK: - Wake up heroku to check if editor's choice is updated during weekends. -->*%>
             <%if $pageId == "premiumsubscription"%>
@@ -586,39 +586,6 @@
         window.adChannelId = window.adchID;
         <%if $pageId != "home"%>
             document.title = '<%$p.meta.title%>';
-        <%/if%>
-
-        <%*<!--MARK: - paywall api was broken, the following code allow every logged-user to access premium subscription. Remove after 2020/5/5 -->*%>
-        <%if date("Ymd", $smarty.now) <= 20200405 %>
-        function openUpPremium() {
-            for (var key of ['paywall', 'paywall_expire']) {
-                var value = GetCookie(key);
-                if (!value || value === '' || value === 'undefined') {
-                    DeleteCookie(key);
-                }
-            }
-            var uniqueId = GetCookie('uniqueVisitorId') || guid();
-            if (uniqueId && uniqueId !== '') {
-                var userNameForLogin = GetCookie('USER_NAME') || GetCookie('USER_NAME_FT') || '';
-                var userIdForLoginUser = GetCookie('USER_ID') || '';
-                var ccode = GetCookie('ccode') || '';
-                var message = {
-                    'username': userNameForLogin,
-                    'userId': userIdForLoginUser,
-                    'uniqueVisitorId': uniqueId,
-                    'ccode': ccode,
-                    'paywall': 'premium',
-                    'paywall_expire': '1617638400',
-                    'source': 'openUpPremium'
-                };
-                try {
-                webkit.messageHandlers.user.postMessage(message);
-                } catch (ignore) {
-                }
-            }
-        }
-        openUpPremium();
-        setInterval(function(){openUpPremium();}, 30000);
         <%/if%>
     </script>
     <%include file="next/partials/head-db-zone.html"%>
@@ -695,99 +662,6 @@
             </script>
         <%/if%>
     <%*<!-- MARK: - Huawei Market requires us to remove all crytocurrency reports. This code is intended to trick them to believe that we did. End.  -->*%>
-
-
-    <%*<!--MARK: Debug Mr. Zhou Guoduan's iPhone access start-->*%>
-    
-    <script>
-    function debugLoginToNative() {
-        // MARK: Use info from cookie for speed
-        var message = {};
-        var uniqueId = GetCookie('uniqueVisitorId') || guid();
-        var userNameForLogin = GetCookie('USER_NAME') || GetCookie('USER_NAME_FT') || '';
-        var userIdForLoginUser = GetCookie('USER_ID') || '';
-        if (userIdForLoginUser !== '1119d305-16fb-4439-8ca0-307101c46d75') {return;}
-        gtag('event', 'found', {'event_label': userIdForLoginUser, 'event_category': 'UserInfoDebug', 'non_interaction': true});
-        var paywallSource = GetCookie('paywall_source') || '';
-        var ccode = GetCookie('ccode') || '';
-        message = {
-            username: userNameForLogin,
-            userId: userIdForLoginUser,
-            uniqueVisitorId: uniqueId,
-            ccode: ccode,
-            source: paywallSource,
-            infoSource: 'cookie'
-        };
-        // MARK: Get subscription: standard/premium
-        var paywall = GetCookie('paywall') || '';
-        var paywallExpire = GetCookie('paywall_expire') || '';
-        if (paywall !== '') {
-            message.paywall = paywall;
-        }
-        if (paywallExpire !== '') {
-            message.paywallExpire = paywallExpire;
-        }
-        gtag('event', 'messagePrepared', {'event_label': JSON.stringify(message), 'event_category': 'UserInfoDebug', 'non_interaction': true});
-        try {
-            webkit.messageHandlers.user.postMessage(message);
-            gtag('event', 'messagePosted', {'event_label': JSON.stringify(message), 'event_category': 'UserInfoDebug', 'non_interaction': true});
-        } catch (ignore) {
-        }
-        // MARK: If the user is not logged in, no need to go on checking API
-        if (userIdForLoginUser === '') {
-            return;
-        }
-        // MARK: Valid the info with a network request
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', '/index.php/jsapi/paywall');
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.onload = function() {
-            if (xhr.status === 200) {
-                var userInfo = JSON.parse(xhr.responseText);
-                window.htmlClass = document.documentElement.className;
-                window.htmlClass = window.htmlClass.replace(/\ is\-subscriber/g, '').replace(/\ is\-premium/g, '').replace(/\ is\-standard/g, '');
-                if (userInfo.paywall === 0) {
-                    if (userInfo.premium === 1) {
-                        message.paywall = 'premium';
-                        window.htmlClass += ' is-subscriber is-premium';
-                    } else {
-                        message.paywall = 'standard';
-                        window.htmlClass += ' is-subscriber is-standard';
-                    }
-                    document.documentElement.className = window.htmlClass;
-                } else {
-                    message.paywall = '';
-                }
-                message.paywallExpire = userInfo.expire || '';
-                message.ccode = userInfo.campaign_code || '';
-                message.duration = userInfo.latest_duration || '';
-                message.source = userInfo.source || '';
-                message.infoSource = 'jsapi/paywall';
-                gtag('event', 'messagePreparedWeb', {'event_label': JSON.stringify(message), 'event_category': 'UserInfoDebug', 'non_interaction': true});
-                try {
-                    webkit.messageHandlers.user.postMessage(message);
-                    gtag('event', 'messagePostedWeb', {'event_label': JSON.stringify(message), 'event_category': 'UserInfoDebug', 'non_interaction': true});
-                } catch (ignore) {
-                    
-                }
-                //var mainDomain = document.domain.replace(/^[^.]+/g, '');
-                // console.log ('save User expire: ' + userInfo.expire); 
-                SetCookie('paywall_expire',userInfo.expire,86400*100,'/');
-                SetCookie('paywall',message.paywall,86400*100,'/');
-                SetCookie('paywall_source',message.source,86400*100,'/');
-            }
-        };
-        xhr.send();
-    }
-
-    // MARK: This will throw error if not in iOS WKWebview
-    try {
-        debugLoginToNative();
-    } catch(ignore) {
-
-    }
-
     </script>
     
-    <%*<!--MARK: Debug Mr. Zhou Guoduan's iPhone access end-->*%>
 <%/if%>

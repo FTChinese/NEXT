@@ -2,6 +2,8 @@ function passLoginToNative() {
     // MARK: Use info from cookie for speed
     var message = {};
     var uniqueId = GetCookie('uniqueVisitorId') || guid();
+    // MARK: - Set Cookie to expire in 100 days
+    SetCookie('uniqueVisitorId',uniqueId,86400*100,'/');
     var userNameForLogin = GetCookie('USER_NAME') || GetCookie('USER_NAME_FT') || '';
     var userIdForLoginUser = GetCookie('USER_ID') || '';
     var paywallSource = GetCookie('paywall_source') || '';
