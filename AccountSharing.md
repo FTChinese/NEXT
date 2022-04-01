@@ -44,6 +44,7 @@
 - latitude
 - device token
 - unix_timestamp
+- footprints_url(footprints_uri)
 
 ### 对超过设备限额的用户显示提示
 在我们确认数据收集阶段开发的功能是安全、高效的之后。有以下的功能需要开发，开发周期两周，运行两周：
