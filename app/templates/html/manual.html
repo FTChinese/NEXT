@@ -142,7 +142,7 @@
     <%/if%>
     <%*<!--MARK: Show FT Academy on top during public holidays and weekends-->*%>
     <%assign var="isPublicHoliday" value="no"%>
-    <%if $hasPublishedNewCoverStory == "yes" || date("Ymd", $smarty.now) == 20210925%>
+    <%if $hasPublishedNewCoverStory == "yes" || date("Ymd", $smarty.now) == 20220402%>
         <%*<!--MARK: When weekend days are working days in China because of long public holidays exchanges such as Chinese new year, National day, etc... -->*%>
         <%assign var="isPublicHoliday" value="no"%>
     <%elseif date("Ymd", $smarty.now) >= 20220403 && date("Ymd", $smarty.now) <= 20220405%>
