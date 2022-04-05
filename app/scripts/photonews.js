@@ -42,7 +42,7 @@ function nextSlide(step) {
     goToSlide(gCurrentSlide);
 }
 function initSlideShow (id) {
-    var arrowsStyle = {'position':'absolute','top':'50%','margin-top':'-31px','background-color':'#333','background-image':'url(https://d28dmc8fp041dv.cloudfront.net/img/nav_sprite.png)','color':'white','height':'62px','width':'44px','font-size':'60px','font-weight':'bold','line-height':'62px','cursor':'pointer','text-align':'center','display':'none'};
+    var arrowsStyle = {'position':'absolute','top':'50%','margin-top':'-31px','background-color':'#333','background-image':'url(https://d1eeae5921l804.cloudfront.net/img/nav_sprite.png)','color':'white','height':'62px','width':'44px','font-size':'60px','font-weight':'bold','line-height':'62px','cursor':'pointer','text-align':'center','display':'none'};
     var arrowLeft = {'left':0,'background-position':'0 0'};
     var arrowRight = {'right':0,'text-align':'right','background-position':'-44px 0'};
     gSlideId = id;
