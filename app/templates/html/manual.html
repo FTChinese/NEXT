@@ -115,14 +115,15 @@
 <%/if%>
 
 <%if $pageId == "home" || $p.meta.HighlightFTAcademy == "yes"%>
-    <%*<!--MARK: Check if the editorial team has published a new story on cover during public holidays and weekends-->*%>
+    <%*<!--MARK: Check if the editorial team has published breaking new story on cover during public holidays and weekends. -->*%>
     <%assign var="itemT" value=""%>
     <%assign var="foundCoverStory" value="no"%>
     <%foreach from=$p.sections item=section%>
         <%if $section.type == "block" && $foundCoverStory == "no"%>
             <%foreach from=$section.lists item=list%>
                 <%foreach from=$list.items item=item%>
-                    <%if $foundCoverStory == "no"%>
+                    <%if $foundCoverStory == "no" && !preg_match("/FT商学院/is",$item.tag)%>
+                        <%*<!--MARK: Don't count FT Academy, which is already on top. -->*%>
                         <%assign var="itemT" value=$item.timeStamp|default:$item.fileupdatetime|default:$item.last_publish_time|default:$item.pubdate%>
                         <%assign var="foundCoverStory" value="yes"%>
                     <%/if%>

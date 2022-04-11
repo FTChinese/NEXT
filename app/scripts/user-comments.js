@@ -186,7 +186,7 @@ function cmt_reply(id,ctype) {
           .replace(/login\(1\)/g, 'login(2)');
         document.querySelector('#re' + ctype + id).innerHTML = pl;
     } else {
-        document.querySelector('#re' + ctype + id).innerHTML = '<div id=reply-input-container><b>回复此评论：</b><textarea id="replycontent" class="commentTextArea" rows="3"></textarea><span style="display:none;"><input name="use_nicknamer" type="radio" id="namer" onclick="unuseitr(this);"/><label for="namer">匿名</label><input name="use_nicknamer" type="radio" id="useridr" value="0" onclick="useitr(this);" checked/><label for="useridr">昵称</label> <input type="text" class="user_id textinput" id="nick_namer" value="" /></span><input type="button" value="提交回复" class="comment_btn submitbutton button ui-light-btn" id="addnewcommentr"/></div>';
+        document.querySelector('#re' + ctype + id).innerHTML = '<div id=reply-input-container><b>回复此评论：</b><input type="checkbox" id="anonymous-reply-checkbox" name="anonimous-reply-checkbox" checked="true"><label for="anonymous-reply-checkbox">匿名发表</label><textarea id="replycontent" class="commentTextArea" rows="3"></textarea><span style="display:none;"><input name="use_nicknamer" type="radio" id="namer" onclick="unuseitr(this);"/><label for="namer">匿名</label><input name="use_nicknamer" type="radio" id="useridr" value="0" onclick="useitr(this);" checked/><label for="useridr">昵称</label> <input type="text" class="user_id textinput" id="nick_namer" value="" /></span><input type="button" value="提交回复" class="comment_btn submitbutton button ui-light-btn" id="addnewcommentr"/></div>';
         document.querySelector('#nick_namer').value = document.querySelector('#nick_name').value;
         document.querySelector('#addnewcommentr').onclick = function() {
             usenicknamer = 0;
@@ -207,18 +207,9 @@ function cmt_reply(id,ctype) {
                     }
                 }
             };
-            // var postData = {
-            //     storyid: window.readingid, 
-            //     topic_object_id: window.readingid, 
-            //     talk: document.querySelector('#replycontent').value, 
-            //     use_nickname: usenicknamer, 
-            //     NickName: document.querySelector('#nick_namer').value, 
-            //     cmtid: id, 
-            //     type: ctype, 
-            //     title: '', 
-            //     url: ''
-            // };
-            var params = 'storyid=' + window.readingid + '&topic_object_id=' + window.readingid + '&talk=' + document.querySelector('#replycontent').value + '&use_nickname=' +usenicknamer + '&NickName=' + document.querySelector('#nick_namer').value + '&cmtid=' + id + '&type=' + ctype + '&title=&url=';
+            var isAnomymous = (document.querySelector('#anonymous-reply-checkbox') && document.querySelector('#anonymous-reply-checkbox').checked) ? 1 : 0;
+            var nickname = (isAnomymous === 1) ? '匿名用户' : document.querySelector('#nick_namer').value;
+            var params = 'storyid=' + window.readingid + '&topic_object_id=' + window.readingid + '&talk=' + document.querySelector('#replycontent').value + '&use_nickname=' + isAnomymous + '&NickName=' + nickname + '&cmtid=' + id + '&type=' + ctype + '&title=&url=';
             xmlhttp.open('POST', commentfolder + '/add');
             xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             xmlhttp.send(params);
