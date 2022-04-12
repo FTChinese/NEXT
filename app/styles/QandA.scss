@@ -1,0 +1,404 @@
+// 问题处样式
+$text-highlight: #f2e0d0;
+$qa-background: #fdf8f2;
+$qa-border: #cec6b9;
+$tab-padding-wide: 40px;
+$tab-content-padding-wide: 90px;
+$tab-padding-narrow: 30px;
+$tab-content-padding-narrow: 30px;
+$tabs-container-background: #FFF1E5;
+$qa-img-background: #33302e;
+
+@media (max-width: 690px) {
+    .o-tabs-container {
+        width: 100%;
+        border-bottom: solid 0px transparent;
+        //  padding: 0 $tab-padding-narrow;
+        padding: 0 20px 0px 30px;
+    }
+
+    .o-expander {
+        .toggle {
+            width: 100%;
+            padding: 0 $tab-content-padding-narrow;
+        }
+
+        .o-expander__toggle i {
+            right: 10px;
+        }
+
+        .o-expander__content {
+            padding: 0px;
+
+            .o-content_wrap {
+                width: 100%;
+                padding: 20px 30px;
+            }
+        }
+    }
+
+    .o-tabs {
+        display: none;
+    }
+
+    .o-tab-forms {
+        height: 80px;
+        width: 100%;
+        text-align: center;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-flex: 1;
+        -ms-flex: 1;
+        flex: 1;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+
+        select {
+            // margin-top: 10px;
+            font-size: 16px;
+            font-weight: 400;
+            border: 1px solid $qa-border;
+            width: 100%;
+            height: 50%;
+            cursor: pointer;
+            border-radius: 0px;
+            -webkit-appearance: none;
+            padding-left: 10px;
+            color: $qa-img-background;
+            background-image: url(https://www.ftacademy.cn/fticon-v1_arrow-down.svg);
+            background-position: right center;
+            background-repeat: no-repeat;
+            background-origin: border-box;
+            background-size: 28px;
+        }
+
+        option {
+            font-weight: normal;
+            display: block;
+            white-space: pre;
+            min-height: 1.2em;
+            padding: 0px 2px 1px;
+        }
+    }
+}
+
+@media only screen and (max-width: 980px) and (min-width: 691px) {
+    .o-tabs-container {
+        width: 80%;
+        border-bottom: solid 1px $qa-border;
+        padding: 0 20px;
+        // padding: 0 $tab-padding-wide;
+    }
+
+    .o-expander {
+        .toggle {
+            width: 80%;
+            padding: 0 20px;
+        }
+
+        .o-expander__toggle i {
+            right: 5px;
+        }
+
+        .o-expander__content {
+            padding: 0px $tab-padding-wide;
+
+            .o-content_wrap {
+                width: 80%;
+                padding: 20px 20px;
+            }
+        }
+    }
+
+    .o-tabs {
+        display: block;
+        border-bottom: 0 !important;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        margin: 0
+    }
+
+    .o-tab-forms {
+        display: none;
+    }
+}
+
+@media (min-width: 981px) {
+    .o-tabs-container {
+        width: 100%;
+        border-bottom: solid 1px $qa-border;
+        padding: 0 10%;
+        // padding: 0 $tab-padding-wide;
+    }
+
+    .o-expander {
+        .toggle {
+            width: 80%;
+            padding: 0 $tab-content-padding-wide;
+        }
+
+        .o-expander__toggle i {
+            right: 90px;
+        }
+
+        .o-expander__content {
+            padding: 0px $tab-padding-wide;
+
+            .o-content_wrap {
+                width: 80%;
+                padding: 20px 60px;
+            }
+        }
+    }
+
+    .o-tabs {
+        display: block;
+        border-bottom: 0 !important;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        margin: 0 90px
+    }
+
+    .o-tab-forms {
+        display: none;
+    }
+}
+
+.o-tabs-container {
+    // padding: 0 $tab-padding-wide;
+
+    margin: 0 auto;
+    background-color: $tabs-container-background;
+
+    .o-tabs {
+        // margin: 0px $tab-content-padding-wide;
+
+        li {
+            width: 33%;
+            border: solid 1px $qa-border;
+            border-top: 0 !important;
+            border-bottom: 0 !important;
+            text-align: center;
+            text-decoration: none;
+            //   font-family: MetricWeb,sans-serif;
+            //   font-weight: 600;
+            background-size: 16px 16px;
+            min-height: 28px;
+            min-width: 60px;
+            padding: 15px 0px;
+            font-size: 18px;
+            line-height: 16px;
+
+            a {
+                color: black;
+            }
+        }
+
+        li:hover {
+            background: $qa-background;
+        }
+
+        #tabContent1-label {
+
+            border-right: 0 !important;
+        }
+
+        .tabContent-label[aria-selected="true"] {
+            border-bottom: 0 solid transparent !important;
+            border-bottom-width: 0px !important;
+            background: $qa-background;
+            margin-bottom: -1px;
+        }
+
+        #tabContent2-label {
+            border-right: 0 !important;
+        }
+    }
+}
+
+.tabContent {
+    display: none;
+}
+
+#tabContent1 {
+    display: block;
+}
+
+.section-header {
+    background-color: $text-highlight;
+    height: 100px;
+    display: table;
+    width: 100%;
+    text-align: center;
+    border-top: 1px solid $qa-border;
+    border-bottom: 1px solid $qa-border;
+    width: 100%;
+    margin: 0 auto;
+
+    h2 {
+        margin-top: 0px;
+        margin-bottom: 20px;
+        color: $qa-img-background;
+        // font-size: 42px;
+        font-size: 2em;
+        font-family: MetricWeb, sans-serif;
+        font-weight: bold;
+        margin: 0;
+        line-height: 1;
+    }
+}
+
+.section-header__text {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.section {
+    background: $qa-background;
+    width: 70%;
+    margin: 0 auto;
+    padding: 0 0px;
+}
+
+#tabContentContainer {
+    a {
+        color: black;
+    }
+
+    .o-expander {
+        background: $qa-background;
+        border-bottom: 1px solid $qa-border;
+        cursor: pointer;
+        text-decoration: none;
+
+        // margin: 10px 0px;
+        .toggle {
+            margin: 0 auto;
+            clear: both;
+            position: relative;
+
+            a {
+                padding: 18px 0;
+                display: block;
+                // text-indent: 10px;
+            }
+        }
+
+        .o-expander__content {
+            // padding: 0px $tab-padding-wide;
+            background: #fff1e5;
+            overflow: hidden;
+            font-size: 15px;
+            // overflow: scroll;
+            display: block !important;
+            max-height: 0px;
+
+            .o-content_wrap {
+                // width: 80%;
+                margin: 0 auto;
+
+                // padding: 20px 60px;
+                .o-content {
+                    padding: 0px 0px 10px;
+
+                    .o-content_body {
+                        padding: 0px 0px 10px;
+                        font-family: MetricWeb !important;
+                    }
+                }
+
+                .o-buttons--small {
+                    margin: 0 10px;
+                }
+            }
+
+        }
+    }
+}
+
+@keyframes arrowRotateDown {
+    from {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+
+    to {
+        -webkit-transform: rotate(180deg);
+        transform: rotate(180deg);
+    }
+}
+
+@-webkit-keyframes arrowRotateDown {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+
+    to {
+        -webkit-transform: rotate(180deg);
+        transform: rotate(180deg);
+    }
+}
+
+@keyframes arrowRotateUp {
+    from {
+        -webkit-transform: rotate(180deg);
+        transform: rotate(180deg);
+    }
+
+    to {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+}
+
+@-webkit-keyframes arrowRotateUp {
+    0% {
+        -webkit-transform: rotate(180deg);
+        transform: rotate(180deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+}
+
+.o-expander__toggle i {
+    float: right;
+    width: 28px;
+    height: 28px;
+    background-image: url(https://www.ftacademy.cn/fticon-v1_arrow-down.svg);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: 50%;
+    background-color: transparent;
+    vertical-align: baseline;
+    padding: 0 3px;
+    vertical-align: middle;
+    position: absolute;
+    top: 15px;
+}
+
+// .o-expander__content[aria-expanded="false"] i {
+//     -webkit-animation: arrowRotateDown 0.25s 1 ease-in;
+//     animation: arrowRotateDown 0.25s  1 ease-in;
+// }
+// .o-expander__content[aria-expanded="true"] i {
+//     -webkit-animation: arrowRotateUp 0.25s ease-out;
+//     animation: arrowRotateUp 0.25s ease-out;
+// }

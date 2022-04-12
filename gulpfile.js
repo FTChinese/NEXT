@@ -189,7 +189,6 @@ gulp.task('nav', () => {
 // Compile SCSS
 gulp.task('styles', function () {
   const DEST = '.tmp/styles';
-
   return gulp.src(['app/styles/main*.scss'])
     .pipe($.changed(DEST)) 
     .pipe($.plumber()) 
@@ -197,15 +196,8 @@ gulp.task('styles', function () {
     .pipe(sass.sync({ 
       outputStyle: 'expanded',
       precision: 10,
-      includePaths: ['.', 'bower_components']
+      includePaths: ['.', 'node_modules']
     }).on('error', sass.logError))
-    // .pipe($.postcss([
-    //   cssnext({ 
-    //     features: {
-    //       colorRgba: false
-    //     }
-    //   })
-    // ]))
     .pipe($.sourcemaps.write('./'))
     .pipe(gulp.dest(DEST))
     .pipe(browserSync.stream({match: '**/**/*.css'})); 
