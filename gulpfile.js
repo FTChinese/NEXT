@@ -37,26 +37,22 @@ const lazypipe = require('lazypipe');
 const sass = require('gulp-dart-sass');
 
 const origamiModules = [
-  {
-    source: 'http://www.ft.com/__origami/service/build/v2/bundles/js?modules=o-gallery@^1.7.6',
-    dest: './app/origami/o-gallery.js'
-  },
-  {
-    source: 'http://www.ft.com/__origami/service/build/v2/bundles/css?modules=o-gallery@^1.7.6',
-    dest: './app/origami/o-gallery.css'
-  },
-  {
-    source: 'https://www.ft.com/__origami/service/build/v2/bundles/js?modules=o-ads@10.2.1',
-    dest: './app/origami/o-ads.js'
-  },
-  {
-    source: 'https://www.ft.com/__origami/service/build/v2/bundles/css?modules=o-grid@^4.5.1,o-colors@^4.8.5,o-typography@^5.10.1,o-table@^7.2.1&brand=internal',
-    dest: './app/origami/o-table.css'
-  },
-  {
-    source: 'https://www.ft.com/__origami/service/build/v2/bundles/js?modules=o-table@^7.2.1',
-    dest: './app/origami/o-table.js'
-  },
+  // {
+  //   source: 'http://www.ft.com/__origami/service/build/v2/bundles/js?modules=o-gallery@^1.7.6',
+  //   dest: './app/origami/o-gallery.js'
+  // },
+  // {
+  //   source: 'https://www.ft.com/__origami/service/build/v2/bundles/js?modules=o-ads@10.2.1',
+  //   dest: './app/origami/o-ads.js'
+  // },
+  // {
+  //   source: 'https://www.ft.com/__origami/service/build/v2/bundles/css?modules=o-grid@^4.5.1,o-colors@^4.8.5,o-typography@^5.10.1,o-table@^7.2.1&brand=internal',
+  //   dest: './app/origami/o-grid.css'
+  // },
+  // {
+  //   source: 'https://www.ft.com/__origami/service/build/v2/bundles/js?modules=o-table@^7.2.1',
+  //   dest: './app/origami/o-table.js'
+  // },
   {
     source: 'https://www.googletagservices.com/tag/js/gpt.js',
     dest: '../dev_www/frontend/static/js/gpt.js'
