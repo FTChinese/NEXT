@@ -2,7 +2,7 @@
 // MARK: User Comments
 
 var commentfolder ='/index.php/comments';
-var serverErrorMessage = '亲爱的用户，由于FT中文网服务器未能正确响应，您未能成功登录。请联系客服协助，客服添加微信公众号：小T服务在线';
+var serverErrorMessage = '亲爱的用户，由于服务器没有正确响应，您未能成功登录，请稍后再次尝试。';
 function loadcomment(storyid, theid, type) {
     var url, new_comment_prefix, common_comment_prefix, user_icon='', isvip, commentnumber, cfoption, cftype, commentsortby;
     new_comment_prefix = '/index.php/c/newcommentsbysort/';

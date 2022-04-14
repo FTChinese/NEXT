@@ -435,6 +435,9 @@ function finishTranslationForArticle() {
         if (tagEle) {
             var goodTranslatorTag = isGoodTranslator ? ',IsEdited' : '';
             window.opener.document.getElementById('tag').value += ',AITranslation' + goodTranslatorTag;
+            var tags = window.opener.document.getElementById('tag').value.split(',');
+            var tagsSet = new Set(tags);
+            window.opener.document.getElementById('tag').value = Array.from(tagsSet).join(',');
         }
         var translationHelperButton = window.opener.document.querySelector('.translation-helper');
         if (translationHelperButton) {
