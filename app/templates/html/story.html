@@ -1282,9 +1282,9 @@
 <%*<!--MARK: - Calculate audio button after language options are calculated above -->*%>
 <%assign var="audioButton" value=""%>
 <%if $story_audio != "" && $story_audio.interactive_id != ""%>
-	<%if $page_action == "en" && preg_match("/.mp3$/is",$story_audio.ai_audio_e)%>
+	<%if $page_action == "en" && preg_match("/.(mp3|m4a|wav)$/is",$story_audio.ai_audio_e)%>
 		<%assign var="audioButton" value="<a class=\"icon-right icon-action icon-audio\" href=\"/interactive/`$story_audio.interactive_id`/en\"></a>"%>
-	<%elseif preg_match("/.mp3$/is",$story_audio.ai_audio_c)%>
+	<%elseif preg_match("/.(mp3|m4a|wav)$/is",$story_audio.ai_audio_c)%>
 		<%assign var="audioButton" value="<a class=\"icon-right icon-action icon-audio\" href=\"/interactive/`$story_audio.interactive_id`\"></a>"%>
 	<%/if%>
 <%/if%>
@@ -1719,7 +1719,7 @@
 
 <%/if%>
 
-<%if preg_match("/FT研究院/is",$tag) && preg_match("/.mp3$/is",$cshortleadbody)%>
+<%if preg_match("/FT研究院/is",$tag) && preg_match("/.(mp3|m4a|wav)$/is",$cshortleadbody)%>
 	<%assign var="hasAudio" value="yes"%>
 <%/if%>
 

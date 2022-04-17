@@ -411,16 +411,16 @@
         <%/if%>
         <%if $smarty.get.webview == "ftcapp" && $itemType != "sponsorship"%>
             <%if preg_match("/双语电台/is",$itemTagsString)%>
-                <%if preg_match("/en|ce/is",$listLanguage) && preg_match("/.mp3$/is",$item.eshortleadbody)%>
+                <%if preg_match("/en|ce/is",$listLanguage) && preg_match("/.(mp3|m4a|wav)$/is",$item.eshortleadbody)%>
                     <%assign var="audioUrl" value=$item.eshortleadbody%>
                     <%assign var="itemSubType" value="bilingual_audio_english"%>
-                <%elseif preg_match("/.mp3$/is",$item.cshortleadbody)%>
+                <%elseif preg_match("/.(mp3|m4a|wav)$/is",$item.cshortleadbody)%>
                     <%assign var="audioUrl" value=$item.cshortleadbody%>
                     <%assign var="itemSubType" value="bilingual_audio_chinese"%>
                 <%/if%>
                 <%*<!--MARK: - Pass the data-language parameter to native app -->*%>
                 <%assign var="audioData" value=" data-audio=\"`$audioUrl`\""%>
-            <%elseif preg_match("/.mp3$/is",$item.shortlead) || preg_match("/.mp3$/is",$item.cshortleadbody)%>
+            <%elseif preg_match("/.(mp3|m4a|wav)$/is",$item.shortlead) || preg_match("/.(mp3|m4a|wav)$/is",$item.cshortleadbody)%>
                 <%assign var="audioUrl" value=$item.shortlead|default:$item.cshortleadbody%>
                 <%assign var="audioData" value=" data-audio=\"`$audioUrl`\""%>
             <%else%>
@@ -431,7 +431,7 @@
                     <%assign var="itemSubType" value=""%>
                 <%/if%>
             <%/if%>
-            <%if preg_match("/.mp3$/is",$item.caudio)%>
+            <%if preg_match("/.(mp3|m4a|wav)$/is",$item.caudio)%>
                 <%assign var="caudioUrl" value=$item.caudio%>
                 <%assign var="caudioData" value=" data-caudio=\"`$caudioUrl`\""%>
             <%else%>
@@ -439,10 +439,10 @@
                 <%assign var="caudioData" value=""%>
             <%/if%>
 
-            <%if preg_match("/.mp3$/is",$item.eaudio)%>
+            <%if preg_match("/.(mp3|m4a|wav)$/is",$item.eaudio)%>
                 <%assign var="eaudioUrl" value=$item.eaudio%>
                 <%assign var="eaudioData" value=" data-eaudio=\"`$eaudioUrl`\""%>
-            <%elseif preg_match("/.mp3$/is",$item.eshortleadbody)%>
+            <%elseif preg_match("/.(mp3|m4a|wav)$/is",$item.eshortleadbody)%>
                 <%assign var="eaudioUrl" value=$item.eshortleadbody%>
                 <%assign var="eaudioData" value=" data-eaudio=\"`$eaudioUrl`\""%>
             <%else%>

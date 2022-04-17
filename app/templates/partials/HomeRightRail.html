@@ -145,7 +145,7 @@
 							<%/if%>
 							<%assign var="audioData" value=""%>
 							<%if $smarty.get.webview == "ftcapp"%>
-								<%if preg_match("/.mp3$/is",$storyall[$cs].cshortleadbody)%>
+								<%if preg_match("/.(mp3|m4a|wav)$/is",$storyall[$cs].cshortleadbody)%>
 									<%assign var="audioUrl" value=$storyall[$cs].cshortleadbody%>
 									<%assign var="audioData" value=" data-audio=\"`$audioUrl`\""%>
 								<%/if%>
@@ -362,7 +362,7 @@
 								<%/if%>
 								<%assign var="audioData" value=""%>
 								<%if $smarty.get.webview == "ftcapp"%>
-									<%if preg_match("/.mp3$/is",$storyall[$cs].cshortleadbody)%>
+									<%if preg_match("/.(mp3|m4a|wav)$/is",$storyall[$cs].cshortleadbody)%>
 										<%assign var="audioUrl" value=$storyall[$cs].cshortleadbody%>
 										<%assign var="audioData" value=" data-audio=\"`$audioUrl`\""%>
 									<%/if%>
@@ -490,10 +490,10 @@
 
 							<%*<!--MARK: - Audio file urls -->*%>
 							<%if $smarty.get.webview == "ftcapp"%>
-								<%if preg_match("/.mp3$/is",$storyall[$cs].cshortleadbody)%>
+								<%if preg_match("/.(mp3|m4a|wav)$/is",$storyall[$cs].cshortleadbody)%>
 									<%assign var="audioUrl" value=$storyall[$cs].cshortleadbody%>
 									<%assign var="audioData" value=" data-audio=\"`$audioUrl`\""%>
-								<%elseif preg_match("/.mp3$/is",$storyall[$cs].eshortleadbody)%>
+								<%elseif preg_match("/.(mp3|m4a|wav)$/is",$storyall[$cs].eshortleadbody)%>
 									<%assign var="audioUrl" value=$storyall[$cs].eshortleadbody%>
 									<%assign var="audioData" value=" data-eaudio=\"`$audioUrl`\""%>
 								<%else%>
@@ -583,7 +583,7 @@
 					<%else%>
 						<%assign var="subTypeData" value=""%>
 					<%/if%>
-					<%if preg_match("/.mp3$/is",$item.cshortleadbody)%>
+					<%if preg_match("/.(mp3|m4a|wav)$/is",$item.cshortleadbody)%>
 						<%assign var="audioUrl" value=$item.cshortleadbody%>
 						<%assign var="audioData" value=" data-audio=\"`$audioUrl`\""%>
 					<%else%>
@@ -658,7 +658,7 @@
 			
 			
 								<%if $smarty.get.webview == "ftcapp"%>
-									<%if preg_match("/.mp3$/is",$storyall[$cs].cshortleadbody)%>
+									<%if preg_match("/.(mp3|m4a|wav)$/is",$storyall[$cs].cshortleadbody)%>
 										<%assign var="audioUrl" value=$storyall[$cs].cshortleadbody%>
 										<%assign var="audioData" value=" data-audio=\"`$audioUrl`\""%>
 									<%else%>
@@ -799,7 +799,7 @@
 							<%/if%>
 							<%assign var="audioData" value=""%>
 							<%if $smarty.get.webview == "ftcapp"%>
-								<%if preg_match("/.mp3$/is",$storyall[$cs].cshortleadbody)%>
+								<%if preg_match("/.(mp3|m4a|wav)$/is",$storyall[$cs].cshortleadbody)%>
 									<%assign var="audioUrl" value=$storyall[$cs].cshortleadbody%>
 									<%assign var="audioData" value=" data-audio=\"`$audioUrl`\""%>
 								<%/if%>

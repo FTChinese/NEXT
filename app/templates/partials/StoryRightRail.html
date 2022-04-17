@@ -69,7 +69,7 @@
 					<%assign var="itemLink" value="/`$itemType`/`$sc.id`"%>
 					<%if $smarty.get.webview == "ftcapp"%>
 						<%*<!--MARK: - Handle Sub Types of Themes such as Radio and Billigual -->*%>
-						<%if preg_match("/.mp3$/is",$sc.cshortleadbody)%>
+						<%if preg_match("/.(mp3|m4a|wav)$/is",$sc.cshortleadbody)%>
 							<%assign var="audioUrl" value=$sc.cshortleadbody%>
 							<%assign var="itemLink" value="ftchinese://radio/`$sc.id`?source=StoryRightRail&audio=`$audioUrl`"%>
 						<%elseif $themeSubType == "bilingual"%>
