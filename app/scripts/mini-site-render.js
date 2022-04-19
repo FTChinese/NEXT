@@ -244,7 +244,7 @@ function updateActionButtons() {
 function renderHeader() {
     var headerHTML = '';
     // MARK: - Render Logos
-    var defaultLogos = [{image: 'https://d1eeae5921l804.cloudfront.net/img/ipad_icon.png', url: '/'}];
+    var defaultLogos = [{image: 'https://d2jm9zoefzwu40.cloudfront.net/img/ipad_icon.png', url: '/'}];
     var logos = pageInfo.logos || defaultLogos;
     var logosHTML = '';
     for (var j=0; j<logos.length; j++) {

@@ -1,5 +1,5 @@
 (function(){
-	var ftOrigamiUrl = 'https://d1eeae5921l804.cloudfront.net/n/o-ads.js';
+	var ftOrigamiUrl = 'https://d2jm9zoefzwu40.cloudfront.net/n/o-ads.js';
 	var adCodeLoaded = false;
 	function getPolyfillCode() {
 		var isIE = /*@cc_on!@*/false || !!document.documentMode;

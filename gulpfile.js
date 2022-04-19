@@ -70,7 +70,7 @@ gulp.task('origami', () => {
         .then(response => {
           var body = response.body;
           if (module.source.indexOf('o-ads') >= 0) {
-            body = body.replace(/www\.googletagservices\.com\/tag\/js\/gpt\.js/g, 'd1eeae5921l804.cloudfront.net/js/gpt.js');
+            body = body.replace(/www\.googletagservices\.com\/tag\/js\/gpt\.js/g, 'd2jm9zoefzwu40.cloudfront.net/js/gpt.js');
           }
           return {
             dest: module.dest,

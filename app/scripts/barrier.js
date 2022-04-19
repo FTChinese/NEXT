@@ -126,7 +126,7 @@ function abTest() {
 	var link  = document.createElement('link');
 	link.rel  = 'stylesheet';
 	link.type = 'text/css';
-	link.href = (/localhost|127\.0|192\.168/.test(window.location.href)) ? 'styles/main-barrier.css': 'https://d1eeae5921l804.cloudfront.net/n/main-barrier.css?'+cssVersionNumber;
+	link.href = (/localhost|127\.0|192\.168/.test(window.location.href)) ? 'styles/main-barrier.css': 'https://d2jm9zoefzwu40.cloudfront.net/n/main-barrier.css?'+cssVersionNumber;
 	head.appendChild(link);
 	link.onload = function () {
 		barrierElt.style.display = 'block';
