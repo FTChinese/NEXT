@@ -1,6 +1,5 @@
 (function(){
 	var ftOrigamiUrl = 'https://d2jm9zoefzwu40.cloudfront.net/n/o-ads.js';
-	var adCodeLoaded = false;
 	function getPolyfillCode() {
 		var isIE = /*@cc_on!@*/false || !!document.documentMode;
 		if (isIE) {
@@ -33,7 +32,7 @@
 		return '';
 	}
 	function loadAdCode(src) {
-		if (adCodeLoaded) {
+		if (window.adCodeLoaded === true) {
 			return;
 		}
 	    var sc = document.createElement('script');
@@ -41,7 +40,7 @@
 	    sc.async = 1;
 	    var s = document.getElementsByTagName('script')[0];
 	    s.parentNode.insertBefore(sc, s);
-	    adCodeLoaded = true;
+	    window.adCodeLoaded = true;
 	}
 	function loadAdCodesAll() {
 		loadAdCode(ftOrigamiUrl);
