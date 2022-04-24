@@ -9,7 +9,7 @@
 			<div class="no-image"">
 				<div class="item-inner">
 					<div class="item-lead">
-						<form onsubmit="return applyEvent(this)" class="event-application" data-event-id="<%$list.EventId%>" data-description="<%$list.description%>" data-subscription-type="<%$list.subscriptionType%>" data-success-note="<%$list.SuccessNote%>" data-hide-form-info="<%$list.HideFormInfo%>" data-event-paticipants="<%$list.Tickets%>">
+						<form onsubmit="return applyEvent(this)" class="event-application" data-event-id="<%$list.EventId%>" data-description="<%$list.description%>" data-subscription-type="<%$list.subscriptionType%>" data-success-note="<%$list.SuccessNote%>" data-hide-form-info="<%$list.HideFormInfo%>" data-event-paticipants="<%$list.Tickets%>" data-form-purpose="<%$list.FormPurpose%>" data-button-title="<%$list.ButtonTitle%>">
 							正在获取相关信息...
 						</form>
 					</div>
@@ -44,7 +44,7 @@ function getEventApplicationForm() {
             for (var i=0; i<formInfo.length; i++) {
                 formHTML += renderItem(formInfo[i], j);
             }
-            if (j===0) {
+            if (j===0 && formPurpose !== '2B') {
                 formHTML += renderItem(formMultiplier, j);
             }
             formHTML += '</div>';
@@ -105,6 +105,8 @@ function getEventApplicationForm() {
         }
     };
     var formEle = document.querySelector('.event-application');
+    var formPurpose = formEle.getAttribute('data-form-purpose');
+    var buttonTitle = formEle.getAttribute('data-button-title') || '报名';
     var userId = GetCookie('USER_ID');
     if (userId === null || userId === undefined) {
         var linkBehavior = (isOnNativeApp) ? ' href="screen://myft/account"' : ' onclick="showOverlay(\'overlay-login\')"';
@@ -128,13 +130,23 @@ function getEventApplicationForm() {
                 {id: 'title', title: '职务', default: data.title || '', type: 'select'},
                 {id: 'company', title: '公司', default: data.company || ''}
             ];
+            if (formPurpose === '2B') {
+                formInfo = [
+                    {id: 'lastName', title: '姓', default: data.lastName || '', require: true},
+                    {id: 'firstName', title: '名', default: data.firstName || '', require: true},
+                    {id: 'company', title: '公司名称', default: data.company || ''},
+                    {id: 'title', title: '公司职务', default: data.title || '', type: 'select'},
+                    {id: 'email', title: '邮箱', default: data.email || '', type: 'email', require: true},
+                    {id: 'mobile', title: '联系电话', default: data.mobile || '', type: 'tel', require: true}
+                ];
+            }
             var description = formEle.getAttribute('data-description') || '';
             var eventId = formEle.getAttribute('data-event-id') || '';
             var formHTML = '';
             formHTML += '<p>' + description + '</p>';
             formHTML += '<input type="hidden" class="input-oneline" id="eventId" value="' + eventId + '">';
             formHTML += renderForm(formInfo);
-            formHTML += '<div style="margin: 0;" class="login-btn input-submit-container center"><input class="ui-light-btn" type="submit" value="报名" style="-webkit-appearance: none;"></div>';
+            formHTML += '<div style="margin: 0;" class="login-btn input-submit-container center"><input class="ui-light-btn" type="submit" value="' + buttonTitle + '" style="-webkit-appearance: none;"></div>';
             formHTML += '<div style="margin: 0" id="form-application-status"></div>';
             formHTML = '<div style="max-width: 450px;margin: auto;">' + formHTML + '</div>';
             formEle.innerHTML = formHTML;

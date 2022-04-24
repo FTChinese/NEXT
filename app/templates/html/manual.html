@@ -143,10 +143,10 @@
     <%/if%>
     <%*<!--MARK: Show FT Academy on top during public holidays and weekends-->*%>
     <%assign var="isPublicHoliday" value="no"%>
-    <%if $hasPublishedNewCoverStory == "yes" || date("Ymd", $smarty.now) == 20220402%>
+    <%if $hasPublishedNewCoverStory == "yes" || date("Ymd", $smarty.now) == 20220424 || date("Ymd", $smarty.now) == 20220507%>
         <%*<!--MARK: When weekend days are working days in China because of long public holidays exchanges such as Chinese new year, National day, etc... -->*%>
         <%assign var="isPublicHoliday" value="no"%>
-    <%elseif date("Ymd", $smarty.now) >= 20220403 && date("Ymd", $smarty.now) <= 20220405%>
+    <%elseif date("Ymd", $smarty.now) >= 20220430 && date("Ymd", $smarty.now) <= 20220504%>
         <%assign var="isPublicHoliday" value="yes"%>
     <%elseif date("w", $smarty.now) == 0 || date("w", $smarty.now) == 6%>
         <%assign var="isPublicHoliday" value="yes"%>

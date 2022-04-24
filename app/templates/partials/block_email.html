@@ -87,6 +87,9 @@
     <%elseif $list.feedType == "hot"%>
         <%assign var="itemsArray" value=$storymodel->get_hot_story(7,40,true)%>
         <%assign var="feedType" value=$list.feedType%>
+    <%elseif $list.feedType == "HotFTAcademy" || $list.feedType == "HotContentByPageViews" || $list.feedType == "HotPaidContent"%>
+        <%assign var="feedType" value=$list.feedType%>
+        <%assign var="itemsArray" value=$interactivemodel->get_ranking_by_type($feedType, $feedStart, $feedItems)%>
     <%elseif $list.feedType == "myFTNew"%>
         <%assign var="feedType" value=$list.feedType%>
         <%assign var="itemsArray" value=$storymodel->get_content_by_field_search('1>0',$feedStart,$feedItems,999999999,10800)%>
