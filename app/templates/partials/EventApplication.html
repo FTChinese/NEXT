@@ -9,7 +9,7 @@
 			<div class="no-image"">
 				<div class="item-inner">
 					<div class="item-lead">
-						<form onsubmit="return applyEvent(this)" class="event-application" data-event-id="<%$list.EventId%>" data-description="<%$list.description%>" data-subscription-type="<%$list.subscriptionType%>" data-success-note="<%$list.SuccessNote%>" data-hide-form-info="<%$list.HideFormInfo%>" data-event-paticipants="<%$list.Tickets%>" data-form-purpose="<%$list.FormPurpose%>" data-button-title="<%$list.ButtonTitle%>">
+						<form onsubmit="return applyEvent(this)" class="event-application" data-event-id="<%$list.EventId%>" data-description="<%$list.description%>" data-subscription-type="<%$list.subscriptionType%>" data-success-note="<%$list.SuccessNote%>" data-hide-form-info="<%$list.HideFormInfo%>" data-event-paticipants="<%$list.Tickets%>" data-form-purpose="<%$list.FormPurpose%>" data-button-title="<%$list.ButtonTitle%>" data-emails="<%$list.emails|replace:"@ftchinese.com":"@ftc"|replace:"@ft.com":"@ft"%>">
 							正在获取相关信息...
 						</form>
 					</div>
@@ -28,6 +28,7 @@
 var isSubmitting = false;
 var eventInfoGroupKey = 'event-info-group';
 var isOnNativeApp = (window.location.href.indexOf('webview=ftcapp') >= 0) ? true : false;
+var formPurpose;
 
 function getEventApplicationForm() {
     function renderForm(formInfo) {
@@ -105,7 +106,7 @@ function getEventApplicationForm() {
         }
     };
     var formEle = document.querySelector('.event-application');
-    var formPurpose = formEle.getAttribute('data-form-purpose');
+    formPurpose = formEle.getAttribute('data-form-purpose');
     var buttonTitle = formEle.getAttribute('data-button-title') || '报名';
     var userId = GetCookie('USER_ID');
     if (userId === null || userId === undefined) {
@@ -134,17 +135,19 @@ function getEventApplicationForm() {
                 formInfo = [
                     {id: 'lastName', title: '姓', default: data.lastName || '', require: true},
                     {id: 'firstName', title: '名', default: data.firstName || '', require: true},
-                    {id: 'company', title: '公司名称', default: data.company || ''},
-                    {id: 'title', title: '公司职务', default: data.title || '', type: 'select'},
+                    {id: 'company', title: '公司名称', default: data.company || '', require: true},
+                    {id: 'title', title: '公司职务', default: data.title || '', type: 'select', require: true},
                     {id: 'email', title: '邮箱', default: data.email || '', type: 'email', require: true},
                     {id: 'mobile', title: '联系电话', default: data.mobile || '', type: 'tel', require: true}
                 ];
             }
             var description = formEle.getAttribute('data-description') || '';
             var eventId = formEle.getAttribute('data-event-id') || '';
+            var emails = formEle.getAttribute('data-emails') || '';
             var formHTML = '';
             formHTML += '<p>' + description + '</p>';
             formHTML += '<input type="hidden" class="input-oneline" id="eventId" value="' + eventId + '">';
+            formHTML += '<input type="hidden" class="input-oneline" id="emails" value="' + emails + '">';
             formHTML += renderForm(formInfo);
             formHTML += '<div style="margin: 0;" class="login-btn input-submit-container center"><input class="ui-light-btn" type="submit" value="' + buttonTitle + '" style="-webkit-appearance: none;"></div>';
             formHTML += '<div style="margin: 0" id="form-application-status"></div>';
@@ -198,7 +201,8 @@ function applyEvent(ele) {
     statusEle.innerHTML = '正在提交中...';
     isSubmitting = true;
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/index.php/user/signup', true);
+    var formDest = (formPurpose === '2B') ? 'collect' : 'signup';
+    xhr.open('POST', '/index.php/user/' + formDest, true);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onload = function() {
         if (xhr.status === 200) {
@@ -226,9 +230,11 @@ function applyEvent(ele) {
     for (var i=0; i<inputs.length; i++) {
         var id = inputs[i].id;
         var value = inputs[i].value;
-        var n = i + 1; 
-        var mod = 'mod' + n;
-        eventInfo[mod] = value;
+        if (formDest === 'signup') {
+            var n = i + 1; 
+            var mod = 'mod' + n;
+            eventInfo[mod] = value;
+        }
         // MARK: - update user info
         if (/\-[0-9]+$/.test(id) === false) {
             eventInfo[id] = value;
