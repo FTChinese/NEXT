@@ -591,9 +591,9 @@ function binding(from) {
 }
 
 function getCapchaForPhoneLogin() {
-    var status = document.getElementById('phone-login-status');
+    var statusEle = document.getElementById('phone-login-status');
     var phone = document.getElementById('phone-number').value;
-    status.innerHTML = '发送信息中，请注意查看短信...';
+    statusEle.innerHTML = '发送信息中，请注意查看短信...';
     phoneLoginStatus = phoneLoginStatusDict.sendingVerification;
     var xhr = new XMLHttpRequest();
     xhr.open('POST', '/users/login/captcha');
@@ -603,20 +603,23 @@ function getCapchaForPhoneLogin() {
             var result = JSON.parse(xhr.responseText);
             if (!result.status || result.status !== 'success') {
                 var errorMessage = result.errmsg || '出现未知错误，但服务器返回的信息不包含错误详情(errmsg)，如多次出现这种情况，请截屏给客服';
-                status.innerHTML = '服务器返回错误信息，请您重试一次：' + errorMessage;
+                statusEle.innerHTML = '服务器返回错误信息，请您重试一次：' + errorMessage;
                 phoneLoginStatus = phoneLoginStatusDict.start;
             }
-            status.innerHTML = '验证码已经成功发送，请注意检查您的短信，在5分钟内完成登录';
+            statusEle.innerHTML = '验证码已经成功发送，请注意检查您的短信，在5分钟内完成登录';
             document.getElementById('phone-captcha').style.display = 'block';
             document.getElementById('phone-login-submit-button').value = '登录';
             phoneLoginStatus = phoneLoginStatusDict.login;
          } else {
-            status.innerHTML = '服务器返回错误代码：' + xhr.status + '，请重新尝试';
+            statusEle.innerHTML = '服务器返回错误代码：' + xhr.status + '，请重新尝试';
             phoneLoginStatus = phoneLoginStatusDict.start;
         }
     };
     xhr.onerror = function(err) {
-        status.innerHTML = err.toString();
+        var isTypeError = typeof err === 'object' && err.type === 'error';
+        var errInfo = '您现在无法连接登录的服务器，请稍后尝试，如果此情况多次出现，请求助我们的客服。'
+        errInfo += isTypeError ? '' : '错误详情：' + err.toString(); 
+        statusEle.innerHTML = errInfo;
     };
     xhr.send(JSON.stringify({
         mobile_phone_no: phone
