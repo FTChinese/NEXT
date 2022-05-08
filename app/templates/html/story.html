@@ -1651,7 +1651,7 @@
         <%foreach item=body from=$storyce%>
         <%assign var="story_content" value="`$story_content`<div class=leftp>`$body.l`</div><div class=rightp>`$body.r`</div><div class=clearfloat></div>"%>
         <%/foreach%>
-		<%assign var="storyHeadline" value=$eheadline|default:$cheadline%>
+		<%assign var="storyHeadline" value="`$eheadline`<br>`$cheadline`"%>
 		<%if $cauthor != ""%>
 			<%assign var="storyAuthor" value="`$cbyline_description` `$cauthor`"%>
 		<%else%>

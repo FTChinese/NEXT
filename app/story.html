@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="no-js core full-grid-story" data-next-app="front-page">
+<html class="no-js core" data-next-app="front-page">
  <head>
  <meta charset="utf-8" />
  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -298,616 +298,568 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 
     
  </head>
- <body>
+ <body class="ce">
     <script>var gUaOfPage = navigator.userAgent || navigator.vendor || "";</script><script>checkB();</script>
-<div id="promo-box-container">
-<style>
-.noneSubscriber.subscription-promo-container {
-background-color: #88233f;
-}
-.noneSubscriber .subscription-promo-text {
-background-color: #282c32;
-border-color: #282c32;
-}
-.noneSubscriber .subscription-promo-text {
-color: #ffffff;
-}
-.noneSubscriber .subscription-promo-box {
-background-image: url(https://thumbor.ftacademy.cn/unsafe/picture/9/000111019_piclink.png);
-}
-@media only screen and (max-width: 490px) {
-.noneSubscriber .subscription-promo-box {
-background-image: url(https://thumbor.ftacademy.cn/unsafe/picture/3/000111023_piclink.png);
-}
-}
-</style>
-<div class="subscription-promo-container show-image-in-mobile noneSubscriber">
-<div class="subscription-promo-inner">
-<a  href="https://www.ftacademy.cn/subscription.html?ccode=2CAcquisitionWebPBoxNon" class="subscription-promo-box n-internal-promo" data-promo-target="noneSubscriber" data-promo-id="2CAcquisitionWebPBoxNon" data-promo-name="仅0.8元/天 立即订阅" data-promo-creative="https://thumbor.ftacademy.cn/unsafe/picture/9/000111019_piclink.png" data-promo-position="promoBox">
-<div class="subscription-promo-text">仅0.8元/天 立即订阅</div>
-</a>
-</div>
-</div>
-<script type="text/javascript">
-window.userId = GetCookie('USER_ID') || '';
-if (window.userId === '') {
-gtag('event', 'Display', {'event_label': '2CAcquisitionWebPBoxNon', 'event_category': 'PromoBox', 'non_interaction': true});
-}
-</script>
-</div>
-<script type="text/javascript">
-function addUserId(ele) {
-if (ele === null) {
-return;
-}
-var userId;
-if (typeof GetCookie === 'function') {
-userId = GetCookie('USER_ID');
-} else {
-userId = getCookie('USER_ID');
-}
-if (userId && typeof userId === 'string' && userId !== '') {
-var link = ele.href;
-var connector = (link.indexOf('?') >= 0) ? '&' : '?';
-ele.href = link + connector + 'u=' + userId;
-}
-}
-var premiumLink = document.querySelector('[data-promo-target=premium]');
-addUserId(premiumLink);
-</script>
-<header class="header-container">
-<div class="header-inner">
-<div class="masthead"></div>
-<div class="header-side header-left expandable">
-<div class="current-edition">
-<span>简体中文</span>
-<a href="http://big5.ftchinese.com/interactive/59359?exclusive">繁体中文</a>
-<a href="http://www.ft.com/">FT.com</a>
-</div>
-</div>
-<div class="header-side header-right">
-<span class="visitor-box">
-<a onclick="showOverlay('overlay-login')">登录</a>
-<a class="more last" href="http://user.ftchinese.com/register">注册</a>
-</span>
-<span class="member-box">
-<a href="/channel/myftlocal.html">我的FT</a>
-<a id="ft-login-your-account" href="/users/cp">设置</a>
-<a id="ft-login-logout" href="/users/logout">登出</a>
-</span>
-</div>
-</div>
-</header>
-<div class="overlay-container" id="overlay-login">
-<div class="overlay-inner">
-<div class="overlay-bg" data-parentid="overlay-login"></div>
-<div class="overlay-content-outer">
-<div class="overlay-content-inner">
-<div class="overlay-content">
-<div class="overlay-title">登录<i class="overlay-close" data-parentid="overlay-login">×</i></div>
-<form method="post" action="/users/login" id="overlay-login-form">
-<span id="overlay-login-container">
-<div class="input-title" id="login-reason"></div>
-<div class="input-title">电子邮件/用户名</div>
-<div class="input-container"><input type="text" class="input-oneline" name="username" id="ft-login-input-username"></div>
-<div class="input-title">密码</div>
-<div class="input-container"><input type="password" class="input-oneline" name="password"></div>
-<div><input type="checkbox" class="checkbox" value="1" checked="checked" name="saveme" id="ft-login-input-remember">记住我</div>
-<div class="login-btn input-submit-container center"><input class="" type="submit" value="登录"></div>
-<div class="center register-find"><a href="https://user.ftchinese.com/register" class="blue-link">免费注册</a><span></span><a href="https://profile.ftchinese.com/users/findpassword" class="blue-link">找回密码</a></div>
-<div class="phone-login-container" id="phone-login-trigger">
-<div class="center phone-login"><a onclick="showPhoneLogin()" class="blue-link">短信登录</a></div>
-</div>
-<div class="wx-login-container">
-<div class="center wx-login"><a href="https://www.ftacademy.cn/wxlogin" class="blue-link">微信登录</a></div>
-</div>
-</span>
-</form>
-<span id="phone-ftc-binding-container">
-<div>请输入邮箱和密码进行绑定操作：</div>
-<div><input placeholder="请输入邮箱" type="email" autocorrect="off" id="phone-binding-email" class="input-oneline"/></div>
-<div><input placeholder="请输入密码" type="password" class="input-oneline" id="phone-binding-password"/></div>
-<div class="topmargin statusmsg" id="phone-binding-status"></div>
-<div><input type="button" value="绑定" class="n-button-inner" onclick="binding('phone')"/></div>
-</span>
-<span id="phone-login-container">
-<div class="user-name-container">请输入手机号码，通过短信验证（目前仅支持中国大陆地区的手机号）：</div>
-<div><input onkeyup="resetPhoneLogin()" placeholder="请输入中国大陆的手机号码" type="tel" autocorrect="off" name="phone" id="phone-number" class="input-oneline"/></div>
-<div><input placeholder="请输入验证码"  pattern="\d*" maxlength="6" name="phonecapcha"  class="input-oneline" id="phone-captcha"/></div>
-<div class="topmargin statusmsg" id="phone-login-status"></div>
-<div>请您阅读我们的<a class="agreeDetail" href="/m/corp/service.html" target="_blank">用户注册协议</a>和<a class="agreeDetail" href="/m/corp/service.html#privacy" target="_blank">隐私权保护政策</a>，点击下方按钮即视为您接受。</div>
-<div><input id="phone-login-submit-button" type="button" value="获取验证码" class="n-button-inner" onclick="phoneLogin()"/></div>
-</span>
-</div>
-</div>
-</div>
-</div>
-</div><div class="o-nav__placeholder">
-<div class="o-nav">
-<div class="o-nav__outer">
-<div class="o-nav__inner">
-<div class="o-nav__search"  data-o-component="o-toggler">
-<button class="o-nav__search-toggle" data-o-toggler-button aria-controls="search-form">
-<span class="search-toggle--open">搜索</span>
-<span class="search-toggle--close">关闭</span>
-</button>
-<form action="/search/" id="search-form" role="search" data-o-toggler-target>
-<input id="search-term" type="search" name="keys" class="search-input" placeholder="输入年月日‘xxxx-xx-xx’可搜索该日存档" />
-<input id="type_news" type="hidden" value="type_news" name="ftsearchType" checked />
-<button class="search-button" tabindex="1"><span>搜索</span></button>
-</form>
-</div>
-<div class="o-header__masthead-mobile">
-<a href="/" title="前往FT中文网首页"><span>FT中文网</span></a>
-</div>
-<nav class="o-nav__container" role="navigation">
-<button class="nav-toggle" data-o-nav-togglable><span>Menu</span></button>
-<ol class="o-nav__meganav">
-<li class="nav-section mobile">
-<button class="nav-section-head mobile" aria-selected="true">切换版本</button>
-<ol class="nav-items">
-<li class="nav-item">
-<a class="nav-link" href="http://big5.ftchinese.com/">繁体中文版</a>
-</li>
-<li class="nav-item">
-<a class="nav-link" href="http://www.ft.com/">FT.com</a>
-</li>
-</ol>
-</li>
-<li class="nav-section home "
- data-section="home"
->
-<button class="nav-section-head mobile">首页</button>
-<a class="nav-section-head desktop" href="/">首页</a>
-</li>
-<li class="nav-section china "
- data-section="china"
->
-<button class="nav-section-head mobile">中国</button>
-<a class="nav-section-head desktop" href="/channel/china.html">中国</a>
-</li>
-<li class="nav-section world "
- data-section="world"
->
-<button class="nav-section-head mobile">全球</button>
-<a class="nav-section-head desktop" href="/channel/world.html">全球</a>
-</li>
-<li class="nav-section economy "
- data-section="economy"
->
-<button class="nav-section-head mobile">经济</button>
-<a class="nav-section-head desktop" href="/channel/economy.html">经济</a>
-</li>
-<li class="nav-section markets "
- data-section="markets"
->
-<button class="nav-section-head mobile">金融市场</button>
-<a class="nav-section-head desktop" href="/channel/markets.html">金融市场</a>
-</li>
-<li class="nav-section business "
- data-section="business"
->
-<button class="nav-section-head mobile">商业</button>
-<a class="nav-section-head desktop" href="/channel/business.html">商业</a>
-</li>
-<li class="nav-section innovation "
- data-section="innovation"
->
-<button class="nav-section-head mobile">创新经济</button>
-<a class="nav-section-head desktop" href="/channel/innovation.html">创新经济</a>
-</li>
-<li class="nav-section education "
- data-section="education"
->
-<button class="nav-section-head mobile">教育</button>
-<a class="nav-section-head desktop" href="/channel/education.html?newnav=yes">教育</a>
-</li>
-<li class="nav-section opinion "
- data-section="opinion"
->
-<button class="nav-section-head mobile">观点</button>
-<a class="nav-section-head desktop" href="/channel/opinion.html">观点</a>
-</li>
-<li class="nav-section management "
- aria-selected="true" data-section="management"
->
-<button class="nav-section-head mobile">管理</button>
-<a class="nav-section-head desktop" href="/channel/management.html">管理</a>
-<ol class="nav-items">
-<li class="nav-item mobile">
-<a class="nav-link" href="/channel/management.html">
-频道首页
-</a>
-</li>
-<li class="nav-item" aria-selected="true" data-channel="mba">
-<a class="nav-link" href="/channel/mba.html">FT商学院</a>
-</li>
-<li class="nav-item"  data-channel="career">
-<a class="nav-link" href="/channel/career.html">职场</a>
-</li>
-<li class="nav-item"  data-channel="leadership">
-<a class="nav-link" href="/channel/leadership.html">领导力</a>
-</li>
-<li class="nav-item"  data-channel="wealth">
-<a class="nav-link" href="/tag/%E8%B4%A2%E5%AF%8C%E7%AE%A1%E7%90%86">财富管理</a>
-</li>
-<li class="nav-item"  data-channel="people">
-<a class="nav-link" href="/channel/people.html">人物</a>
-</li>
-</ol>
-</li>
-<li class="nav-section lifestyle "
- data-section="lifestyle"
->
-<button class="nav-section-head mobile">生活时尚</button>
-<a class="nav-section-head desktop" href="/channel/lifestyle.html">生活时尚</a>
-</li>
-<li class="nav-section stream "
- data-section="stream"
->
-<button class="nav-section-head mobile">视频</button>
-<a class="nav-section-head desktop" href="/channel/stream.html">视频</a>
-</li>
-<li class="nav-section audio "
- data-section="audio"
->
-<button class="nav-section-head mobile">音频</button>
-<a class="nav-section-head desktop" href="/channel/audio.html">音频</a>
-</li>
-<li class="nav-section english "
- data-section="english"
->
-<button class="nav-section-head mobile">每日英语</button>
-<a class="nav-section-head desktop" href="/channel/english.html">每日英语</a>
-</li>
-<li class="nav-section rewired "
- data-section="rewired"
->
-<button class="nav-section-head mobile">换脑ReWired</button>
-<a class="nav-section-head desktop" href="/channel/rewired.html">换脑ReWired</a>
-</li>
-<li class="nav-section mobile login">
-<ul>
-<li class="nav-item">
-<a class="nav-link" href="http://user.ftchinese.com/login">登录</a>
-</li>
-<li class="nav-item">
-<a class="nav-link" href="http://user.ftchinese.com/register">免费注册</a>
-</li>
-</ul>
-</li>
-<li class="nav-section mobile logout">
-<ul>
-<li class="nav-item">
-<a class="nav-link" href="/channel/myftlocal.html">我的FT</a>
-</li>
-<li class="nav-item">
-<a class="nav-link" href="/users/setting/vip">会员中心</a>
-</li>
-<li class="nav-item">
-<a class="nav-link" href="/users/setting/index">设置</a>
-</li>
-<li class="nav-item">
-<a class="nav-link" href="/users/logout">登出</a>
-</li>
-</ul>
-</li>
-</ol>
-</nav>
-<ul class="o-nav__extra-tools">
-<li class="tools-section" aria-haspopup="true">
-<a class="tools-section-head" href="http://www.ftchinese.com/m/corp/follow.html">关注我们</a>
-<ol class="tools-items">
-<li><a href="http://www.ftchinese.com/m/corp/follow.html" target="_blank">微信公众号</a></li>
-<li><a href="http://weibo.com/ftchinese" target="_blank">新浪微博</a></li>
-<li><a href="http://www.ftchinese.com/m/corp/follow.html" target="_blank">Flipboard</a></li>
-<li><a href="https://twitter.com/FTChinese" target="_blank">Twitter</a></li>
-<li><a href="https://www.facebook.com/financialtimeschinese" target="_blank">Facebook</a></li>
-<li><a href="https://www.linkedin.com/company/4865254?trk=hp-feed-company-name" target="_blank">LinkedIn</a></li>
-</ol>
-</li>
-<li class="tools-section" aria-haspopup="true">
-<span class="tools-section-head">工具</span>
-<ol class="tools-items">
-<li><a href="http://app.ftchinese.com/" class="o-client-id-link">移动应用大全</a></li>
-<li><a href="/users/setting/index">基本设置</a></li>
-<li><a href="/users/setting/vip">会员中心</a></li>
-<li><a href="/users/setting/changeicon">修改头像</a></li>
-<li><a href="/users/setting/maillist">邮件订阅</a></li>
-<li><a href="/index.php/snsapi/index">同步微博</a></li>
-<li><a href="/users/commentstory">我的评论</a></li>
-<li><a href="/users/favstorylist">管理收藏</a></li>
-</ol>
-</li>
-<li class="tools-section">
-<a class="tools-section-head follow__rss" href="/channel/rss.html" title="RSS"><span>RSS</span></a>
-</li>
-</ul>
-</div><!-- o-nav__inner -->
-</div><!-- o-nav__outer -->
-<div class="o-nav__meganav-placeholder"></div>
-</div><!-- o-nav -->
-</div>
-<div class="block-container has-side story-page"><div class="block-inner">
-<div class="content-container"><div class="content-inner">
-<div class="story-container">
-<div class="story-topper">
-<div class="story-theme"><a href="/channel/mba.html">FT商学院</a><button class="myft-follow plus" data-tag="FT商学院" data-type="tag">关注</button></div>
-<h1 class="story-headline story-headline-large">《尤利西斯》是20世纪最伟大的小说吗？</h1>
-<div class="story-lead">在过去的100年里，《尤利西斯》的重要性与日俱增，它多次被宣布为20世纪最伟大的小说之一，甚至有不少人认为应该把“之一”去掉。</div>
-<div class=" story-image image"><figure data-url=https://thumbor.ftacademy.cn/unsafe/picture/2/000135292_piclink.jpg class="loading"></figure></div>
-</div>
-<div class="story-tools">
-<div class="story-action-placeholder" id="story-action-placeholder">
-<div class="story-action">
-<div class="action-inner">
-<a class="action-icon icon-wechat P-hide" href="/m/corp/qrshare.html?url=http%3A%2F%2Fwww.ftchinese.com%2Finteractive%2F59359%3Ffull%3Dy%26gift_id%3D0733fa7b2e674c0fa8c3d813af132c24e02c3766&title=" target="_blank"></a>
-<a class="action-icon icon-weibo P-hide" href="http://service.weibo.com/share/share.php?appkey=4221537403&url=http%3A%2F%2Fwww.ftchinese.com%2Finteractive%2F59359%3Ffull%3Dy%26gift_id%3D0733fa7b2e674c0fa8c3d813af132c24e02c3766%26ccode%3D2G169001&title=【《尤利西斯》是20世纪最伟大的小说吗？】在过去的100年里，《尤利西斯》的重要性与日俱增，它多次被宣布为20世纪最伟大的小说之一，甚至有不少人认为应该把“之一”去掉。（分享自 @FT中文网）&ralateUid=1698233740&source=&sourceUrl=&content=utf-8&pic=https://thumbor.ftacademy.cn/unsafe/picture/2/000135292_piclink.jpg&searchPic=false" target="_blank"></a>
-<a class="action-icon icon-linkedin P-hide" href="https://www.linkedin.com/cws/share?url=http%3A%2F%2Fwww.ftchinese.com%2Finteractive%2F59359%3Ffull%3Dy%26gift_id%3D0733fa7b2e674c0fa8c3d813af132c24e02c3766%26ccode%3D2G169003&original_referer=https%3A%2F%2Fdeveloper.linkedin.com%2Fsites%2Fall%2Fthemes%2Fdlc%2Fsandbox.php%3F&token=&isFramed=true&lang=zh_CN&_ts=1422502780259.2795" target="_blank"></a>
-<a class="action-icon icon-twitter P-hide" href="http://twitter.com/home?status=【《尤利西斯》是20世纪最伟大的小说吗？】在过去的100年里，《尤利西斯》的重要性与日俱增，它多次被宣布为20世纪最伟大的小说之一，甚至有不少人认为应该把“之一”去掉。（分享自 @FT中文网）...%20http%3A%2F%2Fwww.ftchinese.com%2Finteractive%2F59359%3Ffull%3Dy%26gift_id%3D0733fa7b2e674c0fa8c3d813af132c24e02c3766" target="_blank"></a>
-<a class="action-icon icon-facebook P-hide" href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.ftchinese.com%2Finteractive%2F59359%3Ffull%3Dy%26gift_id%3D0733fa7b2e674c0fa8c3d813af132c24e02c3766&t=【《尤利西斯》是20世纪最伟大的小说吗？】在过去的100年里，《尤利西斯》的重要性与日俱增，它多次被宣布为20世纪最伟大的小说之一，甚至有不少人认为应该把“之一”去掉。（分享自 @FT中文网）" target="_blank"></a>
-<a class="icon-right icon-ch" href="/interactive/59359/en"><button>英文</button></a><a class="icon-right icon-ch" href="/interactive/59359/ce"><button>对照</button></a>
-
-<a class="icon-right icon-action icon-font-size" onclick="showOverlay('font-setting')"></a>
-<a class="icon-right icon-action icon-audio" href="/interactive/59394"></a>
-<div class="progress-container">
-<svg
-class="progress-ring"
-height="40"
-width="40"
->
-<circle
-class="progress-ring__circle"
-stroke-width="2"
-stroke="transparent"
-r="18"
-cx="20"
-cy="20"
-/>
-</svg>
-<svg class="pregress-tick" width="24" height="24" viewBox="0 0 24 24">
-<path fill="none" d="M0 0h24v24H0z"/><path class="progress-tick-path" fill="transparent" d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
-</svg>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="story-byline">
-<span class="story-time" data-time="1642730889" pub-date="1642694400">更新于2022年1月21日 10:08</span>
-<span class="story-author"> 科尔姆·托宾</span>
-</div>
-<div class="story-body">
-
-
-<div id="story-body-container">
-<div class="print-only">来自FT中文网的温馨提示：如您对FT中文网的内容感兴趣，请在苹果应用商店或华为应用市场搜索“FT中文网”，下载FT中文网的官方应用，付费订阅。祝您使用愉快！</div>    
-
-
-<p>1922年，就在英国人将都柏林城堡的钥匙交给迈克尔·柯林斯(Michael Collins)和他的爱尔兰新政府两周后，詹姆斯·乔伊斯(James Joyce)的《尤利西斯》(Ulysses)首次出版。那一年另一件伟大的文学事件是艾略特(TS Eliot)的《荒原》(The Waste Land)。</p>
-<p>乔伊斯的小说与艾略特的长诗有很多相似之处——它通过相互竞争的叙事形式，包括模仿、神话和不同的声音，来描写城市生活的原始。从某种程度上，《荒原》为叙事诗敲响了丧钟，正如尤利西斯开始扼杀单一视角、无所不知的作者声音——为从弗吉尼亚·伍尔夫(Virginia Woolf)到塞缪尔·贝克特(Samuel Beckett)的“现代主义”写作浪潮打响了发令枪，这全面改写了文学如何被处理和呈现的规则。</p>
-<p>《尤利西斯》正在庆祝它的百年诞辰，在过去的100年里，它的重要性与日俱增，在此期间，它多次被宣布为20世纪最伟大的小说之一，甚至有不少人认为应该把“之一”去掉。</p>
-<p>随着后殖民研究和性别研究在学术界风靡一时，《尤利西斯》是检验任何理论的完美方法。对于历史学家来说，它为都柏林提供了一幅相对和平时期的迷人画面，只有很小的变化迹象。对文学评论家来说，这本书简直是天赐之物，里面充满了模式、文字游戏、恶搞和晦涩的引用。对于普通读者来说，它就像跑马拉松给普通运动员带来的声望一样。对那些读过这本书的人来说，读完这本书是一个挑战，当然也是一件值得骄傲的事。</p>
-<p><blockquote class="n-content-pullquote"><div class="n-content-pullquote__content"><p class="is-text-only" id="id-4">乔伊斯把《尤利西斯》着重放在了爱尔兰的首都。他不像其他人那样崇拜爱尔兰神话</p><footer class="n-content-pullquote__footer"></footer></div>
-</blockquote></p>
-<p>乔伊斯1914年在意大利东北部边境港口城市里雅斯特(Trieste)开始创作《尤利西斯》，1921年在巴黎完成。在写这本书的时候，他所熟悉的世界正在被撕裂。乔伊斯很幸运，在战争开始时没有被奥地利人拘禁。1915年，他带着妻子和家人逃到苏黎世。第二年，都柏林——这座他试图通过小说令其永生不朽的城市——的中心被炸得粉碎。他最亲密的朋友之一在都柏林复活节起义中丧生；在还是一名学生的时候，乔伊斯就认识了帕特里克·皮尔斯(Patrick Pearse)，皮尔斯作为起义的领导人之一被处决。</p>
-<p>当然，在乔伊斯的小说中没有提及战争或叛乱，小说的背景设定在都柏林的某一天——1904年6月16日。但《尤利西斯》创作的时期，在爱尔兰，任何写作都有被认为有着特殊的涵义。即使是带有私密或个人背景的文学作品，也可能被解读为对爱尔兰辩论的干预。就威廉·巴特勒·叶芝(WB Yeats)而言，这不仅体现在他的公开诗歌如“1913年9月”或“1916年复活节”中，而且也体现在他关于失去的爱情的诗歌中，这些诗歌暗示着，被爱的人代表着一个失去的国家。</p>
-<div class="pic no-copyright is-mixed" id="id-7"><picture><img src="https://www.ft.com/__origami/service/image/v2/images/raw/https://d1e00ek4ebabms.cloudfront.net/production/440f4864-1242-4a18-aa94-08e4586ddd3e.jpg?source=ftchinese&amp;fit=scale-down&amp;width=1400"></picture>20世纪20年代，詹姆斯·乔伊斯在巴黎的莎士比亚书店与店主西尔维娅·比奇(Sylvia Beach)见面，当时乔伊斯被爱尔兰当权派视为被驱逐者</div>
-
-<p>但这并不全是关于失去的东西，因为这场辩论实际上是关于未来的。1904年，很明显，爱尔兰将成为第一个脱离大英帝国的国家。问题是：怎么做？爱尔兰会成为一个什么样的国家？</p>
-<p>《尤利西斯》本身，其风格的慷慨，内容的丰富，人物的公开感性，对权威的缺乏虔诚和尊重，其将一个思想自由的世界主义犹太男子置于中心，可以被解读为对爱尔兰独立的支持，这本书的基调是描绘独立后爱尔兰人生活的蓝图。</p>
-<p>当其他作家，如JM辛格、WB叶芝和都柏林阿比剧院的创始人格雷戈里夫人，不遗余力地赞美农民生活和爱尔兰西部的风景时，乔伊斯却把《尤利西斯》的场景放在了首都。他不像其他人那样崇拜爱尔兰神话。这部小说借用了荷马的《奥德赛》(Homer 's Odyssey)的结构，并尝试了任何用英语写作的人都可以使用的风格。有几次，当小说使用我们可能称之为凯尔特语气的时候，只是为了嘲笑它们。</p>
-<div class="n-content-layout" data-layout-name="auto" data-layout-width="full-grid"><div class="n-content-layout__container"><div class="n-content-layout__slot pic is-mixed" data-slot-width="true" id="id-11"><picture><img alt="" data-copyright=" Getty Images" data-image-type="image" longdesc="Dublin in 1911 at a time when Ireland was edging closer to leaving the British empire" src="https://d1e00ek4ebabms.cloudfront.net/production/fb42ff46-6a75-401d-acef-e6cff3e6298b.jpg"></picture>1911年的都柏林，当时爱尔兰正逐渐脱离大英帝国</div>
-<div class="n-content-layout__slot pic is-mixed" data-slot-width="true" id="id-12"><picture><img alt="" data-copyright=" Getty Images" data-image-type="image" longdesc="Dublin in 1911 at a time when Ireland was edging closer to leaving the British empire" src="https://www.ft.com/__origami/service/image/v2/images/raw/https%3A%2F%2Fd1e00ek4ebabms.cloudfront.net%2Fproduction%2Fe07b9640-0e71-44b4-a885-307c3d9cd325.jpg?fit=scale-down&amp;source=next&amp;width=700"></picture>与乔伊斯不同的是，许多独立前的爱尔兰作家坚持传统观念</div>
-</div>
-</div>
-
-<p>小说的核心人物是利奥波德·布鲁姆(Leopold Bloom)，他有着丰富的心灵和非凡的注意和观察能力。布鲁姆是一个从事广告销售的现代人。他的妻子莫莉是一名歌手，她与一名为她组织音乐会的男子有染。这部小说共有18集，其中大部分是基于荷马史诗《奥德赛》的章节，讲述了布卢姆和一位名叫斯蒂芬·德达勒斯(Stephen Dedalus)的年轻诗人在城市里四处走动的故事。</p>
-<p>乔伊斯对情节甚至心理没有他对语言感兴趣。他试图找到一种方法来呈现布鲁姆的思想，捕捉他飞逝的思想和迷途的记忆和沉思。尤利西斯不仅开创性地将史诗与普通人联系起来，使当天在都柏林发生的不起眼的时刻显得闪闪发光，还探索叙事提供的每一种可能性，包括在结尾处莫莉的第一人称精彩独白。</p>
-<p>《尤利西斯》并没有像在乔伊斯之前的许多爱尔兰小说家那样，试图让爱尔兰对英国读者来说充满异国情调，或令人胆战心惊。虽然书中有大量的歌唱，但没有人演奏爱尔兰传统音乐或用盖尔语唱歌。他们唱歌剧咏叹调、音乐厅歌曲和民族主义民谣。乔伊斯并没有让他们变得更像爱尔兰人。</p>
-<p>他想让都柏林正常化，以确保这些人物不被他们的爱尔兰特性所束缚或孤立，而是因为他们的机智、感性的内心生活以及他们看待世界的方式而令人难忘。</p>
-<p>此外，乔伊斯将都柏林置于一部不朽小说的中心，却没有兴趣向外界解释爱尔兰。任何一位爱尔兰小说家都知道乔伊斯面临的问题：对于那些对爱尔兰读者来说完全熟悉，但对局外人来说却完全神秘的历史人物和事件的名字，你会怎么处理？如果你是一位英国作家，你不需要解释足球或格莱斯顿（Gladstone，前英国首相）。如果你是一位爱尔兰作家，当你提到爱尔兰曲棍球或奥康奈尔(O’Connell，爱尔兰民族主义运动的主要代表)时，谁会知道你在说什么？</p>
-<p>乔伊斯对作为局外人的读者不加考虑。在乔伊斯的想象中，他的首要读者是爱尔兰人，即使他的书是在法国出版的。</p>
-<p>利奥波德·布鲁姆既不是新教徒也不是天主教徒，既不是民族主义者也不是统一主义者。他回避了关于爱尔兰的简单争论。但在其中有一段情节中，他的人文主义和心灵的甜美受到了同胞们的考验。</p>
-<p>在第12集《独眼巨人》中，布鲁姆在一家名为巴尼·基尔南的酒吧里讨论了爱尔兰和国家地位。他将国家定义为“生活在同一个地方的同一群人”，但随后又将其细化为“也生活在不同地方的人”。当被问及他的祖国时，他简单地回答道：“爱尔兰……我出生在这里。爱尔兰。”后来，当他抱怨他的犹太同胞在其他地方受到迫害时，他对用“武力”来抵抗这种迫害的建议感到畏缩：“但这没有用……武力，仇恨，历史，所有这些。这不是男人和女人的生活，侮辱和仇恨。”</p>
-<p><blockquote class="n-content-pullquote"><div class="n-content-pullquote__content"><p class="is-text-only" id="id-21">乔伊斯对作为局外人的读者不加考虑。在乔伊斯的想象中，他的首要读者是爱尔兰人</p><footer class="n-content-pullquote__footer"></footer></div>
-</blockquote></p>
-<p>乔伊斯写这本书是在1916年的起义和一战的大屠杀之后。他意识到，1904年的时候，几乎没有人会想到“武力、仇恨、历史”和这个国家的观念会在十年内造成如此大的破坏。通过让布鲁姆坚定地反对狂热主义和暴力，乔伊斯把历史推回到了过去，提供了另一种选择，让布鲁姆的尖刻雄辩变得更加有力，而酒吧里他周围的陈词滥调和哗笑让他的观点显得更加有力。</p>
-<p>“独眼巨人”有其内在的暴力。在整个情节中，当男人们在酒吧里交谈时，乔伊斯以恶搞当时爱尔兰流行的话语类型的形式，引入了精心设计的干预。其中一段是报纸上的一篇文章，描述了一个社交场合——但这个场合根本就不是社交场合；那是1803年，爱国者罗伯特·埃米特(Robert Emmet)在都柏林被公开处决。在1904年的大多数爱尔兰人看来，这一事件是极其庄严的，在1922年《尤利西斯》(Ulysses)出版时还是这样。</p>
-<div class="pic is-mixed" id="id-24"><picture><img src="https://www.ft.com/__origami/service/image/v2/images/raw/https://d1e00ek4ebabms.cloudfront.net/production/2ef96016-c117-471c-a453-07d4d1d9a396.jpg?source=ftchinese&amp;fit=scale-down&amp;width=1400"></picture>玛丽莲·梦露在1955年读《尤利西斯》</div>
-
-<p>他恶搞了这位爱国者的处决现场，列出了一个荒唐的旁观者名单——“Señor Hidalgo Caballero Don Pecadillo y Palabras y Paternoster de la Malora de la Malaria”和“Hokopoko Harakiri”，以此来对抗统治着这个国家的死亡崇拜。</p>
-<p>如果没有人注意到乔伊斯是在1916年的反叛之后写作这一段的，你可以看到，他把爱国者埃米特的刽子手命名为“汤姆金·<strong>麦克斯韦</strong>·弗伦什曼·汤姆林森”(Tomkin-Maxwell ffrenchmullan Tomlinson)，在唐·吉福(Don Gifford)和罗伯特·J·塞德曼(Robert J Seidman)所著的《尤利西斯评注》中，这个名字被解释为“一个虚构的名字，暗示此人刻意伪造其‘上流家庭’的背景。”然而，对于一个爱尔兰读者，<strong>麦克斯韦</strong>这个名字的用意是显而易见的。<strong>约翰·麦克斯韦(John Maxwell)爵士</strong>是1916年爱尔兰的军事总督，正是他下令处决了这些领导人。</p>
-<div class="n-content-big-number"><span class="n-content-big-number__title is-text-only" id="id-27">6月16日</span><span class="n-content-big-number__content is-text-only" id="id-28">《尤利西斯》的背景日期，现在每年在都柏林作为“布鲁姆日”进行庆祝。</span></div>
-
-<p>通过取笑那些被认为是令人难以忘怀的悲剧，乔伊斯使自己站在了公认观点的对立面。通过把处决弄得如此滑稽可笑，他暗示，一个充斥着烈士和爱国纪念活动的历史版本，是虚伪和笨拙的。</p>
-<p>在后面的一集《太阳的公牛》中，乔伊斯在一家妇产医院里设置了一个场景，那里奇怪地聚集了一群人。这一集的文字是由英国散文历史上的一些片段组成的。1920年3月，乔伊斯在写这一集的时候，写信给一位朋友，谈到了这一技巧，其中包括“最早的英语头韵、单音节和盎格鲁-撒克逊语”，然后又引用了伊丽莎白时代编年史、弥尔顿、佩皮斯等，最后以“可怕的混乱”结束。</p>
-<p>安东尼·伯吉斯(Anthony Burgess)说，这一集是他自己最想写的一集：“这是属于作家的章节，淋漓尽致地体现了英语写作的最高境界。”</p>
-<p>《尤利西斯》充满了讽刺、低俗搞笑和高度严肃。这本书在作者40岁生日当天出版，标志着一位爱尔兰作家对英语小说的再造。这部正式小说的幽默、对外部世界的包容和开放，以及对想象力自主的坚持，都给1922年即将变得孤立和不安全的爱尔兰上了一课。在《尤利西斯》中，乔伊斯提出了爱尔兰从帝国中崛起的另一种方式，让利奥波德·布鲁姆和莫莉·布鲁姆成为爱尔兰的公民。当然，爱尔兰忽略了他，甚至没有正式禁止他的书。</p>
-<p>尽管乔伊斯的书受到好评，爱尔兰政府仍然对乔伊斯心存怀疑。诗人伊凡·博兰(Eavan Boland)写道，1930年代中期，她的父亲担任爱尔兰的外交官的时候，和爱尔兰总理埃蒙·德瓦莱拉(Eamon de Valera)一起在瑞士，而乔伊斯正好和德瓦莱拉去了同一家眼科诊所。当时乔伊斯邀请他们一起共进晚餐。德瓦莱拉拒绝了。1941年乔伊斯在苏黎世去世后，英国驻伯尔尼大使在葬礼上发表了讲话，但爱尔兰并没有派出官方代表出席葬礼。</p>
-<div class="pic is-mixed" id="id-34"><picture><img src="https://www.ft.com/__origami/service/image/v2/images/raw/https://d1e00ek4ebabms.cloudfront.net/production/e375a0ef-715f-48f1-a736-2c10b3f32c36.jpg?source=ftchinese&amp;fit=scale-down&amp;width=1400"></picture>1996年，都柏林，身着爱德华七世时期服装的狂欢者庆祝“布鲁姆日”</div>
-
-<p>在阿瑟·施莱辛格(Arthur Schlesinger)去世前不久，我曾与他谈起约翰·F·肯尼迪(John F Kennedy) 1963年6月对爱尔兰的访问。他告诉我，肯尼迪在都柏林议会联合大厦发表演讲时，故意提到了詹姆斯·乔伊斯，以此来推动爱尔兰政府和爱尔兰人民接受乔伊斯是一个伟大的作家，一个伟大的爱尔兰人。</p>
-<p>1954年，在现在被称为布鲁姆日的6月16日，一些作家按照布鲁姆和德达勒斯的路线，去都柏林朝圣。在过去的几十年里，在布鲁姆日，这座城市到处都是穿着爱德华七世时期服装的人，他们在表演《尤利西斯》中的场景。这位昔日的“弃儿”如今正处于一场具有巨大国际吸引力的全国性文化庆典的中心，这种吸引力是不可忽视的——几乎……</p>
-<p>有一年，因为太忙，我忘了那天是“布鲁姆日”。在市中心的一家超市外，我拿着两袋食品，被一大群穿戴整齐的乔伊斯粉丝搭讪。他们问我装扮的是书中的什么角色。我告诉他们，我根本没有装扮成书中的任何人，只是一个平凡日子里城市里的普通人。我们最终一致认为，这完全符合乔伊斯伟大小说的精神。</p>
-<p><em class="is-text-only" id="id-38">科尔姆·托伊宾最近的小说是</em><a href="https://www.ft.com/content/fcf1de1e-2f13-4592-9266-aeadc360f767"><em class="is-text-only" id="id-39">《魔术师》</em></a><em class="is-text-only" id="id-40">(维京/斯克里布纳尔出版社)</em></p>
-<p>&nbsp;<em class="is-text-only" id="id-41">在Facebook上加入我们的在线读书小组</em><a href="https://www.facebook.com/groups/139838140082304/"><em class="is-text-only" id="id-42">FT图书咖啡馆</em></a></p>
-
-</div>
-<div class="clearfloat"></div>
-</div>
-<div class="copyrightstatement-container">
-版权声明：本文版权归FT中文网所有，未经允许任何单位或个人不得转载，复制或以任何其他方式使用本文全部或部分，侵权必究。
-</div>
-<div class="clearfloat"></div>
-<!-- story privilegeType: PremiumMBA -->
-</div>
-<div class="clearfloat block-bottom"></div>
-</div></div>
-<div 
-data-o-ads-name="infoflow4"
-class="o-ads infoflow"  
-data-o-ads-formats-default="false" 
-data-o-ads-formats-small="FtcInfoFlow" 
-data-o-ads-formats-medium="false"
-data-o-ads-formats-large="false"
-data-o-ads-formats-extra="false"
-data-o-ads-targeting="cnpos=info4;"
->
-</div>
-<div class="side-container"><div class="side-inner">
-<!--column info: -->
-<div class="story-box with-theme">
-<h2 class="box-title"><a href="/channel/mba.html">FT商学院</a></h2>
-<ul class="top10">
-<li class="mp1"><a target="_blank" href="/interactive/59607">股神巴菲特能反超凯蒂•伍德吗？</a></li>
-<li class="mp2"><a target="_blank" href="/interactive/59604">为什么观鸟比疯狂刷剧更好？</a></li>
-<li class="mp3"><a target="_blank" href="/interactive/59503">全球股市创下一年多来最差一周</a></li>
-<li class="mp4"><a target="_blank" href="/interactive/59562">为什么游戏是大型科技公司的新战场</a></li>
-<li class="mp5"><a target="_blank" href="/interactive/59542">德国国债收益率短暂“转正”意味着什么？</a></li>
-<li class="mp6"><a target="_blank" href="/interactive/59598">一周新闻小测：2022年01月15日</a></li>
-<li class="mp7"><a target="_blank" href="/interactive/59592">银行投资者面临新的“黑盒子”窘境</a></li>
-<li class="mp8"><a target="_blank" href="/interactive/59480">纪念虎年的精彩腕表</a></li>
-<li class="mp9"><a target="_blank" href="/interactive/59472">《贝尔法斯特》：童年纯真的颂歌</a></li>
-<li class="mp10"><a target="_blank" href="/interactive/59483">动视丑闻给了微软出击之机</a></li>
-</ul>
-</div>
-<div class="story-box last-child">
-<h2 class="box-title"><a>相关话题</a></h2>
-<ul class="top10">
-<li class="story-theme mp1">
-<a target="_blank" href="/tag/FT商学院">FT商学院</a>
-<div class="icon-right">
-<button class="myft-follow plus" data-tag="FT商学院" data-type="tag">关注</button>
-</div>
-</li>
-<li class="story-theme">
-<a target="_blank" href="/tag/小说">小说</a>
-<div class="icon-right">
-<button class="myft-follow plus" data-tag="小说" data-type="tag">关注</button>
-</div>
-</li>
-<li class="story-theme">
-<a target="_blank" href="/tag/约翰·F·肯尼迪">约翰·F·肯尼迪</a>
-<div class="icon-right">
-<button class="myft-follow plus" data-tag="约翰·F·肯尼迪" data-type="tag">关注</button>
-</div>
-</li>
-</ul>
-</div>
-</div></div><div class="clearfloat"></div>
-</div></div>
-<div class="block-container no-side story-recommend-container" id="story-recommend-container"><div class="block-inner">
-<div class="content-container"><div class="content-inner">
-<div class="list-container"><div class="list-inner">
-<h2 class="list-title"><a class="list-link" href="#">您可能感兴趣的文章</a></h2>
-<div class="items" id="story-recommend-bottom"></div>
-</div></div>
-</div></div>
-<div class="clearfloat block-bottom"></div>
-</div></div>
-<script type="text/javascript">
-!function(){function e(e){setTimeout(function(){showOverlay("overlay-login");var t=GetCookie("USER_NAME")||"",i=/^phone/.test(e)?'<div style="padding: 0 0 15px 0;"><div class="login-btn input-submit-container center"><a class="n-button-inner" id="phone-ftc-binding" onclick="showPhoneFTCBinding()">关联邮箱</a></div></div>':"";document.querySelector(".overlay-title").innerHTML=n,document.querySelector(".overlay-content form").innerHTML='<div class="input-title">亲爱的用户您好，这个网站是付费订户专享，您当前使用的用户名'+t+'并非订户。如果您是刚刚付款成功，请等待一分钟后刷新本页。否则请登出之后更换用户名或者访问FT中文网主站。</div><div style="padding: 0 0 15px 0;"><div class="login-btn input-submit-container center"><a class="n-button-inner" href="/users/logout">登出</a></div></div><div style="padding: 0 0 15px 0;"><div class="login-btn input-submit-container center"><a class="n-button-inner" href="http://www.ftchinese.com/">免费网站</a></div></div>'+i,document.querySelector(".overlay-bg").className="overlay-bg-fixed"},0)}var n="FT中文网付费会员专享网站";setTimeout(function(){if(!1!==/chineseft\.com|ftchineselive\.com|lunchwithft\.com|leshangavenue\.com/.test(location.hostname)&&!0!==window.hasFoundProductPricing){var t=/^\/users\/findpassword|\/users\/register$/.test(location.pathname),i=/pageid=subscriptioninfoconfirm/.test(location.search);if(!t&&!i){var o=GetCookie("USER_ID")||GetCookie("USER_ID_FT"),r=GetCookie("paywall");null===o&&null===r?setTimeout(function(){showOverlay("overlay-login"),document.querySelector(".overlay-title").innerHTML=n,document.querySelector(".register-find").innerHTML='<a href="https://www.ftacademy.cn/subscription.html">购买会员</a><span></span><a href="/users/findpassword">找回密码</a>',document.querySelector(".wx-login").style.marginTop="15px",document.querySelector(".overlay-bg").className="overlay-bg-fixed"},0):null===r&&e(o);for(var a=document.querySelectorAll(".icon-share, .icon-wechat, .icon-weibo, .icon-linkedin, .icon-twitter, .icon-facebook"),c=0;c<a.length;c++){var s=a[c];s.parentNode.removeChild(s)}}}},1e3)}();</script>
-<div 
-data-o-ads-name="paidpost2"
-class="o-ads paid-post"  
-data-o-ads-formats-default="false" 
-data-o-ads-formats-small="false"
-data-o-ads-formats-medium="false"
-data-o-ads-formats-large="FtcPaidpost"
-data-o-ads-formats-extra="FtcPaidpost"
-data-o-ads-targeting="cnpos=paidpost2;"
->
-</div>
-<div 
-data-o-ads-name="paidpost"
-class="o-ads paid-post"  
-data-o-ads-formats-default="false" 
-data-o-ads-formats-small="false"
-data-o-ads-formats-medium="false"
-data-o-ads-formats-large="FtcPaidpost"
-data-o-ads-formats-extra="FtcPaidpost"
-data-o-ads-targeting="cnpos=paidpost;"
->
-</div>
-<div class="footer-container"><div class="footer-inner">
-<div>
-<a href="/m/corp/aboutus.html">关于我们</a>
-<a href="https://ft.wd3.myworkdayjobs.com/FT_Chinese_External_Careers" target="_blank">加入我们</a>
-<a href="/m/corp/faq.html">问题回馈</a>
-<a href="/m/corp/contact.html">联系方式</a>
-<a href="/m/corp/partner.html">合作伙伴</a>
-<a href="/m/corp/service.html">服务条款</a>
-<a href="/m/corp/sales.html">广告业务 </a>
-<a href="/m/corp/copyright.html">版权声明</a>
-<a href="/m/marketing/ftc.html">最新动态</a>
-</div>
-<p>
-<span class="copyright"><b>© The Financial Times Ltd 2022</b></span> 
-<span><acronym title="Financial Times">FT</acronym> and 'Financial Times' are trademarks of The Financial Times Ltd.</span>
-</p>
-</div></div>
-<script>
-function async(u, c) {
-var d = document, t = 'script',
-o = d.createElement(t),
-s = d.getElementsByTagName(t)[0];
-o.src = u;
-if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
-s.parentNode.insertBefore(o, s);
-}
-// Your web app's Firebase configuration
-var firebaseConfig = {
-apiKey: "AIzaSyCB4QkzRm1oUl9-XA6kl8ob58FI3C6iDY0",
-authDomain: "ftchineseiphone.firebaseapp.com",
-databaseURL: "https://ftchineseiphone.firebaseio.com",
-projectId: "ftchineseiphone",
-storageBucket: "ftchineseiphone.appspot.com",
-messagingSenderId: "342601113715",
-appId: "1:342601113715:web:6d7016e26b94e3854fca06",
-measurementId: "G-PT4E4NGVJV"
-};
-//MARK: - The core Firebase JS SDK is always required and must be listed first
-async('https://www.gstatic.com/firebasejs/7.2.2/firebase-app.js', function() {
-// MARK: - TODO: Add SDKs for Firebase products that you want to use: https://firebase.google.com/docs/web/setup#available-libraries
-async('https://www.gstatic.com/firebasejs/7.2.2/firebase-analytics.js', function() {
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-firebase.analytics();
-});
-});
-</script>
-<img src='https://beacon.krxd.net/event.gif?event_id=KWA6DGT9&event_type=rtg' width=0 height=0 /><div class="overlay-container" id="font-setting">
-<div class="overlay-inner">
-<div class="overlay-bg" data-parentid="font-setting"></div>
-<div class="overlay-content-outer">
-<div class="overlay-content-inner">
-<div class="overlay-content">
-<div class="overlay-title">设置字号<i class="overlay-close" data-parentid="font-setting">×</i></div>
-<span class="font-options" id="font-options">
-<div class="smallest first-child" data-font="0.8">最小</div>
-<div class="smaller" data-font="0.9">较小</div>
-<div class="normal" data-font="1">默认</div>
-<div class="bigger" data-font="1.2">较大</div>
-<div class="biggest" data-font="1.6">最大</div>
-</span>
-</div>
-</div>
-</div>
-</div>
-</div><div class="overlay-container" id="share-legacy">
-<div class="overlay-inner">
-<div class="overlay-bg" data-parentid="share-legacy"></div>
-<div class="overlay-content-outer">
-<div class="overlay-content-inner">
-<div class="overlay-content">
-<div class="overlay-title">分享<i class="overlay-close" data-parentid="share-legacy">×</i></div>
-<span id="sharelinks"></span>
-</div>
-</div>
-</div>
-</div>
-</div>
+    <div id="promo-box-container">
+    <style>
+    .noneSubscriber.subscription-promo-container {
+    background-color: #88233f;
+    }
+    .noneSubscriber .subscription-promo-text {
+    background-color: #282c32;
+    border-color: #282c32;
+    }
+    .noneSubscriber .subscription-promo-text {
+    color: #ffffff;
+    }
+    .noneSubscriber .subscription-promo-box {
+    background-image: url(https://thumbor.ftacademy.cn/unsafe/picture/9/000111019_piclink.png);
+    }
+    @media only screen and (max-width: 490px) {
+    .noneSubscriber .subscription-promo-box {
+    background-image: url(https://thumbor.ftacademy.cn/unsafe/picture/3/000111023_piclink.png);
+    }
+    }
+    </style>
+    <div class="subscription-promo-container show-image-in-mobile noneSubscriber">
+    <div class="subscription-promo-inner">
+    <a  href="https://www.ftacademy.cn/subscription.html?ccode=2CAcquisitionWebPBoxNon" class="subscription-promo-box n-internal-promo" data-promo-target="noneSubscriber" data-promo-id="2CAcquisitionWebPBoxNon" data-promo-name="仅0.8元/天 立即订阅" data-promo-creative="https://thumbor.ftacademy.cn/unsafe/picture/9/000111019_piclink.png" data-promo-position="promoBox">
+    <div class="subscription-promo-text">仅0.8元/天 立即订阅</div>
+    </a>
+    </div>
+    </div>
+    <script type="text/javascript">
+    window.userId = GetCookie('USER_ID') || '';
+    if (window.userId === '') {
+    gtag('event', 'Display', {'event_label': '2CAcquisitionWebPBoxNon', 'event_category': 'PromoBox', 'non_interaction': true});
+    }
+    </script>
+    </div>
+    <script type="text/javascript">
+    function addUserId(ele) {
+    if (ele === null) {
+    return;
+    }
+    var userId;
+    if (typeof GetCookie === 'function') {
+    userId = GetCookie('USER_ID');
+    } else {
+    userId = getCookie('USER_ID');
+    }
+    if (userId && typeof userId === 'string' && userId !== '') {
+    var link = ele.href;
+    var connector = (link.indexOf('?') >= 0) ? '&' : '?';
+    ele.href = link + connector + 'u=' + userId;
+    }
+    }
+    var premiumLink = document.querySelector('[data-promo-target=premium]');
+    addUserId(premiumLink);
+    </script>
+    <header class="header-container">
+    <div class="header-inner">
+    <div class="masthead"></div>
+    <div class="header-side header-left expandable">
+    <div class="current-edition">
+    <span>简体中文</span>
+    <a href="http://big5.ftchinese.com/interactive/69803/ce?exclusive">繁体中文</a>
+    <a href="http://www.ft.com/">FT.com</a>
+    </div>
+    </div>
+    <div class="header-side header-right">
+    <span class="visitor-box">
+    <a onclick="showOverlay('overlay-login')">登录</a>
+    <a class="more last" href="http://user.ftchinese.com/register">注册</a>
+    </span>
+    <span class="member-box">
+    <a href="/channel/myftlocal.html">我的FT</a>
+    <a id="ft-login-your-account" href="/users/cp">设置</a>
+    <a id="ft-login-logout" href="/users/logout">登出</a>
+    </span>
+    </div>
+    </div>
+    </header>
+    <div class="overlay-container" id="overlay-login">
+    <div class="overlay-inner">
+    <div class="overlay-bg" data-parentid="overlay-login"></div>
+    <div class="overlay-content-outer">
+    <div class="overlay-content-inner">
+    <div class="overlay-content">
+    <div class="overlay-title">登录<i class="overlay-close" data-parentid="overlay-login">×</i></div>
+    <form method="post" action="/users/login" id="overlay-login-form">
+    <span id="overlay-login-container">
+    <div class="input-title" id="login-reason"></div>
+    <div class="input-title">电子邮件/用户名</div>
+    <div class="input-container"><input type="text" class="input-oneline" name="username" id="ft-login-input-username"></div>
+    <div class="input-title">密码</div>
+    <div class="input-container"><input type="password" class="input-oneline" name="password"></div>
+    <div><input type="checkbox" class="checkbox" value="1" checked="checked" name="saveme" id="ft-login-input-remember">记住我</div>
+    <div class="login-btn input-submit-container center"><input class="" type="submit" value="登录"></div>
+    <div class="center register-find"><a href="https://user.ftchinese.com/register" class="blue-link">免费注册</a><span></span><a href="https://profile.ftchinese.com/users/findpassword" class="blue-link">找回密码</a></div>
+    <div class="phone-login-container" id="phone-login-trigger">
+    <div class="center phone-login"><a onclick="showPhoneLogin()" class="blue-link">短信登录</a></div>
+    </div>
+    <div class="wx-login-container">
+    <div class="center wx-login"><a href="https://www.ftacademy.cn/wxlogin" class="blue-link">微信登录</a></div>
+    </div>
+    </span>
+    </form>
+    <span id="phone-ftc-binding-container">
+    <div>请输入邮箱和密码进行绑定操作：</div>
+    <div><input placeholder="请输入邮箱" type="email" autocorrect="off" id="phone-binding-email" class="input-oneline"/></div>
+    <div><input placeholder="请输入密码" type="password" class="input-oneline" id="phone-binding-password"/></div>
+    <div class="topmargin statusmsg" id="phone-binding-status"></div>
+    <div><input type="button" value="绑定" class="n-button-inner" onclick="binding('phone')"/></div>
+    </span>
+    <span id="phone-login-container">
+    <div class="user-name-container">请输入手机号码，通过短信验证（目前仅支持中国大陆地区的手机号）：</div>
+    <div><input onkeyup="resetPhoneLogin()" placeholder="请输入中国大陆的手机号码" type="tel" autocorrect="off" name="phone" id="phone-number" class="input-oneline"/></div>
+    <div><input placeholder="请输入验证码"  pattern="\d*" maxlength="6" name="phonecapcha"  class="input-oneline" id="phone-captcha"/></div>
+    <div class="topmargin statusmsg" id="phone-login-status"></div>
+    <div>请您阅读我们的<a class="agreeDetail" href="/m/corp/service.html" target="_blank">用户注册协议</a>和<a class="agreeDetail" href="/m/corp/service.html#privacy" target="_blank">隐私权保护政策</a>，点击下方按钮即视为您接受。</div>
+    <div><input id="phone-login-submit-button" type="button" value="获取验证码" class="n-button-inner" onclick="phoneLogin()"/></div>
+    </span>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div><div class="o-nav__placeholder">
+    <div class="o-nav">
+    <div class="o-nav__outer">
+    <div class="o-nav__inner">
+    <div class="o-nav__search"  data-o-component="o-toggler">
+    <button class="o-nav__search-toggle" data-o-toggler-button aria-controls="search-form">
+    <span class="search-toggle--open">搜索</span>
+    <span class="search-toggle--close">关闭</span>
+    </button>
+    <form action="/search/" id="search-form" role="search" data-o-toggler-target>
+    <input id="search-term" type="search" name="keys" class="search-input" placeholder="输入年月日‘xxxx-xx-xx’可搜索该日存档" />
+    <input id="type_news" type="hidden" value="type_news" name="ftsearchType" checked />
+    <button class="search-button" tabindex="1"><span>搜索</span></button>
+    </form>
+    </div>
+    <div class="o-header__masthead-mobile">
+    <a href="/" title="前往FT中文网首页"><span>FT中文网</span></a>
+    </div>
+    <nav class="o-nav__container" role="navigation">
+    <button class="nav-toggle" data-o-nav-togglable><span>Menu</span></button>
+    <ol class="o-nav__meganav">
+    <li class="nav-section mobile">
+    <button class="nav-section-head mobile" aria-selected="true">切换版本</button>
+    <ol class="nav-items">
+    <li class="nav-item">
+    <a class="nav-link" href="http://big5.ftchinese.com/">繁体中文版</a>
+    </li>
+    <li class="nav-item">
+    <a class="nav-link" href="http://www.ft.com/">FT.com</a>
+    </li>
+    </ol>
+    </li>
+    <li class="nav-section home "
+     data-section="home"
+    >
+    <button class="nav-section-head mobile">首页</button>
+    <a class="nav-section-head desktop" href="/">首页</a>
+    </li>
+    <li class="nav-section china "
+     data-section="china"
+    >
+    <button class="nav-section-head mobile">中国</button>
+    <a class="nav-section-head desktop" href="/channel/china.html">中国</a>
+    </li>
+    <li class="nav-section world "
+     data-section="world"
+    >
+    <button class="nav-section-head mobile">全球</button>
+    <a class="nav-section-head desktop" href="/channel/world.html">全球</a>
+    </li>
+    <li class="nav-section economy "
+     data-section="economy"
+    >
+    <button class="nav-section-head mobile">经济</button>
+    <a class="nav-section-head desktop" href="/channel/economy.html">经济</a>
+    </li>
+    <li class="nav-section markets "
+     data-section="markets"
+    >
+    <button class="nav-section-head mobile">金融市场</button>
+    <a class="nav-section-head desktop" href="/channel/markets.html">金融市场</a>
+    </li>
+    <li class="nav-section business "
+     data-section="business"
+    >
+    <button class="nav-section-head mobile">商业</button>
+    <a class="nav-section-head desktop" href="/channel/business.html">商业</a>
+    </li>
+    <li class="nav-section innovation "
+     data-section="innovation"
+    >
+    <button class="nav-section-head mobile">创新经济</button>
+    <a class="nav-section-head desktop" href="/channel/innovation.html">创新经济</a>
+    </li>
+    <li class="nav-section education "
+     data-section="education"
+    >
+    <button class="nav-section-head mobile">教育</button>
+    <a class="nav-section-head desktop" href="/channel/education.html?newnav=yes">教育</a>
+    </li>
+    <li class="nav-section opinion "
+     data-section="opinion"
+    >
+    <button class="nav-section-head mobile">观点</button>
+    <a class="nav-section-head desktop" href="/channel/opinion.html">观点</a>
+    </li>
+    <li class="nav-section management "
+     aria-selected="true" data-section="management"
+    >
+    <button class="nav-section-head mobile">管理</button>
+    <a class="nav-section-head desktop" href="/channel/management.html">管理</a>
+    <ol class="nav-items">
+    <li class="nav-item mobile">
+    <a class="nav-link" href="/channel/management.html">
+    频道首页
+    </a>
+    </li>
+    <li class="nav-item" aria-selected="true" data-channel="mba">
+    <a class="nav-link" href="/channel/mba.html">FT商学院</a>
+    </li>
+    <li class="nav-item"  data-channel="career">
+    <a class="nav-link" href="/channel/career.html">职场</a>
+    </li>
+    <li class="nav-item"  data-channel="leadership">
+    <a class="nav-link" href="/channel/leadership.html">领导力</a>
+    </li>
+    <li class="nav-item"  data-channel="wealth">
+    <a class="nav-link" href="/tag/%E8%B4%A2%E5%AF%8C%E7%AE%A1%E7%90%86">财富管理</a>
+    </li>
+    <li class="nav-item"  data-channel="people">
+    <a class="nav-link" href="/channel/people.html">人物</a>
+    </li>
+    </ol>
+    </li>
+    <li class="nav-section lifestyle "
+     data-section="lifestyle"
+    >
+    <button class="nav-section-head mobile">生活时尚</button>
+    <a class="nav-section-head desktop" href="/channel/lifestyle.html">生活时尚</a>
+    </li>
+    <li class="nav-section stream "
+     data-section="stream"
+    >
+    <button class="nav-section-head mobile">视频</button>
+    <a class="nav-section-head desktop" href="/channel/stream.html">视频</a>
+    </li>
+    <li class="nav-section audio "
+     data-section="audio"
+    >
+    <button class="nav-section-head mobile">音频</button>
+    <a class="nav-section-head desktop" href="/channel/audio.html">音频</a>
+    </li>
+    <li class="nav-section english "
+     data-section="english"
+    >
+    <button class="nav-section-head mobile">每日英语</button>
+    <a class="nav-section-head desktop" href="/channel/english.html">每日英语</a>
+    </li>
+    <li class="nav-section rewired "
+     data-section="rewired"
+    >
+    <button class="nav-section-head mobile">换脑ReWired</button>
+    <a class="nav-section-head desktop" href="/channel/rewired.html">换脑ReWired</a>
+    </li>
+    <li class="nav-section mobile login">
+    <ul>
+    <li class="nav-item">
+    <a class="nav-link" href="http://user.ftchinese.com/login">登录</a>
+    </li>
+    <li class="nav-item">
+    <a class="nav-link" href="http://user.ftchinese.com/register">免费注册</a>
+    </li>
+    </ul>
+    </li>
+    <li class="nav-section mobile logout">
+    <ul>
+    <li class="nav-item">
+    <a class="nav-link" href="/channel/myftlocal.html">我的FT</a>
+    </li>
+    <li class="nav-item">
+    <a class="nav-link" href="/users/setting/vip">会员中心</a>
+    </li>
+    <li class="nav-item">
+    <a class="nav-link" href="/users/setting/index">设置</a>
+    </li>
+    <li class="nav-item">
+    <a class="nav-link" href="/users/logout">登出</a>
+    </li>
+    </ul>
+    </li>
+    </ol>
+    </nav>
+    <ul class="o-nav__extra-tools">
+    <li class="tools-section" aria-haspopup="true">
+    <a class="tools-section-head" href="http://www.ftchinese.com/m/corp/follow.html">关注我们</a>
+    <ol class="tools-items">
+    <li><a href="http://www.ftchinese.com/m/corp/follow.html" target="_blank">微信公众号</a></li>
+    <li><a href="http://weibo.com/ftchinese" target="_blank">新浪微博</a></li>
+    <li><a href="http://www.ftchinese.com/m/corp/follow.html" target="_blank">Flipboard</a></li>
+    <li><a href="https://twitter.com/FTChinese" target="_blank">Twitter</a></li>
+    <li><a href="https://www.facebook.com/financialtimeschinese" target="_blank">Facebook</a></li>
+    <li><a href="https://www.linkedin.com/company/4865254?trk=hp-feed-company-name" target="_blank">LinkedIn</a></li>
+    </ol>
+    </li>
+    <li class="tools-section" aria-haspopup="true">
+    <span class="tools-section-head">工具</span>
+    <ol class="tools-items">
+    <li><a href="http://app.ftchinese.com/" class="o-client-id-link">移动应用大全</a></li>
+    <li><a href="/users/setting/index">基本设置</a></li>
+    <li><a href="/users/setting/vip">会员中心</a></li>
+    <li><a href="/users/setting/changeicon">修改头像</a></li>
+    <li><a href="/users/setting/maillist">邮件订阅</a></li>
+    <li><a href="/index.php/snsapi/index">同步微博</a></li>
+    <li><a href="/users/commentstory">我的评论</a></li>
+    <li><a href="/users/favstorylist">管理收藏</a></li>
+    </ol>
+    </li>
+    <li class="tools-section">
+    <a class="tools-section-head follow__rss" href="/channel/rss.html" title="RSS"><span>RSS</span></a>
+    </li>
+    </ul>
+    </div><!-- o-nav__inner -->
+    </div><!-- o-nav__outer -->
+    <div class="o-nav__meganav-placeholder"></div>
+    </div><!-- o-nav -->
+    </div>
+    <div class="block-container has-side story-page"><div class="block-inner">
+    <div class="content-container"><div class="content-inner">
+    <div class="story-container ce">
+    <div class="story-topper">
+    <div class="story-theme"><a href="/channel/mba.html">FT商学院</a><button class="myft-follow plus" data-tag="FT商学院" data-type="tag">关注</button></div>
+    <h1 class="story-headline story-headline-large">It’s OK to be quiet in meetings<br>为什么在会议上少说话对你更有利？</h1>
+    <div class="story-lead">Some of the smartest people rarely speak in work gatherings but everyone listens when they do<br>一些最聪明的人很少在工作会议上发言，但当他们发言时，每个人都在倾听。</div>
+    <div class=" story-image image"><figure data-url=https://thumbor.ftacademy.cn/unsafe/picture/5/000144685_piclink.jpg class="loading"></figure></div>
+    </div>
+    <div class="story-tools">
+    <div class="story-action-placeholder" id="story-action-placeholder">
+    <div class="story-action">
+    <div class="action-inner">
+    <a class="action-icon icon-wechat P-hide" href="/m/corp/qrshare.html?url=http%3A%2F%2Fwww.ftchinese.com%2Finteractive%2F69803%3Ffull%3Dy%26gift_id%3D87dc98c92e674c0fa8c3d813195d1289b0a8fb5a&title=" target="_blank"></a>
+    <a class="action-icon icon-weibo P-hide" href="http://service.weibo.com/share/share.php?appkey=4221537403&url=http%3A%2F%2Fwww.ftchinese.com%2Finteractive%2F69803%3Ffull%3Dy%26gift_id%3D87dc98c92e674c0fa8c3d813195d1289b0a8fb5a%26ccode%3D2G169001&title=【<br>】Some of the smartest people rarely speak in work gatherings but everyone listens when they do | 一些最聪明的人很少在工作会议上发言，但当他们发言时，每个人都在倾听。（分享自 @FT中文网）&ralateUid=1698233740&source=&sourceUrl=&content=utf-8&pic=https://thumbor.ftacademy.cn/unsafe/picture/5/000144685_piclink.jpg&searchPic=false" target="_blank"></a>
+    <a class="action-icon icon-linkedin P-hide" href="https://www.linkedin.com/cws/share?url=http%3A%2F%2Fwww.ftchinese.com%2Finteractive%2F69803%3Ffull%3Dy%26gift_id%3D87dc98c92e674c0fa8c3d813195d1289b0a8fb5a%26ccode%3D2G169003&original_referer=https%3A%2F%2Fdeveloper.linkedin.com%2Fsites%2Fall%2Fthemes%2Fdlc%2Fsandbox.php%3F&token=&isFramed=true&lang=zh_CN&_ts=1422502780259.2795" target="_blank"></a>
+    <a class="action-icon icon-twitter P-hide" href="http://twitter.com/home?status=【<br>】Some of the smartest people rarely speak in work gatherings but everyone listens when they do | 一些最聪明的人很少在工作会议上发言，但当他们发言时，每个人都在倾听。（分享自 @FT中文网）...%20http%3A%2F%2Fwww.ftchinese.com%2Finteractive%2F69803%3Ffull%3Dy%26gift_id%3D87dc98c92e674c0fa8c3d813195d1289b0a8fb5a" target="_blank"></a>
+    <a class="action-icon icon-facebook P-hide" href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.ftchinese.com%2Finteractive%2F69803%3Ffull%3Dy%26gift_id%3D87dc98c92e674c0fa8c3d813195d1289b0a8fb5a&t=【<br>】Some of the smartest people rarely speak in work gatherings but everyone listens when they do | 一些最聪明的人很少在工作会议上发言，但当他们发言时，每个人都在倾听。（分享自 @FT中文网）" target="_blank"></a>
+    <a class="icon-right icon-ch" href="/interactive/69803"><button>中文</button></a><a class="icon-right icon-ch" href="/interactive/69803/en"><button>英文</button></a>
+    
+    <a class="icon-right icon-action icon-font-size" onclick="showOverlay('font-setting')"></a>
+    <a class="icon-right icon-action icon-audio" href="/interactive/69805"></a>
+    <div class="progress-container">
+    <svg
+    class="progress-ring"
+    height="40"
+    width="40"
+    >
+    <circle
+    class="progress-ring__circle"
+    stroke-width="2"
+    stroke="transparent"
+    r="18"
+    cx="20"
+    cy="20"
+    />
+    </svg>
+    <svg class="pregress-tick" width="24" height="24" viewBox="0 0 24 24">
+    <path fill="none" d="M0 0h24v24H0z"/><path class="progress-tick-path" fill="transparent" d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+    </svg>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    <div class="story-byline">
+    <span class="story-time" data-time="1651454363" pub-date="1651420800">更新于2022年5月2日 09:19</span>
+    <span class="story-author"> 皮利塔•克拉克</span>
+    </div>
+    <div class="story-body">
+    
+    
+    <div id="story-body-container">
+    <div class="print-only">来自FT中文网的温馨提示：如您对FT中文网的内容感兴趣，请在苹果应用商店或华为应用市场搜索“FT中文网”，下载FT中文网的官方应用，付费订阅。祝您使用愉快！</div>    
+    <div class=leftp>When the New York Times announced that a man named <a href="https://www.nytimes.com/2022/04/19/business/media/joe-kahn-dean-baquet-new-york-times.html">Joe Kahn</a> would be its next executive editor, I did what every second journalist I know did the other week and scurried to read up on him.</div><div class=rightp>当《纽约时报》(New York Times)宣布，一个名叫乔·卡恩(Joe Kahn)的人将成为它的下一任执行主编时，我就像我认识的其他记者一样，匆忙地去阅读有关他的资料。</div><div class=clearfloat></div><div class=leftp></div><div class=rightp></div><div class=clearfloat></div><div class=leftp>My favourite article, in <a href="https://nymag.com/intelligencer/article/joe-kahn-new-york-times-profile.html">New York magazine</a>, revealed inter alia that Kahn is a very wealthy wine connoisseur who speaks Mandarin and lives in a Manhattan apartment building once said to have housed Marlon Brando.</div><div class=rightp>我最喜欢的一篇刊登在《纽约》(New York)杂志上的文章透露，卡恩是一位非常富有的葡萄酒鉴赏家，会说普通话，住在曼哈顿的一栋公寓楼里，据说马龙·白兰度(Marlon Brando)曾经住过那里。</div><div class=clearfloat></div><div class=leftp></div><div class=rightp></div><div class=clearfloat></div><div class=leftp>But there was something else. According to the magazine, “In news meetings, which are often a world-class exercise in ass-kissing, Kahn comments sparingly.”</div><div class=rightp>但还有别的东西。据该杂志称，“新闻准备会往往是世界级的拍马屁机会，卡恩却很少发言。”</div><div class=clearfloat></div><div class=leftp></div><div class=rightp></div><div class=clearfloat></div><div class=leftp>Bingo! I thought, mentally adding Kahn to a list of people who say precisely what should be said by a lot more meeting participants: very little.</div><div class=rightp>牛！我在心里把卡恩加入到一个名单中，这个名单上的人，有一个共同的特点：开会时很少说话，而这正是大多数与会者应该做的事。</div><div class=clearfloat></div><div class=leftp></div><div class=rightp></div><div class=clearfloat></div><div class=leftp>One of the many fine things about working on a daily newspaper is the remorseless deadlines. They make it difficult for would-be wafflers to indulge their instincts in meetings because, generally speaking, there simply isn’t enough time.</div><div class=rightp>在日报工作的许多好处之一，就是无情的最后期限。它们使那些本想夸夸其谈的人很难在会议上放纵自己的本能，因为一般来说，时间根本不够用。</div><div class=clearfloat></div><div class=leftp></div><div class=rightp></div><div class=clearfloat></div><div class=leftp>Alas, this is not the case elsewhere. Moreover, <a href="https://www.kellogg.northwestern.edu/news_articles/2014/06262014-video-thompson-brainwriting.aspx">research shows</a> that in a typical six-person meeting, more than 60 per cent of the talking is done by just two people. </div><div class=rightp>唉，其他地方就不是这样了。此外，<a href="https://www.kellogg.northwestern.edu/news_articles/2014/06262014-video-thompson-brainwriting.aspx" targe="_blank">研究表明</a>，在一个典型的六人会议中，超过60%的谈话是由两个人完成的。</div><div class=clearfloat></div><div class=leftp></div><div class=rightp></div><div class=clearfloat></div><div class=leftp>For those forced to sit and watch, the experience can be painfully tedious. No wonder the sight of a successful but quiet person in a meeting is often deemed worthy of comment. Thankfully, Joe Kahn is far from alone. </div><div class=rightp>对于那些被迫坐在一旁观看的人来说，这种经历可能是痛苦乏味的。难怪在会议中看到一个成功但安静的人常常被认为是值得评论的。值得庆幸的是，还有很多像乔·卡恩一样的人。</div><div class=clearfloat></div><div class=leftp></div><div class=rightp></div><div class=clearfloat></div><div class=leftp>Not long after Joe Biden became US president, the New York Times published a lengthy <a href="https://www.nytimes.com/2021/05/14/us/politics/joe-biden-policy-decisions.html">account </a>of how he worked and who he relied on most in the White House.</div><div class=rightp>乔•拜登(Joe Biden)成为美国总统后不久，《纽约时报》发表了一篇长篇文章，描述了他的工作方式以及他在白宫最依赖的人。</div><div class=clearfloat></div><div class=leftp></div><div class=rightp></div><div class=clearfloat></div><div class=leftp>One of his top political advisers was Mike Donilon, a longtime aide who has been described as Biden’s “conscience, alter ego and <a href="https://www.washingtonpost.com/politics/biden-daily-routine-gatorade/2021/05/23/b6f608c2-b40e-11eb-a3b5-f994536fe84a_story.html">shared brain</a>”.</div><div class=rightp>他的高级政治顾问之一是迈克·多尼隆(Mike Donilon)，他曾长期担任拜登的助手，被形容为拜登的“良知、另一个自我和<a href="https://www.washingtonpost.com/politics/biden-daily-routine-gatorade/2021/05/23/b6f608c2-b40e-11eb-a3b5-f994536fe84a_story.html" targe="_blank">共享的大脑</a>”。</div><div class=clearfloat></div><div class=leftp></div><div class=rightp></div><div class=clearfloat></div><div class=leftp>In meetings, the Times reported, Donilon “tends to stay mostly silent until the very end of a discussion, at which point Mr Biden often embraces whatever point he has made”.</div><div class=rightp>据《泰晤士报》报道，在会议中，多尼隆“倾向于大部分时间保持沉默，直到讨论结束，这时拜登先生往往会支持他提出的任何观点”。</div><div class=clearfloat></div><div class=leftp></div><div class=rightp></div><div class=clearfloat></div><div class=leftp>Donilon is by no means the first quiet but influential Washingtonian. Dick Cheney was often called the most powerful vice-president in US history when he served under George W Bush from 2001 to 2009.</div><div class=rightp>多尼隆绝不是第一个安静但有影响力的华盛顿人。迪克•切尼(Dick Cheney)在2001年至2009年担任乔治•W•布什(George W Bush)的副总统期间，经常被称为美国历史上最有权力的副总统。</div><div class=clearfloat></div><div class=leftp></div><div class=rightp></div><div class=clearfloat></div><div class=leftp><blockquote class="n-content-pullquote"><div class="n-content-pullquote__content"><p class="is-text-only" id="id-11">There is of course a very good reason to talk a lot in meetings, especially for those of us who lack the lofty title of vice-president or chief executive. It can make you look more leaderly</p><footer class="n-content-pullquote__footer"></footer></div></blockquote></div><div class=rightp><blockquote class="n-content-pullquote"><div class="n-content-pullquote__content"><p class="is-text-only" id="id-11">当然，在会议上喋喋不休是有很好的理由的，尤其是对我们这些没有副总裁或首席执行官这种高大上头衔的人来说。它能让你看起来更有领导风范</p><footer class="n-content-pullquote__footer"></footer></div></blockquote></div><div class=clearfloat></div><div class=leftp></div><div class=rightp></div><div class=clearfloat></div><div class=leftp>As one news report put it in 2004, Cheney was renowned for his ability to keep his thoughts and feelings to himself. “White House insiders say he rarely speaks in meetings and shows little reaction to comments by others.”</div><div class=rightp>正如2004年的一篇新闻报道所言，切尼以善于隐藏自己的想法和感受而闻名。“白宫内部人士说，他很少在会议上发言，对其他人的评论也几乎没有反应。”</div><div class=clearfloat></div><div class=leftp></div><div class=rightp></div><div class=clearfloat></div><div class=leftp>Then there is <a href="https://www.england.nhs.uk/2021/04/nhs-chief-sir-simon-stevens-to-stand-down-this-summer/">Sir Simon Stevens</a>, the former chief executive of NHS England. Among the many accolades showered on him when he stepped down last year was <a href="https://www.dailymail.co.uk/news/article-9525725/NHS-England-boss-Sir-Simon-Stevens-step-running-health-service-July.html">one </a>from a former boss, Jeremy Hunt, an ex-health secretary.</div><div class=rightp>还有英国国家医疗服务体系(NHS)前首席执行官西蒙•史蒂文斯爵士(Sir Simon Stevens)。在他去年卸任时获得的众多赞誉中，有一项来自他的前老板，前卫生大臣杰里米•亨特(Jeremy Hunt)。</div><div class=clearfloat></div><div class=leftp></div><div class=rightp></div><div class=clearfloat></div><div class=leftp>Hunt said Stevens was a “formidable operator” who had the gift of “being able to stay silent in meetings unless he has something important to say, a rare quality in Whitehall”.</div><div class=rightp>亨特说，史蒂文斯是一个“强大的操作者”，他“能够在会议上保持沉默，除非他有重要的事情要说，这在白厅是一种罕见的品质”。</div><div class=clearfloat></div><div class=leftp></div><div class=rightp></div><div class=clearfloat></div><div class=leftp>There is of course a very good reason to talk a lot in meetings, especially for those of us who lack the lofty title of vice-president or chief executive. It can make you look more leaderly. </div><div class=rightp>当然，在会议上说很多话是有很好的理由的，特别是对于我们这些缺乏副总统或首席执行官这种高大上头衔的人来说。它可以使你看起来更有领导力。</div><div class=clearfloat></div><div class=leftp></div><div class=rightp></div><div class=clearfloat></div><div class=leftp>The link between speaking time and authority is so well established that some researchers call it the “babble hypothesis” of leadership.</div><div class=rightp>发言时间和权威之间的联系是如此的明确，以至于一些研究人员将其称为领导能力的“话痨假说”。</div><div class=clearfloat></div><div class=leftp></div><div class=rightp></div><div class=clearfloat></div><div class=leftp>The effect appears to occur regardless of intelligence or personality according to a <a href="https://www.researchgate.net/publication/340051973_Testing_the_babble_hypothesis_Speaking_time_predicts_leader_emergence_in_small_groups">study</a> I was alerted to last week by Madeleine de Hauke, a consultant who helps organisations hold more productive meetings.</div><div class=rightp>马德琳•德•豪克(Madeleine de Hauke)是一位专门帮助组织召开更多高效会议的顾问，上周她提醒我的一项研究表明，这种影响似乎与智力或个性无关。</div><div class=clearfloat></div><div class=leftp></div><div class=rightp></div><div class=clearfloat></div><div class=leftp>She points out there are costs to letting gasbags dominate a meeting. Fostering innovation, for example, requires diversity of thought. But if meetings are dominated by a noisy minority, “you can have a fantastically diverse workforce but you are not getting diversity of thought”.</div><div class=rightp>她指出，让话痨主导会议，是要付出代价的。例如，促进创新就需要思维的多样性。但如果会议由聒噪的少数人主导，“你可以拥有极其多样化的员工队伍，但你得不到思想的多样性”。</div><div class=clearfloat></div><div class=leftp></div><div class=rightp></div><div class=clearfloat></div><div class=leftp>That is a useful insight and it lends weight to an idea I find appealing: silent meetings. </div><div class=rightp>这是一个有用的见解，也为我认为很有吸引力的一个想法增加了分量：沉默会议。</div><div class=clearfloat></div><div class=leftp></div><div class=rightp></div><div class=clearfloat></div><div class=leftp>Instead of brainstorming verbally, participants write down ideas that are put up on a board in a way that does not identify whose idea is whose, and then discussed. The process is said to galvanise introverts and neutralise blowhards.</div><div class=rightp>与口头的头脑风暴不同的是，参与者将自己的想法写在一块板上，但不区分谁的想法是谁的，然后进行讨论。据说这个过程可以激励内向者，中和吹牛者。</div><div class=clearfloat></div><div class=leftp></div><div class=rightp></div><div class=clearfloat></div><div class=leftp>It would not work for all types of meeting, I know, but in the meantime, there is an old saying that a lot of windy meeting attendees might like to bear in mind. Better to <a href="https://www.npr.org/2017/04/04/522581148/hemingway-didnt-say-that-and-neither-did-twain-or-kafka">remain silent</a> and risk being thought a fool than to speak and remove all doubt.</div><div class=rightp>我知道，这并不适用于所有类型的会议，但与此同时，有句老话可能会让很多喜欢夸夸其谈的与会者铭记在心。宁可保持沉默，冒着被认为是傻瓜的风险，也不要开口说话，消除一切疑虑。</div><div class=clearfloat></div><div class=leftp></div><div class=rightp></div><div class=clearfloat></div><div class=leftp><a href="mailto:pilita.clark@ft.com"><em class="is-text-only" id="id-22">pilita.clark@ft.com</em></a></div><div class=rightp><a href="mailto:pilita.clark@ft.com"><em class="is-text-only" id="id-22">pilita.clark@ft.com</em></a></div><div class=clearfloat></div><div class=leftp></div><div class=rightp></div><div class=clearfloat></div>
+    
+    </div>
+    <div class="clearfloat"></div>
+    </div>
+    <div class="copyrightstatement-container">
+    版权声明：本文版权归FT中文网所有，未经允许任何单位或个人不得转载，复制或以任何其他方式使用本文全部或部分，侵权必究。
+    </div>
+    <div class="clearfloat"></div>
+    <!-- story privilegeType: EnglishText -->
+    </div>
+    <div class="clearfloat block-bottom"></div>
+    </div></div>
+    <div 
+    data-o-ads-name="infoflow4"
+    class="o-ads infoflow"  
+    data-o-ads-formats-default="false" 
+    data-o-ads-formats-small="FtcInfoFlow" 
+    data-o-ads-formats-medium="false"
+    data-o-ads-formats-large="false"
+    data-o-ads-formats-extra="false"
+    data-o-ads-targeting="cnpos=info4;"
+    >
+    </div>
+    <div class="side-container"><div class="side-inner">
+    <!--column info: -->
+    <div class="story-box with-theme">
+    <h2 class="box-title"><a href="/channel/mba.html">FT商学院</a></h2>
+    <ul class="top10">
+    <li class="mp1"><a target="_blank" href="/interactive/70276">恢复理性的央行能否带领全球经济避开滞胀？</a></li>
+    <li class="mp2"><a target="_blank" href="/interactive/70346">在被俄罗斯占领的土地上，乌克兰人仍未屈服</a></li>
+    <li class="mp3"><a target="_blank" href="/interactive/70224">富豪朋友和忠实信徒助力马斯克收购Twitter</a></li>
+    <li class="mp4"><a target="_blank" href="/interactive/70215">助推理论：捡了芝麻，丢了西瓜？</a></li>
+    <li class="mp5"><a target="_blank" href="/interactive/70303">堕胎：推翻罗伊诉韦德案对美国妇女意味着什么？</a></li>
+    <li class="mp6"><a target="_blank" href="/interactive/70218">美国测试新的航天器以保护地球免受小行星撞击</a></li>
+    <li class="mp7"><a target="_blank" href="/interactive/69683">乔纳森·海特：自由民主真的很容易吗？我们被骗了</a></li>
+    <li class="mp8"><a target="_blank" href="/interactive/70125">热门房产：英格兰侏罗纪海岸五处待售房产</a></li>
+    <li class="mp9"><a target="_blank" href="/interactive/70356">美国就业市场空前紧张，零售商压力巨大</a></li>
+    <li class="mp10"><a target="_blank" href="/interactive/70170">一周新闻小测：2022年5月7日</a></li>
+    </ul>
+    </div>
+    <div class="story-box last-child">
+    <h2 class="box-title"><a>相关话题</a></h2>
+    <ul class="top10">
+    <li class="story-theme mp1">
+    <a target="_blank" href="/tag/FT商学院">FT商学院</a>
+    <div class="icon-right">
+    <button class="myft-follow plus" data-tag="FT商学院" data-type="tag">关注</button>
+    </div>
+    </li>
+    <li class="story-theme">
+    <a target="_blank" href="/tag/拜登">拜登</a>
+    <div class="icon-right">
+    <button class="myft-follow plus" data-tag="拜登" data-type="tag">关注</button>
+    </div>
+    </li>
+    <li class="story-theme">
+    <a target="_blank" href="/tag/纽约时报">纽约时报</a>
+    <div class="icon-right">
+    <button class="myft-follow plus" data-tag="纽约时报" data-type="tag">关注</button>
+    </div>
+    </li>
+    </ul>
+    </div>
+    </div></div><div class="clearfloat"></div>
+    </div></div>
+    <div class="block-container no-side story-recommend-container" id="story-recommend-container"><div class="block-inner">
+    <div class="content-container"><div class="content-inner">
+    <div class="list-container"><div class="list-inner">
+    <h2 class="list-title"><a class="list-link" href="#">您可能感兴趣的文章</a></h2>
+    <div class="items" id="story-recommend-bottom"></div>
+    </div></div>
+    </div></div>
+    <div class="clearfloat block-bottom"></div>
+    </div></div>
+    <div 
+    data-o-ads-name="paidpost2"
+    class="o-ads paid-post"  
+    data-o-ads-formats-default="false" 
+    data-o-ads-formats-small="false"
+    data-o-ads-formats-medium="false"
+    data-o-ads-formats-large="FtcPaidpost"
+    data-o-ads-formats-extra="FtcPaidpost"
+    data-o-ads-targeting="cnpos=paidpost2;"
+    >
+    </div>
+    <div 
+    data-o-ads-name="paidpost"
+    class="o-ads paid-post"  
+    data-o-ads-formats-default="false" 
+    data-o-ads-formats-small="false"
+    data-o-ads-formats-medium="false"
+    data-o-ads-formats-large="FtcPaidpost"
+    data-o-ads-formats-extra="FtcPaidpost"
+    data-o-ads-targeting="cnpos=paidpost;"
+    >
+    </div>
+    <div class="footer-container"><div class="footer-inner">
+    <div>
+    <a href="/m/corp/aboutus.html">关于我们</a>
+    <a href="https://ft.wd3.myworkdayjobs.com/FT_Chinese_External_Careers" target="_blank">加入我们</a>
+    <a href="/m/corp/faq.html">问题回馈</a>
+    <a href="/m/corp/contact.html">联系方式</a>
+    <a href="/m/corp/partner.html">合作伙伴</a>
+    <a href="/m/corp/service.html">服务条款</a>
+    <a href="/m/corp/sales.html">广告业务 </a>
+    <a href="/m/corp/copyright.html">版权声明</a>
+    <a href="/m/marketing/ftc.html">最新动态</a>
+    </div>
+    <p>
+    <span class="copyright"><b>© The Financial Times Ltd 2022</b></span> 
+    <span><acronym title="Financial Times">FT</acronym> and 'Financial Times' are trademarks of The Financial Times Ltd.</span>
+    </p>
+    </div></div>
+    <script>
+    function async(u, c) {
+    var d = document, t = 'script',
+    o = d.createElement(t),
+    s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+    }
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+    apiKey: "AIzaSyCB4QkzRm1oUl9-XA6kl8ob58FI3C6iDY0",
+    authDomain: "ftchineseiphone.firebaseapp.com",
+    databaseURL: "https://ftchineseiphone.firebaseio.com",
+    projectId: "ftchineseiphone",
+    storageBucket: "ftchineseiphone.appspot.com",
+    messagingSenderId: "342601113715",
+    appId: "1:342601113715:web:6d7016e26b94e3854fca06",
+    measurementId: "G-PT4E4NGVJV"
+    };
+    //MARK: - The core Firebase JS SDK is always required and must be listed first
+    async('https://www.gstatic.com/firebasejs/7.2.2/firebase-app.js', function() {
+    // MARK: - TODO: Add SDKs for Firebase products that you want to use: https://firebase.google.com/docs/web/setup#available-libraries
+    async('https://www.gstatic.com/firebasejs/7.2.2/firebase-analytics.js', function() {
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+    });
+    });
+    </script>
+    <img src='https://beacon.krxd.net/event.gif?event_id=KWA6DGT9&event_type=rtg' width=0 height=0 /><div class="overlay-container" id="font-setting">
+    <div class="overlay-inner">
+    <div class="overlay-bg" data-parentid="font-setting"></div>
+    <div class="overlay-content-outer">
+    <div class="overlay-content-inner">
+    <div class="overlay-content">
+    <div class="overlay-title">设置字号<i class="overlay-close" data-parentid="font-setting">×</i></div>
+    <span class="font-options" id="font-options">
+    <div class="smallest first-child" data-font="0.8">最小</div>
+    <div class="smaller" data-font="0.9">较小</div>
+    <div class="normal" data-font="1">默认</div>
+    <div class="bigger" data-font="1.2">较大</div>
+    <div class="biggest" data-font="1.6">最大</div>
+    </span>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div><div class="overlay-container" id="share-legacy">
+    <div class="overlay-inner">
+    <div class="overlay-bg" data-parentid="share-legacy"></div>
+    <div class="overlay-content-outer">
+    <div class="overlay-content-inner">
+    <div class="overlay-content">
+    <div class="overlay-title">分享<i class="overlay-close" data-parentid="share-legacy">×</i></div>
+    <span id="sharelinks"></span>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div><script type="text/javascript">
+    window._taboola = window._taboola || [];
+    _taboola.push({flush: true});
+    </script>
 
 
 

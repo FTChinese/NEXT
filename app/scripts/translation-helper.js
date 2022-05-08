@@ -635,6 +635,33 @@ function replaceAll() {
     }
 }
 
+function watchChange() {
+    if (!window.opener) {return;}
+    var fileupdatetimeEle = window.opener.document.getElementById('fileupdatetime');
+    var fileupdatetime = fileupdatetimeEle.value;
+    if (!fileupdatetimeEle) {return;}
+    var ids = [window.opener.contentId];
+    var idsString = ids.join(',');
+    setInterval(function() {
+        var xhr = new XMLHttpRequest();
+        xhr.open('post', '/falcon.php/jsapi/get_interactive_info_by_id');
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.onload = function() {
+            if (xhr.status !== 200) {return;}
+            var items = JSON.parse(xhr.responseText);
+            if (items.length === 0) {return;}
+            var newFileupdatetime = items[0].fileupdatetime;
+            if (newFileupdatetime != fileupdatetime) {
+                fileupdatetime = newFileupdatetime;
+                if (window.confirm('这篇文章在您进行编辑的时候，似乎被别人进行了修改或发布，您要看看详情吗？')) {
+                    window.open('/falcon.php/ia/edit/' + window.opener.contentId, '_blank');
+                }
+            }
+        };
+        xhr.send(idsString);
+    }, 60000);
+}
+
 if (window.opener || typeof window.subtitleInfo === 'object' || window.isTestOn) {
     var englishText;
     var translationText;
@@ -684,6 +711,7 @@ if (window.opener || typeof window.subtitleInfo === 'object' || window.isTestOn)
         document.getElementById('translations').innerHTML = translationsHTML;
     }
     start();
+    watchChange();
 }
 
 /* jshint ignore:end */

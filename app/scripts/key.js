@@ -617,7 +617,7 @@ function getCapchaForPhoneLogin() {
     };
     xhr.onerror = function(err) {
         var isTypeError = typeof err === 'object' && err.type === 'error';
-        var errInfo = '您现在无法连接登录的服务器，请稍后尝试，如果此情况多次出现，请求助我们的客服。'
+        var errInfo = '您现在无法连接登录的服务器，请稍后尝试，如果此情况多次出现，请求助我们的客服。';
         errInfo += isTypeError ? '' : '错误详情：' + err.toString(); 
         statusEle.innerHTML = errInfo;
     };
