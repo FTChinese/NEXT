@@ -137,7 +137,8 @@
         <%assign var="coverStoryTime" value=$itemT%>
         <%math assign="timeDiff" equation="x-y" x=$smarty.now y=$itemT%>
         <%assign var="timeMath" value=$timeDiff%>
-        <%if $timeMath <= 60*60*2%>
+        <%*<!--MARK: There's really no need to let the editorial team override the weekend edition, as they usually don't respond to breaking news and only put soft content on cover on weekends. -->*%>
+        <%if $timeMath <= 60*60*0%>
             <%assign var="hasPublishedNewCoverStory" value="yes"%>
         <%/if%>
     <%/if%>

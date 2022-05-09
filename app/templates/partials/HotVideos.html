@@ -1,3 +1,22 @@
+<div class="side-container"><div class="side-inner"><div class="mps">
+	<%if $interactivemodel != ""%>
+		<%assign var="HotVideos" value=$interactivemodel->get_interactive_by_field_search("find_in_set('HotVideoByPageViews', tag)",0,1,7,10800)%>
+		<%if count($HotVideos) > 0 %>
+			<%if $boxTitleClass == ""%>
+				<%assign var="boxTitleClass" value="list-title"%>
+			<%/if%>
+			<h2 class="<%$boxTitleClass%>"><a href="/channel/stream.html"><%$HotVideos[0].cheadline%></a></h2>
+			<%if $smarty.get.webview == "ftcapp"%>
+				<%$HotVideos[0].ebody%>
+			<%else%>
+				<%$HotVideos[0].cbody%>
+			<%/if%>
+		<%/if%>
+	<%/if%>
+</div></div></div>
+
+
+<%*<!-- MARK: - This API has stopped updating, not worth fixing it as it is a big pile of tech debt
 <%if $videomodel != ""%>
 <div class="side-container"><div class="side-inner">
 	<div class="mps">
@@ -13,11 +32,6 @@
 			<%/foreach%>
 		</ul>
 	</div>
-
-	<%if $smarty.get.ad != "no" && $noAd != "true" && 1>2%>
-    <div class="mpu-container">
-        <script type="text/javascript">document.write (writeAd('mpu'));</script>
-    </div>
-    <%/if%>
 </div></div>
 <%/if%>
+-->*%>
