@@ -35,18 +35,25 @@
 <div class="block-container has-side story-page"><div class="block-inner">
     <div class="content-container"><div class="content-inner">
         <div class="story-container ce">
-            <h1 class="story-headline"><%$storyHeadline%></h1>
-            <!--Story Lead 1-->
-            <div class="story-lead P-only"><%$info.leadbody|replace:"<br>":""%></div>
-            <div class="story-action-placeholder" id="story-action-placeholder">
-                <div class="story-action">
-                    <div class="action-inner">
-                        <a class="action-icon icon-wechat" href="<%$wechatUrl%>" target="_blank"></a>
-                        <a class="action-icon icon-weibo" href="<%$sinaUrl%>" target="_blank"></a>
-                        <a class="action-icon icon-linkedin" href="<%$linkedInUrl%>" target="_blank"></a>
-                        <a class="action-icon icon-twitter" href="<%$twitterUrl%>" target="_blank"></a>
-                        <a class="action-icon icon-facebook" href="<%$facebookUrl%>" target="_blank"></a>
-                        <a class="icon-right icon-action icon-share" onclick="showOverlay('share-legacy')"></a>
+            <div class="story-topper">
+                <h1 class="story-headline"><%$storyHeadline%></h1>
+                <!--Story Lead 1-->
+                <div class="story-lead P-only"><%$info.leadbody|replace:"<br>":""%></div>
+            </div>
+            <div class="story-tools">
+                <div class="story-action-placeholder" id="story-action-placeholder">
+                    <div class="story-action">
+                        <div class="action-inner">
+                            <a class="action-icon icon-wechat" href="<%$wechatUrl%>" target="_blank"></a>
+                            <a class="action-icon icon-weibo" href="<%$sinaUrl%>" target="_blank"></a>
+                            <a class="action-icon icon-linkedin" href="<%$linkedInUrl%>" target="_blank"></a>
+                            <a class="action-icon icon-twitter" href="<%$twitterUrl%>" target="_blank"></a>
+                            <a class="action-icon icon-facebook" href="<%$facebookUrl%>" target="_blank"></a>
+                            <div class="icon-right icon-save P-hide">
+								<button id="addfavlink<%$info.photonewsid%>" data-item-type="photo">收藏</button>
+							</div>
+                            <a class="icon-right icon-action icon-share" onclick="showOverlay('share-legacy')"></a>
+                        </div>
                     </div>
                 </div>
             </div>

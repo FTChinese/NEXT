@@ -62,16 +62,16 @@
 			<%assign var="i" value=0%>
 			<%assign var="allStoiesCount" value=$hasImageCount%>
 			<%foreach from=$allstory item=item%>
-				<%if $item.photonewsid && $item.photonewsid != ""%>
+
+				<%if $item.type == 'photo' || $item.type == 'photonews' || $item.photonewsid && $item.photonewsid != ""%>
 					<%assign var="itemType" value="photonews"%>
-				<%elseif ($item.video_name && $item.video_name != "") || ($item.cc_vaddress && $item.cc_vaddress != "")%>
+				<%elseif $item.type == 'video' || ($item.video_name && $item.video_name != "") || ($item.cc_vaddress && $item.cc_vaddress != "")%>
 					<%assign var="itemType" value="video"%>
-				<%elseif preg_match("/^[0-9]{9}$/is",$item.id)%>
+				<%elseif $item.type == 'story' || preg_match("/^[0-9]{9}$/is",$item.id)%>
 					<%assign var="itemType" value="story"%>
 				<%else%>
 					<%assign var="itemType" value="interactive"%>
 				<%/if%>
-
 
 				<%assign var="itemImage" value=$item.story_pic.cover|default:$item.story_pic.other|default:$item.story_pic.smallbutton|default:$item.illustration|default:$item.cover|default:$item.thumb_url|default:$item.imageHighlightBox%>
 				<%if $itemImage == ""%>
@@ -603,11 +603,11 @@
 				<%foreach from=$allstory item=item%>
 
 
-					<%if $item.photonewsid && $item.photonewsid != ""%>
+					<%if $item.type == "photo" || $item.type == "photonews" || $item.photonewsid && $item.photonewsid != ""%>
 						<%assign var="itemType" value="photonews"%>
-					<%elseif ($item.video_name && $item.video_name != "") || ($item.cc_vaddress && $item.cc_vaddress != "")%>
+					<%elseif $item.type == "video" || ($item.video_name && $item.video_name != "") || ($item.cc_vaddress && $item.cc_vaddress != "")%>
 						<%assign var="itemType" value="video"%>
-					<%elseif preg_match("/^[0-9]{9}$/is",$item.id)%>
+					<%elseif $item.type == "story" || preg_match("/^[0-9]{9}$/is",$item.id)%>
 						<%assign var="itemType" value="story"%>
 					<%else%>
 						<%assign var="itemType" value="interactive"%>
@@ -891,7 +891,7 @@
 								<h2 class="item-headline"><a target="_blank" href="<%$itemLink%>"><%$itemHeadline%></a></h2>
 								<%if $hideLead === "no"%><div class="item-lead"><%$itemLead|nl2br%></div><%/if%>
 								<div class="icon-right icon-save">
-									<button id="addfavlink<%$itemId%>"><%if $$favstory == ""%>收藏<%else%>删除<%/if%></button>
+									<button id="addfavlink<%$itemId%>" data-item-type="<%$itemType|replace:"photonews":"photo"%>"><%if $$favstory == ""%>收藏<%else%>删除<%/if%></button>
 								</div>
 								<%$itemTimeStamp%>
 								<div class="item-bottom"></div>

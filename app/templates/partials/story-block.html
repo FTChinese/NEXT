@@ -78,11 +78,13 @@
 								<a class="action-icon icon-facebook P-hide" href="<%$facebookUrl%>" target="_blank"></a>
 								<%$languageOptions%>
 								<%$buyButton%>
-								<%if $itemType == "story" || $itemType == "premium"%>
+								<%if $itemType == "story" || $itemType == "premium" || $itemType == "interactive" || ($itemType == "video" && $smarty.get.showFav == "on")%>
 									<div class="icon-right icon-save P-hide">
-										<button id="addfavlink<%$story.id%>">收藏</button>
+										<button id="addfavlink<%$itemId%>" data-item-type="<%$itemType%>">收藏</button>
 									</div>
-									<a class="icon-right icon-action icon-comments" href="/comments/index/<%$story.id%>" target="_blank"></a>
+									<%if $itemType == "story" || $itemType == "premium"%>
+										<a class="icon-right icon-action icon-comments" href="/comments/index/<%$story.id%>" target="_blank"></a>
+									<%/if%>
 									<a class="icon-right icon-action icon-print P-hide" onclick="window.print()" target="_blank"></a>
 								<%/if%>
 								<a class="icon-right icon-action icon-font-size" onclick="showOverlay('font-setting')"></a>
