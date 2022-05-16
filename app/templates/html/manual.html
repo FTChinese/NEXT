@@ -141,18 +141,21 @@
         <%math assign="timeDiff" equation="x-y" x=$smarty.now y=$itemT%>
         <%assign var="timeMath" value=$timeDiff%>
         <%*<!--MARK: There's really no need to let the editorial team override the weekend edition, as they usually don't respond to breaking news and only put soft content on cover on weekends. -->*%>
-        <%if $timeMath <= 60*60*0%>
+        <%if $timeMath <= 60*60*1%>
             <%assign var="hasPublishedNewCoverStory" value="yes"%>
         <%/if%>
     <%/if%>
     <%*<!--MARK: Show FT Academy on top during public holidays and weekends-->*%>
     <%assign var="isPublicHoliday" value="no"%>
-    <%if $hasPublishedNewCoverStory == "yes" || date("Ymd", $smarty.now) == 20220507 || date("Ymd", $smarty.now) == 20220507%>
+    <%if date("Ymd", $smarty.now) == 20220507 || date("Ymd", $smarty.now) == 20220507%>
         <%*<!--MARK: When weekend days are working days in China because of long public holidays exchanges such as Chinese new year, National day, etc... -->*%>
         <%assign var="isPublicHoliday" value="no"%>
     <%elseif date("Ymd", $smarty.now) >= 20220430 && date("Ymd", $smarty.now) <= 20220504%>
         <%assign var="isPublicHoliday" value="yes"%>
     <%elseif date("w", $smarty.now) == 0 || date("w", $smarty.now) == 6%>
+        <%assign var="isPublicHoliday" value="yes"%>
+    <%elseif $hasPublishedNewCoverStory == "no" && date("w", $smarty.now) == 1 && date("H", $smarty.now) <= 6%>
+        <%*<!--MARK: - Extend the publi holiday setting to Monday Mornings -->*%>
         <%assign var="isPublicHoliday" value="yes"%>
     <%/if%>
     <%*<!--MARK: - highlight FT Academy on public holidays for all users -->*%>
