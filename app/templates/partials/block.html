@@ -64,7 +64,11 @@
 <%if $smarty.get.webview != "ftcapp"%>
 	<%assign var="visibleOnlyClass" value=" `$section.VisibleOnlyTo`"%>
 <%/if%>
-<div class="block-container<%if $section.boxBackground != ""%> <%$section.boxBackground%><%/if%> <%if ($section.side != "" && $section.side != "none" && $section.side != "Narrow") || $sideListCount > 0 %><%assign var="sectionHasSide" value="yes"%>has-side<%if $section.sideAlign !== ""%> side-<%$section.sideAlign|default:"right"%><%/if%><%else%><%assign var="sectionHasSide" value="no"%>no-side<%/if%><%if $section.side == "HotVideos"%> side-video<%/if%><%if $section.side == "Narrow"%> narrow-block<%/if%><%$visibleOnlyClass%>"><div class="block-inner">
+<%assign var=backgroundStyle value=""%>
+<%if $section.BackgroundColor != ""%>
+	<%assign var=backgroundStyle value=" style=\"background-color: `$section.BackgroundColor`\""%>
+<%/if%>
+<div class="block-container<%if $section.boxBackground != ""%> <%$section.boxBackground%><%/if%> <%if ($section.side != "" && $section.side != "none" && $section.side != "Narrow") || $sideListCount > 0 %><%assign var="sectionHasSide" value="yes"%>has-side<%if $section.sideAlign !== ""%> side-<%$section.sideAlign|default:"right"%><%/if%><%else%><%assign var="sectionHasSide" value="no"%>no-side<%/if%><%if $section.side == "HotVideos"%> side-video<%/if%><%if $section.side == "Narrow"%> narrow-block<%/if%><%$visibleOnlyClass%>" <%$backgroundStyle%>><div class="block-inner">
 <div class="content-container">
 	<%*<!-- MARK: - This doesn't seem to be in use! Remove after Jan 1, 2021! -->*%>
 	<%*<!-- include file="next/partials/full-screen-subscribe-hint.html" -->*%>
@@ -217,14 +221,14 @@
 					<%if $listHasFloat === "none" || $listHasFloat === "SideBySide" || $listHasFloat === "SplitList" || $l==0 || ($prev >= 0 && $list.float != $section.lists[$prev].float)%><div class="list-container<%$listClass%>"><div class="list-inner"><%/if%>
 						<%if $list.title != ""%>
 							<h2 class="list-title">
-								<a class="list-link<%if $list.title == " "%> empty<%/if%>" href="<%$listUrl%>"><%$list.title%></a>
+								<a class="list-link<%if $list.title == " "%> empty<%/if%>" href="<%$listUrl%>" <%$backgroundStyle%>><%$list.title%></a>
 								<%if $list.sponsorLogoUrl != ""%>
-									<a class="sponsor-link" target=_blank href="<%$list.sponsorLink|default:"#"%>"><figure class="loading sponsor" data-url="<%$list.sponsorLogoUrl|replace:"/upload/":"/"%>"></figure></a>
+									<a class="sponsor-link P-hide" target=_blank href="<%$list.sponsorLink|default:"#"%>"><figure class="loading sponsor" data-url="<%$list.sponsorLogoUrl|replace:"/upload/":"/"%>"></figure></a>
 								<%/if%>
 							</h2>
 						<%elseif $l > 0%>
 							<h2 class="list-title">
-								<a class="list-link empty"></a>
+								<a <%$backgroundStyle%> class="list-link empty"></a>
 							</h2>
 						<%/if%>
 
@@ -239,18 +243,13 @@
 						<%/if%>
 
 						<%if $list.sponsorLogoUrl != ""%>
-							<%assign var=stickTop value="44px"%>
-							<%if $smarty.get.webview === "ftcapp"%>
-								<%assign var=stickTop value="0"%>
-							<%/if%>
 							<style>
-								.sponsor-logo-sticky {
-									position:sticky;
-									top:<%$stickTop%>;
-									z-index:1;
+								.sponsor-logo-normal {
+									margin: auto;
+									max-width: 200px;
 								}
 							</style>
-							<a href="<%$list.sponsorLink%>" target="_blank" class="sponsor-logo-sticky P-only"><img src="<%$list.sponsorLogoUrl%>"></a>
+							<a href="<%$list.sponsorLink%>" target="_blank" class="sponsor-logo-normal P-only"><img src="<%$list.sponsorLogoUrl%>"></a>
 						<%/if%>
 
 						<%if $list.sponsorAdId != "" && 0>1%>
@@ -1661,6 +1660,9 @@
 											<%/if%>
 											<%if $hideLead === "no"%><div class="item-lead"><%$itemLead|nl2br%></div><%/if%>
 											<%$itemTimeStamp%>
+											<%if $list.readMore != ""%>
+												<a class="read-more" target="_blank"<%$itemLink%>><%$list.readMore%></a>
+											<%/if%>
 											<%if $item.relatives|@count > 0 && $item.showRelativeStoryItems > 0%>
 												<%assign var="r" value=0%>
 												<div class="relative-container">
@@ -1926,7 +1928,7 @@
 						</div>
 				<%elseif $list.type == "SideInclude"%>
 						<div class="mps<%$firstChildClass%><%$lastChildClass%>">
-							<h2 class="list-title"><a href="<%$list.url|default:"#"%>"><%$list.title|default:$defaultTitle%></a></h2>
+							<h2 class="list-title"><a <%$backgroundStyle%> href="<%$list.url|default:"#"%>"><%$list.title|default:$defaultTitle%></a></h2>
 							<%include file="next/partials/`$list.fromSide`.html"%>
 						</div>
 						<%assign var="s" value=$s+1%>

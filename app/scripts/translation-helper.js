@@ -43,6 +43,8 @@ delegate.on('click', '.info-original a[href], .info-translation a[href], .info-o
 
 delegate.on('click', '.info-translation', function(event){
     confirmTranslation(this);
+    var textArea = this.closest(".info-container").querySelector('textarea');
+    toggleTextareaWarning(textArea);
 });
 
 delegate.on('click', '.translation-suggestion', function(event){
@@ -61,6 +63,36 @@ delegate.on('click', '.translation-suggestion', function(event){
     }
 });
 
+// MARK: - Reminder when editing a textarea
+delegate.on('keyup', '.info-container textarea', function(event){
+    toggleTextareaWarning(this);
+});
+
+// MARK: - Reminder when leaving a textarea
+delegate.on('blur', '.info-container textarea', function(event){
+    toggleTextareaWarning(this);
+});
+
+function toggleTextareaWarning(ele) {
+    var status = checkTextarea(ele);
+    if (status.success === true) {
+        ele.classList.remove('warning');
+        return;
+    }
+    ele.classList.add('warning');
+}
+
+// MARK: - Check if the value of textarea is valid
+function checkTextarea(ele) {
+    var value = ele.value;
+    if (value === '') {
+        return {success: true};
+    }
+    if (/[\S]+[\n\r]+[\S]+/.test(value)) {
+        return {success: false, message: '这个文本框有多个段落，很可能是您在编辑的时候，忘记删除多余的文字: \n\n' + value};
+    }
+    return {success: true};
+}
 
 // MARK: - Equivalent to php's str_word_count, which is used by the FTC's CMS workflow statistics
 function str_word_count(str) {
@@ -113,6 +145,7 @@ function confirmTranslation(ele) {
     var finalTranslationEle = ele.parentNode.parentNode.querySelector('textarea');
     var prefix = (finalTranslationEle.value === '') ? '' : '\n\n';
     var translatedText = prefix + text;
+    translatedText = translatedText.replace(/&amp;/g, '&');
     finalTranslationEle.value += translatedText;
     var infoContainers = document.querySelectorAll('.info-container');
     var originalText = ele.parentNode.parentNode.querySelector('.info-original');
@@ -155,7 +188,7 @@ function start() {
                 for (var m=0; m<translations.length; m++) {
                     infoHTML += '<div onclick="confirmTranslation(this)" data-translation-index="' + m + '"  class="info-translation" title="click to confirm this translation to the right">' + translations[m] + '</div>';
                 }
-                infoHTML = '<div class="info-container"><div>' + infoHTML + '</div><div><textarea data-info-id="' + id + '" placeholder="点选左边的翻译版本，您也可以继续编辑"></textarea></div></div><hr>';
+                infoHTML = '<div class="info-container"><div>' + infoHTML + '</div><div><div class="info-suggestion"></div><textarea data-info-id="' + id + '" placeholder="点选左边的翻译版本，您也可以继续编辑"></textarea></div></div><hr>';
                 k += infoHTML;
             }
         }
@@ -200,7 +233,7 @@ function start() {
             if (t1 !== '') {
                 infoHTML += '<div data-translation-index="' + j1 + '" class="info-translation selected" title="click to confirm this translation to the right">' + t1 + '</div>';
             }
-            infoHTML = '<div class="info-container"><div>' + infoHTML + '</div><div><textarea data-info-id="' + id + '" placeholder="点选右边的翻译版本，您也可以继续编辑">' + t1 + '</textarea></div></div><hr>';
+            infoHTML = '<div class="info-container"><div>' + infoHTML + '</div><div><div class="info-suggestion"></div><textarea data-info-id="' + id + '" placeholder="点选右边的翻译版本，您也可以继续编辑">' + t1 + '</textarea></div></div><hr>';
             k += infoHTML;
         }
         storyBodyEle.innerHTML = k;
@@ -255,10 +288,13 @@ function start() {
         container.querySelector('.info-translation').classList.add('selected');
     }
     // MARK: - Open all links in new tab
-    var allLinks = document.querySelectorAll('.info-translation a[href]');
+    var allLinks = document.querySelectorAll('.info-original a[href]');
+
     for (var n=0; n<allLinks.length; n++) {
         allLinks[n].setAttribute('target', '_blank');
-        allLinks[n].closest(".info-container").querySelector('textarea').setAttribute('placeholder', '在点选左边把文字填写到这里之后，可以尝试选择部分文字，然后点击左边的链接，就可以方便地添加链接。');
+        var suggestion = '在点选左边把文字填写到这里之后，可以尝试选择部分文字，然后点击左边的链接，就可以方便地添加链接。';
+        allLinks[n].closest(".info-container").querySelector('.info-suggestion').innerHTML = suggestion;
+        // allLinks[n].closest(".info-container").querySelector('textarea').setAttribute('placeholder', suggestion);
     }
     showGlossarySuggestions();
 }
@@ -389,7 +425,24 @@ function finishTranslation() {
     trackFinishTimeAndClose();
 }
 
+function checkAllTextAreas() {
+    var textareas = document.querySelectorAll('.info-container textarea');
+    for (var i=0; i<textareas.length; i++) {
+        var status = checkTextarea(textareas[i]);
+        if (status.success) {continue;}
+        return status;
+    }
+    return {success: true};
+}
+
 function finishTranslationForArticle() {
+    var status = checkAllTextAreas();
+    if (!status.success) {
+        var question = '您编辑的内容可能有些问题，您还要继续提交吗？\n\n' + status.message;
+        if (!window.confirm(question)) {
+            return;
+        }
+    }
     var t = document.getElementById('english-text').value;
     var newText = t.trim().replace(/^[\n\r\s]+/, '').replace(/[\n\r\s]+$/, '');
     var englishInfoDiv = document.createElement('DIV');
