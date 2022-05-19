@@ -1,0 +1,14 @@
+<%if $interactivemodel != ""%>
+    <%assign var="HotVideos" value=$interactivemodel->get_interactive_by_field_search("find_in_set('HotVideoByPageViews', tag)",0,1,7,10800)%>
+    <%if count($HotVideos) > 0 %>
+        <%if $boxTitleClass == ""%>
+            <%assign var="boxTitleClass" value="list-title"%>
+        <%/if%>
+        <h2 class="<%$boxTitleClass%>"><a href="/channel/stream.html"><%$HotVideos[0].cheadline%></a></h2>
+        <%if $smarty.get.webview == "ftcapp"%>
+            <%$HotVideos[0].ebody%>
+        <%else%>
+            <%$HotVideos[0].cbody%>
+        <%/if%>
+    <%/if%>
+<%/if%>
