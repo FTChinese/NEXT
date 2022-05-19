@@ -1976,22 +1976,16 @@
 							<%assign var="feedItems" value=$list.feedItems%>
 						<%/if%>
 						<div class="mps<%$firstChildClass%><%$lastChildClass%>">
-							<h2 class="list-title"><a href="<%$list.url|default:"#"%>"><%$list.title|default:$defaultTitle%></a></h2>
-							<ul class="top10">
-								<%assign var="i" value=0%>							
-								<%foreach item=sc from=$mp%>
-									<%if $i<$feedItems%>
-										<%assign var="i" value=$i+1%>
-										<li class="mp<%$i%>"><span><%$i%>. </span><a target="_blank" href="/<%$feedType%>/<%$sc.storyid|default:$sc.id%>"><%$sc.cheadline|default:$sc.title%></a></li>
-									<%/if%>
-								<%/foreach%>
-							</ul>
+							<%if $list.feedType == "video"%>
+								<%include file="next/partials/HotVideoByPageViews.html"%>
+							<%else%>
+								<%include file="next/partials/HotContentByPageViews.html"%>
+							<%/if%>
 						</div>
 					<%else%>
 						<%include file="next/partials/`$list.RankingBy`.html"%>
 					<%/if%>
 					<%assign var="s" value=$s+1%>
-					<%*<!--end SideRanking -->*%>
 				<%elseif $list.type == "SideWithItems"%>
 					<%assign var="itemTag" value=""%>
 					<div class="side-list<%$firstChildClass%><%$lastChildClass%> <%$list.sideOption%>">
