@@ -105,7 +105,6 @@ function updateSubscriberStatus() {
     return null;
 }
 
-
 function updateClientIdLinks() {
     window.gClientId = GetCookie('_ga');
     var clientIdLinks = document.querySelectorAll('.o-client-id-link');
