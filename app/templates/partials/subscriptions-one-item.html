@@ -117,6 +117,7 @@
 	<%*<!--MARK: If the user is not using an app. Add the second condition to avoid unexpected outcome.  -->*%>
 	<div class="item-container <%$itemClass%>" <%$audioData%> data-keywords="<%$itemTagsString%>">
 		<div class="item-inner">
+			<%$itemMainTagLink%>
 			<h2 class="item-headline"><a<%$itemLink%> class="item-headline-link <%$lockClass%><%$vipClass%>" target=_blank><%$report.cheadline%></a></h2>
 			<a class="image"<%$itemLink%> target="_blank"><figure class="loading" data-url="<%$report.story_pic.cover|default:$report.story_pic.smallbutton|default:$report.story_pic.other|default:$report.story_pic.bigbutton|replace:"http://i.ftimg.net/picture/":"https://thumbor.ftacademy.cn/unsafe/picture/"%>"></figure></a>
 			<div class="item-lead"><%$report.clongleadbody|default:$report.cshortleadbody%></div>

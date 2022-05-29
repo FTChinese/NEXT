@@ -1608,7 +1608,9 @@
 		<%/if%>
 	<%/if%>
 <%elseif $itemType=="interactive" || $pageType=="interactive"%>
-	<%assign var="storyAuthor" value="`$cbyline_description` `$cauthor`"%>
+	<%*assign var="storyAuthor" value="`$cbyline_description` `$cauthor`"*%>
+
+	<%assign var="storyAuthor" value="`$cbyline_description` `$cauthor_html_format`"%>
 	<%if $cauthor == "" && $eauthor != ""%>
 		<%*<!--MARK: - If there's no Chinese author name, use English author name. -->*%>
 		<%assign var="storyAuthor" value="`$cbyline_description` `$eauthor`"%>
@@ -1750,12 +1752,48 @@
 <%/if%>
 
 
-<%assign var="translationDisclaimer" value=""%>
+
+<%php%>
+
+    $isUserInternal = (isset($_COOKIE["paywall_source"]) && $_COOKIE["paywall_source"] === 'ftc') ? true : false;
+    if (isset($_COOKIE["USER_ID"]) && ($_COOKIE["USER_ID"] == '13ecf682-d977-4b59-b0b2-e79e9b8c994c' || $_COOKIE["USER_ID"] == '33c96172-73f8-4dd3-82f1-0b6fa76a89bc' || $_COOKIE["USER_ID"] == 'c58a1ff4-283e-495f-a418-eb2c10d41abb')) {
+        $isUserInternal = true;
+    }
+    $isUserTester = (isset($_COOKIE["USER_NAME"]) && $_COOKIE["USER_NAME"] === '1BLAY') ? true : false;
+	if (isset($_COOKIE["USER_ID"]) && ($_COOKIE["USER_ID"] == 'JTSix1VjQeQ_f6' || $_COOKIE["USER_ID"] == 'hEq6VuLss4A_d0')) {
+        $isUserInternal = true;
+    }
+	
+
+    $subscriptionType = 'free';
+    if (isset($_COOKIE["paywall"]) && isset($_COOKIE["paywall_expire"])) {
+        $payWallExpire = intval($_COOKIE["paywall_expire"]);
+        if ($payWallExpire > time()) {
+            $subscriptionType = $_COOKIE["paywall"];
+        }
+    }
+    if (isset($_GET['subscription']) && $_GET['subscription'] != '') {
+        $subscriptionType = $_GET['subscription'];
+    }
+    $this->assign("isUserInternal", $isUserInternal);
+    $this->assign("isUserTester", $isUserTester);
+    $this->assign("subscriptionType", $subscriptionType);
+<%/php%>
+
 <%*<!--
-<%if preg_match("/AITranslation/is",$keys) && $page_action != "en"%>
-	<%assign var="translationDisclaimer" value="<div class=\"copyrightstatement-container\">为了第一时间为您呈现此信息，中文内容为机器翻译，并辅以少量人工干预，仅供参考。</div>"%>
-<%/if%>
+	version: 8
+	isUserInternal: <%$isUserInternal%>
+	isUserTester: <%$isUserTester%>
+	subscriptionType: <%$subscriptionType%>
 -->*%>
+
+<%assign var="translationDisclaimer" value=""%>
+<%if $isUserTester !== true && $isUserInternal === true%>
+	<%if preg_match("/AITranslation/is",$keys) && $page_action != "en"%>
+		<%assign var="translationDisclaimer" value="<div class=\"copyrightstatement-container\">为了第一时间为您呈现此信息，中文内容为机器翻译，并辅以少量人工干预，仅供参考。</div>"%>
+	<%/if%>
+<%/if%>
+
 
 <%if $story.original=="yes"%>
 	<%assign var=ftcteam value="Original"%>

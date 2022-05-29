@@ -170,6 +170,18 @@ function confirmTranslation(ele) {
 
 
 function start() {
+    function renderBottomButtons() {
+        if (document.querySelectorAll('.bottom-button').length === 0) {
+            var bottomButton = document.createElement('DIV');
+            bottomButton.className = 'centerButton bottom-button';
+            bottomButton.innerHTML = '<input type="button" value="全局替换" onclick="showReplace(this)" class="submitbutton button ui-light-btn"><input type="button" value="预览" onclick="preview(this)" class="submitbutton button ui-light-btn"><input type="button" value="备份" onclick="saveToLocal()" class="submitbutton button ui-light-btn"><input type="button" value="恢复" onclick="restoreFromLocal()" class="submitbutton button ui-light-btn"><input type="button" value="完成并关闭" onclick="finishTranslation()" class="submitbutton button ui-light-btn">';
+            document.body.appendChild(bottomButton);
+        }
+        document.querySelector('.body').classList.add('full-grid');
+    }
+    function isNotEmpty(element, index, array) {
+        return element !== '';
+    }
     var englishText = document.getElementById('english-text');
     var translationInfoEle = document.getElementById('translation-info');
     var translationInfoString = translationInfoEle.value;
@@ -212,7 +224,7 @@ function start() {
                 }
             }
         }
-        console.log(JSON.stringify(existingTranslationDict));
+        // console.log(JSON.stringify(existingTranslationDict));
 
         for (var i=0; i<translationInfo.length; i++) {
             var info = translationInfo[i];
@@ -237,13 +249,23 @@ function start() {
             k += infoHTML;
         }
         storyBodyEle.innerHTML = k;
-        if (document.querySelectorAll('.bottom-button').length === 0) {
-            var bottomButton = document.createElement('DIV');
-            bottomButton.className = 'centerButton bottom-button';
-            bottomButton.innerHTML = '<input type="button" value="全局替换" onclick="showReplace(this)" class="submitbutton button ui-light-btn"><input type="button" value="预览" onclick="preview(this)" class="submitbutton button ui-light-btn"><input type="button" value="备份" onclick="saveToLocal()" class="submitbutton button ui-light-btn"><input type="button" value="恢复" onclick="restoreFromLocal()" class="submitbutton button ui-light-btn"><input type="button" value="完成并关闭" onclick="finishTranslation()" class="submitbutton button ui-light-btn">';
-            document.body.appendChild(bottomButton);
+        renderBottomButtons();
+    } else if (isReviewMode && eText && tText) {
+        var eTexts = eText.split('\n').filter(isNotEmpty);
+        var tTexts = tText.split('\n').filter(isNotEmpty);
+        var k = '';
+        for (var j=0; j<eTexts.length; j++) {
+            var infoHTML = '';
+            infoHTML += '<div class="info-original">' + eTexts[j] + '</div>';
+            var t1 = '';
+            if (j < tTexts.length) {
+                t1 = tTexts[j] || '';
+            }
+            infoHTML = '<div class="info-container"><div>' + infoHTML + '</div><div><div class="info-suggestion"></div><textarea placeholder="点选右边的翻译版本，您也可以继续编辑">' + t1 + '</textarea></div></div><hr>';
+            k += infoHTML;
         }
-        document.querySelector('.body').classList.add('full-grid');
+        storyBodyEle.innerHTML = k;
+        renderBottomButtons();
     } else {
         var englishTextArray = convertTextToArray(englishText.value);
         var translationEles = document.querySelectorAll('.chinese-translation');
@@ -252,7 +274,6 @@ function start() {
             var translationText = translationEles[i].value;
             translationsArray.push(convertTextToArray(translationText));
         }
-        console.log(translationsArray);
         var p = '';
         for (var j=0; j<englishTextArray.length; j++) {
             p += '<div>' + englishTextArray[j] + '</div>';
@@ -417,7 +438,9 @@ function finishTranslation() {
     try {
         saveToLocal(true);
     }catch(ignore){}
-    if (typeof window.subtitleInfo === 'object') {
+    if (isReviewMode) {
+        finishReview();
+    } else if (typeof window.subtitleInfo === 'object') {
         finishTranslationForVideo();
     } else {
         finishTranslationForArticle();
@@ -510,6 +533,24 @@ function finishTranslationForArticle() {
     }
 }
 
+function finishReview() {
+    console.log('finish review');
+    var finishedTexts = [];
+    var textAreas = document.querySelectorAll('.info-container textarea');
+    for (var i=0; i<textAreas.length; i++) {
+        finishedTexts.push(textAreas[i].value || '');
+    }
+    var cbody = finishedTexts.join('\n\n');
+    if (window.opener) {
+        var cbodyEles = window.opener.document.querySelectorAll('textarea.bodybox, #cbody');
+        for (var j=0; j<cbodyEles.length; j++) {
+            var cbodyEle = cbodyEles[j];
+            cbodyEle.disabled = false;
+            cbodyEle.value = cbody;
+        }
+    }
+}
+
 function showGlossarySuggestions() {
     if (!window.opener) {return;}
     var ebodyEle = window.opener.document.getElementById('ebody');
@@ -575,19 +616,31 @@ function finishTranslationForVideo() {
 }
 
 function preview(buttonEle) {
-    var t = document.getElementById('english-text').value;
-    var newText = t.trim().replace(/^[\n\r\s]+/, '').replace(/[\n\r\s]+$/, '');
-    var englishInfoDiv = document.createElement('DIV');
-    englishInfoDiv.innerHTML = newText;
-    for (var i=0; i<document.querySelectorAll('[data-info-id]').length; i++) {
-        var ele = document.querySelectorAll('[data-info-id]')[i];
-        var id = ele.getAttribute('data-info-id');
-        var infoEle = englishInfoDiv.querySelector('#' + id);
-        if (infoEle) {
-            infoEle.innerHTML = ele.value.trim().replace(/^[\n\r\s]+/, '').replace(/[\n\r\s]+$/, '');
+    var translations = '';
+    if (isReviewMode) {
+        var textareas = document.querySelectorAll('.info-container textarea');
+        for (var i=0; i<textareas.length; i++) {
+            var t = textareas[i].value;
+            if (/^<.*>$/.test(t) === false) {
+                t = '<p>' + t + '</p>';
+            }
+            translations += t;
         }
+    } else {
+        var t = document.getElementById('english-text').value;
+        var newText = t.trim().replace(/^[\n\r\s]+/, '').replace(/[\n\r\s]+$/, '');
+        var englishInfoDiv = document.createElement('DIV');
+        englishInfoDiv.innerHTML = newText;
+        for (var i=0; i<document.querySelectorAll('[data-info-id]').length; i++) {
+            var ele = document.querySelectorAll('[data-info-id]')[i];
+            var id = ele.getAttribute('data-info-id');
+            var infoEle = englishInfoDiv.querySelector('#' + id);
+            if (infoEle) {
+                infoEle.innerHTML = ele.value.trim().replace(/^[\n\r\s]+/, '').replace(/[\n\r\s]+$/, '');
+            }
+        }
+        translations = englishInfoDiv.innerHTML;
     }
-    var translations = englishInfoDiv.innerHTML;
     var previewContainer;
     if (document.querySelectorAll('.preview-container').length === 0) {
         previewContainer = document.createElement('DIV');
@@ -715,21 +768,25 @@ function watchChange() {
     }, 60000);
 }
 
-if (window.opener || typeof window.subtitleInfo === 'object' || window.isTestOn) {
-    var englishText;
-    var translationText;
+var isReviewMode = false;
+var eText;
+var tText;
+if (window.opener || typeof window.subtitleInfo === 'object' || window.testingType) {
     if (window.opener) {
-        englishText = window.opener.ebodyForTranslation || window.opener.document.getElementById('ebody').value;
-        translationText = window.opener.cbodyForTranslation || window.opener.document.getElementById('cbody').value;
-        if (/caption/.test(translationText) && /translations/.test(translationText) && /\"end\":/.test(translationText)) {
-            window.subtitleInfo = JSON.parse(translationText);
+        eText = window.opener.ebodyForTranslation || window.opener.document.getElementById('ebody').value;
+        tText = window.opener.cbodyForTranslation || window.opener.document.getElementById('cbody').value;
+        if (/caption/.test(tText) && /translations/.test(tText) && /\"end\":/.test(tText)) {
+            window.subtitleInfo = JSON.parse(tText);
         }
-    } else if (window.isTestOn && window.testEnglishBody && window.testChineseBody) {
-        englishText = window.testEnglishBody;
-        translationText = JSON.stringify(window.testChineseBody);
-        if (/caption/.test(translationText) && /translations/.test(translationText) && /\"end\":/.test(translationText)) {
-            window.subtitleInfo = JSON.parse(translationText);
+    } else if (window.testingType === 'json' && window.testEnglishBodyJSON && window.testChineseBodyJSON) {
+        eText = window.testEnglishBodyJSON;
+        tText = JSON.stringify(window.testChineseBodyJSON);
+        if (/caption/.test(tText) && /translations/.test(tText) && /\"end\":/.test(tText)) {
+            window.subtitleInfo = JSON.parse(tText);
         }
+    } else if (window.testingType === 'text' && window.testEnglishBodyText && window.testChineseBodyText) {
+        eText = window.testEnglishBodyText;
+        tText = window.testChineseBodyText;
     }
     // MARK: - Update english and translation text for video subtitles
     if (typeof window.subtitleInfo === 'object') {
@@ -749,19 +806,22 @@ if (window.opener || typeof window.subtitleInfo === 'object' || window.isTestOn)
                 n += 1;
             }
         }
-        englishText = englishTexts.join('');
-        translationText = JSON.stringify(translations);
+        eText = englishTexts.join('');
+        tText = JSON.stringify(translations);
     }
-    document.getElementById('english-text').value = englishText;
-    if (/translations/.test(translationText)) {
-        document.getElementById('translation-info').value = translationText;
+    
+    if (/translations/.test(tText)) {
+        document.getElementById('translation-info').value = tText;
+        document.getElementById('english-text').value = eText;
     } else {
-        translations = translationText.split(splitter);
-        var translationsHTML = '';
-        for (var k=0; k<translations.length; k++) {
-            translationsHTML += '<textarea class="commentTextArea chinese-translation" width="100%" rows="3">' + translations[k] + '</textarea>';
-        }
-        document.getElementById('translations').innerHTML = translationsHTML;
+        isReviewMode = true;
+
+        // translations = tText.split(splitter);
+        // var translationsHTML = '';
+        // for (var k=0; k<translations.length; k++) {
+        //     translationsHTML += '<textarea class="commentTextArea chinese-translation" width="100%" rows="3">' + translations[k] + '</textarea>';
+        // }
+        // document.getElementById('translations').innerHTML = translationsHTML;
     }
     start();
     watchChange();
