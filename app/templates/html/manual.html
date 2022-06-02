@@ -117,6 +117,8 @@
     <%/if%>
 <%/if%>
 
+<%assign var="isPublicHoliday" value="no"%>
+<%assign var="isWorkingDayMorning" value="no"%>
 <%if $pageId == "home" || $p.meta.HighlightFTAcademy == "yes"%>
     <%*<!--MARK: Check if the editorial team has published breaking new story on cover during public holidays and weekends. -->*%>
     <%assign var="itemT" value=""%>
@@ -146,7 +148,6 @@
         <%/if%>
     <%/if%>
     <%*<!--MARK: Show FT Academy on top during public holidays and weekends-->*%>
-    <%assign var="isPublicHoliday" value="no"%>
     <%if date("Ymd", $smarty.now) == 20220507 || date("Ymd", $smarty.now) == 20220507%>
         <%*<!--MARK: When weekend days are working days in China because of long public holidays exchanges such as Chinese new year, National day, etc... -->*%>
         <%assign var="isPublicHoliday" value="no"%>
@@ -155,15 +156,18 @@
     <%elseif date("w", $smarty.now) == 0 || date("w", $smarty.now) == 6%>
         <%assign var="isPublicHoliday" value="yes"%>
     <%elseif $hasPublishedNewCoverStory == "no" && date("w", $smarty.now) == 1 && date("H", $smarty.now) <= 6%>
-        <%*<!--MARK: - Extend the publi holiday setting to Monday Mornings -->*%>
+        <%*<!--MARK: - Extend the public holiday setting to Monday Mornings -->*%>
         <%assign var="isPublicHoliday" value="yes"%>
+    <%elseif $hasPublishedNewCoverStory == "no" && date("w", $smarty.now) >= 2 && date("w", $smarty.now) <= 5 && date("H", $smarty.now) <= 6%>
+        <%*<!--MARK: - Other working day mornings before editorial team start updating-->*%>
+        <%assign var="isWorkingDayMorning" value="yes"%>
     <%/if%>
     <%*<!--MARK: - highlight FT Academy on public holidays for all users -->*%>
     <%*<!--if $isPublicHoliday == "no" || $smarty.get.subscription == "member" || $smarty.get.subscription == "premium"-->*%>
-    <%if $isPublicHoliday == "no"%>
-        <%assign var="highlightFTAcademy" value="feed"%>
-    <%else%>
+    <%if $isPublicHoliday == "yes" || $isWorkingDayMorning == "yes"%>
         <%assign var="highlightFTAcademy" value="top"%>
+    <%else%>
+        <%assign var="highlightFTAcademy" value="feed"%>
     <%/if%>
 <%/if%>
 
@@ -367,12 +371,12 @@
 <%/php%>
 
 <%if $smarty.get.bodyonly != "yes"%>
-    <%*<!--
+    <!--
         version: 7
         isUserInternal: <%$isUserInternal%>
         isUserTester: <%$isUserTester%>
         subscriptionType: <%$subscriptionType%>
-    -->*%>
+    -->
     <!DOCTYPE html>
     <html class="no-js core<%if $smarty.get.webview == "ftcapp"%> is-ftc-app<%/if%><%if $smarty.get.device == "iPad"%> is-ipad-app<%/if%>" data-next-app="front-page">
         <head>

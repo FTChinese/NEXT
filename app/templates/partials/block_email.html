@@ -61,26 +61,24 @@
                     $itemsArray = $items;
                 }
                 // MARK: - 适当减少显示的条数：依据日期以及数量，只显示过去24小时的内容，周一显示过去72小时内容，最多显示20条，始终显示头版
-                $items = [];
+                $todayItems = [];
+                $oldItems = [];
                 $date = date_create();
                 $now = date_timestamp_get($date);
                 $days = (date('w') == 1) ? 3 : 1;
                 $cutTime = $now - $days * 24 * 60 * 60;
+                $today_at_midnight = strtotime(date("Ymd"));
                 $maxItems = 30;
                 foreach ($itemsArray as $key=>$item) {
-                    if ($key === 0) {
-                        // MARK: - Always use the cover story
-                        array_push($items, $item);
-                        continue;
-                    }
                     if (count($items) >= $maxItems) {break;}
                     $updateTime = intval($item["timeStamp"]);
-                    if ($updateTime >= $cutTime) {
-                        array_push($items, $item);
-                        continue;
+                    if ($updateTime >= $today_at_midnight) {
+                        array_push($todayItems, $item);
+                    } else if ($updateTime >= $cutTime) {
+                        array_push($oldItems, $item);
                     }
                 }
-                $itemsArray = $items;
+                $itemsArray = array_merge($todayItems, $oldItems);
                 $this->assign("itemsArray", $itemsArray);
             }
         <%/php%>

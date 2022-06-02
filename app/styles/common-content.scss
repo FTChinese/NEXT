@@ -344,15 +344,17 @@
 	.story-headline {
 		font-size: 1.2em;
 	}
-	.image {
-		&.story-image {
-			margin-left: -$defaultPadding*0.5;
-			margin-right: -$defaultPadding*0.5;
-			.caption {
-				margin-left: $defaultPadding*0.5;
-				margin-right: $defaultPadding*0.5;
-			}
+	.image.story-image, .pic picture, .full-grid-story .story-container div.image.story-image, .full-grid-story .story-container div.pic picture {
+		margin-left: -$defaultPadding*0.5;
+		margin-right: -$defaultPadding*0.5;
+		display: block;
+		.caption {
+			margin-left: $defaultPadding*0.5;
+			margin-right: $defaultPadding*0.5;
 		}
+	}
+	#story-body-container.has-picture {
+		overflow: visible;
 	}
 }
 @media screen and (min-width: 691px) and (max-width: 795px) {
