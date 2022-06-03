@@ -151,7 +151,7 @@
     <%if date("Ymd", $smarty.now) == 20220507 || date("Ymd", $smarty.now) == 20220507%>
         <%*<!--MARK: When weekend days are working days in China because of long public holidays exchanges such as Chinese new year, National day, etc... -->*%>
         <%assign var="isPublicHoliday" value="no"%>
-    <%elseif date("Ymd", $smarty.now) >= 20220430 && date("Ymd", $smarty.now) <= 20220504%>
+    <%elseif date("Ymd", $smarty.now) >= 20220603 && date("Ymd", $smarty.now) <= 20220605%>
         <%assign var="isPublicHoliday" value="yes"%>
     <%elseif date("w", $smarty.now) == 0 || date("w", $smarty.now) == 6%>
         <%assign var="isPublicHoliday" value="yes"%>
@@ -371,12 +371,12 @@
 <%/php%>
 
 <%if $smarty.get.bodyonly != "yes"%>
-    <!--
+    <%*<!--
         version: 7
         isUserInternal: <%$isUserInternal%>
         isUserTester: <%$isUserTester%>
         subscriptionType: <%$subscriptionType%>
-    -->
+    -->*%>
     <!DOCTYPE html>
     <html class="no-js core<%if $smarty.get.webview == "ftcapp"%> is-ftc-app<%/if%><%if $smarty.get.device == "iPad"%> is-ipad-app<%/if%>" data-next-app="front-page">
         <head>

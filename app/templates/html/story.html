@@ -5,6 +5,11 @@
 	<%assign var="showNavigation" value="no"%>
 	<%assign var="requirelogin" value="no"%>
 <%/if%>
+<%*<!--MARK: - Lot of things depend on this, put it ahead-->*%>
+<%assign var="shouldShowPayWall" value="no"%>
+<%if ($smarty.get.paywall == "1" || $paywall == "1"|| $smarty.get.paywall == "2"|| $paywall == "2") && $debug_model != 1%>
+	<%assign var="shouldShowPayWall" value="yes"%>
+<%/if%>
 <%*<!--MARK: - get as much as possible info of Speedread Audio from the source -->*%>
 <%if preg_match("/双语电台/is",$tag)%>
 	<%assign var="pageType" value="BilligualAudio"%>
@@ -1388,6 +1393,8 @@
 
 <%if $page_action=="en"%>
 	<%assign var="storyAuthor" value="`$story.ebyline_description` `$story.eauthor` `$story.ebyline_status`"%>
+<%elseif $shouldShowPayWall == "yes"%>
+	<%assign var="storyAuthor" value="`$story.cbyline_description` `$story.cauthor`"%>
 <%else%>
 	<%assign var="storyAuthor" value="`$story.cbyline_description` `$story.cauthor_html_format`"%>
 <%/if%>
@@ -1608,9 +1615,11 @@
 		<%/if%>
 	<%/if%>
 <%elseif $itemType=="interactive" || $pageType=="interactive"%>
-	<%*assign var="storyAuthor" value="`$cbyline_description` `$cauthor`"*%>
-
-	<%assign var="storyAuthor" value="`$cbyline_description` `$cauthor_html_format`"%>
+	<%if $shouldShowPayWall == "yes"%>
+		<%assign var="storyAuthor" value="`$cbyline_description` `$cauthor`"%>
+	<%else%>
+		<%assign var="storyAuthor" value=$cauthor_html_format%>	
+	<%/if%>
 	<%if $cauthor == "" && $eauthor != ""%>
 		<%*<!--MARK: - If there's no Chinese author name, use English author name. -->*%>
 		<%assign var="storyAuthor" value="`$cbyline_description` `$eauthor`"%>
@@ -2053,10 +2062,6 @@
     </script>
 
 	<%include file="next/partials/loadAdDataByDevice.html"%>
-	<%assign var="shouldShowPayWall" value="no"%>
-	<%if ($smarty.get.paywall == "1" || $paywall == "1"|| $smarty.get.paywall == "2"|| $paywall == "2") && $debug_model != 1%>
-		<%assign var="shouldShowPayWall" value="yes"%>
-	<%/if%>
 
 	<%php%>
 		// MARK: - This should be here not in the libs because of complex caches in libs. It's quite complicated logic, best suited for PHP not smarty. We've done A/B test to verify that hiding the machine translation disclaimer improve peformance in terms of quality read, bounce rate and duration. You can check that on Google Optimizer. 
@@ -2119,12 +2124,6 @@
 	    <script type="text/javascript">window.interactiveType = 'Data News';</script>
     <%/if%>
     <%include file="next/partials/head.html"%>
-	<%*<!-- Optinize Ulu moni -->*%>	
-	<%*<!--	
-	<script>
-		!function(a,b,c){var d=b.getElementsByTagName(c)[0],e=b.createElement(c);e.async=!0,e.src="http://tj.qipus.cn/api/sc/j/moni.min.js",d.parentNode.insertBefore(e,d)}(window,document,"script");
-	</script>
-	-->*%>
 
 	<%$paidPostTrack%>
 

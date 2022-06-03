@@ -179,7 +179,7 @@
                     <%if $showMaximum8Tops == "yes"%>
                         <%assign var="topItemCount" value=8%>
                     <%/if%>
-                    <%if $isPublicHoliday == "yes" || $isWorkingDayMorning == "yes"%>
+                    <%if $isWorkingDayMorning == "yes"%>
                         <%assign var="topItemCount" value=4%>
                     <%/if%>
                     <%assign var="interactives" value=$interactivemodel->get_interactive_by_field_search("find_in_set('FT商学院',tag)",0,$topItemCount,5,10800)%>
