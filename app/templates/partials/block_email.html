@@ -70,7 +70,7 @@
                 $today_at_midnight = strtotime(date("Ymd"));
                 $maxItems = 30;
                 foreach ($itemsArray as $key=>$item) {
-                    if (count($items) >= $maxItems) {break;}
+                    if (count($todayItems) >= $maxItems) {break;}
                     $updateTime = intval($item["timeStamp"]);
                     if ($updateTime >= $today_at_midnight) {
                         array_push($todayItems, $item);
@@ -79,6 +79,7 @@
                     }
                 }
                 $itemsArray = array_merge($todayItems, $oldItems);
+                $itemsArray = array_slice($itemsArray, 0, $maxItems, true);
                 $this->assign("itemsArray", $itemsArray);
             }
         <%/php%>
