@@ -273,7 +273,7 @@ function start() {
         if (document.querySelectorAll('.bottom-button').length === 0) {
             var bottomButton = document.createElement('DIV');
             bottomButton.className = 'centerButton bottom-button';
-            bottomButton.innerHTML = '<input type="button" value="全局替换" onclick="showReplace(this)" class="submitbutton button ui-light-btn"><input type="button" value="预览" onclick="preview(this)" class="submitbutton button ui-light-btn"><input type="button" value="备份" onclick="saveToLocal()" class="submitbutton button ui-light-btn"><input type="button" value="恢复" onclick="restoreFromLocal()" class="submitbutton button ui-light-btn"><input type="button" value="完成并关闭" onclick="finishTranslation()" class="submitbutton button ui-light-btn">';
+            bottomButton.innerHTML = '<input type="button" value="全局替换" onclick="showReplace(this)" class="submitbutton button ui-light-btn"><input type="button" value="添加词条" onclick="showAddNewMatch(this)" class="submitbutton button ui-light-btn"><input type="button" value="预览" onclick="preview(this)" class="submitbutton button ui-light-btn"><input type="button" value="备份" onclick="saveToLocal()" class="submitbutton button ui-light-btn"><input type="button" value="恢复" onclick="restoreFromLocal()" class="submitbutton button ui-light-btn"><input type="button" value="完成并关闭" onclick="finishTranslation()" class="submitbutton button ui-light-btn">';
             document.body.appendChild(bottomButton);
         }
         document.querySelector('.body').classList.add('full-grid');
@@ -661,7 +661,7 @@ function fillArray(length, end, middle) {
 
 function getNameEntities(english, translation, minLength) {
     var names = new Set();
-    var commonStartWord = ['Meanwhile', 'Since', 'During', 'While', 'When', 'Where', 'What', 'Which', 'Who', 'How', 'For', 'It', 'The', 'A', 'We', 'Being', 'They', 'He', 'She', 'I', 'There', 'In', 'That', 'People', 'From', 'Between', 'But', 'However', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Although', 'On', 'And', 'This', 'That', 'University', 'Legal', 'General', 'Investment', 'Management', 'Securities', 'US', 'Exchange', 'Commission', 'Asset', 'Bank', 'EU', 'If', 'International', 'Economics', 'Institute', 'Africa', 'Europe', 'Asia', 'America', 'American', 'Chinese', 'China', 'India', 'South', 'North', 'East', 'West', 'Western', 'Apple', 'Google', 'Amazon', 'President', 'As', 'UK', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Airport', 'Air'];
+    var commonStartWord = ['Meanwhile', 'Since', 'During', 'While', 'When', 'Where', 'What', 'Which', 'Who', 'How', 'For', 'It', 'The', 'A', 'We', 'Being', 'They', 'He', 'She', 'I', 'There', 'In', 'That', 'People', 'From', 'Between', 'But', 'However', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Although', 'On', 'And', 'This', 'That', 'University', 'Legal', 'General', 'Investment', 'Management', 'Securities', 'US', 'Exchange', 'Commission', 'Asset', 'Bank', 'EU', 'If', 'International', 'Economics', 'Institute', 'Africa', 'Europe', 'Asia', 'America', 'American', 'Chinese', 'China', 'India', 'South', 'North', 'East', 'West', 'Western', 'Apple', 'Google', 'Amazon', 'President', 'As', 'UK', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Airport', 'Air', 'At', 'All'];
     var ebodyBackup = english
         .replace(/([“>])/g, '$1 ')
         .replace(/([”<])/g, ' $1')
@@ -968,7 +968,7 @@ function showReplace(buttonEle) {
 }
 
 function replaceAll() {
-    var from = document.querySelector('.replace-from').value;
+    var from = document.querySelector('.new-match-from').value;
     if (from === '') {
         alert('旧译名不能为空!');
         return;
@@ -1005,6 +1005,85 @@ function replaceAll() {
         alert('完成了' + replaceCount + '次替换！如您对此功能有进一步的要求和建议，比如，希望我们的机器翻译结果能“记住”正确的译法，请告诉Oliver');
     } else {
         alert('在译文中没有找到“' + from + '”，请检查一下您的输入是否正确');
+    }
+}
+
+function showAddNewMatch(buttonEle) {
+    var from = window.getSelection().toString() || '';
+    var to = '';
+    var reg = /^(.+)[\(（](.+)[\)）]$/g;
+    if (reg.test(from)) {
+        to = from.replace(reg, '$1');
+        from = from.replace(reg, '$2');
+    }
+    var addNewMatchContainer;
+    if (!document.querySelector('.add-new-match-container')) {
+        addNewMatchContainer = document.createElement('DIV');
+        addNewMatchContainer.className = 'add-new-match-container';
+        document.body.appendChild(addNewMatchContainer);
+    }
+    addNewMatchContainer = document.querySelector('.add-new-match-container');
+    addNewMatchContainer.innerHTML = '<div class="replace-content"><input placeholder="原文" type="text" class="new-match-from" value="' + from + '"><input placeholder="译文" type="text" class="new-match-to" value="' + to + '"><button onclick="addNewMatch()">添加词条</button></div>';
+    document.body.classList.toggle('show-replace');
+    if (document.body.classList.contains('show-replace')) {
+        buttonEle.value = '回到编辑';
+    } else {
+        buttonEle.value = '添加词条';
+    }
+}
+
+function addNewMatch() {
+    var from = document.querySelector('.new-match-from').value;
+    if (from === '') {
+        alert('原文不能为空!');
+        return;
+    }
+    var to = document.querySelector('.new-match-to').value;
+    if (to === '') {
+        alert('译文不能为空');
+        return;
+    }
+    var infoContainers = document.querySelectorAll('.info-container');
+    var createCount = 0;
+    var updateCount = 0;
+    for (var i=0; i<infoContainers.length; i++) {
+        var infoContainer = infoContainers[i];
+        var existingNameEntities = infoContainer.querySelectorAll('.name-entity-inner');
+        var foundExisting = false;
+        for (var j=0; j<existingNameEntities.length; j++) {
+            var existingNameEntity = existingNameEntities[j];
+            if (existingNameEntity.getAttribute('data-key') !== from) {continue;}
+            existingNameEntity.querySelector('input').value = to;
+            var shortCutEle = existingNameEntity.parentElement.querySelector('.name-entity-translation[data-key="' + from + '"]');
+            if (!shortCutEle) {continue;}
+            shortCutEle.innerHTML = '<span class="name-entity-shortcut">' + to + '</span><span class="name-entity-shortcut">' + to + '(' + from + ')</span>';
+            foundExisting = true;
+            updateCount += 1;
+        }
+        if (foundExisting) {continue;}
+        var originalEle = infoContainer.querySelector('.info-original');
+        var originalText = originalEle.innerHTML;
+        originalText = originalText
+            .replace(/“/g, '“ ')
+            .replace(/”/g, ' ”')
+            .replace(/(’s )/g, ' $1')
+            .replace(/([,\.?!]+)/g, ' $1 ')
+            .replace(/[ ]+/g, ' ');
+        originalText = ' ' + originalText + ' ';
+        var reg = new RegExp(' ' + from + ' ', 'g');
+        if (reg.test(originalText) === false) {continue;}
+        var nameEntitiesContainer = document.createElement('DIV');
+        nameEntitiesContainer.className = 'name-entities-container';
+        nameEntitiesContainer.innerHTML = '<div class="name-entity-inner" data-key="' + from + '"><span class="name-entity-key">' + from + '</span><span><input type="text" value="' + to + '" placeholder="填写统一译法，开启提醒"></span><span><button class="ignore-name-entity">忽略</button><span></span></span></div><div class="name-entity-translation" data-key="' + from + '"><span class="name-entity-shortcut">' + from + '</span><span class="name-entity-shortcut">' + from + '(' + to + ')</span></div>';
+        originalEle.parentNode.appendChild(nameEntitiesContainer);
+        createCount += 1;
+    }
+    if (updateCount === 0 && createCount === 0) {
+        alert('没有在原文中找到词条，请检查一下您的原文的输入！');
+    } else {
+        var updateMessage = (updateCount > 0) ? '更新了' + updateCount + '个段落的词条。' : '';
+        var createMessage = (createCount > 0) ? '添加了' + createCount + '个段落的词条。' : '';
+        alert (updateMessage + createMessage);
     }
 }
 
