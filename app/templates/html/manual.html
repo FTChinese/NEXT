@@ -307,6 +307,7 @@
     <%assign var="currentDate" value=$smarty.now|date_format:"%Y%m%d"%>
     <%foreach from=$infoForSponsorships.sections item=section%>
         <%if $section.status == "on" && $section.dates != "" && preg_match("/`$currentDate`/is",$section.dates) && ($section.adChannelId != "" || $section.zone != "")%>
+
             <%assign var="tagName" value=$p.meta.title%>
             <%if $tagName != "" && ($tagName == $section.title || $tagName == $section.tag)%>
                 <%assign var="zone" value=$section.zone%>

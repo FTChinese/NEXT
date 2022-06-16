@@ -1,7 +1,74 @@
-// display followed items an hide unfollowed items
-
-
+// MARK： display followed items by hiding unfollowed items
 function filterMyFTItems() {
+    var dict = {
+        'usa': '美国',
+        'uk': '英国',
+        'asiapacific': '亚太',
+        'europe': '欧洲',
+        'americas': '美洲',
+        'africa': '非洲',
+        'middleeast': '中东',
+        'Hong Kong': '香港',
+        'Taiwan': '台湾',
+        'Xinjiang': '新疆',
+        'Beijing': '北京',
+        'Shanghai': '上海',
+        'Shenzhen': '深圳',
+        'Guangzhou': '广州',
+        'Chongqing': '重庆',
+        'Chengdu': '成都',
+        'Tianjin': '天津',
+        'Wuhan': '武汉',
+        'Japan': '日本',
+        'South Korea': '韩国',
+        'North Korea': '朝鲜',
+        'Germany': '德国',
+        'Vietnam': '越南',
+        'France': '法国',
+        'India': '印度',
+        'Russia': '俄罗斯',
+        'Brazil': '巴西',
+        'Canada': '加拿大',
+        'Singapore': '新加坡',
+        'Australia': '澳大利亚',
+        'china': '中国',
+        'Ukraine': '乌克兰',
+        'politics': '政治',
+        'society': '社会',
+        'artstory': '艺术',
+        'travle': '旅行',
+        'book': '书评',
+        'business': '商业',
+        'culture': '社会与文化',
+        'economy': '经济',
+        'environment': '环境',
+        'trade': '贸易',
+        'markets': '金融市场',
+        'management': '管理',
+        'career': '职场',
+        'lifestyle': '生活时尚',
+        'spend': '消费经',
+        'education': '教育',
+        'businessedu': '商业教育',
+        'stock': '股市',
+        'forex': '外汇',
+        'commodity': '大宗商品',
+        'bond': '债市',
+        'leadership': '领导力',
+        'people': '人物',
+        'finance': '金融',
+        'technology': '科技',
+        'auto': '汽车',
+        'property': '地产',
+        'energy': '能源',
+        'industrials': '工业和采矿',
+        'airline': '航空和运输',
+        'pharma': '医药',
+        'agriculture': '农业',
+        'consumer': '零售和消费品',
+        'media': '传媒和文化',
+        'entertainment': '娱乐'
+    };
     var key = 'my-ft-follow';
     var allItems = document.querySelectorAll('.list-my-ft .item-container');
     function udpateDescription (text) {
@@ -48,7 +115,10 @@ function filterMyFTItems() {
         var item = allItems[i];
         var itemKeywords = item.getAttribute('data-keywords') || '';
         var itemAuthors = item.getAttribute('data-author') || '';
-        itemKeywords += ',' + itemAuthors; 
+        var itemAreas = item.getAttribute('data-area') || '';
+        var itemTopics = item.getAttribute('data-topic') || '';
+        var itemIndusties = item.getAttribute('data-industry') || '';
+        itemKeywords += ',' + itemAuthors + ',' + itemAreas + ',' + itemTopics + ',' + itemIndusties; 
         itemKeywords = itemKeywords.replace(/,+/g, ',').replace(/,$/, '');
         var itemKeywordsArray = itemKeywords.split(',');
         for (var itemType in savedFollowListJSON) {
@@ -66,7 +136,11 @@ function filterMyFTItems() {
                         }
                         var itemTagLink = item.querySelector('.item-tag a');
                         if (itemTagLink) {
-                            itemTagLink.innerHTML = checkItemFor[j];
+                            var itemDisplay = checkItemFor[j];
+                            if (dict[itemDisplay]) {
+                                itemDisplay = dict[itemDisplay];
+                            }
+                            itemTagLink.innerHTML = itemDisplay;
                             itemTagLink.href = '/' + itemType + '/' + checkItemFor[j];
                         }
                         var itemTop = item.previousElementSibling;

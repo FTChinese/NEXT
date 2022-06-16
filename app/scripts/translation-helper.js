@@ -63,6 +63,63 @@ delegate.on('click', '.translation-suggestion', function(event){
     }
 });
 
+delegate.on('click', '.name-entity-shortcut', function(event){
+    var textArea = this.closest('.info-container').querySelector('textarea');
+    var newText = this.innerHTML;
+    var selectionStart = textArea.selectionStart;
+    var selectionEnd = textArea.selectionEnd;
+    var text = textArea.value;
+    if (selectionStart <= selectionEnd && selectionStart >= 0) {
+        var textBefore = text.substring(0, selectionStart);
+        var textAfter = text.substring(selectionEnd, text.length);
+        var newText = textBefore + newText + textAfter;
+        textArea.value = newText;
+        toggleTextareaWarning(textArea);
+    } else {
+        alert('请选中右边文本框的相应的文本内容来快捷填写！');
+    }
+});
+
+delegate.on('click', '.ignore-name-entity', function(event){
+    var ele = this.closest('.name-entity-inner');
+    var key = ele.getAttribute('data-key');
+    var allEles = document.querySelectorAll('.name-entity-inner, .name-entity-translation');
+    for (var i=0; i<allEles.length; i++) {
+        var element = allEles[i];
+        if (element.getAttribute('data-key') !== key) {continue;}
+        element.parentElement.removeChild(element);
+    }
+    var nameEntityContainers = document.querySelectorAll('.name-entities-container');
+    for (var m=0; m<nameEntityContainers.length; m++) {
+        var nameEntityContainer = nameEntityContainers[m];
+        if (nameEntityContainer.innerHTML !== '') {continue;}
+        nameEntityContainer.parentElement.querySelector('.name-entities-description').innerHTML = ''; 
+    }
+});
+
+delegate.on('change', '.name-entity-inner input', function(event) {
+    var value = this.value;
+    var ele = this.closest('.name-entity-inner');
+    var key = ele.getAttribute('data-key');
+    var allEles = document.querySelectorAll('.name-entity-inner input');
+    for (var i=0; i<allEles.length; i++) {
+        var element = allEles[i];
+        if (element.closest('.name-entity-inner').getAttribute('data-key') !== key) {continue;}
+        element.value = value;
+    }
+    var nameEntityTranslations = document.querySelectorAll('.name-entity-translation[data-key="' + key + '"]');
+    for (var j=0; j<nameEntityTranslations.length; j++) {
+        var element = nameEntityTranslations[j];
+        if (value !== '') {
+            element.innerHTML = '<span class="name-entity-shortcut">' + value + '</span><span class="name-entity-shortcut">' + value + '(' + key + ')</span>'
+        } else {
+            element.innerHTML = '';
+        }
+        var translationEle = element.closest('.info-container').querySelector('textarea');
+        toggleTextareaWarning(translationEle);
+    }
+});
+
 // MARK: - Reminder when editing a textarea
 delegate.on('keyup', '.info-container textarea', function(event){
     toggleTextareaWarning(this);
@@ -76,9 +133,14 @@ delegate.on('blur', '.info-container textarea', function(event){
 function toggleTextareaWarning(ele) {
     var status = checkTextarea(ele);
     if (status.success === true) {
+        ele.closest('.info-container').querySelector('.info-error-message').innerHTML = '';
         ele.classList.remove('warning');
         return;
     }
+    var errorMessageEle = ele.closest('.info-container').querySelector('.info-error-message');
+    // MARK: - Only change the innerHTML if there's a different message, so that the click will always work
+    if (!errorMessageEle || errorMessageEle.innerHTML === status.message) {return;}
+    errorMessageEle.innerHTML = status.message;
     ele.classList.add('warning');
 }
 
@@ -89,7 +151,46 @@ function checkTextarea(ele) {
         return {success: true};
     }
     if (/[\S]+[\n\r]+[\S]+/.test(value)) {
-        return {success: false, message: '这个文本框有多个段落，很可能是您在编辑的时候，忘记删除多余的文字: \n\n' + value};
+        return {success: false, message: '有些文本框有多个段落，很可能是您在编辑的时候，忘记删除多余的文字。请检查！'};
+    }
+    var container = ele.closest('.info-container');
+    var nameEntities = container.querySelectorAll('.name-entity-inner');
+    var originalText = container.querySelector('.info-original').innerHTML;
+    originalText = originalText
+        .replace(/“/g, '“ ')
+        .replace(/”/g, ' ”')
+        .replace(/(’s )/g, ' $1')
+        .replace(/([,\.?!]+)/g, ' $1 ')
+        .replace(/[ ]+/g, ' ');
+    originalText = ' ' + originalText + ' ';
+    var unmatchedKeys = [];
+    for (var i=0; i<nameEntities.length; i++) {
+        var ele = nameEntities[i];
+        var key = ele.getAttribute('data-key');
+        var translation = ele.querySelector('input').value;
+        if (translation === '') {continue;}
+        var keyReg = new RegExp(' ' + key + ' ', 'g');
+        var keyMatchesArray = originalText.match(keyReg);
+        if (!keyMatchesArray) {continue;}
+        var keyMatches = keyMatchesArray.length;
+        if (keyMatches === 0) {continue;}
+        var reg = new RegExp(translation, 'g');
+        var translationMatches = value.match(reg);
+        if (!translationMatches || translationMatches.length < keyMatches) {
+            unmatchedKeys.push({
+                source: key, 
+                sourceMatches: keyMatches, 
+                translation: translation,
+                translationMatches: translationMatches || 0
+            });
+        }
+    }
+    if (unmatchedKeys.length > 0) {
+        var description = unmatchedKeys.map(function(x){
+            var translationAppear = x.translationMatches === 0 ? '没有出现' : '仅出现<strong>' + x.translationMatches + '</strong>次';
+            return '原文中<strong>' + x.source + '</strong>出现<strong>' + x.sourceMatches + '</strong>次，但译文中<strong class="name-entity-shortcut">' + x.translation + '</strong>' + translationAppear;
+        }).join('；');
+        return {success: false, message: '中文段落中有翻译不一致的地方，请检查，可点击加黑的译文快速插入：' + description};
     }
     return {success: true};
 }
@@ -167,8 +268,6 @@ function confirmTranslation(ele) {
     gtag('event', ea, {'event_label': window.userName, 'event_category': 'Translation Helper', 'non_interaction': false});
 }
 
-
-
 function start() {
     function renderBottomButtons() {
         if (document.querySelectorAll('.bottom-button').length === 0) {
@@ -200,7 +299,7 @@ function start() {
                 for (var m=0; m<translations.length; m++) {
                     infoHTML += '<div onclick="confirmTranslation(this)" data-translation-index="' + m + '"  class="info-translation" title="click to confirm this translation to the right">' + translations[m] + '</div>';
                 }
-                infoHTML = '<div class="info-container"><div>' + infoHTML + '</div><div><div class="info-suggestion"></div><textarea data-info-id="' + id + '" placeholder="点选左边的翻译版本，您也可以继续编辑"></textarea></div></div><hr>';
+                infoHTML = '<div class="info-container"><div>' + infoHTML + '</div><div><div class="info-suggestion"></div><div class="info-error-message"></div><textarea data-info-id="' + id + '" placeholder="点选左边的翻译版本，您也可以继续编辑"></textarea></div></div><hr>';
                 k += infoHTML;
             }
         }
@@ -224,8 +323,6 @@ function start() {
                 }
             }
         }
-        // console.log(JSON.stringify(existingTranslationDict));
-
         for (var i=0; i<translationInfo.length; i++) {
             var info = translationInfo[i];
             var infoHTML = '';
@@ -245,7 +342,7 @@ function start() {
             if (t1 !== '') {
                 infoHTML += '<div data-translation-index="' + j1 + '" class="info-translation selected" title="click to confirm this translation to the right">' + t1 + '</div>';
             }
-            infoHTML = '<div class="info-container"><div>' + infoHTML + '</div><div><div class="info-suggestion"></div><textarea data-info-id="' + id + '" placeholder="点选右边的翻译版本，您也可以继续编辑">' + t1 + '</textarea></div></div><hr>';
+            infoHTML = '<div class="info-container"><div>' + infoHTML + '</div><div><div class="info-suggestion"></div><div class="info-error-message"></div><textarea data-info-id="' + id + '" placeholder="点选右边的翻译版本，您也可以继续编辑">' + t1 + '</textarea></div></div><hr>';
             k += infoHTML;
         }
         storyBodyEle.innerHTML = k;
@@ -261,7 +358,7 @@ function start() {
             if (j < tTexts.length) {
                 t1 = tTexts[j] || '';
             }
-            infoHTML = '<div class="info-container"><div>' + infoHTML + '</div><div><div class="info-suggestion"></div><textarea placeholder="点选右边的翻译版本，您也可以继续编辑">' + t1 + '</textarea></div></div><hr>';
+            infoHTML = '<div class="info-container"><div>' + infoHTML + '</div><div><div class="info-suggestion"></div><div class="info-error-message"></div><textarea placeholder="点选右边的翻译版本，您也可以继续编辑">' + t1 + '</textarea></div></div><hr>';
             k += infoHTML;
         }
         storyBodyEle.innerHTML = k;
@@ -284,7 +381,6 @@ function start() {
                 }
             }
             p += '<hr>';
-
         }
         storyBodyEle.innerHTML = p;
     }
@@ -310,7 +406,6 @@ function start() {
     }
     // MARK: - Open all links in new tab
     var allLinks = document.querySelectorAll('.info-original a[href]');
-
     for (var n=0; n<allLinks.length; n++) {
         allLinks[n].setAttribute('target', '_blank');
         var suggestion = '在点选左边把文字填写到这里之后，可以尝试选择部分文字，然后点击左边的链接，就可以方便地添加链接。';
@@ -318,6 +413,7 @@ function start() {
         // allLinks[n].closest(".info-container").querySelector('textarea').setAttribute('placeholder', suggestion);
     }
     showGlossarySuggestions();
+    showNames();
 }
 
 function recordTimeInfo(spentTime) {
@@ -551,6 +647,172 @@ function finishReview() {
     }
 }
 
+function fillArray(length, end, middle) {
+    var vals = [];
+    for (var i=0; i<length; i++) {
+        if (i === 0 || i >= length - 2) {
+            vals.push(end);
+        } else {
+            vals.push(middle);
+        }
+    }
+    return vals;
+}
+
+function getNameEntities(english, translation, minLength) {
+    var names = new Set();
+    var commonStartWord = ['Meanwhile', 'Since', 'During', 'While', 'When', 'Where', 'What', 'Which', 'Who', 'How', 'For', 'It', 'The', 'A', 'We', 'Being', 'They', 'He', 'She', 'I', 'There', 'In', 'That', 'People', 'From', 'Between', 'But', 'However', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Although', 'On', 'And', 'This', 'That', 'University', 'Legal', 'General', 'Investment', 'Management', 'Securities', 'US', 'Exchange', 'Commission', 'Asset', 'Bank', 'EU', 'If', 'International', 'Economics', 'Institute', 'Africa', 'Europe', 'Asia', 'America', 'American', 'Chinese', 'China', 'India', 'South', 'North', 'East', 'West', 'Western', 'Apple', 'Google', 'Amazon', 'President', 'As', 'UK', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Airport', 'Air'];
+    var ebodyBackup = english
+        .replace(/([“>])/g, '$1 ')
+        .replace(/([”<])/g, ' $1')
+        .replace(/(’s )/g, ' $1')
+        .replace(/([,\.?!]+)/g, ' $1 ')
+        .replace(/[ ]+/g, ' ');
+    var ebody = ebodyBackup;
+    // MARK: - Only extra phrases that has at least two words, mostly people names
+    for (var j = 8; j >= minLength; j--) {
+        var namesArray = fillArray(j, '([A-Z][a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð\'\-]+)', '([A-Z][a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð\'\-]+|and)'); 
+        var nameReg = new RegExp(' ' + namesArray.join(' ') + ' ', 'g');
+        var matches = ebody.match(nameReg);
+        ebody = ebody.replace(nameReg, ' ').replace(/[ ]+/g, ' ');
+        if (matches) {
+            matches = matches.filter(function(item){
+                return commonStartWord.indexOf(item) === -1;
+            });
+            for (var k = 0; k < matches.length; k++) {
+                var val = matches[k].trim();
+                var startWord = val.replace(/ .+$/g, '');
+                if (commonStartWord.indexOf(startWord) >= 0) {continue;}
+                names.add(val);
+            }
+        }
+    }
+    var words = new Set();
+    for (var it = names.values(), val= null; val=it.next().value; ) {
+        var newWords = val.split(' ');
+        for (var j=0; j<newWords.length; j++) {
+            words.add(newWords[j]);
+        }
+    }
+    // MARK: - Use the translated text to extra words that are missed
+    var matches = translation.match(/[\(（][A-Za-zàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð\'\-\d ]+[\)）]/g);
+    if (matches) {
+        for (var j=0; j<matches.length; j++) {
+            var match = matches[j].replace(/[\(\)\（\）]/g, '');
+            if (words.has(match)) {continue;}
+            names.add(match);
+        }
+    }
+    ebody = ebodyBackup;
+    var goodMatches = [];
+    for (var it = names.values(), val= null; val=it.next().value; ) {
+        var oneMatch = {
+            key: val,
+            appear: 0,
+            parts: []
+        };
+        var nameReg = new RegExp(' ' + val + ' ', 'g');
+        var matches = ebody.match(nameReg);
+        ebody = ebody.replace(nameReg, ' ');
+        if (matches && matches.length > 0) {
+            oneMatch.appear += matches.length;
+            var parts = val.split(' ');
+
+            for (var l=0; l<parts.length; l++) {
+                var part = parts[l];
+                if (commonStartWord.indexOf(part) >= 0 || !/[A-Z]/.test(part)) {continue;}
+                var partReg = new RegExp(' ' + part + ' ', 'g');
+                var partMatches = ebody.match(partReg);
+                // MARK: match return null if not found, but in future versions of JavaScript, it might return an empty array. Let me on the safe side. 
+                if (partMatches && partMatches.length > 0) {
+                    if (part === 'Al') {
+                        console.log(partReg);
+                    }
+                    oneMatch.parts.push({
+                        key: part,
+                        appear: partMatches.length
+                    });
+                }
+            }
+        }
+        if (oneMatch.appear > 1 || oneMatch.parts.length > 0) {
+            goodMatches.push(oneMatch);
+        }
+    }
+    return goodMatches;
+}
+
+// MARK: - Show some helpful reminder for the translators to unify translation of name entities
+function showNames() {
+    var ebody = '';
+    var englishTexts = document.querySelectorAll('.info-original');
+    for (var i = 0; i < englishTexts.length;  i++) {
+        var html = ' ' + englishTexts[i].innerHTML + ' ';
+        html = html.replace(/([,.?!]+)/g, ' $1 ').replace(/[ ]+/g, ' ');
+        ebody += html;
+    }
+    var translation = '';
+    var translations = document.querySelectorAll('.info-translation');
+    for (var m=0; m < translations.length; m++) {
+        translation += translations[m].innerHTML;
+    }
+    var nameEntities = getNameEntities(ebody, translation, 2);
+    console.log(nameEntities);
+    if (!nameEntities || nameEntities.length === 0) {return;}
+    var infoOriginals = document.querySelectorAll('.info-original');
+    for (var i = 0; i < infoOriginals.length; i++) {
+        var ele = infoOriginals[i];
+        var originalText = ele.innerHTML;
+        for (var j = 0; j < nameEntities.length; j++) {
+            var nameEntity = nameEntities[j];
+            var key = nameEntity.key;
+            var reg = new RegExp(key, 'g');
+            var matches = originalText.match(reg);
+            var matchedKeySets = new Set();
+            if (matches && matches.length > 0) {
+                matchedKeySets.add(key);
+                for (var m=0; m<nameEntity.parts.length; m++) {
+                    matchedKeySets.add(nameEntity.parts[m].key);
+                }
+            } else {
+                for (var k=0; k<nameEntity.parts.length; k++) {
+                    var partNameEntity = nameEntity.parts[k];
+                    var partKey = partNameEntity.key;
+                    var partReg = new RegExp(partKey, 'g');
+                    var partMatches = originalText.match(partReg);
+                    if (partMatches && partMatches.length > 0) {
+                        matchedKeySets.add(key);
+                        matchedKeySets.add(partKey);
+                    }
+                }
+            }
+            if (matchedKeySets.size === 0) {continue;}
+            var matchedKeys = Array.from(matchedKeySets);
+            var nameEntitiesContainer = document.createElement('DIV');
+            nameEntitiesContainer.className = 'name-entities-container';
+            for (var n=0; n<matchedKeys.length; n++) {
+                var nameEle = document.createElement('DIV');
+                nameEle.className = 'name-entity-inner';
+                nameEle.setAttribute('data-key', matchedKeys[n]);
+                nameEle.innerHTML = '<span class="name-entity-key">' + matchedKeys[n] + '</span><span><input type="text" value="" placeholder="填写统一译法，开启提醒"></span><span><button class="ignore-name-entity">忽略</button><span>';
+                nameEntitiesContainer.appendChild(nameEle);
+                var translationEle = document.createElement('DIV');
+                translationEle.className = 'name-entity-translation';
+                translationEle.setAttribute('data-key', matchedKeys[n]);
+                nameEntitiesContainer.appendChild(translationEle);
+            }
+            ele.parentNode.appendChild(nameEntitiesContainer);
+        }
+        var firstNameEntitiesContainer = ele.closest('.info-container').querySelector('.name-entities-container');
+        if (firstNameEntitiesContainer) {
+            var nameEntitieDescription = document.createElement('DIV');
+            nameEntitieDescription.className = 'name-entities-description';
+            nameEntitieDescription.innerHTML = '在本段落中找到在全文多次出现的词语，为避免同一个英文名词在同一篇文章中被译成不同中文名词，您可以把统一的译法填写在下方的文本框中。这样，这些词在别的地方出现时，您可以通过点击来快速使用，并得到相应的提示。';
+            firstNameEntitiesContainer.parentElement.insertBefore(nameEntitieDescription, firstNameEntitiesContainer);
+        }
+    }
+}
+
 function showGlossarySuggestions() {
     if (!window.opener) {return;}
     var ebodyEle = window.opener.document.getElementById('ebody');
@@ -582,7 +844,6 @@ function showGlossarySuggestions() {
                 infoOriginal.parentElement.append(suggestionEle);
             }
         }
-        // console.log(suggestions);
     };
     xhr.send(encodeURI('post_text=' + ebody));
 }
@@ -717,17 +978,23 @@ function replaceAll() {
     var allTranslationDivs = document.querySelectorAll('.info-translation');
     var allTranslationTexts = document.querySelectorAll('.info-container textarea');
     var replaceCount = 0;
+    const fromRegex = new RegExp(from, "g");
     for (var i=0; i<allTranslationDivs.length; i++) {
         var currentDiv = allTranslationDivs[i];
-        const fromRegex = new RegExp(from, "g");
-        currentDiv.innerHTML = currentDiv.innerHTML.replace(fromRegex, to);
-        replaceCount += 1;
+        const matches = currentDiv.innerHTML.match(fromRegex);
+        if (matches && matches.length > 0) {
+            currentDiv.innerHTML = currentDiv.innerHTML.replace(fromRegex, to);
+            replaceCount += matches.length;
+        }
     }
     for (var j=0; j<allTranslationTexts.length; j++) {
         var currentTextArea = allTranslationTexts[j];
         while (currentTextArea.value.indexOf(from) >= 0) {
-            currentTextArea.value = currentTextArea.value.replace(from, to);
-            replaceCount += 1;
+            const matches = currentTextArea.value.match(fromRegex);
+            if (matches && matches.length > 0) {
+                currentTextArea.value = currentTextArea.value.replace(fromRegex, to);
+                replaceCount += matches.length;
+            }
             // MARK: - avoid infinite loop with this
             if (to.indexOf(from) >= 0) {
                 break;
@@ -809,19 +1076,11 @@ if (window.opener || typeof window.subtitleInfo === 'object' || window.testingTy
         eText = englishTexts.join('');
         tText = JSON.stringify(translations);
     }
-    
     if (/translations/.test(tText)) {
         document.getElementById('translation-info').value = tText;
         document.getElementById('english-text').value = eText;
     } else {
         isReviewMode = true;
-
-        // translations = tText.split(splitter);
-        // var translationsHTML = '';
-        // for (var k=0; k<translations.length; k++) {
-        //     translationsHTML += '<textarea class="commentTextArea chinese-translation" width="100%" rows="3">' + translations[k] + '</textarea>';
-        // }
-        // document.getElementById('translations').innerHTML = translationsHTML;
     }
     start();
     watchChange();

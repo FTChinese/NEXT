@@ -1,3 +1,4 @@
+@use "sass:math";
 @import "main-story.scss";
 @import "main-table.scss";
 @import "main-user-comments.scss";
@@ -181,10 +182,41 @@ hr {
     border-top: 1px solid #555;
 }
 
-// #story-body-container {
-//     max-width: 600px;
-// }
-// .questions-container {
-//     //position: fixed;
+.name-entities-container {
+    display: table;
+    width: 100%;
+    margin-bottom: math.div($defaultPadding, 2);
+}
+.name-entity-inner, .name-entity-translation {
+    line-height: 161.8%;
+    margin-bottom: 0.618em;
+    display: table-row;
+    span {
+        display: table-cell;
+        padding: math.div($defaultPadding, 8) 0;
+    }
+    input {
+        padding: 5px;
+        font-size: 1em;
+        width: 100%;
+    }
+}
 
-// }
+.name-entity-key {
+    font-weight: bold;
+}
+
+.name-entity {
+    text-decoration: underline;
+}
+
+.name-entity-shortcut {
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.name-entities-description {
+    color: $lighterGrey;
+    font-size: 0.9em;
+    margin-bottom: 5px;
+}

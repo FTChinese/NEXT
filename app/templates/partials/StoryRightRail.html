@@ -1,6 +1,5 @@
 <div class="side-container"><div class="side-inner">
 
-	<!--column info: -->
 	<%if $columninfo != ""%>
 		<div class="story-box">
 			<h2 class="box-title"><a href="/column/<%$columninfo.id%>"><%$columninfo.headline|replace:"》":""|replace:"《":""%></a></h2>
@@ -137,8 +136,37 @@
 		$allTags = array_filter($allTags, "shouldKeep");
 		$this->assign("allTags", $allTags);
 	<%/php%>
-
-	<%if $allTags|@count>=1%>
+	<%if $smarty.get.debug == "yes"%>
+		<!--dubug: <%$annotations|@print_r%>-->
+	<%/if%>
+	<%if $annotations|@count>=1%>
+		<div class="story-box last-child">
+			<h2 class="box-title"><a>相关话题</a></h2>
+			<ul class="top10">
+				<%assign var="currentDate" value=$smarty.now|date_format:"%Y%m%d"%>
+				<%assign var="i" value=0%>
+				<%foreach from=$annotations item=annotation%>
+					<%assign var="i" value=$i+1%>
+					<%assign var="tagTitle" value=$annotation.name%>
+					<%if infoForSponsorships != ""%>
+						<%assign var="hasFoundSponsorship" value="no"%>
+						<%assign var="hasFoundPaidPost" value="no"%>
+						<%foreach from=$infoForSponsorships.sections item=section%>
+							<%if $hasFoundSponsorship == "no" && $section.status == "on" && $section.dates != "" && preg_match("/`$currentDate`/is",$section.dates) && $section.tag == $annotation.name && $section.title != ""%>
+								<%assign var="tagTitle" value=$section.title|default:$annotation.name%>
+							<%/if%>
+						<%/foreach%>
+					<%/if%>
+					<li class="story-theme<%if $i==1%> mp1<%/if%>">
+						<a target="_blank" href="<%$annotation.link%>"><%$tagTitle%></a>
+						<div class="icon-right">
+							<button class="myft-follow plus" data-tag="<%$annotation.key%>" data-type="<%$annotation.type%>">关注</button>
+						</div>
+					</li>
+				<%/foreach%>
+			</ul>
+		</div>
+	<%elseif $allTags|@count>=1%>
 		<div class="story-box last-child">
 			<h2 class="box-title"><a>相关话题</a></h2>
 			<ul class="top10">
