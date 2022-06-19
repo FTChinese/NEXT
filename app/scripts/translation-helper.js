@@ -9,7 +9,7 @@ if (window.opener && window.opener.userName) {
 } else {
     window.userName = '';
 }
-
+var dict = {};
 var delegate = new Delegate(document.body);
 
 // MARK: - Links in translated text
@@ -128,7 +128,34 @@ delegate.on('keyup', '.info-container textarea', function(event){
 // MARK: - Reminder when leaving a textarea
 delegate.on('blur', '.info-container textarea', function(event){
     toggleTextareaWarning(this);
+    checkDict(this);
 });
+
+function checkDict(ele) {
+    var container = ele.closest('.info-container');
+    var nameEntities = container.querySelectorAll('.name-entity-inner');
+    if (nameEntities.length === 0) {return;}
+    for (var n=0; n<nameEntities.length; n++) {
+        var nameEntity = nameEntities[n];
+        const key = nameEntity.getAttribute('data-key');
+        const value = nameEntity.querySelector('input').value;
+        if (value !== '') {continue;}
+        const translations = dict[key] || [];
+        for (var i=0; i<translations.length; i++) {
+            var translation = translations[i];
+            if (ele.value.indexOf(translation) === -1) {continue;}
+            var nameEntityInners = document.querySelectorAll('.name-entity-inner[data-key="' + key + '"]');
+            for (var j=0; j<nameEntityInners.length; j++) {
+                nameEntityInners[j].querySelector('input').value = translation;
+            }
+            var nameEntityTranslations = document.querySelectorAll('.name-entity-translation[data-key="' + key + '"]');
+            for (var m=0; m<nameEntityTranslations.length; m++) {
+                nameEntityTranslations[m].innerHTML = '<span class="name-entity-shortcut">' + translation + '</span><span class="name-entity-shortcut">' + translation + '(' + key + ')</span>';
+            }
+            break;
+        }
+    }
+}
 
 function toggleTextareaWarning(ele) {
     var status = checkTextarea(ele);
@@ -661,7 +688,7 @@ function fillArray(length, end, middle) {
 
 function getNameEntities(english, translation, minLength) {
     var names = new Set();
-    var commonStartWord = ['Meanwhile', 'Since', 'During', 'While', 'When', 'Where', 'What', 'Which', 'Who', 'How', 'For', 'It', 'The', 'A', 'We', 'Being', 'They', 'He', 'She', 'I', 'There', 'In', 'That', 'People', 'From', 'Between', 'But', 'However', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Although', 'On', 'And', 'This', 'That', 'University', 'Legal', 'General', 'Investment', 'Management', 'Securities', 'US', 'Exchange', 'Commission', 'Asset', 'Bank', 'EU', 'If', 'International', 'Economics', 'Institute', 'Africa', 'Europe', 'Asia', 'America', 'American', 'Chinese', 'China', 'India', 'South', 'North', 'East', 'West', 'Western', 'Apple', 'Google', 'Amazon', 'President', 'As', 'UK', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Airport', 'Air', 'At', 'All'];
+    var commonStartWord = ['Meanwhile', 'Since', 'During', 'While', 'When', 'Where', 'What', 'Which', 'Who', 'How', 'For', 'It', 'The', 'A', 'We', 'Being', 'They', 'He', 'She', 'I', 'There', 'In', 'That', 'People', 'From', 'Between', 'But', 'However', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Although', 'On', 'And', 'This', 'That', 'University', 'Legal', 'General', 'Investment', 'Management', 'Securities', 'US', 'Exchange', 'Commission', 'Asset', 'Bank', 'EU', 'If', 'International', 'Economics', 'Institute', 'Africa', 'Europe', 'Asia', 'America', 'American', 'Chinese', 'China', 'India', 'South', 'North', 'East', 'West', 'Western', 'Apple', 'Google', 'Amazon', 'President', 'As', 'UK', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Airport', 'Air', 'At', 'All', 'Here'];
     var ebodyBackup = english
         .replace(/([“>])/g, '$1 ')
         .replace(/([”<])/g, ' $1')
@@ -836,12 +863,19 @@ function showGlossarySuggestions() {
                 var en_title = suggestion.en_title;
                 var chinese_title = suggestion.chinese_title;
                 if (!en_title || !chinese_title || englishText.indexOf(en_title) === -1) {continue;}
-                var suggestionEle = document.createElement('DIV');
-                suggestionEle.innerHTML = en_title + ': <b>' + chinese_title + '</b>';
-                suggestionEle.className = 'translation-suggestion';
-                suggestionEle.setAttribute('data-translation', chinese_title);
-                suggestionEle.setAttribute('title', '点击这里快速将“' + chinese_title + '”插入到下面文本框中');
-                infoOriginal.parentElement.append(suggestionEle);
+                var existingNameEntityInner = infoOriginal.parentElement.querySelector('.name-entity-inner[data-key="' + en_title + '"]');
+                var existingNameEntityTranslation = infoOriginal.parentElement.querySelector('.name-entity-translation[data-key="' + en_title + '"]');
+                if (existingNameEntityInner && existingNameEntityTranslation) {
+                    existingNameEntityInner.querySelector('input').value = chinese_title;
+                    existingNameEntityTranslation.innerHTML = '<span class="name-entity-shortcut">' + chinese_title + '</span><span class="name-entity-shortcut">' + chinese_title + '(' + en_title + ')</span>';
+                } else {
+                    var suggestionEle = document.createElement('DIV');
+                    suggestionEle.innerHTML = en_title + ': <b>' + chinese_title + '</b>';
+                    suggestionEle.className = 'translation-suggestion';
+                    suggestionEle.setAttribute('data-translation', chinese_title);
+                    suggestionEle.setAttribute('title', '点击这里快速将“' + chinese_title + '”插入到下面文本框中');
+                    infoOriginal.parentElement.append(suggestionEle);
+                }
             }
         }
     };
@@ -968,7 +1002,7 @@ function showReplace(buttonEle) {
 }
 
 function replaceAll() {
-    var from = document.querySelector('.new-match-from').value;
+    var from = document.querySelector('.replace-from').value;
     if (from === '') {
         alert('旧译名不能为空!');
         return;
@@ -1124,15 +1158,23 @@ if (window.opener || typeof window.subtitleInfo === 'object' || window.testingTy
         if (/caption/.test(tText) && /translations/.test(tText) && /\"end\":/.test(tText)) {
             window.subtitleInfo = JSON.parse(tText);
         }
+        var dictEle = window.opener.document.getElementById('cshortleadbody');
+        if (dictEle) {
+            try {
+                dict = JSON.parse(dictEle.value);
+            } catch(ignore) {}
+        }
     } else if (window.testingType === 'json' && window.testEnglishBodyJSON && window.testChineseBodyJSON) {
         eText = window.testEnglishBodyJSON;
         tText = JSON.stringify(window.testChineseBodyJSON);
         if (/caption/.test(tText) && /translations/.test(tText) && /\"end\":/.test(tText)) {
             window.subtitleInfo = JSON.parse(tText);
         }
+        dict = window.testingDict;
     } else if (window.testingType === 'text' && window.testEnglishBodyText && window.testChineseBodyText) {
         eText = window.testEnglishBodyText;
         tText = window.testChineseBodyText;
+        dict = window.testingDict;
     }
     // MARK: - Update english and translation text for video subtitles
     if (typeof window.subtitleInfo === 'object') {
