@@ -512,7 +512,8 @@ function finish() {
 }
 
 function tidyUpChineseText(text) {
-    var result = text.replace(/[\(（)]([A-z\s\d\.,]+)[\)）]/g, '($1)'); // Use the correct English brackets
+    // MARK: - Use the correct English brackets
+    var result = text.replace(/[\(（)]([A-zàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð\s\d\.,\'\-]+)[\)）]/g, '($1)'); 
     return result;
 }
 
