@@ -1326,6 +1326,7 @@ updateStickyRightRail();
 // MARK: Kickout users that are sharing accounts
 (function(){
   try {
+    // TODO: - If it's iphone in-app, return immediately for safety
     if (!window.userId) {return;}
     var ua = navigator.userAgent || navigator.vendor || '';
     var deviceType = 'web';
@@ -1353,8 +1354,9 @@ updateStickyRightRail();
           var ec = 'AccountShare';
           var ea = data.online === 1 ? 'Allow' : 'Kickout';
           ea = 'View ' + ea;
-          el = window.userId + ':' + uniqueId;
-          gtag('event', ea, {'event_label': number, 'event_category': ec, 'non_interaction': true});
+          var el = window.userId + ':' + uniqueId;
+          gtag('event', ea, {'event_label': el, 'event_category': ec, 'non_interaction': true});
+          console.log('ea: ' + ea + ', el: ' + el);
     };
     xhr.send(JSON.stringify(message));
   } catch(err) {

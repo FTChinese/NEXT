@@ -208,7 +208,7 @@ function checkTextarea(ele) {
                 source: key, 
                 sourceMatches: keyMatches, 
                 translation: translation,
-                translationMatches: translationMatches || 0
+                translationMatches: translationMatches.length || 0
             });
         }
     }
