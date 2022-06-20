@@ -300,7 +300,7 @@ function start() {
         if (document.querySelectorAll('.bottom-button').length === 0) {
             var bottomButton = document.createElement('DIV');
             bottomButton.className = 'centerButton bottom-button';
-            bottomButton.innerHTML = '<input type="button" value="全局替换" onclick="showReplace(this)" class="submitbutton button ui-light-btn"><input type="button" value="添加词条" onclick="showAddNewMatch(this)" class="submitbutton button ui-light-btn"><input type="button" value="预览" onclick="preview(this)" class="submitbutton button ui-light-btn"><input type="button" value="备份" onclick="saveToLocal()" class="submitbutton button ui-light-btn"><input type="button" value="恢复" onclick="restoreFromLocal()" class="submitbutton button ui-light-btn"><input type="button" value="完成并关闭" onclick="finishTranslation()" class="submitbutton button ui-light-btn">';
+            bottomButton.innerHTML = '<input id="show-replace-button" type="button" value="全文替换" onclick="showReplace(this)" class="submitbutton button ui-light-btn"><input id="add-new-match-button" type="button" value="添加词条" onclick="showAddNewMatch(this)" class="submitbutton button ui-light-btn"><input type="button" value="预览" onclick="preview(this)" class="submitbutton button ui-light-btn"><input type="button" value="备份" onclick="saveToLocal()" class="submitbutton button ui-light-btn"><input type="button" value="恢复" onclick="restoreFromLocal()" class="submitbutton button ui-light-btn"><input type="button" value="完成并关闭" onclick="finishTranslation()" class="submitbutton button ui-light-btn">';
             document.body.appendChild(bottomButton);
         }
         document.querySelector('.body').classList.add('full-grid');
@@ -994,6 +994,8 @@ function showReplace(buttonEle) {
     }
     replaceContainer = document.querySelector('.replace-container');
     replaceContainer.innerHTML = '<div class="replace-content"><input placeholder="旧译名" type="text" class="replace-from" value="' + from + '"><input placeholder="新译名" type="text" class="replace-to"><button onclick="replaceAll()">全部替换</button></div>';
+    document.body.classList.remove('show-add-new-match');
+    document.getElementById('add-new-match-button').value = '添加词条';
     document.body.classList.toggle('show-replace');
     if (document.body.classList.contains('show-replace')) {
         buttonEle.value = '隐藏替换';
@@ -1059,9 +1061,11 @@ function showAddNewMatch(buttonEle) {
     }
     addNewMatchContainer = document.querySelector('.add-new-match-container');
     addNewMatchContainer.innerHTML = '<div class="replace-content"><input placeholder="原文" type="text" class="new-match-from" value="' + from + '"><input placeholder="译文" type="text" class="new-match-to" value="' + to + '"><button onclick="addNewMatch()">添加词条</button></div>';
-    document.body.classList.toggle('show-replace');
-    if (document.body.classList.contains('show-replace')) {
-        buttonEle.value = '回到编辑';
+    document.body.classList.remove('show-replace');
+    document.getElementById('show-replace-button').value = '全文替换';
+    document.body.classList.toggle('show-add-new-match');
+    if (document.body.classList.contains('show-add-new-match')) {
+        buttonEle.value = '隐藏添加';
     } else {
         buttonEle.value = '添加词条';
     }

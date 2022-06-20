@@ -1322,3 +1322,42 @@ function updateStickyRightRail() {
 }
 
 updateStickyRightRail();
+
+// MARK: Kickout users that are sharing accounts
+(function(){
+  try {
+    if (!window.userId) {return;}
+    var ua = navigator.userAgent || navigator.vendor || '';
+    var deviceType = 'web';
+    if (/iphone|android/gi.test(ua)) {
+      deviceType = 'phone';
+    } else if (/iphone|android/gi.test(ua)) {
+      deviceType = 'pad';
+    }
+    var uniqueId = GetCookie('uniqueVisitorId') || guid();
+    // MARK: - Set Cookie to expire in 100 days
+    SetCookie('uniqueVisitorId',uniqueId,86400*100,'/');
+    console.log(uniqueId);
+    var xhr = new XMLHttpRequest();
+    var message = {
+      user_id: window.userId, 
+      device_id: uniqueId, 
+      action: 'view', 
+      platform: deviceType
+    };
+    xhr.open('POST', '/users/online');
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onload = function() {
+        if (xhr.status !== 200) {return;}
+          var data = JSON.parse(xhr.responseText);
+          var ec = 'AccountShare';
+          var ea = data.online === 1 ? 'Allow' : 'Kickout';
+          ea = 'View ' + ea;
+          el = window.userId + ':' + uniqueId;
+          gtag('event', ea, {'event_label': number, 'event_category': ec, 'non_interaction': true});
+    };
+    xhr.send(JSON.stringify(message));
+  } catch(err) {
+    console.log(err);
+  }
+})();
