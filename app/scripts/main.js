@@ -1361,7 +1361,7 @@ updateStickyRightRail();
         console.log('ea: ' + ea + ', el: ' + el);
         if (typeof webkit === 'object') {
           var message = {title: ea, message: el};
-          webkit.messageHandlers.alert.postMessage(message);
+          webkit.messageHandlers.print.postMessage(message);
         }
     };
     xhr.send(JSON.stringify(message));
