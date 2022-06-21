@@ -1359,10 +1359,10 @@ updateStickyRightRail();
         var el = window.userId + ':' + uniqueId;
         gtag('event', ea, {'event_label': el, 'event_category': ec, 'non_interaction': true});
         console.log('ea: ' + ea + ', el: ' + el);
-        // if (typeof webkit === 'object') {
-        //   var message = {title: ea, message: el};
-        //   webkit.messageHandlers.print.postMessage(message);
-        // }
+        if (typeof webkit === 'object') {
+          var message = {title: ea, message: el};
+          webkit.messageHandlers.print.postMessage(message);
+        }
     };
     xhr.send(JSON.stringify(message));
   } catch(err) {
