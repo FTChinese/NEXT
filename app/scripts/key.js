@@ -629,7 +629,7 @@ function submitPhoneLogin() {
     function reportLoginToNative() {
         var data = {action: 'login', userId: window.userId, method: 'phone'};
         try {
-            if (webkit) {
+            if (typeof webkit === 'object') {
                 webkit.messageHandlers.login.postMessage(data);
             } else if (Android) {
                 Android.onPageLoaded(JSON.stringify(data));

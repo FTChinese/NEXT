@@ -202,8 +202,8 @@ function checkTextarea(ele) {
         var keyMatches = keyMatchesArray.length;
         if (keyMatches === 0) {continue;}
         var reg = new RegExp(translation, 'g');
-        var translationMatches = value.match(reg);
-        if (!translationMatches || translationMatches.length < keyMatches) {
+        var translationMatches = value.match(reg) || [];
+        if (translationMatches.length === 0 || translationMatches.length < keyMatches) {
             unmatchedKeys.push({
                 source: key, 
                 sourceMatches: keyMatches, 

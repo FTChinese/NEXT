@@ -841,14 +841,12 @@ function trackRead(ea, metricName) {
       return;
     }
     try {
-      if (webkit) {
+      if (typeof webkit === 'object') {
         webkit.messageHandlers.qualityread.postMessage(info);
-      } else if (Android) {
+      } else if (typeof Android === 'object') {
         Android.qualityread(JSON.stringify(info));
       }
-    } catch (ignore) {
-      
-    }
+    } catch (ignore) {}
     var el = window.privilegeEventLabel || ftItemId;
     var parameters = {'send_page_view': false};
     parameters[metricName] = 1;
@@ -1326,7 +1324,7 @@ updateStickyRightRail();
 // MARK: Kickout users that are sharing accounts
 (function(){
   try {
-    // TODO: - If it's iphone in-app, return immediately for safety
+    // MARK: - iPhone App Use the same process as well
     if (!window.userId) {return;}
     var ua = navigator.userAgent || navigator.vendor || '';
     var deviceType = 'web';
@@ -1343,20 +1341,28 @@ updateStickyRightRail();
     var message = {
       user_id: window.userId, 
       device_id: uniqueId, 
-      action: 'view', 
+      action: 'view',
       platform: deviceType
     };
     xhr.open('POST', '/users/online');
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.onload = function() {
         if (xhr.status !== 200) {return;}
-          var data = JSON.parse(xhr.responseText);
-          var ec = 'AccountShare';
-          var ea = data.online === 1 ? 'Allow' : 'Kickout';
-          ea = 'View ' + ea;
-          var el = window.userId + ':' + uniqueId;
-          gtag('event', ea, {'event_label': el, 'event_category': ec, 'non_interaction': true});
-          console.log('ea: ' + ea + ', el: ' + el);
+        var data = JSON.parse(xhr.responseText);
+        if (data.online === 0) {
+          //MARK: - Kick this user out
+
+        }
+        var ec = 'AccountShare';
+        var ea = data.online === 1 ? 'Allow' : 'Kickout';
+        ea = ea + ' ' + deviceType;
+        var el = window.userId + ':' + uniqueId;
+        gtag('event', ea, {'event_label': el, 'event_category': ec, 'non_interaction': true});
+        console.log('ea: ' + ea + ', el: ' + el);
+        if (typeof webkit === 'object') {
+          var message = {title: ea, message: el};
+          webkit.messageHandlers.alert.postMessage(message);
+        }
     };
     xhr.send(JSON.stringify(message));
   } catch(err) {

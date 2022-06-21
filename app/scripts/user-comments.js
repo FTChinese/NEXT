@@ -267,7 +267,7 @@ function login(fromwhere) {
     function reportLoginToNative(userId) {
         var data = {action: 'login', userId: userId, method: 'email'};
         try {
-            if (webkit) {
+            if (typeof webkit === 'object') {
                 webkit.messageHandlers.login.postMessage(data);
             } else if (Android) {
                 Android.onPageLoaded(JSON.stringify(data));
@@ -409,7 +409,7 @@ function logout() {
     xmlhttp.send();
     // MARK: This function is also used in iOS app. However, when the base url, such as www.ftchinese.com is blocked, the logout function will fail. So when user try to logout, send the action info to native app and handle it accordingly. 
     try {
-        if (webkit !== undefined) {
+        if (typeof webkit === 'object') {
             var message = {
                 action: 'logout',
                 href: location.href
