@@ -1323,6 +1323,48 @@ updateStickyRightRail();
 
 // MARK: Kickout users that are sharing accounts
 (function(){
+
+  function kickout(deviceType) {
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState !== 4 || this.status !== 200) {return;}
+        var deviceDict = {
+          phone: '手机',
+          web: '电脑',
+          pad: '平板'
+        };
+        var deviceName = deviceDict[deviceType] || '设备';
+        var d = document.documentElement.classList;
+        d.remove('is-member');
+        d.remove('is-subscriber');
+        d.remove('is-premium');
+        var message = {
+          title: '您已登出',
+          description: '您的账号已经在另一台' + deviceName + '上登入，因此在本' + deviceName + '上登出。每个账号可以在不同类的终端设备（电脑、手机和平板）上各登录一台设备，并同时使用，但不能在同类终端的两个或两个以上设备上同时登录。'
+        };
+        if (typeof webkit === 'object') {
+          webkit.messageHandlers.logout.postMessage(message);
+        } else {
+          showOverlay('overlay-login');
+          var overlayBG = document.querySelector('.overlay-bg');
+          document.getElementById('login-reason').innerHTML = message.description;
+          document.querySelector('.overlay-title').innerHTML = message.title;
+          document.querySelector('.register-find').innerHTML = '<a href="https://www.ftacademy.cn/subscription.html">购买会员</a><span></span><a href="/users/findpassword">找回密码</a>';
+          document.querySelector('.wx-login').style.marginTop = '15px';
+          overlayBG.className = 'overlay-bg-fixed';
+          document.getElementById('ft-login-input-username').value = '';
+          document.getElementById('ft-login-input-password').value = '';
+          var ccode = window.ccodeValue || '';
+          if (/^7S/.test(ccode)) {return;}
+          // MARK: - Show campaigns, ccode, title, link
+
+        }
+    };
+    var randomNumber = parseInt(Math.random()*1000000, 10);
+    xmlhttp.open('GET', '/index.php/users/logout?' + randomNumber);
+    xmlhttp.send();
+  }
+
   try {
     // MARK: - iPhone App Use the same process as well
     if (!window.userId) {return;}
@@ -1349,12 +1391,16 @@ updateStickyRightRail();
     xhr.onload = function() {
         if (xhr.status !== 200) {return;}
         var data = JSON.parse(xhr.responseText);
-        if (data.online === 0) {
-          //MARK: - Kick this user out
-
-        }
         var ec = 'AccountShare';
-        var ea = data.online === 1 ? 'Allow' : 'Kickout';
+        var ea = data.online === 1 ? 'Allow' : 'Mark';
+        var ccode = window.ccodeValue || '';
+        var doKickout = window.location.href.indexOf('kickout=yes')>=0;// || /^7S/.test(ccode);
+        // MARK: - For now, only really kick out test devices
+        if (data.online === 0 && doKickout) {
+          //MARK: - Kick this user out
+          ea = 'Kickout';
+          kickout(deviceType);
+        }
         ea = ea + ' ' + deviceType;
         var el = window.userId + ':' + uniqueId;
         gtag('event', ea, {'event_label': el, 'event_category': ec, 'non_interaction': true});

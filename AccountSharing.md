@@ -32,7 +32,7 @@
 在服务器端，收集并验证订户的设备信息，非订户没有必要做这个，以免被人抓包。收集的数据至少有两个用途，一个是实时地验证订户是否在同时使用多个同类型设备，另一个是供定期分析订户跨设备使用的情况。这个阶段的开发是不影响用户体验的，一旦发现出任何问题，比如服务器承载过大，可以随时停止收集。网页端和原生端可以使用同一个API，但在传输的数据和认证方面应有区别。收集的数据包括（有些设备可能无法收集某些数据，这种情况下，可以不提交，或者提交空字符）。开发周期：两周。
 - device_id: 如果传了device_id，则使用这个作为device id，否则，从cookie里面去寻找"uniqueVisitorId"
 - user_id
-- device_type（'phone', 'tablet', 'web')
+- device_type（'phone', 'pad', 'web')
 - user_agent
 - device_brand
 - device_model
