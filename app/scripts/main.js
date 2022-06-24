@@ -1324,7 +1324,26 @@ updateStickyRightRail();
 // MARK: Kickout users that are sharing accounts
 (function(){
 
-  function kickout(deviceType) {
+  function showOffers(offers) {
+    var dict = {
+      half: 'ft_win_back',
+      '75': 'ft_renewal',
+      '85': 'ft_discount'
+    };
+    var offersHTML = '';
+    for (var i=0; i<offers.length; i++) {
+      var section = offers[i];
+      if (section.status !== 'on') {continue;}
+      var discountCode = dict[section.discount];
+      if (!discountCode) {continue;}
+      var link = 'https://www.ftacademy.cn/subscription.html?from=' + discountCode + '&ccode=' + section.ccode + '#no_universal_links';
+      offersHTML = '<div class="wx-login-container"><div class="center wx-login" style="margin-top:15px;background-color:#38747e;"><a href="' + link + '">' + section.message + '</a></div></div>';
+      break;
+    }
+    document.getElementById('login-reason').innerHTML += offersHTML;
+  }
+
+  function logoutWithOffers(deviceType, offers) {
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
         if (this.readyState !== 4 || this.status !== 200) {return;}
@@ -1341,7 +1360,8 @@ updateStickyRightRail();
         var message = {
           title: '您已登出',
           description: '您的账号已经在另一台' + deviceName + '上登入，因此在本' + deviceName + '上登出。每个账号可以在不同类的终端设备（电脑、手机和平板）上各登录一台设备，并同时使用，但不能在同类终端的两个或两个以上设备上同时登录。',
-          href: window.location.href
+          href: window.location.href,
+          offers: offers
         };
         if (typeof webkit === 'object') {
           webkit.messageHandlers.logout.postMessage(message);
@@ -1356,8 +1376,7 @@ updateStickyRightRail();
           document.getElementById('ft-login-input-password').value = '';
           var ccode = window.ccodeValue || '';
           if (/^7S/.test(ccode)) {return;}
-          // MARK: - Show campaigns, ccode, title, link
-          showOffers();
+          showOffers(offers);
         }
     };
     var randomNumber = parseInt(Math.random()*1000000, 10);
@@ -1365,26 +1384,12 @@ updateStickyRightRail();
     xmlhttp.send();
   }
 
-  function showOffers() {
+  function kickout(deviceType) {
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function() {
         if (this.readyState !== 4 || this.status !== 200) {return;}
-        var dict = {
-          half: 'ft_win_back',
-          '75': 'ft_renewal',
-          '85': 'ft_discount'
-        };
         var data = JSON.parse(xhr.responseText);
-        var sections = data.sections;
-        for (var i=0; i<sections.length; i++) {
-          var section = sections[i];
-          if (section.status !== 'on') {continue;}
-          var discountCode = dict[section.discount];
-          if (!discountCode) {continue;}
-          var link = 'https://www.ftacademy.cn/subscription.html?from=' + discountCode + '&ccode=' + section.ccode + '#no_universal_links';
-          document.getElementById('login-reason').innerHTML += '<div class="wx-login-container" style="background-color:#38747e;"><div class="center wx-login" style="margin-top: 15px;"><a href="' + link + '">' + section.message + '</a></div></div>';
-          break;
-        }
+        logoutWithOffers(deviceType, data.sections);
     };
     xhr.open('GET', '/index.php/jsapi/kickoutoffers');
     xhr.send();
