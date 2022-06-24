@@ -1340,7 +1340,8 @@ updateStickyRightRail();
         d.remove('is-premium');
         var message = {
           title: '您已登出',
-          description: '您的账号已经在另一台' + deviceName + '上登入，因此在本' + deviceName + '上登出。每个账号可以在不同类的终端设备（电脑、手机和平板）上各登录一台设备，并同时使用，但不能在同类终端的两个或两个以上设备上同时登录。'
+          description: '您的账号已经在另一台' + deviceName + '上登入，因此在本' + deviceName + '上登出。每个账号可以在不同类的终端设备（电脑、手机和平板）上各登录一台设备，并同时使用，但不能在同类终端的两个或两个以上设备上同时登录。',
+          href: window.location.href
         };
         if (typeof webkit === 'object') {
           webkit.messageHandlers.logout.postMessage(message);
