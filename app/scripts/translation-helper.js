@@ -134,7 +134,6 @@ delegate.on('blur', '.info-container textarea', function(event){
 function checkDict(ele) {
     var container = ele.closest('.info-container');
     var nameEntities = container.querySelectorAll('.name-entity-inner');
-    if (nameEntities.length === 0) {return;}
     for (var n=0; n<nameEntities.length; n++) {
         var nameEntity = nameEntities[n];
         const key = nameEntity.getAttribute('data-key');
@@ -143,6 +142,7 @@ function checkDict(ele) {
         const translations = dict[key] || [];
         for (var i=0; i<translations.length; i++) {
             var translation = translations[i];
+            if (translation === key) {continue;}
             if (ele.value.indexOf(translation) === -1) {continue;}
             var nameEntityInners = document.querySelectorAll('.name-entity-inner[data-key="' + key + '"]');
             for (var j=0; j<nameEntityInners.length; j++) {
@@ -562,12 +562,16 @@ function finishTranslation() {
     try {
         saveToLocal(true);
     }catch(ignore){}
+    var finish = false;
     if (isReviewMode) {
-        finishReview();
+        finish = finishReview();
     } else if (typeof window.subtitleInfo === 'object') {
-        finishTranslationForVideo();
+        finish = finishTranslationForVideo();
     } else {
-        finishTranslationForArticle();
+        finish = finishTranslationForArticle();
+    }
+    if (finish !== true) {
+        return;
     }
     trackFinishTimeAndClose();
 }
@@ -587,7 +591,7 @@ function finishTranslationForArticle() {
     if (!status.success) {
         var question = '您编辑的内容可能有些问题，您还要继续提交吗？\n\n' + status.message;
         if (!window.confirm(question)) {
-            return;
+            return false;
         }
     }
     var t = document.getElementById('english-text').value;
@@ -655,6 +659,7 @@ function finishTranslationForArticle() {
             }
         }
     }
+    return true;
 }
 
 function finishReview() {
@@ -673,6 +678,7 @@ function finishReview() {
             cbodyEle.value = cbody;
         }
     }
+    return true;
 }
 
 function fillArray(length, end, middle) {
@@ -909,6 +915,7 @@ function finishTranslationForVideo() {
     } else {
         console.log(window.subtitleInfo);
     }
+    return true;
 }
 
 function preview(buttonEle) {
@@ -1113,7 +1120,7 @@ function addNewMatch() {
         if (reg.test(originalText) === false) {continue;}
         var nameEntitiesContainer = document.createElement('DIV');
         nameEntitiesContainer.className = 'name-entities-container';
-        nameEntitiesContainer.innerHTML = '<div class="name-entity-inner" data-key="' + from + '"><span class="name-entity-key">' + from + '</span><span><input type="text" value="' + to + '" placeholder="填写统一译法，开启提醒"></span><span><button class="ignore-name-entity">忽略</button><span></span></span></div><div class="name-entity-translation" data-key="' + from + '"><span class="name-entity-shortcut">' + from + '</span><span class="name-entity-shortcut">' + from + '(' + to + ')</span></div>';
+        nameEntitiesContainer.innerHTML = '<div class="name-entity-inner" data-key="' + from + '"><span class="name-entity-key">' + from + '</span><span><input type="text" value="' + to + '" placeholder="填写统一译法，开启提醒"></span><span><button class="ignore-name-entity">忽略</button><span></span></span></div><div class="name-entity-translation" data-key="' + from + '"><span class="name-entity-shortcut">' + to + '</span><span class="name-entity-shortcut">' + to + '(' + from + ')</span></div>';
         originalEle.parentNode.appendChild(nameEntitiesContainer);
         createCount += 1;
     }

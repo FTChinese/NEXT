@@ -1349,7 +1349,6 @@ updateStickyRightRail();
           var overlayBG = document.querySelector('.overlay-bg');
           document.getElementById('login-reason').innerHTML = message.description;
           document.querySelector('.overlay-title').innerHTML = message.title;
-          document.querySelector('.register-find').innerHTML = '<a href="https://www.ftacademy.cn/subscription.html">购买会员</a><span></span><a href="/users/findpassword">找回密码</a>';
           document.querySelector('.wx-login').style.marginTop = '15px';
           overlayBG.className = 'overlay-bg-fixed';
           document.getElementById('ft-login-input-username').value = '';
@@ -1357,12 +1356,37 @@ updateStickyRightRail();
           var ccode = window.ccodeValue || '';
           if (/^7S/.test(ccode)) {return;}
           // MARK: - Show campaigns, ccode, title, link
-
+          showOffers();
         }
     };
     var randomNumber = parseInt(Math.random()*1000000, 10);
     xmlhttp.open('GET', '/index.php/users/logout?' + randomNumber);
     xmlhttp.send();
+  }
+
+  function showOffers() {
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (this.readyState !== 4 || this.status !== 200) {return;}
+        var dict = {
+          half: 'ft_win_back',
+          '75': 'ft_renewal',
+          '85': 'ft_discount'
+        };
+        var data = JSON.parse(xhr.responseText);
+        var sections = data.sections;
+        for (var i=0; i<sections.length; i++) {
+          var section = sections[i];
+          if (section.status !== 'on') {continue;}
+          var discountCode = dict[section.discount];
+          if (!discountCode) {continue;}
+          var link = 'https://www.ftacademy.cn/subscription.html?from=' + discountCode + '&ccode=' + section.ccode + '#no_universal_links';
+          document.getElementById('login-reason').innerHTML += '<div class="wx-login-container" style="background-color:#38747e;"><div class="center wx-login" style="margin-top: 15px;"><a href="' + link + '">' + section.message + '</a></div></div>';
+          break;
+        }
+    };
+    xhr.open('GET', '/index.php/jsapi/kickoutoffers');
+    xhr.send();
   }
 
   try {
@@ -1393,7 +1417,7 @@ updateStickyRightRail();
         var data = JSON.parse(xhr.responseText);
         var ec = 'AccountShare';
         var ea = data.online === 1 ? 'Allow' : 'Mark';
-        var ccode = window.ccodeValue || '';
+        // var ccode = window.ccodeValue || '';
         var doKickout = window.location.href.indexOf('kickout=yes')>=0;// || /^7S/.test(ccode);
         // MARK: - For now, only really kick out test devices
         if (data.online === 0 && doKickout) {
