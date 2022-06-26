@@ -435,7 +435,7 @@ function start() {
     var allLinks = document.querySelectorAll('.info-original a[href]');
     for (var n=0; n<allLinks.length; n++) {
         allLinks[n].setAttribute('target', '_blank');
-        var suggestion = '在点选左边把文字填写到这里之后，可以尝试选择部分文字，然后点击左边的链接，就可以方便地添加链接。';
+        var suggestion = '在点选左边把文字填写到这里之后，可以尝试选择部分文字，然后点击左边的链接和加粗字体，就可以方便地添加链接或加粗文字。';
         allLinks[n].closest(".info-container").querySelector('.info-suggestion').innerHTML = suggestion;
         // allLinks[n].closest(".info-container").querySelector('textarea').setAttribute('placeholder', suggestion);
     }
@@ -822,8 +822,12 @@ function showNames() {
             }
             if (matchedKeySets.size === 0) {continue;}
             var matchedKeys = Array.from(matchedKeySets);
-            var nameEntitiesContainer = document.createElement('DIV');
-            nameEntitiesContainer.className = 'name-entities-container';
+            var nameEntitiesContainer = ele.parentElement.querySelector('.name-entities-container');
+            if (!nameEntitiesContainer) {
+                nameEntitiesContainer = document.createElement('DIV');
+                nameEntitiesContainer.className = 'name-entities-container';
+                ele.parentElement.append(nameEntitiesContainer);
+            }
             for (var n=0; n<matchedKeys.length; n++) {
                 var nameEle = document.createElement('DIV');
                 nameEle.className = 'name-entity-inner';
@@ -835,7 +839,6 @@ function showNames() {
                 translationEle.setAttribute('data-key', matchedKeys[n]);
                 nameEntitiesContainer.appendChild(translationEle);
             }
-            ele.parentNode.appendChild(nameEntitiesContainer);
         }
         var firstNameEntitiesContainer = ele.closest('.info-container').querySelector('.name-entities-container');
         if (firstNameEntitiesContainer) {
@@ -1118,10 +1121,13 @@ function addNewMatch() {
         originalText = ' ' + originalText + ' ';
         var reg = new RegExp(' ' + from + ' ', 'g');
         if (reg.test(originalText) === false) {continue;}
+        var nameEntitiesContainer = originalEle.parentNode.querySelector('.name-entities-container');
+        if (!nameEntitiesContainer) {
         var nameEntitiesContainer = document.createElement('DIV');
-        nameEntitiesContainer.className = 'name-entities-container';
-        nameEntitiesContainer.innerHTML = '<div class="name-entity-inner" data-key="' + from + '"><span class="name-entity-key">' + from + '</span><span><input type="text" value="' + to + '" placeholder="填写统一译法，开启提醒"></span><span><button class="ignore-name-entity">忽略</button><span></span></span></div><div class="name-entity-translation" data-key="' + from + '"><span class="name-entity-shortcut">' + to + '</span><span class="name-entity-shortcut">' + to + '(' + from + ')</span></div>';
-        originalEle.parentNode.appendChild(nameEntitiesContainer);
+            nameEntitiesContainer.className = 'name-entities-container';
+            originalEle.parentNode.appendChild(nameEntitiesContainer);
+        }
+        nameEntitiesContainer.innerHTML += '<div class="name-entity-inner" data-key="' + from + '"><span class="name-entity-key">' + from + '</span><span><input type="text" value="' + to + '" placeholder="填写统一译法，开启提醒"></span><span><button class="ignore-name-entity">忽略</button><span></span></span></div><div class="name-entity-translation" data-key="' + from + '"><span class="name-entity-shortcut">' + to + '</span><span class="name-entity-shortcut">' + to + '(' + from + ')</span></div>';
         createCount += 1;
     }
     if (updateCount === 0 && createCount === 0) {
