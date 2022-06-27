@@ -1422,8 +1422,8 @@ updateStickyRightRail();
         var data = JSON.parse(xhr.responseText);
         var ec = 'AccountShare';
         var ea = data.online === 1 ? 'Allow' : 'Mark';
-        // var ccode = window.ccodeValue || '';
-        var doKickout = window.location.href.indexOf('kickout=yes')>=0 || window.userId === 'U1131519359838PQZF';// || /^7S/.test(ccode);
+        var ccode = window.ccodeValue || '';
+        var doKickout = window.location.href.indexOf('kickout=yes')>=0 || window.userId === 'U1131519359838PQZF' || /^7S/.test(ccode);
         // MARK: - For now, only really kick out test devices
         if (data.online === 0 && doKickout) {
           //MARK: - Kick this user out

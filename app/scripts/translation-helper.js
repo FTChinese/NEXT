@@ -44,6 +44,7 @@ delegate.on('click', '.info-original a[href], .info-translation a[href], .info-o
 delegate.on('click', '.info-translation', function(event){
     confirmTranslation(this);
     var textArea = this.closest(".info-container").querySelector('textarea');
+    textArea.focus();
     toggleTextareaWarning(textArea);
 });
 
@@ -184,8 +185,8 @@ function checkTextarea(ele) {
     var nameEntities = container.querySelectorAll('.name-entity-inner');
     var originalText = container.querySelector('.info-original').innerHTML;
     originalText = originalText
-        .replace(/“/g, '“ ')
-        .replace(/”/g, ' ”')
+        .replace(/[“>]/g, '“ ')
+        .replace(/[”<]/g, ' ”')
         .replace(/(’s )/g, ' $1')
         .replace(/([,\.?!]+)/g, ' $1 ')
         .replace(/[ ]+/g, ' ');
@@ -326,7 +327,7 @@ function start() {
                 for (var m=0; m<translations.length; m++) {
                     infoHTML += '<div onclick="confirmTranslation(this)" data-translation-index="' + m + '"  class="info-translation" title="click to confirm this translation to the right">' + translations[m] + '</div>';
                 }
-                infoHTML = '<div class="info-container"><div>' + infoHTML + '</div><div><div class="info-suggestion"></div><div class="info-error-message"></div><textarea data-info-id="' + id + '" placeholder="点选左边的翻译版本，您也可以继续编辑"></textarea></div></div><hr>';
+                infoHTML = '<div class="info-container"><div>' + infoHTML + '</div><div><div class="info-suggestion"></div><div class="info-error-message"></div><textarea data-info-id="' + id + '" placeholder="点选左边的翻译版本，您也可以继续编辑"></textarea></div><div class="info-helper"></div></div><hr>';
                 k += infoHTML;
             }
         }
@@ -369,7 +370,7 @@ function start() {
             if (t1 !== '') {
                 infoHTML += '<div data-translation-index="' + j1 + '" class="info-translation selected" title="click to confirm this translation to the right">' + t1 + '</div>';
             }
-            infoHTML = '<div class="info-container"><div>' + infoHTML + '</div><div><div class="info-suggestion"></div><div class="info-error-message"></div><textarea data-info-id="' + id + '" placeholder="点选右边的翻译版本，您也可以继续编辑">' + t1 + '</textarea></div></div><hr>';
+            infoHTML = '<div class="info-container"><div>' + infoHTML + '</div><div><div class="info-suggestion"></div><div class="info-error-message"></div><textarea data-info-id="' + id + '" placeholder="点选右边的翻译版本，您也可以继续编辑">' + t1 + '</textarea></div><div class="info-helper"></div></div><hr>';
             k += infoHTML;
         }
         storyBodyEle.innerHTML = k;
@@ -385,7 +386,7 @@ function start() {
             if (j < tTexts.length) {
                 t1 = tTexts[j] || '';
             }
-            infoHTML = '<div class="info-container"><div>' + infoHTML + '</div><div><div class="info-suggestion"></div><div class="info-error-message"></div><textarea placeholder="点选右边的翻译版本，您也可以继续编辑">' + t1 + '</textarea></div></div><hr>';
+            infoHTML = '<div class="info-container"><div>' + infoHTML + '</div><div><div class="info-suggestion"></div><div class="info-error-message"></div><textarea placeholder="点选右边的翻译版本，您也可以继续编辑">' + t1 + '</textarea></div><div class="info-helper"></div></div><hr>';
             k += infoHTML;
         }
         storyBodyEle.innerHTML = k;
@@ -462,7 +463,6 @@ function recordTimeInfo(spentTime) {
     var chineseWordCount = 0;
     var englishWordCount = 0;
     for (var j=0; j<infoContainers.length; j++) {
-        console.log(j);
         var infoContainer = infoContainers[j];
         var final = infoContainer.querySelector('textarea').value;
         // MARK: - Count only Chinese characters
@@ -610,7 +610,6 @@ function finishTranslationForArticle() {
         }
         for (var m=0; m<titles.length; m++) {
             if (titles[m] === id) {
-                console.log(ele);
                 titlesInfo.push({id: id, value: ele.value});
             }
         }
@@ -663,7 +662,6 @@ function finishTranslationForArticle() {
 }
 
 function finishReview() {
-    console.log('finish review');
     var finishedTexts = [];
     var textAreas = document.querySelectorAll('.info-container textarea');
     for (var i=0; i<textAreas.length; i++) {
@@ -822,11 +820,12 @@ function showNames() {
             }
             if (matchedKeySets.size === 0) {continue;}
             var matchedKeys = Array.from(matchedKeySets);
-            var nameEntitiesContainer = ele.parentElement.querySelector('.name-entities-container');
+            var infoContainer = ele.closest('.info-container');
+            var nameEntitiesContainer = infoContainer.querySelector('.name-entities-container');
             if (!nameEntitiesContainer) {
                 nameEntitiesContainer = document.createElement('DIV');
                 nameEntitiesContainer.className = 'name-entities-container';
-                ele.parentElement.append(nameEntitiesContainer);
+                infoContainer.querySelector('.info-helper').append(nameEntitiesContainer);
             }
             for (var n=0; n<matchedKeys.length; n++) {
                 var nameEle = document.createElement('DIV');
@@ -885,6 +884,15 @@ function showGlossarySuggestions() {
                     suggestionEle.setAttribute('data-translation', chinese_title);
                     suggestionEle.setAttribute('title', '点击这里快速将“' + chinese_title + '”插入到下面文本框中');
                     infoOriginal.parentElement.append(suggestionEle);
+                    // MARK: - Insert glossary to the right column
+                    var infoHelper = infoOriginal.closest('.info-container').querySelector('.info-helper');
+                    var nameEntityContainer = infoHelper.querySelector('.name-entity-container');
+                    if (!nameEntityContainer) {
+                        nameEntityContainer = document.createElement('DIV');
+                        infoHelper.append(nameEntityContainer);
+                    }
+                    var newNameEntityInnerHTML = '<div class="name-entities-container"><div class="name-entity-inner" data-key="' + en_title + '"><span class="name-entity-key">' + en_title + '</span><span><input type="text" value="' + chinese_title + '" placeholder="填写统一译法，开启提醒"></span><span><button class="ignore-name-entity">忽略</button><span></span></span></div><div class="name-entity-translation" data-key="' + en_title + '"><span class="name-entity-shortcut">' + chinese_title + '</span><span class="name-entity-shortcut">' + chinese_title + '(' + en_title + ')</span></div>';
+                    nameEntityContainer.innerHTML += newNameEntityInnerHTML;
                 }
             }
         }
@@ -1121,11 +1129,12 @@ function addNewMatch() {
         originalText = ' ' + originalText + ' ';
         var reg = new RegExp(' ' + from + ' ', 'g');
         if (reg.test(originalText) === false) {continue;}
-        var nameEntitiesContainer = originalEle.parentNode.querySelector('.name-entities-container');
+        var infoContainer = originalEle.closest('.info-container');
+        var nameEntitiesContainer = infoContainer.querySelector('.name-entities-container');
         if (!nameEntitiesContainer) {
-        var nameEntitiesContainer = document.createElement('DIV');
+            var nameEntitiesContainer = document.createElement('DIV');
             nameEntitiesContainer.className = 'name-entities-container';
-            originalEle.parentNode.appendChild(nameEntitiesContainer);
+            infoContainer.querySelector('.info-helper').appendChild(nameEntitiesContainer);
         }
         nameEntitiesContainer.innerHTML += '<div class="name-entity-inner" data-key="' + from + '"><span class="name-entity-key">' + from + '</span><span><input type="text" value="' + to + '" placeholder="填写统一译法，开启提醒"></span><span><button class="ignore-name-entity">忽略</button><span></span></span></div><div class="name-entity-translation" data-key="' + from + '"><span class="name-entity-shortcut">' + to + '</span><span class="name-entity-shortcut">' + to + '(' + from + ')</span></div>';
         createCount += 1;
