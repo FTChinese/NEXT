@@ -11,6 +11,7 @@ if (window.opener && window.opener.userName) {
 }
 var dict = {};
 var delegate = new Delegate(document.body);
+var links = '<div>更多翻译引擎：<a href="https://fanyi.baidu.com/" target=_blank>百度</a> | <a href="https://fanyi.youdao.com/" target=_blank>有道</a> | <a href="https://www.deepL.com/" target=_blank>DeepL</a> | <a href="https://translate.google.com/" target=_blank>Google</a></div>';
 
 // MARK: - Links in translated text
 delegate.on('click', '.info-original a[href], .info-translation a[href], .info-original strong, .info-translation strong', function(event){
@@ -96,6 +97,7 @@ delegate.on('click', '.ignore-name-entity', function(event){
         if (nameEntityContainer.innerHTML !== '') {continue;}
         nameEntityContainer.parentElement.querySelector('.name-entities-description').innerHTML = ''; 
     }
+    checkInfoHelpers();
 });
 
 delegate.on('change', '.name-entity-inner input', function(event) {
@@ -131,6 +133,19 @@ delegate.on('blur', '.info-container textarea', function(event){
     toggleTextareaWarning(this);
     checkDict(this);
 });
+
+function checkInfoHelpers() {
+    var helpers = document.querySelectorAll('.info-helper');
+    for (var i=0; i<helpers.length; i++) {
+        var ele = helpers[i].querySelector('.name-entity-inner');
+        var container = helpers[i].closest('.info-container');
+        if (ele) {
+            container.classList.add('has-helper');
+        } else {
+            container.classList.remove('has-helper');
+        }
+    }
+}
 
 function checkDict(ele) {
     var container = ele.closest('.info-container');
@@ -327,7 +342,7 @@ function start() {
                 for (var m=0; m<translations.length; m++) {
                     infoHTML += '<div onclick="confirmTranslation(this)" data-translation-index="' + m + '"  class="info-translation" title="click to confirm this translation to the right">' + translations[m] + '</div>';
                 }
-                infoHTML = '<div class="info-container"><div>' + infoHTML + '</div><div><div class="info-suggestion"></div><div class="info-error-message"></div><textarea data-info-id="' + id + '" placeholder="点选左边的翻译版本，您也可以继续编辑"></textarea></div><div class="info-helper"></div></div><hr>';
+                infoHTML = '<div class="info-container"><div>' + infoHTML + links + '</div><div><div class="info-suggestion"></div><div class="info-error-message"></div><textarea data-info-id="' + id + '" placeholder="点选左边的翻译版本，您也可以继续编辑"></textarea></div><div class="info-helper"></div></div><hr>';
                 k += infoHTML;
             }
         }
@@ -370,7 +385,7 @@ function start() {
             if (t1 !== '') {
                 infoHTML += '<div data-translation-index="' + j1 + '" class="info-translation selected" title="click to confirm this translation to the right">' + t1 + '</div>';
             }
-            infoHTML = '<div class="info-container"><div>' + infoHTML + '</div><div><div class="info-suggestion"></div><div class="info-error-message"></div><textarea data-info-id="' + id + '" placeholder="点选右边的翻译版本，您也可以继续编辑">' + t1 + '</textarea></div><div class="info-helper"></div></div><hr>';
+            infoHTML = '<div class="info-container"><div>' + infoHTML + links + '</div><div><div class="info-suggestion"></div><div class="info-error-message"></div><textarea data-info-id="' + id + '" placeholder="点选右边的翻译版本，您也可以继续编辑">' + t1 + '</textarea></div><div class="info-helper"></div></div><hr>';
             k += infoHTML;
         }
         storyBodyEle.innerHTML = k;
@@ -693,7 +708,7 @@ function fillArray(length, end, middle) {
 
 function getNameEntities(english, translation, minLength) {
     var names = new Set();
-    var commonStartWord = ['Meanwhile', 'Since', 'During', 'While', 'When', 'Where', 'What', 'Which', 'Who', 'How', 'For', 'It', 'The', 'A', 'We', 'Being', 'They', 'He', 'She', 'I', 'There', 'In', 'That', 'People', 'From', 'Between', 'But', 'However', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Although', 'On', 'And', 'This', 'That', 'University', 'Legal', 'General', 'Investment', 'Management', 'Securities', 'US', 'Exchange', 'Commission', 'Asset', 'Bank', 'EU', 'If', 'International', 'Economics', 'Institute', 'Africa', 'Europe', 'Asia', 'America', 'American', 'Chinese', 'China', 'India', 'South', 'North', 'East', 'West', 'Western', 'Apple', 'Google', 'Amazon', 'President', 'As', 'UK', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Airport', 'Air', 'At', 'All', 'Here'];
+    var commonStartWord = ['Meanwhile', 'Since', 'During', 'While', 'When', 'Where', 'What', 'Which', 'Who', 'How', 'For', 'It', 'The', 'A', 'We', 'Being', 'They', 'He', 'She', 'I', 'There', 'In', 'That', 'People', 'From', 'Between', 'But', 'However', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Although', 'On', 'And', 'This', 'That', 'University', 'Legal', 'General', 'Investment', 'Management', 'Securities', 'US', 'Exchange', 'Commission', 'Asset', 'Bank', 'EU', 'If', 'International', 'Economics', 'Institute', 'Africa', 'Europe', 'Asia', 'America', 'American', 'Chinese', 'China', 'India', 'South', 'North', 'East', 'West', 'Western', 'Apple', 'Google', 'Amazon', 'President', 'As', 'UK', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Airport', 'Air', 'At', 'All', 'Here', 'Paris', 'London', 'New', 'York', 'Times', 'Germany', 'German', 'France', 'English', 'England', 'British', 'Briton'];
     var ebodyBackup = english
         .replace(/([“>])/g, '$1 ')
         .replace(/([”<])/g, ' $1')
@@ -847,6 +862,7 @@ function showNames() {
             firstNameEntitiesContainer.parentElement.insertBefore(nameEntitieDescription, firstNameEntitiesContainer);
         }
     }
+    checkInfoHelpers();
 }
 
 function showGlossarySuggestions() {
@@ -896,6 +912,7 @@ function showGlossarySuggestions() {
                 }
             }
         }
+        checkInfoHelpers();
     };
     xhr.send(encodeURI('post_text=' + ebody));
 }
@@ -1145,6 +1162,7 @@ function addNewMatch() {
         var updateMessage = (updateCount > 0) ? '更新了' + updateCount + '个段落的词条。' : '';
         var createMessage = (createCount > 0) ? '添加了' + createCount + '个段落的词条。' : '';
         alert (updateMessage + createMessage);
+        checkInfoHelpers();
     }
 }
 

@@ -87,9 +87,15 @@ body {
 }
 .info-container {
     display: grid;
-    grid-template-columns: 1fr 1fr 300px;
+    grid-template-columns: 1fr 1fr;
     grid-gap: 1em;
     overflow: hidden;
+    &.has-helper {
+        grid-template-columns: 1fr 1fr 300px;
+        .info-helper {
+            display: block;
+        }
+    }
     textarea {
         width: 100%;
         height: 100%;
@@ -229,5 +235,6 @@ hr {
 }
 .info-helper {
     background-color: $bannerBG;
-    padding: $defaultPadding/4;
+    padding: 5px;
+    display: none;
 }
