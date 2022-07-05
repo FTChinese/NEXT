@@ -2,6 +2,8 @@ var isReqSuccess = false;
 var i = 0;
 var isPremium = false;
 
+document.body.innerHTML += '<h1>Pay Wall 1: ' + htmlClass + '</h1>';
+
 // var androidUserInfo = {
 //   "displayName": "Faker",
 //   "email": "faker@example.org",

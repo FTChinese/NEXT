@@ -25,9 +25,6 @@ var sectionsWithSide = document.querySelectorAll('.block-container.has-side');
 var sections = document.querySelectorAll('.block-container, .footer-container, .bn-ph, .mpu-container, #story_main_mpu, .in-story-recommend');
 var delegate;
 var htmlClass = document.documentElement.className;
-
-document.body.innerHTML += '<h1>' + htmlClass + '</h1>';
-
 var sectionsWithSideLength = sectionsWithSide.length;
 var sectionClassName = [];
 var sectionClassNameNew = [];
