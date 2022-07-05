@@ -866,18 +866,6 @@
 		<%if $smarty.get.v != "" || $smarty.get.android != ""%>
 			<%assign var="v" value=$smarty.get.v|floatval%>
 			<%if $v >= 6.3 || $smarty.get.android != ""%>
-				<script>
-					(function(){
-						if (window.androidUserInfo) {
-							if (window.androidUserInfo.isMember) {
-								var tier = window.androidUserInfo.membership.tier
-								var htmlClassName = (tier === 'premium') ? 'is-premium' : 'is-standard';
-								htmlClassName += ' is-subscriber';
-								document.documentElement.className = htmlClassName;
-							}
-						}
-					})();
-				</script>
 				<div class="links-container">
 					<h2 class="list-title"><a>往期查询</a></h2>
 					<div id="archive-calendar" class="calendar"></div>

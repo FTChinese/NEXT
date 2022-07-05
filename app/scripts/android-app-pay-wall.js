@@ -46,7 +46,7 @@
             noneSubscriberStatus = dataObj.expire ? 'churned' : 'new';
         }
         var expireDate = dataObj.expire || '';
-        SetCookie('expire', expireDate);
+        try {SetCookie('expire', expireDate);} catch (ignore){}
         var ccode = dataObj.campaign_code || '';
         var duration = dataObj.latest_duration || '';
         var platform = 'AndroidApp';
