@@ -12,7 +12,10 @@ if (window.opener && window.opener.userName) {
 var dict = {};
 var delegate = new Delegate(document.body);
 var links = '<div>更多翻译引擎：<a href="https://fanyi.baidu.com/" target=_blank>百度</a> | <a href="https://fanyi.youdao.com/" target=_blank>有道</a> | <a href="https://www.deepL.com/" target=_blank>DeepL</a> | <a href="https://translate.google.com/" target=_blank>Google</a></div>';
-
+var heartBeatStatus = 'translating';
+var type = 'other';
+var id = '';
+var heartBeatIntervalId;
 // MARK: - Links in translated text
 delegate.on('click', '.info-original a[href], .info-translation a[href], .info-original strong, .info-translation strong', function(event){
     try {
@@ -28,6 +31,8 @@ delegate.on('click', '.info-original a[href], .info-translation a[href], .info-o
             var newText;
             if (t === 'a' && this.getAttribute('href')) {
                 newText = textBefore + '<a href="' + this.getAttribute('href') + '" targe="_blank">' + textSelected + '</a>' + textAfter;
+            } else if (this.parentElement.getAttribute('href') && this.parentElement.innerText === this.innerText) {
+                newText = textBefore + '<a href="' + this.parentElement.getAttribute('href') + '" targe="_blank"><' + t + '>' + textSelected + '</' + t + '>' + '</a>' + textAfter;
             } else {
                 newText = textBefore + '<' + t + '>' + textSelected + '</' + t + '>' + textAfter;
             }
@@ -531,6 +536,7 @@ function finish() {
         var result = document.getElementById('final-translation').value;
         window.opener.document.getElementById('cbody').value = tidyUpChineseText(result);
         window.opener.document.getElementById('tag').value += ',translation_confirmed';
+        stopHeartbeat();
     }
     trackFinishTimeAndClose();
 }
@@ -892,7 +898,15 @@ function showGlossarySuggestions() {
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onload = function() {
         if (xhr.status !== 200) {return;}
-        var suggestions = JSON.parse(xhr.responseText);
+        var suggestions;
+        try {
+            suggestions = JSON.parse(xhr.responseText);
+        } catch(err) {
+            console.log('ajax_get_suggestions api not a valid JSON: ');
+            console.log(xhr.responseText);
+            console.log(err);
+            return;
+        }
         var infoOriginals = document.querySelectorAll('.info-original');
         for (var i = 0; i < infoOriginals.length; i++) {
             var infoOriginal = infoOriginals[i];
@@ -1188,7 +1202,7 @@ function watchChange() {
     if (!fileupdatetimeEle) {return;}
     var ids = [window.opener.contentId];
     var idsString = ids.join(',');
-    setInterval(function() {
+    heartBeatIntervalId = setInterval(function() {
         var xhr = new XMLHttpRequest();
         xhr.open('post', '/falcon.php/jsapi/get_interactive_info_by_id');
         xhr.setRequestHeader('Content-Type', 'application/json');
@@ -1207,6 +1221,141 @@ function watchChange() {
         xhr.send(idsString);
     }, 60000);
 }
+
+function startHeartBeat(status) {
+    if (!window.opener) {return;}
+
+    function humanTimeDiff(t) {
+        var now = new Date().getTime()/1000;
+        var seconds = now - t;
+        if (seconds < 60) {
+            return Math.round(seconds) + '秒';
+        } else if (seconds < 3600) {
+            return Math.round(seconds/60) + '分钟';
+        } else {
+            return Math.round(seconds/3600) + '小时';
+        }
+    }
+
+    function popReminder(data) {
+        var info = parseReminder(data);
+        message = '请注意，这篇文章似乎有别人正在处理，以下是具体的信息：' + info.message + '您还要继续打开吗？';
+        if (window.confirm(message)) {
+            updateHeartBeat(status);
+            return;
+        }
+        window.close();
+    }
+
+    function toggleReminder(data) {
+        var info = parseReminder(data);
+        console.log(info);
+    }
+
+    function parseReminder(data) {
+        if (!data || typeof data !== 'object') {
+            updateHeartBeat(status);
+            return null;
+        }
+        delete data[window.userName];
+        var keys = Object.keys(data);
+        if (keys.length === 0) {
+            updateHeartBeat(status);
+            return null;
+        }
+        // MARK: Show the reminder now
+        var now = new Date().getTime()/1000;
+        var maxSeconds = 60;
+        var cutTime = now - maxSeconds;
+        var message = '';
+        var statusDict = {
+            translating: '翻译',
+            editing: '编辑'
+        };
+        var warning = false;
+        var warningSeconds = 20;
+        var warningCutTime = now - warningSeconds;
+        for (var i=0; i<keys.length; i++) {
+            var key = keys[i];
+            var info = JSON.parse(data[key]);
+            if (info.time < cutTime) {continue;}
+            if (info.time > warningSeconds) {
+                warning = true;
+            }
+            message += key + '可能在' + statusDict[info.status] + '，最新的活跃时间是' + humanTimeDiff(info.time) + '之前. ';
+        }
+        if (message === '') {
+            updateHeartBeat(status);
+            return null;
+        }
+        return {warning: warning, message: message};
+    }
+
+    function checkHeartBeat() {
+        var fromUrl = window.opener.location.pathname;
+        if (/workflow/.test(fromUrl)) {
+            type = 'story';
+        } else if (/\/ia\//.test(fromUrl)) {
+            type = 'interactive';
+        }
+        id = fromUrl.replace(/[\?#].*$/g, '').substring(fromUrl.lastIndexOf('/') + 1);
+        var postObj = {"type": type, "id": id};   
+        var post = JSON.stringify(postObj);
+        var url = "/falcon.php/status/get";
+        var xhr = new XMLHttpRequest()
+        xhr.open('POST', url, true)
+        xhr.setRequestHeader('Content-type', 'application/json; charset=UTF-8')
+        xhr.send(post);
+        xhr.onload = function () {
+            if(xhr.status !== 200) {
+                updateHeartBeat(status);
+                return;
+            }
+            var data = JSON.parse(xhr.responseText);
+            popReminder(data);
+        }
+    }
+
+    function updateHeartBeat() {
+        setInterval(function(){
+            var postObj = {"type": type, "id": id, "status": status};   
+            var post = JSON.stringify(postObj);
+            var url = "/falcon.php/status/update";
+            var xhr = new XMLHttpRequest()
+            xhr.open('POST', url, true)
+            xhr.setRequestHeader('Content-type', 'application/json; charset=UTF-8')
+            xhr.send(post);
+            xhr.onload = function () {
+                if(xhr.status !== 200) {return;}
+                var data = JSON.parse(xhr.responseText);
+                toggleReminder(data);
+            }
+        }, 10000);
+    }
+
+    // MARK: - Start heart beat immediately
+    checkHeartBeat(status);
+}
+startHeartBeat('translating');
+
+function stopHeartbeat() {
+    var postObj = {"type": type, "id": id};   
+    var post = JSON.stringify(postObj);
+    var url = "/falcon.php/status/delete";
+    var xhr = new XMLHttpRequest()
+    xhr.open('POST', url, true)
+    xhr.setRequestHeader('Content-type', 'application/json; charset=UTF-8')
+    xhr.send(post);
+    xhr.onload = function () {
+        if(xhr.status !== 200) {return;}
+        var data = JSON.parse(xhr.responseText);
+        console.log('\n\nstopped: ');
+        console.log(data);
+    }
+    // MARK: cancel time interval for updating
+    clearInterval(heartBeatIntervalId);
+}
+
 
 var isReviewMode = false;
 var eText;
@@ -1265,6 +1414,7 @@ if (window.opener || typeof window.subtitleInfo === 'object' || window.testingTy
     }
     start();
     watchChange();
+    startHeartBeat(heartBeatStatus);
 }
 
 /* jshint ignore:end */

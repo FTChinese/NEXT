@@ -908,74 +908,82 @@ try {
 
 }
 
-// get the top of navigation
-gNavOffsetY = findTop(document.querySelector('.o-nav__placeholder'));
-if (gNavOffsetY === 0) {
-  gNavOffsetY = findTop(document.querySelector('.site-map'));
-}
 
-var addEvent =  window.attachEvent||window.addEventListener;
-var eventResize = window.attachEvent ? 'onresize' : 'resize';
-var eventScroll = window.attachEvent ? 'onscroll' : 'scroll';
+var theUA = navigator.userAgent || navigator.vendor || '';
+if (!/android/gi.test(theUA)) {
 
-checkLanguageSwitch();
-addAudioStickyStyles();
-// MARK: - Use pure CSS sticky when possible
-var supportStickyPosition = (typeof CSS === 'object' || typeof CSS === 'function') && CSS.supports && CSS.supports('position', 'sticky');
-if (gNavOffsetY > 30 && w > 490 && supportStickyPosition === false) {
-  try {
+
+
+  // get the top of navigation
+  gNavOffsetY = findTop(document.querySelector('.o-nav__placeholder'));
+  if (gNavOffsetY === 0) {
+    gNavOffsetY = findTop(document.querySelector('.site-map'));
+  }
+
+  var addEvent =  window.attachEvent||window.addEventListener;
+  var eventResize = window.attachEvent ? 'onresize' : 'resize';
+  var eventScroll = window.attachEvent ? 'onscroll' : 'scroll';
+
+  checkLanguageSwitch();
+  addAudioStickyStyles();
+  // MARK: - Use pure CSS sticky when possible
+  var supportStickyPosition = (typeof CSS === 'object' || typeof CSS === 'function') && CSS.supports && CSS.supports('position', 'sticky');
+  if (gNavOffsetY > 30 && w > 490 && supportStickyPosition === false) {
+    try {
+      stickyBottomPrepare();
+      stickyAdsPrepare();
+      addEvent(eventScroll, function(){
+          stickyBottom();
+          trackViewables();
+          checkFullGridItem();
+      });
+      addEvent(eventResize, function(){
+          stickyBottomPrepare();
+          stickyAdsPrepare();
+          setResizeClass();
+          loadImages();
+      });
+      setInterval(function(){
+          stickyBottomPrepare();
+          stickyAdsPrepare();
+      }, 10000);
+    } catch (ignore) {
+
+    }
+  } else {
     stickyBottomPrepare();
-    stickyAdsPrepare();
+    addStickyStyles();
+    bodyHeight = getBodyHeight();
+    addEvent(eventResize, function(){
+        bodyHeight = getBodyHeight();
+        loadImages();
+        setResizeClass();
+    });
     addEvent(eventScroll, function(){
-        stickyBottom();
+        scrollTop = window.scrollY || document.documentElement.scrollTop;
+        loadImagesLazy();
+        loadVideosLazy();
         trackViewables();
         checkFullGridItem();
     });
-    addEvent(eventResize, function(){
-        stickyBottomPrepare();
-        stickyAdsPrepare();
-        setResizeClass();
-        loadImages();
-    });
-    setInterval(function(){
-        stickyBottomPrepare();
-        stickyAdsPrepare();
-    }, 10000);
-  } catch (ignore) {
-
   }
-} else {
-  stickyBottomPrepare();
-  addStickyStyles();
-  bodyHeight = getBodyHeight();
-  addEvent(eventResize, function(){
-      bodyHeight = getBodyHeight();
-      loadImages();
-      setResizeClass();
-  });
-  addEvent(eventScroll, function(){
-      scrollTop = window.scrollY || document.documentElement.scrollTop;
-      loadImagesLazy();
-      loadVideosLazy();
-      trackViewables();
-      checkFullGridItem();
-  });
-}
 
-// check svg support
-// SVG is default, no-svg is exception
-if (typeof SVGRect === 'undefined') {
-  document.documentElement.className += ' no-svg';
-}
+  // check svg support
+  // SVG is default, no-svg is exception
+  if (typeof SVGRect === 'undefined') {
+    document.documentElement.className += ' no-svg';
+  }
 
-// MARK: loadImages called with no events fired
-loadImages();
-viewablesInit();
+  // MARK: loadImages called with no events fired
+  loadImages();
+  viewablesInit();
 
-// MARK: - Sometimes loadImages just doesn't fire as we expected. For example, when you have a image that's supposed to be displayed only to premium users. This hacking deals with blank image areas at the top of the page. Sorry! 
-var refreshTimes = [1000, 3000, 5000, 10000, 20000];
-for (var i=0; i<refreshTimes.length; i++) {
-    setTimeout(function(){loadImages();}, refreshTimes[i]);
+  // MARK: - Sometimes loadImages just doesn't fire as we expected. For example, when you have a image that's supposed to be displayed only to premium users. This hacking deals with blank image areas at the top of the page. Sorry! 
+  var refreshTimes = [1000, 3000, 5000, 10000, 20000];
+  for (var i=0; i<refreshTimes.length; i++) {
+      setTimeout(function(){loadImages();}, refreshTimes[i]);
+  }
+
 }
 
 // MARK: - A cool trick to handle images that fail to load
