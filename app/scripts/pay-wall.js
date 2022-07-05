@@ -2,7 +2,7 @@ var isReqSuccess = false;
 var i = 0;
 var isPremium = false;
 
-document.body.innerHTML += '<h1>Pay Wall 1: ' + document.documentElement.className + '</h1>';
+document.body.innerHTML = '<h1>Pay Wall 1: ' + document.documentElement.className + '</h1>';
 
 // var androidUserInfo = {
 //   "displayName": "Faker",
