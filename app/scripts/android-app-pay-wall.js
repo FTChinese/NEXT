@@ -34,7 +34,7 @@
     }
 
     function handleSubscriptionInfo(dataObj) {
-        window.htmlClass = document.documentElement.className.replace('{night-class}', '');
+        window.htmlClass = document.documentElement.className;
         window.htmlClass = window.htmlClass.replace(/\ is\-subscriber/g, '').replace(/\ is\-premium/g, '').replace(/\ is\-standard/g, '');
         var subscriptionType = 'noneSubscriber';
         var noneSubscriberStatus;
@@ -54,17 +54,14 @@
         var xhr = new XMLHttpRequest();
         var noneSubscriberParameter = (typeof noneSubscriberStatus === 'string') ? '&noneSubscriberStatus=' + noneSubscriberStatus : ''; 
         var url = '/m/corp/partial.html?include=promoboxone&type=' + subscriptionType + '&expire=' + expireDate + '&ccode=' + ccode + '&duration=' + duration + '&platform=' + platform + '&pendingRenewal=' + pendingRenewal + noneSubscriberParameter;
-        // console.log(url);
         xhr.open('get', url);
         xhr.setRequestHeader('Content-Type', 'application/text');
         xhr.onload = function() {
             if (xhr.status !== 200) {return;}
             var data = xhr.responseText;
             if (data === '') {return;}
-            console.log(data);
             var promoboxContainer = document.getElementById('promo-box-container');
             if (!promoboxContainer) {return;}
-            console.log('promo box found');
             promoboxContainer.innerHTML = data;
             if (typeof window.startCountdown === 'function') {
                 window.startCountdown(promoboxContainer, expireDate);

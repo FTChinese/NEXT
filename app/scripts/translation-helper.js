@@ -1239,7 +1239,11 @@ function startHeartBeat(status) {
 
     function popReminder(data) {
         var info = parseReminder(data);
-        message = '请注意，这篇文章似乎有别人正在处理，以下是具体的信息：' + info.message + '您还要继续打开吗？';
+        if (!info) {
+            updateHeartBeat(status);
+            return;
+        }
+        var message = '请注意，这篇文章似乎有别人正在处理，以下是具体的信息：' + info.message + '您还要继续打开吗？';
         if (window.confirm(message)) {
             updateHeartBeat(status);
             return;
@@ -1249,23 +1253,37 @@ function startHeartBeat(status) {
 
     function toggleReminder(data) {
         var info = parseReminder(data);
-        console.log(info);
+        var reminderEle = document.querySelector('.reminder-container');
+        if (!reminderEle) {
+            reminderEle = document.createElement('DIV');
+            reminderEle.className = 'reminder-container';
+            document.body.appendChild(reminderEle);
+        }
+        if (!info) {
+            reminderEle.classList.remove('on');
+            return;
+        }
+        if (info.warning) {
+            reminderEle.classList.add('is-warning');
+        } else {
+            reminderEle.classList.remove('is-warning');
+        }
+        reminderEle.classList.add('on');
+        reminderEle.innerHTML = info.message;
     }
 
     function parseReminder(data) {
         if (!data || typeof data !== 'object') {
-            updateHeartBeat(status);
             return null;
         }
         delete data[window.userName];
         var keys = Object.keys(data);
         if (keys.length === 0) {
-            updateHeartBeat(status);
             return null;
         }
         // MARK: Show the reminder now
         var now = new Date().getTime()/1000;
-        var maxSeconds = 60;
+        var maxSeconds = 120;
         var cutTime = now - maxSeconds;
         var message = '';
         var statusDict = {
@@ -1279,13 +1297,13 @@ function startHeartBeat(status) {
             var key = keys[i];
             var info = JSON.parse(data[key]);
             if (info.time < cutTime) {continue;}
-            if (info.time > warningSeconds) {
+            if (info.time > warningCutTime) {
                 warning = true;
             }
-            message += key + '可能在' + statusDict[info.status] + '，最新的活跃时间是' + humanTimeDiff(info.time) + '之前. ';
+            var explaination = (warning) ? '。' : '，他/她有可能已经断网或者退出了。';
+            message += key + '可能在' + statusDict[info.status] + '，最新的活跃时间是' + humanTimeDiff(info.time) + '之前' + explaination;
         }
         if (message === '') {
-            updateHeartBeat(status);
             return null;
         }
         return {warning: warning, message: message};
@@ -1336,7 +1354,6 @@ function startHeartBeat(status) {
     // MARK: - Start heart beat immediately
     checkHeartBeat(status);
 }
-startHeartBeat('translating');
 
 function stopHeartbeat() {
     var postObj = {"type": type, "id": id};   
