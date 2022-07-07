@@ -17,7 +17,9 @@
 	</div>
 <%/if%>
 <%assign var="heroImage" value=""%>
-<%if preg_match("/partner\_content/is",$keys) && $story_pic.smallbutton && $story_pic.smallbutton != ""%>
+<%if $showStoryHero == "yes"%>
+	<%include file="next/partials/story-header-hero.html"%>
+<%elseif preg_match("/partner\_content/is",$keys) && $story_pic.smallbutton && $story_pic.smallbutton != ""%>
 	<%assign var="heroImage" value=$story_pic.smallbutton%>
 	<%include file="next/partials/story-hero-image.html"%>
 <%/if%>
@@ -25,47 +27,49 @@
 	<div class="content-container"><div class="content-inner">
 		<div class="story-container<%$storyLanguage%><%$fullWidthStoryClass%>">
 			<%if $heroImage == ""%>
-				<div class="story-topper">
-					<div class="story-theme"><%$breadcrum%></div>
-					<h1 class="story-headline<%$storyHeadlineClass%>"><%$storyHeadline%></h1>
-					<%$storyLead%>
-					<%*<!--MARK: Show CC video only to paid subscriber-->*%>
-					<%if $cc_vaddress && $cc_vaddress!="" && (($smarty.get.paywall != "1" && $paywall != "1" && $smarty.get.paywall != "2" && $paywall != "2") || !preg_match("/专享|英语电台/is",$keys))%>
-						<script type="text/javascript">window.hasFoundProductPricing = true; </script>
-						<div class="video-player" target="_blank" id="video-player"><div class="video-player-inner">
-							<script type="text/javascript">
-							var thisVideo;
-							var video_width;
-							var video_height;
-							if (typeof Android === 'undefined' && window.location.href.indexOf('AndroidApp=on') === -1) {
-								thisVideo = document.getElementById('video-player');
-								video_width = thisVideo.offsetWidth;
-								video_height = Math.round(video_width*9/16);
-								document.write('<scr' + 'ipt src="https://union.bokecc.com/player?vid=<%$cc_vaddress%>&siteid=922662811F1A49E9&autoStart=true&width=' + video_width + '&height=' + video_height + '&playerid=3571A3BF2AEC8829&playertype=1" type="text/javascript"></sc' + 'ript>');
-							} else {
-								document.write('<iframe id="cciframe_<%$cc_vaddress%>" src="" frameborder="0"></iframe>');
-								setTimeout(function(){
+				<%if $showStoryHero != "yes"%>
+					<div class="story-topper">
+						<div class="story-theme"><%$breadcrum%></div>
+						<h1 class="story-headline<%$storyHeadlineClass%>"><%$storyHeadline%></h1>
+						<%$storyLead%>
+						<%*<!--MARK: Show CC video only to paid subscriber-->*%>
+						<%if $cc_vaddress && $cc_vaddress!="" && (($smarty.get.paywall != "1" && $paywall != "1" && $smarty.get.paywall != "2" && $paywall != "2") || !preg_match("/专享|英语电台/is",$keys))%>
+							<script type="text/javascript">window.hasFoundProductPricing = true; </script>
+							<div class="video-player" target="_blank" id="video-player"><div class="video-player-inner">
+								<script type="text/javascript">
+								var thisVideo;
+								var video_width;
+								var video_height;
+								if (typeof Android === 'undefined' && window.location.href.indexOf('AndroidApp=on') === -1) {
 									thisVideo = document.getElementById('video-player');
 									video_width = thisVideo.offsetWidth;
 									video_height = Math.round(video_width*9/16);
-									var videoFrameEle = document.getElementById('cciframe_<%$cc_vaddress%>');
-									videoFrameEle.style.height = video_height + 'px';
-									videoFrameEle.style.width = video_width + 'px';
-									videoFrameEle.src = 'https://p.bokecc.com/playhtml.bo?vid=<%$cc_vaddress%>&siteid=922662811F1A49E9&autoStart=true&playerid=FBEC69EC8BB76FC8&playertype=2';
-								}, 500);
-							}
-							</script>
-						</div></div>
-					<%elseif $cc_room_id != "" && (($smarty.get.paywall != "1" && $paywall != "1" && $smarty.get.paywall != "2" && $paywall != "2") || !preg_match("/专享/is",$keys))%>
-						<script type="text/javascript">window.hasFoundProductPricing = true; </script>
-						<%include file="next/partials/broadcast.html"%>
-					<%elseif $liveStreamUrl != ""%>
-						<%*<!--MARK: Show live stream Url to everyone for free-->*%>
-						<%include file="next/partials/livestream.html"%>
-					<%else%>
-						<%$storyImageTop%>
-					<%/if%>
-				</div>
+									document.write('<scr' + 'ipt src="https://union.bokecc.com/player?vid=<%$cc_vaddress%>&siteid=922662811F1A49E9&autoStart=true&width=' + video_width + '&height=' + video_height + '&playerid=3571A3BF2AEC8829&playertype=1" type="text/javascript"></sc' + 'ript>');
+								} else {
+									document.write('<iframe id="cciframe_<%$cc_vaddress%>" src="" frameborder="0"></iframe>');
+									setTimeout(function(){
+										thisVideo = document.getElementById('video-player');
+										video_width = thisVideo.offsetWidth;
+										video_height = Math.round(video_width*9/16);
+										var videoFrameEle = document.getElementById('cciframe_<%$cc_vaddress%>');
+										videoFrameEle.style.height = video_height + 'px';
+										videoFrameEle.style.width = video_width + 'px';
+										videoFrameEle.src = 'https://p.bokecc.com/playhtml.bo?vid=<%$cc_vaddress%>&siteid=922662811F1A49E9&autoStart=true&playerid=FBEC69EC8BB76FC8&playertype=2';
+									}, 500);
+								}
+								</script>
+							</div></div>
+						<%elseif $cc_room_id != "" && (($smarty.get.paywall != "1" && $paywall != "1" && $smarty.get.paywall != "2" && $paywall != "2") || !preg_match("/专享/is",$keys))%>
+							<script type="text/javascript">window.hasFoundProductPricing = true; </script>
+							<%include file="next/partials/broadcast.html"%>
+						<%elseif $liveStreamUrl != ""%>
+							<%*<!--MARK: Show live stream Url to everyone for free-->*%>
+							<%include file="next/partials/livestream.html"%>
+						<%else%>
+							<%$storyImageTop%>
+						<%/if%>
+					</div>
+				<%/if%>
 				<%if $page_action != "user_comment"%>
 				<div class="story-tools">
 					<div class="story-action-placeholder" id="story-action-placeholder">

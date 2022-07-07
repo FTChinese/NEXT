@@ -78,41 +78,47 @@ function loadImagesLazy () {
   if (figuresLoadStatus ===1 ) {
     return;
   }
+
+
+  // console.log('fguresLazy: ');
+  // console.log(JSON.stringify(figuresLazy));
+
+
   var figuresToLoad = 0;
   for (var i=0; i<figuresLazy.length; i++) {
-    if (figuresLazy[i] !== '') {
-      // console.log (i);
-      // console.log (scrollTop);
-      // console.log (bodyHeight);
-      // console.log (figuresLazy[i].imageTop);
-      // console.log(figuresLazy[i]);
-      if (scrollTop === undefined) {
-        scrollTop = window.scrollY || document.documentElement.scrollTop;
-      }
-      if (scrollTop + bodyHeight*2 > figuresLazy[i].imageTop) {
-        // MARK: - story hero image is for now the only class that requires to update backgroud image rather than images, because it resizes into diffent aspect ratio
-        if (figures[i].parentElement.classList.contains('story-hero-image')) {
-          figures[i].style.backgroundImage = 'url(' + figuresLazy[i].imageUrl + ')';
-        } else {
-          var figureImage = document.createElement('IMG');
-          figureImage.src = figuresLazy[i].imageUrl;
-          figureImage.setAttribute('data-backupimage', figuresLazy[i].imageUrlBack);
-          figures[i].appendChild(figureImage);
-          figuresLazy[i] = '';
-          setTimeout(function(){
-            var isFigureImageLoaded = figureImage.complete;
-            var backupImageSrc = figureImage.getAttribute('data-backupimage');
-            var reloaded = figureImage.getAttribute('data-reloaded') || '';
-            if (isFigureImageLoaded === false && backupImageSrc && reloaded !== 'yes') {
-              figureImage.src = backupImageSrc;
-              figureImage.setAttribute('data-reloaded', 'yes');
-            }
-          }, 5000);
-        }
-        figures[i].className = figuresLazy[i].loadedClass;
-      }
-      figuresToLoad ++;
+    if (figuresLazy[i] === '') {continue;}
+    // console.log (i);
+    // console.log (scrollTop);
+    // console.log (bodyHeight);
+    // console.log (figuresLazy[i].imageTop);
+    // console.log(figuresLazy[i]);
+    if (scrollTop === undefined) {
+      scrollTop = window.scrollY || document.documentElement.scrollTop;
     }
+    if (scrollTop + bodyHeight*2 > figuresLazy[i].imageTop) {
+      // MARK: - story hero image is for now the only class that requires to update backgroud image rather than images, because it resizes into diffent aspect ratio
+      if (figures[i].parentElement.classList.contains('story-hero-image')) {
+        figures[i].style.backgroundImage = 'url(' + figuresLazy[i].imageUrl + ')';
+        figures[i].classList.remove('loading');
+      } else {
+        var figureImage = document.createElement('IMG');
+        figureImage.src = figuresLazy[i].imageUrl;
+        figureImage.setAttribute('data-backupimage', figuresLazy[i].imageUrlBack);
+        figures[i].appendChild(figureImage);
+        figures[i].className = figuresLazy[i].loadedClass;
+        figuresLazy[i] = '';
+        setTimeout(function(){
+          var isFigureImageLoaded = figureImage.complete;
+          var backupImageSrc = figureImage.getAttribute('data-backupimage');
+          var reloaded = figureImage.getAttribute('data-reloaded') || '';
+          if (isFigureImageLoaded === false && backupImageSrc && reloaded !== 'yes') {
+            figureImage.src = backupImageSrc;
+            figureImage.setAttribute('data-reloaded', 'yes');
+          }
+        }, 5000);
+      }
+    }
+    figuresToLoad ++;
   }
   if (figuresToLoad === 0) {
     figuresLoadStatus = 1;
@@ -239,6 +245,7 @@ function runLoadImages() {
     }
     imageUrlBack = encodeURIComponent(imageUrl);
     imageUrlPart = imageUrl.replace(/^(https:\/\/thumbor\.ftacademy\.cn\/unsafe\/)|(http:\/\/i\.ftimg\.net\/)/g, '');
+    // console.log(`imageUrl: ${imageUrl}, fitType: ${fitType}, loadedClass: ${loadedClass}, imageWidth: ${imageWidth}, imageHeight: ${imageHeight}`);
     if (/sponsor|logo/.test(figureClass)) {
       imageUrl = imageServiceHostFTC + '0x' + imageHeight + '/' + imageUrlPart;
       imageUrlBack = imageServiceHost + imageUrlBack + '?source=ftchinese&height=' + imageHeight + '&fit=' + fitType + '&from=next001';
@@ -256,6 +263,8 @@ function runLoadImages() {
       //console.log ('the image does not exist! ')
       shouldLoadImage = false;
     }
+
+    // console.log(`shouldLoadImage: ${shouldLoadImage}`);
 
   //   console.log (imageUrl);
   // console.log (shouldLoadImage);
