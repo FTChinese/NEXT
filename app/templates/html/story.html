@@ -1874,7 +1874,7 @@
 	<%assign var="storyImageTop" value=""%>
 <%/if%>
 
-<%if $storyImage != "" && $isFullGridStory == "yes" %>
+<%if $storyImage != "" && ($isFullGridStory == "yes" || preg_match("/FT大视野/is",$keys))%>
 	<%assign var="showStoryHero" value="yes"%>
 <%/if%>
 
