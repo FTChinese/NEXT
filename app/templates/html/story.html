@@ -1824,8 +1824,10 @@
 	<%assign var="pageTrackerTag" value=" - `$pageTrackerTag` "%>
 <%/if%>
 
+
 <%if preg_match("/FT漫画|视频直播|数据新闻|partner\_content|数据可视化/is",$keys) || preg_match("/full\-grid/is",$story_content) || ($page_action=="ce" && $isMachineTranslation == "yes")%>
 	<%assign var="fullGridClass" value=" full-grid-story"%>
+	<%assign var="isFullGridStory" value="yes"%>
 <%/if%>
 
 <%*<!--MARK: - Set property for paid content. -->*%>
@@ -1870,6 +1872,10 @@
 <%if preg_match("/^[\r\n]*<div class=\"pic/is",$story_content)%>
 	<%assign var="storyImage" value=""%>
 	<%assign var="storyImageTop" value=""%>
+<%/if%>
+
+<%if $storyImage != "" && ($isFullGridStory == "yes" || preg_match("/FT大视野/is",$keys))%>
+	<%assign var="showStoryHero" value="yes"%>
 <%/if%>
 
 <%*<!--MARK: if story has image embeded-->*%>

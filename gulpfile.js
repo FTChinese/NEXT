@@ -363,13 +363,17 @@ gulp.task('copy:tpl', () => {
     //.pipe(gulp.dest(`../testing/${dest}`));
 });
 
-gulp.task('copy:cms', () => {
-  const dest = 'dev_cms/next';
+gulp.task('copy:cms', async () => {
+  const dest = '../dev_cms/next';
+  if (!fs.existsSync(dest)) {
+    console.log(`${dest} does not exist! `);
+    return;
+  }
   return gulp.src(['dist*/**/*'])
     .on('error', (err) => {
       console.error(err.stack);
     })
-    .pipe(gulp.dest(`../${dest}`))
+    .pipe(gulp.dest(dest));
 });
 
 

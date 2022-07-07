@@ -73,31 +73,38 @@ function stickyAdsPrepare() {
   }
 }
 
-
-
 // Lazy-load images
 function loadImagesLazy () {
   if (figuresLoadStatus ===1 ) {
     return;
   }
+
+
+  // console.log('fguresLazy: ');
+  // console.log(JSON.stringify(figuresLazy));
+
+
   var figuresToLoad = 0;
   for (var i=0; i<figuresLazy.length; i++) {
-    if (figuresLazy[i] !== '') {
-      // console.log (i);
-      // console.log (scrollTop);
-      // console.log (bodyHeight);
-      // console.log (figuresLazy[i].imageTop);
-      if (scrollTop === undefined) {
-        scrollTop = window.scrollY || document.documentElement.scrollTop;
-      }
-      if (scrollTop + bodyHeight*2 > figuresLazy[i].imageTop) {
-        //console.log (figuresLazy[i]);
+    if (figuresLazy[i] === '') {continue;}
+    // console.log (i);
+    // console.log (scrollTop);
+    // console.log (bodyHeight);
+    // console.log (figuresLazy[i].imageTop);
+    // console.log(figuresLazy[i]);
+    if (scrollTop === undefined) {
+      scrollTop = window.scrollY || document.documentElement.scrollTop;
+    }
+    if (scrollTop + bodyHeight*2 > figuresLazy[i].imageTop) {
+      // MARK: - story hero image is for now the only class that requires to update backgroud image rather than images, because it resizes into diffent aspect ratio
+      if (figures[i].parentElement.classList.contains('story-hero-image')) {
+        figures[i].style.backgroundImage = 'url(' + figuresLazy[i].imageUrl + ')';
+        figures[i].classList.remove('loading');
+      } else {
         var figureImage = document.createElement('IMG');
         figureImage.src = figuresLazy[i].imageUrl;
-        //figureImage.src = 'http://wwwfa.com/image.jpg';
         figureImage.setAttribute('data-backupimage', figuresLazy[i].imageUrlBack);
         figures[i].appendChild(figureImage);
-        //figures[i].innerHTML = '<img src="' + figuresLazy[i].imageUrl + '" data-backupimage="' + figuresLazy[i].imageUrlBack + '">';
         figures[i].className = figuresLazy[i].loadedClass;
         figuresLazy[i] = '';
         setTimeout(function(){
@@ -107,12 +114,11 @@ function loadImagesLazy () {
           if (isFigureImageLoaded === false && backupImageSrc && reloaded !== 'yes') {
             figureImage.src = backupImageSrc;
             figureImage.setAttribute('data-reloaded', 'yes');
-            //console.log (figureImage.src + ' complete? ' + isFigureImageLoaded + '. Reloaded? ' + reloaded);
           }
         }, 5000);
       }
-      figuresToLoad ++;
     }
+    figuresToLoad ++;
   }
   if (figuresToLoad === 0) {
     figuresLoadStatus = 1;
@@ -157,11 +163,16 @@ function trackViewables() {
 
 // Init responsive images loading
 function runLoadImages() {
-
   var i;
   var queryString = window.location.search;
   var isFrenquentDevice = false;
   var MULTIPLE = 100;
+
+  // var resizingImages = document.querySelectorAll('.special-report-image figure');
+  // for (var f=0; f<resizingImages.length; f++) {
+  //   resizingImages[f].innerHTML = '';
+  //   resizingImages[f].classList.add('loading');
+  // }
 
   figures = document.querySelectorAll('figure.loading');
   figuresLazy = [];
@@ -193,6 +204,9 @@ function runLoadImages() {
     var imageServiceHostFTC = 'https://thumbor.ftacademy.cn/unsafe/';
     var ftcStaticServer = 'https://thumbor.ftacademy.cn/unsafe/';
     var imageExists = true;
+
+    // console.log(`imageUrl: ${imageUrl}, imageWidth: ${imageWidth}, imageHeight: ${imageHeight}`);
+    
     if (imageUrl === '') {
       //console.log ('an empty image is here! Break Now! ')
       imageExists = false;
@@ -231,6 +245,7 @@ function runLoadImages() {
     }
     imageUrlBack = encodeURIComponent(imageUrl);
     imageUrlPart = imageUrl.replace(/^(https:\/\/thumbor\.ftacademy\.cn\/unsafe\/)|(http:\/\/i\.ftimg\.net\/)/g, '');
+    // console.log(`imageUrl: ${imageUrl}, fitType: ${fitType}, loadedClass: ${loadedClass}, imageWidth: ${imageWidth}, imageHeight: ${imageHeight}`);
     if (/sponsor|logo/.test(figureClass)) {
       imageUrl = imageServiceHostFTC + '0x' + imageHeight + '/' + imageUrlPart;
       imageUrlBack = imageServiceHost + imageUrlBack + '?source=ftchinese&height=' + imageHeight + '&fit=' + fitType + '&from=next001';
@@ -248,6 +263,8 @@ function runLoadImages() {
       //console.log ('the image does not exist! ')
       shouldLoadImage = false;
     }
+
+    // console.log(`shouldLoadImage: ${shouldLoadImage}`);
 
   //   console.log (imageUrl);
   // console.log (shouldLoadImage);
@@ -311,8 +328,6 @@ function runLoadImages() {
       videosLazy[i] = '';
     }
   }
-
-
   loadImagesLazy ();
   loadVideosLazy ();
   trackViewables();
@@ -880,7 +895,7 @@ function checkFullGridItem() {
     var fullGridItems = document.querySelectorAll('[data-layout-width="full-grid"], blockquote, .n-content-big-number, [data-table-layout-largescreen="full-grid"]');
     var bodyHeight = getBodyHeight();
     var isFullGridItemInView = false;
-    console.log(fullGridItems);
+    // console.log(fullGridItems);
     for (var i=0; i<fullGridItems.length; i++) {
       var itemHeight = fullGridItems[i].offsetHeight;
       var itemTop = findTop(fullGridItems[i]);
