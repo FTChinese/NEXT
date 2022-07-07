@@ -62,7 +62,9 @@ function loadcomment(storyid, theid, type) {
     }
 
     var userCommentsEle = document.getElementById(theid);
-    userCommentsEle.innerHTML = '正在获取本文读者评论的数据...';
+    if (userCommentsEle) {
+        userCommentsEle.innerHTML = '正在获取本文读者评论的数据...';
+    }
 
     // MARK: Construct JSON request
     var xmlhttp = new XMLHttpRequest();
@@ -86,9 +88,11 @@ function loadcomment(storyid, theid, type) {
                     commentsBody += '<div class=commentcontainer>' + user_icon + '<dt><span>' + data.result[j].dnewdate + '</span><b>' + data.result[j].nickname.replace(/<[Aa] .+>(.+)<\/[Aa]>/g, '$1') + isvip + '</b> <font class=grey>' + data.result[j].user_area + '</font><div class=clearfloat></div></dt><dd>' + (data.result[j].quote_content || '') + data.result[j].talk + '</dd><div class=replybox id=re' + data.result[j].id + '></div><dt class=replycomment><a href=\'javascript:cmt_reply("' + data.result[j].id + '","");\'>回复</a> <a id=st' + data.result[j].id + ' href=\'javascript:voteComment("' + data.result[j].id + '","#st","support");\'>支持</a>(<font id=\'sts' + data.result[j].id + '\'>' + data.result[j].support_count + '</font>) <a id=dt' + data.result[j].id + ' href=\'javascript:voteComment("' + data.result[j].id + '","#dt","disagree");\'>反对</a>(<font id=\'dtd' + data.result[j].id + '\'>' + data.result[j].disagree_count + '</font>)</dt></div>';
                     window.unusedEntryIndex = j;
                 }
-
-                userCommentsEle.innerHTML = commentsBody;
-
+                if (userCommentsEle) {
+                    userCommentsEle.innerHTML = commentsBody;
+                } else {
+                    return;
+                }
                 if ((data.count && data.count > 0) || type !== 'story') {
                     // $('#commentcount').html(' ( '+ data.count + ' ) ');
                     // $('#commentcount2').html(' [  '+ data.count + ' 条 ] ');
@@ -226,7 +230,9 @@ function cmt_reply(id,ctype) {
 
 
 function clickToSubmitComment() {
-    document.querySelector('#addnewcomment').onclick = function() {
+    var ele = document.querySelector('#addnewcomment');
+    if (!ele) {return;}
+    ele.onclick = function() {
         // MARK: - Just pass the nickname to our server
         var isAnomymous = (document.querySelector('#anonymous-checkbox') && document.querySelector('#anonymous-checkbox').checked) ? 1 : 0;
         this.value = '正在发布中...';
@@ -423,6 +429,7 @@ function checkLogin() {
     window.username = GetCookie('USER_NAME') || GetCookie('USER_NAME_FT');
     window.userId = GetCookie('USER_ID');
     var eles = document.querySelectorAll('.logincomment, .nologincomment, .logged, .notLogged');
+    if (eles.length === 0) {return;}
     var i;
     for (i=0; i<eles.length; i++) {
         eles[i].style.display = 'none';
