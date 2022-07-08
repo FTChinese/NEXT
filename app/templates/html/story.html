@@ -709,6 +709,8 @@
 
 <%if $story && $story.tag && $story.tag|@count > 0%>
 	<%assign var="mainTag" value=$story.tag[0]%>
+<%elseif $tag && $tag != ""%>
+	<%assign var="mainTag" value=$tag|replace:"/，/":","|regex_replace:"/,.*$/":""%>
 <%/if%>
 <%if $mainTag && $mainTag != ""%>
 	<%assign var=breadcrum value="<a target=\"_blank\" href=\"/tag/`$mainTag`\">`$mainTag`</a><button class=\"myft-follow plus\" data-tag=\"`$mainTag`\" data-type=\"tag\">关注</button>"%>

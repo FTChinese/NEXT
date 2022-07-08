@@ -233,6 +233,7 @@
 												"tag_code": "<%$item.tag_code%>",
 												"ftid": "<%$item.ftid|default:$item.eskylineheadline%>",
 												<%if $itemType == "story" && $item.eskylineheadline != ""%>"english_publish_time": "<%$item.eskylineheadline%>",<%/if%>
+												<%if $itemType == "interactive" && $item.ebyline_description != "" && preg_match("/^[\d]{4}\-[\d]+\-[\d]+/is",$item.ebyline_description)%>"english_publish_time": "<%$item.ebyline_description|strtotime%>",<%/if%>
 												"author_code": "<%$item.author_code|regex_replace:"/[\n\r\"]/":""%>",
 												"followSql": "<%*$followSql|regex_replace:"/[\n\r\"]/":""|escape:"html"*%>"
 												<%assign var=itemIndex value=$itemIndex+1%>
