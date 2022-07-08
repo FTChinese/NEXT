@@ -112,6 +112,7 @@ delegate.on('click', '.ignore-name-entity', function(event){
         nameEntityContainer.parentElement.querySelector('.name-entities-description').innerHTML = ''; 
     }
     checkInfoHelpers();
+    toggleAllTextareaWarning();
 });
 
 delegate.on('change', '.name-entity-inner input', function(event) {
@@ -200,6 +201,15 @@ function toggleTextareaWarning(ele) {
     errorMessageEle.innerHTML = status.message;
     ele.classList.add('warning');
 }
+
+
+function toggleAllTextareaWarning() {
+    var textareas = document.querySelectorAll('.info-container textarea');
+    for (var i=0; i<textareas.length; i++) {
+        toggleTextareaWarning(textareas[i]);
+    }
+}
+
 
 // MARK: - Check if the value of textarea is valid
 function checkTextarea(ele) {
@@ -619,8 +629,9 @@ function checkAllTextAreas() {
 function finishTranslationForArticle() {
     var status = checkAllTextAreas();
     if (!status.success) {
-        var question = '您编辑的内容可能有些问题，您还要继续提交吗？\n\n' + status.message;
+        var question = '您编辑的内容可能有些问题，您还要继续提交吗？\n\n' + status.message + '\n\n相关的段落已经标红。';
         if (!window.confirm(question)) {
+            toggleAllTextareaWarning();
             return false;
         }
     }
@@ -1103,6 +1114,7 @@ function replaceAll() {
         }
     }
     if (replaceCount > 0) {
+        toggleAllTextareaWarning();
         alert('完成了' + replaceCount + '次替换！如您对此功能有进一步的要求和建议，比如，希望我们的机器翻译结果能“记住”正确的译法，请告诉Oliver');
     } else {
         alert('在译文中没有找到“' + from + '”，请检查一下您的输入是否正确');
@@ -1167,8 +1179,8 @@ function addNewMatch() {
         var originalEle = infoContainer.querySelector('.info-original');
         var originalText = originalEle.innerHTML;
         originalText = originalText
-            .replace(/“/g, '“ ')
-            .replace(/”/g, ' ”')
+            .replace(/([“>]+)/g, '$1 ')
+            .replace(/([”<])/g, ' $1')
             .replace(/(’s )/g, ' $1')
             .replace(/([,\.?!]+)/g, ' $1 ')
             .replace(/[ ]+/g, ' ');
@@ -1192,6 +1204,7 @@ function addNewMatch() {
         var createMessage = (createCount > 0) ? '添加了' + createCount + '个段落的词条。' : '';
         alert (updateMessage + createMessage);
         checkInfoHelpers();
+        toggleAllTextareaWarning();
     }
 }
 
