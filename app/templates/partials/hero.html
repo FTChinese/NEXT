@@ -103,8 +103,14 @@
             width: 100%;
             height: 100%;
             margin: auto;
-            background-size: auto;
-            background-position: 0 0;
+            background-image: url('<%$section.image%>');
+            <%if $section.BackgroundStyle == "LeftTop"%>
+                background-size: auto;
+                background-position: 0 0;
+            <%else%>
+                background-size: cover;
+                background-position: 50% 50%;
+            <%/if%>
         }
         .hero_main-content-outer {
             max-width: 1200px;
@@ -117,12 +123,33 @@
             display: table-cell;
             vertical-align: middle;
             margin: auto;
+            position: relative;
+        }
+        .hero_main-logo {
+            position: absolute;
+            top: 30px;
+            left: 0;
+            max-height: 44px;
+            max-width: 33.333%;
         }
         .hero_main-content-title h1 {
             color: white;
             line-height: 140%;
             font-size: 65px;
+            <%if $section.TextShadow == "black"%>
+                text-shadow: 2px 2px #000000;
+            <%/if%>
+            display: inline-block;
+            <%if $section.TitleTint != ""%>
+                padding: 15px;
+                <%if $section.TitleTint == "dark"%>
+                    background-color: rgba(0, 0, 0, 0.3);
+                <%elseif $section.TitleTint == "orange"%>
+                    background-color: rgba(255, 105, 0, 0.58);
+                <%/if%>
+            <%/if%>
         }
+
         #vt-control {
             background: #FFFFFF66 0% 0% no-repeat;
             border-radius: 100%;
@@ -149,7 +176,28 @@
                 line-height: 140%;
                 font-size: 44px;
             }
+            .hero_main-logo {
+                left: 30px;
+            }
         }
+        @media all and (max-width: 490px) {
+            .hero_main-content-title h1 {
+                position: absolute;
+                left: 30px;
+                <%if $section.LogoImage != ""%>
+                    top: 65px;
+                <%else%>
+                    top: 30px;
+                <%/if%>
+            }
+        }
+        <%if $section.mobileImage != ""%>
+            @media all and (max-width: 490px) {
+                .hero_main-content {
+                    background-image: url('<%$section.mobileImage%>');
+                }
+            }
+        <%/if%>
     </style>
     <div class="video-hero">
         <!-- <video id="video" poster="https://www.ft.com/partnercontent/images/cytiva/hub/video_hero2.jpg" loop="" controls>  
@@ -159,9 +207,12 @@
         <%if $section.vid != ""%>
         <script src="https://p.bokecc.com/player?vid=<%$section.vid%>&siteid=922662811F1A49E9&autoStart=false&width=100%&height=100%&playerid=FBEC69EC8BB76FC8&playertype=2" type="text/javascript"></script>
         <%/if%>
-        <div class="hero_main-content" style="background-image: url('<%$section.image%>')">
+        <div class="hero_main-content">
             <div class="hero_main-content-outer">
                 <div class="hero_main-content-wrapper">
+                    <%if $section.LogoImage != ""%>
+                        <image class="hero_main-logo" src="<%$section.LogoImage%>">
+                    <%/if%>
                     <div class="hero_main-content-title">
                         <h1><%$section.title%></h1>
                     </div>
