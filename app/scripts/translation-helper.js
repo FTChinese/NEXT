@@ -4,10 +4,12 @@
 var splitter = '-|-';
 var startTime = new Date();
 var localStorageKey = 'translation';
-if (window.opener && window.opener.userName) {
-    window.userName = window.opener.userName;
+if (window.opener) {
+    window.userName = window.opener.userName || '';
+    window.userIP = window.opener.userIP || '';
 } else {
     window.userName = '';
+    window.userIP = '';
 }
 var dict = {};
 var delegate = new Delegate(document.body);
@@ -1290,6 +1292,7 @@ function startHeartBeat(status) {
             return null;
         }
         delete data[window.userName];
+        delete data[window.userIP];
         var keys = Object.keys(data);
         if (keys.length === 0) {
             return null;
@@ -1308,13 +1311,21 @@ function startHeartBeat(status) {
         var warningCutTime = now - warningSeconds;
         for (var i=0; i<keys.length; i++) {
             var key = keys[i];
+            var regIP = /^[\d\.]+$/;
+            // if (regIP.test(key) && keys.length === 1) {
+            //     break;
+            // }
+            var extraInfo = '';
+            if (regIP.test(key) && location.hostname === 'backyard.ftchinese.org') {
+                extraInfo = '(有可能是你自己的IP，如果确认的话，可以忽略这个警告)';
+            }
             var info = JSON.parse(data[key]);
             if (info.time < cutTime) {continue;}
             if (info.time > warningCutTime) {
                 warning = true;
             }
             var explaination = (warning) ? '。' : '，他/她有可能已经断网或者退出了。';
-            message += key + '可能在' + statusDict[info.status] + '，最新的活跃时间是' + humanTimeDiff(info.time) + '之前' + explaination;
+            message += key + extraInfo + '可能在' + statusDict[info.status] + '，最新的活跃时间是' + humanTimeDiff(info.time) + '之前' + explaination;
         }
         if (message === '') {
             return null;
