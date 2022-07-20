@@ -8,8 +8,11 @@ function passLoginToNative() {
     var userIdForLoginUser = GetCookie('USER_ID') || '';
     var paywallSource = GetCookie('paywall_source') || '';
     var addon = GetCookie('addon') || '0';
+    var addon_days = GetCookie('addon_days') || '0';
+    var addon_type = GetCookie('addon_type') || '';
     var ccode = GetCookie('ccode') || '';
     var wxUnionId = GetCookie('WX_UNION_ID') || '';
+    
     message = {
         username: userNameForLogin,
         userId: userIdForLoginUser,
@@ -18,6 +21,8 @@ function passLoginToNative() {
         source: paywallSource,
         infoSource: 'cookie',
         addon: addon,
+        addon_days: addon_days,
+        addon_type: addon_type,
         wxUnionId: wxUnionId
     };
     // MARK: Get subscription: standard/premium
@@ -65,6 +70,8 @@ function passLoginToNative() {
             message.duration = userInfo.latest_duration || '';
             message.source = userInfo.source || '';
             message.addon = (userInfo.addon || 0).toString();
+            message.addon_days = userInfo.addon_days || '0';
+            message.addon_type = userInfo.addon_type || '';
             message.infoSource = 'jsapi/paywall';
             try {
                webkit.messageHandlers.user.postMessage(message);
@@ -77,6 +84,8 @@ function passLoginToNative() {
             SetCookie('paywall',message.paywall,86400*100,'/');
             SetCookie('paywall_source',message.source,86400*100,'/');
             SetCookie('addon',message.addon,86400*100,'/');
+            SetCookie('addon_type',message.addon_type,86400*100,'/');
+            SetCookie('addon_days',message.addon_days,86400*100,'/');
         }
     };
     xhr.send();
