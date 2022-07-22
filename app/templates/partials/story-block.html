@@ -299,7 +299,7 @@
 			<%/if%>
 
 			<%*<!--MARK: - Show comments for only certain types of stories -->*%>
-			<%if $story != "" && $story.id != "" && ($smarty.get.showcomment == "yes" || (!preg_match("/politics/is",$mainTopic) && $story.id != "001076592" && $smarty.get.screencapture != "yes"))%>
+			<%if $page_action == "user_comment" || ($story != "" && $story.id != "" && ($smarty.get.showcomment == "yes" || (!preg_match("/politics/is",$mainTopic) && $story.id != "001076592" && $smarty.get.screencapture != "yes")))%>
 				<%if $page_action != "user_comment"%>
 					<h2 class="list-title"><a class="list-link" href="#">读者评论</a></h2>
 					<div id="allcomments" class="allcomments container"></div>

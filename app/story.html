@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="no-js core full-grid-story" data-next-app="front-page">
+<html class="no-js core" data-next-app="front-page">
  <head>
  <meta charset="utf-8" />
  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -56,6 +56,9 @@ document.documentElement.className = document.documentElement.className.replace(
 <link rel="stylesheet" href="styles/main-header-hero.css">
 <!-- endbuild -->
 
+<!-- build:css styles/main-header-topper.css -->
+<link rel="stylesheet" href="styles/main-header-topper.css">
+<!-- endbuild -->
 
 <!-- build:css styles/main-translation-disclaimer.css -->
 <link rel="stylesheet" href="styles/main-translation-disclaimer.css">
@@ -309,35 +312,35 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
     <div id="promo-box-container">
     <style>
     .noneSubscriber.subscription-promo-container {
-    background-color: #a2dae4;
+    background-color: #88233f;
     }
     .noneSubscriber .subscription-promo-text {
-    background-color: #fcfb68;
-    border-color: #fcfb68;
+    background-color: #282c32;
+    border-color: #282c32;
     }
     .noneSubscriber .subscription-promo-text {
-    color: #1b3c42;
+    color: #ffffff;
     }
     .noneSubscriber .subscription-promo-box {
-    background-image: url(https://thumbor.ftacademy.cn/unsafe/picture/8/000147048_piclink.png);
+    background-image: url(https://thumbor.ftacademy.cn/unsafe/picture/9/000111019_piclink.png);
     }
     @media only screen and (max-width: 490px) {
     .noneSubscriber .subscription-promo-box {
-    background-image: url(https://thumbor.ftacademy.cn/unsafe/picture/1/000146201_piclink.png);
+    background-image: url(https://thumbor.ftacademy.cn/unsafe/picture/3/000111023_piclink.png);
     }
     }
     </style>
     <div class="subscription-promo-container show-image-in-mobile noneSubscriber">
     <div class="subscription-promo-inner">
-    <a  href="/m/corp/preview.html?pageid=2022may&to=all&ccode=2C2022mayPBoxWebnone" class="subscription-promo-box n-internal-promo" data-promo-target="noneSubscriber" data-promo-id="2C2022mayPBoxWebnone" data-promo-name="限时抢订" data-promo-creative="https://thumbor.ftacademy.cn/unsafe/picture/8/000147048_piclink.png" data-promo-position="promoBox">
-    <div class="subscription-promo-text">限时抢订</div>
+    <a  href="https://www.ftacademy.cn/subscription.html?ccode=2CAcquisitionWebPBoxNon" class="subscription-promo-box n-internal-promo" data-promo-target="noneSubscriber" data-promo-id="2CAcquisitionWebPBoxNon" data-promo-name="仅0.8元/天 立即订阅" data-promo-creative="https://thumbor.ftacademy.cn/unsafe/picture/9/000111019_piclink.png" data-promo-position="promoBox">
+    <div class="subscription-promo-text">仅0.8元/天 立即订阅</div>
     </a>
     </div>
     </div>
     <script type="text/javascript">
     window.userId = GetCookie('USER_ID') || '';
     if (window.userId === '') {
-    gtag('event', 'Display', {'event_label': '2C2022mayPBoxWebnone', 'event_category': 'PromoBox', 'non_interaction': true});
+    gtag('event', 'Display', {'event_label': '2CAcquisitionWebPBoxNon', 'event_category': 'PromoBox', 'non_interaction': true});
     }
     </script>
     </div>
@@ -367,7 +370,7 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
     <div class="header-side header-left expandable">
     <div class="current-edition">
     <span>简体中文</span>
-    <a href="http://big5.ftchinese.com/interactive/72869?exclusive">繁体中文</a>
+    <a href="http://big5.ftchinese.com/interactive/77194?exclusive">繁体中文</a>
     <a href="http://www.ft.com/">FT.com</a>
     </div>
     </div>
@@ -397,7 +400,7 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
     <div class="input-title">电子邮件/用户名</div>
     <div class="input-container"><input type="text" class="input-oneline" name="username" id="ft-login-input-username"></div>
     <div class="input-title">密码</div>
-    <div class="input-container"><input type="password" class="input-oneline" name="password"></div>
+    <div class="input-container"><input type="password" class="input-oneline" name="password" id="ft-login-input-password"></div>
     <div><input type="checkbox" class="checkbox" value="1" checked="checked" name="saveme" id="ft-login-input-remember">记住我</div>
     <div class="login-btn input-submit-container center"><input class="" type="submit" value="登录"></div>
     <div class="center register-find"><a href="https://user.ftchinese.com/register" class="blue-link">免费注册</a><span></span><a href="https://profile.ftchinese.com/users/findpassword" class="blue-link">找回密码</a></div>
@@ -461,10 +464,61 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
     </ol>
     </li>
     <li class="nav-section home "
-     data-section="home"
+     aria-selected="true" data-section="home"
     >
     <button class="nav-section-head mobile">首页</button>
     <a class="nav-section-head desktop" href="/">首页</a>
+    <ol class="nav-items">
+    <li class="nav-item mobile">
+    <a class="nav-link" href="/">
+    FT中文网首页
+    </a>
+    </li>
+    <li class="nav-item" aria-selected="true" aria-haspopup="true" data-channel="special">
+    <a class="nav-link" href="/channel/special.html">特别报导</a>
+    <ol class="nav-sub-items">
+    <li><a href="/tag/科技让生活更有味道">科技让生活更有味道</a></li>
+    <li><a href="/m/marketing/antfinancial.html">“新四大发明”背后的中国浪潮</a></li>
+    <li><a href="/tag/与FT共进午餐">与FT共进午餐</a></li>
+    <li><a href="/tag/智慧城市群">西门子·智慧城市群</a></li>
+    <li><a href="/m/marketing/creditease.html">未来生活 未来金融</a></li>
+    <li><a href="/index.php/ft/property">全球地产</a></li>
+    </ol>
+    </li>
+    <li class="nav-item"  data-channel="premiumsubscription">
+    <a class="nav-link" href="/channel/premiumsubscription.html">高端订阅</a>
+    </li>
+    <li class="nav-item"  data-channel="standardsubscription">
+    <a class="nav-link" href="/channel/standardsubscription.html">标准订阅</a>
+    </li>
+    <li class="nav-item"  data-channel="weekly">
+    <a class="nav-link" href="/channel/weekly.html">热门文章</a>
+    </li>
+    <li class="nav-item"  data-channel="event">
+    <a class="nav-link" href="/m/events/event.html">会议活动</a>
+    </li>
+    <li class="nav-item"  data-channel="member">
+    <a class="nav-link" href="/m/marketing/home.html">市场活动</a>
+    </li>
+    <li class="nav-item"  data-channel="mba">
+    <a class="nav-link" href="/channel/mba.html">FT商学院</a>
+    </li>
+    <li class="nav-item"  data-channel="ebook">
+    <a class="nav-link" href="/m/marketing/ebook.html">FT电子书</a>
+    </li>
+    <li class="nav-item"  data-channel="job">
+    <a class="nav-link" href="https://ft.wd3.myworkdayjobs.com/FT_Chinese_External_Careers">职业机会</a>
+    </li>
+    <li class="nav-item"  data-channel="intelligence">
+    <a class="nav-link" href="/m/marketing/intelligence.html">FT研究院</a>
+    </li>
+    <li class="nav-item"  data-channel="ftmall">
+    <a class="nav-link" href="https://h5.youzan.com/v2/showcase/homepage?alias=16e315o1t">FT商城</a>
+    </li>
+    <li class="nav-item"  data-channel="property">
+    <a class="nav-link" href="/channel/property.html">高端物业</a>
+    </li>
+    </ol>
     </li>
     <li class="nav-section china "
      data-section="china"
@@ -515,32 +569,10 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
     <a class="nav-section-head desktop" href="/channel/opinion.html">观点</a>
     </li>
     <li class="nav-section management "
-     aria-selected="true" data-section="management"
+     data-section="management"
     >
     <button class="nav-section-head mobile">管理</button>
     <a class="nav-section-head desktop" href="/channel/management.html">管理</a>
-    <ol class="nav-items">
-    <li class="nav-item mobile">
-    <a class="nav-link" href="/channel/management.html">
-    频道首页
-    </a>
-    </li>
-    <li class="nav-item" aria-selected="true" data-channel="mba">
-    <a class="nav-link" href="/channel/mba.html">FT商学院</a>
-    </li>
-    <li class="nav-item"  data-channel="career">
-    <a class="nav-link" href="/channel/career.html">职场</a>
-    </li>
-    <li class="nav-item"  data-channel="leadership">
-    <a class="nav-link" href="/channel/leadership.html">领导力</a>
-    </li>
-    <li class="nav-item"  data-channel="wealth">
-    <a class="nav-link" href="/tag/%E8%B4%A2%E5%AF%8C%E7%AE%A1%E7%90%86">财富管理</a>
-    </li>
-    <li class="nav-item"  data-channel="people">
-    <a class="nav-link" href="/channel/people.html">人物</a>
-    </li>
-    </ol>
     </li>
     <li class="nav-section lifestyle "
      data-section="lifestyle"
@@ -636,58 +668,44 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
     </div>
 
 
-
-
-
-
-
-    <div class="story-hero-container">
-        <div class="story-hero-inner">
-            <div class="story-hero-intro">
-                <div class="story-hero-intro-container">
-                    <div class="story-hero-tag"><a href="/channel/mba.html">FT商学院</a><button class="myft-follow plus" data-tag="FT商学院" data-type="tag">关注</button></div>
-                    <div class="story-hero-title">骑马穿越意大利牛仔中心地带</div>
-                    <div class="story-hero-content"><p>自然与传统在意大利西侧壮丽的马雷玛融合。</p></div>
-                </div>
+    <div class="story-topper-container has-side"><div class="block-inner">
+        <div class="content-container"><div class="content-inner"><div class="story-container">
+            <div class="story-theme"><a href="/channel/opinion.html" class="story-theme-channel">观点</a> <a href="/tag/供应链">全球供应链冲击</a></div>
+            <h1 class="story-headline">美国通胀飙升预示着艰难的未来</h1>
+            <div class="story-lead">美国6月糟糕的通胀数据提醒着美国和世界各地的许多人，尤其是最脆弱的人群和最脆弱的发展中国家，未来的日子会很艰难。</div>
+            <div class="story-author">
+                <a href='/author/%E7%A9%86%E7%BD%95%E9%BB%98%E5%BE%B7%E2%80%A2%E5%9F%83%E9%87%8C%E5%AE%89' target=_blank>穆罕默德•埃里安</a>
+                <button class="myft-follow tick" data-tag="穆罕默德•埃里安" data-type="author">已关注</button>
             </div>
-        </div>
-        <div class="story-hero-image"><figure data-url=https://thumbor.ftacademy.cn/unsafe/picture/1/000147501_piclink.jpg class="loading"></figure></div>
-    </div>
-
-
-
+            <div class="author-headshot"><figure class="loading" data-url="https://thumbor.ftacademy.cn/unsafe/picture/8/000152448_piclink.png"></figure></div>
+        </div></div></div>
+        <div class="clearfloat block-bottom"></div>
+    </div></div>
 
 
     <div class="block-container has-side story-page"><div class="block-inner">
     <div class="content-container"><div class="content-inner">
     <div class="story-container">
-
-    <!-- <div class="story-topper">
-    <div class="story-theme"><a href="/channel/mba.html">FT商学院</a><button class="myft-follow plus" data-tag="FT商学院" data-type="tag">关注</button></div>
-    <h1 class="story-headline story-headline-large">骑马穿越意大利牛仔中心地带</h1>
-    <div class="story-lead">自然与传统在意大利西侧壮丽的马雷玛融合。</div>
+    <div class="story-topper">
+    <div class=" story-image image none-ft-image"><figure data-url=https://thumbor.ftacademy.cn/unsafe/picture/2/000147942_piclink.jpeg class="loading"></figure></div>
     </div>
-    <div class="story-topper-image">
-    <div class=" story-image image"><figure data-url=https://thumbor.ftacademy.cn/unsafe/picture/1/000147501_piclink.jpg class="loading"></figure></div>
-    </div> -->
-
     <div class="story-tools">
     <div class="story-action-placeholder" id="story-action-placeholder">
     <div class="story-action">
     <div class="action-inner">
-    <a class="action-icon icon-wechat P-hide" href="/m/corp/qrshare.html?url=http%3A%2F%2Fwww.ftchinese.com%2Finteractive%2F72869%3Ffull%3Dy%26gift_id%3Dad9d242d2e674c0fa8c3d8138303045ca2ebd77c&title=" target="_blank"></a>
-    <a class="action-icon icon-weibo P-hide" href="http://service.weibo.com/share/share.php?appkey=4221537403&url=http%3A%2F%2Fwww.ftchinese.com%2Finteractive%2F72869%3Ffull%3Dy%26gift_id%3Dad9d242d2e674c0fa8c3d8138303045ca2ebd77c%26ccode%3D2G169001&title=【骑马穿越意大利牛仔中心地带】自然与传统在意大利西侧壮丽的马雷玛融合。（分享自 @FT中文网）&ralateUid=1698233740&source=&sourceUrl=&content=utf-8&pic=https://thumbor.ftacademy.cn/unsafe/picture/1/000147501_piclink.jpg&searchPic=false" target="_blank"></a>
-    <a class="action-icon icon-linkedin P-hide" href="https://www.linkedin.com/cws/share?url=http%3A%2F%2Fwww.ftchinese.com%2Finteractive%2F72869%3Ffull%3Dy%26gift_id%3Dad9d242d2e674c0fa8c3d8138303045ca2ebd77c%26ccode%3D2G169003&original_referer=https%3A%2F%2Fdeveloper.linkedin.com%2Fsites%2Fall%2Fthemes%2Fdlc%2Fsandbox.php%3F&token=&isFramed=true&lang=zh_CN&_ts=1422502780259.2795" target="_blank"></a>
-    <a class="action-icon icon-twitter P-hide" href="http://twitter.com/home?status=【骑马穿越意大利牛仔中心地带】自然与传统在意大利西侧壮丽的马雷玛融合。（分享自 @FT中文网）...%20http%3A%2F%2Fwww.ftchinese.com%2Finteractive%2F72869%3Ffull%3Dy%26gift_id%3Dad9d242d2e674c0fa8c3d8138303045ca2ebd77c" target="_blank"></a>
-    <a class="action-icon icon-facebook P-hide" href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.ftchinese.com%2Finteractive%2F72869%3Ffull%3Dy%26gift_id%3Dad9d242d2e674c0fa8c3d8138303045ca2ebd77c&t=【骑马穿越意大利牛仔中心地带】自然与传统在意大利西侧壮丽的马雷玛融合。（分享自 @FT中文网）" target="_blank"></a>
-    <a class="icon-right icon-ch" href="/interactive/72869/en"><button>英文</button></a><a class="icon-right icon-ch" href="/interactive/72869/ce"><button>对照</button></a>
+    <a class="action-icon icon-wechat P-hide" href="/m/corp/qrshare.html?url=http%3A%2F%2Fwww.ftchinese.com%2Finteractive%2F77194%3Ffull%3Dy%26gift_id%3Dafe7a919a1becda11904b3133ceb48f959cb2ef2&title=" target="_blank"></a>
+    <a class="action-icon icon-weibo P-hide" href="http://service.weibo.com/share/share.php?appkey=4221537403&url=http%3A%2F%2Fwww.ftchinese.com%2Finteractive%2F77194%3Ffull%3Dy%26gift_id%3Dafe7a919a1becda11904b3133ceb48f959cb2ef2%26ccode%3D2G169001&title=【美国通胀飙升预示着艰难的未来】美国6月糟糕的通胀数据提醒着美国和世界各地的许多人，尤其是最脆弱的人群和最脆弱的发展中国家，未来的日子会很艰难。（分享自 @FT中文网）&ralateUid=1698233740&source=&sourceUrl=&content=utf-8&pic=https://thumbor.ftacademy.cn/unsafe/picture/2/000147942_piclink.jpeg&searchPic=false" target="_blank"></a>
+    <a class="action-icon icon-linkedin P-hide" href="https://www.linkedin.com/cws/share?url=http%3A%2F%2Fwww.ftchinese.com%2Finteractive%2F77194%3Ffull%3Dy%26gift_id%3Dafe7a919a1becda11904b3133ceb48f959cb2ef2%26ccode%3D2G169003&original_referer=https%3A%2F%2Fdeveloper.linkedin.com%2Fsites%2Fall%2Fthemes%2Fdlc%2Fsandbox.php%3F&token=&isFramed=true&lang=zh_CN&_ts=1422502780259.2795" target="_blank"></a>
+    <a class="action-icon icon-twitter P-hide" href="http://twitter.com/home?status=【美国通胀飙升预示着艰难的未来】美国6月糟糕的通胀数据提醒着美国和世界各地的许多人，尤其是最脆弱的人群和最脆弱的发展中国家，未来的日子会很艰难。（分享自 @FT中文网）...%20http%3A%2F%2Fwww.ftchinese.com%2Finteractive%2F77194%3Ffull%3Dy%26gift_id%3Dafe7a919a1becda11904b3133ceb48f959cb2ef2" target="_blank"></a>
+    <a class="action-icon icon-facebook P-hide" href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.ftchinese.com%2Finteractive%2F77194%3Ffull%3Dy%26gift_id%3Dafe7a919a1becda11904b3133ceb48f959cb2ef2&t=【美国通胀飙升预示着艰难的未来】美国6月糟糕的通胀数据提醒着美国和世界各地的许多人，尤其是最脆弱的人群和最脆弱的发展中国家，未来的日子会很艰难。（分享自 @FT中文网）" target="_blank"></a>
+    <a class="icon-right icon-ch" href="/interactive/77194/en"><button>英文</button></a><a class="icon-right icon-ch" href="/interactive/77194/ce"><button>对照</button></a>
     
     <div class="icon-right icon-save P-hide">
-    <button id="addfavlink72869" data-item-type="interactive">收藏</button>
+    <button id="addfavlink77194" data-item-type="interactive">收藏</button>
     </div>
     <a class="icon-right icon-action icon-print P-hide" onclick="window.print()" target="_blank"></a>
     <a class="icon-right icon-action icon-font-size" onclick="showOverlay('font-setting')"></a>
-    <a class="icon-right icon-action icon-audio" href="/interactive/72884"></a>
+    <a class="icon-right icon-action icon-audio" href="/interactive/77233"></a>
     <div class="progress-container">
     <svg
     class="progress-ring"
@@ -712,68 +730,29 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
     </div>
     </div>
     <div class="story-byline">
-    <span class="story-time" data-time="1654013321" pub-date="1654012800">更新于2022年6月1日 00:08</span>
-    <span class="story-author">  <a href='/author/%E7%B4%A2%E8%8F%B2%E2%80%A2%E7%BD%97%E4%BC%AF%E8%8C%A8' target=_blank>索菲•罗伯茨</a> </span>
+    <span class="story-time" data-time="1657770674" pub-date="1657728000">更新于2022年7月14日 11:51</span>
+    <span class="story-author"> <a href='/author/%E7%A9%86%E7%BD%95%E9%BB%98%E5%BE%B7%E2%80%A2%E5%9F%83%E9%87%8C%E5%AE%89' target=_blank>穆罕默德•埃里安</a> </span>
     </div>
     <div class="story-body">
     
     
-    <div id="story-body-container" class="has-picture">
+    <div id="story-body-container" class="">
     <div class="print-only">来自FT中文网的温馨提示：如您对FT中文网的内容感兴趣，请在苹果应用商店或华为应用市场搜索“FT中文网”，下载FT中文网的官方应用，付费订阅。祝您使用愉快！</div>    
     
-    <p>在伊塔洛·卡尔维诺(Italo Calvino)1957年的小说《树上的男爵》(The Baron in the Trees)中，书的主角，一个名叫科西莫的贵族子弟，爬上了家里意大利花园的一棵树。他爬过树枝进入远处的森林，在树冠上经历他的冒险，在孩子般的仙境中从橡树到橄榄再到山毛榉树。这既是一个童话，也是一个寓言，是在我们砍倒它之前，对树木天堂的挽歌。“我不知道这是不是真的，就像你在书中读到的那样，在古代，一只离开罗马的猴子从一棵树跳到另一棵树上，不碰地面就能到达西班牙，”书中的叙述者评论道。</p>
-    <p>我第一次读《树上的男爵》是在几年前，当时环境焦虑占据了新闻头条，这本书深深影响了我。我这次去意大利的旅行，不管是好是坏，感觉就像逃离了气候问题。</p>
-    <p>马雷玛(Maremma)沿着意大利中部的西海岸延伸，包括拉齐奥的一部分和托斯卡纳南部的一部分。它以其受保护的自然公园、开垦的沼泽和低洼的山丘而闻名。在格罗塞托镇(Grosseto)北部，森林覆盖着这些山丘，与我所住的16世纪乡村庄园拉佩斯卡亚(拉佩斯卡亚)的侧翼相望。当我骑着一匹强壮的黑色马在树林中漫步时，卡尔维诺虚构的风景带着一种奇怪的真实性回来了，仿佛我被他的故事叙述者深深吸引的事情就发生在昨天。</p>
-    <p>树叶还很嫩，花粉在空气中徘徊。明亮的阳光在树叶间跳动。霍尔木橡树的树枝让人想起鹿的鹿角。这些动物从11月到次年1月都会被猎杀，它们会小心翼翼地穿过灌木丛，避开人们的视线，就像野猪一样。</p>
-    <div class="pic is-mixed" id="id-4"><picture><source media="screen and (min-width: 980px)" srcset="https://www.ft.com/__origami/service/image/v2/images/raw/https://d1e00ek4ebabms.cloudfront.net/production/1963b5c7-dd8c-458c-aa8e-e068e875bd85.jpg?source=ftchinese&amp;fit=scale-down&amp;width=1960"><source media="screen and (max-width: 490px)" srcset="https://www.ft.com/__origami/service/image/v2/images/raw/https://d1e00ek4ebabms.cloudfront.net/production/7bfb2dc3-d979-4879-ab8d-46ba0f1d96eb.jpg?source=ftchinese&amp;fit=scale-down&amp;width=980"><img src="https://www.ft.com/__origami/service/image/v2/images/raw/https://d1e00ek4ebabms.cloudfront.net/production/95e024b5-6176-402c-823f-d77c3c62387c.jpg?source=ftchinese&amp;fit=scale-down&amp;width=1400"></picture>圣贝内代托修道院(Convento di San Benedetto alla Nave)，一个位于森林空地的前隐修院。</div>
-    
-    <p>过去的五个小时里，我们从拉佩斯卡亚的马场出发，没有听到任何车辆的声音，也没有看到任何人。我们的目的地是一片森林空地上的修道院，圣贝内代托教堂(convto di San Benedetto)，在那里，在摇摇欲坠的墙壁之间，有来自厨房花园的迷迭香。我们躲在没有修剪过的果树的树冠下，这些果树已经长得超出了果园的需要，我们采摘靠在破碎的楼梯上的无花果。马靠泉水解渴。我和鸟儿一起，在阴凉处休息。</p>
-    <div class="pic"><picture><img src="https://www.ft.com/__origami/service/image/v2/images/raw/https://d6c748xw2pzm8.cloudfront.net/prod/3bcbd500-e0d6-11ec-9c4d-851fdae05dba-standard.png?source=ftchinese&amp;fit=scale-down&amp;width=1400"></picture></div>
-    
-    <p>这就是我来这里的目的——从黑暗世界的重负中短暂休息一下，为了怀旧和自然，沉浸在马步的步伐中。我和我妹妹在这里。当我们骑马的时候，我们可以交谈，放松心情。没人能联系到我们，这让我想起了我在苏格兰的童年。小时候，我们会消失在树林里，从来没有按照答应马雷玛的路线走。我很乐意回到那种自由自在的感觉，在意大利马匹之乡的中心地带，传统的马雷玛牛仔(Butteri)正坚持着古老的生活方式。</p>
-    <p>我们的基地拉佩斯卡亚度假村(La Pescaia Resort)是一家位于森林和平原之间的有18个房间的小酒店，我是由一位知道我喜欢骑马的意大利朋友介绍的。这是拉佩斯卡亚提供的活动之一。拉佩斯卡亚也是一个占地150公顷的工作农场，有相互连接的小路，你可以走几个小时，一直走到山上的村庄。</p>
-    <div class="n-content-layout" data-layout-name="auto" data-layout-width="full-grid"><div class="n-content-layout__container"><div class="n-content-layout__slot pic is-mixed" data-slot-width="true" id="id-8"><picture><img data-copyright=" Sophy Roberts" data-image-type="image" src="https://d1e00ek4ebabms.cloudfront.net/production/1438cd35-c536-4153-b312-cfdd2c4da662.jpg"></picture><p>拉佩斯卡亚餐厅露台上的食客</p>苏菲·罗伯茨</div>
-    <div class="n-content-layout__slot pic is-mixed" data-slot-width="true" id="id-9"><picture><img alt="Sun filters through the trees at 拉佩斯卡亚 Resort" data-copyright=" Sophy Roberts" data-image-type="image" longdesc="Sun filters through the trees at 拉佩斯卡亚 Resort " src="https://d1e00ek4ebabms.cloudfront.net/production/d626a7c7-5891-4081-9841-0cea44b21e02.jpg"></picture><p>在拉佩斯卡亚度假村，阳光透过树木</p>苏菲·罗伯茨</div>
-    </div>
-    </div>
-    
-    <p>这是一对35岁左右的米兰姐妹的爱心之作：玛格丽塔·拉梅拉(Margherita Ramella)是一位骑马爱好者，比阿特丽斯·拉梅拉(Beatrice Ramella)是一位有机花卉种植者和设计师，以前与时尚设计师汤姆·福特(Tom Ford)共同工作。她们与丈夫马里亚诺·菲奥达(Mariano Fiorda)和贡萨洛·穆勒（Gonzalo Müller）一起管理和经营这个项目。这家人住在酒店后面橄榄林中的小木屋里，生活简朴，这里曾是拉梅拉继承的托洛梅(Tolomei)家族的祖居。</p>
-    <p>玛格丽塔说，这里距离海边大约半小时的车程，坐落在一个曾经被认为是土匪和不法之徒的地盘，其他人则因为在这片沼泽地肆虐的疟疾而远离这里。第一次世界大战后，回国的士兵也分到了这里的地产；多纳泰拉·乔法尼(Donatella Ciofani)说，这就是为什么当地的农场以一些关键战役命名，乔法尼是一位自然资源保护主义者，他与农民一起保护该地区独特的生物多样性。玛格丽塔的丈夫马里亚诺一边吃着一盘新鲜的意大利乳清干酪，一边说，贫穷的撒丁岛人后来搬到了该地区的其他地方，带来了一种牧羊的传统。</p>
-    <p>当我拜访格罗塞托最后的马鞍商之一时，我注意到墙上钉着的一首传统歌曲的歌词。“每个人都说：马雷玛，马雷玛/但在我看来，这是一个非常痛苦的马雷玛/到那里的鸟会掉羽毛。”这是一个比喻，这个地区在某种程度上代表了“文明”的终结。</p>
-    <div class="pic is-mixed" id="id-13"><picture><img src="https://www.ft.com/__origami/service/image/v2/images/raw/https://d1e00ek4ebabms.cloudfront.net/production/ace41d94-9313-4116-afeb-7d15acf9aee7.jpg?source=ftchinese&amp;fit=scale-down&amp;width=1400"></picture>当地牛仔斯特凡诺·帕文(Stefano Pavin)为清晨的骑行收集马具</div>
-    
-    <p>“锡耶纳创造了我，马雷玛摧毁了我” - 但丁·阿利吉耶里(Dante Alighieri)在《神曲》中写道。他描述的是一位托斯卡纳贵族妇女在她丈夫的城堡里被谋杀的情景，在那里，几个世纪以来，暴力和疾病盛行。</p>
-    <p>乔法尼说，马雷玛的命运一直与它的沼泽排水有关——运河系统在19世纪建立，在20世纪30年代被墨索里尼清理和扩建。河流绣着织锦般的田野，那是翠绿色的田野，布满了血红的罂粟花。这些线条偶尔会与柏树成行的林荫相交，这表明这里有一座房子，那里有一座废弃的农场，大门从铰链上脱落。</p>
-    <p>这里有一些正在消失的椭圆形的伞松，它们的头是摆动的，树干是紫铜色的，还有一条单轨铁路，在一列火车的重压下吱呀作响——我看到的这列火车只有两节车厢，漆成圣母玛利亚的蓝色——嘎吱嘎吱地往返于锡耶纳。我是在5月来访的；在夏日的阳光下，草地还没有变脆，但它们会的，那时马雷玛在热浪中闪闪发光，就像流淌着的蜂蜜。</p>
-    <div class="pic is-mixed" id="id-17"><picture><source media="screen and (min-width: 980px)" srcset="https://www.ft.com/__origami/service/image/v2/images/raw/https://d1e00ek4ebabms.cloudfront.net/production/a6a916cd-8891-42b3-bef2-7eb451d7fb5d.jpg?source=ftchinese&amp;fit=scale-down&amp;width=1960"><source media="screen and (max-width: 490px)" srcset="https://www.ft.com/__origami/service/image/v2/images/raw/https://d1e00ek4ebabms.cloudfront.net/production/14f7b589-ed9a-40b5-8d77-072b6f6d9210.jpg?source=ftchinese&amp;fit=scale-down&amp;width=980"><img src="https://www.ft.com/__origami/service/image/v2/images/raw/https://d1e00ek4ebabms.cloudfront.net/production/7a97e97b-803b-443f-af7d-f91930deec2b.jpg?source=ftchinese&amp;fit=scale-down&amp;width=1400"></picture>玛格丽塔·拉梅拉(左)骑着“小鲜肉”(butteri)穿过马雷玛的草地</div>
-    
-    <div class="n-content-layout" data-layout-name="auto" data-layout-width="full-grid"><div class="n-content-layout__container"><div class="n-content-layout__slot pic is-mixed" data-slot-width="true" id="id-18"><picture><img alt="A windmill along the trail" data-copyright=" Sophy Roberts" data-image-type="image" longdesc="Passing a wind-powered pump near Tenuta di Alberese, a farm and agriturismo" src="https://d1e00ek4ebabms.cloudfront.net/production/b72b5159-e4e9-4512-bb2f-92ef136e3dab.jpg"></picture><p>在农场Tenuta di Alberese附近经过一个风力泵。</p>苏菲·罗伯茨</div>
-    <div class="n-content-layout__slot pic is-mixed" data-slot-width="true" id="id-19"><picture><img alt="Shady lanes provide respite from the sun" data-copyright=" Sophy Roberts" data-image-type="image" src="https://d1e00ek4ebabms.cloudfront.net/production/9138f373-05b8-43a7-bf22-16c7e084825e.jpg"></picture><p>玛格丽塔·拉梅拉在拉佩斯卡亚后面的森林里</p>苏菲·罗伯茨</div>
-    </div>
-    </div>
-    
-    <p>即使是现在，天气也热得足以让马出汗了。小山低处的山坡上点缀着银色的橄榄树，淡灰色的马雷马牛在那里徘徊，寻找阴凉。拉佩斯卡亚的混合牧群包括这些稀有品种的牛，优雅而耐劳，有竖琴形状的角，以及我们骑的马——杂交纯种马、阿拉伯马和马雷玛独有的品种，历史上在意大利骑兵中很受欢迎。当地的马鞍风格——scafarda——被设计成像扶手椅一样舒适，有无花果木框架和填充皮革坐垫。然而，马鞍制作的艺术性正变得越来越少。</p>
-    <p>格罗塞托的马鞍商La Rapida的老板莫雷诺·门科尼(Moreno Menconi)说：“我是介于熊猫和地中海僧侣海豹之间的东西：几乎绝迹了，”他哀叹马雷玛的马文化正在消失。他说，男人们都是傻子，他们对该地区的马匹历史视而不见。</p>
-    <p>卡尔维诺的主人公科西莫(Cosimo)也可以很容易地说出这种情绪。在书中，柯西莫童年时的乐观被愤怒所取代，因为人们对启蒙时代错误的信仰感到愤怒。科西莫在树林中的生活表明，与大自然更密切的同步生活可能会提供一个更充实的存在。</p>
-    <p><blockquote class="n-content-pullquote"><div class="n-content-pullquote__content"><p class="is-text-only" id="id-23">这个庄园给人的感觉就好像它的主人把心放在了花上，把手放在了地上</p><footer class="n-content-pullquote__footer"></footer></div>
-    </blockquote></p>
-    <p>这种情绪——不管它看起来多么简单——也许就是我如此喜欢马雷玛和拉佩斯卡亚的原因。这个庄园给人的感觉就好像它的主人把心放在了花上，把手放在了地上。它的驱动力是对遗产和地方的热爱，而不是对数字的奢华，这一点从我房间的白垩、云雾般的颜色、浴室的柠檬豆腐瓷砖，以及缠绕在楼梯上的茉莉花织物就可以看出，它让蜜蜂沉醉在花蜜中。</p>
-    <p>一切都是微妙的、真实的、地道的：在厨房的明火上烹制的牛肉切块；洗衣房和洗碗间的门大开，露出大理石水槽和光线，仿佛瞥见了维米尔(Vermeer)的作品;丰富的花瓶里塞满了大丽花、焦橙色的小牡丹和碧翠丝花园里种植的天蓝色的雾中情。</p>
-    <p>这里没有酒店的招牌，没有大厅，没有电视，只有八个房间有空调。这里有一个大游泳池和一个阳光充足的凉亭，在那里你可以吮吸肥大的橄榄，啜饮美味的当地气泡玫瑰酒。这里也是提供早餐的地方：自家的酸面团、简单的酸奶、新鲜果汁、水果、自制的格兰诺拉麦片和藏红花橙色蛋黄的农家鸡蛋。自由自在的鸡在草坪上漫步。</p>
-    <div class="n-content-layout" data-layout-name="auto" data-layout-width="full-grid"><div class="n-content-layout__container"><div class="n-content-layout__slot pic is-mixed" data-slot-width="true" id="id-27"><picture><img alt="A view of 拉佩斯卡亚 Resort’s gardens" data-copyright=" Sophy Roberts" data-image-type="image" longdesc="A view of 拉佩斯卡亚 Resort’s gardens " src="https://d1e00ek4ebabms.cloudfront.net/production/5dcedc02-83db-4786-865f-9461bb78dccb.jpg"></picture><p>拉佩斯卡亚度假村的花园景色</p>苏菲·罗伯茨</div>
-    <div class="n-content-layout__slot pic is-mixed" data-slot-width="true" id="id-28"><picture><img alt="" data-copyright=" Sophy Roberts" data-image-type="image" longdesc="One of the 18 bedrooms " src="https://d1e00ek4ebabms.cloudfront.net/production/62bcb053-cb91-4b68-b423-0ffb4c5b942c.jpg"></picture><p>18间卧室之一</p>苏菲·罗伯茨</div>
-    </div>
-    </div>
-    
-    <p>在曾经是佃农使用的附属建筑中，有两居室的公寓，在托洛梅别墅(Villa Tolomei)主楼有凉爽的高天花板房间。拉梅拉夫妇将这个地方的个性与它的乡村环境保持一致，在这个物价飞涨的时代，这是一种公平的、罕见的体验，房间的价格（很高，但还没有接近应有的水平）并没有刺破梦想。</p>
-    <p>换句话说，你不必是一个马术运动员，也可以住在拉佩斯卡亚并享受它。但对我来说，马术是我愿意回到这里的原因，就像卡尔维诺笔下的英雄在树上飞翔一样快。这所房子的马厩数量是房间数量的一半，在露台餐厅下面的院子里，马匹的叫声就像是在向森林外的人招手。</p>
-    <p>在另一天，我们在黎明后不久出发，加入一些受雇于地区政府的当地牛仔。我们骑马去检查在森林和海岸之间的保护区内养殖的稀有品种的牛群。当我们看到专业骑手巧妙地从牛群中分离出一头生病的小牛时，已经快到中午了。</p>
-    <p>我们沿着鹿来游泳的海滨漫步。我的腿很酸。太阳很强烈。我们回到无围栏的草地上，看到牛仔正在工作的畜栏，它们把成群的昆虫赶向空中，这一幕让人感觉既古老又现代，既神奇又真实。就好像有什么东西回到了原来的位置——一种与我的童年有关的感觉，像一匹马一样思考和移动。我进入了一个充满皮革、松木、海风和羊茅草气味的世界——我和妹妹一起踏上了一段缓慢的旅程，用马蹄踩在种子壳上发出的光和嘎吱声来衡量。</p>
-    <div class="n-content-layout card-container " data-layout-name="card" data-layout-width="fullWidth"><div class="n-content-layout__container"><h3 class="is-text-only" id="id-33">细节</h3><div class="n-content-layout__slot" data-slot-width="true"><p class="is-mixed" id="id-34">索菲·罗伯茨是拉佩斯卡亚度假酒店(<a href="http://www.pescaiaresort.com" targe="_blank">pescaiaresort.com</a>)的客人。双人间每晚250欧元起，含床和早餐。半日骑行费用为每人150欧元起。</p></div>
-    </div>
-    </div>
-    
-    <p><em class="is-text-only" id="id-35">了解我们最新的故事，首先关注</em><a href="https://twitter.com/ftweekend?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor"><em class="is-text-only" id="id-36">@ftweekend</em></a><em class="is-text-only" id="id-37">在Twitter上</em></p>
+    <p><em class="is-text-only" id="id-0">本文作者是剑桥大学皇后学院(Queens’ College)院长、安联(Allianz)和格拉梅西(Gramercy)顾问</em></p>
+    <p>美国6月份糟糕的通胀数据提醒着美国和世界各地的许多人，尤其是最脆弱的人群和最脆弱的发展中国家，未来的日子会很艰难。</p>
+    <p>这并不是因为通胀将在未来三个月再次创下40年来的新高。它不会。相反，这是因为已经造成的损害和即将到来的损害。</p>
+    <p>6月份美国CPI通胀率为9.1%，远远高于8.8%的预测中值，创下了1981年以来的最高水平。核心指标也高于预期，其构成细节增加了担忧。</p>
+    <p>这种水平的通胀将令许多人感到震惊，尤其是那些曾被美联储错误地安慰过的人。美联储在此次通胀事件发生的第一天就未能理解其中的动态，未能把握未来形势的严重性，未能迅速果断地采取行动，以避免对这么多人造成不必要的伤害。</p>
+    <p>这个惊人的数字将登上各大报纸的头版，并在新闻节目和网站上占据主导地位，它将进一步侵蚀美联储本已受损的政策信誉，并削弱其至关重要的前瞻性指导工具的有效性。</p>
+    <p>与欧洲央行不同的是，美联储还没有解释为什么这么长时间以来它对通胀的预测如此错误；与英国央行不同的是，美联储尚未在经济现状及其原因方面扮演诚实顾问的技术官僚角色。</p>
+    <p>美联储现在别无选择，只能积极应对。它肯定会在本月晚些时候加息0.75个百分点，而且很可能会考虑加息1个百分点。</p>
+    <p>这种迟来的政策反应将增加衰退的风险，尤其是在经济活动正在放缓的情况下。这在通货膨胀严重侵蚀购买力的基础上，又增加了收入不安全的诅咒——这种现象对低收入者的打击尤其严重。</p>
+    <p>幸运的是，通胀将在未来三个月内回落。这是个好消息。不太好的是价格压力的持续扩大，这在今天的详细数据中是很明显的。这增加了围绕通胀过程粘性的相当大的不确定性，美联储已经允许通胀过程在经济中更加根深蒂固。</p>
+    <p>因此，尤其是如果美联储未能迅速采取行动，认为第三波通胀压力可能会中断并逆转未来3个月的下行趋势是愚蠢的。</p>
+    <p>这一切的影响远远超出了美国。这种高通胀及其引发的货币政策反应，将加剧“到处都是小火”的现象，对已经在应对粮食和能源不安全问题的发展中国家尤其令人担忧。</p>
+    <p>它们现在面临着全球金融状况进一步收紧，以及美元进一步升值，这加剧了它们的输入型通胀，并有可能破坏其债务可持续性和国内金融市场的稳定。</p>
+    <p>毫无疑问：最新的通胀数据表明，未来的道路将是波涛汹涌的，尤其是对美国乃至全球最脆弱的社会群体而言。想想看，如果世界上最强大的央行能够对其政策工具做出更积极的回应，而不是固执地坚持自己的立场，认为去年的通胀上升只是“短暂的”，这在很大程度上是可以避免的。</p>
     
     
     </div>
@@ -799,34 +778,83 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
     >
     </div>
     <div class="side-container"><div class="side-inner">
-    <!--column info: -->
-    <div class="story-box with-theme">
-    <h2 class="box-title"><a href="/channel/mba.html">FT商学院</a></h2>
-    <ul class="top10">
-    <li class="mp1"><a target="_blank" href="/interactive/72368">《堡垒之夜》开发者：为了元宇宙的开放，将与苹果和谷歌战斗到底</a></li>
-    <li class="mp2"><a target="_blank" href="/interactive/63049">俄乌战争地图导览：最新进展</a></li>
-    <li class="mp3"><a target="_blank" href="/interactive/72814">Snap眼镜是增强现实技术的一大飞跃吗？</a></li>
-    <li class="mp4"><a target="_blank" href="/interactive/72764">Lex专栏：股东必须对抗高额高管薪酬</a></li>
-    <li class="mp5"><a target="_blank" href="/interactive/72703">维克多·欧尔班的银行帝国</a></li>
-    <li class="mp6"><a target="_blank" href="/interactive/72705">巨头强势入场，ETF市场或迎来大发展？</a></li>
-    <li class="mp7"><a target="_blank" href="/interactive/72765">Lex专栏：GIC与灰星挫败Unite，收购Student Roost部分资产</a></li>
-    <li class="mp8"><a target="_blank" href="/interactive/72697">生活成本危机：雇主该如何出手相助？</a></li>
-    <li class="mp9"><a target="_blank" href="/interactive/72696">掌门悬而未决，罗尔斯-罗伊斯公司该如何焕发新生</a></li>
-    </ul>
+    <div class="story-box">
+    <h2 class="box-title"><a href="/channel/weekly.html">热门文章</a></h2>
+    <ul class="top10"><li class="mp1 item-headline-link"><span>1. </span><a target="_blank" href="/story/001096734">如何评价中国大疆在美国进行的政治游说？</a></li><li class="mp2 item-headline-link"><span>2. </span><a target="_blank" href="/story/001096746">防疫新难题：“单日破百”和“历史无阳”</a></li><li class="mp3 item-headline-link locked standard"><span>3. </span><a target="_blank" href="/story/001096743">中国商飞的C919飞机还需依赖国内市场</a></li><li class="mp4 item-headline-link"><span>4. </span><a target="_blank" href="/story/001096726">中国经济面临的六关考验</a></li><li class="mp5 item-headline-link"><span>5. </span><a target="_blank" href="/story/001096735">中长期存款利率倒挂误读背后的启示</a></li><li class="mp6 item-headline-link locked standard"><span>6. </span><a target="_blank" href="/story/001096737">Lex专栏：美国芯片补贴法案牵动“中国芯”</a></li><li class="mp7 item-headline-link"><span>7. </span><a target="_blank" href="/story/001096730">大幅贬值后，欧元走向何方？</a></li><li class="mp8 item-headline-link locked standard"><span>8. </span><a target="_blank" href="/story/001096748">俄罗斯外长扬言要夺取更多乌克兰领土</a></li><li class="mp9 item-headline-link locked standard"><span>9. </span><a target="_blank" href="/story/001096744">红杉中国寻求“政治正确”的投资策略</a></li><li class="mp10 item-headline-link locked standard"><span>10. </span><a target="_blank" href="/interactive/77944">美国物价飙升，消费者还能坚持多久？</a></li></ul>
     </div>
     <div class="story-box last-child">
     <h2 class="box-title"><a>相关话题</a></h2>
     <ul class="top10">
     <li class="story-theme mp1">
+    <a target="_blank" href="/channel/markets.html">金融市场</a>
+    <div class="icon-right">
+    <button class="myft-follow plus" data-tag="markets" data-type="topic">关注</button>
+    </div>
+    </li>
+    <li class="story-theme">
+    <a target="_blank" href="/channel/economy.html">经济</a>
+    <div class="icon-right">
+    <button class="myft-follow plus" data-tag="economy" data-type="topic">关注</button>
+    </div>
+    </li>
+    <li class="story-theme">
+    <a target="_blank" href="/tag/美国通货膨胀">美国通货膨胀</a>
+    <div class="icon-right">
+    <button class="myft-follow plus" data-tag="美国通货膨胀" data-type="tag">关注</button>
+    </div>
+    </li>
+    <li class="story-theme">
     <a target="_blank" href="/tag/FT商学院">FT商学院</a>
     <div class="icon-right">
     <button class="myft-follow plus" data-tag="FT商学院" data-type="tag">关注</button>
     </div>
     </li>
     <li class="story-theme">
-    <a target="_blank" href="/tag/Twitter">Twitter</a>
+    <a target="_blank" href="/tag/美联储">美联储</a>
     <div class="icon-right">
-    <button class="myft-follow plus" data-tag="Twitter" data-type="tag">关注</button>
+    <button class="myft-follow plus" data-tag="美联储" data-type="tag">关注</button>
+    </div>
+    </li>
+    <li class="story-theme">
+    <a target="_blank" href="/tag/美国经济">美国经济</a>
+    <div class="icon-right">
+    <button class="myft-follow plus" data-tag="美国经济" data-type="tag">关注</button>
+    </div>
+    </li>
+    <li class="story-theme">
+    <a target="_blank" href="/tag/市场洞察">市场洞察</a>
+    <div class="icon-right">
+    <button class="myft-follow plus" data-tag="市场洞察" data-type="tag">关注</button>
+    </div>
+    </li>
+    <li class="story-theme">
+    <a target="_blank" href="/tag/欧洲央行">欧洲央行</a>
+    <div class="icon-right">
+    <button class="myft-follow plus" data-tag="欧洲央行" data-type="tag">关注</button>
+    </div>
+    </li>
+    <li class="story-theme">
+    <a target="_blank" href="/tag/安联">安联</a>
+    <div class="icon-right">
+    <button class="myft-follow plus" data-tag="安联" data-type="tag">关注</button>
+    </div>
+    </li>
+    <li class="story-theme">
+    <a target="_blank" href="/tag/英格兰央行">英格兰央行</a>
+    <div class="icon-right">
+    <button class="myft-follow plus" data-tag="英格兰央行" data-type="tag">关注</button>
+    </div>
+    </li>
+    <li class="story-theme">
+    <a target="_blank" href="/channel/usa.html">美国</a>
+    <div class="icon-right">
+    <button class="myft-follow plus" data-tag="usa" data-type="area">关注</button>
+    </div>
+    </li>
+    <li class="story-theme">
+    <a target="_blank" href="/author/穆罕默德•埃里安">穆罕默德•埃里安</a>
+    <div class="icon-right">
+    <button class="myft-follow plus" data-tag="穆罕默德•埃里安" data-type="author">关注</button>
     </div>
     </li>
     </ul>
@@ -941,7 +969,10 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
     </div>
     </div>
     </div>
-    </div>
+    </div><script type="text/javascript">
+    window._taboola = window._taboola || [];
+    _taboola.push({flush: true});
+    </script>
 
 
 
