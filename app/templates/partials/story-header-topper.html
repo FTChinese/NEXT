@@ -1,0 +1,24 @@
+<style><%include file="next/styles/main-header-topper.css"%></style>
+
+
+<div class="story-topper-container has-side"><div class="block-inner">
+    <div class="content-container"><div class="content-inner"><div class="story-container">
+        <div class="story-theme">
+            <%if preg_match("/comment|opinion/is",$genre)%>
+                <a href="/channel/opinion.html" class="story-theme-channel">观点</a>
+            <%elseif preg_match("/column/is",$genre)%>
+                <a href="/channel/column.html" class="story-theme-channel">专栏</a>
+            <%/if%>
+            <%$breadcrum%>
+        </div>
+        <h1 class="story-headline"><%$storyHeadline%></h1>
+        <div class="story-lead"><%$shareLead%></div>
+        <div class="story-author">
+            <%$storyAuthor%>
+            <button class="myft-follow plus" data-tag="<%$cauthor%>" data-type="author">关注</button>
+        </div>
+        <div class="author-headshot"><figure class="loading" data-url="<%$authorHeadshot%>"></figure></div>
+    </div></div></div>
+    <div class="clearfloat block-bottom"></div>
+</div></div>
+

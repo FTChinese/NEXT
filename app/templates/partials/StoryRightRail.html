@@ -3,7 +3,9 @@
 	<%if $columninfo != ""%>
 		<div class="story-box">
 			<h2 class="box-title"><a href="/column/<%$columninfo.id%>"><%$columninfo.headline|replace:"》":""|replace:"《":""%></a></h2>
-			<a href="/column/<%$columninfo.id%>" class="image square-icon" target="_blank" style="display: block;"><figure class="loading" data-url="<%$columninfo.piclink%>"></figure></a>
+			<%if $authorHeadshot == ""%>
+				<a href="/column/<%$columninfo.id%>" class="image square-icon" target="_blank" style="display: block;"><figure class="loading" data-url="<%$columninfo.piclink%>"></figure></a>
+			<%/if%>
 			<%$columninfo.description%>
 		</div>
 	<%/if%>

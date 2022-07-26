@@ -549,10 +549,12 @@ function addStickyStyles() {
   for (var i=0; i<sideContainers.length; i++) {
     sideContainers[i].classList.add('is-sticky-top');
   }
-  var storyContainer = document.querySelector('.story-container');
-  if (storyContainer) {
-    storyContainer.classList.add('show-sticky-tools');
-  }
+  // MARK: - There might be multiple story-container
+  var storyTools = document.querySelector('.story-container .story-tools');
+  if (!storyTools) {return;}
+  var storyContainer = storyTools.closest('.story-container');
+  if (!storyContainer) {return;}
+  storyContainer.classList.add('show-sticky-tools');
 }
 
 function addAudioStickyStyles() {

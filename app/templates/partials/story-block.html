@@ -22,6 +22,8 @@
 <%elseif preg_match("/partner\_content/is",$keys) && $story_pic.smallbutton && $story_pic.smallbutton != ""%>
 	<%assign var="heroImage" value=$story_pic.smallbutton%>
 	<%include file="next/partials/story-hero-image.html"%>
+<%elseif $authorHeadshot != ""%>
+	<%include file="next/partials/story-header-topper.html"%>
 <%/if%>
 <div class="block-container has-side story-page"><div class="block-inner">
 	<div class="content-container"><div class="content-inner">
@@ -29,9 +31,11 @@
 			<%if $heroImage == ""%>
 				<%if $showStoryHero != "yes"%>
 					<div class="story-topper">
-						<div class="story-theme"><%$breadcrum%></div>
-						<h1 class="story-headline<%$storyHeadlineClass%>"><%$storyHeadline%></h1>
-						<%$storyLead%>
+						<%if $authorHeadshot == ""%>
+							<div class="story-theme"><%$breadcrum%></div>
+							<h1 class="story-headline<%$storyHeadlineClass%>"><%$storyHeadline%></h1>
+							<%$storyLead%>
+						<%/if%>
 						<%*<!--MARK: Show CC video only to paid subscriber-->*%>
 						<%if $cc_vaddress && $cc_vaddress!="" && (($smarty.get.paywall != "1" && $paywall != "1" && $smarty.get.paywall != "2" && $paywall != "2") || !preg_match("/专享|英语电台/is",$keys))%>
 							<script type="text/javascript">window.hasFoundProductPricing = true; </script>
