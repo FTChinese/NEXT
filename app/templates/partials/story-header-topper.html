@@ -4,9 +4,13 @@
 <div class="story-topper-container has-side"><div class="block-inner">
     <div class="content-container"><div class="content-inner"><div class="story-container">
         <div class="story-theme">
-            <%if preg_match("/comment|opinion/is",$genre)%>
+            <%if preg_match("/FT商学院/is",$keys) && !preg_match("/FT商学院/is",$breadcrum)%>
+                <a href="/channel/mba.html" class="story-theme-channel">FT商学院</a>
+            <%elseif preg_match("/FT商学院/is",$keys)%>
+
+            <%elseif preg_match("/comment|opinion/is",$genre)%>
                 <a href="/channel/opinion.html" class="story-theme-channel">观点</a>
-            <%elseif preg_match("/column/is",$genre)%>
+            <%elseif preg_match("/column/is",$genre) || ($columninfo != "" && $columninfo.piclink != "")%>
                 <a href="/channel/column.html" class="story-theme-channel">专栏</a>
             <%/if%>
             <%$breadcrum%>

@@ -1442,7 +1442,9 @@ updateStickyRightRail();
         var ec = 'AccountShare';
         var ea = data.online === 1 ? 'Allow' : 'Mark';
         var ccode = window.ccodeValue || '';
-        var doKickout = window.location.href.indexOf('kickout=yes')>=0 || window.userId === 'U1131519359838PQZF' || /^7S/.test(ccode);
+        // MARK: - Increase the range gradually
+        var mustKickout = /^[A-C][0-1][a-c]/.test(window.userId);
+        var doKickout = mustKickout || /^7S/.test(ccode) || window.location.href.indexOf('kickout=yes')>=0 || window.userId === 'U1131519359838PQZF';
         // MARK: - For now, only really kick out test devices
         if (data.online === 0 && doKickout) {
           //MARK: - Kick this user out
