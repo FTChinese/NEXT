@@ -1671,8 +1671,8 @@
 		<%/if%>
 	<%else%>
 		<%assign var="story_content" value=$cbody%>
-		<%*<!--MARK: - remove all the html code inside a div before determining whether this article already includes <p> tags. -->*%>
-		<%assign var="storyContentWithoutDiv" value=$story_content|regex_replace:"/[\r\t\n]/":""|regex_replace:"/\<div.*\<\/div\>/":""%>
+		<%*<!--MARK: - remove all the html code inside a div before determining whether this article already has <p> tags. -->*%>
+		<%assign var="storyContentWithoutDiv" value=$story_content|regex_replace:"/[\r\t\n]/":""|regex_replace:"/\<div.*\<\/div\>/":""|regex_replace:"/\<li.*\<\/li\>/":""%>
 		<%if !preg_match("/<p>/is",$storyContentWithoutDiv)%>
 			<%assign var="story_content" value=$story_content|regex_replace:"/[\r\t\n]+/":"</p>\n<p>"%>
 			<%assign var="story_content" value="\n<p>`$story_content`</p>\n"%>
@@ -1827,7 +1827,7 @@
 <%/if%>
 
 
-<%if preg_match("/FT漫画|视频直播|数据新闻|partner\_content|数据可视化/is",$keys) || preg_match("/full\-grid/is",$story_content) || ($page_action=="ce" && $isMachineTranslation == "yes")%>
+<%if preg_match("/FT漫画|视频直播|数据新闻|partner\_content|数据可视化/is",$keys) || preg_match("/full\-grid|scrollable\-block/is",$story_content) || ($page_action=="ce" && $isMachineTranslation == "yes")%>
 	<%assign var="fullGridClass" value=" full-grid-story"%>
 	<%assign var="isFullGridStory" value="yes"%>
 <%/if%>
