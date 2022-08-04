@@ -913,6 +913,38 @@ function checkFullGridItem() {
   } catch (ignore){}
 }
 
+function checkScrollyTelling() {
+  try {
+    if (!document.querySelector('.scrollable-block')) {return;}
+    // MARK: - Check all the scrollable blocks;
+    var scrollableSlides = document.querySelectorAll('.scrollable-slide, .scrollable-slide-info');
+    var bodyHeight = getBodyHeight();
+    var firstScrollableSlidesInView;
+    for (var i=0; i<scrollableSlides.length; i++) {
+      var itemHeight = scrollableSlides[i].offsetHeight;
+      var itemTop = findTop(scrollableSlides[i]);
+      var isScrollableSlideInView = (scrollTop + bodyHeight >= itemTop && itemTop + itemHeight >= scrollTop);
+      if (isScrollableSlideInView) {
+        firstScrollableSlidesInView = scrollableSlides[i];
+        var slideId = firstScrollableSlidesInView.getAttribute('data-id');
+        console.log(slideId);
+        var currentBlock = firstScrollableSlidesInView.closest('.scrollable-block');
+        var currentImages = currentBlock.querySelectorAll('.scrolly-telling-viewport figure, .scrolly-telling-viewport picture');
+        for (var j=0; j<currentImages.length; j++) {
+          var imageId = j.toString();
+          if (imageId === slideId) {
+            currentImages[j].classList.add('visible');
+          } else {
+            currentImages[j].classList.remove('visible');
+          }
+        }
+        break;
+      }
+    }
+
+  } catch (ignore){}
+}
+
 try {
   delegate = new Delegate(document.body);
 } catch (ignore) {
@@ -947,6 +979,7 @@ if (gNavOffsetY > 30 && w > 490 && supportStickyPosition === false) {
         stickyBottom();
         trackViewables();
         checkFullGridItem();
+        checkScrollyTelling();
     });
     addEvent(eventResize, function(){
         stickyBottomPrepare();
@@ -976,6 +1009,7 @@ if (gNavOffsetY > 30 && w > 490 && supportStickyPosition === false) {
       loadVideosLazy();
       trackViewables();
       checkFullGridItem();
+      checkScrollyTelling();
   });
 }
 

@@ -1832,6 +1832,11 @@
 	<%assign var="isFullGridStory" value="yes"%>
 <%/if%>
 
+<%if preg_match("/scrollable\-block/is",$story_content)%>
+	<%assign var="scrollyTellingClass" value=" has-scrolly-telling"%>
+	<%assign var="isScrollyTelling" value="yes"%>
+<%/if%>
+
 <%*<!--MARK: - Set property for paid content. -->*%>
 <%if $hasAudio == "yes"%>
     <%assign var="privilegeType" value="Radio"%>
@@ -2290,7 +2295,7 @@
 
 <%if $smarty.get.bodyonly != "yes" || $isAndroidApp == "yes"%>
 <!DOCTYPE html>
-<html class="no-js core<%if $isAndroidApp == "yes"%> is-android-app<%/if%><%if $smarty.get.webview == "ftcapp"%> is-ftc-app<%/if%><%$fullGridClass%><%$useJustifyClass%><%if $smarty.get.device == "iPad"%> is-ipad-app<%/if%>">
+<html class="no-js core<%if $isAndroidApp == "yes"%> is-android-app<%/if%><%if $smarty.get.webview == "ftcapp"%> is-ftc-app<%/if%><%$fullGridClass%><%$scrollyTellingClass%><%$useJustifyClass%><%if $smarty.get.device == "iPad"%> is-ipad-app<%/if%>">
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -2361,6 +2366,10 @@
 
 	<%if preg_match("/speedread\-questions/is",$cbody) || $interactiveType == "Speedread"%>
 		<style><%include file="next/styles/main-speedread.css"%></style>
+	<%/if%>
+
+	<%if $isScrollyTelling == "yes"%>
+		<style><%include file="next/styles/main-scrolly-telling.css"%></style>
 	<%/if%>
 
 	<%if preg_match("/toggle\-container/is",$story_content)%>
@@ -2819,6 +2828,10 @@ if (w > 490 && isTouchDevice() === false && document.querySelectorAll('.ce').len
 
 <%if preg_match("/speedread\-questions/is",$cbody) || $interactiveType == "Speedread"%>
 	<script><%include file="next/scripts/main-speedread.js"%></script>
+<%/if%>
+
+<%if $isScrollyTelling == "yes"%>
+	<script><%include file="next/scripts/main-scrolly-telling.js"%></script>
 <%/if%>
 
 <%if $smarty.get.isappinstalled != ""%>  

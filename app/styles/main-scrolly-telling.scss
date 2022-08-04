@@ -1,0 +1,102 @@
+.has-scrolly-telling .block-inner, .scrollable-block {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    padding: 0 !important;
+    position: relative;
+    // right: calc(50vw - 350px);
+}
+
+.scrollable-block {
+    z-index: 9999999;
+    margin-bottom: 1em;
+}
+.scrollable-slide {
+    height: 100vh;
+}
+.scrollable-slide-info {
+    margin: 0 auto !important;
+    padding: 0 30px !important;
+    max-width: 728px !important;
+    text-shadow: 3px 4px rgb(18 18 18 / 40%);
+    color: white;
+    font-weight: bold;
+    font-size: 32px;
+    &.scrollable-slide-detail {
+        font-size: 22px;
+        font-weight:normal;
+        margin: 0 30px !important;
+    }
+    &.scrollable-slide-overlay {
+        text-shadow: none;
+        -webkit-backdrop-filter: blur(30px);
+        backdrop-filter: blur(30px);
+        background: rgba(0,0,0,.65); 
+        padding: 30px !important;
+    }
+}
+
+.scrolly-telling-viewport {
+    position: sticky;
+    top: 0;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    height: 100vh !important;
+    max-height: 100vh !important;
+    z-index: -1;
+    img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0;
+        display: block;
+        transition: all .35s ease-in-out
+    }
+    .visible img {
+        opacity: 1;
+    }
+}
+.has-scrolly-telling {
+    #story-body-container, .story-container {
+        overflow: visible;
+        padding: 0 !important;
+    }
+    #promo-box-container {
+        display: none;
+    }
+}
+
+@media only screen and (min-width: 600px) {
+    .scrollable-slide-info.scrollable-slide-detail {
+        width: 45% !important;
+        margin-left: 30px !important;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    .scrollable-slide-info.scrollable-slide-detail {
+        width: 30% !important;
+        margin-left: 100px !important;
+    }
+}
+
+@media only screen and (max-width: 728px) {
+    .full-grid-story .story-container #story-body-container {
+         >p, >h1, >.pic {
+            padding-left: 15px !important;
+            padding-right: 15px !important;
+         }
+    }
+    .copyrightstatement-container {
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+    }
+}
+
+@media screen and (min-width: 1400px) {
+    .full-grid-story .show-sticky-tools.story-container .story-action-placeholder {
+        left: 30px;
+    }
+}
