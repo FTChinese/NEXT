@@ -60,11 +60,13 @@
 }
 .has-scrolly-telling {
     #story-body-container, #ios-story-body, .story-container {
-        // overflow: visible;
         padding: 0 !important;
     }
     #promo-box-container {
         display: none;
+    }
+    #ios-story-body {
+        overflow: hidden;
     }
 }
 
@@ -83,11 +85,13 @@
 }
 
 @media only screen and (max-width: 728px) {
-    .full-grid-story .story-container #story-body-container {
-         >p, >h1, >.pic {
-            padding-left: 15px !important;
-            padding-right: 15px !important;
-         }
+    .full-grid-story .story-container {
+        #story-body-container, #ios-story-body {
+            >p, >h1, >.pic {
+                padding-left: 15px !important;
+                padding-right: 15px !important;
+            }
+        }
     }
     .copyrightstatement-container {
         padding-left: 15px !important;
