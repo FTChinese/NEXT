@@ -63,7 +63,11 @@
         padding: 0 !important;
     }
     #story-body-container, #ios-story-body {
+        // MARK: - This is key for the sticky position to work
         overflow: visible !important;
+        [data-layout-width="full-grid"] {
+            max-width: 1200px;
+        }
     }
     #promo-box-container {
         display: none;
@@ -87,7 +91,7 @@
 @media only screen and (max-width: 728px) {
     .has-scrolly-telling .story-container {
         #story-body-container, #ios-story-body {
-            >p, >h1, >.pic {
+            >p, >h1, >h2, >h3, >h4, >.pic {
                 padding-left: 15px !important;
                 padding-right: 15px !important;
             }
