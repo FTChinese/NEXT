@@ -44,7 +44,7 @@
 			</script>
 -->*%>
 
-<!--Count Result: <%$count_result%>-->
+<%*<!--Count Result: <%$count_result%>-->*%>
 
 			<%if $count_result>0%>
 				<%foreach from=$search_result item=sc name=foo%>
@@ -63,7 +63,12 @@
 						<%elseif $sc.type == 'photonews'%>
 							<%assign var="itemType" value="photonews"%>
 						<%/if%>
-						<%if $itemType == 'interactive'%>
+						<%if $smarty.get.showDebug == "yes"%>
+							<!--<%$sc|@print_r%>-->
+						<%/if%>
+						<%if preg_match("/高端专享/is",$sc.tag)%>
+							<%assign var="headlineClass" value="`$headlineClass` vip locked"%>
+						<%elseif $itemType == 'interactive'%>
 							<%if preg_match("/高端专享/is",$sc.tag)%>
 								<%assign var="headlineClass" value="`$headlineClass` vip locked"%>
 							<%elseif preg_match("/会员专享|英语电台|速读/is",$sc.tag)%>

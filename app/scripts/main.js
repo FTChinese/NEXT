@@ -1475,12 +1475,12 @@ updateStickyRightRail();
         var data = JSON.parse(xhr.responseText);
         var ec = 'AccountShare';
         var ea = data.online === 1 ? 'Allow' : 'Mark';
-        var ccode = window.ccodeValue || '';
+        // var ccode = window.ccodeValue || '';
         // MARK: - Increase the range gradually
-        var mustKickout = /^[A-N][0-6][a-n]/.test(window.userId);
-        var doKickout = mustKickout || /^7S/.test(ccode) || window.location.href.indexOf('kickout=yes')>=0 || window.userId === 'U1131519359838PQZF';
-        // MARK: - For now, only really kick out test devices
-        if (data.online === 0 && doKickout) {
+        // var mustKickout = /^[A-N][0-6][a-n]/.test(window.userId);
+        // var doKickout = mustKickout || /^7S/.test(ccode) || window.location.href.indexOf('kickout=yes')>=0 || window.userId === 'U1131519359838PQZF';
+        // MARK: - Kickout everyone! You can remove the commented code after October 2022. 
+        if (data.online === 0/* && doKickout*/) {
           //MARK: - Kick this user out
           ea = 'Kickout';
           kickout(deviceType);
