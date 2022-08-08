@@ -1885,6 +1885,9 @@
 <%assign var="genre" value="`$story.genre``$genre`"%>
 <%if $storyImage != "" && ($isFullGridStory == "yes" || preg_match("/FT大视野|卧底经济学家|FT杂志|周末随笔/is",$keys))%>
 	<%assign var="showStoryHero" value="yes"%>
+	<%if preg_match("/周末随笔/is",$keys)%>
+		<%assign var="storyHeroThemeClass" value=" story-hero-theme-pink"%>
+	<%/if%>
 <%elseif (preg_match("/comment|opinion|column/is",$genre) || ($columninfo != "" && $columninfo.piclink != "")) && !preg_match("/FT商学院/is",$keys)%>
 	<%if $story.cauthor && $story.cauthor != ""%>
 		<%assign var="cauthor" value=$story.cauthor%>

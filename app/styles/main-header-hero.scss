@@ -1,3 +1,5 @@
+@import "theme-default.scss";
+@import "variables.scss";
 .story-hero-container {
     width: 100%;
     height: 600px;
@@ -5,6 +7,38 @@
     background-color: black;
     margin-bottom: 30px;
     margin-top: -30px;
+    &.story-hero-theme-pink {
+        background-color: $pinkBGFT;
+        button {
+            &.myft-follow {
+                border: 1px solid $red;
+                color: $red;
+                &.plus:before {
+                    background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0'%3F%3E%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cstyle%3E*%7Bfill:%239E2F50 !important%7D%3C/style%3E%3Cpath d='M5.053 0v5.053H0v1.894h5.053V12h1.894V6.947H12V5.053H6.947V0H5.053z' fill='%23333' fill-rule='evenodd'/%3E%3C/svg%3E%0A");		    
+                }
+                &.tick {
+                    color: white;
+                    background-color: $red;
+                    &:before {
+                        background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0'%3F%3E%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='13' viewBox='0 0 14 13'%3E%3Cstyle%3E*%7Bfill:%23FFFFFF !important%7D%3C/style%3E%3Cpath d='M5.273 10.08L2.1 7.7l-.8-.6L.1 8.7l.8.6 3.226 2.42-.02.026.807.564.787.59.02-.026.026.02.564-.807.59-.787-.026-.02 6.445-9.207.572-.82-1.64-1.146-.572.82-6.407 9.153z' fill-rule='evenodd'/%3E%3C/svg%3E");
+                    }
+                }
+            }
+        }
+        .story-hero-tag a {
+            font-weight: bold;
+            color: $red;
+        }
+        .story-hero-intro {
+            color: black;
+        }
+        .story-hero-title {
+            font-weight: bold;
+            &:after {
+                border-bottom-color: black;
+            }
+        }
+    }
     button {
         &.myft-follow {
             background-color: transparent;
@@ -23,7 +57,9 @@
             }
         }
     }
+
 }
+
 .story-hero-image {
     position: absolute;
     width: 50%;
