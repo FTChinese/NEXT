@@ -1478,7 +1478,7 @@ updateStickyRightRail();
         // var ccode = window.ccodeValue || '';
         // MARK: - Increase the range gradually
         // var mustKickout = /^[A-N][0-6][a-n]/.test(window.userId);
-        // var doKickout = mustKickout || /^7S/.test(ccode) || window.location.href.indexOf('kickout=yes')>=0 || window.userId === 'U1131519359838PQZF';
+        // var doKickout = mustKickout || /^7S/.test(ccode) || window.location.href.indexOf('kickout=yes')>=0 || window.userId === 'a116abef-78cc-49de-94e1-cb8e8a86af3e';
         // MARK: - Kickout everyone! You can remove the commented code after October 2022. 
         if (data.online === 0/* && doKickout*/) {
           //MARK: - Kick this user out
