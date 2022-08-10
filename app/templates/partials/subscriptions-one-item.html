@@ -94,6 +94,10 @@
 <%elseif preg_match("/会员专享/is",$itemTagsString)%>
 	<%assign var="vipClass" value=""%>
 	<%assign var="lockClass" value="locked"%>
+<%elseif preg_match("/高端限免|17周年大视野精选/is",$itemTagsString)%>
+	<%assign var="vipClass" value=" free-to-read-vip"%>
+<%elseif preg_match("/限免/is",$itemTagsString)%>
+	<%assign var="vipClass" value=" free-to-read"%>
 <%/if%>
 
 <%assign var="subTypeData" value=""%>

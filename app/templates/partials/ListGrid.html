@@ -378,6 +378,10 @@
             <%if preg_match("/高端专享/is",$itemTagsString)%>
                 <%assign var="lockClass" value="locked vip"%>
             <%/if%>
+        <%elseif preg_match("/高端限免|17周年大视野精选/is",$itemTagsString)%>
+            <%assign var="lockClass" value="free-to-read-vip"%>
+        <%elseif preg_match("/限免/is",$itemTagsString)%>
+            <%assign var="lockClass" value="free-to-read"%>
         <%else%>
             <%assign var="lockClass" value=""%>
         <%/if%>

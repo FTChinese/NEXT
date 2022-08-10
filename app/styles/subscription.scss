@@ -30,6 +30,32 @@
 		}
 	}
 }
+.free-to-read, .free-to-read-vip {
+	&:after {
+		width: auto;
+		height: auto;
+		font-size: 12px;
+		line-height: 1em;
+		font-weight: 600;
+		text-align: center;
+		display: inline-block;
+		box-sizing: border-box;
+		// MARK: - Use a negative top margin so that the sign is visually aligned middle
+		margin: -4px 0 0 5px;
+		text-decoration: none;
+		padding: 3px 7px;
+		border: 1px solid transparent;
+		vertical-align: middle;
+		color: white;
+		background: $darkGreen;
+	}
+}
+.free-to-read:after {
+	content: '限免'
+}
+.free-to-read-vip:after {
+	content: '高端限免'
+}
 .interactives {
 	.item-headline-link.locked, .item-headline .locked, .item-headline-link.unlocked, .item-headline .unlocked {
 		display: inline;

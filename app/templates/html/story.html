@@ -1294,6 +1294,10 @@
 	<%/if%>
 <%/if%>
 
+
+
+
+
 <%*<!--MARK: - Calculate story headline-->*%>
 <%if $page_action=="ce" && $isMachineTranslation == "yes"%>
 	<%assign var="newCheadline" value=$cheadline|regex_replace:"/\-\|\-.*$/":""%>
@@ -1315,6 +1319,7 @@
 <%else%>
 	<%assign var="storyHeadline" value=$story.cheadline|default:$cheadline%>
 <%/if%>
+
 
 <%if $interactiveType == "Speedread"%>
 	<%assign var="storyLead" value=$cshortleadbody%>
@@ -1685,7 +1690,6 @@
 			<%assign var="story_content" value=$story_content|regex_replace:"/[\r\t\n]/":""|regex_replace:"/^(\<p\>.*?\<p\>.*?\<p\>.*?\<p\>.*?)\<p\>/":"\\1<div data-o-ads-name=\"mpu-middle1\" class=\"o-ads in-article-advert\" data-o-ads-formats-default=\"false\"  data-o-ads-formats-small=\"FtcMobileMpu\"  data-o-ads-formats-medium=\"false\" data-o-ads-formats-large=\"FtcMpu\" data-o-ads-formats-extra=\"FtcMpu\" data-o-ads-targeting=\"cnpos=middle1;\" data-cy='[{\"devices\":[\"PC\",\"iPhoneWeb\",\"AndroidWeb\",\"iPhoneApp\",\"AndroidApp\"],\"pattern\":\"MPU\",\"position\":\"Middle1\",\"container\":\"mpuInStory\"}]'></div><p>"%>
 		<%/if%>
 		<%assign var="storyHeadline" value=$cheadline%>
-		
 		<%if $pageType == "bookinfo"%>
 			<%if $eshortleadbody != ""%>
 				<%assign var="buyButton" value="<a class=\"icon-right\" target=_blank href=\"`$eshortleadbody`\"><button>立即购买</button></a>"%>
@@ -1726,6 +1730,13 @@
 
 <%assign var="pageHeadline" value=$storyHeadline|replace:"<br>":" | "%>
 <%assign var="shareTitle" value="`$pageHeadline` - FT中文网"%>
+<%*<!--MARK: - Calculate story headline prefix-->*%>
+<%if preg_match("/高端限免|17周年大视野精选/is",$keys)%>
+	<%assign var="storyHeadlinePrefix" value="【高端限免】"%>
+<%elseif preg_match("/限免/is",$keys)%>
+	<%assign var="storyHeadlinePrefix" value="【限免】"%>
+<%/if%>
+<%assign var="storyHeadline" value="`$storyHeadlinePrefix`$storyHeadline`"%>
 
 <%if $shouldReplaceInlineVideo == "yes"%>
 

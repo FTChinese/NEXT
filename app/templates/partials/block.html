@@ -1506,7 +1506,11 @@
 									<%if $inSponsor == "yes" || $itemType == "manual" || $itemType == ""%>
 										<%assign var="lockClass" value=""%>
 									<%/if%>
-									<%if $isInWhiteList == "yes" && $lockClass != ""%>
+									<%if preg_match("/高端限免|17周年大视野精选/is",$itemTagsString)%>
+										<%assign var="lockClass" value="free-to-read-vip"%>
+									<%elseif preg_match("/限免/is",$itemTagsString)%>
+										<%assign var="lockClass" value="free-to-read"%>
+									<%elseif $isInWhiteList == "yes" && $lockClass != ""%>
 										<%assign var="lockClass" value="unlocked whitelist"%>
 									<%/if%>
 
