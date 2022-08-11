@@ -1736,7 +1736,7 @@
 <%elseif preg_match("/限免/is",$keys)%>
 	<%assign var="storyHeadlinePrefix" value="【限免】"%>
 <%/if%>
-<%assign var="storyHeadline" value="`$storyHeadlinePrefix`$storyHeadline`"%>
+<%assign var="storyHeadline" value="`$storyHeadlinePrefix``$storyHeadline`"%>
 
 <%if $shouldReplaceInlineVideo == "yes"%>
 

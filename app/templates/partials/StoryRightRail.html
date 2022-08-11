@@ -125,13 +125,13 @@
 	<%if $story.tag|@count>=1%>
 		<%assign var="allTags" value=$story.tag%>
 	<%elseif $itemType == "interactive" && $tag != "" && preg_match("/双语阅读/is",$tag)%>
-		<%assign var="myTag" value=$tag|regex_replace:"/，/":","|regex_replace:"/,[\s\t]+/":","|regex_replace:"/去广告|单页|透明|置顶|白底|靠右|沉底|资料|突发|插图|高清|interactive_search|高清|科技|QuizPlus|单选题|SurveyPlus|置顶|低调|精华|小测|生活时尚|测试|视频|新闻|FTLifeOfASong|Podcast|播音员朗读|AI合成|科技|双语阅读|高端专享|订户专享|会员专享|双语电台|NoCopyrightCover|AITranslation|FTArticle|IsEdited/":""|regex_replace:"/,+/":","|regex_replace:"/^,/":""|regex_replace:"/,$/":""%>
+		<%assign var="myTag" value=$tag|regex_replace:"/，/":","|regex_replace:"/,[\s\t]+/":","|regex_replace:"/去广告|单页|透明|置顶|白底|靠右|沉底|资料|突发|插图|高清|interactive_search|高清|科技|QuizPlus|单选题|SurveyPlus|置顶|低调|精华|小测|生活时尚|测试|视频|新闻|FTLifeOfASong|Podcast|播音员朗读|AI合成|科技|双语阅读|高端专享|订户专享|会员专享|双语电台|高端限免|限免|NoCopyrightCover|AITranslation|FTArticle|IsEdited/":""|regex_replace:"/,+/":","|regex_replace:"/^,/":""|regex_replace:"/,$/":""%>
 		<%assign var="allTags" value=","|explode:$myTag%>
 	<%/if%>
 
 	<%php%>
 		function shouldKeep($tag) {
-			$reservedWords = ["去广告","单页","透明","置顶","白底","靠右","沉底","资料","突发","插图","高清","interactive_search","高清","科技","QuizPlus","单选题","SurveyPlus","置顶","低调","精华","小测","生活时尚","测试","视频","新闻","FTLifeOfASong","Podcast","播音员朗读","AI合成","科技","双语阅读","高端专享","订户专享","会员专享","双语电台","NoCopyrightCover","AITranslation","FTArticle","IsEdited", ""];
+			$reservedWords = ["去广告","单页","透明","置顶","白底","靠右","沉底","资料","突发","插图","高清","interactive_search","高清","科技","QuizPlus","单选题","SurveyPlus","置顶","低调","精华","小测","生活时尚","测试","视频","新闻","FTLifeOfASong","Podcast","播音员朗读","AI合成","科技","双语阅读","高端专享","订户专享","会员专享","双语电台","高端限免","限免","NoCopyrightCover","AITranslation","FTArticle","IsEdited", ""];
 			return !in_array($tag, $reservedWords);
 		}
 		$allTags = $this->get_template_vars('allTags');
