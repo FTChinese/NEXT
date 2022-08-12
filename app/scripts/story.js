@@ -2,6 +2,18 @@
 /*Global Variables*/
 var fontOptionsEle;
 var fs;
+
+function updateFontClass(currentClass) {
+    var fontClasses = ['normal', 'bigger', 'biggest', 'smaller', 'smallest'];
+    var storyContainers = document.querySelectorAll('.story-container');
+    for (var i = 0; i < storyContainers.length; i++) {
+        for (var k = 0; k < fontClasses.length; k++) {
+            storyContainers[i].classList.remove(fontClasses[k]);
+        }
+        storyContainers[i].classList.add(currentClass);
+    }
+}
+
 function changeFontSize() {
     // MARK: set font
     fontOptionsEle = document.getElementById('font-options');
@@ -10,8 +22,9 @@ function changeFontSize() {
     fontOptionsEle.onclick = function (e) {
         var currentClass = e.target.className || '';
         var selectedClass;
-        var storyContainerClass = document.querySelector('.story-container').className;
-        if (currentClass.indexOf('selected') <0) {
+        if (currentClass.indexOf('selected') === -1) {
+            currentClass = currentClass.replace(/ .*$/g, '');
+            console.log(currentClass);
             if (fontOptionsEle.querySelector('.selected')) {
                 selectedClass = fontOptionsEle.querySelector('.selected').className || '';
             } else {
@@ -21,15 +34,11 @@ function changeFontSize() {
             if (fontOptionsEle.querySelector('.selected')) {
                 fontOptionsEle.querySelector('.selected').className = selectedClass;
             }
-            e.target.className = currentClass + ' selected';
+            e.target.classList.add('selected');
             /* jshint ignore:start */
             SetCookie('fs',currentClass,'','/');
             /* jshint ignore:end */
-            storyContainerClass = storyContainerClass.replace(/ (normal|bigger|biggest|smaller|smallest)/g,'');
-            var storyContainers = document.querySelectorAll('.story-container');
-            for (var i = 0; i < storyContainers.length; i++) {
-                storyContainers[i].className = storyContainerClass + ' ' + currentClass;
-            }
+            updateFontClass(currentClass);
             stickyBottomPrepare();
             stickyAdsPrepare();
             setResizeClass();
@@ -42,15 +51,7 @@ function checkFontSize(forceFontSize) {
     SetCookie(fs);
     if (typeof fs === 'string' && fs !== null && fs !== '' && document.getElementById('font-options') && document.querySelector('.story-container')) {
         document.getElementById('font-options').querySelector('.' + fs.replace(/ /g, '.')).className = fs + ' selected';
-        var fontClasses = ['smallest', 'smaller', 'normal', 'bigger', 'biggest'];
-        var storyClasses = document.querySelector('.story-container').className;
-        for (var i=0; i<fontClasses.length; i++) {
-            storyClasses = storyClasses.replace(' ' + fontClasses[i], '');
-        }
-        var storyContainers = document.querySelectorAll('.story-container');
-        for (var j = 0; j < storyContainers.length; j++) {
-            storyContainers[j].className = storyClasses + ' ' + fs;
-        }
+        updateFontClass(fs);
         setResizeClass();
     } else {
         document.getElementById('font-setting').querySelector('.normal').className = 'normal selected';
