@@ -26,7 +26,10 @@ function changeFontSize() {
             SetCookie('fs',currentClass,'','/');
             /* jshint ignore:end */
             storyContainerClass = storyContainerClass.replace(/ (normal|bigger|biggest|smaller|smallest)/g,'');
-            document.querySelector('.story-container').className = storyContainerClass + ' ' + currentClass;
+            var storyContainers = document.querySelectorAll('.story-container');
+            for (var i = 0; i < storyContainers.length; i++) {
+                storyContainers[i].className = storyContainerClass + ' ' + currentClass;
+            }
             stickyBottomPrepare();
             stickyAdsPrepare();
             setResizeClass();
@@ -44,7 +47,10 @@ function checkFontSize(forceFontSize) {
         for (var i=0; i<fontClasses.length; i++) {
             storyClasses = storyClasses.replace(' ' + fontClasses[i], '');
         }
-        document.querySelector('.story-container').className = storyClasses + ' ' + fs;
+        var storyContainers = document.querySelectorAll('.story-container');
+        for (var j = 0; j < storyContainers.length; j++) {
+            storyContainers[j].className = storyClasses + ' ' + fs;
+        }
         setResizeClass();
     } else {
         document.getElementById('font-setting').querySelector('.normal').className = 'normal selected';
@@ -55,13 +61,10 @@ function checkFontSize(forceFontSize) {
 // MARK:Getting a random integer between two values.The maximum is exclusive and the minimum is inclusive
 
 
-
 try {
-checkFontSize();
-changeFontSize();
-} catch (ignore) {
-
-}
+    checkFontSize();
+    changeFontSize();
+} catch (ignore) {}
 
 var subscribeNow = document.getElementById('subscribe-now');
 var openApp = document.getElementById('open-app');
