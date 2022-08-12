@@ -24,7 +24,6 @@ function changeFontSize() {
         var selectedClass;
         if (currentClass.indexOf('selected') === -1) {
             currentClass = currentClass.replace(/ .*$/g, '');
-            console.log(currentClass);
             if (fontOptionsEle.querySelector('.selected')) {
                 selectedClass = fontOptionsEle.querySelector('.selected').className || '';
             } else {
