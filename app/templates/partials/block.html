@@ -660,7 +660,6 @@
 								<%elseif $tagImage != ""%>
 									<%assign var="itemImage" value=$tagImage%>
 								<%elseif $feedType == "all"%>
-									<!--story pic: <%$item.story_pic|@print_r%>--->
 									<%assign var="itemImage" value=$item.image.cover|default:$item.image.smallbutton|default:$item.image.other|default:$item.image.bigbutton|default:$item.story_pic.cover|default:$item.story_pic.smallbutton|default:$item.story_pic.other|default:$item.story_pic.bigbutton%>
 									<%*<!--MARK: - Don't try to optimize this! If you write this in one line, it won't work. This is one of the strange things about smarty. -->*%>
 									<%if $itemImage == ""%>
@@ -1385,8 +1384,9 @@
 									<%/if%>
 
 									<%assign var=isInWhiteList value="no"%>
-									<%*<!--MARK: - white list only applies to none-premium story-->*%>
-									<%if $whitelist != "" && !preg_match("/高端专享|会员专享/is",$itemTagsString) && $itemType != "premium"%>
+									<%*<!--MARK: - white list now applies to all types of content, including story, premium story, interactive, etc...-->*%>
+									<%*if $whitelist != "" && !preg_match("/高端专享|会员专享/is",$itemTagsString) && $itemType != "premium"*%>
+									<%if $whitelist != ""%>
 										<%foreach from=$itemTags item=tag%>
 											<%if preg_match("/\|`$tag`\|/is","|`$whitelist`|")%>
 												<%assign var=isInWhiteList value="yes"%>
@@ -1454,6 +1454,9 @@
 											<%assign var="itemDataType" value="TryBook"%>
 											<%assign var="lockClass" value="locked"%>
 										<%/if%>
+										<%if $isInWhiteList == "yes"%>
+											<%assign var="itemTagsString" value=$itemTagsString|replace:"高端专享":""|replace:"会员专享":""|replace:",,":","%>
+										<%/if%>
 										<%assign var="itemData" value=" data-id=\"`$itemDataId`\" data-type=\"`$itemDataType`\"`$audioData``$caudioData``$eaudioData``$subTypeData``$dateData` data-keywords=\"`$itemTagsString`\""%>
 
 										<%*<!--MARK: - Some time the ad sales requested to extend the home page just to squeeze in more ads. There's nothing we can do about it. But to minimize the damage by not prefetch stories of the extended parts.  -->*%>
@@ -1506,12 +1509,13 @@
 									<%if $inSponsor == "yes" || $itemType == "manual" || $itemType == ""%>
 										<%assign var="lockClass" value=""%>
 									<%/if%>
+
 									<%if preg_match("/高端限免|17周年大视野精选/is",$itemTagsString)%>
 										<%assign var="lockClass" value="free-to-read-vip"%>
 									<%elseif preg_match("/限免/is",$itemTagsString)%>
 										<%assign var="lockClass" value="free-to-read"%>
 									<%elseif $isInWhiteList == "yes" && $lockClass != ""%>
-										<%assign var="lockClass" value="unlocked whitelist"%>
+										<%assign var="lockClass" value="whitelist"%>
 									<%/if%>
 
 									<%*<!--MARK: - Convenient for Editing -->*%>
