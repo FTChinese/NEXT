@@ -2315,6 +2315,12 @@
 	<%/if%>
 <%/if%>
 
+<%if $storyHeroThemeClass != ""%>
+	<%assign var="StoryHeaderBodyClass" value=" show-story-hero-container"%>
+<%elseif $authorHeadshot != ""%>
+	<%assign var="StoryHeaderBodyClass" value=" show-story-columnist-topper"%>
+<%/if%>
+
 <%*<!--MARK: if story has image embeded-->*%>
 <%if preg_match("/<div class=\"pic/is",$story_content)%>
 	<%assign var="hasPictureClass" value="has-picture"%>
@@ -2323,7 +2329,7 @@
 
 <%if $smarty.get.bodyonly != "yes" || $isAndroidApp == "yes"%>
 <!DOCTYPE html>
-<html class="no-js core<%if $isAndroidApp == "yes"%> is-android-app<%/if%><%if $smarty.get.webview == "ftcapp"%> is-ftc-app<%/if%><%$fullGridClass%><%$scrollyTellingClass%><%$useJustifyClass%><%if $smarty.get.device == "iPad"%> is-ipad-app<%/if%>">
+<html class="no-js core<%if $isAndroidApp == "yes"%> is-android-app<%/if%><%if $smarty.get.webview == "ftcapp"%> is-ftc-app<%/if%><%$fullGridClass%><%$StoryHeaderBodyClass%><%$scrollyTellingClass%><%$useJustifyClass%><%if $smarty.get.device == "iPad"%> is-ipad-app<%/if%>">
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
