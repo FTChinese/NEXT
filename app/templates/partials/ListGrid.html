@@ -372,8 +372,20 @@
         <%*<!--item item stamp end 01-->*%>
 
 
+        <%assign var=isInWhiteList value="no"%>
+        <%if $whitelist != ""%>
+        <%foreach from=$itemTags item=tag%>
+            <%if preg_match("/\|`$tag`\|/is","|`$whitelist`|")%>
+                <%assign var=isInWhiteList value="yes"%>
+            <%/if%>
+        <%/foreach%>
+        <%/if%>
+
+
         <%*<!--MARK: show the lock for paid content start-->*%>
-        <%if $list.feedType == "premium" || $item.type == "premium" || $itemType == "premium" || $paywall == "1" || ($itemType == "interactive" && preg_match("/英语电台|速读|会员专享|高端专享/is",$itemTagsString)) || ($itemType == "story" && $timeMath > 60*60*24)%>
+        <%if $isInWhiteList == "yes"%>
+            <%assign var="lockClass" value=""%>
+        <%elseif $list.feedType == "premium" || $item.type == "premium" || $itemType == "premium" || $paywall == "1" || ($itemType == "interactive" && preg_match("/英语电台|速读|会员专享|高端专享/is",$itemTagsString)) || ($itemType == "story" && $timeMath > 60*60*24)%>
             <%assign var="lockClass" value="locked"%>
             <%if preg_match("/高端专享/is",$itemTagsString)%>
                 <%assign var="lockClass" value="locked vip"%>
@@ -460,14 +472,6 @@
             <%else%>
                 <%assign var="subTypeData" value=""%>
             <%/if%>
-            <%assign var=isInWhiteList value="no"%>
-            <%if $whitelist != ""%>
-                <%foreach from=$itemTags item=tag%>
-                    <%if preg_match("/`$tag`/is",$whitelist)%>
-                        <%assign var=isInWhiteList value="yes"%>
-                    <%/if%>
-                <%/foreach%>
-            <%/if%>
             <%*<!--MARK: Only story needs to show date here-->*%>
             <%if $inSponsor != "yes" && $itemT != "" && $itemType == "story" && $isInWhiteList == "no"%>
                 <%assign var="dateData" value=" data-date=\"`$itemT`\""%>
@@ -482,6 +486,9 @@
             <%if $smarty.get.try == "yes" && ($i>2 || ($l>0 && $i>0))%>
                 <%assign var="itemDataType" value="TryBook"%>
                 <%assign var="lockClass" value="locked"%>
+            <%/if%>
+            <%if $isInWhiteList == "yes"%>
+                <%assign var="itemTagsString" value=$itemTagsString|replace:"高端专享":""|replace:"会员专享":""|replace:",,":","%>
             <%/if%>
             <%assign var="itemData" value=" data-id=\"`$itemDataId`\" data-type=\"`$itemDataType`\"`$audioData``$caudioData``$eaudioData``$subTypeData``$dateData` data-keywords=\"`$itemTagsString`\""%>
             <%assign var="itemLink" value=""%>

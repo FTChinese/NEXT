@@ -265,9 +265,8 @@ function runLoadImages() {
     }
 
     // console.log(`shouldLoadImage: ${shouldLoadImage}`);
+    // console.log (imageUrl);
 
-  //   console.log (imageUrl);
-  // console.log (shouldLoadImage);
     if (shouldLoadImage === true) {
       // imageUrlBack = imageUrl;
       figuresLazy[i] = {
@@ -927,7 +926,7 @@ function checkScrollyTelling() {
       if (isScrollableSlideInView) {
         firstScrollableSlidesInView = scrollableSlides[i];
         var slideId = firstScrollableSlidesInView.getAttribute('data-id');
-        console.log(slideId);
+        // console.log(slideId);
         var currentBlock = firstScrollableSlidesInView.closest('.scrollable-block');
         var currentImages = currentBlock.querySelectorAll('.scrolly-telling-viewport figure, .scrolly-telling-viewport picture');
         for (var j=0; j<currentImages.length; j++) {
@@ -1488,7 +1487,7 @@ updateStickyRightRail();
         ea = ea + ' ' + deviceType;
         var el = window.userId + ':' + uniqueId;
         gtag('event', ea, {'event_label': el, 'event_category': ec, 'non_interaction': true});
-        console.log('ea: ' + ea + ', el: ' + el);
+        // console.log('ea: ' + ea + ', el: ' + el);
         if (typeof webkit === 'object') {
           var message = {title: ea, message: el};
           webkit.messageHandlers.print.postMessage(message);
@@ -1496,6 +1495,6 @@ updateStickyRightRail();
     };
     xhr.send(JSON.stringify(message));
   } catch(err) {
-    console.log(err);
+    // console.log(err);
   }
 })();
