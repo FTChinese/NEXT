@@ -130,7 +130,6 @@
                         <%/if%>
                     <%/foreach%>
                 </div>
-
             <%/if%>
             <%if $section.type == "block"%>
                 <%foreach from=$section.lists item=list%>
@@ -143,7 +142,9 @@
                             <%if $item.id != ""%>
                                 <div class="article-url">原文地址：https://www.ftchinese.com/<%$item.type%>/<%$item.id%></div>
                             <%/if%>
-                            <div class="article-image"><img src="<%$item.image|replace:"/upload/":"/"|replace:"/unsafe/picture/":"/unsafe/728x0/picture/"%>"></div>
+                            <%if $item.image != ""%>
+                                <div class="article-image"><img src="<%$item.image|replace:"/upload/":"/"|replace:"/unsafe/picture/":"/unsafe/728x0/picture/"%>"></div>
+                            <%/if%>
                             <%assign var="storyBody" value=$contentInfo.cbody%>
                             <%assign var="storyBody" value=$storyBody|regex_replace:"/<p>[_-]+<\/p>/":"<hr/><br/>"%>
                             <%if $item.type == "interactive"%>

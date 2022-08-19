@@ -600,6 +600,22 @@ function formatDuration(seconds) {
     return result;
 }
 
+function getUpdatedDict() {
+    var dict = {};
+    var nameEntities = document.querySelectorAll('.name-entity-inner');
+    for (var i = 0; i < nameEntities.length; i++) {
+        var nameEntity = nameEntities[i];
+        var key = nameEntity.getAttribute('data-key');
+        if (!key || key === '') {continue;}
+        var value = nameEntity.querySelector('input').value;
+        if (!value || value === '') {continue;}
+        dict[key] = [value];
+    }
+    var result = JSON.stringify(dict);
+    console.log(result);
+    return result;
+}
+
 function finishTranslation() {
     try {
         saveToLocal(true);
@@ -668,6 +684,9 @@ function finishTranslationForArticle() {
         var ebodyEle = window.opener.document.getElementById('ebody');
         ebodyEle.disabled = false;
         ebodyEle.value = cleanEnglishText;
+        var cshortleadbodyEle = window.opener.document.getElementById('cshortleadbody');
+        cshortleadbodyEle.disabled = false;
+        cshortleadbodyEle.value = getUpdatedDict();
         for (var k=0; k<titlesInfo.length; k++) {
             var id = titlesInfo[k].id;
             var value = titlesInfo[k].value;
@@ -718,6 +737,9 @@ function finishReview() {
             cbodyEle.disabled = false;
             cbodyEle.value = cbody;
         }
+        var cshortleadbodyEle = window.opener.document.getElementById('cshortleadbody');
+        cshortleadbodyEle.disabled = false;
+        cshortleadbodyEle.value = getUpdatedDict();
     }
     return true;
 }
@@ -815,6 +837,26 @@ function getNameEntities(english, translation, minLength) {
             goodMatches.push(oneMatch);
         }
     }
+    // MARK: - In review mode, add the words that are in the dict. 
+    if (isReviewMode && typeof dict === 'object') {
+        var existingKeys = new Set();
+        for (var m = 0; m < goodMatches.length; m++) {
+            existingKeys.add(goodMatches.key);
+            for (n = 0; n < goodMatches[m].parts.length; n++) {
+                existingKeys.add(goodMatches[m].parts[n].key);
+            }
+        }
+        var dictKeys = Object.keys(dict);
+        for (var p = 0; p < dictKeys.length; p++) {
+            var key = dictKeys[p];
+            if (existingKeys.has(key)) {continue;}
+            goodMatches.push({
+                key: key,
+                appear: 1,
+                parts: []
+            });
+        }
+    }
     return goodMatches;
 }
 
@@ -833,7 +875,7 @@ function showNames() {
         translation += translations[m].innerHTML;
     }
     var nameEntities = getNameEntities(ebody, translation, 2);
-    console.log(nameEntities);
+    // console.log(nameEntities);
     if (!nameEntities || nameEntities.length === 0) {return;}
     var infoOriginals = document.querySelectorAll('.info-original');
     for (var i = 0; i < infoOriginals.length; i++) {
@@ -874,16 +916,21 @@ function showNames() {
                 infoContainer.querySelector('.info-helper').append(nameEntitiesContainer);
             }
             for (var n=0; n<matchedKeys.length; n++) {
-                if (insertedKeySet.has(matchedKeys[n])) {continue;}
-                insertedKeySet.add(matchedKeys[n]);
+                var key = matchedKeys[n];
+                if (insertedKeySet.has(key)) {continue;}
+                insertedKeySet.add(key);
                 var nameEle = document.createElement('DIV');
                 nameEle.className = 'name-entity-inner';
-                nameEle.setAttribute('data-key', matchedKeys[n]);
-                nameEle.innerHTML = '<span class="name-entity-key">' + matchedKeys[n] + '</span><span><input type="text" value="" placeholder="填写统一译法，开启提醒"></span><span><button class="ignore-name-entity">忽略</button><span>';
+                nameEle.setAttribute('data-key', key);
+                var value = '';
+                if (isReviewMode && dict[key] && dict[key].length === 1 && dict[key][0] !== '') {
+                    value = dict[key][0];
+                }
+                nameEle.innerHTML = '<span class="name-entity-key">' + key + '</span><span><input type="text" value="' + value + '" placeholder="填写统一译法，开启提醒"></span><span><button class="ignore-name-entity">忽略</button><span>';
                 nameEntitiesContainer.appendChild(nameEle);
                 var translationEle = document.createElement('DIV');
                 translationEle.className = 'name-entity-translation';
-                translationEle.setAttribute('data-key', matchedKeys[n]);
+                translationEle.setAttribute('data-key', key);
                 nameEntitiesContainer.appendChild(translationEle);                
             }
         }

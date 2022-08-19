@@ -1,12 +1,23 @@
 @import "theme-default.scss";
 @import "variables.scss";
+
+.show-story-hero-container-site {
+    .o-nav__placeholder {
+        margin-bottom: 0!important;
+    }
+    .o-ads {
+        &[data-o-ads-loaded][data-o-ads-name="banner1"] {
+            margin-top: $defaultPadding;
+        }
+    }
+}
+
 .story-hero-container {
     width: 100%;
     height: 600px;
     position: relative;
     background-color: black;
     margin-bottom: 30px;
-    margin-top: -30px;
     &.story-hero-theme-pink {
         background-color: $pinkBGFT;
         button {

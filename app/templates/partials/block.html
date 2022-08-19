@@ -1506,9 +1506,6 @@
 									<%else%>
 										<%assign var="lockClass" value=""%>
 									<%/if%>
-									<%if $inSponsor == "yes" || $itemType == "manual" || $itemType == ""%>
-										<%assign var="lockClass" value=""%>
-									<%/if%>
 
 									<%if preg_match("/高端限免|17周年大视野精选/is",$itemTagsString)%>
 										<%assign var="lockClass" value="free-to-read-vip"%>
@@ -1516,6 +1513,10 @@
 										<%assign var="lockClass" value="free-to-read"%>
 									<%elseif $isInWhiteList == "yes" && $lockClass != ""%>
 										<%assign var="lockClass" value="whitelist"%>
+									<%/if%>
+
+									<%if $itemType == "manual" || $itemType == ""%>
+										<%assign var="lockClass" value=""%>
 									<%/if%>
 
 									<%*<!--MARK: - Convenient for Editing -->*%>
