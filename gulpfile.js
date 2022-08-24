@@ -70,7 +70,7 @@ gulp.task('origami', () => {
         .then(response => {
           var body = response.body;
           if (module.source.indexOf('o-ads') >= 0) {
-            body = body.replace(/www\.googletagservices\.com\/tag\/js\/gpt\.js/g, 'd2ctehu9gm78k2.cloudfront.net/js/gpt.js');
+            body = body.replace(/www\.googletagservices\.com\/tag\/js\/gpt\.js/g, 'd2785ji6wtdqx8.cloudfront.net/js/gpt.js');
           }
           return {
             dest: module.dest,
@@ -289,23 +289,21 @@ gulp.task('copy:cssjs', () => {
   const staticDest = 'dev_www/frontend/static/n';
   const cssDest = 'dev_www/frontend/tpl/next/styles';
   const jsDest = 'dev_www/frontend/tpl/next/scripts';
+  const legacyJSSrc = 'dev_www/frontend/static/js';
   
 
   let cssStream = gulp.src(['app/origami/*.css', 'dist/styles/*.css'])
     .pipe(gulp.dest(`../${staticDest}`))
     .pipe(gulp.dest(`../${cssDest}`));
-    //.pipe(gulp.dest(`../testing/${cssDest}`));
-
-  // let partialsCssStream = gulp.src('dist/styles/partials/*.css')
-  //   .pipe(gulp.dest(`../${cssDest}`))
-  //   .pipe(gulp.dest(`../testing/${cssDest}`));
 
   let jsStream = gulp.src(['app/origami/*.js', 'dist/scripts/*.js'])
     .pipe(gulp.dest(`../${staticDest}`))
     .pipe(gulp.dest(`../${jsDest}`));
-    // .pipe(gulp.dest(`../testing/${staticDest}`))
-    // .pipe(gulp.dest(`../testing/${jsDest}`));
-  return merge(cssStream, jsStream);
+
+  let legacyJSStream = gulp.src([`../${legacyJSSrc}/*.js`])
+    .pipe(gulp.dest(`../${jsDest}`));
+
+  return merge(cssStream, jsStream, legacyJSStream);
 });
 
 gulp.task('copy:marketing', () => {
