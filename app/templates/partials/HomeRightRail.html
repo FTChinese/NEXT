@@ -403,7 +403,7 @@
 		</div>
 
 
-		<%if $smarty.get.display == "nikkei"%>
+		<%if $smarty.get.display == "nikkei" || date("Ymd",$smarty.now) >= 20220905%>
 			<%assign var="nikkeiSqlQuery" value="find_in_set('日经中文网精选',tag)"%>
 			<%assign var="nikkeiItems" value=$interactivemodel->get_interactive_by_field_search($nikkeiSqlQuery,0,3,30,10800)%>
 			<div class="interactives P-hide nikkei-container">
