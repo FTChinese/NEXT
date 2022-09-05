@@ -41,6 +41,15 @@
     <%assign var="marker" value=$p.meta.marker%>
 <%/if%>
 
+<%*<!--MARK: - campaign pages need to have expire times-->*%>
+<%assign var="pageExpired" value="no"%>
+<%if $p.meta.PageExpire != ""%>
+    <%assign var=currentTime value=$smarty.now%>
+    <%assign var=expireTime value=$p.meta.PageExpire|strtotime%>
+    <%if $currentTime >= $expireTime%>
+        <%assign var="pageExpired" value="yes"%>
+    <%/if%>
+<%/if%>
 
 <%*<!--MARK: - This has to be replicated to multiple templates as this version of smarty doesn't support global scoop in included file-->*%>
 <%if $topnav == ""%>

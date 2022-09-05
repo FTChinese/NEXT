@@ -1,67 +1,69 @@
-<%*<!--MARK: - Don't do this using PHP's get, the memcache will messy it up. -->*%>
-<%assign var="isiOS" value="no"%>
-<%if $smarty.get.webview == "ftcapp" && $smarty.get.android == ""%>
-  <%assign var="isiOS" value="yes"%>
-<%/if%>
-<%assign var="ccode" value=$section.ccode%>
-<%if $smarty.get.ccode != ""%>
-  <%assign var="ccode" value=$smarty.get.ccode%>
-<%/if%>
-<%assign var="itemType" value=""%>
-<%assign var="itemId" value=""%>
-<%if $smarty.get.story != ""%>
-  <%assign var="itemType" value="story"%>
-  <%assign var="itemId" value=$smarty.get.story%>
-<%elseif $smarty.get.interactive != ""%>
-  <%assign var="itemType" value="interactive"%>
-  <%assign var="itemId" value=$smarty.get.interactive%>
-<%elseif $smarty.get.premium != ""%>
-  <%assign var="itemType" value="premium"%>
-  <%assign var="itemId" value=$smarty.get.premium%>
-<%elseif $smarty.get.video != ""%>
-  <%assign var="itemType" value="video"%>
-  <%assign var="itemId" value=$smarty.get.video%>
-<%/if%>
+<%if $section.ShowForPageExpiration == "" || $section.ShowForPageExpiration == "All" || ($section.ShowForPageExpiration == "Running" && $pageExpired != "yes") || ($section.ShowForPageExpiration == "Expired" && $pageExpired == "yes")%>
+  <%*<!--MARK: - Don't do this using PHP's get, the memcache will messy it up. -->*%>
+  <%assign var="isiOS" value="no"%>
+  <%if $smarty.get.webview == "ftcapp" && $smarty.get.android == ""%>
+    <%assign var="isiOS" value="yes"%>
+  <%/if%>
+  <%assign var="ccode" value=$section.ccode%>
+  <%if $smarty.get.ccode != ""%>
+    <%assign var="ccode" value=$smarty.get.ccode%>
+  <%/if%>
+  <%assign var="itemType" value=""%>
+  <%assign var="itemId" value=""%>
+  <%if $smarty.get.story != ""%>
+    <%assign var="itemType" value="story"%>
+    <%assign var="itemId" value=$smarty.get.story%>
+  <%elseif $smarty.get.interactive != ""%>
+    <%assign var="itemType" value="interactive"%>
+    <%assign var="itemId" value=$smarty.get.interactive%>
+  <%elseif $smarty.get.premium != ""%>
+    <%assign var="itemType" value="premium"%>
+    <%assign var="itemId" value=$smarty.get.premium%>
+  <%elseif $smarty.get.video != ""%>
+    <%assign var="itemType" value="video"%>
+    <%assign var="itemId" value=$smarty.get.video%>
+  <%/if%>
 
-<%assign var="standardBuyLink" value=$nextmodel->getBuyLink("standard", "yearly", $section.discount, $section.discountCode, $ccode, $isiOS, $itemType, $itemId)%>
-<%assign var="premiumBuyLink" value=$nextmodel->getBuyLink("premium", "yearly", $section.discount, $section.discountCode, $ccode, $isiOS, $itemType, $itemId)%>
-<%if $smarty.get.webview == "ftcapp" && $smarty.get.android == ""%>
-    <%*<!--MARK: For ios html validation-->*%>
-    <div class="item-container"></div>
-<%/if%>
-<style><%include file="next/styles/main-fixed-buttons.css"%></style>
+  <%assign var="standardBuyLink" value=$nextmodel->getBuyLink("standard", "yearly", $section.discount, $section.discountCode, $ccode, $isiOS, $itemType, $itemId)%>
+  <%assign var="premiumBuyLink" value=$nextmodel->getBuyLink("premium", "yearly", $section.discount, $section.discountCode, $ccode, $isiOS, $itemType, $itemId)%>
+  <%if $smarty.get.webview == "ftcapp" && $smarty.get.android == ""%>
+      <%*<!--MARK: For ios html validation-->*%>
+      <div class="item-container"></div>
+  <%/if%>
+  <style><%include file="next/styles/main-fixed-buttons.css"%></style>
 
-<%assign var=buttonsContainerBG value=""%>
-<%if $section.backgroundColor != ""%>
-  <%assign var=buttonsContainerBG value=" style=\"background-color: `$section.backgroundColor`\""%>
-<%/if%>
-<%assign var=leftButtonBG value="#9e2f50"%>
-<%if $section.leftButtonBG != ""%>
-  <%assign var=leftButtonBG value=$section.leftButtonBG%>
-<%/if%>
-<%assign var=leftButtonColor value="white"%>
-<%if $section.leftButtonColor != ""%>
-  <%assign var=leftButtonColor value=$section.leftButtonColor%>
-<%/if%>
-<%if $section.rightButtonBG != "#50a2b1"%>
-  <%assign var=rightButtonBG value=$section.rightButtonBG%>
-<%/if%>
-<%assign var=rightButtonColor value="white"%>
-<%if $section.rightButtonColor != ""%>
-  <%assign var=rightButtonColor value=$section.rightButtonColor%>
-<%/if%>
+  <%assign var=buttonsContainerBG value=""%>
+  <%if $section.backgroundColor != ""%>
+    <%assign var=buttonsContainerBG value=" style=\"background-color: `$section.backgroundColor`\""%>
+  <%/if%>
+  <%assign var=leftButtonBG value="#9e2f50"%>
+  <%if $section.leftButtonBG != ""%>
+    <%assign var=leftButtonBG value=$section.leftButtonBG%>
+  <%/if%>
+  <%assign var=leftButtonColor value="white"%>
+  <%if $section.leftButtonColor != ""%>
+    <%assign var=leftButtonColor value=$section.leftButtonColor%>
+  <%/if%>
+  <%if $section.rightButtonBG != "#50a2b1"%>
+    <%assign var=rightButtonBG value=$section.rightButtonBG%>
+  <%/if%>
+  <%assign var=rightButtonColor value="white"%>
+  <%if $section.rightButtonColor != ""%>
+    <%assign var=rightButtonColor value=$section.rightButtonColor%>
+  <%/if%>
 
-<div class="fixed-buttons-placeholder"><div class="fixed-buttons"<%$buttonsContainerBG%>>
-    <%if $section.lists && $section.lists|@count > 0%>
-      <%foreach from=$section.lists item=button%>
-        <%assign var="click" value=$button.click%>
-        <%if $button.click == ""%>
-          <%assign var="click" value=$nextmodel->getBuyLink($button.subscription, $button.duration, $section.discount, $button.discountCode, $ccode, $isiOS, $itemType, $itemId)%>
-        <%/if%>
-        <a href="<%$click%>" target="_blank" class="fixed-button-link" data-subscription="<%$button.subscription%>" data-duration="<%$button.duration%>" data-discountCode="<%$button.discountCode%>" data-ccode="<%$ccode%>"><button style="background-color: <%$button.BackgroundColor%>; color: <%$button.buttonColor%>!important;"><%$button.title%></button></a>
-      <%/foreach%>
-    <%else%>
-      <a href="<%$standardBuyLink%>" target="_blank"><button style="background-color: <%$leftButtonBG%>; color: <%$leftButtonColor%>!important;">订阅标准会员</button></a>
-      <a href="<%$premiumBuyLink%>" target="_blank"><button style="background-color: <%$rightButtonBG%>; color: <%$rightButtonColor%>!important;">订阅高端会员</button></a>
-    <%/if%>
-</div></div>
+  <div class="fixed-buttons-placeholder"><div class="fixed-buttons"<%$buttonsContainerBG%>>
+      <%if $section.lists && $section.lists|@count > 0%>
+        <%foreach from=$section.lists item=button%>
+          <%assign var="click" value=$button.click%>
+          <%if $button.click == ""%>
+            <%assign var="click" value=$nextmodel->getBuyLink($button.subscription, $button.duration, $section.discount, $button.discountCode, $ccode, $isiOS, $itemType, $itemId)%>
+          <%/if%>
+          <a href="<%$click%>" target="_blank" class="fixed-button-link" data-subscription="<%$button.subscription%>" data-duration="<%$button.duration%>" data-discountCode="<%$button.discountCode%>" data-ccode="<%$ccode%>"><button style="background-color: <%$button.BackgroundColor%>; color: <%$button.buttonColor%>!important;"><%$button.title%></button></a>
+        <%/foreach%>
+      <%else%>
+        <a href="<%$standardBuyLink%>" target="_blank"><button style="background-color: <%$leftButtonBG%>; color: <%$leftButtonColor%>!important;">订阅标准会员</button></a>
+        <a href="<%$premiumBuyLink%>" target="_blank"><button style="background-color: <%$rightButtonBG%>; color: <%$rightButtonColor%>!important;">订阅高端会员</button></a>
+      <%/if%>
+  </div></div>
+<%/if%>

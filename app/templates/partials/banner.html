@@ -1,147 +1,146 @@
-<%if $smarty.get.utm_campaign == "2M161000" || preg_match("/2U16[0-9]+/is",$smarty.get.utm_campaign) || $smarty.get.device == "iPad"%>
-  <%assign var="hideBanner" value="yes"%>
-<%/if%>
-
-
-
-<%if $smarty.get.ad != "no" && $noAd != "true" && $hideBanner != "yes"%>
-    <%if $section.url && $section.url != ""%>
-        <%assign var="sectionLink" value=" href=\"`$section.url`\" target=_blank"%>
-    <%else%>
-        <%assign var="sectionLink" value=""%>
+<%if $section.ShowForPageExpiration == "" || $section.ShowForPageExpiration == "All" || ($section.ShowForPageExpiration == "Running" && $pageExpired != "yes") || ($section.ShowForPageExpiration == "Expired" && $pageExpired == "yes")%>
+    <%if $smarty.get.utm_campaign == "2M161000" || preg_match("/2U16[0-9]+/is",$smarty.get.utm_campaign) || $smarty.get.device == "iPad"%>
+        <%assign var="hideBanner" value="yes"%>
     <%/if%>
-    
-    <%if $section.image && $section.image != "" && $section.fit != ""%>
-        <%assign var="figureClass" value=" `$section.fit`"%>
-    <%else%>
-        <%assign var="figureClass" value=""%>
-    <%/if%>
-
-    <%assign var="image1" value=$section.image|default:$section.highImpactImage%>
-    <%assign var="image2" value=$section.highImpactImage|default:$section.image%>
-    <%assign var="blockStyle" value=""%>
-    <%if $section.maxWidth != "" && $section.maxWidth != "0"%>
-        <%assign var="blockStyle" value=" style=\"max-width: `$section.maxWidth`px; margin: auto;\""%>
-    <%/if%>
-
-    <%assign var="stickyClass" value=""%>
-    <%if $section.sticky != ""%>
-        <%assign var="stickyClass" value=" banner-sticky-`$section.sticky`"%>
-        <%assign var="stickyTopMobile" value="44"%>
-        <%if $smarty.get.webview == "ftcapp"%>
-            <%assign var="stickyTopMobile" value="0"%>
+    <%if $smarty.get.ad != "no" && $noAd != "true" && $hideBanner != "yes"%>
+        <%if $section.url && $section.url != ""%>
+            <%assign var="sectionLink" value=" href=\"`$section.url`\" target=_blank"%>
+        <%else%>
+            <%assign var="sectionLink" value=""%>
         <%/if%>
-        <style>
-            .banner-sticky-all {
-                position:sticky;
-                top:0;
-                z-index:2;
-            }
-            @media only screen and (max-width: 490px) {
-                .banner-sticky-mobile, .banner-sticky-all {
-                    position:sticky;
-                    top: <%$stickyTopMobile%>px;
-                    z-index:2;
-                }
-            }
-            @media only screen and (min-width: 491px) {
-                .banner-sticky-pc, .banner-sticky-all {
+        
+        <%if $section.image && $section.image != "" && $section.fit != ""%>
+            <%assign var="figureClass" value=" `$section.fit`"%>
+        <%else%>
+            <%assign var="figureClass" value=""%>
+        <%/if%>
+
+        <%assign var="image1" value=$section.image|default:$section.highImpactImage%>
+        <%assign var="image2" value=$section.highImpactImage|default:$section.image%>
+        <%assign var="blockStyle" value=""%>
+        <%if $section.maxWidth != "" && $section.maxWidth != "0"%>
+            <%assign var="blockStyle" value=" style=\"max-width: `$section.maxWidth`px; margin: auto;\""%>
+        <%/if%>
+
+        <%assign var="stickyClass" value=""%>
+        <%if $section.sticky != ""%>
+            <%assign var="stickyClass" value=" banner-sticky-`$section.sticky`"%>
+            <%assign var="stickyTopMobile" value="44"%>
+            <%if $smarty.get.webview == "ftcapp"%>
+                <%assign var="stickyTopMobile" value="0"%>
+            <%/if%>
+            <style>
+                .banner-sticky-all {
                     position:sticky;
                     top:0;
                     z-index:2;
                 }
-            }
-        </style>
-    <%/if%>
-
-    <%if $section.highImpactImage != "" && $section.image == "" && $section.fit == ""%>
-        <div class="block-image-container<%$stickyClass%>"<%$blockStyle%>>
-            <a<%$sectionLink%> class="track-click" data-ec="House Ad" data-ea="Click" data-el="<%$section.url%>">
-                <img class="P-only" src="<%$section.highImpactImage%>">
-            </a>
-        </div>
-    <%elseif $section.image && $section.image != "" && $section.fit == ""%>
-        <div class="block-image-container<%$stickyClass%>"<%$blockStyle%>>
-            <a<%$sectionLink%> class="track-click" data-ec="House Ad" data-ea="Click" data-el="<%$section.url%>">
-                <%if $section.highImpactImage == ""%>
-                    <img src="<%$section.image%>">
-                <%else%>
-                    <figure class="P-hide"><img src="<%$image1%>"></figure>
-                    <figure class="P-only"><img src="<%$image2%>"></figure>
-                <%/if%>
-            </a>
-        </div>
-    <%else%>
-        <%if $section.image == ""%>
-            <%if $bannerCount == 0%>
-                <div class="o-ads" data-o-ads-name="banner1"
-                data-o-ads-center="true" 
-                data-o-ads-formats-default="false" 
-                data-o-ads-formats-small="FtcMobileBanner" 
-                data-o-ads-formats-medium="false"
-                data-o-ads-formats-large="FtcLeaderboard"
-                data-o-ads-formats-extra="FtcLeaderboard"
-                data-o-ads-targeting="cnpos=top1;"
-                data-cy='[{"devices":["PC"],"pattern":"Leaderboard","position":"Num1"},{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"Banner","position":"Num1"}]'
-                >
-                </div>
-
-            <%elseif $bannerCount == 1%>
-                <div class="o-ads" data-o-ads-name="banner2"
-                data-o-ads-center="true" 
-                data-o-ads-formats-default="false"
-                data-o-ads-formats-small="FtcMobileBanner"
-                data-o-ads-formats-medium="false"
-                data-o-ads-formats-large="FtcBanner" 
-                data-o-ads-formats-extra="FtcBanner"
-                data-o-ads-targeting="cnpos=top2;"
-                data-cy='[{"devices":["PC"],"pattern":"Banner","position":"Num1"},{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"Banner","position":"Num2"}]'>
-                </div>
-            <%elseif $bannerCount == 2 %>
-                <script type="text/javascript">
-                    function sendJSONToFTC(jsonData) {
-                        var xhr = new XMLHttpRequest();
-                        xhr.open('POST', '/log/adlog.php');
-                        //xhr.withCredentials = true;
-                        xhr.setRequestHeader('Content-Type', 'application/json');
-                        xhr.send(JSON.stringify(jsonData));
+                @media only screen and (max-width: 490px) {
+                    .banner-sticky-mobile, .banner-sticky-all {
+                        position:sticky;
+                        top: <%$stickyTopMobile%>px;
+                        z-index:2;
                     }
-                </script>
-                <div class="o-ads" data-o-ads-name="banner3"
-                data-o-ads-center="true" 
-                data-o-ads-formats-default="false" 
-                data-o-ads-formats-small="FtcMobileBanner" 
-                data-o-ads-formats-medium="false"
-                data-o-ads-formats-large="FtcBanner" 
-                data-o-ads-formats-extra="FtcBanner"
-                data-o-ads-targeting="cnpos=top3;"
-                data-cy='[{"devices":["PC"],"pattern":"Banner","position":"Num2"}]'
-                >
+                }
+                @media only screen and (min-width: 491px) {
+                    .banner-sticky-pc, .banner-sticky-all {
+                        position:sticky;
+                        top:0;
+                        z-index:2;
+                    }
+                }
+            </style>
+        <%/if%>
+
+        <%if $section.highImpactImage != "" && $section.image == "" && $section.fit == ""%>
+            <div class="block-image-container<%$stickyClass%>"<%$blockStyle%>>
+                <a<%$sectionLink%> class="track-click" data-ec="House Ad" data-ea="Click" data-el="<%$section.url%>">
+                    <img class="P-only" src="<%$section.highImpactImage%>">
+                </a>
+            </div>
+        <%elseif $section.image && $section.image != "" && $section.fit == ""%>
+            <div class="block-image-container<%$stickyClass%>"<%$blockStyle%>>
+                <a<%$sectionLink%> class="track-click" data-ec="House Ad" data-ea="Click" data-el="<%$section.url%>">
+                    <%if $section.highImpactImage == ""%>
+                        <img src="<%$section.image%>">
+                    <%else%>
+                        <figure class="P-hide"><img src="<%$image1%>"></figure>
+                        <figure class="P-only"><img src="<%$image2%>"></figure>
+                    <%/if%>
+                </a>
+            </div>
+        <%else%>
+            <%if $section.image == ""%>
+                <%if $bannerCount == 0%>
+                    <div class="o-ads" data-o-ads-name="banner1"
+                    data-o-ads-center="true" 
+                    data-o-ads-formats-default="false" 
+                    data-o-ads-formats-small="FtcMobileBanner" 
+                    data-o-ads-formats-medium="false"
+                    data-o-ads-formats-large="FtcLeaderboard"
+                    data-o-ads-formats-extra="FtcLeaderboard"
+                    data-o-ads-targeting="cnpos=top1;"
+                    data-cy='[{"devices":["PC"],"pattern":"Leaderboard","position":"Num1"},{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"Banner","position":"Num1"}]'
+                    >
+                    </div>
+
+                <%elseif $bannerCount == 1%>
+                    <div class="o-ads" data-o-ads-name="banner2"
+                    data-o-ads-center="true" 
+                    data-o-ads-formats-default="false"
+                    data-o-ads-formats-small="FtcMobileBanner"
+                    data-o-ads-formats-medium="false"
+                    data-o-ads-formats-large="FtcBanner" 
+                    data-o-ads-formats-extra="FtcBanner"
+                    data-o-ads-targeting="cnpos=top2;"
+                    data-cy='[{"devices":["PC"],"pattern":"Banner","position":"Num1"},{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"Banner","position":"Num2"}]'>
+                    </div>
+                <%elseif $bannerCount == 2 %>
+                    <script type="text/javascript">
+                        function sendJSONToFTC(jsonData) {
+                            var xhr = new XMLHttpRequest();
+                            xhr.open('POST', '/log/adlog.php');
+                            //xhr.withCredentials = true;
+                            xhr.setRequestHeader('Content-Type', 'application/json');
+                            xhr.send(JSON.stringify(jsonData));
+                        }
+                    </script>
+                    <div class="o-ads" data-o-ads-name="banner3"
+                    data-o-ads-center="true" 
+                    data-o-ads-formats-default="false" 
+                    data-o-ads-formats-small="FtcMobileBanner" 
+                    data-o-ads-formats-medium="false"
+                    data-o-ads-formats-large="FtcBanner" 
+                    data-o-ads-formats-extra="FtcBanner"
+                    data-o-ads-targeting="cnpos=top3;"
+                    data-cy='[{"devices":["PC"],"pattern":"Banner","position":"Num2"}]'
+                    >
+                    </div>
+                <%elseif $bannerCount == 3 %>
+                    <div class="o-ads" data-o-ads-name="banner4"
+                    data-o-ads-center="true" 
+                    data-o-ads-formats-default="false" 
+                    data-o-ads-formats-small="FtcMobileBanner" 
+                    data-o-ads-formats-medium="false"
+                    data-o-ads-formats-large="FtcBanner" 
+                    data-o-ads-formats-extra="FtcBanner"
+                    data-o-ads-targeting="cnpos=top4;"
+                    data-cy='[{"devices":["PC"],"pattern":"Banner","position":"Num3"}]'
+                    >
+                    </div>
+                <%/if%>
+            <%else%>
+                <div class="bn-ph<%$figureClass%>">
+                <div class="banner-container">
+                <div class="banner-inner">
+                <div class="banner-content hide-sign">
+                <a<%$sectionLink%> class="P-hide"><figure class="loading" data-url="<%$image1%>"></figure></a>
+                <a<%$sectionLink%> class="P-only"><figure class="loading" data-url="<%$image2%>"></figure></a>
                 </div>
-            <%elseif $bannerCount == 3 %>
-                <div class="o-ads" data-o-ads-name="banner4"
-                data-o-ads-center="true" 
-                data-o-ads-formats-default="false" 
-                data-o-ads-formats-small="FtcMobileBanner" 
-                data-o-ads-formats-medium="false"
-                data-o-ads-formats-large="FtcBanner" 
-                data-o-ads-formats-extra="FtcBanner"
-                data-o-ads-targeting="cnpos=top4;"
-                data-cy='[{"devices":["PC"],"pattern":"Banner","position":"Num3"}]'
-                >
+                </div>
+                </div>
                 </div>
             <%/if%>
-        <%else%>
-            <div class="bn-ph<%$figureClass%>">
-            <div class="banner-container">
-            <div class="banner-inner">
-            <div class="banner-content hide-sign">
-              <a<%$sectionLink%> class="P-hide"><figure class="loading" data-url="<%$image1%>"></figure></a>
-              <a<%$sectionLink%> class="P-only"><figure class="loading" data-url="<%$image2%>"></figure></a>
-            </div>
-            </div>
-            </div>
-            </div>
         <%/if%>
     <%/if%>
 <%/if%>
