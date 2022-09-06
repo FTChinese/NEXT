@@ -131,7 +131,7 @@ delegate.on('change', '.name-entity-inner input', function(event) {
     for (var j=0; j<nameEntityTranslations.length; j++) {
         var element = nameEntityTranslations[j];
         if (value !== '') {
-            element.innerHTML = '<span class="name-entity-shortcut">' + value + '</span><span class="name-entity-shortcut">' + value + '(' + key + ')</span><button class="add-name-entity" title="将译法添加到词库">添加</button></span>'
+            element.innerHTML = '<span class="name-entity-shortcut">' + value + '</span><span class="name-entity-shortcut">' + value + '(' + key + ')</span><button class="add-name-entity" title="将译法添加到词库">添加</button></span>';
         } else {
             element.innerHTML = '';
         }
@@ -923,14 +923,17 @@ function showNames() {
                 nameEle.className = 'name-entity-inner';
                 nameEle.setAttribute('data-key', key);
                 var value = '';
+                var shortCutHTML = '';
                 if (isReviewMode && dict[key] && dict[key].length === 1 && dict[key][0] !== '') {
                     value = dict[key][0];
+                    shortCutHTML = '<span class="name-entity-shortcut">' + value + '</span><span class="name-entity-shortcut">' + value + '(' + key + ')</span><button class="add-name-entity" title="将译法添加到词库">添加</button></span>';
                 }
-                nameEle.innerHTML = '<span class="name-entity-key">' + key + '</span><span><input type="text" value="' + value + '" placeholder="填写统一译法，开启提醒"></span><span><button class="ignore-name-entity">忽略</button><span>';
+                nameEle.innerHTML = '<span class="name-entity-key">' + key + '</span><span><input type="text" value="' + value + '" placeholder="填写统一译法，开启提醒"></span><span><button class="ignore-name-entity">忽略</button></span>';
                 nameEntitiesContainer.appendChild(nameEle);
                 var translationEle = document.createElement('DIV');
                 translationEle.className = 'name-entity-translation';
                 translationEle.setAttribute('data-key', key);
+                translationEle.innerHTML = shortCutHTML;
                 nameEntitiesContainer.appendChild(translationEle);                
             }
         }
