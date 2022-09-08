@@ -138,7 +138,7 @@
         height: 450px;
     }
     .story-hero-intro-container {
-    padding: 0 30px;
+        padding: 0 30px;
     }
 }
 
@@ -171,16 +171,27 @@
     }
 }
 
-@media print { 
+@media print {
+    @page {
+        margin: 0.5cm 0;
+    }
+    .story-hero-image {
+        display: none !important;
+    }
     .story-hero-container {
         background-color: white !important;
 		print-color-adjust: exact;
+        margin-bottom: 0;
+        height: auto !important;
         a, div, span {
             color: black;
         }
         button {
             display: none;
         }
+    }
+    .story-hero-intro-container {
+        padding: 0 30px;
     }
     .story-hero-title:after {
         border-bottom-color: black !important;
