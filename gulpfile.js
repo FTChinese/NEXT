@@ -252,7 +252,7 @@ gulp.task('serve',
         baseDir: ['app', '.tmp'],
         index: 'index.html',
         routes: {
-          '/bower_components': 'bower_components'
+          '/node_modules': 'node_modules'
         }
       }
     });

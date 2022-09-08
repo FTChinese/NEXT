@@ -170,3 +170,19 @@
         padding: 5px 15px 0 15px;
     }
 }
+
+@media print { 
+    .story-hero-container {
+        background-color: white !important;
+		print-color-adjust: exact;
+        a, div, span {
+            color: black;
+        }
+        button {
+            display: none;
+        }
+    }
+    .story-hero-title:after {
+        border-bottom-color: black !important;
+    }
+}

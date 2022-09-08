@@ -47,14 +47,16 @@
 
 <%php%>
     $subscriptionType = 'free';
-    if (isset($_COOKIE["paywall"]) && isset($_COOKIE["paywall_expire"])) {
-        $payWallExpire = intval($_COOKIE["paywall_expire"]);
-        if ($payWallExpire > time()) {
-            $subscriptionType = $_COOKIE["paywall"];
+    if (isset($_COOKIE["USER_ID"])) {
+        if (isset($_COOKIE["paywall"]) && isset($_COOKIE["paywall_expire"])) {
+            $payWallExpire = intval($_COOKIE["paywall_expire"]);
+            if ($payWallExpire > time()) {
+                $subscriptionType = $_COOKIE["paywall"];
+            }
         }
-    }
-    if (isset($_GET['subscription']) && $_GET['subscription'] != '') {
-        $subscriptionType = $_GET['subscription'];
+        if (isset($_GET['subscription']) && $_GET['subscription'] != '') {
+            $subscriptionType = $_GET['subscription'];
+        }
     }
     $this->assign("subscriptionType", $subscriptionType);
 <%/php%>

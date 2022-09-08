@@ -15,12 +15,15 @@
         <%*<!--MARK: - Switch between different themes-->*%>
         <style><%include file="next/styles/main-story-partner-content.css"%></style>
         <style>
+            @page {
+                margin: 0;
+            }
             body {
                 font-family: "Helvetica Neue","Verdana","Arial","Hiragino Sans GB","WenQuanYi Micro Hei","Heiti SC",STHeiti,"Microsoft Yahei",SimSun,"Hiragino Sans TC","Microsoft JhengHei",PMingLiU,sans-serif;
                 font-size: 16px;
                 margin: 0 auto;
                 display: block;
-                background: white !important;
+                background: #FFF1E0 !important;
             }
             body.wechat-pdf {
                 font-size: 32px;
@@ -31,45 +34,87 @@
             }
             .page-container {
                 margin: auto;
-                max-width: 728px;
+                max-width: 21cm;
+                width: 100%;
+                padding: 0 10px;
             }
             .cover-page {
                 page-break-after: always;
+                width: 21cm;
+                height: 29.7cm;
+                position: relative;
+                padding: 10px;
             }
             .page-title {
-                text-align: center;
-                line-height: 120%;
-                font-size: 1.6em;
+                text-align: left;
+                line-height: 1.618em;
+                font-size: 1.618em;
             }
             .publish-date {
-                text-align: center;
+                text-align: left;
                 line-height: 120%;
                 font-size: 1em;
                 margin-top: 20px;
+                color: #505050;
             }
             .content-title {
                 font-size: 1.2em;
-                text-align: center;
-                line-height: 120%;
-                margin-top: 20px;
+                text-align: left;
+                line-height: 1.618em;
+                margin-top: 60px;
+                color: #505050;
             }
             .content-headline {
-                font-size: 1.2em;
+                font-size: 1em;
                 font-weight: bold;
-                text-align: center;
-                line-height: 120%;
-                margin-top: 20px;
+                text-align: left;
+                line-height: 1.618em;
                 display: block;
-                color: black !important;
+                color: #505050 !important;
+                clear:both;
+            }
+            .content-headline::before {
+                content: "";
+                display: block;
+                background-color: #505050;
+                float: left;
+                width: 8px;
+                height: 8px;
+                margin: 8px 5px 0 0;
+            }
+            .wechat-pdf .content-headline::before {
+                margin: 17px 15px 0 0;
+                width: 15px;
+                height: 15px;
+            }
+            .logos {
+                position: absolute;
+                bottom: 30px;
+                left: 30px;
+                height: 100px;
+                width: 100%;
+            }
+            picture.sponsor-logo {
+                border-left: 1px solid #CCCCCC;
+                display: inline-block;
+                height: 100%;
+                margin-left: 30px;
+                padding-left: 30px;
+            }
+            .logos img {
+                height: 100%;
+                float: left;
             }
             .list-title-print {
                 font-size: 1.2em;
                 font-weight: bold;
-                color: #0f5499;
+                color: #9E2F50;
                 line-height: 140%;
+                margin-top: 15px;
             }
             .article-container {
                 page-break-after: always;
+                margin-top: 15px;
             }
             .chinese-headline {
                 line-height: 140%;
@@ -84,6 +129,9 @@
             }
             .article-image {
                 margin: 30px 0;
+            }
+            .article-image img {
+                width: 100%;
             }
             .article-body p {
                 margin-bottom: 1em;
@@ -129,7 +177,16 @@
                             <%/foreach%>
                         <%/if%>
                     <%/foreach%>
+                    <div class="logos">
+                        <picture><img src="https://thumbor.ftacademy.cn/unsafe/images/2022/09/21f44feb769fdc1e9ac16a11646ab66e.png"></picture>
+                        <%if $section.BackgroundImage != ""%>
+                        <picture class="sponsor-logo"><img src="<%$section.BackgroundImage%>"></picture>
+                        <%/if%>
+                    </div>
                 </div>
+            <%/if%>
+            <%if $section.type == "header"%>
+                <%include file="next/partials/header.html"%>
             <%/if%>
             <%if $section.type == "block"%>
                 <%foreach from=$section.lists item=list%>
@@ -139,9 +196,6 @@
                             <div class="chinese-headline"><%$item.headline%></div>
                             <%assign var="contentInfo" value=$storymodel->getContentById($item.id)%>
                             <div class="english-headline"><%$contentInfo.eheadline%></div>
-                            <%if $item.id != ""%>
-                                <div class="article-url">原文地址：https://www.ftchinese.com/<%$item.type%>/<%$item.id%></div>
-                            <%/if%>
                             <%if $item.image != ""%>
                                 <div class="article-image"><img src="<%$item.image|replace:"/upload/":"/"|replace:"/unsafe/picture/":"/unsafe/728x0/picture/"%>"></div>
                             <%/if%>
@@ -160,6 +214,11 @@
                                     <%$storyBody%>
                                 <%else%>
                                     <%$item.longlead|regex_replace:"/[\r\t\n]+/":"</p>\n<p>"%>
+                                <%/if%>
+                                <%if $item.id != ""%>
+                                    <div class="article-url">原文地址：https://www.ftchinese.com/<%$item.type%>/<%$item.id%></div>
+                                <%elseif $item.customLink != ""%>
+                                    <div class="article-url">原文地址：<%$item.customLink%></div>
                                 <%/if%>
                             </div>
                             
