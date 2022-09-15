@@ -1,5 +1,6 @@
 <%assign var="p" value=$nextmodel->getPublishJson($pageId)|json_decode:true%>
 <%assign var="platform" value="打印"%>
+<%assign var="bodyClass" value="print-pdf"%>
 <%if $smarty.get.view == "wechat"%>
     <%assign var="bodyClass" value="wechat-pdf"%>
     <%assign var="platform" value="微信"%>
@@ -15,18 +16,25 @@
         <%*<!--MARK: - Switch between different themes-->*%>
         <style><%include file="next/styles/main-story-partner-content.css"%></style>
         <style>
-            @page {
+            .wechat-pdf @page {
                 margin: 0;
+            }
+            .print-pdf @page {
+                margin: 0.5cm;
             }
             body {
                 font-family: "Helvetica Neue","Verdana","Arial","Hiragino Sans GB","WenQuanYi Micro Hei","Heiti SC",STHeiti,"Microsoft Yahei",SimSun,"Hiragino Sans TC","Microsoft JhengHei",PMingLiU,sans-serif;
                 font-size: 16px;
                 margin: 0 auto;
                 display: block;
-                background: #FFF1E0 !important;
+                print-color-adjust: exact;
+            }
+            body.print-pdf {
+                background: white !important;
             }
             body.wechat-pdf {
                 font-size: 32px;
+                background: #FFF1E0 !important;
             }
             img {
                 max-width: 100%;
@@ -44,6 +52,10 @@
                 height: 29.7cm;
                 position: relative;
                 padding: 10px;
+            }
+            .print-pdf .cover-page {
+                width: 20cm;
+                height: 27.7cm;
             }
             .page-title {
                 text-align: left;
@@ -65,13 +77,16 @@
                 color: #505050;
             }
             .content-headline {
-                font-size: 1em;
+                font-size: 1.4em;
                 font-weight: bold;
                 text-align: left;
                 line-height: 1.618em;
                 display: block;
                 color: #505050 !important;
                 clear:both;
+            }
+            .wechat-pdf .content-headline {
+                font-size: 1em;
             }
             .content-headline::before {
                 content: "";
@@ -80,7 +95,7 @@
                 float: left;
                 width: 8px;
                 height: 8px;
-                margin: 8px 5px 0 0;
+                margin: 13px 5px 0 0;
             }
             .wechat-pdf .content-headline::before {
                 margin: 17px 15px 0 0;
@@ -110,25 +125,39 @@
                 font-weight: bold;
                 color: #9E2F50;
                 line-height: 140%;
+                page-break-after: avoid;
+            }
+            .wechat-pdf .list-title-print {
                 margin-top: 15px;
             }
-            .article-container {
-                page-break-after: always;
+            .wechat-pdf .article-container {
                 margin-top: 15px;
+                page-break-after: always;
             }
             .chinese-headline {
                 line-height: 140%;
                 font-weight: bold;
                 font-size: 1.2em;
+                page-break-after: avoid;
             }
             .english-headline {
                 line-height: 140%;
+                margin-bottom: 1em;
+                page-break-after: avoid;
             }
             .article-url {
                 font-size: 0.8em;
             }
             .article-image {
-                margin: 30px 0;
+                margin-bottom: 30px;
+            }
+            .wechat-pdf .article-image {
+                margin-top: 30px;
+            }
+            .article-byline {
+                color: #505050;
+                font-size: 0.8em;
+                margin-bottom: 1em;
             }
             .article-image img {
                 width: 100%;
@@ -140,6 +169,13 @@
             }
             .article-body h1 {
                 font-size: 1.2em;
+            }
+            .print-pdf .article-body {
+                column-count: 2;
+                -webkit-column-count: 2;
+                -moz-column-count: 2;
+                font-size: 0.8em;
+                margin-bottom: 2em;
             }
             .pic {
                 margin-bottom: 1em;
@@ -195,10 +231,11 @@
                         <div class="article-container" id="id<%$item.id%>">
                             <div class="chinese-headline"><%$item.headline%></div>
                             <%assign var="contentInfo" value=$storymodel->getContentById($item.id)%>
-                            <div class="english-headline"><%$contentInfo.eheadline%></div>
-                            <%if $item.image != ""%>
-                                <div class="article-image"><img src="<%$item.image|replace:"/upload/":"/"|replace:"/unsafe/picture/":"/unsafe/728x0/picture/"%>"></div>
-                            <%/if%>
+                            <%assign var="eheadline" value=$contentInfo.eheadline%>
+                            <%if $eheadline == "" && $item.id == ""%>
+                                <%assign var="eheadline" value=$item.shortlead%>
+                            <%/if%>                            
+                            <div class="english-headline"><%$eheadline%></div>
                             <%assign var="storyBody" value=$contentInfo.cbody%>
                             <%assign var="storyBody" value=$storyBody|regex_replace:"/<p>[_-]+<\/p>/":"<hr/><br/>"%>
                             <%if $item.type == "interactive"%>
@@ -210,6 +247,12 @@
                             <%/if%>
                             
                             <div class="article-body">
+                                <%if $item.image != ""%>
+                                    <div class="article-image"><img src="<%$item.image|replace:"/upload/":"/"|replace:"/unsafe/picture/":"/unsafe/728x0/picture/"%>"></div>
+                                <%/if%>
+                                <%if $contentInfo.cauthor != ""%>
+                                    <div class="article-byline"><%$contentInfo.cbyline_description%><%$contentInfo.cauthor%></div>
+                                <%/if%>
                                 <%if $storyBody != ""%>
                                     <%$storyBody%>
                                 <%else%>
