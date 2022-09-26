@@ -32,6 +32,14 @@
   <%assign var=premiumPriceDaily value="4.6"%>
   <%assign var=standardOfferId value="standard_discount_offer_2021"%>
   <%assign var=premiumOfferId value="premium_discount_offer_2020"%>
+<%elseif $section.discountCode == "ft_free"%>
+  <%assign var=hasDiscount value="yes"%>
+  <%assign var=standardPriceValue value="0"%>
+  <%assign var=premiumPriceValue value="1698"%>
+  <%assign var=standardPriceDaily value="0.7"%>
+  <%assign var=premiumPriceDaily value="4.6"%>
+  <%assign var=standardOfferId value="standard_free_offer_one_year"%>
+  <%assign var=premiumOfferId value="premium_discount_offer_2020"%>
 <%/if%>
 <%if $hasDiscount == "yes"%>
   <%assign var=standardPrice value="¥`$standardPriceValue`/年 <del>(原价`$standardPrice`)</del>"%>

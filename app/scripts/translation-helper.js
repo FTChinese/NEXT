@@ -117,6 +117,22 @@ delegate.on('click', '.ignore-name-entity', function(event){
     toggleAllTextareaWarning();
 });
 
+delegate.on('click', '.ignore-all-name-entity', function(event){
+    if (!confirm('忽略所有的提示，可能会导致您无法发现文章中前后不一致的译名，您确定吗？')){return;}
+    var allEles = document.querySelectorAll('.name-entity-inner, .name-entity-translation');
+    for (var i=0; i<allEles.length; i++) {
+        var element = allEles[i];
+        element.parentElement.removeChild(element);
+    }
+    var nameEntityContainers = document.querySelectorAll('.name-entities-container');
+    for (var m=0; m<nameEntityContainers.length; m++) {
+        var nameEntityContainer = nameEntityContainers[m];
+        nameEntityContainer.parentElement.querySelector('.name-entities-description').innerHTML = ''; 
+    }
+    checkInfoHelpers();
+    toggleAllTextareaWarning();
+});
+
 delegate.on('change', '.name-entity-inner input', function(event) {
     var value = this.value;
     var ele = this.closest('.name-entity-inner');
@@ -944,6 +960,10 @@ function showNames() {
             nameEntitieDescription.innerHTML = '在本段落中找到在全文多次出现的词语，为避免同一个英文名词在同一篇文章中被译成不同中文名词，您可以把统一的译法填写在下方的文本框中。这样，这些词在别的地方出现时，您可以通过点击来快速使用，并得到相应的提示。';
             firstNameEntitiesContainer.parentElement.insertBefore(nameEntitieDescription, firstNameEntitiesContainer);
         }
+        var ignoreAllContainer = document.createElement('BUTTON');
+        ignoreAllContainer.className = 'ignore-all-name-entity';
+        ignoreAllContainer.innerHTML = '全部忽略';
+        ele.closest('.info-container').querySelector('.info-helper').append(ignoreAllContainer);
     }
     checkInfoHelpers();
 }

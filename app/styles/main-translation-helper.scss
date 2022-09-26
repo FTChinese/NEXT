@@ -126,6 +126,20 @@ body {
         cursor: pointer;
     }
 }
+
+@keyframes selection {
+    0%    {transform: translateX(0); opacity: 1;max-height: 500px; }
+    66%   {transform: translateX(100%);}
+    100%  {transform: translateX(100%);max-height: 0; padding: 0;opacity: 0;}
+}
+
+.info-translation {
+    overflow: hidden;
+    &.selected {
+        animation: selection 0.3s forwards;
+    }
+}
+
 .info-suggestion {
     color: $darkGreen;
     font-weight: bold;
