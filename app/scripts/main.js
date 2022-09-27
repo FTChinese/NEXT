@@ -1491,7 +1491,7 @@ updateStickyRightRail();
           gtag('event', ea, {'event_label': el, 'event_category': ec, 'non_interaction': true});
           // console.log('ea: ' + ea + ', el: ' + el);
           if (typeof webkit === 'object') {
-            var message = {title: ea, message: el};
+            var message = {title: ea, message: el + ua};
             webkit.messageHandlers.print.postMessage(message);
           }
       };
