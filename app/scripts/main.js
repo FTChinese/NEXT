@@ -1454,46 +1454,49 @@ updateStickyRightRail();
     var deviceType = 'web';
     if (/iphone|android/gi.test(ua)) {
       deviceType = 'phone';
-    } else if (/iphone|android/gi.test(ua)) {
+    } else if (/ipad/gi.test(ua)) {
       deviceType = 'pad';
     }
     var uniqueId = GetCookie('uniqueVisitorId') || guid();
     // MARK: - Set Cookie to expire in 100 days
     SetCookie('uniqueVisitorId',uniqueId,86400*100,'/');
-    var xhr = new XMLHttpRequest();
-    var message = {
-      user_id: window.userId, 
-      device_id: uniqueId, 
-      action: 'view',
-      platform: deviceType
-    };
-    xhr.open('POST', '/users/online');
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.onload = function() {
-        if (xhr.status !== 200) {return;}
-        var data = JSON.parse(xhr.responseText);
-        var ec = 'AccountShare';
-        var ea = data.online === 1 ? 'Allow' : 'Mark';
-        // var ccode = window.ccodeValue || '';
-        // MARK: - Increase the range gradually
-        // var mustKickout = /^[A-N][0-6][a-n]/.test(window.userId);
-        // var doKickout = mustKickout || /^7S/.test(ccode) || window.location.href.indexOf('kickout=yes')>=0 || window.userId === 'a116abef-78cc-49de-94e1-cb8e8a86af3e';
-        // MARK: - Kickout everyone! You can remove the commented code after October 2022. 
-        if (data.online === 0/* && doKickout*/) {
-          //MARK: - Kick this user out
-          ea = 'Kickout';
-          kickout(deviceType);
-        }
-        ea = ea + ' ' + deviceType;
-        var el = window.userId + ':' + uniqueId;
-        gtag('event', ea, {'event_label': el, 'event_category': ec, 'non_interaction': true});
-        // console.log('ea: ' + ea + ', el: ' + el);
-        if (typeof webkit === 'object') {
-          var message = {title: ea, message: el};
-          webkit.messageHandlers.print.postMessage(message);
-        }
-    };
-    xhr.send(JSON.stringify(message));
+    // MARK: - Don't kick out if users are using www7
+    if (!/www7\.ftchinese\.com/.test(window.location.host)) {
+      var xhr = new XMLHttpRequest();
+      var message = {
+        user_id: window.userId, 
+        device_id: uniqueId, 
+        action: 'view',
+        platform: deviceType
+      };
+      xhr.open('POST', '/users/online');
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.onload = function() {
+          if (xhr.status !== 200) {return;}
+          var data = JSON.parse(xhr.responseText);
+          var ec = 'AccountShare';
+          var ea = data.online === 1 ? 'Allow' : 'Mark';
+          // var ccode = window.ccodeValue || '';
+          // MARK: - Increase the range gradually
+          // var mustKickout = /^[A-N][0-6][a-n]/.test(window.userId);
+          // var doKickout = mustKickout || /^7S/.test(ccode) || window.location.href.indexOf('kickout=yes')>=0 || window.userId === 'a116abef-78cc-49de-94e1-cb8e8a86af3e';
+          // MARK: - Kickout everyone! You can remove the commented code after October 2022. 
+          if (data.online === 0/* && doKickout*/) {
+            //MARK: - Kick this user out
+            ea = 'Kickout';
+            kickout(deviceType);
+          }
+          ea = ea + ' ' + deviceType;
+          var el = window.userId + ':' + uniqueId;
+          gtag('event', ea, {'event_label': el, 'event_category': ec, 'non_interaction': true});
+          // console.log('ea: ' + ea + ', el: ' + el);
+          if (typeof webkit === 'object') {
+            var message = {title: ea, message: el};
+            webkit.messageHandlers.print.postMessage(message);
+          }
+      };
+      xhr.send(JSON.stringify(message));
+    }
   } catch(err) {
     // console.log(err);
   }

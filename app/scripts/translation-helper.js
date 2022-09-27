@@ -111,6 +111,7 @@ delegate.on('click', '.ignore-name-entity', function(event){
     for (var m=0; m<nameEntityContainers.length; m++) {
         var nameEntityContainer = nameEntityContainers[m];
         if (nameEntityContainer.innerHTML !== '') {continue;}
+        if (!nameEntityContainer.parentElement.querySelector('.name-entities-description')) {continue;}
         nameEntityContainer.parentElement.querySelector('.name-entities-description').innerHTML = ''; 
     }
     checkInfoHelpers();
@@ -127,6 +128,7 @@ delegate.on('click', '.ignore-all-name-entity', function(event){
     var nameEntityContainers = document.querySelectorAll('.name-entities-container');
     for (var m=0; m<nameEntityContainers.length; m++) {
         var nameEntityContainer = nameEntityContainers[m];
+        if (!nameEntityContainer.parentElement.querySelector('.name-entities-description')) {continue;}
         nameEntityContainer.parentElement.querySelector('.name-entities-description').innerHTML = ''; 
     }
     checkInfoHelpers();
