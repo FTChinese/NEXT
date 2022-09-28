@@ -2,6 +2,10 @@
 @import "main-story.scss";
 @import "main-table.scss";
 @import "main-user-comments.scss";
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     overflow: hidden;
 }
@@ -100,16 +104,25 @@ body {
         width: 100%;
         height: 100%;
         max-height: 90vh;
-        min-height: 300px;
+        min-height: 60px;
+        transition-property: all;
+        transition-duration: .3s;
+        transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
         font-size: 1.2em;
         padding: 5px;
         font-family: Arial, Helvetica, sans-serif;
+        overflow: hidden;
+        resize: none;
+    	box-sizing: border-box;
         &.warning {
             background-color: $red;
             color: white;
         }
     }
 }
+
+
+
 .info-original {
     margin-bottom: 15px;
 }
@@ -184,7 +197,7 @@ p.chinese-translation {
         width: 100%;
         background-color: rgba($color: #000000, $alpha: 0.7);
         display: grid;
-        grid-template-columns: repeat(6, 1fr);
+        grid-template-columns: repeat(7, 1fr);
         column-gap: $defaultPadding;
         justify-content: center; 
         justify-items: center;
@@ -216,6 +229,7 @@ hr {
     font-size:0.8em;
 }
 .name-entity-inner, .name-entity-translation {
+    position: relative;
     line-height: 161.8%;
     margin-bottom: 0.618em;
     display: table-row;
@@ -252,10 +266,63 @@ hr {
     background-color: $bannerBG;
     padding: 5px;
     display: none;
+    position: relative;
+    &:hover {
+        .ignore-all-name-entity {
+            opacity: 1;
+        }
+    }
 }
-.ignore-name-entity, .add-name-entity {
-    white-space: nowrap;
+
+.ignore-name-entity, .add-name-entity, .ignore-all-name-entity {
+    position: absolute;
+    right: 0;
+    top: 0;
+    opacity: 0;
+    background-color: transparent;
+    padding: 0;
+    line-height: 1em;
+    transition: all 1s;
+    width: 24px;
+    height: 24px;
+    &:after {
+        content: '';
+        background-position: 50% 50%;
+        background-color: $darkGreen;
+        background-repeat: no-repeat;
+        position: absolute;
+        width: 18px;
+        height: 18px;
+        border-radius: 24px;
+        top:0;
+        bottom: 0;
+        left:0;
+        right:0;
+        margin: auto;
+    }
+    &:hover {
+        background-color: transparent;
+    }
 }
+.add-name-entity:after {
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI0ZGRkZGRiIgZD0iTTE5LDEzSDEzVjE5SDExVjEzSDVWMTFIMTFWNUgxM1YxMUgxOVYxM1oiIC8+PC9zdmc+");
+}
+.ignore-all-name-entity:after {
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI0ZGRkZGRiIgZD0iTTE5LDYuNDFMMTcuNTksNUwxMiwxMC41OUw2LjQxLDVMNSw2LjQxTDEwLjU5LDEyTDUsMTcuNTlMNi40MSwxOUwxMiwxMy40MUwxNy41OSwxOUwxOSwxNy41OUwxMy40MSwxMkwxOSw2LjQxWiIgLz48L3N2Zz4=");
+}
+.ignore-name-entity:after {
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI0ZGRkZGRiIgZD0iTTE5LDEzSDVWMTFIMTlWMTNaIiAvPjwvc3ZnPg==")
+}
+
+
+.name-entity-inner, .name-entity-translation {
+    &:hover {
+        .ignore-name-entity, .add-name-entity {
+            opacity: 1;
+        }
+    }
+}
+
 .reminder-container {
     display: none;
     position: fixed;
@@ -269,5 +336,33 @@ hr {
     }
     &.is-warning {
         background-color: $red;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .info-container {
+        &.has-helper {
+            grid-template-columns: 2fr 2fr 1fr;
+        }
+    }
+    .name-entities-description, .name-entities-container {
+        font-size: 0.6em;
+    }
+    .name-entity-inner, .name-entity-translation {
+        line-height: 120%;
+        margin-bottom: 0.2em;
+        display: block;
+        span {
+            display: block;
+            padding: math.div($defaultPadding, 16) 0;
+        }
+        input {
+            padding: 2px;
+            font-size: 0.8em;
+            width: 100%;
+        }
+    }
+    .name-entity-translation {
+        border-bottom: 1px solid #ccc;
     }
 }

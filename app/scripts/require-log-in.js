@@ -33,7 +33,7 @@
 		} else if (paywall === null) {
 			showPayWallForMember(userId);
 		}
-		var shareIcons = document.querySelectorAll('.icon-share, .icon-wechat, .icon-weibo, .icon-linkedin, .icon-twitter, .icon-facebook');
+		var shareIcons = document.querySelectorAll('.icon-share, .icon-wechat, .icon-weibo, .icon-twitter, .icon-facebook');
 		for (var i=0; i < shareIcons.length; i++) {
 			var icon = shareIcons[i];
 			icon.parentNode.removeChild(icon);

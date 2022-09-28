@@ -18,6 +18,7 @@ var heartBeatStatus = 'translating';
 var type = 'other';
 var id = '';
 var heartBeatIntervalId;
+var textAreaMinHeight = 60;
 // MARK: - Links in translated text
 delegate.on('click', '.info-original a[href], .info-translation a[href], .info-original strong, .info-translation strong', function(event){
     try {
@@ -54,6 +55,10 @@ delegate.on('click', '.info-translation', function(event){
     var textArea = this.closest(".info-container").querySelector('textarea');
     textArea.focus();
     toggleTextareaWarning(textArea);
+    setTimeout(function(){
+        textArea.style.minHeight = textAreaMinHeight + 'px';
+        expandHeight(textArea);
+    }, 500);
 });
 
 delegate.on('click', '.translation-suggestion', function(event){
@@ -149,7 +154,7 @@ delegate.on('change', '.name-entity-inner input', function(event) {
     for (var j=0; j<nameEntityTranslations.length; j++) {
         var element = nameEntityTranslations[j];
         if (value !== '') {
-            element.innerHTML = '<span class="name-entity-shortcut">' + value + '</span><span class="name-entity-shortcut">' + value + '(' + key + ')</span><button class="add-name-entity" title="将译法添加到词库">添加</button></span>';
+            element.innerHTML = '<span class="name-entity-shortcut">' + value + '</span><span class="name-entity-shortcut">' + value + '(' + key + ')</span><button class="add-name-entity" title="将译法添加到词库"></button>';
         } else {
             element.innerHTML = '';
         }
@@ -168,6 +173,42 @@ delegate.on('blur', '.info-container textarea', function(event){
     toggleTextareaWarning(this);
     checkDict(this);
 });
+
+// MARK: - Updating a textarea
+delegate.on('input', '.info-container textarea', function(event){
+    expandHeight(this);
+});
+
+// MARK: - Start editing a textarea
+delegate.on('click', '.info-container textarea', function(event){
+    expandHeight(this);
+});
+
+function expandHeight(ele) {
+    var scrollHeight = ele.scrollHeight;
+    var paddingTop = window.getComputedStyle(ele, null).getPropertyValue('padding-top').replace(/[^\d]+/g, '');
+    var paddingBottom = window.getComputedStyle(ele, null).getPropertyValue('padding-bottom').replace(/[^\d]+/g, '');
+    var scrollHeight = ele.scrollHeight;
+    var padding = parseInt(paddingTop, 10) + parseInt(paddingBottom, 10);
+    var actualHeight = scrollHeight - padding;
+    var offsetHeight = ele.offsetHeight;
+    // console.log(`offsetHeight: ${offsetHeight}, actualHeight: ${actualHeight}`);
+    if (actualHeight >= offsetHeight) {
+        ele.style.minHeight = actualHeight + 'px';
+    }
+}
+
+function backToTop() {
+    var eles = document.querySelectorAll('.content, .preview-container');
+    for (var i = 0; i < eles.length; i++) {
+        eles[i].scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    var textareas = document.querySelectorAll('.info-container textarea');
+    for (var j = 0; j < textareas.length; j++) {
+        textareas[j].style.minHeight = textAreaMinHeight + 'px';
+        expandHeight(textareas[j]);
+    }
+}
 
 function checkInfoHelpers() {
     var helpers = document.querySelectorAll('.info-helper');
@@ -201,7 +242,7 @@ function checkDict(ele) {
             }
             var nameEntityTranslations = document.querySelectorAll('.name-entity-translation[data-key="' + key + '"]');
             for (var m=0; m<nameEntityTranslations.length; m++) {
-                nameEntityTranslations[m].innerHTML = '<span class="name-entity-shortcut">' + translation + '</span><span class="name-entity-shortcut">' + translation + '(' + key + ')</span><span><button class="add-name-entity" title="将译法添加到词库">添加</button></span>';
+                nameEntityTranslations[m].innerHTML = '<span class="name-entity-shortcut">' + translation + '</span><span class="name-entity-shortcut">' + translation + '(' + key + ')</span><button class="add-name-entity" title="将译法添加到词库"></button>';
             }
             break;
         }
@@ -360,7 +401,7 @@ function start() {
         if (document.querySelectorAll('.bottom-button').length === 0) {
             var bottomButton = document.createElement('DIV');
             bottomButton.className = 'centerButton bottom-button';
-            bottomButton.innerHTML = '<input id="show-replace-button" type="button" value="全文替换" onclick="showReplace(this)" class="submitbutton button ui-light-btn"><input id="add-new-match-button" type="button" value="添加词条" onclick="showAddNewMatch(this)" class="submitbutton button ui-light-btn"><input type="button" value="预览" onclick="preview(this)" class="submitbutton button ui-light-btn"><input type="button" value="备份" onclick="saveToLocal()" class="submitbutton button ui-light-btn"><input type="button" value="恢复" onclick="restoreFromLocal()" class="submitbutton button ui-light-btn"><input type="button" value="完成并关闭" onclick="finishTranslation()" class="submitbutton button ui-light-btn">';
+            bottomButton.innerHTML = '<input id="show-replace-button" type="button" value="替换" onclick="showReplace(this)" class="submitbutton button ui-light-btn"><input id="add-new-match-button" type="button" value="加词条" onclick="showAddNewMatch(this)" class="submitbutton button ui-light-btn"><input type="button" value="预览" onclick="preview(this)" class="submitbutton button ui-light-btn"><input type="button" value="备份" onclick="saveToLocal()" class="submitbutton button ui-light-btn"><input type="button" value="恢复" onclick="restoreFromLocal()" class="submitbutton button ui-light-btn"><input type="button" value="顶部" onclick="backToTop()" class="submitbutton button ui-light-btn"><input type="button" value="完成并关闭" onclick="finishTranslation()" class="submitbutton button ui-light-btn">';
             document.body.appendChild(bottomButton);
         }
         document.querySelector('.body').classList.add('full-grid');
@@ -944,9 +985,9 @@ function showNames() {
                 var shortCutHTML = '';
                 if (isReviewMode && dict[key] && dict[key].length === 1 && dict[key][0] !== '') {
                     value = dict[key][0];
-                    shortCutHTML = '<span class="name-entity-shortcut">' + value + '</span><span class="name-entity-shortcut">' + value + '(' + key + ')</span><button class="add-name-entity" title="将译法添加到词库">添加</button></span>';
+                    shortCutHTML = '<span class="name-entity-shortcut">' + value + '</span><span class="name-entity-shortcut">' + value + '(' + key + ')</span><button class="add-name-entity" title="将译法添加到词库"></button>';
                 }
-                nameEle.innerHTML = '<span class="name-entity-key">' + key + '</span><span><input type="text" value="' + value + '" placeholder="填写统一译法，开启提醒"></span><span><button class="ignore-name-entity">忽略</button></span>';
+                nameEle.innerHTML = '<span class="name-entity-key">' + key + '</span><span><input type="text" value="' + value + '" placeholder="填写统一译法，开启提醒"></span><button class="ignore-name-entity" title="忽略"></button>';
                 nameEntitiesContainer.appendChild(nameEle);
                 var translationEle = document.createElement('DIV');
                 translationEle.className = 'name-entity-translation';
@@ -959,12 +1000,12 @@ function showNames() {
         if (firstNameEntitiesContainer) {
             var nameEntitieDescription = document.createElement('DIV');
             nameEntitieDescription.className = 'name-entities-description';
-            nameEntitieDescription.innerHTML = '在本段落中找到在全文多次出现的词语，为避免同一个英文名词在同一篇文章中被译成不同中文名词，您可以把统一的译法填写在下方的文本框中。这样，这些词在别的地方出现时，您可以通过点击来快速使用，并得到相应的提示。';
+            nameEntitieDescription.innerHTML = '多次出现词语';
             firstNameEntitiesContainer.parentElement.insertBefore(nameEntitieDescription, firstNameEntitiesContainer);
         }
         var ignoreAllContainer = document.createElement('BUTTON');
         ignoreAllContainer.className = 'ignore-all-name-entity';
-        ignoreAllContainer.innerHTML = '全部忽略';
+        ignoreAllContainer.setAttribute('title', '忽略所有提醒');
         ele.closest('.info-container').querySelector('.info-helper').append(ignoreAllContainer);
     }
     checkInfoHelpers();
@@ -1006,7 +1047,7 @@ function showGlossarySuggestions() {
                 var existingNameEntityTranslation = infoContainer.querySelector('.name-entity-translation[data-key="' + en_title + '"]');
                 if (existingNameEntityInner && existingNameEntityTranslation) {
                     existingNameEntityInner.querySelector('input').value = chinese_title;
-                    existingNameEntityTranslation.innerHTML = '<span class="name-entity-shortcut">' + chinese_title + '</span><span class="name-entity-shortcut">' + chinese_title + '(' + en_title + ')</span><button class="add-name-entity" title="将译法添加到词库">添加</button></span>';
+                    existingNameEntityTranslation.innerHTML = '<span class="name-entity-shortcut">' + chinese_title + '</span><span class="name-entity-shortcut">' + chinese_title + '(' + en_title + ')</span><button class="add-name-entity" title="将译法添加到词库"></button>';
                 } else {
                     var suggestionEle = document.createElement('DIV');
                     suggestionEle.innerHTML = en_title + ': <b>' + chinese_title + '</b>';
@@ -1021,7 +1062,7 @@ function showGlossarySuggestions() {
                         nameEntityContainer = document.createElement('DIV');
                         infoHelper.append(nameEntityContainer);
                     }
-                    var newNameEntityInnerHTML = '<div class="name-entities-container"><div class="name-entity-inner" data-key="' + en_title + '"><span class="name-entity-key">' + en_title + '</span><span><input type="text" value="' + chinese_title + '" placeholder="填写统一译法，开启提醒"></span><span><button class="ignore-name-entity">忽略</button><span></span></span></div><div class="name-entity-translation" data-key="' + en_title + '"><span class="name-entity-shortcut">' + chinese_title + '</span><span class="name-entity-shortcut">' + chinese_title + '(' + en_title + ')</span><button class="add-name-entity" title="将译法添加到词库">添加</button></span></div>';
+                    var newNameEntityInnerHTML = '<div class="name-entities-container"><div class="name-entity-inner" data-key="' + en_title + '"><span class="name-entity-key">' + en_title + '</span><span><input type="text" value="' + chinese_title + '" placeholder="填写统一译法，开启提醒"></span><button class="ignore-name-entity" title="忽略"></button></div><div class="name-entity-translation" data-key="' + en_title + '"><span class="name-entity-shortcut">' + chinese_title + '</span><span class="name-entity-shortcut">' + chinese_title + '(' + en_title + ')</span><button class="add-name-entity" title="将译法添加到词库"></button></div>';
                     nameEntityContainer.innerHTML += newNameEntityInnerHTML;
                 }
             }
@@ -1245,7 +1286,7 @@ function addNewMatch() {
             existingNameEntity.querySelector('input').value = to;
             var shortCutEle = existingNameEntity.parentElement.querySelector('.name-entity-translation[data-key="' + from + '"]');
             if (!shortCutEle) {continue;}
-            shortCutEle.innerHTML = '<span class="name-entity-shortcut">' + to + '</span><span class="name-entity-shortcut">' + to + '(' + from + ')</span><button class="add-name-entity" title="将译法添加到词库">添加</button></span>';
+            shortCutEle.innerHTML = '<span class="name-entity-shortcut">' + to + '</span><span class="name-entity-shortcut">' + to + '(' + from + ')</span><button class="add-name-entity" title="将译法添加到词库"></button>';
             foundExisting = true;
             updateCount += 1;
         }
@@ -1268,7 +1309,7 @@ function addNewMatch() {
             nameEntitiesContainer.className = 'name-entities-container';
             infoContainer.querySelector('.info-helper').appendChild(nameEntitiesContainer);
         }
-        nameEntitiesContainer.innerHTML += '<div class="name-entity-inner" data-key="' + from + '"><span class="name-entity-key">' + from + '</span><span><input type="text" value="' + to + '" placeholder="填写统一译法，开启提醒"></span><span><button class="ignore-name-entity">忽略</button><span></span></span></div><div class="name-entity-translation" data-key="' + from + '"><span class="name-entity-shortcut">' + to + '</span><span class="name-entity-shortcut">' + to + '(' + from + ')</span><button class="add-name-entity" title="将译法添加到词库">添加</button></span></div>';
+        nameEntitiesContainer.innerHTML += '<div class="name-entity-inner" data-key="' + from + '"><span class="name-entity-key">' + from + '</span><span><input type="text" value="' + to + '" placeholder="填写统一译法，开启提醒"></span><button class="ignore-name-entity" title="忽略"></button></div><div class="name-entity-translation" data-key="' + from + '"><span class="name-entity-shortcut">' + to + '</span><span class="name-entity-shortcut">' + to + '(' + from + ')</span><button class="add-name-entity" title="将译法添加到词库"></button></div>';
         createCount += 1;
     }
     if (updateCount === 0 && createCount === 0) {
