@@ -1459,15 +1459,18 @@ updateStickyRightRail();
     }
     var isiOSNative = /AppleWebKit/.test(ua) && !/Safari/.test(ua);
     var uniqueId;
+    var deviceIdKey;
     if (isiOSNative) {
       // MARK: - For iOS native app, only use the device id passed from the native side
-      uniqueId = GetCookie('iosdeviceid');
+      deviceIdKey = 'iosdeviceid';
+      uniqueId = GetCookie(deviceIdKey);
     } else {
-      uniqueId = GetCookie('uniqueVisitorId') || guid();
+      deviceIdKey = 'uniqueVisitorId';
+      uniqueId = GetCookie(deviceIdKey) || guid();
     }
     if (!uniqueId || uniqueId === '') {return;}
     // MARK: - Set Cookie to expire in 100 days
-    SetCookie('uniqueVisitorId',uniqueId,86400*100,'/');
+    SetCookie(deviceIdKey,uniqueId,86400*100,'/');
     if (!/www7\.ftchinese\.com/.test(window.location.host)) {return;}
     // MARK: - Don't kick out if users are using www7
     var xhr = new XMLHttpRequest();
