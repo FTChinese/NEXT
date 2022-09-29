@@ -1457,7 +1457,7 @@ updateStickyRightRail();
     } else if (/ipad/gi.test(ua)) {
       deviceType = 'pad';
     }
-    var isiOSNative = /AppleWebKit/.test(ua) && !/Safari/.test(ua);
+    var isiOSNative = /AppleWebKit/.test(ua) && /Safari/.test(ua) === false;
     var uniqueId;
     var deviceIdKey;
     if (isiOSNative) {
@@ -1468,10 +1468,10 @@ updateStickyRightRail();
       deviceIdKey = 'uniqueVisitorId';
       uniqueId = GetCookie(deviceIdKey) || guid();
     }
-    if (!uniqueId || uniqueId === '') {return;}
+    if (uniqueId === undefined || uniqueId === '') {return;}
     // MARK: - Set Cookie to expire in 100 days
     SetCookie(deviceIdKey,uniqueId,86400*100,'/');
-    if (!/www7\.ftchinese\.com/.test(window.location.host)) {return;}
+    if (/www7\.ftchinese\.com/.test(window.location.host)) {return;}
     // MARK: - Don't kick out if users are using www7
     var xhr = new XMLHttpRequest();
     var message = {
@@ -1486,11 +1486,7 @@ updateStickyRightRail();
         if (xhr.status !== 200) {return;}
         var data = JSON.parse(xhr.responseText);
         var ec = 'AccountShare';
-        var ea = data.online === 1 ? 'Allow' : 'Mark';
-        // var ccode = window.ccodeValue || '';
-        // MARK: - Increase the range gradually
-        // var mustKickout = /^[A-N][0-6][a-n]/.test(window.userId);
-        // var doKickout = mustKickout || /^7S/.test(ccode) || window.location.href.indexOf('kickout=yes')>=0 || window.userId === 'a116abef-78cc-49de-94e1-cb8e8a86af3e';
+        var ea = data.online === 0 ? 'Kickout' : 'Allow';
         // MARK: - Kickout everyone! You can remove the commented code after October 2022. 
         if (data.online === 0/* && doKickout*/) {
           //MARK: - Kick this user out
@@ -1508,6 +1504,6 @@ updateStickyRightRail();
     };
     xhr.send(JSON.stringify(message));
   } catch(err) {
-    // console.log(err);
+    console.log(err);
   }
 })();
