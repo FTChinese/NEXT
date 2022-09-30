@@ -1395,7 +1395,7 @@ updateStickyRightRail();
     document.getElementById('login-reason').innerHTML += offersHTML;
   }
 
-  function logoutWithOffers(deviceType, offers) {
+  function logoutWithOffers(deviceType, offers, info) {
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
         if (this.readyState !== 4 || this.status !== 200) {return;}
@@ -1413,7 +1413,8 @@ updateStickyRightRail();
           title: '您已登出',
           description: '您的账号已经在另一台' + deviceName + '上登入，因此在本' + deviceName + '上登出。每个账号可以在不同类的终端设备（电脑、手机和平板）上各登录一台设备，并同时使用，但不能在同类终端的两个或两个以上设备上同时登录。',
           href: window.location.href,
-          offers: offers
+          offers: offers,
+          info: info
         };
         if (typeof webkit === 'object') {
           webkit.messageHandlers.logout.postMessage(message);
@@ -1436,12 +1437,12 @@ updateStickyRightRail();
     xmlhttp.send();
   }
 
-  function kickout(deviceType) {
+  function kickout(deviceType, info) {
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function() {
         if (this.readyState !== 4 || this.status !== 200) {return;}
         var data = JSON.parse(xhr.responseText);
-        logoutWithOffers(deviceType, data.sections);
+        logoutWithOffers(deviceType, data.sections, info);
     };
     xhr.open('GET', '/index.php/jsapi/kickoutoffers');
     xhr.send();
@@ -1468,7 +1469,7 @@ updateStickyRightRail();
       deviceIdKey = 'uniqueVisitorId';
       uniqueId = GetCookie(deviceIdKey) || guid();
     }
-    if (uniqueId === undefined || uniqueId === '') {return;}
+    if (!uniqueId || uniqueId === '') {return;}
     // MARK: - Set Cookie to expire in 100 days
     SetCookie(deviceIdKey,uniqueId,86400*100,'/');
     if (/www7\.ftchinese\.com/.test(window.location.host)) {return;}
@@ -1495,7 +1496,7 @@ updateStickyRightRail();
           if (data.current && typeof data.current === 'string') {
             currentDevice = ':' + data.current;
           }
-          kickout(deviceType);
+          kickout(deviceType, data);
         }
         ea = ea + ' ' + deviceType;
         var el = window.userId + ':' + uniqueId + currentDevice;
