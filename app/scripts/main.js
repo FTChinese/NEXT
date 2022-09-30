@@ -1496,6 +1496,7 @@ updateStickyRightRail();
           if (data.current && typeof data.current === 'string') {
             currentDevice = ':' + data.current;
           }
+          data.kicked = uniqueId;
           kickout(deviceType, data);
         }
         ea = ea + ' ' + deviceType;
