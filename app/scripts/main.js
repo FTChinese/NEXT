@@ -1488,13 +1488,17 @@ updateStickyRightRail();
         var ec = 'AccountShare';
         var ea = data.online === 0 ? 'Kickout' : 'Allow';
         // MARK: - Kickout everyone! You can remove the commented code after October 2022. 
+        var currentDevice = '';
         if (data.online === 0/* && doKickout*/) {
           //MARK: - Kick this user out
           ea = 'Kickout';
+          if (data.current && typeof data.current === 'string') {
+            currentDevice = ':' + data.current;
+          }
           kickout(deviceType);
         }
         ea = ea + ' ' + deviceType;
-        var el = window.userId + ':' + uniqueId;
+        var el = window.userId + ':' + uniqueId + currentDevice;
         gtag('event', ea, {'event_label': el, 'event_category': ec, 'non_interaction': true});
         // console.log('ea: ' + ea + ', el: ' + el);
         if (typeof webkit === 'object') {
