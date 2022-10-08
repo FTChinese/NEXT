@@ -81,6 +81,7 @@
 
 <%*<!-- MARK: Set features based on iOS and Android app version number -->*%>
 <%assign var="displayMBAGymWithCorp" value="no"%>
+<%assign var="showAppStoreWarning" value="no"%>
 <%if $smarty.get.v != ""%>
     <%*<!-- MARK: iOS app -->*%>
     <%assign var="v" value=$smarty.get.v|floatval%>
@@ -111,6 +112,9 @@
     <%/if%>
     <%if $v <= 217%>
         <%assign var="showMaximum8Tops" value="yes"%>
+    <%/if%>
+    <%if $v <= 238 && $pageId == "home"%>
+        <%assign var="showAppStoreWarning" value="yes"%>
     <%/if%>
 <%elseif $smarty.get.android != ""%>
     <%*<!-- MARK: android app -->*%>

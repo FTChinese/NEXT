@@ -16,6 +16,27 @@
 	</div>
 <%/if%>
 
+<%if $showAppStoreWarning == "yes"%>
+	<div class="items" id="app-store-warning"></div>
+	<script>
+		var appStoreWarningKey = 'appstorewarning';
+		function closeAppStoreWarning() {
+			document.getElementById('app-store-warning').innerHTML = '';
+			SetCookie(appStoreWarningKey,'1',86400*100,'/');
+		}
+		function showAppStoreWarning() {
+			var showedAppStoreWarning = GetCookie(appStoreWarningKey);
+			console.log(showedAppStoreWarning);
+			if (showedAppStoreWarning === '1') {
+				SetCookie(appStoreWarningKey,'1',86400*100,'/');
+				return;
+			}
+			document.getElementById('app-store-warning').innerHTML = '<div class="no-image"><div class="item-inner"><div class="item-lead"><div class="warn">通知：中国大陆地区App Store暂时无法提供FT中文网App下载，请勿删除本App。 如需更新，请访问非中国大陆地区App Store。如需帮助请联系微信公众号“小T服务在线”。</div><button onclick="javascript: closeAppStoreWarning();">我知道了</button></div></div></div>';
+		}
+		showAppStoreWarning();
+	</script>
+<%/if%>
+
 <%if $hidePromoBox != "yes"%>
     <div class="items hide" id="membership-login-prompt">
     	<div class="no-image">
