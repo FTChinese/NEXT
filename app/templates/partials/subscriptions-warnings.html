@@ -41,7 +41,13 @@
     <div class="items hide" id="membership-login-prompt">
     	<div class="no-image">
     		<div class="item-inner">
-    			<div class="item-lead"><a href="screen://myft/account">您还没有登录。如果您希望更方便地享受您购买的会员服务，请点击此处登录或注册新用户。</a></div>
+    			<div class="item-lead">
+					<%if $smarty.get.subscription == "member" || $smarty.get.subscription == "premium"%>
+						<a href="screen://myft/account" class="warn" style="color: #c00;font-weight:bold;">非常重要：亲爱的订户，您还没有登录。为了保证您能继续使用您通过苹果内购购买的会员服务，请点击此处登录或注册新用户，将您的苹果会员服务关联到您的FT中文网账号。如需帮助请联系微信公众号“小T服务在线”。</a>
+					<%else%>
+						<a href="screen://myft/account">您还没有登录。如果您希望更方便地享受您购买的会员服务，请点击此处登录或注册新用户。</a>
+					<%/if%>
+				</div>
     		</div>
     	</div>
     </div>

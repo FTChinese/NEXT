@@ -1235,7 +1235,7 @@ if (isTouchDevice() && window.location.href.indexOf('ftcapp') < 0) {
       if (itemHeadline) {
         var link = itemHeadline.href;
         if (link && link !== '') {
-          itemLeads[i].innerHTML = '<a href="' + link + '">' + itemLeads[i].innerHTML + '</div>';
+          itemLeads[i].innerHTML = '<a target="_blank" href="' + link + '">' + itemLeads[i].innerHTML + '</div>';
         }
       }
     }
