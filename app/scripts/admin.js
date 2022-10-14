@@ -43,6 +43,30 @@
         xhr.send(encodeURI(parameters));
     });
 
+    delegate.on('click', '.notify-user', function(){
+        var tr = this.closest('tr');
+        var email = tr.querySelector('[data-type="email"]').innerHTML;
+        sendMail([email]);
+    });
+
+    delegate.on('click', '.notify-users', function(){
+        var trs = document.querySelectorAll('[data-type="users"] tbody tr');
+        var emails = [];
+        for (var i = 0; i < trs.length; i++) {
+            var tr = trs[i];
+            var checked = tr.querySelector('[type="checkbox"]').checked;
+            if (!checked) {continue;}
+            var email = tr.querySelector('[data-type="email"]').innerHTML;
+            if (!email || email === '') {continue;}
+            emails.push(email);
+        }
+        if (emails.length === 0) {
+            alert('您还没有选中需要通知的用户! ');
+            return;
+        }
+        sendMail(emails);
+    });
+
     delegate.on('change', '.inputfile', function(){
         var fileName = this.value.replace(/^.*\\/g, '');
         var label = document.querySelector('.inputfile-label');
@@ -86,6 +110,19 @@
         return false;
     });
 
+    function sendMail(emails) {
+        var subject = '您的FT中文网会员订阅权限';
+        var password = document.querySelector('[name="password"]').value;
+        var newline = '%0D%0A%0D%0A';
+        var body = '亲爱的读者，' + newline + '欢迎您使用FT中文网的订阅服务。您的账号和订阅权限已经设置好，请用本邮箱点击这里登录：' + newline + 'https://www.chineseft.live' + newline + '您的密码是: ' + newline +  password + newline + 'FT中文网企业订阅服务';
+        var bcc = '';
+        if (emails.length > 1) {
+            var bccs = emails.slice(1);
+            bcc = '&bcc=' + bccs.join(',');
+        }
+        window.open('mailto:' + emails[0] + '?subject=' + subject + '&body=' + body + bcc);
+    }
+
     function updateUserInfo() {
         var xhr = new XMLHttpRequest();
         xhr.open('GET', window.userInfo);
@@ -97,16 +134,16 @@
                 var keys = Object.keys(data);
                 for (var i=0; i < keys.length; i++) {
                     var key = keys[i];
-                    rows += '<tr data-user-id="' + key + '"><td class="o-table__cell--numeric"><input type="checkbox"></td><td class="o-table__cell--numeric">' + data[key].email + '</td><td class="o-table__cell--numeric">' + data[key].user_name + '</td><td class="o-table__cell--numeric"><a class="remove-user">Remove</a></td></tr>';
+                    rows += '<tr data-user-id="' + key + '"><td class="o-table__cell--numeric"><input type="checkbox"></td><td class="o-table__cell--numeric" data-type="email">' + data[key].email + '</td><td class="o-table__cell--numeric" data-type="username">' + data[key].user_name + '</td><td class="o-table__cell--numeric o-table-actions"><a class="remove-user">Remove</a> | <a class="notify-user" title="发邮件告知用户">Notify</a></td></tr>';
                 }
                 var table = '';
-                table += '<table class="o-table o-table--horizontal-lines o-table--responsive-overflow" data-o-component="o-table" data-o-table-responsive="overflow">';
+                table += '<table data-type="users" class="o-table o-table--horizontal-lines o-table--responsive-overflow" data-o-component="o-table" data-o-table-responsive="overflow">';
                 table += '<thead>';
                 table += '    <tr>';
                 table += '        <th data-column-default-sort="ascending" scope="col" role="columnheader" data-o-table-data-type="number" class="o-forms-input--checkbox"><input type="checkbox"></th>';
                 table += '        <th data-column-default-sort="ascending" scope="col" role="columnheader" data-o-table-data-type="number">Email</th>';
                 table += '        <th data-column-width scope="col" role="columnheader" data-o-table-data-type="number">Name</th>';
-                table += '        <th data-column-width scope="col" role="columnheader" data-o-table-data-type="number"><a class="remove-user">Remove</a></th>';
+                table += '        <th data-column-width scope="col" role="columnheader" data-o-table-data-type="number">Action</th>';
                 table += '    </tr>';
                 table += '</thead>';
                 table += '<tbody>';
