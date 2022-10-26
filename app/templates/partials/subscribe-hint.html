@@ -68,6 +68,10 @@
                 <div class="lock-content">本内容是高端会员专享，您目前为标准会员</div>
                 <div class="lock-content">如您已经是高端会员，请先<a href="/users/logout" class="o-client-id-link">请点击这里登出</a>，再重新登入</div>
                 <div class="subscribe-btn" ><a href="#"  id="subscribe-now" class="o-client-id-link">升级为高端会员&#x25BA;</a></div>
+            <%elseif preg_match("/Premium/is",$privilegeType)%>
+                <div class="lock-content">成为高端会员，阅读高端专享内容</div>
+                <div class="lock-content">如您已经是高端会员，<a href="#" onclick="showOverlay('overlay-login')" class="o-client-id-link">请点击这里登录</a></div>
+                <div class="subscribe-btn" ><a href="#"  id="subscribe-now" class="o-client-id-link">成为高端会员&#x25BA;</a></div>
             <%else%>
                 <div class="lock-content">成为付费会员，阅读FT独家内容</div>
                 <div class="lock-content">如您已经是会员，<a href="#" onclick="showOverlay('overlay-login')" class="o-client-id-link">请点击这里登录</a></div>

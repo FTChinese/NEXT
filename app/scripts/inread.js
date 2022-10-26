@@ -2,6 +2,9 @@
 
 function initInreadAd() { //QUEST:这个也需要改成writeAdNew的方式吗？
     //find the slot to insert inread ad
+    if (!inreadAd) {return;}
+    inreadAd.displayed = false;
+    inreadAd.played = false;
     var inreadAdSlot = document.querySelectorAll(inreadAd.slot)[inreadAd.minSlot];
     var inreadAdContainer = document.createElement('div');
     var inreadAdWidth = inreadAdSlot.parentNode.offsetWidth;

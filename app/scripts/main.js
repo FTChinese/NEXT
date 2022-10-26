@@ -689,13 +689,6 @@ function stickyBottomUpdate() {
       gRecomendInViewNoted = true;
     }
   }
-
-  // in read ad in view
-  if (typeof inreadAd === 'object' && inreadAd.h >0 && inreadAd.t >0 && inreadAd.displayed === false) {
-      if (scrollTop + bodyHeight > inreadAd.t + inreadAd.h) {
-        showInreadAd();
-      }
-  }
   loadImagesLazy();
   loadVideosLazy();
   trackViewables();
@@ -944,6 +937,15 @@ function checkScrollyTelling() {
   } catch (ignore){}
 }
 
+function checkInreadAd() {
+  if (typeof inreadAd !== 'object') {return;}
+  if (inreadAd.h >0 && inreadAd.t >0 && inreadAd.displayed === false) {
+      if (scrollTop + bodyHeight > inreadAd.t + inreadAd.h) {
+        showInreadAd();
+      }
+  }
+}
+
 try {
   delegate = new Delegate(document.body);
 } catch (ignore) {
@@ -979,6 +981,7 @@ if (gNavOffsetY > 30 && w > 490 && supportStickyPosition === false) {
         trackViewables();
         checkFullGridItem();
         checkScrollyTelling();
+        checkInreadAd();
     });
     addEvent(eventResize, function(){
         stickyBottomPrepare();
@@ -1009,6 +1012,7 @@ if (gNavOffsetY > 30 && w > 490 && supportStickyPosition === false) {
       trackViewables();
       checkFullGridItem();
       checkScrollyTelling();
+      checkInreadAd();
   });
 }
 
