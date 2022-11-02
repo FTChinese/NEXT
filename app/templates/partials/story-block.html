@@ -18,8 +18,10 @@
 <%/if%>
 <%assign var="heroImage" value=""%>
 <%if $showStoryHero == "yes"%>
+	<!--debug 001-->
 	<%include file="next/partials/story-header-hero.html"%>
 <%elseif preg_match("/partner\_content/is",$keys) && $story_pic.smallbutton && $story_pic.smallbutton != ""%>
+	<!--debug 002-->
 	<%assign var="heroImage" value=$story_pic.smallbutton%>
 	<%include file="next/partials/story-hero-image.html"%>
 <%elseif $authorHeadshot != ""%>

@@ -285,6 +285,20 @@ width: <%$containerWidth%> !important;
         };
     </script>
 <%/if%>
+
+
+
+<%foreach from=$p.sections item=section%>
+    <%if $section.type == "MessageMeta"%>
+        <meta name="EmailTitle" content="<%$section.EmailTitle%>">
+        <meta name="SMSContext" content="<%$section.SMSContext%>">
+        <meta name="NotificationTitle" content="<%$section.NotificationTitle%>">
+        <meta name="NotificationLead" content="<%$section.NotificationLead%>">
+        <meta name="CampaignCodePrefix" content="<%$section.CampaignCodePrefix%>">
+        <%assign var="CampaignCodePrefix" value=$section.CampaignCodePrefix%>
+    <%/if%>
+<%/foreach%>
+
 </head>
 <!-- htmlmin:ignore -->
 <body class="is-html-email" style="width:100%;color:#111111;background-color:<%$bodyColor%>;font-family:"Hiragino Sans GB","WenQuanYi Micro Hei","Heiti SC",STHeiti,SimSun,sans-serif;font-size:14px;">
@@ -314,14 +328,6 @@ width: <%$containerWidth%> !important;
 <td style="width:<%$whiteBorderWidth%>; line-height:<%$whiteBorderNone%>; border:<%$whiteBorderNone%>; font-size:<%$whiteBorderNone%>"  class="whiteBorder">&nbsp;</td>
 <td class="mainCol">
 <table class="tableBorder" border="0" cellspacing="0" cellpadding="0" style="background-color: #FFF1E0; border: 2px solid <%$tableBorder%>; text-align: left; width: <%$tableBorderWidth%>;" align="left" width=" <%$tableBorderWidth%>">
-
-<%*<!--MARK: - Remove this after August 30, 2020 -->*%>
-<%if 1<0 && $smarty.get.to != "iosapp"%>
-    <tr><td class="lineH1" style="height: 3px; font-size: 3px; line-height: 3px; padding: 0;">&nbsp;</td></tr>
-    <tr><td class="lineH1_2" style="text-align: center; font-size: 11px; line-height: 13px;  color: #505050;">如果您无法正常显示邮件, <a
-    href="<%$smarty.server.HTTP_HOST%><%$smarty.server.REQUEST_URI%>" style="color: #2e6e9e; text-decoration: none;"
-    >请点击此处</a></td></tr>
-<%/if%>
 
 <tr><td class="lineH1 openInBrowserGap" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
 <tr><td style="padding-left: <%$logoPadding%>px; padding-right: <%$logoPadding%>px;" align="center">
@@ -363,7 +369,7 @@ width: <%$containerWidth%> !important;
 <%assign var="s" value=0%>
 
 
-<%assign var="foundMainMessage" value="no"%>
+<%assign var="uniqueIds" value=""%>
 <%foreach from=$p.sections item=section%>
     <%if $section.type == "block"%>
         <%if $p.meta.theme == "myFT"%>
@@ -375,11 +381,12 @@ width: <%$containerWidth%> !important;
         <%/if%>
     <%elseif $section.type == "MainMessage"%>
         <%assign var="currentDate" value=$smarty.now|date_format:"%Y%m%d"%>
-        <%*<!--MARK: - main message only appear once if specified-->*%>
-        <%if $foundMainMessage == "no" && ($debug_model == 1 || $section.status != "off") && ($section.dates == "" || preg_match("/`$currentDate`/is",$section.dates)) && ($section.subscriptionType == "" || $section.subscriptionType == $smarty.get.to)%>
+        <%assign var="uniqueId" value=$section.UniqueId%>
+        <%*<!--MARK: - main message belonging to one group, with the same unique id only appear once-->*%>
+        <%if ($uniqueId == "" || !preg_match("/`$uniqueId`/is",$uniqueIds)) && ($debug_model == 1 || $section.status != "off") && ($section.dates == "" || preg_match("/`$currentDate`/is",$section.dates)) && ($section.subscriptionType == "" || $section.subscriptionType == $smarty.get.to)%>
             <%assign var=buttonUrl value=$section.buttonUrl%>
-            <%if $smarty.get.mainMessageRepeat == "no"%>
-                <%assign var="foundMainMessage" value="yes"%>
+            <%if $uniqueId != ""%>
+                <%assign var="uniqueIds" value="`$uniqueIds`,`$uniqueId`"%>
             <%/if%>
             <%if $smarty.get.ccode != ""%>
                 <%*<!--MARK: - check the ccode in the url parameter first-->*%>
@@ -387,6 +394,12 @@ width: <%$containerWidth%> !important;
             <%elseif $section.ccode != ""%>
                 <%*<!--MARK: - if not found, check the ccode in section setting-->*%>
                 <%assign var=ccode value=$section.ccode%>
+            <%elseif $CampaignCodePrefix != ""%>
+                <%assign var=CampaignMedium value="Email"%>
+                <%if $smarty.get.medium != ""%>
+                    <%assign var=CampaignMedium value=$smarty.get.medium%>
+                <%/if%>
+                <%assign var=ccode value="`$CampaignCodePrefix``$CampaignMedium`"%>
             <%/if%>
             <%if $section.discountCode != ""%>
                 <%assign var="discountCode" value="&from=`$section.discountCode`"%>

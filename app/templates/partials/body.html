@@ -30,6 +30,7 @@
 
 <%assign var="subscriptionsWarningsShowed" value=""%>
 <%assign var="showLogin" value="yes"%>
+<%assign var="uniqueIds" value=""%>
 <%foreach from=$p.sections item=section%>
     <%if $section.type == "header"%>
         <%if $section.showLogin == "no"%>
@@ -257,10 +258,18 @@
         <%assign var="includeSideAlign" value=$section.sideAlign%>
         <%include file="next/partials/`$section.from`.html"%>
     <%elseif $section.type == "MainMessage"%>
+        
         <%if $section.BackgroundLayout == "SpecialReport"%>
             <%include file="next/partials/MainMessageSpecialReport.html"%>
         <%else%>
-            <%include file="next/partials/MainMessageDefault.html"%>     
+            <%assign var="currentDate" value=$smarty.now|date_format:"%Y%m%d"%>
+            <%assign var="uniqueId" value=$section.UniqueId%>
+            <%if ($uniqueId == "" || !preg_match("/`$uniqueId`/is",$uniqueIds)) && ($debug_model == 1 || $section.status != "off") && ($section.dates == "" || preg_match("/`$currentDate`/is",$section.dates)) && ($section.subscriptionType == "" || $section.subscriptionType == $smarty.get.to) && ($section.ShowForPageExpiration == "" || $section.ShowForPageExpiration == "All" || ($section.ShowForPageExpiration == "Running" && $pageExpired != "yes") || ($section.ShowForPageExpiration == "Expired" && $pageExpired == "yes"))%>
+                <%include file="next/partials/MainMessageDefault.html"%>
+                <%if $uniqueId != ""%>
+                    <%assign var="uniqueIds" value="`$uniqueIds`,`$uniqueId`"%>
+                <%/if%>
+            <%/if%>
         <%/if%>
     <%/if%>
 <%/foreach%>

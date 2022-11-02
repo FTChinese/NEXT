@@ -1379,7 +1379,6 @@
 	<%assign var="pageTrackerTag" value=" - `$pageTrackerTag` "%>
 <%/if%>
 
-
 <%if preg_match("/FT漫画|视频直播|数据新闻|partner\_content|数据可视化/is",$keys) || preg_match("/full\-grid|scrollable\-block/is",$story_content) || ($page_action=="ce" && $isMachineTranslation == "yes")%>
 	<%assign var="fullGridClass" value=" full-grid-story"%>
 	<%assign var="isFullGridStory" value="yes"%>
@@ -1439,7 +1438,7 @@
 
 <%assign var="authorHeadshot" value=""%>
 <%assign var="genre" value="`$story.genre``$genre`"%>
-<%if $storyImage != "" && ($isFullGridStory == "yes" || preg_match("/FT大视野|卧底经济学家|FT杂志|周末随笔/is",$keys))%>
+<%if $storyImage != "" && (preg_match("/双语阅读/is",$keys) || $itemType == "story" || $itemType == "premium") && ($isFullGridStory == "yes" || preg_match("/FT大视野|卧底经济学家|FT杂志|周末随笔/is",$keys))%>
 	<%assign var="showStoryHero" value="yes"%>
 	<%if preg_match("/周末随笔/is",$keys)%>
 		<%assign var="storyHeroThemeClass" value=" story-hero-theme-pink"%>
