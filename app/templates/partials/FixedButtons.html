@@ -24,8 +24,9 @@
     <%assign var="itemId" value=$smarty.get.video%>
   <%/if%>
 
-  <%assign var="standardBuyLink" value=$nextmodel->getBuyLink("standard", "yearly", $section.discount, $section.discountCode, $ccode, $isiOS, $itemType, $itemId)%>
-  <%assign var="premiumBuyLink" value=$nextmodel->getBuyLink("premium", "yearly", $section.discount, $section.discountCode, $ccode, $isiOS, $itemType, $itemId)%>
+  <!--v: <%$v%>-->
+  <%assign var="standardBuyLink" value=$nextmodel->getBuyLink("standard", "yearly", $section.discount, $section.discountCode, $ccode, $isiOS, $itemType, $itemId, $v)%>
+  <%assign var="premiumBuyLink" value=$nextmodel->getBuyLink("premium", "yearly", $section.discount, $section.discountCode, $ccode, $isiOS, $itemType, $itemId, $v)%>
   <%if $smarty.get.webview == "ftcapp" && $smarty.get.android == ""%>
       <%*<!--MARK: For ios html validation-->*%>
       <div class="item-container"></div>
@@ -57,7 +58,7 @@
         <%foreach from=$section.lists item=button%>
           <%assign var="click" value=$button.click%>
           <%if $button.click == ""%>
-            <%assign var="click" value=$nextmodel->getBuyLink($button.subscription, $button.duration, $section.discount, $button.discountCode, $ccode, $isiOS, $itemType, $itemId)%>
+            <%assign var="click" value=$nextmodel->getBuyLink($button.subscription, $button.duration, $section.discount, $button.discountCode, $ccode, $isiOS, $itemType, $itemId, $v)%>
           <%/if%>
           <a href="<%$click%>" target="_blank" class="fixed-button-link" data-subscription="<%$button.subscription%>" data-duration="<%$button.duration%>" data-discountCode="<%$button.discountCode%>" data-ccode="<%$ccode%>"><button style="background-color: <%$button.BackgroundColor%>; color: <%$button.buttonColor%>!important;"><%$button.title%></button></a>
         <%/foreach%>
