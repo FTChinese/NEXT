@@ -2,7 +2,7 @@
 <script>
 
     var hitTracker = new Image();
-    hitTracker.src = 'http://www.ftchinese.com/index.php/ft/hit/605257/73322941';
+    hitTracker.src = 'https://www.ftchinese.com/index.php/ft/hit/605257/73322941';
 
     
     (function() {
@@ -46,11 +46,11 @@ function sendImpToThirdParty(Imp, AdName, AssID) {
             window.parent.gtag('event', eventAction, {'event_label': eventLabel, 'event_category': eventCategory, 'non_interaction': true});
           } catch (ignore) {
             var gaServerTracker = new Image();
-            gaServerTracker.src = 'http://www.ftchinese.com/index.php/ft/hit/' + AssID + '/2?ec=' + eventCategory + '&ea=' + eventAction + '&el=' + +encodeURIComponent(eventLabel);
+            gaServerTracker.src = 'https://www.ftchinese.com/index.php/ft/hit/' + AssID + '/2?ec=' + eventCategory + '&ea=' + eventAction + '&el=' + +encodeURIComponent(eventLabel);
             if (eventAction === 'request') {
             var topUrl = top.location.href;
             var topUrlTracker = new Image();
-            topUrlTracker.src = 'http://www.ftchinese.com/index.php/ft/hit/' + AssID + '/1?url=' + encodeURIComponent(topUrl);
+            topUrlTracker.src = 'https://www.ftchinese.com/index.php/ft/hit/' + AssID + '/1?url=' + encodeURIComponent(topUrl);
             }
 
           }

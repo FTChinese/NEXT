@@ -108,7 +108,7 @@ gulp.task('home', () => {
     }
 
     console.log(`fetching latest body from home page`);
-    const latestBody = yield got(`http://www.ftchinese.com/m/corp/p0.html?${timeStamp}`)
+    const latestBody = yield got(`https://www.ftchinese.com/m/corp/p0.html?${timeStamp}`)
       .then(response => {
   // Use cheerio to parse HTML and extract contents inside `<body>`      
         const $ = cheerio.load(response.body, {

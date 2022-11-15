@@ -29,7 +29,7 @@ function initInreadAd() { //QUEST:这个也需要改成writeAdNew的方式吗？
 
     inreadAd.h = inreadAdHeight + 30;
     if (window.location.hostname === 'localhost' || window.location.hostname.indexOf('192.168') === 0 || window.location.hostname.indexOf('10.113') === 0 || window.location.hostname.indexOf('127.0') === 0) {
-        hostForVideo = 'http://www.ftchinese.com';
+        hostForVideo = 'https://www.ftchinese.com';
     }
     inreadAdContainer.id = inreadAd.id;
     s.width = inreadAdWidth + 'px';

@@ -1,7 +1,7 @@
 var delegate = new Delegate(document.body);
 var tabsDict;
 var infoDict;
-var host = (window.location.host.indexOf('localhost') === 0) ? 'http://www.ftchinese.com' : '';
+var host = (window.location.host.indexOf('localhost') === 0) ? 'https://www.ftchinese.com' : '';
 var hasBought = false;
 var subscriptionType = '';
 

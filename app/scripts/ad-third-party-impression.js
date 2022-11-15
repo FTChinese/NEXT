@@ -18,7 +18,7 @@ function sendImpToThirdParty(Imp, AdName, AssID) {
                 window.parent.gtag('event', eventAction, {'event_label': eventLabel, 'event_category': eventCategory, 'non_interaction': true});
             } catch (ignore) {
                 var gaServerTracker = new Image();
-                gaServerTracker.src = 'http://www.ftchinese.com/index.php/ft/hit/' + AssID + '/2?ec=' + eventCategory + '&ea=' + eventAction + '&el=' + encodeURIComponent(eventLabel) + '&r=' + asRandom;
+                gaServerTracker.src = 'https://www.ftchinese.com/index.php/ft/hit/' + AssID + '/2?ec=' + eventCategory + '&ea=' + eventAction + '&el=' + encodeURIComponent(eventLabel) + '&r=' + asRandom;
             }
         };
         var sendOnetime = function() {
