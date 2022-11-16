@@ -38,6 +38,9 @@ div.o-ads{
     right:5px;
     font-size: 12px;
   }
+  .en .o-ads[data-o-ads-loaded] & {
+    content: 'ADVERTISEMENT';
+  }
   .o-ads[data-o-ads-loaded=FtcLeaderboard] & {
     right:calc(50% - 600px);
   }
@@ -47,14 +50,6 @@ div.o-ads{
   // MARK: - NO AD SIGN FOR RIBBON AD ON HOME PAGE RIGHT TOP
   .o-ads[data-o-ads-loaded=FtcRibbon][data-o-ads-loaded] & {
     content: '';
-  }
-}
-
-.en {
-  .o-ads__outer::after {
-    .o-ads[data-o-ads-loaded] & {
-      content: '广告';
-    }
   }
 }
 
