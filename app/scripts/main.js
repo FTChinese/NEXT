@@ -1455,14 +1455,27 @@ updateStickyRightRail();
   try {
     // MARK: - iPhone App Use the same process as well
     if (!window.userId) {return;}
+    // MARK: - On Mac Safari
+    // "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.1 Safari/605.1.15"
+    // MARK: - Run FTC iOS App on Mac M1
+    // Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko)
+    // MARK: - On Mac Chrome Simulate Android
+    // Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Mobile Safari/537.36'
+    // MARK: - On Mac Chrome
+    // 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36'
+    // MARK: - On an real iPhone
+    // Mozilla/5.0 (iPhone; CPU iPhone OS 16_0_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148
+    // MARK: - On a real iPad
+    // Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/605.1.15 (KHTML, like Gecko)
+
     var ua = navigator.userAgent || navigator.vendor || '';
     var deviceType = 'web';
+    var isiOSNative = /AppleWebKit/.test(ua) && /Safari|Chrome/.test(ua) === false;
     if (/iphone|android/gi.test(ua)) {
       deviceType = 'phone';
-    } else if (/ipad/gi.test(ua)) {
+    } else if (/ipad/gi.test(ua) || isiOSNative) {
       deviceType = 'pad';
     }
-    var isiOSNative = /AppleWebKit/.test(ua) && /Safari/.test(ua) === false;
     var uniqueId;
     var deviceIdKey;
     if (isiOSNative) {

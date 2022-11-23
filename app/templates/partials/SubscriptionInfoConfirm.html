@@ -425,7 +425,8 @@ for (k=0;k<x.length;k+=16) {
 
     function showApplePurchaseInfo() {
       if (typeof webkit === 'object' && webkit.messageHandlers) {
-        var message = '<div class="important-info">如您当前的订阅尚未到期，将在当前订阅到期后扣款。请勿关闭自动续费，以保证续费时按照您见到的金额扣款。 </div>';
+        var message = '';
+        /* var message = '<div class="important-info">如您当前的订阅尚未到期，将在当前订阅到期后扣款。请勿关闭自动续费，以保证续费时按照您见到的金额扣款。 </div>'; */
         var info = document.getElementById('subscription-form-description');
         info.innerHTML = message + info.innerHTML;
       }
