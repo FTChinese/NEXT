@@ -107,6 +107,9 @@
             <%if $section.BackgroundStyle == "LeftTop"%>
                 background-size: auto;
                 background-position: 0 0;
+            <%elseif $section.BackgroundStyle == "RightTop"%>
+                background-size: auto;
+                background-position: right 0;
             <%else%>
                 background-size: cover;
                 background-position: 50% 50%;
@@ -180,21 +183,39 @@
                 left: 30px;
             }
         }
-        @media all and (max-width: 490px) {
-            .hero_main-content-title h1 {
-                position: absolute;
-                left: 30px;
-                <%if $section.LogoImage != ""%>
-                    top: 65px;
-                <%else%>
-                    top: 30px;
-                <%/if%>
+        <%if $section.BackgroundStyle == ""%>
+            @media all and (max-width: 490px) {
+                .hero_main-content-title h1 {
+                    position: absolute;
+                    left: 30px;
+                    <%if $section.LogoImage != ""%>
+                        top: 65px;
+                    <%else%>
+                        top: 30px;
+                    <%/if%>
+                }
             }
-        }
+        <%/if%>
         <%if $section.mobileImage != ""%>
             @media all and (max-width: 490px) {
                 .hero_main-content {
                     background-image: url('<%$section.mobileImage%>');
+                    <%if $section.BackgroundStyle != ""%>
+                        background-size: auto 100%;
+                    <%/if%>
+                }
+            }
+        <%/if%>
+        <%if $section.MobileTitle != ""%>
+            .hero_main-content-title h1.hero_main-content-title-mobile {
+                display: none;
+            }
+            @media all and (max-width: 490px) {
+                .hero_main-content-title h1.hero_main-content-title-pc {
+                    display: none;
+                }
+                .hero_main-content-title h1.hero_main-content-title-mobile {
+                    display: block;
                 }
             }
         <%/if%>
@@ -214,7 +235,10 @@
                         <image class="hero_main-logo" src="<%$section.LogoImage%>">
                     <%/if%>
                     <div class="hero_main-content-title">
-                        <h1><%$section.title%></h1>
+                        <h1 class="hero_main-content-title-pc"><%$section.title%></h1>
+                        <%if $section.MobileTitle != ""%>
+                            <h1 class="hero_main-content-title-mobile"><%$section.MobileTitle%></h1>
+                        <%/if%>
                     </div>
                     <%if $section.vid != ""%>
                         <a id="vt-control" title="Play"></a>
