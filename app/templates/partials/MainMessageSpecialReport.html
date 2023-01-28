@@ -5,7 +5,7 @@
         position: relative;
         background-color: <%$section.BackgroundColor%>;
         margin-bottom: 30px;
-        <%if $smarty.get.webview != "ftcapp"%>margin-top: -30px;<%/if%>
+        <%if $smarty.get.webview != "ftcapp" && $lastSectionType == "header" %>margin-top: -30px;<%/if%>
     }
     .special-report-image {
         position: absolute;

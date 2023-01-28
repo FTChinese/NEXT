@@ -8,6 +8,9 @@ html {
 
 body {
     overflow: hidden;
+    &.power-translate {
+        background-color: #FBFBFB;
+    }
 }
 
 .container {
@@ -88,6 +91,27 @@ body {
     &.full-grid {
         grid-template-columns: 1fr 0;
     }
+    &.power-translate-page-loaded {
+        max-width: 800px;
+        margin: 0 auto;
+        display: block;
+    }
+}
+h1 {
+    margin-bottom: 8px;
+}
+#page-description {
+    margin-bottom: 8px;
+}
+select {
+    margin-right: 15px;
+}
+.start-button {
+    padding: 2px 15px;
+    font-size: 16px;
+}
+#status-message {
+    margin-bottom: 8px;
 }
 .info-container {
     display: grid;
@@ -271,6 +295,9 @@ hr {
         .ignore-all-name-entity {
             opacity: 1;
         }
+    }
+    .power-translate & {
+        background-color: #F1F1F1;
     }
 }
 

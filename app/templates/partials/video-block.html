@@ -81,8 +81,13 @@
 							<div class="story-byline">
 								<span class="story-time"><%$pubdate|date_format:"%Y年%m月%d日"%></span>
 								<span class="story-author">
-									<%$cdescribe%> <%if $cbyline != "0" && $cbyline != ""%><a href="/search/?keys=<%$cbyline%>&type=relative_byline&category=video"><%$cbyline%></a><%/if%> 
-				                    <%if $eshortleadbody && $eshortleadbody!="" && $eshortleadbody!=null%> 
+									<%if $cdescribe%>
+										<%$cdescribe%> <%if $cbyline != "0" && $cbyline != ""%><a href="/search/?keys=<%$cbyline%>&type=relative_byline&category=video"><%$cbyline%></a><%/if%>
+									<%elseif $cauthor%>
+										<%$cbyline_description%> <%$cauthor%>
+				                    <%/if%>
+									<%*<!--Deprecate: Weibo is not popular any more, remove this after 03/2023-->*%>
+									<%if 1>2 && $eshortleadbody && $eshortleadbody!="" && $eshortleadbody!=null%> 
 										[<a href=<%$eshortleadbody%> target=_blank>作者微博</a>]
 				                    <%/if%>
 				                </span>
@@ -102,7 +107,13 @@
 								<%*<!--MARK: show first two paragraphs. -->*%>
 								<div class="story-body">
 									<div id="story-body-container">
-										<p><%$cbody|regex_replace:"/[\r\t\n]/":""|regex_replace:"/(\<p\>.*?\<p\>.*?)\<p\>.*$/":"\\1"%></p>
+										<p>
+											<%if $clongleadbody != ""%>
+												<%$clongleadbody%>
+											<%else%>
+												<%$cbody|regex_replace:"/[\r\t\n]/":""|regex_replace:"/(\<p\>.*?\<p\>.*?)\<p\>.*$/":"\\1"%>
+											<%/if%>
+										</p>
 									</div>
 									<div class="clearfloat"></div>
 								</div>

@@ -436,7 +436,7 @@
 						<%/if%>
 
 
-						<%*<!--MARK: Highlight FT Academy, query the SQL at less as possible. -->*%>
+						<%*<!--MARK: Highlight FT Academy, query the SQL as less as possible. -->*%>
 						<%if $b == 0 && $l == 0 && $highlightFTAcademy == "feed"%>
 							<%assign var="insertItemCount" value=1%>
 							<%if $subscriptionType == "premium" && ($isUserInternal === false || $isUserTester === true)%>
@@ -692,21 +692,53 @@
 									<%/if%>
 								<%/if%>
 								<%if $hasFoundSponsorInfo == "no" && $itemMainTag != ""%>
-									<%if $infoForTagmanagement == ""%>
-										<%assign var="infoForTagmanagement" value=$nextmodel->getPublishJson("tagmanagement")|json_decode:true%>
+									<%assign var="pageIdForSponsorshipManagement" value="sponsorshipmanagement"%>
+									<%if $infoForSponsorships == ""%>
+										<%assign var="infoForSponsorships" value=$nextmodel->getPublishJson($pageIdForSponsorshipManagement)|json_decode:true%>
 									<%/if%>
 									<%assign var="foundSponsorTag" value="no"%>
-									<%foreach from=$infoForTagmanagement.sections item=oneTag%>
-										<%if $foundSponsorTag == "no" && ($itemMainTag == $oneTag.tag || $itemMainTag == $oneTag.tag)%>
+									<%foreach from=$infoForSponsorships.sections item=oneTag%>
+										<%assign var="matchedTag" value="no"%>
+										<%if $foundSponsorTag == "no" && $oneTag.status == "on"%>
+											<%assign var="sponsorKeys" value=$oneTag.tag%>
+											<%if $matchedTag == "no" && $oneTag.tag == $itemMainTag%>
+												<%assign var="matchedTag" value="yes"%>
+												<%assign var="itemMainTag" value=$oneTag.tag%>
+												<%assign var="itemTag" value=$oneTag.tag%>
+											<%/if%>
+										<%/if%>
+										<%if $foundSponsorTag == "no" && $oneTag.status == "on" && ($itemMainTag == $oneTag.tag || $itemMainTag == $oneTag.title || $matchedTag == "yes")%>
 											<%assign var="foundSponsorTag" value="yes"%>
+											<%assign var="hasFoundSponsorInfo" value="yes"%>
+											<%assign var="trackLink" value="/tag/`$oneTag.tag`"%>
 											<%if $oneTag.link != ""%>
 												<%assign var="itemTagLink" value=$oneTag.link%>
+												<%assign var="trackLink" value=$oneTag.link%>
+											<%elseif $oneTag.tag != ""%>
+												<%assign var="itemTagLink" value="/tag/`$oneTag.tag`"%>
 											<%/if%>
 											<%if $oneTag.title != ""%>
 												<%assign var="itemTagTitle" value=$oneTag.title%>
 											<%/if%>
 										<%/if%>
 									<%/foreach%>
+									<%if $foundSponsorTag == "no"%>
+										<%if $infoForTagmanagement == ""%>
+											<%assign var="infoForTagmanagement" value=$nextmodel->getPublishJson("tagmanagement")|json_decode:true%>
+										<%/if%>
+										<%assign var="foundSponsorTag" value="no"%>
+										<%foreach from=$infoForTagmanagement.sections item=oneTag%>
+											<%if $foundSponsorTag == "no" && ($itemMainTag == $oneTag.tag || $itemMainTag == $oneTag.tag)%>
+												<%assign var="foundSponsorTag" value="yes"%>
+												<%if $oneTag.link != ""%>
+													<%assign var="itemTagLink" value=$oneTag.link%>
+												<%/if%>
+												<%if $oneTag.title != ""%>
+													<%assign var="itemTagTitle" value=$oneTag.title%>
+												<%/if%>
+											<%/if%>
+										<%/foreach%>
+									<%/if%>
 								<%/if%>
 
 								<%*<!--item tag link: <%$itemTagLink%>-->*%>

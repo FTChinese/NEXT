@@ -374,6 +374,28 @@ gulp.task('copy:cms', async () => {
     .pipe(gulp.dest(dest));
 });
 
+gulp.task('copy:ftcoffer', async () => {
+  const dest = '../ftcoffer/public';
+  if (!fs.existsSync(dest)) {
+    console.log(`${dest} does not exist! `);
+    return;
+  }
+  gulp.src(['dist/translation-helper.html'])
+    .on('error', (err) => {
+      console.error(err.stack);
+    })
+    .pipe(gulp.dest(dest));
+  gulp.src(['dist/styles/main-translation-helper.css'])
+    .on('error', (err) => {
+      console.error(err.stack);
+    })
+    .pipe(gulp.dest(`${dest}/styles`));
+  gulp.src(['dist/scripts/main-translation-helper.js'])
+    .on('error', (err) => {
+      console.error(err.stack);
+    })
+    .pipe(gulp.dest(`${dest}/scripts`));
+});
 
 gulp.task('copy:p0', () => {
   const dest = 'dev_www/frontend/tpl/corp';
@@ -396,6 +418,7 @@ gulp.task('copy', gulp.series(
     'copy:cssjs', 
     'copy:marketing', 
     'copy:apipage', 
+    'copy:ftcoffer',
     'copy:tpl', 
     'copy:cms',
     'copy:p0', 

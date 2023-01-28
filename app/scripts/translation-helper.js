@@ -192,7 +192,6 @@ function expandHeight(ele) {
     var padding = parseInt(paddingTop, 10) + parseInt(paddingBottom, 10);
     var actualHeight = scrollHeight - padding;
     var offsetHeight = ele.offsetHeight;
-    // console.log(`offsetHeight: ${offsetHeight}, actualHeight: ${actualHeight}`);
     if (actualHeight >= offsetHeight) {
         ele.style.minHeight = actualHeight + 'px';
     }
@@ -398,16 +397,24 @@ function confirmTranslation(ele) {
 
 function start() {
     function renderBottomButtons() {
+
         if (document.querySelectorAll('.bottom-button').length === 0) {
+            const closeButtonValue = isPowerTranslate ? '完成' : '完成并关闭';
             var bottomButton = document.createElement('DIV');
             bottomButton.className = 'centerButton bottom-button';
-            bottomButton.innerHTML = '<input id="show-replace-button" type="button" value="替换" onclick="showReplace(this)" class="submitbutton button ui-light-btn"><input id="add-new-match-button" type="button" value="加词条" onclick="showAddNewMatch(this)" class="submitbutton button ui-light-btn"><input type="button" value="预览" onclick="preview(this)" class="submitbutton button ui-light-btn"><input type="button" value="备份" onclick="saveToLocal()" class="submitbutton button ui-light-btn"><input type="button" value="恢复" onclick="restoreFromLocal()" class="submitbutton button ui-light-btn"><input type="button" value="顶部" onclick="backToTop()" class="submitbutton button ui-light-btn"><input type="button" value="完成并关闭" onclick="finishTranslation()" class="submitbutton button ui-light-btn">';
+            bottomButton.innerHTML = '<input id="show-replace-button" type="button" value="替换" onclick="showReplace(this)" class="submitbutton button ui-light-btn"><input id="add-new-match-button" type="button" value="加词条" onclick="showAddNewMatch(this)" class="submitbutton button ui-light-btn"><input type="button" value="预览" onclick="preview(this)" class="submitbutton button ui-light-btn"><input type="button" value="备份" onclick="saveToLocal()" class="submitbutton button ui-light-btn"><input type="button" value="恢复" onclick="restoreFromLocal()" class="submitbutton button ui-light-btn"><input type="button" value="顶部" onclick="backToTop()" class="submitbutton button ui-light-btn"><input type="button" value="'+ closeButtonValue + '" onclick="finishTranslation(this)" class="submitbutton button ui-light-btn">';
             document.body.appendChild(bottomButton);
         }
         document.querySelector('.body').classList.add('full-grid');
     }
+
     function isNotEmpty(element, index, array) {
         return element !== '';
+    }
+
+    if (isPowerTranslate && stage == 'page loaded') {
+        addNewTranslation();
+        return;
     }
     var englishText = document.getElementById('english-text');
     var translationInfoEle = document.getElementById('translation-info');
@@ -440,7 +447,6 @@ function start() {
                 var ebody = ebodyEle.value;
                 var chineseParagraphs = cbody.split('\n');
                 var englishParagraphs = ebody.split('\n');
-                // console.log(`englishParagraphs: ${englishParagraphs.length}, chineseParagraphs: ${chineseParagraphs.length}`);
                 if (englishParagraphs.length > 0 && chineseParagraphs.length > 0) {
                     for (var l=0; l<englishParagraphs.length; l++) {
                         var englishParagraph = englishParagraphs[l];
@@ -516,7 +522,12 @@ function start() {
     document.getElementById('start-button').style.display = 'none';
     document.getElementById('translations').style.display = 'none';
     translationInfoEle.style.display = 'none';
-    document.querySelector('.sidebar').style.display = 'grid';
+    document.querySelector('.sidebar').style.display = 'none';
+    document.querySelector('#page-title').style.display = 'none';
+    document.querySelector('#page-description').style.display = 'none';
+    document.querySelector('#languages-container').style.display = 'none';
+    document.querySelector('#status-message').style.display = 'none';
+    document.querySelector('.body').classList.remove('power-translate-page-loaded');
     // MARK: - If all three translations are the same, select directly
     var containers = document.querySelectorAll('.info-container')
     for (var m=0; m<containers.length; m++) {
@@ -675,21 +686,19 @@ function getUpdatedDict() {
     return result;
 }
 
-function finishTranslation() {
+function finishTranslation(buttonEle) {
     try {
         saveToLocal(true);
-    }catch(ignore){}
+    } catch(ignore) {}
     var finish = false;
     if (isReviewMode) {
-        finish = finishReview();
+        finish = finishReview(buttonEle);
     } else if (typeof window.subtitleInfo === 'object') {
-        finish = finishTranslationForVideo();
+        finish = finishTranslationForVideo(buttonEle);
     } else {
-        finish = finishTranslationForArticle();
+        finish = finishTranslationForArticle(buttonEle);
     }
-    if (finish !== true) {
-        return;
-    }
+    if (finish !== true) {return;}
     trackFinishTimeAndClose();
 }
 
@@ -703,7 +712,7 @@ function checkAllTextAreas() {
     return {success: true};
 }
 
-function finishTranslationForArticle() {
+function finishTranslationForArticle(buttonEle) {
     var status = checkAllTextAreas();
     if (!status.success) {
         var question = '您编辑的内容可能有些问题，您还要继续提交吗？\n\n' + status.message + '\n\n相关的段落已经标红。';
@@ -778,6 +787,8 @@ function finishTranslationForArticle() {
                 currentSelect.value = 1;
             }
         }
+    } else if (isPowerTranslate) {
+        finishPowerTranslate(buttonEle, cleanChineseText);
     }
     return true;
 }
@@ -1511,10 +1522,191 @@ function stopHeartbeat() {
 }
 
 
+// MARK: Power Translate Related functions
+function initPowerTranslate() {
+    document.getElementById('translation-info').style.display = 'none';
+    document.getElementById('translations').style.display = 'none';
+    document.body.classList.add('power-translate');
+    document.querySelector('.body').classList.add('power-translate-page-loaded');
+    document.getElementById('english-text').setAttribute('placeholder', 'Paste the text that you need to translate');
+    
+}
+
+function addNewTranslation() {
+    const sourceText = document.getElementById('english-text').value;
+    const from = document.getElementById('from').value;
+    const to = document.getElementById('to').value; 
+    const id = Math.random().toString(16).slice(2);
+    const t = new Date().getTime();
+    if (sourceText.length <= 1) {
+        alert('Please input some text for translation! ');
+        return;
+    }
+    var xhr = new XMLHttpRequest();
+    var method = isFrontendTest ? 'GET' : 'POST';
+    var url = isFrontendTest ? '/api/powertranslate/add.json' : '/pt/add';
+    xhr.open(method, url);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onload = function() {
+        if (xhr.status !== 200) {
+            alert('Can not access the server right now! ');
+            return;
+        }
+        try {
+            var result = JSON.parse(xhr.responseText);
+            if (result.status === 'ok') {
+                inspectTranslation(id);
+            } else {
+                alert('The translation task can not be submitted right now because of server error! ');
+            }
+        } catch(err){
+            alert('There is an error when adding new translation task! ');
+            console.log(err);
+        }
+    };
+    var postData = {
+        text: sourceText,
+        from: from,
+        to: to,
+        id: id,
+        t: t
+    };
+    xhr.send(JSON.stringify(postData));
+}
+
+function inspectTranslation(id) {
+    document.getElementById('status-message').innerHTML = 'Please wait for about 15 minutes for your text to be processed. Don\'t close this page. You can go have a cup of tea or do something else...';
+    document.getElementById('start-button').disabled = true;
+    var timer = setInterval(function(){
+        var xhr = new XMLHttpRequest();
+        var method = isFrontendTest ? 'GET' : 'POST';
+        var url = isFrontendTest ? '/api/powertranslate/inspect.json' : '/pt/inspect';
+        xhr.open(method, url);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.onload = function() {
+            if (xhr.status !== 200) {return;}
+            try {
+                var results = JSON.parse(xhr.responseText);
+                if (results.length > 0 && results[0].status === 'translated') {
+                    launchTranslationReview(results[0]);
+                    clearInterval(timer);
+                    return;
+                }
+                console.log(results);
+            } catch(err){
+                alert('There is an error when adding new translation task! ');
+                console.log(err);
+            }
+        };
+        var postData = {id: id};
+        xhr.send(JSON.stringify(postData));
+    }, 20000);
+}
+
+function finishPowerTranslate(buttonEle, cleanChineseText) {
+    document.body.classList.toggle('preview');
+    if (document.body.classList.contains('preview')) {
+        var previewContainer;
+        var translations = '';            
+        var t = document.getElementById('english-text').value;
+        var newText = t.trim().replace(/^[\n\r\s]+/, '').replace(/[\n\r\s]+$/, '');
+        var englishInfoDiv = document.createElement('DIV');
+        englishInfoDiv.innerHTML = newText;
+        for (var i=0; i<document.querySelectorAll('[data-info-id]').length; i++) {
+            var ele = document.querySelectorAll('[data-info-id]')[i];
+            var id = ele.getAttribute('data-info-id');
+            var infoEle = englishInfoDiv.querySelector('#' + id);
+            if (infoEle) {
+                infoEle.innerHTML = ele.value.trim().replace(/^[\n\r\s]+/, '').replace(/[\n\r\s]+$/, '');
+            }
+        }
+        translations = englishInfoDiv.innerHTML;
+        if (document.querySelectorAll('.preview-container').length === 0) {
+            previewContainer = document.createElement('DIV');
+            previewContainer.className = 'preview-container';
+            document.body.appendChild(previewContainer);
+        }
+
+
+        var finishTime = new Date();
+        var spentTime = Math.round(finishTime.getTime() - startTime.getTime());
+        var allSelectedItems = document.querySelectorAll('[data-translation-index].selected');
+        var selections = {};
+        for (var i=0; i<allSelectedItems.length; i++) {
+            var item = allSelectedItems[i];
+            var index = item.getAttribute('data-translation-index');
+            if (!selections[index]) {selections[index] = 0;}
+            selections[index] += 1;
+        }
+        var infoContainers = document.querySelectorAll('.info-container');
+        var adoptionsCount = 0;
+        var chineseWordCount = 0;
+        var englishWordCount = 0;
+        for (var j=0; j<infoContainers.length; j++) {
+            var infoContainer = infoContainers[j];
+            var final = infoContainer.querySelector('textarea').value;
+            // MARK: - Count only Chinese characters
+            chineseWordCount += (final.match(/\p{Unified_Ideograph}/ug) || []).length;
+            var english = infoContainer.querySelector('.info-original').innerHTML;
+            englishWordCount += str_word_count(english);
+            var foundMatch = false;
+            var translationOptions = infoContainer.querySelectorAll('.info-translation');
+            for (var m=0; m<translationOptions.length; m++) {
+                if (final !== translationOptions[m].innerHTML) {continue;}
+                foundMatch = true;
+                break;
+            }
+            if (foundMatch) {adoptionsCount += 1;}
+        }
+        var seconds = Math.round(spentTime/1000);
+        // var result = {seconds: seconds, adopt: adoptionsCount, total: infoContainers.length, chinese: chineseWordCount, english: englishWordCount, translator: window.userName};
+        const minutes = Math.round(seconds/60);
+        const thousandWordMinutes = Math.round(1000*seconds/60/englishWordCount);
+        const performanceStatus = '用时' + minutes + '分钟。每千字原文用时' + thousandWordMinutes + '分钟。';
+
+        
+        previewContainer = document.querySelector('.preview-container');
+        previewContainer.innerHTML = '<div class="preview-content">' + '<p id="performance-status"><b>' + performanceStatus + '</b></p><p><b>译文已经贴到您的剪贴板中，您可以预览一下效果：</b></p>' + '<textarea id="text-content">' + cleanChineseText.replace(/[\n\r]+/g, '\n\n') + '</textarea>' + translations + '</div>';
+        buttonEle.value = '编辑';
+        // Get the text field
+        var copyText = document.getElementById("text-content");
+
+        // Select the text field
+        copyText.select();
+        copyText.setSelectionRange(0, 99999); // For mobile devices
+
+        // Copy the text inside the text field
+        navigator.clipboard.writeText(copyText.value);
+        copyText.style.display = 'none';
+
+    } else {
+        buttonEle.value = '完成';
+    }
+}
+
+function launchTranslationReview(result) {
+    // console.log('Now you can review the translations');
+    // console.log(result);
+    alert('Your text is translated by machine, now you need to do a final review! ');
+    document.getElementById('translation-info').value = result.translation.cbody;
+    document.getElementById('english-text').value = result.translation.ebody;
+    dict = result.translation.dict;
+    stage = 'translated';
+    start();
+    watchChange();
+    startHeartBeat(heartBeatStatus);
+}
+
 var isReviewMode = false;
 var eText;
 var tText;
-if (window.opener || typeof window.subtitleInfo === 'object' || window.testingType) {
+var isPowerTranslate = location.href.indexOf('powertranslate') >= 0;
+var stage = 'page loaded';
+const isFrontendTest = window.location.href.indexOf('powertranslate/translation-helper') < 0;
+
+if (isPowerTranslate) {
+    initPowerTranslate();
+} else if (window.opener || typeof window.subtitleInfo === 'object' || window.testingType) {
     if (window.opener) {
         eText = window.opener.ebodyForTranslation || window.opener.document.getElementById('ebody').value;
         tText = window.opener.cbodyForTranslation || window.opener.document.getElementById('cbody').value;
@@ -1572,3 +1764,5 @@ if (window.opener || typeof window.subtitleInfo === 'object' || window.testingTy
 }
 
 /* jshint ignore:end */
+
+//TODO: support other languages such as Chinese to English, Handle FT content, Export HTML/TEXT

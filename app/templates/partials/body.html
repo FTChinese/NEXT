@@ -31,6 +31,7 @@
 <%assign var="subscriptionsWarningsShowed" value=""%>
 <%assign var="showLogin" value="yes"%>
 <%assign var="uniqueIds" value=""%>
+<%assign var="lastSectionType" value=""%>
 <%foreach from=$p.sections item=section%>
     <%if $section.type == "header"%>
         <%if $section.showLogin == "no"%>
@@ -183,7 +184,7 @@
                     <%if $isWorkingDayMorning == "yes"%>
                         <%assign var="topItemCount" value=4%>
                     <%/if%>
-                    <%assign var="interactives" value=$interactivemodel->get_interactive_by_field_search("find_in_set('FT商学院',tag)",0,$topItemCount,5,10800)%>
+                    <%assign var="interactives" value=$interactivemodel->get_interactive_by_field_search("find_in_set('FT商学院',tag)",0,$topItemCount,14,10800)%>
                     <div class="block-container no-side">
                         <div class="block-inner">
                             <div class="content-container">
@@ -272,6 +273,7 @@
             <%/if%>
         <%/if%>
     <%/if%>
+    <%assign var="lastSectionType" value=$section.type%>
 <%/foreach%>
 
 
