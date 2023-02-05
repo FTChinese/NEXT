@@ -522,6 +522,8 @@ function start() {
     document.getElementById('start-button').style.display = 'none';
     document.getElementById('translations').style.display = 'none';
     translationInfoEle.style.display = 'none';
+    document.querySelector('.logged-in-container').style.display = 'none';
+    document.querySelector('.sign-in-container').style.display = 'none';
     document.querySelector('.sidebar').style.display = 'none';
     document.querySelector('#page-title').style.display = 'none';
     document.querySelector('#page-description').style.display = 'none';
@@ -1524,12 +1526,16 @@ function stopHeartbeat() {
 
 // MARK: Power Translate Related functions
 function initPowerTranslate() {
+    window.shouldPromptLogin = true;
     document.getElementById('translation-info').style.display = 'none';
     document.getElementById('translations').style.display = 'none';
     document.body.classList.add('power-translate');
     document.querySelector('.body').classList.add('power-translate-page-loaded');
     document.getElementById('english-text').setAttribute('placeholder', 'Paste the text that you need to translate');
-    
+    localStorage.setItem('pagemark', window.location.href);
+    var script = document.createElement('script');
+    script.src = '/powertranslate/scripts/register.js';
+    document.head.appendChild(script);
 }
 
 function addNewTranslation() {
@@ -1545,8 +1551,15 @@ function addNewTranslation() {
     var xhr = new XMLHttpRequest();
     var method = isFrontendTest ? 'GET' : 'POST';
     var url = isFrontendTest ? '/api/powertranslate/add.json' : '/pt/add';
+    var token = localStorage.getItem('accessToken');
+    if (!token || token === '') {
+        alert('You need to sign in first! ');
+        window.location.href = '/login';
+        return;
+    }
     xhr.open(method, url);
     xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.setRequestHeader("Authorization", "Bearer " + token);
     xhr.onload = function() {
         if (xhr.status !== 200) {
             alert('Can not access the server right now! ');
@@ -1592,7 +1605,6 @@ function inspectTranslation(id) {
                     clearInterval(timer);
                     return;
                 }
-                console.log(results);
             } catch(err){
                 alert('There is an error when adding new translation task! ');
                 console.log(err);
@@ -1626,8 +1638,6 @@ function finishPowerTranslate(buttonEle, cleanChineseText) {
             previewContainer.className = 'preview-container';
             document.body.appendChild(previewContainer);
         }
-
-
         var finishTime = new Date();
         var spentTime = Math.round(finishTime.getTime() - startTime.getTime());
         var allSelectedItems = document.querySelectorAll('[data-translation-index].selected');
@@ -1662,25 +1672,20 @@ function finishPowerTranslate(buttonEle, cleanChineseText) {
         // var result = {seconds: seconds, adopt: adoptionsCount, total: infoContainers.length, chinese: chineseWordCount, english: englishWordCount, translator: window.userName};
         const minutes = Math.round(seconds/60);
         const thousandWordMinutes = Math.round(1000*seconds/60/englishWordCount);
-        const performanceStatus = '用时' + minutes + '分钟。每千字原文用时' + thousandWordMinutes + '分钟。';
-
-        
+        const performanceStatus = 'Spent ' + minutes + ' minutes, or ' + thousandWordMinutes + ' minutes per thousand words. ';
         previewContainer = document.querySelector('.preview-container');
-        previewContainer.innerHTML = '<div class="preview-content">' + '<p id="performance-status"><b>' + performanceStatus + '</b></p><p><b>译文已经贴到您的剪贴板中，您可以预览一下效果：</b></p>' + '<textarea id="text-content">' + cleanChineseText.replace(/[\n\r]+/g, '\n\n') + '</textarea>' + translations + '</div>';
-        buttonEle.value = '编辑';
+        previewContainer.innerHTML = '<div class="preview-content">' + '<p id="performance-status"><b>' + performanceStatus + '</b></p><p><b>The translation is already copied to your clipboard. Below is a preview: </b></p>' + '<textarea id="text-content">' + cleanChineseText.replace(/[\n\r]+/g, '\n\n') + '</textarea>' + translations + '</div>';
+        buttonEle.value = 'Edit';
         // Get the text field
         var copyText = document.getElementById("text-content");
-
         // Select the text field
         copyText.select();
         copyText.setSelectionRange(0, 99999); // For mobile devices
-
         // Copy the text inside the text field
         navigator.clipboard.writeText(copyText.value);
         copyText.style.display = 'none';
-
     } else {
-        buttonEle.value = '完成';
+        buttonEle.value = 'Finish';
     }
 }
 

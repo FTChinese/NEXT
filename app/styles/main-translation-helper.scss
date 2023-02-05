@@ -97,6 +97,29 @@ body {
         display: block;
     }
 }
+.logged-in-container, .sign-in-container {
+    display: none;
+    float: right;
+    cursor: pointer;
+    a {
+        cursor: pointer;
+    }
+}
+body {
+    &.power-translate {
+        .sign-in-container {
+            display: block;
+        }
+        &.logged-in {
+            .sign-in-container {
+                display: none;
+            }
+            .logged-in-container {
+                display: block;
+            }
+        }
+    }
+}
 h1 {
     margin-bottom: 8px;
 }
