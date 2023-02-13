@@ -62,7 +62,7 @@
 <%assign var="tagtitle" value=$tag_name%>
 <%/if%>
 <%/if%>
-<%if $tagstory|@count==0 && $allstory|@count==0 && $storyCust|@count==0 && $tagstory2|@count==0 && $adchannelID=="" && $pageType != "search" && $pageType != "findpassword" && $pageType != "form"%>
+<%if $tagstory|@count==0 && $allstory|@count==0 && $storyCust|@count==0 && $tagstory2|@count==0 && $adchannelID=="" && $pageType != "search" && $pageType != "findpassword" && $pageType != "resetpassword" && $pageType != "form"%>
 <%assign var="tagtitle" value="无效的标签"%>
 <%elseif $count_result == 0 && $pageType=="search"%>
 <%assign var="tagtitle" value="无效的关键字"%>
@@ -265,6 +265,8 @@
         <%include file="next/partials/search-block.html"%>
     <%elseif $pageType=="findpassword"%>
         <%include file="next/partials/findpassword.html"%>
+    <%elseif $pageType=="resetpassword"%>
+        <%include file="next/partials/resetpassword.html"%>
     <%elseif $preferListGrid == "yes"%>
         <%include file="next/partials/tag-block-grid.html"%>
     <%else%>

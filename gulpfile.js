@@ -218,6 +218,9 @@ gulp.task('html', gulp.series('styles', () => {
   return gulp.src('app/*.html')
     .pipe($.useref({searchPath: ['.tmp', 'app', '.']}))
     .on('finish', () => {console.log ('Finished useref')})
+    .pipe($.if('*.js', $.babel({
+      presets: ['@babel/preset-env']
+    })))
     .pipe($.if('*.js', $.uglify()))
     .on('error', (err) => {
       if(err) {

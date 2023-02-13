@@ -1,4 +1,4 @@
-/* exported gIsLandingPage, obj, bannerBG, writeAd, slotStr, checkB, sendEvent,clearEvents, writeAdNew,deviceCategory, deviceType,adChannelId*/
+/* exported isUrlLocal, gIsLandingPage, obj, bannerBG, writeAd, slotStr, checkB, sendEvent,clearEvents, writeAdNew,deviceCategory, deviceType,adChannelId*/
 // MARK: - Sponsored Channel Ids
 
 var gIsLandingPage = false;
@@ -147,7 +147,7 @@ var adChannelId = getAdChannelId();
 
 var bannerBG = getBannerBG();
 
-var isLocal = isLocal();
+var isUrlLocal = isLocal();
 
 function getDeviceCategory() {
   var deviceCategory = 'PC';

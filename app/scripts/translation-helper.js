@@ -1,7 +1,7 @@
 // MARK: - This is internal tool, we are free to use the latest javascript, thus no need to do jshint, which is for legacy frontend stuff
 /* jshint ignore:start */
 // MARK: - This has to pass through the gulp testing, so no var or for of loops, or any other modern features. 
-var splitter = '-|-';
+const splitter = `-|-`;
 var startTime = new Date();
 var localStorageKey = 'translation';
 if (window.opener) {
@@ -13,12 +13,113 @@ if (window.opener) {
 }
 var dict = {};
 var delegate = new Delegate(document.body);
-var links = '<div>更多翻译引擎：<a href="https://fanyi.baidu.com/" target=_blank>百度</a> | <a href="https://fanyi.youdao.com/" target=_blank>有道</a> | <a href="https://www.deepL.com/" target=_blank>DeepL</a> | <a href="https://translate.google.com/" target=_blank>Google</a></div>';
+const isPowerTranslate = location.href.indexOf('powertranslate') >= 0;
+const isFrontendTest = window.location.href.indexOf('powertranslate/translation-helper') < 0;
+var links = (isPowerTranslate) ? `<div>More Choices: <a class="add-new-translation-choice" title="Not satisfied with the current choices? Click here to get another choice. ">OpenAI</a></div>` : '';
+//'<div>更多翻译引擎：<a href="https://fanyi.baidu.com/" target=_blank>百度</a> | <a href="https://fanyi.youdao.com/" target=_blank>有道</a> | <a href="https://www.deepL.com/" target=_blank>DeepL</a> | <a href="https://translate.google.com/" target=_blank>Google</a></div>';
 var heartBeatStatus = 'translating';
 var type = 'other';
 var id = '';
 var heartBeatIntervalId;
 var textAreaMinHeight = 60;
+var source = 'en';
+var target = 'cn';
+
+
+// MARK: - Add New Translations
+delegate.on('click', '.add-new-translation-choice', async function(event){
+    const html = this.innerHTML;
+    let requestCount = parseInt(this.getAttribute('request-count') || 0, 0);
+    try {
+        let requestStatus = this.getAttribute('request-status') || '';
+        if (requestStatus === 'pending') {
+            alert(`Please wait for the response! `);
+            return;
+        }
+        const container = this.parentNode.parentNode;
+        let sourceHTML = container.querySelector('.info-original').innerHTML;
+        const nameEntityEles = container.closest('.info-container').querySelectorAll('.name-entity-inner');
+        let nameEntities = [];
+        for (const ele of nameEntityEles) {
+            const translation = ele.querySelector('input').value || '';
+            if (translation === '') continue;
+            const original = ele.querySelector('.name-entity-key').innerText || '';
+            if (original === '') continue;
+            nameEntities.push({original: original, translation: translation});
+        }
+        nameEntities = nameEntities.sort((a, b)=>b.original.length - a.original.length);
+        for (const nameEntitie of nameEntities) {
+            const reg = new RegExp(nameEntitie.original, 'g');
+            sourceHTML = sourceHTML.replace(reg, nameEntitie.translation);
+        }
+        const prompt = `Translate from ${source} to ${target}: \n${sourceHTML}\n`;
+        // console.log(prompt);
+        // MARK: - For the first request, be stable. Then be creative. 
+        const temperature = (requestCount === 0) ? 0 : 1;
+        const max_tokens = prompt.length * 2;
+        const data = {
+            prompt: prompt,
+            temperature: temperature,
+            max_tokens: max_tokens
+        };
+        let url = '/openai/generate_text';
+        let options = {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        };
+        if (isFrontendTest) {
+            url = '/api/page/openai.json';
+            options = {
+                method: 'GET',
+                headers: {
+                  'Content-Type': 'application/json'
+                }
+            };
+        }
+        this.setAttribute('request-status', 'pending');
+        this.innerHTML = 'Requesting...';
+        const response = await fetch(url, options);
+        const results = await response.json();
+        if (response.status === 500 && results.message) {
+            alert(results.message);
+            this.removeAttribute('request-status');
+            this.innerHTML = html;
+            return;
+        }
+        if (results.length > 0 && results[0].text) {
+            const text = results[0].text.trim();
+            const existingTranslations = container.querySelectorAll('.info-translation');
+            const l = existingTranslations.length;
+            const newTranslation = '<div data-translation-index="' + l + '" class="info-translation info-translation-extra" title="click to confirm this translation to the right">' + text + '</div>';
+            if (existingTranslations.length > 0) {
+                const lastTranslation = existingTranslations[l-1];            
+                lastTranslation.insertAdjacentHTML('afterend', newTranslation);
+            } else {
+                this.parentElement.insertAdjacentHTML("beforebegin", newTranslation);
+            }
+            this.setAttribute('request-count', requestCount + 1);            
+        } else {
+            alert(`Something is wrong with OpenAI. Please try later. `);
+        }
+    } catch(err){
+        alert(`Something went wrong: ${err.toString()}`);
+    }
+    this.removeAttribute('request-status');
+    this.innerHTML = (requestCount >= 2) ? '' : html;
+    let childrenHTML = '';
+    for (const child of this.parentElement.children) {
+        childrenHTML += child.innerHTML;
+    }
+    if (childrenHTML === '') {
+        this.parentElement.innerHTML = '';
+    }
+    return false;
+});
+
+
 // MARK: - Links in translated text
 delegate.on('click', '.info-original a[href], .info-translation a[href], .info-original strong, .info-translation strong', function(event){
     try {
@@ -41,10 +142,10 @@ delegate.on('click', '.info-original a[href], .info-translation a[href], .info-o
             }
             textArea.value = newText;
         } else {
-            alert('请选中右边文本框的相应的文本内容来添加链接！');
+            alert(localize('select-text-to-add-link'));
         }
     } catch(ignore){
-        alert('请选中右边文本框的相应的文本内容来添加链接！');
+        alert(localize('select-text-to-add-link'));
     }
     event.stopImmediatePropagation();
     return false;
@@ -73,7 +174,7 @@ delegate.on('click', '.translation-suggestion', function(event){
         var newText = textBefore + newText + textAfter;
         textArea.value = newText;
     } else {
-        alert('请选中右边文本框的相应的文本内容来快捷填写！');
+        alert(localize('select-text-for-short-cut'));
     }
 });
 
@@ -90,9 +191,11 @@ delegate.on('click', '.name-entity-shortcut', function(event){
         textArea.value = newText;
         toggleTextareaWarning(textArea);
     } else {
-        alert('请选中右边文本框的相应的文本内容来快捷填写！');
+        alert(localize('select-text-for-short-cut'));
     }
 });
+
+
 
 delegate.on('click', '.add-name-entity', function(event){
     var ele = this.closest('.name-entity-translation');
@@ -124,7 +227,7 @@ delegate.on('click', '.ignore-name-entity', function(event){
 });
 
 delegate.on('click', '.ignore-all-name-entity', function(event){
-    if (!confirm('忽略所有的提示，可能会导致您无法发现文章中前后不一致的译名，您确定吗？')){return;}
+    if (!confirm(localize('ignore-all-name-entity-warning'))){return;}
     var allEles = document.querySelectorAll('.name-entity-inner, .name-entity-translation');
     for (var i=0; i<allEles.length; i++) {
         var element = allEles[i];
@@ -184,6 +287,124 @@ delegate.on('click', '.info-container textarea', function(event){
     expandHeight(this);
 });
 
+function TER(reference, hypothesis) {
+    // initialize the distance and m, n, i and j
+    let distance = 0;
+    let m = reference.length;
+    let n = hypothesis.length;
+    let dp = [];
+    for (let i = 0; i <= m; i++) {
+      dp[i] = [];
+      for (let j = 0; j <= n; j++) {
+        dp[i][j] = 0;
+      }
+    }
+    // fill in the dp array with the Wagner-Fisher algorithm
+    for (let i = 1; i <= m; i++) {
+      for (let j = 1; j <= n; j++) {
+        if (reference[i - 1] === hypothesis[j - 1]) {
+          dp[i][j] = dp[i - 1][j - 1];
+        } else {
+          dp[i][j] = Math.min(
+            dp[i - 1][j - 1] + 1,  // substitution
+            dp[i][j - 1] + 1,      // insertion
+            dp[i - 1][j] + 1       // deletion
+          );
+        }
+      }
+    }
+    // calculate the TER score as the distance divided by the length of the reference string
+    distance = dp[m][n];
+    return distance / m;
+}
+
+function bleu(prediction, references, ngrams) {
+    let numMatches = [0, 0, 0, 0];
+    let closestRefLength = Infinity;
+
+    // Calculate the length of the closest reference sentence
+    for (let ref of references) {
+        closestRefLength = Math.min(closestRefLength, ref.length);
+    }
+
+    // Calculate the number of matches for each ngrams size
+    for (let i = 0; i < ngrams; i++) {
+        let maxNGram = i + 1;
+
+        for (let start = 0; start < closestRefLength - maxNGram + 1; start++) {
+            let ngram = prediction.substring(start, start + maxNGram);
+
+            for (let ref of references) {
+                if (ref.indexOf(ngram) !== -1) {
+                    numMatches[i]++;
+                    break;
+                }
+            }
+        }
+    }
+
+    // Calculate the BLEU score
+    let weightSum = 0;
+    for (let i = 0; i < ngrams; i++) {
+        weightSum += Math.pow(0.25, i) / numMatches[i];
+    }
+
+    return 1 - weightSum;
+}
+
+function localize(text) {
+    let language = (isPowerTranslate) ? navigator.language : 'zh-CN';
+    if (/^en/.test(language)) {
+        language = 'en';
+    }
+    const dict = {
+        'ignore-all-name-entity-warning': {'en': 'Ignoring all the hints may result in you not spotting inconsistent translations in the article, are you sure?', 'zh-CN': '忽略所有的提示，可能会导致您无法发现文章中前后不一致的译名，您确定吗？'},
+        'Finish & Close': {'zh-CN': '完成并关闭'},
+        'Edit': {'zh-CN': '编辑'},
+        'Finish': {'zh-CN': '完成'},
+        'Top': {'zh-CN': '顶部'},
+        'Recover': {'zh-CN': '恢复'},
+        'Backup': {'zh-CN': '备份'},
+        'Preview': {'zh-CN': '预览'},
+        'Add Word': {'zh-CN': '加词条'},
+        'Replace': {'zh-CN': '替换'},
+        'Click the translation': {'zh-CN': '点选左边的翻译版本，您也可以继续编辑'},
+        'Add the translation': {'zh-CN': '填写统一译法，开启提醒'},
+        'Ignore': {'zh-CN': '忽略'},
+        'Ignore All': {'zh-CN': '忽略所有提醒'},
+        'Name Entities': {'zh-CN': '多次出现词语'},
+        'select-text-to-add-link': {'en': 'Please select text from the right text to add link', 'zh-CN': '请选中右边文本框的相应的文本内容来添加链接！'},
+        'select-text-for-short-cut': {'en': 'Please select text from the right text for shortcut!', 'zh-CN': '请选中右边文本框的相应的文本内容来快捷填写！'},
+        'tap-to-add': {'en': 'After tapping on the left to fill in the text here, you can try to select part of the text and then click on the links and bold fonts on the left to easily add links or bold text', 'zh-CN': '在点选左边把文字填写到这里之后，可以尝试选择部分文字，然后点击左边的链接和加粗字体，就可以方便地添加链接或加粗文字。'},
+        'content-error-hint': {'en': 'There may be some problems with your edits, do you want to continue submitting?', 'zh-CN': '您编辑的内容可能有些问题，您还要继续提交吗？'},
+        'mark-red-reminder': {'en': 'Relevant passages have been marked in red.', 'zh-CN': '相关的段落已经标红。'},
+        'ask-to-overwrite': {'en': 'Overwrite the version previously saved locally, OK?', 'zh-CN': '覆盖之前保存在本地的版本，确定吗？'},
+        'cannot-save-prompt': {'en': 'Due to a browser problem, it is not possible to save your work locally, please take a screenshot of this error message to the technician. ', 'zh-CN': '由于浏览器的问题，无法在本地保存您的工作，请把这个错误信息截屏给技术人员'},
+        'recover-prompt': {'en': 'Reverting to the last version saved locally will lose all the changes made now, are you sure?', 'zh-CN': '恢复到上次保存在本地的版本，会丢失现在的所有修改，确定吗？'},
+        'Current Translation': {'zh-CN': '旧译名'},
+        'New Translation': {'zh-CN': '新译名'},
+        'Replace All': {'zh-CN': '全部替换'},
+        'Hide Replacement': {'zh-CN': '隐藏替换'},
+        'Empty-Translation': {'en': 'Current translation cannot be empty!', 'zh-CN': '旧译名不能为空!'},
+        'Empty-Source': {'en': 'Original test cannot be empty!', 'zh-CN': '原文不能为空!'},
+        'Original': {'zh-CN': '原文'},
+        'Translation': {'zh-CN': '译文'},
+        'Hide Add Word': {'zh-CN': '隐藏添加'},
+        'Not-Found-Word-In-Original': {'en': 'No word found in the original, please check your input in the original!', 'zh-CN': '没有在原文中找到词条，请检查一下您的原文的输入！'},
+        'Others-Working-On-It': {'en': 'This article seems to have been modified or posted by someone else while you were editing it, would you like to see the details?', 'zh-CN': '这篇文章在您进行编辑的时候，似乎被别人进行了修改或发布，您要看看详情吗？'}
+    };
+    if (dict[text]) {
+        if (dict[text][language]) {
+            return dict[text][language];
+        }
+        if (dict[text].en) {
+            return dict[text].en;
+        }
+    }
+    return text;
+}
+
+
 function expandHeight(ele) {
     var scrollHeight = ele.scrollHeight;
     var paddingTop = window.getComputedStyle(ele, null).getPropertyValue('padding-top').replace(/[^\d]+/g, '');
@@ -241,7 +462,7 @@ function checkDict(ele) {
             }
             var nameEntityTranslations = document.querySelectorAll('.name-entity-translation[data-key="' + key + '"]');
             for (var m=0; m<nameEntityTranslations.length; m++) {
-                nameEntityTranslations[m].innerHTML = '<span class="name-entity-shortcut">' + translation + '</span><span class="name-entity-shortcut">' + translation + '(' + key + ')</span><button class="add-name-entity" title="将译法添加到词库"></button>';
+                nameEntityTranslations[m].innerHTML = '<span class="name-entity-shortcut">' + translation + '</span><span class="name-entity-shortcut">' + translation + '(' + key + ')</span><button class="add-name-entity" title="Add to Dictionary"></button>';
             }
             break;
         }
@@ -249,6 +470,7 @@ function checkDict(ele) {
 }
 
 function toggleTextareaWarning(ele) {
+    console.log(`toggleTextareaWarning: TER and BLEU`);
     var status = checkTextarea(ele);
     if (status.success === true) {
         ele.closest('.info-container').querySelector('.info-error-message').innerHTML = '';
@@ -278,7 +500,7 @@ function checkTextarea(ele) {
         return {success: true};
     }
     if (/[\S]+[\n\r]+[\S]+/.test(value)) {
-        return {success: false, message: '有些文本框有多个段落，很可能是您在编辑的时候，忘记删除多余的文字。请检查！'};
+        return {success: false, message: 'Some textareas have multiple paragraphs. It is probably because you forgot to delete unneeded text. Please check again! '};
     }
     var container = ele.closest('.info-container');
     var nameEntities = container.querySelectorAll('.name-entity-inner');
@@ -314,10 +536,10 @@ function checkTextarea(ele) {
     }
     if (unmatchedKeys.length > 0) {
         var description = unmatchedKeys.map(function(x){
-            var translationAppear = x.translationMatches === 0 ? '没有出现' : '仅出现<strong>' + x.translationMatches + '</strong>次';
-            return '原文中<strong>' + x.source + '</strong>出现<strong>' + x.sourceMatches + '</strong>次，但译文中<strong class="name-entity-shortcut">' + x.translation + '</strong>' + translationAppear;
+            var translationAppear = x.translationMatches === 0 ? ' is not found. ' : ' occurs only <strong>' + x.translationMatches + '</strong> times. ';
+            return 'In the original text, <strong>' + x.source + '</strong> occurs ' + x.sourceMatches + ' time(s), but in the translation, <strong class="name-entity-shortcut">' + x.translation + '</strong>' + translationAppear;
         }).join('；');
-        return {success: false, message: '中文段落中有翻译不一致的地方，请检查，可点击加黑的译文快速插入：' + description};
+        return {success: false, message: 'Check for inconsistencies in translation. You can quickly insert by clicking on the bolded translation: ' + description};
     }
     return {success: true};
 }
@@ -399,10 +621,12 @@ function start() {
     function renderBottomButtons() {
 
         if (document.querySelectorAll('.bottom-button').length === 0) {
-            const closeButtonValue = isPowerTranslate ? '完成' : '完成并关闭';
+            const closeButtonValue = isPowerTranslate ? localize('Finish') : localize('Finish & Close');
+            // console.log(closeButtonValue);
+
             var bottomButton = document.createElement('DIV');
             bottomButton.className = 'centerButton bottom-button';
-            bottomButton.innerHTML = '<input id="show-replace-button" type="button" value="替换" onclick="showReplace(this)" class="submitbutton button ui-light-btn"><input id="add-new-match-button" type="button" value="加词条" onclick="showAddNewMatch(this)" class="submitbutton button ui-light-btn"><input type="button" value="预览" onclick="preview(this)" class="submitbutton button ui-light-btn"><input type="button" value="备份" onclick="saveToLocal()" class="submitbutton button ui-light-btn"><input type="button" value="恢复" onclick="restoreFromLocal()" class="submitbutton button ui-light-btn"><input type="button" value="顶部" onclick="backToTop()" class="submitbutton button ui-light-btn"><input type="button" value="'+ closeButtonValue + '" onclick="finishTranslation(this)" class="submitbutton button ui-light-btn">';
+            bottomButton.innerHTML = '<input id="show-replace-button" type="button" value="' + localize('Replace') + '" onclick="showReplace(this)" class="submitbutton button ui-light-btn"><input id="add-new-match-button" type="button" value="' + localize('Add Word') + '" onclick="showAddNewMatch(this)" class="submitbutton button ui-light-btn"><input type="button" value="' + localize('Preview') + '" onclick="preview(this)" class="submitbutton button ui-light-btn"><input type="button" value="' + localize('Backup') + '" onclick="saveToLocal()" class="submitbutton button ui-light-btn"><input type="button" value="' + localize('Recover') + '" onclick="restoreFromLocal()" class="submitbutton button ui-light-btn"><input type="button" value="' + localize('Top') + '" onclick="backToTop()" class="submitbutton button ui-light-btn"><input type="button" value="'+ closeButtonValue + '" onclick="finishTranslation(this)" class="submitbutton button ui-light-btn">';
             document.body.appendChild(bottomButton);
         }
         document.querySelector('.body').classList.add('full-grid');
@@ -434,7 +658,7 @@ function start() {
                 for (var m=0; m<translations.length; m++) {
                     infoHTML += '<div onclick="confirmTranslation(this)" data-translation-index="' + m + '"  class="info-translation" title="click to confirm this translation to the right">' + translations[m] + '</div>';
                 }
-                infoHTML = '<div class="info-container"><div>' + infoHTML + links + '</div><div><div class="info-suggestion"></div><div class="info-error-message"></div><textarea data-info-id="' + id + '" placeholder="点选左边的翻译版本，您也可以继续编辑"></textarea></div><div class="info-helper"></div></div><hr>';
+                infoHTML = '<div class="info-container"><div>' + infoHTML + links + '</div><div><div class="info-suggestion"></div><div class="info-error-message"></div><textarea data-info-id="' + id + '" placeholder="' + localize('Click the translation') + '"></textarea></div><div class="info-helper"></div></div><hr>';
                 k += infoHTML;
             }
         }
@@ -476,7 +700,7 @@ function start() {
             if (t1 !== '') {
                 infoHTML += '<div data-translation-index="' + j1 + '" class="info-translation selected" title="click to confirm this translation to the right">' + t1 + '</div>';
             }
-            infoHTML = '<div class="info-container"><div>' + infoHTML + links + '</div><div><div class="info-suggestion"></div><div class="info-error-message"></div><textarea data-info-id="' + id + '" placeholder="点选右边的翻译版本，您也可以继续编辑">' + t1 + '</textarea></div><div class="info-helper"></div></div><hr>';
+            infoHTML = '<div class="info-container"><div>' + infoHTML + links + '</div><div><div class="info-suggestion"></div><div class="info-error-message"></div><textarea data-info-id="' + id + '" placeholder="' + localize('Click the translation') + '">' + t1 + '</textarea></div><div class="info-helper"></div></div><hr>';
             k += infoHTML;
         }
         storyBodyEle.innerHTML = k;
@@ -492,7 +716,7 @@ function start() {
             if (j < tTexts.length) {
                 t1 = tTexts[j] || '';
             }
-            infoHTML = '<div class="info-container"><div>' + infoHTML + '</div><div><div class="info-suggestion"></div><div class="info-error-message"></div><textarea placeholder="点选右边的翻译版本，您也可以继续编辑">' + t1 + '</textarea></div><div class="info-helper"></div></div><hr>';
+            infoHTML = '<div class="info-container"><div>' + infoHTML + '</div><div><div class="info-suggestion"></div><div class="info-error-message"></div><textarea placeholder="' + localize('Click the translation') + '">' + t1 + '</textarea></div><div class="info-helper"></div></div><hr>';
             k += infoHTML;
         }
         storyBodyEle.innerHTML = k;
@@ -549,7 +773,7 @@ function start() {
     var allLinks = document.querySelectorAll('.info-original a[href]');
     for (var n=0; n<allLinks.length; n++) {
         allLinks[n].setAttribute('target', '_blank');
-        var suggestion = '在点选左边把文字填写到这里之后，可以尝试选择部分文字，然后点击左边的链接和加粗字体，就可以方便地添加链接或加粗文字。';
+        var suggestion = localize('tap-to-add');
         allLinks[n].closest(".info-container").querySelector('.info-suggestion').innerHTML = suggestion;
         // allLinks[n].closest(".info-container").querySelector('textarea').setAttribute('placeholder', suggestion);
     }
@@ -626,8 +850,12 @@ function finish() {
 }
 
 function tidyUpChineseText(text) {
+    // MARK: - The style only applies to Chinese
+    if (target !== 'cn') return text;
     // MARK: - Use the correct English brackets
-    var result = text.replace(/[\(（)]([A-zàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð\s\d\.,\'\-]+)[\)）]/g, '($1)'); 
+    var result = text
+        .replace(/[\(（)]([A-zàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð\s\d\.,\'\-]+)[\)）]/g, '($1)')
+        .replace(/·/g, '•'); 
     return result;
 }
 
@@ -717,7 +945,7 @@ function checkAllTextAreas() {
 function finishTranslationForArticle(buttonEle) {
     var status = checkAllTextAreas();
     if (!status.success) {
-        var question = '您编辑的内容可能有些问题，您还要继续提交吗？\n\n' + status.message + '\n\n相关的段落已经标红。';
+        var question = localize('content-error-hint') + '\n\n' + status.message + '\n\n' + localize('mark-red-reminder');
         if (!window.confirm(question)) {
             toggleAllTextareaWarning();
             return false;
@@ -745,6 +973,7 @@ function finishTranslationForArticle(buttonEle) {
     }
     var cleanChineseText = getCleanText(englishInfoDiv);
     if (window.opener) {
+        // MARK: - if the browser can find the opener tab, it can just update the editing page automatically by updating fields as the cbody, ebody and tag. 
         var cbodyEles = window.opener.document.querySelectorAll('textarea.bodybox, #cbody');
         for (var j=0; j<cbodyEles.length; j++) {
             var cbodyEle = cbodyEles[j];
@@ -1000,7 +1229,7 @@ function showNames() {
                     value = dict[key][0];
                     shortCutHTML = '<span class="name-entity-shortcut">' + value + '</span><span class="name-entity-shortcut">' + value + '(' + key + ')</span><button class="add-name-entity" title="将译法添加到词库"></button>';
                 }
-                nameEle.innerHTML = '<span class="name-entity-key">' + key + '</span><span><input type="text" value="' + value + '" placeholder="填写统一译法，开启提醒"></span><button class="ignore-name-entity" title="忽略"></button>';
+                nameEle.innerHTML = '<span class="name-entity-key">' + key + '</span><span><input type="text" value="' + value + '" placeholder="' + localize('Add the translation') + '"></span><button class="ignore-name-entity" title="' + localize('Ignore') + '"></button>';
                 nameEntitiesContainer.appendChild(nameEle);
                 var translationEle = document.createElement('DIV');
                 translationEle.className = 'name-entity-translation';
@@ -1013,27 +1242,38 @@ function showNames() {
         if (firstNameEntitiesContainer) {
             var nameEntitieDescription = document.createElement('DIV');
             nameEntitieDescription.className = 'name-entities-description';
-            nameEntitieDescription.innerHTML = '多次出现词语';
+            nameEntitieDescription.innerHTML = localize('Name Entities');
             firstNameEntitiesContainer.parentElement.insertBefore(nameEntitieDescription, firstNameEntitiesContainer);
         }
         var ignoreAllContainer = document.createElement('BUTTON');
         ignoreAllContainer.className = 'ignore-all-name-entity';
-        ignoreAllContainer.setAttribute('title', '忽略所有提醒');
+        ignoreAllContainer.setAttribute('title', localize('Ingore All'));
         ele.closest('.info-container').querySelector('.info-helper').append(ignoreAllContainer);
     }
     checkInfoHelpers();
 }
 
 function showGlossarySuggestions() {
-    if (!window.opener) {return;}
-    var ebodyEle = window.opener.document.getElementById('ebody');
-    if (!ebodyEle) {return;}
-    var ebody = ebodyEle.value;
+    if (source !== 'en' || target !== 'cn') {return;}
+    var ebody = '';
+    if (window.opener) {
+        var ebodyEle = window.opener.document.getElementById('ebody');
+        if (!ebodyEle) {return;}
+        ebody = ebodyEle.value;
+    } else if (document.getElementById('english-text')) {
+        ebody = document.getElementById('english-text').value;
+    }
     var div = document.createElement('DIV');
     div.innerHTML = ebody;
     ebody = div.innerText;
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/falcon.php/glossary/ajax_get_suggestions');
+    var apiUrl = '/falcon.php/glossary/ajax_get_suggestions';
+    var apiMethod = 'POST';
+    if (window.location.href.indexOf('localhost')>=0) {
+        apiUrl = '/api/page/glossary.json';
+        apiMethod = 'GET';
+    }
+    xhr.open(apiMethod, apiUrl);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onload = function() {
         if (xhr.status !== 200) {return;}
@@ -1053,20 +1293,20 @@ function showGlossarySuggestions() {
             for (var j = 0; j < suggestions.length; j++) {
                 var suggestion = suggestions[j];
                 var en_title = suggestion.en_title;
-                var chinese_title = suggestion.chinese_title;
+                var chinese_title = suggestion.chinese_title.replace(/·/g, '•');
                 if (!en_title || !chinese_title || englishText.indexOf(en_title) === -1) {continue;}
                 var infoContainer = infoOriginal.closest('.info-container');
                 var existingNameEntityInner = infoContainer.querySelector('.name-entity-inner[data-key="' + en_title + '"]');
                 var existingNameEntityTranslation = infoContainer.querySelector('.name-entity-translation[data-key="' + en_title + '"]');
                 if (existingNameEntityInner && existingNameEntityTranslation) {
                     existingNameEntityInner.querySelector('input').value = chinese_title;
-                    existingNameEntityTranslation.innerHTML = '<span class="name-entity-shortcut">' + chinese_title + '</span><span class="name-entity-shortcut">' + chinese_title + '(' + en_title + ')</span><button class="add-name-entity" title="将译法添加到词库"></button>';
+                    existingNameEntityTranslation.innerHTML = '<span class="name-entity-shortcut">' + chinese_title + '</span><span class="name-entity-shortcut">' + chinese_title + '(' + en_title + ')</span><button class="add-name-entity" title="Add to Glossary"></button>';
                 } else {
                     var suggestionEle = document.createElement('DIV');
                     suggestionEle.innerHTML = en_title + ': <b>' + chinese_title + '</b>';
                     suggestionEle.className = 'translation-suggestion';
                     suggestionEle.setAttribute('data-translation', chinese_title);
-                    suggestionEle.setAttribute('title', '点击这里快速将“' + chinese_title + '”插入到下面文本框中');
+                    suggestionEle.setAttribute('title', 'Click to insert “' + chinese_title + '” into the text area below');
                     infoOriginal.parentElement.append(suggestionEle);
                     // MARK: - Insert glossary to the right column
                     var infoHelper = infoOriginal.closest('.info-container').querySelector('.info-helper');
@@ -1075,7 +1315,7 @@ function showGlossarySuggestions() {
                         nameEntityContainer = document.createElement('DIV');
                         infoHelper.append(nameEntityContainer);
                     }
-                    var newNameEntityInnerHTML = '<div class="name-entities-container"><div class="name-entity-inner" data-key="' + en_title + '"><span class="name-entity-key">' + en_title + '</span><span><input type="text" value="' + chinese_title + '" placeholder="填写统一译法，开启提醒"></span><button class="ignore-name-entity" title="忽略"></button></div><div class="name-entity-translation" data-key="' + en_title + '"><span class="name-entity-shortcut">' + chinese_title + '</span><span class="name-entity-shortcut">' + chinese_title + '(' + en_title + ')</span><button class="add-name-entity" title="将译法添加到词库"></button></div>';
+                    var newNameEntityInnerHTML = '<div class="name-entities-container"><div class="name-entity-inner" data-key="' + en_title + '"><span class="name-entity-key">' + en_title + '</span><span><input type="text" value="' + chinese_title + '" placeholder="' + localize('Add the translation') + '"></span><button class="ignore-name-entity" title="忽略"></button></div><div class="name-entity-translation" data-key="' + en_title + '"><span class="name-entity-shortcut">' + chinese_title + '</span><span class="name-entity-shortcut">' + chinese_title + '(' + en_title + ')</span><button class="add-name-entity" title="Add to glossary"></button></div>';
                     nameEntityContainer.innerHTML += newNameEntityInnerHTML;
                 }
             }
@@ -1147,18 +1387,18 @@ function preview(buttonEle) {
         document.body.appendChild(previewContainer);
     }
     previewContainer = document.querySelector('.preview-container');
-    previewContainer.innerHTML = '<div class="preview-content">' + translations + '</div>';
+    previewContainer.innerHTML = '<div class="preview-content">' + tidyUpChineseText(translations) + '</div>';
     document.body.classList.toggle('preview');
     if (document.body.classList.contains('preview')) {
-        buttonEle.value = '编辑';
+        buttonEle.value = localize('Edit');
     } else {
-        buttonEle.value = '预览';
+        buttonEle.value = localize('Preview');
     }
 }
 
 function saveToLocal(force) {
     if (!force) {
-        if (!confirm('覆盖之前保存在本地的版本，确定吗？')) {return;}
+        if (!confirm(localize('ask-to-overwrite'))) {return;}
     }
     var storyBodyConttainerEle = document.getElementById('story-body-container');
     if (!storyBodyConttainerEle) {return;}
@@ -1170,12 +1410,12 @@ function saveToLocal(force) {
     try {
         localStorage.setItem(localStorageKey, saved);
     } catch(err) {
-        alert('由于浏览器的问题，无法在本地保存您的工作，请把这个错误信息截屏给技术人员\n' + err.toString());
+        alert(localize('cannot-save-prompt') + '\n' + err.toString());
     }
 }
 
 function restoreFromLocal() {
-    if (!confirm('恢复到上次保存在本地的版本，会丢失现在的所有修改，确定吗？')) {return;}
+    if (!confirm(localize('recover-prompt'))) {return;}
     var storyBodyConttainerEle = document.getElementById('story-body-container');
     if (!storyBodyConttainerEle) {return;}
     try {
@@ -1183,7 +1423,7 @@ function restoreFromLocal() {
         console.log(saved);
         storyBodyConttainerEle.innerHTML = saved;
     } catch(err) {
-        alert('很可能是由于浏览器的问题，无法从本地恢复您的工作，请把这个错误信息截屏给技术人员\n' + err.toString());
+        alert(localize('cannot-save-prompt') + '\n' + err.toString());
     }
 }
 
@@ -1196,21 +1436,21 @@ function showReplace(buttonEle) {
         document.body.appendChild(replaceContainer);
     }
     replaceContainer = document.querySelector('.replace-container');
-    replaceContainer.innerHTML = '<div class="replace-content"><input placeholder="旧译名" type="text" class="replace-from" value="' + from + '"><input placeholder="新译名" type="text" class="replace-to"><button onclick="replaceAll()">全部替换</button></div>';
+    replaceContainer.innerHTML = '<div class="replace-content"><input placeholder="' + localize('Current Translation') + '" type="text" class="replace-from" value="' + from + '"><input placeholder="' + localize('New Translation') + '" type="text" class="replace-to"><button onclick="replaceAll()">' + localize('Replace All') + '</button></div>';
     document.body.classList.remove('show-add-new-match');
-    document.getElementById('add-new-match-button').value = '添加词条';
+    document.getElementById('add-new-match-button').value = localize('Add Word');
     document.body.classList.toggle('show-replace');
     if (document.body.classList.contains('show-replace')) {
-        buttonEle.value = '隐藏替换';
+        buttonEle.value = localize('Hide Replacement');
     } else {
-        buttonEle.value = '全文替换';
+        buttonEle.value = localize('Replace All');
     }
 }
 
 function replaceAll() {
     var from = document.querySelector('.replace-from').value;
     if (from === '') {
-        alert('旧译名不能为空!');
+        alert(localize('Empty-Translation'));
         return;
     }
     var to = document.querySelector('.replace-to').value;
@@ -1243,9 +1483,9 @@ function replaceAll() {
     }
     if (replaceCount > 0) {
         toggleAllTextareaWarning();
-        alert('完成了' + replaceCount + '次替换！如您对此功能有进一步的要求和建议，比如，希望我们的机器翻译结果能“记住”正确的译法，请告诉Oliver');
+        alert('Finished ' + replaceCount + 'replacement(s). If you have further requests and suggestions for this feature, for example, if you want our machine translation results to "remember" the correct translation, please let Oliver know. ');
     } else {
-        alert('在译文中没有找到“' + from + '”，请检查一下您的输入是否正确');
+        alert('Cannot find “' + from + '”, please check your input. ');
     }
 }
 
@@ -1264,26 +1504,26 @@ function showAddNewMatch(buttonEle) {
         document.body.appendChild(addNewMatchContainer);
     }
     addNewMatchContainer = document.querySelector('.add-new-match-container');
-    addNewMatchContainer.innerHTML = '<div class="replace-content"><input placeholder="原文" type="text" class="new-match-from" value="' + from + '"><input placeholder="译文" type="text" class="new-match-to" value="' + to + '"><button onclick="addNewMatch()">添加词条</button></div>';
+    addNewMatchContainer.innerHTML = '<div class="replace-content"><input placeholder="' + localize('Original') + '" type="text" class="new-match-from" value="' + from + '"><input placeholder="' + localize('Translation') + '" type="text" class="new-match-to" value="' + to + '"><button onclick="addNewMatch()">' + localize('Add Word') + '</button></div>';
     document.body.classList.remove('show-replace');
-    document.getElementById('show-replace-button').value = '全文替换';
+    document.getElementById('show-replace-button').value = localize('Replace All');
     document.body.classList.toggle('show-add-new-match');
     if (document.body.classList.contains('show-add-new-match')) {
-        buttonEle.value = '隐藏添加';
+        buttonEle.value = localize('Hide Add Word');
     } else {
-        buttonEle.value = '添加词条';
+        buttonEle.value = localize('Add Word');
     }
 }
 
 function addNewMatch() {
     var from = document.querySelector('.new-match-from').value;
     if (from === '') {
-        alert('原文不能为空!');
+        alert(localize('Empty-Source'));
         return;
     }
     var to = document.querySelector('.new-match-to').value;
     if (to === '') {
-        alert('译文不能为空');
+        alert(localize('Empty-Translation'));
         return;
     }
     var infoContainers = document.querySelectorAll('.info-container');
@@ -1299,7 +1539,7 @@ function addNewMatch() {
             existingNameEntity.querySelector('input').value = to;
             var shortCutEle = existingNameEntity.parentElement.querySelector('.name-entity-translation[data-key="' + from + '"]');
             if (!shortCutEle) {continue;}
-            shortCutEle.innerHTML = '<span class="name-entity-shortcut">' + to + '</span><span class="name-entity-shortcut">' + to + '(' + from + ')</span><button class="add-name-entity" title="将译法添加到词库"></button>';
+            shortCutEle.innerHTML = '<span class="name-entity-shortcut">' + to + '</span><span class="name-entity-shortcut">' + to + '(' + from + ')</span><button class="add-name-entity" title="Add to Glossary"></button>';
             foundExisting = true;
             updateCount += 1;
         }
@@ -1322,14 +1562,14 @@ function addNewMatch() {
             nameEntitiesContainer.className = 'name-entities-container';
             infoContainer.querySelector('.info-helper').appendChild(nameEntitiesContainer);
         }
-        nameEntitiesContainer.innerHTML += '<div class="name-entity-inner" data-key="' + from + '"><span class="name-entity-key">' + from + '</span><span><input type="text" value="' + to + '" placeholder="填写统一译法，开启提醒"></span><button class="ignore-name-entity" title="忽略"></button></div><div class="name-entity-translation" data-key="' + from + '"><span class="name-entity-shortcut">' + to + '</span><span class="name-entity-shortcut">' + to + '(' + from + ')</span><button class="add-name-entity" title="将译法添加到词库"></button></div>';
+        nameEntitiesContainer.innerHTML += '<div class="name-entity-inner" data-key="' + from + '"><span class="name-entity-key">' + from + '</span><span><input type="text" value="' + to + '" placeholder="' + localize('Add the translation') + '"></span><button class="ignore-name-entity" title="' + localize('Ignore') + '"></button></div><div class="name-entity-translation" data-key="' + from + '"><span class="name-entity-shortcut">' + to + '</span><span class="name-entity-shortcut">' + to + '(' + from + ')</span><button class="add-name-entity" title="Add to glossary"></button></div>';
         createCount += 1;
     }
     if (updateCount === 0 && createCount === 0) {
-        alert('没有在原文中找到词条，请检查一下您的原文的输入！');
+        alert(localize('Not-Found-Word-In-Original'));
     } else {
-        var updateMessage = (updateCount > 0) ? '更新了' + updateCount + '个段落的词条。' : '';
-        var createMessage = (createCount > 0) ? '添加了' + createCount + '个段落的词条。' : '';
+        var updateMessage = (updateCount > 0) ? 'Updated in' + updateCount + ' paragraphs. ' : '';
+        var createMessage = (createCount > 0) ? 'Added words in' + createCount + ' paragraphs. ' : '';
         alert (updateMessage + createMessage);
         checkInfoHelpers();
         toggleAllTextareaWarning();
@@ -1354,7 +1594,7 @@ function watchChange() {
             var newFileupdatetime = items[0].fileupdatetime;
             if (newFileupdatetime != fileupdatetime) {
                 fileupdatetime = newFileupdatetime;
-                if (window.confirm('这篇文章在您进行编辑的时候，似乎被别人进行了修改或发布，您要看看详情吗？')) {
+                if (window.confirm(localize('Others-Working-On-It'))) {
                     window.open('/falcon.php/ia/edit/' + window.opener.contentId, '_blank');
                 }
             }
@@ -1370,11 +1610,11 @@ function startHeartBeat(status) {
         var now = new Date().getTime()/1000;
         var seconds = now - t;
         if (seconds < 60) {
-            return Math.round(seconds) + '秒';
+            return Math.round(seconds) + ' seconds';
         } else if (seconds < 3600) {
-            return Math.round(seconds/60) + '分钟';
+            return Math.round(seconds/60) + ' minutes';
         } else {
-            return Math.round(seconds/3600) + '小时';
+            return Math.round(seconds/3600) + ' hours';
         }
     }
 
@@ -1384,7 +1624,7 @@ function startHeartBeat(status) {
             updateHeartBeat(status);
             return;
         }
-        var message = '请注意，这篇文章似乎有别人正在处理，以下是具体的信息：' + info.message + '您还要继续打开吗？';
+        var message = 'Please note that someone else appears to be working on this article, and the following specific information is available: ' + info.message + 'Do you want to keep it open?';
         if (window.confirm(message)) {
             updateHeartBeat(status);
             return;
@@ -1443,15 +1683,15 @@ function startHeartBeat(status) {
             // }
             var extraInfo = '';
             if (regIP.test(key) && location.hostname === 'backyard.ftchinese.org') {
-                extraInfo = '(有可能是你自己的IP，如果确认的话，可以忽略这个警告)';
+                extraInfo = '(It could be your own IP, if confirmed, you can ignore this warning)';
             }
             var info = JSON.parse(data[key]);
             if (info.time < cutTime) {continue;}
             if (info.time > warningCutTime) {
                 warning = true;
             }
-            var explaination = (warning) ? '。' : '，他/她有可能已经断网或者退出了。';
-            message += key + extraInfo + '可能在' + statusDict[info.status] + '，最新的活跃时间是' + humanTimeDiff(info.time) + '之前' + explaination;
+            var explaination = (warning) ? '。' : 'It is possible that he/she has disconnected or quit. ';
+            message += key + extraInfo + 'Might be ' + statusDict[info.status] + ' the latest active time is ' + humanTimeDiff(info.time) + ' ago' + explaination;
         }
         if (message === '') {
             return null;
@@ -1536,6 +1776,11 @@ function initPowerTranslate() {
     var script = document.createElement('script');
     script.src = '/powertranslate/scripts/register.js';
     document.head.appendChild(script);
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get('inspect');
+    if (typeof id === 'string' && id !== '') {
+        inspectTranslation(id);
+    }
 }
 
 function addNewTranslation() {
@@ -1569,6 +1814,8 @@ function addNewTranslation() {
             var result = JSON.parse(xhr.responseText);
             if (result.status === 'ok') {
                 inspectTranslation(id);
+                const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?inspect=' + id;
+                history.pushState({}, '', newUrl);
             } else {
                 alert('The translation task can not be submitted right now because of server error! ');
             }
@@ -1588,9 +1835,7 @@ function addNewTranslation() {
 }
 
 function inspectTranslation(id) {
-    document.getElementById('status-message').innerHTML = 'Please wait for about 15 minutes for your text to be processed. Don\'t close this page. You can go have a cup of tea or do something else...';
-    document.getElementById('start-button').disabled = true;
-    var timer = setInterval(function(){
+    function inspectOne() {
         var xhr = new XMLHttpRequest();
         var method = isFrontendTest ? 'GET' : 'POST';
         var url = isFrontendTest ? '/api/powertranslate/inspect.json' : '/pt/inspect';
@@ -1612,6 +1857,12 @@ function inspectTranslation(id) {
         };
         var postData = {id: id};
         xhr.send(JSON.stringify(postData));
+    }
+    document.getElementById('status-message').innerHTML = 'Please wait for about 15 minutes for your text to be processed. Don\'t close this page. You can go have a cup of tea or do something else...';
+    document.getElementById('start-button').disabled = true;
+    inspectOne();
+    var timer = setInterval(function(){
+        inspectOne();
     }, 20000);
 }
 
@@ -1672,9 +1923,10 @@ function finishPowerTranslate(buttonEle, cleanChineseText) {
         // var result = {seconds: seconds, adopt: adoptionsCount, total: infoContainers.length, chinese: chineseWordCount, english: englishWordCount, translator: window.userName};
         const minutes = Math.round(seconds/60);
         const thousandWordMinutes = Math.round(1000*seconds/60/englishWordCount);
-        const performanceStatus = 'Spent ' + minutes + ' minutes, or ' + thousandWordMinutes + ' minutes per thousand words. ';
+        const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+        const performanceStatus = '<a href="' + newUrl + '" style="display: block">Back</a>Spent ' + minutes + ' minutes, or ' + thousandWordMinutes + ' minutes per thousand words. ';
         previewContainer = document.querySelector('.preview-container');
-        previewContainer.innerHTML = '<div class="preview-content">' + '<p id="performance-status"><b>' + performanceStatus + '</b></p><p><b>The translation is already copied to your clipboard. Below is a preview: </b></p>' + '<textarea id="text-content">' + cleanChineseText.replace(/[\n\r]+/g, '\n\n') + '</textarea>' + translations + '</div>';
+        previewContainer.innerHTML = '<div class="preview-content">' + '<p id="performance-status"><b>' + performanceStatus + '</b></p><p><b>The translation is already copied to your clipboard. Below is a preview: </b></p>' + '<textarea id="text-content">' + cleanChineseText.replace(/[\n\r]+/g, '\n\n') + '</textarea>' + tidyUpChineseText(translations) + '</div>';
         buttonEle.value = 'Edit';
         // Get the text field
         var copyText = document.getElementById("text-content");
@@ -1695,7 +1947,13 @@ function launchTranslationReview(result) {
     alert('Your text is translated by machine, now you need to do a final review! ');
     document.getElementById('translation-info').value = result.translation.cbody;
     document.getElementById('english-text').value = result.translation.ebody;
-    dict = result.translation.dict;
+    source = result.from;
+    target = result.to;
+    try {
+        dict = JSON.parse(result.translation.dict);
+    } catch(err) {
+        console.log(err);
+    }
     stage = 'translated';
     start();
     watchChange();
@@ -1705,9 +1963,7 @@ function launchTranslationReview(result) {
 var isReviewMode = false;
 var eText;
 var tText;
-var isPowerTranslate = location.href.indexOf('powertranslate') >= 0;
 var stage = 'page loaded';
-const isFrontendTest = window.location.href.indexOf('powertranslate/translation-helper') < 0;
 
 if (isPowerTranslate) {
     initPowerTranslate();
@@ -1769,5 +2025,3 @@ if (isPowerTranslate) {
 }
 
 /* jshint ignore:end */
-
-//TODO: support other languages such as Chinese to English, Handle FT content, Export HTML/TEXT
