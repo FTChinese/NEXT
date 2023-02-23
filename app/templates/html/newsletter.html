@@ -8,6 +8,23 @@
     <%assign var="registerDomain" value="https://user.chineseft.com/"%>
 <%/if%>
 
+<%assign var="tagLink" value=""%>
+<%if $nextmodel != ""%>
+    <%assign var="infoForManualTags" value=$nextmodel->getPublishJson("tagmanagement")|json_decode:true%>
+    <%assign var="hasFoundManualTag" value="no"%>
+    <%foreach from=$infoForManualTags.sections item=section%>
+      <%if $hasFoundManualTag == "no" && preg_match("/`$section.tag`/is",$tag)%>
+          <%assign var="hasFoundManualTag" value="yes"%>
+          <%if $section.title != ""%>
+            <%assign var="tagTitle" value=$section.title%>
+          <%else%>
+            <%assign var="tagTitle" value=$section.tag%>
+          <%/if%>
+          <%assign var="tagLink" value="<div style=\"margin-bottom: 10px;\"><a href=\"`$mainDomain`tag/`$section.tag`\" style=\"font-size: 18px; color: #9E2F50 !important; font-weight: bold;\">`$tagTitle`</a></div>"%>
+      <%/if%>
+    <%/foreach%>
+<%/if%>
+
 
 <%assign var="tableBorder" value="#f7f7f7"%>
 <%assign var="logoPosition" value="center"%>
@@ -95,6 +112,15 @@ img,div,p,table,td,tr{max-width:100%;}
 .mainTD{width:100%;max-width:100%;}
 .P-Only {display: none;}
 .P-Hide {display: block;}
+h1 {line-height: 1.2 !important;}
+.message-content h1 {font-size: 22px !important;}
+a {
+    color: #0a5e66 !important;
+    text-decoration: none !important;
+}
+.message-content a {
+    border-bottom: 2px solid #ced4cc !important;
+}
 @media all and (max-width: 500px) {
 .coverImgLinkContain{float:none !important;margin:<%$coverImgLinkContainMargin%>!important;}
 .P-Only {display: block!important;}
@@ -258,7 +284,7 @@ width: <%$containerWidth%> !important;
 </style>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title><%$tag%> - FT中文网</title>
+<title><%$cheadline%> - FT中文网</title>
 </head>
 <!-- htmlmin:ignore -->
 <body class="is-html-email" style="width:100%;color:#111111;background-color:<%$bodyColor%>;font-family:"Hiragino Sans GB","WenQuanYi Micro Hei","Heiti SC",STHeiti,SimSun,sans-serif;font-size:14px;">
@@ -277,8 +303,9 @@ width: <%$containerWidth%> !important;
 <tr><td style="padding-left: <%$logoPadding%>px; padding-right: <%$logoPadding%>px;" align="center">
     <table border="0" cellspacing="0" cellpadding="0"  width="<%$tableWidth%>" style="max-width:<%$tableMaxWidth%>;">
     <tr>
-        <td class="ft-logo lineH1" style="font-size:18px;line-height:26px;height:26px;text-align: <%$logoPosition%>; width: 100%;">
-            <p style="font-size:22px;font-weight:bold;"><%$cheadline%></p>
+        <td class="lineH1" style="line-height:40px;height:36px;width: 100%;">
+            <%$tagLink%>
+            <h1 style="font-size:32px;font-weight:bold;"><%$cheadline%></h1>
         </td>
     </tr>
     <tr><td style="font-size:4px;line-height:4px;height:4px;" class="ft-logo-briefing lineH1">&nbsp;</td></tr>
@@ -295,11 +322,9 @@ width: <%$containerWidth%> !important;
 <td>
 <table width="100%" cellpadding="0" cellspacing="0">
     <%*<!--MARK: - main message belonging to one group, with the same unique id only appear once-->*%>
-    <%if ($uniqueId == "" || !preg_match("/`$uniqueId`/is",$uniqueIds)) && ($debug_model == 1 || $section.status != "off") && ($section.dates == "" || preg_match("/`$currentDate`/is",$section.dates)) && ($section.subscriptionType == "" || $section.subscriptionType == $smarty.get.to)%>
-        <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
-        <tr><td  class="SContent cover message-content" style="font-size:18px;line-height:23px;color:#333;padding-left:17px;padding-right:17px;"><%$cbody|nl2br%></td></tr>
-        <tr><td style="height: 15px; font-size: 0px; line-height: 15px; padding: 0;">&nbsp;</td></tr>
-    <%/if%>
+    <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
+    <tr><td  class="SContent cover message-content" style="font-size:18px;line-height:23px;color:#333;padding-left:17px;padding-right:17px;"><%$cbody|nl2br%></td></tr>
+    <tr><td style="height: 15px; font-size: 0px; line-height: 15px; padding: 0;">&nbsp;</td></tr>
 </table>
 </td>
 <td style="width: <%$contentPaddingValue%>; line-height:<%$contentPaddingNone%>; border:<%$contentPaddingNone%>; font-size:<%$contentPaddingNone%>;" class="contentPadding largeViewBar">&nbsp;</td>
@@ -354,14 +379,6 @@ width: <%$containerWidth%> !important;
     </tr>
     </table>
 
-    <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
-    <tr>
-    <td style="background-color: #F6E8D7; padding: 6px 8px; text-align: center;">
-    <a href="<%$registerDomain%>register" style="text-decoration: none; color:#2E6E9E; font-size: 12px;"  target="_blank"
-    >免费注册FT中文网</a>
-    </td>
-    </tr>
-    </table>
     <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
     <tr>
     <td class="lineH1" style="height: 7px; font-size: 7px; line-height: 7px; padding: 0;">&nbsp;</td>
