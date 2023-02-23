@@ -1,0 +1,467 @@
+<%assign var="mainDomain" value="https://d2b0shd2ijglgd.cloudfront.net/"%>
+<%assign var="registerDomain" value="http://user.ftchinese.com/"%>
+<%if $smarty.get.to == "vip" || $smarty.get.to == "premium"%>
+    <%assign var="mainDomain" value="https://d3apuqp939tb25.cloudfront.net/"%>
+    <%assign var="registerDomain" value="https://user.chineseft.com/"%>
+<%elseif $smarty.get.to == "standard"%>
+    <%assign var="mainDomain" value="https://d3fwwpf4m4oy0c.cloudfront.net/"%>
+    <%assign var="registerDomain" value="https://user.chineseft.com/"%>
+<%/if%>
+
+
+<%assign var="tableBorder" value="#f7f7f7"%>
+<%assign var="logoPosition" value="center"%>
+<%assign var="descPosition" value="center"%>
+<%assign var="containerWidth" value="720px"%>
+<%assign var="barPadding" value="7px 14px 7px 14px"%>
+<%assign var="barFontSize" value="19px"%>
+<%assign var="barColor" value="#333333"%>
+<%assign var="barBackgroundColor" value="#E9DECE"%>
+<%assign var="barBorderColor" value="#A7A59B"%>
+<%assign var="barBorderWidth" value="1px 0"%>
+<%assign var="barFontWeight" value="normal"%>
+<%assign var="contentPaddingWidth" value="45px"%>
+<%assign var="logoPadding" value="10"%>
+<%assign var="tableBorderWidth" value="initial"%>
+<%assign var="contentPaddingDisplay" value="block"%>
+<%assign var="footerBGColor" value="initial"%>
+<%assign var="attentionFT" value="#505050"%>
+<%assign var="footerListColor" value="#98948F"%>
+<%assign var="backEmailColor" value="#333333"%>
+<%assign var="brandColor" value="#505050"%>
+<%assign var="tableWidth" value="initial"%>
+<%assign var="tableMaxWidth" value="initial"%>
+<%assign var="attentionFTBorder" value="#C0C0C0"%>
+<%assign var="textPaddingValue" value="10"%>
+<%assign var="coverImgLinkContainMargin" value="5px auto"%>
+<%assign var="buttonPadding" value="0 12px 6px 12px"%>
+<%assign var="footerPadding" value="initial"%>
+<%assign var="contentPaddingValue" value="3%"%>
+<%assign var="contentPaddingNone" value="initial"%>
+<%assign var="whiteBorderWidth" value="1%"%>
+<%assign var="whiteBorderNone" value="initial"%>
+<%if $p.meta.theme == "myFT"%>
+    <%assign var=bodyColor value="#FFF1E0"%>
+    <%assign var="tableBorder" value="transparent"%>
+    <%assign var="containerWidth" value="100%"%>
+    <%assign var="logoPosition" value="left"%>
+    <%assign var="descPosition" value="left"%>
+    <%assign var="barPadding" value="5px 0px 5px 0px"%>
+    <%assign var="barFontSize" value="24px"%>
+    <%assign var="barColor" value="#000000"%>
+    <%assign var="barBackgroundColor" value="#ffffff"%>
+    <%assign var="barBorderColor" value="#000"%>
+    <%assign var="barBorderWidth" value="8px 0 0 0"%>
+    <%assign var="barFontWeight" value="bold"%>
+    <%assign var="contentPaddingWidth" value="10%"%>
+    <%assign var="logoPadding" value="0"%>
+    <%assign var="tableBorderWidth" value="100%"%>
+    <%assign var="contentPaddingDisplay" value="none"%>
+    <%assign var="footerBGColor" value="#272b33"%>
+    <%assign var="attentionFT" value="#ffffff"%>
+    <%assign var="footerListColor" value="#ffffff"%>
+    <%assign var="backEmailColor" value="#ffffff"%>
+    <%assign var="brandColor" value="#ffffff"%>
+    <%assign var="tableWidth" value="100%"%>
+    <%assign var="tableMaxWidth" value="640px"%>
+    <%assign var="attentionFTBorder" value="#272b33"%>
+    <%assign var="textPaddingValue" value="17"%>
+    <%assign var="coverImgLinkContainMargin" value="0"%>
+    <%assign var="buttonPadding" value="5px 0 6px 0"%>
+    <%assign var="footerPadding" value="15px"%>
+    <%assign var="contentPaddingValue" value="0"%>
+    <%assign var="contentPaddingNone" value="0"%>
+    <%assign var="whiteBorderWidth" value="0"%>
+    <%assign var="whiteBorderNone" value="0"%>
+    <%elseif $smarty.get.to == "iosapp" || $smarty.get.to == "noneiosapp"%>
+    <%assign var=bodyColor value="#FFF1E0"%>
+<%else%>
+    <%assign var=bodyColor value="#FFFFFF"%>
+<%/if%>
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+<style>
+* {padding:0;margin:0;border:0;}
+.lineH, p{line-height: 1.618 !important;}
+.lineH1{line-height: 1 !important;}
+.lineH1_2{line-height: 1.2 !important;}
+.lineH1_4{line-height: 1.4 !important;}
+html{-webkit-text-size-adjust: none;}
+.videosubhead p {padding-top: 10px;}
+img,div,p,table,td,tr{max-width:100%;}
+.mainTD{width:100%;max-width:100%;}
+.P-Only {display: none;}
+.P-Hide {display: block;}
+@media all and (max-width: 500px) {
+.coverImgLinkContain{float:none !important;margin:<%$coverImgLinkContainMargin%>!important;}
+.P-Only {display: block!important;}
+.P-Hide {display: none!important;}
+}
+@media all and (min-width: 501px) {
+.coverImgLinkContain{max-width: 50%;}
+}
+@media all and (max-width: 450px) {
+.mainTD{width:100%;max-width:450px;}
+#wrapperInner,
+#containerTable {
+*width: 400px !important;
+_width: 400px !important;
+width: 100% !important;
+}
+.whiteBorder {
+line-height:<%$whiteBorderNone%>;
+border:<%$whiteBorderNone%>;
+width: 0 !important;
+font-size: 0 !important;
+}
+.otherHeadlines {
+font-size:17px !important;line-height:1.2 !important;color:#505050 !important;
+}
+.otherHeadlines a,
+.otherHeadlinesLink {
+color:#505050 !important;text-decoration:none !important;display:block !important;
+}
+.ft-logo {
+font-size:26px !important;line-height:1.2 !important;height:26px !important;text-align:<%$logoPosition%> !important;
+}
+.ft-logo-briefing {
+font-size:5px !important;line-height:1 !important;height:5px !important;
+}
+.ft-desc {
+font-size:13px !important;line-height:1.2 !important;color:#505050 !important;text-align:<%$descPosition%> !important;font-weight:bold !important;
+}
+.ft-header-bar {
+border: solid 1px <%$barBorderColor%> !important;
+border-width: <%$barBorderWidth%> !important;
+font-weight:normal !important;
+padding:<%$barPadding%> !important;
+color:<%$barColor%> !important;
+background-color:<%$barBackgroundColor%> !important;
+font-size:<%$barFontSize%> !important;
+line-height:1.4 !important;
+font-weight:<%$barFontWeight%> !important;
+width:100% !important;
+}
+.topHeadline {
+font-size:21px !important;line-height:1.1 !important;color:#333 !important;
+}
+.topHeadline a {
+color:#333 !important;text-decoration:none !important;display:block !important;
+}
+.subhead {
+font-size:18px !important;line-height:1.4 !important;color:#505050 !important;
+}
+.hotArticleList{font-size:20px !important;}
+.dotsSeparator {
+margin-left: 10px !important;
+margin-right: 10px !important;
+}
+.textPadding {
+padding-left:<%$textPaddingValue%>px !important;padding-right:<%$textPaddingValue%>px !important;
+}
+.videoImageLink {
+color:#505050 !important;text-decoration:none !important;display:block !important;
+}
+.headLine{font-size:19px !important;line-height:1.4 !important; color: #000;}
+.cover .headLine{font-size:20px !important;line-height:1.4 !important;}
+.SContent{font-size:16px !important;line-height:1.618 !important; color: #777;}
+.cover{font-size:16px !important;line-height:1.618 !important;}
+.imgSpace{height:6px !important;font-size: 0 !important;}
+.largeViewBar,.HSpace{display: <%$contentPaddingDisplay%> !important;}
+.tableBorder{border:0 !important;}
+}
+@media all and (min-width: 451px) {
+.mainTD{width:100%;max-width:450px;}
+#wrapperInner,#containerTable {
+*width: 400px !important;
+_width: 400px !important;
+width: 100% !important;
+}
+.whiteBorder {
+line-height:<%$whiteBorderNone%>;
+border:<%$whiteBorderNone%>;
+width: 0 !important;
+font-size: 0 !important;
+}
+.openInBrowserGap {
+height: 10px !important; font-size: 8px !important; line-height: 1.2 !important; padding: 0 !important;
+}
+.contentPadding {
+display: <%$contentPaddingDisplay%> !important;
+width: <%$contentPaddingWidth%> !important;
+line-height:<%$contentPaddingNone%>;
+border:<%$contentPaddingNone%>;
+font-size:<%$contentPaddingNone%>;
+}
+.bottomContentPadding {
+height: 43px !important; font-size: 43px !important; line-height: 1 !important; padding: 0 !important;
+}
+.otherHeadlines {
+font-size:21px !important;line-height:1.1 !important;color:#505050 !important;
+}
+.otherHeadlines a,.otherHeadlinesLink {
+color:#505050 !important;text-decoration:none !important;
+}
+.ft-logo {
+font-size:53px !important;line-height:1 !important;height:53px !important;text-align:<%$logoPosition%> !important;
+}
+.ft-logo-briefing {
+font-size:2px !important;line-height:1 !important;height:2px !important;
+}
+.ft-desc {
+font-size:13px !important;line-height:1.2 !important;color:#505050 !important;text-align:<%$descPosition%> !important;font-weight:bold !important;
+}
+.ft-header-bar {
+color:<%$barColor%> !important;
+background: <%$barBackgroundColor%> !important;
+border: solid 1px <%$barBorderColor%> !important;
+border-width:  <%$barBorderWidth%> !important;
+line-height:1.4 !important;
+font-size:<%$barFontSize%> !important;
+font-weight:<%$barFontWeight%> !important;
+padding: <%$barPadding%> !important;
+width:100% !important;
+}
+.topHeadline {
+font-size:28px !important;line-height:1.1 !important;color:#333 !important;
+}
+.topHeadline a {
+color:#333 !important;text-decoration:none !important;
+}
+.subhead {
+font-size:14px !important;line-height:1.4 !important;color:#505050 !important;display:block;
+}
+.dotsSeparator {
+margin-left: 17px !important;
+margin-right: 17px !important;
+}
+.textPadding {
+padding-left:17px !important;padding-right:17px !important;
+}
+.videoImageLink {
+color:#505050 !important;text-decoration:none !important;
+}
+}
+@media all and (min-width: <%$containerWidth%>) {
+.mainTD{width:100%;max-width:<%$containerWidth%>;}
+#wrapperInner,
+#containerTable {
+width: <%$containerWidth%> !important;
+}
+}
+@media only screen and (max-width: <%$containerWidth%>) and (min-width: 501px){
+.coverImgLinkContain{max-width: 50% !important;}
+}
+</style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title><%$tag%> - FT中文网</title>
+</head>
+<!-- htmlmin:ignore -->
+<body class="is-html-email" style="width:100%;color:#111111;background-color:<%$bodyColor%>;font-family:"Hiragino Sans GB","WenQuanYi Micro Hei","Heiti SC",STHeiti,SimSun,sans-serif;font-size:14px;">
+<%assign var="pageTitle" value=$cheadline%>
+<div id="wrapper" style="margin: 0 auto; text-align: center;">
+<table border="0" cellspacing="0" cellpadding="0" width="<%$containerWidth%>" id="containerTable"  style="background-color:#ffffff; display: table; margin: 0 auto; text-align: center; width: <%$containerWidth%>; *width: <%$containerWidth%>; _width: <%$containerWidth%>;" align="center">
+<tr>
+<td class="mainTD" style="width: <%$containerWidth%>;">
+<table border="0" cellspacing="0" cellpadding="0" align="left" width="<%$tableBorderWidth%>" style="text-align: left; width:<%$tableBorderWidth%>">
+<tr>
+<td style="width:<%$whiteBorderWidth%>; line-height:<%$whiteBorderNone%>; border:<%$whiteBorderNone%>; font-size:<%$whiteBorderNone%>"  class="whiteBorder">&nbsp;</td>
+<td class="mainCol">
+<table class="tableBorder" border="0" cellspacing="0" cellpadding="0" style="background-color: #FFF1E0; border: 2px solid <%$tableBorder%>; text-align: left; width: <%$tableBorderWidth%>;" align="left" width=" <%$tableBorderWidth%>">
+
+<tr><td class="lineH1 openInBrowserGap" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
+<tr><td style="padding-left: <%$logoPadding%>px; padding-right: <%$logoPadding%>px;" align="center">
+    <table border="0" cellspacing="0" cellpadding="0"  width="<%$tableWidth%>" style="max-width:<%$tableMaxWidth%>;">
+    <tr>
+        <td class="ft-logo lineH1" style="font-size:18px;line-height:26px;height:26px;text-align: <%$logoPosition%>; width: 100%;">
+            <p style="font-size:22px;font-weight:bold;"><%$cheadline%></p>
+        </td>
+    </tr>
+    <tr><td style="font-size:4px;line-height:4px;height:4px;" class="ft-logo-briefing lineH1">&nbsp;</td></tr>
+    <tr><td class="ft-desc lineH1_2" style="font-size:13px;line-height:16px;color:#505050;text-align:<%$descPosition%>;font-weight:bold;">
+        <%$clongleadbody%>
+    </td></tr>
+    </table>
+</td></tr>
+<tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
+<tr><td>
+<table width="100%" cellpadding="0" cellspacing="0">
+<tr>
+<td style="width: <%$contentPaddingValue%>; line-height:<%$contentPaddingNone%>; border:<%$contentPaddingNone%>; font-size:<%$contentPaddingNone%>;" class="contentPadding largeViewBar">&nbsp;</td>
+<td>
+<table width="100%" cellpadding="0" cellspacing="0">
+    <%*<!--MARK: - main message belonging to one group, with the same unique id only appear once-->*%>
+    <%if ($uniqueId == "" || !preg_match("/`$uniqueId`/is",$uniqueIds)) && ($debug_model == 1 || $section.status != "off") && ($section.dates == "" || preg_match("/`$currentDate`/is",$section.dates)) && ($section.subscriptionType == "" || $section.subscriptionType == $smarty.get.to)%>
+        <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
+        <tr><td  class="SContent cover message-content" style="font-size:18px;line-height:23px;color:#333;padding-left:17px;padding-right:17px;"><%$cbody|nl2br%></td></tr>
+        <tr><td style="height: 15px; font-size: 0px; line-height: 15px; padding: 0;">&nbsp;</td></tr>
+    <%/if%>
+</table>
+</td>
+<td style="width: <%$contentPaddingValue%>; line-height:<%$contentPaddingNone%>; border:<%$contentPaddingNone%>; font-size:<%$contentPaddingNone%>;" class="contentPadding largeViewBar">&nbsp;</td>
+</tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<tr><td class="lineH1" style="height: 22px; font-size: 22px; line-height: 22px; padding: 0;">&nbsp;</td></tr>
+<tr>
+<td style="width: 3%;" class="contentPadding">&nbsp;</td>
+<td style="font-size:14px;line-height:25px;color:#505050;padding-left:17px;padding-right:17px;" class="subhead textPadding lineH">
+</td>
+<td style="width: 3%;" class="contentPadding">&nbsp;</td>
+</tr>
+<tr style="background:<%$footerBGColor%>" >
+<td style="width: 3%;" class="contentPadding">&nbsp;</td>
+<td align="center">
+<table width="100%" cellpadding="0" cellspacing="0" border="0" width="<%$tableWidth%>" style="max-width: <%$tableMaxWidth%>; padding-top: <%$footerPadding%>;">
+    <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
+    <tr>
+    <td style="padding:<%$buttonPadding%>;">
+    <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+    <tr>
+    <td style="width: 48%; background-color: #F6E8D7; padding: 6px 8px; border-radius: 2px;" valign="middle" align="center">
+    <table border="0" cellpadding="0" cellspacing="0" >
+    <tr>
+    <td style="padding-left:5px;color:#2E6E9E;" target="_blank" nowrap>
+    <a  class="lineH1_2"
+    href="<%$mainDomain%>users/setting/maillist" style="text-decoration:none;font-size:12px;line-height:16px;color:#2E6E9E;" target="_blank">设置邮件</a>
+    </td>
+    </tr>
+    </table>
+    </td>
+    <td style="width: 7px; height: 100%;">&nbsp;&nbsp;</td>
+    <td style="width: 48%; background-color: #F6E8D7; padding: 6px 8px; border-radius: 2px;" valign="middle" align="center">
+    <table border="0" cellpadding="0" cellspacing="0">
+    <tr>
+    <td style="padding-left: 5px; color: #2E6E9E;" nowrap>
+    <a
+    href="<%$mainDomain%>users/findpassword" class="lineH1_2" style="text-decoration: none; font-size: 12px; line-height: 16px;  color:#2E6E9E;" target="_blank"
+    >找回密码</a>
+    </td>
+    </tr>
+    </table>
+    </td>
+    </tr>
+    <tr><td class="lineH1" style="height: 7px; font-size: 7px; line-height: 7px; padding: 0;">&nbsp;</td></tr>
+    </table>
+
+    <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+    <tr>
+    <td class="lineH1" style="height: 7px; font-size: 7px; line-height: 7px; padding: 0;">&nbsp;</td>
+    </tr>
+    </table>
+
+    <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+    <tr>
+    <td style="background-color: #F6E8D7; padding: 6px 8px; text-align: center;">
+    <a href="<%$registerDomain%>register" style="text-decoration: none; color:#2E6E9E; font-size: 12px;"  target="_blank"
+    >免费注册FT中文网</a>
+    </td>
+    </tr>
+    </table>
+    <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+    <tr>
+    <td class="lineH1" style="height: 7px; font-size: 7px; line-height: 7px; padding: 0;">&nbsp;</td>
+    </tr>
+    </table>
+
+    <table border="0" cellpadding="0" cellspacing="0" style="width: 100%; border-top: 1px dotted <%$attentionFTBorder%>; border-bottom: 1px dotted <%$attentionFTBorder%>;">
+    <tr>
+    <td align="center" style="padding: 4px 0;">
+    <table border="0" cellpadding="0" cellspacing="0" align="center">
+    <tr>
+    <td valign="middle">
+    <span style="font-size: 12px; color: <%$attentionFT%>; ">关注FT中文网</span>
+    </td>
+    <td style="padding-left: 10px; width: 160px;">
+    <table border="0" cellpadding="0" cellspacing="0" align="left" valign="middle" style="width: 180px;">
+    <tr>
+    <td>
+    <a
+    href="http://weibo.com/ftchinese" style="text-decoration: none; font-size: 12px; display: block;" target="_blank"
+    ><img src="https://d2785ji6wtdqx8.cloudfront.net/img/png/social-weibo.png" style="border: 0 none; display: block;" width="24" height="24" alt="新浪微博"/></a>
+    </td>
+    <td>
+    <a
+    href="<%$mainDomain%>m/corp/follow.html" style="text-decoration: none; font-size: 12px; display: block;" target="_blank"
+    ><img src="https://d2785ji6wtdqx8.cloudfront.net/img/png/social-wechat.png" style="border: 0 none; display: block;" width="24" height="24" alt="微信"/></a>
+    </td>
+    <td>
+        <a
+        href="https://www.linkedin.com/company/4865254?trk=hp-feed-company-name" style="text-decoration: none; font-size: 12px; display: block;" target="_blank"
+        ><img src="https://d2785ji6wtdqx8.cloudfront.net/icons/png/ftsocial_linkedin.png" style="border: 0 none; display: block;" width="24" height="24" alt="领英"/></a>
+    </td>
+    <td>
+        <a
+        href="https://twitter.com/FTChinese" style="text-decoration: none; font-size: 12px; display: block;" target="_blank"
+        ><img src="https://d2785ji6wtdqx8.cloudfront.net/icons/png/ftsocial_twitter.png" style="border: 0 none; display: block;" width="24" height="24" alt="Twitter"/></a>
+    </td>
+    <td>
+        <a
+        href="https://www.facebook.com/financialtimeschinese" style="text-decoration: none; font-size: 12px; display: block;" target="_blank"
+        ><img src="https://d2785ji6wtdqx8.cloudfront.net/icons/png/ftsocial_facebook.png" style="border: 0 none; display: block;" width="24" height="24" alt="Facebook"/></a>
+    </td>
+    </tr>
+    </table>
+    </td>
+    </tr>
+    </table>
+    </td>
+    </tr>
+    </table>
+    </td>
+    </tr>
+    <tr><td class="lineH1" style="height: 22px; font-size: 22px; line-height: 22px; padding: 0;">&nbsp;</td></tr>
+    <tr>
+    <td class="ft-email-bar lineH1_4" style="text-align: center;font-size: 12px;line-height: 17px;color:<%$footerListColor%>;">
+    <a
+    href="<%$mainDomain%>m/corp/aboutus.html" style="text-decoration: none;color: <%$footerListColor%>;" target="_blank"
+    >关于我们</a> |
+    <a
+    href="<%$mainDomain%>jobs/?from=ft" style="text-decoration: none; color: <%$footerListColor%>;" target="_blank"
+    >加入我们</a> |
+    <a
+    href="<%$mainDomain%>m/corp/contact.html" style="text-decoration: none; color:<%$footerListColor%>;" target="_blank"
+    >联系方式</a> |
+    <a
+    href="<%$mainDomain%>m/corp/service.html" target="_blank" style="text-decoration: none;color: <%$footerListColor%>;"
+    >服务条款</a> |
+    <a
+    href="<%$mainDomain%>m/corp/sales.html" style="text-decoration: none;color: <%$footerListColor%>;" target="_blank"
+    >广告业务</a> |
+    <a
+    href="<%$mainDomain%>m/corp/faq.html" style="text-decoration: none;color:<%$footerListColor%>;" target="_blank"
+    >问题回馈</a>
+    </td>
+    </tr>
+<tr><td class="lineH1" style="height: 34px; font-size: 34px; line-height: 34px; padding: 0;">&nbsp;</td></tr>
+<tr><td style="font-size: 14px;line-height: 17px;padding: 5px 5px 0 5px;text-align: center;color:<%$backEmailColor%>;">您已经订阅了本邮件，如果您想退订，请<a style="color:#0a5e66;TEXT-DECORATION: none" href="http://newsletter.ftimg.online/unsubscribe.html?email=$$data.email$$" target="_blank">点击此处</a>，进行退订操作。</td></tr>
+
+<tr><td class="ft-copyright lineH1_4" style="font-size: 12px;line-height: 17px;padding: 5px 5px 0 5px;text-align: center;color:<%$brandColor%>;">
+&copy; THE FINANCIAL TIMES LTD <%$smarty.now|date_format:"%Y"%>
+</td></tr>
+</table>
+</td>
+<td style="width: <%$contentPaddingValue%>; line-height:<%$contentPaddingNone%>; border:<%$contentPaddingNone%>; font-size:<%$contentPaddingNone%>;" class="contentPadding">&nbsp;</td>
+</tr>
+</table>
+</td></tr>
+<tr><td style="background:<%$footerBGColor%>;height: 28px; font-size: 28px; line-height: 28px; padding: 0;" class="bottomContentPadding lineH1">&nbsp;</td></tr>
+</table>
+</td>
+<td style="width:<%$whiteBorderWidth%>; line-height:<%$whiteBorderNone%>; border:<%$whiteBorderNone%>; font-size:<%$whiteBorderNone%>" class="whiteBorder">&nbsp;</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</div>
+
+<%include file="include/email/tracking.html"%>
+
+</body>
+<!-- htmlmin:ignore -->
+</html>
