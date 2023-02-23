@@ -2129,7 +2129,7 @@
 
 	<%$paidPostTrack%>
 
-	<%if $smarty.get.taboola == "on" || $smarty.server.HTTP_HOST=="www.ftchinese.com"%>
+	<%if $smarty.get.taboola == "on" || ($smarty.server.HTTP_HOST=="www.ftchinese.com" && date("Ymd",$smarty.now) >= 20230119)%>
 		<script type="text/javascript">
 		window._taboola = window._taboola || [];
 		_taboola.push({article:'auto'});

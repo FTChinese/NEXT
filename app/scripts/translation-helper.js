@@ -14,8 +14,8 @@ if (window.opener) {
 var dict = {};
 var delegate = new Delegate(document.body);
 const isPowerTranslate = location.href.indexOf('powertranslate') >= 0;
-const isFrontendTest = window.location.href.indexOf('powertranslate/translation-helper') < 0;
-var links = (isPowerTranslate) ? `<div>More Choices: <a class="add-new-translation-choice" title="Not satisfied with the current choices? Click here to get another choice. ">OpenAI</a></div>` : '';
+const isFrontendTest = location.href.indexOf('localhost') >= 0;
+var links = (isPowerTranslate || 1>0) ? `<div>Experiments: <a class="add-new-translation-choice" title="Not satisfied with the current choices? Click here to get another choice. ">OpenAI</a>, <a class="translate-with-ChatGPT" title="Not satisfied with the current choices? Ask ChatGPT to give you an answer. ">ChatGPT</a></div>` : '';
 //'<div>更多翻译引擎：<a href="https://fanyi.baidu.com/" target=_blank>百度</a> | <a href="https://fanyi.youdao.com/" target=_blank>有道</a> | <a href="https://www.deepL.com/" target=_blank>DeepL</a> | <a href="https://translate.google.com/" target=_blank>Google</a></div>';
 var heartBeatStatus = 'translating';
 var type = 'other';
@@ -24,11 +24,42 @@ var heartBeatIntervalId;
 var textAreaMinHeight = 60;
 var source = 'en';
 var target = 'cn';
+var chatgptTab;
+var messageCount = 0;
 
 
-// MARK: - Add New Translations
-delegate.on('click', '.add-new-translation-choice', async function(event){
-    const html = this.innerHTML;
+// MARK: - Request A Polished Version of Translation
+delegate.on('click', '.translate-with-ChatGPT', async function(event){
+    try {
+        const container = this.parentNode.parentNode;
+        const prompt = getPromptForOpenAI(container);
+        const url = `https://chat.openai.com/`;
+        await navigator.clipboard.writeText(prompt);
+        if (chatgptTab) {
+            const messageId = `message-${messageCount}`;
+            messageCount += 1;
+            this.parentElement.style.position = 'relative';
+            this.insertAdjacentHTML('beforebegin', `<div class="message-bubble fade-in" id="${messageId}">${localize('prompt-copied-message')}</div>`);
+            const message = document.querySelector(`#${messageId}`);
+            message.classList.add('show');
+            setTimeout(() => {
+                message.classList.remove('fade-in');
+                message.classList.add('fade-out');
+                setTimeout(() => {
+                message.remove();
+                }, 500);
+            }, 3000);
+        } else if (confirm(localize('prompt-ChatGPT'))){
+          chatgptTab = window.open(url, '_blank');
+        }
+    } catch(err){
+        alert(`Something went wrong: ${err.toString()}`);
+    }
+    return false;
+});
+
+// MARK: - Request A Polished Version of Translation
+delegate.on('click', '.info-translation-polish-final', async function(event){
     let requestCount = parseInt(this.getAttribute('request-count') || 0, 0);
     try {
         let requestStatus = this.getAttribute('request-status') || '';
@@ -37,63 +68,100 @@ delegate.on('click', '.add-new-translation-choice', async function(event){
             return;
         }
         const container = this.parentNode.parentNode;
-        let sourceHTML = container.querySelector('.info-original').innerHTML;
-        const nameEntityEles = container.closest('.info-container').querySelectorAll('.name-entity-inner');
-        let nameEntities = [];
-        for (const ele of nameEntityEles) {
-            const translation = ele.querySelector('input').value || '';
-            if (translation === '') continue;
-            const original = ele.querySelector('.name-entity-key').innerText || '';
-            if (original === '') continue;
-            nameEntities.push({original: original, translation: translation});
-        }
-        nameEntities = nameEntities.sort((a, b)=>b.original.length - a.original.length);
-        for (const nameEntitie of nameEntities) {
-            const reg = new RegExp(nameEntitie.original, 'g');
-            sourceHTML = sourceHTML.replace(reg, nameEntitie.translation);
-        }
-        const prompt = `Translate from ${source} to ${target}: \n${sourceHTML}\n`;
-        // console.log(prompt);
-        // MARK: - For the first request, be stable. Then be creative. 
-        const temperature = (requestCount === 0) ? 0 : 1;
-        const max_tokens = prompt.length * 2;
-        const data = {
-            prompt: prompt,
-            temperature: temperature,
-            max_tokens: max_tokens
-        };
-        let url = '/openai/generate_text';
-        let options = {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        };
-        if (isFrontendTest) {
-            url = '/api/page/openai.json';
-            options = {
-                method: 'GET',
-                headers: {
-                  'Content-Type': 'application/json'
-                }
-            };
-        }
-        this.setAttribute('request-status', 'pending');
-        this.innerHTML = 'Requesting...';
-        const response = await fetch(url, options);
-        const results = await response.json();
-        if (response.status === 500 && results.message) {
-            alert(results.message);
-            this.removeAttribute('request-status');
-            this.innerHTML = html;
+        let translationEle = container.querySelector('textarea');
+        const translationHTML = translationEle.value;
+        if (translationHTML === '') {
+            alert(`The textarea is empty! `);
             return;
         }
-        if (results.length > 0 && results[0].text) {
-            const text = results[0].text.trim();
+        const prompt = `Polish this and output ${target}: \n${translationHTML}\n`;
+        this.setAttribute('request-status', 'pending');
+        const result = await generateTextFromOpenAI(prompt, requestCount);
+        if (result.status === 'success') {
+            const text = result.text;
+            if (confirm(`${localize('Confirm-Polish')} \n\n${text}`)) {
+                translationEle.value = text;
+            }
+            this.setAttribute('request-count', requestCount + 1);            
+        } else {
+            alert(result.message || 'Something is wrong with OpenAI. Please try again later. ');
+        }
+        this.removeAttribute('request-status');
+    } catch(err){
+        alert(`Something went wrong: ${err.toString()}`);
+    }
+    this.removeAttribute('request-status');
+    if (requestCount >= 2) {
+        this.style.display = 'none';
+    }
+    return false;
+});
+
+
+// MARK: - Request A Polished Version of Translation
+delegate.on('click', '.info-translation-polish', async function(event){
+    let requestCount = parseInt(this.getAttribute('request-count') || 0, 0);
+    try {
+        let requestStatus = this.getAttribute('request-status') || '';
+        if (requestStatus === 'pending') {
+            alert(`Please wait for the response! `);
+            return;
+        }
+        const container = this.parentNode.parentNode;
+        const translationIndex = this.getAttribute('data-polish-index');
+        let translationEle = container.querySelector(`.info-translation[data-translation-index="${translationIndex}"]`);
+        const translationHTML = translationEle.innerHTML;
+        const prompt = `Polish this and output ${target}: \n${translationHTML}\n`;
+        this.setAttribute('request-status', 'pending');
+        const result = await generateTextFromOpenAI(prompt, requestCount);
+        if (result.status === 'success') {
+            const text = result.text;
             const existingTranslations = container.querySelectorAll('.info-translation');
             const l = existingTranslations.length;
-            const newTranslation = '<div data-translation-index="' + l + '" class="info-translation info-translation-extra" title="click to confirm this translation to the right">' + text + '</div>';
+            const deleteHTML = `<div class="info-translation-tools-container"><a data-delete-index="${l}" class="info-translation-delete" title="Delete This Translation"></a></div>`;
+            const newTranslation = `${deleteHTML}<div data-translation-index="${l}" class="info-translation info-translation-extra" title="click to confirm this translation to the right">${text}</div>`;
+            translationEle.insertAdjacentHTML('afterend', newTranslation);
+            this.setAttribute('request-count', requestCount + 1);            
+        } else {
+            alert(result.message || 'Something is wrong with OpenAI. Please try again later. ');
+        }
+        this.removeAttribute('request-status');
+    } catch(err){
+        alert(`Something went wrong: ${err.toString()}`);
+    }
+    this.removeAttribute('request-status');
+    if (requestCount >= 2) {
+        this.style.display = 'none';
+    }
+    return false;
+});
+
+// MARK: - Add New Translations
+delegate.on('click', '.add-new-translation-choice', async function(event){
+    const html = this.innerHTML;
+    let requestCount = parseInt(this.getAttribute('request-count') || 0, 0);
+    if (this.classList.contains('is-disabled')) {
+        alert(`There's no point requesting again! `);
+        return;
+    }
+    try {
+        let requestStatus = this.getAttribute('request-status') || '';
+        if (requestStatus === 'pending') {
+            alert(`Please wait for the response! `);
+            return;
+        }
+        const container = this.parentNode.parentNode;
+        const prompt = getPromptForOpenAI(container);
+        this.setAttribute('request-status', 'pending');
+        
+        this.innerHTML = 'Requesting...';
+        const result = await generateTextFromOpenAI(prompt, requestCount);
+        if (result.status === 'success') {
+            const text = result.text;
+            const existingTranslations = container.querySelectorAll('.info-translation');
+            const l = existingTranslations.length;
+            const deleteHTML = `<div class="info-translation-tools-container"><a data-delete-index="${l}" class="info-translation-delete" title="Delete This Translation"></a></div>`;
+            const newTranslation = `${deleteHTML}<div data-translation-index="${l}" class="info-translation info-translation-extra" title="click to confirm this translation to the right">${text}</div>`;
             if (existingTranslations.length > 0) {
                 const lastTranslation = existingTranslations[l-1];            
                 lastTranslation.insertAdjacentHTML('afterend', newTranslation);
@@ -102,19 +170,29 @@ delegate.on('click', '.add-new-translation-choice', async function(event){
             }
             this.setAttribute('request-count', requestCount + 1);            
         } else {
-            alert(`Something is wrong with OpenAI. Please try later. `);
+            alert(result.message || `Something is wrong with OpenAI. Please try later. `);
         }
     } catch(err){
         alert(`Something went wrong: ${err.toString()}`);
     }
     this.removeAttribute('request-status');
-    this.innerHTML = (requestCount >= 2) ? '' : html;
-    let childrenHTML = '';
-    for (const child of this.parentElement.children) {
-        childrenHTML += child.innerHTML;
+    if (requestCount >= 2) {
+        this.classList.add('is-disabled');
     }
-    if (childrenHTML === '') {
-        this.parentElement.innerHTML = '';
+    this.innerHTML = html;
+    return false;
+});
+
+// MARK: - Delete New Translation
+delegate.on('click', '.info-translation-delete', async function(event){
+    try {
+        const container = this.parentNode.parentNode;
+        const translationIndex = this.getAttribute('data-delete-index');
+        let translationEle = container.querySelector(`.info-translation[data-translation-index="${translationIndex}"]`);
+        translationEle.parentElement.removeChild(translationEle);
+        this.parentElement.parentElement.removeChild(this.parentElement);
+    } catch(err){
+        alert(`Something went wrong: ${err.toString()}`);
     }
     return false;
 });
@@ -287,6 +365,76 @@ delegate.on('click', '.info-container textarea', function(event){
     expandHeight(this);
 });
 
+
+function getPromptForOpenAI(container) {
+    let sourceHTML = container.querySelector('.info-original').innerHTML;
+    const nameEntityEles = container.closest('.info-container').querySelectorAll('.name-entity-inner');
+    let nameEntities = [];
+    for (const ele of nameEntityEles) {
+        const translation = ele.querySelector('input').value || '';
+        if (translation === '') continue;
+        const original = ele.querySelector('.name-entity-key').innerText || '';
+        if (original === '') continue;
+        nameEntities.push({original: original, translation: translation});
+    }
+    nameEntities = nameEntities.sort((a, b)=>b.original.length - a.original.length);
+    for (const nameEntitie of nameEntities) {
+        const reg = new RegExp(nameEntitie.original, 'g');
+        sourceHTML = sourceHTML.replace(reg, nameEntitie.translation);
+    }
+    const prompt = `Translate from ${source} to ${target}: \n${sourceHTML}\n`;
+    return prompt;
+}
+
+async function generateTextFromOpenAI(prompt, requestCount) {
+    try {
+        const token = (isPowerTranslate) ? localStorage.getItem('accessToken') : 'ftccms123434344';
+        if (!token || token === '') {
+            return {status: 'failed', message: 'You need to sign in first! '};
+        }
+        // MARK: - For the first request, be stable. Then be creative. 
+        const temperature = (requestCount === 0) ? 0 : 1;
+        const max_tokens = prompt.length * 2;
+        const data = {
+            prompt: prompt,
+            temperature: temperature,
+            max_tokens: max_tokens
+        };
+        let url = (isPowerTranslate) ? '/openai/generate_text' : '/FTAPI/generate_text.php';
+        let options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(data)
+        };
+        if (isFrontendTest) {
+            url = '/api/page/openai.json';
+            options = {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            };
+        }
+        const response = await fetch(url, options);
+        const results = await response.json();
+        if (response.status >= 400 && results.message) {
+            return {status: 'failed', message: results.message};
+        }
+        if (results.length > 0 && results[0].text) {
+            const text = results[0].text.trim();
+            return {status: 'success', text: text};
+        } else {
+            return {status: 'failed', message: 'Something is wrong with OpenAI, please try later. '};
+        }
+    } catch(err) {
+        console.log(err);
+        return {status: 'failed', message: err.toString()};
+    }
+}
+
 function TER(reference, hypothesis) {
     // initialize the distance and m, n, i and j
     let distance = 0;
@@ -391,7 +539,11 @@ function localize(text) {
         'Translation': {'zh-CN': '译文'},
         'Hide Add Word': {'zh-CN': '隐藏添加'},
         'Not-Found-Word-In-Original': {'en': 'No word found in the original, please check your input in the original!', 'zh-CN': '没有在原文中找到词条，请检查一下您的原文的输入！'},
-        'Others-Working-On-It': {'en': 'This article seems to have been modified or posted by someone else while you were editing it, would you like to see the details?', 'zh-CN': '这篇文章在您进行编辑的时候，似乎被别人进行了修改或发布，您要看看详情吗？'}
+        'Others-Working-On-It': {'en': 'This article seems to have been modified or posted by someone else while you were editing it, would you like to see the details?', 'zh-CN': '这篇文章在您进行编辑的时候，似乎被别人进行了修改或发布，您要看看详情吗？'},
+        'Polish-Translation': {'en': 'Polish This Translation', 'zh-CN': '为这段译文润色'},
+        'Confirm-Polish': {'en': 'Do you want to replace the existing text with this polished text? ', 'zh-CN': '您想要用以下这段润色后的文字替换当前的翻译吗？'},
+        'prompt-copied-message': {'en': 'The prompt is already copied to your clipboard. ', 'zh-CN': '原文已经复制到您的剪贴板。'},
+        'prompt-ChatGPT': {'en': 'The prompt is already copied to your clipboard. Open ChatGPT now? ', 'zh-CN': '原文已经复制到您的剪贴板，您要现在打开ChatGPT吗？'}
     };
     if (dict[text]) {
         if (dict[text][language]) {
@@ -470,7 +622,6 @@ function checkDict(ele) {
 }
 
 function toggleTextareaWarning(ele) {
-    console.log(`toggleTextareaWarning: TER and BLEU`);
     var status = checkTextarea(ele);
     if (status.success === true) {
         ele.closest('.info-container').querySelector('.info-error-message').innerHTML = '';
@@ -592,7 +743,19 @@ function confirmTranslation(ele) {
     var text = ele.innerHTML;
     ele.classList.add('selected');
     ele.title = '';
-    var finalTranslationEle = ele.parentNode.parentNode.querySelector('textarea');
+    let container = ele.closest(".info-container");
+    let index = ele.getAttribute('data-translation-index');
+    if (index && index !== '') {
+        let polishEle = container.querySelector(`[data-polish-index="${index}"], [data-delete-index="${index}"]`)
+        if (polishEle) {
+            polishEle.style.display = 'none';
+        }
+    }
+    var finalTranslationEle = ele.closest(".info-container").querySelector('textarea');
+    var polishEle = ele.closest(".info-container").querySelector('.info-translation-polish-final');
+    if (polishEle) {
+        polishEle.classList.add('on');
+    }
     var prefix = (finalTranslationEle.value === '') ? '' : '\n\n';
     var translatedText = prefix + text;
     translatedText = translatedText.replace(/&amp;/g, '&');
@@ -656,7 +819,7 @@ function start() {
                 var id = info.id;
                 var translations = info.translations.split(splitter);
                 for (var m=0; m<translations.length; m++) {
-                    infoHTML += '<div onclick="confirmTranslation(this)" data-translation-index="' + m + '"  class="info-translation" title="click to confirm this translation to the right">' + translations[m] + '</div>';
+                    infoHTML += `<div onclick="confirmTranslation(this)" data-translation-index="${m}"  class="info-translation" title="click to confirm this translation to the right">${translations[m]}</div>`;
                 }
                 infoHTML = '<div class="info-container"><div>' + infoHTML + links + '</div><div><div class="info-suggestion"></div><div class="info-error-message"></div><textarea data-info-id="' + id + '" placeholder="' + localize('Click the translation') + '"></textarea></div><div class="info-helper"></div></div><hr>';
                 k += infoHTML;
@@ -693,14 +856,16 @@ function start() {
                 if (/^<picture>.*<\/picture>/.test(englishHTML) && !/^<picture>.*<\/picture>/.test(t)) {
                     t = englishHTML.replace(/(^<picture>.*<\/picture>)(.*)$/g, '$1') + t;
                 }
-                infoHTML += '<div data-translation-index="' + j + '" class="info-translation" title="click to confirm this translation to the right">' + t + '</div>';
+                const toolHTML = `<div class="info-translation-tools-container"><a data-polish-index="${j}" class="info-translation-polish" title="${localize('Polish-Translation')}"></a></div>`;
+                infoHTML += `${toolHTML}<div data-translation-index="${j}" class="info-translation" title="click to confirm this translation to the right">${t}</div>`;
             }
             var j1 = info.translations.length;
             var t1 = existingTranslationDict[englishHTML] || '';
             if (t1 !== '') {
                 infoHTML += '<div data-translation-index="' + j1 + '" class="info-translation selected" title="click to confirm this translation to the right">' + t1 + '</div>';
             }
-            infoHTML = '<div class="info-container"><div>' + infoHTML + links + '</div><div><div class="info-suggestion"></div><div class="info-error-message"></div><textarea data-info-id="' + id + '" placeholder="' + localize('Click the translation') + '">' + t1 + '</textarea></div><div class="info-helper"></div></div><hr>';
+            const polishHTML = '<div class="info-translation-tools-container"><a class="info-translation-polish-final" title="Polish This Translation"></a></div>'; 
+            infoHTML = `<div class="info-container"><div>${infoHTML}${links}</div><div><div class="info-suggestion"></div><div class="info-error-message"></div><textarea data-info-id="${id}" placeholder="${localize('Click the translation')}">${t1}</textarea>${polishHTML}</div><div class="info-helper"></div></div><hr>`;
             k += infoHTML;
         }
         storyBodyEle.innerHTML = k;
@@ -1030,7 +1195,7 @@ function finishReview() {
     for (var i=0; i<textAreas.length; i++) {
         finishedTexts.push(textAreas[i].value || '');
     }
-    var cbody = finishedTexts.join('\n\n');
+    var cbody = tidyUpChineseText(finishedTexts.join('\n\n'));
     if (window.opener) {
         var cbodyEles = window.opener.document.querySelectorAll('textarea.bodybox, #cbody');
         for (var j=0; j<cbodyEles.length; j++) {
@@ -1293,7 +1458,7 @@ function showGlossarySuggestions() {
             for (var j = 0; j < suggestions.length; j++) {
                 var suggestion = suggestions[j];
                 var en_title = suggestion.en_title;
-                var chinese_title = suggestion.chinese_title.replace(/·/g, '•');
+                var chinese_title = tidyUpChineseText(suggestion.chinese_title);
                 if (!en_title || !chinese_title || englishText.indexOf(en_title) === -1) {continue;}
                 var infoContainer = infoOriginal.closest('.info-container');
                 var existingNameEntityInner = infoContainer.querySelector('.name-entity-inner[data-key="' + en_title + '"]');
@@ -1521,7 +1686,7 @@ function addNewMatch() {
         alert(localize('Empty-Source'));
         return;
     }
-    var to = document.querySelector('.new-match-to').value;
+    var to = tidyUpChineseText(document.querySelector('.new-match-to').value);
     if (to === '') {
         alert(localize('Empty-Translation'));
         return;
@@ -2013,6 +2178,7 @@ if (isPowerTranslate) {
         eText = englishTexts.join('');
         tText = JSON.stringify(translations);
     }
+    tText = tidyUpChineseText(tText);
     if (/translations/.test(tText)) {
         document.getElementById('translation-info').value = tText;
         document.getElementById('english-text').value = eText;

@@ -6,28 +6,55 @@ var gaMeasurementId = 'UA-1608715-1';
 var gaMeasurementId2 = 'G-PDY0XG13PH';
 //var gaMeasurementId = 'G-PDY0XG13PH';
 
-function GetCookie(name){
-    var start = document.cookie.indexOf(name+'='),
-        len = start+name.length+1,
-        end = document.cookie.indexOf(';',len);
-    if ((!start) && (name !== document.cookie.substring(0,name.length))) {return null;}
-    if (start === -1) {return null;}
-    if (end === -1) {end = document.cookie.length; }
-    return decodeURIComponent(document.cookie.substring(len,end));
+function GetCookie(name) {
+    const cookieName = `${name}=`;
+    const cookies = document.cookie.split('; ');
+    for (const cookie of cookies) {
+      if (cookie.startsWith(cookieName)) {
+        const cookieValue = cookie.substring(cookieName.length);
+        return decodeURIComponent(cookieValue);
+      }
+    }  
+    return null;
 }
 
-function SetCookie (name, value , sec , path , domain) {  
-    var argv = SetCookie.arguments,
-        argc = SetCookie.arguments.length,
-        expires = new Date(),
-        secure = (argc > 5) ? argv[5] : false;
-    path = (argc > 3) ? argv[3] : null;
-    domain = (argc > 4) ? argv[4] : null;
-   if(sec === null || sec === '') {sec = 600 * (24 * 60 * 60 * 1000);}
-    else {sec = 1000*sec;}
-    expires.setTime (expires.getTime() + sec);
-    document.cookie = name + '=' + escape (value) +((expires === null) ? '' : ('; expires=' + expires.toGMTString())) +((path === null) ? '/' : ('; path=' + path)) +((domain === null) ? '' : ('; domain=' + domain)) +((secure === true) ? '; secure' : '');  
+// function GetCookie(name){
+//     var start = document.cookie.indexOf(name+'='),
+//         len = start+name.length+1,
+//         end = document.cookie.indexOf(';',len);
+//     if ((!start) && (name !== document.cookie.substring(0,name.length))) {return null;}
+//     if (start === -1) {return null;}
+//     if (end === -1) {end = document.cookie.length; }
+//     return decodeURIComponent(document.cookie.substring(len,end));
+// }
+
+function SetCookie(name, value, sec, path, domain, secure) {
+    const expires = new Date();
+    path = path || '/';
+    domain = domain || null;
+    if (sec === null || sec === '') {
+      sec = 600 * 24 * 60 * 60 * 1000;
+    } else {
+      sec = 1000 * sec;
+    }
+    expires.setTime(expires.getTime() + sec);
+    document.cookie = `${name}=${encodeURIComponent(value)}${expires === null ? '' : `; expires=${expires.toGMTString()}`}; path=${path}${domain ? `; domain=${domain}` : ''}${secure ? '; secure' : ''}`;
 }
+
+
+  
+// function SetCookie (name, value , sec , path , domain) {  
+//     var argv = SetCookie.arguments,
+//         argc = SetCookie.arguments.length,
+//         expires = new Date(),
+//         secure = (argc > 5) ? argv[5] : false;
+//     path = (argc > 3) ? argv[3] : null;
+//     domain = (argc > 4) ? argv[4] : null;
+//    if(sec === null || sec === '') {sec = 600 * (24 * 60 * 60 * 1000);}
+//     else {sec = 1000*sec;}
+//     expires.setTime (expires.getTime() + sec);
+//     document.cookie = name + '=' + escape (value) +((expires === null) ? '' : ('; expires=' + expires.toGMTString())) +((path === null) ? '/' : ('; path=' + path)) +((domain === null) ? '' : ('; domain=' + domain)) +((secure === true) ? '; secure' : '');  
+// }
 
 function DeleteCookie (name) {  
     var exp = new Date(),cval = GetCookie (name);

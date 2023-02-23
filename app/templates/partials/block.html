@@ -628,7 +628,6 @@
 											<%else%>
 												<%assign var="sponsorKeys" value=$sponsorKeys|regex_replace:"/, */":"|"%>
 											<%/if%>
-											
 											<%foreach from=$itemTags item=oneItemTag%>
 												<%if $matchedTag == "no" && preg_match("/`$sponsorKeys`/is",$oneItemTag)%>
 													<%assign var="matchedTag" value="yes"%>
@@ -717,7 +716,8 @@
 											<%elseif $oneTag.tag != ""%>
 												<%assign var="itemTagLink" value="/tag/`$oneTag.tag`"%>
 											<%/if%>
-											<%if $oneTag.title != ""%>
+											<%*<!--MARK: - If the sponsorship has passed, don't show the title！ For example, 理想未来，共生永存-可持续发展. The title is too inappropriate to put on home page! -->*%>
+											<%if $oneTag.title != "" && 1>2%>
 												<%assign var="itemTagTitle" value=$oneTag.title%>
 											<%/if%>
 										<%/if%>
@@ -740,6 +740,7 @@
 										<%/foreach%>
 									<%/if%>
 								<%/if%>
+
 
 								<%*<!--item tag link: <%$itemTagLink%>-->*%>
 								<%if $itemTag != ""%>

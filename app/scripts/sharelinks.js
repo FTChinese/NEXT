@@ -21,6 +21,7 @@
 		var t5;
 		var t6;
 		var t7;
+		var t8;
 		var topsharelinks = '';
 		// MARK: Add the gift id to shared url if available
 		if (window.giftId && window.giftId !== '') {
