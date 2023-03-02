@@ -1,3 +1,25 @@
+<%php%>
+    $isUserInternal = (isset($_COOKIE["paywall_source"]) && $_COOKIE["paywall_source"] === 'ftc') ? true : false;
+    if (isset($_COOKIE["USER_ID"]) && ($_COOKIE["USER_ID"] == 'JTSix1VjQeQ_f6' || $_COOKIE["USER_ID"] == '123e1716-427e-496d-a93c-783d0cb8b077')) {
+        $isUserInternal = true;
+    }
+    $isUserTester = (isset($_COOKIE["USER_NAME"]) && $_COOKIE["USER_NAME"] === 'BLAY') ? true : false;
+    $subscriptionType = 'free';
+    if (isset($_COOKIE["paywall"]) && isset($_COOKIE["paywall_expire"])) {
+        $payWallExpire = intval($_COOKIE["paywall_expire"]);
+        if ($payWallExpire > time()) {
+            $subscriptionType = $_COOKIE["paywall"];
+        }
+    }
+    if (isset($_GET['subscription']) && $_GET['subscription'] != '') {
+        $subscriptionType = $_GET['subscription'];
+    }
+    $this->assign("isUserInternal", $isUserInternal);
+    $this->assign("isUserTester", $isUserTester);
+    $this->assign("subscriptionType", $subscriptionType);
+<%/php%>
+
+
 <div class="block-container has-side"><div class="block-inner">
     <div class="content-container"><div class="content-inner">
         <div class="list-container"><div class="list-inner">
@@ -27,8 +49,27 @@
                                 <label for="mail_sub_afStory">午后速递</label>
                                 <span>本邮件是您所订阅的《今日焦点》的一部分，为您通报最新新闻和精华内容。</span>
                             </p>
-                          </div>       
+                            
+                              
+                            
+                          </div>
 
+                          <%if date("Ymd",$smarty.now) >= 20230306 || $smarty.get.preview == "yes"%>
+                          <div class="o-forms__group premium-only">
+                            <h3><span>高端订户专享邮件服务</span></h3>
+                            <p>
+                              <input id="mail_sub_crypto" type="checkbox"  value="1"  
+                              <%if $users.mail_sub_crypto == '1' && $subscriptionType == "premium"%>
+                                checked="checked"
+                              <%elseif $subscriptionType != "premium"%>
+                                   class="pop-subscription"
+                              <%/if%>
+                               name="mail_sub_crypto" /> 
+                              <label for="mail_sub_crypto">加密金融每周新闻速递</label>
+                              <span>由英国《金融时报》与FT中文网编辑记者撰写，每周一向高端订阅读者和相关行业从业者、投资者定向发出，总结英国《金融时报》与FT中文网在加密货币、虚拟资产、加密金融、区块链、Web3与元宇宙等领域的最新独家报道、分析和专栏，帮助读者时刻掌握行业最新动态、市场动向和监管趋势。</span>
+                            </p>
+                          </div>
+                          <%/if%>
                             
                           <div class="o-forms__group">
                             <h3><span>隐私权</span></h3>
@@ -74,3 +115,16 @@
     <%include file="next/partials/TagRightRail.html"%>
     <div class="clearfloat"></div>
 </div></div>
+
+<script>
+document.addEventListener('click', function (event) {
+  if (event.target.matches('input.pop-subscription')) {
+    event.preventDefault();
+    if (confirm('本邮件是高端专享，请先移步订阅高端订阅。')) {
+      var name = event.target.id.replace(/mail_sub_/g, '');
+      location.href = '/index.php/ft/subscription?el=Newsletter/' + name + '&clientId=' + window.gClientId;
+    }
+  }
+});
+
+</script>
