@@ -545,7 +545,8 @@ for (k=0;k<x.length;k+=16) {
       if (isNativeApp) {
         document.getElementById('subscription-button').innerHTML = '再次提交';
       } else {
-        document.getElementById('subscription-button').parentElement.innerHTML = '<a href="/">提交成功，点击进入订户专享网站</a>';
+        const redirectUrl = GetCookie('redirect') || '/';
+        document.getElementById('subscription-button').parentElement.innerHTML = `<a href="${redirectUrl}">提交成功，点击进入订户专享网站</a>`;
       }
       // MARK: -  It is highly unlikely that a future campaign targets countries other than China. So we don't need to think about general use cases, at least for now. 
       var message = '您已经成功提交了信息。';
