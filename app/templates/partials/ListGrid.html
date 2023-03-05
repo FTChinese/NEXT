@@ -72,6 +72,15 @@
         <%elseif $list.feedType == "audiovideo"%>
             <%assign var="feedType" value=$list.feedType%>
             <%assign var="itemsArray" value=$videomodel->get_video_audio($feedStart,$list.feedItems,1001,10800)%>
+        <%elseif $list.feedType == "ftc_columns"%>
+            <%assign var="itemsArray" value=$storymodel->get_column_list("cn", "new")%>
+            <%assign var="feedType" value="columns"%>
+        <%elseif $list.feedType == "ftc_columns_old"%>
+            <%assign var="itemsArray" value=$storymodel->get_column_list("cn", "old")%>
+            <%assign var="feedType" value="columns"%>
+        <%elseif $list.feedType == "ft_columns"%>
+            <%assign var="itemsArray" value=$storymodel->get_column_list("en", "all")%>
+            <%assign var="feedType" value="columns"%>
         <%else%>
             <%assign var="feedType" value=$list.feedType%>
             <%*<!--MARK: - Note that getContentByTag's argument is different from other functions -->*%>
@@ -79,7 +88,6 @@
         <%/if%>
     <%/if%>
 <%/if%>
-
 
 <%if $itemsArray && $itemsArray|@count>0%>
     <%php%>
@@ -120,7 +128,9 @@
                 }
                 continue;
             }
-            if (isset($item["item_type"]) && $item["item_type"] != "") {
+            if ($itemType === 'columns') {
+                $item["type"] = 'column';
+            } else if (isset($item["item_type"]) && $item["item_type"] != "") {
                 $item["type"] = $item["item_type"];
             } else if (isset($item["type"]) && $item["type"] != "") {
                 $item["type"] = $item["type"];
@@ -194,19 +204,25 @@
 <%/if%>
 
 <%assign var="gridClass" value="card-grid"%>
-<%if $list.float == "LargeCard"%>
+<%if $feedType="columns"%>
+    <%assign var="gridClass" value="card-grid is-columns"%>
+<%elseif $list.float == "LargeCard"%>
     <%assign var="gridClass" value="large-card-grid"%>
 <%/if%>
 
 
-
+<%if $feedType="columns"%>
+    <!--columns: 
+        <%$itemsArray|@print_r%>
+    -->
+<%/if%>
 
 <%*<!--MARK: - Render the items-->*%>
 <div class="<%$gridClass%>">
     <%foreach from=$itemsArray item=item%>
         <%assign var=itemId value=$item.id%>
         <%assign var=itemType value=$item.type%>
-        <%assign var=itemImage value=$item.image%>
+        <%assign var=itemImage value=$item.image|default:$item.piclink%>
         <%assign var=imageClass value=""%>
         <%if $itemImage == ""%>
             <%assign var=imageClass value=" no-image`$item.background`"%>
@@ -422,6 +438,8 @@
             <%assign var="itemClass" value="`$itemClass` is-video"%>
         <%elseif $itemSubType == "radio"%>
             <%assign var="itemClass" value="`$itemClass` is-audio"%>
+        <%elseif $itemType == "column"%>
+            <%assign var="itemClass" value="`$itemClass` is-column"%>
         <%/if%>
         <%if $smarty.get.webview == "ftcapp" && $itemType != "sponsorship"%>
             <%if preg_match("/双语电台/is",$itemTagsString)%>
@@ -534,7 +552,7 @@
         <%/if%>
         <%*<!--MARK: - Fix FTC Android App bug end-->*%>
 
-        <%assign var=itemLead value=$item.longlead|default:$item.clongleadbody|default:$item.shortlead|default:$item.cshortleadbody%>
+        <%assign var=itemLead value=$item.longlead|default:$item.clongleadbody|default:$item.shortlead|default:$item.cshortleadbody|default:$item.description%>
         <%if preg_match("/速读/is",$itemTagsString)%>
             <%assign var=itemLead value=$item.cshortleadbody|default:$item.shortlead|default:$item.longlead%>
             <!--shortlead: <%$item.shortlead%>, longlead: <%$item.longlead%>-->

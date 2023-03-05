@@ -655,7 +655,8 @@ for (k=0;k<x.length;k+=16) {
           if (typeof Android === 'object' && Android.wvClosePage) {
             Android.wvClosePage();
           } else {
-            window.location.href = '/';
+            const redirectUrl = GetCookie('redirect') || '/';
+            window.location.href = redirectUrl;
           }
         }});
       }

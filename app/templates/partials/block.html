@@ -303,10 +303,13 @@
 							<%assign var="feedType" value=$list.feedType%>
 							<%assign var="itemsArray" value=$storymodel->get_content_by_field_search('1>0',$feedStart,$feedItems,600,10800)%>
 						<%elseif $list.feedType == "ftc_columns"%>
-							<%assign var="itemsArray" value=$storymodel->get_column_list("cn")%>
+							<%assign var="itemsArray" value=$storymodel->get_column_list("cn", "new")%>
+							<%assign var="feedType" value="columns"%>
+						<%elseif $list.feedType == "ftc_columns_old"%>
+							<%assign var="itemsArray" value=$storymodel->get_column_list("cn", "old")%>
 							<%assign var="feedType" value="columns"%>
 						<%elseif $list.feedType == "ft_columns"%>
-							<%assign var="itemsArray" value=$storymodel->get_column_list("en")%>
+							<%assign var="itemsArray" value=$storymodel->get_column_list("en", "all")%>
 							<%assign var="feedType" value="columns"%>
 						<%elseif $list.feedType == "HotFTAcademy" || $list.feedType == "HotContentByPageViews" || $list.feedType == "HotPaidContent"%>
         					<%assign var="feedType" value=$list.feedType%>

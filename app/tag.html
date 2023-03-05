@@ -155,6 +155,9 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
  </head>
  <body>
     <script>checkB();</script>
+    <script>var gUaOfPage = navigator.userAgent || navigator.vendor || "";</script><script>
+    window.newAd = true;
+    </script>
     <div id="promo-box-container">
     <style>
     .noneSubscriber.subscription-promo-container {
@@ -212,7 +215,7 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
     </script>
     <header class="header-container">
     <div class="header-inner">
-    <div class="header-title">中国政经</div>
+    <div class="header-title">专栏</div>
     <a href="/" class="header-side header-left">
     <div class="header-brand"><figure class="loading logo" data-url="https://thumbor.ftacademy.cn/unsafe/0x114/https://d2785ji6wtdqx8.cloudfront.net/img/png/brand-ftc-masthead.png"></figure></div>
     </a>
@@ -242,7 +245,7 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
     <div class="input-title">电子邮件/用户名</div>
     <div class="input-container"><input type="text" class="input-oneline" name="username" id="ft-login-input-username"></div>
     <div class="input-title">密码</div>
-    <div class="input-container"><input type="password" class="input-oneline" name="password"></div>
+    <div class="input-container"><input type="password" class="input-oneline" name="password" id="ft-login-input-password"></div>
     <div><input type="checkbox" class="checkbox" value="1" checked="checked" name="saveme" id="ft-login-input-remember">记住我</div>
     <div class="login-btn input-submit-container center"><input class="" type="submit" value="登录"></div>
     <div class="center register-find"><a href="/register" class="blue-link">免费注册</a><span></span><a href="/users/findpassword" class="blue-link">找回密码</a></div>
@@ -273,8 +276,7 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
     </div>
     </div>
     </div>
-    </div><!--hide nvation: -->
-    <div class="o-nav__placeholder">
+    </div><div class="o-nav__placeholder">
     <div class="o-nav">
     <div class="o-nav__outer">
     <div class="o-nav__inner">
@@ -307,169 +309,142 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
     </ol>
     </li>
     <li class="nav-section home "
-     data-section="home"
+     aria-selected="true" data-section="home"
     >
-    <!-- top nav-->
     <button class="nav-section-head mobile">首页</button>
     <a class="nav-section-head desktop" href="/">首页</a>
-    <!-- end top nav-->
-    </li>
-    <!-- End li-->
-    <li class="nav-section china "
-     aria-selected="true" data-section="china"
-    >
-    <!-- top nav-->
-    <button class="nav-section-head mobile">中国</button>
-    <a class="nav-section-head desktop" href="/channel/china.html">中国</a>
-    <!-- start subnav-->
     <ol class="nav-items">
     <li class="nav-item mobile">
-    <a class="nav-link" href="/channel/china.html">
-    频道首页
+    <a class="nav-link" href="/">
+    FT中文网首页
     </a>
     </li>
-    <li class="nav-item" aria-selected="true" data-channel="chinareport">
-    <a class="nav-link" href="/channel/chinareport.html">政经</a>
+    <li class="nav-item"  aria-haspopup="true" data-channel="special">
+    <a class="nav-link" href="/channel/special.html">特别报导</a>
+    <ol class="nav-sub-items">
+    <li><a href="/m/marketing/antfinancial.html">“新四大发明”背后的中国浪潮</a></li>
+    <li><a href="/tag/与FT共进午餐">与FT共进午餐</a></li>
+    <li><a href="/tag/智慧城市群">西门子·智慧城市群</a></li>
+    <li><a href="/m/marketing/creditease.html">未来生活 未来金融</a></li>
+    <li><a href="/index.php/ft/property">全球地产</a></li>
+    </ol>
     </li>
-    <li class="nav-item"  data-channel="chinabusiness">
-    <a class="nav-link" href="/channel/chinabusiness.html">商业</a>
+    <li class="nav-item"  data-channel="premiumsubscription">
+    <a class="nav-link" href="/channel/premiumsubscription.html">高端订阅</a>
     </li>
-    <li class="nav-item"  data-channel="chinamarkets">
-    <a class="nav-link" href="/channel/chinamarkets.html">金融市场</a>
+    <li class="nav-item"  data-channel="standardsubscription">
+    <a class="nav-link" href="/channel/standardsubscription.html">标准订阅</a>
     </li>
-    <li class="nav-item"  data-channel="chinastock">
-    <a class="nav-link" href="/channel/chinastock.html">股市</a>
+    <li class="nav-item"  data-channel="weekly">
+    <a class="nav-link" href="/channel/weekly.html">热门文章</a>
     </li>
-    <li class="nav-item"  data-channel="chinaproperty">
-    <a class="nav-link" href="/channel/chinaproperty.html">房地产</a>
+    <li class="nav-item"  data-channel="event">
+    <a class="nav-link" href="/m/events/event.html">会议活动</a>
     </li>
-    <li class="nav-item"  data-channel="culture">
-    <a class="nav-link" href="/channel/culture.html">社会与文化</a>
+    <li class="nav-item"  data-channel="member">
+    <a class="nav-link" href="/m/marketing/home.html">市场活动</a>
     </li>
-    <li class="nav-item"  data-channel="chinaopinion">
-    <a class="nav-link" href="/channel/chinaopinion.html">观点</a>
+    <li class="nav-item"  data-channel="mba">
+    <a class="nav-link" href="/channel/mba.html">FT商学院</a>
+    </li>
+    <li class="nav-item"  data-channel="ebook">
+    <a class="nav-link" href="/m/marketing/ebook.html">FT电子书</a>
+    </li>
+    <li class="nav-item"  data-channel="job">
+    <a class="nav-link" href="https://ft.wd3.myworkdayjobs.com/FT_Chinese_External_Careers">职业机会</a>
+    </li>
+    <li class="nav-item"  data-channel="ftmall">
+    <a class="nav-link" href="https://h5.youzan.com/v2/showcase/homepage?alias=16e315o1t">FT商城</a>
+    </li>
+    <li class="nav-item"  data-channel="nikkei">
+    <a class="nav-link" href="/tag/日经中文网精选">日经中文网精选</a>
     </li>
     </ol>
-    <!-- end top nav-->
     </li>
-    <!-- End li-->
+    <li class="nav-section china "
+     data-section="china"
+    >
+    <button class="nav-section-head mobile">中国</button>
+    <a class="nav-section-head desktop" href="/channel/china.html">中国</a>
+    </li>
     <li class="nav-section world "
      data-section="world"
     >
-    <!-- top nav-->
     <button class="nav-section-head mobile">全球</button>
     <a class="nav-section-head desktop" href="/channel/world.html">全球</a>
-    <!-- end top nav-->
     </li>
-    <!-- End li-->
     <li class="nav-section economy "
      data-section="economy"
     >
-    <!-- top nav-->
     <button class="nav-section-head mobile">经济</button>
     <a class="nav-section-head desktop" href="/channel/economy.html">经济</a>
-    <!-- end top nav-->
     </li>
-    <!-- End li-->
     <li class="nav-section markets "
      data-section="markets"
     >
-    <!-- top nav-->
     <button class="nav-section-head mobile">金融市场</button>
     <a class="nav-section-head desktop" href="/channel/markets.html">金融市场</a>
-    <!-- end top nav-->
     </li>
-    <!-- End li-->
     <li class="nav-section business "
      data-section="business"
     >
-    <!-- top nav-->
     <button class="nav-section-head mobile">商业</button>
     <a class="nav-section-head desktop" href="/channel/business.html">商业</a>
-    <!-- end top nav-->
     </li>
-    <!-- End li-->
     <li class="nav-section innovation "
      data-section="innovation"
     >
-    <!-- top nav-->
     <button class="nav-section-head mobile">创新经济</button>
     <a class="nav-section-head desktop" href="/channel/innovation.html">创新经济</a>
-    <!-- end top nav-->
     </li>
-    <!-- End li-->
     <li class="nav-section education "
      data-section="education"
     >
-    <!-- top nav-->
     <button class="nav-section-head mobile">教育</button>
     <a class="nav-section-head desktop" href="/channel/education.html?newnav=yes">教育</a>
-    <!-- end top nav-->
     </li>
-    <!-- End li-->
     <li class="nav-section opinion "
      data-section="opinion"
     >
-    <!-- top nav-->
     <button class="nav-section-head mobile">观点</button>
     <a class="nav-section-head desktop" href="/channel/opinion.html">观点</a>
-    <!-- end top nav-->
     </li>
-    <!-- End li-->
     <li class="nav-section management "
      data-section="management"
     >
-    <!-- top nav-->
     <button class="nav-section-head mobile">管理</button>
     <a class="nav-section-head desktop" href="/channel/management.html">管理</a>
-    <!-- end top nav-->
     </li>
-    <!-- End li-->
     <li class="nav-section lifestyle "
      data-section="lifestyle"
     >
-    <!-- top nav-->
     <button class="nav-section-head mobile">生活时尚</button>
     <a class="nav-section-head desktop" href="/channel/lifestyle.html">生活时尚</a>
-    <!-- end top nav-->
     </li>
-    <!-- End li-->
     <li class="nav-section stream "
      data-section="stream"
     >
-    <!-- top nav-->
     <button class="nav-section-head mobile">视频</button>
     <a class="nav-section-head desktop" href="/channel/stream.html">视频</a>
-    <!-- end top nav-->
     </li>
-    <!-- End li-->
     <li class="nav-section audio "
      data-section="audio"
     >
-    <!-- top nav-->
     <button class="nav-section-head mobile">音频</button>
     <a class="nav-section-head desktop" href="/channel/audio.html">音频</a>
-    <!-- end top nav-->
     </li>
-    <!-- End li-->
     <li class="nav-section english "
      data-section="english"
     >
-    <!-- top nav-->
     <button class="nav-section-head mobile">每日英语</button>
     <a class="nav-section-head desktop" href="/channel/english.html">每日英语</a>
-    <!-- end top nav-->
     </li>
-    <!-- End li-->
     <li class="nav-section rewired "
      data-section="rewired"
     >
-    <!-- top nav-->
     <button class="nav-section-head mobile">换脑ReWired</button>
     <a class="nav-section-head desktop" href="/channel/rewired.html">换脑ReWired</a>
-    <!-- end top nav-->
     </li>
-    <!-- End li-->
     <li class="nav-section mobile login">
     <ul>
     <li class="nav-item">
@@ -531,8 +506,7 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
     </div><!-- o-nav__outer -->
     <div class="o-nav__meganav-placeholder"></div>
     </div><!-- o-nav -->
-    </div><!-- o-nav__placeholder -->
-    <div class="o-ads" data-o-ads-name="banner1"
+    </div><div class="o-ads" data-o-ads-name="banner1"
     data-o-ads-center="true" 
     data-o-ads-formats-default="false" 
     data-o-ads-formats-small="FtcMobileBanner" 
@@ -543,398 +517,2643 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
     data-cy='[{"devices":["PC"],"pattern":"Leaderboard","position":"Num1"},{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"Banner","position":"Num1"}]'
     >
     </div>
-    
-    <div class="block-container has-side"><div class="block-inner">
-    <div class="content-container"><div class="content-inner">
-    <div class="list-container"><div class="list-inner">
-    
+    <div class="block-container no-side">
+    <div class="block-inner">
+    <div class="content-container">
+    <div class="content-inner">
+    <div class="list-container">
+    <div class="list-inner">
+    <div class="items hide" id="membership-login-prompt">
+    <div class="no-image">
+    <div class="item-inner">
+    <div class="item-lead">
+    <a href="screen://myft/account">您还没有登录。如果您希望更方便地享受您购买的会员服务，请点击此处登录或注册新用户。</a>
+    </div>
+    </div>
+    </div>
+    </div>
+    <div class="items hide" id="subscriber-contact-confirm">
+    <div class="no-image">
+    <div class="item-inner">
+    <div class="item-lead"><a href="https://www.ftchinese.com/m/corp/preview.html?pageid=subscriptioninfoconfirm&to=all">为保障您的订阅权益，请点击此处确认您的联系方式</a></div>
+    </div>
+    </div>
+    </div>
+    <div class="items hide" id="membership-yellow-card-prompt">
+    <div class="no-image">
+    <div class="item-inner">
+    <div class="item-lead">
+    <div class="warn">亲爱的会员，您的账户近期在多台设备上异常登录。您的账户仅限您本人使用，如不是您本人操作，可能您的账号已泄漏。请您尽快进行如下操作：</div>
+    <div class="warn">1. <a href="https://user.ftchinese.com/setting" target="_blank">修改密码，并妥善保护好新密码</a>。</div>
+    <div class="warn">2. <a class="email-link" href="mailto: customer.service@ftchinese.com?subject=Appeal: Warning">点击此处寻求帮助</a>。</div>
+    <div class="warn">为了保护您的利益，我们已经暂时锁定您的订阅账户，如有疑问，请联系客服。</div>
+    </div></div>
+    </div>
+    </div>
+    </div>
+    <script>window.gYellowCardUserIds = '';</script>
+    <div class="items hide" id="membership-red-card-prompt">
+    <div class="no-image">
+    <div class="item-inner">
+    <div class="item-lead"><div class="warn">
+    亲爱的会员，您的账号近期在多台设备上频繁异常登录。您的账户仅限您本人使用。为了保证您的利益，该账户已被暂时锁定。您可以：
+    <a class="email-link" href="mailto: customer.service@ftchinese.com?subject=Appeal: Red Warning">点击此处与我们联系进行认证</a>。
+    </div></div>
+    </div>
+    </div>
+    </div>
+    <script>window.gRedCardUserIds = '';</script>
+    <script>checkUserWarnings();</script>
+    </div>
+    </div>
+    <div class="clearfloat block-bottom"></div>
+    </div>
+    </div>
+    <div class="clearfloat"></div>
+    </div>
+    </div>
+    <div class="block-container dark-green no-side all" ><div class="block-inner">
+    <div class="content-container">
+    <div class="content-inner">
+    <div class="list-container"><div class="list-inner"><h2 class="list-title">
+    <a class="list-link"  href="">原创专栏</a>
+    </h2>
     <div class="items">
-    
-    
-    
-    <div class="item-container XL8 L12 M12 S12 S-double-width P12 has-image" data-update="1638760677"><div class="item-inner">
-    <h2 class="item-headline"><a class="item-headline-link " target="_blank" href="/story/001094713?topnav=china&subnav=chinareport">一周世界舆论聚焦：欧盟正被美国拉入制度性对抗中国框架</a></h2>
-    <a class="image" target="_blank" href="/story/001094713?topnav=china&subnav=chinareport"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000131606_piclink.jpg"></figure></a><div class="item-lead">曹辛：欧盟正逐步被美国拉入一个制度性对抗中国的框架中，但欧盟与美国又有所不同，它基本上属于就事论事性质的，目的是对己有利。</div><div class="item-time" data-time="1638760677">4小时前</div>
-    <div class="item-bottom"></div>
-    </div></div>
-    
-    
-    <div class=" LT MT PT ST"></div>
-    <div class="item-container XL4 XL-half XL-right L6 L-half M12 M-half S6 P12 P-half has-image" data-update="1638749441"><div class="item-inner">
-    <h2 class="item-headline"><a class="item-headline-link " target="_blank" href="/story/001094712?topnav=china&subnav=chinareport">“这个时代已经过去”：读刘香成口述、武云溥编著的《世界不是这样的》（上）</a></h2>
-    <a class="image" target="_blank" href="/story/001094712?topnav=china&subnav=chinareport"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000131897_piclink.jpeg"></figure></a><div class="item-lead">陈冠中：文字与图片同样堪供深度细读的这本书，像是在展示一波又一波的终结，每一个篇章都如那句英文熟语：这一章又翻过去了。</div><div class="item-time" data-time="1638749441">7小时前</div>
-    <div class="item-bottom"></div>
-    </div></div>
-    <div 
-    data-o-ads-name="infoflow1"
-    class="o-ads infoflow"  
-    data-o-ads-formats-default="false" 
-    data-o-ads-formats-small="FtcInfoFlow" 
-    data-o-ads-formats-medium="false"
-    data-o-ads-formats-large="false"
-    data-o-ads-formats-extra="false"
-    data-o-ads-targeting="cnpos=info1;"
-    >
-    </div>
-    
-    
-    <div class=" MT PT"></div>
-    <div class="item-container XL4 XL-half XL-right XL-lower L6 L-half M12 M-half S6 P12 P-half has-image" data-update="1638746349"><div class="item-inner">
-    <h2 class="item-headline"><a class="item-headline-link " target="_blank" href="/story/001094710?topnav=china&subnav=chinareport">恒大董事长许家印被约谈</a></h2>
-    <a class="image" target="_blank" href="/story/001094710?topnav=china&subnav=chinareport"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000129054_piclink.jpg"></figure></a><div class="item-lead">此前这家房地产开发商警告称，其可能无法履行财务责任，计划重组境外债务。广东省政府已同意派工作组进驻恒大。</div><div class="item-time" data-time="1638746349">8小时前</div>
-    <div class="item-bottom"></div>
-    </div></div>
-    
-    
-    <div class="XLT LT MT PT ST"></div>
-    <div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image" data-update="1638508577"><div class="item-inner">
-    <h2 class="item-headline"><a class="item-headline-link locked" target="_blank" href="/story/001094703?topnav=china&subnav=chinareport">我如何在亚马逊上成功出版英文书？</a></h2>
-    <a class="image" target="_blank" href="/story/001094703?topnav=china&subnav=chinareport"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000131776_piclink.jpg"></figure></a><div class="item-lead">何越：我撰写的《揭开中西百年误解》在亚马逊上正式发行。撰写并发行英文书，是我人生中的第一次尝试，很意外，也很兴奋，还有很多不解。</div><div class="item-time" data-time="1638508577">3天前</div>
-    <div class="item-bottom"></div>
-    </div></div>
-    
-    
-    <div class=" MT PT"></div>
-    <div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image" data-update="1638449543"><div class="item-inner">
-    <h2 class="item-headline"><a class="item-headline-link locked" target="_blank" href="/story/001094697?topnav=china&subnav=chinareport">美防长称中国试射高超音速武器加剧地区紧张局势</a></h2>
-    <a class="image" target="_blank" href="/story/001094697?topnav=china&subnav=chinareport"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000131688_piclink.jpg"></figure></a><div class="item-lead">美国国防部长奥斯汀警告称，中国高超音速武器的研发和试验突显出中国是美国军方面临的最大挑战。</div><div class="item-time" data-time="1638449543">3天前</div>
-    <div class="item-bottom"></div>
-    </div></div>
-    
-    
-    <div class=" LT MT PT ST"></div>
-    <div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image" data-update="1638402597"><div class="item-inner">
-    <h2 class="item-headline"><a class="item-headline-link locked" target="_blank" href="/story/001094684?topnav=china&subnav=chinareport">中国民营经济倒退了吗？</a></h2>
-    <a class="image" target="_blank" href="/story/001094684?topnav=china&subnav=chinareport"><figure class="loading" data-url="http://i.ftimg.net/picture/5/000129715_piclink.jpeg"></figure></a><div class="item-lead">王丹：目前很多产业的“民退”，是因为服务业受疫情影响最大，而民营企业在服务业占据主导。一旦经济正常化，服务业就会迅速反弹。</div><div class="item-time" data-time="1638402597">4天前</div>
-    <div class="item-bottom"></div>
-    </div></div>
-    
-    
-    <div class="XLT MT PT"></div>
-    <div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image" data-update="1638360117"><div class="item-inner">
-    <h2 class="item-headline"><a class="item-headline-link locked" target="_blank" href="/story/001094682?topnav=china&subnav=chinareport">所罗门群岛骚乱的核心不是中国而是经济</a></h2>
-    <a class="image" target="_blank" href="/story/001094682?topnav=china&subnav=chinareport"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000131554_piclink.jpg"></figure></a><div class="item-lead">地缘政治只是所罗门群岛骚乱的导火索，当地人对不同省份间经济发展差距的长期不满才是根源所在。</div><div class="item-time" data-time="1638360117">4天前</div>
-    <div class="item-bottom"></div>
-    </div></div>
-    
-    
-    <div class=" LT MT PT ST"></div>
-    <div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image" data-update="1638347721"><div class="item-inner">
-    <h2 class="item-headline"><a class="item-headline-link locked" target="_blank" href="/story/001094679?topnav=china&subnav=chinareport">盈利在望，智能手机回收商万物新生推进本地化运营</a></h2>
-    <a class="image" target="_blank" href="/story/001094679?topnav=china&subnav=chinareport"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000131551_piclink.jpg"></figure></a><div class="item-lead">该公司的目标是积极拓展城市级别的新回收模式，在未来四年内将GMV增加两倍。</div><div class="item-time" data-time="1638347721">4天前</div>
-    <div class="item-bottom"></div>
-    </div></div>
-    
-    
-    <div class=" MT PT"></div>
-    <div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image" data-update="1638341488"><div class="item-inner">
-    <h2 class="item-headline"><a class="item-headline-link locked" target="_blank" href="/story/001094675?topnav=china&subnav=chinareport">中国削减对非洲的供资承诺</a></h2>
-    <a class="image" target="_blank" href="/story/001094675?topnav=china&subnav=chinareport"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000131508_piclink.jpg"></figure></a><div class="item-lead">中国未来三年将把对非洲的资金供应削减三分之一，这一迹象表明北京方面对非洲大陆债务问题的态度越来越谨慎。</div><div class="item-time" data-time="1638341488">5天前</div>
-    <div class="item-bottom"></div>
-    </div></div>
-    <div
-    data-o-ads-name="mpu-middle1"
-    class="o-ads"
-    data-o-ads-formats-default="false"
-    data-o-ads-formats-small="FtcMobileMpu"
-    data-o-ads-formats-medium="false"
-    data-o-ads-formats-large="false"
-    data-o-ads-formats-extra="false"
-    data-o-ads-targeting="cnpos=middle1;"
-    data-cy='[{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"MPU","position":"Middle1"}]'
-    >
-    </div>
-    
-    
-    <div class="XLT LT MT PT ST"></div>
-    <div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image" data-update="1638312633"><div class="item-inner">
-    <h2 class="item-headline"><a class="item-headline-link locked" target="_blank" href="/story/001094667?topnav=china&subnav=chinareport">乡村贫困治理经验之中西对比</a></h2>
-    <a class="image" target="_blank" href="/story/001094667?topnav=china&subnav=chinareport"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000131451_piclink.jpg"></figure></a><div class="item-lead">杨超：中国乡村贫困治理关键的经验一是产业，二是政府的积极作为，三是市场的无形之手，形成一个有效的贫困治理的闭环。</div><div class="item-time" data-time="1638312633">5天前</div>
-    <div class="item-bottom"></div>
-    </div></div>
-    
-    
-    <div class=" MT PT"></div>
-    <div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image" data-update="1638268489"><div class="item-inner">
-    <h2 class="item-headline"><a class="item-headline-link locked" target="_blank" href="/story/001094665?topnav=china&subnav=chinareport">11月份中国制造业活动回升</a></h2>
-    <a class="image" target="_blank" href="/story/001094665?topnav=china&subnav=chinareport"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000131424_piclink.jpg"></figure></a><div class="item-lead">官方数据显示，在连续两个月收缩后，11月中国制造业PMI回升至50.1，略高于50的荣枯分界线。</div><div class="item-time" data-time="1638268489">5天前</div>
-    <div class="item-bottom"></div>
-    </div></div>
-    
-    
-    <div class=" LT MT PT ST"></div>
-    <div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image" data-update="1638259655"><div class="item-inner">
-    <h2 class="item-headline"><a class="item-headline-link locked" target="_blank" href="/story/001094664?topnav=china&subnav=chinareport">杰富瑞：中国人口将在2022年达到峰值</a></h2>
-    <a class="image" target="_blank" href="/story/001094664?topnav=china&subnav=chinareport"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000131417_piclink.jpg"></figure></a><div class="item-lead">宏观看空者长期以来一直认为，西方经济体将陷入类似日本那样的困境。现在看来，中国可能会抢先一步。</div><div class="item-time" data-time="1638259655">5天前</div>
-    <div class="item-bottom"></div>
-    </div></div>
-    
-    
-    <div class="XLT MT PT"></div>
-    <div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image" data-update="1638234211"><div class="item-inner">
-    <h2 class="item-headline"><a class="item-headline-link locked" target="_blank" href="/story/001094659?topnav=china&subnav=chinareport">中美关系：弱对话，强竞争</a></h2>
-    <a class="image" target="_blank" href="/story/001094659?topnav=china&subnav=chinareport"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000131337_piclink.jpg"></figure></a><div class="item-lead">黄蓥祺：美国对华竞争已接近成为美国政治精英和社会的共识，中美目前有限的接触，其作用可以积极预期，但不宜太过乐观。</div><div class="item-time" data-time="1638234211">6天前</div>
-    <div class="item-bottom"></div>
-    </div></div>
-    
-    
-    <div class=" LT MT PT ST"></div>
-    <div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image" data-update="1638229987"><div class="item-inner">
-    <h2 class="item-headline"><a class="item-headline-link locked" target="_blank" href="/story/001094658?topnav=china&subnav=chinareport">吉姆•奥尼尔：“金砖国家”令人失望</a></h2>
-    <a class="image" target="_blank" href="/story/001094658?topnav=china&subnav=chinareport"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000131331_piclink.jpeg"></figure></a><div class="item-lead">“金砖国家”这个概念提出20年以来，如何成功地向全社会更高收入的状态转型，仍是这些国家有待解决的一项巨大挑战。</div><div class="item-time" data-time="1638229987">6天前</div>
-    <div class="item-bottom"></div>
-    </div></div>
-    
-    
-    <div class=" MT PT"></div>
-    <div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image" data-update="1638227400"><div class="item-inner">
-    <h2 class="item-headline"><a class="item-headline-link locked" target="_blank" href="/story/001094656?topnav=china&subnav=chinareport">欧盟规划3000亿欧元全球基建支出 抗衡中国</a></h2>
-    <a class="image" target="_blank" href="/story/001094656?topnav=china&subnav=chinareport"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000131328_piclink.jpeg"></figure></a><div class="item-lead">“全球门户”计划不会明确宣示要替代中资项目，但将强调提供“基于价值观”的选项及“合乎道德的做法”。</div><div class="item-time" data-time="1638227400">6天前</div>
-    <div class="item-bottom"></div>
-    </div></div>
-    
-    
-    <div class="XLT LT MT PT ST"></div>
-    <div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image" data-update="1638173577"><div class="item-inner">
-    <h2 class="item-headline"><a class="item-headline-link locked" target="_blank" href="/story/001094653?topnav=china&subnav=chinareport">纸尿裤生产商将在华营销重点转向老年群体</a></h2>
-    <a class="image" target="_blank" href="/story/001094653?topnav=china&subnav=chinareport"><figure class="loading" data-url="http://i.ftimg.net/picture/5/000131285_piclink.jpg"></figure></a><div class="item-lead">纸尿裤生产商、分析师和投资者均表示，到2025年，中国的成人纸尿裤市场可能超过婴儿纸尿裤市场，凸显人口结构的转变。</div><div class="item-time" data-time="1638173577">6天前</div>
-    <div class="item-bottom"></div>
-    </div></div>
-    
-    
-    <div class=" MT PT"></div>
-    <div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image" data-update="1638141735"><div class="item-inner">
-    <h2 class="item-headline"><a class="item-headline-link locked" target="_blank" href="/story/001094645?topnav=china&subnav=chinareport">一周世界舆论聚焦：中国需两手准备，并把德国政府与民间分开</a></h2>
-    <a class="image" target="_blank" href="/story/001094645?topnav=china&subnav=chinareport"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000131239_piclink.jpg"></figure></a><div class="item-lead">曹辛：中德关系将进入一个非常敏感与不安的阶段，至少在新政府执政的第一年内，大概率会如此，中德之间的外交碰撞恐怕难以避免。</div><div class="item-time" data-time="1638141735">2021年11月29日</div>
-    <div class="item-bottom"></div>
-    </div></div>
-    
-    
-    <div class=" LT MT PT ST"></div>
-    <div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image" data-update="1638115613"><div class="item-inner">
-    <h2 class="item-headline"><a class="item-headline-link locked" target="_blank" href="/story/001094644?topnav=china&subnav=chinareport">疫情为什么没有推高亚洲的通胀？</a></h2>
-    <a class="image" target="_blank" href="/story/001094644?topnav=china&subnav=chinareport"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000131221_piclink.jpg"></figure></a><div class="item-lead">全球面临通胀压力之际，亚洲价格涨幅较小的原因可以归结为一个简单因素：该地区比世界其他地方更好地应对了新冠疫情。</div><div class="item-time" data-time="1638115613">2021年11月29日</div>
-    <div class="item-bottom"></div>
-    </div></div>
-    <div
-    data-o-ads-name="mpu-middle2"
-    class="o-ads"
-    data-o-ads-formats-default="false"
-    data-o-ads-formats-small="FtcMobileMpu"
-    data-o-ads-formats-medium="false"
-    data-o-ads-formats-large="false"
-    data-o-ads-formats-extra="false"
-    data-o-ads-targeting="cnpos=middle2;"
-    data-cy='[{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"MPU","position":"Middle2"}]'
-    >
-    </div>
-    
-    
-    <div class="XLT MT PT"></div>
-    <div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image" data-update="1637921551"><div class="item-inner">
-    <h2 class="item-headline"><a class="item-headline-link locked" target="_blank" href="/story/001094639?topnav=china&subnav=chinareport">联华电子与美光科技宣布达成和解</a></h2>
-    <a class="image" target="_blank" href="/story/001094639?topnav=china&subnav=chinareport"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000131088_piclink.jpg"></figure></a><div class="item-lead">联华电子与美光科技宣布达成和解协议，双方将撤回向对方提出的诉讼，联华电子将向美光科技支付一笔未披露金额的款项。</div><div class="item-time" data-time="1637921551">2021年11月26日</div>
-    <div class="item-bottom"></div>
-    </div></div>
-    
-    
-    <div class=" LT MT PT ST"></div>
-    <div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image" data-update="1637917554"><div class="item-inner">
-    <h2 class="item-headline"><a class="item-headline-link locked" target="_blank" href="/story/001094638?topnav=china&subnav=chinareport">绿党掌管德国外交部对中俄意味着什么？</a></h2>
-    <a class="image" target="_blank" href="/story/001094638?topnav=china&subnav=chinareport"><figure class="loading" data-url="http://i.ftimg.net/picture/5/000131065_piclink.jpg"></figure></a><div class="item-lead">绿党一直认为默克尔对中俄过于软弱，希望在人权和价值观问题上采取更强硬立场，不再将德国的利益等同于德国的商业利益。</div><div class="item-time" data-time="1637917554">2021年11月26日</div>
-    <div class="item-bottom"></div>
-    </div></div>
-    
-    
-    <div class=" MT PT"></div>
-    <div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image" data-update="1637898472"><div class="item-inner">
-    <h2 class="item-headline"><a class="item-headline-link locked" target="_blank" href="/story/001094634?topnav=china&subnav=chinareport">每周时事分析：文在寅毫不在乎中国感受</a></h2>
-    <a class="image" target="_blank" href="/story/001094634?topnav=china&subnav=chinareport"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000117668_piclink.jpg"></figure></a><div class="item-lead">曹辛：根据文在寅签署终战宣言的构想，宣言签署国将由“韩朝美三方或韩朝美中四方”构成，这使得中国能否参与签署终战宣言变得很不确定。</div><div class="item-time" data-time="1637898472">2021年11月26日</div>
-    <div class="item-bottom"></div>
-    </div></div>
-    
-    
-    <div class="XLT LT MT PT ST"></div>
-    <div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image" data-update="1637887025"><div class="item-inner">
-    <h2 class="item-headline"><a class="item-headline-link locked" target="_blank" href="/story/001094631?topnav=china&subnav=chinareport">FT社评：朔尔茨能否为德国带来变革之风？</a></h2>
-    <a class="image" target="_blank" href="/story/001094631?topnav=china&subnav=chinareport"><figure class="loading" data-url="http://i.ftimg.net/picture/5/000131055_piclink.jpg"></figure></a><div class="item-lead">德国三个政党达成的执政联盟协议表明，由朔尔茨领导的新一届联合政府有望使德国政治方向在默克尔主政16年后发生重大变化。</div><div class="item-time" data-time="1637887025">2021年11月26日</div>
-    <div class="item-bottom"></div>
-    </div></div>
-    
-    
-    <div class=" MT PT"></div>
-    <div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image" data-update="1637834936"><div class="item-inner">
-    <h2 class="item-headline"><a class="item-headline-link locked" target="_blank" href="/story/001094627?topnav=china&subnav=chinareport">中国第三季度碳排放量出现下降</a></h2>
-    <a class="image" target="_blank" href="/story/001094627?topnav=china&subnav=chinareport"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000130999_piclink.jpg"></figure></a><div class="item-lead">自去年实施封锁以来，中国碳排放量首次出现下降，这是房地产行业低迷和能源短缺冲击到中国工业需求的最新信号。</div><div class="item-time" data-time="1637834936">2021年11月25日</div>
-    <div class="item-bottom"></div>
-    </div></div>
-    <div 
-    data-o-ads-name="infoflow3"
-    class="o-ads infoflow"  
-    data-o-ads-formats-default="false" 
-    data-o-ads-formats-small="FtcInfoFlow" 
-    data-o-ads-formats-medium="false"
-    data-o-ads-formats-large="false"
-    data-o-ads-formats-extra="false"
-    data-o-ads-targeting="cnpos=info3;"
-    >
-    </div>
-    
-    
-    <div class=" LT MT PT ST"></div>
-    <div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image" data-update="1637826431"><div class="item-inner">
-    <h2 class="item-headline"><a class="item-headline-link locked" target="_blank" href="/story/001094625?topnav=china&subnav=chinareport">为对抗中国影响力，英国拟建立新的开发投资部门</a></h2>
-    <a class="image" target="_blank" href="/story/001094625?topnav=china&subnav=chinareport"><figure class="loading" data-url="http://i.ftimg.net/picture/8/000130978_piclink.jpg"></figure></a><div class="item-lead">英国将于周四推出“英国国际投资”，动员私人资本对亚洲、非洲和加勒比地区的国家进行投资，提供中国贷款之外的替代选择。</div><div class="item-time" data-time="1637826431">2021年11月25日</div>
-    <div class="item-bottom"></div>
-    </div></div>
-    
-    
-    <div class="XLT MT PT"></div>
-    <div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image" data-update="1637822785"><div class="item-inner">
-    <h2 class="item-headline"><a class="item-headline-link locked" target="_blank" href="/story/001094623?topnav=china&subnav=chinareport">美中半导体之争殃及韩国SK海力士</a></h2>
-    <a class="image" target="_blank" href="/story/001094623?topnav=china&subnav=chinareport"><figure class="loading" data-url="http://i.ftimg.net/picture/5/000130985_piclink.jpg"></figure></a><div class="item-lead">美国反对SK海力士升级其在华工厂，这威胁到了该公司的竞争力，凸显出该行业在美中之间日益激烈的科技竞争中面临的挑战。</div><div class="item-time" data-time="1637822785">2021年11月25日</div>
-    <div class="item-bottom"></div>
-    </div></div>
-    
-    
-    <div class=" LT MT PT ST"></div>
-    <div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image" data-update="1637811764"><div class="item-inner">
-    <h2 class="item-headline"><a class="item-headline-link locked" target="_blank" href="/story/001094620?topnav=china&subnav=chinareport">朝鲜战争如何影响了台湾的地位和命运？</a></h2>
-    <a class="image" target="_blank" href="/story/001094620?topnav=china&subnav=chinareport"><figure class="loading" data-url="http://i.ftimg.net/picture/4/000130124_piclink.jpg"></figure></a><div class="item-lead">叶胜舟：从史料联想目前的台湾问题，当时美国是否也会有一个至今保密的撤退方案？即被迫接受台湾回归中国。</div><div class="item-time" data-time="1637811764">2021年11月25日</div>
-    <div class="item-bottom"></div>
-    </div></div>
-    <div 
-    data-o-ads-name="mpu-middle3"
-    class="o-ads" 
-    data-o-ads-formats-default="false" 
-    data-o-ads-formats-small="FtcMobileMpu" 
-    data-o-ads-formats-medium="false"
-    data-o-ads-formats-large="false"
-    data-o-ads-formats-extra="false"
-    data-o-ads-targeting="cnpos=middle3;"
-    data-cy='[{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"MPU","position":"Middle3"}]'
-    >
-    </div>
-    
-    
-    <div class=" MT PT"></div>
-    <div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image" data-update="1637711338"><div class="item-inner">
-    <h2 class="item-headline"><a class="item-headline-link locked" target="_blank" href="/story/001094604?topnav=china&subnav=chinareport">美国将释放5000万桶战略石油储备</a></h2>
-    <a class="image" target="_blank" href="/story/001094604?topnav=china&subnav=chinareport"><figure class="loading" data-url="http://i.ftimg.net/picture/5/000127025_piclink.jpg"></figure></a><div class="item-lead">在未来几个月释放这些储备是为了压低成品油价格，遏制原油市场涨势。此举将与中国、印度、日本、韩国和英国释放储备的举措协调。</div><div class="item-time" data-time="1637711338">2021年11月24日</div>
-    <div class="item-bottom"></div>
-    </div></div>
-    
-    
-    <div class="XLT LT MT PT ST"></div>
-    <div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image" data-update="1637655498"><div class="item-inner">
-    <h2 class="item-headline"><a class="item-headline-link locked" target="_blank" href="/story/001094600?topnav=china&subnav=chinareport">粤港的焦虑并不相通——粤港通关要几时？</a></h2>
-    <a class="image" target="_blank" href="/story/001094600?topnav=china&subnav=chinareport"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000087649_piclink.jpg"></figure></a><div class="item-lead">李瀚明：香港社会必须考虑、尊重并解决内地社会的这些关切。否则很难想象内地社会能够为香港社会提供任何形式的通关便利。</div><div class="item-time" data-time="1637655498">2021年11月23日</div>
-    <div class="item-bottom"></div>
-    </div></div>
-    
-    
-    <div class=" MT PT"></div>
-    <div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image" data-update="1637154486"><div class="item-inner">
-    <h2 class="item-headline"><a class="item-headline-link locked" target="_blank" href="/story/001094549?topnav=china&subnav=chinareport">“去全球化”叙事站不住脚</a></h2>
-    <a class="image" target="_blank" href="/story/001094549?topnav=china&subnav=chinareport"><figure class="loading" data-url="http://i.ftimg.net/picture/5/000128525_piclink.jpg"></figure></a><div class="item-lead">格林：比去全球化更有可能的是正在发展的“中国加一”战略：继续在中国开工厂，但也要利用其他地方的供应商来进行对冲。</div><div class="item-time" data-time="1637154486">2021年11月17日</div>
-    <div class="item-bottom"></div>
-    </div></div>
-    <div 
-    data-o-ads-name="infoflow4"
-    class="o-ads infoflow"  
-    data-o-ads-formats-default="false" 
-    data-o-ads-formats-small="FtcInfoFlow" 
-    data-o-ads-formats-medium="false"
-    data-o-ads-formats-large="false"
-    data-o-ads-formats-extra="false"
-    data-o-ads-targeting="cnpos=info4;"
-    >
-    </div>
-    
-    
-    <div class=" LT MT PT ST"></div>
-    <div class="item-container XL4 XL-half L6 L-half M12 M-half S6 P12 P-half has-image" data-update="1636592163"><div class="item-inner">
-    <h2 class="item-headline"><a class="item-headline-link locked" target="_blank" href="/story/001094484?topnav=china&subnav=chinareport">兰德公司2021年军民两用量子技术主题报告评述</a></h2>
-    <a class="image" target="_blank" href="/story/001094484?topnav=china&subnav=chinareport"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000129761_piclink.jpg"></figure></a><div class="item-lead">黄蓥祺：随着中美两国竞争从贸易和投资转向以先进“军民两用技术”为核心的博弈，中美两国都在进行广泛动员以实现在关键领域的关键突破。</div><div class="item-time" data-time="1636592163">2021年11月11日</div>
-    <div class="item-bottom"></div>
-    </div></div>
-    
-    
-    <div class=" MT PT"></div>
-    <div class="item-container XL4 XL-half XL-lower L6 L-half M12 M-half S6 P12 P-half has-image" data-update="1636408825"><div class="item-inner">
-    <h2 class="item-headline"><a class="item-headline-link locked" target="_blank" href="/story/001094450?topnav=china&subnav=chinareport">平民企业家张瑞敏</a></h2>
-    <a class="image" target="_blank" href="/story/001094450?topnav=china&subnav=chinareport"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000129501_piclink.jpeg"></figure></a><div class="item-lead">周掌柜：“身份的证明”是贯穿张瑞敏个人发展、管理思维和战略逻辑的主线，这背后交织着个人命运和时代变迁的复杂关系，这也是本文的着眼点。</div><div class="item-time" data-time="1636408825">2021年11月9日</div>
-    <div class="item-bottom"></div>
-    </div></div>
     <div class="clearfloat"></div>
     </div>
     </div></div>
-    <div class="clearfloat block-bottom"></div>
+    <!--columns: 
+    Array
+    (
+        [0] => Array
+            (
+                [id] => 007000038
+                [publish_status] => publish
+                [fileupdatetime] => 1465266396
+                [headline] => 《中外对话》
+                [author_name_cn] => 中外对话
+                [author_name_en] => 
+                [type] => column
+                [pic] => 000020011;China dialogue headcut
+                [description] => 中外对话(www.chinadialogue.net)是一个致力于环境问题的中英双语网站，总部位于伦敦，是一个独立的非营利性组织。
+                [adchannel] => 008000007
+                [sort] => 17
+                [showpic] => 1
+                [showheadline] => 1
+                [get_column_list] => get_column_list
+                [pubdate] => 1677859200
+                [piclink] => http://creatives.ftacademy.cn/picture/1/000020011_piclink_0_0.jpg
+                [background] =>  blue
+            )
+    
+        [1] => Array
+            (
+                [id] => 007000071
+                [publish_status] => publish
+                [fileupdatetime] => 1504160361
+                [headline] => 《居食趣》
+                [author_name_cn] => 郑静
+                [author_name_en] => 
+                [type] => column
+                [pic] => 000072322;郑静
+                [description] => 郑静，《美好家园》杂志主编、财经网生活频道主编、家居设计专栏作家、策展顾问，著有《岁时历——日日是好日》、《中国风尚》、《新中式艺术》、《ART DECO 在上海》等，微博号@绿色蝴蝶，微信公众号“蝴蝶厨房”。
+                [adchannel] => 008000001
+                [sort] => 50
+                [showpic] => 1
+                [showheadline] => 1
+                [get_column_list] => get_column_list
+                [pubdate] => 1677772800
+                [piclink] => http://creatives.ftacademy.cn/picture/2/000072322_piclink.jpg
+                [background] => 
+            )
+    
+        [2] => Array
+            (
+                [id] => 007000087
+                [publish_status] => publish
+                [fileupdatetime] => 1621551917
+                [headline] => 《资本与国家》
+                [author_name_cn] => 王英良
+                [author_name_en] => Wang Yingliang
+                [type] => column
+                [pic] => 000117692;Wang Yingliang
+                [description] => 王英良，复旦大学国际关系专业博士研究生，学术兴趣在于研究跨国公司与世界的互动、资本与国家间的融合博弈。时常一杯茶、一台电脑，或受命，或主动请缨，将对世界的观察与思考及时记录分享。已有作品十余万字，但前路漫漫，学无止境，立志要上下求索。本专栏留心国际政治经济事务热点，力图发出我辈学人对复杂世界的平凡解释，力求把握问题实质，追求在朴素的语言下把世界问题说得清楚一点。愿意以热心、热气给读者带来“小彻小悟”的快乐，让阅读成为生活审美的要素。
+                [adchannel] => 008000001
+                [sort] => 0
+                [showpic] => 0
+                [showheadline] => 0
+                [get_column_list] => get_column_list
+                [pubdate] => 1677772800
+                [piclink] => http://creatives.ftacademy.cn/picture/2/000117692_piclink.jpg
+                [background] =>  dark-grey
+            )
+    
+        [3] => Array
+            (
+                [id] => 007000096
+                [publish_status] => publish
+                [fileupdatetime] => 1669283497
+                [headline] => 《值得艺术》
+                [author_name_cn] => 薛莉
+                [author_name_en] => Notice: Undefined variable: columnInfo in /data/opt/backyardnew.ftchinese.com/dev_cms/create_column.php on line 182
+                [type] => column
+                [pic] => 000162754;Xue Li
+                [description] => 本专栏专注于剖析艺术产业价值链，探索艺术行业动态趋势，解读艺术品的赋值理念，从艺术家、画廊、博览会、美术馆、拍卖行、藏家、教育机构、赞助人等各个环节观察艺术生态。
+                [adchannel] => 008000001
+                [sort] => 0
+                [showpic] => 0
+                [showheadline] => 0
+                [get_column_list] => get_column_list
+                [pubdate] => 1677772800
+                [piclink] => http://creatives.ftacademy.cn/picture/4/000162754_piclink.jpg
+                [background] =>  yellow
+            )
+    
+        [4] => Array
+            (
+                [id] => 007000081
+                [publish_status] => publish
+                [fileupdatetime] => 1638158972
+                [headline] => 《越陌度阡》
+                [author_name_cn] => 何越
+                [author_name_en] => 
+                [type] => column
+                [pic] => 000086017;GettyImages-692527804-London Bridge
+                [description] => 何越，母亲、妻子、厨师以及双语作家。以英文撰写中国与世界；以中文撰写英国与世界。著有China and the West – Unravelling 100 Years of Misunderstanding 《揭开中西百年误解》、《让世界爱上中国美食（西方中餐大师谭荣辉自传）以及《撕裂的民主——“脱欧”阴影下的英国政治与社会》（即将出版）。
+                [adchannel] => 008000001
+                [sort] => 0
+                [showpic] => 0
+                [showheadline] => 0
+                [get_column_list] => get_column_list
+                [pubdate] => 1677686400
+                [piclink] => http://creatives.ftacademy.cn/picture/7/000086017_piclink.jpg
+                [background] =>  purple
+            )
+    
+        [5] => Array
+            (
+                [id] => 007000090
+                [publish_status] => publish
+                [fileupdatetime] => 1669803922
+                [headline] => 《咏竹坊》
+                [author_name_cn] => 咏竹坊
+                [author_name_en] => 
+                [type] => column
+                [pic] => 000164677;FTC-Wang Feng-bamboo works
+                [description] => 咏竹坊（<a href="https://www.thebambooworks.com/cn/%e9%a6%96%e9%a1%b5/" target=_blank>官网链接</a>）提供在香港和美国上市的中国企业相关新闻，重点关注中小企业和筹备上市的公司。
+    <br><br>
+    Bamboo Works (<a href="https://www.thebambooworks.com/cn/%e9%a6%96%e9%a1%b5/" target=_blank>official website</a>) provides news on Chinese companies listed in Hong Kong and the United States, with a strong focus on mid-cap and also pre-IPO companies.
+                [adchannel] => 008000004
+                [sort] => 0
+                [showpic] => 1
+                [showheadline] => 1
+                [get_column_list] => get_column_list
+                [pubdate] => 1677686400
+                [piclink] => http://creatives.ftacademy.cn/picture/7/000164677_piclink.png
+                [background] =>  light-blue
+            )
+    
+        [6] => Array
+            (
+                [id] => 007000092
+                [publish_status] => publish
+                [fileupdatetime] => 1635389245
+                [headline] => 《过路诗篇》
+                [author_name_cn] => 张璐诗
+                [author_name_en] => Lucy Cheung
+                [type] => column
+                [pic] => 000128488;Haolin-Zhang Lushi
+                [description] => 张璐诗（Lucy Cheung），常驻伦敦资深媒体人，职业音乐人，旅居北京、希腊多年。专注音乐产业、文艺思潮与美食文化，视野遍及全球。
+                [adchannel] => 008000001
+                [sort] => 3
+                [showpic] => 1
+                [showheadline] => 1
+                [get_column_list] => get_column_list
+                [pubdate] => 1677686400
+                [piclink] => http://creatives.ftacademy.cn/picture/8/000128488_piclink.png
+                [background] =>  dark-green
+            )
+    
+        [7] => Array
+            (
+                [id] => 007000047
+                [publish_status] => publish
+                [fileupdatetime] => 1654654974
+                [headline] => 《沈时度势》
+                [author_name_cn] => 沈建光
+                [author_name_en] => Shen Jianguang
+                [type] => column
+                [pic] => 000028585;Shen Jianguang
+                [description] => 沈建光，京东集团首席经济学家，前瑞穗证劵亚洲公司首席经济学家，赫尔辛基大学经济学博士。少时曾求学欧美，希望纵横四海，游历全球；如今重心回归中国，专栏立意审视中外经济，建言宏观大势。曾任国际经合组织顾问和欧洲央行资深经济学家、国际货币基金组织和芬兰央行经济学家，现亦为复旦大学经济学院客座教授。
+                [adchannel] => 008000001
+                [sort] => 13
+                [showpic] => 1
+                [showheadline] => 1
+                [get_column_list] => get_column_list
+                [pubdate] => 1677600000
+                [piclink] => http://creatives.ftacademy.cn/picture/5/000028585_piclink_0_0.jpg
+                [background] =>  blue
+            )
+    
+        [8] => Array
+            (
+                [id] => 007000086
+                [publish_status] => publish
+                [fileupdatetime] => 1617939464
+                [headline] => 《米国薯国》
+                [author_name_cn] => 张冬方
+                [author_name_en] => Notice: Undefined variable: columnInfo in /data/opt/backyardnew.ftchinese.com/dev_cms/create_column.php on line 182
+                [type] => column
+                [pic] => 000115255;zhang
+                [description] => 薯国，爱吃马铃薯的德国；米国，爱吃大米的中国。本专栏聚焦于与中国比较下的德国和欧洲，尤其是德国和欧盟在数字经济领域的数据保护、反垄断等监管政策 。在数字经济监管领域，欧盟是先行者。作者张冬方，资深媒体人，做过杂志，干过电视，做过人物访谈记者，干过生活类编辑。近十年来扎根德国，观察和报道德国社会和政治热点。
+                [adchannel] => 008000036
+                [sort] => 1
+                [showpic] => 1
+                [showheadline] => 0
+                [get_column_list] => get_column_list
+                [pubdate] => 1677340800
+                [piclink] => http://creatives.ftacademy.cn/picture/5/000115255_piclink.jpg
+                [background] => 
+            )
+    
+        [9] => Array
+            (
+                [id] => 007000093
+                [publish_status] => publish
+                [fileupdatetime] => 1644380242
+                [headline] => 《青听华尔街》
+                [author_name_cn] => 冯郁青
+                [author_name_en] => 
+                [type] => column
+                [pic] => 000136933;fengyuqing
+                [description] => 冯郁青，哥伦比亚大学国际关系硕士，曾任第一财经纽约评论员和美国业务主管。报道了2008年金融危机，四届美国大选。自2008年开始连续五次专访了巴菲特，对巴菲特的先锋报道及对中国经济的讨论在财经界产生广泛影响。还先后专访了格林斯潘，克林顿总统， 美国前国家安全顾问布热金斯基, 纽约前市长彭博和世界银行前行长James Wolfensohn，以及多位诺贝尔经济学奖得主。 自2008年金融危机以来，在纽约主流智库举办和主持年度金融论坛，和美国政界及华尔街大佬讨论美国经济发展及中美关系的热点话题。2018年当民粹主义和反特朗普浪潮在全球范围内激烈碰撞之际，冯郁青和世界顶级略家和经济学家展开深度对话，制作六集纪录片《世界推动者》，探寻二战之后世界秩序的变化。冯郁青现为数据媒体BitpushNews总编。
+                [adchannel] => 008000008
+                [sort] => 0
+                [showpic] => 1
+                [showheadline] => 1
+                [get_column_list] => get_column_list
+                [pubdate] => 1677081600
+                [piclink] => http://creatives.ftacademy.cn/picture/3/000136933_piclink.png
+                [background] =>  dark-grey
+            )
+    
+        [10] => Array
+            (
+                [id] => 007000049
+                [publish_status] => publish
+                [fileupdatetime] => 1673618289
+                [headline] => 《徐瑾经济人》
+                [author_name_cn] => 徐瑾
+                [author_name_en] => 
+                [type] => column
+                [pic] => 000159032;xujinnew
+                [description] => 知名青年经济学者，货币三部曲作者。FT中文网财经版主编，经济人读书会创始人。
+    
+    徐瑾近年出版《货币王者》《徐瑾经济学思维课》等书，连续入选“最受金融人喜爱的十本财经书籍”；《白银帝国》由耶鲁大学出版社推出英文版，获《华尔街日报》《亚洲书评》等权威媒体好评推荐。
+    
+    微信公众号：econhomo                
+    读者微信号：ashes-18
+                [adchannel] => 008000002
+                [sort] => 0
+                [showpic] => 1
+                [showheadline] => 1
+                [get_column_list] => get_column_list
+                [pubdate] => 1676995200
+                [piclink] => http://creatives.ftacademy.cn/picture/2/000159032_piclink.jpg
+                [background] =>  yellow
+            )
+    
+        [11] => Array
+            (
+                [id] => 007000074
+                [publish_status] => publish
+                [fileupdatetime] => 1569374833
+                [headline] => 《远观近思》
+                [author_name_cn] => 刘远举
+                [author_name_en] => 
+                [type] => column
+                [pic] => 000076436;liuyuanju
+                [description] => 刘远举，重庆人，先学理工科再学经济学，从事过咨询行业，现为自由撰稿人。关注时政、财经、科技，旨在探寻现象背后的事实与公正。文风理性、客观，且用人性的温度替换虚伪的中立。微博ID@刘远举。
+                [adchannel] => 008000004
+                [sort] => 0
+                [showpic] => 1
+                [showheadline] => 1
+                [get_column_list] => get_column_list
+                [pubdate] => 1676995200
+                [piclink] => http://creatives.ftacademy.cn/picture/6/000076436_piclink.jpg
+                [background] =>  purple
+            )
+    
+        [12] => Array
+            (
+                [id] => 007000095
+                [publish_status] => publish
+                [fileupdatetime] => 1662445134
+                [headline] => 《互联网法经》
+                [author_name_cn] => 薛宁
+                [author_name_en] => Notice: Undefined variable: columnInfo in /data/opt/backyardnew.ftchinese.com/dev_cms/create_column.php on line 182
+                [type] => column
+                [pic] => 000156415;xuening
+                [description] => 薛宁，长居北京，法律从业人士，持续关注互联网领域的产业发展、竞争问题与法律争议，信奉社会规范、市场理性与技术创新，愿常识永驻，祈人性繁荣。
+                [adchannel] => 008000025
+                [sort] => 1
+                [showpic] => 1
+                [showheadline] => 1
+                [get_column_list] => get_column_list
+                [pubdate] => 1676995200
+                [piclink] => http://creatives.ftacademy.cn/picture/5/000156415_piclink.jpg
+                [background] =>  light-blue
+            )
+    
+        [13] => Array
+            (
+                [id] => 007000091
+                [publish_status] => publish
+                [fileupdatetime] => 1636608670
+                [headline] => 《山石经》
+                [author_name_cn] => 李岩
+                [author_name_en] => Notice: Undefined variable: columnInfo in /data/opt/backyardnew.ftchinese.com/dev_cms/create_column.php on line 182
+                [type] => column
+                [pic] => 000129813;Li Yan
+                [description] => 李岩，现居伦敦，曾任英国华人刊物《丝语》主编，并于2003年至2020年在英国《金融时报》中文网任责任编辑。他毕业于广州外语学院英语系，并拥有伦敦城市大学艺术管理硕士和博士学位。
+                [adchannel] => 008000001
+                [sort] => 0
+                [showpic] => 0
+                [showheadline] => 0
+                [get_column_list] => get_column_list
+                [pubdate] => 1676908800
+                [piclink] => http://creatives.ftacademy.cn/picture/3/000129813_piclink.jpg
+                [background] =>  dark-green
+            )
+    
+        [14] => Array
+            (
+                [id] => 007000097
+                [publish_status] => publish
+                [fileupdatetime] => 1672885905
+                [headline] => 《Web3帆》
+                [author_name_cn] => 坡县南希
+                [author_name_en] => 
+                [type] => column
+                [pic] => 000167449;poxiannanxi
+                [description] => 坡县南希是Web3华文媒体DeThings联合创始人，也是连续创业者和资深媒体人。她拥有十多年国际媒体报道经历，深入报道亚洲和欧美科技行业生态，同时也创立过中英文不同语种的新媒体平台。她擅长细腻的深度报道，国际报道作品曾在香港外国记协和纽约外国记协获奖。本专栏旨在分享作者在亚洲加密之都新加坡的创业经历，行业热点及业内领军人物的观察和心声。
+                [adchannel] => 008000008
+                [sort] => 0
+                [showpic] => 1
+                [showheadline] => 1
+                [get_column_list] => get_column_list
+                [pubdate] => 1676908800
+                [piclink] => http://creatives.ftacademy.cn/picture/9/000167449_piclink.png
+                [background] =>  blue
+            )
+    
+        [15] => Array
+            (
+                [id] => 007000084
+                [publish_status] => publish
+                [fileupdatetime] => 1617939333
+                [headline] => 《傲慢与偏见》
+                [author_name_cn] => 赵莹
+                [author_name_en] => Notice: Undefined variable: columnInfo in /data/opt/backyardnew.ftchinese.com/dev_cms/create_column.php on line 182
+                [type] => column
+                [pic] => 000115043;zhaoying
+                [description] => 赵莹，前复星国际驻纽约企业传播执行总经理，博雅公关中美市场团队负责人。在纽约工作十余载，一直在企业和品牌传播领域做中美相关的跨文化传播工作，经历过中概股大战空头的危机处理，也体会过欧美跨国企业亚洲市场战略的转型和落地传播。《傲慢与偏见》是年少时勾起我内心布尔什维克主义情结的启蒙小说，也是我一直觉得在中美传播领域想要打破的阻碍。很多时候，是西方世界的傲慢和我们内心的偏见，束缚了我们看世界的眼光和格局，因此想借此专栏把亲历过的案例做点滴分析，以期待我们可以一起打破桎梏，成为东方和西方遇见中，良好沟通的传播者。
+                [adchannel] => 008000004
+                [sort] => 1
+                [showpic] => 1
+                [showheadline] => 0
+                [get_column_list] => get_column_list
+                [pubdate] => 1676736000
+                [piclink] => http://creatives.ftacademy.cn/picture/3/000115043_piclink.jpg
+                [background] => 
+            )
+    
+        [16] => Array
+            (
+                [id] => 007000085
+                [publish_status] => publish
+                [fileupdatetime] => 1617939280
+                [headline] => 《蓝色时期》
+                [author_name_cn] => 王丹
+                [author_name_en] => Notice: Undefined variable: columnInfo in /data/opt/backyardnew.ftchinese.com/dev_cms/create_column.php on line 182
+                [type] => column
+                [pic] => 000115254;wangdan
+                [description] => 王丹，美国华盛顿大学经济学博士、中国科学院农业博士后。现任恒生中国首席经济学家，负责中国宏观经济、区域发展、地缘风险及金融市场相关的研究和预测。
+                [adchannel] => 008000003
+                [sort] => 1
+                [showpic] => 1
+                [showheadline] => 0
+                [get_column_list] => get_column_list
+                [pubdate] => 1676736000
+                [piclink] => http://creatives.ftacademy.cn/picture/4/000115254_piclink.jpg
+                [background] =>  dark-grey
+            )
+    
+        [17] => Array
+            (
+                [id] => 007000060
+                [publish_status] => publish
+                [fileupdatetime] => 1597892862
+                [headline] => 《谈艺录》
+                [author_name_cn] => 吴可佳
+                [author_name_en] => 
+                [type] => column
+                [pic] => 000055523;kejia01350
+                [description] => 吴可佳，洛杉矶克莱蒙大学研究生院艺术商业硕士课程客座教授，纽约素描、绘画与雕塑学院董事会成员。曾供职于纽约苏富比拍卖行总裁办公室。她拥有耶鲁大学工商管理硕士学位。目前常驻纽约和加州。
+                [adchannel] => 008000001
+                [sort] => 7
+                [showpic] => 1
+                [showheadline] => 1
+                [get_column_list] => get_column_list
+                [pubdate] => 1676563200
+                [piclink] => http://creatives.ftacademy.cn/picture/3/000055523_piclink.jpg
+                [background] =>  yellow
+            )
+    
+        [18] => Array
+            (
+                [id] => 007000076
+                [publish_status] => publish
+                [fileupdatetime] => 1658208877
+                [headline] => 《另一片星空》
+                [author_name_cn] => 徐海娜
+                [author_name_en] => 
+                [type] => column
+                [pic] => 000082374;xu haina
+                [description] => 徐海娜，前电视媒体人，后赴港读书将自己归零。香港城市大学硕士毕业后开始对儿童教育感兴趣，之后又取得香港大学专业进修学院“特殊教育文凭”。曾担任儿童导师，做过儿童教育课程设计。在香港BROADLEARNING教育机构eClass平台出版电子互动童书20本。同时还曾担任香港部分杂志及报纸的特约记者和长期撰稿人。2017年迁居新加坡，从事特殊儿童教育、童书以及绘画创作。2022年在新加坡出版“儿童心灵健康成长”系列绘本4本。同时也是一位普通的妈妈，愿意在此专栏将育儿的那些成功失败的经验和对教育的观察与大家分享。
+                [adchannel] => 008000008
+                [sort] => 0
+                [showpic] => 1
+                [showheadline] => 1
+                [get_column_list] => get_column_list
+                [pubdate] => 1676390400
+                [piclink] => http://creatives.ftacademy.cn/picture/4/000082374_piclink.jpg
+                [background] =>  purple
+            )
+    
+        [19] => Array
+            (
+                [id] => 007000072
+                [publish_status] => publish
+                [fileupdatetime] => 1672885656
+                [headline] => 《公司治理新视野》
+                [author_name_cn] => 郑志刚
+                [author_name_en] => 
+                [type] => column
+                [pic] => 000107240;zheng zhigang
+                [description] => 郑志刚，中国人民大学金融学教授、博士生导师，经济学博士（北大光华），是“中国公司治理50人论坛”成员和我国著名的公司治理学者。著有《成为董事长-郑志刚公司治理通识课》《国企混改的理论、路径和模式》《中国公司治理的理论与证据》《从万科到阿里：分散股权时代的公司治理》《当野蛮人遭遇内部人：中国公司治理现实困境》《独角兽还是羚羊：公司治理视角下的新经济企业》等著作。他兼任盘古智库学术委员和学术委员会副主任，“中国公司治理第一刊”《董事会》杂志学术顾问，英国《金融时报》中文网（FT中文网）专栏作家（“公司治理新视野”）以及多家上市公司独立董事。曾获“黄达-蒙代尔”经济学奖，并入选教育部“新世纪优秀人才支持计划”。
+                [adchannel] => 008000008
+                [sort] => 0
+                [showpic] => 1
+                [showheadline] => 1
+                [get_column_list] => get_column_list
+                [pubdate] => 1676131200
+                [piclink] => http://creatives.ftacademy.cn/picture/0/000107240_piclink.png
+                [background] =>  light-blue
+            )
+    
+        [20] => Array
+            (
+                [id] => 007000088
+                [publish_status] => publish
+                [fileupdatetime] => 1622117152
+                [headline] => 《毕加索与单身女孩》
+                [author_name_cn] => 王陆宁
+                [author_name_en] => Luning Wang
+                [type] => column
+                [pic] => 000118049;FTC-Wang Feng-Wang Luning
+                [description] => 毕加索是历史上充满着变化的炫彩时代的文化先锋，也是文艺巨匠社交圈的重要人物。艺术家本人历经争议，却演绎出时代精神，铸就出经久不衰的品牌效益。时至今日，“毕加索”不仅代表着家喻户晓、至高价值的艺术，它更是一个文化符号和打破艺术、人文与商业边界的象征。“毕加索”的传奇正是呼应了时下文化领域的形态与产业趋势。《毕加索与单身女孩》专栏以生活在国际都市的华人女性的个人视角， 观察文化艺术领域的热点事件、解析“破圈”的文化现象， 对话业内领军人物。“单身”与婚恋状态无关，而是代表多元文化中个体的存在。
+    <p></p>
+    作者王陆宁（Luning Wang）常驻伦敦，布里斯托大学政治学学士，伦敦苏富比艺术学院当代艺术硕士，现从事文化艺术项目咨询与内容营销。个人公众号： 毕加索与单身女孩（ID:picassosinglegirl）小红书/微博：Luning陆宁
+                [adchannel] => 008000001
+                [sort] => 0
+                [showpic] => 1
+                [showheadline] => 1
+                [get_column_list] => get_column_list
+                [pubdate] => 1672329600
+                [piclink] => http://creatives.ftacademy.cn/picture/9/000118049_piclink.jpeg
+                [background] =>  dark-green
+            )
+    
+        [21] => Array
+            (
+                [id] => 007000062
+                [publish_status] => publish
+                [fileupdatetime] => 1521090639
+                [headline] => 《市值管理评论》
+                [author_name_cn] => 周掌柜
+                [author_name_en] => 
+                [type] => column
+                [pic] => 000059215;zhou zhanggui 167
+                [description] => 周掌柜，知名商业战略思想研究专家，中国“战略思想咨询”行业开创者，多家全球领先公司战略顾问。周掌柜战略思想咨询团队长期专注于战略思想、内生性竞争力、增长瓶颈、技术创新趋势等理论研究，通过大量基础调研和原创管理模型帮助华为等企业解决业务挑战。本专栏聚焦全球领先公司，呈现市值管理最新动态。
+                [adchannel] => 008000004
+                [sort] => 5
+                [showpic] => 1
+                [showheadline] => 1
+                [get_column_list] => get_column_list
+                [pubdate] => 1670860800
+                [piclink] => http://creatives.ftacademy.cn/picture/5/000059215_piclink.jpg
+                [background] =>  blue
+            )
+    
+        [22] => Array
+            (
+                [id] => 007000094
+                [publish_status] => publish
+                [fileupdatetime] => 1653827752
+                [headline] => 《浦东来信》
+                [author_name_cn] => 聂日明
+                [author_name_en] => Notice: Undefined variable: columnInfo in /data/opt/backyardnew.ftchinese.com/dev_cms/create_column.php on line 182
+                [type] => column
+                [pic] => 000147270;nie
+                [description] => 聂日明，上海金融与法律研究院研究员，经济学博士，先后毕业于浙江大学、复旦大学，长期从事公共政策研究，主要关注中国政治与经济、商业创新。本专栏旨在以历史和全球化的视角理解中国政治与经济发展。微博ID@聂日明。
+                [adchannel] => 008000008
+                [sort] => 0
+                [showpic] => 1
+                [showheadline] => 1
+                [get_column_list] => get_column_list
+                [pubdate] => 1668528000
+                [piclink] => http://creatives.ftacademy.cn/picture/0/000147270_piclink.jpg
+                [background] => 
+            )
+    
+        [23] => Array
+            (
+                [id] => 007000082
+                [publish_status] => publish
+                [fileupdatetime] => 1596534326
+                [headline] => 《子尝新露》
+                [author_name_cn] => 子舒
+                [author_name_en] => 
+                [type] => column
+                [pic] => 000098463;Zishu-profile
+                [description] => 教育通过哪些方式，实现什么样的目标？如何帮助每个个体实现自我价值，共建未来社会？本专栏探索教育与个体内心、社会文化、大千世界间的关联。作者子舒毕业于哈佛大学教育学院，曾任职于波士顿医疗中心BIDMC研究家庭心理健康，有教育创业公司和大型集团的行业经验，持续关注教育创新。
+                [adchannel] => 008000008
+                [sort] => 1
+                [showpic] => 1
+                [showheadline] => 1
+                [get_column_list] => get_column_list
+                [pubdate] => 1663862400
+                [piclink] => http://creatives.ftacademy.cn/picture/3/000098463_piclink.jpg
+                [background] =>  dark-grey
+            )
+    
+        [24] => Array
+            (
+                [id] => 007000080
+                [publish_status] => publish
+                [fileupdatetime] => 1622440802
+                [headline] => 《科技曼谈》
+                [author_name_cn] => 闫曼
+                [author_name_en] => 
+                [type] => column
+                [pic] => 000094747;YM
+                [description] => 闫曼，FT中文网科技与产业板块主编，负责FT中文网科技板块的策划、专访及编辑工作。香港浸会大学国际新闻硕士，近十年一线媒体采编经验，深耕互联网科技领域新闻多年。曾为多家知名媒体特约撰稿人。本专栏旨在分享作者身在科技、创业和投资前线的观察，就科技领域动态作出鲜活生动的第一时间解读。
+    个人公众号：科技曼谈（ID：kejimantan)
+                [adchannel] => 008000008
+                [sort] => 0
+                [showpic] => 1
+                [showheadline] => 1
+                [get_column_list] => get_column_list
+                [pubdate] => 1662393600
+                [piclink] => http://creatives.ftacademy.cn/picture/7/000094747_piclink.jpg
+                [background] =>  yellow
+            )
+    
+        [25] => Array
+            (
+                [id] => 007000068
+                [publish_status] => publish
+                [fileupdatetime] => 1503381823
+                [headline] => 《边城记》
+                [author_name_cn] => 陈振铎
+                [author_name_en] => Zhenduo CHEN
+                [type] => column
+                [pic] => 000057393;chen zhenduo
+                [description] => 作者陈振铎（Zhenduo CHEN），法国社会科学高等研究院社会学博士生，法国中欧城市学会召集人，主要研究领域为中国新安江水库移民、中欧穆斯林移民、城市街区。边，边城的边、边缘的边、边际的边，专栏尝试从“边”的视野，在社会学和人类学研究内外，以日常生活的叙事与分析，观察与记录中国与欧洲社会。
+                [adchannel] => 008000001
+                [sort] => 9
+                [showpic] => 0
+                [showheadline] => 0
+                [get_column_list] => get_column_list
+                [pubdate] => 1659024000
+                [piclink] => http://creatives.ftacademy.cn/picture/3/000057393_piclink.jpg
+                [background] =>  purple
+            )
+    
+        [26] => Array
+            (
+                [id] => 007000055
+                [publish_status] => publish
+                [fileupdatetime] => 1465266712
+                [headline] => 《名利场》
+                [author_name_cn] => 薛莉
+                [author_name_en] => Shirley Xue
+                [type] => column
+                [pic] => 000041309;Shirley Icon NEW
+                [description] => 薛莉，FT中文网生活时尚频道主编、专栏作家。曾以“谁谁谁”为笔名撰写职场专栏。著有《这样上班就对了》、《成功是个什么玩意儿》、《白领极限生存》等书。书写众生百态、杯水风波、微言大义。
+                [adchannel] => 008000001
+                [sort] => 20
+                [showpic] => 1
+                [showheadline] => 1
+                [get_column_list] => get_column_list
+                [pubdate] => 1647532800
+                [piclink] => http://creatives.ftacademy.cn/picture/9/000041309_piclink.jpg
+                [background] =>  light-blue
+            )
+    
+    )
+    1
+    -->
+    <div class="card-grid  is-columns">
+    
+     
+    <div class="item-container  is-column" data-update="1677859200"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000038"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/1/000020011_piclink_0_0.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000038" class="item-headline-link ">中外对话</a>
+    </h2>
+    <div class="item-lead">中外对话(www.chinadialogue.net)是一个致力于环境问题的中英双语网站，总部位于伦敦，是一个独立的非营利性组织。</div>
+    
+    </div>
     </div></div>
-    <div class="side-container"><div class="side-inner">
-    <div 
-    data-o-ads-name="mpu-right1"
-    class="o-ads"  
-    data-o-ads-formats-default="false" 
-    data-o-ads-formats-small="false" 
-    data-o-ads-formats-medium="FtcMpu"
-    data-o-ads-formats-large="FtcMpu"
-    data-o-ads-targeting="cnpos=right1;"
-    >
+    
+     
+    <div class="item-container  is-column" data-update="1677772800"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000071"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/2/000072322_piclink.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000071" class="item-headline-link ">居食趣</a>
+    </h2>
+    <div class="item-lead">郑静，《美好家园》杂志主编、财经网生活频道主编、家居设计专栏作家、策展顾问，著有《岁时历——日日是好日》、《中国风尚》、《新中式艺术》、《ART DECO 在上海》等，微博号@绿色蝴蝶，微信公众号“蝴蝶厨房”。</div>
+    
     </div>
-    <div 
-    data-o-ads-name="mpu-middle5"
-    class="o-ads"  
-    data-o-ads-formats-default="false" 
-    data-o-ads-formats-small="FtcMobileMpu" 
-    data-o-ads-formats-medium="false"
-    data-o-ads-formats-large="false"
-    data-o-ads-formats-extra="false"
-    data-o-ads-targeting="cnpos=middle5;"
-    >
-    </div>
-    <div class="mps">
-    <h2 class="list-title"><a href="/channel/weekly.html">热门文章</a></h2>
-    <ul class="top10"><li class="mp1 item-headline-link"><span>1. </span><a target="_blank" href="/interactive/55493">一周新闻小测：2021年12月4日</a></li><li class="mp2 item-headline-link locked standard"><span>2. </span><a target="_blank" href="/story/001094709">加息不会削弱房产的吸引力</a></li><li class="mp3 item-headline-link locked standard"><span>3. </span><a target="_blank" href="/story/001094708">短视频直播带货模式挑战阿里巴巴</a></li><li class="mp4 item-headline-link"><span>4. </span><a target="_blank" href="/story/001094694">夏凡：中国财富管理黄金时代刚刚开始</a></li><li class="mp5 item-headline-link locked standard"><span>5. </span><a target="_blank" href="/story/001094707">竞争者众多，陌陌遭投资者抛弃</a></li><li class="mp6 item-headline-link locked vip"><span>6. </span><a target="_blank" href="/interactive/55470">破译奥密克戎：需要几天、几周还是几个月？</a></li><li class="mp7 item-headline-link"><span>7. </span><a target="_blank" href="/story/001094684">中国民营经济倒退了吗？</a></li><li class="mp8 item-headline-link locked standard"><span>8. </span><a target="_blank" href="/story/001094698">Omicron为央行再添不确定性</a></li><li class="mp9 item-headline-link"><span>9. </span><a target="_blank" href="/story/001094703">我如何在亚马逊上成功出版英文书？</a></li><li class="mp10 item-headline-link"><span>10. </span><a target="_blank" href="/story/001094702">民主峰会，美国难以达到期待的目的</a></li></ul>
-    </div>
-    <div 
-    data-o-ads-name="mpu-right2"
-    class="o-ads ftc-mpu"  
-    data-o-ads-formats-default="false" 
-    data-o-ads-formats-small="false" 
-    data-o-ads-formats-medium="FtcMpu"
-    data-o-ads-formats-large="FtcMpu"
-    data-o-ads-targeting="cnpos=right2;"
-    >
-    </div>
-    <div 
-    data-o-ads-name="mpu-middle6"
-    class="o-ads"  
-    data-o-ads-formats-default="false" 
-    data-o-ads-formats-small="FtcMobileMpu" 
-    data-o-ads-formats-medium="false"
-    data-o-ads-formats-large="false"
-    data-o-ads-formats-extra="false"
-    data-o-ads-targeting="cnpos=middle6;"
-    >
-    </div>
-    </div></div><div class="clearfloat"></div>
-    </div></div><div class="pagination-container"><div class="pagination-inner">
-    <span class="current">1</span><a href="chinareport.html?page=2">2</a><a href="chinareport.html?page=3">3</a><a href="chinareport.html?page=4">4</a><a href="chinareport.html?page=5">5</a><a href="chinareport.html?page=6">6</a><a href="chinareport.html?page=7">7</a><a href="chinareport.html?page=8">8</a><a href="chinareport.html?page=9">9</a><a href="chinareport.html?page=10">10</a><a href="chinareport.html?page=2">&rsaquo;&rsaquo;</a><a href="chinareport.html?page=2">下一页</a><a  href="chinareport.html?page=619">&rsaquo;|</a><a style="padding: 0px"><input class="p_input" type="text" name="custompage" onKeyDown="if(event.keyCode==13) {window.location='chinareport.html?page='+this.value; return false;}"></a>
     </div></div>
-    <div class="o-ads" data-o-ads-name="banner2"
-    data-o-ads-center="true" 
-    data-o-ads-formats-default="false"
-    data-o-ads-formats-small="FtcMobileBanner"
-    data-o-ads-formats-medium="false"
-    data-o-ads-formats-large="FtcBanner" 
-    data-o-ads-formats-extra="FtcBanner"
-    data-o-ads-targeting="cnpos=top2;"
-    data-cy='[{"devices":["PC"],"pattern":"Banner","position":"Num1"},{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"Banner","position":"Num2"}]'>
+    
+     
+    <div class="item-container  is-column" data-update="1677772800"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000087"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/2/000117692_piclink.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000087" class="item-headline-link ">资本与国家</a>
+    </h2>
+    <div class="item-lead">王英良，复旦大学国际关系专业博士研究生，学术兴趣在于研究跨国公司与世界的互动、资本与国家间的融合博弈。时常一杯茶、一台电脑，或受命，或主动请缨，将对世界的观察与思考及时记录分享。已有作品十余万字，但前路漫漫，学无止境，立志要上下求索。本专栏留心国际政治经济事务热点，力图发出我辈学人对复杂世界的平凡解释，力求把握问题实质，追求在朴素的语言下把世界问题说得清楚一点。愿意以热心、热气给读者带来“小彻小悟”的快乐，让阅读成为生活审美的要素。</div>
+    
     </div>
-    <script type="text/javascript">
-    !function(){function e(e){setTimeout(function(){showOverlay("overlay-login");var n=GetCookie("USER_NAME")||"",t=/^phone/.test(e)?'<div style="padding: 0 0 15px 0;"><div class="login-btn input-submit-container center"><a class="n-button-inner" id="phone-ftc-binding" onclick="showPhoneFTCBinding()">关联邮箱</a></div></div>':"";document.querySelector(".overlay-title").innerHTML="订户专享网站",document.querySelector(".overlay-content form").innerHTML='<div class="input-title">亲爱的用户您好，这个网站是付费订户专享，您当前使用的用户名'+n+'并非订户。如果您是刚刚付款成功，请等待一分钟后刷新本页。否则请登出之后更换用户名或者访问FT中文网主站。</div><div style="padding: 0 0 15px 0;"><div class="login-btn input-submit-container center"><a class="n-button-inner" href="/users/logout">登出</a></div></div><div style="padding: 0 0 15px 0;"><div class="login-btn input-submit-container center"><a class="n-button-inner" href="https://www.ftchinese.com/">免费网站</a></div></div>'+t,document.querySelector(".overlay-bg").className="overlay-bg-fixed"},0)}setTimeout(function(){if(!1!==/chineseft\.com|ftchineselive\.com|lunchwithft\.com|leshangavenue\.com/.test(location.hostname)&&!0!==window.hasFoundProductPricing){var n=/^\/users\/findpassword|\/users\/register$/.test(location.pathname),t=/pageid=subscriptioninfoconfirm/.test(location.search);if(!n&&!t){var i=GetCookie("USER_ID")||GetCookie("USER_ID_FT"),o=GetCookie("paywall");null===i&&null===o?setTimeout(function(){showOverlay("overlay-login"),document.querySelector(".overlay-title").innerHTML="订户专享网站",document.querySelector(".register-find").innerHTML='<a href="https://www.ftacademy.cn/subscription.html">购买会员</a><span></span><a href="/users/findpassword">找回密码</a>',document.querySelector(".wx-login").style.marginTop="15px",document.querySelector(".overlay-bg").className="overlay-bg-fixed"},0):null===o&&e(i);for(var r=document.querySelectorAll(".icon-share, .icon-wechat, .icon-weibo, .icon-twitter, .icon-facebook"),c=0;c<r.length;c++){var a=r[c];a.parentNode.removeChild(a)}}}},1e3)}();</script>
-    <div 
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1677772800"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000096"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/4/000162754_piclink.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000096" class="item-headline-link ">值得艺术</a>
+    </h2>
+    <div class="item-lead">本专栏专注于剖析艺术产业价值链，探索艺术行业动态趋势，解读艺术品的赋值理念，从艺术家、画廊、博览会、美术馆、拍卖行、藏家、教育机构、赞助人等各个环节观察艺术生态。</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1677686400"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000081"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/7/000086017_piclink.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000081" class="item-headline-link ">越陌度阡</a>
+    </h2>
+    <div class="item-lead">何越，母亲、妻子、厨师以及双语作家。以英文撰写中国与世界；以中文撰写英国与世界。著有China and the West – Unravelling 100 Years of Misunderstanding 《揭开中西百年误解》、《让世界爱上中国美食（西方中餐大师谭荣辉自传）以及《撕裂的民主——“脱欧”阴影下的英国政治与社会》（即将出版）。</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1677686400"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000090"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/7/000164677_piclink.png"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000090" class="item-headline-link ">咏竹坊</a>
+    </h2>
+    <div class="item-lead">咏竹坊（<a href="https://www.thebambooworks.com/cn/%e9%a6%96%e9%a1%b5/" target=_blank>官网链接</a>）提供在香港和美国上市的中国企业相关新闻，重点关注中小企业和筹备上市的公司。<br><br>Bamboo Works (<a href="https://www.thebambooworks.com/cn/%e9%a6%96%e9%a1%b5/" target=_blank>official website</a>) provides news on Chinese companies listed in Hong Kong and the United States, with a strong focus on mid-cap and also pre-IPO companies.</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1677686400"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000092"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/8/000128488_piclink.png"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000092" class="item-headline-link ">过路诗篇</a>
+    </h2>
+    <div class="item-lead">张璐诗（Lucy Cheung），常驻伦敦资深媒体人，职业音乐人，旅居北京、希腊多年。专注音乐产业、文艺思潮与美食文化，视野遍及全球。</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1677600000"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000047"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/5/000028585_piclink_0_0.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000047" class="item-headline-link ">沈时度势</a>
+    </h2>
+    <div class="item-lead">沈建光，京东集团首席经济学家，前瑞穗证劵亚洲公司首席经济学家，赫尔辛基大学经济学博士。少时曾求学欧美，希望纵横四海，游历全球；如今重心回归中国，专栏立意审视中外经济，建言宏观大势。曾任国际经合组织顾问和欧洲央行资深经济学家、国际货币基金组织和芬兰央行经济学家，现亦为复旦大学经济学院客座教授。</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1677340800"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000086"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/5/000115255_piclink.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000086" class="item-headline-link ">米国薯国</a>
+    </h2>
+    <div class="item-lead">薯国，爱吃马铃薯的德国；米国，爱吃大米的中国。本专栏聚焦于与中国比较下的德国和欧洲，尤其是德国和欧盟在数字经济领域的数据保护、反垄断等监管政策 。在数字经济监管领域，欧盟是先行者。作者张冬方，资深媒体人，做过杂志，干过电视，做过人物访谈记者，干过生活类编辑。近十年来扎根德国，观察和报道德国社会和政治热点。</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1677081600"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000093"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/3/000136933_piclink.png"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000093" class="item-headline-link ">青听华尔街</a>
+    </h2>
+    <div class="item-lead">冯郁青，哥伦比亚大学国际关系硕士，曾任第一财经纽约评论员和美国业务主管。报道了2008年金融危机，四届美国大选。自2008年开始连续五次专访了巴菲特，对巴菲特的先锋报道及对中国经济的讨论在财经界产生广泛影响。还先后专访了格林斯潘，克林顿总统， 美国前国家安全顾问布热金斯基, 纽约前市长彭博和世界银行前行长James Wolfensohn，以及多位诺贝尔经济学奖得主。 自2008年金融危机以来，在纽约主流智库举办和主持年度金融论坛，和美国政界及华尔街大佬讨论美国经济发展及中美关系的热点话题。2018年当民粹主义和反特朗普浪潮在全球范围内激烈碰撞之际，冯郁青和世界顶级略家和经济学家展开深度对话，制作六集纪录片《世界推动者》，探寻二战之后世界秩序的变化。冯郁青现为数据媒体BitpushNews总编。</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1676995200"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000049"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/2/000159032_piclink.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000049" class="item-headline-link ">徐瑾经济人</a>
+    </h2>
+    <div class="item-lead">知名青年经济学者，货币三部曲作者。FT中文网财经版主编，经济人读书会创始人。徐瑾近年出版《货币王者》《徐瑾经济学思维课》等书，连续入选“最受金融人喜爱的十本财经书籍”；《白银帝国》由耶鲁大学出版社推出英文版，获《华尔街日报》《亚洲书评》等权威媒体好评推荐。微信公众号：econhomo                读者微信号：ashes-18</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1676995200"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000074"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/6/000076436_piclink.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000074" class="item-headline-link ">远观近思</a>
+    </h2>
+    <div class="item-lead">刘远举，重庆人，先学理工科再学经济学，从事过咨询行业，现为自由撰稿人。关注时政、财经、科技，旨在探寻现象背后的事实与公正。文风理性、客观，且用人性的温度替换虚伪的中立。微博ID@刘远举。</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1676995200"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000095"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/5/000156415_piclink.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000095" class="item-headline-link ">互联网法经</a>
+    </h2>
+    <div class="item-lead">薛宁，长居北京，法律从业人士，持续关注互联网领域的产业发展、竞争问题与法律争议，信奉社会规范、市场理性与技术创新，愿常识永驻，祈人性繁荣。</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1676908800"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000091"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/3/000129813_piclink.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000091" class="item-headline-link ">山石经</a>
+    </h2>
+    <div class="item-lead">李岩，现居伦敦，曾任英国华人刊物《丝语》主编，并于2003年至2020年在英国《金融时报》中文网任责任编辑。他毕业于广州外语学院英语系，并拥有伦敦城市大学艺术管理硕士和博士学位。</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1676908800"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000097"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/9/000167449_piclink.png"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000097" class="item-headline-link ">Web3帆</a>
+    </h2>
+    <div class="item-lead">坡县南希是Web3华文媒体DeThings联合创始人，也是连续创业者和资深媒体人。她拥有十多年国际媒体报道经历，深入报道亚洲和欧美科技行业生态，同时也创立过中英文不同语种的新媒体平台。她擅长细腻的深度报道，国际报道作品曾在香港外国记协和纽约外国记协获奖。本专栏旨在分享作者在亚洲加密之都新加坡的创业经历，行业热点及业内领军人物的观察和心声。</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1676736000"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000084"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/3/000115043_piclink.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000084" class="item-headline-link ">傲慢与偏见</a>
+    </h2>
+    <div class="item-lead">赵莹，前复星国际驻纽约企业传播执行总经理，博雅公关中美市场团队负责人。在纽约工作十余载，一直在企业和品牌传播领域做中美相关的跨文化传播工作，经历过中概股大战空头的危机处理，也体会过欧美跨国企业亚洲市场战略的转型和落地传播。《傲慢与偏见》是年少时勾起我内心布尔什维克主义情结的启蒙小说，也是我一直觉得在中美传播领域想要打破的阻碍。很多时候，是西方世界的傲慢和我们内心的偏见，束缚了我们看世界的眼光和格局，因此想借此专栏把亲历过的案例做点滴分析，以期待我们可以一起打破桎梏，成为东方和西方遇见中，良好沟通的传播者。</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1676736000"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000085"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/4/000115254_piclink.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000085" class="item-headline-link ">蓝色时期</a>
+    </h2>
+    <div class="item-lead">王丹，美国华盛顿大学经济学博士、中国科学院农业博士后。现任恒生中国首席经济学家，负责中国宏观经济、区域发展、地缘风险及金融市场相关的研究和预测。</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1676563200"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000060"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/3/000055523_piclink.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000060" class="item-headline-link ">谈艺录</a>
+    </h2>
+    <div class="item-lead">吴可佳，洛杉矶克莱蒙大学研究生院艺术商业硕士课程客座教授，纽约素描、绘画与雕塑学院董事会成员。曾供职于纽约苏富比拍卖行总裁办公室。她拥有耶鲁大学工商管理硕士学位。目前常驻纽约和加州。</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1676390400"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000076"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/4/000082374_piclink.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000076" class="item-headline-link ">另一片星空</a>
+    </h2>
+    <div class="item-lead">徐海娜，前电视媒体人，后赴港读书将自己归零。香港城市大学硕士毕业后开始对儿童教育感兴趣，之后又取得香港大学专业进修学院“特殊教育文凭”。曾担任儿童导师，做过儿童教育课程设计。在香港BROADLEARNING教育机构eClass平台出版电子互动童书20本。同时还曾担任香港部分杂志及报纸的特约记者和长期撰稿人。2017年迁居新加坡，从事特殊儿童教育、童书以及绘画创作。2022年在新加坡出版“儿童心灵健康成长”系列绘本4本。同时也是一位普通的妈妈，愿意在此专栏将育儿的那些成功失败的经验和对教育的观察与大家分享。</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1676131200"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000072"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/0/000107240_piclink.png"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000072" class="item-headline-link ">公司治理新视野</a>
+    </h2>
+    <div class="item-lead">郑志刚，中国人民大学金融学教授、博士生导师，经济学博士（北大光华），是“中国公司治理50人论坛”成员和我国著名的公司治理学者。著有《成为董事长-郑志刚公司治理通识课》《国企混改的理论、路径和模式》《中国公司治理的理论与证据》《从万科到阿里：分散股权时代的公司治理》《当野蛮人遭遇内部人：中国公司治理现实困境》《独角兽还是羚羊：公司治理视角下的新经济企业》等著作。他兼任盘古智库学术委员和学术委员会副主任，“中国公司治理第一刊”《董事会》杂志学术顾问，英国《金融时报》中文网（FT中文网）专栏作家（“公司治理新视野”）以及多家上市公司独立董事。曾获“黄达-蒙代尔”经济学奖，并入选教育部“新世纪优秀人才支持计划”。</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1672329600"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000088"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/9/000118049_piclink.jpeg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000088" class="item-headline-link ">毕加索与单身女孩</a>
+    </h2>
+    <div class="item-lead">毕加索是历史上充满着变化的炫彩时代的文化先锋，也是文艺巨匠社交圈的重要人物。艺术家本人历经争议，却演绎出时代精神，铸就出经久不衰的品牌效益。时至今日，“毕加索”不仅代表着家喻户晓、至高价值的艺术，它更是一个文化符号和打破艺术、人文与商业边界的象征。“毕加索”的传奇正是呼应了时下文化领域的形态与产业趋势。《毕加索与单身女孩》专栏以生活在国际都市的华人女性的个人视角， 观察文化艺术领域的热点事件、解析“破圈”的文化现象， 对话业内领军人物。“单身”与婚恋状态无关，而是代表多元文化中个体的存在。<p></p>作者王陆宁（Luning Wang）常驻伦敦，布里斯托大学政治学学士，伦敦苏富比艺术学院当代艺术硕士，现从事文化艺术项目咨询与内容营销。个人公众号： 毕加索与单身女孩（ID:picassosinglegirl）小红书/微博：Luning陆宁</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1670860800"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000062"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/5/000059215_piclink.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000062" class="item-headline-link ">市值管理评论</a>
+    </h2>
+    <div class="item-lead">周掌柜，知名商业战略思想研究专家，中国“战略思想咨询”行业开创者，多家全球领先公司战略顾问。周掌柜战略思想咨询团队长期专注于战略思想、内生性竞争力、增长瓶颈、技术创新趋势等理论研究，通过大量基础调研和原创管理模型帮助华为等企业解决业务挑战。本专栏聚焦全球领先公司，呈现市值管理最新动态。</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1668528000"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000094"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/0/000147270_piclink.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000094" class="item-headline-link ">浦东来信</a>
+    </h2>
+    <div class="item-lead">聂日明，上海金融与法律研究院研究员，经济学博士，先后毕业于浙江大学、复旦大学，长期从事公共政策研究，主要关注中国政治与经济、商业创新。本专栏旨在以历史和全球化的视角理解中国政治与经济发展。微博ID@聂日明。</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1663862400"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000082"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/3/000098463_piclink.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000082" class="item-headline-link ">子尝新露</a>
+    </h2>
+    <div class="item-lead">教育通过哪些方式，实现什么样的目标？如何帮助每个个体实现自我价值，共建未来社会？本专栏探索教育与个体内心、社会文化、大千世界间的关联。作者子舒毕业于哈佛大学教育学院，曾任职于波士顿医疗中心BIDMC研究家庭心理健康，有教育创业公司和大型集团的行业经验，持续关注教育创新。</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1662393600"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000080"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/7/000094747_piclink.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000080" class="item-headline-link ">科技曼谈</a>
+    </h2>
+    <div class="item-lead">闫曼，FT中文网科技与产业板块主编，负责FT中文网科技板块的策划、专访及编辑工作。香港浸会大学国际新闻硕士，近十年一线媒体采编经验，深耕互联网科技领域新闻多年。曾为多家知名媒体特约撰稿人。本专栏旨在分享作者身在科技、创业和投资前线的观察，就科技领域动态作出鲜活生动的第一时间解读。个人公众号：科技曼谈（ID：kejimantan)</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1659024000"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000068"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/3/000057393_piclink.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000068" class="item-headline-link ">边城记</a>
+    </h2>
+    <div class="item-lead">作者陈振铎（Zhenduo CHEN），法国社会科学高等研究院社会学博士生，法国中欧城市学会召集人，主要研究领域为中国新安江水库移民、中欧穆斯林移民、城市街区。边，边城的边、边缘的边、边际的边，专栏尝试从“边”的视野，在社会学和人类学研究内外，以日常生活的叙事与分析，观察与记录中国与欧洲社会。</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1647532800"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000055"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/9/000041309_piclink.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000055" class="item-headline-link ">名利场</a>
+    </h2>
+    <div class="item-lead">薛莉，FT中文网生活时尚频道主编、专栏作家。曾以“谁谁谁”为笔名撰写职场专栏。著有《这样上班就对了》、《成功是个什么玩意儿》、《白领极限生存》等书。书写众生百态、杯水风波、微言大义。</div>
+    
+    </div>
+    </div></div>
+    </div>
+    <div class="list-container"><div class="list-inner"><h2 class="list-title">
+    <a class="list-link"  href="">FT专栏</a>
+    </h2>
+    <div class="items">
+    <div class="clearfloat"></div>
+    </div>
+    </div></div>
+    <!--columns: 
+    Array
+    (
+        [0] => Array
+            (
+                [id] => 007000066
+                [publish_status] => publish
+                [fileupdatetime] => 1461261726
+                [headline] => 西蒙•库柏
+                [author_name_cn] => 西蒙•库柏
+                [author_name_en] => Simon Kuper
+                [type] => column
+                [pic] => 000061025;Simon Kuper for his column
+                [description] => 西蒙•库柏（Simon Kuper）1994年加入英国《金融时报》，在1998年离开FT之前，他撰写一个每日更新的货币专栏。2002年，他作为体育专栏作家重新加入FT，一直至今。如今，他为FT周末版杂志撰写一个话题广泛的专栏。
+                [adchannel] => 008000006
+                [sort] => 23
+                [showpic] => 1
+                [showheadline] => 1
+                [get_column_list] => get_column_list
+                [pubdate] => 1677686400
+                [piclink] => http://creatives.ftacademy.cn/picture/5/000061025_piclink.jpg
+                [background] =>  blue
+            )
+    
+        [1] => Array
+            (
+                [id] => 007000012
+                [publish_status] => publish
+                [fileupdatetime] => 1359622848
+                [headline] => 马丁·沃尔夫
+                [author_name_cn] => 马丁·沃尔夫
+                [author_name_en] => 
+                [type] => column
+                [pic] => 000033651;martin1
+                [description] => 马丁·沃尔夫(Martin Wolf) 是英国《金融时报》副主编及首席经济评论员。为嘉奖他对财经新闻作出的杰出贡献，沃尔夫于2000年荣获大英帝国勋爵位勋章(CBE)。他是牛津大学纳菲尔德学院客座研究员，并被授予剑桥大学圣体学院和牛津经济政策研究院(Oxonia)院士，同时也是诺丁汉大学特约教授。自1999年和2006年以来，他分别担任达沃斯(Davos)每年一度“世界经济论坛”的特邀评委成员和国际传媒委员会的成员。2006年7月他荣获诺丁汉大学文学博士；在同年12月他又荣获伦敦政治经济学院科学（经济）博士荣誉教授的称号。
+                [adchannel] => 008000001
+                [sort] => 1
+                [showpic] => 0
+                [showheadline] => 1
+                [get_column_list] => get_column_list
+                [pubdate] => 1677081600
+                [piclink] => http://creatives.ftacademy.cn/picture/1/000033651_piclink_208_168.jpg
+                [background] => 
+            )
+    
+        [2] => Array
+            (
+                [id] => 007000031
+                [publish_status] => publish
+                [fileupdatetime] => 1359618384
+                [headline] => 约翰•普伦德
+                [author_name_cn] => 约翰•普伦德
+                [author_name_en] => John Plender
+                [type] => column
+                [pic] => 000033624;johnplender
+                [description] => 
+                [adchannel] => 008000001
+                [sort] => 14
+                [showpic] => 1
+                [showheadline] => 1
+                [get_column_list] => get_column_list
+                [pubdate] => 1676995200
+                [piclink] => http://creatives.ftacademy.cn/picture/4/000033624_piclink_143_168.jpg
+                [background] =>  dark-grey
+            )
+    
+        [3] => Array
+            (
+                [id] => 007000022
+                [publish_status] => publish
+                [fileupdatetime] => 1359529545
+                [headline] => 卧底经济学家
+                [author_name_cn] => 蒂姆•哈福德
+                [author_name_en] => Tim Harford
+                [type] => column
+                [pic] => 000033585;timhartfort
+                [description] => 蒂姆•哈福德(Tim Harford)是英国《金融时报》的经济学专栏作家，他撰写两个栏目：《亲爱的经济学家》和 《卧底经济学家》。他写过一本畅销书也叫做《卧底经济学家》，这本书已经被翻译为16种语言，他现在正在写这本书的续集。哈福德也是BBC的一档节目《相信我，我是经济学家》（Trust Me, I’m an Economist）的主持人。他同妻子及两个孩子一起住在伦敦。
+                [adchannel] => 008000001
+                [sort] => 5
+                [showpic] => 0
+                [showheadline] => 0
+                [get_column_list] => get_column_list
+                [pubdate] => 1675267200
+                [piclink] => http://creatives.ftacademy.cn/picture/5/000033585_piclink_216_168.jpg
+                [background] =>  yellow
+            )
+    
+        [4] => Array
+            (
+                [id] => 007000024
+                [publish_status] => publish
+                [fileupdatetime] => 1359519848
+                [headline] => 吉莲•邰蒂
+                [author_name_cn] => 吉莲•邰蒂
+                [author_name_en] => Gillian Tett
+                [type] => column
+                [pic] => 000033579;gilliantett
+                [description] => 吉莲•邰蒂(Gillian Tett)担任英国《金融时报》的助理主编，负责全球金融市场的报导。2009年3月，她荣获英国出版业年度记者。她1993年加入FT，曾经被派往前苏联和欧洲地区工作。1997年，她担任FT东京分社社长。2003年，她回到伦敦，成为Lex专栏的副主编。邰蒂在剑桥大学获得社会人文学博士学位。她会讲法语、俄语、日语和波斯语。
+                [adchannel] => 008000001
+                [sort] => 6
+                [showpic] => 0
+                [showheadline] => 0
+                [get_column_list] => get_column_list
+                [pubdate] => 1675008000
+                [piclink] => http://creatives.ftacademy.cn/picture/9/000033579_piclink_169_168.jpg
+                [background] =>  purple
+            )
+    
+        [5] => Array
+            (
+                [id] => 007000064
+                [publish_status] => publish
+                [fileupdatetime] => 1457463311
+                [headline] => 爱德华•卢斯
+                [author_name_cn] => 爱德华•卢斯
+                [author_name_en] => Edward Luce
+                [type] => column
+                [pic] => 000035498;Edward Luce icon
+                [description] => 爱德华•卢斯（Edward Luce）是《金融时报》华盛顿专栏作家和评论员，他负责撰写的文章包括：每周一期的专栏文章、关于美国政治、经济问题的《金融时报》社评以及其它文章。
+                [adchannel] => 008000038
+                [sort] => 5
+                [showpic] => 1
+                [showheadline] => 1
+                [get_column_list] => get_column_list
+                [pubdate] => 1674057600
+                [piclink] => http://creatives.ftacademy.cn/picture/8/000035498_piclink_144_144.jpg
+                [background] =>  light-blue
+            )
+    
+        [6] => Array
+            (
+                [id] => 007000025
+                [publish_status] => publish
+                [fileupdatetime] => 1359622616
+                [headline] => 吉迪恩•拉赫曼
+                [author_name_cn] => 吉迪恩•拉赫曼
+                [author_name_en] => Gideon Rachman
+                [type] => column
+                [pic] => 000033649;gideon
+                [description] => 吉迪恩•拉赫曼(Gideon Rachman)在英国《金融时报》主要负责撰写关于美国对外政策、欧盟事务、能源问题、经济全球化等方面的报道。他经常参与会议、学术和商业活动，并作为评论人活跃于电视及广播节目中。他曾担任《经济学人》亚洲版主编。
+                [adchannel] => 008000001
+                [sort] => 7
+                [showpic] => 0
+                [showheadline] => 0
+                [get_column_list] => get_column_list
+                [pubdate] => 1673798400
+                [piclink] => http://creatives.ftacademy.cn/picture/9/000033649_piclink_216_168.jpg
+                [background] =>  dark-green
+            )
+    
+        [7] => Array
+            (
+                [id] => 007000013
+                [publish_status] => publish
+                [fileupdatetime] => 1367981217
+                [headline] => 露西•凯拉韦
+                [author_name_cn] => 露西•凯拉韦
+                [author_name_en] => 
+                [type] => column
+                [pic] => 000033582;LucyKellaway
+                [description] => 露西•凯拉韦(Lucy Kellaway)是英国《金融时报》的管理专栏作家。在过去十年的时间里，她用幽默的语言调侃各种职场现象，并为读者出谋划策。她的专栏每周一出版在英国《金融时报》。露西在2006年获得英国出版业奖的“年度专栏作家”奖项。
+                [adchannel] => 008000011
+                [sort] => 2
+                [showpic] => 0
+                [showheadline] => 1
+                [get_column_list] => get_column_list
+                [pubdate] => 1673366400
+                [piclink] => http://creatives.ftacademy.cn/picture/2/000033582_piclink_189_168.jpg
+                [background] =>  blue
+            )
+    
+        [8] => Array
+            (
+                [id] => 007000065
+                [publish_status] => publish
+                [fileupdatetime] => 1457547782
+                [headline] => 安德鲁•希尔
+                [author_name_cn] => 安德鲁•希尔
+                [author_name_en] => Andrew Hill
+                [type] => column
+                [pic] => 000027283;Andrew Hill skyline
+                [description] => 安德鲁•希尔（Andrew Hill）是《金融时报》副总编兼管理主编。此前，他担任过伦敦金融城主编、金融主编、评论和分析主编。他在1988年加入FT，还曾经担任过FT纽约分社社长、国际新闻主编、FT驻布鲁塞尔和米兰记者。
+                [adchannel] => 008000005
+                [sort] => 21
+                [showpic] => 1
+                [showheadline] => 1
+                [get_column_list] => get_column_list
+                [pubdate] => 1666454400
+                [piclink] => http://creatives.ftacademy.cn/picture/3/000027283_piclink_0_0.jpg
+                [background] => 
+            )
+    
+        [9] => Array
+            (
+                [id] => 007000015
+                [publish_status] => publish
+                [fileupdatetime] => 1359531194
+                [headline] => 约翰•加普
+                [author_name_cn] => 约翰•加普
+                [author_name_en] => 
+                [type] => column
+                [pic] => 000033589;johngapper
+                [description] => 约翰·加普(John Gapper)是英国《金融时报》副主编、首席产业评论员。他的专栏每周四会出现在英国《金融时报》的评论版。加普从1987年开始就在英国《金融时报》工作，报导劳资关系、银行和媒体。他曾经写过一本书，叫做《闪闪发亮的骗局》(All That Glitters)，讲的是巴林银行1995年倒闭的内幕。
+                [adchannel] => 008000001
+                [sort] => 8
+                [showpic] => 0
+                [showheadline] => 1
+                [get_column_list] => get_column_list
+                [pubdate] => 1663430400
+                [piclink] => http://creatives.ftacademy.cn/picture/9/000033589_piclink_149_168.jpg
+                [background] =>  dark-grey
+            )
+    
+        [10] => Array
+            (
+                [id] => 007000067
+                [publish_status] => publish
+                [fileupdatetime] => 1480885493
+                [headline] => 斯卡平克
+                [author_name_cn] => 迈克尔•斯卡平克
+                [author_name_en] => Michael Skapinker
+                [type] => column
+                [pic] => 000066747;Michael Skapinker
+                [description] => 迈克尔•斯卡平克（Michael Skapinker）是英国《金融时报》副主编。他经常为FT撰写关于商业和社会的专栏文章。他出生于南非，在希腊开始了他的新闻职业生涯。1986年，他在伦敦加入了FT，担任过许多不同的职位，包括FT周末版主编、FT特别报道部主编和管理事务主编。
+                [adchannel] => 008000001
+                [sort] => 22
+                [showpic] => 1
+                [showheadline] => 1
+                [get_column_list] => get_column_list
+                [pubdate] => 1661011200
+                [piclink] => http://creatives.ftacademy.cn/picture/7/000066747_piclink.jpg
+                [background] =>  yellow
+            )
+    
+        [11] => Array
+            (
+                [id] => 007000014
+                [publish_status] => publish
+                [fileupdatetime] => 1359622761
+                [headline] => 斯特凡•斯特恩
+                [author_name_cn] => 斯特凡•斯特恩
+                [author_name_en] => 
+                [type] => column
+                [pic] => 000033650;stefan
+                [description] => 
+                [adchannel] => 008000001
+                [sort] => 10
+                [showpic] => 0
+                [showheadline] => 1
+                [get_column_list] => get_column_list
+                [pubdate] => 1646473035
+                [piclink] => http://creatives.ftacademy.cn/picture/0/000033650_piclink_203_168.jpg
+                [background] =>  purple
+            )
+    
+        [12] => Array
+            (
+                [id] => 007000017
+                [publish_status] => publish
+                [fileupdatetime] => 1359620001
+                [headline] => 钱眼太太
+                [author_name_cn] => 钱眼太太
+                [author_name_en] => 
+                [type] => column
+                [pic] => 000033632;mrsmoneypenny
+                [description] => 
+                [adchannel] => 008000001
+                [sort] => 17
+                [showpic] => 0
+                [showheadline] => 1
+                [get_column_list] => get_column_list
+                [pubdate] => 1646473035
+                [piclink] => http://creatives.ftacademy.cn/picture/2/000033632_piclink_160_168.jpg
+                [background] =>  light-blue
+            )
+    
+        [13] => Array
+            (
+                [id] => 007000021
+                [publish_status] => publish
+                [fileupdatetime] => 1359528140
+                [headline] => 约翰•奥瑟兹
+                [author_name_cn] => 约翰•奥瑟兹
+                [author_name_en] => John Authers
+                [type] => column
+                [pic] => 000033583;johnauthers
+                [description] => 约翰•奥瑟兹(John Authers)是英国《金融时报》的Lex主编，是全球最具影响力的金融市场专家之一。他于1990年加入FT，曾经担任美国市场编辑、美国银行记者和墨西哥分社社长。奥瑟兹毕业于牛津大学，并且拥有哥伦比亚大学的MBA学位。
+                [adchannel] => 008000003
+                [sort] => 3
+                [showpic] => 0
+                [showheadline] => 0
+                [get_column_list] => get_column_list
+                [pubdate] => 1646473035
+                [piclink] => http://creatives.ftacademy.cn/picture/3/000033583_piclink_211_168.jpg
+                [background] =>  dark-green
+            )
+    
+        [14] => Array
+            (
+                [id] => 007000023
+                [publish_status] => publish
+                [fileupdatetime] => 1457550344
+                [headline] => 戴维•皮林
+                [author_name_cn] => 戴维•皮林
+                [author_name_en] => David Pilling
+                [type] => column
+                [pic] => 000033584;davidpilling
+                [description] => 戴维•皮林(David Pilling)现为《金融时报》非洲事务主编。此前他是FT亚洲版主编。他的专栏涉及到商业、投资、政治和经济方面的话题。皮林1990年加入FT。他曾经在伦敦、智利、阿根廷工作过。在成为亚洲版主编之前，他担任FT东京分社社长。
+                [adchannel] => 008000033
+                [sort] => 4
+                [showpic] => 1
+                [showheadline] => 1
+                [get_column_list] => get_column_list
+                [pubdate] => 1646473035
+                [piclink] => http://creatives.ftacademy.cn/picture/4/000033584_piclink_174_168.jpg
+                [background] =>  blue
+            )
+    
+        [15] => Array
+            (
+                [id] => 007000026
+                [publish_status] => publish
+                [fileupdatetime] => 1359620710
+                [headline] => 克莱夫•克鲁克
+                [author_name_cn] => 克莱夫•克鲁克
+                [author_name_en] => Clive Crook
+                [type] => column
+                [pic] => 000033639;clive
+                [description] => 
+                [adchannel] => 008000001
+                [sort] => 12
+                [showpic] => 0
+                [showheadline] => 0
+                [get_column_list] => get_column_list
+                [pubdate] => 1646473035
+                [piclink] => http://creatives.ftacademy.cn/picture/9/000033639_piclink_148_168.jpg
+                [background] => 
+            )
+    
+        [16] => Array
+            (
+                [id] => 007000029
+                [publish_status] => publish
+                [fileupdatetime] => 1359618658
+                [headline] => 亲爱的经济学家
+                [author_name_cn] => 蒂姆•哈福德
+                [author_name_en] => Tim Harford
+                [type] => column
+                [pic] => 000033627;hartford
+                [description] => 蒂姆•哈福德(Tim Harford)是英国《金融时报》的经济学专栏作家，他撰写两个栏目：《亲爱的经济学家》和 《卧底经济学家》。他写过一本畅销书也叫做《卧底经济学家》，这本书已经被翻译为16种语言，他现在正在写这本书的续集。哈福德也是BBC的一档节目《相信我，我是经济学家》（Trust Me, I’m an Economist）的主持人。他同妻子及两个孩子一起住在伦敦。
+                [adchannel] => 008000002
+                [sort] => 15
+                [showpic] => 0
+                [showheadline] => 0
+                [get_column_list] => get_column_list
+                [pubdate] => 1646473035
+                [piclink] => http://creatives.ftacademy.cn/picture/7/000033627_piclink_216_168.jpg
+                [background] =>  dark-grey
+            )
+    
+        [17] => Array
+            (
+                [id] => 007000030
+                [publish_status] => publish
+                [fileupdatetime] => 1361157243
+                [headline] => 约翰•凯
+                [author_name_cn] => 约翰•凯
+                [author_name_en] => John Key
+                [type] => column
+                [pic] => 000033904;kayjohn
+                [description] => 约翰•凯(John Kay)从1995年开始为英国《金融时报》撰写经济和商业的专栏。他曾经任教于伦敦商学院和牛津大学。目前他在伦敦经济学院担任访问学者。他有着非常辉煌的从商经历，曾经创办和壮大了一家咨询公司，然后将其转售。约翰•凯著述甚丰，其中包括《企业成功的基础》(Foundations of Corporate Success, 1993)、《市场的真相》(The Truth about Markets, 2003)和近期的《金融投资指南》(The Long and the Short of It: finance and investment for normally intelligent people who are not in the industry)。
+                [adchannel] => 008000020
+                [sort] => 11
+                [showpic] => 1
+                [showheadline] => 1
+                [get_column_list] => get_column_list
+                [pubdate] => 1646473035
+                [piclink] => http://creatives.ftacademy.cn/picture/4/000033904_piclink_121_168.jpg
+                [background] =>  yellow
+            )
+    
+        [18] => Array
+            (
+                [id] => 007000032
+                [publish_status] => publish
+                [fileupdatetime] => 1359531686
+                [headline] => 菲利普•斯蒂芬斯
+                [author_name_cn] => 菲利普•斯蒂芬斯
+                [author_name_en] => Philip Stephens
+                [type] => column
+                [pic] => 000033590;philipstephens
+                [description] => 菲利普•斯蒂芬斯(Philip Stephens)目前担任英国《金融时报》的副主编。作为FT的首席政治评论员，他的专栏每两周更新一次，评论全球和英国的事务。他著述甚丰，曾经为英国前首相托尼-布莱尔写传记。斯蒂芬斯毕业于牛津大学，目前和家人住在伦敦。
+                [adchannel] => 008000020
+                [sort] => 9
+                [showpic] => 1
+                [showheadline] => 1
+                [get_column_list] => get_column_list
+                [pubdate] => 1646473035
+                [piclink] => http://creatives.ftacademy.cn/picture/0/000033590_piclink_167_168.jpg
+                [background] =>  purple
+            )
+    
+        [19] => Array
+            (
+                [id] => 007000033
+                [publish_status] => publish
+                [fileupdatetime] => 1359618029
+                [headline] => 塞缪尔•布里坦
+                [author_name_cn] => 塞缪尔•布里坦
+                [author_name_en] => Samuel Brittan
+                [type] => column
+                [pic] => 000033616;samuel
+                [description] => 
+                [adchannel] => 008000020
+                [sort] => 13
+                [showpic] => 1
+                [showheadline] => 1
+                [get_column_list] => get_column_list
+                [pubdate] => 1646473035
+                [piclink] => http://creatives.ftacademy.cn/picture/6/000033616_piclink_249_168.jpg
+                [background] =>  light-blue
+            )
+    
+        [20] => Array
+            (
+                [id] => 007000034
+                [publish_status] => publish
+                [fileupdatetime] => 1359619238
+                [headline] => 卢克•约翰逊
+                [author_name_cn] => 卢克•约翰逊
+                [author_name_en] => Luke Johnson
+                [type] => column
+                [pic] => 000033629;luke
+                [description] => 卢克•约翰逊(Luke Johnson)是一位成果颇丰的企业家和创业家，他为英国《金融时报》撰写企业家专栏。他目前担任英国皇家艺术协会的主席，并管理着一家私人股本投资公司——Risk Capital Partners。约翰逊曾在牛津大学学医，但是毕业后却进入投行业。他在1992年收购PizzaExpress，担任其董事长，并将其上市。到1999年出售的时候，PizzaExpress的股价已经从40英镑涨至800英镑。
+                [adchannel] => 008000001
+                [sort] => 16
+                [showpic] => 1
+                [showheadline] => 1
+                [get_column_list] => get_column_list
+                [pubdate] => 1646473035
+                [piclink] => http://creatives.ftacademy.cn/picture/9/000033629_piclink_188_168.jpg
+                [background] =>  dark-green
+            )
+    
+        [21] => Array
+            (
+                [id] => 007000050
+                [publish_status] => publish
+                [fileupdatetime] => 1359620401
+                [headline] => 简氏酒庄
+                [author_name_cn] => 简希丝•罗宾逊
+                [author_name_en] => Jancis Robinson
+                [type] => column
+                [pic] => 000033634;jancis
+                [description] => 简希丝•罗宾逊（Jancis Robinson），从事葡萄酒报道长达37年。1989年起为英国《金融时报》撰写葡萄酒报道。1984年，她成为葡萄酒贸易行业外的第一位葡萄酒大师，并在全球品评葡萄酒。她撰写过多本经典葡萄酒专著，包括《牛津葡萄酒百科辞典》，以及与休·约翰逊（Hugh Johnson）合著的《世界葡萄酒地图》。她还是个专业电视讲师，主讲的“简希丝•罗宾逊葡萄酒课程”和“酒商的故事”，曾获得多个电视节目大奖。
+                [adchannel] => 008000001
+                [sort] => 18
+                [showpic] => 0
+                [showheadline] => 0
+                [get_column_list] => get_column_list
+                [pubdate] => 1646473035
+                [piclink] => http://creatives.ftacademy.cn/picture/4/000033634_piclink_179_168.jpg
+                [background] =>  blue
+            )
+    
+    )
+    1
+    -->
+    <div class="card-grid is-columns">
+    
+     
+    <div class="item-container  is-column" data-update="1677686400"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000066"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/5/000061025_piclink.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000066" class="item-headline-link ">西蒙•库柏</a>
+    </h2>
+    <div class="item-lead">西蒙•库柏（Simon Kuper）1994年加入英国《金融时报》，在1998年离开FT之前，他撰写一个每日更新的货币专栏。2002年，他作为体育专栏作家重新加入FT，一直至今。如今，他为FT周末版杂志撰写一个话题广泛的专栏。</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1677081600"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000012"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/1/000033651_piclink_208_168.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000012" class="item-headline-link ">马丁·沃尔夫</a>
+    </h2>
+    <div class="item-lead">马丁·沃尔夫(Martin Wolf) 是英国《金融时报》副主编及首席经济评论员。为嘉奖他对财经新闻作出的杰出贡献，沃尔夫于2000年荣获大英帝国勋爵位勋章(CBE)。他是牛津大学纳菲尔德学院客座研究员，并被授予剑桥大学圣体学院和牛津经济政策研究院(Oxonia)院士，同时也是诺丁汉大学特约教授。自1999年和2006年以来，他分别担任达沃斯(Davos)每年一度“世界经济论坛”的特邀评委成员和国际传媒委员会的成员。2006年7月他荣获诺丁汉大学文学博士；在同年12月他又荣获伦敦政治经济学院科学（经济）博士荣誉教授的称号。</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1676995200"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000031"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/4/000033624_piclink_143_168.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000031" class="item-headline-link ">约翰•普伦德</a>
+    </h2>
+    <div class="item-lead"></div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1675267200"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000022"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/5/000033585_piclink_216_168.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000022" class="item-headline-link ">卧底经济学家</a>
+    </h2>
+    <div class="item-lead">蒂姆•哈福德(Tim Harford)是英国《金融时报》的经济学专栏作家，他撰写两个栏目：《亲爱的经济学家》和 《卧底经济学家》。他写过一本畅销书也叫做《卧底经济学家》，这本书已经被翻译为16种语言，他现在正在写这本书的续集。哈福德也是BBC的一档节目《相信我，我是经济学家》（Trust Me, I’m an Economist）的主持人。他同妻子及两个孩子一起住在伦敦。</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1675008000"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000024"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/9/000033579_piclink_169_168.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000024" class="item-headline-link ">吉莲•邰蒂</a>
+    </h2>
+    <div class="item-lead">吉莲•邰蒂(Gillian Tett)担任英国《金融时报》的助理主编，负责全球金融市场的报导。2009年3月，她荣获英国出版业年度记者。她1993年加入FT，曾经被派往前苏联和欧洲地区工作。1997年，她担任FT东京分社社长。2003年，她回到伦敦，成为Lex专栏的副主编。邰蒂在剑桥大学获得社会人文学博士学位。她会讲法语、俄语、日语和波斯语。</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1674057600"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000064"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/8/000035498_piclink_144_144.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000064" class="item-headline-link ">爱德华•卢斯</a>
+    </h2>
+    <div class="item-lead">爱德华•卢斯（Edward Luce）是《金融时报》华盛顿专栏作家和评论员，他负责撰写的文章包括：每周一期的专栏文章、关于美国政治、经济问题的《金融时报》社评以及其它文章。</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1673798400"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000025"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/9/000033649_piclink_216_168.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000025" class="item-headline-link ">吉迪恩•拉赫曼</a>
+    </h2>
+    <div class="item-lead">吉迪恩•拉赫曼(Gideon Rachman)在英国《金融时报》主要负责撰写关于美国对外政策、欧盟事务、能源问题、经济全球化等方面的报道。他经常参与会议、学术和商业活动，并作为评论人活跃于电视及广播节目中。他曾担任《经济学人》亚洲版主编。</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1673366400"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000013"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/2/000033582_piclink_189_168.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000013" class="item-headline-link ">露西•凯拉韦</a>
+    </h2>
+    <div class="item-lead">露西•凯拉韦(Lucy Kellaway)是英国《金融时报》的管理专栏作家。在过去十年的时间里，她用幽默的语言调侃各种职场现象，并为读者出谋划策。她的专栏每周一出版在英国《金融时报》。露西在2006年获得英国出版业奖的“年度专栏作家”奖项。</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1666454400"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000065"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/3/000027283_piclink_0_0.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000065" class="item-headline-link ">安德鲁•希尔</a>
+    </h2>
+    <div class="item-lead">安德鲁•希尔（Andrew Hill）是《金融时报》副总编兼管理主编。此前，他担任过伦敦金融城主编、金融主编、评论和分析主编。他在1988年加入FT，还曾经担任过FT纽约分社社长、国际新闻主编、FT驻布鲁塞尔和米兰记者。</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1663430400"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000015"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/9/000033589_piclink_149_168.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000015" class="item-headline-link ">约翰•加普</a>
+    </h2>
+    <div class="item-lead">约翰·加普(John Gapper)是英国《金融时报》副主编、首席产业评论员。他的专栏每周四会出现在英国《金融时报》的评论版。加普从1987年开始就在英国《金融时报》工作，报导劳资关系、银行和媒体。他曾经写过一本书，叫做《闪闪发亮的骗局》(All That Glitters)，讲的是巴林银行1995年倒闭的内幕。</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1661011200"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000067"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/7/000066747_piclink.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000067" class="item-headline-link ">斯卡平克</a>
+    </h2>
+    <div class="item-lead">迈克尔•斯卡平克（Michael Skapinker）是英国《金融时报》副主编。他经常为FT撰写关于商业和社会的专栏文章。他出生于南非，在希腊开始了他的新闻职业生涯。1986年，他在伦敦加入了FT，担任过许多不同的职位，包括FT周末版主编、FT特别报道部主编和管理事务主编。</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1646473035"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000014"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/0/000033650_piclink_203_168.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000014" class="item-headline-link ">斯特凡•斯特恩</a>
+    </h2>
+    <div class="item-lead"></div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1646473035"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000017"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/2/000033632_piclink_160_168.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000017" class="item-headline-link ">钱眼太太</a>
+    </h2>
+    <div class="item-lead"></div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1646473035"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000021"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/3/000033583_piclink_211_168.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000021" class="item-headline-link ">约翰•奥瑟兹</a>
+    </h2>
+    <div class="item-lead">约翰•奥瑟兹(John Authers)是英国《金融时报》的Lex主编，是全球最具影响力的金融市场专家之一。他于1990年加入FT，曾经担任美国市场编辑、美国银行记者和墨西哥分社社长。奥瑟兹毕业于牛津大学，并且拥有哥伦比亚大学的MBA学位。</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1646473035"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000023"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/4/000033584_piclink_174_168.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000023" class="item-headline-link ">戴维•皮林</a>
+    </h2>
+    <div class="item-lead">戴维•皮林(David Pilling)现为《金融时报》非洲事务主编。此前他是FT亚洲版主编。他的专栏涉及到商业、投资、政治和经济方面的话题。皮林1990年加入FT。他曾经在伦敦、智利、阿根廷工作过。在成为亚洲版主编之前，他担任FT东京分社社长。</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1646473035"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000026"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/9/000033639_piclink_148_168.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000026" class="item-headline-link ">克莱夫•克鲁克</a>
+    </h2>
+    <div class="item-lead"></div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1646473035"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000029"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/7/000033627_piclink_216_168.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000029" class="item-headline-link ">亲爱的经济学家</a>
+    </h2>
+    <div class="item-lead">蒂姆•哈福德(Tim Harford)是英国《金融时报》的经济学专栏作家，他撰写两个栏目：《亲爱的经济学家》和 《卧底经济学家》。他写过一本畅销书也叫做《卧底经济学家》，这本书已经被翻译为16种语言，他现在正在写这本书的续集。哈福德也是BBC的一档节目《相信我，我是经济学家》（Trust Me, I’m an Economist）的主持人。他同妻子及两个孩子一起住在伦敦。</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1646473035"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000030"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/4/000033904_piclink_121_168.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000030" class="item-headline-link ">约翰•凯</a>
+    </h2>
+    <div class="item-lead">约翰•凯(John Kay)从1995年开始为英国《金融时报》撰写经济和商业的专栏。他曾经任教于伦敦商学院和牛津大学。目前他在伦敦经济学院担任访问学者。他有着非常辉煌的从商经历，曾经创办和壮大了一家咨询公司，然后将其转售。约翰•凯著述甚丰，其中包括《企业成功的基础》(Foundations of Corporate Success, 1993)、《市场的真相》(The Truth about Markets, 2003)和近期的《金融投资指南》(The Long and the Short of It: finance and investment for normally intelligent people who are not in the industry)。</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1646473035"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000032"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/0/000033590_piclink_167_168.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000032" class="item-headline-link ">菲利普•斯蒂芬斯</a>
+    </h2>
+    <div class="item-lead">菲利普•斯蒂芬斯(Philip Stephens)目前担任英国《金融时报》的副主编。作为FT的首席政治评论员，他的专栏每两周更新一次，评论全球和英国的事务。他著述甚丰，曾经为英国前首相托尼-布莱尔写传记。斯蒂芬斯毕业于牛津大学，目前和家人住在伦敦。</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1646473035"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000033"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/6/000033616_piclink_249_168.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000033" class="item-headline-link ">塞缪尔•布里坦</a>
+    </h2>
+    <div class="item-lead"></div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1646473035"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000034"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/9/000033629_piclink_188_168.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000034" class="item-headline-link ">卢克•约翰逊</a>
+    </h2>
+    <div class="item-lead">卢克•约翰逊(Luke Johnson)是一位成果颇丰的企业家和创业家，他为英国《金融时报》撰写企业家专栏。他目前担任英国皇家艺术协会的主席，并管理着一家私人股本投资公司——Risk Capital Partners。约翰逊曾在牛津大学学医，但是毕业后却进入投行业。他在1992年收购PizzaExpress，担任其董事长，并将其上市。到1999年出售的时候，PizzaExpress的股价已经从40英镑涨至800英镑。</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1646473035"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000050"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/4/000033634_piclink_179_168.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000050" class="item-headline-link ">简氏酒庄</a>
+    </h2>
+    <div class="item-lead">简希丝•罗宾逊（Jancis Robinson），从事葡萄酒报道长达37年。1989年起为英国《金融时报》撰写葡萄酒报道。1984年，她成为葡萄酒贸易行业外的第一位葡萄酒大师，并在全球品评葡萄酒。她撰写过多本经典葡萄酒专著，包括《牛津葡萄酒百科辞典》，以及与休·约翰逊（Hugh Johnson）合著的《世界葡萄酒地图》。她还是个专业电视讲师，主讲的“简希丝•罗宾逊葡萄酒课程”和“酒商的故事”，曾获得多个电视节目大奖。</div>
+    
+    </div>
+    </div></div>
+    </div>
+    <div class="list-container"><div class="list-inner"><h2 class="list-title">
+    <a class="list-link"  href="">过往专栏</a>
+    </h2>
+    <div class="items">
+    <div class="clearfloat"></div>
+    </div>
+    </div></div>
+    <!--columns: 
+    Array
+    (
+        [0] => Array
+            (
+                [id] => 007000004
+                [publish_status] => publish
+                [fileupdatetime] => 1465266131
+                [headline] => 《远观中国》
+                [author_name_cn] => 魏城
+                [author_name_en] => Weimin Liu
+                [type] => column
+                [pic] => 000033661;weicheng
+                [description] => 身在海外，远观中国，虽属无奈，但也落得一个独特的“距离感”，也许观感更为冷静、客观。
+    
+    作者魏城，1959年出生于中国北京，1992年移居加拿大，1998年移居英国。先后在《中国青年报》、《星岛日报》加拿大版、英国广播公司工作，现任英国《金融时报》中文网资深记者、专栏作家。
+                [adchannel] => 008000004
+                [sort] => 9
+                [showpic] => 0
+                [showheadline] => 0
+                [get_column_list] => get_column_list
+                [pubdate] => 1646473035
+                [piclink] => http://creatives.ftacademy.cn/picture/1/000033661_piclink_129_168.jpg
+                [background] =>  blue
+            )
+    
+        [1] => Array
+            (
+                [id] => 007000005
+                [publish_status] => publish
+                [fileupdatetime] => 1521090574
+                [headline] => 《第一时间解读》
+                [author_name_cn] => FT中文网
+                [author_name_en] => FTC Staff
+                [type] => column
+                [pic] => 000015869;第一时间解读
+                [description] => 对刚发生的重大新闻进行迅速、及时的分析和评论，由FT中文网评论员或特约评论员撰写。
+                [adchannel] => 008000018
+                [sort] => 6
+                [showpic] => 1
+                [showheadline] => 1
+                [get_column_list] => get_column_list
+                [pubdate] => 1646473035
+                [piclink] => http://creatives.ftacademy.cn/picture/9/000015869_piclink_0_0.jpg
+                [background] => 
+            )
+    
+        [2] => Array
+            (
+                [id] => 007000007
+                [publish_status] => publish
+                [fileupdatetime] => 1521090592
+                [headline] => 《中国纪事》
+                [author_name_cn] => 许知远
+                [author_name_en] => Xu Zhiyuan
+                [type] => column
+                [pic] => 000046152;XU zhiyuan
+                [description] => 跟随作者足迹，遍游世界东西十万里；追踪作者思绪，纵论中国上下五千年。
+    
+    作者许知远，2000年毕业于北京大学计算机系，曾任《经济观察报》主笔，《商业周刊/中文版》执行主编。现为独立作家，已出版作品《那些忧伤的年轻人》《中国纪事》和《醒来》《伪装的盛世》《抗争者》等。
+                [adchannel] => 008000008
+                [sort] => 7
+                [showpic] => 1
+                [showheadline] => 1
+                [get_column_list] => get_column_list
+                [pubdate] => 1646473035
+                [piclink] => http://creatives.ftacademy.cn/picture/2/000046152_piclink.jpg
+                [background] =>  dark-grey
+            )
+    
+        [3] => Array
+            (
+                [id] => 007000010
+                [publish_status] => publish
+                [fileupdatetime] => 1465265625
+                [headline] => 《中间论坛》
+                [author_name_cn] => 丁学良
+                [author_name_en] => Ding Xueliang
+                [type] => column
+                [pic] => 000045605;Ding Xueliang
+                [description] => 作者丁学良，1992年毕业于美国哈佛大学，获博士学位，一直从事比较现代化的研究和教学，先后工作于哈佛大学本科生院、国立澳大利亚大学亚太研究院、香港科技大学。作者先在FT中文网开设《回望30年》专栏，后在本网站开启新专栏《中间论坛》，试图在“国家”和“社会”的中间、在“政权”和“财权”的中间、在“极左派”和“极右派”的立场中间、在中国和外部世界的中间——即在所有这些极易发生张力的两边之间，发出评判。
+                [adchannel] => 008000008
+                [sort] => 1
+                [showpic] => 1
+                [showheadline] => 1
+                [get_column_list] => get_column_list
+                [pubdate] => 1646473035
+                [piclink] => http://creatives.ftacademy.cn/picture/5/000045605_piclink.jpg
+                [background] =>  yellow
+            )
+    
+        [4] => Array
+            (
+                [id] => 007000020
+                [publish_status] => publish
+                [fileupdatetime] => 1533731152
+                [headline] => 《剃刀边缘》
+                [author_name_cn] => 老愚
+                [author_name_en] => Lao Yu
+                [type] => column
+                [pic] => 000015879;Lao Yu
+                [description] => 老愚，男，陕西扶风人，毕业于复旦大学中文系，社会观察家，出版人，散文作家。著有《在和风中假寐》《暮色四合》等。因《“红二代”的意志》《“红色重庆”的价值》《重庆红色频道发出的信号》 等系列文章，而获得2011年度亚洲出版人协会评论大奖。公号名为“老愚的自留地”。
+                [adchannel] => 008000001
+                [sort] => 12
+                [showpic] => 1
+                [showheadline] => 1
+                [get_column_list] => get_column_list
+                [pubdate] => 1646473035
+                [piclink] => http://creatives.ftacademy.cn/picture/9/000015879_piclink_0_0.jpg
+                [background] =>  purple
+            )
+    
+        [5] => Array
+            (
+                [id] => 007000027
+                [publish_status] => publish
+                [fileupdatetime] => 1465266186
+                [headline] => 《智库》
+                [author_name_cn] => FT中文网特约撰稿人
+                [author_name_en] => Thinktank
+                [type] => column
+                [pic] => 000015913;Bank Spy
+                [description] => 现代社会中，有人将智库称为与立法、行政、司法并立的第四大机构，可见其对社会决策的巨大效用。FT中文网与海内外一批著名智库合作，精选其最新研究成果，争取在第一时间内与读者分享。
+                [adchannel] => 008000008
+                [sort] => 10
+                [showpic] => 0
+                [showheadline] => 0
+                [get_column_list] => get_column_list
+                [pubdate] => 1646473035
+                [piclink] => http://creatives.ftacademy.cn/picture/3/000015913_piclink_0_0.jpg
+                [background] =>  light-blue
+            )
+    
+        [6] => Array
+            (
+                [id] => 007000036
+                [publish_status] => publish
+                [fileupdatetime] => 1465266116
+                [headline] => 《市场的边界》
+                [author_name_cn] => 叶檀
+                [author_name_en] => YeTan
+                [type] => column
+                [pic] => 000041022;yetan
+                [description] => 叶檀，经济领域的市场派，文化上的保守主义者。复旦大学历史系博士，从2000年左右走出书斋，到报社撰写经济类评论，迄今为止已在报刊杂志发表大量文章，偶尔在电视台财经频道客串点评经济新闻，也出版过历史方面的书籍。
+                [adchannel] => 008000002
+                [sort] => 8
+                [showpic] => 0
+                [showheadline] => 0
+                [get_column_list] => get_column_list
+                [pubdate] => 1646473035
+                [piclink] => http://creatives.ftacademy.cn/picture/2/000041022_piclink.jpg
+                [background] =>  dark-green
+            )
+    
+        [7] => Array
+            (
+                [id] => 007000041
+                [publish_status] => publish
+                [fileupdatetime] => 1465266377
+                [headline] => 《经济观察者》
+                [author_name_cn] => 刘利刚
+                [author_name_en] => 
+                [type] => column
+                [pic] => 000022195;Liu Ligang new
+                [description] => 刘利刚，现任澳新银行(ANZ)大中华区首席经济师，主管大中华区宏观经济、汇率和策略研究。曾经任职于香港金管局、亚洲发展银行学院、世界银行和彼德森国际经济研究所(PIIE)，美国约翰•霍普金斯大学经济学博士。
+                [adchannel] => 008000002
+                [sort] => 16
+                [showpic] => 1
+                [showheadline] => 1
+                [get_column_list] => get_column_list
+                [pubdate] => 1646473035
+                [piclink] => http://creatives.ftacademy.cn/picture/5/000022195_piclink_0_0.jpg
+                [background] =>  blue
+            )
+    
+        [8] => Array
+            (
+                [id] => 007000044
+                [publish_status] => publish
+                [fileupdatetime] => 1521090621
+                [headline] => 《天则横议》
+                [author_name_cn] => 天则经济研究所
+                [author_name_en] => 
+                [type] => column
+                [pic] => 000026043;tianze
+                [description] => 本专栏由天则经济研究所向英国《金融时报》中文网提供。“天则”语出《诗经》，“天生烝民，有物有则”，引自《易经》“文言”，“乾元用九，乃见天则”，意为“合乎天道自然之制度规则”。“横议”源自《孟子•滕文公下》，“圣王不作，诸侯放恣，处士横议。” 意为知识分子纵论时政。本专栏由天则经济研究所研究人员轮流撰写。
+                [adchannel] => 008000002
+                [sort] => 4
+                [showpic] => 1
+                [showheadline] => 1
+                [get_column_list] => get_column_list
+                [pubdate] => 1646473035
+                [piclink] => http://creatives.ftacademy.cn/picture/3/000026043_piclink_0_0.jpg
+                [background] => 
+            )
+    
+        [9] => Array
+            (
+                [id] => 007000052
+                [publish_status] => publish
+                [fileupdatetime] => 1465266593
+                [headline] => 《切问近思录》
+                [author_name_cn] => 张军
+                [author_name_en] => Zhang Jun
+                [type] => column
+                [pic] => 000034229;Zhang Jun skyline
+                [description] => 张军，上世纪90年代初在中国经济学界崭露头角，至今仍是中外经济学界的活跃人物。他对中国经济增长和转型的研究著述丰厚。现任复旦大学“当代中国经济”长江特聘教授，中国经济研究中心主任，复旦发展研究院副院长。
+                [adchannel] => 008000001
+                [sort] => 19
+                [showpic] => 0
+                [showheadline] => 0
+                [get_column_list] => get_column_list
+                [pubdate] => 1646473035
+                [piclink] => http://creatives.ftacademy.cn/picture/9/000034229_piclink_197_168.jpg
+                [background] =>  dark-grey
+            )
+    
+        [10] => Array
+            (
+                [id] => 007000053
+                [publish_status] => publish
+                [fileupdatetime] => 1514873172
+                [headline] => 《纽约范儿》
+                [author_name_cn] => 刘裘蒂
+                [author_name_en] => Chiu-Ti Jansen
+                [type] => column
+                [pic] => 000034367;liu qiu di skyline
+                [description] => 刘裘蒂，哥伦比亚大学法学博士，耶鲁大学文学硕士。中英对照时尚杂志《约》出版人。曾经是经手数百亿美元项目的华尔街名牌律师事务所合伙人，现创立中西文化对话的多媒体平台“中国正在”。因独树一帜的犀利时尚风格，成为纽约名流圈经常入围最佳着装名单的媒体人，并入选为纽约时尚设计学院美术馆成立43年以来第一位亚裔董事。全球化智库（CCG) 特邀高级研究员，著有《自创光环：品质女人自我养成术》。
+                [adchannel] => 008000001
+                [sort] => 24
+                [showpic] => 1
+                [showheadline] => 1
+                [get_column_list] => get_column_list
+                [pubdate] => 1646473035
+                [piclink] => http://creatives.ftacademy.cn/picture/7/000034367_piclink_152_168.jpg
+                [background] =>  yellow
+            )
+    
+        [11] => Array
+            (
+                [id] => 007000054
+                [publish_status] => publish
+                [fileupdatetime] => 1521090610
+                [headline] => 《一知半解》
+                [author_name_cn] => 何帆
+                [author_name_en] => He Fan
+                [type] => column
+                [pic] => 000039207;He Fan
+                [description] => 读书是每日必做的功课，写作是终生以求的技艺，但深知努力的结果，仅仅是得到了一知半解。作者何帆，中国社会科学院世界经济与政治研究所学者，研究领域为宏观经济学和国际金融。已出版专著《不确定的年代》等，译著《世界是平的：21世纪简史》等。
+                [adchannel] => 008000001
+                [sort] => 6
+                [showpic] => 1
+                [showheadline] => 1
+                [get_column_list] => get_column_list
+                [pubdate] => 1646473035
+                [piclink] => http://creatives.ftacademy.cn/picture/7/000039207_piclink_218_168.jpg
+                [background] =>  purple
+            )
+    
+        [12] => Array
+            (
+                [id] => 007000056
+                [publish_status] => publish
+                [fileupdatetime] => 1465266639
+                [headline] => 《投资者的敌人》
+                [author_name_cn] => 朱宁
+                [author_name_en] => 
+                [type] => column
+                [pic] => 000041653;Zhu Ning
+                [description] => 朱宁，师从诺贝尔经济学奖得主罗伯特·席勒，上海交通大学上海高级金融学院副院长，耶鲁大学国际金融中心研究员。本专栏旨在就行为谈理性，就投资谈人性，人生就是一场伟大的投资, 而投资者最大的敌人就是他们自己。
+                [adchannel] => 008000001
+                [sort] => 19
+                [showpic] => 1
+                [showheadline] => 1
+                [get_column_list] => get_column_list
+                [pubdate] => 1646473035
+                [piclink] => http://creatives.ftacademy.cn/picture/3/000041653_piclink.jpg
+                [background] =>  light-blue
+            )
+    
+        [13] => Array
+            (
+                [id] => 007000058
+                [publish_status] => publish
+                [fileupdatetime] => 1465266525
+                [headline] => 《中西两半录》
+                [author_name_cn] => 张力奋
+                [author_name_en] => 
+                [type] => column
+                [pic] => 000051505;lifen 167
+                [description] => 《中西两半录》是FT中文网创刋总编辑张力奋卸任后的个人专栏，暂定两周一篇。人生至此，他在中国与西方生活、工作的时间各占了一半，对东方与西方，他常分身无术，纠结困惑中，行走东西两岸。他对日常生活感兴趣。在他看来，制度就是日常生活。
+                [adchannel] => 008000008
+                [sort] => 18
+                [showpic] => 1
+                [showheadline] => 1
+                [get_column_list] => get_column_list
+                [pubdate] => 1646473035
+                [piclink] => http://creatives.ftacademy.cn/picture/5/000051505_piclink.jpg
+                [background] =>  dark-green
+            )
+    
+        [14] => Array
+            (
+                [id] => 007000059
+                [publish_status] => publish
+                [fileupdatetime] => 1502706090
+                [headline] => 《时代的噪音》
+                [author_name_cn] => 张铁志
+                [author_name_en] => 
+                [type] => column
+                [pic] => 000054494;zhangtiezhi
+                [description] => 张铁志，台湾文化与政治评论人，历任“报导者”共同创办人兼总主笔、香港《号外》杂志总编辑、《彭博商业周刊中文版》总主笔、《周末画报》主笔、《数位时代》首席顾问。著有《声音与愤怒》等书。
+                [adchannel] => 008000008
+                [sort] => 11
+                [showpic] => 1
+                [showheadline] => 1
+                [get_column_list] => get_column_list
+                [pubdate] => 1646473035
+                [piclink] => http://creatives.ftacademy.cn/picture/4/000054494_piclink.jpg
+                [background] =>  blue
+            )
+    
+        [15] => Array
+            (
+                [id] => 007000061
+                [publish_status] => publish
+                [fileupdatetime] => 1465266350
+                [headline] => 《寻食记》
+                [author_name_cn] => 陈楠
+                [author_name_en] => 
+                [type] => column
+                [pic] => 000058102;food 167
+                [description] => 陈楠，在荷兰取得城市环境管理学硕士学位。旅居海外十数年间，在可持续发展领域做咨询的同时，也喜爱烹饪，对食物的历史文化有浓厚兴趣。曾为《纽约时报》中文网开设美食专栏。《寻食记》无意描写名食名厨名店名菜，而是着眼于日常饮馔背后的逸闻趣事和历史沿革，与读者分享美食历史。
+                [adchannel] => 008000001
+                [sort] => 15
+                [showpic] => 1
+                [showheadline] => 1
+                [get_column_list] => get_column_list
+                [pubdate] => 1646473035
+                [piclink] => http://creatives.ftacademy.cn/picture/2/000058102_piclink.jpg
+                [background] => 
+            )
+    
+        [16] => Array
+            (
+                [id] => 007000063
+                [publish_status] => publish
+                [fileupdatetime] => 1465266333
+                [headline] => 《艺述东西》
+                [author_name_cn] => 马继东
+                [author_name_en] => 
+                [type] => column
+                [pic] => 000059295;ma jidong 144
+                [description] => 马继东，《艺术商业》杂志及艺商传媒公司创始人，中央财经大学国家文化创新研究中心特聘专家，为多家艺术网站、拍卖行、电视栏目及电商平台提供顾问咨询服务。曾任文化部《艺术市场》杂志社副社长。《艺述东西》将以通俗视角解读瞬息万变的艺术品行业，发掘东西方世界艺术大事件背后的商业力量，推荐影响现代人生活方式的趣味收藏。本专栏两周一篇，周二出版。
+                [adchannel] => 008000001
+                [sort] => 14
+                [showpic] => 1
+                [showheadline] => 1
+                [get_column_list] => get_column_list
+                [pubdate] => 1646473035
+                [piclink] => http://creatives.ftacademy.cn/picture/5/000059295_piclink.jpg
+                [background] =>  dark-grey
+            )
+    
+        [17] => Array
+            (
+                [id] => 007000069
+                [publish_status] => publish
+                [fileupdatetime] => 1504163306
+                [headline] => 《流动的盛宴》
+                [author_name_cn] => 谢立
+                [author_name_en] => 
+                [type] => column
+                [pic] => 000072320;谢立
+                [description] => 谢立，樽赏Winepicurean微信公众号和葡萄酒网站联合创始人，生活方式媒体专家，曾在数家权威葡萄酒、美食和生活方式杂志担任主编和编辑总监，出版了生活方式专栏结集的《私享家》一书。​
+                [adchannel] => 008000001
+                [sort] => 48
+                [showpic] => 1
+                [showheadline] => 1
+                [get_column_list] => get_column_list
+                [pubdate] => 1646473035
+                [piclink] => http://creatives.ftacademy.cn/picture/0/000072320_piclink.jpg
+                [background] =>  yellow
+            )
+    
+        [18] => Array
+            (
+                [id] => 007000070
+                [publish_status] => publish
+                [fileupdatetime] => 1504160398
+                [headline] => 《半酣记》
+                [author_name_cn] => 张翛翰
+                [author_name_en] => 
+                [type] => column
+                [pic] => 000072321;张翛翰
+                [description] => 张翛翰，拥有中国农业大学葡萄与葡萄酒工程专业学士和硕士学位，目前在攻读葡萄酒大师头衔。曾供职于佳士得拍卖行名酒部，目前担任施氏佳酿Zachys中国区销售总监和拍卖师。
+                [adchannel] => 008000001
+                [sort] => 49
+                [showpic] => 1
+                [showheadline] => 1
+                [get_column_list] => get_column_list
+                [pubdate] => 1646473035
+                [piclink] => http://creatives.ftacademy.cn/picture/1/000072321_piclink.jpg
+                [background] =>  purple
+            )
+    
+        [19] => Array
+            (
+                [id] => 007000073
+                [publish_status] => publish
+                [fileupdatetime] => 1509434263
+                [headline] => 《社交媒体与潮营销》
+                [author_name_cn] => 窦文宇
+                [author_name_en] => 
+                [type] => column
+                [pic] => 000073715;dou wenyu
+                [description] => 窦文宇，香港城市大学商学院副院长，EMBA（中文）课程主任，毕业于北京大学及威斯康辛大学，国际知名广告学者。目前主要研究方向为新媒体营销、社交媒体营销、内容营销。他的专业文章发表于国内外主要学术期刊及各大商业媒体。本专栏聚焦国内外最新营销潮流，解析数字时代的企业营销新思路。
+                [adchannel] => 008000008
+                [sort] => 51
+                [showpic] => 1
+                [showheadline] => 1
+                [get_column_list] => get_column_list
+                [pubdate] => 1646473035
+                [piclink] => http://creatives.ftacademy.cn/picture/5/000073715_piclink.jpg
+                [background] =>  light-blue
+            )
+    
+        [20] => Array
+            (
+                [id] => 007000075
+                [publish_status] => publish
+                [fileupdatetime] => 1583329255
+                [headline] => 《去你的未来》
+                [author_name_cn] => 陈序
+                [author_name_en] => 
+                [type] => column
+                [pic] => 000076909;chen xu
+                [description] => 陈序，IntelAct智库联合发起人，首个中国内地人士出任Newsweek中文刊执行主编，也是MIT Technology Review 副出版人、CoinDesk 中国联合出版人；曾因创办区块链众筹出版平台入选Fast Company2015中国商业创意人物，并参与创办《每日经济新闻》等多家媒体。著有《主编死了》、《区块链＋》、《未来版图》等书。 在当下危机与变局并存的时代，本专栏关注革命性技术创新的商业、经济与其他后果。专栏名来自我的一个观点：思考未来的前提是知道未来不会有你，惟一有希望存续的，是信仰和价值观。
+                [adchannel] => 008000008
+                [sort] => 52
+                [showpic] => 1
+                [showheadline] => 1
+                [get_column_list] => get_column_list
+                [pubdate] => 1646473035
+                [piclink] => http://creatives.ftacademy.cn/picture/9/000076909_piclink.jpg
+                [background] =>  dark-green
+            )
+    
+        [21] => Array
+            (
+                [id] => 007000077
+                [publish_status] => publish
+                [fileupdatetime] => 1655872553
+                [headline] => 《区块漫步者》
+                [author_name_cn] => 赵剑飞
+                [author_name_en] => 
+                [type] => column
+                [pic] => 000087735;zhao jianfei
+                [description] => 赵剑飞，多年媒体从业，曾在《经济观察报》、《财经》杂志、财新传媒任职。2014年涉足数字货币行业，在锐科科技、A站等多家创业公司担任副总裁，负责品牌和媒体策略工作。2012年英国志奋领奖学金获得者。区块漫步者专栏将分享作者对数字币货和区块链产业的新趋势和新问题的观察。
+                [adchannel] => 008000008
+                [sort] => 5
+                [showpic] => 1
+                [showheadline] => 1
+                [get_column_list] => get_column_list
+                [pubdate] => 1646473035
+                [piclink] => http://creatives.ftacademy.cn/picture/5/000087735_piclink.jpg
+                [background] =>  blue
+            )
+    
+        [22] => Array
+            (
+                [id] => 007000079
+                [publish_status] => publish
+                [fileupdatetime] => 1662444978
+                [headline] => 《隐枫科技随笔》
+                [author_name_cn] => 李军
+                [author_name_en] => 
+                [type] => column
+                [pic] => 000092035;lijun
+                [description] => 李军，超过二十年IT和高科技行业经验，专注于客户关系管理、数字化营销、商业智能分析和行业数字化转型。曾就职于埃森哲、甲骨文、微软、WPP、Sears等一线企业，深耕于通信、媒体、互联网和电商零售诸行业。2015年迁居多伦多，目前任加拿大邮报传媒集团数据科学经理，负责机器学习平台和数字化营销的集成应用。本人专栏聚焦于互联网、数字化和行业海外动态，微博@我是二姐夫。
+                [adchannel] => 008000004
+                [sort] => 9
+                [showpic] => 1
+                [showheadline] => 1
+                [get_column_list] => get_column_list
+                [pubdate] => 1646473035
+                [piclink] => http://creatives.ftacademy.cn/picture/5/000092035_piclink.jpg
+                [background] => 
+            )
+    
+        [23] => Array
+            (
+                [id] => 007000083
+                [publish_status] => publish
+                [fileupdatetime] => 1604310411
+                [headline] => 泛硅谷思维
+                [author_name_cn] => 林薇
+                [author_name_en] => 
+                [type] => column
+                [pic] => 000105680;lw
+                [description] => 林薇 （Vivi Lin），资深国际媒体人及创新顾问，VIVI MEDIA GROUP创始人；路透财经电视首个中国籍英文主播；曾任财新传媒双语主播及制片，中国头部区块链媒体“火星财经”国际合伙人；《Vivi闯硅谷》节目出品人，旅居硅谷。 
+    在世事纷扰与暗流涌动的时代，更需要我们拥有一双敏锐观察前沿趋势的眼睛，一颗热诚简单的心灵及创新的思维。作者旅居国际创新之都硅谷多年，愈发体会到硅谷是一种思维，而不是一个地方 （“Silicon Valley is not a place but a state of mind”）。在本专栏中，作者聚焦泛科技领域出现的新趋势，结合商业的视野，探索推动革命性创新背后的深层次思维。
+                [adchannel] => 008000001
+                [sort] => 5
+                [showpic] => 0
+                [showheadline] => 0
+                [get_column_list] => get_column_list
+                [pubdate] => 1646473035
+                [piclink] => http://creatives.ftacademy.cn/picture/0/000105680_piclink.jpg
+                [background] =>  dark-grey
+            )
+    
+        [24] => Array
+            (
+                [id] => 007000089
+                [publish_status] => publish
+                [fileupdatetime] => 1622515611
+                [headline] => 《EduBlank 教育的留白》
+                [author_name_cn] => 张华
+                [author_name_en] => 
+                [type] => column
+                [pic] => 000118118;zhang hua
+                [description] => 张华，少年商学院创始人，三个孩子的父亲。秉承全人教育理念，专注于青少年通识与创新实践教育，致力打造一所打破地域与阶层鸿沟、线上线下结合的新型国际化学校。创业前为知名财经媒体人，任职于南方周末，笔名东方愚，采访调研近百位企业家。著有《中国富豪这十年》（与胡润合著）、《他们比你更焦虑》《荷尔蒙经济学》等，最新出版《世界是我们的课堂：培养孩子面向未来的核心竞争力》。
+                [adchannel] => 008000008
+                [sort] => 0
+                [showpic] => 1
+                [showheadline] => 1
+                [get_column_list] => get_column_list
+                [pubdate] => 1646473035
+                [piclink] => http://creatives.ftacademy.cn/picture/8/000118118_piclink.png
+                [background] =>  yellow
+            )
+    
+    )
+    1
+    -->
+    <div class="card-grid is-columns">
+    
+     
+    <div class="item-container  is-column" data-update="1646473035"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000004"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/1/000033661_piclink_129_168.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000004" class="item-headline-link ">远观中国</a>
+    </h2>
+    <div class="item-lead">身在海外，远观中国，虽属无奈，但也落得一个独特的“距离感”，也许观感更为冷静、客观。作者魏城，1959年出生于中国北京，1992年移居加拿大，1998年移居英国。先后在《中国青年报》、《星岛日报》加拿大版、英国广播公司工作，现任英国《金融时报》中文网资深记者、专栏作家。</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1646473035"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000005"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/9/000015869_piclink_0_0.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000005" class="item-headline-link ">第一时间解读</a>
+    </h2>
+    <div class="item-lead">对刚发生的重大新闻进行迅速、及时的分析和评论，由FT中文网评论员或特约评论员撰写。</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1646473035"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000007"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/2/000046152_piclink.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000007" class="item-headline-link ">中国纪事</a>
+    </h2>
+    <div class="item-lead">跟随作者足迹，遍游世界东西十万里；追踪作者思绪，纵论中国上下五千年。作者许知远，2000年毕业于北京大学计算机系，曾任《经济观察报》主笔，《商业周刊/中文版》执行主编。现为独立作家，已出版作品《那些忧伤的年轻人》《中国纪事》和《醒来》《伪装的盛世》《抗争者》等。</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1646473035"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000010"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/5/000045605_piclink.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000010" class="item-headline-link ">中间论坛</a>
+    </h2>
+    <div class="item-lead">作者丁学良，1992年毕业于美国哈佛大学，获博士学位，一直从事比较现代化的研究和教学，先后工作于哈佛大学本科生院、国立澳大利亚大学亚太研究院、香港科技大学。作者先在FT中文网开设《回望30年》专栏，后在本网站开启新专栏《中间论坛》，试图在“国家”和“社会”的中间、在“政权”和“财权”的中间、在“极左派”和“极右派”的立场中间、在中国和外部世界的中间——即在所有这些极易发生张力的两边之间，发出评判。</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1646473035"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000020"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/9/000015879_piclink_0_0.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000020" class="item-headline-link ">剃刀边缘</a>
+    </h2>
+    <div class="item-lead">老愚，男，陕西扶风人，毕业于复旦大学中文系，社会观察家，出版人，散文作家。著有《在和风中假寐》《暮色四合》等。因《“红二代”的意志》《“红色重庆”的价值》《重庆红色频道发出的信号》 等系列文章，而获得2011年度亚洲出版人协会评论大奖。公号名为“老愚的自留地”。</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1646473035"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000027"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/3/000015913_piclink_0_0.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000027" class="item-headline-link ">智库</a>
+    </h2>
+    <div class="item-lead">现代社会中，有人将智库称为与立法、行政、司法并立的第四大机构，可见其对社会决策的巨大效用。FT中文网与海内外一批著名智库合作，精选其最新研究成果，争取在第一时间内与读者分享。</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1646473035"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000036"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/2/000041022_piclink.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000036" class="item-headline-link ">市场的边界</a>
+    </h2>
+    <div class="item-lead">叶檀，经济领域的市场派，文化上的保守主义者。复旦大学历史系博士，从2000年左右走出书斋，到报社撰写经济类评论，迄今为止已在报刊杂志发表大量文章，偶尔在电视台财经频道客串点评经济新闻，也出版过历史方面的书籍。</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1646473035"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000041"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/5/000022195_piclink_0_0.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000041" class="item-headline-link ">经济观察者</a>
+    </h2>
+    <div class="item-lead">刘利刚，现任澳新银行(ANZ)大中华区首席经济师，主管大中华区宏观经济、汇率和策略研究。曾经任职于香港金管局、亚洲发展银行学院、世界银行和彼德森国际经济研究所(PIIE)，美国约翰•霍普金斯大学经济学博士。</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1646473035"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000044"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/3/000026043_piclink_0_0.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000044" class="item-headline-link ">天则横议</a>
+    </h2>
+    <div class="item-lead">本专栏由天则经济研究所向英国《金融时报》中文网提供。“天则”语出《诗经》，“天生烝民，有物有则”，引自《易经》“文言”，“乾元用九，乃见天则”，意为“合乎天道自然之制度规则”。“横议”源自《孟子•滕文公下》，“圣王不作，诸侯放恣，处士横议。” 意为知识分子纵论时政。本专栏由天则经济研究所研究人员轮流撰写。</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1646473035"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000052"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/9/000034229_piclink_197_168.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000052" class="item-headline-link ">切问近思录</a>
+    </h2>
+    <div class="item-lead">张军，上世纪90年代初在中国经济学界崭露头角，至今仍是中外经济学界的活跃人物。他对中国经济增长和转型的研究著述丰厚。现任复旦大学“当代中国经济”长江特聘教授，中国经济研究中心主任，复旦发展研究院副院长。</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1646473035"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000053"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/7/000034367_piclink_152_168.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000053" class="item-headline-link ">纽约范儿</a>
+    </h2>
+    <div class="item-lead">刘裘蒂，哥伦比亚大学法学博士，耶鲁大学文学硕士。中英对照时尚杂志《约》出版人。曾经是经手数百亿美元项目的华尔街名牌律师事务所合伙人，现创立中西文化对话的多媒体平台“中国正在”。因独树一帜的犀利时尚风格，成为纽约名流圈经常入围最佳着装名单的媒体人，并入选为纽约时尚设计学院美术馆成立43年以来第一位亚裔董事。全球化智库（CCG) 特邀高级研究员，著有《自创光环：品质女人自我养成术》。</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1646473035"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000054"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/7/000039207_piclink_218_168.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000054" class="item-headline-link ">一知半解</a>
+    </h2>
+    <div class="item-lead">读书是每日必做的功课，写作是终生以求的技艺，但深知努力的结果，仅仅是得到了一知半解。作者何帆，中国社会科学院世界经济与政治研究所学者，研究领域为宏观经济学和国际金融。已出版专著《不确定的年代》等，译著《世界是平的：21世纪简史》等。</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1646473035"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000056"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/3/000041653_piclink.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000056" class="item-headline-link ">投资者的敌人</a>
+    </h2>
+    <div class="item-lead">朱宁，师从诺贝尔经济学奖得主罗伯特·席勒，上海交通大学上海高级金融学院副院长，耶鲁大学国际金融中心研究员。本专栏旨在就行为谈理性，就投资谈人性，人生就是一场伟大的投资, 而投资者最大的敌人就是他们自己。</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1646473035"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000058"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/5/000051505_piclink.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000058" class="item-headline-link ">中西两半录</a>
+    </h2>
+    <div class="item-lead">《中西两半录》是FT中文网创刋总编辑张力奋卸任后的个人专栏，暂定两周一篇。人生至此，他在中国与西方生活、工作的时间各占了一半，对东方与西方，他常分身无术，纠结困惑中，行走东西两岸。他对日常生活感兴趣。在他看来，制度就是日常生活。</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1646473035"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000059"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/4/000054494_piclink.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000059" class="item-headline-link ">时代的噪音</a>
+    </h2>
+    <div class="item-lead">张铁志，台湾文化与政治评论人，历任“报导者”共同创办人兼总主笔、香港《号外》杂志总编辑、《彭博商业周刊中文版》总主笔、《周末画报》主笔、《数位时代》首席顾问。著有《声音与愤怒》等书。</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1646473035"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000061"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/2/000058102_piclink.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000061" class="item-headline-link ">寻食记</a>
+    </h2>
+    <div class="item-lead">陈楠，在荷兰取得城市环境管理学硕士学位。旅居海外十数年间，在可持续发展领域做咨询的同时，也喜爱烹饪，对食物的历史文化有浓厚兴趣。曾为《纽约时报》中文网开设美食专栏。《寻食记》无意描写名食名厨名店名菜，而是着眼于日常饮馔背后的逸闻趣事和历史沿革，与读者分享美食历史。</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1646473035"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000063"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/5/000059295_piclink.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000063" class="item-headline-link ">艺述东西</a>
+    </h2>
+    <div class="item-lead">马继东，《艺术商业》杂志及艺商传媒公司创始人，中央财经大学国家文化创新研究中心特聘专家，为多家艺术网站、拍卖行、电视栏目及电商平台提供顾问咨询服务。曾任文化部《艺术市场》杂志社副社长。《艺述东西》将以通俗视角解读瞬息万变的艺术品行业，发掘东西方世界艺术大事件背后的商业力量，推荐影响现代人生活方式的趣味收藏。本专栏两周一篇，周二出版。</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1646473035"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000069"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/0/000072320_piclink.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000069" class="item-headline-link ">流动的盛宴</a>
+    </h2>
+    <div class="item-lead">谢立，樽赏Winepicurean微信公众号和葡萄酒网站联合创始人，生活方式媒体专家，曾在数家权威葡萄酒、美食和生活方式杂志担任主编和编辑总监，出版了生活方式专栏结集的《私享家》一书。​</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1646473035"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000070"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/1/000072321_piclink.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000070" class="item-headline-link ">半酣记</a>
+    </h2>
+    <div class="item-lead">张翛翰，拥有中国农业大学葡萄与葡萄酒工程专业学士和硕士学位，目前在攻读葡萄酒大师头衔。曾供职于佳士得拍卖行名酒部，目前担任施氏佳酿Zachys中国区销售总监和拍卖师。</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1646473035"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000073"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/5/000073715_piclink.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000073" class="item-headline-link ">社交媒体与潮营销</a>
+    </h2>
+    <div class="item-lead">窦文宇，香港城市大学商学院副院长，EMBA（中文）课程主任，毕业于北京大学及威斯康辛大学，国际知名广告学者。目前主要研究方向为新媒体营销、社交媒体营销、内容营销。他的专业文章发表于国内外主要学术期刊及各大商业媒体。本专栏聚焦国内外最新营销潮流，解析数字时代的企业营销新思路。</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1646473035"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000075"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/9/000076909_piclink.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000075" class="item-headline-link ">去你的未来</a>
+    </h2>
+    <div class="item-lead">陈序，IntelAct智库联合发起人，首个中国内地人士出任Newsweek中文刊执行主编，也是MIT Technology Review 副出版人、CoinDesk 中国联合出版人；曾因创办区块链众筹出版平台入选Fast Company2015中国商业创意人物，并参与创办《每日经济新闻》等多家媒体。著有《主编死了》、《区块链＋》、《未来版图》等书。 在当下危机与变局并存的时代，本专栏关注革命性技术创新的商业、经济与其他后果。专栏名来自我的一个观点：思考未来的前提是知道未来不会有你，惟一有希望存续的，是信仰和价值观。</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1646473035"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000077"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/5/000087735_piclink.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000077" class="item-headline-link ">区块漫步者</a>
+    </h2>
+    <div class="item-lead">赵剑飞，多年媒体从业，曾在《经济观察报》、《财经》杂志、财新传媒任职。2014年涉足数字货币行业，在锐科科技、A站等多家创业公司担任副总裁，负责品牌和媒体策略工作。2012年英国志奋领奖学金获得者。区块漫步者专栏将分享作者对数字币货和区块链产业的新趋势和新问题的观察。</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1646473035"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000079"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/5/000092035_piclink.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000079" class="item-headline-link ">隐枫科技随笔</a>
+    </h2>
+    <div class="item-lead">李军，超过二十年IT和高科技行业经验，专注于客户关系管理、数字化营销、商业智能分析和行业数字化转型。曾就职于埃森哲、甲骨文、微软、WPP、Sears等一线企业，深耕于通信、媒体、互联网和电商零售诸行业。2015年迁居多伦多，目前任加拿大邮报传媒集团数据科学经理，负责机器学习平台和数字化营销的集成应用。本人专栏聚焦于互联网、数字化和行业海外动态，微博@我是二姐夫。</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1646473035"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000083"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/0/000105680_piclink.jpg"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000083" class="item-headline-link ">泛硅谷思维</a>
+    </h2>
+    <div class="item-lead">林薇 （Vivi Lin），资深国际媒体人及创新顾问，VIVI MEDIA GROUP创始人；路透财经电视首个中国籍英文主播；曾任财新传媒双语主播及制片，中国头部区块链媒体“火星财经”国际合伙人；《Vivi闯硅谷》节目出品人，旅居硅谷。 在世事纷扰与暗流涌动的时代，更需要我们拥有一双敏锐观察前沿趋势的眼睛，一颗热诚简单的心灵及创新的思维。作者旅居国际创新之都硅谷多年，愈发体会到硅谷是一种思维，而不是一个地方 （“Silicon Valley is not a place but a state of mind”）。在本专栏中，作者聚焦泛科技领域出现的新趋势，结合商业的视野，探索推动革命性创新背后的深层次思维。</div>
+    
+    </div>
+    </div></div>
+    
+     
+    <div class="item-container  is-column" data-update="1646473035"><div class="item-inner">
+    <a class="image" target="_blank" href="/column/007000089"><figure class="loading" data-url="http://creatives.ftacademy.cn/picture/8/000118118_piclink.png"></figure></a>
+    <div class="item-headline-lead">
+    <h2 class="item-headline">
+    
+    <a target="_blank" href="/column/007000089" class="item-headline-link ">EduBlank 教育的留白</a>
+    </h2>
+    <div class="item-lead">张华，少年商学院创始人，三个孩子的父亲。秉承全人教育理念，专注于青少年通识与创新实践教育，致力打造一所打破地域与阶层鸿沟、线上线下结合的新型国际化学校。创业前为知名财经媒体人，任职于南方周末，笔名东方愚，采访调研近百位企业家。著有《中国富豪这十年》（与胡润合著）、《他们比你更焦虑》《荷尔蒙经济学》等，最新出版《世界是我们的课堂：培养孩子面向未来的核心竞争力》。</div>
+    
+    </div>
+    </div></div>
+    </div>
+       <div class="clearfloat block-bottom"></div>
+    </div>  </div>  <div class="clearfloat"></div>
+    </div> </div> <div 
     data-o-ads-name="paidpost2"
     class="o-ads paid-post"  
     data-o-ads-formats-default="false" 
@@ -969,7 +3188,7 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
     <a href="/m/marketing/ftc.html">最新动态</a>
     </div>
     <p>
-    <span class="copyright"><b>© The Financial Times Ltd 2021</b></span> 
+    <span class="copyright"><b>© The Financial Times Ltd 2023</b></span> 
     <span><acronym title="Financial Times">FT</acronym> and 'Financial Times' are trademarks of The Financial Times Ltd.</span>
     </p>
     </div></div>

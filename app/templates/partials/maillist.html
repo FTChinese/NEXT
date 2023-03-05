@@ -119,6 +119,9 @@
 <script>
 document.addEventListener('click', function (event) {
   if (event.target.matches('input.pop-subscription')) {
+    if (document.documentElement.classList.contains('is-premium')) {
+      return;
+    }
     event.preventDefault();
     if (confirm('本邮件是高端专享，请先移步订阅高端订阅。')) {
       var name = event.target.id.replace(/mail_sub_/g, '');
