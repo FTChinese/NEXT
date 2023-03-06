@@ -230,7 +230,10 @@ gulp.task('html', gulp.series('styles', () => {
       }
     })
     .pipe($.if('*.css', $.cssnano({
-      normalizeUrl:false
+      // MARK: - Always set autoprefixer to false because cssnano will remove useful css lines. Just handle prefix by yourself. 
+      autoprefixer: false,
+      normalizeUrl: false,
+      discardUnused: false
     })))
     .pipe($.if('*.html', $.htmlmin({collapseWhitespace: true})))
     .pipe(gulp.dest('dist'));

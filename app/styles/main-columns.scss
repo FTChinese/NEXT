@@ -1,0 +1,68 @@
+@use "sass:math";
+@import "theme-default.scss";
+@import "variables.scss";
+
+// vendor prefix
+@mixin vendor-prefix($name, $argument) {
+    -webkit-#{$name}: #{$argument};
+    -ms-#{$name}: #{$argument};
+    -moz-#{$name}: #{$argument};
+    -o-#{$name}: #{$argument};
+    #{$name}: #{$argument};
+}
+
+.is-columns {
+	&.card-grid {
+		grid-gap: $defaultPadding;
+		padding: 0 math.div($defaultPadding, 2) $defaultPadding math.div($defaultPadding, 2);
+		.item-container {
+			.item-headline {
+				text-align: center;
+				font-size: 1.9em;
+			}
+			.item-lead {
+				text-align: center;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				display: -webkit-box;
+				-webkit-line-clamp: 3;
+                @include vendor-prefix(box-orient, vertical);
+			}
+		}
+	}
+	.item-container {
+		padding-top: math.div($defaultPadding, 2);
+		background-color: $bannerBG;
+	}
+	.item-inner {
+		padding-top: $columnistHeadshotWidth + math.div($defaultPadding, 2);
+	}
+	figure {
+		margin: 0 auto math.div($defaultPadding, 2) auto;
+        border-radius: 50%;
+		padding-bottom: $columnistHeadshotWidth;
+		width: $columnistHeadshotWidth;
+		height: $columnistHeadshotWidth;
+		background-color: $lightBlueBGFT;
+	}
+	.item-headline-lead {
+		padding: 0;
+	}
+}
+.night {
+    .is-columns.card-grid {
+        .item-container, .item-inner {
+            background-color: #111 !important;
+        }
+    }
+}
+@media only screen and (max-width: 490px) {
+    .is-columns {
+        &.card-grid {
+            .item-inner {
+                padding-left: math.div($defaultPadding, 2);
+                padding-right: math.div($defaultPadding, 2);
+            }
+        }
+    }
+}

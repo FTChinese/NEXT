@@ -89,6 +89,7 @@
     <%/if%>
 <%/if%>
 
+
 <%if $itemsArray && $itemsArray|@count>0%>
     <%php%>
         // MARK: - Define the function only once, because this file might be included many times. At the same time, you want all the codes to be here, not in some other places. 
@@ -204,17 +205,16 @@
 <%/if%>
 
 <%assign var="gridClass" value="card-grid"%>
-<%if $feedType="columns"%>
+<%if $feedType == "columns"%>
     <%assign var="gridClass" value="card-grid is-columns"%>
 <%elseif $list.float == "LargeCard"%>
     <%assign var="gridClass" value="large-card-grid"%>
 <%/if%>
 
+<!--debug 8: feedType: <%$feedType%>-->
 
 <%if $feedType="columns"%>
-    <!--columns: 
-        <%$itemsArray|@print_r%>
-    -->
+    <style><%include file="next/styles/main-columns.css"%></style>
 <%/if%>
 
 <%*<!--MARK: - Render the items-->*%>
