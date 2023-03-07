@@ -27,8 +27,8 @@
 
 
 <%assign var="tableBorder" value="#f7f7f7"%>
-<%assign var="logoPosition" value="center"%>
-<%assign var="descPosition" value="center"%>
+<%assign var="logoPosition" value="left"%>
+<%assign var="descPosition" value="left"%>
 <%assign var="containerWidth" value="720px"%>
 <%assign var="barPadding" value="7px 14px 7px 14px"%>
 <%assign var="barFontSize" value="19px"%>
@@ -38,7 +38,7 @@
 <%assign var="barBorderWidth" value="1px 0"%>
 <%assign var="barFontWeight" value="normal"%>
 <%assign var="contentPaddingWidth" value="45px"%>
-<%assign var="logoPadding" value="10"%>
+<%assign var="logoPadding" value="60"%>
 <%assign var="tableBorderWidth" value="initial"%>
 <%assign var="contentPaddingDisplay" value="block"%>
 <%assign var="footerBGColor" value="initial"%>
@@ -97,6 +97,28 @@
 <%/if%>
 
 
+<%assign var="contentDisclaimer" value=""%>
+<%assign var="keys" value=$tag%>
+<%*<!--MARK: Check the next model tag for sponsored special reports start-->*%>
+<%if $nextmodel != ""%>
+    <%assign var="infoForManualTags" value=$nextmodel->getPublishJson("tagmanagement")|json_decode:true%>
+    <%assign var="hasFoundManualTag" value="no"%>
+    <%foreach from=$infoForManualTags.sections item=section%>
+        <%assign var="sponsorKeys" value=$section.storyKeyWords%>
+        <%if $sponsorKeys == ""%>
+            <%assign var="sponsorKeys" value=$section.tag%>
+        <%else%>
+            <%assign var="sponsorKeys" value=$sponsorKeys|regex_replace:"/, */":"|"%>
+        <%/if%>
+        <%if $hasFoundManualTag == "no" && $sponsorKeys != "" && preg_match("/`$sponsorKeys`/is",$keys)%>
+            <%assign var="hasFoundManualTag" value="yes"%>
+            <%if $section.disclaimer != ""%>
+                <%assign var="contentDisclaimer" value="<div class=\"copyrightstatement-container\"><strong>`$section.disclaimer`</strong></div>"%>
+            <%/if%>
+        <%/if%>
+    <%/foreach%>
+<%/if%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
 <head>
@@ -121,6 +143,13 @@ a {
 .message-content a {
     border-bottom: 2px solid #ced4cc !important;
 }
+@media all and (max-width: 728px) {
+    .newsletter-image {
+        max-width: 100% !important;
+        height: auto !important;
+    }
+}
+
 @media all and (max-width: 500px) {
 .coverImgLinkContain{float:none !important;margin:<%$coverImgLinkContainMargin%>!important;}
 .P-Only {display: block!important;}
@@ -198,6 +227,8 @@ color:#505050 !important;text-decoration:none !important;display:block !importan
 .imgSpace{height:6px !important;font-size: 0 !important;}
 .largeViewBar,.HSpace{display: <%$contentPaddingDisplay%> !important;}
 .tableBorder{border:0 !important;}
+.title-container {padding-left: 22px !important; padding-right: 22px !important;}
+
 }
 @media all and (min-width: 451px) {
 .mainTD{width:100%;max-width:450px;}
@@ -300,7 +331,7 @@ width: <%$containerWidth%> !important;
 <table class="tableBorder" border="0" cellspacing="0" cellpadding="0" style="background-color: #FFF1E0; border: 2px solid <%$tableBorder%>; text-align: left; width: <%$tableBorderWidth%>;" align="left" width=" <%$tableBorderWidth%>">
 
 <tr><td class="lineH1 openInBrowserGap" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
-<tr><td style="padding-left: <%$logoPadding%>px; padding-right: <%$logoPadding%>px;" align="center">
+<tr><td class="title-container" style="padding-left: <%$logoPadding%>px; padding-right: <%$logoPadding%>px;" align="center">
     <table border="0" cellspacing="0" cellpadding="0"  width="<%$tableWidth%>" style="max-width:<%$tableMaxWidth%>;">
     <tr>
         <td class="lineH1" style="line-height:40px;height:36px;width: 100%;">
@@ -323,7 +354,18 @@ width: <%$containerWidth%> !important;
 <table width="100%" cellpadding="0" cellspacing="0">
     <%*<!--MARK: - main message belonging to one group, with the same unique id only appear once-->*%>
     <tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
-    <tr><td  class="SContent cover message-content" style="font-size:18px;line-height:23px;color:#333;padding-left:17px;padding-right:17px;"><%$cbody|nl2br%></td></tr>
+    <tr><td  class="SContent cover message-content" style="font-size:18px;line-height:23px;color:#333;padding-left:17px;padding-right:17px;">
+        <%if $cbody|substr:0:1 ne "<"%>
+            <%assign var="storyImage" value=$story_pic.smallbutton|default:$story_pic.cover|default:$story_pic.smallbutton%>
+            <%assign var="storyImage" value=$storyImage|replace:"http://creatives.ftacademy.cn/picture/":"https://thumbor.ftacademy.cn/unsafe/592x333/picture/"%>
+            <%assign var="storyImage" value=$storyImage|replace:"https://creatives.ftacademy.cn/picture/":"https://thumbor.ftacademy.cn/unsafe/592x333/picture/"%>
+            <%assign var="storyImage" value=$storyImage|replace:"http://i.ftimg.net/picture/":"https://thumbor.ftacademy.cn/unsafe/592x333/picture/"%>
+            <%assign var="storyImage" value=$storyImage|replace:"https://i.ftimg.net/picture/":"https://thumbor.ftacademy.cn/unsafe/592x333/picture/"%>
+            <img class="newsletter-image" src="<%$storyImage%>" width="592" height="333" style="border: 0; margin-bottom: 15px; max-width: 100%;">
+        <%/if%>
+        <%$cbody|regex_replace:"/[\n\r]+/":"\n\n"|nl2br|regex_replace:'/\<a\s+([^>]*)>/':'<a style="color: #0a5e66; text-decoration: none;" $1>'|regex_replace:"/href=\"(https:\/\/)[w\.]*ftchinese\.com\//":"href=\"$1`$mainDomain`"%>
+        <%$contentDisclaimer%>
+    </td></tr>
     <tr><td style="height: 15px; font-size: 0px; line-height: 15px; padding: 0;">&nbsp;</td></tr>
 </table>
 </td>

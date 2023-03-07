@@ -467,6 +467,7 @@
 <%assign var="storyId" value=$story.id|default:$id%>
 
 <%assign var="requirelogin" value="yes"%>
+<%assign var="contentDisclaimer" value=""%>
 <%*<!--MARK: Check the next model tag for sponsored special reports start-->*%>
 <%if $nextmodel != ""%>
 	<%assign var="infoForSponsorships" value=$nextmodel->getPublishJson("sponsorshipmanagement")|json_decode:true%>
@@ -644,6 +645,9 @@
 			    <%assign var="themeTag" value=$section.tag%>
 				<%assign var="themeSubType" value=$section.subType%>
 			    <%assign var="themeInfo" value=$section%>
+				<%if $section.disclaimer != ""%>
+					<%assign var="contentDisclaimer" value="<div class=\"copyrightstatement-container\"><strong>`$section.disclaimer`</strong></div>"%>
+				<%/if%>
 			<%/if%>
 		<%/foreach%>
 	<%/if%>
