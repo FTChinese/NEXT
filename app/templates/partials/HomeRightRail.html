@@ -412,7 +412,7 @@
 			<%foreach from=$cryptoItems item=vc%>
 				<%if $vc.id != $cryptoItems[0].id%>
 					<div class="item-container"><div class="item-inner">
-						<h2 class="item-headline"><a href="/story/<%$vc.id%>" target="_blank" class="item-headline-link"><%$vc.cheadline%></a></h2>
+						<h2 class="item-headline"><a href="/<%$vc.item_type%>/<%$vc.id%>" target="_blank" class="item-headline-link"><%$vc.cheadline%></a></h2>
 						<div class="item-lead">
 							<%$vc.clongleadbody|default:$vc.cshortleadbody%>
 						</div>
