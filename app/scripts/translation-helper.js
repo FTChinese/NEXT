@@ -386,55 +386,6 @@ function getPromptForOpenAI(container) {
     return prompt;
 }
 
-async function generateTextFromOpenAI(prompt, requestCount) {
-    try {
-        const token = (isPowerTranslate) ? localStorage.getItem('accessToken') : 'ftccms123434344';
-        if (!token || token === '') {
-            return {status: 'failed', message: 'You need to sign in first! '};
-        }
-        // MARK: - For the first request, be stable. Then be creative. 
-        const temperature = (requestCount === 0) ? 0 : 1;
-        const max_tokens = prompt.length * 2;
-        const data = {
-            prompt: prompt,
-            temperature: temperature,
-            max_tokens: max_tokens
-        };
-        let url = (isPowerTranslate) ? '/openai/generate_text' : '/FTAPI/generate_text.php';
-        let options = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify(data)
-        };
-        if (isFrontendTest) {
-            url = '/api/page/openai.json';
-            options = {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            };
-        }
-        const response = await fetch(url, options);
-        const results = await response.json();
-        if (response.status >= 400 && results.message) {
-            return {status: 'failed', message: results.message};
-        }
-        if (results.length > 0 && results[0].text) {
-            const text = results[0].text.trim();
-            return {status: 'success', text: text};
-        } else {
-            return {status: 'failed', message: 'Something is wrong with OpenAI, please try later. '};
-        }
-    } catch(err) {
-        console.log(err);
-        return {status: 'failed', message: err.toString()};
-    }
-}
-
 function TER(reference, hypothesis) {
     // initialize the distance and m, n, i and j
     let distance = 0;

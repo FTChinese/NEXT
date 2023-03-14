@@ -1,0 +1,116 @@
+@use "sass:math";
+@import "main-story.scss";
+@import "main-table.scss";
+@import "main-user-comments.scss";
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    overflow: hidden;
+}
+
+.container {
+    height: 100vh;
+    width: 100vw;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    padding: 0;
+}
+
+.main-content {
+    margin: 0 auto;
+    position: relative;
+    height: 100%;
+    width: 100%;
+    overflow-y: hidden;
+    padding-bottom: $navHeight + $defaultPadding;
+}
+.chat-content {
+    padding: math.div($defaultPadding, 2) 0 $navHeight 0;
+    height: 100%;
+    overflow: scroll;
+}
+.chat-talk {
+    margin-bottom: 1em;
+}
+.chat-talk-inner {
+    position: relative;
+    max-width: 768px;
+    padding: 5px 5px 5px $navHeight+$defaultPadding;
+    font-size: 1.2em;    
+    min-height: $logoHeight + 10px;
+    margin: 0 auto;
+    &:before {
+        position: absolute;
+        left: 5px;
+        top: 5px;
+        width: $logoHeight;
+        height: $logoHeight;
+        content: '';
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+}
+
+.chat-talk-user {
+    background-color: $bannerBG;
+    .chat-talk-inner {
+        &:before {
+            background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iNDgiIHdpZHRoPSI0OCI+PHBhdGggZmlsbD0id2hpdGUiIGQ9Ik0yNCAyMy45NXEtMy4zIDAtNS40LTIuMS0yLjEtMi4xLTIuMS01LjQgMC0zLjMgMi4xLTUuNCAyLjEtMi4xIDUuNC0yLjEgMy4zIDAgNS40IDIuMSAyLjEgMi4xIDIuMSA1LjQgMCAzLjMtMi4xIDUuNC0yLjEgMi4xLTUuNCAyLjFaTTggNDB2LTQuN3EwLTEuOS45NS0zLjI1VDExLjQgMzBxMy4zNS0xLjUgNi40MjUtMi4yNVEyMC45IDI3IDI0IDI3cTMuMSAwIDYuMTUuNzc1IDMuMDUuNzc1IDYuNCAyLjIyNSAxLjU1LjcgMi41IDIuMDUuOTUgMS4zNS45NSAzLjI1VjQwWm0zLTNoMjZ2LTEuN3EwLS44LS40NzUtMS41MjUtLjQ3NS0uNzI1LTEuMTc1LTEuMDc1LTMuMi0xLjU1LTUuODUtMi4xMjVRMjYuODUgMzAgMjQgMzB0LTUuNTUuNTc1cS0yLjcuNTc1LTUuODUgMi4xMjUtLjcuMzUtMS4xNSAxLjA3NVExMSAzNC41IDExIDM1LjNabTEzLTE2LjA1cTEuOTUgMCAzLjIyNS0xLjI3NVEyOC41IDE4LjQgMjguNSAxNi40NXEwLTEuOTUtMS4yNzUtMy4yMjVRMjUuOTUgMTEuOTUgMjQgMTEuOTVxLTEuOTUgMC0zLjIyNSAxLjI3NVExOS41IDE0LjUgMTkuNSAxNi40NXEwIDEuOTUgMS4yNzUgMy4yMjVRMjIuMDUgMjAuOTUgMjQgMjAuOTVabTAtNC41Wk0yNCAzN1oiLz48L3N2Zz4=);
+            background-color: $blueBGFT;
+        }
+    }
+}
+.chat-talk-agent {
+    .chat-talk-inner {
+        &:before {
+            background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iNDgiIHdpZHRoPSI0OCI+PHBhdGggZmlsbD0id2hpdGUiIGQ9Ik0yMiA0MnYtM2gxN1YyMy44cTAtMi45LTEuMjUtNS41NzVRMzYuNSAxNS41NSAzNC40IDEzLjV0LTQuOC0zLjI3NVEyNi45IDkgMjQgOXEtMi45IDAtNS42IDEuMjI1LTIuNyAxLjIyNS00LjggMy4yNzUtMi4xIDIuMDUtMy4zNSA0LjcyNVQ5IDIzLjhWMzZIOHEtMS42NSAwLTIuODI1LTEuMTc1UTQgMzMuNjUgNCAzMnYtNHEwLTEuMTUuNTUtMi4wMjVUNiAyNC41NWwuMTUtMi42NXEuNDUtMy42NSAyLjA3NS02LjYgMS42MjUtMi45NSA0LjA1LTV0NS40NS0zLjE3NVEyMC43NSA2IDI0IDZxMy4zIDAgNi4zMjUgMS4xMjUgMy4wMjUgMS4xMjUgNS40MjUgMy4ydDQuMDI1IDVRNDEuNCAxOC4yNSA0MS44NSAyMS44NWwuMTUgMi42cS45LjQ1IDEuNDUgMS4zMjUuNTUuODc1LjU1IDEuOTI1djQuNnEwIDEuMS0uNTUgMS45NS0uNTUuODUtMS40NSAxLjNWMzlxMCAxLjI1LS44NzUgMi4xMjVUMzkgNDJabS00LTE0LjVxLS42IDAtMS4wNS0uNDUtLjQ1LS40NS0uNDUtMS4xIDAtLjYuNDUtMS4wMjUuNDUtLjQyNSAxLjEtLjQyNS42IDAgMS4wMjUuNDI1LjQyNS40MjUuNDI1IDEuMDc1IDAgLjYtLjQyNSAxLjA1LS40MjUuNDUtMS4wNzUuNDVabTEyIDBxLS42IDAtMS4wNS0uNDUtLjQ1LS40NS0uNDUtMS4xIDAtLjYuNDUtMS4wMjUuNDUtLjQyNSAxLjEtLjQyNS42IDAgMS4wMjUuNDI1LjQyNS40MjUuNDI1IDEuMDc1IDAgLjYtLjQyNSAxLjA1LS40MjUuNDUtMS4wNzUuNDVabS0xNy45NS0yLjZxLS4yLTIuOTUuODI1LTUuMzUgMS4wMjUtMi40IDIuNzUtNC4wNzVRMTcuMzUgMTMuOCAxOS42IDEyLjlxMi4yNS0uOSA0LjUtLjkgNC41NSAwIDcuNjUgMi44NzUgMy4xIDIuODc1IDMuOCA3LjE3NS00LjctLjA1LTguMjc1LTIuNTI1VDIxLjc1IDEzLjFxLS44IDQuMDUtMy4zNzUgNy4xNzVUMTIuMDUgMjQuOVoiLz48L3N2Zz4=);
+            background-color: $teal;
+        }
+    }
+}
+.chat-talk-user + .chat-talk-user .chat-talk-inner:before, .chat-talk-agent + .chat-talk-agent .chat-talk-inner:before {
+    display: none;
+}
+.chat-input {
+    display: flex;
+    position: absolute;
+    bottom: math.div($defaultPadding, 2);
+    left: math.div($defaultPadding, 2);
+    right: math.div($defaultPadding, 2);
+    height: auto;
+    max-width: 768px;
+    margin: auto;
+    border: 1px solid $whiteBorderFT;
+    border-radius: math.div($defaultPadding, 4);
+    padding: math.div($defaultPadding, 3) $navHeight math.div($defaultPadding, 3) math.div($defaultPadding, 3);
+    background-color: white;
+    textarea {
+        background-color: white;
+        border-width: 0;
+        width: 100%;
+        font-size: 18px;
+        line-height: 24px;
+        resize: none; 
+        overflow-y: hidden;
+        height: auto; 
+        max-height: 200px;
+        &:focus {
+            outline-color: transparent;
+        }
+    }
+}
+.chat-submit {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: $navHeight;
+    height: $navHeight;
+    background-position: 50% 50%;
+    background-size: 24px 24px;
+    background-repeat: no-repeat;
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iNDgiIHdpZHRoPSI0OCI+PHBhdGggZD0iTTYgNDBWOGwzOCAxNlptMy00LjY1TDM2LjIgMjQgOSAxMi41djguNEwyMS4xIDI0IDkgMjdabTAgMFYxMi41IDI3WiIvPjwvc3ZnPg==);
+}

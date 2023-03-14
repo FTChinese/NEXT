@@ -404,9 +404,9 @@
 			<%assign var="firstImage" value=$cryptoItems[0].story_pic.cover|default:$cryptoItems[0].story_pic.smallbutton|default:$cryptoItems[0].story_pic.bigbutton|replace:"http://i.ftimg.net/picture/":"https://thumbor.ftacademy.cn/unsafe/picture/"%>
 			<div class="item-container first static-image<%if $firstImage == ""%> no-image<%/if%>"><div class="item-inner">
 			<%if $firstImage != ""%>
-				<a class="image" href="/interactive/<%$cryptoItems[0].id%>" target=_blank><figure class="loading" data-url="<%$firstImage%>"></figure></a>
+				<a class="image" href="/<%$cryptoItems[0].item_type%>/<%$cryptoItems[0].id%>" target=_blank><figure class="loading" data-url="<%$firstImage%>"></figure></a>
 			<%/if%>
-			<h2 class="item-headline"><a href="/interactive/<%$cryptoItems[0].id%>" class="item-headline-link" target=_blank><%$cryptoItems[0].cheadline%></a></h2>
+			<h2 class="item-headline"><a href="/<%$cryptoItems[0].item_type%>/<%$cryptoItems[0].id%>" class="item-headline-link" target=_blank><%$cryptoItems[0].cheadline%></a></h2>
 			<div class="item-lead"><%$cryptoItems[0].clongleadbody|default:$cryptoItems[0].cshortleadbody%></div>
 			</div></div>
 			<%foreach from=$cryptoItems item=vc%>

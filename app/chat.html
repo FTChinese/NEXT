@@ -1,37 +1,50 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>My Web Page</title>
-    <link rel="stylesheet" href="styles/chat.css">
-  </head>
-  <body>
-    <div class="sidebar">
-      <div class="sidebar-top">
-        <p>Top section</p>
-      </div>
-      <div class="sidebar-middle">
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas id lacus nec eros luctus tincidunt vel nec dolor. Nam semper lacus vitae sapien tincidunt, nec malesuada leo suscipit. Nam lacinia imperdiet metus, eget auctor quam commodo vitae. In vel nisi vitae ex bibendum hendrerit vel non sapien. Donec in blandit libero. Sed vel malesuada tellus.</p>
-      </div>
-      <div class="sidebar-bottom">
-        <p>Bottom section</p>
-      </div>
+<html class="no-js core" data-next-app="front-page">
+ <head>
+ <meta charset="utf-8" />
+ <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+ <title>ChatFT</title>
+ <meta http-equiv="Content-Language" content="en"/>
+ <meta content="Chat with the FT" name="description"/>
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!-- build:css styles/main-chat.css -->
+<link rel="stylesheet" href="styles/main-chat.css">
+<!-- endbuild -->
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-1608715-9"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    if (window.opener && window.opener.userName) {
+        gtag('config', 'UA-1608715-9', {
+            'dimension1': window.opener.userName
+        });
+    } else {
+        gtag('config', 'UA-1608715-9');    
+    }
+</script>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="main-content">
+        <div class="chat-content" id="chat-content">Starting Content...</div>
+        <div class="chat-input">
+            <textarea id="user-input" rows="1"></textarea>
+            <button class="chat-submit" id="chat-submit"></button>
+        </div>
     </div>
-    <div class="content">
-      <div class="conversation">
-        <div class="message">
-          <p>Hi there!</p>
-        </div>
-        <div class="message">
-          <p>How can I help you?</p>
-        </div>
-        <div class="message">
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas id lacus nec eros luctus tincidunt vel nec dolor. Nam semper lacus vitae sapien tincidunt, nec malesuada leo suscipit. Nam lacinia imperdiet metus, eget auctor quam commodo vitae. In vel nisi vitae ex bibendum hendrerit vel non sapien. Donec in blandit libero. Sed vel malesuada tellus.</p>
-        </div>
-      </div>
-      <div class="input-box">
-        <input type="text" placeholder="Type your message here...">
-        <button>Send</button>
-      </div>
-    </div>
-  </body>
+</div>
+
+<!-- build:js scripts/main-chat.js -->
+<script type="text/javascript" src="scripts/dom-delegate.js"></script>
+<script type="text/javascript" src="scripts/key.js"></script>
+<script type="text/javascript" src="scripts/openai.js"></script>
+<script type="text/javascript" src="scripts/chat.js"></script>
+<!-- endbuild -->
+
+
 </html>
