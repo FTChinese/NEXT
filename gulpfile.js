@@ -386,6 +386,7 @@ gulp.task('copy:ftcoffer', async () => {
     console.log(`${dest} does not exist! `);
     return;
   }
+  // MARK: - Translation Helper
   gulp.src(['dist/translation-helper.html'])
     .on('error', (err) => {
       console.error(err.stack);
@@ -397,6 +398,23 @@ gulp.task('copy:ftcoffer', async () => {
     })
     .pipe(gulp.dest(`${dest}/styles`));
   gulp.src(['dist/scripts/main-translation-helper.js'])
+    .on('error', (err) => {
+      console.error(err.stack);
+    })
+    .pipe(gulp.dest(`${dest}/scripts`));
+
+  // MARK: - ChatFT
+  gulp.src(['dist/chat.html'])
+    .on('error', (err) => {
+      console.error(err.stack);
+    })
+    .pipe(gulp.dest(dest));
+  gulp.src(['dist/styles/main-chat.css'])
+    .on('error', (err) => {
+      console.error(err.stack);
+    })
+    .pipe(gulp.dest(`${dest}/styles`));
+  gulp.src(['dist/scripts/main-chat.js'])
     .on('error', (err) => {
       console.error(err.stack);
     })

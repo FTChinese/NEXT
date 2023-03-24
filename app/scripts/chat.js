@@ -1,16 +1,113 @@
 /* jshint ignore:start */
 
+const delegate = new Delegate(document.body);
 const userInput = document.getElementById('user-input');
 const chatContent = document.getElementById('chat-content');
 const chatSumit = document.getElementById('chat-submit');
 const isPowerTranslate = location.href.indexOf('powertranslate') >= 0;
 const isFrontendTest = location.href.indexOf('localhost') >= 0;
 
-// MARK: - This is used to 
+const greetingDict = {
+  'en': [
+    'Hello, how can I help you?',
+    'Hi, how may I help you?',
+    'Hello, how may I assist you?',
+    'Greetings, how can I be of service?',
+    'Hey there, how can I help you today?'
+  ],
+  'es': [
+    'Hola, ¿en qué puedo ayudarte?',
+    '¡Hola! ¿Cómo puedo ayudarte?',
+    'Bienvenido, ¿en qué puedo ayudarte hoy?',
+    '¿En qué puedo asistirte?',
+    'Buenos días, ¿cómo puedo ayudarte?'
+  ],
+  'fr': [
+    'Bonjour, comment puis-je vous aider ?',
+    'Salut, comment puis-je vous aider ?',
+    'Bonjour, en quoi puis-je vous aider ?',
+    'Bonjour, que puis-je faire pour vous ?',
+    'Bonjour, comment je peux vous aider aujourd\'hui ?'
+  ],
+  'de': [
+    'Hallo, wie kann ich Ihnen helfen?',
+    'Guten Tag, wie kann ich Ihnen helfen?',
+    'Hallo, wie kann ich Ihnen behilflich sein?',
+    'Guten Morgen, wie kann ich Ihnen helfen?',
+    'Hi, was kann ich für Sie tun?'
+  ],
+  'ja': [
+    'こんにちは、何かお手伝いできますか？',
+    'はじめまして、何かご質問はありますか？',
+    'お問い合わせありがとうございます。どういったことでお困りですか？',
+    'こんにちは。何かお探しですか？',
+    'こんにちは。ご相談はありますか？'
+  ],
+  'ko': [
+    '안녕하세요, 무엇을 도와드릴까요?',
+    '안녕하세요, 무엇이 문제인가요?',
+    '안녕하세요, 무엇을 도와드릴까요?',
+    '안녕하세요, 어떤 문제가 있으신가요?',
+    '안녕하세요, 도움이 필요하시면 언제든지 말씀해주세요.'
+  ],
+  'pt': [
+    'Olá, em que posso ajudar?',
+    'Oi, como posso ajudar?',
+    'Boa tarde, como posso ajudá-lo?',
+    'Posso ajudar em alguma coisa?',
+    'Olá, posso ajudar em algo?'
+  ],
+  'it': [
+    'Ciao, come posso aiutarti?',
+    'Salve, di cosa hai bisogno?',
+    'Buongiorno, in che modo posso aiutarti?',
+    'Ciao, posso aiutarti in qualche modo?',
+    'Salve, di che hai bisogno?'
+  ],
+  'zh-TW': ['你好，有什麼可以幫助你的嗎？', '您好，需要我幫忙嗎？', '哈囉，有什麼我可以幫忙的嗎？', '您好，我能為您做些什麼？', '歡迎詢問，我有什麼可以幫忙的嗎？'],
+  'zh-HK': ['你好，有什麼可以幫助你的嗎？', '您好，需要我幫忙嗎？', '哈囉，有什麼我可以幫忙的嗎？', '您好，我能為您做些什麼？', '歡迎詢問，我有什麼可以幫忙的嗎？'],
+  'zh': [
+    '你好，有什么需要帮助的吗？',
+    '您好，需要我帮忙吗？',
+    '你好，请问有什么可以帮您的？',
+    '您好，我能为您提供什么服务？',
+    '嗨，有什么我可以帮您的吗？'
+  ],
+  'ru': [
+    'Здравствуйте, чем я могу вам помочь?',
+    'Привет, чем я могу вам помочь?',
+    'Здравствуйте, как я могу вам помочь?',
+    'Приветствую, чем я могу быть полезен?',
+    'Здравствуйте, чем я могу вам помочь сегодня?'
+  ]
+};
+
+let intentionDetectionPrompt = [
+  {
+    "role": "system",
+    "content": "You are a helpful assistant that can access different types of FT APIs to help with the user's requests. When you detected the user's intention, you will tell the user that you are handling the user's request and output HTML code to be picked and parsed by specific APIs. You will always answer questions based on facts. Never make things up. In the output HTML, you should also output the user's current language in the 'data-lang' property. "
+  },
+  {
+    "role": "user",
+    "content": "What's new in tech and finance? "
+  },
+  {
+    "role": "assistant",
+    "content": "You are looking for the latest news in tech and finance. <div data-purpose=\"check-news\" data-lang=\"English\">What's new in tech and finance? </div>"
+  },
+  {
+    "role": "user",
+    "content": "关于中国政治，有什么新消息？"
+  },
+  {
+    "role": "assistant",
+    "content": "您想了解关于中国政治的最新消息. <div data-purpose=\"check-news\" data-lang=\"Chinese\">关于中国政治，有什么新消息？</div>"
+  }
+];
 let newsAssistantPrompt = [
     {
       "role": "system",
-      "content": "You are a helpful assistant that has access to the content API of Financial Times. If a user wants to know about the latest news, you'll detect their intention and convert it to a search query. Please note that you should try your best to understand the users' real intention. For example, when they ask about 'tech and finance news', they may actually want to search for 'technology OR finance'. In this case, you'll tell the user that you are searching the FT content and output the search query so that the system can pick out and return the result for you to present. You will always answer questions based on facts. Never make things up."
+      "content": "You are a helpful assistant that has access to the content API of Financial Times. If a user wants to know about the latest news, you'll detect their intention and convert it to a search query. Please note that you should try your best to understand the users' real intention. For example, when they ask about 'tech and finance news', they may actually want to search for 'technology OR finance'. In this case, you'll tell the user that you are searching the FT content and output the search query so that the system can pick out and return the result for you to present. You will always answer questions based on facts. Never make things up. In the output HTML, you should also output the user's current language in the 'data-lang' property. "
     },
     {
       "role": "user",
@@ -18,15 +115,7 @@ let newsAssistantPrompt = [
     },
     {
       "role": "assistant",
-      "content": "Let me check the latest FT content...\n<div data-purpose=\"search-ft-api\">Technology OR Finance</div>"
-    },
-    {
-      "role": "system",
-      "content": "Please wrap up for the user: \nSilicon Valley Bank shut down by US banking regulators\nTech-focused lender failed in eleventh-hour attempt to raise new capital after facing $42bn in deposit outflows\nUS and EU launch new talks on critical minerals trade in green tech race\nTop Fed official signals openness to reverting to half-point rate rise\nSmartphones and social media are destroying children’s mental health"
-    },
-    {
-      "role": "assistant",
-      "content": "Here you go, the latest tech and finance content on FT:\nSilicon Valley Bank has been shut down by US banking regulators after it failed to raise new capital. The tech-focused lender faced $42 billion in deposit outflows.\nThe US and EU have launched new talks on critical minerals trade as part of the green tech race.\nA top official at the US Federal Reserve has signaled openness to reverting to a half-point rate rise.\nA report suggests that smartphones and social media are having a negative impact on children's mental health."
+      "content": "Let me check the latest FT content...<div data-purpose=\"search-ft-api\" data-lang=\"English\">Technology OR Finance</div>"
     },
     {
       "role": "user",
@@ -34,15 +123,7 @@ let newsAssistantPrompt = [
     },
     {
       "role": "assistant",
-      "content": "让我查询一下FT最新的关于中国政治的报道.../n<div data-purpose=\"search-ft-api\">China AND Politics</div>"
-    },
-    {
-      "role": "system",
-      "content": "Please wrap up and translate to Chinese for the user: \nXi confirmed for unprecedented third term as China’s president\nMost powerful leader since Mao sworn in as tensions with US and economic challenges at home deepen\nTaiwan’s president Tsai Ing-wen to receive leadership award in New York\nRecognition from prominent think-tank comes on visit that includes meeting with US House Speaker Kevin McCarthy"
-    },
-    {
-      "role": "assistant",
-      "content": "习近平确认第三次连任中国国家主席，成为毛泽东以来最有权势的领导人，就在与美国的紧张关系和国内经济挑战加深之际宣誓就职。台湾总统蔡英文将在纽约获得领导力奖，这是著名智库的认可，她的访问期间还将会见美国众议院议长凯文·麦卡锡。"
+      "content": "让我查询一下FT最新的关于中国政治的报道...<div data-purpose=\"search-ft-api\" data-lang=\"Chinese\">China AND Politics</div>"
     }
 ];
 
@@ -65,6 +146,50 @@ userInput.addEventListener('input', () => {
     userInput.style.height = userInput.scrollHeight + 'px'; // set new height based on the content
 });
 
+delegate.on('click', '.chat-items-expand', async function(){
+  if (this.classList.contains('pending')) {return;}
+  this.classList.add('pending');
+  try {
+    const chunkSize = parseInt(this.getAttribute('data-chunk'), 10);
+    const chatContainer = this.closest('.chat-talk');
+    const hiddenItems = chatContainer.querySelectorAll('.chat-item-container.hide');
+    const hiddenItemsArray = Array.from(hiddenItems);
+    const selectedItems = hiddenItemsArray.slice(0, chunkSize);
+    const language = this.getAttribute('data-lang');
+    let dict = {};
+    selectedItems.forEach(item => {
+      // item.classList.remove('hide');
+      const id = item.getAttribute('data-id');
+      dict[id] = `${item.querySelector('.chat-item-title a').innerHTML}\n${item.querySelector('.item-lead').innerHTML}`;
+    });
+    if (typeof language === 'string' && language !== 'English') {
+      const translatedDict = await translateOpenAI(JSON.stringify(dict), language);
+      dict = JSON.parse(translatedDict);
+    }
+    selectedItems.forEach(item => {
+      const id = item.getAttribute('data-id');
+      if (dict[id]) {
+        const translations = dict[id].split('\n');
+        if (translations.length > 0) {
+          item.querySelector('.chat-item-title a').innerHTML = translations[0];
+        }
+        if (translations.length > 1) {
+          item.querySelector('.item-lead').innerHTML = translations[1];
+        }
+      }
+      item.classList.remove('hide');
+    });
+    const otherHiddenItems = chatContainer.querySelectorAll('.chat-item-container.hide');
+    chatContainer.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    if (otherHiddenItems.length === 0) {
+      this.classList.add('hide');
+    }
+  } catch (err) {
+    console.log(err);
+  }
+  this.classList.remove('pending');
+});
+
 async function talk() {
     const prompt = userInput.value;
     if (prompt === '') {return;}
@@ -78,9 +203,9 @@ async function talk() {
     newChat.scrollIntoView({ behavior: 'smooth', block: 'end' });
     userInput.value = '';
     userInput.style.height = 'auto';
-    // TODO: - Send the prompt to our API for response
+    // MARK: - Send the prompt to our API for response
     const newUserPrompt = {role: 'user', content: prompt};
-    const messages = newsAssistantPrompt
+    const messages = intentionDetectionPrompt
         .concat(previousConversations)
         .concat([newUserPrompt]);
     const data = {
@@ -90,14 +215,13 @@ async function talk() {
     };
     const result = await createChatFromOpenAI(data);
     if (result.status === 'success' && result.text) {
-        const newResult = document.createElement('DIV');
-        newResult.className = 'chat-talk chat-talk-agent';
-        const resultHTML = result.text.replace(/\n/g, '<br>');
-        newResult.innerHTML = `<div class="chat-talk-inner">${resultHTML}</div>`;
-        chatContent.appendChild(newResult);
-        newResult.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        showResultInChat(result);
+        // MARK: - Only keep the latest 5 conversations
+        previousConversations = previousConversations.slice(-5);
         previousConversations.push(newUserPrompt);
         previousConversations.push({role: 'assistant', content: result.text});
+        // MARK: - Check if the resultHTML has some prompt or request for the system
+        await handleResultPrompt(result.text);
     } else if (result.message) {
         alert(result.message);
     } else {
@@ -105,19 +229,118 @@ async function talk() {
     }
 }
 
-function greet() {
-    const prompt = 'Hello! What can I do for you? ';
-    if (!chatContent.querySelector('.chat-talk')) {
-        chatContent.innerHTML = '';
+function showResultInChat(result) {
+  const newResult = document.createElement('DIV');
+  newResult.className = 'chat-talk chat-talk-agent';
+  const resultHTML = result.text.replace(/\n/g, '<br>');
+  newResult.innerHTML = `<div class="chat-talk-inner">${resultHTML}</div>`;
+  chatContent.appendChild(newResult);
+  newResult.scrollIntoView({ behavior: 'smooth', block: 'end' });
+}
+
+const purposeToFunction = {
+  'search-ft-api': searchFTAPI,
+  'check-news': checkNews
+  // 'purpose2': function2,
+  // 'purpose3': function3,
+  // ... add more purposes and functions here
+};
+
+async function checkNews(content, language) {
+  console.log('Should Check News and Come Up with the search query! ');
+
+}
+
+async function searchFTAPI(content, language) {
+  try {
+    const result = await getFTAPISearchResult(content);
+    if (result.results && result.results.length > 0 && result.results[0].results && result.results[0].results.length > 0) {
+      let html = '';
+      const itemChunk = 5;
+      const results = result.results[0].results;
+      let description = 'I found these results for you. You can click the titles for detail: ';
+      let dict = {};
+      for (const [index, item] of results.entries()) {
+        if (index >= itemChunk) {break;}
+        const id = item.id;
+        let title = item.title.title || '';
+        let subheading = item.editorial.subheading || item.summary.excerpt || '';
+        dict[id] = `${title}\n${subheading}`;
+      }
+      if (language && language !== 'English') {
+        try {
+          description = await translateOpenAI(description, language);
+          const translatedDict = await translateOpenAI(JSON.stringify(dict), language);
+          dict = JSON.parse(translatedDict);
+        } catch(err) {
+          console.log(err);
+        }
+      }
+      for (const [index, item] of results.entries()) {
+        const id = item.id;
+        let title = item.title.title || '';
+        let subheading = item.editorial.subheading || item.summary.excerpt || '';
+        if (dict[id]) {
+          const translations = dict[id].split('\n');
+          if (translations.length > 0) {
+            title = translations[0];
+          }
+          if (translations.length > 1) {
+            subheading = translations[1];
+          }
+        }
+        const byline = item.editorial.byline;
+        const excerpt = item.summary.excerpt;
+        const hideClass = (index >= itemChunk) ? ' hide' : '';
+        html += `<div data-id="${id}" class="chat-item-container${hideClass}"><div class="chat-item-title"><a href="https://www.ft.com/content/${id}" target="_blank" title="${byline}: ${excerpt}">${title}</a></div><div class="item-lead">${subheading}</div></div>`;
+      }
+      if (results.length > itemChunk) {
+        const langProperty = (language && language !== 'English') ? ` data-lang=${language}` : '';
+        html = `<div>${description}</div>${html}<div class="chat-items-expand" data-chunk="${itemChunk}" data-length="${results.length}"${langProperty}></div>`;
+      }
+      showResultInChat({text: html});
+      const n = 3;
+      if (previousConversations.length > n) {
+        previousConversations = previousConversations.slice(-n);
+      }
+    } else {
+      //TODO: - Handle error
     }
-    const newChat = document.createElement('DIV');
-    newChat.className = 'chat-talk chat-talk-agent';
-    newChat.innerHTML = `<div class="chat-talk-inner">${prompt}</div>`;
-    chatContent.appendChild(newChat);
-    previousConversations.push({
-        "role": "assistant",
-        "content": prompt
-    });
+  } catch (err){
+    console.log(err);
+  }
+}
+
+async function handleResultPrompt(resultHTML) {
+  try {
+    let ele = document.createElement('DIV');
+    ele.innerHTML = resultHTML;
+    let purposeEle = ele.querySelector('[data-purpose]');
+    if (!purposeEle) {return;}
+    const purpose = purposeEle.getAttribute('data-purpose');
+    const language = purposeEle.getAttribute('data-lang');
+    const content = purposeEle.innerHTML;
+    if (purposeToFunction.hasOwnProperty(purpose)) {
+      await purposeToFunction[purpose](content, language);
+    }
+  } catch(err) {
+
+  }
+}
+
+function greet() {
+  const language = navigator.language;
+  const languagePrefix = language.replace(/\-.*$/g, '');
+  const prompts = greetingDict[language] || greetingDict[languagePrefix] || greetingDict.en;
+  const randomIndex = Math.floor(Math.random() * prompts.length);
+  const prompt = prompts[randomIndex];
+  if (!chatContent.querySelector('.chat-talk')) {
+      chatContent.innerHTML = '';
+  }
+  const newChat = document.createElement('DIV');
+  newChat.className = 'chat-talk chat-talk-agent';
+  newChat.innerHTML = `<div class="chat-talk-inner">${prompt}</div>`;
+  chatContent.appendChild(newChat);
 }
 
 greet();

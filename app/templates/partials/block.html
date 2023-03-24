@@ -420,6 +420,10 @@
 								<%elseif $list.feedType == "photo"%>
 									<%assign var="feedType" value="photonews"%>
 									<%assign var="itemsArray" value=$photonewsmodel->get_photonews_by_tag($feedTag,0,$feedItems)%>
+								<%elseif $list.feedType == "standard"%>
+									<%*<!--Premium Content Should Display -->*%>
+									<%assign var="feedType" value=$list.feedType%>
+									<%assign var="itemsArray" value=$storymodel->getStandardStory($feedStart, $feedItems)%>
 								<%elseif $list.feedType == "premium"%>
 									<%*<!--Premium Content Should Display -->*%>
 									<%assign var="feedType" value=$list.feedType%>
@@ -1601,7 +1605,7 @@
 									<%/if%>
 
 									<%*<!--MARK: show the lock for paid content-->*%>
-									<%if $list.feedType == "premium" || $item.type == "premium" || $itemType == "premium" || $paywall == "1" || ($itemType == "interactive" && preg_match("/英语电台|速读|会员专享|高端专享/is",$itemTagsString)) || ($itemType == "story" && $timeMath > 60*60*24)%>
+									<%if $list.feedType == "premium" || $list.feedType == "standard" || $item.type == "premium" || $itemType == "premium" || $paywall == "1" || ($itemType == "interactive" && preg_match("/英语电台|速读|会员专享|高端专享/is",$itemTagsString)) || ($itemType == "story" && $timeMath > 60*60*24)%>
 										<%assign var="lockClass" value="locked"%>
 										<%if preg_match("/高端专享/is",$itemTagsString)%>
 											<%assign var="lockClass" value="locked vip"%>
@@ -2156,6 +2160,10 @@
 								<%elseif $list.feedType == "photo"%>
 									<%assign var="feedType" value="photonews"%>
 									<%assign var="itemsArray" value=$photonewsmodel->get_photonews_by_field_search($list.feedTag,"ORDER BY photonewsid DESC",$list.feedItems)%>
+								<%elseif $list.feedType == "standard"%>
+									<%*<!--Premium Content Should Display -->*%>
+									<%assign var="feedType" value=$list.feedType%>
+									<%assign var="itemsArray" value=$storymodel->getStandardStory(0, $list.feedItems)%>
 								<%elseif $list.feedType == "premium"%>
 									<%*<!--Premium Content Should Display -->*%>
 									<%assign var="feedType" value=$list.feedType%>
@@ -2180,6 +2188,10 @@
 								<%elseif $list.feedType == "photo"%>
 									<%assign var="feedType" value="photonews"%>
 									<%assign var="itemsArray" value=$photonewsmodel->get_photonews_by_tag($list.feedTag,0,$list.feedItems)%>
+								<%elseif $list.feedType == "standard"%>
+									<%*<!--Premium Content Should Display -->*%>
+									<%assign var="feedType" value=$list.feedType%>
+									<%assign var="itemsArray" value=$storymodel->getStandardStory(0, $list.feedItems)%>
 								<%elseif $list.feedType == "premium"%>
 									<%*<!--Premium Content Should Display -->*%>
 									<%assign var="feedType" value=$list.feedType%>

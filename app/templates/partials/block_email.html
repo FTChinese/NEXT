@@ -134,6 +134,10 @@
             <%elseif $list.feedType == "photo"%>
                 <%assign var="feedType" value="photonews"%>
                 <%assign var="itemsArray" value=$photonewsmodel->get_photonews_by_tag($feedTag,0,$feedItems)%>
+            <%elseif $list.feedType == "standard"%>
+                <%*<!--Premium Content Should Display -->*%>
+                <%assign var="feedType" value=$list.feedType%>
+                <%assign var="itemsArray" value=$storymodel->getStandardStory($feedStart, $feedItems)%>
             <%elseif $list.feedType == "premium"%>
                 <%*<!--Premium Content Should Display -->*%>
                 <%assign var="feedType" value=$list.feedType%>

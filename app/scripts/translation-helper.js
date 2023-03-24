@@ -1385,7 +1385,7 @@ function showGlossarySuggestions() {
     var xhr = new XMLHttpRequest();
     var apiUrl = '/falcon.php/glossary/ajax_get_suggestions';
     var apiMethod = 'POST';
-    if (window.location.href.indexOf('localhost')>=0) {
+    if (isFrontendTest && !isPowerTranslate) {
         apiUrl = '/api/page/glossary.json';
         apiMethod = 'GET';
     }
@@ -1910,8 +1910,12 @@ function addNewTranslation() {
         return;
     }
     var xhr = new XMLHttpRequest();
-    var method = isFrontendTest ? 'GET' : 'POST';
-    var url = isFrontendTest ? '/api/powertranslate/add.json' : '/pt/add';
+    var method = 'POST';
+    var url = '/pt/add';
+    if (isFrontendTest && !isPowerTranslate) {
+        method = 'GET';
+        url = '/api/powertranslate/add.json';
+    }
     var token = localStorage.getItem('accessToken');
     if (!token || token === '') {
         alert('You need to sign in first! ');
@@ -1953,8 +1957,12 @@ function addNewTranslation() {
 function inspectTranslation(id) {
     function inspectOne() {
         var xhr = new XMLHttpRequest();
-        var method = isFrontendTest ? 'GET' : 'POST';
-        var url = isFrontendTest ? '/api/powertranslate/inspect.json' : '/pt/inspect';
+        var method = 'POST';
+        var url = '/pt/inspect';
+        if (isFrontendTest && !isPowerTranslate) {
+            method = 'GET';
+            url = '/api/powertranslate/inspect.json';
+        }
         xhr.open(method, url);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.onload = function() {
