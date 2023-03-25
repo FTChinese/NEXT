@@ -71,9 +71,10 @@ function loadcomment(storyid, theid, type) {
     xmlhttp.onreadystatechange = function() {
         if (this.readyState === 4) {
             if (this.status === 200) {
-                var data = JSON.parse(this.responseText);
+                var data = this.responseText;
                 if (typeof webkit === 'object') {
                     // MARK: - For iOS native app, send the comments data to native to convert
+                    userCommentsEle.innerHTML = '正在处理本文读者评论的数据...';
                     webkit.messageHandlers.commentsData.postMessage({storyid: storyid, theid: theid, type: type, data: data});
                 } else {
                     showComment(storyid, theid, type, data);
@@ -89,7 +90,8 @@ function loadcomment(storyid, theid, type) {
 }
 
 
-function showComment(storyid, theid, type, data) {
+function showComment(storyid, theid, type, dataString) {
+    var data = JSON.parse(dataString);
     var user_icon='', isvip, commentnumber, cfoption, cftype, commentsortby;
     var commentsBody = '';
     var userCommentsEle = document.getElementById(theid);
