@@ -82,28 +82,7 @@ const greetingDict = {
   ]
 };
 
-let intentionDetectionPrompt = [
-  {
-    "role": "system",
-    "content": "You are a helpful assistant that can access different types of FT APIs to help with the user's requests. When you detected the user's intention, you will tell the user that you are handling the user's request and output HTML code to be picked and parsed by specific APIs. You will always answer questions based on facts. Never make things up. In the output HTML, you should also output the user's current language in the 'data-lang' property. "
-  },
-  {
-    "role": "user",
-    "content": "What's new in tech and finance? "
-  },
-  {
-    "role": "assistant",
-    "content": "You are looking for the latest news in tech and finance. <div data-purpose=\"check-news\" data-lang=\"English\">What's new in tech and finance? </div>"
-  },
-  {
-    "role": "user",
-    "content": "关于中国政治，有什么新消息？"
-  },
-  {
-    "role": "assistant",
-    "content": "您想了解关于中国政治的最新消息. <div data-purpose=\"check-news\" data-lang=\"Chinese\">关于中国政治，有什么新消息？</div>"
-  }
-];
+
 let newsAssistantPrompt = [
     {
       "role": "system",
@@ -205,9 +184,7 @@ async function talk() {
     userInput.style.height = 'auto';
     // MARK: - Send the prompt to our API for response
     const newUserPrompt = {role: 'user', content: prompt};
-    const messages = intentionDetectionPrompt
-        .concat(previousConversations)
-        .concat([newUserPrompt]);
+    const messages = previousConversations.concat([newUserPrompt]);
     const data = {
         messages: messages,
         temperature: 0,
@@ -240,20 +217,20 @@ function showResultInChat(result) {
 
 const purposeToFunction = {
   'search-ft-api': searchFTAPI,
-  'check-news': checkNews
+  // 'check-news': checkNews
   // 'purpose2': function2,
   // 'purpose3': function3,
   // ... add more purposes and functions here
 };
 
-async function checkNews(content, language) {
-  console.log('Should Check News and Come Up with the search query! ');
+// async function checkNews(content, language) {
+//   console.log('Should Check News and Come Up with the search query! ');
 
-}
+// }
 
 async function searchFTAPI(content, language) {
   try {
-    const result = await getFTAPISearchResult(content);
+    let result = await getFTAPISearchResult(content);
     if (result.results && result.results.length > 0 && result.results[0].results && result.results[0].results.length > 0) {
       let html = '';
       const itemChunk = 5;
@@ -307,6 +284,7 @@ async function searchFTAPI(content, language) {
       //TODO: - Handle error
     }
   } catch (err){
+    console.log('Error with searchFTAPI');
     console.log(err);
   }
 }
@@ -344,5 +322,6 @@ function greet() {
 }
 
 greet();
+
 
 /* jshint ignore:end */

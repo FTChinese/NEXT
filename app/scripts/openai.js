@@ -7,7 +7,7 @@ async function createChatFromOpenAI(data) {
         if (!token || token === '') {
             return {status: 'failed', message: 'You need to sign in first! '};
         }
-        let url = (isPowerTranslate) ? '/openai/create_chat' : '/FTAPI/create_chat.php';
+        let url = (isPowerTranslate) ? '/openai/detect_intention' : '/FTAPI/detect_intention.php';
         let options = {
             method: 'POST',
             headers: {
@@ -94,7 +94,7 @@ async function getFTAPISearchResult(keyword) {
             };
         }
         const response = await fetch(url, options);
-        const results = await response.json();
+        let results = await response.json();
         if (response.status >= 400 && results.message) {
             return {status: 'failed', message: results.message};
         }
