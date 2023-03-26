@@ -71,7 +71,7 @@ function loadcomment(storyid, theid, type) {
     xmlhttp.onreadystatechange = function() {
         if (this.readyState === 4) {
             if (this.status === 200) {
-                var data = this.responseText;
+                var data = JSON.parse(this.responseText);
                 if (typeof webkit === 'object') {
                     // MARK: - For iOS native app, send the comments data to native to convert
                     userCommentsEle.innerHTML = '正在处理本文读者评论的数据...';
@@ -90,8 +90,7 @@ function loadcomment(storyid, theid, type) {
 }
 
 
-function showComment(storyid, theid, type, dataString) {
-    var data = JSON.parse(dataString);
+function showComment(storyid, theid, type, data) {
     var user_icon='', isvip, commentnumber, cfoption, cftype, commentsortby;
     var commentsBody = '';
     var userCommentsEle = document.getElementById(theid);
