@@ -195,8 +195,11 @@ async function talk() {
         showResultInChat(result);
         // MARK: - Only keep the latest 5 conversations
         previousConversations = previousConversations.slice(-5);
-        previousConversations.push(newUserPrompt);
-        previousConversations.push({role: 'assistant', content: result.text});
+        // MARK: - Only keep the history if the intention is not a known one, in which case, OpenAI will need the contexts. 
+        if (!result.intention || result.intention === 'Other') {
+          previousConversations.push(newUserPrompt);
+          previousConversations.push({role: 'assistant', content: result.text});
+        }
         // MARK: - Check if the resultHTML has some prompt or request for the system
         await handleResultPrompt(result.text);
     } else if (result.message) {

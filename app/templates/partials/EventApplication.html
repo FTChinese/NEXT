@@ -45,7 +45,8 @@ function getEventApplicationForm() {
             for (var i=0; i<formInfo.length; i++) {
                 formHTML += renderItem(formInfo[i], j);
             }
-            if (j===0 && formPurpose !== '2B') {
+            // MARK: - Only display this item if needed, ie, at least two participants
+            if (j===0 && formPurpose !== '2B' && paticipants > 1) {
                 formHTML += renderItem(formMultiplier, j);
             }
             formHTML += '</div>';
@@ -82,7 +83,10 @@ function getEventApplicationForm() {
     var map = {
         'number': {
             '1': '一位',
-            '2': '两位'
+            '2': '两位',
+            '3': '三位',
+            '4': '四位',
+            '5': '五位'
         },
         'title': {
             '0': "请选择..", 

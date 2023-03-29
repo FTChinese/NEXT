@@ -3,11 +3,12 @@
 // const isFrontendTest = location.href.indexOf('localhost') >= 0;
 async function createChatFromOpenAI(data) {
     try {
+        const key = data.key || 'detect_intention';
         const token = (isPowerTranslate) ? localStorage.getItem('accessToken') : 'sometoken';
         if (!token || token === '') {
             return {status: 'failed', message: 'You need to sign in first! '};
         }
-        let url = (isPowerTranslate) ? '/openai/detect_intention' : '/FTAPI/detect_intention.php';
+        let url = (isPowerTranslate) ? `/openai/${key}` : `/FTAPI/${key}.php`;
         let options = {
             method: 'POST',
             headers: {
@@ -32,7 +33,12 @@ async function createChatFromOpenAI(data) {
         }
         if (results.length > 0 && results[0].message && results[0].message.content) {
             const text = results[0].message.content.trim();
-            return {status: 'success', text: text};
+            let result = {status: 'success', text: text};
+            const intention = results[0].message.intention;
+            if (intention && intention !== '') {
+                result.intention = intention.trim();
+            }
+            return result;
         } else {
             return {status: 'failed', message: 'Something is wrong with OpenAI, please try later. '};
         }
@@ -42,15 +48,18 @@ async function createChatFromOpenAI(data) {
     }
 }
 
-async function generateTextFromOpenAI(prompt, requestCount) {
+async function generateTextFromOpenAI(prompt, requestCount, key) {
     // MARK: - For the first request, be stable. Then be creative. 
     const temperature = (requestCount === 0) ? 0 : 1;
     const max_tokens = prompt.length * 2;
-    const data = {
+    let data = {
         messages: [{role: 'user', content: prompt}],
         temperature: temperature,
         max_tokens: max_tokens
     };
+    if (key) {
+        data.key = key;
+    }
     const result = await createChatFromOpenAI(data);
     return result;
 }
@@ -58,7 +67,7 @@ async function generateTextFromOpenAI(prompt, requestCount) {
 async function translateOpenAI(text, target) {
     if (!target || target === '') {return text;}
     try {
-        const result = await generateTextFromOpenAI(`Translate into ${target}\n${text}`, 0);
+        const result = await generateTextFromOpenAI(`Translate into ${target}\n${text}`, 0, 'create_chat');
         if (result.status === 'success' && result.text) {
             return result.text.trim();
           }
