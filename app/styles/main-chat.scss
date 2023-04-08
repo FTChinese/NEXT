@@ -20,6 +20,23 @@ body {
     padding: 0;
 }
 
+.header-container {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+    display: block!important;
+}
+.header-inner {
+    background-color: transparent!important;
+}
+.current-edition span {
+    white-space: nowrap;
+}
+.error {
+    color: #CC0000;
+}
 .main-content {
     margin: 0 auto;
     position: relative;
@@ -29,7 +46,7 @@ body {
     padding-bottom: $navHeight + $defaultPadding;
 }
 .chat-content {
-    padding: math.div($defaultPadding, 2) 0 $navHeight 0;
+    padding: $headerHeight + $defaultPadding 0 $navHeight 0;
     height: 100%;
     overflow: scroll;
 }
@@ -138,7 +155,11 @@ body {
     background-size: 24px 24px;
     background-repeat: no-repeat;
     background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iNDgiIHdpZHRoPSI0OCI+PHBhdGggZD0iTTYgNDBWOGwzOCAxNlptMy00LjY1TDM2LjIgMjQgOSAxMi41djguNEwyMS4xIDI0IDkgMjdabTAgMFYxMi41IDI3WiIvPjwvc3ZnPg==);
+    .pending & {
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 96 960 960" width="48"><path d="M207.858 624Q188 624 174 609.858q-14-14.141-14-34Q160 556 174.142 542q14.141-14 34-14Q228 528 242 542.142q14 14.141 14 34Q256 596 241.858 610q-14.141 14-34 14Zm272 0Q460 624 446 609.858q-14-14.141-14-34Q432 556 446.142 542q14.141-14 34-14Q500 528 514 542.142q14 14.141 14 34Q528 596 513.858 610q-14.141 14-34 14Zm272 0Q732 624 718 609.858q-14-14.141-14-34Q704 556 718.142 542q14.141-14 34-14Q772 528 786 542.142q14 14.141 14 34Q800 596 785.858 610q-14.141 14-34 14Z"/></svg>');
+    }
 }
+
 
 .chat-item-container {
     margin-bottom: 1em;
@@ -147,10 +168,103 @@ body {
 .chat-item-title {
     font-weight: bold;
     font-size: 1.2em;
+    a {
+        cursor: pointer;
+    }
 }
+
+.chat-item-actions {
+    a {
+        cursor: pointer;
+        color: white;
+        background-color: #0f5499;
+        padding: math.div($defaultPadding, 3) math.div($defaultPadding, 1);
+        border-radius: math.div($defaultPadding, 1);
+        display: inline-block;
+        margin: math.div($defaultPadding, 2) math.div($defaultPadding, 2) 0 0;
+    }
+}
+
+.chat-item-summary {
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-top: math.div($defaultPadding, 2);
+}
+
 
 [data-purpose] {
     display: none;
+}
+
+.logged-in-container, .sign-in-container {
+    display: none;
+}
+
+.quiz-question {
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-bottom: math.div($defaultPadding, 2);
+}
+.quiz-options {
+    div {
+        background-color: rgb(230, 217, 206);
+        border-color: rgb(230, 217, 206);
+        border-width: 2px;
+        border-style: solid;
+        margin-bottom: math.div($defaultPadding, 2);
+        // font-weight: bold;
+        font-size: 1.2em;
+        padding: math.div($defaultPadding, 2);
+        cursor: pointer;
+    }
+}
+.quiz-explanation {
+    display: none;
+    .is-done & {
+        display: block;
+    }
+}
+.quiz-container {
+    border-top: 1px solid $borderColor;
+    padding-top: 1em;
+    margin-bottom: 1em;
+    &:first-child {
+        border-color: transparent;
+        padding-top: 0;
+    }
+    .is-selected {
+        border-color: rgb(33, 114, 171);
+    }
+    &.is-done {
+        .is-correct {
+            border-color: rgb(120, 189, 107);
+        }
+    }
+    &.is-wrong {
+        .is-selected {
+            border-color: #CC0000;
+        }
+    }
+}
+.quiz-next {
+    margin: auto;
+    font-size: 1.2em;
+    padding: math.div($defaultPadding, 4) math.div($defaultPadding, 2);
+    width: auto;
+    height: auto;
+}
+body {
+    .sign-in-container {
+        display: block;
+    }
+    &.logged-in {
+        .sign-in-container {
+            display: none;
+        }
+        .logged-in-container {
+            display: block;
+        }
+    }
 }
 
 @keyframes spinner {

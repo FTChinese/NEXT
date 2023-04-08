@@ -6,6 +6,7 @@ const chatContent = document.getElementById('chat-content');
 const chatSumit = document.getElementById('chat-submit');
 const isPowerTranslate = location.href.indexOf('powertranslate') >= 0;
 const isFrontendTest = location.href.indexOf('localhost') >= 0;
+var botStatus = 'waiting';
 
 const greetingDict = {
   'en': [
@@ -82,29 +83,136 @@ const greetingDict = {
   ]
 };
 
-
-let newsAssistantPrompt = [
-    {
-      "role": "system",
-      "content": "You are a helpful assistant that has access to the content API of Financial Times. If a user wants to know about the latest news, you'll detect their intention and convert it to a search query. Please note that you should try your best to understand the users' real intention. For example, when they ask about 'tech and finance news', they may actually want to search for 'technology OR finance'. In this case, you'll tell the user that you are searching the FT content and output the search query so that the system can pick out and return the result for you to present. You will always answer questions based on facts. Never make things up. In the output HTML, you should also output the user's current language in the 'data-lang' property. "
-    },
-    {
-      "role": "user",
-      "content": "What's new in tech and finance? "
-    },
-    {
-      "role": "assistant",
-      "content": "Let me check the latest FT content...<div data-purpose=\"search-ft-api\" data-lang=\"English\">Technology OR Finance</div>"
-    },
-    {
-      "role": "user",
-      "content": "关于中国政治，有什么新消息？"
-    },
-    {
-      "role": "assistant",
-      "content": "让我查询一下FT最新的关于中国政治的报道...<div data-purpose=\"search-ft-api\" data-lang=\"Chinese\">China AND Politics</div>"
-    }
-];
+const statusDict = {
+  'Error': {
+    en: 'Error',
+    es: 'Error',
+    fr: 'Erreur',
+    de: 'Fehler',
+    ja: 'エラー',
+    ko: '오류',
+    pt: 'Erro',
+    it: 'Errore',
+    'zh-TW': '錯誤',
+    'zh-HK': '錯誤',
+    zh: '错误',
+    ru: 'Ошибка'
+  },
+  'CustomerService': {
+    en: 'Customer Service',
+    es: 'Servicio al Cliente',
+    fr: 'Service Client',
+    de: 'Kundenservice',
+    ja: 'カスタマーサービス',
+    ko: '고객 서비스',
+    pt: 'Atendimento ao Cliente',
+    it: 'Assistenza Clienti',
+    'zh-TW': '客戶服務',
+    'zh-HK': '客戶服務',
+    zh: '客户服务',
+    ru: 'Обслуживание клиентов'
+  },
+  'SearchFTAPI': {
+    en: 'Search FT',
+    es: 'Buscar FT',
+    fr: 'Rechercher FT',
+    de: 'FT suchen',
+    ja: 'FT検索',
+    ko: 'FT 검색',
+    pt: 'Pesquisar FT',
+    it: 'Cerca FT',
+    'zh-TW': '搜尋FT',
+    'zh-HK': '搜尋FT',
+    zh: '搜索FT',
+    ru: 'Поиск FT'
+  },
+  'Other': {
+    en: 'Just Chat',
+    es: 'Solo Chat',
+    fr: 'Discussion',
+    de: 'Nur Chatten',
+    ja: 'チャットのみ',
+    ko: '채팅만',
+    pt: 'Apenas Bate-papo',
+    it: 'Solo Chat',
+    'zh-TW': '隨便聊聊',
+    'zh-HK': '隨便聊聊',
+    zh: '随便聊聊',
+    ru: 'Просто чат'
+  },
+  'Final Score': {
+    en: 'Final Score',
+    es: 'Puntuación Final',
+    fr: 'Score Final',
+    de: 'Endstand',
+    ja: '最終スコア',
+    ko: '최종 점수',
+    pt: 'Pontuação Final',
+    it: 'Punteggio Finale',
+    'zh-TW': '最終得分',
+    'zh-HK': '最終得分',
+    zh: '最终得分',
+    ru: 'Итоговый счет'
+  },
+  'Quiz Me': {
+    en: 'Test my understanding.',
+    es: 'Prueba mi comprensión.',
+    fr: 'Testez ma compréhension.',
+    de: 'Teste mein Verständnis.',
+    ja: '私の理解をテストしてください。',
+    ko: '내 이해를 테스트하세요.',
+    pt: 'Teste a minha compreensão.',
+    it: 'Testa la mia comprensione.',
+    'zh-TW': '測試我的理解。',
+    'zh-HK': '測試我的理解。',
+    zh: '测试我的理解。',
+    ru: 'Проверьте мое понимание.'
+  },
+  'China News': {
+    en: 'What\'s news in China?',
+    es: '¿Qué hay de nuevo en China?',
+    fr: 'Quoi de neuf en Chine?',
+    de: 'Was gibt es Neues in China?',
+    ja: '中国での最新情報は何ですか？',
+    ko: '중국에서는 무슨 일이 있고 있나요?',
+    pt: 'O que há de novo na China?',
+    it: 'Quali sono le novità in Cina?',
+    'zh-TW': '中國有什麼新聞？',
+    'zh-HK': '中國有什麼新聞？',
+    zh: '中国有什么新闻？',
+    ru: 'Какие новости из Китая?'
+  },
+  'AI News': {
+    en: 'Show me latest news about AI.',
+    es: 'Muéstrame las últimas noticias sobre IA.',
+    fr: 'Montre-moi les dernières nouvelles sur l\'IA.',
+    de: 'Zeige mir die neuesten Nachrichten über KI.',
+    ja: 'AIに関する最新ニュースを表示してください。',
+    ko: 'AI 최신 뉴스를 보여주세요.',
+    pt: 'Mostre-me as últimas notícias sobre IA.',
+    it: 'Mostrami le ultime notizie sull\'AI.',
+    'zh-TW': '給我看看最新的人工智慧新聞。',
+    'zh-HK': '給我看看最新的AI新聞。',
+    zh: '给我看看最新的人工智能新闻。',
+    ru: 'Покажите мне последние новости об искусственном интеллекте.'
+  },
+  'Subscription Problem': {
+    en: 'I have a problem with my subscription.',
+    es: 'Tengo un problema con mi suscripción.',
+    fr: 'J\'ai un problème avec mon abonnement.',
+    de: 'Ich habe ein Problem mit meinem Abonnement.',
+    ja: '私は定期購読に問題があります。',
+    ko: '내 구독에 문제가 있어요.',
+    pt: 'Estou com um problema na minha assinatura.',
+    it: 'Ho un problema con la mia iscrizione.',
+    'zh-TW': '我的會員訂閱服務有點問題。',
+    'zh-HK': '我的會員訂閱服務有點問題。',
+    zh: '我的会员订阅服务有点问题。',
+    ru: 'У меня проблема со своей подпиской.'
+  }
+  // <a data-action="talk">I have a problem with my subscription.</a>
+  
+};
 
 let previousConversations = [];
 
@@ -125,97 +233,158 @@ userInput.addEventListener('input', () => {
     userInput.style.height = userInput.scrollHeight + 'px'; // set new height based on the content
 });
 
-delegate.on('click', '.chat-items-expand', async function(){
-  if (this.classList.contains('pending')) {return;}
-  this.classList.add('pending');
+delegate.on('click', '[data-action="talk"]', async (event) => {
+  const element = event.target;
+  userInput.value = element.innerHTML;
+  let actionsEle = element.closest('.chat-item-actions');
+  if (actionsEle) {
+    actionsEle.remove();
+  }
+  talk();
+});
+
+delegate.on('click', '.chat-items-expand', async (event) => {
+  const element = event.target;
+  if (element.classList.contains('pending')) {
+    return;
+  }
+  element.classList.add('pending');
+  updateBotStatus('pending');
   try {
-    const chunkSize = parseInt(this.getAttribute('data-chunk'), 10);
-    const chatContainer = this.closest('.chat-talk');
+    const chunkSize = parseInt(element.getAttribute('data-chunk'), 10);
+    const chatContainer = element.closest('.chat-talk');
     const hiddenItems = chatContainer.querySelectorAll('.chat-item-container.hide');
     const hiddenItemsArray = Array.from(hiddenItems);
     const selectedItems = hiddenItemsArray.slice(0, chunkSize);
-    const language = this.getAttribute('data-lang');
-    let dict = {};
-    selectedItems.forEach(item => {
-      // item.classList.remove('hide');
+    const language = element.getAttribute('data-lang');
+    for (const item of selectedItems) {
       const id = item.getAttribute('data-id');
-      dict[id] = `${item.querySelector('.chat-item-title a').innerHTML}\n${item.querySelector('.item-lead').innerHTML}`;
-    });
-    if (typeof language === 'string' && language !== 'English') {
-      const translatedDict = await translateOpenAI(JSON.stringify(dict), language);
-      dict = JSON.parse(translatedDict);
-    }
-    selectedItems.forEach(item => {
-      const id = item.getAttribute('data-id');
-      if (dict[id]) {
-        const translations = dict[id].split('\n');
-        if (translations.length > 0) {
-          item.querySelector('.chat-item-title a').innerHTML = translations[0];
-        }
-        if (translations.length > 1) {
-          item.querySelector('.item-lead').innerHTML = translations[1];
-        }
-      }
+      let title = item.querySelector('.chat-item-title a').innerHTML;
+      title = await translateFromEnglish(title, language);
+      item.querySelector('.chat-item-title a').innerHTML = title;
+      let lead = item.querySelector('.item-lead').innerHTML;
+      lead = await translateFromEnglish(lead, language);
+      item.querySelector('.item-lead').innerHTML = lead;
       item.classList.remove('hide');
-    });
+    }
     const otherHiddenItems = chatContainer.querySelectorAll('.chat-item-container.hide');
     chatContainer.scrollIntoView({ behavior: 'smooth', block: 'end' });
     if (otherHiddenItems.length === 0) {
-      this.classList.add('hide');
+      element.classList.add('hide');
     }
   } catch (err) {
     console.log(err);
   }
-  this.classList.remove('pending');
+  element.classList.remove('pending');
+  updateBotStatus('waiting');
 });
 
+function localize(status) {
+  if (!status) {return;}
+  const language = navigator.language;
+  const languagePrefix = language.replace(/\-.*$/g, '');
+  let statusTitle = status;
+  const s = statusDict[status];
+  if (s) {
+    statusTitle = s[language] || s[languagePrefix] || s.en;
+  }
+  return statusTitle;
+}
+
+function updateStatus(status) {
+  if (!status) {return;}
+  document.getElementById('current-chat-status').innerHTML = `<span>${localize(status)}</span>`;
+}
+
+function updateBotStatus(status) {
+  botStatus = status;
+  if (status === 'pending') {
+    userInput.parentElement.classList.add('pending');
+  } else {
+    const pendingAgentChats = document.querySelectorAll('.chat-talk-agent-pending');
+    for (let pendingAgentChat of pendingAgentChats) {
+      pendingAgentChat.remove();
+    }
+    userInput.parentElement.classList.remove('pending');
+  }
+}
+
+function showBotResponse(placeholder) {
+  const botResponse = document.createElement('DIV');
+  botResponse.className = 'chat-talk chat-talk-agent chat-talk-agent-pending';
+  botResponse.innerHTML = `<div class="chat-talk-inner">${placeholder || '...'}</div>`;
+  chatContent.appendChild(botResponse);
+  botResponse.scrollIntoView({ behavior: 'smooth', block: 'end' });
+}
+
+function showUserPrompt(prompt) {
+  const newChat = document.createElement('DIV');
+  newChat.className = 'chat-talk chat-talk-user';
+  newChat.innerHTML = `<div class="chat-talk-inner">${prompt}</div>`;
+  chatContent.appendChild(newChat);
+}
+
 async function talk() {
-    const prompt = userInput.value;
-    if (prompt === '') {return;}
-    if (!chatContent.querySelector('.chat-talk')) {
-        chatContent.innerHTML = '';
-    }
-    const newChat = document.createElement('DIV');
-    newChat.className = 'chat-talk chat-talk-user';
-    newChat.innerHTML = `<div class="chat-talk-inner">${prompt}</div>`;
-    chatContent.appendChild(newChat);
-    newChat.scrollIntoView({ behavior: 'smooth', block: 'end' });
-    userInput.value = '';
-    userInput.style.height = 'auto';
-    // MARK: - Send the prompt to our API for response
-    const newUserPrompt = {role: 'user', content: prompt};
-    const messages = previousConversations.concat([newUserPrompt]);
-    const data = {
-        messages: messages,
-        temperature: 0,
-        max_tokens: 300
-    };
-    const result = await createChatFromOpenAI(data);
-    if (result.status === 'success' && result.text) {
-        showResultInChat(result);
-        // MARK: - Only keep the latest 5 conversations
-        previousConversations = previousConversations.slice(-5);
-        // MARK: - Only keep the history if the intention is not a known one, in which case, OpenAI will need the contexts. 
-        if (!result.intention || result.intention === 'Other') {
-          previousConversations.push(newUserPrompt);
-          previousConversations.push({role: 'assistant', content: result.text});
-        }
-        // MARK: - Check if the resultHTML has some prompt or request for the system
-        await handleResultPrompt(result.text);
-    } else if (result.message) {
-        alert(result.message);
-    } else {
-        alert('An unknown error happened. Please try again later. ');
-    }
+  var token = localStorage.getItem('accessToken');
+  if (!token || token === '') {
+      alert('You need to sign in first! ');
+      window.location.href = '/login';
+      return;
+  }
+  const prompt = userInput.value;
+  if (prompt === '') {return;}
+  if (botStatus === 'pending') {return;}
+  if (!chatContent.querySelector('.chat-talk')) {
+      chatContent.innerHTML = '';
+  }
+  updateBotStatus('pending');
+  showUserPrompt(prompt);
+  showBotResponse();
+  userInput.value = '';
+  userInput.style.height = 'auto';
+  // MARK: - Send the prompt to our API for response
+  const newUserPrompt = {role: 'user', content: prompt};
+  const messages = previousConversations.concat([newUserPrompt]);
+  const data = {
+      messages: messages,
+      temperature: 0,
+      max_tokens: 300
+  };
+  const result = await createChatFromOpenAI(data);
+  if (result.status === 'success' && result.text) {
+      showResultInChat(result);
+      // MARK: - Only keep the latest 5 conversations
+      previousConversations = previousConversations.slice(-5);
+      // MARK: - Only keep the history if the intention is not a known one, in which case, OpenAI will need the contexts. 
+      if (!result.intention || result.intention === 'Other') {
+        previousConversations.push(newUserPrompt);
+        previousConversations.push({role: 'assistant', content: result.text});
+      }
+      updateStatus(result.intention);
+      // MARK: - Check if the resultHTML has some prompt or request for the system
+      await handleResultPrompt(result.text);
+  } else if (result.message) {
+      updateStatus('Error');
+      await showError(result.message);
+  } else {
+      updateStatus('Error');
+      await showError('An unknown error happened. Please try again later. ');
+  }
+  updateBotStatus('waiting');
 }
 
 function showResultInChat(result) {
+  updateBotStatus('waiting');
   const newResult = document.createElement('DIV');
   newResult.className = 'chat-talk chat-talk-agent';
   const resultHTML = result.text.replace(/\n/g, '<br>');
   newResult.innerHTML = `<div class="chat-talk-inner">${resultHTML}</div>`;
   chatContent.appendChild(newResult);
-  newResult.scrollIntoView({ behavior: 'smooth', block: 'end' });
+  if (newResult.querySelector('h1')) {
+    newResult.querySelector('h1').scrollIntoView({ behavior: 'smooth', block: 'end' });
+  } else {
+    newResult.scrollIntoView({ behavior: 'smooth', block: 'end' });
+  }
 }
 
 const purposeToFunction = {
@@ -232,53 +401,39 @@ const purposeToFunction = {
 // }
 
 async function searchFTAPI(content, language) {
+  updateBotStatus('pending');
   try {
     let result = await getFTAPISearchResult(content);
     if (result.results && result.results.length > 0 && result.results[0].results && result.results[0].results.length > 0) {
-      let html = '';
+      const newResult = document.createElement('DIV');
+      newResult.className = 'chat-talk chat-talk-agent';
+      const newResultInner = document.createElement('DIV');
+      newResultInner.className = 'chat-talk-inner';
+      newResult.appendChild(newResultInner);
+      chatContent.appendChild(newResult);
       const itemChunk = 5;
       const results = result.results[0].results;
-      let description = 'I found these results for you. You can click the titles for detail: ';
-      let dict = {};
-      for (const [index, item] of results.entries()) {
-        if (index >= itemChunk) {break;}
-        const id = item.id;
-        let title = item.title.title || '';
-        let subheading = item.editorial.subheading || item.summary.excerpt || '';
-        dict[id] = `${title}\n${subheading}`;
-      }
-      if (language && language !== 'English') {
-        try {
-          description = await translateOpenAI(description, language);
-          const translatedDict = await translateOpenAI(JSON.stringify(dict), language);
-          dict = JSON.parse(translatedDict);
-        } catch(err) {
-          console.log(err);
-        }
-      }
       for (const [index, item] of results.entries()) {
         const id = item.id;
         let title = item.title.title || '';
         let subheading = item.editorial.subheading || item.summary.excerpt || '';
-        if (dict[id]) {
-          const translations = dict[id].split('\n');
-          if (translations.length > 0) {
-            title = translations[0];
-          }
-          if (translations.length > 1) {
-            subheading = translations[1];
-          }
-        }
         const byline = item.editorial.byline;
         const excerpt = item.summary.excerpt;
-        const hideClass = (index >= itemChunk) ? ' hide' : '';
-        html += `<div data-id="${id}" class="chat-item-container${hideClass}"><div class="chat-item-title"><a href="https://www.ft.com/content/${id}" target="_blank" title="${byline}: ${excerpt}">${title}</a></div><div class="item-lead">${subheading}</div></div>`;
+        let hideClass = ' hide';
+        if (index < itemChunk) {
+          hideClass = '';
+          title = await translateFromEnglish(title, language);
+          subheading = await translateFromEnglish(subheading, language);
+        }
+        const lang = language || 'English';
+        newResultInner.innerHTML += `<div data-id="${id}" data-lang="${lang}" class="chat-item-container${hideClass}"><div class="chat-item-title"><a data-action="show-article" target="_blank" title="${byline}: ${excerpt}">${title}</a></div><div class="item-lead">${subheading}</div></div>`;
+        newResult.scrollIntoView({ behavior: 'smooth', block: 'end' });
       }
       if (results.length > itemChunk) {
         const langProperty = (language && language !== 'English') ? ` data-lang=${language}` : '';
-        html = `<div>${description}</div>${html}<div class="chat-items-expand" data-chunk="${itemChunk}" data-length="${results.length}"${langProperty}></div>`;
+        newResultInner.innerHTML += `<div class="chat-items-expand" data-chunk="${itemChunk}" data-length="${results.length}"${langProperty}></div>`;
+        newResult.scrollIntoView({ behavior: 'smooth', block: 'end' });
       }
-      showResultInChat({text: html});
       const n = 3;
       if (previousConversations.length > n) {
         previousConversations = previousConversations.slice(-n);
@@ -290,6 +445,7 @@ async function searchFTAPI(content, language) {
     console.log('Error with searchFTAPI');
     console.log(err);
   }
+  updateBotStatus('waiting');
 }
 
 async function handleResultPrompt(resultHTML) {
@@ -320,11 +476,42 @@ function greet() {
   }
   const newChat = document.createElement('DIV');
   newChat.className = 'chat-talk chat-talk-agent';
-  newChat.innerHTML = `<div class="chat-talk-inner">${prompt}</div>`;
+  newChat.innerHTML = `
+  <div class="chat-talk-inner">
+    ${prompt}
+    <div class="chat-item-actions">
+      <a data-action="talk">${localize('China News')}</a>
+      <a data-action="talk">${localize('AI News')}</a>
+      <a data-action="talk">${localize('Subscription Problem')}</a>
+    </div>
+  </div>
+  `;
+  // <a data-id="" data-action="developing">What are the top stories of the day on FT?</a>
+  // <a data-id="" data-action="developing">Recommend some good reads to me.</a>
+  // <a data-id="" data-action="developing">I'd like to improve my English.</a>
   chatContent.appendChild(newChat);
 }
 
-greet();
+function showError(message) {
+  updateBotStatus('waiting');
+  const newChat = document.createElement('DIV');
+  newChat.className = 'chat-talk chat-talk-agent';
+  newChat.innerHTML = `<div class="chat-talk-inner error">${message}</div>`;
+  chatContent.appendChild(newChat);
+}
+
+// MARK: Chat page Related functions
+function initChat() {
+  window.shouldPromptLogin = true;
+  localStorage.setItem('pagemark', window.location.href);
+  var script = document.createElement('script');
+  script.src = '/powertranslate/scripts/register.js';
+  document.head.appendChild(script);
+  const urlParams = new URLSearchParams(window.location.search);
+  greet();
+}
+
+initChat();
 
 
 /* jshint ignore:end */

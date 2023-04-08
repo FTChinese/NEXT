@@ -40,7 +40,7 @@ async function createChatFromOpenAI(data) {
             }
             return result;
         } else {
-            return {status: 'failed', message: 'Something is wrong with OpenAI, please try later. '};
+            return {status: 'failed', message: 'Something is wrong with our AI vendor, we can\'t seem to connect to it right now. Please try later. '};
         }
     } catch(err) {
         console.log(err);
@@ -64,13 +64,24 @@ async function generateTextFromOpenAI(prompt, requestCount, key) {
     return result;
 }
 
+async function translateFromEnglish(text, language) {
+    if (!language || language === 'English') {return text;}
+    try {
+        const result = await translateOpenAI(text, language);
+        return result;
+    } catch(err) {
+        console.log(err);
+    }
+    return text;
+}
+
 async function translateOpenAI(text, target) {
     if (!target || target === '') {return text;}
     try {
         const result = await generateTextFromOpenAI(`Translate into ${target}\n${text}`, 0, 'create_chat');
         if (result.status === 'success' && result.text) {
             return result.text.trim();
-          }
+        }
     } catch(err){
         console.log(err);
     }
