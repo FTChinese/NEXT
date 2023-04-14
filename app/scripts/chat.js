@@ -6,6 +6,8 @@ const chatContent = document.getElementById('chat-content');
 const chatSumit = document.getElementById('chat-submit');
 const isPowerTranslate = location.href.indexOf('powertranslate') >= 0;
 const isFrontendTest = location.href.indexOf('localhost') >= 0;
+var previousConversations = [];
+var previousIntentDections = []; 
 var botStatus = 'waiting';
 
 const greetingDict = {
@@ -214,9 +216,6 @@ const statusDict = {
   
 };
 
-let previousConversations = [];
-
-
 userInput.addEventListener("keydown", function(event) {
   if (event.key === "Enter" && !event.shiftKey) {
     event.preventDefault();
@@ -236,10 +235,7 @@ userInput.addEventListener('input', () => {
 delegate.on('click', '[data-action="talk"]', async (event) => {
   const element = event.target;
   userInput.value = element.innerHTML;
-  let actionsEle = element.closest('.chat-item-actions');
-  if (actionsEle) {
-    actionsEle.remove();
-  }
+  hideItemActions(element);
   talk();
 });
 
@@ -278,6 +274,38 @@ delegate.on('click', '.chat-items-expand', async (event) => {
   element.classList.remove('pending');
   updateBotStatus('waiting');
 });
+
+delegate.on('click', '[data-purpose]', async (event) => {
+  const element = event.target;
+  if (element.classList.contains('pending')) {return;}
+  element.classList.add('pending');
+  hideItemActions(element);
+  try {
+    const purpose = element.getAttribute('data-purpose');
+    const language = element.getAttribute('data-lang') || 'English';
+    const content = element.getAttribute('data-content');
+    const prompt = element.innerHTML;
+    updateBotStatus('pending');
+    showUserPrompt(prompt);
+    showBotResponse();
+    userInput.value = '';
+    userInput.style.height = 'auto';
+    if (purpose && content && purposeToFunction.hasOwnProperty(purpose)) {
+      await purposeToFunction[purpose](content, language);
+    }
+  } catch (err) {
+    console.log(err);
+  }
+  element.classList.remove('pending');
+  updateBotStatus('waiting');
+});
+
+function hideItemActions(element) {
+  let actionsEle = element.closest('.chat-item-actions');
+  if (actionsEle) {
+    actionsEle.remove();
+  }
+}
 
 function localize(status) {
   if (!status) {return;}
@@ -331,7 +359,7 @@ async function talk() {
       window.location.href = '/login';
       return;
   }
-  const prompt = userInput.value;
+  const prompt = userInput.value.replace(/^\s+|\s+$/g, '');
   if (prompt === '') {return;}
   if (botStatus === 'pending') {return;}
   if (!chatContent.querySelector('.chat-talk')) {
@@ -345,21 +373,30 @@ async function talk() {
   // MARK: - Send the prompt to our API for response
   const newUserPrompt = {role: 'user', content: prompt};
   const messages = previousConversations.concat([newUserPrompt]);
-  const data = {
+  const intentions = previousIntentDections.concat([newUserPrompt]);
+  let data = {
       messages: messages,
       temperature: 0,
-      max_tokens: 300
+      max_tokens: 300,
+      intentions: intentions
   };
+  // TODO: - Heroku has a 30 seconds hard limit for all requests. The best way is NOT to detect intention first (either locally or through a request to OpenAI), then deal with the intention (likely through OpenAI) because OpenAI's service is so slow that even one simple request will time out. The only way that works is to just post the task for the background to handle, then polling for the result, like what we did for the Quiz.  
+  // const intention = await detectIntention(data);
+  // console.log(`intention: ${intention}`);
+  // data.intention = intention;
   const result = await createChatFromOpenAI(data);
   if (result.status === 'success' && result.text) {
       showResultInChat(result);
-      // MARK: - Only keep the latest 5 conversations
+      // MARK: - Only keep the latest 5 conversations and 4 intentions
       previousConversations = previousConversations.slice(-5);
+      previousIntentDections = previousIntentDections.slice(-5);
       // MARK: - Only keep the history if the intention is not a known one, in which case, OpenAI will need the contexts. 
       if (!result.intention || result.intention === 'Other') {
         previousConversations.push(newUserPrompt);
         previousConversations.push({role: 'assistant', content: result.text});
       }
+      previousIntentDections.push(newUserPrompt);
+      previousIntentDections.push({role: 'assistant', content: result.intention || 'Other'});
       updateStatus(result.intention);
       // MARK: - Check if the resultHTML has some prompt or request for the system
       await handleResultPrompt(result.text);
@@ -373,11 +410,54 @@ async function talk() {
   updateBotStatus('waiting');
 }
 
+function markdownToHtmlTable(text) {
+  // Search for all Markdown tables in the text
+  const regex = /\n\s*\|(.+)\|[\s\n]*\|( *:?-+:? *\|)+\s*((.+\|)+\s*)+/gm;
+  const matches = text.match(regex);
+  // If no tables are found, return the original text
+  if (!matches) {
+    return text;
+  }
+  // Replace each Markdown table with its HTML equivalent
+  let html = text;
+  for (const match of matches) {
+    const table = match.trim();
+    // Split the table into rows and remove leading/trailing whitespace
+    const rows = table.split('\n').map(row => row.trim());
+    // Extract the headers from the first row
+    const headers = rows[0].split('|').slice(1, -1).map(header => header.trim());
+    // Create the HTML table and header row
+    let tableHtml = '<table><tr>';
+    for (const header of headers) {
+      tableHtml += `<th>${header}</th>`;
+    }
+    tableHtml += '</tr>';
+    // Create the HTML table rows from the remaining Markdown rows
+    for (let i = 2; i < rows.length; i++) {
+      const cells = rows[i].split('|').slice(1, -1).map(cell => cell.trim());
+      tableHtml += '<tr>';
+      for (const cell of cells) {
+        tableHtml += `<td>${cell}</td>`;
+      }
+      tableHtml += '</tr>';
+    }
+    // Close the HTML table and replace the Markdown table with it
+    tableHtml += '</table>';
+    html = html.replace(table, tableHtml);
+  }  
+  // Return the modified text with all Markdown tables converted to HTML
+  return html;
+}
+
+
+
+
 function showResultInChat(result) {
   updateBotStatus('waiting');
   const newResult = document.createElement('DIV');
   newResult.className = 'chat-talk chat-talk-agent';
-  const resultHTML = result.text.replace(/\n/g, '<br>');
+  // MARK: - Converting the HTML on the frontend
+  const resultHTML = markdownToHtmlTable(result.text).replace(/\n/g, '<br>');
   newResult.innerHTML = `<div class="chat-talk-inner">${resultHTML}</div>`;
   chatContent.appendChild(newResult);
   if (newResult.querySelector('h1')) {
@@ -401,9 +481,11 @@ const purposeToFunction = {
 // }
 
 async function searchFTAPI(content, language) {
+  // console.log(`running searchFTAPI... content: ${content}, language: ${language}`);
   updateBotStatus('pending');
   try {
     let result = await getFTAPISearchResult(content);
+    // console.log(result);
     if (result.results && result.results.length > 0 && result.results[0].results && result.results[0].results.length > 0) {
       const newResult = document.createElement('DIV');
       newResult.className = 'chat-talk chat-talk-agent';
@@ -413,6 +495,27 @@ async function searchFTAPI(content, language) {
       chatContent.appendChild(newResult);
       const itemChunk = 5;
       const results = result.results[0].results;
+      let titleAndSubheading = results
+        .slice(0, itemChunk)
+        .map(item => {
+          return `${item.title.title || ''}\n${item.editorial.subheading || item.summary.excerpt || ''}`;
+        })
+        .join('\n');
+      titleAndSubheading = await translateFromEnglish(titleAndSubheading, language);
+      let translations = [];
+      let t = '';
+      let s = '';
+      for (const [index, text] of titleAndSubheading.split('\n').entries()) {
+        if (index % 2 === 0) {
+          t = text;
+        } else {
+          s = text;
+          translations.push({title: t, subheading: s});
+        }
+      }
+      // console.log('translations: ');
+      // console.log(translations);
+      let html = '';
       for (const [index, item] of results.entries()) {
         const id = item.id;
         let title = item.title.title || '';
@@ -422,13 +525,18 @@ async function searchFTAPI(content, language) {
         let hideClass = ' hide';
         if (index < itemChunk) {
           hideClass = '';
-          title = await translateFromEnglish(title, language);
-          subheading = await translateFromEnglish(subheading, language);
+          if (translations.length > index) {
+            title = translations[index].title || title;
+            subheading = translations[index].subheading || subheading;
+          }
+          title = title.trim().replace(/[\.。]+$/g, '');
+          subheading = subheading.trim().replace(/[\.。]+$/g, '');
         }
         const lang = language || 'English';
-        newResultInner.innerHTML += `<div data-id="${id}" data-lang="${lang}" class="chat-item-container${hideClass}"><div class="chat-item-title"><a data-action="show-article" target="_blank" title="${byline}: ${excerpt}">${title}</a></div><div class="item-lead">${subheading}</div></div>`;
-        newResult.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        html += `<div data-id="${id}" data-lang="${lang}" class="chat-item-container${hideClass}"><div class="chat-item-title"><a data-action="show-article" target="_blank" title="${byline}: ${excerpt}">${title}</a></div><div class="item-lead">${subheading}</div></div>`;
       }
+      newResultInner.innerHTML = html;
+      newResult.scrollIntoView({ behavior: 'smooth', block: 'end' });
       if (results.length > itemChunk) {
         const langProperty = (language && language !== 'English') ? ` data-lang=${language}` : '';
         newResultInner.innerHTML += `<div class="chat-items-expand" data-chunk="${itemChunk}" data-length="${results.length}"${langProperty}></div>`;
@@ -480,8 +588,8 @@ function greet() {
   <div class="chat-talk-inner">
     ${prompt}
     <div class="chat-item-actions">
-      <a data-action="talk">${localize('China News')}</a>
-      <a data-action="talk">${localize('AI News')}</a>
+      <a data-purpose="search-ft-api" data-lang="${language}" data-content="regions:China">${localize('China News')}</a>
+      <a data-purpose="search-ft-api" data-lang="${language}" data-content="topics:Artificial Intelligence">${localize('AI News')}</a>
       <a data-action="talk">${localize('Subscription Problem')}</a>
     </div>
   </div>

@@ -1,15 +1,129 @@
 /* jshint ignore:start */
 // const isPowerTranslate = location.href.indexOf('powertranslate') >= 0;
 // const isFrontendTest = location.href.indexOf('localhost') >= 0;
+
+// MARK: - No need to detect intention on the frontend any more
+// async function detectIntention(data) {
+//     // MARK: If the user intention is clear, return immediately
+//     if (typeof currentIntention === 'string' && window.currentIntention !== '') {
+//         return currentIntention;
+//     }
+//     try {
+//         const key = 'detect_intention';
+//         const token = (isPowerTranslate) ? localStorage.getItem('accessToken') : 'sometoken';
+//         if (!token || token === '') {
+//             return {status: 'failed', message: 'You need to sign in first! '};
+//         }
+//         let url = (isPowerTranslate) ? `/openai/${key}` : `/FTAPI/${key}.php`;
+//         let options = {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//                 'Authorization': `Bearer ${token}`
+//             },
+//             body: JSON.stringify(data)
+//         };
+//         if (isFrontendTest && !isPowerTranslate) {
+//             url = '/api/page/detect_intention.json';
+//             options = {
+//                 method: 'GET',
+//                 headers: {
+//                     'Content-Type': 'application/json'
+//                 }
+//             };
+//         }
+//         const response = await fetch(url, options);
+//         const result = await response.json();
+//         if (response.status >= 400 && result.message) {
+//             return {status: 'failed', message: result.message};
+//         }
+//         if (result.status === 'success' && typeof result.intention === 'string' && result.intention !== '') {
+//             return result.intention;
+//         } else {
+//             return 'Other';
+//         }
+//     } catch(err) {
+//         console.log(err);
+//     }
+//     return 'Other';
+// }
+
+// MARK: - generate hash from the input
+async function generateHash(text) {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(text);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+function generateRequestId() {
+    const timestamp = Math.floor(new Date().getTime() / 1000).toString(16).padStart(8, '0');
+    const machineId = Math.floor(Math.random() * 16777216).toString(16).padStart(6, '0');
+    const processId = Math.floor(Math.random() * 65536).toString(16).padStart(4, '0');
+    const counter = Math.floor(Math.random() * 16777216).toString(16).padStart(6, '0');
+    return timestamp + machineId + processId + counter;
+}
+
+async function wait(seconds) {
+    return new Promise(resolve => {
+        setTimeout(() => {
+        resolve();
+        }, seconds * 1000);
+    });
+}
+
 async function createChatFromOpenAI(data) {
     try {
-        const key = data.key || 'detect_intention';
         const token = (isPowerTranslate) ? localStorage.getItem('accessToken') : 'sometoken';
         if (!token || token === '') {
             return {status: 'failed', message: 'You need to sign in first! '};
         }
-        let url = (isPowerTranslate) ? `/openai/${key}` : `/FTAPI/${key}.php`;
+        // MARK: - OpenAI's API can't reliably return in 30 seconds, which is a hard time-out for Heroku. So here we need to hand over the task to a background process. 
+        let response;
+        let url;
+
+        // MARK: - 1. Check if there's a cached result
+        const hash = await generateHash(JSON.stringify(data));
+        data.hash = hash;
+        const queryData = {hash: hash, type: 'chat'};
+        url = (isPowerTranslate) ? '/openai/check_cache' : '/FTAPI/check_cache.php';
         let options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(queryData)
+        };
+        if (isFrontendTest && !isPowerTranslate) {
+            url = '/api/page/poll_request_result.json';
+            options = {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            };
+        }
+        try {
+            response = await fetch(url, options);
+            const cachedResult = await response.json();
+            if (cachedResult && cachedResult.length > 0) {
+                console.log(`Found cached results: `);
+                console.log(cachedResult);
+                if (cachedResult && cachedResult.length > 0 && cachedResult[0].message && cachedResult[0].message.content) {
+                    return {status: 'success', text: cachedResult[0].message.content, intention: cachedResult[0].message.intention || 'Other'};
+                }
+            }
+        } catch(err){
+            console.log(err);
+        }
+        
+        // MARK: - 2. Handle this over as a background task
+        const _id = generateRequestId();
+        data._id = _id;
+        url = (isPowerTranslate) ? '/openai/handle_intention' : '/FTAPI/handle_intention.php';
+        options = {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -18,26 +132,71 @@ async function createChatFromOpenAI(data) {
             body: JSON.stringify(data)
         };
         if (isFrontendTest && !isPowerTranslate) {
-            url = '/api/page/openai_chat.json';
+            url = '/api/page/create_quiz.json';
             options = {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
-                }
+                },
             };
         }
-        const response = await fetch(url, options);
-        const results = await response.json();
+        response = await fetch(url, options);
+        const saveResult = await response.json();
+
+        // MARK: - 3. Poll our own (much much faster) APIs for finished task
+        let results;
+        if (saveResult && saveResult.status === 'success') {
+            const timeoutSeconds = 120;
+            const intervalSeconds = 10;
+            const loops = Math.round(timeoutSeconds/intervalSeconds);
+            let url = (isPowerTranslate) ? '/openai/poll_request_result' : '/FTAPI/poll_request_result.php';
+            url = `${url}?request_id=${_id}`;
+            let options = {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            };
+            if (isFrontendTest && !isPowerTranslate) {
+                url = '/api/page/openai_chat.json';
+                options = {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                };
+            }
+            for (let i=0; i<loops; i++) {
+                console.log(`loop for createChatFromOpenAI ${_id}: ${i}`);
+                response = await fetch(url, options);
+                try {
+                    const pollResults = await response.json();
+                    if (typeof pollResults === 'object' && pollResults !== null) {
+                        if (pollResults.length > 0) {
+                            // MARK: - The results is a copy of OpenAI's return of `choices`
+                            results = pollResults;
+                            break;
+                        }
+                        if (pollResults.type === 'error') {
+                            return {status: 'failed', message: 'Cannot get the data from AI model'};
+                        }
+                    }
+                } catch(err) {
+                    console.log(`pollResults error: `);
+                    console.log(err);
+                }
+                await wait(intervalSeconds);
+            }
+        }
         if (response.status >= 400 && results.message) {
             return {status: 'failed', message: results.message};
         }
-        if (results.length > 0 && results[0].message && results[0].message.content) {
-            const text = results[0].message.content.trim();
-            let result = {status: 'success', text: text};
-            const intention = results[0].message.intention;
-            if (intention && intention !== '') {
-                result.intention = intention.trim();
-            }
+        if (typeof results === 'object' && results.length > 0 && results[0].message && results[0].message.content) {
+            const message = results[0].message
+            const text = message.content.trim();
+            const intention = message.intention || 'Other';
+            let result = {status: 'success', text: text, intention: intention};
             return result;
         } else {
             return {status: 'failed', message: 'Something is wrong with our AI vendor, we can\'t seem to connect to it right now. Please try later. '};
@@ -65,7 +224,7 @@ async function generateTextFromOpenAI(prompt, requestCount, key) {
 }
 
 async function translateFromEnglish(text, language) {
-    if (!language || language === 'English') {return text;}
+    if (!language || language === 'English' || /^en/.test(language)) {return text;}
     try {
         const result = await translateOpenAI(text, language);
         return result;

@@ -75,8 +75,8 @@ delegate.on('click', '[data-action="quiz"]', async (event) => {
         const quizId = id + randomString;
         let isQuizDisplayed = false;
         // MARK: Send the requests in chunks
-        for (const articleContext of articleContextChunks) {
-            const quizInfo = await getQuizFromFTAPI(id, language, articleContext);
+        for (const [index, articleContext] of articleContextChunks.entries()) {
+            const quizInfo = await getQuizFromFTAPI(id, index, language, articleContext, articleContextChunks.length);
             if (quizInfo.status === 'success' && quizInfo.results) {
                 let html = '';
                 for (const [index, quiz] of quizInfo.results.entries()) {
@@ -91,7 +91,7 @@ delegate.on('click', '[data-action="quiz"]', async (event) => {
                     let options = '';
                     for (const option of allOptions) {
                         const className = (option === answer) ? 'is-correct' : 'is-wrong';
-                        options += `<div class=${className}>${option}</div>`; 
+                        options += `<div class=${className}>${option.trim().replace(/[\.。]+$/g, '')}</div>`; 
                     }
                     const hideClass = (index === 0 && !isQuizDisplayed) ? '' : ' hide'; 
                     html += `
@@ -262,15 +262,52 @@ async function getArticleFromFTAPI(id, language) {
     }
 }
 
-async function getQuizFromFTAPI(id, language, text) {
+async function getQuizFromFTAPI(id, index, language, text, chunks) {
     try {
         const token = (isPowerTranslate) ? localStorage.getItem('accessToken') : 'sometoken';
         if (!token || token === '') {
             return {status: 'failed', message: 'You need to sign in first! '};
         }
-        const data = {id: id, language: language, text: text};
-        let url = (isPowerTranslate) ? '/openai/create_quiz' : '/FTAPI/create_quiz.php';
+
+        // MARK: - 1. Check if there's a cached result
+        const queryData = {id: id, index: index, language: language, type: 'quiz'};
+        let url = (isPowerTranslate) ? '/openai/check_cache' : '/FTAPI/check_cache.php';
         let options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(queryData)
+        };
+        if (isFrontendTest && !isPowerTranslate) {
+            url = '/api/page/poll_request_result.json';
+            options = {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            };
+        }
+        // MARK: - If there's valid result, return immediately
+        let response;
+        try {
+            response = await fetch(url, options);
+            const cachedResult = await response.json();
+            if (cachedResult && cachedResult.length > 0) {
+                console.log(`Found cached results: `);
+                console.log(cachedResult);
+                return {status: 'success', results: cachedResult};
+            }
+        } catch(err){
+            console.log(err);
+        }
+
+        // MARK: - 2. Handle this over as a background task
+        const _id = generateRequestId();
+        const data = {id: id, index: index, language: language, text: text, _id: _id, chunks: chunks};
+        url = (isPowerTranslate) ? '/openai/create_quiz' : '/FTAPI/create_quiz.php';
+        options = {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -287,35 +324,57 @@ async function getQuizFromFTAPI(id, language, text) {
                 },
             };
         }
-        const response = await fetch(url, options);
-        // let results = await response.json();
+        response = await fetch(url, options);
+        const saveResult = await response.json();
 
-        // MARK: - Getting the results in chunks rather than 
-        const reader = response.body.getReader();
-        let quizzes = [];
-        // TODO: - Should show the quizzes as soon as they are available
-        while (true) {
-            const { done, value } = await reader.read();
-            if (done) {break;}
-            const newQuizInfo = new TextDecoder().decode(value);
-            try {
-                const newQuizzes = JSON.parse(newQuizInfo);
-                quizzes = quizzes.concat(newQuizzes);
-            } catch(err) {
-                console.log(`Can't parse new quiz info:`);
-                console.log(newQuizInfo);
-                console.log(err);
+        // MARK: - 3. Poll our own APIs for finished task
+        if (saveResult && saveResult.status === 'success') {
+            const timeoutSeconds = 120;
+            const intervalSeconds = 10;
+            const loops = Math.round(timeoutSeconds/intervalSeconds);
+            let url = (isPowerTranslate) ? '/openai/poll_request_result' : '/FTAPI/poll_request_result.php';
+            url = `${url}?request_id=${_id}`;
+            let options = {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            };
+            if (isFrontendTest && !isPowerTranslate) {
+                url = '/api/page/poll_request_result.json';
+                options = {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                };
             }
-        }
-        const results = quizzes;
-        if (response.status >= 400 && results.message) {
-            return {status: 'failed', message: results.message};
-        }
-        if (results && results.length > 0) {
-            return {status: 'success', results: results};
+            for (let i=0; i<loops; i++) {
+                console.log(`loop for getQuizFromFTAPI ${_id}: ${i}`);
+                response = await fetch(url, options);
+                try {
+                    const results = await response.json();
+                    if (typeof results === 'object' && results !== null) {
+                        if (results && results.length > 0) {
+                            return {status: 'success', results: results};
+                        }
+                        if (results.type === 'error') {
+                            return {status: 'failed', message: 'Cannot get the data from AI model'};
+                        }
+                    }
+                } catch(err) {
+                    console.log(err);
+                }
+                await wait(intervalSeconds);
+            }
+            return {status: 'error', message: `No results in ${timeoutSeconds} seconds`};
         } else {
-            return {status: 'failed', message: 'Something is wrong with FT Search, please try later. '};
+            return {status: 'error', message: 'Cannot save the task! '};
         }
+
+
+
     } catch(err) {
         console.log(err);
         return {status: 'failed', message: err.toString()};
