@@ -211,7 +211,22 @@ const statusDict = {
     'zh-HK': '我的會員訂閱服務有點問題。',
     zh: '我的会员订阅服务有点问题。',
     ru: 'У меня проблема со своей подпиской.'
+  },
+  'Show Feature': {
+    en: 'Show me the latest features.',
+    es: 'Muéstrame las últimas características.',
+    fr: 'Montrez-moi les dernières fonctionnalités.',
+    de: 'Zeigen Sie mir die neuesten Funktionen.',
+    ja: '最新の機能を表示してください。',
+    ko: '최신 기능을 보여주세요.',
+    pt: 'Mostre-me as últimas funcionalidades.',
+    it: 'Mostrami le ultime funzionalità.',
+    'zh-TW': '顯示最新功能。',
+    'zh-HK': '顯示最新功能。',
+    zh: '显示最新功能。',
+    ru: 'Покажите мне последние возможности.'
   }
+  
   // <a data-action="talk">I have a problem with my subscription.</a>
   
 };
@@ -590,6 +605,7 @@ function greet() {
     <div class="chat-item-actions">
       <a data-purpose="search-ft-api" data-lang="${language}" data-content="regions:China">${localize('China News')}</a>
       <a data-purpose="search-ft-api" data-lang="${language}" data-content="topics:Artificial Intelligence">${localize('AI News')}</a>
+      <a data-purpose="search-ft-api" data-lang="${language}" data-content="genre:Feature">${localize('Show Feature')}</a>
       <a data-action="talk">${localize('Subscription Problem')}</a>
     </div>
   </div>
@@ -619,7 +635,75 @@ function initChat() {
   greet();
 }
 
+
+function getBodyHeight() {
+  var w = window,
+  d = document,
+  e = d.documentElement,
+  g = d.getElementsByTagName('body')[0],
+  y = w.innerHeight|| e.clientHeight|| g.clientHeight;
+  return y;
+}
+
+function findTop(obj) {
+  var curtop = 0;
+  if (obj && obj.offsetParent) {
+    do {
+      curtop += obj.offsetTop;
+    } while ((obj = obj.offsetParent));
+    return curtop;
+  }
+}
+
+function checkScrollyTellingForChat() {
+  try {
+    var scrollTop = chatContent.scrollTop;
+
+    if (!document.querySelector('.scrollable-block')) {
+      console.log('No .scrollable-block! ');
+      return;
+    }
+    for (const block of document.querySelectorAll('.scrollable-block')) {
+      let chatTalk = block.closest('.chat-talk');
+      if (!chatTalk) {continue;}
+      chatTalk.classList.add('has-scrolly-telling');
+      chatTalk.classList.add('full-grid-story');
+    }
+    // MARK: - Check all the scrollable blocks;
+    var scrollableSlides = document.querySelectorAll('.scrollable-slide, .scrollable-slide-info');
+    var bodyHeight = getBodyHeight();
+    var firstScrollableSlidesInView;
+    for (var i=0; i<scrollableSlides.length; i++) {
+      var itemHeight = scrollableSlides[i].offsetHeight;
+      var itemTop = findTop(scrollableSlides[i]);
+      var isScrollableSlideInView = (scrollTop + bodyHeight >= itemTop && itemTop + itemHeight >= scrollTop);
+      if (isScrollableSlideInView) {
+        firstScrollableSlidesInView = scrollableSlides[i];
+        var slideId = firstScrollableSlidesInView.getAttribute('data-id');
+        // console.log(slideId);
+        var currentBlock = firstScrollableSlidesInView.closest('.scrollable-block');
+        var currentImages = currentBlock.querySelectorAll('.scrolly-telling-viewport figure, .scrolly-telling-viewport picture');
+        for (var j=0; j<currentImages.length; j++) {
+          var imageId = j.toString();
+          if (imageId === slideId) {
+            currentImages[j].classList.add('visible');
+          } else {
+            currentImages[j].classList.remove('visible');
+          }
+        }
+        break;
+      }
+    }
+  } catch (err){
+    console.log('checkScrollyTelling error: ');
+    console.log(err);
+  }
+}
+
 initChat();
+chatContent.addEventListener('scroll', function() {
+  checkScrollyTellingForChat();
+});
 
 
 /* jshint ignore:end */

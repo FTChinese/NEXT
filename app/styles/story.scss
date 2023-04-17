@@ -199,7 +199,8 @@ h4 {
 	margin:10px 0 0 6px;
 	float:right;
 }
-.leftPic{
+
+.leftPic {
 	margin:3px $defaultPadding*0.5 0 0;
 	float:left;
 }
@@ -237,6 +238,7 @@ h4 {
 .rightp {
 	float: right;
 }
+
 .story-body {
 	.leftp, .rightp {
 		padding-bottom: 1em;
@@ -600,6 +602,16 @@ This results in wasted space and memory for subscribers' device and does not inc
 		.n-content-layout__slot {
 			flex: 1 1 1px;
 		}
+	}
+	[data-layout-width="inset-left"] {
+		margin:3px $defaultPadding*0.5 0 0;
+		float:left;
+		max-width: 50%;
+	}
+	[data-layout-width="inset-right"] {
+		margin:10px 0 0 6px;
+		float:right;
+		max-width: 50%;
 	}
 }
 

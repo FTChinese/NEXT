@@ -109,8 +109,6 @@ async function createChatFromOpenAI(data) {
             response = await fetch(url, options);
             const cachedResult = await response.json();
             if (cachedResult && cachedResult.length > 0) {
-                console.log(`Found cached results: `);
-                console.log(cachedResult);
                 if (cachedResult && cachedResult.length > 0 && cachedResult[0].message && cachedResult[0].message.content) {
                     return {status: 'success', text: cachedResult[0].message.content, intention: cachedResult[0].message.intention || 'Other'};
                 }
@@ -168,7 +166,6 @@ async function createChatFromOpenAI(data) {
                 };
             }
             for (let i=0; i<loops; i++) {
-                console.log(`loop for createChatFromOpenAI ${_id}: ${i}`);
                 response = await fetch(url, options);
                 try {
                     const pollResults = await response.json();

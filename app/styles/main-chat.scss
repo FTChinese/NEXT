@@ -2,6 +2,7 @@
 @import "main-story.scss";
 @import "main-table.scss";
 @import "main-user-comments.scss";
+@import "main-scrolly-telling.scss";
 
 html {
     scroll-behavior: smooth;
@@ -43,15 +44,23 @@ body {
     height: 100%;
     width: 100%;
     overflow-y: hidden;
-    padding-bottom: $navHeight + $defaultPadding;
+    // padding-bottom: $navHeight + $defaultPadding;
 }
+
 .chat-content {
-    padding: $headerHeight + $defaultPadding 0 $navHeight 0;
+    padding: 0 0 $navHeight 0;
+    // padding: $headerHeight + $defaultPadding 0 $navHeight 0;
     height: 100%;
     overflow: scroll;
 }
 .chat-talk {
     margin-bottom: 1em;
+    &:first-child {
+        margin-top: $navHeight + $defaultPadding;
+    }
+    &:last-child {
+        margin-bottom: $navHeight + $defaultPadding;
+    }
 }
 .chat-talk-inner {
     position: relative;
@@ -116,6 +125,14 @@ body {
 
 .chat-talk-user + .chat-talk-user .chat-talk-inner:before, .chat-talk-agent + .chat-talk-agent .chat-talk-inner:before {
     display: none;
+}
+.chat-input-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: $navHeight + 1.25 * $defaultPadding;
+    background-color: $defaultPink;
 }
 .chat-input {
     display: flex;
@@ -266,6 +283,31 @@ body {
         }
     }
 }
+
+.full-grid-story {
+    .story-header-container, .chat-item-actions, #story-body-container > * {
+        max-width: 768px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+.full-grid-story {
+    .chat-talk-inner {
+        max-width: 100%;
+        padding: 0;
+    }
+    #story-body-container {
+        .scrollable-block {
+            max-width: 100%;
+            margin: 0 auto 1em auto;
+        }
+        [data-layout-width="full-grid"] {
+            max-width: 1200px;
+            margin: 0 auto 1em auto;
+        }
+    }
+}
+
 
 @keyframes spinner {
     0% {
