@@ -9,6 +9,12 @@ const isFrontendTest = location.href.indexOf('localhost') >= 0;
 var previousConversations = [];
 var previousIntentDections = []; 
 var botStatus = 'waiting';
+var intention;
+
+const scrollOptions = { 
+  behavior: 'smooth', 
+  block: 'end',
+};
 
 const greetingDict = {
   'en': [
@@ -212,20 +218,35 @@ const statusDict = {
     zh: '我的会员订阅服务有点问题。',
     ru: 'У меня проблема со своей подпиской.'
   },
-  'Show Feature': {
-    en: 'Show me the latest features.',
-    es: 'Muéstrame las últimas características.',
-    fr: 'Montrez-moi les dernières fonctionnalités.',
-    de: 'Zeigen Sie mir die neuesten Funktionen.',
-    ja: '最新の機能を表示してください。',
-    ko: '최신 기능을 보여주세요.',
-    pt: 'Mostre-me as últimas funcionalidades.',
-    it: 'Mostrami le ultime funzionalità.',
-    'zh-TW': '顯示最新功能。',
-    'zh-HK': '顯示最新功能。',
-    zh: '显示最新功能。',
-    ru: 'Покажите мне последние возможности.'
+  'Deep Dive': {
+    zh: '我想阅读FT最新的深度报道',
+    en: `I'd like to read some in-depth reports from FT.`,
+    es: 'Me gustaría leer informes detallados de FT.',
+    fr: 'Je voudrais lire des rapports approfondis de FT.',
+    de: 'Ich möchte einige ausführliche Berichte von FT lesen.',
+    ja: 'FTから詳細なレポートを読みたいです。',
+    ko: 'FT의 심층 보도를 읽고 싶습니다.',
+    pt: 'Eu gostaria de ler relatórios aprofundados da FT.',
+    it: 'Vorrei leggere alcuni rapporti approfonditi da FT.',
+    'zh-TW': '我想閱讀FT最新的深度報導',
+    'zh-HK': '我想閱讀FT最新的深度報導',
+    ru: 'Я бы хотел прочитать некоторые подробные отчеты от FT.'
+  },
+  'Offer Help': {
+    zh: '好的，需要我怎么帮助您？',
+    en: 'Sure, how can I help you?',
+    es: 'Claro, ¿en qué puedo ayudarle?',
+    fr: 'Bien sûr, comment puis-je vous aider?',
+    de: 'Ja, wie kann ich Ihnen helfen?',
+    ja: '承知しました。何かお力になれることはありますか？',
+    ko: '네, 무엇을 도와드릴까요?',
+    pt: 'Claro, como posso ajudá-lo?',
+    it: 'Certamente, in che modo posso aiutarti?',
+    'zh-TW': '好的，有什麼我能幫到您的嗎？',
+    'zh-HK': '好的，有什麼我能幫到您的嗎？',
+    ru: 'Конечно, в чем я могу вам помочь?'
   }
+  
   
   // <a data-action="talk">I have a problem with my subscription.</a>
   
@@ -279,7 +300,7 @@ delegate.on('click', '.chat-items-expand', async (event) => {
       item.classList.remove('hide');
     }
     const otherHiddenItems = chatContainer.querySelectorAll('.chat-item-container.hide');
-    chatContainer.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    chatContainer.scrollIntoView(scrollOptions);
     if (otherHiddenItems.length === 0) {
       element.classList.add('hide');
     }
@@ -299,6 +320,7 @@ delegate.on('click', '[data-purpose]', async (event) => {
     const purpose = element.getAttribute('data-purpose');
     const language = element.getAttribute('data-lang') || 'English';
     const content = element.getAttribute('data-content');
+    const reply = element.getAttribute('data-reply');
     const prompt = element.innerHTML;
     updateBotStatus('pending');
     showUserPrompt(prompt);
@@ -306,7 +328,7 @@ delegate.on('click', '[data-purpose]', async (event) => {
     userInput.value = '';
     userInput.style.height = 'auto';
     if (purpose && content && purposeToFunction.hasOwnProperty(purpose)) {
-      await purposeToFunction[purpose](content, language);
+      await purposeToFunction[purpose](content, language, reply);
     }
   } catch (err) {
     console.log(err);
@@ -357,7 +379,7 @@ function showBotResponse(placeholder) {
   botResponse.className = 'chat-talk chat-talk-agent chat-talk-agent-pending';
   botResponse.innerHTML = `<div class="chat-talk-inner">${placeholder || '...'}</div>`;
   chatContent.appendChild(botResponse);
-  botResponse.scrollIntoView({ behavior: 'smooth', block: 'end' });
+  botResponse.scrollIntoView(scrollOptions);
 }
 
 function showUserPrompt(prompt) {
@@ -393,7 +415,8 @@ async function talk() {
       messages: messages,
       temperature: 0,
       max_tokens: 300,
-      intentions: intentions
+      intentions: intentions,
+      key: window.intention // Pass the window intention for fast detection
   };
   // TODO: - Heroku has a 30 seconds hard limit for all requests. The best way is NOT to detect intention first (either locally or through a request to OpenAI), then deal with the intention (likely through OpenAI) because OpenAI's service is so slow that even one simple request will time out. The only way that works is to just post the task for the background to handle, then polling for the result, like what we did for the Quiz.  
   // const intention = await detectIntention(data);
@@ -406,7 +429,7 @@ async function talk() {
       previousConversations = previousConversations.slice(-5);
       previousIntentDections = previousIntentDections.slice(-5);
       // MARK: - Only keep the history if the intention is not a known one, in which case, OpenAI will need the contexts. 
-      if (!result.intention || result.intention === 'Other') {
+      if (!result.intention || ['Other', 'CustomerService'].indexOf(result.intention) >= 0) {
         previousConversations.push(newUserPrompt);
         previousConversations.push({role: 'assistant', content: result.text});
       }
@@ -475,15 +498,16 @@ function showResultInChat(result) {
   const resultHTML = markdownToHtmlTable(result.text).replace(/\n/g, '<br>');
   newResult.innerHTML = `<div class="chat-talk-inner">${resultHTML}</div>`;
   chatContent.appendChild(newResult);
-  if (newResult.querySelector('h1')) {
-    newResult.querySelector('h1').scrollIntoView({ behavior: 'smooth', block: 'end' });
+  if (newResult.querySelector('h1, .story-header-container')) {
+    newResult.querySelector('h1, .story-header-container').scrollIntoView(scrollOptions);
   } else {
-    newResult.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    newResult.scrollIntoView(scrollOptions);
   }
 }
 
 const purposeToFunction = {
   'search-ft-api': searchFTAPI,
+  'set-intention': setIntention
   // 'check-news': checkNews
   // 'purpose2': function2,
   // 'purpose3': function3,
@@ -495,7 +519,16 @@ const purposeToFunction = {
 
 // }
 
-async function searchFTAPI(content, language) {
+async function setIntention(content, language, reply) {
+  // console.log(`running setIntention... content: ${content}, language: ${language}`);
+  intention = content;
+  updateStatus(intention);
+  if (reply && typeof reply === 'string') {
+    showResultInChat({text: reply});
+  }
+}
+
+async function searchFTAPI(content, language, reply) {
   // console.log(`running searchFTAPI... content: ${content}, language: ${language}`);
   updateBotStatus('pending');
   try {
@@ -551,11 +584,11 @@ async function searchFTAPI(content, language) {
         html += `<div data-id="${id}" data-lang="${lang}" class="chat-item-container${hideClass}"><div class="chat-item-title"><a data-action="show-article" target="_blank" title="${byline}: ${excerpt}">${title}</a></div><div class="item-lead">${subheading}</div></div>`;
       }
       newResultInner.innerHTML = html;
-      newResult.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      newResult.scrollIntoView(scrollOptions);
       if (results.length > itemChunk) {
         const langProperty = (language && language !== 'English') ? ` data-lang=${language}` : '';
         newResultInner.innerHTML += `<div class="chat-items-expand" data-chunk="${itemChunk}" data-length="${results.length}"${langProperty}></div>`;
-        newResult.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        newResult.scrollIntoView(scrollOptions);
       }
       const n = 3;
       if (previousConversations.length > n) {
@@ -579,9 +612,10 @@ async function handleResultPrompt(resultHTML) {
     if (!purposeEle) {return;}
     const purpose = purposeEle.getAttribute('data-purpose');
     const language = purposeEle.getAttribute('data-lang');
+    const reply = purposeEle.getAttribute('data-reply');
     const content = purposeEle.innerHTML;
     if (purposeToFunction.hasOwnProperty(purpose)) {
-      await purposeToFunction[purpose](content, language);
+      await purposeToFunction[purpose](content, language, reply);
     }
   } catch(err) {
 
@@ -605,11 +639,12 @@ function greet() {
     <div class="chat-item-actions">
       <a data-purpose="search-ft-api" data-lang="${language}" data-content="regions:China">${localize('China News')}</a>
       <a data-purpose="search-ft-api" data-lang="${language}" data-content="topics:Artificial Intelligence">${localize('AI News')}</a>
-      <a data-purpose="search-ft-api" data-lang="${language}" data-content="genre:Feature">${localize('Show Feature')}</a>
-      <a data-action="talk">${localize('Subscription Problem')}</a>
+      <a data-purpose="search-ft-api" data-lang="${language}" data-content='genre:"Deep Dive" OR genre:"News in-depth" OR genre:"Explainer"'>${localize('Deep Dive')}</a>
+      <a data-purpose="set-intention" data-lang="${language}" data-content="CustomerService" data-reply="${localize('Offer Help')}">${localize('Subscription Problem')}</a>
     </div>
   </div>
   `;
+  // News in-depth, Deep Dive
   // <a data-id="" data-action="developing">What are the top stories of the day on FT?</a>
   // <a data-id="" data-action="developing">Recommend some good reads to me.</a>
   // <a data-id="" data-action="developing">I'd like to improve my English.</a>
@@ -658,9 +693,7 @@ function findTop(obj) {
 function checkScrollyTellingForChat() {
   try {
     var scrollTop = chatContent.scrollTop;
-
     if (!document.querySelector('.scrollable-block')) {
-      console.log('No .scrollable-block! ');
       return;
     }
     for (const block of document.querySelectorAll('.scrollable-block')) {
@@ -680,7 +713,6 @@ function checkScrollyTellingForChat() {
       if (isScrollableSlideInView) {
         firstScrollableSlidesInView = scrollableSlides[i];
         var slideId = firstScrollableSlidesInView.getAttribute('data-id');
-        // console.log(slideId);
         var currentBlock = firstScrollableSlidesInView.closest('.scrollable-block');
         var currentImages = currentBlock.querySelectorAll('.scrolly-telling-viewport figure, .scrolly-telling-viewport picture');
         for (var j=0; j<currentImages.length; j++) {

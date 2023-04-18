@@ -59,7 +59,7 @@ body {
         margin-top: $navHeight + $defaultPadding;
     }
     &:last-child {
-        margin-bottom: $navHeight + $defaultPadding;
+        padding-bottom: $navHeight + $defaultPadding;
     }
 }
 .chat-talk-inner {
@@ -199,6 +199,9 @@ body {
         border-radius: math.div($defaultPadding, 1);
         display: inline-block;
         margin: math.div($defaultPadding, 2) math.div($defaultPadding, 2) 0 0;
+        &.hide {
+            display: none;
+        }
     }
 }
 
@@ -307,7 +310,13 @@ body {
         }
     }
 }
-
+.story-image {
+    figure {
+        img {
+            max-width: 100%;
+        }
+    }
+}
 
 @keyframes spinner {
     0% {

@@ -1,5 +1,4 @@
 /* jshint ignore:start */
-
 delegate.on('click', '[data-action="show-article"]', async (event) => {
     const element = event.target;
     if (element.classList.contains('pending')) {
@@ -56,9 +55,7 @@ delegate.on('click', '[data-action="show-article"]', async (event) => {
 
 delegate.on('click', '[data-action="quiz"]', async (event) => {
     const element = event.target;
-    if (element.classList.contains('pending')) {
-        return;
-    }
+    if (element.classList.contains('pending')) {return;}
     element.classList.add('pending');
     element.classList.add('hide');
     updateBotStatus('pending');
@@ -154,7 +151,7 @@ delegate.on('click', '.quiz-options div', async (event) => {
             finalScore.innerHTML = `${localize('Final Score')}: ${correct}/${all}`;
             quizContainer.append(finalScore);
         }
-        newChat.scrollIntoView({ behavior: 'smooth', block: 'end' }); 
+        newChat.scrollIntoView(scrollOptions); 
     } catch (err) {
         console.log(err);
     }
@@ -169,7 +166,7 @@ delegate.on('click', '.quiz-next', async (event) => {
         }
         element.classList.add('hide');
         const newChat = element.closest('.chat-talk');
-        newChat.scrollIntoView({ behavior: 'smooth', block: 'end' }); 
+        newChat.scrollIntoView(scrollOptions); 
     } catch (err) {
         console.log(err);
     }
@@ -314,7 +311,7 @@ async function handleFTContent(contentData) {
     for (let ele of container.querySelectorAll('experimental')) {
         // MARK: - Handle all the images in the block
         const images = ele.querySelectorAll('img');
-        for (image of images) {
+        for (const image of images) {
             const src = image.src;
             if (!src || src === '') {continue;}
             const imageUrl = `https://www.ft.com/__origami/service/image/v2/images/raw/${encodeURIComponent(src)}?source=next&amp;width=2400`;
@@ -362,6 +359,9 @@ async function handleFTContent(contentData) {
         const theme = ele.getAttribute('theme') || '0';
         ele.outerHTML = `<div class="scrollable-block" data-layout-width="full-grid" theme="${theme}">${ele.innerHTML}</div>`;
     }
+    for (let ele of container.querySelectorAll('recommended')) {
+        ele.remove();
+    }
 
     // MARK: - If there's already full grid items in the article, try to add more image sets
     if (container.querySelector('[data-layout-width="full-grid"]')) {
@@ -377,14 +377,18 @@ async function handleFTContent(contentData) {
             }
         }
     }
-
     bodyXML = container.innerHTML;
+    // MARK: - If the article content starts with a image, don't show main image
+    if (container.children.length > 0 && container.children[0].classList.contains('pic')) {
+        delete contentData.mainImage;
+    }
     if (hasFlourish) {
         const script = document.createElement('script');
         script.src = 'https://public.flourish.studio/resources/embed.js';
         document.head.appendChild(script);
     }
-    return bodyXML;
+    contentData.bodyXML = bodyXML;
+    return contentData;
 }
 
 async function getArticleFromFTAPI(id, language) {
@@ -419,7 +423,7 @@ async function getArticleFromFTAPI(id, language) {
             return {status: 'failed', message: results.message};
         }
         if (results && results.bodyXML) {
-            results.bodyXML = await handleFTContent(results);
+            results = await handleFTContent(results);
             return {status: 'success', results: results};
         } else {
             return {status: 'failed', message: 'Something is wrong with FT Search, please try later. '};
