@@ -408,6 +408,10 @@
 <%if preg_match("/NoCopyrightCover/is",$keys)%>
 	<%assign var="noCopyrightCover" value="yes"%>
 <%/if%>
+<%*<!--MARK: Hide Ad for none MBA GYM VIP -->*%>
+<%if $smarty.get.ad == "no" || preg_match("/去广告/is",$keys) || (preg_match("/高端专享/is",$keys) && $hasFoundSponsorship != "yes")%>
+	<%assign var="noAd" value="true"%>
+<%/if%>
 <%assign var="keys" value=$keys|regex_replace:"/白底|靠右|单页|去广告|插图|透明|高清|置顶|沉底|资料|突发|NoCopyrightCover|IsEdited/":""%>
 <%assign var="keys" value=$keys|regex_replace:"/,+/":","%>
 <%assign var="keys" value=$keys|regex_replace:"/^,/":""%>
@@ -654,10 +658,6 @@
 <%/if%>
 <%*<!--MARK: Check the next model tag for sponsored special reports end-->*%>
 
-<%*<!--MARK: Hide Ad for none MBA GYM VIP -->*%>
-<%if $smarty.get.ad == "no" || preg_match("/去广告/is",$keys) || (preg_match("/高端专享/is",$keys) && $hasFoundSponsorship != "yes")%>
-	<%assign var="noAd" value="true"%>
-<%/if%>
 
 <%*<!--MARK: This has to be replicated to multiple templates as this version of smarty doesn't support global scoop in included file-->*%>
 <%if $topnav == ""%>

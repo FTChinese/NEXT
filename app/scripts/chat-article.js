@@ -1,4 +1,9 @@
 /* jshint ignore:start */
+
+const calculateCosineSimilarity = (a, b) => a.reduce((acc, curr, i) => acc + curr * b[i], 0) / (Math.sqrt(a.reduce((acc, curr) => acc + curr ** 2, 0)) * Math.sqrt(b.reduce((acc, curr) => acc + curr ** 2, 0)));
+var model = null;
+var articleObject = {};
+
 delegate.on('click', '[data-action="show-article"]', async (event) => {
     const element = event.target;
     if (element.classList.contains('pending')) {
@@ -14,7 +19,7 @@ delegate.on('click', '[data-action="show-article"]', async (event) => {
         const info = await getArticleFromFTAPI(ftid, language);
         const article = info.results;
         if (info.status === 'success' && article && article.bodyXML) {
-            const actions = `<div class="chat-item-actions" data-lang="${language}"><a data-id="${ftid}" data-action="quiz" title="Test my understanding of the article">${localize('Quiz Me')}</a></div>`;
+            const actions = `<div class="chat-item-actions" data-lang="${language}"><a data-id="${ftid}" data-action="quiz" title="Test my understanding of the article">${localize('Quiz Me')}</a><a data-id="${ftid}" data-action="socratic" title="${localize('Socratic Method Explained')}">${localize('Socratic Method')}</a></div>`;
             let image = '';
             if (article.mainImage && article.mainImage.members && article.mainImage.members.length > 0) {
                 image = article.mainImage.members[0].binaryUrl;
@@ -37,6 +42,7 @@ delegate.on('click', '[data-action="show-article"]', async (event) => {
                         <div class="story-body"><div id="story-body-container">${article.bodyXML || ''}</div></div>
                     </div>
                     ${actions}
+                    <div class="article-prompt">${localize('Discuss Article')}</div>
                 `.replace(/[\r\n]+/g, '');
             html += `<button class="quiz-next hide">NEXT</button>`;
             const result = {text: html};
@@ -44,6 +50,10 @@ delegate.on('click', '[data-action="show-article"]', async (event) => {
             checkScrollyTellingForChat();
             checkFullGridBlocks();
             initScrollyTelling();
+            setIntention('DiscussArticle');
+            userInput.focus();
+            // TODO: - Create embeddings for the article content in paragraphs
+            await generateEmbeddingsForArticle(article);
         }
     } catch (err) {
         console.log(err);
@@ -53,32 +63,86 @@ delegate.on('click', '[data-action="show-article"]', async (event) => {
 });
 
 
-delegate.on('click', '[data-action="quiz"]', async (event) => {
+
+delegate.on('click', '[data-action="quiz"], [data-action="socratic"]', async (event) => {
     const element = event.target;
     if (element.classList.contains('pending')) {return;}
     element.classList.add('pending');
     element.classList.add('hide');
+    const action = element.getAttribute('data-action');
     updateBotStatus('pending');
     try {
         const id = element.getAttribute('data-id') || '';
         const language = element.closest('.chat-item-actions').getAttribute('data-lang') || 'English';
         showUserPrompt(element.innerHTML);
-        showBotResponse('Creating Quiz For You...');
+        showBotResponse(`Creating ${action} data for you...`);
         let articleEle = element.closest('.chat-talk-inner').querySelector('.article-container');
         const title = articleEle.querySelector('.story-headline').innerHTML;
-        const standFirst = articleEle.querySelector('.story-lead').innerHTML;
+        const standfirst = articleEle.querySelector('.story-lead').innerHTML;
         const storyBody = articleEle.querySelector('.story-body').innerHTML;
-        const articleContextAll = `${title}\n${standFirst}\n${storyBody}`
+        const articleContextAll = `${title}\n${standfirst}\n${storyBody}`
             .replace(/<\/p><p>/g, '\n')
             .replace(/(<([^>]+)>)/gi, '')
             .replace(/\[MUSIC PLAYING\]/g, '');
         const articleContextChunks = textToChunks(articleContextAll, 1000);
+        if (action === 'quiz') {
+            await generateQuiz(id, language, articleContextChunks, action);
+        } else if (action === 'socratic') {
+            await generateSocratic(id, language, articleContextChunks, action);
+        }
+    } catch (err) {
+        console.log(err);
+    }
+    element.classList.remove('pending');
+    updateBotStatus('waiting');
+});
+
+
+async function generateSocratic(id, language, articleContextChunks, action) {
+    try {
+        let isConversationDisplayed = false;
+        window.socracticInfo = [];
+        window.socracticIndex = 0;
+        showResultInChat({text: localize('Socratic Method Explained')});
+        showBotResponse(`Creating ${action} data for you...`);
+        // MARK: Send the requests in chunks
+        for (const [index, articleContext] of articleContextChunks.entries()) {
+            const info = await promptOpenAIForArticle(id, index, language, articleContext, articleContextChunks.length, action);
+            if (info.status === 'success' && info.results && info.results.length > 0) {
+                window.socracticInfo = window.socracticInfo.concat(info.results);
+                if (isConversationDisplayed === false) {
+                    isConversationDisplayed = true;
+                    await setIntention(action, language, `<strong>${window.socracticInfo[0].question}</strong>`);
+                    const startConversations = [
+                        {
+                            role: 'assistant',
+                            content: window.socracticInfo[0].question
+                        },
+                        {
+                            role: 'system',
+                            content: `You should evaluate the user's answer based on this context: ${window.socracticInfo[0].excerpt}`
+                        }
+                    ]
+                    previousConversations = previousConversations.concat(startConversations);
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                    userInput.focus();
+                }
+            }
+        }
+    } catch(err) {
+        console.log(`generateSocratic error: `);
+        console.log(err);
+    }
+}
+
+async function generateQuiz(id, language, articleContextChunks, action) {
+    try {
         const randomString = (Math.floor(Math.random() * 90000) + 10000).toString();
         const quizId = id + randomString;
         let isQuizDisplayed = false;
         // MARK: Send the requests in chunks
         for (const [index, articleContext] of articleContextChunks.entries()) {
-            const quizInfo = await getQuizFromFTAPI(id, index, language, articleContext, articleContextChunks.length);
+            const quizInfo = await promptOpenAIForArticle(id, index, language, articleContext, articleContextChunks.length, action);
             if (quizInfo.status === 'success' && quizInfo.results) {
                 let html = '';
                 for (const [index, quiz] of quizInfo.results.entries()) {
@@ -114,15 +178,13 @@ delegate.on('click', '[data-action="quiz"]', async (event) => {
                 } else {
                     document.getElementById(quizId).innerHTML += html;
                 }
-
             }
         }
-    } catch (err) {
+    } catch(err) {
+        console.log(`generate quiz error: `);
         console.log(err);
     }
-    element.classList.remove('pending');
-    updateBotStatus('waiting');
-});
+}
 
 delegate.on('click', '.quiz-options div', async (event) => {
     const element = event.target;
@@ -222,7 +284,73 @@ function textToChunks(text, maxTokensPerChunk) {
     }
     return chunks;
 }
-  
+
+async function generateEmbeddingsForArticle(article) {
+    try {
+        articleObject = {
+            article: article
+        };
+        const bodyXML = article.bodyXML || '';
+        // TODO: - Should cut the paragraphs into better chunks which grasp meaning, for example, <h1> tags should never be separated from its content
+        const articleContextAll = bodyXML
+            .replace(/<\/p><p>/g, '\n')
+            .replace(/(<([^>]+)>)/gi, '')
+            .replace(/\[MUSIC PLAYING\]/g, '');
+        articleObject.chunks = textToChunks(articleContextAll, 200);
+        if (!model) {model = await use.load();}
+        const embeddings = await model.embed(articleObject.chunks);
+        articleObject.embeddings = await embeddings.array();
+        // console.log(articleEmbeddings);
+        // Calculate the cosine similarity between the first and second inputs
+        const vector1 = articleObject.embeddings[0];
+        const vector2 = articleObject.embeddings[1];
+        const similarity = calculateCosineSimilarity(vector1, vector2);
+        console.log('Cosine similarity between the first and second inputs:', similarity);
+    } catch(err) {
+        console.log('generateEmbeddingsForArticle error: ');
+        console.log(err);
+    }
+}
+
+async function getContextByIntention(prompt) {
+    let context = '';
+    try {
+        if (window.intention === 'DiscussArticle') {
+            const maxTokenForContext = 500;
+            if (!articleObject.embeddings) {
+                await generateEmbeddingsForArticle(articleObject.article);
+            }
+            context = `${articleObject.article.title || ''}\n${articleObject.article.standfirst || ''}`;
+            const promptEmbeddings = await model.embed(prompt);
+            const promptVectors = await promptEmbeddings.array();
+            let similarities = [];
+            for (const [index, vector] of articleObject.embeddings.entries()) {
+                const similarity = calculateCosineSimilarity(promptVectors[0], vector);
+                const tokens = roughTokenCount(articleObject.chunks[index]);
+                console.log(`similarity to ${index}: ${similarity}, tokens: ${tokens}`);
+
+                similarities.push({index: index, similarity: similarity, tokens: tokens});
+            }
+            similarities = similarities.sort((a, b) => b.similarity - a.similarity);
+            let usefulContexts = [];
+            let tokenCount = 0;
+            for (const similarity of similarities) {
+                tokenCount += similarity.tokens;
+                if (tokenCount >= maxTokenForContext) {break;}
+                usefulContexts.push(similarity.index);
+            }
+            for (const [index, chunk] of articleObject.chunks.entries()) {
+                if (usefulContexts.indexOf(index) === -1) {continue;}
+                context += `\n${chunk}`;
+            }
+        }
+    } catch (err) {
+        console.log('getContextByIntention error: ');
+        console.log(err);
+    }
+    console.log(context);
+    return context;
+}
 
 function imagesToHtml(embed) {
     let html = '<picture>';
@@ -408,8 +536,8 @@ async function getArticleFromFTAPI(id, language) {
             body: JSON.stringify(data)
         };
         if (isFrontendTest && !isPowerTranslate) {
-            // url = '/api/page/ft_article.json';
-            url = '/api/page/ft_article_scrolly_telling.json';
+            url = '/api/page/ft_article.json';
+            // url = '/api/page/ft_article_scrolly_telling.json';
             options = {
                 method: 'GET',
                 headers: {
@@ -434,14 +562,15 @@ async function getArticleFromFTAPI(id, language) {
     }
 }
 
-async function getQuizFromFTAPI(id, index, language, text, chunks) {
+async function promptOpenAIForArticle(id, index, language, text, chunks, action) {
     try {
         const token = (isPowerTranslate) ? localStorage.getItem('accessToken') : 'sometoken';
         if (!token || token === '') {
             return {status: 'failed', message: 'You need to sign in first! '};
         }
+        const actionSuffix = (action === 'quiz') ? '' : `_${action}`;
         // MARK: - 1. Check if there's a cached result
-        const queryData = {id: id, index: index, language: language, type: 'quiz'};
+        const queryData = {id: id, index: index, language: language, type: action};
         let url = (isPowerTranslate) ? '/openai/check_cache' : '/FTAPI/check_cache.php';
         let options = {
             method: 'POST',
@@ -452,7 +581,7 @@ async function getQuizFromFTAPI(id, index, language, text, chunks) {
             body: JSON.stringify(queryData)
         };
         if (isFrontendTest && !isPowerTranslate) {
-            url = '/api/page/poll_request_result.json';
+            url = `/api/page/poll_request_result${actionSuffix}.json`;
             options = {
                 method: 'GET',
                 headers: {
@@ -476,8 +605,8 @@ async function getQuizFromFTAPI(id, index, language, text, chunks) {
 
         // MARK: - 2. Handle this over as a background task
         const _id = generateRequestId();
-        const data = {id: id, index: index, language: language, text: text, _id: _id, chunks: chunks};
-        url = (isPowerTranslate) ? '/openai/create_quiz' : '/FTAPI/create_quiz.php';
+        const data = {id: id, index: index, language: language, text: text, _id: _id, chunks: chunks, action: action};
+        url = (isPowerTranslate) ? '/openai/create_info' : '/FTAPI/create_info.php';
         options = {
             method: 'POST',
             headers: {
@@ -512,7 +641,7 @@ async function getQuizFromFTAPI(id, index, language, text, chunks) {
                 }
             };
             if (isFrontendTest && !isPowerTranslate) {
-                url = '/api/page/poll_request_result.json';
+                url = `/api/page/poll_request_result${actionSuffix}.json`;
                 options = {
                     method: 'GET',
                     headers: {
@@ -521,7 +650,7 @@ async function getQuizFromFTAPI(id, index, language, text, chunks) {
                 };
             }
             for (let i=0; i<loops; i++) {
-                console.log(`loop for getQuizFromFTAPI ${_id}: ${i}`);
+                console.log(`loop for promptOpenAIForArticle ${action} ${_id}: ${i}`);
                 response = await fetch(url, options);
                 try {
                     const results = await response.json();

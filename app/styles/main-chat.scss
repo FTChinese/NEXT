@@ -288,12 +288,38 @@ body {
 }
 
 .full-grid-story {
-    .story-header-container, .chat-item-actions, #story-body-container > * {
+    .story-header-container, .chat-item-actions, .article-prompt, #story-body-container > * {
         max-width: 768px;
         margin-left: auto;
         margin-right: auto;
     }
+    #story-body-container {
+        .n-content-pullquote, .n-content-big-number {
+            max-width: 360px;
+            margin-left: calc((100% - 768px) / 2);
+            margin-right: 30px;
+        }
+    }
+    .article-prompt {
+        margin-top: 2em;
+        font-weight: bold;
+    }
 }
+
+
+@media only screen and (max-width: 980px) {
+    .full-grid-story {
+        #story-body-container {
+            .n-content-pullquote, .n-content-big-number {
+                margin: auto;
+                padding: 0;
+                float: none;
+                max-width: 768px;
+            }
+        }
+    }
+}
+
 .full-grid-story {
     .chat-talk-inner {
         max-width: 100%;
@@ -314,6 +340,7 @@ body {
     figure {
         img {
             max-width: 100%;
+            width: 100%;
         }
     }
 }

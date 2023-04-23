@@ -16,79 +16,167 @@ const scrollOptions = {
   block: 'end',
 };
 
-const greetingDict = {
-  'en': [
-    'Hello, how can I help you?',
-    'Hi, how may I help you?',
-    'Hello, how may I assist you?',
-    'Greetings, how can I be of service?',
-    'Hey there, how can I help you today?'
-  ],
-  'es': [
-    'Hola, ¿en qué puedo ayudarte?',
-    '¡Hola! ¿Cómo puedo ayudarte?',
-    'Bienvenido, ¿en qué puedo ayudarte hoy?',
-    '¿En qué puedo asistirte?',
-    'Buenos días, ¿cómo puedo ayudarte?'
-  ],
-  'fr': [
-    'Bonjour, comment puis-je vous aider ?',
-    'Salut, comment puis-je vous aider ?',
-    'Bonjour, en quoi puis-je vous aider ?',
-    'Bonjour, que puis-je faire pour vous ?',
-    'Bonjour, comment je peux vous aider aujourd\'hui ?'
-  ],
-  'de': [
-    'Hallo, wie kann ich Ihnen helfen?',
-    'Guten Tag, wie kann ich Ihnen helfen?',
-    'Hallo, wie kann ich Ihnen behilflich sein?',
-    'Guten Morgen, wie kann ich Ihnen helfen?',
-    'Hi, was kann ich für Sie tun?'
-  ],
-  'ja': [
-    'こんにちは、何かお手伝いできますか？',
-    'はじめまして、何かご質問はありますか？',
-    'お問い合わせありがとうございます。どういったことでお困りですか？',
-    'こんにちは。何かお探しですか？',
-    'こんにちは。ご相談はありますか？'
-  ],
-  'ko': [
-    '안녕하세요, 무엇을 도와드릴까요?',
-    '안녕하세요, 무엇이 문제인가요?',
-    '안녕하세요, 무엇을 도와드릴까요?',
-    '안녕하세요, 어떤 문제가 있으신가요?',
-    '안녕하세요, 도움이 필요하시면 언제든지 말씀해주세요.'
-  ],
-  'pt': [
-    'Olá, em que posso ajudar?',
-    'Oi, como posso ajudar?',
-    'Boa tarde, como posso ajudá-lo?',
-    'Posso ajudar em alguma coisa?',
-    'Olá, posso ajudar em algo?'
-  ],
-  'it': [
-    'Ciao, come posso aiutarti?',
-    'Salve, di cosa hai bisogno?',
-    'Buongiorno, in che modo posso aiutarti?',
-    'Ciao, posso aiutarti in qualche modo?',
-    'Salve, di che hai bisogno?'
-  ],
-  'zh-TW': ['你好，有什麼可以幫助你的嗎？', '您好，需要我幫忙嗎？', '哈囉，有什麼我可以幫忙的嗎？', '您好，我能為您做些什麼？', '歡迎詢問，我有什麼可以幫忙的嗎？'],
-  'zh-HK': ['你好，有什麼可以幫助你的嗎？', '您好，需要我幫忙嗎？', '哈囉，有什麼我可以幫忙的嗎？', '您好，我能為您做些什麼？', '歡迎詢問，我有什麼可以幫忙的嗎？'],
-  'zh': [
-    '你好，有什么需要帮助的吗？',
-    '您好，需要我帮忙吗？',
-    '你好，请问有什么可以帮您的？',
-    '您好，我能为您提供什么服务？',
-    '嗨，有什么我可以帮您的吗？'
-  ],
-  'ru': [
-    'Здравствуйте, чем я могу вам помочь?',
-    'Привет, чем я могу вам помочь?',
-    'Здравствуйте, как я могу вам помочь?',
-    'Приветствую, чем я могу быть полезен?',
-    'Здравствуйте, чем я могу вам помочь сегодня?'
-  ]
+const randomPromptDict = {
+  greeting: {
+    'en': [
+      'Hello, how can I help you?',
+      'Hi, how may I help you?',
+      'Hello, how may I assist you?',
+      'Greetings, how can I be of service?',
+      'Hey there, how can I help you today?'
+    ],
+    'es': [
+      'Hola, ¿en qué puedo ayudarte?',
+      '¡Hola! ¿Cómo puedo ayudarte?',
+      'Bienvenido, ¿en qué puedo ayudarte hoy?',
+      '¿En qué puedo asistirte?',
+      'Buenos días, ¿cómo puedo ayudarte?'
+    ],
+    'fr': [
+      'Bonjour, comment puis-je vous aider ?',
+      'Salut, comment puis-je vous aider ?',
+      'Bonjour, en quoi puis-je vous aider ?',
+      'Bonjour, que puis-je faire pour vous ?',
+      'Bonjour, comment je peux vous aider aujourd\'hui ?'
+    ],
+    'de': [
+      'Hallo, wie kann ich Ihnen helfen?',
+      'Guten Tag, wie kann ich Ihnen helfen?',
+      'Hallo, wie kann ich Ihnen behilflich sein?',
+      'Guten Morgen, wie kann ich Ihnen helfen?',
+      'Hi, was kann ich für Sie tun?'
+    ],
+    'ja': [
+      'こんにちは、何かお手伝いできますか？',
+      'はじめまして、何かご質問はありますか？',
+      'お問い合わせありがとうございます。どういったことでお困りですか？',
+      'こんにちは。何かお探しですか？',
+      'こんにちは。ご相談はありますか？'
+    ],
+    'ko': [
+      '안녕하세요, 무엇을 도와드릴까요?',
+      '안녕하세요, 무엇이 문제인가요?',
+      '안녕하세요, 무엇을 도와드릴까요?',
+      '안녕하세요, 어떤 문제가 있으신가요?',
+      '안녕하세요, 도움이 필요하시면 언제든지 말씀해주세요.'
+    ],
+    'pt': [
+      'Olá, em que posso ajudar?',
+      'Oi, como posso ajudar?',
+      'Boa tarde, como posso ajudá-lo?',
+      'Posso ajudar em alguma coisa?',
+      'Olá, posso ajudar em algo?'
+    ],
+    'it': [
+      'Ciao, come posso aiutarti?',
+      'Salve, di cosa hai bisogno?',
+      'Buongiorno, in che modo posso aiutarti?',
+      'Ciao, posso aiutarti in qualche modo?',
+      'Salve, di che hai bisogno?'
+    ],
+    'zh-TW': ['你好，有什麼可以幫助你的嗎？', '您好，需要我幫忙嗎？', '哈囉，有什麼我可以幫忙的嗎？', '您好，我能為您做些什麼？', '歡迎詢問，我有什麼可以幫忙的嗎？'],
+    'zh-HK': ['你好，有什麼可以幫助你的嗎？', '您好，需要我幫忙嗎？', '哈囉，有什麼我可以幫忙的嗎？', '您好，我能為您做些什麼？', '歡迎詢問，我有什麼可以幫忙的嗎？'],
+    'zh': [
+      '你好，有什么需要帮助的吗？',
+      '您好，需要我帮忙吗？',
+      '你好，请问有什么可以帮您的？',
+      '您好，我能为您提供什么服务？',
+      '嗨，有什么我可以帮您的吗？'
+    ],
+    'ru': [
+      'Здравствуйте, чем я могу вам помочь?',
+      'Привет, чем я могу вам помочь?',
+      'Здравствуйте, как я могу вам помочь?',
+      'Приветствую, чем я могу быть полезен?',
+      'Здравствуйте, чем я могу вам помочь сегодня?'
+    ]
+  },
+  ending: {
+    'en': [
+    'What else can I do for you?',
+    'Is there anything else I can assist you with?',
+    'Do you require any further assistance from me?',
+    'Are there any other ways I can be of service to you?',
+    'Would you like me to do anything else for you?'
+    ],
+    'es': [
+    '¿Qué más puedo hacer por ti?',
+    '¿Hay algo más en lo que pueda ayudarte?',
+    '¿Necesitas alguna otra asistencia de mi parte?',
+    '¿Hay alguna otra manera en la que pueda ser de servicio para ti?',
+    '¿Te gustaría que hiciera algo más por ti?'
+    ],
+    'fr': [
+    `Que puis-je faire d'autre pour vous ?`,
+    'Est-ce que je peux vous aider avec autre chose ?',
+    `Avez-vous besoin d'une assistance supplémentaire de ma part ?`,
+    `Y a-t-il d'autres moyens par lesquels je peux être utile pour vous ?`,
+    'Voulez-vous que je fasse autre chose pour vous ?'
+    ],
+    'de': [
+    'Was kann ich noch für Sie tun?',
+    'Kann ich Ihnen noch in anderer Weise behilflich sein?',
+    'Benötigen Sie weitere Unterstützung von mir?',
+    'Gibt es noch andere Möglichkeiten, wie ich Ihnen dienen kann?',
+    'Möchten Sie, dass ich noch etwas anderes für Sie tue?'
+    ],
+    'ja': [
+    '他に何かご用件はありますか？',
+    '他に何かお手伝いできることはありますか？',
+    '私に他に何かお力になることはありますか？',
+    '他にも何かお役に立てる方法はありますか？',
+    '他に何かしてほしいことはありますか？'
+    ],
+    'ko': [
+    '더 도와 드릴 게 있나요?',
+    '다른 무언가 도와 드릴 수 있나요?',
+    '제가 더 도움을 드릴 수 있는 것이 있나요?',
+    '다른 방법으로도 봉사할 수 있는 게 있나요?',
+    '제가 더 해 줄 일이 있나요?'
+    ],
+    'pt': [
+    'O que mais posso fazer por você?',
+    'Existe algo mais em que posso ajudá-lo?',
+    'Você precisa de mais alguma assistência minha?',
+    'Existem outras maneiras pelas quais posso ser útil para você?',
+    'Você gostaria que eu fizesse algo mais por você?'
+    ],
+    'it': [
+    'Cosa altro posso fare per te?',
+    `C'è qualcos'altro in cui posso aiutarti?`,
+    'Hai bisogno di ulteriore assistenza da parte mia?',
+    'Ci sono altri modi in cui posso esserti utile?',
+    'Desideri che io faccia altro per te?'
+    ],
+    'zh-TW': [
+    '還有什麼我可以為您做的嗎？',
+    '還有什麼我可以幫您的嗎？',
+    '您需要我提供什麼其他的協助嗎？',
+    '還有其他什麼方式我可以為您服務嗎？',
+    '您還需要我為您做些什麼嗎？'
+    ],
+    'zh-HK': [
+    '我還可以為您做些什麼嗎？',
+    '還有什麼我可以協助您的嗎？',
+    '您需要我提供其他的幫助嗎？',
+    '還有其他方法可以令我為您服務嗎？',
+    '您還需要我為您做其他事嗎？'
+    ],
+    'zh': [
+    '还有什么我可以为您做的吗？',
+    '还有什么我可以帮您的吗？',
+    '您需要我提供什么其他的协助吗？',
+    '还有其他什么方式我可以为您服务吗？',
+    '您还需要我为您做些什么吗？'
+    ],
+    'ru': [
+    'Чем еще я могу Вам помочь?',
+    'Нужна ли Вам еще какая-либо помощь с моей стороны?',
+    'Требуется ли Вам дополнительная помощь от меня?',
+    'Есть ли другие способы, которыми я могу быть Вам полезен?',
+    'Хотели бы Вы, чтобы я что-то еще сделал для Вас?'
+    ]
+  }
 };
 
 const statusDict = {
@@ -176,6 +264,34 @@ const statusDict = {
     zh: '测试我的理解。',
     ru: 'Проверьте мое понимание.'
   },
+  'Socratic Method': {
+    en: 'Use the Socratic method to help me learn and understand the content above.',
+    zh: '用苏格拉底诘问来帮我学习和理解上面的内容。',
+    es: 'Utiliza el método socrático para ayudarme a aprender y entender el contenido de arriba.',
+    fr: `Utilisez la méthode socratique pour m'aider à apprendre et comprendre le contenu ci-dessus.`,
+    de: `Verwenden Sie die sokratische Methode, um mir beim Lernen und Verstehen des obigen Inhalts zu helfen.`,
+    ja: '上記の内容を学習し理解するためにソクラテス式問答法を使用してください。',
+    ko: '위의 내용을 학습하고 이해하는 데 소크라테스식 문답법을 사용하세요.',
+    pt: 'Use o método socrático para me ajudar a aprender e entender o conteúdo acima.',
+    it: 'Usa il metodo socratico per aiutarmi ad imparare e comprendere il contenuto sopra.',
+    'zh-TW': '使用蘇格拉底式的詰問法來幫助我學習並理解上面的內容。',
+    'zh-HK': '用蘇格拉底式的質問法來幫助我學習和理解上面的內容。',
+    ru: 'Используйте сократический метод, чтобы помочь мне учиться и понимать вышеупомянутое содержание.'
+  },
+  'Socratic Method Explained': {
+    en: 'The Socratic Method is a way of questioning and discussing ideas to challenge assumptions and arrive at a better understanding. It involves asking questions to uncover underlying beliefs and test the logic of responses given. It is used to promote critical thinking, problem-solving, and creativity in various fields.',
+    zh: '苏格拉底诘问方法是一种质疑和讨论观念的方式，旨在挑战假设并达到更好的理解。它涉及提出问题以揭示潜在信念并测试所给出的响应的逻辑。它用于在各个领域中促进批判性思维、问题解决和创造力。',
+    es: 'El Método Socrático es una forma de cuestionar y discutir ideas para desafiar suposiciones y llegar a una mejor comprensión. Implica hacer preguntas para descubrir creencias subyacentes y poner a prueba la lógica de las respuestas dadas. Se utiliza para promover el pensamiento crítico, la resolución de problemas y la creatividad en varios campos.',
+    fr: 'La méthode socratique est une façon de questionner et de discuter des idées afin de remettre en question les hypothèses et parvenir à une meilleure compréhension. Elle consiste à poser des questions pour découvrir les croyances sous-jacentes et tester la logique des réponses données. Elle est utilisée pour promouvoir la pensée critique, la résolution de problèmes et la créativité dans différents domaines.',
+    de: 'Die sokratische Methode ist eine Art des Fragens und Diskutierens von Ideen, um Annahmen herauszufordern und zu einem besseren Verständnis zu gelangen. Es beinhaltet Fragen, um zugrunde liegende Überzeugungen aufzudecken und die Logik der gegebenen Antworten zu prüfen. Es wird verwendet, um kritisches Denken, Problemlösung und Kreativität in verschiedenen Bereichen zu fördern.',
+    ja: 'ソクラテスの方法は、仮定に挑戦し、より良い理解に到達するための問いかけと議論の方法です。潜在的な信念を明らかにするために質問し、回答の論理をテストすることが含まれます。さまざまな分野で批判的思考、問題解決、創造性を促進するために使用されています。',
+    ko: '소크라테스 방법은 가정을 도전하고 더 나은 이해를 도출하기 위해 아이디어에 대한 질문과 토론하는 방법입니다. 대답의 논리를 검증하고, 깔끔하지 않은 논리를 깨우쳐 신념을 드러냅니다. 다양한 분야에서 비판적 사고, 문제 해결 및 창의성을 촉진하는 데 사용됩니다.',
+    pt: 'O Método Socrático é uma maneira de questionar e discutir ideias para desafiar pressupostos e chegar a uma melhor compreensão. Envolve fazer perguntas para descobrir crenças subjacentes e testar a lógica das respostas dadas. É usado para promover o pensamento crítico, a resolução de problemas e a criatividade em várias áreas.',
+    it: `Il Metodo Socratico è un modo di interrogare e discutere le idee per mettere in discussione le assunzioni e arrivare ad una migliore comprensione. Comprende l'arte di porre domande per scoprire le credenze sottostanti e testare la logica delle risposte date. È utilizzato per promuovere il pensiero critico, la risoluzione dei problemi e la creatività in vari campi.`,
+    'zh-TW': '蘇格拉底詰問方法是一種質疑和討論觀念的方式，旨在挑戰假設並達到更好的理解。它涉及提出問題以揭示潛在信念並測試所給出的回應的邏輯。它用於在各個領域中促進批判性思維、問題解決和創造力。',
+    'zh-HK': '蘇格拉底詰問方法是一種質疑和討論觀念的方式，旨在挑戰假設並達到更好的理解。它涉及提出問題以揭示潛在信念並測試所給出的回應的邏輯。它用於在各個領域中促進批判性思維、問題解決和創造力。',
+    ru: 'Метод Сократа - это способ вопросительного и обсуждающего подхода к идеям, направленный на оспаривание предположений и достижение лучшего понимания. Он включает в себя задавание вопросов, чтобы раскрыть скрытые убеждения и проверить логику полученных ответов. Используется для развития критического мышления, решения проблем и креативности в различных областях.'
+  },
   'China News': {
     en: 'What\'s news in China?',
     es: '¿Qué hay de nuevo en China?',
@@ -245,27 +361,61 @@ const statusDict = {
     'zh-TW': '好的，有什麼我能幫到您的嗎？',
     'zh-HK': '好的，有什麼我能幫到您的嗎？',
     ru: 'Конечно, в чем я могу вам помочь?'
-  }
-  
-  
-  // <a data-action="talk">I have a problem with my subscription.</a>
-  
+  },
+  'Discuss Article': {
+    zh: '关于这篇文章，如果您有任何问题，可以现在问我。',
+    en: "If you have any questions about this article, feel free to ask me now.",
+    es: "Si tienes alguna pregunta sobre este artículo, no dudes en preguntarme ahora.",
+    fr: "Si vous avez des questions sur cet article, n'hésitez pas à me demander maintenant.",
+    de: "Wenn Sie Fragen zu diesem Artikel haben, fragen Sie mich gerne jetzt.",
+    ja: "この記事についての質問があれば、遠慮なくお聞きください。",
+    ko: "이 기사에 대해 궁금한 점이 있으면 지금 저에게 물어보세요.",
+    pt: "Se você tiver alguma dúvida sobre este artigo, sinta-se à vontade para me perguntar agora.",
+    it: "Se hai domande su questo articolo, sentiti libero di chiedermi ora.",
+    'zh-TW': "關於這篇文章，如果您有任何問題，可以現在問我。",
+    'zh-HK': "關於呢篇文章，如果你有咩問題，可以即刻問我。",
+    ru: "Если у вас есть вопросы по этой статье, не стесняйтесь спрашивать меня сейчас."
+  },
+  Finding: {
+    zh: '好的，我来帮您查询...',
+    en: 'Okay, let me help you search...',
+    es: 'De acuerdo, déjame ayudarte a buscar...',
+    fr: `D'accord, laissez-moi vous aider à chercher...`,
+    de: 'Okay, ich helfe Ihnen gerne bei der Suche...',
+    ja: '了解しました、検索をお手伝いします...',
+    ko: '알겠습니다. 검색을 도와드리겠습니다...',
+    pt: 'Certo, deixe-me ajudá-lo a pesquisar...',
+    it: 'Va bene, lascia che ti aiuti a cercare...',
+    'zh-TW': '好的，我來幫您查詢...',
+    'zh-HK': '好的，我來幫您查詢...',
+    ru: 'Хорошо, я помогу вам найти...'
+  }  
 };
 
+var composing = false;
+
+userInput.addEventListener('input', (event) => {
+  userInput.style.height = 'auto'; // reset the height
+  userInput.style.height = userInput.scrollHeight + 'px'; // set new height based on the content
+});
+
 userInput.addEventListener("keydown", function(event) {
-  if (event.key === "Enter" && !event.shiftKey) {
+  if (event.key === "Enter" && !event.shiftKey && !composing) {
     event.preventDefault();
     talk();
   }
 });
 
-chatSumit.addEventListener('click', function(event){
-  talk();
+userInput.addEventListener('compositionstart', () => {
+  composing = true;
 });
 
-userInput.addEventListener('input', () => {
-    userInput.style.height = 'auto'; // reset the height
-    userInput.style.height = userInput.scrollHeight + 'px'; // set new height based on the content
+userInput.addEventListener('compositionend', () => {
+  composing = false;
+});
+
+chatSumit.addEventListener('click', function(event){
+  talk();
 });
 
 delegate.on('click', '[data-action="talk"]', async (event) => {
@@ -277,9 +427,7 @@ delegate.on('click', '[data-action="talk"]', async (event) => {
 
 delegate.on('click', '.chat-items-expand', async (event) => {
   const element = event.target;
-  if (element.classList.contains('pending')) {
-    return;
-  }
+  if (element.classList.contains('pending')) {return;}
   element.classList.add('pending');
   updateBotStatus('pending');
   try {
@@ -289,13 +437,28 @@ delegate.on('click', '.chat-items-expand', async (event) => {
     const hiddenItemsArray = Array.from(hiddenItems);
     const selectedItems = hiddenItemsArray.slice(0, chunkSize);
     const language = element.getAttribute('data-lang');
-    for (const item of selectedItems) {
+    const results = selectedItems.map(item => {
+      let title = item.querySelector('.chat-item-title a').innerHTML;
+      let lead = item.querySelector('.item-lead').innerHTML;
+      return {
+        title: {title: title},
+        editorial: {
+          subheading: lead
+        }
+      };
+    });
+    const translations = await createTranslations(results, language);
+    for (const [index, item] of selectedItems.entries()) {
       const id = item.getAttribute('data-id');
       let title = item.querySelector('.chat-item-title a').innerHTML;
-      title = await translateFromEnglish(title, language);
-      item.querySelector('.chat-item-title a').innerHTML = title;
+      // title = await translateFromEnglish(title, language);
       let lead = item.querySelector('.item-lead').innerHTML;
-      lead = await translateFromEnglish(lead, language);
+      // lead = await translateFromEnglish(lead, language);
+      if (translations.length > index) {
+        title = translations[index].title || title;
+        lead = translations[index].subheading || lead;
+      }
+      item.querySelector('.chat-item-title a').innerHTML = title;
       item.querySelector('.item-lead').innerHTML = lead;
       item.classList.remove('hide');
     }
@@ -361,6 +524,31 @@ function updateStatus(status) {
   document.getElementById('current-chat-status').innerHTML = `<span>${localize(status)}</span>`;
 }
 
+async function nextAction(intention) {
+  if (!intention) {return;}
+  if (intention === 'socratic' && window.socracticInfo && typeof window.socracticIndex === 'number' && window.socracticIndex >= 0) {
+    window.socracticIndex += 1;
+    if (window.socracticInfo.length > window.socracticIndex) {
+      showResultInChat({text: `<strong>${window.socracticInfo[window.socracticIndex].question}</strong>`});
+      const startConversations = [
+        {
+            role: 'assistant',
+            content: window.socracticInfo[window.socracticIndex].question
+        },
+        {
+            role: 'system',
+            content: `You should evaluate the user's answer based on this context: ${window.socracticInfo[window.socracticIndex].excerpt}`
+        }
+      ];
+      previousConversations = previousConversations.concat(startConversations);
+    }
+    if (window.socracticInfo.length === window.socracticIndex) {
+      // TODO: - Should support more languages
+      await setIntention('DiscussArticle', undefined, `${getRandomPrompt('ending')}${getActionOptions()}`);
+    }
+  }
+}
+
 function updateBotStatus(status) {
   botStatus = status;
   if (status === 'pending') {
@@ -380,6 +568,23 @@ function showBotResponse(placeholder) {
   botResponse.innerHTML = `<div class="chat-talk-inner">${placeholder || '...'}</div>`;
   chatContent.appendChild(botResponse);
   botResponse.scrollIntoView(scrollOptions);
+}
+
+function showResultInChat(result) {
+  updateBotStatus('waiting');
+  const newResult = document.createElement('DIV');
+  newResult.className = 'chat-talk chat-talk-agent';
+  // MARK: - Converting the HTML on the frontend
+  if (!result || !result.text || typeof result.text !== 'string') {return;}
+  const resultHTML = markdownToHtmlTable(result.text).replace(/\n/g, '<br>');
+  newResult.innerHTML = `<div class="chat-talk-inner">${resultHTML}</div>`;
+  chatContent.appendChild(newResult);
+  if (newResult.querySelector('h1, .story-header-container')) {
+    newResult.classList.add('full-grid-story');
+    newResult.querySelector('h1, .story-header-container').scrollIntoView(scrollOptions);
+  } else {
+    newResult.scrollIntoView(scrollOptions);
+  }
 }
 
 function showUserPrompt(prompt) {
@@ -404,9 +609,10 @@ async function talk() {
   }
   updateBotStatus('pending');
   showUserPrompt(prompt);
-  showBotResponse();
   userInput.value = '';
   userInput.style.height = 'auto';
+  showBotResponse();
+  const context = await getContextByIntention(prompt);
   // MARK: - Send the prompt to our API for response
   const newUserPrompt = {role: 'user', content: prompt};
   const messages = previousConversations.concat([newUserPrompt]);
@@ -416,12 +622,10 @@ async function talk() {
       temperature: 0,
       max_tokens: 300,
       intentions: intentions,
-      key: window.intention // Pass the window intention for fast detection
+      key: window.intention, // Pass the window intention for fast detection
+      context: context // Send context such as article text so that the chat bot can respond more accurately
   };
-  // TODO: - Heroku has a 30 seconds hard limit for all requests. The best way is NOT to detect intention first (either locally or through a request to OpenAI), then deal with the intention (likely through OpenAI) because OpenAI's service is so slow that even one simple request will time out. The only way that works is to just post the task for the background to handle, then polling for the result, like what we did for the Quiz.  
-  // const intention = await detectIntention(data);
-  // console.log(`intention: ${intention}`);
-  // data.intention = intention;
+  // MARK: - Heroku has a 30 seconds hard limit for all requests. The best way is NOT to detect intention first (either locally or through a request to OpenAI), then deal with the intention (likely through OpenAI) because OpenAI's service is so slow that even one simple request will time out. The only way that works is to just post the task for the background to handle, then polling for the result, like what we did for the Quiz.
   const result = await createChatFromOpenAI(data);
   if (result.status === 'success' && result.text) {
       showResultInChat(result);
@@ -429,7 +633,7 @@ async function talk() {
       previousConversations = previousConversations.slice(-5);
       previousIntentDections = previousIntentDections.slice(-5);
       // MARK: - Only keep the history if the intention is not a known one, in which case, OpenAI will need the contexts. 
-      if (!result.intention || ['Other', 'CustomerService'].indexOf(result.intention) >= 0) {
+      if (!result.intention || ['Other', 'CustomerService', 'DiscussArticle'].indexOf(result.intention) >= 0) {
         previousConversations.push(newUserPrompt);
         previousConversations.push({role: 'assistant', content: result.text});
       }
@@ -438,6 +642,7 @@ async function talk() {
       updateStatus(result.intention);
       // MARK: - Check if the resultHTML has some prompt or request for the system
       await handleResultPrompt(result.text);
+      await nextAction(result.intention);
   } else if (result.message) {
       updateStatus('Error');
       await showError(result.message);
@@ -487,24 +692,6 @@ function markdownToHtmlTable(text) {
   return html;
 }
 
-
-
-
-function showResultInChat(result) {
-  updateBotStatus('waiting');
-  const newResult = document.createElement('DIV');
-  newResult.className = 'chat-talk chat-talk-agent';
-  // MARK: - Converting the HTML on the frontend
-  const resultHTML = markdownToHtmlTable(result.text).replace(/\n/g, '<br>');
-  newResult.innerHTML = `<div class="chat-talk-inner">${resultHTML}</div>`;
-  chatContent.appendChild(newResult);
-  if (newResult.querySelector('h1, .story-header-container')) {
-    newResult.querySelector('h1, .story-header-container').scrollIntoView(scrollOptions);
-  } else {
-    newResult.scrollIntoView(scrollOptions);
-  }
-}
-
 const purposeToFunction = {
   'search-ft-api': searchFTAPI,
   'set-intention': setIntention
@@ -519,18 +706,38 @@ const purposeToFunction = {
 
 // }
 
-async function setIntention(content, language, reply) {
-  // console.log(`running setIntention... content: ${content}, language: ${language}`);
-  intention = content;
+async function setIntention(intention, language, reply) {
+  // console.log(`running setIntention... content: ${intention}, language: ${language}`);
+  window.intention = intention;
   updateStatus(intention);
-  if (reply && typeof reply === 'string') {
-    showResultInChat({text: reply});
+  showResultInChat({text: reply});
+}
+
+async function createTranslations(results, language) {
+  let titleAndSubheading = results
+  .map(item => {
+    return `${item.title.title || ''}\n${item.editorial.subheading || item.summary.excerpt || ''}`;
+  })
+  .join('\n');
+  titleAndSubheading = await translateFromEnglish(titleAndSubheading, language);
+  let translations = [];
+  let t = '';
+  let s = '';
+  for (const [index, text] of titleAndSubheading.split('\n').entries()) {
+    if (index % 2 === 0) {
+      t = text;
+    } else {
+      s = text;
+      translations.push({title: t, subheading: s});
+    }
   }
+  return translations;
 }
 
 async function searchFTAPI(content, language, reply) {
   // console.log(`running searchFTAPI... content: ${content}, language: ${language}`);
   updateBotStatus('pending');
+  showResultInChat({text: reply});
   try {
     let result = await getFTAPISearchResult(content);
     // console.log(result);
@@ -543,26 +750,7 @@ async function searchFTAPI(content, language, reply) {
       chatContent.appendChild(newResult);
       const itemChunk = 5;
       const results = result.results[0].results;
-      let titleAndSubheading = results
-        .slice(0, itemChunk)
-        .map(item => {
-          return `${item.title.title || ''}\n${item.editorial.subheading || item.summary.excerpt || ''}`;
-        })
-        .join('\n');
-      titleAndSubheading = await translateFromEnglish(titleAndSubheading, language);
-      let translations = [];
-      let t = '';
-      let s = '';
-      for (const [index, text] of titleAndSubheading.split('\n').entries()) {
-        if (index % 2 === 0) {
-          t = text;
-        } else {
-          s = text;
-          translations.push({title: t, subheading: s});
-        }
-      }
-      // console.log('translations: ');
-      // console.log(translations);
+      const translations = await createTranslations(results.slice(0, itemChunk), language);
       let html = '';
       for (const [index, item] of results.entries()) {
         const id = item.id;
@@ -622,32 +810,43 @@ async function handleResultPrompt(resultHTML) {
   }
 }
 
-function greet() {
+function getRandomPrompt(purpose) {
   const language = navigator.language;
   const languagePrefix = language.replace(/\-.*$/g, '');
-  const prompts = greetingDict[language] || greetingDict[languagePrefix] || greetingDict.en;
+  const dict = randomPromptDict[purpose];
+  if (!dict) {return 'Hello, How can I help you?';}
+  const prompts = dict[language] || dict[languagePrefix] || dict.en;
   const randomIndex = Math.floor(Math.random() * prompts.length);
   const prompt = prompts[randomIndex];
+  return prompt;
+}
+
+function getActionOptions() {
+  const language = navigator.language;
+  return `
+    <div class="chat-item-actions">
+      <a data-purpose="search-ft-api" data-lang="${language}" data-content="regions:China" data-reply="${localize('Finding')}">${localize('China News')}</a>
+      <a data-purpose="search-ft-api" data-lang="${language}" data-content="topics:Artificial Intelligence" data-reply="${localize('Finding')}">${localize('AI News')}</a>
+      <a data-purpose="search-ft-api" data-lang="${language}" data-content='genre:"Deep Dive" OR genre:"News in-depth" OR genre:"Explainer"' data-reply="${localize('Finding')}">${localize('Deep Dive')}</a>
+      <a data-purpose="set-intention" data-lang="${language}" data-content="CustomerService" data-reply="${localize('Offer Help')}">${localize('Subscription Problem')}</a>
+    </div>
+  `;
+    // News in-depth, Deep Dive
+  // <a data-id="" data-action="developing">What are the top stories of the day on FT?</a>
+  // <a data-id="" data-action="developing">Recommend some good reads to me.</a>
+  // <a data-id="" data-action="developing">I'd like to improve my English.</a>
+}
+
+function greet() {
+  const language = navigator.language;
+  const prompt = getRandomPrompt('greeting');
   if (!chatContent.querySelector('.chat-talk')) {
       chatContent.innerHTML = '';
   }
   const newChat = document.createElement('DIV');
   newChat.className = 'chat-talk chat-talk-agent';
-  newChat.innerHTML = `
-  <div class="chat-talk-inner">
-    ${prompt}
-    <div class="chat-item-actions">
-      <a data-purpose="search-ft-api" data-lang="${language}" data-content="regions:China">${localize('China News')}</a>
-      <a data-purpose="search-ft-api" data-lang="${language}" data-content="topics:Artificial Intelligence">${localize('AI News')}</a>
-      <a data-purpose="search-ft-api" data-lang="${language}" data-content='genre:"Deep Dive" OR genre:"News in-depth" OR genre:"Explainer"'>${localize('Deep Dive')}</a>
-      <a data-purpose="set-intention" data-lang="${language}" data-content="CustomerService" data-reply="${localize('Offer Help')}">${localize('Subscription Problem')}</a>
-    </div>
-  </div>
-  `;
-  // News in-depth, Deep Dive
-  // <a data-id="" data-action="developing">What are the top stories of the day on FT?</a>
-  // <a data-id="" data-action="developing">Recommend some good reads to me.</a>
-  // <a data-id="" data-action="developing">I'd like to improve my English.</a>
+  newChat.innerHTML = `<div class="chat-talk-inner">${prompt}${getActionOptions()}</div>`
+
   chatContent.appendChild(newChat);
 }
 
