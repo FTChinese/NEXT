@@ -19,7 +19,7 @@ delegate.on('click', '[data-action="show-article"]', async (event) => {
         const info = await getArticleFromFTAPI(ftid, language);
         const article = info.results;
         if (info.status === 'success' && article && article.bodyXML) {
-            const actions = `<div class="chat-item-actions" data-lang="${language}"><a data-id="${ftid}" data-action="quiz" title="Test my understanding of the article">${localize('Quiz Me')}</a><a data-id="${ftid}" data-action="socratic" title="${localize('Socratic Method Explained')}">${localize('Socratic Method')}</a></div>`;
+            const actions = `<div class="chat-item-actions" data-lang="${language}" data-id="${ftid}"><a data-id="${ftid}" data-action="quiz" title="Test my understanding of the article">${localize('Quiz Me')}</a><a data-id="${ftid}" data-action="socratic" title="${localize('Socratic Method Explained')}">${localize('Socratic Method')}</a><a data-purpose="set-intention" data-lang="${language}" data-content="CleanSlate" data-reply="${localize('Offer Help')}">${localize('DoSomethingElse')}</a></div>`;
             let image = '';
             if (article.mainImage && article.mainImage.members && article.mainImage.members.length > 0) {
                 image = article.mainImage.members[0].binaryUrl;
@@ -29,7 +29,7 @@ delegate.on('click', '[data-action="show-article"]', async (event) => {
             const date = new Date(article.publishedDate || article.firstPublishedDate);
             const localizedDate = date.toLocaleString();
             let html = `
-                    <div class="article-container">
+                    <div class="article-container" data-id="${ftid}">
                         <div class="story-header-container">
                             <h1 class="story-headline story-headline-large">${article.title || ''}</h1>
                             <div class="story-lead">${article.standfirst || ''}</div>
@@ -76,7 +76,8 @@ delegate.on('click', '[data-action="quiz"], [data-action="socratic"]', async (ev
         const language = element.closest('.chat-item-actions').getAttribute('data-lang') || 'English';
         showUserPrompt(element.innerHTML);
         showBotResponse(`Creating ${action} data for you...`);
-        let articleEle = element.closest('.chat-talk-inner').querySelector('.article-container');
+        // let articleEle = element.closest('.chat-talk-inner').querySelector('.article-container');
+        let articleEle = document.querySelector(`.article-container[data-id="${id}"]`);
         const title = articleEle.querySelector('.story-headline').innerHTML;
         const standfirst = articleEle.querySelector('.story-lead').innerHTML;
         const storyBody = articleEle.querySelector('.story-body').innerHTML;
@@ -209,15 +210,28 @@ delegate.on('click', '.quiz-options div', async (event) => {
             const all = chatTalkInner.querySelectorAll('.is-done.quiz-container').length;
             const correct = chatTalkInner.querySelectorAll('.is-correct.quiz-container').length;
             let finalScore = document.createElement('DIV');
+            const actions = moveStoryActions();
             finalScore.className = 'chat-item-summary';
             finalScore.innerHTML = `${localize('Final Score')}: ${correct}/${all}`;
             quizContainer.append(finalScore);
+            quizContainer.closest('.chat-talk-inner').innerHTML += actions;
         }
         newChat.scrollIntoView(scrollOptions); 
     } catch (err) {
         console.log(err);
     }
 });
+
+function moveStoryActions() {
+    let storyActions = document.querySelectorAll('.chat-item-actions[data-id]');
+    console.log(storyActions)
+    if (storyActions.length === 0) {return '';}
+    let lastActionContainer = storyActions[storyActions.length - 1];
+    lastActionContainer.classList.remove('hide');
+    const actions = lastActionContainer.outerHTML;
+    storyActions[storyActions.length - 1].classList.add('hide');
+    return actions;
+}
 
 delegate.on('click', '.quiz-next', async (event) => {
     const element = event.target;
@@ -302,10 +316,10 @@ async function generateEmbeddingsForArticle(article) {
         articleObject.embeddings = await embeddings.array();
         // console.log(articleEmbeddings);
         // Calculate the cosine similarity between the first and second inputs
-        const vector1 = articleObject.embeddings[0];
-        const vector2 = articleObject.embeddings[1];
-        const similarity = calculateCosineSimilarity(vector1, vector2);
-        console.log('Cosine similarity between the first and second inputs:', similarity);
+        // const vector1 = articleObject.embeddings[0];
+        // const vector2 = articleObject.embeddings[1];
+        // const similarity = calculateCosineSimilarity(vector1, vector2);
+        // console.log('Cosine similarity between the first and second inputs:', similarity);
     } catch(err) {
         console.log('generateEmbeddingsForArticle error: ');
         console.log(err);

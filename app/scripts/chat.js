@@ -2,6 +2,7 @@
 
 const delegate = new Delegate(document.body);
 const userInput = document.getElementById('user-input');
+const switchIntention = document.getElementById('switch-intention');
 const chatContent = document.getElementById('chat-content');
 const chatSumit = document.getElementById('chat-submit');
 const isPowerTranslate = location.href.indexOf('powertranslate') >= 0;
@@ -208,6 +209,62 @@ const statusDict = {
     zh: '客户服务',
     ru: 'Обслуживание клиентов'
   },
+  'BackToTop': {
+    zh: '从头开始',
+    en: 'Start Over',
+    es: 'Empezar de nuevo',
+    fr: 'Recommencer',
+    de: 'Von vorn beginnen',
+    ja: '最初からやり直す',
+    ko: '처음부터 다시 시작',
+    pt: 'Começar de novo',
+    it: 'Ricominciare',
+    'zh-TW': '',
+    'zh-HK': '',
+    ru: 'Начать заново'
+  },
+  'DiscussArticle': {
+    zh: '讨论文章',
+    en: 'Discuss Article',
+    es: 'Discutir Artículo',
+    fr: `Discuter de l'article`,
+    de: 'Artikel diskutieren',
+    ja: '記事を議論する',
+    ko: '글 논의',
+    pt: 'Discutir Artigo',
+    it: 'Discutere Articolo',
+    'zh-TW': '討論文章',
+    'zh-HK': '討論文章',
+    ru: 'Обсудить статью'
+  },
+  'ChangeSubject': {
+    en: 'Change Subject',
+    zh:'改变话题',
+    es: 'Cambiar Tema',
+    fr: 'Changer de sujet',
+    de: 'Thema ändern',
+    ja: '話題を変える',
+    ko: '주제 변경',
+    pt: 'Mudar de assunto',
+    it: 'Cambiare argomento',
+    'zh-TW': '改變話題',
+    'zh-HK': '改變話題',
+    ru: 'Изменить тему'
+  },
+  'socratic': {
+    zh: '苏格拉底诘问',
+    en: 'Socratic Method',
+    es: 'Método socrático',
+    fr: 'Méthode socratique',
+    de: 'Sokratische Methode',
+    ja: 'ソクラテス式問い掛け法',
+    ko: '소크라테스적 방법',
+    pt: 'Método socrático',
+    it: 'Metodo socratico',
+    'zh-TW': '蘇格拉底質問',
+    'zh-HK': '蘇格拉底式質問',
+    ru: 'Сократический метод'
+  },
   'SearchFTAPI': {
     en: 'Search FT',
     es: 'Buscar FT',
@@ -389,7 +446,21 @@ const statusDict = {
     'zh-TW': '好的，我來幫您查詢...',
     'zh-HK': '好的，我來幫您查詢...',
     ru: 'Хорошо, я помогу вам найти...'
-  }  
+  },
+  'DoSomethingElse': {
+    zh: '聊点别的。',
+    en: `Let's talk about something else.`,
+    es: 'Hablemos de algo más.',
+    fr: `Parlons d'autre chose.`,
+    de: 'Lass uns über etwas anderes sprechen.',
+    ja: '他の話題にしましょう。',
+    ko: '다른 얘기 좀 하자.',
+    pt: 'Vamos falar sobre outra coisa.',
+    it: `Parliamo d'altro.`,
+    'zh-TW': '聊點別的。',
+    'zh-HK': '傾下計啦。',
+    ru: 'Давайте поговорим о чем-то другом.'
+  }
 };
 
 var composing = false;
@@ -414,6 +485,10 @@ userInput.addEventListener('compositionend', () => {
   composing = false;
 });
 
+switchIntention.addEventListener('click', ()=>{
+  switchIntention.classList.toggle('on');
+});
+
 chatSumit.addEventListener('click', function(event){
   talk();
 });
@@ -424,6 +499,7 @@ delegate.on('click', '[data-action="talk"]', async (event) => {
   hideItemActions(element);
   talk();
 });
+
 
 delegate.on('click', '.chat-items-expand', async (event) => {
   const element = event.target;
@@ -503,7 +579,7 @@ delegate.on('click', '[data-purpose]', async (event) => {
 function hideItemActions(element) {
   let actionsEle = element.closest('.chat-item-actions');
   if (actionsEle) {
-    actionsEle.remove();
+    actionsEle.classList.add('hide');
   }
 }
 
@@ -521,11 +597,15 @@ function localize(status) {
 
 function updateStatus(status) {
   if (!status) {return;}
-  document.getElementById('current-chat-status').innerHTML = `<span>${localize(status)}</span>`;
+  if (status === 'CleanSlate') {
+    status = 'Ready To Chat';
+  }
+  document.querySelector('#current-chat-status span').innerHTML = `${localize(status)}`;
 }
 
 async function nextAction(intention) {
   if (!intention) {return;}
+  console.log(`nextAction: intention: ${intention}, window.intention: ${window.intention}`);
   if (intention === 'socratic' && window.socracticInfo && typeof window.socracticIndex === 'number' && window.socracticIndex >= 0) {
     window.socracticIndex += 1;
     if (window.socracticInfo.length > window.socracticIndex) {
@@ -543,10 +623,22 @@ async function nextAction(intention) {
       previousConversations = previousConversations.concat(startConversations);
     }
     if (window.socracticInfo.length === window.socracticIndex) {
-      // TODO: - Should support more languages
-      await setIntention('DiscussArticle', undefined, `${getRandomPrompt('ending')}${getActionOptions()}`);
+      await setIntention('DiscussArticle', undefined, `${getRandomPrompt('ending')}`);
     }
+  } else if (['DiscussArticle', 'CustomerService'].indexOf(window.intention) >= 0) {
+    console.log(`This is where you'd need to provide a back to clean sheet button! `)
+    const actions = getActionOptions();
+    showActions(actions);
+    // showResultInChat({text: actions});
   }
+}
+
+function showActions(actions) {
+  let chatTalkerInners = document.querySelectorAll('.chat-talk-agent .chat-talk-inner');
+  if (chatTalkerInners.length === 0) {return;}
+  let chatTalkInner = chatTalkerInners[chatTalkerInners.length - 1];
+  chatTalkInner.innerHTML += actions;
+  chatTalkInner.closest('.chat-talk-agent').scrollIntoView(scrollOptions);
 }
 
 function updateBotStatus(status) {
@@ -577,6 +669,7 @@ function showResultInChat(result) {
   // MARK: - Converting the HTML on the frontend
   if (!result || !result.text || typeof result.text !== 'string') {return;}
   const resultHTML = markdownToHtmlTable(result.text).replace(/\n/g, '<br>');
+  // console.log(`actions: ${actions}`);
   newResult.innerHTML = `<div class="chat-talk-inner">${resultHTML}</div>`;
   chatContent.appendChild(newResult);
   if (newResult.querySelector('h1, .story-header-container')) {
@@ -594,6 +687,12 @@ function showUserPrompt(prompt) {
   chatContent.appendChild(newChat);
 }
 
+function hidePreviousActions() {
+  for (let action of document.querySelectorAll('.chat-item-actions')) {
+    action.classList.add('hide');
+  }
+}
+
 async function talk() {
   var token = localStorage.getItem('accessToken');
   if (!token || token === '') {
@@ -609,6 +708,7 @@ async function talk() {
   }
   updateBotStatus('pending');
   showUserPrompt(prompt);
+  hidePreviousActions();
   userInput.value = '';
   userInput.style.height = 'auto';
   showBotResponse();
@@ -706,11 +806,19 @@ const purposeToFunction = {
 
 // }
 
-async function setIntention(intention, language, reply) {
-  // console.log(`running setIntention... content: ${intention}, language: ${language}`);
-  window.intention = intention;
-  updateStatus(intention);
-  showResultInChat({text: reply});
+async function setIntention(newIntention, language, reply) {
+  console.log(`running setIntention... content: ${newIntention}, language: ${language}`);
+  if (newIntention === 'CleanSlate') {
+    window.intention = undefined;
+  } else {
+    window.intention = newIntention;
+  }
+  updateStatus(newIntention);
+  // MARK: - Show this only when there's a reply
+  if (reply && reply !== '') {
+    const actions = getActionOptions();
+    showResultInChat({text: `${reply}${actions}`});
+  }
 }
 
 async function createTranslations(results, language) {
@@ -823,14 +931,27 @@ function getRandomPrompt(purpose) {
 
 function getActionOptions() {
   const language = navigator.language;
-  return `
-    <div class="chat-item-actions">
-      <a data-purpose="search-ft-api" data-lang="${language}" data-content="regions:China" data-reply="${localize('Finding')}">${localize('China News')}</a>
-      <a data-purpose="search-ft-api" data-lang="${language}" data-content="topics:Artificial Intelligence" data-reply="${localize('Finding')}">${localize('AI News')}</a>
-      <a data-purpose="search-ft-api" data-lang="${language}" data-content='genre:"Deep Dive" OR genre:"News in-depth" OR genre:"Explainer"' data-reply="${localize('Finding')}">${localize('Deep Dive')}</a>
-      <a data-purpose="set-intention" data-lang="${language}" data-content="CustomerService" data-reply="${localize('Offer Help')}">${localize('Subscription Problem')}</a>
-    </div>
-  `;
+  console.log(`getActionOptions with intention: ${intention}`);
+  let result = '';
+  if (intention === 'DiscussArticle') {
+    result = moveStoryActions();
+  } else if (['CustomerService'].indexOf(intention) >= 0) {
+    result = `
+      <div class="chat-item-actions right">
+        <a data-purpose="set-intention" data-lang="${language}" data-content="CleanSlate" data-reply="${localize('Offer Help')}">${localize('ChangeSubject')}</a>
+      </div>
+    `;
+  } else if (intention === undefined || intention === '') {
+    result = `
+      <div class="chat-item-actions">
+        <a data-purpose="search-ft-api" data-lang="${language}" data-content="regions:China" data-reply="${localize('Finding')}">${localize('China News')}</a>
+        <a data-purpose="search-ft-api" data-lang="${language}" data-content="topics:Artificial Intelligence" data-reply="${localize('Finding')}">${localize('AI News')}</a>
+        <a data-purpose="search-ft-api" data-lang="${language}" data-content='genre:"Deep Dive" OR genre:"News in-depth" OR genre:"Explainer"' data-reply="${localize('Finding')}">${localize('Deep Dive')}</a>
+        <a data-purpose="set-intention" data-lang="${language}" data-content="CustomerService" data-reply="${localize('Offer Help')}">${localize('Subscription Problem')}</a>
+      </div>
+    `;
+  }
+  return result.replace(/[\n\r]+/g, '');
     // News in-depth, Deep Dive
   // <a data-id="" data-action="developing">What are the top stories of the day on FT?</a>
   // <a data-id="" data-action="developing">Recommend some good reads to me.</a>
@@ -838,7 +959,6 @@ function getActionOptions() {
 }
 
 function greet() {
-  const language = navigator.language;
   const prompt = getRandomPrompt('greeting');
   if (!chatContent.querySelector('.chat-talk')) {
       chatContent.innerHTML = '';
@@ -846,7 +966,6 @@ function greet() {
   const newChat = document.createElement('DIV');
   newChat.className = 'chat-talk chat-talk-agent';
   newChat.innerHTML = `<div class="chat-talk-inner">${prompt}${getActionOptions()}</div>`
-
   chatContent.appendChild(newChat);
 }
 
@@ -858,6 +977,7 @@ function showError(message) {
   chatContent.appendChild(newChat);
 }
 
+
 // MARK: Chat page Related functions
 function initChat() {
   window.shouldPromptLogin = true;
@@ -866,6 +986,12 @@ function initChat() {
   script.src = '/powertranslate/scripts/register.js';
   document.head.appendChild(script);
   const urlParams = new URLSearchParams(window.location.search);
+  document.getElementById('current-chat-status').innerHTML += `
+  <a data-purpose="set-intention" data-content="CleanSlate" data-reply="${localize('Offer Help')}">${localize('BackToTop')}</a>
+  <a data-purpose="set-intention" data-content="SearchFTAPI" data-reply="${localize('Offer Help For Search')}">${localize('SearchFT')}</a>
+  <a data-purpose="set-intention" data-content="CustomerService" data-reply="${localize('Offer Help')}">${localize('CustomerService')}</a>
+  <a data-purpose="set-intention" data-content="Other" data-reply="${localize('Offer Help')}">${localize('Other')}</a>
+  `;
   greet();
 }
 
