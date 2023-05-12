@@ -1,0 +1,36 @@
+<%if $includeSide != "" && $includeSide != "none"%>
+	<%assign var="hasSide" value=" has-side"%>
+<%else%>
+	<%assign var="hasSide" value=""%>
+<%/if%>
+<div class="block-container<%$hasSide%> side-<%$includeSideAlign%>">
+    <div class="block-inner">
+        <div class="content-container">
+            <div class="content-inner">
+                <%if $smarty.server.HTTP_HOST=="www.ftchineselive.com"%>
+                    <!-- PR Newswire Widget Code Starts Here -->
+                    <script>
+                    var _wsc = document.createElement('script');
+                    _wsc.src = "//tools.prnewswire.com/zh-cn/live/25857/landing.js";
+                    document.getElementsByTagName('Head')[0].appendChild(_wsc);
+                    </script>
+                    <div id="w25857_landing"></div>
+                    <!-- PR Newswire Widget Code Ends Here -->
+                <%else%>
+                    <!-- PR Newswire Widget Code Starts Here -->
+                    <script>
+                    var _wsc = document.createElement('script');
+                    _wsc.src = "//tools.prnewswire.com/zh-cn/live/25856/landing.js";
+                    document.getElementsByTagName('Head')[0].appendChild(_wsc);
+                    </script>
+                    <div id="w25856_landing"></div>
+                    <!-- PR Newswire Widget Code Ends Here -->
+                <%/if%>
+            </div>
+        </div>
+        <%if $hasSide != ""%>
+        	<%include file="next/partials/`$includeSide`.html"%>
+        <%/if%>
+        <div class="clearfloat"></div>
+    </div>
+</div>

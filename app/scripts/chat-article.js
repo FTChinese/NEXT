@@ -2,7 +2,8 @@
 
 const calculateCosineSimilarity = (a, b) => a.reduce((acc, curr, i) => acc + curr * b[i], 0) / (Math.sqrt(a.reduce((acc, curr) => acc + curr ** 2, 0)) * Math.sqrt(b.reduce((acc, curr) => acc + curr ** 2, 0)));
 var model = null;
-var articleObject = {};
+var ftContentObject = {};
+var currentFTId;
 
 delegate.on('click', '[data-action="show-article"]', async (event) => {
     const element = event.target;
@@ -15,46 +16,7 @@ delegate.on('click', '[data-action="show-article"]', async (event) => {
         const chatItemContainer = element.closest('.chat-item-container');
         const ftid = chatItemContainer.getAttribute('data-id');
         const language = chatItemContainer.getAttribute('data-lang') || 'English';
-        showBotResponse('Getting Article...');
-        const info = await getArticleFromFTAPI(ftid, language);
-        const article = info.results;
-        if (info.status === 'success' && article && article.bodyXML) {
-            const actions = `<div class="chat-item-actions" data-lang="${language}" data-id="${ftid}"><a data-id="${ftid}" data-action="quiz" title="Test my understanding of the article">${localize('Quiz Me')}</a><a data-id="${ftid}" data-action="socratic" title="${localize('Socratic Method Explained')}">${localize('Socratic Method')}</a><a data-purpose="set-intention" data-lang="${language}" data-content="CleanSlate" data-reply="${localize('Offer Help')}">${localize('DoSomethingElse')}</a></div>`;
-            let image = '';
-            if (article.mainImage && article.mainImage.members && article.mainImage.members.length > 0) {
-                image = article.mainImage.members[0].binaryUrl;
-                image = `https://www.ft.com/__origami/service/image/v2/images/raw/${encodeURIComponent(image)}?fit=scale-down&source=next&width=1920`;
-                image = `<div class="story-image image"><figure class=""><img src="${image}"></figure></div>`;
-            }
-            const date = new Date(article.publishedDate || article.firstPublishedDate);
-            const localizedDate = date.toLocaleString();
-            let html = `
-                    <div class="article-container" data-id="${ftid}">
-                        <div class="story-header-container">
-                            <h1 class="story-headline story-headline-large">${article.title || ''}</h1>
-                            <div class="story-lead">${article.standfirst || ''}</div>
-                            ${image}
-                            <div class="story-byline">
-                                <span class="story-time">${localizedDate}</span>
-                                <span class="story-author">${article.byline || ''}</span>
-                            </div>
-                        </div>
-                        <div class="story-body"><div id="story-body-container">${article.bodyXML || ''}</div></div>
-                    </div>
-                    ${actions}
-                    <div class="article-prompt">${localize('Discuss Article')}</div>
-                `.replace(/[\r\n]+/g, '');
-            html += `<button class="quiz-next hide">NEXT</button>`;
-            const result = {text: html};
-            showResultInChat(result);
-            checkScrollyTellingForChat();
-            checkFullGridBlocks();
-            initScrollyTelling();
-            setIntention('DiscussArticle');
-            userInput.focus();
-            // TODO: - Create embeddings for the article content in paragraphs
-            await generateEmbeddingsForArticle(article);
-        }
+        await showContent(ftid, language);
     } catch (err) {
         console.log(err);
     }
@@ -98,6 +60,170 @@ delegate.on('click', '[data-action="quiz"], [data-action="socratic"]', async (ev
     updateBotStatus('waiting');
 });
 
+delegate.on('click', '.quiz-options div', async (event) => {
+    const element = event.target;
+    try {
+        let quizContainer = element.closest('.quiz-container');
+        const newChat = quizContainer.closest('.chat-talk');
+        if (quizContainer.classList.contains('is-done')) {return;}
+        let isCorrect = element.classList.contains('is-correct');
+        element.classList.add('is-selected');
+        quizContainer.classList.add('is-done');
+        const quizResultClass = (isCorrect) ? 'is-correct' : 'is-wrong';
+        quizContainer.classList.add(quizResultClass);
+        let currentScore = quizContainer.getAttribute('data-score') || '0';
+        currentScore = parseInt(currentScore, 10) || 0;
+        currentScore += (isCorrect) ? 1 : 0;
+        quizContainer.setAttribute('data-score', currentScore);
+        const nextQuiz = newChat.querySelector('.quiz-container.hide');
+        if (nextQuiz ) {
+            quizContainer.closest('.chat-talk').querySelector('.quiz-next').classList.remove('hide');
+        } else {
+            let chatTalkInner = quizContainer.closest('.chat-talk-inner');
+            const all = chatTalkInner.querySelectorAll('.is-done.quiz-container').length;
+            const correct = chatTalkInner.querySelectorAll('.is-correct.quiz-container').length;
+            let finalScore = document.createElement('DIV');
+            const actions = moveStoryActions();
+            finalScore.className = 'chat-item-summary';
+            finalScore.innerHTML = `${localize('Final Score')}: ${correct}/${all}`;
+            quizContainer.append(finalScore);
+            quizContainer.closest('.chat-talk-inner').innerHTML += actions;
+        }
+        newChat.scrollIntoView(scrollOptions); 
+    } catch (err) {
+        console.log(err);
+    }
+});
+
+function getAudioHTML(content) {
+    const types = content.types;
+    if (!types || types.length < 0) {return '';}
+    // MARK: - Make sure the content is marked as a video
+    const type = types[0].replace(/^.*\//g, '');
+    if (type !== 'Audio') {return '';}
+    let dataSource = content.dataSource;
+    if (!dataSource) {return '';}
+    dataSource = dataSource
+        .filter(x=>x.mediaType === 'audio/mpeg');
+    // MARK: - There will always be a video based on past experience. 
+    if (dataSource.length === 0) {return '';}
+    const audio = dataSource[0];
+    return `
+<div class="audio-placeholder is-sticky-top" id="audio-placeholder">
+    <div class="audio-container">
+        <div class="audio-controls">
+            <button class="audio-control control__play">Play</button>
+            <button class="audio-control control__pause" disabled="true">Pause</button>
+            <span class="audio-time-text__current audio-time-text">00:00</span><span class="audio-time-text__total audio-time-text"></span>
+            <div class="audio-time-progress">
+                <span class="audio-time-progress__background"></span>
+                <span class="audio-time-progress__fill" style="transform: scaleX(0);"></span>
+                <span class="audio-time-progress__scrub" style="transform: scaleX(0);"></span>
+            </div>
+        </div>
+        <audio class="audio-player hide" ontimeupdate="updateAudioTime(this)" oncanplay="updateTotalTime(this)" src="${audio.binaryUrl}" preload="auto"></audio>
+    </div>
+</div>
+    `;
+}
+
+function getVideoHTML(content) {
+    const types = content.types;
+    if (!types || types.length < 0) {return '';}
+    // MARK: - Make sure the content is marked as a video
+    const type = types[0].replace(/^.*\//g, '');
+    if (type !== 'Video') {return '';}
+    let dataSource = content.dataSource;
+    if (!dataSource) {return '';}
+    const w = Math.min(768, window.innerWidth);
+    dataSource = dataSource
+        .filter(x=>x.mediaType === 'video/mp4' && x.pixelWidth >= w);
+    // MARK: - There will always be a video based on past experience. 
+    if (dataSource.length === 0) {return '';}
+    const video = dataSource[0];
+    let track = '';
+    if (content.captions && content.captions.length > 0 && content.captions[0].url) {
+        const id = content.captions[0].url.replace(/^.*\//g, '').replace(/\..*$/g, '');
+        track = `<track src="/vtt/${id}" kind="subtitles" srclang="en" label="English">`;
+    }
+    return `
+        <div style="width: 100%; max-width: 768px;">
+            <video style="width: 100%; height: 100%; object-fit: cover;" controls>
+            <source src="${video.binaryUrl}" type="video/mp4">
+            ${track}
+            Your browser does not support the video tag.
+            </video>
+        </div>
+    `;
+}
+
+async function showContent(ftid, language) {
+    try {
+        showBotResponse('Getting Article...');
+        // MARK: - It is important to set the current ft id here, because async request might not be returned in the expected sequence. 
+        currentFTId = ftid;
+        const info = await getArticleFromFTAPI(ftid, language);
+        const content = info.results;
+        if (info.status === 'success' && content) {
+            const actions = `<div class="chat-item-actions" data-lang="${language}" data-id="${ftid}"><a data-id="${ftid}" data-action="quiz" title="Test my understanding of the article">${localize('Quiz Me')}</a><a data-id="${ftid}" data-action="socratic" title="${localize('Socratic Method Explained')}">${localize('Socratic Method')}</a><a data-purpose="set-intention" data-lang="${language}" data-content="CleanSlate" data-reply="${localize('Offer Help')}">${localize('DoSomethingElse')}</a></div>`;
+            let visualHeading = getVideoHTML(content);
+            let audioHTML = getAudioHTML(content);
+            if (visualHeading === '' && content.mainImage && content.mainImage.members && content.mainImage.members.length > 0) {
+                visualHeading = content.mainImage.members[0].binaryUrl;
+                visualHeading = `https://www.ft.com/__origami/service/image/v2/images/raw/${encodeURIComponent(visualHeading)}?fit=scale-down&source=next&width=1920`;
+                visualHeading = `<div class="story-image image"><figure class=""><img src="${visualHeading}"></figure></div>`;
+            }
+            const date = new Date(content.publishedDate || content.firstPublishedDate);
+            const localizedDate = date.toLocaleString();
+            let html = `
+                    <div class="article-container" data-id="${ftid}">
+                        <div class="story-header-container">
+                            <h1 class="story-headline story-headline-large">${content.title || ''}</h1>
+                            <div class="story-lead">${content.standfirst || ''}</div>
+                            ${visualHeading}
+                            <div class="story-byline">
+                                <span class="story-time">${localizedDate}</span>
+                                <span class="story-author">${content.byline || ''}</span>
+                            </div>
+                        </div>
+                        ${audioHTML}
+                        <div class="story-body"><div id="story-body-container">
+                            ${content.bodyXML || content.transcript || ''}
+                        </div></div>
+                    </div>
+                    ${actions}
+                    <div class="article-prompt">${localize('Discuss Article')}</div>
+                `.replace(/[\r\n]+/g, '');
+            html += `<button class="quiz-next hide">NEXT</button>`;
+            const result = {text: html};
+            showResultInChat(result);
+            checkScrollyTellingForChat();
+            checkFullGridBlocks();
+            initScrollyTelling();
+            setIntention('DiscussArticle');
+            userInput.focus();
+            // MARK: - Create embeddings for the article content in paragraphs
+            await generateEmbeddingsForArticle(content);
+        }
+    } catch(err) {
+        console.log(err);
+    }
+}
+
+delegate.on('click', '.quiz-next', async (event) => {
+    const element = event.target;
+    try {
+        let nextQuiz = element.closest('.chat-talk').querySelector('.quiz-container.hide');
+        if (nextQuiz) {
+            nextQuiz.classList.remove('hide');
+        }
+        element.classList.add('hide');
+        const newChat = element.closest('.chat-talk');
+        newChat.scrollIntoView(scrollOptions); 
+    } catch (err) {
+        console.log(err);
+    }
+});
 
 async function generateSocratic(id, language, articleContextChunks, action) {
     try {
@@ -121,7 +247,8 @@ async function generateSocratic(id, language, articleContextChunks, action) {
                         },
                         {
                             role: 'system',
-                            content: `You should evaluate the user's answer based on this context: ${window.socracticInfo[0].excerpt}`
+                            // content: `You should evaluate the user's answer based on this context: ${window.socracticInfo[0].answer}`,
+                            content: `Evaluate the user's answer based only on this context, which is delimited with triple backticks: '''${window.socracticInfo[0].answer}''' Don't make anything up. `
                         }
                     ]
                     previousConversations = previousConversations.concat(startConversations);
@@ -187,41 +314,6 @@ async function generateQuiz(id, language, articleContextChunks, action) {
     }
 }
 
-delegate.on('click', '.quiz-options div', async (event) => {
-    const element = event.target;
-    try {
-        let quizContainer = element.closest('.quiz-container');
-        const newChat = quizContainer.closest('.chat-talk');
-        if (quizContainer.classList.contains('is-done')) {return;}
-        let isCorrect = element.classList.contains('is-correct');
-        element.classList.add('is-selected');
-        quizContainer.classList.add('is-done');
-        const quizResultClass = (isCorrect) ? 'is-correct' : 'is-wrong';
-        quizContainer.classList.add(quizResultClass);
-        let currentScore = quizContainer.getAttribute('data-score') || '0';
-        currentScore = parseInt(currentScore, 10) || 0;
-        currentScore += (isCorrect) ? 1 : 0;
-        quizContainer.setAttribute('data-score', currentScore);
-        const nextQuiz = newChat.querySelector('.quiz-container.hide');
-        if (nextQuiz ) {
-            quizContainer.closest('.chat-talk').querySelector('.quiz-next').classList.remove('hide');
-        } else {
-            let chatTalkInner = quizContainer.closest('.chat-talk-inner');
-            const all = chatTalkInner.querySelectorAll('.is-done.quiz-container').length;
-            const correct = chatTalkInner.querySelectorAll('.is-correct.quiz-container').length;
-            let finalScore = document.createElement('DIV');
-            const actions = moveStoryActions();
-            finalScore.className = 'chat-item-summary';
-            finalScore.innerHTML = `${localize('Final Score')}: ${correct}/${all}`;
-            quizContainer.append(finalScore);
-            quizContainer.closest('.chat-talk-inner').innerHTML += actions;
-        }
-        newChat.scrollIntoView(scrollOptions); 
-    } catch (err) {
-        console.log(err);
-    }
-});
-
 function moveStoryActions() {
     let storyActions = document.querySelectorAll('.chat-item-actions[data-id]');
     console.log(storyActions)
@@ -232,21 +324,6 @@ function moveStoryActions() {
     storyActions[storyActions.length - 1].classList.add('hide');
     return actions;
 }
-
-delegate.on('click', '.quiz-next', async (event) => {
-    const element = event.target;
-    try {
-        let nextQuiz = element.closest('.chat-talk').querySelector('.quiz-container.hide');
-        if (nextQuiz) {
-            nextQuiz.classList.remove('hide');
-        }
-        element.classList.add('hide');
-        const newChat = element.closest('.chat-talk');
-        newChat.scrollIntoView(scrollOptions); 
-    } catch (err) {
-        console.log(err);
-    }
-});
 
 function shuffle(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -300,26 +377,25 @@ function textToChunks(text, maxTokensPerChunk) {
 }
 
 async function generateEmbeddingsForArticle(article) {
+    const articleId = article.id.replace(/^.+\//g, '');
+    if (currentFTId !== articleId) {
+        console.log(`current ft id is ${currentFTId}. ${article.title}(${articleId}) is no longer needed! `);
+        return;
+    }
     try {
-        articleObject = {
+        ftContentObject = {
             article: article
         };
-        const bodyXML = article.bodyXML || '';
+        const bodyXML = article.bodyXML || article.transcript || '';
         // TODO: - Should cut the paragraphs into better chunks which grasp meaning, for example, <h1> tags should never be separated from its content
         const articleContextAll = bodyXML
             .replace(/<\/p><p>/g, '\n')
             .replace(/(<([^>]+)>)/gi, '')
             .replace(/\[MUSIC PLAYING\]/g, '');
-        articleObject.chunks = textToChunks(articleContextAll, 200);
+        ftContentObject.chunks = textToChunks(articleContextAll, 200);
         if (!model) {model = await use.load();}
-        const embeddings = await model.embed(articleObject.chunks);
-        articleObject.embeddings = await embeddings.array();
-        // console.log(articleEmbeddings);
-        // Calculate the cosine similarity between the first and second inputs
-        // const vector1 = articleObject.embeddings[0];
-        // const vector2 = articleObject.embeddings[1];
-        // const similarity = calculateCosineSimilarity(vector1, vector2);
-        // console.log('Cosine similarity between the first and second inputs:', similarity);
+        const embeddings = await model.embed(ftContentObject.chunks);
+        ftContentObject.embeddings = await embeddings.array();
     } catch(err) {
         console.log('generateEmbeddingsForArticle error: ');
         console.log(err);
@@ -331,16 +407,16 @@ async function getContextByIntention(prompt) {
     try {
         if (window.intention === 'DiscussArticle') {
             const maxTokenForContext = 500;
-            if (!articleObject.embeddings) {
-                await generateEmbeddingsForArticle(articleObject.article);
+            if (!ftContentObject.embeddings) {
+                await generateEmbeddingsForArticle(ftContentObject.article);
             }
-            context = `${articleObject.article.title || ''}\n${articleObject.article.standfirst || ''}`;
+            context = `title: ${ftContentObject.article.title || ''}\nstandfirst: ${ftContentObject.article.standfirst || ''}`;
             const promptEmbeddings = await model.embed(prompt);
             const promptVectors = await promptEmbeddings.array();
             let similarities = [];
-            for (const [index, vector] of articleObject.embeddings.entries()) {
+            for (const [index, vector] of ftContentObject.embeddings.entries()) {
                 const similarity = calculateCosineSimilarity(promptVectors[0], vector);
-                const tokens = roughTokenCount(articleObject.chunks[index]);
+                const tokens = roughTokenCount(ftContentObject.chunks[index]);
                 console.log(`similarity to ${index}: ${similarity}, tokens: ${tokens}`);
 
                 similarities.push({index: index, similarity: similarity, tokens: tokens});
@@ -353,9 +429,13 @@ async function getContextByIntention(prompt) {
                 if (tokenCount >= maxTokenForContext) {break;}
                 usefulContexts.push(similarity.index);
             }
-            for (const [index, chunk] of articleObject.chunks.entries()) {
-                if (usefulContexts.indexOf(index) === -1) {continue;}
-                context += `\n${chunk}`;
+            let currentChunk = '';
+            for (const [index, chunk] of ftContentObject.chunks.entries()) {
+                let thisChunk = (usefulContexts.indexOf(index) >= 0) ? `\n${chunk}` : '\n...';
+                if (thisChunk !== currentChunk) {
+                    context += thisChunk;
+                    currentChunk = thisChunk;
+                }
             }
         }
     } catch (err) {
@@ -402,7 +482,7 @@ const layoutDict = {
   
 // TODO: check function parseBodyXML() in translate.js for how to handle full-grid
 async function handleFTContent(contentData) {
-    let bodyXML = contentData.bodyXML || '';
+    let bodyXML = contentData.bodyXML || contentData.transcript || '';
     let mainImageId = '';
     if (contentData.mainImage && contentData.mainImage.id) {
         mainImageId = contentData.mainImage.id.replace(/^.*\//g, '');
@@ -484,7 +564,10 @@ async function handleFTContent(contentData) {
         if (ele.querySelector('pull-quote-source')) {
             quoteSource = ele.querySelector('pull-quote-source').innerHTML;
         }
-        ele.outerHTML = `<blockquote class="n-content-pullquote"><div class="n-content-pullquote__content">${quoteText}</p><footer class="n-content-pullquote__footer">${quoteSource}</footer></div></blockquote>`;
+        ele.outerHTML = `<div class="n-content-pullquote"><div class="n-content-pullquote__content">${quoteText}</p><footer class="n-content-pullquote__footer">${quoteSource}</footer></div></div>`;
+    }
+    for (let ele of container.querySelectorAll('blockquote')) {
+        ele.classList.add('n-content-blockquote');
     }
     for (let ele of container.querySelectorAll('big-number')) {
         let bigNumberHeadline = ''
@@ -504,7 +587,6 @@ async function handleFTContent(contentData) {
     for (let ele of container.querySelectorAll('recommended')) {
         ele.remove();
     }
-
     // MARK: - If there's already full grid items in the article, try to add more image sets
     if (container.querySelector('[data-layout-width="full-grid"]')) {
         for (const ele of container.querySelectorAll(':scope > div.pic')) {
@@ -550,6 +632,8 @@ async function getArticleFromFTAPI(id, language) {
             body: JSON.stringify(data)
         };
         if (isFrontendTest && !isPowerTranslate) {
+            // url = '/api/page/ft_podcast.json';
+            // url = '/api/page/ft_video.json';
             url = '/api/page/ft_article.json';
             // url = '/api/page/ft_article_scrolly_telling.json';
             options = {
@@ -564,7 +648,7 @@ async function getArticleFromFTAPI(id, language) {
         if (response.status >= 400 && results.message) {
             return {status: 'failed', message: results.message};
         }
-        if (results && results.bodyXML) {
+        if (results) {
             results = await handleFTContent(results);
             return {status: 'success', results: results};
         } else {
@@ -616,7 +700,6 @@ async function promptOpenAIForArticle(id, index, language, text, chunks, action)
         } catch(err){
             console.log(err);
         }
-
         // MARK: - 2. Handle this over as a background task
         const _id = generateRequestId();
         const data = {id: id, index: index, language: language, text: text, _id: _id, chunks: chunks, action: action};
@@ -763,11 +846,6 @@ function initScrollyTelling() {
         }
     }
 }
-
-
-
-
-  
 
 
 /* jshint ignore:end */

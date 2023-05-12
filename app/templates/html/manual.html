@@ -9,7 +9,8 @@
         <%assign var="pageId" value="pursuit"%>
         <%assign var="requirelogin" value="no"%>       
     <%elseif $smarty.server.HTTP_HOST=="www.ftchineselive.com"%>
-        <%assign var="pageId" value="events"%>
+        <%*<!--assign var="pageId" value="events"-->*%>
+        <%assign var="pageId" value="home"%>
         <%assign var="requirelogin" value="no"%>      
     <%elseif $smarty.server.HTTP_HOST=="www.ftchinesemember.com"%>
         <%assign var="pageId" value="memberclub"%>
@@ -22,8 +23,11 @@
     <%/if%>
 <%/if%>
 
-<%*<!--MARK: - hide navigations for all these domains-->*%>
-<%if $smarty.server.HTTP_HOST=="www.ftmembercare.com" || $smarty.server.HTTP_HOST=="www.ftchinesemember.com" || $smarty.server.HTTP_HOST=="www.lunchwithft.com" || $smarty.server.HTTP_HOST=="www.leshangavenue.com" || $smarty.server.HTTP_HOST=="www.ftchineselive.com"%>
+<%*<!--MARK: - hide navigations for all these domains
+   - Feng Yan requested ftchineselive to display navigation on May 4th
+ || $smarty.server.HTTP_HOST=="www.ftchineselive.com"
+-->*%>
+<%if $smarty.server.HTTP_HOST=="www.ftmembercare.com" || $smarty.server.HTTP_HOST=="www.ftchinesemember.com" || $smarty.server.HTTP_HOST=="www.lunchwithft.com" || $smarty.server.HTTP_HOST=="www.leshangavenue.com"%>
     <%assign var="showNavigation" value="no"%>
 <%/if%>
 
@@ -560,6 +564,8 @@
             <%if $pageId == "home" && $smarty.get.showHotClick == "yes"%>
                 <script type="text/javascript" src="https://d2785ji6wtdqx8.cloudfront.net/n/main-home-click.js?<%include file="next/timestamp/timestamp.html"%>"></script>
             <%/if%>
+
+
             <%*<!--MARK: - Wake up heroku to check if editor's choice is updated during weekends. -->*%>
             <%if $pageId == "premiumsubscription"%>
                 <%if date("G",$smarty.now) == 9 && (date("D",$smarty.now) == 'Sat' || date("D",$smarty.now) == 'Sun')%>
@@ -588,11 +594,6 @@
                 <script type="text/javascript"><%include file="next/scripts/main-ie-grid-polyfill.js"%></script>
             <%/if%>
             <%*<!--MARK: - IE fallback for grid card end -->*%>
-
-
-
-
-
 
         </body>
     </html>
@@ -691,3 +692,11 @@
     </script>
     
 <%/if%>
+
+
+
+<%php%>
+$user_language = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
+echo '<!--user language full: ' . $user_language . '-->';
+
+<%/php%>

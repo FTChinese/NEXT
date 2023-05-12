@@ -3,7 +3,7 @@
 @import "main-table.scss";
 @import "main-user-comments.scss";
 @import "main-scrolly-telling.scss";
-
+@import "quote-number.scss";
 html {
     scroll-behavior: smooth;
 }
@@ -78,6 +78,9 @@ body {
         content: '';
         background-repeat: no-repeat;
         background-size: cover;
+    }
+    p {
+        padding-bottom: 1em;
     }
 }
 
@@ -223,7 +226,11 @@ body {
 
 
 [data-purpose] {
-    display: none;
+    // display: none;
+    background-color: $bannerBG;
+    padding: math.div($defaultPadding, 3);
+    margin-top: math.div($defaultPadding, 2);
+    font-size: 0.7em;
 }
 
 .logged-in-container, .sign-in-container {
@@ -235,6 +242,7 @@ body {
     font-size: 1.2em;
     margin-bottom: math.div($defaultPadding, 2);
 }
+
 .quiz-options {
     div {
         background-color: rgb(230, 217, 206);
@@ -248,12 +256,14 @@ body {
         cursor: pointer;
     }
 }
+
 .quiz-explanation {
     display: none;
     .is-done & {
         display: block;
     }
 }
+
 .quiz-container {
     border-top: 1px solid $borderColor;
     padding-top: 1em;
@@ -298,13 +308,14 @@ body {
 }
 
 .full-grid-story {
-    .story-header-container, .chat-item-actions, .article-prompt, #story-body-container > * {
+    ft-related, promo-box, .story-header-container, .chat-item-actions, .article-prompt, .audio-placeholder, #story-body-container > * {
         max-width: 768px;
         margin-left: auto;
         margin-right: auto;
+        display: block;
     }
     #story-body-container {
-        .n-content-pullquote, .n-content-big-number {
+        .n-content-pullquote, .n-content-big-number, [data-layout-width="inset-left"] {
             max-width: 360px;
             margin-left: calc((100% - 768px) / 2);
             margin-right: 30px;

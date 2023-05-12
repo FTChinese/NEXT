@@ -181,6 +181,20 @@ const randomPromptDict = {
 };
 
 const statusDict = {
+  'Introduction': {
+    en: 'Welcome to your personal finance and business news assistant! My goal is to help you get the most value out of your subscription by providing customized recommendations and insights. ',
+    es: '¡Bienvenido a tu asistente personal de finanzas y noticias empresariales! Mi objetivo es ayudarte a obtener el mayor valor de tu suscripción mediante recomendaciones e ideas personalizadas.',
+    fr: 'Bienvenue à votre assistant personnel pour les actualités financières et commerciales ! Mon objectif est de vous aider à tirer le meilleur parti de votre abonnement en vous fournissant des recommandations et des informations personnalisées.',
+    de: 'Willkommen bei Ihrem persönlichen Finanz- und Wirtschaftsnachrichtenassistenten! Mein Ziel ist es, Ihnen durch maßgeschneiderte Empfehlungen und Einblicke den größten Nutzen aus Ihrem Abonnement zu verschaffen.',
+    ja: 'ファイナンシャル・タイムズのパーソナル・ファイナンス＆ビジネスニュース・アシスタントへようこそ！私の目標は、カスタマイズされた推奨事項と洞察力を提供することで、あなたのサブスクリプションから最大の価値を得ることをお手伝いすることです。',
+    ko: '개인 맞춤형 금융 및 비즈니스 뉴스 어시스턴트에 오신 것을 환영합니다! 나의 목표는 맞춤형 추천 및 인사이트를 제공하여 구독에서 최대 가치를 끌어내는 것입니다.',
+    pt: 'Bem-vindo ao seu assistente pessoal de finanças e notícias empresariais! Meu objetivo é ajudá-lo a obter o máximo valor da sua assinatura, fornecendo recomendações e insights personalizados.',
+    it: 'Benvenuto nel tuo assistente personale per le notizie finanziarie e commerciali! Il mio obiettivo è aiutarti a ottenere il massimo valore dalla tua sottoscrizione fornendo raccomandazioni e informazioni personalizzate.',
+    'zh-TW': '歡迎使用專屬於您的財經新聞助理！我的目標是透過提供量身定制的建議和深度分析，協助您充分利用您的訂閱。',
+    'zh-HK': '歡迎使用專屬於您的財經新聞助理！我的目標是透過提供量身定制的建議和深度分析，協助您充分利用您的訂閱。',
+    zh: '欢迎使用专属于您的财经新闻助理！我的目标是通过提供量身定制的推荐和深度分析，协助您充分利用您的订阅。',
+    ru: 'Добро пожаловать в вашего персонального помощника по финансовым и бизнес-новостям! Моя цель - помочь вам получить максимальную пользу от вашей подписки, предоставляя настраиваемые рекомендации и аналитику.'
+  },
   'Error': {
     en: 'Error',
     es: 'Error',
@@ -350,60 +364,186 @@ const statusDict = {
     ru: 'Метод Сократа - это способ вопросительного и обсуждающего подхода к идеям, направленный на оспаривание предположений и достижение лучшего понимания. Он включает в себя задавание вопросов, чтобы раскрыть скрытые убеждения и проверить логику полученных ответов. Используется для развития критического мышления, решения проблем и креативности в различных областях.'
   },
   'China News': {
-    en: 'What\'s news in China?',
-    es: '¿Qué hay de nuevo en China?',
-    fr: 'Quoi de neuf en Chine?',
-    de: 'Was gibt es Neues in China?',
-    ja: '中国での最新情報は何ですか？',
-    ko: '중국에서는 무슨 일이 있고 있나요?',
-    pt: 'O que há de novo na China?',
-    it: 'Quali sono le novità in Cina?',
-    'zh-TW': '中國有什麼新聞？',
-    'zh-HK': '中國有什麼新聞？',
-    zh: '中国有什么新闻？',
-    ru: 'Какие новости из Китая?'
+    en: 'China',
+    es: 'China',
+    fr: 'Chine',
+    de: 'China',
+    ja: '中国',
+    ko: '중국',
+    pt: 'China',
+    it: 'Cina',
+    ru: 'Китай',
+    'zh-TW': '中國',
+    'zh-HK': '中國',
+    zh: '中国'
+  },
+  'Companies': {
+    en: 'Companies',
+    es: 'Empresas',
+    fr: 'Entreprises',
+    de: 'Unternehmen',
+    ja: '企業',
+    ko: '회사',
+    pt: 'Empresas',
+    it: 'Aziende',
+    ru: 'Компании',
+    'zh-TW': '公司',
+    'zh-HK': '公司',
+    zh: '公司'
+  },
+  'Markets': {
+    en: 'Markets',
+    es: 'Mercados',
+    fr: 'Marchés',
+    de: 'Märkte',
+    ja: '市場',
+    ko: '시장',
+    pt: 'Mercados',
+    it: 'Mercati',
+    ru: 'Рынки',
+    'zh-TW': '市場',
+    'zh-HK': '市場',
+    zh: '市场'
+  },
+  'Opinion': {
+    en: 'Opinion',
+    es: 'Opinión',
+    fr: 'Opinion',
+    de: 'Meinung',
+    ja: '意見',
+    ko: '의견',
+    pt: 'Opinião',
+    it: 'Opinione',
+    ru: 'Мнение',
+    'zh-TW': '觀點',
+    'zh-HK': '觀點',
+    zh: '观点'
+  },
+  'Podcasts': {
+    en: 'Podcasts',
+    es: 'Podcasts',
+    fr: 'Podcasts',
+    de: 'Podcasts',
+    ja: 'ポッドキャスト',
+    ko: '팟캐스트',
+    pt: 'Podcasts',
+    it: 'Podcast',
+    ru: 'Подкасты',
+    'zh-TW': '播客',
+    'zh-HK': '播客',
+    zh: '播客'
+  },
+  'Videos': {
+    en: 'Videos',
+    es: 'Videos',
+    fr: 'Vidéos',
+    de: 'Videos',
+    ja: 'ビデオ',
+    ko: '동영상',
+    pt: 'Vídeos',
+    it: 'Video',
+    ru: 'Видео',
+    'zh-TW': '視頻',
+    'zh-HK': '視頻',
+    zh: '视频'
+  },
+  'Life & Arts': {
+    en: 'Life & Arts',
+    es: 'Estilo de vida y arte',
+    fr: 'Art de vivre',
+    de: 'Leben & Kunst',
+    ja: 'ライフ＆アート',
+    ko: '라이프 & 아트',
+    pt: 'Estilo de vida e arte',
+    it: 'Vita e arte',
+    ru: 'Жизнь и искусство',
+    'zh-TW': '生活與藝術',
+    'zh-HK': '生活與藝術',
+    zh: '生活与艺术'
+  },
+  'Work & Careers': {
+    en: 'Work & Careers',
+    es: 'Trabajo y carreras',
+    fr: 'Travail et carrières',
+    de: 'Arbeit & Karriere',
+    ja: '仕事とキャリア',
+    ko: '직업 및 경력',
+    pt: 'Trabalho e carreiras',
+    it: 'Lavoro e carriere',
+    ru: 'Работа и карьера',
+    'zh-TW': '工作與職涯',
+    'zh-HK': '工作與職涯',
+    zh: '工作与职业'
   },
   'AI News': {
-    en: 'Show me latest news about AI.',
-    es: 'Muéstrame las últimas noticias sobre IA.',
-    fr: 'Montre-moi les dernières nouvelles sur l\'IA.',
-    de: 'Zeige mir die neuesten Nachrichten über KI.',
-    ja: 'AIに関する最新ニュースを表示してください。',
-    ko: 'AI 최신 뉴스를 보여주세요.',
-    pt: 'Mostre-me as últimas notícias sobre IA.',
-    it: 'Mostrami le ultime notizie sull\'AI.',
-    'zh-TW': '給我看看最新的人工智慧新聞。',
-    'zh-HK': '給我看看最新的AI新聞。',
-    zh: '给我看看最新的人工智能新闻。',
-    ru: 'Покажите мне последние новости об искусственном интеллекте.'
+    en: 'AI',
+    es: 'IA',
+    fr: 'IA',
+    de: 'AI',
+    ja: 'AI',
+    ko: 'AI',
+    pt: 'IA',
+    it: 'IA',
+    'zh-TW': '人工智慧',
+    'zh-HK': 'AI',
+    zh: '人工智能',
+    ru: 'ИИ'
   },
-  'Subscription Problem': {
-    en: 'I have a problem with my subscription.',
-    es: 'Tengo un problema con mi suscripción.',
-    fr: 'J\'ai un problème avec mon abonnement.',
-    de: 'Ich habe ein Problem mit meinem Abonnement.',
-    ja: '私は定期購読に問題があります。',
-    ko: '내 구독에 문제가 있어요.',
-    pt: 'Estou com um problema na minha assinatura.',
-    it: 'Ho un problema con la mia iscrizione.',
-    'zh-TW': '我的會員訂閱服務有點問題。',
-    'zh-HK': '我的會員訂閱服務有點問題。',
-    zh: '我的会员订阅服务有点问题。',
-    ru: 'У меня проблема со своей подпиской.'
+  'Need Customer Service': {
+    en: 'I need customer service.',
+    es: 'Necesito servicio al cliente.',
+    fr: `J'ai besoin du service client.`,
+    de: `Ich brauche Kundenservice.`,
+    ja: 'お客様サポートが必要です。',
+    ko: '고객 서비스가 필요합니다.',
+    pt: 'Preciso de atendimento ao cliente.',
+    it: 'Ho bisogno del servizio clienti.',
+    'zh-TW': '我需要客服。',
+    'zh-HK': '我需要客戶服務。',
+    zh: '我需要客户服务。',
+    ru: 'Мне нужна помощь службы поддержки.'
+  },
+  'Looking For News': {
+    en: `What's news on the FT?`,
+    es: `¿Cuáles son las noticias en FT?`,
+    fr: `Quelles sont les actualités sur FT?`,
+    de: `Was sind die Neuigkeiten bei FT?`,
+    ja: `FTでのニュースは？`,
+    ko: `FT에서 최신 뉴스는 무엇인가요?`,
+    pt: `Quais são as novidades no FT?`,
+    it: `Quali sono le novità su FT?`,
+    'zh-TW': `FT有哪些最新的內容？`,
+    'zh-HK': `FT有哪些最新的內容？`,
+    zh: `FT有哪些最新的内容？`,
+    ru: `Какие новости на FT?`
   },
   'Deep Dive': {
-    zh: '我想阅读FT最新的深度报道',
-    en: `I'd like to read some in-depth reports from FT.`,
-    es: 'Me gustaría leer informes detallados de FT.',
-    fr: 'Je voudrais lire des rapports approfondis de FT.',
-    de: 'Ich möchte einige ausführliche Berichte von FT lesen.',
-    ja: 'FTから詳細なレポートを読みたいです。',
-    ko: 'FT의 심층 보도를 읽고 싶습니다.',
-    pt: 'Eu gostaria de ler relatórios aprofundados da FT.',
-    it: 'Vorrei leggere alcuni rapporti approfonditi da FT.',
-    'zh-TW': '我想閱讀FT最新的深度報導',
-    'zh-HK': '我想閱讀FT最新的深度報導',
-    ru: 'Я бы хотел прочитать некоторые подробные отчеты от FT.'
+    zh: '深度报道',
+    en: 'In-depth reports',
+    es: 'Reportajes en profundidad',
+    fr: 'Reportages approfondis',
+    de: 'Vertiefende Berichte',
+    ja: '綿密な報道',
+    ko: '심층 보도',
+    pt: 'Reportagens em profundidade',
+    it: 'Approfondimenti',
+    'zh-TW': '深度報導',
+    'zh-HK': '深度報導',
+    ru: 'Глубокие репортажи'
+  },
+  'Tech News': {
+    zh: '科技',
+    en: 'Technology',
+    es: 'Tecnología',
+    fr: 'Technologie',
+    de: 'Technologie',
+    ja: 'テクノロジー',
+    ko: '기술',
+    pt: 'Tecnologia',
+    it: 'Tecnologia',
+    'zh-TW': '科技',
+    'zh-HK': '科技',
+    ru: 'Технологии'
   },
   'Offer Help': {
     zh: '好的，需要我怎么帮助您？',
@@ -446,6 +586,20 @@ const statusDict = {
     'zh-TW': '好的，我來幫您查詢...',
     'zh-HK': '好的，我來幫您查詢...',
     ru: 'Хорошо, я помогу вам найти...'
+  },
+  'What do you want to find?': {
+    zh: '好的，您可以点击下面这些最为常见的查询，也可以告诉我您想找什么内容。',
+    en: 'Okay, you can click on the most common queries below, or tell me what content you are looking for.',
+    es: 'De acuerdo, puedes hacer clic en las consultas más comunes a continuación, o decirme qué contenido estás buscando.',
+    fr: `D'accord, vous pouvez cliquer sur les requêtes les plus courantes ci-dessous, ou me dire quel contenu vous recherchez.`,
+    de: 'Okay, Sie können auf die häufigsten Abfragen unten klicken oder mir sagen, wonach Sie suchen.',
+    ja: 'わかりました。以下の最も一般的なクエリをクリックするか、お探しのコンテンツを教えてください。',
+    ko: '알겠습니다. 가장 일반적인 쿼리를 아래에서 클릭하거나 찾으시는 콘텐츠를 말씀해주세요.',
+    pt: 'Ok, você pode clicar nas consultas mais comuns abaixo ou me dizer que conteúdo está procurando.',
+    it: 'Va bene, puoi cliccare sulle query più comuni qui sotto o dirmi quale contenuto stai cercando.',
+    'zh-TW': '好的，您可以點擊下面這些最常見的查詢，或告訴我您要找什麼內容。',
+    'zh-HK': '好嘢，您可以喺下面啲最常見嘅查詢入面揀一個，或者講俾我知您要搵咩嘢。',
+    ru: 'Хорошо, вы можете нажать на наиболее распространенные запросы ниже или сообщить мне, какой контент вы ищете.'
   },
   'DoSomethingElse': {
     zh: '聊点别的。',
@@ -553,12 +707,14 @@ delegate.on('click', '.chat-items-expand', async (event) => {
 delegate.on('click', '[data-purpose]', async (event) => {
   const element = event.target;
   if (element.classList.contains('pending')) {return;}
+  const purpose = element.getAttribute('data-purpose');
+  const content = element.getAttribute('data-content');
+  // MARK: - If there's no content attribute, this element is not meant to be clicked
+  if (!content) {return;}
   element.classList.add('pending');
   hideItemActions(element);
   try {
-    const purpose = element.getAttribute('data-purpose');
     const language = element.getAttribute('data-lang') || 'English';
-    const content = element.getAttribute('data-content');
     const reply = element.getAttribute('data-reply');
     const prompt = element.innerHTML;
     updateBotStatus('pending');
@@ -617,7 +773,7 @@ async function nextAction(intention) {
         },
         {
             role: 'system',
-            content: `You should evaluate the user's answer based on this context: ${window.socracticInfo[window.socracticIndex].excerpt}`
+            content: `Evaluate the user's answer based only on this context, which is delimited with triple backticks: '''${window.socracticInfo[window.socracticIndex].answer}''' Don't make anything up. `
         }
       ];
       previousConversations = previousConversations.concat(startConversations);
@@ -670,11 +826,20 @@ function showResultInChat(result) {
   if (!result || !result.text || typeof result.text !== 'string') {return;}
   const resultHTML = markdownToHtmlTable(result.text).replace(/\n/g, '<br>');
   // console.log(`actions: ${actions}`);
+  // console.log(resultHTML);
   newResult.innerHTML = `<div class="chat-talk-inner">${resultHTML}</div>`;
+  // newResult.innerHTML = `<div class="chat-talk-inner"><div><h1>haha</h1></div></div>`;
   chatContent.appendChild(newResult);
   if (newResult.querySelector('h1, .story-header-container')) {
     newResult.classList.add('full-grid-story');
-    newResult.querySelector('h1, .story-header-container').scrollIntoView(scrollOptions);
+    // MARK: - Need the set time out to work properly on Chrome
+    let inViewClass = '.story-lead';
+    if (newResult.querySelector('.audio-container') && newResult.querySelector('.story-body p')) {
+      inViewClass = '.story-body p';
+    }
+    setTimeout(function(){
+      newResult.querySelector(inViewClass).scrollIntoView(scrollOptions);
+    }, 0);
   } else {
     newResult.scrollIntoView(scrollOptions);
   }
@@ -712,6 +877,15 @@ async function talk() {
   userInput.value = '';
   userInput.style.height = 'auto';
   showBotResponse();
+  // MARK: If the user input the FT url directly, just show the article
+  const ftUrlPattern = /^http.+\.ft\.com\/content\/([a-zA-Z0-9\-]+)(\?.*)?$/;
+  if (ftUrlPattern.test(prompt)) {
+    const ftid = prompt.replace(ftUrlPattern, '$1');
+    const language = navigator.language;
+    showResultInChat({text: localize('SearchFTAPI')});
+    await showContent(ftid, language)
+    return;
+  }
   const context = await getContextByIntention(prompt);
   // MARK: - Send the prompt to our API for response
   const newUserPrompt = {role: 'user', content: prompt};
@@ -755,7 +929,8 @@ async function talk() {
 
 function markdownToHtmlTable(text) {
   // Search for all Markdown tables in the text
-  const regex = /\n\s*\|(.+)\|[\s\n]*\|( *:?-+:? *\|)+\s*((.+\|)+\s*)+/gm;
+  const regex = /\s*\|(.+)\|[\s\n]*\|( *:?-+:? *\|)+\s*((.+\|)+\s*)+/gm;
+
   const matches = text.match(regex);
   // If no tables are found, return the original text
   if (!matches) {
@@ -866,6 +1041,8 @@ async function searchFTAPI(content, language, reply) {
         let subheading = item.editorial.subheading || item.summary.excerpt || '';
         const byline = item.editorial.byline;
         const excerpt = item.summary.excerpt;
+        const time = item.lifecycle.lastPublishDateTime;
+        const timeStamp = new Date(time).toLocaleString();
         let hideClass = ' hide';
         if (index < itemChunk) {
           hideClass = '';
@@ -877,19 +1054,24 @@ async function searchFTAPI(content, language, reply) {
           subheading = subheading.trim().replace(/[\.。]+$/g, '');
         }
         const lang = language || 'English';
-        html += `<div data-id="${id}" data-lang="${lang}" class="chat-item-container${hideClass}"><div class="chat-item-title"><a data-action="show-article" target="_blank" title="${byline}: ${excerpt}">${title}</a></div><div class="item-lead">${subheading}</div></div>`;
+        const newHTML = `<div data-id="${id}" data-lang="${lang}" class="chat-item-container${hideClass}"><div><span class="story-time">${timeStamp}</span></div><div class="chat-item-title"><a data-action="show-article" target="_blank" title="${byline}: ${excerpt}">${title}</a></div><div class="item-lead">${subheading}</div></div>`;
+        html += newHTML;
       }
       newResultInner.innerHTML = html;
-      newResult.scrollIntoView(scrollOptions);
       if (results.length > itemChunk) {
         const langProperty = (language && language !== 'English') ? ` data-lang=${language}` : '';
         newResultInner.innerHTML += `<div class="chat-items-expand" data-chunk="${itemChunk}" data-length="${results.length}"${langProperty}></div>`;
-        newResult.scrollIntoView(scrollOptions);
       }
+      newResultInner.innerHTML += getActionOptions();
+      newResult.scrollIntoView(scrollOptions);
       const n = 3;
       if (previousConversations.length > n) {
         previousConversations = previousConversations.slice(-n);
       }
+    } else if (/[a-z]+:/g.test(content)) {
+      const fullTextContent = content.replace(/[a-z]+:/g, '').trim().replace(/[\ ]+/g, ' ');
+      await searchFTAPI(fullTextContent, language, reply);
+      return;
     } else {
       //TODO: - Handle error
     }
@@ -941,13 +1123,27 @@ function getActionOptions() {
         <a data-purpose="set-intention" data-lang="${language}" data-content="CleanSlate" data-reply="${localize('Offer Help')}">${localize('ChangeSubject')}</a>
       </div>
     `;
+  } else if (['SearchFTAPI'].indexOf(intention) >= 0) {
+    result = `
+    <div class="chat-item-actions">
+      <a data-purpose="search-ft-api" data-lang="${language}" data-content="regions: China" data-reply="${localize('Finding')}">${localize('China News')}</a>
+      <a data-purpose="search-ft-api" data-lang="${language}" data-content="topics: Companies OR topics: Business" data-reply="${localize('Finding')}">${localize('Companies')}</a>
+      <a data-purpose="search-ft-api" data-lang="${language}" data-content='topics: Technology' data-reply="${localize('Finding')}">${localize('Tech News')}</a>
+      <a data-purpose="search-ft-api" data-lang="${language}" data-content='topics: Markets' data-reply="${localize('Finding')}">${localize('Markets')}</a>
+      <a data-purpose="search-ft-api" data-lang="${language}" data-content='genre: Opinion' data-reply="${localize('Finding')}">${localize('Opinion')}</a>
+      <a data-purpose="search-ft-api" data-lang="${language}" data-content='topics: Work & Careers' data-reply="${localize('Finding')}">${localize('Work & Careers')}</a>
+      <a data-purpose="search-ft-api" data-lang="${language}" data-content='topics: Life & Arts OR topics: Lifestyle OR topics: Arts' data-reply="${localize('Finding')}">${localize('Life & Arts')}</a>
+      <a data-purpose="search-ft-api" data-lang="${language}" data-content="topics: \"Artificial Intelligence\"" data-reply="${localize('Finding')}">${localize('AI News')}</a>
+      <a data-purpose="search-ft-api" data-lang="${language}" data-content='genre:"Deep Dive" OR genre:"News in-depth" OR genre:"Explainer"' data-reply="${localize('Finding')}">${localize('Deep Dive')}</a>
+      <a data-purpose="search-ft-api" data-lang="${language}" data-content='VIDEOS' data-reply="${localize('Finding')}">${localize('Videos')}</a>
+      <a data-purpose="search-ft-api" data-lang="${language}" data-content='PODCASTS' data-reply="${localize('Finding')}">${localize('Podcasts')}</a>
+    </div>
+    `;
   } else if (intention === undefined || intention === '') {
     result = `
       <div class="chat-item-actions">
-        <a data-purpose="search-ft-api" data-lang="${language}" data-content="regions:China" data-reply="${localize('Finding')}">${localize('China News')}</a>
-        <a data-purpose="search-ft-api" data-lang="${language}" data-content="topics:Artificial Intelligence" data-reply="${localize('Finding')}">${localize('AI News')}</a>
-        <a data-purpose="search-ft-api" data-lang="${language}" data-content='genre:"Deep Dive" OR genre:"News in-depth" OR genre:"Explainer"' data-reply="${localize('Finding')}">${localize('Deep Dive')}</a>
-        <a data-purpose="set-intention" data-lang="${language}" data-content="CustomerService" data-reply="${localize('Offer Help')}">${localize('Subscription Problem')}</a>
+        <a data-purpose="set-intention" data-lang="${language}" data-content='SearchFTAPI' data-reply="${localize('What do you want to find?')}">${localize('Looking For News')}</a>
+        <a data-purpose="set-intention" data-lang="${language}" data-content="CustomerService" data-reply="${localize('Offer Help')}">${localize('Need Customer Service')}</a>
       </div>
     `;
   }
@@ -959,13 +1155,14 @@ function getActionOptions() {
 }
 
 function greet() {
+  const introduction = localize('Introduction');
   const prompt = getRandomPrompt('greeting');
   if (!chatContent.querySelector('.chat-talk')) {
       chatContent.innerHTML = '';
   }
   const newChat = document.createElement('DIV');
   newChat.className = 'chat-talk chat-talk-agent';
-  newChat.innerHTML = `<div class="chat-talk-inner">${prompt}${getActionOptions()}</div>`
+  newChat.innerHTML = `<div class="chat-talk-inner"><p>${introduction}</p><p>${prompt}</p>${getActionOptions()}</div>`
   chatContent.appendChild(newChat);
 }
 
