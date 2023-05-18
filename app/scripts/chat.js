@@ -12,6 +12,7 @@ var previousIntentDections = [];
 var botStatus = 'waiting';
 var intention;
 
+// MARK: - scrollIntoView doesn't support offset
 const scrollOptions = { 
   behavior: 'smooth', 
   block: 'end',
@@ -601,6 +602,20 @@ const statusDict = {
     'zh-HK': '好嘢，您可以喺下面啲最常見嘅查詢入面揀一個，或者講俾我知您要搵咩嘢。',
     ru: 'Хорошо, вы можете нажать на наиболее распространенные запросы ниже или сообщить мне, какой контент вы ищете.'
   },
+  'Find More': {
+    zh: '您可以点击下面这些最为常见的查询，或者告诉我您想找什么内容。',
+    en: 'You can click on these most common queries below, or tell me what content you are looking for.',
+    es: 'Puede hacer clic en estas consultas más comunes a continuación, o decirme qué contenido está buscando.',
+    fr: 'Vous pouvez cliquer sur ces requêtes les plus courantes ci-dessous, ou me dire quel contenu vous recherchez.',
+    de: 'Sie können auf diese am häufigsten gestellten Abfragen unten klicken oder mir sagen, wonach Sie suchen.',
+    ja: '以下の最も一般的なクエリをクリックするか、探しているコンテンツを教えてください。',
+    ko: '가장 일반적인 쿼리 중 하나를 클릭하거나 찾으려는 콘텐츠를 알려주세요.',
+    pt: 'Você pode clicar nas consultas mais comuns abaixo ou me dizer que conteúdo está procurando.',
+    it: 'Puoi cliccare su queste query più comuni qui sotto, o dirmi quale contenuto stai cercando.',
+    'zh-TW': '您可以點擊下面這些最常見的查詢，或告訴我您想要尋找什麼內容。',
+    'zh-HK': '你可以按下面最常見的查詢，或者告訴我你想搵咩內容。',
+    ru: 'Вы можете щелкнуть на эти самые распространенные запросы ниже или сообщить мне, какой контент вы ищете.'
+  },
   'DoSomethingElse': {
     zh: '聊点别的。',
     en: `Let's talk about something else.`,
@@ -654,6 +669,18 @@ delegate.on('click', '[data-action="talk"]', async (event) => {
   talk();
 });
 
+delegate.on('click', '.code-block-copy', async (event) => {
+  const element = event.target;
+  const containerEle = element.closest('.code-block-container').querySelector('.code-block pre');
+  const text = containerEle.innerText;
+  copyToClipboard(text);
+});
+
+delegate.on('click', '.chat-item-group-title', async (event) => {
+  const element = event.target;
+  const groupContainer = element.closest('.chat-item-group-container');
+  groupContainer.classList.toggle('expanded');
+});
 
 delegate.on('click', '.chat-items-expand', async (event) => {
   const element = event.target;
@@ -736,6 +763,16 @@ function hideItemActions(element) {
   let actionsEle = element.closest('.chat-item-actions');
   if (actionsEle) {
     actionsEle.classList.add('hide');
+  }
+}
+
+function copyToClipboard(text) {
+  if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(function() {
+      console.log("Text copied to clipboard");
+    }, function() {
+      console.log("Failed to copy text to clipboard");
+    });
   }
 }
 
@@ -824,7 +861,8 @@ function showResultInChat(result) {
   newResult.className = 'chat-talk chat-talk-agent';
   // MARK: - Converting the HTML on the frontend
   if (!result || !result.text || typeof result.text !== 'string') {return;}
-  const resultHTML = markdownToHtmlTable(result.text).replace(/\n/g, '<br>');
+  // const resultHTML = markdownToHtmlTable(result.text).replace(/\n/g, '<br>');
+  const resultHTML = markdownConvert(result.text);
   // console.log(`actions: ${actions}`);
   // console.log(resultHTML);
   newResult.innerHTML = `<div class="chat-talk-inner">${resultHTML}</div>`;
@@ -967,9 +1005,27 @@ function markdownToHtmlTable(text) {
   return html;
 }
 
+function markdownCodeBlock(text) {
+  const result = text.replace(/```([A-z]*)\n([\s\S]+)```/g, '<div class="code-block-container"><div class="code-block-title"><div class="code-block-copy"></div>$1</div><div class="code-block"><pre>$2</pre></div></div>');
+  const re = /<pre>([\s\S]*?)<\/pre>/gm;
+  const output = result.replace(re, (match, p1) => {
+    return '<pre>' + p1.replace(/\n/g, '|||') + '</pre>';
+  });
+  return output;
+}
+
+
+function markdownConvert(text) {
+  let result = markdownCodeBlock(text);
+  result = markdownToHtmlTable(result);
+  result = result.replace(/[\n\r]/g, '<br>').replace(/[\|]{3}/g, '\n');
+  return result;
+}
+
 const purposeToFunction = {
   'search-ft-api': searchFTAPI,
-  'set-intention': setIntention
+  'set-intention': setIntention,
+  'show-ft-page': showFTPage
   // 'check-news': checkNews
   // 'purpose2': function2,
   // 'purpose3': function3,
@@ -1063,7 +1119,13 @@ async function searchFTAPI(content, language, reply) {
         newResultInner.innerHTML += `<div class="chat-items-expand" data-chunk="${itemChunk}" data-length="${results.length}"${langProperty}></div>`;
       }
       newResultInner.innerHTML += getActionOptions();
-      newResult.scrollIntoView(scrollOptions);
+      // newResult.scrollIntoView(scrollOptions);
+      const itemContainers = newResultInner.querySelectorAll('.chat-item-container');
+      if (itemContainers.length >= 3) {
+        itemContainers[2].scrollIntoView(scrollOptions);
+      } else {
+        newResult.scrollIntoView(scrollOptions);
+      }
       const n = 3;
       if (previousConversations.length > n) {
         previousConversations = previousConversations.slice(-n);
@@ -1077,6 +1139,85 @@ async function searchFTAPI(content, language, reply) {
     }
   } catch (err){
     console.log('Error with searchFTAPI');
+    console.log(err);
+  }
+  updateBotStatus('waiting');
+}
+
+
+async function showFTPage(content, language, reply) {
+  // console.log(`running showFTPage... content: ${content}, language: ${language}`);
+  updateBotStatus('pending');
+  showResultInChat({text: reply});
+  try {
+    let result = await getFTPageInfo(content);
+    if (result.results && result.results.length > 0 && result.results[0].groups) {
+      const newResult = document.createElement('DIV');
+      newResult.className = 'chat-talk chat-talk-agent';
+      const newResultInner = document.createElement('DIV');
+      newResultInner.className = 'chat-talk-inner';
+      newResult.appendChild(newResultInner);
+      chatContent.appendChild(newResult);
+      const results = result.results[0].groups;
+      let html = '';
+      for (const [groupIndex, group] of results.entries()) {
+        const groupExpandClass = groupIndex === 0 ? ' expanded' : '';
+        let groupHTML = '';
+        for (const item of group.items) {
+          const id = item.id;
+          let title = item.title.title || '';
+          let subheading = item.editorial.subheading || item.summary.excerpt || '';
+          const byline = item.editorial.byline;
+          let excerpt = '';
+          if (item.summary && item.summary.excerpt) {
+            excerpt = item.summary.excerpt;
+          }
+          let timeStamp = '';
+          if (item.lifecycle && item.lifecycle.lastPublishDateTime) {
+            const time = item.lifecycle.lastPublishDateTime;
+            timeStamp = new Date(time).toLocaleString();
+          }
+          let primaryTheme = '';
+          if (item.metadata && item.metadata.primaryTheme && item.metadata.primaryTheme.term && item.metadata.primaryTheme.term.name) {
+            primaryTheme = `<span class="primary-theme">${item.metadata.primaryTheme.term.name}</span>`;
+          }
+          const lang = language || 'English';
+          groupHTML += `
+            <div data-id="${id}" data-lang="${lang}" class="chat-item-container">
+              ${primaryTheme}
+              <div class="chat-item-title">
+                <a data-action="show-article" target="_blank" title="${byline}: ${excerpt}">${title}</a>
+              </div>
+              <div class="item-lead">${subheading}</div>
+              <span class="story-time">${timeStamp}</span>
+            </div>`;
+        }
+        const groupTitleHTML = (group.group && group.group !== '') ? `<div class="chat-item-group-title">${group.group}</div>` : '';
+        const groupItemsHTML = `<div class="chat-item-group-items">${groupHTML}</div>`;
+        const newHTML = `
+          <div class="chat-item-group-container${groupExpandClass}">
+            ${groupTitleHTML}
+            ${groupItemsHTML}
+          </div>`;
+        html += newHTML;
+      }
+      newResultInner.innerHTML = html;
+      await setIntention('SearchFTAPI', language, localize('Find More'));
+      const itemContainers = newResultInner.querySelectorAll('.chat-item-container');
+      if (itemContainers.length >= 3) {
+        itemContainers[2].scrollIntoView(scrollOptions);
+      } else {
+        newResult.scrollIntoView(scrollOptions);
+      }
+      const n = 3;
+      if (previousConversations.length > n) {
+        previousConversations = previousConversations.slice(-n);
+      }
+    } else {
+      //TODO: - Handle error
+    }
+  } catch (err){
+    console.log('Error with showFTPage');
     console.log(err);
   }
   updateBotStatus('waiting');
@@ -1142,7 +1283,7 @@ function getActionOptions() {
   } else if (intention === undefined || intention === '') {
     result = `
       <div class="chat-item-actions">
-        <a data-purpose="set-intention" data-lang="${language}" data-content='SearchFTAPI' data-reply="${localize('What do you want to find?')}">${localize('Looking For News')}</a>
+        <a data-purpose="show-ft-page" data-lang="${language}" data-content='home' data-reply="${localize('Finding')}">${localize('Looking For News')}</a>
         <a data-purpose="set-intention" data-lang="${language}" data-content="CustomerService" data-reply="${localize('Offer Help')}">${localize('Need Customer Service')}</a>
       </div>
     `;
@@ -1254,10 +1395,35 @@ function checkScrollyTellingForChat() {
   }
 }
 
+const registerServiceWorker = async () => {
+  if (isFrontendTest && !isPowerTranslate) {return;}
+  if ("serviceWorker" in navigator) {
+    try {
+      const registration = await navigator.serviceWorker.register("/powertranslate/chat-service-worker.js", {
+        scope: "/powertranslate/",
+      });
+      if (registration.installing) {
+        console.log("Service worker installing");
+      } else if (registration.waiting) {
+        console.log("Service worker installed");
+      } else if (registration.active) {
+        console.log("Service worker active");
+      }
+    } catch (error) {
+      console.error(`Registration failed with ${error}`);
+    }
+  }
+};
+
+(async()=>{
+  await registerServiceWorker();
+})();
+
 initChat();
 chatContent.addEventListener('scroll', function() {
   checkScrollyTellingForChat();
 });
+// console.log('main-chat.js version: 27');
 
 
 /* jshint ignore:end */

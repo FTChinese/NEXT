@@ -285,4 +285,46 @@ async function getFTAPISearchResult(keyword) {
     }
 }
 
+
+async function getFTPageInfo(name) {
+    try {
+        const token = (isPowerTranslate) ? localStorage.getItem('accessToken') : 'sometoken';
+        if (!token || token === '') {
+            return {status: 'failed', message: 'You need to sign in first! '};
+        }
+        let url = (isPowerTranslate) ? `/ftpage/${name}` : `/FTAPI/ft-${name}.php`;
+        let options = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        };
+        if (isFrontendTest && !isPowerTranslate) {
+            url = '/api/page/ft-page.json';
+            options = {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            };
+        }
+        const response = await fetch(url, options);
+        let results = await response.json();
+        if (response.status >= 400 && results.message) {
+            return {status: 'failed', message: results.message};
+        }
+        if (results) {
+            return {status: 'success', results: results};
+        } else {
+            return {status: 'failed', message: 'Something is wrong with FT Search, please try later. '};
+        }
+    } catch(err) {
+        console.log(err);
+        return {status: 'failed', message: err.toString()};
+    }
+}
+
+
+
 /* jshint ignore:end */

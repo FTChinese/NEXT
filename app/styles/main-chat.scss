@@ -32,8 +32,13 @@ body {
 .header-inner {
     background-color: transparent!important;
 }
-.current-edition span {
-    white-space: nowrap;
+.current-edition {
+    a {
+        background-color: transparent;
+    }
+    span {
+        white-space: nowrap;
+    }
 }
 .error {
     color: #CC0000;
@@ -190,41 +195,125 @@ body {
     font-size: 1.2em;
     a {
         cursor: pointer;
+        color: black;
     }
 }
 
 .chat-item-actions {
     a {
         cursor: pointer;
-        color: white;
-        background-color: #0f5499;
+        color: black;
+        border: 1px solid $leadColor;
         padding: math.div($defaultPadding, 3) math.div($defaultPadding, 1);
-        border-radius: math.div($defaultPadding, 1);
         display: inline-block;
         margin: math.div($defaultPadding, 2) math.div($defaultPadding, 2) 0 0;
-        font-size:0.8em;
+        font-size: 1em;
+        transition: transform .5s;
         &.hide {
             display: none;
+        }
+        &:hover, &:active {
+            transform: scale(1.1);
         }
     }
     &.right {
         text-align: right;
-        a {
-            background-color: transparent;
-            color: $darkGreen;
-            padding-right: 0;
-            padding-left: 0;
-        }
     }
 }
-
+.code-block-title {
+    padding: math.div($defaultPadding, 4);
+    background-color: $sideBorderColor;
+    color: white;
+    position: relative;
+}
+.code-block-copy {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 96 960 960" width="48" fill="white"><path d="M180 975q-24 0-42-18t-18-42V312h60v603h474v60H180Zm120-120q-24 0-42-18t-18-42V235q0-24 18-42t42-18h440q24 0 42 18t18 42v560q0 24-18 42t-42 18H300Zm0-60h440V235H300v560Zm0 0V235v560Z"/></svg>');
+    float: right;
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    right: math.div($defaultPadding, 4);
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    background-position: 50%;
+    background-size: cover;
+    cursor: pointer;
+    // background-color: red;
+}
+.code-block {
+    padding: math.div($defaultPadding, 2);
+    background-color: $bannerBG;
+    overflow-x: scroll;
+    white-space: nowrap;
+}
 .chat-item-summary {
     font-weight: bold;
     font-size: 1.2em;
     margin-top: math.div($defaultPadding, 2);
 }
+.item-lead {
+    color: $darkGrey;
+}
+.primary-theme {
+    color: $red;
+    font-weight: bold;
+    position: relative;
+    display: inline-block;
+}
+.chat-item-container .story-time {
+    color: $lightGrey;
+}
+.chat-item-group-title {
+    //MARK： - follow the style here: https://ig.ft.com/russias-war-in-ukraine/
+    position: relative;
+    border: 1px solid $lightGrey;
+    padding: math.div($defaultPadding, 2);
+    margin: math.div($defaultPadding, 1) 0;
+    color: black;
+    font-weight: bold;
+    text-align: center;
+    font-size: 1.4em;
+    &::before {
+        content: '';
+        position: absolute;
+        display: block;
+        margin: auto;
+        width: $navHeight;
+        height: $navHeight;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        background-image: url("https://www.ft.com/__origami/service/image/v2/images/raw/fticon-v1:plus?source=origami-build-service&format=svg&tint=%2366605C");
+        background-repeat: no-repeat;
+        background-size: $navHeight;
+        background-position: right center;
+        transition: transform .5s;
+    }
+    &:hover, &:active, .expanded & {
+        background-color: $red;
+        border-color: $red;
+        color: white;
+        cursor: pointer;
+        &::before {
+            background-image: url("https://www.ft.com/__origami/service/image/v2/images/raw/fticon-v1:plus?source=origami-build-service&format=svg&tint=%23ffffff");
+        }
+    }
+    .expanded & {
+        &::before {
+            transform: rotate(45deg);
+        }
+    }
+}
 
-
+.chat-item-group-items {
+    display: none;
+}
+.chat-item-group-container.expanded {
+    .chat-item-group-items {
+        display: block;
+    }
+}
 [data-purpose] {
     // display: none;
     background-color: $bannerBG;

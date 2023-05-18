@@ -30,10 +30,8 @@ const useref = require('gulp-useref');
 const wiredep = require('wiredep').stream;
 
 const browserSync = require('browser-sync').create();
-const cssnext = require('postcss-cssnext');
 const merge = require('merge-stream');
 const source = require('vinyl-source-stream');
-const lazypipe = require('lazypipe');
 const sass = require('gulp-dart-sass');
 
 const origamiModules = [
@@ -419,6 +417,26 @@ gulp.task('copy:ftcoffer', async () => {
       console.error(err.stack);
     })
     .pipe(gulp.dest(`${dest}/scripts`));
+
+  // Read file content into a string
+  const serviceWorkerPath = 'app/scripts/chat-service-worker.js';
+  let fileContent = fs.readFileSync(serviceWorkerPath, 'utf8');
+  const regex = /cacheName = 'v([0-9]+)'/;
+  const matches = regex.exec(fileContent);
+  if (matches && matches.length > 1) {
+    const versionNumber = matches[1];
+    const version = parseInt(versionNumber, 10);
+    if (version > 0) {
+      const newVersion = version + 1;
+      fileContent = fileContent.replace(regex, `cacheName = 'v${newVersion}'`);
+      fs.writeFileSync(serviceWorkerPath, fileContent, 'utf8');
+    }
+  }
+  gulp.src([serviceWorkerPath])
+    .on('error', (err) => {
+      console.error(err.stack);
+    })
+    .pipe(gulp.dest(`${dest}`));
 });
 
 gulp.task('copy:p0', () => {

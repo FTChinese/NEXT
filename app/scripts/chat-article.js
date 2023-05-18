@@ -14,6 +14,7 @@ delegate.on('click', '[data-action="show-article"]', async (event) => {
     updateBotStatus('pending');
     try {
         const chatItemContainer = element.closest('.chat-item-container');
+        console.log(chatItemContainer);
         const ftid = chatItemContainer.getAttribute('data-id');
         const language = chatItemContainer.getAttribute('data-lang') || 'English';
         await showContent(ftid, language);
