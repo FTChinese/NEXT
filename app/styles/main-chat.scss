@@ -11,7 +11,9 @@ html {
 body {
     overflow: hidden;
 }
-
+a[data-action] {
+    cursor: pointer;
+}
 .container {
     height: 100vh;
     width: 100vw;
@@ -64,19 +66,19 @@ body {
         margin-top: $navHeight + $defaultPadding;
     }
     &:last-child {
-        padding-bottom: $navHeight + $defaultPadding;
+        padding-bottom: $navHeight + $defaultPadding * 2;
     }
 }
 .chat-talk-inner {
     position: relative;
     max-width: 768px;
-    padding: 5px 5px 5px $navHeight+$defaultPadding;
+    padding: 5px 0 5px $navHeight;
     font-size: 1.2em;    
     min-height: $logoHeight + 10px;
     margin: 0 auto;
     &:before {
         position: absolute;
-        left: 5px;
+        left: 0;
         top: 5px;
         width: $logoHeight;
         height: $logoHeight;
@@ -417,18 +419,7 @@ body {
 }
 
 
-@media only screen and (max-width: 980px) {
-    .full-grid-story {
-        #story-body-container {
-            .n-content-pullquote, .n-content-big-number {
-                margin: auto;
-                padding: 0;
-                float: none;
-                max-width: 768px;
-            }
-        }
-    }
-}
+
 
 .full-grid-story {
     .chat-talk-inner {
@@ -461,5 +452,50 @@ body {
     }
     100% {
       transform: rotate(360deg);
+    }
+}
+
+@media only screen and (max-width: 980px) {
+    .full-grid-story {
+        #story-body-container {
+            .n-content-pullquote, .n-content-big-number {
+                margin: auto;
+                padding: 0;
+                float: none;
+                max-width: 768px;
+            }
+        }
+        .story-headline, .story-lead, .story-byline, #story-body-container .n-content-pullquote, #story-body-container .n-content-big-number, #story-body-container > *, .article-prompt, .chat-item-actions, [data-action="show-transcript"] {
+            padding-left: math.div($defaultPadding, 2);
+            padding-right: math.div($defaultPadding, 2);
+        }
+        .quiz-next {
+            margin-left: math.div($defaultPadding, 2);
+        }
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .chat-talk-inner {
+        padding: 5px math.div($defaultPadding, 2) 5px $navHeight + math.div($defaultPadding,2);
+        &:before {
+            left: math.div($defaultPadding, 2);
+        }
+    }
+}
+
+@media only screen and (max-width: 490px) {
+    .audio-placeholder {
+        &.is-sticky-top {
+            position: sticky;
+            top: $navHeight;
+            z-index: 1;
+            bottom: auto;
+            margin-bottom: math.div($defaultPadding, 2);
+            margin-top: math.div($defaultPadding, 2);
+        }
+    }
+    .masthead {
+       background-image: url("https://thumbor.ftacademy.cn/unsafe/picture/9/000132359_piclink.png")
     }
 }

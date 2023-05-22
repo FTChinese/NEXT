@@ -286,13 +286,13 @@ async function getFTAPISearchResult(keyword) {
 }
 
 
-async function getFTPageInfo(name) {
+async function getFTPageInfo(name, language) {
     try {
         const token = (isPowerTranslate) ? localStorage.getItem('accessToken') : 'sometoken';
         if (!token || token === '') {
             return {status: 'failed', message: 'You need to sign in first! '};
         }
-        let url = (isPowerTranslate) ? `/ftpage/${name}` : `/FTAPI/ft-${name}.php`;
+        let url = (isPowerTranslate) ? `/ftpage/${name}?language=${language}` : `/FTAPI/ft-${name}.php`;
         let options = {
             method: 'GET',
             headers: {

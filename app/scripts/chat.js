@@ -491,32 +491,46 @@ const statusDict = {
     ru: 'ИИ'
   },
   'Need Customer Service': {
-    en: 'I need customer service.',
-    es: 'Necesito servicio al cliente.',
-    fr: `J'ai besoin du service client.`,
-    de: `Ich brauche Kundenservice.`,
-    ja: 'お客様サポートが必要です。',
-    ko: '고객 서비스가 필요합니다.',
-    pt: 'Preciso de atendimento ao cliente.',
-    it: 'Ho bisogno del servizio clienti.',
-    'zh-TW': '我需要客服。',
-    'zh-HK': '我需要客戶服務。',
-    zh: '我需要客户服务。',
-    ru: 'Мне нужна помощь службы поддержки.'
+    en: 'Customer Service',
+    es: 'Servicio al Cliente',
+    fr: 'Service Client',
+    de: 'Kundenservice',
+    ja: 'カスタマーサービス',
+    ko: '고객 서비스',
+    pt: 'Atendimento ao Cliente',
+    it: 'Servizio Clienti',
+    'zh-TW': '客服',
+    'zh-HK': '客戶服務。',
+    zh: '客户服务',
+    ru: 'Служба поддержки'
+  },
+  'Discover and Explore': {
+    en: 'Discover and Explore',
+    es: 'Descubrir y explorar',
+    fr: 'Découvrir et explorer',
+    de: 'Entdecken und erkunden',
+    ja: '発見と探索',
+    ko: '발견과 탐험',
+    pt: 'Descobrir e explorar',
+    it: 'Scoprire ed esplorare',
+    'zh-TW': '發現與探索',
+    'zh-HK': '發現與探索',
+    zh: '发现与探索',
+    ru: 'Откройте для себя и исследуйте'
   },
   'Looking For News': {
-    en: `What's news on the FT?`,
-    es: `¿Cuáles son las noticias en FT?`,
-    fr: `Quelles sont les actualités sur FT?`,
-    de: `Was sind die Neuigkeiten bei FT?`,
-    ja: `FTでのニュースは？`,
-    ko: `FT에서 최신 뉴스는 무엇인가요?`,
-    pt: `Quais são as novidades no FT?`,
-    it: `Quali sono le novità su FT?`,
-    'zh-TW': `FT有哪些最新的內容？`,
-    'zh-HK': `FT有哪些最新的內容？`,
-    zh: `FT有哪些最新的内容？`,
-    ru: `Какие новости на FT?`
+    en: `What's news?`,
+    es: `¿Qué hay de nuevo?`,
+    fr: `Quoi de neuf?`,
+    de: `Was gibt's Neues?`,
+    ja: `何か新しいことはある？`,
+    ko: `뭐가 새로운 소식이야?`,
+    pt: `Quais são as novidades?`,
+    it: `Quali sono le novità?`,
+    'zh-TW': `今日要聞`,
+    'zh-HK': `今日要聞`,
+    zh: `今日要闻`,
+    ru: `Что нового?`
   },
   'Deep Dive': {
     zh: '深度报道',
@@ -805,12 +819,12 @@ async function nextAction(intention) {
       showResultInChat({text: `<strong>${window.socracticInfo[window.socracticIndex].question}</strong>`});
       const startConversations = [
         {
-            role: 'assistant',
-            content: window.socracticInfo[window.socracticIndex].question
+          role: 'system',
+          content: `Evaluate the user's answer based only on this context, which is delimited with triple backticks: '''${window.socracticInfo[window.socracticIndex].answer}'''`
         },
         {
-            role: 'system',
-            content: `Evaluate the user's answer based only on this context, which is delimited with triple backticks: '''${window.socracticInfo[window.socracticIndex].answer}''' Don't make anything up. `
+            role: 'assistant',
+            content: window.socracticInfo[window.socracticIndex].question
         }
       ];
       previousConversations = previousConversations.concat(startConversations);
@@ -872,9 +886,11 @@ function showResultInChat(result) {
     newResult.classList.add('full-grid-story');
     // MARK: - Need the set time out to work properly on Chrome
     let inViewClass = '.story-lead';
-    if (newResult.querySelector('.audio-container') && newResult.querySelector('.story-body p')) {
-      inViewClass = '.story-body p';
+    console.log(newResult);
+    if (newResult.querySelector('.audio-container, .story-header-container video') && newResult.querySelector('.chat-item-actions')) {
+      inViewClass = '.chat-item-actions';
     }
+    console.log(`inViewClass: ${inViewClass}`);
     setTimeout(function(){
       newResult.querySelector(inViewClass).scrollIntoView(scrollOptions);
     }, 0);
@@ -1150,7 +1166,7 @@ async function showFTPage(content, language, reply) {
   updateBotStatus('pending');
   showResultInChat({text: reply});
   try {
-    let result = await getFTPageInfo(content);
+    let result = await getFTPageInfo(content, language);
     if (result.results && result.results.length > 0 && result.results[0].groups) {
       const newResult = document.createElement('DIV');
       newResult.className = 'chat-talk chat-talk-agent';
@@ -1160,6 +1176,7 @@ async function showFTPage(content, language, reply) {
       chatContent.appendChild(newResult);
       const results = result.results[0].groups;
       let html = '';
+      let themes = new Set();
       for (const [groupIndex, group] of results.entries()) {
         const groupExpandClass = groupIndex === 0 ? ' expanded' : '';
         let groupHTML = '';
@@ -1178,8 +1195,10 @@ async function showFTPage(content, language, reply) {
             timeStamp = new Date(time).toLocaleString();
           }
           let primaryTheme = '';
-          if (item.metadata && item.metadata.primaryTheme && item.metadata.primaryTheme.term && item.metadata.primaryTheme.term.name) {
-            primaryTheme = `<span class="primary-theme">${item.metadata.primaryTheme.term.name}</span>`;
+          let termName = item.metadata?.primaryTheme?.term?.name;
+          if (termName && !themes.has(termName) && !/[\(\)（）]/.test(termName)) {
+            primaryTheme = `<span class="primary-theme">${termName}</span>`;
+            themes.add(termName);
           }
           const lang = language || 'English';
           groupHTML += `
@@ -1284,6 +1303,7 @@ function getActionOptions() {
     result = `
       <div class="chat-item-actions">
         <a data-purpose="show-ft-page" data-lang="${language}" data-content='home' data-reply="${localize('Finding')}">${localize('Looking For News')}</a>
+        <a data-purpose="set-intention" data-lang="${language}" data-content="SearchFTAPI" data-reply="${localize('Find More')}">${localize('Discover and Explore')}</a>
         <a data-purpose="set-intention" data-lang="${language}" data-content="CustomerService" data-reply="${localize('Offer Help')}">${localize('Need Customer Service')}</a>
       </div>
     `;

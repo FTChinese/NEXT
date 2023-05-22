@@ -25,7 +25,15 @@ delegate.on('click', '[data-action="show-article"]', async (event) => {
     updateBotStatus('waiting');
 });
 
-
+delegate.on('click', '[data-action="show-transcript"]', async (event) => {
+    const element = event.target;
+    const container = element.closest('.article-container');
+    const storyBody = container?.querySelector('.story-body');
+    if (storyBody) {
+        storyBody.classList.remove('hide');
+    }
+    element.classList.add('hide');
+});
 
 delegate.on('click', '[data-action="quiz"], [data-action="socratic"]', async (event) => {
     const element = event.target;
@@ -96,11 +104,15 @@ delegate.on('click', '.quiz-options div', async (event) => {
     }
 });
 
-function getAudioHTML(content) {
+function getContentType(content) {
     const types = content.types;
     if (!types || types.length < 0) {return '';}
-    // MARK: - Make sure the content is marked as a video
     const type = types[0].replace(/^.*\//g, '');
+    return type;
+}
+
+function getAudioHTML(content) {
+    const type = getContentType(content);
     if (type !== 'Audio') {return '';}
     let dataSource = content.dataSource;
     if (!dataSource) {return '';}
@@ -128,11 +140,10 @@ function getAudioHTML(content) {
     `;
 }
 
+
+
 function getVideoHTML(content) {
-    const types = content.types;
-    if (!types || types.length < 0) {return '';}
-    // MARK: - Make sure the content is marked as a video
-    const type = types[0].replace(/^.*\//g, '');
+    const type = getContentType(content);
     if (type !== 'Video') {return '';}
     let dataSource = content.dataSource;
     if (!dataSource) {return '';}
@@ -165,6 +176,8 @@ async function showContent(ftid, language) {
         currentFTId = ftid;
         const info = await getArticleFromFTAPI(ftid, language);
         const content = info.results;
+        const type = getContentType(content);
+        const hideBodyClass = (['Video', 'Audio'].indexOf(type) >= 0) ? ' hide' : '';
         if (info.status === 'success' && content) {
             const actions = `<div class="chat-item-actions" data-lang="${language}" data-id="${ftid}"><a data-id="${ftid}" data-action="quiz" title="Test my understanding of the article">${localize('Quiz Me')}</a><a data-id="${ftid}" data-action="socratic" title="${localize('Socratic Method Explained')}">${localize('Socratic Method')}</a><a data-purpose="set-intention" data-lang="${language}" data-content="CleanSlate" data-reply="${localize('Offer Help')}">${localize('DoSomethingElse')}</a></div>`;
             let visualHeading = getVideoHTML(content);
@@ -176,6 +189,8 @@ async function showContent(ftid, language) {
             }
             const date = new Date(content.publishedDate || content.firstPublishedDate);
             const localizedDate = date.toLocaleString();
+            let bodyXML = content.bodyXML || content.transcript || '';
+            let showTranscript = (bodyXML !== '' && ['Video', 'Audio'].indexOf(type) >= 0) ? `<a data-action="show-transcript">Show Transcript</a>` : '';
             let html = `
                     <div class="article-container" data-id="${ftid}">
                         <div class="story-header-container">
@@ -188,9 +203,12 @@ async function showContent(ftid, language) {
                             </div>
                         </div>
                         ${audioHTML}
-                        <div class="story-body"><div id="story-body-container">
-                            ${content.bodyXML || content.transcript || ''}
-                        </div></div>
+                        <div class="story-body${hideBodyClass}">
+                            <div id="story-body-container">
+                                ${bodyXML}
+                            </div>
+                        </div>
+                        ${showTranscript}
                     </div>
                     ${actions}
                     <div class="article-prompt">${localize('Discuss Article')}</div>
@@ -243,13 +261,13 @@ async function generateSocratic(id, language, articleContextChunks, action) {
                     await setIntention(action, language, `<strong>${window.socracticInfo[0].question}</strong>`);
                     const startConversations = [
                         {
-                            role: 'assistant',
-                            content: window.socracticInfo[0].question
-                        },
-                        {
                             role: 'system',
                             // content: `You should evaluate the user's answer based on this context: ${window.socracticInfo[0].answer}`,
-                            content: `Evaluate the user's answer based only on this context, which is delimited with triple backticks: '''${window.socracticInfo[0].answer}''' Don't make anything up. `
+                            content: `Evaluate the user's answer based only on this context, which is delimited with triple backticks: '''${window.socracticInfo[0].answer}'''`
+                        },
+                        {
+                            role: 'assistant',
+                            content: window.socracticInfo[0].question
                         }
                     ]
                     previousConversations = previousConversations.concat(startConversations);
@@ -635,8 +653,8 @@ async function getArticleFromFTAPI(id, language) {
         if (isFrontendTest && !isPowerTranslate) {
             // url = '/api/page/ft_podcast.json';
             // url = '/api/page/ft_video.json';
-            url = '/api/page/ft_article.json';
-            // url = '/api/page/ft_article_scrolly_telling.json';
+            // url = '/api/page/ft_article.json';
+            url = '/api/page/ft_article_scrolly_telling.json';
             options = {
                 method: 'GET',
                 headers: {
