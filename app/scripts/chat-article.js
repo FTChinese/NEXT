@@ -14,7 +14,7 @@ delegate.on('click', '[data-action="show-article"]', async (event) => {
     updateBotStatus('pending');
     try {
         const chatItemContainer = element.closest('.chat-item-container');
-        console.log(chatItemContainer);
+        // console.log(chatItemContainer);
         const ftid = chatItemContainer.getAttribute('data-id');
         const language = chatItemContainer.getAttribute('data-lang') || 'English';
         await showContent(ftid, language);
@@ -49,10 +49,32 @@ delegate.on('click', '[data-action="quiz"], [data-action="socratic"]', async (ev
         showBotResponse(`Creating ${action} data for you...`);
         // let articleEle = element.closest('.chat-talk-inner').querySelector('.article-container');
         let articleEle = document.querySelector(`.article-container[data-id="${id}"]`);
-        const title = articleEle.querySelector('.story-headline').innerHTML;
-        const standfirst = articleEle.querySelector('.story-lead').innerHTML;
-        const storyBody = articleEle.querySelector('.story-body').innerHTML;
-        const articleContextAll = `${title}\n${standfirst}\n${storyBody}`
+        // MARK: - Use English text to create quiz and questions, which saves tokens and gets best quality
+        let title = '';
+        if (articleEle.querySelector('.story-headline-english')) {
+            title = articleEle.querySelector('.story-headline-english').innerHTML;
+        } else {
+            title = articleEle.querySelector('.story-headline').innerHTML;
+        }
+        let byline = '';
+        if (articleEle.querySelector('.story-author-english')) {
+            byline = articleEle.querySelector('.story-author-english').innerHTML;
+        } else {
+            byline = articleEle.querySelector('.story-author').innerHTML;
+        }
+        let standfirst = '';
+        if (articleEle.querySelector('.story-lead-english')) {
+            standfirst = articleEle.querySelector('.story-lead-english').innerHTML;
+        } else {
+            standfirst = articleEle.querySelector('.story-lead').innerHTML;
+        }
+        let storyBody = '';
+        if (articleEle.querySelector('.story-body-english')) {
+            storyBody = articleEle.querySelector('.story-body-english').innerHTML;
+        } else {
+            storyBody = articleEle.querySelector('.story-body').innerHTML;
+        }
+        const articleContextAll = `${title}\n${standfirst}\nby: ${byline}\n${storyBody}`
             .replace(/<\/p><p>/g, '\n')
             .replace(/(<([^>]+)>)/gi, '')
             .replace(/\[MUSIC PLAYING\]/g, '');
@@ -156,7 +178,7 @@ function getVideoHTML(content) {
     let track = '';
     if (content.captions && content.captions.length > 0 && content.captions[0].url) {
         const id = content.captions[0].url.replace(/^.*\//g, '').replace(/\..*$/g, '');
-        track = `<track src="/vtt/${id}" kind="subtitles" srclang="en" label="English">`;
+        track = `<track src="/vtt/${id}" kind="subtitles" srclang="en" label="English" default>`;
     }
     return `
         <div style="width: 100%; max-width: 768px;">
@@ -190,16 +212,39 @@ async function showContent(ftid, language) {
             const date = new Date(content.publishedDate || content.firstPublishedDate);
             const localizedDate = date.toLocaleString();
             let bodyXML = content.bodyXML || content.transcript || '';
+            let bodyXMLEnglish = '';
+            if (content.bodyXMLTranslation && content.bodyXMLTranslation !== '') {
+                bodyXMLEnglish = `<div class="hide story-body-english">${bodyXML}</div>`;
+                bodyXML = content.bodyXMLTranslation;
+            }
             let showTranscript = (bodyXML !== '' && ['Video', 'Audio'].indexOf(type) >= 0) ? `<a data-action="show-transcript">Show Transcript</a>` : '';
+            let title = content.title || '';
+            let titleEnglish = '';
+            if (content.titleTranslation && content.titleTranslation !== '') {
+                titleEnglish = `<div class="hide story-headline-english">${title}</div>`;
+                title = content.titleTranslation;
+            }
+            let standfirst = content.standfirst || '';
+            let standfirstEnglish = '';
+            if (content.standfirstTranslation && content.standfirstTranslation !== '') {
+                standfirstEnglish = `<div class="hide story-lead-english">${standfirst}</div>`;
+                standfirst = content.standfirstTranslation;
+            }
+            let byline = content.byline || '';
+            let bylineEnglish = '';
+            if (content.bylineTranslation && content.bylineTranslation !== '') {
+                bylineEnglish = `<div class="hide story-author-english">${byline}</div>`;
+                byline = content.bylineTranslation;
+            }
             let html = `
                     <div class="article-container" data-id="${ftid}">
                         <div class="story-header-container">
-                            <h1 class="story-headline story-headline-large">${content.title || ''}</h1>
-                            <div class="story-lead">${content.standfirst || ''}</div>
+                            <h1 class="story-headline story-headline-large">${title}</h1>
+                            <div class="story-lead">${standfirst}</div>
                             ${visualHeading}
                             <div class="story-byline">
                                 <span class="story-time">${localizedDate}</span>
-                                <span class="story-author">${content.byline || ''}</span>
+                                <span class="story-author">${byline}</span>
                             </div>
                         </div>
                         ${audioHTML}
@@ -209,6 +254,10 @@ async function showContent(ftid, language) {
                             </div>
                         </div>
                         ${showTranscript}
+                        ${titleEnglish}
+                        ${bylineEnglish}
+                        ${standfirstEnglish}
+                        ${bodyXMLEnglish}
                     </div>
                     ${actions}
                     <div class="article-prompt">${localize('Discuss Article')}</div>
@@ -425,11 +474,11 @@ async function getContextByIntention(prompt) {
     let context = '';
     try {
         if (window.intention === 'DiscussArticle') {
-            const maxTokenForContext = 500;
+            const maxTokenForContext = 800;
             if (!ftContentObject.embeddings) {
                 await generateEmbeddingsForArticle(ftContentObject.article);
             }
-            context = `title: ${ftContentObject.article.title || ''}\nstandfirst: ${ftContentObject.article.standfirst || ''}`;
+            context = `title: ${ftContentObject.article.title || ''}\nstandfirst: ${ftContentObject.article.standfirst || ''}\nby: ${ftContentObject.article.byline || ''}`;
             const promptEmbeddings = await model.embed(prompt);
             const promptVectors = await promptEmbeddings.array();
             let similarities = [];
@@ -437,7 +486,6 @@ async function getContextByIntention(prompt) {
                 const similarity = calculateCosineSimilarity(promptVectors[0], vector);
                 const tokens = roughTokenCount(ftContentObject.chunks[index]);
                 console.log(`similarity to ${index}: ${similarity}, tokens: ${tokens}`);
-
                 similarities.push({index: index, similarity: similarity, tokens: tokens});
             }
             similarities = similarities.sort((a, b) => b.similarity - a.similarity);

@@ -227,6 +227,7 @@ a[data-action] {
     background-color: $sideBorderColor;
     color: white;
     position: relative;
+    min-height: $navHeight;
 }
 .code-block-copy {
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 96 960 960" width="48" fill="white"><path d="M180 975q-24 0-42-18t-18-42V312h60v603h474v60H180Zm120-120q-24 0-42-18t-18-42V235q0-24 18-42t42-18h440q24 0 42 18t18 42v560q0 24-18 42t-42 18H300Zm0-60h440V235H300v560Zm0 0V235v560Z"/></svg>');
@@ -241,7 +242,6 @@ a[data-action] {
     background-position: 50%;
     background-size: cover;
     cursor: pointer;
-    // background-color: red;
 }
 .code-block {
     padding: math.div($defaultPadding, 2);
@@ -399,7 +399,7 @@ body {
 }
 
 .full-grid-story {
-    ft-related, promo-box, .story-header-container, .chat-item-actions, .article-prompt, .audio-placeholder, #story-body-container > * {
+    [data-action="show-transcript"], ft-related, promo-box, .story-header-container, .chat-item-actions, .article-prompt, .audio-placeholder, #story-body-container > * {
         max-width: 768px;
         margin-left: auto;
         margin-right: auto;

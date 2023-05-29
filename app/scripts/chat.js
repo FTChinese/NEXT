@@ -1183,12 +1183,9 @@ async function showFTPage(content, language, reply) {
         for (const item of group.items) {
           const id = item.id;
           let title = item.title.title || '';
-          let subheading = item.editorial.subheading || item.summary.excerpt || '';
-          const byline = item.editorial.byline;
-          let excerpt = '';
-          if (item.summary && item.summary.excerpt) {
-            excerpt = item.summary.excerpt;
-          }
+          let excerpt = item.summary?.excerpt || '';
+          let subheading = item.editorial?.subheading || excerpt || '';
+          const byline = item.editorial?.byline || '';
           let timeStamp = '';
           if (item.lifecycle && item.lifecycle.lastPublishDateTime) {
             const time = item.lifecycle.lastPublishDateTime;
