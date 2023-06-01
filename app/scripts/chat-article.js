@@ -25,6 +25,25 @@ delegate.on('click', '[data-action="show-article"]', async (event) => {
     updateBotStatus('waiting');
 });
 
+delegate.on('click', '.chat-citations a[data-id]', async (event) => {
+    event.preventDefault();
+    const element = event.target;
+    if (element.classList.contains('pending')) {
+        return;
+    }
+    element.classList.add('pending');
+    updateBotStatus('pending');
+    try {
+        const ftid = element.getAttribute('data-id');
+        const language = navigator.language || 'English';
+        await showContent(ftid, language);
+    } catch (err) {
+        console.log(err);
+    }
+    element.classList.remove('pending');
+    updateBotStatus('waiting');
+});
+
 delegate.on('click', '[data-action="show-transcript"]', async (event) => {
     const element = event.target;
     const container = element.closest('.article-container');
@@ -270,8 +289,9 @@ async function showContent(ftid, language) {
             initScrollyTelling();
             setIntention('DiscussArticle');
             userInput.focus();
+            // Deprecating: - Migrating to Pinecone for context
             // MARK: - Create embeddings for the article content in paragraphs
-            await generateEmbeddingsForArticle(content);
+            // await generateEmbeddingsForArticle(content);
         }
     } catch(err) {
         console.log(err);
@@ -444,74 +464,75 @@ function textToChunks(text, maxTokensPerChunk) {
     return chunks;
 }
 
-async function generateEmbeddingsForArticle(article) {
-    const articleId = article.id.replace(/^.+\//g, '');
-    if (currentFTId !== articleId) {
-        console.log(`current ft id is ${currentFTId}. ${article.title}(${articleId}) is no longer needed! `);
-        return;
-    }
-    try {
-        ftContentObject = {
-            article: article
-        };
-        const bodyXML = article.bodyXML || article.transcript || '';
-        // TODO: - Should cut the paragraphs into better chunks which grasp meaning, for example, <h1> tags should never be separated from its content
-        const articleContextAll = bodyXML
-            .replace(/<\/p><p>/g, '\n')
-            .replace(/(<([^>]+)>)/gi, '')
-            .replace(/\[MUSIC PLAYING\]/g, '');
-        ftContentObject.chunks = textToChunks(articleContextAll, 200);
-        if (!model) {model = await use.load();}
-        const embeddings = await model.embed(ftContentObject.chunks);
-        ftContentObject.embeddings = await embeddings.array();
-    } catch(err) {
-        console.log('generateEmbeddingsForArticle error: ');
-        console.log(err);
-    }
-}
+// async function generateEmbeddingsForArticle(article) {
+//     const articleId = article.id.replace(/^.+\//g, '');
+//     if (currentFTId !== articleId) {
+//         console.log(`current ft id is ${currentFTId}. ${article.title}(${articleId}) is no longer needed! `);
+//         return;
+//     }
+//     try {
+//         ftContentObject = {
+//             article: article
+//         };
+//         const bodyXML = article.bodyXML || article.transcript || '';
+//         // TODO: - Should cut the paragraphs into better chunks which grasp meaning, for example, <h1> tags should never be separated from its content
+//         const articleContextAll = bodyXML
+//             .replace(/<\/p><p>/g, '\n')
+//             .replace(/(<([^>]+)>)/gi, '')
+//             .replace(/\[MUSIC PLAYING\]/g, '');
+//         ftContentObject.chunks = textToChunks(articleContextAll, 200);
+//         if (!model) {model = await use.load();}
+//         const embeddings = await model.embed(ftContentObject.chunks);
+//         ftContentObject.embeddings = await embeddings.array();
+//     } catch(err) {
+//         console.log('generateEmbeddingsForArticle error: ');
+//         console.log(err);
+//     }
+// }
 
-async function getContextByIntention(prompt) {
-    let context = '';
-    try {
-        if (window.intention === 'DiscussArticle') {
-            const maxTokenForContext = 800;
-            if (!ftContentObject.embeddings) {
-                await generateEmbeddingsForArticle(ftContentObject.article);
-            }
-            context = `title: ${ftContentObject.article.title || ''}\nstandfirst: ${ftContentObject.article.standfirst || ''}\nby: ${ftContentObject.article.byline || ''}`;
-            const promptEmbeddings = await model.embed(prompt);
-            const promptVectors = await promptEmbeddings.array();
-            let similarities = [];
-            for (const [index, vector] of ftContentObject.embeddings.entries()) {
-                const similarity = calculateCosineSimilarity(promptVectors[0], vector);
-                const tokens = roughTokenCount(ftContentObject.chunks[index]);
-                console.log(`similarity to ${index}: ${similarity}, tokens: ${tokens}`);
-                similarities.push({index: index, similarity: similarity, tokens: tokens});
-            }
-            similarities = similarities.sort((a, b) => b.similarity - a.similarity);
-            let usefulContexts = [];
-            let tokenCount = 0;
-            for (const similarity of similarities) {
-                tokenCount += similarity.tokens;
-                if (tokenCount >= maxTokenForContext) {break;}
-                usefulContexts.push(similarity.index);
-            }
-            let currentChunk = '';
-            for (const [index, chunk] of ftContentObject.chunks.entries()) {
-                let thisChunk = (usefulContexts.indexOf(index) >= 0) ? `\n${chunk}` : '\n...';
-                if (thisChunk !== currentChunk) {
-                    context += thisChunk;
-                    currentChunk = thisChunk;
-                }
-            }
-        }
-    } catch (err) {
-        console.log('getContextByIntention error: ');
-        console.log(err);
-    }
-    console.log(context);
-    return context;
-}
+// Deprecating: - Migrating to Pinecone for context
+// async function getContextByIntention(prompt) {
+//     let context = '';
+//     try {
+//         if (window.intention === 'DiscussArticle') {
+//             const maxTokenForContext = 800;
+//             if (!ftContentObject.embeddings) {
+//                 await generateEmbeddingsForArticle(ftContentObject.article);
+//             }
+//             context = `title: ${ftContentObject.article.title || ''}\nstandfirst: ${ftContentObject.article.standfirst || ''}\nby: ${ftContentObject.article.byline || ''}`;
+//             const promptEmbeddings = await model.embed(prompt);
+//             const promptVectors = await promptEmbeddings.array();
+//             let similarities = [];
+//             for (const [index, vector] of ftContentObject.embeddings.entries()) {
+//                 const similarity = calculateCosineSimilarity(promptVectors[0], vector);
+//                 const tokens = roughTokenCount(ftContentObject.chunks[index]);
+//                 console.log(`similarity to ${index}: ${similarity}, tokens: ${tokens}`);
+//                 similarities.push({index: index, similarity: similarity, tokens: tokens});
+//             }
+//             similarities = similarities.sort((a, b) => b.similarity - a.similarity);
+//             let usefulContexts = [];
+//             let tokenCount = 0;
+//             for (const similarity of similarities) {
+//                 tokenCount += similarity.tokens;
+//                 if (tokenCount >= maxTokenForContext) {break;}
+//                 usefulContexts.push(similarity.index);
+//             }
+//             let currentChunk = '';
+//             for (const [index, chunk] of ftContentObject.chunks.entries()) {
+//                 let thisChunk = (usefulContexts.indexOf(index) >= 0) ? `\n${chunk}` : '\n...';
+//                 if (thisChunk !== currentChunk) {
+//                     context += thisChunk;
+//                     currentChunk = thisChunk;
+//                 }
+//             }
+//         }
+//     } catch (err) {
+//         console.log('getContextByIntention error: ');
+//         console.log(err);
+//     }
+//     console.log(context);
+//     return context;
+// }
 
 function imagesToHtml(embed) {
     let html = '<picture>';
@@ -864,8 +885,8 @@ function initScrollyTelling() {
             scrollableSection = scrollableSections[j];
             scrollableSection.style.display = 'none';
             var figure = scrollableSection.querySelector('figure, picture');
-            figure.setAttribute('data-id', j);
             if (figure) {
+                figure.setAttribute('data-id', j);
                 if (j === 0) {figure.classList.add('visible');}
                 viewPort.appendChild(figure);
             }

@@ -62,7 +62,12 @@ async function createChatFromOpenAI(data) {
             const cachedResult = await response.json();
             if (cachedResult && cachedResult.length > 0) {
                 if (cachedResult && cachedResult.length > 0 && cachedResult[0].message && cachedResult[0].message.content) {
-                    return {status: 'success', text: cachedResult[0].message.content, intention: cachedResult[0].message.intention || 'Other'};
+                    return {
+                        status: 'success', 
+                        text: cachedResult[0].message.content, 
+                        intention: cachedResult[0].message.intention || 'Other',
+                        sources: cachedResult[0].message.sources || []
+                    };
                 }
             }
         } catch(err){
@@ -145,7 +150,8 @@ async function createChatFromOpenAI(data) {
             const message = results[0].message
             const text = message.content.trim();
             const intention = message.intention || 'Other';
-            let result = {status: 'success', text: text, intention: intention};
+            const sources = message.sources || [];
+            const result = {status: 'success', text: text, intention: intention, sources: sources};
             return result;
         } else {
             return {status: 'failed', message: 'Something is wrong with our AI vendor, we can\'t seem to connect to it right now. Please try later. '};

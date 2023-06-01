@@ -294,6 +294,20 @@ const statusDict = {
     zh: '搜索FT',
     ru: 'Поиск FT'
   },
+  'DiscussContent': {
+    en: 'Talk about FT Content',
+    zh: '讨论FT内容',
+    es: 'Hablar sobre el contenido de FT',
+    fr: 'Parler du contenu de FT',
+    de: 'Über FT-Inhalte sprechen',
+    ja: 'FTコンテンツについて話す',
+    ko: 'FT 콘텐츠에 대해 이야기하다',
+    pt: 'Falar sobre o conteúdo do FT',
+    it: 'Parlare del contenuto di FT',
+    'zh-TW': '討論FT內容',
+    'zh-HK': '討論FT內容',
+    ru: 'Обсуждение контента FT'
+  },
   'Other': {
     en: 'Just Chat',
     es: 'Solo Chat',
@@ -323,32 +337,32 @@ const statusDict = {
     ru: 'Итоговый счет'
   },
   'Quiz Me': {
-    en: 'Test my understanding.',
-    es: 'Prueba mi comprensión.',
-    fr: 'Testez ma compréhension.',
-    de: 'Teste mein Verständnis.',
-    ja: '私の理解をテストしてください。',
-    ko: '내 이해를 테스트하세요.',
-    pt: 'Teste a minha compreensão.',
-    it: 'Testa la mia comprensione.',
-    'zh-TW': '測試我的理解。',
-    'zh-HK': '測試我的理解。',
-    zh: '测试我的理解。',
-    ru: 'Проверьте мое понимание.'
+    en: 'Test my understanding',
+    es: 'Prueba mi comprensión',
+    fr: 'Testez ma compréhension',
+    de: 'Teste mein Verständnis',
+    ja: '私の理解をテストしてください',
+    ko: '내 이해를 테스트하세요',
+    pt: 'Teste a minha compreensão',
+    it: 'Testa la mia comprensione',
+    'zh-TW': '測試我的理解',
+    'zh-HK': '測試我的理解',
+    zh: '测试我的理解',
+    ru: 'Проверьте мое понимание'
   },
   'Socratic Method': {
-    en: 'Use the Socratic method to help me learn and understand the content above.',
-    zh: '用苏格拉底诘问来帮我学习和理解上面的内容。',
-    es: 'Utiliza el método socrático para ayudarme a aprender y entender el contenido de arriba.',
-    fr: `Utilisez la méthode socratique pour m'aider à apprendre et comprendre le contenu ci-dessus.`,
-    de: `Verwenden Sie die sokratische Methode, um mir beim Lernen und Verstehen des obigen Inhalts zu helfen.`,
-    ja: '上記の内容を学習し理解するためにソクラテス式問答法を使用してください。',
-    ko: '위의 내용을 학습하고 이해하는 데 소크라테스식 문답법을 사용하세요.',
-    pt: 'Use o método socrático para me ajudar a aprender e entender o conteúdo acima.',
-    it: 'Usa il metodo socratico per aiutarmi ad imparare e comprendere il contenuto sopra.',
-    'zh-TW': '使用蘇格拉底式的詰問法來幫助我學習並理解上面的內容。',
-    'zh-HK': '用蘇格拉底式的質問法來幫助我學習和理解上面的內容。',
-    ru: 'Используйте сократический метод, чтобы помочь мне учиться и понимать вышеупомянутое содержание.'
+    zh: '苏格拉底诘问',
+    en: 'Socratic method',
+    es: 'Método socrático',
+    fr: 'Méthode socratique',
+    de: 'Sokratische Methode',
+    ja: 'ソクラテス式問い掛け法',
+    ko: '소크라테스적 방법',
+    pt: 'Método socrático',
+    it: 'Metodo socratico',
+    'zh-TW': '蘇格拉底質問',
+    'zh-HK': '蘇格拉底式質問',
+    ru: 'Сократический метод'
   },
   'Socratic Method Explained': {
     en: 'The Socratic Method is a way of questioning and discussing ideas to challenge assumptions and arrive at a better understanding. It involves asking questions to uncover underlying beliefs and test the logic of responses given. It is used to promote critical thinking, problem-solving, and creativity in various fields.',
@@ -630,19 +644,33 @@ const statusDict = {
     'zh-HK': '你可以按下面最常見的查詢，或者告訴我你想搵咩內容。',
     ru: 'Вы можете щелкнуть на эти самые распространенные запросы ниже или сообщить мне, какой контент вы ищете.'
   },
+  'Discuss More': {
+    zh: '如果有任何关于FT最新内容的问题，请立即问我。',
+    en: 'If you have any questions about the latest FT content, please ask me immediately.',
+    es: 'Si tiene alguna pregunta sobre el contenido más reciente de FT, pregúnteme de inmediato.',
+    fr: 'Si vous avez des questions sur le contenu le plus récent de FT, demandez-moi immédiatement.',
+    de: 'Wenn Sie Fragen zum neuesten FT-Inhalt haben, fragen Sie mich bitte sofort.',
+    ja: '最新のFTコンテンツに関する質問がある場合は、すぐに私に尋ねてください。',
+    ko: '최신 FT 콘텐츠에 대한 질문이 있으면 즉시 저에게 물어보세요.',
+    pt: 'Se você tiver alguma dúvida sobre o conteúdo mais recente do FT, pergunte-me imediatamente.',
+    it: 'Se hai domande sul contenuto più recente di FT, chiedimi immediatamente.',
+    'zh-TW': '如果有關於FT最新內容的問題，請立即問我。',
+    'zh-HK': '如果有關FT最新內容的問題，請立即問我。',
+    ru: 'Если у вас есть вопросы о последних материалах FT, пожалуйста, спросите меня немедленно.'
+  },
   'DoSomethingElse': {
-    zh: '聊点别的。',
-    en: `Let's talk about something else.`,
-    es: 'Hablemos de algo más.',
-    fr: `Parlons d'autre chose.`,
-    de: 'Lass uns über etwas anderes sprechen.',
-    ja: '他の話題にしましょう。',
-    ko: '다른 얘기 좀 하자.',
-    pt: 'Vamos falar sobre outra coisa.',
-    it: `Parliamo d'altro.`,
-    'zh-TW': '聊點別的。',
-    'zh-HK': '傾下計啦。',
-    ru: 'Давайте поговорим о чем-то другом.'
+    zh: '聊点别的',
+    en: `Talk about something else`,
+    es: 'Hablemos de algo más',
+    fr: `Parlons d'autre chose`,
+    de: 'Lass uns über etwas anderes sprechen',
+    ja: '他の話題にしましょう',
+    ko: '다른 얘기 좀 하자',
+    pt: 'Vamos falar sobre outra coisa',
+    it: `Parliamo d'altro`,
+    'zh-TW': '聊點別的',
+    'zh-HK': '傾下計啦',
+    ru: 'Давайте поговорим о чем-то другом'
   }
 };
 
@@ -808,6 +836,7 @@ function updateStatus(status) {
     status = 'Ready To Chat';
   }
   document.querySelector('#current-chat-status span').innerHTML = `${localize(status)}`;
+  userInput.placeholder = localize(status);
 }
 
 async function nextAction(intention) {
@@ -832,7 +861,7 @@ async function nextAction(intention) {
     if (window.socracticInfo.length === window.socracticIndex) {
       await setIntention('DiscussArticle', undefined, `${getRandomPrompt('ending')}`);
     }
-  } else if (['DiscussArticle', 'CustomerService'].indexOf(window.intention) >= 0) {
+  } else if (['DiscussArticle', 'DiscussContent', 'CustomerService'].indexOf(window.intention) >= 0) {
     console.log(`This is where you'd need to provide a back to clean sheet button! `)
     const actions = getActionOptions();
     showActions(actions);
@@ -886,11 +915,9 @@ function showResultInChat(result) {
     newResult.classList.add('full-grid-story');
     // MARK: - Need the set time out to work properly on Chrome
     let inViewClass = '.story-lead';
-    console.log(newResult);
     if (newResult.querySelector('.audio-container, .story-header-container video') && newResult.querySelector('.chat-item-actions')) {
       inViewClass = '.chat-item-actions';
     }
-    console.log(`inViewClass: ${inViewClass}`);
     setTimeout(function(){
       newResult.querySelector(inViewClass).scrollIntoView(scrollOptions);
     }, 0);
@@ -940,7 +967,8 @@ async function talk() {
     await showContent(ftid, language)
     return;
   }
-  const context = await getContextByIntention(prompt);
+  // Deprecating: - Migrating to Pinecone for context
+  // const context = await getContextByIntention(prompt);
   // MARK: - Send the prompt to our API for response
   const newUserPrompt = {role: 'user', content: prompt};
   const messages = previousConversations.concat([newUserPrompt]);
@@ -951,8 +979,13 @@ async function talk() {
       max_tokens: 300,
       intentions: intentions,
       key: window.intention, // Pass the window intention for fast detection
-      context: context // Send context such as article text so that the chat bot can respond more accurately
+        // Deprecating: - Migrating to Pinecone for context
+      // context: context // Send context such as article text so that the chat bot can respond more accurately
   };
+  // MARK: - If the user is dicussing one article, pass the article id
+  if ('DiscussArticle' === window.intention && typeof currentFTId === 'string') {
+    data.ftid = currentFTId;
+  }
   // MARK: - Heroku has a 30 seconds hard limit for all requests. The best way is NOT to detect intention first (either locally or through a request to OpenAI), then deal with the intention (likely through OpenAI) because OpenAI's service is so slow that even one simple request will time out. The only way that works is to just post the task for the background to handle, then polling for the result, like what we did for the Quiz.
   const result = await createChatFromOpenAI(data);
   if (result.status === 'success' && result.text) {
@@ -961,7 +994,7 @@ async function talk() {
       previousConversations = previousConversations.slice(-5);
       previousIntentDections = previousIntentDections.slice(-5);
       // MARK: - Only keep the history if the intention is not a known one, in which case, OpenAI will need the contexts. 
-      if (!result.intention || ['Other', 'CustomerService', 'DiscussArticle'].indexOf(result.intention) >= 0) {
+      if (!result.intention || ['Other', 'CustomerService', 'DiscussArticle', 'DiscussContent'].indexOf(result.intention) >= 0) {
         previousConversations.push(newUserPrompt);
         previousConversations.push({role: 'assistant', content: result.text});
       }
@@ -970,6 +1003,7 @@ async function talk() {
       updateStatus(result.intention);
       // MARK: - Check if the resultHTML has some prompt or request for the system
       await handleResultPrompt(result.text);
+      await handleResultSources(result.sources);
       await nextAction(result.intention);
   } else if (result.message) {
       updateStatus('Error');
@@ -1022,7 +1056,7 @@ function markdownToHtmlTable(text) {
 }
 
 function markdownCodeBlock(text) {
-  const result = text.replace(/```([A-z]*)\n([\s\S]+)```/g, '<div class="code-block-container"><div class="code-block-title"><div class="code-block-copy"></div>$1</div><div class="code-block"><pre>$2</pre></div></div>');
+  const result = text.replace(/```([A-z]*)\n([\s\S]+?)```/g, '<div class="code-block-container"><div class="code-block-title"><div class="code-block-copy"></div>$1</div><div class="code-block"><pre>$2</pre></div></div>');
   const re = /<pre>([\s\S]*?)<\/pre>/gm;
   const output = result.replace(re, (match, p1) => {
     return '<pre>' + p1.replace(/\n/g, '|||') + '</pre>';
@@ -1218,7 +1252,7 @@ async function showFTPage(content, language, reply) {
         html += newHTML;
       }
       newResultInner.innerHTML = html;
-      await setIntention('SearchFTAPI', language, localize('Find More'));
+      await setIntention('DiscussContent', language, localize('Discuss More'));
       const itemContainers = newResultInner.querySelectorAll('.chat-item-container');
       if (itemContainers.length >= 3) {
         itemContainers[2].scrollIntoView(scrollOptions);
@@ -1255,6 +1289,31 @@ async function handleResultPrompt(resultHTML) {
   } catch(err) {
 
   }
+}
+
+async function handleResultSources(sources) {
+  if (!sources || sources.length === 0) {return;}
+  const keyword = sources.map(ftid=>`id: "${ftid}"`).join(' OR ');
+  const searchResult = await getFTAPISearchResult(keyword);
+  if (!searchResult.results || searchResult.results.length === 0) {return;}
+  const items = searchResult.results[0].results;
+  if (!items || items.length === 0) {return;}
+  const language = navigator.language || 'English';
+  // const translations = await createTranslations(items, language);
+  const titles = items.map(x=>x.title.title).join('\n');
+  const translationsText = await translateFromEnglish(titles, language);
+  const translations = translationsText.split('\n');
+  console.log(translations);
+  let html = '';
+  for (const [index, item] of items.entries()) {
+    let title = item.title.title;
+    if (translations.length > index) {
+      title = translations[index];
+    }
+    html += `<li><a target="_blank" data-id="${item.id}" href="https://www.ft.com/content/${item.id}">${title}</a></li>`
+  }
+  html = `<ul class="chat-citations">${html}</ul>`;
+  showResultInChat({text: html});
 }
 
 function getRandomPrompt(purpose) {
@@ -1343,6 +1402,7 @@ function initChat() {
   const urlParams = new URLSearchParams(window.location.search);
   document.getElementById('current-chat-status').innerHTML += `
   <a data-purpose="set-intention" data-content="CleanSlate" data-reply="${localize('Offer Help')}">${localize('BackToTop')}</a>
+  <a data-purpose="set-intention" data-content="DiscussContent" data-reply="${localize('Discuss More')}">${localize('DiscussContent')}</a>
   <a data-purpose="set-intention" data-content="SearchFTAPI" data-reply="${localize('Offer Help For Search')}">${localize('SearchFT')}</a>
   <a data-purpose="set-intention" data-content="CustomerService" data-reply="${localize('Offer Help')}">${localize('CustomerService')}</a>
   <a data-purpose="set-intention" data-content="Other" data-reply="${localize('Offer Help')}">${localize('Other')}</a>
