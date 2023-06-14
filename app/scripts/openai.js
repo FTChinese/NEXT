@@ -132,8 +132,16 @@ async function createChatFromOpenAI(data) {
                             results = pollResults;
                             break;
                         }
-                        if (pollResults.type === 'error') {
-                            return {status: 'failed', message: 'Cannot get the data from AI model'};
+                        if (pollResults.status === 'error') {
+                            console.log(`pollResults returns error! Return Immediately! `);
+                            let errorResult = {status: 'failed'};
+                            errorResult.message = pollResults.message;
+                            errorResult.code = pollResults.code;
+                            // MARK: - Show the known error messages in our own way
+                            if (pollResults.code === 'content_filter') {
+                                errorResult.message = `The AI model returns an error based on content management policy. It could be because of something in your prompt or the context that we provid. Sorry, please refresh and try something new. `;
+                            }
+                            return errorResult;
                         }
                     }
                 } catch(err) {

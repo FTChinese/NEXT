@@ -30,6 +30,9 @@ a[data-action] {
     width: 100%;
     z-index: 1;
     display: block!important;
+    .is-in-native-app &{
+        display: none!important;
+    }
 }
 .header-inner {
     background-color: transparent!important;
@@ -64,6 +67,9 @@ a[data-action] {
     margin-bottom: 1em;
     &:first-child {
         margin-top: $navHeight + $defaultPadding;
+        .is-in-native-app & {
+            margin-top: math.div($defaultPadding, 2);
+        }
     }
     &:last-child {
         padding-bottom: $navHeight + $defaultPadding * 2;
@@ -221,6 +227,7 @@ a[data-action] {
     &.right {
         text-align: right;
     }
+
 }
 .code-block-title {
     padding: math.div($defaultPadding, 4);
@@ -268,6 +275,9 @@ a[data-action] {
 }
 .chat-item-container .story-time {
     color: $lightGrey;
+}
+.article-container .story-time {
+    padding-right: 1em;
 }
 .chat-item-group-title {
     //MARK： - follow the style here: https://ig.ft.com/russias-war-in-ukraine/
@@ -454,6 +464,17 @@ body {
     }
 }
 
+.discuss-article-only {
+    .chat-item-actions, .full-grid-story {
+        display: none;
+    }
+}
+.intention-fixed {
+    .chat-item-actions {
+        display: none;
+    } 
+}
+
 @keyframes spinner {
     0% {
       transform: rotate(0deg);
@@ -479,6 +500,10 @@ body {
         }
         .quiz-next {
             margin-left: math.div($defaultPadding, 2);
+        }
+        .story-image {
+            margin-left: 0;
+            margin-right: 0;
         }
     }
 }
