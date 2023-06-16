@@ -518,7 +518,7 @@ const statusDict = {
     pt: 'Atendimento ao Cliente',
     it: 'Servizio Clienti',
     'zh-TW': '客服',
-    'zh-HK': '客戶服務。',
+    'zh-HK': '客戶服務',
     zh: '客户服务',
     ru: 'Служба поддержки'
   },
@@ -703,6 +703,160 @@ const statusDict = {
     'zh-TW': '設定',
     'zh-HK': '設定',
     ru: 'Настройки'
+  },
+  'Language': {
+    zh: '语言',
+    en: 'Language',
+    es: 'Idioma',
+    fr: 'Langue',
+    de: 'Sprache',
+    ja: '言語',
+    ko: '언어',
+    pt: 'Língua',
+    it: 'Lingua',
+    'zh-TW': '語言',
+    'zh-HK': '語言',
+    ru: 'Язык'
+  },
+  'Font Size': {
+    zh: '字体大小',
+    en: 'Font Size',
+    es: 'Tamaño de Fuente',
+    fr: 'Taille de Police',
+    de: 'Schriftgröße',
+    ja: 'フォントサイズ',
+    ko: '글꼴 크기',
+    pt: 'Tamanho da Fonte',
+    it: 'Dimensioni del Carattere',
+    'zh-TW': '字型大小',
+    'zh-HK': '字型大小',
+    ru: 'Размер шрифта'
+  },
+  'Please Select': {
+    zh: '请选择',
+    en: 'Please Select',
+    es: 'Por favor, seleccione',
+    fr: 'Veuillez sélectionner',
+    de: 'Bitte auswählen',
+    ja: '選択してください',
+    ko: '선택하세요',
+    pt: 'Por favor Selecione',
+    it: 'Seleziona per favore',
+    'zh-TW': '請選擇',
+    'zh-HK': '請選擇',
+    ru: 'Пожалуйста, выберите'
+  },
+  'Smallest': {
+    zh: '最小',
+    en: 'Smallest',
+    es: 'Más Pequeño',
+    fr: 'Le plus petit',
+    de: 'Kleinsten',
+    ja: '最小',
+    ko: '가장 작은',
+    pt: 'O menor',
+    it: 'Il più piccolo',
+    'zh-TW': '最小',
+    'zh-HK': '最小',
+    ru: 'Самый маленький'
+  },
+  'Smaller': {
+    zh: '较小',
+    en: 'Smaller',
+    es: 'Menor',
+    fr: 'Plus petit',
+    de: 'Kleiner',
+    ja: '小さい',
+    ko: '작은',
+    pt: 'Menor',
+    it: 'Meno',
+    'zh-TW': '較小',
+    'zh-HK': '較小',
+    ru: 'Меньше'
+  },
+  'Default': {
+    zh: '默认',
+    en: 'Default',
+    es: 'Predeterminado',
+    fr: 'Défaut',
+    de: 'Standard',
+    ja: 'デフォルト',
+    ko: '기본값',
+    pt: 'Padrão',
+    it: 'Predefinito',
+    'zh-TW': '預設',
+    'zh-HK': '預設',
+    ru: 'По умолчанию'
+  },
+  'Larger': {
+    zh: '较大',
+    en: 'Larger',
+    es: 'Mayor',
+    fr: 'Plus grand',
+    de: 'Größer',
+    ja: '大きい',
+    ko: '더 큰',
+    pt: 'Maior',
+    it: 'Più grande',
+    'zh-TW': '較大',
+    'zh-HK': '較大',
+    ru: 'Больше'
+  },
+  'Largest': {
+    zh: '最大',
+    en: 'Largest',
+    es: 'Más Grande',
+    fr: 'Le plus grand',
+    de: 'Größten',
+    ja: '最大',
+    ko: '가장 큰',
+    pt: 'O maior',
+    it: 'Il più grande',
+    'zh-TW': '最大',
+    'zh-HK': '最大',
+    ru: 'Самый большой'
+  },
+  'Sign In': {
+    zh: '登录',
+    en: 'Sign In',
+    es: 'Iniciar sesión',
+    fr: 'Se connecter',
+    de: 'Anmelden',
+    ja: 'ログイン',
+    ko: '로그인',
+    pt: 'Entrar',
+    it: 'Accedi',
+    'zh-TW': '登入',
+    'zh-HK': '登入',
+    ru: 'Вход'
+  },
+  'Sign Up': {
+    zh: '注册',
+    en: 'Sign Up',
+    es: 'Registrarse',
+    fr: 'S\'inscrire',
+    de: 'Registrieren',
+    ja: '新規登録',
+    ko: '회원가입',
+    pt: 'Registar-se',
+    it: 'Registrati',
+    'zh-TW': '註冊',
+    'zh-HK': '註冊',
+    ru: 'Регистрация'
+  },
+  'Sign Out': {
+    zh: '退出',
+    en: 'Sign Out',
+    es: 'Cerrar sesión',
+    fr: 'Se déconnecter',
+    de: 'Abmelden',
+    ja: 'ログアウト',
+    ko: '로그아웃',
+    pt: 'Sair',
+    it: 'Esci',
+    'zh-TW': '登出',
+    'zh-HK': '登出',
+    ru: 'Выход'
   }
 };
 
@@ -833,6 +987,28 @@ delegate.on('click', '[data-purpose]', async (event) => {
   updateBotStatus('waiting');
 });
 
+delegate.on('change', '.select-container select', async (event) => {
+  const element = event.target;
+  const newValue = element.value;
+  const name = element.id;
+  if (newValue === '' || !name) {return;}
+  let myPreference = {};
+  const myPreferenceString = localStorage.getItem('preference');
+  if (myPreferenceString && myPreferenceString !== '') {
+    try {
+      myPreference = JSON.parse(myPreferenceString);
+    } catch(ignore) {}
+  }
+  myPreference[name] = newValue;
+  localStorage.setItem('preference', JSON.stringify(myPreference));
+  if (name === 'Language') {
+    setPreferredLanguage();
+  }
+  if (name === 'Font Size') {
+    setFontSize();
+  }
+});
+
 function hideItemActions(element) {
   let actionsEle = element.closest('.chat-item-actions');
   if (actionsEle) {
@@ -867,7 +1043,9 @@ function updateStatus(status) {
   if (status === 'CleanSlate') {
     status = 'Ready To Chat';
   }
-  document.querySelector('#current-chat-status span').innerHTML = `${localize(status)}`;
+  let currentChatEle = document.querySelector('#current-chat-status span');
+  currentChatEle.setAttribute('data-key', status);
+  currentChatEle.innerHTML = `${localize(status)}`;
   userInput.placeholder = localize(status);
   console.log(`\n======\nupdateStatus`);
   console.log('previousConversations: ');
@@ -927,6 +1105,7 @@ async function getArticleFromFTAPI(id, language) {
           // url = '/api/page/ft_video.json';
           // url = '/api/page/ft_article.json';
           url = '/api/page/ft_article_scrolly_telling.json';
+          // url = '/api/page/ft_article_scrolly_telling_climate_change.json';
           options = {
               method: 'GET',
               headers: {
@@ -1267,13 +1446,70 @@ const purposeToFunction = {
 
 async function setPreference(category, language, reply) {
   console.log(`running setPreference\ncategory: ${category}, language: ${language}, reply: ${reply}`);
-  if (reply && reply !== '') {
-    const actions = getActionOptions();
-    showResultInChat({text: `${reply}${actions}`});
+  const settings = {
+    all: [
+      {
+        name: 'Language',
+        type: 'select',
+        options: [
+          { value: 'en', name: 'English' },
+          { value: 'es', name: 'Español' },
+          { value: 'fr', name: 'Français' },
+          { value: 'de', name: 'Deutsch' },
+          { value: 'ja', name: '日本語' },
+          { value: 'ko', name: '한국어' },
+          { value: 'pt', name: 'Português' },
+          { value: 'it', name: 'Italiano' },        
+          { value: 'ru', name: 'Русский' },
+          { value: 'zh-CN', name: '简体中文' },
+          { value: 'zh-TW', name: '台灣正體' },
+          { value: 'zh-HK', name: '香港繁體' }
+        ],
+        fallback: preferredLanguage
+      },
+      {
+        name: 'Font Size',
+        type: 'select',
+        options: [
+          { value: 'font-smallest', name: 'Smallest'},
+          { value: 'font-smaller', name: 'Smaller'},
+          { value: 'font-default', name: 'Default'},
+          { value: 'font-larger', name: 'Larger'},
+          { value: 'font-largest', name: 'Largest'}
+        ],
+        fallback: 'default'
+      }
+    ]
+  };
+  const mySettings = settings[category];
+  if (!mySettings || mySettings.length === 0) {return;}
+  let html = '';
+  let myPreference = {};
+  const myPreferenceString = localStorage.getItem('preference');
+  if (myPreferenceString && myPreferenceString !== '') {
+    try {
+      myPreference = JSON.parse(myPreferenceString);
+    } catch(ignore) {}
   }
-  // MARK: - Show the settings here
-  
-
+  for (const setting of mySettings) {
+    const type = setting.type;
+    const id = setting.name;
+    if (!type || !id) {continue;}
+    const name = localize(id);
+    const currentValue = myPreference[id] || setting.fallback;
+    if (type === 'select') {
+      const options = setting.options;
+      if (!options || options.length === 0) {continue;}
+      let optionsHTML = `<option value="">${localize('Please Select')}</option>`;
+      for (const option of options) {
+        const selected = (option.value === currentValue) ? ' selected' : '';
+        optionsHTML += `<option value="${option.value}"${selected}>${localize(option.name)}</option>`;
+      }
+      html += `<div class="select-container"><div class="select-label">${name}</div><select id="${id}">${optionsHTML}</select></div>`
+    }
+  }
+  const actions = getActionOptions();
+  showResultInChat({text: `${reply || ''}${html}${actions}`});
 }
 
 async function setIntention(newIntention, language, reply) {
@@ -1626,16 +1862,7 @@ function showError(message) {
   chatContent.appendChild(newChat);
 }
 
-function setConfigurations() {
-  // MARK: Update from the hash parameters
-  const hashParams = window.location.hash.replace(/^#/g, '').split('&');
-  for (const hashString of hashParams) {
-    const hashPair = hashString.split('=');
-    if (hashPair.length < 2) {continue;}
-    const key = hashPair[0];
-    const value = hashPair[1];
-    paramDict[key] = value;
-  }
+function setPreferredLanguage() {
   // MARK: Set the preferred language
   // TODO: Should let users customize their preferred language
   const lang = paramDict.language;
@@ -1646,18 +1873,67 @@ function setConfigurations() {
     } else if (/hans/i.test(preferredLanguage)) {
       preferredLanguage = 'zh-CN';
     }
+  } else {
+    let myPreference = {};
+    const myPreferenceString = localStorage.getItem('preference');
+    if (myPreferenceString && myPreferenceString !== '') {
+      try {
+        myPreference = JSON.parse(myPreferenceString);
+      } catch(ignore) {}
+    }
+    if (myPreference['Language']) {
+      preferredLanguage = myPreference['Language'];
+      console.log(`preferredLanguage from local storage: ${preferredLanguage}`);
+      const buttons = document.querySelectorAll('[data-lang]');
+      for (let button of buttons) {
+        button.setAttribute('data-lang', preferredLanguage);
+      }
+    }
   }
+  const eles = document.querySelectorAll('[data-key]');
+  for (let ele of eles) {
+    const key = ele.getAttribute('data-key');
+    ele.innerHTML = localize(key);
+  }
+}
+
+function setFontSize() {
+  let myPreference = {};
+  const myPreferenceString = localStorage.getItem('preference');
+  if (myPreferenceString && myPreferenceString !== '') {
+    try {
+      myPreference = JSON.parse(myPreferenceString);
+    } catch(ignore) {}
+  }
+  const fontSize = myPreference['Font Size'];
+  if (fontSize) {
+    document.body.className = fontSize;
+  }
+}
+
+function setConfigurations() {
+  // MARK: Update from the hash parameters
+  const hashParams = window.location.hash.replace(/^#/g, '').split('&');
+  for (const hashString of hashParams) {
+    const hashPair = hashString.split('=');
+    if (hashPair.length < 2) {continue;}
+    const key = hashPair[0];
+    const value = hashPair[1];
+    paramDict[key] = value;
+  }
+  setPreferredLanguage();
+  setFontSize();
   window.shouldPromptLogin = true;
   localStorage.setItem('pagemark', window.location.href);
   var script = document.createElement('script');
   script.src = '/powertranslate/scripts/register.js';
   document.head.appendChild(script);
   document.getElementById('current-chat-status').innerHTML += `
-    <a data-purpose="set-intention" data-content="CleanSlate" data-reply="${localize('Offer Help')}">${localize('BackToTop')}</a>
-    <a data-purpose="set-intention" data-content="DiscussContent" data-reply="${localize('Discuss More')}">${localize('DiscussContent')}</a>
-    <a data-purpose="set-intention" data-content="SearchFTAPI" data-reply="${localize('Offer Help For Search')}">${localize('SearchFT')}</a>
-    <a data-purpose="set-intention" data-content="CustomerService" data-reply="${localize('Offer Help')}">${localize('CustomerService')}</a>
-    <a data-purpose="set-intention" data-content="Other" data-reply="${localize('Offer Help')}">${localize('Other')}</a>
+    <a data-purpose="set-intention" data-content="CleanSlate" data-reply="${localize('Offer Help')}" data-key="BackToTop">${localize('BackToTop')}</a>
+    <a data-purpose="set-intention" data-content="DiscussContent" data-reply="${localize('Discuss More')}" data-key="DiscussContent">${localize('DiscussContent')}</a>
+    <a data-purpose="set-intention" data-content="SearchFTAPI" data-reply="${localize('Offer Help For Search')}" data-key="SearchFT">${localize('SearchFT')}</a>
+    <a data-purpose="set-intention" data-content="CustomerService" data-reply="${localize('Offer Help')}" data-key="CustomerService">${localize('CustomerService')}</a>
+    <a data-purpose="set-intention" data-content="Other" data-reply="${localize('Offer Help')}" data-key="Other">${localize('Other')}</a>
   `;
 }
 

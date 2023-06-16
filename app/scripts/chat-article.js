@@ -678,6 +678,7 @@ function initScrollyTelling() {
         scrollableBlock.appendChild(viewPort);
         for (var k = 0; k < scrollableSections.length; k++) {
             scrollableSection = scrollableSections[k];
+            const themePosition = scrollableSection.getAttribute('theme-position');
             var scrollableSectionText = (scrollableSection.innerText || '').trim();
             var scrollTextEle = scrollableSection.querySelector('scrollable-text');
             var scrollTextHTML = '';
@@ -690,7 +691,10 @@ function initScrollyTelling() {
             if (scrollTextHTML !== '') {
                 var scrollTextBlock = document.createElement('DIV');
                 scrollTextBlock.classList.add('scrollable-slide-info');
-                if (/strong/gi.test(scrollTextHTML)) {
+                // MARK: - theme position 3 seems to be different an example is https://www.ft.com/content/0452cacc-26d4-409f-9ff6-cf5213c2987f
+                if (themePosition === '3') {
+                    scrollTextBlock.classList.add('scrollable-slide-theme-3');
+                } else if (/strong/gi.test(scrollTextHTML)) {
                     scrollTextBlock.classList.add('scrollable-slide-detail');
                     scrollTextBlock.classList.add('scrollable-slide-overlay');
                 } else {

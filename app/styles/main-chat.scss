@@ -10,6 +10,18 @@ html {
 
 body {
     overflow: hidden;
+    &.font-smallest {
+        font-size: 12px;
+    }
+    &.font-smaller {
+        font-size: 14px;
+    }
+    &.font-larger {
+        font-size: 20px;
+    }
+    &.font-largest {
+        font-size: 24px;
+    }
 }
 a[data-action] {
     cursor: pointer;
@@ -475,6 +487,18 @@ body {
     } 
 }
 
+.select-container {
+    margin-top: math.div($defaultPadding, 2);
+    display: flex;
+    select {
+        min-width: 200px;
+    }
+}
+.select-label {
+    flex: 1;
+}
+
+
 @keyframes spinner {
     0% {
       transform: rotate(0deg);
@@ -530,5 +554,19 @@ body {
     }
     .masthead {
        background-image: url("https://thumbor.ftacademy.cn/unsafe/picture/9/000132359_piclink.png")
+    }
+    body {
+        &.font-smallest {
+            font-size: 12px;
+        }
+        &.font-smaller {
+            font-size: 16px;
+        }
+        &.font-larger {
+            font-size: 22px;
+        }
+        &.font-largest {
+            font-size: 26px;
+        }
     }
 }
