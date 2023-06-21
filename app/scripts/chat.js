@@ -1104,8 +1104,9 @@ async function getArticleFromFTAPI(id, language) {
           // url = '/api/page/ft_podcast.json';
           // url = '/api/page/ft_video.json';
           // url = '/api/page/ft_article.json';
-          url = '/api/page/ft_article_scrolly_telling.json';
+          // url = '/api/page/ft_article_scrolly_telling.json';
           // url = '/api/page/ft_article_scrolly_telling_climate_change.json';
+          url = '/api/page/ft_article_double_image.json';
           options = {
               method: 'GET',
               headers: {
@@ -1175,6 +1176,10 @@ async function showContent(ftid, language) {
           if (content.bylineTranslation && content.bylineTranslation !== '') {
               bylineEnglish = `<div class="hide story-author-english">${byline}</div>`;
               byline = content.bylineTranslation;
+          }
+          // MARK: - If the article starts with a picture, don't show the picture in the heading
+          if (/^<div class=\"pic/.test(bodyXML)) {
+            visualHeading = '';
           }
           let html = `
               <div class="article-container" data-id="${ftid}">
@@ -1419,7 +1424,6 @@ function markdownCodeBlock(text) {
   });
   return output;
 }
-
 
 function markdownConvert(text) {
   let result = markdownCodeBlock(text);
@@ -1961,7 +1965,6 @@ async function setGuardRails() {
     document.documentElement.classList.add('intention-fixed');
     await setIntention(intent);
   }
-
 }
 
 function greet() {
