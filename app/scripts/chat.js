@@ -857,7 +857,22 @@ const statusDict = {
     'zh-TW': '登出',
     'zh-HK': '登出',
     ru: 'Выход'
+  },
+  'Prompt Set Intention': {
+    zh: '请先点击上面的按钮，选择您需要的服务',
+    en: 'Please click the button above and select the service you need.',
+    es: 'Por favor, haga clic en el botón de arriba y seleccione el servicio que necesita.',
+    fr: 'Veuillez cliquer sur le bouton ci-dessus et sélectionner le service dont vous avez besoin.',
+    de: 'Bitte klicken Sie auf die Schaltfläche oben und wählen Sie den gewünschten Service aus.',
+    ja: '上のボタンをクリックして、必要なサービスを選択してください。',
+    ko: '위의 버튼을 클릭하여 필요한 서비스를 선택하십시오.',
+    pt: 'Por favor, clique no botão acima e selecione o serviço que você precisa.',
+    it: 'Fare clic sul pulsante sopra e selezionare il servizio di cui avete bisogno.',
+    'zh-TW': '請先點擊上面的按鈕，選擇您需要的服務',
+    'zh-HK': '請先按上面的按鈕，選擇您需要的服務',
+    ru: 'Пожалуйста, нажмите на кнопку выше и выберите нужный сервис.'
   }
+  
 };
 
 var composing = false;
@@ -1518,6 +1533,9 @@ async function setPreference(category, language, reply) {
 
 async function setIntention(newIntention, language, reply) {
   console.log(`running setIntention... content: ${newIntention}, language: ${language}`);
+  // MARK: - Allow the input only when the user set intention
+  userInput.removeAttribute('disabled');
+  userInput.removeAttribute('placeholder');
   if (newIntention === 'CleanSlate') {
     window.intention = undefined;
   } else {
@@ -1635,27 +1653,28 @@ async function handleActionClick(element) {
       showUserPrompt(element.innerHTML);
       showBotResponse(`Creating ${action} data for you...`);
       let articleEle = document.querySelector(`.article-container[data-id="${id}"]`);
-      // MARK: - Use English text to create quiz and questions, which saves tokens and gets best quality
+      // MARK: - Using English text to create quiz and questions saves tokens and produces better quality results. But the names might not be translated correctly. 
       let title = '';
-      if (articleEle.querySelector('.story-headline-english')) {
+
+      if (1>2 && articleEle.querySelector('.story-headline-english')) {
           title = articleEle.querySelector('.story-headline-english').innerHTML;
       } else {
           title = articleEle.querySelector('.story-headline').innerHTML;
       }
       let byline = '';
-      if (articleEle.querySelector('.story-author-english')) {
+      if (1>2 && articleEle.querySelector('.story-author-english')) {
           byline = articleEle.querySelector('.story-author-english').innerHTML;
       } else {
           byline = articleEle.querySelector('.story-author').innerHTML;
       }
       let standfirst = '';
-      if (articleEle.querySelector('.story-lead-english')) {
+      if (1>2 && articleEle.querySelector('.story-lead-english')) {
           standfirst = articleEle.querySelector('.story-lead-english').innerHTML;
       } else {
           standfirst = articleEle.querySelector('.story-lead').innerHTML;
       }
       let storyBody = '';
-      if (articleEle.querySelector('.story-body-english')) {
+      if (1>2 && articleEle.querySelector('.story-body-english')) {
           storyBody = articleEle.querySelector('.story-body-english').innerHTML;
       } else {
           storyBody = articleEle.querySelector('.story-body').innerHTML;
@@ -1977,6 +1996,7 @@ function greet() {
   newChat.className = 'chat-talk chat-talk-agent';
   newChat.innerHTML = `<div class="chat-talk-inner">${introduction}${prompt}${getActionOptions()}</div>`
   chatContent.appendChild(newChat);
+  userInput.setAttribute('placeholder', localize('Prompt Set Intention'));
 }
 
 // MARK: Chat page Related functions
