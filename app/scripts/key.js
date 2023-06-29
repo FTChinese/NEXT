@@ -405,9 +405,6 @@ function trackerNew() {
     userProperties = {
        'UserType': vtype
     };
-    if (userId !== '') {
-        userProperties.cm_user_id = userId;
-    }
     gtag('set', 'user_properties', userProperties);
     if (window.isBlocked === 'yes' || window.bBlocked === 'yes') {
         gTagParameters.use_block = 'yes';
