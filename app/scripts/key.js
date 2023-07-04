@@ -2,9 +2,10 @@
 var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 var ua = navigator.userAgent || navigator.vendor || '';
 var gUserType = 'visitor';
-var gaMeasurementId = 'UA-1608715-1';
+// Measurement ID for New GA4 property: G-2MCQJHGE8J
+var gaMeasurementId = 'G-2MCQJHGE8J';
+// var gaMeasurementId = 'UA-1608715-1';
 var gaMeasurementId2 = 'G-PDY0XG13PH';
-//var gaMeasurementId = 'G-PDY0XG13PH';
 
 function GetCookie(name) {
     const cookieName = `${name}=`;
@@ -295,8 +296,11 @@ function trackerNew() {
     } 
     try {
         gTagParameters.AllowAnchor = true;
-        if (ccode!=='' && l.indexOf('utm_campaign')<0) {
+        if (ccode !== '' && l.indexOf('utm_campaign') < 0) {
             gTagParameters.campaign = {name: ccode, source: usource, medium: umedium};
+            gTagParameters.campaign_name = ccode;
+            gTagParameters.campaign_source = usource;
+            gTagParameters.campaign_medium = umedium;
             l=window.location.href;
         }
     } catch(ignore) {}
@@ -456,6 +460,7 @@ function trackerNew() {
     } else {
         if (window.gAutoStart === undefined) {
             sendData(gTagParameters, firebaseParameters);
+            // console.log(firebaseParameters);
         }
     }
 }
