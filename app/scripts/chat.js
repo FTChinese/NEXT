@@ -1960,6 +1960,19 @@ function setConfigurations() {
   `;
 }
 
+
+async function waitForAccessToken() {
+  for (let i=0; i<15; i++) {
+    const accessToken = localStorage.getItem('accessToken');
+    console.log(`Checking access token: `);
+    if (typeof accessToken === 'string' && accessToken && accessToken !== '') {
+      console.log('Found access token! ');
+      return;
+    }
+    await new Promise(resolve => setTimeout(resolve, 1000));
+  }
+}
+
 // MARK: Set up guard rails based on the initial settings
 async function setGuardRails() {
   if (isInNativeApp) {
@@ -1970,6 +1983,8 @@ async function setGuardRails() {
   }
   const ftid = paramDict.ftid;
   if (ftid && ftid !== '') {
+    // MARK: - If you want to handle actions at the launch of the page, you'll need to wait for the access token to available before continuing. 
+    await waitForAccessToken();
     await showContent(ftid, preferredLanguage);
     const action = paramDict.action;
     if (action && action !== '') {
