@@ -26,6 +26,10 @@ async function wait(seconds) {
 }
 
 async function createChatFromOpenAI(data) {
+    const errorMessageDict = {
+        content_filter: `<p>Our AI service vendor returns the following error: </p><p>The response was filtered due to the prompt triggering Azure OpenAI’s content management policy. Please modify your prompt and retry. </p><p>It's probably not your fault. But for the time being, please refresh and talk about other things with our chat bot. </p>`,
+        other: `The AI model returns an error. It could be because of something in your prompt or the context that we provid. Sorry, please refresh and try something new. `
+    };
     try {
         const token = (isPowerTranslate) ? localStorage.getItem('accessToken') : 'sometoken';
         if (!token || token === '') {
@@ -38,7 +42,8 @@ async function createChatFromOpenAI(data) {
         // MARK: - 1. Check if there's a cached result
         const hash = await generateHash(JSON.stringify(data));
         data.hash = hash;
-        const queryData = {hash: hash, type: 'chat'};
+        // const queryData = {hash: hash, type: 'chat'};
+        const queryData = {hash: hash};
         url = (isPowerTranslate) ? '/openai/check_cache' : '/FTAPI/check_cache.php';
         let options = {
             method: 'POST',
@@ -60,14 +65,31 @@ async function createChatFromOpenAI(data) {
         try {
             response = await fetch(url, options);
             const cachedResult = await response.json();
-            if (cachedResult && cachedResult.length > 0) {
-                if (cachedResult && cachedResult.length > 0 && cachedResult[0].message && cachedResult[0].message.content) {
-                    return {
-                        status: 'success', 
-                        text: cachedResult[0].message.content, 
-                        intention: cachedResult[0].message.intention || 'Other',
-                        sources: cachedResult[0].message.sources || []
-                    };
+            if (cachedResult) {
+                    // MARK: - If the cached result is good, use it immediately
+                if (cachedResult.length > 0) {
+                    if (cachedResult && cachedResult.length > 0) {
+                        if (cachedResult[0].message && cachedResult[0].message.content) {
+                            return {
+                                status: 'success', 
+                                text: cachedResult[0].message.content, 
+                                intention: cachedResult[0].message.intention || 'Other',
+                                sources: cachedResult[0].message.sources || []
+                            };
+                        }
+                    }
+                }
+                // MARK: - If there's a cached error. 
+                if (cachedResult.status === 'error') {
+                    let errorResult = {status: 'failed'};
+                    errorResult.code = cachedResult.code;
+                    // MARK: - Show the known error messages in our own way
+                    if (cachedResult.code === 'content_filter') {
+                        errorResult.message = errorMessageDict.content_filter;
+                    } else {
+                        errorResult.message = errorMessageDict.other;
+                    }
+                    return errorResult;
                 }
             }
         } catch(err){
@@ -133,13 +155,14 @@ async function createChatFromOpenAI(data) {
                             break;
                         }
                         if (pollResults.status === 'error') {
-                            console.log(`pollResults returns error! Return Immediately! `);
                             let errorResult = {status: 'failed'};
                             errorResult.message = pollResults.message;
                             errorResult.code = pollResults.code;
                             // MARK: - Show the known error messages in our own way
                             if (pollResults.code === 'content_filter') {
-                                errorResult.message = `The AI model returns an error based on content management policy. It could be because of something in your prompt or the context that we provid. Sorry, please refresh and try something new. `;
+                                errorResult.message = errorMessageDict.content_filter;
+                            } else {
+                                errorResult.message = errorMessageDict.other;
                             }
                             return errorResult;
                         }
