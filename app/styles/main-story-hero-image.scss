@@ -1,0 +1,44 @@
+@import "theme-default.scss";
+@import "variables.scss";
+
+.story-hero-image {
+    // height: 250px;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: #dfdee0;
+    background-position: center;
+    &::after {
+        padding-bottom: 35%;
+        content: '';
+        display: block;
+    }
+}
+
+.story-hero-content {
+    width: 100%;
+    background-color: $defaultPink;
+    padding: $defaultPadding * 0.5 0;
+}
+.story-hero-topper-container {
+    max-width: 740px;
+    margin: auto;
+    margin-top: -5em;
+    background-color: $defaultPink;
+}
+.story-hero-topper-inner {
+    padding: $defaultPadding * 0.5 $defaultPadding * 0.5 0 $defaultPadding * 0.5;
+}
+.story-theme a {
+    color: #00886F;
+}
+@media all and (max-width: 780px) {
+    .story-hero-image {
+        &::after {
+            padding-bottom: 60%;
+        }
+    }
+    .story-hero-topper-container {
+        margin-top: 0;
+    }
+}
