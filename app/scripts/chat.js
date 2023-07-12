@@ -1982,17 +1982,20 @@ async function setGuardRails() {
     document.documentElement.classList.add('discuss-article-only');
   }
   const ftid = paramDict.ftid;
+  const action = paramDict.action;
+  const surveyName = paramDict.name;
   if (ftid && ftid !== '') {
     // MARK: - If you want to handle actions at the launch of the page, you'll need to wait for the access token to available before continuing. 
     await waitForAccessToken();
     await showContent(ftid, preferredLanguage);
-    const action = paramDict.action;
     if (action && action !== '') {
       const element = document.querySelector(`[data-action="${action}"]`);
       if (element) {
         await handleActionClick(element);
       }
     }
+  } else if (action === 'survey' && surveyName) {
+    console.log(`Survey: ${surveyName}`);
   }
   const intent = paramDict.intent;
   if (intent && intent !== '') {
