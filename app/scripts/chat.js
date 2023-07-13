@@ -9,6 +9,7 @@ const isPowerTranslate = location.href.indexOf('powertranslate') >= 0;
 const isFrontendTest = location.href.indexOf('localhost') >= 0;
 const isInNativeApp = location.href.indexOf('webview=ftcapp') >= 0;
 const discussArticleOnly = location.href.indexOf('ftid=') >= 0;
+const surveyOnly = location.href.indexOf('action=survey') >= 0;
 let preferredLanguage = navigator.language;
 let paramDict = {};
 var previousConversations = [];
@@ -199,6 +200,20 @@ const statusDict = {
     'zh-HK': '歡迎使用專屬於您的財經新聞助理！我的目標是透過提供量身定制的建議和深度分析，協助您充分利用您的訂閱。',
     zh: '欢迎使用专属于您的财经新闻助理！我的目标是通过提供量身定制的推荐和深度分析，协助您充分利用您的订阅。',
     ru: 'Добро пожаловать в вашего персонального помощника по финансовым и бизнес-новостям! Моя цель - помочь вам получить максимальную пользу от вашей подписки, предоставляя настраиваемые рекомендации и аналитику.'
+  },
+  'OtherReason': {
+    en: 'Other reason',
+    es: 'Otra razón',
+    fr: 'Autre raison',
+    de: 'Andere Gründe',
+    ja: 'その他の理由',
+    ko: '기타 이유',
+    pt: 'Outro motivo',
+    it: 'Altro motivo',
+    'zh-TW': '其他原因',
+    'zh-HK': '其他原因',
+    zh: '其他原因',
+    ru: 'Другая причина'
   },
   'Error': {
     en: 'Error',
@@ -1981,6 +1996,9 @@ async function setGuardRails() {
   if (discussArticleOnly) {
     document.documentElement.classList.add('discuss-article-only');
   }
+  if (surveyOnly) {
+    document.documentElement.classList.add('survey-only');
+  }
   const ftid = paramDict.ftid;
   const action = paramDict.action;
   const surveyName = paramDict.name;
@@ -1995,7 +2013,10 @@ async function setGuardRails() {
       }
     }
   } else if (action === 'survey' && surveyName) {
-    console.log(`Survey: ${surveyName}`);
+    // MARK: - Wait for the showSurvey function to be loaded
+    await new Promise(resolve => setTimeout(resolve, 1));
+    await showSurvey(surveyName);
+    paramDict.intent = 'CustomerService';
   }
   const intent = paramDict.intent;
   if (intent && intent !== '') {
@@ -2006,14 +2027,16 @@ async function setGuardRails() {
 
 function greet() {
   const introduction = `<p>${localize('Introduction')}</p>`;
-  const prompt = (discussArticleOnly) ? '' : `<p>${getRandomPrompt('greeting')}</p>`;
+  const prompt = (discussArticleOnly || surveyOnly) ? '' : `<p>${getRandomPrompt('greeting')}</p>`;
   if (!chatContent.querySelector('.chat-talk')) {
       chatContent.innerHTML = '';
   }
   const newChat = document.createElement('DIV');
   newChat.className = 'chat-talk chat-talk-agent';
-  newChat.innerHTML = `<div class="chat-talk-inner">${introduction}${prompt}${getActionOptions()}</div>`
-  chatContent.appendChild(newChat);
+  newChat.innerHTML = `<div class="chat-talk-inner">${introduction}${prompt}${getActionOptions()}</div>`;
+  if (!surveyOnly) {
+    chatContent.appendChild(newChat);
+  }
   userInput.setAttribute('placeholder', localize('Prompt Set Intention'));
 }
 

@@ -219,7 +219,7 @@ a[data-action] {
     }
 }
 
-.chat-item-actions {
+.chat-item-actions, .survey-ending-container {
     a {
         cursor: pointer;
         color: black;
@@ -358,13 +358,13 @@ a[data-action] {
     display: none;
 }
 
-.quiz-question {
+.quiz-question, .survey-question {
     font-weight: bold;
     font-size: 1.2em;
     margin-bottom: math.div($defaultPadding, 2);
 }
 
-.quiz-options {
+.quiz-options, .survey-options {
     div {
         background-color: rgb(230, 217, 206);
         border-color: rgb(230, 217, 206);
@@ -377,6 +377,19 @@ a[data-action] {
         cursor: pointer;
     }
 }
+.survey-options {
+    div.text-input {
+        border-width: 1px;
+        padding: 0;
+        input {
+            width: 100%;
+            font-size: 1em;
+            line-height: 1.4em;
+            padding: math.div($defaultPadding, 2);
+            border-width: 0;
+        }
+    }
+}
 
 .quiz-explanation {
     display: none;
@@ -385,11 +398,11 @@ a[data-action] {
     }
 }
 
-.quiz-container {
+.quiz-container, .survey-item-container {
     border-top: 1px solid $borderColor;
     padding-top: 1em;
     margin-bottom: 1em;
-    &:first-child {
+    &:first-child, &.is-first-item {
         border-color: transparent;
         padding-top: 0;
     }
@@ -407,13 +420,15 @@ a[data-action] {
         }
     }
 }
-.quiz-next {
+
+.quiz-next, .survey-submit {
     margin: auto;
     font-size: 1.2em;
     padding: math.div($defaultPadding, 4) math.div($defaultPadding, 2);
     width: auto;
     height: auto;
 }
+
 body {
     .sign-in-container {
         display: block;
@@ -476,7 +491,7 @@ body {
     }
 }
 
-.discuss-article-only {
+.discuss-article-only, .survey-only {
     .chat-item-actions, .full-grid-story {
         display: none;
     }
