@@ -5,8 +5,8 @@ const userInput = document.getElementById('user-input');
 const switchIntention = document.getElementById('switch-intention');
 const chatContent = document.getElementById('chat-content');
 const chatSumit = document.getElementById('chat-submit');
-const isPowerTranslate = location.href.indexOf('powertranslate') >= 0;
-const isFrontendTest = location.href.indexOf('localhost') >= 0;
+const isPowerTranslate = location.href.indexOf('powertranslate') >= 0 || window.isUsingHandleBars === true;
+const isFrontendTest = location.href.indexOf('localhost') >= 0 && window.isUsingHandleBars !== true;
 const isInNativeApp = location.href.indexOf('webview=ftcapp') >= 0;
 const discussArticleOnly = location.href.indexOf('ftid=') >= 0;
 const surveyOnly = location.href.indexOf('action=survey') >= 0;
@@ -912,9 +912,11 @@ userInput.addEventListener('compositionend', () => {
   composing = false;
 });
 
-switchIntention.addEventListener('click', ()=>{
-  switchIntention.classList.toggle('on');
-});
+if (switchIntention) {
+  switchIntention.addEventListener('click', ()=>{
+    switchIntention.classList.toggle('on');
+  });
+}
 
 chatSumit.addEventListener('click', function(event){
   talk();
@@ -1074,8 +1076,10 @@ function updateStatus(status) {
     status = 'Ready To Chat';
   }
   let currentChatEle = document.querySelector('#current-chat-status span');
-  currentChatEle.setAttribute('data-key', status);
-  currentChatEle.innerHTML = `${localize(status)}`;
+  if (currentChatEle) {
+    currentChatEle.setAttribute('data-key', status);
+    currentChatEle.innerHTML = `${localize(status)}`;
+  }
   userInput.placeholder = localize(status);
   console.log(`\n======\nupdateStatus`);
   console.log('previousConversations: ');
@@ -1966,7 +1970,9 @@ function setConfigurations() {
   var script = document.createElement('script');
   script.src = '/powertranslate/scripts/register.js';
   document.head.appendChild(script);
-  document.getElementById('current-chat-status').innerHTML += `
+  let currentChatStatus = document.getElementById('current-chat-status');
+  if (!currentChatStatus) {return;}
+  currentChatStatus.innerHTML += `
     <a data-purpose="set-intention" data-content="CleanSlate" data-reply="${localize('Offer Help')}" data-key="BackToTop">${localize('BackToTop')}</a>
     <a data-purpose="set-intention" data-content="DiscussContent" data-reply="${localize('Discuss More')}" data-key="DiscussContent">${localize('DiscussContent')}</a>
     <a data-purpose="set-intention" data-content="SearchFTAPI" data-reply="${localize('Offer Help For Search')}" data-key="SearchFT">${localize('SearchFT')}</a>

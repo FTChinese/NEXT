@@ -1,3 +1,5 @@
+/* jshint ignore:start */
+
 delegate.on('click', '.survey-options div[data-key]', async (event) => {
     const element = event.target;
     const surveyContainer = element.closest('.survey-container');
@@ -24,17 +26,27 @@ delegate.on('click', '.survey-options div[data-key]', async (event) => {
     }
 });
 
+// MARK: If input has changed, show the submit button
+delegate.on('keyup', '.survey-options input', async (event) => {
+    const element = event.target;
+    if (element.value === '') {return;}
+    const surveyContainer = element.closest('.survey-container');
+    if (!surveyContainer) {return;}
+    const submitButton = surveyContainer.querySelector('.survey-submit');
+    submitButton.classList.remove('hide');
+});
+
 delegate.on('click', '.survey-submit', async (event) => {
     const element = event.target;
-    // TODO: - Should send the data first
+    const text = element.innerHTML;
+    // MARK: - Send the data first and update the css to show it's pending
     element.classList.add('pending');
+    element.innerHTML = 'CONFIRMING...';
     const surveyContainer = element.closest('.survey-container');
     const name = surveyContainer.getAttribute('data-name');
     const visibleSurveyItems = surveyContainer.querySelectorAll('.survey-item-container:not(.hide)');
     const currentSurveyItem = visibleSurveyItems[visibleSurveyItems.length - 1];
-    console.log(currentSurveyItem);
     const key = currentSurveyItem.getAttribute('data-key') || '';
-    console.log(key);
     const selectedOptionsAll = currentSurveyItem.querySelectorAll('.survey-options [data-key].selected');
     let values = [];
     for (const option of selectedOptionsAll) {
@@ -42,18 +54,41 @@ delegate.on('click', '.survey-submit', async (event) => {
     }
     const note = currentSurveyItem.querySelector('.survey-options input')?.value ?? '';
     const user = paramDict.u;
-    let surveyItemResult = {
+    const surveyItemResult = {
         survey: name,
         question: key,
         values: values,
-        user: user
+        user: user,
+        note: note
     };
-    if (note !== '') {
-        surveyItemResult.note = note;
+    let url = '/survey/submit';
+    let options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(surveyItemResult)
+    };
+    if (isFrontendTest && !isPowerTranslate) {
+        url = '/api/page/ft_survey_submit.json';
+        options = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
     }
-    console.log(JSON.stringify(surveyItemResult, null, 2));
-    element.classList.add('hide');
+    const response = await fetch(url, options);
+    let result = await response.json();
+    console.log('result: ');
+    console.log(result);
     element.classList.remove('pending');
+    element.innerHTML = text;
+    if (!result || result.status !== 'ok') {
+        return;
+    }
+    console.log('submitted!')
+    element.classList.add('hide');
     const nextSurvey = surveyContainer.querySelector('.survey-item-container.hide');
     if (nextSurvey === null) {
         const note = surveyContainer.getAttribute('data-ending-note') || '';
@@ -70,8 +105,6 @@ delegate.on('click', '.survey-submit', async (event) => {
     const chatContainer = element.closest('.chat-talk');
     chatContainer.scrollIntoView(scrollOptions);
 });
-
-
 
 async function showSurvey(name) {
     // console.log(`Show Survey: ${name}`);
@@ -121,14 +154,14 @@ async function showSurvey(name) {
 
 async function getSurveyInfo(name) {
     try {
-        let url = `/openai/survey/${name}`;
+        let url = `/survey/get/${name}`;
         let options = {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
             }
         };
-        if (isFrontendTest) {
+        if (isFrontendTest && !isPowerTranslate) {
             url = '/api/page/survey.json';
         }
         const response = await fetch(url, options);
@@ -151,3 +184,5 @@ async function getSurveyInfo(name) {
 function getLocalizedText(obj) {
     return obj[preferredLanguage] || obj.en;
 }
+
+/* jshint ignore:end */
