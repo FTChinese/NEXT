@@ -2133,7 +2133,7 @@
 
 	<%$paidPostTrack%>
 
-	<%if $smarty.get.taboola == "on" || ($smarty.server.HTTP_HOST=="www.ftchinese.com" && date("Ymd",$smarty.now) >= 20230119)%>
+	<%if $smarty.get.taboola == "on" || ($smarty.server.HTTP_HOST=="www.ftchinese.com" && date("Ymd",$smarty.now) >= 20230119 && !preg_match("/企业公告/is",$keys))%>
 		<script type="text/javascript">
 		window._taboola = window._taboola || [];
 		_taboola.push({article:'auto'});
