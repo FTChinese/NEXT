@@ -1981,13 +1981,22 @@ function setConfigurations() {
   `;
 }
 
-
 async function waitForAccessToken() {
+  const oneDayInMiniSeconds = 24 * 60 * 60 * 1000;
   for (let i=0; i<15; i++) {
     const accessToken = localStorage.getItem('accessToken');
-    console.log(`Checking access token: `);
-    if (typeof accessToken === 'string' && accessToken && accessToken !== '') {
-      console.log('Found access token! ');
+    const accessTokenUpdateTimeString = localStorage.getItem('accessTokenUpdateTime');
+    const now = new Date().getTime();
+    let isAccessTokenUpdated = false;
+    if (typeof accessTokenUpdateTimeString === 'string' && accessTokenUpdateTimeString !== '') {
+      const accessTokenUpdateTime = parseInt(accessTokenUpdateTimeString, 10);
+      if (accessTokenUpdateTime > 0 && now - accessTokenUpdateTime < oneDayInMiniSeconds) {
+        isAccessTokenUpdated = true;
+      }
+    }
+    // MARK: - The token needs to be updated within 24 hours
+    if (typeof accessToken === 'string' && accessToken && accessToken !== '' && isAccessTokenUpdated) {
+      console.log('Found valid and updated access token! ');
       return;
     }
     await new Promise(resolve => setTimeout(resolve, 1000));
