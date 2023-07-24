@@ -43,6 +43,15 @@ var videosLazy = [];
 var videosLoadStatus = 0;
 var viewables = [];//存储要记录track In View的元素
 
+function findTop(obj) {
+  var curtop = 0;
+  if (!obj) {return null;}
+  do {
+    curtop += obj.offsetTop;
+  } while ((obj = obj.offsetParent || obj.parentElement));    
+  return curtop;
+}
+
 // function findTop(obj) {
 //   var curtop = 0;
 //   if (obj && obj.offsetParent) {
@@ -52,20 +61,6 @@ var viewables = [];//存储要记录track In View的元素
 //     return curtop;
 //   }
 // }
-
-// MARK: - This function will check if the `obj` parameter is truthy (i.e. not null or undefined), and then it will loop through the DOM tree using the `offsetParent` property until it finds an ancestor element with a `position` style property that is not `static`.
-// For each element in the loop, it adds the `offsetTop` value to the `curtop` variable, and then sets the `obj` variable to its `offsetParent`. The loop will continue until it reaches the top of the DOM tree or until it finds a positioned ancestor element.
-// Once the loop is finished, the function returns the final value of `curtop`.
-function findTop(obj) {
-  var curtop = 0;
-  if (obj) {
-    do {
-      curtop += obj.offsetTop;
-      obj = obj.offsetParent;
-    } while (obj && obj.style.position === 'static');
-  }
-  return curtop;
-}
 
 function getBodyHeight() {
   var w = window,
