@@ -156,6 +156,7 @@ function checkInView(obj) {
 */
 
 function trackViewables() {
+  console.log('running trackViewables! ');
   trackQualityRead();
 }
 
