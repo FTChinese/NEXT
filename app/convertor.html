@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+  <title> Chinese Convertor</title>
+</head>
+<body>
+    <div id="input"></div>
+    <div id="output"></div>
+    <script src="scripts/trie.js"></script>
+
+    <script>
+    async function fetchJson(url) {
+        const response = await fetch(url);
+        return response.json();
+    }
+
+
+    async function mergeJsonFiles(url1, url2, inputText) {
+        try {
+            // Fetch both JSON files concurrently using Promise.all
+            const [json1, json2] = await Promise.all([fetchJson(url1), fetchJson(url2)]);
+
+            // Merge the two dictionaries into a single dictionary
+            const mergedDictionary = {...json1, ...json2 };
+            if(mergedDictionary){
+                print('wdnmd')
+            }
+
+            trie.load(mergedDictionary);
+            
+            let currentIndex = 0;
+            let replacedText = "";
+            // Rest of your code to replace text using the trie...
+            while (currentIndex < inputText.length) {
+                const result = trie.findMaxMatch(inputText, currentIndex);
+                if (result) {
+                    const matchedWord = inputText.substring(currentIndex, result.index + 1);
+                    replacedText += result.to;
+                    currentIndex = result.index + 1;
+                } else {
+                    replacedText += inputText[currentIndex];
+                    currentIndex++;
+                }
+            }
+
+            const inputElement = document.getElementById('input');
+            const outputElement = document.getElementById('output');
+            inputElement.textContent = 'Input Text: ' + inputText;
+            outputElement.textContent = 'Replaced Text: ' + replacedText;
+        } catch (error) {
+            console.error(`Error reading or parsing JSON data: ${error}`);
+        }
+    }
+    const url1 = 'scripts/tw.json';
+    const url2 = 'scripts/tw-names.json';
+    const inputText = `在一次备受瞩目的发布会上，全球领先的半导体公司英伟达（NVIDIA）揭开了其最新一代图形处理器（GPU）的面纱，引发了科技界的广泛关注。这款新产品被誉为“超级计算机芯片”，预计将开创人工智能和游戏领域的新纪元。据报道，英伟达的最新一代GPU代号为“Ampere”，采用了先进的7纳米制程工艺，具备强大的计算能力和高度优化的图形处理能力。该芯片集成了数千个AI处理核心，可实现超过10倍的性能提升，不仅能够加速传统计算任务，还能为深度学习和机器学习等领域带来突破性的进展。报道还指出，英伟达的新一代GPU在游戏领域也具备重要意义。它为游戏开发者提供了更多的计算资源和渲染能力，能够呈现更逼真、更流畅的游戏画面。同时，该芯片支持实时光线追踪技术，使游戏画面的光照效果更加真实，为玩家带来更加身临其境的游戏体验。英伟达首席执行官在发布会上表示：“我们的目标是打造全球最强大的计算平台，将人工智能和图形技术相结合，推动科技的发展。我们相信，新一代GPU将为各行各业带来巨大的创新机会，并改变我们对计算和图形的认知。”这一消息迅速引起了业界和科技爱好者的热议，许多专家纷纷对英伟达的新一代GPU表达了高度的期待。他们认为，该芯片将成为未来人工智能、游戏和科学计算领域的重要推动力量，有望推动技术进步和应用领域的拓展。`;
+    mergeJsonFiles(url1,url2, inputText);
+  </script>
+</body>
+</html>
