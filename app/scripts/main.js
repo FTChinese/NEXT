@@ -43,24 +43,25 @@ var videosLazy = [];
 var videosLoadStatus = 0;
 var viewables = [];//存储要记录track In View的元素
 
-function findTop(obj) {
-  var curtop = 0;
-  if (!obj) {return null;}
-  do {
-    curtop += obj.offsetTop;
-  } while ((obj = obj.offsetParent || obj.parentElement));    
-  return curtop;
-}
-
 // function findTop(obj) {
 //   var curtop = 0;
-//   if (obj && obj.offsetParent) {
-//     do {
-//       curtop += obj.offsetTop;
-//     } while ((obj = obj.offsetParent));
-//     return curtop;
-//   }
+//   if (!obj) {return null;}
+//   do {
+//     curtop += obj.offsetTop;
+//   } while ((obj = obj.offsetParent || obj.parentElement));    
+//   return curtop;
 // }
+
+function findTop(obj) {
+  var curtop = 0;
+  if (obj && obj.offsetParent) {
+    do {
+      curtop += obj.offsetTop;
+    } while ((obj = obj.offsetParent));
+    return curtop;
+  }
+  return null;
+}
 
 function getBodyHeight() {
   var w = window,
