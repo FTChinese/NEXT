@@ -493,7 +493,7 @@ function stickyBottomPrepare() {
     gAudioOffsetY = findTop(document.getElementById('audio-placeholder'));
   }
 
-  var storyBodyContainer = document.querySelector('#story-body-container, .story-container');
+  var storyBodyContainer = document.querySelector('#story-body-container, .block-container .story-container');
   if (storyBodyContainer) {
     gStoryBodyBottomOffsetY = findTop(storyBodyContainer) + storyBodyContainer.offsetHeight;
   }
