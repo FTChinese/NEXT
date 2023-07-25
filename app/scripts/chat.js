@@ -1070,6 +1070,54 @@ function localize(status) {
   return statusTitle;
 }
 
+async function convertChinese(text, language) {
+
+  async function fetchJson(url) {
+    const response = await fetch(url);
+    return response.json();
+  }
+
+  async function convert(url1, url2, text) {
+      try {
+          // Fetch both JSON files concurrently using Promise.all
+          const [json1, json2] = await Promise.all([fetchJson(url1), fetchJson(url2)]);
+          // Merge the two dictionaries into a single dictionary
+          const mergedDictionary = {...json1, ...json2 };
+          trie.load(mergedDictionary);
+          let currentIndex = 0;
+          let replacedText = '';
+          // Rest of your code to replace text using the trie...
+          while (currentIndex < text.length) {
+            const result = trie.findMaxMatch(text, currentIndex);
+            if (result) {
+                const matchedWord = text.substring(currentIndex, result.index + 1);
+                replacedText += result.to;
+                currentIndex = result.index + 1;
+            } else {
+                replacedText += text[currentIndex];
+                currentIndex++;
+            }
+          }
+          return replacedText;
+      } catch (error) {
+          console.error(`Error reading or parsing JSON data: ${error}`);
+      }
+  }
+
+  if (!language || ['zh-TW', 'zh-HK', 'zh-MO', 'zh-MY', 'zh-SG'].indexOf(language) === -1) {
+    return text;
+  }
+
+  // TODO: get the urls from language
+  const url1 = 'scripts/tw.json';
+  const url2 = 'scripts/tw-names.json';
+  const newText = await convert(url1, url2, text);
+
+
+
+  return newText;
+}
+
 function updateStatus(status) {
   if (!status) {return;}
   if (status === 'CleanSlate') {
@@ -1140,7 +1188,8 @@ async function getArticleFromFTAPI(id, language) {
           // url = '/api/page/ft_article.json';
           // url = '/api/page/ft_article_scrolly_telling.json';
           // url = '/api/page/ft_article_scrolly_telling_climate_change.json';
-          url = '/api/page/ft_article_double_image.json';
+          // url = '/api/page/ft_article_double_image.json';
+          url = '/api/page/ft_article_chinese.json';
           options = {
               method: 'GET',
               headers: {
@@ -1155,6 +1204,8 @@ async function getArticleFromFTAPI(id, language) {
       }
       if (results) {
           results = await handleFTContent(results);
+          results = await convertFTContentForChinese(results, language);
+          // console.log(`Should handle chinese conversion: ${language}`);
           return {status: 'success', results: results};
       } else {
           return {status: 'failed', message: 'Something is wrong with FT Search, please try later. '};
@@ -1171,6 +1222,7 @@ async function showContent(ftid, language) {
       showBotResponse('Getting Article...');
       // MARK: - It is important to set the current ft id here, because async request might not be returned in the expected sequence. 
       currentFTId = ftid;
+      // console.log(`\n\n======\n\n========\nlanguage: ${language}`);
       const info = await getArticleFromFTAPI(ftid, language);
       const content = info.results;
       const type = getContentType(content);

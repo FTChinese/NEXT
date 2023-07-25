@@ -516,6 +516,20 @@ async function handleFTContent(contentData) {
 }
 
 
+async function convertFTContentForChinese(results, language) {
+    let newResults = JSON.parse(JSON.stringify(results));
+    newResults.bodyXMLTranslation = await convertChinese(newResults.bodyXMLTranslation, language);
+    newResults.titleTranslation = await convertChinese(newResults.titleTranslation, language);
+    newResults.bylineTranslation = await convertChinese(newResults.bylineTranslation, language);
+    newResults.standfirstTranslation = await convertChinese(newResults.standfirstTranslation, language);
+    console.log('results: ');
+    console.log(results);
+    console.log('new results: ');
+    console.log(newResults);
+    console.log('\n\n\n\n');
+    return newResults;
+}
+
 async function promptOpenAIForArticle(id, index, language, text, chunks, action) {
     try {
         const token = (isPowerTranslate) ? localStorage.getItem('accessToken') : 'sometoken';
