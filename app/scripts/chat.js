@@ -1185,11 +1185,11 @@ async function getArticleFromFTAPI(id, language) {
       if (isFrontendTest && !isPowerTranslate) {
           // url = '/api/page/ft_podcast.json';
           // url = '/api/page/ft_video.json';
-          // url = '/api/page/ft_article.json';
+          url = '/api/page/ft_article.json';
           // url = '/api/page/ft_article_scrolly_telling.json';
           // url = '/api/page/ft_article_scrolly_telling_climate_change.json';
           // url = '/api/page/ft_article_double_image.json';
-          url = '/api/page/ft_article_chinese.json';
+          // url = '/api/page/ft_article_chinese.json';
           options = {
               method: 'GET',
               headers: {
