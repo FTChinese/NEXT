@@ -1,5 +1,4 @@
 /* jshint ignore:start */
-
 const delegate = new Delegate(document.body);
 const userInput = document.getElementById('user-input');
 const switchIntention = document.getElementById('switch-intention');
@@ -1076,21 +1075,57 @@ async function convertChinese(text, language) {
     const response = await fetch(url);
     return response.json();
   }
-
-  async function convert(url1, url2, text) {
+  function mergeJSONObjects(mergedObj, obj2) {
+    for (let key in obj2) {
+      if (obj2.hasOwnProperty(key)) {
+        if (mergedObj.hasOwnProperty(key) && typeof obj2[key] === "object" && !Array.isArray(obj2[key])) {
+          mergedObj[key] = mergeJSONObjects(mergedObj[key], obj2[key]);
+        } else {
+          mergedObj[key] = obj2[key];
+        }
+      }
+    }
+    return mergedObj;
+  }
+  async function getDictionary(language){
+    let content = {
+      'zh-TW':['scripts/big5.json','scripts/tw.json','scripts/tw-names.json'], 
+      'zh-HK':['scripts/big5.json','scripts/hk.json','scripts/hk-names.json'],
+      'zh-MO':['scripts/big5.json','scripts/mo.json','scripts/mo-names.json'], 
+      'zh-MY':['scripts/my-names.json','scripts/my-names.json'],
+      'zh-SG':['scripts/sg-names.json','scripts/sg-names.json']
+    }
+    try {
+      // Fetch both JSON files concurrently using Promise.all
+      let dictionary_list = content[language];
+      let fetchPromises = dictionary_list.map(fetchJson);
+      let fetchedDataArray = await Promise.all(fetchPromises);
+  
+      let mergedDictionary = {}
+     
+      fetchedDataArray.forEach(item => {
+        mergedDictionary = mergeJSONObjects(mergedDictionary, item);
+      });
+      // console.log(JSON.stringify(mergedDictionary, null, 2));
+      return mergedDictionary
+    }catch(err){
+      console.error(`Error reading or parsing JSON data: ${error}`);
+    }
+  }
+  async function convert(language, text) {
       try {
-          // Fetch both JSON files concurrently using Promise.all
-          const [json1, json2] = await Promise.all([fetchJson(url1), fetchJson(url2)]);
-          // Merge the two dictionaries into a single dictionary
-          const mergedDictionary = {...json1, ...json2 };
-          trie.load(mergedDictionary);
+          let dic =await getDictionary(language);
+          console.log(`selected language ${language}`)
+          // console.log(`load merged dictionary!`)
+          // console.log(JSON.stringify(dic, null, 2));
+          trie.load(dic);
           let currentIndex = 0;
           let replacedText = '';
           // Rest of your code to replace text using the trie...
           while (currentIndex < text.length) {
             const result = trie.findMaxMatch(text, currentIndex);
-            if (result) {
-                const matchedWord = text.substring(currentIndex, result.index + 1);
+            if (result && result.to) {
+                // const matchedWord = text.substring(currentIndex, result.index + 1);
                 replacedText += result.to;
                 currentIndex = result.index + 1;
             } else {
@@ -1107,14 +1142,8 @@ async function convertChinese(text, language) {
   if (!language || ['zh-TW', 'zh-HK', 'zh-MO', 'zh-MY', 'zh-SG'].indexOf(language) === -1) {
     return text;
   }
-
   // TODO: get the urls from language
-  const url1 = 'scripts/tw.json';
-  const url2 = 'scripts/tw-names.json';
-  const newText = await convert(url1, url2, text);
-
-
-
+  const newText = await convert(language, text);
   return newText;
 }
 
