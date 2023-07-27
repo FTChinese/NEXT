@@ -1071,10 +1071,12 @@ function localize(status) {
 
 async function convertChinese(text, language) {
 
-  async function fetchJson(url) {
-    const response = await fetch(url);
+  async function fetchDictJSON(url) {
+    const dictLocation = (isFrontendTest && !isPowerTranslate) ? './scripts' : '/powertranslate/scripts';
+    const response = await fetch(`${dictLocation}/${url}`);
     return response.json();
   }
+
   function mergeJSONObjects(mergedObj, obj2) {
     for (let key in obj2) {
       if (obj2.hasOwnProperty(key)) {
@@ -1087,45 +1089,44 @@ async function convertChinese(text, language) {
     }
     return mergedObj;
   }
+
   async function getDictionary(language){
     let content = {
-      'zh-TW':['scripts/big5.json','scripts/tw.json','scripts/tw-names.json'], 
-      'zh-HK':['scripts/big5.json','scripts/hk.json','scripts/hk-names.json'],
-      'zh-MO':['scripts/big5.json','scripts/mo.json','scripts/mo-names.json'], 
-      'zh-MY':['scripts/my-names.json','scripts/my-names.json'],
-      'zh-SG':['scripts/sg-names.json','scripts/sg-names.json']
-    }
+      'zh-TW':['big5.json','tw.json','tw-names.json'], 
+      'zh-HK':['big5.json','hk.json','hk-names.json'],
+      'zh-MO':['big5.json','mo.json','mo-names.json'], 
+      'zh-MY':['my.json','my-names.json'],
+      'zh-SG':['sg.json','sg-names.json']
+    };
     try {
-      // Fetch both JSON files concurrently using Promise.all
       let dictionary_list = content[language];
-      let fetchPromises = dictionary_list.map(fetchJson);
+      let fetchPromises = dictionary_list.map(fetchDictJSON);
       let fetchedDataArray = await Promise.all(fetchPromises);
-  
-      let mergedDictionary = {}
-     
+      let mergedDictionary = {};
       fetchedDataArray.forEach(item => {
         mergedDictionary = mergeJSONObjects(mergedDictionary, item);
       });
-      // console.log(JSON.stringify(mergedDictionary, null, 2));
       return mergedDictionary
-    }catch(err){
+    } catch(err) {
       console.error(`Error reading or parsing JSON data: ${error}`);
     }
   }
+
   async function convert(language, text) {
       try {
-          let dic =await getDictionary(language);
-          console.log(`selected language ${language}`)
-          // console.log(`load merged dictionary!`)
-          // console.log(JSON.stringify(dic, null, 2));
-          trie.load(dic);
+          if (window.trie === undefined) {
+            window.trie = new Trie();
+          }
+          if (window.trieLangauge !== language) {
+            let dic =await getDictionary(language);
+            window.trie.load(dic);
+            window.trieLangauge = language;
+          }
           let currentIndex = 0;
           let replacedText = '';
-          // Rest of your code to replace text using the trie...
           while (currentIndex < text.length) {
-            const result = trie.findMaxMatch(text, currentIndex);
+            const result = window.trie.findMaxMatch(text, currentIndex);
             if (result && result.to) {
-                // const matchedWord = text.substring(currentIndex, result.index + 1);
                 replacedText += result.to;
                 currentIndex = result.index + 1;
             } else {
@@ -1142,7 +1143,7 @@ async function convertChinese(text, language) {
   if (!language || ['zh-TW', 'zh-HK', 'zh-MO', 'zh-MY', 'zh-SG'].indexOf(language) === -1) {
     return text;
   }
-  // TODO: get the urls from language
+  // MARK: get the urls from language
   const newText = await convert(language, text);
   return newText;
 }
@@ -1214,11 +1215,11 @@ async function getArticleFromFTAPI(id, language) {
       if (isFrontendTest && !isPowerTranslate) {
           // url = '/api/page/ft_podcast.json';
           // url = '/api/page/ft_video.json';
-          url = '/api/page/ft_article.json';
+          // url = '/api/page/ft_article.json';
           // url = '/api/page/ft_article_scrolly_telling.json';
           // url = '/api/page/ft_article_scrolly_telling_climate_change.json';
           // url = '/api/page/ft_article_double_image.json';
-          // url = '/api/page/ft_article_chinese.json';
+          url = '/api/page/ft_article_chinese.json';
           options = {
               method: 'GET',
               headers: {

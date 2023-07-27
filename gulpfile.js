@@ -417,6 +417,11 @@ gulp.task('copy:ftcoffer', async () => {
       console.error(err.stack);
     })
     .pipe(gulp.dest(`${dest}/scripts`));
+  gulp.src(['app/scripts/*.json'])
+    .on('error', (err) => {
+      console.error(err.stack);
+    })
+    .pipe(gulp.dest(`${dest}/scripts`));
 
   // Read file content into a string
   const serviceWorkerPath = 'app/scripts/chat-service-worker.js';

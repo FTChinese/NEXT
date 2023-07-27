@@ -31,7 +31,7 @@ class Trie {
   }
 
   insert(word, to) {
-    if (word.length === 0) return;
+    if (word.length === 0) {return;}
     let currentNode = this.root;
     for (let i = 0; i < word.length; i++) {
       const character = word[i];
@@ -73,5 +73,4 @@ class Trie {
     return currentMaxMatch;
   }
 }
-const trie = new Trie();
 window.Trie = Trie;
