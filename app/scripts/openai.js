@@ -290,7 +290,8 @@ async function getFTPageInfo(name, language) {
             }
         };
         if (isFrontendTest && !isPowerTranslate) {
-            url = '/api/page/ft-page.json';
+            // url = '/api/page/ft-page.json';
+            url = '/api/page/ft-page-chinese.json';
             options = {
                 method: 'GET',
                 headers: {
@@ -303,6 +304,7 @@ async function getFTPageInfo(name, language) {
         if (response.status >= 400 && results.message) {
             return {status: 'failed', message: results.message};
         }
+        // TODO: Convert to TW or HK traditional Chinese only if needed
         if (results) {
             return {status: 'success', results: results};
         } else {
