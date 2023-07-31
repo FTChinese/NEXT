@@ -305,11 +305,18 @@ async function getFTPageInfo(name, language) {
             return {status: 'failed', message: results.message};
         }
         // TODO: Convert to TW or HK traditional Chinese only if needed
-        if (results) {
+        if(identifyLanguage(language)===false){
+            console.log(`current language no need to translate, directly show the result`)
             return {status: 'success', results: results};
-        } else {
-            return {status: 'failed', message: 'Something is wrong with FT Search, please try later. '};
         }
+        try{
+            console.log(`Converting fetched result\n`)
+            const stringResult =await convertChinese(JSON.stringify(results),language);
+            results = JSON.parse(stringResult);
+        } catch(err){
+            console.log(`Converting fail, return pre-translated result\n`)
+        }
+        return {status: 'success', results: results};
     } catch(err) {
         console.log(err);
         return {status: 'failed', message: err.toString()};

@@ -1068,7 +1068,12 @@ function localize(status) {
   }
   return statusTitle;
 }
-
+function identifyLanguage(language){//TO Identify language which need to use the function to translate.
+  if (!language || ['zh-TW', 'zh-HK', 'zh-MO', 'zh-MY', 'zh-SG'].indexOf(language) === -1) {
+    return false;
+  }
+  return true
+}
 async function convertChinese(text, language) {
 
   async function fetchDictJSON(url) {
@@ -1111,7 +1116,6 @@ async function convertChinese(text, language) {
       console.error(`Error reading or parsing JSON data: ${error}`);
     }
   }
-
   async function convert(language, text) {
       try {
           if (window.trie === undefined) {
@@ -1140,8 +1144,11 @@ async function convertChinese(text, language) {
       }
   }
 
-  if (!language || ['zh-TW', 'zh-HK', 'zh-MO', 'zh-MY', 'zh-SG'].indexOf(language) === -1) {
-    return text;
+  // if (!language || ['zh-TW', 'zh-HK', 'zh-MO', 'zh-MY', 'zh-SG'].indexOf(language) === -1) {
+  //   return text;
+  // }
+  if (identifyLanguage(language)===false){
+    return text 
   }
   // MARK: get the urls from language
   const newText = await convert(language, text);
