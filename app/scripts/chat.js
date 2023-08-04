@@ -885,8 +885,21 @@ const statusDict = {
     'zh-TW': '請先點擊上面的按鈕，選擇您需要的服務',
     'zh-HK': '請先按上面的按鈕，選擇您需要的服務',
     ru: 'Пожалуйста, нажмите на кнопку выше и выберите нужный сервис.'
-  }
-  
+  },
+  'Read_It_Later':{
+    zh: '稍后再看',
+    en: 'Read Later',
+    es: 'Leer más tarde',
+    fr: 'Lire plus tard',
+    de: 'Für später merken',
+    ja: '後で読む',
+    ko: '나중에 읽기',
+    pt: 'Ler depois',
+    it: 'Leggi dopo',
+    'zh-TW': '稍後再看',
+    'zh-HK': '稍後再看',
+    ru: 'Прочитать позже'
+  },
 };
 
 var composing = false;
@@ -1254,7 +1267,7 @@ async function getArticleFromFTAPI(id, language) {
 }
 
 
-async function showContent(ftid, language) {
+async function showContent(ftid, language, shouldScrollIntoView = true) {
   try {
       showBotResponse('Getting Article...');
       // MARK: - It is important to set the current ft id here, because async request might not be returned in the expected sequence. 
@@ -1332,7 +1345,7 @@ async function showContent(ftid, language) {
           // console.log(html);
           html += `<button class="quiz-next hide">NEXT</button>`;
           const result = {text: html};
-          showResultInChat(result);
+          showResultInChat(result, shouldScrollIntoView);
           checkContentLinks();
           checkScrollyTellingForChat();
           checkFullGridBlocks();
@@ -1382,7 +1395,7 @@ function showBotResponse(placeholder) {
   botResponse.scrollIntoView(scrollOptions);
 }
 
-function showResultInChat(result) {
+function showResultInChat(result, shouldScrollIntoView = true) {
   updateBotStatus('waiting');
   const newResult = document.createElement('DIV');
   newResult.className = 'chat-talk chat-talk-agent';
@@ -1402,12 +1415,17 @@ function showResultInChat(result) {
     if (newResult.querySelector('.audio-container, .story-header-container video') && newResult.querySelector('.chat-item-actions')) {
       inViewClass = '.chat-item-actions';
     }
-    setTimeout(function(){
-      newResult.querySelector(inViewClass).scrollIntoView(scrollOptions);
-    }, 0);
+    if(shouldScrollIntoView==true){
+      setTimeout(function(){
+        newResult.querySelector(inViewClass).scrollIntoView(scrollOptions);
+      }, 0);
+    }else{  
+      setTimeout(0);
+    }
+   
   } else {
-    newResult.scrollIntoView(scrollOptions);
-  }
+      newResult.scrollIntoView(scrollOptions);
+  } 
 }
 
 function showUserPrompt(prompt) {
@@ -1853,6 +1871,10 @@ async function showFTPage(content, language, reply) {
               </div>
               <div class="item-lead">${subheading}</div>
               <span class="story-time">${timeStamp}</span>
+              <div data-action="show-article-later">
+                <button class="show-article-later">${localize('Read_It_Later')}</button>
+                <a class="show-article-later-flag">Hello</a>
+              </div>
             </div>`;
         }
         const groupTitleHTML = (group.group && group.group !== '') ? `<div class="chat-item-group-title">${group.group}</div>` : '';

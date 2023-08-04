@@ -25,6 +25,38 @@ delegate.on('click', '[data-action="show-article"]', async (event) => {
     updateBotStatus('waiting');
 });
 
+delegate.on('click', '[data-action="show-article-later"]', async (event) => {
+    const element = event.target;
+    if (element.classList.contains('pending')) {
+        return;
+    }
+    element.classList.add('pending');
+    updateBotStatus('pending');
+    try {
+        if (element.tagName.toLowerCase() === 'button'){
+            const chatItemContainer = element.closest('.chat-item-container');
+            // console.log(chatItemContainer);
+            const ftid = chatItemContainer.getAttribute('data-id');
+            const language = chatItemContainer.getAttribute('data-lang') || 'English';
+            await showContent(ftid, language, false);
+            element.classList.add('hide');
+        }
+        if (element.tagName.toLowerCase() === 'a'){
+            // element.classList.remove('show-article-later-flag');
+            element.classList.add('hide');
+
+        }
+    } catch (err) {
+        console.log(err);
+    }
+    element.classList.remove('pending');
+    updateBotStatus('waiting');
+});
+
+
+
+
+
 delegate.on('click', '.story-body a', async (event) => {
     let element = event.target;
     // MARK: - If you click on a link such as <a href="#"><strong></strong></a>, element will not be the <a>, but <strong>. 
