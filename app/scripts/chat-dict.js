@@ -877,5 +877,19 @@ const randomPromptDict = {
       'zh-HK': '稍後再看',
       ru: 'Прочитать позже'
     },
+    'Read_It_Later_Flag':{
+      zh: '文章已在下方加载完毕。',
+      en: 'Content has been loaded below.',
+      es: 'El contenido se ha cargado a continuación.',
+      fr: 'Le contenu a été chargé ci-dessous.',
+      de: 'Der Inhalt wurde unten geladen.',
+      ja: 'コンテンツは下に読み込まれました。',
+      ko: '콘텐츠가 아래에로드되었습니다.',
+      pt: 'O conteúdo foi carregado abaixo.',
+      it: 'Il contenuto è stato caricato sotto.',
+      'zh-TW': '內容已在下方加載。',
+      'zh-HK': '內容已在下方加載。',
+      ru: 'Контент загружен ниже.'
+      },
   };
   /* jshint ignore:end */

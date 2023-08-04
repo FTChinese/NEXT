@@ -997,7 +997,7 @@ async function showFTPage(content, language, reply) {
               <span class="story-time">${timeStamp}</span>
               <div class="show-article-later-container">
                 <button data-action="show-article-later" class="show-article-later">${localize('Read_It_Later')}</button>
-                <div class="show-article-later-flag">Hello</div>
+                <div class="show-article-later-flag">${localize('Read_It_Later_Flag')}</div>
               </div>
             </div>`;
         }
