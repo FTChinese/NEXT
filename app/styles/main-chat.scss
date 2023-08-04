@@ -513,13 +513,35 @@ body {
     flex: 1;
 }
 
-
-.show-article-later{
+.show-article-later-container {
     float: right;
+    position: relative;
+}
+.show-article-later{
+    background-color: transparent;
 }
 .show-article-later-flag{
-    float: right;
-    // display: none;
+    position: absolute;
+    top:0;
+    right:0;
+    opacity: 0;
+    display: none;
+    &.on {
+        display: block;
+        animation: fadeInOut 4s linear;
+    }
+}
+
+@keyframes fadeInOut {
+    0% {
+        opacity: 0;
+    }
+    25% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
 }
 
 @keyframes spinner {

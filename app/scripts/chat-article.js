@@ -26,6 +26,7 @@ delegate.on('click', '[data-action="show-article"]', async (event) => {
 });
 
 delegate.on('click', '[data-action="show-article-later"]', async (event) => {
+    console.log('fafa')
     const element = event.target;
     if (element.classList.contains('pending')) {
         return;
@@ -33,19 +34,15 @@ delegate.on('click', '[data-action="show-article-later"]', async (event) => {
     element.classList.add('pending');
     updateBotStatus('pending');
     try {
-        if (element.tagName.toLowerCase() === 'button'){
-            const chatItemContainer = element.closest('.chat-item-container');
-            // console.log(chatItemContainer);
-            const ftid = chatItemContainer.getAttribute('data-id');
-            const language = chatItemContainer.getAttribute('data-lang') || 'English';
-            await showContent(ftid, language, false);
-            element.classList.add('hide');
-        }
-        if (element.tagName.toLowerCase() === 'a'){
-            // element.classList.remove('show-article-later-flag');
-            element.classList.add('hide');
-
-        }
+        const chatItemContainer = element.closest('.chat-item-container');
+        // console.log(chatItemContainer);
+        const ftid = chatItemContainer.getAttribute('data-id');
+        const language = chatItemContainer.getAttribute('data-lang') || 'English';
+        await showContent(ftid, language, false);
+        element.classList.add('hide');
+        const flagEle = element.parentNode?.querySelector('.show-article-later-flag');
+        if (!flagEle) {return;}
+        flagEle.classList.add('on');
     } catch (err) {
         console.log(err);
     }
