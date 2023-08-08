@@ -723,6 +723,48 @@ const randomPromptDict = {
       'zh-HK': '字型大小',
       ru: 'Размер шрифта'
     },
+    'Read Article': {
+      zh: '阅读文章',
+      en: 'Read Article',
+      es: 'Leer artículo',
+      fr: `Lire l'article`,
+      de: 'Artikel lesen',
+      ja: '記事を読む',
+      ko: '기사 읽기',
+      pt: 'Ler artigo',
+      it: 'Leggi articolo',
+      'zh-TW': '閱讀文章',
+      'zh-HK': '閱讀文章',
+      ru: 'Прочитать статью'
+    },
+    'Pop Out': {
+      zh: '打开新页面',
+      en: 'Pop Out',
+      es: 'Abrir en nueva pestaña',
+      fr: 'Ouvrir dans un nouvel onglet',
+      de: 'In neuem Fenster öffnen',
+      ja: '新しいウィンドウで開く',
+      ko: '새 창에서 열기',
+      pt: 'Abrir em nova janela',
+      it: 'Apri in una nuova finestra',
+      'zh-TW': '開新分頁',
+      'zh-HK': '開新分頁',
+      ru: 'Открыть в новом окне'
+    },
+    'In Chat': {
+      zh: '在对话中',
+      en: 'In Chat',
+      es: 'En el chat',
+      fr: 'Dans le chat',
+      de: 'Im Chat',
+      ja: 'チャット内',
+      ko: '채팅에서',
+      pt: 'No chat',
+      it: 'In chat',
+      'zh-TW': '在聊天中',
+      'zh-HK': '在聊天中',
+      ru: 'В чате'
+    },
     'Please Select': {
       zh: '请选择',
       en: 'Please Select',

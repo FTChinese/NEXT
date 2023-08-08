@@ -43,14 +43,11 @@ delegate.on('click', '[data-action="show-article-later"]', async (event) => {
         // console.log(chatItemContainer);
         const ftid = chatItemContainer.getAttribute('data-id');
         const language = chatItemContainer.getAttribute('data-lang') || 'English';
-        if (isArticleLoaded(ftid)) {
-            await showContent(ftid, language, false, false);
-            return;
-        }
-        await showContent(ftid, language, false);
-        element.classList.add('hide');
+        element.innerHTML = '...';
+        await showContent(ftid, language, false, true);
         const flagEle = element.parentNode?.querySelector('.show-article-later-flag');
         if (!flagEle) {return;}
+        element.classList.add('hide');
         flagEle.classList.add('on');
         flagEle.addEventListener('animationend', () => {
             flagEle.classList.add('hide');

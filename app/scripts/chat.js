@@ -162,11 +162,15 @@ delegate.on('change', '.select-container select', async (event) => {
   if (newValue === '' || !name) {return;}
   let myPreference = {};
   const myPreferenceString = localStorage.getItem('preference');
+  // const myPreferenceString = '{}';
   if (myPreferenceString && myPreferenceString !== '') {
     try {
       myPreference = JSON.parse(myPreferenceString);
     } catch(ignore) {}
   }
+  console.log('myPreference: ');
+  console.log(myPreference);
+  console.log(`name: ${name}`);
   myPreference[name] = newValue;
   localStorage.setItem('preference', JSON.stringify(myPreference));
   if (name === 'Language') {
@@ -393,16 +397,18 @@ async function getArticleFromFTAPI(id, language) {
 
 async function showContent(ftid, language, shouldScrollIntoView = true, shouldLoadArticle = true) {
   try {
+      console.log(1);
       if(shouldLoadArticle === false){
         const targetDiv = document.querySelector(`.article-container[data-id="${ftid}"]`);
         targetDiv.focus();
         targetDiv.scrollIntoView({
           behavior: 'smooth', 
           inline: 'nearest'
-      });
+        });
+        console.log(2);
         return;
       }
-      showBotResponse('Getting Article...');
+      showBotResponse('Getting Article...', shouldScrollIntoView);
       // MARK: - It is important to set the current ft id here, because async request might not be returned in the expected sequence. 
       currentFTId = ftid;
       // console.log(`\n\n======\n\n========\nlanguage: ${language}`);
@@ -518,13 +524,12 @@ function updateBotStatus(status) {
   }
 }
 
-function showBotResponse(placeholder) {
+function showBotResponse(placeholder, shouldScrollIntoView = true) {
   const botResponse = document.createElement('DIV');
   botResponse.className = 'chat-talk chat-talk-agent chat-talk-agent-pending';
   botResponse.innerHTML = `<div class="chat-talk-inner">${placeholder || '...'}</div>`;
-  // console.log(chatContent.innerHTML);
-  // return;
   chatContent.appendChild(botResponse);
+  if (!shouldScrollIntoView) {return;}
   botResponse.scrollIntoView(scrollOptions);
 }
 
@@ -755,7 +760,16 @@ async function setPreference(category, language, reply) {
           { value: 'font-larger', name: 'Larger'},
           { value: 'font-largest', name: 'Largest'}
         ],
-        fallback: 'default'
+        fallback: 'font-default'
+      },
+      {
+        name: 'Read Article',
+        type: 'select',
+        options: [
+          { value: 'pop-out', name: 'Pop Out'},
+          { value: 'in-chat', name: 'In Chat'}
+        ],
+        fallback: 'pop-out'
       }
     ]
   };
