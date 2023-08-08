@@ -14,15 +14,16 @@ delegate.on('click', '[data-action="show-article"]', async (event) => {
     updateBotStatus('pending');
     try {
         const chatItemContainer = element.closest('.chat-item-container');
-        // console.log(chatItemContainer);
         const ftid = chatItemContainer.getAttribute('data-id');
-        const targetDiv = document.querySelector(`.article-container[data-id="${ftid}"]`);
         const language = chatItemContainer.getAttribute('data-lang') || 'English';
-        if(targetDiv){
-            await showContent(ftid, language,false,false);
-            return;
+        if(isArticleLoaded(ftid)){
+            // MARK: - If the article is already loaded, scroll to it directly
+            await showContent(ftid, language, false, false);
+        } else {
+            await showContent(ftid, language);
+            // MARK: - If the user already reads the article, no need to show the "Show Later" buttons
+            element.closest('.chat-item-container')?.querySelector('.show-article-later-container')?.remove();  
         }
-        await showContent(ftid, language);
     } catch (err) {
         console.log(err);
     }
@@ -42,6 +43,10 @@ delegate.on('click', '[data-action="show-article-later"]', async (event) => {
         // console.log(chatItemContainer);
         const ftid = chatItemContainer.getAttribute('data-id');
         const language = chatItemContainer.getAttribute('data-lang') || 'English';
+        if (isArticleLoaded(ftid)) {
+            await showContent(ftid, language, false, false);
+            return;
+        }
         await showContent(ftid, language, false);
         element.classList.add('hide');
         const flagEle = element.parentNode?.querySelector('.show-article-later-flag');
@@ -168,6 +173,13 @@ delegate.on('click', '.quiz-options div', async (event) => {
         console.log(err);
     }
 });
+
+function isArticleLoaded(ftid) {
+    if (document.querySelector(`.article-container[data-id="${ftid}"]`)) {
+        return true;
+    }
+    return false;
+}
 
 function getContentType(content) {
     const types = content.types;

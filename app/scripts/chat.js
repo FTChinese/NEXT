@@ -394,13 +394,11 @@ async function getArticleFromFTAPI(id, language) {
 async function showContent(ftid, language, shouldScrollIntoView = true, shouldLoadArticle = true) {
   try {
       if(shouldLoadArticle === false){
-        console.log(ftid)
         const targetDiv = document.querySelector(`.article-container[data-id="${ftid}"]`);
-        console.log(targetDiv)
         targetDiv.focus();
         targetDiv.scrollIntoView({
-          behavior: 'smooth', // 使用平滑滚动
-          inline: 'nearest'   // 如果元素已经在可视区域内，不进行滚动
+          behavior: 'smooth', 
+          inline: 'nearest'
       });
         return;
       }
