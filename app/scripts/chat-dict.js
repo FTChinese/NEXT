@@ -891,5 +891,19 @@ const randomPromptDict = {
       'zh-HK': '內容已在下方加載。',
       ru: 'Контент загружен ниже.'
       },
+      'jump-to-article':{
+        zh: '跳转到文章',
+        en: 'Jump to Article',
+        es: 'Ir al Artículo',
+        fr: 'Aller à l\'article',
+        de: 'Zum Artikel springen',
+        ja: '記事へ移動',
+        ko: '기사로 이동',
+        pt: 'Ir para o Artigo',
+        it: 'Vai all\'Articolo',
+        'zh-TW': '跳轉到文章',
+        'zh-HK': '跳轉到文章',
+        ru: 'Перейти к статье'
+      },
   };
   /* jshint ignore:end */

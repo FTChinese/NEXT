@@ -391,8 +391,19 @@ async function getArticleFromFTAPI(id, language) {
 }
 
 
-async function showContent(ftid, language, shouldScrollIntoView = true) {
+async function showContent(ftid, language, shouldScrollIntoView = true, shouldLoadArticle = true) {
   try {
+      if(shouldLoadArticle === false){
+        console.log(ftid)
+        const targetDiv = document.querySelector(`.article-container[data-id="${ftid}"]`);
+        console.log(targetDiv)
+        targetDiv.focus();
+        targetDiv.scrollIntoView({
+          behavior: 'smooth', // 使用平滑滚动
+          inline: 'nearest'   // 如果元素已经在可视区域内，不进行滚动
+      });
+        return;
+      }
       showBotResponse('Getting Article...');
       // MARK: - It is important to set the current ft id here, because async request might not be returned in the expected sequence. 
       currentFTId = ftid;
@@ -998,8 +1009,9 @@ async function showFTPage(content, language, reply) {
               <div class="show-article-later-container">
                 <button data-action="show-article-later" class="show-article-later">${localize('Read_It_Later')}</button>
                 <div class="show-article-later-flag">${localize('Read_It_Later_Flag')}</div>
+                <button data-action="jump-to-article" class="jump-to-article">${localize('jump-to-article')}</button>
               </div>
-            </div>`;
+            </div>`;            
         }
         const groupTitleHTML = (group.group && group.group !== '') ? `<div class="chat-item-group-title">${group.group}</div>` : '';
         const groupItemsHTML = `<div class="chat-item-group-items">${groupHTML}</div>`;

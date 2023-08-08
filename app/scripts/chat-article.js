@@ -16,7 +16,12 @@ delegate.on('click', '[data-action="show-article"]', async (event) => {
         const chatItemContainer = element.closest('.chat-item-container');
         // console.log(chatItemContainer);
         const ftid = chatItemContainer.getAttribute('data-id');
+        const targetDiv = document.querySelector(`.article-container[data-id="${ftid}"]`);
         const language = chatItemContainer.getAttribute('data-lang') || 'English';
+        if(targetDiv){
+            await showContent(ftid, language,false,false);
+            return;
+        }
         await showContent(ftid, language);
     } catch (err) {
         console.log(err);
@@ -26,7 +31,6 @@ delegate.on('click', '[data-action="show-article"]', async (event) => {
 });
 
 delegate.on('click', '[data-action="show-article-later"]', async (event) => {
-    console.log('fafa')
     const element = event.target;
     if (element.classList.contains('pending')) {
         return;
@@ -43,6 +47,11 @@ delegate.on('click', '[data-action="show-article-later"]', async (event) => {
         const flagEle = element.parentNode?.querySelector('.show-article-later-flag');
         if (!flagEle) {return;}
         flagEle.classList.add('on');
+        flagEle.addEventListener('animationend', () => {
+            flagEle.classList.add('hide');
+            const jumpButton = element.parentNode?.querySelector('.jump-to-article');
+            jumpButton.style.display = 'block';
+        });
     } catch (err) {
         console.log(err);
     }
@@ -50,6 +59,25 @@ delegate.on('click', '[data-action="show-article-later"]', async (event) => {
     updateBotStatus('waiting');
 });
 
+delegate.on('click', '[data-action="jump-to-article"]', async (event) => {
+    const element = event.target;
+    if (element.classList.contains('pending')) {
+        return;
+    }
+    element.classList.add('pending');
+    updateBotStatus('pending');
+    try {
+        const chatItemContainer = element.closest('.chat-item-container');
+        const ftid = chatItemContainer.getAttribute('data-id');
+        const language = chatItemContainer.getAttribute('data-lang') || 'English';
+        await showContent(ftid, language, false, false);
+        element.classList.add('hide');
+    } catch (err) {
+        console.log(err);
+    }
+    element.classList.remove('pending');
+    updateBotStatus('waiting');
+});
 
 
 
