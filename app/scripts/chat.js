@@ -887,16 +887,19 @@ async function searchFTAPI(content, language, reply) {
         const articleLink = (readArticle === 'pop-out') ? `href="./chat.html#ftid=${id}&language=${lang}&action=read"` : `data-action="show-article"`;
         const newHTML = `
         <div data-id="${id}" data-lang="${lang}" class="chat-item-container${hideClass}">
-          <div><span class="story-time">${timeStamp}</span></div>
           <div class="chat-item-title">
             <a ${articleLink} target="_blank" title="${byline}: ${excerpt}">${title}</a>
           </div>
           <div class="item-lead">${subheading}</div>
-          <div class="show-article-later-container">
-            <button data-action="show-article-later" class="show-article-later">${localize('Read_It_Later')}</button>
-            <div class="show-article-later-flag">${localize('Read_It_Later_Flag')}</div>
-            <button data-action="jump-to-article" class="jump-to-article">${localize('jump-to-article')}</button>
+          <div>
+            <div class="show-article-later-container">
+              <button data-action="show-article-later" class="show-article-later">${localize('Read_It_Later')}</button>
+              <div class="show-article-later-flag">${localize('Read_It_Later_Flag')}</div>
+              <button data-action="jump-to-article" class="jump-to-article">${localize('jump-to-article')}</button>
+            </div>
+            <span class="story-time">${timeStamp}</span>
           </div>
+
         </div>`;
         html += newHTML;
       }
