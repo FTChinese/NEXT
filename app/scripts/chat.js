@@ -719,7 +719,8 @@ const purposeToFunction = {
   'search-ft-api': searchFTAPI,
   'set-intention': setIntention,
   'show-ft-page': showFTPage,
-  'set-preference': setPreference
+  'set-preference': setPreference,
+  'start-over': startOver,
   // 'check-news': checkNews
   // 'purpose2': function2,
   // 'purpose3': function3,
@@ -730,6 +731,10 @@ const purposeToFunction = {
 //   console.log('Should Check News and Come Up with the search query! ');
 
 // }
+
+function startOver() {
+  location.reload();
+}
 
 async function setPreference(category, language, reply) {
   console.log(`running setPreference\ncategory: ${category}, language: ${language}, reply: ${reply}`);
