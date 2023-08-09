@@ -8,6 +8,7 @@ const isPowerTranslate = location.href.indexOf('powertranslate') >= 0 || window.
 const isFrontendTest = location.href.indexOf('localhost') >= 0 && window.isUsingHandleBars !== true;
 const isInNativeApp = location.href.indexOf('webview=ftcapp') >= 0;
 const discussArticleOnly = location.href.indexOf('ftid=') >= 0 && location.href.indexOf('action=read') < 0;
+const showGreeting = location.href.indexOf('action=read') < 0;
 const surveyOnly = location.href.indexOf('action=survey') >= 0;
 let preferredLanguage = navigator.language;
 let readArticle = 'pop-out';
@@ -178,6 +179,9 @@ delegate.on('change', '.select-container select', async (event) => {
   }
   if (name === 'Font Size') {
     setFontSize();
+  }
+  if (name === 'Read Article') {
+    setReadArticlePreference();
   }
 });
 
@@ -880,7 +884,20 @@ async function searchFTAPI(content, language, reply) {
           subheading = subheading.trim().replace(/[\.。]+$/g, '');
         }
         const lang = language || 'English';
-        const newHTML = `<div data-id="${id}" data-lang="${lang}" class="chat-item-container${hideClass}"><div><span class="story-time">${timeStamp}</span></div><div class="chat-item-title"><a data-action="show-article" target="_blank" title="${byline}: ${excerpt}">${title}</a></div><div class="item-lead">${subheading}</div></div>`;
+        const articleLink = (readArticle === 'pop-out') ? `href="./chat.html#ftid=${id}&language=${lang}&action=read"` : `data-action="show-article"`;
+        const newHTML = `
+        <div data-id="${id}" data-lang="${lang}" class="chat-item-container${hideClass}">
+          <div><span class="story-time">${timeStamp}</span></div>
+          <div class="chat-item-title">
+            <a ${articleLink} target="_blank" title="${byline}: ${excerpt}">${title}</a>
+          </div>
+          <div class="item-lead">${subheading}</div>
+          <div class="show-article-later-container">
+            <button data-action="show-article-later" class="show-article-later">${localize('Read_It_Later')}</button>
+            <div class="show-article-later-flag">${localize('Read_It_Later_Flag')}</div>
+            <button data-action="jump-to-article" class="jump-to-article">${localize('jump-to-article')}</button>
+          </div>
+        </div>`;
         html += newHTML;
       }
       newResultInner.innerHTML = html;
@@ -1229,6 +1246,7 @@ function setConfigurations() {
   }
   setPreferredLanguage();
   setFontSize();
+  setReadArticlePreference();
   window.shouldPromptLogin = true;
   localStorage.setItem('pagemark', window.location.href);
   var script = document.createElement('script');
@@ -1305,6 +1323,7 @@ async function setGuardRails() {
 }
 
 function greet() {
+  if (showGreeting === false) {return;}
   const introduction = `<p>${localize('Introduction')}</p>`;
   const prompt = (discussArticleOnly || surveyOnly) ? '' : `<p>${getRandomPrompt('greeting')}</p>`;
   if (!chatContent.querySelector('.chat-talk')) {
