@@ -7,9 +7,10 @@ const chatSumit = document.getElementById('chat-submit');
 const isPowerTranslate = location.href.indexOf('powertranslate') >= 0 || window.isUsingHandleBars === true;
 const isFrontendTest = location.href.indexOf('localhost') >= 0 && window.isUsingHandleBars !== true;
 const isInNativeApp = location.href.indexOf('webview=ftcapp') >= 0;
-const discussArticleOnly = location.href.indexOf('ftid=') >= 0;
+const discussArticleOnly = location.href.indexOf('ftid=') >= 0 && location.href.indexOf('action=read') < 0;
 const surveyOnly = location.href.indexOf('action=survey') >= 0;
 let preferredLanguage = navigator.language;
+let readArticle = 'pop-out';
 let paramDict = {};
 var previousConversations = [];
 var previousIntentDections = []; 
@@ -162,15 +163,14 @@ delegate.on('change', '.select-container select', async (event) => {
   if (newValue === '' || !name) {return;}
   let myPreference = {};
   const myPreferenceString = localStorage.getItem('preference');
-  // const myPreferenceString = '{}';
   if (myPreferenceString && myPreferenceString !== '') {
     try {
       myPreference = JSON.parse(myPreferenceString);
     } catch(ignore) {}
   }
-  console.log('myPreference: ');
-  console.log(myPreference);
-  console.log(`name: ${name}`);
+  // console.log('myPreference: ');
+  // console.log(myPreference);
+  // console.log(`name: ${name}`);
   myPreference[name] = newValue;
   localStorage.setItem('preference', JSON.stringify(myPreference));
   if (name === 'Language') {
@@ -766,8 +766,8 @@ async function setPreference(category, language, reply) {
         name: 'Read Article',
         type: 'select',
         options: [
-          { value: 'pop-out', name: 'Pop Out'},
-          { value: 'in-chat', name: 'In Chat'}
+          {value: 'pop-out', name: 'Pop Out'},
+          {value: 'in-chat', name: 'In Chat'}
         ],
         fallback: 'pop-out'
       }
@@ -1010,11 +1010,12 @@ async function showFTPage(content, language, reply) {
             themes.add(termName);
           }
           const lang = language || 'English';
+          const articleLink = (readArticle === 'pop-out') ? `href="./chat.html#ftid=${id}&language=${lang}&action=read"` : `data-action="show-article"`;
           groupHTML += `
             <div data-id="${id}" data-lang="${lang}" class="chat-item-container">
               ${primaryTheme}
               <div class="chat-item-title">
-                <a data-action="show-article" target="_blank" title="${byline}: ${excerpt}">${title}</a>
+                <a ${articleLink} target="_blank" title="${byline}: ${excerpt}">${title}</a>
               </div>
               <div class="item-lead">${subheading}</div>
               <span class="story-time">${timeStamp}</span>
@@ -1163,6 +1164,17 @@ function showError(message) {
   chatContent.appendChild(newChat);
 }
 
+function getMyPreference() {
+  let myPreference = {};
+  const myPreferenceString = localStorage.getItem('preference');
+  if (myPreferenceString && myPreferenceString !== '') {
+    try {
+      myPreference = JSON.parse(myPreferenceString);
+    } catch(ignore) {}
+  }
+  return myPreference;
+}
+
 function setPreferredLanguage() {
   // MARK: Set the preferred language
   // TODO: Should let users customize their preferred language
@@ -1175,13 +1187,7 @@ function setPreferredLanguage() {
       preferredLanguage = 'zh-CN';
     }
   } else {
-    let myPreference = {};
-    const myPreferenceString = localStorage.getItem('preference');
-    if (myPreferenceString && myPreferenceString !== '') {
-      try {
-        myPreference = JSON.parse(myPreferenceString);
-      } catch(ignore) {}
-    }
+    const myPreference = getMyPreference();
     if (myPreference['Language']) {
       preferredLanguage = myPreference['Language'];
       console.log(`preferredLanguage from local storage: ${preferredLanguage}`);
@@ -1199,17 +1205,16 @@ function setPreferredLanguage() {
 }
 
 function setFontSize() {
-  let myPreference = {};
-  const myPreferenceString = localStorage.getItem('preference');
-  if (myPreferenceString && myPreferenceString !== '') {
-    try {
-      myPreference = JSON.parse(myPreferenceString);
-    } catch(ignore) {}
-  }
+  const myPreference = getMyPreference();
   const fontSize = myPreference['Font Size'];
   if (fontSize) {
     document.body.className = fontSize;
   }
+}
+
+function setReadArticlePreference() {
+  const myPreference = getMyPreference();
+  readArticle = myPreference['Read Article'] ?? 'pop-out';
 }
 
 function setConfigurations() {
