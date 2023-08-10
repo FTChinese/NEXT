@@ -1,4 +1,20 @@
 /* jshint ignore:start */
+
+const languageOptions = [
+  { value: 'en', name: 'English' },
+  { value: 'es', name: 'Español' },
+  { value: 'fr', name: 'Français' },
+  { value: 'de', name: 'Deutsch' },
+  { value: 'ja', name: '日本語' },
+  { value: 'ko', name: '한국어' },
+  { value: 'pt', name: 'Português' },
+  { value: 'it', name: 'Italiano' },        
+  { value: 'ru', name: 'Русский' },
+  { value: 'zh-CN', name: '简体中文' },
+  { value: 'zh-TW', name: '台灣正體' },
+  { value: 'zh-HK', name: '香港繁體' }
+];
+
 const randomPromptDict = {
     greeting: {
       'en': [
@@ -947,5 +963,22 @@ const randomPromptDict = {
         'zh-HK': '跳轉到文章',
         ru: 'Перейти к статье'
       },
+      'Bilingual': {
+        zh: '对照',
+        en: 'Bilingual',
+        es: 'Bilingüe',
+        fr: 'Bilingue',
+        
+        de: 'Zweisprachig',
+        ja: 'バイリンガル',
+        ko: '이중 언어',
+        pt: 'Bilíngue',
+        it: 'Bilingue',
+        'zh-TW': '雙語',
+        'zh-HK': '雙語',
+        ru: 'Двуязычный'
+      }
   };
+
+
   /* jshint ignore:end */

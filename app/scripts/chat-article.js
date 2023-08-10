@@ -2,7 +2,6 @@
 
 const calculateCosineSimilarity = (a, b) => a.reduce((acc, curr, i) => acc + curr * b[i], 0) / (Math.sqrt(a.reduce((acc, curr) => acc + curr ** 2, 0)) * Math.sqrt(b.reduce((acc, curr) => acc + curr ** 2, 0)));
 var model = null;
-var ftContentObject = {};
 var currentFTId;
 
 delegate.on('click', '[data-action="show-article"]', async (event) => {
@@ -29,6 +28,13 @@ delegate.on('click', '[data-action="show-article"]', async (event) => {
     }
     element.classList.remove('pending');
     updateBotStatus('waiting');
+});
+
+delegate.on('click', '.article-language-switch-container button', async (event) => {
+    let element = event.target;
+    const value = element.getAttribute('data-value');
+    const container = element.closest('.article-container');
+    await switchLanguage(container, value);
 });
 
 delegate.on('click', '[data-action="show-article-later"]', async (event) => {

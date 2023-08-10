@@ -10,6 +10,7 @@ const isInNativeApp = location.href.indexOf('webview=ftcapp') >= 0;
 const discussArticleOnly = location.href.indexOf('ftid=') >= 0 && location.href.indexOf('action=read') < 0;
 const showGreeting = location.href.indexOf('action=read') < 0;
 const surveyOnly = location.href.indexOf('action=survey') >= 0;
+let languageOptionsDict = {};
 let preferredLanguage = navigator.language;
 let readArticle = 'pop-out';
 let paramDict = {};
@@ -17,6 +18,7 @@ var previousConversations = [];
 var previousIntentDections = []; 
 var botStatus = 'waiting';
 var intention;
+var articles = {};
 
 // MARK: - scrollIntoView doesn't support offset
 const scrollOptions = { 
@@ -398,10 +400,61 @@ async function getArticleFromFTAPI(id, language) {
   }
 }
 
+function convertToBilingualLayout(original, translation) {
+  let originalDiv = document.createElement('DIV');
+  originalDiv.innerHTML = original;
+  const originals = originalDiv.children;
+  let translationDiv = document.createElement('DIV');
+  translationDiv.innerHTML = translation;
+  const translations = translationDiv.children;
+  const loops = Math.max(originals.length, translations.length);
+  let html = '';
+  for (let i=0; i < loops; i++) {
+    const left = (originals.length > i) ? originals[i].innerHTML : '';
+    const right = (translations.length > i) ? translations[i].innerHTML : '';
+    if (/<div|<img|<picture|<scrollable/.test(left)) {
+      // MARK: If this child is a picture or an HTML Code, display it just once
+      html += `<p>${left}</p>`;
+    } else {
+      html += `<div><div class="leftp">${left}</div><div class="rightp">${right}</div></div><div class="clearfloat"></div>`;
+    }
+  }
+  return html;
+}
+
+async function switchLanguage(container, value) {
+  const id = container.getAttribute('data-id');
+  const content = articles[id];
+  if (!content) {return;}
+  console.log(`switching ${id} to ${value}`);
+  let title = content.title;
+  let standfirst = content.standfirst;
+  let bodyXML = content.bodyXML;
+  let byline = content.byline;
+  if (value === 'target') {
+    title = content.titleTranslation;
+    standfirst = content.standfirstTranslation;
+    bodyXML = content.bodyXMLTranslation;
+    byline = content.bylineTranslation;
+  } else if (value === 'bilingual') {
+    title = `<div>${content.title}</div><div>${content.titleTranslation}</div>`;
+    standfirst = `<div>${content.standfirst}</div><div>${content.standfirstTranslation}</div>`;
+    byline = content.byline;
+    bodyXML = convertToBilingualLayout(content.bodyXML, content.bodyXMLTranslation);
+  }
+  container.querySelector('.story-headline').innerHTML = title;
+  container.querySelector('.story-lead').innerHTML = standfirst;
+  container.querySelector('.story-author').innerHTML = byline;
+  container.querySelector('.story-body-container').innerHTML = bodyXML;
+  for (let button of container.querySelectorAll(`.article-language-switch-container button`)) {
+    button.classList.remove('on');
+  }
+  container.querySelector(`.article-language-switch-container button[data-value=${value}]`).classList.add('on');
+}
+
 
 async function showContent(ftid, language, shouldScrollIntoView = true, shouldLoadArticle = true) {
   try {
-      console.log(1);
       if(shouldLoadArticle === false){
         const targetDiv = document.querySelector(`.article-container[data-id="${ftid}"]`);
         targetDiv.focus();
@@ -409,15 +462,15 @@ async function showContent(ftid, language, shouldScrollIntoView = true, shouldLo
           behavior: 'smooth', 
           inline: 'nearest'
         });
-        console.log(2);
         return;
       }
       showBotResponse('Getting Article...', shouldScrollIntoView);
       // MARK: - It is important to set the current ft id here, because async request might not be returned in the expected sequence. 
       currentFTId = ftid;
       // console.log(`\n\n======\n\n========\nlanguage: ${language}`);
-      const info = await getArticleFromFTAPI(ftid, language);
+      const info = await getArticleFromFTAPI(ftid, language);      
       const content = info.results;
+      articles[ftid] = content;
       const type = getContentType(content);
       const hideBodyClass = (['Video', 'Audio'].indexOf(type) >= 0) ? ' hide' : '';
       if (info.status === 'success' && content) {
@@ -460,8 +513,17 @@ async function showContent(ftid, language, shouldScrollIntoView = true, shouldLo
           if (/^<div class=\"pic/.test(bodyXML)) {
             visualHeading = '';
           }
+          const shouldShowBilligualSwitch = (language && language !== '' && language.toLowerCase() !== 'english' && !/^en/i.test(language));
+          const languageSwitchHTML = (shouldShowBilligualSwitch) ? `
+            <div class="article-language-switch-container">
+              <button data-value="target" class="on">${languageOptionsDict[language] || language}</button>
+              <button data-value="source">English</button>
+              <button data-value="bilingual">${localize('Bilingual')}</button>
+            </div>
+          ` : '';
           let html = `
               <div class="article-container" data-id="${ftid}">
+                  ${languageSwitchHTML}
                   <div class="story-header-container">
                       <h1 class="story-headline story-headline-large">${title}</h1>
                       <div class="story-lead">${standfirst}</div>
@@ -472,7 +534,7 @@ async function showContent(ftid, language, shouldScrollIntoView = true, shouldLo
                       </div>
                   </div>
                   ${audioHTML}
-                  <div class="story-body${hideBodyClass}"><div id="story-body-container">${bodyXML}</div></div>
+                  <div class="story-body${hideBodyClass}"><div id="story-body-container" class="story-body-container">${bodyXML}</div></div>
                   ${showTranscript}
                   ${titleEnglish}
                   ${bylineEnglish}
@@ -743,20 +805,7 @@ async function setPreference(category, language, reply) {
       {
         name: 'Language',
         type: 'select',
-        options: [
-          { value: 'en', name: 'English' },
-          { value: 'es', name: 'Español' },
-          { value: 'fr', name: 'Français' },
-          { value: 'de', name: 'Deutsch' },
-          { value: 'ja', name: '日本語' },
-          { value: 'ko', name: '한국어' },
-          { value: 'pt', name: 'Português' },
-          { value: 'it', name: 'Italiano' },        
-          { value: 'ru', name: 'Русский' },
-          { value: 'zh-CN', name: '简体中文' },
-          { value: 'zh-TW', name: '台灣正體' },
-          { value: 'zh-HK', name: '香港繁體' }
-        ],
+        options: languageOptions,
         fallback: preferredLanguage
       },
       {
@@ -1413,6 +1462,14 @@ function checkScrollyTellingForChat() {
   }
 }
 
+function updateLanguageOptionDict() {
+  for (const option of languageOptions) {
+    const name = option.name;
+    const value = option.value;
+    languageOptionsDict[value] = name;
+  }
+}
+
 const registerServiceWorker = async () => {
   if (isFrontendTest && !isPowerTranslate) {return;}
   if ("serviceWorker" in navigator) {
@@ -1433,6 +1490,7 @@ const registerServiceWorker = async () => {
   }
 };
 
+updateLanguageOptionDict();
 initChat();
 
 (async()=>{
