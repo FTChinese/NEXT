@@ -10,7 +10,7 @@ const isInNativeApp = location.href.indexOf('webview=ftcapp') >= 0;
 const discussArticleOnly = location.href.indexOf('ftid=') >= 0 && location.href.indexOf('action=read') < 0;
 const showGreeting = location.href.indexOf('action=read') < 0;
 const surveyOnly = location.href.indexOf('action=survey') >= 0;
-let languageOptionsDict = {};
+let languageOptionsDict = {Chinese: '中文'};
 let preferredLanguage = navigator.language;
 let readArticle = 'pop-out';
 let paramDict = {};
@@ -206,7 +206,8 @@ function copyToClipboard(text) {
 
 function localize(status) {
   if (!status) {return;}
-  const language = preferredLanguage;
+  let language = preferredLanguage;
+  if (language === 'Chinese') {language = 'zh';}
   const languagePrefix = language.replace(/\-.*$/g, '');
   let statusTitle = status;
   const s = statusDict[status];
@@ -442,7 +443,8 @@ async function switchLanguage(container, value) {
     byline = content.byline;
     bodyXML = convertToBilingualLayout(content.bodyXML, content.bodyXMLTranslation);
   }
-  container.querySelector('.story-headline').innerHTML = title;
+  let titleEle = container.querySelector('.story-headline');
+  titleEle.innerHTML = title;
   container.querySelector('.story-lead').innerHTML = standfirst;
   container.querySelector('.story-author').innerHTML = byline;
   container.querySelector('.story-body-container').innerHTML = bodyXML;
@@ -450,6 +452,8 @@ async function switchLanguage(container, value) {
     button.classList.remove('on');
   }
   container.querySelector(`.article-language-switch-container button[data-value=${value}]`).classList.add('on');
+  // TODO: Scroll into view for the article
+  titleEle.scrollIntoView(scrollOptions);
 }
 
 
@@ -1463,11 +1467,13 @@ function checkScrollyTellingForChat() {
 }
 
 function updateLanguageOptionDict() {
+
   for (const option of languageOptions) {
     const name = option.name;
     const value = option.value;
     languageOptionsDict[value] = name;
   }
+  
 }
 
 const registerServiceWorker = async () => {
