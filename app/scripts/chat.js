@@ -13,6 +13,7 @@ const surveyOnly = location.href.indexOf('action=survey') >= 0;
 let languageOptionsDict = {Chinese: '中文'};
 let preferredLanguage = navigator.language;
 let readArticle = 'pop-out';
+let translationPreference = '';
 let paramDict = {};
 var previousConversations = [];
 var previousIntentDections = []; 
@@ -540,7 +541,7 @@ async function showContent(ftid, language, shouldScrollIntoView = true, shouldLo
             bodyXMLEnglish = `<div class="hide story-body-english">${bodyXML}</div>`;
             bodyXML = content.bodyXMLTranslation;
             showTranslationAsDefault = true;
-          } else if (content.machineTranslation /** && userAcceptsMachineTranslation */) {
+          } else if (content.machineTranslation && translationPreference === 'both') {
             bodyXMLEnglish = `<div class="hide story-body-english">${bodyXML}</div>`;
             machineTranslationInfo = getInfoFromMachineTranslation(content.machineTranslation);
             bodyXML = machineTranslationInfo.bodyXML;
@@ -895,10 +896,10 @@ async function setPreference(category, language, reply) {
         name: 'Article Translation Preference',
         type: 'select',
         options: [
-          {value: 'UseTranslator', name: 'Use Translator'},
-          {value: 'DisplayOriginalArticle', name: 'Only Use Human Translation'}
+          {value: 'both', name: 'Both Human and Machine Translation'},
+          {value: 'human', name: 'Only Use Human Translation'}
         ],
-        fallback: 'pop-out'
+        fallback: 'both'
       }
     ]
   };
@@ -1364,7 +1365,7 @@ function setReadArticlePreference() {
 
 function setTranslatePreference() {
   const myPreference = getMyPreference();
-  readArticle = myPreference['Translate Setting'] ?? 'pop-out';
+  translationPreference = myPreference['Article Translation Preference'] ?? 'both';
 }
 
 function setConfigurations() {

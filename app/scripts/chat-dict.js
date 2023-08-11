@@ -921,7 +921,7 @@ const randomPromptDict = {
       'zh-HK': '文章翻譯偏好',
       ru: 'Предпочтения Перевода Статьи'
     },
-    'Use Translator': {
+    'Both Human and Machine Translation': {
       zh: '机器翻译及人工翻译',
       en: 'Machine and Human Translation',
       es: 'Traducción Automática y Humana',
@@ -949,8 +949,6 @@ const randomPromptDict = {
       'zh-HK': '僅人工翻譯',
       ru: 'Использовать Только Человеческий Перевод'
     },
-    
-    
     'Prompt Set Intention': {
       zh: '请先点击上面的按钮，选择您需要的服务',
       en: 'Please click the button above and select the service you need.',
