@@ -491,40 +491,45 @@ async function showContent(ftid, language, shouldScrollIntoView = true, shouldLo
           }
           const date = new Date(content.publishedDate || content.firstPublishedDate);
           const localizedDate = date.toLocaleString();
+          let showTranslationAsDefault = false;
           let bodyXML = content.bodyXML || content.transcript || '';
           let bodyXMLEnglish = '';
           if (content.bodyXMLTranslation && content.bodyXMLTranslation !== '') {
               bodyXMLEnglish = `<div class="hide story-body-english">${bodyXML}</div>`;
               bodyXML = content.bodyXMLTranslation;
+              showTranslationAsDefault = true;
           }
           let showTranscript = (bodyXML !== '' && ['Video', 'Audio'].indexOf(type) >= 0) ? `<a data-action="show-transcript">Show Transcript</a>` : '';
           let title = content.title || '';
           let titleEnglish = '';
           if (content.titleTranslation && content.titleTranslation !== '') {
               titleEnglish = `<div class="hide story-headline-english">${title}</div>`;
-              title = content.titleTranslation;
+              title = (showTranslationAsDefault) ? content.titleTranslation : content.title;
           }
           let standfirst = content.standfirst || '';
           let standfirstEnglish = '';
           if (content.standfirstTranslation && content.standfirstTranslation !== '') {
               standfirstEnglish = `<div class="hide story-lead-english">${standfirst}</div>`;
-              standfirst = content.standfirstTranslation;
+              standfirst = (showTranslationAsDefault) ? content.standfirstTranslation : content.standfirst;
           }
           let byline = content.byline || '';
           let bylineEnglish = '';
           if (content.bylineTranslation && content.bylineTranslation !== '') {
               bylineEnglish = `<div class="hide story-author-english">${byline}</div>`;
-              byline = content.bylineTranslation;
+              byline = (showTranslationAsDefault) ? content.bylineTranslation : content.byline;
           }
           // MARK: - If the article starts with a picture, don't show the picture in the heading
           if (/^<div class=\"pic/.test(bodyXML)) {
             visualHeading = '';
           }
           const shouldShowBilligualSwitch = (language && language !== '' && language.toLowerCase() !== 'english' && !/^en/i.test(language));
+          const onClass = ' class="on"';
+          const showTranslation = (showTranslationAsDefault) ? onClass : '';
+          const showOriginal = (showTranslationAsDefault) ? '' : onClass;
           const languageSwitchHTML = (shouldShowBilligualSwitch) ? `
             <div class="article-language-switch-container">
-              <button data-value="target" class="on">${languageOptionsDict[language] || language}</button>
-              <button data-value="source">English</button>
+              <button data-value="target"${showTranslation}>${languageOptionsDict[language] || language}</button>
+              <button data-value="source"${showOriginal}>English</button>
               <button data-value="bilingual">${localize('Bilingual')}</button>
             </div>
           ` : '';
