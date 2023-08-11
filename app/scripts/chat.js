@@ -13,7 +13,7 @@ const surveyOnly = location.href.indexOf('action=survey') >= 0;
 let languageOptionsDict = {Chinese: '中文'};
 let preferredLanguage = navigator.language;
 let readArticle = 'pop-out';
-let translationPreference = '';
+let translationPreference = 'both';
 let paramDict = {};
 var previousConversations = [];
 var previousIntentDections = []; 
@@ -177,9 +177,6 @@ delegate.on('change', '.select-container select', async (event) => {
       myPreference = JSON.parse(myPreferenceString);
     } catch(ignore) {}
   }
-  // console.log('myPreference: ');
-  // console.log(myPreference);
-  // console.log(`name: ${name}`);
   myPreference[name] = newValue;
   localStorage.setItem('preference', JSON.stringify(myPreference));
   if (name === 'Language') {
@@ -191,7 +188,7 @@ delegate.on('change', '.select-container select', async (event) => {
   if (name === 'Read Article') {
     setReadArticlePreference();
   }
-  if (name === 'Translate Setting') {
+  if (name === 'Article Translation Preference') {
     setTranslatePreference();
   }
 });
@@ -1365,6 +1362,8 @@ function setReadArticlePreference() {
 
 function setTranslatePreference() {
   const myPreference = getMyPreference();
+  // console.log('setTranslatePreference: ')
+  // console.log(myPreference);
   translationPreference = myPreference['Article Translation Preference'] ?? 'both';
 }
 
