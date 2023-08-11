@@ -190,6 +190,9 @@ delegate.on('change', '.select-container select', async (event) => {
   if (name === 'Read Article') {
     setReadArticlePreference();
   }
+  if (name === 'Translate Setting') {
+    setTranslatePreference();
+  }
 });
 
 function hideItemActions(element) {
@@ -840,6 +843,15 @@ async function setPreference(category, language, reply) {
           {value: 'in-chat', name: 'In Chat'}
         ],
         fallback: 'pop-out'
+      },
+      {
+        name: 'Article Translation Preference',
+        type: 'select',
+        options: [
+          {value: 'UseTranslator', name: 'Use Translator'},
+          {value: 'DisplayOriginalArticle', name: 'Only Use Human Translation'}
+        ],
+        fallback: 'pop-out'
       }
     ]
   };
@@ -1303,6 +1315,11 @@ function setReadArticlePreference() {
   readArticle = myPreference['Read Article'] ?? 'pop-out';
 }
 
+function setTranslatePreference() {
+  const myPreference = getMyPreference();
+  readArticle = myPreference['Translate Setting'] ?? 'pop-out';
+}
+
 function setConfigurations() {
   // MARK: Update from the hash parameters
   const hashParams = window.location.hash.replace(/^#/g, '').split('&');
@@ -1316,6 +1333,7 @@ function setConfigurations() {
   setPreferredLanguage();
   setFontSize();
   setReadArticlePreference();
+  setTranslatePreference();
   window.shouldPromptLogin = true;
   localStorage.setItem('pagemark', window.location.href);
   var script = document.createElement('script');

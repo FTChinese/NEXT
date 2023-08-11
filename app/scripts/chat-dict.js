@@ -907,6 +907,50 @@ const randomPromptDict = {
       'zh-HK': '登出',
       ru: 'Выход'
     },
+    'Article Translation Preference': {
+      zh: '文章翻译偏好',
+      en: 'Article Translation Preference',
+      es: 'Preferencia de Traducción de Artículo',
+      fr: 'Préférence de Traduction d\'Article',
+      de: 'Artikel Übersetzungsvorlieben',
+      ja: '記事の翻訳の好み',
+      ko: '기사 번역 선호',
+      pt: 'Preferência de Tradução de Artigo',
+      it: 'Preferenza di Traduzione dell\'Articolo',
+      'zh-TW': '文章翻譯偏好',
+      'zh-HK': '文章翻譯偏好',
+      ru: 'Предпочтения Перевода Статьи'
+    },
+    'Use Translator': {
+      zh: '机器翻译及人工翻译',
+      en: 'Machine and Human Translation',
+      es: 'Traducción Automática y Humana',
+      fr: 'Traduction Automatique et Humaine',
+      de: 'Maschinen- und Menschliche Übersetzung',
+      ja: '機械翻訳および人間の翻訳',
+      ko: '기계 번역 및 인간 번역',
+      pt: 'Tradução por Máquina e Humana',
+      it: 'Traduzione Automatica e Umana',
+      'zh-TW': '機器翻譯及人工翻譯',
+      'zh-HK': '機器翻譯及人工翻譯',
+      ru: 'Машинный и Человеческий Перевод'
+    },
+    'Only Use Human Translation': {
+      zh: '仅人工翻译',
+      en: 'Only Use Human Translation',
+      es: 'Usar Solo Traducción Humana',
+      fr: 'Utiliser Uniquement la Traduction Humaine',
+      de: 'Nur Menschliche Übersetzung Verwenden',
+      ja: '人間の翻訳のみを使用',
+      ko: '인간 번역만 사용',
+      pt: 'Usar Apenas Tradução Humana',
+      it: 'Usa Solo la Traduzione Umana',
+      'zh-TW': '僅人工翻譯',
+      'zh-HK': '僅人工翻譯',
+      ru: 'Использовать Только Человеческий Перевод'
+    },
+    
+    
     'Prompt Set Intention': {
       zh: '请先点击上面的按钮，选择您需要的服务',
       en: 'Please click the button above and select the service you need.',
