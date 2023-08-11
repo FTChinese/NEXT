@@ -254,13 +254,23 @@ function getVideoHTML(content) {
 delegate.on('click', '.quiz-next', async (event) => {
     const element = event.target;
     try {
+        let visibleQuizes = element.closest('.chat-talk').querySelectorAll('.quiz-container:not(.hide)');
+        let visibleQuizesCount = visibleQuizes.length;
         let nextQuiz = element.closest('.chat-talk').querySelector('.quiz-container.hide');
         if (nextQuiz) {
             nextQuiz.classList.remove('hide');
+            // quiz-end-for-scroll-alignment
+            // nextQuiz.scrollIntoView(scrollOptionsStart);
         }
         element.classList.add('hide');
-        const newChat = element.closest('.chat-talk');
-        newChat.scrollIntoView(scrollOptions); 
+        if (visibleQuizesCount > 0) {
+            visibleQuizes[visibleQuizesCount-1].querySelector('.quiz-end-for-scroll-alignment').scrollIntoView(scrollOptionsStart);
+        }
+
+        // const newChat = element.closest('.chat-talk');
+        // newChat.scrollIntoView(scrollOptions); 
+        // newChat.scrollIntoView(scrollOptionsStart);
+
     } catch (err) {
         console.log(err);
     }
@@ -334,6 +344,7 @@ async function generateQuiz(id, language, articleContextChunks, action) {
                             <div class="quiz-question">${quiz.question}</div>
                             <div class="quiz-options">${options}</div>
                             <div class="quiz-explanation">${explanation}</div>
+                            <div class="quiz-end-for-scroll-alignment"></div>
                         </div>
                     `.replace(/[\r\n]+/g, '');
                 }

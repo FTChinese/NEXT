@@ -25,6 +25,11 @@ const scrollOptions = {
   behavior: 'smooth', 
   block: 'end',
 };
+const scrollOptionsStart = { 
+  behavior: 'smooth', 
+  block: 'start',
+  inline: "nearest"
+}
 
 var composing = false;
 
@@ -427,16 +432,15 @@ async function switchLanguage(container, value) {
   const id = container.getAttribute('data-id');
   const content = articles[id];
   if (!content) {return;}
-  console.log(`switching ${id} to ${value}`);
   let title = content.title;
   let standfirst = content.standfirst;
   let bodyXML = content.bodyXML;
   let byline = content.byline;
   if (value === 'target') {
-    title = content.titleTranslation;
-    standfirst = content.standfirstTranslation;
-    bodyXML = content.bodyXMLTranslation;
-    byline = content.bylineTranslation;
+    title = content.titleTranslation || '';
+    standfirst = content.standfirstTranslation || '';
+    bodyXML = content.bodyXMLTranslation || '';
+    byline = content.bylineTranslation || '';
   } else if (value === 'bilingual') {
     title = `<div>${content.title}</div><div>${content.titleTranslation}</div>`;
     standfirst = `<div>${content.standfirst}</div><div>${content.standfirstTranslation}</div>`;
@@ -452,8 +456,7 @@ async function switchLanguage(container, value) {
     button.classList.remove('on');
   }
   container.querySelector(`.article-language-switch-container button[data-value=${value}]`).classList.add('on');
-  // TODO: Scroll into view for the article
-  titleEle.scrollIntoView(scrollOptions);
+  container.scrollIntoView(scrollOptionsStart);
 }
 
 
