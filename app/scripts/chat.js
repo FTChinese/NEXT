@@ -460,6 +460,43 @@ async function switchLanguage(container, value) {
   container.scrollIntoView(scrollOptionsStart);
 }
 
+function getInfoFromMachineTranslation(machineTranslation) {
+  function translationsToHTML(translations) {
+    return translations
+      .filter(x=>x && x.trim() !== '')
+      .map((item, index) => {
+        const hideClass = (index === 0) ? '' : ' hide';
+        const eleClass = ` class="machine-translation${hideClass}"`
+        return `<span${eleClass}>${item}</span>`;
+      })
+      .join('');
+  }
+  let info = {};
+  let bodyXML = '';
+  const translations = machineTranslation.bodyXMLTranslations;
+  if (translations) {
+    let translationDict = {};
+    for (const translation of translations) {
+      const id = translation.id;
+      translationDict[id] = translation.translations
+    }
+    console.log(translationDict);
+    bodyXML = machineTranslation.bodyXML;
+    let div = document.createElement('DIV');
+    div.innerHTML = bodyXML;
+    let elements = div.querySelectorAll('[id]');
+    for (let ele of elements) {
+      const id = ele.id;
+      ele.innerHTML = translationsToHTML(translationDict[id]);
+    }
+    info.bodyXML = div.innerHTML;
+  }
+  info.title = translationsToHTML(machineTranslation.titles);
+  info.standfirst = translationsToHTML(machineTranslation.standfirsts);
+  info.byline = machineTranslation.byline;
+  return info;
+}
+
 
 async function showContent(ftid, language, shouldScrollIntoView = true, shouldLoadArticle = true) {
   try {
@@ -495,10 +532,16 @@ async function showContent(ftid, language, shouldScrollIntoView = true, shouldLo
           let showTranslationAsDefault = false;
           let bodyXML = content.bodyXML || content.transcript || '';
           let bodyXMLEnglish = '';
+          let machineTranslationInfo = {};
           if (content.bodyXMLTranslation && content.bodyXMLTranslation !== '') {
-              bodyXMLEnglish = `<div class="hide story-body-english">${bodyXML}</div>`;
-              bodyXML = content.bodyXMLTranslation;
-              showTranslationAsDefault = true;
+            bodyXMLEnglish = `<div class="hide story-body-english">${bodyXML}</div>`;
+            bodyXML = content.bodyXMLTranslation;
+            showTranslationAsDefault = true;
+          } else if (content.machineTranslation /** && userAcceptsMachineTranslation */) {
+            bodyXMLEnglish = `<div class="hide story-body-english">${bodyXML}</div>`;
+            machineTranslationInfo = getInfoFromMachineTranslation(content.machineTranslation);
+            bodyXML = machineTranslationInfo.bodyXML;
+            showTranslationAsDefault = true;
           }
           let showTranscript = (bodyXML !== '' && ['Video', 'Audio'].indexOf(type) >= 0) ? `<a data-action="show-transcript">Show Transcript</a>` : '';
           let title = content.title || '';
@@ -507,18 +550,21 @@ async function showContent(ftid, language, shouldScrollIntoView = true, shouldLo
               titleEnglish = `<div class="hide story-headline-english">${title}</div>`;
               title = (showTranslationAsDefault) ? content.titleTranslation : content.title;
           }
+          title = machineTranslationInfo.title || title;
           let standfirst = content.standfirst || '';
           let standfirstEnglish = '';
           if (content.standfirstTranslation && content.standfirstTranslation !== '') {
               standfirstEnglish = `<div class="hide story-lead-english">${standfirst}</div>`;
               standfirst = (showTranslationAsDefault) ? content.standfirstTranslation : content.standfirst;
           }
+          standfirst = machineTranslationInfo.standfirst || standfirst;
           let byline = content.byline || '';
           let bylineEnglish = '';
           if (content.bylineTranslation && content.bylineTranslation !== '') {
               bylineEnglish = `<div class="hide story-author-english">${byline}</div>`;
               byline = (showTranslationAsDefault) ? content.bylineTranslation : content.byline;
           }
+          byline = machineTranslationInfo.byline || byline;
           // MARK: - If the article starts with a picture, don't show the picture in the heading
           if (/^<div class=\"pic/.test(bodyXML)) {
             visualHeading = '';
