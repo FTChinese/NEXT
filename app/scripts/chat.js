@@ -438,16 +438,27 @@ async function switchLanguage(container, value) {
   let standfirst = content.standfirst;
   let bodyXML = content.bodyXML;
   let byline = content.byline;
+  let machineTranslationInfo = {};
+  if (content.machineTranslation) {
+    machineTranslationInfo = getInfoFromMachineTranslation(content.machineTranslation);
+  }
   if (value === 'target') {
-    title = content.titleTranslation || '';
-    standfirst = content.standfirstTranslation || '';
-    bodyXML = content.bodyXMLTranslation || '';
-    byline = content.bylineTranslation || '';
+    title = content.titleTranslation || machineTranslationInfo.title || '';
+    standfirst = content.standfirstTranslation || machineTranslationInfo.standfirst || '';
+    bodyXML = content.bodyXMLTranslation || machineTranslationInfo.bodyXML || '';
+    byline = content.bylineTranslation || machineTranslationInfo.byline || '';
   } else if (value === 'bilingual') {
-    title = `<div>${content.title}</div><div>${content.titleTranslation}</div>`;
-    standfirst = `<div>${content.standfirst}</div><div>${content.standfirstTranslation}</div>`;
+    title = `<div>${content.title}</div><div>${content.titleTranslation || machineTranslationInfo.title || ''}</div>`;
+    standfirst = `<div>${content.standfirst}</div><div>${content.standfirstTranslation || machineTranslationInfo.standfirst || ''}</div>`;
     byline = content.byline;
-    bodyXML = convertToBilingualLayout(content.bodyXML, content.bodyXMLTranslation);
+    // MARK: - For biligual mode, you should always look to match the English and translation
+    const originalBodyXML = machineTranslationInfo.originalBodyXML || content.bodyXML;
+    bodyXML = convertToBilingualLayout(originalBodyXML, content.bodyXMLTranslation || machineTranslationInfo.bodyXML || '');
+  }
+  if (['target', 'bilingual'].indexOf(value) >= 0 && content.machineTranslation) {
+    container.querySelector('.ai-disclaimer-container').innerHTML = `<div class="ai-disclaimer">${localize("ai-disclaimer")}</div>`;
+  } else {
+    container.querySelector('.ai-disclaimer-container').innerHTML = '';
   }
   let titleEle = container.querySelector('.story-headline');
   titleEle.innerHTML = title;
@@ -495,6 +506,7 @@ function getInfoFromMachineTranslation(machineTranslation) {
   info.title = translationsToHTML(machineTranslation.titles);
   info.standfirst = translationsToHTML(machineTranslation.standfirsts);
   info.byline = machineTranslation.byline;
+  info.originalBodyXML = machineTranslation.bodyXML;
   return info;
 }
 
@@ -588,10 +600,10 @@ async function showContent(ftid, language, shouldScrollIntoView = true, shouldLo
           if (isUsingMachineTranslation && showTranslationAsDefault) {
             disclaimerForMachineTranslation = `<div class="ai-disclaimer">${localize("ai-disclaimer")}</div>`;
           }
-          let html = `  
+          let html = `
               <div class="article-container" data-id="${ftid}">
                   ${languageSwitchHTML}
-                  ${disclaimerForMachineTranslation}
+                  <div class="ai-disclaimer-container">${disclaimerForMachineTranslation}</div>
                   <div class="story-header-container">
                       <h1 class="story-headline story-headline-large">${title}</h1>
                       <div class="story-lead">${standfirst}</div>
@@ -1406,6 +1418,7 @@ function setConfigurations() {
 }
 
 async function waitForAccessToken() {
+  if (isFrontendTest) {return;}
   const oneDayInMiniSeconds = 24 * 60 * 60 * 1000;
   for (let i=0; i<15; i++) {
     const accessToken = localStorage.getItem('accessToken');
