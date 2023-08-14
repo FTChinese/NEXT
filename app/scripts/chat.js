@@ -581,9 +581,15 @@ async function showContent(ftid, language, shouldScrollIntoView = true, shouldLo
               <button data-value="bilingual">${localize('Bilingual')}</button>
             </div>
           ` : '';
+          let disclaimerForMachineTranslation = '';
+          // TODO: - Show Machine translation disclaimer only when necessary, localize it
+          // if () {
+
+          // }
           let html = `
               <div class="article-container" data-id="${ftid}">
                   ${languageSwitchHTML}
+                  ${disclaimerForMachineTranslation}
                   <div class="story-header-container">
                       <h1 class="story-headline story-headline-large">${title}</h1>
                       <div class="story-lead">${standfirst}</div>
