@@ -1022,18 +1022,18 @@ const randomPromptDict = {
       },
       'ai-disclaimer': {
         zh: '为了第一时间为您呈现此信息，本文内容为机器翻译，仅供参考',
-        en: 'Article translation is provided by AI translation',
-        es: 'La traducción del artículo es proporcionada por una traducción de IA',
-        fr: 'La traduction de l\'article est fournie par une traduction IA',
-        de: 'Die Artikelübersetzung wird von einer AI-Übersetzung bereitgestellt',
-        ja: '記事の翻訳はAI翻訳によって提供されます',
-        ko: '기사 번역은 AI 번역에 의해 제공됩니다',
-        pt: 'A tradução do artigo é fornecida por uma tradução de IA',
-        it: 'La traduzione dell\'articolo è fornita da una traduzione IA',
-        'zh-TW': '文章翻譯由AI翻譯提供',
-        'zh-HK': '文章翻譯由AI翻譯提供',
-        ru: 'Перевод статьи предоставлен AI переводом'
-    },
+        en: 'To present this information to you as quickly as possible, this article has been machine translated and is for reference only',
+        es: 'Para presentarle esta información lo más rápido posible, este artículo ha sido traducido por máquina y es solo para referencia',
+        fr: 'Pour vous présenter ces informations le plus rapidement possible, cet article a été traduit par machine et est uniquement à titre de référence',
+        de: 'Um Ihnen diese Informationen so schnell wie möglich zu präsentieren, wurde dieser Artikel maschinell übersetzt und dient nur als Referenz',
+        ja: 'この情報をできるだけ早く提供するため、この記事は機械翻訳され、参考のみとして提供されています',
+        ko: '이 정보를 가능한 빠르게 제공하기 위해 이 기사는 기계 번역되었으며 참조만을 위한 것입니다',
+        pt: 'Para apresentar esta informação o mais rápido possível, este artigo foi traduzido por máquina e é apenas para referência',
+        it: 'Per presentare queste informazioni il più rapidamente possibile, questo articolo è stato tradotto con una macchina ed è solo a scopo di riferimento',
+        'zh-TW': '為了第一時間為您呈現此資訊，本文內容為機器翻譯，僅供參考',
+        'zh-HK': '為了第一時間為您呈現此資訊，本文內容為機器翻譯，僅供參考',
+        ru: 'Чтобы предоставить вам эту информацию как можно быстрее, этот текст был переведен с помощью машины и предназначен только для справки'
+    }, 
   };
 
 
