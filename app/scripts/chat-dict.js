@@ -1019,7 +1019,21 @@ const randomPromptDict = {
         'zh-TW': '雙語',
         'zh-HK': '雙語',
         ru: 'Двуязычный'
-      }
+      },
+      'ai-disclaimer': {
+        zh: '为了第一时间为您呈现此信息，本文内容为机器翻译，仅供参考',
+        en: 'Article translation is provided by AI translation',
+        es: 'La traducción del artículo es proporcionada por una traducción de IA',
+        fr: 'La traduction de l\'article est fournie par une traduction IA',
+        de: 'Die Artikelübersetzung wird von einer AI-Übersetzung bereitgestellt',
+        ja: '記事の翻訳はAI翻訳によって提供されます',
+        ko: '기사 번역은 AI 번역에 의해 제공됩니다',
+        pt: 'A tradução do artigo é fornecida por uma tradução de IA',
+        it: 'La traduzione dell\'articolo è fornita da una traduzione IA',
+        'zh-TW': '文章翻譯由AI翻譯提供',
+        'zh-HK': '文章翻譯由AI翻譯提供',
+        ru: 'Перевод статьи предоставлен AI переводом'
+    },
   };
 
 

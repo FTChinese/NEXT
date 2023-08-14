@@ -534,6 +534,7 @@ async function showContent(ftid, language, shouldScrollIntoView = true, shouldLo
           let bodyXML = content.bodyXML || content.transcript || '';
           let bodyXMLEnglish = '';
           let machineTranslationInfo = {};
+          let isUsingMachineTranslation = false;
           if (content.bodyXMLTranslation && content.bodyXMLTranslation !== '') {
             bodyXMLEnglish = `<div class="hide story-body-english">${bodyXML}</div>`;
             bodyXML = content.bodyXMLTranslation;
@@ -543,6 +544,7 @@ async function showContent(ftid, language, shouldScrollIntoView = true, shouldLo
             machineTranslationInfo = getInfoFromMachineTranslation(content.machineTranslation);
             bodyXML = machineTranslationInfo.bodyXML;
             showTranslationAsDefault = true;
+            isUsingMachineTranslation = true;
           }
           let showTranscript = (bodyXML !== '' && ['Video', 'Audio'].indexOf(type) >= 0) ? `<a data-action="show-transcript">Show Transcript</a>` : '';
           let title = content.title || '';
@@ -582,11 +584,11 @@ async function showContent(ftid, language, shouldScrollIntoView = true, shouldLo
             </div>
           ` : '';
           let disclaimerForMachineTranslation = '';
-          // TODO: - Show Machine translation disclaimer only when necessary, localize it
-          // if () {
-
-          // }
-          let html = `
+          // MARK: - Show Machine translation disclaimer only when necessary, localize it
+          if (isUsingMachineTranslation && showTranslationAsDefault) {
+            disclaimerForMachineTranslation = `<div class="ai-disclaimer">${localize("ai-disclaimer")}</div>`;
+          }
+          let html = `  
               <div class="article-container" data-id="${ftid}">
                   ${languageSwitchHTML}
                   ${disclaimerForMachineTranslation}
