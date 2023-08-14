@@ -586,6 +586,12 @@ This results in wasted space and memory for subscribers' device and does not inc
 	}
 }
 
+.n-content-layout__container {
+	h1, h2, h3, h4 {
+		width: 100%;
+	}
+}
+
 // MARK: - Side-by-side portrait images
 @media only screen and (min-width: 691px) {
 	[data-layout-width="full-grid"] .n-content-layout__container {
@@ -599,6 +605,7 @@ This results in wasted space and memory for subscribers' device and does not inc
 			flex-wrap: wrap;
 			width: 100%;
 			padding-top: 4px;
+			gap: math.div($defaultPadding, 2);
 		}
 		.n-content-layout__slot {
 			flex: 1 1 1px;

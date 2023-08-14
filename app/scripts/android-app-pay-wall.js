@@ -63,6 +63,11 @@
             var promoboxContainer = document.getElementById('promo-box-container');
             if (!promoboxContainer) {return;}
             promoboxContainer.innerHTML = data;
+            // MARK: - Android app native developer changed the view port height to the full height of content, which makes position: fixed stopping working when bottom:0. Add this class will hopefully make the promo box at least visible.
+            var subscriptionPromoboxContainer = document.querySelector('.subscription-promo-container');
+            if (subscriptionPromoboxContainer) {
+                subscriptionPromoboxContainer.classList.add('no-overlay');
+            }
             if (typeof window.startCountdown === 'function') {
                 window.startCountdown(promoboxContainer, expireDate);
             }

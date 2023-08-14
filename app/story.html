@@ -313,754 +313,690 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
  </head>
  <body>
     <script>var gUaOfPage = navigator.userAgent || navigator.vendor || "";</script><script>checkB();</script>
-<div id="promo-box-container">
-<style>
-.noneSubscriber.subscription-promo-container {
-background-color: #88233f;
-}
-.noneSubscriber .subscription-promo-text {
-background-color: #282c32;
-border-color: #282c32;
-}
-.noneSubscriber .subscription-promo-text {
-color: #ffffff;
-}
-.noneSubscriber .subscription-promo-box {
-background-image: url(https://thumbor.ftacademy.cn/unsafe/picture/9/000111019_piclink.png);
-}
-@media only screen and (max-width: 490px) {
-.noneSubscriber .subscription-promo-box {
-background-image: url(https://thumbor.ftacademy.cn/unsafe/picture/3/000111023_piclink.png);
-}
-}
-</style>
-<div class="subscription-promo-container show-image-in-mobile noneSubscriber">
-<div class="subscription-promo-inner">
-<a  href="https://www.ftacademy.cn/subscription.html?ccode=2CAcquisitionWebPBoxNon" class="subscription-promo-box n-internal-promo" data-promo-target="noneSubscriber" data-promo-id="2CAcquisitionWebPBoxNon" data-promo-name="仅0.8元/天 立即订阅" data-promo-creative="https://thumbor.ftacademy.cn/unsafe/picture/9/000111019_piclink.png" data-promo-position="promoBox">
-<div class="subscription-promo-text">仅0.8元/天 立即订阅</div>
-</a>
-</div>
-</div>
-<script type="text/javascript">
-window.userId = GetCookie('USER_ID') || '';
-if (window.userId === '') {
-gtag('event', 'Display', {'event_label': '2CAcquisitionWebPBoxNon', 'event_category': 'PromoBox', 'non_interaction': true});
-}
-</script>
-</div>
-<script type="text/javascript">
-function addUserId(ele) {
-if (ele === null) {
-return;
-}
-var userId;
-if (typeof GetCookie === 'function') {
-userId = GetCookie('USER_ID');
-} else {
-userId = getCookie('USER_ID');
-}
-if (userId && typeof userId === 'string' && userId !== '') {
-var link = ele.href;
-var connector = (link.indexOf('?') >= 0) ? '&' : '?';
-ele.href = link + connector + 'u=' + userId;
-}
-}
-var premiumLink = document.querySelector('[data-promo-target=premium]');
-addUserId(premiumLink);
-</script>
-<header class="header-container">
-<div class="header-inner">
-<div class="masthead"></div>
-<div class="header-side header-left expandable">
-<div class="current-edition">
-<span>简体中文</span>
-<a href="https://big5.ftchinese.com/interactive/82483?exclusive">繁体中文</a>
-<a href="http://www.ft.com/">FT.com</a>
-</div>
-</div>
-<div class="header-side header-right">
-<span class="visitor-box">
-<a onclick="showOverlay('overlay-login')">登录</a>
-<a class="more last" href="http://user.ftchinese.com/register">注册</a>
-</span>
-<span class="member-box">
-<a href="/channel/myftlocal.html">我的FT</a>
-<a id="ft-login-your-account" href="/users/cp">设置</a>
-<a id="ft-login-logout" href="/users/logout">登出</a>
-</span>
-</div>
-</div>
-</header>
-<div class="overlay-container" id="overlay-login">
-<div class="overlay-inner">
-<div class="overlay-bg" data-parentid="overlay-login"></div>
-<div class="overlay-content-outer">
-<div class="overlay-content-inner">
-<div class="overlay-content">
-<div class="overlay-title">登录<i class="overlay-close" data-parentid="overlay-login">×</i></div>
-<form method="post" action="/users/login" id="overlay-login-form">
-<span id="overlay-login-container">
-<div class="input-title" id="login-reason"></div>
-<div class="input-title">电子邮件/用户名</div>
-<div class="input-container"><input type="text" class="input-oneline" name="username" id="ft-login-input-username"></div>
-<div class="input-title">密码</div>
-<div class="input-container"><input type="password" class="input-oneline" name="password" id="ft-login-input-password"></div>
-<div><input type="checkbox" class="checkbox" value="1" checked="checked" name="saveme" id="ft-login-input-remember">记住我</div>
-<div class="login-btn input-submit-container center"><input class="" type="submit" value="登录"></div>
-<div class="center register-find"><a href="/register" class="blue-link">免费注册</a><span></span><a href="/users/findpassword" class="blue-link">找回密码</a></div>
-<div class="phone-login-container" id="phone-login-trigger">
-<div class="center phone-login"><a onclick="showPhoneLogin()" class="blue-link">短信登录</a></div>
-</div>
-<div class="wx-login-container">
-<div class="center wx-login"><a href="https://www.ftacademy.cn/wxlogin" class="blue-link">微信登录</a></div>
-</div>
-</span>
-</form>
-<span id="phone-ftc-binding-container">
-<div>请输入邮箱和密码进行绑定操作：</div>
-<div><input placeholder="请输入邮箱" type="email" autocorrect="off" id="phone-binding-email" class="input-oneline"/></div>
-<div><input placeholder="请输入密码" type="password" class="input-oneline" id="phone-binding-password"/></div>
-<div class="topmargin statusmsg" id="phone-binding-status"></div>
-<div><input type="button" value="绑定" class="n-button-inner" onclick="binding('phone')"/></div>
-</span>
-<span id="phone-login-container">
-<div class="user-name-container">请输入手机号码，通过短信验证（目前仅支持中国大陆地区的手机号）：</div>
-<div><input onkeyup="resetPhoneLogin()" placeholder="请输入中国大陆的手机号码" type="tel" autocorrect="off" name="phone" id="phone-number" class="input-oneline"/></div>
-<div><input placeholder="请输入验证码"  pattern="\d*" maxlength="6" name="phonecapcha"  class="input-oneline" id="phone-captcha"/></div>
-<div class="topmargin statusmsg" id="phone-login-status"></div>
-<div>请您阅读我们的<a class="agreeDetail" href="/m/corp/service.html" target="_blank">用户注册协议</a>和<a class="agreeDetail" href="/m/corp/service.html#privacy" target="_blank">隐私权保护政策</a>，点击下方按钮即视为您接受。</div>
-<div><input id="phone-login-submit-button" type="button" value="获取验证码" class="n-button-inner" onclick="phoneLogin()"/></div>
-</span>
-</div>
-</div>
-</div>
-</div>
-</div><div class="o-nav__placeholder">
-<div class="o-nav">
-<div class="o-nav__outer">
-<div class="o-nav__inner">
-<div class="o-nav__search"  data-o-component="o-toggler">
-<button class="o-nav__search-toggle" data-o-toggler-button aria-controls="search-form">
-<span class="search-toggle--open">搜索</span>
-<span class="search-toggle--close">关闭</span>
-</button>
-<form action="/search/" id="search-form" role="search" data-o-toggler-target>
-<input id="search-term" type="search" name="keys" class="search-input" placeholder="输入年月日‘xxxx-xx-xx’可搜索该日存档" />
-<input id="type_news" type="hidden" value="type_news" name="ftsearchType" checked />
-<button class="search-button" tabindex="1"><span>搜索</span></button>
-</form>
-</div>
-<div class="o-header__masthead-mobile">
-<a href="/" title="前往FT中文网首页"><span>FT中文网</span></a>
-</div>
-<nav class="o-nav__container" role="navigation">
-<button class="nav-toggle" data-o-nav-togglable><span>Menu</span></button>
-<ol class="o-nav__meganav">
-<li class="nav-section mobile">
-<button class="nav-section-head mobile" aria-selected="true">切换版本</button>
-<ol class="nav-items">
-<li class="nav-item">
-<a class="nav-link" href="https://big5.ftchinese.com/">繁体中文版</a>
-</li>
-<li class="nav-item">
-<a class="nav-link" href="http://www.ft.com/">FT.com</a>
-</li>
-</ol>
-</li>
-<li class="nav-section home "
- data-section="home"
->
-<button class="nav-section-head mobile">首页</button>
-<a class="nav-section-head desktop" href="/">首页</a>
-</li>
-<li class="nav-section china "
- data-section="china"
->
-<button class="nav-section-head mobile">中国</button>
-<a class="nav-section-head desktop" href="/channel/china.html">中国</a>
-</li>
-<li class="nav-section world "
- data-section="world"
->
-<button class="nav-section-head mobile">全球</button>
-<a class="nav-section-head desktop" href="/channel/world.html">全球</a>
-</li>
-<li class="nav-section economy "
- data-section="economy"
->
-<button class="nav-section-head mobile">经济</button>
-<a class="nav-section-head desktop" href="/channel/economy.html">经济</a>
-</li>
-<li class="nav-section markets "
- data-section="markets"
->
-<button class="nav-section-head mobile">金融市场</button>
-<a class="nav-section-head desktop" href="/channel/markets.html">金融市场</a>
-</li>
-<li class="nav-section business "
- data-section="business"
->
-<button class="nav-section-head mobile">商业</button>
-<a class="nav-section-head desktop" href="/channel/business.html">商业</a>
-</li>
-<li class="nav-section innovation "
- data-section="innovation"
->
-<button class="nav-section-head mobile">创新经济</button>
-<a class="nav-section-head desktop" href="/channel/innovation.html">创新经济</a>
-</li>
-<li class="nav-section education "
- data-section="education"
->
-<button class="nav-section-head mobile">教育</button>
-<a class="nav-section-head desktop" href="/channel/education.html?newnav=yes">教育</a>
-</li>
-<li class="nav-section opinion "
- data-section="opinion"
->
-<button class="nav-section-head mobile">观点</button>
-<a class="nav-section-head desktop" href="/channel/opinion.html">观点</a>
-</li>
-<li class="nav-section management "
- aria-selected="true" data-section="management"
->
-<button class="nav-section-head mobile">管理</button>
-<a class="nav-section-head desktop" href="/channel/management.html">管理</a>
-<ol class="nav-items">
-<li class="nav-item mobile">
-<a class="nav-link" href="/channel/management.html">
-频道首页
-</a>
-</li>
-<li class="nav-item" aria-selected="true" data-channel="mba">
-<a class="nav-link" href="/channel/mba.html">FT商学院</a>
-</li>
-<li class="nav-item"  data-channel="career">
-<a class="nav-link" href="/channel/career.html">职场</a>
-</li>
-<li class="nav-item"  data-channel="leadership">
-<a class="nav-link" href="/channel/leadership.html">领导力</a>
-</li>
-<li class="nav-item"  data-channel="wealth">
-<a class="nav-link" href="/tag/%E8%B4%A2%E5%AF%8C%E7%AE%A1%E7%90%86">财富管理</a>
-</li>
-<li class="nav-item"  data-channel="people">
-<a class="nav-link" href="/channel/people.html">人物</a>
-</li>
-</ol>
-</li>
-<li class="nav-section lifestyle "
- data-section="lifestyle"
->
-<button class="nav-section-head mobile">生活时尚</button>
-<a class="nav-section-head desktop" href="/channel/lifestyle.html">生活时尚</a>
-</li>
-<li class="nav-section stream "
- data-section="stream"
->
-<button class="nav-section-head mobile">视频</button>
-<a class="nav-section-head desktop" href="/channel/stream.html">视频</a>
-</li>
-<li class="nav-section audio "
- data-section="audio"
->
-<button class="nav-section-head mobile">音频</button>
-<a class="nav-section-head desktop" href="/channel/audio.html">音频</a>
-</li>
-<li class="nav-section english "
- data-section="english"
->
-<button class="nav-section-head mobile">每日英语</button>
-<a class="nav-section-head desktop" href="/channel/english.html">每日英语</a>
-</li>
-<li class="nav-section rewired "
- data-section="rewired"
->
-<button class="nav-section-head mobile">换脑ReWired</button>
-<a class="nav-section-head desktop" href="/channel/rewired.html">换脑ReWired</a>
-</li>
-<li class="nav-section mobile login">
-<ul>
-<li class="nav-item">
-<a class="nav-link" href="http://user.ftchinese.com/login">登录</a>
-</li>
-<li class="nav-item">
-<a class="nav-link" href="http://user.ftchinese.com/register">免费注册</a>
-</li>
-</ul>
-</li>
-<li class="nav-section mobile logout">
-<ul>
-<li class="nav-item">
-<a class="nav-link" href="/channel/myftlocal.html">我的FT</a>
-</li>
-<li class="nav-item">
-<a class="nav-link" href="/users/setting/vip">会员中心</a>
-</li>
-<li class="nav-item">
-<a class="nav-link" href="/users/setting/index">设置</a>
-</li>
-<li class="nav-item">
-<a class="nav-link" href="/users/logout">登出</a>
-</li>
-</ul>
-</li>
-</ol>
-</nav>
-<ul class="o-nav__extra-tools">
-<li class="tools-section" aria-haspopup="true">
-<a class="tools-section-head" href="https://www.ftchinese.com/m/corp/follow.html">关注我们</a>
-<ol class="tools-items">
-<li><a href="https://www.ftchinese.com/m/corp/follow.html" target="_blank">微信公众号</a></li>
-<li><a href="http://weibo.com/ftchinese" target="_blank">新浪微博</a></li>
-<li><a href="https://www.ftchinese.com/m/corp/follow.html" target="_blank">Flipboard</a></li>
-<li><a href="https://twitter.com/FTChinese" target="_blank">Twitter</a></li>
-<li><a href="https://www.facebook.com/financialtimeschinese" target="_blank">Facebook</a></li>
-<li><a href="https://www.linkedin.com/company/4865254?trk=hp-feed-company-name" target="_blank">LinkedIn</a></li>
-</ol>
-</li>
-<li class="tools-section" aria-haspopup="true">
-<span class="tools-section-head">工具</span>
-<ol class="tools-items">
-<li><a href="http://app.ftchinese.com/" class="o-client-id-link">移动应用大全</a></li>
-<li><a href="/users/setting/index">基本设置</a></li>
-<li><a href="/users/setting/vip">会员中心</a></li>
-<li><a href="/users/setting/changeicon">修改头像</a></li>
-<li><a href="/users/setting/maillist">邮件订阅</a></li>
-<li><a href="/index.php/snsapi/index">同步微博</a></li>
-<li><a href="/users/commentstory">我的评论</a></li>
-<li><a href="/users/favstorylist">管理收藏</a></li>
-</ol>
-</li>
-<li class="tools-section">
-<a class="tools-section-head follow__rss" href="/channel/rss.html" title="RSS"><span>RSS</span></a>
-</li>
-</ul>
-</div><!-- o-nav__inner -->
-</div><!-- o-nav__outer -->
-<div class="o-nav__meganav-placeholder"></div>
-</div><!-- o-nav -->
-</div>
-<div class="story-hero-container">
-<div class="story-hero-inner">
-<div class="story-hero-intro">
-<div class="story-hero-intro-container">
-<div class="story-hero-tag"><a href="/tag/乌克兰战争">乌克兰战争</a><button class="myft-follow plus" data-tag="乌克兰战争" data-type="tag">关注</button></div>
-<div class="story-hero-title">走投无路的俄罗斯寡头们</div>
-<div class="story-hero-content"><p>大亨们对制裁感到痛苦，因为制裁使他们在西方受到排斥，在国内无能为力。</p></div>
-</div>
-</div>
-</div>
-<div class="story-hero-image"><figure data-url="https://thumbor.ftacademy.cn/unsafe/picture/8/000156508_piclink.jpg" class="loading"></figure></div>
-</div><div class="block-container has-side story-page"><div class="block-inner">
-<div class="content-container"><div class="content-inner">
-<div class="story-container">
-<div class="story-tools">
-<div class="story-action-placeholder" id="story-action-placeholder">
-<div class="story-action">
-<div class="action-inner">
-<a class="action-icon icon-wechat P-hide" href="/m/corp/qrshare.html?url=http%3A%2F%2Fwww.ftchinese.com%2Finteractive%2F82483%3Ffull%3Dy%26gift_id%3D0d823427a1becda11904b313ad5dc4b1a2be2df9&title=" target="_blank"></a>
-<a class="action-icon icon-weibo P-hide" href="http://service.weibo.com/share/share.php?appkey=4221537403&url=http%3A%2F%2Fwww.ftchinese.com%2Finteractive%2F82483%3Ffull%3Dy%26gift_id%3D0d823427a1becda11904b313ad5dc4b1a2be2df9%26ccode%3D2G169001&title=【走投无路的俄罗斯寡头们】大亨们对制裁感到痛苦，因为制裁使他们在西方受到排斥，在国内无能为力。（分享自 @FT中文网）&ralateUid=1698233740&source=&sourceUrl=&content=utf-8&pic=https://thumbor.ftacademy.cn/unsafe/picture/8/000156508_piclink.jpg&searchPic=false" target="_blank"></a>
-<a class="action-icon icon-twitter P-hide" href="http://twitter.com/home?status=【走投无路的俄罗斯寡头们】大亨们对制裁感到痛苦，因为制裁使他们在西方受到排斥，在国内无能为力。（分享自 @FT中文网）...%20http%3A%2F%2Fwww.ftchinese.com%2Finteractive%2F82483%3Ffull%3Dy%26gift_id%3D0d823427a1becda11904b313ad5dc4b1a2be2df9" target="_blank"></a>
-<a class="action-icon icon-facebook P-hide" href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.ftchinese.com%2Finteractive%2F82483%3Ffull%3Dy%26gift_id%3D0d823427a1becda11904b313ad5dc4b1a2be2df9&t=【走投无路的俄罗斯寡头们】大亨们对制裁感到痛苦，因为制裁使他们在西方受到排斥，在国内无能为力。（分享自 @FT中文网）" target="_blank"></a>
-<a class="icon-right icon-ch" href="/interactive/82483/en"><button>英文</button></a><a class="icon-right icon-ch" href="/interactive/82483/ce"><button>对照</button></a>
-
-<div class="icon-right icon-save P-hide">
-<button id="addfavlink82483" data-item-type="interactive">收藏</button>
-</div>
-<a class="icon-right icon-action icon-print P-hide" onclick="window.print()" target="_blank"></a>
-<a class="icon-right icon-action icon-font-size" onclick="showOverlay('font-setting')"></a>
-<a class="icon-right icon-action icon-audio" href="/interactive/82554"></a>
-<div class="progress-container">
-<svg
-class="progress-ring"
-height="40"
-width="40"
->
-<circle
-class="progress-ring__circle"
-stroke-width="2"
-stroke="transparent"
-r="18"
-cx="20"
-cy="20"
-/>
-</svg>
-<svg class="pregress-tick" width="24" height="24" viewBox="0 0 24 24">
-<path fill="none" d="M0 0h24v24H0z"/><path class="progress-tick-path" fill="transparent" d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
-</svg>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="story-byline">
-<span class="story-time" data-time="1662566400" pub-date="1662566400">发布于2022年9月8日 00:00</span>
-<span class="story-author"><a href='/author/%E9%A9%AC%E5%85%8B%E6%96%AF%E2%80%A2%E5%A1%9E%E7%99%BB' target=_blank>马克斯•塞登</a>，<a href='/author/%E6%B3%A2%E7%90%B3%E5%A8%9C%E2%80%A2%E4%BC%8A%E4%B8%87%E8%AF%BA%E5%A8%83' target=_blank>波琳娜•伊万诺娃</a></span>
-</div>
-<div class="story-body">
-
-
-<div id="story-body-container" class="has-picture">
-<div class="print-only">来自FT中文网的温馨提示：如您对FT中文网的内容感兴趣，请在苹果应用商店或华为应用市场搜索“FT中文网”，下载FT中文网的官方应用，付费订阅。祝您使用愉快！</div>    
-
-<p>今年春天，在俄罗斯对乌克兰的入侵肆虐之际，亿万富翁寡头米哈伊尔•弗里德曼(Mikhail Fridman)向时任美国驻乌克兰最高特使的克里斯蒂娜•凯文(Kristina Kvien)提出了一项建议。</p>
-<p>弗里德曼在乌克兰西部的利沃夫长大，但持有俄罗斯和以色列护照，他大约130亿美元的财富大部分是在俄罗斯赚的。他愿意把一部分财富捐出，以修复战争造成的损害。</p>
-<p>作为回报，美国将帮助他避免对寡头实施制裁，西方政策制定者希望这些制裁将迫使他们与俄罗斯总统弗拉基米尔•普京(Vladimir Putin)分道扬镳。</p>
-<p>据三位知情人士透露，在凯文对弗里德曼的提议提出质疑后，两人的对话很快变得激烈起来。弗里德曼开始对凯文大喊大叫、破口大骂，并坚称自己没有权力影响普京。</p>
-<p>“他谈到了他对祖国乌克兰的热爱，”其中一个人说。“但后来他变得很情绪化，这是肯定的。他说道，‘你想拿走我所有的钱！’”</p>
-<p>凯文告诉弗里德曼他们的谈话结束了，然后挂断了电话。弗里德曼给凯文发了一条短信道歉，但没有收到回复。</p>
-<p>美国国务院表示，不会对“外交讨论”置评。弗里德曼否认曾与凯文交谈过，否认曾游说美国帮助他避免制裁，也否认曾提出帮助乌克兰的重建工作。</p>
-<div class="pic is-mixed" id="id-7"><picture><img src="https://thumbor.ftacademy.cn/unsafe/1920x0/https://d1e00ek4ebabms.cloudfront.net/production/21e94bc9-dfa0-4e95-b157-7e286cf8277e.png"></picture>2月24日，普京下令军队进入乌克兰后，商人们在克里姆林宫会见弗拉基米尔•普京(Vladimir Putin)</div>
-
-<p>自普京发动对乌克兰的入侵以来，数十名俄罗斯大亨的西方银行账户被冻结，其中一些人被迫放弃在西方公司的股权，并失去了他们在地中海的豪宅。</p>
-<p>但六个月后，几乎没有迹象表明制裁迫使寡头们发动了一场反对普京的“宫廷政变”。</p>
-<p>相反，它们产生了截然不同的影响。俄罗斯的寡头们对西方政府越来越愤怒，正想方设法保住自己剩余的财富——包括通过弗里德曼提出的各种收购提议。</p>
-<p>许多曾经喜欢在西方呆上一段时间的寡头，现在都顺从地回到了俄罗斯。身处莫斯科的那些人已经默默地接受了自己在这个处于战争中的国家地位下降的事实。</p>
-<p>通过对七名被制裁的俄罗斯大亨——以及资深银行家、大公司现任和前任高管、前官员、朋友和家人——的采访，出现的画面是一群反对普京的战争，并对战争毁掉了他们的财富感到不满的寡头。然而，与此同时，他们也对西方感到愤愤不平，认为西方为自己无法控制的事件找了替罪羊。</p>
-<div class="pic"><picture><source media="screen and (max-width: 490px)" srcset="https://thumbor.ftacademy.cn/unsafe/980x0/https://d1e00ek4ebabms.cloudfront.net/production/b446a86b-8045-46b7-8858-e9fa85f43d49.jpg"><img src="https://thumbor.ftacademy.cn/unsafe/1920x0/https://d1e00ek4ebabms.cloudfront.net/production/ad43f3b4-d81b-45c7-ae31-4a96e1f51ea8.jpg"></picture></div>
-
-<p>“要发动一场宫廷政变，推翻沙皇，你首先需要进入宫廷。这些人都不在那里，”一名受到制裁的俄罗斯商人表示。“弗里德曼应该如何影响总统的决定？如果弗里德曼在他莫斯科的家里，他也不会和总统有任何联系。他怎么能影响他的决定呢？”</p>
-<p>根据卢森堡欧洲法院(European Court of Justice)的文件和知情人士的说法，目前至少有21名俄罗斯商人正在起诉欧盟，以推翻针对他们的制裁。</p>
-<p>私下里，一些人承认，这些法律行动可能不足以让他们赢回在西方的资产。</p>
-<p>然而，许多人决心和制裁抗争到底——最著名的是弗里德曼和他的商业伙伴彼得•埃文(Petr Aven)，两人都因在从伦敦金融城到西伯利亚油田的残酷法庭斗争而声名远扬。</p>
-<p>一位熟悉这两位寡头的资深银行家表示：“他们真的很生气和沮丧。他们是充满活力的人和战士，但这是一场非常艰难的战斗。”</p>
-<h1 class="is-text-only" id="id-18">逃脱克里姆林宫的监视</h1>
-<p>2000年上任仅几个月后，普京就将该国最著名的寡头聚集在克里姆林宫富丽堂皇的圣凯瑟琳勋章大厅(Hall of the Order of St Catherine)，解释在他的俄罗斯，企业将按照什么新规则经营。他告诉他们，只要他们与政治保持“一臂之远”，他们就可以保持在通常不透明的私有化过程中积累的财富。</p>
-<p>今年2月乌克兰入侵当天，当他把一群主要寡头召集到同一个房间时，埃文是“七大银行寡头”(semibankirschina)仅有的两名仍在俄罗斯境内的成员之一——这7名银行家曾资助鲍里斯•叶利钦(Boris Yeltsin)在1996年再次当选总统。其他曾挑战过普京的人早就不在这里了：有些人流亡海外，比如前石油大亨米哈伊尔•霍多尔科夫斯基(Mikhail Khodorkovsky)，或者已经去世，比如鲍里斯·别列佐夫斯基(Boris Berezovsky)。</p>
-<p>电视上对按字母顺序排列整齐的商人们发表的长篇大论表明，在普京统治克里姆林宫的二十年里，他们变得多么顺从。</p>
-<p>在所有的寡头中，弗里德曼和埃文为在西方站稳自己的地位做出了最大努力。凭借在俄罗斯石油、银行、零售和电信行业赚得的财富，他们于2013年在伦敦成立了私人股本公司LetterOne，在欧洲打造了一个新帝国，包括英国保健食品零售商Holland & Barrett、德国能源集团Wintershall Dea和西班牙的Dia超市。</p>
-<div class="pic"><picture><source media="screen and (max-width: 490px)" srcset="https://thumbor.ftacademy.cn/unsafe/980x0/https://d1e00ek4ebabms.cloudfront.net/production/3d85be57-13a6-4b53-b7f5-a89b79277c9a.jpg"><img src="https://thumbor.ftacademy.cn/unsafe/1920x0/https://d1e00ek4ebabms.cloudfront.net/production/be5beb42-a277-4931-a7f6-3a65dd1dddbc.jpg"></picture></div>
-
-<p>弗里德曼在伦敦北部购买了一套6500万英镑的房产，并在因制裁而失去该身份之前获得了无限期居留英国的许可；战前他还在考虑申请英国公民身份。另一方面，埃文在萨里的豪宅和圣詹姆斯的公寓中收藏了他的3亿英镑的现代艺术品。</p>
-<p>一位前商业伙伴表示，对弗里德曼来说，在伦敦站稳脚跟意味着他终于登上了世界舞台。“弗里德曼一直讨厌俄罗斯。他无法忍受住在那里。他希望一有机会就走出去，搬到西方去做生意。他想成为一个世界性的人物。”</p>
-<p>然而，英国和欧盟的制裁已冻结了弗里德曼和埃文在各自公司的股份，并限制了它们获得资金的途径——尽管它们尚未受到美国的制裁。这些寡头已经从LetterOne的董事会辞职，并将控制权交给了一个忙于拯救资产的团队。“我们30年来建造的一切现在都被彻底摧毁了。我们必须以某种方式开始新生活，”埃文<a href="https://www.ft.com/content/5e4ffb26-a167-4b90-9981-084fc6a50ea4" targe="_blank">今年3月对英国《金融时报》表示</a>。</p>
-<p>今年3月，他们在LetterOne的合作伙伴阿列克谢·库兹米切夫(Alexei Kuzmichev)在瑞士滑雪度假时，遭到了欧盟的制裁。据两名知情人士透露，这让他滞留在那里，无法与法国的家人团聚，但也不愿返回俄罗斯。</p>
-<div class="pic"><picture><source media="screen and (max-width: 490px)" srcset="https://thumbor.ftacademy.cn/unsafe/980x0/https://d1e00ek4ebabms.cloudfront.net/production/563c031a-143e-42ef-bcff-00ca6996d183.jpg"><img src="https://thumbor.ftacademy.cn/unsafe/1920x0/https://d1e00ek4ebabms.cloudfront.net/production/1bd8d49a-748c-4e32-b75c-0cd3f8f7aac5.jpg"></picture></div>
-
-<p>今年5月，英国国家犯罪调查局(National Crime Agency)突击搜查了埃文的住所，作为对埃文可能违反制裁的调查的一部分。埃文在制裁生效几小时前，从奥地利转到了英国账户上的逾300万英镑资金。雅文拒绝就这些指控置评。</p>
-<p>虽然他对制裁提出了上诉，但阿文每月的生活开支被限制在2500英镑以内，尽管7月份一名法官放松了对他用于支付账单的一些账户的冻结令。埃文每月的日常支出为14万英镑，其中大部分用于他的艺术收藏的维护和安全。</p>
-<p>即便是那些精力一直集中在西方的寡头，如果他们在俄罗斯仍拥有一项主要业务，也不可能逃脱克里姆林宫的视线。根据美国司法部特别检察官罗伯特·穆勒2019年关于俄罗斯干预美国总统选举的报告，埃文表示，他是约50名寡头之一，他们在季度会议上接受普京的“隐性指示”，他们通常会在会上讨论经济问题，包括如何让他共同拥有的阿尔法银行免受制裁。</p>
-<p>埃文否认说普京曾经给他下过“隐性指令”，并声称联邦调查局歪曲了他告诉他们的内容。</p>
-<div class="pic is-mixed" id="id-31"><picture><source media="screen and (max-width: 490px)" srcset="https://thumbor.ftacademy.cn/unsafe/980x0/https://d1e00ek4ebabms.cloudfront.net/production/f486a692-ca9d-4122-8675-8628983ae5e0.png"><img src="https://thumbor.ftacademy.cn/unsafe/1920x0/https://d1e00ek4ebabms.cloudfront.net/production/e2905f4c-9150-4f11-9181-153a0615be67.png"></picture>被制裁的寡头彼得·埃文在他的圣詹姆斯公寓里</div>
-
-<p>据两名接到此类电话的人士和其他几名知情人士透露，自战争以来，留在国外的受制裁寡头经常接到克里姆林宫鼓励他们回国的电话。</p>
-<p>许多人还认为，制裁把他们逼回了俄罗斯。“有些人会决定，‘我真的需要这些吗？我将回到莫斯科，在那里我可以愉快地逛餐厅，感觉良好’，”一位商人表示。他认为，制裁正迫使精英阶层与克里姆林宫更加亲近，即使他们可能更愿意与之保持距离。</p>
-<p>西方政策圈的一些人也对制裁持同样的怀疑态度。“俄罗斯有两种寡头，”前美国驻莫斯科大使迈克尔•麦克福尔(Michael McFaul)表示。“有20世纪90年代的寡头，当我们制裁他们，他们的游艇被劫持时，我们都感到非常自豪。但我们要清楚：这些人对弗拉基米尔•普京没有任何影响力。”</p>
-<p>麦克福尔补充说，新一代的典型成员“是一个非常富有的人，他与普京关系密切，但他发家就是因为他与普京关系密切。因此，他也没有任何筹码向他施压，要求他停止战争。”</p>
-<h1 class="is-text-only" id="id-36">大声疾呼</h1>
-<p>由于制裁令他们别无选择，寡头们感到自己陷入了两难境地：要么接受自己在俄罗斯的命运，要么因公开反对战争而面临报复。</p>
-<p>“他们说他们害怕被毒死，但他们真正担心的是失去他们努力培养的金钱和声誉，”一位俄罗斯资深商人说。现在，“他们不知道在那种情况下该怎么做”，这位商人补充道。“他们完全迷失了方向。”</p>
-<p>当被问及为什么没有采取更多行动公开反对战争时，几位寡头指出了银行家奥列格•廷科夫(Oleg Tinkov)的例子。这位古怪的大亨表示，在他在Instagram上谴责普京和这场“疯狂的战争”后，他被迫在5月份的一次“减价出售”中<a href="https://www.ft.com/content/41b887c4-ed52-4cf0-8a6f-394d578ea6a2" targe="_blank">出售了他在Tinkoff银行的股份</a>。</p>
-<p>廷科夫告诉采访者尤里·杜德(Yuri Dud)，弗里德曼给他打电话说。“你真的丧失理智。你应该在说什么之前先行卖掉股份”。</p>
-<p>对一些寡头来说，这一事件是一个警示，告诉他们谴责战争可能会让他们失去财富。但对廷科夫来说，畅所欲言更重要。“我告诉他，‘米沙，我不在乎。这就是我的感受。我不能保持沉默。’”</p>
-<p>弗里德曼拒绝对此次通话发表评论，他称这场战争是一场“悲剧”，但他表示，更明确的批评会让他在俄罗斯的员工面临风险。</p>
-<p>大多数寡头将他们的公开声明限制在卢森堡的欧盟高等法院，在那里他们的诉讼案继续堆积如山。</p>
-<p>“我可以做一些有用的事情，抵制国家对经济的接管。但我已经没有任何资产了，”另一个与普京一起参加会议的人说。“现在我把所有时间都花在起诉欧盟上了。”</p>
-<p>提起上诉的俄罗斯人辩称，他们在欧盟境内实施旅行禁令和冻结资产的法律依据是毫无根据的，或者是有缺陷的。</p>
-<div class="pic no-copyright is-mixed" id="id-46"><picture><source media="screen and (max-width: 490px)" srcset="https://thumbor.ftacademy.cn/unsafe/980x0/https://d1e00ek4ebabms.cloudfront.net/production/41cb779f-80f0-45e9-ac03-853e4ed97961.png"><img src="https://thumbor.ftacademy.cn/unsafe/1920x0/https://d1e00ek4ebabms.cloudfront.net/production/a0ef2fd5-af26-4f8a-a4c1-a4580b38b4bc.png"></picture>乌克兰总统弗拉基米尔•泽连斯基(Volodymyr Zelenskyy)上个月在纽约出席联合国安理会关于维护乌克兰和平与安全的会议，并在屏幕上发表讲话</div>
-
-<p>英国《金融时报》和知情人士看到的文件显示，欧盟提供的、为制裁提供理由的许多案件文件，似乎是从新闻文章、企业网站和社交媒体帖子中仓促拼凑而成的。</p>
-<p>参与这一过程的人士向《金融时报》表示，俄罗斯入侵乌克兰后，欧盟及其盟国(如美国和英国)面临迅速采取制裁行动的巨大压力，这意味着官员们在拟定目标个人名单时不得不走捷径。</p>
-<p>据一位受制裁的寡头称，在很多情况下，欧盟正在向针对受制裁个人的证据文件中添加更多的材料。</p>
-<p>在一些案例中，欧盟将俄罗斯公司缴纳的税款作为制裁其所有者的理由，理由是这有助于为普京的战争机器提供资金。这激怒了一些寡头，他们认为，与欧洲国家自战争开始以来在俄罗斯石油和天然气上的花费相比，他们只支付了很小的一部分。</p>
-<p>“欧盟比我们更多地帮到了普京，”一位反对将他们列入制裁名单的人士表示。“他们应该制裁自己。”</p>
-<p>欧盟委员会(European Commission)外交政策发言人彼得•斯塔诺(Peter Stano)坚称，制裁一直“基于相关制裁制度规定的标准、现有证据以及所有成员国达成的协议”。</p>
-<h1 class="is-text-only" id="id-53">一张“免死金牌”</h1>
-<p>然而，由于欧盟法庭的案件可能会拖延数年，一些寡头已经接受了买断机制的想法——这些大亨可以放弃自己的部分财富来支持乌克兰，以换取解除制裁。</p>
-<p>据知情人士透露，除了弗里德曼，其他几名俄罗斯商人也与基辅进行了接触，提出了类似的交换条件。</p>
-<p>这位俄罗斯资深商人表示：“如果你制定一个规则，让他们放弃(自己财富的)50%来支持乌克兰，而保留剩下的50%，他们每个人都会跑过来。问题是他们没有出路。你需要给他们一些方向，让他们朝着这个方向努力。”</p>
-<p>这位商人认为，尽管有报复的威胁，但大多数寡头都会抓住收回资金的机会，因为“普京只能在未来给他们提供一些东西。”他们唯一想要的就是要回他们现在失去的钱。”</p>
-<p>然而，在乌克兰，他们面对着持怀疑态度的听众。弗里德曼在该国共同拥有大量资产，包括移动运营商Kyivstar、该国最大的银行之一(现在被称为Sense Bank)，以及一家瓶装水企业。</p>
-<p>即使在2014年俄罗斯从乌克兰吞并克里米亚之后，他仍然定期访问乌克兰，在自己的家乡利沃夫组织了一场爵士音乐节，并资助了一座纪念1941年纳粹德国屠杀犹太人的“Babiy Yar”纪念馆。</p>
-<div class="pic"><picture><source media="screen and (max-width: 490px)" srcset="https://thumbor.ftacademy.cn/unsafe/980x0/https://d1e00ek4ebabms.cloudfront.net/production/8439e0e6-1f3f-4bf7-bfaf-3829f8abd65b.jpg"><img src="https://thumbor.ftacademy.cn/unsafe/1920x0/https://d1e00ek4ebabms.cloudfront.net/production/4880a702-2bce-4c85-a6e3-71713d5efe7b.jpg"></picture></div>
-
-<p>但这些贡献还不足以赢得乌克兰总统弗拉基米尔•泽连斯基(Volodymyr zelensky)的办公室的支持。据知情人士透露，乌克兰一直对对该银行进行资本重组的计划持开放态度，但在解除对其所有者制裁的交换条件上犹豫不决。</p>
-<p>“乌克兰没有把制裁作为讨价还价的工具。这是一个原则问题，”泽连斯基办公室副主任罗斯蒂斯拉夫•舒尔玛(Rostislav Shurma)表示。“制裁的主要目标是停止战争，而不是找到一些条件来同意解除制裁。”</p>
-<p>泽连斯基说，他只有在弗里德曼谴责普京、更有力地反对这场战争并撕毁他的俄罗斯护照的情况下才会同意。</p>
-<p>弗里德曼否认他曾与政府讨论过获得乌克兰公民身份。</p>
-<p>一些官员建议，根据今年5月通过的一项法律，直接没收俄罗斯寡头在乌克兰的资产。检方今年7月表示，乌克兰迄今从俄罗斯寡头手中查获了至少11亿美元。</p>
-<p>但基辅对寡头们的困境没有多少同情。“2月24日、25日、26日、28日——这是确定你在哪里的必要时间，”乌克兰安全委员会主席奥莱克西·丹尼洛夫(Oleksiy Danilov)说，他指的是战争初期。“在光明的一面？还是站在黑暗的一边？”</p>
-<p><em class="is-text-only" id="id-66">罗曼·奥勒尔奇克(Roman Olearchyk)和梅胡尔·斯里瓦斯塔瓦(Mehul Srivastava)基辅、亨利·福伊(Henry Foy)布鲁塞尔、本·霍尔(Ben Hall)伦敦补充报道</em></p>
-
-
-</div>
-<div class="clearfloat"></div>
-</div>
-<div class="copyrightstatement-container">
-版权声明：本文版权归FT中文网所有，未经允许任何单位或个人不得转载，复制或以任何其他方式使用本文全部或部分，侵权必究。
-</div>
-<div class="clearfloat"></div>
-<!-- story privilegeType: PremiumMBA -->
-</div>
-<div class="clearfloat block-bottom"></div>
-</div></div>
-<div 
-data-o-ads-name="infoflow4"
-class="o-ads infoflow"  
-data-o-ads-formats-default="false" 
-data-o-ads-formats-small="FtcInfoFlow" 
-data-o-ads-formats-medium="false"
-data-o-ads-formats-large="false"
-data-o-ads-formats-extra="false"
-data-o-ads-targeting="cnpos=info4;"
->
-</div>
-<div class="side-container"><div class="side-inner">
-<div class="story-box with-theme">
-<h2 class="box-title"><a href="/tag/乌克兰战争">乌克兰战争</a></h2>
-<ul class="top10">
-<li class="mp1"><a target="_blank" href="/interactive/82621">波兰：对发电商征收暴利税不应成为欧盟优先事项</a></li>
-<li class="mp2"><a target="_blank" href="/interactive/82482">挪威愿意参与商议欧盟天然气价格上限</a></li>
-<li class="mp3"><a target="_blank" href="/interactive/82489">乌克兰寻求吸引4000亿美元外国投资</a></li>
-<li class="mp4"><a target="_blank" href="/interactive/82484">朔尔茨希望德国民众在“能源战争”中支持自己</a></li>
-<li class="mp5"><a target="_blank" href="/interactive/82426">俄罗斯从朝鲜购买数百万枚火箭和炮弹</a></li>
-<li class="mp6"><a target="_blank" href="/interactive/82422">Lex专栏：西欧必须忍受来自莫斯科的报复</a></li>
-<li class="mp7"><a target="_blank" href="/interactive/63049">俄乌战争地图导览：最新进展</a></li>
-<li class="mp8"><a target="_blank" href="/interactive/82358">求助化石燃料：欧洲的“不可避免之恶”</a></li>
-<li class="mp9"><a target="_blank" href="/interactive/82293">乌克兰赫尔松地区占领军推迟加入俄罗斯投票</a></li>
-</ul>
-</div>
-<div class="story-box last-child">
-<h2 class="box-title"><a>相关话题</a></h2>
-<ul class="top10">
-<li class="story-theme mp1">
-<a target="_blank" href="/channel/politics.html">政治</a>
-<div class="icon-right">
-<button class="myft-follow plus" data-tag="politics" data-type="topic">关注</button>
-</div>
-</li>
-<li class="story-theme">
-<a target="_blank" href="/channel/business.html">商业</a>
-<div class="icon-right">
-<button class="myft-follow plus" data-tag="business" data-type="topic">关注</button>
-</div>
-</li>
-<li class="story-theme">
-<a target="_blank" href="/tag/乌克兰战争">乌克兰战争</a>
-<div class="icon-right">
-<button class="myft-follow plus" data-tag="乌克兰战争" data-type="tag">关注</button>
-</div>
-</li>
-<li class="story-theme">
-<a target="_blank" href="/tag/FT商学院">FT商学院</a>
-<div class="icon-right">
-<button class="myft-follow plus" data-tag="FT商学院" data-type="tag">关注</button>
-</div>
-</li>
-<li class="story-theme">
-<a target="_blank" href="/tag/普京">普京</a>
-<div class="icon-right">
-<button class="myft-follow plus" data-tag="普京" data-type="tag">关注</button>
-</div>
-</li>
-<li class="story-theme">
-<a target="_blank" href="/tag/俄罗斯政治">俄罗斯政治</a>
-<div class="icon-right">
-<button class="myft-follow plus" data-tag="俄罗斯政治" data-type="tag">关注</button>
-</div>
-</li>
-<li class="story-theme">
-<a target="_blank" href="/tag/新兴市场">新兴市场</a>
-<div class="icon-right">
-<button class="myft-follow plus" data-tag="新兴市场" data-type="tag">关注</button>
-</div>
-</li>
-<li class="story-theme">
-<a target="_blank" href="/tag/FT大视野">FT大视野</a>
-<div class="icon-right">
-<button class="myft-follow plus" data-tag="FT大视野" data-type="tag">关注</button>
-</div>
-</li>
-<li class="story-theme">
-<a target="_blank" href="/tag/世界卫生组织">世界卫生组织</a>
-<div class="icon-right">
-<button class="myft-follow plus" data-tag="世界卫生组织" data-type="tag">关注</button>
-</div>
-</li>
-<li class="story-theme">
-<a target="_blank" href="/tag/FBI">FBI</a>
-<div class="icon-right">
-<button class="myft-follow plus" data-tag="FBI" data-type="tag">关注</button>
-</div>
-</li>
-<li class="story-theme">
-<a target="_blank" href="/tag/美国就业">美国就业</a>
-<div class="icon-right">
-<button class="myft-follow plus" data-tag="美国就业" data-type="tag">关注</button>
-</div>
-</li>
-<li class="story-theme">
-<a target="_blank" href="/tag/欧洲委员会">欧洲委员会</a>
-<div class="icon-right">
-<button class="myft-follow plus" data-tag="欧洲委员会" data-type="tag">关注</button>
-</div>
-</li>
-<li class="story-theme">
-<a target="_blank" href="/tag/欧洲联盟法院">欧洲联盟法院</a>
-<div class="icon-right">
-<button class="myft-follow plus" data-tag="欧洲联盟法院" data-type="tag">关注</button>
-</div>
-</li>
-<li class="story-theme">
-<a target="_blank" href="/tag/伦敦金融城">伦敦金融城</a>
-<div class="icon-right">
-<button class="myft-follow plus" data-tag="伦敦金融城" data-type="tag">关注</button>
-</div>
-</li>
-<li class="story-theme">
-<a target="_blank" href="/channel/europe.html">欧洲</a>
-<div class="icon-right">
-<button class="myft-follow plus" data-tag="europe" data-type="area">关注</button>
-</div>
-</li>
-<li class="story-theme">
-<a target="_blank" href="/channel/Russia.html">俄罗斯</a>
-<div class="icon-right">
-<button class="myft-follow plus" data-tag="Russia" data-type="area">关注</button>
-</div>
-</li>
-<li class="story-theme">
-<a target="_blank" href="/channel/Ukraine.html">乌克兰</a>
-<div class="icon-right">
-<button class="myft-follow plus" data-tag="Ukraine" data-type="area">关注</button>
-</div>
-</li>
-<li class="story-theme">
-<a target="_blank" href="/channel/usa.html">美国</a>
-<div class="icon-right">
-<button class="myft-follow plus" data-tag="usa" data-type="area">关注</button>
-</div>
-</li>
-<li class="story-theme">
-<a target="_blank" href="/author/马克斯•塞登">马克斯•塞登</a>
-<div class="icon-right">
-<button class="myft-follow plus" data-tag="马克斯•塞登" data-type="author">关注</button>
-</div>
-</li>
-<li class="story-theme">
-<a target="_blank" href="/author/波琳娜•伊万诺娃">波琳娜•伊万诺娃</a>
-<div class="icon-right">
-<button class="myft-follow plus" data-tag="波琳娜•伊万诺娃" data-type="author">关注</button>
-</div>
-</li>
-</ul>
-</div>
-</div></div><div class="clearfloat"></div>
-</div></div>
-<div class="block-container no-side story-recommend-container" id="story-recommend-container"><div class="block-inner">
-<div class="content-container"><div class="content-inner">
-<div class="list-container"><div class="list-inner">
-<h2 class="list-title"><a class="list-link" href="#">您可能感兴趣的文章</a></h2>
-<div class="items" id="story-recommend-bottom"></div>
-</div></div>
-</div></div>
-<div class="clearfloat block-bottom"></div>
-</div></div>
-<div 
-data-o-ads-name="paidpost2"
-class="o-ads paid-post"  
-data-o-ads-formats-default="false" 
-data-o-ads-formats-small="false"
-data-o-ads-formats-medium="false"
-data-o-ads-formats-large="FtcPaidpost"
-data-o-ads-formats-extra="FtcPaidpost"
-data-o-ads-targeting="cnpos=paidpost2;"
->
-</div>
-<div 
-data-o-ads-name="paidpost"
-class="o-ads paid-post"  
-data-o-ads-formats-default="false" 
-data-o-ads-formats-small="false"
-data-o-ads-formats-medium="false"
-data-o-ads-formats-large="FtcPaidpost"
-data-o-ads-formats-extra="FtcPaidpost"
-data-o-ads-targeting="cnpos=paidpost;"
->
-</div>
-<div class="footer-container"><div class="footer-inner">
-<div>
-<a href="/m/corp/aboutus.html">关于我们</a>
-<a href="https://ft.wd3.myworkdayjobs.com/FT_Chinese_External_Careers" target="_blank">加入我们</a>
-<a href="/m/corp/faq.html">问题回馈</a>
-<a href="/m/corp/contact.html">联系方式</a>
-<a href="/m/corp/partner.html">合作伙伴</a>
-<a href="/m/corp/service.html">服务条款</a>
-<a href="/m/corp/sales.html">广告业务 </a>
-<a href="/m/corp/copyright.html">版权声明</a>
-<a href="/m/marketing/ftc.html">最新动态</a>
-</div>
-<p>
-<span class="copyright"><b>© The Financial Times Ltd 2022</b></span> 
-<span><acronym title="Financial Times">FT</acronym> and 'Financial Times' are trademarks of The Financial Times Ltd.</span>
-</p>
-</div></div>
-<script>
-function async(u, c) {
-var d = document, t = 'script',
-o = d.createElement(t),
-s = d.getElementsByTagName(t)[0];
-o.src = u;
-if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
-s.parentNode.insertBefore(o, s);
-}
-// Your web app's Firebase configuration
-var firebaseConfig = {
-apiKey: "AIzaSyCB4QkzRm1oUl9-XA6kl8ob58FI3C6iDY0",
-authDomain: "ftchineseiphone.firebaseapp.com",
-databaseURL: "https://ftchineseiphone.firebaseio.com",
-projectId: "ftchineseiphone",
-storageBucket: "ftchineseiphone.appspot.com",
-messagingSenderId: "342601113715",
-appId: "1:342601113715:web:6d7016e26b94e3854fca06",
-measurementId: "G-PT4E4NGVJV"
-};
-//MARK: - The core Firebase JS SDK is always required and must be listed first
-async('https://www.gstatic.com/firebasejs/7.2.2/firebase-app.js', function() {
-// MARK: - TODO: Add SDKs for Firebase products that you want to use: https://firebase.google.com/docs/web/setup#available-libraries
-async('https://www.gstatic.com/firebasejs/7.2.2/firebase-analytics.js', function() {
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-firebase.analytics();
-});
-});
-</script>
-<img src='https://beacon.krxd.net/event.gif?event_id=KWA6DGT9&event_type=rtg' width=0 height=0 /><div class="overlay-container" id="font-setting">
-<div class="overlay-inner">
-<div class="overlay-bg" data-parentid="font-setting"></div>
-<div class="overlay-content-outer">
-<div class="overlay-content-inner">
-<div class="overlay-content">
-<div class="overlay-title">设置字号<i class="overlay-close" data-parentid="font-setting">×</i></div>
-<span class="font-options" id="font-options">
-<div class="smallest first-child" data-font="0.8">最小</div>
-<div class="smaller" data-font="0.9">较小</div>
-<div class="normal" data-font="1">默认</div>
-<div class="bigger" data-font="1.2">较大</div>
-<div class="biggest" data-font="1.6">最大</div>
-</span>
-</div>
-</div>
-</div>
-</div>
-</div><div class="overlay-container" id="share-legacy">
-<div class="overlay-inner">
-<div class="overlay-bg" data-parentid="share-legacy"></div>
-<div class="overlay-content-outer">
-<div class="overlay-content-inner">
-<div class="overlay-content">
-<div class="overlay-title">分享<i class="overlay-close" data-parentid="share-legacy">×</i></div>
-<span id="sharelinks"></span>
-</div>
-</div>
-</div>
-</div>
-</div><script type="text/javascript">
-window._taboola = window._taboola || [];
-_taboola.push({flush: true});
-</script>
-
+    <div id="promo-box-container">
+    <style>
+    .noneSubscriber.subscription-promo-container {
+    background-color: #ff396e;
+    }
+    .noneSubscriber .subscription-promo-text {
+    background-color: #00c4c2;
+    border-color: #00c4c2;
+    }
+    .noneSubscriber .subscription-promo-text {
+    color: #ffffff;
+    }
+    .noneSubscriber .subscription-promo-box {
+    background-image: url(https://thumbor.ftacademy.cn/unsafe/picture/3/000188443_piclink.png);
+    }
+    @media only screen and (max-width: 490px) {
+    .noneSubscriber .subscription-promo-box {
+    background-image: url(https://thumbor.ftacademy.cn/unsafe/picture/4/000188444_piclink.png);
+    }
+    }
+    </style>
+    <div class="subscription-promo-container show-image-in-mobile noneSubscriber">
+    <div class="subscription-promo-inner">
+    <a  href="/m/corp/preview.html?pageid=18annivaq&to=all&ccode=2C18annivaqPBoxWeb" class="subscription-promo-box n-internal-promo" data-promo-target="noneSubscriber" data-promo-id="2C18annivaqPBoxWeb" data-promo-name="周年庆 新会员75折" data-promo-creative="https://thumbor.ftacademy.cn/unsafe/picture/3/000188443_piclink.png" data-promo-position="promoBox">
+    <div class="subscription-promo-text">周年庆 新会员75折</div>
+    </a>
+    </div>
+    </div>
+    <script type="text/javascript">
+    window.userId = GetCookie('USER_ID') || '';
+    if (window.userId === '') {
+    gtag('event', 'Display', {'event_label': '2C18annivaqPBoxWeb', 'event_category': 'PromoBox', 'non_interaction': true});
+    }
+    </script>
+    </div>
+    <script type="text/javascript">
+    function addUserId(ele) {
+    if (ele === null) {
+    return;
+    }
+    var userId;
+    if (typeof GetCookie === 'function') {
+    userId = GetCookie('USER_ID');
+    } else {
+    userId = getCookie('USER_ID');
+    }
+    if (userId && typeof userId === 'string' && userId !== '') {
+    var link = ele.href;
+    var connector = (link.indexOf('?') >= 0) ? '&' : '?';
+    ele.href = link + connector + 'u=' + userId;
+    }
+    }
+    var premiumLink = document.querySelector('[data-promo-target=premium]');
+    addUserId(premiumLink);
+    </script>
+    <header class="header-container">
+    <div class="header-inner">
+    <div class="masthead"></div>
+    <div class="header-side header-left expandable">
+    <div class="current-edition">
+    <span>简体中文</span>
+    <a href="https://big5.ftchinese.com/interactive/118854?exclusive">繁体中文</a>
+    <a href="http://www.ft.com/">FT.com</a>
+    </div>
+    </div>
+    <div class="header-side header-right">
+    <span class="visitor-box">
+    <a onclick="showOverlay('overlay-login')">登录</a>
+    <a class="more last" href="http://user.ftchinese.com/register">注册</a>
+    </span>
+    <span class="member-box">
+    <a href="/channel/myftlocal.html">我的FT</a>
+    <a id="ft-login-your-account" href="/users/cp">设置</a>
+    <a id="ft-login-logout" href="/users/logout">登出</a>
+    </span>
+    </div>
+    </div>
+    </header>
+    <div class="overlay-container" id="overlay-login">
+    <div class="overlay-inner">
+    <div class="overlay-bg" data-parentid="overlay-login"></div>
+    <div class="overlay-content-outer">
+    <div class="overlay-content-inner">
+    <div class="overlay-content">
+    <div class="overlay-title">登录<i class="overlay-close" data-parentid="overlay-login">×</i></div>
+    <form method="post" action="/users/login" id="overlay-login-form">
+    <span id="overlay-login-container">
+    <div class="input-title" id="login-reason"></div>
+    <div class="input-title">电子邮件/用户名</div>
+    <div class="input-container"><input type="text" class="input-oneline" name="username" id="ft-login-input-username"></div>
+    <div class="input-title">密码</div>
+    <div class="input-container"><input type="password" class="input-oneline" name="password" id="ft-login-input-password"></div>
+    <div><input type="checkbox" class="checkbox" value="1" checked="checked" name="saveme" id="ft-login-input-remember">记住我</div>
+    <div class="login-btn input-submit-container center"><input class="" type="submit" value="登录"></div>
+    <div class="center register-find"><a href="/register" class="blue-link">免费注册</a><span></span><a href="/users/findpassword" class="blue-link">找回密码</a></div>
+    <div class="phone-login-container" id="phone-login-trigger">
+    <div class="center phone-login"><a onclick="showPhoneLogin()" class="blue-link">短信登录</a></div>
+    </div>
+    <div class="wx-login-container">
+    <div class="center wx-login"><a href="https://www.ftacademy.cn/wxlogin" class="blue-link">微信登录</a></div>
+    </div>
+    </span>
+    </form>
+    <span id="phone-ftc-binding-container">
+    <div>请输入邮箱和密码进行绑定操作：</div>
+    <div><input placeholder="请输入邮箱" type="email" autocorrect="off" id="phone-binding-email" class="input-oneline"/></div>
+    <div><input placeholder="请输入密码" type="password" class="input-oneline" id="phone-binding-password"/></div>
+    <div class="topmargin statusmsg" id="phone-binding-status"></div>
+    <div><input type="button" value="绑定" class="n-button-inner" onclick="binding('phone')"/></div>
+    </span>
+    <span id="phone-login-container">
+    <div class="user-name-container">请输入手机号码，通过短信验证（目前仅支持中国大陆地区的手机号）：</div>
+    <div><input onkeyup="resetPhoneLogin()" placeholder="请输入中国大陆的手机号码" type="tel" autocorrect="off" name="phone" id="phone-number" class="input-oneline"/></div>
+    <div><input placeholder="请输入验证码"  pattern="\d*" maxlength="6" name="phonecapcha"  class="input-oneline" id="phone-captcha"/></div>
+    <div class="topmargin statusmsg" id="phone-login-status"></div>
+    <div>请您阅读我们的<a class="agreeDetail" href="/m/corp/service.html" target="_blank">用户注册协议</a>和<a class="agreeDetail" href="/m/corp/service.html#privacy" target="_blank">隐私权保护政策</a>，点击下方按钮即视为您接受。</div>
+    <div><input id="phone-login-submit-button" type="button" value="获取验证码" class="n-button-inner" onclick="phoneLogin()"/></div>
+    </span>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div><div class="o-nav__placeholder">
+    <div class="o-nav">
+    <div class="o-nav__outer">
+    <div class="o-nav__inner">
+    <div class="o-nav__search"  data-o-component="o-toggler">
+    <button class="o-nav__search-toggle" data-o-toggler-button aria-controls="search-form">
+    <span class="search-toggle--open">搜索</span>
+    <span class="search-toggle--close">关闭</span>
+    </button>
+    <form action="/search/" id="search-form" role="search" data-o-toggler-target>
+    <input id="search-term" type="search" name="keys" class="search-input" placeholder="输入年月日‘xxxx-xx-xx’可搜索该日存档" />
+    <input id="type_news" type="hidden" value="type_news" name="ftsearchType" checked />
+    <button class="search-button" tabindex="1"><span>搜索</span></button>
+    </form>
+    </div>
+    <div class="o-header__masthead-mobile">
+    <a href="/" title="前往FT中文网首页"><span>FT中文网</span></a>
+    </div>
+    <nav class="o-nav__container" role="navigation">
+    <button class="nav-toggle" data-o-nav-togglable><span>Menu</span></button>
+    <ol class="o-nav__meganav">
+    <li class="nav-section mobile">
+    <button class="nav-section-head mobile" aria-selected="true">切换版本</button>
+    <ol class="nav-items">
+    <li class="nav-item">
+    <a class="nav-link" href="https://big5.ftchinese.com/">繁体中文版</a>
+    </li>
+    <li class="nav-item">
+    <a class="nav-link" href="http://www.ft.com/">FT.com</a>
+    </li>
+    </ol>
+    </li>
+    <li class="nav-section home "
+     data-section="home"
+    >
+    <button class="nav-section-head mobile">首页</button>
+    <a class="nav-section-head desktop" href="/">首页</a>
+    </li>
+    <li class="nav-section china "
+     data-section="china"
+    >
+    <button class="nav-section-head mobile">中国</button>
+    <a class="nav-section-head desktop" href="/channel/china.html">中国</a>
+    </li>
+    <li class="nav-section world "
+     data-section="world"
+    >
+    <button class="nav-section-head mobile">全球</button>
+    <a class="nav-section-head desktop" href="/channel/world.html">全球</a>
+    </li>
+    <li class="nav-section economy "
+     data-section="economy"
+    >
+    <button class="nav-section-head mobile">经济</button>
+    <a class="nav-section-head desktop" href="/channel/economy.html">经济</a>
+    </li>
+    <li class="nav-section markets "
+     data-section="markets"
+    >
+    <button class="nav-section-head mobile">金融市场</button>
+    <a class="nav-section-head desktop" href="/channel/markets.html">金融市场</a>
+    </li>
+    <li class="nav-section business "
+     data-section="business"
+    >
+    <button class="nav-section-head mobile">商业</button>
+    <a class="nav-section-head desktop" href="/channel/business.html">商业</a>
+    </li>
+    <li class="nav-section innovation "
+     data-section="innovation"
+    >
+    <button class="nav-section-head mobile">创新经济</button>
+    <a class="nav-section-head desktop" href="/channel/innovation.html">创新经济</a>
+    </li>
+    <li class="nav-section education "
+     data-section="education"
+    >
+    <button class="nav-section-head mobile">教育</button>
+    <a class="nav-section-head desktop" href="/channel/education.html?newnav=yes">教育</a>
+    </li>
+    <li class="nav-section opinion "
+     data-section="opinion"
+    >
+    <button class="nav-section-head mobile">观点</button>
+    <a class="nav-section-head desktop" href="/channel/opinion.html">观点</a>
+    </li>
+    <li class="nav-section management "
+     aria-selected="true" data-section="management"
+    >
+    <button class="nav-section-head mobile">管理</button>
+    <a class="nav-section-head desktop" href="/channel/management.html">管理</a>
+    <ol class="nav-items">
+    <li class="nav-item mobile">
+    <a class="nav-link" href="/channel/management.html">
+    频道首页
+    </a>
+    </li>
+    <li class="nav-item" aria-selected="true" data-channel="mba">
+    <a class="nav-link" href="/channel/mba.html">FT商学院</a>
+    </li>
+    <li class="nav-item"  data-channel="career">
+    <a class="nav-link" href="/channel/career.html">职场</a>
+    </li>
+    <li class="nav-item"  data-channel="leadership">
+    <a class="nav-link" href="/channel/leadership.html">领导力</a>
+    </li>
+    <li class="nav-item"  data-channel="wealth">
+    <a class="nav-link" href="/tag/%E8%B4%A2%E5%AF%8C%E7%AE%A1%E7%90%86">财富管理</a>
+    </li>
+    <li class="nav-item"  data-channel="people">
+    <a class="nav-link" href="/channel/people.html">人物</a>
+    </li>
+    </ol>
+    </li>
+    <li class="nav-section lifestyle "
+     data-section="lifestyle"
+    >
+    <button class="nav-section-head mobile">生活时尚</button>
+    <a class="nav-section-head desktop" href="/channel/lifestyle.html">生活时尚</a>
+    </li>
+    <li class="nav-section stream "
+     data-section="stream"
+    >
+    <button class="nav-section-head mobile">视频</button>
+    <a class="nav-section-head desktop" href="/channel/stream.html">视频</a>
+    </li>
+    <li class="nav-section audio "
+     data-section="audio"
+    >
+    <button class="nav-section-head mobile">音频</button>
+    <a class="nav-section-head desktop" href="/channel/audio.html">音频</a>
+    </li>
+    <li class="nav-section english "
+     data-section="english"
+    >
+    <button class="nav-section-head mobile">每日英语</button>
+    <a class="nav-section-head desktop" href="/channel/english.html">每日英语</a>
+    </li>
+    <li class="nav-section rewired "
+     data-section="rewired"
+    >
+    <button class="nav-section-head mobile">换脑ReWired</button>
+    <a class="nav-section-head desktop" href="/channel/rewired.html">换脑ReWired</a>
+    </li>
+    <li class="nav-section mobile login">
+    <ul>
+    <li class="nav-item">
+    <a class="nav-link" href="http://user.ftchinese.com/login">登录</a>
+    </li>
+    <li class="nav-item">
+    <a class="nav-link" href="http://user.ftchinese.com/register">免费注册</a>
+    </li>
+    </ul>
+    </li>
+    <li class="nav-section mobile logout">
+    <ul>
+    <li class="nav-item">
+    <a class="nav-link" href="/channel/myftlocal.html">我的FT</a>
+    </li>
+    <li class="nav-item">
+    <a class="nav-link" href="/users/setting/vip">会员中心</a>
+    </li>
+    <li class="nav-item">
+    <a class="nav-link" href="/users/setting/index">设置</a>
+    </li>
+    <li class="nav-item">
+    <a class="nav-link" href="/users/logout">登出</a>
+    </li>
+    </ul>
+    </li>
+    </ol>
+    </nav>
+    <ul class="o-nav__extra-tools">
+    <li class="tools-section" aria-haspopup="true">
+    <a class="tools-section-head" href="/m/corp/follow.html">关注我们</a>
+    <ol class="tools-items">
+    <li><a href="/m/corp/follow.html" target="_blank">微信公众号</a></li>
+    <li><a href="http://weibo.com/ftchinese" target="_blank">新浪微博</a></li>
+    <li><a href="/m/corp/follow.html" target="_blank">Flipboard</a></li>
+    <li><a href="https://twitter.com/FTChinese" target="_blank">Twitter</a></li>
+    <li><a href="https://www.facebook.com/financialtimeschinese" target="_blank">Facebook</a></li>
+    <li><a href="https://www.linkedin.com/company/4865254?trk=hp-feed-company-name" target="_blank">LinkedIn</a></li>
+    </ol>
+    </li>
+    <li class="tools-section" aria-haspopup="true">
+    <span class="tools-section-head">工具</span>
+    <ol class="tools-items">
+    <li><a href="http://app.ftchinese.com/" class="o-client-id-link">移动应用大全</a></li>
+    <li><a href="/users/setting/index">基本设置</a></li>
+    <li><a href="/users/setting/vip">会员中心</a></li>
+    <li><a href="/users/setting/changeicon">修改头像</a></li>
+    <li><a href="/users/setting/maillist">邮件订阅</a></li>
+    <li><a href="/index.php/snsapi/index">同步微博</a></li>
+    <li><a href="/users/commentstory">我的评论</a></li>
+    <li><a href="/users/favstorylist">管理收藏</a></li>
+    </ol>
+    </li>
+    <li class="tools-section">
+    <a class="tools-section-head follow__rss" href="/channel/rss.html" title="RSS"><span>RSS</span></a>
+    </li>
+    </ul>
+    </div><!-- o-nav__inner -->
+    </div><!-- o-nav__outer -->
+    <div class="o-nav__meganav-placeholder"></div>
+    </div><!-- o-nav -->
+    </div>
+    <div class="block-container has-side story-page"><div class="block-inner">
+    <div class="content-container"><div class="content-inner">
+    <div class="story-container">
+    <div class="story-topper">
+    <div class="story-theme"><a href="/tag/乌克兰战争">乌克兰战争</a><button class="myft-follow plus" data-tag="乌克兰战争" data-type="tag">关注</button></div>
+    <h1 class="story-headline story-headline-large">欧洲企业面临越来越大的暴利税冲击</h1>
+    <div class="story-lead">最初集中在银行和能源领域的征税，现在正扩展到其他领域。</div>
+    
+    </div>
+    <div class="story-tools">
+    <div class="story-action-placeholder" id="story-action-placeholder">
+    <div class="story-action">
+    <div class="action-inner">
+    <a class="action-icon icon-wechat P-hide" href="/m/corp/qrshare.html?url=http%3A%2F%2Fwww.ftchinese.com%2Finteractive%2F118854%3Ffull%3Dy%26gift_id%3De1e50f8ca1becda11904b313b189a361fb8202a0&title=" target="_blank"></a>
+    <a class="action-icon icon-weibo P-hide" href="http://service.weibo.com/share/share.php?appkey=4221537403&url=http%3A%2F%2Fwww.ftchinese.com%2Finteractive%2F118854%3Ffull%3Dy%26gift_id%3De1e50f8ca1becda11904b313b189a361fb8202a0%26ccode%3D2G169001&title=【欧洲企业面临越来越大的暴利税冲击】最初集中在银行和能源领域的征税，现在正扩展到其他领域。（分享自 @FT中文网）&ralateUid=1698233740&source=&sourceUrl=&content=utf-8&pic=https://thumbor.ftacademy.cn/unsafe/picture/8/000190538_piclink.jpg&searchPic=false" target="_blank"></a>
+    <a class="action-icon icon-twitter P-hide" href="http://twitter.com/home?status=【欧洲企业面临越来越大的暴利税冲击】最初集中在银行和能源领域的征税，现在正扩展到其他领域。（分享自 @FT中文网）...%20http%3A%2F%2Fwww.ftchinese.com%2Finteractive%2F118854%3Ffull%3Dy%26gift_id%3De1e50f8ca1becda11904b313b189a361fb8202a0" target="_blank"></a>
+    <a class="action-icon icon-facebook P-hide" href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.ftchinese.com%2Finteractive%2F118854%3Ffull%3Dy%26gift_id%3De1e50f8ca1becda11904b313b189a361fb8202a0&t=【欧洲企业面临越来越大的暴利税冲击】最初集中在银行和能源领域的征税，现在正扩展到其他领域。（分享自 @FT中文网）" target="_blank"></a>
+    <a class="icon-right icon-ch" href="/interactive/118854/en"><button>英文</button></a><a class="icon-right icon-ch" href="/interactive/118854/ce"><button>对照</button></a>
+    
+    <div class="icon-right icon-save P-hide">
+    <button id="addfavlink118854" data-item-type="interactive">收藏</button>
+    </div>
+    <a class="icon-right icon-action icon-print P-hide" onclick="window.print()" target="_blank"></a>
+    <a class="icon-right icon-action icon-font-size" onclick="showOverlay('font-setting')"></a>
+    <a class="icon-right icon-action icon-audio" href="/interactive/118894"></a>
+    <div class="progress-container">
+    <svg
+    class="progress-ring"
+    height="40"
+    width="40"
+    >
+    <circle
+    class="progress-ring__circle"
+    stroke-width="2"
+    stroke="transparent"
+    r="18"
+    cx="20"
+    cy="20"
+    />
+    </svg>
+    <svg class="pregress-tick" width="24" height="24" viewBox="0 0 24 24">
+    <path fill="none" d="M0 0h24v24H0z"/><path class="progress-tick-path" fill="transparent" d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+    </svg>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    <div class="story-byline">
+    <span class="story-time" data-time="1691980558" pub-date="1691942400">更新于2023年8月14日 10:35</span>
+    <span class="story-author">英国《金融时报》 <a href='/author/%E8%89%BE%E7%8E%9B%E2%80%A2%E9%98%BF%E6%9D%B0%E6%9B%BC' target=_blank>艾玛•阿杰曼</a> </span>
+    </div>
+    <div class="story-body">
+    
+    
+    <div id="story-body-container" class="has-picture">
+    <div class="print-only">来自FT中文网的温馨提示：如您对更多FT中文网的内容感兴趣，请在苹果应用商店或谷歌应用市场搜索“FT中文网”，下载FT中文网的官方应用。</div>
+    
+    <div class="pic is-mixed" id="id-0"><picture><img src="https://thumbor.ftacademy.cn/unsafe/1920x0/https://d1e00ek4ebabms.cloudfront.net/production/192cb1cc-a856-4624-9cb4-de957b177077.jpg"></picture>欧洲各国已经对各个行业征收了暴利税。在葡萄牙，政府瞄准了食品行业</div>
+    
+    <p>欧洲各国政府正越来越多地转向征收暴利税，以平衡账目，并平息公众对企业在几十年来最严重的生活成本危机中获得高额利润的不满。</p>
+    <p>8月8日，意大利政府出人意料地向银行征税，这是这一趋势的最新例证。这一趋势始于俄罗斯入侵乌克兰后电价飙升，给能源公司带来了丰厚的收入。</p>
+    <p>这些税最初是对能源工业征收的。但随着受到利率上升和政府支出增加打击的政界人士寻求填补预算赤字，这种情况正日益蔓延到其他领域。</p>
+    <p>毕马威(KPMG)全球税收政策主管格兰特•沃德尔-约翰逊(Grant Wardell-Johnson)表示：“欧洲掀起了一波暴利税浪潮，这显然是对政府收入不足的回应。”</p>
+    <p>毕马威和税务基金会(Tax Foundation)的数据显示，自2022年初以来，欧洲各地已出台或提议征收30多种暴利税，其中一些现在涉及多个行业。</p>
+    <p>共有24个欧盟国家宣布、提议或推进实施了对能源公司征收暴利税，这是欧盟委员会(European Commission)官员在2022年初能源价格飙升后提出的。英国还对从北海开采石油和天然气的利润征税。</p>
+    <p>但银行已日益成为目标，继捷克共和国、立陶宛、西班牙以后，现在意大利也开始对银行业课税。拉脱维亚可能会效仿。</p>
+    <p>在其他国家，暴利税涵盖的行业甚至更为普遍。匈牙利已对包括保险公司在内的所有金融机构以及制药集团征税。葡萄牙对2022年和2023年产生超额利润的食品分销商征收33%的税。</p>
+    <p>克罗地亚走得更远，引入了一项暴利税，可能适用于2022年报告收入超过3亿克朗(合4000万欧元)的所有公司。保加利亚还计划在整个经济体范围内征收暴利税。</p>
+    <div class="n-content-layout card-container " data-layout-name="card" data-layout-width="true"><div class="n-content-layout__container"><h2 class="is-text-only" id="id-10">银行和能源以外的暴利税——保加利亚和匈牙利</h2><div class="n-content-layout__slot pic" data-slot-width="true"><h4 class="is-text-only" id="id-11">保加利亚</h4><div class="n-content-layout__slot" data-slot-width="true"><picture><img alt="" data-copyright="" data-image-type="image" longdesc="" src="https://thumbor.ftacademy.cn/unsafe/https://d1e00ek4ebabms.cloudfront.net/production/c020f48d-58c7-4d6f-9d24-1165291e17ca.jpg"></picture> <p class="is-text-only" id="id-12">•保加利亚正计划对所有行业征收暴利税。</p><p class="is-text-only" id="id-13">•2023年3月，该国财政部公布了一项提案，除了对该国化石燃料行业征收的现有暴利税外，还将对所有企业征收“临时团结捐款”。</p><p class="is-text-only" id="id-14">•超额利得税将适用于所有企业纳税人以及个体经营者，税率为2023年7月至12月期间产生的额外利润的33%。</p><p class="is-text-only" id="id-15">•超额利润的计算方法是，根据公司税法，将之前四个财政年度平均应税利润增加20%，超过增加后数额50%的部分为超额利润</p><p class="is-text-only" id="id-16">•或者，纳税人可以选择根据2023年应税利润的50%，而不是以2023年7月至12月期间产生的所有利润，来进行超额利润计算。</p></div>
+    </div>
+    <div class="n-content-layout__slot pic" data-slot-width="true"><h4 class="is-text-only" id="id-17">匈牙利</h4><div class="n-content-layout__slot" data-slot-width="true"><picture><img alt="" data-copyright="" data-image-type="image" longdesc="" src="https://thumbor.ftacademy.cn/unsafe/https://d1e00ek4ebabms.cloudfront.net/production/04d0c22f-ae69-408f-8460-1d861051c126.jpg"></picture> <p class="is-text-only" id="id-18">•匈牙利最近的暴利税除了针对银行和能源生产商外，还针对制药和保险公司。</p><p class="is-text-only" id="id-19">•2022年11月，该国政府发布法令，修改2022年7月推出的暴利税，对保险公司征收1%-7%的临时附加税。</p><p class="is-text-only" id="id-20">•2022年12月，政府发布了一项法令，将暴利税的范围扩大到制药行业，适用于2022年和2023年。制药企业产生的暴利还需根据营业额缴纳1%至8%的附加税，收入超过1500亿欧元(约合3.9亿欧元)的企业缴纳的税率最高。</p></div>
+    </div>
+    </div>
+    </div>
+    
+    <p>一些行业专家批评各国政府越来越多地诉诸暴利税。一位顾问向英国《金融时报》表示，征收暴利税总体上是“承认政策失败”，有阻碍未来投资的风险。</p>
+    <p>美国智库税务基金会(Tax Foundation)全球税收经济学家克里斯蒂娜•埃纳奇(Cristina Enache)表示，此类措施“将对国内生产造成不利影响，并对某些税基不健全的行业造成不利影响”。</p>
+    <p>虽然最初欧盟范围内能源公司缴纳的“团结捐款”将只持续到2023年12月，但包括西班牙、斯洛伐克、匈牙利和捷克共和国在内的国家计划将其征收到2024年，在某些情况下还将征收到2025年。根据法律规定，英国的征税将于2028年3月结束。</p>
+    <p>然而，税收正义活动人士表示，在电力和食品等必需品成本上涨导致许多人陷入财务困境之际，政府对盈利创纪录的公司征税是正确的。</p>
+    <p>乐施会(Oxfam)税收司法政策主管克里斯蒂安•哈勒姆(Christian Hallum)表示：“暴利税之所以吸引人，是因为它们在直觉上是公平的。”他说：“我们现在的情况是，数百万人正面临困难，许多公司却在创造创纪录的利润。这太不公平了。”</p>
+    <p>国际货币基金组织(IMF)也主张，对超额利润征税应成为税收制度的永久特征。</p>
+    <p>IMF财政事务部副主管沙菲克•赫布斯(Shafik Hebous)表示：“(这)优于依赖对特定公司或行业征收事后一次性暴利税。”</p>
+    <div class="n-content-layout card-container " data-layout-name="card" data-layout-width="true"><div class="n-content-layout__container"><h2 class="is-text-only" id="id-28">银行和能源以外的暴利税——葡萄牙和克罗地亚</h2><div class="n-content-layout__slot pic" data-slot-width="true"><h4 class="is-text-only" id="id-29">葡萄牙</h4><div class="n-content-layout__slot" data-slot-width="true"><picture><img alt="" data-copyright="" data-image-type="image" longdesc="" src="https://thumbor.ftacademy.cn/unsafe/https://d1e00ek4ebabms.cloudfront.net/production/827fb9bd-68b9-4ea2-a3a3-5b65257ed52c.jpg"></picture> <p class="is-text-only" id="id-30">•葡萄牙议会最近的暴利税瞄准了食品行业。</p><p class="is-text-only" id="id-31">•2022年12月通过了一项法案，在食品分配部门引入了“临时团结捐款”。</p></div>
+    </div>
+    <div class="n-content-layout__slot pic" data-slot-width="true"><h3 class="is-text-only" id="id-32">克罗地亚</h3><div class="n-content-layout__slot" data-slot-width="true"><picture><img alt="" data-copyright="" data-image-type="image" longdesc="" src="https://thumbor.ftacademy.cn/unsafe/https://d1e00ek4ebabms.cloudfront.net/production/35973bce-3124-44e9-8cfa-ab9cf3e983ba.jpg"></picture> <p class="is-text-only" id="id-33">•2022年12月，克罗地亚议会批准了一项法律，引入了因欧盟对高能源价格的监管而产生的暴利税，但大幅扩大了征税范围。</p><p class="is-text-only" id="id-34">•“超额利润税”将在2022财年适用于当年总收入超过3亿克朗(约4000万欧元)的所有企业纳税人。</p><p class="is-text-only" id="id-35">•对2022财年产生的额外利润征收33%的税率，根据公司税法，额外利润为，应税利润高于前四个财年平均应纳税利润的20%的部分。</p></div>
+    </div>
+    </div>
+    </div>
+    
+    <p>其他业内人士也认为，经济环境的转变已导致各国政府越来越多地将暴利税视为增加收入的可行选择。</p>
+    <p>沃德尔-约翰逊说：“这次大流行除了增加了政府对资金的需求外，还产生了赢家和输家。在这种环境下，暴利税更具吸引力。如果你要全面提高税收，就会造成很大的经济损失。”</p>
+    <p>在乌克兰战争爆发之前，这种税已经有几十年没有被广泛使用了。暴利税是在一个多世纪前的第一次世界大战期间由欧洲首次采用的征税方式。</p>
+    <p>1915年，丹麦对战争期间继续与德国进行贸易的丹麦食品出口商征收以德国炖菜命名的古拉什税。包括英国、美国、法国、意大利和德国在内的至少22个国家，在冲突期间对“超额”企业利润征收了某种形式的附加税。第二次世界大战期间，英国、加拿大和美国也采用了暴利税。</p>
+    <p>最近的例子还包括美国政府1980年颁布的原油暴利税，以及玛格丽特•撒切尔(Margaret Thatcher)领导的英国政府1981年推出的一次性银行税。1997年，英国工党政府还对公用事业征收了暴利税，称上一届保守党政府廉价出售了这些公司。</p>
+    
+    
+    
+    </div>
+    <div class="clearfloat"></div>
+    </div>
+    <div class="copyrightstatement-container">
+    版权声明：本文版权归FT中文网所有，未经允许任何单位或个人不得转载，复制或以任何其他方式使用本文全部或部分，侵权必究。
+    </div>
+    <div class="clearfloat"></div>
+    <!-- story privilegeType: PremiumMBA -->
+    </div>
+    <div class="clearfloat block-bottom"></div>
+    </div></div>
+    <div
+    data-o-ads-name="infoflow4"
+    class="o-ads infoflow"
+    data-o-ads-formats-default="false"
+    data-o-ads-formats-small="FtcInfoFlow"
+    data-o-ads-formats-medium="false"
+    data-o-ads-formats-large="false"
+    data-o-ads-formats-extra="false"
+    data-o-ads-targeting="cnpos=info4;"
+    >
+    </div>
+    <div class="side-container"><div class="side-inner">
+    <div class="story-box with-theme">
+    <h2 class="box-title"><a href="/tag/乌克兰战争">乌克兰战争</a></h2>
+    <ul class="top10">
+    <li class="mp1"><a target="_blank" href="/interactive/118840">乌克兰打击腐败的征兵人员 </a></li>
+    <li class="mp2"><a target="_blank" href="/interactive/118677">乌克兰政府债券价格飙升</a></li>
+    <li class="mp3"><a target="_blank" href="/interactive/118538">粮食出口重回俄罗斯视线</a></li>
+    <li class="mp4"><a target="_blank" href="/story/001100505">每周时事分析：中俄之间当存异则存异</a></li>
+    <li class="mp5"><a target="_blank" href="/interactive/118497">欧洲天然气价格上涨近40%，市场担心供应中断</a></li>
+    <li class="mp6"><a target="_blank" href="/interactive/118374">欧盟增加在乌克兰储气以备冬季</a></li>
+    <li class="mp7"><a target="_blank" href="/interactive/118368">乌克兰逮捕被控策划暗杀泽连斯基的女间谍</a></li>
+    <li class="mp8"><a target="_blank" href="/interactive/118261">莫斯科法院冻结高盛多家俄罗斯公司持股 </a></li>
+    <li class="mp9"><a target="_blank" href="/story/001100472">德国社民党议员支持向乌克兰提供巡航导弹</a></li>
+    </ul>
+    </div>
+    <div class="story-box last-child">
+    <h2 class="box-title"><a>相关话题</a></h2>
+    <ul class="top10">
+    <li class="story-theme mp1">
+    <a target="_blank" href="/channel/business.html">商业</a>
+    <div class="icon-right">
+    <button class="myft-follow plus" data-tag="business" data-type="topic">关注</button>
+    </div>
+    </li>
+    <li class="story-theme">
+    <a target="_blank" href="/channel/economy.html">经济</a>
+    <div class="icon-right">
+    <button class="myft-follow plus" data-tag="economy" data-type="topic">关注</button>
+    </div>
+    </li>
+    <li class="story-theme">
+    <a target="_blank" href="/tag/暴利税">暴利税</a>
+    <div class="icon-right">
+    <button class="myft-follow plus" data-tag="暴利税" data-type="tag">关注</button>
+    </div>
+    </li>
+    <li class="story-theme">
+    <a target="_blank" href="/tag/税收">税收</a>
+    <div class="icon-right">
+    <button class="myft-follow plus" data-tag="税收" data-type="tag">关注</button>
+    </div>
+    </li>
+    <li class="story-theme">
+    <a target="_blank" href="/tag/财政政策">财政政策</a>
+    <div class="icon-right">
+    <button class="myft-follow plus" data-tag="财政政策" data-type="tag">关注</button>
+    </div>
+    </li>
+    <li class="story-theme">
+    <a target="_blank" href="/tag/公司税">公司税</a>
+    <div class="icon-right">
+    <button class="myft-follow plus" data-tag="公司税" data-type="tag">关注</button>
+    </div>
+    </li>
+    <li class="story-theme">
+    <a target="_blank" href="/tag/乌克兰战争">乌克兰战争</a>
+    <div class="icon-right">
+    <button class="myft-follow plus" data-tag="乌克兰战争" data-type="tag">关注</button>
+    </div>
+    </li>
+    <li class="story-theme">
+    <a target="_blank" href="/tag/生活成本危机">生活成本危机</a>
+    <div class="icon-right">
+    <button class="myft-follow plus" data-tag="生活成本危机" data-type="tag">关注</button>
+    </div>
+    </li>
+    <li class="story-theme">
+    <a target="_blank" href="/tag/通货膨胀">通货膨胀</a>
+    <div class="icon-right">
+    <button class="myft-follow plus" data-tag="通货膨胀" data-type="tag">关注</button>
+    </div>
+    </li>
+    <li class="story-theme">
+    <a target="_blank" href="/tag/FT商学院">FT商学院</a>
+    <div class="icon-right">
+    <button class="myft-follow plus" data-tag="FT商学院" data-type="tag">关注</button>
+    </div>
+    </li>
+    <li class="story-theme">
+    <a target="_blank" href="/tag/欧盟经济">欧盟经济</a>
+    <div class="icon-right">
+    <button class="myft-follow plus" data-tag="欧盟经济" data-type="tag">关注</button>
+    </div>
+    </li>
+    <li class="story-theme">
+    <a target="_blank" href="/channel/uk.html">英国</a>
+    <div class="icon-right">
+    <button class="myft-follow plus" data-tag="uk" data-type="area">关注</button>
+    </div>
+    </li>
+    <li class="story-theme">
+    <a target="_blank" href="/channel/usa.html">美国</a>
+    <div class="icon-right">
+    <button class="myft-follow plus" data-tag="usa" data-type="area">关注</button>
+    </div>
+    </li>
+    <li class="story-theme">
+    <a target="_blank" href="/channel/europe.html">欧洲</a>
+    <div class="icon-right">
+    <button class="myft-follow plus" data-tag="europe" data-type="area">关注</button>
+    </div>
+    </li>
+    <li class="story-theme">
+    <a target="_blank" href="/channel/Germany.html">德国</a>
+    <div class="icon-right">
+    <button class="myft-follow plus" data-tag="Germany" data-type="area">关注</button>
+    </div>
+    </li>
+    <li class="story-theme">
+    <a target="_blank" href="/channel/France.html">法国</a>
+    <div class="icon-right">
+    <button class="myft-follow plus" data-tag="France" data-type="area">关注</button>
+    </div>
+    </li>
+    <li class="story-theme">
+    <a target="_blank" href="/author/艾玛•阿杰曼">艾玛•阿杰曼</a>
+    <div class="icon-right">
+    <button class="myft-follow plus" data-tag="艾玛•阿杰曼" data-type="author">关注</button>
+    </div>
+    </li>
+    </ul>
+    </div>
+    </div></div><div class="clearfloat"></div>
+    </div></div>
+    <div class="block-container no-side story-recommend-container" id="story-recommend-container"><div class="block-inner">
+    <div class="content-container"><div class="content-inner">
+    <div class="list-container"><div class="list-inner">
+    <h2 class="list-title"><a class="list-link" href="#">您可能感兴趣的文章</a></h2>
+    <div class="items" id="story-recommend-bottom"></div>
+    </div></div>
+    </div></div>
+    <div class="clearfloat block-bottom"></div>
+    </div></div>
+    <div 
+    data-o-ads-name="paidpost2"
+    class="o-ads paid-post"  
+    data-o-ads-formats-default="false" 
+    data-o-ads-formats-small="false"
+    data-o-ads-formats-medium="false"
+    data-o-ads-formats-large="FtcPaidpost"
+    data-o-ads-formats-extra="FtcPaidpost"
+    data-o-ads-targeting="cnpos=paidpost2;"
+    >
+    </div>
+    <div 
+    data-o-ads-name="paidpost"
+    class="o-ads paid-post"  
+    data-o-ads-formats-default="false" 
+    data-o-ads-formats-small="false"
+    data-o-ads-formats-medium="false"
+    data-o-ads-formats-large="FtcPaidpost"
+    data-o-ads-formats-extra="FtcPaidpost"
+    data-o-ads-targeting="cnpos=paidpost;"
+    >
+    </div>
+    <div class="footer-container"><div class="footer-inner">
+    <div>
+    <a href="/m/corp/aboutus.html">关于我们</a>
+    <a href="https://ft.wd3.myworkdayjobs.com/FT_Chinese_External_Careers" target="_blank">加入我们</a>
+    <a href="/m/corp/faq.html">问题回馈</a>
+    <a href="/m/corp/contact.html">联系方式</a>
+    <a href="/m/corp/partner.html">合作伙伴</a>
+    <a href="/m/corp/service.html">服务条款</a>
+    <a href="/m/corp/sales.html">广告业务 </a>
+    <a href="/m/corp/copyright.html">版权声明</a>
+    <a href="/m/marketing/ftc.html">最新动态</a>
+    </div>
+    <p>
+    <span class="copyright"><b>© The Financial Times Ltd 2023</b></span> 
+    <span><acronym title="Financial Times">FT</acronym> and 'Financial Times' are trademarks of The Financial Times Ltd.</span>
+    </p>
+    </div></div>
+    <script>
+    function async(u, c) {
+    var d = document, t = 'script',
+    o = d.createElement(t),
+    s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+    }
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+    apiKey: "AIzaSyCB4QkzRm1oUl9-XA6kl8ob58FI3C6iDY0",
+    authDomain: "ftchineseiphone.firebaseapp.com",
+    databaseURL: "https://ftchineseiphone.firebaseio.com",
+    projectId: "ftchineseiphone",
+    storageBucket: "ftchineseiphone.appspot.com",
+    messagingSenderId: "342601113715",
+    appId: "1:342601113715:web:6d7016e26b94e3854fca06",
+    measurementId: "G-PT4E4NGVJV"
+    };
+    //MARK: - The core Firebase JS SDK is always required and must be listed first
+    async('https://www.gstatic.com/firebasejs/7.2.2/firebase-app.js', function() {
+    // MARK: - TODO: Add SDKs for Firebase products that you want to use: https://firebase.google.com/docs/web/setup#available-libraries
+    async('https://www.gstatic.com/firebasejs/7.2.2/firebase-analytics.js', function() {
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+    });
+    });
+    </script>
+    <img src='https://beacon.krxd.net/event.gif?event_id=KWA6DGT9&event_type=rtg' width=0 height=0 /><div class="overlay-container" id="font-setting">
+    <div class="overlay-inner">
+    <div class="overlay-bg" data-parentid="font-setting"></div>
+    <div class="overlay-content-outer">
+    <div class="overlay-content-inner">
+    <div class="overlay-content">
+    <div class="overlay-title">设置字号<i class="overlay-close" data-parentid="font-setting">×</i></div>
+    <span class="font-options" id="font-options">
+    <div class="smallest first-child" data-font="0.8">最小</div>
+    <div class="smaller" data-font="0.9">较小</div>
+    <div class="normal" data-font="1">默认</div>
+    <div class="bigger" data-font="1.2">较大</div>
+    <div class="biggest" data-font="1.6">最大</div>
+    </span>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div><div class="overlay-container" id="share-legacy">
+    <div class="overlay-inner">
+    <div class="overlay-bg" data-parentid="share-legacy"></div>
+    <div class="overlay-content-outer">
+    <div class="overlay-content-inner">
+    <div class="overlay-content">
+    <div class="overlay-title">分享<i class="overlay-close" data-parentid="share-legacy">×</i></div>
+    <span id="sharelinks"></span>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div><script type="text/javascript">
+    window._taboola = window._taboola || [];
+    _taboola.push({flush: true});
+    </script>
 
 
 
