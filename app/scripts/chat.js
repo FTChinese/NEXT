@@ -582,11 +582,14 @@ async function showContent(ftid, language, shouldScrollIntoView = true, shouldLo
             </div>
           ` : '';
           let disclaimerForMachineTranslation = '';
+          console.log(`${languageSwitchHTML}!!!!!!!!!!!!!`)
           // TODO: - Show Machine translation disclaimer only when necessary, localize it
-          // if () {
-
-          // }
-          let html = `
+          console.log(`${showTranslation}`)
+          console.log(`${showOriginal}`)
+          if (content.machineTranslation  && showTranslation === onClass && showTranslationAsDefault === true) {
+            disclaimerForMachineTranslation = `<div class="ai-disclaimer">${localize("ai-disclaimer")}</div>`;
+          }
+          let html = `  
               <div class="article-container" data-id="${ftid}">
                   ${languageSwitchHTML}
                   ${disclaimerForMachineTranslation}
