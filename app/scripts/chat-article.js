@@ -4,6 +4,20 @@ const calculateCosineSimilarity = (a, b) => a.reduce((acc, curr, i) => acc + cur
 var model = null;
 var currentFTId;
 
+
+delegate.on('click', '.machine-translation', async (event) => {
+    let element = event.target;
+    let allElements = element.parentNode.querySelectorAll('.machine-translation');
+    if (allElements.length <= 1) {return;}
+    let nextElement = element.nextSibling || allElements[0];
+    if (nextElement) {
+        element.classList.add('hide');
+        nextElement.classList.remove('hide');
+    } else {
+        console.log(`Can't find next element`);
+    }
+});
+
 delegate.on('click', '[data-action="show-article"]', async (event) => {
     const element = event.target;
     if (element.classList.contains('pending')) {
