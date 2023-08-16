@@ -13,7 +13,7 @@
 		}, 0);
 	}
 	setTimeout(function(){
-		if (/ftcenterprise\.com|chineseft\.live|chineseft\.com|ftchineselive\.com|lunchwithft\.com|leshangavenue\.com/.test(location.hostname) === false || window.hasFoundProductPricing === true) {return;}
+		if (/chineseft\.live|chineseft\.com|ftchineselive\.com|lunchwithft\.com|leshangavenue\.com/.test(location.hostname) === false || window.hasFoundProductPricing === true) {return;}
 		var isUserPage = /^\/users\/findpassword|\/users\/register$/.test(location.pathname);
 		var isContactConfirmPage = /pageid=subscriptioninfoconfirm/.test(location.search);
 		
