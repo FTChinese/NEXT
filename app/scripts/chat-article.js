@@ -615,20 +615,17 @@ async function handleFTContent(contentData) {
 
 async function convertFTContentForChinese(results, language) {
     async function convertArrayOfStrings(stringArray) {
-        console.log(stringArray)
         if (!stringArray) {return [];}
         let newArray = [];
         for (const s of stringArray) {
             const newS = await convertChinese(s, language);
             newArray.push(newS);
         }
-        console.log(newArray)
         return newArray;
     }
     async function convertMTBodyXML(bodyXML){
         if (!bodyXML) {return [];}
         for (let blockOfBodyXML of bodyXML) {
-            console.log(blockOfBodyXML.translations)
             blockOfBodyXML.translations = await convertArrayOfStrings(blockOfBodyXML.translations, language)
         }
     }
@@ -643,11 +640,6 @@ async function convertFTContentForChinese(results, language) {
         newResults.machineTranslation.standfirsts = await convertArrayOfStrings(newResults.machineTranslation.standfirsts);
         await convertMTBodyXML(newResults.machineTranslation.bodyXMLTranslations);
     }
-    // console.log('results: ');
-    // console.log(results);
-    // console.log('new results: ');
-    console.log(newResults);
-    // console.log('\n\n\n\n');
     return newResults;
 }
 
