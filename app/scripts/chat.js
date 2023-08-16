@@ -418,8 +418,14 @@ function convertToBilingualLayout(original, translation) {
   const loops = Math.max(originals.length, translations.length);
   let html = '';
   for (let i=0; i < loops; i++) {
-    const left = (originals.length > i) ? originals[i].innerHTML : '';
-    const right = (translations.length > i) ? translations[i].innerHTML : '';
+    let left = '';
+    if (originals.length > i) {
+      left = (originals[i].tagName === 'P') ? originals[i].innerHTML : originals[i].outerHTML;
+    }
+    let right = '';
+    if (translations.length > i) {
+      right = (translations[i].tagName === 'P') ? translations[i].innerHTML : translations[i].outerHTML;
+    }
     if (/<div|<img|<picture|<scrollable/.test(left)) {
       // MARK: If this child is a picture or an HTML Code, display it just once
       html += `<p>${left}</p>`;
@@ -501,9 +507,9 @@ function getInfoFromMachineTranslation(machineTranslation) {
       // TODO: - Keep the picture html code 
       let updatedChildrenHTMLs = [];
       const id = ele.id;
-      for (child of ele.children ) {
+      for (const child of ele.children ) {
         if(child.nodeName === 'PICTURE'){
-          console.log('Child is a <picture> element');
+          // console.log('Child is a <picture> element');
           updatedChildrenHTMLs.push(child.outerHTML);
         }
       }
