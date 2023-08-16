@@ -492,14 +492,17 @@ function getInfoFromMachineTranslation(machineTranslation) {
       const id = translation.id;
       translationDict[id] = translation.translations
     }
-    console.log(translationDict);
+    // console.log(translationDict);
     bodyXML = machineTranslation.bodyXML;
     let div = document.createElement('DIV');
     div.innerHTML = bodyXML;
     let elements = div.querySelectorAll('[id]');
     for (let ele of elements) {
+      // TODO: - Keep the picture html code 
       const id = ele.id;
+      console.log(`======\n${ele.innerHTML}\n-------\n`);
       ele.innerHTML = translationsToHTML(translationDict[id]);
+      console.log(`${ele.innerHTML}\n=======\n\n`);
     }
     info.bodyXML = div.innerHTML;
   }
