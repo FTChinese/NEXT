@@ -614,16 +614,31 @@ async function handleFTContent(contentData) {
 
 
 async function convertFTContentForChinese(results, language) {
+    async function convertArrayOfStrings(stringArray) {
+        if (!stringArray) {return [];}
+        let newArray = [];
+        for (const s of stringArray) {
+            const newS = await convertChinese(s, language);
+            newArray.push(newS);
+        }
+        return newArray;
+    }
     let newResults = JSON.parse(JSON.stringify(results));
     newResults.bodyXMLTranslation = await convertChinese(newResults.bodyXMLTranslation, language);
     newResults.titleTranslation = await convertChinese(newResults.titleTranslation, language);
     newResults.bylineTranslation = await convertChinese(newResults.bylineTranslation, language);
     newResults.standfirstTranslation = await convertChinese(newResults.standfirstTranslation, language);
-    console.log('results: ');
-    console.log(results);
-    console.log('new results: ');
+    if (newResults.machineTranslation) {
+        newResults.machineTranslation.byline = await convertChinese(newResults.machineTranslation.byline, language);
+        newResults.machineTranslation.titles = await convertArrayOfStrings(newResults.machineTranslation.titles);
+        newResults.machineTranslation.standfirsts = await convertArrayOfStrings(newResults.machineTranslation.standfirsts);
+        // newResults.machineTranslation.bodyXMLTranslations
+    }
+    // console.log('results: ');
+    // console.log(results);
+    // console.log('new results: ');
     console.log(newResults);
-    console.log('\n\n\n\n');
+    // console.log('\n\n\n\n');
     return newResults;
 }
 

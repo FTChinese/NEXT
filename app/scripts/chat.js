@@ -499,22 +499,16 @@ function getInfoFromMachineTranslation(machineTranslation) {
     let elements = div.querySelectorAll('[id]');
     for (let ele of elements) {
       // TODO: - Keep the picture html code 
-      let shouldContinueOuterLoop = false; 
-      let updatedChildrenHTML = [];
+      let updatedChildrenHTMLs = [];
       const id = ele.id;
       for (child of ele.children ) {
-        if(child.nodeName ==='PICTURE'){
+        if(child.nodeName === 'PICTURE'){
           console.log('Child is a <picture> element');
-          updatedChildrenHTML.push(child.outerHTML);
-          ele.innerHTML = updatedChildrenHTML.join('');
-          shouldContinueOuterLoop = true;
-          break;
+          updatedChildrenHTMLs.push(child.outerHTML);
         }
       }
-      if(shouldContinueOuterLoop){
-        continue;
-      }
-      ele.innerHTML = translationsToHTML(translationDict[id]);
+      const updatedChildrenHTML = updatedChildrenHTMLs.join('');
+      ele.innerHTML = updatedChildrenHTML + translationsToHTML(translationDict[id]);
     }
     info.bodyXML = div.innerHTML;
   }
