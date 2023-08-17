@@ -426,9 +426,9 @@ function convertToBilingualLayout(original, translation) {
     if (translations.length > i) {
       right = (translations[i].tagName === 'P') ? translations[i].innerHTML : translations[i].outerHTML;
     }
-    if (/<div|<img|<picture|<scrollable/.test(left)) {
+    if (/^(<div|<img|<picture|<scrollable)/.test(left)) {
       // MARK: If this child is a picture or an HTML Code, display it just once
-      html += `<p>${left}</p>`;
+      html += `<p>${left}</p><div class="clearfloat"></div>`;
     } else {
       html += `<div><div class="leftp">${left}</div><div class="rightp">${right}</div></div><div class="clearfloat"></div>`;
     }
@@ -460,6 +460,12 @@ async function switchLanguage(container, value) {
     // MARK: - For biligual mode, you should always look to match the English and translation
     const originalBodyXML = machineTranslationInfo.originalBodyXML || content.bodyXML;
     bodyXML = convertToBilingualLayout(originalBodyXML, content.bodyXMLTranslation || machineTranslationInfo.bodyXML || '');
+  }
+  const bilingualClassName = 'is-bilingual';
+  if (value === 'bilingual') {
+    container.classList.add(bilingualClassName);
+  } else {
+    container.classList.remove(bilingualClassName);
   }
   if (['target', 'bilingual'].indexOf(value) >= 0 && content.machineTranslation) {
     container.querySelector('.ai-disclaimer-container').innerHTML = `<div class="ai-disclaimer">${localize("ai-disclaimer")}</div>`;

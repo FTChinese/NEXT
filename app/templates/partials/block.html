@@ -473,12 +473,14 @@
 								$firstInsertedItemArray = array_slice($insertedItems, 0, 1, true);
 								array_splice($originalItems, 1, 0, $firstInsertedItemArray);
 
+								echo "<!--inserting ft academy items: -->";
 								if(isset($_GET['debug']) && $_GET['debug'] === 'yes') {
 									// Get the second through fourth inserted item arrays
 									$insertedItemsSlice = array_slice($insertedItems, 1, 3, true);
 
-									// Insert the sliced inserted item arrays after the sixth item of the original items array
+									// Insert the sliced inserted item arrays after the seventh item of the original items array
 									array_splice($originalItems, 6, 0, $insertedItemsSlice);
+									echo "<!--inserted 3 ft academy items after 6: -->";
 								}
 								
 								// Declare new arrays to store unique items and their ids
