@@ -1,7 +1,7 @@
 /* jshint ignore:start */
 
 
-const cacheName = 'v342';
+const cacheName = 'v343';
 console.log(`CACHE_NAME: ${cacheName}`);
 const URLS = [
     '/powertranslate/chat.html',
