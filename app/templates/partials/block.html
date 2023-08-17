@@ -451,55 +451,74 @@
 							<%/if%>
 							<%assign var="ftAcademyItems" value=$interactivemodel->get_interactive_by_field_search("find_in_set('FT商学院', tag) and !find_in_set('17周年大视野精选', tag) and !find_in_set('高端限免', tag) and publish_status = 'queue'",0,12,7,10800)%>
 							<%php%>
-								$originalItems = $this->get_template_vars('itemsArray');
-								$insertedItems = $this->get_template_vars('ftAcademyItems');
-								$insertItemCount = $this->get_template_vars('insertItemCount');
-								$pageId = $this->get_template_vars('pageId');
-								// MARK: - PHP values don't pass accoss included files, get these values from template first
-								$subscriptionType = $this->get_template_vars('subscriptionType');
-								$isUserInternal = $this->get_template_vars('isUserInternal');
-								$isUserTester = $this->get_template_vars('isUserTester');
-								if (count($originalItems) > 3 && count($insertedItems) > 0) {
-									foreach ($insertedItems as &$insertedItem) {
-										$insertedItem["type"] = 'interactive';
-									}
-									// MARK: - Insert just the first FT Academy item
-									$firstInsertedItemArray = array_slice($insertedItems, 0, 1, true);
-									array_splice( $originalItems, 1, 0, $firstInsertedItemArray);
-									$newIds = [];
-									$newItems = [];
-									// MARK: - Don't show repeated items
-									$premiumIndex = 1;
-									$premiumCount = count($insertedItems);
-									foreach ($originalItems as $key=>$item) {
-										if ($premiumCount > 1) {
-											$updateTime = intval($item["timeStamp"]);
-											while ($key > 2 && $premiumIndex < $premiumCount && $premiumIndex < $insertItemCount) {
-												$premiumItem =  $insertedItems[$premiumIndex];
-												$premiumItem["type"] = "interactive";
-												$premiumItem["mainTag"] = "FT商学院";
-												$premiumItem["mainTagLink"] = "/channel/mba.html"; 
-												$premiumUpdateTime = intval($premiumItem["fileupdatetime"]);
-												$premiumItem["timeStamp"] = $premiumUpdateTime;
-												$found_key = array_search($premiumItem["id"], $newIds);
-												if ($premiumUpdateTime > $updateTime && $found_key === false) {
-													array_push($newItems, $premiumItem);
-													array_push($newIds, $premiumItem["id"]);
-													$premiumIndex += 1;
-												} else {
-													break;
-												}
+							// Get the original items array, inserted items array, insert item count and page id from the template variables
+							$originalItems = $this->get_template_vars('itemsArray');
+							$insertedItems = $this->get_template_vars('ftAcademyItems');
+							$insertItemCount = $this->get_template_vars('insertItemCount');
+							$pageId = $this->get_template_vars('pageId');
+
+							// Get subscription type, isUserInternal, and isUserTester values from the template
+							$subscriptionType = $this->get_template_vars('subscriptionType');
+							$isUserInternal = $this->get_template_vars('isUserInternal');
+							$isUserTester = $this->get_template_vars('isUserTester');
+
+							// Check if the original items array has more than 3 items and the inserted items array has at least 1 item
+							if (count($originalItems) > 3 && count($insertedItems) > 0) {
+								// Set the type of each inserted item to 'interactive'
+								foreach ($insertedItems as &$insertedItem) {
+									$insertedItem["type"] = 'interactive';
+								}
+								
+								// Get the first inserted item array and insert it after the first item of the original items array
+								$firstInsertedItemArray = array_slice($insertedItems, 0, 1, true);
+								array_splice($originalItems, 1, 0, $firstInsertedItemArray);
+
+								if(isset($_GET['debug']) && $_GET['debug'] === 'yes') {
+									// Get the second through fourth inserted item arrays
+									$insertedItemsSlice = array_slice($insertedItems, 1, 3, true);
+
+									// Insert the sliced inserted item arrays after the sixth item of the original items array
+									array_splice($originalItems, 6, 0, $insertedItemsSlice);
+								}
+								
+								// Declare new arrays to store unique items and their ids
+								$newIds = [];
+								$newItems = [];
+								
+								// Check for repeated items and add only unique items to the new array
+								$premiumIndex = 1;
+								$premiumCount = count($insertedItems);
+								foreach ($originalItems as $key=>$item) {
+									if ($premiumCount > 1) {
+										$updateTime = intval($item["timeStamp"]);
+										while ($key > 2 && $premiumIndex < $premiumCount && $premiumIndex < $insertItemCount) {
+											$premiumItem = $insertedItems[$premiumIndex];
+											$premiumItem["type"] = "interactive";
+											$premiumItem["mainTag"] = "FT商学院";
+											$premiumItem["mainTagLink"] = "/channel/mba.html"; 
+											$premiumUpdateTime = intval($premiumItem["fileupdatetime"]);
+											$premiumItem["timeStamp"] = $premiumUpdateTime;
+											$found_key = array_search($premiumItem["id"], $newIds);
+											if ($premiumUpdateTime > $updateTime && $found_key === false) {
+												array_push($newItems, $premiumItem);
+												array_push($newIds, $premiumItem["id"]);
+												$premiumIndex += 1;
+											} else {
+												break;
 											}
 										}
-										$found_key = array_search($item["id"], $newIds);
-										// MARK: - array_search return false when none found
-										if ($found_key === false) {
-											array_push($newItems, $item);
-											array_push($newIds, $item["id"]);
-										}
 									}
-									$this->assign("itemsArray", $newItems);
+									$found_key = array_search($item["id"], $newIds);
+									if ($found_key === false) {
+										array_push($newItems, $item);
+										array_push($newIds, $item["id"]);
+									}
 								}
+								
+								// Assign the new items array to the template variable 'itemsArray'
+								$this->assign("itemsArray", $newItems);
+							}
+
 							<%/php%>
 						<%/if%>
 
