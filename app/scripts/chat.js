@@ -736,7 +736,7 @@ function showResultInChat(result, shouldScrollIntoView = true) {
 function showUserPrompt(prompt) {
   const newChat = document.createElement('DIV');
   newChat.className = 'chat-talk chat-talk-user';
-  newChat.innerHTML = `<div class="chat-talk-inner">${prompt}</div>`;
+  newChat.innerHTML = `<div class="chat-talk-inner">${prompt.trim().replace(/\n/g, '<br>')}</div>`;
   chatContent.appendChild(newChat);
 }
 

@@ -643,7 +643,7 @@ body {
                 max-width: 768px;
             }
         }
-        .story-headline, .story-lead, .story-byline, #story-body-container .n-content-pullquote, #story-body-container .n-content-big-number, #story-body-container > *, .article-prompt, .chat-item-actions, [data-action="show-transcript"] {
+        .story-headline, .story-lead, .story-byline, #story-body-container .n-content-pullquote, #story-body-container .n-content-big-number, #story-body-container > *, .article-prompt, .chat-item-actions, [data-action="show-transcript"], .ai-disclaimer {
             padding-left: math.div($defaultPadding, 2);
             padding-right: math.div($defaultPadding, 2);
         }
@@ -692,6 +692,16 @@ body {
         }
         &.font-largest {
             font-size: 26px;
+        }
+    }
+
+    .full-grid-story {
+        #story-body-container {
+            .n-content-pullquote, .n-content-big-number, [data-layout-width="inset-left"] {
+                max-width: 100%;
+                margin-left: 0;
+                margin-right: 0;
+            }
         }
     }
 }
