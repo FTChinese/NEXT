@@ -89,7 +89,7 @@ a[data-action] {
 }
 .chat-talk-inner {
     position: relative;
-    max-width: 768px;
+    max-width: $chatWidth;
     padding: 5px 0 5px $navHeight;
     font-size: 1.2em;    
     min-height: $logoHeight + 10px;
@@ -108,14 +108,13 @@ a[data-action] {
         padding-bottom: 1em;
     }
 }
-.full-grid-story {
+.full-grid-story, .chat-full-grid {
     .chat-talk-inner {
         &:before {
             display: none;
         }
     }  
 }
-
 .chat-talk-user {
     background-color: $bannerBG;
     .chat-talk-inner {
@@ -175,7 +174,7 @@ a[data-action] {
     left: 0;
     right: math.div($defaultPadding, 2);
     height: auto;
-    max-width: 768px;
+    max-width: $chatWidth;
     margin: auto;
     padding-left: $navHeight;
 }
@@ -473,7 +472,7 @@ body {
 
 .full-grid-story {
     [data-action="show-transcript"], ft-related, promo-box, .story-header-container, .chat-item-actions, .article-prompt, .audio-placeholder, #story-body-container > * {
-        max-width: 768px;
+        max-width: $chatWidth;
         margin-left: auto;
         margin-right: auto;
         display: block;
@@ -516,6 +515,12 @@ body {
             max-width: 1200px;
             margin: 0 auto 1em auto;
         }
+    }
+}
+.chat-full-grid {
+    .chat-talk-inner {
+        max-width: $chatWidth + $defaultPadding;
+        padding: 0 $defaultPadding * 0.5;
     }
 }
 .story-image {
@@ -588,6 +593,10 @@ body {
     height: $headerHeight;
     line-height: $headerHeight;
     background-color: $defaultPink;
+    position: -webkit-sticky;
+    position: -moz-sticky;
+    position: -o-sticky;
+    position: -ms-sticky;
     position: sticky;
     top: 0;
     z-index: 1;
@@ -605,7 +614,7 @@ body {
     margin: 0 auto $defaultPadding * 0.5 auto;
     font-size: 0.9em;
     color: $lightGrey;
-    max-width: 768px;
+    max-width: $chatWidth;
     // font-weight: bold;
 }
 .machine-translation {
@@ -640,7 +649,7 @@ body {
                 margin: auto;
                 padding: 0;
                 float: none;
-                max-width: 768px;
+                max-width: $chatWidth;
             }
         }
         .story-headline, .story-lead, .story-byline, #story-body-container .n-content-pullquote, #story-body-container .n-content-big-number, #story-body-container > *, .article-prompt, .chat-item-actions, [data-action="show-transcript"], .ai-disclaimer {

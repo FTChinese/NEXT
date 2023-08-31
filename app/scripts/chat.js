@@ -222,12 +222,14 @@ function localize(status) {
   }
   return statusTitle;
 }
+
 function identifyLanguage(language){//TO Identify language which need to use the function to translate.
   if (!language || ['zh-TW', 'zh-HK', 'zh-MO', 'zh-MY', 'zh-SG'].indexOf(language) === -1) {
     return false;
   }
   return true
 }
+
 async function convertChinese(text, language) {
 
   async function fetchDictJSON(url) {
@@ -270,6 +272,7 @@ async function convertChinese(text, language) {
       console.error(`Error reading or parsing JSON data: ${error}`);
     }
   }
+
   async function convert(language, text) {
       try {
           if (window.trie === undefined) {
@@ -297,12 +300,8 @@ async function convertChinese(text, language) {
           console.error(`Error reading or parsing JSON data: ${error}`);
       }
   }
-
-  // if (!language || ['zh-TW', 'zh-HK', 'zh-MO', 'zh-MY', 'zh-SG'].indexOf(language) === -1) {
-  //   return text;
-  // }
   if (identifyLanguage(language)===false){
-    return text 
+    return text;
   }
   // MARK: get the urls from language
   const newText = await convert(language, text);
@@ -700,10 +699,11 @@ function showBotResponse(placeholder, shouldScrollIntoView = true) {
   botResponse.scrollIntoView(scrollOptions);
 }
 
-function showResultInChat(result, shouldScrollIntoView = true) {
+function showResultInChat(result, shouldScrollIntoView = true, isFullGrid = false) {
   updateBotStatus('waiting');
   const newResult = document.createElement('DIV');
-  newResult.className = 'chat-talk chat-talk-agent';
+  const fullGridClassName = (isFullGrid) ? ' chat-full-grid' : '';
+  newResult.className = `chat-talk chat-talk-agent${fullGridClassName}`;
   // MARK: - Converting the HTML on the frontend
   if (!result || !result.text || typeof result.text !== 'string') {return;}
   // const resultHTML = markdownToHtmlTable(result.text).replace(/\n/g, '<br>');
@@ -969,10 +969,11 @@ async function setPreference(category, language, reply) {
     }
   }
   const actions = getActionOptions();
-  showResultInChat({text: `${reply || ''}${html}${actions}`});
+  showResultInChat({text: `${reply || ''}`}, false, false);
+  showResultInChat({text: `${html}${actions}`}, true, true);
 }
 
-async function setIntention(newIntention, language, reply) {
+async function setIntention(newIntention, language, reply, isFullGrid = false) {
   console.log(`running setIntention... content: ${newIntention}, language: ${language}`);
   // MARK: - Allow the input only when the user set intention
   userInput.removeAttribute('disabled');
@@ -986,7 +987,7 @@ async function setIntention(newIntention, language, reply) {
   // MARK: - Show this only when there's a reply
   if (reply && reply !== '') {
     const actions = getActionOptions();
-    showResultInChat({text: `${reply}${actions}`});
+    showResultInChat({text: `${reply}${actions}`}, true, isFullGrid);
   }
 }
 
@@ -1020,7 +1021,7 @@ async function searchFTAPI(content, language, reply) {
     // console.log(result);
     if (result.results && result.results.length > 0 && result.results[0].results && result.results[0].results.length > 0) {
       const newResult = document.createElement('DIV');
-      newResult.className = 'chat-talk chat-talk-agent';
+      newResult.className = 'chat-talk chat-talk-agent chat-full-grid';
       const newResultInner = document.createElement('DIV');
       newResultInner.className = 'chat-talk-inner';
       newResult.appendChild(newResultInner);
@@ -1165,7 +1166,7 @@ async function showFTPage(content, language, reply) {
     let result = await getFTPageInfo(content, language);
     if (result.results && result.results.length > 0 && result.results[0].groups) {
       const newResult = document.createElement('DIV');
-      newResult.className = 'chat-talk chat-talk-agent';
+      newResult.className = 'chat-talk chat-talk-agent chat-full-grid';
       const newResultInner = document.createElement('DIV');
       newResultInner.className = 'chat-talk-inner';
       newResult.appendChild(newResultInner);
@@ -1220,7 +1221,7 @@ async function showFTPage(content, language, reply) {
         html += newHTML;
       }
       newResultInner.innerHTML = html;
-      await setIntention('DiscussContent', language, localize('Discuss More'));
+      await setIntention('DiscussContent', language, localize('Discuss More'), true);
       const itemContainers = newResultInner.querySelectorAll('.chat-item-container');
       if (itemContainers.length >= 3) {
         itemContainers[2].scrollIntoView(scrollOptions);
