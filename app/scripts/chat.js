@@ -376,11 +376,11 @@ async function getArticleFromFTAPI(id, language) {
           // url = '/api/page/ft_podcast.json';
           // url = '/api/page/ft_video.json';
           // url = '/api/page/ft_article.json';
-          // url = '/api/page/ft_article_scrolly_telling.json';
+          url = '/api/page/ft_article_scrolly_telling.json';
           // url = '/api/page/ft_article_scrolly_telling_climate_change.json';
           // url = '/api/page/ft_article_double_image.json';
           // url = '/api/page/ft_article_chinese.json';
-          url = '/api/page/ft_article_machine_translation.json';
+          // url = '/api/page/ft_article_machine_translation.json';
           options = {
               method: 'GET',
               headers: {
@@ -1064,7 +1064,6 @@ async function searchFTAPI(content, language, reply) {
             </div>
             <span class="story-time">${timeStamp}</span>
           </div>
-
         </div>`;
         html += newHTML;
       }
