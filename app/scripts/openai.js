@@ -31,7 +31,9 @@ async function createChatFromOpenAI(data) {
         other: `The AI model returns an error. It could be because of something in your prompt or the context that we provid. Sorry, please refresh and try something new. `
     };
     try {
-        const token = (isPowerTranslate) ? localStorage.getItem('accessToken') : 'sometoken';
+        // const token = (isPowerTranslate) ? localStorage.getItem('accessToken') : 'sometoken';
+        const token = (isPowerTranslate) ? GetCookie('accessToken') : 'sometoken';
+
         if (!token || token === '') {
             return {status: 'failed', message: 'You need to sign in first! '};
         }
@@ -235,7 +237,8 @@ async function translateOpenAI(text, target) {
 
 async function getFTAPISearchResult(keyword) {
     try {
-        const token = (isPowerTranslate) ? localStorage.getItem('accessToken') : 'sometoken';
+        // const token = (isPowerTranslate) ? localStorage.getItem('accessToken') : 'sometoken';
+        const token = (isPowerTranslate) ? GetCookie('accessToken') : 'sometoken';
         if (!token || token === '') {
             return {status: 'failed', message: 'You need to sign in first! '};
         }
@@ -277,7 +280,8 @@ async function getFTAPISearchResult(keyword) {
 
 async function getFTPageInfo(name, language) {
     try {
-        const token = (isPowerTranslate) ? localStorage.getItem('accessToken') : 'sometoken';
+        // const token = (isPowerTranslate) ? localStorage.getItem('accessToken') : 'sometoken';
+        const token = (isPowerTranslate) ? GetCookie('accessToken') : 'sometoken';
         if (!token || token === '') {
             return {status: 'failed', message: 'You need to sign in first! '};
         }

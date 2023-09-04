@@ -645,7 +645,8 @@ async function convertFTContentForChinese(results, language) {
 
 async function promptOpenAIForArticle(id, index, language, text, chunks, action) {
     try {
-        const token = (isPowerTranslate) ? localStorage.getItem('accessToken') : 'sometoken';
+        // const token = (isPowerTranslate) ? localStorage.getItem('accessToken') : 'sometoken';
+        const token = (isPowerTranslate) ? GetCookie('accessToken') : 'sometoken';
         if (!token || token === '') {
             return {status: 'failed', message: 'You need to sign in first! '};
         }

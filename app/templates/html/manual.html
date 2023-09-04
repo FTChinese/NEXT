@@ -400,11 +400,23 @@
     <html class="no-js core<%if $smarty.get.webview == "ftcapp"%> is-ftc-app<%/if%><%if $smarty.get.device == "iPad"%> is-ipad-app<%/if%>" data-next-app="front-page">
         <head>
             <meta charset="utf-8" />
+            <%*<!--MARK: - Support Standalone PWA, especially on iPhone-->*%>
+            <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, shrink-to-fit=no, viewport-fit=contain">
+            <meta name="apple-touch-fullscreen" content="YES">
+            <meta name="apple-mobile-web-app-capable" content="yes">
+            <meta name="mobile-web-app-capable" content="yes">
+            <meta name="apple-mobile-web-app-status-bar-style" content="default">
+            <meta name="theme-color" content="#FFF1E0" />
+            <link rel="apple-touch-icon" sizes="180x180" href="https://d2785ji6wtdqx8.cloudfront.net/img/friend-share-icon.jpg">
+            <link rel="apple-touch-icon-precomposed" href="https://d2785ji6wtdqx8.cloudfront.net/img/ipad_icon.png" />
+            <link rel="manifest" href="/pwa-metatags.json" />
+
+
             <meta http-equiv="X-UA-Compatible" content="IE=edge" />
             <title><%$pageTitle%></title>
             <meta http-equiv="Content-Language" content="zh-CN"/>
             <meta content="<%$p.meta.description|strip_tags:false%>" name="description"/>
-            <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
             <%if $pageId == "home" && date("Ymd",$smarty.now) <= 20220110 && date("Ymd",$smarty.now) >= 20211217%>
                 <%assign var="refreshInSeconds" value="360"%>
                 <%if $isUserTester === true%>
@@ -420,8 +432,8 @@
                     <meta http-equiv="refresh" content="<%$refreshInSeconds%>;url=/?refresh" />
                 <%/if%>
             <%/if%>
-            <link rel="apple-touch-icon-precomposed" href="https://d2785ji6wtdqx8.cloudfront.net/img/ipad_icon.png" />
-            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+
             <link rel="preconnect" href="https://d2785ji6wtdqx8.cloudfront.net" />
             <link rel="preconnect" href="https://thumbor.ftacademy.cn/unsafe" />
             <script type="text/javascript">

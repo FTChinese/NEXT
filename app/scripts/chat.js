@@ -20,6 +20,8 @@ var previousIntentDections = [];
 var botStatus = 'waiting';
 var intention;
 var articles = {};
+const publicVapidKey = 'BCbyPnt30RUDSelV6n1jJk8jHzR9cT7ajJPXLRq7tohhQ8D6TVb1h3ENUOJGdPxJgbbg8zPaDNJzOXIUfkWk67M';
+let registration;
 
 // MARK: - scrollIntoView doesn't support offset
 const scrollOptions = { 
@@ -358,7 +360,8 @@ async function nextAction(intention) {
 
 async function getArticleFromFTAPI(id, language) {
   try {
-      const token = (isPowerTranslate) ? localStorage.getItem('accessToken') : 'sometoken';
+      // const token = (isPowerTranslate) ? localStorage.getItem('accessToken') : 'sometoken';
+      const token = (isPowerTranslate) ? GetCookie('accessToken') : 'sometoken';
       if (!token || token === '') {
           return {status: 'failed', message: 'You need to sign in first! '};
       }
@@ -533,6 +536,9 @@ function getInfoFromMachineTranslation(machineTranslation) {
 
 async function showContent(ftid, language, shouldScrollIntoView = true, shouldLoadArticle = true) {
   try {
+      if (!language) {
+        language = preferredLanguage;
+      }
       if(shouldLoadArticle === false){
         const targetDiv = document.querySelector(`.article-container[data-id="${ftid}"]`);
         targetDiv.focus();
@@ -747,7 +753,8 @@ function hidePreviousActions() {
 }
 
 async function talk() {
-  var token = localStorage.getItem('accessToken');
+  // var token = localStorage.getItem('accessToken');
+  const token = GetCookie('accessToken');
   if (!token || token === '') {
       alert('You need to sign in first! ');
       window.location.href = '/login';
@@ -890,6 +897,18 @@ const purposeToFunction = {
   // ... add more purposes and functions here
 };
 
+const actionTypeToFunction = {
+  'content': showContent,
+  'searchft': searchFTAPI,
+  'page': showFTPage
+};
+
+async function handleAction(key, value) {
+  if (actionTypeToFunction.hasOwnProperty(key)) {
+    await actionTypeToFunction[key](value);
+  }
+}
+
 // async function checkNews(content, language) {
 //   console.log('Should Check News and Come Up with the search query! ');
 
@@ -968,6 +987,7 @@ async function setPreference(category, language, reply) {
       html += `<div class="select-container"><div class="select-label">${name}</div><select id="${id}">${optionsHTML}</select></div>`
     }
   }
+  html += `<div class="select-container"><a onclick="subscribeTopics()">Test Notification</a></div>`;
   const actions = getActionOptions();
   showResultInChat({text: `${reply || ''}`}, false, false);
   showResultInChat({text: `${html}${actions}`}, true, true);
@@ -1442,8 +1462,10 @@ async function waitForAccessToken() {
   if (isFrontendTest) {return;}
   const oneDayInMiniSeconds = 24 * 60 * 60 * 1000;
   for (let i=0; i<15; i++) {
-    const accessToken = localStorage.getItem('accessToken');
-    const accessTokenUpdateTimeString = localStorage.getItem('accessTokenUpdateTime');
+    // const accessToken = localStorage.getItem('accessToken');
+    const accessToken = GetCookie('accessToken');
+    // const accessTokenUpdateTimeString = localStorage.getItem('accessTokenUpdateTime');
+    const accessTokenUpdateTimeString = GetCookie('accessTokenUpdateTime');
     const now = new Date().getTime();
     let isAccessTokenUpdated = false;
     if (typeof accessTokenUpdateTimeString === 'string' && accessTokenUpdateTimeString !== '') {
@@ -1591,11 +1613,27 @@ function updateLanguageOptionDict() {
   
 }
 
+
+function urlBase64ToUint8Array(base64String) {
+  const padding = "=".repeat((4 - base64String.length % 4) % 4);
+  const base64 = (base64String + padding)
+    .replace(/\-/g, "+")
+    .replace(/_/g, "/");
+
+  const rawData = window.atob(base64);
+  const outputArray = new Uint8Array(rawData.length);
+
+  for (let i = 0; i < rawData.length; ++i) {
+    outputArray[i] = rawData.charCodeAt(i);
+  }
+  return outputArray;
+}
+
 const registerServiceWorker = async () => {
   if (isFrontendTest && !isPowerTranslate) {return;}
   if ("serviceWorker" in navigator) {
     try {
-      const registration = await navigator.serviceWorker.register("/powertranslate/chat-service-worker.js", {
+      registration = await navigator.serviceWorker.register("/powertranslate/chat-service-worker.js", {
         scope: "/powertranslate/",
       });
       if (registration.installing) {
@@ -1605,11 +1643,92 @@ const registerServiceWorker = async () => {
       } else if (registration.active) {
         console.log("Service worker active");
       }
+
     } catch (error) {
       console.error(`Registration failed with ${error}`);
     }
   }
 };
+
+
+async function subscribeTopics(topics = []) {
+      // MARK: - Check if the browser supports push notifications
+    if ('PushManager' in window) {
+      // const token = (isPowerTranslate) ? localStorage.getItem('accessToken') : 'sometoken';
+      const token = (isPowerTranslate) ? GetCookie('accessToken') : 'sometoken';
+      if (!token || token === '') {
+          console.log('No token! ');
+          return;
+      }
+      let subscription = await registration.pushManager.getSubscription();
+      if (subscription) {
+        await subscription.unsubscribe();
+      }
+      subscription = await registration.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(publicVapidKey)
+      });
+      console.log("Push Registered...");
+      const info = {
+        topics: [],
+        subscription: subscription
+      };
+      // Subscribe Topics for Push Notification
+      console.log("Sending Push...");
+      await fetch("/subscribe_topic", {
+        method: "POST",
+        body: JSON.stringify(info),
+        headers: {
+          "content-type": "application/json",
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      console.log("Push Sent...");
+    } else {
+      console.warn('Push notifications are not supported by this browser.');
+    }
+}
+
+// MARK: - Request permission to send push notifications
+async function requestNotificationPermission() {
+  const permission = await Notification.requestPermission();
+  if (permission === 'granted') {
+    console.log('User has granted permission to send push notifications.');
+  } else {
+    console.warn('User has denied permission to send push notifications.');
+  }
+}
+
+// Listen for messages from the service worker
+if (navigator.serviceWorker) {
+  navigator.serviceWorker.addEventListener('message', async event => {
+    // Retrieve the data sent from the service worker
+    const { name, data } = event.data;
+    console.log(`Received message from service worker with name: ${name} and data:`);
+    console.log(data);
+    const action = data.action;
+    const value = data.value;
+    if (!action || !value) {return;}
+    await handleAction(action, value);
+  });
+}
+
+
+
+// window.addEventListener('message', event => {
+//   const info = event.data;
+//   console.log('Got posted message: ');
+//   console.log(info); // Output: { data: 'Hello from the service worker!' }
+// });
+
+const urlParams = new URLSearchParams(window.location.search);
+const webpushInfo = JSON.parse(urlParams.get("webpush"));
+if (webpushInfo) {
+  console.log(webpushInfo);
+  alert(webpushInfo);
+}
+
+
 
 updateLanguageOptionDict();
 initChat();
