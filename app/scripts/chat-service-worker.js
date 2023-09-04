@@ -1,7 +1,7 @@
 /* jshint ignore:start */
 
 
-const cacheName = 'v408';
+const cacheName = 'v411';
 console.log(`CACHE_NAME: ${cacheName}`);
 const domain = 'https://ftcoffer.herokuapp.com';
 const startUrl = '/powertranslate/chat.html';
