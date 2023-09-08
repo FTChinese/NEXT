@@ -23,19 +23,13 @@ function SetCookie(name, value, sec, path, domain, secure) {
     const expires = new Date();
     path = path || '/';
     domain = domain || null;
-    if (sec === null || sec === '') {
-      sec = 600 * 24 * 60 * 60 * 1000;
-    } else {
-      sec = 1000 * sec;
-    }
-    expires.setTime(expires.getTime() + sec);
+    const expireMiniSeconds = (sec > 0) ? 1000 * sec : 600 * 24 * 60 * 60 * 1000;
+    expires.setTime(expires.getTime() + expireMiniSeconds);
     document.cookie = `${name}=${encodeURIComponent(value)}${expires === null ? '' : `; expires=${expires.toGMTString()}`}; path=${path}${domain ? `; domain=${domain}` : ''}${secure ? '; secure' : ''}`;
 }
 
-function DeleteCookie (name) {  
-    var exp = new Date(),cval = GetCookie (name);
-    exp.setTime (exp.getTime() - 1);
-    document.cookie = name + '=' + cval + '; expires=' + exp.toGMTString();
+function DeleteCookie(name) {
+    document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
 }
 
 function paravalue(theurl, thep) {

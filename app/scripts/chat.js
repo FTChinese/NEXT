@@ -379,11 +379,11 @@ async function getArticleFromFTAPI(id, language) {
           // url = '/api/page/ft_podcast.json';
           // url = '/api/page/ft_video.json';
           // url = '/api/page/ft_article.json';
-          url = '/api/page/ft_article_scrolly_telling.json';
+          // url = '/api/page/ft_article_scrolly_telling.json';
           // url = '/api/page/ft_article_scrolly_telling_climate_change.json';
           // url = '/api/page/ft_article_double_image.json';
           // url = '/api/page/ft_article_chinese.json';
-          // url = '/api/page/ft_article_machine_translation.json';
+          url = '/api/page/ft_article_machine_translation.json';
           options = {
               method: 'GET',
               headers: {
@@ -451,13 +451,13 @@ async function switchLanguage(container, value) {
     machineTranslationInfo = getInfoFromMachineTranslation(content.machineTranslation);
   }
   if (value === 'target') {
-    title = content.titleTranslation || machineTranslationInfo.title || '';
-    standfirst = content.standfirstTranslation || machineTranslationInfo.standfirst || '';
+    title = content.titleTranslation || machineTranslationInfo.titleTranslation || machineTranslationInfo.title || '';
+    standfirst = content.standfirstTranslation || machineTranslationInfo.standfirstTranslation || machineTranslationInfo.standfirst || '';
     bodyXML = content.bodyXMLTranslation || machineTranslationInfo.bodyXML || '';
     byline = content.bylineTranslation || machineTranslationInfo.byline || '';
   } else if (value === 'bilingual') {
-    title = `<div>${content.title}</div><div>${content.titleTranslation || machineTranslationInfo.title || ''}</div>`;
-    standfirst = `<div>${content.standfirst}</div><div>${content.standfirstTranslation || machineTranslationInfo.standfirst || ''}</div>`;
+    title = `<div>${content.title}</div><div>${content.titleTranslation || machineTranslationInfo.titleTranslation || machineTranslationInfo.title || ''}</div>`;
+    standfirst = `<div>${content.standfirst}</div><div>${content.standfirstTranslation || machineTranslationInfo.standfirstTranslation || machineTranslationInfo.standfirst || ''}</div>`;
     byline = content.byline;
     // MARK: - For biligual mode, you should always look to match the English and translation
     const originalBodyXML = machineTranslationInfo.originalBodyXML || content.bodyXML;
@@ -500,11 +500,14 @@ function getInfoFromMachineTranslation(machineTranslation) {
   let info = {};
   let bodyXML = '';
   const translations = machineTranslation.bodyXMLTranslations;
-  if (translations) {
+  const proofreadTranslation = machineTranslation.bodyXMLTranslation;
+  if (proofreadTranslation && proofreadTranslation !== '') {
+    info.bodyXML = proofreadTranslation;
+  } else if (translations) {
     let translationDict = {};
     for (const translation of translations) {
       const id = translation.id;
-      translationDict[id] = translation.translations
+      translationDict[id] = translation.translations;
     }
     // console.log(translationDict);
     bodyXML = machineTranslation.bodyXML;
@@ -526,8 +529,8 @@ function getInfoFromMachineTranslation(machineTranslation) {
     }
     info.bodyXML = div.innerHTML;
   }
-  info.title = translationsToHTML(machineTranslation.titles);
-  info.standfirst = translationsToHTML(machineTranslation.standfirsts);
+  info.title = machineTranslation.titleTranslation || translationsToHTML(machineTranslation.titles);
+  info.standfirst = machineTranslation.standfirstTranslation || translationsToHTML(machineTranslation.standfirsts);
   info.byline = machineTranslation.byline;
   info.originalBodyXML = machineTranslation.bodyXML;
   return info;
