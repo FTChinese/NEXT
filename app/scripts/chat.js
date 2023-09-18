@@ -608,7 +608,8 @@ async function showContent(ftid, language, shouldScrollIntoView = true, shouldLo
               bylineEnglish = `<div class="hide story-author-english">${byline}</div>`;
               byline = (showTranslationAsDefault) ? content.bylineTranslation : content.byline;
           }
-          byline = machineTranslationInfo.byline || byline;
+          byline = machineTranslationInfo.byline || byline || '';
+          byline = byline.split(',').join(', ');
           // MARK: - If the article starts with a picture, don't show the picture in the heading
           if (/^<div class=\"pic/.test(bodyXML)) {
             visualHeading = '';
@@ -715,31 +716,25 @@ function showResultInChat(result, shouldScrollIntoView = true, isFullGrid = fals
   newResult.className = `chat-talk chat-talk-agent${fullGridClassName}`;
   // MARK: - Converting the HTML on the frontend
   if (!result || !result.text || typeof result.text !== 'string') {return;}
-  // const resultHTML = markdownToHtmlTable(result.text).replace(/\n/g, '<br>');
   const resultHTML = markdownConvert(result.text);
-  // console.log(`actions: ${actions}`);
-  // console.log(resultHTML);
   newResult.innerHTML = `<div class="chat-talk-inner">${resultHTML}</div>`;
-  // newResult.innerHTML = `<div class="chat-talk-inner"><div><h1>haha</h1></div></div>`;
   chatContent.appendChild(newResult);
   if (newResult.querySelector('h1, .story-header-container')) {
+    console.log(1)
     newResult.classList.add('full-grid-story');
     // MARK: - Need the set time out to work properly on Chrome
     let inViewClass = '.story-lead';
     if (newResult.querySelector('.audio-container, .story-header-container video') && newResult.querySelector('.chat-item-actions')) {
       inViewClass = '.chat-item-actions';
     }
-    if(shouldScrollIntoView==true){
+    if(shouldScrollIntoView) {
       setTimeout(function(){
         newResult.querySelector(inViewClass).scrollIntoView(scrollOptions);
       }, 0);
-    }else{  
-      setTimeout(0);
     }
-   
-  } else {
+  } else if (shouldScrollIntoView) {
       newResult.scrollIntoView(scrollOptions);
-  } 
+  }
 }
 
 function showUserPrompt(prompt) {
@@ -996,8 +991,8 @@ async function setPreference(category, language, reply) {
   showResultInChat({text: `${html}${actions}`}, true, true);
 }
 
-async function setIntention(newIntention, language, reply, isFullGrid = false) {
-  console.log(`running setIntention... content: ${newIntention}, language: ${language}`);
+async function setIntention(newIntention, language, reply, isFullGrid = false, shouldScrollIntoView = true) {
+  console.log(`running setIntention: content: ${newIntention}, language: ${language}, reply: ${reply}, isFullGrid: ${isFullGrid}, shouldScrollIntoView: ${shouldScrollIntoView}`);
   // MARK: - Allow the input only when the user set intention
   userInput.removeAttribute('disabled');
   userInput.removeAttribute('placeholder');
@@ -1010,7 +1005,7 @@ async function setIntention(newIntention, language, reply, isFullGrid = false) {
   // MARK: - Show this only when there's a reply
   if (reply && reply !== '') {
     const actions = getActionOptions();
-    showResultInChat({text: `${reply}${actions}`}, true, isFullGrid);
+    showResultInChat({text: `${reply}${actions}`}, shouldScrollIntoView, isFullGrid);
   }
 }
 
@@ -1243,13 +1238,15 @@ async function showFTPage(content, language, reply) {
         html += newHTML;
       }
       newResultInner.innerHTML = html;
-      await setIntention('DiscussContent', language, localize('Discuss More'), true);
+      await setIntention('DiscussContent', language, localize('Discuss More'), true, false);
       const itemContainers = newResultInner.querySelectorAll('.chat-item-container');
+      
       if (itemContainers.length >= 3) {
         itemContainers[2].scrollIntoView(scrollOptions);
       } else {
         newResult.scrollIntoView(scrollOptions);
       }
+      
       const n = 3;
       if (previousConversations.length > n) {
         previousConversations = previousConversations.slice(-n);
