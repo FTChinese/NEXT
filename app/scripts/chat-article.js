@@ -628,6 +628,7 @@ async function convertFTContentForChinese(results, language) {
         for (let blockOfBodyXML of bodyXML) {
             blockOfBodyXML.translations = await convertArrayOfStrings(blockOfBodyXML.translations, language)
         }
+        return bodyXML;
     }
     let newResults = JSON.parse(JSON.stringify(results));
     newResults.bodyXMLTranslation = await convertChinese(newResults.bodyXMLTranslation, language);
@@ -635,11 +636,30 @@ async function convertFTContentForChinese(results, language) {
     newResults.bylineTranslation = await convertChinese(newResults.bylineTranslation, language);
     newResults.standfirstTranslation = await convertChinese(newResults.standfirstTranslation, language);
     if (newResults.machineTranslation) {
-        newResults.machineTranslation.byline = await convertChinese(newResults.machineTranslation.byline, language);
-        newResults.machineTranslation.titles = await convertArrayOfStrings(newResults.machineTranslation.titles);
-        newResults.machineTranslation.standfirsts = await convertArrayOfStrings(newResults.machineTranslation.standfirsts);
-        await convertMTBodyXML(newResults.machineTranslation.bodyXMLTranslations);
+        if (newResults.machineTranslation.titleTranslation) {
+            newResults.machineTranslation.titleTranslation = await convertChinese(newResults.machineTranslation.titleTranslation, language);
+        }
+        if (newResults.machineTranslation.standfirstTranslation) {
+            newResults.machineTranslation.standfirstTranslation = await convertChinese(newResults.machineTranslation.standfirstTranslation, language);
+        }
+        if (newResults.machineTranslation.bodyXMLTranslation) {
+            newResults.machineTranslation.bodyXMLTranslation = await convertChinese(newResults.machineTranslation.bodyXMLTranslation, language);
+        }
+        if (newResults.machineTranslation.byline) {
+            newResults.machineTranslation.byline = await convertChinese(newResults.machineTranslation.byline, language);
+        }
+        if (newResults.machineTranslation.titles) {
+            newResults.machineTranslation.titles = await convertArrayOfStrings(newResults.machineTranslation.titles);
+        }
+        if (newResults.machineTranslation.standfirsts) {
+            newResults.machineTranslation.standfirsts = await convertArrayOfStrings(newResults.machineTranslation.standfirsts);
+        }
+        if (newResults.machineTranslation.bodyXMLTranslations) {
+            newResults.machineTranslation.bodyXMLTranslations = await convertMTBodyXML(newResults.machineTranslation.bodyXMLTranslations);
+        }
     }
+    // console.log('convertFTContentForChinese new result: ');
+    // console.log(newResults);
     return newResults;
 }
 

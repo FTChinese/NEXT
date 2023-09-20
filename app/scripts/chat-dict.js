@@ -1020,6 +1020,20 @@ const randomPromptDict = {
         'zh-HK': '雙語',
         ru: 'Двуязычный'
       },
+      'ai-disclaimer-proofread': {
+        zh: '为了第一时间为您呈现此信息，本文内容为AI翻译和校对，仅供参考',
+        en: 'To present this information to you as soon as possible, the content of this article is AI translated and proofread, for reference only',
+        es: 'Para presentar esta información lo antes posible, el contenido de este artículo está traducido y revisado por IA, solo para referencia',
+        fr: `Pour présenter cette information le plus rapidement possible, le contenu de cet article est traduit et relu par l'IA, uniquement à titre de référence`,
+        de: 'Um Ihnen diese Informationen so schnell wie möglich zu präsentieren, ist der Inhalt dieses Artikels von AI übersetzt und korrekturgelesen, nur zur Referenz',
+        ja: 'この情報をできるだけ早く提供するため、この記事の内容はAIによる翻訳と校正であり、参考のみです',
+        ko: '최대한 빠르게 이 정보를 제공하기 위해이 문서의 내용은 AI 번역 및 교정으로 작성되었습니다. 참조 용도로만 사용하십시오',
+        pt: 'Para apresentar esta informação o mais rapidamente possível, o conteúdo deste artigo é traduzido e revisado por AI, apenas para referência',
+        it: `Per presentare queste informazioni il prima possibile, il contenuto di questo articolo è tradotto e revisionato dall'IA, solo per riferimento`,
+        'zh-TW': '為了第一時間為您呈現此信息，本文內容為AI翻譯和校對，僅供參考',
+        'zh-HK': '為了第一時間為您呈現此信息，本文內容為AI翻譯和校對，僅供參考',
+        ru: 'Чтобы представить вам эту информацию как можно скорее, содержание этой статьи переведено и проверено на ИИ, только для справки'
+      },
       'ai-disclaimer': {
         zh: '为了第一时间为您呈现此信息，本文内容为机器翻译，仅供参考',
         en: 'To present this information to you as quickly as possible, this article has been machine translated and is for reference only',
@@ -1033,7 +1047,7 @@ const randomPromptDict = {
         'zh-TW': '為了第一時間為您呈現此資訊，本文內容為機器翻譯，僅供參考',
         'zh-HK': '為了第一時間為您呈現此資訊，本文內容為機器翻譯，僅供參考',
         ru: 'Чтобы предоставить вам эту информацию как можно быстрее, этот текст был переведен с помощью машины и предназначен только для справки'
-    }, 
+      }, 
   };
 
 

@@ -470,7 +470,8 @@ async function switchLanguage(container, value) {
     container.classList.remove(bilingualClassName);
   }
   if (['target', 'bilingual'].indexOf(value) >= 0 && content.machineTranslation) {
-    container.querySelector('.ai-disclaimer-container').innerHTML = `<div class="ai-disclaimer">${localize("ai-disclaimer")}</div>`;
+    const aiDisclaimer = (content.machineTranslation.proofread) ? 'ai-disclaimer-proofread' : 'ai-disclaimer';
+    container.querySelector('.ai-disclaimer-container').innerHTML = `<div class="ai-disclaimer">${localize(aiDisclaimer)}</div>`;
   } else {
     container.querySelector('.ai-disclaimer-container').innerHTML = '';
   }
@@ -503,6 +504,7 @@ function getInfoFromMachineTranslation(machineTranslation) {
   const proofreadTranslation = machineTranslation.bodyXMLTranslation;
   if (proofreadTranslation && proofreadTranslation !== '') {
     info.bodyXML = proofreadTranslation;
+    info.proofread = true;
   } else if (translations) {
     let translationDict = {};
     for (const translation of translations) {
@@ -628,7 +630,8 @@ async function showContent(ftid, language, shouldScrollIntoView = true, shouldLo
           let disclaimerForMachineTranslation = '';
           // MARK: - Show Machine translation disclaimer only when necessary, localize it
           if (isUsingMachineTranslation && showTranslationAsDefault) {
-            disclaimerForMachineTranslation = `<div class="ai-disclaimer">${localize("ai-disclaimer")}</div>`;
+            const aiDisclaimer = (machineTranslationInfo.proofread) ? 'ai-disclaimer-proofread' : 'ai-disclaimer';
+            disclaimerForMachineTranslation = `<div class="ai-disclaimer">${localize(aiDisclaimer)}</div>`;
           }
           let html = `
               <div class="article-container" data-id="${ftid}">
