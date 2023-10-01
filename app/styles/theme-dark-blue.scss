@@ -1,0 +1,89 @@
+$defaultPink: #0c1b54;
+$borderColor: #cec6b9;
+$bannerBG: #0c1b54;
+$darkTint: #505050;
+$sideBorderColor: #A7A59B;
+$footerBorder: #0c1b54;
+$whiteColor: #FFF;
+$headerTint: #0c1b54;
+$headerTintLight: #505050;
+$headerColor: white;
+$headerDeliminatorColor: #fdf8f2;
+$darkGreen: #0a5e66;
+$fontColor: #FFF;
+$titleColor: #FFF;
+$leadColor: #FFF;
+$visitedLink: #FFF;
+$lightFontColor: #FFF;
+$highlightColor: #FFF;
+$mastHead: url('https://d2785ji6wtdqx8.cloudfront.net/images/masthead36.png');
+$mastHeadBig5: url('https://thumbor.ftacademy.cn/unsafe/picture/7/000132937_piclink.png');
+$logoPNG: url('https://d2785ji6wtdqx8.cloudfront.net/img/png/brand-ftc-masthead-white.png');
+$logoSVG: url('https://d2785ji6wtdqx8.cloudfront.net/img/svg/brand-ftc-masthead-white.svg');
+$hamberger: 'white/hamburger-white';
+$search: 'white/search-white';
+$cross: 'white/cross-white';
+$arrowDown: 'white/arrow-down-white';
+$arrowRight: 'white/arrow-right-white';
+$arrowUp: 'white/arrow-up-white';
+$arrowLeft: 'white/arrow-left-white';
+@mixin navBottomMobile {
+    box-shadow: none;
+}
+.item-tag a, .item-time.highlight {
+    color: white!important;
+}
+button.myft-follow {
+    display: none!important;
+}
+
+@media only screen and (min-width: 1440px){
+
+    .ad-portrait-left-container {
+        position: fixed;
+        left: 0;
+        right: calc((100% + 1200px + 30px)/2);
+        top: 0;
+        height: 100%;
+        background-color: #3C5197;;
+        z-index: 9999999;
+        background-color: $defaultPink;
+    }
+
+
+    .ad-portrait-right-container {
+        position: fixed;
+        left: calc((100% + 1200px + 30px)/2);
+        right: 0;
+        top: 0;
+        height: 100%;
+        z-index: 9999999;
+        background-color: $defaultPink;
+    }
+
+    .ad-portrait-left-container, .ad-portrait-right-container {
+        &.ad-portrait-style-1 {
+            position: absolute;
+        }
+    }
+
+    .ad-portrait-left, .ad-portrait-right {
+        width: 105px;
+        height: 600px;
+        background-color: #3C5197;
+    }
+
+    .ad-portrait-left {
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+
+
+}
+
+@media only screen and (min-width: 1920px){
+    .ad-portrait-left, .ad-portrait-right {
+        width: 300px;
+    }
+}

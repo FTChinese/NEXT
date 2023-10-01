@@ -489,7 +489,7 @@ async function switchLanguage(container, value) {
 
 function getInfoFromMachineTranslation(machineTranslation) {
   function translationsToHTML(translations) {
-    return translations
+    return (translations || [])
       .filter(x=>x && x.trim() !== '')
       .map((item, index) => {
         const hideClass = (index === 0) ? '' : ' hide';
