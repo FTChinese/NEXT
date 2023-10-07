@@ -445,7 +445,7 @@ async function switchLanguage(container, value) {
   let title = content.title;
   let standfirst = content.standfirst;
   let bodyXML = content.bodyXML;
-  let byline = content.byline;
+  let byline = content.byline || '';
   let machineTranslationInfo = {};
   if (content.machineTranslation) {
     machineTranslationInfo = getInfoFromMachineTranslation(content.machineTranslation);
@@ -458,7 +458,7 @@ async function switchLanguage(container, value) {
   } else if (value === 'bilingual') {
     title = `<div>${content.title}</div><div>${content.titleTranslation || machineTranslationInfo.titleTranslation || machineTranslationInfo.title || ''}</div>`;
     standfirst = `<div>${content.standfirst}</div><div>${content.standfirstTranslation || machineTranslationInfo.standfirstTranslation || machineTranslationInfo.standfirst || ''}</div>`;
-    byline = content.byline;
+    byline = content.byline || '';
     // MARK: - For biligual mode, you should always look to match the English and translation
     const originalBodyXML = machineTranslationInfo.originalBodyXML || content.bodyXML;
     bodyXML = convertToBilingualLayout(originalBodyXML, content.bodyXMLTranslation || machineTranslationInfo.bodyXML || '');
@@ -655,10 +655,9 @@ async function showContent(ftid, language, shouldScrollIntoView = true, shouldLo
                   ${bodyXMLEnglish}
               </div>
               ${actions}
-              <div class="article-prompt">${localize('Discuss Article')}</div>
-          `
-          .replace(/[\r\n]+[\t\s]+/g, '')
-          .replace(/[\r\n]+/g, '');
+              <div class="article-prompt">${localize('Discuss Article')}</div>`
+              .replace(/[\r\n]+[\t\s]+/g, '')
+              .replace(/[\r\n]+/g, '');
           // console.log('html:');
           // console.log(html);
           html += `<button class="quiz-next hide">NEXT</button>`;
@@ -673,6 +672,13 @@ async function showContent(ftid, language, shouldScrollIntoView = true, shouldLo
           previousConversations = [];
           previousIntentDections = [];
           userInput.focus();
+          // MARK: - Dynamically load flourish javascript code
+          if (/flourish-embed/.test(html)) {
+            var script = document.createElement('script');
+            script.src = 'https://public.flourish.studio/resources/embed.js';
+            script.async = true;
+            document.body.appendChild(script);
+          }
           // Deprecating: - Migrating to Pinecone for context
           // MARK: - Create embeddings for the article content in paragraphs
           // await generateEmbeddingsForArticle(content);
@@ -723,7 +729,6 @@ function showResultInChat(result, shouldScrollIntoView = true, isFullGrid = fals
   newResult.innerHTML = `<div class="chat-talk-inner">${resultHTML}</div>`;
   chatContent.appendChild(newResult);
   if (newResult.querySelector('h1, .story-header-container')) {
-    console.log(1)
     newResult.classList.add('full-grid-story');
     // MARK: - Need the set time out to work properly on Chrome
     let inViewClass = '.story-lead';

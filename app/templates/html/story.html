@@ -903,6 +903,9 @@
 	<%assign var="storyLead" value=$clongleadbody|default:$cshortleadbody%>
 <%/if%>
 
+<%if preg_match("/http|[\[\{]|mp3|\|/is",$storyLead)%>
+<%assign var="storyLead" value=""%>
+<%/if%>
 
 <%if $page_action=="user_comment"%>
 	<%assign var="comments_count" value="评论总数: [`$count`条] <a href=\"/rss/hotusercomment\" target=\"_blank\" title=\"RSS 订阅热门读者评论\"><img src=\"https://d2785ji6wtdqx8.cloudfront.net/img/rss.gif\" /></a>"%>

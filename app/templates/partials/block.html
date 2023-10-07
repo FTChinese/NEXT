@@ -1431,12 +1431,12 @@
 									<%else%>
 										<%assign var="itemLead" value=$item.clongleadbody|default:$item.clead|default:$item.longlead|default:$item.description%>
 										<%assign var="itemLead" value=$itemLead|regex_replace:"/\-\|\-.*$/":""%>
-										<%if $itemLead == "" || preg_match("/http|mp3|\|/is",$itemLead)%>
+										<%if $itemLead == "" || preg_match("/http|[\[\{]|mp3|\|/is",$itemLead)%>
 											<%assign var="itemLead" value=$item.shortlead|default:$item.cshortleadbody|default:$item.clead|default:$item.description%>
 										<%/if%>
 										<%assign var="itemLead" value=$itemLead|regex_replace:"/[\n\r]+$/":""%>
 									<%/if%>
-									<%if preg_match("/http|mp3|\|/is",$itemLead)%>
+									<%if preg_match("/http|[\[\{]|mp3|\|/is",$itemLead)%>
 										<%assign var="itemLead" value=""%>
 									<%/if%>
 									<%if $hideImage === "yes"%>
