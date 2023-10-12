@@ -37,6 +37,10 @@ button.myft-follow {
     display: none!important;
 }
 
+.ad-portrait-left-container, .ad-portrait-right-container, .ad-top-sticky-container {
+    display: none;
+}
+
 @media only screen and (min-width: 1440px){
 
     .ad-portrait-left-container {
@@ -45,7 +49,6 @@ button.myft-follow {
         right: calc((100% + 1200px + 30px)/2);
         top: 0;
         height: 100%;
-        background-color: #3C5197;;
         z-index: 9999999;
         background-color: $defaultPink;
     }
@@ -62,6 +65,7 @@ button.myft-follow {
     }
 
     .ad-portrait-left-container, .ad-portrait-right-container {
+        display: block;
         &.ad-portrait-style-1 {
             position: absolute;
         }
@@ -85,5 +89,25 @@ button.myft-follow {
 @media only screen and (min-width: 1920px){
     .ad-portrait-left, .ad-portrait-right {
         width: 300px;
+    }
+}
+
+@media only screen and (max-width: 1439px){
+    .ad-top-sticky-container {
+        width: 100%;
+        max-width: 1200px;
+        height: 44px;
+        background-color: #3C5197;
+        position: sticky;
+        top: 0;
+        margin: 0 auto 30px auto;
+        z-index: 9999999;
+        display: block;
+    }
+}
+
+@media only screen and (max-width: 760px){
+    .ad-top-sticky-container {
+        top: 44px;
     }
 }

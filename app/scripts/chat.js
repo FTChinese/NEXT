@@ -674,8 +674,10 @@ async function showContent(ftid, language, shouldScrollIntoView = true, shouldLo
           userInput.focus();
           // MARK: - Dynamically load flourish javascript code
           if (/flourish-embed/.test(html)) {
-            var script = document.createElement('script');
-            script.src = 'https://public.flourish.studio/resources/embed.js';
+            // MARK: - Reset the FlourishLoaded variable to force it to reload
+            window.FlourishLoaded = false;
+            let script = document.createElement('script');
+            script.src = `https://public.flourish.studio/resources/embed.js`;
             script.async = true;
             document.body.appendChild(script);
           }

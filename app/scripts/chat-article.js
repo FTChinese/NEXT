@@ -493,6 +493,18 @@ async function handleFTContent(contentData) {
     const container = document.createElement('DIV');
     container.innerHTML = bodyXML;
     let hasFlourish = false;
+    for (let ele of container.querySelectorAll('[data-asset-type="video"]')) {
+        const href = ele.href || '';
+        if (href === '') {continue;}
+        const youtubeRegex = /^https:\/\/www\.youtube\.com\/watch\?v=([A-z\d]+)$/g;
+        if (youtubeRegex.test(href)) {
+            const youtubeId = href.replace(youtubeRegex, '$1');
+            ele.outerHTML = `<div class="n-content-video n-content-video--youtube"><div class="n-content-video__placeholder"><iframe class="n-content-video__embedded" frameBorder="0" allowfullscreen="" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" src="https://www.youtube.com/embed/${youtubeId}?rel=0"></iframe></div></div>`;
+        } else {
+            console.log(`This is not Youtube video. Please ask the developer to handle it! `);
+            continue;
+        }
+    }
     for (let ele of container.querySelectorAll('ft-content')) {
         // console.log(ele.outerHTML);
         let type = ele.getAttribute('type');

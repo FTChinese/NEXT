@@ -80,6 +80,17 @@
     <%elseif $section.type == "subscriptionBox" %>
         <%include file="next/partials/subscription-box.html"%>
     <%elseif $section.type == "block"%>
+    
+        <%if $p.meta.theme == "darkblue" && $b == 0%>
+            <%assign var="adPortraitStyle" value=""%>
+            <%if $smarty.get.style == "1"%>
+                <%assign var="adPortraitStyle" value=" ad-portrait-style-1"%>
+            <%/if%>
+            <div class="ad-portrait-left-container<%$adPortraitStyle%>"><div class="ad-portrait-left"></div></div>
+            <div class="ad-portrait-right-container<%$adPortraitStyle%>"><div class="ad-portrait-right"></div></div>
+            <div class="ad-top-sticky-container"></div>
+        <%/if%>
+
         <%if $b < $maxB%>
             <%if $b == 0%>
                 <%*<!--MARK: No need to show a My Subsciption Block for paid subscribers in apps any more because almost all content are hehind pay wall nowsdays. Remove the bock after March 31st, 2022-->*%>
