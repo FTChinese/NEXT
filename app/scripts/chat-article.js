@@ -615,11 +615,11 @@ async function handleFTContent(contentData) {
     if (container.children.length > 0 && container.children[0].classList.contains('pic')) {
         delete contentData.mainImage;
     }
-    if (hasFlourish) {
-        const script = document.createElement('script');
-        script.src = 'https://public.flourish.studio/resources/embed.js';
-        document.head.appendChild(script);
-    }
+    // if (hasFlourish) {
+    //     const script = document.createElement('script');
+    //     script.src = 'https://public.flourish.studio/resources/embed.js';
+    //     document.head.appendChild(script);
+    // }
     contentData.bodyXML = bodyXML;
     return contentData;
 }

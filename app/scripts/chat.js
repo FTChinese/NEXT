@@ -672,15 +672,7 @@ async function showContent(ftid, language, shouldScrollIntoView = true, shouldLo
           previousConversations = [];
           previousIntentDections = [];
           userInput.focus();
-          // MARK: - Dynamically load flourish javascript code
-          if (/flourish-embed/.test(html)) {
-            // MARK: - Reset the FlourishLoaded variable to force it to reload
-            window.FlourishLoaded = false;
-            let script = document.createElement('script');
-            script.src = `https://public.flourish.studio/resources/embed.js`;
-            script.async = true;
-            document.body.appendChild(script);
-          }
+          handleFlourishEmbeds(html);
           // Deprecating: - Migrating to Pinecone for context
           // MARK: - Create embeddings for the article content in paragraphs
           // await generateEmbeddingsForArticle(content);
@@ -688,6 +680,33 @@ async function showContent(ftid, language, shouldScrollIntoView = true, shouldLo
   } catch(err) {
       console.log(err);
   }
+}
+
+function handleFlourishEmbeds(html) {
+  // MARK: - Dynamically load flourish javascript code
+  if (!/flourish-embed/.test(html)) {return;}
+  // MARK: - Reset the FlourishLoaded variable to force it to reload every time
+  window.FlourishLoaded = false;
+  let script = document.createElement('script');
+  script.src = `https://public.flourish.studio/resources/embed.js`;
+  script.async = true;
+  document.body.appendChild(script);
+  // MARK: - Make sure each flourish embed is only executed once
+  for (let container of document.querySelectorAll('.flourish-embed')) {
+    const config = { attributes: false, childList: true, subtree: false };
+    const callback = (mutationList, observer) => {
+      for (const mutation of mutationList) {
+        if (mutation.type === "childList") {
+          container.style.marginBottom = '1em';
+          container.classList.remove('flourish-embed');
+          observer.disconnect();
+        }
+      }
+    };
+    const observer = new MutationObserver(callback);
+    observer.observe(container, config);
+  }
+
 }
 
 function showActions(actions) {
