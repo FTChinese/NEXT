@@ -1048,6 +1048,20 @@ const randomPromptDict = {
         'zh-HK': '為了第一時間為您呈現此資訊，本文內容為機器翻譯，僅供參考',
         ru: 'Чтобы предоставить вам эту информацию как можно быстрее, этот текст был переведен с помощью машины и предназначен только для справки'
       }, 
+      NewsQuiz: {
+        zh: '新闻小测',
+        en: 'News Quiz',
+        es: 'Prueba de noticias',
+        fr: `Quiz d'actualités`,
+        de: 'Nachrichtenquiz',
+        ja: 'ニュースクイズ',
+        ko: '뉴스 퀴즈',
+        pt: 'Quiz de notícias',
+        it: 'Quiz di notizie',
+        'zh-TW': '新聞小測',
+        'zh-HK': '新聞小測',
+        ru: 'Новостная викторина'
+      }
   };
 
 

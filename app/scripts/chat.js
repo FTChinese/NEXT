@@ -918,6 +918,7 @@ const purposeToFunction = {
   'show-ft-page': showFTPage,
   'set-preference': setPreference,
   'start-over': startOver,
+  'news-quiz': newsQuiz
   // 'check-news': checkNews
   // 'purpose2': function2,
   // 'purpose3': function3,
@@ -1058,6 +1059,100 @@ async function createTranslations(results, language) {
   }
   return translations;
 }
+
+
+
+async function newsQuiz(content, language, reply) {
+  // console.log(`running searchFTAPI... content: ${content}, language: ${language}`);
+  updateBotStatus('pending');
+  showResultInChat({text: reply});
+  try {
+    const quizInfo = await getNewsQuiz(content, language);
+    console.log(quizInfo);
+    if (quizInfo.status === 'success' && quizInfo.results) {
+      let html = '';
+      for (const [index, quiz] of quizInfo.results.entries()) {
+          const answer = quiz.answer || '';
+          const explanation = quiz.explanation || '';
+          let allOptions = quiz.distractors || [];
+          // MARK: - OpenAI doesn't get it right all the time, especially when you prompt it to translate a quiz. So you need to verify on the frontend. 
+          if (allOptions.indexOf(answer) === -1) {
+              allOptions.push(answer);
+          }
+          allOptions = shuffle(allOptions);
+          let options = '';
+          for (const option of allOptions) {
+              const className = (option === answer) ? 'is-correct' : 'is-wrong';
+              options += `<div class=${className}>${option.trim().replace(/[\.。]+$/g, '')}</div>`; 
+          }
+          const hideClass = (index === 0) ? '' : ' hide'; 
+          html += `
+              <div class="quiz-container${hideClass}" data-score="0">
+                  <div class="quiz-question">${quiz.question}</div>
+                  <div class="quiz-options">${options}</div>
+                  <div class="quiz-explanation">${explanation}</div>
+                  <div class="quiz-end-for-scroll-alignment"></div>
+              </div>
+          `.replace(/[\r\n]+/g, '');
+          console.log(html);
+      }
+      html = `<div>${html}</div>`;
+      html += `<button class="quiz-next hide">NEXT</button>`;
+      const result = {text: html};
+      showResultInChat(result);
+    }
+  } catch (err) {
+
+  }
+  updateBotStatus('waiting');
+}
+
+
+
+
+async function getNewsQuiz(content, language) {
+  try {
+      // const token = (isPowerTranslate) ? localStorage.getItem('accessToken') : 'sometoken';
+      const token = (isPowerTranslate) ? GetCookie('accessToken') : 'sometoken';
+      if (!token || token === '') {
+          return {status: 'failed', message: 'You need to sign in first! '};
+      }
+      const data = {content: content, language: language};
+      let url = '/ai/quiz';
+      let options = {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify(data)
+      };
+      if (isFrontendTest && !isPowerTranslate) {
+          url = '/api/page/quiz.json';
+          options = {
+              method: 'GET',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+          };
+      }
+      const response = await fetch(url, options);
+      let results = await response.json();
+      if (response.status >= 400 && results.message) {
+          return {status: 'failed', message: results.message};
+      }
+      if (results) {
+          return {status: 'success', results: results};
+      } else {
+          return {status: 'failed', message: 'Something is wrong with FT News Quiz, please try later. '};
+      }
+  } catch(err) {
+      console.log(err);
+      return {status: 'failed', message: err.toString()};
+  }
+}
+
+
 
 async function searchFTAPI(content, language, reply) {
   // console.log(`running searchFTAPI... content: ${content}, language: ${language}`);
@@ -1370,6 +1465,7 @@ function getActionOptions() {
       <a data-purpose="search-ft-api" data-lang="${language}" data-content='genre:"Deep Dive" OR genre:"News in-depth" OR genre:"Explainer"' data-reply="${localize('Finding')}">${localize('Deep Dive')}</a>
       <a data-purpose="search-ft-api" data-lang="${language}" data-content='VIDEOS' data-reply="${localize('Finding')}">${localize('Videos')}</a>
       <a data-purpose="search-ft-api" data-lang="${language}" data-content='PODCASTS' data-reply="${localize('Finding')}">${localize('Podcasts')}</a>
+      <a data-purpose="news-quiz" data-lang="${language}" data-content='quiz' data-reply="${localize('Finding')}">${localize('NewsQuiz')}</a>
     </div>
     `;
   } else if (intention === undefined || intention === '') {
