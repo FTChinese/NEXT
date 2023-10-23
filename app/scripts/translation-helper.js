@@ -477,7 +477,7 @@ function localize(text) {
         'tap-to-add': {'en': 'After tapping on the left to fill in the text here, you can try to select part of the text and then click on the links and bold fonts on the left to easily add links or bold text', 'zh-CN': '在点选左边把文字填写到这里之后，可以尝试选择部分文字，然后点击左边的链接和加粗字体，就可以方便地添加链接或加粗文字。'},
         'content-error-hint': {'en': 'There may be some problems with your edits, do you want to continue submitting?', 'zh-CN': '您编辑的内容可能有些问题，您还要继续提交吗？'},
         'mark-red-reminder': {'en': 'Relevant passages have been marked in red.', 'zh-CN': '相关的段落已经标红。'},
-        'ask-to-overwrite': {'en': 'Overwrite the version previously saved locally, OK?', 'zh-CN': '覆盖之前保存在本地的版本，确定吗？'},
+        'ask-to-overwrite': {'en': 'Overwrite the version previously saved locally, OK? Please note that this function is only intended for handling unexpected situations. If you plan to save your work progress for a long term, please complete the proofreading as soon as possible and submit it to the CMS.', 'zh-CN': '覆盖之前保存在本地的版本，确定吗？请注意这个功能仅仅用于应对意外情况，如果您打算长期保存工作进度，请尽快完成校对并提交到CMS。'},
         'cannot-save-prompt': {'en': 'Due to a browser problem, it is not possible to save your work locally, please take a screenshot of this error message to the technician. ', 'zh-CN': '由于浏览器的问题，无法在本地保存您的工作，请把这个错误信息截屏给技术人员'},
         'recover-prompt': {'en': 'Reverting to the last version saved locally will lose all the changes made now, are you sure?', 'zh-CN': '恢复到上次保存在本地的版本，会丢失现在的所有修改，确定吗？'},
         'Current Translation': {'zh-CN': '旧译名'},

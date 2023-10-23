@@ -1074,6 +1074,12 @@ async function newsQuiz(content, language, reply) {
       for (const [index, quiz] of quizInfo.results.entries()) {
           const answer = quiz.answer || '';
           const explanation = quiz.explanation || '';
+          const title = quiz.title || '';
+          const id = quiz._id || '';
+          let contentLink = '';
+          if (title !== '' && id !== '') {
+            contentLink = `（<a href="https://www.ft.com/content/${id}" target="_blank">${localize('Detail')}</a>）`;
+          }
           let allOptions = quiz.distractors || [];
           // MARK: - OpenAI doesn't get it right all the time, especially when you prompt it to translate a quiz. So you need to verify on the frontend. 
           if (allOptions.indexOf(answer) === -1) {
@@ -1090,11 +1096,10 @@ async function newsQuiz(content, language, reply) {
               <div class="quiz-container${hideClass}" data-score="0">
                   <div class="quiz-question">${quiz.question}</div>
                   <div class="quiz-options">${options}</div>
-                  <div class="quiz-explanation">${explanation}</div>
+                  <div class="quiz-explanation">${explanation}${contentLink}</div>
                   <div class="quiz-end-for-scroll-alignment"></div>
               </div>
           `.replace(/[\r\n]+/g, '');
-          console.log(html);
       }
       html = `<div>${html}</div>`;
       html += `<button class="quiz-next hide">NEXT</button>`;
@@ -1465,7 +1470,7 @@ function getActionOptions() {
       <a data-purpose="search-ft-api" data-lang="${language}" data-content='genre:"Deep Dive" OR genre:"News in-depth" OR genre:"Explainer"' data-reply="${localize('Finding')}">${localize('Deep Dive')}</a>
       <a data-purpose="search-ft-api" data-lang="${language}" data-content='VIDEOS' data-reply="${localize('Finding')}">${localize('Videos')}</a>
       <a data-purpose="search-ft-api" data-lang="${language}" data-content='PODCASTS' data-reply="${localize('Finding')}">${localize('Podcasts')}</a>
-      <a data-purpose="news-quiz" data-lang="${language}" data-content='quiz' data-reply="${localize('Finding')}">${localize('NewsQuiz')}</a>
+      <a data-purpose="news-quiz" data-lang="${language}" data-content='quiz' data-reply="${localize('PrepareingQuiz')}">${localize('NewsQuiz')}</a>
     </div>
     `;
   } else if (intention === undefined || intention === '') {

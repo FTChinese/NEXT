@@ -1476,8 +1476,7 @@
 										<%/if%>
 										
 									<%/if%>
-									
-				
+													
 
 									<%if $listType === "videos" && $i==0%>
 										<div class="item-inner video-package-inner"><div class="image"><figure id="video-package-play" class="loading-video" data-vid="<%$itemId%>"></figure></div><div class="video-package-title"><a href="/video/<%$itemId%>" target=_blank><%$itemHeadline%></a></div></div>
@@ -1644,6 +1643,10 @@
 									<%/if%>
 
 									<%if $itemType == "manual" || $itemType == ""%>
+										<%assign var="lockClass" value=""%>
+									<%/if%>
+
+									<%if $smarty.get.subscription == "premium"%>
 										<%assign var="lockClass" value=""%>
 									<%/if%>
 

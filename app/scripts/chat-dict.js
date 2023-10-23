@@ -333,6 +333,20 @@ const randomPromptDict = {
       zh: '随便聊聊',
       ru: 'Просто чат'
     },
+    Detail: {
+      en: 'Detail',
+      es: 'Detalle',
+      fr: 'Détail',
+      de: 'Detail',
+      ja: '詳細',
+      ko: '세부사항',
+      pt: 'Detalhe',
+      it: 'Dettaglio',
+      'zh-TW': '詳細',
+      'zh-HK': '詳情',
+      zh: '详情',
+      ru: 'Детали'
+    },
     'Final Score': {
       en: 'Final Score',
       es: 'Puntuación Final',
@@ -626,6 +640,20 @@ const randomPromptDict = {
       'zh-TW': '好的，我來幫您查詢...',
       'zh-HK': '好的，我來幫您查詢...',
       ru: 'Хорошо, я помогу вам найти...'
+    },
+    PrepareingQuiz: {
+      zh: '为您准备小测...',
+      en: 'Preparing a quiz for you...',
+      es: 'Preparando un cuestionario para ti...',
+      fr: `Préparation d'un quiz pour vous...`,
+      de: 'Bereite einen Quiz für dich vor...',
+      ja: 'あなたのためにクイズを準備しています...',
+      ko: '퀴즈를 준비 중입니다...',
+      pt: 'Preparando um questionário para você...',
+      it: 'Preparando un quiz per te...',
+      'zh-TW': '為您準備小測...',
+      'zh-HK': '為您準備小測...',
+      ru: 'Подготовка викторины для вас...'
     },
     'What do you want to find?': {
       zh: '好的，您可以点击下面这些最为常见的查询，也可以告诉我您想找什么内容。',
