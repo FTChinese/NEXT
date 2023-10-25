@@ -666,7 +666,7 @@ async function showContent(ftid, language, shouldScrollIntoView = true, shouldLo
           checkContentLinks();
           checkScrollyTellingForChat();
           checkFullGridBlocks();
-          initScrollyTelling();
+          initScrollyTelling(ftid);
           setIntention('DiscussArticle');
           // MARK: - When you start to discuss a new article, you'll always want to clear previous conversations. 
           previousConversations = [];

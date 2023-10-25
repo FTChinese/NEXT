@@ -815,8 +815,9 @@ function checkFullGridBlocks() {
     }
 }
 
-function initScrollyTelling() {
-    var scrollableBlocks = document.querySelectorAll('.scrollable-block');
+function initScrollyTelling(ftid) {
+    if (!ftid || ftid === '') {return;}
+    var scrollableBlocks = document.querySelectorAll(`[data-id="${ftid}"] .scrollable-block`);
     if (!scrollableBlocks) {return;}
     var toggleOverlayOn = false;
     for (var i = 0; i < scrollableBlocks.length; i++) {
