@@ -244,7 +244,17 @@
 					<%$audioHTML%>
 					<%$storyImageInline%>
 					<div id="story-body-container" class="<%$hasPictureClass%>">
-						<div class="print-only">来自FT中文网的温馨提示：如您对更多FT中文网的内容感兴趣，请在苹果应用商店或谷歌应用市场搜索“FT中文网”，下载FT中文网的官方应用。</div>
+						<%php%>
+							$this->assign("userNameDisclaimer", "尊敬的用户您好，这是");
+							if (isset($_COOKIE["USER_NAME"])) {
+								$userName = $_COOKIE["USER_NAME"];
+								if ($userName !== '') {
+									$this->assign("userNameDisclaimer", "尊敬的用户" . $userName . "，这是");
+								}
+							}
+							
+						<%/php%>
+						<div class="print-only"><%$userNameDisclaimer%>来自FT中文网的温馨提示：如您对更多FT中文网的内容感兴趣，请在苹果应用商店或谷歌应用市场搜索“FT中文网”，下载FT中文网的官方应用。</div>
 						<%$story_content%>
 						<%$contentDisclaimer%>
 						<%$translationDisclaimer%>
