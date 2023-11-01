@@ -538,6 +538,21 @@ function getInfoFromMachineTranslation(machineTranslation) {
   return info;
 }
 
+function showBackArrow() {
+  const isInWebAppiOS = (window.navigator.standalone === true);
+  const isInWebAppChrome = (window.matchMedia('(display-mode: standalone)').matches);
+  if (!isInWebAppiOS && !isInWebAppChrome && !isFrontendTest) {return;}
+  if (!document.referrer) {return;}
+  let containerEle = document.querySelector('.container');
+  if (!containerEle) {return;}
+  if (containerEle.querySelector('.back-arrow')) {return;}
+  const backArrowEle = document.createElement('DIV');
+  backArrowEle.onclick = ()=>{
+    window.history.back();
+  };
+  backArrowEle.classList.add('back-arrow');
+  containerEle.append(backArrowEle);
+}
 
 async function showContent(ftid, language, shouldScrollIntoView = true, shouldLoadArticle = true) {
   try {
@@ -1629,6 +1644,7 @@ async function setGuardRails() {
   const surveyName = paramDict.name;
   if (ftid && ftid !== '') {
     // MARK: - If you want to handle actions at the launch of the page, you'll need to wait for the access token to available before continuing. 
+    showBackArrow();
     await waitForAccessToken();
     await showContent(ftid, preferredLanguage);
     if (action && action !== '') {
