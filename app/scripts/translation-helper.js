@@ -366,6 +366,17 @@ delegate.on('click', '.info-container textarea', function(event){
 });
 
 
+
+delegate.on('input', '.preview-content [id]', function(event){
+    const id = this.id;
+    const html = this.innerHTML;
+    let textEle = document.querySelector(`textarea[data-info-id="${id}"]`);
+    if (textEle) {
+        textEle.value = html;
+    }
+});
+
+
 function getPromptForOpenAI(container) {
     let sourceHTML = container.querySelector('.info-original').innerHTML;
     const nameEntityEles = container.closest('.info-container').querySelectorAll('.name-entity-inner');
@@ -494,7 +505,9 @@ function localize(text) {
         'Polish-Translation': {'en': 'Polish This Translation', 'zh-CN': '为这段译文润色'},
         'Confirm-Polish': {'en': 'Do you want to replace the existing text with this polished text? ', 'zh-CN': '您想要用以下这段润色后的文字替换当前的翻译吗？'},
         'prompt-copied-message': {'en': 'The prompt is already copied to your clipboard. ', 'zh-CN': '原文已经复制到您的剪贴板。'},
-        'prompt-ChatGPT': {'en': 'The prompt is already copied to your clipboard. Open ChatGPT now? ', 'zh-CN': '原文已经复制到您的剪贴板，您要现在打开ChatGPT吗？'}
+        'prompt-ChatGPT': {'en': 'The prompt is already copied to your clipboard. Open ChatGPT now? ', 'zh-CN': '原文已经复制到您的剪贴板，您要现在打开ChatGPT吗？'},
+        'AITranslation': {'en': 'New Feature: There is an AI-translated version, which should be better than current options. Do you want to use it for your review?', 'zh-CN': '新功能：我们检测到AI翻译的版本，效果应该更好，您要直接填入吗？'},
+        'preview-edit': {en: 'Now you can edit directly in the preview mode. I will develop a bilingual mode, which should allow you to verify the translation is accurate. ', 'zh-CN': '现在，您可以直接在预览界面进行编辑。我会在近期开发双语模式，这样您可以更为方便地检查译文的准确性。'}
     };
     if (dict[text]) {
         if (dict[text][language]) {
@@ -731,6 +744,48 @@ function confirmTranslation(ele) {
     gtag('event', ea, {'event_label': window.userName, 'event_category': 'Translation Helper', 'non_interaction': false});
 }
 
+async function checkAITranslation() {
+    const ftidEle = window.opener?.document?.getElementById('eskylineheadline');
+    let ftid = '';
+    if (ftidEle) {
+        ftid = ftidEle.value || '';
+    } else if (isFrontendTest) {
+        ftid = 'anyidforfrontendtest';
+    }
+    if (ftid === '') {return;}
+    let url = (isFrontendTest) ? '/api/page/ai_translation.json' : `/FTAPI/grab_ai_translation.php?id=${ftid}`;
+    const response = await fetch(url);
+    const json = await response.json();
+    const bodyXMLTranslation = json.bodyXMLTranslation;
+    if (!bodyXMLTranslation || typeof bodyXMLTranslation !== 'string' || bodyXMLTranslation === '') {return;}
+    if (!confirm(localize('AITranslation'))){return;}
+    let ele = document.createElement('DIV');
+    ele.innerHTML = bodyXMLTranslation;
+    const translationEles = ele.querySelectorAll('[id]');
+    for (const translationEle of translationEles) {
+        const translation = translationEle.innerHTML;
+        const translationId = translationEle.id;
+        let textareaEle = document.querySelector(`textarea[data-info-id="${translationId}"]`);
+        if (textareaEle && textareaEle.value === '') {
+            textareaEle.value = translation;
+        }
+    }
+    let previewButton = document.querySelector('#preview-button');
+    if (previewButton) {
+        preview(previewButton);
+        const titleTranslation = json.titleTranslation || '';
+        const previewTitleEle = document.querySelector('.preview-content .story-title');
+        if (previewTitleEle && titleTranslation !== '') {
+            previewTitleEle.innerHTML = titleTranslation;
+        }
+        const standfirstTranslation = json.standfirstTranslation || '';
+        const previewStandfirstEle = document.querySelector('.preview-content .story-standfirst');
+        if (previewStandfirstEle && standfirstTranslation !== '') {
+            previewStandfirstEle.innerHTML = standfirstTranslation;
+        }
+    }
+}
+
 function start() {
     function renderBottomButtons() {
 
@@ -740,7 +795,7 @@ function start() {
 
             var bottomButton = document.createElement('DIV');
             bottomButton.className = 'centerButton bottom-button';
-            bottomButton.innerHTML = '<input id="show-replace-button" type="button" value="' + localize('Replace') + '" onclick="showReplace(this)" class="submitbutton button ui-light-btn"><input id="add-new-match-button" type="button" value="' + localize('Add Word') + '" onclick="showAddNewMatch(this)" class="submitbutton button ui-light-btn"><input type="button" value="' + localize('Preview') + '" onclick="preview(this)" class="submitbutton button ui-light-btn"><input type="button" value="' + localize('Backup') + '" onclick="saveToLocal()" class="submitbutton button ui-light-btn"><input type="button" value="' + localize('Recover') + '" onclick="restoreFromLocal()" class="submitbutton button ui-light-btn"><input type="button" value="' + localize('Top') + '" onclick="backToTop()" class="submitbutton button ui-light-btn"><input type="button" value="'+ closeButtonValue + '" onclick="finishTranslation(this)" class="submitbutton button ui-light-btn">';
+            bottomButton.innerHTML = '<input id="show-replace-button" type="button" value="' + localize('Replace') + '" onclick="showReplace(this)" class="submitbutton button ui-light-btn"><input id="add-new-match-button" type="button" value="' + localize('Add Word') + '" onclick="showAddNewMatch(this)" class="submitbutton button ui-light-btn"><input type="button" id="preview-button" value="' + localize('Preview') + '" onclick="preview(this)" class="submitbutton button ui-light-btn"><input type="button" value="' + localize('Backup') + '" onclick="saveToLocal()" class="submitbutton button ui-light-btn"><input type="button" value="' + localize('Recover') + '" onclick="restoreFromLocal()" class="submitbutton button ui-light-btn"><input type="button" value="' + localize('Top') + '" onclick="backToTop()" class="submitbutton button ui-light-btn"><input type="button" value="'+ closeButtonValue + '" onclick="finishTranslation(this)" class="submitbutton button ui-light-btn">';
             document.body.appendChild(bottomButton);
         }
         document.querySelector('.body').classList.add('full-grid');
@@ -821,6 +876,8 @@ function start() {
         }
         storyBodyEle.innerHTML = k;
         renderBottomButtons();
+        checkAITranslation();
+
     } else if (isReviewMode && eText && tText) {
         var eTexts = eText.split('\n').filter(isNotEmpty);
         var tTexts = tText.split('\n').filter(isNotEmpty);
@@ -1107,6 +1164,17 @@ function finishTranslationForArticle(buttonEle) {
             var value = titlesInfo[k].value;
             window.opener.document.getElementById(id).disabled = false;
             window.opener.document.getElementById(id).value = value;
+        }
+        // MARK: - If there are proofread story title and standfirst
+        const title = document.querySelector('.story-title')?.innerHTML ?? '';
+        const standfirst = document.querySelector('.story-standfirst')?.innerHTML ?? '';
+        let cheadlineEle = window.opener?.document?.getElementById('cheadline');
+        if (cheadlineEle && title !== '') {
+            cheadlineEle.value = title;
+        }
+        let clongleadbodyEle = window.opener?.document?.getElementById('clongleadbody');
+        if (clongleadbodyEle && standfirst !== '') {
+            clongleadbodyEle.value = standfirst;
         }
         var tagEle = window.opener.document.getElementById('tag');
         // MARK: - A list of good translation reviewer whose quality is so good that there's no need to display that AI disclaimer
@@ -1503,7 +1571,14 @@ function preview(buttonEle) {
         document.body.appendChild(previewContainer);
     }
     previewContainer = document.querySelector('.preview-container');
-    previewContainer.innerHTML = '<div class="preview-content">' + tidyUpChineseText(translations) + '</div>';
+    const note = localize('preview-edit');
+    const title = '<h1 class="story-title" contenteditable="true"></h1>';
+    const standfirst = '<div class="story-standfirst" contenteditable="true"></div>';
+    const storyHeaders = title + standfirst;
+    previewContainer.innerHTML = `<div class="preview-content"><p><em>${note}</em></p>${storyHeaders}${tidyUpChineseText(translations)}</div>`;
+    for (let idEle of previewContainer.querySelectorAll('.preview-content [id]')) {
+        idEle.setAttribute('contenteditable', 'true');
+    }
     document.body.classList.toggle('preview');
     if (document.body.classList.contains('preview')) {
         buttonEle.value = localize('Edit');

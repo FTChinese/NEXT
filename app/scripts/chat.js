@@ -549,7 +549,6 @@ function showBackArrow() {
   const backArrowEle = document.createElement('DIV');
   backArrowEle.onclick = ()=>{
     window.close();
-    // window.history.back();
   };
   backArrowEle.classList.add('back-arrow');
   containerEle.append(backArrowEle);
