@@ -11,6 +11,7 @@ if (window.opener) {
     window.userName = '';
     window.userIP = '';
 }
+window.publishedDate = window.opener?.document?.getElementById('ebyline_description')?.value ?? '';
 var dict = {};
 var delegate = new Delegate(document.body);
 const isPowerTranslate = location.href.indexOf('powertranslate') >= 0;
@@ -26,6 +27,12 @@ var source = 'en';
 var target = 'cn';
 var chatgptTab;
 var messageCount = 0;
+const previewLanguageModes = [
+    {name: 'Translation', key: 'translation'},
+    {name: 'Bilingual', key: 'bilingual'}
+];
+
+const PreviewLanguagePreferenceKey = 'PreviewLanguagePreference';
 
 
 // MARK: - Request A Polished Version of Translation
@@ -376,6 +383,17 @@ delegate.on('input', '.preview-content [id]', function(event){
     }
 });
 
+delegate.on('click', '.preview-language-switch div', function(event){
+    if (this.classList.contains('on')) {return;}
+    const key = this.getAttribute('data-key');
+    let container = this.closest('.preview-language-switch');
+    for (const ele of container.querySelectorAll('div')) {
+        ele.classList.remove('on');
+    }
+    this.classList.add('on');
+    updatePreviewLanguageMode(key);
+});
+
 
 function getPromptForOpenAI(container) {
     let sourceHTML = container.querySelector('.info-original').innerHTML;
@@ -499,6 +517,7 @@ function localize(text) {
         'Empty-Source': {'en': 'Original test cannot be empty!', 'zh-CN': '原文不能为空!'},
         'Original': {'zh-CN': '原文'},
         'Translation': {'zh-CN': '译文'},
+        'Bilingual': {'zh-CN': '对照'},
         'Hide Add Word': {'zh-CN': '隐藏添加'},
         'Not-Found-Word-In-Original': {'en': 'No word found in the original, please check your input in the original!', 'zh-CN': '没有在原文中找到词条，请检查一下您的原文的输入！'},
         'Others-Working-On-It': {'en': 'This article seems to have been modified or posted by someone else while you were editing it, would you like to see the details?', 'zh-CN': '这篇文章在您进行编辑的时候，似乎被别人进行了修改或发布，您要看看详情吗？'},
@@ -507,7 +526,7 @@ function localize(text) {
         'prompt-copied-message': {'en': 'The prompt is already copied to your clipboard. ', 'zh-CN': '原文已经复制到您的剪贴板。'},
         'prompt-ChatGPT': {'en': 'The prompt is already copied to your clipboard. Open ChatGPT now? ', 'zh-CN': '原文已经复制到您的剪贴板，您要现在打开ChatGPT吗？'},
         'AITranslation': {'en': 'New Feature: There is an AI-translated version, which should be better than current options. Do you want to use it for your review?', 'zh-CN': '新功能：我们检测到AI翻译的版本，效果应该更好，您要直接填入吗？'},
-        'preview-edit': {en: 'Now you can edit directly in the preview mode. I will develop a bilingual mode, which should allow you to verify the translation is accurate. ', 'zh-CN': '现在，您可以直接在预览界面进行编辑。我会在近期开发双语模式，这样您可以更为方便地检查译文的准确性。'}
+        'preview-edit': {en: 'Now you can edit directly in the preview mode. The bilingual mode button allows you to verify the translation is accurate more conveniently. ', 'zh-CN': '现在，您可以直接在预览界面进行编辑。你可以点击上方按钮切换到双语对照模式，更为方便地检查译文的准确性。'}
     };
     if (dict[text]) {
         if (dict[text][language]) {
@@ -756,8 +775,11 @@ async function checkAITranslation() {
     let url = (isFrontendTest) ? '/api/page/ai_translation.json' : `/FTAPI/grab_ai_translation.php?id=${ftid}`;
     const response = await fetch(url);
     const json = await response.json();
+    // console.log(JSON.stringify(json, null, 2));
     const bodyXMLTranslation = json.bodyXMLTranslation;
     if (!bodyXMLTranslation || typeof bodyXMLTranslation !== 'string' || bodyXMLTranslation === '') {return;}
+    // MARK: - If the time stamp isn't the same, the AI Translation is not valid! 
+    if (window.publishedDate !== '' && window.publishedDate !== json.publishedDate) {return;}
     if (!confirm(localize('AITranslation'))){return;}
     let ele = document.createElement('DIV');
     ele.innerHTML = bodyXMLTranslation;
@@ -774,15 +796,24 @@ async function checkAITranslation() {
     if (previewButton) {
         preview(previewButton);
         const titleTranslation = json.titleTranslation || '';
-        const previewTitleEle = document.querySelector('.preview-content .story-title');
+        let previewTitleEle = document.querySelector('.preview-content .story-title');
         if (previewTitleEle && titleTranslation !== '') {
             previewTitleEle.innerHTML = titleTranslation;
         }
         const standfirstTranslation = json.standfirstTranslation || '';
-        const previewStandfirstEle = document.querySelector('.preview-content .story-standfirst');
+        let previewStandfirstEle = document.querySelector('.preview-content .story-standfirst');
         if (previewStandfirstEle && standfirstTranslation !== '') {
             previewStandfirstEle.innerHTML = standfirstTranslation;
         }
+        let previewTitleSourceEle = document.querySelector('.preview-content .story-title-source');
+        if (previewTitleSourceEle) {
+            previewTitleSourceEle.innerHTML = window.opener?.document?.getElementById('eheadline')?.value ?? '';
+        }
+        let previewStandfirstSourceEle = document.querySelector('.preview-content .story-standfirst-source');
+        if (previewStandfirstSourceEle) {
+            previewStandfirstSourceEle.innerHTML = window.opener?.document?.getElementById('elongleadbody')?.value ?? '';
+        }
+        
     }
 }
 
@@ -1539,7 +1570,7 @@ function finishTranslationForVideo() {
 }
 
 function preview(buttonEle) {
-    var translations = '';
+    let translations = '';
     if (isReviewMode) {
         var textareas = document.querySelectorAll('.info-container textarea');
         for (var i=0; i<textareas.length; i++) {
@@ -1551,18 +1582,30 @@ function preview(buttonEle) {
         }
     } else {
         var t = document.getElementById('english-text').value;
-        var newText = t.trim().replace(/^[\n\r\s]+/, '').replace(/[\n\r\s]+$/, '');
-        var englishInfoDiv = document.createElement('DIV');
-        englishInfoDiv.innerHTML = newText;
+        const newText = t.trim().replace(/^[\n\r\s]+/, '').replace(/[\n\r\s]+$/, '');
+        var sourceInfoDiv = document.createElement('DIV');
+        sourceInfoDiv.innerHTML = newText;
+        var translationInfoDiv = document.createElement('DIV');
+        translationInfoDiv.innerHTML = newText;
         for (var i=0; i<document.querySelectorAll('[data-info-id]').length; i++) {
-            var ele = document.querySelectorAll('[data-info-id]')[i];
-            var id = ele.getAttribute('data-info-id');
-            var infoEle = englishInfoDiv.querySelector('#' + id);
+            let ele = document.querySelectorAll('[data-info-id]')[i];
+            let id = ele.getAttribute('data-info-id');
+            let infoEle = translationInfoDiv.querySelector('#' + id);
             if (infoEle) {
                 infoEle.innerHTML = ele.value.trim().replace(/^[\n\r\s]+/, '').replace(/[\n\r\s]+$/, '');
             }
+            let sourceEle = sourceInfoDiv.querySelector('#' + id);
+            if (sourceEle) {
+                sourceEle.removeAttribute('id');
+            }
         }
-        translations = englishInfoDiv.innerHTML;
+        for (var i=0; i<translationInfoDiv.childNodes.length; i++) {
+            sourceInfoDiv.childNodes[i]?.classList.add('preview-source');
+            let sourceHTML = sourceInfoDiv.childNodes[i]?.outerHTML ?? '';
+            let translationHTML = translationInfoDiv.childNodes[i]?.outerHTML ?? '';
+            translations += `<div class="preview-translation-container">${sourceHTML}${translationHTML}</div>`;
+        }
+        // translations = translationInfoDiv.innerHTML;
     }
     var previewContainer;
     if (document.querySelectorAll('.preview-container').length === 0) {
@@ -1572,10 +1615,11 @@ function preview(buttonEle) {
     }
     previewContainer = document.querySelector('.preview-container');
     const note = localize('preview-edit');
-    const title = '<h1 class="story-title" contenteditable="true"></h1>';
-    const standfirst = '<div class="story-standfirst" contenteditable="true"></div>';
+    const title = '<div class="preview-translation-container"><h1 class="story-title-source preview-source"></h1><h1 class="story-title" contenteditable="true"></h1></div>';
+    const standfirst = '<div class="preview-translation-container"><div class="story-standfirst-source preview-source"></div><div class="story-standfirst" contenteditable="true"></div></div>';
     const storyHeaders = title + standfirst;
-    previewContainer.innerHTML = `<div class="preview-content"><p><em>${note}</em></p>${storyHeaders}${tidyUpChineseText(translations)}</div>`;
+    const languageSwitch = createLanguageSwitch();
+    previewContainer.innerHTML = `<div class="preview-content">${languageSwitch}<p><em>${note}</em></p>${storyHeaders}${tidyUpChineseText(translations)}</div>`;
     for (let idEle of previewContainer.querySelectorAll('.preview-content [id]')) {
         idEle.setAttribute('contenteditable', 'true');
     }
@@ -1585,6 +1629,26 @@ function preview(buttonEle) {
     } else {
         buttonEle.value = localize('Preview');
     }
+}
+
+function createLanguageSwitch() {
+    const previewLanguagePreference = localStorage.getItem(PreviewLanguagePreferenceKey) ?? previewLanguageModes[0]?.key ?? 'translation';
+    updatePreviewLanguageMode(previewLanguagePreference);
+    const html = previewLanguageModes.map(mode=>{
+        const key = mode.key;
+        const onClass = (key === previewLanguagePreference) ? ' class="on"' : '';
+        return `<div${onClass} data-key="${mode.key}">${localize(mode.name)}</div>`;
+    }).join('');
+    return `<div class="preview-language-switch">${html}</div>`;
+}
+
+function updatePreviewLanguageMode(key) {
+    for (const mode of previewLanguageModes) {
+        const modeClass = `preview-${mode.key}`;
+        document.body.classList.remove(modeClass);
+    }
+    document.body.classList.add(`preview-${key}`);
+    localStorage.setItem(PreviewLanguagePreferenceKey, key);
 }
 
 function saveToLocal(force) {

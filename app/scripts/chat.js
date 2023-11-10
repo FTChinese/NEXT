@@ -583,7 +583,11 @@ async function showContent(ftid, language, shouldScrollIntoView = true, shouldLo
           let audioHTML = getAudioHTML(content);
           if (visualHeading === '' && content.mainImage && content.mainImage.members && content.mainImage.members.length > 0) {
               visualHeading = content.mainImage.members[0].binaryUrl;
-              visualHeading = `https://www.ft.com/__origami/service/image/v2/images/raw/${encodeURIComponent(visualHeading)}?fit=scale-down&source=next&width=1920`;
+              if (location.host === 'ftcoffer.herokuapp.com') {
+                visualHeading = `https://www.ft.com/__origami/service/image/v2/images/raw/${encodeURIComponent(visualHeading)}?fit=scale-down&source=next&width=1920`;
+              } else {
+                visualHeading = `https://thumbor.ftacademy.cn/unsafe/1920x0/${encodeURIComponent(visualHeading)}`;
+              }
               visualHeading = `<div class="story-image image"><figure class=""><img src="${visualHeading}"></figure></div>`;
           }
           const date = new Date(content.publishedDate || content.firstPublishedDate);
