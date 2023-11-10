@@ -16,183 +16,201 @@
         <%*<!--MARK: - Switch between different themes-->*%>
         <style><%include file="next/styles/main-story-partner-content.css"%></style>
         <style>
-            .wechat-pdf @page {
-                margin: 0;
-            }
-            .print-pdf @page {
-                margin: 0.5cm;
-            }
-            body {
-                font-family: "Helvetica Neue","Verdana","Arial","Hiragino Sans GB","WenQuanYi Micro Hei","Heiti SC",STHeiti,"Microsoft Yahei",SimSun,"Hiragino Sans TC","Microsoft JhengHei",PMingLiU,sans-serif;
-                font-size: 16px;
-                margin: 0 auto;
-                display: block;
-                print-color-adjust: exact;
-            }
-            body.print-pdf {
-                background: white !important;
-            }
-            body.wechat-pdf {
-                font-size: 32px;
-                background: #FFF1E0 !important;
-            }
-            img {
-                max-width: 100%;
-                display:block;
-            }
-            .page-container {
-                margin: auto;
-                max-width: 21cm;
-                width: 100%;
-                padding: 0 10px;
-            }
-            .cover-page {
-                page-break-after: always;
-                width: 21cm;
-                height: 29.7cm;
-                position: relative;
-                padding: 10px;
-            }
-            .print-pdf .cover-page {
-                width: 20cm;
-                height: 27.7cm;
-            }
-            .page-title {
-                text-align: left;
-                line-height: 1.618em;
-                font-size: 1.618em;
-            }
-            .publish-date {
-                text-align: left;
-                line-height: 120%;
-                font-size: 1em;
-                margin-top: 20px;
-                color: #505050;
-            }
-            .content-title {
-                font-size: 1.2em;
-                text-align: left;
-                line-height: 1.618em;
-                margin-top: 60px;
-                color: #505050;
-            }
-            .content-headline {
-                font-size: 1.4em;
-                font-weight: bold;
-                text-align: left;
-                line-height: 1.618em;
-                display: block;
-                color: #505050 !important;
-                clear:both;
-            }
-            .wechat-pdf .content-headline {
-                font-size: 1em;
-            }
-            .content-headline::before {
-                content: "";
-                display: block;
-                background-color: #505050;
-                float: left;
-                width: 8px;
-                height: 8px;
-                margin: 13px 5px 0 0;
-            }
-            .wechat-pdf .content-headline::before {
-                margin: 17px 15px 0 0;
-                width: 15px;
-                height: 15px;
-            }
-            .logos {
-                position: absolute;
-                bottom: 30px;
-                left: 30px;
-                height: 100px;
-                width: 100%;
-            }
-            picture.sponsor-logo {
-                border-left: 1px solid #CCCCCC;
-                display: inline-block;
-                height: 100%;
-                margin-left: 30px;
-                padding-left: 30px;
-            }
-            .logos img {
-                height: 100%;
-                float: left;
-            }
-            .list-title-print {
-                font-size: 1.2em;
-                font-weight: bold;
-                color: #9E2F50;
-                line-height: 140%;
-                page-break-after: avoid;
-            }
-            .wechat-pdf .list-title-print {
-                margin-top: 15px;
-            }
-            .wechat-pdf .article-container {
-                margin-top: 15px;
-                page-break-after: always;
-            }
-            .chinese-headline {
-                line-height: 140%;
-                font-weight: bold;
-                font-size: 1.2em;
-                page-break-after: avoid;
-            }
-            .english-headline {
-                line-height: 140%;
-                margin-bottom: 1em;
-                page-break-after: avoid;
-            }
-            .article-url {
-                font-size: 0.8em;
-            }
-            .article-image {
-                margin-bottom: 30px;
-            }
-            .wechat-pdf .article-image {
-                margin-top: 30px;
-            }
-            .article-byline {
-                color: #505050;
-                font-size: 0.8em;
-                margin-bottom: 1em;
-            }
-            .article-image img {
-                width: 100%;
-            }
-            .article-body p {
-                margin-bottom: 1em;
-                line-height: 140%;
-                text-align: justify;
-            }
-            .article-body h1 {
-                font-size: 1.2em;
-            }
-            .print-pdf .article-body {
-                column-count: 2;
-                -webkit-column-count: 2;
-                -moz-column-count: 2;
-                font-size: 0.8em;
-                margin-bottom: 2em;
-            }
-            .pic {
-                margin-bottom: 1em;
-                font-size: 0.9em;
-                color: #555555;
-            }
-            a {
-                color: black;
-                text-decoration: none;
-            }
+        .wechat-pdf @page {
+            margin: 0.5cm;
+        }
+        .print-pdf @page {
+            margin: 0.5cm;
+        }
+        body {
+            font-family: "Helvetica Neue","Verdana","Arial","Hiragino Sans GB","WenQuanYi Micro Hei","Heiti SC",STHeiti,"Microsoft Yahei",SimSun,"Hiragino Sans TC","Microsoft JhengHei",PMingLiU,sans-serif;
+            font-size: 16px;
+            margin: 0 auto;
+            display: block;
+            print-color-adjust: exact;
+        }
+        body.print-pdf {
+            background: white !important;
+        }
+        body.wechat-pdf {
+            font-size: 32px;
+            background: white !important;
+        }
+        img {
+            max-width: 100%;
+            display:block;
+        }
+        .page-container {
+            margin: auto;
+            max-width: 21cm;
+            width: 100%;
+            /* padding: 0 10px 0 10px; */
+        }
+        .cover-page {
+            /* page-break-after: always; */
+            margin: auto;
+            width: 20cm;
+            height: 29.7cm;
+            position: relative;
+            padding: 1cm;
+            /* background-color: red; */
+        }
+        .print-pdf .cover-page {
+            width: 20cm;
+            height: 27.7cm;
+        }
+        .page-title {
+            text-align: center;
+            line-height: 1.618em;
+            font-size: 1.618em;
+            color: white;
+            background-color: #479F8F;
+        }
+        .publish-date {
+            text-align: left;
+            line-height: 120%;
+            font-size: 1em;
+            margin-top: 20px;
+            color: #505050;
+            display: none;
+        }
+        .content-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            text-align: center;
+            line-height: 1.618em;
+            margin: 2cm 0 1cm 0;
+            color: black;
+        }
+        .content-headline {
+            font-size: 1.4em;
+            font-weight: bold;
+            text-align: left;
+            line-height: 1.618em;
+            margin-bottom: 0.5em;
+            display: block;
+            color: black !important;
+            clear:both;
+        }
+        .wechat-pdf .content-headline {
+            font-size: 1em;
+        }
+        .content-headline::before {
+            content: "";
+            display: block;
+            background-color: black;
+            float: left;
+            width: 5px;
+            height: 5px;
+            border-radius: 5px;
+            margin: 13px 5px 0 0;
+        }
+        .wechat-pdf .content-headline::before {
+            margin: 21px 15px 0 0;
+            width: 10px;
+            height: 10px;
+            border-radius: 10px;
+        }
+        .logos {
+            display: none;
+            position: absolute;
+            bottom: 30px;
+            left: 30px;
+            height: 100px;
+            width: 100%;
+        }
+        picture.sponsor-logo {
+            border-left: 1px solid #CCCCCC;
+            display: inline-block;
+            height: 100%;
+            margin-left: 30px;
+            padding-left: 30px;
+        }
+        .logos img {
+            height: 100%;
+            float: left;
+        }
+        .list-title-print {
+            display: none;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #9E2F50;
+            line-height: 140%;
+            page-break-after: avoid;
+        }
+        .wechat-pdf .list-title-print {
+            margin-top: 15px;
+        }
+        .wechat-pdf .article-container {
+            margin-bottom: 1cm;
+            /* page-break-after: always; */
+        }
+        .chinese-headline {
+            line-height: 140%;
+            font-weight: bold;
+            font-size: 1.2em;
+            page-break-after: avoid;
+            break-inside: avoid;
+        }
+        .english-headline {
+            line-height: 140%;
+            margin-bottom: 1em;
+            page-break-after: avoid;
+            break-inside: avoid;
+        }
+        .article-url {
+            font-size: 0.8em;
+            display: none;
+        }
+        .article-image {
+            margin-bottom: 30px;
+            break-inside: avoid;
+        }
+        .wechat-pdf .article-image {
+            margin-top: 30px;
+            page-break-inside: avoid;
+        }
+        .article-byline {
+            color: #333333;
+            font-size: 0.8em;
+            margin-bottom: 1em;
+            break-inside: avoid;
+        }
+        .article-image img {
+            width: 100%;
+            break-inside: avoid;
+        }
+        .article-body p {
+            margin-bottom: 1em;
+            line-height: 161.8%;
+            text-align: justify;
+            font-size: 1.1em;
+        }
+        .article-body h1 {
+            font-size: 1.2em;
+        }
+        .print-pdf .article-body {
+            column-count: 2;
+            -webkit-column-count: 2;
+            -moz-column-count: 2;
+            font-size: 0.8em;
+            margin-bottom: 2em;
+        }
 
-            @media print {
-                .pic, img {
-                    break-inside: avoid;
-                }
+        .pic {
+            margin-bottom: 1em;
+            font-size: 0.9em;
+            color: #333333;
+        }
+        a {
+            color: black;
+            text-decoration: none;
+        }
+        @media print {
+            .pic, img {
+                break-inside: avoid;
             }
-
+        }
         </style>
     </head>
     <body class="<%$bodyClass%>">
@@ -201,7 +219,7 @@
             <%if $section.type == "MainMessage"%>
                 <div class="cover-page">
                     <h1 class="page-title"><%$section.title%></h1>
-                    <h1 class="page-title"><%$section.content%></h1>
+                    <h1 class="page-title hide"><%$section.content%></h1>
                     <div class="publish-date"><%$smarty.now|date_format:"%Y年%m月%d日"%></div>
                     <div class="content-title">内容概览</div>
                     <%foreach from=$p.sections item=newSection%>

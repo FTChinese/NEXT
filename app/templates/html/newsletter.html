@@ -380,8 +380,10 @@ width: <%$containerWidth%> !important;
             <%if $storyImage != ""%>
                 <img class="newsletter-image" src="<%$storyImage%>" width="592" height="333" style="border: 0; margin-bottom: 15px; max-width: 100%;">
             <%/if%>
+            <%$cbody|regex_replace:"/[\n\r]+/":"\n\n"|nl2br|regex_replace:'/\<a\s+([^>]*)>/':'<a style="color: #0a5e66; text-decoration: none;" $1>'|regex_replace:"/href=\"(https:\/\/)[w\.]*ftchinese\.com\//":"href=\"$1`$mainDomain`"%>
+        <%else%>
+            <%$cbody|regex_replace:"/[\n\r]+/":"\n\n"|regex_replace:'/\<a\s+([^>]*)>/':'<a style="color: #0a5e66; text-decoration: none;" $1>'|regex_replace:"/href=\"(https:\/\/)[w\.]*ftchinese\.com\//":"href=\"$1`$mainDomain`"%>
         <%/if%>
-        <%$cbody|regex_replace:"/[\n\r]+/":"\n\n"|nl2br|regex_replace:'/\<a\s+([^>]*)>/':'<a style="color: #0a5e66; text-decoration: none;" $1>'|regex_replace:"/href=\"(https:\/\/)[w\.]*ftchinese\.com\//":"href=\"$1`$mainDomain`"%>
         <%$contentDisclaimer%>
     </td></tr>
     <tr><td style="height: 15px; font-size: 0px; line-height: 15px; padding: 0;">&nbsp;</td></tr>
