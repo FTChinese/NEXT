@@ -376,7 +376,8 @@ async function getArticleFromFTAPI(id, language) {
           body: JSON.stringify(data)
       };
       if (isFrontendTest && !isPowerTranslate) {
-          url = '/api/page/ft_podcast.json';
+          url = '/api/page/ft_article_link.json';
+          // url = '/api/page/ft_podcast.json';
           // url = '/api/page/ft_video.json';
           // url = '/api/page/ft_article.json';
           // url = '/api/page/ft_article_scrolly_telling.json';

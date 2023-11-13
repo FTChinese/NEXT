@@ -114,11 +114,20 @@ delegate.on('click', '.story-body a', async (event) => {
     if (!link) {return;}
     const ftContentRegex = /^https:\/\/www\.ft\.com\/content\/([A-z\d-]+)$/;
     const isFTContent = ftContentRegex.test(link);
-    if (!isFTContent) {return;}
-    event.preventDefault();
-    const ftid = link.replace(ftContentRegex, '$1');
-    const language = preferredLanguage;
-    await showContent(ftid, language);
+    const ftcRegex = /^.*\/(interactive|story)\/([\d]+).*$/;
+    const isFTC = ftcRegex.test(link);
+    if (isFTContent) {
+        event.preventDefault();
+        const ftid = link.replace(ftContentRegex, '$1');
+        const language = preferredLanguage;
+        openFTContent(ftid, language);
+    } else if (isFTC) {
+        event.preventDefault();
+        const type = link.replace(ftcRegex, '$1');
+        const id = link.replace(ftcRegex, '$2');
+        const language = preferredLanguage;
+        await openFTCContent(type, id, language);
+    }
 });
 
 delegate.on('click', '.chat-citations a[data-id]', async (event) => {
@@ -234,7 +243,25 @@ function getAudioHTML(content) {
     `;
 }
 
+async function openFTCContent(type, id, language) {
+    let url = `/get_ftid_from_ftc/${type}/${id}`;
+    if (isFrontendTest && !isPowerTranslate) {
+        url = `/api/page/get_ftid.json`;
+    }
+    const response = await fetch(url);
+    const data = await response.json();
+    if (data && data.ftid) {
+        const ftid = data.ftid;
+        openFTContent(ftid, language)
+    }
+}
 
+function openFTContent(ftid, language) {
+    const url = `/powertranslate/chat.html#ftid=${ftid}&language=${language}&action=read`;
+    window.open(url, '_blank');
+    const win = window.open(url, '_blank');
+    win.focus();
+}
 
 function getVideoHTML(content) {
     const type = getContentType(content);
