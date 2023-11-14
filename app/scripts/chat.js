@@ -1098,7 +1098,7 @@ async function newsQuiz(content, language, reply) {
           const id = quiz._id || '';
           let contentLink = '';
           if (title !== '' && id !== '') {
-            contentLink = `（<a href="https://www.ft.com/content/${id}" target="_blank">${localize('Detail')}</a>）`;
+            contentLink = `（<a href="/powertranslate/chat.html#ftid=${id}&language=${language}&action=read" target="_blank">${localize('Detail')}</a>）`;
           }
           let allOptions = quiz.distractors || [];
           // MARK: - OpenAI doesn't get it right all the time, especially when you prompt it to translate a quiz. So you need to verify on the frontend. 

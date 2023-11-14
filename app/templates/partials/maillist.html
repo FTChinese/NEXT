@@ -54,7 +54,6 @@
                             
                           </div>
 
-                          <%if date("Ymd",$smarty.now) >= 20230301 || $smarty.get.preview == "yes"%>
                           <div class="o-forms__group premium-only">
                             <h3><span>高端订户专享邮件服务</span></h3>
                             <p>
@@ -68,9 +67,21 @@
                               <label for="mail_sub_crypto">加密金融每周新闻速递</label>
                               <span>由英国《金融时报》与FT中文网编辑记者撰写，每周一向高端订阅读者和相关行业从业者、投资者定向发出，总结英国《金融时报》与FT中文网在加密货币、虚拟资产、加密金融、区块链、Web3与元宇宙等领域的最新独家报道、分析和专栏，帮助读者时刻掌握行业最新动态、市场动向和监管趋势。</span>
                             </p>
+                            <%if date("Ymd",$smarty.now) >= 20231116 || $smarty.get.preview == "yes"%>
+                              <p>
+                                <input id="mail_sub_ai" type="checkbox"  value="1"  
+                                <%if $users.mail_sub_ai == '1' && $subscriptionType == "premium"%>
+                                  checked="checked"
+                                <%elseif $subscriptionType != "premium"%>
+                                     class="pop-subscription"
+                                <%/if%>
+                                 name="mail_sub_ai" /> 
+                                <label for="mail_sub_ai">人工智能周报</label>
+                                <span>由英国《金融时报》资深科技编辑和AI联合撰写，每周五面向科技爱好者、人工智能行业从业者以及投资者群体发布，汇集了全球范围内在人工智能、机器学习、自动化技术、智能数据分析及相关领域的最新进展、深度分析和观点专栏。我们致力于为读者提供行业内的创新动态、市场趋势、技术突破以及政策监管动向，帮助您紧跟人工智能领域的快速发展，深入理解其在各行各业的应用前景和挑战。</span>
+                              </p>
+                            <%/if%>
                           </div>
-                          <%/if%>
-                            
+
                           <div class="o-forms__group">
                             <h3><span>隐私权</span></h3>
                             <p>FT中文网高度尊重您的隐私权。我们收集您的资料将用于分析研究，并向您推介Financial Times的产品和服务。请确认您的下列选择：</p>
