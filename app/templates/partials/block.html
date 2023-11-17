@@ -69,6 +69,51 @@
 	<%assign var=backgroundStyle value=" style=\"background-color: `$section.BackgroundColor`\""%>
 <%/if%>
 <div class="block-container<%if $section.boxBackground != ""%> <%$section.boxBackground%><%/if%> <%if ($section.side != "" && $section.side != "none" && $section.side != "Narrow") || $sideListCount > 0 %><%assign var="sectionHasSide" value="yes"%>has-side<%if $section.sideAlign !== ""%> side-<%$section.sideAlign|default:"right"%><%/if%><%else%><%assign var="sectionHasSide" value="no"%>no-side<%/if%><%if $section.side == "HotVideos"%> side-video<%/if%><%if $section.side == "Narrow"%> narrow-block<%/if%><%$visibleOnlyClass%>" <%$backgroundStyle%>><div class="block-inner">
+
+
+<%assign var="MobileAdTypes" value=$p.meta.MobileAdTypes%>
+<%php%>
+	$startingItemCount = 2;
+	$step = 4;
+
+	$mobileAdTypes = $this->get_template_vars('MobileAdTypes');
+	if ($mobileAdTypes === '') {
+		$mobileAdTypes = 'both';
+	}
+
+	$infoFlowAds = array();
+
+	for ($i = 1; $i <= 4; $i++) {
+		$infoFlowAds[] = '<div data-o-ads-name="infoflow' . $i . '" class="o-ads infoflow" data-o-ads-formats-default="false" data-o-ads-formats-small="FtcInfoFlow" data-o-ads-formats-medium="false" data-o-ads-formats-large="false" data-o-ads-formats-extra="false" data-o-ads-targeting="cnpos=info' . $i . ';"></div>';
+	}
+
+	$mpuAds = array();
+
+	for ($i = 1; $i <= 4; $i++) {
+		$mpuAds[] = '<div data-o-ads-name="mpu-middle' . $i . '" class="o-ads" data-o-ads-formats-default="false" data-o-ads-formats-small="FtcMobileMpu" data-o-ads-formats-medium="false" data-o-ads-formats-large="false" data-o-ads-formats-extra="false" data-o-ads-targeting="cnpos=middle' . $i . ';" data-cy=\'[{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"MPU","position":"Middle' . $i . '"}]\'></div>';
+	}
+
+	$allAds = array();
+
+	if ($mobileAdTypes === 'mpu') {
+		$allAds = $mpuAds;
+	} else if ($mobileAdTypes === 'infoflow') {
+		$allAds = $infoFlowAds;
+	} else {
+		$maxCount = max(count($infoFlowAds), count($mpuAds));
+		
+		for ($i = 0; $i < $maxCount; $i++) {
+			if (isset($infoFlowAds[$i])) {
+				$allAds[] = $infoFlowAds[$i];
+			}
+			if (isset($mpuAds[$i])) {
+				$allAds[] = $mpuAds[$i];
+			}
+		}
+	}
+
+<%/php%>
+
 <div class="content-container">
 	<%*<!-- MARK: - This doesn't seem to be in use! Remove after Jan 1, 2021! -->*%>
 	<%*<!-- include file="next/partials/full-screen-subscribe-hint.html" -->*%>
@@ -1828,7 +1873,12 @@
 									<%/if%>
 
 									<%if $smarty.get.ad != "no" && $hideAd != "yes" && $noAd != "true" && $list.float != "VideoWall" && $noAd != "true" && $list.float != "SplitList"%>
-										
+										<%if $pageId == "home"%>
+											<%assign var="mpuName" value="homempu"%>
+										<%else%>
+											<%assign var="mpuName" value="taginlinempu"%>
+										<%/if%>
+
 										<%php%>
 											if (!isset($globalItemCount)) {
 												$globalItemCount = 0;
@@ -1837,141 +1887,36 @@
 											$this->assign('globalItemCount', $globalItemCount);
 										<%/php%>
 
-										<%*<!--b: <%$b%>, l: <%$l%>, i: <%$i%>, globalItemCount: <%$globalItemCount%>-->*%>
-										
-										<%*<!--insert an extra MPU for mobile phone start-->*%>
-
-										<%if $pageId == "home"%>
-											<%assign var="mpuName" value="homempu"%>
-										<%else%>
-											<%assign var="mpuName" value="taginlinempu"%>
-										<%/if%>
-
 										<%if $globalItemCount == 3 && $smarty.get.webview == "ftcapp"%>
 											<div id="iap-highlight"></div>
 										<%/if%>
 
-										<%if $globalItemCount == 2%>
-											<div 
-											data-o-ads-name="infoflow1"
-											class="o-ads infoflow"  
-											data-o-ads-formats-default="false" 
-											data-o-ads-formats-small="FtcInfoFlow" 
-											data-o-ads-formats-medium="false"
-											data-o-ads-formats-large="false"
-											data-o-ads-formats-extra="false"
-											data-o-ads-targeting="cnpos=info1;"
-											>
-											</div>
-										<%/if%>
+										<%*<!--b: <%$b%>, l: <%$l%>, i: <%$i%>, globalItemCount: <%$globalItemCount%>-->*%>
+										
+										<%*<!--insert an extra MPU for mobile phone start-->*%>
 
-										<%if $globalItemCount == 6%>
-											<div 
-											data-o-ads-name="mpu-middle1"
-											class="o-ads"  
-											data-o-ads-formats-default="false" 
-											data-o-ads-formats-small="FtcMobileMpu" 
-											data-o-ads-formats-medium="false"
-											data-o-ads-formats-large="false"
-											data-o-ads-formats-extra="false"
-											data-o-ads-targeting="cnpos=middle1;"
-											data-cy='[{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp"],"pattern":"MPU","position":"Middle1"}]'
-											>
-											</div>
-										<%/if%>
+										<%php%>
+											// MARK: the adIndex would be the result only if it's integer
+											$adIndex = ($globalItemCount - $startingItemCount)/$step;
 
-										<%if $globalItemCount == 10%>
-											<div 
-											data-o-ads-name="infoflow2"
-											class="o-ads infoflow"  
-											data-o-ads-formats-default="false" 
-											data-o-ads-formats-small="FtcInfoFlow" 
-											data-o-ads-formats-medium="false"
-											data-o-ads-formats-large="false"
-											data-o-ads-formats-extra="false"
-											data-o-ads-targeting="cnpos=info2;"
-											>
-											</div>
-										<%/if%>
+											// Check if the result of the division is an integer
+											if (fmod($adIndex, 1) == 0) {
+												// Convert adIndex to integer
+												$adIndex = (int) $adIndex;
 
-										<%if $globalItemCount == 14%>
-											<div 
-											data-o-ads-name="mpu-middle2"
-											class="o-ads" 
-											data-o-ads-formats-default="false" 
-											data-o-ads-formats-small="FtcMobileMpu" 
-											data-o-ads-formats-medium="false"
-											data-o-ads-formats-large="false"
-											data-o-ads-formats-extra="false"
-											data-o-ads-targeting="cnpos=middle2;"
-											data-cy='[{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"MPU","position":"Middle2"}]'
-											>
-											</div>
-										<%/if%>
-
-										<%if $globalItemCount == 18%>
-											<div 
-											data-o-ads-name="infoflow3"
-											class="o-ads infoflow"  
-											data-o-ads-formats-default="false" 
-											data-o-ads-formats-small="FtcInfoFlow" 
-											data-o-ads-formats-medium="false"
-											data-o-ads-formats-large="false"
-											data-o-ads-formats-extra="false"
-											data-o-ads-targeting="cnpos=info3;"
-											>
-											</div>
-										<%/if%>
-
-										<%if $globalItemCount == 21%>
-											<div 
-											data-o-ads-name="mpu-middle3"
-											class="o-ads" 
-											data-o-ads-formats-default="false" 
-											data-o-ads-formats-small="FtcMobileMpu" 
-											data-o-ads-formats-medium="false"
-											data-o-ads-formats-large="false"
-											data-o-ads-formats-extra="false"
-											data-o-ads-targeting="cnpos=middle3;"
-											data-cy='[{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"MPU","position":"Middle3"}]'
-											>
-											</div>
-										<%/if%>
-
-										<%if $globalItemCount == 25%>
-											<div 
-											data-o-ads-name="infoflow4"
-											class="o-ads infoflow"  
-											data-o-ads-formats-default="false" 
-											data-o-ads-formats-small="FtcInfoFlow" 
-											data-o-ads-formats-medium="false"
-											data-o-ads-formats-large="false"
-											data-o-ads-formats-extra="false"
-											data-o-ads-targeting="cnpos=info4;"
-											>
-											</div>
-										<%/if%>
-
-										<%if $globalItemCount == 30%>
-											<div 
-											data-o-ads-name="mpu-middle4"
-											class="o-ads" 
-											data-o-ads-formats-default="false" 
-											data-o-ads-formats-small="FtcMobileMpu" 
-											data-o-ads-formats-medium="false"
-											data-o-ads-formats-large="false"
-											data-o-ads-formats-extra="false"
-											data-o-ads-targeting="cnpos=middle4;"
-											data-cy='[{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"MPU","position":"Middle4"}]'
-											>
-											</div>
-										<%/if%>
+												// Check if the adIndex is within the range of the $allAds array
+												if (isset($allAds[$adIndex])) {
+													// Print the ad
+													echo $allAds[$adIndex];
+												}
+											}
+										<%/php%>
 
 										<%*<!--insert an extra MPU for mobile phone end-->*%>
 
 									<%/if%>
-								<%/if%> <%*<!--end <%if $feedRepeatCheck != "yes" -->*%>
-							<%/foreach%>  <%*<!--end foreach itemsArray -->*%>
+								<%/if%>
+							<%/foreach%>
 						<%/if%>
 						<%if $list.float === "ScoreBoard"%>
 							</tbody>
