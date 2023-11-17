@@ -403,6 +403,20 @@ const randomPromptDict = {
       'zh-HK': '蘇格拉底詰問方法是一種質疑和討論觀念的方式，旨在挑戰假設並達到更好的理解。它涉及提出問題以揭示潛在信念並測試所給出的回應的邏輯。它用於在各個領域中促進批判性思維、問題解決和創造力。',
       ru: 'Метод Сократа - это способ вопросительного и обсуждающего подхода к идеям, направленный на оспаривание предположений и достижение лучшего понимания. Он включает в себя задавание вопросов, чтобы раскрыть скрытые убеждения и проверить логику полученных ответов. Используется для развития критического мышления, решения проблем и креативности в различных областях.'
     },
+    'China': {
+      en: 'China',
+      es: 'China',
+      fr: 'Chine',
+      de: 'China',
+      ja: '中国',
+      ko: '중국',
+      pt: 'China',
+      it: 'Cina',
+      ru: 'Китай',
+      'zh-TW': '中國',
+      'zh-HK': '中國',
+      zh: '中国'
+    },
     'China News': {
       en: 'China',
       es: 'China',
@@ -529,6 +543,34 @@ const randomPromptDict = {
       zh: '人工智能',
       ru: 'ИИ'
     },
+    'PromptAdd': {
+      zh: '您还没有关注任何话题，请点击这里添加',
+      en: 'You have not followed any topics yet, please click here to add',
+      es: 'Aún no has seguido ningún tema, haz clic aquí para añadir',
+      fr: "Vous n'avez pas encore suivi de sujets, veuillez cliquer ici pour en ajouter",
+      de: 'Sie haben noch keine Themen abonniert, klicken Sie hier um welche hinzuzufügen',
+      ja: 'あなたはまだトピックをフォローしていません。追加するにはここをクリックしてください。',
+      ko: '아직 팔로우한 주제가 없습니다. 여기를 클릭하여 추가하세요.', 
+      pt: 'Você ainda não segue nenhum tópico, clique aqui para adicionar',
+      it: 'Non hai ancora seguito alcun argomento, fai clic qui per aggiungerne',
+      'zh-TW': '您還沒有關注任何主題，請點擊這裡添加',
+      'zh-HK': '您仲未關注任何話題，請點擊呢度添加',
+      ru: 'Вы пока не подписаны ни на одну тему, нажмите здесь, чтобы добавить'
+    },
+    'Artificial Intelligence': {
+      en: 'AI',
+      es: 'IA',
+      fr: 'IA',
+      de: 'AI',
+      ja: 'AI',
+      ko: 'AI',
+      pt: 'IA',
+      it: 'IA',
+      'zh-TW': '人工智慧',
+      'zh-HK': 'AI',
+      zh: '人工智能',
+      ru: 'ИИ'
+    },
     'Need Customer Service': {
       en: 'Customer Service',
       es: 'Servicio al Cliente',
@@ -586,6 +628,20 @@ const randomPromptDict = {
       ru: 'Глубокие репортажи'
     },
     'Tech News': {
+      zh: '科技',
+      en: 'Technology',
+      es: 'Tecnología',
+      fr: 'Technologie',
+      de: 'Technologie',
+      ja: 'テクノロジー',
+      ko: '기술',
+      pt: 'Tecnologia',
+      it: 'Tecnologia',
+      'zh-TW': '科技',
+      'zh-HK': '科技',
+      ru: 'Технологии'
+    },
+    'Technology Sector': {
       zh: '科技',
       en: 'Technology',
       es: 'Tecnología',
@@ -738,6 +794,62 @@ const randomPromptDict = {
       'zh-TW': '設定',
       'zh-HK': '設定',
       ru: 'Настройки'
+    },
+    'My Interests': {
+      zh: '我的关注',
+      en: 'My Interests',
+      "es": "Mis Intereses",
+      "fr": "Mes Intérêts",
+      "de": "Meine Interessen",
+      "ja": "私の興味",
+      "ko": "내 관심사",
+      "pt": "Meus Interesses",
+      "it": "I Miei Interessi",
+      "zh-TW": "我的興趣",
+      "zh-HK": "我的興趣",
+      "ru": "Мои Интересы"
+    },
+    'Add': {
+      zh: '添加',
+      en: 'Add', 
+      es: 'Añadir',
+      fr: 'Ajouter',
+      de: 'Hinzufügen',
+      ja: '追加',
+      ko: '추가',
+      pt: 'Adicionar',
+      it: 'Aggiungi',
+      'zh-TW': '新增',
+      'zh-HK': '新增',
+      ru: 'Добавить'
+    },
+    'Add Interests': {
+      zh: '添加兴趣', 
+      en: 'Add Interests',
+      es: 'Añadir intereses',
+      fr: 'Ajouter des intérêts', 
+      de: 'Interessen hinzufügen',
+      ja: '興味を追加',
+      ko: '관심사 추가',
+      pt: 'Adicionar interesses',
+      it: 'Aggiungi interessi',
+      'zh-TW': '新增興趣',
+      'zh-HK': '新增興趣',
+      ru: 'Добавить интересы'
+    },
+    'Popular': {
+      zh: '热门',
+      en: 'Popular', 
+      es: 'Popular',
+      fr: 'Populaire',
+      de: 'Beliebt', 
+      ja: '人気',
+      ko: '인기',
+      pt: 'Popular',
+      it: 'Popolare',
+      'zh-TW': '熱門',
+      'zh-HK': '熱門',
+      ru: 'Популярный'
     },
     'Language': {
       zh: '语言',

@@ -47,32 +47,38 @@
             /* padding: 0 10px 0 10px; */
         }
         .cover-page {
-            /* page-break-after: always; */
             margin: auto;
             width: 20cm;
-            height: 29.7cm;
-            position: relative;
             padding: 1cm;
-            /* background-color: red; */
         }
         .print-pdf .cover-page {
             width: 20cm;
             height: 27.7cm;
         }
+        .cover-header {
+            background-color: #479F8F;
+            background-image: url('https://thumbor.ftacademy.cn/unsafe/picture/1/000201921_piclink.jpg');
+            background-size: cover;
+            padding-bottom: 43.8%;
+            position: relative;
+        }
         .page-title {
-            text-align: center;
+            position: absolute;
+            top: 70px;
+            left: 15px;
             line-height: 1.618em;
             font-size: 1.618em;
             color: white;
-            background-color: #479F8F;
         }
         .publish-date {
+            position: absolute;
+            top: 140px;
+            left: 15px;
             text-align: left;
             line-height: 120%;
             font-size: 1em;
             margin-top: 20px;
-            color: #505050;
-            display: none;
+            color: white;
         }
         .content-title {
             font-size: 1.2em;
@@ -218,9 +224,11 @@
         <%foreach from=$p.sections item=section%>
             <%if $section.type == "MainMessage"%>
                 <div class="cover-page">
-                    <h1 class="page-title"><%$section.title%></h1>
-                    <h1 class="page-title hide"><%$section.content%></h1>
-                    <div class="publish-date"><%$smarty.now|date_format:"%Y年%m月%d日"%></div>
+                    <div class="cover-header">
+                        <h1 class="page-title"><%$section.title%></h1>
+                        <h1 class="page-title hide"><%$section.content%></h1>
+                        <div class="publish-date"><%$smarty.now|date_format:"%Y年%m月%d日"%></div>
+                    </div>            
                     <div class="content-title">内容概览</div>
                     <%foreach from=$p.sections item=newSection%>
                         <%if $newSection.type == "block"%>

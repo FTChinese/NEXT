@@ -22,6 +22,7 @@ var intention;
 var articles = {};
 const publicVapidKey = 'BCbyPnt30RUDSelV6n1jJk8jHzR9cT7ajJPXLRq7tohhQ8D6TVb1h3ENUOJGdPxJgbbg8zPaDNJzOXIUfkWk67M';
 let registration;
+const myInterestsKey = 'My Interests';
 
 // MARK: - scrollIntoView doesn't support offset
 const scrollOptions = { 
@@ -966,6 +967,16 @@ function startOver() {
   location.reload();
 }
 
+function getFollowedAnnotations(myPreference, id) {
+  let followedAnnotations = (myPreference[id] || [])
+      .map(x=>`<div class="annotation" data-name="${x}">${localize(x)}</div>`)
+      .join('');
+  if (followedAnnotations === '') {
+    followedAnnotations = `<div data-action="add-interests">${localize('PromptAdd')}</div>`;
+  }
+  return followedAnnotations;
+}
+
 async function setPreference(category, language, reply) {
   console.log(`running setPreference\ncategory: ${category}, language: ${language}, reply: ${reply}`);
   const settings = {
@@ -1005,6 +1016,10 @@ async function setPreference(category, language, reply) {
           {value: 'human', name: 'Only Use Human Translation'}
         ],
         fallback: 'both'
+      },
+      {
+        name: myInterestsKey,
+        type: 'annotations'
       }
     ]
   };
@@ -1033,6 +1048,9 @@ async function setPreference(category, language, reply) {
         optionsHTML += `<option value="${option.value}"${selected}>${localize(option.name)}</option>`;
       }
       html += `<div class="select-container"><div class="select-label">${name}</div><select id="${id}">${optionsHTML}</select></div>`
+    } else if (type === 'annotations') {
+      const followedAnnotations = getFollowedAnnotations(myPreference, id);
+      html += `<div class="select-container"><div class="select-label"><strong>${name}</strong></div><button class="myft-follow plus" data-action="add-interests">${localize('Add')}</button></div><div class="annotations-container" data-id="${id}">${followedAnnotations}</div>`;
     }
   }
   html += `<div class="select-container"><a onclick="subscribeTopics()">Test Notification</a></div>`;
