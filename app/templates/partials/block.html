@@ -1830,13 +1830,11 @@
 									<%if $smarty.get.ad != "no" && $hideAd != "yes" && $noAd != "true" && $list.float != "VideoWall" && $noAd != "true" && $list.float != "SplitList"%>
 										
 										<%php%>
-											if (isset($_GET['preview']) && $_GET['preview'] === 'yes') {
-												if (!isset($globalItemCount)) {
-													$globalItemCount = 0;
-												}
-												$globalItemCount++;
-												$this->assign('globalItemCount', $globalItemCount);
+											if (!isset($globalItemCount)) {
+												$globalItemCount = 0;
 											}
+											$globalItemCount++;
+											$this->assign('globalItemCount', $globalItemCount);
 										<%/php%>
 
 										<%*<!--b: <%$b%>, l: <%$l%>, i: <%$i%>, globalItemCount: <%$globalItemCount%>-->*%>
