@@ -543,6 +543,34 @@ const randomPromptDict = {
       zh: '人工智能',
       ru: 'ИИ'
     },
+    'Follow': {
+      zh: '关注',
+      en: 'Follow',
+      es: 'Seguir',
+      fr: 'Suivre',
+      de: 'Folgen',
+      ja: 'フォロー',
+      ko: '팔로우',
+      pt: 'Seguir',
+      it: 'Segui',
+      'zh-TW': '關注',
+      'zh-HK': '關注',
+      ru: 'Подписаться'
+    }, 
+    'Unfollow': {
+      zh: '取消关注',
+      en: 'Unfollow',
+      es: 'Dejar de seguir',
+      fr: 'Ne plus suivre',
+      de: 'Entfolgen',
+      ja: 'フォロー解除',
+      ko: '언팔로우',
+      pt: 'Deixar de seguir',
+      it: 'Non seguire più',
+      'zh-TW': '取消關注',
+      'zh-HK': '取消關注',
+      ru: 'Отписаться'
+    },
     'PromptAdd': {
       zh: '您还没有关注任何话题，请点击这里添加',
       en: 'You have not followed any topics yet, please click here to add',
@@ -696,6 +724,20 @@ const randomPromptDict = {
       'zh-TW': '好的，我來幫您查詢...',
       'zh-HK': '好的，我來幫您查詢...',
       ru: 'Хорошо, я помогу вам найти...'
+    },
+    FindingMyFT: {
+      zh: '为您展示FT最新的内容，您也可以点击这里设置您关注的话题。',
+      en: "Let me show you FT's latest content, you can also click here to set the topics you follow.",
+      es: "Déjame mostrarte el contenido más reciente de FT, también puedes hacer clic aquí para configurar los temas que sigues.",
+      fr: "Laissez-moi vous montrer le contenu le plus récent du FT, vous pouvez également cliquer ici pour définir les sujets que vous suivez.",
+      de: "Lassen Sie mich Ihnen die neuesten Inhalte von FT zeigen, Sie können auch hier klicken, um die Themen festzulegen, denen Sie folgen.",
+      ja: "FTの最新コンテンツをご覧いただけます。また、こちらをクリックして、フォローするトピックを設定することもできます。",
+      ko: "FT의 최신 컨텐츠를 보여드리겠습니다. 또한 여기를 클릭하여 팔로우할 주제를 설정할 수도 있습니다.",
+      pt: "Deixe-me mostrar os conteúdos mais recentes da FT, você também pode clicar aqui para definir os tópicos que segue.",
+      it: "Lascia che ti mostri i contenuti più recenti di FT, puoi anche fare clic qui per impostare gli argomenti che segui.",
+      'zh-TW': "讓我展示FT最新的內容，您也可以點擊這裡設定您關注的話題。",
+      'zh-HK': "讓我展示FT最新的內容，您也可以點擊這裡設定您關注的話題。",
+      ru: "Давайте я покажу вам самые свежие материалы FT, вы также можете нажать здесь, чтобы настроить темы для отслеживания."
     },
     PrepareingQuiz: {
       zh: '为您准备小测...',

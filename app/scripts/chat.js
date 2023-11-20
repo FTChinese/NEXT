@@ -78,6 +78,13 @@ delegate.on('click', '[data-action="talk"]', async (event) => {
   talk();
 });
 
+delegate.on('click', '[data-action="set-preference"]', async (event) => {
+  const category = 'all';
+  const language = preferredLanguage;
+  const reply = localize('Set Your Preferences');
+  setPreference(category, language, reply);
+});
+
 delegate.on('click', '.code-block-copy', async (event) => {
   const element = event.target;
   const containerEle = element.closest('.code-block-container').querySelector('.code-block pre');
@@ -151,7 +158,11 @@ delegate.on('click', '[data-purpose]', async (event) => {
   hideItemActions(element);
   try {
     const language = element.getAttribute('data-lang') || 'English';
-    const reply = element.getAttribute('data-reply');
+    let reply = element.getAttribute('data-reply');
+    const replyPurpose = element.getAttribute('data-reply-action');
+    if (replyPurpose) {
+      reply = `<div data-action="${replyPurpose}">${reply}</div>`;
+    }
     const prompt = element.innerHTML;
     updateBotStatus('pending');
     showUserPrompt(prompt);
@@ -969,7 +980,7 @@ function startOver() {
 
 function getFollowedAnnotations(myPreference, id) {
   let followedAnnotations = (myPreference[id] || [])
-      .map(x=>`<div class="annotation" data-name="${x}">${localize(x)}</div>`)
+      .map(x=>`<div class="input-container"><div class="input-name">${localize(x)}</div><button class="myft-follow tick" data-action="add-interest" data-name="${x}">${localize('Unfollow')}</button></div>`)
       .join('');
   if (followedAnnotations === '') {
     followedAnnotations = `<div data-action="add-interests">${localize('PromptAdd')}</div>`;
@@ -1054,6 +1065,7 @@ async function setPreference(category, language, reply) {
     }
   }
   html += `<div class="select-container"><a onclick="subscribeTopics()">Test Notification</a></div>`;
+  html = `<div class="settings-container">${html}</div>`;
   const actions = getActionOptions();
   showResultInChat({text: `${reply || ''}`}, false, false);
   showResultInChat({text: `${html}${actions}`}, true, true);
@@ -1342,6 +1354,69 @@ async function handleActionClick(element) {
   updateBotStatus('waiting');
 }
 
+function isItemFollowed(item, interests) {
+  const annotations = new Set();
+  let metadata = item.metadata || {};
+  for (const key of Object.keys(metadata)) {
+    const term = metadata[key];
+    if (typeof term !== 'object') {continue;}
+    if (term.term) {
+      const name = term.term?.name;
+      if (!name) {continue;}
+      annotations.add(name);
+    } else if (term.length > 0) {
+      for (const termItem of term) {
+        const termName = termItem.term?.name;
+        if (!termName) {continue;}
+        annotations.add(termName);
+      }
+    }
+  }
+  for (const annotation of annotations) {
+    if (interests.has(annotation)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function reorderFTResults(results) {
+
+  const myPreference = getMyPreference();
+  const myInterests = new Set(myPreference[myInterestsKey] || []);
+  if (myInterests.size === 0) {
+    return results;
+  }
+
+  let newResults = [];
+  let follows = [];
+
+  for (const group of results) {
+    const name = group.group;
+    let newGroup = {group: name};
+    let newItems = [];
+    const items = group.items || [];
+    for (const item of items) {
+      if (isItemFollowed(item, myInterests)) {
+        follows.push(item);
+      } else {
+        newItems.push(item);
+      }
+    }
+    if (newItems.length > 0) {
+      newGroup.items = newItems;
+      newResults.push(newGroup);
+    }
+  }
+
+  if (newResults.length > 0 && newResults[0].items) {
+    newResults[0].items = follows.concat(newResults[0].items);
+  }
+
+  return newResults;
+
+}
+
 async function showFTPage(content, language, reply) {
   // console.log(`running showFTPage... content: ${content}, language: ${language}`);
   updateBotStatus('pending');
@@ -1355,7 +1430,8 @@ async function showFTPage(content, language, reply) {
       newResultInner.className = 'chat-talk-inner';
       newResult.appendChild(newResultInner);
       chatContent.appendChild(newResult);
-      const results = result.results[0].groups;
+      const results = reorderFTResults(result.results[0].groups);
+      // console.log(results);
       let html = '';
       let themes = new Set();
       for (const [groupIndex, group] of results.entries()) {
@@ -1514,7 +1590,7 @@ function getActionOptions() {
   } else if (intention === undefined || intention === '') {
     result = `
       <div class="chat-item-actions">
-        <a data-purpose="show-ft-page" data-lang="${language}" data-content='home' data-reply="${localize('Finding')}">${localize('Looking For News')}</a>
+        <a data-purpose="show-ft-page" data-lang="${language}" data-content='home' data-reply="${localize('FindingMyFT')}" data-reply-action="set-preference">${localize('Looking For News')}</a>
         <a data-purpose="set-intention" data-lang="${language}" data-content="SearchFTAPI" data-reply="${localize('Find More')}">${localize('Discover and Explore')}</a>
         <a data-purpose="set-intention" data-lang="${language}" data-content="CustomerService" data-reply="${localize('Offer Help')}">${localize('Need Customer Service')}</a>
         <a data-purpose="set-preference" data-lang="${language}" data-content="all" data-reply="${localize('Set Your Preferences')}">${localize('Setting')}</a>

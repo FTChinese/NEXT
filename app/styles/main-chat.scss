@@ -35,6 +35,12 @@ body {
 .chat-content {
     padding: 0 0 $navHeight 0;
 }
+.settings-container {
+    margin: auto auto $defaultPadding * 0.5 auto;
+    max-width: 450px;
+    background-color: $bannerBG;
+    padding: $defaultPadding * 0.5;
+}
 .header-container {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
     position: fixed;
@@ -561,6 +567,9 @@ body {
 .select-label {
     flex: 1;
 }
+.annotations-container {
+    margin-top: math.div($defaultPadding, 2);
+}
 .add-interests-container {
     position: fixed;
     top: 0;
@@ -571,13 +580,7 @@ body {
     z-index: 2;
 }
 
-.overlay-content {
-    max-height: 600px;
-    overflow-y: scroll;
-    div.input-title {
-        font-weight: bold;
-        font-size: 1.2em;
-    }
+.overlay-content, .annotations-container {
     div.input-container {
         display: flex;
         padding-bottom: $defaultPadding * 0.5;
@@ -586,8 +589,17 @@ body {
         flex: 1;
         padding: 0;
         font-weight: bold;
-        // font-size: 1.2em;
     }
+}
+
+.overlay-content {
+    max-height: 600px;
+    overflow-y: scroll;
+    div.input-title {
+        font-weight: bold;
+        font-size: 1.2em;
+    }
+
 }
 .overlay-title {
     position: sticky;

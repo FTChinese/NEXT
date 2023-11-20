@@ -114,7 +114,7 @@
         var subject = '您的FT中文网会员订阅权限';
         var password = document.querySelector('[name="password"]').value;
         var newline = '%0D%0A%0D%0A';
-        var body = '亲爱的读者，' + newline + '欢迎您使用FT中文网的订阅服务。您的账号和订阅权限已经设置好，请用本邮箱点击这里登录：' + newline + 'https://www.chineseft.live' + newline + '您的密码是: ' + newline +  password + newline + 'FT中文网企业订阅服务';
+        var body = '亲爱的读者，' + newline + '欢迎您使用FT中文网的订阅服务。您的账号和订阅权限已经设置好，请用本邮箱点击这里登录：' + newline + 'https://www.chineseft.net' + newline + '您的密码是: ' + newline +  password + newline + 'FT中文网企业订阅服务';
         var bcc = '';
         if (emails.length > 1) {
             var bccs = emails.slice(1);

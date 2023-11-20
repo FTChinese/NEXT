@@ -3,16 +3,16 @@
 const populars = ['China', 'Companies', 'Markets', 'Opinion', 'Podcasts', 'Videos', 'Life & Arts', 'Work & Careers', 'Artificial Intelligence', 'Technology Sector'];
 const regions = ['China', 'United States', 'United Kingdom', 'Europe', 'Asia', 'America', 'Africa', 'Middle East'];
 
-function getMyPreference() {
-    let myPreference = {};
-    const myPreferenceString = localStorage.getItem('preference');
-    if (myPreferenceString && myPreferenceString !== '') {
-        try {
-            myPreference = JSON.parse(myPreferenceString);
-        } catch(ignore) {}
-    }
-    return myPreference;
-}
+// function getMyPreference() {
+//     let myPreference = {};
+//     const myPreferenceString = localStorage.getItem('preference');
+//     if (myPreferenceString && myPreferenceString !== '') {
+//         try {
+//             myPreference = JSON.parse(myPreferenceString);
+//         } catch(ignore) {}
+//     }
+//     return myPreference;
+// }
 
 function createHTMLFromNames(names) {
     const myPreference = getMyPreference();
@@ -65,21 +65,25 @@ delegate.on('click', '[data-action="add-interest"]', async (event) => {
     
     let myPreference = getMyPreference();
     let myInterests = myPreference[myInterestsKey] || [];
-    if (ele.classList.contains('plus')) {
-        if (myInterests.indexOf(name) === -1) {
-            myInterests.push(name);
+    // MARK: - There might be duplicated buttons with the same names
+    let allButtons = document.querySelectorAll(`[data-action="add-interest"][data-name="${name}"]`);
+    for (let button of allButtons) {
+        if (button.classList.contains('plus')) {
+            if (myInterests.indexOf(name) === -1) {
+                myInterests.push(name);
+            }
+            button.innerHTML = localize('Followed');
+            button.classList.remove('plus');
+            button.classList.add('tick');
+        } else {
+            const index = myInterests.indexOf(name);
+            if (index > -1) {
+                myInterests.splice(index, 1);
+            }
+            button.innerHTML = localize('Follow');
+            button.classList.add('plus');
+            button.classList.remove('tick');
         }
-        ele.innerHTML = localize('Followed');
-        ele.classList.remove('plus');
-        ele.classList.add('tick');
-    } else {
-        const index = myInterests.indexOf(name);
-        if (index > -1) {
-            myInterests.splice(index, 1);
-        }
-        ele.innerHTML = localize('Follow');
-        ele.classList.add('plus');
-        ele.classList.remove('tick');
     }
     myPreference[myInterestsKey] = myInterests;
     console.log('Update myPreference');
