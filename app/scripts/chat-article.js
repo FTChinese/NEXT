@@ -1,5 +1,6 @@
 /* jshint ignore:start */
 
+const readIdsKey = 'readids';
 const calculateCosineSimilarity = (a, b) => a.reduce((acc, curr, i) => acc + curr * b[i], 0) / (Math.sqrt(a.reduce((acc, curr) => acc + curr ** 2, 0)) * Math.sqrt(b.reduce((acc, curr) => acc + curr ** 2, 0)));
 var model = null;
 var currentFTId;
@@ -911,5 +912,98 @@ function initScrollyTelling(ftid) {
     }
 }
 
+
+
+// MARK: - Add the ft id to read in local storage
+function addStoryToRead(ftid) {
+
+  let readIds = getReadStories();
+  readIds = readIds.filter(x=>x !== ftid);
+  readIds.unshift(ftid);
+  readIds = readIds.slice(0, 300);
+//   console.log(`There are now ${readIds.length} ids in local storage! `);
+  localStorage.setItem(readIdsKey, JSON.stringify(readIds));
+
+}
+
+function getReadStories() {
+
+    let readIdsString = localStorage.getItem(readIdsKey) || '[]';
+    let readIds = [];
+    try {
+        readIds = JSON.parse(readIdsString);
+    } catch(err) {
+        console.log(`addStoryToRead parsing JSON error: `);
+        console.log(err);
+    }
+    return readIds;
+}
+
+function reorderFTResults(results) {
+
+    const myPreference = getMyPreference();
+    const myInterests = new Set(myPreference[myInterestsKey] || []);
+    if (myInterests.size === 0) {
+      return results;
+    }
+
+    // TODO: Handle Read Articles Preference
+    const readArticle = myPreference[readArticlesKey] || 'show';
+    const collapseReadArticles = readArticle === 'collapse';
+
+    // MARK: - The articles that you've read should go to a READ group at the bottom of the results list
+    const readIds = new Set(getReadStories() || []);
+
+    let newResults = [];
+    let follows = [];
+    let reads = [];
+  
+    for (const group of results) {
+
+      const name = group.group;
+      let newGroup = {group: name};
+      let newItems = [];
+      const items = group.items || [];
+
+      for (let item of items) {
+
+        const id = item.id;
+
+        const isArticleRead = id && readIds.has(id);
+        item.read = isArticleRead;
+
+        const isFollowedInfo = isItemFollowed(item, myInterests);
+        const isFollowed = isFollowedInfo.followed;
+        if (isFollowed) {
+            item.follow = isFollowedInfo.annotation;
+        }
+        if (isArticleRead && collapseReadArticles) {
+            reads.push(item);
+        } else if (isFollowed) {
+            follows.push(item);
+        } else {
+            newItems.push(item);
+        }
+
+      }
+
+      if (newItems.length > 0) {
+            newGroup.items = newItems;
+            newResults.push(newGroup);
+      }
+
+    }
+  
+    if (newResults.length > 0 && newResults[0].items) {
+      newResults[0].items = follows.concat(newResults[0].items);
+    }
+
+    if (reads && reads.length > 0) {
+        newResults.push({group: localize('Read'), items: reads});
+    }
+  
+    return newResults;
+  
+}
 
 /* jshint ignore:end */

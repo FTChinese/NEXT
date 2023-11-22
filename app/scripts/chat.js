@@ -23,6 +23,7 @@ var articles = {};
 const publicVapidKey = 'BCbyPnt30RUDSelV6n1jJk8jHzR9cT7ajJPXLRq7tohhQ8D6TVb1h3ENUOJGdPxJgbbg8zPaDNJzOXIUfkWk67M';
 let registration;
 const myInterestsKey = 'My Interests';
+const readArticlesKey = 'Read Articles';
 
 // MARK: - scrollIntoView doesn't support offset
 const scrollOptions = { 
@@ -572,7 +573,7 @@ async function showContent(ftid, language, shouldScrollIntoView = true, shouldLo
       if (!language) {
         language = preferredLanguage;
       }
-      if(shouldLoadArticle === false){
+      if (shouldLoadArticle === false) {
         const targetDiv = document.querySelector(`.article-container[data-id="${ftid}"]`);
         targetDiv.focus();
         targetDiv.scrollIntoView({
@@ -695,6 +696,7 @@ async function showContent(ftid, language, shouldScrollIntoView = true, shouldLo
           html += `<button class="quiz-next hide">NEXT</button>`;
           const result = {text: html};
           showResultInChat(result, shouldScrollIntoView);
+          addStoryToRead(ftid);
           checkContentLinks();
           checkScrollyTellingForChat();
           checkFullGridBlocks();
@@ -993,6 +995,14 @@ async function setPreference(category, language, reply) {
   const settings = {
     all: [
       {
+        name: myInterestsKey,
+        type: 'annotations'
+      },
+      {
+        name: 'ReadingPreferences',
+        type: 'title'
+      },
+      {
         name: 'Language',
         type: 'select',
         options: languageOptions,
@@ -1029,8 +1039,13 @@ async function setPreference(category, language, reply) {
         fallback: 'both'
       },
       {
-        name: myInterestsKey,
-        type: 'annotations'
+        name: readArticlesKey,
+        type: 'select',
+        options: [
+          {value: 'show', name: 'Show'},
+          {value: 'collapse', name: 'Collapse to Bottom'}
+        ],
+        fallback: 'show'
       }
     ]
   };
@@ -1062,9 +1077,12 @@ async function setPreference(category, language, reply) {
     } else if (type === 'annotations') {
       const followedAnnotations = getFollowedAnnotations(myPreference, id);
       html += `<div class="select-container"><div class="select-label"><strong>${name}</strong></div><button class="myft-follow plus" data-action="add-interests">${localize('Add')}</button></div><div class="annotations-container" data-id="${id}">${followedAnnotations}</div>`;
+    } else if (type === 'title') {
+      html += `<div class="select-container"><div class="select-label"><strong>${name}</strong></div></div>`;
     }
   }
-  html += `<div class="select-container"><a onclick="subscribeTopics()">Test Notification</a></div>`;
+  // html += `<div class="select-container"><a onclick="subscribeTopics()">Test Notification</a></div>`;
+  html += `<div class="chat-item-actions"><a data-purpose="start-over" data-content="start-over">${localize('ApplyAndStartOver')}</a></div>`;
   html = `<div class="settings-container">${html}</div>`;
   const actions = getActionOptions();
   showResultInChat({text: `${reply || ''}`}, false, false);
@@ -1354,69 +1372,6 @@ async function handleActionClick(element) {
   updateBotStatus('waiting');
 }
 
-function isItemFollowed(item, interests) {
-  const annotations = new Set();
-  let metadata = item.metadata || {};
-  for (const key of Object.keys(metadata)) {
-    const term = metadata[key];
-    if (typeof term !== 'object') {continue;}
-    if (term.term) {
-      const name = term.term?.name;
-      if (!name) {continue;}
-      annotations.add(name);
-    } else if (term.length > 0) {
-      for (const termItem of term) {
-        const termName = termItem.term?.name;
-        if (!termName) {continue;}
-        annotations.add(termName);
-      }
-    }
-  }
-  for (const annotation of annotations) {
-    if (interests.has(annotation)) {
-      return true;
-    }
-  }
-  return false;
-}
-
-function reorderFTResults(results) {
-
-  const myPreference = getMyPreference();
-  const myInterests = new Set(myPreference[myInterestsKey] || []);
-  if (myInterests.size === 0) {
-    return results;
-  }
-
-  let newResults = [];
-  let follows = [];
-
-  for (const group of results) {
-    const name = group.group;
-    let newGroup = {group: name};
-    let newItems = [];
-    const items = group.items || [];
-    for (const item of items) {
-      if (isItemFollowed(item, myInterests)) {
-        follows.push(item);
-      } else {
-        newItems.push(item);
-      }
-    }
-    if (newItems.length > 0) {
-      newGroup.items = newItems;
-      newResults.push(newGroup);
-    }
-  }
-
-  if (newResults.length > 0 && newResults[0].items) {
-    newResults[0].items = follows.concat(newResults[0].items);
-  }
-
-  return newResults;
-
-}
-
 async function showFTPage(content, language, reply) {
   // console.log(`running showFTPage... content: ${content}, language: ${language}`);
   updateBotStatus('pending');
@@ -1434,10 +1389,19 @@ async function showFTPage(content, language, reply) {
       // console.log(results);
       let html = '';
       let themes = new Set();
+      let expandedItemCount = 0;
+      const minItemsToExpand = 5;
       for (const [groupIndex, group] of results.entries()) {
-        const groupExpandClass = groupIndex === 0 ? ' expanded' : '';
+        const items = group.items;
+        let groupExpandClass = '';
+        const isExpanded = expandedItemCount < minItemsToExpand;
+        if (isExpanded) {
+          groupExpandClass = ' expanded';
+          expandedItemCount += items.length;
+        }
+        // const groupExpandClass = groupIndex === 0 ?  : '';
         let groupHTML = '';
-        for (const item of group.items) {
+        for (const item of items) {
           const id = item.id;
           let title = item.title.title || '';
           let excerpt = item.summary?.excerpt || '';
@@ -1450,14 +1414,18 @@ async function showFTPage(content, language, reply) {
           }
           let primaryTheme = '';
           let termName = item.metadata?.primaryTheme?.term?.name;
-          if (termName && !themes.has(termName) && !/[\(\)（）]/.test(termName)) {
+          let follow = item.follow;
+          if (follow) {
+            primaryTheme = `<span class="primary-theme">${localize(follow)}</span>`;//<button class="myft-follow tick" data-action="add-interest" data-name="China">取消关注</button>
+          } else if (termName && !themes.has(termName) && !/[\(\)（）]/.test(termName)) {
             primaryTheme = `<span class="primary-theme">${termName}</span>`;
             themes.add(termName);
           }
           const lang = language || 'English';
           const articleLink = (readArticle === 'pop-out') ? `href="./chat.html#ftid=${id}&language=${lang}&action=read"` : `data-action="show-article"`;
+          const readClass = (item.read === true) ? ' read' : '';
           groupHTML += `
-            <div data-id="${id}" data-lang="${lang}" class="chat-item-container">
+            <div data-id="${id}" data-lang="${lang}" class="chat-item-container${readClass}">
               ${primaryTheme}
               <div class="chat-item-title">
                 <a ${articleLink} target="_blank" title="${byline}: ${excerpt}">${title}</a>
@@ -1471,7 +1439,7 @@ async function showFTPage(content, language, reply) {
               </div>
             </div>`;            
         }
-        const groupTitleHTML = (group.group && group.group !== '') ? `<div class="chat-item-group-title">${group.group}</div>` : '';
+        const groupTitleHTML = (group.group && group.group !== '' && !isExpanded) ? `<div class="chat-item-group-title">${group.group}</div>` : '';
         const groupItemsHTML = `<div class="chat-item-group-items">${groupHTML}</div>`;
         const newHTML = `
           <div class="chat-item-group-container${groupExpandClass}">

@@ -1,18 +1,60 @@
 /* jshint ignore:start */
 
 const populars = ['China', 'Companies', 'Markets', 'Opinion', 'Podcasts', 'Videos', 'Life & Arts', 'Work & Careers', 'Artificial Intelligence', 'Technology Sector'];
-const regions = ['China', 'United States', 'United Kingdom', 'Europe', 'Asia', 'America', 'Africa', 'Middle East'];
 
-// function getMyPreference() {
-//     let myPreference = {};
-//     const myPreferenceString = localStorage.getItem('preference');
-//     if (myPreferenceString && myPreferenceString !== '') {
-//         try {
-//             myPreference = JSON.parse(myPreferenceString);
-//         } catch(ignore) {}
-//     }
-//     return myPreference;
-// }
+const regions = ['China', 'United States', 'United Kingdom', 'Europe', 'Asia', 'Americas', 'Africa', 'Middle East'];
+
+const countryMapping = {
+    US: 'United States',
+    CN: 'China',
+    JP: 'Japan',
+    DE: 'Germany',
+    IN: 'India',
+    FR: 'France',
+    BR: 'Brazil',
+    RU: 'Russia',
+    GB: 'United Kingdom',
+    CA: 'Canada',
+    AU: 'Australia',
+    ZA: 'South Africa',
+    KR: 'South Korea',
+    ES: 'Spain',
+    IT: 'Italy',
+    MX: 'Mexico',
+    ID: 'Indonesia',
+    TR: 'Turkey',
+    NL: 'Netherlands',
+    SA: 'Saudi Arabia',
+    CH: 'Switzerland',
+    SE: 'Sweden',
+    NG: 'Nigeria',
+    PL: 'Poland',
+    AR: 'Argentina',
+    NO: 'Norway',
+    IR: 'Iran',
+    EG: 'Egypt',
+    BE: 'Belgium',
+    BD: 'Bangladesh',
+    TH: 'Thailand',
+    GR: 'Greece',
+    PK: 'Pakistan',
+    VN: 'Vietnam',
+    PH: 'Philippines',
+    NZ: 'New Zealand',
+    MY: 'Malaysia',
+    UA: 'Ukraine',
+    SG: 'Singapore',
+    IL: 'Israel',
+    PT: 'Portugal',
+    AE: 'United Arab Emirates',
+    HK: 'Hong Kong',
+    CO: 'Colombia',
+    DK: 'Denmark',
+    FI: 'Finland',
+    IE: 'Ireland',
+    AT: 'Austria',
+    TW: 'Taiwan'
+};
 
 function createHTMLFromNames(names) {
     const myPreference = getMyPreference();
@@ -34,7 +76,54 @@ function createHTMLFromNames(names) {
     .join('');
 }
 
+function isItemFollowed(item, interests) {
+    const annotations = new Set();
+    let metadata = item.metadata || {};
+    const title = item.en?.title ?? item.title?.title ?? '';
+    const subheading = item.en?.subheading ?? item.editorial?.subheading ?? '';
+    const description = (title + subheading).toUpperCase();
+    for (const key of Object.keys(metadata)) {
+      const term = metadata[key];
+      if (typeof term !== 'object') {continue;}
+      if (term.term) {
+        const name = term.term?.name;
+        if (!name) {continue;}
+        annotations.add(name);
+      } else if (term.length > 0) {
+        for (const termItem of term) {
+          const termName = termItem.term?.name;
+          if (!termName) {continue;}
+          annotations.add(termName);
+        }
+      }
+    }
+    const upperCaseAnnotations = new Set(Array.from(annotations).map(x=>x.toUpperCase()));
+    for (const interest of interests) {
+        const interestUpperCase = interest.toUpperCase();
+        if (upperCaseAnnotations.has(interestUpperCase)) {
+            return {followed: true, annotation: interest};
+        }
+        // MARK: - If the FT editorial forget to add proper meta, check the title and subheading
+        if (description.indexOf(interestUpperCase) >= 0) {
+            return {followed: true, annotation: interest};
+        }
+    }
+    return {followed: false};
+}
+
 delegate.on('click', '[data-action="add-interests"]', async (event) => {
+
+    let myRegions = regions;
+    const languageCodes = (preferredLanguage || '').split('-');
+    if (languageCodes.length === 2) {
+        const countryCode = languageCodes[1];
+        const country = countryMapping[countryCode];
+        if (country) {
+            myRegions = myRegions.filter(x=>x !== country);
+            myRegions.unshift(country);
+        }
+    }
+
     const ele = document.createElement('DIV');
     ele.classList.add('overlay-container');
     ele.classList.add('on');
@@ -48,13 +137,14 @@ delegate.on('click', '[data-action="add-interests"]', async (event) => {
     <div class="input-title">${localize('Popular')}</div>
     ${createHTMLFromNames(populars)}
     <div class="input-title">${localize('Regions')}</div>
-    ${createHTMLFromNames(regions)}
+    ${createHTMLFromNames(myRegions)}
     </div>
     </div>
     </div>
     </div>
     `;
     document.body.append(ele);
+
 });
 
 // MARK: - The Follow button in the overlay interface

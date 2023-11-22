@@ -217,8 +217,6 @@
     <%assign var="gridClass" value="large-card-grid"%>
 <%/if%>
 
-<!--debug 8: feedType: <%$feedType%>-->
-
 <%if $feedType="columns"%>
     <style><%include file="next/styles/main-columns.css"%></style>
 <%/if%>
@@ -234,12 +232,15 @@
             <%assign var=imageClass value=" no-image`$item.background`"%>
         <%/if%>
         <%assign var=itemHeadline value=$item.headline|default:$item.cheadline%>
+
         <%if $item.customLink != ""%>
             <%assign var=itemLink value=$item.customLink%>
-        <%else%>
+        <%elseif $itemType != "" && $item.id != ""%>
             <%assign var=itemLink value="/`$itemType`/`$item.id`"%>
+        <%else%>
+            <%assign var=itemLink value=""%>
         <%/if%>
-
+        
         <%*<!--MARK: handle item tag start-->*%>
         <%assign var="itemTag" value=""%>
         <%assign var="itemMainTag" value=""%>
@@ -404,7 +405,13 @@
         <%/if%>
 
         <%*<!--MARK: show the lock for paid content start-->*%>
-        <%if $isInWhiteList == "yes"%>
+        
+        <%if $item.id == ""%>
+            <%assign var="itemType" value=""%>
+        <%/if%>
+        <%if $itemType == "manual" || $itemType == "page" || $itemType == ""%>
+			<%assign var="lockClass" value=""%>
+        <%elseif $isInWhiteList == "yes"%>
             <%assign var="lockClass" value=""%>
         <%elseif $list.feedType == "premium" || $list.feedType == "standard" || $item.type == "premium" || $itemType == "premium" || $paywall == "1" || ($itemType == "interactive" && preg_match("/英语电台|速读|会员专享|高端专享/is",$itemTagsString)) || ($itemType == "story" && $timeMath > 60*60*24)%>
             <%assign var="lockClass" value="locked"%>
