@@ -1359,10 +1359,8 @@
 -->*%>
 
 <%assign var="translationDisclaimer" value=""%>
-<%if $isUserTester !== true && $isUserInternal === true%>
-	<%if preg_match("/AITranslation/is",$keys) && $page_action != "en"%>
-		<%assign var="translationDisclaimer" value="<div class=\"copyrightstatement-container\">为了第一时间为您呈现此信息，中文内容为机器翻译，并辅以少量人工干预，仅供参考。</div>"%>
-	<%/if%>
+<%if preg_match("/AITranslation/is",$keys) && $page_action != "en"%>
+	<%assign var="translationDisclaimer" value="<div class=\"ai-disclaimer-container\">为了第一时间为您呈现此信息，中文内容为AI翻译，仅供参考。</div>"%>
 <%/if%>
 
 
@@ -2072,6 +2070,7 @@
 
 	<%include file="next/partials/loadAdDataByDevice.html"%>
 
+
 	<%php%>
 		// MARK: - This should be here not in the libs because of complex caches in libs. It's quite complicated logic, best suited for PHP not smarty. We've done A/B test to verify that hiding the machine translation disclaimer improve peformance in terms of quality read, bounce rate and duration. You can check that on Google Optimizer. 
 		$tag = $this->get_template_vars('tag');
@@ -2082,10 +2081,10 @@
 		$isAITranslation = (preg_match("/AITranslation/i", $tag)) ? true : false;
 		// MARK: - all translations published by oliver.zhang are of high quality and reviewed by FTC's editor in chief. 
 		$isHighQualityTranslation = (preg_match("/oliver.zhang/i", $eskylinetext)) ? true : false;
-		if (($isUserInternal === false || $isUserTester === true) && $isAITranslation === true && $isHighQualityTranslation === true && $shouldShowPayWall == "no") {
+		if ($isAITranslation !== true || $shouldShowPayWall == "yes") {
 			$this->assign("translationDisclaimer", "");
 		}
-		//echo '<!--shouldShowPayWall: ' . (int)$shouldShowPayWall . ', isHighQualityTranslation: ' . (int)$isHighQualityTranslation .  ', tag: ' . $tag . ', eskylinetext: ' . $eskylinetext . ', isUserInternal: '. (int)$isUserInternal . ', isAITranslation: ' . (int)$isAITranslation . '-->';
+		// echo '<!--shouldShowPayWall: ' . (int)$shouldShowPayWall . ', isHighQualityTranslation: ' . (int)$isHighQualityTranslation .  ', tag: ' . $tag . ', eskylinetext: ' . $eskylinetext . ', isUserInternal: '. (int)$isUserInternal . ', isAITranslation: ' . (int)$isAITranslation . '-->';
 	<%/php%>
 
 	<%*<!--

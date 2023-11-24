@@ -1209,11 +1209,11 @@ function finishTranslationForArticle(buttonEle) {
         }
         var tagEle = window.opener.document.getElementById('tag');
         // MARK: - A list of good translation reviewer whose quality is so good that there's no need to display that AI disclaimer
-        var goodTranslators = 'oliver.zhang';
-        var isGoodTranslator = typeof window.userName === 'string' && goodTranslators.indexOf(window.userName)>=0;
+        // var goodTranslators = 'oliver.zhang';
+        // var isGoodTranslator = typeof window.userName === 'string' && goodTranslators.indexOf(window.userName)>=0;
         if (tagEle) {
-            var goodTranslatorTag = isGoodTranslator ? ',IsEdited' : '';
-            window.opener.document.getElementById('tag').value += ',AITranslation' + goodTranslatorTag;
+            // var goodTranslatorTag = isGoodTranslator ? ',IsEdited' : '';
+            // window.opener.document.getElementById('tag').value += ',AITranslation' + goodTranslatorTag;
             var tags = window.opener.document.getElementById('tag').value.split(',');
             var tagsSet = new Set(tags);
             window.opener.document.getElementById('tag').value = Array.from(tagsSet).join(',');

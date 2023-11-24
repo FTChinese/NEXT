@@ -110,6 +110,14 @@ function getEventApplicationForm() {
         }
     };
     var formEle = document.querySelector('.event-application');
+    var participants = formEle.getAttribute('data-event-paticipants') || '1';
+    participants = parseInt(participants, 10) || 1;
+    for (let key of Object.keys(map['number'])) {
+        var n = parseInt(key, 10) || 0;
+        if (n > participants) {
+            delete map['number'][key];
+        }
+    }
     formPurpose = formEle.getAttribute('data-form-purpose');
     var buttonTitle = formEle.getAttribute('data-button-title') || '报名';
     var userId = GetCookie('USER_ID');

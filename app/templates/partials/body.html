@@ -59,7 +59,7 @@
         <%/if%>
     <%elseif $section.type == "banner" && $shouldDisplayBanner == "yes"%>
         <%include file="next/partials/banner.html"%>
-        <%if $section.image && $section.image == ""%>
+        <%if $section.image && $section.image != ""%>
         <%else%>
             <%assign var="bannerCount" value=$bannerCount+1%>
         <%/if%>
