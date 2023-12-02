@@ -131,6 +131,7 @@
                 } else if ($item["zone"] !== "") {
                     $item["customLink"] = "/m/corp/preview.html?pageid=" . $item["zone"];
                 }
+                $itemType = 'special';
                 continue;
             }
             if ($itemType === 'columns') {
@@ -454,7 +455,8 @@
         <%elseif $itemType == "column"%>
             <%assign var="itemClass" value="`$itemClass` is-column"%>
         <%/if%>
-        <%if $smarty.get.webview == "ftcapp" && $itemType != "sponsorship"%>
+        <%*<!--MARK: - Note that special report page should always display links -->*%>
+        <%if $smarty.get.webview == "ftcapp" && $itemType != "sponsorship" && $pageType != "special"%>
             <%if preg_match("/双语电台/is",$itemTagsString)%>
                 <%if preg_match("/en|ce/is",$listLanguage) && preg_match("/.(mp3|m4a|wav)$/is",$item.eshortleadbody)%>
                     <%assign var="audioUrl" value=$item.eshortleadbody%>
@@ -528,8 +530,12 @@
             <%if $itemDataId == "" || $itemDataType == "manual" || $isExtendedStoryOnHome == "yes"%>
                 <%assign var="itemData" value=""%>
             <%/if%>
+            <!--debug 010: page type: <%$pageType%>, itemDataId: <%$itemDataId%>, itemDataType: <%$itemDataType%> -->
             <%if $itemDataId != "" && $itemDataType != "" && $itemDataType != "manual" && $useCorpToRenderStory != "yes" && $isExtendedStoryOnHome == "no"%>
                 <%assign var="itemClass" value="`$itemClass` item-container-app"%>
+            <%elseif $pageType == "special"%>
+                <%assign var="itemClass" value="`$itemClass` item-container-app"%>
+                <%assign var="itemDataType" value="page"%>
             <%/if%>
             <%*<!-- MARK: Show full text for premium content for internal use only!  -->*%>
             <%if $smarty.get.showfulltext == "yes"%>

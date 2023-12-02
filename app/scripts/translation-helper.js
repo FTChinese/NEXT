@@ -280,7 +280,33 @@ delegate.on('click', '.name-entity-shortcut', function(event){
     }
 });
 
+delegate.on('paste', '[contenteditable="true"]', (event) => {
+    
+    event.preventDefault();
+    // Get the text content from the Clipboard
+    const text = (event.clipboardData || window.clipboardData).getData('text');
+    console.log(`inserting: ${text}`);
+    // Create a text node from the plain text
+    const textNode = document.createTextNode(text);
+    // Get the current selection
+    const selection = window.getSelection();
+    if (!selection.rangeCount) return; // Don't proceed if there's no selection
 
+    // Get the first range of the selection
+    const range = selection.getRangeAt(0);
+    range.deleteContents(); // Remove the contents of the current selection
+
+    // Insert the new text node at the cursor's position
+    range.insertNode(textNode);
+
+    // Move the cursor to the end of the inserted text
+    range.setStartAfter(textNode);
+    range.setEndAfter(textNode);
+    selection.removeAllRanges(); // Remove all ranges (clears the current selection)
+    selection.addRange(range); // Add the new range (sets the new cursor position)
+
+    updatePreviewContent(event.target);
+});
 
 delegate.on('click', '.add-name-entity', function(event){
     var ele = this.closest('.name-entity-translation');
@@ -373,14 +399,8 @@ delegate.on('click', '.info-container textarea', function(event){
 });
 
 
-
 delegate.on('input', '.preview-content [id]', function(event){
-    const id = this.id;
-    const html = this.innerHTML;
-    let textEle = document.querySelector(`textarea[data-info-id="${id}"]`);
-    if (textEle) {
-        textEle.value = html;
-    }
+    updatePreviewContent(this);
 });
 
 delegate.on('click', '.preview-language-switch div', function(event){
@@ -394,6 +414,16 @@ delegate.on('click', '.preview-language-switch div', function(event){
     updatePreviewLanguageMode(key);
 });
 
+
+function updatePreviewContent(ele) {
+    const id = ele.id;
+    console.log(id);
+    const html = ele.innerHTML;
+    let textEle = document.querySelector(`textarea[data-info-id="${id}"]`);
+    if (textEle) {
+        textEle.value = html;
+    }
+}
 
 function getPromptForOpenAI(container) {
     let sourceHTML = container.querySelector('.info-original').innerHTML;
@@ -779,6 +809,7 @@ async function checkAITranslation() {
     const bodyXMLTranslation = json.bodyXMLTranslation;
     if (!bodyXMLTranslation || typeof bodyXMLTranslation !== 'string' || bodyXMLTranslation === '') {return;}
     // MARK: - If the time stamp isn't the same, the AI Translation is not valid! 
+    console.log(`window.publishedDate: ${window.publishedDate}, json.publishedDate: ${json.publishedDate}`);
     if (window.publishedDate !== '' && window.publishedDate !== json.publishedDate) {return;}
     if (!confirm(localize('AITranslation'))){return;}
     let ele = document.createElement('DIV');
@@ -788,9 +819,7 @@ async function checkAITranslation() {
         const translation = translationEle.innerHTML;
         const translationId = translationEle.id;
         let textareaEle = document.querySelector(`textarea[data-info-id="${translationId}"]`);
-        if (textareaEle && textareaEle.value === '') {
-            textareaEle.value = translation;
-        }
+        textareaEle.value = translation;
     }
     let previewButton = document.querySelector('#preview-button');
     if (previewButton) {
@@ -988,6 +1017,7 @@ function start() {
 function recordTimeInfo(spentTime) {
     if (!window.opener || typeof window.subtitleInfo === 'object') {return;}
     if (window.opener.window.location.href.indexOf('/ia/') === -1) {return;}
+    if (isAITranslation()) {return;}
     var targetEle = window.opener.document.getElementById('eskylinetext');
     // MARK: - Check if the target input is already used by other purposes. 
     if (!targetEle || targetEle.value !== '') {return;}
@@ -1146,6 +1176,11 @@ function checkAllTextAreas() {
     return {success: true};
 }
 
+function isAITranslation() {
+    var goodTranslators = 'oliver.zhang';
+    return typeof window.userName === 'string' && goodTranslators.indexOf(window.userName)>=0;
+}
+
 function finishTranslationForArticle(buttonEle) {
     var status = checkAllTextAreas();
     if (!status.success) {
@@ -1208,12 +1243,10 @@ function finishTranslationForArticle(buttonEle) {
             clongleadbodyEle.value = standfirst;
         }
         var tagEle = window.opener.document.getElementById('tag');
-        // MARK: - A list of good translation reviewer whose quality is so good that there's no need to display that AI disclaimer
-        // var goodTranslators = 'oliver.zhang';
-        // var isGoodTranslator = typeof window.userName === 'string' && goodTranslators.indexOf(window.userName)>=0;
         if (tagEle) {
-            // var goodTranslatorTag = isGoodTranslator ? ',IsEdited' : '';
-            // window.opener.document.getElementById('tag').value += ',AITranslation' + goodTranslatorTag;
+            var AITranslatorTag = isAITranslation() ? ',AITranslation,FT商学院' : '';
+            console.log(`AITranslatorTag: ${AITranslatorTag}`);
+            window.opener.document.getElementById('tag').value += AITranslatorTag;
             var tags = window.opener.document.getElementById('tag').value.split(',');
             var tagsSet = new Set(tags);
             window.opener.document.getElementById('tag').value = Array.from(tagsSet).join(',');
@@ -1600,7 +1633,7 @@ function preview(buttonEle) {
             }
         }
         for (var i=0; i<translationInfoDiv.childNodes.length; i++) {
-            sourceInfoDiv.childNodes[i]?.classList.add('preview-source');
+            sourceInfoDiv.childNodes[i]?.classList?.add('preview-source');
             let sourceHTML = sourceInfoDiv.childNodes[i]?.outerHTML ?? '';
             let translationHTML = translationInfoDiv.childNodes[i]?.outerHTML ?? '';
             translations += `<div class="preview-translation-container">${sourceHTML}${translationHTML}</div>`;

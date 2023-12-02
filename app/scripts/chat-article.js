@@ -102,9 +102,6 @@ delegate.on('click', '[data-action="jump-to-article"]', async (event) => {
     updateBotStatus('waiting');
 });
 
-
-
-
 delegate.on('click', '.story-body a', async (event) => {
     let element = event.target;
     // MARK: - If you click on a link such as <a href="#"><strong></strong></a>, element will not be the <a>, but <strong>. 
@@ -200,6 +197,99 @@ delegate.on('click', '.quiz-options div', async (event) => {
         console.log(err);
     }
 });
+
+delegate.on('input', '[contenteditable="true"]', (event) => {
+    const element = event.target;
+    const container = element.closest('.chat-talk-inner');
+    if (!container) {return;}
+    let chatItemActions = container.querySelector('.chat-item-actions');
+    if (!chatItemActions) {return;}
+    // <a data-id="be81fc62-49eb-40c9-a66a-2dc652e9b400" data-action="socratic" title="苏格拉底诘问方法是一种质疑和讨论观念的方式，旨在挑战假设并达到更好的理解。它涉及提出问题以揭示潜在信念并测试所给出的响应的逻辑。它用于在各个领域中促进批判性思维、问题解决和创造力。">苏格拉底诘问</a>
+    if (chatItemActions.querySelector('[data-action="edit-ai-translation"]')) {return;}
+    let editAITranslationButton = document.createElement('A');
+    editAITranslationButton.setAttribute('data-action', 'edit-ai-translation');
+    editAITranslationButton.innerHTML = 'Update';
+    chatItemActions.append(editAITranslationButton);
+});
+
+
+delegate.on('paste', '[contenteditable="true"]', (event) => {
+    
+    event.preventDefault();
+    // Get the text content from the Clipboard
+    const text = (event.clipboardData || window.clipboardData).getData('text');
+    console.log(`inserting: ${text}`);
+    // Create a text node from the plain text
+    const textNode = document.createTextNode(text);
+    // Get the current selection
+    const selection = window.getSelection();
+    if (!selection.rangeCount) return; // Don't proceed if there's no selection
+
+    // Get the first range of the selection
+    const range = selection.getRangeAt(0);
+    range.deleteContents(); // Remove the contents of the current selection
+
+    // Insert the new text node at the cursor's position
+    range.insertNode(textNode);
+
+    // Move the cursor to the end of the inserted text
+    range.setStartAfter(textNode);
+    range.setEndAfter(textNode);
+    selection.removeAllRanges(); // Remove all ranges (clears the current selection)
+    selection.addRange(range); // Add the new range (sets the new cursor position)
+
+});
+
+delegate.on('click', '[data-action="edit-ai-translation"]', async (event) => {
+    const token = (isPowerTranslate) ? GetCookie('accessToken') : 'sometoken';
+    if (!token || token === '') {
+        return {status: 'failed', message: 'You need to sign in first! '};
+    }
+    const element = event.target;
+    try {
+        const container = element.closest('.chat-talk-inner')?.querySelector('.article-container');
+        if (!container) {return;}
+        const id = container.getAttribute('data-id');
+        if (!id) {return;}
+        const title = container.querySelector('[data-translation-property="title"]')?.innerText ?? '';
+        if (title === '') {return;}
+        const standfirst = container.querySelector('[data-translation-property="standfirst"]')?.innerText ?? '';
+        if (standfirst === '') {return;}
+        const eles = container.querySelectorAll('.story-body-container .rightp[id]');
+        let bodyInfo = {};
+        for (const ele of eles) {
+            const id = ele.id;
+            if (!id) {continue;}
+            const html = ele.innerHTML;
+            if (!html) {continue;}
+            bodyInfo[id] = html;
+        }
+        const info = {
+            id: id,
+            title: title,
+            standfirst: standfirst,
+            body: bodyInfo,
+            language: preferredLanguage
+        };
+        const response = await fetch('/aitranslation/update', {
+            method: 'POST', // Method itself
+            headers: {
+                'Content-Type': 'application/json', // Indicates the content 
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(info) // We send data in JSON format
+        });
+        if (response.ok) {
+            alert('Updated!');
+        } else {
+            alert('Failed!');
+        }
+    } catch (err) {
+        console.log(err);
+    }
+});
+
+
 
 function isArticleLoaded(ftid) {
     if (document.querySelector(`.article-container[data-id="${ftid}"]`)) {

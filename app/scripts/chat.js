@@ -424,7 +424,7 @@ async function getArticleFromFTAPI(id, language) {
   }
 }
 
-function convertToBilingualLayout(original, translation) {
+function convertToBilingualLayout(original, translation, source='') {
   let originalDiv = document.createElement('DIV');
   originalDiv.innerHTML = original;
   const originals = originalDiv.children;
@@ -439,14 +439,17 @@ function convertToBilingualLayout(original, translation) {
       left = (originals[i].tagName === 'P') ? originals[i].innerHTML : originals[i].outerHTML;
     }
     let right = '';
+    let id = '';
     if (translations.length > i) {
       right = (translations[i].tagName === 'P') ? translations[i].innerHTML : translations[i].outerHTML;
+      id = translations[i].id || '';
     }
-    if (/^(<div|<img|<picture|<scrollable)/.test(left)) {
+    if (/^(<div|<img|<picture|<scrollable)/.test(left) && source !== 'ai') {
       // MARK: If this child is a picture or an HTML Code, display it just once
       html += `<p>${left}</p><div class="clearfloat"></div>`;
     } else {
-      html += `<div><div class="leftp">${left}</div><div class="rightp">${right}</div></div><div class="clearfloat"></div>`;
+      const contentEditable = (source === 'ai') ? ' contenteditable="true"' : '';
+      html += `<div><div class="leftp">${left}</div><div id="${id}" class="rightp"${contentEditable}>${right}</div></div><div class="clearfloat"></div>`;
     }
   }
   return html;
@@ -470,12 +473,22 @@ async function switchLanguage(container, value) {
     bodyXML = content.bodyXMLTranslation || machineTranslationInfo.bodyXML || '';
     byline = content.bylineTranslation || machineTranslationInfo.byline || '';
   } else if (value === 'bilingual') {
-    title = `<div>${content.title}</div><div>${content.titleTranslation || machineTranslationInfo.titleTranslation || machineTranslationInfo.title || ''}</div>`;
-    standfirst = `<div>${content.standfirst}</div><div>${content.standfirstTranslation || machineTranslationInfo.standfirstTranslation || machineTranslationInfo.standfirst || ''}</div>`;
+    let translationXML = '';
+    let source = '';
+    if (content.bodyXMLTranslation) {
+      translationXML = content.bodyXMLTranslation;
+      source = 'ftc';
+    } else if (machineTranslationInfo.bodyXML) {
+      translationXML = machineTranslationInfo.bodyXML;
+      source = 'ai';
+    }
+    const contentEditable = (source === 'ai') ? ' contenteditable="true"' : '';
+    title = `<div>${content.title}</div><div data-translation-property="title"${contentEditable}>${content.titleTranslation || machineTranslationInfo.titleTranslation || machineTranslationInfo.title || ''}</div>`;
+    standfirst = `<div>${content.standfirst}</div><div data-translation-property="standfirst"${contentEditable}>${content.standfirstTranslation || machineTranslationInfo.standfirstTranslation || machineTranslationInfo.standfirst || ''}</div>`;
     byline = content.byline || '';
     // MARK: - For biligual mode, you should always look to match the English and translation
     const originalBodyXML = machineTranslationInfo.originalBodyXML || content.bodyXML;
-    bodyXML = convertToBilingualLayout(originalBodyXML, content.bodyXMLTranslation || machineTranslationInfo.bodyXML || '');
+    bodyXML = convertToBilingualLayout(originalBodyXML, translationXML, source);
   }
   const bilingualClassName = 'is-bilingual';
   if (value === 'bilingual') {
@@ -611,10 +624,14 @@ async function showContent(ftid, language, shouldScrollIntoView = true, shouldLo
           let bodyXMLEnglish = '';
           let machineTranslationInfo = {};
           let isUsingMachineTranslation = false;
+          let isAITranslationPublishedOnFTC = false;
           if (content.bodyXMLTranslation && content.bodyXMLTranslation !== '') {
             bodyXMLEnglish = `<div class="hide story-body-english">${bodyXML}</div>`;
             bodyXML = content.bodyXMLTranslation;
             showTranslationAsDefault = true;
+            // console.log(content);
+            isAITranslationPublishedOnFTC = /AITranslation/i.test(content.ftcTag || '');
+            isUsingMachineTranslation = isAITranslationPublishedOnFTC;
           } else if (content.machineTranslation && translationPreference === 'both') {
             bodyXMLEnglish = `<div class="hide story-body-english">${bodyXML}</div>`;
             machineTranslationInfo = getInfoFromMachineTranslation(content.machineTranslation);
@@ -662,8 +679,9 @@ async function showContent(ftid, language, shouldScrollIntoView = true, shouldLo
           ` : '';
           let disclaimerForMachineTranslation = '';
           // MARK: - Show Machine translation disclaimer only when necessary, localize it
+          // console.log(`isUsingMachineTranslation: ${isUsingMachineTranslation}, showTranslationAsDefault: ${showTranslationAsDefault}`);
           if (isUsingMachineTranslation && showTranslationAsDefault) {
-            const aiDisclaimer = (machineTranslationInfo.proofread) ? 'ai-disclaimer-proofread' : 'ai-disclaimer';
+            const aiDisclaimer = (machineTranslationInfo.proofread || isAITranslationPublishedOnFTC) ? 'ai-disclaimer-proofread' : 'ai-disclaimer';
             disclaimerForMachineTranslation = `<div class="ai-disclaimer">${localize(aiDisclaimer)}</div>`;
           }
           let html = `
