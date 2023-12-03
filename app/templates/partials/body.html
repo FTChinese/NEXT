@@ -188,14 +188,65 @@
                     </div>
                     <%assign var="i" value=0%>
                 <%elseif $highlightFTAcademy == "top"%>
-                    <%assign var="topItemCount" value=12%>
+                    <%*assign var="ftAcademySqlQuery" value="find_in_set('FT商学院',tag)"*%>
+                    <%*assign var="ftAcademyItems" value=$interactivemodel->get_interactive_by_field_search($ftAcademySqlQuery,0,12,7,10800)*%>
+                    <%assign var="topItemCount" value=20%>
                     <%if $showMaximum8Tops == "yes"%>
                         <%assign var="topItemCount" value=8%>
                     <%/if%>
                     <%if $isWorkingDayMorning == "yes"%>
                         <%assign var="topItemCount" value=4%>
                     <%/if%>
-                    <%assign var="interactives" value=$interactivemodel->get_interactive_by_field_search("find_in_set('FT商学院',tag)",0,$topItemCount,14,10800)%>
+                    <%assign var="interactives" value=$interactivemodel->get_interactive_by_field_search("find_in_set('FT商学院',tag)",0,24,14,10800)%>
+                    <%php%>
+                        // Check if the function getBeijingTime is already defined
+                        if (!function_exists('getBeijingTime')) {
+                            // Define the function if it does not exist
+                            function getBeijingTime() {
+                                // Beijing is UTC+8
+                                $beijingOffset = 8 * 3600;
+                                // Get the current UTC timestamp
+                                $currentUTCTimestamp = time() - date("Z");
+                                // Calculate Beijing time by adding the offset
+                                $beijingTimestamp = $currentUTCTimestamp + $beijingOffset;
+
+                                return getdate($beijingTimestamp);
+                            }
+                        }
+                        // Get Beijing time
+                        $beijingTime = getBeijingTime();
+                        $minItemCount = $this->get_template_vars('topItemCount');
+                        // Check if today is Saturday or Sunday in Beijing time
+                        if ($beijingTime['wday'] == 6 || $beijingTime['wday'] == 0) {
+                            // Calculate the Unix timestamp for 0 AM on the current day in Beijing time
+                            // Adjust the date to Beijing time and set hours, minutes, and seconds to 0
+                            $saturdayTimestamp = mktime(0, 0, 0, $beijingTime['mon'], $beijingTime['mday'], $beijingTime['year']) - (8 * 3600); // Subtract 8 hours to set to 0 AM
+
+                            // If today is Sunday, subtract one day to get to Saturday
+                            if ($beijingTime['wday'] == 0) {
+                                $saturdayTimestamp -= 86400; // 86400 seconds in a day
+                            }
+
+                            // Call the method on the $interactivemodel object
+                            $interactives = $this->get_template_vars('interactives');
+                            foreach ($interactives as $item) {
+                                $pubdate = $item['pubdate'];
+                                // Increment the counter if the item's pubdate is after or equal to saturdayTimestamp
+                                if ($pubdate >= $saturdayTimestamp) {
+                                    $countAfterSaturday++;
+                                }
+                            }
+                            // Finding the smallest number larger than or equal to $countAfterSaturday and divisible by 4
+                            $smallestDivisibleByFour = $countAfterSaturday;
+                            if ($smallestDivisibleByFour % 4 !== 0) {
+                                $smallestDivisibleByFour += 4 - ($smallestDivisibleByFour % 4);
+                            }
+                            $minItemCount = max($smallestDivisibleByFour, $minItemCount);
+                        }
+                        // Use array_slice to get the first $minItemCount items from $interactives
+                        $firstItems = array_slice($interactives, 0, $minItemCount);
+                        $this->assign("interactives", $firstItems);
+                    <%/php%>
                     <div class="block-container no-side">
                         <div class="block-inner">
                             <div class="content-container">
