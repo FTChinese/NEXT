@@ -39,6 +39,11 @@
 <body>
 
 <div class="container">
+    <aside class="sidebar">
+        <div class="main-chat-role" id="main-chat-role">Top Content</div>
+        <div class="current-chat-roles" id="current-chat-roles"></div>
+        <div class="side-user-settings" id="side-user-settings"></div>
+    </aside>
     <header class="header-container">
         <div class="header-inner">
         <div class="masthead"></div>
@@ -62,11 +67,14 @@
         <div class="chat-content" id="chat-content"></div>
         <div class="chat-input-container">
             <div class="chat-input-inner">
-                <button class="chat-start-over" id="clean-slate" data-purpose="start-over" data-content="start-over"></button>
-                <div class="chat-input">
-                    <textarea id="user-input" rows="1" disabled="true"></textarea>
-                    <button class="chat-submit" id="chat-submit"></button>
+                <div class="chat-input-first-line">
+                    <button class="chat-start-over" id="clean-slate" data-purpose="start-over" data-content="start-over"></button>
+                    <div class="chat-input">
+                        <textarea id="user-input" rows="1" disabled="true"></textarea>
+                        <button class="chat-submit" id="chat-submit"></button>
+                    </div>
                 </div>
+                <div class="chat-disclaimer" id="chat-disclaimer">Chat bots can make mistakes. Consider checking important information.</div>
             </div>
         </div>
     </div>

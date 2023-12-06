@@ -2083,7 +2083,21 @@ const randomPromptDict = {
         'zh-TW': '新聞小測',
         'zh-HK': '新聞小測',
         ru: 'Новостная викторина'
-      }
+      }, 
+      ChatDisclaimer: {
+        "en": "Chat bots can make mistakes. Consider checking important information.",
+        "zh": "聊天机器人可能会犯错误。请考虑核对重要信息。",
+        "es": "Los chatbots pueden cometer errores. Considere verificar la información importante.",
+        "fr": "Les chatbots peuvent faire des erreurs. Envisagez de vérifier les informations importantes.",
+        "de": "Chatbots können Fehler machen. Überlegen Sie, wichtige Informationen zu überprüfen.",
+        "ja": "チャットボットは間違いを犯すことがあります。重要な情報を確認することを検討してください。",
+        "ko": "챗봇은 실수를 할 수 있습니다. 중요한 정보를 확인하는 것을 고려해보세요.",
+        "pt": "Chatbots podem cometer erros. Considere verificar informações importantes.",
+        "it": "I chatbot possono commettere errori. Considera di controllare le informazioni importanti.",
+        "zh-TW": "聊天機器人可能會犯錯誤。請考慮核對重要資訊。",
+        "zh-HK": "聊天機械人可能會犯錯。請考慮核對重要資訊。",
+        "ru": "Чат-боты могут допускать ошибки. Рассмотрите возможность проверки важной информации."
+      }      
   };
 
 

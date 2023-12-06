@@ -389,12 +389,12 @@ async function getArticleFromFTAPI(id, language) {
           body: JSON.stringify(data)
       };
       if (isFrontendTest && !isPowerTranslate) {
-          url = '/api/page/ft_article_link.json';
+          // url = '/api/page/ft_article_link.json';
           // url = '/api/page/ft_podcast.json';
           // url = '/api/page/ft_video.json';
           // url = '/api/page/ft_article.json';
           // url = '/api/page/ft_article_scrolly_telling.json';
-          // url = '/api/page/ft_article_scrolly_telling_climate_change.json';
+          url = '/api/page/ft_article_scrolly_telling_climate_change.json';
           // url = '/api/page/ft_article_double_image.json';
           // url = '/api/page/ft_article_chinese.json';
           // url = '/api/page/ft_article_machine_translation.json';
@@ -1677,15 +1677,40 @@ function setConfigurations() {
   var script = document.createElement('script');
   script.src = '/powertranslate/scripts/register.js';
   document.head.appendChild(script);
-  let currentChatStatus = document.getElementById('current-chat-status');
-  if (!currentChatStatus) {return;}
-  currentChatStatus.innerHTML += `
-    <a data-purpose="set-intention" data-content="CleanSlate" data-reply="${localize('Offer Help')}" data-key="BackToTop">${localize('BackToTop')}</a>
-    <a data-purpose="set-intention" data-content="DiscussContent" data-reply="${localize('Discuss More')}" data-key="DiscussContent">${localize('DiscussContent')}</a>
-    <a data-purpose="set-intention" data-content="SearchFTAPI" data-reply="${localize('Offer Help For Search')}" data-key="SearchFT">${localize('SearchFT')}</a>
-    <a data-purpose="set-intention" data-content="CustomerService" data-reply="${localize('Offer Help')}" data-key="CustomerService">${localize('CustomerService')}</a>
-    <a data-purpose="set-intention" data-content="Other" data-reply="${localize('Offer Help')}" data-key="Other">${localize('Other')}</a>
+  
+  const mainRoleHTML = `
+    <a data-purpose="start-over" data-content="start-over" data-key="start-over">${localize('ChatFT')}</a>
   `;
+  let mainChatRole = document.getElementById('main-chat-role');
+  if (mainChatRole) {
+    mainChatRole.innerHTML = mainRoleHTML;
+  }
+  
+  const rolesHTML = `
+  <a data-purpose="set-intention" data-content="SearchFTAPI" data-reply="${localize('Offer Help For Search')}" data-key="SearchFT">${localize('Discover and Explore')}</a>
+  <a data-purpose="set-intention" data-content="CustomerService" data-reply="${localize('Offer Help')}" data-key="CustomerService">${localize('CustomerService')}</a>
+  <a data-purpose="set-intention" data-content="Other" data-reply="${localize('Offer Help')}" data-key="Other">${localize('Other')}</a>
+  `;
+  let currentChatStatus = document.getElementById('current-chat-status');
+  if (currentChatStatus) {
+    currentChatStatus.innerHTML += mainRoleHTML + rolesHTML;
+  }
+  let currentChatRoles = document.getElementById('current-chat-roles');
+  if (currentChatRoles) {
+    currentChatRoles.innerHTML = rolesHTML;
+  }
+  let disclaimerEle = document.getElementById('chat-disclaimer');
+  if (disclaimerEle) {
+    disclaimerEle.innerHTML = localize('ChatDisclaimer');
+  }
+  const sideSettingsHTML = `
+  <a data-purpose="set-preference" data-content="all" data-reply="${localize('Set Your Preferences')}">${localize('Setting')}</a>
+  `;
+  let sideSettingsEle = document.getElementById('side-user-settings');
+  console.log('faf')
+  if (sideSettingsEle) {
+    sideSettingsEle.innerHTML = sideSettingsHTML;
+  }
 }
 
 async function waitForAccessToken() {

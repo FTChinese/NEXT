@@ -4,6 +4,7 @@
 @import "main-user-comments.scss";
 @import "main-scrolly-telling.scss";
 @import "quote-number.scss";
+$sideBarWidth: 260px;
 html {
     scroll-behavior: smooth;
 }
@@ -27,10 +28,48 @@ body {
 }
 .container {
     padding: 0;
+    display: flex;
+    height: 100vh;
+    // background-color: red;
+}
+.sidebar {
+    width: $sideBarWidth; /* Fixed width for sidebar */
+    /* Additional styling */
+    background-color: $darkGrey;
+    height: 100vh;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+}
+.main-chat-role, .side-user-settings {
+    height: $navHeight;
+    position: sticky;
+    top: 0;
+}
+
+.current-chat-roles {
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+.header-container {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+    display: none;
+    // display: block!important;
+    .is-in-native-app &{
+        display: none!important;
+    }
 }
 .main-content {
     margin: 0 auto;
     position: relative;
+    flex-grow: 1;
+    height: 100vh;
+    overflow-y: scroll;
 }
 .chat-content {
     padding: 0 0 $navHeight 0;
@@ -40,17 +79,6 @@ body {
     max-width: 450px;
     background-color: $bannerBG;
     padding: $defaultPadding * 0.5;
-}
-.header-container {
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 1;
-    display: block!important;
-    .is-in-native-app &{
-        display: none!important;
-    }
 }
 .header-inner {
     background-color: transparent!important;
@@ -84,7 +112,8 @@ a[data-action] {
 .chat-talk {
     margin-bottom: 1em;
     &:first-child {
-        margin-top: $navHeight + $defaultPadding;
+        margin-top: math.div($defaultPadding, 2);
+        // margin-top: $navHeight + $defaultPadding;
         .is-in-native-app & {
             margin-top: math.div($defaultPadding, 2);
         }
@@ -172,20 +201,28 @@ a[data-action] {
 .chat-input-container {
     position: fixed;
     bottom: 0;
-    left: 0;
+    left: $sideBarWidth;
     right: 0;
     height: $navHeight + 1.25 * $defaultPadding;
     background-color: $defaultPink;
 }
 .chat-input-inner {
     position: absolute;
-    bottom: math.div($defaultPadding, 2);
+    bottom: $defaultPadding * 0.25;
     left: 0;
     right: math.div($defaultPadding, 2);
     height: auto;
     max-width: $chatWidth;
     margin: auto;
+}
+.chat-input-first-line {
     padding-left: $navHeight;
+}
+.chat-disclaimer {
+    font-size: 0.9em;
+    color: $lightGrey;
+    text-align: center;
+    padding: $defaultPadding * 0.25 $defaultPadding * 0.25 0 $defaultPadding * 0.25;
 }
 .chat-input {
     display: flex;
@@ -399,13 +436,27 @@ a[data-action] {
         font-size: 0.8em;
     }
 }
+
+.current-chat-roles {
+    margin-top: $defaultPadding * 0.5;
+}
 [data-purpose] {
     // display: none;
     background-color: $bannerBG;
     padding: math.div($defaultPadding, 3);
     margin-top: math.div($defaultPadding, 2);
     font-size: 0.7em;
+    .sidebar & {
+        background-color: transparent;
+        color: white;
+        display: block;
+        font-size: 1.2em;
+        // font-weight: bold;
+        margin: 0;
+        cursor: pointer;
+    }
 }
+
 
 .logged-in-container, .sign-in-container {
     display: none;
@@ -659,9 +710,9 @@ body {
     // box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
     margin: 0 auto $defaultPadding*0.5 auto;
     text-align: center;
-    // width: 100%;
-    min-width: 336px;
-    max-width: 450px;
+    width: 100%;
+    // min-width: 336px;
+    // max-width: 450px;
     height: $headerHeight - 5px;
     line-height: $headerHeight;
     background-color: $defaultPink;
@@ -744,7 +795,8 @@ body {
     }
 }
 
-@media only screen and (max-width: 768px) {
+// @media only screen and (max-width: 768px) {
+@media only screen and (max-width: 1028px) {
     .chat-talk-inner {
         padding: 5px math.div($defaultPadding, 2) 5px $navHeight + math.div($defaultPadding,2);
         &:before {
@@ -753,7 +805,7 @@ body {
     }
 }
 
-@media only screen and (max-width: 490px) {
+@media only screen and (max-width: 768px) {
     .audio-placeholder {
         &.is-sticky-top {
             position: sticky;
@@ -790,5 +842,20 @@ body {
                 margin-right: 0;
             }
         }
+    }
+    .sidebar {
+        display: none;
+    }
+    .header-container {
+        display: block;
+    }
+    .chat-talk {
+        margin-bottom: 1em;
+        &:first-child {
+            margin-top: $navHeight + $defaultPadding;
+        }
+    }
+    .chat-input-container {
+        left: 0;
     }
 }
