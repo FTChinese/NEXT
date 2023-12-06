@@ -629,7 +629,6 @@ async function showContent(ftid, language, shouldScrollIntoView = true, shouldLo
             bodyXMLEnglish = `<div class="hide story-body-english">${bodyXML}</div>`;
             bodyXML = content.bodyXMLTranslation;
             showTranslationAsDefault = true;
-            // console.log(content);
             isAITranslationPublishedOnFTC = /AITranslation/i.test(content.ftcTag || '');
             isUsingMachineTranslation = isAITranslationPublishedOnFTC;
           } else if (content.machineTranslation && translationPreference === 'both') {
