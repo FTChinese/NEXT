@@ -13,8 +13,8 @@
                 scrollableSection = scrollableSections[j];
                 scrollableSection.style.display = 'none';
                 var figure = scrollableSection.querySelector('figure, picture');
-                figure.setAttribute('data-id', j);
                 if (figure) {
+                    figure.setAttribute('data-id', j);
                     if (j === 0) {figure.classList.add('visible');}
                     viewPort.appendChild(figure);
                 }
@@ -22,36 +22,38 @@
             scrollableBlock.appendChild(viewPort);
             for (var k = 0; k < scrollableSections.length; k++) {
                 scrollableSection = scrollableSections[k];
-                var scrollableSectionText = (scrollableSection.innerText || '').trim();
-                var scrollTextEle = scrollableSection.querySelector('scrollable-text');
-                var scrollTextHTML = '';
-                if (scrollTextEle && scrollTextEle.innerText !== '') {
-                    scrollTextHTML = scrollTextEle.innerHTML;
-                } else if (scrollableSectionText && scrollableSectionText !== '') {
-                    scrollTextHTML = scrollableSectionText;
+                var scrollableSectionText = (scrollableSection.innerText || '').trim().replace(/[\r\n]+/, '<br>');
+                var scrollTextEles = scrollableSection.querySelectorAll('scrollable-text');
+                if (scrollTextEles.length === 0) {
+                    var scrollTextEle = document.createElement('DIV');
+                    scrollTextEle.innerHTML = scrollableSectionText;
+                    scrollTextEles = [scrollTextEle];
                 }
-                var scrollTextSlideIndex = k;
-                if (scrollTextHTML !== '') {
-                    var scrollTextBlock = document.createElement('DIV');
-                    scrollTextBlock.classList.add('scrollable-slide-info');
-                    if (/strong/gi.test(scrollTextHTML)) {
-                        scrollTextBlock.classList.add('scrollable-slide-detail');
-                        scrollTextBlock.classList.add('scrollable-slide-overlay');
-                    } else {
-                        if (toggleOverlayOn) {
+                for (var scrollTextEle of scrollTextEles) {
+                    var scrollTextHTML = scrollTextEle.innerHTML;
+                    var scrollTextSlideIndex = k;
+                    if (scrollTextHTML !== '') {
+                        var scrollTextBlock = document.createElement('DIV');
+                        scrollTextBlock.classList.add('scrollable-slide-info');
+                        if (/strong/gi.test(scrollTextHTML)) {
+                            scrollTextBlock.classList.add('scrollable-slide-detail');
                             scrollTextBlock.classList.add('scrollable-slide-overlay');
+                        } else {
+                            if (toggleOverlayOn) {
+                                scrollTextBlock.classList.add('scrollable-slide-overlay');
+                            }
+                            toggleOverlayOn = !toggleOverlayOn;
                         }
-                        toggleOverlayOn = !toggleOverlayOn;
+                        scrollTextBlock.setAttribute('data-id', k);
+                        scrollTextBlock.innerHTML = scrollTextHTML;
+                        scrollableBlock.appendChild(scrollTextBlock);
+                        scrollTextSlideIndex = Math.min(k + 1, scrollableSections.length - 1);
                     }
-                    scrollTextBlock.setAttribute('data-id', k);
-                    scrollTextBlock.innerHTML = scrollTextHTML;
-                    scrollableBlock.appendChild(scrollTextBlock);
-                    scrollTextSlideIndex = Math.min(k + 1, scrollableSections.length - 1);
+                    var scrollTextSlide = document.createElement('DIV');
+                    scrollTextSlide.classList.add('scrollable-slide');
+                    scrollTextSlide.setAttribute('data-id', scrollTextSlideIndex);
+                    scrollableBlock.appendChild(scrollTextSlide);
                 }
-                var scrollTextSlide = document.createElement('DIV');
-                scrollTextSlide.classList.add('scrollable-slide');
-                scrollTextSlide.setAttribute('data-id', scrollTextSlideIndex);
-                scrollableBlock.appendChild(scrollTextSlide);
                 // MARK: - Add the last scroll slide so that the last image will have longer scrolling distance
                 if (k === scrollableSections.length - 1 && scrollTextHTML === '') {
                     var lastScrollTextSlide = document.createElement('DIV');

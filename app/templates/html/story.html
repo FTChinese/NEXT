@@ -1131,6 +1131,7 @@
 
 <%assign var="minisiteInfo" value=""%>
 <%assign var="minisiteId" value=""%>
+
 <%*<!--MARK: - Override for different types of interactive -->*%>
 <%if $pageType=="job"%>
 	<%assign var="storyHeadline" value="`$jobinfo.company`招聘`$jobinfo.position_name`"%>
@@ -1196,7 +1197,10 @@
 		<%else%>
 			<%assign var="storyHeadline" value=$eheadline|default:$cheadline%>
 		<%/if%>
-		<%if $eauthor != ""%>
+		<%if preg_match("/音频/is",$keys)%>
+			<%*<!--MARK: - Michael Lin's Audio Stories-->*%>
+			<%assign var="storyAuthor" value=$cauthor_html_format%>
+		<%elseif $eauthor != ""%>
 			<%assign var="storyAuthor" value="`$ebyline_description` `$eauthor`"%>
 		<%else%>
 			<%assign var="storyAuthor" value="`$cbyline_description` `$cauthor`"%>
@@ -1273,10 +1277,12 @@
 			<%assign var="storyBody" value=$storyBody|regex_replace:"/<div class=[\"]*inlinevideo[\"]* id=[\"]*[\"]* auto[sS]tart=[\"]*([a-zA-Z]+)[\"]* title=\"(.*)\" image=\"(.*)\" vid=\"(.*)\" vsource=\"(.*)\"><\/div>/":"<div class='o-responsive-video-container'><div class='o-responsive-video-wrapper-outer'><div class='o-responsive-video-wrapper-inner'><object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' width='100%' height='100%' id='osmfPlayer'><param name='movie' value='https://d2785ji6wtdqx8.cloudfront.net/player111014/osmfPlayer_3.swf?videoid=\\4&autoplay=false' /><param name='quality' value='high' /><param name='bgcolor' value='#000000' /><param name='allowScriptAccess' value='always' /><param name='allowFullScreen' value='true' /><!--[if !IE]>--><object type='application/x-shockwave-flash' data='https://d2785ji6wtdqx8.cloudfront.net/player111014/osmfPlayer_3.swf?videoid=\\4&autoplay=false' width='100%' height='100%'><param name='quality' value='high' /><param name='bgcolor' value='#000000' /><param name='allowFullScreen' value='true' /><param name='allowScriptAccess' value='always' /><!--<![endif]--><!--[if gte IE 6]>--><video id='nowvideo' src='http://v.ftimg.net/\\5' controls='' width='100%' height='100%'><p>Either scripts and active content are not permitted to run or Adobe Flash Player version10.0.0 or greater is not installed.</p></video><!--<![endif]--><!--[if !IE]>--></object><!--<![endif]--></object></div></div><a class='o-responsive-video-caption' href='/video/\\4' target='_blank'>\\2</a></div>"%>
 		<%/if%>
 	<%/if%>
+	<!--story author 99: <%$storyAuthor%>, page action <%$page_action%>-->
 	<%*<!--MARK: - In one version of the Android app, base url for interactives are set as https. So images need to be changed to https too. -->*%>
 	<%assign var="story_content" value=$story_content|regex_replace:"/src=\"http:\/\/i\.ftimg\.net\//":"src=\"https://thumbor.ftacademy.cn/unsafe/"%>
 	<%assign var="storyBody" value=$storyBody|regex_replace:"/src=\"http:\/\/i\.ftimg\.net\//":"src=\"https://thumbor.ftacademy.cn/unsafe/"%>
 <%/if%>
+
 
 <%assign var="pageHeadline" value=$storyHeadline|replace:"<br>":" | "%>
 <%assign var="shareTitle" value="`$pageHeadline` - FT中文网"%>
@@ -1880,6 +1886,10 @@
 <%if preg_match("/<div class=\"pic/is",$story_content)%>
 	<%assign var="hasPictureClass" value="has-picture"%>
 <%/if%>
+
+
+
+<!--story author final 1: <%$storyAuthor%>-->
 
 
 <%if $smarty.get.bodyonly != "yes" || $isAndroidApp == "yes"%>
