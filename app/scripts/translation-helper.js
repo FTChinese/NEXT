@@ -1245,11 +1245,16 @@ function finishTranslationForArticle(buttonEle) {
         var tagEle = window.opener.document.getElementById('tag');
         if (tagEle) {
             var AITranslatorTag = isAITranslation() ? ',AITranslation,FT商学院' : '';
-            console.log(`AITranslatorTag: ${AITranslatorTag}`);
-            window.opener.document.getElementById('tag').value += AITranslatorTag;
+            tagEle.value += AITranslatorTag;
             var tags = window.opener.document.getElementById('tag').value.split(',');
             var tagsSet = new Set(tags);
-            window.opener.document.getElementById('tag').value = Array.from(tagsSet).join(',');
+            const newTags = Array.from(tagsSet).join(',');
+            tagEle.value = newTags;
+            // MARK: - you need to make changes to two places because of the way the interactive edit page handles tags on the frontend
+            var moreTagEle = window.opener.document.getElementById('moretag');
+            if (moreTagEle) {
+                moreTagEle.value = newTags;
+            }
         }
         var translationHelperButton = window.opener.document.querySelector('.translation-helper');
         if (translationHelperButton) {
