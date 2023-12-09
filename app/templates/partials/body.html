@@ -190,7 +190,7 @@
                 <%elseif $highlightFTAcademy == "top"%>
                     <%*assign var="ftAcademySqlQuery" value="find_in_set('FT商学院',tag)"*%>
                     <%*assign var="ftAcademyItems" value=$interactivemodel->get_interactive_by_field_search($ftAcademySqlQuery,0,12,7,10800)*%>
-                    <%assign var="topItemCount" value=20%>
+                    <%assign var="topItemCount" value=8%>
                     <%if $showMaximum8Tops == "yes"%>
                         <%assign var="topItemCount" value=8%>
                     <%/if%>
@@ -220,8 +220,7 @@
                         if ($beijingTime['wday'] == 6 || $beijingTime['wday'] == 0) {
                             // Calculate the Unix timestamp for 0 AM on the current day in Beijing time
                             // Adjust the date to Beijing time and set hours, minutes, and seconds to 0
-                            $saturdayTimestamp = mktime(0, 0, 0, $beijingTime['mon'], $beijingTime['mday'], $beijingTime['year']) - (8 * 3600); // Subtract 8 hours to set to 0 AM
-
+                            $saturdayTimestamp = mktime(0, 0, 0, $beijingTime['mon'], $beijingTime['mday'], $beijingTime['year']);
                             // If today is Sunday, subtract one day to get to Saturday
                             if ($beijingTime['wday'] == 0) {
                                 $saturdayTimestamp -= 86400; // 86400 seconds in a day

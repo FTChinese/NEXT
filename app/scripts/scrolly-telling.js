@@ -25,12 +25,13 @@
                 var scrollableSectionText = (scrollableSection.innerText || '').trim().replace(/[\r\n]+/, '<br>');
                 var scrollTextEles = scrollableSection.querySelectorAll('scrollable-text');
                 if (scrollTextEles.length === 0) {
-                    var scrollTextEle = document.createElement('DIV');
-                    scrollTextEle.innerHTML = scrollableSectionText;
-                    scrollTextEles = [scrollTextEle];
+                    var scrollTextEleNew = document.createElement('DIV');
+                    scrollTextEleNew.innerHTML = scrollableSectionText;
+                    scrollTextEles = [scrollTextEleNew];
                 }
+                var scrollTextHTML = '';
                 for (var scrollTextEle of scrollTextEles) {
-                    var scrollTextHTML = scrollTextEle.innerHTML;
+                    scrollTextHTML = scrollTextEle.innerHTML;
                     var scrollTextSlideIndex = k;
                     if (scrollTextHTML !== '') {
                         var scrollTextBlock = document.createElement('DIV');
