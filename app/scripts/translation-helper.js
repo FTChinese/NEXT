@@ -206,7 +206,7 @@ delegate.on('click', '.info-translation-delete', async function(event){
 
 
 // MARK: - Links in translated text
-delegate.on('click', '.info-original a[href], .info-translation a[href], .info-original strong, .info-translation strong', function(event){
+delegate.on('click', '.info-original a[href], .info-translation a[href], .info-original strong, .info-translation strong, .info-original em, .info-translation em', function(event){
     try {
         var textArea = this.closest(".info-container").querySelector('textarea');
         var selectionStart = textArea.selectionStart;

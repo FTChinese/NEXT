@@ -38,6 +38,24 @@
 <%/if%>
 
 <%assign var="p" value=$nextmodel->getPublishJson($pageId)|json_decode:true%>
+<%php%>
+    // MARK: - Loop throught the p to add index for Side MPUs or other elements that need to have correct index
+    $jsonArray = $this->get_template_vars('p');
+    // MARK: - Initialize index
+    $sideMPUIndex = 1; 
+    foreach ($jsonArray['sections'] as &$section) {
+        // Check if 'lists' exists and is an array
+        if (isset($section['lists']) && is_array($section['lists'])) {
+            foreach ($section['lists'] as &$list) {
+                // Check if the type is 'SideMPU'
+                if (isset($list['type']) && $list['type'] === 'SideMPU') {
+                    $list['index'] = $sideMPUIndex++; // Assign and increment index
+                }
+            }
+        }
+    }
+    $this->assign("p", $jsonArray);
+<%/php%>
 <%if $p.meta.requirelogin == "no" %>
     <%assign var="requirelogin" value="no"%>
 <%/if%>
@@ -388,6 +406,7 @@
     $this->assign("isUserTester", $isUserTester);
     $this->assign("subscriptionType", $subscriptionType);
 <%/php%>
+
 
 <%if $smarty.get.bodyonly != "yes"%>
     <%*<!--

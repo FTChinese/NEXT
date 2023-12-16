@@ -495,8 +495,11 @@
 								<%assign var="insertItemCount" value=6%>
 							<%/if%>
 							<%assign var="ftAcademyItems" value=$interactivemodel->get_interactive_by_field_search("find_in_set('FT商学院', tag) and !find_in_set('17周年大视野精选', tag) and !find_in_set('高端限免', tag) and publish_status = 'queue'",0,12,7,10800)%>
+							<%if (date("Ymd", $smarty.now) == 20241219 && date("H", $smarty.now) >= 8) || $smarty.get.showlivestream =="yes"%>
+								<%assign var="eventItemsOnSecondPosition" value=$interactivemodel->get_interactive_by_field_search("find_in_set('视频直播', tag) and find_in_set('2023年度高峰论坛', tag) and publish_status = 'queue'",0,1,30,10800)%>
+							<%/if%>
 							<%php%>
-							// Get the original items array, inserted items array, insert item count and page id from the template variables
+							// MARK: - Get the original items array, inserted items array, insert item count and page id from the template variables
 							$originalItems = $this->get_template_vars('itemsArray');
 							$insertedItems = $this->get_template_vars('ftAcademyItems');
 							$insertItemCount = $this->get_template_vars('insertItemCount');
@@ -507,9 +510,9 @@
 							$isUserInternal = $this->get_template_vars('isUserInternal');
 							$isUserTester = $this->get_template_vars('isUserTester');
 
-							// Check if the original items array has more than 3 items and the inserted items array has at least 1 item
+							// MARK: - Check if the original items array has more than 3 items and the inserted items array has at least 1 item
 							if (count($originalItems) > 3 && count($insertedItems) > 0) {
-								// Set the type of each inserted item to 'interactive'
+								// MARK: - Set the type of each inserted item to 'interactive'
 								foreach ($insertedItems as &$insertedItem) {
 									$insertedItem["type"] = 'interactive';
 								}
@@ -518,7 +521,6 @@
 								$firstInsertedItemArray = array_slice($insertedItems, 0, 1, true);
 								array_splice($originalItems, 1, 0, $firstInsertedItemArray);
 
-								echo "<!--inserting ft academy items: -->";
 								if(isset($_GET['debug']) && $_GET['debug'] === 'yes') {
 									// Get the second through fourth inserted item arrays
 									$insertedItemsSlice = array_slice($insertedItems, 1, 3, true);
@@ -561,11 +563,22 @@
 										array_push($newIds, $item["id"]);
 									}
 								}
-								
+
+								// MARK: - The inserted second position
+								$eventItemsOnSecondPosition = $this->get_template_vars('eventItemsOnSecondPosition');
+								if ($eventItemsOnSecondPosition != "") {
+									// MARK: - Set the type of each inserted item to 'interactive'
+									foreach ($eventItemsOnSecondPosition as &$insertedItem) {
+										$insertedItem["type"] = 'interactive';
+									}
+									// Get the first inserted item array and insert it after the first item of the original items array
+									$firstInsertedItemArray = array_slice($eventItemsOnSecondPosition, 0, 1, true);
+									array_splice($newItems, 1, 0, $firstInsertedItemArray);
+								}
+
 								// Assign the new items array to the template variable 'itemsArray'
 								$this->assign("itemsArray", $newItems);
 							}
-
 							<%/php%>
 						<%/if%>
 
@@ -702,7 +715,7 @@
 												<%assign var="sponsorKeys" value=$sponsorKeys|regex_replace:"/, */":"|"%>
 											<%/if%>
 											<%foreach from=$itemTags item=oneItemTag%>
-												<%if $matchedTag == "no" && preg_match("/`$sponsorKeys`/is",$oneItemTag)%>
+												<%if $matchedTag == "no" && $sponsorKeys != "" && $oneItemTag != "" && preg_match("/`$sponsorKeys`/is",$oneItemTag)%>
 													<%assign var="matchedTag" value="yes"%>
 													<%assign var="itemMainTag" value=$oneTag.tag%>
 													<%assign var="itemTag" value=$oneTag.tag%>
@@ -1974,7 +1987,10 @@
 	</div>  <%* <!--end class="content-inner" -->*%>
 </div>  <%* <!--end class="content-container"-->*%>
 
-	<%assign var="sideMpuCount" value=0%>
+	<!--smarty sideMpuCount in block: <%$sideMpuCount%>-->
+	<%if $sideMpuCount == ""%>
+		<%assign var="sideMpuCount" value=0%>
+	<%/if%>
 	<%if $sideListCount > 0%>
 		<div class="side-container"><div class="side-inner">
 			<%assign var="s" value=0%>	
@@ -2005,31 +2021,8 @@
 								<a<%$listLink%>><figure class="loading" data-url="<%$list.image%>"></figure></a>
 							</div>
 						<%else%>
-							<%if $sideMpuCount == 0 %>
-								<div 
-								data-o-ads-name="mpu-right1"
-								class="o-ads"  
-								data-o-ads-formats-default="false" 
-								data-o-ads-formats-small="false" 
-								data-o-ads-formats-medium="FtcMpu"
-								data-o-ads-formats-large="FtcMpu"
-								data-o-ads-targeting="cnpos=right1;"
-								data-cy='[{"devices":["PC","PadApp","PadWeb"],"pattern":"MPU","position":"Right1"}]'
-								>
-								</div>
-								<div 
-								data-o-ads-name="mpu-middle1"
-								class="o-ads"  
-								data-o-ads-formats-default="false" 
-								data-o-ads-formats-small="FtcMobileMpu" 
-								data-o-ads-formats-medium="false"
-								data-o-ads-formats-large="false"
-								data-o-ads-formats-extra="false"
-								data-o-ads-targeting="cnpos=middle1;"
-								data-cy='[{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp"],"pattern":"MPU","position":"Middle1"}]'
-								>
-								</div>
-							<%elseif $sideMpuCount == 1%>
+							<%if $sideMpuCount == 1 || $list.index == "1"%>
+								<%*<!--MARK: - If the Side MPUs are seperated into different blocks, which are included files, use the index property. -->*%>
 								<div 
 								data-o-ads-name="mpu-right2"
 								class="o-ads ftc-mpu"  
@@ -2053,10 +2046,35 @@
 								data-cy='[{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"MPU","position":"Middle2"}]'
 								>
 								</div>
+							<%elseif $sideMpuCount == 0 %>
+								<div 
+								data-o-ads-name="mpu-right1"
+								class="o-ads"  
+								data-o-ads-formats-default="false" 
+								data-o-ads-formats-small="false" 
+								data-o-ads-formats-medium="FtcMpu"
+								data-o-ads-formats-large="FtcMpu"
+								data-o-ads-targeting="cnpos=right1;"
+								data-cy='[{"devices":["PC","PadApp","PadWeb"],"pattern":"MPU","position":"Right1"}]'
+								>
+								</div>
+								<div 
+								data-o-ads-name="mpu-middle1"
+								class="o-ads"  
+								data-o-ads-formats-default="false" 
+								data-o-ads-formats-small="FtcMobileMpu" 
+								data-o-ads-formats-medium="false"
+								data-o-ads-formats-large="false"
+								data-o-ads-formats-extra="false"
+								data-o-ads-targeting="cnpos=middle1;"
+								data-cy='[{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp"],"pattern":"MPU","position":"Middle1"}]'
+								>
+								</div>
 							<%/if%>
+							<%assign var="s" value=$s+1%>
+							<%assign var="sideMpuCount" value=$sideMpuCount+1%>
 						<%/if%>
-						<%assign var="s" value=$s+1%>
-						<%assign var="sideMpuCount" value=$sideMpuCount+1%>
+
 					<%/if%>
                 <%elseif $list.type == "SideIframe"%>
 						<div class="mps<%$firstChildClass%><%$lastChildClass%>">
