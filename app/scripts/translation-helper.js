@@ -2093,7 +2093,8 @@ function addNewTranslation() {
         method = 'GET';
         url = '/api/powertranslate/add.json';
     }
-    var token = localStorage.getItem('accessToken');
+    var token = GetCookie('accessToken');
+    
     if (!token || token === '') {
         alert('You need to sign in first! ');
         window.location.href = '/login';
