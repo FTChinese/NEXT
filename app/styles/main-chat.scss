@@ -35,17 +35,24 @@ body {
 .sidebar {
     width: $sideBarWidth; /* Fixed width for sidebar */
     /* Additional styling */
-    background-color: $darkGrey;
     height: 100vh;
-    // flex-shrink: 0;
     position: fixed;
     left: 0;
     top: 0;
     bottom: 0;
+
+}
+.sidebar-close-button {
+    display: none;
+}
+.sidebar-inner {
+    width: $sideBarWidth; /* Fixed width for sidebar */
+    background-color: $darkGrey;
+    height: 100%;
     display: flex;
     flex-direction: column;
 }
-.main-chat-role, .side-user-settings {
+.main-chat-role, .side-bottom {
     height: $navHeight;
     position: sticky;
     top: 0;
@@ -87,6 +94,29 @@ body {
 .header-inner {
     background-color: transparent!important;
 }
+.header-side {
+    width: $headerHeight;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-size: 24px;
+    cursor: pointer;
+    @media only screen and (max-width: 490px) {
+        background-size: 16px;
+        width: $navHeight;
+        height: $navHeight;
+    }
+}
+.header-left {
+    left: 0;
+    
+    @media only screen and (max-width: 490px) {
+        display: block;
+    }
+}
+.header-side-toggle {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path d="M1.5 20.14v-4.93c0-1.35.478-2.503 1.433-3.458S5.04 10.32 6.39 10.32h88.22c1.324 0 2.47.477 3.438 1.432S99.5 13.86 99.5 15.21v4.93c0 1.323-.484 2.47-1.452 3.437s-2.114 1.45-3.438 1.45H6.39c-1.35 0-2.502-.482-3.457-1.45C1.978 22.61 1.5 21.463 1.5 20.14zm0 31.824v-4.89c0-1.376.478-2.547 1.433-3.502.955-.95 2.108-1.426 3.458-1.426h88.22c1.324 0 2.47.478 3.438 1.426.968.955 1.452 2.126 1.452 3.502v4.89c0 1.324-.484 2.47-1.452 3.438-.968.97-2.114 1.452-3.438 1.452H6.39c-1.35 0-2.502-.483-3.457-1.452-.955-.967-1.433-2.114-1.433-3.438zm0 26.936c0-1.35.478-2.51 1.433-3.465S5.04 74.01 6.39 74.01h88.22c1.324 0 2.47.47 3.438 1.425S99.5 77.55 99.5 78.9v4.89c0 1.376-.484 2.534-1.452 3.477-.968.943-2.114 1.415-3.438 1.415H6.39c-1.35 0-2.502-.472-3.457-1.415-.955-.943-1.433-2.1-1.433-3.476V78.9z"/></svg>');
+}
+
 .current-edition {
     a {
         background-color: transparent;
@@ -96,16 +126,16 @@ body {
     }
 }
 .back-arrow {
-    top: 0;
-    left: 0;
-    position: fixed;
-    width: $navHeight;
-    height: $navHeight;
+    // top: 0;
+    // left: 0;
+    // position: fixed;
+    // width: $navHeight;
+    // height: $navHeight;
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M640-80 240-480l400-400 71 71-329 329 329 329-71 71Z"/></svg>');
-    background-repeat: no-repeat;
-    background-position: 50% 50%;
+    // background-repeat: no-repeat;
+    // background-position: 50% 50%;
     background-size: 24px;
-    z-index: 9999999999;
+    // z-index: 9999999999;
 }
 a[data-action] {
     cursor: pointer;
@@ -131,6 +161,7 @@ a[data-action] {
 }
 .chat-talk-inner {
     position: relative;
+    line-height: 1.618em;
     max-width: $chatWidth;
     padding: 5px 0 5px $navHeight;
     font-size: 1.2em;    
@@ -459,6 +490,25 @@ a[data-action] {
         // font-weight: bold;
         margin: 0;
         cursor: pointer;
+    }
+}
+
+.sidebar {
+    .side-bottom {
+        [data-purpose] {
+            display: inline-block;
+        }
+    }
+}
+
+.sidebar {
+    .sign-in-container, .logged-in-container {
+        a {
+            color: white;
+            display: inline-block;
+            font-size: 1.2em;
+            padding: math.div($defaultPadding, 3);
+        }
     }
 }
 
@@ -848,9 +898,61 @@ body {
             }
         }
     }
+
+
     .sidebar {
-        display: none;
+        transform: translateX(-100%);
+        transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0s linear 0.5s;
+        opacity: 0;
+        visibility: hidden;
+        z-index: 2;
+    
+        &.on {
+            width: 100%;
+            transform: translateX(0%);
+            opacity: 1;
+            visibility: visible;
+            transition-delay: 0s; // Reset delay for showing
+            .sidebar-bg {
+                position: fixed;
+                left: $sideBarWidth;
+                right: 0;
+                height: 100%;
+                top: 0;
+                bottom: 0;
+                opacity: 0.618;
+                background-color: black;
+            }
+        }
     }
+
+
+    .sidebar-close-button {
+        display: inline-block;
+        width: 30px;       /* Size of the button */
+        height: 30px;
+        background-color: white;
+        border: 1px solid #ccc; /* Border to make it more visible */
+        border-radius: 15px;    /* Rounded corners */
+        cursor: pointer;        /* Cursor changes to pointer on hover */
+        position: absolute;     /* Position relative to place the 'X' correctly */
+        outline: none;          /* Removes the default focus outline */
+        top: 10px;
+        right: 10px;
+    }
+    
+    .sidebar-close-button:after {
+        content: 'X';
+        font-family: Arial, sans-serif; /* Arial is a common choice for a clean 'X' */
+        font-size: 20px;       /* Size of the 'X' */
+        color: black;          /* Color of the 'X' */
+        position: absolute;    /* Absolute position inside the button */
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%); /* Center the 'X' inside the button */
+    }
+
+    
     .main-content {
         margin-left: auto;
     }

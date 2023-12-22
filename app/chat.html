@@ -45,26 +45,32 @@
 
 <div class="container">
     <aside class="sidebar">
-        <div class="main-chat-role" id="main-chat-role">Top Content</div>
-        <div class="current-chat-roles" id="current-chat-roles"></div>
-        <div class="side-user-settings" id="side-user-settings"></div>
+        <div class="sidebar-inner">
+            <div class="main-chat-role" id="main-chat-role">Top Content</div>
+            <div class="current-chat-roles" id="current-chat-roles"></div>
+            
+            <div class="side-bottom">
+                <span class="visitor-box sign-in-container">
+                    <a href="/login" data-key="Sign In">Sign In</a>
+                    <a class="more last" href="/register" data-key="Sign Up">Sign Up</a>
+                </span>
+                <span class="member-box logged-in-container">
+                    <span id="side-user-settings"></span>  
+                    <a id="ft-login-logout"  onclick="logout()" data-key="Sign Out">Sign Out</a>
+                </span>
+            </div>
+
+        </div>
+        <div class="sidebar-bg"></div>
+        <button class="sidebar-close-button"></button>
     </aside>
     <header class="header-container">
         <div class="header-inner">
         <div class="masthead"></div>
-        <div class="header-side header-left expandable" id="switch-intention">
-            <div class="current-edition" id="current-chat-status">
-                <span data-key="ChatFT">ChatFT</span>
-            </div>
+        <div class="header-side header-left header-side-toggle" id="header-side-toggle">
         </div>
         <div class="header-side header-right">
-        <span class="visitor-box sign-in-container">
-        <a href="/login" data-key="Sign In">Sign In</a>
-        <a class="more last" href="/register" data-key="Sign Up">Sign Up</a>
-        </span>
-        <span class="member-box logged-in-container">
-        <a id="ft-login-logout"  onclick="logout()" data-key="Sign Out">Sign Out</a>
-        </span>
+
         </div>
         </div>
     </header>
@@ -75,7 +81,7 @@
                 <div class="chat-input-first-line">
                     <button class="chat-start-over" id="clean-slate" data-purpose="start-over" data-content="start-over"></button>
                     <div class="chat-input">
-                        <textarea id="user-input" rows="1" disabled="true"></textarea>
+                        <textarea id="user-input" rows="1"></textarea>
                         <button class="chat-submit" id="chat-submit"></button>
                     </div>
                 </div>

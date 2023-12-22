@@ -208,6 +208,24 @@ delegate.on('change', '.select-container select', async (event) => {
   }
 });
 
+delegate.on('click', '#header-side-toggle',  (event) => {
+  let sideBarEle = document.querySelector('.sidebar');
+  if (sideBarEle) {
+    sideBarEle.classList.add('on');
+  }
+});
+
+delegate.on('click', '.sidebar-bg, .sidebar a, .sidebar button',  (event) => {
+  let sideBarEle = document.querySelector('.sidebar');
+  if (sideBarEle) {
+    sideBarEle.classList.remove('on');
+  }
+});
+
+delegate.on('click', '#back-arrow',  (event) => {
+  window.close();
+});
+
 function hideItemActions(element) {
   let actionsEle = element.closest('.chat-item-actions');
   if (actionsEle) {
@@ -570,15 +588,17 @@ function showBackArrow() {
   const isInWebAppChrome = (window.matchMedia('(display-mode: standalone)').matches);
   if (!isInWebAppiOS && !isInWebAppChrome && !isFrontendTest) {return;}
   if (!document.referrer) {return;}
-  let containerEle = document.querySelector('.container');
-  if (!containerEle) {return;}
-  if (containerEle.querySelector('.back-arrow')) {return;}
-  const backArrowEle = document.createElement('DIV');
-  backArrowEle.onclick = ()=>{
-    window.close();
-  };
-  backArrowEle.classList.add('back-arrow');
-  containerEle.append(backArrowEle);
+  let headerSideEle = document.querySelector('#header-side-toggle');
+  if (!headerSideEle) {return;}
+  headerSideEle.classList.remove('header-side-toggle');
+  headerSideEle.classList.add('back-arrow');
+  headerSideEle.id = 'back-arrow';
+  // const backArrowEle = document.createElement('DIV');
+  // backArrowEle.onclick = ()=>{
+  //   window.close();
+  // };
+  // backArrowEle.classList.add('back-arrow');
+  // headerSideEle.append(backArrowEle);
 }
 
 async function showContent(ftid, language, shouldScrollIntoView = true, shouldLoadArticle = true) {
@@ -1575,12 +1595,12 @@ function getActionOptions() {
   } else if (intention === undefined || intention === '') {
     result = `
       <div class="chat-item-actions">
-        <a data-purpose="show-ft-page" data-lang="${language}" data-content='home' data-reply="${localize('FindingMyFT')}" data-reply-action="set-preference">${localize('Looking For News')}</a>
-        <a data-purpose="set-intention" data-lang="${language}" data-content="SearchFTAPI" data-reply="${localize('Find More')}">${localize('Discover and Explore')}</a>
-        <a data-purpose="set-intention" data-lang="${language}" data-content="CustomerService" data-reply="${localize('Offer Help')}">${localize('Need Customer Service')}</a>
-        <a data-purpose="set-preference" data-lang="${language}" data-content="all" data-reply="${localize('Set Your Preferences')}">${localize('Setting')}</a>
+        <a data-purpose="show-ft-page" data-lang="${language}" data-content='home' data-reply="${localize('FindingMyFT')}" data-reply-action="set-preference">${localize('Top News For Me')}</a>
       </div>
     `;
+    // <a data-purpose="set-intention" data-lang="${language}" data-content="SearchFTAPI" data-reply="${localize('Find More')}">${localize('Discover and Explore')}</a>
+    // <a data-purpose="set-intention" data-lang="${language}" data-content="CustomerService" data-reply="${localize('Offer Help')}">${localize('CustomerService')}</a>
+    // <a data-purpose="set-preference" data-lang="${language}" data-content="all" data-reply="${localize('Set Your Preferences')}">${localize('Setting')}</a>
   }
   return result.replace(/[\n\r]+/g, '');
     // News in-depth, Deep Dive
@@ -1686,9 +1706,13 @@ function setConfigurations() {
   }
   
   const rolesHTML = `
-  <a data-purpose="set-intention" data-content="SearchFTAPI" data-reply="${localize('Offer Help For Search')}" data-key="SearchFT">${localize('Discover and Explore')}</a>
-  <a data-purpose="set-intention" data-content="CustomerService" data-reply="${localize('Offer Help')}" data-key="CustomerService">${localize('CustomerService')}</a>
-  <a data-purpose="set-intention" data-content="Other" data-reply="${localize('Offer Help')}" data-key="Other">${localize('Other')}</a>
+  <a data-purpose="show-ft-page" data-lang="${preferredLanguage}" data-content='home' data-reply="${localize('FindingMyFT')}" data-reply-action="set-preference">${localize('MyFT')}</a>
+  <a data-purpose="search-ft-api" data-lang="${preferredLanguage}" data-content="regions: China" data-reply="${localize('Finding')}">${localize('China News')}</a>
+  <a data-purpose="search-ft-api" data-lang="${preferredLanguage}" data-content='topics:"Artificial Intelligence"' data-reply="${localize('Finding')}">${localize('AI News')}</a>
+  <a data-purpose="set-intention" data-lang="${preferredLanguage}" data-content="SearchFTAPI" data-reply="${localize('Offer Help For Search')}" data-key="SearchFT">${localize('Discover and Explore')}</a>
+  <a data-purpose="news-quiz" data-lang="${preferredLanguage}" data-content='quiz' data-reply="${localize('PrepareingQuiz')}">${localize('NewsQuiz')}</a>
+  <a data-purpose="set-intention" data-lang="${preferredLanguage}" data-content="CustomerService" data-reply="${localize('Offer Help')}" data-key="CustomerService">${localize('CustomerService')}</a>
+  <a data-purpose="set-intention" data-lang="${preferredLanguage}" data-content="Other" data-reply="${localize('Offer Help')}" data-key="Other">${localize('Other')}</a>
   `;
   let currentChatStatus = document.getElementById('current-chat-status');
   if (currentChatStatus) {
@@ -1706,7 +1730,6 @@ function setConfigurations() {
   <a data-purpose="set-preference" data-content="all" data-reply="${localize('Set Your Preferences')}">${localize('Setting')}</a>
   `;
   let sideSettingsEle = document.getElementById('side-user-settings');
-  console.log('faf')
   if (sideSettingsEle) {
     sideSettingsEle.innerHTML = sideSettingsHTML;
   }
@@ -1775,7 +1798,7 @@ async function setGuardRails() {
   }
 }
 
-function greet() {
+async function greet() {
   if (showGreeting === false) {return;}
   const introduction = `<p>${localize('Introduction')}</p>`;
   const prompt = (discussArticleOnly || surveyOnly) ? '' : `<p>${getRandomPrompt('greeting')}</p>`;
@@ -1788,13 +1811,15 @@ function greet() {
   if (!surveyOnly) {
     chatContent.appendChild(newChat);
   }
-  userInput.setAttribute('placeholder', localize('Prompt Set Intention'));
+  userInput.setAttribute('placeholder', localize('Ask Me'));
+  // await setIntention('DiscussContent', preferredLanguage, localize('Discuss More'), true, false);
+
 }
 
 // MARK: Chat page Related functions
-function initChat() {
+async function initChat() {
   setConfigurations();
-  greet();
+  await greet();
 }
 
 function getBodyHeight() {
@@ -1986,9 +2011,10 @@ if (webpushInfo) {
 
 
 updateLanguageOptionDict();
-initChat();
+
 
 (async()=>{
+  await initChat();
   await registerServiceWorker();
   await setGuardRails();
 })();

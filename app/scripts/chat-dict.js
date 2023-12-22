@@ -222,18 +222,46 @@ const randomPromptDict = {
       ru: 'Ошибка'
     },
     'CustomerService': {
-      en: 'Customer Service',
-      es: 'Servicio al Cliente',
-      fr: 'Service Client',
-      de: 'Kundenservice',
-      ja: 'カスタマーサービス',
-      ko: '고객 서비스',
-      pt: 'Atendimento ao Cliente',
-      it: 'Assistenza Clienti',
-      'zh-TW': '客戶服務',
-      'zh-HK': '客戶服務',
-      zh: '客户服务',
-      ru: 'Обслуживание клиентов'
+      zh: '帮助中心',
+      en: 'Help Center',
+      es: 'Centro de Ayuda',
+      fr: `Centre d'Aide`,
+      de: 'Hilfezentrum',
+      ja: 'ヘルプセンター',
+      ko: '도움말 센터',
+      pt: 'Centro de Ajuda',
+      it: 'Centro Assistenza',
+      'zh-TW': '幫助中心',
+      'zh-HK': '幫助中心',
+      ru: 'Центр Поддержки'
+    },
+    'Top News For Me': {
+      zh: '有什么值得我关注的要闻吗？',
+      en: 'What are the top news for me?',
+      es: '¿Cuáles son las noticias principales para mí?',
+      fr: 'Quelles sont les principales nouvelles pour moi ?',
+      de: 'Was sind die Top-Nachrichten für mich?',
+      ja: '私にとってのトップニュースは何ですか？',
+      ko: '내게 맞는 주요 뉴스는 무엇인가요?',
+      pt: 'Quais são as principais notícias para mim?',
+      it: 'Quali sono le principali notizie per me?',
+      'zh-TW': '有什麼值得我關注的要聞嗎？',
+      'zh-HK': '有什麼值得我關注的要聞嗎？',
+      ru: 'Какие главные новости для меня?'
+    },
+    'MyFT': {
+      zh: '我的FT',
+      en: 'MyFT',
+      es: 'MiFT',
+      fr: 'MonFT',
+      de: 'MeinFT',
+      ja: 'マイFT',
+      ko: '마이FT',
+      pt: 'MeuFT',
+      it: 'MioFT',
+      'zh-TW': '我的FT',
+      'zh-HK': '我的FT',
+      ru: 'МойFT'
     },
     'BackToTop': {
       zh: '从头开始',
@@ -360,6 +388,20 @@ const randomPromptDict = {
       'zh-HK': '最終得分',
       zh: '最终得分',
       ru: 'Итоговый счет'
+    },
+    'Ask Me': {
+      en: 'Ask me about the latest in markets, economics, and politics...',
+      es: 'Pregúntame sobre lo último en mercados, economía y política...',
+      fr: `Demandez-moi les dernières nouvelles sur les marchés, l'économie et la politique...`,
+      de: `Fragen Sie mich nach den neuesten Entwicklungen in Märkten, Wirtschaft und Politik...`,
+      ja: '市場、経済、政治の最新情報について聞いてください...',
+      ko: '시장, 경제, 정치에 대한 최신 정보를 물어보세요...',
+      pt: 'Pergunte-me sobre as últimas novidades em mercados, economia e política...',
+      it: `Chiedimi delle ultime novità sui mercati, l'economia e la politica...`,
+      'zh-TW': '問我關於市場、經濟和政治的最新消息...',
+      'zh-HK': '問我關於市場、經濟和政治的最新消息...',
+      zh: '问我关于市场、经济和政治的最新消息...',
+      ru: 'Спросите меня о последних новостях на рынках, в экономике и политике...'
     },
     'Quiz Me': {
       en: 'Test my understanding',
@@ -1355,20 +1397,6 @@ const randomPromptDict = {
       zh: '人工智能',
       ru: 'ИИ'
     },
-    'Need Customer Service': {
-      en: 'Customer Service',
-      es: 'Servicio al Cliente',
-      fr: 'Service Client',
-      de: 'Kundenservice',
-      ja: 'カスタマーサービス',
-      ko: '고객 서비스',
-      pt: 'Atendimento ao Cliente',
-      it: 'Servizio Clienti',
-      'zh-TW': '客服',
-      'zh-HK': '客戶服務',
-      zh: '客户服务',
-      ru: 'Служба поддержки'
-    },
     'Discover and Explore': {
       en: 'Discover and Explore',
       es: 'Descubrir y explorar',
@@ -1382,20 +1410,6 @@ const randomPromptDict = {
       'zh-HK': '發現與探索',
       zh: '发现与探索',
       ru: 'Откройте для себя и исследуйте'
-    },
-    'Looking For News': {
-      en: `What's news?`,
-      es: `¿Qué hay de nuevo?`,
-      fr: `Quoi de neuf?`,
-      de: `Was gibt's Neues?`,
-      ja: `何か新しいことはある？`,
-      ko: `뭐가 새로운 소식이야?`,
-      pt: `Quais são as novidades?`,
-      it: `Quali sono le novità?`,
-      'zh-TW': `今日要聞`,
-      'zh-HK': `今日要聞`,
-      zh: `今日要闻`,
-      ru: `Что нового?`
     },
     'Deep Dive': {
       zh: '深度报道',
