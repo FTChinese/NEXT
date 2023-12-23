@@ -811,38 +811,72 @@ async function checkAITranslation() {
     // MARK: - If the time stamp isn't the same, the AI Translation is not valid! 
     console.log(`window.publishedDate: ${window.publishedDate}, json.publishedDate: ${json.publishedDate}`);
     if (window.publishedDate !== '' && window.publishedDate !== json.publishedDate) {return;}
-    if (!confirm(localize('AITranslation'))){return;}
     let ele = document.createElement('DIV');
     ele.innerHTML = bodyXMLTranslation;
     const translationEles = ele.querySelectorAll('[id]');
-    for (const translationEle of translationEles) {
-        const translation = translationEle.innerHTML;
-        const translationId = translationEle.id;
-        let textareaEle = document.querySelector(`textarea[data-info-id="${translationId}"]`);
-        textareaEle.value = translation;
-    }
-    let previewButton = document.querySelector('#preview-button');
-    if (previewButton) {
-        preview(previewButton);
-        const titleTranslation = json.titleTranslation || '';
-        let previewTitleEle = document.querySelector('.preview-content .story-title');
-        if (previewTitleEle && titleTranslation !== '') {
-            previewTitleEle.innerHTML = titleTranslation;
+    if (confirm(localize('AITranslation'))) {
+        for (const translationEle of translationEles) {
+            const translation = translationEle.innerHTML;
+            const translationId = translationEle.id;
+            let textareaEle = document.querySelector(`textarea[data-info-id="${translationId}"]`);
+            textareaEle.value = translation;
         }
-        const standfirstTranslation = json.standfirstTranslation || '';
-        let previewStandfirstEle = document.querySelector('.preview-content .story-standfirst');
-        if (previewStandfirstEle && standfirstTranslation !== '') {
-            previewStandfirstEle.innerHTML = standfirstTranslation;
+        let previewButton = document.querySelector('#preview-button');
+        if (previewButton) {
+            preview(previewButton);
+            const titleTranslation = json.titleTranslation || '';
+            let previewTitleEle = document.querySelector('.preview-content .story-title');
+            if (previewTitleEle && titleTranslation !== '') {
+                previewTitleEle.innerHTML = titleTranslation;
+            }
+            const standfirstTranslation = json.standfirstTranslation || '';
+            let previewStandfirstEle = document.querySelector('.preview-content .story-standfirst');
+            if (previewStandfirstEle && standfirstTranslation !== '') {
+                previewStandfirstEle.innerHTML = standfirstTranslation;
+            }
+            let previewTitleSourceEle = document.querySelector('.preview-content .story-title-source');
+            if (previewTitleSourceEle) {
+                previewTitleSourceEle.innerHTML = window.opener?.document?.getElementById('eheadline')?.value ?? '';
+            }
+            let previewStandfirstSourceEle = document.querySelector('.preview-content .story-standfirst-source');
+            if (previewStandfirstSourceEle) {
+                previewStandfirstSourceEle.innerHTML = window.opener?.document?.getElementById('elongleadbody')?.value ?? '';
+            }
         }
-        let previewTitleSourceEle = document.querySelector('.preview-content .story-title-source');
-        if (previewTitleSourceEle) {
-            previewTitleSourceEle.innerHTML = window.opener?.document?.getElementById('eheadline')?.value ?? '';
+    } else {
+        console.log(`Add it a new option! `);
+        for (const translationEle of translationEles) {
+            const translation = translationEle.innerHTML;
+            if (translation.trim() === '') {continue;}
+            const translationId = translationEle.id;
+            const textareaEle = document.querySelector(`textarea[data-info-id="${translationId}"]`);
+            let infoContainer = textareaEle.closest('.info-container');
+
+            // Find the last element with class 'info-translation'
+            const translations = infoContainer.querySelectorAll('.info-translation');
+            const lastTranslation = translations[translations.length - 1]; // Get the last one
+
+            // Create a new div element
+            const newDiv = document.createElement('div');
+            // Optionally set any attributes or content for the new div
+            newDiv.innerHTML = translation;
+            newDiv.className = "info-translation";
+            newDiv.setAttribute('data-translation-index', translations.length);
+
+            // Append the new div after the last 'info-translation'
+            // If there's a last translation, insert after. Otherwise, just append to the container.
+            if (lastTranslation) {
+                lastTranslation.insertAdjacentElement('afterend', newDiv);
+            } else {
+                // If no elements with 'info-translation', append new div to the container
+                infoContainer.appendChild(newDiv);
+            }
+
+            // console.log(`${translationId}: ${translation}`);
+
+            
+            // textareaEle.value = translation;
         }
-        let previewStandfirstSourceEle = document.querySelector('.preview-content .story-standfirst-source');
-        if (previewStandfirstSourceEle) {
-            previewStandfirstSourceEle.innerHTML = window.opener?.document?.getElementById('elongleadbody')?.value ?? '';
-        }
-        
     }
 }
 
