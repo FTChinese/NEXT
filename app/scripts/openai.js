@@ -44,6 +44,7 @@ async function createChatFromOpenAI(data) {
         // MARK: - 1. Check if there's a cached result
         const hash = await generateHash(JSON.stringify(data));
         data.hash = hash;
+
         // const queryData = {hash: hash, type: 'chat'};
         const queryData = {hash: hash};
         url = (isPowerTranslate) ? '/openai/check_cache' : '/FTAPI/check_cache.php';
@@ -68,7 +69,7 @@ async function createChatFromOpenAI(data) {
             response = await fetch(url, options);
             const cachedResult = await response.json();
             if (cachedResult) {
-                    // MARK: - If the cached result is good, use it immediately
+                // MARK: - If the cached result is good, use it immediately
                 if (cachedResult.length > 0) {
                     if (cachedResult && cachedResult.length > 0) {
                         if (cachedResult[0].message && cachedResult[0].message.content) {
@@ -98,7 +99,7 @@ async function createChatFromOpenAI(data) {
             console.log(err);
         }
         
-        // MARK: - 2. Handle this over as a background task
+        // MARK: - 2. Handle this as a background task
         const _id = generateRequestId();
         data._id = _id;
         url = (isPowerTranslate) ? '/openai/handle_intention' : '/FTAPI/handle_intention.php';
@@ -126,7 +127,7 @@ async function createChatFromOpenAI(data) {
         let results;
         if (saveResult && saveResult.status === 'success') {
             const timeoutSeconds = 120;
-            const intervalSeconds = 10;
+            const intervalSeconds = 5;
             const loops = Math.round(timeoutSeconds/intervalSeconds);
             let url = (isPowerTranslate) ? '/openai/poll_request_result' : '/FTAPI/poll_request_result.php';
             url = `${url}?request_id=${_id}`;
@@ -156,6 +157,7 @@ async function createChatFromOpenAI(data) {
                             results = pollResults;
                             break;
                         }
+                        
                         if (pollResults.status === 'error') {
                             let errorResult = {status: 'failed'};
                             errorResult.message = pollResults.message;
@@ -167,6 +169,12 @@ async function createChatFromOpenAI(data) {
                                 errorResult.message = errorMessageDict.other;
                             }
                             return errorResult;
+                        }
+
+                        const status = pollResults.status;
+                        const responseStatusEle = document.querySelector('.chat-talk-response-status');
+                        if (typeof status === 'string' && responseStatusEle) {
+                            responseStatusEle.innerHTML = `${localize(status)}...`;
                         }
                     }
                 } catch(err) {

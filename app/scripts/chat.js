@@ -804,7 +804,7 @@ function updateBotStatus(status) {
 function showBotResponse(placeholder, shouldScrollIntoView = true) {
   const botResponse = document.createElement('DIV');
   botResponse.className = 'chat-talk chat-talk-agent chat-talk-agent-pending';
-  botResponse.innerHTML = `<div class="chat-talk-inner">${placeholder || '...'}</div>`;
+  botResponse.innerHTML = `<div class="chat-talk-inner chat-talk-response-status">${placeholder || '...'}</div>`;
   chatContent.appendChild(botResponse);
   if (!shouldScrollIntoView) {return;}
   botResponse.scrollIntoView(scrollOptions);
