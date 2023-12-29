@@ -1,4 +1,7 @@
 /* jshint ignore:start */
+const delegate = new Delegate(document.body);
+
+const myInterestsKey = 'My Interests';
 
 const populars = ['China', 'Companies', 'Markets', 'Opinion', 'Podcasts', 'Videos', 'Life & Arts', 'Work & Careers', 'Artificial Intelligence', 'Technology Sector'];
 
@@ -55,6 +58,23 @@ const countryMapping = {
     AT: 'Austria',
     TW: 'Taiwan'
 };
+
+function getMyFollowsHTML() {
+
+    const regions = new Set(Object.keys(countryMapping).map(key => countryMapping[key]));
+    console.log(regions);
+    const my = getMyPreference();
+    const follows = my[myInterestsKey] || [];
+    const interests = follows.map(key=>{
+        const field = (regions.has(key)) ? 'regions' : 'topics';
+        return `<a data-purpose="search-ft-api" data-lang="${preferredLanguage}" data-content="${field}: ${key}" data-reply="${localize('Finding')}">${localize(key)}</a>`;
+    }).join('');
+    return interests;
+    
+}
+
+
+
 
 function createHTMLFromNames(names) {
     const myPreference = getMyPreference();

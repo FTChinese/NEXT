@@ -1,5 +1,4 @@
 /* jshint ignore:start */
-const delegate = new Delegate(document.body);
 const userInput = document.getElementById('user-input');
 const switchIntention = document.getElementById('switch-intention');
 const chatContent = document.getElementById('chat-content');
@@ -22,7 +21,6 @@ var intention;
 var articles = {};
 const publicVapidKey = 'BCbyPnt30RUDSelV6n1jJk8jHzR9cT7ajJPXLRq7tohhQ8D6TVb1h3ENUOJGdPxJgbbg8zPaDNJzOXIUfkWk67M';
 let registration;
-const myInterestsKey = 'My Interests';
 const readArticlesKey = 'Read Articles';
 
 // MARK: - scrollIntoView doesn't support offset
@@ -1528,25 +1526,17 @@ async function handleResultPrompt(resultHTML) {
 }
 
 async function handleResultSources(sources) {
+  const language = preferredLanguage || 'English';
   if (!sources || sources.length === 0) {return;}
   const keyword = sources.map(ftid=>`id: "${ftid}"`).join(' OR ');
-  const searchResult = await getFTAPISearchResult(keyword);
+  const searchResult = await getFTAPISearchResult(keyword, language);
   if (!searchResult.results || searchResult.results.length === 0) {return;}
   const items = searchResult.results[0].results;
   if (!items || items.length === 0) {return;}
-  const language = preferredLanguage || 'English';
-  // const translations = await createTranslations(items, language);
-  const titles = items.map(x=>x.title.title).join('\n');
-  const translationsText = await translateFromEnglish(titles, language);
-  const translations = translationsText.split('\n');
-  console.log(translations);
   let html = '';
-  for (const [index, item] of items.entries()) {
+  for (const item of items) {
     let title = item.title.title;
-    if (translations.length > index) {
-      title = translations[index];
-    }
-    html += `<li><a target="_blank" data-id="${item.id}" href="https://www.ft.com/content/${item.id}">${title}</a></li>`
+    html += `<li><a target="_blank" href="./chat.html#ftid=${item.id}&language=${language}&amp;action=read">${title}</a></li>`
   }
   html = `<ul class="chat-citations">${html}</ul>`;
   showResultInChat({text: html});
@@ -1589,18 +1579,18 @@ function getActionOptions() {
       <a data-purpose="search-ft-api" data-lang="${language}" data-content='genre:"Deep Dive" OR genre:"News in-depth" OR genre:"Explainer"' data-reply="${localize('Finding')}">${localize('Deep Dive')}</a>
       <a data-purpose="search-ft-api" data-lang="${language}" data-content='VIDEOS' data-reply="${localize('Finding')}">${localize('Videos')}</a>
       <a data-purpose="search-ft-api" data-lang="${language}" data-content='PODCASTS' data-reply="${localize('Finding')}">${localize('Podcasts')}</a>
-      <a data-purpose="news-quiz" data-lang="${language}" data-content='quiz' data-reply="${localize('PrepareingQuiz')}">${localize('NewsQuiz')}</a>
     </div>
     `;
   } else if (intention === undefined || intention === '') {
     result = `
       <div class="chat-item-actions">
         <a data-purpose="show-ft-page" data-lang="${language}" data-content='home' data-reply="${localize('FindingMyFT')}" data-reply-action="set-preference">${localize('Top News For Me')}</a>
+        <a data-purpose="set-preference" data-lang="${language}" data-content="all" data-reply="${localize('Set Your Preferences')}">${localize('Setting')}</a>
       </div>
     `;
-    // <a data-purpose="set-intention" data-lang="${language}" data-content="SearchFTAPI" data-reply="${localize('Find More')}">${localize('Discover and Explore')}</a>
+    // <a data-purpose="set-intention" data-lang="${language}" data-content="SearchFTAPI" data-reply="${localize('Find More')}">${localize('Search')}</a>
     // <a data-purpose="set-intention" data-lang="${language}" data-content="CustomerService" data-reply="${localize('Offer Help')}">${localize('CustomerService')}</a>
-    // <a data-purpose="set-preference" data-lang="${language}" data-content="all" data-reply="${localize('Set Your Preferences')}">${localize('Setting')}</a>
+    
   }
   return result.replace(/[\n\r]+/g, '');
     // News in-depth, Deep Dive
@@ -1704,12 +1694,11 @@ function setConfigurations() {
   if (mainChatRole) {
     mainChatRole.innerHTML = mainRoleHTML;
   }
-  
+  const myFollowsHTML = getMyFollowsHTML();
   const rolesHTML = `
   <a data-purpose="show-ft-page" data-lang="${preferredLanguage}" data-content='home' data-reply="${localize('FindingMyFT')}" data-reply-action="set-preference">${localize('MyFT')}</a>
-  <a data-purpose="search-ft-api" data-lang="${preferredLanguage}" data-content="regions: China" data-reply="${localize('Finding')}">${localize('China News')}</a>
-  <a data-purpose="search-ft-api" data-lang="${preferredLanguage}" data-content='topics:"Artificial Intelligence"' data-reply="${localize('Finding')}">${localize('AI News')}</a>
-  <a data-purpose="set-intention" data-lang="${preferredLanguage}" data-content="SearchFTAPI" data-reply="${localize('Offer Help For Search')}" data-key="SearchFT">${localize('Discover and Explore')}</a>
+  ${myFollowsHTML}
+  <a data-purpose="set-intention" data-lang="${preferredLanguage}" data-content="SearchFTAPI" data-reply="${localize('Offer Help')}" data-key="SearchFT">${localize('Search')}</a>
   <a data-purpose="news-quiz" data-lang="${preferredLanguage}" data-content='quiz' data-reply="${localize('PrepareingQuiz')}">${localize('NewsQuiz')}</a>
   <a data-purpose="set-intention" data-lang="${preferredLanguage}" data-content="CustomerService" data-reply="${localize('Offer Help')}" data-key="CustomerService">${localize('CustomerService')}</a>
   <a data-purpose="set-intention" data-lang="${preferredLanguage}" data-content="Other" data-reply="${localize('Offer Help')}" data-key="Other">${localize('Other')}</a>

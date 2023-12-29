@@ -1453,19 +1453,19 @@ const randomPromptDict = {
       zh: '人工智能',
       ru: 'ИИ'
     },
-    'Discover and Explore': {
-      en: 'Discover and Explore',
-      es: 'Descubrir y explorar',
-      fr: 'Découvrir et explorer',
-      de: 'Entdecken und erkunden',
-      ja: '発見と探索',
-      ko: '발견과 탐험',
-      pt: 'Descobrir e explorar',
-      it: 'Scoprire ed esplorare',
-      'zh-TW': '發現與探索',
-      'zh-HK': '發現與探索',
-      zh: '发现与探索',
-      ru: 'Откройте для себя и исследуйте'
+    'Search': {
+      en: 'Search',
+      es: 'Buscar',
+      fr: 'Chercher',
+      de: 'Suchen',
+      ja: '検索',
+      ko: '검색',
+      pt: 'Pesquisar',
+      it: 'Cerca',
+      'zh-TW': '搜索',
+      'zh-HK': '搜尋',
+      zh: '搜索',
+      ru: 'Искать'
     },
     'Deep Dive': {
       zh: '深度报道',

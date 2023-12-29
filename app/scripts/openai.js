@@ -243,14 +243,14 @@ async function translateOpenAI(text, target) {
     return text;
 }
 
-async function getFTAPISearchResult(keyword) {
+async function getFTAPISearchResult(keyword, language) {
     try {
         // const token = (isPowerTranslate) ? localStorage.getItem('accessToken') : 'sometoken';
         const token = (isPowerTranslate) ? GetCookie('accessToken') : 'sometoken';
         if (!token || token === '') {
             return {status: 'failed', message: 'You need to sign in first! '};
         }
-        const contentParameter = `?keyword=${keyword}&field=`;
+        const contentParameter = `?language=${language || 'English'}&keyword=${keyword}&field=`;
         let url = (isPowerTranslate) ? '/openai/searchftapi' : '/FTAPI/content.php';
         url += contentParameter;
         let options = {
