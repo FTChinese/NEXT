@@ -188,8 +188,6 @@
                     </div>
                     <%assign var="i" value=0%>
                 <%elseif $highlightFTAcademy == "top"%>
-                    <%*assign var="ftAcademySqlQuery" value="find_in_set('FT商学院',tag)"*%>
-                    <%*assign var="ftAcademyItems" value=$interactivemodel->get_interactive_by_field_search($ftAcademySqlQuery,0,12,7,10800)*%>
                     <%assign var="topItemCount" value=8%>
                     <%if $showMaximum8Tops == "yes"%>
                         <%assign var="topItemCount" value=8%>
@@ -215,6 +213,7 @@
                         }
                         // Get Beijing time
                         $beijingTime = getBeijingTime();
+                        $interactives = $this->get_template_vars('interactives');
                         $minItemCount = $this->get_template_vars('topItemCount');
                         // Check if today is Saturday or Sunday in Beijing time
                         if ($beijingTime['wday'] == 6 || $beijingTime['wday'] == 0) {
@@ -226,8 +225,6 @@
                                 $saturdayTimestamp -= 86400; // 86400 seconds in a day
                             }
 
-                            // Call the method on the $interactivemodel object
-                            $interactives = $this->get_template_vars('interactives');
                             foreach ($interactives as $item) {
                                 $pubdate = $item['pubdate'];
                                 // Increment the counter if the item's pubdate is after or equal to saturdayTimestamp
@@ -241,6 +238,11 @@
                                 $smallestDivisibleByFour += 4 - ($smallestDivisibleByFour % 4);
                             }
                             $minItemCount = max($smallestDivisibleByFour, $minItemCount);
+                        } else {
+                            $ymd = $beijingTime['year'] * 10000 + $beijingTime['mon'] * 100 + $beijingTime['mday'];
+                            if ($ymd === 20240101) {
+                                $minItemCount = 24;
+                            }
                         }
                         // Use array_slice to get the first $minItemCount items from $interactives
                         $firstItems = array_slice($interactives, 0, $minItemCount);

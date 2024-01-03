@@ -62,7 +62,7 @@ const countryMapping = {
 function getMyFollowsHTML() {
 
     const regions = new Set(Object.keys(countryMapping).map(key => countryMapping[key]));
-    console.log(regions);
+    // console.log(regions);
     const my = getMyPreference();
     const follows = my[myInterestsKey] || [];
     const interests = follows.map(key=>{

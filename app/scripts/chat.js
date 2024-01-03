@@ -848,6 +848,34 @@ function hidePreviousActions() {
   }
 }
 
+function getShortcutOptions(prompt) {
+  const shortcuts = [
+    {
+      key: 'Most Popular',
+      regex: /热门文章|热门内容|热门新闻|Most Popular|Hot Content|Hot Article|最受欢迎文章|最受欢迎内容|最受欢迎新闻/gi,
+      purpose: 'show-ft-page',
+      content: 'most-popular',
+      reply: 'FindingMostPopular'
+    },
+    {
+      key: 'Top News For Me',
+      regex: /最新[的]*新闻|最新[的]*要闻|What's[the latest]+News|Latest News/gi,
+      purpose: 'show-ft-page',
+      content: 'home',
+      reply: 'FindingMyFT'
+    }
+  ];
+  for (const shortcut of shortcuts) {
+    let mostpopular = shortcut.key;
+    let mostpopulars = [mostpopular].concat(Object.keys(statusDict[mostpopular]).map(key=>statusDict[mostpopular][key]));
+    let mostpopularRegex = shortcut.regex; 
+    if (mostpopulars.indexOf(prompt) >= 0 || mostpopularRegex.test(prompt)) {
+      return {purpose: shortcut.purpose, content: shortcut.content, reply: shortcut.reply};
+    }
+  }
+  return null;
+}
+
 async function talk() {
   // var token = localStorage.getItem('accessToken');
   const token = GetCookie('accessToken');
@@ -877,6 +905,17 @@ async function talk() {
     await showContent(ftid, language);
     return;
   }
+  let shortcutOptions = getShortcutOptions(prompt);
+  if (shortcutOptions && typeof shortcutOptions === 'object') {
+    const purpose = shortcutOptions.purpose;
+    const content = shortcutOptions.content;
+    const reply = shortcutOptions.reply || '';
+    if (purpose && content && purposeToFunction.hasOwnProperty(purpose)) {
+      await purposeToFunction[purpose](content, preferredLanguage, localize(reply));
+    }
+    return;
+  }
+
   // Deprecating: - Migrating to Pinecone for context
   // const context = await getContextByIntention(prompt);
   // MARK: - Send the prompt to our API for response
@@ -1412,7 +1451,11 @@ async function showFTPage(content, language, reply) {
   updateBotStatus('pending');
   showResultInChat({text: reply});
   try {
+    console.log(`Getting ${content}`);
     let result = await getFTPageInfo(content, language);
+    console.log('result: ');
+    console.log(result);
+
     if (result.results && result.results.length > 0 && result.results[0].groups) {
       const newResult = document.createElement('DIV');
       newResult.className = 'chat-talk chat-talk-agent chat-full-grid';
@@ -1585,6 +1628,7 @@ function getActionOptions() {
     result = `
       <div class="chat-item-actions">
         <a data-purpose="show-ft-page" data-lang="${language}" data-content='home' data-reply="${localize('FindingMyFT')}" data-reply-action="set-preference">${localize('Top News For Me')}</a>
+        <a data-purpose="show-ft-page" data-lang="${language}" data-content='most-popular' data-reply="${localize('Finding')}">${localize('Most Popular')}</a>
         <a data-purpose="set-preference" data-lang="${language}" data-content="all" data-reply="${localize('Set Your Preferences')}">${localize('Setting')}</a>
       </div>
     `;

@@ -249,6 +249,20 @@ const randomPromptDict = {
       'zh-HK': '有什麼值得我關注的要聞嗎？',
       ru: 'Какие главные новости для меня?'
     },
+    'Most Popular': {
+      zh: 'FT上有哪些热门文章？',
+      en: 'What are the most popular articles on the FT?',
+      es: '¿Cuáles son los artículos más populares en el FT?',
+      fr: 'Quels sont les articles les plus populaires sur le FT?',
+      de: 'Was sind die beliebtesten Artikel auf der FT?',
+      ja: 'FTで最も人気のある記事は何ですか？',
+      ko: 'FT에서 가장 인기 있는 기사는 무엇인가요?',
+      pt: 'Quais são os artigos mais populares no FT?',
+      it: 'Quali sono gli articoli più popolari su FT?',
+      'zh-TW': 'FT上有哪些熱門文章？',
+      'zh-HK': 'FT上有哪些熱門文章？',
+      ru: 'Какие самые популярные статьи в FT?'
+    },
     'MyFT': {
       zh: '我的FT',
       en: 'MyFT',
@@ -1564,6 +1578,20 @@ const randomPromptDict = {
       'zh-TW': '讓我展示FT最新的內容，您也可以點擊這裡設定您關注的話題和閱讀偏好。',
       'zh-HK': '讓我展示FT最新的內容，您也可以點擊這裡設定您關注的話題和閱讀偏好。',
       ru: 'Давайте я покажу вам самые свежие материалы FT, вы также можете нажать здесь, чтобы настроить темы, которые вы отслеживаете, и ваши предпочтения в чтении.'
+    },
+    FindingMostPopular: {
+      zh: '好的，我来帮您查询FT的热门文章...',
+      en: 'Okay, let me help you check the most popular content on the FT...',
+      es: 'De acuerdo, déjame ayudarte a buscar el contenido más popular en FT...',
+      fr: 'D\'accord, laissez-moi vous aider à chercher le contenu le plus populaire sur FT...',
+      de: 'Okay, ich helfe Ihnen, die beliebtesten Inhalte auf FT zu finden...',
+      ja: '了解しました、FTの人気コンテンツを検索のお手伝いをします...',
+      ko: '알겠습니다, FT에서 가장 인기있는 콘텐츠를 검색하는 것을 도와드리겠습니다...',
+      pt: 'Certo, deixe-me ajudá-lo a pesquisar o conteúdo mais popular no FT...',
+      it: 'Va bene, lascia che ti aiuti a cercare il contenuto più popolare su FT...',
+      'zh-TW': '好的，我來幫您查詢FT的熱門文章...',
+      'zh-HK': '好的，我來幫您查詢FT的熱門文章...',
+      ru: 'Хорошо, я помогу вам найти самый популярный контент на FT...'
     },
     ApplyAndStartOver: {
       zh: '应用并重启',
