@@ -1054,10 +1054,17 @@ function startOver() {
   location.reload();
 }
 
-function getFollowedAnnotations(myPreference, id) {
-  let followedAnnotations = (myPreference[id] || [])
-      .map(x=>`<div class="input-container"><div class="input-name">${localize(x)}</div><button class="myft-follow tick" data-action="add-interest" data-name="${x}">${localize('Unfollow')}</button></div>`)
-      .join('');
+function getFollowedAnnotations(myPreference, infos) {
+  // console.log(myPreference);
+  // console.log(id);
+  let followedAnnotations = '';
+  for (const info of infos) {
+    const id = info.id;
+    const action = info.action;
+    followedAnnotations += (myPreference[id] || [])
+        .map(x=>`<div class="input-container"><div class="input-name">${localize(x)}</div><button class="myft-follow tick" data-action="${action}" data-name="${x}">${localize('Unfollow')}</button></div>`)
+        .join('');
+  }
   if (followedAnnotations === '') {
     followedAnnotations = `<div data-action="add-interests">${localize('PromptAdd')}</div>`;
   }
@@ -1070,7 +1077,11 @@ async function setPreference(category, language, reply) {
     all: [
       {
         name: myInterestsKey,
-        type: 'annotations'
+        type: 'annotations',
+        infos: [
+          {id: myCustomInterestsKey, action: 'remove-custom-interest'},
+          {id: myInterestsKey, action: 'add-interest'}
+        ]
       },
       {
         name: 'ReadingPreferences',
@@ -1136,6 +1147,7 @@ async function setPreference(category, language, reply) {
   for (const setting of mySettings) {
     const type = setting.type;
     const id = setting.name;
+    const infos = setting.infos;
     if (!type || !id) {continue;}
     const name = localize(id);
     const currentValue = myPreference[id] || setting.fallback;
@@ -1149,7 +1161,7 @@ async function setPreference(category, language, reply) {
       }
       html += `<div class="select-container"><div class="select-label">${name}</div><select id="${id}">${optionsHTML}</select></div>`
     } else if (type === 'annotations') {
-      const followedAnnotations = getFollowedAnnotations(myPreference, id);
+      const followedAnnotations = getFollowedAnnotations(myPreference, infos);
       html += `<div class="select-container"><div class="select-label"><strong>${name}</strong></div><button class="myft-follow plus" data-action="add-interests">${localize('Add')}</button></div><div class="annotations-container" data-id="${id}">${followedAnnotations}</div>`;
     } else if (type === 'title') {
       html += `<div class="select-container"><div class="select-label"><strong>${name}</strong></div></div>`;

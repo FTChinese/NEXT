@@ -2,7 +2,7 @@
 const delegate = new Delegate(document.body);
 
 const myInterestsKey = 'My Interests';
-
+const myCustomInterestsKey = 'My Custom Interests';
 const populars = ['China', 'Companies', 'Markets', 'Opinion', 'Podcasts', 'Videos', 'Life & Arts', 'Work & Careers', 'Artificial Intelligence', 'Technology Sector'];
 
 const regions = ['China', 'United States', 'United Kingdom', 'Europe', 'Asia', 'Americas', 'Africa', 'Middle East'];
@@ -73,9 +73,6 @@ function getMyFollowsHTML() {
     
 }
 
-
-
-
 function createHTMLFromNames(names) {
     const myPreference = getMyPreference();
     const myInterests = myPreference[myInterestsKey] || [];
@@ -91,6 +88,22 @@ function createHTMLFromNames(names) {
         <div class="input-container">
             <div class="input-name">${localize(name)}</div>
             <button class="myft-follow ${buttonClass}" data-action="add-interest" data-name="${name}">${buttonHTML}</button>
+        </div>`;
+    })
+    .join('');
+}
+
+function createHTMLFromCustomTopics() {
+    const myPreference = getMyPreference();
+    const myInterests = myPreference[myCustomInterestsKey] || [];
+    return myInterests
+    .map(name=>{
+        buttonClass = 'tick';
+        buttonHTML = localize('Unfollow');
+        return `
+        <div class="input-container">
+            <div class="input-name">${name}</div>
+            <button class="myft-follow ${buttonClass}" data-action="remove-custom-interest" data-name="${name}">${buttonHTML}</button>
         </div>`;
     })
     .join('');
@@ -154,6 +167,13 @@ delegate.on('click', '[data-action="add-interests"]', async (event) => {
     <div class="overlay-content-inner">
     <div class="overlay-content">
     <div class="overlay-title">${localize('Add Interests')}<i class="overlay-close" data-action="close-overlay">×</i></div>
+    
+    <div class="input-title">${localize('MyCustomInterest')}</div>
+    <div class="input-container">
+        <div class="input-name"><input type="text" placeholder="${localize('Anything')}"></div>
+        <button class="myft-follow plus" data-action="add-custom-interest">${localize('Follow')}</button>
+    </div>
+    ${createHTMLFromCustomTopics()}
     <div class="input-title">${localize('Popular')}</div>
     ${createHTMLFromNames(populars)}
     <div class="input-title">${localize('Regions')}</div>
@@ -164,6 +184,66 @@ delegate.on('click', '[data-action="add-interests"]', async (event) => {
     </div>
     `;
     document.body.append(ele);
+
+});
+
+
+delegate.on('click', '[data-action="add-custom-interest"]', async (event) => {
+    const uplimit = 5;
+    let myPreference = getMyPreference();
+    let myInterests = myPreference[myCustomInterestsKey] || [];
+    if (myInterests.length >= uplimit) {
+        alert(localize('Reached uplimit'));
+        return;
+    }
+    const ele = event.target;
+    const container = ele.closest('.input-container');
+    const input = container?.querySelector('input');
+    const name = input?.value ?? '';
+    if (name === '') {
+        alert(localize('Input Interest'));
+        input.focus();
+        return;
+    }
+
+    if (myInterests.indexOf(name) >= 0) {
+        alert(localize('Topic already followed'));
+        return;
+    }
+    myInterests.push(name);
+    myPreference[myCustomInterestsKey] = myInterests;
+    console.log('Updated myPreference: ');
+    console.log(myPreference);
+    localStorage.setItem('preference', JSON.stringify(myPreference));
+
+    var newElement = document.createElement("div");
+    newElement.classList.add('input-container');
+    newElement.innerHTML = `
+        <div class="input-name">${name}</div>
+        <button class="myft-follow tick" data-action="remove-custom-interest" data-name="${name}">${localize('Unfollow')}</button>
+    `;
+    container.parentNode.insertBefore(newElement, container.nextSibling);
+});
+
+
+delegate.on('click', '[data-action="remove-custom-interest"]', async (event) => {
+
+    let myPreference = getMyPreference();
+    let myInterests = myPreference[myCustomInterestsKey] || [];
+    const ele = event.target;
+    const name = ele.getAttribute('data-name');
+    myInterests = myInterests.filter(x=>x !== name);
+    myPreference[myCustomInterestsKey] = myInterests;
+    localStorage.setItem('preference', JSON.stringify(myPreference));
+    console.log('Updated myPreference: ');
+    console.log(myPreference);
+    const allEles = document.querySelectorAll(`.input-container [data-name="${name}"]`);
+    for (const ele of allEles) {
+        const container = ele.closest('.input-container');
+        if (container) {
+            container.remove();
+        }
+    }
 
 });
 
