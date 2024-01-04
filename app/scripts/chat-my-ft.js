@@ -3,7 +3,11 @@ const delegate = new Delegate(document.body);
 
 const myInterestsKey = 'My Interests';
 const myCustomInterestsKey = 'My Custom Interests';
-const populars = ['China', 'Companies', 'Markets', 'Opinion', 'Podcasts', 'Videos', 'Life & Arts', 'Work & Careers', 'Artificial Intelligence', 'Technology Sector'];
+const interestsInfos = [
+    {id: myCustomInterestsKey, action: 'remove-custom-interest'},
+    {id: myInterestsKey, action: 'add-interest'}
+];
+const populars = ['China', 'Companies', 'Markets', 'Opinion', 'VIDEOS', 'PODCASTS', 'Life & Arts', 'Work & Careers', 'Artificial Intelligence', 'Technology Sector'];
 
 const regions = ['China', 'United States', 'United Kingdom', 'Europe', 'Asia', 'Americas', 'Africa', 'Middle East'];
 
@@ -59,35 +63,66 @@ const countryMapping = {
     TW: 'Taiwan'
 };
 
+let regionsSet = new Set(regions);
+for (const key of Object.keys(countryMapping)) {
+    regionsSet.add(countryMapping[key]);
+}
+const genresSet = new Set(['Opinion', 'Explainer']);
+
+const curationsSet = new Set(['VIDEOS', 'PODCASTS']);
+
 function getMyFollowsHTML() {
 
-    const regions = new Set(Object.keys(countryMapping).map(key => countryMapping[key]));
-    // console.log(regions);
     const my = getMyPreference();
-    const follows = my[myInterestsKey] || [];
-    const interests = follows.map(key=>{
-        const field = (regions.has(key)) ? 'regions' : 'topics';
-        return `<a data-purpose="search-ft-api" data-lang="${preferredLanguage}" data-content="${field}: ${key}" data-reply="${localize('Finding')}">${localize(key)}</a>`;
+    const follows = (my[myInterestsKey] || []).filter(x=>typeof x === 'object');
+    const interests = follows.map(info=>{
+        const key = info.key;
+        const display = localize(key, info.display);
+        let field = info.type || '';
+        if (field === '') {
+            field = checkType(key);
+        }
+        let content = `${field}: ${key}`;
+        if (field === 'curations') {
+            content = key;
+        }
+        console.log(content);
+        return `<a data-purpose="search-ft-api" data-lang="${preferredLanguage}" data-content="${content}" data-reply="${localize('Finding')}">${display}</a>`;
     }).join('');
     return interests;
     
 }
 
+function checkType(key) {
+    if (regionsSet.has(key)) {
+        return 'regions';
+    }
+    if (genresSet.has(key)) {
+        return 'genre';
+    }
+    if (curationsSet.has(key)) {
+        return 'curations';
+    }
+    return 'topics'
+}
+
 function createHTMLFromNames(names) {
     const myPreference = getMyPreference();
-    const myInterests = myPreference[myInterestsKey] || [];
+    const myInterests = (myPreference[myInterestsKey] || []).filter(x=>typeof x === 'object');
+    const myInterestsKeys = myInterests.map(x=>x.key || '').filter(x=>x!=='');
     return names
     .map(name=>{
         let buttonClass = 'plus';
         let buttonHTML = localize('Follow');
-        if (myInterests.indexOf(name)>=0) {
+        if (myInterestsKeys.indexOf(name)>=0) {
             buttonClass = 'tick';
             buttonHTML = localize('Unfollow');
         }
+        const type = checkType(name);
         return `
         <div class="input-container">
             <div class="input-name">${localize(name)}</div>
-            <button class="myft-follow ${buttonClass}" data-action="add-interest" data-name="${name}">${buttonHTML}</button>
+            <button class="myft-follow ${buttonClass}" data-action="add-interest" data-name="${name}" data-type="${type}">${buttonHTML}</button>
         </div>`;
     })
     .join('');
@@ -97,13 +132,14 @@ function createHTMLFromCustomTopics() {
     const myPreference = getMyPreference();
     const myInterests = myPreference[myCustomInterestsKey] || [];
     return myInterests
-    .map(name=>{
+    .filter(x => typeof x === 'object')
+    .map(x=>{
         buttonClass = 'tick';
         buttonHTML = localize('Unfollow');
         return `
         <div class="input-container">
-            <div class="input-name">${name}</div>
-            <button class="myft-follow ${buttonClass}" data-action="remove-custom-interest" data-name="${name}">${buttonHTML}</button>
+            <div class="input-name">${x.display}</div>
+            <button class="myft-follow ${buttonClass}" data-action="remove-custom-interest" data-name="${x.key}" data-type="${x.type}">${buttonHTML}</button>
         </div>`;
     })
     .join('');
@@ -144,6 +180,14 @@ function isItemFollowed(item, interests) {
     return {followed: false};
 }
 
+function updateAnnotationsContainer(myPreference) {
+    const followedAnnotations = getFollowedAnnotations(myPreference, interestsInfos);
+    let eles = document.querySelectorAll(`.annotations-container`);
+    for (let ele of eles) {
+        ele.innerHTML = followedAnnotations;
+    }
+}
+
 delegate.on('click', '[data-action="add-interests"]', async (event) => {
 
     let myRegions = regions;
@@ -168,9 +212,9 @@ delegate.on('click', '[data-action="add-interests"]', async (event) => {
     <div class="overlay-content">
     <div class="overlay-title">${localize('Add Interests')}<i class="overlay-close" data-action="close-overlay">×</i></div>
     
-    <div class="input-title">${localize('MyCustomInterest')}</div>
+    <div class="input-title">${localize('Topics')}</div>
     <div class="input-container">
-        <div class="input-name"><input type="text" placeholder="${localize('Anything')}"></div>
+        <div class="input-name"><input type="text" placeholder="${localize('Topic')}"></div>
         <button class="myft-follow plus" data-action="add-custom-interest">${localize('Follow')}</button>
     </div>
     ${createHTMLFromCustomTopics()}
@@ -191,7 +235,8 @@ delegate.on('click', '[data-action="add-interests"]', async (event) => {
 delegate.on('click', '[data-action="add-custom-interest"]', async (event) => {
     const uplimit = 5;
     let myPreference = getMyPreference();
-    let myInterests = myPreference[myCustomInterestsKey] || [];
+    let myInterests = (myPreference[myCustomInterestsKey] || []).filter(x => typeof x === 'object');
+    const myInterestsKeys = myInterests.map(x=>x.key || '').filter(x=>x !== '');
     if (myInterests.length >= uplimit) {
         alert(localize('Reached uplimit'));
         return;
@@ -205,24 +250,29 @@ delegate.on('click', '[data-action="add-custom-interest"]', async (event) => {
         input.focus();
         return;
     }
-
-    if (myInterests.indexOf(name) >= 0) {
+    if (myInterestsKeys.indexOf(name) >= 0) {
         alert(localize('Topic already followed'));
         return;
     }
-    myInterests.push(name);
+    customTopicType = 'CustomTopic';
+    myInterests.push({key: name, type: customTopicType, display: name});
     myPreference[myCustomInterestsKey] = myInterests;
+    localStorage.setItem('preference', JSON.stringify(myPreference));
     console.log('Updated myPreference: ');
     console.log(myPreference);
-    localStorage.setItem('preference', JSON.stringify(myPreference));
-
-    var newElement = document.createElement("div");
-    newElement.classList.add('input-container');
-    newElement.innerHTML = `
-        <div class="input-name">${name}</div>
-        <button class="myft-follow tick" data-action="remove-custom-interest" data-name="${name}">${localize('Unfollow')}</button>
-    `;
+    input.value = '';
+    const createNewElement = ()=>{
+        var newElement = document.createElement("div");
+        newElement.classList.add('input-container');
+        newElement.innerHTML = `
+            <div class="input-name">${name}</div>
+            <button class="myft-follow tick" data-action="remove-custom-interest" data-name="${name}" data-type="${customTopicType}">${localize('Unfollow')}</button>
+        `;
+        return newElement;
+    };
+    const newElement = createNewElement();
     container.parentNode.insertBefore(newElement, container.nextSibling);
+    updateAnnotationsContainer(myPreference);
 });
 
 
@@ -232,7 +282,7 @@ delegate.on('click', '[data-action="remove-custom-interest"]', async (event) => 
     let myInterests = myPreference[myCustomInterestsKey] || [];
     const ele = event.target;
     const name = ele.getAttribute('data-name');
-    myInterests = myInterests.filter(x=>x !== name);
+    myInterests = myInterests.filter(x=>x.key !== name);
     myPreference[myCustomInterestsKey] = myInterests;
     localStorage.setItem('preference', JSON.stringify(myPreference));
     console.log('Updated myPreference: ');
@@ -244,7 +294,7 @@ delegate.on('click', '[data-action="remove-custom-interest"]', async (event) => 
             container.remove();
         }
     }
-
+    updateAnnotationsContainer(myPreference);
 });
 
 // MARK: - The Follow button in the overlay interface
@@ -254,19 +304,24 @@ delegate.on('click', '[data-action="add-interest"]', async (event) => {
     if (!name) {return;}
     
     let myPreference = getMyPreference();
-    let myInterests = myPreference[myInterestsKey] || [];
+    let myInterests = (myPreference[myInterestsKey] || []).filter(x=>typeof x === 'object');
+    let myInterestsKeys = myInterests.map(x=>x.key || '').filter(x=>x !== '');
+
     // MARK: - There might be duplicated buttons with the same names
     let allButtons = document.querySelectorAll(`[data-action="add-interest"][data-name="${name}"]`);
     for (let button of allButtons) {
+        const type = button.getAttribute('data-type') || 'Topics';
+        const display = button.closest('.input-container')?.querySelector('.input-name')?.innerText ?? localize(name);
         if (button.classList.contains('plus')) {
-            if (myInterests.indexOf(name) === -1) {
-                myInterests.push(name);
+            if (myInterestsKeys.indexOf(name) === -1) {
+                myInterests.push({key: name, display: display, type: type});
+                myInterestsKeys.push(name);
             }
-            button.innerHTML = localize('Followed');
+            button.innerHTML = localize('Unfollow');
             button.classList.remove('plus');
             button.classList.add('tick');
         } else {
-            const index = myInterests.indexOf(name);
+            const index = myInterestsKeys.indexOf(name);
             if (index > -1) {
                 myInterests.splice(index, 1);
             }
@@ -276,15 +331,10 @@ delegate.on('click', '[data-action="add-interest"]', async (event) => {
         }
     }
     myPreference[myInterestsKey] = myInterests;
+    localStorage.setItem('preference', JSON.stringify(myPreference));
     console.log('Update myPreference');
     console.log(myPreference);
-    localStorage.setItem('preference', JSON.stringify(myPreference));
-    const followedAnnotations = getFollowedAnnotations(myPreference, myInterestsKey);
-    let eles = document.querySelectorAll(`.annotations-container[data-id="${myInterestsKey}"]`);
-    console.log(eles);
-    for (let ele of eles) {
-        ele.innerHTML = followedAnnotations;
-    }
+    updateAnnotationsContainer(myPreference);
 });
 
 delegate.on('click', '[data-action="close-overlay"]', async (event) => {

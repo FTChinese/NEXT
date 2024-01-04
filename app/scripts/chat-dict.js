@@ -1341,7 +1341,7 @@ const randomPromptDict = {
       'zh-HK': '觀點',
       zh: '观点'
     },
-    'Podcasts': {
+    'PODCASTS': {
       en: 'Podcasts',
       es: 'Podcasts',
       fr: 'Podcasts',
@@ -1355,7 +1355,7 @@ const randomPromptDict = {
       'zh-HK': '播客',
       zh: '播客'
     },
-    'Videos': {
+    'VIDEOS': {
       en: 'Videos',
       es: 'Videos',
       fr: 'Vidéos',
@@ -1438,6 +1438,62 @@ const randomPromptDict = {
       'zh-TW': '取消關注',
       'zh-HK': '取消關注',
       ru: 'Отписаться'
+    },
+    Topics: {
+      "zh": "话题",
+      "en": "Topics",
+      "es": "Temas",
+      "fr": "Sujets",
+      "de": "Themen",
+      "ja": "トピック",
+      "ko": "주제",
+      "pt": "Tópicos",
+      "it": "Argomenti",
+      "zh-TW": "話題",
+      "zh-HK": "話題",
+      "ru": "Темы"
+    },
+    Topic: {
+      "zh": "话题",
+      "en": "Topic",
+      "es": "Tema",
+      "fr": "Sujet",
+      "de": "Thema",
+      "ja": "トピック",
+      "ko": "주제",
+      "pt": "Tópico",
+      "it": "Argomento",
+      "zh-TW": "話題",
+      "zh-HK": "話題",
+      "ru": "Тема"
+    },
+    'Input Interest': {
+      "zh": "请输入您关注的话题",
+      "en": "Please enter your topic of interest",
+      "es": "Por favor, introduzca el tema de su interés",
+      "fr": "Veuillez saisir le sujet qui vous intéresse",
+      "de": "Bitte geben Sie Ihr Interessenthema ein",
+      "ja": "興味のあるトピックを入力してください",
+      "ko": "관심 있는 주제를 입력하세요",
+      "pt": "Por favor, insira o tópico de seu interesse",
+      "it": "Inserisci l'argomento di tuo interesse",
+      "zh-TW": "請輸入您關注的話題",
+      "zh-HK": "請輸入您關注的話題",
+      "ru": "Пожалуйста, введите интересующую вас тему"
+    },
+    'Topic already followed': {
+      "zh": "这个话题您已经关注了",
+      "en": "You have already followed this topic",
+      "es": "Ya has seguido este tema",
+      "fr": "Vous avez déjà suivi ce sujet",
+      "de": "Sie haben dieses Thema bereits verfolgt",
+      "ja": "このトピックはすでにフォローしています",
+      "ko": "이미 이 주제를 팔로우했습니다",
+      "pt": "Você já seguiu este tópico",
+      "it": "Hai già seguito questo argomento",
+      "zh-TW": "您已經關注了這個話題",
+      "zh-HK": "您已經關注了這個話題",
+      "ru": "Вы уже следите за этой темой"
     },
     'PromptAdd': {
       zh: '您还没有关注任何话题，请点击这里添加',

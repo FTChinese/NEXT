@@ -241,7 +241,7 @@ function copyToClipboard(text) {
   }
 }
 
-function localize(status) {
+function localize(status, fallback) {
   if (!status) {return;}
   let language = preferredLanguage;
   if (language === 'Chinese') {language = 'zh';}
@@ -249,7 +249,10 @@ function localize(status) {
   let statusTitle = status;
   const s = statusDict[status];
   if (s) {
-    statusTitle = s[language] || s[languagePrefix] || s.en;
+    return s[language] || s[languagePrefix] || s.en;
+  }
+  if (fallback && typeof fallback === 'string' && fallback !== '') {
+    return fallback;
   }
   return statusTitle;
 }
@@ -1062,7 +1065,8 @@ function getFollowedAnnotations(myPreference, infos) {
     const id = info.id;
     const action = info.action;
     followedAnnotations += (myPreference[id] || [])
-        .map(x=>`<div class="input-container"><div class="input-name">${localize(x)}</div><button class="myft-follow tick" data-action="${action}" data-name="${x}">${localize('Unfollow')}</button></div>`)
+        .filter(x=>typeof x === 'object')
+        .map(x=>`<div class="input-container"><div class="input-name">${localize(x.display)}</div><button class="myft-follow tick" data-action="${action}" data-name="${x.key}" data-type="${x.type}">${localize('Unfollow')}</button></div>`)
         .join('');
   }
   if (followedAnnotations === '') {
@@ -1078,10 +1082,7 @@ async function setPreference(category, language, reply) {
       {
         name: myInterestsKey,
         type: 'annotations',
-        infos: [
-          {id: myCustomInterestsKey, action: 'remove-custom-interest'},
-          {id: myInterestsKey, action: 'add-interest'}
-        ]
+        infos: interestsInfos
       },
       {
         name: 'ReadingPreferences',
@@ -1162,7 +1163,7 @@ async function setPreference(category, language, reply) {
       html += `<div class="select-container"><div class="select-label">${name}</div><select id="${id}">${optionsHTML}</select></div>`
     } else if (type === 'annotations') {
       const followedAnnotations = getFollowedAnnotations(myPreference, infos);
-      html += `<div class="select-container"><div class="select-label"><strong>${name}</strong></div><button class="myft-follow plus" data-action="add-interests">${localize('Add')}</button></div><div class="annotations-container" data-id="${id}">${followedAnnotations}</div>`;
+      html += `<div class="select-container"><div class="select-label"><strong>${name}</strong></div><button class="myft-follow plus" data-action="add-interests">${localize('Add')}</button></div><div class="annotations-container">${followedAnnotations}</div>`;
     } else if (type === 'title') {
       html += `<div class="select-container"><div class="select-label"><strong>${name}</strong></div></div>`;
     }
@@ -1319,7 +1320,6 @@ async function searchFTAPI(content, language, reply) {
   showResultInChat({text: reply});
   try {
     let result = await getFTAPISearchResult(content);
-    // console.log(result);
     if (result.results && result.results.length > 0 && result.results[0].results && result.results[0].results.length > 0) {
       const newResult = document.createElement('DIV');
       newResult.className = 'chat-talk chat-talk-agent chat-full-grid';
