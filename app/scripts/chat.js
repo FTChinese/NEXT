@@ -1025,6 +1025,7 @@ function markdownConvert(text) {
 
 const purposeToFunction = {
   'search-ft-api': searchFTAPI,
+  'search-topic': searchTopic,
   'set-intention': setIntention,
   'show-ft-page': showFTPage,
   'set-preference': setPreference,
@@ -1313,84 +1314,160 @@ async function getNewsQuiz(content, language) {
 }
 
 
+async function renderResults(results, language) {
+  const newResult = document.createElement('DIV');
+  newResult.className = 'chat-talk chat-talk-agent chat-full-grid';
+  const newResultInner = document.createElement('DIV');
+  newResultInner.className = 'chat-talk-inner';
+  newResult.appendChild(newResultInner);
+  chatContent.appendChild(newResult);
+  const itemChunk = 5;
+  const translations = await createTranslations(results.slice(0, itemChunk), language);
+  let html = '';
+  for (const [index, item] of results.entries()) {
+    const id = item.id;
+    let title = item.title.title || '';
+    let subheading = item.editorial.subheading || item.summary.excerpt || '';
+    const byline = item.editorial.byline;
+    const excerpt = item.summary.excerpt;
+    const time = item.lifecycle.lastPublishDateTime;
+    const timeStamp = new Date(time).toLocaleString();
+    let hideClass = ' hide';
+    if (index < itemChunk) {
+      hideClass = '';
+      if (translations.length > index) {
+        title = translations[index].title || title;
+        subheading = translations[index].subheading || subheading;
+      }
+      title = title.trim().replace(/[\.。]+$/g, '');
+      subheading = subheading.trim().replace(/[\.。]+$/g, '');
+    }
+    const lang = language || 'English';
+    const articleLink = (readArticle === 'pop-out') ? `href="./chat.html#ftid=${id}&language=${lang}&action=read"` : `data-action="show-article"`;
+    const newHTML = `
+    <div data-id="${id}" data-lang="${lang}" class="chat-item-container${hideClass}">
+      <div class="chat-item-title">
+        <a ${articleLink} target="_blank" title="${byline}: ${excerpt}">${title}</a>
+      </div>
+      <div class="item-lead">${subheading}</div>
+      <div>
+        <div class="show-article-later-container">
+          <button data-action="show-article-later" class="show-article-later">${localize('Read_It_Later')}</button>
+          <div class="show-article-later-flag">${localize('Read_It_Later_Flag')}</div>
+          <button data-action="jump-to-article" class="jump-to-article">${localize('jump-to-article')}</button>
+        </div>
+        <span class="story-time">${timeStamp}</span>
+      </div>
+    </div>`;
+    html += newHTML;
+  }
+  newResultInner.innerHTML = html;
+  if (results.length > itemChunk) {
+    const langProperty = (language && language !== 'English') ? ` data-lang=${language}` : '';
+    newResultInner.innerHTML += `<div class="chat-items-expand" data-chunk="${itemChunk}" data-length="${results.length}"${langProperty}></div>`;
+  }
+  newResultInner.innerHTML += getActionOptions();
+  // newResult.scrollIntoView(scrollOptions);
+  const itemContainers = newResultInner.querySelectorAll('.chat-item-container');
+  if (itemContainers.length >= 3) {
+    itemContainers[2].scrollIntoView(scrollOptions);
+  } else {
+    newResult.scrollIntoView(scrollOptions);
+  }
+  const n = 3;
+  if (previousConversations.length > n) {
+    previousConversations = previousConversations.slice(-n);
+  }
+}
 
 async function searchFTAPI(content, language, reply) {
   // console.log(`running searchFTAPI... content: ${content}, language: ${language}`);
   updateBotStatus('pending');
   showResultInChat({text: reply});
   try {
-    let result = await getFTAPISearchResult(content);
-    if (result.results && result.results.length > 0 && result.results[0].results && result.results[0].results.length > 0) {
-      const newResult = document.createElement('DIV');
-      newResult.className = 'chat-talk chat-talk-agent chat-full-grid';
-      const newResultInner = document.createElement('DIV');
-      newResultInner.className = 'chat-talk-inner';
-      newResult.appendChild(newResultInner);
-      chatContent.appendChild(newResult);
-      const itemChunk = 5;
+    const result = await getFTAPISearchResult(content);
+    let results = result?.results?.[0]?.results ?? [];
+    if (results.length > 0) {
       const results = result.results[0].results;
-      const translations = await createTranslations(results.slice(0, itemChunk), language);
-      let html = '';
-      for (const [index, item] of results.entries()) {
-        const id = item.id;
-        let title = item.title.title || '';
-        let subheading = item.editorial.subheading || item.summary.excerpt || '';
-        const byline = item.editorial.byline;
-        const excerpt = item.summary.excerpt;
-        const time = item.lifecycle.lastPublishDateTime;
-        const timeStamp = new Date(time).toLocaleString();
-        let hideClass = ' hide';
-        if (index < itemChunk) {
-          hideClass = '';
-          if (translations.length > index) {
-            title = translations[index].title || title;
-            subheading = translations[index].subheading || subheading;
-          }
-          title = title.trim().replace(/[\.。]+$/g, '');
-          subheading = subheading.trim().replace(/[\.。]+$/g, '');
-        }
-        const lang = language || 'English';
-        const articleLink = (readArticle === 'pop-out') ? `href="./chat.html#ftid=${id}&language=${lang}&action=read"` : `data-action="show-article"`;
-        const newHTML = `
-        <div data-id="${id}" data-lang="${lang}" class="chat-item-container${hideClass}">
-          <div class="chat-item-title">
-            <a ${articleLink} target="_blank" title="${byline}: ${excerpt}">${title}</a>
-          </div>
-          <div class="item-lead">${subheading}</div>
-          <div>
-            <div class="show-article-later-container">
-              <button data-action="show-article-later" class="show-article-later">${localize('Read_It_Later')}</button>
-              <div class="show-article-later-flag">${localize('Read_It_Later_Flag')}</div>
-              <button data-action="jump-to-article" class="jump-to-article">${localize('jump-to-article')}</button>
-            </div>
-            <span class="story-time">${timeStamp}</span>
-          </div>
-        </div>`;
-        html += newHTML;
-      }
-      newResultInner.innerHTML = html;
-      if (results.length > itemChunk) {
-        const langProperty = (language && language !== 'English') ? ` data-lang=${language}` : '';
-        newResultInner.innerHTML += `<div class="chat-items-expand" data-chunk="${itemChunk}" data-length="${results.length}"${langProperty}></div>`;
-      }
-      newResultInner.innerHTML += getActionOptions();
-      // newResult.scrollIntoView(scrollOptions);
-      const itemContainers = newResultInner.querySelectorAll('.chat-item-container');
-      if (itemContainers.length >= 3) {
-        itemContainers[2].scrollIntoView(scrollOptions);
-      } else {
-        newResult.scrollIntoView(scrollOptions);
-      }
-      const n = 3;
-      if (previousConversations.length > n) {
-        previousConversations = previousConversations.slice(-n);
-      }
+      await renderResults(results, language);
     } else if (/[a-z]+:/g.test(content)) {
       const fullTextContent = content.replace(/[a-z]+:/g, '').trim().replace(/[\ ]+/g, ' ');
       await searchFTAPI(fullTextContent, language, reply);
       return;
     } else {
       //TODO: - Handle error
+    }
+  } catch (err){
+    console.log('Error with searchFTAPI');
+    console.log(err);
+  }
+  updateBotStatus('waiting');
+}
+
+async function searchTopic(content, language, reply) {
+  console.log(`running searchTopic... content: ${content}, language: ${language}`);
+  updateBotStatus('pending');
+  showResultInChat({text: reply});
+  try {
+
+    // MARK: - Query of form: Financial Times will return all results containing “Financial” and “Times”, with the keywords potentially separated and in any order. This is because the above example is equal to: Financial AND Times. I assume user might want to do a more accurate search, so the query form has quotes like this: "Financial Times"
+    // https://developer.ft.com/portal/docs-api-v1-reference-search-search-api-tutorial
+    // MARK: - Get the items from keyword search
+    const result = await getFTAPISearchResult(`"${content}"`);
+    let results = (result?.results?.[0]?.results ?? []).map(item => {
+      item.source = 'keyword';
+      return item;
+    });
+    const idsSet = new Set(results.map(x=>x.id));
+
+    // MARK: - Search in vector DB
+    const embedding = await getEmbedding(content);
+    if (typeof embedding === 'object' && embedding.length > 0) {
+      // MARK: - Get the matching items from vector DB
+      let matches = await getMatchesFromVectorDB(embedding);
+      const bothSet = new Set();
+
+      matches = matches
+        // MARK: - mark the source of the items
+        .map(item => {
+          const id = item.id;
+          if (idsSet.has(id)) {
+            bothSet.add(id);
+          } else {
+            item.source = 'vector';
+          }
+          return item;
+        })
+        // MARK: - only keep the items that are not in the keyword search result
+        .filter(item => item.source === 'vector');
+
+      // MARK: - mark the items that are both in keyword and vector search, this is a sign that the item is highly relevant. At least they are recent because they appear in the keyword search result. We might later find a way to highlight the highlight these items. 
+      results = results.map(item => {
+        const id = item.id
+        if (bothSet.has(id)) {
+          item.source = 'both';
+        }
+        return item;
+      });
+
+      results = results.concat(matches);
+      results = results.sort((a, b) => {
+        const aTime = new Date(a.lifecycle?.lastPublishDateTime ?? a.lifecycle?.lastPublishDateTime ?? '').getTime();
+        const bTime = new Date(b.lifecycle?.lastPublishDateTime ?? b.lifecycle?.lastPublishDateTime ?? '').getTime();
+        return bTime - aTime;
+      });
+
+    }
+
+    if (results.length > 0) {
+      await renderResults(results, language);
+    } else if (/[a-z]+:/g.test(content)) {
+      const fullTextContent = content.replace(/[a-z]+:/g, '').trim().replace(/[\ ]+/g, ' ');
+      await searchFTAPI(fullTextContent, language, reply);
+      return;
+    } else {
+      // MARK: - Handle error
+      showResultInChat({text: localize('No Search Result')});
     }
   } catch (err){
     console.log('Error with searchFTAPI');

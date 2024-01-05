@@ -445,6 +445,20 @@ const randomPromptDict = {
       'zh-HK': '讓我再想一下',
       ru: 'Дайте мне подумать еще раз'
     },
+    'No Search Result': {
+      "zh": "很抱歉，没有找到符合条件的结果，请您更换一下搜索的条件，或者今后再试。",
+      "en": "Sorry, no results were found that match your criteria. Please try changing your search terms or try again later.",
+      "es": "Lo sentimos, no se encontraron resultados que coincidan con sus criterios. Intente cambiar sus términos de búsqueda o inténtelo de nuevo más tarde.",
+      "fr": "Désolé, aucun résultat correspondant à vos critères n'a été trouvé. Veuillez essayer de modifier vos termes de recherche ou réessayez plus tard.",
+      "de": "Entschuldigung, es wurden keine Ergebnisse gefunden, die Ihren Kriterien entsprechen. Bitte versuchen Sie, Ihre Suchbegriffe zu ändern oder versuchen Sie es später noch einmal.",
+      "ja": "申し訳ありませんが、条件に合う結果が見つかりませんでした。検索条件を変更するか、後でもう一度試してください。",
+      "ko": "죄송합니다, 기준에 맞는 결과를 찾을 수 없습니다. 검색 조건을 변경하거나 나중에 다시 시도해주세요.",
+      "pt": "Desculpe, não foram encontrados resultados que correspondam aos seus critérios. Tente alterar os termos da pesquisa ou tente novamente mais tarde.",
+      "it": "Spiacente, non sono stati trovati risultati che corrispondono ai tuoi criteri. Si prega di provare a cambiare i termini di ricerca o riprovare più tardi.",
+      "zh-TW": "很抱歉，沒有找到符合條件的結果，請您更換一下搜索的條件，或者今後再試。",
+      "zh-HK": "很抱歉，沒有找到符合條件的結果，請您更換一下搜尋的條件，或者稍後再試。",
+      "ru": "Извините, не найдено результатов, соответствующих вашим критериям. Пожалуйста, попробуйте изменить условия поиска или повторите попытку позже."
+    },
     'Final Score': {
       en: 'Final Score',
       es: 'Puntuación Final',

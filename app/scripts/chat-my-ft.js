@@ -86,14 +86,20 @@ function getMyFollowsHTML() {
         if (field === 'curations') {
             content = key;
         }
-        console.log(content);
         return `<a data-purpose="search-ft-api" data-lang="${preferredLanguage}" data-content="${content}" data-reply="${localize('Finding')}">${display}</a>`;
     }).join('');
-    return interests;
-    
+    const customTopics = (my[myCustomInterestsKey] || []).filter(x=>typeof x === 'object');
+    const topics = customTopics.map(info=>{
+        const key = info.key;
+        const display = localize(key, info.display);
+        return `<a data-purpose="search-topic" data-lang="${preferredLanguage}" data-content="${key}" data-reply="${localize('Finding')}">${display}</a>`;
+    }).join('');
+    return topics + interests;
+
 }
 
 function checkType(key) {
+
     if (regionsSet.has(key)) {
         return 'regions';
     }
@@ -103,10 +109,12 @@ function checkType(key) {
     if (curationsSet.has(key)) {
         return 'curations';
     }
-    return 'topics'
+    return 'topics';
+
 }
 
 function createHTMLFromNames(names) {
+
     const myPreference = getMyPreference();
     const myInterests = (myPreference[myInterestsKey] || []).filter(x=>typeof x === 'object');
     const myInterestsKeys = myInterests.map(x=>x.key || '').filter(x=>x!=='');
@@ -126,16 +134,18 @@ function createHTMLFromNames(names) {
         </div>`;
     })
     .join('');
+
 }
 
 function createHTMLFromCustomTopics() {
+
     const myPreference = getMyPreference();
     const myInterests = myPreference[myCustomInterestsKey] || [];
     return myInterests
     .filter(x => typeof x === 'object')
     .map(x=>{
-        buttonClass = 'tick';
-        buttonHTML = localize('Unfollow');
+        const buttonClass = 'tick';
+        const buttonHTML = localize('Unfollow');
         return `
         <div class="input-container">
             <div class="input-name">${x.display}</div>
@@ -143,9 +153,13 @@ function createHTMLFromCustomTopics() {
         </div>`;
     })
     .join('');
+
 }
 
 function isItemFollowed(item, interests) {
+
+    
+
     const annotations = new Set();
     let metadata = item.metadata || {};
     const title = item.en?.title ?? item.title?.title ?? '';
@@ -167,25 +181,31 @@ function isItemFollowed(item, interests) {
       }
     }
     const upperCaseAnnotations = new Set(Array.from(annotations).map(x=>x.toUpperCase()));
-    for (const interest of interests) {
-        const interestUpperCase = interest.toUpperCase();
+    for (const info of interests) {
+        const key = info.key;
+        const display = info.display;
+        const type = info.type;
+        const interestUpperCase = key.toUpperCase();
         if (upperCaseAnnotations.has(interestUpperCase)) {
-            return {followed: true, annotation: interest};
+            return {followed: true, annotation: key, display: display, type: type};
         }
         // MARK: - If the FT editorial forget to add proper meta, check the title and subheading
         if (description.indexOf(interestUpperCase) >= 0) {
-            return {followed: true, annotation: interest};
+            return {followed: true, annotation: key, display: display, type: type};
         }
     }
     return {followed: false};
+
 }
 
 function updateAnnotationsContainer(myPreference) {
+
     const followedAnnotations = getFollowedAnnotations(myPreference, interestsInfos);
     let eles = document.querySelectorAll(`.annotations-container`);
     for (let ele of eles) {
         ele.innerHTML = followedAnnotations;
     }
+
 }
 
 delegate.on('click', '[data-action="add-interests"]', async (event) => {
@@ -233,6 +253,7 @@ delegate.on('click', '[data-action="add-interests"]', async (event) => {
 
 
 delegate.on('click', '[data-action="add-custom-interest"]', async (event) => {
+
     const uplimit = 5;
     let myPreference = getMyPreference();
     let myInterests = (myPreference[myCustomInterestsKey] || []).filter(x => typeof x === 'object');
@@ -254,7 +275,7 @@ delegate.on('click', '[data-action="add-custom-interest"]', async (event) => {
         alert(localize('Topic already followed'));
         return;
     }
-    customTopicType = 'CustomTopic';
+    const customTopicType = 'CustomTopic';
     myInterests.push({key: name, type: customTopicType, display: name});
     myPreference[myCustomInterestsKey] = myInterests;
     localStorage.setItem('preference', JSON.stringify(myPreference));
@@ -273,6 +294,7 @@ delegate.on('click', '[data-action="add-custom-interest"]', async (event) => {
     const newElement = createNewElement();
     container.parentNode.insertBefore(newElement, container.nextSibling);
     updateAnnotationsContainer(myPreference);
+
 });
 
 
@@ -295,10 +317,12 @@ delegate.on('click', '[data-action="remove-custom-interest"]', async (event) => 
         }
     }
     updateAnnotationsContainer(myPreference);
+
 });
 
 // MARK: - The Follow button in the overlay interface
 delegate.on('click', '[data-action="add-interest"]', async (event) => {
+
     const ele = event.target;
     const name = ele.getAttribute('data-name');
     if (!name) {return;}
@@ -335,13 +359,16 @@ delegate.on('click', '[data-action="add-interest"]', async (event) => {
     console.log('Update myPreference');
     console.log(myPreference);
     updateAnnotationsContainer(myPreference);
+
 });
 
 delegate.on('click', '[data-action="close-overlay"]', async (event) => {
+
     const overlayContainers = document.querySelectorAll('.overlay-container'); 
     for (let i = 0; i < overlayContainers.length; i++) {
       overlayContainers[i].remove();
     }
+
 });
 
 /* jshint ignore:end */
