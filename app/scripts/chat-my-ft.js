@@ -182,7 +182,8 @@ function isItemFollowed(item, interests) {
     }
     const upperCaseAnnotations = new Set(Array.from(annotations).map(x=>x.toUpperCase()));
     for (const info of interests) {
-        const key = info.key;
+        const key = info.key || '';
+        if (key === '') {continue;}
         const display = info.display;
         const type = info.type;
         const interestUpperCase = key.toUpperCase();
