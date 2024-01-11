@@ -316,18 +316,6 @@ async function getFTPageInfo(name, language) {
         if (response.status >= 400 && results.message) {
             return {status: 'failed', message: results.message};
         }
-        // TODO: Convert to TW or HK traditional Chinese only if needed
-        if(identifyLanguage(language)===false){
-            console.log(`current language no need to translate, directly show the result`)
-            return {status: 'success', results: results};
-        }
-        try{
-            console.log(`Converting fetched result\n`)
-            const stringResult =await convertChinese(JSON.stringify(results),language);
-            results = JSON.parse(stringResult);
-        } catch(err){
-            console.log(`Converting fail, return pre-translated result\n`)
-        }
         return {status: 'success', results: results};
     } catch(err) {
         console.log(err);
@@ -380,14 +368,14 @@ async function getEmbedding(content) {
     }
 }
 
-async function getMatchesFromVectorDB(vector) {
+async function getIdsFromVectorDB(vector) {
     try {
         const token = (isPowerTranslate) ? GetCookie('accessToken') : 'sometoken';
         if (!token || token === '') {
             return {status: 'failed', message: 'You need to sign in first! '};
         }
-        let url = '/ai/get_vector_matches';
-        const queryData = {vector: vector, namespace: 'content', topK: 50, minScore: 0.7};
+        let url = '/ai/get_ids_from_vector_db';
+        const queryData = {vector: vector, namespace: 'content', topK: 50, minScore: 0.78};
         let options = {
             method: 'POST',
             headers: {
@@ -410,7 +398,6 @@ async function getMatchesFromVectorDB(vector) {
         if (response.status >= 400 && results.message) {
             return null;
         }
-        // console.log(results);
         return results;
     } catch(err) {
         console.log(err);
@@ -418,8 +405,42 @@ async function getMatchesFromVectorDB(vector) {
     }
 }
 
-
-
+async function getMatchesFromVectorDB(vector, language) {
+    try {
+        const token = (isPowerTranslate) ? GetCookie('accessToken') : 'sometoken';
+        if (!token || token === '') {
+            return {status: 'failed', message: 'You need to sign in first! '};
+        }
+        let url = '/ai/get_vector_matches';
+        const queryData = {vector: vector, namespace: 'content', topK: 50, minScore: 0.7, language: language};
+        let options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(queryData)
+        };
+        if (isFrontendTest && !isPowerTranslate) {
+            url = '/api/page/poll_request_result.json';
+            options = {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            };
+        }
+        const response = await fetch(url, options);
+        let results = await response.json();
+        if (response.status >= 400 && results.message) {
+            return null;
+        }
+        return results;
+    } catch(err) {
+        console.log(err);
+        return null;
+    }
+}
 
 
 /* jshint ignore:end */

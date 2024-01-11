@@ -7,9 +7,9 @@ const interestsInfos = [
     {id: myCustomInterestsKey, action: 'remove-custom-interest'},
     {id: myInterestsKey, action: 'add-interest'}
 ];
-const populars = ['China', 'Companies', 'Markets', 'Opinion', 'VIDEOS', 'PODCASTS', 'Life & Arts', 'Work & Careers', 'Artificial Intelligence', 'Technology Sector'];
+const populars = ['China', 'Companies', 'Markets', 'Opinion', 'VIDEOS', 'PODCASTS', 'Life & Arts', 'Work & Careers', 'Artificial intelligence', 'Electric vehicles', 'Technology Sector'];
 
-const regions = ['China', 'United States', 'United Kingdom', 'Europe', 'Asia', 'Americas', 'Africa', 'Middle East'];
+const regions = ['China', 'United States', 'United Kingdom', 'India', 'Europe', 'Asia', 'Americas', 'Africa', 'Middle East'];
 
 const countryMapping = {
     US: 'United States',
@@ -74,7 +74,7 @@ const curationsSet = new Set(['VIDEOS', 'PODCASTS']);
 function getMyFollowsHTML() {
 
     const my = getMyPreference();
-    const follows = (my[myInterestsKey] || []).filter(x=>typeof x === 'object');
+    const follows = (my[myInterestsKey] || []).filter(x => typeof x === 'object');
     const interests = follows.map(info=>{
         const key = info.key;
         const display = localize(key, info.display);
@@ -137,7 +137,7 @@ function createHTMLFromNames(names) {
 
 }
 
-function createHTMLFromCustomTopics() {
+async function createHTMLFromCustomTopics() {
 
     const myPreference = getMyPreference();
     const myInterests = myPreference[myCustomInterestsKey] || [];
@@ -156,9 +156,7 @@ function createHTMLFromCustomTopics() {
 
 }
 
-function isItemFollowed(item, interests) {
-
-    
+function isItemFollowed(item, interests, vectorHighScoreIds) {
 
     const annotations = new Set();
     let metadata = item.metadata || {};
@@ -195,6 +193,16 @@ function isItemFollowed(item, interests) {
             return {followed: true, annotation: key, display: display, type: type};
         }
     }
+
+    const id = item.id;
+    if (id && vectorHighScoreIds[id]) {
+        const info = vectorHighScoreIds[id];
+        const key = info.key;
+        const display = info.display;
+        const type = info.type;
+        const followInfo = {followed: true, annotation: key, display: display, type: type};
+        return followInfo;
+    }
     return {followed: false};
 
 }
@@ -209,6 +217,83 @@ function updateAnnotationsContainer(myPreference) {
 
 }
 
+async function getHighScoreIdsFromVectorDB(content) {
+
+    if (content !== 'home') {return {};}
+    const myPreference = getMyPreference();
+    const myTopics = myPreference[myCustomInterestsKey] || [];
+    let dict = {};
+    for (const myTopic of myTopics) {
+        const key = myTopic.key;
+        if (!key) {continue;}
+        const embedding = await getEmbedding(key);
+        const infos = await getIdsFromVectorDB(embedding);
+        for (const info of infos) {
+            const id = info.id;
+            const score = info.score;
+            if (!id || !score) {continue;}
+            const existingScore = dict[id]?.score ?? 0;
+            if (score >= existingScore) {
+                dict[id] = myTopic;
+                dict[id].score = score;
+            }            
+        }
+    }
+    return dict;
+
+}
+
+
+// MARK: - Debounce function to limit the rate of invoking a function
+function debounce(func, delay) {
+    let debounceTimer;
+    return function() {
+        const context = this;
+        const args = arguments;
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => func.apply(context, args), delay);
+    };
+}
+
+async function fetchSuggestions(query) {
+    try {
+        const token = (isPowerTranslate) ? GetCookie('accessToken') : 'sometoken';
+        if (!token || token === '') {
+            return {status: 'failed', message: 'You need to sign in first! '};
+        }
+        let url = '/ai/search_annotation';
+        const data = {query: query, language: preferredLanguage, limit: 10};
+        let options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(data)
+        };
+        if (isFrontendTest && !isPowerTranslate) {
+            url = '/api/page/poll_request_result.json';
+            options = {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            };
+        }
+        const response = await fetch(url, options);
+        let results = await response.json();
+        if (response.status >= 400 && results.message) {
+            return null;
+        }
+        return results;
+    } catch(err) {
+        console.log(err);
+    }
+    return null;
+
+}
+
+
 delegate.on('click', '[data-action="add-interests"]', async (event) => {
 
     let myRegions = regions;
@@ -222,6 +307,8 @@ delegate.on('click', '[data-action="add-interests"]', async (event) => {
         }
     }
 
+    const htmlFromCustomTopicsText = await createHTMLFromCustomTopics();
+    const htmlFromCustomTopics = await convertChinese(htmlFromCustomTopicsText, preferredLanguage);    
     const ele = document.createElement('DIV');
     ele.classList.add('overlay-container');
     ele.classList.add('on');
@@ -235,10 +322,13 @@ delegate.on('click', '[data-action="add-interests"]', async (event) => {
     
     <div class="input-title">${localize('Topics')}</div>
     <div class="input-container">
-        <div class="input-name"><input type="text" placeholder="${localize('Topic')}"></div>
+        <div class="input-name">
+            <input id="custom-topic-input" type="text" placeholder="${localize('Topic')}">
+            <div class="custom-topic-suggestion"></div>
+        </div>
         <button class="myft-follow plus" data-action="add-custom-interest">${localize('Follow')}</button>
     </div>
-    ${createHTMLFromCustomTopics()}
+    ${htmlFromCustomTopics}
     <div class="input-title">${localize('Popular')}</div>
     ${createHTMLFromNames(populars)}
     <div class="input-title">${localize('Regions')}</div>
@@ -246,11 +336,93 @@ delegate.on('click', '[data-action="add-interests"]', async (event) => {
     </div>
     </div>
     </div>
-    </div>
-    `;
+    </div>`;
     document.body.append(ele);
 
 });
+
+function hideEle(ele) {
+    if (ele) {
+        ele.classList.remove('on');
+    }
+}
+
+function showEle(ele) {
+    if (ele) {
+        ele.classList.add('on');
+    }
+}
+
+function renderSuggestion(ele, suggestions) {
+    if (!ele) {return;}
+    console.log(suggestions);
+    if (!suggestions || suggestions.length === 0) {
+        console.log('No Suggestion!');
+        hideEle(ele);
+        return;
+    }
+    /*
+
+<div class="input-container">
+            <div class="input-name">中国</div>
+            <button class="myft-follow tick" data-action="add-interest" data-name="China" data-type="regions">取消关注</button>
+        </div>
+
+
+<div class="input-container">
+            <div class="input-name">公司</div>
+            <button class="myft-follow plus" data-action="add-interest" data-name="Companies" data-type="topics">关注</button>
+        </div>
+
+
+
+
+    */
+    showEle(ele);
+
+
+    const myPreference = getMyPreference();
+    const myInterests = (myPreference[myInterestsKey] || []).filter(x=>typeof x === 'object');
+    const myInterestsKeys = myInterests.map(x=>x.key || '').filter(x=>x!=='');
+    ele.innerHTML = suggestions
+        .map(suggestion=>{
+            let buttonClass = 'plus';
+            let buttonHTML = localize('Follow');
+            const key = suggestion.name;
+            const name = suggestion.translations?.[preferredLanguage] ?? key;
+            if (myInterestsKeys.indexOf(key)>=0) {
+                buttonClass = 'tick';
+                buttonHTML = localize('Unfollow');
+            }
+            const type = suggestion.field ?? checkType(key);
+            return `
+            <div class="input-container">
+                <div class="input-name">${localize(name)}</div>
+                <button class="myft-follow ${buttonClass}" data-action="add-interest" data-name="${key}" data-type="${type}">${buttonHTML}</button>
+            </div>`;
+        })
+        .join('');
+
+}
+
+// Event listener for input event with debounce
+delegate.on('input', '#custom-topic-input', debounce(async (event) => {
+    const ele = event.target;
+    const value = ele.value.trim();
+    const suggestionEle = ele.closest('.input-name')?.querySelector('.custom-topic-suggestion');
+
+    if (value === '') {
+        hideEle(suggestionEle);
+        return;
+    }
+
+    const suggestions = await fetchSuggestions(value);
+    // Logic to display suggestions
+    // console.log(suggestions);
+    renderSuggestion(suggestionEle, suggestions);
+
+
+}, 300)); // 300 ms debounce time
 
 
 delegate.on('click', '[data-action="add-custom-interest"]', async (event) => {
@@ -280,9 +452,13 @@ delegate.on('click', '[data-action="add-custom-interest"]', async (event) => {
     myInterests.push({key: name, type: customTopicType, display: name});
     myPreference[myCustomInterestsKey] = myInterests;
     localStorage.setItem('preference', JSON.stringify(myPreference));
-    console.log('Updated myPreference: ');
-    console.log(myPreference);
+    // console.log('Updated myPreference: ');
+    // console.log(myPreference);
     input.value = '';
+    let suggestionEle = input.closest('.input-name')?.querySelector('.custom-topic-suggestion');
+    if (suggestionEle) {
+        hideEle(suggestionEle);
+    }
     const createNewElement = ()=>{
         var newElement = document.createElement("div");
         newElement.classList.add('input-container');
@@ -357,8 +533,8 @@ delegate.on('click', '[data-action="add-interest"]', async (event) => {
     }
     myPreference[myInterestsKey] = myInterests;
     localStorage.setItem('preference', JSON.stringify(myPreference));
-    console.log('Update myPreference');
-    console.log(myPreference);
+    // console.log('Update myPreference');
+    // console.log(myPreference);
     updateAnnotationsContainer(myPreference);
 
 });

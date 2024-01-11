@@ -1029,15 +1029,17 @@ function getReadStories() {
     return readIds;
 }
 
-function reorderFTResults(results) {
+function reorderFTResults(results, vectorHighScoreIds) {
+
+    // console.log(`There are ${Object.keys(vectorHighScoreIds)} vector matches! `);
 
     const myPreference = getMyPreference();
-    const myInterests = new Set(myPreference[myInterestsKey] || []);
-    if (myInterests.size === 0) {
-      return results;
-    }
+    const myAnnotationInterests = new Set(myPreference[myInterestsKey] || []);
+    const myCustomInterests = new Set(myPreference[myCustomInterestsKey] || []);
 
-    // TODO: Handle Read Articles Preference
+    const myInterests = new Set([...myAnnotationInterests, ...myCustomInterests]);
+      
+    // MARK: Handle Read Articles Preference
     const readArticle = myPreference[readArticlesKey] || 'show';
     const collapseReadArticles = readArticle === 'collapse';
 
@@ -1062,7 +1064,8 @@ function reorderFTResults(results) {
         const isArticleRead = id && readIds.has(id);
         item.read = isArticleRead;
 
-        const isFollowedInfo = isItemFollowed(item, myInterests);
+        // MARK: Use vectorHighScoreIds to reorder
+        const isFollowedInfo = isItemFollowed(item, myInterests, vectorHighScoreIds);
         const isFollowed = isFollowedInfo.followed;
         if (isFollowed) {
             item.follow = isFollowedInfo.annotation;

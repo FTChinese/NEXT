@@ -119,17 +119,17 @@ delegate.on('click', '.chat-items-expand', async (event) => {
         }
       };
     });
-    const translations = await createTranslations(results, language);
+    // const translations = await createTranslations(results, language);
     for (const [index, item] of selectedItems.entries()) {
       const id = item.getAttribute('data-id');
       let title = item.querySelector('.chat-item-title a').innerHTML;
       // title = await translateFromEnglish(title, language);
       let lead = item.querySelector('.item-lead').innerHTML;
       // lead = await translateFromEnglish(lead, language);
-      if (translations.length > index) {
-        title = translations[index].title || title;
-        lead = translations[index].subheading || lead;
-      }
+      // if (translations.length > index) {
+      //   title = translations[index].title || title;
+      //   lead = translations[index].subheading || lead;
+      // }
       item.querySelector('.chat-item-title a').innerHTML = title;
       item.querySelector('.item-lead').innerHTML = lead;
       item.classList.remove('hide');
@@ -261,7 +261,21 @@ function identifyLanguage(language){//TO Identify language which need to use the
   if (!language || ['zh-TW', 'zh-HK', 'zh-MO', 'zh-MY', 'zh-SG'].indexOf(language) === -1) {
     return false;
   }
-  return true
+  return true;
+}
+
+function containsChinese(str) {
+  return /[\u4E00-\u9FFF]/.test(str);
+}
+
+function fixQuotes(text) {
+  // Replace any traditional Chinese quote (single or double) with an English single quote
+  // This regex matches any of the four traditional Chinese quote characters
+  // MARK: - If it is a JSON string, fixing quotes might corrupt the JSON structure
+  if (/^[\[\{]/.test(text)) {return text;}
+  return text
+    .replace(/(^|[^\u4e00-\u9fff])[『』]([^\u4e00-\u9fff]|$)/g, `$1'$2`)
+    .replace(/(^|[^\u4e00-\u9fff])[「」]([^\u4e00-\u9fff]|$)/g, `$1"$2`);
 }
 
 async function convertChinese(text, language) {
@@ -309,35 +323,41 @@ async function convertChinese(text, language) {
 
   async function convert(language, text) {
       try {
-          if (window.trie === undefined) {
-            window.trie = new Trie();
+        if (window.trie === undefined) {
+          window.trie = new Trie();
+        }
+        if (window.trieLangauge !== language) {
+          let dic = await getDictionary(language);
+          window.trie.load(dic);
+          window.trieLangauge = language;
+        }
+        let currentIndex = 0;
+        let replacedText = '';
+        while (currentIndex < text.length) {
+          const result = window.trie.findMaxMatch(text, currentIndex);
+          if (result && result.to) {
+              replacedText += result.to;
+              currentIndex = result.index + 1;
+          } else {
+              replacedText += text[currentIndex];
+              currentIndex++;
           }
-          if (window.trieLangauge !== language) {
-            let dic =await getDictionary(language);
-            window.trie.load(dic);
-            window.trieLangauge = language;
-          }
-          let currentIndex = 0;
-          let replacedText = '';
-          while (currentIndex < text.length) {
-            const result = window.trie.findMaxMatch(text, currentIndex);
-            if (result && result.to) {
-                replacedText += result.to;
-                currentIndex = result.index + 1;
-            } else {
-                replacedText += text[currentIndex];
-                currentIndex++;
-            }
-          }
-          return replacedText;
+        }
+        return fixQuotes(replacedText);
       } catch (error) {
-          console.error(`Error reading or parsing JSON data: ${error}`);
+        console.error(`Error reading or parsing JSON data: ${error}`);
       }
+      return text;
   }
-  if (identifyLanguage(language)===false){
+
+  if (!identifyLanguage(language)){
+    return text;
+  }
+  if (!containsChinese(text)) {
     return text;
   }
   // MARK: get the urls from language
+  // console.log(`converting: \n${text} to ${language}`);
   const newText = await convert(language, text);
   return newText;
 }
@@ -1172,6 +1192,7 @@ async function setPreference(category, language, reply) {
   // html += `<div class="select-container"><a onclick="subscribeTopics()">Test Notification</a></div>`;
   html += `<div class="chat-item-actions"><a data-purpose="start-over" data-content="start-over">${localize('ApplyAndStartOver')}</a></div>`;
   html = `<div class="settings-container">${html}</div>`;
+  html = await convertChinese(html, language);
   const actions = getActionOptions();
   showResultInChat({text: `${reply || ''}`}, false, false);
   showResultInChat({text: `${html}${actions}`}, true, true);
@@ -1322,7 +1343,7 @@ async function renderResults(results, language) {
   newResult.appendChild(newResultInner);
   chatContent.appendChild(newResult);
   const itemChunk = 5;
-  const translations = await createTranslations(results.slice(0, itemChunk), language);
+  // const translations = await results.slice(0, itemChunk), language);
   let html = '';
   for (const [index, item] of results.entries()) {
     const id = item.id;
@@ -1335,12 +1356,12 @@ async function renderResults(results, language) {
     let hideClass = ' hide';
     if (index < itemChunk) {
       hideClass = '';
-      if (translations.length > index) {
-        title = translations[index].title || title;
-        subheading = translations[index].subheading || subheading;
-      }
-      title = title.trim().replace(/[\.。]+$/g, '');
-      subheading = subheading.trim().replace(/[\.。]+$/g, '');
+      // if (translations.length > index) {
+      //   title = translations[index].title || title;
+      //   subheading = translations[index].subheading || subheading;
+      // }
+      // title = title.trim().replace(/[\.。]+$/g, '');
+      // subheading = subheading.trim().replace(/[\.。]+$/g, '');
     }
     const lang = language || 'English';
     const articleLink = (readArticle === 'pop-out') ? `href="./chat.html#ftid=${id}&language=${lang}&action=read"` : `data-action="show-article"`;
@@ -1361,6 +1382,7 @@ async function renderResults(results, language) {
     </div>`;
     html += newHTML;
   }
+  html = await convertChinese(html, language);
   newResultInner.innerHTML = html;
   if (results.length > itemChunk) {
     const langProperty = (language && language !== 'English') ? ` data-lang=${language}` : '';
@@ -1380,15 +1402,17 @@ async function renderResults(results, language) {
   }
 }
 
+
 async function searchFTAPI(content, language, reply) {
   // console.log(`running searchFTAPI... content: ${content}, language: ${language}`);
   updateBotStatus('pending');
   showResultInChat({text: reply});
   try {
-    const result = await getFTAPISearchResult(content);
-    let results = result?.results?.[0]?.results ?? [];
+    // const searchResult = await getFTAPISearchResult(keyword, language);
+    const searchResults = await getFTAPISearchResult(content, language);
+    let results = searchResults?.results?.[0]?.results ?? [];
     if (results.length > 0) {
-      const results = result.results[0].results;
+      const results = searchResults.results[0].results;
       await renderResults(results, language);
     } else if (/[a-z]+:/g.test(content)) {
       const fullTextContent = content.replace(/[a-z]+:/g, '').trim().replace(/[\ ]+/g, ' ');
@@ -1413,18 +1437,20 @@ async function searchTopic(content, language, reply) {
     // MARK: - Query of form: Financial Times will return all results containing “Financial” and “Times”, with the keywords potentially separated and in any order. This is because the above example is equal to: Financial AND Times. I assume user might want to do a more accurate search, so the query form has quotes like this: "Financial Times"
     // https://developer.ft.com/portal/docs-api-v1-reference-search-search-api-tutorial
     // MARK: - Get the items from keyword search
-    const result = await getFTAPISearchResult(`"${content}"`);
+    const result = await getFTAPISearchResult(`"${content}"`, language);
     let results = (result?.results?.[0]?.results ?? []).map(item => {
       item.source = 'keyword';
       return item;
     });
+    // console.log(language);
+    // console.log(results);
     const idsSet = new Set(results.map(x=>x.id));
 
     // MARK: - Search in vector DB
     const embedding = await getEmbedding(content);
     if (typeof embedding === 'object' && embedding.length > 0) {
       // MARK: - Get the matching items from vector DB
-      let matches = await getMatchesFromVectorDB(embedding);
+      let matches = await getMatchesFromVectorDB(embedding, language);
       const bothSet = new Set();
 
       matches = matches
@@ -1540,25 +1566,23 @@ async function showFTPage(content, language, reply) {
   updateBotStatus('pending');
   showResultInChat({text: reply});
   try {
-    console.log(`Getting ${content}`);
+    // console.log(`Getting ${content}`);
     let result = await getFTPageInfo(content, language);
-    console.log('result: ');
-    console.log(result);
-
-    if (result.results && result.results.length > 0 && result.results[0].groups) {
+    const groups = result?.results?.[0]?.groups ?? [];
+    if (groups.length > 0) {
       const newResult = document.createElement('DIV');
       newResult.className = 'chat-talk chat-talk-agent chat-full-grid';
       const newResultInner = document.createElement('DIV');
       newResultInner.className = 'chat-talk-inner';
       newResult.appendChild(newResultInner);
       chatContent.appendChild(newResult);
-      const results = reorderFTResults(result.results[0].groups);
-      // console.log(results);
+      const vectorHighScoreIds = await getHighScoreIdsFromVectorDB(content);
+      const results = reorderFTResults(groups, vectorHighScoreIds);
       let html = '';
       let themes = new Set();
       let expandedItemCount = 0;
       const minItemsToExpand = 5;
-      for (const [groupIndex, group] of results.entries()) {
+      for (const group of results) {
         const items = group.items;
         let groupExpandClass = '';
         const isExpanded = expandedItemCount < minItemsToExpand;
@@ -1566,7 +1590,6 @@ async function showFTPage(content, language, reply) {
           groupExpandClass = ' expanded';
           expandedItemCount += items.length;
         }
-        // const groupExpandClass = groupIndex === 0 ?  : '';
         let groupHTML = '';
         for (const item of items) {
           const id = item.id;
@@ -1615,7 +1638,7 @@ async function showFTPage(content, language, reply) {
           </div>`;
         html += newHTML;
       }
-      newResultInner.innerHTML = html;
+      newResultInner.innerHTML = await convertChinese(html, language);
       await setIntention('DiscussContent', language, localize('Discuss More'), true, false);
       const itemContainers = newResultInner.querySelectorAll('.chat-item-container');
       
@@ -1800,7 +1823,7 @@ function setTranslatePreference() {
   translationPreference = myPreference['Article Translation Preference'] ?? 'both';
 }
 
-function setConfigurations() {
+async function setConfigurations() {
   // MARK: Update from the hash parameters
   const hashParams = window.location.hash.replace(/^#/g, '').split('&');
   for (const hashString of hashParams) {
@@ -1827,7 +1850,8 @@ function setConfigurations() {
   if (mainChatRole) {
     mainChatRole.innerHTML = mainRoleHTML;
   }
-  const myFollowsHTML = getMyFollowsHTML();
+
+  const myFollowsHTML = await convertChinese(getMyFollowsHTML(), preferredLanguage);
   const rolesHTML = `
   <a data-purpose="show-ft-page" data-lang="${preferredLanguage}" data-content='home' data-reply="${localize('FindingMyFT')}" data-reply-action="set-preference">${localize('MyFT')}</a>
   ${myFollowsHTML}
@@ -1940,7 +1964,7 @@ async function greet() {
 
 // MARK: Chat page Related functions
 async function initChat() {
-  setConfigurations();
+  await setConfigurations();
   await greet();
 }
 

@@ -718,10 +718,25 @@ body {
     div.input-name {
         flex: 1;
         padding: 0;
+        position: relative;
         // font-weight: bold;
         input {
             padding: $defaultPadding * 0.25;
         }
+    }
+}
+
+.custom-topic-suggestion {
+    display: none;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: $defaultPadding;
+    background-color: white;
+    border: 1px solid $borderColor;
+    z-index: 1;
+    &.on {
+        display: block;
     }
 }
 

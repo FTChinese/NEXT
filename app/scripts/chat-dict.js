@@ -1523,19 +1523,33 @@ const randomPromptDict = {
       'zh-HK': '您仲未關注任何話題，請點擊呢度添加',
       ru: 'Вы пока не подписаны ни на одну тему, нажмите здесь, чтобы добавить'
     },
-    'Artificial Intelligence': {
-      en: 'AI',
-      es: 'IA',
-      fr: 'IA',
-      de: 'AI',
-      ja: 'AI',
-      ko: 'AI',
-      pt: 'IA',
-      it: 'IA',
+    'Artificial intelligence': {
+      en: 'Artificial intelligence',
+      es: 'Inteligencia artificial',
+      fr: 'Intelligence artificielle',
+      de: 'Künstliche Intelligenz',
+      ja: '人工知能',
+      ko: '인공 지능',
+      pt: 'Inteligência artificial',
+      it: 'Intelligenza artificiale',
       'zh-TW': '人工智慧',
-      'zh-HK': 'AI',
+      'zh-HK': '人工智能',
       zh: '人工智能',
-      ru: 'ИИ'
+      ru: 'Искусственный интеллект'
+    },
+    'Electric vehicles': {
+      en: 'Electric vehicles',
+      es: 'Vehículos eléctricos',
+      fr: 'Véhicules électriques',
+      de: 'Elektrofahrzeuge',
+      ja: '電気自動車',
+      ko: '전기 자동차',
+      pt: 'Veículos elétricos',
+      it: 'Veicoli elettrici',
+      'zh-TW': '電動汽車',
+      'zh-HK': '電動汽車',
+      zh: '电动汽车',
+      ru: 'Электромобили'
     },
     'Search': {
       en: 'Search',
