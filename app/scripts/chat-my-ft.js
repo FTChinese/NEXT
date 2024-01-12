@@ -293,6 +293,50 @@ async function fetchSuggestions(query) {
 
 }
 
+function hideEle(ele) {
+    if (ele) {
+        ele.classList.remove('on');
+    }
+}
+
+function showEle(ele) {
+    if (ele) {
+        ele.classList.add('on');
+    }
+}
+
+function renderSuggestion(ele, suggestions) {
+    if (!ele) {return;}
+    console.log(suggestions);
+    if (!suggestions || suggestions.length === 0) {
+        console.log('No Suggestion!');
+        hideEle(ele);
+        return;
+    }
+    showEle(ele);
+    const myPreference = getMyPreference();
+    const myInterests = (myPreference[myInterestsKey] || []).filter(x=>typeof x === 'object');
+    const myInterestsKeys = myInterests.map(x=>x.key || '').filter(x=>x!=='');
+    ele.innerHTML = suggestions
+        .map(suggestion=>{
+            let buttonClass = 'plus';
+            let buttonHTML = localize('Follow');
+            const key = suggestion.name;
+            const name = suggestion.translations?.[preferredLanguage] ?? key;
+            if (myInterestsKeys.indexOf(key)>=0) {
+                buttonClass = 'tick';
+                buttonHTML = localize('Unfollow');
+            }
+            const type = suggestion.field ?? checkType(key);
+            return `
+            <div class="input-container">
+                <div class="input-name">${localize(name)}</div>
+                <button class="myft-follow ${buttonClass}" data-action="add-interest" data-name="${key}" data-type="${type}">${buttonHTML}</button>
+            </div>`;
+        })
+        .join('');
+
+}
 
 delegate.on('click', '[data-action="add-interests"]', async (event) => {
 
@@ -341,69 +385,6 @@ delegate.on('click', '[data-action="add-interests"]', async (event) => {
 
 });
 
-function hideEle(ele) {
-    if (ele) {
-        ele.classList.remove('on');
-    }
-}
-
-function showEle(ele) {
-    if (ele) {
-        ele.classList.add('on');
-    }
-}
-
-function renderSuggestion(ele, suggestions) {
-    if (!ele) {return;}
-    console.log(suggestions);
-    if (!suggestions || suggestions.length === 0) {
-        console.log('No Suggestion!');
-        hideEle(ele);
-        return;
-    }
-    /*
-
-<div class="input-container">
-            <div class="input-name">中国</div>
-            <button class="myft-follow tick" data-action="add-interest" data-name="China" data-type="regions">取消关注</button>
-        </div>
-
-
-<div class="input-container">
-            <div class="input-name">公司</div>
-            <button class="myft-follow plus" data-action="add-interest" data-name="Companies" data-type="topics">关注</button>
-        </div>
-
-
-
-
-    */
-    showEle(ele);
-
-
-    const myPreference = getMyPreference();
-    const myInterests = (myPreference[myInterestsKey] || []).filter(x=>typeof x === 'object');
-    const myInterestsKeys = myInterests.map(x=>x.key || '').filter(x=>x!=='');
-    ele.innerHTML = suggestions
-        .map(suggestion=>{
-            let buttonClass = 'plus';
-            let buttonHTML = localize('Follow');
-            const key = suggestion.name;
-            const name = suggestion.translations?.[preferredLanguage] ?? key;
-            if (myInterestsKeys.indexOf(key)>=0) {
-                buttonClass = 'tick';
-                buttonHTML = localize('Unfollow');
-            }
-            const type = suggestion.field ?? checkType(key);
-            return `
-            <div class="input-container">
-                <div class="input-name">${localize(name)}</div>
-                <button class="myft-follow ${buttonClass}" data-action="add-interest" data-name="${key}" data-type="${type}">${buttonHTML}</button>
-            </div>`;
-        })
-        .join('');
-
-}
 
 // Event listener for input event with debounce
 delegate.on('input', '#custom-topic-input', debounce(async (event) => {
@@ -547,5 +528,44 @@ delegate.on('click', '[data-action="close-overlay"]', async (event) => {
     }
 
 });
+
+
+delegate.on('dragstart', '.input-container', async (event) => {
+
+    console.log('dragstart');
+    const ele = event.target;
+    console.log(ele);
+
+});
+
+delegate.on('dragend', '.input-container', async (event) => {
+
+    console.log('dragend');
+    const ele = event.target;
+    console.log(ele);
+
+});
+
+delegate.on('drop', '.annotations-container', async (event) => {
+
+    console.log('drop');
+    const ele = event.target;
+    console.log(ele);
+
+});
+
+delegate.on('dragover', '.annotations-container', async (event) => {
+    event.preventDefault();
+
+    // console.log('dragover');
+    // const ele = event.target;
+    // console.log(ele);
+
+});
+
+
+
+
+
 
 /* jshint ignore:end */

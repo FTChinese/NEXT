@@ -1088,7 +1088,7 @@ function getFollowedAnnotations(myPreference, infos) {
     const action = info.action;
     followedAnnotations += (myPreference[id] || [])
         .filter(x=>typeof x === 'object')
-        .map(x=>`<div class="input-container"><div class="input-name">${localize(x.display)}</div><button class="myft-follow tick" data-action="${action}" data-name="${x.key}" data-type="${x.type}">${localize('Unfollow')}</button></div>`)
+        .map(x=>`<div class="input-container" draggable="true"><div class="input-name">${localize(x.display)}</div><button class="myft-follow tick" data-action="${action}" data-name="${x.key}" data-type="${x.type}">${localize('Unfollow')}</button></div>`)
         .join('');
   }
   if (followedAnnotations === '') {
