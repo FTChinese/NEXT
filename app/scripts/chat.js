@@ -247,7 +247,8 @@ function localize(status, fallback) {
   if (language === 'Chinese') {language = 'zh';}
   const languagePrefix = language.replace(/\-.*$/g, '');
   let statusTitle = status;
-  const s = statusDict[status];
+  const statusKey = status.toLowerCase();
+  const s = statusDict[statusKey];
   if (s) {
     return s[language] || s[languagePrefix] || s.en;
   }
