@@ -374,16 +374,16 @@ function updateStatus(status) {
     currentChatEle.innerHTML = `${localize(status)}`;
   }
   userInput.placeholder = localize(status);
-  console.log(`\n======\nupdateStatus`);
-  console.log('previousConversations: ');
-  console.log(JSON.stringify(previousConversations, null, 2));
-  console.log('previousIntentDections: ');
-  console.log(JSON.stringify(previousIntentDections, null, 2));
+  // console.log(`\n======\nupdateStatus`);
+  // console.log('previousConversations: ');
+  // console.log(JSON.stringify(previousConversations, null, 2));
+  // console.log('previousIntentDections: ');
+  // console.log(JSON.stringify(previousIntentDections, null, 2));
 }
 
 async function nextAction(intention) {
   if (!intention) {return;}
-  console.log(`nextAction: intention: ${intention}, window.intention: ${window.intention}`);
+  // console.log(`nextAction: intention: ${intention}, window.intention: ${window.intention}`);
   if (intention === 'socratic' && window.socracticInfo && typeof window.socracticIndex === 'number' && window.socracticIndex >= 0) {
     window.socracticIndex += 1;
     if (window.socracticInfo.length > window.socracticIndex) {
@@ -890,8 +890,8 @@ function getShortcutOptions(prompt) {
     }
   ];
   for (const shortcut of shortcuts) {
-    let mostpopular = shortcut.key;
-    let mostpopulars = [mostpopular].concat(Object.keys(statusDict[mostpopular]).map(key=>statusDict[mostpopular][key]));
+    const mostpopularKey = shortcut.key.toLowerCase();
+    const mostpopulars = [mostpopularKey].concat(Object.keys(statusDict[mostpopularKey] || []).map(key=>statusDict[mostpopularKey][key]));
     let mostpopularRegex = shortcut.regex; 
     if (mostpopulars.indexOf(prompt) >= 0 || mostpopularRegex.test(prompt)) {
       return {purpose: shortcut.purpose, content: shortcut.content, reply: shortcut.reply};
@@ -1080,21 +1080,34 @@ function startOver() {
 }
 
 function getFollowedAnnotations(myPreference, infos) {
-  // console.log(myPreference);
-  // console.log(id);
-  let followedAnnotations = '';
+
+  let allItems = [];
+  let allIndex = 0;
   for (const info of infos) {
     const id = info.id;
     const action = info.action;
-    followedAnnotations += (myPreference[id] || [])
-        .filter(x=>typeof x === 'object')
-        .map(x=>`<div class="input-container" draggable="true"><div class="input-name">${localize(x.display)}</div><button class="myft-follow tick" data-action="${action}" data-name="${x.key}" data-type="${x.type}">${localize('Unfollow')}</button></div>`)
-        .join('');
+    for (const x of (myPreference[id] || [])) {
+      if (typeof x !== 'object') {continue;}
+      let index = x.index || 0;
+      allIndex += index;
+      allItems.push({display: localize(x.display), action: action, key: x.key, type: x.type, index: index});
+    }
   }
+  if (allIndex > 0) {
+    allItems = allItems.sort((a,b) => a.index - b.index);
+  }
+
+  let followedAnnotations = '';
+
+  for (const x of allItems) {
+    followedAnnotations += `<div class="input-container" draggable="true"><div class="input-name">${localize(x.display)}</div><button class="myft-follow tick" data-action="${x.action}" data-name="${x.key}" data-type="${x.type}">${localize('Unfollow')}</button></div>`;
+  }
+
   if (followedAnnotations === '') {
     followedAnnotations = `<div data-action="add-interests">${localize('PromptAdd')}</div>`;
   }
   return followedAnnotations;
+
 }
 
 async function setPreference(category, language, reply) {
@@ -1571,6 +1584,17 @@ async function showFTPage(content, language, reply) {
     let result = await getFTPageInfo(content, language);
     const groups = result?.results?.[0]?.groups ?? [];
     if (groups.length > 0) {
+      const myPreference = getMyPreference();
+      let myInterestsDict = {};
+      const interetKeys = [myInterestsKey, myCustomInterestsKey];
+      for (const interestKey of interetKeys) {
+        const items = myPreference[interestKey] || [];
+        for (const item of items) {
+          const key = item.key;
+          if (!key) {continue;}
+          myInterestsDict[key] = item;
+        }
+      }
       const newResult = document.createElement('DIV');
       newResult.className = 'chat-talk chat-talk-agent chat-full-grid';
       const newResultInner = document.createElement('DIV');
@@ -1607,7 +1631,8 @@ async function showFTPage(content, language, reply) {
           let termName = item.metadata?.primaryTheme?.term?.name;
           let follow = item.follow;
           if (follow) {
-            primaryTheme = `<span class="primary-theme">${localize(follow)}</span>`;//<button class="myft-follow tick" data-action="add-interest" data-name="China">取消关注</button>
+            const fallback = myInterestsDict[follow]?.display;
+            primaryTheme = `<span class="primary-theme">${localize(follow, fallback)}</span>`;
           } else if (termName && !themes.has(termName) && !/[\(\)（）]/.test(termName)) {
             primaryTheme = `<span class="primary-theme">${termName}</span>`;
             themes.add(termName);
@@ -1711,7 +1736,7 @@ function getRandomPrompt(purpose) {
 
 function getActionOptions() {
   const language = preferredLanguage;
-  console.log(`getActionOptions with intention: ${intention}`);
+  // console.log(`getActionOptions with intention: ${intention}`);
   let result = '';
   if (intention === 'DiscussArticle') {
     result = moveStoryActions();

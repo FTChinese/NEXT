@@ -75,7 +75,11 @@ function getMyFollowsHTML() {
 
     const my = getMyPreference();
     const follows = (my[myInterestsKey] || []).filter(x => typeof x === 'object');
+
+    let allIndex = 0;
     const interests = follows.map(info=>{
+        const index = info.index || 0;
+        allIndex += index;
         const key = info.key;
         const display = localize(key, info.display);
         let field = info.type || '';
@@ -86,15 +90,21 @@ function getMyFollowsHTML() {
         if (field === 'curations') {
             content = key;
         }
-        return `<a data-purpose="search-ft-api" data-lang="${preferredLanguage}" data-content="${content}" data-reply="${localize('Finding')}">${display}</a>`;
-    }).join('');
+        return {index: index, html: `<a data-purpose="search-ft-api" data-lang="${preferredLanguage}" data-content="${content}" data-reply="${localize('Finding')}">${display}</a>`};
+    });
     const customTopics = (my[myCustomInterestsKey] || []).filter(x=>typeof x === 'object');
     const topics = customTopics.map(info=>{
+        const index = info.index || 0;
+        allIndex += index;
         const key = info.key;
         const display = localize(key, info.display);
-        return `<a data-purpose="search-topic" data-lang="${preferredLanguage}" data-content="${key}" data-reply="${localize('Finding')}">${display}</a>`;
-    }).join('');
-    return topics + interests;
+        return {index: index, html: `<a data-purpose="search-topic" data-lang="${preferredLanguage}" data-content="${key}" data-reply="${localize('Finding')}">${display}</a>`};
+    });
+    let allItems = topics.concat(interests);
+    if (allIndex > 0) {
+        allItems = allItems.sort((a, b) => a.index - b.index);
+    }
+    return allItems.map(x=>x.html).join('');
 
 }
 
@@ -530,38 +540,115 @@ delegate.on('click', '[data-action="close-overlay"]', async (event) => {
 });
 
 
+let draggingEle;
+let lastEntered;
+
 delegate.on('dragstart', '.input-container', async (event) => {
 
-    console.log('dragstart');
     const ele = event.target;
-    console.log(ele);
+    draggingEle = ele;
+    let allEles = ele.parentNode.children;
+    let index = 0;
+    for (let oneEle of allEles) {
+        oneEle.setAttribute('data-index', index);
+        index += 1;
+    }
 
 });
+
 
 delegate.on('dragend', '.input-container', async (event) => {
 
-    console.log('dragend');
     const ele = event.target;
-    console.log(ele);
+    draggingEle = undefined;
+    // Remove the visual effect from all elements
+    const elementsWithEffect = document.querySelectorAll('.drag-over-effect');
+    elementsWithEffect.forEach(ele => ele.classList.remove('drag-over-effect'));
 
 });
 
+
+function updateMyPreferenceFromDragging(ele) {
+
+    let myPreference = getMyPreference();
+
+    let index = 0;
+    let order = {};
+    for (let child of ele.children) {
+        const buttonEle = child.querySelector('[data-name]');
+        if (buttonEle) {
+            const name = buttonEle.getAttribute('data-name') || '';
+            const type = buttonEle.getAttribute('data-type') || '';
+            const key = `${type}${name}`;
+            order[key] = index;
+        } 
+        child.setAttribute('data-index', index);
+        index += 1;
+    }
+    const keys = [myCustomInterestsKey, myInterestsKey];
+    for (const key of keys) {
+        for (const item of myPreference[key]) {
+            const orderKey = `${item.type}${item.key}`;
+            const orderIndex = order[orderKey] || 0;
+            item.index = orderIndex;
+        }
+        myPreference[key] = myPreference[key].sort((a,b)=>a.index - b.index);
+    }
+    localStorage.setItem('preference', JSON.stringify(myPreference));
+
+}
+
 delegate.on('drop', '.annotations-container', async (event) => {
 
-    console.log('drop');
     const ele = event.target;
-    console.log(ele);
+    let droppingEle = ele.closest('.input-container');
+    if (!droppingEle) {return;}
+
+    let droppingIndex = parseInt((droppingEle?.getAttribute('data-index') ?? 0), 10);
+
+    let draggingIndex = parseInt((draggingEle?.getAttribute('data-index') ?? 0), 10);
+
+    if (draggingIndex >= droppingIndex) {
+        droppingEle.before(draggingEle);
+    } else {
+        droppingEle.after(draggingEle);
+    }
+
+    updateMyPreferenceFromDragging(draggingEle.parentNode);
 
 });
 
 delegate.on('dragover', '.annotations-container', async (event) => {
+
     event.preventDefault();
 
-    // console.log('dragover');
-    // const ele = event.target;
-    // console.log(ele);
+    const ele = event.target.closest('.input-container');
+
+    // Ensure we are on a valid target
+    if (!ele) return;
+
+    // Add visual effect
+    ele.classList.add('drag-over-effect');
+
+    // Remove the effect from the last entered element if it's different
+    if (lastEntered && lastEntered !== ele) {
+        lastEntered.classList.remove('drag-over-effect');
+    }
+    lastEntered = ele; 
 
 });
+
+
+delegate.on('dragleave', '.input-container', async (event) => {
+
+    const ele = event.target.closest('.input-container');
+    if (ele) {
+        ele.classList.remove('drag-over-effect');
+    }
+
+});
+
+
 
 
 
