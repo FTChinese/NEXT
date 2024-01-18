@@ -315,6 +315,13 @@ function showEle(ele) {
     }
 }
 
+function capitalize(word) {
+    if (word && typeof word === 'string') {
+        return word.charAt(0).toUpperCase() + word.slice(1);
+    }
+    return word;
+}
+
 function renderSuggestion(ele, suggestions) {
     if (!ele) {return;}
     console.log(suggestions);
@@ -329,18 +336,23 @@ function renderSuggestion(ele, suggestions) {
     const myInterestsKeys = myInterests.map(x=>x.key || '').filter(x=>x!=='');
     ele.innerHTML = suggestions
         .map(suggestion=>{
-            let buttonClass = 'plus';
-            let buttonHTML = localize('Follow');
             const key = suggestion.name;
+            const field = suggestion.field;
+            let buttonClass = 'plus';
+            let buttonHTML = `${localize('Follow')}${localize('<!--space-->', ' ')}${capitalize(localize(field))}`;
             const name = suggestion.translations?.[preferredLanguage] ?? key;
             if (myInterestsKeys.indexOf(key)>=0) {
                 buttonClass = 'tick';
                 buttonHTML = localize('Unfollow');
             }
             const type = suggestion.field ?? checkType(key);
+            const extra = (localize(name) === key) ? '' : `(${key})`;
             return `
             <div class="input-container">
-                <div class="input-name">${localize(name)}</div>
+                <div class="input-name-container">
+                <span class="input-name">${localize(name)}</span>
+                <span class="input-extra">${extra}</span>
+                </div>
                 <button class="myft-follow ${buttonClass}" data-action="add-interest" data-name="${key}" data-type="${type}">${buttonHTML}</button>
             </div>`;
         })

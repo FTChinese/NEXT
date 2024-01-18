@@ -78,6 +78,9 @@ body {
 .main-content {
     margin: 0 auto 0 $sideBarWidth;
     position: relative;
+    .full-grid & {
+        margin: 0 auto;
+    }
     // flex-grow: 1;
     // height: 100vh;
     // overflow-y: scroll;
@@ -714,11 +717,11 @@ body {
     div.input-container {
         display: flex;
         padding-bottom: $defaultPadding * 0.5;
+        position: relative;
     }
-    div.input-name {
+    div.input-name, div.input-name-container {
         flex: 1;
         padding: 0;
-        position: relative;
         // font-weight: bold;
         input {
             padding: $defaultPadding * 0.25;
@@ -729,9 +732,9 @@ body {
 .custom-topic-suggestion {
     display: none;
     position: absolute;
-    left: 0;
-    right: 0;
-    top: $defaultPadding;
+    left: $defaultPadding * 0.5;
+    right: $defaultPadding * 0.5;
+    top: $defaultPadding * 1.5;
     background-color: white;
     border: 1px solid $borderColor;
     z-index: 1;

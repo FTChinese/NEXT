@@ -245,12 +245,17 @@ function localize(status, fallback) {
   if (!status) {return;}
   let language = preferredLanguage;
   if (language === 'Chinese') {language = 'zh';}
+  
   const languagePrefix = language.replace(/\-.*$/g, '');
   let statusTitle = status;
   const statusKey = status.toLowerCase();
   const s = statusDict[statusKey];
   if (s) {
-    return s[language] || s[languagePrefix] || s.en;
+    let r = s[language] || s[languagePrefix];
+    if (!r && r !== '') {
+      return s.en;
+    }
+    return r;
   }
   if (fallback && typeof fallback === 'string' && fallback !== '') {
     return fallback;
@@ -873,6 +878,11 @@ function hidePreviousActions() {
 }
 
 function getShortcutOptions(prompt) {
+  // MARK: - If the user is prompting these keys, there's no shortcut
+  const nonShortcuts = /Why|How|Which|Who|谁|为什|为啥/gi;
+  if (nonShortcuts.test(prompt)) {
+    return null;
+  }
   const shortcuts = [
     {
       key: 'Most Popular',
@@ -883,7 +893,7 @@ function getShortcutOptions(prompt) {
     },
     {
       key: 'Top News For Me',
-      regex: /最新[的]*新闻|最新[的]*要闻|What's[the latest]+News|Latest News/gi,
+      regex: /^(What's[the latest]+New[s\.\s\?]*|有什么[最新]*[新闻消息内容]+[?？\.。\s]*)$/gi,
       purpose: 'show-ft-page',
       content: 'home',
       reply: 'FindingMyFT'
