@@ -185,7 +185,8 @@
                 <%assign var="itemImage" value=$item.image|default:$item.story_pic.cover|default:$item.story_pic.smallbutton|default:$item.story_pic.other|default:$item.story_pic.bigbutton%>
             <%/if%>
             <%assign var="itemHeadline" value=$item.headline|default:$item.cheadline|default:$item.cn_title%>
-            <%assign var=itemLink value="`$mainDomain``$itemType`/`$itemId`?s=w`$discountCode``$ccodePara`#s=w"%>
+            <%assign var=itemLink value="`$mainDomain``$itemType`/`$itemId`?token="|cat:'$$data.emailkey$$'|cat:"&s=w`$discountCode``$ccodePara`#s=w"%>
+
             <%if $item.customLink != ""%>
                 <%if preg_match("/^http/is",$item.customLink) %>
                     <%assign var=itemLink value="`$item.customLink`#s=w"%>

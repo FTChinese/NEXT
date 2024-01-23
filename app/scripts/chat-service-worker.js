@@ -1,7 +1,7 @@
 /* jshint ignore:start */
 
 
-const cacheName = 'v843';
+const cacheName = 'v844';
 console.log(`CACHE_NAME: ${cacheName}`);
 const domain = 'https://ftcoffer.herokuapp.com';
 const startUrl = '/powertranslate/chat.html';
@@ -13,7 +13,7 @@ const URLS = [
 
 // Respond with cached resources
 self.addEventListener('fetch',  e => {
-    // console.log(`service worker: fetching at ${cacheName}`);
+    console.log(`service worker: fetching at ${cacheName}`);
     e.respondWith(
         caches.match(e.request).then( (request) => {
             return request || fetch(e.request);
