@@ -1173,10 +1173,10 @@ async function setPreference(category, language, reply) {
         name: readArticlesKey,
         type: 'select',
         options: [
-          {value: 'show', name: 'Show'},
-          {value: 'collapse', name: 'Collapse to Bottom'}
+          {value: 'collapse', name: 'Collapse to Bottom'},
+          {value: 'show', name: 'Show'}
         ],
-        fallback: 'show'
+        fallback: 'collapse'
       }
     ]
   };
