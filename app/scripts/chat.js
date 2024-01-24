@@ -32,7 +32,8 @@ const scrollOptionsStart = {
   behavior: 'smooth', 
   block: 'start',
   inline: "nearest"
-}
+};
+
 
 var composing = false;
 
@@ -223,6 +224,14 @@ delegate.on('click', '.sidebar-bg, .sidebar a, .sidebar button',  (event) => {
 delegate.on('click', '#back-arrow',  (event) => {
   window.close();
 });
+
+// MARK: - For now, the native iOS app will call this function
+function toggleSideBar() {
+  let sideBarEle = document.querySelector('.sidebar');
+  if (sideBarEle) {
+    sideBarEle.classList.toggle('on');
+  }
+}
 
 function hideItemActions(element) {
   let actionsEle = element.closest('.chat-item-actions');
@@ -856,12 +865,35 @@ function showResultInChat(result, shouldScrollIntoView = true, isFullGrid = fals
     }
     if(shouldScrollIntoView) {
       setTimeout(function(){
-        newResult.querySelector(inViewClass).scrollIntoView(scrollOptions);
+        // newResult.querySelector(inViewClass).scrollIntoView(scrollOptions);
+        scrollIntoViewProperly(newResult.querySelector(inViewClass));
       }, 0);
     }
   } else if (shouldScrollIntoView) {
-      newResult.scrollIntoView(scrollOptions);
+    scrollIntoViewProperly(newResult);
+      // newResult.scrollIntoView(scrollOptions);
   }
+}
+
+function scrollIntoViewProperly(ele, preferedOptions) {
+  const eleHeight = ele.offsetHeight || 0;
+  const windowHeight = window.innerHeight || 0;
+  const topBottomEdgeHeight = 100;
+  const visibleChatWindowHeight = windowHeight - topBottomEdgeHeight;
+  if (eleHeight < visibleChatWindowHeight) {
+    ele.scrollIntoView(scrollOptions);
+  } else {
+    const offsetTop = ele.offsetTop || 0;
+    const topEdge = 44;
+    const offsetPosition = Math.max(0, offsetTop - topEdge);
+    console.log(`Count the scroll height: offsetTop: ${offsetTop}`);
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: 'smooth'
+    });
+  
+  }
+  
 }
 
 function showUserPrompt(prompt) {
@@ -1218,6 +1250,12 @@ async function setPreference(category, language, reply) {
   html = `<div class="settings-container">${html}</div>`;
   html = await convertChinese(html, language);
   const actions = getActionOptions();
+
+  const scrollOptions = { 
+    behavior: 'smooth', 
+    block: 'nearest',
+  };
+
   showResultInChat({text: `${reply || ''}`}, false, false);
   showResultInChat({text: `${html}${actions}`}, true, true);
 }
@@ -1730,7 +1768,7 @@ async function handleResultSources(sources) {
     html += `<li><a target="_blank" href="./chat.html#ftid=${item.id}&language=${language}&amp;action=read">${title}</a></li>`
   }
   html = `<ul class="chat-citations">${html}</ul>`;
-  showResultInChat({text: html});
+  showResultInChat({text: html}, false);
 }
 
 function getRandomPrompt(purpose) {
@@ -2195,7 +2233,7 @@ if (webpushInfo) {
 updateLanguageOptionDict();
 
 
-(async()=>{
+(async() => {
   await initChat();
   await registerServiceWorker();
   await setGuardRails();

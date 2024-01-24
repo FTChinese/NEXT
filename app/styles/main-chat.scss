@@ -251,6 +251,9 @@ a[data-action] {
     // height: $navHeight + 1.25 * $defaultPadding;// calc(env(safe-area-inset-bottom)/3)
     height: calc(#{$navHeight} + #{1.25 * $defaultPadding} + #{env(safe-area-inset-bottom) / 3});
     background-color: $defaultPink;
+    .is-in-native-app & {
+        height: calc(#{$navHeight} + #{1.25 * $defaultPadding});
+    }
 }
 .chat-input-inner {
     position: absolute;
@@ -269,6 +272,9 @@ a[data-action] {
     color: $lightGrey;
     text-align: center;
     padding: $defaultPadding * 0.25 $defaultPadding * 0.25 calc(env(safe-area-inset-bottom)/3) $defaultPadding * 0.25;
+    .is-in-native-app & {
+        padding: $defaultPadding * 0.25 $defaultPadding * 0.25 0 $defaultPadding * 0.25;
+    }
 }
 .chat-input {
     display: flex;

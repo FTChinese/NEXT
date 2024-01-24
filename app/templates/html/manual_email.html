@@ -478,39 +478,6 @@ width: <%$containerWidth%> !important;
 
 
 
-<%*<!--
-<%assign var="hotTopics" value=$articles.HotTopics%>
-<%assign var="hotTopics" value=$hotTopics|replace:"，":","%>
-<%assign var="topics" value=","|explode:$hotTopics%>
-<%foreach from=$topics item=topic%>
-<%if $topic!=""%>
-<tr><td class="lineH1" style="height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
-<tr>
-<td style="width: <%$contentPaddingValue%>; line-height:<%$contentPaddingNone%>; border:<%$contentPaddingNone%>; font-size:<%$contentPaddingNone%>;" class="contentPadding"  >&nbsp;</td>
-<td class="ft-header-bar" style="color:<%$barColor%>; background-color: <%$barBackgroundColor%>;font-size:<%$barFontSize%>;font-weight:bold;padding:<%$barPadding%>;text-transform:uppercase;width:100%; border-width:  <%$barBorderWidth%>; border: 1px <%$barBorderColor%> solid; "><a href="<%$mainDomain%>tag/<%$topic|escape:"url"%>" style="color:#333333;text-decoration:none;" target=_blank><%$topic%></a></td>
-<td style="width: <%$contentPaddingValue%>; line-height:<%$contentPaddingNone%>; border:<%$contentPaddingNone%>; font-size:<%$contentPaddingNone%>;" class="contentPadding">&nbsp;</td>
-</tr>
-<tr><td class="lineH1" style="display: <%$contentPaddingDisplay%> !important; height: 10px; font-size: 10px; line-height: 10px; padding: 0;">&nbsp;</td></tr>
-<tr><td style="width: 3%;" class="contentPadding">&nbsp;</td><td style="font-size:14px;line-height:25px;color:#505050;padding-left:17px;padding-right:17px;" class="subhead textPadding lineH">
-<%assign var="allstories" value=$storymodel->get_story_by_field_search("tag like '%`$topic`%'",0,5,15,10800)%>
-
-<%foreach from=$allstories item=sc%>
-<div class="lineH" style="line-height:161.8%;">
-<div class="lineH1_4" style="line-height:35px;font-size:25px;">
-<a target=_blank style="FONT-WEIGHT:bold;TEXT-DECORATION:none;color:#111;" href="<%$mainDomain%>story/<%$sc.id%>?token=$$data.2$$#s=w"><%$sc.cheadline%></a>
-</div>
-<%$sc.clongleadbody|default:$sc.cshortleadbody|default:$sc.cskylinetext%>
-<div style="height:8px;font-size:6px;"><br /></div>
-</div>
-<%assign var=i value=$i+1%>
-<%/foreach%>
-</td><td style="width: 3%;" class="contentPadding">&nbsp;</td></tr>
-<%/if%>
-
-<%/foreach%>
-
--->*%>
-
 <tr>
 <td style="width: 3%;" class="contentPadding">&nbsp;</td>
 <td style="font-size:14px;line-height:25px;color:#505050;padding-left:17px;padding-right:17px;" class="subhead textPadding lineH">
