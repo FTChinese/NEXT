@@ -140,7 +140,7 @@
     <%if 1>2 && $v <= 238 && $pageId == "home"%>
         <%assign var="showAppStoreWarning" value="yes"%>
     <%/if%>
-    <%if $v <= 276%>
+    <%if $v < 277%>
         <%assign var="grabGoogleAdGPT" value="yes"%>
     <%/if%>
 <%elseif $smarty.get.android != ""%>
@@ -154,6 +154,9 @@
     <%/if%>
     <%if $androidVersionCode <= 64%>
         <%assign var="displayMBAGymWithCorp" value="yes"%>
+    <%/if%>
+    <%if $androidVersionCode < 119%>
+        <%assign var="grabGoogleAdGPT" value="yes"%>
     <%/if%>
 <%/if%>
 
@@ -644,11 +647,6 @@
     <%/if%>
 
 
-    <%if $grabGoogleAdGPT == "yes" || $smarty.get.android != ""%>
-        <script async src='https://d2785ji6wtdqx8.cloudfront.net/js/gpt.js?<%include file="next/timestamp/timestamp.html"%>'></script>
-    <%/if%>
-
-
     <script type="text/javascript">
         var adchIDNew = window.location.href.replace(/^.*adchannelID=([0-9]{4}).*$/g,'$1');
         if (/^[0-9]{4}$/.test(adchIDNew)) {
@@ -685,6 +683,44 @@
         <div style="height: 200px"></div>
     <%/if%>
 
+
+
+    <%if $grabGoogleAdGPT == "yes" || $smarty.get.android != ""%>
+        <script type="text/javascript">
+            // Function to load a script
+            var timeStamp = '<%include file="next/timestamp/timestamp.html"%>';
+            function loadScript(url, callback) {
+                var script = document.createElement("script");
+                script.type = "text/javascript";
+
+                // If the script loads successfully, execute the callback
+                script.onload = function() {
+                    if (callback) callback();
+                };
+
+                // Handle errors in loading the script
+                script.onerror = function() {
+                    console.error("Script load failed: " + url);
+                };
+
+                script.src = url + '?' + timeStamp;
+                document.head.appendChild(script);
+            }
+
+            // Function to load the first script and then the second
+            function loadScriptsSequentially() {
+                loadScript("https://d2785ji6wtdqx8.cloudfront.net/js/gpt.js", function() {
+                    console.log("First script loaded successfully.");
+                    loadScript("https://d2785ji6wtdqx8.cloudfront.net/n/ad-polyfill.js", function() {
+                        console.log("Second script loaded and run successfully.");
+                    });
+                });
+            }
+
+            // Load the scripts when the window loads
+            loadScriptsSequentially();
+        </script>
+    <%/if%>
 
 
     <%*<!-- MARK: - Huawei Market requires us to remove all crytocurrency reports. This code is intended to trick them to believe that we did. Start. -->*%>

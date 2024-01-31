@@ -65,6 +65,8 @@ function passLoginToNative() {
             }
             if (userInfo.expire && userInfo.expire > 0) {
                 message.paywallExpire = userInfo.expire.toString();
+            } else if (typeof userInfo.expire === 'string' && userInfo.expire !== '') {
+                message.paywallExpire = userInfo.expire;
             }
             message.ccode = userInfo.campaign_code || '';
             message.duration = userInfo.latest_duration || '';
