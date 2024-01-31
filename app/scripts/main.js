@@ -137,7 +137,7 @@ function loadImagesLazy () {
 
 // Lazy-load videos
 function loadVideosLazy () {
-  if (videosLoadStatus ===1 ) {
+  if (videosLoadStatus === 1 ) {
     return;
   }
   var videosToLoad = 0;

@@ -39,10 +39,10 @@ const origamiModules = [
   //   source: 'http://www.ft.com/__origami/service/build/v2/bundles/js?modules=o-gallery@^1.7.6',
   //   dest: './app/origami/o-gallery.js'
   // },
-  // {
-  //   source: 'https://www.ft.com/__origami/service/build/v2/bundles/js?modules=o-ads@10.2.1',
-  //   dest: './app/origami/o-ads.js'
-  // },
+  {
+    source: 'https://www.ft.com/__origami/service/build/v2/bundles/js?modules=o-ads@10.2.1',
+    dest: './app/origami/o-ads.js'
+  },
   // {
   //   source: 'https://www.ft.com/__origami/service/build/v2/bundles/css?modules=o-grid@^4.5.1,o-colors@^4.8.5,o-typography@^5.10.1,o-table@^7.2.1&brand=internal',
   //   dest: './app/origami/o-grid.css'
@@ -60,15 +60,15 @@ const origamiModules = [
 
 // fetch contents from `origamiModules.source` and write to `origamiModules.dest`.
 gulp.task('origami', () => {
+  const now = new Date().getTime();
   return co(function *() {
     const results = yield Promise.all(origamiModules.map(module => {
-      console.log(`fetching ${module.source}`);
   // After getting response from url, return a new object consisting of url's content and file name to write.
       return got(module.source)
         .then(response => {
           var body = response.body;
           if (module.source.indexOf('o-ads') >= 0) {
-            body = body.replace(/www\.googletagservices\.com\/tag\/js\/gpt\.js/g, 'd2785ji6wtdqx8.cloudfront.net/js/gpt.js');
+            body = body.replace(/www\.googletagservices\.com\/tag\/js\/gpt\.js/g, `d2785ji6wtdqx8.cloudfront.net/js/gpt.js?${now}`);
           }
           return {
             dest: module.dest,
@@ -469,6 +469,7 @@ gulp.task('copy', gulp.series(
     'copy:tpl', 
     'copy:cms',
     'copy:p0', 
-    'copy:time'
+    'copy:time',
+    'origami'
   )
 ));

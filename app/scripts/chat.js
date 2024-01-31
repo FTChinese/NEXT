@@ -1688,8 +1688,14 @@ async function showFTPage(content, language, reply) {
           const lang = language || 'English';
           const articleLink = (readArticle === 'pop-out') ? `href="./chat.html#ftid=${id}&language=${lang}&action=read"` : `data-action="show-article"`;
           const readClass = (item.read === true) ? ' read' : '';
+          let media = '';
+          if (item.image) {
+            media = `<div class="image story-image"><figure data-url="${item.image}" class="loading"></figure></div>`;
+          }
+
           groupHTML += `
             <div data-id="${id}" data-lang="${lang}" class="chat-item-container${readClass}">
+              ${media}
               ${primaryTheme}
               <div class="chat-item-title">
                 <a ${articleLink} target="_blank" title="${byline}: ${excerpt}">${title}</a>
@@ -1713,6 +1719,7 @@ async function showFTPage(content, language, reply) {
         html += newHTML;
       }
       newResultInner.innerHTML = await convertChinese(html, language);
+      showImagesForExpandedGroups();
       await setIntention('DiscussContent', language, localize('Discuss More'), true, false);
       const itemContainers = newResultInner.querySelectorAll('.chat-item-container');
       
@@ -1734,6 +1741,17 @@ async function showFTPage(content, language, reply) {
     console.log(err);
   }
   updateBotStatus('waiting');
+}
+
+function showImagesForExpandedGroups() {
+  let figures = document.querySelectorAll('.chat-item-group-container.expanded figure.loading');
+  console.log(figures);
+
+  // if (location.host === 'ftcoffer.herokuapp.com') {
+  //   visualHeading = `https://www.ft.com/__origami/service/image/v2/images/raw/${encodeURIComponent(visualHeading)}?fit=scale-down&source=next&width=1920`;
+  // } else {
+  //   visualHeading = `https://thumbor.ftacademy.cn/unsafe/1920x0/${encodeURIComponent(visualHeading)}`;
+  // }
 }
 
 async function handleResultPrompt(resultHTML) {

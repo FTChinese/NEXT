@@ -448,7 +448,7 @@
                 <%assign var="itemSubType" value="mbagym"%>
             <%/if%>
         <%/if%>
-        <%if $itemType == "video"%>
+        <%if $itemType == "video" || preg_match("/推广视频|精彩视频|产品视频/is", $itemTagsString)%>
             <%assign var="itemClass" value="`$itemClass` is-video"%>
         <%elseif $itemSubType == "radio"%>
             <%assign var="itemClass" value="`$itemClass` is-audio"%>

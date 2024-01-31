@@ -140,6 +140,9 @@
     <%if 1>2 && $v <= 238 && $pageId == "home"%>
         <%assign var="showAppStoreWarning" value="yes"%>
     <%/if%>
+    <%if $v <= 276%>
+        <%assign var="grabGoogleAdGPT" value="yes"%>
+    <%/if%>
 <%elseif $smarty.get.android != ""%>
     <%*<!-- MARK: android app -->*%>
     <%assign var="androidVersionCode" value=$smarty.get.android|floatval%>
@@ -639,6 +642,13 @@
         <style><%include file="next/styles/main-black.css"%></style>
         <script type="text/javascript">var pageTheme = 'black';</script>
     <%/if%>
+
+
+    <%if $grabGoogleAdGPT == "yes" || $smarty.get.android != ""%>
+        <script async src='https://d2785ji6wtdqx8.cloudfront.net/js/gpt.js?<%include file="next/timestamp/timestamp.html"%>'></script>
+    <%/if%>
+
+
     <script type="text/javascript">
         var adchIDNew = window.location.href.replace(/^.*adchannelID=([0-9]{4}).*$/g,'$1');
         if (/^[0-9]{4}$/.test(adchIDNew)) {

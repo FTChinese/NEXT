@@ -1564,8 +1564,12 @@
 										<%/if%>
 									<%/if%>
 
-									<%if $itemSubType == "radio"%>
+									<%if $itemType == "video" || preg_match("/推广视频|精彩视频|产品视频/is", $itemTagsString)%>
+										<%assign var="itemClass" value="`$itemClass` is-video"%>
+									<%elseif $itemSubType == "radio"%>
 										<%assign var="itemClass" value="`$itemClass` is-audio"%>
+									<%elseif $itemType == "column"%>
+										<%assign var="itemClass" value="`$itemClass` is-column"%>
 									<%/if%>
 
 									<%assign var=isInWhiteList value="no"%>
@@ -1844,7 +1848,7 @@
 												<div class="image">
 													<figure class="loading-video" data-vid="<%$item.relatives[0].id%>"></figure>
 												</div>
-											<%elseif ($itemType === "video" && $listType !== "videos" && $item.preferSponsorImage != "yes") || ($itemType == "interactive" && preg_match("/推广视频|精彩视频|产品视频/is",$item.tag))%>
+											<%elseif ($itemType === "video" && $listType !== "videos" && $item.preferSponsorImage != "yes") || ($itemType == "interactive" && preg_match("/推广视频|精彩视频|产品视频/is",$item.tag) && !preg_match("/会员专享|高端专享/is",$item.tag))%>
 												<div class="image">
 													<figure class="loading-video" data-vid="<%$itemId%>" data-item-type="<%$itemType%>"></figure>
 												</div>

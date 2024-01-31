@@ -42,7 +42,7 @@ function passLoginToNative() {
     if (userIdForLoginUser === '') {
         return;
     }
-    // MARK: Valid the info with a network request
+    // MARK: Validate the info with a network request
     var xhr = new XMLHttpRequest();
     xhr.open('GET', '/index.php/jsapi/paywall');
     xhr.setRequestHeader('Content-Type', 'application/json');

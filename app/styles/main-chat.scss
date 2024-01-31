@@ -52,7 +52,7 @@ body {
     display: flex;
     flex-direction: column;
 }
-.main-chat-role, .side-bottom {
+.main-chat-role {
     height: $navHeight;
     position: sticky;
     top: 0;
@@ -60,7 +60,13 @@ body {
 
 .current-chat-roles {
     flex-grow: 1;
-    overflow-y: auto;
+    overflow-y: scroll;
+}
+
+.side-bottom {
+    height: $navHeight;
+    position: sticky;
+    bottom: calc(env(safe-area-inset-bottom) / 3);
 }
 
 .header-container {
@@ -480,7 +486,14 @@ a[data-action] {
 }
 .chat-item-group-container.expanded {
     .chat-item-group-items {
-        display: block;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax($gridCellWidth, 1fr));
+        column-gap: $defaultPadding;
+        grid-column-gap: $defaultPadding;
+        row-gap: $defaultPadding;
+        grid-row-gap: $defaultPadding;
+        margin-bottom: $defaultPadding;
+
     }
 }
 .chat-citations {
