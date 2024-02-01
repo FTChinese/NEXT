@@ -58,10 +58,25 @@ function checkFontSize(forceFontSize) {
 }
 
 
+function handleLinks() {
+    try {
+        const links = document.querySelectorAll('#story-body-container a[href]');
+        const fullHost = location.protocol + '//' + location.host;
+        for (let link of links) {
+            let href = link.getAttribute('href') || '';
+            if (href.indexOf(fullHost) === 0) {return;}
+            href = href.replace(/^http[s]*:\/\/www\.ftchinese\.com\//g, '/');
+            // console.log(href);
+            link.setAttribute('href', href);
+        }
+    } catch(ignore){}
+}
+
 // MARK:Getting a random integer between two values.The maximum is exclusive and the minimum is inclusive
 
 
 try {
+    handleLinks();
     checkFontSize();
     changeFontSize();
 } catch (ignore) {}
