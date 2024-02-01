@@ -96,6 +96,7 @@ delegate.on('click', '.chat-item-group-title', async (event) => {
   const element = event.target;
   const groupContainer = element.closest('.chat-item-group-container');
   groupContainer.classList.toggle('expanded');
+  showImagesForExpandedGroups();
 });
 
 delegate.on('click', '.chat-items-expand', async (event) => {
@@ -884,7 +885,9 @@ function scrollIntoViewProperly(ele, preferedOptions) {
     ele.scrollIntoView(scrollOptions);
   } else {
     const offsetTop = ele.offsetTop || 0;
-    const topEdge = 44;
+    const w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+    const hideTopNavWidth = 768;
+    const topEdge = (w <= hideTopNavWidth ) ? 88 : 44;
     const offsetPosition = Math.max(0, offsetTop - topEdge);
     console.log(`Count the scroll height: offsetTop: ${offsetTop}`);
     window.scrollTo({
@@ -1689,28 +1692,35 @@ async function showFTPage(content, language, reply) {
           const articleLink = (readArticle === 'pop-out') ? `href="./chat.html#ftid=${id}&language=${lang}&action=read"` : `data-action="show-article"`;
           const readClass = (item.read === true) ? ' read' : '';
           let media = '';
+          let noImageClass = ' no-image';
           if (item.image) {
-            media = `<div class="image story-image"><figure data-url="${item.image}" class="loading"></figure></div>`;
+            media = `<div class="image story-image"><a ${articleLink}><figure data-url="${item.image}" class="loading"></figure></a></div>`;
+            noImageClass = '';
           }
 
           groupHTML += `
-            <div data-id="${id}" data-lang="${lang}" class="chat-item-container${readClass}">
-              ${media}
-              ${primaryTheme}
-              <div class="chat-item-title">
-                <a ${articleLink} target="_blank" title="${byline}: ${excerpt}">${title}</a>
+            <div data-id="${id}" data-lang="${lang}" class="chat-item-container${readClass}${noImageClass}">
+              <div class="chat-item-topper">
+                ${media}
+                ${primaryTheme}
+                <div class="chat-item-title">
+                  <a ${articleLink} target="_blank" title="${byline}: ${excerpt}">${title}</a>
+                </div>
+                <div class="item-lead">${subheading}</div>
               </div>
-              <div class="item-lead">${subheading}</div>
-              <span class="story-time">${timeStamp}</span>
-              <div class="show-article-later-container">
-                <button data-action="show-article-later" class="show-article-later">${localize('Read_It_Later')}</button>
-                <div class="show-article-later-flag">${localize('Read_It_Later_Flag')}</div>
-                <button data-action="jump-to-article" class="jump-to-article">${localize('jump-to-article')}</button>
+              <div class="chat-item-footer">
+                <span class="story-time">${timeStamp}</span>
+                <div class="show-article-later-container">
+                  <button data-action="show-article-later" class="show-article-later">${localize('Read_It_Later')}</button>
+                  <div class="show-article-later-flag">${localize('Read_It_Later_Flag')}</div>
+                  <button data-action="jump-to-article" class="jump-to-article">${localize('jump-to-article')}</button>
+                </div>
               </div>
             </div>`;            
         }
         const groupTitleHTML = (group.group && group.group !== '' && !isExpanded) ? `<div class="chat-item-group-title">${group.group}</div>` : '';
-        const groupItemsHTML = `<div class="chat-item-group-items">${groupHTML}</div>`;
+        const groupClass = items.length % 2 === 1 ? ' has-odd-items' : '';
+        const groupItemsHTML = `<div class="chat-item-group-items${groupClass}">${groupHTML}</div>`;
         const newHTML = `
           <div class="chat-item-group-container${groupExpandClass}">
             ${groupTitleHTML}
@@ -1721,13 +1731,15 @@ async function showFTPage(content, language, reply) {
       newResultInner.innerHTML = await convertChinese(html, language);
       showImagesForExpandedGroups();
       await setIntention('DiscussContent', language, localize('Discuss More'), true, false);
-      const itemContainers = newResultInner.querySelectorAll('.chat-item-container');
+      // const itemContainers = newResultInner.querySelectorAll('.chat-item-container');
       
-      if (itemContainers.length >= 3) {
-        itemContainers[2].scrollIntoView(scrollOptions);
-      } else {
-        newResult.scrollIntoView(scrollOptions);
-      }
+      // if (itemContainers.length >= 3) {
+      //   itemContainers[2].scrollIntoView(scrollOptions);
+      // } else {
+      //   newResult.scrollIntoView(scrollOptions);
+      // }
+
+      scrollIntoViewProperly(newResult);
       
       const n = 3;
       if (previousConversations.length > n) {
@@ -1745,7 +1757,20 @@ async function showFTPage(content, language, reply) {
 
 function showImagesForExpandedGroups() {
   let figures = document.querySelectorAll('.chat-item-group-container.expanded figure.loading');
-  console.log(figures);
+  // console.log(figures);
+  for (let figure of figures) {
+    // console.log(figure.outerHTML);
+    const url = figure.getAttribute('data-url');
+    if (!url) {continue;}
+    const imageWidth = 800;
+    const imageHeight = Math.round(imageWidth * 9 / 16);
+    let src = `https://thumbor.ftacademy.cn/unsafe/${imageWidth}x${imageHeight}/${encodeURIComponent(url)}`;
+    if (location.host === 'ftcoffer.herokuapp.com') {
+      src = `https://www.ft.com/__origami/service/image/v2/images/raw/${encodeURIComponent(url)}?fit=scale-down&source=next&width=${imageWidth}&height=${imageHeight}`;
+    }
+    figure.innerHTML = `<img src="${src}">`;
+    figure.classList.remove('loading');
+  }
 
   // if (location.host === 'ftcoffer.herokuapp.com') {
   //   visualHeading = `https://www.ft.com/__origami/service/image/v2/images/raw/${encodeURIComponent(visualHeading)}?fit=scale-down&source=next&width=1920`;

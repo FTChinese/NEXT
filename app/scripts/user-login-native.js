@@ -23,7 +23,8 @@ function passLoginToNative() {
         addon: addon,
         addon_days: addon_days,
         addon_type: addon_type,
-        wxUnionId: wxUnionId
+        wxUnionId: wxUnionId,
+        version: '4'// When debugging on Xcode later, this is used to make sure that the building pipeline actually works
     };
     // MARK: Get subscription: standard/premium
     var paywall = GetCookie('paywall') || '';
