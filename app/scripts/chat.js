@@ -455,9 +455,9 @@ async function getArticleFromFTAPI(id, language) {
           // url = '/api/page/ft_video.json';
           // url = '/api/page/ft_article.json';
           // url = '/api/page/ft_article_scrolly_telling.json';
-          url = '/api/page/ft_article_scrolly_telling_climate_change.json';
+          // url = '/api/page/ft_article_scrolly_telling_climate_change.json';
           // url = '/api/page/ft_article_double_image.json';
-          // url = '/api/page/ft_article_chinese.json';
+          url = '/api/page/ft_article_chinese.json';
           // url = '/api/page/ft_article_machine_translation.json';
           options = {
               method: 'GET',
@@ -528,11 +528,19 @@ async function switchLanguage(container, value) {
   if (content.machineTranslation) {
     machineTranslationInfo = getInfoFromMachineTranslation(content.machineTranslation);
   }
+  console.log(`switch language value: ${value}`);
+  const primaryThemeDisplayEle = container.querySelector('.story-theme a');
+  let primaryThemeDisplay = primaryThemeDisplayEle?.getAttribute('data-content') ?? '';
+  const primaryThemeFollowEle = container.querySelector('.story-theme button');
+  let primaryThemeFollow = primaryThemeFollowEle?.getAttribute('data-source') ?? '';
+
   if (value === 'target') {
     title = content.titleTranslation || machineTranslationInfo.titleTranslation || machineTranslationInfo.title || '';
     standfirst = content.standfirstTranslation || machineTranslationInfo.standfirstTranslation || machineTranslationInfo.standfirst || '';
     bodyXML = content.bodyXMLTranslation || machineTranslationInfo.bodyXML || '';
     byline = content.bylineTranslation || machineTranslationInfo.byline || '';
+    primaryThemeDisplay = primaryThemeDisplayEle?.getAttribute('data-display') ?? '';
+    primaryThemeFollow = primaryThemeFollowEle?.getAttribute('data-target') ?? '';
   } else if (value === 'bilingual') {
     let translationXML = '';
     let source = '';
@@ -550,6 +558,8 @@ async function switchLanguage(container, value) {
     // MARK: - For biligual mode, you should always look to match the English and translation
     const originalBodyXML = machineTranslationInfo.originalBodyXML || content.bodyXML;
     bodyXML = convertToBilingualLayout(originalBodyXML, translationXML, source);
+    primaryThemeDisplay = primaryThemeDisplayEle?.getAttribute('data-display') ?? '';
+    primaryThemeFollow = primaryThemeFollowEle?.getAttribute('data-target') ?? '';
   }
   const bilingualClassName = 'is-bilingual';
   if (value === 'bilingual') {
@@ -572,6 +582,12 @@ async function switchLanguage(container, value) {
     button.classList.remove('on');
   }
   container.querySelector(`.article-language-switch-container button[data-value=${value}]`).classList.add('on');
+  if (primaryThemeDisplayEle) {
+    primaryThemeDisplayEle.innerHTML = primaryThemeDisplay;
+  }
+  if (primaryThemeFollowEle) {
+    primaryThemeFollowEle.innerHTML = primaryThemeFollow;
+  }
   container.scrollIntoView(scrollOptionsStart);
 }
 
@@ -746,11 +762,17 @@ async function showContent(ftid, language, shouldScrollIntoView = true, shouldLo
             const aiDisclaimer = (machineTranslationInfo.proofread || isAITranslationPublishedOnFTC) ? 'ai-disclaimer-proofread' : 'ai-disclaimer';
             disclaimerForMachineTranslation = `<div class="ai-disclaimer">${localize(aiDisclaimer)}</div>`;
           }
+          
+          const annotationInfo = getAnnotaionsInfo(content, language);
+
+          const storyTheme = annotationInfo.storyTheme;
+
           let html = `
               <div class="article-container" data-id="${ftid}">
                   ${languageSwitchHTML}
                   <div class="ai-disclaimer-container">${disclaimerForMachineTranslation}</div>
                   <div class="story-header-container">
+                      ${storyTheme}
                       <h1 class="story-headline story-headline-large">${title}</h1>
                       <div class="story-lead">${standfirst}</div>
                       ${visualHeading}

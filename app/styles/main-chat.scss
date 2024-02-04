@@ -537,6 +537,7 @@ a[data-action] {
 .current-chat-roles {
     margin-top: $defaultPadding * 0.5;
 }
+
 [data-purpose] {
     // display: none;
     background-color: $bannerBG;
@@ -552,6 +553,15 @@ a[data-action] {
         margin: 0;
         cursor: pointer;
     }
+}
+
+.story-theme a {
+    // Reset or define styles for <a> elements within .story-theme
+    // to negate the styles applied by [data-purpose]
+    background-color: initial; // or any specific color
+    padding: initial; // or any specific padding
+    margin-top: initial; // or any specific margin
+    font-size: initial; // or any specific font size
 }
 
 .sidebar {
@@ -929,7 +939,7 @@ body {
                 max-width: $chatWidth;
             }
         }
-        .story-headline, .story-lead, .story-byline, #story-body-container .n-content-pullquote, #story-body-container .n-content-big-number, #story-body-container > *, .article-prompt, .chat-item-actions, [data-action="show-transcript"], .ai-disclaimer {
+        .story-headline, .story-lead, .story-theme, .story-byline, #story-body-container .n-content-pullquote, #story-body-container .n-content-big-number, #story-body-container > *, .article-prompt, .chat-item-actions, [data-action="show-transcript"], .ai-disclaimer {
             padding-left: math.div($defaultPadding, 2);
             padding-right: math.div($defaultPadding, 2);
         }

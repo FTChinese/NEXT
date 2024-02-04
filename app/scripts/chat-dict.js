@@ -1551,6 +1551,20 @@ let statusDictOriginal = {
     'zh-HK': '取消關注',
     ru: 'Отписаться'
   },
+  'Followed': {
+    zh: '已关注',
+    en: 'Followed',
+    es: 'Seguido',
+    fr: 'Suivi',
+    de: 'Gefolgt',
+    ja: 'フォロー済み',
+    ko: '팔로우됨',
+    pt: 'Seguido',
+    it: 'Seguito',
+    'zh-TW': '已關注',
+    'zh-HK': '已關注',
+    ru: 'Подписан'
+  },
   Topics: {
     "zh": "话题",
     "en": "Topics",

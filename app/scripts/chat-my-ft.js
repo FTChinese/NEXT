@@ -147,6 +147,36 @@ function createHTMLFromNames(names) {
 
 }
 
+function getAnnotaionsInfo(content, language) {
+    const myPreference = getMyPreference();
+    const myInterests = (myPreference[myInterestsKey] || []).filter(x=>typeof x === 'object');
+    const myInterestsKeys = myInterests.map(x=>x.key || '').filter(x=>x!=='');
+    const annotations = content.annotations;
+    if (!annotations || annotations.length === '') {
+        return {storyTheme: '', annotations: ''};
+    }
+    const displayTags = annotations.filter(annotation => /hasDisplayTag/.test(annotation.predicate));
+    let storyTheme = '';
+    if (displayTags.length > 0) {
+        const displayTag = displayTags[0];
+        let display = displayTag.translation || localize(displayTag.prefLabel || '') || displayTag.prefLabel || '';
+        if (['en', 'English'].indexOf(language) >= 0) {
+            display = displayTag.prefLabel || '';
+        }
+        const name = displayTag.prefLabel || '';
+        const field = displayTag.field || '';
+        let buttonClass = 'plus';
+        let buttonSource = 'Follow';
+        if (myInterestsKeys.indexOf(name)>=0) {
+            buttonClass = 'tick';
+            buttonSource = 'Followed';
+        }
+        const buttonHTML = localize(buttonSource);
+        storyTheme = `<div class="story-theme"><a data-purpose="search-ft-api" data-lang="${language}" data-content="${name}" data-reply="${localize('Finding')}" data-display="${display}">${display}</a><button class="myft-follow ${buttonClass}" data-action="add-interest" data-name="${name}" data-type="${field}" data-display="${display}" data-source="${buttonSource}" data-target="${buttonHTML}">${buttonHTML}</button></div>`;
+    }
+    return {storyTheme: storyTheme, annotations: ''};
+}
+
 async function createHTMLFromCustomTopics() {
 
     const myPreference = getMyPreference();
@@ -515,7 +545,7 @@ delegate.on('click', '[data-action="add-interest"]', async (event) => {
     let allButtons = document.querySelectorAll(`[data-action="add-interest"][data-name="${name}"]`);
     for (let button of allButtons) {
         const type = button.getAttribute('data-type') || 'Topics';
-        const display = button.closest('.input-container')?.querySelector('.input-name')?.innerText ?? localize(name);
+        const display = button.getAttribute('data-display') ?? button.closest('.input-container')?.querySelector('.input-name')?.innerText ?? localize(name);
         if (button.classList.contains('plus')) {
             if (myInterestsKeys.indexOf(name) === -1) {
                 myInterests.push({key: name, display: display, type: type});
