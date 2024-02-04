@@ -81,6 +81,7 @@ delegate.on('click', '[data-action="talk"]', async (event) => {
 delegate.on('click', '[data-action="set-preference"]', async (event) => {
   const category = 'all';
   const language = preferredLanguage;
+  showUserPrompt(localize('Setting'));
   const reply = localize('Set Your Preferences');
   setPreference(category, language, reply);
 });
@@ -162,7 +163,12 @@ delegate.on('click', '[data-purpose]', async (event) => {
     let reply = element.getAttribute('data-reply');
     const replyPurpose = element.getAttribute('data-reply-action');
     if (replyPurpose) {
-      reply = `<div data-action="${replyPurpose}">${reply}</div>`;
+      const regex = /<a>(.+)<\/a>/gi;
+      if (regex.test(reply)) {
+        reply = reply.replace(regex, `<a class="is-current" data-action="${replyPurpose}">$1</a>`);
+      } else {
+        reply = `<div data-action="${replyPurpose}">${reply}</div>`;
+      }
     }
     const prompt = element.innerHTML;
     updateBotStatus('pending');
@@ -1632,6 +1638,8 @@ async function showFTPage(content, language, reply) {
   showResultInChat({text: reply});
   try {
     // console.log(`Getting ${content}`);
+    const statusMessage = localize('Checking Content');
+    showBotResponse(statusMessage, true);
     let result = await getFTPageInfo(content, language);
     const groups = result?.results?.[0]?.groups ?? [];
     if (groups.length > 0) {
@@ -1694,7 +1702,7 @@ async function showFTPage(content, language, reply) {
           let media = '';
           let noImageClass = ' no-image';
           if (item.image) {
-            media = `<div class="image story-image"><a ${articleLink}><figure data-url="${item.image}" class="loading"></figure></a></div>`;
+            media = `<div class="image story-image"><a ${articleLink} target="_blank"><figure data-url="${item.image}" class="loading"></figure></a></div>`;
             noImageClass = '';
           }
 

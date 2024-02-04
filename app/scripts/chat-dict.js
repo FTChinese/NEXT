@@ -445,6 +445,20 @@ let statusDictOriginal = {
     'zh-HK': '讓我再想一下',
     ru: 'Дайте мне подумать еще раз'
   },
+  "Checking Content": {
+    "en": "Checking Content...",
+    "zh": "检查内容...",
+    "es": "Verificando contenido...",
+    "fr": "Vérification du contenu...",
+    "de": "Inhalt prüfen...",
+    "ja": "コンテンツを確認中...",
+    "ko": "내용 확인 중...",
+    "pt": "Verificando conteúdo...",
+    "it": "Verifica del contenuto...",
+    "zh-TW": "檢查內容...",
+    "zh-HK": "檢查內容...",
+    "ru": "Проверка содержимого..."
+  },
   'No Search Result': {
     "zh": "很抱歉，没有找到符合条件的结果，请您更换一下搜索的条件，或者今后再试。",
     "en": "Sorry, no results were found that match your criteria. Please try changing your search terms or try again later.",
@@ -1734,18 +1748,18 @@ let statusDictOriginal = {
     ru: 'Хорошо, я помогу вам найти...'
   },
   FindingMyFT: {
-    zh: '为您展示FT最新的内容，您也可以点击这里设置您关注的话题和您的阅读偏好。',
-    en: 'Let me show you the latest content from FT, you can also click here to set the topics you are interested in and your reading preferences.',
-    es: 'Déjame mostrarte el contenido más reciente de FT, también puedes hacer clic aquí para configurar los temas que sigues y tus preferencias de lectura.',
-    fr: 'Laissez-moi vous montrer le contenu le plus récent de FT, vous pouvez également cliquer ici pour définir les sujets que vous suivez et vos préférences de lecture.',
-    de: 'Lassen Sie mich Ihnen die neuesten Inhalte von FT zeigen, Sie können auch hier klicken, um die Themen, denen Sie folgen, und Ihre Leseprioritäten festzulegen.',
-    ja: 'FTの最新コンテンツをご覧いただけます。また、こちらをクリックして、フォローするトピックと読書の嗜好を設定することもできます。',
-    ko: 'FT의 최신 컨텐츠를 보여드리겠습니다. 또한 여기를 클릭하여 관심 있는 주제와 독서 선호도를 설정할 수 있습니다.',
-    pt: 'Deixe-me mostrar os conteúdos mais recentes da FT, você também pode clicar aqui para definir os tópicos que segue e suas preferências de leitura.',
-    it: 'Lascia che ti mostri i contenuti più recenti di FT, puoi anche fare clic qui per impostare gli argomenti che segui e le tue preferenze di lettura.',
-    'zh-TW': '讓我展示FT最新的內容，您也可以點擊這裡設定您關注的話題和閱讀偏好。',
-    'zh-HK': '讓我展示FT最新的內容，您也可以點擊這裡設定您關注的話題和閱讀偏好。',
-    ru: 'Давайте я покажу вам самые свежие материалы FT, вы также можете нажать здесь, чтобы настроить темы, которые вы отслеживаете, и ваши предпочтения в чтении.'
+    zh: '为您展示FT最新的内容，您也可以<a>点击这里设置您关注的话题和阅读偏好</a>',
+    en: 'Let me show you the latest content from FT, you can also <a>click here to set the topics you are interested in and your reading preferences</a>',
+    es: 'Déjame mostrarte el contenido más reciente de FT, también puedes <a>hacer clic aquí para configurar los temas que sigues y tus preferencias de lectura</a>',
+    fr: 'Laissez-moi vous montrer le contenu le plus récent de FT, vous pouvez également <a>cliquer ici pour définir les sujets que vous suivez et vos préférences de lecture</a>',
+    de: 'Lassen Sie mich Ihnen die neuesten Inhalte von FT zeigen, Sie können auch <a>hier klicken, um die Themen, denen Sie folgen, und Ihre Leseprioritäten festzulegen</a>',
+    ja: 'FTの最新コンテンツをご覧いただけます。また、<a>こちらをクリックして、フォローするトピックと読書の嗜好を設定することもできます</a>',
+    ko: 'FT의 최신 컨텐츠를 보여드리겠습니다. 또한 <a>여기를 클릭하여 관심 있는 주제와 독서 선호도를 설정할 수 있습니다</a>',
+    pt: 'Deixe-me mostrar os conteúdos mais recentes da FT, você também pode <a>clicar aqui para definir os tópicos que segue e suas preferências de leitura</a>',
+    it: 'Lascia che ti mostri i contenuti più recenti di FT, puoi anche <a>fare clic qui per impostare gli argomenti che segui e le tue preferenze di lettura</a>',
+    'zh-TW': '讓我展示FT最新的內容，您也可以<a>點擊這裡設定您關注的話題和閱讀偏好</a>',
+    'zh-HK': '讓我展示FT最新的內容，您也可以<a>點擊這裡設定您關注的話題和閱讀偏好</a>',
+    ru: 'Давайте я покажу вам самые свежие материалы FT, вы также можете <a>нажать здесь, чтобы настроить темы, которые вы отслеживаете, и ваши предпочтения в чтении</a>'
   },
   FindingMostPopular: {
     zh: '好的，我来帮您查询FT的热门文章...',
