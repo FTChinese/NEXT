@@ -81,7 +81,8 @@ function getMyFollowsHTML() {
         const index = info.index || 0;
         allIndex += index;
         const key = info.key;
-        const display = localize(key, info.display);
+        const fallback = (/^(en|English)/gi.test(preferredLanguage)) ? key : info.display;
+        const display = localize(key, fallback);
         let field = info.type || '';
         if (field === '') {
             field = checkType(key);
