@@ -1565,6 +1565,34 @@ let statusDictOriginal = {
     'zh-HK': '已關注',
     ru: 'Подписан'
   },
+  'Follow the topics in this article': {
+    en: 'Follow the topics in this article',
+    zh: '相关话题',
+    es: 'Sigue los temas en este artículo',
+    fr: 'Suivez les sujets de cet article',
+    de: 'Folgen Sie den Themen in diesem Artikel',
+    ja: 'この記事のトピックをフォローする',
+    ko: '이 기사의 주제를 팔로우하세요',
+    pt: 'Siga os tópicos deste artigo',
+    it: 'Segui gli argomenti di questo articolo',
+    'zh-TW': '相關話題',
+    'zh-HK': '相關話題',
+    ru: 'Подписаться на темы в этой статье'
+  },
+  'Topics mentioned in this article': {
+    en: 'Topics mentioned in this article',
+    zh: '本文提及的话题',
+    es: 'Temas mencionados en este artículo',
+    fr: 'Sujets mentionnés dans cet article',
+    de: 'In diesem Artikel erwähnte Themen',
+    ja: 'この記事で言及されているトピック',
+    ko: '이 기사에서 언급된 주제들',
+    pt: 'Tópicos mencionados neste artigo',
+    it: 'Argomenti menzionati in questo articolo',
+    'zh-TW': '本文提及的話題',
+    'zh-HK': '本文提及的話題',
+    ru: 'Темы, упомянутые в этой статье'
+  },
   Topics: {
     "zh": "话题",
     "en": "Topics",

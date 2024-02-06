@@ -933,6 +933,15 @@ function checkFullGridBlocks() {
     }
 }
 
+function checkStoryImages() {
+    const storyContainers = document.querySelectorAll('.show-hero-header');
+    for (let storyContainer of storyContainers) {
+        const storyHeaderImage = storyContainer.querySelector('.story-header-container .story-image figure img');
+        if (!storyHeaderImage) {
+            storyContainer.classList.remove('show-hero-header');
+        }
+    }
+}
 
 function initScrollyTelling(ftid) {
     if (!ftid || ftid === '') {return;}

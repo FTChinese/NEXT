@@ -149,6 +149,9 @@ function createHTMLFromNames(names) {
 }
 
 function getAnnotaionsInfo(content, language) {
+
+    // ['http://www.ft.com/ontology/annotation/about', 'http://www.ft.com/ontology/annotation/mentions', 'http://www.ft.com/ontology/implicitlyClassifiedBy', 'http://www.ft.com/ontology/classification/isClassifiedBy', 'http://www.ft.com/ontology/implicitlyAbout', 'http://www.ft.com/ontology/annotation/hasAuthor', 'http://www.ft.com/ontology/hasDisplayTag']
+    const usefulPredicates = new Set(['http://www.ft.com/ontology/annotation/about', 'http://www.ft.com/ontology/classification/isClassifiedBy', 'http://www.ft.com/ontology/annotation/hasAuthor', 'http://www.ft.com/ontology/hasDisplayTag']);
     const myPreference = getMyPreference();
     const myInterests = (myPreference[myInterestsKey] || []).filter(x=>typeof x === 'object');
     const myInterestsKeys = myInterests.map(x=>x.key || '').filter(x=>x!=='');
@@ -156,16 +159,28 @@ function getAnnotaionsInfo(content, language) {
     if (!annotations || annotations.length === '') {
         return {storyTheme: '', annotations: ''};
     }
-    const displayTags = annotations.filter(annotation => /hasDisplayTag/.test(annotation.predicate));
     let storyTheme = '';
-    if (displayTags.length > 0) {
-        const displayTag = displayTags[0];
-        let display = displayTag.translation || localize(displayTag.prefLabel || '') || displayTag.prefLabel || '';
-        if (['en', 'English'].indexOf(language) >= 0) {
-            display = displayTag.prefLabel || '';
+    let annotationsHTML = '';
+    let annotationsHTMLMentions = '';
+    let genreClass = '';
+    // let predicates = new Set();
+    // .filter(x => x.predicate && usefulPredicates.has(x.predicate))
+    for (const annotation of annotations) {
+        
+        if ('GENRE' === annotation.type && annotation.prefLabel && annotation.prefLabel !== '') {
+            genreClass = ` genre-${annotation.prefLabel.toLowerCase().replace(/\s/g, '-')}`;
         }
-        const name = displayTag.prefLabel || '';
-        const field = displayTag.field || '';
+
+        const predicate = annotation.predicate || '';
+        // predicates.add(annotation.predicate || '');
+        const isDisplayTag = /hasDisplayTag/.test(annotation.predicate || '') && storyTheme === '';
+
+        let display = annotation.translation || localize(annotation.prefLabel || '') || annotation.prefLabel || '';
+        if (['en', 'English'].indexOf(language) >= 0) {
+            display = annotation.prefLabel || '';
+        }
+        const name = annotation.prefLabel || '';
+        const field = annotation.field || '';
         let buttonClass = 'plus';
         let buttonSource = 'Follow';
         if (myInterestsKeys.indexOf(name)>=0) {
@@ -173,9 +188,34 @@ function getAnnotaionsInfo(content, language) {
             buttonSource = 'Followed';
         }
         const buttonHTML = localize(buttonSource);
-        storyTheme = `<div class="story-theme"><a data-purpose="search-ft-api" data-lang="${language}" data-content="${name}" data-reply="${localize('Finding')}" data-display="${display}">${display}</a><button class="myft-follow ${buttonClass}" data-action="add-interest" data-name="${name}" data-type="${field}" data-display="${display}" data-source="${buttonSource}" data-target="${buttonHTML}">${buttonHTML}</button></div>`;
+        if (isDisplayTag) {
+            storyTheme = `<div class="story-theme"><a href="./chat.html#field=${field}&key=${name}&language=${language}&action=search&display=${display}" target="_blank" data-content="${name}" data-display="${display}">${display}</a><button class="myft-follow ${buttonClass}" data-action="add-interest" data-name="${name}" data-type="${field}" data-display="${display}" data-source="${buttonSource}" data-target="${buttonHTML}">${buttonHTML}</button></div>`;
+        } else {
+            const html = `<li class="story-theme"><a href="./chat.html#field=${field}&key=${name}&language=${language}&action=search&display=${display}" target="_blank" data-content="${name}" data-content="${name}" data-display="${display}">${display}</a><button class="myft-follow ${buttonClass}" data-action="add-interest" data-name="${name}" data-type="${field}" data-display="${display}" data-source="${buttonSource}" data-target="${buttonHTML}">${buttonHTML}${localize('<!--space-->', ' ')}${capitalize(localize(field))}</button></li>`;
+            if (usefulPredicates.has(predicate)) {
+                annotationsHTML += html;
+            }
+        }
     }
-    return {storyTheme: storyTheme, annotations: ''};
+    // console.log(Array.from(predicates));
+    if (annotationsHTML !== '') {
+        annotationsHTML = `
+        <div class="story-annotations"><div class="story-box">
+            <h2 class="box-title"><a>${localize('Follow the topics in this article')}</a></h2>
+            <ul class="top10">${annotationsHTML}</ul>
+        </div></div>`;
+    }
+    annotationsHTMLMentions = `
+        <div class="story-side-ad-container"><div class="story-box">
+        </div></div>`;
+
+    
+    return {
+        storyTheme: storyTheme, 
+        annotations: annotationsHTML, 
+        mentions: annotationsHTMLMentions,
+        genreClass: genreClass
+    };
 }
 
 async function createHTMLFromCustomTopics() {

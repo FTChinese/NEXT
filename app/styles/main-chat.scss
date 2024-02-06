@@ -674,7 +674,7 @@ body {
 }
 
 .full-grid-story {
-    [data-action="show-transcript"], ft-related, promo-box, .story-header-container, .chat-item-actions, .article-prompt, .audio-placeholder, #story-body-container > * {
+    [data-action="show-transcript"], ft-related, promo-box, .story-header-container, .chat-item-actions, .article-prompt, .audio-placeholder, .story-annotations, #story-body-container > * {
         max-width: $chatWidth;
         margin-left: auto;
         margin-right: auto;
@@ -908,6 +908,15 @@ body {
     transition: transform 0.3s ease;
 }
 
+.story-body {
+    .top10 li, .story-box{
+        a {
+            border-width: 0;
+            cursor: pointer;
+        }
+    }
+}
+
 @keyframes fadeInOut {
     0% {
         opacity: 0;
@@ -929,6 +938,121 @@ body {
     }
 }
 
+@media only screen and (min-width: 1400px) {
+    .full-grid-story.show-hero-header {
+        .article-container {
+            max-width: 768px + 300px + $defaultPadding;
+                margin: auto;
+            .story-body {
+                display: grid;
+                grid-template-columns: 1fr 30px 300px;
+                gap: 0;
+                grid-template-areas:
+                    "main gutter righttop"
+                    "main gutter rightbottom";
+            }
+            .story-header-container {
+                max-width: 768px + 300px + $defaultPadding;
+                grid-area: heading;
+            }
+            #story-body-container {
+                grid-area: main;
+            }
+            .story-annotations {
+                grid-area: righttop;
+                width: 100%;
+                height: 100%;
+            }
+            .story-side-ad-container {
+                grid-area: rightbottom;
+                width: 100%;
+                height: 100%;
+            }
+
+            .story-box {
+                position: sticky;
+                top: $headerHeight;
+            }
+
+            .story-header-container {
+                min-height: (768px + 300px + $defaultPadding) * 0.309; // This makes the two rectangles gold ratio
+                height: auto;
+                background-color: $bannerBG;
+                margin-bottom: $defaultPadding;
+                display: grid;
+                grid-template-columns: 1fr 1fr; // Two columns of equal width
+                grid-template-rows: auto auto; // Two rows: adjust based on content
+                grid-template-areas: 
+                  "text visual"
+                  "byline visual"; // Visual spans two rows, byline at the bottom
+              
+                .text-container {
+                  grid-area: text;
+                  padding: $defaultPadding * 0.5; // Use SCSS variable for padding
+                  align-self: start; // Align to the top, if needed
+                }
+              
+                .story-image {
+                  grid-area: visual;
+                  display: flex;
+                  justify-content: center;
+                  align-items: start; // Ensures the image aligns to the top of its grid area
+                  width: 100%;
+                  margin: 0;
+                  figure {
+                    width: 100%;
+                    height: 100%;
+                    margin: 0; // Ensuring no extra space around the figure
+                  }
+                  img {
+                    width: 100%; // Fill the figure/container
+                    height: 100%; // Maintain aspect ratio
+                    object-fit: cover;
+                    // aspect-ratio: 16 / 9; // Maintain a 16:9 ratio
+                  }
+                }
+              
+                .story-byline {
+                  grid-area: byline;
+                  width: 100%;
+                  padding: $defaultPadding * 0.5;
+                  align-self: end; // Ensures the byline aligns to the bottom of its grid area
+                }
+
+                // 'Brief': 'brief',
+                &.genre-opinion, &.genre-lex, &.genre-review {
+                    background-color: $lightBlueBGFT;
+                }
+                &.genre-deep-dive, &.genre-feature, &.genre-explainer, &.genre-brief, &.genre-interview {
+                    background-color: black;
+                }
+                // These genres need to show white fonts
+                &.genre-deep-dive, &.genre-feature, &.genre-explainer, &.genre-brief, &.genre-interview {
+                    button.myft-follow.plus:before {
+                        background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cstyle%3E*{fill:%23fff!important}%3C/style%3E%3Cpath d='M5.053 0v5.053H0v1.894h5.053V12h1.894V6.947H12V5.053H6.947V0H5.053z' fill='%23333' fill-rule='evenodd'/%3E%3C/svg%3E");
+                    }
+                    button.myft-follow.tick {
+                        background-color: transparent;
+                    }
+
+                    .story-theme a, button.myft-follow, .story-headline, .story-headline-large, .story-lead, .story-byline .story-time, .story-byline .story-author, .story-byline .story-author a {
+                        color: white;
+                    }
+                    button.myft-follow, .story-headline-large:after {
+                        border-color: white;
+                    }
+                }
+            }
+        }
+        .chat-item-actions, .article-prompt, .audio-placeholder, .ai-disclaimer {
+            max-width: 768px + 300px + $defaultPadding;
+        }
+    }
+    .chat-input-inner {
+        max-width: 768px + 300px + $defaultPadding;
+    }
+}
+
 @media only screen and (max-width: 980px) {
     .full-grid-story {
         #story-body-container {
@@ -939,7 +1063,7 @@ body {
                 max-width: $chatWidth;
             }
         }
-        .story-headline, .story-lead, .story-theme, .story-byline, #story-body-container .n-content-pullquote, #story-body-container .n-content-big-number, #story-body-container > *, .article-prompt, .chat-item-actions, [data-action="show-transcript"], .ai-disclaimer {
+        .story-headline, .story-lead, .story-theme, .story-byline, #story-body-container .n-content-pullquote, #story-body-container .n-content-big-number, .story-annotations, #story-body-container > *, .article-prompt, .chat-item-actions, [data-action="show-transcript"], .ai-disclaimer {
             padding-left: math.div($defaultPadding, 2);
             padding-right: math.div($defaultPadding, 2);
         }

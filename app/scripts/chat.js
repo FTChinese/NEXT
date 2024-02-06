@@ -7,7 +7,7 @@ const isPowerTranslate = location.href.indexOf('powertranslate') >= 0 || window.
 const isFrontendTest = location.href.indexOf('localhost') >= 0 && window.isUsingHandleBars !== true;
 const isInNativeApp = location.href.indexOf('webview=ftcapp') >= 0;
 const discussArticleOnly = location.href.indexOf('ftid=') >= 0 && location.href.indexOf('action=read') < 0;
-const showGreeting = location.href.indexOf('action=read') < 0;
+const showGreeting = !/action=(read|search)/gi.test(location.href);
 const surveyOnly = location.href.indexOf('action=survey') >= 0;
 let languageOptionsDict = {Chinese: '中文'};
 let preferredLanguage = navigator.language;
@@ -652,13 +652,60 @@ function showBackArrow() {
   headerSideEle.classList.remove('header-side-toggle');
   headerSideEle.classList.add('back-arrow');
   headerSideEle.id = 'back-arrow';
-  // const backArrowEle = document.createElement('DIV');
-  // backArrowEle.onclick = ()=>{
-  //   window.close();
-  // };
-  // backArrowEle.classList.add('back-arrow');
-  // headerSideEle.append(backArrowEle);
 }
+
+function processBylineWithLinks(content, showTranslationAsDefault) {
+  // Helper function to create author links
+  function createAuthorLinks(authors, authorsTranslation, language) {
+      return authors.map((author, index) => {
+          const name = author.replace(/ in .+$/gi, '').trim();
+          const displayName = authorsTranslation && authorsTranslation.length > index ? authorsTranslation[index].trim() : name;
+          if (name === '') {return displayName;}
+          const url = `./chat.html#field=byline&key=${encodeURIComponent(name)}&language=${language}&action=search&display=${encodeURIComponent(displayName)}`;
+          return `<a href="${url}" target="_blank">${displayName}</a>`;
+      }).join(', ');
+  }
+
+  let byline = content.byline || '';
+  let bylineEnglishLinks = '';
+  let bylineLinks = '';
+
+  // Splitting English byline authors
+  const englishAuthors = byline.replace(/ and /gi, ',').split(',');
+
+  // Creating links for English byline
+  bylineEnglishLinks = createAuthorLinks(englishAuthors, englishAuthors, 'en');
+
+  let bylineTranslation = content.bylineTranslation ?? content.machineTranslation?.byline ?? '';
+  
+  if (bylineTranslation === '') {
+    bylineTranslation = content.byline;
+  }
+
+  if (bylineTranslation) {
+      // Splitting translation byline authors, considering both comma types
+      const translatedAuthors = bylineTranslation.replace(/ and /gi, ',').split(/,|，/);
+      if (englishAuthors.length === translatedAuthors.length) {
+          // If the number of authors matches, create links for translated byline
+          bylineLinks = createAuthorLinks(englishAuthors, translatedAuthors, preferredLanguage);
+      } else {
+          // Fallback if translation does not match in number of authors
+          bylineLinks = bylineEnglishLinks;
+      }
+  } else {
+      // If no translation, use English byline links
+      bylineLinks = bylineEnglishLinks;
+  }
+
+  // Choosing which byline to display based on showTranslationAsDefault flag
+  let finalByline = showTranslationAsDefault && bylineLinks !== bylineEnglishLinks ? bylineLinks : bylineEnglishLinks;
+
+  return {
+      byline: finalByline, // This will return the final byline with links, potentially translated
+      bylineEnglish: `<div class="hide story-byline-english">${bylineEnglishLinks}</div>` // This will return the English byline with links
+  };
+}
+
 
 async function showContent(ftid, language, shouldScrollIntoView = true, shouldLoadArticle = true) {
   try {
@@ -732,14 +779,11 @@ async function showContent(ftid, language, shouldScrollIntoView = true, shouldLo
               standfirst = (showTranslationAsDefault) ? content.standfirstTranslation : content.standfirst;
           }
           standfirst = machineTranslationInfo.standfirst || standfirst;
-          let byline = content.byline || '';
-          let bylineEnglish = '';
-          if (content.bylineTranslation && content.bylineTranslation !== '') {
-              bylineEnglish = `<div class="hide story-author-english">${byline}</div>`;
-              byline = (showTranslationAsDefault) ? content.bylineTranslation : content.byline;
-          }
-          byline = machineTranslationInfo.byline || byline || '';
-          byline = byline.split(',').join(', ');
+
+          const bylineInfo = processBylineWithLinks(content, showTranslationAsDefault);
+          const byline = bylineInfo.byline;
+          const bylineEnglish = bylineInfo.bylineEnglish;
+
           // MARK: - If the article starts with a picture, don't show the picture in the heading
           if (/^<div class=\"pic/.test(bodyXML)) {
             visualHeading = '';
@@ -766,15 +810,20 @@ async function showContent(ftid, language, shouldScrollIntoView = true, shouldLo
           const annotationInfo = getAnnotaionsInfo(content, language);
 
           const storyTheme = annotationInfo.storyTheme;
-
+          const annotations = annotationInfo.annotations;
+          const mentions = annotationInfo.mentions;
+          const genreClass = annotationInfo.genreClass || '';
+          
           let html = `
               <div class="article-container" data-id="${ftid}">
                   ${languageSwitchHTML}
                   <div class="ai-disclaimer-container">${disclaimerForMachineTranslation}</div>
-                  <div class="story-header-container">
-                      ${storyTheme}
-                      <h1 class="story-headline story-headline-large">${title}</h1>
-                      <div class="story-lead">${standfirst}</div>
+                  <div class="story-header-container${genreClass}">
+                      <div class="text-container">
+                        ${storyTheme}
+                        <h1 class="story-headline story-headline-large">${title}</h1>
+                        <div class="story-lead">${standfirst}</div>
+                      </div>
                       ${visualHeading}
                       <div class="story-byline">
                           <span class="story-time">${localizedDate}</span>
@@ -782,7 +831,11 @@ async function showContent(ftid, language, shouldScrollIntoView = true, shouldLo
                       </div>
                   </div>
                   ${audioHTML}
-                  <div class="story-body${hideBodyClass}"><div id="story-body-container" class="story-body-container">${bodyXML}</div></div>
+                  <div class="story-body${hideBodyClass}">
+                    <div id="story-body-container" class="story-body-container">${bodyXML}</div>
+                    ${annotations}
+                    ${mentions}
+                  </div>
                   ${showTranscript}
                   ${titleEnglish}
                   ${bylineEnglish}
@@ -793,14 +846,13 @@ async function showContent(ftid, language, shouldScrollIntoView = true, shouldLo
               <div class="article-prompt">${localize('Discuss Article')}</div>`
               .replace(/[\r\n]+[\t\s]+/g, '')
               .replace(/[\r\n]+/g, '');
-          // console.log('html:');
-          // console.log(html);
           html += `<button class="quiz-next hide">NEXT</button>`;
           const result = {text: html};
           showResultInChat(result, shouldScrollIntoView);
           addStoryToRead(ftid);
           checkContentLinks();
           checkScrollyTellingForChat();
+          checkStoryImages();
           checkFullGridBlocks();
           initScrollyTelling(ftid);
           setIntention('DiscussArticle');
@@ -887,6 +939,7 @@ function showResultInChat(result, shouldScrollIntoView = true, isFullGrid = fals
   chatContent.appendChild(newResult);
   if (newResult.querySelector('h1, .story-header-container')) {
     newResult.classList.add('full-grid-story');
+    newResult.classList.add('show-hero-header');
     // MARK: - Need the set time out to work properly on Chrome
     let inViewClass = '.story-lead';
     if (newResult.querySelector('.audio-container, .story-header-container video') && newResult.querySelector('.chat-item-actions')) {
@@ -2067,6 +2120,9 @@ async function setGuardRails() {
   const ftid = paramDict.ftid;
   const action = paramDict.action;
   const surveyName = paramDict.name;
+  const field = paramDict.field;
+  const key = paramDict.key;
+  const display = paramDict.display;
   if (ftid && ftid !== '') {
     // MARK: - If you want to handle actions at the launch of the page, you'll need to wait for the access token to available before continuing. 
     showBackArrow();
@@ -2083,6 +2139,10 @@ async function setGuardRails() {
     await new Promise(resolve => setTimeout(resolve, 1));
     await showSurvey(surveyName);
     paramDict.intent = 'CustomerService';
+  } else if (action === 'search' && field && key) {
+    showBackArrow();
+    await waitForAccessToken();
+    await searchFTAPI(`${field}: ${key}`, preferredLanguage, decodeURIComponent(display));
   }
   const intent = paramDict.intent;
   if (intent && intent !== '') {
@@ -2144,6 +2204,7 @@ function checkScrollyTellingForChat() {
       let chatTalk = block.closest('.chat-talk');
       if (!chatTalk) {continue;}
       chatTalk.classList.add('has-scrolly-telling');
+      chatTalk.classList.remove('show-hero-header');
       chatTalk.classList.add('full-grid-story');
     }
     // MARK: - Check all the scrollable blocks;
