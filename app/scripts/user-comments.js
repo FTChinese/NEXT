@@ -249,7 +249,7 @@ function clickToSubmitComment() {
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
             if (this.readyState === 4) {
-                var data = this.responseText;
+                var data = (this.responseText || '').trim();
                 if (data !== 'yes') {
                     presentAlert('抱歉,现在我们的网站可能出现了一些小故障.您的留言可能没有发表成功,请您稍后再重新尝试发表一次。', '');
                     return;
@@ -273,8 +273,6 @@ function clickToSubmitComment() {
         xmlhttp.send(params);
     };
 }
-
-
 
 
 // MARK: User Login
@@ -485,7 +483,7 @@ function presentAlert(title, message) {
     };
     try {
         webkit.messageHandlers.alert.postMessage(alertMessage);
-    } catch (ignore) {
-
+    } catch (err) {
+        alert(`${title}\n${message}`);
     }
 }

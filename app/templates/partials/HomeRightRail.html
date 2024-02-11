@@ -882,7 +882,7 @@
 		</div>
 
 		<%if $smarty.get.v != "" || $smarty.get.android != ""%>
-			<%assign var="v" value=$smarty.get.v|floatval%>
+			<%assign var="v" value=$smarty.get.v|sanitize|floatval%>
 			<%if $v >= 6.3 || $smarty.get.android != ""%>
 				<div class="links-container">
 					<h2 class="list-title"><a>往期查询</a></h2>

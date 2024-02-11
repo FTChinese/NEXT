@@ -1,5 +1,5 @@
-<%assign var="w" value=$smarty.get.w%>
-<%assign var="h" value=$smarty.get.h%>
+<%assign var="w" value=$smarty.get.w|sanitize%>
+<%assign var="h" value=$smarty.get.h|sanitize%>
 <%if $smarty.get.autostart == "false"%>
     <%assign var="autostart" value="false"%>
 <%else%>
@@ -9,7 +9,7 @@
     <%assign var="itemType" value="video"%>
 <%/if%>
 <%if $smarty.get.vid != ""%>
-    <%assign var="cc_vaddress" value=$smarty.get.vid%>
+    <%assign var="cc_vaddress" value=$smarty.get.vid|sanitize%>
 <%elseif $cc_vaddress == ""%>
     <%assign var="cc_vaddress" value=$cbyline_status%>
 <%/if%>

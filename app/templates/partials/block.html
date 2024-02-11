@@ -325,7 +325,7 @@
 
 						<%assign var="actualFeedItems" value=$list.feedItems%>
 						<%assign var="feedStart" value=$list.feedStart|default:0%>
-						<%assign var="pageNumber" value=$smarty.get.p%>
+						<%assign var="pageNumber" value=$smarty.get.p|sanitize%>
 						<%if $pageNumber > 1%>
 							<%assign var="feedStart" value=$pageNumber-1%>
 							<%if $actualFeedItems > 0%>

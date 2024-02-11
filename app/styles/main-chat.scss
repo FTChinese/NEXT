@@ -398,6 +398,9 @@ a[data-action] {
         text-align: right;
     }
 }
+.chat-item-container.hide {
+    display: none;
+}
 .settings-container {
     .chat-item-actions {
         text-align: center;
@@ -988,7 +991,7 @@ body {
               
                 .text-container {
                   grid-area: text;
-                  padding: $defaultPadding * 0.5; // Use SCSS variable for padding
+                  padding: $defaultPadding; // Use SCSS variable for padding
                   align-self: start; // Align to the top, if needed
                 }
               
@@ -1011,11 +1014,19 @@ body {
                     // aspect-ratio: 16 / 9; // Maintain a 16:9 ratio
                   }
                 }
+
+                .story-headline-large {
+                    font-size: 26px;
+                }
+
+                .story-lead {
+                    font-size: 1em;
+                }
               
                 .story-byline {
                   grid-area: byline;
                   width: 100%;
-                  padding: $defaultPadding * 0.5;
+                  padding: $defaultPadding;
                   align-self: end; // Ensures the byline aligns to the bottom of its grid area
                 }
 

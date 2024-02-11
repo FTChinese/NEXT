@@ -8,7 +8,7 @@
 <%assign var=buttonUrl value=$section.buttonUrl%>
 <%if $smarty.get.ccode != ""%>
     <%*<!--MARK: - check the ccode in the url parameter first-->*%>
-    <%assign var=ccode value=$smarty.get.ccode%>
+    <%assign var=ccode value=$smarty.get.ccode|sanitize%>
 <%elseif $section.ccode != ""%>
     <%*<!--MARK: - if not found, check the ccode in section setting-->*%>
     <%assign var=ccode value=$section.ccode%>

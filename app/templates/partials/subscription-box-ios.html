@@ -60,7 +60,7 @@
 
 <%if $smarty.get.v != ""%>
     <%*<!-- MARK: iOS app -->*%>
-    <%assign var="v" value=$smarty.get.v|floatval%>
+    <%assign var="v" value=$smarty.get.v|sanitize|floatval%>
     <%if $v < 177%>
         <%assign var="ShowiOSOfferWarning" value="yes"%>
     <%/if%>

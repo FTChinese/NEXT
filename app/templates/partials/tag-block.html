@@ -10,7 +10,7 @@
 <%/if%>
 <%assign var="useSafariToOpenSponsorStory" value="yes"%>
 <%if $smarty.get.v != ""%>
-	<%assign var="v" value=$smarty.get.v|floatval%>
+	<%assign var="v" value=$smarty.get.v|sanitize|floatval%>
 	<%if $v >= 6.8%>
 		<%assign var="useSafariToOpenSponsorStory" value="no"%>
 	<%/if%>

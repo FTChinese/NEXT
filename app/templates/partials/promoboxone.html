@@ -1,17 +1,17 @@
 <%assign var="pageIdForPromo" value="subcription-promo"%>
 <%if $nextmodel != ""%>
 	<%assign var="infoForPromo" value=$nextmodel->getPublishJson($pageIdForPromo)|json_decode:true%>
-	<%assign var="subscriptionType" value=$smarty.get.type%>
-	<%assign var="noneSubscriberStatus" value=$smarty.get.noneSubscriberStatus%>
+	<%assign var="subscriptionType" value=$smarty.get.type|sanitize%>
+	<%assign var="noneSubscriberStatus" value=$smarty.get.noneSubscriberStatus|sanitize%>
 	<%assign var="promoTargets" value=$subscriptionType%>
 	<%if $noneSubscriberStatus != ""%>
 		<%assign var="promoTargets" value="`$subscriptionType`|`$noneSubscriberStatus`"%>
 	<%/if%>
 	<%assign var="foundPromo" value="no"%>
-	<%assign var="expire" value=$smarty.get.expire%>
-	<%assign var="ccode" value=$smarty.get.ccode%>
-	<%assign var="duration" value=$smarty.get.duration%>
-	<%assign var="platform" value=$smarty.get.platform%>
+	<%assign var="expire" value=$smarty.get.expire|sanitize:"number"%>
+	<%assign var="ccode" value=$smarty.get.ccode|sanitize%>
+	<%assign var="duration" value=$smarty.get.duration|sanitize%>
+	<%assign var="platform" value=$smarty.get.platform|sanitize%>
 	<%if $smarty.get.webview == "ftcapp"%>
 		<%if $smarty.get.android != ""%>
 			<%assign var="platform" value="AndroidApp"%>
@@ -26,7 +26,7 @@
 			<%assign var="subscriptionType" value="noneSubscriber"%>
 		<%/if%>
 	<%/if%>
-	<%assign var="pendingRenewal" value=$smarty.get.pendingRenewal%>
+	<%assign var="pendingRenewal" value=$smarty.get.pendingRenewal|sanitize%>
 	<%foreach from=$infoForPromo.sections item=section%>
 		<%assign var="currentDate" value=$smarty.now|date_format:"%Y%m%d"%>
 		<%assign var="isScheduledForToday" value="no"%>

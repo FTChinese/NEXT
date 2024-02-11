@@ -21,7 +21,7 @@
 
 <%if $smarty.get.newzone != "" %>
     <%*<!-- can be testbeijing, testshanghai, testoverseas-->*%>
-    <%assign var="zone" value=$smarty.get.newzone %>
+    <%assign var="zone" value=$smarty.get.newzone|sanitize %>
 <%/if%>
 
 <%if !preg_match("/^[a-zA-Z\/\-\_\d]+$/is",$zone)%>

@@ -2,16 +2,16 @@
 <%assign var="itemId" value=""%>
 <%if $smarty.get.story != ""%>
   <%assign var="itemType" value="story"%>
-  <%assign var="itemId" value=$smarty.get.story%>
+  <%assign var="itemId" value=$smarty.get.story|sanitize%>
 <%elseif $smarty.get.interactive != ""%>
   <%assign var="itemType" value="interactive"%>
-  <%assign var="itemId" value=$smarty.get.interactive%>
+  <%assign var="itemId" value=$smarty.get.interactive|sanitize%>
 <%elseif $smarty.get.premium != ""%>
   <%assign var="itemType" value="premium"%>
-  <%assign var="itemId" value=$smarty.get.premium%>
+  <%assign var="itemId" value=$smarty.get.premium|sanitize%>
 <%elseif $smarty.get.video != ""%>
   <%assign var="itemType" value="video"%>
-  <%assign var="itemId" value=$smarty.get.video%>
+  <%assign var="itemId" value=$smarty.get.video|sanitize%>
 <%/if%>
 
 <%if $itemType != "" && $itemId != ""%>

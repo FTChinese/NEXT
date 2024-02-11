@@ -389,14 +389,14 @@ width: <%$containerWidth%> !important;
             <%/if%>
             <%if $smarty.get.ccode != ""%>
                 <%*<!--MARK: - check the ccode in the url parameter first-->*%>
-                <%assign var=ccode value=$smarty.get.ccode%>
+                <%assign var=ccode value=$smarty.get.ccode|sanitize%>
             <%elseif $section.ccode != ""%>
                 <%*<!--MARK: - if not found, check the ccode in section setting-->*%>
                 <%assign var=ccode value=$section.ccode%>
             <%elseif $CampaignCodePrefix != ""%>
                 <%assign var=CampaignMedium value="Email"%>
                 <%if $smarty.get.medium != ""%>
-                    <%assign var=CampaignMedium value=$smarty.get.medium%>
+                    <%assign var=CampaignMedium value=$smarty.get.medium|sanitize%>
                 <%/if%>
                 <%assign var=ccode value="`$CampaignCodePrefix``$CampaignMedium`"%>
             <%/if%>

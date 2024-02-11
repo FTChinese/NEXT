@@ -813,7 +813,9 @@ async function showContent(ftid, language, shouldScrollIntoView = true, shouldLo
           const annotations = annotationInfo.annotations;
           const mentions = annotationInfo.mentions;
           const genreClass = annotationInfo.genreClass || '';
-          
+
+          const discussArticleOnly = paramDict && paramDict.action && paramDict.ftid;
+          const discussArticlePrompt = discussArticleOnly ? `<div class="article-prompt">${localize('Discuss Article')}</div>` : '';
           let html = `
               <div class="article-container" data-id="${ftid}">
                   ${languageSwitchHTML}
@@ -843,7 +845,7 @@ async function showContent(ftid, language, shouldScrollIntoView = true, shouldLo
                   ${bodyXMLEnglish}
               </div>
               ${actions}
-              <div class="article-prompt">${localize('Discuss Article')}</div>`
+              ${discussArticlePrompt}`
               .replace(/[\r\n]+[\t\s]+/g, '')
               .replace(/[\r\n]+/g, '');
           html += `<button class="quiz-next hide">NEXT</button>`;
@@ -855,10 +857,13 @@ async function showContent(ftid, language, shouldScrollIntoView = true, shouldLo
           checkStoryImages();
           checkFullGridBlocks();
           initScrollyTelling(ftid);
-          setIntention('DiscussArticle');
-          // MARK: - When you start to discuss a new article, you'll always want to clear previous conversations. 
-          previousConversations = [];
-          previousIntentDections = [];
+          // MARK: - Only if a user opens an article in a new tab/window, should we stwitch the intention to discuss the article only
+          if (discussArticleOnly) {
+            setIntention('DiscussArticle');
+            // MARK: - When you start to discuss a new article, you'll always want to clear previous conversations. 
+            previousConversations = [];
+            previousIntentDections = [];
+          }
           userInput.focus();
           handleFlourishEmbeds(html);
           // Deprecating: - Migrating to Pinecone for context
@@ -970,7 +975,7 @@ function scrollIntoViewProperly(ele, preferedOptions) {
     const hideTopNavWidth = 768;
     const topEdge = (w <= hideTopNavWidth ) ? 88 : 44;
     const offsetPosition = Math.max(0, offsetTop - topEdge);
-    console.log(`Count the scroll height: offsetTop: ${offsetTop}`);
+    // console.log(`Count the scroll height: offsetTop: ${offsetTop}`);
     window.scrollTo({
       top: offsetPosition,
       behavior: 'smooth'
@@ -1488,7 +1493,7 @@ async function renderResults(results, language) {
   newResultInner.className = 'chat-talk-inner';
   newResult.appendChild(newResultInner);
   chatContent.appendChild(newResult);
-  const itemChunk = 5;
+  const itemChunk = 10;
   // const translations = await results.slice(0, itemChunk), language);
   let html = '';
   for (const [index, item] of results.entries()) {
@@ -1509,6 +1514,7 @@ async function renderResults(results, language) {
       // title = title.trim().replace(/[\.。]+$/g, '');
       // subheading = subheading.trim().replace(/[\.。]+$/g, '');
     }
+    console.log(`hide class: ${hideClass}`);
     const lang = language || 'English';
     const articleLink = (readArticle === 'pop-out') ? `href="./chat.html#ftid=${id}&language=${lang}&action=read"` : `data-action="show-article"`;
     const newHTML = `

@@ -242,13 +242,13 @@
     <%assign var="topnav" value="home"%>
 <%/if%>
 <%if $smarty.get.topnav != ""%>
-    <%assign var="topnav" value=$smarty.get.topnav%>
+    <%assign var="topnav" value=$smarty.get.topnav|sanitize%>
 <%/if%>
 <%if $smarty.get.subnav != ""%>
-    <%assign var="subnav" value=$smarty.get.subnav%>
+    <%assign var="subnav" value=$smarty.get.subnav|sanitize%>
 <%/if%>
 <%if $smarty.get.thirdnav != ""%>
-    <%assign var="thirdnav" value=$smarty.get.thirdnav%>
+    <%assign var="thirdnav" value=$smarty.get.thirdnav|sanitize%>
 <%/if%>
 <%*<!--MARK: End-->*%>
 

@@ -8,7 +8,7 @@
 			<%*<!--MARK: - In native app, don't ever show promo box for non-subscriber as it is fixed to the bottom -->*%>
 			<%assign var="promoRendered" value="`$promoRendered`"%>
 		<%/if%>
-		<%assign var="platform" value=$smarty.get.platform%>
+		<%assign var="platform" value=$smarty.get.platform|sanitize%>
 		<%if $smarty.get.webview == "ftcapp"%>
 			<%if $smarty.get.android != ""%>
 				<%assign var="platform" value="AndroidApp"%>

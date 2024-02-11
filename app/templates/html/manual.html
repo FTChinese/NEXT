@@ -83,15 +83,15 @@
     <%/if%>
 <%/if%>
 <%if $smarty.get.topnav != ""%>
-    <%assign var="topnav" value=$smarty.get.topnav%>
+    <%assign var="topnav" value=$smarty.get.topnav|sanitize%>
 <%/if%>
 <%if $smarty.get.subnav != ""%>
-    <%assign var="subnav" value=$smarty.get.subnav%>
+    <%assign var="subnav" value=$smarty.get.subnav|sanitize%>
 <%elseif $p.meta.subnav != ""%>
     <%assign var="subnav" value=$p.meta.subnav%>
 <%/if%>
 <%if $smarty.get.thirdnav != ""%>
-    <%assign var="thirdnav" value=$smarty.get.thirdnav%>
+    <%assign var="thirdnav" value=$smarty.get.thirdnav|sanitize%>
 <%elseif $p.meta.thirdnav != ""%>
     <%assign var="thirdnav" value=$p.meta.thirdnav%>
 <%/if%>
@@ -107,7 +107,7 @@
 <%assign var="showAppStoreWarning" value="no"%>
 <%if $smarty.get.v != ""%>
     <%*<!-- MARK: iOS app -->*%>
-    <%assign var="v" value=$smarty.get.v|floatval%>
+    <%assign var="v" value=$smarty.get.v|sanitize|floatval%>
     <%if $v >= 7.3%>
         <%assign var="showExclusiveContent" value="yes"%>
     <%/if%>
@@ -145,7 +145,7 @@
     <%/if%>
 <%elseif $smarty.get.android != ""%>
     <%*<!-- MARK: android app -->*%>
-    <%assign var="androidVersionCode" value=$smarty.get.android|floatval%>
+    <%assign var="androidVersionCode" value=$smarty.get.android|sanitize|floatval%>
     <%if $androidVersionCode >= 1%>
         <%assign var="showExclusiveContent" value="yes"%>
     <%/if%>
