@@ -111,34 +111,11 @@ delegate.on('click', '.chat-items-expand', async (event) => {
     const hiddenItems = chatContainer.querySelectorAll('.chat-item-container.hide');
     const hiddenItemsArray = Array.from(hiddenItems);
     const selectedItems = hiddenItemsArray.slice(0, chunkSize);
-    const language = element.getAttribute('data-lang');
-    const results = selectedItems.map(item => {
-      let title = item.querySelector('.chat-item-title a').innerHTML;
-      let lead = item.querySelector('.item-lead').innerHTML;
-      return {
-        title: {title: title},
-        editorial: {
-          subheading: lead
-        }
-      };
-    });
-    // const translations = await createTranslations(results, language);
-    for (const [index, item] of selectedItems.entries()) {
-      const id = item.getAttribute('data-id');
-      let title = item.querySelector('.chat-item-title a').innerHTML;
-      // title = await translateFromEnglish(title, language);
-      let lead = item.querySelector('.item-lead').innerHTML;
-      // lead = await translateFromEnglish(lead, language);
-      // if (translations.length > index) {
-      //   title = translations[index].title || title;
-      //   lead = translations[index].subheading || lead;
-      // }
-      item.querySelector('.chat-item-title a').innerHTML = title;
-      item.querySelector('.item-lead').innerHTML = lead;
+    for (const item of selectedItems) {
       item.classList.remove('hide');
     }
     const otherHiddenItems = chatContainer.querySelectorAll('.chat-item-container.hide');
-    chatContainer.scrollIntoView(scrollOptions);
+    scrollIntoViewProperlyForItems(selectedItems);
     if (otherHiddenItems.length === 0) {
       element.classList.add('hide');
     }
@@ -962,7 +939,16 @@ function showResultInChat(result, shouldScrollIntoView = true, isFullGrid = fals
   }
 }
 
-function scrollIntoViewProperly(ele, preferedOptions) {
+function getOffsetTop(element) {
+  let offsetTop = 0;
+  while (element) {
+    offsetTop += element.offsetTop;
+    element = element.offsetParent;
+  }
+  return offsetTop;
+}
+
+function scrollIntoViewProperly(ele) {
   const eleHeight = ele.offsetHeight || 0;
   const windowHeight = window.innerHeight || 0;
   const topBottomEdgeHeight = 100;
@@ -970,7 +956,7 @@ function scrollIntoViewProperly(ele, preferedOptions) {
   if (eleHeight < visibleChatWindowHeight) {
     ele.scrollIntoView(scrollOptions);
   } else {
-    const offsetTop = ele.offsetTop || 0;
+    const offsetTop = getOffsetTop(ele);
     const w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
     const hideTopNavWidth = 768;
     const topEdge = (w <= hideTopNavWidth ) ? 88 : 44;
@@ -983,6 +969,33 @@ function scrollIntoViewProperly(ele, preferedOptions) {
   
   }
   
+}
+
+function scrollIntoViewProperlyForItems(eles) {
+  let eleHeight = 0;
+  for (const ele of eles || []) {
+    eleHeight += ele.offsetHeight || 0;
+  }
+  const ele = eles[0];
+  const windowHeight = window.innerHeight || 0;
+  const topBottomEdgeHeight = 100;
+  const visibleChatWindowHeight = windowHeight - topBottomEdgeHeight;
+
+  if (eleHeight < visibleChatWindowHeight) {
+    ele.scrollIntoView(scrollOptions);
+  } else {
+    const offsetTop = getOffsetTop(ele);
+    const w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+    const hideTopNavWidth = 768;
+    const topEdge = (w <= hideTopNavWidth ) ? 88 : 44;
+    const offsetPosition = Math.max(0, offsetTop - topEdge);
+    // console.log(eles?.[0]?.innerHTML);
+    console.log(`Count the scroll height: offsetTop: ${offsetTop}, offset position: ${offsetPosition}`);
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: 'smooth'
+    });
+  }
 }
 
 function showUserPrompt(prompt) {
@@ -1514,7 +1527,7 @@ async function renderResults(results, language) {
       // title = title.trim().replace(/[\.。]+$/g, '');
       // subheading = subheading.trim().replace(/[\.。]+$/g, '');
     }
-    console.log(`hide class: ${hideClass}`);
+    // console.log(`hide class: ${hideClass}`);
     const lang = language || 'English';
     const articleLink = (readArticle === 'pop-out') ? `href="./chat.html#ftid=${id}&language=${lang}&action=read"` : `data-action="show-article"`;
     const newHTML = `
