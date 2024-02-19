@@ -7,6 +7,7 @@
 	<%if $noneSubscriberStatus != ""%>
 		<%assign var="promoTargets" value="`$subscriptionType`|`$noneSubscriberStatus`"%>
 	<%/if%>
+	
 	<%assign var="foundPromo" value="no"%>
 	<%assign var="expire" value=$smarty.get.expire|sanitize:"number"%>
 	<%assign var="ccode" value=$smarty.get.ccode|sanitize%>

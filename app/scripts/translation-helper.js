@@ -1215,6 +1215,13 @@ function isAITranslation() {
     return typeof window.userName === 'string' && goodTranslators.indexOf(window.userName)>=0;
 }
 
+function isPublicHoliday() {
+    const start = new Date('2024-02-12 00:00:00').getTime();
+    const end = new Date('2024-02-16 00:00:00').getTime();
+    const now = new Date().getTime();
+    return now >= start && now <= end;
+}
+
 function finishTranslationForArticle(buttonEle) {
     var status = checkAllTextAreas();
     if (!status.success) {
@@ -1278,7 +1285,12 @@ function finishTranslationForArticle(buttonEle) {
         }
         var tagEle = window.opener.document.getElementById('tag');
         if (tagEle) {
-            var AITranslatorTag = isAITranslation() ? ',AITranslation,FT商学院' : '';
+            let AITranslatorTag = '';
+            if (isAITranslation()) {
+                AITranslatorTag = ',AITranslation,FT商学院';
+            } else if (isPublicHoliday()) {
+                AITranslatorTag = ',FT商学院';
+            }            
             tagEle.value += AITranslatorTag;
             var tags = window.opener.document.getElementById('tag').value.split(',');
             var tagsSet = new Set(tags);

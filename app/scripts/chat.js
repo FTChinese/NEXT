@@ -959,7 +959,7 @@ function scrollIntoViewProperly(ele) {
     const offsetTop = getOffsetTop(ele);
     const w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
     const hideTopNavWidth = 768;
-    const topEdge = (w <= hideTopNavWidth ) ? 88 : 44;
+    const topEdge = (w <= hideTopNavWidth ) ? 88 : 64;
     const offsetPosition = Math.max(0, offsetTop - topEdge);
     // console.log(`Count the scroll height: offsetTop: ${offsetTop}`);
     window.scrollTo({
