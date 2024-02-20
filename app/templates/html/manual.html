@@ -140,7 +140,7 @@
     <%if 1>2 && $v <= 238 && $pageId == "home"%>
         <%assign var="showAppStoreWarning" value="yes"%>
     <%/if%>
-    <%if $v < 277%>
+    <%if $v < 279%>
         <%assign var="grabGoogleAdGPT" value="yes"%>
     <%/if%>
 <%elseif $smarty.get.android != ""%>
@@ -711,6 +711,8 @@
             function loadScriptsSequentially() {
                 loadScript("https://d2785ji6wtdqx8.cloudfront.net/js/gpt.js", function() {
                     console.log("First script loaded successfully.");
+                    window.adCodeLoaded = false;
+                    window.googletag = undefined;
                     loadScript("https://d2785ji6wtdqx8.cloudfront.net/n/ad-polyfill.js", function() {
                         console.log("Second script loaded and run successfully.");
                     });
@@ -723,62 +725,13 @@
     <%/if%>
 
 
-    <%*<!-- MARK: - Huawei Market requires us to remove all crytocurrency reports. This code is intended to trick them to believe that we did. Start. -->*%>
-        <%if $smarty.get.android != "" && $smarty.get.pageid == "mbastory" && $smarty.get.utm_campaign == "an_huawei" && 1<0%>
-            <textarea id="android-info-debug" rows=15 style="width: 100%; display:none;"></textarea>
-            <script>
-                (function(){
-                    let androidDebugInfo = 'Android App\n\n';
-                    let isPaidSubscriber = false;
-                    if (window.androidUserInfo && window.androidUserInfo.membership) {
-                        var expireDate = new Date(window.androidUserInfo.membership.expireDate);
-                        var todayDate = new Date();
-                        if (expireDate >= todayDate) {
-                            isPaidSubscriber = true;
-                        } else if (window.androidUserInfo.membership.vip === true) {
-                            isPaidSubscriber = true;
-                        }
-                    }
-                    if (isPaidSubscriber) {
-                        return;
-                    }
-                    for (var itemContainer of document.querySelectorAll('.item-container-app, .item-container')) {
-                        const keyWords = itemContainer.getAttribute('data-keywords') || '';
-                        let headline = '';
-                        let headlineEle = itemContainer.querySelector('.item-headline-link');
-                        if (headlineEle) {
-                            headline = headlineEle.innerHTML || '';
-                        }
-                        const key = keyWords + headline;
-                        if (/加密|比特币|以太币|数字货币/.test(key)) {
-                            androidDebugInfo += headline + '\n';
-                            itemContainer.parentElement.removeChild(itemContainer);
-                        }
-                    }
-                    // TEST: - Uncomment this to show debug info on Android device
-                    return;
-                    if (window.androidUserInfo) {
-                        androidDebugInfo += JSON.stringify(window.androidUserInfo);
-                    } else {
-                        androidDebugInfo += 'no user info';
-                    }
-                    androidDebugInfo += '\n\n<%$smarty.server.REQUEST_URI%>';
-                    var infoEle = document.getElementById('android-info-debug');
-                    if (!infoEle) {return;}
-                    infoEle.value = androidDebugInfo;
-                    infoEle.style.display = 'block';
-                })();
-            </script>
-        <%/if%>
-    <%*<!-- MARK: - Huawei Market requires us to remove all crytocurrency reports. This code is intended to trick them to believe that we did. End.  -->*%>
-    </script>
-    
+
 <%/if%>
 
 
 
 <%php%>
 $user_language = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
-echo '<!--user language full: ' . $user_language . '-->';
+// echo '<!--user language full: ' . $user_language . '-->';
 
 <%/php%>
