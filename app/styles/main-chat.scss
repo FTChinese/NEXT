@@ -684,10 +684,15 @@ body {
         display: block;
     }
     #story-body-container {
-        .n-content-pullquote, .n-content-big-number, [data-layout-width="inset-left"] {
+        .n-content-pullquote, .n-content-big-number, [data-layout-width="inset-left"], .leftPic {
             max-width: 360px;
             margin-left: calc((100% - 768px) / 2);
             margin-right: 30px;
+        }
+        .rightPic {
+            max-width: 360px;
+            margin-right: calc((100% - 768px) / 2);
+            margin-left: 30px;
         }
     }
     .is-bilingual {
@@ -1064,10 +1069,20 @@ body {
     }
 }
 
-@media only screen and (max-width: 980px) {
+// @media only screen and (max-width: 768px) {
+@media only screen and (max-width: 1028px) {
+    .chat-talk-inner {
+        padding: 5px math.div($defaultPadding, 2) 5px $navHeight + math.div($defaultPadding,2);
+        &:before {
+            left: math.div($defaultPadding, 2);
+        }
+    }
+}
+
+@media only screen and (max-width: 1080px) {
     .full-grid-story {
         #story-body-container {
-            .n-content-pullquote, .n-content-big-number {
+            .n-content-pullquote, .n-content-big-number, .leftPic, .rightPic {
                 margin: auto;
                 padding: 0;
                 float: none;
@@ -1088,15 +1103,6 @@ body {
     }
 }
 
-// @media only screen and (max-width: 768px) {
-@media only screen and (max-width: 1028px) {
-    .chat-talk-inner {
-        padding: 5px math.div($defaultPadding, 2) 5px $navHeight + math.div($defaultPadding,2);
-        &:before {
-            left: math.div($defaultPadding, 2);
-        }
-    }
-}
 
 @media only screen and (max-width: 768px) {
     .audio-placeholder {
@@ -1205,5 +1211,13 @@ body {
     }
     .chat-input-container {
         left: 0;
+    }
+}
+
+@media only screen and (max-width: 490px) {
+    .leftPic, .rightPic{
+        img {
+            margin-bottom: 1em;
+        }
     }
 }

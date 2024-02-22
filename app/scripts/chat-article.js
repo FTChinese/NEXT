@@ -561,30 +561,38 @@ function textToChunks(text, maxTokensPerChunk, contextPrefix) {
     return chunks;
 }
 
+// MARK: - This mainly works for the English body XML, for Chinese translation body XML, the image HTML is already generated. 
 function imagesToHtml(embed) {
     let html = '<picture>';
     const images = embed.members;
     if (images.length === 0) {return '';}
     let hasDefaultImage = false;
     let deskTopImage = '';
+    let isSmallImage = true;
     images.forEach((image) => {
-      let imageUrl = `https://www.ft.com/__origami/service/image/v2/images/raw/${encodeURIComponent(image.binaryUrl)}`;
-      deskTopImage = `<img src="${imageUrl}?source=next&amp;width=2400">`;
-      if (image.format === 'desktop' || image.minDisplayWidth === '980px') {
-        html += `<source media="screen and (min-width: 980px)" srcset="${imageUrl}?source=next&amp;width=2400">`;
-      } else if (image.format === 'mobile' || image.maxDisplayWidth === '490px') {
-        html += `<source media="screen and (max-width: 490px)" srcset="${imageUrl}?source=next&amp;width=980">`;
-      } else {
-        hasDefaultImage = true;
-        html += deskTopImage;
-      }
+        const pixelWidth = Math.min(1200, image.pixelWidth || 1200);
+        if (pixelWidth > 450) {
+            isSmallImage = false;
+        }
+        const actualWidth = pixelWidth * 2;
+        let imageUrl = `https://www.ft.com/__origami/service/image/v2/images/raw/${encodeURIComponent(image.binaryUrl)}`;
+        deskTopImage = `<img src="${imageUrl}?source=next&amp;width=${actualWidth}">`;
+        if (image.format === 'desktop' || image.minDisplayWidth === '980px') {
+            html += `<source media="screen and (min-width: 980px)" srcset="${imageUrl}?source=next&amp;width=${actualWidth}">`;
+        } else if (image.format === 'mobile' || image.maxDisplayWidth === '490px') {
+            html += `<source media="screen and (max-width: 490px)" srcset="${imageUrl}?source=next&amp;width=${actualWidth}">`;
+        } else {
+            hasDefaultImage = true;
+            html += deskTopImage;
+        }
     });
     if (hasDefaultImage === false) {
         html += deskTopImage;
     }
     html += '</picture>';
     // MARK: - FT didn't specify when a graphic should be displayed as a small pic, this is the best guess so far. 
-    const picClass = (images.length === 1 && images[0].format === 'standardInline' && /\/Graphic$/.test(images[0].type)) ? ' leftPic' : '';
+    const isGraphic = (images.length === 1 && images[0].format === 'standardInline' && /\/Graphic$/.test(images[0].type));
+    const picClass = isGraphic || isSmallImage ? ' leftPic' : '';
     const description = embed.description || images[0].title || '';
     return `<div class="pic${picClass}">${html}${description}</div>`;
 }
