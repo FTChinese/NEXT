@@ -1,3 +1,59 @@
+<%if $smarty.get.v != ""%>
+    <%*<!-- MARK: iOS app -->*%>
+    <%assign var="v" value=$smarty.get.v|sanitize|floatval%>
+    <%if $v >= 7.3%>
+        <%assign var="showExclusiveContent" value="yes"%>
+    <%/if%>
+    <%if $v >= 7.6%>
+        <%assign var="supportBackgroundDowndingWhenBlocked" value="yes"%>
+    <%/if%>
+    <%if $v >= 9.8%>
+        <%assign var="supportSubscriptionUpgradePromo" value="yes"%>
+    <%/if%>
+    <%if $v >= 9.8%>
+        <%assign var="supportSubscriptionPromoBox" value="yes"%>
+    <%/if%>
+    <%if $v >= 10.7%>
+        <%assign var="supportThirdPartyFrame" value="yes"%>
+    <%else%>
+        <%assign var="supportThirdPartyFrame" value="no"%>
+    <%/if%>
+    <%if $v == 98%>
+        <%assign var="useCorpToRenderStory" value="yes"%>
+    <%else%>
+        <%assign var="useCorpToRenderStory" value="no"%>
+    <%/if%>
+    <%if $v <= 119%>
+        <style>.block-image-container {padding: 0;}</style>
+    <%/if%>
+    <%if $v <= 217%>
+        <%assign var="showMaximum8Tops" value="yes"%>
+    <%/if%>
+    <%*<!--MARK: - This is taken off per request from Tracy on Nov 18th, 2022 -->*%>
+    <%if 1>2 && $v <= 238 && $pageId == "home"%>
+        <%assign var="showAppStoreWarning" value="yes"%>
+    <%/if%>
+    <%if $v < 279%>
+        <%assign var="grabGoogleAdGPT" value="yes"%>
+    <%/if%>
+<%elseif $smarty.get.android != ""%>
+    <%*<!-- MARK: android app -->*%>
+    <%assign var="androidVersionCode" value=$smarty.get.android|sanitize|floatval%>
+    <%if $androidVersionCode >= 1%>
+        <%assign var="showExclusiveContent" value="yes"%>
+    <%/if%>
+    <%if $androidVersionCode >= 1%>
+        <%assign var="supportSubscriptionPromoBox" value="yes"%>
+    <%/if%>
+    <%if $androidVersionCode <= 64%>
+        <%assign var="displayMBAGymWithCorp" value="yes"%>
+    <%/if%>
+    <%if $androidVersionCode < 119%>
+        <%assign var="grabGoogleAdGPT" value="yes"%>
+    <%/if%>
+<%/if%>
+
+
 <%if $storymodel != ""%>
 <%assign var=taginfo value=$storymodel->get_tag_describes($tag_name)%>
 <%if $tagtitle == ""%>
@@ -327,5 +383,9 @@
                 'image': ''
             };
         </script>
+    <%/if%>
+    <%if $grabGoogleAdGPT == "yes" || $smarty.get.android != ""%>
+        <script type="text/javascript">window.timeStamp = '<%include file="next/timestamp/timestamp.html"%>';</script>
+        <script type="text/javascript" src="https://d2785ji6wtdqx8.cloudfront.net/n/ad-fix-old-versions.js?<%include file="next/timestamp/timestamp.html"%>"></script>
     <%/if%>
 <%/if%>
