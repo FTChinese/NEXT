@@ -686,42 +686,46 @@
 
 
     <%if $grabGoogleAdGPT == "yes" || $smarty.get.android != ""%>
-        <script type="text/javascript">
-            // Function to load a script
-            var timeStamp = '<%include file="next/timestamp/timestamp.html"%>';
-            function loadScript(url, callback) {
-                var script = document.createElement("script");
-                script.type = "text/javascript";
+        <script type="text/javascript">window.timeStamp = '<%include file="next/timestamp/timestamp.html"%>';</script>
+        <script type="text/javascript" src="https://d2785ji6wtdqx8.cloudfront.net/n/ad-fix-old-versions.js?<%include file="next/timestamp/timestamp.html"%>"></script>
+                                <%*<!--
+                                    <script type="text/javascript">
+                                        // Function to load a script
+                                        var timeStamp = '<%include file="next/timestamp/timestamp.html"%>';
+                                        function loadScript(url, callback) {
+                                            var script = document.createElement("script");
+                                            script.type = "text/javascript";
 
-                // If the script loads successfully, execute the callback
-                script.onload = function() {
-                    if (callback) callback();
-                };
+                                            // If the script loads successfully, execute the callback
+                                            script.onload = function() {
+                                                if (callback) callback();
+                                            };
 
-                // Handle errors in loading the script
-                script.onerror = function() {
-                    console.error("Script load failed: " + url);
-                };
+                                            // Handle errors in loading the script
+                                            script.onerror = function() {
+                                                console.error("Script load failed: " + url);
+                                            };
 
-                script.src = url + '?' + timeStamp;
-                document.head.appendChild(script);
-            }
+                                            script.src = url + '?' + timeStamp;
+                                            document.head.appendChild(script);
+                                        }
 
-            // Function to load the first script and then the second
-            function loadScriptsSequentially() {
-                loadScript("https://d2785ji6wtdqx8.cloudfront.net/js/gpt.js", function() {
-                    console.log("First script loaded successfully.");
-                    window.adCodeLoaded = false;
-                    window.googletag = undefined;
-                    loadScript("https://d2785ji6wtdqx8.cloudfront.net/n/ad-polyfill.js", function() {
-                        console.log("Second script loaded and run successfully.");
-                    });
-                });
-            }
+                                        // Function to load the first script and then the second
+                                        function loadScriptsSequentially() {
+                                            loadScript("https://d2785ji6wtdqx8.cloudfront.net/js/gpt.js", function() {
+                                                console.log("First script loaded successfully.");
+                                                window.adCodeLoaded = false;
+                                                window.googletag = undefined;
+                                                loadScript("https://d2785ji6wtdqx8.cloudfront.net/n/ad-polyfill.js", function() {
+                                                    console.log("Second script loaded and run successfully.");
+                                                });
+                                            });
+                                        }
 
-            // Load the scripts when the window loads
-            loadScriptsSequentially();
-        </script>
+                                        // Load the scripts when the window loads
+                                        loadScriptsSequentially();
+                                    </script>
+                                -->*%>
     <%/if%>
 
 
