@@ -181,6 +181,7 @@ delegate.on('click', '.quiz-options div', async (event) => {
         const nextQuiz = newChat.querySelector('.quiz-container.hide');
         if (nextQuiz ) {
             quizContainer.closest('.chat-talk').querySelector('.quiz-next').classList.remove('hide');
+            scrollIntoViewProperly(nextQuiz);
         } else {
             let chatTalkInner = quizContainer.closest('.chat-talk-inner');
             const all = chatTalkInner.querySelectorAll('.is-done.quiz-container').length;
@@ -190,9 +191,12 @@ delegate.on('click', '.quiz-options div', async (event) => {
             finalScore.className = 'chat-item-summary';
             finalScore.innerHTML = `${localize('Final Score')}: ${correct}/${all}`;
             quizContainer.append(finalScore);
-            quizContainer.closest('.chat-talk-inner').innerHTML += actions;
+            // MARK: - Only add the actions when the quiz is displayed in a new chat item, not in the story container
+            let fullStoryGrid = element.closest('.full-grid-story');
+            if (!fullStoryGrid) {
+                quizContainer.closest('.chat-talk-inner').innerHTML += actions;
+            }
         }
-        newChat.scrollIntoView(scrollOptions); 
     } catch (err) {
         console.log(err);
     }
@@ -381,9 +385,8 @@ function getVideoHTML(content) {
     `;
 }
 
-
-
 delegate.on('click', '.quiz-next', async (event) => {
+
     const element = event.target;
     try {
         let visibleQuizes = element.closest('.chat-talk').querySelectorAll('.quiz-container:not(.hide)');
@@ -391,24 +394,19 @@ delegate.on('click', '.quiz-next', async (event) => {
         let nextQuiz = element.closest('.chat-talk').querySelector('.quiz-container.hide');
         if (nextQuiz) {
             nextQuiz.classList.remove('hide');
-            // quiz-end-for-scroll-alignment
-            // nextQuiz.scrollIntoView(scrollOptionsStart);
         }
         element.classList.add('hide');
         if (visibleQuizesCount > 0) {
             visibleQuizes[visibleQuizesCount-1].querySelector('.quiz-end-for-scroll-alignment').scrollIntoView(scrollOptionsStart);
         }
-
-        // const newChat = element.closest('.chat-talk');
-        // newChat.scrollIntoView(scrollOptions); 
-        // newChat.scrollIntoView(scrollOptionsStart);
-
     } catch (err) {
         console.log(err);
     }
+
 });
 
 async function generateSocratic(id, language, articleContextChunks, action) {
+
     try {        
         let isConversationDisplayed = false;
         window.socracticInfo = [];
@@ -444,53 +442,87 @@ async function generateSocratic(id, language, articleContextChunks, action) {
         console.log(`generateSocratic error: `);
         console.log(err);
     }
+
 }
 
-async function generateQuiz(id, language, articleContextChunks, action) {
+function renderQuizInfoAndUpdateDisplay(quizId, quizInfo, ftid, isQuizDisplayed, language, isAuto = false) {
+
+    if (quizInfo.status !== 'success' || !quizInfo.results) {
+        return true;
+    }
+    
+    let html = '';
+    const results = quizInfo.results || [];
+    for (const [index, quiz] of results.entries()) {
+        const answer = quiz.answer || '';
+        const explanation = quiz.explanation || '';
+        let allOptions = quiz.distractors || [];
+        // MARK: - OpenAI doesn't get it right all the time, especially when you prompt it to translate a quiz. So you need to verify on the frontend. 
+        if (allOptions.indexOf(answer) === -1) {
+            allOptions.push(answer);
+        }
+        allOptions = shuffle(allOptions);
+        let options = '';
+        for (const option of allOptions) {
+            const className = (option === answer) ? 'is-correct' : 'is-wrong';
+            options += `<div class=${className}>${option.trim().replace(/[\.。]+$/g, '')}</div>`; 
+        }
+        const hideClass = (index === 0 && !isQuizDisplayed) ? '' : ' hide'; 
+        html += `
+            <div class="quiz-container${hideClass}" data-score="0">
+                <div class="quiz-question">${quiz.question}</div>
+                <div class="quiz-options">${options}</div>
+                <div class="quiz-explanation">${explanation}</div>
+                <div class="quiz-end-for-scroll-alignment"></div>
+            </div>
+        `.replace(/[\r\n]+/g, '');
+    }
+    if (isQuizDisplayed === false) {
+        // MARK: - First valid chunk
+        const chatTalkInner = document.querySelector(`.article-container[data-id="${ftid}"]`)?.closest('.chat-talk-inner');
+        let storyBodyContainer = chatTalkInner?.querySelector('.story-body-container');
+        html = `<div id="${quizId}" class="quizzes-container">${html}</div>`;
+        html += `<div class="quizzes-container"><button class="quiz-next hide">NEXT</button></div>`;
+        const audioEle = document.querySelector(`[data-id="${ftid}"] .audio-placeholder.is-sticky-top`);
+        console.log(`is auto? ${isAuto}, storyBodyContainer: ${storyBodyContainer}, ftid: ${ftid}`);
+        if (audioEle && audioEle.parentElement) {
+            let status = audioEle.parentElement.querySelector('.quizzes-container');
+            if (status) {
+                status.remove();
+            }
+            audioEle.parentElement.innerHTML += html;
+        } else if (isAuto && storyBodyContainer) {
+            storyBodyContainer.innerHTML += html;
+        } else {
+            const result = {text: html};
+            showResultInChat(result);
+        }
+        let button = chatTalkInner?.querySelector(`[data-action="quiz"][data-lang="${language}"]`);
+        if (button) {
+            button.classList.add('hide');
+        }
+        let status = chatTalkInner?.querySelector(`.quizzes-status`);
+        if (status) {
+            status.remove();
+        }
+    } else {
+        document.getElementById(quizId).innerHTML += html;
+    }
+
+    return true;
+
+}
+
+async function generateQuiz(ftid, language, articleContextChunks, action) {
     try {
         const randomString = (Math.floor(Math.random() * 90000) + 10000).toString();
-        const quizId = id + randomString;
+        const quizId = ftid + randomString;
         let isQuizDisplayed = false;
+        
         // MARK: Send the requests in chunks
         for (const [index, articleContext] of articleContextChunks.entries()) {
-            const quizInfo = await promptOpenAIForArticle(id, index, language, articleContext, articleContextChunks.length, action);
-            if (quizInfo.status === 'success' && quizInfo.results) {
-                let html = '';
-                for (const [index, quiz] of quizInfo.results.entries()) {
-                    const answer = quiz.answer || '';
-                    const explanation = quiz.explanation || '';
-                    let allOptions = quiz.distractors || [];
-                    // MARK: - OpenAI doesn't get it right all the time, especially when you prompt it to translate a quiz. So you need to verify on the frontend. 
-                    if (allOptions.indexOf(answer) === -1) {
-                        allOptions.push(answer);
-                    }
-                    allOptions = shuffle(allOptions);
-                    let options = '';
-                    for (const option of allOptions) {
-                        const className = (option === answer) ? 'is-correct' : 'is-wrong';
-                        options += `<div class=${className}>${option.trim().replace(/[\.。]+$/g, '')}</div>`; 
-                    }
-                    const hideClass = (index === 0 && !isQuizDisplayed) ? '' : ' hide'; 
-                    html += `
-                        <div class="quiz-container${hideClass}" data-score="0">
-                            <div class="quiz-question">${quiz.question}</div>
-                            <div class="quiz-options">${options}</div>
-                            <div class="quiz-explanation">${explanation}</div>
-                            <div class="quiz-end-for-scroll-alignment"></div>
-                        </div>
-                    `.replace(/[\r\n]+/g, '');
-                }
-                if (isQuizDisplayed === false) {
-                    // MARK: - First valid chunk
-                    isQuizDisplayed = true;
-                    html = `<div id="${quizId}">${html}</div>`;
-                    html += `<button class="quiz-next hide">NEXT</button>`;
-                    const result = {text: html};
-                    showResultInChat(result);
-                } else {
-                    document.getElementById(quizId).innerHTML += html;
-                }
-            }
+            const quizInfo = await promptOpenAIForArticle(ftid, index, language, articleContext, articleContextChunks.length, action);
+            isQuizDisplayed = renderQuizInfoAndUpdateDisplay(quizId, quizInfo, ftid, isQuizDisplayed, language, false);
         }
     } catch(err) {
         console.log(`generate quiz error: `);
@@ -801,6 +833,57 @@ async function convertFTContentForChinese(results, language) {
     return newResults;
 }
 
+async function checkQuiz(id, language) {
+    try {
+        const token = (isPowerTranslate) ? GetCookie('accessToken') : 'sometoken';
+        if (!token || token === '') {
+            return {status: 'failed', message: 'You need to sign in first! '};
+        }
+        const queryData = {id: id, language: language};
+        let url = '/ai/check_quiz';
+        let options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(queryData)
+        };
+        if (isFrontendTest && !isPowerTranslate) {
+            url = `/api/page/quizzes.json`;
+            options = {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            };
+        }
+        // MARK: - If there's valid result, return immediately
+        let response;
+        try {
+            response = await fetch(url, options);
+            const cachedResult = await response.json();
+            if (cachedResult && cachedResult.length > 0) {
+                // console.log(`Found cached results: `);
+                // console.log(cachedResult);
+                return {status: 'success', results: cachedResult};
+            } else if (cachedResult && cachedResult.status === 'error') {
+                // MARK: - If there's a cached error, don't try the API again
+                // console.log(`Found cached error: `);
+                // console.log(cachedResult);
+                return {status: 'failed', message: 'Cannot get the data from AI model'};
+            }
+        } catch(err){
+            // console.log(err);
+            return {status: 'failed', message: err.toString()};
+        }
+    } catch(err) {
+        // console.log(err);
+        return {status: 'failed', message: err.toString()};
+    }
+    return {status: 'failed', message: 'unknown error'};
+}
+
 async function promptOpenAIForArticle(id, index, language, text, chunks, action) {
     try {
         // const token = (isPowerTranslate) ? localStorage.getItem('accessToken') : 'sometoken';
@@ -1019,7 +1102,20 @@ function initScrollyTelling(ftid) {
     }
 }
 
-
+async function displayCachedQuiz(ftid, language) {
+    // MARK: - Check if there's a cached quiz
+    const data = await checkQuiz(ftid, language);
+    if (data?.status !== 'success') {return;}
+    const randomString = (Math.floor(Math.random() * 90000) + 10000).toString();
+    const quizId = ftid + randomString;
+    const items = data.results || [];
+    let results = [];
+    for (const item of items) {
+        results = results.concat(item.result || []);
+    }
+    const quizInfo = {status: 'success', results: results};
+    renderQuizInfoAndUpdateDisplay(quizId, quizInfo, ftid, false, language, true);
+}
 
 // MARK: - Add the ft id to read in local storage
 function addStoryToRead(ftid) {

@@ -1886,8 +1886,8 @@ function addNewMatch() {
         var originalEle = infoContainer.querySelector('.info-original');
         var originalText = originalEle.innerHTML;
         originalText = originalText
-            .replace(/([“>]+)/g, '$1 ')
-            .replace(/([”<])/g, ' $1')
+            .replace(/([“>\(]+)/g, '$1 ')
+            .replace(/([”<\)])/g, ' $1')
             .replace(/(’s )/g, ' $1')
             .replace(/([,\.?!]+)/g, ' $1 ')
             .replace(/[ ]+/g, ' ');

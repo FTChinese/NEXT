@@ -430,11 +430,11 @@ async function getArticleFromFTAPI(id, language) {
           // url = '/api/page/ft_article_link.json';
           // url = '/api/page/ft_podcast.json';
           // url = '/api/page/ft_video.json';
-          // url = '/api/page/ft_article.json';
+          url = '/api/page/ft_article.json';
           // url = '/api/page/ft_article_scrolly_telling.json';
           // url = '/api/page/ft_article_scrolly_telling_climate_change.json';
           // url = '/api/page/ft_article_double_image.json';
-          url = '/api/page/ft_article_chinese.json';
+          // url = '/api/page/ft_article_chinese.json';
           // url = '/api/page/ft_article_machine_translation.json';
           options = {
               method: 'GET',
@@ -643,6 +643,11 @@ function processBylineWithLinks(content, showTranslationAsDefault) {
       }).join(', ');
   }
 
+  const annotations = content.annotations?.map(x => x.prefLabel || '');
+  if (annotations.indexOf('FT Podcast') >= 0) {
+    return {byline: '', bylineEnglish: ''};
+  }
+
   let byline = content.byline || '';
   let bylineEnglishLinks = '';
   let bylineLinks = '';
@@ -708,9 +713,20 @@ async function showContent(ftid, language, shouldScrollIntoView = true, shouldLo
       const type = getContentType(content);
       const hideBodyClass = (['Video', 'Audio'].indexOf(type) >= 0) ? ' hide' : '';
       if (info.status === 'success' && content) {
-          const actions = `<div class="chat-item-actions" data-lang="${language}" data-id="${ftid}"><a data-id="${ftid}" data-action="quiz" title="Test my understanding of the article">${localize('Quiz Me')}</a><a data-id="${ftid}" data-action="socratic" title="${localize('Socratic Method Explained')}">${localize('Socratic Method')}</a><a data-purpose="set-intention" data-lang="${language}" data-content="CleanSlate" data-reply="${localize('Offer Help')}">${localize('DoSomethingElse')}</a></div>`;
-          let visualHeading = getVideoHTML(content);
           let audioHTML = getAudioHTML(content);
+          let englishQuiz = '';
+          if (audioHTML !== '' && !/^en/gi.test(language)) {
+            englishQuiz = `<a data-id="${ftid}" data-lang='English' data-action="quiz" title="Test my understanding of the article">Quiz</a>`;
+          }
+          const actions = `
+            <div class="chat-item-actions" data-lang="${language}" data-id="${ftid}">
+              ${englishQuiz}
+              <a data-id="${ftid}" data-action="quiz" data-lang="${language}" title="Test my understanding of the article">${localize('Quiz Me')}</a>
+              <a data-id="${ftid}" data-action="socratic" title="${localize('Socratic Method Explained')}">${localize('Socratic Method')}</a>
+            </div>`;
+            //              <a data-purpose="set-intention" data-lang="${language}" data-content="CleanSlate" data-reply="${localize('Offer Help')}">${localize('DoSomethingElse')}</a>
+
+          let visualHeading = getVideoHTML(content);
           if (visualHeading === '' && content.mainImage && content.mainImage.members && content.mainImage.members.length > 0) {
               visualHeading = content.mainImage.members[0].binaryUrl;
               if (location.host === 'ftcoffer.herokuapp.com') {
@@ -741,7 +757,7 @@ async function showContent(ftid, language, shouldScrollIntoView = true, shouldLo
             showTranslationAsDefault = true;
             isUsingMachineTranslation = true;
           }
-          let showTranscript = (bodyXML !== '' && ['Video', 'Audio'].indexOf(type) >= 0) ? `<a data-action="show-transcript">Show Transcript</a>` : '';
+          let showTranscript = (bodyXML !== '' && ['Video', 'Audio'].indexOf(type) >= 0) ? `<p><a data-action="show-transcript">Show Transcript</a></p>` : '';
           let title = content.title || '';
           let titleEnglish = '';
           if (content.titleTranslation && content.titleTranslation !== '') {
@@ -843,6 +859,8 @@ async function showContent(ftid, language, shouldScrollIntoView = true, shouldLo
           }
           userInput.focus();
           handleFlourishEmbeds(html);
+          await displayCachedQuiz(ftid, language)
+
           // Deprecating: - Migrating to Pinecone for context
           // MARK: - Create embeddings for the article content in paragraphs
           // await generateEmbeddingsForArticle(content);
@@ -1675,9 +1693,16 @@ async function handleActionClick(element) {
   updateBotStatus('pending');
   try {
       const id = element.getAttribute('data-id') || '';
-      const language = element.closest('.chat-item-actions').getAttribute('data-lang') || 'English';
-      showUserPrompt(element.innerHTML);
-      showBotResponse(`Creating ${action} data for you...`);
+      const language = element.getAttribute('data-lang') || element.closest('.chat-item-actions').getAttribute('data-lang') || 'English';
+      const audioEle = document.querySelector(`[data-id="${id}"] .audio-placeholder.is-sticky-top`);
+      const reminder = `Creating ${action} data for you...`;
+      if (action === 'quiz' && audioEle && audioEle.parentElement) {
+          audioEle.parentElement.innerHTML += `<div class="quizzes-container quizzes-status">${reminder}</div>`;
+      } else {
+          showUserPrompt(element.innerHTML);
+          showBotResponse(reminder);
+      }
+
       let articleEle = document.querySelector(`.article-container[data-id="${id}"]`);
       // MARK: - Using English text to create quiz and questions saves tokens and produces better quality results. But the names might not be translated correctly. 
       let title = '';

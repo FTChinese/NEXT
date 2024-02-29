@@ -655,7 +655,7 @@ a[data-action] {
 }
 
 .quiz-next, .survey-submit {
-    margin: auto;
+    margin: auto auto $defaultPadding auto;
     font-size: 1.2em;
     padding: math.div($defaultPadding, 4) math.div($defaultPadding, 2);
     width: auto;
@@ -677,7 +677,7 @@ body {
 }
 
 .full-grid-story {
-    [data-action="show-transcript"], ft-related, promo-box, .story-header-container, .chat-item-actions, .article-prompt, .audio-placeholder, .story-annotations, #story-body-container > * {
+    [data-action="show-transcript"], ft-related, promo-box, .story-header-container, .chat-item-actions, .article-prompt, .audio-placeholder, .story-annotations, #story-body-container > *, .quizzes-container {
         max-width: $chatWidth;
         margin-left: auto;
         margin-right: auto;
@@ -956,8 +956,9 @@ body {
                 grid-template-columns: 1fr 30px 300px;
                 gap: 0;
                 grid-template-areas:
-                    "main gutter righttop"
-                    "main gutter rightbottom";
+                    "main gutter righttop";
+                    // TODO: In the future, can put ads or recommendations to the rightbottom
+                    // "main gutter rightbottom";
             }
             .story-header-container {
                 max-width: 768px + 300px + $defaultPadding;
@@ -1064,9 +1065,9 @@ body {
             max-width: 768px + 300px + $defaultPadding;
         }
     }
-    .chat-input-inner {
-        max-width: 768px + 300px + $defaultPadding;
-    }
+    // .chat-input-inner {
+    //     max-width: 768px + 300px + $defaultPadding;
+    // }
 }
 
 // @media only screen and (max-width: 768px) {
@@ -1089,7 +1090,7 @@ body {
                 max-width: $chatWidth;
             }
         }
-        .story-headline, .story-lead, .story-theme, .story-byline, #story-body-container .n-content-pullquote, #story-body-container .n-content-big-number, .story-annotations, #story-body-container > *, .article-prompt, .chat-item-actions, [data-action="show-transcript"], .ai-disclaimer {
+        .story-headline, .story-lead, .story-theme, .story-byline, #story-body-container .n-content-pullquote, #story-body-container .n-content-big-number, .story-annotations, #story-body-container > *, .quizzes-container, .article-prompt, .chat-item-actions, [data-action="show-transcript"], .ai-disclaimer {
             padding-left: math.div($defaultPadding, 2);
             padding-right: math.div($defaultPadding, 2);
         }
@@ -1102,6 +1103,7 @@ body {
         }
     }
 }
+
 
 
 @media only screen and (max-width: 768px) {
