@@ -490,9 +490,9 @@ function renderQuizInfoAndUpdateDisplay(quizId, quizInfo, ftid, isQuizDisplayed,
             if (status) {
                 status.remove();
             }
-            audioEle.parentElement.innerHTML += html;
+            audioEle.parentElement.innerHTML += `<hr>${html}`;
         } else if (isAuto && storyBodyContainer) {
-            storyBodyContainer.innerHTML += html;
+            storyBodyContainer.innerHTML += `<hr>${html}`;
         } else {
             const result = {text: html};
             showResultInChat(result);

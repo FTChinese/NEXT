@@ -817,7 +817,7 @@
 		<%if $isMachineTranslation == "yes"%>
 			<%assign var="languageOptions" value="<a class=\"icon-right icon-ch\" href=\"/interactive/`$id`/ce\"><button>对照</button></a>"%>
 		<%else%>
-			<%assign var="languageOptions" value="<a class=\"icon-right icon-ch\" href=\"/interactive/`$id`/ce\"><button>对照</button></a>"%>
+			<%assign var="languageOptions" value="<a class=\"icon-right icon-ch\" href=\"/interactive/`$id`\"><button>中文</button></a><a class=\"icon-right icon-ch\" href=\"/interactive/`$id`/ce\"><button>对照</button></a>"%>
 		<%/if%>
 	<%elseif preg_match("/\/interactive\/[0-9]+\/ce/is",$smarty.server.REQUEST_URI) || $isMachineTranslation == "yes"%>
 		<%assign var="page_action" value="ce"%>
@@ -948,7 +948,7 @@
 <%assign var="storyTime" value="`$timeStatus``$storyTime`"%>
 
 <%if $page_action=="en"%>
-	<%assign var="storyAuthor" value="`$story.ebyline_description` `$story.eauthor` `$story.ebyline_status`"%>
+	<%assign var="storyAuthor" value="`$story.eauthor` `$story.ebyline_status`"%>
 <%elseif $shouldShowPayWall == "yes"%>
 	<%assign var="storyAuthor" value="`$story.cbyline_description` `$story.cauthor`"%>
 <%else%>
@@ -1057,6 +1057,7 @@
 <%/if%>
 
 
+
 <%if $page_action=="ce"%>
 	<%assign var="story_content" value=""%>
 	<%foreach item=body from=$storyce%>
@@ -1064,8 +1065,12 @@
 	<%/foreach%>
 <%elseif $page_action=="en" && $ebody != ""%>
 	<%assign var="story_content" value=$ebody%>
+
+
+
 	<%assign var="story_content" value=$story_content|regex_replace:"/<div class=[\"]*inlinevideo[\"]* id=[\"]*([A-Za-z0-9]+)[\"]* auto[sS]tart=[\"]*([a-zA-Z]+)[\"]* title=\"(.*)\" image=\"(.*)\" vid=\"(.*)\"><\/div>/":"<div class='o-responsive-video-container'><div class='o-responsive-video-wrapper-outer'><div class='o-responsive-video-wrapper-inner'><script src='https://union.bokecc.com/player?vid=\\1&siteid=922662811F1A49E9&autoStart=\\2&width=100%&height=100%&playerid=3571A3BF2AEC8829&playertype=1'></script></div></div><a class='o-responsive-video-caption' href='/video/\\5' target='_blank'>\\3</a></div>"%>
 	<%assign var="story_content" value=$story_content|regex_replace:"/<div class=[\"]*inlinevideo[\"]* id=[\"]*[\"]* auto[sS]tart=[\"]*([a-zA-Z]+)[\"]* title=\"(.*)\" image=\"(.*)\" vid=\"(.*)\" vsource=\"(.*)\"><\/div>/":"<div class='o-responsive-video-container'><div class='o-responsive-video-wrapper-outer'><div class='o-responsive-video-wrapper-inner'><object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' width='100%' height='100%' id='osmfPlayer'><param name='movie' value='https://d2785ji6wtdqx8.cloudfront.net/player111014/osmfPlayer_3.swf?videoid=\\4&autoplay=false' /><param name='quality' value='high' /><param name='bgcolor' value='#000000' /><param name='allowScriptAccess' value='always' /><param name='allowFullScreen' value='true' /><!--[if !IE]>--><object type='application/x-shockwave-flash' data='https://d2785ji6wtdqx8.cloudfront.net/player111014/osmfPlayer_3.swf?videoid=\\4&autoplay=false' width='100%' height='100%'><param name='quality' value='high' /><param name='bgcolor' value='#000000' /><param name='allowFullScreen' value='true' /><param name='allowScriptAccess' value='always' /><!--<![endif]--><!--[if gte IE 6]>--><video id='nowvideo' src='http://v.ftimg.net/\\5' controls='' width='100%' height='100%'><p>Either scripts and active content are not permitted to run or Adobe Flash Player version10.0.0 or greater is not installed.</p></video><!--<![endif]--><!--[if !IE]>--></object><!--<![endif]--></object></div></div><a class='o-responsive-video-caption' href='/video/\\4' target='_blank'>\\2</a></div>"%>
+
 <%else%>
 	<%assign var="story_content" value=$story_content|regex_replace:"/<div class=[\"]*inlinevideo[\"]* id=[\"]*([A-Za-z0-9]+)[\"]* auto[sS]tart=[\"]*([a-zA-Z]+)[\"]* title=\"(.*)\" image=\"(.*)\" vid=\"(.*)\"><\/div>/":"<div class='o-responsive-video-container'><div class='o-responsive-video-wrapper-outer'><div class='o-responsive-video-wrapper-inner'><script src='https://union.bokecc.com/player?vid=\\1&siteid=922662811F1A49E9&autoStart=\\2&width=100%&height=100%&playerid=3571A3BF2AEC8829&playertype=1'></script></div></div><a class='o-responsive-video-caption' href='/video/\\5' target='_blank'>\\3</a></div>"%>
 	<%assign var="storyBody" value=$storyBody|regex_replace:"/<div class=[\"]*inlinevideo[\"]* id=[\"]*([A-Za-z0-9]+)[\"]* auto[sS]tart=[\"]*([a-zA-Z]+)[\"]* title=\"(.*)\" image=\"(.*)\" vid=\"(.*)\"><\/div>/":"<div class='o-responsive-video-container'><div class='o-responsive-video-wrapper-outer'><div class='o-responsive-video-wrapper-inner'><script src='https://union.bokecc.com/player?vid=\\1&siteid=922662811F1A49E9&autoStart=\\2&width=100%&height=100%&playerid=3571A3BF2AEC8829&playertype=1'></script></div></div><a class='o-responsive-video-caption' href='/video/\\5' target='_blank'>\\3</a></div>"%>
@@ -1191,6 +1196,7 @@
 		<%if !preg_match("/<p>/is",$story_content) || $storyParagraphs > 5%>
 			<%assign var="story_content" value=$story_content|regex_replace:"/[\r\t\n]+/":"</p><p>"%>
 			<%assign var="story_content" value="<p>`$story_content`</p>"%>
+			<%assign var="story_content" value=$story_content|regex_replace:"/<p>(<div.+><\/div>)<\/p>/":"\\1"%>
 		<%/if%>
 		<%if preg_match("/英语电台|SpeedReadAudio/is",$keys)%>
 			<%assign var="storyHeadline" value="`$eheadline`<br>`$cheadline`"%>
@@ -1201,7 +1207,7 @@
 			<%*<!--MARK: - Michael Lin's Audio Stories-->*%>
 			<%assign var="storyAuthor" value=$cauthor_html_format%>
 		<%elseif $eauthor != ""%>
-			<%assign var="storyAuthor" value="`$ebyline_description` `$eauthor`"%>
+			<%assign var="storyAuthor" value=$eauthor%>
 		<%else%>
 			<%assign var="storyAuthor" value="`$cbyline_description` `$cauthor`"%>
 		<%/if%>
@@ -1218,9 +1224,14 @@
 			<%assign var="storyAuthor" value="`$cbyline_description` `$cauthor`"%>
 		<%/if%>
 	<%elseif $page_action == "ce"%>
+		
         <%assign var="story_content" value=""%>
         <%foreach item=body from=$storyce%>
-        <%assign var="story_content" value="`$story_content`<div class=leftp>`$body.l`</div><div class=rightp>`$body.r`</div><div class=clearfloat></div>"%>
+			<%if preg_match("/^<div class=\"pic\">.+<\/div>$/is",$body.l) && preg_match("/^<div class=\"pic\">.+<\/div>$/is",$body.r)%>
+				<%assign var="story_content" value="`$story_content``$body.l`<div class=clearfloat></div>"%>
+			<%else%>
+        		<%assign var="story_content" value="`$story_content`<div class=leftp>`$body.l`</div><div class=rightp>`$body.r`</div><div class=clearfloat></div>"%>
+			<%/if%>
         <%/foreach%>
 		<%assign var="storyHeadline" value="`$eheadline`<br>`$cheadline`"%>
 		<%if $cauthor != ""%>
@@ -1228,6 +1239,7 @@
 		<%else%>
 			<%assign var="storyAuthor" value="`$ebyline_description` `$eauthor`"%>
 		<%/if%>
+
 	<%else%>
 		<%assign var="story_content" value=$cbody%>
 		<%*<!--MARK: - remove all the html code inside a div before determining whether this article already has <p> tags. -->*%>
@@ -1277,7 +1289,6 @@
 			<%assign var="storyBody" value=$storyBody|regex_replace:"/<div class=[\"]*inlinevideo[\"]* id=[\"]*[\"]* auto[sS]tart=[\"]*([a-zA-Z]+)[\"]* title=\"(.*)\" image=\"(.*)\" vid=\"(.*)\" vsource=\"(.*)\"><\/div>/":"<div class='o-responsive-video-container'><div class='o-responsive-video-wrapper-outer'><div class='o-responsive-video-wrapper-inner'><object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' width='100%' height='100%' id='osmfPlayer'><param name='movie' value='https://d2785ji6wtdqx8.cloudfront.net/player111014/osmfPlayer_3.swf?videoid=\\4&autoplay=false' /><param name='quality' value='high' /><param name='bgcolor' value='#000000' /><param name='allowScriptAccess' value='always' /><param name='allowFullScreen' value='true' /><!--[if !IE]>--><object type='application/x-shockwave-flash' data='https://d2785ji6wtdqx8.cloudfront.net/player111014/osmfPlayer_3.swf?videoid=\\4&autoplay=false' width='100%' height='100%'><param name='quality' value='high' /><param name='bgcolor' value='#000000' /><param name='allowFullScreen' value='true' /><param name='allowScriptAccess' value='always' /><!--<![endif]--><!--[if gte IE 6]>--><video id='nowvideo' src='http://v.ftimg.net/\\5' controls='' width='100%' height='100%'><p>Either scripts and active content are not permitted to run or Adobe Flash Player version10.0.0 or greater is not installed.</p></video><!--<![endif]--><!--[if !IE]>--></object><!--<![endif]--></object></div></div><a class='o-responsive-video-caption' href='/video/\\4' target='_blank'>\\2</a></div>"%>
 		<%/if%>
 	<%/if%>
-	<!--story author 99: <%$storyAuthor%>, page action <%$page_action%>-->
 	<%*<!--MARK: - In one version of the Android app, base url for interactives are set as https. So images need to be changed to https too. -->*%>
 	<%assign var="story_content" value=$story_content|regex_replace:"/src=\"http:\/\/i\.ftimg\.net\//":"src=\"https://thumbor.ftacademy.cn/unsafe/"%>
 	<%assign var="storyBody" value=$storyBody|regex_replace:"/src=\"http:\/\/i\.ftimg\.net\//":"src=\"https://thumbor.ftacademy.cn/unsafe/"%>
@@ -1886,10 +1897,6 @@
 <%if preg_match("/<div class=\"pic/is",$story_content)%>
 	<%assign var="hasPictureClass" value="has-picture"%>
 <%/if%>
-
-
-
-<!--story author final 1: <%$storyAuthor%>-->
 
 
 <%if $smarty.get.bodyonly != "yes" || $isAndroidApp == "yes"%>

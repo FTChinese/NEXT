@@ -16,7 +16,8 @@ var dict = {};
 var delegate = new Delegate(document.body);
 const isPowerTranslate = location.href.indexOf('powertranslate') >= 0;
 const isFrontendTest = location.href.indexOf('localhost') >= 0;
-var links = (isPowerTranslate || 1>0) ? `<div>Experiments: <a class="add-new-translation-choice" title="Not satisfied with the current choices? Click here to get another choice. ">OpenAI</a>, <a class="translate-with-ChatGPT" title="Not satisfied with the current choices? Ask ChatGPT to give you an answer. ">ChatGPT</a></div>` : '';
+var links = `<div><a class="translate-with-ChatGPT" title="Not satisfied with the current choices? Ask ChatGPT to give you a better version. ">Ask ChatGPT</a></div>`;
+// <a class="add-new-translation-choice" title="Not satisfied with the current choices? Click here to get another choice. ">OpenAI</a>
 //'<div>更多翻译引擎：<a href="https://fanyi.baidu.com/" target=_blank>百度</a> | <a href="https://fanyi.youdao.com/" target=_blank>有道</a> | <a href="https://www.deepL.com/" target=_blank>DeepL</a> | <a href="https://translate.google.com/" target=_blank>Google</a></div>';
 var heartBeatStatus = 'translating';
 var type = 'other';
@@ -40,7 +41,7 @@ delegate.on('click', '.translate-with-ChatGPT', async function(event){
     try {
         const container = this.parentNode.parentNode;
         const prompt = getPromptForOpenAI(container);
-        const url = `https://chat.openai.com/`;
+        const url = `https://chat.openai.com/g/g-XPObsQZbv-translatetochinese`;
         await navigator.clipboard.writeText(prompt);
         if (chatgptTab) {
             const messageId = `message-${messageCount}`;
@@ -441,7 +442,47 @@ function getPromptForOpenAI(container) {
         const reg = new RegExp(nameEntitie.original, 'g');
         sourceHTML = sourceHTML.replace(reg, nameEntitie.translation);
     }
-    const prompt = `Translate from ${source} to ${target}: \n${sourceHTML}\n`;
+    let currentTranslation = container.closest('.info-container')?.querySelector('textarea')?.value ?? '';
+    if (currentTranslation !== '') {
+        currentTranslation = `Here's the current translation, delimited by ####: \n####\n${currentTranslation}\n####`;
+    }
+    let references = [];
+    for (const ele of container.querySelectorAll('.info-translation')) {
+        const html = ele.innerHTML;
+        references.push(html);
+    }
+    let referenceHTML = '';
+    if (references.length > 0) {
+        referenceHTML = `Here are the other translation versions, delimited by ####. See if they inspire you to improve the current translation: \n####\n${references.join('\n')}\n####`;
+    }
+    let names = [];
+    for (const ele of container.closest('.info-container')?.querySelectorAll('.name-entity-inner') ?? []) {
+        const key = ele.querySelector('.name-entity-key')?.innerText?.trim() ?? '';
+        const value = ele.querySelector('input')?.value?.trim() ?? '';
+        if (key === '' || value === '') {continue;}
+        names.push({key: key, value: value});
+    }
+    let namesHTML = '';
+    if (names.length > 0) {
+        namesHTML = `Here is the glossary for the translation of name entities: \n${names.map(item=>`${item.key}: ${item.value}`).join('\n')}`;
+    }
+    const prompt = `
+You are a native speaker of both ${source} and ${target}. You are an expert post editor of translations from ${source} into ${target}. Here's the ${source} text/html, delimited by ####: 
+####
+${sourceHTML}
+####
+${currentTranslation}
+${referenceHTML}
+${namesHTML}
+Please take a deep breath and do this in a step-by-step way: 
+1. Read carefully to understand what the text is about. 
+2. Read the current translation to see if it is both accurate and natural in Chinese. 
+3. Read the other translation versions to see if they inspires you to improve the current translation. 
+4. Check the glossary to make sure the translation is correct. 
+5. If you still are not sure about anything in the original text or the translation, please feel free to search the web to get more information and background that helps you understand and come up with good translations. 
+6. Finally, please read the translation again and make sure it is natural for Chinese audience. 
+`.trim();
+    
     return prompt;
 }
 
@@ -956,8 +997,9 @@ function start() {
                 if (/^<picture>.*<\/picture>/.test(englishHTML) && !/^<picture>.*<\/picture>/.test(t)) {
                     t = englishHTML.replace(/(^<picture>.*<\/picture>)(.*)$/g, '$1') + t;
                 }
-                const toolHTML = `<div class="info-translation-tools-container"><a data-polish-index="${j}" class="info-translation-polish" title="${localize('Polish-Translation')}"></a></div>`;
-                infoHTML += `${toolHTML}<div data-translation-index="${j}" class="info-translation" title="click to confirm this translation to the right">${t}</div>`;
+                // const toolHTML = `<div class="info-translation-tools-container"><a data-polish-index="${j}" class="info-translation-polish" title="${localize('Polish-Translation')}"></a></div>`;
+                // ${toolHTML}
+                infoHTML += `<div data-translation-index="${j}" class="info-translation" title="click to confirm this translation to the right">${t}</div>`;
             }
             var j1 = info.translations.length;
             var t1 = existingTranslationDict[englishHTML] || '';
