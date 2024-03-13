@@ -36,6 +36,9 @@ const previewLanguageModes = [
 const PreviewLanguagePreferenceKey = 'PreviewLanguagePreference';
 
 
+const dbName = "TranslationHelper";
+const storeName = "Interactives";
+
 // MARK: - Request A Polished Version of Translation
 delegate.on('click', '.translate-with-ChatGPT', async function(event){
     try {
@@ -475,12 +478,13 @@ ${currentTranslation}
 ${referenceHTML}
 ${namesHTML}
 Please take a deep breath and do this in a step-by-step way: 
-1. Read carefully to understand what the text is about. 
-2. Read the current translation to see if it is both accurate and natural in Chinese. 
-3. Read the other translation versions to see if they inspires you to improve the current translation. 
-4. Check the glossary to make sure the translation is correct. 
-5. If you still are not sure about anything in the original text or the translation, please feel free to search the web to get more information and background that helps you understand and come up with good translations. 
-6. Finally, please read the translation again and make sure it is natural for Chinese audience. 
+1. Please respond in Chinese. 
+2. Read carefully to understand what the text is about. 
+3. Read the current translation to see if it is both accurate and natural in Chinese. 
+4. Read the other translation versions to see if they inspires you to improve the current translation. 
+5. Check the glossary to make sure the translation is correct. 
+6. If you still are not sure about anything in the original text or the translation, please feel free to search the web to get more information and background that helps you understand and come up with good translations. 
+7. Finally, please read the translation again and make sure it is natural for Chinese audience. 
 `.trim();
     
     return prompt;
@@ -1777,17 +1781,150 @@ function updatePreviewLanguageMode(key) {
     localStorage.setItem(PreviewLanguagePreferenceKey, key);
 }
 
-function saveToLocal(force) {
+
+function openDatabase() {
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.open(dbName, 1);
+
+    request.onupgradeneeded = function(event) {
+      const db = event.target.result;
+      db.createObjectStore(storeName, { keyPath: "id" });
+    };
+
+    request.onsuccess = function(event) {
+      resolve(event.target.result);
+    };
+
+    request.onerror = function(event) {
+      reject('IndexedDB error: ' + event.target.errorCode);
+    };
+  });
+}
+
+
+async function saveToDB(id, data) {
+    const db = await openDatabase();
+    const transaction = db.transaction([storeName], "readwrite");
+    const objectStore = transaction.objectStore(storeName);
+    const time = new Date().getTime();
+    const request = objectStore.put({ id: id, time: time, content: data });
+  
+    request.onsuccess = function(event) {
+      console.log("Data saved to DB successfully!");
+    };
+  
+    request.onerror = function(event) {
+      console.error("Error saving data to DB", event.target.error);
+    };
+}
+
+
+async function deleteOldItems() {
+    const db = await openDatabase();
+    const transaction = db.transaction([storeName], "readwrite");
+    const objectStore = transaction.objectStore(storeName);
+
+    // Calculate the timestamp for 3 months ago
+    const threeMonthsAgo = new Date().getTime() - (90 * 24 * 60 * 60 * 1000); // 90 days in milliseconds
+
+    // Use a cursor to iterate over the items in the store
+    const request = objectStore.openCursor();
+
+    request.onsuccess = function(event) {
+        const cursor = event.target.result;
+        if (cursor) {
+            // Check if the item's timestamp is older than three months
+            if (cursor.value.time < threeMonthsAgo) {
+                // Delete the item if it's older than three months
+                const deleteRequest = cursor.delete();
+                deleteRequest.onsuccess = function() {
+                    console.log(`Item ${cursor.key} deleted because it's older than 3 months.`);
+                };
+                deleteRequest.onerror = function(error) {
+                    console.error(`Error deleting item ${cursor.key}: `, error);
+                };
+            }
+            cursor.continue(); // Move to the next item
+        } else {
+            console.log("Finished scanning items for deletion.");
+        }
+    };
+
+    request.onerror = function(event) {
+        console.error("Error opening cursor for deletion: ", event.target.error);
+    };
+}
+
+
+async function restoreFromDB(id) {
+    const db = await openDatabase();
+    const transaction = db.transaction([storeName], "readonly");
+    const objectStore = transaction.objectStore(storeName);
+    const request = objectStore.get(id);
+  
+    return new Promise((resolve, reject) => {
+        request.onsuccess = function(event) {
+            if (request.result) {
+                console.log("Data restored from DB successfully!");
+                resolve(request.result.content);
+            } else {
+                console.log("No data found with the given key.");
+                resolve(null); // resolve with null if no data is found
+            }
+        };
+  
+        request.onerror = function(event) {
+            console.error("Error retrieving data from DB", event.target.error);
+            reject(event.target.error);
+        };
+    });
+}
+  
+
+
+
+async function saveToLocal(force) {
+
+    var storyBodyContainerEle = document.getElementById('story-body-container');
+    if (!storyBodyContainerEle) {
+        alert(`Can't save because we can't find the necessary element (#story-body-container) on the page! If you continue to see this error, you can talk to the tech team. `);
+        return;
+    }
+    // MARK: - Save to clipboard here because it counts as user action here
+    try {
+        let savedTexts = [];
+        for (const textArea of document.querySelectorAll('.info-container textarea')) {
+            const value = textArea.value;
+            savedTexts.push(value);
+        }
+        const savedText = savedTexts.join('\n');
+        await navigator.clipboard.writeText(savedText);
+        console.log(`Copied to clipboard: `);
+        console.log(savedText);
+    } catch(err) {
+        console.log('Error saving to clipboard: ');
+        console.log(err);
+    }
     if (!force) {
         if (!confirm(localize('ask-to-overwrite'))) {return;}
     }
-    var storyBodyConttainerEle = document.getElementById('story-body-container');
-    if (!storyBodyConttainerEle) {return;}
-    var textareas = storyBodyConttainerEle.querySelectorAll('textarea');
+    var textareas = storyBodyContainerEle.querySelectorAll('textarea');
     for (var i=0; i<textareas.length; i++) {
         textareas[i].innerHTML = textareas[i].value;
     }
-    var saved = storyBodyConttainerEle.innerHTML;
+    var saved = storyBodyContainerEle.innerHTML;
+
+    try {
+        let itemId = window.id || '';
+        if (itemId === '') {
+            itemId = 'testid001';
+        }
+        await saveToDB(itemId, saved);
+        await deleteOldItems();
+    } catch(err) {
+        alert(localize('cannot-save-prompt') + '\n' + err.toString());
+    }
+
     try {
         localStorage.setItem(localStorageKey, saved);
     } catch(err) {
@@ -1795,17 +1932,37 @@ function saveToLocal(force) {
     }
 }
 
-function restoreFromLocal() {
+async function restoreFromLocal() {
+
     if (!confirm(localize('recover-prompt'))) {return;}
     var storyBodyConttainerEle = document.getElementById('story-body-container');
-    if (!storyBodyConttainerEle) {return;}
+    if (!storyBodyConttainerEle) {
+        alert(`Can't restore because we can't find the necessary element (#story-body-container) on the page! If you continue to see this error, you can talk to the tech team. `);
+        return;
+    }
+    let itemId = window.id || '';
+    if (itemId === '') {
+        itemId = 'testid001';
+    }
+    let saved;
     try {
-        var saved = localStorage.getItem(localStorageKey);
+        saved = await restoreFromDB(itemId);
+        console.log('Index DB Value: ');
         console.log(saved);
-        storyBodyConttainerEle.innerHTML = saved;
     } catch(err) {
         alert(localize('cannot-save-prompt') + '\n' + err.toString());
     }
+    if (!saved || saved === '') {
+        try {
+            saved = localStorage.getItem(localStorageKey);
+            console.log('local storage Value: ');
+            console.log(saved);
+        } catch(err) {
+            alert(localize('cannot-save-prompt') + '\n' + err.toString());
+        }
+    }
+    storyBodyConttainerEle.innerHTML = saved;
+
 }
 
 function showReplace(buttonEle) {
