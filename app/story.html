@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="no-js core show-story-columnist-topper-site full-grid-story show-story-hero-container-site has-scrolly-telling" data-next-app="front-page">
+<html class="no-js core show-story-columnist-topper-site show-story-hero-container-site" data-next-app="front-page">
  <head>
  <meta charset="utf-8" />
  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -312,656 +312,842 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
     
  </head>
  <body>
-    <script>var gUaOfPage = navigator.userAgent || navigator.vendor || "";</script><script>checkB();</script>
-    <div id="promo-box-container">
-    <style>
-    .noneSubscriber.subscription-promo-container {
-    background-color: #ff396e;
-    }
-    .noneSubscriber .subscription-promo-text {
-    background-color: #00c4c2;
-    border-color: #00c4c2;
-    }
-    .noneSubscriber .subscription-promo-text {
-    color: #ffffff;
-    }
-    .noneSubscriber .subscription-promo-box {
-    background-image: url(https://thumbor.ftacademy.cn/unsafe/picture/3/000188443_piclink.png);
-    }
-    @media only screen and (max-width: 490px) {
-    .noneSubscriber .subscription-promo-box {
-    background-image: url(https://thumbor.ftacademy.cn/unsafe/picture/4/000188444_piclink.png);
-    }
-    }
-    </style>
-    <div class="subscription-promo-container show-image-in-mobile noneSubscriber">
-    <div class="subscription-promo-inner">
-    <a  href="/m/corp/preview.html?pageid=18annivaq&to=all&ccode=2C18annivaqPBoxWeb" class="subscription-promo-box n-internal-promo" data-promo-target="noneSubscriber" data-promo-id="2C18annivaqPBoxWeb" data-promo-name="周年庆 新会员75折" data-promo-creative="https://thumbor.ftacademy.cn/unsafe/picture/3/000188443_piclink.png" data-promo-position="promoBox">
-    <div class="subscription-promo-text">周年庆 新会员75折</div>
-    </a>
-    </div>
-    </div>
-    <script type="text/javascript">
-    window.userId = GetCookie('USER_ID') || '';
-    if (window.userId === '') {
-    gtag('event', 'Display', {'event_label': '2C18annivaqPBoxWeb', 'event_category': 'PromoBox', 'non_interaction': true});
-    }
-    </script>
-    </div>
-    <script type="text/javascript">
-    function addUserId(ele) {
-    if (ele === null) {
-    return;
-    }
-    var userId;
-    if (typeof GetCookie === 'function') {
-    userId = GetCookie('USER_ID');
-    } else {
-    userId = getCookie('USER_ID');
-    }
-    if (userId && typeof userId === 'string' && userId !== '') {
-    var link = ele.href;
-    var connector = (link.indexOf('?') >= 0) ? '&' : '?';
-    ele.href = link + connector + 'u=' + userId;
-    }
-    }
-    var premiumLink = document.querySelector('[data-promo-target=premium]');
-    addUserId(premiumLink);
-    </script>
-    <header class="header-container">
-    <div class="header-inner">
-    <div class="masthead"></div>
-    <div class="header-side header-left expandable">
-    <div class="current-edition">
-    <span>简体中文</span>
-    <a href="https://big5.ftchinese.com/interactive/118854?exclusive">繁体中文</a>
-    <a href="http://www.ft.com/">FT.com</a>
-    </div>
-    </div>
-    <div class="header-side header-right">
-    <span class="visitor-box">
-    <a onclick="showOverlay('overlay-login')">登录</a>
-    <a class="more last" href="http://user.ftchinese.com/register">注册</a>
-    </span>
-    <span class="member-box">
-    <a href="/channel/myftlocal.html">我的FT</a>
-    <a id="ft-login-your-account" href="/users/cp">设置</a>
-    <a id="ft-login-logout" href="/users/logout">登出</a>
-    </span>
-    </div>
-    </div>
-    </header>
-    <div class="overlay-container" id="overlay-login">
-    <div class="overlay-inner">
-    <div class="overlay-bg" data-parentid="overlay-login"></div>
-    <div class="overlay-content-outer">
-    <div class="overlay-content-inner">
-    <div class="overlay-content">
-    <div class="overlay-title">登录<i class="overlay-close" data-parentid="overlay-login">×</i></div>
-    <form method="post" action="/users/login" id="overlay-login-form">
-    <span id="overlay-login-container">
-    <div class="input-title" id="login-reason"></div>
-    <div class="input-title">电子邮件/用户名</div>
-    <div class="input-container"><input type="text" class="input-oneline" name="username" id="ft-login-input-username"></div>
-    <div class="input-title">密码</div>
-    <div class="input-container"><input type="password" class="input-oneline" name="password" id="ft-login-input-password"></div>
-    <div><input type="checkbox" class="checkbox" value="1" checked="checked" name="saveme" id="ft-login-input-remember">记住我</div>
-    <div class="login-btn input-submit-container center"><input class="" type="submit" value="登录"></div>
-    <div class="center register-find"><a href="/register" class="blue-link">免费注册</a><span></span><a href="/users/findpassword" class="blue-link">找回密码</a></div>
-    <div class="phone-login-container" id="phone-login-trigger">
-    <div class="center phone-login"><a onclick="showPhoneLogin()" class="blue-link">短信登录</a></div>
-    </div>
-    <div class="wx-login-container">
-    <div class="center wx-login"><a href="https://www.ftacademy.cn/wxlogin" class="blue-link">微信登录</a></div>
-    </div>
-    </span>
-    </form>
-    <span id="phone-ftc-binding-container">
-    <div>请输入邮箱和密码进行绑定操作：</div>
-    <div><input placeholder="请输入邮箱" type="email" autocorrect="off" id="phone-binding-email" class="input-oneline"/></div>
-    <div><input placeholder="请输入密码" type="password" class="input-oneline" id="phone-binding-password"/></div>
-    <div class="topmargin statusmsg" id="phone-binding-status"></div>
-    <div><input type="button" value="绑定" class="n-button-inner" onclick="binding('phone')"/></div>
-    </span>
-    <span id="phone-login-container">
-    <div class="user-name-container">请输入手机号码，通过短信验证（目前仅支持中国大陆地区的手机号）：</div>
-    <div><input onkeyup="resetPhoneLogin()" placeholder="请输入中国大陆的手机号码" type="tel" autocorrect="off" name="phone" id="phone-number" class="input-oneline"/></div>
-    <div><input placeholder="请输入验证码"  pattern="\d*" maxlength="6" name="phonecapcha"  class="input-oneline" id="phone-captcha"/></div>
-    <div class="topmargin statusmsg" id="phone-login-status"></div>
-    <div>请您阅读我们的<a class="agreeDetail" href="/m/corp/service.html" target="_blank">用户注册协议</a>和<a class="agreeDetail" href="/m/corp/service.html#privacy" target="_blank">隐私权保护政策</a>，点击下方按钮即视为您接受。</div>
-    <div><input id="phone-login-submit-button" type="button" value="获取验证码" class="n-button-inner" onclick="phoneLogin()"/></div>
-    </span>
-    </div>
-    </div>
-    </div>
-    </div>
-    </div><div class="o-nav__placeholder">
-    <div class="o-nav">
-    <div class="o-nav__outer">
-    <div class="o-nav__inner">
-    <div class="o-nav__search"  data-o-component="o-toggler">
-    <button class="o-nav__search-toggle" data-o-toggler-button aria-controls="search-form">
-    <span class="search-toggle--open">搜索</span>
-    <span class="search-toggle--close">关闭</span>
-    </button>
-    <form action="/search/" id="search-form" role="search" data-o-toggler-target>
-    <input id="search-term" type="search" name="keys" class="search-input" placeholder="输入年月日‘xxxx-xx-xx’可搜索该日存档" />
-    <input id="type_news" type="hidden" value="type_news" name="ftsearchType" checked />
-    <button class="search-button" tabindex="1"><span>搜索</span></button>
-    </form>
-    </div>
-    <div class="o-header__masthead-mobile">
-    <a href="/" title="前往FT中文网首页"><span>FT中文网</span></a>
-    </div>
-    <nav class="o-nav__container" role="navigation">
-    <button class="nav-toggle" data-o-nav-togglable><span>Menu</span></button>
-    <ol class="o-nav__meganav">
-    <li class="nav-section mobile">
-    <button class="nav-section-head mobile" aria-selected="true">切换版本</button>
-    <ol class="nav-items">
-    <li class="nav-item">
-    <a class="nav-link" href="https://big5.ftchinese.com/">繁体中文版</a>
-    </li>
-    <li class="nav-item">
-    <a class="nav-link" href="http://www.ft.com/">FT.com</a>
-    </li>
-    </ol>
-    </li>
-    <li class="nav-section home "
-     data-section="home"
-    >
-    <button class="nav-section-head mobile">首页</button>
-    <a class="nav-section-head desktop" href="/">首页</a>
-    </li>
-    <li class="nav-section china "
-     data-section="china"
-    >
-    <button class="nav-section-head mobile">中国</button>
-    <a class="nav-section-head desktop" href="/channel/china.html">中国</a>
-    </li>
-    <li class="nav-section world "
-     data-section="world"
-    >
-    <button class="nav-section-head mobile">全球</button>
-    <a class="nav-section-head desktop" href="/channel/world.html">全球</a>
-    </li>
-    <li class="nav-section economy "
-     data-section="economy"
-    >
-    <button class="nav-section-head mobile">经济</button>
-    <a class="nav-section-head desktop" href="/channel/economy.html">经济</a>
-    </li>
-    <li class="nav-section markets "
-     data-section="markets"
-    >
-    <button class="nav-section-head mobile">金融市场</button>
-    <a class="nav-section-head desktop" href="/channel/markets.html">金融市场</a>
-    </li>
-    <li class="nav-section business "
-     data-section="business"
-    >
-    <button class="nav-section-head mobile">商业</button>
-    <a class="nav-section-head desktop" href="/channel/business.html">商业</a>
-    </li>
-    <li class="nav-section innovation "
-     data-section="innovation"
-    >
-    <button class="nav-section-head mobile">创新经济</button>
-    <a class="nav-section-head desktop" href="/channel/innovation.html">创新经济</a>
-    </li>
-    <li class="nav-section education "
-     data-section="education"
-    >
-    <button class="nav-section-head mobile">教育</button>
-    <a class="nav-section-head desktop" href="/channel/education.html?newnav=yes">教育</a>
-    </li>
-    <li class="nav-section opinion "
-     data-section="opinion"
-    >
-    <button class="nav-section-head mobile">观点</button>
-    <a class="nav-section-head desktop" href="/channel/opinion.html">观点</a>
-    </li>
-    <li class="nav-section management "
-     aria-selected="true" data-section="management"
-    >
-    <button class="nav-section-head mobile">管理</button>
-    <a class="nav-section-head desktop" href="/channel/management.html">管理</a>
-    <ol class="nav-items">
-    <li class="nav-item mobile">
-    <a class="nav-link" href="/channel/management.html">
-    频道首页
-    </a>
-    </li>
-    <li class="nav-item" aria-selected="true" data-channel="mba">
-    <a class="nav-link" href="/channel/mba.html">FT商学院</a>
-    </li>
-    <li class="nav-item"  data-channel="career">
-    <a class="nav-link" href="/channel/career.html">职场</a>
-    </li>
-    <li class="nav-item"  data-channel="leadership">
-    <a class="nav-link" href="/channel/leadership.html">领导力</a>
-    </li>
-    <li class="nav-item"  data-channel="wealth">
-    <a class="nav-link" href="/tag/%E8%B4%A2%E5%AF%8C%E7%AE%A1%E7%90%86">财富管理</a>
-    </li>
-    <li class="nav-item"  data-channel="people">
-    <a class="nav-link" href="/channel/people.html">人物</a>
-    </li>
-    </ol>
-    </li>
-    <li class="nav-section lifestyle "
-     data-section="lifestyle"
-    >
-    <button class="nav-section-head mobile">生活时尚</button>
-    <a class="nav-section-head desktop" href="/channel/lifestyle.html">生活时尚</a>
-    </li>
-    <li class="nav-section stream "
-     data-section="stream"
-    >
-    <button class="nav-section-head mobile">视频</button>
-    <a class="nav-section-head desktop" href="/channel/stream.html">视频</a>
-    </li>
-    <li class="nav-section audio "
-     data-section="audio"
-    >
-    <button class="nav-section-head mobile">音频</button>
-    <a class="nav-section-head desktop" href="/channel/audio.html">音频</a>
-    </li>
-    <li class="nav-section english "
-     data-section="english"
-    >
-    <button class="nav-section-head mobile">每日英语</button>
-    <a class="nav-section-head desktop" href="/channel/english.html">每日英语</a>
-    </li>
-    <li class="nav-section rewired "
-     data-section="rewired"
-    >
-    <button class="nav-section-head mobile">换脑ReWired</button>
-    <a class="nav-section-head desktop" href="/channel/rewired.html">换脑ReWired</a>
-    </li>
-    <li class="nav-section mobile login">
-    <ul>
-    <li class="nav-item">
-    <a class="nav-link" href="http://user.ftchinese.com/login">登录</a>
-    </li>
-    <li class="nav-item">
-    <a class="nav-link" href="http://user.ftchinese.com/register">免费注册</a>
-    </li>
-    </ul>
-    </li>
-    <li class="nav-section mobile logout">
-    <ul>
-    <li class="nav-item">
-    <a class="nav-link" href="/channel/myftlocal.html">我的FT</a>
-    </li>
-    <li class="nav-item">
-    <a class="nav-link" href="/users/setting/vip">会员中心</a>
-    </li>
-    <li class="nav-item">
-    <a class="nav-link" href="/users/setting/index">设置</a>
-    </li>
-    <li class="nav-item">
-    <a class="nav-link" href="/users/logout">登出</a>
-    </li>
-    </ul>
-    </li>
-    </ol>
-    </nav>
-    <ul class="o-nav__extra-tools">
-    <li class="tools-section" aria-haspopup="true">
-    <a class="tools-section-head" href="/m/corp/follow.html">关注我们</a>
-    <ol class="tools-items">
-    <li><a href="/m/corp/follow.html" target="_blank">微信公众号</a></li>
-    <li><a href="http://weibo.com/ftchinese" target="_blank">新浪微博</a></li>
-    <li><a href="/m/corp/follow.html" target="_blank">Flipboard</a></li>
-    <li><a href="https://twitter.com/FTChinese" target="_blank">Twitter</a></li>
-    <li><a href="https://www.facebook.com/financialtimeschinese" target="_blank">Facebook</a></li>
-    <li><a href="https://www.linkedin.com/company/4865254?trk=hp-feed-company-name" target="_blank">LinkedIn</a></li>
-    </ol>
-    </li>
-    <li class="tools-section" aria-haspopup="true">
-    <span class="tools-section-head">工具</span>
-    <ol class="tools-items">
-    <li><a href="http://app.ftchinese.com/" class="o-client-id-link">移动应用大全</a></li>
-    <li><a href="/users/setting/index">基本设置</a></li>
-    <li><a href="/users/setting/vip">会员中心</a></li>
-    <li><a href="/users/setting/changeicon">修改头像</a></li>
-    <li><a href="/users/setting/maillist">邮件订阅</a></li>
-    <li><a href="/index.php/snsapi/index">同步微博</a></li>
-    <li><a href="/users/commentstory">我的评论</a></li>
-    <li><a href="/users/favstorylist">管理收藏</a></li>
-    </ol>
-    </li>
-    <li class="tools-section">
-    <a class="tools-section-head follow__rss" href="/channel/rss.html" title="RSS"><span>RSS</span></a>
-    </li>
-    </ul>
-    </div><!-- o-nav__inner -->
-    </div><!-- o-nav__outer -->
-    <div class="o-nav__meganav-placeholder"></div>
-    </div><!-- o-nav -->
-    </div>
-    <div class="block-container has-side story-page"><div class="block-inner">
-    <div class="content-container"><div class="content-inner">
-    <div class="story-container">
-    <div class="story-topper">
-    <div class="story-theme"><a href="/tag/乌克兰战争">乌克兰战争</a><button class="myft-follow plus" data-tag="乌克兰战争" data-type="tag">关注</button></div>
-    <h1 class="story-headline story-headline-large">欧洲企业面临越来越大的暴利税冲击</h1>
-    <div class="story-lead">最初集中在银行和能源领域的征税，现在正扩展到其他领域。</div>
-    
-    </div>
-    <div class="story-tools">
-    <div class="story-action-placeholder" id="story-action-placeholder">
-    <div class="story-action">
-    <div class="action-inner">
-    <a class="action-icon icon-wechat P-hide" href="/m/corp/qrshare.html?url=http%3A%2F%2Fwww.ftchinese.com%2Finteractive%2F118854%3Ffull%3Dy%26gift_id%3De1e50f8ca1becda11904b313b189a361fb8202a0&title=" target="_blank"></a>
-    <a class="action-icon icon-weibo P-hide" href="http://service.weibo.com/share/share.php?appkey=4221537403&url=http%3A%2F%2Fwww.ftchinese.com%2Finteractive%2F118854%3Ffull%3Dy%26gift_id%3De1e50f8ca1becda11904b313b189a361fb8202a0%26ccode%3D2G169001&title=【欧洲企业面临越来越大的暴利税冲击】最初集中在银行和能源领域的征税，现在正扩展到其他领域。（分享自 @FT中文网）&ralateUid=1698233740&source=&sourceUrl=&content=utf-8&pic=https://thumbor.ftacademy.cn/unsafe/picture/8/000190538_piclink.jpg&searchPic=false" target="_blank"></a>
-    <a class="action-icon icon-twitter P-hide" href="http://twitter.com/home?status=【欧洲企业面临越来越大的暴利税冲击】最初集中在银行和能源领域的征税，现在正扩展到其他领域。（分享自 @FT中文网）...%20http%3A%2F%2Fwww.ftchinese.com%2Finteractive%2F118854%3Ffull%3Dy%26gift_id%3De1e50f8ca1becda11904b313b189a361fb8202a0" target="_blank"></a>
-    <a class="action-icon icon-facebook P-hide" href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.ftchinese.com%2Finteractive%2F118854%3Ffull%3Dy%26gift_id%3De1e50f8ca1becda11904b313b189a361fb8202a0&t=【欧洲企业面临越来越大的暴利税冲击】最初集中在银行和能源领域的征税，现在正扩展到其他领域。（分享自 @FT中文网）" target="_blank"></a>
-    <a class="icon-right icon-ch" href="/interactive/118854/en"><button>英文</button></a><a class="icon-right icon-ch" href="/interactive/118854/ce"><button>对照</button></a>
-    
-    <div class="icon-right icon-save P-hide">
-    <button id="addfavlink118854" data-item-type="interactive">收藏</button>
-    </div>
-    <a class="icon-right icon-action icon-print P-hide" onclick="window.print()" target="_blank"></a>
-    <a class="icon-right icon-action icon-font-size" onclick="showOverlay('font-setting')"></a>
-    <a class="icon-right icon-action icon-audio" href="/interactive/118894"></a>
-    <div class="progress-container">
-    <svg
-    class="progress-ring"
-    height="40"
-    width="40"
-    >
-    <circle
-    class="progress-ring__circle"
-    stroke-width="2"
-    stroke="transparent"
-    r="18"
-    cx="20"
-    cy="20"
-    />
-    </svg>
-    <svg class="pregress-tick" width="24" height="24" viewBox="0 0 24 24">
-    <path fill="none" d="M0 0h24v24H0z"/><path class="progress-tick-path" fill="transparent" d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
-    </svg>
-    </div>
-    </div>
-    </div>
-    </div>
-    </div>
-    <div class="story-byline">
-    <span class="story-time" data-time="1691980558" pub-date="1691942400">更新于2023年8月14日 10:35</span>
-    <span class="story-author">英国《金融时报》 <a href='/author/%E8%89%BE%E7%8E%9B%E2%80%A2%E9%98%BF%E6%9D%B0%E6%9B%BC' target=_blank>艾玛•阿杰曼</a> </span>
-    </div>
-    <div class="story-body">
-    
-    
-    <div id="story-body-container" class="has-picture">
-    <div class="print-only">来自FT中文网的温馨提示：如您对更多FT中文网的内容感兴趣，请在苹果应用商店或谷歌应用市场搜索“FT中文网”，下载FT中文网的官方应用。</div>
     
 
-    <p>而<a href="https://www.ftchinese.com/story/001100388?full=y&archive" target="_blank">选择党在过去的十年的发展势头</a>却是新现象。<strong>Influence — the power to persuade,</strong> advocate for change and imagine better ways of doing things — takes many forms. Nowhere is this more clear than in the magazine’s annual Women of the Year issue, a list of the world’s most influential women written about by other powerful women on the international stage. </p><p>This special project was assembled, over several months, in consultation with hundreds of FT journalists across dozens of bureaux, our readers and industry leaders. The end result is a list filled with women who have received prestigious accolades, but even Nobel Prizes, Pulitzers, Grammys and World Cups fail to fully capture the multi-faceted nature of their work.</p><p>Chimamanda Ngozi Adichie describes Lola Shoneyin’s work as a labour of love, noting that she “tirelessly splices present and future, nurturing what is, while making room for what will be”. It’s an apt description for the contributions made by all the exceptional women featured in this issue.</p><p><strong>Roula Khalaf</strong>, editor of the Financial Times</p><p><em>This is an unranked list.</em></p><p><strong>Margot Robbie</strong> by Emerald Fennell |<strong> Beyoncé</strong> by Oprah Winfrey | <strong>Barbara Kingsolver</strong> by Ann Patchett | <strong>Phoebe Philo</strong> by Gabrielle Boucinha | <strong>Lola Shoneyin</strong> by Chimamanda Ngozi Adichie | <strong>Alia Bhatt</strong> by Shubhra Gupta | <strong>aespa</strong> by Yoojin Choi | <strong>Mira Murati</strong> by Marissa Mayer | <strong>Makiko Ono </strong>by Sakie T Fukushima | <strong>Fran Drescher </strong>by Lisa Ann Walter | <strong>Lisa Dyson </strong>by Alondra Nelson | <strong>Carol Tomé </strong>by Lynn Martin | <strong>Karin Keller-Sutter</strong> by Elisabeth Svantesson | <strong>Marie-Claire Daveu </strong>by Anya Hindmarch | <strong>Marina Silva </strong>by Michelle Bachelet | <strong>Ursula von der Leyen </strong>by Janet Yellen | <strong>Mary Barra </strong>by Rana Foroohar | <strong>Janet Truncale </strong>by Brooke Masters | <strong>Narges Mohammadi</strong> by Marjane Satrapi | <strong>Coco Gauff</strong> by Naomi Osaka | <strong>Jenni Hermoso</strong> by Leah Williamson | <strong>Elizabeth Maruma Mrema </strong>by Caroline Lucas | <strong>Chen Chien-Jou </strong>by Chien Li-ying | <strong>Katalin Karikó</strong> by Karen S Lynch | <strong>Olena Zelenska</strong> by Kaja Kallas</p><hr/><div class="scrollable-block" data-layout-width="full-grid"  theme="2"><scrollable-section theme-display="1" theme-no-box="1" theme-position="1"><div class="pic"><picture><source media="screen and (max-width: 490px)" srcset="https://thumbor.ftacademy.cn/unsafe/980x0/https://d1e00ek4ebabms.cloudfront.net/production/b9815db7-27f6-467b-8fbf-dd072332a26c.jpg"><source media="screen and (min-width: 980px)" srcset="https://thumbor.ftacademy.cn/unsafe/1960x0/https://d1e00ek4ebabms.cloudfront.net/production/6cd50105-76b0-4b39-bcc6-bdf05b96d4f1.jpg"><img src="https://thumbor.ftacademy.cn/unsafe/1920x0/https://d1e00ek4ebabms.cloudfront.net/production/b9815db7-27f6-467b-8fbf-dd072332a26c.jpg"></picture></div><scrollable-text><h2 theme-style="1">Creators</h2></scrollable-text><scrollable-text><h2 theme-style="1">Margot Robbie</h2><p><em>Actor and producer</em></p></scrollable-text></scrollable-section></div><h2>by Emerald Fennell </h2><p>There is no one like Margot. She’s one of the biggest movie stars on the planet, an Oscar-nominated actress and a producer who runs a production company, LuckyChap, that is quickly becoming one of Hollywood’s biggest. She and her partners are proving that there is a world where smart, transgressive and original movies can make money. Serious money. <em>Barbie</em> — a project many insisted was “unmakeable” — passed the $1bn mark in a matter of weeks. Nothing is unmakeable for Margot. She saw the whole thing through, from taking the project to Greta [Gerwig] and Noah [Baumbach] to walking the red carpet as its star. I have been lucky enough to work with her (she produced both <em>Saltburn</em> and <em>Promising Young Woman</em>), and her knowledge, insight, support and dedication made these films possible. She wears her formidable power so lightly and uses so much of it to empower others: having Margot standing behind you is like having a whole army at your back. I can’t wait to see what her brilliant mind produces next. </p><p><em>Emerald Fennell is an English actress, filmmaker and Oscar-winning writer. Her latest film is “Saltburn”</em></p><div class="scrollable-block" data-layout-width="full-grid"  theme="2"><scrollable-section theme-display="1" theme-no-box="0" theme-position="3"><div class="pic"><picture><source media="screen and (max-width: 490px)" srcset="https://thumbor.ftacademy.cn/unsafe/980x0/https://d1e00ek4ebabms.cloudfront.net/production/5a8a76e7-c71e-479a-877e-872b18e3a450.jpg"><source media="screen and (min-width: 980px)" srcset="https://thumbor.ftacademy.cn/unsafe/1960x0/https://d1e00ek4ebabms.cloudfront.net/production/115a2aa5-d857-49e0-9352-e82c50b36544.jpg"><img src="https://thumbor.ftacademy.cn/unsafe/1920x0/https://d1e00ek4ebabms.cloudfront.net/production/5a8a76e7-c71e-479a-877e-872b18e3a450.jpg"></picture></div><scrollable-text><h2 theme-style="1">Beyoncé</h2><p><em>Musician</em></p></scrollable-text></scrollable-section></div><h2>by Oprah Winfrey </h2><p>No matter what you’ve heard or read about the phenomenon that is Beyoncé, no description can capture the true essence of experiencing the velocity of her talent in person. Every moment of her Renaissance World Tour I was in jaw-dropping awe. Days after, I found myself asking, “What was that?” and tearing up trying to explain the concert to others. It was a truly transcendent experience, all brought into being through her elevated creativity and leadership. It was a marvel to witness someone fully embodying their power and glory. I danced out of the stadium, filled with even more admiration and respect for what it takes to be Beyoncé, inspired by her artistry to turn up the volume in my own life. </p><p><em>Oprah Winfrey is a global media leader, producer and philanthropist</em></p><div class="scrollable-block" data-layout-width="full-grid"  theme="2"><scrollable-section theme-display="1" theme-no-box="0" theme-position="3"><div class="pic"><picture><source media="screen and (max-width: 490px)" srcset="https://thumbor.ftacademy.cn/unsafe/980x0/https://d1e00ek4ebabms.cloudfront.net/production/5c0290df-1d20-45fa-b36b-cfe3233d7e17.jpg"><source media="screen and (min-width: 980px)" srcset="https://thumbor.ftacademy.cn/unsafe/1960x0/https://d1e00ek4ebabms.cloudfront.net/production/6de98045-8e5e-48d6-bfd3-3211319dd074.jpg"><img src="https://thumbor.ftacademy.cn/unsafe/1920x0/https://d1e00ek4ebabms.cloudfront.net/production/5c0290df-1d20-45fa-b36b-cfe3233d7e17.jpg"></picture></div><scrollable-text><h2 theme-style="1">Barbara Kingsolver</h2><p><em>Author</em></p></scrollable-text></scrollable-section></div><h2>by Ann Patchett </h2><p>Barbara Kingsolver has been reminding readers to open our eyes for a long time: open our eyes to the crisis of the planet, to poverty, to the miracles of food and farms. She is not only one of our greatest writers, she is one of our greatest teachers, and nowhere is her skill more evident than in <em>Demon Copperhead</em>, a retelling of <em>David Copperfield</em> set in modern-day Appalachia. The hardship and degradation of poverty follows Dickens’ example, as does the longing for love and protection: a broken foster-care system replaces a broken school, a meth lab in the back of a gas station replaces the workhouse. The story may be subverted and expanded but, like Dickens, Kingsolver means to shine a floodlight on the suffering of the poor, especially children. Small wonder she won the Pulitzer. This is her masterpiece.</p><p><em>Ann Patchett’s most recent novel is “Tom Lake”, published by Bloomsbury</em></p><div class="scrollable-block" data-layout-width="full-grid"  theme="2"><scrollable-section theme-display="1" theme-no-box="0" theme-position="3"><div class="pic"><picture><source media="screen and (max-width: 490px)" srcset="https://thumbor.ftacademy.cn/unsafe/980x0/https://d1e00ek4ebabms.cloudfront.net/production/69b70115-63fc-4e16-9b23-539304a8eb8a.jpg"><source media="screen and (min-width: 980px)" srcset="https://thumbor.ftacademy.cn/unsafe/1960x0/https://d1e00ek4ebabms.cloudfront.net/production/0d917414-e865-48dc-b5da-0fae4f22f525.jpg"><img src="https://thumbor.ftacademy.cn/unsafe/1920x0/https://d1e00ek4ebabms.cloudfront.net/production/69b70115-63fc-4e16-9b23-539304a8eb8a.jpg"></picture></div><scrollable-text><h2 theme-style="1">Phoebe Philo</h2><p><em>Designer</em></p></scrollable-text></scrollable-section></div><h2>by Gabrielle Boucinha </h2><p>Phoebe Philo’s impact on fashion is more of a feeling than anything that can be fully described in words. </p><p>The contemporary minimalist aesthetic she established while creative director at Celine came to define the brand, and its influence is still felt. It was articulated through the clothes she designed, but also the interiors, the campaigns and most importantly the cult following she acquired both within the fashion industry and outside it, which is a testament to her work. It is truly evergreen and irreplaceable all these years later. She mastered clothes for the female gaze, which encompasses so much more than just what someone is wearing. </p><p>By prioritising what women wanted from their clothes and how they made them feel, she transformed womenswear. With her much-anticipated eponymous label, which launched in October, Phoebe has seemingly picked up right where she left off: inciting a frenzy among Philophiles, sparking a dozen fashion think pieces and selling out within hours.</p><p><em>Gabrielle Boucinha is a creative consultant and the creator of </em><a href="https://www.instagram.com/oldceline"><em>@oldceline</em></a></p><div class="scrollable-block" data-layout-width="full-grid"  theme="2"><scrollable-section theme-display="1" theme-no-box="0" theme-position="3"><div class="pic"><picture><source media="screen and (max-width: 490px)" srcset="https://thumbor.ftacademy.cn/unsafe/980x0/https://d1e00ek4ebabms.cloudfront.net/production/6ad5d760-46c7-4702-a9ac-7433e61c0564.jpg"><source media="screen and (min-width: 980px)" srcset="https://thumbor.ftacademy.cn/unsafe/1960x0/https://d1e00ek4ebabms.cloudfront.net/production/8360d996-b12b-493b-ad91-57aeef603de6.jpg"><img src="https://thumbor.ftacademy.cn/unsafe/1920x0/https://d1e00ek4ebabms.cloudfront.net/production/6ad5d760-46c7-4702-a9ac-7433e61c0564.jpg"></picture></div><scrollable-text><h2 theme-style="1">Alia Bhatt</h2><p><em>Actor and producer</em></p></scrollable-text></scrollable-section></div><h2>by Shubhra Gupta</h2><p>When I saw Alia Bhatt in her 2012 debut, <em>Student of the Year</em>, a popcorn high-school drama, she appeared no different from the cookie-cutter singing-dancing actors favoured by Bollywood. But with a conscious course correction, Bhatt started to carve out a distinctive path. In her last few outings, all blockbusters, she has become a critics’ favourite for tackling challenging roles with acuity. In <em>Gangubai Kathiawadi</em>, she starred as a sex worker turned activist. <em>RRR</em> became the third highest-grossing film in Indian history with its portrayal of two revolutionaries fighting British Raj rule. She’s also used her star-power to greenlight difficult-to-fund projects such as the 2022 Netflix film <em>Darlings</em>, which explored domestic abuse. At 30, she has turned producer, starred as the villain in a Hollywood actioner, and onboarded the mighty Yash Raj Films’ spy universe as a super-agent, becoming the first female actor to join this powerful all-boys club. When Bhatt is on screen, she holds your attention.</p><p><em>Shubhra Gupta is a film critic and author of “50 Films That Changed Bollywood, 1995-2015”</em></p><div class="scrollable-block" data-layout-width="full-grid"  theme="2"><scrollable-section theme-display="1" theme-no-box="0" theme-position="3"><div class="pic"><picture><source media="screen and (max-width: 490px)" srcset="https://thumbor.ftacademy.cn/unsafe/980x0/https://d1e00ek4ebabms.cloudfront.net/production/89a2d405-ad4a-4ef6-a77b-18a766118ccc.jpg"><source media="screen and (min-width: 980px)" srcset="https://thumbor.ftacademy.cn/unsafe/1960x0/https://d1e00ek4ebabms.cloudfront.net/production/9adee66e-9aee-418e-ba87-63c320cc00cb.jpg"><img src="https://thumbor.ftacademy.cn/unsafe/1920x0/https://d1e00ek4ebabms.cloudfront.net/production/89a2d405-ad4a-4ef6-a77b-18a766118ccc.jpg"></picture></div><scrollable-text><h2 theme-style="1">aespa</h2><p><em>Musicians</em></p></scrollable-text></scrollable-section></div><h2>by Yoojin Choi </h2><p>Growing up in the late 1990s in South Korea, I would spend hours listening to SES, part of the first generation of Korean pop music. When I moved to the UK, my classmates barely knew Korea existed. Little did I expect that by 2023, K-pop would have blazed into the mainstream, becoming one of the most popular musical genres in the world. While the top tiers of the Korean charts have been dominated by boy bands, a new wave of girl groups has been climbing the ranks. In the two years since they released their first album, aespa have set and then broken a series of records for K-pop girl groups, becoming the first to pass one million first-week sales with three consecutive albums, as well as playing Coachella and launching a world tour. With their experimentally layered instrumentation and fiery vocals accompanied by their sci-fi punk AI avatar counterparts (the “ae” in aespa refers to “avatar” and “experience”), aespa have pushed the boundaries of K-pop. </p><p><em>Yoojin Choi was co-curator of “Hallyu! The Korean Wave” exhibition at the V&amp;A</em> </p><div class="scrollable-block" data-layout-width="full-grid"  theme="2"><scrollable-section theme-display="1" theme-no-box="0" theme-position="3"><div class="pic"><picture><source media="screen and (max-width: 490px)" srcset="https://thumbor.ftacademy.cn/unsafe/980x0/https://d1e00ek4ebabms.cloudfront.net/production/95de82bd-dcde-475c-afcd-6a5659f0f4b5.jpg"><source media="screen and (min-width: 980px)" srcset="https://thumbor.ftacademy.cn/unsafe/1960x0/https://d1e00ek4ebabms.cloudfront.net/production/32da336b-ff9a-414e-976f-157a1aa1dd95.jpg"><img src="https://thumbor.ftacademy.cn/unsafe/1920x0/https://d1e00ek4ebabms.cloudfront.net/production/95de82bd-dcde-475c-afcd-6a5659f0f4b5.jpg"></picture></div><scrollable-text><h2 theme-style="1">Lola Shoneyin</h2><p><em>Writer and festival organiser</em></p></scrollable-text></scrollable-section></div><h2>by Chimamanda Ngozi Adichie </h2><p>Lola Shoneyin’s subversion is deliciously sly, her humour mordant, her eyes pitiless and her worldview always humane. In her quiet poems that probe the surface of family life, children are ubiquitous, both as character and metaphor (in one poem, sea waves thrash about “like insolent children”). Her widely loved novel, <em>The Secret Lives of Baba Segi’s Wives</em>, is a trenchant study of a polygamous Nigerian family; it has been adapted for the stage and deserves a screen. Perhaps her best-known achievement is the literary festival she founded in 2013, Aké Arts and Book Festival, which every year gathers writers from across the continent for conversations and workshops on the art and business of writing. A labour of love if ever there was one, Lola tirelessly splices present and future, nurturing what is, while making room for what will be. The festival is the first of its kind in Nigeria, and feels more hard-worn, more vital, for being genuinely homegrown.</p><p><em>Chimamanda Ngozi Adichie is a novelist</em></p><hr/><div class="scrollable-block" data-layout-width="full-grid"  theme="2"><scrollable-section theme-display="1" theme-no-box="1" theme-position="1"><div class="pic"><picture><source media="screen and (max-width: 490px)" srcset="https://thumbor.ftacademy.cn/unsafe/980x0/https://d1e00ek4ebabms.cloudfront.net/production/67e791de-6091-4005-bfdf-989689181949.jpg"><source media="screen and (min-width: 980px)" srcset="https://thumbor.ftacademy.cn/unsafe/1960x0/https://d1e00ek4ebabms.cloudfront.net/production/357fa1b8-b151-4ccb-9eef-7e3f51fc5f49.jpg"><img src="https://thumbor.ftacademy.cn/unsafe/1920x0/https://d1e00ek4ebabms.cloudfront.net/production/67e791de-6091-4005-bfdf-989689181949.jpg"></picture></div><scrollable-text><h2 theme-style="1">Leaders</h2></scrollable-text><scrollable-text><h2 theme-style="1">Mira Murati</h2><p><em>CTO</em></p></scrollable-text></scrollable-section></div><h2>by Marissa Mayer </h2><p>Mira Murati, the chief technology officer of OpenAI, is at the helm of this moment’s profound digital transformation. Born in Albania, Mira now lives at the white-hot epicentre of artificial intelligence’s rapid evolution. OpenAI’s groundbreaking products, ChatGPT and Dall-E, have captured the world’s imagination and will fundamentally change how we work, learn and express ourselves creatively. Mira’s visionary leadership extends well beyond the science and research of large language models into designing how to incorporate AI into our daily lives, as well as how to develop AI responsibly with regard to safety and regulation.</p><p>Incredibly thoughtful in envisioning human-AI interactions, Mira actively advocates for open, public testing — encouraging us to seize this unique moment in time, where we have agency over how the technology will reshape us and we shape it. As a notable rarity — a woman helming a tech company — Mira’s story and leadership are every bit as inspiring as the future-defining technology she oversees.</p><p><em>Marissa Mayer is the co-founder and chief executive officer of AI start-up Sunshine</em></p><div class="scrollable-block" data-layout-width="full-grid"  theme="2"><scrollable-section theme-display="1" theme-no-box="0" theme-position="3"><div class="pic"><picture><source media="screen and (max-width: 490px)" srcset="https://thumbor.ftacademy.cn/unsafe/980x0/https://d1e00ek4ebabms.cloudfront.net/production/5fa133e8-1363-4da3-b971-85f05ab21ccc.jpg"><source media="screen and (min-width: 980px)" srcset="https://thumbor.ftacademy.cn/unsafe/1960x0/https://d1e00ek4ebabms.cloudfront.net/production/11bd5308-c253-46f1-9839-e22af0bd6f60.jpg"><img src="https://thumbor.ftacademy.cn/unsafe/1920x0/https://d1e00ek4ebabms.cloudfront.net/production/5fa133e8-1363-4da3-b971-85f05ab21ccc.jpg"></picture></div><scrollable-text><h2 theme-style="1">Fran Drescher</h2><p><em>Actor and union president</em></p></scrollable-text></scrollable-section></div><h2>by Lisa Ann Walter </h2><p>Fran has been an icon for as long as I’ve been in the business. As an actor, she updated the well-worn Hollywood shopgirl-turned-lady archetype — and overcame adversity to build a personal brand that makes her beloved internationally. As president of our union, SAG-AFTRA, she led members in a 118-day-long strike this year to achieve an acceptable deal with the studios. Going into those negotiations, the same CEOs that Fran had done business with for decades believed she was just an adorable, smart-mouthed girl from Queens. And while she is that, she is also the only performer I know who could bring our union (and ultimately the industry) together. </p><p>We were at a difficult moment at SAG-AFTRA, with a lot of distrust among us. Fran helped our members unite, and took our concerns directly to the CEOs. She made them see us as people — not just numbers on a profit-and-loss sheet. What we were able to achieve with Fran at the helm is simply remarkable. And she did it all with heart, humour, resolve, fierce protectiveness — and love. She leads with love. And I am beyond proud to work with her.</p><p><em>Lisa Ann Walter is an actor and member of SAG-AFTRA</em> </p><div class="scrollable-block" data-layout-width="full-grid"  theme="2"><scrollable-section theme-display="1" theme-no-box="0" theme-position="3"><div class="pic"><picture><source media="screen and (max-width: 490px)" srcset="https://thumbor.ftacademy.cn/unsafe/980x0/https://d1e00ek4ebabms.cloudfront.net/production/8ce9b758-85f0-44b9-aeb1-41c2ae6424c8.jpg"><source media="screen and (min-width: 980px)" srcset="https://thumbor.ftacademy.cn/unsafe/1960x0/https://d1e00ek4ebabms.cloudfront.net/production/734b8d5b-4e79-40f9-aa51-810783b2edb9.jpg"><img src="https://thumbor.ftacademy.cn/unsafe/1920x0/https://d1e00ek4ebabms.cloudfront.net/production/8ce9b758-85f0-44b9-aeb1-41c2ae6424c8.jpg"></picture></div><scrollable-text><h2 theme-style="1">Mary Barra</h2><p><em>CEO</em></p></scrollable-text></scrollable-section></div><h2>by Rana Foroohar </h2><p>When you are navigating the biggest labour action in the automotive industry in decades, it helps to actually respect workers. General Motors chief executive Mary Barra, the daughter of a union machinist, comes from a family that has collectively spent more than 80 years working at the company. She’s comfortable on a factory floor and is known for smooth, no-nonsense competency, which helped her respond to the ignition-switch scandal that broke early in her tenure at GM.</p><p>During the United Auto Workers’ strikes, Barra eschewed the publicity and emotional appeals made by others in the industry and did her negotiating in a low-profile way, with workers at the bargaining table. GM became the first company to allow battery plants to be part of a master UAW contract, which has earned her kudos from both labour leaders and the public.</p><p><em>Rana Foroohar is the FT’s global business columnist and author of “Homecoming: The Path to Prosperity in a Post-Global World”</em></p><div class="scrollable-block" data-layout-width="full-grid"  theme="2"><scrollable-section theme-display="1" theme-no-box="0" theme-position="3"><div class="pic"><picture><source media="screen and (max-width: 490px)" srcset="https://thumbor.ftacademy.cn/unsafe/980x0/https://d1e00ek4ebabms.cloudfront.net/production/9e54db7e-40cb-4244-9248-098ca95f77ef.jpg"><source media="screen and (min-width: 980px)" srcset="https://thumbor.ftacademy.cn/unsafe/1960x0/https://d1e00ek4ebabms.cloudfront.net/production/2a931f15-676f-4ccd-aba9-219a9e860410.jpg"><img src="https://thumbor.ftacademy.cn/unsafe/1920x0/https://d1e00ek4ebabms.cloudfront.net/production/9e54db7e-40cb-4244-9248-098ca95f77ef.jpg"></picture></div><scrollable-text><h2 theme-style="1">Ursula von der Leyen</h2><p><em>President</em></p></scrollable-text></scrollable-section></div><h2>by Janet Yellen </h2><p>Ursula von der Leyen has navigated the day-to-day demands of leading the European Commission with remarkable skill and grace and has broken barriers as its first female president. And she has done so during a period of unprecedented global challenges. I’ve seen first-hand how she brought member states together to take novel and innovative measures to counter the economic impact of Covid-19 and help drive Europe’s recovery. She has been instrumental in our collective response to Russia’s unjust war on Ukraine, from powerful sanctions on Russia to robust European economic and security assistance for Ukraine, including her proposal for a new €50bn Ukraine Facility. She has been a trusted partner to the US and to me, personally, as the US and Europe pursue priorities from diversifying our critical supply chains to responsibly managing our respective economic relationships with the People’s Republic of China. At a time when decisive, principled action is sorely needed, Europe, the US and the world are fortunate to have in President von der Leyen a leader whose clarity of vision is exceeded only by her strength of will in advancing it.</p><p><em>Janet Yellen is the US Treasury Secretary</em></p><div class="scrollable-block" data-layout-width="full-grid"  theme="2"><scrollable-section theme-display="1" theme-no-box="0" theme-position="3"><div class="pic"><picture><source media="screen and (max-width: 490px)" srcset="https://thumbor.ftacademy.cn/unsafe/980x0/https://d1e00ek4ebabms.cloudfront.net/production/7c1c0caf-d6dc-447e-b5e7-79f3c7dc0ed5.jpg"><source media="screen and (min-width: 980px)" srcset="https://thumbor.ftacademy.cn/unsafe/1960x0/https://d1e00ek4ebabms.cloudfront.net/production/7dad0cac-5507-420a-aecb-c8b125c28057.jpg"><img src="https://thumbor.ftacademy.cn/unsafe/1920x0/https://d1e00ek4ebabms.cloudfront.net/production/7c1c0caf-d6dc-447e-b5e7-79f3c7dc0ed5.jpg"></picture></div><scrollable-text><h2 theme-style="1">Janet Truncale</h2><p><em>CEO-elect</em></p></scrollable-text></scrollable-section></div><h2>by Brooke Masters </h2><p>Janet Truncale thinks of herself as a trust builder. An advocate of being down to earth, she was bringing her whole self to work before it became fashionable. She made partner at the global accounting firm EY despite being open with clients and colleagues about the fact that she worked part-time around three children. The 53-year-old this year busted through another barrier to become the first woman to head a Big Four firm. Her success is the culmination of a decades-long evolution in professional services: 48 per cent of EY’s nearly 400,000 employees are women. But the New Jersey native has her work cut out for her. EY is recovering from tensions revealed when senior US audit partners scuppered a plan to spin off its consulting arm. Still, Truncale is well positioned to bind the wounds. A US auditor by training, she had been running a division that included voices from both sides of the debate.</p><p><em>Brooke Masters is the FT’s US financial editor, and an associate editor</em></p><div class="scrollable-block" data-layout-width="full-grid"  theme="2"><scrollable-section theme-display="1" theme-no-box="0" theme-position="1"><div class="pic"><picture><source media="screen and (max-width: 490px)" srcset="https://thumbor.ftacademy.cn/unsafe/980x0/https://d1e00ek4ebabms.cloudfront.net/production/3494beed-53f5-49ee-8c87-baee45e255d0.jpg"><source media="screen and (min-width: 980px)" srcset="https://thumbor.ftacademy.cn/unsafe/1960x0/https://d1e00ek4ebabms.cloudfront.net/production/09838a69-6332-47aa-a977-00df1403fb07.jpg"><img src="https://thumbor.ftacademy.cn/unsafe/1920x0/https://d1e00ek4ebabms.cloudfront.net/production/3494beed-53f5-49ee-8c87-baee45e255d0.jpg"></picture></div><scrollable-text><h2 theme-style="1">Karin Keller-Sutter</h2><p><em>Finance minister</em></p></scrollable-text></scrollable-section></div><h2>by Elisabeth Svantesson </h2><p>Knowledge, courage and determination are perhaps the most important qualities in a politician — and, for me, Karin embodies all of these. I met Karin for the first time in February this year when she visited me in Stockholm, on one of her first trips as Switzerland’s finance minister. I enjoyed and benefited from our talks. As minister of finance, you have a lot of expertise around you. But when it comes down to it, it is you who has to make that crucial decision that will affect a lot of people, often under pressure. Karin’s decisive actions in dealing with the Credit Suisse banking crisis earlier this year rescued the Swiss economy. We all owe her a debt of gratitude. That became clear at this year’s IMF meeting in Washington when she received well-deserved appreciation for her actions from around the world. </p><p><em>Elisabeth Svantesson is Sweden’s finance minister</em></p><div class="scrollable-block" data-layout-width="full-grid"  theme="2"><scrollable-section theme-display="1" theme-no-box="0" theme-position="3"><div class="pic"><picture><source media="screen and (max-width: 490px)" srcset="https://thumbor.ftacademy.cn/unsafe/980x0/https://d1e00ek4ebabms.cloudfront.net/production/12231f8e-0156-4a01-a370-ede47f945201.jpg"><source media="screen and (min-width: 980px)" srcset="https://thumbor.ftacademy.cn/unsafe/1960x0/https://d1e00ek4ebabms.cloudfront.net/production/0c6ccfe7-d9fb-4d61-816a-e6ecdb56ba4c.jpg"><img src="https://thumbor.ftacademy.cn/unsafe/1920x0/https://d1e00ek4ebabms.cloudfront.net/production/12231f8e-0156-4a01-a370-ede47f945201.jpg"></picture></div><scrollable-text><h2 theme-style="1">Lisa Dyson</h2><p><em>CEO</em></p></scrollable-text></scrollable-section></div><h2>by Alondra Nelson </h2><p>Lisa Dyson, the visionary scientist and biotech entrepreneur, should top any list of iconoclastic innovators. What is more innovative than literally creating new possibilities out of thin air? With her businesses Kiverdi and Air Protein, Dyson — only the fourth African-American woman in history to earn a PhD in theoretical physics — amplifies space-age Nasa research to build a virtuous circle of carbon capture from the atmosphere, ingeniously repurposing biomass as a hope for the future of people and the planet. Her businesses offer solutions to two of the greatest challenges of our time: the climate crisis and food scarcity, showing how orthogonal approaches to research and development can serve the common good. Doing well and doing good need not be a zero-sum proposition. True innovation does both but requires brave and imaginative leaders who see the world from a distinct vantage, and in as many dimensions as Dyson does. </p><p><em>Alondra Nelson is a professor at the Institute for Advanced Study. Under US President Joe Biden, she was the first woman of colour to lead US science and tech policy</em></p><div class="scrollable-block" data-layout-width="full-grid"  theme="2"><scrollable-section theme-display="1" theme-no-box="0" theme-position="3"><div class="pic"><picture><source media="screen and (max-width: 490px)" srcset="https://thumbor.ftacademy.cn/unsafe/980x0/https://d1e00ek4ebabms.cloudfront.net/production/1b66404c-669b-45a2-bc1d-7579fbcd5bab.jpg"><source media="screen and (min-width: 980px)" srcset="https://thumbor.ftacademy.cn/unsafe/1960x0/https://d1e00ek4ebabms.cloudfront.net/production/ab051e68-0fbf-45a7-8ec9-9394c16dcf47.jpg"><img src="https://thumbor.ftacademy.cn/unsafe/1920x0/https://d1e00ek4ebabms.cloudfront.net/production/1b66404c-669b-45a2-bc1d-7579fbcd5bab.jpg"></picture></div><scrollable-text><h2 theme-style="1">Carol Tomé</h2><p><em>CEO</em></p></scrollable-text></scrollable-section></div><h2>by Lynn Martin </h2><p>Taking on one of the most important corporate leadership roles during one of the world’s most uncertain moments, Carol Tomé has put her unique stamp on UPS. She is the company’s first outsider and first female CEO, one of only 52 women leading Fortune 500 companies. With integrity and efficiency, Carol leads a global team of more than half a million employees, “delivering what matters” for customers, working to add value for shareholders and, most importantly, always putting her people first. Not only do I admire Carol for her steadfast, consistent leadership during the Covid-19 pandemic, but also her commitment to creating an inclusive, values-based culture that celebrates freedom of expression and self. A trailblazer, innovator and an inspiration to those fortunate enough to know her, it’s an honour to have a leader like Carol in our New York Stock Exchange community. </p><p><em>Lynn Martin is president of the New York Stock Exchange</em></p><div class="scrollable-block" data-layout-width="full-grid"  theme="2"><scrollable-section theme-display="1" theme-no-box="0" theme-position="3"><div class="pic"><picture><source media="screen and (max-width: 490px)" srcset="https://thumbor.ftacademy.cn/unsafe/980x0/https://d1e00ek4ebabms.cloudfront.net/production/25b117b3-cc2f-4d03-ac69-e7e182d2d775.jpg"><source media="screen and (min-width: 980px)" srcset="https://thumbor.ftacademy.cn/unsafe/1960x0/https://d1e00ek4ebabms.cloudfront.net/production/69e5fc5d-9ab2-4e38-a08c-9aac8847bc69.jpg"><img src="https://thumbor.ftacademy.cn/unsafe/1920x0/https://d1e00ek4ebabms.cloudfront.net/production/25b117b3-cc2f-4d03-ac69-e7e182d2d775.jpg"></picture></div><scrollable-text><h2 theme-style="1">Makiko Ono</h2><p><em>CEO</em></p></scrollable-text></scrollable-section></div><h2>by Sakie T Fukushima </h2><p>Japan is a G7 country with one of the most sophisticated economies in the world, yet still it has one of the highest gender pay gaps among high-income countries, and the biggest in the G7. Only 16 out of 1,802 companies listed on the Tokyo Prime Market are headed by women, according to Tokyo Shoko Research — less than 1 per cent. But there are some glimmers of hope. The recent promotion of Makiko Ono to CEO of Suntory Beverage and Food, the soft drinks company under the Suntory Group, known for its Jim Beam and Yamazaki whiskies, marked the arrival of the first woman to head a Japanese company with a market cap of ¥1tn (£5.3bn). Ono’s promotion is based in part on her overseas business achievements for Suntory. With Japan’s demographic decline and increasing dependence on foreign markets, Japanese women’s agility, resilience and effectiveness in crossing cultural divides may pave the way for more women executives to follow. Ono has set an example by attaining the coveted and, until recently, elusive position of the CEO of an established Japanese company.</p><p><em>Sakie T Fukushima is the former CEO of Korn/Ferry Japan. She served as the first woman on the boards of Sony, Bridgestone and Mitsubishi Corporation</em> </p><div class="scrollable-block" data-layout-width="full-grid"  theme="2"><scrollable-section theme-display="1" theme-no-box="0" theme-position="3"><div class="pic"><picture><source media="screen and (max-width: 490px)" srcset="https://thumbor.ftacademy.cn/unsafe/980x0/https://d1e00ek4ebabms.cloudfront.net/production/096c883e-a3be-474a-952c-94ee63425284.jpg"><source media="screen and (min-width: 980px)" srcset="https://thumbor.ftacademy.cn/unsafe/1960x0/https://d1e00ek4ebabms.cloudfront.net/production/2923f2a5-76f7-4fb5-a0f7-1719330cb797.jpg"><img src="https://thumbor.ftacademy.cn/unsafe/1920x0/https://d1e00ek4ebabms.cloudfront.net/production/096c883e-a3be-474a-952c-94ee63425284.jpg"></picture></div><scrollable-text><h2 theme-style="1">Marina Silva</h2><p><em>Environment minister</em></p></scrollable-text></scrollable-section></div><h2>by Michelle Bachelet </h2><p>The world is facing a triple crisis of climate change, pollution and the loss of biodiversity. As Brazil’s minister of environment and climate change, Marina Silva is at the heart of that crisis. Growing up close to the rainforest in a small village community of rubber tappers, she witnessed the devastation of deforestation first-hand and has dedicated her life to fighting it. Marina became the first person from her community ever elected to the federal senate and built support for sustainable development in the Amazon region. She was appointed environment minister for the first time in 2003 by President Lula da Silva and returned to the role this year. She has taken drastic measures to protect the Amazon forest, creating a forest service, a biodiversity institute and the Amazon Fund, the largest international effort for rainforest conservation. Under her leadership, deforestation decreased by 59 per cent between 2004 and 2007. Marina continues to lead the charge to build climate resilience and restore the ecosystem known as “the lungs of the planet”.</p><p><em>Michelle Bachelet is the former president of Chile and served as UN High Commissioner for Human Rights from 2018 to 2022</em></p><div class="scrollable-block" data-layout-width="full-grid"  theme="2"><scrollable-section theme-display="1" theme-no-box="0" theme-position="1"><div class="pic"><picture><source media="screen and (max-width: 490px)" srcset="https://thumbor.ftacademy.cn/unsafe/980x0/https://d1e00ek4ebabms.cloudfront.net/production/209c510d-7cc8-434b-bf31-9293b853bfc6.jpg"><source media="screen and (min-width: 980px)" srcset="https://thumbor.ftacademy.cn/unsafe/1960x0/https://d1e00ek4ebabms.cloudfront.net/production/e8f7cd20-0428-4a3c-ad75-3551c74f7219.jpg"><img src="https://thumbor.ftacademy.cn/unsafe/1920x0/https://d1e00ek4ebabms.cloudfront.net/production/209c510d-7cc8-434b-bf31-9293b853bfc6.jpg"></picture></div><scrollable-text><h2 theme-style="1">Marie-Claire Daveu</h2><p><em>CSO</em></p></scrollable-text></scrollable-section></div><h2>by Anya Hindmarch </h2><p>The work that Marie-Claire Daveu is doing at the Kering group is vital. She is a vocal advocate for sustainability in the luxury industry and is paving the way for real change. The next decade will be critical: the fashion industry ranks among the world’s top polluters and responsible change is the only option. We must accelerate innovation and find new industry-wide models that do not rely on making more and wasting more.</p><p>Daveu has put sustainability at the heart of the Kering growth strategy and is sharing her ambitious targets, as well as progress against them and learnings so far. Her work reminds us that this must be a collective mission — about progress not perfection, sharing best practices and supporting others to create a virtuous circle across businesses of all sizes. Her impact in helping to ignite change is incredibly valuable at this critical time.</p><p><em>Anya Hindmarch is a British designer and founder of the eponymous luxury accessories brand</em></p><hr/><div class="scrollable-block" data-layout-width="full-grid"  theme="2"><scrollable-section theme-display="1" theme-no-box="1" theme-position="1"><div class="pic"><picture><source media="screen and (max-width: 490px)" srcset="https://thumbor.ftacademy.cn/unsafe/980x0/https://d1e00ek4ebabms.cloudfront.net/production/980d6ac4-346b-450b-afd8-2f8e18b5aa78.jpg"><source media="screen and (min-width: 980px)" srcset="https://thumbor.ftacademy.cn/unsafe/1960x0/https://d1e00ek4ebabms.cloudfront.net/production/b569ee5a-c9f2-4897-9023-dfdf5c8f8164.jpg"><img src="https://thumbor.ftacademy.cn/unsafe/1920x0/https://d1e00ek4ebabms.cloudfront.net/production/980d6ac4-346b-450b-afd8-2f8e18b5aa78.jpg"></picture></div><scrollable-text><h2 theme-style="1">Heroes</h2></scrollable-text><scrollable-text><h2 theme-style="1">Narges Mohammadi</h2><p><em>Activist</em></p></scrollable-text></scrollable-section></div><h2>by Marjane Satrapi </h2><p>Narges is the personification of courage — the clear choice to win the Nobel Prize for Peace. She fights for human rights, for the right of women to control their own bodies and against what she calls “white torture” — the punishment of solitary confinement and extreme isolation perpetuated by the Islamic republic. She is the second Iranian woman, after the lawyer and writer Shirin Ebadi, to win the Nobel Prize. It is a strong message to the world. She represents us all. We reject submission! We disobey! We should be respected as human beings and not merely as females, whose only duty is to seduce men and give birth. There is only one thing more beautiful than freedom: the fight for freedom. And this is what makes her, to me, the most inspiring person on earth. </p><p><em>Marjane Satrapi is a French-Iranian novelist. Her graphic novel “Persepolis” tells the story of her childhood in Tehran. Her new book “Woman, Life, Freedom” will be published by Seven Stories Press in 2024</em></p><div class="scrollable-block" data-layout-width="full-grid"  theme="2"><scrollable-section theme-display="1" theme-no-box="0" theme-position="3"><div class="pic"><picture><source media="screen and (max-width: 490px)" srcset="https://thumbor.ftacademy.cn/unsafe/980x0/https://d1e00ek4ebabms.cloudfront.net/production/70c1a207-bb40-43a1-a253-a0dd17362f41.jpg"><source media="screen and (min-width: 980px)" srcset="https://thumbor.ftacademy.cn/unsafe/1960x0/https://d1e00ek4ebabms.cloudfront.net/production/910e6b19-886b-46c2-af4a-24fc1223232d.jpg"><img src="https://thumbor.ftacademy.cn/unsafe/1920x0/https://d1e00ek4ebabms.cloudfront.net/production/70c1a207-bb40-43a1-a253-a0dd17362f41.jpg"></picture></div><scrollable-text><h2 theme-style="1">Olena Zelenska</h2><p><em>First lady</em></p></scrollable-text></scrollable-section></div><h2>by Kaja Kallas </h2><p>What I admire most about Olena Zelenska is her honesty. A screenwriter by profession, she knows how not to mince her words while remaining disarmingly human. Four months into Russia’s invasion of Ukraine, Zelenska told a journalist: “None of us are OK.” She knows what it is like to wake up to see your homeland invaded by an imperialist neighbour; not to know when, or if, you will next see your loved ones; how to find the strength to fight for freedom, despite it all. </p><p>Like her husband, Zelenska has become a global symbol of resilience. Her leadership in addressing mental health for Ukrainians during war is vital. Her work shining a light on the suffering and deportations of Ukrainian children by Russia brings back memories of my own family history; Russians deported my mother to Siberia when she was a baby. Estonia has partnered with Zelenska’s foundation to build family homes for children whom Russian bombs have turned into orphans. She is remarkable in her attention to detail and her ability to listen. The world should now listen to Zelenska and give Ukraine what it needs to defeat Russia and end the suffering.</p><p><em>Kaja Kallas is the prime minister of Estonia</em></p><div class="scrollable-block" data-layout-width="full-grid"  theme="2"><scrollable-section theme-display="1" theme-no-box="0" theme-position="1"><div class="pic"><picture><source media="screen and (max-width: 490px)" srcset="https://thumbor.ftacademy.cn/unsafe/980x0/https://d1e00ek4ebabms.cloudfront.net/production/01015b53-aa24-498e-92f0-47a50d159e3c.jpg"><source media="screen and (min-width: 980px)" srcset="https://thumbor.ftacademy.cn/unsafe/1960x0/https://d1e00ek4ebabms.cloudfront.net/production/ef7b736c-bac5-49ae-b788-4db4d7efa43c.jpg"><img src="https://thumbor.ftacademy.cn/unsafe/1920x0/https://d1e00ek4ebabms.cloudfront.net/production/01015b53-aa24-498e-92f0-47a50d159e3c.jpg"></picture></div><scrollable-text><h2 theme-style="1">Coco Gauff</h2><p><em>Athlete</em></p></scrollable-text></scrollable-section></div><h2>by Naomi Osaka </h2><p>I remember watching Coco practise at the Delray Beach Tennis Center in Florida when she was nine or 10 years old. She was already a great athlete and going about her business like a top‑10-ranked pro.</p><p>What has always stood out to me is her amazing personality and big smile. She is an incredible competitor, but also a sweet soul. </p><p>She has done a great job of using her voice at important moments, speaking up for the Black Lives Matter movement and opposing anti-LGBT+ laws in her home state of Florida.</p><p>She is one of the best public speakers I’ve ever seen. It was a privilege to be in the stands this year to see her on her path to US Open glory. I hope to watch her grow on and off the court for many years to come.</p><p><em>Naomi Osaka is a Japanese tennis player. A four-time Grand Slam winner, she was the first Asian player to be ranked world number 1</em> </p><div class="scrollable-block" data-layout-width="full-grid"  theme="2"><scrollable-section theme-display="1" theme-no-box="0" theme-position="3"><div class="pic"><picture><source media="screen and (max-width: 490px)" srcset="https://thumbor.ftacademy.cn/unsafe/980x0/https://d1e00ek4ebabms.cloudfront.net/production/9009884b-f2e7-421a-9986-ffc055c18713.jpg"><source media="screen and (min-width: 980px)" srcset="https://thumbor.ftacademy.cn/unsafe/1960x0/https://d1e00ek4ebabms.cloudfront.net/production/a8ec8d9b-01e5-4d1d-baf6-cc75c5b2e3e2.jpg"><img src="https://thumbor.ftacademy.cn/unsafe/1920x0/https://d1e00ek4ebabms.cloudfront.net/production/9009884b-f2e7-421a-9986-ffc055c18713.jpg"></picture></div><scrollable-text><h2 theme-style="1">Elizabeth Maruma Mrema</h2><p><em>Diplomat</em></p></scrollable-text></scrollable-section></div><h2>by Caroline Lucas </h2><p>As Biodiversity COP15, the most important nature summit in a generation, drew to a close last December, it’s not just people who will have been grateful to Elizabeth Maruma Mrema. The plants, animals, wildlife and enormous wealth of biodiversity that inhabit this earth owe her an immense debt too. The COP15 agreement, delicately and deftly shepherded by Mrema, agreed to halt and reverse wildlife destruction and protect 30 per cent of the planet for nature by 2030. As a professional lawyer and while working at the UN Environment Programme for two decades, Mrema has pursued collaborative but persuasive diplomacy, working with youth groups, business leaders and representatives from across the global south to make change happen. Her glass-ceiling-shattering feat as the first African woman to spearhead the UN Convention on Biological Diversity, and subsequent efforts on the landmark COP15 agreement, mark the crowning achievement in an illustrious career dedicated to environmental protection and nature restoration.</p><p><em>Caroline Lucas is the Green party MP for Brighton Pavilion</em></p><div class="scrollable-block" data-layout-width="full-grid"  theme="2"><scrollable-section theme-display="1" theme-no-box="0" theme-position="3"><div class="pic"><picture><source media="screen and (max-width: 490px)" srcset="https://thumbor.ftacademy.cn/unsafe/980x0/https://d1e00ek4ebabms.cloudfront.net/production/2db6600c-02e8-4510-b91c-bb72f3ac9615.jpg"><source media="screen and (min-width: 980px)" srcset="https://thumbor.ftacademy.cn/unsafe/1960x0/https://d1e00ek4ebabms.cloudfront.net/production/9454830f-b2f1-48c3-b851-802fc7496ef4.jpg"><img src="https://thumbor.ftacademy.cn/unsafe/1920x0/https://d1e00ek4ebabms.cloudfront.net/production/2db6600c-02e8-4510-b91c-bb72f3ac9615.jpg"></picture></div><scrollable-text><h2 theme-style="1">Katalin Karikó</h2><p><em>Scientist</em></p></scrollable-text></scrollable-section></div><h2>by Karen S Lynch </h2><p>Weeks of fear and uncertainty turned into months of isolation for many during the Covid‑19 pandemic. However, within a year, a vaccine developed at unprecedented speed helped us envision a hopeful future thanks to the groundbreaking work of Katalin Karikó, a Hungarian-born biochemist. Karikó’s transformative research into mRNA laid the foundation for the development of lifesaving vaccines. </p><p>Well before “mRNA” became a household term, Karikó was researching how it could be used. She always believed in the power of science, despite the unrelenting challenges she faced in defending the significance of her work to secure funding. </p><p>Karikó is now a 2023 Nobel Prize winner and we are forever grateful for her perseverance. A true hero and visionary in healthcare, Karikó’s vital work saved millions of lives and helped bring us all back together after the most challenging public health crisis of our lifetimes.</p><p><em>Karen S Lynch is president and CEO of CVS Health</em></p><div class="scrollable-block" data-layout-width="full-grid"  theme="2"><scrollable-section theme-display="1" theme-no-box="0" theme-position="2"><div class="pic"><picture><source media="screen and (max-width: 490px)" srcset="https://thumbor.ftacademy.cn/unsafe/980x0/https://d1e00ek4ebabms.cloudfront.net/production/6a57b7e2-63b5-4d17-a56f-a9b2c21f5f04.jpg"><source media="screen and (min-width: 980px)" srcset="https://thumbor.ftacademy.cn/unsafe/1960x0/https://d1e00ek4ebabms.cloudfront.net/production/0d52131f-39ab-4d67-825a-dfa596d2030e.jpg"><img src="https://thumbor.ftacademy.cn/unsafe/1920x0/https://d1e00ek4ebabms.cloudfront.net/production/6a57b7e2-63b5-4d17-a56f-a9b2c21f5f04.jpg"></picture></div><scrollable-text><h2 theme-style="1">Chen Chien-Jou</h2><p><em>Whistleblower</em></p></scrollable-text></scrollable-section></div><h2>by Chien Li-Ying</h2><p>“Let’s not just let this go, OK? We can’t let things go this easily. Otherwise, we’ll slowly wither away and die.” That’s what a senior political party member tells a junior staffer who’s been sexually harassed by a colleague in <em>Wave Makers</em>, the political drama I wrote for Netflix. This summer, those words became something much greater than I ever imagined: the opening line of the Facebook post by Chen Chien-jou that sparked Taiwan’s #MeToo movement.</p><p>Chen, a former Democratic Progressive party staffer, spoke out about being sexually harassed at work by a filmmaker hired by her party. With her brave words, she broke down the divide between the fantasy depicted in the TV series and reality: a society where sexual harassment wasn’t acknowledged. Before her post, nobody came forward with allegations of sexual misconduct. It simply wasn’t discussed. </p><p>Taiwan is an intensely politicised place, where women and other marginalised groups have been neglected to sustain a social order that often doesn’t serve them. Chen’s bravery challenged that and inspired countless others to share their stories, ushering in much-needed change: stronger legislation against workplace harassment but also a deeper societal reckoning. </p><p><em>Chien Li-Ying is head of development at DaMou Entertainment. Translation by Gloria Li</em></p><div class="scrollable-block" data-layout-width="full-grid"  theme="2"><scrollable-section theme-display="1" theme-no-box="0" theme-position="3"><div class="pic"><picture><source media="screen and (max-width: 490px)" srcset="https://thumbor.ftacademy.cn/unsafe/980x0/https://d1e00ek4ebabms.cloudfront.net/production/fd2c1411-07a0-462a-9600-6a76acfd7e2e.jpg"><source media="screen and (min-width: 980px)" srcset="https://thumbor.ftacademy.cn/unsafe/1960x0/https://d1e00ek4ebabms.cloudfront.net/production/f2a1fcf1-ee9e-4bd2-8fce-15baf9419026.jpg"><img src="https://thumbor.ftacademy.cn/unsafe/1920x0/https://d1e00ek4ebabms.cloudfront.net/production/fd2c1411-07a0-462a-9600-6a76acfd7e2e.jpg"></picture></div><scrollable-text><h2 theme-style="1">Jenni Hermoso</h2><p><em>Athlete</em></p></scrollable-text></scrollable-section></div><h2>by Leah Williamson </h2><p>Playing against Jenni is a test you look forward to as a professional footballer. She can do whatever she wants with the ball, as she demonstrated this summer at the Women’s World Cup. She started every game, scored three goals over the tournament and was central to Spain’s success as they won the Cup for the first time.</p><p>Following that victory, when the team should have been basking in their success, Luis Rubiales, then Spanish FA president, kissed Jenni on the lips. He has since been charged with sexual assault.</p><p>What I admire most is how Jenni handled the situation. She could have stopped, played down the incident and dropped the case to protect herself. Instead, despite the intensifying media attention, she continued to do what she knew was right. In her pursuit of justice, she is serving women around the world so that this and similar behaviour does not happen again. A leader not only on the pitch, but one of courage off the pitch too.</p><p><em>Leah Williamson is the captain of the England women’s football team</em></p><p><em>This special issue was led by Cherish Rufus, with assistance from Cordelia Jenkins and Baya Simons. It was designed by Shannon Gibson, with photography direction by Josh Lustig, Emma Bowkett and Naoise O’Keefe, and digital production by Kari-Ruth Pedersen</em></p><p><em>This article has been amended to </em><a href="https://www.ft.com/content/228c67d0-98a2-4d72-adb3-32ed411cd96b"><em>clarify</em></a><em> that Suntory Beverage and Food’s parent company is behind Jim Beam and Yamazaki whiskies</em></p><div class="n-content-layout card-container " data-layout-name="card" data-layout-width="fullWidth"><div class="n-content-layout__container"><h3></h3><div class="n-content-layout__slot" data-slot-width="true"><p>Who else should have made our list? Share your thoughts in the comments below and see a selection of FT readers’ choices <a href="https://www.ft.com/content/8306c039-0998-4815-bea5-f5e01f4dfde8">here</a>. </p></div></div></div>
-    
-    
-    
-    </div>
-    <div class="clearfloat"></div>
-    </div>
-    <div class="copyrightstatement-container">
-    版权声明：本文版权归FT中文网所有，未经允许任何单位或个人不得转载，复制或以任何其他方式使用本文全部或部分，侵权必究。
-    </div>
-    <div class="clearfloat"></div>
-    <!-- story privilegeType: PremiumMBA -->
-    </div>
-    <div class="clearfloat block-bottom"></div>
-    </div></div>
-    <div
-    data-o-ads-name="infoflow4"
-    class="o-ads infoflow"
-    data-o-ads-formats-default="false"
-    data-o-ads-formats-small="FtcInfoFlow"
-    data-o-ads-formats-medium="false"
-    data-o-ads-formats-large="false"
-    data-o-ads-formats-extra="false"
-    data-o-ads-targeting="cnpos=info4;"
-    >
-    </div>
-    <div class="side-container"><div class="side-inner">
-    <div class="story-box with-theme">
-    <h2 class="box-title"><a href="/tag/乌克兰战争">乌克兰战争</a></h2>
-    <ul class="top10">
-    <li class="mp1"><a target="_blank" href="/interactive/118840">乌克兰打击腐败的征兵人员 </a></li>
-    <li class="mp2"><a target="_blank" href="/interactive/118677">乌克兰政府债券价格飙升</a></li>
-    <li class="mp3"><a target="_blank" href="/interactive/118538">粮食出口重回俄罗斯视线</a></li>
-    <li class="mp4"><a target="_blank" href="/story/001100505">每周时事分析：中俄之间当存异则存异</a></li>
-    <li class="mp5"><a target="_blank" href="/interactive/118497">欧洲天然气价格上涨近40%，市场担心供应中断</a></li>
-    <li class="mp6"><a target="_blank" href="/interactive/118374">欧盟增加在乌克兰储气以备冬季</a></li>
-    <li class="mp7"><a target="_blank" href="/interactive/118368">乌克兰逮捕被控策划暗杀泽连斯基的女间谍</a></li>
-    <li class="mp8"><a target="_blank" href="/interactive/118261">莫斯科法院冻结高盛多家俄罗斯公司持股 </a></li>
-    <li class="mp9"><a target="_blank" href="/story/001100472">德国社民党议员支持向乌克兰提供巡航导弹</a></li>
-    </ul>
-    </div>
-    <div class="story-box last-child">
-    <h2 class="box-title"><a>相关话题</a></h2>
-    <ul class="top10">
-    <li class="story-theme mp1">
-    <a target="_blank" href="/channel/business.html">商业</a>
-    <div class="icon-right">
-    <button class="myft-follow plus" data-tag="business" data-type="topic">关注</button>
-    </div>
-    </li>
-    <li class="story-theme">
-    <a target="_blank" href="/channel/economy.html">经济</a>
-    <div class="icon-right">
-    <button class="myft-follow plus" data-tag="economy" data-type="topic">关注</button>
-    </div>
-    </li>
-    <li class="story-theme">
-    <a target="_blank" href="/tag/暴利税">暴利税</a>
-    <div class="icon-right">
-    <button class="myft-follow plus" data-tag="暴利税" data-type="tag">关注</button>
-    </div>
-    </li>
-    <li class="story-theme">
-    <a target="_blank" href="/tag/税收">税收</a>
-    <div class="icon-right">
-    <button class="myft-follow plus" data-tag="税收" data-type="tag">关注</button>
-    </div>
-    </li>
-    <li class="story-theme">
-    <a target="_blank" href="/tag/财政政策">财政政策</a>
-    <div class="icon-right">
-    <button class="myft-follow plus" data-tag="财政政策" data-type="tag">关注</button>
-    </div>
-    </li>
-    <li class="story-theme">
-    <a target="_blank" href="/tag/公司税">公司税</a>
-    <div class="icon-right">
-    <button class="myft-follow plus" data-tag="公司税" data-type="tag">关注</button>
-    </div>
-    </li>
-    <li class="story-theme">
-    <a target="_blank" href="/tag/乌克兰战争">乌克兰战争</a>
-    <div class="icon-right">
-    <button class="myft-follow plus" data-tag="乌克兰战争" data-type="tag">关注</button>
-    </div>
-    </li>
-    <li class="story-theme">
-    <a target="_blank" href="/tag/生活成本危机">生活成本危机</a>
-    <div class="icon-right">
-    <button class="myft-follow plus" data-tag="生活成本危机" data-type="tag">关注</button>
-    </div>
-    </li>
-    <li class="story-theme">
-    <a target="_blank" href="/tag/通货膨胀">通货膨胀</a>
-    <div class="icon-right">
-    <button class="myft-follow plus" data-tag="通货膨胀" data-type="tag">关注</button>
-    </div>
-    </li>
-    <li class="story-theme">
-    <a target="_blank" href="/tag/FT商学院">FT商学院</a>
-    <div class="icon-right">
-    <button class="myft-follow plus" data-tag="FT商学院" data-type="tag">关注</button>
-    </div>
-    </li>
-    <li class="story-theme">
-    <a target="_blank" href="/tag/欧盟经济">欧盟经济</a>
-    <div class="icon-right">
-    <button class="myft-follow plus" data-tag="欧盟经济" data-type="tag">关注</button>
-    </div>
-    </li>
-    <li class="story-theme">
-    <a target="_blank" href="/channel/uk.html">英国</a>
-    <div class="icon-right">
-    <button class="myft-follow plus" data-tag="uk" data-type="area">关注</button>
-    </div>
-    </li>
-    <li class="story-theme">
-    <a target="_blank" href="/channel/usa.html">美国</a>
-    <div class="icon-right">
-    <button class="myft-follow plus" data-tag="usa" data-type="area">关注</button>
-    </div>
-    </li>
-    <li class="story-theme">
-    <a target="_blank" href="/channel/europe.html">欧洲</a>
-    <div class="icon-right">
-    <button class="myft-follow plus" data-tag="europe" data-type="area">关注</button>
-    </div>
-    </li>
-    <li class="story-theme">
-    <a target="_blank" href="/channel/Germany.html">德国</a>
-    <div class="icon-right">
-    <button class="myft-follow plus" data-tag="Germany" data-type="area">关注</button>
-    </div>
-    </li>
-    <li class="story-theme">
-    <a target="_blank" href="/channel/France.html">法国</a>
-    <div class="icon-right">
-    <button class="myft-follow plus" data-tag="France" data-type="area">关注</button>
-    </div>
-    </li>
-    <li class="story-theme">
-    <a target="_blank" href="/author/艾玛•阿杰曼">艾玛•阿杰曼</a>
-    <div class="icon-right">
-    <button class="myft-follow plus" data-tag="艾玛•阿杰曼" data-type="author">关注</button>
-    </div>
-    </li>
-    </ul>
-    </div>
-    </div></div><div class="clearfloat"></div>
-    </div></div>
-    <div class="block-container no-side story-recommend-container" id="story-recommend-container"><div class="block-inner">
-    <div class="content-container"><div class="content-inner">
-    <div class="list-container"><div class="list-inner">
-    <h2 class="list-title"><a class="list-link" href="#">您可能感兴趣的文章</a></h2>
-    <div class="items" id="story-recommend-bottom"></div>
-    </div></div>
-    </div></div>
-    <div class="clearfloat block-bottom"></div>
-    </div></div>
-    <div 
-    data-o-ads-name="paidpost2"
-    class="o-ads paid-post"  
-    data-o-ads-formats-default="false" 
-    data-o-ads-formats-small="false"
-    data-o-ads-formats-medium="false"
-    data-o-ads-formats-large="FtcPaidpost"
-    data-o-ads-formats-extra="FtcPaidpost"
-    data-o-ads-targeting="cnpos=paidpost2;"
-    >
-    </div>
-    <div 
-    data-o-ads-name="paidpost"
-    class="o-ads paid-post"  
-    data-o-ads-formats-default="false" 
-    data-o-ads-formats-small="false"
-    data-o-ads-formats-medium="false"
-    data-o-ads-formats-large="FtcPaidpost"
-    data-o-ads-formats-extra="FtcPaidpost"
-    data-o-ads-targeting="cnpos=paidpost;"
-    >
-    </div>
-    <div class="footer-container"><div class="footer-inner">
-    <div>
-    <a href="/m/corp/aboutus.html">关于我们</a>
-    <a href="https://ft.wd3.myworkdayjobs.com/FT_Chinese_External_Careers" target="_blank">加入我们</a>
-    <a href="/m/corp/faq.html">问题回馈</a>
-    <a href="/m/corp/contact.html">联系方式</a>
-    <a href="/m/corp/partner.html">合作伙伴</a>
-    <a href="/m/corp/service.html">服务条款</a>
-    <a href="/m/corp/sales.html">广告业务 </a>
-    <a href="/m/corp/copyright.html">版权声明</a>
-    <a href="/m/marketing/ftc.html">最新动态</a>
-    </div>
-    <p>
-    <span class="copyright"><b>© The Financial Times Ltd 2023</b></span> 
-    <span><acronym title="Financial Times">FT</acronym> and 'Financial Times' are trademarks of The Financial Times Ltd.</span>
-    </p>
-    </div></div>
-    <script>
-    function async(u, c) {
-    var d = document, t = 'script',
-    o = d.createElement(t),
-    s = d.getElementsByTagName(t)[0];
-    o.src = u;
-    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
-    s.parentNode.insertBefore(o, s);
-    }
-    // Your web app's Firebase configuration
-    var firebaseConfig = {
-    apiKey: "AIzaSyCB4QkzRm1oUl9-XA6kl8ob58FI3C6iDY0",
-    authDomain: "ftchineseiphone.firebaseapp.com",
-    databaseURL: "https://ftchineseiphone.firebaseio.com",
-    projectId: "ftchineseiphone",
-    storageBucket: "ftchineseiphone.appspot.com",
-    messagingSenderId: "342601113715",
-    appId: "1:342601113715:web:6d7016e26b94e3854fca06",
-    measurementId: "G-PT4E4NGVJV"
-    };
-    //MARK: - The core Firebase JS SDK is always required and must be listed first
-    async('https://www.gstatic.com/firebasejs/7.2.2/firebase-app.js', function() {
-    // MARK: - TODO: Add SDKs for Firebase products that you want to use: https://firebase.google.com/docs/web/setup#available-libraries
-    async('https://www.gstatic.com/firebasejs/7.2.2/firebase-analytics.js', function() {
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    firebase.analytics();
-    });
-    });
-    </script>
-    <img src='https://beacon.krxd.net/event.gif?event_id=KWA6DGT9&event_type=rtg' width=0 height=0 /><div class="overlay-container" id="font-setting">
-    <div class="overlay-inner">
-    <div class="overlay-bg" data-parentid="font-setting"></div>
-    <div class="overlay-content-outer">
-    <div class="overlay-content-inner">
-    <div class="overlay-content">
-    <div class="overlay-title">设置字号<i class="overlay-close" data-parentid="font-setting">×</i></div>
-    <span class="font-options" id="font-options">
-    <div class="smallest first-child" data-font="0.8">最小</div>
-    <div class="smaller" data-font="0.9">较小</div>
-    <div class="normal" data-font="1">默认</div>
-    <div class="bigger" data-font="1.2">较大</div>
-    <div class="biggest" data-font="1.6">最大</div>
-    </span>
-    </div>
-    </div>
-    </div>
-    </div>
-    </div><div class="overlay-container" id="share-legacy">
-    <div class="overlay-inner">
-    <div class="overlay-bg" data-parentid="share-legacy"></div>
-    <div class="overlay-content-outer">
-    <div class="overlay-content-inner">
-    <div class="overlay-content">
-    <div class="overlay-title">分享<i class="overlay-close" data-parentid="share-legacy">×</i></div>
-    <span id="sharelinks"></span>
-    </div>
-    </div>
-    </div>
-    </div>
-    </div><script type="text/javascript">
-    window._taboola = window._taboola || [];
-    _taboola.push({flush: true});
-    </script>
+
+
+    <script>var gUaOfPage = navigator.userAgent || navigator.vendor || "";</script><script>checkB();</script>
+<div class="o-ads fullscreen-ad" data-o-ads-name="fullscreen-mobile"
+data-o-ads-center="true" 
+data-o-ads-formats-default="false" 
+data-o-ads-formats-small="FtcMobileFullscreen" 
+data-o-ads-formats-medium="false"
+data-o-ads-formats-large="false"
+data-o-ads-formats-extra="false"
+data-o-ads-targeting="cnpos=mobilefullscreen;">
+</div>
+<div id="promo-box-container">
+<style>
+.noneSubscriber.subscription-promo-container {
+background-color: #ffcc99;
+}
+.noneSubscriber .subscription-promo-text {
+background-color: #3e73a7;
+border-color: #3e73a7;
+}
+.noneSubscriber .subscription-promo-text {
+color: #ffffff;
+}
+.noneSubscriber .subscription-promo-box {
+background-image: url(https://thumbor.ftacademy.cn/unsafe/picture/8/000217468_piclink.png);
+}
+@media only screen and (max-width: 490px) {
+.noneSubscriber .subscription-promo-box {
+background-image: url(https://thumbor.ftacademy.cn/unsafe/picture/9/000217469_piclink.png);
+}
+}
+</style>
+<div class="subscription-promo-container show-image-in-mobile noneSubscriber">
+<div class="subscription-promo-inner">
+<a  href="/m/corp/preview.html?pageid=2024Marsub&to=all&ccode=2C2024MarPBox" class="subscription-promo-box n-internal-promo" data-promo-target="noneSubscriber" data-promo-id="2C2024MarPBox" data-promo-name="年度会员75折大促  立即开通 >>" data-promo-creative="https://thumbor.ftacademy.cn/unsafe/picture/8/000217468_piclink.png" data-promo-position="promoBox">
+<div class="subscription-promo-text">年度会员75折大促  立即开通 >></div>
+</a>
+</div>
+</div>
+<script type="text/javascript">
+window.userId = GetCookie('USER_ID') || '';
+if (window.userId === '') {
+gtag('event', 'Display', {'event_label': '2C2024MarPBox', 'event_category': 'PromoBox', 'non_interaction': true});
+}
+</script>
+</div>
+<script type="text/javascript">
+function addUserId(ele) {
+if (ele === null) {
+return;
+}
+var userId;
+if (typeof GetCookie === 'function') {
+userId = GetCookie('USER_ID');
+} else {
+userId = getCookie('USER_ID');
+}
+if (userId && typeof userId === 'string' && userId !== '') {
+var link = ele.href;
+var connector = (link.indexOf('?') >= 0) ? '&' : '?';
+ele.href = link + connector + 'u=' + userId;
+}
+}
+var premiumLink = document.querySelector('[data-promo-target=premium]');
+addUserId(premiumLink);
+</script>
+<header class="header-container">
+<div class="header-inner">
+<div class="masthead"></div>
+<div class="header-side header-left expandable">
+<div class="current-edition">
+<span>简体中文</span>
+<a href="https://big5.ftchinese.com/story/001102471?showbanner3=yes">繁体中文</a>
+<a href="http://www.ft.com/">FT.com</a>
+</div>
+</div>
+<div class="header-side header-right">
+<span class="visitor-box">
+<a onclick="showOverlay('overlay-login')">登录</a>
+<a class="more last" href="http://user.ftchinese.com/register">注册</a>
+</span>
+<span class="member-box">
+<a href="/channel/myftlocal.html">我的FT</a>
+<a id="ft-login-your-account" href="/users/cp">设置</a>
+<a id="ft-login-logout" href="/users/logout">登出</a>
+</span>
+</div>
+</div>
+</header>
+<div class="overlay-container" id="overlay-login">
+<div class="overlay-inner">
+<div class="overlay-bg" data-parentid="overlay-login"></div>
+<div class="overlay-content-outer">
+<div class="overlay-content-inner">
+<div class="overlay-content">
+<div class="overlay-title">登录<i class="overlay-close" data-parentid="overlay-login">×</i></div>
+<form method="post" action="/users/login" id="overlay-login-form">
+<span id="overlay-login-container">
+<div class="input-title" id="login-reason"></div>
+<div class="input-title">电子邮件/用户名</div>
+<div class="input-container"><input type="text" class="input-oneline" name="username" id="ft-login-input-username"></div>
+<div class="input-title">密码</div>
+<div class="input-container"><input type="password" class="input-oneline" name="password" id="ft-login-input-password"></div>
+<div><input type="checkbox" class="checkbox" value="1" checked="checked" name="saveme" id="ft-login-input-remember">记住我</div>
+<div class="login-btn input-submit-container center"><input class="" type="submit" value="登录"></div>
+<div class="center register-find"><a href="/register" class="blue-link">免费注册</a><span></span><a href="/users/findpassword" class="blue-link">找回密码</a></div>
+<div class="phone-login-container" id="phone-login-trigger">
+<div class="center phone-login"><a onclick="showPhoneLogin()" class="blue-link">短信登录</a></div>
+</div>
+<div class="wx-login-container">
+<div class="center wx-login"><a href="https://www.ftacademy.cn/wxlogin" class="blue-link">微信登录</a></div>
+</div>
+</span>
+</form>
+<span id="phone-ftc-binding-container">
+<div>请输入邮箱和密码进行绑定操作：</div>
+<div><input placeholder="请输入邮箱" type="email" autocorrect="off" id="phone-binding-email" class="input-oneline"/></div>
+<div><input placeholder="请输入密码" type="password" class="input-oneline" id="phone-binding-password"/></div>
+<div class="topmargin statusmsg" id="phone-binding-status"></div>
+<div><input type="button" value="绑定" class="n-button-inner" onclick="binding('phone')"/></div>
+</span>
+<span id="phone-login-container">
+<div class="user-name-container">请输入手机号码，通过短信验证（目前仅支持中国大陆地区的手机号）：</div>
+<div><input onkeyup="resetPhoneLogin()" placeholder="请输入中国大陆的手机号码" type="tel" autocorrect="off" name="phone" id="phone-number" class="input-oneline"/></div>
+<div><input placeholder="请输入验证码"  pattern="\d*" maxlength="6" name="phonecapcha"  class="input-oneline" id="phone-captcha"/></div>
+<div class="topmargin statusmsg" id="phone-login-status"></div>
+<div>请您阅读我们的<a class="agreeDetail" href="/m/corp/service.html" target="_blank">用户注册协议</a>和<a class="agreeDetail" href="/m/corp/service.html#privacy" target="_blank">隐私权保护政策</a>，点击下方按钮即视为您接受。</div>
+<div><input id="phone-login-submit-button" type="button" value="获取验证码" class="n-button-inner" onclick="phoneLogin()"/></div>
+</span>
+</div>
+</div>
+</div>
+</div>
+</div><div class="o-nav__placeholder">
+<div class="o-nav">
+<div class="o-nav__outer">
+<div class="o-nav__inner">
+<div class="o-nav__search"  data-o-component="o-toggler">
+<button class="o-nav__search-toggle" data-o-toggler-button aria-controls="search-form">
+<span class="search-toggle--open">搜索</span>
+<span class="search-toggle--close">关闭</span>
+</button>
+<form action="/search/" id="search-form" role="search" data-o-toggler-target>
+<input id="search-term" type="search" name="keys" class="search-input" placeholder="输入年月日‘xxxx-xx-xx’可搜索该日存档" />
+<input id="type_news" type="hidden" value="type_news" name="ftsearchType" checked />
+<button class="search-button" tabindex="1"><span>搜索</span></button>
+</form>
+</div>
+<div class="o-header__masthead-mobile">
+<a href="/" title="前往FT中文网首页"><span>FT中文网</span></a>
+</div>
+<nav class="o-nav__container" role="navigation">
+<button class="nav-toggle" data-o-nav-togglable><span>Menu</span></button>
+<ol class="o-nav__meganav">
+<li class="nav-section mobile">
+<button class="nav-section-head mobile" aria-selected="true">切换版本</button>
+<ol class="nav-items">
+<li class="nav-item">
+<a class="nav-link" href="https://big5.ftchinese.com/">繁体中文版</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="http://www.ft.com/">FT.com</a>
+</li>
+</ol>
+</li>
+<li class="nav-section home "
+ data-section="home"
+>
+<button class="nav-section-head mobile">首页</button>
+<a class="nav-section-head desktop" href="/">首页</a>
+</li>
+<li class="nav-section china "
+ data-section="china"
+>
+<button class="nav-section-head mobile">中国</button>
+<a class="nav-section-head desktop" href="/channel/china.html">中国</a>
+</li>
+<li class="nav-section world "
+ data-section="world"
+>
+<button class="nav-section-head mobile">全球</button>
+<a class="nav-section-head desktop" href="/channel/world.html">全球</a>
+</li>
+<li class="nav-section economy "
+ aria-selected="true" data-section="economy"
+>
+<button class="nav-section-head mobile">经济</button>
+<a class="nav-section-head desktop" href="/channel/economy.html">经济</a>
+<ol class="nav-items">
+<li class="nav-item mobile">
+<a class="nav-link" href="/channel/economy.html">
+频道首页
+</a>
+</li>
+<li class="nav-item"  data-channel="globaleconomy">
+<a class="nav-link" href="/channel/globaleconomy.html">全球经济</a>
+</li>
+<li class="nav-item" aria-selected="true" data-channel="chinaeconomy">
+<a class="nav-link" href="/channel/chinaeconomy.html">中国经济</a>
+</li>
+<li class="nav-item"  data-channel="trade">
+<a class="nav-link" href="/channel/trade.html">贸易</a>
+</li>
+<li class="nav-item"  data-channel="environment">
+<a class="nav-link" href="/channel/environment.html">环境</a>
+</li>
+<li class="nav-item"  data-channel="economics">
+<a class="nav-link" href="/channel/economics.html">经济评论</a>
+</li>
+</ol>
+</li>
+<li class="nav-section markets "
+ data-section="markets"
+>
+<button class="nav-section-head mobile">金融市场</button>
+<a class="nav-section-head desktop" href="/channel/markets.html">金融市场</a>
+</li>
+<li class="nav-section business "
+ data-section="business"
+>
+<button class="nav-section-head mobile">商业</button>
+<a class="nav-section-head desktop" href="/channel/business.html">商业</a>
+</li>
+<li class="nav-section innovation "
+ data-section="innovation"
+>
+<button class="nav-section-head mobile">创新经济</button>
+<a class="nav-section-head desktop" href="/channel/innovation.html">创新经济</a>
+</li>
+<li class="nav-section education "
+ data-section="education"
+>
+<button class="nav-section-head mobile">教育</button>
+<a class="nav-section-head desktop" href="/channel/education.html?newnav=yes">教育</a>
+</li>
+<li class="nav-section opinion "
+ data-section="opinion"
+>
+<button class="nav-section-head mobile">观点</button>
+<a class="nav-section-head desktop" href="/channel/opinion.html">观点</a>
+</li>
+<li class="nav-section management "
+ data-section="management"
+>
+<button class="nav-section-head mobile">管理</button>
+<a class="nav-section-head desktop" href="/channel/management.html">管理</a>
+</li>
+<li class="nav-section lifestyle "
+ data-section="lifestyle"
+>
+<button class="nav-section-head mobile">生活时尚</button>
+<a class="nav-section-head desktop" href="/channel/lifestyle.html">生活时尚</a>
+</li>
+<li class="nav-section stream "
+ data-section="stream"
+>
+<button class="nav-section-head mobile">视频</button>
+<a class="nav-section-head desktop" href="/channel/stream.html">视频</a>
+</li>
+<li class="nav-section audio "
+ data-section="audio"
+>
+<button class="nav-section-head mobile">音频</button>
+<a class="nav-section-head desktop" href="/channel/audio.html">音频</a>
+</li>
+<li class="nav-section english "
+ data-section="english"
+>
+<button class="nav-section-head mobile">每日英语</button>
+<a class="nav-section-head desktop" href="/channel/english.html">每日英语</a>
+</li>
+<li class="nav-section rewired "
+ data-section="rewired"
+>
+<button class="nav-section-head mobile">换脑ReWired</button>
+<a class="nav-section-head desktop" href="/channel/rewired.html">换脑ReWired</a>
+</li>
+<li class="nav-section mobile login">
+<ul>
+<li class="nav-item">
+<a class="nav-link" onclick="showOverlay('overlay-login')">登录</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="http://user.ftchinese.com/register">免费注册</a>
+</li>
+</ul>
+</li>
+<li class="nav-section mobile logout">
+<ul>
+<li class="nav-item">
+<a class="nav-link" href="/channel/myftlocal.html">我的FT</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="/users/setting/vip">会员中心</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="/users/setting/index">设置</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="/users/logout">登出</a>
+</li>
+</ul>
+</li>
+</ol>
+</nav>
+<ul class="o-nav__extra-tools">
+<li class="tools-section" aria-haspopup="true">
+<a class="tools-section-head" href="/m/corp/follow.html">关注我们</a>
+<ol class="tools-items">
+<li><a href="/m/corp/follow.html" target="_blank">微信公众号</a></li>
+<li><a href="http://weibo.com/ftchinese" target="_blank">新浪微博</a></li>
+<li><a href="/m/corp/follow.html" target="_blank">Flipboard</a></li>
+<li><a href="https://twitter.com/FTChinese" target="_blank">Twitter</a></li>
+<li><a href="https://www.facebook.com/financialtimeschinese" target="_blank">Facebook</a></li>
+<li><a href="https://www.linkedin.com/company/4865254?trk=hp-feed-company-name" target="_blank">LinkedIn</a></li>
+</ol>
+</li>
+<li class="tools-section" aria-haspopup="true">
+<span class="tools-section-head">工具</span>
+<ol class="tools-items">
+<li><a href="http://app.ftchinese.com/" class="o-client-id-link">移动应用大全</a></li>
+<li><a href="/users/setting/index">基本设置</a></li>
+<li><a href="/users/setting/vip">会员中心</a></li>
+<li><a href="/users/setting/changeicon">修改头像</a></li>
+<li><a href="/users/setting/maillist">邮件订阅</a></li>
+<li><a href="/index.php/snsapi/index">同步微博</a></li>
+<li><a href="/users/commentstory">我的评论</a></li>
+<li><a href="/users/favstorylist">管理收藏</a></li>
+</ol>
+</li>
+<li class="tools-section">
+<a class="tools-section-head follow__rss" href="/channel/rss.html" title="RSS"><span>RSS</span></a>
+</li>
+</ul>
+</div><!-- o-nav__inner -->
+</div><!-- o-nav__outer -->
+<div class="o-nav__meganav-placeholder"></div>
+</div><!-- o-nav -->
+</div>
+<div class="o-ads" data-o-ads-name="banner1"
+data-o-ads-center="true" 
+data-o-ads-formats-default="false" 
+data-o-ads-formats-small="FtcMobileBanner" 
+data-o-ads-formats-medium="false"
+data-o-ads-formats-large="FtcLeaderboard"
+data-o-ads-formats-extra="FtcLeaderboard"
+data-o-ads-targeting="cnpos=top1;"
+data-cy='[{"devices":["PC"],"pattern":"Leaderboard","position":"Num1"},{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"Banner","position":"Num1"}]'
+>
+</div>
+<div class="block-container has-side story-page"><div class="block-inner">
+<div class="content-container"><div class="content-inner">
+<div class="story-container">
+
+<div class="story-topper">
+<div class="story-theme"><a href="/tag/中国经济">中国经济</a><button class="myft-follow plus" data-tag="中国经济" data-type="tag">关注</button></div>
+<h1 class="story-headline">从干预指数到改革市场</h1>
+<div class="story-lead">桂浩明：市场失灵时，“救市”不可避免，过去操作有何启发？不能只是为了干预指数，而是要解决导致市场失灵背后所存在的制度缺陷与漏洞。</div>
+<div class=" story-image image none-ft-image"><figure data-url=https://thumbor.ftacademy.cn/unsafe/picture/2/000217942_piclink.jpeg class="loading"></figure></div>
+</div>
+<div class="story-tools">
+<div class="story-action-placeholder" id="story-action-placeholder">
+<div class="story-action">
+<div class="action-inner">
+<a class="action-icon icon-wechat P-hide" href="/m/corp/qrshare.html?url=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001102471%3Ffull%3Dy%26gift_id%3D05e7a82ba1becda11904b313f43a18bef03e34a0&title=" target="_blank"></a>
+<a class="action-icon icon-weibo P-hide" href="http://service.weibo.com/share/share.php?appkey=4221537403&url=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001102471%3Ffull%3Dy%26gift_id%3D05e7a82ba1becda11904b313f43a18bef03e34a0%26ccode%3D2G169001&title=【从干预指数到改革市场】桂浩明：市场失灵时，“救市”不可避免，过去操作有何启发？不能只是为了干预指数，而是要解决导致市场失灵背后所存在的制度缺陷与漏洞。（分享自 @FT中文网）&ralateUid=1698233740&source=&sourceUrl=&content=utf-8&pic=https://thumbor.ftacademy.cn/unsafe/picture/2/000217942_piclink.jpeg&searchPic=false" target="_blank"></a>
+<a class="action-icon icon-twitter P-hide" href="http://twitter.com/home?status=【从干预指数到改革市场】桂浩明：市场失灵时，“救市”不可避免，过去操作有何启发？不能只是为了干预指数，而是要解决导致市场失灵背后所存在的制度缺陷与漏洞。（分享自 @FT中文网）...%20http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001102471%3Ffull%3Dy%26gift_id%3D05e7a82ba1becda11904b313f43a18bef03e34a0" target="_blank"></a>
+<a class="action-icon icon-facebook P-hide" href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.ftchinese.com%2Fstory%2F001102471%3Ffull%3Dy%26gift_id%3D05e7a82ba1becda11904b313f43a18bef03e34a0&t=【从干预指数到改革市场】桂浩明：市场失灵时，“救市”不可避免，过去操作有何启发？不能只是为了干预指数，而是要解决导致市场失灵背后所存在的制度缺陷与漏洞。（分享自 @FT中文网）" target="_blank"></a>
+
+
+<div class="icon-right icon-save">
+<button id="addfavlink001102471" data-item-type="story">收藏</button>
+</div>
+<a class="icon-right icon-action icon-comments" href="/comments/index/001102471" target="_blank"></a>
+<a class="icon-right icon-action icon-print P-hide" onclick="window.print()" target="_blank"></a>
+<a class="icon-right icon-action icon-font-size" onclick="showOverlay('font-setting')"></a>
+
+<div class="progress-container">
+<svg
+class="progress-ring"
+height="40"
+width="40"
+>
+<circle
+class="progress-ring__circle"
+stroke-width="2"
+stroke="transparent"
+r="18"
+cx="20"
+cy="20"
+/>
+</svg>
+<svg class="pregress-tick" width="24" height="24" viewBox="0 0 24 24">
+<path fill="none" d="M0 0h24v24H0z"/><path class="progress-tick-path" fill="transparent" d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+</svg>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="story-byline">
+<span class="story-time" data-time="1710799220" pub-date="1710777600">更新于2024年3月19日 06:00</span>
+<span class="story-author"> 市场人士 <a href='/author/%E6%A1%82%E6%B5%A9%E6%98%8E' target=_blank>桂浩明</a> </span>
+</div>
+<div class="story-body">
+
+
+<div id="story-body-container" class="">
+<div class="print-only">尊敬的用户oliver.zh，这是来自FT中文网的温馨提示：如您对更多FT中文网的内容感兴趣，请在苹果应用商店或谷歌应用市场搜索“FT中文网”，下载FT中文网的官方应用。</div>
+<p><b>——对A股历次重大“救市”操作的比较分析</b></p><p>中国的A股市场已经运行了30多年，期间在多方面因素的影响及市场自身问题的共同作用下，曾经发生过几次较大的下跌，在社会上产生了不小的负面影响。而为了稳定市场，避免引发金融风险，监管部门也多次在市场失灵，出现明显非理性调整的情况下出台相应的应对措施。这些被民间俗称为“救市”的操作，不但对当时的市场走势起到了明显的纠偏作用，同时对后市的发展也产生了重大影响。时下，从某种角度来说，A股市场又在进行一轮“救市”，此刻对这些年来的几次重大“救市”操作进行比较分析，应该是一件很有意义的事情。</p><p>这里需要说明的是，中国股市的监管部门，从来没有发布过冠以“救市”字样的正式文件，但一旦股市行情持续下跌，还是会有针对性地推出一些政策措施，力图改变大盘的疲弱局面。而股市上的投资者则遇到股市下跌，往往就会要求监管部门出手“救市”，以至一旦行情大跌，监管部门公布重大应对举措，一轮“救市”操作就开始了。在习惯认知中，这种被称为是“救市”的事情，比较大的有这样三次：第一次是发生在1994年7月底，当时上证综指从年初的900余点一路下跌到了325点。为此监管部门公布了“三大政策”，令股市迅速由跌转涨。第二次是在2015年6月，当时股市发生了“异常波动”，大盘暴跌且动辄“千股跌停”，监管部门多方面采取措施予以应对，从而避免了股市流动性风险的进一步蔓延。第三次则开始于2023年的7月份，面对股市的不断下跌，监管部门开始持续出台政策，但近半年下来并没有取得预期效果，到了2024年2月，则实施了包括人事调整在内的一系列强力措施，初步扭转了局面。虽然，这一轮的“救市”现在还在进行中，而这并不妨碍人们把这几次的“救市”操作放在一起进行系统的分析比较，从而发现近30年来“救市”政策的演绎与发展轨迹，进而更好地把握市场运行规律，尽可能地营造其平稳运行的环境。</p><p>第一次“救市”发生在A股市场开设的初期，当时不但没有《证券法》，各类制度也不完整。而就是在这样的背景下，各地搞股份制改革、推动公司上市的热情却很高。由此，也就带来了严重的政策不配套与供求不协调的问题。在当时最为突出的现象是市场失衡，新股大量发行，但上市后二级市场却无力承接，导致股市一轮一轮地下跌。尽管那个时候股票市场的规模还不大，但半年内指数超过60%的回落，对社会还是造成了很大的冲击。在此背景下，成立不久的证监会公布了暂停新股发行、给券商等机构提供融资以及组建证券投资基金等三条“救市”措施。这些措施直接针对当时的供求关系，可谓抓住了市场最为关注的问题，因而起到了立竿见影的效果。不过两个月时间，股指就回升到了1000点以上。如果就推动大盘回升的角度而言，这次“救市”算是成功的。不过换个角度来说，限于当时的条件，此次的“救市”政策基本属于操作层面的，很多深层次的问题并没有涉及更谈不上得到解决。事实上，当时提出的三大政策，实际落实的也仅仅是暂停新股发行这一条。而大家都知道，这只能是救急用的，不可能是长久之策。</p><div data-o-ads-name="mpu-middle1" class="o-ads in-article-advert" data-o-ads-formats-default="false"  data-o-ads-formats-small="FtcMobileMpu"  data-o-ads-formats-medium="FtcMpu" data-o-ads-formats-large="FtcMpu" data-o-ads-formats-extra="FtcMpu" data-o-ads-targeting="cnpos=middle1;" data-cy='[{"devices":["PC","iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"MPU","position":"Middle1","container":"mpuInStory"}]'></div><p>到第二次“救市”时，A股的体量已经比较大了，各项基础性制度也已大致建立，机构投资者在市场上的占比也已经不低。当时，受央行降息等事件推动，股市出现连续上涨，明显的财富效应吸引了来自场外的各路资金蜂拥入市，其中当然有很多是合法合规的资金，但也有相当部分是违规资金。譬如当时社会上广泛存在的“配资”行为，就是让杠杆资金通过交易软件的包装而违法入市，部分“伞型”产品以及“分级基金”更是在严重缺乏风险控制的情况下涌入股市。一时间，A股市场上资金泛滥，股指在高杠杆的撬动下从2600多点一路飙升到5178点。而此时，很多股票的股价已严重脱离业绩，这种注水的牛市自然是不可长久的，随着监管部门对入市资金开始规范，行情立即急转直下，大量杠杆资金的夺路而逃，使得市场出现了“踩踏现象，进而引起大盘流动性的一度丧失。这样就迫使监管部门不得已大举出手予以干预。当时的问题已不是暂停新股发行就可以化解，监管部门采取的做法一是通过证金公司等直接入市购买股票，另外就是动用司法手段查处“恶意做空”的机构与个人。经过这种双管齐下的操作，市场倒是被“救”了起来，这一在后来被称为“异常波动”的股灾随即在一定程度上得以平复。然而由于这次“救市”更多是依靠行政力量来“托市”，并没有能够解决在这过程中暴露的各种矛盾，因此市场在止住了急跌后并没有真正企稳，在第二年还出现了两天四次熔断的极端现象，此后的股市运行也是整体偏弱，指数长期徘徊于3000点上下的位置。</p><p>而发生在最近的第三次“救市”，是在市场已经连续下跌两年的基础上又进一步加速向下的背景下展开的，这一点与前两次股市因大涨以后又猛烈下跌而“救市”的情景很不相同。股市的这轮下跌不但让包括社保基金等机构在内的投资者遭受严重损失，对实体经济的稳定也带来很大的冲击，从而引发了社会各界的广泛关注。从去年7月底起，证监会按照中央“提振投资者信心，活跃资本市场”的要求，陆续推出了一系列政策，从而事实上开启了新一轮的“救市”。不过，在前六个多月中，虽然政策不断，但市场仅仅是短线有所反弹，随后又是继续下跌，并没有能够有效稳住，社会舆论对这样的“救市”操作评价也并不高。直到今年2月初，在汇金公司等明确表示认可当前A股市场的投资价值，以及证券主管部门进行了人事调整以后，行情趋势才得以初步扭转。而在随后的“救市”操作中，所涉及到问题，已经不是简单地局限于供求关系，而是包括了提高上市公司质量、保护投资者利益、贯彻三公原则等市场基础性问题，“救市”演变为了对市场的全面整顿。</p><p>比较一下这三次的“救市”操作，可以看出在早期，无论是监管部门还是普通投资者，最关注的都是市场指数的高低，因此“救市”就是救指数。而对指数有直接影响的无非是供求关系。因此，1994年的“三大政策”就聚焦于供求关系。这当然对股市的涨跌有直接影响，但问题在于一个完整的股票市场不可能不发行新股，停止扩容可以让行情阶段性涨起来，但却阻碍了市场的发展。因此在这以后，虽然暂停新股发行这一招还被使用过几次，但到近些年基本被屏弃了。事实也证明，用这种方式干预指数，虽然会有短期效果，但却要付出了市场停滞的代价，这显然不是上策，那么，除此之外，还有什么其它的“救市”良策呢？2015年的股市“异常波动”来势凶猛，“千股跌停”所产生的破坏性力量是相当大的。而此时监管部门的对策是一方面组织资金入市，拿真金白银来维护市场稳定，另一方面则是重拳打击做空力量，对其釜底抽薪。这样的操作，能够迅速扭转多空力量的对比，让市场恢复了流动性。但是回头来看，与早期的“救市”操作相类似，这次也只是在改变了供求关系，并没有真正解决引发市场“异常波动”的内在原因，对于现有的监管制度没有能够在防范、抑制股市大起大落中发挥作用的问题，也缺乏必要的反思。由此，也就有了半年后股市的又一次大跌，指数甚至跌到了比“救市”前更低的位置。显然，如果不能对市场进行改革，单纯地靠直接或间接的手段来干预指数，这样的“救市”行为是太过功利了，结果也是救不了市。事实上，去年7月底开始的“救市”操作，之所以在开始阶段没有产生明显的效果，原因也在这里。客观而言，试图靠控制新股发行节奏、降低印花税、减免部分交易费用以及限制限售股流通等常规手段来调节供求关系，进而影响市场走势，现在已经不太行得通了。毕竟，经过30多年的发展，A股市场的体量已经很大了，而长期积累下来的矛盾，也已经很尖锐了。不对这个市场进行深刻的改造，就很难想象它会真正稳定运行。</p><p>如今，人们看到的是，第三次“救市”操作实施到现在，已经有了一些全新的做法。一方面，鉴于市场还很脆弱，投资者对后市仍然缺乏稳定的预期，监管部门仍然在持续组织被投资者称为“国家队”的资金入市，有研究报告推测这类资金的入市规模已经超过了5000亿元。鉴于入市的主力之一汇金公司公开表示认可当前股市的投资价值，投资者有理由认为这种大资金的入市还将延续，但在指数已经回到3000点上方的情况下，其目的已不仅仅是拨正指数走向，而是要维护市场稳定，引导投资理念。另一方面，则是在不断夯实股市的基础上下功夫，寻找在注册制下提高上市公司质量的途径，提升市场约束机制在调控股票发行节奏方面的作用。还有就是提出要把保护投资者利益放在市场监管的首位，改过去的“融资本位”思路为“投资本位”，同时强调处理好公平对待不同投资者的问题，实现各类投资者之间的真正平等。此外还注意到了谨慎对待金融创新，包括对量化投资、金融衍生工具的使用等问题，强调需要根据A股市场的实际来加以规范，防止无序发展。监管部门把以上这些纳入广义的“救市”范围，由于涉及到股票的发行、投资者保护以及金融工具的使用等，几乎就涵盖了A股市场的各个方面。显然，在这些方面所进行的工作，是属于对市场的一种全方位改造。也许，在某个角度来说，这也可以称之为是一种“救市”的升级版，但这更是一种着眼于市场长期发展的深刻改造。搞了35年的中国证券市场还不够成熟，长期被人们所诟病，的确是需要进行一场大的改革。如果说最近的这次“救市”最后能够发展为让市场实现凤凰涅磐式的变革，那将是投资者最希望看到的。</p><p>作为高度市场化的证券市场，也难免有市场失灵的时候，因此“救市”是不可避免的事情。但“救市”操作不能只是为了干预指数，而是要解决导致市场失灵的各种问题，特别是在失灵背后所存在的制度缺陷与漏洞，因为只有这样，市场才能逐渐成熟起来。比较三次“救市”操作的实践，让人们对此有了深刻的认识，但愿当前正在进行的“救市”操作能够在化解市场深层次问题上有大的动作，取得明显的效果，对此广大投资者是抱有希望的。</p><p>注：本文仅代表作者个人观点</p><div data-o-ads-name="mpu-middle2" class="o-ads in-article-advert" data-o-ads-formats-default="false"  data-o-ads-formats-small="FtcMobileMpu"  data-o-ads-formats-medium="false" data-o-ads-formats-large="false" data-o-ads-formats-extra="false" data-o-ads-targeting="cnpos=middle2;" data-cy='[{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"MPU","position":"Middle2","container":"mpuInStory"}]'></div><p><b>本文编辑徐瑾 Jin.Xu@FTChinese.com </b></p>
+
+</div>
+<div class="clearfloat"></div>
+</div>
+<div class="copyrightstatement-container">
+版权声明：本文版权归FT中文网所有，未经允许任何单位或个人不得转载，复制或以任何其他方式使用本文全部或部分，侵权必究。
+</div>
+<div class="clearfloat"></div>
+<!-- story privilegeType:  -->
+<h2 class="list-title"><a class="list-link" href="#">读者评论</a></h2>
+<div id="allcomments" class="allcomments container"></div>
+<div id="logincomment" class="logincomment">
+<form id="storyForm">
+<div class="comment-input-container">
+<div class=container>
+<div style="margin:5px 0;">
+用户名：<span id="comment-user-name"></span>
+<input type="checkbox" id="anonymous-checkbox" name="anonimous-checkbox" checked=true><label for="anonymous-checkbox">匿名发表</label>
+</div>
+<div style="margin:5px 0;">FT中文网欢迎读者发表评论，部分评论会被选进《读者有话说》栏目。我们保留编辑与出版的权利。</div>
+<textarea name="Talk" id="Talk" class="commentTextArea" width="100%" rows="3"></textarea>
+<span style="display:none">
+<input name="use_nickname" type="hidden" id="name" onclick="unuseit(this);"/>
+<label for="name" style="display:none">匿名</label>
+<input name="use_nickname" type="radio" id="userid" value="0" onclick="useit(this);" checked/>
+<input type="text"  autocorrect="off" class="user_id textinput nick_name" name="NickName" id="nick_name" value=""/>
+</span>
+<input type="button" value="提交评论" class="comment_btn submitbutton button ui-light-btn" id="addnewcomment"/>
+<input type="hidden" name="storyid"  id=cstoryid value=""/>
+</div>
+</div>
+</form>
+</div>
+<div id="nologincomment" class="nologincomment">
+<div class="container">
+<div class="username-label">用户名</div>
+<input type="text"  autocorrect="off" name="username" id="username1" class="user_id textinput user-name"/>
+<div class="password-label">密码</div>
+<input type="password" name="password"  class="user_id textinput password" id="password1"/>
+<input type="submit" value="登录后发表评论" class="comment_btn submitbutton button ui-light-btn" onclick="login(1)"/> 
+<div class="topmargin statusmsg"></div>
+<div class="centerButton"><a href="http://user.ftchinese.com/register" target="_blank"><button class="ui-light-btn stress">免费注册</button></a></div>
+</div>
+</div>
+<script>
+"use strict";function _typeof(e){return(_typeof="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}var commentfolder="/index.php/comments",serverErrorMessage="亲爱的用户，由于服务器没有正确响应，您未能成功登录，请稍后再次尝试。";function loadcomment(t,o,n){var e,r,a;switch(r="/index.php/c/newcommentsbysort/",a="/index.php/common_comments/newcommentsbysort/",n){case"story":commentfolder="/index.php/c",e="/index.php/c/newcomment/"+t+"?v=1";break;case"storyall1":commentfolder="/index.php/",e=r+t+"/1?limit=0&rows=500";break;case"storyall2":commentfolder="/index.php/c",e=r+t+"/2?limit=0&rows=500";break;case"storyall3":commentfolder="/index.php/c",e=r+t+"/3?limit=0&rows=500";break;case"commonall1":commentfolder="/index.php/common_comments",e=a+t+"/1?limit=0&rows=500";break;case"commonall2":commentfolder="/index.php/common_comments",e=a+t+"/2?limit=0&rows=500";break;case"commonall3":commentfolder="/index.php/common_comments",e=a+t+"/3?limit=0&rows=500";break;default:commentfolder="/index.php/common_comments",e="/index.php/common_comments/newcomment/"+t+"?v=1"}var i=new Date;e=e+"&"+(1e8*i.getFullYear()+1e6*(i.getMonth()+1)+1e4*i.getDate()+100*i.getHours()+i.getMinutes()),a=r=null,"localhost"===window.location.hostname&&(e="/api/comments/story.json");try{document.getElementById("cstoryid").value=t,window.readingid=t}catch(e){}var s=document.getElementById(o);s&&(s.innerHTML="正在获取本文读者评论的数据...");var d=new XMLHttpRequest;d.onreadystatechange=function(){if(4===this.readyState)if(200===this.status){var e=JSON.parse(this.responseText);"object"===("undefined"==typeof webkit?"undefined":_typeof(webkit))?(s.innerHTML="正在处理本文读者评论的数据...",webkit.messageHandlers.commentsData.postMessage({storyid:t,theid:o,type:n,data:e})):showComment(t,o,n,e)}else s.innerHTML="<span class='error'>很抱歉。由于您与FT服务器之间的连接发生故障，加载评论内容失败。请稍后再尝试。</span>"},d.open("GET",e,!0),d.send()}function showComment(e,t,o,n){var r,a,i,s,d,l="",c="",m=document.getElementById(t);if(n.hot)for(var u=0;u<n.hot.length;u++)r=l="",c+='<div class="commentcontainer">'+l+'<dt><div class="ding"></div><span>'+n.hot[u].dnewdate+"</span><b>"+n.hot[u].nickname.replace(/<[Aa] .+>(.+)<\/[Aa]>/g,"$1")+r+'</b> <font class="grey">'+n.hot[u].user_area+"</font></dt><dd>"+(n.hot[u].quote_content||"")+n.hot[u].talk+'</dd><div class="replybox" id=reh'+n.hot[u].id+"></div><dt class='replycomment'><a href='javascript:cmt_reply(\""+n.hot[u].id+'","h");\'>回复</a> <a id=hst'+n.hot[u].id+" href='javascript:voteComment(\""+n.hot[u].id+'","#hst", "support");\'>支持</a>(<font id=\'hsts'+n.hot[u].id+"' color=#BA2636>"+n.hot[u].support_count+"</font>) <a id=hdt"+n.hot[u].id+" href='javascript:voteComment(\""+n.hot[u].id+'","#hdt","disagree");\'>反对</a>(<font id=\'hdtd'+n.hot[u].id+"'>"+n.hot[u].disagree_count+"</font>)</dt></div>";for(var p=0;p<n.result.length;p++)c+="<div class=commentcontainer>"+(l=r="")+"<dt><span>"+n.result[p].dnewdate+"</span><b>"+n.result[p].nickname.replace(/<[Aa] .+>(.+)<\/[Aa]>/g,"$1")+r+"</b> <font class=grey>"+n.result[p].user_area+"</font><div class=clearfloat></div></dt><dd>"+(n.result[p].quote_content||"")+n.result[p].talk+"</dd><div class=replybox id=re"+n.result[p].id+"></div><dt class=replycomment><a href='javascript:cmt_reply(\""+n.result[p].id+'","");\'>回复</a> <a id=st'+n.result[p].id+" href='javascript:voteComment(\""+n.result[p].id+'","#st","support");\'>支持</a>(<font id=\'sts'+n.result[p].id+"'>"+n.result[p].support_count+"</font>) <a id=dt"+n.result[p].id+" href='javascript:voteComment(\""+n.result[p].id+'","#dt","disagree");\'>反对</a>(<font id=\'dtd'+n.result[p].id+"'>"+n.result[p].disagree_count+"</font>)</dt></div>",window.unusedEntryIndex=p;m&&(m.innerHTML=c,n.count&&0<n.count||"story"!==o?(init_repeat_cmt(),(20<n.count||20<n.result.length)&&(a=n.count||n.result.length,s=0<=o.indexOf("story")?"story":"common",i=0<=o.indexOf("storyall")?o.replace(/storyall/g,""):1,m.innerHTML+="<div class=fullcomments><span class=viewfullcomments id=viewfullcomments>查看全部<span class=highlight>"+a+'</span>条评论 </span><select class=commentsortby id=commentsortby value="'+i+'"><option value=1 selected>最新的在上方</option><option value=2>最早的在上方</option><option value=3>按热门程度</option></select></div>',document.getElementById("viewfullcomments").onclick=function(){d=document.getElementById("commentsortby").value,loadcomment(e,t,s+"all"+d)},document.getElementById("commentsortby").onchange=function(){d=document.getElementById("commentsortby").value,loadcomment(e,t,s+"all"+d)})):m.innerHTML="")}function init_repeat_cmt(){for(var e,t=document.querySelectorAll(".cmt_quote"),o=0;o<t[o];o++)"DD"===t[o].parentNode.tagName.toUpperCase()?(t[o].id="cmt_quote_"+Math.round(1e6*Math.random()),"cmt_quote"===t[o].childNodes[0].className&&(t[o].childNodes[0].id="cmt_quote_child_"+Math.round(1e6*Math.random()))):"recommendcomment"!==t[o].id&&(t[o].style.display="none");for(var n=document.querySelectorAll('div[id^="cmt_quote_child_"]'),r=0;r<n.length;r++)n[r].style.display="","cmt_quote"===n[r].childNodes[0].className&&(e=document.querySelectorAll("#"+n[r].id+" .cmt_quote").length,document.getElementById(n[r].id).innerHTML="<p onclick=\"showcmt(this)\" class='showcmt'>重复 [ "+e+" ] 条引用已被隐藏,点击展开。</p>"+document.getElementById(n[r].id).innerHTML)}function showcmt(e){document.querySelector("#"+e.parentNode.id+" .cmt_quote").style.display="",e.style.display="none"}function voteComment(e,t,o){t||(t="support"===o?"#st":"#dt");var n=document.querySelector(t+o[0]+e).innerHTML;n=parseInt(n,10)||0,document.querySelector(t+o[0]+e).innerHTML=n+1,document.querySelector(t+e).removeAttribute("href"),document.querySelector(t+e).innerHTML="support"===o?"已支持":"已反对";var r="cmtid="+e+"&action="+o,a=new XMLHttpRequest;a.open("POST",commentfolder+"/addvote/"),a.setRequestHeader("Content-Type","application/x-www-form-urlencoded"),a.send(r)}function cmt_reply(r,a){var e;a=a||"";for(var t=document.querySelectorAll(".replybox"),o=0;o<t.length;o++)t[o].innerHTML="";username?(document.querySelector("#re"+a+r).innerHTML='<div id=reply-input-container><b>回复此评论：</b><input type="checkbox" id="anonymous-reply-checkbox" name="anonimous-reply-checkbox" checked="true"><label for="anonymous-reply-checkbox">匿名发表</label><textarea id="replycontent" class="commentTextArea" rows="3"></textarea><span style="display:none;"><input name="use_nicknamer" type="radio" id="namer" onclick="unuseitr(this);"/><label for="namer">匿名</label><input name="use_nicknamer" type="radio" id="useridr" value="0" onclick="useitr(this);" checked/><label for="useridr">昵称</label> <input type="text" class="user_id textinput" id="nick_namer" value="" /></span><input type="button" value="提交回复" class="comment_btn submitbutton button ui-light-btn" id="addnewcommentr"/></div>',document.querySelector("#nick_namer").value=document.querySelector("#nick_name").value,document.querySelector("#addnewcommentr").onclick=function(){0;var e=new XMLHttpRequest;e.onreadystatechange=function(){if(4===this.readyState)if(200===this.status){if("yes"!==this.responseText)return void presentAlert("非常抱歉，现在我们的网站遇到一些技术故障。您的留言可能没有发表成功，稍后请您试着重新发表一次。","");presentAlert("感谢您的参与，您的评论内容已经提交。审核后会立即显示出来！",document.querySelector("#re"+a+r).innerHTML="")}else presentAlert("很抱歉。由于您的网络的连接发生故障，发表评论失败。稍后请您试着重新发表一次。",document.querySelector("#re"+a+r).innerHTML="")};var t=document.querySelector("#anonymous-reply-checkbox")&&document.querySelector("#anonymous-reply-checkbox").checked?1:0,o=1===t?"匿名用户":document.querySelector("#nick_namer").value,n="storyid="+window.readingid+"&topic_object_id="+window.readingid+"&talk="+document.querySelector("#replycontent").value+"&use_nickname="+t+"&NickName="+o+"&cmtid="+r+"&type="+a+"&title=&url=";e.open("POST",commentfolder+"/add"),e.setRequestHeader("Content-Type","application/x-www-form-urlencoded"),e.send(n),this.disabled=!0}):(e=document.querySelector("#nologincomment").innerHTML.replace(/username1/g,"username2").replace(/password1/g,"password2").replace(/login\(1\)/g,"login(2)"),document.querySelector("#re"+a+r).innerHTML=e)}function clickToSubmitComment(){var e=document.querySelector("#addnewcomment");e&&(e.onclick=function(){var e=document.querySelector("#anonymous-checkbox")&&document.querySelector("#anonymous-checkbox").checked?1:0;this.value="正在发布中...",this.disabled=!0;var t,o=new XMLHttpRequest;o.onreadystatechange=function(){if(4===this.readyState){if("yes"!==(this.responseText||"").trim())return void presentAlert("抱歉,现在我们的网站可能出现了一些小故障.您的留言可能没有发表成功,请您稍后再重新尝试发表一次。","");presentAlert("感谢您的参与，您的评论内容已经发表成功。审核后就会立即显示!",""),document.querySelector("#addnewcomment").value="提交评论",document.querySelector("#addnewcomment").disabled=!1,document.querySelector("#Talk").value=""}};var n=document.querySelector("#Talk").value,r=1===e?"匿名用户":document.querySelector("#nick_name").value;t=/^[0-9]+$/.test(window.FTStoryid)?"storyid="+window.FTStoryid+"&talk="+n+"&use_nickname="+e+"&NickName="+r:"topic_object_id="+window.FTStoryid+"&talk="+n+"&use_nickname="+e+"&NickName="+r+"&type=video",o.open("POST",commentfolder+"/add"),o.setRequestHeader("Content-Type","application/x-www-form-urlencoded"),o.send(t)})}function login(e){var s,t,o;t=void 0!==e?(s=document.querySelector("#username"+e).value,document.querySelector("#password"+e).value):(s=document.querySelector("#username").value,document.querySelector("#password").value);var d=document.querySelectorAll(".statusmsg");for(o=0;o<d.length;o++)d[o].innerHTML="正在登录中...";var n=new XMLHttpRequest;n.onreadystatechange=function(){var e;if(4===this.readyState)if(200===this.status){var t,o=JSON.parse(this.responseText);if(o.status&&"ok"===o.status){for(e=0;e<d.length;e++)d[e].innerHTML="登录成功！";for(var n=document.querySelectorAll(".logincomment, .logincommentc, .nologincomment, .nologincommentc, .logged, .notLogged"),r=0;r<n.length;r++)n[r].style.display="none";var a=document.querySelectorAll(".nick_name,.user_id,.user_Name");for(e=0;e<a;e++)a[e].value=s,a[e].innerHTML=s;var i=document.querySelectorAll(".logincomment, .logincommentc, .logged");for(t=0;t<i.length;t++)i[t].style.display="block";for(username=s,void 0!==window.userId&&""!==window.userId||(window.userId=GetCookie("USER_ID")||""),e=0;e<d.length;e++)d[e].innerHTML="";checkLogin(),function(e){var t={action:"login",userId:e,method:"email"};try{"object"===("undefined"==typeof webkit?"undefined":_typeof(webkit))?webkit.messageHandlers.login.postMessage(t):Android&&Android.onPageLoaded(JSON.stringify(t))}catch(e){}}()}else for(e=0;e<d.length;e++)d[e].innerHTML='<div class="highlight">'+o.msg+"</div>"}else for(e=0;e<d.length;e++)d[e].innerHTML='<div class="highlight">'+serverErrorMessage+"</div>"};var r="username="+s+"&password="+t+"&saveme=1",a=parseInt(1e6*Math.random(),10);n.open("POST","/index.php/users/login/ajax?"+a),n.setRequestHeader("Content-Type","application/x-www-form-urlencoded"),n.send(r)}function socialLogin(e,t){var o="/index.php/users/socialLogin/"+e,n=new XMLHttpRequest;n.onreadystatechange=function(){if(4===this.readyState)if(200===this.status){var e=this.responseText;if("yes"===e)return username=GetCookie("USER_NAME")||GetCookie("USER_NAME_FT")||"",checkLogin(),void(document.getElementById("wechat-ftc-binding")&&"string"==typeof window.userId&&0===window.userId.indexOf("ogfvw")&&null===GetCookie("WX_UNION_ID")?showWechatFTCBinding("最后一步，请输入邮箱和密码进行绑定操作："):presentAlert("微信登陆成功",""));presentAlert("登录失败",e+serverErrorMessage)}else presentAlert("登录失败",serverErrorMessage)};var r="socialInfo="+t,a=parseInt(1e6*Math.random(),10);n.open("POST",o+"?"+a),n.setRequestHeader("Content-Type","application/x-www-form-urlencoded"),n.send(r)}function logout(){for(var e=document.querySelectorAll(".logged .statusmsg"),t=0;t<e.length;t++)e[t].innerHTML="正在登出...";var o=new XMLHttpRequest;o.onreadystatechange=function(){if(4===this.readyState&&200===this.status){for(var e=document.querySelectorAll(".logincomment,.nologincomment, .logged, .notLogged"),t=0;t<e.length;t++)e[t].style.display="none";for(var o=document.querySelectorAll(".nologincomment,.notLogged"),n=0;n<o.length;n++)o[n].style.display="block";window.username="",checkLogin()}},o.onerror=function(){checkLogin(),console.log("something went wrong. but we check login any way. ")};var n=parseInt(1e6*Math.random(),10);o.open("GET","/index.php/users/logout?"+n),o.send();try{if("object"===("undefined"==typeof webkit?"undefined":_typeof(webkit))){var r={action:"logout",href:location.href};webkit.messageHandlers.logout.postMessage(r)}}catch(e){}}function checkLogin(){window.username=GetCookie("USER_NAME")||GetCookie("USER_NAME_FT"),window.userId=GetCookie("USER_ID");var e=document.querySelectorAll(".logincomment, .nologincomment, .logged, .notLogged");if(0!==e.length){var t;for(t=0;t<e.length;t++)e[t].style.display="none";var o=document.querySelectorAll(".logged .statusmsg");for(t=0;t<o.length;t++)o[t].innerHTML="";if(username){for(var n=document.querySelectorAll(".nick_name,.user_id,.user_Name,#comment-user-name"),r=0;r<n.length;r++)n[r].value=window.username,n[r].innerHTML=window.username;for(var a=document.querySelectorAll(".logincomment,.logged"),i=0;i<a.length;i++)a[i].style.display="block"}else{document.querySelector("#nick_name").value="";for(var s=document.querySelectorAll(".nologincomment,.notLogged"),d=0;d<s.length;d++)s[d].style.display="block"}var l=document.getElementById("wechat-ftc-binding");l&&"string"==typeof window.userId&&0===window.userId.indexOf("ogfvw")&&null===GetCookie("WX_UNION_ID")&&(l.className="button ui-light-btn wechat-binding",l.innerHTML="绑定邮箱");var c=document.getElementById("phone-ftc-binding");c&&"string"==typeof window.userId&&0===window.userId.indexOf("phone")&&(c.className="button ui-light-btn phone-binding",c.innerHTML="绑定邮箱"),passLoginToNative()}}function presentAlert(t,o){var e={title:t,message:o};try{webkit.messageHandlers.alert.postMessage(e)}catch(e){alert("".concat(t,"\n").concat(o))}}function passLoginToNative(){var t={},e=GetCookie("uniqueVisitorId")||guid();SetCookie("uniqueVisitorId",e,864e4,"/");var o=GetCookie("USER_NAME")||GetCookie("USER_NAME_FT")||"",n=GetCookie("USER_ID")||"",r=GetCookie("paywall_source")||"",a=GetCookie("addon")||"0",i=GetCookie("addon_days")||"0",s=GetCookie("addon_type")||"",d=GetCookie("ccode")||"",l=GetCookie("WX_UNION_ID")||"";t={username:o,userId:n,uniqueVisitorId:e,ccode:d,source:r,infoSource:"cookie",addon:a,addon_days:i,addon_type:s,wxUnionId:l,version:"4"};var c=GetCookie("paywall")||"",m=GetCookie("paywall_expire")||"";""!==c&&(t.paywall=c),""!==m&&(t.paywallExpire=m);try{webkit.messageHandlers.user.postMessage(t)}catch(e){}if(""!==n){var u=new XMLHttpRequest;u.open("GET","/index.php/jsapi/paywall"),u.setRequestHeader("Content-Type","application/json"),u.onload=function(){if(200===u.status){var e=JSON.parse(u.responseText);window.htmlClass=document.documentElement.className,window.htmlClass=window.htmlClass.replace(/\ is\-subscriber/g,"").replace(/\ is\-premium/g,"").replace(/\ is\-standard/g,""),0===e.paywall?(1===e.premium?(t.paywall="premium",window.htmlClass+=" is-subscriber is-premium"):(t.paywall="standard",window.htmlClass+=" is-subscriber is-standard"),document.documentElement.className=window.htmlClass):t.paywall="",e.expire&&0<e.expire?t.paywallExpire=e.expire.toString():"string"==typeof e.expire&&""!==e.expire&&(t.paywallExpire=e.expire),t.ccode=e.campaign_code||"",t.duration=e.latest_duration||"",t.source=e.source||"",t.addon=(e.addon||0).toString(),t.addon_days=e.addon_days||"0",t.addon_type=e.addon_type||"",t.infoSource="jsapi/paywall";try{webkit.messageHandlers.user.postMessage(t)}catch(e){}SetCookie("paywall_expire",e.expire,864e4,"/"),SetCookie("paywall",t.paywall,864e4,"/"),SetCookie("paywall_source",t.source,864e4,"/"),SetCookie("addon",t.addon,864e4,"/"),SetCookie("addon_type",t.addon_type,864e4,"/"),SetCookie("addon_days",t.addon_days,864e4,"/")}},u.send()}}try{passLoginToNative()}catch(e){}</script>
+<script type="text/javascript">
+loadcomment('001102471', 'allcomments', 'story');
+checkLogin();
+clickToSubmitComment();
+</script>
+</div>
+<div class="clearfloat block-bottom"></div>
+</div></div>
+<div 
+data-o-ads-name="infoflow4"
+class="o-ads infoflow"  
+data-o-ads-formats-default="false" 
+data-o-ads-formats-small="FtcInfoFlow" 
+data-o-ads-formats-medium="false"
+data-o-ads-formats-large="false"
+data-o-ads-formats-extra="false"
+data-o-ads-targeting="cnpos=info4;"
+>
+</div>
+<div class="side-container"><div class="side-inner">
+<div 
+data-o-ads-name="mpu-right1"
+class="o-ads"  
+data-o-ads-formats-default="false" 
+data-o-ads-formats-small="false" 
+data-o-ads-formats-medium="FtcMpu"
+data-o-ads-formats-large="FtcMpu"
+data-o-ads-targeting="cnpos=right1;"
+data-cy='[{"devices":["PC","PadWeb","PadApp"],"pattern":"MPU","position":"Right1"}]'
+>
+</div>
+
+<div class="story-box">
+<h2 class="box-title"><a href="/channel/weekly.html">相关文章</a></h2>
+<ul class="top10">
+<li class="mp1"><a target="_blank" href="/story/001102408">中国证监会主席吴清：监管要突出“强”和“严”</a></li>
+<li class="mp2"><a target="_blank" href="/story/001102436">中国解决地方政府债务之法可能威胁经济增长目标</a></li>
+<li class="mp3"><a target="_blank" href="/story/001102462">万科成为中国房地产信心危机最新受害者</a></li>
+<li class="mp4"><a target="_blank" href="/story/001102463">房地产与婚姻市场低迷 中国钻石需求大跌</a></li>
+<li class="mp5"><a target="_blank" href="/story/001102483">中国工业增加值同比跃升7%</a></li>
+<li class="mp6"><a target="_blank" href="/story/001102466">A股“救市”：一个“压实主体责任”的方案（下）</a></li>
+</ul>
+</div>
+<div 
+data-o-ads-name="mpu-right2"
+class="o-ads"  
+data-o-ads-formats-default="false" 
+data-o-ads-formats-small="false" 
+data-o-ads-formats-medium="false"
+data-o-ads-formats-large="FtcMpu"
+data-o-ads-targeting="cnpos=right2;"
+data-cy='[{"devices":["PC","PadWeb","PadApp"],"pattern":"MPU","position":"Right2"}]'
+>
+</div>
+<div class="story-box last-child">
+<h2 class="box-title"><a>相关话题</a></h2>
+<ul class="top10">
+<li class="story-theme mp1">
+<a target="_blank" href="/tag/股市">股市</a>
+<div class="icon-right">
+<button class="myft-follow plus" data-tag="股市" data-type="tag">关注</button>
+</div>
+</li>
+<li class="story-theme">
+<a target="_blank" href="/tag/救市">救市</a>
+<div class="icon-right">
+<button class="myft-follow plus" data-tag="救市" data-type="tag">关注</button>
+</div>
+</li>
+<li class="story-theme">
+<a target="_blank" href="/tag/A股">A股</a>
+<div class="icon-right">
+<button class="myft-follow plus" data-tag="A股" data-type="tag">关注</button>
+</div>
+</li>
+<li class="story-theme">
+<a target="_blank" href="/tag/中国经济">中国经济</a>
+<div class="icon-right">
+<button class="myft-follow plus" data-tag="中国经济" data-type="tag">关注</button>
+</div>
+</li>
+</ul>
+</div>
+</div></div><div class="clearfloat"></div>
+</div></div>
+<div class="block-container no-side story-recommend-container" id="story-recommend-container"><div class="block-inner">
+<div class="content-container"><div class="content-inner">
+<div class="list-container"><div class="list-inner">
+<h2 class="list-title"><a class="list-link" href="#">您可能感兴趣的文章</a></h2>
+<div class="items" id="story-recommend-bottom"></div>
+</div></div>
+</div></div>
+<div class="clearfloat block-bottom"></div>
+</div></div>
+<div class="o-ads" data-o-ads-name="banner2"
+data-o-ads-center="true" 
+data-o-ads-formats-default="false"
+data-o-ads-formats-small="FtcMobileBanner"
+data-o-ads-formats-medium="false"
+data-o-ads-formats-large="FtcBanner" 
+data-o-ads-formats-extra="FtcBanner"
+data-o-ads-targeting="cnpos=top2;"
+data-cy='[{"devices":["PC"],"pattern":"Banner","position":"Num1"},{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"Banner","position":"Num2"}]'>
+</div>
+<div class="block-container has-side story-recommend-container"><div class="block-inner">
+<div class="content-container"><div class="content-inner">
+<div class="list-container"><div class="list-inner"><h2 class="list-title">
+<a class="list-link"  href="">FT商学院</a>
+</h2>
+<div class="items">
+<div class="clearfloat"></div>
+</div>
+</div></div>
+<style>.is-columns.card-grid{grid-gap:30px;padding:0 15px 30px}.is-columns.card-grid .item-container .item-headline{text-align:center;font-size:1.9em}.is-columns.card-grid .item-container .item-lead{text-align:center;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;-ms-box-orient:vertical;-moz-box-orient:vertical;-o-box-orient:vertical;box-orient:vertical}.is-columns .item-container{padding-top:15px;background-color:#f6e9d8}.is-columns .item-inner{padding-top:115px}.is-columns figure{margin:0 auto 15px;border-radius:50%;padding-bottom:100px;width:100px;height:100px;background-color:#cce6ff}.is-columns .item-headline-lead{padding:0}.night .is-columns.card-grid .item-container,.night .is-columns.card-grid .item-inner{background-color:#111!important}@media only screen and (max-width:490px){.is-columns.card-grid .item-inner{padding-left:15px;padding-right:15px}}</style>
+<div class="card-grid">
+
+ 
+<div class="item-container " data-update="1710777600"><div class="item-inner">
+<a class="image" target="_blank" href="/story/146916"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000218021_piclink.jpg"></figure></a>
+<div class="item-headline-lead">
+<h2 class="item-headline">
+
+<a target="_blank" href="/story/146916" class="item-headline-link ">佩尔茨因担心拜登“精神状况”而投票支持特朗普</a>
+</h2>
+<div class="item-lead">亿万富翁佩尔茨在2021年1月6日美国国会大厦袭击事件后不再支持特朗普，但计划在11月的选举中再次支持他。</div>
+
+</div>
+</div></div>
+
+ 
+<div class="item-container " data-update="1710777600"><div class="item-inner">
+<a class="image" target="_blank" href="/story/146897"><figure class="loading" data-url="http://i.ftimg.net/picture/5/000218015_piclink.jpeg"></figure></a>
+<div class="item-headline-lead">
+<h2 class="item-headline">
+
+<a target="_blank" href="/story/146897" class="item-headline-link ">印度私募市场经历风险资本寒流</a>
+</h2>
+<div class="item-lead">在印度，向私营企业大举注资的热潮过后，资金流急剧收缩。与美国或中国相比，当地天使投资者的数量很少，这个问题尤其严重。</div>
+
+</div>
+</div></div>
+
+ 
+<div class="item-container " data-update="1710691200"><div class="item-inner">
+<a class="image" target="_blank" href="/story/146796"><figure class="loading" data-url="http://i.ftimg.net/picture/5/000217905_piclink.jpg"></figure></a>
+<div class="item-headline-lead">
+<h2 class="item-headline">
+
+<a target="_blank" href="/story/146796" class="item-headline-link locked vip">私募股权投资集团加速投资白领合伙企业</a>
+</h2>
+<div class="item-lead">会计事务所、咨询公司和其他专业服务机构都开始接受外部资金以支持增长。</div>
+
+</div>
+</div></div>
+
+ 
+<div class="item-container " data-update="1710691200"><div class="item-inner">
+<a class="image" target="_blank" href="/story/146776"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000130396_piclink.jpg"></figure></a>
+<div class="item-headline-lead">
+<h2 class="item-headline">
+
+<a target="_blank" href="/story/146776" class="item-headline-link locked vip">欧洲银行监管最高官员：未来将更加艰难</a>
+</h2>
+<div class="item-lead">克劳迪娅•布赫表示，欧元区银行面临越来越多的企业破产、地缘政治风险以及能源密集型行业的动荡。</div>
+
+</div>
+</div></div>
+
+ 
+<div class="item-container " data-update="1710691200"><div class="item-inner">
+<a class="image" target="_blank" href="/story/146690"><figure class="loading" data-url="http://i.ftimg.net/picture/5/000204865_piclink.jpg"></figure></a>
+<div class="item-headline-lead">
+<h2 class="item-headline">
+
+<a target="_blank" href="/story/146690" class="item-headline-link locked">卡塔尔与美国大学的关系受到审查</a>
+</h2>
+<div class="item-lead">曾举行听证会促使哈佛校长辞职的国会小组将目光转向多哈。</div>
+
+</div>
+</div></div>
+
+ 
+<div class="item-container " data-update="1710691200"><div class="item-inner">
+<a class="image" target="_blank" href="/story/146658"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000198636_piclink.jpeg"></figure></a>
+<div class="item-headline-lead">
+<h2 class="item-headline">
+
+<a target="_blank" href="/story/146658" class="item-headline-link locked vip">Lex专栏：热岩电池即将登陆欧洲</a>
+</h2>
+<div class="item-lead">热电池的卖点在于，它们可以在任何一天使用最便宜的6小时电力来加热砖块和岩石。</div>
+
+</div>
+</div></div>
+
+ 
+<div class="item-container " data-update="1710604800"><div class="item-inner">
+<a class="image" target="_blank" href="/story/146699"><figure class="loading" data-url="http://i.ftimg.net/picture/0/000217800_piclink.jpg"></figure></a>
+<div class="item-headline-lead">
+<h2 class="item-headline">
+
+<a target="_blank" href="/story/146699" class="item-headline-link locked vip">矿工是怎样炼成的？</a>
+</h2>
+<div class="item-lead">顿涅茨克矿工在十年前就因俄罗斯的入侵失去了主场，现在，这支四海为家的乌克兰老牌球队却仍然能够打入欧冠联赛。</div>
+
+</div>
+</div></div>
+
+ 
+<div class="item-container " data-update="1710604800"><div class="item-inner">
+<a class="image" target="_blank" href="/story/146716"><figure class="loading" data-url="http://i.ftimg.net/picture/9/000217819_piclink.jpeg"></figure></a>
+<div class="item-headline-lead">
+<h2 class="item-headline">
+
+<a target="_blank" href="/story/146716" class="item-headline-link locked vip">日本央行最终会加息吗？</a>
+</h2>
+<div class="item-lead">美联储将对利率走势发表何种言论？英国央行会暗示降息吗？</div>
+
+</div>
+</div></div>
+
+ 
+<div class="item-container " data-update="1710604800"><div class="item-inner">
+<a class="image" target="_blank" href="/story/146695"><figure class="loading" data-url="http://i.ftimg.net/picture/6/000217796_piclink.jpg"></figure></a>
+<div class="item-headline-lead">
+<h2 class="item-headline">
+
+<a target="_blank" href="/story/146695" class="item-headline-link locked vip">英国的儿童贫困问题会演变为一场危机吗？</a>
+</h2>
+<div class="item-lead">该国近三分之一的儿童生活在相对贫困中，其增长速度超过了任何发达经济体。</div>
+
+</div>
+</div></div>
+
+ 
+<div class="item-container " data-update="1710604800"><div class="item-inner">
+<a class="image" target="_blank" href="/story/146679"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000217781_piclink.jpg"></figure></a>
+<div class="item-headline-lead">
+<h2 class="item-headline">
+
+<a target="_blank" href="/story/146679" class="item-headline-link locked">欧洲面临560亿欧元的北约防务开支缺口  </a>
+</h2>
+<div class="item-lead">许多赤字最大的欧盟国家都有高水平的债务和预算赤字。</div>
+
+</div>
+</div></div>
+
+ 
+<div class="item-container " data-update="1710604800"><div class="item-inner">
+<a class="image" target="_blank" href="/story/146710"><figure class="loading" data-url="http://i.ftimg.net/picture/1/000217811_piclink.jpg"></figure></a>
+<div class="item-headline-lead">
+<h2 class="item-headline">
+
+<a target="_blank" href="/story/146710" class="item-headline-link locked">本周气候图表：海洋连续365天创下高温记录</a>
+</h2>
+<div class="item-lead">自2023年3月以来，海洋温度持续飙升，科学家对此表示担忧。</div>
+
+</div>
+</div></div>
+
+ 
+<div class="item-container " data-update="1710604800"><div class="item-inner">
+<a class="image" target="_blank" href="/story/146652"><figure class="loading" data-url="http://i.ftimg.net/picture/7/000217757_piclink.jpg"></figure></a>
+<div class="item-headline-lead">
+<h2 class="item-headline">
+
+<a target="_blank" href="/story/146652" class="item-headline-link locked vip">加密货币的四个重大缺陷</a>
+</h2>
+<div class="item-lead">就在SBF因诈骗罪等待本月判决之际，数字资产再次繁荣起来。然而，在2022年暴露出他的帝国的问题，在今天与当时一样重要。</div>
+
+</div>
+</div></div>
+</div>
+</div></div>
+<div class="side-container is-sticky-top"><div class="side-inner">
+<div 
+data-o-ads-name="mpu-right3"
+class="o-ads"  
+data-o-ads-formats-default="false" 
+data-o-ads-formats-small="false" 
+data-o-ads-formats-medium="FtcMpu"
+data-o-ads-formats-large="FtcMpu"
+data-o-ads-targeting="cnpos=right3;"
+data-cy='[{"devices":["PC","PadWeb","PadApp"],"pattern":"MPU","position":"Right3"}]'
+>
+</div>
+</div></div>
+<div class="clearfloat"></div>
+</div>
+<div class="o-ads" data-o-ads-name="banner3"
+data-o-ads-center="true" 
+data-o-ads-formats-default="false"
+data-o-ads-formats-small="FtcMobileBanner"
+data-o-ads-formats-medium="false"
+data-o-ads-formats-large="FtcBanner" 
+data-o-ads-formats-extra="FtcBanner"
+data-o-ads-targeting="cnpos=top3;"
+data-cy='[{"devices":["PC"],"pattern":"Banner","position":"Num3"},{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"Banner","position":"Num3"}]'>
+</div><div class="o-ads" data-o-ads-name="banner2"
+data-o-ads-center="true" 
+data-o-ads-formats-default="false"
+data-o-ads-formats-small="FtcMobileBanner"
+data-o-ads-formats-medium="false"
+data-o-ads-formats-large="FtcBanner" 
+data-o-ads-formats-extra="FtcBanner"
+data-o-ads-targeting="cnpos=top2;"
+data-cy='[{"devices":["PC"],"pattern":"Banner","position":"Num1"},{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"Banner","position":"Num2"}]'>
+</div>
+<div 
+data-o-ads-name="paidpost2"
+class="o-ads paid-post"  
+data-o-ads-formats-default="false" 
+data-o-ads-formats-small="false"
+data-o-ads-formats-medium="false"
+data-o-ads-formats-large="FtcPaidpost"
+data-o-ads-formats-extra="FtcPaidpost"
+data-o-ads-targeting="cnpos=paidpost2;"
+>
+</div>
+<div 
+data-o-ads-name="paidpost"
+class="o-ads paid-post"  
+data-o-ads-formats-default="false" 
+data-o-ads-formats-small="false"
+data-o-ads-formats-medium="false"
+data-o-ads-formats-large="FtcPaidpost"
+data-o-ads-formats-extra="FtcPaidpost"
+data-o-ads-targeting="cnpos=paidpost;"
+>
+</div>
+<div class="footer-container"><div class="footer-inner">
+<div>
+<a href="/m/corp/aboutus.html">关于我们</a>
+<a href="https://ft.wd3.myworkdayjobs.com/FT_Chinese_External_Careers" target="_blank">加入我们</a>
+<a href="/m/corp/faq.html">问题回馈</a>
+<a href="/m/corp/contact.html">联系方式</a>
+<a href="/m/corp/partner.html">合作伙伴</a>
+<a href="/m/corp/service.html">服务条款</a>
+<a href="/m/corp/sales.html">广告业务 </a>
+<a href="/m/corp/copyright.html">版权声明</a>
+<a href="/m/marketing/ftc.html">最新动态</a>
+</div>
+<p>
+<span class="copyright"><b>© The Financial Times Ltd 2024</b></span> 
+<span><acronym title="Financial Times">FT</acronym> and 'Financial Times' are trademarks of The Financial Times Ltd.</span>
+</p>
+</div></div>
+<img src='https://beacon.krxd.net/event.gif?event_id=KWA6DGT9&event_type=rtg' width=0 height=0 /><div class="overlay-container" id="font-setting">
+<div class="overlay-inner">
+<div class="overlay-bg" data-parentid="font-setting"></div>
+<div class="overlay-content-outer">
+<div class="overlay-content-inner">
+<div class="overlay-content">
+<div class="overlay-title">设置字号<i class="overlay-close" data-parentid="font-setting">×</i></div>
+<span class="font-options" id="font-options">
+<div class="smallest first-child" data-font="0.8">最小</div>
+<div class="smaller" data-font="0.9">较小</div>
+<div class="normal" data-font="1">默认</div>
+<div class="bigger" data-font="1.2">较大</div>
+<div class="biggest" data-font="1.6">最大</div>
+</span>
+</div>
+</div>
+</div>
+</div>
+</div><div class="overlay-container" id="share-legacy">
+<div class="overlay-inner">
+<div class="overlay-bg" data-parentid="share-legacy"></div>
+<div class="overlay-content-outer">
+<div class="overlay-content-inner">
+<div class="overlay-content">
+<div class="overlay-title">分享<i class="overlay-close" data-parentid="share-legacy">×</i></div>
+<span id="sharelinks"></span>
+</div>
+</div>
+</div>
+</div>
+</div>
 
 
 

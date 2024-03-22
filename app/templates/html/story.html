@@ -2152,7 +2152,7 @@
 
 	<%$paidPostTrack%>
 
-	<%if $smarty.get.taboola == "on" || ($smarty.server.HTTP_HOST=="www.ftchinese.com" && date("Ymd",$smarty.now) >= 20240101 && !preg_match("/企业公告/is",$keys))%>
+	<%if $smarty.get.taboola == "on" || ($smarty.server.HTTP_HOST=="www.ftchinese.com" && date("Ymd",$smarty.now) >= 20240501 && !preg_match("/企业公告/is",$keys))%>
 		<script type="text/javascript">
 		window._taboola = window._taboola || [];
 		_taboola.push({article:'auto'});
@@ -2264,6 +2264,11 @@
 		<%if !preg_match("/品味|艺术投资|腕表|游艇|极致人生|高端视点/is",$keys) || $hideBanner == "no"%>
 			<%include file="next/partials/banner.html"%>
 		<%/if%>
+		<%*<!--MARK: - Show the third banner to run more ads. -->*%>
+		<%if !preg_match("/高端专享/is",$keys) %>
+			<%include file="next/partials/story-banner-3.html%>
+		<%/if%>
+
 		<%include file="next/partials/footer.html"%>
 		<%include file="next/partials/QrCode.html"%>
 		<%include file="next/partials/story-font.html"%>
