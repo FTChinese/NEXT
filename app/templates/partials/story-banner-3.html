@@ -1,0 +1,46 @@
+<div class="block-container has-side story-recommend-container"><div class="block-inner">
+
+    <div class="content-container"><div class="content-inner">
+		
+		<%assign var="premiumData" value=$interactivemodel->get_interactive_by_field_search("find_in_set('FT商学院', tag)",0,6,7,10800)%>
+		<%php%>
+			$premiumData = $this->get_template_vars('premiumData');
+			$list = [];
+			$list['title'] = 'FT商学院';
+			$list['url'] = '/channel/mba.html';
+			$list['items'] = $premiumData;
+			$this->assign("list", $list);
+		<%/php%>
+		<%include file="next/partials/ListGrid.html"%>
+        
+	</div></div>
+
+	<div class="side-container is-sticky-top"><div class="side-inner">
+		<div 
+		data-o-ads-name="mpu-right3"
+		class="o-ads"  
+		data-o-ads-formats-default="false" 
+		data-o-ads-formats-small="false" 
+		data-o-ads-formats-medium="FtcMpu"
+		data-o-ads-formats-large="FtcMpu"
+		data-o-ads-targeting="cnpos=right3;"
+		data-cy='[{"devices":["PC","PadWeb","PadApp"],"pattern":"MPU","position":"Right3"}]'
+		>
+		</div>
+	</div></div>
+
+	<div class="clearfloat"></div>
+
+</div>
+
+
+<div class="o-ads" data-o-ads-name="banner3"
+data-o-ads-center="true" 
+data-o-ads-formats-default="false"
+data-o-ads-formats-small="FtcMobileBanner"
+data-o-ads-formats-medium="false"
+data-o-ads-formats-large="FtcBanner" 
+data-o-ads-formats-extra="FtcBanner"
+data-o-ads-targeting="cnpos=top3;"
+data-cy='[{"devices":["PC"],"pattern":"Banner","position":"Num3"},{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"Banner","position":"Num3"}]'>
+</div>
