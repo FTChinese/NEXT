@@ -406,6 +406,14 @@ input[type=submit], select {
     margin-bottom: 15px;
 }
 
+// MARK: - Our page run ad. Ad codes might have things like style="width: 414px", which makes the page scrolling horizontally. This is a very bad user experience, especially on mobile screens. So this code is quite important. 
+@media screen and (max-width: 490px) {
+	html, body {
+		max-width: 100%!important;
+		overflow-x: hidden!important;
+	}
+}
+
 // MARK: - for standalone web apps
 
 // :root {

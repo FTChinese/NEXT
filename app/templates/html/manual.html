@@ -160,6 +160,16 @@
     <%/if%>
 <%/if%>
 
+<%*<!--MARK: - Sometimes ad will extend horizontally by using code like style="width:414px;". This cause the page to scroll horizontally, a very bad user experience. The following code will force the overflow to be hidden, thus fixing the problem. To be on the safe side, I only apply it to mobile screens for now.  -->*%>
+<style>
+    @media screen and (max-width: 490px) {
+        html, body {
+            max-width: 100%!important;
+            overflow-x: hidden!important;
+        }
+    }
+</style>
+    
 <%assign var="isPublicHoliday" value="no"%>
 <%assign var="isWorkingDayMorning" value="no"%>
 <%if $pageId == "home" || $p.meta.HighlightFTAcademy == "yes"%>
