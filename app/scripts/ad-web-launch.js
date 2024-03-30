@@ -1,10 +1,10 @@
 
 /* jshint ignore:start */
 
-// MARK: - I only need this to work for modern mobile devices. And this file is alway requested async and not depended by any other process. So I'll use async/await and fetch without needing the jshint, which validates other codes that do need to be backward-compatible. 
+// MARK: - We only need this to work for modern mobile devices. And this file is alway requested async and not depended by any other process. So I'll use async/await and fetch without needing the jshint, which validates other codes that do need to be backward-compatible. 
 (async()=>{
 
-    const maxHours = 0;
+    const maxHours = 6;
     let displaySeconds = 5;
     const maxWidthToDisplay = 490;
 
