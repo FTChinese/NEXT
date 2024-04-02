@@ -361,7 +361,7 @@ function socialLogin(socialName, socialInfo) {
     xmlhttp.onreadystatechange = function() {
         if (this.readyState === 4) {
             if (this.status === 200) {
-                var data = this.responseText;
+                var data = this.responseText.trim();
                 if (data === 'yes') {
                     // show this in the interface so that users know login is successful
                     username = GetCookie('USER_NAME') || GetCookie('USER_NAME_FT') || '';
