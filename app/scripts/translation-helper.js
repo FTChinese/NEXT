@@ -484,7 +484,7 @@ Please take a deep breath and do this in a step-by-step way:
 4. Read the other translation versions to see if they inspires you to improve the current translation. 
 5. Check the glossary to make sure the translation is correct. 
 6. If you still are not sure about anything in the original text or the translation, please feel free to search the web to get more information and background that helps you understand and come up with good translations. 
-7. Finally, please read the translation again and make sure it is natural for Chinese audience. 
+7. Finally, please read the translation again and make sure it is natural for Chinese audience. Out put the translation in a standalone paragraph without wrapping it in quotes. 
 `.trim();
     
     return prompt;

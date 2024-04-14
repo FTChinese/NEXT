@@ -62,6 +62,8 @@
 
 
 <%assign var="keys" value="`$mytag`,`$tag`"%>
+
+
 <%*<!--MARK: Check the next model tag for sponsored special reports start-->*%>
 <%if $nextmodel != ""%>
 	<%assign var="infoForSponsorships" value=$nextmodel->getPublishJson("sponsorshipmanagement")|json_decode:true%>
@@ -236,6 +238,9 @@
 <%*<!--MARK: Check the next model tag for sponsored special reports end-->*%>
 
 
+<%if $smarty.get.ad == "no" || preg_match("/去广告/is",$keys) || (preg_match("/高端专享/is",$keys) && $hasFoundSponsorship != "yes")%>
+	<%assign var="noAd" value="true"%>
+<%/if%>
 
 <%*<!--MARK: This has to be replicated to multiple templates as this version of smarty doesn't support global scoop in included file-->*%>
 <%if $topnav == ""%>
