@@ -1809,12 +1809,23 @@ async function showFTPage(content, language, reply) {
           let termName = item.metadata?.primaryTheme?.term?.name;
           let follow = item.follow;
           if (follow) {
+            // console.log(`follow: ${JSON.stringify(myInterestsDict[follow])}`);
             const fallback = myInterestsDict[follow]?.display;
-            primaryTheme = `<span class="primary-theme">${localize(follow, fallback)}</span>`;
+            const name = myInterestsDict[follow]?.key;
+            const field = myInterestsDict[follow]?.type;
+            const buttonHTML = `<button class="myft-follow tick" data-action="add-interest" data-name="${name}" data-type="${field}" data-display="${fallback}" data-source="Followed" data-target="${localize('Unfollow')}">${localize('Unfollow')}</button>`;
+            primaryTheme = `<span class="primary-theme">${localize(follow, fallback)}</span>${buttonHTML}`;
           } else if (termName && !themes.has(termName) && !/[\(\)（）]/.test(termName)) {
-            primaryTheme = `<span class="primary-theme">${termName}</span>`;
+            // console.log(`themes: `);
+            // console.log(themes);
+            // console.log(item.metadata?.primaryTheme);
+            const name = item.metadata?.primaryTheme?.term?.key ?? item.metadata?.primaryTheme?.term?.name ?? '';
+            const field = item.metadata?.primaryTheme?.term?.taxonomy ?? '';
+            const buttonHTML = `<button class="myft-follow plus" data-action="add-interest" data-name="${name}" data-type="${field}" data-display="${termName}" data-source="Follow" data-target="${localize('Follow')}">${localize('Follow')}</button>`;
+            primaryTheme = `<span class="primary-theme">${termName}</span>${buttonHTML}`;
             themes.add(termName);
           }
+          // console.log(`primaryTheme: ${primaryTheme}`);
           const lang = language || 'English';
           const articleLink = (readArticle === 'pop-out') ? `href="./chat.html#ftid=${id}&language=${lang}&action=read"` : `data-action="show-article"`;
           const readClass = (item.read === true) ? ' read' : '';

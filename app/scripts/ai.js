@@ -287,6 +287,7 @@ async function getFTAPISearchResult(keyword, language) {
 
 
 async function getFTPageInfo(name, language) {
+
     try {
         // const token = (isPowerTranslate) ? localStorage.getItem('accessToken') : 'sometoken';
         const token = (isPowerTranslate) ? GetCookie('accessToken') : 'sometoken';
@@ -321,6 +322,7 @@ async function getFTPageInfo(name, language) {
         console.log(err);
         return {status: 'failed', message: err.toString()};
     }
+    
 }
 
 async function getEmbedding(content) {
