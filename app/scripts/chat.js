@@ -1813,7 +1813,7 @@ async function showFTPage(content, language, reply) {
             const fallback = myInterestsDict[follow]?.display;
             const name = myInterestsDict[follow]?.key;
             const field = myInterestsDict[follow]?.type;
-            const buttonHTML = `<button class="myft-follow tick" data-action="add-interest" data-name="${name}" data-type="${field}" data-display="${fallback}" data-source="Followed" data-target="${localize('Unfollow')}">${localize('Unfollow')}</button>`;
+            const buttonHTML = `<button class="myft-follow tick" data-action="add-interest" data-name="${name}" data-type="${field}" data-display="${fallback}" data-source="Followed" data-target="${localize('Followed')}">${localize('Followed')}</button>`;
             primaryTheme = `<span class="primary-theme">${localize(follow, fallback)}</span>${buttonHTML}`;
           } else if (termName && !themes.has(termName) && !/[\(\)（）]/.test(termName)) {
             // console.log(`themes: `);
