@@ -30,14 +30,11 @@ body {
 }
 .container {
     padding: 0;
-    // display: flex;
-    // height: 100vh;
-    // background-color: red;
 }
 .sidebar {
     width: $sideBarWidth; /* Fixed width for sidebar */
     /* Additional styling */
-    height: 100vh;
+    height: 100%;
     position: fixed;
     left: 0;
     top: 0;
@@ -48,38 +45,11 @@ body {
     display: none;
 }
 
-
-// .sidebar-inner {
-//     width: $sideBarWidth; /* Fixed width for sidebar */
-//     background-color: $darkGrey;
-//     height: 100%;
-//     display: flex;
-//     flex-direction: column;
-// }
-// .main-chat-role {
-//     height: $navHeight;
-//     position: sticky;
-//     top: 0;
-// }
-
-// .current-chat-roles {
-//     flex-grow: 1;
-//     overflow-y: scroll;
-// }
-
-// .side-bottom {
-//     height: $navHeight;
-//     position: sticky;
-//     bottom: 0;
-//     padding-bottom: calc(env(safe-area-inset-bottom) / 3);
-//     background-color: $darkGrey;
-// }
-
 // MARK: - Using position: absolute to layout the side bar is consitently supported in all browsers, especially for this layout of top and bottom fixed height and scrolling middle content. 
 .sidebar-inner {
     width: $sideBarWidth; // Fixed width for the sidebar
     background-color: $darkGrey;
-    height: 100vh; // Full height of the viewport
+    height: 100%; 
     position: relative; // Container set to position relative
 }
 
@@ -118,33 +88,34 @@ body {
     width: 100%;
     z-index: 1;
     display: none;
-    // display: block!important;
     .is-in-native-app &{
         display: none!important;
     }
 }
+
 .main-content {
     margin: 0 auto 0 $sideBarWidth;
     position: relative;
     .full-grid & {
         margin: 0 auto;
     }
-    // flex-grow: 1;
-    // height: 100vh;
-    // overflow-y: scroll;
 }
+
 .chat-content {
     padding: 0 0 $navHeight 0;
 }
+
 .settings-container {
     margin: auto auto $defaultPadding * 0.5 auto;
     // max-width: 450px;
     background-color: $bannerBG;
     padding: $defaultPadding * 0.5;
 }
+
 .header-inner {
     background-color: transparent!important;
 }
+
 .header-side {
     width: $headerHeight;
     background-position: 50%;
