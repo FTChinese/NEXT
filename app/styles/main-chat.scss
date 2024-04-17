@@ -8,7 +8,9 @@ $sideBarWidth: 260px;
 html {
     scroll-behavior: smooth;
 }
-
+html, body {
+    height: 100%;
+}
 body {
     &.font-smallest {
         font-size: 12px;
@@ -45,29 +47,69 @@ body {
 .sidebar-close-button {
     display: none;
 }
+
+
+// .sidebar-inner {
+//     width: $sideBarWidth; /* Fixed width for sidebar */
+//     background-color: $darkGrey;
+//     height: 100%;
+//     display: flex;
+//     flex-direction: column;
+// }
+// .main-chat-role {
+//     height: $navHeight;
+//     position: sticky;
+//     top: 0;
+// }
+
+// .current-chat-roles {
+//     flex-grow: 1;
+//     overflow-y: scroll;
+// }
+
+// .side-bottom {
+//     height: $navHeight;
+//     position: sticky;
+//     bottom: 0;
+//     padding-bottom: calc(env(safe-area-inset-bottom) / 3);
+//     background-color: $darkGrey;
+// }
+
+// MARK: - Using position: absolute to layout the side bar is consitently supported in all browsers, especially for this layout of top and bottom fixed height and scrolling middle content. 
 .sidebar-inner {
-    width: $sideBarWidth; /* Fixed width for sidebar */
+    width: $sideBarWidth; // Fixed width for the sidebar
     background-color: $darkGrey;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
+    height: 100vh; // Full height of the viewport
+    position: relative; // Container set to position relative
 }
+
 .main-chat-role {
     height: $navHeight;
-    position: sticky;
+    position: absolute;
     top: 0;
+    left: 0;
+    right: 0;
 }
 
 .current-chat-roles {
-    flex-grow: 1;
-    overflow-y: scroll;
+    position: absolute;
+    top: $navHeight; // Positioned directly below the top bar
+    bottom: $navHeight; // Positioned above the bottom bar
+    left: 0;
+    right: 0;
+    overflow-y: scroll; // Enables scrolling
 }
 
 .side-bottom {
     height: $navHeight;
-    position: sticky;
-    bottom: calc(env(safe-area-inset-bottom) / 3);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: $darkGrey;
+    padding-bottom: calc(env(safe-area-inset-bottom) / 3); // Adjust padding for safe area on iOS
 }
+
 
 .header-container {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
