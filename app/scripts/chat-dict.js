@@ -221,7 +221,7 @@ let statusDictOriginal = {
     zh: '错误',
     ru: 'Ошибка'
   },
-  'CustomerService': {
+  CustomerService: {
     zh: '帮助中心',
     en: 'Help Center',
     es: 'Centro de Ayuda',
@@ -234,6 +234,34 @@ let statusDictOriginal = {
     'zh-TW': '幫助中心',
     'zh-HK': '幫助中心',
     ru: 'Центр Поддержки'
+  },
+  ProcessingRequest: {
+    en: 'Your request is being processed...',
+    zh: '您的请求正在处理中...',
+    es: 'Su solicitud está siendo procesada...',
+    fr: 'Votre demande est en cours de traitement...',
+    de: 'Ihre Anfrage wird bearbeitet...',
+    ja: 'リクエストを処理中です...',
+    ko: '요청이 처리 중입니다...',
+    pt: 'Sua solicitação está sendo processada...',
+    it: 'La tua richiesta è in elaborazione...',
+    'zh-TW': '您的請求正在處理中...',
+    'zh-HK': '您的請求正在處理中...',
+    ru: 'Ваш запрос обрабатывается...'
+  },
+  NEXT: {
+    en: 'NEXT',
+    zh: '下一步',
+    es: 'SIGUIENTE',
+    fr: 'SUIVANT',
+    de: 'WEITER',
+    ja: '次へ',
+    ko: '다음',
+    pt: 'PRÓXIMO', 
+    it: 'PROSSIMO',
+    'zh-TW': '下一步',
+    'zh-HK': '下一步',
+    ru: 'ДАЛЕЕ'
   },
   'Top News For Me': {
     zh: '有什么值得我关注的要闻吗？',

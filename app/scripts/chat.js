@@ -841,7 +841,7 @@ async function showContent(ftid, language, shouldScrollIntoView = true, shouldLo
               ${discussArticlePrompt}`
               .replace(/[\r\n]+[\t\s]+/g, '')
               .replace(/[\r\n]+/g, '');
-          html += `<button class="quiz-next hide">NEXT</button>`;
+          // html += `<button class="quiz-next hide">${localize('NEXT')}</button>`;
           const result = {text: html};
           showResultInChat(result, shouldScrollIntoView);
           addStoryToRead(ftid);
@@ -1461,7 +1461,7 @@ async function newsQuiz(content, language, reply) {
           `.replace(/[\r\n]+/g, '');
       }
       html = `<div>${html}</div>`;
-      html += `<button class="quiz-next hide">NEXT</button>`;
+      html += `<button class="quiz-next hide">${localize('NEXT')}</button>`;
       const result = {text: html};
       showResultInChat(result);
     }
@@ -1694,10 +1694,19 @@ async function handleActionClick(element) {
   try {
       const id = element.getAttribute('data-id') || '';
       const language = element.getAttribute('data-lang') || element.closest('.chat-item-actions').getAttribute('data-lang') || 'English';
-      const audioEle = document.querySelector(`[data-id="${id}"] .audio-placeholder.is-sticky-top`);
-      const reminder = `Creating ${action} data for you...`;
-      if (action === 'quiz' && audioEle && audioEle.parentElement) {
-          audioEle.parentElement.innerHTML += `<div class="quizzes-container quizzes-status">${reminder}</div>`;
+      const reminder = localize('ProcessingRequest');
+      const reminderHTML = `<div class="quizzes-container quizzes-status">${reminder}</div>`;
+      if (action === 'quiz') {
+          const audioEle = document.querySelector(`[data-id="${id}"] .audio-placeholder.is-sticky-top`);
+          const chatTalkInnerEle = element.closest('.chat-talk-inner');          
+          if (audioEle && audioEle.parentElement) {
+            audioEle.parentElement.innerHTML += reminderHTML;
+          } else if (chatTalkInnerEle) {
+            chatTalkInnerEle.innerHTML += reminderHTML;
+          } else {
+            showUserPrompt(element.innerHTML);
+            showBotResponse(reminder);
+          }
       } else {
           showUserPrompt(element.innerHTML);
           showBotResponse(reminder);

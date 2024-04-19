@@ -167,6 +167,7 @@ delegate.on('click', '.quiz-options div', async (event) => {
     const element = event.target;
     try {
         let quizContainer = element.closest('.quiz-container');
+        const quizzesId = element.closest('.quizzes-container')?.id;
         const newChat = quizContainer.closest('.chat-talk');
         if (quizContainer.classList.contains('is-done')) {return;}
         let isCorrect = element.classList.contains('is-correct');
@@ -180,7 +181,16 @@ delegate.on('click', '.quiz-options div', async (event) => {
         quizContainer.setAttribute('data-score', currentScore);
         const nextQuiz = newChat.querySelector('.quiz-container.hide');
         if (nextQuiz ) {
-            quizContainer.closest('.chat-talk').querySelector('.quiz-next').classList.remove('hide');
+            
+            let nextButtonEle = quizContainer.closest('.chat-talk')?.querySelector('.quiz-next');
+            if (quizzesId) {
+                console.log(`Quiz id: ${quizzesId}`);
+                nextButtonEle = document.querySelector(`button[data-quiz-id="${quizzesId}"]`) ?? nextButtonEle;
+                console.log(nextButtonEle);
+            }
+            if (nextButtonEle) {
+                nextButtonEle.classList.remove('hide');
+            }
             scrollIntoViewProperly(nextQuiz);
         } else {
             let chatTalkInner = quizContainer.closest('.chat-talk-inner');
@@ -389,9 +399,19 @@ delegate.on('click', '.quiz-next', async (event) => {
 
     const element = event.target;
     try {
+        // MARK: - Use the unique quiz id to find the quizzes and it's next buttons, which is a more robust
+        const quizId = element.getAttribute('data-quiz-id');
+        // MARK: - This is the old way of getting the visible quizzes, keeping it in case other parts of the code are not updated
         let visibleQuizes = element.closest('.chat-talk').querySelectorAll('.quiz-container:not(.hide)');
+        if (quizId) {
+            visibleQuizes = document.querySelectorAll(`#${quizId} .quiz-container:not(.hide)`);
+        }
         let visibleQuizesCount = visibleQuizes.length;
+        // MARK: - This is the old way of getting the hidden quizzes, keeping it in case other parts of the code are not updated
         let nextQuiz = element.closest('.chat-talk').querySelector('.quiz-container.hide');
+        if (quizId) {
+            nextQuiz = document.querySelector(`#${quizId} .quiz-container.hide`);
+        }
         if (nextQuiz) {
             nextQuiz.classList.remove('hide');
         }
@@ -482,17 +502,24 @@ function renderQuizInfoAndUpdateDisplay(quizId, quizInfo, ftid, isQuizDisplayed,
         const chatTalkInner = document.querySelector(`.article-container[data-id="${ftid}"]`)?.closest('.chat-talk-inner');
         let storyBodyContainer = chatTalkInner?.querySelector('.story-body-container');
         html = `<div id="${quizId}" class="quizzes-container">${html}</div>`;
-        html += `<div class="quizzes-container"><button class="quiz-next hide">NEXT</button></div>`;
+        html += `<div class="quizzes-container"><button class="quiz-next hide" data-quiz-id="${quizId}">${localize('NEXT')}</button></div>`;
         const audioEle = document.querySelector(`[data-id="${ftid}"] .audio-placeholder.is-sticky-top`);
-        console.log(`is auto? ${isAuto}, storyBodyContainer: ${storyBodyContainer}, ftid: ${ftid}`);
+        let chatInnerEle = storyBodyContainer?.closest('.chat-talk-inner');
+        // console.log(`is auto? ${isAuto}, storyBodyContainer: ${storyBodyContainer}, ftid: ${ftid}`);
+        const quizHTML = `<div class="quizzes-container"><hr></div>${html}`;
         if (audioEle && audioEle.parentElement) {
             let status = audioEle.parentElement.querySelector('.quizzes-container');
             if (status) {
                 status.remove();
             }
-            audioEle.parentElement.innerHTML += `<hr>${html}`;
+            audioEle.parentElement.innerHTML += quizHTML;
         } else if (isAuto && storyBodyContainer) {
-            storyBodyContainer.innerHTML += `<hr>${html}`;
+            storyBodyContainer.innerHTML += quizHTML;
+        } else if (chatInnerEle) {
+            let quizContainerEle = document.createElement('DIV');
+            quizContainerEle.innerHTML = quizHTML;
+            chatInnerEle.append(quizContainerEle);
+            scrollIntoViewProperly(quizContainerEle);
         } else {
             const result = {text: html};
             showResultInChat(result);
@@ -516,7 +543,7 @@ function renderQuizInfoAndUpdateDisplay(quizId, quizInfo, ftid, isQuizDisplayed,
 async function generateQuiz(ftid, language, articleContextChunks, action) {
     try {
         const randomString = (Math.floor(Math.random() * 90000) + 10000).toString();
-        const quizId = ftid + randomString;
+        const quizId = 'quiz-' + ftid + randomString;
         let isQuizDisplayed = false;
         
         // MARK: Send the requests in chunks
@@ -1107,7 +1134,7 @@ async function displayCachedQuiz(ftid, language) {
     const data = await checkQuiz(ftid, language);
     if (data?.status !== 'success') {return;}
     const randomString = (Math.floor(Math.random() * 90000) + 10000).toString();
-    const quizId = ftid + randomString;
+    const quizId = 'quiz-' + ftid + randomString;
     const items = data.results || [];
     let results = [];
     for (const item of items) {
