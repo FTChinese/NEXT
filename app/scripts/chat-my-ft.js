@@ -7,9 +7,17 @@ const interestsInfos = [
     {id: myCustomInterestsKey, action: 'remove-custom-interest'},
     {id: myInterestsKey, action: 'add-interest'}
 ];
-const populars = ['China', 'Companies', 'Markets', 'Opinion', 'VIDEOS', 'PODCASTS', 'Life & Arts', 'Work & Careers', 'Artificial intelligence', 'Electric vehicles', 'Technology Sector'];
+window.populars = ['China', 'Companies', 'Markets', 'Opinion', 'VIDEOS', 'PODCASTS', 'Life & Arts', 'Work & Careers', 'Artificial intelligence', 'Electric vehicles', 'Technology Sector'];
 
-const regions = ['China', 'United States', 'United Kingdom', 'India', 'Europe', 'Asia', 'Americas', 'Africa', 'Middle East'];
+window.regions = ['China', 'United States', 'United Kingdom', 'India', 'Europe', 'Asia', 'Americas', 'Africa', 'Middle East'];
+
+window.sectors = ['Companies', 'Markets', 'Life & Arts', 'Work & Careers', 'Technology Sector'];
+
+window.genres = ['News', 'Opinion', 'VIDEOS', 'PODCASTS', 'Explainer'];
+
+window.topics = ['Artificial intelligence', 'Electric vehicles', 'Technology Sector'];
+
+
 
 const countryMapping = {
     US: 'United States',
@@ -67,9 +75,12 @@ let regionsSet = new Set(regions);
 for (const key of Object.keys(countryMapping)) {
     regionsSet.add(countryMapping[key]);
 }
-const genresSet = new Set(['Opinion', 'Explainer']);
+const genresSet = new Set(['Opinion', 'Explainer', 'News']);
 
 const curationsSet = new Set(['VIDEOS', 'PODCASTS']);
+
+
+
 
 function getMyFollowsHTML() {
 
@@ -130,21 +141,21 @@ function createHTMLFromNames(names) {
     const myInterests = (myPreference[myInterestsKey] || []).filter(x=>typeof x === 'object');
     const myInterestsKeys = myInterests.map(x=>x.key || '').filter(x=>x!=='');
     return names
-    .map(name=>{
-        let buttonClass = 'plus';
-        let buttonHTML = localize('Follow');
-        if (myInterestsKeys.indexOf(name)>=0) {
-            buttonClass = 'tick';
-            buttonHTML = localize('Unfollow');
-        }
-        const type = checkType(name);
-        return `
-        <div class="input-container">
-            <div class="input-name">${localize(name)}</div>
-            <button class="myft-follow ${buttonClass}" data-action="add-interest" data-name="${name}" data-type="${type}">${buttonHTML}</button>
-        </div>`;
-    })
-    .join('');
+        .map(name=>{
+            let buttonClass = 'plus';
+            let buttonHTML = localize('Follow');
+            if (myInterestsKeys.indexOf(name)>=0) {
+                buttonClass = 'tick';
+                buttonHTML = localize('Unfollow');
+            }
+            const type = checkType(name);
+            return `
+            <div class="input-container">
+                <div class="input-name">${localize(name)}</div>
+                <button class="myft-follow ${buttonClass}" data-action="add-interest" data-name="${name}" data-type="${type}">${buttonHTML}</button>
+            </div>`.replace(/[\n\r]/g, '');
+        })
+        .join('');
 
 }
 
@@ -737,5 +748,122 @@ delegate.on('dragleave', '.input-container', async (event) => {
 
 
 
+
+
+
+  
+function shouldShowInduction() {
+    return true;
+}
+
+async function showInduction() {
+    const name = inductionData?.name;
+    window[name] = inductionData;
+    window[name].index = 0;
+    const info = inductionData?.questions?.[0];
+    const intro = localize(inductionData.intro);
+    if (info) {
+        await renderSettingInfo(info, intro, name);
+    }
+}
+
+async function renderSettingInfo(info, intro = '', name) {
+    let html = intro !== '' ? `<p>${intro}</p>` : '';
+    const type = info.type;
+    if (type === 'single_choice') {
+        html += renderSingleChoice(info, name);
+    } else if (type === 'multiple_choices') {
+        html += renderMultipleChoices(info, name)
+    }
+    showResultInChat({text: html});
+     
+}
+
+function renderSingleChoice(info, name) {
+    let html = info.text ? `<div class="preference-question">${info.text}</div>` : '';
+    const key = info.key;
+    const variable = info.variable;
+    const type = info.type;
+    let optionsHTML = '';
+    console.log(info.options);
+    for (const option of info.options) {
+        optionsHTML += `<div data-value="${option.value}">${option.name}</div>`;
+    }
+    optionsHTML = `<div class="preference-options" data-type="${type}" data-name="${name}" data-key="${key}" data-variable="${variable}">${optionsHTML}</div>`;
+    html += optionsHTML;
+    return html;
+}
+
+
+function renderMultipleChoices(info, name) {
+    let html = info.text ? `<div class="preference-question">${info.text}</div>` : '';
+    const options = info.options;
+    const optionsHTML = createHTMLFromNames(options);
+    const l = window[name].questions.length;
+    const index = window[name].index;
+    const buttonHTML = index < l - 1 ? `<button class="setting-next" data-name="${name}">${localize('NEXT')}</button>` : `<p>${localize(window[name].ending)}</p>`;
+    html += `<div class="multiple-setting-container">${optionsHTML}</div>${buttonHTML}`;
+    return html;
+}
+
+async function renderNextSettingInfo(name) {
+    if (!name) {return;}
+    const nextIndex = window[name].index + 1;
+    console.log(`nextIndex: ${nextIndex}`);
+    window[name].index = nextIndex;
+    const l = window[name].questions.length;
+    if (nextIndex < l) {
+        const info = window[name].questions[nextIndex];
+        await renderSettingInfo(info, '', name) 
+    } else {
+        console.log('end! ');
+    }
+}
+
+
+delegate.on('click', '.preference-options [data-value]', async (event) => {
+
+    const containerEle = event.target.closest('.preference-options');
+    if (!containerEle) {return; }
+    const targetEle = event.target;
+    const value = targetEle.getAttribute('data-value');
+    if (!value) {return;}
+    for (let target of containerEle.querySelectorAll('[data-value]')) {
+        target.classList.remove('selected');
+    }
+    targetEle.classList.add('selected');
+    let myPreference = {};
+    const myPreferenceString = localStorage.getItem('preference');
+    if (myPreferenceString && myPreferenceString !== '') {
+      try {
+        myPreference = JSON.parse(myPreferenceString);
+      } catch(ignore) {}
+    }
+    const key = containerEle.getAttribute('data-key');
+    if (!key) {return;}
+    myPreference[key] = value;
+    localStorage.setItem('preference', JSON.stringify(myPreference));
+    const variable = containerEle.getAttribute('data-variable');
+    if (variable) {
+        window[variable] = value;    
+    }
+    const name = containerEle.getAttribute('data-name');
+    if (containerEle.getAttribute('data-next-triggered')) {
+        return;
+    }
+    await renderNextSettingInfo(name);
+    containerEle.setAttribute('data-next-triggered', true);
+
+});
+
+
+
+delegate.on('click', '.setting-next', async (event) => {
+    let ele = event.target;
+    ele.classList.add('hide');
+    const name = ele.getAttribute('data-name');
+    if (!name) {return;}
+    await renderNextSettingInfo(name);
+});
 
 /* jshint ignore:end */

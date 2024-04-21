@@ -1,6 +1,9 @@
 /* jshint ignore:start */
 
-const languageOptions = [
+window.languageOptions = [
+  { value: 'zh-CN', name: '简体中文' },
+  { value: 'zh-TW', name: '台灣正體' },
+  { value: 'zh-HK', name: '香港繁體' },
   { value: 'en', name: 'English' },
   { value: 'es', name: 'Español' },
   { value: 'fr', name: 'Français' },
@@ -9,11 +12,56 @@ const languageOptions = [
   { value: 'ko', name: '한국어' },
   { value: 'pt', name: 'Português' },
   { value: 'it', name: 'Italiano' },        
-  { value: 'ru', name: 'Русский' },
-  { value: 'zh-CN', name: '简体中文' },
-  { value: 'zh-TW', name: '台灣正體' },
-  { value: 'zh-HK', name: '香港繁體' }
+  { value: 'ru', name: 'Русский' }
 ];
+
+
+const inductionData = {
+  name: "user_induction",
+  intro: "欢迎来到FT中文网！我是您的智能助手，可以帮您定制感兴趣的内容。",
+  ending: "感谢您完成设置！我们已经根据您的选择个性化了您的阅读体验。您现在可以开始浏览内容，或者随时通过对话来修改您的偏好设置。",
+  questions: [
+    {
+      text: "首先，请选择您偏好的阅读语言。",
+      type: "single_choice",
+      options: window.languageOptions,
+      key: 'Language',
+      variable: 'preferredLanguage'
+    },
+    {
+      text: "请选择您感兴趣的地区。",
+      type: "multiple_choices",
+      key: "My Custom Interests",
+      options: window.regions,
+      input: "text",
+      auto_suggest: true
+    },
+    {
+      text: "现在，请告诉我您关心的板块。",
+      type: "multiple_choices",
+      key: "My Custom Interests",
+      options: window.sectors,
+      input: "text",
+      auto_suggest: true
+    },
+    {
+      text: "现在，请告诉我您关心的内容类型。",
+      type: "multiple_choices",
+      key: "My Custom Interests",
+      options: window.genres,
+      input: "text",
+      auto_suggest: true
+    },
+    {
+      text: "这些是FT近期报道的热门话题。",
+      type: "multiple_choices",
+      key: "My Custom Interests",
+      options: window.topics,
+      input: "text",
+      auto_suggest: true
+    },
+  ]
+};
 
 const randomPromptDict = {
     greeting: {
@@ -1480,6 +1528,34 @@ let statusDictOriginal = {
     'zh-TW': '觀點',
     'zh-HK': '觀點',
     zh: '观点'
+  },
+  'News': {
+    en: 'News',
+    es: 'Noticias',
+    fr: 'Nouvelles',
+    de: 'Nachrichten',
+    ja: 'ニュース',
+    ko: '뉴스',
+    pt: 'Notícias',
+    it: 'Notizie',
+    ru: 'Новости',
+    'zh-TW': '新聞',
+    'zh-HK': '新聞',
+    zh: '新闻'
+  },
+  'Explainer': {
+    en: 'Explainer',
+    zh: '解读',
+    es: 'Explicativo',
+    fr: 'Explicatif',
+    de: 'Erklärung',
+    ja: '解説',
+    ko: '설명자',
+    pt: 'Explicativo',
+    it: 'Spiegazione',
+    ru: 'Пояснение',
+    'zh-TW': '解讀',
+    'zh-HK': '解讀'
   },
   'PODCASTS': {
     en: 'Podcasts',

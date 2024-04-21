@@ -9,16 +9,16 @@ const isInNativeApp = location.href.indexOf('webview=ftcapp') >= 0;
 const discussArticleOnly = location.href.indexOf('ftid=') >= 0 && location.href.indexOf('action=read') < 0;
 const showGreeting = !/action=(read|search)/gi.test(location.href);
 const surveyOnly = location.href.indexOf('action=survey') >= 0;
-let languageOptionsDict = {Chinese: '中文'};
-let preferredLanguage = navigator.language;
-let readArticle = 'pop-out';
-let translationPreference = 'both';
-let paramDict = {};
-var previousConversations = [];
-var previousIntentDections = []; 
-var botStatus = 'waiting';
-var intention;
-var articles = {};
+window.languageOptionsDict = {Chinese: '中文'};
+window.preferredLanguage = navigator.language;
+window.readArticle = 'pop-out';
+window.translationPreference = 'both';
+window.paramDict = {};
+window.previousConversations = [];
+window.previousIntentDections = []; 
+window.botStatus = 'waiting';
+window.intention;
+window.articles = {};
 const publicVapidKey = 'BCbyPnt30RUDSelV6n1jJk8jHzR9cT7ajJPXLRq7tohhQ8D6TVb1h3ENUOJGdPxJgbbg8zPaDNJzOXIUfkWk67M';
 let registration;
 const readArticlesKey = 'Read Articles';
@@ -2217,6 +2217,10 @@ async function setGuardRails() {
 
 async function greet() {
   if (showGreeting === false) {return;}
+  if (shouldShowInduction()) {
+    await showInduction();
+    return;
+  }
   const introduction = `<p>${localize('Introduction')}</p>`;
   const prompt = (discussArticleOnly || surveyOnly) ? '' : `<p>${getRandomPrompt('greeting')}</p>`;
   if (!chatContent.querySelector('.chat-talk')) {
