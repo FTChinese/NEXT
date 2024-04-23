@@ -11,13 +11,13 @@ window.populars = ['China', 'Companies', 'Markets', 'Opinion', 'VIDEOS', 'PODCAS
 
 window.regions = ['China', 'United States', 'United Kingdom', 'India', 'Europe', 'Asia', 'Americas', 'Africa', 'Middle East'];
 
-window.sectors = ['Companies', 'Markets', 'Life & Arts', 'Work & Careers', 'Technology Sector'];
+window.sectors = ['Companies', 'Markets', 'Economy', 'Life & Arts', 'Work & Careers', 'Technology Sector', 'Property', 'Science'];
 
-window.genres = ['News', 'Opinion', 'VIDEOS', 'PODCASTS', 'Explainer'];
+window.genres = ['News', 'Feature', 'Opinion', 'Explainer', 'Obituary', 'VIDEOS', 'PODCASTS'];
 
-window.topics = ['Artificial intelligence', 'Electric vehicles', 'Technology Sector'];
+window.topics = ['Artificial intelligence', 'Electric vehicles', 'US presidential election', 'Israel-Hamas war', 'Climate change', 'Federal Reserve', 'Chinese economy', 'Semiconductors', 'Cryptocurrencies'];
 
-
+window.brands = ['The Big Read', 'Lunch with the FT', 'Unhedged'];
 
 const countryMapping = {
     US: 'United States',
@@ -75,11 +75,13 @@ let regionsSet = new Set(regions);
 for (const key of Object.keys(countryMapping)) {
     regionsSet.add(countryMapping[key]);
 }
-const genresSet = new Set(['Opinion', 'Explainer', 'News']);
+const genresSet = new Set(['Opinion', 'Explainer', 'News', 'Explainer', 'Obituary', 'Feature']);
 
 const curationsSet = new Set(['VIDEOS', 'PODCASTS']);
 
+const brandsSet = new Set(window.brands);
 
+const organisationsSet = new Set(['Federal Reserve']);
 
 
 function getMyFollowsHTML() {
@@ -130,6 +132,12 @@ function checkType(key) {
     }
     if (curationsSet.has(key)) {
         return 'curations';
+    }
+    if (brandsSet.has(key)) {
+        return 'brand';
+    }
+    if (organisationsSet.has(key)) {
+        return 'organisations';
     }
     return 'topics';
 
@@ -406,7 +414,7 @@ function capitalize(word) {
 
 function renderSuggestion(ele, suggestions) {
     if (!ele) {return;}
-    console.log(suggestions);
+    // console.log(suggestions);
     if (!suggestions || suggestions.length === 0) {
         console.log('No Suggestion!');
         hideEle(ele);
@@ -416,7 +424,7 @@ function renderSuggestion(ele, suggestions) {
     const myPreference = getMyPreference();
     const myInterests = (myPreference[myInterestsKey] || []).filter(x=>typeof x === 'object');
     const myInterestsKeys = myInterests.map(x=>x.key || '').filter(x=>x!=='');
-    ele.innerHTML = suggestions
+    const suggestionsHTML = suggestions
         .map(suggestion=>{
             const key = suggestion.name;
             const field = suggestion.field;
@@ -439,8 +447,14 @@ function renderSuggestion(ele, suggestions) {
             </div>`;
         })
         .join('');
-
+    ele.innerHTML = `<div class="hide-suggestions">X</div>${suggestionsHTML}`;
 }
+
+
+delegate.on('click', '.hide-suggestions', async (event) => {
+    let ele = event.target.closest('.custom-topic-suggestion');
+    hideEle(ele);
+});
 
 delegate.on('click', '[data-action="add-interests"]', async (event) => {
 
@@ -753,6 +767,10 @@ delegate.on('dragleave', '.input-container', async (event) => {
 
   
 function shouldShowInduction() {
+    const myPreference = getMyPreference();
+    if (myPreference['Language'] && GetCookie('accessToken')) {
+      return false;
+    }
     return true;
 }
 
@@ -761,63 +779,106 @@ async function showInduction() {
     window[name] = inductionData;
     window[name].index = 0;
     const info = inductionData?.questions?.[0];
-    const intro = localize(inductionData.intro);
     if (info) {
-        await renderSettingInfo(info, intro, name);
+        await renderSettingInfo(info, name);
     }
 }
 
-async function renderSettingInfo(info, intro = '', name) {
-    let html = intro !== '' ? `<p>${intro}</p>` : '';
+async function renderSettingInfo(info, name) {
+
+    const index = window[name].index;    
+    // let html = intro !== '' ? `<p>${intro}</p>` : '';
+    let html = index === 0 && window[name].intro ? `<p>${localize(window[name]?.intro ?? '')}</p>` : '';
     const type = info.type;
     if (type === 'single_choice') {
         html += renderSingleChoice(info, name);
     } else if (type === 'multiple_choices') {
-        html += renderMultipleChoices(info, name)
+        html += renderMultipleChoices(info, name);
+    } else if (type === 'custom_input') {
+        html += renderCustomInput(info, name);
     }
     showResultInChat({text: html});
-     
+    if (info.disable_input) {
+        window.userInput.disabled = true; 
+    } else {
+        window.userInput.disabled = false; 
+    }
+
 }
 
 function renderSingleChoice(info, name) {
-    let html = info.text ? `<div class="preference-question">${info.text}</div>` : '';
+
+    let html = info.text ? `<div class="preference-question">${localize(info?.text ?? '')}</div>` : '';
     const key = info.key;
     const variable = info.variable;
     const type = info.type;
     let optionsHTML = '';
-    console.log(info.options);
+    // console.log(info.options);
     for (const option of info.options) {
         optionsHTML += `<div data-value="${option.value}">${option.name}</div>`;
     }
     optionsHTML = `<div class="preference-options" data-type="${type}" data-name="${name}" data-key="${key}" data-variable="${variable}">${optionsHTML}</div>`;
     html += optionsHTML;
     return html;
+
 }
 
 
 function renderMultipleChoices(info, name) {
-    let html = info.text ? `<div class="preference-question">${info.text}</div>` : '';
+
+    let html = info.text ? `<div class="preference-question">${localize(info?.text ?? '')}</div>` : '';
     const options = info.options;
-    const optionsHTML = createHTMLFromNames(options);
+    let optionsHTML = '';
+    for (const option of options) {
+        optionsHTML += `<div class="input-title">${localize(option.title)}</div>${createHTMLFromNames(option.data)}`;
+    }
     const l = window[name].questions.length;
     const index = window[name].index;
-    const buttonHTML = index < l - 1 ? `<button class="setting-next" data-name="${name}">${localize('NEXT')}</button>` : `<p>${localize(window[name].ending)}</p>`;
+    const buttonHTML = index < l - 1 ? `<button class="setting-next" data-name="${name}">${localize('NEXT')}</button>` : '';
     html += `<div class="multiple-setting-container">${optionsHTML}</div>${buttonHTML}`;
     return html;
+
 }
 
+function renderCustomInput(info, name) {
+
+    let html = info.text ? `<div class="preference-question">${localize(info.text ?? '')}</div>` : '';
+    html += `
+        <div class="custom-setting-container">
+            <div class="input-container">
+                <div class="input-name">
+                    <input id="custom-topic-input" type="text" placeholder="${localize('Topic')}">
+                    <div class="custom-topic-suggestion"></div>
+                </div>
+                <button class="myft-follow plus" data-action="add-custom-interest">${localize('Follow')}</button>
+            </div>
+            <div class="custom-setting-detail">${localize(info.detail || '')}</div>
+        </div>`.replace(/[\r\n]/g, '');
+    const l = window[name].questions.length;
+    const index = window[name].index;
+    const buttonHTML = index < l - 1 ? `<button class="setting-next" data-name="${name}">${localize('NEXT')}</button>` : `<div class="chat-item-actions"><a data-purpose="start-over" data-content="start-over">${localize('ApplyAndStartOver')}</a></div>`;
+    html += buttonHTML;
+    return html;
+
+}
+
+
 async function renderNextSettingInfo(name) {
+
     if (!name) {return;}
     const nextIndex = window[name].index + 1;
-    console.log(`nextIndex: ${nextIndex}`);
     window[name].index = nextIndex;
     const l = window[name].questions.length;
     if (nextIndex < l) {
         const info = window[name].questions[nextIndex];
-        await renderSettingInfo(info, '', name) 
+        await renderSettingInfo(info, name);
     } else {
-        console.log('end! ');
+        window.intention = undefined;
+        const html = `<p>${localize(window[name].ending)}</p>${getActionOptions()}`;
+        showResultInChat({text: html});
+        userInput.disabled = false;
     }
+
 }
 
 

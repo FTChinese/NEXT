@@ -1,5 +1,5 @@
 /* jshint ignore:start */
-const userInput = document.getElementById('user-input');
+var userInput = document.getElementById('user-input');
 const switchIntention = document.getElementById('switch-intention');
 const chatContent = document.getElementById('chat-content');
 const chatSumit = document.getElementById('chat-submit');
@@ -9,16 +9,16 @@ const isInNativeApp = location.href.indexOf('webview=ftcapp') >= 0;
 const discussArticleOnly = location.href.indexOf('ftid=') >= 0 && location.href.indexOf('action=read') < 0;
 const showGreeting = !/action=(read|search)/gi.test(location.href);
 const surveyOnly = location.href.indexOf('action=survey') >= 0;
-window.languageOptionsDict = {Chinese: '中文'};
-window.preferredLanguage = navigator.language;
-window.readArticle = 'pop-out';
-window.translationPreference = 'both';
-window.paramDict = {};
-window.previousConversations = [];
-window.previousIntentDections = []; 
-window.botStatus = 'waiting';
-window.intention;
-window.articles = {};
+var languageOptionsDict = {Chinese: '中文'};
+var preferredLanguage = navigator.language;
+var readArticle = 'pop-out';
+var translationPreference = 'both';
+var paramDict = {};
+var previousConversations = [];
+var previousIntentDections = []; 
+var botStatus = 'waiting';
+var intention;
+var articles = {};
 const publicVapidKey = 'BCbyPnt30RUDSelV6n1jJk8jHzR9cT7ajJPXLRq7tohhQ8D6TVb1h3ENUOJGdPxJgbbg8zPaDNJzOXIUfkWk67M';
 let registration;
 const readArticlesKey = 'Read Articles';
@@ -1974,7 +1974,7 @@ function getRandomPrompt(purpose) {
 
 function getActionOptions() {
   const language = preferredLanguage;
-  // console.log(`getActionOptions with intention: ${intention}`);
+  console.log(`getActionOptions with intention: ${intention}`);
   let result = '';
   if (intention === 'DiscussArticle') {
     result = moveStoryActions();

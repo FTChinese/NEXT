@@ -15,53 +15,38 @@ window.languageOptions = [
   { value: 'ru', name: 'Русский' }
 ];
 
-
 const inductionData = {
   name: "user_induction",
-  intro: "欢迎来到FT中文网！我是您的智能助手，可以帮您定制感兴趣的内容。",
-  ending: "感谢您完成设置！我们已经根据您的选择个性化了您的阅读体验。您现在可以开始浏览内容，或者随时通过对话来修改您的偏好设置。",
+  intro: "induction_intro",
   questions: [
     {
-      text: "首先，请选择您偏好的阅读语言。",
+      text: "select_language",
       type: "single_choice",
       options: window.languageOptions,
       key: 'Language',
-      variable: 'preferredLanguage'
+      variable: 'preferredLanguage',
+      disable_input: true
     },
     {
-      text: "请选择您感兴趣的地区。",
+      text: "select_follows",
       type: "multiple_choices",
-      key: "My Custom Interests",
-      options: window.regions,
-      input: "text",
-      auto_suggest: true
+      options: [
+        {title: 'Regions', data: window.regions},
+        {title: 'Sectors', data: window.sectors},
+        {title: 'Genres', data: window.genres},
+        {title: 'Popular', data: window.topics},
+      ],
+      disable_input: true
     },
     {
-      text: "现在，请告诉我您关心的板块。",
-      type: "multiple_choices",
-      key: "My Custom Interests",
-      options: window.sectors,
-      input: "text",
-      auto_suggest: true
-    },
-    {
-      text: "现在，请告诉我您关心的内容类型。",
-      type: "multiple_choices",
-      key: "My Custom Interests",
-      options: window.genres,
-      input: "text",
-      auto_suggest: true
-    },
-    {
-      text: "这些是FT近期报道的热门话题。",
-      type: "multiple_choices",
-      key: "My Custom Interests",
-      options: window.topics,
-      input: "text",
-      auto_suggest: true
-    },
+      text: "input_custom_interests",
+      type: "custom_input",
+      detail: "input_custom_interests_detail",
+      disable_input: true
+    }
   ]
 };
+
 
 const randomPromptDict = {
     greeting: {
@@ -227,6 +212,76 @@ const randomPromptDict = {
   };
   
 let statusDictOriginal = {
+  induction_intro: {
+    zh: '欢迎访问FT！我是您的智能助理，将为您提供定制化的内容推荐。',
+    en: 'Welcome to FT! I am your intelligent assistant, here to provide you with customized content recommendations.',
+    es: '¡Bienvenido a FT! Soy tu asistente inteligente, aquí para ofrecerte recomendaciones de contenido personalizadas.',
+    fr: 'Bienvenue chez FT! Je suis votre assistant intelligent, ici pour vous fournir des recommandations de contenu personnalisées.',
+    de: 'Willkommen bei FT! Ich bin Ihr intelligenter Assistent, hier um Ihnen maßgeschneiderte Inhaltempfehlungen zu bieten.',
+    ja: 'FTへようこそ！私はあなたのインテリジェントアシスタントで、カスタマイズされたコンテンツの推薦を提供します。',
+    ko: 'FT에 오신 것을 환영합니다! 저는 여러분의 지능형 조수로, 맞춤형 콘텐츠 추천을 제공하겠습니다.',
+    pt: 'Bem-vindo à FT! Sou seu assistente inteligente, aqui para fornecer recomendações de conteúdo personalizadas.',
+    it: 'Benvenuto in FT! Sono il tuo assistente intelligente, qui per fornirti raccomandazioni di contenuto personalizzate.',
+    'zh-TW': '歡迎訪問FT！我是您的智能助理，將為您提供定制化的內容推薦。',
+    'zh-HK': '歡迎訪問FT！我是您的智能助理，將為您提供定制化的內容推薦。',
+    ru: 'Добро пожаловать в FT! Я ваш умный помощник, здесь чтобы предложить вам персонализированные рекомендации по контенту.'
+  },
+  select_language: {
+    zh: '请首先选择您喜欢的阅读语言。',
+    en: 'Please first select your preferred reading language.',
+    es: 'Por favor, seleccione primero su idioma de lectura preferido.',
+    fr: `Veuillez d'abord sélectionner votre langue de lecture préférée.`,
+    de: `Bitte wählen Sie zunächst Ihre bevorzugte Lesesprache aus.`,
+    ja: 'まず、読みたい言語を選択してください。',
+    ko: '먼저 선호하는 독서 언어를 선택해 주세요.',
+    pt: 'Por favor, selecione primeiro o seu idioma de leitura preferido.',
+    it: 'Si prega di selezionare prima la lingua di lettura preferita.',
+    'zh-TW': '請首先選擇您喜歡的閱讀語言。',
+    'zh-HK': '請首先選擇您喜歡的閱讀語言。',
+    ru: 'Пожалуйста, сначала выберите предпочитаемый язык чтения.'
+  },
+  select_follows: {
+    zh: '以下是FT的主要内容分类，您可以选择自己感兴趣的领域。',
+    en: 'Here are the main content categories of FT. You can select the areas that interest you.',
+    es: 'Aquí están las principales categorías de contenido de FT. Puede seleccionar las áreas que le interesan.',
+    fr: 'Voici les principales catégories de contenu de FT. Vous pouvez sélectionner les domaines qui vous intéressent.',
+    de: 'Hier sind die Hauptinhaltskategorien von FT. Sie können die Bereiche auswählen, die Sie interessieren.',
+    ja: 'こちらがFTの主要なコンテンツカテゴリです。興味のある分野を選択できます。',
+    ko: '다음은 FT의 주요 콘텐츠 카테고리입니다. 관심 있는 분야를 선택할 수 있습니다.',
+    pt: 'Aqui estão as principais categorias de conteúdo da FT. Você pode selecionar as áreas que lhe interessam.',
+    it: 'Ecco le principali categorie di contenuto di FT. Puoi selezionare le aree di tuo interesse.',
+    'zh-TW': '以下是FT的主要內容分類，您可以選擇自己感興趣的領域。',
+    'zh-HK': '以下是FT的主要內容分類，您可以選擇自己感興趣的領域。',
+    ru: 'Вот основные категории контента FT. Вы можете выбрать интересующие вас области.'
+  },
+  input_custom_interests: {
+    zh: '您是否有特别关注的话题？请在下方输入您感兴趣的关键词。',
+    en: 'Do you have any specific topics of interest? Please enter your keywords below.',
+    es: '¿Tiene algún tema de interés específico? Por favor, introduzca sus palabras clave a continuación.',
+    fr: 'Avez-vous des sujets d’intérêt particuliers ? Veuillez saisir vos mots-clés ci-dessous.',
+    de: 'Haben Sie spezielle Interessengebiete? Bitte geben Sie Ihre Schlüsselwörter unten ein.',
+    ja: '特に関心のあるトピックはありますか？以下にキーワードを入力してください。',
+    ko: '특별히 관심 있는 주제가 있으신가요? 아래에 키워드를 입력해 주세요.',
+    pt: 'Você tem algum tópico de interesse específico? Por favor, insira suas palavras-chave abaixo.',
+    it: 'Hai degli argomenti di interesse specifico? Inserisci le tue parole chiave qui sotto.',
+    'zh-TW': '您是否有特別關注的話題？請在下方輸入您感興趣的關鍵詞。',
+    'zh-HK': '您是否有特別關注的話題？請在下方輸入您感興趣的關鍵詞。',
+    ru: 'Есть ли у вас конкретные темы, которые вас интересуют? Пожалуйста, введите ваши ключевые слова ниже.'
+  },
+  input_custom_interests_detail: {
+    zh: '<p>您可以通过输入话题、类型、人物、地域、栏目、作者等关键词来定制您关注的FT内容，确保不错过任何重要资讯。</p><p>即使您关注的话题在FT没有对应的标签，你也可以关注自己输入的话题，让我们的人工智能语义搜索来协助您发现相关的最新内容。</p>',
+    en: `<p>You can customize the FT content you follow by entering keywords such as topics, types, people, regions, columns, authors, etc., ensuring you don't miss any important information.</p><p>Even if the topic you are interested in doesn't have a direct label in FT, you can still follow it by entering it, and our AI semantic search will assist you in discovering the most relevant latest content.</p>`,
+    es: `<p>Puede personalizar el contenido de FT que sigue introduciendo palabras clave como temas, tipos, personas, regiones, columnas, autores, etc., asegurándose de no perderse ninguna información importante.</p><p>Incluso si el tema que le interesa no tiene una etiqueta directa en FT, aún puede seguirlo ingresándolo, y nuestra búsqueda semántica de IA le ayudará a descubrir el contenido más reciente y relevante.</p>`,
+    fr: `<p>Vous pouvez personnaliser le contenu FT que vous suivez en saisissant des mots-clés tels que sujets, types, personnes, régions, colonnes, auteurs, etc., pour ne manquer aucune information importante.</p><p>Même si le sujet qui vous intéresse n'a pas d'étiquette directe dans FT, vous pouvez le suivre en le saisissant, et notre recherche sémantique IA vous aidera à découvrir le contenu le plus pertinent et le plus récent.</p>`,
+    de: '<p>Sie können den FT-Inhalt, den Sie verfolgen, anpassen, indem Sie Schlüsselwörter wie Themen, Typen, Personen, Regionen, Spalten, Autoren usw. eingeben, um sicherzustellen, dass Sie keine wichtigen Informationen verpassen.</p><p>Auch wenn das Thema, das Sie interessiert, keine direkte Kennzeichnung in FT hat, können Sie es dennoch verfolgen, indem Sie es eingeben, und unsere KI-basierte semantische Suche wird Ihnen helfen, die relevantesten neuesten Inhalte zu entdecken.</p>',
+    ja: '<p>話題、タイプ、人物、地域、コラム、著者などのキーワードを入力することで、フォローしているFTコンテンツをカスタマイズし、重要な情報を逃さないようにできます。</p><p>興味のあるトピックにFT内で直接的なラベルがなくても、それを入力することでフォローでき、当社のAIセマンティック検索が最も関連性の高い最新コンテンツを発見するお手伝いをします。</p>',
+    ko: '<p>주제, 유형, 인물, 지역, 칼럼, 저자 등의 키워드를 입력함으로써, 당신이 팔로우하는 FT 콘텐츠를 맞춤화하여 중요한 정보를 놓치지 않도록 할 수 있습니다.</p><p>관심 있는 주제에 FT에서 직접적인 라벨이 없더라도 그 주제를 입력하여 팔로우할 수 있으며, 우리의 AI 의미 검색이 가장 관련성 높은 최신 콘텐츠를 발견하는 데 도움을 줄 것입니다.</p>',
+    pt: '<p>Você pode personalizar o conteúdo da FT que segue, inserindo palavras-chave como tópicos, tipos, pessoas, regiões, colunas, autores, etc., garantindo que você não perca nenhuma informação importante.</p><p>Mesmo que o tema de seu interesse não tenha uma etiqueta direta na FT, você ainda pode segui-lo inserindo-o, e nossa busca semântica de IA ajudará você a descobrir o conteúdo mais relevante e atualizado.</p>',
+    it: `<p>Puoi personalizzare i contenuti FT che segui inserendo parole chiave come argomenti, tipi, persone, regioni, colonne, autori, ecc., per assicurarti di non perdere nessuna informazione importante.</p><p>Anche se l'argomento di tuo interesse non ha un'etichetta diretta in FT, puoi comunque seguirlo inserendolo, e la nostra ricerca semantica AI ti aiuterà a scoprire i contenuti più recenti e rilevanti.</p>`,
+    'zh-TW': '<p>您可以透過輸入話題、類型、人物、地區、專欄、作者等關鍵詞來訂製您關注的FT內容，確保不錯過任何重要資訊。</p><p>即使您關注的話題在FT沒有對應的標籤，您也可以輸入自己關注的話題，讓我們的人工智能語義搜尋協助您發現相關的最新內容。</p>',
+    'zh-HK': '<p>您可以透過輸入話題、類型、人物、地區、專欄、作者等關鍵詞來訂製您關注的FT內容，確保不錯過任何重要資訊。</p><p>即使您關注的話題在FT沒有對應的標籤，您也可以輸入自己關注的話題，讓我們的人工智能語義搜尋協助您發現相關的最新內容。</p>',
+    ru: '<p>Вы можете настраивать содержание FT, которое вы следите, вводя ключевые слова, такие как темы, типы, люди, регионы, колонки, авторы и т. д., чтобы не пропустить никакой важной информации.</p><p>Даже если интересующая вас тема не имеет прямой метки в FT, вы можете следить за ней, вводя ее, и наш семантический поиск на базе ИИ поможет вам обнаружить наиболее актуальный и релевантный контент.</p>'
+  },
   'Introduction': {
     en: 'Welcome to your personal finance and business news assistant! My goal is to help you get the most value out of your subscription by providing customized recommendations and insights. ',
     es: '¡Bienvenido a tu asistente personal de finanzas y noticias empresariales! Mi objetivo es ayudarte a obtener el mayor valor de tu suscripción mediante recomendaciones e ideas personalizadas.',
@@ -310,6 +365,20 @@ let statusDictOriginal = {
     'zh-TW': '下一步',
     'zh-HK': '下一步',
     ru: 'ДАЛЕЕ'
+  },
+  FINISH: {
+    en: 'FINISH',
+    zh: '完成',
+    es: 'FINALIZAR',
+    fr: 'TERMINER',
+    de: 'BEENDEN',
+    ja: '終了',
+    ko: '완료',
+    pt: 'FINALIZAR',
+    it: 'FINIRE',
+    'zh-TW': '完成',
+    'zh-HK': '完成',
+    ru: 'ЗАВЕРШИТЬ'
   },
   'Top News For Me': {
     zh: '有什么值得我关注的要闻吗？',
@@ -646,6 +715,34 @@ let statusDictOriginal = {
   'zh-TW': '類型',
   'zh-HK': '類型',
   ru: 'жанр'
+},
+'Sectors': {
+  'en': 'Sectors',
+  'zh': '板块',
+  'es': 'Sectores',
+  'fr': 'Secteurs',
+  'de': 'Sektoren',
+  'ja': 'セクター',
+  'ko': '섹터',
+  'pt': 'Setores',
+  'it': 'Settori',
+  'zh-TW': '板塊',
+  'zh-HK': '板塊',
+  'ru': 'Сектора'
+},
+Genres: {
+  'en': 'Genres',
+  'zh': '类型',
+  'es': 'Géneros',
+  'fr': 'Genres',
+  'de': 'Genres',
+  'ja': 'ジャンル',
+  'ko': '장르',
+  'pt': 'Gêneros',
+  'it': 'Generi',
+  'zh-TW': '類型',
+  'zh-HK': '類型',
+  'ru': 'Жанры'
 },
 '<!--space-->': {
   en: ' ',
@@ -1515,6 +1612,48 @@ let statusDictOriginal = {
     'zh-HK': '市場',
     zh: '市场'
   },
+  'Economy': {
+    en: 'Economy',
+    es: 'Economía',
+    fr: 'Économie',
+    de: 'Wirtschaft',
+    ja: '経済',
+    ko: '경제',
+    pt: 'Economia',
+    it: 'Economia',
+    ru: 'Экономика',
+    'zh-TW': '經濟',
+    'zh-HK': '經濟',
+    zh: '经济'
+  },
+  'Feature': {
+    en: 'Feature',
+    es: 'Reportaje',
+    fr: 'Reportage',
+    de: 'Reportage',
+    ja: '特集',
+    ko: '특집',
+    pt: 'Reportagem',
+    it: 'Servizio',
+    ru: 'Репортаж',
+    'zh-TW': '特寫',
+    'zh-HK': '特寫',
+    zh: '特写'
+  },
+  'Obituary': {
+    en: 'Obituary',
+    es: 'Obituario',
+    fr: 'Nécrologie',
+    de: 'Nachruf',
+    ja: '訃報',
+    ko: '부고',
+    pt: 'Obituário',
+    it: 'Necrologio',
+    ru: 'Некролог',
+    'zh-TW': '訃聞',
+    'zh-HK': '訃聞',
+    zh: '讣告'
+  },
   'Opinion': {
     en: 'Opinion',
     es: 'Opinión',
@@ -1626,6 +1765,132 @@ let statusDictOriginal = {
     'zh-HK': 'AI',
     zh: '人工智能',
     ru: 'ИИ'
+  },
+  Science: {
+    en: 'Science',
+    es: 'Ciencia',
+    fr: 'Science',
+    de: 'Wissenschaft',
+    ja: '科学',
+    ko: '과학',
+    pt: 'Ciência',
+    it: 'Scienza',
+    'zh-TW': '科學',
+    'zh-HK': '科學',
+    zh: '科学',
+    ru: 'Наука'
+  },
+  'US Presidential Election': {
+    en: 'US Presidential Election',
+    es: 'Elecciones presidenciales de EE. UU.',
+    fr: 'Élection présidentielle américaine',
+    de: 'US-Präsidentschaftswahl',
+    ja: 'アメリカ大統領選挙',
+    ko: '미국 대통령 선거',
+    pt: 'Eleição presidencial dos EUA',
+    it: 'Elezioni presidenziali statunitensi',
+    ru: 'Президентские выборы в США',
+    'zh-TW': '美國大選',
+    'zh-HK': '美國大選',
+    zh: '美国大选'
+  },
+  'Israel-Hamas War': {
+    en: 'Israel-Hamas War',
+    es: 'Guerra Israel-Hamas',
+    fr: 'Guerre Israël-Hamas',
+    de: 'Israel-Hamas-Krieg',
+    ja: 'イスラエル・ハマス戦争',
+    ko: '이스라엘-하마스 전쟁',
+    pt: 'Guerra Israel-Hamas',
+    it: 'Guerra tra Israele e Hamas',
+    ru: 'Война Израиль-Хамас',
+    'zh-TW': '以色列-哈馬斯戰爭',
+    'zh-HK': '以色列-哈馬斯戰爭',
+    zh: '以色列-哈马斯战争'
+  },
+  'Property': {
+    en: 'Property',
+    es: 'Propiedad',
+    fr: 'Propriété',
+    de: 'Immobilien',
+    ja: '不動産',
+    ko: '부동산',
+    pt: 'Propriedade',
+    it: 'Proprietà',
+    ru: 'Недвижимость',
+    'zh-TW': '房地產',
+    'zh-HK': '房地產',
+    zh: '房地产'
+  },
+  'Climate Change': {
+    en: 'Climate Change',
+    es: 'Cambio climático',
+    fr: 'Changement climatique',
+    de: 'Klimawandel',
+    ja: '気候変動',
+    ko: '기후 변화',
+    pt: 'Mudança climática',
+    it: 'Cambiamento climatico',
+    ru: 'Климатические изменения',
+    'zh-TW': '氣候變遷',
+    'zh-HK': '氣候變遷',
+    zh: '气候变化'
+  },
+  'Federal Reserve': {
+    en: 'Federal Reserve',
+    es: 'Reserva Federal',
+    fr: 'Réserve fédérale',
+    de: 'Federal Reserve',
+    ja: '連邦準備銀行',
+    ko: '연방준비제도',
+    pt: 'Reserva Federal',
+    it: 'Riserva Federale',
+    ru: 'Федеральный резерв',
+    'zh-TW': '美聯準',
+    'zh-HK': '美聯儲',
+    zh: '美联储'
+  },
+  'Chinese Economy': {
+    en: 'Chinese Economy',
+    es: 'Economía china',
+    fr: 'Économie chinoise',
+    de: 'Chinesische Wirtschaft',
+    ja: '中国経済',
+    ko: '중국 경제',
+    pt: 'Economia chinesa',
+    it: 'Economia cinese',
+    ru: 'Китайская экономика',
+    'zh-TW': '中國經濟',
+    'zh-HK': '中國經濟',
+    zh: '中国经济'
+  },
+  'Semiconductors': {
+    en: 'Semiconductors',
+    es: 'Semiconductores',
+    fr: 'Semi-conducteurs',
+    de: 'Halbleiter',
+    ja: '半導体',
+    ko: '반도체',
+    pt: 'Semicondutores',
+    it: 'Semiconduttori',
+    ru: 'Полупроводники',
+    'zh-TW': '半導體',
+    'zh-HK': '半導體',
+    zh: '半导体'
+  },
+  'Cryptocurrencies': {
+    en: 'Cryptocurrencies',
+    es: 'Criptomonedas',
+    fr: 'Cryptomonnaies',
+    de: 'Kryptowährungen',
+    ja: '暗号通貨',
+    ko: '암호화폐',
+    pt: 'Criptomoedas',
+    it: 'Criptovalute',
+    ru: 'Криптовалюты',
+    'zh-TW': '加密貨幣',
+    'zh-HK': '加密貨幣',
+    zh: '加密货币'
   },
   'Follow': {
     zh: '关注',
