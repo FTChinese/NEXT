@@ -1213,6 +1213,7 @@ const purposeToFunction = {
   'show-ft-page': showFTPage,
   'set-preference': setPreference,
   'start-over': startOver,
+  'clear-start-over': clearStartOver,
   'news-quiz': newsQuiz
   // 'check-news': checkNews
   // 'purpose2': function2,
@@ -1238,6 +1239,14 @@ async function handleAction(key, value) {
 // }
 
 function startOver() {
+  location.reload();
+}
+
+function clearStartOver() {
+  if (!confirm(localize('ConfirmDelete'))) {
+    return;
+  }
+  localStorage.removeItem('preference');
   location.reload();
 }
 
@@ -1365,8 +1374,8 @@ async function setPreference(category, language, reply) {
       html += `<div class="select-container"><div class="select-label"><strong>${name}</strong></div></div>`;
     }
   }
-  // html += `<div class="select-container"><a onclick="subscribeTopics()">Test Notification</a></div>`;
   html += `<div class="chat-item-actions"><a data-purpose="start-over" data-content="start-over">${localize('ApplyAndStartOver')}</a></div>`;
+  html += `<div class="chat-item-actions"><a data-purpose="clear-start-over" data-content="clear-start-over">${localize('ClearAndStartOver')}</a></div>`;
   html = `<div class="settings-container">${html}</div>`;
   html = await convertChinese(html, language);
   const actions = getActionOptions();

@@ -9,7 +9,7 @@ const interestsInfos = [
 ];
 window.populars = ['China', 'Companies', 'Markets', 'Opinion', 'VIDEOS', 'PODCASTS', 'Life & Arts', 'Work & Careers', 'Artificial intelligence', 'Electric vehicles', 'Technology Sector'];
 
-window.regions = ['China', 'United States', 'United Kingdom', 'India', 'Europe', 'Asia', 'Americas', 'Africa', 'Middle East'];
+window.regions = ['China', 'Hong Kong', 'Taiwan', 'Singapore', 'Malaysia', 'Japan', 'United States', 'United Kingdom', 'India', 'Russia', 'Europe', 'Asia', 'Americas', 'Africa', 'Middle East'];
 
 window.sectors = ['Companies', 'Markets', 'Economy', 'Life & Arts', 'Work & Careers', 'Technology Sector', 'Property', 'Science'];
 
@@ -17,7 +17,18 @@ window.genres = ['News', 'Feature', 'Opinion', 'Explainer', 'Obituary', 'VIDEOS'
 
 window.topics = ['Artificial intelligence', 'Electric vehicles', 'US presidential election', 'Israel-Hamas war', 'Climate change', 'Federal Reserve', 'Chinese economy', 'Semiconductors', 'Cryptocurrencies'];
 
-window.brands = ['The Big Read', 'Lunch with the FT', 'Unhedged'];
+window.brands = ['The Big Read', 'FT Magazine', 'Unhedged', 'Undercover Economist', 'Lunch with the FT', 'The Weekend Essay', 'techAsia'];
+
+window.authors = ['Martin Wolf', 'Mohamed El-Erian', 'Stephen Roach', 'Lawrence Summers', 'Robert Armstrong', 'George Soros'];
+
+const recommendedAnnotations = [
+    {title: 'Regions', data: window.regions},
+    {title: 'Sectors', data: window.sectors},
+    {title: 'Genres', data: window.genres},
+    {title: 'Columns', data: window.brands},
+    {title: 'Popular', data: window.topics},
+    {title: 'Authors', data: window.authors},
+];
 
 const countryMapping = {
     US: 'United States',
@@ -83,6 +94,7 @@ const brandsSet = new Set(window.brands);
 
 const organisationsSet = new Set(['Federal Reserve']);
 
+const authorsSet = new Set(window.authors);
 
 function getMyFollowsHTML() {
 
@@ -138,6 +150,9 @@ function checkType(key) {
     }
     if (organisationsSet.has(key)) {
         return 'organisations';
+    }
+    if (authorsSet.has(key)) {
+        return 'byline';
     }
     return 'topics';
 
@@ -474,6 +489,9 @@ delegate.on('click', '[data-action="add-interests"]', async (event) => {
     const ele = document.createElement('DIV');
     ele.classList.add('overlay-container');
     ele.classList.add('on');
+    const recommenedAnnotationsHTML = recommendedAnnotations
+        .map(x => `<div class="input-title">${localize(x.title)}</div>${createHTMLFromNames(x.data)}`)
+        .join('');
     ele.innerHTML = `
     <div class="overlay-inner">
     <div class="overlay-bg" data-parentid="overlay-login"></div>
@@ -491,14 +509,13 @@ delegate.on('click', '[data-action="add-interests"]', async (event) => {
         <button class="myft-follow plus" data-action="add-custom-interest">${localize('Follow')}</button>
     </div>
     ${htmlFromCustomTopics}
-    <div class="input-title">${localize('Popular')}</div>
-    ${createHTMLFromNames(populars)}
-    <div class="input-title">${localize('Regions')}</div>
-    ${createHTMLFromNames(myRegions)}
+    ${recommenedAnnotationsHTML}
     </div>
     </div>
     </div>
     </div>`;
+        // <div class="input-title">${localize('Popular')}</div>
+    // ${createHTMLFromNames(populars)}
     document.body.append(ele);
 
 });

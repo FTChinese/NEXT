@@ -1180,7 +1180,7 @@ function reorderFTResults(results, vectorHighScoreIds) {
     const myInterests = new Set([...myAnnotationInterests, ...myCustomInterests]);
       
     // MARK: Handle Read Articles Preference
-    const readArticle = myPreference[readArticlesKey] || 'show';
+    const readArticle = myPreference[readArticlesKey] || 'collapse';
     const collapseReadArticles = readArticle === 'collapse';
 
     // MARK: - The articles that you've read should go to a READ group at the bottom of the results list
