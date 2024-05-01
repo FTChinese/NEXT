@@ -9,7 +9,7 @@
 <%if $smarty.get.maxB != ""%>
     <%assign var="maxB" value=$smarty.get.maxB|sanitize|intval%>
 <%/if%>
-<%if $maxB == 1 && date("Ymd",$smarty.now) <= 20240410%>
+<%if $maxB == 1 && date("Ymd",$smarty.now) >= 20240510 && date("Ymd",$smarty.now) <= 20240628%>
     <%assign var="maxB" value=4%>
 <%/if%>
 <%assign var="premiumContentIds" value="0000"%>
@@ -240,7 +240,7 @@
                             $minItemCount = max($smallestDivisibleByFour, $minItemCount);
                         }
                         $ymd = $beijingTime['year'] * 10000 + $beijingTime['mon'] * 100 + $beijingTime['mday'];
-                        if ($ymd >= 20240404 && $ymd <= 20240406) {
+                        if ($ymd >= 20240501 && $ymd <= 20240505) {
                             $minItemCount = 24;
                         }
                         // Use array_slice to get the first $minItemCount items from $interactives

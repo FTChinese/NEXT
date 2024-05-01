@@ -7,28 +7,33 @@ const interestsInfos = [
     {id: myCustomInterestsKey, action: 'remove-custom-interest'},
     {id: myInterestsKey, action: 'add-interest'}
 ];
-window.populars = ['China', 'Companies', 'Markets', 'Opinion', 'VIDEOS', 'PODCASTS', 'Life & Arts', 'Work & Careers', 'Artificial intelligence', 'Electric vehicles', 'Technology Sector'];
+const populars = ['China', 'Companies', 'Markets', 'Opinion', 'VIDEOS', 'PODCASTS', 'Life & Arts', 'Work & Careers', 'Artificial intelligence', 'Electric vehicles', 'Technology Sector'];
 
-window.regions = ['China', 'Hong Kong', 'Taiwan', 'Singapore', 'Malaysia', 'Japan', 'United States', 'United Kingdom', 'India', 'Russia', 'Europe', 'Asia', 'Americas', 'Africa', 'Middle East'];
+const regions = ['China', 'Hong Kong', 'Taiwan', 'Singapore', 'Malaysia', 'Japan', 'United States', 'United Kingdom', 'India', 'Russia', 'Europe', 'Asia', 'Americas', 'Africa', 'Middle East'];
 
-window.sectors = ['Companies', 'Markets', 'Economy', 'Life & Arts', 'Work & Careers', 'Technology Sector', 'Property', 'Science'];
+const sectors = ['Companies', 'Markets', 'Economy', 'Technology Sector', 'Politics', 'Investments', 'Management', 'Personal Finance', 'Education', 'Life & Arts', 'Work & Careers', 'Property', 'Science', 'Books', 'Sport'];
 
-window.genres = ['News', 'Feature', 'Opinion', 'Explainer', 'Obituary', 'VIDEOS', 'PODCASTS'];
+const genres = ['News', 'Feature', 'Opinion', 'Explainer', 'Obituary', 'VIDEOS', 'PODCASTS'];
 
-window.topics = ['Artificial intelligence', 'Electric vehicles', 'US presidential election', 'Israel-Hamas war', 'Climate change', 'Federal Reserve', 'Chinese economy', 'Semiconductors', 'Cryptocurrencies'];
+const topics = ['Artificial intelligence', 'Electric vehicles', 'US presidential election', 'Israel-Hamas war', 'Climate change', 'Federal Reserve', 'Chinese economy', 'Semiconductors', 'Cryptocurrencies'];
 
-window.brands = ['The Big Read', 'FT Magazine', 'Unhedged', 'Undercover Economist', 'Lunch with the FT', 'The Weekend Essay', 'techAsia'];
+const brands = ['The Big Read', 'FT Magazine', 'Unhedged', 'Undercover Economist', 'Lunch with the FT', 'The Weekend Essay', 'techAsia'];
 
-window.authors = ['Martin Wolf', 'Mohamed El-Erian', 'Stephen Roach', 'Lawrence Summers', 'Robert Armstrong', 'George Soros'];
+const authors = ['Martin Wolf', 'Robert Armstrong', 'Madhumita Murgia', 'Richard Waters', 'Gillian Tett', 'Mohamed El-Erian', 'Stephen Roach', 'Lawrence Summers', 'George Soros'];
+
+const customTopicType = 'CustomTopic';
 
 const recommendedAnnotations = [
-    {title: 'Regions', data: window.regions},
-    {title: 'Sectors', data: window.sectors},
-    {title: 'Genres', data: window.genres},
-    {title: 'Columns', data: window.brands},
-    {title: 'Popular', data: window.topics},
-    {title: 'Authors', data: window.authors},
+    {title: 'Regions', data: regions},
+    {title: 'Sectors', data: sectors},
+    {title: 'Genres', data: genres},
+    {title: 'Columns', data: brands},
+    {title: 'Popular', data: topics},
+    {title: 'Authors', data: authors},
 ];
+
+const recommendedAnnotationsByIndustry = [{"title":"Accountancy & tax advisory","data":["Accountancy","International tax","Tax evasion and avoidance","Financial & markets regulation","Mergers & Acquisitions"]},{"title":"Aerospace & defence","data":["Aircraft manufacturing","Drones","Terrorism","Virtual and Augmented Reality","Space industry"]},{"title":"Automobiles","data":["Electric vehicles","Hydrogen vehicles","Driverless vehicles","Batteries","Artificial intelligence"]},{"title":"Banking","data":["Investment Banking","Fintech","Central banks","Financial & markets regulation","Mergers & Acquisitions"]},{"title":"Basic resources/Mining","data":["Industrial metals","Renewable energy","Oil","Shale Oil & Gas","Coal"]},{"title":"Chemicals","data":["Chemicals","Renewable energy","Dow Chemical Co","Batteries","Shale Oil & Gas"]},{"title":"Comms/Publishing/Media","data":["Digital Media","Social Media","Advertising","Lunch with the FT","Luxury goods"]},{"title":"Consulting/Business services","data":["Management consulting","Innovation","Corporate culture","Managing yourself","Women in business"]},{"title":"Education/Academia","data":["Work & Careers","Education","Business education","Online learning","Economics books"]},{"title":"Energy/Utilities","data":["Batteries","Renewable energy","Shale Oil & Gas","Nuclear energy","Climate change"]},{"title":"Engineering/Construction","data":["Infrastructure investment","Urban planning","Renewable energy","Architecture","UK housebuilding"]},{"title":"Financial services","data":["Fintech","Hedge funds","Private equity","Investment Banking"]},{"title":"Food & beverages","data":["Food Prices","Food diet","Beer and spirits","Agricultural production","Ecommerce"]},{"title":"Fund/Asset management","data":["Hedge funds","Private equity","Investment Banking","Emerging market investing"]},{"title":"Govt/Public service/NGOs","data":["Geopolitics","Populism","Globalisation","United Nations","Political books"]},{"title":"Health & pharmaceuticals","data":["Digital health","Drugs research","Drug prices","Medical science","Disease control and prevention"]},{"title":"Industrial goods & services","data":["Industrials","Industrial goods","Global economic growth","US economy","Eurozone economy"]},{"title":"Insurance","data":["Cyber Security","Fintech","Pensions crisis","Personal Insurance"]},{"title":"IT/Computing","data":["Artificial intelligence","Virtual and Augmented Reality","Science","Blockchain","Fintech"]},{"title":"IT/Tech/Telecoms","data":["Cyber Security","Internet of things","Artificial intelligence","Social Media","Fintech"]},{"title":"Legal services","data":["Law","Innovation","Financial & markets regulation","Corporate governance","Data protection"]},{"title":"Oil/Gas/Mining","data":["Oil","Natural gas","Mining","Renewable energy","Batteries"]},{"title":"Personal & household goods","data":["Consumer trends","Digital Media","Ecommerce","Luxury goods","UK retail sales"]},{"title":"Property","data":["Commercial property","Residential property","Global property","Property funds","Property"]},{"title":"Retail","data":["Consumer trends","Ecommerce","Digital Media","Wearable technology","Luxury goods"]},{"title":"Telecommunications","data":["Internet of things","Virtual and Augmented Reality","Mobile devices","Ecommerce","Cyber Security"]},{"title":"Trade/Import/Export","data":["Global trade","FT Commodities Global Summit","Artificial intelligence","Climate change"]},{"title":"Transport/Logistics","data":["Global trade","Globalisation","Electric vehicles","Container shipping"]},{"title":"Travel & Leisure","data":["Travel & leisure industry","Work-life balance","Lunch with the FT","Luxury goods"]}];
+
 
 const countryMapping = {
     US: 'United States',
@@ -96,12 +101,111 @@ const organisationsSet = new Set(['Federal Reserve']);
 
 const authorsSet = new Set(window.authors);
 
+async function savePreference(myPreference) {
+    let p = JSON.parse(JSON.stringify(myPreference));
+    p.time = new Date();
+    localStorage.setItem('preference', JSON.stringify(p));
+    updateNavigation().catch(error => {
+        console.error('Failed to updateNavigation: ', error);
+    });
+    debouncedSyncPreferences(p);
+}
+
+
+async function syncPreferencesWithServer(preference) {
+    console.log(`syncPreferencesWithServer running...`);
+    const token = GetCookie('accessToken');
+    if (!token) {return;}
+    try {
+        const response = await fetch('/save_preference', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}` // Assuming the JWT is stored in a secure cookie
+            },
+            body: JSON.stringify(preference)
+        });
+    } catch (error) {
+        console.error('Failed to sync preferences with the server: ', error);
+    }
+}
+
+// MARK: - debounce the syncPreferencesWithServer to avoid firing large amount of network requests in a short time
+const debouncedSyncPreferences = debounce(syncPreferencesWithServer, 5000);
+
+async function clearAllPreferences() {
+
+    try {
+        localStorage.removeItem('preference');
+        const token = GetCookie('accessToken');
+        if (!token) {return;}
+        await fetch('/delete_preference', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}` // Assuming the JWT is stored in a secure cookie
+            }
+        });
+    } catch(err) {
+        console.error('clearAllPreferences error: ');
+        console.log(err);
+    }
+
+}
+
+
+//TODO: - This should be very robust because it starts at the very beginning of the web page/app life cycle. 
+async function checkPreferencesFromServer() {
+
+    try {
+        const token = GetCookie('accessToken');
+        // MARK: - If there's no access token, no need to check further return now. 
+        if (!token) {return;}
+        const response = await fetch('/check_preference', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}` // Assuming the JWT is stored in a secure cookie
+            }
+        });
+        if (!response.ok) {return;}
+        const results = await response.json();
+        if (results?.status !== 'OK' || !results?.preference) {return;}
+        const serverPreference = results?.preference;
+        const localPreference = getMyPreference();
+        const defaultTime = '2000-01-01 00:00:00';
+        const serverTime = new Date(serverPreference?.time ?? defaultTime).getTime();
+        const localTime = new Date(localPreference?.time ?? defaultTime).getTime();
+        if (serverTime > localTime) {
+            localStorage.setItem('preference', JSON.stringify(serverPreference));
+            // MARK: - This is a good time to update the left-side navigation
+            await updateNavigation();
+        }
+    } catch(err) {
+        console.error('checkPreferencesFromServer error: ');
+        console.log(err);
+    }
+
+}
+
+async function updateNavigation() {
+
+    const myFollowsHTML = await convertChinese(getMyFollowsHTML(), preferredLanguage);
+    let myfollowsEle = document.querySelector('#current-chat-roles .drag-drop-container');
+    if (myfollowsEle) {
+        myfollowsEle.innerHTML = myFollowsHTML;
+    }
+
+}
+
 function getMyFollowsHTML() {
 
     const my = getMyPreference();
+    preferredLanguage = my['Language'];
     const follows = (my[myInterestsKey] || []).filter(x => typeof x === 'object');
 
     let allIndex = 0;
+    const reorderButton = `<button class="reorder-button"></button>`;
     const interests = follows.map(info=>{
         const index = info.index || 0;
         allIndex += index;
@@ -116,7 +220,7 @@ function getMyFollowsHTML() {
         if (field === 'curations') {
             content = key;
         }
-        return {index: index, html: `<a data-purpose="search-ft-api" data-lang="${preferredLanguage}" data-content="${content}" data-reply="${localize('Finding')}">${display}</a>`};
+        return {index: index, html: `<a class="for-long-press has-reorder-button" data-purpose="search-ft-api" data-lang="${preferredLanguage}" data-content="${content}" data-reply="${localize('Finding')}" data-name="${key}" data-type="${field}" draggable="true">${display}${reorderButton}</a>`};
     });
     const customTopics = (my[myCustomInterestsKey] || []).filter(x=>typeof x === 'object');
     const topics = customTopics.map(info=>{
@@ -124,7 +228,7 @@ function getMyFollowsHTML() {
         allIndex += index;
         const key = info.key;
         const display = localize(key, info.display);
-        return {index: index, html: `<a data-purpose="search-topic" data-lang="${preferredLanguage}" data-content="${key}" data-reply="${localize('Finding')}">${display}</a>`};
+        return {index: index, html: `<a class="for-long-press has-reorder-button" data-purpose="search-topic" data-lang="${preferredLanguage}" data-content="${key}" data-reply="${localize('Finding')}" draggable="true" data-name="${key}" data-type="${customTopicType}">${display}${reorderButton}</a>`};
     });
     let allItems = topics.concat(interests);
     if (allIndex > 0) {
@@ -242,14 +346,13 @@ function getAnnotaionsInfo(content, language) {
     annotationsHTMLMentions = `
         <div class="story-side-ad-container"><div class="story-box">
         </div></div>`;
-
-    
     return {
         storyTheme: storyTheme, 
         annotations: annotationsHTML, 
         mentions: annotationsHTMLMentions,
         genreClass: genreClass
     };
+
 }
 
 async function createHTMLFromCustomTopics() {
@@ -361,6 +464,7 @@ async function getHighScoreIdsFromVectorDB(content) {
 
 // MARK: - Debounce function to limit the rate of invoking a function
 function debounce(func, delay) {
+
     let debounceTimer;
     return function() {
         const context = this;
@@ -368,6 +472,7 @@ function debounce(func, delay) {
         clearTimeout(debounceTimer);
         debounceTimer = setTimeout(() => func.apply(context, args), delay);
     };
+
 }
 
 async function fetchSuggestions(query) {
@@ -466,6 +571,48 @@ function renderSuggestion(ele, suggestions) {
 }
 
 
+
+function followAnnotation(name, instruction = 'toggle') {
+
+    if (!name) {return;}
+    let myPreference = getMyPreference();
+    let myInterests = (myPreference[myInterestsKey] || []).filter(x=>typeof x === 'object');
+    let myInterestsKeys = myInterests.map(x=>x.key || '').filter(x=>x !== '');
+
+    // MARK: - There might be duplicated buttons with the same names
+    let allButtons = document.querySelectorAll(`[data-action="add-interest"][data-name="${name}"]`);
+    for (let button of allButtons) {
+        const type = button.getAttribute('data-type') || 'Topics';
+        const display = button.getAttribute('data-display') ?? button.closest('.input-container')?.querySelector('.input-name')?.innerText ?? localize(name);
+        let action = instruction;
+        if (instruction === 'toggle' || ['follow', 'unfollow'].indexOf(instruction) === -1) {
+            action = button.classList.contains('plus') ? 'follow' : 'unfollow';
+        }
+        if (action === 'follow') {
+            if (myInterestsKeys.indexOf(name) === -1) {
+                myInterests.push({key: name, display: display, type: type});
+                myInterestsKeys.push(name);
+            }
+            button.innerHTML = localize('Unfollow');
+            button.classList.remove('plus');
+            button.classList.add('tick');
+        } else {
+            const index = myInterestsKeys.indexOf(name);
+            if (index > -1) {
+                myInterests.splice(index, 1);
+            }
+            button.innerHTML = localize('Follow');
+            button.classList.add('plus');
+            button.classList.remove('tick');
+        }
+    }
+    myPreference[myInterestsKey] = myInterests;
+    savePreference(myPreference);
+    updateAnnotationsContainer(myPreference);
+
+}
+
+
 delegate.on('click', '.hide-suggestions', async (event) => {
     let ele = event.target.closest('.custom-topic-suggestion');
     hideEle(ele);
@@ -483,39 +630,35 @@ delegate.on('click', '[data-action="add-interests"]', async (event) => {
             myRegions.unshift(country);
         }
     }
-
     const htmlFromCustomTopicsText = await createHTMLFromCustomTopics();
     const htmlFromCustomTopics = await convertChinese(htmlFromCustomTopicsText, preferredLanguage);    
     const ele = document.createElement('DIV');
     ele.classList.add('overlay-container');
     ele.classList.add('on');
-    const recommenedAnnotationsHTML = recommendedAnnotations
+    const recommenedAnnotationsHTML = recommendedAnnotations.concat(recommendedAnnotationsByIndustry)
         .map(x => `<div class="input-title">${localize(x.title)}</div>${createHTMLFromNames(x.data)}`)
         .join('');
     ele.innerHTML = `
-    <div class="overlay-inner">
-    <div class="overlay-bg" data-parentid="overlay-login"></div>
-    <div class="overlay-content-outer">
-    <div class="overlay-content-inner">
-    <div class="overlay-content">
-    <div class="overlay-title">${localize('Add Interests')}<i class="overlay-close" data-action="close-overlay">×</i></div>
-    
-    <div class="input-title">${localize('Topics')}</div>
-    <div class="input-container">
-        <div class="input-name">
-            <input id="custom-topic-input" type="text" placeholder="${localize('Topic')}">
-            <div class="custom-topic-suggestion"></div>
+        <div class="overlay-inner">
+        <div class="overlay-bg" data-parentid="overlay-login"></div>
+        <div class="overlay-content-outer">
+        <div class="overlay-content-inner">
+        <div class="overlay-content">
+        <div class="overlay-title">${localize('Add Interests')}<i class="overlay-close" data-action="close-overlay">×</i></div>
+        <div class="input-title">${localize('Topics')}</div>
+        <div class="input-container">
+            <div class="input-name">
+                <input id="custom-topic-input" type="text" placeholder="${localize('Topic')}">
+                <div class="custom-topic-suggestion"></div>
+            </div>
+            <button class="myft-follow plus" data-action="add-custom-interest">${localize('Follow')}</button>
         </div>
-        <button class="myft-follow plus" data-action="add-custom-interest">${localize('Follow')}</button>
-    </div>
-    ${htmlFromCustomTopics}
-    ${recommenedAnnotationsHTML}
-    </div>
-    </div>
-    </div>
-    </div>`;
-        // <div class="input-title">${localize('Popular')}</div>
-    // ${createHTMLFromNames(populars)}
+        ${htmlFromCustomTopics}
+        ${recommenedAnnotationsHTML}
+        </div>
+        </div>
+        </div>
+        </div>`;
     document.body.append(ele);
 
 });
@@ -523,20 +666,18 @@ delegate.on('click', '[data-action="add-interests"]', async (event) => {
 
 // Event listener for input event with debounce
 delegate.on('input', '#custom-topic-input', debounce(async (event) => {
+
     const ele = event.target;
     const value = ele.value.trim();
     const suggestionEle = ele.closest('.input-name')?.querySelector('.custom-topic-suggestion');
-
     if (value === '') {
         hideEle(suggestionEle);
         return;
     }
-
     const suggestions = await fetchSuggestions(value);
     // Logic to display suggestions
     // console.log(suggestions);
     renderSuggestion(suggestionEle, suggestions);
-
 
 }, 300)); // 300 ms debounce time
 
@@ -564,12 +705,9 @@ delegate.on('click', '[data-action="add-custom-interest"]', async (event) => {
         alert(localize('Topic already followed'));
         return;
     }
-    const customTopicType = 'CustomTopic';
     myInterests.push({key: name, type: customTopicType, display: name});
     myPreference[myCustomInterestsKey] = myInterests;
-    localStorage.setItem('preference', JSON.stringify(myPreference));
-    // console.log('Updated myPreference: ');
-    // console.log(myPreference);
+    savePreference(myPreference);
     input.value = '';
     let suggestionEle = input.closest('.input-name')?.querySelector('.custom-topic-suggestion');
     if (suggestionEle) {
@@ -599,9 +737,7 @@ delegate.on('click', '[data-action="remove-custom-interest"]', async (event) => 
     const name = ele.getAttribute('data-name');
     myInterests = myInterests.filter(x=>x.key !== name);
     myPreference[myCustomInterestsKey] = myInterests;
-    localStorage.setItem('preference', JSON.stringify(myPreference));
-    console.log('Updated myPreference: ');
-    console.log(myPreference);
+    savePreference(myPreference);
     const allEles = document.querySelectorAll(`.input-container [data-name="${name}"]`);
     for (const ele of allEles) {
         const container = ele.closest('.input-container');
@@ -618,41 +754,30 @@ delegate.on('click', '[data-action="add-interest"]', async (event) => {
 
     const ele = event.target;
     const name = ele.getAttribute('data-name');
-    if (!name) {return;}
-    
-    let myPreference = getMyPreference();
-    let myInterests = (myPreference[myInterestsKey] || []).filter(x=>typeof x === 'object');
-    let myInterestsKeys = myInterests.map(x=>x.key || '').filter(x=>x !== '');
+    followAnnotation(name);
 
-    // MARK: - There might be duplicated buttons with the same names
-    let allButtons = document.querySelectorAll(`[data-action="add-interest"][data-name="${name}"]`);
-    for (let button of allButtons) {
-        const type = button.getAttribute('data-type') || 'Topics';
-        const display = button.getAttribute('data-display') ?? button.closest('.input-container')?.querySelector('.input-name')?.innerText ?? localize(name);
-        if (button.classList.contains('plus')) {
-            if (myInterestsKeys.indexOf(name) === -1) {
-                myInterests.push({key: name, display: display, type: type});
-                myInterestsKeys.push(name);
-            }
-            button.innerHTML = localize('Unfollow');
-            button.classList.remove('plus');
-            button.classList.add('tick');
-        } else {
-            const index = myInterestsKeys.indexOf(name);
-            if (index > -1) {
-                myInterests.splice(index, 1);
-            }
-            button.innerHTML = localize('Follow');
-            button.classList.add('plus');
-            button.classList.remove('tick');
-        }
+});
+
+delegate.on('click', '[data-action="add-interests-for-all"]', async (event) => {
+
+    const ele = event.target;
+    const buttons = ele.closest('.input-group')?.querySelectorAll('[data-action="add-interest"][data-name]') ?? [];
+    const action = ele.classList.contains('plus') ? 'follow': 'unfollow';
+    if (action === 'follow') {
+        ele.classList.add('tick');
+        ele.classList.remove('plus');
+        ele.innerHTML = localize('Unfollow All');
+    } else {
+        ele.classList.remove('tick');
+        ele.classList.add('plus');
+        ele.innerHTML = localize('Follow All');
     }
-    myPreference[myInterestsKey] = myInterests;
-    localStorage.setItem('preference', JSON.stringify(myPreference));
-    // console.log('Update myPreference');
-    // console.log(myPreference);
-    updateAnnotationsContainer(myPreference);
-
+    for (let button of buttons) {
+        const name = button.getAttribute('data-name');
+        if (!name) {continue;}
+        followAnnotation(name, action);
+    }
+    
 });
 
 delegate.on('click', '[data-action="close-overlay"]', async (event) => {
@@ -665,33 +790,12 @@ delegate.on('click', '[data-action="close-overlay"]', async (event) => {
 });
 
 
+
+
+// MARK: - Drag and Drop to adjust sequence of follows
+
 let draggingEle;
 let lastEntered;
-
-delegate.on('dragstart', '.input-container', async (event) => {
-
-    const ele = event.target;
-    draggingEle = ele;
-    let allEles = ele.parentNode.children;
-    let index = 0;
-    for (let oneEle of allEles) {
-        oneEle.setAttribute('data-index', index);
-        index += 1;
-    }
-
-});
-
-
-delegate.on('dragend', '.input-container', async (event) => {
-
-    const ele = event.target;
-    draggingEle = undefined;
-    // Remove the visual effect from all elements
-    const elementsWithEffect = document.querySelectorAll('.drag-over-effect');
-    elementsWithEffect.forEach(ele => ele.classList.remove('drag-over-effect'));
-
-});
-
 
 function updateMyPreferenceFromDragging(ele) {
 
@@ -700,7 +804,7 @@ function updateMyPreferenceFromDragging(ele) {
     let index = 0;
     let order = {};
     for (let child of ele.children) {
-        const buttonEle = child.querySelector('[data-name]');
+        const buttonEle = child.getAttribute('data-content') ? child : child.querySelector('[data-name]');
         if (buttonEle) {
             const name = buttonEle.getAttribute('data-name') || '';
             const type = buttonEle.getAttribute('data-type') || '';
@@ -719,76 +823,226 @@ function updateMyPreferenceFromDragging(ele) {
         }
         myPreference[key] = myPreference[key].sort((a,b)=>a.index - b.index);
     }
-    localStorage.setItem('preference', JSON.stringify(myPreference));
+    savePreference(myPreference);
 
 }
 
-delegate.on('drop', '.annotations-container', async (event) => {
-
-    const ele = event.target;
-    let droppingEle = ele.closest('.input-container');
-    if (!droppingEle) {return;}
-
-    let droppingIndex = parseInt((droppingEle?.getAttribute('data-index') ?? 0), 10);
-
-    let draggingIndex = parseInt((draggingEle?.getAttribute('data-index') ?? 0), 10);
-
-    if (draggingIndex >= droppingIndex) {
-        droppingEle.before(draggingEle);
+function handleDraggableClickOrPress(ele) {
+    if (ele.classList.contains('myft-follow')) {
+        cancelMoving();
+        return;
+    }
+    let currentEle = ele.closest('[draggable]');
+    if (!currentEle) {return;}
+    if (!draggingEle) {
+        draggingEle = currentEle;
+        draggingEle.classList.add('moving');
+        let allEles = currentEle.parentNode.children;
+        let index = 0;
+        for (let oneEle of allEles) {
+            oneEle.setAttribute('data-index', index);
+            index += 1;
+        }
     } else {
-        droppingEle.after(draggingEle);
+        let droppingIndex = parseInt((currentEle?.getAttribute('data-index') ?? 0), 10);
+        let draggingIndex = parseInt((draggingEle?.getAttribute('data-index') ?? 0), 10);
+        if (draggingIndex >= droppingIndex) {
+            currentEle.before(draggingEle);
+        } else {
+            currentEle.after(draggingEle);
+        }
+        updateMyPreferenceFromDragging(draggingEle.parentNode);
+        setTimeout(()=>{
+            cancelMoving();
+        }, 500);
     }
+}
 
-    updateMyPreferenceFromDragging(draggingEle.parentNode);
-
-});
-
-delegate.on('dragover', '.annotations-container', async (event) => {
-
-    event.preventDefault();
-
-    const ele = event.target.closest('.input-container');
-
-    // Ensure we are on a valid target
-    if (!ele) return;
-
-    // Add visual effect
-    ele.classList.add('drag-over-effect');
-
-    // Remove the effect from the last entered element if it's different
-    if (lastEntered && lastEntered !== ele) {
-        lastEntered.classList.remove('drag-over-effect');
-    }
-    lastEntered = ele; 
-
-});
+function cancelMoving() {
+    if (!draggingEle) {return;}
+    draggingEle.classList.remove('moving');
+    draggingEle = undefined;
+}
 
 
-delegate.on('dragleave', '.input-container', async (event) => {
+if (isTouchDevice()) {
 
-    const ele = event.target.closest('.input-container');
-    if (ele) {
-        ele.classList.remove('drag-over-effect');
-    }
+    // MARK: - It's too much trouble to support drag and drop on touch devices, just use click to make it easy for user to change the order of follows
 
-});
-
-
+    delegate.on('click', 'body', (event) => {
+        if (event.target.closest('[draggable]')) {return;}
+        cancelMoving();
+    });
 
 
+    delegate.on('click', '[draggable].for-click, [draggable].for-long-press.has-reorder-button button', (event) => {
+        let ele = event.target.closest('[draggable');
+        event.stopImmediatePropagation();
+        // console.log('handleDraggableClickOrPress: ');
+        // console.log(ele);
+        handleDraggableClickOrPress(ele);
+    });
+
+
+    // MARK: - Handling Long Presses, now for the side bar items
+    // Define the long press duration in milliseconds
+    const longPressDuration = 500;
+    let longPressTimer = null;
+    let movedDuringPress = false;
+    let isLongPressing = false;
+
+    delegate.on('touchstart', '[draggable].for-long-press', (event) => {
+        let ele = event.target;
+        isLongPressing = false;
+        movedDuringPress = false; // reset the flag for movement
+
+        // Set a timeout to handle long press
+        longPressTimer = setTimeout(() => {
+            if (!movedDuringPress) {
+                isLongPressing = true;
+                handleDraggableClickOrPress(ele);
+            }
+        }, longPressDuration);
+    });
+
+    delegate.on('touchmove', '[draggable].for-long-press', (event) => {
+        movedDuringPress = true;
+    });
+
+    delegate.on('touchend', '[draggable].for-long-press', (event) => {
+        clearTimeout(longPressTimer);
+        if (isLongPressing) {
+            isLongPressing = false;
+            console.log('Click [draggable].for-long-press fired! ');
+            return;
+        }
+        if (draggingEle) {
+            console.log('Click [draggable].for-long-press fired! ');
+            event.stopImmediatePropagation();
+            let ele = event.target;
+            handleDraggableClickOrPress(ele);
+        }
+    });
+
+    delegate.on('contextmenu', '[draggable].for-long-press', (event) => {
+        event.preventDefault();
+    });
+
+
+} else {
+
+    delegate.on('dragstart', '[draggable]', async (event) => {
+
+        const ele = event.target;
+        draggingEle = ele;
+        let allEles = ele.parentNode.children;
+        let index = 0;
+        for (let oneEle of allEles) {
+            oneEle.setAttribute('data-index', index);
+            index += 1;
+        }
+
+    });
+
+    delegate.on('dragend', '[draggable]', async (event) => {
+
+        const ele = event.target;
+        draggingEle = undefined;
+        // Remove the visual effect from all elements
+        const elementsWithEffect = document.querySelectorAll('.drag-over-effect');
+        elementsWithEffect.forEach(ele => ele.classList.remove('drag-over-effect'));
+
+    });
+
+    delegate.on('drop', '.drag-drop-container', async (event) => {
+
+        const ele = event.target;
+        let droppingEle = ele.closest('[draggable]');
+        if (!droppingEle) {return;}
+
+        let droppingIndex = parseInt((droppingEle?.getAttribute('data-index') ?? 0), 10);
+
+        let draggingIndex = parseInt((draggingEle?.getAttribute('data-index') ?? 0), 10);
+
+        if (draggingIndex >= droppingIndex) {
+            droppingEle.before(draggingEle);
+        } else {
+            droppingEle.after(draggingEle);
+        }
+
+        updateMyPreferenceFromDragging(draggingEle.parentNode);
+
+    });
+
+    delegate.on('dragover', '.drag-drop-container', async (event) => {
+
+        event.preventDefault();
+
+        const ele = event.target.closest('[draggable]');
+
+        // Ensure we are on a valid target
+        if (!ele) return;
+
+        // Add visual effect
+        ele.classList.add('drag-over-effect');
+
+        // Remove the effect from the last entered element if it's different
+        if (lastEntered && lastEntered !== ele) {
+            lastEntered.classList.remove('drag-over-effect');
+        }
+        lastEntered = ele; 
+
+    });
+
+
+    delegate.on('dragleave', '[draggable]', async (event) => {
+
+        const ele = event.target.closest('[draggable]');
+        if (ele) {
+            ele.classList.remove('drag-over-effect');
+        }
+
+    });
+
+}
 
 
 
 
 
 
+
+// MARK - Induction
   
-function shouldShowInduction() {
-    const myPreference = getMyPreference();
+async function shouldShowInduction() {
+
+    // MARK: - First quickly check local storage
+    let myPreference = getMyPreference();
+
+    // MARK: - If you already have a local storage of preference, you immediately know that you shouldn't show induction
+    const accessToken = GetCookie('accessToken');
+
+    // MARK: - If you haven't logged in, no need to do induction
+    if (!accessToken) {
+      return false;
+    }
+
+    if (myPreference['Language'] && accessToken) {
+      return false;
+    }
+
+    // MARK: Only If there's no local storage, you should now try sync from the server
+    await checkPreferencesFromServer();
+
+    // MARK: - Now you check local storage again
+    myPreference = getMyPreference();
     if (myPreference['Language'] && GetCookie('accessToken')) {
       return false;
     }
+
+    // MARK: - If there's still no local storage of preference, you should now show induction
     return true;
+
 }
 
 async function showInduction() {
@@ -847,12 +1101,14 @@ function renderMultipleChoices(info, name) {
     const options = info.options;
     let optionsHTML = '';
     for (const option of options) {
-        optionsHTML += `<div class="input-title">${localize(option.title)}</div>${createHTMLFromNames(option.data)}`;
+        const followAllButton = info.follow_all ? `<button class="myft-follow plus" data-action="add-interests-for-all">${localize('Follow All')}</button>` : '';
+        optionsHTML += `<div class="input-group"><div class="input-container"><div class="input-title">${localize(option.title)}</div>${followAllButton}</div>${createHTMLFromNames(option.data)}</div>`;
     }
     const l = window[name].questions.length;
     const index = window[name].index;
     const buttonHTML = index < l - 1 ? `<button class="setting-next" data-name="${name}">${localize('NEXT')}</button>` : '';
-    html += `<div class="multiple-setting-container">${optionsHTML}</div>${buttonHTML}`;
+    const layoutStyle = info.isLayoutGrid ? ' multiple-setting-container-grid' : '';
+    html += `<div class="multiple-setting-container${layoutStyle}">${optionsHTML}</div>${buttonHTML}`;
     return html;
 
 }
@@ -920,7 +1176,7 @@ delegate.on('click', '.preference-options [data-value]', async (event) => {
     const key = containerEle.getAttribute('data-key');
     if (!key) {return;}
     myPreference[key] = value;
-    localStorage.setItem('preference', JSON.stringify(myPreference));
+    savePreference(myPreference);
     const variable = containerEle.getAttribute('data-variable');
     if (variable) {
         window[variable] = value;    

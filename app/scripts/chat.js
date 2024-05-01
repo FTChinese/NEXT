@@ -127,6 +127,8 @@ delegate.on('click', '.chat-items-expand', async (event) => {
 });
 
 delegate.on('click', '[data-purpose]', async (event) => {
+
+  if (shouldEventStop(event)) {return;}
   const element = event.target;
   if (element.classList.contains('pending')) {return;}
   const purpose = element.getAttribute('data-purpose');
@@ -147,7 +149,7 @@ delegate.on('click', '[data-purpose]', async (event) => {
         reply = `<div data-action="${replyPurpose}">${reply}</div>`;
       }
     }
-    const prompt = element.innerHTML;
+    const prompt = element.innerText;
     updateBotStatus('pending');
     showUserPrompt(prompt);
     showBotResponse();
@@ -163,6 +165,23 @@ delegate.on('click', '[data-purpose]', async (event) => {
   updateBotStatus('waiting');
 });
 
+delegate.on('click', '.current-chat-roles [data-purpose]', (event) => {
+
+  if (shouldEventStop(event)) {return;}
+
+  let ele = event.target.closest('[data-purpose]');
+
+  // Remove 'on' class from all siblings
+  const siblings = ele.closest('.current-chat-roles')?.querySelectorAll('[data-purpose]') ?? [];
+  siblings.forEach(sib => sib.classList.remove('on'));
+  // Add 'on' class to the clicked element
+  if (ele) {
+    ele.classList.add('on');
+  }
+
+});
+
+
 delegate.on('change', '.select-container select', async (event) => {
   const element = event.target;
   const newValue = element.value;
@@ -176,7 +195,7 @@ delegate.on('change', '.select-container select', async (event) => {
     } catch(ignore) {}
   }
   myPreference[name] = newValue;
-  localStorage.setItem('preference', JSON.stringify(myPreference));
+  savePreference(myPreference);
   if (name === 'Language') {
     setPreferredLanguage();
   }
@@ -199,15 +218,32 @@ delegate.on('click', '#header-side-toggle',  (event) => {
 });
 
 delegate.on('click', '.sidebar-bg, .sidebar a, .sidebar button',  (event) => {
+
+  if (shouldEventStop(event)) {return;}
+
   let sideBarEle = document.querySelector('.sidebar');
   if (sideBarEle) {
     sideBarEle.classList.remove('on');
   }
+
 });
 
 delegate.on('click', '#back-arrow',  (event) => {
   window.close();
 });
+
+function shouldEventStop(event) {
+  const element = event.target;
+  if (draggingEle && element.classList.contains('for-long-press')) {
+    console.log('No need to handle data-purpose! ');
+    return true;
+  }
+  if (element.classList.contains('reorder-button')) {
+    console.log('This is a reorder button click! ');
+    return true;
+  }
+  return false;
+}
 
 // MARK: - For now, the native iOS app will call this function
 function toggleSideBar() {
@@ -234,27 +270,38 @@ function copyToClipboard(text) {
   }
 }
 
+
 function localize(status, fallback) {
-  if (!status) {return;}
-  let language = preferredLanguage;
-  if (language === 'Chinese') {language = 'zh';}
-  
+  if (!status) {
+    return;
+  }
+
+  // Assume preferredLanguage is correctly set through application logic
+  let language = preferredLanguage || 'en';
+
+  if (language === 'Chinese') {
+    language = 'zh';
+  }
+
+  // Normalize language code by removing regional codes
   const languagePrefix = language.replace(/\-.*$/g, '');
-  let statusTitle = status;
   const statusKey = status.toLowerCase();
-  const s = statusDict[statusKey];
-  if (s) {
-    let r = s[language] || s[languagePrefix];
-    if (!r && r !== '') {
-      return s.en;
+  const statusTranslations = statusDict[statusKey];
+
+  if (statusTranslations) {
+    let translation = statusTranslations[language] || statusTranslations[languagePrefix];
+    // Fallback to English if no translation is found
+    if (translation === undefined) {
+      translation = statusTranslations.en;
     }
-    return r;
+    return translation || translation === '' ? translation : status;
   }
-  if (fallback && typeof fallback === 'string' && fallback !== '') {
-    return fallback;
-  }
-  return statusTitle;
+
+  // Use fallback if provided and valid, otherwise use the original status
+  return (typeof fallback === 'string' && fallback !== '') ? fallback : status;
 }
+
+
 
 function identifyLanguage(language){//TO Identify language which need to use the function to translate.
   if (!language || ['zh-TW', 'zh-HK', 'zh-MO', 'zh-MY', 'zh-SG'].indexOf(language) === -1) {
@@ -1242,11 +1289,11 @@ function startOver() {
   location.reload();
 }
 
-function clearStartOver() {
+async function clearStartOver() {
   if (!confirm(localize('ConfirmDelete'))) {
     return;
   }
-  localStorage.removeItem('preference');
+  await clearAllPreferences();
   location.reload();
 }
 
@@ -1271,7 +1318,7 @@ function getFollowedAnnotations(myPreference, infos) {
   let followedAnnotations = '';
 
   for (const x of allItems) {
-    followedAnnotations += `<div class="input-container" draggable="true"><div class="input-name">${localize(x.display)}</div><button class="myft-follow tick" data-action="${x.action}" data-name="${x.key}" data-type="${x.type}">${localize('Unfollow')}</button></div>`;
+    followedAnnotations += `<div class="input-container for-click" draggable="true"><div class="input-name show-reorder-button-leading">${localize(x.display)}</div><button class="myft-follow tick" data-action="${x.action}" data-name="${x.key}" data-type="${x.type}">${localize('Unfollow')}</button></div>`;
   }
 
   if (followedAnnotations === '') {
@@ -1369,7 +1416,7 @@ async function setPreference(category, language, reply) {
       html += `<div class="select-container"><div class="select-label">${name}</div><select id="${id}">${optionsHTML}</select></div>`
     } else if (type === 'annotations') {
       const followedAnnotations = getFollowedAnnotations(myPreference, infos);
-      html += `<div class="select-container"><div class="select-label"><strong>${name}</strong></div><button class="myft-follow plus" data-action="add-interests">${localize('Add')}</button></div><div class="annotations-container">${followedAnnotations}</div>`;
+      html += `<div class="select-container"><div class="select-label"><strong>${name}</strong></div><button class="myft-follow plus" data-action="add-interests">${localize('Add')}</button></div><div class="annotations-container drag-drop-container">${followedAnnotations}</div>`;
     } else if (type === 'title') {
       html += `<div class="select-container"><div class="select-label"><strong>${name}</strong></div></div>`;
     }
@@ -1596,7 +1643,7 @@ async function renderResults(results, language) {
 
 
 async function searchFTAPI(content, language, reply) {
-  // console.log(`running searchFTAPI... content: ${content}, language: ${language}`);
+  // console.log(`running searchFTAPI... content: ${content}, language: ${language}, reply: ${reply}`);
   updateBotStatus('pending');
   showResultInChat({text: reply});
   try {
@@ -2097,6 +2144,7 @@ function setTranslatePreference() {
 }
 
 async function setConfigurations() {
+
   // MARK: Update from the hash parameters
   const hashParams = window.location.hash.replace(/^#/g, '').split('&');
   for (const hashString of hashParams) {
@@ -2126,12 +2174,12 @@ async function setConfigurations() {
 
   const myFollowsHTML = await convertChinese(getMyFollowsHTML(), preferredLanguage);
   const rolesHTML = `
-  <a data-purpose="show-ft-page" data-lang="${preferredLanguage}" data-content='home' data-reply="${localize('FindingMyFT')}" data-reply-action="set-preference">${localize('MyFT')}</a>
-  ${myFollowsHTML}
-  <a data-purpose="set-intention" data-lang="${preferredLanguage}" data-content="SearchFTAPI" data-reply="${localize('Offer Help')}" data-key="SearchFT">${localize('Search')}</a>
-  <a data-purpose="news-quiz" data-lang="${preferredLanguage}" data-content='quiz' data-reply="${localize('PrepareingQuiz')}">${localize('NewsQuiz')}</a>
-  <a data-purpose="set-intention" data-lang="${preferredLanguage}" data-content="CustomerService" data-reply="${localize('Offer Help')}" data-key="CustomerService">${localize('CustomerService')}</a>
-  <a data-purpose="set-intention" data-lang="${preferredLanguage}" data-content="Other" data-reply="${localize('Offer Help')}" data-key="Other">${localize('Other')}</a>
+  <a class="show-right-arrow-trailing" data-purpose="show-ft-page" data-lang="${preferredLanguage}" data-content='home' data-reply="${localize('FindingMyFT')}" data-reply-action="set-preference">${localize('MyFT')}</a>
+  <div class="drag-drop-container">${myFollowsHTML}</div>
+  <a class="show-right-arrow-trailing" data-purpose="set-intention" data-lang="${preferredLanguage}" data-content="SearchFTAPI" data-reply="${localize('Offer Help')}" data-key="SearchFT">${localize('Search')}</a>
+  <a class="show-right-arrow-trailing" data-purpose="news-quiz" data-lang="${preferredLanguage}" data-content='quiz' data-reply="${localize('PrepareingQuiz')}">${localize('NewsQuiz')}</a>
+  <a class="show-right-arrow-trailing" data-purpose="set-intention" data-lang="${preferredLanguage}" data-content="CustomerService" data-reply="${localize('Offer Help')}" data-key="CustomerService">${localize('CustomerService')}</a>
+  <a class="show-right-arrow-trailing" data-purpose="set-intention" data-lang="${preferredLanguage}" data-content="Other" data-reply="${localize('Offer Help')}" data-key="Other">${localize('Other')}</a>
   `;
   let currentChatStatus = document.getElementById('current-chat-status');
   if (currentChatStatus) {
@@ -2226,7 +2274,8 @@ async function setGuardRails() {
 
 async function greet() {
   if (showGreeting === false) {return;}
-  if (shouldShowInduction()) {
+  const inductionNeeded = await shouldShowInduction();
+  if (inductionNeeded) {
     await showInduction();
     return;
   }
@@ -2438,7 +2487,6 @@ if (webpushInfo) {
   console.log(webpushInfo);
   alert(webpushInfo);
 }
-
 
 
 updateLanguageOptionDict();

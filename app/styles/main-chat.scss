@@ -68,6 +68,11 @@ body {
     left: 0;
     right: 0;
     overflow-y: scroll; // Enables scrolling
+    margin-top: $defaultPadding * 0.5;
+    .on[data-purpose] {
+        background-color: $defaultPink;
+        color: $darkGrey;
+    }
 }
 
 .side-bottom {
@@ -551,10 +556,6 @@ a[data-action], a[data-key] {
     }
 }
 
-.current-chat-roles {
-    margin-top: $defaultPadding * 0.5;
-}
-
 [data-purpose] {
     // display: none;
     background-color: $bannerBG;
@@ -804,22 +805,106 @@ body {
     z-index: 2;
 }
 
+
+.multiple-setting-container-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: $defaultPadding;
+    margin-bottom: $defaultPadding;
+}
+
 .overlay-content, .annotations-container, .multiple-setting-container, .custom-setting-container {
     div.input-container {
         display: flex;
+        align-items: center;
         padding-bottom: $defaultPadding * 0.5;
         position: relative;
     }
     div.input-name, div.input-name-container {
         flex: 1;
         padding: 0;
-        // font-weight: bold;
+
+        // background-color: pink;
+        // font-size: 20px;
+
         input {
             padding: $defaultPadding * 0.25;
             width: 100%;
         }
+        &.show-reorder-button-leading {
+            padding-left: $defaultPadding * 0.25 + 24px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="%23333333"><path d="M120-200v-80h720v80H120Zm0-160v-80h720v80H120Zm0-160v-80h720v80H120Zm0-160v-80h720v80H120Z"/></svg>');
+            background-repeat: no-repeat;
+            background-position: left center;
+            background-size: 24px 24px; // You can adjust this if needed
+            line-height: 24px;
+        }
     }
 }
+
+
+[draggable="true"] {
+    transition: all 0.3s ease; 
+    &.moving {
+        transform: scale(1.1); /* Scale up the element to 110% of its original size */
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Optional: add a shadow for better visibility */
+        cursor: grabbing; /* Cursor indicates an action is in progress */
+        padding: $defaultPadding * 0.5;
+        margin-bottom: $defaultPadding * 0.5;
+        background-color: $defaultPink;
+        color: $darkGrey;
+    }
+    &.for-long-press {
+        -webkit-touch-callout: none; /* iOS Safari */
+        -webkit-user-select: none;  /* Chrome/Safari/Opera */
+        user-select: none;          /* Non-prefixed version, currently supported by modern browsers */
+    }
+}
+
+
+
+.has-reorder-button {
+    padding-right: $defaultPadding * 0.5 + 24px;
+    button {
+        position: absolute;
+        top: 0;
+        right: $defaultPadding * 0.25;
+        bottom: 0;
+        background-color: transparent;
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="%23FFFFFF"><path d="M120-200v-80h720v80H120Zm0-160v-80h720v80H120Zm0-160v-80h720v80H120Zm0-160v-80h720v80H120Z"/></svg>');
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: 24px 24px; // You can adjust this if needed
+    }
+    &.moving, &.on {
+        button {display: none;}
+    }
+}
+
+.show-right-arrow-trailing {
+    position: relative;
+    &:after {
+        content: "";
+        position: absolute;
+        display: inline-block;
+        right: $defaultPadding * 0.25;
+        top: 0;
+        bottom: 0;
+        width: 24px;
+        // background-color: red;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24px' viewBox='0 -960 960 960' width='24px' fill='%23FFFFFF'%3E%3Cpath d='M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z'/%3E%3C/svg%3E");
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+    &.on {
+        &:after {
+            display: none;
+        }
+    }
+}
+
+  
 
 .custom-topic-suggestion {
     display: none;
@@ -864,12 +949,18 @@ body {
 }
 
 
-
+.input-group {
+    background-color: $bannerBG;
+    padding: $defaultPadding * 0.5;
+}
 
 div.input-title {
     font-weight: bold;
     font-size: 1.2em;
     margin-bottom: 0.5em;
+    .multiple-setting-container &{
+        flex: 1;
+    }
 }
 
 .overlay-content {
@@ -962,8 +1053,14 @@ div.input-title {
     cursor: pointer;
 }
 
-[draggable="true"] {
-    cursor: move;
+[draggable="true"], .sidebar [data-purpose][draggable="true"] {
+    position: relative;
+    cursor: grab; /* Initial cursor when not dragging */
+    user-select: none; /* Prevents text selection during dragging */
+}
+
+[draggable="true"]:active, .sidebar [data-purpose][draggable="true"]:active {
+    cursor: grabbing; /* Cursor during dragging */
 }
 
 .drag-over-effect {
