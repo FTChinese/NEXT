@@ -814,15 +814,19 @@ function updateMyPreferenceFromDragging(ele) {
         child.setAttribute('data-index', index);
         index += 1;
     }
+
     const keys = [myCustomInterestsKey, myInterestsKey];
     for (const key of keys) {
-        for (const item of myPreference[key]) {
-            const orderKey = `${item.type}${item.key}`;
-            const orderIndex = order[orderKey] || 0;
-            item.index = orderIndex;
+        if (myPreference[key] && typeof myPreference[key] === 'object' && myPreference[key].length > 0) {  // Check if the key exists in the myPreference object
+            for (const item of myPreference[key]) {
+                const orderKey = `${item.type}${item.key}`;
+                const orderIndex = order[orderKey] || 0;
+                item.index = orderIndex;
+            }
+            myPreference[key] = myPreference[key].sort((a, b) => a.index - b.index);
         }
-        myPreference[key] = myPreference[key].sort((a,b)=>a.index - b.index);
     }
+    
     savePreference(myPreference);
 
 }
