@@ -2059,8 +2059,8 @@ function getActionOptions() {
   } else if (intention === undefined || intention === '') {
     result = `
       <div class="chat-item-actions">
-        <a data-purpose="show-ft-page" data-lang="${language}" data-content='home' data-reply="${localize('FindingMyFT')}" data-reply-action="set-preference">${localize('Top News For Me')}</a>
-        <a data-purpose="show-ft-page" data-lang="${language}" data-content='most-popular' data-reply="${localize('Finding')}">${localize('Most Popular')}</a>
+        <a data-purpose="show-ft-page" data-lang="${language}" data-content='home' data-reply="${localize('FindingMyFT')}" data-reply-action="set-preference" class="logged-in-only">${localize('Top News For Me')}</a>
+        <a data-purpose="show-ft-page" data-lang="${language}" data-content='most-popular' data-reply="${localize('Finding')}" class="logged-in-only">${localize('Most Popular')}</a>
         <a data-purpose="set-preference" data-lang="${language}" data-content="all" data-reply="${localize('Set Your Preferences')}">${localize('Setting')}</a>
       </div>
     `;

@@ -971,6 +971,8 @@ if (isTouchDevice()) {
         }
 
         updateMyPreferenceFromDragging(draggingEle.parentNode);
+        draggingEle = undefined;
+        console.log(`set draggingEle as undefined! `);
 
     });
 
