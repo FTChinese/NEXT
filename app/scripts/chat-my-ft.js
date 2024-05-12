@@ -180,6 +180,8 @@ async function checkPreferencesFromServer() {
             localStorage.setItem('preference', JSON.stringify(serverPreference));
             // MARK: - This is a good time to update the left-side navigation
             await updateNavigation();
+        } else if (serverTime < localTime) {
+            await syncPreferencesWithServer(localPreference);
         }
     } catch(err) {
         console.error('checkPreferencesFromServer error: ');
@@ -826,7 +828,7 @@ function updateMyPreferenceFromDragging(ele) {
             myPreference[key] = myPreference[key].sort((a, b) => a.index - b.index);
         }
     }
-    
+
     savePreference(myPreference);
 
 }
