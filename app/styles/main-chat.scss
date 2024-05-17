@@ -8,8 +8,9 @@ $sideBarWidth: 260px;
 html {
     scroll-behavior: smooth;
 }
+// MARK: - This is needed for sticky position to work properly
 html, body {
-    height: 100%;
+    // height: 100%;
 }
 body {
     &.font-smallest {
@@ -1043,6 +1044,8 @@ div.input-title {
         height: $navHeight;
         line-height: $navHeight;
         margin-bottom: 5px;
+        max-width: 220px;
+        min-width: 150px;
     }
     
 }
@@ -1381,4 +1384,11 @@ div.input-title {
             margin-bottom: 1em;
         }
     }
+}
+
+// MARK: - Our page run ad. Ad codes might have things like style="width: 414px", which makes the page scrolling horizontally. This is a very bad user experience, especially on mobile screens. So this code is quite important. 
+@media screen and (max-width: 490px) {
+	html, body {
+		overflow-x: visible!important;
+	}
 }

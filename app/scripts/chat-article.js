@@ -181,17 +181,16 @@ delegate.on('click', '.quiz-options div', async (event) => {
         quizContainer.setAttribute('data-score', currentScore);
         const nextQuiz = newChat.querySelector('.quiz-container.hide');
         if (nextQuiz ) {
-            
             let nextButtonEle = quizContainer.closest('.chat-talk')?.querySelector('.quiz-next');
             if (quizzesId) {
-                console.log(`Quiz id: ${quizzesId}`);
+                // console.log(`Quiz id: ${quizzesId}`);
                 nextButtonEle = document.querySelector(`button[data-quiz-id="${quizzesId}"]`) ?? nextButtonEle;
-                console.log(nextButtonEle);
+                // console.log(nextButtonEle);
             }
             if (nextButtonEle) {
                 nextButtonEle.classList.remove('hide');
+                // Maybe just scroll into bottom view 
             }
-            scrollIntoViewProperly(nextQuiz);
         } else {
             let chatTalkInner = quizContainer.closest('.chat-talk-inner');
             const all = chatTalkInner.querySelectorAll('.is-done.quiz-container').length;
@@ -414,11 +413,13 @@ delegate.on('click', '.quiz-next', async (event) => {
         }
         if (nextQuiz) {
             nextQuiz.classList.remove('hide');
+            // nextQuiz.scrollIntoView(scrollOptionsStart);
+            scrollIntoViewProperly(nextQuiz);
         }
         element.classList.add('hide');
-        if (visibleQuizesCount > 0) {
-            visibleQuizes[visibleQuizesCount-1].querySelector('.quiz-end-for-scroll-alignment').scrollIntoView(scrollOptionsStart);
-        }
+        // if (visibleQuizesCount > 0) {
+        //     visibleQuizes[visibleQuizesCount-1].querySelector('.quiz-end-for-scroll-alignment').scrollIntoView(scrollOptionsStart);
+        // }
     } catch (err) {
         console.log(err);
     }
@@ -508,11 +509,28 @@ function renderQuizInfoAndUpdateDisplay(quizId, quizInfo, ftid, isQuizDisplayed,
         // console.log(`is auto? ${isAuto}, storyBodyContainer: ${storyBodyContainer}, ftid: ${ftid}`);
         const quizHTML = `<div class="quizzes-container"><hr></div>${html}`;
         if (audioEle && audioEle.parentElement) {
-            let status = audioEle.parentElement.querySelector('.quizzes-container');
+
+            // Get the parent element of the audio element
+            let parentElement = audioEle.parentElement;
+
+            let status = parentElement.querySelector('.quizzes-container');
             if (status) {
                 status.remove();
             }
-            audioEle.parentElement.innerHTML += quizHTML;
+
+            // Create a new element for the quiz content
+            let quizContainer = document.createElement('div');
+            quizContainer.innerHTML = quizHTML;
+
+            // Append the new quiz container to the parent element
+            parentElement.appendChild(quizContainer);
+
+            let quizContainerEle = quizContainer.querySelector('.quiz-container');
+            if (quizContainerEle) {
+                scrollIntoViewProperly(quizContainerEle);
+            }
+
+            // audioEle.parentElement.innerHTML += quizHTML;
         } else if (isAuto && storyBodyContainer) {
             storyBodyContainer.innerHTML += quizHTML;
         } else if (chatInnerEle) {

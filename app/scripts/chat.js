@@ -1013,12 +1013,21 @@ function getOffsetTop(element) {
   return offsetTop;
 }
 
+// MARK: - Accurately controll how an element should be scrolled into view so that it feels totally natural and convenient for users. 
 function scrollIntoViewProperly(ele) {
   const eleHeight = ele.offsetHeight || 0;
   const windowHeight = window.innerHeight || 0;
-  const topBottomEdgeHeight = 100;
+
+  const isQuiz = ele.classList.contains('quiz-container');
+  const hasStickyAudioPlaceHolder = ele.closest('.chat-talk-inner')?.querySelector('.audio-placeholder') ? true : false;
+  const topBottomEdgeHeight = hasStickyAudioPlaceHolder ? 200 : 100;
   const visibleChatWindowHeight = windowHeight - topBottomEdgeHeight;
-  if (eleHeight < visibleChatWindowHeight) {
+
+  console.log('\n\n===========');
+  console.log(ele);
+  console.log(`isQuiz: ${isQuiz}, hasStickyAudioPlaceHolder: ${hasStickyAudioPlaceHolder}, eleHeight: ${eleHeight}, visibleChatWindowHeight: ${visibleChatWindowHeight}, topBottomEdgeHeight: ${topBottomEdgeHeight}`);
+  if (eleHeight < visibleChatWindowHeight && !isQuiz) {
+    console.log('Default scroll which has less controle. ');
     ele.scrollIntoView(scrollOptions);
   } else {
     const offsetTop = getOffsetTop(ele);
@@ -1026,7 +1035,7 @@ function scrollIntoViewProperly(ele) {
     const hideTopNavWidth = 768;
     const topEdge = (w <= hideTopNavWidth ) ? 88 : 64;
     const offsetPosition = Math.max(0, offsetTop - topEdge);
-    // console.log(`Count the scroll height: offsetTop: ${offsetTop}`);
+    console.log(`Count the scroll height: offsetTop: ${offsetTop}, topEdge: ${topEdge}, offsetPosition: ${offsetPosition}`);
     window.scrollTo({
       top: offsetPosition,
       behavior: 'smooth'
@@ -1751,14 +1760,19 @@ async function handleActionClick(element) {
       const id = element.getAttribute('data-id') || '';
       const language = element.getAttribute('data-lang') || element.closest('.chat-item-actions').getAttribute('data-lang') || 'English';
       const reminder = localize('ProcessingRequest');
-      const reminderHTML = `<div class="quizzes-container quizzes-status">${reminder}</div>`;
+
+      let reminderContainer = document.createElement('div');
+      reminderContainer.innerHTML = reminder;
+      reminderContainer.className = 'quizzes-container quizzes-status';
+
+
       if (action === 'quiz') {
           const audioEle = document.querySelector(`[data-id="${id}"] .audio-placeholder.is-sticky-top`);
           const chatTalkInnerEle = element.closest('.chat-talk-inner');          
           if (audioEle && audioEle.parentElement) {
-            audioEle.parentElement.innerHTML += reminderHTML;
+            audioEle.parentElement.appendChild(reminderContainer);
           } else if (chatTalkInnerEle) {
-            chatTalkInnerEle.innerHTML += reminderHTML;
+            chatTalkInnerEle.appendChild(reminderContainer);
           } else {
             showUserPrompt(element.innerHTML);
             showBotResponse(reminder);
@@ -2121,6 +2135,8 @@ function setPreferredLanguage() {
     const key = ele.getAttribute('data-key');
     ele.innerHTML = localize(key);
   }
+  SetCookie('preferredLanguage', preferredLanguage);
+  console.log(`Saved language preference to Cookie: ${preferredLanguage}`);
 }
 
 function setFontSize() {
