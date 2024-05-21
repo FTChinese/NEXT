@@ -703,8 +703,8 @@ delegate.on('input', '#user-input', debounce(async (event) => {
     }
     const intentions = await fetchSuggestions(value);
     // Logic to display suggestions
-    console.log(intentions);
-    console.log(suggestionEle);
+    // console.log(intentions);
+    // console.log(suggestionEle);
     renderShowIntention(suggestionEle, intentions);
 
 }, 300)); // 300 ms debounce time
@@ -736,11 +736,16 @@ function renderShowIntention(ele, intentions) {
             }
             const type = intention.field ?? checkType(key);
             const extra = (localize(name) === key) ? '' : `(${key})`;
+
+            //<a  data-purpose="search-ft-api" data-lang="${preferredLanguage}" data-content="${content}" data-reply="${localize('Finding')}" data-name="${key}" data-type="${field}">${display}${reorderButton}</a>`};
+
+            const content = `${field}: ${key}`;
             return `
             <div class="input-container">
                 <div class="input-name-container">
-                <span class="input-name">${localize(name)}</span>
-                <span class="input-extra">${extra}</span>
+                <a data-purpose="search-ft-api" data-lang="${preferredLanguage}" data-content="${content}" data-reply="${localize('Finding')}" data-name="${key}" data-type="${field}">
+                    ${localize(name)}${extra}
+                </a>
                 </div>
                 <button class="myft-follow ${buttonClass}" data-action="add-interest" data-name="${key}" data-type="${type}">${buttonHTML}</button>
             </div>`;

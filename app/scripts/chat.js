@@ -129,6 +129,7 @@ delegate.on('click', '.chat-items-expand', async (event) => {
 delegate.on('click', '[data-purpose]', async (event) => {
 
   if (shouldEventStop(event)) {return;}
+
   const element = event.target;
   if (element.classList.contains('pending')) {return;}
   const purpose = element.getAttribute('data-purpose');
@@ -137,6 +138,8 @@ delegate.on('click', '[data-purpose]', async (event) => {
   if (!content) {return;}
   element.classList.add('pending');
   hideItemActions(element);
+  const ele = document.querySelector('.chat-topic-intention');
+  hideEle(ele);
   try {
     const language = element.getAttribute('data-lang') || 'English';
     let reply = element.getAttribute('data-reply');
@@ -908,7 +911,7 @@ async function showContent(ftid, language, shouldScrollIntoView = true, shouldLo
           handleFlourishEmbeds(html);
 
           console.log(`discussArticleOnly: ${discussArticleOnly}`);
-          
+
           if (!discussArticleOnly) {
             await displayCachedQuiz(ftid, language);
           }
