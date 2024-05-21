@@ -906,6 +906,9 @@ async function showContent(ftid, language, shouldScrollIntoView = true, shouldLo
           }
           userInput.focus();
           handleFlourishEmbeds(html);
+
+          console.log(`discussArticleOnly: ${discussArticleOnly}`);
+          
           if (!discussArticleOnly) {
             await displayCachedQuiz(ftid, language);
           }
