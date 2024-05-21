@@ -301,6 +301,7 @@ a[data-action], a[data-key] {
 }
 .chat-input {
     display: flex;
+    position: relative;
     border: 1px solid $whiteBorderFT;
     border-radius: math.div($defaultPadding, 4);
     padding: math.div($defaultPadding, 3) $navHeight math.div($defaultPadding, 3) math.div($defaultPadding, 3);
@@ -952,9 +953,9 @@ body {
     padding-top:45px;
     padding-left:15px;
     padding-right:15px;
-    left: $defaultPadding * 1.5;
-    right: $defaultPadding * 0.01;
-    bottom: $defaultPadding * 2.4;
+    left: 0;
+    right: 0;
+    bottom: 100%;
     background-color: white;
     border: 1px solid $borderColor;
     z-index: 1;
@@ -964,7 +965,11 @@ body {
     [data-purpose] {
         background-color: transparent;
         font-size: 1em;
-        display: inline-block;
+        display: inline;
+        padding: 0;
+    }
+    @media (max-width: 768px) {
+        left: $defaultPadding * 0.5 - $navHeight;
     }
 }
 
