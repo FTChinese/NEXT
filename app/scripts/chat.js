@@ -906,7 +906,9 @@ async function showContent(ftid, language, shouldScrollIntoView = true, shouldLo
           }
           userInput.focus();
           handleFlourishEmbeds(html);
-          await displayCachedQuiz(ftid, language)
+          if (!discussArticleOnly) {
+            await displayCachedQuiz(ftid, language);
+          }
 
           // Deprecating: - Migrating to Pinecone for context
           // MARK: - Create embeddings for the article content in paragraphs
@@ -1023,11 +1025,11 @@ function scrollIntoViewProperly(ele) {
   const topBottomEdgeHeight = hasStickyAudioPlaceHolder ? 200 : 100;
   const visibleChatWindowHeight = windowHeight - topBottomEdgeHeight;
 
-  console.log('\n\n===========');
-  console.log(ele);
-  console.log(`isQuiz: ${isQuiz}, hasStickyAudioPlaceHolder: ${hasStickyAudioPlaceHolder}, eleHeight: ${eleHeight}, visibleChatWindowHeight: ${visibleChatWindowHeight}, topBottomEdgeHeight: ${topBottomEdgeHeight}`);
+  // console.log('\n\n===========');
+  // console.log(ele);
+  // console.log(`isQuiz: ${isQuiz}, hasStickyAudioPlaceHolder: ${hasStickyAudioPlaceHolder}, eleHeight: ${eleHeight}, visibleChatWindowHeight: ${visibleChatWindowHeight}, topBottomEdgeHeight: ${topBottomEdgeHeight}`);
   if (eleHeight < visibleChatWindowHeight && !isQuiz) {
-    console.log('Default scroll which has less controle. ');
+    // console.log('Default scroll which has less controle. ');
     ele.scrollIntoView(scrollOptions);
   } else {
     const offsetTop = getOffsetTop(ele);
@@ -1035,7 +1037,7 @@ function scrollIntoViewProperly(ele) {
     const hideTopNavWidth = 768;
     const topEdge = (w <= hideTopNavWidth ) ? 88 : 64;
     const offsetPosition = Math.max(0, offsetTop - topEdge);
-    console.log(`Count the scroll height: offsetTop: ${offsetTop}, topEdge: ${topEdge}, offsetPosition: ${offsetPosition}`);
+    // console.log(`Count the scroll height: offsetTop: ${offsetTop}, topEdge: ${topEdge}, offsetPosition: ${offsetPosition}`);
     window.scrollTo({
       top: offsetPosition,
       behavior: 'smooth'

@@ -506,9 +506,13 @@ function renderQuizInfoAndUpdateDisplay(quizId, quizInfo, ftid, isQuizDisplayed,
         html += `<div class="quizzes-container"><button class="quiz-next hide" data-quiz-id="${quizId}">${localize('NEXT')}</button></div>`;
         const audioEle = document.querySelector(`[data-id="${ftid}"] .audio-placeholder.is-sticky-top`);
         let chatInnerEle = storyBodyContainer?.closest('.chat-talk-inner');
-        // console.log(`is auto? ${isAuto}, storyBodyContainer: ${storyBodyContainer}, ftid: ${ftid}`);
+        // console.log(`is auto? ${isAuto}, storyBodyContainer: ${storyBodyContainer.innerHTML}, ftid: ${ftid}`);
         const quizHTML = `<div class="quizzes-container"><hr></div>${html}`;
-        if (audioEle && audioEle.parentElement) {
+
+        if (document.documentElement.classList.contains('discuss-article-only')) {
+            const result = {text: quizHTML};
+            showResultInChat(result);
+        } else if (audioEle && audioEle.parentElement) {
 
             // Get the parent element of the audio element
             let parentElement = audioEle.parentElement;
@@ -539,7 +543,7 @@ function renderQuizInfoAndUpdateDisplay(quizId, quizInfo, ftid, isQuizDisplayed,
             chatInnerEle.append(quizContainerEle);
             scrollIntoViewProperly(quizContainerEle);
         } else {
-            const result = {text: html};
+            const result = {text: quizHTML};
             showResultInChat(result);
         }
         let button = chatTalkInner?.querySelector(`[data-action="quiz"][data-lang="${language}"]`);
