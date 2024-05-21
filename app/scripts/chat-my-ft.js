@@ -691,6 +691,9 @@ delegate.on('input', '#custom-topic-input', debounce(async (event) => {
 
 delegate.on('input', '#user-input', debounce(async (event) => {
     // 点击后触发
+    if(window.intention){
+        return ;
+    }
     const ele = event.target;
     const value = ele.value.trim();
     const suggestionEle = ele.closest('.chat-input')?.querySelector('.chat-topic-intention');
@@ -719,6 +722,7 @@ function renderShowIntention(ele, intentions) {
     const myPreference = getMyPreference();
     const myInterests = (myPreference[myInterestsKey] || []).filter(x=>typeof x === 'object');
     const myInterestsKeys = myInterests.map(x=>x.key || '').filter(x=>x!=='');
+    intentions = intentions.slice(0, 1);
     const intentionsHTML = intentions
         .map(intention=>{
             const key = intention.name;
