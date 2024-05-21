@@ -690,8 +690,8 @@ delegate.on('input', '#custom-topic-input', debounce(async (event) => {
 
 
 delegate.on('input', '#user-input', debounce(async (event) => {
-    // 点击后触发
-    if(window.intention){
+    
+    if(window.intention && window.intention !== 'DiscussContent'){
         return ;
     }
     const ele = event.target;
@@ -702,9 +702,6 @@ delegate.on('input', '#user-input', debounce(async (event) => {
         return;
     }
     const intentions = await fetchSuggestions(value);
-    // Logic to display suggestions
-    // console.log(intentions);
-    // console.log(suggestionEle);
     renderShowIntention(suggestionEle, intentions);
 
 }, 300)); // 300 ms debounce time
