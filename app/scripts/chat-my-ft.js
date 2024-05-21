@@ -620,8 +620,13 @@ delegate.on('click', '.hide-suggestions', async (event) => {
     hideEle(ele);
 });
 
-delegate.on('click', '[data-action="add-interests"]', async (event) => {
+delegate.on('click', '.hide-intention', async (event) => {
+    let ele = event.target.closest('.chat-topic-intention');
+    hideEle(ele);
+});
 
+delegate.on('click', '[data-action="add-interests"]', async (event) => {
+    //点击添加按钮触发
     let myRegions = regions;
     const languageCodes = (preferredLanguage || '').split('-');
     if (languageCodes.length === 2) {
@@ -668,7 +673,7 @@ delegate.on('click', '[data-action="add-interests"]', async (event) => {
 
 // Event listener for input event with debounce
 delegate.on('input', '#custom-topic-input', debounce(async (event) => {
-
+    // 点击后触发
     const ele = event.target;
     const value = ele.value.trim();
     const suggestionEle = ele.closest('.input-name')?.querySelector('.custom-topic-suggestion');
@@ -682,6 +687,65 @@ delegate.on('input', '#custom-topic-input', debounce(async (event) => {
     renderSuggestion(suggestionEle, suggestions);
 
 }, 300)); // 300 ms debounce time
+
+
+delegate.on('input', '#user-input', debounce(async (event) => {
+    // 点击后触发
+    const ele = event.target;
+    const value = ele.value.trim();
+    const suggestionEle = ele.closest('.chat-input')?.querySelector('.chat-topic-intention');
+    if (value === '') {
+        hideEle(suggestionEle);
+        return;
+    }
+    const intentions = await fetchSuggestions(value);
+    // Logic to display suggestions
+    console.log(intentions);
+    console.log(suggestionEle);
+    renderShowIntention(suggestionEle, intentions);
+
+}, 300)); // 300 ms debounce time
+
+
+function renderShowIntention(ele, intentions) {
+    if (!ele) {return;}
+    // console.log(suggestions);
+    if (!intentions || intentions.length === 0) {
+        console.log('No Suggestion!');
+        hideEle(ele);
+        return;
+    }
+    showEle(ele);
+    const myPreference = getMyPreference();
+    const myInterests = (myPreference[myInterestsKey] || []).filter(x=>typeof x === 'object');
+    const myInterestsKeys = myInterests.map(x=>x.key || '').filter(x=>x!=='');
+    const intentionsHTML = intentions
+        .map(intention=>{
+            const key = intention.name;
+            const field = intention.field;
+            let buttonClass = 'plus';
+            let buttonHTML = `${localize('Follow')}${localize('<!--space-->', ' ')}${capitalize(localize(field))}`;
+            const name = intention.translations?.[preferredLanguage] ?? key;
+            if (myInterestsKeys.indexOf(key)>=0) {
+                buttonClass = 'tick';
+                buttonHTML = localize('Unfollow');
+            }
+            const type = intention.field ?? checkType(key);
+            const extra = (localize(name) === key) ? '' : `(${key})`;
+            return `
+            <div class="input-container">
+                <div class="input-name-container">
+                <span class="input-name">${localize(name)}</span>
+                <span class="input-extra">${extra}</span>
+                </div>
+                <button class="myft-follow ${buttonClass}" data-action="add-interest" data-name="${key}" data-type="${type}">${buttonHTML}</button>
+            </div>`;
+        })
+        .join('');
+    ele.innerHTML = `<div class="hide-intention">X</div>${intentionsHTML}`;
+}
+
+
 
 
 delegate.on('click', '[data-action="add-custom-interest"]', async (event) => {

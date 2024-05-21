@@ -817,7 +817,7 @@ body {
     margin-bottom: $defaultPadding;
 }
 
-.overlay-content, .annotations-container, .multiple-setting-container, .custom-setting-container {
+.overlay-content, .annotations-container, .multiple-setting-container, .custom-setting-container , .chat-topic-intention {
     div.input-container {
         display: flex;
         align-items: center;
@@ -927,6 +927,42 @@ body {
     }
 }
 
+
+
+// .chat-topic-suggestion {
+//     display: none;
+//     position: absolute;
+//     left: $defaultPadding * 0.5;
+//     right: $defaultPadding * 0.5;
+//     top: $defaultPadding * 1.5;
+//     background-color: white;
+//     border: 1px solid $borderColor;
+//     z-index: 1;
+//     &.on {
+//         display: block;
+//     }
+//     .custom-setting-container &, .overlay-content & {
+//         padding: $defaultPadding + 20px $defaultPadding * 0.5 $defaultPadding * 0.5 $defaultPadding * 0.5;
+//     }
+// }
+
+.chat-topic-intention {
+    display: none;
+    position: absolute;
+    padding-top:45px;
+    padding-left:15px;
+    padding-right:15px;
+    left: $defaultPadding * 1.5;
+    right: $defaultPadding * 0.01;
+    top: $defaultPadding * -5.9;
+    background-color: white;
+    border: 1px solid $borderColor;
+    z-index: 1;
+    &.on {
+        display: block;
+    }
+}
+
 .hide-suggestions {
     font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
     position: absolute;
@@ -948,6 +984,32 @@ body {
     align-items: center;
 }
 .hide-suggestions:hover {
+    color: #fff;
+    background-color: #666;
+}
+
+
+.hide-intention {
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;  /* Adjust size as needed */
+    height: 30px; /* Adjust size as needed */
+    line-height: 30px; /* Centers the 'X' vertically */
+    text-align: center; /* Centers the 'X' horizontally */
+    font-size: 18px;
+    color: #555;
+    background-color: transparent;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.hide-intention:hover {
     color: #fff;
     background-color: #666;
 }
