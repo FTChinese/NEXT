@@ -690,7 +690,7 @@ delegate.on('input', '#custom-topic-input', debounce(async (event) => {
 
 
 delegate.on('input', '#user-input', debounce(async (event) => {
-    
+
     if(window.intention && window.intention !== 'DiscussContent'){
         return ;
     }
@@ -733,6 +733,7 @@ function renderShowIntention(ele, intentions) {
             }
             const type = intention.field ?? checkType(key);
             const extra = (localize(name) === key) ? '' : `(${key})`;
+            const display = localize(name);
 
             //<a  data-purpose="search-ft-api" data-lang="${preferredLanguage}" data-content="${content}" data-reply="${localize('Finding')}" data-name="${key}" data-type="${field}">${display}${reorderButton}</a>`};
 
@@ -741,10 +742,10 @@ function renderShowIntention(ele, intentions) {
             <div class="input-container">
                 <div class="input-name-container">
                 <a data-purpose="search-ft-api" data-lang="${preferredLanguage}" data-content="${content}" data-reply="${localize('Finding')}" data-name="${key}" data-type="${field}">
-                    ${localize(name)}${extra}
+                    ${display}${extra}
                 </a>
                 </div>
-                <button class="myft-follow ${buttonClass}" data-action="add-interest" data-name="${key}" data-type="${type}">${buttonHTML}</button>
+                <button class="myft-follow ${buttonClass}" data-action="add-interest" data-name="${key}" data-type="${type}" data-display="${display}">${buttonHTML}</button>
             </div>`;
         })
         .join('');
