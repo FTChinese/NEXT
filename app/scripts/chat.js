@@ -1127,6 +1127,9 @@ function getShortcutOptions(prompt) {
 }
 
 async function talk() {
+  console.log(`Talk sent! `);
+  const ele = document.querySelector('.chat-topic-intention');
+  hideEle(ele);
   // var token = localStorage.getItem('accessToken');
   const token = GetCookie('accessToken');
   if (!token || token === '') {
@@ -1146,8 +1149,6 @@ async function talk() {
   userInput.value = '';
   userInput.style.height = 'auto';
   showBotResponse();
-  const ele = document.querySelector('.chat-topic-intention');
-  hideEle(ele);
   // MARK: If the user input the FT url directly, just show the article
   const ftUrlPattern = /^http.+\.ft\.com\/content\/([a-zA-Z0-9\-]+)(\?.*)?$/;
   if (ftUrlPattern.test(prompt)) {
