@@ -2060,11 +2060,7 @@ function getActionOptions() {
   if (intention === 'DiscussArticle') {
     result = moveStoryActions();
   } else if (['CustomerService'].indexOf(intention) >= 0) {
-    result = `
-      <div class="chat-item-actions right">
-        <a data-purpose="set-intention" data-lang="${language}" data-content="CleanSlate" data-reply="${localize('Offer Help')}">${localize('ChangeSubject')}</a>
-      </div>
-    `;
+    result = '';
   } else if (['SearchFTAPI'].indexOf(intention) >= 0) {
     result = `
     <div class="chat-item-actions">
@@ -2092,6 +2088,26 @@ function getActionOptions() {
     // <a data-purpose="set-intention" data-lang="${language}" data-content="SearchFTAPI" data-reply="${localize('Find More')}">${localize('Search')}</a>
     // <a data-purpose="set-intention" data-lang="${language}" data-content="CustomerService" data-reply="${localize('Offer Help')}">${localize('CustomerService')}</a>
     
+  } else if (intention === 'DailyEnglish') {
+    result = `
+      <div class="chat-item-actions">
+        <a data-purpose="show-ft-page" data-lang="en" data-content='home' data-reply="Checking Top News for You..." data-reply-action="set-preference" class="logged-in-only">What's news for me? </a>
+        <a data-purpose="show-ft-page" data-lang="en" data-content='most-popular' data-reply="Checking Most Popular News for You..." class="logged-in-only">What are the most popular stories on the FT? </a>
+      </div>
+    `;
+  } else if (intention === 'VideoAudio') {
+    result = `
+    <div class="chat-item-actions">
+      <a data-purpose="search-ft-api" data-lang="${language}" data-content='VIDEOS' data-reply="${localize('Finding')}">${localize('Videos')}</a>
+      <a data-purpose="search-ft-api" data-lang="${language}" data-content='PODCASTS' data-reply="${localize('Finding')}">${localize('Podcasts')}</a>
+    </div>
+    `;
+  } else if (intention === 'FTAcademy') {
+    result = `
+    <div class="chat-item-actions">
+      <a data-purpose="news-quiz" data-lang="${language}" data-content='quiz' data-reply="${localize('PrepareingQuiz')}">${localize('NewsQuiz')}</a>
+    </div>
+    `;
   }
   return result.replace(/[\n\r]+/g, '');
     // News in-depth, Deep Dive
@@ -2300,13 +2316,25 @@ async function setGuardRails() {
 }
 
 async function greet() {
+
+  const intentInPara = paramDict.intent;
+  if (intentInPara && intentInPara !== '' && intention === undefined) {
+    intention = intentInPara;
+  }
+
   if (showGreeting === false) {return;}
   const inductionNeeded = await shouldShowInduction();
   if (inductionNeeded) {
     await showInduction();
     return;
   }
-  const introduction = `<p>${localize('Introduction')}</p>`;
+
+  const introductionWithIntents = new Set(['DailyEnglish', 'VideoAudio', 'FTAcademy', 'CustomerService']);
+  let introductionKey = 'Introduction';
+  if (introductionWithIntents.has(intention)) {
+    introductionKey += intention;
+  }
+  const introduction = `<p>${localize(introductionKey)}</p>`;
   const prompt = (discussArticleOnly || surveyOnly) ? '' : `<p>${getRandomPrompt('greeting')}</p>`;
   if (!chatContent.querySelector('.chat-talk')) {
       chatContent.innerHTML = '';
@@ -2318,7 +2346,7 @@ async function greet() {
     chatContent.appendChild(newChat);
   }
   userInput.setAttribute('placeholder', localize('Ask Me'));
-  // await setIntention('DiscussContent', preferredLanguage, localize('Discuss More'), true, false);
+
 
 }
 
