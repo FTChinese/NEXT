@@ -576,8 +576,16 @@
 									array_splice($newItems, 1, 0, $firstInsertedItemArray);
 								}
 
+
+								$filteredItems = array();
+								foreach ($newItems as $item) {
+									if ($item['id'] !== '001103140') {
+										$filteredItems[] = $item;
+									}
+								}
+
 								// Assign the new items array to the template variable 'itemsArray'
-								$this->assign("itemsArray", $newItems);
+								$this->assign("itemsArray", $filteredItems);
 							}
 							<%/php%>
 						<%/if%>
