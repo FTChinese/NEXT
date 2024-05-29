@@ -81,10 +81,12 @@
         <%include file="next/partials/subscription-box.html"%>
     <%elseif $section.type == "block"%>
     
-        <%if $p.meta.theme == "darkblue" && $b == 0%>
+        <%if ($p.meta.theme == "darkblue" || $p.meta.theme == "red") && $b == 0%>
             <%assign var="adPortraitStyle" value=""%>
             <%if $smarty.get.style == "1"%>
                 <%assign var="adPortraitStyle" value=" ad-portrait-style-1"%>
+            <%elseif $smarty.get.style == "2"%>
+                <%assign var="adPortraitStyle" value=" ad-portrait-style-2"%>
             <%/if%>
             <div class="ad-portrait-left-container<%$adPortraitStyle%>"><div class="ad-portrait-left"></div></div>
             <div class="ad-portrait-right-container<%$adPortraitStyle%>"><div class="ad-portrait-right"></div></div>
