@@ -203,7 +203,10 @@ async function updateNavigation() {
 function getMyFollowsHTML() {
 
     const my = getMyPreference();
-    preferredLanguage = my['Language'];
+    if (!my) {return;}
+    if (my.Language && typeof my.Language === 'string' && my.Language !== '') {
+        preferredLanguage = my['Language'] || navigator.language || 'zh-CN';
+    }
     const follows = (my[myInterestsKey] || []).filter(x => typeof x === 'object');
 
     let allIndex = 0;

@@ -9,8 +9,8 @@ const isInNativeApp = location.href.indexOf('webview=ftcapp') >= 0;
 const discussArticleOnly = location.href.indexOf('ftid=') >= 0 && location.href.indexOf('action=read') < 0;
 const showGreeting = !/action=(read|search)/gi.test(location.href);
 const surveyOnly = location.href.indexOf('action=survey') >= 0;
+window.preferredLanguage = navigator.language;
 var languageOptionsDict = {Chinese: '中文'};
-var preferredLanguage = navigator.language;
 var readArticle = 'pop-out';
 var translationPreference = 'both';
 var paramDict = {};
@@ -2043,7 +2043,7 @@ async function handleResultSources(sources) {
 }
 
 function getRandomPrompt(purpose) {
-  const language = preferredLanguage;
+  const language = preferredLanguage || navigator.language || 'zh-CN';
   const languagePrefix = language.replace(/\-.*$/g, '');
   const dict = randomPromptDict[purpose];
   if (!dict) {return 'Hello, How can I help you?';}
@@ -2148,7 +2148,7 @@ function setPreferredLanguage() {
     }
   } else {
     const myPreference = getMyPreference();
-    if (myPreference['Language']) {
+    if (myPreference && myPreference['Language']) {
       preferredLanguage = myPreference['Language'];
       console.log(`preferredLanguage from local storage: ${preferredLanguage}`);
       const buttons = document.querySelectorAll('[data-lang]');
@@ -2157,13 +2157,16 @@ function setPreferredLanguage() {
       }
     }
   }
+  if (!preferredLanguage) {
+    preferredLanguage = navigator.language;
+  }
+  SetCookie('preferredLanguage', preferredLanguage);
+  console.log(`Saved language preference to Cookie: ${preferredLanguage}`);
   const eles = document.querySelectorAll('[data-key]');
   for (let ele of eles) {
     const key = ele.getAttribute('data-key');
     ele.innerHTML = localize(key);
   }
-  SetCookie('preferredLanguage', preferredLanguage);
-  console.log(`Saved language preference to Cookie: ${preferredLanguage}`);
 }
 
 function setFontSize() {
@@ -2186,6 +2189,7 @@ function setTranslatePreference() {
   translationPreference = myPreference['Article Translation Preference'] ?? 'both';
 }
 
+
 async function setConfigurations() {
 
   // MARK: Update from the hash parameters
@@ -2195,7 +2199,7 @@ async function setConfigurations() {
     if (hashPair.length < 2) {continue;}
     const key = hashPair[0];
     const value = hashPair[1];
-    paramDict[key] = value;
+    paramDict[key] = value.replace(/\?/g, '');
   }
   setPreferredLanguage();
   setFontSize();
@@ -2203,6 +2207,7 @@ async function setConfigurations() {
   setTranslatePreference();
   window.shouldPromptLogin = true;
   localStorage.setItem('pagemark', window.location.href);
+
   var script = document.createElement('script');
   script.src = '/powertranslate/scripts/register.js';
   document.head.appendChild(script);
@@ -2214,7 +2219,6 @@ async function setConfigurations() {
   if (mainChatRole) {
     mainChatRole.innerHTML = mainRoleHTML;
   }
-
   const myFollowsHTML = await convertChinese(getMyFollowsHTML(), preferredLanguage);
   const rolesHTML = `
   <a class="show-right-arrow-trailing" data-purpose="show-ft-page" data-lang="${preferredLanguage}" data-content='home' data-reply="${localize('FindingMyFT')}" data-reply-action="set-preference">${localize('MyFT')}</a>
@@ -2243,7 +2247,9 @@ async function setConfigurations() {
   if (sideSettingsEle) {
     sideSettingsEle.innerHTML = sideSettingsHTML;
   }
+  
 }
+
 
 async function waitForAccessToken() {
   if (isFrontendTest) {return;}
