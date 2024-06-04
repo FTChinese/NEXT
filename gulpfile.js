@@ -54,6 +54,10 @@ const origamiModules = [
   {
     source: 'https://www.googletagservices.com/tag/js/gpt.js',
     dest: '../dev_www/frontend/static/js/gpt.js'
+  },
+  {
+    source: 'https://www.googletagservices.com/tag/js/gpt.js',
+    dest: './app/origami/gpt.js'
   }
   
 ];
@@ -382,27 +386,48 @@ gulp.task('copy:cms', async () => {
 });
 
 gulp.task('copy:ftcoffer', async () => {
+
   const dest = '../ftcoffer/public';
   if (!fs.existsSync(dest)) {
     console.log(`${dest} does not exist! `);
     return;
   }
+
+  // MARK: - The JS files
+  const jsFiles = ['main-chat', 'main-story', 'key', 'main-db-zone-helper', 'main-translation-helper', 'ad-polyfill'];
+  for (const jsFile of jsFiles) {
+    gulp.src([`dist/scripts/${jsFile}.js`])
+      .on('error', (err) => {
+        console.error(err.stack);
+      })
+      .pipe(gulp.dest(`${dest}/scripts`));
+  }
+
+  const origamiFiles = ['o-ads', 'gpt'];
+  for (const jsFile of origamiFiles) {
+    gulp.src([`./app/origami/${jsFile}.js`])
+      .on('error', (err) => {
+        console.error(err.stack);
+      })
+      .pipe(gulp.dest(`${dest}/scripts`));
+  }
+
+
+  const cssFiles = ['main-story*', 'main-translation-helper', 'main-chat'];
+  for (const cssFile of cssFiles) {
+    gulp.src([`dist/styles/${cssFile}.css`])
+    .on('error', (err) => {
+      console.error(err.stack);
+    })
+    .pipe(gulp.dest(`${dest}/styles`));
+  }
+
   // MARK: - Translation Helper
   gulp.src(['dist/translation-helper.html'])
     .on('error', (err) => {
       console.error(err.stack);
     })
     .pipe(gulp.dest(dest));
-  gulp.src(['dist/styles/main-translation-helper.css'])
-    .on('error', (err) => {
-      console.error(err.stack);
-    })
-    .pipe(gulp.dest(`${dest}/styles`));
-  gulp.src(['dist/scripts/main-translation-helper.js'])
-    .on('error', (err) => {
-      console.error(err.stack);
-    })
-    .pipe(gulp.dest(`${dest}/scripts`));
 
   // MARK: - ChatFT
   gulp.src(['dist/chat.html'])
@@ -410,16 +435,8 @@ gulp.task('copy:ftcoffer', async () => {
       console.error(err.stack);
     })
     .pipe(gulp.dest(dest));
-  gulp.src(['dist/styles/main-chat.css'])
-    .on('error', (err) => {
-      console.error(err.stack);
-    })
-    .pipe(gulp.dest(`${dest}/styles`));
-  gulp.src(['dist/scripts/main-chat.js'])
-    .on('error', (err) => {
-      console.error(err.stack);
-    })
-    .pipe(gulp.dest(`${dest}/scripts`));
+
+
   gulp.src(['app/scripts/*.json'])
     .on('error', (err) => {
       console.error(err.stack);
@@ -445,6 +462,7 @@ gulp.task('copy:ftcoffer', async () => {
       console.error(err.stack);
     })
     .pipe(gulp.dest(`${dest}`));
+
 });
 
 gulp.task('copy:p0', () => {

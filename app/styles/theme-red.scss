@@ -1,0 +1,118 @@
+$defaultPink: #f4883c;
+$borderColor: #f4883c;
+$bannerBG: #ffad6a;
+$darkTint: #505050;
+$sideBorderColor: #A7A59B;
+$footerBorder: #f4883c;
+$whiteColor: #FFF;
+$headerTint: #f4883c;
+$headerTintLight: #505050;
+$headerColor: white;
+$headerDeliminatorColor: #fdf8f2;
+$darkGreen: #0a5e66;
+$fontColor: #FFF;
+$titleColor: #FFF;
+$leadColor: #FFF;
+$visitedLink: #FFF;
+$lightFontColor: #FFF;
+$highlightColor: #FFF;
+$mastHead: url('https://d2785ji6wtdqx8.cloudfront.net/images/masthead36.png');
+$mastHeadBig5: url('https://thumbor.ftacademy.cn/unsafe/picture/7/000132937_piclink.png');
+$logoPNG: url('https://d2785ji6wtdqx8.cloudfront.net/img/png/brand-ftc-masthead-white.png');
+$logoSVG: url('https://d2785ji6wtdqx8.cloudfront.net/img/svg/brand-ftc-masthead-white.svg');
+$hamberger: 'white/hamburger-white';
+$search: 'white/search-white';
+$cross: 'white/cross-white';
+$arrowDown: 'white/arrow-down-white';
+$arrowRight: 'white/arrow-right-white';
+$arrowUp: 'white/arrow-up-white';
+$arrowLeft: 'white/arrow-left-white';
+@mixin navBottomMobile {
+    box-shadow: none;
+}
+.item-tag a, .item-time.highlight {
+    color: white!important;
+}
+button.myft-follow {
+    display: none!important;
+}
+
+.ad-portrait-left-container, .ad-portrait-right-container, .ad-top-sticky-container {
+    display: none;
+}
+
+@media only screen and (min-width: 1440px){
+
+    .ad-portrait-left-container {
+        position: fixed;
+        left: 0;
+        right: calc((100% + 1200px + 30px)/2);
+        top: 0;
+        height: 100%;
+        z-index: 9999999;
+        background-color: $defaultPink;
+    }
+
+
+    .ad-portrait-right-container {
+        position: fixed;
+        left: calc((100% + 1200px + 30px)/2);
+        right: 0;
+        top: 0;
+        height: 100%;
+        z-index: 9999999;
+        background-color: $defaultPink;
+    }
+
+    .ad-portrait-left-container, .ad-portrait-right-container {
+        display: block;
+        &.ad-portrait-style-1 {
+            position: absolute;
+        }
+        &.ad-portrait-style-2 {
+            .ad-portrait-left, .ad-portrait-right {
+                height: 100%;
+            }
+        }
+    }
+
+    .ad-portrait-left, .ad-portrait-right {
+        width: 105px;
+        height: 600px;
+        background-color: $bannerBG;
+    }
+
+    .ad-portrait-left {
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+
+
+}
+
+@media only screen and (min-width: 1920px){
+    .ad-portrait-left, .ad-portrait-right {
+        width: 300px;
+    }
+}
+
+@media only screen and (max-width: 1439px){
+    .ad-top-sticky-container {
+        width: 100%;
+        max-width: 1200px;
+        height: 44px;
+        background-color: #3C5197;
+        position: sticky;
+        top: 0;
+        margin: 0 auto 30px auto;
+        z-index: 9999999;
+        display: block;
+    }
+}
+
+@media only screen and (max-width: 760px){
+    .ad-top-sticky-container {
+        top: 44px;
+    }
+}
