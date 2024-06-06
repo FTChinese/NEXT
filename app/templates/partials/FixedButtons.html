@@ -24,9 +24,11 @@
     <%assign var="itemId" value=$smarty.get.video|sanitize%>
   <%/if%>
 
-  <!--v: <%$v%>-->
+  <!--v: <%$v%>, isiOS: <%$isiOS%>-->
   <%assign var="standardBuyLink" value=$nextmodel->getBuyLink("standard", "yearly", $section.discount, $section.discountCode, $ccode, $isiOS, $itemType, $itemId, $v)%>
   <%assign var="premiumBuyLink" value=$nextmodel->getBuyLink("premium", "yearly", $section.discount, $section.discountCode, $ccode, $isiOS, $itemType, $itemId, $v)%>
+  
+  <!--premiumBuyLink: <%$premiumBuyLink%>-->
   <%if $smarty.get.webview == "ftcapp" && $smarty.get.android == ""%>
       <%*<!--MARK: For ios html validation-->*%>
       <div class="item-container"></div>
