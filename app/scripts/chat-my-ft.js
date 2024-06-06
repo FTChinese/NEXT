@@ -1099,7 +1099,7 @@ if (isTouchDevice()) {
 async function shouldShowInduction() {
 
     // MARK: - For native app webviews, don't show the induction/onboarding
-    if (window.location.href.indexOf('webview=ftcapp') >= 0) {
+    if (window.location.href.indexOf('webview=ftcapp') >= 0 && intention) {
         return false;
     }
 

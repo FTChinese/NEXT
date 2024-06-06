@@ -2213,7 +2213,7 @@ async function setConfigurations() {
   document.head.appendChild(script);
   
   const mainRoleHTML = `
-    <a data-purpose="start-over" data-content="start-over" data-key="start-over">${localize('ChatFT')}</a>
+    <a data-purpose="start-over" data-content="start-over" data-key="start-over">${localize('ChatFTC')}</a>
   `;
   let mainChatRole = document.getElementById('main-chat-role');
   if (mainChatRole) {
