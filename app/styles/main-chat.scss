@@ -1171,6 +1171,18 @@ div.input-title {
     }
 }
 
+.story-side-ad-container {
+    img {
+        margin: auto;
+        display: block;
+    }
+}
+
+.promotion {
+    display: block;
+    margin: auto;
+}
+
 @keyframes fadeInOut {
     0% {
         opacity: 0;
@@ -1202,9 +1214,8 @@ div.input-title {
                 grid-template-columns: 1fr 30px 300px;
                 gap: 0;
                 grid-template-areas:
-                    "main gutter righttop";
-                    // TODO: In the future, can put ads or recommendations to the rightbottom
-                    // "main gutter rightbottom";
+                    "main gutter righttop"
+                    "main gutter rightbottom";
             }
             .story-header-container {
                 max-width: 768px + 300px + $defaultPadding;
@@ -1224,7 +1235,7 @@ div.input-title {
                 height: 100%;
             }
 
-            .story-box {
+            .story-box, .story-side-ad-inner {
                 position: sticky;
                 top: $headerHeight;
             }

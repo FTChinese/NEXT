@@ -1994,6 +1994,34 @@ let statusDictOriginal = {
     zh: '欢迎使用专属于您的财经新闻助理！我的目标是通过提供量身定制的推荐和深度分析，协助您充分利用您的订阅。',
     ru: 'Добро пожаловать в вашего персонального помощника по финансовым и бизнес-новостям! Моя цель - помочь вам получить максимальную пользу от вашей подписки, предоставляя настраиваемые рекомендации и аналитику.'
   },
+  'PromotionInIntroduction': {
+    zh: '从2024年6月11日至24日，邀请您免费体验，专门为高端会员量身定制的内容推荐和深度分析，协助您充分利用您的订阅。',
+    en: 'From June 11 to 24, 2024, we invite you to a free trial experience, offering customized content recommendations and in-depth analysis specifically tailored for premium members to help you fully utilize your subscription.',
+    es: 'Del 11 al 24 de junio de 2024, te invitamos a experimentar gratuitamente, ofreciendo recomendaciones de contenido personalizadas y análisis profundos específicamente adaptados para los miembros premium para ayudarte a aprovechar al máximo tu suscripción.',
+    fr: `Du 11 au 24 juin 2024, nous vous invitons à une expérience d'essai gratuite, offrant des recommandations de contenu personnalisées et des analyses approfondies spécialement adaptées pour les membres premium afin de vous aider à tirer pleinement parti de votre abonnement.`,
+    de: 'Vom 11. bis 24. Juni 2024 laden wir Sie zu einem kostenlosen Testangebot ein, das speziell für Premium-Mitglieder maßgeschneiderte Inhaltsvorschläge und tiefgehende Analysen bietet, um Ihnen zu helfen, Ihr Abonnement voll auszunutzen.',
+    ja: '2024年6月11日から24日まで、プレミアム会員向けに特別にカスタマイズされたコンテンツの推薦と深い分析を提供する無料体験をご招待します。',
+    ko: '2024년 6월 11일부터 24일까지, 프리미엄 회원을 위해 특별히 맞춤화된 콘텐츠 추천과 심층 분석을 제공하는 무료 체험을 초대합니다.',
+    pt: 'De 11 a 24 de junho de 2024, convidamos você para uma experiência gratuita, oferecendo recomendações de conteúdo personalizadas e análises aprofundadas especialmente adaptadas para membros premium, para ajudá-lo a aproveitar ao máximo sua assinatura.',
+    it: 'Dal 11 al 24 giugno 2024, ti invitiamo a una prova gratuita, offrendo raccomandazioni di contenuto personalizzate e analisi approfondite specificamente adattate per i membri premium per aiutarti a sfruttare al massimo la tua sottoscrizione.',
+    'zh-TW': '從2024年6月11日至24日，邀請您免費體驗，專門為高端會員量身定制的內容推薦和深度分析，協助您充分利用您的訂閱。',
+    'zh-HK': '從2024年6月11日至24日，邀請您免費體驗，專門為高端會員量身定制的內容推薦和深度分析，協助您充分利用您的訂閱。',
+    ru: 'С 11 по 24 июня 2024 года мы приглашаем вас на бесплатный пробный период, предлагая индивидуальные рекомендации по контенту и глубокий анализ, специально адаптированные для премиум-участников, чтобы помочь вам максимально использовать вашу подписку.'
+  },
+  'PromotionActionButton': {
+    zh: '现在订阅，享75折优惠',
+    en: 'Subscribe now and enjoy a 25% discount',
+    es: 'Suscríbete ahora y disfruta de un 25% de descuento',
+    fr: 'Abonnez-vous maintenant et bénéficiez de 25% de réduction',
+    de: 'Abonnieren Sie jetzt und genießen Sie 25% Rabatt',
+    ja: '今すぐ購読して、25％割引をお楽しみください',
+    ko: '지금 구독하고 25% 할인 받으세요',
+    pt: 'Assine agora e aproveite um desconto de 25%',
+    it: 'Abbonati ora e goditi il 25% di sconto',
+    'zh-TW': '現在訂閱，享75折優惠',
+    'zh-HK': '現在訂閱，享受75折優惠',
+    ru: 'Подпишитесь сейчас и получите скидку 25%'
+  },
   'IntroductionFTAcademy': {
     zh: '欢迎使用专属于您的FT商学院助理！我的目标是利用FT的优质内容，帮助您提升自己。',
     en:  `Welcome to your personal FT Academy assistant! My goal is to leverage FT's high-quality content to help you improve yourself.`,

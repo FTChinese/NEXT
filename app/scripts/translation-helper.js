@@ -865,6 +865,10 @@ async function checkAITranslation() {
             const translationId = translationEle.id;
             let textareaEle = document.querySelector(`textarea[data-info-id="${translationId}"]`);
             textareaEle.value = translation;
+            let selectedEles = textareaEle.closest('.info-container')?.querySelectorAll('.info-translation.selected') ?? [];
+            for (let selectedEle of selectedEles) {
+                selectedEle.classList.remove('selected');
+            }
         }
         let previewButton = document.querySelector('#preview-button');
         if (previewButton) {

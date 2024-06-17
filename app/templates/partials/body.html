@@ -189,7 +189,7 @@
                         </div>
                     </div>
                     <%assign var="i" value=0%>
-                <%elseif $highlightFTAcademy == "top"%>
+                <%elseif $highlightFTAcademy == "top" || $smarty.get.highlightFTAcademy == "yes"%>
                     <%assign var="topItemCount" value=8%>
                     <%if $showMaximum8Tops == "yes"%>
                         <%assign var="topItemCount" value=8%>
@@ -197,7 +197,11 @@
                     <%if $isWorkingDayMorning == "yes"%>
                         <%assign var="topItemCount" value=4%>
                     <%/if%>
-                    <%assign var="interactives" value=$interactivemodel->get_interactive_by_field_search("find_in_set('FT商学院',tag)",0,24,14,10800)%>
+                    <%if $smarty.get.standard == "yes" || $subscriptionType == "standard"%>
+                        <%assign var="interactives" value=$interactivemodel->get_interactive_by_field_search("find_in_set('FT商学院',tag) AND NOT find_in_set('高端专享',tag)",0,24,14,10800)%>
+                    <%else%>
+                        <%assign var="interactives" value=$interactivemodel->get_interactive_by_field_search("find_in_set('FT商学院',tag)",0,24,14,10800)%>
+                    <%/if%>
                     <%php%>
                         // Check if the function getBeijingTime is already defined
                         if (!function_exists('getBeijingTime')) {
@@ -242,7 +246,7 @@
                             $minItemCount = max($smallestDivisibleByFour, $minItemCount);
                         }
                         $ymd = $beijingTime['year'] * 10000 + $beijingTime['mon'] * 100 + $beijingTime['mday'];
-                        if ($ymd >= 20240608 && $ymd <= 20240610) {
+                        if ($ymd >= 20240610 && $ymd <= 20240610) {
                             $minItemCount = 24;
                         }
                         // Use array_slice to get the first $minItemCount items from $interactives

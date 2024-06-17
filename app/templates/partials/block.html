@@ -494,7 +494,7 @@
 							<%if $subscriptionType == "premium" && ($isUserInternal === false || $isUserTester === true)%>
 								<%assign var="insertItemCount" value=6%>
 							<%/if%>
-							<%assign var="ftAcademyItems" value=$interactivemodel->get_interactive_by_field_search("find_in_set('FT商学院', tag) and !find_in_set('17周年大视野精选', tag) and !find_in_set('高端限免', tag) and publish_status = 'queue'",0,12,7,10800)%>
+							<%assign var="ftAcademyItems" value=$interactivemodel->get_interactive_by_field_search("find_in_set('FT商学院', tag) and find_in_set('高端专享', tag) and !find_in_set('17周年大视野精选', tag) and !find_in_set('高端限免', tag) and publish_status = 'queue'",0,12,7,10800)%>
 							<%if date("Ymd", $smarty.now) == 20221219 || $smarty.get.showlivestream =="yes"%>
 								<%assign var="eventItemsOnSecondPosition" value=$interactivemodel->get_interactive_by_field_search("find_in_set('视频直播', tag) and find_in_set('2023年度高峰论坛', tag) and publish_status = 'queue'",0,1,30,10800)%>
 							<%/if%>
@@ -509,6 +509,19 @@
 							$subscriptionType = $this->get_template_vars('subscriptionType');
 							$isUserInternal = $this->get_template_vars('isUserInternal');
 							$isUserTester = $this->get_template_vars('isUserTester');
+
+							// MARK: - Filter out premium-only items if the user is a standard subscriber
+							$shouldFilteroutPremiumFromOriginalItems = (isset($_GET['standard']) && $_GET['standard'] === 'yes') || $subscriptionType === 'standard';
+							if ($shouldFilteroutPremiumFromOriginalItems) {
+								$filteredOriginalItems = array();
+								foreach ($originalItems as $item) {
+									// Check if the '高端专享' tag is present in the item's tag string
+									if (strpos($item['tag'], '高端专享') === false) {
+										$filteredOriginalItems[] = $item;
+									}
+								}
+								$originalItems = $filteredOriginalItems;
+							}
 
 							// MARK: - Check if the original items array has more than 3 items and the inserted items array has at least 1 item
 							if (count($originalItems) > 3 && count($insertedItems) > 0) {

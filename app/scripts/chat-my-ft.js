@@ -348,9 +348,14 @@ function getAnnotaionsInfo(content, language) {
             <ul class="top10">${annotationsHTML}</ul>
         </div></div>`;
     }
+    const startDate = new Date('2024-06-01T00:00:00+08:00').getTime();
+    const endDate = new Date('2024-06-25T00:00:00+08:00').getTime();
+    const now = new Date().getTime();
+    const showPromotion = now >= startDate && now <= endDate;
+    const domain = isInNativeApp ? 'www.ftchinese.com' : 'www.ftmembercare.com';
+    const promotion = showPromotion ? `<a class="story-side-ad-inner" href="https://${domain}/m/corp/preview.html?pageid=2024Junsub&to=all&ccode=2C2024Junchatft" target="_blank"><img src="https://thumbor.ftacademy.cn/unsafe/picture/8/000229208_piclink.jpg" width="300" height="250"></a>` : '';
     annotationsHTMLMentions = `
-        <div class="story-side-ad-container"><div class="story-box">
-        </div></div>`;
+        <div class="story-side-ad-container">${promotion}</div>`;
     return {
         storyTheme: storyTheme, 
         annotations: annotationsHTML, 

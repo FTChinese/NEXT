@@ -47,17 +47,17 @@
 									<%foreach from=$list.items item=item%>
 										<%if $itemIndex>0%>,<%/if%>
 										{
-											"preferSponsorImage": "<%$item.preferSponsorImage|regex_replace:"/[\n\r\"]/":""%>",
-											"headline": "<%$item.headline|regex_replace:"/[\n\r\"]/":""%>",
-											"image": "<%$item.image|regex_replace:"/[\n\r\"]/":""%>",
-											"tag": "<%$item.tag|regex_replace:"/[\n\r\"]/":""%>",
-											"longlead": "<%$item.longlead|regex_replace:"/[\n\r\"]/":""%>",
-											"shortlead": "<%$item.shortlead|regex_replace:"/[\n\r\"]/":""%>",
-											"industry": "<%$item.industry|regex_replace:"/[\n\r\"]/":""%>",
-											"customLink": "<%$item.customLink|regex_replace:"/[\n\r\"]/":""%>",
+											"preferSponsorImage": "<%$item.preferSponsorImage|regex_replace:"/[\n\r\"\t]/":""%>",
+											"headline": "<%$item.headline|regex_replace:"/[\n\r\"\t]/":""%>",
+											"image": "<%$item.image|regex_replace:"/[\n\r\"\t]/":""%>",
+											"tag": "<%$item.tag|regex_replace:"/[\n\r\"\t]/":""%>",
+											"longlead": "<%$item.longlead|regex_replace:"/[\n\r\"\t]/":""%>",
+											"shortlead": "<%$item.shortlead|regex_replace:"/[\n\r\"\t]/":""%>",
+											"industry": "<%$item.industry|regex_replace:"/[\n\r\"\t]/":""%>",
+											"customLink": "<%$item.customLink|regex_replace:"/[\n\r\"\t]/":""%>",
 											"showRelativeStoryItems": "<%$item.showRelativeStoryItems%>",
 											"timeStamp": "<%$item.timeStamp%>",
-											"type": "<%$item.type|regex_replace:"/[\n\r\"]/":""%>",
+											"type": "<%$item.type|regex_replace:"/[\n\r\"\t]/":""%>",
 											"id": "<%$item.id%>"
 											<%assign var=itemIndex value=$itemIndex+1%>
 										}
@@ -186,20 +186,20 @@
 												<%assign var="itemImage" value=$item.image|default:$item.story_pic.cover|default:$item.story_pic.smallbutton|default:$item.story_pic.other|default:$item.story_pic.bigbutton%>
 											<%/if%>
 											<%assign var="itemLead" value=$item.clongleadbody|default:$item.cshortleadbody%>
-											<%assign var="itemLead" value=$itemLead|regex_replace:"/[\n\r\"]/":""%>
+											<%assign var="itemLead" value=$itemLead|regex_replace:"/[\n\r\"\t]/":""%>
 											
 											<%if preg_match("/http.*.mp3/is",$item.cshortleadbody) && preg_match("/英语电台|音频/is",$itemTag)%>
-												<%assign var="itemShortLead" value=$item.cshortleadbody|regex_replace:"/[\n\r\"]/":""%>
+												<%assign var="itemShortLead" value=$item.cshortleadbody|regex_replace:"/[\n\r\"\t]/":""%>
 											<%elseif preg_match("/速读/is",$itemTag)%>
-												<%assign var="itemShortLead" value=$item.cshortleadbody|regex_replace:"/[\n\r\"]/":""%>
+												<%assign var="itemShortLead" value=$item.cshortleadbody|regex_replace:"/[\n\r\"\t]/":""%>
 												<%assign var="itemLead" value=$item.cshortleadbody%>
 											<%else%>
-												<%assign var="itemShortLead" value=$itemLead|regex_replace:"/[\n\r\"]/":""%>
+												<%assign var="itemShortLead" value=$itemLead|regex_replace:"/[\n\r\"\t]/":""%>
 											<%/if%>
 											<%assign var="itemHeadline" value=$item.headline|default:$item.cheadline|default:$item.cn_title%>
-											<%assign var="itemHeadline" value=$itemHeadline|regex_replace:"/[\n\r\"]/":""%>
+											<%assign var="itemHeadline" value=$itemHeadline|regex_replace:"/[\n\r\"\t]/":""%>
 											<%assign var="itemEHeadline" value=$item.eheadline|default:""%>
-											<%assign var="itemEHeadline" value=$itemEHeadline|regex_replace:"/[\n\r\"]/":""%>
+											<%assign var="itemEHeadline" value=$itemEHeadline|regex_replace:"/[\n\r\"\t]/":""%>
 											<%assign var="itemT" value=$item.timeStamp|default:$item.pubdate|default:$item.add_times%>
 											<%assign var="itemT" value=$itemT|regex_replace:"/\.[0-9]+$/i":""%>
 											<%assign var="customLink" value=$item.customLink%>
@@ -218,35 +218,35 @@
 											<%elseif preg_match("/教程|FTQuiz/is",$itemTag)%>
 												<%assign var="elead" value=$item.eskylinetext%>
 											<%/if%>
-											<%assign var="elead" value=$elead|regex_replace:"/[\n\r\"]/":""%>
+											<%assign var="elead" value=$elead|regex_replace:"/[\n\r\"\t]/":""%>
 											<%if $itemIndex>0%>,<%/if%>
 											{
 												"preferSponsorImage": "",
-												"headline": "<%$itemHeadline|regex_replace:"/[\n\r\"]/":""|escape:"html"%>",
-												"eheadline": "<%$itemEHeadline|regex_replace:"/[\n\r\"]/":""|escape:"html"%>",
-												"image": "<%$itemImage|regex_replace:"/[\n\r\"]/":""|escape:"html"%>",
-												"longlead": "<%$itemLead|regex_replace:"/[\n\r\"]/":""|escape:"html"%>",
-												"shortlead": "<%$itemShortLead|regex_replace:"/[\n\r\"]/":""|escape:"html"%>",
+												"headline": "<%$itemHeadline|regex_replace:"/[\n\r\"\t]/":""|escape:"html"%>",
+												"eheadline": "<%$itemEHeadline|regex_replace:"/[\n\r\"\t]/":""|escape:"html"%>",
+												"image": "<%$itemImage|regex_replace:"/[\n\r\"\t]/":""|escape:"html"%>",
+												"longlead": "<%$itemLead|regex_replace:"/[\n\r\"\t]/":""|escape:"html"%>",
+												"shortlead": "<%$itemShortLead|regex_replace:"/[\n\r\"\t]/":""|escape:"html"%>",
 												"elead": "<%$elead%>",
-												"genre": "<%$item.genre|regex_replace:"/[\n\r\"]/":""|escape:"html"%>",
-												"tag": "<%$itemTag|regex_replace:"/[\n\r\"]/":""|escape:"html"%>",
-												"topic": "<%$item.topic|regex_replace:"/[\n\r\"]/":""|escape:"html"%>",
-												"area": "<%$item.area|regex_replace:"/[\n\r\"]/":""|escape:"html"%>",
-												"industry": "<%$item.industry|regex_replace:"/[\n\r\"]/":""|escape:"html"%>",
-												"author": "<%$item.cauthor|regex_replace:"/[\n\r\"]/":""|escape:"html"%>",
-												"customLink": "<%$customLink|regex_replace:"/[\n\r\"]/":""|escape:"html"%>",
+												"genre": "<%$item.genre|regex_replace:"/[\n\r\"\t]/":""|escape:"html"%>",
+												"tag": "<%$itemTag|regex_replace:"/[\n\r\"\t]/":""|escape:"html"%>",
+												"topic": "<%$item.topic|regex_replace:"/[\n\r\"\t]/":""|escape:"html"%>",
+												"area": "<%$item.area|regex_replace:"/[\n\r\"\t]/":""|escape:"html"%>",
+												"industry": "<%$item.industry|regex_replace:"/[\n\r\"\t]/":""|escape:"html"%>",
+												"author": "<%$item.cauthor|regex_replace:"/[\n\r\"\t]/":""|escape:"html"%>",
+												"customLink": "<%$customLink|regex_replace:"/[\n\r\"\t]/":""|escape:"html"%>",
 												"timeStamp": "<%$itemT%>",
 												"type": "<%$itemType%>",
 												"id": "<%$itemId%>",
-												"caudio": "<%$item.caudio|regex_replace:"/[\n\r\"]/":""|escape:"html"%>",
-												"eaudio": "<%$item.eaudio|regex_replace:"/[\n\r\"]/":""|escape:"html"%>",
+												"caudio": "<%$item.caudio|regex_replace:"/[\n\r\"\t]/":""|escape:"html"%>",
+												"eaudio": "<%$item.eaudio|regex_replace:"/[\n\r\"\t]/":""|escape:"html"%>",
 												"version": "<%$item.version|escape:"html"%>",
 												"tag_code": "<%$item.tag_code%>",
 												"ftid": "<%$item.ftid|default:$item.eskylineheadline%>",
 												<%if $itemType == "story" && $item.eskylineheadline != ""%>"english_publish_time": "<%$item.eskylineheadline%>",<%/if%>
 												<%if $itemType == "interactive" && $item.ebyline_description != "" && preg_match("/^[\d]{4}\-[\d]+\-[\d]+/is",$item.ebyline_description)%>"english_publish_time": "<%$item.ebyline_description|strtotime%>",<%/if%>
-												"author_code": "<%$item.author_code|regex_replace:"/[\n\r\"]/":""%>",
-												"followSql": "<%*$followSql|regex_replace:"/[\n\r\"]/":""|escape:"html"*%>"
+												"author_code": "<%$item.author_code|regex_replace:"/[\n\r\"\t]/":""%>",
+												"followSql": "<%*$followSql|regex_replace:"/[\n\r\"\t]/":""|escape:"html"*%>"
 												<%assign var=itemIndex value=$itemIndex+1%>
 											}
 										<%/foreach%>

@@ -265,6 +265,10 @@
               </ol>
             </nav>
 
+            <%if date("Ymd",$smarty.now) >= 20240611 || $smarty.get.show_ai_icon == "yes"%>
+            <a class="header-left-ai-icon-mobile P-only" href="/ftacademy.php"></a>
+            <%/if%>
+
             <ul class="o-nav__extra-tools">
                 <li class="tools-section" aria-haspopup="true">
                     <a class="tools-section-head" href="/m/corp/follow.html">关注我们</a>
@@ -501,6 +505,11 @@
     </li>
     </ol>
     </nav>
+    
+    <%if date("Ymd",$smarty.now) >= 20240611 || $smarty.get.show_ai_icon == "yes"%>
+    <a class="header-left-ai-icon-mobile P-only" href="/ftacademy.php"></a>
+    <%/if%>
+
     <ul class="o-nav__extra-tools">
     <li class="tools-section" aria-haspopup="true">
     <a class="tools-section-head" href="https://www.ftchinese.com/m/corp/follow.html">关注我们</a>

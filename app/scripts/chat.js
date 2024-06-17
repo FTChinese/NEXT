@@ -857,6 +857,8 @@ async function showContent(ftid, language, shouldScrollIntoView = true, shouldLo
           const mentions = annotationInfo.mentions;
           const genreClass = annotationInfo.genreClass || '';
 
+          // console.log(annotations);
+
           const discussArticleOnly = paramDict && paramDict.action && paramDict.ftid;
           const discussArticlePrompt = discussArticleOnly ? `<div class="article-prompt">${localize('Discuss Article')}</div>` : '';
           let html = `
@@ -1875,7 +1877,7 @@ async function showFTPage(content, language, reply) {
       let themes = new Set();
       let expandedItemCount = 0;
       const minItemsToExpand = 5;
-      for (const group of results) {
+      for (const [index, group] of results.entries()) {
         const items = group.items;
         let groupExpandClass = '';
         const isExpanded = expandedItemCount < minItemsToExpand;
@@ -1954,7 +1956,20 @@ async function showFTPage(content, language, reply) {
             ${groupTitleHTML}
             ${groupItemsHTML}
           </div>`;
+
         html += newHTML;
+
+
+        if (index > 0) {continue;}
+        const startDate = new Date('2024-06-01T00:00:00+08:00').getTime();
+        const endDate = new Date('2024-06-25T00:00:00+08:00').getTime();
+        const now = new Date().getTime();
+        const showPromotion = now >= startDate && now <= endDate;
+        const domain = isInNativeApp ? 'www.ftchinese.com' : 'www.ftmembercare.com';
+        const promotion = showPromotion ? `<a href="https://${domain}/m/corp/preview.html?pageid=2024Junsub&to=all&ccode=2C2024Junchatft" target="_blank"><img class="promotion" src="https://thumbor.ftacademy.cn/unsafe/picture/8/000229208_piclink.jpg" width="300" height="250"></a>` : '';
+        html += promotion;
+
+          
       }
       newResultInner.innerHTML = await convertChinese(html, language);
       showImagesForExpandedGroups();
@@ -2078,11 +2093,18 @@ function getActionOptions() {
     </div>
     `;
   } else if (intention === undefined || intention === '') {
+    const startDate = new Date('2024-06-11T00:00:00+08:00').getTime();
+    const endDate = new Date('2024-06-25T00:00:00+08:00').getTime();
+    const now = new Date().getTime();
+    const showPromotion = now >= startDate && now <= endDate;
+    const domain = isInNativeApp ? 'www.ftchinese.com' : 'www.ftmembercare.com';
+    const promotion = showPromotion ? `<a target="_blank" href="https://${domain}/m/corp/preview.html?pageid=2024Junsub&to=all&ccode=2C2024Junchatft">${localize('PromotionActionButton')}</a>` : '';
     result = `
       <div class="chat-item-actions">
         <a data-purpose="show-ft-page" data-lang="${language}" data-content='home' data-reply="${localize('FindingMyFT')}" data-reply-action="set-preference" class="logged-in-only">${localize('Top News For Me')}</a>
         <a data-purpose="show-ft-page" data-lang="${language}" data-content='most-popular' data-reply="${localize('Finding')}" class="logged-in-only">${localize('Most Popular')}</a>
         <a data-purpose="set-preference" data-lang="${language}" data-content="all" data-reply="${localize('Set Your Preferences')}">${localize('Setting')}</a>
+        ${promotion}
       </div>
     `;
     // <a data-purpose="set-intention" data-lang="${language}" data-content="SearchFTAPI" data-reply="${localize('Find More')}">${localize('Search')}</a>
@@ -2341,7 +2363,14 @@ async function greet() {
   if (introductionWithIntents.has(intention)) {
     introductionKey += intention;
   }
-  const introduction = `<p>${localize(introductionKey)}</p>`;
+  let introduction = `<p>${localize(introductionKey)}</p>`;
+  const startDate = new Date('2024-06-11T00:00:00+08:00').getTime();
+  const endDate = new Date('2024-06-25T00:00:00+08:00').getTime();
+  const now = new Date().getTime();
+  if (now >= startDate && now <= endDate) {
+    introduction += `<p>${localize('PromotionInIntroduction')}</p>`;
+  }
+
   const prompt = (discussArticleOnly || surveyOnly) ? '' : `<p>${getRandomPrompt('greeting')}</p>`;
   if (!chatContent.querySelector('.chat-talk')) {
       chatContent.innerHTML = '';

@@ -47,6 +47,11 @@
           <a href="http://www.ft.com/">FT.com</a>
         </div>
       </div>
+
+      <%if date("Ymd",$smarty.now) >= 20240611 || $smarty.get.show_ai_icon == "yes"%>
+      <a class="header-side header-left-ai-icon" href="/ftacademy.php"></a>
+      <%/if%>
+      
       <div class="header-side header-right">
           <span class="visitor-box">
               <a onclick="showOverlay('overlay-login')">登录</a>
