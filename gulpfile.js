@@ -393,8 +393,8 @@ gulp.task('copy:ftcoffer', async () => {
     return;
   }
 
-  // MARK: - The JS files
-  const jsFiles = ['main-chat', 'main-story', 'key', 'main-db-zone-helper', 'main-translation-helper', 'ad-polyfill'];
+  // MARK: - Need all the JS files in dist now
+  const jsFiles = ['*'];
   for (const jsFile of jsFiles) {
     gulp.src([`dist/scripts/${jsFile}.js`])
       .on('error', (err) => {
@@ -412,8 +412,8 @@ gulp.task('copy:ftcoffer', async () => {
       .pipe(gulp.dest(`${dest}/scripts`));
   }
 
-
-  const cssFiles = ['main-story*', 'main-translation-helper', 'main-chat'];
+  // MARK: - Need all the css files in dist now
+  const cssFiles = ['*'];
   for (const cssFile of cssFiles) {
     gulp.src([`dist/styles/${cssFile}.css`])
     .on('error', (err) => {

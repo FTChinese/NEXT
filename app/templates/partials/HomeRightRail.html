@@ -18,53 +18,37 @@
 			data-o-ads-targeting="cnpos=ribbon;"
 			>
 			</div>
-			<%if in_array(date("Ymd"),explode(",",$ad.Ribbon)) && $smarty.get.ad != "no" && $noAd != "true"%>
-				<%assign var="adchannelID" value = $smarty.get.adchannelID|default:"1000" %>
-				<iframe id="ribbon" class="ad-hidden hide" width="100%" height="60" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="/m/marketing/a.html#adid=1000<%$adchannelID%>0501&slot=986723212&pid=ribbon"></iframe><%*<!--旧的adid是10000009-->*%>
-			<%/if%>
 		<%/if%>
 
-		<%if date("Ymd",$smarty.now) <= 20160617%>
-			<%assign var="video" value=$interactivemodel->get_interactive_by_tag('推广视频',1)%>
-			<div class="vidoes">
-				<div class="video-container">
-					<div class="video-inner">
-						<div class="image first-child"><figure class="loading-video" data-item-type="interactive" data-vid="<%$video[0].id%>"></figure></div>
-					</div>
-				</div>
-				<div class="video-title"><a href="/interactive/7083" target=_blank><%$video[0].cheadline%></a></div>
-			</div>
-		<%else%>
-			<%*<!--MARK: Check the next model tag for sponsored special reports start-->*%>
-			<%if $nextmodel != ""%>
-				<%assign var="pageIdForSponsorshipManagement" value="textpromo"%>
-				<%assign var="infoForSponsorships" value=$nextmodel->getPublishJson($pageIdForSponsorshipManagement)|json_decode:true%>
-				<%assign var="currentDate" value=$smarty.now|date_format:"%Y%m%d"%>
-				<div class="links-container P-hide">
-					<h2 class="list-title"><a href="/m/marketing/home.html">市场活动</a></h2>
-					<div class="links" id="member-info">
-						<%assign var="i" value=0%>
-						<%foreach from=$infoForSponsorships.sections item=report%>
-							<%if $i<3 && $report.status == "on" && (($report.dates != "" && preg_match("/`$currentDate`/is",$report.dates)) || ($report.dates == "" && $report.placeholder == "yes")) && ($report.link != "" || $report.tag != "")%>
-								<%if $report.link != ""%>
-									<%assign var="specialLink" value=$report.link%>
-								<%else%>
-									<%assign var="specialLink" value="/tag/`$report.tag`"%>
-								<%/if%>
-								<%if $report.PromoId != ""%>
-									<%assign var="trackingTag" value=" class=\"n-internal-promo\" data-promo-id=\"`$report.PromoId`\" data-promo-name=\"`$report.title`\" data-promo-creative=\"`$report.imageHighlightBox`\" data-promo-position=\"Home Textlink\" data-event-category=\"Home Textlink\""%>
-								<%else%>
-									<%assign var="trackingTag" value=""%>
-								<%/if%>
-								<a href="<%$specialLink%>" target="_blank"<%$trackingTag%>><%$report.title%></a>
-								<%assign var="i" value=$i+1%>
+		<%*<!--MARK: Check the next model tag for sponsored special reports start-->*%>
+		<%if $nextmodel != ""%>
+			<%assign var="pageIdForSponsorshipManagement" value="textpromo"%>
+			<%assign var="infoForSponsorships" value=$nextmodel->getPublishJson($pageIdForSponsorshipManagement)|json_decode:true%>
+			<%assign var="currentDate" value=$smarty.now|date_format:"%Y%m%d"%>
+			<div class="links-container P-hide">
+				<h2 class="list-title"><a href="/m/marketing/home.html">市场活动</a></h2>
+				<div class="links" id="member-info">
+					<%assign var="i" value=0%>
+					<%foreach from=$infoForSponsorships.sections item=report%>
+						<%if $i<3 && $report.status == "on" && (($report.dates != "" && preg_match("/`$currentDate`/is",$report.dates)) || ($report.dates == "" && $report.placeholder == "yes")) && ($report.link != "" || $report.tag != "")%>
+							<%if $report.link != ""%>
+								<%assign var="specialLink" value=$report.link%>
+							<%else%>
+								<%assign var="specialLink" value="/tag/`$report.tag`"%>
 							<%/if%>
-						<%/foreach%>
-					</div>
+							<%if $report.PromoId != ""%>
+								<%assign var="trackingTag" value=" class=\"n-internal-promo\" data-promo-id=\"`$report.PromoId`\" data-promo-name=\"`$report.title`\" data-promo-creative=\"`$report.imageHighlightBox`\" data-promo-position=\"Home Textlink\" data-event-category=\"Home Textlink\""%>
+							<%else%>
+								<%assign var="trackingTag" value=""%>
+							<%/if%>
+							<a href="<%$specialLink%>" target="_blank"<%$trackingTag%>><%$report.title%></a>
+							<%assign var="i" value=$i+1%>
+						<%/if%>
+					<%/foreach%>
 				</div>
-			<%/if%>
-			<%*<!--MARK: Check the next model tag for sponsored special reports end-->*%>
+			</div>
 		<%/if%>
+		<%*<!--MARK: Check the next model tag for sponsored special reports end-->*%>
 		
 		<%if $smarty.get.ad != "no" && $noAd != "true"%>	
 			<div 
