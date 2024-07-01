@@ -3,7 +3,7 @@
  <head>
  <meta charset="utf-8" />
  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
- <title>翻译工具</title>
+ <title>翻译工具: V3</title>
  <meta http-equiv="Content-Language" content="zh-CN"/>
  <meta content="加快翻译速度" name="description"/>
  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -49,6 +49,14 @@
             <div id="languages-container">From: <select id="from"><option value="en" selected>English</option><option value="cn">Chinese</option><option value="es">Spanish</option><option value="ja">Japanese</option><option value="ko">Korean</option><option value="fr">French</option><option value="de">Germany</option><option value="ru">Russian</option><option value="it">Italian</option><option value="pt">Portuguese</option><option value="ar">Arabic</option></select>To: <select id="to"><option value="en">English</option><option value="cn" selected>Chinese</option><option value="es">Spanish</option><option value="ja">Japanese</option><option value="ko">Korean</option><option value="fr">French</option><option value="de">Germany</option><option value="ru">Russian</option><option value="it">Italian</option><option value="pt">Portuguese</option><option value="ar">Arabic</option></select></div>
             <textarea placeholder="复制英文原文，并贴在这里" class="commentTextArea" width="100%" rows="3" id="english-text"></textarea>
             <textarea placeholder="不要贴到这里" class="commentTextArea" width="100%" rows="3" id="translation-info"></textarea>
+            
+            <!-- File Upload Section -->
+            <div class="file-upload-container">
+                <label for="original-file-upload">Upload Original File (HTML or JS):</label>
+                <input type="file" id="original-file-upload" accept=".html,.js">
+            </div>
+
+            
             <div id="translations">
                 <a href="https://translate.google.cn" target="_blank">谷歌翻译</a>
                 <textarea placeholder="点击上面的链接去谷歌翻译，并把中文译文贴在这里" class="commentTextArea chinese-translation" width="100%" rows="3" id="chinese-text-0"></textarea>

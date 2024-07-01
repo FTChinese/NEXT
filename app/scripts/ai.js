@@ -183,10 +183,17 @@ async function createChatFromOpenAI(data) {
                 }
                 await wait(intervalSeconds);
             }
+        } else if (saveResult) {
+            // MARK: Pass some quick results to be handled 
+            if (saveResult.status === 'rateLimit') {
+                results = saveResult;
+            }
         }
         if (response.status >= 400 && results.message) {
             return {status: 'failed', message: results.message};
         }
+
+
         if (typeof results === 'object' && results.length > 0 && results[0].message && results[0].message.content) {
             const message = results[0].message
             const text = message.content.trim();
@@ -194,6 +201,11 @@ async function createChatFromOpenAI(data) {
             const sources = message.sources || [];
             const result = {status: 'success', text: text, intention: intention, sources: sources};
             return result;
+        } else if (typeof results === 'object' && results.status === 'rateLimit' ) {
+            const minutes = Math.ceil((results.remainingTime || 0) / 60000);
+            const waitMessage = `Please wait ${minutes} minutes before resuming. `;
+            const message = `Hi there! You’ve reached our chat limit of 30 messages every 3 hours. ${waitMessage}Meanwhile, you can still check the latest news you’ve followed. Thanks for your patience!`;
+            return {status: 'failed', message: message};
         } else {
             return {status: 'failed', message: 'Something is wrong with our AI vendor, we can\'t seem to connect to it right now. Please try later. '};
         }

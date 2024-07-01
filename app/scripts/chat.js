@@ -1129,9 +1129,15 @@ function getShortcutOptions(prompt) {
 }
 
 async function talk() {
-  console.log(`Talk sent! `);
+  console.log(`Talk sent! Hiding the .chat-topic-intention`);
   const ele = document.querySelector('.chat-topic-intention');
   hideEle(ele);
+  // MARK: - The chat topic intention has a time lag for debounce, add this check after the time lag
+  setTimeout(()=>{
+    if (userInput.value === '') {
+      hideEle(ele);
+    }
+  }, 500);
   // var token = localStorage.getItem('accessToken');
   const token = GetCookie('accessToken');
   if (!token || token === '') {

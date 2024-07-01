@@ -1068,6 +1068,7 @@ function start() {
     document.querySelector('.sidebar').style.display = 'none';
     document.querySelector('#page-title').style.display = 'none';
     document.querySelector('#page-description').style.display = 'none';
+    document.querySelector('.file-upload-container').style.display = 'none';
     document.querySelector('#languages-container').style.display = 'none';
     document.querySelector('#status-message').style.display = 'none';
     document.querySelector('.body').classList.remove('power-translate-page-loaded');
@@ -2331,54 +2332,77 @@ function addNewTranslation() {
     const to = document.getElementById('to').value; 
     const id = Math.random().toString(16).slice(2);
     const t = new Date().getTime();
-    if (sourceText.length <= 1) {
-        alert('Please input some text for translation! ');
+    const originalFile = document.getElementById('original-file-upload').files[0];
+    const translatedFile = document.getElementById('translated-file-upload').files[0];
+
+    if (sourceText.length <= 1 && !originalFile) {
+        alert('Please input some text for translation or upload the source file!');
         return;
     }
+
+    if (sourceText.length > 0 && originalFile) {
+        alert('You have both text and file. Please just provide one of them! ');
+        return;
+    }
+
     var xhr = new XMLHttpRequest();
     var method = 'POST';
     var url = '/pt/add';
+    
     if (isFrontendTest && !isPowerTranslate) {
         method = 'GET';
         url = '/api/powertranslate/add.json';
     }
+    
     var token = GetCookie('accessToken');
     
     if (!token || token === '') {
-        alert('You need to sign in first! ');
+        alert('You need to sign in first!');
         window.location.href = '/login';
         return;
     }
+    
     xhr.open(method, url);
-    xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.setRequestHeader("Authorization", "Bearer " + token);
+    
     xhr.onload = function() {
-        if (xhr.status !== 200) {
-            alert('Can not access the server right now! ');
-            return;
-        }
         try {
             var result = JSON.parse(xhr.responseText);
             if (result.status === 'ok') {
                 inspectTranslation(id);
                 const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?inspect=' + id;
                 history.pushState({}, '', newUrl);
+            } else if (result.error) {
+                alert(result.error);
             } else {
-                alert('The translation task can not be submitted right now because of server error! ');
+                alert('The translation task cannot be submitted right now because of server error!');
             }
         } catch(err){
-            alert('There is an error when adding new translation task! ');
+            alert('There is an error when adding new translation task!');
             console.log(err);
         }
     };
-    var postData = {
-        text: sourceText,
-        from: from,
-        to: to,
-        id: id,
-        t: t
+    
+    xhr.onerror = function() {
+        alert('Request failed. Please check your network connection or try again later.');
     };
-    xhr.send(JSON.stringify(postData));
+
+    var formData = new FormData();
+    formData.append('text', sourceText);
+    formData.append('from', from);
+    formData.append('to', to);
+    formData.append('id', id);
+    formData.append('t', t);
+    
+    if (originalFile) {
+        formData.append('originalFile', originalFile);
+    }
+    
+    if (translatedFile) {
+        formData.append('translatedFile', translatedFile);
+    }
+    
+    xhr.send(formData);
 }
 
 function inspectTranslation(id) {
@@ -2519,6 +2543,7 @@ var stage = 'page loaded';
 if (isPowerTranslate) {
     initPowerTranslate();
 } else if (window.opener || typeof window.subtitleInfo === 'object' || window.testingType) {
+    console.log(2);
     if (window.opener) {
         eText = window.opener.ebodyForTranslation || window.opener.document.getElementById('ebody').value;
         tText = window.opener.cbodyForTranslation || window.opener.document.getElementById('cbody').value;
