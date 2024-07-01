@@ -703,23 +703,39 @@ delegate.on('input', '#user-input', debounce(async (event) => {
         return ;
     }
     const ele = event.target;
-    const value = ele.value.trim();
     const suggestionEle = ele.closest('.chat-input')?.querySelector('.chat-topic-intention');
-    if (value === '') {
-        hideEle(suggestionEle);
-        return;
-    }
+    const hideSuggestionForEmptyValue = ()=>{
+        const currentValue = ele.value.trim();
+        if (currentValue === '') {
+            hideEle(suggestionEle);
+            return;
+        }
+    };
+    // MARK: - Do this now in case there's an error so that the check is never executed
+    hideSuggestionForEmptyValue();
+    const value = ele.value.trim();
     const intentions = await fetchSuggestions(value);
     renderShowIntention(suggestionEle, intentions);
+    // MARK: - Do this again after async request is returned, which is necessary
+    hideSuggestionForEmptyValue();
 
 }, 300)); // 300 ms debounce time
 
 
 function renderShowIntention(ele, intentions) {
     if (!ele) {return;}
-    // console.log(suggestions);
-    if (!intentions || intentions.length === 0) {
-        console.log('No Suggestion!');
+    const areIntentionsValidArrays = typeof intentions === 'object' && intentions.length > 0;
+    if (!areIntentionsValidArrays) {
+        hideEle(ele);
+        return;
+    }
+    // MARK: - At this point, we know the intentions is a valid array. We need to filter the intentions to show only relevant ones
+    let minScore = 5; // This number is based on oberservation, but we can find out more by looking at MongoDB's guides. 
+    const minScoreRate = 0.9;
+    const highestScore = intentions?.[0]?.score ?? (minScore / minScoreRate);
+    minScore = Math.max(minScore, highestScore * minScoreRate);
+    intentions = intentions.filter(x => x.score > minScore).slice(0, 5);
+    if (intentions.length === 0) {
         hideEle(ele);
         return;
     }
@@ -727,7 +743,11 @@ function renderShowIntention(ele, intentions) {
     const myPreference = getMyPreference();
     const myInterests = (myPreference[myInterestsKey] || []).filter(x=>typeof x === 'object');
     const myInterestsKeys = myInterests.map(x=>x.key || '').filter(x=>x!=='');
-    intentions = intentions.slice(0, 1);
+    
+    // console.log('intentions: ');
+    // console.log(intentions);
+
+    // intentions = intentions.slice(0, 1);
     const intentionsHTML = intentions
         .map(intention=>{
             const key = intention.name;
