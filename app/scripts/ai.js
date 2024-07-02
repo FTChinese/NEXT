@@ -26,10 +26,7 @@ async function wait(seconds) {
 }
 
 async function createChatFromOpenAI(data) {
-    const errorMessageDict = {
-        content_filter: `<p>Our AI service vendor returns the following error: </p><p>The response was filtered due to the prompt triggering Azure OpenAI’s content management policy. Please modify your prompt and retry. </p><p>It's probably not your fault. But for the time being, please refresh and talk about other things with our chat bot. </p>`,
-        other: `The AI model returns an error. It could be because of something in your prompt or the context that we provid. Sorry, please refresh and try something new. `
-    };
+    
     try {
         // const token = (isPowerTranslate) ? localStorage.getItem('accessToken') : 'sometoken';
         const token = (isPowerTranslate) ? GetCookie('accessToken') : 'sometoken';
@@ -88,9 +85,9 @@ async function createChatFromOpenAI(data) {
                     errorResult.code = cachedResult.code;
                     // MARK: - Show the known error messages in our own way
                     if (cachedResult.code === 'content_filter') {
-                        errorResult.message = errorMessageDict.content_filter;
+                        errorResult.message = localize('chat_error_content_filter');
                     } else {
-                        errorResult.message = errorMessageDict.other;
+                        errorResult.message = localize('chat_error_other');
                     }
                     return errorResult;
                 }
@@ -164,9 +161,9 @@ async function createChatFromOpenAI(data) {
                             errorResult.code = pollResults.code;
                             // MARK: - Show the known error messages in our own way
                             if (pollResults.code === 'content_filter') {
-                                errorResult.message = errorMessageDict.content_filter;
+                                errorResult.message = localize('chat_error_content_filter');
                             } else {
-                                errorResult.message = errorMessageDict.other;
+                                errorResult.message = localize('chat_error_other');
                             }
                             return errorResult;
                         }
@@ -203,11 +200,13 @@ async function createChatFromOpenAI(data) {
             return result;
         } else if (typeof results === 'object' && results.status === 'rateLimit' ) {
             const minutes = Math.ceil((results.remainingTime || 0) / 60000);
-            const waitMessage = `Please wait ${minutes} minutes before resuming. `;
-            const message = `Hi there! You’ve reached our chat limit of 30 messages every 3 hours. ${waitMessage}Meanwhile, you can still check the latest news you’ve followed. Thanks for your patience!`;
+            const waitMessage = localize('WaitMessage', undefined, {minutes});
+            const reminder = localize('RateLimitReminder');
+            const otherFeatures = localize('OtherFeaturesReminder');
+            const message = `${reminder}${waitMessage}${otherFeatures}`;
             return {status: 'failed', message: message};
         } else {
-            return {status: 'failed', message: 'Something is wrong with our AI vendor, we can\'t seem to connect to it right now. Please try later. '};
+            return {status: 'failed', message: localize('chat_error_network')};
         }
     } catch(err) {
         console.log(err);

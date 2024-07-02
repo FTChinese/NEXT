@@ -274,7 +274,7 @@ function copyToClipboard(text) {
 }
 
 
-function localize(status, fallback) {
+function localize(status, fallback, dict = {}) {
   if (!status) {
     return;
   }
@@ -285,6 +285,8 @@ function localize(status, fallback) {
   if (language === 'Chinese') {
     language = 'zh';
   }
+
+  // console.log(status, language);
 
   // Normalize language code by removing regional codes
   const languagePrefix = language.replace(/\-.*$/g, '');
@@ -297,7 +299,13 @@ function localize(status, fallback) {
     if (translation === undefined) {
       translation = statusTranslations.en;
     }
-    return translation || translation === '' ? translation : status;
+    translation = translation || translation === '' ? translation : status;
+    for (const key of Object.keys(dict)) {
+      const value = dict[key];
+      const regexKey = new RegExp(`\\\[${key}\\\]`, 'g'); // Escape the square brackets
+      translation = translation.replace(regexKey, value);
+    }
+    return translation;
   }
 
   // Use fallback if provided and valid, otherwise use the original status
