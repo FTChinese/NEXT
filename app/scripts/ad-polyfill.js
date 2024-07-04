@@ -3,7 +3,7 @@
 	function getPolyfillCode() {
 		var isIE = /*@cc_on!@*/false || !!document.documentMode;
 		if (isIE) {
-			return '//cdn.polyfill.io/v2/polyfill.min.js?features=Array.from,Array.prototype.find,IntersectionObserver,fetch,default';
+			return '//cdnjs.cloudflare.com/v2/polyfill.min.js?features=Array.from,Array.prototype.find,IntersectionObserver,fetch,default';
 		} else {
 			var polyfillFeatures = [];
 			if (typeof Array !== 'function') {
@@ -26,7 +26,7 @@
 				polyfillFeatures.push('IntersectionObserver');
 				polyfillFeatures.push('default');
 				var polyfillFeaturesString = polyfillFeatures.join(',');
-				return '//cdn.polyfill.io/v2/polyfill.min.js?features='+ polyfillFeaturesString;
+				return '//cdnjs.cloudflare.com/v2/polyfill.min.js?features='+ polyfillFeaturesString;
 			}
 		}
 		return '';
