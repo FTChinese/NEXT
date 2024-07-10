@@ -300,9 +300,11 @@ function runLoadImages() {
   videosLoadStatus = 0;
 
   hostForVideo = '';
-  if (window.location.hostname === 'localhost' || window.location.hostname.indexOf('192.168') === 0 || window.location.hostname.indexOf('10.113') === 0 || window.location.hostname.indexOf('127.0') === 0) {
-    hostForVideo = 'https://www.ftchinese.com';
-  }
+  // if (window.location.hostname === 'localhost' || window.location.hostname.indexOf('192.168') === 0 || window.location.hostname.indexOf('10.113') === 0 || window.location.hostname.indexOf('127.0') === 0) {
+  //   hostForVideo = 'https://www.ftchinese.com';
+  // }
+
+
   for (i=0; i<videos.length; i++) {
     var thisVideo = videos[i];
     var videoTop = findTop(thisVideo);
@@ -322,6 +324,7 @@ function runLoadImages() {
 
     if (videoWidth > 0 && videoHeight > 0 && queryString.indexOf('?ad=no') === -1 && hostForVideo !== 'https://www.ftchinese.com') {
 
+
       var iFrameUrl;
       if (thirdPartyFrameUrl) {
         iFrameUrl = thirdPartyFrameUrl;
@@ -337,6 +340,7 @@ function runLoadImages() {
       videosLazy[i] = '';
     }
   }
+
   loadImagesLazy ();
   loadVideosLazy ();
   trackViewables();
