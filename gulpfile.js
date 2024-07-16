@@ -403,14 +403,17 @@ gulp.task('copy:ftcoffer', async () => {
       .pipe(gulp.dest(`${dest}/scripts`));
   }
 
-  const origamiFiles = ['o-ads', 'gpt'];
-  for (const jsFile of origamiFiles) {
-    gulp.src([`./app/origami/${jsFile}.js`])
-      .on('error', (err) => {
-        console.error(err.stack);
-      })
-      .pipe(gulp.dest(`${dest}/scripts`));
-  }
+  gulp.src([`./app/origami/*.js`])
+    .on('error', (err) => {
+      console.error(err.stack);
+    })
+    .pipe(gulp.dest(`${dest}/scripts`));
+
+  gulp.src([`./app/origami/*.css`])
+    .on('error', (err) => {
+      console.error(err.stack);
+    })
+    .pipe(gulp.dest(`${dest}/styles`));
 
   // MARK: - Need all the css files in dist now
   const cssFiles = ['*'];
