@@ -35,10 +35,12 @@ var scrollTop = window.scrollY || document.documentElement.scrollTop;
 var ticking = false;
 var hostForVideo = '';
 var currentFavButton;
-var figures = document.querySelectorAll('figure.loading');
+var figureImageSelector = 'figure.loading, figure.loading-video-image[data-url]';
+var videoFramePlaySelector = 'figure.loading-video';
+var figures = document.querySelectorAll(figureImageSelector);
 var figuresLazy = [];
 var figuresLoadStatus = 0;
-var videos = document.querySelectorAll('figure.loading-video');
+var videos = document.querySelectorAll(videoFramePlaySelector);
 var videosLazy = [];
 var videosLoadStatus = 0;
 var viewables = [];//存储要记录track In View的元素
@@ -184,7 +186,7 @@ function runLoadImages() {
   //   resizingImages[f].classList.add('loading');
   // }
 
-  figures = document.querySelectorAll('figure.loading');
+  figures = document.querySelectorAll(figureImageSelector);
   figuresLazy = [];
   figuresLoadStatus = 0;
 
@@ -238,7 +240,6 @@ function runLoadImages() {
     }
 
 
-
     if (imageUrl.indexOf(imageServiceHost) >= 0) {
       // MARK: If the url is already an FT Image Service url
       imageUrl = imageUrl.replace(imageServiceHost, '').replace(/\?.*$/g, '');
@@ -256,7 +257,11 @@ function runLoadImages() {
     imageUrlBack = encodeURIComponent(imageUrl);
     imageUrlPart = imageUrl.replace(/^(https:\/\/thumbor\.ftacademy\.cn\/unsafe\/)|(http:\/\/i\.ftimg\.net\/)/g, '');
     // console.log(`imageUrl: ${imageUrl}, fitType: ${fitType}, loadedClass: ${loadedClass}, imageWidth: ${imageWidth}, imageHeight: ${imageHeight}`);
-    if (/sponsor|logo/.test(figureClass)) {
+    if (imageUrl.indexOf('bokecc.com')>=0) {
+      // Nothing needs to be done since it is an image hosted on CC Video
+      imageUrlBack = imageServiceHost + imageUrlBack + '?source=ftchinese&width=' + imageWidth + '&height=' + imageHeight + '&fit=' + fitType + '&from=next001';
+      shouldLoadImage = true;
+    } else if (/sponsor|logo/.test(figureClass)) {
       imageUrl = imageServiceHostFTC + '0x' + imageHeight + '/' + imageUrlPart;
       imageUrlBack = imageServiceHost + imageUrlBack + '?source=ftchinese&height=' + imageHeight + '&fit=' + fitType + '&from=next001';
       shouldLoadImage = true;
@@ -295,7 +300,8 @@ function runLoadImages() {
     }
   }
   // load responsive videos
-  videos = document.querySelectorAll('figure.loading-video');
+  // videos = document.querySelectorAll('figure.loading-video');
+  videos = document.querySelectorAll(videoFramePlaySelector);
   videosLazy = [];
   videosLoadStatus = 0;
 
@@ -1074,6 +1080,7 @@ try {
     var link = hostForVideo + this.getAttribute('href');
     var videoPackage = this.parentNode.parentNode.parentNode;
     var videoEle = videoPackage.querySelector('#video-package-play');
+    if (!videoEle) {return;}
     var videoWidth = videoEle.offsetWidth;
     var videoHeight = videoEle.offsetHeight;
     var thisItemEle = this.parentNode.parentNode;
@@ -1088,11 +1095,32 @@ try {
       }
     }
     this.parentNode.parentNode.className += ' on';
-    videoEle.querySelector('iframe').src = link  +'?i=2&k=1&w='+videoWidth+'&h='+videoHeight+'&autostart=true';
+    var videoPlayingFrame = videoEle.querySelector('iframe');
+    var src = link  +'?i=2&k=1&w='+videoWidth+'&h='+videoHeight+'&autostart=true';
+    if (videoPlayingFrame) {
+      videoEle.querySelector('iframe').src = src;
+    } else {
+      videoEle.innerHTML = '<iframe name="video-frame" id="video-frame" style="width:100%;height:100%;position:absolute;" src="' + src + '" scrolling="no" frameborder="0" allowfullscreen="true"></iframe>';
+    }
     videoPackage.querySelector('.video-package-title a').innerHTML = thisHeadline;
     videoPackage.querySelector('.video-package-title a').href = link;
     return false;
   });
+
+  delegate.on('click', '#video-package-play', function(){
+    var videoWidth = this.offsetWidth;
+    var videoHeight = this.offsetHeight;
+    var vid = this.getAttribute('data-vid');
+    var link = '/video/' + vid;
+    link = link.replace(/#.*$/g,'');
+    var src = link  +'?i=2&k=1&w='+videoWidth+'&h='+videoHeight+'&autostart=true';
+    this.innerHTML = '<iframe name="video-frame" id="video-frame" style="width:100%;height:100%;position:absolute;" src="' + src + '" scrolling="no" frameborder="0" allowfullscreen="true"></iframe>';
+    var videoContainer = this.closest('.is-video');
+    if (videoContainer) {
+      videoContainer.classList.remove('is-video');
+    }
+  });
+  
   delegate.on('click', 'a, .track-click', function(){
     var ec = this.getAttribute('data-ec') || '';
     var ea = this.getAttribute('data-ea') || '';
