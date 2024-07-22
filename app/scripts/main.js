@@ -1494,7 +1494,13 @@ updateStickyRightRail();
     xhr.send();
   }
 
+  function checkFTCApp() {
+    if (window.location.href.indexOf('webview=ftcapp')<0) {return;}
+    document.documentElement.classList.add('is-ftc-app');
+  }
+
   try {
+    checkFTCApp();
     // MARK: - iPhone App Use the same process as well
     if (!window.userId) {return;}
     // MARK: - On Mac Safari
