@@ -991,6 +991,14 @@ $gridCellWidth: 310px;
 		}
 	}
 
+	.imageAndLead {
+		.item-container {
+			&.first {
+				margin-bottom: $defaultPadding * 0.5;
+			}
+		}
+	}
+
 	.headShot{
 		@media only screen and (max-width: 490px){
 			.item-inner{
@@ -998,14 +1006,14 @@ $gridCellWidth: 310px;
 			}
 		}
 	}
-	.portrait-img-right{
+	.portrait-img-left{
 		float: left; 
 		margin: 15px 15px 0px 15px;
 		padding: 0px!important; 
 	}
 
 	@media only screen and (max-width: 490px){
-		.portrait-img-right {
+		.portrait-img-left {
 			margin: 15px 15px 0px 0px;
 		}
 		.item-headline-lead-right{
@@ -1033,6 +1041,18 @@ $gridCellWidth: 310px;
 			}
 		}
 	}
+}
+
+.is-barcode figure {
+	width: 200px;
+	height: 200px;
+	padding-bottom: 0;
+	margin:auto;
+}
+
+.is-original img {
+	margin: 0 auto;
+	display: block;
 }
 
 .item-description {

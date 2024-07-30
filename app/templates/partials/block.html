@@ -2177,6 +2177,9 @@
 								<%/if%>
 							</h2>
 						<%/if%>
+						<%if $list.description && $list.description != ""%>
+							<div class="item-container first has-image"><div class="item-inner"><div class="item-lead item-description"><%$list.description%></div></div></div>
+						<%/if%>
 						<%if $list.items|@count==0 && $list.feedItems != "" && $list.feedItems != "0"%>
 							<%if preg_match("/like|find_in_set|=|\(| in /is",$list.feedTag)%>
 								<%if $list.feedType == "story"%>
@@ -2360,7 +2363,7 @@
 									<div class="item-lead item-description"><%$itemLead|nl2br%></div>
 								<%elseif $list.sideOption == "headShot"%>
 									<%if $itemImage != "" && $hasImage === "has-image"%>
-										<a class="image portrait-img portrait-img-right" target="_blank"<%$itemLink%>><figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure></a>
+										<a class="image portrait-img portrait-img-left" target="_blank"<%$itemLink%>><figure class="loading" data-url="<%$itemImage|replace:"/upload/":"/"%>"></figure></a>
 									<%/if%>	
 									<%if $itemHeadline != ""%>
 									<div class="item-headline-lead-right">
