@@ -1,31 +1,35 @@
-window.preferredLanguage = navigator.language || navigator.userLanguage;
+
+const preferredLanguage = window.preferredLanguage = navigator.language || navigator.userLanguage;
 // const isFrontendTest = location.href.indexOf('localhost') >= 0 && window.isUsingHandleBars !== true;
 const isPowerTranslate = location.href.indexOf('powertranslate') >= 0 || window.isUsingHandleBars === true;
-const myInterestsKey = 'My Interests';
+// const myInterestsKey = 'My Interests';
 const isFrontendTest = true;
-delegate.on('input', '#search-term', debounce(async (event) => {
-
-    if(window.intention && window.intention !== 'DiscussContent'){
-        return ;
-    }
-    const ele = event.target;
-    const suggestionEle = ele.closest('.o-nav__search')?.querySelector('.search-topic-intention');
-    const hideSuggestionForEmptyValue = ()=>{
-        const currentValue = ele.value.trim();
-        if (currentValue === '') {
-            hideEle(suggestionEle);
+delegate.on('input', '#search-term', debounce((event) => {
+    const processInput = () => {
+        if(window.intention && window.intention !== 'DiscussContent'){
             return;
         }
+        const ele = event.target;
+        const navSearchEle = ele.closest('.o-nav__search');
+        const suggestionEle = navSearchEle ? navSearchEle.querySelector('.search-topic-intention') : null;
+        const hideSuggestionForEmptyValue = () => {
+            const currentValue = ele.value.trim();
+            if (currentValue === '') {
+                hideEle(suggestionEle);
+                return;
+            }
+        };
+        // MARK: - Do this now in case there's an error so that the check is never executed
+        hideSuggestionForEmptyValue();
+        const value = ele.value.trim();
+        fetchSuggestions(value).then(intentions => {
+            renderShowIntention(suggestionEle, intentions);
+            // MARK: - Do this again after async request is returned, which is necessary
+            hideSuggestionForEmptyValue();
+            updateSearchContent();
+        });
     };
-    // MARK: - Do this now in case there's an error so that the check is never executed
-    hideSuggestionForEmptyValue();
-    const value = ele.value.trim();
-    const intentions = await fetchSuggestions(value);
-    renderShowIntention(suggestionEle, intentions);
-    // MARK: - Do this again after async request is returned, which is necessary
-    hideSuggestionForEmptyValue();
-    updateSearchContent();
-
+    processInput();
 }, 300)); // 300 ms debounce time
 
 
@@ -40,7 +44,7 @@ function renderShowIntention(ele, intentions) {
     // MARK: - At this point, we know the intentions is a valid array. We need to filter the intentions to show only relevant ones
     let minScore = 5; // This number is based on oberservation, but we can find out more by looking at MongoDB's guides. 
     const minScoreRate = 0.9;
-    const highestScore = intentions?.[0]?.score ?? (minScore / minScoreRate);
+    const highestScore = intentions && intentions.length > 0 && intentions[0].score !== undefined ? intentions[0].score : (minScore / minScoreRate);
     minScore = Math.max(minScore, highestScore * minScoreRate);
     intentions = intentions.filter(x => x.score > minScore).slice(0, 5);
     if (intentions.length === 0) {
@@ -49,9 +53,9 @@ function renderShowIntention(ele, intentions) {
     }
     console.log(preferredLanguage);
     showEle(ele);
-    const myPreference = getMyPreference();
-    const myInterests = (myPreference[myInterestsKey] || []).filter(x=>typeof x === 'object');
-    const myInterestsKeys = myInterests.map(x=>x.key || '').filter(x=>x!=='');
+    // const myPreference = getMyPreference();
+    // const myInterests = (myPreference[myInterestsKey] || []).filter(x=>typeof x === 'object');
+    // const myInterestsKeys = myInterests.map(x=>x.key || '').filter(x=>x!=='');
     // console.log('intentions: ');
     // console.log(intentions);
 
@@ -60,11 +64,7 @@ function renderShowIntention(ele, intentions) {
         .map(intention=>{
             const key = intention.name;
             const field = intention.field;
-            const name = intention.translations?.[preferredLanguage] ?? key;
-            if (myInterestsKeys.indexOf(key)>=0) {
-                buttonClass = 'tick';
-                buttonHTML = localize('Unfollow');
-            }
+            const name = intention.translations && intention.translations[preferredLanguage] ? intention.translations[preferredLanguage] : key;
             const extra = (localize(name) === key) ? '' : `(${key})`;
             const display = localize(name);
 
@@ -95,38 +95,45 @@ function hideEle(ele) {
 }
 
 
-async function fetchSuggestions(query) {
-    try {
-        let url = '/ai/search_annotation';
-        const data = {query: query, language: preferredLanguage, limit: 10};
-        let options = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data)
-        };
-        if (isFrontendTest) {
-            url = '/api/page/search_result.json';
-            options = {
-                method: 'GET',
+function fetchSuggestions(query) {
+    return new Promise((resolve, reject) => {
+        try {
+            let url = '/ai/search_annotation';
+            const data = {query: query, language: preferredLanguage, limit: 10};
+            let options = {
+                method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
                 },
+                body: JSON.stringify(data)
             };
+            if (isFrontendTest) {
+                url = '/api/page/search_result.json';
+                options = {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                };
+            }
+            fetch(url, options)
+                .then(response => {
+                    console.log(response);
+                    if (response.status >= 400) {
+                        return response.json().then(results => {
+                            if (results.message) {
+                                reject(null);
+                            }
+                        });
+                    } else {
+                        return response.json().then(results => resolve(results));
+                    }
+                });
+        } catch(err) {
+            console.log(err);
+            reject(null);
         }
-        const response = await fetch(url, options);
-        console.log(response);
-        let results = await response.json();
-        if (response.status >= 400 && results.message) {
-            return null;
-        }
-        return results;
-    } catch(err) {
-        console.log(err);
-    }
-    return null;
-
+    });
 }
 
 document.addEventListener('click', function(event) {
@@ -158,16 +165,16 @@ function showEle(ele) {
     }
 }
 
-function getMyPreference() {
-    let myPreference = {};
-    const myPreferenceString = localStorage.getItem('preference');
-    if (myPreferenceString && myPreferenceString !== '') {
-      try {
-        myPreference = JSON.parse(myPreferenceString);
-      } catch(ignore) {}
-    }
-    return myPreference;
-  }
+// function getMyPreference() {
+//     let myPreference = {};
+//     const myPreferenceString = localStorage.getItem('preference');
+//     if (myPreferenceString && myPreferenceString !== '') {
+//       try {
+//         myPreference = JSON.parse(myPreferenceString);
+//       } catch(ignore) {}
+//     }
+//     return myPreference;
+//   }
 
 function localize(text) {
     let language = (isPowerTranslate) ? navigator.language : 'zh-CN';
@@ -228,12 +235,12 @@ function localize(text) {
     return text;
 }
 
-function capitalize(word) {
-    if (word && typeof word === 'string') {
-        return word.charAt(0).toUpperCase() + word.slice(1);
-    }
-    return word;
-}
+// function capitalize(word) {
+//     if (word && typeof word === 'string') {
+//         return word.charAt(0).toUpperCase() + word.slice(1);
+//     }
+//     return word;
+// }
 
 
 function isClickedOutside(event, ele) {
