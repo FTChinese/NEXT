@@ -2243,7 +2243,7 @@ async function setConfigurations() {
   
   const mainRoleHTML = `
     <a data-purpose="start-over" data-content="start-over" data-key="start-over">${localize('ChatFTC')}</a>
-    <a href="https://www.ftchinese.com/" class="side-bar-logo"><img src="https://d2785ji6wtdqx8.cloudfront.net/img/ipad_icon.png"></a>
+    <a href="/" class="side-bar-logo"><img src="https://d2785ji6wtdqx8.cloudfront.net/img/ipad_icon.png"></a>
   `;
   let mainChatRole = document.getElementById('main-chat-role');
   if (mainChatRole) {
