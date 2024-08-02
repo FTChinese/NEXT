@@ -127,6 +127,9 @@ var androidUserInfo = {
 
 <!-- build:css styles/main.css -->
 <link rel="stylesheet" href="styles/main-default.css">
+
+<link rel="stylesheet" href="styles/main-search-new.css">
+
 <!-- endbuild -->
 
 <script type="text/javascript">
@@ -372,6 +375,7 @@ document.writeln(configScriptJsonStr);
   background-image: url(https://thumbor.ftacademy.cn/unsafe/picture/1/000211271_piclink.png);
   }
   }
+  
   </style>
   <div class="subscription-promo-container show-image-in-mobile noneSubscriber">
   <div class="subscription-promo-inner">
@@ -475,7 +479,8 @@ document.writeln(configScriptJsonStr);
   </div>
   </div>
   </div>
-  </div><div class="o-nav__placeholder">
+  </div>
+  <div class="o-nav__placeholder">
   <div class="o-nav">
   <div class="o-nav__outer">
   <div class="o-nav__inner">
@@ -484,11 +489,15 @@ document.writeln(configScriptJsonStr);
   <span class="search-toggle--open">搜索</span>
   <span class="search-toggle--close">关闭</span>
   </button>
-  <form action="/search/" id="search-form" role="search" data-o-toggler-target>
-  <input id="search-term" type="search" name="keys" class="search-input" placeholder="输入年月日‘xxxx-xx-xx’可搜索该日存档" />
-  <input id="type_news" type="hidden" value="type_news" name="ftsearchType" checked />
+  <form action="/search/" id="search-form" role="search" data-o-toggler-target >
+  <input id="search-term" type="search" name="keys" class="custom-search-input" placeholder="搜索你想要搜索的内容和标签、作者" />
+  <input id="type_news" type="hidden" value="default" name="type" checked />
   <button class="search-button" tabindex="1"><span>搜索</span></button>
   </form>
+
+
+  <div class="search-topic-intention"></div>
+
   </div>
   <div class="o-header__masthead-mobile">
   <a href="/" title="前往FT中文网首页"><span>FT中文网</span></a>
@@ -2210,6 +2219,7 @@ document.writeln(configScriptJsonStr);
 
 <!-- build:js scripts/main-ie-grid-polyfill.js -->
 <script type="text/javascript" src="scripts/ie-grid-polyfill.js"></script>
+<script type="text/javascript" src="scripts/main-search.js"></script>
 <!-- endbuild -->
 
 </html>

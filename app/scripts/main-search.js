@@ -1,0 +1,267 @@
+window.preferredLanguage = navigator.language || navigator.userLanguage;
+// const isFrontendTest = location.href.indexOf('localhost') >= 0 && window.isUsingHandleBars !== true;
+const isPowerTranslate = location.href.indexOf('powertranslate') >= 0 || window.isUsingHandleBars === true;
+const myInterestsKey = 'My Interests';
+const isFrontendTest = true;
+delegate.on('input', '#search-term', debounce(async (event) => {
+
+    if(window.intention && window.intention !== 'DiscussContent'){
+        return ;
+    }
+    const ele = event.target;
+    const suggestionEle = ele.closest('.o-nav__search')?.querySelector('.search-topic-intention');
+    const hideSuggestionForEmptyValue = ()=>{
+        const currentValue = ele.value.trim();
+        if (currentValue === '') {
+            hideEle(suggestionEle);
+            return;
+        }
+    };
+    // MARK: - Do this now in case there's an error so that the check is never executed
+    hideSuggestionForEmptyValue();
+    const value = ele.value.trim();
+    const intentions = await fetchSuggestions(value);
+    renderShowIntention(suggestionEle, intentions);
+    // MARK: - Do this again after async request is returned, which is necessary
+    hideSuggestionForEmptyValue();
+    updateSearchContent();
+
+}, 300)); // 300 ms debounce time
+
+
+function renderShowIntention(ele, intentions) {
+    if (!ele) {return;}
+    console.log(intentions);
+    const areIntentionsValidArrays = typeof intentions === 'object' && intentions.length > 0;
+    if (!areIntentionsValidArrays) {
+        hideEle(ele);
+        return;
+    }
+    // MARK: - At this point, we know the intentions is a valid array. We need to filter the intentions to show only relevant ones
+    let minScore = 5; // This number is based on oberservation, but we can find out more by looking at MongoDB's guides. 
+    const minScoreRate = 0.9;
+    const highestScore = intentions?.[0]?.score ?? (minScore / minScoreRate);
+    minScore = Math.max(minScore, highestScore * minScoreRate);
+    intentions = intentions.filter(x => x.score > minScore).slice(0, 5);
+    if (intentions.length === 0) {
+        hideEle(ele);
+        return;
+    }
+    console.log(preferredLanguage);
+    showEle(ele);
+    const myPreference = getMyPreference();
+    const myInterests = (myPreference[myInterestsKey] || []).filter(x=>typeof x === 'object');
+    const myInterestsKeys = myInterests.map(x=>x.key || '').filter(x=>x!=='');
+    // console.log('intentions: ');
+    // console.log(intentions);
+
+    // intentions = intentions.slice(0, 1);
+    const intentionsHTML = intentions
+        .map(intention=>{
+            const key = intention.name;
+            const field = intention.field;
+            const name = intention.translations?.[preferredLanguage] ?? key;
+            if (myInterestsKeys.indexOf(key)>=0) {
+                buttonClass = 'tick';
+                buttonHTML = localize('Unfollow');
+            }
+            const extra = (localize(name) === key) ? '' : `(${key})`;
+            const display = localize(name);
+
+            //<a  data-purpose="search-ft-api" data-lang="${preferredLanguage}" data-content="${content}" data-reply="${localize('Finding')}" data-name="${key}" data-type="${field}">${display}${reorderButton}</a>`};
+
+            const content = `${field}: ${key}`;
+            const searchTerm = document.getElementById('search-term').value.trim();
+            const displayExtra = `${display}${extra}`;
+            const highlightedDisplayExtra = searchTerm && displayExtra.includes(searchTerm) ? displayExtra.replace(new RegExp(searchTerm, 'gi'), `<span class="yx_hl">${searchTerm}</span>`) : displayExtra;
+            return `
+            <div class="input-container">
+                <div class="input-name-container">
+                <a href="/search/?keys=${displayExtra}&type=default" data-purpose="search-ft-api" data-lang="${preferredLanguage}" data-content="${content}" data-reply="${localize('Finding')}" data-name="${key}" data-type="${field}">
+                    ${highlightedDisplayExtra}
+                </a>
+                </div>
+            </div>`;
+        })
+        .join('');
+    ele.innerHTML = `${intentionsHTML}`;
+}
+
+
+function hideEle(ele) {
+    if (ele) {
+        ele.classList.remove('on');
+    }
+}
+
+
+async function fetchSuggestions(query) {
+    try {
+        let url = '/ai/search_annotation';
+        const data = {query: query, language: preferredLanguage, limit: 10};
+        let options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        };
+        if (isFrontendTest) {
+            url = '/api/page/search_result.json';
+            options = {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            };
+        }
+        const response = await fetch(url, options);
+        console.log(response);
+        let results = await response.json();
+        if (response.status >= 400 && results.message) {
+            return null;
+        }
+        return results;
+    } catch(err) {
+        console.log(err);
+    }
+    return null;
+
+}
+
+document.addEventListener('click', function(event) {
+    const suggestionEle = document.querySelector('.search-topic-intention');
+    if (suggestionEle && isClickedOutside(event, suggestionEle)) {
+        hideEle(suggestionEle);
+        const input = document.getElementById('search-term');
+        if (input) {
+            input.value = ''; // 清空搜索框内容
+        }
+    }
+});
+
+function debounce(func, delay) {
+
+    let debounceTimer;
+    return function() {
+        const context = this;
+        const args = arguments;
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => func.apply(context, args), delay);
+    };
+
+}
+
+function showEle(ele) {
+    if (ele) {
+        ele.classList.add('on');
+    }
+}
+
+function getMyPreference() {
+    let myPreference = {};
+    const myPreferenceString = localStorage.getItem('preference');
+    if (myPreferenceString && myPreferenceString !== '') {
+      try {
+        myPreference = JSON.parse(myPreferenceString);
+      } catch(ignore) {}
+    }
+    return myPreference;
+  }
+
+function localize(text) {
+    let language = (isPowerTranslate) ? navigator.language : 'zh-CN';
+    if (/^en/.test(language)) {
+        language = 'en';
+    }
+    const dict = {
+        'ignore-all-name-entity-warning': {'en': 'Ignoring all the hints may result in you not spotting inconsistent translations in the article, are you sure?', 'zh-CN': '忽略所有的提示，可能会导致您无法发现文章中前后不一致的译名，您确定吗？'},
+        'Finish & Close': {'zh-CN': '完成并关闭'},
+        'Edit': {'zh-CN': '编辑'},
+        'Finish': {'zh-CN': '完成'},
+        'Top': {'zh-CN': '顶部'},
+        'Recover': {'zh-CN': '恢复'},
+        'Backup': {'zh-CN': '备份'},
+        'Preview': {'zh-CN': '预览'},
+        'Add Word': {'zh-CN': '加词条'},
+        'Replace': {'zh-CN': '替换'},
+        'Click the translation': {'zh-CN': '点选左边的翻译版本，您也可以继续编辑'},
+        'Add the translation': {'zh-CN': '填写统一译法，开启提醒'},
+        'Ignore': {'zh-CN': '忽略'},
+        'Ignore All': {'zh-CN': '忽略所有提醒'},
+        'Name Entities': {'zh-CN': '多次出现词语'},
+        'select-text-to-add-link': {'en': 'Please select text from the right text to add link', 'zh-CN': '请选中右边文本框的相应的文本内容来添加链接！'},
+        'select-text-for-short-cut': {'en': 'Please select text from the right text for shortcut!', 'zh-CN': '请选中右边文本框的相应的文本内容来快捷填写！'},
+        'tap-to-add': {'en': 'After tapping on the left to fill in the text here, you can try to select part of the text and then click on the links and bold fonts on the left to easily add links or bold text', 'zh-CN': '在点选左边把文字填写到这里之后，可以尝试选择部分文字，然后点击左边的链接和加粗字体，就可以方便地添加链接或加粗文字。'},
+        'content-error-hint': {'en': 'There may be some problems with your edits, do you want to continue submitting?', 'zh-CN': '您编辑的内容可能有些问题，您还要继续提交吗？'},
+        'mark-red-reminder': {'en': 'Relevant passages have been marked in red.', 'zh-CN': '相关的段落已经标红。'},
+        'ask-to-overwrite': {'en': 'Overwrite the version previously saved locally, OK? Please note that this function is only intended for handling unexpected situations. If you plan to save your work progress for a long term, please complete the proofreading as soon as possible and submit it to the CMS.', 'zh-CN': '覆盖之前保存在本地的版本，确定吗？请注意这个功能仅仅用于应对意外情况，如果您打算长期保存工作进度，请尽快完成校对并提交到CMS。'},
+        'cannot-save-prompt': {'en': 'Due to a browser problem, it is not possible to save your work locally, please take a screenshot of this error message to the technician. ', 'zh-CN': '由于浏览器的问题，无法在本地保存您的工作，请把这个错误信息截屏给技术人员'},
+        'recover-prompt': {'en': 'Reverting to the last version saved locally will lose all the changes made now, are you sure?', 'zh-CN': '恢复到上次保存在本地的版本，会丢失现在的所有修改，确定吗？'},
+        'Current Translation': {'zh-CN': '旧译名'},
+        'New Translation': {'zh-CN': '新译名'},
+        'Replace All': {'zh-CN': '全部替换'},
+        'Hide Replacement': {'zh-CN': '隐藏替换'},
+        'Empty-Translation': {'en': 'Current translation cannot be empty!', 'zh-CN': '旧译名不能为空!'},
+        'Empty-Source': {'en': 'Original test cannot be empty!', 'zh-CN': '原文不能为空!'},
+        'Original': {'zh-CN': '原文'},
+        'Translation': {'zh-CN': '译文'},
+        'Bilingual': {'zh-CN': '对照'},
+        'Hide Add Word': {'zh-CN': '隐藏添加'},
+        'Not-Found-Word-In-Original': {'en': 'No word found in the original, please check your input in the original!', 'zh-CN': '没有在原文中找到词条，请检查一下您的原文的输入！'},
+        'Others-Working-On-It': {'en': 'This article seems to have been modified or posted by someone else while you were editing it, would you like to see the details?', 'zh-CN': '这篇文章在您进行编辑的时候，似乎被别人进行了修改或发布，您要看看详情吗？'},
+        'Polish-Translation': {'en': 'Polish This Translation', 'zh-CN': '为这段译文润色'},
+        'Confirm-Polish': {'en': 'Do you want to replace the existing text with this polished text? ', 'zh-CN': '您想要用以下这段润色后的文字替换当前的翻译吗？'},
+        'prompt-copied-message': {'en': 'The prompt is already copied to your clipboard. ', 'zh-CN': '原文已经复制到您的剪贴板。'},
+        'prompt-ChatGPT': {'en': 'The prompt is already copied to your clipboard. Open ChatGPT now? ', 'zh-CN': '原文已经复制到您的剪贴板，您要现在打开ChatGPT吗？'},
+        'AITranslation': {'en': 'New Feature: There is an AI-translated version, which should be better than current options. Do you want to use it for your review?', 'zh-CN': '新功能：我们检测到AI翻译的版本，效果应该更好，您要直接填入吗？'},
+        'preview-edit': {en: 'Now you can edit directly in the preview mode. The bilingual mode button allows you to verify the translation is accurate more conveniently. ', 'zh-CN': '现在，您可以直接在预览界面进行编辑。你可以点击上方按钮切换到双语对照模式，更为方便地检查译文的准确性。'}
+    };
+    if (dict[text]) {
+        if (dict[text][language]) {
+            return dict[text][language];
+        }
+        if (dict[text].en) {
+            return dict[text].en;
+        }
+    }
+    return text;
+}
+
+function capitalize(word) {
+    if (word && typeof word === 'string') {
+        return word.charAt(0).toUpperCase() + word.slice(1);
+    }
+    return word;
+}
+
+
+function isClickedOutside(event, ele) {
+    return !ele.contains(event.target);
+}
+
+function updateSearchContent() {
+    const searchTerm = document.getElementById('search-term').value.trim();
+    const searchTopicIntention = document.querySelector('.search-topic-intention');
+
+    let newInputContainer = document.createElement('div');
+    newInputContainer.className = 'input-container';
+    searchTopicIntention.appendChild(newInputContainer);
+
+    let inputNameContainer = document.createElement('div');
+    inputNameContainer.className = 'input-name-container';
+    newInputContainer.appendChild(inputNameContainer);
+
+    let searchLink = document.createElement('a');
+    searchLink.href = `/search/?keys=${encodeURIComponent(searchTerm)}&type=default`;
+    searchLink.setAttribute('data-purpose', 'search-ft-api');
+    searchLink.setAttribute('data-lang', preferredLanguage);
+    searchLink.setAttribute('data-content', `people: ${searchTerm}`);
+    searchLink.setAttribute('data-reply', 'Finding');
+    searchLink.setAttribute('data-name', searchTerm);
+    searchLink.setAttribute('data-type', 'people');
+    searchLink.innerHTML = `更多搜索: <span class="yx_hl"> ${searchTerm}</span>`;
+
+    inputNameContainer.appendChild(searchLink);
+    
+}

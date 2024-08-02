@@ -1,0 +1,172 @@
+$headerColor: #000;
+$o-header-bottom-height: 44px;
+$borderColor: #a7a59b;
+$defaultPadding: 15px;
+$navHeight: 50px;
+$red: #990f3d;
+
+@mixin customHeaderSearchExpanded {
+  cursor: text;
+  width: 100%;
+  background-color: #ffffff;
+  border: 1px solid #a7a59b;
+  padding-right: $o-header-bottom-height + 5px;
+  padding-left: 5px;
+}
+
+.custom-search-input {
+  box-sizing: border-box;
+  color: $headerColor;
+  background-color: transparent;
+  border: 1px solid transparent;
+  border-radius: 0;
+  display: block;
+  margin: 0 0 0 $o-header-bottom-height;
+  padding: 2px 26px 1px 12px;
+  height: 100%;
+  outline: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  font-size: inherit;
+  display: block;
+  @include customHeaderSearchExpanded;
+  transition: 0.2s width;
+}
+
+.search-topic-intention {
+  div.input-container {
+      display: flex;
+      align-items: center;
+      padding-bottom: $defaultPadding * 0.5;
+      position: relative;
+  }
+  div.input-name, div.input-name-container {
+      flex: 1;
+      padding: 0;
+
+      // background-color: pink;
+      // font-size: 20px;
+
+      input {
+          padding: $defaultPadding * 0.25;
+          width: 100%;
+      }
+      &.show-reorder-button-leading {
+          padding-left: $defaultPadding * 0.25 + 24px;
+          background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="%23333333"><path d="M120-200v-80h720v80H120Zm0-160v-80h720v80H120Zm0-160v-80h720v80H120Zm0-160v-80h720v80H120Z"/></svg>');
+          background-repeat: no-repeat;
+          background-position: left center;
+          background-size: 24px 24px; // You can adjust this if needed
+          line-height: 24px;
+      }
+  }
+}
+
+
+
+// .search-topic-intention {
+//     display: none;
+//     position: absolute;
+    // padding-top:45px;
+    // padding-left:15px;
+    // padding-right:15px;
+//     left: 0;
+//     right: 0;
+//     bottom: 100%;
+//     background-color: white;
+//     border: 1px solid $borderColor;
+//     z-index: 1;
+//     &.on {
+//         display: block;
+//     }
+//     [data-purpose] {
+//         background-color: transparent;
+//         font-size: 1em;
+//         display: inline;
+//         padding: 0;
+//     }
+//     @media (max-width: 768px) {
+//         left: $defaultPadding * 0.5 - $navHeight;
+//     }
+// }
+.search-topic-intention {
+  display: none;
+  position: absolute;
+  padding-left:15px;
+  padding-right:15px;
+  left: 0;
+  right: 0;
+  top: 100%;  /* Adjusted from 'bottom: 100%' to 'top: 100%' to position below */
+  background-color: white;
+  border: 1px solid $borderColor;
+  z-index: 11;
+  &.on {
+      display: block;
+  }
+  [data-purpose] {
+      background-color: transparent;
+      font-size: 1em;
+      display: inline;
+      padding: 0;
+  }
+  @media (max-width: 768px) {
+      left: $defaultPadding * 0.5 - $navHeight;
+  }
+}
+
+
+
+.hide-search-intention {
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 30px;  /* Adjust size as needed */
+  height: 30px; /* Adjust size as needed */
+  line-height: 30px; /* Centers the 'X' vertically */
+  text-align: center; /* Centers the 'X' horizontally */
+  font-size: 18px;
+  color: #555;
+  background-color: transparent;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.hide-search-intention:hover {
+  color: #fff;
+  background-color: #666;
+}
+
+
+.hide-intention {
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 30px;  /* Adjust size as needed */
+  height: 30px; /* Adjust size as needed */
+  line-height: 30px; /* Centers the 'X' vertically */
+  text-align: center; /* Centers the 'X' horizontally */
+  font-size: 18px;
+  color: #555;
+  background-color: transparent;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.hide-intention:hover {
+  color: #fff;
+  background-color: #666;
+}
+
+.yx_hl {
+	color: $red;
+}
