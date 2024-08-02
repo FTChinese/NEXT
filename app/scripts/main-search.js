@@ -3,7 +3,7 @@ const preferredLanguage = window.preferredLanguage = navigator.language || navig
 // const isFrontendTest = location.href.indexOf('localhost') >= 0 && window.isUsingHandleBars !== true;
 const isPowerTranslate = location.href.indexOf('powertranslate') >= 0 || window.isUsingHandleBars === true;
 // const myInterestsKey = 'My Interests';
-const isFrontendTest = true;
+const isFrontendTest = false;
 delegate.on('input', '#search-term', debounce((event) => {
     const processInput = () => {
         if(window.intention && window.intention !== 'DiscussContent'){
