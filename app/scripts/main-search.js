@@ -3,7 +3,7 @@ let preferredLanguage = my.Language || navigator.language || 'zh-CN';
 // const isFrontendTest = location.href.indexOf('localhost') >= 0 && window.isUsingHandleBars !== true;
 const isPowerTranslate = location.href.indexOf('powertranslate') >= 0 || window.isUsingHandleBars === true;
 // const myInterestsKey = 'My Interests';
-const isFrontendTest = location.href.indexOf('localhost') === -1;
+const isFrontendTest = false;
 delegate.on('input', '#search-term', debounce((event) => {
     const processInput = () => {
         if(window.intention && window.intention !== 'DiscussContent'){
@@ -140,11 +140,7 @@ function fetchSuggestions(query) {
 document.addEventListener('click', function(event) {
     const suggestionEle = document.querySelector('.search-topic-intention');
     if (suggestionEle && isClickedOutside(event, suggestionEle)) {
-        hideEle(suggestionEle);
-        const input = document.getElementById('search-term');
-        if (input) {
-            input.value = ''; // 清空搜索框内容
-        }
+        hideEle(suggestionEle);       
     }
 });
 
