@@ -1,9 +1,9 @@
-
-const preferredLanguage = window.preferredLanguage = navigator.language || navigator.userLanguage;
+let my = getMyPreference();
+let preferredLanguage = my['Language'] || navigator.language || 'zh-CN';
 // const isFrontendTest = location.href.indexOf('localhost') >= 0 && window.isUsingHandleBars !== true;
 const isPowerTranslate = location.href.indexOf('powertranslate') >= 0 || window.isUsingHandleBars === true;
 // const myInterestsKey = 'My Interests';
-const isFrontendTest = false;
+const isFrontendTest = location.href.indexOf('localhost') === -1;
 delegate.on('input', '#search-term', debounce((event) => {
     const processInput = () => {
         if(window.intention && window.intention !== 'DiscussContent'){
@@ -73,11 +73,11 @@ function renderShowIntention(ele, intentions) {
             const content = `${field}: ${key}`;
             const searchTerm = document.getElementById('search-term').value.trim();
             const displayExtra = `${display}${extra}`;
-            const highlightedDisplayExtra = searchTerm && displayExtra.includes(searchTerm) ? displayExtra.replace(new RegExp(searchTerm, 'gi'), `<span class="yx_hl">${searchTerm}</span>`) : displayExtra;
+            const highlightedDisplayExtra = searchTerm ? displayExtra.replace(new RegExp(`(${searchTerm})`, 'gi'), `<span class="yx_hl">$1</span>`) : displayExtra;
             return `
             <div class="input-container">
                 <div class="input-name-container">
-                <a href="/search/?keys=${displayExtra}&type=default" data-purpose="search-ft-api" data-lang="${preferredLanguage}" data-content="${content}" data-reply="${localize('Finding')}" data-name="${key}" data-type="${field}">
+                <a href="/search/?keys=${display}&type=default" data-purpose="search-ft-api" data-lang="${preferredLanguage}" data-content="${content}" data-reply="${localize('Finding')}" data-name="${key}" data-type="${field}">
                     ${highlightedDisplayExtra}
                 </a>
                 </div>
@@ -98,6 +98,7 @@ function hideEle(ele) {
 function fetchSuggestions(query) {
     return new Promise((resolve, reject) => {
         try {
+            
             let url = '/ai/search_annotation';
             const data = {query: query, language: preferredLanguage, limit: 10};
             let options = {
@@ -272,3 +273,15 @@ function updateSearchContent() {
     inputNameContainer.appendChild(searchLink);
     
 }
+
+
+function getMyPreference() {
+    let myPreference = {};
+    const myPreferenceString = localStorage.getItem('preference');
+    if (myPreferenceString && myPreferenceString !== '') {
+      try {
+        myPreference = JSON.parse(myPreferenceString);
+      } catch(ignore) {}
+    }
+    return myPreference;
+  }
