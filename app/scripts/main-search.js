@@ -12,6 +12,11 @@ delegate.on('input', '#search-term', debounce((event) => {
         const ele = event.target;
         const navSearchEle = ele.closest('.o-nav__search');
         const suggestionEle = navSearchEle ? navSearchEle.querySelector('.search-topic-intention') : null;
+        if (event.key === 'Enter') {
+            event.preventDefault(); 
+            const form = document.getElementById('search-form');
+            form.submit(); 
+        }
         const hideSuggestionForEmptyValue = () => {
             const currentValue = ele.value.trim();
             if (currentValue === '') {
