@@ -1,5 +1,5 @@
 let my = getMyPreference();
-let preferredLanguage = my['Language'] || navigator.language || 'zh-CN';
+let preferredLanguage = my.Language || navigator.language || 'zh-CN';
 // const isFrontendTest = location.href.indexOf('localhost') >= 0 && window.isUsingHandleBars !== true;
 const isPowerTranslate = location.href.indexOf('powertranslate') >= 0 || window.isUsingHandleBars === true;
 // const myInterestsKey = 'My Interests';
