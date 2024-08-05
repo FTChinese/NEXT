@@ -166,17 +166,6 @@ function showEle(ele) {
     }
 }
 
-// function getMyPreference() {
-//     let myPreference = {};
-//     const myPreferenceString = localStorage.getItem('preference');
-//     if (myPreferenceString && myPreferenceString !== '') {
-//       try {
-//         myPreference = JSON.parse(myPreferenceString);
-//       } catch(ignore) {}
-//     }
-//     return myPreference;
-//   }
-
 function localize(text) {
     let language = (isPowerTranslate) ? navigator.language : 'zh-CN';
     if (/^en/.test(language)) {
@@ -235,14 +224,6 @@ function localize(text) {
     }
     return text;
 }
-
-// function capitalize(word) {
-//     if (word && typeof word === 'string') {
-//         return word.charAt(0).toUpperCase() + word.slice(1);
-//     }
-//     return word;
-// }
-
 
 function isClickedOutside(event, ele) {
     return !ele.contains(event.target);
