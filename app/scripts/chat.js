@@ -7,8 +7,8 @@ const isPowerTranslate = location.href.indexOf('powertranslate') >= 0 || window.
 const isFrontendTest = location.href.indexOf('localhost') >= 0 && window.isUsingHandleBars !== true;
 const isInNativeApp = location.href.indexOf('webview=ftcapp') >= 0;
 const discussArticleOnly = location.href.indexOf('ftid=') >= 0 && location.href.indexOf('action=read') < 0;
-const showGreeting = !/action=(read|search)/gi.test(location.href);
-const surveyOnly = location.href.indexOf('action=survey') >= 0;
+const showGreeting = !/action=(read|search|news-quiz)/gi.test(location.href);
+const surveyOnly = /action=(survey)/gi.test(location.href);
 window.preferredLanguage = navigator.language;
 var languageOptionsDict = {Chinese: '中文'};
 var readArticle = 'pop-out';
@@ -229,6 +229,26 @@ delegate.on('click', '.sidebar-bg, .sidebar a, .sidebar button',  (event) => {
     sideBarEle.classList.remove('on');
   }
 
+});
+
+
+
+delegate.on('click', '.quiz-share[data-quiz-id]', (event) => {
+  const element = event.target;
+  const id = element.getAttribute('data-quiz-id');
+  
+  // Construct the share URL using the current window's host name and port
+  const hostname = 'https://ai.ftchinese.com';
+  const shareUrl = `${hostname}/powertranslate/chat.html#action=news-quiz&id=${id}`;
+
+  // Copy the share URL to the clipboard
+  navigator.clipboard.writeText(shareUrl).then(() => {
+    // Alert the success with a friendly reminder (localized message)
+    alert(localize('share_quiz'));
+  }).catch(err => {
+    console.error('Failed to copy share URL:', err);
+    // Optionally, handle the error (e.g., show an error message to the user)
+  });
 });
 
 delegate.on('click', '#back-arrow',  (event) => {
@@ -470,17 +490,17 @@ async function nextAction(intention) {
 async function getArticleFromFTAPI(id, language) {
   try {
       // const token = (isPowerTranslate) ? localStorage.getItem('accessToken') : 'sometoken';
-      const token = (isPowerTranslate) ? GetCookie('accessToken') : 'sometoken';
-      if (!token || token === '') {
-          return {status: 'failed', message: 'You need to sign in first! '};
-      }
+      // const token = (isPowerTranslate) ? GetCookie('accessToken') : 'sometoken';
+      // if (!token || token === '') {
+      //     return {status: 'failed', message: 'You need to sign in first! '};
+      // }
       const data = {id: id, language: language};
       let url = (isPowerTranslate) ? '/openai/ft_article' : '/FTAPI/article.php';
       let options = {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}`
+              // 'Authorization': `Bearer ${token}`
           },
           body: JSON.stringify(data)
       };
@@ -1140,12 +1160,12 @@ async function talk() {
   // console.log(`Talk sent! Hiding the .chat-topic-intention`);
   const ele = document.querySelector('.chat-topic-intention');
   hideEle(ele);
-  const token = GetCookie('accessToken');
-  if (!token || token === '') {
-      alert('You need to sign in first! ');
-      window.location.href = '/login';
-      return;
-  }
+  // const token = GetCookie('accessToken');
+  // if (!token || token === '') {
+  //     alert('You need to sign in first! ');
+  //     window.location.href = '/login';
+  //     return;
+  // }
   const prompt = userInput.value.replace(/^\s+|\s+$/g, '');
   if (prompt === '') {return;}
   if (botStatus === 'pending') {return;}
@@ -1506,24 +1526,29 @@ async function createTranslations(results, language) {
 
 
 
-async function newsQuiz(content, language, reply) {
+async function newsQuiz(content, language, reply, id) {
   // console.log(`running searchFTAPI... content: ${content}, language: ${language}`);
   updateBotStatus('pending');
   showResultInChat({text: reply});
   try {
-    const quizInfo = await getNewsQuiz(content, language);
-    console.log(quizInfo);
+    const quizInfo = await getNewsQuiz(content, language, id);
+    // console.log(quizInfo);
     if (quizInfo.status === 'success' && quizInfo.results) {
       let html = '';
       for (const [index, quiz] of quizInfo.results.entries()) {
           const answer = quiz.answer || '';
           const explanation = quiz.explanation || '';
-          const title = quiz.title || '';
+          const title = (/zh/.test(language)) ? quiz.cheadline || quiz.title || '' : quiz.title || '';
           const id = quiz._id || '';
           let contentLink = '';
           if (title !== '' && id !== '') {
-            contentLink = `（<a href="/powertranslate/chat.html#ftid=${id}&language=${language}&action=read" target="_blank">${localize('Detail')}</a>）`;
+            contentLink = `<a href="/powertranslate/chat.html#ftid=${id}&language=${language}&action=read" target="_blank">${title}</a>`;
           }
+          let shareLink = '';
+          if (id !== '') {
+            shareLink = `<a class="quiz-share" data-quiz-id="${id}"></a>`;
+          }
+
           let allOptions = quiz.distractors || [];
           // MARK: - OpenAI doesn't get it right all the time, especially when you prompt it to translate a quiz. So you need to verify on the frontend. 
           if (allOptions.indexOf(answer) === -1) {
@@ -1537,10 +1562,10 @@ async function newsQuiz(content, language, reply) {
           }
           const hideClass = (index === 0) ? '' : ' hide'; 
           html += `
-              <div class="quiz-container${hideClass}" data-score="0">
+              <div class="quiz-container${hideClass}" data-score="0" data-store="DailyQuiz">
                   <div class="quiz-question">${quiz.question}</div>
                   <div class="quiz-options">${options}</div>
-                  <div class="quiz-explanation">${explanation}${contentLink}</div>
+                  <div class="quiz-explanation"><p>${explanation}</p><p>${contentLink}</p><p>${shareLink}</p></div>
                   <div class="quiz-end-for-scroll-alignment"></div>
               </div>
           `.replace(/[\r\n]+/g, '');
@@ -1549,6 +1574,7 @@ async function newsQuiz(content, language, reply) {
       html += `<button class="quiz-next hide">${localize('NEXT')}</button>`;
       const result = {text: html};
       showResultInChat(result);
+      await setIntention('Ask Me', preferredLanguage, '', true, false);
     }
   } catch (err) {
 
@@ -1559,20 +1585,18 @@ async function newsQuiz(content, language, reply) {
 
 
 
-async function getNewsQuiz(content, language) {
+async function getNewsQuiz(content, language, id) {
   try {
-      // const token = (isPowerTranslate) ? localStorage.getItem('accessToken') : 'sometoken';
-      const token = (isPowerTranslate) ? GetCookie('accessToken') : 'sometoken';
-      if (!token || token === '') {
-          return {status: 'failed', message: 'You need to sign in first! '};
-      }
-      const data = {content: content, language: language};
+      const data = {content: content, language: language, id: id};
+
+      // console.log('getNewsQuiz data: ');
+      // console.log(data);
+
       let url = '/ai/quiz';
       let options = {
           method: 'POST',
           headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}`
+              'Content-Type': 'application/json'
           },
           body: JSON.stringify(data)
       };
@@ -2110,6 +2134,7 @@ function getActionOptions() {
       <div class="chat-item-actions">
         <a data-purpose="show-ft-page" data-lang="${language}" data-content='home' data-reply="${localize('FindingMyFT')}" data-reply-action="set-preference" class="logged-in-only">${localize('Top News For Me')}</a>
         <a data-purpose="show-ft-page" data-lang="${language}" data-content='most-popular' data-reply="${localize('Finding')}" class="logged-in-only">${localize('Most Popular')}</a>
+        <a data-purpose="news-quiz" data-lang="${language}" data-content='quiz' data-reply="${localize('PrepareingQuiz')}">${localize('NewsQuiz')}</a>
         <a data-purpose="set-preference" data-lang="${language}" data-content="all" data-reply="${localize('Set Your Preferences')}">${localize('Setting')}</a>
         ${promotion}
       </div>
@@ -2234,7 +2259,14 @@ async function setConfigurations() {
   setFontSize();
   setReadArticlePreference();
   setTranslatePreference();
-  window.shouldPromptLogin = true;
+
+  // console.log('paramDict: ');
+  // console.log(paramDict);
+
+  // MARK: - For survey and news quiz, no need to ask user to login
+  if (!['survey', 'news-quiz'].includes(paramDict?.action ?? '')) {
+    window.shouldPromptLogin = true;
+  }
   localStorage.setItem('pagemark', window.location.href);
 
   var script = document.createElement('script');
@@ -2282,6 +2314,7 @@ async function setConfigurations() {
 
 
 async function waitForAccessToken() {
+  return;
   if (isFrontendTest) {return;}
   const oneDayInMiniSeconds = 24 * 60 * 60 * 1000;
   for (let i=0; i<15; i++) {
@@ -2323,6 +2356,7 @@ async function setGuardRails() {
   const field = paramDict.field;
   const key = paramDict.key;
   const display = paramDict.display;
+  const id = paramDict.id;
   if (ftid && ftid !== '') {
     // MARK: - If you want to handle actions at the launch of the page, you'll need to wait for the access token to available before continuing. 
     showBackArrow();
@@ -2343,6 +2377,8 @@ async function setGuardRails() {
     showBackArrow();
     await waitForAccessToken();
     await searchFTAPI(`${field}: ${key}`, preferredLanguage, decodeURIComponent(display));
+  } else if (action === 'news-quiz') {
+    await newsQuiz('quiz', preferredLanguage, localize('IntroducingQuiz'), id);
   }
   const intent = paramDict.intent;
   if (intent && intent !== '') {
@@ -2513,11 +2549,11 @@ async function subscribeTopics(topics = []) {
       // MARK: - Check if the browser supports push notifications
     if ('PushManager' in window) {
       // const token = (isPowerTranslate) ? localStorage.getItem('accessToken') : 'sometoken';
-      const token = (isPowerTranslate) ? GetCookie('accessToken') : 'sometoken';
-      if (!token || token === '') {
-          console.log('No token! ');
-          return;
-      }
+      // const token = (isPowerTranslate) ? GetCookie('accessToken') : 'sometoken';
+      // if (!token || token === '') {
+      //     console.log('No token! ');
+      //     return;
+      // }
       let subscription = await registration.pushManager.getSubscription();
       if (subscription) {
         await subscription.unsubscribe();
@@ -2538,7 +2574,7 @@ async function subscribeTopics(topics = []) {
         body: JSON.stringify(info),
         headers: {
           "content-type": "application/json",
-          'Authorization': `Bearer ${token}`
+          // 'Authorization': `Bearer ${token}`
         }
       });
       console.log("Push Sent...");

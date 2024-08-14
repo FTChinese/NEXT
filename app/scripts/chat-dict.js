@@ -2554,6 +2554,20 @@ let statusDictOriginal = {
     zh: '问我关于市场、经济和政治的最新消息...',
     ru: 'Спросите меня о последних новостях на рынках, в экономике и политике...'
   },
+  share_quiz: {
+    en: 'The link has been copied to your clipboard! 🎉\n\nDon’t forget to share it with your friends!',
+    es: '¡El enlace se ha copiado a tu portapapeles! 🎉\n\n¡No olvides compartirlo con tus amigos!',
+    fr: 'Le lien a été copié dans votre presse-papiers ! 🎉\n\nN’oubliez pas de le partager avec vos amis !',
+    de: 'Der Link wurde in Ihre Zwischenablage kopiert! 🎉\n\nVergessen Sie nicht, ihn mit Ihren Freunden zu teilen!',
+    ja: 'リンクがクリップボードにコピーされました！ 🎉\n\n友達と共有するのを忘れないでください！',
+    ko: '링크가 클립보드에 복사되었습니다! 🎉\n\n친구들과 공유하는 것을 잊지 마세요!',
+    pt: 'O link foi copiado para a sua área de transferência! 🎉\n\nNão se esqueça de compartilhá-lo com seus amigos!',
+    it: 'Il link è stato copiato negli appunti! 🎉\n\nNon dimenticare di condividerlo con i tuoi amici!',
+    'zh-TW': '連結已複製到您的剪貼簿！🎉\n\n別忘了分享給您的朋友！',
+    'zh-HK': '連結已複製到您的剪貼簿！🎉\n\n別忘了分享給您的朋友！',
+    zh: '链接已复制到您的剪贴板！🎉\n\n别忘了分享给您的朋友！',
+    ru: 'Ссылка скопирована в ваш буфер обмена! 🎉\n\nНе забудьте поделиться ею с друзьями!'
+  },
   'byline': {
     zh: '作者',
     en: 'author',
@@ -2567,6 +2581,76 @@ let statusDictOriginal = {
     'zh-TW': '作者',
     'zh-HK': '作者',
     ru: 'автор'
+},
+average_score: {
+  en: 'Average Score',
+  es: 'Puntuación media',
+  fr: 'Score moyen',
+  de: 'Durchschnittliche Punktzahl',
+  ja: '平均スコア',
+  ko: '평균 점수',
+  pt: 'Pontuação Média',
+  it: 'Punteggio medio',
+  'zh-TW': '平均分數',
+  'zh-HK': '平均分數',
+  zh: '平均分数',
+  ru: 'Средний балл'
+},
+statistics: {
+  en: 'Statistics',
+  es: 'Estadísticas',
+  fr: 'Statistiques',
+  de: 'Statistiken',
+  ja: '統計',
+  ko: '통계',
+  pt: 'Estatísticas',
+  it: 'Statistiche',
+  'zh-TW': '統計',
+  'zh-HK': '統計',
+  zh: '统计',
+  ru: 'Статистика'
+},
+played: {
+  en: 'Played',
+  es: 'Jugado',
+  fr: 'Joué',
+  de: 'Gespielt',
+  ja: 'プレイ済み',
+  ko: '플레이한 게임 수',
+  pt: 'Jogadas',
+  it: 'Giocato',
+  'zh-TW': '已玩次數',
+  'zh-HK': '已玩次數',
+  zh: '已玩次数',
+  ru: 'Сыграно'
+},
+current_streak: {
+  en: 'Current Streak',
+  es: 'Racha actual',
+  fr: 'Série en cours',
+  de: 'Aktuelle Serie',
+  ja: '現在の連勝記録',
+  ko: '현재 연승',
+  pt: 'Sequência Atual',
+  it: 'Serie attuale',
+  'zh-TW': '當前連勝',
+  'zh-HK': '當前連勝',
+  zh: '当前连胜',
+  ru: 'Текущая серия'
+},
+max_streak: {
+  en: 'Max Streak',
+  es: 'Racha máxima',
+  fr: 'Meilleure série',
+  de: 'Maximale Serie',
+  ja: '最大連勝記録',
+  ko: '최대 연승',
+  pt: 'Sequência Máxima',
+  it: 'Massima serie',
+  'zh-TW': '最高連勝',
+  'zh-HK': '最高連勝',
+  zh: '最高连胜',
+  ru: 'Максимальная серия'
 },
 'people': {
     en: 'people',
@@ -4505,6 +4589,20 @@ Genres: {
     'zh-TW': '為您準備小測...',
     'zh-HK': '為您準備小測...',
     ru: 'Подготовка викторины для вас...'
+  },
+  IntroducingQuiz: {
+    "zh": "FT中文网每日新闻小测试，快速梳理最新的全球财经新闻大事件。",
+    "en": "FTChinese Daily News Quiz: Quickly recap the latest global financial news events.",
+    "es": "Cuestionario Diario de Noticias de FTChinese: Resume rápidamente los últimos acontecimientos financieros globales.",
+    "fr": "Quiz Quotidien FTChinese: Récapitulez rapidement les derniers événements financiers mondiaux.",
+    "de": "FTChinese Tägliches Nachrichten-Quiz: Fassen Sie die neuesten globalen Finanznachrichten schnell zusammen.",
+    "ja": "FTChineseデイリーニュースクイズ：最新の世界金融ニュースを迅速に振り返ります。",
+    "ko": "FTChinese 일간 뉴스 퀴즈: 최신 글로벌 금융 뉴스를 빠르게 요약합니다.",
+    "pt": "Quiz Diário de Notícias do FTChinese: Recapitule rapidamente os últimos eventos financeiros globais.",
+    "it": "Quiz Quotidiano di FTChinese: Riepiloga rapidamente gli ultimi eventi finanziari globali.",
+    "zh-TW": "FT中文網每日新聞小測試，快速梳理最新的全球財經新聞大事件。",
+    "zh-HK": "FT中文網每日新聞小測試，快速梳理最新的全球財經新聞大事件。",
+    "ru": "Ежедневный викторинный тест FTChinese: Быстро резюмируйте последние события в мировой финансовой сфере."
   },
   'What do you want to find?': {
     zh: '好的，您可以点击下面这些最为常见的查询，也可以告诉我您想找什么内容。',

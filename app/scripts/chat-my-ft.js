@@ -114,14 +114,14 @@ async function savePreference(myPreference) {
 
 async function syncPreferencesWithServer(preference) {
     console.log(`syncPreferencesWithServer running...`);
-    const token = GetCookie('accessToken');
-    if (!token) {return;}
+    // const token = GetCookie('accessToken');
+    // if (!token) {return;}
     try {
         const response = await fetch('/save_preference', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}` // Assuming the JWT is stored in a secure cookie
+                // 'Authorization': `Bearer ${token}` // Assuming the JWT is stored in a secure cookie
             },
             body: JSON.stringify(preference)
         });
@@ -137,13 +137,13 @@ async function clearAllPreferences() {
 
     try {
         localStorage.removeItem('preference');
-        const token = GetCookie('accessToken');
-        if (!token) {return;}
+        // const token = GetCookie('accessToken');
+        // if (!token) {return;}
         await fetch('/delete_preference', {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}` // Assuming the JWT is stored in a secure cookie
+                // 'Authorization': `Bearer ${token}` // Assuming the JWT is stored in a secure cookie
             }
         });
     } catch(err) {
@@ -158,14 +158,14 @@ async function clearAllPreferences() {
 async function checkPreferencesFromServer() {
 
     try {
-        const token = GetCookie('accessToken');
-        // MARK: - If there's no access token, no need to check further return now. 
-        if (!token) {return;}
+        // const token = GetCookie('accessToken');
+        // // MARK: - If there's no access token, no need to check further return now. 
+        // if (!token) {return;}
         const response = await fetch('/check_preference', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}` // Assuming the JWT is stored in a secure cookie
+                // 'Authorization': `Bearer ${token}` // Assuming the JWT is stored in a secure cookie
             }
         });
         if (!response.ok) {return;}
@@ -487,17 +487,17 @@ function debounce(func, delay) {
 
 async function fetchSuggestions(query) {
     try {
-        const token = (isPowerTranslate) ? GetCookie('accessToken') : 'sometoken';
-        if (!token || token === '') {
-            return {status: 'failed', message: 'You need to sign in first! '};
-        }
+        // const token = (isPowerTranslate) ? GetCookie('accessToken') : 'sometoken';
+        // if (!token || token === '') {
+        //     return {status: 'failed', message: 'You need to sign in first! '};
+        // }
         let url = '/ai/search_annotation';
         const data = {query: query, language: preferredLanguage, limit: 10};
         let options = {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                // 'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify(data)
         };

@@ -1314,7 +1314,7 @@ function setProgress(percent) {
 }
 
 function initProgressCircle() {
-  if (window.cutsTheMustard) {
+  try {
     window.circle = document.querySelector('circle');
     if (window.circle === null || window.circle === undefined) {return;}
     var radius = window.circle.r.baseVal.value;
@@ -1324,8 +1324,11 @@ function initProgressCircle() {
     setProgress(0);
     window.circle.style.stroke = '#990f3d';
     window.circle.style.fill = '#f2dfce';
+  } catch(err) {
+    console.log(err);
   }
 }
+
 initProgressCircle();
 
 // MARK: Update Time Stamp for different time zones and archived pages. This is useful in all type of pages. 

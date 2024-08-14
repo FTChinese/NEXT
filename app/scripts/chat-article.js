@@ -169,42 +169,84 @@ delegate.on('click', '.quiz-options div', async (event) => {
         let quizContainer = element.closest('.quiz-container');
         const quizzesId = element.closest('.quizzes-container')?.id;
         const newChat = quizContainer.closest('.chat-talk');
-        if (quizContainer.classList.contains('is-done')) {return;}
+        if (quizContainer.classList.contains('is-done')) { return; }
+        
         let isCorrect = element.classList.contains('is-correct');
         element.classList.add('is-selected');
         quizContainer.classList.add('is-done');
         const quizResultClass = (isCorrect) ? 'is-correct' : 'is-wrong';
         quizContainer.classList.add(quizResultClass);
+        
         let currentScore = quizContainer.getAttribute('data-score') || '0';
         currentScore = parseInt(currentScore, 10) || 0;
         currentScore += (isCorrect) ? 1 : 0;
         quizContainer.setAttribute('data-score', currentScore);
+        
         const nextQuiz = newChat.querySelector('.quiz-container.hide');
-        if (nextQuiz ) {
+        if (nextQuiz) {
             let nextButtonEle = quizContainer.closest('.chat-talk')?.querySelector('.quiz-next');
             if (quizzesId) {
-                // console.log(`Quiz id: ${quizzesId}`);
                 nextButtonEle = document.querySelector(`button[data-quiz-id="${quizzesId}"]`) ?? nextButtonEle;
-                // console.log(nextButtonEle);
             }
             if (nextButtonEle) {
                 nextButtonEle.classList.remove('hide');
-                // Maybe just scroll into bottom view 
             }
         } else {
             let chatTalkInner = quizContainer.closest('.chat-talk-inner');
             const all = chatTalkInner.querySelectorAll('.is-done.quiz-container').length;
             const correct = chatTalkInner.querySelectorAll('.is-correct.quiz-container').length;
+            // Calculate the final score percentage
+            const finalScorePercentage = Math.round((correct / all) * 100);
+
+            let finalScoreHTML = `<div>${localize('Final Score')}: ${finalScorePercentage} (${correct}/${all})</div>`;
+
+            const storeName = quizContainer?.getAttribute('data-store');
+            if (storeName) {
+                // Save the best score of the day
+                const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD format
+                const dbName = 'Engagement';
+                const previousBest = await getFromDB(dbName, storeName, today);
+                if (!previousBest || finalScorePercentage > previousBest) {
+                    await saveToDB(dbName, storeName, today, finalScorePercentage);
+                }
+                const pastScores = await queryFromDB(dbName, storeName, () => true);
+                // console.log('pastScores: ');
+                // console.log(pastScores);
+                const stats = calculateStats(pastScores);
+                finalScoreHTML = `
+                    <div class="stats-container">
+                        <h2>${localize('statistics')}</h2>
+                        <div class="stats-item">
+                            <span>${localize('average_score')}</span>
+                            <span class="stats-value">${stats.average}</span>
+                        </div>
+                        <div class="stats-item">
+                            <span>${localize('played')}</span>
+                            <span class="stats-value">${stats.played}</span>
+                        </div>
+                        <div class="stats-item">
+                            <span>${localize('current_streak')}</span>
+                            <span class="stats-value">${stats.currentStreak}</span>
+                        </div>
+                        <div class="stats-item">
+                            <span>${localize('max_streak')}</span>
+                            <span class="stats-value">${stats.maxStreak}</span>
+                        </div>
+                    </div>`;
+            }
+
             let finalScore = document.createElement('DIV');
-            const actions = moveStoryActions();
             finalScore.className = 'chat-item-summary';
-            finalScore.innerHTML = `${localize('Final Score')}: ${correct}/${all}`;
+            finalScore.innerHTML = finalScoreHTML;
             quizContainer.append(finalScore);
-            // MARK: - Only add the actions when the quiz is displayed in a new chat item, not in the story container
+
+            // Add actions if the quiz is displayed in a new chat item, not in the story container
+            const actions = moveStoryActions();
             let fullStoryGrid = element.closest('.full-grid-story');
             if (!fullStoryGrid) {
                 quizContainer.closest('.chat-talk-inner').innerHTML += actions;
             }
+
         }
     } catch (err) {
         console.log(err);
@@ -254,10 +296,10 @@ delegate.on('paste', '[contenteditable="true"]', (event) => {
 });
 
 delegate.on('click', '[data-action="edit-ai-translation"]', async (event) => {
-    const token = (isPowerTranslate) ? GetCookie('accessToken') : 'sometoken';
-    if (!token || token === '') {
-        return {status: 'failed', message: 'You need to sign in first! '};
-    }
+    // const token = (isPowerTranslate) ? GetCookie('accessToken') : 'sometoken';
+    // if (!token || token === '') {
+    //     return {status: 'failed', message: 'You need to sign in first! '};
+    // }
     const element = event.target;
     try {
         const container = element.closest('.chat-talk-inner')?.querySelector('.article-container');
@@ -288,7 +330,7 @@ delegate.on('click', '[data-action="edit-ai-translation"]', async (event) => {
             method: 'POST', // Method itself
             headers: {
                 'Content-Type': 'application/json', // Indicates the content 
-                'Authorization': `Bearer ${token}`
+                // 'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify(info) // We send data in JSON format
         });
@@ -303,6 +345,62 @@ delegate.on('click', '[data-action="edit-ai-translation"]', async (event) => {
 });
 
 
+// Function to calculate stats (make sure it's the same robust version)
+function calculateStats(values) {
+    if (!values || values.length === 0) {
+        return {
+            average: 0,
+            played: 0,
+            currentStreak: 0,
+            maxStreak: 0
+        };
+    }
+
+    // Sort values by date (key)
+    values.sort((a, b) => new Date(a.key) - new Date(b.key));
+
+    let total = 0;
+    let streak = 0;
+    let maxStreak = 0;
+    let currentStreak = 0;
+    let lastDate = null;
+
+    values.forEach((scoreObj) => {
+        const { key: date, value: score } = scoreObj;
+        total += score;
+
+        if (lastDate) {
+            const differenceInDays = (new Date(date) - new Date(lastDate)) / (1000 * 3600 * 24);
+
+            if (differenceInDays === 1) {
+                streak++;
+            } else {
+                streak = 1; // Reset streak if the dates are not consecutive
+            }
+        } else {
+            streak = 1; // Start the first streak
+        }
+
+        // Update the max streak
+        if (streak > maxStreak) {
+            maxStreak = streak;
+        }
+
+        lastDate = date; // Set the last date to the current date
+    });
+
+    // The current streak is the streak calculated from the last date in the dataset
+    currentStreak = streak;
+
+    const average = Math.round(total / values.length);
+
+    return {
+        average, // rounded to the nearest integer
+        played: values.length, // number of items in the array
+        currentStreak,
+        maxStreak
+    };
+}
 
 function isArticleLoaded(ftid) {
     if (document.querySelector(`.article-container[data-id="${ftid}"]`)) {
@@ -884,17 +982,17 @@ async function convertFTContentForChinese(results, language) {
 
 async function checkQuiz(id, language) {
     try {
-        const token = (isPowerTranslate) ? GetCookie('accessToken') : 'sometoken';
-        if (!token || token === '') {
-            return {status: 'failed', message: 'You need to sign in first! '};
-        }
+        // const token = (isPowerTranslate) ? GetCookie('accessToken') : 'sometoken';
+        // if (!token || token === '') {
+        //     return {status: 'failed', message: 'You need to sign in first! '};
+        // }
         const queryData = {id: id, language: language};
         let url = '/ai/check_quiz';
         let options = {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                // 'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify(queryData)
         };
@@ -936,10 +1034,10 @@ async function checkQuiz(id, language) {
 async function promptOpenAIForArticle(id, index, language, text, chunks, action) {
     try {
         // const token = (isPowerTranslate) ? localStorage.getItem('accessToken') : 'sometoken';
-        const token = (isPowerTranslate) ? GetCookie('accessToken') : 'sometoken';
-        if (!token || token === '') {
-            return {status: 'failed', message: 'You need to sign in first! '};
-        }
+        // const token = (isPowerTranslate) ? GetCookie('accessToken') : 'sometoken';
+        // if (!token || token === '') {
+        //     return {status: 'failed', message: 'You need to sign in first! '};
+        // }
         const actionSuffix = (action === 'quiz') ? '' : `_${action}`;
         // MARK: - 1. Check if there's a cached result
         const queryData = {id: id, index: index, language: language, type: action};
@@ -948,7 +1046,7 @@ async function promptOpenAIForArticle(id, index, language, text, chunks, action)
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                // 'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify(queryData)
         };
@@ -987,7 +1085,7 @@ async function promptOpenAIForArticle(id, index, language, text, chunks, action)
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                // 'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify(data)
         };
@@ -1013,7 +1111,7 @@ async function promptOpenAIForArticle(id, index, language, text, chunks, action)
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
+                    // 'Authorization': `Bearer ${token}`
                 }
             };
             if (isFrontendTest && !isPowerTranslate) {

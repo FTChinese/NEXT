@@ -699,6 +699,106 @@ a[data-action], a[data-key] {
     height: auto;
 }
 
+.quiz-share {
+    width: 24px;
+    height: 24px;
+    display: inline-block;
+    cursor: pointer;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="%235f6368"><path d="M680-80q-50 0-85-35t-35-85q0-6 3-28L282-392q-16 15-37 23.5t-45 8.5q-50 0-85-35t-35-85q0-50 35-85t85-35q24 0 45 8.5t37 23.5l281-164q-2-7-2.5-13.5T560-760q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35q-24 0-45-8.5T598-672L317-508q2 7 2.5 13.5t.5 14.5q0 8-.5 14.5T317-452l281 164q16-15 37-23.5t45-8.5q50 0 85 35t35 85q0 50-35 85t-85 35Zm0-80q17 0 28.5-11.5T720-200q0-17-11.5-28.5T680-240q-17 0-28.5 11.5T640-200q0 17 11.5 28.5T680-160ZM200-440q17 0 28.5-11.5T240-480q0-17-11.5-28.5T200-520q-17 0-28.5 11.5T160-480q0 17 11.5 28.5T200-440Zm480-280q17 0 28.5-11.5T720-760q0-17-11.5-28.5T680-800q-17 0-28.5 11.5T640-760q0 17 11.5 28.5T680-720Zm0 520ZM200-480Zm480-280Z"/></svg>');
+    background-size: contain;
+    background-repeat: no-repeat;
+
+}
+
+
+.stats-container {
+    margin: $defaultPadding * 0.5 auto;
+    background-color: $bannerBG;
+    border-radius: $defaultPadding * 0.25;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: $defaultPadding * 0.5;
+    text-align: center;
+}
+
+.stats-container h2 {
+    margin-bottom: 15px;
+    font-size: 1.5em;
+    color: $darkGrey;
+}
+
+.stats-item {
+    font-size: 1.2em;
+    padding: $defaultPadding * 0.5;
+    border-bottom: 1px solid $sideBorderColor;
+    display: flex;
+    justify-content: space-between;
+}
+
+.stats-item:last-child {
+    border-bottom: none;
+}
+
+.stats-value {
+    font-weight: bold;
+}
+
+.stats-container {
+    @supports (animation-timeline: scroll()) {
+        @media (prefers-reduced-motion: no-preference) {
+            animation-fill-mode: both;
+            animation-name: polygon-in-opposing-corners;
+            animation-timing-function: linear;
+            animation-timeline: view();
+            animation-range: entry 50% entry 100%;
+        }
+    }
+}
+
+@keyframes polygon-in-opposing-corners {
+    0% {
+        clip-path: polygon(0 0, 50% 50%, 100% 100%, 50% 50%);
+    }
+    to {
+        clip-path: polygon(0 0, 0 100%, 100% 100%, 100% 0);
+    }
+}
+
+
+.quiz-explanation {
+    @supports (animation-timeline: scroll()) {
+        @media (prefers-reduced-motion: no-preference) {
+            animation-fill-mode: both;
+            animation-name: fade-slide-in;
+            animation-timing-function: linear;
+            animation-timeline: view();
+            animation-range: entry 50% entry 100%;
+        }
+    }
+}
+
+@keyframes polygon-in-opposing-corners {
+    0% {
+        clip-path: polygon(0 0, 50% 50%, 100% 100%, 50% 50%);
+    }
+    to {
+        clip-path: polygon(0 0, 0 100%, 100% 100%, 100% 0);
+    }
+}
+
+
+@keyframes fade-slide-in {
+    0% {
+        opacity: 0;
+        transform: translateY(20px); /* Start slightly below */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0); /* End at the natural position */
+    }
+}
+
+
+
 body {
     .sign-in-container {
         display: block;

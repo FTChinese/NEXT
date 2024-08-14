@@ -547,6 +547,19 @@ a.o-responsive-video-caption:link, a.o-responsive-video-caption:visited, a.o-res
 	color: $darkGreen;
 	margin-bottom: 1em;
 }
+
+.logincomment {
+	display: none;
+}
+.is-member {
+	.nologincomment {
+		display: none;
+	}
+	.logincomment {
+		display: block;
+	}
+}
+
 @media print { 
  /* All your print styles go here */
 	.header-container, 
@@ -643,6 +656,34 @@ This results in wasted space and memory for subscribers' device and does not inc
 		max-width: 50%;
 	}
 }
+
+
+
+// @keyframes greeting--leaveview { 
+// 	to {
+// 	  opacity: 0;
+// 	  translate: 0 20px;
+// 	}
+// }
+  
+// .story-headline, .story-lead {
+// 	/* If the user does not have a reduced motion preference and the browser supports scroll-driven animations, set the animation properties */
+// 	@media (prefers-reduced-motion: no-preference) {
+// 		@supports (animation-timeline: scroll()) {
+// 		/* fade out while moving down animation */
+// 		animation: greeting--leaveview linear both;
+
+// 		/* when the page/root is scrolled */
+// 		animation-timeline: scroll(root);
+
+// 		/* from 0-10vh scroll amount, run the animation */
+// 		animation-range: 100px 20vh;
+// 		}
+// 	}
+// }
+
+
+
 
 @import "quote-number.scss";
 @import "story-progress.scss";

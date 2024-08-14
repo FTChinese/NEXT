@@ -29,11 +29,11 @@ async function createChatFromOpenAI(data) {
     
     try {
         // const token = (isPowerTranslate) ? localStorage.getItem('accessToken') : 'sometoken';
-        const token = (isPowerTranslate) ? GetCookie('accessToken') : 'sometoken';
+        // const token = (isPowerTranslate) ? GetCookie('accessToken') : 'sometoken';
 
-        if (!token || token === '') {
-            return {status: 'failed', message: 'You need to sign in first! '};
-        }
+        // if (!token || token === '') {
+        //     return {status: 'failed', message: 'You need to sign in first! '};
+        // }
         // MARK: - OpenAI's API can't reliably return in 30 seconds, which is a hard time-out for Heroku. So here we need to hand over the task to a background process. 
         let response;
         let url;
@@ -49,7 +49,7 @@ async function createChatFromOpenAI(data) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                // 'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify(queryData)
         };
@@ -104,7 +104,7 @@ async function createChatFromOpenAI(data) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                // 'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify(data)
         };
@@ -132,7 +132,7 @@ async function createChatFromOpenAI(data) {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
+                    // 'Authorization': `Bearer ${token}`
                 }
             };
             if (isFrontendTest && !isPowerTranslate) {
@@ -257,10 +257,10 @@ async function translateOpenAI(text, target) {
 async function getFTAPISearchResult(keyword, language) {
     try {
         // const token = (isPowerTranslate) ? localStorage.getItem('accessToken') : 'sometoken';
-        const token = (isPowerTranslate) ? GetCookie('accessToken') : 'sometoken';
-        if (!token || token === '') {
-            return {status: 'failed', message: 'You need to sign in first! '};
-        }
+        // const token = (isPowerTranslate) ? GetCookie('accessToken') : 'sometoken';
+        // if (!token || token === '') {
+        //     return {status: 'failed', message: 'You need to sign in first! '};
+        // }
         const contentParameter = `?language=${language || 'English'}&keyword=${keyword}&field=`;
         let url = (isPowerTranslate) ? '/openai/searchftapi' : '/FTAPI/content.php';
         url += contentParameter;
@@ -268,7 +268,7 @@ async function getFTAPISearchResult(keyword, language) {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                // 'Authorization': `Bearer ${token}`
             }
         };
         if (isFrontendTest && !isPowerTranslate) {
@@ -301,16 +301,16 @@ async function getFTPageInfo(name, language) {
 
     try {
         // const token = (isPowerTranslate) ? localStorage.getItem('accessToken') : 'sometoken';
-        const token = (isPowerTranslate) ? GetCookie('accessToken') : 'sometoken';
-        if (!token || token === '') {
-            return {status: 'failed', message: 'You need to sign in first! '};
-        }
+        // const token = (isPowerTranslate) ? GetCookie('accessToken') : 'sometoken';
+        // if (!token || token === '') {
+        //     return {status: 'failed', message: 'You need to sign in first! '};
+        // }
         let url = (isPowerTranslate) ? `/ftpage/${name}?language=${language}` : `/FTAPI/ft-${name}.php`;
         let options = {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                // 'Authorization': `Bearer ${token}`
             }
         };
         if (isFrontendTest && !isPowerTranslate) {
@@ -340,10 +340,10 @@ async function getEmbedding(content) {
     const dbName = "Embeddings";
     const storeName = "Embeddings";
     try {
-        const token = (isPowerTranslate) ? GetCookie('accessToken') : 'sometoken';
-        if (!token || token === '') {
-            return {status: 'failed', message: 'You need to sign in first! '};
-        }
+        // const token = (isPowerTranslate) ? GetCookie('accessToken') : 'sometoken';
+        // if (!token || token === '') {
+        //     return {status: 'failed', message: 'You need to sign in first! '};
+        // }
         const resultsFromIndexedDB = await getFromDB(dbName, storeName, content);
         if (resultsFromIndexedDB && typeof resultsFromIndexedDB === 'object' && resultsFromIndexedDB.length > 0) {
             // console.log(`Got embedding from indexed DB. No need to make a request! `);
@@ -355,7 +355,7 @@ async function getEmbedding(content) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                // 'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify(queryData)
         };
@@ -383,17 +383,17 @@ async function getEmbedding(content) {
 
 async function getIdsFromVectorDB(vector) {
     try {
-        const token = (isPowerTranslate) ? GetCookie('accessToken') : 'sometoken';
-        if (!token || token === '') {
-            return {status: 'failed', message: 'You need to sign in first! '};
-        }
+        // const token = (isPowerTranslate) ? GetCookie('accessToken') : 'sometoken';
+        // if (!token || token === '') {
+        //     return {status: 'failed', message: 'You need to sign in first! '};
+        // }
         let url = '/ai/get_ids_from_vector_db';
         const queryData = {vector: vector, namespace: 'content', topK: 50, minScore: 0.78};
         let options = {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                // 'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify(queryData)
         };
@@ -420,17 +420,17 @@ async function getIdsFromVectorDB(vector) {
 
 async function getMatchesFromVectorDB(vector, language) {
     try {
-        const token = (isPowerTranslate) ? GetCookie('accessToken') : 'sometoken';
-        if (!token || token === '') {
-            return {status: 'failed', message: 'You need to sign in first! '};
-        }
+        // const token = (isPowerTranslate) ? GetCookie('accessToken') : 'sometoken';
+        // if (!token || token === '') {
+        //     return {status: 'failed', message: 'You need to sign in first! '};
+        // }
         let url = '/ai/get_vector_matches';
         const queryData = {vector: vector, namespace: 'content', topK: 50, minScore: 0.7, language: language};
         let options = {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                // 'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify(queryData)
         };

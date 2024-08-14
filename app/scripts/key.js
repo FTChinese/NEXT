@@ -71,6 +71,10 @@ function updateSubscriberStatus() {
             }
         }
     }
+    if (window._IS_NODEJS_SITE) {
+        console.log('For the new site, no need to check cookie on frontend for update subscriber status! ');
+        return;
+    }
     // MARK: - Otherwise, use cookie for subscription information
     if (paywall === null) {
         paywall = GetCookie('paywall');
@@ -497,13 +501,7 @@ function checkUserWarnings() {
     }
 }
 
-var username = GetCookie('USER_NAME') || GetCookie('USER_NAME_FT') || '';
-var userId = GetCookie('USER_ID') || '';
-var ccodeCookie = GetCookie('ccode') || '';
-var user_name = GetCookie('USER_NAME') || GetCookie('USER_NAME_FT');
-if (user_name !== null) {
-    document.documentElement.className += ' is-member';
-}
+
 
 function parseUrlSearch(){
     var para = location.search;
@@ -727,3 +725,21 @@ function showPhoneLogin() {
     phoneLoginStatus = 'start';
     cleanFields();
 }
+
+
+
+function checkUserLoginFromCookie() {
+    if (window._IS_NODEJS_SITE) {
+        console.log('For the new site, no need to check cookie on frontend! ');
+        return;
+    }
+    window.username = GetCookie('USER_NAME') || GetCookie('USER_NAME_FT') || '';
+    window.userId = GetCookie('USER_ID') || '';
+    window.ccodeCookie = GetCookie('ccode') || '';
+    window.user_name = GetCookie('USER_NAME') || GetCookie('USER_NAME_FT');
+    if (window.user_name !== null) {
+        document.documentElement.className += ' is-member';
+    }
+}
+
+checkUserLoginFromCookie();
