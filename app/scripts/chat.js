@@ -236,13 +236,31 @@ delegate.on('click', '.sidebar-bg, .sidebar a, .sidebar button',  (event) => {
 delegate.on('click', '.quiz-share[data-quiz-id]', (event) => {
   const element = event.target;
   const id = element.getAttribute('data-quiz-id');
+  const container = element.closest('.quiz-container');
+  const question = container?.querySelector('.quiz-question')?.innerText;
+  const options = container?.querySelector('.quiz-options')?.children;
+
+  let shareText = '';
+  if (question && options && options.length > 0) {
+    let optionsTexts = [];
+    let index = 0;
+    for (const option of options) {
+      index += 1;
+      optionsTexts.push(`(${index}) ${option.innerText ?? ''}`);
+    }
+    shareText = `${question}\n${optionsTexts.join('\n')}`;
+  }
   
   // Construct the share URL using the current window's host name and port
   const hostname = 'https://ai.ftchinese.com';
   const shareUrl = `${hostname}/powertranslate/chat.html#action=news-quiz&id=${id}`;
 
+  shareText += `\n${shareUrl}`;
+
+  // console.log(shareText);
+
   // Copy the share URL to the clipboard
-  navigator.clipboard.writeText(shareUrl).then(() => {
+  navigator.clipboard.writeText(shareText).then(() => {
     // Alert the success with a friendly reminder (localized message)
     alert(localize('share_quiz'));
   }).catch(err => {
@@ -1573,7 +1591,7 @@ async function newsQuiz(content, language, reply, id) {
       html = `<div>${html}</div>`;
       html += `<button class="quiz-next hide">${localize('NEXT')}</button>`;
       const result = {text: html};
-      showResultInChat(result);
+      showResultInChat(result, true, true);
       await setIntention('Ask Me', preferredLanguage, '', true, false);
     }
   } catch (err) {
@@ -1992,12 +2010,12 @@ async function showFTPage(content, language, reply) {
 
 
         if (index > 0) {continue;}
-        const startDate = new Date('2024-06-01T00:00:00+08:00').getTime();
-        const endDate = new Date('2024-06-25T00:00:00+08:00').getTime();
+        const startDate = new Date('2024-08-19T00:00:00+08:00').getTime();
+        const endDate = new Date('2024-09-02T00:00:00+08:00').getTime();
         const now = new Date().getTime();
         const showPromotion = now >= startDate && now <= endDate;
         const domain = isInNativeApp ? 'www.ftchinese.com' : 'www.ftmembercare.com';
-        const promotion = showPromotion ? `<a href="https://${domain}/m/corp/preview.html?pageid=2024Junsub&to=all&ccode=2C2024Junchatft" target="_blank"><img class="promotion" src="https://thumbor.ftacademy.cn/unsafe/picture/8/000229208_piclink.jpg" width="300" height="250"></a>` : '';
+        const promotion = showPromotion ? `<a href="https://${domain}/m/corp/preview.html?pageid=2024Augsub&to=all&ccode=2C2024Augchatftc" target="_blank"><img class="promotion" src="https://thumbor.ftacademy.cn/unsafe/picture/5/000237955_piclink.jpg" width="300" height="250"></a>` : '';
         html += promotion;
 
           
@@ -2124,12 +2142,12 @@ function getActionOptions() {
     </div>
     `;
   } else if (intention === undefined || intention === '') {
-    const startDate = new Date('2024-06-11T00:00:00+08:00').getTime();
-    const endDate = new Date('2024-06-25T00:00:00+08:00').getTime();
+    const startDate = new Date('2024-08-19T00:00:00+08:00').getTime();
+    const endDate = new Date('2024-09-02T00:00:00+08:00').getTime();
     const now = new Date().getTime();
     const showPromotion = now >= startDate && now <= endDate;
     const domain = isInNativeApp ? 'www.ftchinese.com' : 'www.ftmembercare.com';
-    const promotion = showPromotion ? `<a target="_blank" href="https://${domain}/m/corp/preview.html?pageid=2024Junsub&to=all&ccode=2C2024Junchatft">${localize('PromotionActionButton')}</a>` : '';
+    const promotion = showPromotion ? `<a target="_blank" href="https://${domain}/m/corp/preview.html?pageid=2024Augsub&to=all&ccode=2C2024Augchatftc">${localize('PromotionActionButton')}</a>` : '';
     result = `
       <div class="chat-item-actions">
         <a data-purpose="show-ft-page" data-lang="${language}" data-content='home' data-reply="${localize('FindingMyFT')}" data-reply-action="set-preference" class="logged-in-only">${localize('Top News For Me')}</a>
@@ -2407,8 +2425,8 @@ async function greet() {
     introductionKey += intention;
   }
   let introduction = `<p>${localize(introductionKey)}</p>`;
-  const startDate = new Date('2024-06-11T00:00:00+08:00').getTime();
-  const endDate = new Date('2024-06-25T00:00:00+08:00').getTime();
+  const startDate = new Date('2024-08-19T00:00:00+08:00').getTime();
+  const endDate = new Date('2024-09-02T00:00:00+08:00').getTime();
   const now = new Date().getTime();
   if (now >= startDate && now <= endDate) {
     introduction += `<p>${localize('PromotionInIntroduction')}</p>`;

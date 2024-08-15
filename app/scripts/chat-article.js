@@ -195,27 +195,23 @@ delegate.on('click', '.quiz-options div', async (event) => {
             let chatTalkInner = quizContainer.closest('.chat-talk-inner');
             const all = chatTalkInner.querySelectorAll('.is-done.quiz-container').length;
             const correct = chatTalkInner.querySelectorAll('.is-correct.quiz-container').length;
-            // Calculate the final score percentage
             const finalScorePercentage = Math.round((correct / all) * 100);
-
-            let finalScoreHTML = `<div>${localize('Final Score')}: ${finalScorePercentage} (${correct}/${all})</div>`;
+            const finalScoreString = `${localize('Final Score')}: ${finalScorePercentage} (${correct}/${all})`;
+            let finalScoreHTML = `<div>${finalScoreString}</div>`;
 
             const storeName = quizContainer?.getAttribute('data-store');
             if (storeName) {
-                // Save the best score of the day
-                const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD format
+                const today = new Date().toISOString().split('T')[0];
                 const dbName = 'Engagement';
                 const previousBest = await getFromDB(dbName, storeName, today);
                 if (!previousBest || finalScorePercentage > previousBest) {
                     await saveToDB(dbName, storeName, today, finalScorePercentage);
                 }
                 const pastScores = await queryFromDB(dbName, storeName, () => true);
-                // console.log('pastScores: ');
-                // console.log(pastScores);
                 const stats = calculateStats(pastScores);
                 finalScoreHTML = `
                     <div class="stats-container">
-                        <h2>${localize('statistics')}</h2>
+                        <h2>${finalScoreString}</h2>
                         <div class="stats-item">
                             <span>${localize('average_score')}</span>
                             <span class="stats-value">${stats.average}</span>
@@ -235,18 +231,31 @@ delegate.on('click', '.quiz-options div', async (event) => {
                     </div>`;
             }
 
+
+            // Assuming you're running this in a browser context, use the location object
+            const eventUrl = `${window.location.origin}/powertranslate/chat.html#action=news-quiz`;
+            const options = {
+                title: localize('FT Daily Quiz'),
+                description: localize('Quiz Description'),
+                durationMinutes: 10,
+                alertMinutes: 0,
+                prompt: localize('Quiz Prompt'),
+                eventUrl: eventUrl // Include the dynamically generated event URL
+            };
+            const calendarHTML = generateAddCalendarHTML(options);
+            finalScoreHTML += calendarHTML;
+
+
             let finalScore = document.createElement('DIV');
             finalScore.className = 'chat-item-summary';
             finalScore.innerHTML = finalScoreHTML;
             quizContainer.append(finalScore);
 
-            // Add actions if the quiz is displayed in a new chat item, not in the story container
             const actions = moveStoryActions();
             let fullStoryGrid = element.closest('.full-grid-story');
             if (!fullStoryGrid) {
                 quizContainer.closest('.chat-talk-inner').innerHTML += actions;
             }
-
         }
     } catch (err) {
         console.log(err);
@@ -344,6 +353,26 @@ delegate.on('click', '[data-action="edit-ai-translation"]', async (event) => {
     }
 });
 
+
+
+function generateAddCalendarHTML(options) {
+    const title = encodeURIComponent(options?.title ?? 'Daily Quiz');
+    const description = encodeURIComponent(options?.description ?? '');
+    const durationMinutes = options?.durationMinutes ?? 10;
+    const prompt = options.prompt ?? 'Add a reminder to your calendar to get notified at the same time tomorrow!';
+    const eventUrl = encodeURIComponent(options.eventUrl ?? '');
+    const alertMinutes = options?.alertMinutes ?? 0;
+
+    const calendarUrl = `/calendar_event?title=${title}&description=${description}&durationMinutes=${durationMinutes}&alertMinutes=${alertMinutes}&eventUrl=${eventUrl}`;
+    
+    const calendarHTML = `
+        <div class="add-to-calendar">
+            <a href="${calendarUrl}" download="quiz_reminder.ics">
+                ${prompt}
+            </a>
+        </div>`;
+    return calendarHTML;
+}
 
 // Function to calculate stats (make sure it's the same robust version)
 function calculateStats(values) {
