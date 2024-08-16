@@ -718,16 +718,28 @@ a[data-action], a[data-key] {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     padding: $defaultPadding * 0.5;
     text-align: center;
+    font-size: 0.85em;
+    font-weight: normal;
 }
 
 .stats-container h2 {
     margin-bottom: 15px;
-    font-size: 1.5em;
+    font-size: 2em;
     color: $darkGrey;
+    &.win {
+        color: $correct;
+    }
+    &.lose {
+        color: $wrong;
+    }
+    &.gold {
+        color: $correct;
+        font-size: 2.5em;
+        animation: heartbeat 5s ease-in-out infinite;
+    }
 }
 
 .stats-item {
-    font-size: 1.2em;
     padding: $defaultPadding * 0.5;
     border-bottom: 1px solid $sideBorderColor;
     display: flex;
@@ -736,10 +748,6 @@ a[data-action], a[data-key] {
 
 .stats-item:last-child {
     border-bottom: none;
-}
-
-.stats-value {
-    font-weight: bold;
 }
 
 .stats-container {
@@ -753,6 +761,43 @@ a[data-action], a[data-key] {
         }
     }
 }
+
+.add-to-calendar {
+    margin-top: $defaultPadding;
+    background-color: white;
+    border: 1px solid $borderColor;
+    padding: 15px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-align: left;
+    font-size: 0.9em;
+}
+.add-to-calendar a {
+    background-color: $correct;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    min-width: 120px;
+    text-align: center;
+    display: inline-block;
+}
+.add-to-calendar a:hover {
+    cursor: pointer;
+    background-color: $correct;
+}
+.calendar-icon {
+    font-size: 24px;
+    margin-right: 15px;
+}
+.calendar-text {
+    flex-grow: 1;
+}
+
 
 @keyframes polygon-in-opposing-corners {
     0% {
@@ -794,6 +839,18 @@ a[data-action], a[data-key] {
     to {
         opacity: 1;
         transform: translateY(0); /* End at the natural position */
+    }
+}
+
+@keyframes heartbeat {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.4);
+    }
+    100% {
+        transform: scale(1);
     }
 }
 

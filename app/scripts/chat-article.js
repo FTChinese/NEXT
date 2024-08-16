@@ -196,6 +196,14 @@ delegate.on('click', '.quiz-options div', async (event) => {
             const all = chatTalkInner.querySelectorAll('.is-done.quiz-container').length;
             const correct = chatTalkInner.querySelectorAll('.is-correct.quiz-container').length;
             const finalScorePercentage = Math.round((correct / all) * 100);
+            let score_class = '';
+            if (finalScorePercentage === 100) {
+                score_class = 'gold';
+            } else if (finalScorePercentage >= 50) {
+                score_class = 'win';
+            } else {
+                score_class = 'lose';
+            }
             const finalScoreString = `${localize('Final Score')}: ${finalScorePercentage} (${correct}/${all})`;
             let finalScoreHTML = `<div>${finalScoreString}</div>`;
 
@@ -209,41 +217,52 @@ delegate.on('click', '.quiz-options div', async (event) => {
                 }
                 const pastScores = await queryFromDB(dbName, storeName, () => true);
                 const stats = calculateStats(pastScores);
+
+
+                // Assuming you're running this in a browser context, use the location object
+                const eventUrl = `${window.location.origin}/powertranslate/chat.html#action=news-quiz`;
+                const options = {
+                    title: localize('FT Daily Quiz'),
+                    description: localize('Quiz Description'),
+                    durationMinutes: 10,
+                    alertMinutes: 0,
+                    prompt: localize('Quiz Prompt'),
+                    eventUrl: eventUrl // Include the dynamically generated event URL
+                };
+                const calendarHTML = generateAddCalendarHTML(options);
+                // finalScoreHTML += calendarHTML;
+
+
                 finalScoreHTML = `
                     <div class="stats-container">
-                        <h2>${finalScoreString}</h2>
-                        <div class="stats-item">
-                            <span>${localize('average_score')}</span>
-                            <span class="stats-value">${stats.average}</span>
+                        <h2 class="${score_class}">${finalScorePercentage}</h2>
+                        <div>
+                            <div class="stats-item">
+                                <span>${localize('correct_vs_all')}</span>
+                                <span class="stats-value">${correct}/${all}</span>
+                            </div>
+                            <div class="stats-item">
+                                <span>${localize('average_score')}</span>
+                                <span class="stats-value">${stats.average}</span>
+                            </div>
+                            <div class="stats-item">
+                                <span>${localize('played')}</span>
+                                <span class="stats-value">${stats.played}</span>
+                            </div>
+                            <div class="stats-item">
+                                <span>${localize('current_streak')}</span>
+                                <span class="stats-value">${stats.currentStreak}</span>
+                            </div>
+                            <div class="stats-item">
+                                <span>${localize('max_streak')}</span>
+                                <span class="stats-value">${stats.maxStreak}</span>
+                            </div>
                         </div>
-                        <div class="stats-item">
-                            <span>${localize('played')}</span>
-                            <span class="stats-value">${stats.played}</span>
-                        </div>
-                        <div class="stats-item">
-                            <span>${localize('current_streak')}</span>
-                            <span class="stats-value">${stats.currentStreak}</span>
-                        </div>
-                        <div class="stats-item">
-                            <span>${localize('max_streak')}</span>
-                            <span class="stats-value">${stats.maxStreak}</span>
-                        </div>
+                        ${calendarHTML}
                     </div>`;
             }
 
 
-            // Assuming you're running this in a browser context, use the location object
-            const eventUrl = `${window.location.origin}/powertranslate/chat.html#action=news-quiz`;
-            const options = {
-                title: localize('FT Daily Quiz'),
-                description: localize('Quiz Description'),
-                durationMinutes: 10,
-                alertMinutes: 0,
-                prompt: localize('Quiz Prompt'),
-                eventUrl: eventUrl // Include the dynamically generated event URL
-            };
-            const calendarHTML = generateAddCalendarHTML(options);
-            finalScoreHTML += calendarHTML;
 
 
             let finalScore = document.createElement('DIV');
@@ -367,12 +386,16 @@ function generateAddCalendarHTML(options) {
     
     const calendarHTML = `
         <div class="add-to-calendar">
+            <span class="calendar-icon">🗓️</span>
+            ${prompt}
             <a href="${calendarUrl}" download="quiz_reminder.ics">
-                ${prompt}
+            ${localize('Add to Calendar')}
             </a>
         </div>`;
     return calendarHTML;
 }
+
+
 
 // Function to calculate stats (make sure it's the same robust version)
 function calculateStats(values) {

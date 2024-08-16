@@ -2582,6 +2582,34 @@ let statusDictOriginal = {
     'zh-HK': '作者',
     ru: 'автор'
 },
+correct_vs_all: {
+  zh: '答对个数',
+  en: 'Correct vs. All',
+  es: 'Correcto vs. Total',
+  fr: 'Correct vs. Total',
+  de: 'Korrekt vs. Gesamt',
+  ja: '正解数対全数',
+  ko: '정답 vs 전체',
+  pt: 'Correto vs. Total',
+  it: 'Corretto vs. Totale',
+  'zh-TW': '答對個數',
+  'zh-HK': '答對個數',
+  ru: 'Правильные против Всего'
+},
+'Add to Calendar': {
+  zh: '添加到日历',
+  en: 'Add to Calendar',
+  es: 'Añadir al calendario',
+  fr: 'Ajouter au calendrier',
+  de: 'Zum Kalender hinzufügen',
+  ja: 'カレンダーに追加',
+  ko: '캘린더에 추가',
+  pt: 'Adicionar ao Calendário',
+  it: 'Aggiungi al Calendario',
+  'zh-TW': '添加到日曆',
+  'zh-HK': '添加到日曆',
+  ru: 'Добавить в календарь'
+},
 average_score: {
   en: 'Average Score',
   es: 'Puntuación media',
@@ -2611,6 +2639,7 @@ statistics: {
   ru: 'Статистика'
 },
 played: {
+  zh: '参与次数',
   en: 'Played',
   es: 'Jugado',
   fr: 'Joué',
@@ -2619,9 +2648,8 @@ played: {
   ko: '플레이한 게임 수',
   pt: 'Jogadas',
   it: 'Giocato',
-  'zh-TW': '已玩次數',
-  'zh-HK': '已玩次數',
-  zh: '已玩次数',
+  'zh-TW': '參與次數',
+  'zh-HK': '參與次數',
   ru: 'Сыграно'
 },
 current_streak: {
