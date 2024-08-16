@@ -40,4 +40,30 @@ function trackClicks() {
 		}
 	}
 }
+
+try {
+	delegate.on('click', 'a, .track-click', function() {
+
+		var ea = this.getAttribute('data-ea') || '';
+		var ec = this.getAttribute('data-ec') || '';
+		if (ec === '' || ea === '') {return;}
+		var el = this.getAttribute('data-el') || '';
+		var eventValue = parseInt(this.getAttribute('data-ev') || 0, 10);
+		var options = {
+			'event_label': el,
+			'event_category': ec
+		};
+		if (eventValue > 0) {
+			options.value = eventValue;
+		}
+		// Sending the event to Google Analytics
+		gtag('event', ea, options);
+
+	});
+	console.log('Tracking clicks! ');
+} catch(err) {
+	console.log(err);
+}
+
+
 trackClicks();

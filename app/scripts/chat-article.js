@@ -30,6 +30,7 @@ delegate.on('click', '[data-action="show-article"]', async (event) => {
         const chatItemContainer = element.closest('.chat-item-container');
         const ftid = chatItemContainer.getAttribute('data-id');
         const language = chatItemContainer.getAttribute('data-lang') || 'English';
+        trackEvent('show-article', 'chatbot', ftid);
         if(isArticleLoaded(ftid)){
             // MARK: - If the article is already loaded, scroll to it directly
             await showContent(ftid, language, false, false);
@@ -63,6 +64,7 @@ delegate.on('click', '[data-action="show-article-later"]', async (event) => {
         const chatItemContainer = element.closest('.chat-item-container');
         // console.log(chatItemContainer);
         const ftid = chatItemContainer.getAttribute('data-id');
+        trackEvent('show-article-later', 'chatbot', ftid);
         const language = chatItemContainer.getAttribute('data-lang') || 'English';
         element.innerHTML = '...';
         await showContent(ftid, language, false, true);
@@ -92,6 +94,7 @@ delegate.on('click', '[data-action="jump-to-article"]', async (event) => {
     try {
         const chatItemContainer = element.closest('.chat-item-container');
         const ftid = chatItemContainer.getAttribute('data-id');
+        trackEvent('jump-to-article', 'chatbot', ftid);
         const language = chatItemContainer.getAttribute('data-lang') || 'English';
         await showContent(ftid, language, false, false);
         element.classList.add('hide');
@@ -160,6 +163,8 @@ delegate.on('click', '[data-action="show-transcript"]', async (event) => {
 
 delegate.on('click', '[data-action="quiz"], [data-action="socratic"]', async (event) => {
     const element = event.target;
+    const action = element.getAttribute('data-action');
+    trackEvent(action, 'chatbot');
     await handleActionClick(element);
 });
 
@@ -176,6 +181,8 @@ delegate.on('click', '.quiz-options div', async (event) => {
         quizContainer.classList.add('is-done');
         const quizResultClass = (isCorrect) ? 'is-correct' : 'is-wrong';
         quizContainer.classList.add(quizResultClass);
+
+        trackEvent('quiz-select', 'chatbot', quizResultClass);
         
         let currentScore = quizContainer.getAttribute('data-score') || '0';
         currentScore = parseInt(currentScore, 10) || 0;
@@ -287,7 +294,6 @@ delegate.on('input', '[contenteditable="true"]', (event) => {
     if (!container) {return;}
     let chatItemActions = container.querySelector('.chat-item-actions');
     if (!chatItemActions) {return;}
-    // <a data-id="be81fc62-49eb-40c9-a66a-2dc652e9b400" data-action="socratic" title="苏格拉底诘问方法是一种质疑和讨论观念的方式，旨在挑战假设并达到更好的理解。它涉及提出问题以揭示潜在信念并测试所给出的响应的逻辑。它用于在各个领域中促进批判性思维、问题解决和创造力。">苏格拉底诘问</a>
     if (chatItemActions.querySelector('[data-action="edit-ai-translation"]')) {return;}
     let editAITranslationButton = document.createElement('A');
     editAITranslationButton.setAttribute('data-action', 'edit-ai-translation');
@@ -364,6 +370,7 @@ delegate.on('click', '[data-action="edit-ai-translation"]', async (event) => {
         });
         if (response.ok) {
             alert('Updated!');
+            trackEvent('edit-ai-translation', 'chatbot', id);
         } else {
             alert('Failed!');
         }
@@ -388,7 +395,7 @@ function generateAddCalendarHTML(options) {
         <div class="add-to-calendar">
             <span class="calendar-icon">🗓️</span>
             ${prompt}
-            <a href="${calendarUrl}" download="quiz_reminder.ics">
+            <a href="${calendarUrl}" download="quiz_reminder.ics" data-ea="download" data-ec="Calendar" data-el="Daily Quiz" data-ev=1>
             ${localize('Add to Calendar')}
             </a>
         </div>`;

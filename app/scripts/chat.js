@@ -76,6 +76,7 @@ delegate.on('click', '[data-action="talk"]', async (event) => {
   userInput.value = element.innerHTML;
   hideItemActions(element);
   talk();
+  trackEvent('talk', 'chatbot');
 });
 
 delegate.on('click', '[data-action="set-preference"]', async (event) => {
@@ -84,6 +85,7 @@ delegate.on('click', '[data-action="set-preference"]', async (event) => {
   showUserPrompt(localize('Setting'));
   const reply = localize('Set Your Preferences');
   setPreference(category, language, reply);
+  trackEvent('set-preference', 'chatbot');
 });
 
 delegate.on('click', '.code-block-copy', async (event) => {
@@ -91,6 +93,7 @@ delegate.on('click', '.code-block-copy', async (event) => {
   const containerEle = element.closest('.code-block-container').querySelector('.code-block pre');
   const text = containerEle.innerText;
   copyToClipboard(text);
+  trackEvent('code-block-copy', 'chatbot');
 });
 
 delegate.on('click', '.chat-item-group-title', async (event) => {
@@ -134,6 +137,8 @@ delegate.on('click', '[data-purpose]', async (event) => {
   if (element.classList.contains('pending')) {return;}
   const purpose = element.getAttribute('data-purpose');
   const content = element.getAttribute('data-content');
+  
+  trackEvent(purpose, 'chatbot', content);
   // MARK: - If there's no content attribute, this element is not meant to be clicked
   if (!content) {return;}
   element.classList.add('pending');
@@ -240,6 +245,8 @@ delegate.on('click', '.quiz-share[data-quiz-id]', (event) => {
   const question = container?.querySelector('.quiz-question')?.innerText;
   const options = container?.querySelector('.quiz-options')?.children;
 
+  trackEvent('quiz-share', 'chatbot', id);
+
   let shareText = '';
   if (question && options && options.length > 0) {
     let optionsTexts = [];
@@ -253,7 +260,7 @@ delegate.on('click', '.quiz-share[data-quiz-id]', (event) => {
   
   // Construct the share URL using the current window's host name and port
   const hostname = 'https://ai.ftchinese.com';
-  const shareUrl = `${hostname}/powertranslate/chat.html#action=news-quiz&id=${id}`;
+  const shareUrl = `${hostname}/powertranslate/chat.html#action=news-quiz&id=${id}&utm_source=quiz&utm_medium=share&utm_campaign=social_sharing`;
 
   shareText += `\n${shareUrl}`;
 
@@ -272,6 +279,19 @@ delegate.on('click', '.quiz-share[data-quiz-id]', (event) => {
 delegate.on('click', '#back-arrow',  (event) => {
   window.close();
 });
+
+function trackEvent(action = '', category = '', label = '', value = 0, nonInteraction = false) {
+  try {
+    if (action === '') {return;}
+    let options = {'event_label': label, 'event_category': category};
+    if (nonInteraction) {
+      options.non_interaction = true;
+    }
+    gtag('event', action, options);
+  } catch(err) {
+    console.log(err);
+  }
+}
 
 function shouldEventStop(event) {
   const element = event.target;
@@ -1178,12 +1198,6 @@ async function talk() {
   // console.log(`Talk sent! Hiding the .chat-topic-intention`);
   const ele = document.querySelector('.chat-topic-intention');
   hideEle(ele);
-  // const token = GetCookie('accessToken');
-  // if (!token || token === '') {
-  //     alert('You need to sign in first! ');
-  //     window.location.href = '/login';
-  //     return;
-  // }
   const prompt = userInput.value.replace(/^\s+|\s+$/g, '');
   if (prompt === '') {return;}
   if (botStatus === 'pending') {return;}
@@ -1901,6 +1915,8 @@ async function showFTPage(content, language, reply) {
     const statusMessage = localize('Checking Content');
     showBotResponse(statusMessage, true);
     let result = await getFTPageInfo(content, language);
+    // console.log('showFTPage result: ');
+    // console.log(JSON.stringify(result, null, 2));
     const groups = result?.results?.[0]?.groups ?? [];
     if (groups.length > 0) {
       const myPreference = getMyPreference();
@@ -2038,13 +2054,31 @@ async function showFTPage(content, language, reply) {
         previousConversations = previousConversations.slice(-n);
       }
     } else {
-      //TODO: - Handle error
+      const errorStatus = result?.results?.status;
+      if (errorStatus === 'PermissionRequired') {
+        showPaywallMessage(result?.results)
+      }
     }
   } catch (err){
     console.log('Error with showFTPage');
     console.log(err);
   }
   updateBotStatus('waiting');
+}
+
+function showPaywallMessage(results) {
+  console.log('handlePermissionErrors: ');
+  console.log(JSON.stringify(results));
+  const tierToBuy = results?.tierToBuy;
+  const currentTier = results?.currentTier;
+  if (tierToBuy) {
+    const subscrption = localize(`${tierToBuy} subscription`);
+    const paywallHTML = `You are currently a ${currentTier}. You need to buy <a href="/subscription">${subscrption}</a> to access this feature. `;
+    showResultInChat({text: paywallHTML}, false, false);
+  } else {
+    const errorMessage = results?.message ?? localize('unknown error! ');
+    showError(errorMessage);
+  }
 }
 
 function showImagesForExpandedGroups() {

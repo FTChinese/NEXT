@@ -1121,46 +1121,6 @@ try {
     }
   });
   
-  delegate.on('click', 'a, .track-click', function(){
-    var ec = this.getAttribute('data-ec') || '';
-    var ea = this.getAttribute('data-ea') || '';
-    var el = this.getAttribute('data-el') || '';
-    if (ec !== '' && ea !== '') {
-      // MARK: stop tracking for lack of GA quota
-      // console.log ('yes');
-      // console.log (this.className);
-      if (this.className.indexOf('track-click') >= 0) {
-        gtag('event', ea, {'event_label': el, 'event_category': ec});
-      }
-      // MARK: If there is a cooperative adverising in bottom Recommend Section, these code to send img.src to third part
-      if (el === 'uluAd') {
-          var uluAdImage = new Image();
-          var uluAdUrl = 'http://e.cn.miaozhen.com/r/k=2049651&p=76w3I&dx=__IPDX__&rt=2&ns=__IP__&ni=__IESID__&v=__LOC__&xa=__ADPLATFORM__&tr=__REQUESTID__&mo=__OS__&m0=__OPENUDID__&m0a=__DUID__&m1=__ANDROIDID1__&m1a=__ANDROIDID__&m2=__IMEI__&m4=__AAID__&m5=__IDFA__&m6=__MAC1__&m6a=__MAC__&o=';
-          
-          var retryTime = 0;
-          var seccessAction = 'Success';
-          var failAction = 'Fail';
-
-          var uluAdSendOneTime = function() {
-            if(retryTime>0) {
-              seccessAction = 'Success' + retryTime;
-              failAction = 'Fail' + retryTime;
-            }
-            uluAdImage.onload = function() {
-            };
-            uluAdImage.onerror = function() {
-              retryTime++;
-              if(retryTime<=5) {
-                uluAdSendOneTime();
-              }
-            };
-            uluAdImage.src = uluAdUrl;
-          };
-          uluAdSendOneTime();
-      }
-    }
-  });
-
   delegate.on('click', '.overlay', function(e){
     if (e.target.className === 'cell') {
       closeOverlay();

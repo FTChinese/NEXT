@@ -25,16 +25,40 @@
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-2MCQJHGE8J"></script>
 <script>
+    function getTagParameters() {
+        // Get the current URL
+        const url = new URL(window.location.href);
+        // Depending on whether the parameters are in the query string or hash, choose the right part
+        const paramsString = url.search ? url.search.substring(1) : url.hash.substring(1);
+        // Create a new URLSearchParams object from the parameters
+        const params = new URLSearchParams(paramsString);
+        
+        // Create an object to store the campaign parameters
+        const campaignParams = {};
+
+        // Map UTM parameters to GA4 campaign parameters
+        const paramMapping = {
+            'utm_source': 'campaign_source',
+            'utm_medium': 'campaign_medium',
+            'utm_campaign': 'campaign_name',
+            'utm_term': 'campaign_term',
+            'utm_content': 'campaign_content'
+        };
+
+        // Iterate through the mapping and populate the campaignParams object
+        for (const [utmKey, campaignKey] of Object.entries(paramMapping)) {
+            if (params.has(utmKey)) {
+                campaignParams[campaignKey] = params.get(utmKey);
+            }
+        }
+
+        return campaignParams;
+    }
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    if (window.opener && window.opener.userName) {
-        gtag('config', 'G-2MCQJHGE8J', {
-            'dimension1': window.opener.userName
-        });
-    } else {
-        gtag('config', 'G-2MCQJHGE8J');    
-    }
+    const gTagParameters = getTagParameters();
+    gtag('config', 'G-2MCQJHGE8J', gTagParameters);
 </script>
 <link rel="icon" type="image/svg+xml" href="https://www.ft.com/__origami/service/image/v2/images/raw/ftlogo-v1%3Abrand-ft-logo-square-coloured?source=update-logos&amp;format=svg"/>
 <link rel="alternate icon" type="image/png" href="https://www.ft.com/__origami/service/image/v2/images/raw/ftlogo-v1%3Abrand-ft-logo-square-coloured?source=update-logos&amp;format=png&amp;width=32&amp;height=32" sizes="32x32"/>
@@ -104,7 +128,7 @@
 <script type="text/javascript" src="scripts/chat-audio.js"></script>
 <script type="text/javascript" src="scripts/chat-survey.js"></script>
 <script type="text/javascript" src="scripts/chat-article.js"></script>
-
+<script type="text/javascript" src="scripts/track-click.js"></script>
 
 <!-- endbuild -->
 

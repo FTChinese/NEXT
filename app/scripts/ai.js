@@ -326,9 +326,9 @@ async function getFTPageInfo(name, language) {
         const response = await fetch(url, options);
         let results = await response.json();
         if (response.status >= 400 && results.message) {
-            return {status: 'failed', message: results.message};
+            return {status: 'failed', message: results.message, results};
         }
-        return {status: 'success', results: results};
+        return {status: 'success', results};
     } catch(err) {
         console.log(err);
         return {status: 'failed', message: err.toString()};
