@@ -126,7 +126,7 @@ function trackerNew() {
         gtag('config', gaMeasurementId, gTagParameters);
         gtag('config', gaMeasurementId2, firebaseParameters);
     }
-    
+
     console.log('Tracker New!');
 
     var gTagParameters = {};
@@ -402,8 +402,8 @@ function trackerNew() {
 
     // gTagParameters.debug_mode = true;
 
-    console.log('gTagParameters: ');
-    console.log(JSON.stringify(gTagParameters));
+    // console.log('gTagParameters: ');
+    // console.log(JSON.stringify(gTagParameters));
 
 
     if (window.bpage !== undefined && window.bpage !== 0 && window.bpage !== null) {

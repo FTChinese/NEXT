@@ -1604,6 +1604,7 @@ async function newsQuiz(content, language, reply, id) {
       }
       html = `<div>${html}</div>`;
       html += `<button class="quiz-next hide">${localize('NEXT')}</button>`;
+      html = await convertChinese(html, preferredLanguage);
       const result = {text: html};
       showResultInChat(result, true, true);
       await setIntention('Ask Me', preferredLanguage, '', true, false);
