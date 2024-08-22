@@ -4619,7 +4619,7 @@ Genres: {
     ru: 'Подготовка викторины для вас...'
   },
   IntroducingQuiz: {
-    "zh": "FT中文网每日新闻小测试，快速梳理最新的全球财经新闻大事件。",
+    "zh": "FT中文网每日小测试，快速梳理最新的全球财经新闻大事件。",
     "en": "FTChinese Daily News Quiz: Quickly recap the latest global financial news events.",
     "es": "Cuestionario Diario de Noticias de FTChinese: Resume rápidamente los últimos acontecimientos financieros globales.",
     "fr": "Quiz Quotidien FTChinese: Récapitulez rapidement les derniers événements financiers mondiaux.",
@@ -4628,8 +4628,8 @@ Genres: {
     "ko": "FTChinese 일간 뉴스 퀴즈: 최신 글로벌 금융 뉴스를 빠르게 요약합니다.",
     "pt": "Quiz Diário de Notícias do FTChinese: Recapitule rapidamente os últimos eventos financeiros globais.",
     "it": "Quiz Quotidiano di FTChinese: Riepiloga rapidamente gli ultimi eventi finanziari globali.",
-    "zh-TW": "FT中文網每日新聞小測試，快速梳理最新的全球財經新聞大事件。",
-    "zh-HK": "FT中文網每日新聞小測試，快速梳理最新的全球財經新聞大事件。",
+    "zh-TW": "FT中文網每日小測試，快速梳理最新的全球財經新聞大事件。",
+    "zh-HK": "FT中文網每日小測試，快速梳理最新的全球財經新聞大事件。",
     "ru": "Ежедневный викторинный тест FTChinese: Быстро резюмируйте последние события в мировой финансовой сфере."
   },
   'What do you want to find?': {
@@ -5067,7 +5067,7 @@ Genres: {
       ru: 'Перейти к статье'
     },
     'FT Daily Quiz': {
-        zh: 'FT每日新闻小测',
+        zh: 'FT每日小测',
         en: 'FT Daily Quiz',
         es: 'FT Cuestionario Diario',
         fr: 'FT Quiz Quotidien',
@@ -5076,12 +5076,12 @@ Genres: {
         ko: 'FT 일일 퀴즈',
         pt: 'FT Quiz Diário',
         it: 'FT Quiz Giornaliero',
-        'zh-TW': 'FT每日新聞小測',
-        'zh-HK': 'FT每日新聞小測',
+        'zh-TW': 'FT每日小測',
+        'zh-HK': 'FT每日小測',
         ru: 'FT Ежедневная Викторина'
     },
     'Quiz Description': {
-        zh: '提醒完成每日FT新闻小测。',
+        zh: '提醒完成每日FT小测。',
         en: 'Reminder to complete your daily FT quiz.',
         es: 'Recordatorio para completar su cuestionario diario de FT.',
         fr: 'Rappel de compléter votre quiz quotidien de FT.',
@@ -5090,12 +5090,12 @@ Genres: {
         ko: '매일 FT 퀴즈를 완료하라는 알림입니다.',
         pt: 'Lembrete para completar seu quiz diário de FT.',
         it: 'Promemoria per completare il tuo quiz giornaliero di FT.',
-        'zh-TW': '提醒完成每日FT新聞小測。',
-        'zh-HK': '提醒完成每日FT新聞小測。',
+        'zh-TW': '提醒完成每日FT小測。',
+        'zh-HK': '提醒完成每日FT小測。',
         ru: 'Напоминание завершить вашу ежедневную викторину FT.'
     },
     'Quiz Prompt': {
-      zh: '将每日新闻小测提醒添加到日历，以便明天同一时间得到提醒！',
+      zh: '将每日小测提醒添加到日历，以便明天同一时间得到提醒！',
       en: 'Add a reminder to your calendar to get notified at the same time tomorrow!',
       es: '¡Agrega un recordatorio a tu calendario para recibir un recordatorio a la misma hora mañana!',
       fr: 'Ajoutez un rappel à votre calendrier pour être rappelé à la même heure demain!',
@@ -5104,8 +5104,8 @@ Genres: {
       ko: '내일 같은 시간에 알림을 받기 위해 캘린더에 알림을 추가하세요!',
       pt: 'Adicione um lembrete ao seu calendário para ser lembrado na mesma hora amanhã!',
       it: 'Aggiungi un promemoria al tuo calendario per essere ricordato alla stessa ora domani!',
-      'zh-TW': '將每日新聞小測提醒添加到日曆，以便明天同一時間收到通知！',
-      'zh-HK': '將每日新聞小測提醒添加到日曆，以便明天同一時間收到通知！',
+      'zh-TW': '將每日小測提醒添加到日曆，以便明天同一時間收到通知！',
+      'zh-HK': '將每日小測提醒添加到日曆，以便明天同一時間收到通知！',
       ru: 'Добавьте напоминание в календарь, чтобы получить уведомление в это же время завтра!'
     },
     'Bilingual': {
@@ -5152,7 +5152,7 @@ Genres: {
       ru: 'Чтобы предоставить вам эту информацию как можно быстрее, этот текст был переведен с помощью машины и предназначен только для справки'
     }, 
     NewsQuiz: {
-      zh: '新闻小测',
+      zh: '每日小测',
       en: 'News Quiz',
       es: 'Prueba de noticias',
       fr: `Quiz d'actualités`,
@@ -5161,8 +5161,8 @@ Genres: {
       ko: '뉴스 퀴즈',
       pt: 'Quiz de notícias',
       it: 'Quiz di notizie',
-      'zh-TW': '新聞小測',
-      'zh-HK': '新聞小測',
+      'zh-TW': '每日小測',
+      'zh-HK': '每日小測',
       ru: 'Новостная викторина'
     }, 
     ChatDisclaimer: {

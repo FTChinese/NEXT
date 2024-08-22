@@ -241,6 +241,7 @@ delegate.on('click', '.sidebar-bg, .sidebar a, .sidebar button',  (event) => {
 delegate.on('click', '.quiz-share[data-quiz-id]', (event) => {
   const element = event.target;
   const id = element.getAttribute('data-quiz-id');
+  const language = element.getAttribute('data-language');
   const container = element.closest('.quiz-container');
   const question = container?.querySelector('.quiz-question')?.innerText;
   const options = container?.querySelector('.quiz-options')?.children;
@@ -260,7 +261,7 @@ delegate.on('click', '.quiz-share[data-quiz-id]', (event) => {
   
   // Construct the share URL using the current window's host name and port
   const hostname = 'https://ai.ftchinese.com';
-  const shareUrl = `${hostname}/powertranslate/chat.html#action=news-quiz&id=${id}&utm_source=quiz&utm_medium=share&utm_campaign=social_sharing`;
+  const shareUrl = `${hostname}/powertranslate/chat.html#action=news-quiz&id=${id}&language=${language}&utm_source=quiz&utm_medium=share&utm_campaign=social_sharing`;
 
   shareText += `\n${shareUrl}`;
 
@@ -1559,7 +1560,7 @@ async function createTranslations(results, language) {
 
 
 async function newsQuiz(content, language, reply, id) {
-  // console.log(`running searchFTAPI... content: ${content}, language: ${language}`);
+  // console.log(`running newsQuiz... content: ${content}, language: ${language}`);
   updateBotStatus('pending');
   showResultInChat({text: reply});
   try {
@@ -1571,14 +1572,17 @@ async function newsQuiz(content, language, reply, id) {
           const answer = quiz.answer || '';
           const explanation = quiz.explanation || '';
           const title = (/zh/.test(language)) ? quiz.cheadline || quiz.title || '' : quiz.title || '';
-          const id = quiz._id || '';
+          const id = quiz.id || '';
           let contentLink = '';
           if (title !== '' && id !== '') {
             contentLink = `<a href="/powertranslate/chat.html#ftid=${id}&language=${language}&action=read" target="_blank">${title}</a>`;
           }
           let shareLink = '';
           if (id !== '') {
-            shareLink = `<a class="quiz-share" data-quiz-id="${id}"></a>`;
+            shareLink = `
+            <a class="quiz-share" data-quiz-id="${id}" data-language="${language}"></a>
+            <a class="quiz-detail" href="/quiz/${id}/${language}" target="_blank"></a>
+            `;
           }
 
           let allOptions = quiz.distractors || [];
@@ -2431,7 +2435,8 @@ async function setGuardRails() {
     await waitForAccessToken();
     await searchFTAPI(`${field}: ${key}`, preferredLanguage, decodeURIComponent(display));
   } else if (action === 'news-quiz') {
-    await newsQuiz('quiz', preferredLanguage, localize('IntroducingQuiz'), id);
+    const quizLanguage = paramDict?.language ?? preferredLanguage;
+    await newsQuiz('quiz', quizLanguage, localize('IntroducingQuiz'), id);
   }
   const intent = paramDict.intent;
   if (intent && intent !== '') {
