@@ -3,6 +3,25 @@
 <%if $maxPageIndex <= 0%>
 	<%assign var="maxPageIndex" value=1%>
 <%/if%>
+<%if $smarty.get.android != ""%>
+    <script>
+        (function() {
+            // Get the correct path from the server-side Smarty variable
+            var correctPath = "<%$smarty.server.REQUEST_URI%>";
+
+            // Construct the correct URL
+            var correctUrl = window.location.origin + correctPath;
+
+            // Optionally preserve the hash (if any)
+            if (window.location.hash) {
+                correctUrl += window.location.hash;
+            }
+
+            // Update the browser's address bar without reloading the page
+            window.history.replaceState(null, '', correctUrl);
+        })();
+    </script>
+<%/if%>
 <div class="pagination-container"><div class="pagination-inner"></div></div>
 <script type="text/javascript">
     function addPaginationHTML(maxIndex) {

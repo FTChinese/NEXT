@@ -23,7 +23,7 @@ var w2;
 var isWeChat;
 function initAds() {
   uaString = navigator.userAgent || navigator.vendor || '';
-  isWeChat = (/micromessenger/i.test(uaString));
+  isWeChat = /micromessenger/i.test(uaString);
   // First get the browser width
   // On an mobile phone, this may return a larger value if
   // 1.  viewport meta is not added

@@ -333,45 +333,6 @@ function copyToClipboard(text) {
 }
 
 
-function localize(status, fallback, dict = {}) {
-  if (!status) {
-    return;
-  }
-
-  // Assume preferredLanguage is correctly set through application logic
-  let language = preferredLanguage || 'en';
-
-  if (language === 'Chinese') {
-    language = 'zh';
-  }
-
-  // console.log(status, language);
-
-  // Normalize language code by removing regional codes
-  const languagePrefix = language.replace(/\-.*$/g, '');
-  const statusKey = status.toLowerCase();
-  const statusTranslations = statusDict[statusKey];
-
-  if (statusTranslations) {
-    let translation = statusTranslations[language] || statusTranslations[languagePrefix];
-    // Fallback to English if no translation is found
-    if (translation === undefined) {
-      translation = statusTranslations.en;
-    }
-    translation = translation || translation === '' ? translation : status;
-    for (const key of Object.keys(dict)) {
-      const value = dict[key];
-      const regexKey = new RegExp(`\\\[${key}\\\]`, 'g'); // Escape the square brackets
-      translation = translation.replace(regexKey, value);
-    }
-    return translation;
-  }
-
-  // Use fallback if provided and valid, otherwise use the original status
-  return (typeof fallback === 'string' && fallback !== '') ? fallback : status;
-}
-
-
 
 function identifyLanguage(language){//TO Identify language which need to use the function to translate.
   if (!language || ['zh-TW', 'zh-HK', 'zh-MO', 'zh-MY', 'zh-SG'].indexOf(language) === -1) {
@@ -2249,7 +2210,7 @@ function getMyPreference() {
 function setPreferredLanguage() {
   // MARK: Set the preferred language
   // TODO: Should let users customize their preferred language
-  const lang = paramDict.language;
+  const lang = paramDict?.language;
   if (lang && lang !== '') {
     preferredLanguage = lang;
     if (/^zh/i.test(preferredLanguage)) {

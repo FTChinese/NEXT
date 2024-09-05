@@ -263,16 +263,71 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
 
  </head>
  <body>
+
+
+
     <script>checkB();</script>
 <script>var gUaOfPage = navigator.userAgent || navigator.vendor || "";</script><script>
 window.newAd = true;
 </script>
-
-
-
+<div id="promo-box-container">
+<style>
+.noneSubscriber.subscription-promo-container {
+background-color: #98e8f7;
+}
+.noneSubscriber .subscription-promo-text {
+background-color: #fced00;
+border-color: #fced00;
+}
+.noneSubscriber .subscription-promo-text {
+color: #001e69;
+}
+.noneSubscriber .subscription-promo-box {
+background-image: url(https://thumbor.ftacademy.cn/unsafe/picture/0/000237910_piclink.png);
+}
+@media only screen and (max-width: 490px) {
+.noneSubscriber .subscription-promo-box {
+background-image: url(https://thumbor.ftacademy.cn/unsafe/picture/1/000237911_piclink.png);
+}
+}
+</style>
+<div class="subscription-promo-container show-image-in-mobile noneSubscriber">
+<div class="subscription-promo-inner">
+<a  href="/m/corp/preview.html?pageid=2024Augsub&to=all&ccode=2C2024AugPBoxWeb" class="subscription-promo-box n-internal-promo" data-promo-target="noneSubscriber" data-promo-id="2C2024AugPBoxWeb" data-promo-name="会员限时 5折抢订 >>" data-promo-creative="https://thumbor.ftacademy.cn/unsafe/picture/0/000237910_piclink.png" data-promo-position="promoBox">
+<div class="subscription-promo-text">会员限时 5折抢订 >></div>
+</a>
+</div>
+</div>
+<script type="text/javascript">
+window.userId = GetCookie('USER_ID') || '';
+if (window.userId === '') {
+gtag('event', 'Display', {'event_label': '2C2024AugPBoxWeb', 'event_category': 'PromoBox', 'non_interaction': true});
+}
+</script>
+</div>
+<script type="text/javascript">
+function addUserId(ele) {
+if (ele === null) {
+return;
+}
+var userId;
+if (typeof GetCookie === 'function') {
+userId = GetCookie('USER_ID');
+} else {
+userId = getCookie('USER_ID');
+}
+if (userId && typeof userId === 'string' && userId !== '') {
+var link = ele.href;
+var connector = (link.indexOf('?') >= 0) ? '&' : '?';
+ele.href = link + connector + 'u=' + userId;
+}
+}
+var premiumLink = document.querySelector('[data-promo-target=premium]');
+addUserId(premiumLink);
+</script>
 <header class="header-container">
 <div class="header-inner">
-<div class="header-title">FT财富管理</div>
+<div class="header-title">FTC中文网 x DealStreetAsia 联名订阅</div>
 <a href="/" class="header-side header-left">
 <div class="header-brand"><figure class="loading logo" data-url="https://d2785ji6wtdqx8.cloudfront.net/images/masthead36.png"></figure></div>
 </a>
@@ -333,7 +388,7 @@ window.newAd = true;
 </div>
 </div>
 </div>
-</div><div class="o-nav__placeholder">
+</div><div class="o-nav__placeholder hide-on-large-screen">
 <div class="o-nav">
 <div class="o-nav__outer">
 <div class="o-nav__inner">
@@ -379,12 +434,10 @@ FT中文网首页
 <li class="nav-item"  aria-haspopup="true" data-channel="special">
 <a class="nav-link" href="/channel/special.html">特别报导</a>
 <ol class="nav-sub-items">
-<li><a href="/tag/cytiva2023">2023 全球生物制药弹性指数</a></li>
 <li><a href="/m/marketing/antfinancial.html">“新四大发明”背后的中国浪潮</a></li>
 <li><a href="/tag/与FT共进午餐">与FT共进午餐</a></li>
 <li><a href="/tag/智慧城市群">西门子·智慧城市群</a></li>
 <li><a href="/m/marketing/creditease.html">未来生活 未来金融</a></li>
-<li><a href="/index.php/ft/property">全球地产</a></li>
 </ol>
 </li>
 <li class="nav-item"  data-channel="premiumsubscription">
@@ -531,6 +584,7 @@ FT中文网首页
 </li>
 </ol>
 </nav>
+<a class="header-left-ai-icon-mobile P-only" href="/ftacademy.php"></a>
 <ul class="o-nav__extra-tools">
 <li class="tools-section" aria-haspopup="true">
 <a class="tools-section-head" href="/m/corp/follow.html">关注我们</a>
@@ -549,7 +603,6 @@ FT中文网首页
 <li><a href="http://app.ftchinese.com/" class="o-client-id-link">移动应用大全</a></li>
 <li><a href="/users/setting/index">基本设置</a></li>
 <li><a href="/users/setting/vip">会员中心</a></li>
-<li><a href="/users/setting/changeicon">修改头像</a></li>
 <li><a href="/users/setting/maillist">邮件订阅</a></li>
 <li><a href="/index.php/snsapi/index">同步微博</a></li>
 <li><a href="/users/commentstory">我的评论</a></li>
@@ -564,29 +617,156 @@ FT中文网首页
 </div><!-- o-nav__outer -->
 <div class="o-nav__meganav-placeholder"></div>
 </div><!-- o-nav -->
-</div><div class="block-image-container">
-<a class="track-click" data-ec="House Ad" data-ea="Click" data-el="">
-<figure class="P-hide"><img src="https://thumbor.ftacademy.cn/unsafe/picture/0/000203800_piclink.gif"></figure>
-<figure class="P-only"><img src="https://thumbor.ftacademy.cn/unsafe/picture/8/000203798_piclink.gif"></figure>
-</a>
+</div><style>
+.special-report-container {
+width: 100%;
+height: 600px;
+position: relative;
+background-color: #386eb2;
+margin-bottom: 30px;
+margin-top: -30px;}
+.special-report-image {
+position: absolute;
+width: 50%;
+right: 0;
+top: 0;
+bottom: 0;
+background-image: url(https://thumbor.ftacademy.cn/unsafe/picture/4/000239284_piclink.jpg);
+background-repeat: no-repeat;
+background-size: cover;
+background-position: 50%;
+}
+.special-report-inner {
+max-width: 1200px;
+height: 100%;
+margin: auto;
+}
+.special-report-intro {
+display: table;
+width: 50%;
+height: 100%;
+color: white;
+font-size: 32px;
+}
+.special-report-intro-container {
+display: table-cell;
+vertical-align: middle;
+text-align: right;
+padding: 0 30px 0 0;
+}
+.special-report-tag a {
+color: white;
+text-decoration: none;
+}
+.special-report-title {
+margin-bottom: 1em;
+}
+.special-report-title:after {
+content: "";
+display: block;
+border-bottom: 1px solid white;
+width: 200px;
+max-width: 100%;
+padding-top: .416em;
+}
+.special-report-content {
+font-size: 18px;
+}
+.special-report-content p {
+margin-bottom: 1em;
+}
+@media all and (max-width: 1300px) {
+.special-report-container {
+height: 550px;
+}
+}
+@media all and (max-width: 1270px) {
+.special-report-container {
+height: 450px;
+}
+.special-report-intro-container {
+padding: 0 30px;
+}
+}
+@media all and (max-width: 739px) {
+.special-report-container {
+height: auto;
+}
+.special-report-image {
+position: static;
+height: auto;
+width: 100%;
+padding-top: 61.8%;
+}
+.special-report-intro {
+width: 100%;
+}
+.special-report-intro-container {
+padding: 30px;
+}
+}
+@media all and (max-width: 490px) {
+.special-report-image {
+background-image: url(https://thumbor.ftacademy.cn/unsafe/picture/4/000239284_piclink.jpg);
+}
+}
+</style>
+<div class="special-report-container">
+<div class="special-report-inner">
+<div class="special-report-intro">
+<div class="special-report-intro-container">
+<div class="special-report-content"><p><style>.header-left-ai-icon,.header-left-ai-icon-mobile{display:none!important;}.header-container, .o-nav{background-color:#386eb2!important;}.special-report-container{margin-top:0!important;}.o-nav__placeholder{height:0!important;}@media only screen and (max-width: 740px) {.special-report-inner{height:auto;}}</style>FT中文网与DealStreetAsia联合推出高端会员联名订阅活动，限时5折，买一得二，尊享双平台1年期高端订阅权益。</p><p>此双平台联名订阅将助您在全球和区域市场中掌握先机，做出更明智的决策。您将获得FT中文网提供的中英双语内容，涵盖全球经济、金融市场、创新经济等多个领域的深度分析和独立见解，以及DealStreetAsia提供的英文内容，深入分析东南亚、大中华区和印度的私募股权、风险投资及初创企业的商业动向。</p><p>FTChinese, in collaboration with DealStreetAsia, is launching a premium bundle subscription offer. For a limited time, enjoy a 50% discount—buy one, get two, and receive a 1-year premium subscription to both platforms.</p><p>This dual-platform subscription will help you stay ahead in global and regional markets, enabling you to make more informed decisions. Access FTChinese's bilingual insights on global economics and finance, plus DealStreetAsia's deep analysis of private equity and startups in Southeast Asia, Greater China, and India.</p></div>
 </div>
-<div class="o-ads" data-o-ads-name="banner1"
-data-o-ads-center="true" 
-data-o-ads-formats-default="false" 
-data-o-ads-formats-small="FtcMobileBanner" 
-data-o-ads-formats-medium="false"
-data-o-ads-formats-large="FtcLeaderboard"
-data-o-ads-formats-extra="FtcLeaderboard"
-data-o-ads-targeting="cnpos=top1;"
-data-cy='[{"devices":["PC"],"pattern":"Leaderboard","position":"Num1"},{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"Banner","position":"Num1"}]'
->
 </div>
-<div class="block-container no-side">
+</div>
+<div class="special-report-image"></div>
+</div><div class="block-container no-side">
 <div class="block-inner">
 <div class="content-container">
 <div class="content-inner">
 <div class="list-container">
 <div class="list-inner">
+<div class="items hide" id="membership-login-prompt">
+<div class="no-image">
+<div class="item-inner">
+<div class="item-lead">
+<a href="screen://myft/account">您还没有登录。如果您希望更方便地享受您购买的会员服务，请点击此处登录或注册新用户。</a>
+</div>
+</div>
+</div>
+</div>
+<div class="items hide" id="subscriber-contact-confirm">
+<div class="no-image">
+<div class="item-inner">
+<div class="item-lead"><a href="https://www.ftchinese.com/m/corp/preview.html?pageid=subscriptioninfoconfirm&to=all">为保障您的订阅权益，请点击此处确认您的联系方式</a></div>
+</div>
+</div>
+</div>
+<div class="items hide" id="membership-yellow-card-prompt">
+<div class="no-image">
+<div class="item-inner">
+<div class="item-lead">
+<div class="warn">亲爱的会员，您的账户近期在多台设备上异常登录。您的账户仅限您本人使用，如不是您本人操作，可能您的账号已泄漏。请您尽快进行如下操作：</div>
+<div class="warn">1. <a href="https://user.ftchinese.com/setting" target="_blank">修改密码，并妥善保护好新密码</a>。</div>
+<div class="warn">2. <a class="email-link" href="mailto: customer.service@ftchinese.com?subject=Appeal: Warning">点击此处寻求帮助</a>。</div>
+<div class="warn">为了保护您的利益，我们已经暂时锁定您的订阅账户，如有疑问，请联系客服。</div>
+</div></div>
+</div>
+</div>
+</div>
+<script>window.gYellowCardUserIds = '';</script>
+<div class="items hide" id="membership-red-card-prompt">
+<div class="no-image">
+<div class="item-inner">
+<div class="item-lead"><div class="warn">
+亲爱的会员，您的账号近期在多台设备上频繁异常登录。您的账户仅限您本人使用。为了保证您的利益，该账户已被暂时锁定。您可以：
+<a class="email-link" href="mailto: customer.service@ftchinese.com?subject=Appeal: Red Warning">点击此处与我们联系进行认证</a>。
+</div></div>
+</div>
+</div>
+</div>
+<script>window.gRedCardUserIds = '';</script>
+<script>checkUserWarnings();</script>
 </div>
 </div>
 <div class="clearfloat block-bottom"></div>
@@ -598,313 +778,182 @@ data-cy='[{"devices":["PC"],"pattern":"Leaderboard","position":"Num1"},{"devices
 <div class="block-container dark-green has-side side-right all" ><div class="block-inner">
 <div class="content-container">
 <div class="content-inner">
- 
-<div class="list-container"><div class="list-inner"><div class="items">
 
- 
-
-<div class="item-container XL4 L4 S12 M6 P12     has-image" data-update="1705658016"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/interactive/138743" class="item-headline-link whitelist">投资者的时间框架无法应对长期气候挑战</a></h2>
-<a class="image" target="_blank" href="/interactive/138743" >
-<figure class="loading" data-url="https://thumbor.ftacademy.cn/unsafe//picture/1/000210061_piclink.jpg"></figure>
-</a>
-<div class="item-lead">目前的资金投资方式与应对气候变化的解决方案之间存在根本矛盾。投资者注重快速回报，这与支持可持续性和能源转型是不相容的。</div>
-<div class="item-bottom"></div>
-</div></div>
-
- 
-<div class=" ST PT"></div>
-<div class="item-container XL4 L4 S12 M6 P12     has-image" data-update="1703250755"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/interactive/135487" class="item-headline-link ">亚洲的财富促使私人银行家提高自身水平</a></h2>
-<a class="image" target="_blank" href="/interactive/135487" >
-<figure class="loading" data-url="https://thumbor.ftacademy.cn/unsafe//picture/3/000206933_piclink.jpg"></figure>
-</a>
-<div class="item-lead">预计到 2025 年，该地区的金融财富将超过美国<br />
-<br />
-菲斯•格拉斯哥</div>
-<div class="item-bottom"></div>
-</div></div>
-<div data-o-ads-name="mpu-middle1" class="o-ads" data-o-ads-formats-default="false" data-o-ads-formats-small="FtcMobileMpu" data-o-ads-formats-medium="false" data-o-ads-formats-large="false" data-o-ads-formats-extra="false" data-o-ads-targeting="cnpos=middle1;" data-cy='[{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"MPU","position":"Middle1"}]'></div>
- 
-<div class=" MT ST PT"></div>
-<div class="item-container XL4 L4 S12 M6 P12     has-image" data-update="1703250649"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/interactive/135490" class="item-headline-link ">投资者质疑当前价格是否适合买进印度的增长故事</a></h2>
-<a class="image" target="_blank" href="/interactive/135490" >
-<figure class="loading" data-url="https://thumbor.ftacademy.cn/unsafe//picture/0/000206940_piclink.jpg"></figure>
-</a>
-<div class="item-lead">印度即将成为世界第三大经济体，但股价估值过高<br />
-<br />
-史蒂夫•约翰逊</div>
-<div class="item-bottom"></div>
-</div></div>
-
- 
-<div class=" XLT LT ST PT"></div>
-<div class="item-container XL4 L4 S12 M6 P12     has-image" data-update="1702041171"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/interactive/133678" class="item-headline-link ">印尼希望像吸引汽车厂商一样吸引全球投资者</a></h2>
-<a class="image" target="_blank" href="/interactive/133678" >
-<figure class="loading" data-url="https://thumbor.ftacademy.cn/unsafe//picture/6/000201716_piclink.jpg"></figure>
-</a>
-<div class="item-lead">如果人均收入提高，这个东南亚国家有的财富管理行业有巨大发展潜力。</div>
-<div class="item-bottom"></div>
-</div></div>
-
- 
-<div class=" MT ST PT"></div>
-<div class="item-container XL4 L4 S12 M6 P12     has-image" data-update="1701401525"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/interactive/132560" class="item-headline-link ">亿万富翁的财富来源：继承多于创造</a></h2>
-<a class="image" target="_blank" href="/interactive/132560" >
-<figure class="loading" data-url="https://thumbor.ftacademy.cn/unsafe//picture/5/000204175_piclink.jpg"></figure>
-</a>
-<div class="item-lead">瑞银一项针对全球精英的调查显示，全球超级富豪新成员通过继承获得的资产，已经超过了通过创造财富获得的资产。</div>
-<div class="item-bottom"></div>
-</div></div>
-
- 
-<div class=" ST PT"></div>
-<div class="item-container XL4 L4 S12 M6 P12     has-image" data-update="1700129904"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001101311" class="item-headline-link whitelist">亚洲名校吸引富二代</a></h2>
-<a class="image" target="_blank" href="/story/001101311" >
-<figure class="loading" data-url="https://thumbor.ftacademy.cn/unsafe/picture/0/000196610_piclink.jpg"></figure>
-</a>
-<div class="item-lead">尽管美英一流大学的本科和研究生课程仍受到许多富裕中国家庭的追捧，但越来越多富裕家庭希望子女在国际排名较高的亚太学府学习。</div>
-<div class="item-bottom"></div>
-</div></div>
-<div data-o-ads-name="mpu-middle2" class="o-ads" data-o-ads-formats-default="false" data-o-ads-formats-small="FtcMobileMpu" data-o-ads-formats-medium="false" data-o-ads-formats-large="false" data-o-ads-formats-extra="false" data-o-ads-targeting="cnpos=middle2;" data-cy='[{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"MPU","position":"Middle2"}]'></div>
- 
-<div class=" XLT LT MT ST PT"></div>
-<div class="item-container XL4 L4 S12 M6 P12     has-image" data-update="1699428313"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/interactive/129060" class="item-headline-link ">理财业敦促富裕家庭警惕本地风险</a></h2>
-<a class="image" target="_blank" href="/interactive/129060" >
-<figure class="loading" data-url="https://thumbor.ftacademy.cn/unsafe//picture/4/000200764_piclink.jpg"></figure>
-</a>
-<div class="item-lead">财富经理们表示，最安全的多元化战略必须考虑企业资产、收入流和货币因素。</div>
-<div class="item-bottom"></div>
-</div></div>
-
- 
-<div class=" ST PT"></div>
-<div class="item-container XL4 L4 S12 M6 P12     has-image" data-update="1700104014"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/interactive/130422" class="item-headline-link ">应对去全球化挑战，富裕阶层转投美国资产</a></h2>
-<a class="image" target="_blank" href="/interactive/130422" >
-<figure class="loading" data-url="https://thumbor.ftacademy.cn/unsafe//picture/7/000201907_piclink.jpg"></figure>
-</a>
-<div class="item-lead">亚欧的投资者正将更多投资组合配置到国外</div>
-<div class="item-bottom"></div>
-</div></div>
-<div class="clearfloat"></div>
-</div>
-</div></div> 
 <div class="list-container"><div class="list-inner"><h2 class="list-title">
-<a class="list-link" href="#" >更多相关内容</a>
+<a class="list-link" href="#" >联名订阅权益</a>
 </h2>
 <div class="items">
 
  
 
-<div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image" data-update="1704841283"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001101870" class="item-headline-link whitelist">美联储官员能准确预测利率么？</a></h2>
-<a class="image" target="_blank" href="/story/001101870" >
-<figure class="loading" data-url="http://creatives.ftacademy.cn/picture/8/000206718_piclink.jpg"></figure>
-</a>
-<div class="item-lead">伍治坚：为投资付出的费用对于回报的影响，在1到2年内或看不出来。但把时间维度拉长到10年、20年或者更长，成本对于投资回报产生至关重要的影响。</div>
+<div class="item-container XL6 L6 L-double-width M12 S6 P12 no-image" data-update="1724231150"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" class="item-headline-link ">FT中文网高端会员</a></h2>
+<div class="item-lead"><p style="line-height: 1.6; text-align: justify;">• 精选中英双语资讯、深度分析与观点</p><p style="line-height: 1.6; text-align: justify;">• 编辑精选，每周五，总编/各版块主编推荐本周必读资讯，分享他们的思考与观点</p><p style="line-height: 1.6; text-align: justify;">• FT商学院高端专享内容，提升投资战略格局与投资视野</p><p style="line-height: 1.6; text-align: justify;">• 高端专享邮件服务：《加密金融每周资讯速递》周一必达，《人工智能周报》周五必达</p><p style="line-height: 1.6; text-align: justify;">• 英语电台、金融英语速读</p><p style="line-height: 1.6; text-align: justify;">• 15万历史文章</p><p style="line-height: 1.6; text-align: justify;">• FT中文网2024年度论坛门票2张</p><p style="line-height: 1.6; text-align: justify;">注：所有活动门票不可折算现金、不能转让、不含差旅与食宿。</p></div>
 <div class="item-bottom"></div>
 </div></div>
 
  
 <div class=" MT PT"></div>
-<div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image" data-update="1704755755"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/premium/001101866" class="item-headline-link whitelist">黑石新零售基金募资进展顺利</a></h2>
-<a class="image" target="_blank" href="/premium/001101866" >
-<figure class="loading" data-url="http://creatives.ftacademy.cn/picture/7/000208577_piclink.jpeg"></figure>
-</a>
-<div class="item-lead">黑石私募股权策略基金BXPE已筹集13亿美元，表明在限制赎回事件后，这家另类资产管理公司吸引富有个人客户的努力正在恢复势头。</div>
+<div class="item-container XL6 L6 L-double-width M12 M-half S6 P12 P-half no-image" data-update="1724231150"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" class="item-headline-link ">DealStreetAsia高端会员</a></h2>
+<div class="item-lead"><p style="line-height: 1.6; text-align: justify;">• 每天超过30篇最新英文商业分析资讯，及时掌握最新商业动态</p><p style="line-height: 1.6; text-align: justify;">• 覆盖东南亚、大中华区和印度的私募股权、风险投资及初创企业，提供深入的商业分析和洞察</p><p style="line-height: 1.6; text-align: justify;">• 全球顶级领导者的独家采访，深入了解市场趋势与发展</p></div>
 <div class="item-bottom"></div>
 </div></div>
-<div data-o-ads-name="mpu-middle3" class="o-ads" data-o-ads-formats-default="false" data-o-ads-formats-small="FtcMobileMpu" data-o-ads-formats-medium="false" data-o-ads-formats-large="false" data-o-ads-formats-extra="false" data-o-ads-targeting="cnpos=middle3;" data-cy='[{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"MPU","position":"Middle3"}]'></div>
- 
-<div class=" LT MT PT ST"></div>
-<div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image" data-update="1704751218"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001101864" class="item-headline-link whitelist">如何在动荡的市场中寻求机会？</a></h2>
-<a class="image" target="_blank" href="/story/001101864" >
-<figure class="loading" data-url="http://creatives.ftacademy.cn/picture/0/000198810_piclink.jpg"></figure>
-</a>
-<div class="item-lead">王倩：各个市场在新的一年中蓄势待发，市场都经过了纠正。不合市场规律的被逐渐剔除掉，为新的市场机遇与产品提供了空间与发展的轨道。</div>
-<div class="item-bottom"></div>
-</div></div>
+<div data-o-ads-name="infoflow1" class="o-ads infoflow" data-o-ads-formats-default="false" data-o-ads-formats-small="FtcInfoFlow" data-o-ads-formats-medium="false" data-o-ads-formats-large="false" data-o-ads-formats-extra="false" data-o-ads-targeting="cnpos=info1;"></div><div class="clearfloat"></div>
+</div>
+</div></div> <div class="list-container list-with-text">
+<div class="list-inner">
+<div class="items">
+<div class="no-image">
+<div class="item-inner">
+<div class="item-lead">
+<p><div style="margin:0 auto;display:block;text-align:center;"><span style="font-size:20px;">原价 </span><s style="color:#9E2F50;font-size:20px;">4,868 元/年</s>       <span style="font-size:20px;">联名价</span><span style="color:#9E2F50;font-size:20px;"> 2,298 元/年</span></div><div style="text-align:center;font-size:20px;margin-top:10px;">限时5折，买一得二</div></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div> 
+<div class="list-container"><div class="list-inner"><h2 class="list-title">
+<a class="list-link" href="#" >Buddle Subscription</a>
+</h2>
+<div class="items">
 
  
-<div class="XLT MT PT"></div>
-<div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image" data-update="1704147478"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001101792" class="item-headline-link whitelist">展望2024：如何进行资产配置</a></h2>
-<a class="image" target="_blank" href="/story/001101792" >
-<figure class="loading" data-url="http://creatives.ftacademy.cn/picture/9/000136959_piclink.jpeg"></figure>
-</a>
-<div class="item-lead">黄凡：物价指数持续下行至负数区间，房价也在下跌；普罗大众如何应对目前困难与挑战？继续遵循应配尽配原则，实行资产的多元化配置。</div>
-<div class="item-bottom"></div>
-</div></div>
 
- 
-<div class=" LT MT PT ST"></div>
-<div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image" data-update="1703722907"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001101776" class="item-headline-link whitelist">Lex专栏今年对美国科技股预测回顾</a></h2>
-<a class="image" target="_blank" href="/story/001101776" >
-<figure class="loading" data-url="http://creatives.ftacademy.cn/picture/1/000205001_piclink.jpg"></figure>
-</a>
-<div class="item-lead">我们的预测基本正确，只是市场对生成式人工智能的兴奋程度超出了我们的预期。另一方面，马斯克的X成为美国科技股受挫的代表。</div>
+<div class="item-container XL6 L6 L-double-width M12 M-half S6 P12 P-half no-image" data-update="1724231150"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" class="item-headline-link ">FTChinese Premium</a></h2>
+<div class="item-lead"><p style="line-height: 1.6; text-align: justify;">• Global analysis, and opinions in bilingual Chinese and English.</p><p style="line-height: 1.6; text-align: justify;">• Editor's Picks: Every Friday, the Editor-in-Chief and section editors recommend the week’s must-reads, sharing their insights and perspectives.</p><p style="line-height: 1.6; text-align: justify;">• Access premium content from FT Academy to enhance your investment strategies and broaden your perspective.</p><p style="line-height: 1.6; text-align: justify;">• Exclusive Email Service: Cryptofinance Weekly Newsletter every Monday and Artificial Intelligence Weekly Newsletter every Friday.</p><p style="line-height: 1.6; text-align: justify;">• English podcasts and Speed Read.</p><p style="line-height: 1.6; text-align: justify;">• 150,000+ archived articles.</p><p style="line-height: 1.6; text-align: justify;">• Two tickets to the FTChinese 2024 Annual Forum</p><p style="line-height: 1.6; text-align: justify;"><strong>Note:</strong> All event tickets are non-refundable, non-transferable, and do not include travel or accommodation expenses.</p></div>
 <div class="item-bottom"></div>
 </div></div>
 
  
 <div class=" MT PT"></div>
-<div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image" data-update="1703552674"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001101760" class="item-headline-link whitelist">哪些欧洲股票有望成为2024年赢家</a></h2>
-<a class="image" target="_blank" href="/story/001101760" >
-<figure class="loading" data-url="http://creatives.ftacademy.cn/picture/2/000115632_piclink.jpg"></figure>
-</a>
-<div class="item-lead">福勒：在我们更接近新一轮商业周期复苏之前，购买欧洲股票可能并不那么安全，但我们认为有些股票具有韧性。</div>
-<div class="item-bottom"></div>
-</div></div>
-<div data-o-ads-name="mpu-middle4" class="o-ads" data-o-ads-formats-default="false" data-o-ads-formats-small="FtcMobileMpu" data-o-ads-formats-medium="false" data-o-ads-formats-large="false" data-o-ads-formats-extra="false" data-o-ads-targeting="cnpos=middle4;" data-cy='[{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"MPU","position":"Middle4"}]'></div>
- 
-<div class="XLT LT MT PT ST"></div>
-<div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image" data-update="1703512640"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001101729" class="item-headline-link whitelist">2024年债券市场投资展望</a></h2>
-<a class="image" target="_blank" href="/story/001101729" >
-<figure class="loading" data-url="http://creatives.ftacademy.cn/picture/8/000206718_piclink.jpg"></figure>
-</a>
-<div class="item-lead">王倩：在未来一年中债市趋势向好，其投资收益率一方面是受市场降息影响，另一方面来自经济增长的动力与市场需求的动力。</div>
-<div class="item-bottom"></div>
-</div></div>
-
- 
-<div class=" MT PT"></div>
-<div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image" data-update="1703113222"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001101706" class="item-headline-link whitelist">央行不应放弃关键“护栏”</a></h2>
-<a class="image" target="_blank" href="/story/001101706" >
-<figure class="loading" data-url="http://creatives.ftacademy.cn/picture/8/000206718_piclink.jpg"></figure>
-</a>
-<div class="item-lead">拉詹：近来，工业国家的宏观经济政策变得更加由政策制定者自由裁量，而放弃了自我约束的护栏措施。他们应该向新兴市场学一学。</div>
-<div class="item-bottom"></div>
-</div></div>
-
- 
-<div class=" LT MT PT ST"></div>
-<div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image" data-update="1704941678"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/interactive/135146" class="item-headline-link whitelist">瑞银/Cevian：瑞士财富管理公司需要抬高目标</a></h2>
-<a class="image" target="_blank" href="/interactive/135146" >
-<figure class="loading" data-url="http://creatives.ftacademy.cn/picture/1/000200651_piclink.jpg"></figure>
-</a>
-<div class="item-lead">瑞银正走上正轨，但需要从美国业务中汲取更多利润。</div>
-<div class="item-bottom"></div>
-</div></div>
-
- 
-<div class="XLT MT PT"></div>
-<div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image" data-update="1703033705"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/premium/001101699" class="item-headline-link whitelist">科技股反弹推动蓝鲸增长基金收复失地</a></h2>
-<a class="image" target="_blank" href="/premium/001101699" >
-<figure class="loading" data-url="http://creatives.ftacademy.cn/picture/8/000206608_piclink.jpg"></figure>
-</a>
-<div class="item-lead">这只伦敦基金在去年科技股遭到抛售期间蒙受损失，但今年以来其持有的英伟达和微软股票帮助逆转了表现。</div>
-<div class="item-bottom"></div>
-</div></div>
-
- 
-<div class=" LT MT PT ST"></div>
-<div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image" data-update="1702968560"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/story/001101692" class="item-headline-link whitelist">失序的十年，亚洲对投资者有何特别？</a></h2>
-<a class="image" target="_blank" href="/story/001101692" >
-<figure class="loading" data-url="http://creatives.ftacademy.cn/picture/4/000206534_piclink.jpg"></figure>
-</a>
-<div class="item-lead">毛希丁：本世纪初期，基金经理们透过“除日本外亚洲”的视角来看待这个地区。如今，他们正考虑“除中国外亚洲”策略。</div>
-<div class="item-bottom"></div>
-</div></div>
-
- 
-<div class=" MT PT"></div>
-<div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image" data-update="1705030973"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" href="/interactive/134824" class="item-headline-link ">日元将创今年最佳月度表现</a></h2>
-<a class="image" target="_blank" href="/interactive/134824" >
-<figure class="loading" data-url="http://creatives.ftacademy.cn/picture/1/000206371_piclink.jpg"></figure>
-</a>
-<div class="item-lead">在美联储发出降息信号的同时，投资者预计日本央行明年将会加息。</div>
+<div class="item-container XL6 L6 L-double-width M12 M-half S6 P12 P-half no-image" data-update="1724231150"><div class="item-inner">
+<h2 class="item-headline"><a target="_blank" class="item-headline-link ">DSA Premium</a></h2>
+<div class="item-lead"><p style="line-height: 1.6; text-align: justify;">• Access to 30+ English news stories per day</p><p style="line-height: 1.6; text-align: justify;">• Extensive coverage in SE Asia, Greater China, India</p><p style="line-height: 1.6; text-align: justify;">• Interviews with top leaders shaping the ecosystem</p></div>
 <div class="item-bottom"></div>
 </div></div>
 <div class="clearfloat"></div>
 </div>
-</div></div>      <div class="clearfloat block-bottom"></div>
+</div></div> <div class="list-container list-with-text">
+<div class="list-inner">
+<div class="items">
+<div class="no-image">
+<div class="item-inner">
+<div class="item-lead">
+<p><div style="margin:0 auto;display:block;text-align:center;"><span style="font-size:20px;">Original Price </span><s style="color:#9E2F50;font-size:20px;">635 USD/Year</s>       <span style="font-size:20px;"> Bundle Price </span><span style="color:#9E2F50;font-size:20px;">320 USD/Year</span></div><div style="text-align:center;font-size:20px;margin-top:10px;">Buy One, Get Two, Save 50% Today!</div></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div> 
+<div class="list-container"><div class="list-inner"><h2 class="list-title">
+<a class="list-link" href="#" >如何领取</a>
+</h2>
+<div class="items">
+<div class="no-image">
+<div class="item-inner">
+<div class="item-lead"><p style="line-height: 1.6; text-align: justify;">完成FT中文网注册/登录与购买成功后，即可开通两个高端会员权限:</p><p style="line-height: 1.6; text-align: justify;">• FT中文网高端会员领取: 购买成功后，会员权限将自动激活。请关注FT中文网的微信公众号，获取FT中文网App下载链接，登录后解锁会员权限。</p><p style="line-height: 1.6; text-align: justify;">• DealStreetAsia高端会员领取: 购买后您将收到会员激活邮件，查看邮箱收件箱（或垃圾邮件），点击会员激活链接，完成注册后领取高端会员权限。</p></div>
+</div>
+</div>
+</div>
+<div class="items">
+<div class="clearfloat"></div>
+</div>
+</div></div> 
+<div class="list-container"><div class="list-inner"><h2 class="list-title">
+<a class="list-link" href="#" >Subscription Activation</a>
+</h2>
+<div class="items">
+<div class="no-image">
+<div class="item-inner">
+<div class="item-lead"><p style="line-height: 1.6; text-align: justify;">• FTChinese Premium Subscription Activation: After successful purchase, the subscription will be automatically activated. Please follow FTChinese’s WeChat official account to get the download link for the FTChinese app and proceed to log in or register.</p><p style="line-height: 1.6; text-align: justify;">• DealStreetAsia Premium Subscription Activation: Upon purchase, you will receive a subscription activation email. Please check your inbox or spam folder, click the activation link, and complete the registration to activate your Premium subscription.</p></div>
+</div>
+</div>
+</div>
+<div class="items">
+<div class="clearfloat"></div>
+</div>
+</div></div> 
+<div class="list-container"><div class="list-inner"><h2 class="list-title">
+<a class="list-link" href="#" >购买须知</a>
+</h2>
+<div class="items">
+<div class="no-image">
+<div class="item-inner">
+<div class="item-lead"><p style="line-height: 1.6; text-align: justify;">• 活动时间：2024年9月05日-9月18日24时（北京时间）</p><p style="line-height: 1.6; text-align: justify;">• 本次联合订阅仅限FT中文网非会员购买，iOS内购用户不参加本次活动。</p><p style="line-height: 1.6; text-align: justify;">• 本产品包括一年FT中文网高端会员权益和一年DealStreetAsia高端会员权益。</p><p style="line-height: 1.6; text-align: justify;">• FT中文网提供中英双语内容，DealStreetAsia仅提供英文内容。请访问FT中文网、DealStreetAsia了解详情，再决定是否购买。</p><p style="line-height: 1.6; text-align: justify;">• 购买成功后，FT 中文网会员权限将自动激活。请及时查看您的注册邮箱，获取DealStreetAsia高端会员激活链接，完成注册后即可领取高端会员权限。</p><p style="line-height: 1.6; text-align: justify;">• 付费订阅为虚拟内容服务，一经订阅成功概不退款，请谨慎购买。</p><p style="line-height: 1.6; text-align: justify;">• 本次活动的最终解释权归FT中文网所有。</p><p style="line-height: 1.6; text-align: justify;">• 若购买与使用过程中有任何问题，请及时与相关平台客服联系：</p><p style="line-height: 1.6; text-align: justify;"><b style="display: block; margin-top: 15px;">FT中文网</b></p><p style="line-height: 1.6; text-align: justify;">客服：<a href="mailto:subscriber.service@ftchinese.com" style="color: #1a0dab;">subscriber.service@ftchinese.com</a></p><p style="line-height: 1.6; text-align: justify;">微信：搜索公号 “小T服务在线” （工作日9:30-17:30）</p><p style="line-height: 1.6; text-align: justify;"><b style="display: block; margin-top: 15px;">DealStreetAsia</b></p><p style="line-height: 1.6; text-align: justify;">客服：<a href="mailto:subs@dealstreetasia.com" style="color: #1a0dab;">subs@dealstreetasia.com</a>（仅提供英文客服）</p></div>
+</div>
+</div>
+</div>
+<div class="items">
+<div class="clearfloat"></div>
+</div>
+</div></div> 
+<div class="list-container"><div class="list-inner"><h2 class="list-title">
+<a class="list-link" href="#" >Purchase Terms</a>
+</h2>
+<div class="items">
+<div class="no-image">
+<div class="item-inner">
+<div class="item-lead"><p style="line-height: 1.6; text-align: justify;">• Duration: September 5th - 18th, 2024 (Beijing Time)</p><p style="line-height: 1.6; text-align: justify;">• This bundle subscription is available exclusively to non-subscribers of FTChinese. iOS in-app purchase users are not eligible for this offer.</p><p style="line-height: 1.6; text-align: justify;">• This bundle package includes a one-year premium subscription for both FTChinese and DealStreetAsia.</p><p style="line-height: 1.6; text-align: justify;">• FTChinese offers bilingual content in Chinese and English, while DealStreetAsia provides content exclusively in English. Please visit the official websites of FTChinese and DealStreetAsia for more details before making a purchase.</p><p style="line-height: 1.6; text-align: justify;">• Upon successful purchase, your FTChinese membership will be automatically activated. Please check your registered email for the DealStreetAsia activation link and follow the instructions to complete your membership activation.</p><p style="line-height: 1.6; text-align: justify;">• The subscription service is for virtual content, and no refunds will be issued once the subscription is completed. Please make your purchase carefully.</p><p style="line-height: 1.6; text-align: justify;">• FTChinese reserves the right to the final interpretation of this promotion.</p><p style="line-height: 1.6; text-align: justify;">• If you encounter any issues during the purchase or usage, please contact the respective customer service teams:</p><p style="line-height: 1.6; text-align: justify;"><b style="display: block; margin-top: 15px;">FTChinese</b></p><p style="line-height: 1.6; text-align: justify;">Email: <a href="mailto:subscriber.service@ftchinese.com" style="color: #1a0dab;">subscriber.service@ftchinese.com</a></p><p style="line-height: 1.6; text-align: justify;">WeChat Service Account: search for "小T服务在线" (available on weekdays from 9:30 to 17:30)</p><p style="line-height: 1.6; text-align: justify;"><b style="display: block; margin-top: 15px;">DealStreetAsia</b></p><p style="line-height: 1.6; text-align: justify;">Email: <a href="mailto:subs@dealstreetasia.com" style="color: #1a0dab;">subs@dealstreetasia.com</a>（English customer service only）</p>
+</div>
+</div>
+</div>
+</div>
+<div class="items">
+<div class="clearfloat"></div>
+</div>
+</div></div>       <div class="clearfloat block-bottom"></div>
 </div>  </div>  <!--smarty sideMpuCount in block: -->
 <div class="side-container"><div class="side-inner">
 	
-<div 
-data-o-ads-name="mpu-right2"
-class="o-ads ftc-mpu"  
+                <div class="side-list first-child BigImageAndLead">
+<h2 class="list-title">
+<a href="#">关于FT中文网</a>
+</h2>
+  <div class="item-container first has-image"><div class="item-inner">
+<a class="image" target="_blank" href="https://www.chineseft.net/"><figure class="loading" data-url="https://thumbor.ftacademy.cn/unsafe/picture/0/000239000_piclink.png"></figure></a><div class="item-lead item-description">FT中文网 (http://www.FTChinese.com) 是英国《金融时报》集团旗下唯一的中文商业财经网站，旨在为中国商业菁英和决策者们提供每日不可或缺的商业财经资讯、深度分析以及评论。凭借英国《金融时报》遍布全球的丰富资源，FT中文网深入分析对中国经济和全球商业具有影响力的重大事件，并揭示事件的来龙去脉，以真正富有国际视野的权威内容成为中国高级管理人员“必读”的商业财经资讯网站。FT中文网目前拥有逾300万注册用户，移动产品已覆盖iOS、Android和Windows系统。2018年4月，FT中文网正式推出付费订阅业务，为专属会员提供精选资讯与个性化服务。<br />
+<br>FTChinese is the Financial Times' Chinese language website, providing unrivalled news and information to China's top business executives and decision makers. The FT’s international team of journalists has access to senior corporate executives and politicians both in China and around the world, making it a must read for China's business leaders. FTChinese has over 3 million registered users and is also available via iOS, Android and Windows platforms. In April 2018, FTChinese launched its paid-for subscription service.</br></div>
+</div></div>  </div>    <div class="side-list BigImageAndLead">
+<h2 class="list-title">
+<a href="#">关于 DealStreetAsia</a>
+</h2>
+  <div class="item-container first has-image"><div class="item-inner">
+<a class="image" target="_blank" href="https://www.dealstreetasia.com/"><figure class="loading" data-url="https://thumbor.ftacademy.cn/unsafe/picture/0/000238970_piclink.png"></figure></a><div class="item-lead item-description">DealStreetAsia 是一家专注于东南亚、大中华区和印度市场的商业新闻媒体公司。它致力于提供关于私募股权、风险投资和初创企业发展的深入报道和分析。凭借其驻扎在九个市场的记者团队，DealStreetAsia 为读者提供独家见解、行业领先的分析以及基于专有数据的研究报告。此外，其内容还包括与全球顶级领导者的独家采访，帮助读者掌握区域动态和有价值的商业情报。<br />
+<br>With a team of journalists based in nine markets, DealStreetAsia provides readers with exclusive insights, industry-leading analysis, and research reports based on proprietary data. Its content includes exclusive interviews with top global leaders, enabling readers to access regional dynamics and valuable business intelligence.</br></div>
+</div></div>  </div>    <div 
+data-o-ads-name="mpu-right1"
+class="o-ads"  
 data-o-ads-formats-default="false" 
 data-o-ads-formats-small="false" 
 data-o-ads-formats-medium="FtcMpu"
 data-o-ads-formats-large="FtcMpu"
-data-o-ads-targeting="cnpos=right2;"
-data-cy='[{"devices":["PC","PadApp","PadWeb"],"pattern":"MPU","position":"Right2"}]'
+data-o-ads-targeting="cnpos=right1;"
+data-cy='[{"devices":["PC","PadApp","PadWeb"],"pattern":"MPU","position":"Right1"}]'
 >
 </div>
 <div 
-data-o-ads-name="mpu-middle2"
-class="o-ads" 
+data-o-ads-name="mpu-middle1"
+class="o-ads"  
 data-o-ads-formats-default="false" 
 data-o-ads-formats-small="FtcMobileMpu" 
 data-o-ads-formats-medium="false"
 data-o-ads-formats-large="false"
 data-o-ads-formats-extra="false"
-data-o-ads-targeting="cnpos=middle2;"
-data-cy='[{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"MPU","position":"Middle2"}]'
->
-</div>
-      <div class="mps">
-<h2 class="list-title"><a href="/channel/weekly.html">热门文章</a></h2>
-<ul class="top10"><li class="mp1 item-headline-link"><span>1. </span><a target="_blank" href="/story/001102024">“一国一策”系列之五：1989-2024——日本经济再次崛起之谜</a></li><li class="mp2 item-headline-link"><span>2. </span><a target="_blank" href="/story/001102001">2024：中国中产静悄悄的投资降级</a></li><li class="mp3 item-headline-link"><span>3. </span><a target="_blank" href="/story/001102015">关于外资的四个误区</a></li><li class="mp4 item-headline-link locked standard"><span>4. </span><a target="_blank" href="/story/001102025">中国散户投资者因“雪球”衍生品面临巨亏</a></li><li class="mp5 item-headline-link"><span>5. </span><a target="_blank" href="/story/001101628">中美关系的五个阶段（下）</a></li><li class="mp6 item-headline-link locked standard"><span>6. </span><a target="_blank" href="/story/001102035">世界经济潜藏的危险</a></li><li class="mp7 item-headline-link"><span>7. </span><a target="_blank" href="/story/001102040">欧盟在激进的对外投资监管上迈出了第一步</a></li><li class="mp8 item-headline-link"><span>8. </span><a target="_blank" href="/story/001102051">展望2024需立足全球视角（下）</a></li><li class="mp9 item-headline-link locked vip"><span>9. </span><a target="_blank" href="/interactive/139463">FT社评：世界必须开始为特朗普2.0做好准备</a></li><li class="mp10 item-headline-link locked standard"><span>10. </span><a target="_blank" href="/story/001102026">中国航运公司加开红海航线</a></li></ul>
-</div>
-  <div 
-data-o-ads-name="mpu-right2"
-class="o-ads ftc-mpu"  
-data-o-ads-formats-default="false" 
-data-o-ads-formats-small="false" 
-data-o-ads-formats-medium="FtcMpu"
-data-o-ads-formats-large="FtcMpu"
-data-o-ads-targeting="cnpos=right2;"
-data-cy='[{"devices":["PC","PadApp","PadWeb"],"pattern":"MPU","position":"Right2"}]'
->
-</div>
-<div 
-data-o-ads-name="mpu-middle2"
-class="o-ads" 
-data-o-ads-formats-default="false" 
-data-o-ads-formats-small="FtcMobileMpu" 
-data-o-ads-formats-medium="false"
-data-o-ads-formats-large="false"
-data-o-ads-formats-extra="false"
-data-o-ads-targeting="cnpos=middle2;"
-data-cy='[{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"MPU","position":"Middle2"}]'
+data-o-ads-targeting="cnpos=middle1;"
+data-cy='[{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp"],"pattern":"MPU","position":"Middle1"}]'
 >
 </div>
     	
 </div>  </div>  <div class="clearfloat"></div>
-</div> </div> <div class="block-container dark-green no-side all" ><div class="block-inner">
-<div class="content-container">
-<div class="content-inner">
-   <div class="clearfloat block-bottom"></div>
-</div>  </div>  <!--smarty sideMpuCount in block: -->
-<div class="clearfloat"></div>
-</div> </div> <div class="o-ads" data-o-ads-name="banner2"
-data-o-ads-center="true" 
-data-o-ads-formats-default="false"
-data-o-ads-formats-small="FtcMobileBanner"
-data-o-ads-formats-medium="false"
-data-o-ads-formats-large="FtcBanner" 
-data-o-ads-formats-extra="FtcBanner"
-data-o-ads-targeting="cnpos=top2;"
-data-cy='[{"devices":["PC"],"pattern":"Banner","position":"Num1"},{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"Banner","position":"Num2"}]'>
-</div>
+</div> </div> <!--v: , isiOS: no-->
+<!--premiumBuyLink: https://www.ftacademy.cn/subscription.html?from=&ccode=&tap=premium#no_universal_links-->
+<style>.fixed-buttons-placeholder{height:50px}.fixed-buttons{position:fixed;bottom:0;left:0;right:0;width:100%;height:70px;overflow:hidden;display:grid;grid-template-columns:repeat(auto-fill,minmax(1fr,240px));grid-auto-flow:column;column-gap:15px;justify-content:center;align-items:center;background-color:rgba(0,0,0,.7);padding:0 15px;box-sizing:border-box;z-index:1}.fixed-buttons button{color:#fff;width:100%;height:44px;border-radius:8px;letter-spacing:3px}#promo-box-container{display:none!important}@media only screen and (min-width:491px){.fixed-buttons-placeholder{height:80px}.fixed-buttons{column-gap:30px;height:80px}.fixed-buttons button{width:100%;height:50px;font-size:1.4em}}</style>
+<div class="fixed-buttons-placeholder"><div class="fixed-buttons">
+<a href="https://www.ftacademy.cn/subscription.html" target="_blank" class="fixed-button-link" data-subscription="standard" data-duration="yearly" data-discountCode="" data-ccode=""><button style="background-color: #a00606; color: #FFFFFF!important;">购买联名订阅 (Subscribe) >></button></a>
+</div></div>
 <div 
 data-o-ads-name="paidpost2"
 class="o-ads paid-post"  

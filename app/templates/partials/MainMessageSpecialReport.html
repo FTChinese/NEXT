@@ -5,7 +5,6 @@
         position: relative;
         background-color: <%$section.BackgroundColor%>;
         margin-bottom: 30px;
-        <%if $smarty.get.webview != "ftcapp" && $lastSectionType == "header" %>margin-top: -30px;<%/if%>
     }
     .special-report-image {
         position: absolute;
@@ -76,13 +75,20 @@
 
     @media all and (max-width: 739px) {
         .special-report-container {
+            display: flex;
+            flex-direction: column-reverse; /* This makes .special-report-image appear above .special-report-inner */
             height: auto;
+            margin-top: -30px;
         }
         .special-report-image {
-            position: static;
+            position: relative;
             height: auto;
             width: 100%;
             padding-top: 61.8%;
+        }
+        .special-report-inner {
+            position: relative;
+            width: 100%;
         }
         .special-report-intro {
             width: 100%;
@@ -91,6 +97,7 @@
             padding: 30px;
         }
     }
+
     @media all and (max-width: 490px) {
         .special-report-image {
             background-image: url(<%$section.MobileBackgroundImage|default:$section.BackgroundImage%>);

@@ -1,5 +1,80 @@
 /* jshint ignore:start */
 
+function localize(status, fallback, dict = {}) {
+  if (!status) {
+    return;
+  }
+
+  // Assume preferredLanguage is correctly set through application logic
+  let language = preferredLanguage || 'en';
+
+  if (language === 'Chinese') {
+    language = 'zh';
+  }
+
+  // console.log(status, language);
+
+  // Normalize language code by removing regional codes
+  const languagePrefix = language.replace(/\-.*$/g, '');
+  const statusKey = status.toLowerCase();
+  const statusTranslations = statusDict[statusKey];
+
+  if (statusTranslations) {
+    let translation = statusTranslations[language] || statusTranslations[languagePrefix];
+    // Fallback to English if no translation is found
+    if (translation === undefined) {
+      translation = statusTranslations.en;
+    }
+    translation = translation || translation === '' ? translation : status;
+    for (const key of Object.keys(dict)) {
+      const value = dict[key];
+      const regexKey = new RegExp(`\\\[${key}\\\]`, 'g'); // Escape the square brackets
+      translation = translation.replace(regexKey, value);
+    }
+    return translation;
+  }
+
+  // Use fallback if provided and valid, otherwise use the original status
+  return (typeof fallback === 'string' && fallback !== '') ? fallback : status;
+}
+
+
+const inductionData = {
+  name: "user_induction",
+  intro: "induction_intro",
+  questions: [
+    {
+      text: "select_language",
+      type: "single_choice",
+      options: window?.languageOptions ?? [],
+      key: 'Language',
+      variable: 'preferredLanguage',
+      disable_input: true
+    },
+    {
+      text: "select_follows",
+      type: "multiple_choices",
+      options: window?.recommendedAnnotations ?? [],
+      disable_input: true,
+      isLayoutGrid: true
+    },
+    {
+      text: "Topic collections by industry",
+      type: "multiple_choices",
+      options: window?.recommendedAnnotationsByIndustry ?? [],
+      disable_input: true,
+      follow_all: true,
+      isLayoutGrid: true
+    },
+    {
+      text: "input_custom_interests",
+      type: "custom_input",
+      detail: "input_custom_interests_detail",
+      disable_input: true
+    }
+  ]
+};
+
 window.languageOptions = [
   { value: 'zh-CN', name: '简体中文' },
   { value: 'zh-TW', name: '台灣正體' },
@@ -15,41 +90,7 @@ window.languageOptions = [
   { value: 'ru', name: 'Русский' }
 ];
 
-const inductionData = {
-  name: "user_induction",
-  intro: "induction_intro",
-  questions: [
-    {
-      text: "select_language",
-      type: "single_choice",
-      options: window.languageOptions,
-      key: 'Language',
-      variable: 'preferredLanguage',
-      disable_input: true
-    },
-    {
-      text: "select_follows",
-      type: "multiple_choices",
-      options: recommendedAnnotations,
-      disable_input: true,
-      isLayoutGrid: true
-    },
-    {
-      text: "Topic collections by industry",
-      type: "multiple_choices",
-      options: recommendedAnnotationsByIndustry,
-      disable_input: true,
-      follow_all: true,
-      isLayoutGrid: true
-    },
-    {
-      text: "input_custom_interests",
-      type: "custom_input",
-      detail: "input_custom_interests_detail",
-      disable_input: true
-    }
-  ]
-};
+
 
 
 const randomPromptDict = {
@@ -5192,6 +5233,174 @@ Genres: {
       "zh-TW": '由於您的帳戶已在新設備上訪問，您在此設備上的會話已安全結束。您可以同時在三種不同類型的設備（手機、平板和桌面）上登錄。如果這不是您的操作，請重新登錄。',
       "zh-HK": '由於您的帳戶已在新設備上訪問，您在此設備上的會話已安全結束。您可以同時在三種不同類型的設備（手機、平板和桌面）上登錄。如果這不是您的操作，請重新登錄。',
       "ru": 'Ваш сеанс на этом устройстве был безопасно завершен, поскольку доступ к вашей учетной записи был осуществлен с нового устройства. Вы можете войти сразу на трех разных типах устройств (мобильный, планшет и настольный компьютер). Пожалуйста, войдите снова, если это были не вы.'
+    },
+    pleaseWait: {
+      "zh": "请稍候...",
+      "en": "Please wait for a while...",
+      "es": "Por favor espera un momento...",
+      "fr": "Veuillez patienter un moment...",
+      "de": "Bitte warten Sie einen Moment...",
+      "ja": "しばらくお待ちください...",
+      "ko": "잠시만 기다려 주세요...",
+      "pt": "Por favor, espere um momento...",
+      "it": "Per favore, attendi un momento...",
+      "zh-TW": "請稍候...",
+      "zh-HK": "請稍候...",
+      "ru": "Пожалуйста, подождите немного..."
+    },
+    sixDigitCodeFromEmail: {
+      "zh": "来自您邮箱的6位数验证码",
+      "en": "6-digit code from your email",
+      "es": "Código de 6 dígitos de tu correo electrónico",
+      "fr": "Code à 6 chiffres de votre e-mail",
+      "de": "6-stelliger Code aus Ihrer E-Mail",
+      "ja": "メールからの6桁のコード",
+      "ko": "이메일에서 받은 6자리 코드",
+      "pt": "Código de 6 dígitos do seu e-mail",
+      "it": "Codice a 6 cifre dalla tua email",
+      "zh-TW": "來自您郵箱的6位數驗證碼",
+      "zh-HK": "來自您郵箱的6位數驗證碼",
+      "ru": "6-значный код из вашего письма"
+    },
+    yourName: {
+        "zh": "您的姓名",
+        "en": "Your name",
+        "es": "Tu nombre",
+        "fr": "Votre nom",
+        "de": "Ihr Name",
+        "ja": "あなたの名前",
+        "ko": "당신의 이름",
+        "pt": "Seu nome",
+        "it": "Il tuo nome",
+        "zh-TW": "您的姓名",
+        "zh-HK": "您的姓名",
+        "ru": "Ваше имя"
+    },
+    setSecurePassword: {
+        "zh": "设置安全密码：8个以上字符，包含大写、小写、数字和特殊字符",
+        "en": "Set a secure password: 8+ chars, uppercase, lowercase, number, and special character",
+        "es": "Establezca una contraseña segura: 8+ caracteres, mayúsculas, minúsculas, número y carácter especial",
+        "fr": "Définissez un mot de passe sécurisé : 8+ caractères, majuscules, minuscules, chiffre et caractère spécial",
+        "de": "Erstellen Sie ein sicheres Passwort: 8+ Zeichen, Großbuchstaben, Kleinbuchstaben, Zahl und Sonderzeichen",
+        "ja": "セキュリティの高いパスワードを設定してください：8文字以上、大文字、小文字、数字、特殊文字",
+        "ko": "보안 비밀번호 설정: 8자 이상, 대문자, 소문자, 숫자 및 특수 문자",
+        "pt": "Defina uma senha segura: 8+ caracteres, maiúsculas, minúsculas, número e caractere especial",
+        "it": "Imposta una password sicura: 8+ caratteri, maiuscole, minuscole, numero e carattere speciale",
+        "zh-TW": "設置安全密碼：8個以上字符，包含大寫、小寫、數字和特殊字符",
+        "zh-HK": "設置安全密碼：8個以上字符，包含大寫、小寫、數字和特殊字符",
+        "ru": "Установите надежный пароль: более 8 символов, заглавные и строчные буквы, цифра и специальный символ"
+    },
+    verificationCode: {
+        "zh": "验证码",
+        "en": "Verification Code",
+        "es": "Código de verificación",
+        "fr": "Code de vérification",
+        "de": "Bestätigungscode",
+        "ja": "確認コード",
+        "ko": "인증 코드",
+        "pt": "Código de verificação",
+        "it": "Codice di verifica",
+        "zh-TW": "驗證碼",
+        "zh-HK": "驗證碼",
+        "ru": "Код подтверждения"
+    },
+    name: {
+        "zh": "姓名",
+        "en": "Name",
+        "es": "Nombre",
+        "fr": "Nom",
+        "de": "Name",
+        "ja": "名前",
+        "ko": "이름",
+        "pt": "Nome",
+        "it": "Nome",
+        "zh-TW": "姓名",
+        "zh-HK": "姓名",
+        "ru": "Имя"
+    },
+    password: {
+      "zh": "密码",
+      "en": "Password",
+      "es": "Contraseña",
+      "fr": "Mot de passe",
+      "de": "Passwort",
+      "ja": "パスワード",
+      "ko": "비밀번호",
+      "pt": "Senha",
+      "it": "Password",
+      "zh-TW": "密碼",
+      "zh-HK": "密碼",
+      "ru": "Пароль"
+    },
+    resetPassword: {
+        "zh": "重置密码",
+        "en": "Reset Password",
+        "es": "Restablecer la contraseña",
+        "fr": "Réinitialiser le mot de passe",
+        "de": "Passwort zurücksetzen",
+        "ja": "パスワードを再設定する",
+        "ko": "비밀번호 재설정",
+        "pt": "Redefinir senha",
+        "it": "Reimposta la password",
+        "zh-TW": "重置密碼",
+        "zh-HK": "重置密碼",
+        "ru": "Сбросить пароль"
+    },
+    youAreNotSignedIn: {
+        "zh": "您尚未登录！",
+        "en": "You are not signed in!",
+        "es": "¡No has iniciado sesión!",
+        "fr": "Vous n'êtes pas connecté !",
+        "de": "Sie sind nicht angemeldet!",
+        "ja": "サインインしていません！",
+        "ko": "로그인되지 않았습니다!",
+        "pt": "Você não está conectado!",
+        "it": "Non sei connesso!",
+        "zh-TW": "您尚未登入！",
+        "zh-HK": "您尚未登入！",
+        "ru": "Вы не вошли в систему!"
+    },
+    youAreNotSignedInOrLoggedOut: {
+        "zh": "您尚未登录或已被登出！",
+        "en": "You are not signed in or have been logged out!",
+        "es": "¡No has iniciado sesión o has sido desconectado!",
+        "fr": "Vous n'êtes pas connecté ou vous avez été déconnecté !",
+        "de": "Sie sind nicht angemeldet oder wurden abgemeldet!",
+        "ja": "サインインしていないか、ログアウトしました！",
+        "ko": "로그인되지 않았거나 로그아웃되었습니다!",
+        "pt": "Você não está conectado ou foi desconectado!",
+        "it": "Non sei connesso o sei stato disconnesso!",
+        "zh-TW": "您尚未登入或已被登出！",
+        "zh-HK": "您尚未登入或已被登出！",
+        "ru": "Вы не вошли в систему или были выведены!"
+    },
+    newPassword: {
+      "zh": "新密码",
+      "en": "New Password",
+      "es": "Nueva contraseña",
+      "fr": "Nouveau mot de passe",
+      "de": "Neues Passwort",
+      "ja": "新しいパスワード",
+      "ko": "새 비밀번호",
+      "pt": "Nova senha",
+      "it": "Nuova password",
+      "zh-TW": "新密碼",
+      "zh-HK": "新密碼",
+      "ru": "Новый пароль"
+    },
+    pleaseLoginOrSignUp: {
+        "zh": "请登录或注册以访问此页面。",
+        "en": "Please login or sign up to access this page.",
+        "es": "Por favor, inicia sesión o regístrate para acceder a esta página.",
+        "fr": "Veuillez vous connecter ou vous inscrire pour accéder à cette page.",
+        "de": "Bitte melden Sie sich an oder registrieren Sie sich, um auf diese Seite zuzugreifen.",
+        "ja": "このページにアクセスするには、ログインまたはサインアップしてください。",
+        "ko": "이 페이지에 액세스하려면 로그인하거나 가입하세요.",
+        "pt": "Por favor, faça login ou inscreva-se para acessar esta página.",
+        "it": "Per favore, accedi o registrati per accedere a questa pagina.",
+        "zh-TW": "請登入或註冊以訪問此頁面。",
+        "zh-HK": "請登入或註冊以訪問此頁面。",
+        "ru": "Пожалуйста, войдите или зарегистрируйтесь, чтобы получить доступ к этой странице."
     }
   
 };
