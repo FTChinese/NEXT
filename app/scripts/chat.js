@@ -524,7 +524,7 @@ async function getArticleFromFTAPI(id, language) {
       const response = await fetch(url, options);
       let results = await response.json();
       if (response.status >= 400 && results.message) {
-          return {status: 'failed', message: results.message};
+          return {status: 'failed', message: results.message, detail: results};
       }
       if (results) {
           results = await handleFTContent(results);
@@ -766,6 +766,26 @@ function processBylineWithLinks(content, showTranslationAsDefault) {
   };
 }
 
+async function showErrorInDetail(info) {
+  const detail = info?.detail;
+  if (!detail) {
+    updateStatus('Error');
+    await showError(info?.message ?? 'Unknown Error');
+    return; // Ensure the function exits if there's no detail
+  }
+
+  if (detail.status === 'PermissionRequired') {
+    const tierToBuy = localize(detail.tierToBuy || '');
+    const text = localize('promptUpgrade').replace('[tierToBuy]', tierToBuy);
+    showResultInChat({text}, true);
+    updateBotStatus('waiting');
+    return; // Exit after handling PermissionRequired
+  }
+
+  // Handle other statuses or default error messages
+  updateStatus('Error');
+  await showError(detail.message ?? 'An unexpected error occurred.');
+}
 
 async function showContent(ftid, language, shouldScrollIntoView = true, shouldLoadArticle = true) {
   try {
@@ -785,7 +805,18 @@ async function showContent(ftid, language, shouldScrollIntoView = true, shouldLo
       // MARK: - It is important to set the current ft id here, because async request might not be returned in the expected sequence. 
       currentFTId = ftid;
       // console.log(`\n\n======\n\n========\nlanguage: ${language}`);
-      const info = await getArticleFromFTAPI(ftid, language);      
+      const info = await getArticleFromFTAPI(ftid, language);
+      console.log('info for artricle: ');
+      console.log(info);
+      console.log('status: ');
+      console.log(info?.status);
+      if (info?.status === 'failed') {
+        console.log(1);
+        await showErrorInDetail(info);
+        return;
+      } else {
+        console.log(2);
+      }
       const content = info.results;
       articles[ftid] = content;
       const type = getContentType(content);
@@ -1213,6 +1244,12 @@ async function talk() {
   }
   // MARK: - Heroku has a 30 seconds hard limit for all requests. The best way is NOT to detect intention first (either locally or through a request to OpenAI), then deal with the intention (likely through OpenAI) because OpenAI's service is so slow that even one simple request will time out. The only way that works is to just post the task for the background to handle, then polling for the result, like what we did for the Quiz.
   const result = await createChatFromOpenAI(data);
+
+  if (result.status === 'failed') {
+    await showErrorInDetail(result);
+    return;
+  }
+
   if (result.status === 'success' && result.text) {
       showResultInChat(result);
       // MARK: - Only keep the latest 5 conversations and 4 intentions
@@ -2307,6 +2344,8 @@ async function setConfigurations() {
   <a class="show-right-arrow-trailing" data-purpose="news-quiz" data-lang="${preferredLanguage}" data-content='quiz' data-reply="${localize('PrepareingQuiz')}">${localize('NewsQuiz')}</a>
   <a class="show-right-arrow-trailing" data-purpose="set-intention" data-lang="${preferredLanguage}" data-content="CustomerService" data-reply="${localize('Offer Help')}" data-key="CustomerService">${localize('CustomerService')}</a>
   <a class="show-right-arrow-trailing" data-purpose="set-intention" data-lang="${preferredLanguage}" data-content="Other" data-reply="${localize('Offer Help')}" data-key="Other">${localize('Other')}</a>
+  <a class="show-right-arrow-trailing" data-purpose="link" href="/powertranslate/translation-helper.html">${localize('Translation Helper')}</a>
+  
   `;
   let currentChatStatus = document.getElementById('current-chat-status');
   if (currentChatStatus) {

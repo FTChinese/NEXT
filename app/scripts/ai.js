@@ -48,8 +48,7 @@ async function createChatFromOpenAI(data) {
         let options = {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
-                // 'Authorization': `Bearer ${token}`
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify(queryData)
         };
@@ -95,6 +94,7 @@ async function createChatFromOpenAI(data) {
         } catch(err){
             console.log(err);
         }
+
         
         // MARK: - 2. Handle this as a background task
         const _id = generateRequestId();
@@ -103,8 +103,7 @@ async function createChatFromOpenAI(data) {
         options = {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
-                // 'Authorization': `Bearer ${token}`
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)
         };
@@ -132,7 +131,6 @@ async function createChatFromOpenAI(data) {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                    // 'Authorization': `Bearer ${token}`
                 }
             };
             if (isFrontendTest && !isPowerTranslate) {
@@ -148,6 +146,7 @@ async function createChatFromOpenAI(data) {
                 response = await fetch(url, options);
                 try {
                     const pollResults = await response.json();
+
                     if (typeof pollResults === 'object' && pollResults !== null) {
                         if (pollResults.length > 0) {
                             // MARK: - The results is a copy of OpenAI's return of `choices`
@@ -182,14 +181,14 @@ async function createChatFromOpenAI(data) {
             }
         } else if (saveResult) {
             // MARK: Pass some quick results to be handled 
-            if (saveResult.status === 'rateLimit') {
+            if (['PermissionRequired', 'rateLimit'].includes(saveResult?.status ?? '')) {
                 results = saveResult;
             }
         }
-        if (response.status >= 400 && results.message) {
-            return {status: 'failed', message: results.message};
-        }
 
+        if (response.status >= 400 && typeof results === 'object') {
+            return {status: 'failed', detail: results, message: results?.message ?? 'unknow error'};
+        }
 
         if (typeof results === 'object' && results.length > 0 && results[0].message && results[0].message.content) {
             const message = results[0].message
@@ -206,8 +205,11 @@ async function createChatFromOpenAI(data) {
             const message = `${reminder}${waitMessage}${otherFeatures}`;
             return {status: 'failed', message: message};
         } else {
+            console.log(`results: `);
+            console.log(results);
             return {status: 'failed', message: localize('chat_error_network')};
         }
+
     } catch(err) {
         console.log(err);
         return {status: 'failed', message: err.toString()};

@@ -2332,8 +2332,8 @@ function addNewTranslation() {
     const to = document.getElementById('to').value; 
     const id = Math.random().toString(16).slice(2);
     const t = new Date().getTime();
-    const originalFile = document.getElementById('original-file-upload').files[0];
-    const translatedFile = document.getElementById('translated-file-upload').files[0];
+    const originalFile = document.getElementById('original-file-upload')?.files?.[0];
+    const translatedFile = document.getElementById('translated-file-upload')?.files?.[0];
 
     if (sourceText.length <= 1 && !originalFile) {
         alert('Please input some text for translation or upload the source file!');
@@ -2354,16 +2354,16 @@ function addNewTranslation() {
         url = '/api/powertranslate/add.json';
     }
     
-    var token = GetCookie('accessToken');
+    // var token = GetCookie('accessToken');
     
-    if (!token || token === '') {
-        alert('You need to sign in first!');
-        window.location.href = '/login';
-        return;
-    }
+    // if (!token || token === '') {
+    //     alert('You need to sign in first!');
+    //     window.location.href = '/login';
+    //     return;
+    // }
     
     xhr.open(method, url);
-    xhr.setRequestHeader("Authorization", "Bearer " + token);
+    // xhr.setRequestHeader("Authorization", "Bearer " + token);
     
     xhr.onload = function() {
         try {

@@ -9,8 +9,12 @@
     const maxWidthToDisplay = 490;
 
     async function checkWebLaunchAd() {
+
         try {
 
+            if (/dsa/.test(window.location.href)) {
+                return;    
+            }
             const w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
             if (w > maxWidthToDisplay) {return;}
             const hostname = window.location.hostname;
@@ -25,6 +29,7 @@
         } catch(err) {
             console.log(err);
         }
+
     }
 
     function pickoutCreative(creatives) {
