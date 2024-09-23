@@ -1735,18 +1735,17 @@ async function searchFTAPI(content, language, reply) {
   updateBotStatus('pending');
   showResultInChat({text: reply});
   try {
-    // const searchResult = await getFTAPISearchResult(keyword, language);
-    const searchResults = await getFTAPISearchResult(content, language);
+    let fullTextContent = content;
+    if (/[a-z]+:/g.test(fullTextContent)) {
+      fullTextContent = fullTextContent.replace(/[a-z]+:/g, '').trim().replace(/[\ ]+/g, ' ');
+    }
+    const searchResults = await getFTAPISearchResult(fullTextContent, language);
     let results = searchResults?.results?.[0]?.results ?? [];
     if (results.length > 0) {
       const results = searchResults.results[0].results;
       await renderResults(results, language);
-    } else if (/[a-z]+:/g.test(content)) {
-      const fullTextContent = content.replace(/[a-z]+:/g, '').trim().replace(/[\ ]+/g, ' ');
-      await searchFTAPI(fullTextContent, language, reply);
-      return;
     } else {
-      //TODO: - Handle error
+      await showErrorInDetail(searchResults)
     }
   } catch (err){
     console.log('Error with searchFTAPI');

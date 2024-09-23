@@ -41,9 +41,10 @@ async function createChatFromOpenAI(data) {
         // MARK: - 1. Check if there's a cached result
         const hash = await generateHash(JSON.stringify(data));
         data.hash = hash;
+        const key = data?.key ?? '';
 
         // const queryData = {hash: hash, type: 'chat'};
-        const queryData = {hash: hash};
+        const queryData = {hash, key};
         url = (isPowerTranslate) ? '/openai/check_cache' : '/FTAPI/check_cache.php';
         let options = {
             method: 'POST',
@@ -126,7 +127,7 @@ async function createChatFromOpenAI(data) {
             const intervalSeconds = 5;
             const loops = Math.round(timeoutSeconds/intervalSeconds);
             let url = (isPowerTranslate) ? '/openai/poll_request_result' : '/FTAPI/poll_request_result.php';
-            url = `${url}?request_id=${_id}`;
+            url = `${url}?request_id=${_id}&key=${key}`;
             let options = {
                 method: 'GET',
                 headers: {
@@ -284,8 +285,11 @@ async function getFTAPISearchResult(keyword, language) {
         }
         const response = await fetch(url, options);
         let results = await response.json();
-        if (response.status >= 400 && results.message) {
-            return {status: 'failed', message: results.message};
+        // console.log(`response status: ${response.status}, results: `);
+        // console.log(results);
+        if (response.status >= 400) {
+            const message = results?.message ?? 'unknow error';
+            return {status: 'failed', message, detail: results};
         }
         if (results.results) {
             return {status: 'success', results: results.results};
