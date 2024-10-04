@@ -2186,8 +2186,8 @@ function getActionOptions() {
     const promotion = showPromotion ? `<a target="_blank" href="https://${domain}/m/corp/preview.html?pageid=2024Augsub&to=all&ccode=2C2024Augchatftc">${localize('PromotionActionButton')}</a>` : '';
     result = `
       <div class="chat-item-actions">
-        <a data-purpose="show-ft-page" data-lang="${language}" data-content='home' data-reply="${localize('FindingMyFT')}" data-reply-action="set-preference" class="logged-in-only">${localize('Top News For Me')}</a>
-        <a data-purpose="show-ft-page" data-lang="${language}" data-content='most-popular' data-reply="${localize('Finding')}" class="logged-in-only">${localize('Most Popular')}</a>
+        <a data-purpose="show-ft-page" data-lang="${language}" data-content='home' data-reply="${localize('FindingMyFT')}" data-reply-action="set-preference">${localize('Top News For Me')}</a>
+        <a data-purpose="show-ft-page" data-lang="${language}" data-content='most-popular' data-reply="${localize('Finding')}">${localize('Most Popular')}</a>
         <a data-purpose="news-quiz" data-lang="${language}" data-content='quiz' data-reply="${localize('PrepareingQuiz')}">${localize('NewsQuiz')}</a>
         <a data-purpose="set-preference" data-lang="${language}" data-content="all" data-reply="${localize('Set Your Preferences')}">${localize('Setting')}</a>
         ${promotion}
@@ -2199,8 +2199,8 @@ function getActionOptions() {
   } else if (intention === 'DailyEnglish') {
     result = `
       <div class="chat-item-actions">
-        <a data-purpose="show-ft-page" data-lang="en" data-content='home' data-reply="Checking Top News for You..." data-reply-action="set-preference" class="logged-in-only">What's news for me? </a>
-        <a data-purpose="show-ft-page" data-lang="en" data-content='most-popular' data-reply="Checking Most Popular News for You..." class="logged-in-only">What are the most popular stories on the FT? </a>
+        <a data-purpose="show-ft-page" data-lang="en" data-content='home' data-reply="Checking Top News for You..." data-reply-action="set-preference">What's news for me? </a>
+        <a data-purpose="show-ft-page" data-lang="en" data-content='most-popular' data-reply="Checking Most Popular News for You...">What are the most popular stories on the FT? </a>
       </div>
     `;
   } else if (intention === 'VideoAudio') {
