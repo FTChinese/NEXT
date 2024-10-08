@@ -1544,7 +1544,9 @@ updateStickyRightRail();
 
 try {
   // Mark: mark the page so that after registration/login, the page will be redirected here. This is the right place to set the mark --}}
-  localStorage.setItem('pagemark', window.location.href);
+  if (!/\/(register|login|resetpassword)/gi.test(window.location.href)) {
+    localStorage.setItem('pagemark', window.location.href);
+  }
 } catch(err) {
   console.log(err);
 }

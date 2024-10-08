@@ -50,7 +50,7 @@ delegate.on('click', '.translate-with-ChatGPT', async function(event){
             const messageId = `message-${messageCount}`;
             messageCount += 1;
             this.parentElement.style.position = 'relative';
-            this.insertAdjacentHTML('beforebegin', `<div class="message-bubble fade-in" id="${messageId}">${localize('prompt-copied-message')}</div>`);
+            this.insertAdjacentHTML('beforebegin', `<div class="message-bubble fade-in" id="${messageId}">${localizeForTranslationHelper('prompt-copied-message')}</div>`);
             const message = document.querySelector(`#${messageId}`);
             message.classList.add('show');
             setTimeout(() => {
@@ -60,7 +60,7 @@ delegate.on('click', '.translate-with-ChatGPT', async function(event){
                 message.remove();
                 }, 500);
             }, 3000);
-        } else if (confirm(localize('prompt-ChatGPT'))){
+        } else if (confirm(localizeForTranslationHelper('prompt-ChatGPT'))){
           chatgptTab = window.open(url, '_blank');
         }
     } catch(err){
@@ -90,7 +90,7 @@ delegate.on('click', '.info-translation-polish-final', async function(event){
         const result = await generateTextFromOpenAI(prompt, requestCount);
         if (result.status === 'success') {
             const text = result.text;
-            if (confirm(`${localize('Confirm-Polish')} \n\n${text}`)) {
+            if (confirm(`${localizeForTranslationHelper('Confirm-Polish')} \n\n${text}`)) {
                 translationEle.value = text;
             }
             this.setAttribute('request-count', requestCount + 1);            
@@ -231,10 +231,10 @@ delegate.on('click', '.info-original a[href], .info-translation a[href], .info-o
             }
             textArea.value = newText;
         } else {
-            alert(localize('select-text-to-add-link'));
+            alert(localizeForTranslationHelper('select-text-to-add-link'));
         }
     } catch(ignore){
-        alert(localize('select-text-to-add-link'));
+        alert(localizeForTranslationHelper('select-text-to-add-link'));
     }
     event.stopImmediatePropagation();
     return false;
@@ -263,7 +263,7 @@ delegate.on('click', '.translation-suggestion', function(event){
         var newText = textBefore + newText + textAfter;
         textArea.value = newText;
     } else {
-        alert(localize('select-text-for-short-cut'));
+        alert(localizeForTranslationHelper('select-text-for-short-cut'));
     }
 });
 
@@ -280,7 +280,7 @@ delegate.on('click', '.name-entity-shortcut', function(event){
         textArea.value = newText;
         toggleTextareaWarning(textArea);
     } else {
-        alert(localize('select-text-for-short-cut'));
+        alert(localizeForTranslationHelper('select-text-for-short-cut'));
     }
 });
 
@@ -342,7 +342,7 @@ delegate.on('click', '.ignore-name-entity', function(event){
 });
 
 delegate.on('click', '.ignore-all-name-entity', function(event){
-    if (!confirm(localize('ignore-all-name-entity-warning'))){return;}
+    if (!confirm(localizeForTranslationHelper('ignore-all-name-entity-warning'))){return;}
     var allEles = document.querySelectorAll('.name-entity-inner, .name-entity-translation');
     for (var i=0; i<allEles.length; i++) {
         var element = allEles[i];
@@ -555,7 +555,7 @@ function bleu(prediction, references, ngrams) {
     return 1 - weightSum;
 }
 
-function localize(text) {
+function localizeForTranslationHelper(text) {
     let language = (isPowerTranslate) ? navigator.language : 'zh-CN';
     if (/^en/.test(language)) {
         language = 'en';
@@ -859,7 +859,7 @@ async function checkAITranslation() {
     let ele = document.createElement('DIV');
     ele.innerHTML = bodyXMLTranslation;
     const translationEles = ele.querySelectorAll('[id]');
-    if (confirm(localize('AITranslation'))) {
+    if (confirm(localizeForTranslationHelper('AITranslation'))) {
         for (const translationEle of translationEles) {
             const translation = translationEle.innerHTML;
             const translationId = translationEle.id;
@@ -933,12 +933,12 @@ function start() {
     function renderBottomButtons() {
 
         if (document.querySelectorAll('.bottom-button').length === 0) {
-            const closeButtonValue = isPowerTranslate ? localize('Finish') : localize('Finish & Close');
+            const closeButtonValue = isPowerTranslate ? localizeForTranslationHelper('Finish') : localizeForTranslationHelper('Finish & Close');
             // console.log(closeButtonValue);
 
             var bottomButton = document.createElement('DIV');
             bottomButton.className = 'centerButton bottom-button';
-            bottomButton.innerHTML = '<input id="show-replace-button" type="button" value="' + localize('Replace') + '" onclick="showReplace(this)" class="submitbutton button ui-light-btn"><input id="add-new-match-button" type="button" value="' + localize('Add Word') + '" onclick="showAddNewMatch(this)" class="submitbutton button ui-light-btn"><input type="button" id="preview-button" value="' + localize('Preview') + '" onclick="preview(this)" class="submitbutton button ui-light-btn"><input type="button" value="' + localize('Backup') + '" onclick="saveToLocal()" class="submitbutton button ui-light-btn"><input type="button" value="' + localize('Recover') + '" onclick="restoreFromLocal()" class="submitbutton button ui-light-btn"><input type="button" value="' + localize('Top') + '" onclick="backToTop()" class="submitbutton button ui-light-btn"><input type="button" value="'+ closeButtonValue + '" onclick="finishTranslation(this)" class="submitbutton button ui-light-btn">';
+            bottomButton.innerHTML = '<input id="show-replace-button" type="button" value="' + localizeForTranslationHelper('Replace') + '" onclick="showReplace(this)" class="submitbutton button ui-light-btn"><input id="add-new-match-button" type="button" value="' + localizeForTranslationHelper('Add Word') + '" onclick="showAddNewMatch(this)" class="submitbutton button ui-light-btn"><input type="button" id="preview-button" value="' + localizeForTranslationHelper('Preview') + '" onclick="preview(this)" class="submitbutton button ui-light-btn"><input type="button" value="' + localizeForTranslationHelper('Backup') + '" onclick="saveToLocal()" class="submitbutton button ui-light-btn"><input type="button" value="' + localizeForTranslationHelper('Recover') + '" onclick="restoreFromLocal()" class="submitbutton button ui-light-btn"><input type="button" value="' + localizeForTranslationHelper('Top') + '" onclick="backToTop()" class="submitbutton button ui-light-btn"><input type="button" value="'+ closeButtonValue + '" onclick="finishTranslation(this)" class="submitbutton button ui-light-btn">';
             document.body.appendChild(bottomButton);
         }
         document.querySelector('.body').classList.add('full-grid');
@@ -970,7 +970,7 @@ function start() {
                 for (var m=0; m<translations.length; m++) {
                     infoHTML += `<div onclick="confirmTranslation(this)" data-translation-index="${m}"  class="info-translation" title="click to confirm this translation to the right">${translations[m]}</div>`;
                 }
-                infoHTML = '<div class="info-container"><div>' + infoHTML + links + '</div><div><div class="info-suggestion"></div><div class="info-error-message"></div><textarea data-info-id="' + id + '" placeholder="' + localize('Click the translation') + '"></textarea></div><div class="info-helper"></div></div><hr>';
+                infoHTML = '<div class="info-container"><div>' + infoHTML + links + '</div><div><div class="info-suggestion"></div><div class="info-error-message"></div><textarea data-info-id="' + id + '" placeholder="' + localizeForTranslationHelper('Click the translation') + '"></textarea></div><div class="info-helper"></div></div><hr>';
                 k += infoHTML;
             }
         }
@@ -1015,7 +1015,7 @@ function start() {
                 infoHTML += '<div data-translation-index="' + j1 + '" class="info-translation selected" title="click to confirm this translation to the right">' + t1 + '</div>';
             }
             const polishHTML = '<div class="info-translation-tools-container"><a class="info-translation-polish-final" title="Polish This Translation"></a></div>'; 
-            infoHTML = `<div class="info-container"><div>${infoHTML}${links}</div><div><div class="info-suggestion"></div><div class="info-error-message"></div><textarea data-info-id="${id}" placeholder="${localize('Click the translation')}">${t1}</textarea>${polishHTML}</div><div class="info-helper"></div></div><hr>`;
+            infoHTML = `<div class="info-container"><div>${infoHTML}${links}</div><div><div class="info-suggestion"></div><div class="info-error-message"></div><textarea data-info-id="${id}" placeholder="${localizeForTranslationHelper('Click the translation')}">${t1}</textarea>${polishHTML}</div><div class="info-helper"></div></div><hr>`;
             k += infoHTML;
         }
         storyBodyEle.innerHTML = k;
@@ -1033,7 +1033,7 @@ function start() {
             if (j < tTexts.length) {
                 t1 = tTexts[j] || '';
             }
-            infoHTML = '<div class="info-container"><div>' + infoHTML + '</div><div><div class="info-suggestion"></div><div class="info-error-message"></div><textarea placeholder="' + localize('Click the translation') + '">' + t1 + '</textarea></div><div class="info-helper"></div></div><hr>';
+            infoHTML = '<div class="info-container"><div>' + infoHTML + '</div><div><div class="info-suggestion"></div><div class="info-error-message"></div><textarea placeholder="' + localizeForTranslationHelper('Click the translation') + '">' + t1 + '</textarea></div><div class="info-helper"></div></div><hr>';
             k += infoHTML;
         }
         storyBodyEle.innerHTML = k;
@@ -1091,7 +1091,7 @@ function start() {
     var allLinks = document.querySelectorAll('.info-original a[href]');
     for (var n=0; n<allLinks.length; n++) {
         allLinks[n].setAttribute('target', '_blank');
-        var suggestion = localize('tap-to-add');
+        var suggestion = localizeForTranslationHelper('tap-to-add');
         allLinks[n].closest(".info-container").querySelector('.info-suggestion').innerHTML = suggestion;
         // allLinks[n].closest(".info-container").querySelector('textarea').setAttribute('placeholder', suggestion);
     }
@@ -1276,7 +1276,7 @@ function isPublicHoliday() {
 function finishTranslationForArticle(buttonEle) {
     var status = checkAllTextAreas();
     if (!status.success) {
-        var question = localize('content-error-hint') + '\n\n' + status.message + '\n\n' + localize('mark-red-reminder');
+        var question = localizeForTranslationHelper('content-error-hint') + '\n\n' + status.message + '\n\n' + localizeForTranslationHelper('mark-red-reminder');
         if (!window.confirm(question)) {
             toggleAllTextareaWarning();
             return false;
@@ -1579,7 +1579,7 @@ function showNames() {
                     value = dict[key][0];
                     shortCutHTML = '<span class="name-entity-shortcut">' + value + '</span><span class="name-entity-shortcut">' + value + '(' + key + ')</span><button class="add-name-entity" title="将译法添加到词库"></button>';
                 }
-                nameEle.innerHTML = '<span class="name-entity-key">' + key + '</span><span><input type="text" value="' + value + '" placeholder="' + localize('Add the translation') + '"></span><button class="ignore-name-entity" title="' + localize('Ignore') + '"></button>';
+                nameEle.innerHTML = '<span class="name-entity-key">' + key + '</span><span><input type="text" value="' + value + '" placeholder="' + localizeForTranslationHelper('Add the translation') + '"></span><button class="ignore-name-entity" title="' + localizeForTranslationHelper('Ignore') + '"></button>';
                 nameEntitiesContainer.appendChild(nameEle);
                 var translationEle = document.createElement('DIV');
                 translationEle.className = 'name-entity-translation';
@@ -1592,12 +1592,12 @@ function showNames() {
         if (firstNameEntitiesContainer) {
             var nameEntitieDescription = document.createElement('DIV');
             nameEntitieDescription.className = 'name-entities-description';
-            nameEntitieDescription.innerHTML = localize('Name Entities');
+            nameEntitieDescription.innerHTML = localizeForTranslationHelper('Name Entities');
             firstNameEntitiesContainer.parentElement.insertBefore(nameEntitieDescription, firstNameEntitiesContainer);
         }
         var ignoreAllContainer = document.createElement('BUTTON');
         ignoreAllContainer.className = 'ignore-all-name-entity';
-        ignoreAllContainer.setAttribute('title', localize('Ingore All'));
+        ignoreAllContainer.setAttribute('title', localizeForTranslationHelper('Ingore All'));
         ele.closest('.info-container').querySelector('.info-helper').append(ignoreAllContainer);
     }
     checkInfoHelpers();
@@ -1665,7 +1665,7 @@ function showGlossarySuggestions() {
                         nameEntityContainer = document.createElement('DIV');
                         infoHelper.append(nameEntityContainer);
                     }
-                    var newNameEntityInnerHTML = '<div class="name-entities-container"><div class="name-entity-inner" data-key="' + en_title + '"><span class="name-entity-key">' + en_title + '</span><span><input type="text" value="' + chinese_title + '" placeholder="' + localize('Add the translation') + '"></span><button class="ignore-name-entity" title="忽略"></button></div><div class="name-entity-translation" data-key="' + en_title + '"><span class="name-entity-shortcut">' + chinese_title + '</span><span class="name-entity-shortcut">' + chinese_title + '(' + en_title + ')</span><button class="add-name-entity" title="Add to glossary"></button></div>';
+                    var newNameEntityInnerHTML = '<div class="name-entities-container"><div class="name-entity-inner" data-key="' + en_title + '"><span class="name-entity-key">' + en_title + '</span><span><input type="text" value="' + chinese_title + '" placeholder="' + localizeForTranslationHelper('Add the translation') + '"></span><button class="ignore-name-entity" title="忽略"></button></div><div class="name-entity-translation" data-key="' + en_title + '"><span class="name-entity-shortcut">' + chinese_title + '</span><span class="name-entity-shortcut">' + chinese_title + '(' + en_title + ')</span><button class="add-name-entity" title="Add to glossary"></button></div>';
                     nameEntityContainer.innerHTML += newNameEntityInnerHTML;
                 }
             }
@@ -1749,7 +1749,7 @@ function preview(buttonEle) {
         document.body.appendChild(previewContainer);
     }
     previewContainer = document.querySelector('.preview-container');
-    const note = localize('preview-edit');
+    const note = localizeForTranslationHelper('preview-edit');
     const title = '<div class="preview-translation-container"><h1 class="story-title-source preview-source"></h1><h1 class="story-title" contenteditable="true"></h1></div>';
     const standfirst = '<div class="preview-translation-container"><div class="story-standfirst-source preview-source"></div><div class="story-standfirst" contenteditable="true"></div></div>';
     const storyHeaders = title + standfirst;
@@ -1760,9 +1760,9 @@ function preview(buttonEle) {
     }
     document.body.classList.toggle('preview');
     if (document.body.classList.contains('preview')) {
-        buttonEle.value = localize('Edit');
+        buttonEle.value = localizeForTranslationHelper('Edit');
     } else {
-        buttonEle.value = localize('Preview');
+        buttonEle.value = localizeForTranslationHelper('Preview');
     }
 }
 
@@ -1772,7 +1772,7 @@ function createLanguageSwitch() {
     const html = previewLanguageModes.map(mode=>{
         const key = mode.key;
         const onClass = (key === previewLanguagePreference) ? ' class="on"' : '';
-        return `<div${onClass} data-key="${mode.key}">${localize(mode.name)}</div>`;
+        return `<div${onClass} data-key="${mode.key}">${localizeForTranslationHelper(mode.name)}</div>`;
     }).join('');
     return `<div class="preview-language-switch">${html}</div>`;
 }
@@ -1911,7 +1911,7 @@ async function saveToLocal(force) {
         console.log(err);
     }
     if (!force) {
-        if (!confirm(localize('ask-to-overwrite'))) {return;}
+        if (!confirm(localizeForTranslationHelper('ask-to-overwrite'))) {return;}
     }
     var textareas = storyBodyContainerEle.querySelectorAll('textarea');
     for (var i=0; i<textareas.length; i++) {
@@ -1927,19 +1927,19 @@ async function saveToLocal(force) {
         await saveToDB(itemId, saved);
         await deleteOldItems();
     } catch(err) {
-        alert(localize('cannot-save-prompt') + '\n' + err.toString());
+        alert(localizeForTranslationHelper('cannot-save-prompt') + '\n' + err.toString());
     }
 
     try {
         localStorage.setItem(localStorageKey, saved);
     } catch(err) {
-        alert(localize('cannot-save-prompt') + '\n' + err.toString());
+        alert(localizeForTranslationHelper('cannot-save-prompt') + '\n' + err.toString());
     }
 }
 
 async function restoreFromLocal() {
 
-    if (!confirm(localize('recover-prompt'))) {return;}
+    if (!confirm(localizeForTranslationHelper('recover-prompt'))) {return;}
     var storyBodyConttainerEle = document.getElementById('story-body-container');
     if (!storyBodyConttainerEle) {
         alert(`Can't restore because we can't find the necessary element (#story-body-container) on the page! If you continue to see this error, you can talk to the tech team. `);
@@ -1955,7 +1955,7 @@ async function restoreFromLocal() {
         console.log('Index DB Value: ');
         console.log(saved);
     } catch(err) {
-        alert(localize('cannot-save-prompt') + '\n' + err.toString());
+        alert(localizeForTranslationHelper('cannot-save-prompt') + '\n' + err.toString());
     }
     if (!saved || saved === '') {
         try {
@@ -1963,7 +1963,7 @@ async function restoreFromLocal() {
             console.log('local storage Value: ');
             console.log(saved);
         } catch(err) {
-            alert(localize('cannot-save-prompt') + '\n' + err.toString());
+            alert(localizeForTranslationHelper('cannot-save-prompt') + '\n' + err.toString());
         }
     }
     storyBodyConttainerEle.innerHTML = saved;
@@ -1979,21 +1979,21 @@ function showReplace(buttonEle) {
         document.body.appendChild(replaceContainer);
     }
     replaceContainer = document.querySelector('.replace-container');
-    replaceContainer.innerHTML = '<div class="replace-content"><input placeholder="' + localize('Current Translation') + '" type="text" class="replace-from" value="' + from + '"><input placeholder="' + localize('New Translation') + '" type="text" class="replace-to"><button onclick="replaceAll()">' + localize('Replace All') + '</button></div>';
+    replaceContainer.innerHTML = '<div class="replace-content"><input placeholder="' + localizeForTranslationHelper('Current Translation') + '" type="text" class="replace-from" value="' + from + '"><input placeholder="' + localizeForTranslationHelper('New Translation') + '" type="text" class="replace-to"><button onclick="replaceAll()">' + localizeForTranslationHelper('Replace All') + '</button></div>';
     document.body.classList.remove('show-add-new-match');
-    document.getElementById('add-new-match-button').value = localize('Add Word');
+    document.getElementById('add-new-match-button').value = localizeForTranslationHelper('Add Word');
     document.body.classList.toggle('show-replace');
     if (document.body.classList.contains('show-replace')) {
-        buttonEle.value = localize('Hide Replacement');
+        buttonEle.value = localizeForTranslationHelper('Hide Replacement');
     } else {
-        buttonEle.value = localize('Replace All');
+        buttonEle.value = localizeForTranslationHelper('Replace All');
     }
 }
 
 function replaceAll() {
     var from = document.querySelector('.replace-from').value;
     if (from === '') {
-        alert(localize('Empty-Translation'));
+        alert(localizeForTranslationHelper('Empty-Translation'));
         return;
     }
     var to = document.querySelector('.replace-to').value;
@@ -2047,26 +2047,26 @@ function showAddNewMatch(buttonEle) {
         document.body.appendChild(addNewMatchContainer);
     }
     addNewMatchContainer = document.querySelector('.add-new-match-container');
-    addNewMatchContainer.innerHTML = '<div class="replace-content"><input placeholder="' + localize('Original') + '" type="text" class="new-match-from" value="' + from + '"><input placeholder="' + localize('Translation') + '" type="text" class="new-match-to" value="' + to + '"><button onclick="addNewMatch()">' + localize('Add Word') + '</button></div>';
+    addNewMatchContainer.innerHTML = '<div class="replace-content"><input placeholder="' + localizeForTranslationHelper('Original') + '" type="text" class="new-match-from" value="' + from + '"><input placeholder="' + localizeForTranslationHelper('Translation') + '" type="text" class="new-match-to" value="' + to + '"><button onclick="addNewMatch()">' + localizeForTranslationHelper('Add Word') + '</button></div>';
     document.body.classList.remove('show-replace');
-    document.getElementById('show-replace-button').value = localize('Replace All');
+    document.getElementById('show-replace-button').value = localizeForTranslationHelper('Replace All');
     document.body.classList.toggle('show-add-new-match');
     if (document.body.classList.contains('show-add-new-match')) {
-        buttonEle.value = localize('Hide Add Word');
+        buttonEle.value = localizeForTranslationHelper('Hide Add Word');
     } else {
-        buttonEle.value = localize('Add Word');
+        buttonEle.value = localizeForTranslationHelper('Add Word');
     }
 }
 
 function addNewMatch() {
     var from = document.querySelector('.new-match-from').value;
     if (from === '') {
-        alert(localize('Empty-Source'));
+        alert(localizeForTranslationHelper('Empty-Source'));
         return;
     }
     var to = tidyUpChineseText(document.querySelector('.new-match-to').value);
     if (to === '') {
-        alert(localize('Empty-Translation'));
+        alert(localizeForTranslationHelper('Empty-Translation'));
         return;
     }
     var infoContainers = document.querySelectorAll('.info-container');
@@ -2105,11 +2105,11 @@ function addNewMatch() {
             nameEntitiesContainer.className = 'name-entities-container';
             infoContainer.querySelector('.info-helper').appendChild(nameEntitiesContainer);
         }
-        nameEntitiesContainer.innerHTML += '<div class="name-entity-inner" data-key="' + from + '"><span class="name-entity-key">' + from + '</span><span><input type="text" value="' + to + '" placeholder="' + localize('Add the translation') + '"></span><button class="ignore-name-entity" title="' + localize('Ignore') + '"></button></div><div class="name-entity-translation" data-key="' + from + '"><span class="name-entity-shortcut">' + to + '</span><span class="name-entity-shortcut">' + to + '(' + from + ')</span><button class="add-name-entity" title="Add to glossary"></button></div>';
+        nameEntitiesContainer.innerHTML += '<div class="name-entity-inner" data-key="' + from + '"><span class="name-entity-key">' + from + '</span><span><input type="text" value="' + to + '" placeholder="' + localizeForTranslationHelper('Add the translation') + '"></span><button class="ignore-name-entity" title="' + localizeForTranslationHelper('Ignore') + '"></button></div><div class="name-entity-translation" data-key="' + from + '"><span class="name-entity-shortcut">' + to + '</span><span class="name-entity-shortcut">' + to + '(' + from + ')</span><button class="add-name-entity" title="Add to glossary"></button></div>';
         createCount += 1;
     }
     if (updateCount === 0 && createCount === 0) {
-        alert(localize('Not-Found-Word-In-Original'));
+        alert(localizeForTranslationHelper('Not-Found-Word-In-Original'));
     } else {
         var updateMessage = (updateCount > 0) ? 'Updated in' + updateCount + ' paragraphs. ' : '';
         var createMessage = (createCount > 0) ? 'Added words in' + createCount + ' paragraphs. ' : '';
@@ -2137,7 +2137,7 @@ function watchChange() {
             var newFileupdatetime = items[0].fileupdatetime;
             if (newFileupdatetime != fileupdatetime) {
                 fileupdatetime = newFileupdatetime;
-                if (window.confirm(localize('Others-Working-On-It'))) {
+                if (window.confirm(localizeForTranslationHelper('Others-Working-On-It'))) {
                     window.open('/falcon.php/ia/edit/' + window.opener.contentId, '_blank');
                 }
             }

@@ -12,7 +12,8 @@ function localize(status, fallback, dict = {}) {
     language = 'zh';
   }
 
-  // console.log(status, language);
+  console.log('localize: ');
+  console.log(status, language);
 
   // Normalize language code by removing regional codes
   const languagePrefix = language.replace(/\-.*$/g, '');

@@ -65,8 +65,8 @@ function renderShowIntention(ele, intentions) {
             const key = intention.name;
             const field = intention.field;
             const name = intention.translations && intention.translations[preferredLanguage] ? intention.translations[preferredLanguage] : key;
-            const extra = (localize(name) === key) ? '' : `(${key})`;
-            const display = localize(name);
+            const extra = (localizeForSearch(name) === key) ? '' : `(${key})`;
+            const display = localizeForSearch(name);
 
             //<a  data-purpose="search-ft-api" data-lang="${preferredLanguage}" data-content="${content}" data-reply="${localize('Finding')}" data-name="${key}" data-type="${field}">${display}${reorderButton}</a>`};
 
@@ -77,7 +77,7 @@ function renderShowIntention(ele, intentions) {
             return `
             <div class="input-container">
                 <div class="input-name-container">
-                <a href="/search/?keys=${display}&type=default" data-purpose="search-ft-api" data-lang="${preferredLanguage}" data-content="${content}" data-reply="${localize('Finding')}" data-name="${key}" data-type="${field}">
+                <a href="/search/?keys=${display}&type=default" data-purpose="search-ft-api" data-lang="${preferredLanguage}" data-content="${content}" data-reply="${localizeForSearch('Finding')}" data-name="${key}" data-type="${field}">
                     ${highlightedDisplayExtra}
                 </a>
                 </div>
@@ -162,7 +162,7 @@ function showEle(ele) {
     }
 }
 
-function localize(text) {
+function localizeForSearch(text) {
     let language = (isPowerTranslate) ? navigator.language : 'zh-CN';
     if (/^en/.test(language)) {
         language = 'en';
@@ -188,9 +188,9 @@ function localize(text) {
         'tap-to-add': {'en': 'After tapping on the left to fill in the text here, you can try to select part of the text and then click on the links and bold fonts on the left to easily add links or bold text', 'zh-CN': '在点选左边把文字填写到这里之后，可以尝试选择部分文字，然后点击左边的链接和加粗字体，就可以方便地添加链接或加粗文字。'},
         AccountSharingReminder: {
             en: 'Your session has been securely ended on this device because your account was accessed from a new device. You can sign in on up to three different types of devices (mobile, tablet, and desktop) at a time. Please log in again if this was not you.',
-            "zh-CN": '由于您的帐户已在新设备上访问，您在此设备上的会话已安全结束。您可以同时在三种不同类型的设备（手机、平板和桌面）上登录。如果这不是您的操作，请重新登录。',
-            "zh-TW": '由於您的帳戶已在新設備上訪問，您在此設備上的會話已安全結束。您可以同時在三種不同類型的設備（手機、平板和桌面）上登錄。如果這不是您的操作，請重新登錄。',
-            "zh-HK": '由於您的帳戶已在新設備上訪問，您在此設備上的會話已安全結束。您可以同時在三種不同類型的設備（手機、平板和桌面）上登錄。如果這不是您的操作，請重新登錄。',
+            'zh-CN': '由于您的帐户已在新设备上访问，您在此设备上的会话已安全结束。您可以同时在三种不同类型的设备（手机、平板和桌面）上登录。如果这不是您的操作，请重新登录。',
+            'zh-TW': '由於您的帳戶已在新設備上訪問，您在此設備上的會話已安全結束。您可以同時在三種不同類型的設備（手機、平板和桌面）上登錄。如果這不是您的操作，請重新登錄。',
+            'zh-HK': '由於您的帳戶已在新設備上訪問，您在此設備上的會話已安全結束。您可以同時在三種不同類型的設備（手機、平板和桌面）上登錄。如果這不是您的操作，請重新登錄。',
         },
         'content-error-hint': {'en': 'There may be some problems with your edits, do you want to continue submitting?', 'zh-CN': '您编辑的内容可能有些问题，您还要继续提交吗？'},
         'mark-red-reminder': {'en': 'Relevant passages have been marked in red.', 'zh-CN': '相关的段落已经标红。'},
