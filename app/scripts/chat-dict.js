@@ -5734,8 +5734,21 @@ Genres: {
       "zh-TW": "確認",
       "zh-HK": "確認",
       "ru": "Подтвердить"
-  }
-  
+    },
+    updated: {
+        "en": "Updated",
+        "zh": "已更新",
+        "es": "Actualizado",
+        "fr": "Mis à jour",
+        "de": "Aktualisiert",
+        "ja": "更新されました",
+        "ko": "업데이트됨",
+        "pt": "Atualizado",
+        "it": "Aggiornato",
+        "zh-TW": "確認",
+        "zh-HK": "確認",
+        "ru": "Обновлено"
+    }
 };
 
 // MARK: - Normalize the statusDict to make it case-insensitive for lookup
