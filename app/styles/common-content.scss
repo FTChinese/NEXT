@@ -107,32 +107,61 @@
     overflow: hidden;
     display: block;
     margin-right: 12px;
-    
+    svg {
+		fill: currentColor;
+	}
 }
-.icon-twitter {
-    background-image: url(https://d2785ji6wtdqx8.cloudfront.net/icons/png/ftsocial_twitter.png);
-    background: rgba(0,0,0,.0001) url(https://d2785ji6wtdqx8.cloudfront.net/icons/svg/ftsocial_twitter.svg) center/24px no-repeat;
+
+.icon-x {
+	&:hover {
+		background-color: #000;
+		border-color: #000;
+		color: #fff;
+	}
 }
+
 .icon-facebook {
-    background-image: url(https://d2785ji6wtdqx8.cloudfront.net/icons/png/ftsocial_facebook.png);
-    background: rgba(0,0,0,.0001) url(https://d2785ji6wtdqx8.cloudfront.net/icons/svg/ftsocial_facebook.svg) center/24px no-repeat;
+	&:hover {
+		border-color: #3b579d;
+		background-color: #3b579d;
+		color: #fff;
+	}
 }
+
+.icon-linkedin {
+	&:hover {
+		border-color: #0077b5;
+		background-color: #0077b5;
+		color: #fff;
+	}
+}
+
 .icon-wechat {
-    background-image: url(https://d2785ji6wtdqx8.cloudfront.net/img/png/social-wechat.png);
-    background: rgba(0,0,0,.0001) url(https://d2785ji6wtdqx8.cloudfront.net/img/svg/social-wechat.svg) center/24px no-repeat;
+	&:hover {
+		border-color: #1AAD19;
+		background-color: #1AAD19;
+		color: white;
+	}
 }
+
 .icon-weibo {
-    background-image: url(https://d2785ji6wtdqx8.cloudfront.net/img/png/social-weibo.png);
-    background: rgba(0,0,0,.0001) url(https://d2785ji6wtdqx8.cloudfront.net/img/svg/social-weibo.svg) center/24px no-repeat;
+	&:hover {
+		border-color: rgb(213, 42, 44);
+		background-color: rgb(213, 42, 44);
+		color: white;
+	}
 }
+
 .icon-action {
     width: 25px;
     height: 25px;
     background-repeat: no-repeat;
-    background-size: contain;
+    background-size: 24px;
     background-position: 50%;
     background-color: transparent;
+	cursor: pointer;
 }
+
 .icon-comments {
 	background-size: 20px 20px;
     background-image: url(https://d2785ji6wtdqx8.cloudfront.net/img/svg/comments.svg);
@@ -170,7 +199,8 @@
 			border-width: 0px 1px 1px 1px;
 			border-style: solid;
 			border-color: #807973;
-			background-size: 24px;
+			background-position: center;
+			background-repeat: no-repeat;
 			width: $shareButtonWidth;
 			height: $shareButtonWidth;
 			margin: 0;
@@ -333,7 +363,7 @@
 	}
 }
 @media screen and (max-width: 490px) {
-	.icon-print, .icon-facebook, .icon-twitter {
+	.icon-print, .icon-facebook, .icon-x, .icon-linkedin {
 		display: none;
 	}
 	.story-headline {
@@ -353,7 +383,7 @@
 	}
 }
 @media screen and (min-width: 691px) and (max-width: 795px) {
-	.icon-print, .icon-facebook, .icon-twitter {
+	.icon-print, .icon-facebook, .icon-x, .icon-linkedin {
 		display: none;
 	}
 }
