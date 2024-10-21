@@ -1,45 +1,47 @@
 /* exported loadcomment, init_repeat_cmt, showcmt, voteComment, cmt_reply, login, clickToSubmitComment, logout, checkLogin, socialLogin */
 // MARK: User Comments
 
+const commentFolderBase = '/user_comments';
 var commentfolder ='/index.php/comments';
 var serverErrorMessage = '亲爱的用户，由于服务器没有正确响应，您未能成功登录，请稍后再次尝试。';
-function loadcomment(storyid, theid, type) {
+function loadcomment(id, theid, type, is_on_new_site = false) {
     var url, new_comment_prefix, common_comment_prefix;
     new_comment_prefix = '/index.php/c/newcommentsbysort/';
     common_comment_prefix = '/index.php/common_comments/newcommentsbysort/';
     switch (type) {
 	    case 'story':
-	    	commentfolder='/index.php/c';
-	    	url='/index.php/c/newcomment/' + storyid + '?v=1';
+	    	commentfolder = is_on_new_site ? commentFolderBase : '/index.php/c';
+            const commentType = is_on_new_site ? type : 'newcomment';
+	    	url = `${commentfolder}/${commentType}/${id}?v=1`;
 	    	break;
 	    case 'storyall1':
             commentfolder='/index.php/';
-	    	url=new_comment_prefix+storyid+'/1?limit=0&rows=500';
+	    	url=new_comment_prefix+id+'/1?limit=0&rows=500';
 	    	break;
 	    case 'storyall2':
             commentfolder='/index.php/c';
-	    	url=new_comment_prefix+storyid+'/2?limit=0&rows=500';
+	    	url=new_comment_prefix+id+'/2?limit=0&rows=500';
 	    	break;
 	    case 'storyall3':
             commentfolder='/index.php/c';
-	    	url=new_comment_prefix+storyid+'/3?limit=0&rows=500';
+	    	url=new_comment_prefix+id+'/3?limit=0&rows=500';
 	    	break;
 	    case 'commonall1':
             commentfolder='/index.php/common_comments';
-	    	url=common_comment_prefix+storyid+'/1?limit=0&rows=500';
+	    	url=common_comment_prefix+id+'/1?limit=0&rows=500';
       		break;
       		
       	case 'commonall2':
             commentfolder='/index.php/common_comments';
-      		url=common_comment_prefix+storyid+'/2?limit=0&rows=500';
+      		url=common_comment_prefix+id+'/2?limit=0&rows=500';
       		break;
       	case 'commonall3':
             commentfolder='/index.php/common_comments';
-      		url=common_comment_prefix+storyid+'/3?limit=0&rows=500';
+      		url=common_comment_prefix+id+'/3?limit=0&rows=500';
       		break;
       	default:
       		commentfolder='/index.php/common_comments';
-      		url='/index.php/common_comments/newcomment/' + storyid + '?v=1';
+      		url='/index.php/common_comments/newcomment/' + id + '?v=1';
     }
     var currentDate = new Date();
     var currentTimeStamp = currentDate.getFullYear() * 100000000 + (currentDate.getMonth() + 1) * 1000000 + currentDate.getDate() * 10000 + currentDate.getHours() * 100 + currentDate.getMinutes();
@@ -50,13 +52,13 @@ function loadcomment(storyid, theid, type) {
     common_comment_prefix = null;
 
     // MARK: for the covenience of test
-    if (window.location.hostname === 'localhost') {
+    if ( window.location.hostname === 'localhost' && !is_on_new_site ) {
         url = '/api/comments/story.json';
     }
 
     try {
-        document.getElementById('cstoryid').value = storyid;
-        window.readingid = storyid;
+        document.getElementById('cstoryid').value = id;
+        window.readingid = id;
     } catch (ignore) {
 
     }
@@ -75,9 +77,9 @@ function loadcomment(storyid, theid, type) {
                 if (typeof webkit === 'object') {
                     // MARK: - For iOS native app, send the comments data to native to convert
                     userCommentsEle.innerHTML = '正在处理本文读者评论的数据...';
-                    webkit.messageHandlers.commentsData.postMessage({storyid: storyid, theid: theid, type: type, data: data});
+                    webkit.messageHandlers.commentsData.postMessage({storyid: id, theid: theid, type: type, data: data});
                 } else {
-                    showComment(storyid, theid, type, data);
+                    showComment(id, theid, type, data);
                 }
             } else {
                 userCommentsEle.innerHTML = '<span class=\'error\'>' + '很抱歉。由于您与FT服务器之间的连接发生故障，' + '加载评论内容失败。请稍后再尝试。</span>';
