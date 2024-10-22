@@ -1,62 +1,12 @@
 /* exported loadcomment, init_repeat_cmt, showcmt, voteComment, cmt_reply, login, clickToSubmitComment, logout, checkLogin, socialLogin */
-// MARK: User Comments
-
+// MARK: User Comments on New site
 const commentFolderBase = '/user_comments';
 var commentfolder ='/index.php/comments';
 var serverErrorMessage = '亲爱的用户，由于服务器没有正确响应，您未能成功登录，请稍后再次尝试。';
 function loadcomment(id, elementId, type, is_on_new_site = false, options = {}) {
-    var url, new_comment_prefix, common_comment_prefix;
-    new_comment_prefix = '/index.php/c/newcommentsbysort/';
-    common_comment_prefix = '/index.php/common_comments/newcommentsbysort/';
-    switch (type) {
-	    case 'story':
-	    	commentfolder = is_on_new_site ? commentFolderBase : '/index.php/c';
-            const commentType = is_on_new_site ? type : 'newcomment';
-            const display_all = options?.display === 'all' ? 'yes' : 'no';
-            const sort = options?.sort ?? 1;
-	    	url = `${commentfolder}/${commentType}/${id}?display_all=${display_all}&sort=${sort}`;
-	    	break;
-	    case 'storyall1':
-            commentfolder='/index.php/';
-	    	url=new_comment_prefix+id+'/1?limit=0&rows=500';
-	    	break;
-	    case 'storyall2':
-            commentfolder='/index.php/c';
-	    	url=new_comment_prefix+id+'/2?limit=0&rows=500';
-	    	break;
-	    case 'storyall3':
-            commentfolder='/index.php/c';
-	    	url=new_comment_prefix+id+'/3?limit=0&rows=500';
-	    	break;
-	    case 'commonall1':
-            commentfolder='/index.php/common_comments';
-	    	url=common_comment_prefix+id+'/1?limit=0&rows=500';
-      		break;
-      		
-      	case 'commonall2':
-            commentfolder='/index.php/common_comments';
-      		url=common_comment_prefix+id+'/2?limit=0&rows=500';
-      		break;
-      	case 'commonall3':
-            commentfolder='/index.php/common_comments';
-      		url=common_comment_prefix+id+'/3?limit=0&rows=500';
-      		break;
-      	default:
-      		commentfolder='/index.php/common_comments';
-      		url='/index.php/common_comments/newcomment/' + id + '?v=1';
-    }
-    var currentDate = new Date();
-    var currentTimeStamp = currentDate.getFullYear() * 100000000 + (currentDate.getMonth() + 1) * 1000000 + currentDate.getDate() * 10000 + currentDate.getHours() * 100 + currentDate.getMinutes();
-
-    url = url + '&' + currentTimeStamp;
-    
-    new_comment_prefix = null;
-    common_comment_prefix = null;
-
-    // MARK: for the covenience of test
-    if ( window.location.hostname === 'localhost' && !is_on_new_site ) {
-        url = '/api/comments/story.json';
-    }
+    const display_all = options?.display === 'all' ? 'yes' : 'no';
+    const sort = options?.sort ?? 1;
+    let url = `${commentFolderBase}/${type}/${id}?display_all=${display_all}&sort=${sort}`;
 
     try {
         document.getElementById('cstoryid').value = id;
@@ -95,7 +45,7 @@ function loadcomment(id, elementId, type, is_on_new_site = false, options = {}) 
 
 
 function showComment(id, elementId, type, data, is_on_new_site = false, options = {}) {
-    var user_icon='', isvip, commentnumber, cfoption, cftype;
+    var user_icon='', isvip, commentnumber, cftype;
     var commentsBody = '';
     var userCommentsEle = document.getElementById(elementId);
     if (!userCommentsEle) {
@@ -204,7 +154,6 @@ function voteComment(id, ctype, vote) {
     xmlhttp.send(params);
 }
 
-
 function cmt_reply(id,ctype) {
     var pl, usenicknamer;
     ctype = ctype || '';
@@ -248,15 +197,8 @@ function cmt_reply(id,ctype) {
             xmlhttp.send(params);
             this.disabled = true;
         };
-        // document.querySelector('#closecomment').onclick = function() {
-        //     document.querySelector('.replybox').innerHTML = '';
-        // };
     }
 }
-
-
-
-
 
 function clickToSubmitComment() {
     var ele = document.querySelector('#addnewcomment');
@@ -292,208 +234,6 @@ function clickToSubmitComment() {
         xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xmlhttp.send(params);
     };
-}
-
-
-// MARK: User Login
-function login(fromwhere) {
-    function reportLoginToNative(userId) {
-        var data = {action: 'login', userId: userId, method: 'email'};
-        try {
-            if (typeof webkit === 'object') {
-                webkit.messageHandlers.login.postMessage(data);
-            } else if (Android) {
-                Android.onPageLoaded(JSON.stringify(data));
-            }
-        } catch (ignore) {}
-    }
-    var u, p, j;
-    if (fromwhere !== undefined) {
-        u = document.querySelector('#username'+ fromwhere).value;
-        p = document.querySelector('#password'+ fromwhere).value;
-    } else {
-        u = document.querySelector('#username').value;
-        p = document.querySelector('#password').value;
-    }
-    var statusMsgDivs = document.querySelectorAll('.statusmsg');
-    for (j=0; j < statusMsgDivs.length; j++) {
-        statusMsgDivs[j].innerHTML = '正在登录中...';
-    }
-    var xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function() {
-        var j;
-        if (this.readyState === 4) {
-            if (this.status === 200) {
-                //console.log (this.responseText);
-                var l = JSON.parse(this.responseText);
-                //console.log (l);
-                var k;
-                if (l.status && l.status === 'ok') {
-
-                    for (j=0; j < statusMsgDivs.length; j++) {
-                        statusMsgDivs[j].innerHTML = '登录成功！';
-                    }
-                    var nonLoginEles = document.querySelectorAll('.logincomment, .logincommentc, .nologincomment, .nologincommentc, .logged, .notLogged');
-                    for (var i=0; i<nonLoginEles.length; i++) {
-                        nonLoginEles[i].style.display = 'none';
-                    }
-                    var loginEles = document.querySelectorAll('.nick_name,.user_id,.user_Name');
-                    for (j=0; j<loginEles; j++) {
-                        loginEles[j].value = u;
-                        loginEles[j].innerHTML = u;
-                    }
-                    var loginComments = document.querySelectorAll('.logincomment, .logincommentc, .logged');
-                    
-                    for (k=0; k<loginComments.length; k++) {
-                        loginComments[k].style.display = 'block';
-                    }
-                    username = u;
-                    if (window.userId === undefined || window.userId === '') {
-                        window.userId = GetCookie('USER_ID') || '';
-                    }
-                    for (j=0; j < statusMsgDivs.length; j++) {
-                        statusMsgDivs[j].innerHTML = '';
-                    }
-                    checkLogin(); 
-                    reportLoginToNative();   
-                } else {
-                    for (j=0; j < statusMsgDivs.length; j++) {
-                        statusMsgDivs[j].innerHTML = '<div class="highlight">'+ l.msg + '</div>';
-                    }
-                }
-            } else { 
-                for (j=0; j < statusMsgDivs.length; j++) {
-                    statusMsgDivs[j].innerHTML = '<div class="highlight">' + serverErrorMessage + '</div>';
-                }
-            }
-        }
-    };
-    var params = 'username='+ u + '&password=' + p + '&saveme=1';
-    var randomNumber = parseInt(Math.random()*1000000, 10);
-    xmlhttp.open('POST', '/index.php/users/login/ajax?' + randomNumber);
-    xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xmlhttp.send(params);
-}
-
-function socialLogin(socialName, socialInfo) {
-    var socialLoginUrl = '/index.php/users/socialLogin/' + socialName;
-    var xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function() {
-        if (this.readyState === 4) {
-            if (this.status === 200) {
-                var data = this.responseText.trim();
-                if (data === 'yes') {
-                    // show this in the interface so that users know login is successful
-                    username = GetCookie('USER_NAME') || GetCookie('USER_NAME_FT') || '';
-                    checkLogin();
-                    // MARK: - If this user only logins in with wechat, show WeChat binding immediately
-                    var wechatFTCBindingEle = document.getElementById('wechat-ftc-binding');
-                    // if (wechatFTCBindingEle && typeof window.userId === 'string') {
-                    if (wechatFTCBindingEle && typeof window.userId === 'string' && window.userId.indexOf('ogfvw') === 0 && GetCookie('WX_UNION_ID') === null) {
-                        showWechatFTCBinding('最后一步，请输入邮箱和密码进行绑定操作：');
-                    } else {
-                        presentAlert('微信登陆成功', ''); 
-                    }
-                    // send an event to GA
-                    return;
-                }
-                // if return data is not correct
-                presentAlert('登录失败', data + serverErrorMessage);                 
-            } else { 
-                presentAlert('登录失败', serverErrorMessage); 
-            }
-        }
-    };
-    var params = 'socialInfo='+ socialInfo;
-    var randomNumber = parseInt(Math.random()*1000000, 10);
-    xmlhttp.open('POST', socialLoginUrl + '?' + randomNumber);
-    xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xmlhttp.send(params);
-}
-
-function logout() {
-    var statusMsg = document.querySelectorAll('.logged .statusmsg');
-    for (var i=0; i<statusMsg.length; i++) {
-        statusMsg[i].innerHTML = '正在登出...'; 
-    }
-    var xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function() {
-        if (this.readyState === 4) {
-            if (this.status === 200) {
-                var eles = document.querySelectorAll('.logincomment,.nologincomment, .logged, .notLogged');
-                for (var i=0; i<eles.length; i++) {
-                    eles[i].style.display = 'none';
-                }
-                var eles2 = document.querySelectorAll('.nologincomment,.notLogged');
-                for (var j=0; j<eles2.length; j++) {
-                    eles2[j].style.display = 'block';
-                }
-                window.username = '';
-                checkLogin();
-            }
-        }
-    };
-    xmlhttp.onerror = function() {
-        checkLogin();
-        console.log ('something went wrong. but we check login any way. ');
-    };
-    var randomNumber = parseInt(Math.random()*1000000, 10);
-    xmlhttp.open('GET', '/index.php/users/logout?' + randomNumber);
-    xmlhttp.send();
-    // MARK: This function is also used in iOS app. However, when the base url, such as www.ftchinese.com is blocked, the logout function will fail. So when user try to logout, send the action info to native app and handle it accordingly. 
-    try {
-        if (typeof webkit === 'object') {
-            var message = {
-                action: 'logout',
-                href: location.href
-            };
-            webkit.messageHandlers.logout.postMessage(message);
-        }
-    } catch (ignore) {}
-}
-
-function checkLogin() {
-    window.username = GetCookie('USER_NAME') || GetCookie('USER_NAME_FT');
-    window.userId = GetCookie('USER_ID');
-    var eles = document.querySelectorAll('.logincomment, .nologincomment, .logged, .notLogged');
-    if (eles.length === 0) {return;}
-    var i;
-    for (i=0; i<eles.length; i++) {
-        eles[i].style.display = 'none';
-    }
-    var statusMsg = document.querySelectorAll('.logged .statusmsg');
-    for (i=0; i<statusMsg.length; i++) {
-        statusMsg[i].innerHTML = ''; 
-    }
-    if (!!username) {
-        var nameEles = document.querySelectorAll('.nick_name,.user_id,.user_Name,#comment-user-name');
-        for (var j=0; j<nameEles.length; j++) {
-            nameEles[j].value = window.username;
-            nameEles[j].innerHTML = window.username;
-        }
-        var eles2 = document.querySelectorAll('.logincomment,.logged');
-        for (var k=0; k<eles2.length; k++) {
-            eles2[k].style.display = 'block';
-        }
-    } else {
-        document.querySelector('#nick_name').value = '';
-        var eles3 = document.querySelectorAll('.nologincomment,.notLogged');
-        for (var l=0; l<eles3.length; l++) {
-            eles3[l].style.display = 'block';
-        }        
-    }
-    // MARK: - This only applies to iOS app
-    var wechatFTCBindingEle = document.getElementById('wechat-ftc-binding');
-    if (wechatFTCBindingEle && typeof window.userId === 'string' && window.userId.indexOf('ogfvw') === 0 && GetCookie('WX_UNION_ID') === null) {
-        wechatFTCBindingEle.className = 'button ui-light-btn wechat-binding';
-        wechatFTCBindingEle.innerHTML = '绑定邮箱';
-    }
-    var phoneFTCBindingEle = document.getElementById('phone-ftc-binding');
-    if (phoneFTCBindingEle && typeof window.userId === 'string' && window.userId.indexOf('phone') === 0) {
-        phoneFTCBindingEle.className = 'button ui-light-btn phone-binding';
-        phoneFTCBindingEle.innerHTML = '绑定邮箱';
-    }
-    passLoginToNative();
 }
 
 function presentAlert(title, message) {
